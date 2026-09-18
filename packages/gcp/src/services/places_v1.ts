@@ -81,22 +81,6 @@ export const GoogleTypeLatLng = /*@__PURE__*/ S.suspend(() =>
   identifier: "GoogleTypeLatLng",
 }) as any as S.Schema<GoogleTypeLatLng>;
 
-/** A latitude-longitude viewport, represented as two diagonally opposite `low` and `high` points. A viewport is considered a closed region, i.e. it includes its boundary. The latitude bounds must range between -90 to 90 degrees inclusive, and the longitude bounds must range between -180 to 180 degrees inclusive. Various cases include: - If `low` = `high`, the viewport consists of that single point. - If `low.longitude` > `high.longitude`, the longitude range is inverted (the viewport crosses the 180 degree longitude line). - If `low.longitude` = -180 degrees and `high.longitude` = 180 degrees, the viewport includes all longitudes. - If `low.longitude` = 180 degrees and `high.longitude` = -180 degrees, the longitude range is empty. - If `low.latitude` > `high.latitude`, the latitude range is empty. Both `low` and `high` must be populated, and the represented box cannot be empty (as specified by the definitions above). An empty viewport will result in an error. For example, this viewport fully encloses New York City: { "low": { "latitude": 40.477398, "longitude": -74.259087 }, "high": { "latitude": 40.91618, "longitude": -73.70018 } } */
-export interface GoogleGeoTypeViewport {
-  /** Required. The low point of the viewport. */
-  low?: GoogleTypeLatLng;
-  /** Required. The high point of the viewport. */
-  high?: GoogleTypeLatLng;
-}
-export const GoogleGeoTypeViewport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    low: S.optional(GoogleTypeLatLng),
-    high: S.optional(GoogleTypeLatLng),
-  }),
-).annotate({
-  identifier: "GoogleGeoTypeViewport",
-}) as any as S.Schema<GoogleGeoTypeViewport>;
-
 /** Circle with a LatLng as center and radius. */
 export interface GoogleMapsPlacesV1Circle {
   /** Required. Center latitude and longitude. The range of latitude must be within [-90.0, 90.0]. The range of the longitude must be within [-180.0, 180.0]. */
@@ -112,6 +96,39 @@ export const GoogleMapsPlacesV1Circle = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GoogleMapsPlacesV1Circle",
 }) as any as S.Schema<GoogleMapsPlacesV1Circle>;
+
+/** A latitude-longitude viewport, represented as two diagonally opposite `low` and `high` points. A viewport is considered a closed region, i.e. it includes its boundary. The latitude bounds must range between -90 to 90 degrees inclusive, and the longitude bounds must range between -180 to 180 degrees inclusive. Various cases include: - If `low` = `high`, the viewport consists of that single point. - If `low.longitude` > `high.longitude`, the longitude range is inverted (the viewport crosses the 180 degree longitude line). - If `low.longitude` = -180 degrees and `high.longitude` = 180 degrees, the viewport includes all longitudes. - If `low.longitude` = 180 degrees and `high.longitude` = -180 degrees, the longitude range is empty. - If `low.latitude` > `high.latitude`, the latitude range is empty. Both `low` and `high` must be populated, and the represented box cannot be empty (as specified by the definitions above). An empty viewport will result in an error. For example, this viewport fully encloses New York City: { "low": { "latitude": 40.477398, "longitude": -74.259087 }, "high": { "latitude": 40.91618, "longitude": -73.70018 } } */
+export interface GoogleGeoTypeViewport {
+  /** Required. The high point of the viewport. */
+  high?: GoogleTypeLatLng;
+  /** Required. The low point of the viewport. */
+  low?: GoogleTypeLatLng;
+}
+export const GoogleGeoTypeViewport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    high: S.optional(GoogleTypeLatLng),
+    low: S.optional(GoogleTypeLatLng),
+  }),
+).annotate({
+  identifier: "GoogleGeoTypeViewport",
+}) as any as S.Schema<GoogleGeoTypeViewport>;
+
+/** The region to search. The results may be biased around the specified region. */
+export interface GoogleMapsPlacesV1AutocompletePlacesRequestLocationBias {
+  /** A circle defined by a center point and radius. */
+  circle?: GoogleMapsPlacesV1Circle;
+  /** A viewport defined by a northeast and a southwest corner. */
+  rectangle?: GoogleGeoTypeViewport;
+}
+export const GoogleMapsPlacesV1AutocompletePlacesRequestLocationBias =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      circle: S.optional(GoogleMapsPlacesV1Circle),
+      rectangle: S.optional(GoogleGeoTypeViewport),
+    }),
+  ).annotate({
+    identifier: "GoogleMapsPlacesV1AutocompletePlacesRequestLocationBias",
+  }) as any as S.Schema<GoogleMapsPlacesV1AutocompletePlacesRequestLocationBias>;
 
 /** The region to search. The results will be restricted to the specified region. */
 export interface GoogleMapsPlacesV1AutocompletePlacesRequestLocationRestriction {
@@ -131,12 +148,6 @@ export const GoogleMapsPlacesV1AutocompletePlacesRequestLocationRestriction =
       "GoogleMapsPlacesV1AutocompletePlacesRequestLocationRestriction",
   }) as any as S.Schema<GoogleMapsPlacesV1AutocompletePlacesRequestLocationRestriction>;
 
-/** The region to search. The results may be biased around the specified region. */
-export type GoogleMapsPlacesV1AutocompletePlacesRequestLocationBias =
-  GoogleMapsPlacesV1AutocompletePlacesRequestLocationRestriction;
-export const GoogleMapsPlacesV1AutocompletePlacesRequestLocationBias =
-  GoogleMapsPlacesV1AutocompletePlacesRequestLocationRestriction;
-
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
   S.String,
@@ -144,53 +155,53 @@ export const StringList = /*@__PURE__*/ S.Array(
 
 /** Request proto for AutocompletePlaces. */
 export interface GoogleMapsPlacesV1AutocompletePlacesRequest {
-  /** Optional. Restrict results to a specified location. At most one of `location_bias` or `location_restriction` should be set. If neither are set, the results will be biased by IP address, meaning the IP address will be mapped to an imprecise location and used as a biasing signal. */
-  locationRestriction?: GoogleMapsPlacesV1AutocompletePlacesRequestLocationRestriction;
-  /** Optional. The origin point from which to calculate geodesic distance to the destination (returned as `distance_meters`). If this value is omitted, geodesic distance will not be returned. */
-  origin?: GoogleTypeLatLng;
-  /** Optional. Bias results to a specified location. At most one of `location_bias` or `location_restriction` should be set. If neither are set, the results will be biased by IP address, meaning the IP address will be mapped to an imprecise location and used as a biasing signal. */
-  locationBias?: GoogleMapsPlacesV1AutocompletePlacesRequestLocationRestriction;
   /** Optional. A zero-based Unicode character offset of `input` indicating the cursor position in `input`. The cursor position may influence what predictions are returned. If empty, defaults to the length of `input`. */
   inputOffset?: number;
   /** Optional. The language in which to return results. Defaults to en-US. The results may be in mixed languages if the language used in `input` is different from `language_code` or if the returned Place does not have a translation from the local language to `language_code`. */
   languageCode?: string;
-  /** Optional. Include pure service area businesses if the field is set to true. Pure service area business is a business that visits or delivers to customers directly but does not serve customers at their business address. For example, businesses like cleaning services or plumbers. Those businesses do not have a physical address or location on Google Maps. Places will not return fields including `location`, `plus_code`, and other location related fields for these businesses. */
-  includePureServiceAreaBusinesses?: boolean;
-  /** Optional. The region code, specified as a CLDR two-character region code. This affects address formatting, result ranking, and may influence what results are returned. This does not restrict results to the specified region. To restrict results to a region, use `region_code_restriction`. */
-  regionCode?: string;
-  /** Optional. A string which identifies an Autocomplete session for billing purposes. Must be a URL and filename safe base64 string with at most 36 ASCII characters in length. Otherwise an INVALID_ARGUMENT error is returned. The session begins when the user starts typing a query, and concludes when they select a place and a call to Place Details or Address Validation is made. Each session can have multiple queries, followed by one Place Details or Address Validation request. The credentials used for each request within a session must belong to the same Google Cloud Console project. Once a session has concluded, the token is no longer valid; your app must generate a fresh token for each session. If the `session_token` parameter is omitted, or if you reuse a session token, the session is charged as if no session token was provided (each request is billed separately). We recommend the following guidelines: * Use session tokens for all Place Autocomplete calls. * Generate a fresh token for each session. Using a version 4 UUID is recommended. * Ensure that the credentials used for all Place Autocomplete, Place Details, and Address Validation requests within a session belong to the same Cloud Console project. * Be sure to pass a unique session token for each new session. Using the same token for more than one session will result in each request being billed individually. */
-  sessionToken?: string;
   /** Required. The text string on which to search. */
   input?: string;
-  /** Optional. If true, the response will include both Place and query predictions. Otherwise the response will only return Place predictions. */
-  includeQueryPredictions?: boolean;
-  /** Optional. Included primary Place type (for example, "restaurant" or "gas_station") in Place Types (https://developers.google.com/maps/documentation/places/web-service/place-types), or only `(regions)`, or only `(cities)`. A Place is only returned if its primary type is included in this list. Up to 5 values can be specified. If no types are specified, all Place types are returned. */
-  includedPrimaryTypes?: StringList;
   /** Optional. If true, include businesses that are not yet open but will open in the future. */
   includeFutureOpeningBusinesses?: boolean;
+  /** Optional. The origin point from which to calculate geodesic distance to the destination (returned as `distance_meters`). If this value is omitted, geodesic distance will not be returned. */
+  origin?: GoogleTypeLatLng;
+  /** Optional. A string which identifies an Autocomplete session for billing purposes. Must be a URL and filename safe base64 string with at most 36 ASCII characters in length. Otherwise an INVALID_ARGUMENT error is returned. The session begins when the user starts typing a query, and concludes when they select a place and a call to Place Details or Address Validation is made. Each session can have multiple queries, followed by one Place Details or Address Validation request. The credentials used for each request within a session must belong to the same Google Cloud Console project. Once a session has concluded, the token is no longer valid; your app must generate a fresh token for each session. If the `session_token` parameter is omitted, or if you reuse a session token, the session is charged as if no session token was provided (each request is billed separately). We recommend the following guidelines: * Use session tokens for all Place Autocomplete calls. * Generate a fresh token for each session. Using a version 4 UUID is recommended. * Ensure that the credentials used for all Place Autocomplete, Place Details, and Address Validation requests within a session belong to the same Cloud Console project. * Be sure to pass a unique session token for each new session. Using the same token for more than one session will result in each request being billed individually. */
+  sessionToken?: string;
+  /** Optional. Bias results to a specified location. At most one of `location_bias` or `location_restriction` should be set. If neither are set, the results will be biased by IP address, meaning the IP address will be mapped to an imprecise location and used as a biasing signal. */
+  locationBias?: GoogleMapsPlacesV1AutocompletePlacesRequestLocationBias;
+  /** Optional. Restrict results to a specified location. At most one of `location_bias` or `location_restriction` should be set. If neither are set, the results will be biased by IP address, meaning the IP address will be mapped to an imprecise location and used as a biasing signal. */
+  locationRestriction?: GoogleMapsPlacesV1AutocompletePlacesRequestLocationRestriction;
+  /** Optional. If true, the response will include both Place and query predictions. Otherwise the response will only return Place predictions. */
+  includeQueryPredictions?: boolean;
   /** Optional. Only include results in the specified regions, specified as up to 15 CLDR two-character region codes. An empty set will not restrict the results. If both `location_restriction` and `included_region_codes` are set, the results will be located in the area of intersection. */
   includedRegionCodes?: StringList;
+  /** Optional. Included primary Place type (for example, "restaurant" or "gas_station") in Place Types (https://developers.google.com/maps/documentation/places/web-service/place-types), or only `(regions)`, or only `(cities)`. A Place is only returned if its primary type is included in this list. Up to 5 values can be specified. If no types are specified, all Place types are returned. */
+  includedPrimaryTypes?: StringList;
+  /** Optional. The region code, specified as a CLDR two-character region code. This affects address formatting, result ranking, and may influence what results are returned. This does not restrict results to the specified region. To restrict results to a region, use `region_code_restriction`. */
+  regionCode?: string;
+  /** Optional. Include pure service area businesses if the field is set to true. Pure service area business is a business that visits or delivers to customers directly but does not serve customers at their business address. For example, businesses like cleaning services or plumbers. Those businesses do not have a physical address or location on Google Maps. Places will not return fields including `location`, `plus_code`, and other location related fields for these businesses. */
+  includePureServiceAreaBusinesses?: boolean;
 }
 export const GoogleMapsPlacesV1AutocompletePlacesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      inputOffset: S.optional(S.Number),
+      languageCode: S.optional(S.String),
+      input: S.optional(S.String),
+      includeFutureOpeningBusinesses: S.optional(S.Boolean),
+      origin: S.optional(GoogleTypeLatLng),
+      sessionToken: S.optional(S.String),
+      locationBias: S.optional(
+        GoogleMapsPlacesV1AutocompletePlacesRequestLocationBias,
+      ),
       locationRestriction: S.optional(
         GoogleMapsPlacesV1AutocompletePlacesRequestLocationRestriction,
       ),
-      origin: S.optional(GoogleTypeLatLng),
-      locationBias: S.optional(
-        GoogleMapsPlacesV1AutocompletePlacesRequestLocationRestriction,
-      ),
-      inputOffset: S.optional(S.Number),
-      languageCode: S.optional(S.String),
-      includePureServiceAreaBusinesses: S.optional(S.Boolean),
-      regionCode: S.optional(S.String),
-      sessionToken: S.optional(S.String),
-      input: S.optional(S.String),
       includeQueryPredictions: S.optional(S.Boolean),
-      includedPrimaryTypes: S.optional(StringList),
-      includeFutureOpeningBusinesses: S.optional(S.Boolean),
       includedRegionCodes: S.optional(StringList),
+      includedPrimaryTypes: S.optional(StringList),
+      regionCode: S.optional(S.String),
+      includePureServiceAreaBusinesses: S.optional(S.Boolean),
     }),
   ).annotate({
     identifier: "GoogleMapsPlacesV1AutocompletePlacesRequest",
@@ -243,18 +254,18 @@ export const GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionStringRangeLi
 
 /** Text representing a Place or query prediction. The text may be used as is or formatted. */
 export interface GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionFormattableText {
-  /** Text that may be used as is or formatted with `matches`. */
-  text?: string;
   /** A list of string ranges identifying where the input request matched in `text`. The ranges can be used to format specific parts of `text`. The substrings may not be exact matches of `input` if the matching was determined by criteria other than string matching (for example, spell corrections or transliterations). These values are Unicode character offsets of `text`. The ranges are guaranteed to be ordered in increasing offset values. */
   matches?: GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionStringRangeList;
+  /** Text that may be used as is or formatted with `matches`. */
+  text?: string;
 }
 export const GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionFormattableText =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      text: S.optional(S.String),
       matches: S.optional(
         GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionStringRangeList,
       ),
+      text: S.optional(S.String),
     }),
   ).annotate({
     identifier:
@@ -287,12 +298,12 @@ export const GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionStructuredFor
 export interface GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionPlacePrediction {
   /** Contains the human-readable name for the returned result. For establishment results, this is usually the business name and address. `text` is recommended for developers who wish to show a single UI element. Developers who wish to show two separate, but related, UI elements may want to use `structured_format` instead. They are two different ways to represent a Place prediction. Users should not try to parse `structured_format` into `text` or vice versa. This text may be different from the `display_name` returned by GetPlace. May be in mixed languages if the request `input` and `language_code` are in different languages or if the Place does not have a translation from the local language to `language_code`. */
   text?: GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionFormattableText;
+  /** A breakdown of the Place prediction into main text containing the name of the Place and secondary text containing additional disambiguating features (such as a city or region). `structured_format` is recommended for developers who wish to show two separate, but related, UI elements. Developers who wish to show a single UI element may want to use `text` instead. They are two different ways to represent a Place prediction. Users should not try to parse `structured_format` into `text` or vice versa. */
+  structuredFormat?: GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionStructuredFormat;
   /** List of types that apply to this Place from Table A or Table B in https://developers.google.com/maps/documentation/places/web-service/place-types. A type is a categorization of a Place. Places with shared types will share similar characteristics. */
   types?: StringList;
   /** The unique identifier of the suggested Place. This identifier can be used in other APIs that accept Place IDs. */
   placeId?: string;
-  /** A breakdown of the Place prediction into main text containing the name of the Place and secondary text containing additional disambiguating features (such as a city or region). `structured_format` is recommended for developers who wish to show two separate, but related, UI elements. Developers who wish to show a single UI element may want to use `text` instead. They are two different ways to represent a Place prediction. Users should not try to parse `structured_format` into `text` or vice versa. */
-  structuredFormat?: GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionStructuredFormat;
   /** The length of the geodesic in meters from `origin` if `origin` is specified. Certain predictions such as routes may not populate this field. */
   distanceMeters?: number;
   /** The resource name of the suggested Place. This name can be used in other APIs that accept Place names. */
@@ -304,11 +315,11 @@ export const GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionPlacePredicti
       text: S.optional(
         GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionFormattableText,
       ),
-      types: S.optional(StringList),
-      placeId: S.optional(S.String),
       structuredFormat: S.optional(
         GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionStructuredFormat,
       ),
+      types: S.optional(StringList),
+      placeId: S.optional(S.String),
       distanceMeters: S.optional(S.Number),
       place: S.optional(S.String),
     }),
@@ -319,19 +330,19 @@ export const GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionPlacePredicti
 
 /** Prediction results for a Query Autocomplete prediction. */
 export interface GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionQueryPrediction {
-  /** The predicted text. This text does not represent a Place, but rather a text query that could be used in a search endpoint (for example, Text Search). `text` is recommended for developers who wish to show a single UI element. Developers who wish to show two separate, but related, UI elements may want to use `structured_format` instead. They are two different ways to represent a query prediction. Users should not try to parse `structured_format` into `text` or vice versa. May be in mixed languages if the request `input` and `language_code` are in different languages or if part of the query does not have a translation from the local language to `language_code`. */
-  text?: GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionFormattableText;
   /** A breakdown of the query prediction into main text containing the query and secondary text containing additional disambiguating features (such as a city or region). `structured_format` is recommended for developers who wish to show two separate, but related, UI elements. Developers who wish to show a single UI element may want to use `text` instead. They are two different ways to represent a query prediction. Users should not try to parse `structured_format` into `text` or vice versa. */
   structuredFormat?: GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionStructuredFormat;
+  /** The predicted text. This text does not represent a Place, but rather a text query that could be used in a search endpoint (for example, Text Search). `text` is recommended for developers who wish to show a single UI element. Developers who wish to show two separate, but related, UI elements may want to use `structured_format` instead. They are two different ways to represent a query prediction. Users should not try to parse `structured_format` into `text` or vice versa. May be in mixed languages if the request `input` and `language_code` are in different languages or if part of the query does not have a translation from the local language to `language_code`. */
+  text?: GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionFormattableText;
 }
 export const GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionQueryPrediction =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      text: S.optional(
-        GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionFormattableText,
-      ),
       structuredFormat: S.optional(
         GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionStructuredFormat,
+      ),
+      text: S.optional(
+        GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionFormattableText,
       ),
     }),
   ).annotate({
@@ -384,21 +395,21 @@ export const GoogleMapsPlacesV1AutocompletePlacesResponse =
   }) as any as S.Schema<GoogleMapsPlacesV1AutocompletePlacesResponse>;
 
 export interface GetMediaPlacesPhotosRequest {
-  /** Optional. If set, skip the default HTTP redirect behavior and render a text format (for example, in JSON format for HTTP use case) response. If not set, an HTTP redirect will be issued to redirect the call to the image media. This option is ignored for non-HTTP requests. */
-  skipHttpRedirect?: boolean;
-  /** Optional. Specifies the maximum desired height, in pixels, of the image. If the image is smaller than the values specified, the original image will be returned. If the image is larger in either dimension, it will be scaled to match the smaller of the two dimensions, restricted to its original aspect ratio. Both the max_height_px and max_width_px properties accept an integer between 1 and 4800, inclusively. If the value is not within the allowed range, an INVALID_ARGUMENT error will be returned. At least one of max_height_px or max_width_px needs to be specified. If neither max_height_px nor max_width_px is specified, an INVALID_ARGUMENT error will be returned. */
-  maxHeightPx?: number;
-  /** Optional. Specifies the maximum desired width, in pixels, of the image. If the image is smaller than the values specified, the original image will be returned. If the image is larger in either dimension, it will be scaled to match the smaller of the two dimensions, restricted to its original aspect ratio. Both the max_height_px and max_width_px properties accept an integer between 1 and 4800, inclusively. If the value is not within the allowed range, an INVALID_ARGUMENT error will be returned. At least one of max_height_px or max_width_px needs to be specified. If neither max_height_px nor max_width_px is specified, an INVALID_ARGUMENT error will be returned. */
-  maxWidthPx?: number;
   /** Required. The resource name of a photo media in the format: `places/{place_id}/photos/{photo_reference}/media`. The resource name of a photo as returned in a Place object's `photos.name` field comes with the format `places/{place_id}/photos/{photo_reference}`. You need to append `/media` at the end of the photo resource to get the photo media resource name. */
   name: string;
+  /** Optional. Specifies the maximum desired height, in pixels, of the image. If the image is smaller than the values specified, the original image will be returned. If the image is larger in either dimension, it will be scaled to match the smaller of the two dimensions, restricted to its original aspect ratio. Both the max_height_px and max_width_px properties accept an integer between 1 and 4800, inclusively. If the value is not within the allowed range, an INVALID_ARGUMENT error will be returned. At least one of max_height_px or max_width_px needs to be specified. If neither max_height_px nor max_width_px is specified, an INVALID_ARGUMENT error will be returned. */
+  maxHeightPx?: number;
+  /** Optional. If set, skip the default HTTP redirect behavior and render a text format (for example, in JSON format for HTTP use case) response. If not set, an HTTP redirect will be issued to redirect the call to the image media. This option is ignored for non-HTTP requests. */
+  skipHttpRedirect?: boolean;
+  /** Optional. Specifies the maximum desired width, in pixels, of the image. If the image is smaller than the values specified, the original image will be returned. If the image is larger in either dimension, it will be scaled to match the smaller of the two dimensions, restricted to its original aspect ratio. Both the max_height_px and max_width_px properties accept an integer between 1 and 4800, inclusively. If the value is not within the allowed range, an INVALID_ARGUMENT error will be returned. At least one of max_height_px or max_width_px needs to be specified. If neither max_height_px nor max_width_px is specified, an INVALID_ARGUMENT error will be returned. */
+  maxWidthPx?: number;
 }
 export const GetMediaPlacesPhotosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    skipHttpRedirect: S.optional(S.Boolean.pipe(T.Query())),
-    maxHeightPx: S.optional(S.Number.pipe(T.Query())),
-    maxWidthPx: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    maxHeightPx: S.optional(S.Number.pipe(T.Query())),
+    skipHttpRedirect: S.optional(S.Boolean.pipe(T.Query())),
+    maxWidthPx: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -427,10 +438,10 @@ export const GoogleMapsPlacesV1PhotoMedia = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GoogleMapsPlacesV1PhotoMedia>;
 
 export interface GetPlacesRequest {
-  /** Optional. A string which identifies an Autocomplete session for billing purposes. Must be a URL and filename safe base64 string with at most 36 ASCII characters in length. Otherwise an INVALID_ARGUMENT error is returned. The session begins when the user starts typing a query, and concludes when they select a place and a call to Place Details or Address Validation is made. Each session can have multiple queries, followed by one Place Details or Address Validation request. The credentials used for each request within a session must belong to the same Google Cloud Console project. Once a session has concluded, the token is no longer valid; your app must generate a fresh token for each session. If the `session_token` parameter is omitted, or if you reuse a session token, the session is charged as if no session token was provided (each request is billed separately). We recommend the following guidelines: * Use session tokens for all Place Autocomplete calls. * Generate a fresh token for each session. Using a version 4 UUID is recommended. * Ensure that the credentials used for all Place Autocomplete, Place Details, and Address Validation requests within a session belong to the same Cloud Console project. * Be sure to pass a unique session token for each new session. Using the same token for more than one session will result in each request being billed individually. */
-  sessionToken?: string;
   /** Required. The resource name of a place, in the `places/{place_id}` format. */
   name: string;
+  /** Optional. A string which identifies an Autocomplete session for billing purposes. Must be a URL and filename safe base64 string with at most 36 ASCII characters in length. Otherwise an INVALID_ARGUMENT error is returned. The session begins when the user starts typing a query, and concludes when they select a place and a call to Place Details or Address Validation is made. Each session can have multiple queries, followed by one Place Details or Address Validation request. The credentials used for each request within a session must belong to the same Google Cloud Console project. Once a session has concluded, the token is no longer valid; your app must generate a fresh token for each session. If the `session_token` parameter is omitted, or if you reuse a session token, the session is charged as if no session token was provided (each request is billed separately). We recommend the following guidelines: * Use session tokens for all Place Autocomplete calls. * Generate a fresh token for each session. Using a version 4 UUID is recommended. * Ensure that the credentials used for all Place Autocomplete, Place Details, and Address Validation requests within a session belong to the same Cloud Console project. * Be sure to pass a unique session token for each new session. Using the same token for more than one session will result in each request being billed individually. */
+  sessionToken?: string;
   /** Optional. Place details will be displayed with the preferred language if available. Current list of supported languages: https://developers.google.com/maps/faq#languagesupport. */
   languageCode?: string;
   /** Optional. The Unicode country/region code (CLDR) of the location where the request is coming from. This parameter is used to display the place details, like region-specific place name, if available. The parameter can affect results based on applicable law. For more information, see https://www.unicode.org/cldr/charts/latest/supplemental/territory_language_information.html. Note that 3-digit region codes are not currently supported. */
@@ -438,8 +449,8 @@ export interface GetPlacesRequest {
 }
 export const GetPlacesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sessionToken: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    sessionToken: S.optional(S.String.pipe(T.Query())),
     languageCode: S.optional(S.String.pipe(T.Query())),
     regionCode: S.optional(S.String.pipe(T.Query())),
   }).pipe(
@@ -453,195 +464,127 @@ export const GetPlacesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetPlacesRequest",
 }) as any as S.Schema<GetPlacesRequest>;
 
+/** Plus code (http://plus.codes) is a location reference with two formats: global code defining a 14mx14m (1/8000th of a degree) or smaller rectangle, and compound code, replacing the prefix with a reference location. */
+export interface GoogleMapsPlacesV1PlacePlusCode {
+  /** Place's global (full) code, such as "9FWM33GV+HQ", representing an 1/8000 by 1/8000 degree area (~14 by 14 meters). */
+  globalCode?: string;
+  /** Place's compound code, such as "33GV+HQ, Ramberg, Norway", containing the suffix of the global code and replacing the prefix with a formatted name of a reference entity. */
+  compoundCode?: string;
+}
+export const GoogleMapsPlacesV1PlacePlusCode = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    globalCode: S.optional(S.String),
+    compoundCode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1PlacePlusCode",
+}) as any as S.Schema<GoogleMapsPlacesV1PlacePlusCode>;
+
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface GoogleTypeDate {
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+}
+export const GoogleTypeDate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    year: S.optional(S.Number),
+    month: S.optional(S.Number),
+    day: S.optional(S.Number),
+  }),
+).annotate({ identifier: "GoogleTypeDate" }) as any as S.Schema<GoogleTypeDate>;
+
 /** Localized variant of a text in a particular language. */
 export interface GoogleTypeLocalizedText {
-  /** Localized string in the language corresponding to language_code below. */
-  text?: string;
   /** The text's BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
   languageCode?: string;
+  /** Localized string in the language corresponding to language_code below. */
+  text?: string;
 }
 export const GoogleTypeLocalizedText = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    text: S.optional(S.String),
     languageCode: S.optional(S.String),
+    text: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleTypeLocalizedText",
 }) as any as S.Schema<GoogleTypeLocalizedText>;
 
-/** A block of content that can be served individually. */
-export interface GoogleMapsPlacesV1ContentBlock {
-  /** The list of resource names of the referenced places. This name can be used in other APIs that accept Place resource names. */
-  referencedPlaces?: StringList;
-  /** Content related to the topic. */
-  content?: GoogleTypeLocalizedText;
-}
-export const GoogleMapsPlacesV1ContentBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    referencedPlaces: S.optional(StringList),
-    content: S.optional(GoogleTypeLocalizedText),
-  }),
-).annotate({
-  identifier: "GoogleMapsPlacesV1ContentBlock",
-}) as any as S.Schema<GoogleMapsPlacesV1ContentBlock>;
-
-/** The summary of amenities near the EV charging station. This only applies to places with type `electric_vehicle_charging_station`. The `overview` field is guaranteed to be provided while the other fields are optional. */
-export interface GoogleMapsPlacesV1PlaceEvChargeAmenitySummary {
-  /** An overview of the available amenities. This is guaranteed to be provided. */
-  overview?: GoogleMapsPlacesV1ContentBlock;
-  /** A summary of the nearby restaurants. */
-  restaurant?: GoogleMapsPlacesV1ContentBlock;
-  /** A summary of the nearby stores. */
-  store?: GoogleMapsPlacesV1ContentBlock;
+/** AI-generated summary of the place using user reviews. */
+export interface GoogleMapsPlacesV1PlaceReviewSummary {
+  /** A link to show reviews of this place on Google Maps. */
+  reviewsUri?: string;
   /** A link where users can flag a problem with the summary. */
   flagContentUri?: string;
-  /** A summary of the nearby coffee options. */
-  coffee?: GoogleMapsPlacesV1ContentBlock;
   /** The AI disclosure message "Summarized with Gemini" (and its localized variants). This will be in the language specified in the request if available. */
   disclosureText?: GoogleTypeLocalizedText;
+  /** The summary of user reviews. */
+  text?: GoogleTypeLocalizedText;
 }
-export const GoogleMapsPlacesV1PlaceEvChargeAmenitySummary =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      overview: S.optional(GoogleMapsPlacesV1ContentBlock),
-      restaurant: S.optional(GoogleMapsPlacesV1ContentBlock),
-      store: S.optional(GoogleMapsPlacesV1ContentBlock),
-      flagContentUri: S.optional(S.String),
-      coffee: S.optional(GoogleMapsPlacesV1ContentBlock),
-      disclosureText: S.optional(GoogleTypeLocalizedText),
-    }),
-  ).annotate({
-    identifier: "GoogleMapsPlacesV1PlaceEvChargeAmenitySummary",
-  }) as any as S.Schema<GoogleMapsPlacesV1PlaceEvChargeAmenitySummary>;
-
-export type GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationTypeEnum =
-  | "EV_CONNECTOR_TYPE_UNSPECIFIED"
-  | "EV_CONNECTOR_TYPE_OTHER"
-  | "EV_CONNECTOR_TYPE_J1772"
-  | "EV_CONNECTOR_TYPE_TYPE_2"
-  | "EV_CONNECTOR_TYPE_CHADEMO"
-  | "EV_CONNECTOR_TYPE_CCS_COMBO_1"
-  | "EV_CONNECTOR_TYPE_CCS_COMBO_2"
-  | "EV_CONNECTOR_TYPE_TESLA"
-  | "EV_CONNECTOR_TYPE_UNSPECIFIED_GB_T"
-  | "EV_CONNECTOR_TYPE_UNSPECIFIED_WALL_OUTLET"
-  | "EV_CONNECTOR_TYPE_NACS";
-export const GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationTypeEnum =
-  /*@__PURE__*/ S.String;
-
-/** EV charging information grouped by [type, max_charge_rate_kw]. Shows EV charge aggregation of connectors that have the same type and max charge rate in kw. */
-export interface GoogleMapsPlacesV1EVChargeOptionsConnectorAggregation {
-  /** Number of connectors in this aggregation. */
-  count?: number;
-  /** Number of connectors in this aggregation that are currently available. */
-  availableCount?: number;
-  /** Number of connectors in this aggregation that are currently out of service. */
-  outOfServiceCount?: number;
-  /** The static max charging rate in kw of each connector in the aggregation. */
-  maxChargeRateKw?: number;
-  /** The timestamp when the connector availability information in this aggregation was last updated. */
-  availabilityLastUpdateTime?: string;
-  /** The connector type of this aggregation. */
-  type?: GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationTypeEnum;
-}
-export const GoogleMapsPlacesV1EVChargeOptionsConnectorAggregation =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      count: S.optional(S.Number),
-      availableCount: S.optional(S.Number),
-      outOfServiceCount: S.optional(S.Number),
-      maxChargeRateKw: S.optional(S.Number),
-      availabilityLastUpdateTime: S.optional(S.String),
-      type: S.optional(
-        GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationTypeEnum,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleMapsPlacesV1EVChargeOptionsConnectorAggregation",
-  }) as any as S.Schema<GoogleMapsPlacesV1EVChargeOptionsConnectorAggregation>;
-
-export type GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationList =
-  Array<GoogleMapsPlacesV1EVChargeOptionsConnectorAggregation>;
-export const GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationList =
-  /*@__PURE__*/ S.Array(
-    GoogleMapsPlacesV1EVChargeOptionsConnectorAggregation,
-  ) as any as S.Schema<GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationList>;
-
-/** Information about the EV Charge Station hosted in Place. Terminology follows https://afdc.energy.gov/fuels/electricity_infrastructure.html One port could charge one car at a time. One port has one or more connectors. One station has one or more ports. */
-export interface GoogleMapsPlacesV1EVChargeOptions {
-  /** A list of EV charging connector aggregations that contain connectors of the same type and same charge rate. */
-  connectorAggregation?: GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationList;
-  /** Number of connectors at this station. However, because some ports can have multiple connectors but only be able to charge one car at a time (e.g.) the number of connectors may be greater than the total number of cars which can charge simultaneously. */
-  connectorCount?: number;
-}
-export const GoogleMapsPlacesV1EVChargeOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectorAggregation: S.optional(
-      GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationList,
-    ),
-    connectorCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GoogleMapsPlacesV1EVChargeOptions",
-}) as any as S.Schema<GoogleMapsPlacesV1EVChargeOptions>;
-
-/** Sub-destinations are specific places associated with a main place. These provide more specific destinations for users who are searching within a large or complex place, like an airport, national park, university, or stadium. For example, sub-destinations at an airport might include associated terminals and parking lots. Sub-destinations return the place ID and place resource name, which can be used in subsequent Place Details (New) requests to fetch richer details, including the sub-destination's display name and location. */
-export interface GoogleMapsPlacesV1PlaceSubDestination {
-  /** The resource name of the sub-destination. */
-  name?: string;
-  /** The place id of the sub-destination. */
-  id?: string;
-}
-export const GoogleMapsPlacesV1PlaceSubDestination = /*@__PURE__*/ S.suspend(
+export const GoogleMapsPlacesV1PlaceReviewSummary = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.optional(S.String),
-      id: S.optional(S.String),
+      reviewsUri: S.optional(S.String),
+      flagContentUri: S.optional(S.String),
+      disclosureText: S.optional(GoogleTypeLocalizedText),
+      text: S.optional(GoogleTypeLocalizedText),
     }),
 ).annotate({
-  identifier: "GoogleMapsPlacesV1PlaceSubDestination",
-}) as any as S.Schema<GoogleMapsPlacesV1PlaceSubDestination>;
+  identifier: "GoogleMapsPlacesV1PlaceReviewSummary",
+}) as any as S.Schema<GoogleMapsPlacesV1PlaceReviewSummary>;
 
-export type GoogleMapsPlacesV1PlaceSubDestinationList =
-  Array<GoogleMapsPlacesV1PlaceSubDestination>;
-export const GoogleMapsPlacesV1PlaceSubDestinationList = /*@__PURE__*/ S.Array(
-  GoogleMapsPlacesV1PlaceSubDestination,
-) as any as S.Schema<GoogleMapsPlacesV1PlaceSubDestinationList>;
-
-/** Represents an amount of money with its currency type. */
-export interface GoogleTypeMoney {
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number;
-  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string;
-  /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
+/** Status changing points. */
+export interface GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint {
+  /** A day of the week, as an integer in the range 0-6. 0 is Sunday, 1 is Monday, etc. */
+  day?: number;
+  /** Date in the local timezone for the place. */
+  date?: GoogleTypeDate;
+  /** The hour in 24 hour format. Ranges from 0 to 23. */
+  hour?: number;
+  /** The minute. Ranges from 0 to 59. */
+  minute?: number;
+  /** Whether or not this endpoint was truncated. Truncation occurs when the real hours are outside the times we are willing to return hours between, so we truncate the hours back to these boundaries. This ensures that at most 24 * 7 hours from midnight of the day of the request are returned. */
+  truncated?: boolean;
 }
-export const GoogleTypeMoney = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nanos: S.optional(S.Number),
-    units: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleTypeMoney",
-}) as any as S.Schema<GoogleTypeMoney>;
+export const GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      day: S.optional(S.Number),
+      date: S.optional(GoogleTypeDate),
+      hour: S.optional(S.Number),
+      minute: S.optional(S.Number),
+      truncated: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint",
+  }) as any as S.Schema<GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint>;
 
-/** The price range associated with a Place. `end_price` could be unset, which indicates a range without upper bound (e.g. "More than $100"). */
-export interface GoogleMapsPlacesV1PriceRange {
-  /** The low end of the price range (inclusive). Price should be at or above this amount. */
-  startPrice?: GoogleTypeMoney;
-  /** The high end of the price range (exclusive). Price should be lower than this amount. */
-  endPrice?: GoogleTypeMoney;
+/** A period the place remains in open_now status. */
+export interface GoogleMapsPlacesV1PlaceOpeningHoursPeriod {
+  /** The time that the place starts to be closed. */
+  close?: GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint;
+  /** The time that the place starts to be open. */
+  open?: GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint;
 }
-export const GoogleMapsPlacesV1PriceRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startPrice: S.optional(GoogleTypeMoney),
-    endPrice: S.optional(GoogleTypeMoney),
-  }),
-).annotate({
-  identifier: "GoogleMapsPlacesV1PriceRange",
-}) as any as S.Schema<GoogleMapsPlacesV1PriceRange>;
+export const GoogleMapsPlacesV1PlaceOpeningHoursPeriod =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      close: S.optional(GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint),
+      open: S.optional(GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint),
+    }),
+  ).annotate({
+    identifier: "GoogleMapsPlacesV1PlaceOpeningHoursPeriod",
+  }) as any as S.Schema<GoogleMapsPlacesV1PlaceOpeningHoursPeriod>;
+
+export type GoogleMapsPlacesV1PlaceOpeningHoursPeriodList =
+  Array<GoogleMapsPlacesV1PlaceOpeningHoursPeriod>;
+export const GoogleMapsPlacesV1PlaceOpeningHoursPeriodList =
+  /*@__PURE__*/ S.Array(
+    GoogleMapsPlacesV1PlaceOpeningHoursPeriod,
+  ) as any as S.Schema<GoogleMapsPlacesV1PlaceOpeningHoursPeriodList>;
 
 export type GoogleMapsPlacesV1PlaceOpeningHoursSecondaryHoursTypeEnum =
   | "SECONDARY_HOURS_TYPE_UNSPECIFIED"
@@ -659,74 +602,7 @@ export type GoogleMapsPlacesV1PlaceOpeningHoursSecondaryHoursTypeEnum =
   | "SENIOR_HOURS"
   | "ONLINE_SERVICE_HOURS";
 export const GoogleMapsPlacesV1PlaceOpeningHoursSecondaryHoursTypeEnum =
-  /*@__PURE__*/ S.String;
-
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface GoogleTypeDate {
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-}
-export const GoogleTypeDate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    day: S.optional(S.Number),
-    month: S.optional(S.Number),
-    year: S.optional(S.Number),
-  }),
-).annotate({ identifier: "GoogleTypeDate" }) as any as S.Schema<GoogleTypeDate>;
-
-/** Status changing points. */
-export interface GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint {
-  /** Date in the local timezone for the place. */
-  date?: GoogleTypeDate;
-  /** A day of the week, as an integer in the range 0-6. 0 is Sunday, 1 is Monday, etc. */
-  day?: number;
-  /** The hour in 24 hour format. Ranges from 0 to 23. */
-  hour?: number;
-  /** Whether or not this endpoint was truncated. Truncation occurs when the real hours are outside the times we are willing to return hours between, so we truncate the hours back to these boundaries. This ensures that at most 24 * 7 hours from midnight of the day of the request are returned. */
-  truncated?: boolean;
-  /** The minute. Ranges from 0 to 59. */
-  minute?: number;
-}
-export const GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      date: S.optional(GoogleTypeDate),
-      day: S.optional(S.Number),
-      hour: S.optional(S.Number),
-      truncated: S.optional(S.Boolean),
-      minute: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint",
-  }) as any as S.Schema<GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint>;
-
-/** A period the place remains in open_now status. */
-export interface GoogleMapsPlacesV1PlaceOpeningHoursPeriod {
-  /** The time that the place starts to be open. */
-  open?: GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint;
-  /** The time that the place starts to be closed. */
-  close?: GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint;
-}
-export const GoogleMapsPlacesV1PlaceOpeningHoursPeriod =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      open: S.optional(GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint),
-      close: S.optional(GoogleMapsPlacesV1PlaceOpeningHoursPeriodPoint),
-    }),
-  ).annotate({
-    identifier: "GoogleMapsPlacesV1PlaceOpeningHoursPeriod",
-  }) as any as S.Schema<GoogleMapsPlacesV1PlaceOpeningHoursPeriod>;
-
-export type GoogleMapsPlacesV1PlaceOpeningHoursPeriodList =
-  Array<GoogleMapsPlacesV1PlaceOpeningHoursPeriod>;
-export const GoogleMapsPlacesV1PlaceOpeningHoursPeriodList =
-  /*@__PURE__*/ S.Array(
-    GoogleMapsPlacesV1PlaceOpeningHoursPeriod,
-  ) as any as S.Schema<GoogleMapsPlacesV1PlaceOpeningHoursPeriodList>;
+  S.String;
 
 /** Structured information for special days that fall within the period that the returned opening hours cover. Special days are days that could impact the business hours of a place, e.g. Christmas day. */
 export interface GoogleMapsPlacesV1PlaceOpeningHoursSpecialDay {
@@ -751,118 +627,86 @@ export const GoogleMapsPlacesV1PlaceOpeningHoursSpecialDayList =
 
 /** Information about business hour of the place. */
 export interface GoogleMapsPlacesV1PlaceOpeningHours {
-  /** Localized strings describing the opening hours of this place, one string for each day of the week. NOTE: The order of the days and the start of the week is determined by the locale (language and region). The ordering of the `periods` array is independent of the ordering of the `weekday_descriptions` array. Do not assume they will begin on the same day. Will be empty if the hours are unknown or could not be converted to localized text. Example: "Sun: 18:00–06:00" */
-  weekdayDescriptions?: StringList;
-  /** The next time the current opening hours period starts up to 7 days in the future. This field is only populated if the opening hours period is not active at the time of serving the request. */
-  nextOpenTime?: string;
-  /** Whether the opening hours period is currently active. For regular opening hours and current opening hours, this field means whether the place is open. For secondary opening hours and current secondary opening hours, this field means whether the secondary hours of this place is active. */
-  openNow?: boolean;
-  /** A type string used to identify the type of secondary hours. */
-  secondaryHoursType?: GoogleMapsPlacesV1PlaceOpeningHoursSecondaryHoursTypeEnum;
-  /** The next time the current opening hours period ends up to 7 days in the future. This field is only populated if the opening hours period is active at the time of serving the request. */
-  nextCloseTime?: string;
   /** The periods that this place is open during the week. The periods are in chronological order, in the place-local timezone. An empty (but not absent) value indicates a place that is never open, e.g. because it is closed temporarily for renovations. The starting day of `periods` is NOT fixed and should not be assumed to be Sunday. The API determines the start day based on a variety of factors. For example, for a 24/7 business, the first period may begin on the day of the request. For other businesses, it might be the first day of the week that they are open. NOTE: The ordering of the `periods` array is independent of the ordering of the `weekday_descriptions` array. Do not assume they will begin on the same day. */
   periods?: GoogleMapsPlacesV1PlaceOpeningHoursPeriodList;
+  /** A type string used to identify the type of secondary hours. */
+  secondaryHoursType?: GoogleMapsPlacesV1PlaceOpeningHoursSecondaryHoursTypeEnum;
+  /** The next time the current opening hours period starts up to 7 days in the future. This field is only populated if the opening hours period is not active at the time of serving the request. */
+  nextOpenTime?: string;
   /** Structured information for special days that fall within the period that the returned opening hours cover. Special days are days that could impact the business hours of a place, e.g. Christmas day. Set for current_opening_hours and current_secondary_opening_hours if there are exceptional hours. */
   specialDays?: GoogleMapsPlacesV1PlaceOpeningHoursSpecialDayList;
+  /** The next time the current opening hours period ends up to 7 days in the future. This field is only populated if the opening hours period is active at the time of serving the request. */
+  nextCloseTime?: string;
+  /** Localized strings describing the opening hours of this place, one string for each day of the week. NOTE: The order of the days and the start of the week is determined by the locale (language and region). The ordering of the `periods` array is independent of the ordering of the `weekday_descriptions` array. Do not assume they will begin on the same day. Will be empty if the hours are unknown or could not be converted to localized text. Example: "Sun: 18:00–06:00" */
+  weekdayDescriptions?: StringList;
+  /** Whether the opening hours period is currently active. For regular opening hours and current opening hours, this field means whether the place is open. For secondary opening hours and current secondary opening hours, this field means whether the secondary hours of this place is active. */
+  openNow?: boolean;
 }
 export const GoogleMapsPlacesV1PlaceOpeningHours = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    weekdayDescriptions: S.optional(StringList),
-    nextOpenTime: S.optional(S.String),
-    openNow: S.optional(S.Boolean),
+    periods: S.optional(GoogleMapsPlacesV1PlaceOpeningHoursPeriodList),
     secondaryHoursType: S.optional(
       GoogleMapsPlacesV1PlaceOpeningHoursSecondaryHoursTypeEnum,
     ),
-    nextCloseTime: S.optional(S.String),
-    periods: S.optional(GoogleMapsPlacesV1PlaceOpeningHoursPeriodList),
+    nextOpenTime: S.optional(S.String),
     specialDays: S.optional(GoogleMapsPlacesV1PlaceOpeningHoursSpecialDayList),
+    nextCloseTime: S.optional(S.String),
+    weekdayDescriptions: S.optional(StringList),
+    openNow: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1PlaceOpeningHours",
 }) as any as S.Schema<GoogleMapsPlacesV1PlaceOpeningHours>;
 
-/** Info about the place in which this place is located. */
-export interface GoogleMapsPlacesV1PlaceContainingPlace {
-  /** The resource name of the place in which this place is located. */
-  name?: string;
-  /** The place id of the place in which this place is located. */
-  id?: string;
+/** Payment options the place accepts. */
+export interface GoogleMapsPlacesV1PlacePaymentOptions {
+  /** Place accepts credit cards as payment. */
+  acceptsCreditCards?: boolean;
+  /** Place accepts NFC payments. */
+  acceptsNfc?: boolean;
+  /** Place accepts debit cards as payment. */
+  acceptsDebitCards?: boolean;
+  /** Place accepts cash only as payment. Places with this attribute may still accept other payment methods. */
+  acceptsCashOnly?: boolean;
 }
-export const GoogleMapsPlacesV1PlaceContainingPlace = /*@__PURE__*/ S.suspend(
+export const GoogleMapsPlacesV1PlacePaymentOptions = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.optional(S.String),
-      id: S.optional(S.String),
+      acceptsCreditCards: S.optional(S.Boolean),
+      acceptsNfc: S.optional(S.Boolean),
+      acceptsDebitCards: S.optional(S.Boolean),
+      acceptsCashOnly: S.optional(S.Boolean),
     }),
 ).annotate({
-  identifier: "GoogleMapsPlacesV1PlaceContainingPlace",
-}) as any as S.Schema<GoogleMapsPlacesV1PlaceContainingPlace>;
-
-export type GoogleMapsPlacesV1PlaceContainingPlaceList =
-  Array<GoogleMapsPlacesV1PlaceContainingPlace>;
-export const GoogleMapsPlacesV1PlaceContainingPlaceList = /*@__PURE__*/ S.Array(
-  GoogleMapsPlacesV1PlaceContainingPlace,
-) as any as S.Schema<GoogleMapsPlacesV1PlaceContainingPlaceList>;
-
-/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
-export interface GoogleTypeTimeZone {
-  /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
-  /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
-}
-export const GoogleTypeTimeZone = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    version: S.optional(S.String),
-    id: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleTypeTimeZone",
-}) as any as S.Schema<GoogleTypeTimeZone>;
-
-/** Plus code (http://plus.codes) is a location reference with two formats: global code defining a 14mx14m (1/8000th of a degree) or smaller rectangle, and compound code, replacing the prefix with a reference location. */
-export interface GoogleMapsPlacesV1PlacePlusCode {
-  /** Place's global (full) code, such as "9FWM33GV+HQ", representing an 1/8000 by 1/8000 degree area (~14 by 14 meters). */
-  globalCode?: string;
-  /** Place's compound code, such as "33GV+HQ, Ramberg, Norway", containing the suffix of the global code and replacing the prefix with a formatted name of a reference entity. */
-  compoundCode?: string;
-}
-export const GoogleMapsPlacesV1PlacePlusCode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    globalCode: S.optional(S.String),
-    compoundCode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleMapsPlacesV1PlacePlusCode",
-}) as any as S.Schema<GoogleMapsPlacesV1PlacePlusCode>;
+  identifier: "GoogleMapsPlacesV1PlacePaymentOptions",
+}) as any as S.Schema<GoogleMapsPlacesV1PlacePaymentOptions>;
 
 /** Information about parking options for the place. A parking lot could support more than one option at the same time. */
 export interface GoogleMapsPlacesV1PlaceParkingOptions {
-  /** Place offers free parking lots. */
-  freeParkingLot?: boolean;
-  /** Place offers free street parking. */
-  freeStreetParking?: boolean;
-  /** Place offers paid parking lots. */
-  paidParkingLot?: boolean;
-  /** Place offers paid garage parking. */
-  paidGarageParking?: boolean;
   /** Place offers paid street parking. */
   paidStreetParking?: boolean;
+  /** Place offers paid parking lots. */
+  paidParkingLot?: boolean;
+  /** Place offers free parking lots. */
+  freeParkingLot?: boolean;
+  /** Place offers paid garage parking. */
+  paidGarageParking?: boolean;
   /** Place offers valet parking. */
   valetParking?: boolean;
+  /** Place offers free street parking. */
+  freeStreetParking?: boolean;
   /** Place offers free garage parking. */
   freeGarageParking?: boolean;
 }
 export const GoogleMapsPlacesV1PlaceParkingOptions = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      freeParkingLot: S.optional(S.Boolean),
-      freeStreetParking: S.optional(S.Boolean),
-      paidParkingLot: S.optional(S.Boolean),
-      paidGarageParking: S.optional(S.Boolean),
       paidStreetParking: S.optional(S.Boolean),
+      paidParkingLot: S.optional(S.Boolean),
+      freeParkingLot: S.optional(S.Boolean),
+      paidGarageParking: S.optional(S.Boolean),
       valetParking: S.optional(S.Boolean),
+      freeStreetParking: S.optional(S.Boolean),
       freeGarageParking: S.optional(S.Boolean),
     }),
 ).annotate({
@@ -871,30 +715,30 @@ export const GoogleMapsPlacesV1PlaceParkingOptions = /*@__PURE__*/ S.suspend(
 
 /** Represents a transit stop within a station. This is a specific location where passengers board and alight transit vehicles, such as a platform or bus bay. This is distinct from a `Departure`, which is an event of a vehicle leaving a stop at a specific time. */
 export interface GoogleMapsPlacesV1TransitStop {
-  /** Human readable identifier of the stop, used by transit agencies to distinguish stops with the same name. */
-  stopCode?: GoogleTypeLocalizedText;
   /** The platform code represented by this stop. It can be formatted in any way. (eg: "2", "Platform 2", "2-4", or "1x"). */
   platformCode?: GoogleTypeLocalizedText;
-  /** The verbatim text written on the signboard for this platform, e.g. "Towards Central" or "East side & Brooklyn". When `platform_code` is absent, this field is potentially the only identifier for the platform; however, both `platform_code` and `signage_text` may be set simultaneously. */
-  signageText?: GoogleTypeLocalizedText;
+  /** Wheelchair accessibility of this stop. This field indicates whether there is an accessible path from outside the station to the stop. It does not indicate whether it is possible to board a vehicle from the stop. */
+  wheelchairAccessibleEntrance?: boolean;
+  /** Human readable identifier of the stop, used by transit agencies to distinguish stops with the same name. */
+  stopCode?: GoogleTypeLocalizedText;
   /** The stop's location. */
   location?: GoogleTypeLatLng;
+  /** The verbatim text written on the signboard for this platform, e.g. "Towards Central" or "East side & Brooklyn". When `platform_code` is absent, this field is potentially the only identifier for the platform; however, both `platform_code` and `signage_text` may be set simultaneously. */
+  signageText?: GoogleTypeLocalizedText;
   /** The id of the transit stop that can be used to uniquely identify the stop among other transit stops in the same transit station. This identifier is not guaranteed to be stable across different responses. */
   id?: string;
   /** The name of the stop. */
   displayName?: GoogleTypeLocalizedText;
-  /** Wheelchair accessibility of this stop. This field indicates whether there is an accessible path from outside the station to the stop. It does not indicate whether it is possible to board a vehicle from the stop. */
-  wheelchairAccessibleEntrance?: boolean;
 }
 export const GoogleMapsPlacesV1TransitStop = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    stopCode: S.optional(GoogleTypeLocalizedText),
     platformCode: S.optional(GoogleTypeLocalizedText),
-    signageText: S.optional(GoogleTypeLocalizedText),
+    wheelchairAccessibleEntrance: S.optional(S.Boolean),
+    stopCode: S.optional(GoogleTypeLocalizedText),
     location: S.optional(GoogleTypeLatLng),
+    signageText: S.optional(GoogleTypeLocalizedText),
     id: S.optional(S.String),
     displayName: S.optional(GoogleTypeLocalizedText),
-    wheelchairAccessibleEntrance: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1TransitStop",
@@ -908,15 +752,15 @@ export const GoogleMapsPlacesV1TransitStopList = /*@__PURE__*/ S.Array(
 
 /** Icon for a transit line, vehicle, or agency. */
 export interface GoogleMapsPlacesV1TransitIcon {
-  /** The URL of the icon. */
-  url?: string;
   /** Whether the name is contained in the icon and there is no need to display it next to the icon. */
   nameIncluded?: boolean;
+  /** The URL of the icon. */
+  url?: string;
 }
 export const GoogleMapsPlacesV1TransitIcon = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
     nameIncluded: S.optional(S.Boolean),
+    url: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1TransitIcon",
@@ -945,40 +789,39 @@ export type GoogleMapsPlacesV1TransitLineVehicleTypeEnum =
   | "SPECIAL"
   | "HORSE_CARRIAGE"
   | "AIRPLANE";
-export const GoogleMapsPlacesV1TransitLineVehicleTypeEnum =
-  /*@__PURE__*/ S.String;
+export const GoogleMapsPlacesV1TransitLineVehicleTypeEnum = S.String;
 
 /** Represents a single transit line. */
 export interface GoogleMapsPlacesV1TransitLine {
+  /** Icon identifier for this particular vehicle type. */
+  vehicleIcon?: GoogleMapsPlacesV1TransitIcon;
+  /** Icon identifier for this particular line (e.g. subway lines in New York). */
+  icon?: GoogleMapsPlacesV1TransitIcon;
+  /** The text color of labels for this transit line in #RRGGBB hex format, e.g. #909CE1. */
+  textColor?: string;
   /** The long name for this transit line (e.g. "Sunnydale local"). */
   displayName?: GoogleTypeLocalizedText;
   /** The id of the transit line that can be used to uniquely identify the line among other transit lines in the same transit station. This identifier is not guaranteed to be stable across different responses. */
   id?: string;
-  /** The text color of labels for this transit line in #RRGGBB hex format, e.g. #909CE1. */
-  textColor?: string;
-  /** Icon identifier for this particular vehicle type. */
-  vehicleIcon?: GoogleMapsPlacesV1TransitIcon;
+  /** The background color of the labels for this transit line in #RRGGBB hex format, e.g. #909CE1. This color can also be used for drawing shapes for this transit line. */
+  backgroundColor?: string;
   /** The short name for this transit line (e.g. "S2"). */
   shortDisplayName?: GoogleTypeLocalizedText;
   /** The URL of a webpage with details about this line. */
   url?: string;
-  /** Icon identifier for this particular line (e.g. subway lines in New York). */
-  icon?: GoogleMapsPlacesV1TransitIcon;
-  /** The background color of the labels for this transit line in #RRGGBB hex format, e.g. #909CE1. This color can also be used for drawing shapes for this transit line. */
-  backgroundColor?: string;
   /** The type of vehicle using this line. */
   vehicleType?: GoogleMapsPlacesV1TransitLineVehicleTypeEnum;
 }
 export const GoogleMapsPlacesV1TransitLine = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    vehicleIcon: S.optional(GoogleMapsPlacesV1TransitIcon),
+    icon: S.optional(GoogleMapsPlacesV1TransitIcon),
+    textColor: S.optional(S.String),
     displayName: S.optional(GoogleTypeLocalizedText),
     id: S.optional(S.String),
-    textColor: S.optional(S.String),
-    vehicleIcon: S.optional(GoogleMapsPlacesV1TransitIcon),
+    backgroundColor: S.optional(S.String),
     shortDisplayName: S.optional(GoogleTypeLocalizedText),
     url: S.optional(S.String),
-    icon: S.optional(GoogleMapsPlacesV1TransitIcon),
-    backgroundColor: S.optional(S.String),
     vehicleType: S.optional(GoogleMapsPlacesV1TransitLineVehicleTypeEnum),
   }),
 ).annotate({
@@ -993,24 +836,24 @@ export const GoogleMapsPlacesV1TransitLineList = /*@__PURE__*/ S.Array(
 
 /** Represents a transit agency. */
 export interface GoogleMapsPlacesV1TransitAgency {
+  /** The URL of the agency's fare details page. */
+  fareUrl?: string;
+  /** The transit lines that are served by this agency. */
+  lines?: GoogleMapsPlacesV1TransitLineList;
   /** The URL of the agency's homepage. */
   url?: string;
   /** Agency name (e.g. "VTA") in the requested language. */
   displayName?: GoogleTypeLocalizedText;
-  /** The URL of the agency's fare details page. */
-  fareUrl?: string;
   /** Icon identifier for localized branded icon of a transit system (e.g. London Underground) which should be used instead of TransitLine.vehicle_icon in the UI. */
   icon?: GoogleMapsPlacesV1TransitIcon;
-  /** The transit lines that are served by this agency. */
-  lines?: GoogleMapsPlacesV1TransitLineList;
 }
 export const GoogleMapsPlacesV1TransitAgency = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    fareUrl: S.optional(S.String),
+    lines: S.optional(GoogleMapsPlacesV1TransitLineList),
     url: S.optional(S.String),
     displayName: S.optional(GoogleTypeLocalizedText),
-    fareUrl: S.optional(S.String),
     icon: S.optional(GoogleMapsPlacesV1TransitIcon),
-    lines: S.optional(GoogleMapsPlacesV1TransitLineList),
   }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1TransitAgency",
@@ -1024,220 +867,169 @@ export const GoogleMapsPlacesV1TransitAgencyList = /*@__PURE__*/ S.Array(
 
 /** Represents transit-specific information for a place. */
 export interface GoogleMapsPlacesV1TransitStation {
-  /** The name of the station in the local language. */
-  displayName?: GoogleTypeLocalizedText;
   /** Transit stops at this station. */
   stops?: GoogleMapsPlacesV1TransitStopList;
   /** The transit agencies that serve this station. */
   agencies?: GoogleMapsPlacesV1TransitAgencyList;
+  /** The name of the station in the local language. */
+  displayName?: GoogleTypeLocalizedText;
 }
 export const GoogleMapsPlacesV1TransitStation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(GoogleTypeLocalizedText),
     stops: S.optional(GoogleMapsPlacesV1TransitStopList),
     agencies: S.optional(GoogleMapsPlacesV1TransitAgencyList),
+    displayName: S.optional(GoogleTypeLocalizedText),
   }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1TransitStation",
 }) as any as S.Schema<GoogleMapsPlacesV1TransitStation>;
 
-export type GoogleMapsPlacesV1PlaceOpeningHoursList =
-  Array<GoogleMapsPlacesV1PlaceOpeningHours>;
-export const GoogleMapsPlacesV1PlaceOpeningHoursList = /*@__PURE__*/ S.Array(
-  GoogleMapsPlacesV1PlaceOpeningHours,
-) as any as S.Schema<GoogleMapsPlacesV1PlaceOpeningHoursList>;
-
-/** Information about the author of the UGC data. Used in Photo, and Review. */
-export interface GoogleMapsPlacesV1AuthorAttribution {
-  /** URI of the author of the Photo or Review. */
-  uri?: string;
-  /** Profile photo URI of the author of the Photo or Review. */
-  photoUri?: string;
-  /** Name of the author of the Photo or Review. */
-  displayName?: string;
+/** Represents an amount of money with its currency type. */
+export interface GoogleTypeMoney {
+  /** The three-letter currency code defined in ISO 4217. */
+  currencyCode?: string;
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number;
+  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
+  units?: string;
 }
-export const GoogleMapsPlacesV1AuthorAttribution = /*@__PURE__*/ S.suspend(() =>
+export const GoogleTypeMoney = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uri: S.optional(S.String),
-    photoUri: S.optional(S.String),
-    displayName: S.optional(S.String),
+    currencyCode: S.optional(S.String),
+    nanos: S.optional(S.Number),
+    units: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleMapsPlacesV1AuthorAttribution",
-}) as any as S.Schema<GoogleMapsPlacesV1AuthorAttribution>;
+  identifier: "GoogleTypeMoney",
+}) as any as S.Schema<GoogleTypeMoney>;
 
-export type GoogleMapsPlacesV1AuthorAttributionList =
-  Array<GoogleMapsPlacesV1AuthorAttribution>;
-export const GoogleMapsPlacesV1AuthorAttributionList = /*@__PURE__*/ S.Array(
-  GoogleMapsPlacesV1AuthorAttribution,
-) as any as S.Schema<GoogleMapsPlacesV1AuthorAttributionList>;
-
-/** Information about a photo of a place. */
-export interface GoogleMapsPlacesV1Photo {
-  /** A link where users can flag a problem with the photo. */
-  flagContentUri?: string;
-  /** A link to show the photo on Google Maps. */
-  googleMapsUri?: string;
-  /** The maximum available height, in pixels. */
-  heightPx?: number;
-  /** This photo's authors. */
-  authorAttributions?: GoogleMapsPlacesV1AuthorAttributionList;
-  /** Identifier. A reference representing this place photo which may be used to look up this place photo again (also called the API "resource" name: `places/{place_id}/photos/{photo}`). */
-  name?: string;
-  /** The maximum available width, in pixels. */
-  widthPx?: number;
+/** The price range associated with a Place. `end_price` could be unset, which indicates a range without upper bound (e.g. "More than $100"). */
+export interface GoogleMapsPlacesV1PriceRange {
+  /** The low end of the price range (inclusive). Price should be at or above this amount. */
+  startPrice?: GoogleTypeMoney;
+  /** The high end of the price range (exclusive). Price should be lower than this amount. */
+  endPrice?: GoogleTypeMoney;
 }
-export const GoogleMapsPlacesV1Photo = /*@__PURE__*/ S.suspend(() =>
+export const GoogleMapsPlacesV1PriceRange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    flagContentUri: S.optional(S.String),
-    googleMapsUri: S.optional(S.String),
-    heightPx: S.optional(S.Number),
-    authorAttributions: S.optional(GoogleMapsPlacesV1AuthorAttributionList),
-    name: S.optional(S.String),
-    widthPx: S.optional(S.Number),
+    startPrice: S.optional(GoogleTypeMoney),
+    endPrice: S.optional(GoogleTypeMoney),
   }),
 ).annotate({
-  identifier: "GoogleMapsPlacesV1Photo",
-}) as any as S.Schema<GoogleMapsPlacesV1Photo>;
+  identifier: "GoogleMapsPlacesV1PriceRange",
+}) as any as S.Schema<GoogleMapsPlacesV1PriceRange>;
 
-export type GoogleMapsPlacesV1PhotoList = Array<GoogleMapsPlacesV1Photo>;
-export const GoogleMapsPlacesV1PhotoList = /*@__PURE__*/ S.Array(
-  GoogleMapsPlacesV1Photo,
-) as any as S.Schema<GoogleMapsPlacesV1PhotoList>;
+export type GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationTypeEnum =
+  | "EV_CONNECTOR_TYPE_UNSPECIFIED"
+  | "EV_CONNECTOR_TYPE_OTHER"
+  | "EV_CONNECTOR_TYPE_J1772"
+  | "EV_CONNECTOR_TYPE_TYPE_2"
+  | "EV_CONNECTOR_TYPE_CHADEMO"
+  | "EV_CONNECTOR_TYPE_CCS_COMBO_1"
+  | "EV_CONNECTOR_TYPE_CCS_COMBO_2"
+  | "EV_CONNECTOR_TYPE_TESLA"
+  | "EV_CONNECTOR_TYPE_UNSPECIFIED_GB_T"
+  | "EV_CONNECTOR_TYPE_UNSPECIFIED_WALL_OUTLET"
+  | "EV_CONNECTOR_TYPE_NACS";
+export const GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationTypeEnum =
+  S.String;
 
-/** The structured components that form the formatted address, if this information is available. */
-export interface GoogleMapsPlacesV1PlaceAddressComponent {
-  /** The language used to format this components, in CLDR notation. */
-  languageCode?: string;
-  /** An abbreviated textual name for the address component, if available. For example, an address component for the country of Australia may have a short_name of "AU". */
-  shortText?: string;
-  /** An array indicating the type(s) of the address component. */
-  types?: StringList;
-  /** The full text description or name of the address component. For example, an address component for the country Australia may have a long_name of "Australia". */
-  longText?: string;
+/** EV charging information grouped by [type, max_charge_rate_kw]. Shows EV charge aggregation of connectors that have the same type and max charge rate in kw. */
+export interface GoogleMapsPlacesV1EVChargeOptionsConnectorAggregation {
+  /** Number of connectors in this aggregation. */
+  count?: number;
+  /** The static max charging rate in kw of each connector in the aggregation. */
+  maxChargeRateKw?: number;
+  /** The connector type of this aggregation. */
+  type?: GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationTypeEnum;
+  /** Number of connectors in this aggregation that are currently out of service. */
+  outOfServiceCount?: number;
+  /** The timestamp when the connector availability information in this aggregation was last updated. */
+  availabilityLastUpdateTime?: string;
+  /** Number of connectors in this aggregation that are currently available. */
+  availableCount?: number;
 }
-export const GoogleMapsPlacesV1PlaceAddressComponent = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      languageCode: S.optional(S.String),
-      shortText: S.optional(S.String),
-      types: S.optional(StringList),
-      longText: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleMapsPlacesV1PlaceAddressComponent",
-}) as any as S.Schema<GoogleMapsPlacesV1PlaceAddressComponent>;
-
-export type GoogleMapsPlacesV1PlaceAddressComponentList =
-  Array<GoogleMapsPlacesV1PlaceAddressComponent>;
-export const GoogleMapsPlacesV1PlaceAddressComponentList =
-  /*@__PURE__*/ S.Array(
-    GoogleMapsPlacesV1PlaceAddressComponent,
-  ) as any as S.Schema<GoogleMapsPlacesV1PlaceAddressComponentList>;
-
-/** Payment options the place accepts. */
-export interface GoogleMapsPlacesV1PlacePaymentOptions {
-  /** Place accepts credit cards as payment. */
-  acceptsCreditCards?: boolean;
-  /** Place accepts NFC payments. */
-  acceptsNfc?: boolean;
-  /** Place accepts debit cards as payment. */
-  acceptsDebitCards?: boolean;
-  /** Place accepts cash only as payment. Places with this attribute may still accept other payment methods. */
-  acceptsCashOnly?: boolean;
-}
-export const GoogleMapsPlacesV1PlacePaymentOptions = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      acceptsCreditCards: S.optional(S.Boolean),
-      acceptsNfc: S.optional(S.Boolean),
-      acceptsDebitCards: S.optional(S.Boolean),
-      acceptsCashOnly: S.optional(S.Boolean),
-    }),
-).annotate({
-  identifier: "GoogleMapsPlacesV1PlacePaymentOptions",
-}) as any as S.Schema<GoogleMapsPlacesV1PlacePaymentOptions>;
-
-export type GoogleMapsPlacesV1PlaceBusinessStatusEnum =
-  | "BUSINESS_STATUS_UNSPECIFIED"
-  | "OPERATIONAL"
-  | "CLOSED_TEMPORARILY"
-  | "CLOSED_PERMANENTLY"
-  | "FUTURE_OPENING";
-export const GoogleMapsPlacesV1PlaceBusinessStatusEnum = /*@__PURE__*/ S.String;
-
-export type GoogleMapsPlacesV1PlacePriceLevelEnum =
-  | "PRICE_LEVEL_UNSPECIFIED"
-  | "PRICE_LEVEL_FREE"
-  | "PRICE_LEVEL_INEXPENSIVE"
-  | "PRICE_LEVEL_MODERATE"
-  | "PRICE_LEVEL_EXPENSIVE"
-  | "PRICE_LEVEL_VERY_EXPENSIVE";
-export const GoogleMapsPlacesV1PlacePriceLevelEnum = /*@__PURE__*/ S.String;
-
-/** Information about the accessibility options a place offers. */
-export interface GoogleMapsPlacesV1PlaceAccessibilityOptions {
-  /** Place offers wheelchair accessible parking. */
-  wheelchairAccessibleParking?: boolean;
-  /** Place has wheelchair accessible restroom. */
-  wheelchairAccessibleRestroom?: boolean;
-  /** Place has wheelchair accessible seating. */
-  wheelchairAccessibleSeating?: boolean;
-  /** Places has wheelchair accessible entrance. */
-  wheelchairAccessibleEntrance?: boolean;
-}
-export const GoogleMapsPlacesV1PlaceAccessibilityOptions =
+export const GoogleMapsPlacesV1EVChargeOptionsConnectorAggregation =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      wheelchairAccessibleParking: S.optional(S.Boolean),
-      wheelchairAccessibleRestroom: S.optional(S.Boolean),
-      wheelchairAccessibleSeating: S.optional(S.Boolean),
-      wheelchairAccessibleEntrance: S.optional(S.Boolean),
+      count: S.optional(S.Number),
+      maxChargeRateKw: S.optional(S.Number),
+      type: S.optional(
+        GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationTypeEnum,
+      ),
+      outOfServiceCount: S.optional(S.Number),
+      availabilityLastUpdateTime: S.optional(S.String),
+      availableCount: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "GoogleMapsPlacesV1PlaceAccessibilityOptions",
-  }) as any as S.Schema<GoogleMapsPlacesV1PlaceAccessibilityOptions>;
+    identifier: "GoogleMapsPlacesV1EVChargeOptionsConnectorAggregation",
+  }) as any as S.Schema<GoogleMapsPlacesV1EVChargeOptionsConnectorAggregation>;
+
+export type GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationList =
+  Array<GoogleMapsPlacesV1EVChargeOptionsConnectorAggregation>;
+export const GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationList =
+  /*@__PURE__*/ S.Array(
+    GoogleMapsPlacesV1EVChargeOptionsConnectorAggregation,
+  ) as any as S.Schema<GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationList>;
+
+/** Information about the EV Charge Station hosted in Place. Terminology follows https://afdc.energy.gov/fuels/electricity_infrastructure.html One port could charge one car at a time. One port has one or more connectors. One station has one or more ports. */
+export interface GoogleMapsPlacesV1EVChargeOptions {
+  /** Number of connectors at this station. However, because some ports can have multiple connectors but only be able to charge one car at a time (e.g.) the number of connectors may be greater than the total number of cars which can charge simultaneously. */
+  connectorCount?: number;
+  /** A list of EV charging connector aggregations that contain connectors of the same type and same charge rate. */
+  connectorAggregation?: GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationList;
+}
+export const GoogleMapsPlacesV1EVChargeOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connectorCount: S.optional(S.Number),
+    connectorAggregation: S.optional(
+      GoogleMapsPlacesV1EVChargeOptionsConnectorAggregationList,
+    ),
+  }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1EVChargeOptions",
+}) as any as S.Schema<GoogleMapsPlacesV1EVChargeOptions>;
 
 export type GoogleMapsPlacesV1AddressDescriptorLandmarkSpatialRelationshipEnum =
-    | "NEAR"
-    | "WITHIN"
-    | "BESIDE"
-    | "ACROSS_THE_ROAD"
-    | "DOWN_THE_ROAD"
-    | "AROUND_THE_CORNER"
-    | "BEHIND";
+  | "NEAR"
+  | "WITHIN"
+  | "BESIDE"
+  | "ACROSS_THE_ROAD"
+  | "DOWN_THE_ROAD"
+  | "AROUND_THE_CORNER"
+  | "BEHIND";
 export const GoogleMapsPlacesV1AddressDescriptorLandmarkSpatialRelationshipEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** Basic landmark information and the landmark's relationship with the target location. Landmarks are prominent places that can be used to describe a location. */
 export interface GoogleMapsPlacesV1AddressDescriptorLandmark {
-  /** The landmark's resource name. */
-  name?: string;
-  /** Defines the spatial relationship between the target location and the landmark. */
-  spatialRelationship?: GoogleMapsPlacesV1AddressDescriptorLandmarkSpatialRelationshipEnum;
-  /** The straight line distance, in meters, between the center point of the target and the center point of the landmark. In some situations, this value can be longer than `travel_distance_meters`. */
-  straightLineDistanceMeters?: number;
-  /** The landmark's place id. */
-  placeId?: string;
-  /** The travel distance, in meters, along the road network from the target to the landmark, if known. This value does not take into account the mode of transportation, such as walking, driving, or biking. */
-  travelDistanceMeters?: number;
-  /** A set of type tags for this landmark. For a complete list of possible values, see https://developers.google.com/maps/documentation/places/web-service/place-types. */
-  types?: StringList;
   /** The landmark's display name. */
   displayName?: GoogleTypeLocalizedText;
+  /** Defines the spatial relationship between the target location and the landmark. */
+  spatialRelationship?: GoogleMapsPlacesV1AddressDescriptorLandmarkSpatialRelationshipEnum;
+  /** The landmark's resource name. */
+  name?: string;
+  /** The travel distance, in meters, along the road network from the target to the landmark, if known. This value does not take into account the mode of transportation, such as walking, driving, or biking. */
+  travelDistanceMeters?: number;
+  /** The straight line distance, in meters, between the center point of the target and the center point of the landmark. In some situations, this value can be longer than `travel_distance_meters`. */
+  straightLineDistanceMeters?: number;
+  /** A set of type tags for this landmark. For a complete list of possible values, see https://developers.google.com/maps/documentation/places/web-service/place-types. */
+  types?: StringList;
+  /** The landmark's place id. */
+  placeId?: string;
 }
 export const GoogleMapsPlacesV1AddressDescriptorLandmark =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.optional(S.String),
+      displayName: S.optional(GoogleTypeLocalizedText),
       spatialRelationship: S.optional(
         GoogleMapsPlacesV1AddressDescriptorLandmarkSpatialRelationshipEnum,
       ),
-      straightLineDistanceMeters: S.optional(S.Number),
-      placeId: S.optional(S.String),
+      name: S.optional(S.String),
       travelDistanceMeters: S.optional(S.Number),
+      straightLineDistanceMeters: S.optional(S.Number),
       types: S.optional(StringList),
-      displayName: S.optional(GoogleTypeLocalizedText),
+      placeId: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleMapsPlacesV1AddressDescriptorLandmark",
@@ -1255,29 +1047,28 @@ export type GoogleMapsPlacesV1AddressDescriptorAreaContainmentEnum =
   | "WITHIN"
   | "OUTSKIRTS"
   | "NEAR";
-export const GoogleMapsPlacesV1AddressDescriptorAreaContainmentEnum =
-  /*@__PURE__*/ S.String;
+export const GoogleMapsPlacesV1AddressDescriptorAreaContainmentEnum = S.String;
 
 /** Area information and the area's relationship with the target location. Areas includes precise sublocality, neighborhoods, and large compounds that are useful for describing a location. */
 export interface GoogleMapsPlacesV1AddressDescriptorArea {
+  /** The area's display name. */
+  displayName?: GoogleTypeLocalizedText;
+  /** The area's place id. */
+  placeId?: string;
   /** The area's resource name. */
   name?: string;
   /** Defines the spatial relationship between the target location and the area. */
   containment?: GoogleMapsPlacesV1AddressDescriptorAreaContainmentEnum;
-  /** The area's place id. */
-  placeId?: string;
-  /** The area's display name. */
-  displayName?: GoogleTypeLocalizedText;
 }
 export const GoogleMapsPlacesV1AddressDescriptorArea = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      displayName: S.optional(GoogleTypeLocalizedText),
+      placeId: S.optional(S.String),
       name: S.optional(S.String),
       containment: S.optional(
         GoogleMapsPlacesV1AddressDescriptorAreaContainmentEnum,
       ),
-      placeId: S.optional(S.String),
-      displayName: S.optional(GoogleTypeLocalizedText),
     }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1AddressDescriptorArea",
@@ -1306,264 +1097,94 @@ export const GoogleMapsPlacesV1AddressDescriptor = /*@__PURE__*/ S.suspend(() =>
   identifier: "GoogleMapsPlacesV1AddressDescriptor",
 }) as any as S.Schema<GoogleMapsPlacesV1AddressDescriptor>;
 
-/** AI-generated summary of the place using user reviews. */
-export interface GoogleMapsPlacesV1PlaceReviewSummary {
-  /** A link to show reviews of this place on Google Maps. */
-  reviewsUri?: string;
-  /** The summary of user reviews. */
-  text?: GoogleTypeLocalizedText;
-  /** A link where users can flag a problem with the summary. */
-  flagContentUri?: string;
-  /** The AI disclosure message "Summarized with Gemini" (and its localized variants). This will be in the language specified in the request if available. */
-  disclosureText?: GoogleTypeLocalizedText;
-}
-export const GoogleMapsPlacesV1PlaceReviewSummary = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      reviewsUri: S.optional(S.String),
-      text: S.optional(GoogleTypeLocalizedText),
-      flagContentUri: S.optional(S.String),
-      disclosureText: S.optional(GoogleTypeLocalizedText),
-    }),
-).annotate({
-  identifier: "GoogleMapsPlacesV1PlaceReviewSummary",
-}) as any as S.Schema<GoogleMapsPlacesV1PlaceReviewSummary>;
+export type GoogleMapsPlacesV1PlacePriceLevelEnum =
+  | "PRICE_LEVEL_UNSPECIFIED"
+  | "PRICE_LEVEL_FREE"
+  | "PRICE_LEVEL_INEXPENSIVE"
+  | "PRICE_LEVEL_MODERATE"
+  | "PRICE_LEVEL_EXPENSIVE"
+  | "PRICE_LEVEL_VERY_EXPENSIVE";
+export const GoogleMapsPlacesV1PlacePriceLevelEnum = S.String;
 
-/** A summary of points of interest near the place. */
-export interface GoogleMapsPlacesV1PlaceNeighborhoodSummary {
-  /** A detailed description of the neighborhood. */
-  description?: GoogleMapsPlacesV1ContentBlock;
-  /** An overview summary of the neighborhood. */
-  overview?: GoogleMapsPlacesV1ContentBlock;
-  /** A link where users can flag a problem with the summary. */
-  flagContentUri?: string;
-  /** The AI disclosure message "Summarized with Gemini" (and its localized variants). This will be in the language specified in the request if available. */
-  disclosureText?: GoogleTypeLocalizedText;
+/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
+export interface GoogleTypeTimeZone {
+  /** IANA Time Zone Database time zone. For example "America/New_York". */
+  id?: string;
+  /** Optional. IANA Time Zone Database version number. For example "2019a". */
+  version?: string;
 }
-export const GoogleMapsPlacesV1PlaceNeighborhoodSummary =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      description: S.optional(GoogleMapsPlacesV1ContentBlock),
-      overview: S.optional(GoogleMapsPlacesV1ContentBlock),
-      flagContentUri: S.optional(S.String),
-      disclosureText: S.optional(GoogleTypeLocalizedText),
-    }),
-  ).annotate({
-    identifier: "GoogleMapsPlacesV1PlaceNeighborhoodSummary",
-  }) as any as S.Schema<GoogleMapsPlacesV1PlaceNeighborhoodSummary>;
-
-/** Links to trigger different Google Maps actions. */
-export interface GoogleMapsPlacesV1PlaceGoogleMapsLinks {
-  /** A link to show reviews of this place on Google Maps. */
-  reviewsUri?: string;
-  /** A link to show the directions to the place. The link only populates the destination location and uses the default travel mode `DRIVE`. */
-  directionsUri?: string;
-  /** A link to show this place. */
-  placeUri?: string;
-  /** A link to show photos of this place on Google Maps. */
-  photosUri?: string;
-  /** A link to write a review for this place on Google Maps. */
-  writeAReviewUri?: string;
-}
-export const GoogleMapsPlacesV1PlaceGoogleMapsLinks = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      reviewsUri: S.optional(S.String),
-      directionsUri: S.optional(S.String),
-      placeUri: S.optional(S.String),
-      photosUri: S.optional(S.String),
-      writeAReviewUri: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleMapsPlacesV1PlaceGoogleMapsLinks",
-}) as any as S.Schema<GoogleMapsPlacesV1PlaceGoogleMapsLinks>;
-
-/** AI-generated summary of the place. */
-export interface GoogleMapsPlacesV1PlaceGenerativeSummary {
-  /** The AI disclosure message "Summarized with Gemini" (and its localized variants). This will be in the language specified in the request if available. */
-  disclosureText?: GoogleTypeLocalizedText;
-  /** The overview of the place. */
-  overview?: GoogleTypeLocalizedText;
-  /** A link where users can flag a problem with the overview summary. */
-  overviewFlagContentUri?: string;
-}
-export const GoogleMapsPlacesV1PlaceGenerativeSummary = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      disclosureText: S.optional(GoogleTypeLocalizedText),
-      overview: S.optional(GoogleTypeLocalizedText),
-      overviewFlagContentUri: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleMapsPlacesV1PlaceGenerativeSummary",
-}) as any as S.Schema<GoogleMapsPlacesV1PlaceGenerativeSummary>;
-
-/** The link to show together with the description to provide more information. */
-export interface GoogleMapsPlacesV1PlaceConsumerAlertDetailsLink {
-  /** The title to show for the link. */
-  title?: string;
-  /** The uri of the link. */
-  uri?: string;
-}
-export const GoogleMapsPlacesV1PlaceConsumerAlertDetailsLink =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      title: S.optional(S.String),
-      uri: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleMapsPlacesV1PlaceConsumerAlertDetailsLink",
-  }) as any as S.Schema<GoogleMapsPlacesV1PlaceConsumerAlertDetailsLink>;
-
-/** The details of the consumer alert message. */
-export interface GoogleMapsPlacesV1PlaceConsumerAlertDetails {
-  /** The title to show together with the description. */
-  title?: string;
-  /** The description of the consumer alert message. */
-  description?: string;
-  /** The link to show together with the description to provide more information. */
-  aboutLink?: GoogleMapsPlacesV1PlaceConsumerAlertDetailsLink;
-}
-export const GoogleMapsPlacesV1PlaceConsumerAlertDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      title: S.optional(S.String),
-      description: S.optional(S.String),
-      aboutLink: S.optional(GoogleMapsPlacesV1PlaceConsumerAlertDetailsLink),
-    }),
-  ).annotate({
-    identifier: "GoogleMapsPlacesV1PlaceConsumerAlertDetails",
-  }) as any as S.Schema<GoogleMapsPlacesV1PlaceConsumerAlertDetails>;
-
-/** The consumer alert message for the place when we detect suspicious review activity on a business or a business violates our policies. */
-export interface GoogleMapsPlacesV1PlaceConsumerAlert {
-  /** The details of the consumer alert message. */
-  details?: GoogleMapsPlacesV1PlaceConsumerAlertDetails;
-  /** The overview of the consumer alert message. */
-  overview?: string;
-  /** The language code of the consumer alert message. This is a BCP 47 language code. */
-  languageCode?: string;
-}
-export const GoogleMapsPlacesV1PlaceConsumerAlert = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      details: S.optional(GoogleMapsPlacesV1PlaceConsumerAlertDetails),
-      overview: S.optional(S.String),
-      languageCode: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleMapsPlacesV1PlaceConsumerAlert",
-}) as any as S.Schema<GoogleMapsPlacesV1PlaceConsumerAlert>;
-
-/** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
-export interface GoogleTypePostalAddress {
-  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
-  addressLines?: StringList;
-  /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
-  sublocality?: string;
-  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
-  administrativeArea?: string;
-  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
-  revision?: number;
-  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
-  locality?: string;
-  /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
-  languageCode?: string;
-  /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
-  postalCode?: string;
-  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
-  sortingCode?: string;
-  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
-  recipients?: StringList;
-  /** Optional. The name of the organization at the address. */
-  organization?: string;
-  /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
-  regionCode?: string;
-}
-export const GoogleTypePostalAddress = /*@__PURE__*/ S.suspend(() =>
+export const GoogleTypeTimeZone = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    addressLines: S.optional(StringList),
-    sublocality: S.optional(S.String),
-    administrativeArea: S.optional(S.String),
-    revision: S.optional(S.Number),
-    locality: S.optional(S.String),
-    languageCode: S.optional(S.String),
-    postalCode: S.optional(S.String),
-    sortingCode: S.optional(S.String),
-    recipients: S.optional(StringList),
-    organization: S.optional(S.String),
-    regionCode: S.optional(S.String),
+    id: S.optional(S.String),
+    version: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleTypePostalAddress",
-}) as any as S.Schema<GoogleTypePostalAddress>;
+  identifier: "GoogleTypeTimeZone",
+}) as any as S.Schema<GoogleTypeTimeZone>;
 
-/** Information about data providers of this place. */
-export interface GoogleMapsPlacesV1PlaceAttribution {
-  /** URI to the Place's data provider. */
-  providerUri?: string;
-  /** Name of the Place's data provider. */
-  provider?: string;
+export type GoogleMapsPlacesV1PlaceNavigationPointUsagesItemEnum =
+  | "USAGE_UNSPECIFIED"
+  | "DROPOFF"
+  | "PICKUP"
+  | "PARKING";
+export const GoogleMapsPlacesV1PlaceNavigationPointUsagesItemEnum = S.String;
+
+export type GoogleMapsPlacesV1PlaceNavigationPointUsagesItemEnumList =
+  Array<GoogleMapsPlacesV1PlaceNavigationPointUsagesItemEnum>;
+export const GoogleMapsPlacesV1PlaceNavigationPointUsagesItemEnumList =
+  /*@__PURE__*/ S.Array(
+    GoogleMapsPlacesV1PlaceNavigationPointUsagesItemEnum,
+  ) as any as S.Schema<GoogleMapsPlacesV1PlaceNavigationPointUsagesItemEnumList>;
+
+export type GoogleMapsPlacesV1PlaceNavigationPointTravelModesItemEnum =
+  | "TRAVEL_MODE_UNSPECIFIED"
+  | "DRIVE"
+  | "WALK";
+export const GoogleMapsPlacesV1PlaceNavigationPointTravelModesItemEnum =
+  S.String;
+
+export type GoogleMapsPlacesV1PlaceNavigationPointTravelModesItemEnumList =
+  Array<GoogleMapsPlacesV1PlaceNavigationPointTravelModesItemEnum>;
+export const GoogleMapsPlacesV1PlaceNavigationPointTravelModesItemEnumList =
+  /*@__PURE__*/ S.Array(
+    GoogleMapsPlacesV1PlaceNavigationPointTravelModesItemEnum,
+  ) as any as S.Schema<GoogleMapsPlacesV1PlaceNavigationPointTravelModesItemEnumList>;
+
+/** A navigation point is a location next to a road where navigation can end. */
+export interface GoogleMapsPlacesV1PlaceNavigationPoint {
+  /** Lists `usages` supported by this navigation point. If empty, it does not necessarily mean its usage is restricted in any way. All navigation points can be used for general navigation. */
+  usages?: GoogleMapsPlacesV1PlaceNavigationPointUsagesItemEnumList;
+  /** Travel modes that are appropriate for this navigation point. */
+  travelModes?: GoogleMapsPlacesV1PlaceNavigationPointTravelModesItemEnumList;
+  /** A token that can be used to identify this navigation point. */
+  navigationPointToken?: string;
+  /** A point next to the road segment where navigation should end. The point is intentionally slightly offset from the road's centerline to clearly mark the side of the road where the place is located. */
+  location?: GoogleTypeLatLng;
+  /** The display name of this navigation point. For example, "5th Ave" or "Gate B". */
+  displayName?: GoogleTypeLocalizedText;
 }
-export const GoogleMapsPlacesV1PlaceAttribution = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    providerUri: S.optional(S.String),
-    provider: S.optional(S.String),
-  }),
+export const GoogleMapsPlacesV1PlaceNavigationPoint = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      usages: S.optional(
+        GoogleMapsPlacesV1PlaceNavigationPointUsagesItemEnumList,
+      ),
+      travelModes: S.optional(
+        GoogleMapsPlacesV1PlaceNavigationPointTravelModesItemEnumList,
+      ),
+      navigationPointToken: S.optional(S.String),
+      location: S.optional(GoogleTypeLatLng),
+      displayName: S.optional(GoogleTypeLocalizedText),
+    }),
 ).annotate({
-  identifier: "GoogleMapsPlacesV1PlaceAttribution",
-}) as any as S.Schema<GoogleMapsPlacesV1PlaceAttribution>;
+  identifier: "GoogleMapsPlacesV1PlaceNavigationPoint",
+}) as any as S.Schema<GoogleMapsPlacesV1PlaceNavigationPoint>;
 
-export type GoogleMapsPlacesV1PlaceAttributionList =
-  Array<GoogleMapsPlacesV1PlaceAttribution>;
-export const GoogleMapsPlacesV1PlaceAttributionList = /*@__PURE__*/ S.Array(
-  GoogleMapsPlacesV1PlaceAttribution,
-) as any as S.Schema<GoogleMapsPlacesV1PlaceAttributionList>;
-
-/** Information about a review of a place. */
-export interface GoogleMapsPlacesV1Review {
-  /** The date when the author visited the place. This is truncated to the year and month of the visit. */
-  visitDate?: GoogleTypeDate;
-  /** The localized text of the review. */
-  text?: GoogleTypeLocalizedText;
-  /** A link where users can flag a problem with the review. */
-  flagContentUri?: string;
-  /** A link to show the review on Google Maps. */
-  googleMapsUri?: string;
-  /** The review text in its original language. */
-  originalText?: GoogleTypeLocalizedText;
-  /** A string of formatted recent time, expressing the review time relative to the current time in a form appropriate for the language and country. */
-  relativePublishTimeDescription?: string;
-  /** This review's author. */
-  authorAttribution?: GoogleMapsPlacesV1AuthorAttribution;
-  /** A reference representing this place review which may be used to look up this place review again (also called the API "resource" name: `places/{place_id}/reviews/{review}`). */
-  name?: string;
-  /** Timestamp for the review. */
-  publishTime?: string;
-  /** A number between 1.0 and 5.0, also called the number of stars. */
-  rating?: number;
-}
-export const GoogleMapsPlacesV1Review = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    visitDate: S.optional(GoogleTypeDate),
-    text: S.optional(GoogleTypeLocalizedText),
-    flagContentUri: S.optional(S.String),
-    googleMapsUri: S.optional(S.String),
-    originalText: S.optional(GoogleTypeLocalizedText),
-    relativePublishTimeDescription: S.optional(S.String),
-    authorAttribution: S.optional(GoogleMapsPlacesV1AuthorAttribution),
-    name: S.optional(S.String),
-    publishTime: S.optional(S.String),
-    rating: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GoogleMapsPlacesV1Review",
-}) as any as S.Schema<GoogleMapsPlacesV1Review>;
-
-export type GoogleMapsPlacesV1ReviewList = Array<GoogleMapsPlacesV1Review>;
-export const GoogleMapsPlacesV1ReviewList = /*@__PURE__*/ S.Array(
-  GoogleMapsPlacesV1Review,
-) as any as S.Schema<GoogleMapsPlacesV1ReviewList>;
+export type GoogleMapsPlacesV1PlaceNavigationPointList =
+  Array<GoogleMapsPlacesV1PlaceNavigationPoint>;
+export const GoogleMapsPlacesV1PlaceNavigationPointList = /*@__PURE__*/ S.Array(
+  GoogleMapsPlacesV1PlaceNavigationPoint,
+) as any as S.Schema<GoogleMapsPlacesV1PlaceNavigationPointList>;
 
 export type GoogleMapsPlacesV1FuelOptionsFuelPriceTypeEnum =
   | "FUEL_TYPE_UNSPECIFIED"
@@ -1587,8 +1208,7 @@ export type GoogleMapsPlacesV1FuelOptionsFuelPriceTypeEnum =
   | "METHANE"
   | "BIO_DIESEL"
   | "TRUCK_DIESEL";
-export const GoogleMapsPlacesV1FuelOptionsFuelPriceTypeEnum =
-  /*@__PURE__*/ S.String;
+export const GoogleMapsPlacesV1FuelOptionsFuelPriceTypeEnum = S.String;
 
 /** Fuel price information for a given type. */
 export interface GoogleMapsPlacesV1FuelOptionsFuelPrice {
@@ -1629,288 +1249,777 @@ export const GoogleMapsPlacesV1FuelOptions = /*@__PURE__*/ S.suspend(() =>
   identifier: "GoogleMapsPlacesV1FuelOptions",
 }) as any as S.Schema<GoogleMapsPlacesV1FuelOptions>;
 
+/** The structured components that form the formatted address, if this information is available. */
+export interface GoogleMapsPlacesV1PlaceAddressComponent {
+  /** The language used to format this components, in CLDR notation. */
+  languageCode?: string;
+  /** The full text description or name of the address component. For example, an address component for the country Australia may have a long_name of "Australia". */
+  longText?: string;
+  /** An abbreviated textual name for the address component, if available. For example, an address component for the country of Australia may have a short_name of "AU". */
+  shortText?: string;
+  /** An array indicating the type(s) of the address component. */
+  types?: StringList;
+}
+export const GoogleMapsPlacesV1PlaceAddressComponent = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      languageCode: S.optional(S.String),
+      longText: S.optional(S.String),
+      shortText: S.optional(S.String),
+      types: S.optional(StringList),
+    }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1PlaceAddressComponent",
+}) as any as S.Schema<GoogleMapsPlacesV1PlaceAddressComponent>;
+
+export type GoogleMapsPlacesV1PlaceAddressComponentList =
+  Array<GoogleMapsPlacesV1PlaceAddressComponent>;
+export const GoogleMapsPlacesV1PlaceAddressComponentList =
+  /*@__PURE__*/ S.Array(
+    GoogleMapsPlacesV1PlaceAddressComponent,
+  ) as any as S.Schema<GoogleMapsPlacesV1PlaceAddressComponentList>;
+
+/** Information about the author of the UGC data. Used in Photo, and Review. */
+export interface GoogleMapsPlacesV1AuthorAttribution {
+  /** Profile photo URI of the author of the Photo or Review. */
+  photoUri?: string;
+  /** URI of the author of the Photo or Review. */
+  uri?: string;
+  /** Name of the author of the Photo or Review. */
+  displayName?: string;
+}
+export const GoogleMapsPlacesV1AuthorAttribution = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    photoUri: S.optional(S.String),
+    uri: S.optional(S.String),
+    displayName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1AuthorAttribution",
+}) as any as S.Schema<GoogleMapsPlacesV1AuthorAttribution>;
+
+/** Information about a review of a place. */
+export interface GoogleMapsPlacesV1Review {
+  /** A reference representing this place review which may be used to look up this place review again (also called the API "resource" name: `places/{place_id}/reviews/{review}`). */
+  name?: string;
+  /** Timestamp for the review. */
+  publishTime?: string;
+  /** The date when the author visited the place. This is truncated to the year and month of the visit. */
+  visitDate?: GoogleTypeDate;
+  /** A number between 1.0 and 5.0, also called the number of stars. */
+  rating?: number;
+  /** This review's author. */
+  authorAttribution?: GoogleMapsPlacesV1AuthorAttribution;
+  /** The review text in its original language. */
+  originalText?: GoogleTypeLocalizedText;
+  /** The localized text of the review. */
+  text?: GoogleTypeLocalizedText;
+  /** A link to show the review on Google Maps. */
+  googleMapsUri?: string;
+  /** A link where users can flag a problem with the review. */
+  flagContentUri?: string;
+  /** A string of formatted recent time, expressing the review time relative to the current time in a form appropriate for the language and country. */
+  relativePublishTimeDescription?: string;
+}
+export const GoogleMapsPlacesV1Review = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    publishTime: S.optional(S.String),
+    visitDate: S.optional(GoogleTypeDate),
+    rating: S.optional(S.Number),
+    authorAttribution: S.optional(GoogleMapsPlacesV1AuthorAttribution),
+    originalText: S.optional(GoogleTypeLocalizedText),
+    text: S.optional(GoogleTypeLocalizedText),
+    googleMapsUri: S.optional(S.String),
+    flagContentUri: S.optional(S.String),
+    relativePublishTimeDescription: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1Review",
+}) as any as S.Schema<GoogleMapsPlacesV1Review>;
+
+export type GoogleMapsPlacesV1ReviewList = Array<GoogleMapsPlacesV1Review>;
+export const GoogleMapsPlacesV1ReviewList = /*@__PURE__*/ S.Array(
+  GoogleMapsPlacesV1Review,
+) as any as S.Schema<GoogleMapsPlacesV1ReviewList>;
+
+/** Information about data providers of this place. */
+export interface GoogleMapsPlacesV1PlaceAttribution {
+  /** Name of the Place's data provider. */
+  provider?: string;
+  /** URI to the Place's data provider. */
+  providerUri?: string;
+}
+export const GoogleMapsPlacesV1PlaceAttribution = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.optional(S.String),
+    providerUri: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1PlaceAttribution",
+}) as any as S.Schema<GoogleMapsPlacesV1PlaceAttribution>;
+
+export type GoogleMapsPlacesV1PlaceAttributionList =
+  Array<GoogleMapsPlacesV1PlaceAttribution>;
+export const GoogleMapsPlacesV1PlaceAttributionList = /*@__PURE__*/ S.Array(
+  GoogleMapsPlacesV1PlaceAttribution,
+) as any as S.Schema<GoogleMapsPlacesV1PlaceAttributionList>;
+
+/** Information about the accessibility options a place offers. */
+export interface GoogleMapsPlacesV1PlaceAccessibilityOptions {
+  /** Place offers wheelchair accessible parking. */
+  wheelchairAccessibleParking?: boolean;
+  /** Places has wheelchair accessible entrance. */
+  wheelchairAccessibleEntrance?: boolean;
+  /** Place has wheelchair accessible restroom. */
+  wheelchairAccessibleRestroom?: boolean;
+  /** Place has wheelchair accessible seating. */
+  wheelchairAccessibleSeating?: boolean;
+}
+export const GoogleMapsPlacesV1PlaceAccessibilityOptions =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      wheelchairAccessibleParking: S.optional(S.Boolean),
+      wheelchairAccessibleEntrance: S.optional(S.Boolean),
+      wheelchairAccessibleRestroom: S.optional(S.Boolean),
+      wheelchairAccessibleSeating: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleMapsPlacesV1PlaceAccessibilityOptions",
+  }) as any as S.Schema<GoogleMapsPlacesV1PlaceAccessibilityOptions>;
+
+/** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
+export interface GoogleTypePostalAddress {
+  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
+  administrativeArea?: string;
+  /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
+  languageCode?: string;
+  /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
+  regionCode?: string;
+  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
+  recipients?: StringList;
+  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
+  revision?: number;
+  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
+  sortingCode?: string;
+  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
+  locality?: string;
+  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
+  addressLines?: StringList;
+  /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
+  sublocality?: string;
+  /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
+  postalCode?: string;
+  /** Optional. The name of the organization at the address. */
+  organization?: string;
+}
+export const GoogleTypePostalAddress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    administrativeArea: S.optional(S.String),
+    languageCode: S.optional(S.String),
+    regionCode: S.optional(S.String),
+    recipients: S.optional(StringList),
+    revision: S.optional(S.Number),
+    sortingCode: S.optional(S.String),
+    locality: S.optional(S.String),
+    addressLines: S.optional(StringList),
+    sublocality: S.optional(S.String),
+    postalCode: S.optional(S.String),
+    organization: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleTypePostalAddress",
+}) as any as S.Schema<GoogleTypePostalAddress>;
+
+/** Links to trigger different Google Maps actions. */
+export interface GoogleMapsPlacesV1PlaceGoogleMapsLinks {
+  /** A link to write a review for this place on Google Maps. */
+  writeAReviewUri?: string;
+  /** A link to show this place. */
+  placeUri?: string;
+  /** A link to show reviews of this place on Google Maps. */
+  reviewsUri?: string;
+  /** A link to show the directions to the place. The link only populates the destination location and uses the default travel mode `DRIVE`. */
+  directionsUri?: string;
+  /** A link to show photos of this place on Google Maps. */
+  photosUri?: string;
+}
+export const GoogleMapsPlacesV1PlaceGoogleMapsLinks = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      writeAReviewUri: S.optional(S.String),
+      placeUri: S.optional(S.String),
+      reviewsUri: S.optional(S.String),
+      directionsUri: S.optional(S.String),
+      photosUri: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1PlaceGoogleMapsLinks",
+}) as any as S.Schema<GoogleMapsPlacesV1PlaceGoogleMapsLinks>;
+
+export type GoogleMapsPlacesV1AuthorAttributionList =
+  Array<GoogleMapsPlacesV1AuthorAttribution>;
+export const GoogleMapsPlacesV1AuthorAttributionList = /*@__PURE__*/ S.Array(
+  GoogleMapsPlacesV1AuthorAttribution,
+) as any as S.Schema<GoogleMapsPlacesV1AuthorAttributionList>;
+
+/** Information about a photo of a place. */
+export interface GoogleMapsPlacesV1Photo {
+  /** Identifier. A reference representing this place photo which may be used to look up this place photo again (also called the API "resource" name: `places/{place_id}/photos/{photo}`). */
+  name?: string;
+  /** The maximum available height, in pixels. */
+  heightPx?: number;
+  /** A link to show the photo on Google Maps. */
+  googleMapsUri?: string;
+  /** A link where users can flag a problem with the photo. */
+  flagContentUri?: string;
+  /** This photo's authors. */
+  authorAttributions?: GoogleMapsPlacesV1AuthorAttributionList;
+  /** The maximum available width, in pixels. */
+  widthPx?: number;
+}
+export const GoogleMapsPlacesV1Photo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    heightPx: S.optional(S.Number),
+    googleMapsUri: S.optional(S.String),
+    flagContentUri: S.optional(S.String),
+    authorAttributions: S.optional(GoogleMapsPlacesV1AuthorAttributionList),
+    widthPx: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1Photo",
+}) as any as S.Schema<GoogleMapsPlacesV1Photo>;
+
+export type GoogleMapsPlacesV1PhotoList = Array<GoogleMapsPlacesV1Photo>;
+export const GoogleMapsPlacesV1PhotoList = /*@__PURE__*/ S.Array(
+  GoogleMapsPlacesV1Photo,
+) as any as S.Schema<GoogleMapsPlacesV1PhotoList>;
+
+/** A block of content that can be served individually. */
+export interface GoogleMapsPlacesV1ContentBlock {
+  /** The list of resource names of the referenced places. This name can be used in other APIs that accept Place resource names. */
+  referencedPlaces?: StringList;
+  /** Content related to the topic. */
+  content?: GoogleTypeLocalizedText;
+}
+export const GoogleMapsPlacesV1ContentBlock = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    referencedPlaces: S.optional(StringList),
+    content: S.optional(GoogleTypeLocalizedText),
+  }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1ContentBlock",
+}) as any as S.Schema<GoogleMapsPlacesV1ContentBlock>;
+
+/** The summary of amenities near the EV charging station. This only applies to places with type `electric_vehicle_charging_station`. The `overview` field is guaranteed to be provided while the other fields are optional. */
+export interface GoogleMapsPlacesV1PlaceEvChargeAmenitySummary {
+  /** An overview of the available amenities. This is guaranteed to be provided. */
+  overview?: GoogleMapsPlacesV1ContentBlock;
+  /** A summary of the nearby restaurants. */
+  restaurant?: GoogleMapsPlacesV1ContentBlock;
+  /** A link where users can flag a problem with the summary. */
+  flagContentUri?: string;
+  /** A summary of the nearby stores. */
+  store?: GoogleMapsPlacesV1ContentBlock;
+  /** A summary of the nearby coffee options. */
+  coffee?: GoogleMapsPlacesV1ContentBlock;
+  /** The AI disclosure message "Summarized with Gemini" (and its localized variants). This will be in the language specified in the request if available. */
+  disclosureText?: GoogleTypeLocalizedText;
+}
+export const GoogleMapsPlacesV1PlaceEvChargeAmenitySummary =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      overview: S.optional(GoogleMapsPlacesV1ContentBlock),
+      restaurant: S.optional(GoogleMapsPlacesV1ContentBlock),
+      flagContentUri: S.optional(S.String),
+      store: S.optional(GoogleMapsPlacesV1ContentBlock),
+      coffee: S.optional(GoogleMapsPlacesV1ContentBlock),
+      disclosureText: S.optional(GoogleTypeLocalizedText),
+    }),
+  ).annotate({
+    identifier: "GoogleMapsPlacesV1PlaceEvChargeAmenitySummary",
+  }) as any as S.Schema<GoogleMapsPlacesV1PlaceEvChargeAmenitySummary>;
+
+/** AI-generated summary of the place. */
+export interface GoogleMapsPlacesV1PlaceGenerativeSummary {
+  /** The AI disclosure message "Summarized with Gemini" (and its localized variants). This will be in the language specified in the request if available. */
+  disclosureText?: GoogleTypeLocalizedText;
+  /** The overview of the place. */
+  overview?: GoogleTypeLocalizedText;
+  /** A link where users can flag a problem with the overview summary. */
+  overviewFlagContentUri?: string;
+}
+export const GoogleMapsPlacesV1PlaceGenerativeSummary = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      disclosureText: S.optional(GoogleTypeLocalizedText),
+      overview: S.optional(GoogleTypeLocalizedText),
+      overviewFlagContentUri: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1PlaceGenerativeSummary",
+}) as any as S.Schema<GoogleMapsPlacesV1PlaceGenerativeSummary>;
+
+export type GoogleMapsPlacesV1PlaceOpeningHoursList =
+  Array<GoogleMapsPlacesV1PlaceOpeningHours>;
+export const GoogleMapsPlacesV1PlaceOpeningHoursList = /*@__PURE__*/ S.Array(
+  GoogleMapsPlacesV1PlaceOpeningHours,
+) as any as S.Schema<GoogleMapsPlacesV1PlaceOpeningHoursList>;
+
+/** Sub-destinations are specific places associated with a main place. These provide more specific destinations for users who are searching within a large or complex place, like an airport, national park, university, or stadium. For example, sub-destinations at an airport might include associated terminals and parking lots. Sub-destinations return the place ID and place resource name, which can be used in subsequent Place Details (New) requests to fetch richer details, including the sub-destination's display name and location. */
+export interface GoogleMapsPlacesV1PlaceSubDestination {
+  /** The place id of the sub-destination. */
+  id?: string;
+  /** The resource name of the sub-destination. */
+  name?: string;
+}
+export const GoogleMapsPlacesV1PlaceSubDestination = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1PlaceSubDestination",
+}) as any as S.Schema<GoogleMapsPlacesV1PlaceSubDestination>;
+
+export type GoogleMapsPlacesV1PlaceSubDestinationList =
+  Array<GoogleMapsPlacesV1PlaceSubDestination>;
+export const GoogleMapsPlacesV1PlaceSubDestinationList = /*@__PURE__*/ S.Array(
+  GoogleMapsPlacesV1PlaceSubDestination,
+) as any as S.Schema<GoogleMapsPlacesV1PlaceSubDestinationList>;
+
+/** A summary of points of interest near the place. */
+export interface GoogleMapsPlacesV1PlaceNeighborhoodSummary {
+  /** The AI disclosure message "Summarized with Gemini" (and its localized variants). This will be in the language specified in the request if available. */
+  disclosureText?: GoogleTypeLocalizedText;
+  /** A link where users can flag a problem with the summary. */
+  flagContentUri?: string;
+  /** An overview summary of the neighborhood. */
+  overview?: GoogleMapsPlacesV1ContentBlock;
+  /** A detailed description of the neighborhood. */
+  description?: GoogleMapsPlacesV1ContentBlock;
+}
+export const GoogleMapsPlacesV1PlaceNeighborhoodSummary =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      disclosureText: S.optional(GoogleTypeLocalizedText),
+      flagContentUri: S.optional(S.String),
+      overview: S.optional(GoogleMapsPlacesV1ContentBlock),
+      description: S.optional(GoogleMapsPlacesV1ContentBlock),
+    }),
+  ).annotate({
+    identifier: "GoogleMapsPlacesV1PlaceNeighborhoodSummary",
+  }) as any as S.Schema<GoogleMapsPlacesV1PlaceNeighborhoodSummary>;
+
+/** Info about the place in which this place is located. */
+export interface GoogleMapsPlacesV1PlaceContainingPlace {
+  /** The place id of the place in which this place is located. */
+  id?: string;
+  /** The resource name of the place in which this place is located. */
+  name?: string;
+}
+export const GoogleMapsPlacesV1PlaceContainingPlace = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1PlaceContainingPlace",
+}) as any as S.Schema<GoogleMapsPlacesV1PlaceContainingPlace>;
+
+export type GoogleMapsPlacesV1PlaceContainingPlaceList =
+  Array<GoogleMapsPlacesV1PlaceContainingPlace>;
+export const GoogleMapsPlacesV1PlaceContainingPlaceList = /*@__PURE__*/ S.Array(
+  GoogleMapsPlacesV1PlaceContainingPlace,
+) as any as S.Schema<GoogleMapsPlacesV1PlaceContainingPlaceList>;
+
+export type GoogleMapsPlacesV1PlaceBusinessStatusEnum =
+  | "BUSINESS_STATUS_UNSPECIFIED"
+  | "OPERATIONAL"
+  | "CLOSED_TEMPORARILY"
+  | "CLOSED_PERMANENTLY"
+  | "FUTURE_OPENING";
+export const GoogleMapsPlacesV1PlaceBusinessStatusEnum = S.String;
+
+export type GoogleMapsPlacesV1PlaceEntranceTagsItemEnum =
+  | "TAG_UNSPECIFIED"
+  | "PREFERRED";
+export const GoogleMapsPlacesV1PlaceEntranceTagsItemEnum = S.String;
+
+export type GoogleMapsPlacesV1PlaceEntranceTagsItemEnumList =
+  Array<GoogleMapsPlacesV1PlaceEntranceTagsItemEnum>;
+export const GoogleMapsPlacesV1PlaceEntranceTagsItemEnumList =
+  /*@__PURE__*/ S.Array(
+    GoogleMapsPlacesV1PlaceEntranceTagsItemEnum,
+  ) as any as S.Schema<GoogleMapsPlacesV1PlaceEntranceTagsItemEnumList>;
+
+/** An entrance is a single latitude/longitude coordinate pair that defines the location of an entry and exit point for a place. */
+export interface GoogleMapsPlacesV1PlaceEntrance {
+  /** The location of the entrance. */
+  location?: GoogleTypeLatLng;
+  /** A list of tags that describe the entrance. */
+  tags?: GoogleMapsPlacesV1PlaceEntranceTagsItemEnumList;
+}
+export const GoogleMapsPlacesV1PlaceEntrance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    location: S.optional(GoogleTypeLatLng),
+    tags: S.optional(GoogleMapsPlacesV1PlaceEntranceTagsItemEnumList),
+  }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1PlaceEntrance",
+}) as any as S.Schema<GoogleMapsPlacesV1PlaceEntrance>;
+
+export type GoogleMapsPlacesV1PlaceEntranceList =
+  Array<GoogleMapsPlacesV1PlaceEntrance>;
+export const GoogleMapsPlacesV1PlaceEntranceList = /*@__PURE__*/ S.Array(
+  GoogleMapsPlacesV1PlaceEntrance,
+) as any as S.Schema<GoogleMapsPlacesV1PlaceEntranceList>;
+
+/** The link to show together with the description to provide more information. */
+export interface GoogleMapsPlacesV1PlaceConsumerAlertDetailsLink {
+  /** The title to show for the link. */
+  title?: string;
+  /** The uri of the link. */
+  uri?: string;
+}
+export const GoogleMapsPlacesV1PlaceConsumerAlertDetailsLink =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      title: S.optional(S.String),
+      uri: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleMapsPlacesV1PlaceConsumerAlertDetailsLink",
+  }) as any as S.Schema<GoogleMapsPlacesV1PlaceConsumerAlertDetailsLink>;
+
+/** The details of the consumer alert message. */
+export interface GoogleMapsPlacesV1PlaceConsumerAlertDetails {
+  /** The title to show together with the description. */
+  title?: string;
+  /** The link to show together with the description to provide more information. */
+  aboutLink?: GoogleMapsPlacesV1PlaceConsumerAlertDetailsLink;
+  /** The description of the consumer alert message. */
+  description?: string;
+}
+export const GoogleMapsPlacesV1PlaceConsumerAlertDetails =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      title: S.optional(S.String),
+      aboutLink: S.optional(GoogleMapsPlacesV1PlaceConsumerAlertDetailsLink),
+      description: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleMapsPlacesV1PlaceConsumerAlertDetails",
+  }) as any as S.Schema<GoogleMapsPlacesV1PlaceConsumerAlertDetails>;
+
+/** The consumer alert message for the place when we detect suspicious review activity on a business or a business violates our policies. */
+export interface GoogleMapsPlacesV1PlaceConsumerAlert {
+  /** The overview of the consumer alert message. */
+  overview?: string;
+  /** The details of the consumer alert message. */
+  details?: GoogleMapsPlacesV1PlaceConsumerAlertDetails;
+  /** The language code of the consumer alert message. This is a BCP 47 language code. */
+  languageCode?: string;
+}
+export const GoogleMapsPlacesV1PlaceConsumerAlert = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      overview: S.optional(S.String),
+      details: S.optional(GoogleMapsPlacesV1PlaceConsumerAlertDetails),
+      languageCode: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleMapsPlacesV1PlaceConsumerAlert",
+}) as any as S.Schema<GoogleMapsPlacesV1PlaceConsumerAlert>;
+
 /** All the information representing a Place. */
 export interface GoogleMapsPlacesV1Place {
-  /** A human-readable phone number for the place, in international format. */
-  internationalPhoneNumber?: string;
-  /** Place has a children's menu. */
-  menuForChildren?: boolean;
-  /** If this Place is permanently closed and has moved to a new Place, this field contains the new Place's place ID. If this Place moved multiple times, this field will represent the first moved Place. This field will not be populated if this Place has not moved. */
-  movedPlaceId?: string;
-  /** Background color for icon_mask in hex format, e.g. #909CE1. */
-  iconBackgroundColor?: string;
-  /** The summary of amenities near the EV charging station. */
-  evChargeAmenitySummary?: GoogleMapsPlacesV1PlaceEvChargeAmenitySummary;
-  /** Information of ev charging options. */
-  evChargeOptions?: GoogleMapsPlacesV1EVChargeOptions;
-  /** The position of this place. */
-  location?: GoogleTypeLatLng;
-  /** A list of sub-destinations related to the place. */
-  subDestinations?: GoogleMapsPlacesV1PlaceSubDestinationList;
-  /** The price range associated with a Place. */
-  priceRange?: GoogleMapsPlacesV1PriceRange;
-  /** A full, human-readable address for this place. */
-  formattedAddress?: string;
-  /** The hours of operation for the next seven days (including today) incorporating any special opening hours. The time period starts at midnight on the date of the request and ends at 11:59 pm six days later. If the actual opening hours are outside of this range, the opening hours will be truncated. For example, if a place is open from 10pm yesterday to 6am today, the opening hours will be truncated to 12am today to 6am today. This field includes the special_days subfield of all hours, set for dates that have exceptional hours. */
-  currentOpeningHours?: GoogleMapsPlacesV1PlaceOpeningHours;
-  /** The total number of reviews (with or without text) for this place. */
-  userRatingCount?: number;
-  /** List of places in which the current place is located. */
-  containingPlaces?: GoogleMapsPlacesV1PlaceContainingPlaceList;
-  /** IANA Time Zone Database time zone. For example "America/New_York". */
-  timeZone?: GoogleTypeTimeZone;
-  /** The unique identifier of a place. */
-  id?: string;
-  /** A set of type tags for this result. For example, "political" and "locality". For the complete list of possible values, see Table A and Table B at https://developers.google.com/maps/documentation/places/web-service/place-types */
-  types?: StringList;
-  /** The date this place will open in the future. This field is only populated if the business status is FUTURE_OPENING. */
-  openingDate?: GoogleTypeDate;
-  /** This Place's resource name, in `places/{place_id}` format. Can be used to look up the Place. */
-  name?: string;
   /** Plus code of the place location lat/long. */
   plusCode?: GoogleMapsPlacesV1PlacePlusCode;
-  /** Specifies if the business supports takeout. */
-  takeout?: boolean;
-  /** A viewport suitable for displaying the place on an average-sized map. This viewport should not be used as the physical boundary or the service area of the business. */
-  viewport?: GoogleGeoTypeViewport;
-  /** Options of parking provided by the place. */
-  parkingOptions?: GoogleMapsPlacesV1PlaceParkingOptions;
-  /** The transit station information for the place. */
-  transitStation?: GoogleMapsPlacesV1TransitStation;
-  /** Place serves coffee. */
-  servesCoffee?: boolean;
-  /** A rating between 1.0 and 5.0, based on user reviews of this place. */
-  rating?: number;
-  /** Contains an array of entries for information about regular secondary hours of a business. Secondary hours are different from a business's main hours. For example, a restaurant can specify drive through hours or delivery hours as its secondary hours. This field populates the type subfield, which draws from a predefined list of opening hours types (such as DRIVE_THROUGH, PICKUP, or TAKEOUT) based on the types of the place. */
-  regularSecondaryOpeningHours?: GoogleMapsPlacesV1PlaceOpeningHoursList;
-  /** The regular hours are the hours of operation for a place on a typical schedule. Note that if a place is always open (24 hours), the `close` field will not be set. Clients can rely on always open (24 hours) being represented as an [`open`](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places#Period) period containing [`day`](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places#Point) with value `0`, [`hour`](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places#Point) with value `0`, and [`minute`](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places#Point) with value `0`. */
-  regularOpeningHours?: GoogleMapsPlacesV1PlaceOpeningHours;
-  /** Information (including references) about photos of this place. A maximum of 10 photos can be returned. */
-  photos?: GoogleMapsPlacesV1PhotoList;
-  /** Specifies if the place serves beer. */
-  servesBeer?: boolean;
-  /** Repeated components for each locality level. Note the following facts about the address_components[] array: - The array of address components may contain more components than the formatted_address. - The array does not necessarily include all the political entities that contain an address, apart from those included in the formatted_address. To retrieve all the political entities that contain a specific address, you should use reverse geocoding, passing the latitude/longitude of the address as a parameter to the request. - The format of the response is not guaranteed to remain the same between requests. In particular, the number of address_components varies based on the address requested and can change over time for the same address. A component can change position in the array. The type of the component can change. A particular component may be missing in a later response. */
-  addressComponents?: GoogleMapsPlacesV1PlaceAddressComponentList;
-  /** Place provides outdoor seating. */
-  outdoorSeating?: boolean;
-  /** Payment options the place accepts. If a payment option data is not available, the payment option field will be unset. */
-  paymentOptions?: GoogleMapsPlacesV1PlacePaymentOptions;
-  /** The business status for the place. */
-  businessStatus?: GoogleMapsPlacesV1PlaceBusinessStatusEnum;
-  /** Place allows dogs. */
-  allowsDogs?: boolean;
-  /** Price level of the place. */
-  priceLevel?: GoogleMapsPlacesV1PlacePriceLevelEnum;
-  /** A URL providing more information about this place. */
-  googleMapsUri?: string;
-  /** Contains a summary of the place. A summary is comprised of a textual overview, and also includes the language code for these if applicable. Summary text must be presented as-is and can not be modified or altered. */
-  editorialSummary?: GoogleTypeLocalizedText;
-  /** Place provides live music. */
-  liveMusic?: boolean;
-  /** Place is suitable for watching sports. */
-  goodForWatchingSports?: boolean;
-  /** Information about the accessibility options a place offers. */
-  accessibilityOptions?: GoogleMapsPlacesV1PlaceAccessibilityOptions;
-  /** Specifies if the place serves wine. */
-  servesWine?: boolean;
-  /** Contains an array of entries for the next seven days including information about secondary hours of a business. Secondary hours are different from a business's main hours. For example, a restaurant can specify drive through hours or delivery hours as its secondary hours. This field populates the type subfield, which draws from a predefined list of opening hours types (such as DRIVE_THROUGH, PICKUP, or TAKEOUT) based on the types of the place. This field includes the special_days subfield of all hours, set for dates that have exceptional hours. */
-  currentSecondaryOpeningHours?: GoogleMapsPlacesV1PlaceOpeningHoursList;
-  /** Specifies if the place serves lunch. */
-  servesLunch?: boolean;
-  /** The address descriptor of the place. Address descriptors include additional information that help describe a location using landmarks and areas. See address descriptor regional coverage in https://developers.google.com/maps/documentation/geocoding/address-descriptors/coverage. */
-  addressDescriptor?: GoogleMapsPlacesV1AddressDescriptor;
-  /** Specifies if the place serves vegetarian food. */
-  servesVegetarianFood?: boolean;
+  /** Place accommodates groups. */
+  goodForGroups?: boolean;
+  /** Specifies if the business supports delivery. */
+  delivery?: boolean;
+  /** A human-readable phone number for the place, in international format. */
+  internationalPhoneNumber?: string;
+  /** The date this place will open in the future. This field is only populated if the business status is FUTURE_OPENING. */
+  openingDate?: GoogleTypeDate;
   /** AI-generated summary of the place using user reviews. */
   reviewSummary?: GoogleMapsPlacesV1PlaceReviewSummary;
+  /** The regular hours are the hours of operation for a place on a typical schedule. Note that if a place is always open (24 hours), the `close` field will not be set. Clients can rely on always open (24 hours) being represented as an [`open`](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places#Period) period containing [`day`](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places#Point) with value `0`, [`hour`](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places#Point) with value `0`, and [`minute`](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places#Point) with value `0`. */
+  regularOpeningHours?: GoogleMapsPlacesV1PlaceOpeningHours;
+  /** Payment options the place accepts. If a payment option data is not available, the payment option field will be unset. */
+  paymentOptions?: GoogleMapsPlacesV1PlacePaymentOptions;
+  /** A truncated URL to an icon mask. User can access different icon type by appending type suffix to the end (eg, ".svg" or ".png"). */
+  iconMaskBaseUri?: string;
+  /** A set of type tags for this result. For example, "political" and "locality". For the complete list of possible values, see Table A and Table B at https://developers.google.com/maps/documentation/places/web-service/place-types */
+  types?: StringList;
+  /** Options of parking provided by the place. */
+  parkingOptions?: GoogleMapsPlacesV1PlaceParkingOptions;
+  /** Place provides live music. */
+  liveMusic?: boolean;
+  /** The transit station information for the place. */
+  transitStation?: GoogleMapsPlacesV1TransitStation;
+  /** Specifies if the place serves wine. */
+  servesWine?: boolean;
+  /** The price range associated with a Place. */
+  priceRange?: GoogleMapsPlacesV1PriceRange;
+  /** Place serves cocktails. */
+  servesCocktails?: boolean;
+  /** Information of ev charging options. */
+  evChargeOptions?: GoogleMapsPlacesV1EVChargeOptions;
+  /** The localized name of the place, suitable as a short human-readable description. For example, "Google Sydney", "Starbucks", "Pyrmont", etc. */
+  displayName?: GoogleTypeLocalizedText;
+  /** Specifies if the place serves breakfast. */
+  servesBreakfast?: boolean;
+  /** The address descriptor of the place. Address descriptors include additional information that help describe a location using landmarks and areas. See address descriptor regional coverage in https://developers.google.com/maps/documentation/geocoding/address-descriptors/coverage. */
+  addressDescriptor?: GoogleMapsPlacesV1AddressDescriptor;
+  /** Price level of the place. */
+  priceLevel?: GoogleMapsPlacesV1PlacePriceLevelEnum;
+  /** IANA Time Zone Database time zone. For example "America/New_York". */
+  timeZone?: GoogleTypeTimeZone;
+  /** Indicates whether the place is a pure service area business. Pure service area business is a business that visits or delivers to customers directly but does not serve customers at their business address. For example, businesses like cleaning services or plumbers. Those businesses may not have a physical address or location on Google Maps. */
+  pureServiceAreaBusiness?: boolean;
+  /** The place's address in adr microformat: http://microformats.org/wiki/adr. */
+  adrFormatAddress?: string;
+  /** Navigation points for this destination. */
+  navigationPoints?: GoogleMapsPlacesV1PlaceNavigationPointList;
+  /** The hours of operation for the next seven days (including today) incorporating any special opening hours. The time period starts at midnight on the date of the request and ends at 11:59 pm six days later. If the actual opening hours are outside of this range, the opening hours will be truncated. For example, if a place is open from 10pm yesterday to 6am today, the opening hours will be truncated to 12am today to 6am today. This field includes the special_days subfield of all hours, set for dates that have exceptional hours. */
+  currentOpeningHours?: GoogleMapsPlacesV1PlaceOpeningHours;
+  /** The most recent information about fuel options in a gas station. This information is updated regularly. */
+  fuelOptions?: GoogleMapsPlacesV1FuelOptions;
+  /** Background color for icon_mask in hex format, e.g. #909CE1. */
+  iconBackgroundColor?: string;
+  /** Repeated components for each locality level. Note the following facts about the address_components[] array: - The array of address components may contain more components than the formatted_address. - The array does not necessarily include all the political entities that contain an address, apart from those included in the formatted_address. To retrieve all the political entities that contain a specific address, you should use reverse geocoding, passing the latitude/longitude of the address as a parameter to the request. - The format of the response is not guaranteed to remain the same between requests. In particular, the number of address_components varies based on the address requested and can change over time for the same address. A component can change position in the array. The type of the component can change. A particular component may be missing in a later response. */
+  addressComponents?: GoogleMapsPlacesV1PlaceAddressComponentList;
+  /** Place allows dogs. */
+  allowsDogs?: boolean;
+  /** List of reviews about this place, sorted by relevance. A maximum of 5 reviews can be returned. */
+  reviews?: GoogleMapsPlacesV1ReviewList;
+  /** The total number of reviews (with or without text) for this place. */
+  userRatingCount?: number;
+  /** Contains a summary of the place. A summary is comprised of a textual overview, and also includes the language code for these if applicable. Summary text must be presented as-is and can not be modified or altered. */
+  editorialSummary?: GoogleTypeLocalizedText;
+  /** A set of data provider that must be shown with this result. */
+  attributions?: GoogleMapsPlacesV1PlaceAttributionList;
+  /** The position of this place. */
+  location?: GoogleTypeLatLng;
+  /** A URL providing more information about this place. */
+  googleMapsUri?: string;
+  /** A short, human-readable address for this place. */
+  shortFormattedAddress?: string;
+  /** Information about the accessibility options a place offers. */
+  accessibilityOptions?: GoogleMapsPlacesV1PlaceAccessibilityOptions;
+  /** The address in postal address format. */
+  postalAddress?: GoogleTypePostalAddress;
+  /** The unique identifier of a place. */
+  id?: string;
+  /** Specifies if the place serves lunch. */
+  servesLunch?: boolean;
+  /** Place has a children's menu. */
+  menuForChildren?: boolean;
+  /** Specifies if the business supports curbside pickup. */
+  curbsidePickup?: boolean;
+  /** Links to trigger different Google Maps actions. */
+  googleMapsLinks?: GoogleMapsPlacesV1PlaceGoogleMapsLinks;
+  /** If this Place is permanently closed and has moved to a new Place, this field contains the new Place's resource name, in `places/{place_id}` format. If this Place moved multiple times, this field will represent the first moved place. This field will not be populated if this Place has not moved. */
+  movedPlace?: string;
+  /** The primary type of the given result. This type must be one of the Places API supported types. For example, "restaurant", "cafe", "airport", etc. A place can only have a single primary type. For the complete list of possible values, see Table A and Table B at https://developers.google.com/maps/documentation/places/web-service/place-types. The primary type may be missing if the place's primary type is not a supported type. When a primary type is present, it is always one of the types in the `types` field. */
+  primaryType?: string;
+  /** Information (including references) about photos of this place. A maximum of 10 photos can be returned. */
+  photos?: GoogleMapsPlacesV1PhotoList;
   /** Specifies if the place serves dinner. */
   servesDinner?: boolean;
-  /** Place is good for children. */
-  goodForChildren?: boolean;
-  /** The authoritative website for this place, e.g. a business' homepage. Note that for places that are part of a chain (e.g. an IKEA store), this will usually be the website for the individual store, not the overall chain. */
-  websiteUri?: string;
+  /** A full, human-readable address for this place. */
+  formattedAddress?: string;
+  /** Place has restroom. */
+  restroom?: boolean;
+  /** The summary of amenities near the EV charging station. */
+  evChargeAmenitySummary?: GoogleMapsPlacesV1PlaceEvChargeAmenitySummary;
+  /** Specifies if the place supports reservations. */
+  reservable?: boolean;
+  /** AI-generated summary of the place. */
+  generativeSummary?: GoogleMapsPlacesV1PlaceGenerativeSummary;
+  /** Place provides outdoor seating. */
+  outdoorSeating?: boolean;
+  /** Contains an array of entries for the next seven days including information about secondary hours of a business. Secondary hours are different from a business's main hours. For example, a restaurant can specify drive through hours or delivery hours as its secondary hours. This field populates the type subfield, which draws from a predefined list of opening hours types (such as DRIVE_THROUGH, PICKUP, or TAKEOUT) based on the types of the place. This field includes the special_days subfield of all hours, set for dates that have exceptional hours. */
+  currentSecondaryOpeningHours?: GoogleMapsPlacesV1PlaceOpeningHoursList;
+  /** Place serves coffee. */
+  servesCoffee?: boolean;
+  /** Number of minutes this place's timezone is currently offset from UTC. This is expressed in minutes to support timezones that are offset by fractions of an hour, e.g. X hours and 15 minutes. */
+  utcOffsetMinutes?: number;
+  /** A rating between 1.0 and 5.0, based on user reviews of this place. */
+  rating?: number;
+  /** Specifies if the business supports takeout. */
+  takeout?: boolean;
+  /** A list of sub-destinations related to the place. */
+  subDestinations?: GoogleMapsPlacesV1PlaceSubDestinationList;
+  /** Specifies if the business supports indoor or outdoor seating options. */
+  dineIn?: boolean;
+  /** The type label of the place on Google Maps, localized to the request language if applicable, for example, "Restaurant", "Cafe", "Airport", etc. The type label may be different from the primary type display name and may not be a supported type in [Places API Place Types table](https://developers.google.com/maps/documentation/places/web-service/place-types). */
+  googleMapsTypeLabel?: GoogleTypeLocalizedText;
   /** Specifies if the place serves brunch. */
   servesBrunch?: boolean;
   /** A summary of points of interest near the place. */
   neighborhoodSummary?: GoogleMapsPlacesV1PlaceNeighborhoodSummary;
-  /** Place has restroom. */
-  restroom?: boolean;
-  /** Links to trigger different Google Maps actions. */
-  googleMapsLinks?: GoogleMapsPlacesV1PlaceGoogleMapsLinks;
-  /** The primary type of the given result. This type must be one of the Places API supported types. For example, "restaurant", "cafe", "airport", etc. A place can only have a single primary type. For the complete list of possible values, see Table A and Table B at https://developers.google.com/maps/documentation/places/web-service/place-types. The primary type may be missing if the place's primary type is not a supported type. When a primary type is present, it is always one of the types in the `types` field. */
-  primaryType?: string;
+  /** List of places in which the current place is located. */
+  containingPlaces?: GoogleMapsPlacesV1PlaceContainingPlaceList;
+  /** Specifies if the place serves beer. */
+  servesBeer?: boolean;
+  /** The business status for the place. */
+  businessStatus?: GoogleMapsPlacesV1PlaceBusinessStatusEnum;
+  /** Specifies if the place serves vegetarian food. */
+  servesVegetarianFood?: boolean;
   /** The display name of the primary type, localized to the request language if applicable. For the complete list of possible values, see Table A and Table B at https://developers.google.com/maps/documentation/places/web-service/place-types. The primary type may be missing if the place's primary type is not a supported type. */
   primaryTypeDisplayName?: GoogleTypeLocalizedText;
-  /** Place serves cocktails. */
-  servesCocktails?: boolean;
+  /** Contains an array of entries for information about regular secondary hours of a business. Secondary hours are different from a business's main hours. For example, a restaurant can specify drive through hours or delivery hours as its secondary hours. This field populates the type subfield, which draws from a predefined list of opening hours types (such as DRIVE_THROUGH, PICKUP, or TAKEOUT) based on the types of the place. */
+  regularSecondaryOpeningHours?: GoogleMapsPlacesV1PlaceOpeningHoursList;
+  /** This Place's resource name, in `places/{place_id}` format. Can be used to look up the Place. */
+  name?: string;
+  /** If this Place is permanently closed and has moved to a new Place, this field contains the new Place's place ID. If this Place moved multiple times, this field will represent the first moved Place. This field will not be populated if this Place has not moved. */
+  movedPlaceId?: string;
   /** A human-readable phone number for the place, in national format. */
   nationalPhoneNumber?: string;
-  /** Specifies if the business supports curbside pickup. */
-  curbsidePickup?: boolean;
-  /** Specifies if the place serves breakfast. */
-  servesBreakfast?: boolean;
-  /** AI-generated summary of the place. */
-  generativeSummary?: GoogleMapsPlacesV1PlaceGenerativeSummary;
-  /** The consumer alert message for the place when we detect suspicious review activity on a business or a business violates our policies. */
-  consumerAlert?: GoogleMapsPlacesV1PlaceConsumerAlert;
-  /** The address in postal address format. */
-  postalAddress?: GoogleTypePostalAddress;
-  /** Place accommodates groups. */
-  goodForGroups?: boolean;
-  /** Indicates whether the place is a pure service area business. Pure service area business is a business that visits or delivers to customers directly but does not serve customers at their business address. For example, businesses like cleaning services or plumbers. Those businesses may not have a physical address or location on Google Maps. */
-  pureServiceAreaBusiness?: boolean;
-  /** Specifies if the business supports indoor or outdoor seating options. */
-  dineIn?: boolean;
-  /** The localized name of the place, suitable as a short human-readable description. For example, "Google Sydney", "Starbucks", "Pyrmont", etc. */
-  displayName?: GoogleTypeLocalizedText;
-  /** A set of data provider that must be shown with this result. */
-  attributions?: GoogleMapsPlacesV1PlaceAttributionList;
-  /** A truncated URL to an icon mask. User can access different icon type by appending type suffix to the end (eg, ".svg" or ".png"). */
-  iconMaskBaseUri?: string;
-  /** Specifies if the business supports delivery. */
-  delivery?: boolean;
-  /** The type label of the place on Google Maps, localized to the request language if applicable, for example, "Restaurant", "Cafe", "Airport", etc. The type label may be different from the primary type display name and may not be a supported type in [Places API Place Types table](https://developers.google.com/maps/documentation/places/web-service/place-types). */
-  googleMapsTypeLabel?: GoogleTypeLocalizedText;
-  /** The place's address in adr microformat: http://microformats.org/wiki/adr. */
-  adrFormatAddress?: string;
+  /** Entrances for this destination. */
+  entrances?: GoogleMapsPlacesV1PlaceEntranceList;
+  /** A viewport suitable for displaying the place on an average-sized map. This viewport should not be used as the physical boundary or the service area of the business. */
+  viewport?: GoogleGeoTypeViewport;
+  /** Place is good for children. */
+  goodForChildren?: boolean;
   /** Place serves dessert. */
   servesDessert?: boolean;
-  /** If this Place is permanently closed and has moved to a new Place, this field contains the new Place's resource name, in `places/{place_id}` format. If this Place moved multiple times, this field will represent the first moved place. This field will not be populated if this Place has not moved. */
-  movedPlace?: string;
-  /** A short, human-readable address for this place. */
-  shortFormattedAddress?: string;
-  /** List of reviews about this place, sorted by relevance. A maximum of 5 reviews can be returned. */
-  reviews?: GoogleMapsPlacesV1ReviewList;
-  /** Number of minutes this place's timezone is currently offset from UTC. This is expressed in minutes to support timezones that are offset by fractions of an hour, e.g. X hours and 15 minutes. */
-  utcOffsetMinutes?: number;
-  /** The most recent information about fuel options in a gas station. This information is updated regularly. */
-  fuelOptions?: GoogleMapsPlacesV1FuelOptions;
-  /** Specifies if the place supports reservations. */
-  reservable?: boolean;
+  /** The authoritative website for this place, e.g. a business' homepage. Note that for places that are part of a chain (e.g. an IKEA store), this will usually be the website for the individual store, not the overall chain. */
+  websiteUri?: string;
+  /** Place is suitable for watching sports. */
+  goodForWatchingSports?: boolean;
+  /** The consumer alert message for the place when we detect suspicious review activity on a business or a business violates our policies. */
+  consumerAlert?: GoogleMapsPlacesV1PlaceConsumerAlert;
 }
 export const GoogleMapsPlacesV1Place = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    internationalPhoneNumber: S.optional(S.String),
-    menuForChildren: S.optional(S.Boolean),
-    movedPlaceId: S.optional(S.String),
-    iconBackgroundColor: S.optional(S.String),
-    evChargeAmenitySummary: S.optional(
-      GoogleMapsPlacesV1PlaceEvChargeAmenitySummary,
-    ),
-    evChargeOptions: S.optional(GoogleMapsPlacesV1EVChargeOptions),
-    location: S.optional(GoogleTypeLatLng),
-    subDestinations: S.optional(GoogleMapsPlacesV1PlaceSubDestinationList),
-    priceRange: S.optional(GoogleMapsPlacesV1PriceRange),
-    formattedAddress: S.optional(S.String),
-    currentOpeningHours: S.optional(GoogleMapsPlacesV1PlaceOpeningHours),
-    userRatingCount: S.optional(S.Number),
-    containingPlaces: S.optional(GoogleMapsPlacesV1PlaceContainingPlaceList),
-    timeZone: S.optional(GoogleTypeTimeZone),
-    id: S.optional(S.String),
-    types: S.optional(StringList),
-    openingDate: S.optional(GoogleTypeDate),
-    name: S.optional(S.String),
     plusCode: S.optional(GoogleMapsPlacesV1PlacePlusCode),
-    takeout: S.optional(S.Boolean),
-    viewport: S.optional(GoogleGeoTypeViewport),
-    parkingOptions: S.optional(GoogleMapsPlacesV1PlaceParkingOptions),
-    transitStation: S.optional(GoogleMapsPlacesV1TransitStation),
-    servesCoffee: S.optional(S.Boolean),
-    rating: S.optional(S.Number),
-    regularSecondaryOpeningHours: S.optional(
-      GoogleMapsPlacesV1PlaceOpeningHoursList,
-    ),
+    goodForGroups: S.optional(S.Boolean),
+    delivery: S.optional(S.Boolean),
+    internationalPhoneNumber: S.optional(S.String),
+    openingDate: S.optional(GoogleTypeDate),
+    reviewSummary: S.optional(GoogleMapsPlacesV1PlaceReviewSummary),
     regularOpeningHours: S.optional(GoogleMapsPlacesV1PlaceOpeningHours),
-    photos: S.optional(GoogleMapsPlacesV1PhotoList),
-    servesBeer: S.optional(S.Boolean),
-    addressComponents: S.optional(GoogleMapsPlacesV1PlaceAddressComponentList),
-    outdoorSeating: S.optional(S.Boolean),
     paymentOptions: S.optional(GoogleMapsPlacesV1PlacePaymentOptions),
-    businessStatus: S.optional(GoogleMapsPlacesV1PlaceBusinessStatusEnum),
-    allowsDogs: S.optional(S.Boolean),
-    priceLevel: S.optional(GoogleMapsPlacesV1PlacePriceLevelEnum),
-    googleMapsUri: S.optional(S.String),
-    editorialSummary: S.optional(GoogleTypeLocalizedText),
+    iconMaskBaseUri: S.optional(S.String),
+    types: S.optional(StringList),
+    parkingOptions: S.optional(GoogleMapsPlacesV1PlaceParkingOptions),
     liveMusic: S.optional(S.Boolean),
-    goodForWatchingSports: S.optional(S.Boolean),
+    transitStation: S.optional(GoogleMapsPlacesV1TransitStation),
+    servesWine: S.optional(S.Boolean),
+    priceRange: S.optional(GoogleMapsPlacesV1PriceRange),
+    servesCocktails: S.optional(S.Boolean),
+    evChargeOptions: S.optional(GoogleMapsPlacesV1EVChargeOptions),
+    displayName: S.optional(GoogleTypeLocalizedText),
+    servesBreakfast: S.optional(S.Boolean),
+    addressDescriptor: S.optional(GoogleMapsPlacesV1AddressDescriptor),
+    priceLevel: S.optional(GoogleMapsPlacesV1PlacePriceLevelEnum),
+    timeZone: S.optional(GoogleTypeTimeZone),
+    pureServiceAreaBusiness: S.optional(S.Boolean),
+    adrFormatAddress: S.optional(S.String),
+    navigationPoints: S.optional(GoogleMapsPlacesV1PlaceNavigationPointList),
+    currentOpeningHours: S.optional(GoogleMapsPlacesV1PlaceOpeningHours),
+    fuelOptions: S.optional(GoogleMapsPlacesV1FuelOptions),
+    iconBackgroundColor: S.optional(S.String),
+    addressComponents: S.optional(GoogleMapsPlacesV1PlaceAddressComponentList),
+    allowsDogs: S.optional(S.Boolean),
+    reviews: S.optional(GoogleMapsPlacesV1ReviewList),
+    userRatingCount: S.optional(S.Number),
+    editorialSummary: S.optional(GoogleTypeLocalizedText),
+    attributions: S.optional(GoogleMapsPlacesV1PlaceAttributionList),
+    location: S.optional(GoogleTypeLatLng),
+    googleMapsUri: S.optional(S.String),
+    shortFormattedAddress: S.optional(S.String),
     accessibilityOptions: S.optional(
       GoogleMapsPlacesV1PlaceAccessibilityOptions,
     ),
-    servesWine: S.optional(S.Boolean),
+    postalAddress: S.optional(GoogleTypePostalAddress),
+    id: S.optional(S.String),
+    servesLunch: S.optional(S.Boolean),
+    menuForChildren: S.optional(S.Boolean),
+    curbsidePickup: S.optional(S.Boolean),
+    googleMapsLinks: S.optional(GoogleMapsPlacesV1PlaceGoogleMapsLinks),
+    movedPlace: S.optional(S.String),
+    primaryType: S.optional(S.String),
+    photos: S.optional(GoogleMapsPlacesV1PhotoList),
+    servesDinner: S.optional(S.Boolean),
+    formattedAddress: S.optional(S.String),
+    restroom: S.optional(S.Boolean),
+    evChargeAmenitySummary: S.optional(
+      GoogleMapsPlacesV1PlaceEvChargeAmenitySummary,
+    ),
+    reservable: S.optional(S.Boolean),
+    generativeSummary: S.optional(GoogleMapsPlacesV1PlaceGenerativeSummary),
+    outdoorSeating: S.optional(S.Boolean),
     currentSecondaryOpeningHours: S.optional(
       GoogleMapsPlacesV1PlaceOpeningHoursList,
     ),
-    servesLunch: S.optional(S.Boolean),
-    addressDescriptor: S.optional(GoogleMapsPlacesV1AddressDescriptor),
-    servesVegetarianFood: S.optional(S.Boolean),
-    reviewSummary: S.optional(GoogleMapsPlacesV1PlaceReviewSummary),
-    servesDinner: S.optional(S.Boolean),
-    goodForChildren: S.optional(S.Boolean),
-    websiteUri: S.optional(S.String),
+    servesCoffee: S.optional(S.Boolean),
+    utcOffsetMinutes: S.optional(S.Number),
+    rating: S.optional(S.Number),
+    takeout: S.optional(S.Boolean),
+    subDestinations: S.optional(GoogleMapsPlacesV1PlaceSubDestinationList),
+    dineIn: S.optional(S.Boolean),
+    googleMapsTypeLabel: S.optional(GoogleTypeLocalizedText),
     servesBrunch: S.optional(S.Boolean),
     neighborhoodSummary: S.optional(GoogleMapsPlacesV1PlaceNeighborhoodSummary),
-    restroom: S.optional(S.Boolean),
-    googleMapsLinks: S.optional(GoogleMapsPlacesV1PlaceGoogleMapsLinks),
-    primaryType: S.optional(S.String),
+    containingPlaces: S.optional(GoogleMapsPlacesV1PlaceContainingPlaceList),
+    servesBeer: S.optional(S.Boolean),
+    businessStatus: S.optional(GoogleMapsPlacesV1PlaceBusinessStatusEnum),
+    servesVegetarianFood: S.optional(S.Boolean),
     primaryTypeDisplayName: S.optional(GoogleTypeLocalizedText),
-    servesCocktails: S.optional(S.Boolean),
+    regularSecondaryOpeningHours: S.optional(
+      GoogleMapsPlacesV1PlaceOpeningHoursList,
+    ),
+    name: S.optional(S.String),
+    movedPlaceId: S.optional(S.String),
     nationalPhoneNumber: S.optional(S.String),
-    curbsidePickup: S.optional(S.Boolean),
-    servesBreakfast: S.optional(S.Boolean),
-    generativeSummary: S.optional(GoogleMapsPlacesV1PlaceGenerativeSummary),
-    consumerAlert: S.optional(GoogleMapsPlacesV1PlaceConsumerAlert),
-    postalAddress: S.optional(GoogleTypePostalAddress),
-    goodForGroups: S.optional(S.Boolean),
-    pureServiceAreaBusiness: S.optional(S.Boolean),
-    dineIn: S.optional(S.Boolean),
-    displayName: S.optional(GoogleTypeLocalizedText),
-    attributions: S.optional(GoogleMapsPlacesV1PlaceAttributionList),
-    iconMaskBaseUri: S.optional(S.String),
-    delivery: S.optional(S.Boolean),
-    googleMapsTypeLabel: S.optional(GoogleTypeLocalizedText),
-    adrFormatAddress: S.optional(S.String),
+    entrances: S.optional(GoogleMapsPlacesV1PlaceEntranceList),
+    viewport: S.optional(GoogleGeoTypeViewport),
+    goodForChildren: S.optional(S.Boolean),
     servesDessert: S.optional(S.Boolean),
-    movedPlace: S.optional(S.String),
-    shortFormattedAddress: S.optional(S.String),
-    reviews: S.optional(GoogleMapsPlacesV1ReviewList),
-    utcOffsetMinutes: S.optional(S.Number),
-    fuelOptions: S.optional(GoogleMapsPlacesV1FuelOptions),
-    reservable: S.optional(S.Boolean),
+    websiteUri: S.optional(S.String),
+    goodForWatchingSports: S.optional(S.Boolean),
+    consumerAlert: S.optional(GoogleMapsPlacesV1PlaceConsumerAlert),
   }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1Place",
 }) as any as S.Schema<GoogleMapsPlacesV1Place>;
 
+export type GoogleMapsPlacesV1SearchNearbyRequestRankPreferenceEnum =
+  | "RANK_PREFERENCE_UNSPECIFIED"
+  | "DISTANCE"
+  | "POPULARITY";
+export const GoogleMapsPlacesV1SearchNearbyRequestRankPreferenceEnum = S.String;
+
 /** Encapsulates a set of optional conditions to satisfy when calculating the routes. */
 export interface GoogleMapsPlacesV1RouteModifiers {
-  /** Optional. When set to true, avoids ferries where reasonable, giving preference to routes not containing ferries. Applies only to the `DRIVE` and `TWO_WHEELER` `TravelMode`. */
-  avoidFerries?: boolean;
+  /** Optional. When set to true, avoids toll roads where reasonable, giving preference to routes not containing toll roads. Applies only to the `DRIVE` and `TWO_WHEELER` `TravelMode`. */
+  avoidTolls?: boolean;
   /** Optional. When set to true, avoids navigating indoors where reasonable, giving preference to routes not containing indoor navigation. Applies only to the `WALK` `TravelMode`. */
   avoidIndoor?: boolean;
   /** Optional. When set to true, avoids highways where reasonable, giving preference to routes not containing highways. Applies only to the `DRIVE` and `TWO_WHEELER` `TravelMode`. */
   avoidHighways?: boolean;
-  /** Optional. When set to true, avoids toll roads where reasonable, giving preference to routes not containing toll roads. Applies only to the `DRIVE` and `TWO_WHEELER` `TravelMode`. */
-  avoidTolls?: boolean;
+  /** Optional. When set to true, avoids ferries where reasonable, giving preference to routes not containing ferries. Applies only to the `DRIVE` and `TWO_WHEELER` `TravelMode`. */
+  avoidFerries?: boolean;
 }
 export const GoogleMapsPlacesV1RouteModifiers = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    avoidFerries: S.optional(S.Boolean),
+    avoidTolls: S.optional(S.Boolean),
     avoidIndoor: S.optional(S.Boolean),
     avoidHighways: S.optional(S.Boolean),
-    avoidTolls: S.optional(S.Boolean),
+    avoidFerries: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1RouteModifiers",
 }) as any as S.Schema<GoogleMapsPlacesV1RouteModifiers>;
-
-export type GoogleMapsPlacesV1RoutingParametersTravelModeEnum =
-  | "TRAVEL_MODE_UNSPECIFIED"
-  | "DRIVE"
-  | "BICYCLE"
-  | "WALK"
-  | "TWO_WHEELER";
-export const GoogleMapsPlacesV1RoutingParametersTravelModeEnum =
-  /*@__PURE__*/ S.String;
 
 export type GoogleMapsPlacesV1RoutingParametersRoutingPreferenceEnum =
   | "ROUTING_PREFERENCE_UNSPECIFIED"
@@ -1918,42 +2027,43 @@ export type GoogleMapsPlacesV1RoutingParametersRoutingPreferenceEnum =
   | "TRAFFIC_AWARE"
   | "TRAFFIC_AWARE_OPTIMAL";
 export const GoogleMapsPlacesV1RoutingParametersRoutingPreferenceEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
+
+export type GoogleMapsPlacesV1RoutingParametersTravelModeEnum =
+  | "TRAVEL_MODE_UNSPECIFIED"
+  | "DRIVE"
+  | "BICYCLE"
+  | "WALK"
+  | "TWO_WHEELER";
+export const GoogleMapsPlacesV1RoutingParametersTravelModeEnum = S.String;
 
 /** Parameters to configure the routing calculations to the places in the response, both along a route (where result ranking will be influenced) and for calculating travel times on results. */
 export interface GoogleMapsPlacesV1RoutingParameters {
-  /** Optional. An explicit routing origin that overrides the origin defined in the polyline. By default, the polyline origin is used. */
-  origin?: GoogleTypeLatLng;
   /** Optional. The route modifiers. */
   routeModifiers?: GoogleMapsPlacesV1RouteModifiers;
-  /** Optional. The travel mode. */
-  travelMode?:
-    | GoogleMapsPlacesV1RoutingParametersTravelModeEnum
-    | (string & {});
   /** Optional. Specifies how to compute the routing summaries. The server attempts to use the selected routing preference to compute the route. The traffic aware routing preference is only available for the `DRIVE` or `TWO_WHEELER` `travelMode`. */
   routingPreference?:
     | GoogleMapsPlacesV1RoutingParametersRoutingPreferenceEnum
     | (string & {});
+  /** Optional. An explicit routing origin that overrides the origin defined in the polyline. By default, the polyline origin is used. */
+  origin?: GoogleTypeLatLng;
+  /** Optional. The travel mode. */
+  travelMode?:
+    | GoogleMapsPlacesV1RoutingParametersTravelModeEnum
+    | (string & {});
 }
 export const GoogleMapsPlacesV1RoutingParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    origin: S.optional(GoogleTypeLatLng),
     routeModifiers: S.optional(GoogleMapsPlacesV1RouteModifiers),
-    travelMode: S.optional(GoogleMapsPlacesV1RoutingParametersTravelModeEnum),
     routingPreference: S.optional(
       GoogleMapsPlacesV1RoutingParametersRoutingPreferenceEnum,
     ),
+    origin: S.optional(GoogleTypeLatLng),
+    travelMode: S.optional(GoogleMapsPlacesV1RoutingParametersTravelModeEnum),
   }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1RoutingParameters",
 }) as any as S.Schema<GoogleMapsPlacesV1RoutingParameters>;
-
-export type GoogleMapsPlacesV1SearchNearbyRequestRankPreferenceEnum =
-  | "RANK_PREFERENCE_UNSPECIFIED"
-  | "DISTANCE"
-  | "POPULARITY";
-export const GoogleMapsPlacesV1SearchNearbyRequestRankPreferenceEnum =
-  /*@__PURE__*/ S.String;
 
 /** The region to search. */
 export interface GoogleMapsPlacesV1SearchNearbyRequestLocationRestriction {
@@ -1971,49 +2081,49 @@ export const GoogleMapsPlacesV1SearchNearbyRequestLocationRestriction =
 
 /** Request proto for Search Nearby. */
 export interface GoogleMapsPlacesV1SearchNearbyRequest {
-  /** Excluded Place type (eg, "restaurant" or "gas_station") from https://developers.google.com/maps/documentation/places/web-service/place-types. Up to 50 types from [Table A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a) may be specified. If the client provides both included_types (e.g. restaurant) and excluded_types (e.g. cafe), then the response should include places that are restaurant but not cafe. The response includes places that match at least one of the included_types and none of the excluded_types. If there are any conflicting types, i.e. a type appears in both included_types and excluded_types, an INVALID_ARGUMENT error is returned. If a Place type is specified with multiple type restrictions, only places that satisfy all of the restrictions are returned. For example, if we have {included_types = ["restaurant"], excluded_primary_types = ["restaurant"]}, the returned places provide "restaurant" related services but do not operate primarily as "restaurants". */
-  excludedTypes?: StringList;
-  /** The Unicode country/region code (CLDR) of the location where the request is coming from. This parameter is used to display the place details, like region-specific place name, if available. The parameter can affect results based on applicable law. For more information, see https://www.unicode.org/cldr/charts/latest/supplemental/territory_language_information.html. Note that 3-digit region codes are not currently supported. */
-  regionCode?: string;
-  /** Optional. Parameters that affect the routing to the search results. */
-  routingParameters?: GoogleMapsPlacesV1RoutingParameters;
-  /** Included Place type (eg, "restaurant" or "gas_station") from https://developers.google.com/maps/documentation/places/web-service/place-types. Up to 50 types from [Table A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a) may be specified. If there are any conflicting types, i.e. a type appears in both included_types and excluded_types, an INVALID_ARGUMENT error is returned. If a Place type is specified with multiple type restrictions, only places that satisfy all of the restrictions are returned. For example, if we have {included_types = ["restaurant"], excluded_primary_types = ["restaurant"]}, the returned places provide "restaurant" related services but do not operate primarily as "restaurants". */
-  includedTypes?: StringList;
-  /** Excluded primary Place type (e.g. "restaurant" or "gas_station") from https://developers.google.com/maps/documentation/places/web-service/place-types. Up to 50 types from [Table A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a) may be specified. If there are any conflicting primary types, i.e. a type appears in both included_primary_types and excluded_primary_types, an INVALID_ARGUMENT error is returned. If a Place type is specified with multiple type restrictions, only places that satisfy all of the restrictions are returned. For example, if we have {included_types = ["restaurant"], excluded_primary_types = ["restaurant"]}, the returned places provide "restaurant" related services but do not operate primarily as "restaurants". */
-  excludedPrimaryTypes?: StringList;
-  /** Optional. If true, include businesses that are not yet open but will open in the future. */
-  includeFutureOpeningBusinesses?: boolean;
-  /** Maximum number of results to return. It must be between 1 and 20 (default), inclusively. If the number is unset, it falls back to the upper limit. If the number is set to negative or exceeds the upper limit, an INVALID_ARGUMENT error is returned. */
-  maxResultCount?: number;
-  /** Place details will be displayed with the preferred language if available. If the language code is unspecified or unrecognized, place details of any language may be returned, with a preference for English if such details exist. Current list of supported languages: https://developers.google.com/maps/faq#languagesupport. */
-  languageCode?: string;
-  /** Included primary Place type (e.g. "restaurant" or "gas_station") from https://developers.google.com/maps/documentation/places/web-service/place-types. A place can only have a single primary type from the supported types table associated with it. Up to 50 types from [Table A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a) may be specified. If there are any conflicting primary types, i.e. a type appears in both included_primary_types and excluded_primary_types, an INVALID_ARGUMENT error is returned. If a Place type is specified with multiple type restrictions, only places that satisfy all of the restrictions are returned. For example, if we have {included_types = ["restaurant"], excluded_primary_types = ["restaurant"]}, the returned places provide "restaurant" related services but do not operate primarily as "restaurants". */
-  includedPrimaryTypes?: StringList;
   /** How results will be ranked in the response. */
   rankPreference?:
     | GoogleMapsPlacesV1SearchNearbyRequestRankPreferenceEnum
     | (string & {});
+  /** Optional. Parameters that affect the routing to the search results. */
+  routingParameters?: GoogleMapsPlacesV1RoutingParameters;
+  /** Maximum number of results to return. It must be between 1 and 20 (default), inclusively. If the number is unset, it falls back to the upper limit. If the number is set to negative or exceeds the upper limit, an INVALID_ARGUMENT error is returned. */
+  maxResultCount?: number;
+  /** Place details will be displayed with the preferred language if available. If the language code is unspecified or unrecognized, place details of any language may be returned, with a preference for English if such details exist. Current list of supported languages: https://developers.google.com/maps/faq#languagesupport. */
+  languageCode?: string;
+  /** Optional. If true, include businesses that are not yet open but will open in the future. */
+  includeFutureOpeningBusinesses?: boolean;
+  /** Excluded primary Place type (e.g. "restaurant" or "gas_station") from https://developers.google.com/maps/documentation/places/web-service/place-types. Up to 50 types from [Table A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a) may be specified. If there are any conflicting primary types, i.e. a type appears in both included_primary_types and excluded_primary_types, an INVALID_ARGUMENT error is returned. If a Place type is specified with multiple type restrictions, only places that satisfy all of the restrictions are returned. For example, if we have {included_types = ["restaurant"], excluded_primary_types = ["restaurant"]}, the returned places provide "restaurant" related services but do not operate primarily as "restaurants". */
+  excludedPrimaryTypes?: StringList;
   /** Required. The region to search. */
   locationRestriction?: GoogleMapsPlacesV1SearchNearbyRequestLocationRestriction;
+  /** Excluded Place type (eg, "restaurant" or "gas_station") from https://developers.google.com/maps/documentation/places/web-service/place-types. Up to 50 types from [Table A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a) may be specified. If the client provides both included_types (e.g. restaurant) and excluded_types (e.g. cafe), then the response should include places that are restaurant but not cafe. The response includes places that match at least one of the included_types and none of the excluded_types. If there are any conflicting types, i.e. a type appears in both included_types and excluded_types, an INVALID_ARGUMENT error is returned. If a Place type is specified with multiple type restrictions, only places that satisfy all of the restrictions are returned. For example, if we have {included_types = ["restaurant"], excluded_primary_types = ["restaurant"]}, the returned places provide "restaurant" related services but do not operate primarily as "restaurants". */
+  excludedTypes?: StringList;
+  /** The Unicode country/region code (CLDR) of the location where the request is coming from. This parameter is used to display the place details, like region-specific place name, if available. The parameter can affect results based on applicable law. For more information, see https://www.unicode.org/cldr/charts/latest/supplemental/territory_language_information.html. Note that 3-digit region codes are not currently supported. */
+  regionCode?: string;
+  /** Included Place type (eg, "restaurant" or "gas_station") from https://developers.google.com/maps/documentation/places/web-service/place-types. Up to 50 types from [Table A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a) may be specified. If there are any conflicting types, i.e. a type appears in both included_types and excluded_types, an INVALID_ARGUMENT error is returned. If a Place type is specified with multiple type restrictions, only places that satisfy all of the restrictions are returned. For example, if we have {included_types = ["restaurant"], excluded_primary_types = ["restaurant"]}, the returned places provide "restaurant" related services but do not operate primarily as "restaurants". */
+  includedTypes?: StringList;
+  /** Included primary Place type (e.g. "restaurant" or "gas_station") from https://developers.google.com/maps/documentation/places/web-service/place-types. A place can only have a single primary type from the supported types table associated with it. Up to 50 types from [Table A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a) may be specified. If there are any conflicting primary types, i.e. a type appears in both included_primary_types and excluded_primary_types, an INVALID_ARGUMENT error is returned. If a Place type is specified with multiple type restrictions, only places that satisfy all of the restrictions are returned. For example, if we have {included_types = ["restaurant"], excluded_primary_types = ["restaurant"]}, the returned places provide "restaurant" related services but do not operate primarily as "restaurants". */
+  includedPrimaryTypes?: StringList;
 }
 export const GoogleMapsPlacesV1SearchNearbyRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      excludedTypes: S.optional(StringList),
-      regionCode: S.optional(S.String),
-      routingParameters: S.optional(GoogleMapsPlacesV1RoutingParameters),
-      includedTypes: S.optional(StringList),
-      excludedPrimaryTypes: S.optional(StringList),
-      includeFutureOpeningBusinesses: S.optional(S.Boolean),
-      maxResultCount: S.optional(S.Number),
-      languageCode: S.optional(S.String),
-      includedPrimaryTypes: S.optional(StringList),
       rankPreference: S.optional(
         GoogleMapsPlacesV1SearchNearbyRequestRankPreferenceEnum,
       ),
+      routingParameters: S.optional(GoogleMapsPlacesV1RoutingParameters),
+      maxResultCount: S.optional(S.Number),
+      languageCode: S.optional(S.String),
+      includeFutureOpeningBusinesses: S.optional(S.Boolean),
+      excludedPrimaryTypes: S.optional(StringList),
       locationRestriction: S.optional(
         GoogleMapsPlacesV1SearchNearbyRequestLocationRestriction,
       ),
+      excludedTypes: S.optional(StringList),
+      regionCode: S.optional(S.String),
+      includedTypes: S.optional(StringList),
+      includedPrimaryTypes: S.optional(StringList),
     }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1SearchNearbyRequest",
@@ -2036,11 +2146,6 @@ export const SearchNearbyPlacesRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SearchNearbyPlacesRequest",
 }) as any as S.Schema<SearchNearbyPlacesRequest>;
-
-export type GoogleMapsPlacesV1PlaceList = Array<GoogleMapsPlacesV1Place>;
-export const GoogleMapsPlacesV1PlaceList = /*@__PURE__*/ S.Array(
-  GoogleMapsPlacesV1Place,
-) as any as S.Schema<GoogleMapsPlacesV1PlaceList>;
 
 /** A leg is a single portion of a journey from one location to another. */
 export interface GoogleMapsPlacesV1RoutingSummaryLeg {
@@ -2086,22 +2191,125 @@ export const GoogleMapsPlacesV1RoutingSummaryList = /*@__PURE__*/ S.Array(
   GoogleMapsPlacesV1RoutingSummary,
 ) as any as S.Schema<GoogleMapsPlacesV1RoutingSummaryList>;
 
+export type GoogleMapsPlacesV1PlaceList = Array<GoogleMapsPlacesV1Place>;
+export const GoogleMapsPlacesV1PlaceList = /*@__PURE__*/ S.Array(
+  GoogleMapsPlacesV1Place,
+) as any as S.Schema<GoogleMapsPlacesV1PlaceList>;
+
 /** Response proto for Search Nearby. */
 export interface GoogleMapsPlacesV1SearchNearbyResponse {
-  /** A list of places that meets user's requirements like places types, number of places and specific location restriction. */
-  places?: GoogleMapsPlacesV1PlaceList;
   /** A list of routing summaries where each entry associates to the corresponding place in the same index in the `places` field. If the routing summary is not available for one of the places, it will contain an empty entry. This list should have as many entries as the list of places if requested. */
   routingSummaries?: GoogleMapsPlacesV1RoutingSummaryList;
+  /** A list of places that meets user's requirements like places types, number of places and specific location restriction. */
+  places?: GoogleMapsPlacesV1PlaceList;
 }
 export const GoogleMapsPlacesV1SearchNearbyResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      places: S.optional(GoogleMapsPlacesV1PlaceList),
       routingSummaries: S.optional(GoogleMapsPlacesV1RoutingSummaryList),
+      places: S.optional(GoogleMapsPlacesV1PlaceList),
     }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1SearchNearbyResponse",
 }) as any as S.Schema<GoogleMapsPlacesV1SearchNearbyResponse>;
+
+export type GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnum =
+  | "PRICE_LEVEL_UNSPECIFIED"
+  | "PRICE_LEVEL_FREE"
+  | "PRICE_LEVEL_INEXPENSIVE"
+  | "PRICE_LEVEL_MODERATE"
+  | "PRICE_LEVEL_EXPENSIVE"
+  | "PRICE_LEVEL_VERY_EXPENSIVE";
+export const GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnum = S.String;
+
+export type GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnumList = Array<
+  GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnum | (string & {})
+>;
+export const GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnumList =
+  /*@__PURE__*/ S.Array(
+    GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnum,
+  ) as any as S.Schema<GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnumList>;
+
+/** The region to search. This location serves as a bias which means results around given location might be returned. */
+export interface GoogleMapsPlacesV1SearchTextRequestLocationBias {
+  /** A rectangle box defined by northeast and southwest corner. `rectangle.high()` must be the northeast point of the rectangle viewport. `rectangle.low()` must be the southwest point of the rectangle viewport. `rectangle.low().latitude()` cannot be greater than `rectangle.high().latitude()`. This will result in an empty latitude range. A rectangle viewport cannot be wider than 180 degrees. */
+  rectangle?: GoogleGeoTypeViewport;
+  /** A circle defined by center point and radius. */
+  circle?: GoogleMapsPlacesV1Circle;
+}
+export const GoogleMapsPlacesV1SearchTextRequestLocationBias =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      rectangle: S.optional(GoogleGeoTypeViewport),
+      circle: S.optional(GoogleMapsPlacesV1Circle),
+    }),
+  ).annotate({
+    identifier: "GoogleMapsPlacesV1SearchTextRequestLocationBias",
+  }) as any as S.Schema<GoogleMapsPlacesV1SearchTextRequestLocationBias>;
+
+export type GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnum =
+  | "EV_CONNECTOR_TYPE_UNSPECIFIED"
+  | "EV_CONNECTOR_TYPE_OTHER"
+  | "EV_CONNECTOR_TYPE_J1772"
+  | "EV_CONNECTOR_TYPE_TYPE_2"
+  | "EV_CONNECTOR_TYPE_CHADEMO"
+  | "EV_CONNECTOR_TYPE_CCS_COMBO_1"
+  | "EV_CONNECTOR_TYPE_CCS_COMBO_2"
+  | "EV_CONNECTOR_TYPE_TESLA"
+  | "EV_CONNECTOR_TYPE_UNSPECIFIED_GB_T"
+  | "EV_CONNECTOR_TYPE_UNSPECIFIED_WALL_OUTLET"
+  | "EV_CONNECTOR_TYPE_NACS";
+export const GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnum =
+  S.String;
+
+export type GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnumList =
+  Array<
+    | GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnum
+    | (string & {})
+  >;
+export const GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnumList =
+  /*@__PURE__*/ S.Array(
+    GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnum,
+  ) as any as S.Schema<GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnumList>;
+
+/** Searchable EV options of a place search request. */
+export interface GoogleMapsPlacesV1SearchTextRequestEVOptions {
+  /** Optional. The list of preferred EV connector types. A place that does not support any of the listed connector types is filtered out. */
+  connectorTypes?: GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnumList;
+  /** Optional. Minimum required charging rate in kilowatts. A place with a charging rate less than the specified rate is filtered out. */
+  minimumChargingRateKw?: number;
+}
+export const GoogleMapsPlacesV1SearchTextRequestEVOptions =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      connectorTypes: S.optional(
+        GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnumList,
+      ),
+      minimumChargingRateKw: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleMapsPlacesV1SearchTextRequestEVOptions",
+  }) as any as S.Schema<GoogleMapsPlacesV1SearchTextRequestEVOptions>;
+
+export type GoogleMapsPlacesV1SearchTextRequestRankPreferenceEnum =
+  | "RANK_PREFERENCE_UNSPECIFIED"
+  | "DISTANCE"
+  | "RELEVANCE";
+export const GoogleMapsPlacesV1SearchTextRequestRankPreferenceEnum = S.String;
+
+/** The region to search. This location serves as a restriction which means results outside given location will not be returned. */
+export interface GoogleMapsPlacesV1SearchTextRequestLocationRestriction {
+  /** A rectangle box defined by northeast and southwest corner. `rectangle.high()` must be the northeast point of the rectangle viewport. `rectangle.low()` must be the southwest point of the rectangle viewport. `rectangle.low().latitude()` cannot be greater than `rectangle.high().latitude()`. This will result in an empty latitude range. A rectangle viewport cannot be wider than 180 degrees. */
+  rectangle?: GoogleGeoTypeViewport;
+}
+export const GoogleMapsPlacesV1SearchTextRequestLocationRestriction =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      rectangle: S.optional(GoogleGeoTypeViewport),
+    }),
+  ).annotate({
+    identifier: "GoogleMapsPlacesV1SearchTextRequestLocationRestriction",
+  }) as any as S.Schema<GoogleMapsPlacesV1SearchTextRequestLocationRestriction>;
 
 /** A route polyline. Only supports an [encoded polyline](https://developers.google.com/maps/documentation/utilities/polylinealgorithm), which can be passed as a string and includes compression with minimal lossiness. This is the Routes API default output. */
 export interface GoogleMapsPlacesV1Polyline {
@@ -2130,178 +2338,78 @@ export const GoogleMapsPlacesV1SearchTextRequestSearchAlongRouteParameters =
     identifier: "GoogleMapsPlacesV1SearchTextRequestSearchAlongRouteParameters",
   }) as any as S.Schema<GoogleMapsPlacesV1SearchTextRequestSearchAlongRouteParameters>;
 
-/** The region to search. This location serves as a restriction which means results outside given location will not be returned. */
-export interface GoogleMapsPlacesV1SearchTextRequestLocationRestriction {
-  /** A rectangle box defined by northeast and southwest corner. `rectangle.high()` must be the northeast point of the rectangle viewport. `rectangle.low()` must be the southwest point of the rectangle viewport. `rectangle.low().latitude()` cannot be greater than `rectangle.high().latitude()`. This will result in an empty latitude range. A rectangle viewport cannot be wider than 180 degrees. */
-  rectangle?: GoogleGeoTypeViewport;
-}
-export const GoogleMapsPlacesV1SearchTextRequestLocationRestriction =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      rectangle: S.optional(GoogleGeoTypeViewport),
-    }),
-  ).annotate({
-    identifier: "GoogleMapsPlacesV1SearchTextRequestLocationRestriction",
-  }) as any as S.Schema<GoogleMapsPlacesV1SearchTextRequestLocationRestriction>;
-
-export type GoogleMapsPlacesV1SearchTextRequestRankPreferenceEnum =
-  | "RANK_PREFERENCE_UNSPECIFIED"
-  | "DISTANCE"
-  | "RELEVANCE";
-export const GoogleMapsPlacesV1SearchTextRequestRankPreferenceEnum =
-  /*@__PURE__*/ S.String;
-
-/** The region to search. This location serves as a bias which means results around given location might be returned. */
-export interface GoogleMapsPlacesV1SearchTextRequestLocationBias {
-  /** A rectangle box defined by northeast and southwest corner. `rectangle.high()` must be the northeast point of the rectangle viewport. `rectangle.low()` must be the southwest point of the rectangle viewport. `rectangle.low().latitude()` cannot be greater than `rectangle.high().latitude()`. This will result in an empty latitude range. A rectangle viewport cannot be wider than 180 degrees. */
-  rectangle?: GoogleGeoTypeViewport;
-  /** A circle defined by center point and radius. */
-  circle?: GoogleMapsPlacesV1Circle;
-}
-export const GoogleMapsPlacesV1SearchTextRequestLocationBias =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      rectangle: S.optional(GoogleGeoTypeViewport),
-      circle: S.optional(GoogleMapsPlacesV1Circle),
-    }),
-  ).annotate({
-    identifier: "GoogleMapsPlacesV1SearchTextRequestLocationBias",
-  }) as any as S.Schema<GoogleMapsPlacesV1SearchTextRequestLocationBias>;
-
-export type GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnum =
-    | "EV_CONNECTOR_TYPE_UNSPECIFIED"
-    | "EV_CONNECTOR_TYPE_OTHER"
-    | "EV_CONNECTOR_TYPE_J1772"
-    | "EV_CONNECTOR_TYPE_TYPE_2"
-    | "EV_CONNECTOR_TYPE_CHADEMO"
-    | "EV_CONNECTOR_TYPE_CCS_COMBO_1"
-    | "EV_CONNECTOR_TYPE_CCS_COMBO_2"
-    | "EV_CONNECTOR_TYPE_TESLA"
-    | "EV_CONNECTOR_TYPE_UNSPECIFIED_GB_T"
-    | "EV_CONNECTOR_TYPE_UNSPECIFIED_WALL_OUTLET"
-    | "EV_CONNECTOR_TYPE_NACS";
-export const GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnumList =
-  Array<
-    | GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnum
-    | (string & {})
-  >;
-export const GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnumList =
-  /*@__PURE__*/ S.Array(
-    GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnum,
-  ) as any as S.Schema<GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnumList>;
-
-/** Searchable EV options of a place search request. */
-export interface GoogleMapsPlacesV1SearchTextRequestEVOptions {
-  /** Optional. Minimum required charging rate in kilowatts. A place with a charging rate less than the specified rate is filtered out. */
-  minimumChargingRateKw?: number;
-  /** Optional. The list of preferred EV connector types. A place that does not support any of the listed connector types is filtered out. */
-  connectorTypes?: GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnumList;
-}
-export const GoogleMapsPlacesV1SearchTextRequestEVOptions =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      minimumChargingRateKw: S.optional(S.Number),
-      connectorTypes: S.optional(
-        GoogleMapsPlacesV1SearchTextRequestEVOptionsConnectorTypesItemEnumList,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleMapsPlacesV1SearchTextRequestEVOptions",
-  }) as any as S.Schema<GoogleMapsPlacesV1SearchTextRequestEVOptions>;
-
-export type GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnum =
-  | "PRICE_LEVEL_UNSPECIFIED"
-  | "PRICE_LEVEL_FREE"
-  | "PRICE_LEVEL_INEXPENSIVE"
-  | "PRICE_LEVEL_MODERATE"
-  | "PRICE_LEVEL_EXPENSIVE"
-  | "PRICE_LEVEL_VERY_EXPENSIVE";
-export const GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnumList = Array<
-  GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnum | (string & {})
->;
-export const GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnumList =
-  /*@__PURE__*/ S.Array(
-    GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnum,
-  ) as any as S.Schema<GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnumList>;
-
 /** Request proto for SearchText. */
 export interface GoogleMapsPlacesV1SearchTextRequest {
-  /** Optional. Additional parameters proto for searching along a route. */
-  searchAlongRouteParameters?: GoogleMapsPlacesV1SearchTextRequestSearchAlongRouteParameters;
+  /** Optional. Additional parameters for routing to results. */
+  routingParameters?: GoogleMapsPlacesV1RoutingParameters;
+  /** Used to restrict the search to places that are marked as certain price levels. Users can choose any combinations of price levels. Default to select all price levels. */
+  priceLevels?: GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnumList;
+  /** Optional. Include pure service area businesses if the field is set to true. Pure service area business is a business that visits or delivers to customers directly but does not serve customers at their business address. For example, businesses like cleaning services or plumbers. Those businesses do not have a physical address or location on Google Maps. Places will not return fields including `location`, `plus_code`, and other location related fields for these businesses. */
+  includePureServiceAreaBusinesses?: boolean;
+  /** Optional. A page token, received from a previous TextSearch call. Provide this to retrieve the subsequent page. When paginating, all parameters other than `page_token`, `page_size`, and `max_result_count` provided to TextSearch must match the initial call that provided the page token. Otherwise an INVALID_ARGUMENT error is returned. */
+  pageToken?: string;
+  /** The region to search. This location serves as a bias which means results around given location might be returned. Cannot be set along with location_restriction. */
+  locationBias?: GoogleMapsPlacesV1SearchTextRequestLocationBias;
+  /** Optional. The maximum number of results per page that can be returned. If the number of available results is larger than `page_size`, a `next_page_token` is returned which can be passed to `page_token` to get the next page of results in subsequent requests. If 0 or no value is provided, a default of 20 is used. The maximum value is 20; values above 20 will be set to 20. Negative values will return an INVALID_ARGUMENT error. If both `max_result_count` and `page_size` are specified, `max_result_count` will be ignored. */
+  pageSize?: number;
+  /** Optional. If true, include businesses that are not yet open but will open in the future. */
+  includeFutureOpeningBusinesses?: boolean;
+  /** Deprecated: Use `page_size` instead. The maximum number of results per page that can be returned. If the number of available results is larger than `max_result_count`, a `next_page_token` is returned which can be passed to `page_token` to get the next page of results in subsequent requests. If 0 or no value is provided, a default of 20 is used. The maximum value is 20; values above 20 will be coerced to 20. Negative values will return an INVALID_ARGUMENT error. If both `max_result_count` and `page_size` are specified, `max_result_count` will be ignored. */
+  maxResultCount?: number;
+  /** Filter out results whose average user rating is strictly less than this limit. A valid value must be a float between 0 and 5 (inclusively) at a 0.5 cadence i.e. [0, 0.5, 1.0, ... , 5.0] inclusively. The input rating will round up to the nearest 0.5(ceiling). For instance, a rating of 0.6 will eliminate all results with a less than 1.0 rating. */
+  minRating?: number;
+  /** Optional. Set the searchable EV options of a place search request. */
+  evOptions?: GoogleMapsPlacesV1SearchTextRequestEVOptions;
+  /** The requested place type. Full list of types supported: https://developers.google.com/maps/documentation/places/web-service/place-types. Only support one included type. */
+  includedType?: string;
+  /** Used to restrict the search to places that are currently open. The default is false. */
+  openNow?: boolean;
+  /** Required. The text query for textual search. */
+  textQuery?: string;
   /** Used to set strict type filtering for included_type. If set to true, only results of the same type will be returned. Default to false. */
   strictTypeFiltering?: boolean;
-  /** The region to search. This location serves as a restriction which means results outside given location will not be returned. Cannot be set along with location_bias. */
-  locationRestriction?: GoogleMapsPlacesV1SearchTextRequestLocationRestriction;
+  /** Place details will be displayed with the preferred language if available. If the language code is unspecified or unrecognized, place details of any language may be returned, with a preference for English if such details exist. Current list of supported languages: https://developers.google.com/maps/faq#languagesupport. */
+  languageCode?: string;
+  /** The Unicode country/region code (CLDR) of the location where the request is coming from. This parameter is used to display the place details, like region-specific place name, if available. The parameter can affect results based on applicable law. For more information, see https://www.unicode.org/cldr/charts/latest/supplemental/territory_language_information.html. Note that 3-digit region codes are not currently supported. */
+  regionCode?: string;
   /** How results will be ranked in the response. */
   rankPreference?:
     | GoogleMapsPlacesV1SearchTextRequestRankPreferenceEnum
     | (string & {});
-  /** Used to restrict the search to places that are currently open. The default is false. */
-  openNow?: boolean;
-  /** The region to search. This location serves as a bias which means results around given location might be returned. Cannot be set along with location_restriction. */
-  locationBias?: GoogleMapsPlacesV1SearchTextRequestLocationBias;
-  /** Place details will be displayed with the preferred language if available. If the language code is unspecified or unrecognized, place details of any language may be returned, with a preference for English if such details exist. Current list of supported languages: https://developers.google.com/maps/faq#languagesupport. */
-  languageCode?: string;
-  /** Optional. Include pure service area businesses if the field is set to true. Pure service area business is a business that visits or delivers to customers directly but does not serve customers at their business address. For example, businesses like cleaning services or plumbers. Those businesses do not have a physical address or location on Google Maps. Places will not return fields including `location`, `plus_code`, and other location related fields for these businesses. */
-  includePureServiceAreaBusinesses?: boolean;
-  /** The Unicode country/region code (CLDR) of the location where the request is coming from. This parameter is used to display the place details, like region-specific place name, if available. The parameter can affect results based on applicable law. For more information, see https://www.unicode.org/cldr/charts/latest/supplemental/territory_language_information.html. Note that 3-digit region codes are not currently supported. */
-  regionCode?: string;
-  /** Filter out results whose average user rating is strictly less than this limit. A valid value must be a float between 0 and 5 (inclusively) at a 0.5 cadence i.e. [0, 0.5, 1.0, ... , 5.0] inclusively. The input rating will round up to the nearest 0.5(ceiling). For instance, a rating of 0.6 will eliminate all results with a less than 1.0 rating. */
-  minRating?: number;
-  /** Optional. The maximum number of results per page that can be returned. If the number of available results is larger than `page_size`, a `next_page_token` is returned which can be passed to `page_token` to get the next page of results in subsequent requests. If 0 or no value is provided, a default of 20 is used. The maximum value is 20; values above 20 will be set to 20. Negative values will return an INVALID_ARGUMENT error. If both `max_result_count` and `page_size` are specified, `max_result_count` will be ignored. */
-  pageSize?: number;
-  /** Optional. Set the searchable EV options of a place search request. */
-  evOptions?: GoogleMapsPlacesV1SearchTextRequestEVOptions;
-  /** Optional. Additional parameters for routing to results. */
-  routingParameters?: GoogleMapsPlacesV1RoutingParameters;
-  /** Required. The text query for textual search. */
-  textQuery?: string;
-  /** Used to restrict the search to places that are marked as certain price levels. Users can choose any combinations of price levels. Default to select all price levels. */
-  priceLevels?: GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnumList;
-  /** Optional. A page token, received from a previous TextSearch call. Provide this to retrieve the subsequent page. When paginating, all parameters other than `page_token`, `page_size`, and `max_result_count` provided to TextSearch must match the initial call that provided the page token. Otherwise an INVALID_ARGUMENT error is returned. */
-  pageToken?: string;
-  /** Deprecated: Use `page_size` instead. The maximum number of results per page that can be returned. If the number of available results is larger than `max_result_count`, a `next_page_token` is returned which can be passed to `page_token` to get the next page of results in subsequent requests. If 0 or no value is provided, a default of 20 is used. The maximum value is 20; values above 20 will be coerced to 20. Negative values will return an INVALID_ARGUMENT error. If both `max_result_count` and `page_size` are specified, `max_result_count` will be ignored. */
-  maxResultCount?: number;
-  /** Optional. If true, include businesses that are not yet open but will open in the future. */
-  includeFutureOpeningBusinesses?: boolean;
-  /** The requested place type. Full list of types supported: https://developers.google.com/maps/documentation/places/web-service/place-types. Only support one included type. */
-  includedType?: string;
+  /** The region to search. This location serves as a restriction which means results outside given location will not be returned. Cannot be set along with location_bias. */
+  locationRestriction?: GoogleMapsPlacesV1SearchTextRequestLocationRestriction;
+  /** Optional. Additional parameters proto for searching along a route. */
+  searchAlongRouteParameters?: GoogleMapsPlacesV1SearchTextRequestSearchAlongRouteParameters;
 }
 export const GoogleMapsPlacesV1SearchTextRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    searchAlongRouteParameters: S.optional(
-      GoogleMapsPlacesV1SearchTextRequestSearchAlongRouteParameters,
-    ),
-    strictTypeFiltering: S.optional(S.Boolean),
-    locationRestriction: S.optional(
-      GoogleMapsPlacesV1SearchTextRequestLocationRestriction,
-    ),
-    rankPreference: S.optional(
-      GoogleMapsPlacesV1SearchTextRequestRankPreferenceEnum,
-    ),
-    openNow: S.optional(S.Boolean),
-    locationBias: S.optional(GoogleMapsPlacesV1SearchTextRequestLocationBias),
-    languageCode: S.optional(S.String),
-    includePureServiceAreaBusinesses: S.optional(S.Boolean),
-    regionCode: S.optional(S.String),
-    minRating: S.optional(S.Number),
-    pageSize: S.optional(S.Number),
-    evOptions: S.optional(GoogleMapsPlacesV1SearchTextRequestEVOptions),
     routingParameters: S.optional(GoogleMapsPlacesV1RoutingParameters),
-    textQuery: S.optional(S.String),
     priceLevels: S.optional(
       GoogleMapsPlacesV1SearchTextRequestPriceLevelsItemEnumList,
     ),
+    includePureServiceAreaBusinesses: S.optional(S.Boolean),
     pageToken: S.optional(S.String),
-    maxResultCount: S.optional(S.Number),
+    locationBias: S.optional(GoogleMapsPlacesV1SearchTextRequestLocationBias),
+    pageSize: S.optional(S.Number),
     includeFutureOpeningBusinesses: S.optional(S.Boolean),
+    maxResultCount: S.optional(S.Number),
+    minRating: S.optional(S.Number),
+    evOptions: S.optional(GoogleMapsPlacesV1SearchTextRequestEVOptions),
     includedType: S.optional(S.String),
+    openNow: S.optional(S.Boolean),
+    textQuery: S.optional(S.String),
+    strictTypeFiltering: S.optional(S.Boolean),
+    languageCode: S.optional(S.String),
+    regionCode: S.optional(S.String),
+    rankPreference: S.optional(
+      GoogleMapsPlacesV1SearchTextRequestRankPreferenceEnum,
+    ),
+    locationRestriction: S.optional(
+      GoogleMapsPlacesV1SearchTextRequestLocationRestriction,
+    ),
+    searchAlongRouteParameters: S.optional(
+      GoogleMapsPlacesV1SearchTextRequestSearchAlongRouteParameters,
+    ),
   }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1SearchTextRequest",
@@ -2350,17 +2458,17 @@ export const GoogleMapsPlacesV1ContextualContentJustificationReviewJustification
 
 /** The text highlighted by the justification. This is a subset of the review itself. The exact word to highlight is marked by the HighlightedTextRange. There could be several words in the text being highlighted. */
 export interface GoogleMapsPlacesV1ContextualContentJustificationReviewJustificationHighlightedText {
+  text?: string;
   /** The list of the ranges of the highlighted text. */
   highlightedTextRanges?: GoogleMapsPlacesV1ContextualContentJustificationReviewJustificationHighlightedTextHighlightedTextRangeList;
-  text?: string;
 }
 export const GoogleMapsPlacesV1ContextualContentJustificationReviewJustificationHighlightedText =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      text: S.optional(S.String),
       highlightedTextRanges: S.optional(
         GoogleMapsPlacesV1ContextualContentJustificationReviewJustificationHighlightedTextHighlightedTextRangeList,
       ),
-      text: S.optional(S.String),
     }),
   ).annotate({
     identifier:
@@ -2388,19 +2496,19 @@ export const GoogleMapsPlacesV1ContextualContentJustificationReviewJustification
 
 /** BusinessAvailabilityAttributes justifications. This shows some attributes a business has that could interest an end user. */
 export interface GoogleMapsPlacesV1ContextualContentJustificationBusinessAvailabilityAttributesJustification {
+  /** If a place provides delivery. */
+  delivery?: boolean;
   /** If a place provides takeout. */
   takeout?: boolean;
   /** If a place provides dine-in. */
   dineIn?: boolean;
-  /** If a place provides delivery. */
-  delivery?: boolean;
 }
 export const GoogleMapsPlacesV1ContextualContentJustificationBusinessAvailabilityAttributesJustification =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      delivery: S.optional(S.Boolean),
       takeout: S.optional(S.Boolean),
       dineIn: S.optional(S.Boolean),
-      delivery: S.optional(S.Boolean),
     }),
   ).annotate({
     identifier:
@@ -2435,20 +2543,20 @@ export const GoogleMapsPlacesV1ContextualContentJustificationList =
 
 /** Content that is contextual to the place query. */
 export interface GoogleMapsPlacesV1ContextualContent {
+  /** List of reviews about this place, contextual to the place query. */
+  reviews?: GoogleMapsPlacesV1ReviewList;
   /** Justifications for the place. */
   justifications?: GoogleMapsPlacesV1ContextualContentJustificationList;
   /** Information (including references) about photos of this place, contextual to the place query. */
   photos?: GoogleMapsPlacesV1PhotoList;
-  /** List of reviews about this place, contextual to the place query. */
-  reviews?: GoogleMapsPlacesV1ReviewList;
 }
 export const GoogleMapsPlacesV1ContextualContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    reviews: S.optional(GoogleMapsPlacesV1ReviewList),
     justifications: S.optional(
       GoogleMapsPlacesV1ContextualContentJustificationList,
     ),
     photos: S.optional(GoogleMapsPlacesV1PhotoList),
-    reviews: S.optional(GoogleMapsPlacesV1ReviewList),
   }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1ContextualContent",
@@ -2464,23 +2572,23 @@ export const GoogleMapsPlacesV1ContextualContentList = /*@__PURE__*/ S.Array(
 export interface GoogleMapsPlacesV1SearchTextResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted or empty, there are no subsequent pages. */
   nextPageToken?: string;
-  /** A link allows the user to search with the same text query as specified in the request on Google Maps. */
-  searchUri?: string;
+  /** Experimental: See https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative for more details. A list of contextual contents where each entry associates to the corresponding place in the same index in the places field. The contents that are relevant to the `text_query` in the request are preferred. If the contextual content is not available for one of the places, it will return non-contextual content. It will be empty only when the content is unavailable for this place. This list will have as many entries as the list of places if requested. */
+  contextualContents?: GoogleMapsPlacesV1ContextualContentList;
   /** A list of places that meet the user's text search criteria. */
   places?: GoogleMapsPlacesV1PlaceList;
   /** A list of routing summaries where each entry associates to the corresponding place in the same index in the `places` field. If the routing summary is not available for one of the places, it will contain an empty entry. This list will have as many entries as the list of places if requested. */
   routingSummaries?: GoogleMapsPlacesV1RoutingSummaryList;
-  /** Experimental: See https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative for more details. A list of contextual contents where each entry associates to the corresponding place in the same index in the places field. The contents that are relevant to the `text_query` in the request are preferred. If the contextual content is not available for one of the places, it will return non-contextual content. It will be empty only when the content is unavailable for this place. This list will have as many entries as the list of places if requested. */
-  contextualContents?: GoogleMapsPlacesV1ContextualContentList;
+  /** A link allows the user to search with the same text query as specified in the request on Google Maps. */
+  searchUri?: string;
 }
 export const GoogleMapsPlacesV1SearchTextResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       nextPageToken: S.optional(S.String),
-      searchUri: S.optional(S.String),
+      contextualContents: S.optional(GoogleMapsPlacesV1ContextualContentList),
       places: S.optional(GoogleMapsPlacesV1PlaceList),
       routingSummaries: S.optional(GoogleMapsPlacesV1RoutingSummaryList),
-      contextualContents: S.optional(GoogleMapsPlacesV1ContextualContentList),
+      searchUri: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleMapsPlacesV1SearchTextResponse",

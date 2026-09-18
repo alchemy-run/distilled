@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.huggingface.jobs#CheckNamespaceAccessRequestPerms": {
@@ -1156,6 +1157,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "NO_SUBSCRIPTION"
+          }
+        },
+        "RESOURCE_GROUP_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
           }
         }
       },
@@ -2465,6 +2472,12 @@
           "traits": {
             "smithy.api#enumValue": "NO_SUBSCRIPTION"
           }
+        },
+        "RESOURCE_GROUP_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
+          }
         }
       },
       "traits": {}
@@ -3475,6 +3488,12 @@
           "traits": {
             "smithy.api#enumValue": "NO_SUBSCRIPTION"
           }
+        },
+        "RESOURCE_GROUP_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
+          }
         }
       },
       "traits": {}
@@ -4453,6 +4472,12 @@
           "traits": {
             "smithy.api#enumValue": "NO_SUBSCRIPTION"
           }
+        },
+        "RESOURCE_GROUP_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
+          }
         }
       },
       "traits": {}
@@ -5307,6 +5332,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "NO_SUBSCRIPTION"
+          }
+        },
+        "RESOURCE_GROUP_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
           }
         }
       },
@@ -6181,6 +6212,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "NO_SUBSCRIPTION"
+          }
+        },
+        "RESOURCE_GROUP_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
           }
         }
       },
@@ -7064,6 +7101,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "NO_SUBSCRIPTION"
+          }
+        },
+        "RESOURCE_GROUP_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
           }
         }
       },
@@ -10652,6 +10695,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "NO_SUBSCRIPTION"
+          }
+        },
+        "RESOURCE_GROUP_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
           }
         }
       },

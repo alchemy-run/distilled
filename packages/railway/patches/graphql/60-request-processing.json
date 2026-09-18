@@ -1,0 +1,20 @@
+{
+  "description": "Live enableServiceCdn probe on 2026-09-12 returned HTTP 200 with data:null and errors:[{message:'Problem processing request',traceId:'5527782523421805956'}], without path, code, or extensions. This generic gateway failure cannot be attributed to a schema field; classify its exact message globally, preserve the trace, and do not infer entitlement, domain readiness, or retryability.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/RailwayRequestProcessingError",
+      "value": {
+        "description": "Railway could not process the request and supplied no more specific cause. Inspect the preserved trace identifier; do not infer a retryable or entitlement failure.",
+        "category": "server",
+        "retryable": false,
+        "matchers": [{ "message": "Problem processing request" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/globalErrors/-",
+      "value": "RailwayRequestProcessingError"
+    }
+  ]
+}

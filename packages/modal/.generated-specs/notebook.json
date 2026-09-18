@@ -1,0 +1,221 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.notebook#NotebookKernelPublishResultsRequestCellResult": {
+      "type": "structure",
+      "members": {
+        "cellId": {
+          "target": "smithy.api#String"
+        },
+        "output": {
+          "target": "com.modal.notebook#NotebookOutput",
+          "traits": {
+            "smithy.api#documentation": "Persistent output that is saved in the notebook."
+          }
+        },
+        "clearOutput": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Clear all previous outputs of the cell."
+          }
+        },
+        "executeReply": {
+          "target": "com.modal.notebook#NotebookKernelPublishResultsRequestExecuteReply",
+          "traits": {
+            "smithy.api#documentation": "Cell has finished executing, return the kernel's execute_reply."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "IOPub message or reply received from the kernel for a cell."
+      }
+    },
+    "com.modal.notebook#NotebookOutput": {
+      "type": "structure",
+      "members": {
+        "executeResult": {
+          "target": "com.modal.notebook#NotebookOutputExecuteResult"
+        },
+        "displayData": {
+          "target": "com.modal.notebook#NotebookOutputDisplayData"
+        },
+        "stream": {
+          "target": "com.modal.notebook#NotebookOutputStream"
+        },
+        "error": {
+          "target": "com.modal.notebook#NotebookOutputError"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single output from a notebook. When you execute a cell, it produces an array of these outputs as the code runs. https://github.com/jupyter/nbformat/blob/v5.10.4/nbformat/v4/nbformat.v4.schema.json#L301-L309"
+      }
+    },
+    "com.modal.notebook#NotebookOutputExecuteResult": {
+      "type": "structure",
+      "members": {
+        "executionCount": {
+          "target": "smithy.api#Integer"
+        },
+        "data": {
+          "target": "smithy.api#Document"
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "mimebundle"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Result of executing a code cell."
+      }
+    },
+    "com.modal.notebook#NotebookOutputDisplayData": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#Document"
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "mimebundle"
+          }
+        },
+        "transientDisplayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This should not be included in saved notebook."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Data displayed as a result of code cell execution."
+      }
+    },
+    "com.modal.notebook#NotebookOutputStream": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "stdout | stderr"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Stream output from a code cell (stdout / stderr)."
+      }
+    },
+    "com.modal.notebook#NotebookOutputError": {
+      "type": "structure",
+      "members": {
+        "ename": {
+          "target": "smithy.api#String"
+        },
+        "evalue": {
+          "target": "smithy.api#String"
+        },
+        "traceback": {
+          "target": "com.modal.notebook#StringList"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Output of an error that occurred during code cell execution."
+      }
+    },
+    "com.modal.notebook#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.notebook#NotebookKernelPublishResultsRequestExecuteReply": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String"
+        },
+        "executionCount": {
+          "target": "smithy.api#Integer"
+        },
+        "duration": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "See kernelshim.py for the differences between this and `ExecuteResult`. https://jupyter-client.readthedocs.io/en/stable/messaging.html#execution-results"
+      }
+    },
+    "com.modal.notebook#NotebookKernelPublishResultsRequestCellResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.notebook#NotebookKernelPublishResultsRequestCellResult"
+      }
+    },
+    "com.modal.notebook#NotebookKernelPublishResultsRequest": {
+      "type": "structure",
+      "members": {
+        "notebookId": {
+          "target": "smithy.api#String"
+        },
+        "results": {
+          "target": "com.modal.notebook#NotebookKernelPublishResultsRequestCellResultList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.notebook#NotebookKernelPublishResults": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.notebook#NotebookKernelPublishResultsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/NotebookKernelPublishResults",
+          "code": 200
+        },
+        "smithy.api#documentation": "Notebooks"
+      }
+    },
+    "com.modal.notebook#NotebookService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.notebook#NotebookKernelPublishResults"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Notebook",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Notebook`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

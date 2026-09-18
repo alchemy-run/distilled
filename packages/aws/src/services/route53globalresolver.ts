@@ -163,7 +163,7 @@ export type HostedZoneAssociationStatus =
   | "OPERATIONAL"
   | "DELETING"
   | (string & {});
-export const HostedZoneAssociationStatus = /*@__PURE__*/ S.String;
+export const HostedZoneAssociationStatus = S.String;
 
 export interface AssociateHostedZoneOutput {
   id: string;
@@ -190,10 +190,10 @@ export const AssociateHostedZoneOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssociateHostedZoneOutput",
 }) as any as S.Schema<AssociateHostedZoneOutput>;
 export type FirewallRuleAction = "ALLOW" | "ALERT" | "BLOCK" | (string & {});
-export const FirewallRuleAction = /*@__PURE__*/ S.String;
+export const FirewallRuleAction = S.String;
 
 export type BlockOverrideDnsQueryType = "CNAME" | (string & {});
-export const BlockOverrideDnsQueryType = /*@__PURE__*/ S.String;
+export const BlockOverrideDnsQueryType = S.String;
 
 export type Domain = string;
 export type BlockOverrideTtl = number;
@@ -202,11 +202,11 @@ export type FirewallBlockResponse =
   | "NXDOMAIN"
   | "OVERRIDE"
   | (string & {});
-export const FirewallBlockResponse = /*@__PURE__*/ S.String;
+export const FirewallBlockResponse = S.String;
 
 export type ClientToken = string;
 export type ConfidenceThreshold = "LOW" | "MEDIUM" | "HIGH" | (string & {});
-export const ConfidenceThreshold = /*@__PURE__*/ S.String;
+export const ConfidenceThreshold = S.String;
 
 export type ResourceDescription = string;
 export type DnsAdvancedProtection =
@@ -214,7 +214,7 @@ export type DnsAdvancedProtection =
   | "DNS_TUNNELING"
   | "DICTIONARY_DGA"
   | (string & {});
-export const DnsAdvancedProtection = /*@__PURE__*/ S.String;
+export const DnsAdvancedProtection = S.String;
 
 export type FirewallRulePriority = number;
 export type DnsQueryType = string;
@@ -282,7 +282,7 @@ export type CRResourceStatus =
   | "UPDATING"
   | "DELETING"
   | (string & {});
-export const CRResourceStatus = /*@__PURE__*/ S.String;
+export const CRResourceStatus = S.String;
 
 export interface BatchCreateFirewallRuleResult {
   action: FirewallRuleAction;
@@ -575,11 +575,11 @@ export const BatchUpdateFirewallRuleOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BatchUpdateFirewallRuleOutput>;
 export type Cidr = string;
 export type IpAddressType = "IPV4" | "IPV6" | (string & {});
-export const IpAddressType = /*@__PURE__*/ S.String;
+export const IpAddressType = S.String;
 
 export type ResourceNameShort = string;
 export type DnsProtocol = "DO53" | "DOH" | "DOT" | (string & {});
-export const DnsProtocol = /*@__PURE__*/ S.String;
+export const DnsProtocol = S.String;
 
 export type TagKey = string;
 export type TagValue = string;
@@ -678,7 +678,7 @@ export type TokenStatus =
   | "OPERATIONAL"
   | "DELETING"
   | (string & {});
-export const TokenStatus = /*@__PURE__*/ S.String;
+export const TokenStatus = S.String;
 
 export type AccessTokenValue = string | redacted.Redacted<string>;
 export interface CreateAccessTokenOutput {
@@ -708,13 +708,13 @@ export const CreateAccessTokenOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAccessTokenOutput",
 }) as any as S.Schema<CreateAccessTokenOutput>;
 export type DnsSecValidationType = "ENABLED" | "DISABLED" | (string & {});
-export const DnsSecValidationType = /*@__PURE__*/ S.String;
+export const DnsSecValidationType = S.String;
 
 export type EdnsClientSubnetType = "ENABLED" | "DISABLED" | (string & {});
-export const EdnsClientSubnetType = /*@__PURE__*/ S.String;
+export const EdnsClientSubnetType = S.String;
 
 export type FirewallRulesFailOpenType = "ENABLED" | "DISABLED" | (string & {});
-export const FirewallRulesFailOpenType = /*@__PURE__*/ S.String;
+export const FirewallRulesFailOpenType = S.String;
 
 export interface CreateDNSViewInput {
   globalResolverId: string;
@@ -758,7 +758,7 @@ export type ProfileResourceStatus =
   | "DISABLED"
   | "DELETING"
   | (string & {});
-export const ProfileResourceStatus = /*@__PURE__*/ S.String;
+export const ProfileResourceStatus = S.String;
 
 export interface CreateDNSViewOutput {
   id: string;
@@ -936,7 +936,7 @@ export const CreateFirewallRuleOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateFirewallRuleOutput",
 }) as any as S.Schema<CreateFirewallRuleOutput>;
 export type GlobalResolverIpAddressType = "IPV4" | "DUAL_STACK" | (string & {});
-export const GlobalResolverIpAddressType = /*@__PURE__*/ S.String;
+export const GlobalResolverIpAddressType = S.String;
 
 export type Region = string;
 export type Regions = string[];
@@ -2329,19 +2329,16 @@ export const ListGlobalResolversOutput = /*@__PURE__*/ S.suspend(() =>
 export interface ListHostedZoneAssociationsInput {
   maxResults?: number;
   nextToken?: string;
-  resourceArn: string;
+  resourceArn?: string;
 }
 export const ListHostedZoneAssociationsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    resourceArn: S.optional(S.String).pipe(T.HttpQuery("resourceArn")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/hosted-zone-associations/resource-arn/{resourceArn+}",
-      }),
+      T.Http({ method: "GET", uri: "/hosted-zone-associations" }),
       svc,
       auth,
       proto,
@@ -2453,6 +2450,73 @@ export const ListManagedFirewallDomainListsOutput = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "ListManagedFirewallDomainListsOutput",
 }) as any as S.Schema<ListManagedFirewallDomainListsOutput>;
+export interface ListSharedDNSViewsInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListSharedDNSViewsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/shared-dns-views" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListSharedDNSViewsInput",
+}) as any as S.Schema<ListSharedDNSViewsInput>;
+export type AccountId = string;
+export interface SharedDNSViewSummary {
+  id: string;
+  arn: string;
+  clientToken: string;
+  dnssecValidation: DnsSecValidationType;
+  ednsClientSubnet: EdnsClientSubnetType;
+  firewallRulesFailOpen: FirewallRulesFailOpenType;
+  name: string;
+  description?: string;
+  globalResolverId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: ProfileResourceStatus;
+  ownerAccountId: string;
+}
+export const SharedDNSViewSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    clientToken: S.String,
+    dnssecValidation: DnsSecValidationType,
+    ednsClientSubnet: EdnsClientSubnetType,
+    firewallRulesFailOpen: FirewallRulesFailOpenType,
+    name: S.String,
+    description: S.optional(S.String),
+    globalResolverId: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    status: ProfileResourceStatus,
+    ownerAccountId: S.String,
+  }),
+).annotate({
+  identifier: "SharedDNSViewSummary",
+}) as any as S.Schema<SharedDNSViewSummary>;
+export type SharedDNSViews = SharedDNSViewSummary[];
+export const SharedDNSViews = /*@__PURE__*/ S.Array(SharedDNSViewSummary);
+export interface ListSharedDNSViewsOutput {
+  nextToken?: string;
+  dnsViews: SharedDNSViewSummary[];
+}
+export const ListSharedDNSViewsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), dnsViews: SharedDNSViews }),
+).annotate({
+  identifier: "ListSharedDNSViewsOutput",
+}) as any as S.Schema<ListSharedDNSViewsOutput>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -2914,7 +2978,7 @@ export type ValidationExceptionReason =
   | "FIELD_VALIDATION_FAILED"
   | "OTHER"
   | (string & {});
-export const ValidationExceptionReason = /*@__PURE__*/ S.String;
+export const ValidationExceptionReason = S.String;
 
 export interface ValidationExceptionField {
   name: string;
@@ -4148,7 +4212,7 @@ export type ListHostedZoneAssociationsError =
   | ValidationException
   | CommonErrors;
 /**
- * Lists all hosted zone associations for a Route 53 Global Resolver resource with pagination support.
+ * Lists hosted zone associations with pagination support. Specify a DNS view through the `resourceArn` parameter to list the hosted zone associations for that DNS view, or omit it to list all hosted zone associations in your Amazon Web Services account.
  *
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
@@ -4212,6 +4276,43 @@ export const listManagedFirewallDomainLists: API.PaginatedOperationMethod<
     inputToken: "nextToken",
     outputToken: "nextToken",
     items: "managedFirewallDomainLists",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListSharedDNSViewsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the DNS views that have been shared with your Amazon Web Services account through Amazon Web Services Resource Access Manager (Amazon Web Services RAM), with pagination support.
+ *
+ * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
+ */
+export const listSharedDNSViews: API.PaginatedOperationMethod<
+  ListSharedDNSViewsInput,
+  ListSharedDNSViewsOutput,
+  ListSharedDNSViewsError,
+  Credentials | HttpClient.HttpClient,
+  SharedDNSViewSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListSharedDNSViewsInput,
+  output: ListSharedDNSViewsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListSharedDNSViews",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dnsViews",
     pageSize: "maxResults",
   } as const,
 })) as any;

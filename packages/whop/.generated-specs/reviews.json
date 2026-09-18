@@ -1,0 +1,749 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.reviews#ListReviewRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "product_id",
+            "smithy.api#required": {}
+          }
+        },
+        "min_stars": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "min_stars"
+          }
+        },
+        "max_stars": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "max_stars"
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before"
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.reviews#ReviewListItem": {
+      "type": "structure",
+      "members": {
+        "attachments": {
+          "target": "com.whop.reviews#ReviewListItemAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "A list of files and media attached to the review.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the review was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The body text of the review containing the user's detailed feedback. Returns an empty string if no description was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the review.",
+            "smithy.api#required": {}
+          }
+        },
+        "joined_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of when the reviewer first joined the product. Null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "paid_for_product": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the reviewer paid for the product. Null if the payment status is unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "published_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of when the review was published. Null if the review has not been published yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stars": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The star rating given by the reviewer, from 1 to 5.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.reviews#ReviewStatus",
+          "traits": {
+            "smithy.api#documentation": "The current moderation status of the review.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short summary title for the review. Null if the reviewer did not provide one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the review was last updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.reviews#ReviewListItemUser",
+          "traits": {
+            "smithy.api#documentation": "The user account of the person who wrote this review.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A user-submitted review of a company, including a star rating and optional text feedback."
+      }
+    },
+    "com.whop.reviews#ReviewListItemAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded file MIME type, such as image/jpeg, video/mp4, or audio/mpeg.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original filename of the uploaded attachment, including its file extension.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents an image attachment"
+      }
+    },
+    "com.whop.reviews#ReviewListItemAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.reviews#ReviewListItemAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of files and media attached to the review."
+      }
+    },
+    "com.whop.reviews#ReviewStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "PUBLISHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "published"
+          }
+        },
+        "REMOVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "removed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The statuses a review can have"
+      }
+    },
+    "com.whop.reviews#ReviewListItemUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user account of the person who wrote this review."
+      }
+    },
+    "com.whop.reviews#ListReviewResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.reviews#ReviewListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.reviews#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.reviews#ListReviewResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.reviews#ListReviewResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.reviews#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.reviews#ListReview": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.reviews#ListReviewRequest"
+      },
+      "output": {
+        "target": "com.whop.reviews#ListReviewResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.reviews#BadRequest"
+        },
+        {
+          "target": "com.whop.reviews#Forbidden"
+        },
+        {
+          "target": "com.whop.reviews#NotFound"
+        },
+        {
+          "target": "com.whop.reviews#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/reviews",
+          "code": 200
+        },
+        "smithy.api#documentation": "List reviews\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of customer reviews for a specific product, with optional filtering by star rating and creation date.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.reviews#GetReviewRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the review to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.reviews#Review": {
+      "type": "structure",
+      "members": {
+        "attachments": {
+          "target": "com.whop.reviews#ReviewAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "A list of files and media attached to the review.",
+            "smithy.api#required": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.reviews#ReviewCompany",
+          "traits": {
+            "smithy.api#documentation": "The company that this review was written for.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the review was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The body text of the review containing the user's detailed feedback. Returns an empty string if no description was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the review.",
+            "smithy.api#required": {}
+          }
+        },
+        "joined_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of when the reviewer first joined the product. Null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "paid_for_product": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the reviewer paid for the product. Null if the payment status is unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product": {
+          "target": "com.whop.reviews#ReviewProduct",
+          "traits": {
+            "smithy.api#documentation": "The product that this review was written for.",
+            "smithy.api#required": {}
+          }
+        },
+        "published_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of when the review was published. Null if the review has not been published yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stars": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The star rating given by the reviewer, from 1 to 5.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.reviews#ReviewStatus",
+          "traits": {
+            "smithy.api#documentation": "The current moderation status of the review.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short summary title for the review. Null if the reviewer did not provide one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the review was last updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.reviews#ReviewUser",
+          "traits": {
+            "smithy.api#documentation": "The user account of the person who wrote this review.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A user-submitted review of a company, including a star rating and optional text feedback."
+      }
+    },
+    "com.whop.reviews#ReviewAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded file MIME type, such as image/jpeg, video/mp4, or audio/mpeg.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original filename of the uploaded attachment, including its file extension.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents an image attachment"
+      }
+    },
+    "com.whop.reviews#ReviewAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.reviews#ReviewAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of files and media attached to the review."
+      }
+    },
+    "com.whop.reviews#ReviewCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL slug for the account's store page, e.g. `pickaxe` in whop.com/pickaxe.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the company shown to customers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company that this review was written for."
+      }
+    },
+    "com.whop.reviews#ReviewProduct": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the product shown to customers on the product page and in search results.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The product that this review was written for."
+      }
+    },
+    "com.whop.reviews#ReviewUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user account of the person who wrote this review."
+      }
+    },
+    "com.whop.reviews#GetReview": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.reviews#GetReviewRequest"
+      },
+      "output": {
+        "target": "com.whop.reviews#Review"
+      },
+      "errors": [
+        {
+          "target": "com.whop.reviews#BadRequest"
+        },
+        {
+          "target": "com.whop.reviews#Forbidden"
+        },
+        {
+          "target": "com.whop.reviews#NotFound"
+        },
+        {
+          "target": "com.whop.reviews#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/reviews/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve review\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing review."
+      }
+    },
+    "com.whop.reviews#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.reviews#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.reviews#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.reviews#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.reviews#Reviews": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.reviews#ListReview"
+        },
+        {
+          "target": "com.whop.reviews#GetReview"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

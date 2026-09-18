@@ -234,11 +234,275 @@ export class UnsupportedAvailabilityZoneException
     },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
-export type AccessScopeType = "cluster" | "namespace" | (string & {});
-export const AccessScopeType = /*@__PURE__*/ S.String;
+export interface ActivateCertificateAuthorityRequest {
+  clusterName: string;
+  certificateAuthorityId: string;
+  clientRequestToken?: string;
+}
+export const ActivateCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    certificateAuthorityId: S.String.pipe(
+      T.HttpLabel("certificateAuthorityId"),
+    ),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/certificate-authorities/{certificateAuthorityId}/activate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ActivateCertificateAuthorityRequest",
+}) as any as S.Schema<ActivateCertificateAuthorityRequest>;
+export type UpdateStatus =
+  | "InProgress"
+  | "Failed"
+  | "Cancelled"
+  | "Successful"
+  | (string & {});
+export const UpdateStatus = S.String;
+
+export type UpdateType =
+  | "VersionUpdate"
+  | "EndpointAccessUpdate"
+  | "LoggingUpdate"
+  | "ConfigUpdate"
+  | "AssociateIdentityProviderConfig"
+  | "DisassociateIdentityProviderConfig"
+  | "AssociateEncryptionConfig"
+  | "AddonUpdate"
+  | "VpcConfigUpdate"
+  | "AccessConfigUpdate"
+  | "UpgradePolicyUpdate"
+  | "ZonalShiftConfigUpdate"
+  | "AutoModeUpdate"
+  | "RemoteNetworkConfigUpdate"
+  | "DeletionProtectionUpdate"
+  | "CapabilityUpdate"
+  | "ControlPlaneScalingConfigUpdate"
+  | "VendedLogsUpdate"
+  | "ControlPlaneEgressUpdate"
+  | "VersionRollback"
+  | "ControlPlaneComponentConfigUpdate"
+  | "CertificateAuthorityUpdate"
+  | (string & {});
+export const UpdateType = S.String;
+
+export type UpdateParamType =
+  | "Version"
+  | "PlatformVersion"
+  | "EndpointPrivateAccess"
+  | "EndpointPublicAccess"
+  | "ClusterLogging"
+  | "DesiredSize"
+  | "LabelsToAdd"
+  | "LabelsToRemove"
+  | "TaintsToAdd"
+  | "TaintsToRemove"
+  | "MaxSize"
+  | "MinSize"
+  | "ReleaseVersion"
+  | "PublicAccessCidrs"
+  | "LaunchTemplateName"
+  | "LaunchTemplateVersion"
+  | "IdentityProviderConfig"
+  | "EncryptionConfig"
+  | "AddonVersion"
+  | "ServiceAccountRoleArn"
+  | "ResolveConflicts"
+  | "MaxUnavailable"
+  | "MaxUnavailablePercentage"
+  | "NodeRepairEnabled"
+  | "UpdateStrategy"
+  | "ConfigurationValues"
+  | "SecurityGroups"
+  | "Subnets"
+  | "AuthenticationMode"
+  | "PodIdentityAssociations"
+  | "UpgradePolicy"
+  | "ZonalShiftConfig"
+  | "ComputeConfig"
+  | "StorageConfig"
+  | "KubernetesNetworkConfig"
+  | "RemoteNetworkConfig"
+  | "DeletionProtection"
+  | "NodeRepairConfig"
+  | "RoleArn"
+  | "RoleMappingsToAddOrUpdate"
+  | "RoleMappingsToRemove"
+  | "NetworkAccess"
+  | "VendedLogs"
+  | "UpdatedTier"
+  | "PreviousTier"
+  | "WarmPoolEnabled"
+  | "WarmPoolMaxGroupPreparedCapacity"
+  | "WarmPoolMinSize"
+  | "WarmPoolState"
+  | "WarmPoolReuseOnScaleIn"
+  | "ControlPlaneEgressMode"
+  | "KubeApiServerConfig"
+  | "KubeSchedulerConfig"
+  | "KubeControllerManagerConfig"
+  | "ActiveCertificateAuthority"
+  | "TrustedCertificateAuthorities"
+  | "CertificateAuthorityId"
+  | "SigningStatus"
+  | (string & {});
+export const UpdateParamType = S.String;
+
+export interface UpdateParam {
+  type?: UpdateParamType;
+  value?: string;
+}
+export const UpdateParam = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ type: S.optional(UpdateParamType), value: S.optional(S.String) }),
+).annotate({ identifier: "UpdateParam" }) as any as S.Schema<UpdateParam>;
+export type UpdateParams = UpdateParam[];
+export const UpdateParams = /*@__PURE__*/ S.Array(UpdateParam);
+export type ErrorCode =
+  | "SubnetNotFound"
+  | "SecurityGroupNotFound"
+  | "EniLimitReached"
+  | "IpNotAvailable"
+  | "AccessDenied"
+  | "OperationNotPermitted"
+  | "VpcIdNotFound"
+  | "Unknown"
+  | "NodeCreationFailure"
+  | "PodEvictionFailure"
+  | "InsufficientFreeAddresses"
+  | "ClusterUnreachable"
+  | "InsufficientNumberOfReplicas"
+  | "ConfigurationConflict"
+  | "AdmissionRequestDenied"
+  | "UnsupportedAddonModification"
+  | "K8sResourceNotFound"
+  | (string & {});
+export const ErrorCode = S.String;
 
 export type StringList = string[];
 export const StringList = /*@__PURE__*/ S.Array(S.String);
+export interface ErrorDetail {
+  errorCode?: ErrorCode;
+  errorMessage?: string;
+  resourceIds?: string[];
+}
+export const ErrorDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    errorCode: S.optional(ErrorCode),
+    errorMessage: S.optional(S.String),
+    resourceIds: S.optional(StringList),
+  }),
+).annotate({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
+export type ErrorDetails = ErrorDetail[];
+export const ErrorDetails = /*@__PURE__*/ S.Array(ErrorDetail);
+export type CancellationStatus =
+  | "InProgress"
+  | "Failed"
+  | "Successful"
+  | (string & {});
+export const CancellationStatus = S.String;
+
+export interface Cancellation {
+  status?: CancellationStatus;
+  reason?: string;
+}
+export const Cancellation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(CancellationStatus),
+    reason: S.optional(S.String),
+  }),
+).annotate({ identifier: "Cancellation" }) as any as S.Schema<Cancellation>;
+export interface Update {
+  id?: string;
+  status?: UpdateStatus;
+  type?: UpdateType;
+  params?: UpdateParam[];
+  createdAt?: Date;
+  errors?: ErrorDetail[];
+  cancellation?: Cancellation;
+}
+export const Update = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    status: S.optional(UpdateStatus),
+    type: S.optional(UpdateType),
+    params: S.optional(UpdateParams),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    errors: S.optional(ErrorDetails),
+    cancellation: S.optional(Cancellation),
+  }),
+).annotate({ identifier: "Update" }) as any as S.Schema<Update>;
+export type CertificateAuthorityCreatedBy = "EKS" | "CUSTOMER" | (string & {});
+export const CertificateAuthorityCreatedBy = S.String;
+
+export type CertificateAuthorityActivatedBy =
+  | "EKS"
+  | "CUSTOMER"
+  | (string & {});
+export const CertificateAuthorityActivatedBy = S.String;
+
+export type CertificateAuthoritySigningStatus =
+  | "NOT_USED"
+  | "ACTIVATING"
+  | "IN_USE"
+  | (string & {});
+export const CertificateAuthoritySigningStatus = S.String;
+
+export type CertificateAuthorityDistributionStatus =
+  | "IN_PROGRESS"
+  | "COMPLETE"
+  | "FAILED"
+  | "DELETING"
+  | (string & {});
+export const CertificateAuthorityDistributionStatus = S.String;
+
+export interface CertificateAuthoritySummary {
+  id?: string;
+  createdAt?: Date;
+  createdBy?: CertificateAuthorityCreatedBy;
+  activatedAt?: Date;
+  activatedBy?: CertificateAuthorityActivatedBy;
+  signingStatus?: CertificateAuthoritySigningStatus;
+  distributionStatus?: CertificateAuthorityDistributionStatus;
+}
+export const CertificateAuthoritySummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    createdBy: S.optional(CertificateAuthorityCreatedBy),
+    activatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    activatedBy: S.optional(CertificateAuthorityActivatedBy),
+    signingStatus: S.optional(CertificateAuthoritySigningStatus),
+    distributionStatus: S.optional(CertificateAuthorityDistributionStatus),
+  }),
+).annotate({
+  identifier: "CertificateAuthoritySummary",
+}) as any as S.Schema<CertificateAuthoritySummary>;
+export interface ActivateCertificateAuthorityResponse {
+  update?: Update;
+  certificateAuthority?: CertificateAuthoritySummary;
+}
+export const ActivateCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      update: S.optional(Update),
+      certificateAuthority: S.optional(CertificateAuthoritySummary),
+    }),
+).annotate({
+  identifier: "ActivateCertificateAuthorityResponse",
+}) as any as S.Schema<ActivateCertificateAuthorityResponse>;
+export type AccessScopeType = "cluster" | "namespace" | (string & {});
+export const AccessScopeType = S.String;
+
 export interface AccessScope {
   type?: AccessScopeType;
   namespaces?: string[];
@@ -353,154 +617,6 @@ export const AssociateEncryptionConfigRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AssociateEncryptionConfigRequest",
 }) as any as S.Schema<AssociateEncryptionConfigRequest>;
-export type UpdateStatus =
-  | "InProgress"
-  | "Failed"
-  | "Cancelled"
-  | "Successful"
-  | (string & {});
-export const UpdateStatus = /*@__PURE__*/ S.String;
-
-export type UpdateType =
-  | "VersionUpdate"
-  | "EndpointAccessUpdate"
-  | "LoggingUpdate"
-  | "ConfigUpdate"
-  | "AssociateIdentityProviderConfig"
-  | "DisassociateIdentityProviderConfig"
-  | "AssociateEncryptionConfig"
-  | "AddonUpdate"
-  | "VpcConfigUpdate"
-  | "AccessConfigUpdate"
-  | "UpgradePolicyUpdate"
-  | "ZonalShiftConfigUpdate"
-  | "AutoModeUpdate"
-  | "RemoteNetworkConfigUpdate"
-  | "DeletionProtectionUpdate"
-  | "CapabilityUpdate"
-  | "ControlPlaneScalingConfigUpdate"
-  | "VendedLogsUpdate"
-  | "ControlPlaneEgressUpdate"
-  | (string & {});
-export const UpdateType = /*@__PURE__*/ S.String;
-
-export type UpdateParamType =
-  | "Version"
-  | "PlatformVersion"
-  | "EndpointPrivateAccess"
-  | "EndpointPublicAccess"
-  | "ClusterLogging"
-  | "DesiredSize"
-  | "LabelsToAdd"
-  | "LabelsToRemove"
-  | "TaintsToAdd"
-  | "TaintsToRemove"
-  | "MaxSize"
-  | "MinSize"
-  | "ReleaseVersion"
-  | "PublicAccessCidrs"
-  | "LaunchTemplateName"
-  | "LaunchTemplateVersion"
-  | "IdentityProviderConfig"
-  | "EncryptionConfig"
-  | "AddonVersion"
-  | "ServiceAccountRoleArn"
-  | "ResolveConflicts"
-  | "MaxUnavailable"
-  | "MaxUnavailablePercentage"
-  | "NodeRepairEnabled"
-  | "UpdateStrategy"
-  | "ConfigurationValues"
-  | "SecurityGroups"
-  | "Subnets"
-  | "AuthenticationMode"
-  | "PodIdentityAssociations"
-  | "UpgradePolicy"
-  | "ZonalShiftConfig"
-  | "ComputeConfig"
-  | "StorageConfig"
-  | "KubernetesNetworkConfig"
-  | "RemoteNetworkConfig"
-  | "DeletionProtection"
-  | "NodeRepairConfig"
-  | "RoleArn"
-  | "RoleMappingsToAddOrUpdate"
-  | "RoleMappingsToRemove"
-  | "NetworkAccess"
-  | "VendedLogs"
-  | "UpdatedTier"
-  | "PreviousTier"
-  | "WarmPoolEnabled"
-  | "WarmPoolMaxGroupPreparedCapacity"
-  | "WarmPoolMinSize"
-  | "WarmPoolState"
-  | "WarmPoolReuseOnScaleIn"
-  | "ControlPlaneEgressMode"
-  | (string & {});
-export const UpdateParamType = /*@__PURE__*/ S.String;
-
-export interface UpdateParam {
-  type?: UpdateParamType;
-  value?: string;
-}
-export const UpdateParam = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.optional(UpdateParamType), value: S.optional(S.String) }),
-).annotate({ identifier: "UpdateParam" }) as any as S.Schema<UpdateParam>;
-export type UpdateParams = UpdateParam[];
-export const UpdateParams = /*@__PURE__*/ S.Array(UpdateParam);
-export type ErrorCode =
-  | "SubnetNotFound"
-  | "SecurityGroupNotFound"
-  | "EniLimitReached"
-  | "IpNotAvailable"
-  | "AccessDenied"
-  | "OperationNotPermitted"
-  | "VpcIdNotFound"
-  | "Unknown"
-  | "NodeCreationFailure"
-  | "PodEvictionFailure"
-  | "InsufficientFreeAddresses"
-  | "ClusterUnreachable"
-  | "InsufficientNumberOfReplicas"
-  | "ConfigurationConflict"
-  | "AdmissionRequestDenied"
-  | "UnsupportedAddonModification"
-  | "K8sResourceNotFound"
-  | (string & {});
-export const ErrorCode = /*@__PURE__*/ S.String;
-
-export interface ErrorDetail {
-  errorCode?: ErrorCode;
-  errorMessage?: string;
-  resourceIds?: string[];
-}
-export const ErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    errorCode: S.optional(ErrorCode),
-    errorMessage: S.optional(S.String),
-    resourceIds: S.optional(StringList),
-  }),
-).annotate({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
-export type ErrorDetails = ErrorDetail[];
-export const ErrorDetails = /*@__PURE__*/ S.Array(ErrorDetail);
-export interface Update {
-  id?: string;
-  status?: UpdateStatus;
-  type?: UpdateType;
-  params?: UpdateParam[];
-  createdAt?: Date;
-  errors?: ErrorDetail[];
-}
-export const Update = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    status: S.optional(UpdateStatus),
-    type: S.optional(UpdateType),
-    params: S.optional(UpdateParams),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    errors: S.optional(ErrorDetails),
-  }),
-).annotate({ identifier: "Update" }) as any as S.Schema<Update>;
 export interface AssociateEncryptionConfigResponse {
   update?: Update;
 }
@@ -585,6 +701,40 @@ export const AssociateIdentityProviderConfigResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "AssociateIdentityProviderConfigResponse",
 }) as any as S.Schema<AssociateIdentityProviderConfigResponse>;
+export interface CancelUpdateRequest {
+  name: string;
+  updateId: string;
+  clientRequestToken?: string;
+}
+export const CancelUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.HttpLabel("name")),
+    updateId: S.String.pipe(T.HttpLabel("updateId")),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{name}/updates/{updateId}/cancel-update",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CancelUpdateRequest",
+}) as any as S.Schema<CancelUpdateRequest>;
+export interface CancelUpdateResponse {
+  update?: Update;
+}
+export const CancelUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ update: S.optional(Update) }),
+).annotate({
+  identifier: "CancelUpdateResponse",
+}) as any as S.Schema<CancelUpdateResponse>;
 export interface CreateAccessEntryRequest {
   clusterName: string;
   principalArn: string;
@@ -655,7 +805,7 @@ export type ResolveConflicts =
   | "NONE"
   | "PRESERVE"
   | (string & {});
-export const ResolveConflicts = /*@__PURE__*/ S.String;
+export const ResolveConflicts = S.String;
 
 export interface AddonPodIdentityAssociations {
   serviceAccount: string;
@@ -726,7 +876,7 @@ export type AddonStatus =
   | "DEGRADED"
   | "UPDATE_FAILED"
   | (string & {});
-export const AddonStatus = /*@__PURE__*/ S.String;
+export const AddonStatus = S.String;
 
 export type AddonIssueCode =
   | "AccessDenied"
@@ -740,7 +890,7 @@ export type AddonIssueCode =
   | "AddonSubscriptionNeeded"
   | "AddonPermissionFailure"
   | (string & {});
-export const AddonIssueCode = /*@__PURE__*/ S.String;
+export const AddonIssueCode = S.String;
 
 export interface AddonIssue {
   code?: AddonIssueCode;
@@ -829,7 +979,7 @@ export const CreateAddonResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAddonResponse",
 }) as any as S.Schema<CreateAddonResponse>;
 export type CapabilityType = "ACK" | "KRO" | "ARGOCD" | (string & {});
-export const CapabilityType = /*@__PURE__*/ S.String;
+export const CapabilityType = S.String;
 
 export interface ArgoCdAwsIdcConfigRequest {
   idcInstanceArn: string;
@@ -841,10 +991,10 @@ export const ArgoCdAwsIdcConfigRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ArgoCdAwsIdcConfigRequest",
 }) as any as S.Schema<ArgoCdAwsIdcConfigRequest>;
 export type ArgoCdRole = "ADMIN" | "EDITOR" | "VIEWER" | (string & {});
-export const ArgoCdRole = /*@__PURE__*/ S.String;
+export const ArgoCdRole = S.String;
 
 export type SsoIdentityType = "SSO_USER" | "SSO_GROUP" | (string & {});
-export const SsoIdentityType = /*@__PURE__*/ S.String;
+export const SsoIdentityType = S.String;
 
 export interface SsoIdentity {
   id: string;
@@ -899,7 +1049,7 @@ export const CapabilityConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CapabilityConfigurationRequest",
 }) as any as S.Schema<CapabilityConfigurationRequest>;
 export type CapabilityDeletePropagationPolicy = "RETAIN" | (string & {});
-export const CapabilityDeletePropagationPolicy = /*@__PURE__*/ S.String;
+export const CapabilityDeletePropagationPolicy = S.String;
 
 export interface CreateCapabilityRequest {
   capabilityName: string;
@@ -943,7 +1093,7 @@ export type CapabilityStatus =
   | "ACTIVE"
   | "DEGRADED"
   | (string & {});
-export const CapabilityStatus = /*@__PURE__*/ S.String;
+export const CapabilityStatus = S.String;
 
 export interface ArgoCdAwsIdcConfigResponse {
   idcInstanceArn?: string;
@@ -997,7 +1147,7 @@ export type CapabilityIssueCode =
   | "AccessDenied"
   | "ClusterUnreachable"
   | (string & {});
-export const CapabilityIssueCode = /*@__PURE__*/ S.String;
+export const CapabilityIssueCode = S.String;
 
 export interface CapabilityIssue {
   code?: CapabilityIssueCode;
@@ -1061,13 +1211,49 @@ export const CreateCapabilityResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateCapabilityResponse",
 }) as any as S.Schema<CreateCapabilityResponse>;
+export interface CreateCertificateAuthorityRequest {
+  clusterName: string;
+  clientRequestToken?: string;
+}
+export const CreateCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/certificate-authorities",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateCertificateAuthorityRequest",
+}) as any as S.Schema<CreateCertificateAuthorityRequest>;
+export interface CreateCertificateAuthorityResponse {
+  update?: Update;
+  certificateAuthority?: CertificateAuthoritySummary;
+}
+export const CreateCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    update: S.optional(Update),
+    certificateAuthority: S.optional(CertificateAuthoritySummary),
+  }),
+).annotate({
+  identifier: "CreateCertificateAuthorityResponse",
+}) as any as S.Schema<CreateCertificateAuthorityResponse>;
 export type BoxedBoolean = boolean;
 export type ControlPlaneEgressModeType =
   | "AWS_MANAGED"
   | "CUSTOMER_ROUTED"
   | "CUSTOMER_ISOLATED"
   | (string & {});
-export const ControlPlaneEgressModeType = /*@__PURE__*/ S.String;
+export const ControlPlaneEgressModeType = S.String;
 
 export interface VpcConfigRequest {
   subnetIds?: string[];
@@ -1090,7 +1276,7 @@ export const VpcConfigRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "VpcConfigRequest",
 }) as any as S.Schema<VpcConfigRequest>;
 export type IpFamily = "ipv4" | "ipv6" | (string & {});
-export const IpFamily = /*@__PURE__*/ S.String;
+export const IpFamily = S.String;
 
 export interface ElasticLoadBalancing {
   enabled?: boolean;
@@ -1121,7 +1307,7 @@ export type LogType =
   | "controllerManager"
   | "scheduler"
   | (string & {});
-export const LogType = /*@__PURE__*/ S.String;
+export const LogType = S.String;
 
 export type LogTypes = LogType[];
 export const LogTypes = /*@__PURE__*/ S.Array(LogType);
@@ -1141,7 +1327,7 @@ export const Logging = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ clusterLogging: S.optional(LogSetups) }),
 ).annotate({ identifier: "Logging" }) as any as S.Schema<Logging>;
 export type SpreadLevel = "host" | "rack" | (string & {});
-export const SpreadLevel = /*@__PURE__*/ S.String;
+export const SpreadLevel = S.String;
 
 export interface ControlPlanePlacementRequest {
   groupName?: string;
@@ -1186,7 +1372,7 @@ export type AuthenticationMode =
   | "API_AND_CONFIG_MAP"
   | "CONFIG_MAP"
   | (string & {});
-export const AuthenticationMode = /*@__PURE__*/ S.String;
+export const AuthenticationMode = S.String;
 
 export interface CreateAccessConfigRequest {
   bootstrapClusterCreatorAdminPermissions?: boolean;
@@ -1201,7 +1387,7 @@ export const CreateAccessConfigRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAccessConfigRequest",
 }) as any as S.Schema<CreateAccessConfigRequest>;
 export type SupportType = "STANDARD" | "EXTENDED" | (string & {});
-export const SupportType = /*@__PURE__*/ S.String;
+export const SupportType = S.String;
 
 export interface UpgradePolicyRequest {
   supportType?: SupportType;
@@ -1286,7 +1472,7 @@ export type ProvisionedControlPlaneTier =
   | "tier-4xl"
   | "tier-8xl"
   | (string & {});
-export const ProvisionedControlPlaneTier = /*@__PURE__*/ S.String;
+export const ProvisionedControlPlaneTier = S.String;
 
 export interface ControlPlaneScalingConfig {
   tier?: ProvisionedControlPlaneTier;
@@ -1296,6 +1482,104 @@ export const ControlPlaneScalingConfig = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ControlPlaneScalingConfig",
 }) as any as S.Schema<ControlPlaneScalingConfig>;
+export interface ServiceNodePortRange {
+  minPort?: number;
+  maxPort?: number;
+}
+export const ServiceNodePortRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ minPort: S.optional(S.Number), maxPort: S.optional(S.Number) }),
+).annotate({
+  identifier: "ServiceNodePortRange",
+}) as any as S.Schema<ServiceNodePortRange>;
+export interface KubeApiServerConfigRequest {
+  eventTtl?: string;
+  serviceNodePortRange?: ServiceNodePortRange;
+}
+export const KubeApiServerConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventTtl: S.optional(S.String),
+    serviceNodePortRange: S.optional(ServiceNodePortRange),
+  }),
+).annotate({
+  identifier: "KubeApiServerConfigRequest",
+}) as any as S.Schema<KubeApiServerConfigRequest>;
+export type ScoringStrategyType =
+  | "LeastAllocated"
+  | "MostAllocated"
+  | (string & {});
+export const ScoringStrategyType = S.String;
+
+export type ResourceWeightName = string;
+export type ResourceWeightValue = number;
+export interface ResourceWeight {
+  name?: string;
+  weight?: number;
+}
+export const ResourceWeight = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), weight: S.optional(S.Number) }),
+).annotate({ identifier: "ResourceWeight" }) as any as S.Schema<ResourceWeight>;
+export type ResourceWeightList = ResourceWeight[];
+export const ResourceWeightList = /*@__PURE__*/ S.Array(ResourceWeight);
+export interface ScoringStrategy {
+  type?: ScoringStrategyType;
+  resources?: ResourceWeight[];
+}
+export const ScoringStrategy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ScoringStrategyType),
+    resources: S.optional(ResourceWeightList),
+  }),
+).annotate({
+  identifier: "ScoringStrategy",
+}) as any as S.Schema<ScoringStrategy>;
+export interface NodeResourcesFitConfig {
+  scoringStrategy?: ScoringStrategy;
+}
+export const NodeResourcesFitConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ scoringStrategy: S.optional(ScoringStrategy) }),
+).annotate({
+  identifier: "NodeResourcesFitConfig",
+}) as any as S.Schema<NodeResourcesFitConfig>;
+export interface KubeSchedulerConfigRequest {
+  nodeResourcesFit?: NodeResourcesFitConfig;
+}
+export const KubeSchedulerConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ nodeResourcesFit: S.optional(NodeResourcesFitConfig) }),
+).annotate({
+  identifier: "KubeSchedulerConfigRequest",
+}) as any as S.Schema<KubeSchedulerConfigRequest>;
+export type TerminatedPodGcThresholdValue = number;
+export interface PodGcControllerConfigRequest {
+  terminatedPodGcThreshold?: number;
+}
+export const PodGcControllerConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ terminatedPodGcThreshold: S.optional(S.Number) }),
+).annotate({
+  identifier: "PodGcControllerConfigRequest",
+}) as any as S.Schema<PodGcControllerConfigRequest>;
+export interface HorizontalPodAutoscalerControllerConfigRequest {
+  horizontalPodAutoscalerSyncPeriod?: string;
+}
+export const HorizontalPodAutoscalerControllerConfigRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({ horizontalPodAutoscalerSyncPeriod: S.optional(S.String) }),
+  ).annotate({
+    identifier: "HorizontalPodAutoscalerControllerConfigRequest",
+  }) as any as S.Schema<HorizontalPodAutoscalerControllerConfigRequest>;
+export interface KubeControllerManagerConfigRequest {
+  podGcControllerConfig?: PodGcControllerConfigRequest;
+  horizontalPodAutoscalerControllerConfig?: HorizontalPodAutoscalerControllerConfigRequest;
+}
+export const KubeControllerManagerConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    podGcControllerConfig: S.optional(PodGcControllerConfigRequest),
+    horizontalPodAutoscalerControllerConfig: S.optional(
+      HorizontalPodAutoscalerControllerConfigRequest,
+    ),
+  }),
+).annotate({
+  identifier: "KubeControllerManagerConfigRequest",
+}) as any as S.Schema<KubeControllerManagerConfigRequest>;
 export interface CreateClusterRequest {
   name: string;
   version?: string;
@@ -1316,6 +1600,9 @@ export interface CreateClusterRequest {
   storageConfig?: StorageConfigRequest;
   deletionProtection?: boolean;
   controlPlaneScalingConfig?: ControlPlaneScalingConfig;
+  kubeApiServerConfig?: KubeApiServerConfigRequest;
+  kubeSchedulerConfig?: KubeSchedulerConfigRequest;
+  kubeControllerManagerConfig?: KubeControllerManagerConfigRequest;
 }
 export const CreateClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1338,6 +1625,9 @@ export const CreateClusterRequest = /*@__PURE__*/ S.suspend(() =>
     storageConfig: S.optional(StorageConfigRequest),
     deletionProtection: S.optional(S.Boolean),
     controlPlaneScalingConfig: S.optional(ControlPlaneScalingConfig),
+    kubeApiServerConfig: S.optional(KubeApiServerConfigRequest),
+    kubeSchedulerConfig: S.optional(KubeSchedulerConfigRequest),
+    kubeControllerManagerConfig: S.optional(KubeControllerManagerConfigRequest),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/clusters" }),
@@ -1411,13 +1701,29 @@ export type ClusterStatus =
   | "UPDATING"
   | "PENDING"
   | (string & {});
-export const ClusterStatus = /*@__PURE__*/ S.String;
+export const ClusterStatus = S.String;
 
+export interface ActiveCertificateAuthority {
+  id?: string;
+  activatedBy?: CertificateAuthorityActivatedBy;
+}
+export const ActiveCertificateAuthority = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    activatedBy: S.optional(CertificateAuthorityActivatedBy),
+  }),
+).annotate({
+  identifier: "ActiveCertificateAuthority",
+}) as any as S.Schema<ActiveCertificateAuthority>;
 export interface Certificate {
   data?: string;
+  active?: ActiveCertificateAuthority;
 }
 export const Certificate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ data: S.optional(S.String) }),
+  S.Struct({
+    data: S.optional(S.String),
+    active: S.optional(ActiveCertificateAuthority),
+  }),
 ).annotate({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
 export interface ConnectorConfigResponse {
   activationId?: string;
@@ -1460,7 +1766,7 @@ export type ClusterIssueCode =
   | "UnsupportedVersion"
   | "Other"
   | (string & {});
-export const ClusterIssueCode = /*@__PURE__*/ S.String;
+export const ClusterIssueCode = S.String;
 
 export interface ClusterIssue {
   code?: ClusterIssueCode;
@@ -1582,6 +1888,57 @@ export const StorageConfigResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "StorageConfigResponse",
 }) as any as S.Schema<StorageConfigResponse>;
+export interface KubeApiServerConfigResponse {
+  eventTtl?: string;
+  serviceNodePortRange?: ServiceNodePortRange;
+}
+export const KubeApiServerConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventTtl: S.optional(S.String),
+    serviceNodePortRange: S.optional(ServiceNodePortRange),
+  }),
+).annotate({
+  identifier: "KubeApiServerConfigResponse",
+}) as any as S.Schema<KubeApiServerConfigResponse>;
+export interface KubeSchedulerConfigResponse {
+  nodeResourcesFit?: NodeResourcesFitConfig;
+}
+export const KubeSchedulerConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ nodeResourcesFit: S.optional(NodeResourcesFitConfig) }),
+).annotate({
+  identifier: "KubeSchedulerConfigResponse",
+}) as any as S.Schema<KubeSchedulerConfigResponse>;
+export interface PodGcControllerConfigResponse {
+  terminatedPodGcThreshold?: number;
+}
+export const PodGcControllerConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ terminatedPodGcThreshold: S.optional(S.Number) }),
+).annotate({
+  identifier: "PodGcControllerConfigResponse",
+}) as any as S.Schema<PodGcControllerConfigResponse>;
+export interface HorizontalPodAutoscalerControllerConfigResponse {
+  horizontalPodAutoscalerSyncPeriod?: string;
+}
+export const HorizontalPodAutoscalerControllerConfigResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({ horizontalPodAutoscalerSyncPeriod: S.optional(S.String) }),
+  ).annotate({
+    identifier: "HorizontalPodAutoscalerControllerConfigResponse",
+  }) as any as S.Schema<HorizontalPodAutoscalerControllerConfigResponse>;
+export interface KubeControllerManagerConfigResponse {
+  podGcControllerConfig?: PodGcControllerConfigResponse;
+  horizontalPodAutoscalerControllerConfig?: HorizontalPodAutoscalerControllerConfigResponse;
+}
+export const KubeControllerManagerConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    podGcControllerConfig: S.optional(PodGcControllerConfigResponse),
+    horizontalPodAutoscalerControllerConfig: S.optional(
+      HorizontalPodAutoscalerControllerConfigResponse,
+    ),
+  }),
+).annotate({
+  identifier: "KubeControllerManagerConfigResponse",
+}) as any as S.Schema<KubeControllerManagerConfigResponse>;
 export interface Cluster {
   name?: string;
   arn?: string;
@@ -1611,6 +1968,9 @@ export interface Cluster {
   storageConfig?: StorageConfigResponse;
   deletionProtection?: boolean;
   controlPlaneScalingConfig?: ControlPlaneScalingConfig;
+  kubeApiServerConfig?: KubeApiServerConfigResponse;
+  kubeSchedulerConfig?: KubeSchedulerConfigResponse;
+  kubeControllerManagerConfig?: KubeControllerManagerConfigResponse;
 }
 export const Cluster = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1642,6 +2002,11 @@ export const Cluster = /*@__PURE__*/ S.suspend(() =>
     storageConfig: S.optional(StorageConfigResponse),
     deletionProtection: S.optional(S.Boolean),
     controlPlaneScalingConfig: S.optional(ControlPlaneScalingConfig),
+    kubeApiServerConfig: S.optional(KubeApiServerConfigResponse),
+    kubeSchedulerConfig: S.optional(KubeSchedulerConfigResponse),
+    kubeControllerManagerConfig: S.optional(
+      KubeControllerManagerConfigResponse,
+    ),
   }),
 ).annotate({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
 export interface CreateClusterResponse {
@@ -1654,7 +2019,7 @@ export const CreateClusterResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateClusterResponse>;
 export type EksAnywhereSubscriptionName = string;
 export type EksAnywhereSubscriptionTermUnit = "MONTHS" | (string & {});
-export const EksAnywhereSubscriptionTermUnit = /*@__PURE__*/ S.String;
+export const EksAnywhereSubscriptionTermUnit = S.String;
 
 export interface EksAnywhereSubscriptionTerm {
   duration?: number;
@@ -1669,7 +2034,7 @@ export const EksAnywhereSubscriptionTerm = /*@__PURE__*/ S.suspend(() =>
   identifier: "EksAnywhereSubscriptionTerm",
 }) as any as S.Schema<EksAnywhereSubscriptionTerm>;
 export type EksAnywhereSubscriptionLicenseType = "Cluster" | (string & {});
-export const EksAnywhereSubscriptionLicenseType = /*@__PURE__*/ S.String;
+export const EksAnywhereSubscriptionLicenseType = S.String;
 
 export interface CreateEksAnywhereSubscriptionRequest {
   name: string;
@@ -1816,7 +2181,7 @@ export type FargateProfileStatus =
   | "CREATE_FAILED"
   | "DELETE_FAILED"
   | (string & {});
-export const FargateProfileStatus = /*@__PURE__*/ S.String;
+export const FargateProfileStatus = S.String;
 
 export type FargateProfileIssueCode =
   | "PodExecutionRoleAlreadyInUse"
@@ -1824,7 +2189,7 @@ export type FargateProfileIssueCode =
   | "ClusterUnreachable"
   | "InternalFailure"
   | (string & {});
-export const FargateProfileIssueCode = /*@__PURE__*/ S.String;
+export const FargateProfileIssueCode = S.String;
 
 export interface FargateProfileIssue {
   code?: FargateProfileIssueCode;
@@ -1927,7 +2292,7 @@ export type AMITypes =
   | "AL2023_x86_64_NVIDIA"
   | "AL2023_ARM_64_NVIDIA"
   | (string & {});
-export const AMITypes = /*@__PURE__*/ S.String;
+export const AMITypes = S.String;
 
 export interface RemoteAccessConfig {
   ec2SshKey?: string;
@@ -1955,7 +2320,7 @@ export type TaintEffect =
   | "NO_EXECUTE"
   | "PREFER_NO_SCHEDULE"
   | (string & {});
-export const TaintEffect = /*@__PURE__*/ S.String;
+export const TaintEffect = S.String;
 
 export interface Taint {
   key?: string;
@@ -1988,7 +2353,7 @@ export const LaunchTemplateSpecification = /*@__PURE__*/ S.suspend(() =>
 export type NonZeroInteger = number;
 export type PercentCapacity = number;
 export type NodegroupUpdateStrategies = "DEFAULT" | "MINIMAL" | (string & {});
-export const NodegroupUpdateStrategies = /*@__PURE__*/ S.String;
+export const NodegroupUpdateStrategies = S.String;
 
 export interface NodegroupUpdateConfig {
   maxUnavailable?: number;
@@ -2005,7 +2370,7 @@ export const NodegroupUpdateConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "NodegroupUpdateConfig",
 }) as any as S.Schema<NodegroupUpdateConfig>;
 export type RepairAction = "Replace" | "Reboot" | "NoAction" | (string & {});
-export const RepairAction = /*@__PURE__*/ S.String;
+export const RepairAction = S.String;
 
 export interface NodeRepairConfigOverrides {
   nodeMonitoringCondition?: string;
@@ -2052,14 +2417,14 @@ export type CapacityTypes =
   | "SPOT"
   | "CAPACITY_BLOCK"
   | (string & {});
-export const CapacityTypes = /*@__PURE__*/ S.String;
+export const CapacityTypes = S.String;
 
 export type WarmPoolState =
   | "STOPPED"
   | "RUNNING"
   | "HIBERNATED"
   | (string & {});
-export const WarmPoolState = /*@__PURE__*/ S.String;
+export const WarmPoolState = S.String;
 
 export interface WarmPoolConfig {
   enabled?: boolean;
@@ -2143,7 +2508,7 @@ export type NodegroupStatus =
   | "DELETE_FAILED"
   | "DEGRADED"
   | (string & {});
-export const NodegroupStatus = /*@__PURE__*/ S.String;
+export const NodegroupStatus = S.String;
 
 export interface AutoScalingGroup {
   name?: string;
@@ -2205,7 +2570,7 @@ export type NodegroupIssueCode =
   | "Ec2LaunchTemplateVersionMaxLimitExceeded"
   | "Ec2InstanceTypeDoesNotExist"
   | (string & {});
-export const NodegroupIssueCode = /*@__PURE__*/ S.String;
+export const NodegroupIssueCode = S.String;
 
 export interface Issue {
   code?: NodegroupIssueCode;
@@ -2471,6 +2836,49 @@ export const DeleteCapabilityResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteCapabilityResponse",
 }) as any as S.Schema<DeleteCapabilityResponse>;
+export interface DeleteCertificateAuthorityRequest {
+  clusterName: string;
+  certificateAuthorityId: string;
+  clientRequestToken?: string;
+}
+export const DeleteCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    certificateAuthorityId: S.String.pipe(
+      T.HttpLabel("certificateAuthorityId"),
+    ),
+    clientRequestToken: S.optional(S.String).pipe(
+      T.HttpQuery("clientRequestToken"),
+      T.IdempotencyToken(),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/clusters/{clusterName}/certificate-authorities/{certificateAuthorityId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteCertificateAuthorityRequest",
+}) as any as S.Schema<DeleteCertificateAuthorityRequest>;
+export interface DeleteCertificateAuthorityResponse {
+  update?: Update;
+  certificateAuthority?: CertificateAuthoritySummary;
+}
+export const DeleteCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    update: S.optional(Update),
+    certificateAuthority: S.optional(CertificateAuthoritySummary),
+  }),
+).annotate({
+  identifier: "DeleteCertificateAuthorityResponse",
+}) as any as S.Schema<DeleteCertificateAuthorityResponse>;
 export interface DeleteClusterRequest {
   name: string;
 }
@@ -2893,6 +3301,98 @@ export const DescribeCapabilityResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeCapabilityResponse",
 }) as any as S.Schema<DescribeCapabilityResponse>;
+export interface DescribeCertificateAuthorityRequest {
+  clusterName: string;
+  certificateAuthorityId: string;
+}
+export const DescribeCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    certificateAuthorityId: S.String.pipe(
+      T.HttpLabel("certificateAuthorityId"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/certificate-authorities/{certificateAuthorityId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeCertificateAuthorityRequest",
+}) as any as S.Schema<DescribeCertificateAuthorityRequest>;
+export interface CertificateAuthorityValidity {
+  notBefore?: Date;
+  notAfter?: Date;
+}
+export const CertificateAuthorityValidity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    notBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    notAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "CertificateAuthorityValidity",
+}) as any as S.Schema<CertificateAuthorityValidity>;
+export interface CertificateAuthorityScheduledEvents {
+  firstAutoActivation?: Date;
+  finalAutoActivation?: Date;
+}
+export const CertificateAuthorityScheduledEvents = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    firstAutoActivation: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    finalAutoActivation: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({
+  identifier: "CertificateAuthorityScheduledEvents",
+}) as any as S.Schema<CertificateAuthorityScheduledEvents>;
+export interface CertificateAuthority {
+  id?: string;
+  createdAt?: Date;
+  createdBy?: CertificateAuthorityCreatedBy;
+  activatedAt?: Date;
+  activatedBy?: CertificateAuthorityActivatedBy;
+  signingStatus?: CertificateAuthoritySigningStatus;
+  distributionStatus?: CertificateAuthorityDistributionStatus;
+  validity?: CertificateAuthorityValidity;
+  scheduledEvents?: CertificateAuthorityScheduledEvents;
+  rollbackAvailable?: boolean;
+  data?: string;
+}
+export const CertificateAuthority = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    createdBy: S.optional(CertificateAuthorityCreatedBy),
+    activatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    activatedBy: S.optional(CertificateAuthorityActivatedBy),
+    signingStatus: S.optional(CertificateAuthoritySigningStatus),
+    distributionStatus: S.optional(CertificateAuthorityDistributionStatus),
+    validity: S.optional(CertificateAuthorityValidity),
+    scheduledEvents: S.optional(CertificateAuthorityScheduledEvents),
+    rollbackAvailable: S.optional(S.Boolean),
+    data: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CertificateAuthority",
+}) as any as S.Schema<CertificateAuthority>;
+export interface DescribeCertificateAuthorityResponse {
+  certificateAuthority?: CertificateAuthority;
+}
+export const DescribeCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({ certificateAuthority: S.optional(CertificateAuthority) }),
+).annotate({
+  identifier: "DescribeCertificateAuthorityResponse",
+}) as any as S.Schema<DescribeCertificateAuthorityResponse>;
 export interface DescribeClusterRequest {
   name: string;
 }
@@ -2924,14 +3424,14 @@ export type ClusterVersionStatus =
   | "standard-support"
   | "extended-support"
   | (string & {});
-export const ClusterVersionStatus = /*@__PURE__*/ S.String;
+export const ClusterVersionStatus = S.String;
 
 export type VersionStatus =
   | "UNSUPPORTED"
   | "STANDARD_SUPPORT"
   | "EXTENDED_SUPPORT"
   | (string & {});
-export const VersionStatus = /*@__PURE__*/ S.String;
+export const VersionStatus = S.String;
 
 export interface DescribeClusterVersionsRequest {
   clusterType?: string;
@@ -2968,6 +3468,224 @@ export const DescribeClusterVersionsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeClusterVersionsRequest",
 }) as any as S.Schema<DescribeClusterVersionsRequest>;
+export interface DurationConstraints {
+  min?: string;
+  max?: string;
+}
+export const DurationConstraints = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ min: S.optional(S.String), max: S.optional(S.String) }),
+).annotate({
+  identifier: "DurationConstraints",
+}) as any as S.Schema<DurationConstraints>;
+export interface DurationParameterConfig {
+  defaultValue?: string;
+  constraints?: DurationConstraints;
+}
+export const DurationParameterConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaultValue: S.optional(S.String),
+    constraints: S.optional(DurationConstraints),
+  }),
+).annotate({
+  identifier: "DurationParameterConfig",
+}) as any as S.Schema<DurationParameterConfig>;
+export interface IntegerRangeConstraint {
+  min?: number;
+  max?: number;
+}
+export const IntegerRangeConstraint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ min: S.optional(S.Number), max: S.optional(S.Number) }),
+).annotate({
+  identifier: "IntegerRangeConstraint",
+}) as any as S.Schema<IntegerRangeConstraint>;
+export interface PortRangeConstraints {
+  minPort?: IntegerRangeConstraint;
+  maxPort?: IntegerRangeConstraint;
+}
+export const PortRangeConstraints = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minPort: S.optional(IntegerRangeConstraint),
+    maxPort: S.optional(IntegerRangeConstraint),
+  }),
+).annotate({
+  identifier: "PortRangeConstraints",
+}) as any as S.Schema<PortRangeConstraints>;
+export interface PortRangeParameterConfig {
+  defaultValue?: ServiceNodePortRange;
+  constraints?: PortRangeConstraints;
+}
+export const PortRangeParameterConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaultValue: S.optional(ServiceNodePortRange),
+    constraints: S.optional(PortRangeConstraints),
+  }),
+).annotate({
+  identifier: "PortRangeParameterConfig",
+}) as any as S.Schema<PortRangeParameterConfig>;
+export interface KubeApiServerVersionConfig {
+  eventTtl?: DurationParameterConfig;
+  serviceNodePortRange?: PortRangeParameterConfig;
+}
+export const KubeApiServerVersionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventTtl: S.optional(DurationParameterConfig),
+    serviceNodePortRange: S.optional(PortRangeParameterConfig),
+  }),
+).annotate({
+  identifier: "KubeApiServerVersionConfig",
+}) as any as S.Schema<KubeApiServerVersionConfig>;
+export type AllowedValuesList = string[];
+export const AllowedValuesList = /*@__PURE__*/ S.Array(S.String);
+export interface AllowedValuesConstraint {
+  allowedValues?: string[];
+}
+export const AllowedValuesConstraint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ allowedValues: S.optional(AllowedValuesList) }),
+).annotate({
+  identifier: "AllowedValuesConstraint",
+}) as any as S.Schema<AllowedValuesConstraint>;
+export interface ResourceConstraints {
+  name?: AllowedValuesConstraint;
+  weight?: IntegerRangeConstraint;
+}
+export const ResourceConstraints = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(AllowedValuesConstraint),
+    weight: S.optional(IntegerRangeConstraint),
+  }),
+).annotate({
+  identifier: "ResourceConstraints",
+}) as any as S.Schema<ResourceConstraints>;
+export interface ScoringStrategyConstraints {
+  scoringStrategy?: AllowedValuesConstraint;
+  resources?: ResourceConstraints;
+}
+export const ScoringStrategyConstraints = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scoringStrategy: S.optional(AllowedValuesConstraint),
+    resources: S.optional(ResourceConstraints),
+  }),
+).annotate({
+  identifier: "ScoringStrategyConstraints",
+}) as any as S.Schema<ScoringStrategyConstraints>;
+export interface ScoringStrategyConfig {
+  defaultValue?: ScoringStrategy;
+  constraints?: ScoringStrategyConstraints;
+}
+export const ScoringStrategyConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaultValue: S.optional(ScoringStrategy),
+    constraints: S.optional(ScoringStrategyConstraints),
+  }),
+).annotate({
+  identifier: "ScoringStrategyConfig",
+}) as any as S.Schema<ScoringStrategyConfig>;
+export interface NodeResourcesFitVersionConfig {
+  scoringStrategy?: ScoringStrategyConfig;
+}
+export const NodeResourcesFitVersionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ scoringStrategy: S.optional(ScoringStrategyConfig) }),
+).annotate({
+  identifier: "NodeResourcesFitVersionConfig",
+}) as any as S.Schema<NodeResourcesFitVersionConfig>;
+export interface KubeSchedulerVersionConfig {
+  nodeResourcesFit?: NodeResourcesFitVersionConfig;
+}
+export const KubeSchedulerVersionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ nodeResourcesFit: S.optional(NodeResourcesFitVersionConfig) }),
+).annotate({
+  identifier: "KubeSchedulerVersionConfig",
+}) as any as S.Schema<KubeSchedulerVersionConfig>;
+export interface IntegerConstraints {
+  min?: number;
+  max?: number;
+}
+export const IntegerConstraints = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ min: S.optional(S.Number), max: S.optional(S.Number) }),
+).annotate({
+  identifier: "IntegerConstraints",
+}) as any as S.Schema<IntegerConstraints>;
+export interface IntegerParameterConfig {
+  defaultValue?: number;
+  constraints?: IntegerConstraints;
+}
+export const IntegerParameterConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaultValue: S.optional(S.Number),
+    constraints: S.optional(IntegerConstraints),
+  }),
+).annotate({
+  identifier: "IntegerParameterConfig",
+}) as any as S.Schema<IntegerParameterConfig>;
+export interface PodGcControllerVersionConfig {
+  terminatedPodGcThreshold?: IntegerParameterConfig;
+}
+export const PodGcControllerVersionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ terminatedPodGcThreshold: S.optional(IntegerParameterConfig) }),
+).annotate({
+  identifier: "PodGcControllerVersionConfig",
+}) as any as S.Schema<PodGcControllerVersionConfig>;
+export interface HorizontalPodAutoscalerControllerVersionConfig {
+  horizontalPodAutoscalerSyncPeriod?: DurationParameterConfig;
+}
+export const HorizontalPodAutoscalerControllerVersionConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      horizontalPodAutoscalerSyncPeriod: S.optional(DurationParameterConfig),
+    }),
+  ).annotate({
+    identifier: "HorizontalPodAutoscalerControllerVersionConfig",
+  }) as any as S.Schema<HorizontalPodAutoscalerControllerVersionConfig>;
+export interface KubeControllerManagerVersionConfig {
+  podGcControllerConfig?: PodGcControllerVersionConfig;
+  horizontalPodAutoscalerControllerConfig?: HorizontalPodAutoscalerControllerVersionConfig;
+}
+export const KubeControllerManagerVersionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    podGcControllerConfig: S.optional(PodGcControllerVersionConfig),
+    horizontalPodAutoscalerControllerConfig: S.optional(
+      HorizontalPodAutoscalerControllerVersionConfig,
+    ),
+  }),
+).annotate({
+  identifier: "KubeControllerManagerVersionConfig",
+}) as any as S.Schema<KubeControllerManagerVersionConfig>;
+export interface ControlPlaneConfigInfo {
+  kubeApiServerConfig?: KubeApiServerVersionConfig;
+  kubeSchedulerConfig?: KubeSchedulerVersionConfig;
+  kubeControllerManagerConfig?: KubeControllerManagerVersionConfig;
+}
+export const ControlPlaneConfigInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kubeApiServerConfig: S.optional(KubeApiServerVersionConfig),
+    kubeSchedulerConfig: S.optional(KubeSchedulerVersionConfig),
+    kubeControllerManagerConfig: S.optional(KubeControllerManagerVersionConfig),
+  }),
+).annotate({
+  identifier: "ControlPlaneConfigInfo",
+}) as any as S.Schema<ControlPlaneConfigInfo>;
+export interface ControlPlaneScalingTierInfo {
+  tierName?: string;
+  apiRequestConcurrency?: number;
+  podSchedulingRatePerSecond?: number;
+  clusterDatabaseSizeGb?: number;
+  controlPlaneComponentConfigOverrides?: ControlPlaneConfigInfo;
+}
+export const ControlPlaneScalingTierInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tierName: S.optional(S.String),
+    apiRequestConcurrency: S.optional(S.Number),
+    podSchedulingRatePerSecond: S.optional(S.Number),
+    clusterDatabaseSizeGb: S.optional(S.Number),
+    controlPlaneComponentConfigOverrides: S.optional(ControlPlaneConfigInfo),
+  }),
+).annotate({
+  identifier: "ControlPlaneScalingTierInfo",
+}) as any as S.Schema<ControlPlaneScalingTierInfo>;
+export type ControlPlaneScalingTierList = ControlPlaneScalingTierInfo[];
+export const ControlPlaneScalingTierList = /*@__PURE__*/ S.Array(
+  ControlPlaneScalingTierInfo,
+);
 export interface ClusterVersionInformation {
   clusterVersion?: string;
   clusterType?: string;
@@ -2979,6 +3697,8 @@ export interface ClusterVersionInformation {
   status?: ClusterVersionStatus;
   versionStatus?: VersionStatus;
   kubernetesPatchVersion?: string;
+  controlPlaneScalingTiers?: ControlPlaneScalingTierInfo[];
+  controlPlaneComponentConfig?: ControlPlaneConfigInfo;
 }
 export const ClusterVersionInformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2996,6 +3716,8 @@ export const ClusterVersionInformation = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ClusterVersionStatus),
     versionStatus: S.optional(VersionStatus),
     kubernetesPatchVersion: S.optional(S.String),
+    controlPlaneScalingTiers: S.optional(ControlPlaneScalingTierList),
+    controlPlaneComponentConfig: S.optional(ControlPlaneConfigInfo),
   }),
 ).annotate({
   identifier: "ClusterVersionInformation",
@@ -3109,7 +3831,7 @@ export const DescribeIdentityProviderConfigRequest = /*@__PURE__*/ S.suspend(
   identifier: "DescribeIdentityProviderConfigRequest",
 }) as any as S.Schema<DescribeIdentityProviderConfigRequest>;
 export type ConfigStatus = "CREATING" | "DELETING" | "ACTIVE" | (string & {});
-export const ConfigStatus = /*@__PURE__*/ S.String;
+export const ConfigStatus = S.String;
 
 export interface OidcIdentityProviderConfig {
   identityProviderConfigName?: string;
@@ -3183,8 +3905,12 @@ export const DescribeInsightRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeInsightRequest",
 }) as any as S.Schema<DescribeInsightRequest>;
-export type Category = "UPGRADE_READINESS" | "MISCONFIGURATION" | (string & {});
-export const Category = /*@__PURE__*/ S.String;
+export type Category =
+  | "UPGRADE_READINESS"
+  | "MISCONFIGURATION"
+  | "ROLLBACK_READINESS"
+  | (string & {});
+export const Category = S.String;
 
 export type InsightStatusValue =
   | "PASSING"
@@ -3192,7 +3918,7 @@ export type InsightStatusValue =
   | "ERROR"
   | "UNKNOWN"
   | (string & {});
-export const InsightStatusValue = /*@__PURE__*/ S.String;
+export const InsightStatusValue = S.String;
 
 export interface InsightStatus {
   status?: InsightStatusValue;
@@ -3358,7 +4084,7 @@ export type InsightsRefreshStatus =
   | "FAILED"
   | "COMPLETED"
   | (string & {});
-export const InsightsRefreshStatus = /*@__PURE__*/ S.String;
+export const InsightsRefreshStatus = S.String;
 
 export interface DescribeInsightsRefreshResponse {
   message?: string;
@@ -3770,6 +4496,49 @@ export const ListCapabilitiesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListCapabilitiesResponse",
 }) as any as S.Schema<ListCapabilitiesResponse>;
+export type CertificateAuthorityMaxResults = number;
+export interface ListCertificateAuthoritiesRequest {
+  clusterName: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListCertificateAuthoritiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/certificate-authorities",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListCertificateAuthoritiesRequest",
+}) as any as S.Schema<ListCertificateAuthoritiesRequest>;
+export type CertificateAuthoritySummaryList = CertificateAuthoritySummary[];
+export const CertificateAuthoritySummaryList = /*@__PURE__*/ S.Array(
+  CertificateAuthoritySummary,
+);
+export interface ListCertificateAuthoritiesResponse {
+  certificateAuthorities?: CertificateAuthoritySummary[];
+  nextToken?: string;
+}
+export const ListCertificateAuthoritiesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    certificateAuthorities: S.optional(CertificateAuthoritySummaryList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListCertificateAuthoritiesResponse",
+}) as any as S.Schema<ListCertificateAuthoritiesResponse>;
 export type ListClustersRequestMaxResults = number;
 export type IncludeClustersList = string[];
 export const IncludeClustersList = /*@__PURE__*/ S.Array(S.String);
@@ -3817,7 +4586,7 @@ export type EksAnywhereSubscriptionStatus =
   | "EXPIRED"
   | "DELETING"
   | (string & {});
-export const EksAnywhereSubscriptionStatus = /*@__PURE__*/ S.String;
+export const EksAnywhereSubscriptionStatus = S.String;
 
 export type EksAnywhereSubscriptionStatusValues =
   EksAnywhereSubscriptionStatus[];
@@ -4211,7 +4980,7 @@ export type ConnectorConfigProvider =
   | "EC2"
   | "OTHER"
   | (string & {});
-export const ConnectorConfigProvider = /*@__PURE__*/ S.String;
+export const ConnectorConfigProvider = S.String;
 
 export interface ConnectorConfigRequest {
   roleArn: string;
@@ -4519,6 +5288,9 @@ export interface UpdateClusterConfigRequest {
   remoteNetworkConfig?: RemoteNetworkConfigRequest;
   deletionProtection?: boolean;
   controlPlaneScalingConfig?: ControlPlaneScalingConfig;
+  kubeApiServerConfig?: KubeApiServerConfigRequest;
+  kubeSchedulerConfig?: KubeSchedulerConfigRequest;
+  kubeControllerManagerConfig?: KubeControllerManagerConfigRequest;
 }
 export const UpdateClusterConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4535,6 +5307,9 @@ export const UpdateClusterConfigRequest = /*@__PURE__*/ S.suspend(() =>
     remoteNetworkConfig: S.optional(RemoteNetworkConfigRequest),
     deletionProtection: S.optional(S.Boolean),
     controlPlaneScalingConfig: S.optional(ControlPlaneScalingConfig),
+    kubeApiServerConfig: S.optional(KubeApiServerConfigRequest),
+    kubeSchedulerConfig: S.optional(KubeSchedulerConfigRequest),
+    kubeControllerManagerConfig: S.optional(KubeControllerManagerConfigRequest),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/clusters/{name}/update-config" }),
@@ -4556,11 +5331,18 @@ export const UpdateClusterConfigResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateClusterConfigResponse",
 }) as any as S.Schema<UpdateClusterConfigResponse>;
+export interface RollbackConfig {
+  timeoutMinutes?: number;
+}
+export const RollbackConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ timeoutMinutes: S.optional(S.Number) }),
+).annotate({ identifier: "RollbackConfig" }) as any as S.Schema<RollbackConfig>;
 export interface UpdateClusterVersionRequest {
   name: string;
   version: string;
   clientRequestToken?: string;
   force?: boolean;
+  rollbackConfig?: RollbackConfig;
 }
 export const UpdateClusterVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4568,6 +5350,7 @@ export const UpdateClusterVersionRequest = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     force: S.optional(S.Boolean),
+    rollbackConfig: S.optional(RollbackConfig),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/clusters/{name}/updates" }),
@@ -4777,6 +5560,53 @@ export const UpdatePodIdentityAssociationResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "UpdatePodIdentityAssociationResponse",
 }) as any as S.Schema<UpdatePodIdentityAssociationResponse>;
+export type ActivateCertificateAuthorityError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
+/**
+ * Activates a successor certificate authority (CA) as the signing certificate authority
+ * for your cluster, completing a CA rotation.
+ *
+ * When you activate a successor CA, Amazon EKS promotes it to be the cluster's signer (its
+ * `signingStatus` becomes `IN_USE`) and the outgoing CA is
+ * retired (`NOT_USED`). The outgoing CA remains in the cluster's trust bundle but
+ * no longer signs certificates. The successor CA you activate must already be present on
+ * the cluster and fully distributed (its `distributionStatus` must be
+ * `COMPLETE`). This is an asynchronous operation that returns an
+ * `update` object you can track with
+ * `DescribeUpdate`
+ * .
+ *
+ * Before you activate the successor CA, make sure the worker nodes you manage and your
+ * external clients have been updated to trust it, so they maintain connectivity to the API
+ * server after activation. For a limited period after activation, CA rollback is available
+ * to revert to the outgoing CA if needed. If you don't activate the successor CA yourself,
+ * Amazon EKS activates it automatically as the expiration deadline approaches. For more
+ * information, see Rotate the Amazon EKS
+ * cluster certificate authority in the *Amazon EKS User Guide*.
+ */
+export const activateCertificateAuthority: API.OperationMethod<
+  ActivateCertificateAuthorityRequest,
+  ActivateCertificateAuthorityResponse,
+  ActivateCertificateAuthorityError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: ActivateCertificateAuthorityRequest,
+  output: ActivateCertificateAuthorityResponse,
+  errors: [
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ActivateCertificateAuthority",
+}));
+
 export type AssociateAccessPolicyError =
   | InvalidParameterException
   | InvalidRequestException
@@ -4885,6 +5715,49 @@ export const associateIdentityProviderConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateIdentityProviderConfig",
+}));
+
+export type CancelUpdateError =
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | InvalidStateException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Cancels an in-progress update to an Amazon EKS cluster on a best-effort basis. Cancellation
+ * is only performed if the update can be cancelled. Currently, this is supported for
+ * `VersionRollback` update types on EKS Auto Mode clusters when nodes are
+ * rolling back.
+ *
+ * A successful cancellation stops the node rollback. After cancellation, nodes converge
+ * to the current cluster version honoring configured disruption controls. If the control
+ * plane rollback has already begun, the cancellation request fails.
+ */
+export const cancelUpdate: API.OperationMethod<
+  CancelUpdateRequest,
+  CancelUpdateResponse,
+  CancelUpdateError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelUpdateRequest,
+  output: CancelUpdateResponse,
+  errors: [
+    ClientException,
+    InvalidParameterException,
+    InvalidRequestException,
+    InvalidStateException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CancelUpdate",
 }));
 
 export type CreateAccessEntryError =
@@ -5007,6 +5880,63 @@ export const createCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapability",
+}));
+
+export type CreateCertificateAuthorityError =
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
+/**
+ * Appends a successor certificate authority (CA) to your cluster, beginning the CA
+ * rotation process.
+ *
+ * A cluster certificate authority is the root of trust for your cluster's control plane.
+ * It signs the certificates that secure communication between the Kubernetes API server and its
+ * clients, and its public certificate is distributed to your cluster's trust bundle so that
+ * worker nodes and clients can verify the API server's identity. Each cluster can have at
+ * most two certificate authorities at a time: the outgoing CA that's currently signing (its
+ * `signingStatus` is `IN_USE`) and one successor CA
+ * (`signingStatus` of `NOT_USED`) that you can later activate to
+ * complete the rotation.
+ *
+ * Appending a successor CA adds its public certificate to the cluster's trust bundle so
+ * that the cluster trusts both CAs simultaneously (the dual trust period), but it doesn't
+ * begin signing certificates. Amazon EKS then distributes the successor CA to the Amazon Web Services managed
+ * components in your cluster; you can track this through the CA's
+ * `distributionStatus`. The successor CA can't be activated until its
+ * `distributionStatus` is `COMPLETE`. To activate it as the
+ * cluster's signer, use
+ * `ActivateCertificateAuthority`
+ * . This is an asynchronous operation
+ * that returns an `update` object. If you don't append a successor CA yourself,
+ * Amazon EKS appends one automatically before the outgoing CA approaches expiration.
+ *
+ * For more information, see Rotate the Amazon EKS
+ * cluster certificate authority in the *Amazon EKS User Guide*.
+ */
+export const createCertificateAuthority: API.OperationMethod<
+  CreateCertificateAuthorityRequest,
+  CreateCertificateAuthorityResponse,
+  CreateCertificateAuthorityError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCertificateAuthorityRequest,
+  output: CreateCertificateAuthorityResponse,
+  errors: [
+    InvalidParameterException,
+    ResourceInUseException,
+    ResourceLimitExceededException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateCertificateAuthority",
 }));
 
 export type CreateClusterError =
@@ -5385,6 +6315,46 @@ export const deleteCapability: API.OperationMethod<
   operationName: "DeleteCapability",
 }));
 
+export type DeleteCertificateAuthorityError =
+  | InvalidParameterException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
+/**
+ * Deletes a certificate authority (CA) from your cluster.
+ *
+ * Deleting a certificate authority removes its public certificate from the cluster's
+ * trust bundle. You can't delete the certificate authority that's currently signing
+ * certificates for the cluster (its `signingStatus` is `IN_USE`) — to
+ * remove the outgoing CA, first activate the successor CA with
+ * `ActivateCertificateAuthority`
+ * . Amazon EKS also protects a successor CA
+ * from deletion in certain cases to keep a valid rotation path — for example, a successor
+ * that Amazon EKS appended can't be deleted while it's the only successor on the cluster. This is
+ * an asynchronous operation that returns an `update` object.
+ */
+export const deleteCertificateAuthority: API.OperationMethod<
+  DeleteCertificateAuthorityRequest,
+  DeleteCertificateAuthorityResponse,
+  DeleteCertificateAuthorityError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteCertificateAuthorityRequest,
+  output: DeleteCertificateAuthorityResponse,
+  errors: [
+    InvalidParameterException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteCertificateAuthority",
+}));
+
 export type DeleteClusterError =
   | ClientException
   | InvalidRequestException
@@ -5736,6 +6706,34 @@ export const describeCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCapability",
+}));
+
+export type DescribeCertificateAuthorityError =
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
+/**
+ * Returns detailed information about a certificate authority (CA) in your cluster,
+ * including its validity period, signing and distribution status, provenance, scheduled
+ * auto-activation events, and public certificate data.
+ */
+export const describeCertificateAuthority: API.OperationMethod<
+  DescribeCertificateAuthorityRequest,
+  DescribeCertificateAuthorityResponse,
+  DescribeCertificateAuthorityError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribeCertificateAuthorityRequest,
+  output: DescribeCertificateAuthorityResponse,
+  errors: [
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeCertificateAuthority",
 }));
 
 export type DescribeClusterError =
@@ -6250,6 +7248,43 @@ export const listCapabilities: API.PaginatedOperationMethod<
     inputToken: "nextToken",
     outputToken: "nextToken",
     items: "capabilities",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListCertificateAuthoritiesError =
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors;
+/**
+ * Lists the certificate authorities (CAs) for your cluster. A cluster has at most two
+ * certificate authorities: the outgoing CA that's currently signing and, during a rotation,
+ * one successor CA.
+ */
+export const listCertificateAuthorities: API.PaginatedOperationMethod<
+  ListCertificateAuthoritiesRequest,
+  ListCertificateAuthoritiesResponse,
+  ListCertificateAuthoritiesError,
+  Credentials | HttpClient.HttpClient,
+  CertificateAuthoritySummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListCertificateAuthoritiesRequest,
+  output: ListCertificateAuthoritiesResponse,
+  errors: [
+    InvalidParameterException,
+    ResourceNotFoundException,
+    ServerException,
+    ServiceUnavailableException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListCertificateAuthorities",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "certificateAuthorities",
     pageSize: "maxResults",
   } as const,
 })) as any;

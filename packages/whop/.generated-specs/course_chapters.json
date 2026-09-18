@@ -1,0 +1,565 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.course_chapters#ListCourseChapterRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "course_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "course_id",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_chapters#CourseChapterListItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the chapter.",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The sort position of this chapter within its parent course, starting from zero.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the chapter shown to students. Maximum 150 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A grouping of related lessons within a course, used to organize content into sections."
+      }
+    },
+    "com.whop.course_chapters#ListCourseChapterResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.course_chapters#CourseChapterListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.course_chapters#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.course_chapters#ListCourseChapterResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.course_chapters#ListCourseChapterResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.course_chapters#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.course_chapters#ListCourseChapter": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_chapters#ListCourseChapterRequest"
+      },
+      "output": {
+        "target": "com.whop.course_chapters#ListCourseChapterResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_chapters#BadRequest"
+        },
+        {
+          "target": "com.whop.course_chapters#Forbidden"
+        },
+        {
+          "target": "com.whop.course_chapters#NotFound"
+        },
+        {
+          "target": "com.whop.course_chapters#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/course_chapters",
+          "code": 200
+        },
+        "smithy.api#documentation": "List course chapters\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of chapters within a course, ordered by position.\n\nRequired permissions:\n - `courses:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.course_chapters#CreateCourseChapterRequest": {
+      "type": "structure",
+      "members": {
+        "course_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the course to create the chapter in (e.g., \"course_XXXXX\").",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display title of the chapter (e.g., \"Module 1: Introduction\").",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_chapters#CourseChapter": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the chapter.",
+            "smithy.api#required": {}
+          }
+        },
+        "lessons": {
+          "target": "com.whop.course_chapters#CourseChapterLessonsList",
+          "traits": {
+            "smithy.api#documentation": "An ordered list of lessons in this chapter, sorted by display position. Hidden lessons are excluded for non-admin users.",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The sort position of this chapter within its parent course, starting from zero.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the chapter shown to students. Maximum 150 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A grouping of related lessons within a course, used to organize content into sections."
+      }
+    },
+    "com.whop.course_chapters#CourseChapterLessonsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the lesson.",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The sort position of this lesson within its parent chapter, starting from zero.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the lesson shown to students. Maximum 120 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An individual learning unit within a chapter, which can contain text, video, PDF, or assessment content."
+      }
+    },
+    "com.whop.course_chapters#CourseChapterLessonsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.course_chapters#CourseChapterLessonsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "An ordered list of lessons in this chapter, sorted by display position. Hidden lessons are excluded for non-admin users."
+      }
+    },
+    "com.whop.course_chapters#CreateCourseChapter": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_chapters#CreateCourseChapterRequest"
+      },
+      "output": {
+        "target": "com.whop.course_chapters#CourseChapter"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_chapters#BadRequest"
+        },
+        {
+          "target": "com.whop.course_chapters#Forbidden"
+        },
+        {
+          "target": "com.whop.course_chapters#NotFound"
+        },
+        {
+          "target": "com.whop.course_chapters#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/course_chapters",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create course chapter\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreate a new chapter within a course to organize lessons into sections.\n\nRequired permissions:\n - `courses:update`"
+      }
+    },
+    "com.whop.course_chapters#GetCourseChapterRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the chapter to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_chapters#GetCourseChapter": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_chapters#GetCourseChapterRequest"
+      },
+      "output": {
+        "target": "com.whop.course_chapters#CourseChapter"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_chapters#BadRequest"
+        },
+        {
+          "target": "com.whop.course_chapters#Forbidden"
+        },
+        {
+          "target": "com.whop.course_chapters#NotFound"
+        },
+        {
+          "target": "com.whop.course_chapters#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/course_chapters/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve course chapter\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing course chapter.\n\nRequired permissions:\n - `courses:read`"
+      }
+    },
+    "com.whop.course_chapters#UpdateCourseChapterRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the chapter to update (e.g., \"chap_XXXXX\")."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The new display title of the chapter (e.g., \"Module 1: Introduction\").",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_chapters#UpdateCourseChapter": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_chapters#UpdateCourseChapterRequest"
+      },
+      "output": {
+        "target": "com.whop.course_chapters#CourseChapter"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_chapters#BadRequest"
+        },
+        {
+          "target": "com.whop.course_chapters#Forbidden"
+        },
+        {
+          "target": "com.whop.course_chapters#NotFound"
+        },
+        {
+          "target": "com.whop.course_chapters#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/course_chapters/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update course chapter\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUpdate a chapter's title within a course.\n\nRequired permissions:\n - `courses:update`"
+      }
+    },
+    "com.whop.course_chapters#DeleteCourseChapterRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the chapter to delete (e.g., \"chap_XXXXX\")."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_chapters#DeleteCourseChapterResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.course_chapters#DeleteCourseChapter": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_chapters#DeleteCourseChapterRequest"
+      },
+      "output": {
+        "target": "com.whop.course_chapters#DeleteCourseChapterResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_chapters#BadRequest"
+        },
+        {
+          "target": "com.whop.course_chapters#Forbidden"
+        },
+        {
+          "target": "com.whop.course_chapters#NotFound"
+        },
+        {
+          "target": "com.whop.course_chapters#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/course_chapters/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete course chapter\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nPermanently delete a chapter and all of its lessons from a course.\n\nRequired permissions:\n - `courses:update`"
+      }
+    },
+    "com.whop.course_chapters#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.course_chapters#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.course_chapters#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.course_chapters#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.course_chapters#CourseChapters": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.course_chapters#ListCourseChapter"
+        },
+        {
+          "target": "com.whop.course_chapters#CreateCourseChapter"
+        },
+        {
+          "target": "com.whop.course_chapters#GetCourseChapter"
+        },
+        {
+          "target": "com.whop.course_chapters#UpdateCourseChapter"
+        },
+        {
+          "target": "com.whop.course_chapters#DeleteCourseChapter"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

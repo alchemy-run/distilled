@@ -1,0 +1,121 @@
+{
+  "description": "Sandbox error contracts observed against Railway on 2026-09-16 using a valid environment and nonexistent source/checkpoint IDs. All failures returned HTTP 200 with INTERNAL_SERVER_ERROR and the named mutation path. Missing sandbox query/destroy/heartbeat returned null; missing checkpoint deletion returned false, not errors. No probes created resources.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/RailwaySandboxNotFound",
+      "value": {
+        "description": "The sandbox to execute in, checkpoint, or fork does not exist. Observed exact message: Sandbox not found.",
+        "category": "notFound",
+        "retryable": false,
+        "matchers": [
+          { "code": "INTERNAL_SERVER_ERROR", "message": "Sandbox not found" }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/RailwaySandboxCheckpointNotFound",
+      "value": {
+        "description": "The named checkpoint to rename or boot does not exist. Both exact messages were observed live.",
+        "category": "notFound",
+        "retryable": false,
+        "matchers": [
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "message": "Sandbox checkpoint not found"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "message": "Sandbox checkpoint not found. Build or capture it before creating a sandbox from it."
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/RailwaySandboxValidationError",
+      "value": {
+        "description": "Invalid sandbox creation options. Live CPU and memory errors ended in 'at most 24 vCPU' and 'at most 24 GB'; the idle timeout range was 1 to 120 minutes. Match stable prefixes for workspace-dependent limits. The source-conflict message mentions checkpointName, but introspection exposes checkpoint restore only through template.name.",
+        "category": "badRequest",
+        "retryable": false,
+        "matchers": [
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "message": "Provide at most one of checkpointName, template, or sourceSandboxId"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "message": "Provide either template.name or template.instructions, not both"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "cpu must be greater than 0 and at most "
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "memoryGB must be at least 0.000000001 GB (1 byte) and at most "
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "idleTimeoutMinutes must be between 1 and "
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "message": "Public domains require PRIVATE network isolation"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "message": "publicDomains ports must be between 1 and 65535"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "message": "publicDomains prefixes must be lowercase DNS label fragments of at most 46 characters"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "message": "publicDomains ports must be unique"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "message": "publicDomains prefixes must be unique"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "message": "publicDomains supports at most 10 domains"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/sandboxCreate/errors/-",
+      "value": "RailwaySandboxNotFound"
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/sandboxCreate/errors/-",
+      "value": "RailwaySandboxCheckpointNotFound"
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/sandboxCreate/errors/-",
+      "value": "RailwaySandboxValidationError"
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/sandboxExec/errors/-",
+      "value": "RailwaySandboxNotFound"
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/sandboxCheckpointCreate/errors/-",
+      "value": "RailwaySandboxNotFound"
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/sandboxCheckpointRename/errors/-",
+      "value": "RailwaySandboxCheckpointNotFound"
+    }
+  ]
+}

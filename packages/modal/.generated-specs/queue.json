@@ -1,0 +1,602 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.queue#ClearQueueRequest": {
+      "type": "structure",
+      "members": {
+        "queueId": {
+          "target": "smithy.api#String"
+        },
+        "partitionKey": {
+          "target": "smithy.api#Blob"
+        },
+        "allPartitions": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.queue#ClearQueue": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.queue#ClearQueueRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/QueueClear",
+          "code": 200
+        },
+        "smithy.api#documentation": "Queues"
+      }
+    },
+    "com.modal.queue#DeleteQueueRequest": {
+      "type": "structure",
+      "members": {
+        "queueId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.queue#DeleteQueue": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.queue#DeleteQueueRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/QueueDelete",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.queue#GetQueueRequest": {
+      "type": "structure",
+      "members": {
+        "queueId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        },
+        "nValues": {
+          "target": "smithy.api#Integer"
+        },
+        "partitionKey": {
+          "target": "smithy.api#Blob"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.queue#BlobList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Blob"
+      }
+    },
+    "com.modal.queue#GetQueueResponse": {
+      "type": "structure",
+      "members": {
+        "values": {
+          "target": "com.modal.queue#BlobList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.queue#GetQueue": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.queue#GetQueueRequest"
+      },
+      "output": {
+        "target": "com.modal.queue#GetQueueResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/QueueGet",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.queue#QueueGetByIdRequest": {
+      "type": "structure",
+      "members": {
+        "queueId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.queue#QueueMetadata": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "creationInfo": {
+          "target": "com.modal.queue#CreationInfo"
+        }
+      }
+    },
+    "com.modal.queue#CreationInfo": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "This message is used in metadata for resource objects like Dict, Queue, Volume, etc."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of resource creation"
+          }
+        }
+      }
+    },
+    "com.modal.queue#QueueGetByIdResponse": {
+      "type": "structure",
+      "members": {
+        "queueId": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.queue#QueueMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.queue#QueueGetById": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.queue#QueueGetByIdRequest"
+      },
+      "output": {
+        "target": "com.modal.queue#QueueGetByIdResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/QueueGetById",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.queue#ObjectCreationType": {
+      "type": "enum",
+      "members": {
+        "OBJECT_CREATION_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_UNSPECIFIED"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_IF_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_IF_MISSING",
+            "smithy.api#documentation": "just lookup"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
+          }
+        },
+        "OBJECT_CREATION_TYPE_EPHEMERAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_EPHEMERAL",
+            "smithy.api#documentation": "deprecate at some point"
+          }
+        }
+      }
+    },
+    "com.modal.queue#QueueGetOrCreateRequest": {
+      "type": "structure",
+      "members": {
+        "deploymentName": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "removed namespace"
+          }
+        },
+        "objectCreationType": {
+          "target": "com.modal.queue#ObjectCreationType"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.queue#QueueGetOrCreateResponse": {
+      "type": "structure",
+      "members": {
+        "queueId": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.queue#QueueMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.queue#QueueGetOrCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.queue#QueueGetOrCreateRequest"
+      },
+      "output": {
+        "target": "com.modal.queue#QueueGetOrCreateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/QueueGetOrCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.queue#QueueHeartbeatRequest": {
+      "type": "structure",
+      "members": {
+        "queueId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.queue#QueueHeartbeat": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.queue#QueueHeartbeatRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/QueueHeartbeat",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.queue#QueueLenRequest": {
+      "type": "structure",
+      "members": {
+        "queueId": {
+          "target": "smithy.api#String"
+        },
+        "partitionKey": {
+          "target": "smithy.api#Blob"
+        },
+        "total": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.queue#QueueLenResponse": {
+      "type": "structure",
+      "members": {
+        "len": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.queue#QueueLen": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.queue#QueueLenRequest"
+      },
+      "output": {
+        "target": "com.modal.queue#QueueLenResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/QueueLen",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.queue#ListPagination": {
+      "type": "structure",
+      "members": {
+        "maxObjects": {
+          "target": "smithy.api#Integer"
+        },
+        "createdBefore": {
+          "target": "smithy.api#Double"
+        }
+      }
+    },
+    "com.modal.queue#ListQueueRequest": {
+      "type": "structure",
+      "members": {
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "totalSizeLimit": {
+          "target": "smithy.api#Integer"
+        },
+        "pagination": {
+          "target": "com.modal.queue#ListPagination",
+          "traits": {
+            "smithy.api#documentation": "Limit on \"number of partitions\" reported, since checking them is costly"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.queue#ListQueueResponseQueueInfo": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "numPartitions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Superseded by metadata, used by clients up to 1.1.2"
+          }
+        },
+        "totalSize": {
+          "target": "smithy.api#Integer"
+        },
+        "queueId": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.queue#QueueMetadata"
+        }
+      }
+    },
+    "com.modal.queue#ListQueueResponseQueueInfoList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.queue#ListQueueResponseQueueInfo"
+      }
+    },
+    "com.modal.queue#ListQueueResponse": {
+      "type": "structure",
+      "members": {
+        "queues": {
+          "target": "com.modal.queue#ListQueueResponseQueueInfoList"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.queue#ListQueue": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.queue#ListQueueRequest"
+      },
+      "output": {
+        "target": "com.modal.queue#ListQueueResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/QueueList",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.queue#QueueNextItemsRequest": {
+      "type": "structure",
+      "members": {
+        "queueId": {
+          "target": "smithy.api#String"
+        },
+        "partitionKey": {
+          "target": "smithy.api#Blob"
+        },
+        "lastEntryId": {
+          "target": "smithy.api#String"
+        },
+        "itemPollTimeout": {
+          "target": "smithy.api#Float"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.queue#QueueItem": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "smithy.api#Blob"
+        },
+        "entryId": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.queue#QueueItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.queue#QueueItem"
+      }
+    },
+    "com.modal.queue#QueueNextItemsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.modal.queue#QueueItemList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.queue#QueueNextItems": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.queue#QueueNextItemsRequest"
+      },
+      "output": {
+        "target": "com.modal.queue#QueueNextItemsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/QueueNextItems",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.queue#PutQueueRequest": {
+      "type": "structure",
+      "members": {
+        "queueId": {
+          "target": "smithy.api#String"
+        },
+        "values": {
+          "target": "com.modal.queue#BlobList"
+        },
+        "partitionKey": {
+          "target": "smithy.api#Blob"
+        },
+        "partitionTtlSeconds": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.queue#PutQueue": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.queue#PutQueueRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/QueuePut",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.queue#QueueService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.queue#ClearQueue"
+        },
+        {
+          "target": "com.modal.queue#DeleteQueue"
+        },
+        {
+          "target": "com.modal.queue#GetQueue"
+        },
+        {
+          "target": "com.modal.queue#QueueGetById"
+        },
+        {
+          "target": "com.modal.queue#QueueGetOrCreate"
+        },
+        {
+          "target": "com.modal.queue#QueueHeartbeat"
+        },
+        {
+          "target": "com.modal.queue#QueueLen"
+        },
+        {
+          "target": "com.modal.queue#ListQueue"
+        },
+        {
+          "target": "com.modal.queue#QueueNextItems"
+        },
+        {
+          "target": "com.modal.queue#PutQueue"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Queue",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Queue`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

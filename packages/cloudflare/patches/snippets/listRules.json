@@ -1,0 +1,42 @@
+{
+  "description": "The docs publish GET /zones/{zone_id}/snippets/snippet_rules twice (RulesGet and RulesList) with identical shapes. Keep one operation, listRules \u2014 it returns the zone's whole rule list \u2014 and drop the RulesList twin so no alias is needed.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.snippets#RulesList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.snippets#RulesListRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.snippets#RulesListResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.snippets#RulesGet",
+      "path": "/shapes/com.cloudflare.snippets#ListRules"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.snippets#RulesGetRequest",
+      "path": "/shapes/com.cloudflare.snippets#ListRulesRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.snippets#ListRules/input/target",
+      "value": "com.cloudflare.snippets#ListRulesRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.snippets#RulesGetResponse",
+      "path": "/shapes/com.cloudflare.snippets#ListRulesResponse"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.snippets#ListRules/output/target",
+      "value": "com.cloudflare.snippets#ListRulesResponse"
+    }
+  ]
+}

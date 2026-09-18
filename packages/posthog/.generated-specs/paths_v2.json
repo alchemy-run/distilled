@@ -1,0 +1,141 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.paths_v2#PathsV2SegmentItem": {
+      "type": "structure",
+      "members": {
+        "event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Event of the step source this path item belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Label value from the source's naming property, after path cleaning. Null or omitted for sources without a naming property; an empty string means the property was missing on the event.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.paths_v2#CreatePathsV2SegmentToFunnelRequestItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.paths_v2#PathsV2SegmentItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The segment's path items in displayed order. In open mode exactly two items - a single edge, source then target. In anchored mode the concrete chain as shown, starting at the anchor."
+      }
+    },
+    "com.posthog.paths_v2#CreatePathsV2SegmentToFunnelRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "query": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The PathsV2Query the segment is displayed under (JSON object with kind `PathsV2Query`). Step sources, path cleaning, excluded items, date range, and the gap or conversion window are read from it, so the emitted funnel counts exactly what the chart shows.",
+            "smithy.api#required": {}
+          }
+        },
+        "items": {
+          "target": "com.posthog.paths_v2#CreatePathsV2SegmentToFunnelRequestItemsList",
+          "traits": {
+            "smithy.api#documentation": "The segment's path items in displayed order. In open mode exactly two items - a single edge, source then target. In anchored mode the concrete chain as shown, starting at the anchor.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.paths_v2#PathsV2SegmentToFunnelResponse": {
+      "type": "structure",
+      "members": {
+        "funnels_query": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The FunnelsQuery (JSON object with kind `FunnelsQuery`) that reproduces the segment's displayed unique-actor count exactly. Wrap it in an InsightVizNode to open it as a funnel insight.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.paths_v2#CreatePathsV2SegmentToFunnel": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.paths_v2#CreatePathsV2SegmentToFunnelRequest"
+      },
+      "output": {
+        "target": "com.posthog.paths_v2#PathsV2SegmentToFunnelResponse"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.paths_v2#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/paths_v2/segment_to_funnel/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Convert a journey segment to a funnel\n\nConverts a displayed journeys segment into the funnel query that reproduces its unique-actor count exactly. In open mode only a single edge converts (a two-step funnel with the inactivity gap as conversion window); in anchored mode any anchor-rooted chain converts (window W). The funnel is returned as JSON and is not executed or persisted here."
+      }
+    },
+    "com.posthog.paths_v2#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.paths_v2#PathsV2": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.paths_v2#CreatePathsV2SegmentToFunnel"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

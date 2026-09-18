@@ -3,7 +3,7 @@
  * Sprites REST.
  *
  * Machines (`FlyIoProtocol`) is a plain bearer-token JSON API at
- * `api.machines.dev/v1`. MPG (`FlyApiProtocol`) is the same token against
+ * `api.machines.dev` (routes carry the `/v1` prefix). MPG (`FlyApiProtocol`) is the same token against
  * `https://api.fly.io`. GraphQL add-ons (`FlyGraphqlProtocol`) POST
  * `{ query, operationName, variables }` to `https://api.fly.io/graphql`.
  *
@@ -19,7 +19,9 @@
  * `Authorization: Bearer` on sprite ops. There is no `SPRITES_TOKEN`.
  */
 import * as Context from "effect/Context";
+import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
@@ -355,7 +357,7 @@ const discoverOrgSlug = (fly: Config) =>
     const token = Redacted.value(fly.apiKey);
     const machinesRoot = fly.apiBaseUrl.replace(/\/+$/, "");
     const currentReq = HttpClientRequest.make("GET")(
-      `${machinesRoot}/tokens/current`,
+      `${machinesRoot}/v1/tokens/current`,
     ).pipe(
       HttpClientRequest.setHeaders({
         Authorization: `Bearer ${token}`,
@@ -432,34 +434,42 @@ const mintOnce = (fly: Config) =>
         }),
       );
     }
-    // Cache the raw string — Effect.cached must not hold a Redacted (the
-    // registry entry is not restored from a memoized Exit).
+    // Cache the raw string, not a Redacted whose registry entry may be erased.
     return token;
   });
 
 const mintedTokens = new Map<string, string>();
-const mintInFlight = new Map<string, ReturnType<typeof mintOnce>>();
+const mintInFlight = new Map<
+  string,
+  Deferred.Deferred<string, Effect.Error<ReturnType<typeof mintOnce>>>
+>();
 
 /** Mint (and process-wide cache) a Sprites bearer from `FLY_API_TOKEN`. */
 const mintSpritesToken = (fly: Config) =>
-  Effect.gen(function* () {
-    const key = Redacted.value(fly.apiKey);
-    const hit = mintedTokens.get(key);
-    if (hit !== undefined) return hit;
-    const pending = mintInFlight.get(key);
-    if (pending !== undefined) return yield* pending;
-    const run = mintOnce(fly).pipe(
-      Effect.tap((token) =>
-        Effect.sync(() => {
-          mintedTokens.set(key, token);
-          mintInFlight.delete(key);
-        }),
-      ),
-      Effect.tapError(() => Effect.sync(() => mintInFlight.delete(key))),
-    );
-    mintInFlight.set(key, run);
-    return yield* run;
-  });
+  Effect.uninterruptibleMask((restore) =>
+    Effect.suspend(() => {
+      const key = Redacted.value(fly.apiKey);
+      const hit = mintedTokens.get(key);
+      if (hit !== undefined) return Effect.succeed(hit);
+      const pending = mintInFlight.get(key);
+      if (pending !== undefined) return restore(Deferred.await(pending));
+      const result = Deferred.makeUnsafe<
+        string,
+        Effect.Error<ReturnType<typeof mintOnce>>
+      >();
+      mintInFlight.set(key, result);
+      return restore(mintOnce(fly)).pipe(
+        Effect.onExit((exit) =>
+          Effect.gen(function* () {
+            if (Exit.isSuccess(exit)) mintedTokens.set(key, exit.value);
+            // Release all waiters, including on defects and owner interruption.
+            mintInFlight.delete(key);
+            yield* Deferred.done(result, exit);
+          }),
+        ),
+      );
+    }),
+  );
 
 const encodeSpritesRequest = ({
   input,

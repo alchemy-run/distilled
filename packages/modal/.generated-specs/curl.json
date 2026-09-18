@@ -1,0 +1,74 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.curl#CurlGetAuthTokenRequest": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.curl#CurlGetAuthTokenResponse": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.curl#CurlGetAuthToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.curl#CurlGetAuthTokenRequest"
+      },
+      "output": {
+        "target": "com.modal.curl#CurlGetAuthTokenResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/CurlGetAuthToken",
+          "code": 200
+        },
+        "smithy.api#documentation": "Curl"
+      }
+    },
+    "com.modal.curl#CurlService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.curl#CurlGetAuthToken"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Curl",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Curl`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

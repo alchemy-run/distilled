@@ -2,7 +2,7 @@
 /**
  * convert — turn the Typesense OpenAPI spec into a Smithy JSON model.
  *
- * Input:  specs/typesense-api-spec/openapi.yml  (OAS 3.0, YAML)
+ * Input:  specs/spec-mirror-typesense/specs/openapi.yml  (OAS 3.0, YAML)
  * Output: .generated-specs/typesense.json       (Smithy 2.0 model)
  *
  * The OpenAPI→Smithy converter and the patch-then-convert pipeline live in
@@ -17,7 +17,7 @@ await runOpenApiConvert({
   specs: [
     {
       name: "typesense",
-      specPath: "specs/typesense-api-spec/openapi.yml",
+      specPath: "specs/spec-mirror-typesense/specs/openapi.yml",
     },
   ],
   // The Typesense spec is YAML; bun parses it natively.

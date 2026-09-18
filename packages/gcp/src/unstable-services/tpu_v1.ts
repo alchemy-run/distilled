@@ -96,32 +96,6 @@ export const StringMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<StringMap>;
 
-export type NodeApiVersionEnum =
-  | "API_VERSION_UNSPECIFIED"
-  | "V1_ALPHA1"
-  | "V1"
-  | "V2_ALPHA1";
-export const NodeApiVersionEnum = /*@__PURE__*/ S.String;
-
-export type NodeStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "READY"
-  | "RESTARTING"
-  | "REIMAGING"
-  | "DELETING"
-  | "REPAIRING"
-  | "STOPPED"
-  | "STOPPING"
-  | "STARTING"
-  | "PREEMPTED"
-  | "TERMINATED"
-  | "HIDING"
-  | "HIDDEN"
-  | "UNHIDING"
-  | "UNKNOWN";
-export const NodeStateEnum = /*@__PURE__*/ S.String;
-
 /** A network endpoint over which a TPU worker can be reached. */
 export interface NetworkEndpoint {
   /** The IP address of this network endpoint. */
@@ -143,17 +117,43 @@ export const NetworkEndpointList = /*@__PURE__*/ S.Array(
   NetworkEndpoint,
 ) as any as S.Schema<NetworkEndpointList>;
 
+export type NodeApiVersionEnum =
+  | "API_VERSION_UNSPECIFIED"
+  | "V1_ALPHA1"
+  | "V1"
+  | "V2_ALPHA1";
+export const NodeApiVersionEnum = S.String;
+
+export type NodeStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "READY"
+  | "RESTARTING"
+  | "REIMAGING"
+  | "DELETING"
+  | "REPAIRING"
+  | "STOPPED"
+  | "STOPPING"
+  | "STARTING"
+  | "PREEMPTED"
+  | "TERMINATED"
+  | "HIDING"
+  | "HIDDEN"
+  | "UNHIDING"
+  | "UNKNOWN";
+export const NodeStateEnum = S.String;
+
 /** Sets the scheduling options for this node. */
 export interface SchedulingConfig {
-  /** Whether the node is created under a reservation. */
-  reserved?: boolean;
   /** Defines whether the node is preemptible. */
   preemptible?: boolean;
+  /** Whether the node is created under a reservation. */
+  reserved?: boolean;
 }
 export const SchedulingConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reserved: S.optional(S.Boolean),
     preemptible: S.optional(S.Boolean),
+    reserved: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "SchedulingConfig",
@@ -166,7 +166,7 @@ export type NodeHealthEnum =
   | "TIMEOUT"
   | "UNHEALTHY_TENSORFLOW"
   | "UNHEALTHY_MAINTENANCE";
-export const NodeHealthEnum = /*@__PURE__*/ S.String;
+export const NodeHealthEnum = S.String;
 
 export type SymptomSymptomTypeEnum =
   | "SYMPTOM_TYPE_UNSPECIFIED"
@@ -176,25 +176,25 @@ export type SymptomSymptomTypeEnum =
   | "MESH_BUILD_FAIL"
   | "HBM_OUT_OF_MEMORY"
   | "PROJECT_ABUSE";
-export const SymptomSymptomTypeEnum = /*@__PURE__*/ S.String;
+export const SymptomSymptomTypeEnum = S.String;
 
 /** A Symptom instance. */
 export interface Symptom {
-  /** Detailed information of the current Symptom. */
-  details?: string;
-  /** A string used to uniquely distinguish a worker within a TPU node. */
-  workerId?: string;
   /** Timestamp when the Symptom is created. */
   createTime?: string;
+  /** A string used to uniquely distinguish a worker within a TPU node. */
+  workerId?: string;
   /** Type of the Symptom. */
   symptomType?: SymptomSymptomTypeEnum | (string & {});
+  /** Detailed information of the current Symptom. */
+  details?: string;
 }
 export const Symptom = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(S.String),
-    workerId: S.optional(S.String),
     createTime: S.optional(S.String),
+    workerId: S.optional(S.String),
     symptomType: S.optional(SymptomSymptomTypeEnum),
+    details: S.optional(S.String),
   }),
 ).annotate({ identifier: "Symptom" }) as any as S.Schema<Symptom>;
 
@@ -205,14 +205,24 @@ export const SymptomList = /*@__PURE__*/ S.Array(
 
 /** A TPU instance. */
 export interface Node {
-  /** The user-supplied description of the TPU. Maximum of 512 characters. */
-  description?: string;
+  /** Output only. The service account used to run the tensor flow services within the node. To share resources, including Google Cloud Storage data, with the Tensorflow job running in the Node, this account must have permissions to that data. */
+  serviceAccount?: string;
+  /** Required. The type of hardware accelerators associated with this node. */
+  acceleratorType?: string;
   /** The name of a network they wish to peer the TPU node to. It must be a preexisting Compute Engine network inside of the project on which this API has been activated. If none is provided, "default" will be used. */
   network?: string;
-  /** Output only. DEPRECATED! Use network_endpoints instead. The network address for the TPU Node as visible to Compute Engine instances. */
-  ipAddress?: string;
+  /** Required. The version of Tensorflow running in the Node. */
+  tensorflowVersion?: string;
+  /** Output only. DEPRECATED! Use network_endpoints instead. The network port for the TPU Node as visible to Compute Engine instances. */
+  port?: string;
+  /** The user-supplied description of the TPU. Maximum of 512 characters. */
+  description?: string;
   /** Resource labels to represent user-provided metadata. */
   labels?: StringMap;
+  /** Output only. Immutable. The name of the TPU */
+  name?: string;
+  /** Output only. The network endpoints where TPU workers can be accessed and sent work. It is recommended that Tensorflow clients of the node reach out to the 0th entry in this map first. */
+  networkEndpoints?: NetworkEndpointList;
   /** Output only. The API version that created this Node. */
   apiVersion?: NodeApiVersionEnum | (string & {});
   /** Output only. The current state for the TPU Node. */
@@ -221,65 +231,55 @@ export interface Node {
   healthDescription?: string;
   /** Output only. The time when the node was created. */
   createTime?: string;
-  /** Output only. DEPRECATED! Use network_endpoints instead. The network port for the TPU Node as visible to Compute Engine instances. */
-  port?: string;
-  /** Required. The type of hardware accelerators associated with this node. */
-  acceleratorType?: string;
   /** The CIDR block that the TPU node will use when selecting an IP address. This CIDR block must be a /29 block; the Compute Engine networks API forbids a smaller block, and using a larger block would be wasteful (a node can only consume one IP address). Errors will occur if the CIDR block has already been used for a currently existing TPU node, the CIDR block conflicts with any subnetworks in the user's provided network, or the provided network is peered with another network that is using that CIDR block. */
   cidrBlock?: string;
-  /** Output only. The service account used to run the tensor flow services within the node. To share resources, including Google Cloud Storage data, with the Tensorflow job running in the Node, this account must have permissions to that data. */
-  serviceAccount?: string;
-  /** Output only. The network endpoints where TPU workers can be accessed and sent work. It is recommended that Tensorflow clients of the node reach out to the 0th entry in this map first. */
-  networkEndpoints?: NetworkEndpointList;
+  /** Output only. DEPRECATED! Use network_endpoints instead. The network address for the TPU Node as visible to Compute Engine instances. */
+  ipAddress?: string;
+  /** Whether the VPC peering for the node is set up through Service Networking API. The VPC Peering should be set up before provisioning the node. If this field is set, cidr_block field should not be specified. If the network, that you want to peer the TPU Node to, is Shared VPC networks, the node must be created with this this field enabled. */
+  useServiceNetworking?: boolean;
   /** The scheduling options for this node. */
   schedulingConfig?: SchedulingConfig;
   /** The health status of the TPU node. */
   health?: NodeHealthEnum | (string & {});
-  /** Whether the VPC peering for the node is set up through Service Networking API. The VPC Peering should be set up before provisioning the node. If this field is set, cidr_block field should not be specified. If the network, that you want to peer the TPU Node to, is Shared VPC networks, the node must be created with this this field enabled. */
-  useServiceNetworking?: boolean;
-  /** Required. The version of Tensorflow running in the Node. */
-  tensorflowVersion?: string;
   /** Output only. The Symptoms that have occurred to the TPU Node. */
   symptoms?: SymptomList;
-  /** Output only. Immutable. The name of the TPU */
-  name?: string;
 }
 export const Node = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
+    acceleratorType: S.optional(S.String),
     network: S.optional(S.String),
-    ipAddress: S.optional(S.String),
+    tensorflowVersion: S.optional(S.String),
+    port: S.optional(S.String),
+    description: S.optional(S.String),
     labels: S.optional(StringMap),
+    name: S.optional(S.String),
+    networkEndpoints: S.optional(NetworkEndpointList),
     apiVersion: S.optional(NodeApiVersionEnum),
     state: S.optional(NodeStateEnum),
     healthDescription: S.optional(S.String),
     createTime: S.optional(S.String),
-    port: S.optional(S.String),
-    acceleratorType: S.optional(S.String),
     cidrBlock: S.optional(S.String),
-    serviceAccount: S.optional(S.String),
-    networkEndpoints: S.optional(NetworkEndpointList),
+    ipAddress: S.optional(S.String),
+    useServiceNetworking: S.optional(S.Boolean),
     schedulingConfig: S.optional(SchedulingConfig),
     health: S.optional(NodeHealthEnum),
-    useServiceNetworking: S.optional(S.Boolean),
-    tensorflowVersion: S.optional(S.String),
     symptoms: S.optional(SymptomList),
-    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Node" }) as any as S.Schema<Node>;
 
 export interface CreateProjectsLocationsNodesRequest {
-  /** Required. The parent resource name. */
-  parent: string;
   /** The unqualified resource name. */
   nodeId?: string;
+  /** Required. The parent resource name. */
+  parent: string;
   /** Request body */
   body?: Node;
 }
 export const CreateProjectsLocationsNodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     nodeId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(Node.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -305,17 +305,17 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
     code: S.optional(S.Number),
+    message: S.optional(S.String),
     details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
@@ -324,22 +324,22 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     error: S.optional(Status),
-    name: S.optional(S.String),
-    done: S.optional(S.Boolean),
     response: S.optional(DocumentMap),
+    name: S.optional(S.String),
     metadata: S.optional(DocumentMap),
+    done: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -400,24 +400,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    locationId: S.optional(S.String),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
     labels: S.optional(StringMap),
     metadata: S.optional(DocumentMap),
-    displayName: S.optional(S.String),
-    name: S.optional(S.String),
-    locationId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -534,24 +534,24 @@ export const StringList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<StringList>;
 
 export interface ListProjectsLocationsRequest {
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
+  /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -587,23 +587,23 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsAcceleratorTypesRequest {
   /** The maximum number of items to return. */
   pageSize?: number;
+  /** Required. The parent resource name. */
+  parent: string;
+  /** Sort results. */
+  orderBy?: string;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
   /** List filter. */
   filter?: string;
-  /** Sort results. */
-  orderBy?: string;
-  /** Required. The parent resource name. */
-  parent: string;
 }
 export const ListProjectsLocationsAcceleratorTypesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      orderBy: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
-      orderBy: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -622,35 +622,35 @@ export const AcceleratorTypeList = /*@__PURE__*/ S.Array(
 
 /** Response for ListAcceleratorTypes. */
 export interface ListAcceleratorTypesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** The listed nodes. */
   acceleratorTypes?: AcceleratorTypeList;
   /** The next page token or empty if none. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListAcceleratorTypesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     acceleratorTypes: S.optional(AcceleratorTypeList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListAcceleratorTypesResponse",
 }) as any as S.Schema<ListAcceleratorTypesResponse>;
 
 export interface ListProjectsLocationsNodesRequest {
-  /** Required. The parent resource name. */
-  parent: string;
   /** The maximum number of items to return. */
   pageSize?: number;
+  /** Required. The parent resource name. */
+  parent: string;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
 }
 export const ListProjectsLocationsNodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -670,43 +670,43 @@ export const NodeList = /*@__PURE__*/ S.Array(
 
 /** Response for ListNodes. */
 export interface ListNodesResponse {
-  /** The listed nodes. */
-  nodes?: NodeList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** The next page token or empty if none. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
+  /** The listed nodes. */
+  nodes?: NodeList;
 }
 export const ListNodesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nodes: S.optional(NodeList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
+    nodes: S.optional(NodeList),
   }),
 ).annotate({
   identifier: "ListNodesResponse",
 }) as any as S.Schema<ListNodesResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
+  /** The standard list filter. */
+  filter?: string;
+  /** The standard list page token. */
+  pageToken?: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list filter. */
-  filter?: string;
   /** The standard list page size. */
   pageSize?: number;
-  /** The standard list page token. */
-  pageToken?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
-      filter: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -745,23 +745,23 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsTensorflowVersionsRequest {
   /** The maximum number of items to return. */
   pageSize?: number;
+  /** Required. The parent resource name. */
+  parent: string;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
   /** List filter. */
   filter?: string;
   /** Sort results. */
   orderBy?: string;
-  /** Required. The parent resource name. */
-  parent: string;
 }
 export const ListProjectsLocationsTensorflowVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -780,17 +780,17 @@ export const TensorFlowVersionList = /*@__PURE__*/ S.Array(
 
 /** Response for ListTensorFlowVersions. */
 export interface ListTensorFlowVersionsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** The listed nodes. */
   tensorflowVersions?: TensorFlowVersionList;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** The next page token or empty if none. */
   nextPageToken?: string;
 }
 export const ListTensorFlowVersionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     tensorflowVersions: S.optional(TensorFlowVersionList),
+    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({

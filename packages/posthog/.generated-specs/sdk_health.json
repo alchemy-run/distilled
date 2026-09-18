@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.sdk_health#SdkHealthReportRetrieveRequest": {
+    "com.posthog.sdk_health#GetSdkHealthReportRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -32,7 +33,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "force_refresh",
-            "smithy.api#documentation": "When true, bypasses the Redis cache and re-queries ClickHouse for SDK usage. Use sparingly — data is refreshed every 12 hours by a background job."
+            "smithy.api#documentation": "When true, bypasses the Redis cache and re-queries ClickHouse for SDK usage. A background job refreshes this data once a day, so the cached answer is usually current. Use sparingly."
           }
         }
       },
@@ -50,7 +51,7 @@
           }
         },
         "health": {
-          "target": "com.posthog.sdk_health#HealthEnum",
+          "target": "com.posthog.sdk_health#SdkHealthReportHealthEnum",
           "traits": {
             "smithy.api#documentation": "UI-level status — 'success' when healthy, 'warning' when some SDKs are outdated, 'danger' when the majority are outdated.\n\n* `success` - success\n* `warning` - warning\n* `danger` - danger"
           }
@@ -96,7 +97,7 @@
         "smithy.api#documentation": "* `healthy` - healthy\n* `needs_attention` - needs_attention"
       }
     },
-    "com.posthog.sdk_health#HealthEnum": {
+    "com.posthog.sdk_health#SdkHealthReportHealthEnum": {
       "type": "enum",
       "members": {
         "SUCCESS": {
@@ -126,9 +127,9 @@
       "type": "structure",
       "members": {
         "lib": {
-          "target": "smithy.api#String",
+          "target": "com.posthog.sdk_health#LibEnum",
           "traits": {
-            "smithy.api#documentation": "SDK identifier, e.g. 'web', 'posthog-python', 'posthog-node', 'posthog-ios'."
+            "smithy.api#documentation": "SDK identifier, e.g. 'web', 'posthog-python', 'posthog-node', 'posthog-ios'.\n\n* `web` - web\n* `posthog-ios` - posthog-ios\n* `posthog-android` - posthog-android\n* `posthog-java` - posthog-java\n* `posthog-server` - posthog-server\n* `posthog-node` - posthog-node\n* `posthog-python` - posthog-python\n* `posthog-php` - posthog-php\n* `posthog-ruby` - posthog-ruby\n* `posthog-go` - posthog-go\n* `posthog-flutter` - posthog-flutter\n* `posthog-react-native` - posthog-react-native\n* `posthog-kmp` - posthog-kmp\n* `posthog-dotnet` - posthog-dotnet\n* `posthog-elixir` - posthog-elixir"
           }
         },
         "readable_name": {
@@ -159,6 +160,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "True if the primary in-use version is flagged as old by age alone."
+          }
+        },
+        "migration_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when this SDK must be replaced by a supported successor rather than upgraded in place."
           }
         },
         "severity": {
@@ -193,6 +200,104 @@
         }
       },
       "traits": {}
+    },
+    "com.posthog.sdk_health#LibEnum": {
+      "type": "enum",
+      "members": {
+        "WEB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "web"
+          }
+        },
+        "POSTHOG_IOS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-ios"
+          }
+        },
+        "POSTHOG_ANDROID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-android"
+          }
+        },
+        "POSTHOG_JAVA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-java"
+          }
+        },
+        "POSTHOG_SERVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-server"
+          }
+        },
+        "POSTHOG_NODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-node"
+          }
+        },
+        "POSTHOG_PYTHON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-python"
+          }
+        },
+        "POSTHOG_PHP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-php"
+          }
+        },
+        "POSTHOG_RUBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-ruby"
+          }
+        },
+        "POSTHOG_GO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-go"
+          }
+        },
+        "POSTHOG_FLUTTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-flutter"
+          }
+        },
+        "POSTHOG_REACT_NATIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-react-native"
+          }
+        },
+        "POSTHOG_KMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-kmp"
+          }
+        },
+        "POSTHOG_DOTNET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-dotnet"
+          }
+        },
+        "POSTHOG_ELIXIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog-elixir"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `web` - web\n* `posthog-ios` - posthog-ios\n* `posthog-android` - posthog-android\n* `posthog-java` - posthog-java\n* `posthog-server` - posthog-server\n* `posthog-node` - posthog-node\n* `posthog-python` - posthog-python\n* `posthog-php` - posthog-php\n* `posthog-ruby` - posthog-ruby\n* `posthog-go` - posthog-go\n* `posthog-flutter` - posthog-flutter\n* `posthog-react-native` - posthog-react-native\n* `posthog-kmp` - posthog-kmp\n* `posthog-dotnet` - posthog-dotnet\n* `posthog-elixir` - posthog-elixir"
+      }
     },
     "com.posthog.sdk_health#SdkAssessmentSeverityEnum": {
       "type": "enum",
@@ -361,10 +466,10 @@
         "smithy.api#documentation": "Per-SDK health assessments."
       }
     },
-    "com.posthog.sdk_health#SdkHealthReportRetrieve": {
+    "com.posthog.sdk_health#GetSdkHealthReport": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.sdk_health#SdkHealthReportRetrieveRequest"
+        "target": "com.posthog.sdk_health#GetSdkHealthReportRequest"
       },
       "output": {
         "target": "com.posthog.sdk_health#SdkHealthReport"
@@ -383,7 +488,7 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.sdk_health#SdkHealthReportRetrieve"
+          "target": "com.posthog.sdk_health#GetSdkHealthReport"
         }
       ],
       "traits": {

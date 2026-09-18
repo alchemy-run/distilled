@@ -1,11 +1,38 @@
 {
-  "description": "Type 408 wait timeout as GatewayTimeout so machinesWait can retry a typed tag.",
+  "description": "Keep the existing 408 response and type waitMachine's observed deadline_exceeded state-wait failure as MachineWaitTimeout. Match the message pattern without assuming an HTTP status.",
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1apps~1{app_name}~1machines~1{machine_id}~1wait/get/responses/408",
+      "path": "/paths/~1v1~1apps~1{app_name}~1machines~1{machine_id}~1wait/get/responses/408",
       "value": {
         "description": "Request Timeout"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachineWaitTimeout",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "message": {
+                "matches": "^deadline_exceeded: machine failed to reach desired state, [a-z_]+, currently [a-z_]+$"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#WaitMachine/errors/-",
+      "value": {
+        "target": "com.flyio.machines#MachineWaitTimeout"
       }
     }
   ]

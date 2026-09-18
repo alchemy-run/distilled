@@ -369,6 +369,65 @@ export const AssociateSourceNetworkStackResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AssociateSourceNetworkStackResponse",
 }) as any as S.Schema<AssociateSourceNetworkStackResponse>;
+export type StrictDRSARN = string;
+export interface CancelRecoveryPlanExecutionRequest {
+  recoveryPlanExecutionArn: string;
+}
+export const CancelRecoveryPlanExecutionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanExecutionArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CancelRecoveryPlanExecution" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CancelRecoveryPlanExecutionRequest",
+}) as any as S.Schema<CancelRecoveryPlanExecutionRequest>;
+export type RecoveryPlanExecutionMode = string;
+export type RecoveryPlanExecutionStatus = string;
+export interface ErrorDetail {
+  message: string;
+  code: string;
+}
+export const ErrorDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ message: S.String, code: S.String }),
+).annotate({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
+export interface RecoveryPlanExecution {
+  recoveryPlanExecutionArn: string;
+  recoveryPlanArn: string;
+  mode: string;
+  status: string;
+  startedAt: string;
+  completedAt?: string;
+  errorDetail?: ErrorDetail;
+  tags?: { [key: string]: string | undefined };
+}
+export const RecoveryPlanExecution = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanExecutionArn: S.String,
+    recoveryPlanArn: S.String,
+    mode: S.String,
+    status: S.String,
+    startedAt: S.String,
+    completedAt: S.optional(S.String),
+    errorDetail: S.optional(ErrorDetail),
+    tags: S.optional(TagsMap),
+  }),
+).annotate({
+  identifier: "RecoveryPlanExecution",
+}) as any as S.Schema<RecoveryPlanExecution>;
+export interface CancelRecoveryPlanExecutionResponse {
+  recoveryPlanExecution: RecoveryPlanExecution;
+}
+export const CancelRecoveryPlanExecutionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanExecution: RecoveryPlanExecution }),
+).annotate({
+  identifier: "CancelRecoveryPlanExecutionResponse",
+}) as any as S.Schema<CancelRecoveryPlanExecutionResponse>;
 export type SourceServerARN = string;
 export interface CreateExtendedSourceServerRequest {
   sourceServerArn: string;
@@ -699,6 +758,7 @@ export interface Licensing {
 export const Licensing = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ osByol: S.optional(S.Boolean) }),
 ).annotate({ identifier: "Licensing" }) as any as S.Schema<Licensing>;
+export type RecoveryMode = string;
 export interface CreateLaunchConfigurationTemplateRequest {
   tags?: { [key: string]: string | undefined };
   launchDisposition?: string;
@@ -709,6 +769,7 @@ export interface CreateLaunchConfigurationTemplateRequest {
   exportBucketArn?: string;
   postLaunchEnabled?: boolean;
   launchIntoSourceInstance?: boolean;
+  recoveryMode?: string;
 }
 export const CreateLaunchConfigurationTemplateRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -722,6 +783,7 @@ export const CreateLaunchConfigurationTemplateRequest = /*@__PURE__*/ S.suspend(
       exportBucketArn: S.optional(S.String),
       postLaunchEnabled: S.optional(S.Boolean),
       launchIntoSourceInstance: S.optional(S.Boolean),
+      recoveryMode: S.optional(S.String),
     }).pipe(
       T.all(
         T.Http({ method: "POST", uri: "/CreateLaunchConfigurationTemplate" }),
@@ -748,6 +810,7 @@ export interface LaunchConfigurationTemplate {
   exportBucketArn?: string;
   postLaunchEnabled?: boolean;
   launchIntoSourceInstance?: boolean;
+  recoveryMode?: string;
 }
 export const LaunchConfigurationTemplate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -762,6 +825,7 @@ export const LaunchConfigurationTemplate = /*@__PURE__*/ S.suspend(() =>
     exportBucketArn: S.optional(S.String),
     postLaunchEnabled: S.optional(S.Boolean),
     launchIntoSourceInstance: S.optional(S.Boolean),
+    recoveryMode: S.optional(S.String),
   }),
 ).annotate({
   identifier: "LaunchConfigurationTemplate",
@@ -777,6 +841,162 @@ export const CreateLaunchConfigurationTemplateResponse =
   ).annotate({
     identifier: "CreateLaunchConfigurationTemplateResponse",
   }) as any as S.Schema<CreateLaunchConfigurationTemplateResponse>;
+export type RecoveryPlanName = string;
+export type RecoveryPlanDescription = string;
+export type ClientIdempotencyToken = string;
+export interface CreateRecoveryPlanRequest {
+  name: string;
+  description?: string;
+  clientToken?: string;
+  tags?: { [key: string]: string | undefined };
+}
+export const CreateRecoveryPlanRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    tags: S.optional(TagsMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateRecoveryPlan" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateRecoveryPlanRequest",
+}) as any as S.Schema<CreateRecoveryPlanRequest>;
+export type RecoveryPlanStatus = string;
+export interface RecoveryPlan {
+  recoveryPlanArn: string;
+  name: string;
+  description?: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  tags?: { [key: string]: string | undefined };
+}
+export const RecoveryPlan = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanArn: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    status: S.String,
+    createdAt: S.String,
+    updatedAt: S.String,
+    tags: S.optional(TagsMap),
+  }),
+).annotate({ identifier: "RecoveryPlan" }) as any as S.Schema<RecoveryPlan>;
+export interface CreateRecoveryPlanResponse {
+  recoveryPlan: RecoveryPlan;
+}
+export const CreateRecoveryPlanResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlan: RecoveryPlan }),
+).annotate({
+  identifier: "CreateRecoveryPlanResponse",
+}) as any as S.Schema<CreateRecoveryPlanResponse>;
+export type RecoveryPlanStepName = string;
+export type RecoveryPlanStepOrder = number;
+export type RecoveryPlanServerImpactLevel = string;
+export interface RecoveryPlanServer {
+  serverArn: string;
+  impactLevel?: string;
+}
+export const RecoveryPlanServer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ serverArn: S.String, impactLevel: S.optional(S.String) }),
+).annotate({
+  identifier: "RecoveryPlanServer",
+}) as any as S.Schema<RecoveryPlanServer>;
+export type RecoveryPlanServers = RecoveryPlanServer[];
+export const RecoveryPlanServers = /*@__PURE__*/ S.Array(RecoveryPlanServer);
+export interface ServerStepConfiguration {
+  servers: RecoveryPlanServer[];
+}
+export const ServerStepConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ servers: RecoveryPlanServers }),
+).annotate({
+  identifier: "ServerStepConfiguration",
+}) as any as S.Schema<ServerStepConfiguration>;
+export type WaitDurationMinutes = number;
+export interface WaitStepConfiguration {
+  waitDurationMinutes: number;
+}
+export const WaitStepConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ waitDurationMinutes: S.Number }),
+).annotate({
+  identifier: "WaitStepConfiguration",
+}) as any as S.Schema<WaitStepConfiguration>;
+export type RecoveryPlanStepConfiguration =
+  | {
+      serverStepConfiguration: ServerStepConfiguration;
+      waitStepConfiguration?: never;
+    }
+  | {
+      serverStepConfiguration?: never;
+      waitStepConfiguration: WaitStepConfiguration;
+    };
+export const RecoveryPlanStepConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ serverStepConfiguration: ServerStepConfiguration }),
+  S.Struct({ waitStepConfiguration: WaitStepConfiguration }),
+]);
+export interface CreateRecoveryPlanStepRequest {
+  recoveryPlanArn: string;
+  stepName: string;
+  stepOrder?: number;
+  configuration: RecoveryPlanStepConfiguration;
+  clientToken?: string;
+}
+export const CreateRecoveryPlanStepRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanArn: S.String,
+    stepName: S.String,
+    stepOrder: S.optional(S.Number),
+    configuration: RecoveryPlanStepConfiguration,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/CreateRecoveryPlanStep" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateRecoveryPlanStepRequest",
+}) as any as S.Schema<CreateRecoveryPlanStepRequest>;
+export interface RecoveryPlanStep {
+  recoveryPlanStepArn: string;
+  stepOrder: number;
+  stepName: string;
+  configuration: RecoveryPlanStepConfiguration;
+  createdAt: string;
+  updatedAt: string;
+}
+export const RecoveryPlanStep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanStepArn: S.String,
+    stepOrder: S.Number,
+    stepName: S.String,
+    configuration: RecoveryPlanStepConfiguration,
+    createdAt: S.String,
+    updatedAt: S.String,
+  }),
+).annotate({
+  identifier: "RecoveryPlanStep",
+}) as any as S.Schema<RecoveryPlanStep>;
+export interface CreateRecoveryPlanStepResponse {
+  recoveryPlanStep: RecoveryPlanStep;
+}
+export const CreateRecoveryPlanStepResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanStep: RecoveryPlanStep }),
+).annotate({
+  identifier: "CreateRecoveryPlanStepResponse",
+}) as any as S.Schema<CreateRecoveryPlanStepResponse>;
 export type SubnetID = string;
 export type SecurityGroupID = string;
 export type ReplicationServersSecurityGroupsIDs = string[];
@@ -1035,6 +1255,81 @@ export const DeleteRecoveryInstanceResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteRecoveryInstanceResponse",
 }) as any as S.Schema<DeleteRecoveryInstanceResponse>;
+export interface DeleteRecoveryPlanRequest {
+  recoveryPlanArn: string;
+}
+export const DeleteRecoveryPlanRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteRecoveryPlan" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteRecoveryPlanRequest",
+}) as any as S.Schema<DeleteRecoveryPlanRequest>;
+export interface DeleteRecoveryPlanResponse {
+  recoveryPlanArn: string;
+}
+export const DeleteRecoveryPlanResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanArn: S.String }),
+).annotate({
+  identifier: "DeleteRecoveryPlanResponse",
+}) as any as S.Schema<DeleteRecoveryPlanResponse>;
+export interface DeleteRecoveryPlanExecutionRequest {
+  recoveryPlanExecutionArn: string;
+}
+export const DeleteRecoveryPlanExecutionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanExecutionArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteRecoveryPlanExecution" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteRecoveryPlanExecutionRequest",
+}) as any as S.Schema<DeleteRecoveryPlanExecutionRequest>;
+export interface DeleteRecoveryPlanExecutionResponse {
+  recoveryPlanExecutionArn: string;
+}
+export const DeleteRecoveryPlanExecutionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanExecutionArn: S.String }),
+).annotate({
+  identifier: "DeleteRecoveryPlanExecutionResponse",
+}) as any as S.Schema<DeleteRecoveryPlanExecutionResponse>;
+export interface DeleteRecoveryPlanStepRequest {
+  recoveryPlanStepArn: string;
+}
+export const DeleteRecoveryPlanStepRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanStepArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/DeleteRecoveryPlanStep" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteRecoveryPlanStepRequest",
+}) as any as S.Schema<DeleteRecoveryPlanStepRequest>;
+export interface DeleteRecoveryPlanStepResponse {
+  recoveryPlanStepArn: string;
+}
+export const DeleteRecoveryPlanStepResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanStepArn: S.String }),
+).annotate({
+  identifier: "DeleteRecoveryPlanStepResponse",
+}) as any as S.Schema<DeleteRecoveryPlanStepResponse>;
 export interface DeleteReplicationConfigurationTemplateRequest {
   replicationConfigurationTemplateID: string;
 }
@@ -2044,6 +2339,7 @@ export interface LaunchConfiguration {
   licensing?: Licensing;
   postLaunchEnabled?: boolean;
   launchIntoInstanceProperties?: LaunchIntoInstanceProperties;
+  recoveryMode?: string;
 }
 export const LaunchConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2057,10 +2353,179 @@ export const LaunchConfiguration = /*@__PURE__*/ S.suspend(() =>
     licensing: S.optional(Licensing),
     postLaunchEnabled: S.optional(S.Boolean),
     launchIntoInstanceProperties: S.optional(LaunchIntoInstanceProperties),
+    recoveryMode: S.optional(S.String),
   }),
 ).annotate({
   identifier: "LaunchConfiguration",
 }) as any as S.Schema<LaunchConfiguration>;
+export interface GetRecoveryPlanRequest {
+  recoveryPlanArn: string;
+}
+export const GetRecoveryPlanRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetRecoveryPlan" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetRecoveryPlanRequest",
+}) as any as S.Schema<GetRecoveryPlanRequest>;
+export interface GetRecoveryPlanResponse {
+  recoveryPlan: RecoveryPlan;
+}
+export const GetRecoveryPlanResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlan: RecoveryPlan }),
+).annotate({
+  identifier: "GetRecoveryPlanResponse",
+}) as any as S.Schema<GetRecoveryPlanResponse>;
+export interface GetRecoveryPlanExecutionRequest {
+  recoveryPlanExecutionArn: string;
+}
+export const GetRecoveryPlanExecutionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanExecutionArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetRecoveryPlanExecution" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetRecoveryPlanExecutionRequest",
+}) as any as S.Schema<GetRecoveryPlanExecutionRequest>;
+export interface GetRecoveryPlanExecutionResponse {
+  recoveryPlanExecution: RecoveryPlanExecution;
+}
+export const GetRecoveryPlanExecutionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanExecution: RecoveryPlanExecution }),
+).annotate({
+  identifier: "GetRecoveryPlanExecutionResponse",
+}) as any as S.Schema<GetRecoveryPlanExecutionResponse>;
+export interface GetRecoveryPlanExecutionStepRequest {
+  recoveryPlanExecutionStepArn: string;
+}
+export const GetRecoveryPlanExecutionStepRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanExecutionStepArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetRecoveryPlanExecutionStep" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetRecoveryPlanExecutionStepRequest",
+}) as any as S.Schema<GetRecoveryPlanExecutionStepRequest>;
+export type RecoveryPlanExecutionStepStatus = string;
+export interface RecoveryPlanExecutionServer {
+  serverArn: string;
+  impactLevel?: string;
+  jobID?: string;
+}
+export const RecoveryPlanExecutionServer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serverArn: S.String,
+    impactLevel: S.optional(S.String),
+    jobID: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RecoveryPlanExecutionServer",
+}) as any as S.Schema<RecoveryPlanExecutionServer>;
+export type RecoveryPlanExecutionServers = RecoveryPlanExecutionServer[];
+export const RecoveryPlanExecutionServers = /*@__PURE__*/ S.Array(
+  RecoveryPlanExecutionServer,
+);
+export interface ExecutionServerStepConfiguration {
+  servers: RecoveryPlanExecutionServer[];
+}
+export const ExecutionServerStepConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ servers: RecoveryPlanExecutionServers }),
+).annotate({
+  identifier: "ExecutionServerStepConfiguration",
+}) as any as S.Schema<ExecutionServerStepConfiguration>;
+export type RecoveryPlanExecutionStepConfiguration =
+  | {
+      executionServerStepConfiguration: ExecutionServerStepConfiguration;
+      waitStepConfiguration?: never;
+    }
+  | {
+      executionServerStepConfiguration?: never;
+      waitStepConfiguration: WaitStepConfiguration;
+    };
+export const RecoveryPlanExecutionStepConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({
+    executionServerStepConfiguration: ExecutionServerStepConfiguration,
+  }),
+  S.Struct({ waitStepConfiguration: WaitStepConfiguration }),
+]);
+export interface RecoveryPlanExecutionStep {
+  recoveryPlanExecutionStepArn: string;
+  stepIndex: number;
+  status: string;
+  stepName: string;
+  configuration: RecoveryPlanExecutionStepConfiguration;
+  errorDetail?: ErrorDetail;
+  attempt: number;
+  createdAt: string;
+  updatedAt: string;
+}
+export const RecoveryPlanExecutionStep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanExecutionStepArn: S.String,
+    stepIndex: S.Number,
+    status: S.String,
+    stepName: S.String,
+    configuration: RecoveryPlanExecutionStepConfiguration,
+    errorDetail: S.optional(ErrorDetail),
+    attempt: S.Number,
+    createdAt: S.String,
+    updatedAt: S.String,
+  }),
+).annotate({
+  identifier: "RecoveryPlanExecutionStep",
+}) as any as S.Schema<RecoveryPlanExecutionStep>;
+export interface GetRecoveryPlanExecutionStepResponse {
+  recoveryPlanExecutionStep: RecoveryPlanExecutionStep;
+}
+export const GetRecoveryPlanExecutionStepResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({ recoveryPlanExecutionStep: RecoveryPlanExecutionStep }),
+).annotate({
+  identifier: "GetRecoveryPlanExecutionStepResponse",
+}) as any as S.Schema<GetRecoveryPlanExecutionStepResponse>;
+export interface GetRecoveryPlanStepRequest {
+  recoveryPlanStepArn: string;
+}
+export const GetRecoveryPlanStepRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanStepArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetRecoveryPlanStep" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetRecoveryPlanStepRequest",
+}) as any as S.Schema<GetRecoveryPlanStepRequest>;
+export interface GetRecoveryPlanStepResponse {
+  recoveryPlanStep: RecoveryPlanStep;
+}
+export const GetRecoveryPlanStepResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanStep: RecoveryPlanStep }),
+).annotate({
+  identifier: "GetRecoveryPlanStepResponse",
+}) as any as S.Schema<GetRecoveryPlanStepResponse>;
 export interface GetReplicationConfigurationRequest {
   sourceServerID: string;
 }
@@ -2274,6 +2739,230 @@ export const ListLaunchActionsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListLaunchActionsResponse",
 }) as any as S.Schema<ListLaunchActionsResponse>;
+export interface ListRecoveryPlanExecutionsRequest {
+  recoveryPlanArn?: string;
+  status?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListRecoveryPlanExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanArn: S.optional(S.String),
+    status: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListRecoveryPlanExecutions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListRecoveryPlanExecutionsRequest",
+}) as any as S.Schema<ListRecoveryPlanExecutionsRequest>;
+export interface RecoveryPlanExecutionSummary {
+  recoveryPlanExecutionArn: string;
+  recoveryPlanArn: string;
+  mode: string;
+  status: string;
+  startedAt: string;
+  errorDetail?: ErrorDetail;
+}
+export const RecoveryPlanExecutionSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanExecutionArn: S.String,
+    recoveryPlanArn: S.String,
+    mode: S.String,
+    status: S.String,
+    startedAt: S.String,
+    errorDetail: S.optional(ErrorDetail),
+  }),
+).annotate({
+  identifier: "RecoveryPlanExecutionSummary",
+}) as any as S.Schema<RecoveryPlanExecutionSummary>;
+export type RecoveryPlanExecutionSummaryList = RecoveryPlanExecutionSummary[];
+export const RecoveryPlanExecutionSummaryList = /*@__PURE__*/ S.Array(
+  RecoveryPlanExecutionSummary,
+);
+export interface ListRecoveryPlanExecutionsResponse {
+  recoveryPlanExecutions: RecoveryPlanExecutionSummary[];
+  nextToken?: string;
+}
+export const ListRecoveryPlanExecutionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanExecutions: RecoveryPlanExecutionSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListRecoveryPlanExecutionsResponse",
+}) as any as S.Schema<ListRecoveryPlanExecutionsResponse>;
+export interface ListRecoveryPlanExecutionStepsFilter {
+  status?: string;
+}
+export const ListRecoveryPlanExecutionStepsFilter = /*@__PURE__*/ S.suspend(
+  () => S.Struct({ status: S.optional(S.String) }),
+).annotate({
+  identifier: "ListRecoveryPlanExecutionStepsFilter",
+}) as any as S.Schema<ListRecoveryPlanExecutionStepsFilter>;
+export interface ListRecoveryPlanExecutionStepsRequest {
+  recoveryPlanExecutionArn: string;
+  filter?: ListRecoveryPlanExecutionStepsFilter;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListRecoveryPlanExecutionStepsRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      recoveryPlanExecutionArn: S.String,
+      filter: S.optional(ListRecoveryPlanExecutionStepsFilter),
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ListRecoveryPlanExecutionSteps" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "ListRecoveryPlanExecutionStepsRequest",
+}) as any as S.Schema<ListRecoveryPlanExecutionStepsRequest>;
+export interface RecoveryPlanExecutionStepSummary {
+  recoveryPlanExecutionStepArn: string;
+  stepName: string;
+  stepIndex: number;
+  status: string;
+  configuration: RecoveryPlanExecutionStepConfiguration;
+  errorDetail?: ErrorDetail;
+}
+export const RecoveryPlanExecutionStepSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanExecutionStepArn: S.String,
+    stepName: S.String,
+    stepIndex: S.Number,
+    status: S.String,
+    configuration: RecoveryPlanExecutionStepConfiguration,
+    errorDetail: S.optional(ErrorDetail),
+  }),
+).annotate({
+  identifier: "RecoveryPlanExecutionStepSummary",
+}) as any as S.Schema<RecoveryPlanExecutionStepSummary>;
+export type RecoveryPlanExecutionStepSummaryList =
+  RecoveryPlanExecutionStepSummary[];
+export const RecoveryPlanExecutionStepSummaryList = /*@__PURE__*/ S.Array(
+  RecoveryPlanExecutionStepSummary,
+);
+export interface ListRecoveryPlanExecutionStepsResponse {
+  recoveryPlanExecutionSteps: RecoveryPlanExecutionStepSummary[];
+  nextToken?: string;
+}
+export const ListRecoveryPlanExecutionStepsResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      recoveryPlanExecutionSteps: RecoveryPlanExecutionStepSummaryList,
+      nextToken: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "ListRecoveryPlanExecutionStepsResponse",
+}) as any as S.Schema<ListRecoveryPlanExecutionStepsResponse>;
+export interface ListRecoveryPlansRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListRecoveryPlansRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListRecoveryPlans" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListRecoveryPlansRequest",
+}) as any as S.Schema<ListRecoveryPlansRequest>;
+export interface RecoveryPlanSummary {
+  recoveryPlanArn: string;
+  name: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export const RecoveryPlanSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanArn: S.String,
+    name: S.String,
+    status: S.String,
+    createdAt: S.String,
+    updatedAt: S.String,
+  }),
+).annotate({
+  identifier: "RecoveryPlanSummary",
+}) as any as S.Schema<RecoveryPlanSummary>;
+export type RecoveryPlanSummaryList = RecoveryPlanSummary[];
+export const RecoveryPlanSummaryList =
+  /*@__PURE__*/ S.Array(RecoveryPlanSummary);
+export interface ListRecoveryPlansResponse {
+  recoveryPlans: RecoveryPlanSummary[];
+  nextToken?: string;
+}
+export const ListRecoveryPlansResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlans: RecoveryPlanSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListRecoveryPlansResponse",
+}) as any as S.Schema<ListRecoveryPlansResponse>;
+export interface ListRecoveryPlanStepsRequest {
+  recoveryPlanArn: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListRecoveryPlanStepsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanArn: S.String,
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ListRecoveryPlanSteps" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListRecoveryPlanStepsRequest",
+}) as any as S.Schema<ListRecoveryPlanStepsRequest>;
+export type RecoveryPlanStepList = RecoveryPlanStep[];
+export const RecoveryPlanStepList = /*@__PURE__*/ S.Array(RecoveryPlanStep);
+export interface ListRecoveryPlanStepsResponse {
+  recoveryPlanSteps: RecoveryPlanStep[];
+  nextToken?: string;
+}
+export const ListRecoveryPlanStepsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanSteps: RecoveryPlanStepList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListRecoveryPlanStepsResponse",
+}) as any as S.Schema<ListRecoveryPlanStepsResponse>;
 export interface ListStagingAccountsRequest {
   maxResults?: number;
   nextToken?: string;
@@ -2408,6 +3097,37 @@ export const PutLaunchActionResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PutLaunchActionResponse",
 }) as any as S.Schema<PutLaunchActionResponse>;
+export type RecoveryPlanStepArnList = string[];
+export const RecoveryPlanStepArnList = /*@__PURE__*/ S.Array(S.String);
+export interface ReorderRecoveryPlanStepsRequest {
+  recoveryPlanArn: string;
+  orderedStepArns: string[];
+}
+export const ReorderRecoveryPlanStepsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanArn: S.String,
+    orderedStepArns: RecoveryPlanStepArnList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/ReorderRecoveryPlanSteps" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ReorderRecoveryPlanStepsRequest",
+}) as any as S.Schema<ReorderRecoveryPlanStepsRequest>;
+export interface ReorderRecoveryPlanStepsResponse {
+  recoveryPlanSteps: RecoveryPlanStep[];
+}
+export const ReorderRecoveryPlanStepsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanSteps: RecoveryPlanStepList }),
+).annotate({
+  identifier: "ReorderRecoveryPlanStepsResponse",
+}) as any as S.Schema<ReorderRecoveryPlanStepsResponse>;
 export interface RetryDataReplicationRequest {
   sourceServerID: string;
 }
@@ -2425,6 +3145,32 @@ export const RetryDataReplicationRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RetryDataReplicationRequest",
 }) as any as S.Schema<RetryDataReplicationRequest>;
+export interface RetryRecoveryPlanExecutionStepRequest {
+  recoveryPlanExecutionStepArn: string;
+}
+export const RetryRecoveryPlanExecutionStepRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ recoveryPlanExecutionStepArn: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/RetryRecoveryPlanExecutionStep" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "RetryRecoveryPlanExecutionStepRequest",
+}) as any as S.Schema<RetryRecoveryPlanExecutionStepRequest>;
+export interface RetryRecoveryPlanExecutionStepResponse {
+  recoveryPlanExecutionStep: RecoveryPlanExecutionStep;
+}
+export const RetryRecoveryPlanExecutionStepResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({ recoveryPlanExecutionStep: RecoveryPlanExecutionStep }),
+).annotate({
+  identifier: "RetryRecoveryPlanExecutionStepResponse",
+}) as any as S.Schema<RetryRecoveryPlanExecutionStepResponse>;
 export interface ReverseReplicationRequest {
   recoveryInstanceID: string;
 }
@@ -2531,6 +3277,55 @@ export const StartRecoveryResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "StartRecoveryResponse",
 }) as any as S.Schema<StartRecoveryResponse>;
+export interface RecoveryPlanExecutionSourceServer {
+  sourceServerID: string;
+  recoverySnapshotID: string;
+}
+export const RecoveryPlanExecutionSourceServer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ sourceServerID: S.String, recoverySnapshotID: S.String }),
+).annotate({
+  identifier: "RecoveryPlanExecutionSourceServer",
+}) as any as S.Schema<RecoveryPlanExecutionSourceServer>;
+export type RecoveryPlanExecutionSourceServerList =
+  RecoveryPlanExecutionSourceServer[];
+export const RecoveryPlanExecutionSourceServerList = /*@__PURE__*/ S.Array(
+  RecoveryPlanExecutionSourceServer,
+);
+export interface StartRecoveryPlanExecutionRequest {
+  recoveryPlanArn: string;
+  mode: string;
+  clientToken?: string;
+  sourceServers?: RecoveryPlanExecutionSourceServer[];
+  tags?: { [key: string]: string | undefined };
+}
+export const StartRecoveryPlanExecutionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanArn: S.String,
+    mode: S.String,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    sourceServers: S.optional(RecoveryPlanExecutionSourceServerList),
+    tags: S.optional(TagsMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/StartRecoveryPlanExecution" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartRecoveryPlanExecutionRequest",
+}) as any as S.Schema<StartRecoveryPlanExecutionRequest>;
+export interface StartRecoveryPlanExecutionResponse {
+  recoveryPlanExecution: RecoveryPlanExecution;
+}
+export const StartRecoveryPlanExecutionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanExecution: RecoveryPlanExecution }),
+).annotate({
+  identifier: "StartRecoveryPlanExecutionResponse",
+}) as any as S.Schema<StartRecoveryPlanExecutionResponse>;
 export interface StartReplicationRequest {
   sourceServerID: string;
 }
@@ -2836,6 +3631,7 @@ export interface UpdateLaunchConfigurationRequest {
   licensing?: Licensing;
   postLaunchEnabled?: boolean;
   launchIntoInstanceProperties?: LaunchIntoInstanceProperties;
+  recoveryMode?: string;
 }
 export const UpdateLaunchConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2848,6 +3644,7 @@ export const UpdateLaunchConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     licensing: S.optional(Licensing),
     postLaunchEnabled: S.optional(S.Boolean),
     launchIntoInstanceProperties: S.optional(LaunchIntoInstanceProperties),
+    recoveryMode: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/UpdateLaunchConfiguration" }),
@@ -2871,6 +3668,7 @@ export interface UpdateLaunchConfigurationTemplateRequest {
   exportBucketArn?: string;
   postLaunchEnabled?: boolean;
   launchIntoSourceInstance?: boolean;
+  recoveryMode?: string;
 }
 export const UpdateLaunchConfigurationTemplateRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -2884,6 +3682,7 @@ export const UpdateLaunchConfigurationTemplateRequest = /*@__PURE__*/ S.suspend(
       exportBucketArn: S.optional(S.String),
       postLaunchEnabled: S.optional(S.Boolean),
       launchIntoSourceInstance: S.optional(S.Boolean),
+      recoveryMode: S.optional(S.String),
     }).pipe(
       T.all(
         T.Http({ method: "POST", uri: "/UpdateLaunchConfigurationTemplate" }),
@@ -2908,6 +3707,102 @@ export const UpdateLaunchConfigurationTemplateResponse =
   ).annotate({
     identifier: "UpdateLaunchConfigurationTemplateResponse",
   }) as any as S.Schema<UpdateLaunchConfigurationTemplateResponse>;
+export interface UpdateRecoveryPlanRequest {
+  recoveryPlanArn: string;
+  name?: string;
+  description?: string;
+}
+export const UpdateRecoveryPlanRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanArn: S.String,
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateRecoveryPlan" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateRecoveryPlanRequest",
+}) as any as S.Schema<UpdateRecoveryPlanRequest>;
+export interface UpdateRecoveryPlanResponse {
+  recoveryPlan: RecoveryPlan;
+}
+export const UpdateRecoveryPlanResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlan: RecoveryPlan }),
+).annotate({
+  identifier: "UpdateRecoveryPlanResponse",
+}) as any as S.Schema<UpdateRecoveryPlanResponse>;
+export interface UpdateRecoveryPlanExecutionStepRequest {
+  recoveryPlanExecutionStepArn: string;
+  status?: string;
+  servers?: RecoveryPlanServer[];
+  waitDurationMinutes?: number;
+}
+export const UpdateRecoveryPlanExecutionStepRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      recoveryPlanExecutionStepArn: S.String,
+      status: S.optional(S.String),
+      servers: S.optional(RecoveryPlanServers),
+      waitDurationMinutes: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/UpdateRecoveryPlanExecutionStep" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "UpdateRecoveryPlanExecutionStepRequest",
+}) as any as S.Schema<UpdateRecoveryPlanExecutionStepRequest>;
+export interface UpdateRecoveryPlanExecutionStepResponse {
+  recoveryPlanExecutionStep: RecoveryPlanExecutionStep;
+}
+export const UpdateRecoveryPlanExecutionStepResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({ recoveryPlanExecutionStep: RecoveryPlanExecutionStep }),
+).annotate({
+  identifier: "UpdateRecoveryPlanExecutionStepResponse",
+}) as any as S.Schema<UpdateRecoveryPlanExecutionStepResponse>;
+export interface UpdateRecoveryPlanStepRequest {
+  recoveryPlanStepArn: string;
+  stepName?: string;
+  configuration?: RecoveryPlanStepConfiguration;
+}
+export const UpdateRecoveryPlanStepRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPlanStepArn: S.String,
+    stepName: S.optional(S.String),
+    configuration: S.optional(RecoveryPlanStepConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/UpdateRecoveryPlanStep" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateRecoveryPlanStepRequest",
+}) as any as S.Schema<UpdateRecoveryPlanStepRequest>;
+export interface UpdateRecoveryPlanStepResponse {
+  recoveryPlanStep: RecoveryPlanStep;
+}
+export const UpdateRecoveryPlanStepResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recoveryPlanStep: RecoveryPlanStep }),
+).annotate({
+  identifier: "UpdateRecoveryPlanStepResponse",
+}) as any as S.Schema<UpdateRecoveryPlanStepResponse>;
 export interface UpdateReplicationConfigurationRequest {
   sourceServerID: string;
   name?: string;
@@ -3069,6 +3964,40 @@ export const associateSourceNetworkStack: API.OperationMethod<
   operationName: "AssociateSourceNetworkStack",
 }));
 
+export type CancelRecoveryPlanExecutionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Cancels an in-progress Recovery Plan execution. Remaining steps are skipped.
+ */
+export const cancelRecoveryPlanExecution: API.OperationMethod<
+  CancelRecoveryPlanExecutionRequest,
+  CancelRecoveryPlanExecutionResponse,
+  CancelRecoveryPlanExecutionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelRecoveryPlanExecutionRequest,
+  output: CancelRecoveryPlanExecutionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CancelRecoveryPlanExecution",
+}));
+
 export type CreateExtendedSourceServerError =
   | AccessDeniedException
   | InternalServerException
@@ -3133,6 +4062,76 @@ export const createLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLaunchConfigurationTemplate",
+}));
+
+export type CreateRecoveryPlanError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a Recovery Plan to orchestrate multi-server disaster recovery.
+ */
+export const createRecoveryPlan: API.OperationMethod<
+  CreateRecoveryPlanRequest,
+  CreateRecoveryPlanResponse,
+  CreateRecoveryPlanError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateRecoveryPlanRequest,
+  output: CreateRecoveryPlanResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateRecoveryPlan",
+}));
+
+export type CreateRecoveryPlanStepError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a step in a Recovery Plan. A step is either `SERVER` type (servers to recover in parallel) or `WAIT` type (timed pause between steps).
+ */
+export const createRecoveryPlanStep: API.OperationMethod<
+  CreateRecoveryPlanStepRequest,
+  CreateRecoveryPlanStepResponse,
+  CreateRecoveryPlanStepError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateRecoveryPlanStepRequest,
+  output: CreateRecoveryPlanStepResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateRecoveryPlanStep",
 }));
 
 export type CreateReplicationConfigurationTemplateError =
@@ -3319,6 +4318,108 @@ export const deleteRecoveryInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryInstance",
+}));
+
+export type DeleteRecoveryPlanError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a Recovery Plan. Cannot delete a plan that has an execution in a non-terminal status (`CREATED`, `IN_PROGRESS`).
+ */
+export const deleteRecoveryPlan: API.OperationMethod<
+  DeleteRecoveryPlanRequest,
+  DeleteRecoveryPlanResponse,
+  DeleteRecoveryPlanError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteRecoveryPlanRequest,
+  output: DeleteRecoveryPlanResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteRecoveryPlan",
+}));
+
+export type DeleteRecoveryPlanExecutionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a Recovery Plan execution record. Must be in a terminal status.
+ */
+export const deleteRecoveryPlanExecution: API.OperationMethod<
+  DeleteRecoveryPlanExecutionRequest,
+  DeleteRecoveryPlanExecutionResponse,
+  DeleteRecoveryPlanExecutionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteRecoveryPlanExecutionRequest,
+  output: DeleteRecoveryPlanExecutionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteRecoveryPlanExecution",
+}));
+
+export type DeleteRecoveryPlanStepError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a step from a Recovery Plan.
+ */
+export const deleteRecoveryPlanStep: API.OperationMethod<
+  DeleteRecoveryPlanStepRequest,
+  DeleteRecoveryPlanStepResponse,
+  DeleteRecoveryPlanStepError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteRecoveryPlanStepRequest,
+  output: DeleteRecoveryPlanStepResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteRecoveryPlanStep",
 }));
 
 export type DeleteReplicationConfigurationTemplateError =
@@ -3847,6 +4948,134 @@ export const getLaunchConfiguration: API.OperationMethod<
   operationName: "GetLaunchConfiguration",
 }));
 
+export type GetRecoveryPlanError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Gets a Recovery Plan by ARN.
+ */
+export const getRecoveryPlan: API.OperationMethod<
+  GetRecoveryPlanRequest,
+  GetRecoveryPlanResponse,
+  GetRecoveryPlanError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRecoveryPlanRequest,
+  output: GetRecoveryPlanResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetRecoveryPlan",
+}));
+
+export type GetRecoveryPlanExecutionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Gets the details of a Recovery Plan execution.
+ */
+export const getRecoveryPlanExecution: API.OperationMethod<
+  GetRecoveryPlanExecutionRequest,
+  GetRecoveryPlanExecutionResponse,
+  GetRecoveryPlanExecutionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRecoveryPlanExecutionRequest,
+  output: GetRecoveryPlanExecutionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetRecoveryPlanExecution",
+}));
+
+export type GetRecoveryPlanExecutionStepError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Gets the details of a step within a Recovery Plan execution.
+ */
+export const getRecoveryPlanExecutionStep: API.OperationMethod<
+  GetRecoveryPlanExecutionStepRequest,
+  GetRecoveryPlanExecutionStepResponse,
+  GetRecoveryPlanExecutionStepError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRecoveryPlanExecutionStepRequest,
+  output: GetRecoveryPlanExecutionStepResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetRecoveryPlanExecutionStep",
+}));
+
+export type GetRecoveryPlanStepError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Gets a Recovery Plan step by ARN.
+ */
+export const getRecoveryPlanStep: API.OperationMethod<
+  GetRecoveryPlanStepRequest,
+  GetRecoveryPlanStepResponse,
+  GetRecoveryPlanStepError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRecoveryPlanStepRequest,
+  output: GetRecoveryPlanStepResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetRecoveryPlanStep",
+}));
+
 export type GetReplicationConfigurationError =
   | AccessDeniedException
   | InternalServerException
@@ -3979,6 +5208,158 @@ export const listLaunchActions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type ListRecoveryPlanExecutionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists executions of Recovery Plans, optionally filtered by plan or status.
+ */
+export const listRecoveryPlanExecutions: API.PaginatedOperationMethod<
+  ListRecoveryPlanExecutionsRequest,
+  ListRecoveryPlanExecutionsResponse,
+  ListRecoveryPlanExecutionsError,
+  Credentials | HttpClient.HttpClient,
+  RecoveryPlanExecutionSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListRecoveryPlanExecutionsRequest,
+  output: ListRecoveryPlanExecutionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListRecoveryPlanExecutions",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recoveryPlanExecutions",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListRecoveryPlanExecutionStepsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists all steps within a Recovery Plan execution.
+ */
+export const listRecoveryPlanExecutionSteps: API.PaginatedOperationMethod<
+  ListRecoveryPlanExecutionStepsRequest,
+  ListRecoveryPlanExecutionStepsResponse,
+  ListRecoveryPlanExecutionStepsError,
+  Credentials | HttpClient.HttpClient,
+  RecoveryPlanExecutionStepSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListRecoveryPlanExecutionStepsRequest,
+  output: ListRecoveryPlanExecutionStepsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListRecoveryPlanExecutionSteps",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recoveryPlanExecutionSteps",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListRecoveryPlansError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists all Recovery Plans in the account.
+ */
+export const listRecoveryPlans: API.PaginatedOperationMethod<
+  ListRecoveryPlansRequest,
+  ListRecoveryPlansResponse,
+  ListRecoveryPlansError,
+  Credentials | HttpClient.HttpClient,
+  RecoveryPlanSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListRecoveryPlansRequest,
+  output: ListRecoveryPlansResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListRecoveryPlans",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recoveryPlans",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListRecoveryPlanStepsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists all steps in a Recovery Plan.
+ */
+export const listRecoveryPlanSteps: API.PaginatedOperationMethod<
+  ListRecoveryPlanStepsRequest,
+  ListRecoveryPlanStepsResponse,
+  ListRecoveryPlanStepsError,
+  Credentials | HttpClient.HttpClient,
+  RecoveryPlanStep
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListRecoveryPlanStepsRequest,
+  output: ListRecoveryPlanStepsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListRecoveryPlanSteps",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "recoveryPlanSteps",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
 export type ListStagingAccountsError =
   | AccessDeniedException
   | InternalServerException
@@ -4078,6 +5459,40 @@ export const putLaunchAction: API.OperationMethod<
   operationName: "PutLaunchAction",
 }));
 
+export type ReorderRecoveryPlanStepsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Reorders steps in a Recovery Plan. Accepts a complete ordered list of step ARNs.
+ */
+export const reorderRecoveryPlanSteps: API.OperationMethod<
+  ReorderRecoveryPlanStepsRequest,
+  ReorderRecoveryPlanStepsResponse,
+  ReorderRecoveryPlanStepsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReorderRecoveryPlanStepsRequest,
+  output: ReorderRecoveryPlanStepsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ReorderRecoveryPlanSteps",
+}));
+
 export type RetryDataReplicationError =
   | InternalServerException
   | ResourceNotFoundException
@@ -4106,6 +5521,40 @@ export const retryDataReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryDataReplication",
+}));
+
+export type RetryRecoveryPlanExecutionStepError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retries a failed `SERVER` type execution step.
+ */
+export const retryRecoveryPlanExecutionStep: API.OperationMethod<
+  RetryRecoveryPlanExecutionStepRequest,
+  RetryRecoveryPlanExecutionStepResponse,
+  RetryRecoveryPlanExecutionStepError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: RetryRecoveryPlanExecutionStepRequest,
+  output: RetryRecoveryPlanExecutionStepResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "RetryRecoveryPlanExecutionStep",
 }));
 
 export type ReverseReplicationError =
@@ -4202,6 +5651,42 @@ export const startRecovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecovery",
+}));
+
+export type StartRecoveryPlanExecutionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts executing a Recovery Plan in `DRILL` or `RECOVERY` mode. A plan cannot have more than one execution in a non-terminal status at a time.
+ */
+export const startRecoveryPlanExecution: API.OperationMethod<
+  StartRecoveryPlanExecutionRequest,
+  StartRecoveryPlanExecutionResponse,
+  StartRecoveryPlanExecutionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: StartRecoveryPlanExecutionRequest,
+  output: StartRecoveryPlanExecutionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartRecoveryPlanExecution",
 }));
 
 export type StartReplicationError =
@@ -4568,6 +6053,108 @@ export const updateLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLaunchConfigurationTemplate",
+}));
+
+export type UpdateRecoveryPlanError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates a Recovery Plan's name or description.
+ */
+export const updateRecoveryPlan: API.OperationMethod<
+  UpdateRecoveryPlanRequest,
+  UpdateRecoveryPlanResponse,
+  UpdateRecoveryPlanError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateRecoveryPlanRequest,
+  output: UpdateRecoveryPlanResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateRecoveryPlan",
+}));
+
+export type UpdateRecoveryPlanExecutionStepError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates an execution step. Supports two actions: (1) skip a step that is in `NOT_STARTED` or `FAILED` status; (2) update the wait duration of a `WAIT` type step that is in `NOT_STARTED` status.
+ */
+export const updateRecoveryPlanExecutionStep: API.OperationMethod<
+  UpdateRecoveryPlanExecutionStepRequest,
+  UpdateRecoveryPlanExecutionStepResponse,
+  UpdateRecoveryPlanExecutionStepError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateRecoveryPlanExecutionStepRequest,
+  output: UpdateRecoveryPlanExecutionStepResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateRecoveryPlanExecutionStep",
+}));
+
+export type UpdateRecoveryPlanStepError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates a Recovery Plan step's name or configuration. Step type is immutable.
+ */
+export const updateRecoveryPlanStep: API.OperationMethod<
+  UpdateRecoveryPlanStepRequest,
+  UpdateRecoveryPlanStepResponse,
+  UpdateRecoveryPlanStepError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateRecoveryPlanStepRequest,
+  output: UpdateRecoveryPlanStepResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UninitializedAccountException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateRecoveryPlanStep",
 }));
 
 export type UpdateReplicationConfigurationError =

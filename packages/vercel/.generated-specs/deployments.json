@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.vercel.deployments#GetDeploymentEventsRequestDirection": {
@@ -302,6 +303,9 @@
         },
         "readyState": {
           "target": "smithy.api#String"
+        },
+        "serviceName": {
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -561,6 +565,9 @@
         },
         "readyState": {
           "target": "smithy.api#String"
+        },
+        "serviceName": {
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -818,6 +825,9 @@
           "target": "smithy.api#String"
         },
         "readyState": {
+          "target": "smithy.api#String"
+        },
+        "serviceName": {
           "target": "smithy.api#String"
         }
       },
@@ -1077,6 +1087,9 @@
           "target": "smithy.api#String"
         },
         "readyState": {
+          "target": "smithy.api#String"
+        },
+        "serviceName": {
           "target": "smithy.api#String"
         }
       },
@@ -1370,7 +1383,10 @@
     "com.vercel.deployments#GetDeploymentEventsResponseBodyList": {
       "type": "list",
       "member": {
-        "target": "com.vercel.deployments#GetDeploymentEventsResponseBodyItem"
+        "target": "com.vercel.deployments#GetDeploymentEventsResponseBodyItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -2165,6 +2181,12 @@
             "smithy.api#enumValue": "express"
           }
         },
+        "FACTORY_EVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "factory-eve"
+          }
+        },
         "FASTAPI": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2513,6 +2535,12 @@
         "hasData": {
           "target": "smithy.api#Boolean"
         },
+        "dataReceivedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "When the first free (not Speed Insights Plus) production data point was observed, in ms. Set once by subscriber-analytics-events; projects that already had data before this field shipped get it backfilled on their next batch, so it reads \"first free data point observed\", not necessarily \"first ever\"."
+          }
+        },
         "paidAt": {
           "target": "smithy.api#Double"
         }
@@ -2858,14 +2886,52 @@
         "smithy.api#documentation": "A list of all the aliases (default aliases, staging aliases and production aliases) that were assigned upon deployment creation"
       }
     },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1CreatorType": {
+      "type": "enum",
+      "members": {
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app"
+          }
+        },
+        "INTEGRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "integration"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Principal type of the deployment creator."
+      }
+    },
     "com.vercel.deployments#GetDeploymentResponseBodyCase1Creator": {
       "type": "structure",
       "members": {
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the user that created the deployment",
+            "smithy.api#documentation": "Stable creator id across principal types (user id, app id, integration configuration id, or `system`).",
             "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1CreatorType",
+          "traits": {
+            "smithy.api#documentation": "Principal type of the deployment creator."
           }
         },
         "username": {
@@ -5044,6 +5110,123 @@
       },
       "traits": {}
     },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase0": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionCollectionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionDidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsItem": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "COMMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "commit"
+          }
+        },
+        "IDENTITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "identity"
+          }
+        },
+        "SYNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sync"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase1Subscription": {
+      "type": "structure",
+      "members": {
+        "collections": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionCollectionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dids": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionDidsList"
+        },
+        "kinds": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsList"
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase1": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subscription": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase1Subscription",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1Atproto": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1AtprotoCase1"
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsValueArchitecture": {
       "type": "enum",
       "members": {
@@ -5082,6 +5265,30 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsValueMaxDurationCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsValueAffinityMode": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strict"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsValueAffinity": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsValueAffinityMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
@@ -5227,6 +5434,33 @@
         "smithy.api#documentation": "Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed."
       }
     },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItemCase2Type": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE_V1BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule/v1beta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)"
+      }
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItemCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItemCase2Type",
+          "traits": {
+            "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItem": {
       "type": "union",
       "members": {
@@ -5235,6 +5469,9 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItemCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItemCase2"
         }
       },
       "traits": {}
@@ -5257,6 +5494,9 @@
         },
         "maxDuration": {
           "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsValueMaxDuration"
+        },
+        "affinity": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsValueAffinity"
         },
         "maxConcurrency": {
           "target": "smithy.api#Double"
@@ -6560,6 +6800,30 @@
       },
       "traits": {}
     },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueAffinityMode": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strict"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueAffinity": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueAffinityMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueRegionsList": {
       "type": "list",
       "member": {
@@ -6701,6 +6965,33 @@
         "smithy.api#documentation": "Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed."
       }
     },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase2Type": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE_V1BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule/v1beta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)"
+      }
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase2Type",
+          "traits": {
+            "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItem": {
       "type": "union",
       "members": {
@@ -6709,6 +7000,9 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase2"
         }
       },
       "traits": {}
@@ -6731,6 +7025,9 @@
         },
         "maxDuration": {
           "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueMaxDuration"
+        },
+        "affinity": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueAffinity"
         },
         "maxConcurrency": {
           "target": "smithy.api#Double"
@@ -7293,6 +7590,30 @@
       },
       "traits": {}
     },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueAffinityMode": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strict"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueAffinity": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueAffinityMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueRegionsList": {
       "type": "list",
       "member": {
@@ -7434,6 +7755,33 @@
         "smithy.api#documentation": "Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed."
       }
     },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase2Type": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE_V1BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule/v1beta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)"
+      }
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase2Type",
+          "traits": {
+            "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItem": {
       "type": "union",
       "members": {
@@ -7442,6 +7790,9 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase2"
         }
       },
       "traits": {}
@@ -7464,6 +7815,9 @@
         },
         "maxDuration": {
           "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueMaxDuration"
+        },
+        "affinity": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueAffinity"
         },
         "maxConcurrency": {
           "target": "smithy.api#Double"
@@ -7827,6 +8181,30 @@
       },
       "traits": {}
     },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueAffinityMode": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strict"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueAffinity": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueAffinityMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueRegionsList": {
       "type": "list",
       "member": {
@@ -7968,6 +8346,33 @@
         "smithy.api#documentation": "Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed."
       }
     },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItemCase2Type": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE_V1BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule/v1beta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)"
+      }
+    },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItemCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItemCase2Type",
+          "traits": {
+            "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItem": {
       "type": "union",
       "members": {
@@ -7976,6 +8381,9 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItemCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItemCase2"
         }
       },
       "traits": {}
@@ -7998,6 +8406,9 @@
         },
         "maxDuration": {
           "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueMaxDuration"
+        },
+        "affinity": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueAffinity"
         },
         "maxConcurrency": {
           "target": "smithy.api#Double"
@@ -12744,6 +13155,9 @@
         "crons": {
           "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1CronsList"
         },
+        "atproto": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1Atproto"
+        },
         "functions": {
           "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1FunctionsMap",
           "traits": {
@@ -12840,14 +13254,52 @@
         "smithy.api#documentation": "A list of all the aliases (default aliases, staging aliases and production aliases) that were assigned upon deployment creation"
       }
     },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase2CreatorType": {
+      "type": "enum",
+      "members": {
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app"
+          }
+        },
+        "INTEGRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "integration"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Principal type of the deployment creator."
+      }
+    },
     "com.vercel.deployments#GetDeploymentResponseBodyCase2Creator": {
       "type": "structure",
       "members": {
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the user that created the deployment",
+            "smithy.api#documentation": "Stable creator id across principal types (user id, app id, integration configuration id, or `system`).",
             "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase2CreatorType",
+          "traits": {
+            "smithy.api#documentation": "Principal type of the deployment creator."
           }
         },
         "username": {
@@ -16321,6 +16773,12 @@
             "smithy.api#enumValue": "ash"
           }
         },
+        "FACTORY_EVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "factory-eve"
+          }
+        },
         "EVE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -16648,6 +17106,12 @@
           "target": "com.vercel.deployments#CreateDeploymentRequestFilesList",
           "traits": {
             "smithy.api#documentation": "The files to include in the deployment. Each entry is either an inlined file (with `data` and `encoding`) or a reference to a previously uploaded file (with `sha` and `size`). Required for non-git deployments. Cannot be used together with `gitSource`."
+          }
+        },
+        "gitAccessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Available only to Vercel platform accounts. A read-only GitHub access token scoped to the requested repository. Use a token with a lifetime of 24 hours or less that remains valid until source retrieval completes."
           }
         },
         "gitMetadata": {
@@ -17277,6 +17741,12 @@
             "smithy.api#enumValue": "express"
           }
         },
+        "FACTORY_EVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "factory-eve"
+          }
+        },
         "FASTAPI": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -17625,6 +18095,12 @@
         "hasData": {
           "target": "smithy.api#Boolean"
         },
+        "dataReceivedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "When the first free (not Speed Insights Plus) production data point was observed, in ms. Set once by subscriber-analytics-events; projects that already had data before this field shipped get it backfilled on their next batch, so it reads \"first free data point observed\", not necessarily \"first ever\"."
+          }
+        },
         "paidAt": {
           "target": "smithy.api#Double"
         }
@@ -17970,14 +18446,52 @@
         "smithy.api#documentation": "A list of all the aliases (default aliases, staging aliases and production aliases) that were assigned upon deployment creation"
       }
     },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1CreatorType": {
+      "type": "enum",
+      "members": {
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app"
+          }
+        },
+        "INTEGRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "integration"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Principal type of the deployment creator."
+      }
+    },
     "com.vercel.deployments#CreateDeploymentResponseBodyCase1Creator": {
       "type": "structure",
       "members": {
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the user that created the deployment",
+            "smithy.api#documentation": "Stable creator id across principal types (user id, app id, integration configuration id, or `system`).",
             "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1CreatorType",
+          "traits": {
+            "smithy.api#documentation": "Principal type of the deployment creator."
           }
         },
         "username": {
@@ -20156,6 +20670,123 @@
       },
       "traits": {}
     },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase0": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionCollectionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionDidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsItem": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "COMMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "commit"
+          }
+        },
+        "IDENTITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "identity"
+          }
+        },
+        "SYNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sync"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase1Subscription": {
+      "type": "structure",
+      "members": {
+        "collections": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionCollectionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dids": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionDidsList"
+        },
+        "kinds": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsList"
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase1": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subscription": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase1Subscription",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1Atproto": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1AtprotoCase1"
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsValueArchitecture": {
       "type": "enum",
       "members": {
@@ -20194,6 +20825,30 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsValueMaxDurationCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsValueAffinityMode": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strict"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsValueAffinity": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsValueAffinityMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
@@ -20339,6 +20994,33 @@
         "smithy.api#documentation": "Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed."
       }
     },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItemCase2Type": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE_V1BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule/v1beta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)"
+      }
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItemCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItemCase2Type",
+          "traits": {
+            "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItem": {
       "type": "union",
       "members": {
@@ -20347,6 +21029,9 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItemCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItemCase2"
         }
       },
       "traits": {}
@@ -20369,6 +21054,9 @@
         },
         "maxDuration": {
           "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsValueMaxDuration"
+        },
+        "affinity": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsValueAffinity"
         },
         "maxConcurrency": {
           "target": "smithy.api#Double"
@@ -21672,6 +22360,30 @@
       },
       "traits": {}
     },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueAffinityMode": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strict"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueAffinity": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueAffinityMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueRegionsList": {
       "type": "list",
       "member": {
@@ -21813,6 +22525,33 @@
         "smithy.api#documentation": "Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed."
       }
     },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase2Type": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE_V1BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule/v1beta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)"
+      }
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase2Type",
+          "traits": {
+            "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItem": {
       "type": "union",
       "members": {
@@ -21821,6 +22560,9 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase2"
         }
       },
       "traits": {}
@@ -21843,6 +22585,9 @@
         },
         "maxDuration": {
           "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueMaxDuration"
+        },
+        "affinity": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueAffinity"
         },
         "maxConcurrency": {
           "target": "smithy.api#Double"
@@ -22405,6 +23150,30 @@
       },
       "traits": {}
     },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueAffinityMode": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strict"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueAffinity": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueAffinityMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueRegionsList": {
       "type": "list",
       "member": {
@@ -22546,6 +23315,33 @@
         "smithy.api#documentation": "Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed."
       }
     },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase2Type": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE_V1BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule/v1beta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)"
+      }
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase2Type",
+          "traits": {
+            "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItem": {
       "type": "union",
       "members": {
@@ -22554,6 +23350,9 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase2"
         }
       },
       "traits": {}
@@ -22576,6 +23375,9 @@
         },
         "maxDuration": {
           "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueMaxDuration"
+        },
+        "affinity": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueAffinity"
         },
         "maxConcurrency": {
           "target": "smithy.api#Double"
@@ -22939,6 +23741,30 @@
       },
       "traits": {}
     },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueAffinityMode": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strict"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueAffinity": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueAffinityMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueRegionsList": {
       "type": "list",
       "member": {
@@ -23080,6 +23906,33 @@
         "smithy.api#documentation": "Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed."
       }
     },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItemCase2Type": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE_V1BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule/v1beta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)"
+      }
+    },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItemCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItemCase2Type",
+          "traits": {
+            "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItem": {
       "type": "union",
       "members": {
@@ -23088,6 +23941,9 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItemCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItemCase2"
         }
       },
       "traits": {}
@@ -23110,6 +23966,9 @@
         },
         "maxDuration": {
           "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueMaxDuration"
+        },
+        "affinity": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueAffinity"
         },
         "maxConcurrency": {
           "target": "smithy.api#Double"
@@ -27816,6 +28675,9 @@
         "crons": {
           "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1CronsList"
         },
+        "atproto": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1Atproto"
+        },
         "functions": {
           "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1FunctionsMap",
           "traits": {
@@ -28379,6 +29241,12 @@
             "smithy.api#enumValue": "express"
           }
         },
+        "FACTORY_EVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "factory-eve"
+          }
+        },
         "FASTAPI": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -28727,6 +29595,12 @@
         "hasData": {
           "target": "smithy.api#Boolean"
         },
+        "dataReceivedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "When the first free (not Speed Insights Plus) production data point was observed, in ms. Set once by subscriber-analytics-events; projects that already had data before this field shipped get it backfilled on their next batch, so it reads \"first free data point observed\", not necessarily \"first ever\"."
+          }
+        },
         "paidAt": {
           "target": "smithy.api#Double"
         }
@@ -29072,14 +29946,52 @@
         "smithy.api#documentation": "A list of all the aliases (default aliases, staging aliases and production aliases) that were assigned upon deployment creation"
       }
     },
+    "com.vercel.deployments#CancelDeploymentResponseCreatorType": {
+      "type": "enum",
+      "members": {
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app"
+          }
+        },
+        "INTEGRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "integration"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Principal type of the deployment creator."
+      }
+    },
     "com.vercel.deployments#CancelDeploymentResponseCreator": {
       "type": "structure",
       "members": {
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the user that created the deployment",
+            "smithy.api#documentation": "Stable creator id across principal types (user id, app id, integration configuration id, or `system`).",
             "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseCreatorType",
+          "traits": {
+            "smithy.api#documentation": "Principal type of the deployment creator."
           }
         },
         "username": {
@@ -31258,6 +32170,123 @@
       },
       "traits": {}
     },
+    "com.vercel.deployments#CancelDeploymentResponseAtprotoCase0": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CancelDeploymentResponseAtprotoCase1SubscriptionCollectionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CancelDeploymentResponseAtprotoCase1SubscriptionDidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CancelDeploymentResponseAtprotoCase1SubscriptionKindsItem": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "COMMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "commit"
+          }
+        },
+        "IDENTITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "identity"
+          }
+        },
+        "SYNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sync"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CancelDeploymentResponseAtprotoCase1SubscriptionKindsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.deployments#CancelDeploymentResponseAtprotoCase1SubscriptionKindsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CancelDeploymentResponseAtprotoCase1Subscription": {
+      "type": "structure",
+      "members": {
+        "collections": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseAtprotoCase1SubscriptionCollectionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dids": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseAtprotoCase1SubscriptionDidsList"
+        },
+        "kinds": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseAtprotoCase1SubscriptionKindsList"
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CancelDeploymentResponseAtprotoCase1": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subscription": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseAtprotoCase1Subscription",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CancelDeploymentResponseAtproto": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseAtprotoCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseAtprotoCase1"
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CancelDeploymentResponseFunctionsValueArchitecture": {
       "type": "enum",
       "members": {
@@ -31296,6 +32325,30 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#CancelDeploymentResponseFunctionsValueMaxDurationCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CancelDeploymentResponseFunctionsValueAffinityMode": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strict"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CancelDeploymentResponseFunctionsValueAffinity": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseFunctionsValueAffinityMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
@@ -31441,6 +32494,33 @@
         "smithy.api#documentation": "Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed."
       }
     },
+    "com.vercel.deployments#CancelDeploymentResponseFunctionsValueExperimentalTriggersItemCase2Type": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE_V1BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule/v1beta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)"
+      }
+    },
+    "com.vercel.deployments#CancelDeploymentResponseFunctionsValueExperimentalTriggersItemCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseFunctionsValueExperimentalTriggersItemCase2Type",
+          "traits": {
+            "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CancelDeploymentResponseFunctionsValueExperimentalTriggersItem": {
       "type": "union",
       "members": {
@@ -31449,6 +32529,9 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#CancelDeploymentResponseFunctionsValueExperimentalTriggersItemCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseFunctionsValueExperimentalTriggersItemCase2"
         }
       },
       "traits": {}
@@ -31471,6 +32554,9 @@
         },
         "maxDuration": {
           "target": "com.vercel.deployments#CancelDeploymentResponseFunctionsValueMaxDuration"
+        },
+        "affinity": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseFunctionsValueAffinity"
         },
         "maxConcurrency": {
           "target": "smithy.api#Double"
@@ -32774,6 +33860,30 @@
       },
       "traits": {}
     },
+    "com.vercel.deployments#CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueAffinityMode": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strict"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueAffinity": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueAffinityMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueRegionsList": {
       "type": "list",
       "member": {
@@ -32915,6 +34025,33 @@
         "smithy.api#documentation": "Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed."
       }
     },
+    "com.vercel.deployments#CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase2Type": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE_V1BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule/v1beta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)"
+      }
+    },
+    "com.vercel.deployments#CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase2Type",
+          "traits": {
+            "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItem": {
       "type": "union",
       "members": {
@@ -32923,6 +34060,9 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase2"
         }
       },
       "traits": {}
@@ -32945,6 +34085,9 @@
         },
         "maxDuration": {
           "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueMaxDuration"
+        },
+        "affinity": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueAffinity"
         },
         "maxConcurrency": {
           "target": "smithy.api#Double"
@@ -33507,6 +34650,30 @@
       },
       "traits": {}
     },
+    "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueAffinityMode": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strict"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueAffinity": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueAffinityMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueRegionsList": {
       "type": "list",
       "member": {
@@ -33648,6 +34815,33 @@
         "smithy.api#documentation": "Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed."
       }
     },
+    "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase2Type": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE_V1BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule/v1beta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)"
+      }
+    },
+    "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase2Type",
+          "traits": {
+            "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItem": {
       "type": "union",
       "members": {
@@ -33656,6 +34850,9 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase2"
         }
       },
       "traits": {}
@@ -33678,6 +34875,9 @@
         },
         "maxDuration": {
           "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueMaxDuration"
+        },
+        "affinity": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueAffinity"
         },
         "maxConcurrency": {
           "target": "smithy.api#Double"
@@ -34041,6 +35241,30 @@
       },
       "traits": {}
     },
+    "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1FunctionsValueAffinityMode": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strict"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1FunctionsValueAffinity": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1FunctionsValueAffinityMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1FunctionsValueRegionsList": {
       "type": "list",
       "member": {
@@ -34182,6 +35406,33 @@
         "smithy.api#documentation": "Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed."
       }
     },
+    "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1FunctionsValueExperimentalTriggersItemCase2Type": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE_V1BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule/v1beta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)"
+      }
+    },
+    "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1FunctionsValueExperimentalTriggersItemCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1FunctionsValueExperimentalTriggersItemCase2Type",
+          "traits": {
+            "smithy.api#documentation": "Event type - must be \"schedule/v1beta\" (REQUIRED)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1FunctionsValueExperimentalTriggersItem": {
       "type": "union",
       "members": {
@@ -34190,6 +35441,9 @@
         },
         "Case1": {
           "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1FunctionsValueExperimentalTriggersItemCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1FunctionsValueExperimentalTriggersItemCase2"
         }
       },
       "traits": {}
@@ -34212,6 +35466,9 @@
         },
         "maxDuration": {
           "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1FunctionsValueMaxDuration"
+        },
+        "affinity": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseServicesItemCase1FunctionsValueAffinity"
         },
         "maxConcurrency": {
           "target": "smithy.api#Double"
@@ -38918,6 +40175,9 @@
         "crons": {
           "target": "com.vercel.deployments#CancelDeploymentResponseCronsList"
         },
+        "atproto": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseAtproto"
+        },
         "functions": {
           "target": "com.vercel.deployments#CancelDeploymentResponseFunctionsMap",
           "traits": {
@@ -39053,28 +40313,28 @@
         "contentLength": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#httpHeader": "content-Length",
+            "smithy.api#httpHeader": "Content-Length",
             "smithy.api#documentation": "The file size in bytes"
           }
         },
         "xVercelDigest": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpHeader": "x-Vercel-Digest",
+            "smithy.api#httpHeader": "x-vercel-digest",
             "smithy.api#documentation": "The file SHA1 used to check the integrity"
           }
         },
         "xNowDigest": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpHeader": "x-Now-Digest",
+            "smithy.api#httpHeader": "x-now-digest",
             "smithy.api#documentation": "The file SHA1 used to check the integrity"
           }
         },
         "xNowSize": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#httpHeader": "x-Now-Size",
+            "smithy.api#httpHeader": "x-now-size",
             "smithy.api#documentation": "The file size as an alternative to `Content-Length`"
           }
         }
@@ -39762,14 +41022,52 @@
         "smithy.api#documentation": "The type of the deployment."
       }
     },
+    "com.vercel.deployments#GetDeploymentsResponseDeploymentsItemCreatorType": {
+      "type": "enum",
+      "members": {
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app"
+          }
+        },
+        "INTEGRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "integration"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Principal type of the deployment creator. Defaults to `\"user\"` if absent (legacy deployments created before principal attribution was recorded)."
+      }
+    },
     "com.vercel.deployments#GetDeploymentsResponseDeploymentsItemCreator": {
       "type": "structure",
       "members": {
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unique identifier of the user.",
+            "smithy.api#documentation": "Stable creator id across principal types. This may be a user ID, an app ID, an integration configuration ID, or `system`.",
             "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.deployments#GetDeploymentsResponseDeploymentsItemCreatorType",
+          "traits": {
+            "smithy.api#documentation": "Principal type of the deployment creator. Defaults to `\"user\"` if absent (legacy deployments created before principal attribution was recorded)."
           }
         },
         "email": {
@@ -39798,7 +41096,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Metadata information of the user who created the deployment."
+        "smithy.api#documentation": "Metadata information of the deployment creator."
       }
     },
     "com.vercel.deployments#GetDeploymentsResponseDeploymentsItemMetaMap": {
@@ -40186,6 +41484,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "express"
+          }
+        },
+        "FACTORY_EVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "factory-eve"
           }
         },
         "FASTAPI": {
@@ -40595,6 +41899,12 @@
         },
         "hasData": {
           "target": "smithy.api#Boolean"
+        },
+        "dataReceivedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "When the first free (not Speed Insights Plus) production data point was observed, in ms. Set once by subscriber-analytics-events; projects that already had data before this field shipped get it backfilled on their next batch, so it reads \"first free data point observed\", not necessarily \"first ever\"."
+          }
         },
         "paidAt": {
           "target": "smithy.api#Double"
@@ -41197,7 +42507,7 @@
         "creator": {
           "target": "com.vercel.deployments#GetDeploymentsResponseDeploymentsItemCreator",
           "traits": {
-            "smithy.api#documentation": "Metadata information of the user who created the deployment.",
+            "smithy.api#documentation": "Metadata information of the deployment creator.",
             "smithy.api#required": {}
           }
         },

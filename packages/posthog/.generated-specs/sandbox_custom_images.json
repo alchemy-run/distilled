@@ -1,0 +1,598 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.sandbox_custom_images#ListSandboxCustomImagesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.sandbox_custom_images#PaginatedSandboxCustomImageDTOList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.sandbox_custom_images#PaginatedSandboxCustomImageDTOListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.sandbox_custom_images#SandboxCustomImageDTO": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String"
+        },
+        "private": {
+          "target": "smithy.api#Boolean"
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "modal_image_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "spec": {
+          "target": "com.posthog.sandbox_custom_images#SandboxCustomImageDTOSpecMap"
+        },
+        "spec_yaml": {
+          "target": "smithy.api#String"
+        },
+        "scan_result": {
+          "target": "com.posthog.sandbox_custom_images#SandboxCustomImageDTOScanResultMap"
+        },
+        "build_log": {
+          "target": "smithy.api#String"
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "builder_task_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.sandbox_custom_images#TaskUserBasicInfo",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Detail response for a custom sandbox base image."
+      }
+    },
+    "com.posthog.sandbox_custom_images#SandboxCustomImageDTOSpecMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.sandbox_custom_images#SandboxCustomImageDTOScanResultMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.sandbox_custom_images#TaskUserBasicInfo": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "distinct_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "is_email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hedgehog_config": {
+          "target": "com.posthog.sandbox_custom_images#TaskUserBasicInfoHedgehogConfigMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role_at_organization": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response shape for a task creator, mirroring core ``UserBasicSerializer`` output."
+      }
+    },
+    "com.posthog.sandbox_custom_images#TaskUserBasicInfoHedgehogConfigMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.sandbox_custom_images#PaginatedSandboxCustomImageDTOListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.sandbox_custom_images#SandboxCustomImageDTO"
+      },
+      "traits": {}
+    },
+    "com.posthog.sandbox_custom_images#ListSandboxCustomImages": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.sandbox_custom_images#ListSandboxCustomImagesRequest"
+      },
+      "output": {
+        "target": "com.posthog.sandbox_custom_images#PaginatedSandboxCustomImageDTOList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/sandbox_custom_images/",
+          "code": 200
+        },
+        "smithy.api#documentation": "API for custom sandbox base images, built on top of the VM sandbox base via an image-builder agent.\n\nCustom images only run on the Modal VM runtime, so every action is gated on the\n`tasks-modal-vm-sandbox` flag (org-enabled with `user_created` in its origin_products payload)."
+      }
+    },
+    "com.posthog.sandbox_custom_images#CreateSandboxCustomImageRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name for the custom image.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What should go into the image; seeds the image-builder agent conversation."
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional 'org/repo' the builder session clones so it can verify the image brings up that repository's dependencies.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If true, only you can see and use this image; otherwise the whole team can."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.sandbox_custom_images#CreateSandboxCustomImage": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.sandbox_custom_images#CreateSandboxCustomImageRequest"
+      },
+      "output": {
+        "target": "com.posthog.sandbox_custom_images#SandboxCustomImageDTO"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/sandbox_custom_images/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a draft custom image and start its interactive image-builder agent task. The returned builder_task_id points at the conversation."
+      }
+    },
+    "com.posthog.sandbox_custom_images#GetSandboxCustomImageRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.sandbox_custom_images#GetSandboxCustomImage": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.sandbox_custom_images#GetSandboxCustomImageRequest"
+      },
+      "output": {
+        "target": "com.posthog.sandbox_custom_images#SandboxCustomImageDTO"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/sandbox_custom_images/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "API for custom sandbox base images, built on top of the VM sandbox base via an image-builder agent.\n\nCustom images only run on the Modal VM runtime, so every action is gated on the\n`tasks-modal-vm-sandbox` flag (org-enabled with `user_created` in its origin_products payload)."
+      }
+    },
+    "com.posthog.sandbox_custom_images#UpdateSandboxCustomImagesPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New display name for the custom image. Omit to leave unchanged."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New description. Omit to leave unchanged; pass an empty string to clear it."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.sandbox_custom_images#UpdateSandboxCustomImagesPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.sandbox_custom_images#UpdateSandboxCustomImagesPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.sandbox_custom_images#SandboxCustomImageDTO"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/sandbox_custom_images/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rename or update the description of a custom image. Only mutable metadata (name, description) is editable; the build spec and status are managed by the build flow."
+      }
+    },
+    "com.posthog.sandbox_custom_images#SandboxCustomImagesDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.sandbox_custom_images#SandboxCustomImagesDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.sandbox_custom_images#SandboxCustomImagesDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/sandbox_custom_images/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "API for custom sandbox base images, built on top of the VM sandbox base via an image-builder agent.\n\nCustom images only run on the Modal VM runtime, so every action is gated on the\n`tasks-modal-vm-sandbox` flag (org-enabled with `user_created` in its origin_products payload)."
+      }
+    },
+    "com.posthog.sandbox_custom_images#CreateSandboxCustomImagesBuildRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "spec_yaml": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Image spec YAML to build. When omitted, the spec is read from the builder agent's live sandbox.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.sandbox_custom_images#CreateSandboxCustomImagesBuild": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.sandbox_custom_images#CreateSandboxCustomImagesBuildRequest"
+      },
+      "output": {
+        "target": "com.posthog.sandbox_custom_images#SandboxCustomImageDTO"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/sandbox_custom_images/{id}/build/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Persist the image spec (from the request body or the builder agent's sandbox), run the security scan, and on pass build and publish the image."
+      }
+    },
+    "com.posthog.sandbox_custom_images#CreateSandboxCustomImagesBuilderTaskRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.sandbox_custom_images#CreateSandboxCustomImagesBuilderTask": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.sandbox_custom_images#CreateSandboxCustomImagesBuilderTaskRequest"
+      },
+      "output": {
+        "target": "com.posthog.sandbox_custom_images#SandboxCustomImageDTO"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/sandbox_custom_images/{id}/builder_task/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Revive (or reuse) the image's builder agent session. When the previous session has ended, a fresh one is started seeded with the stored spec — use this to update an existing image."
+      }
+    },
+    "com.posthog.sandbox_custom_images#SandboxCustomImages": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.sandbox_custom_images#ListSandboxCustomImages"
+        },
+        {
+          "target": "com.posthog.sandbox_custom_images#CreateSandboxCustomImage"
+        },
+        {
+          "target": "com.posthog.sandbox_custom_images#GetSandboxCustomImage"
+        },
+        {
+          "target": "com.posthog.sandbox_custom_images#UpdateSandboxCustomImagesPartial"
+        },
+        {
+          "target": "com.posthog.sandbox_custom_images#SandboxCustomImagesDestroy"
+        },
+        {
+          "target": "com.posthog.sandbox_custom_images#CreateSandboxCustomImagesBuild"
+        },
+        {
+          "target": "com.posthog.sandbox_custom_images#CreateSandboxCustomImagesBuilderTask"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

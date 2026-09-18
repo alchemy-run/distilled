@@ -3,7 +3,7 @@
  *
  * ZeroSSL answers failures with `{ success: false, error: { code, type,
  * info? } }`, usually under HTTP 200. Typed errors are generated from
- * `patches/zerossl/` and matched on `error.type`; this module holds the
+ * `manual-specs/zerossl.json` and matched on `error.type`; this module holds the
  * shared HTTP defaults and the package's own fallback.
  */
 export {
@@ -35,8 +35,8 @@ import * as Category from "@distilled.cloud/core/category";
 
 /**
  * Unknown ZeroSSL error — an error envelope whose `type` matches no typed
- * class on the operation. Carries the raw body for cataloging; the fix is a
- * patch, never a consumer catch.
+ * class on the operation. Carries a redacted body for diagnostics; add
+ * newly observed errors to the authored model.
  */
 export class UnknownZeroSslError extends Schema.TaggedError<UnknownZeroSslError>()(
   "UnknownZeroSslError",
@@ -46,7 +46,7 @@ export class UnknownZeroSslError extends Schema.TaggedError<UnknownZeroSslError>
     message: Schema.optional(Schema.String),
     body: Schema.Unknown,
   },
-).pipe(Category.withServerError) {}
+) {}
 
 /** Schema parse error wrapper. */
 export class ZeroSslParseError extends Schema.TaggedError<ZeroSslParseError>()(

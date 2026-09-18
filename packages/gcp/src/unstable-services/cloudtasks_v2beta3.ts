@@ -65,6 +65,158 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** Retry config. These settings determine when a failed task attempt is retried. */
+export interface RetryConfig {
+  /** A task will be scheduled for retry between min_backoff and max_backoff duration after it fails, if the queue's RetryConfig specifies that the task should be retried. The value must be given as a string that indicates the length of time (in seconds) followed by `s` (for "seconds"). For more information on the format, see the documentation for [Duration](https://protobuf.dev/reference/protobuf/google.protobuf/#duration). `min_backoff` will be truncated to the nearest second. If unspecified when the queue is created, Cloud Tasks will pick the default. This field has the same meaning as [min_backoff_seconds in queue.yaml/xml](https://cloud.google.com/appengine/docs/standard/python/config/queueref#retry_parameters). */
+  minBackoff?: string;
+  /** If positive, `max_retry_duration` specifies the time limit for retrying a failed task, measured from when the task was first attempted. Once `max_retry_duration` time has passed *and* the task has been attempted max_attempts times, no further attempts are made and the task is deleted. A zero (0) indicates an unlimited duration, up to the [maximum task retention](https://docs.cloud.google.com/tasks/docs/quotas#limits) limit. The value must be given as a string that indicates the length of time (in seconds) followed by `s` (for "seconds"). For the maximum possible value or the format, see the documentation for [Duration](https://protobuf.dev/reference/protobuf/google.protobuf/#duration). `max_retry_duration` will be truncated to the nearest second. If unspecified when the queue is created, Cloud Tasks will pick the default. This field has the same meaning as [task_age_limit in queue.yaml/xml](https://cloud.google.com/appengine/docs/standard/python/config/queueref#retry_parameters). */
+  maxRetryDuration?: string;
+  /** A task will be scheduled for retry between min_backoff and max_backoff duration after it fails, if the queue's RetryConfig specifies that the task should be retried. The value must be given as a string that indicates the length of time (in seconds) followed by `s` (for "seconds"). For more information on the format, see the documentation for [Duration](https://protobuf.dev/reference/protobuf/google.protobuf/#duration). `max_backoff` will be truncated to the nearest second. If unspecified when the queue is created, Cloud Tasks will pick the default. This field has the same meaning as [max_backoff_seconds in queue.yaml/xml](https://cloud.google.com/appengine/docs/standard/python/config/queueref#retry_parameters). */
+  maxBackoff?: string;
+  /** The time between retries will double `max_doublings` times. A task's retry interval starts at min_backoff, then doubles `max_doublings` times, then increases linearly, and finally retries at intervals of max_backoff up to max_attempts times. For example, if min_backoff is 10s, max_backoff is 300s, and `max_doublings` is 3, then the a task will first be retried in 10s. The retry interval will double three times, and then increase linearly by 2^3 * 10s. Finally, the task will retry at intervals of max_backoff until the task has been attempted max_attempts times. Thus, the requests will retry at 10s, 20s, 40s, 80s, 160s, 240s, 300s, 300s, .... If unspecified when the queue is created, Cloud Tasks will pick the default. This field has the same meaning as [max_doublings in queue.yaml/xml](https://cloud.google.com/appengine/docs/standard/python/config/queueref#retry_parameters). */
+  maxDoublings?: number;
+  /** Number of attempts per task, including the first attempt. (If the first attempt fails, there will be `max_attempts - 1` retries.) Must be greater than or equal to -1, which indicates unlimited attempts. Cloud Tasks stops retrying only when `max_attempts` and `max_retry_duration` are both satisfied, or when the task is successfully executed. When the task has been attempted `max_attempts` times and when the `max_retry_duration` time has passed, no further attempts are made, and the task is deleted. If `max_attempts` is set to -1 and `max_retry_duration` is set to 0, the task is retried until the [maximum task retention](https://docs.cloud.google.com/tasks/docs/quotas#limits) limit is reached. If unspecified when the queue is created, Cloud Tasks will pick the default. This field has the same meaning as [task_retry_limit in queue.yaml/xml](https://cloud.google.com/appengine/docs/standard/python/config/queueref#retry_parameters). */
+  maxAttempts?: number;
+}
+export const RetryConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minBackoff: S.optional(S.String),
+    maxRetryDuration: S.optional(S.String),
+    maxBackoff: S.optional(S.String),
+    maxDoublings: S.optional(S.Number),
+    maxAttempts: S.optional(S.Number),
+  }),
+).annotate({ identifier: "RetryConfig" }) as any as S.Schema<RetryConfig>;
+
+export type HttpRequestHttpMethodEnum =
+  | "HTTP_METHOD_UNSPECIFIED"
+  | "POST"
+  | "GET"
+  | "HEAD"
+  | "PUT"
+  | "DELETE"
+  | "PATCH"
+  | "OPTIONS";
+export const HttpRequestHttpMethodEnum = S.String;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StringMap>;
+
+/** Contains information needed for generating an [OAuth token](https://developers.google.com/identity/protocols/OAuth2). This type of authorization should generally only be used when calling Google APIs hosted on *.googleapis.com. */
+export interface OAuthToken {
+  /** OAuth scope to be used for generating OAuth access token. If not specified, "https://www.googleapis.com/auth/cloud-platform" will be used. */
+  scope?: string;
+  /** [Service account email](https://cloud.google.com/iam/docs/service-accounts) to be used for generating OAuth token. The service account must be within the same project as the queue. The caller must have iam.serviceAccounts.actAs permission for the service account. */
+  serviceAccountEmail?: string;
+}
+export const OAuthToken = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scope: S.optional(S.String),
+    serviceAccountEmail: S.optional(S.String),
+  }),
+).annotate({ identifier: "OAuthToken" }) as any as S.Schema<OAuthToken>;
+
+/** Contains information needed for generating an [OpenID Connect token](https://developers.google.com/identity/protocols/OpenIDConnect). This type of authorization can be used for many scenarios, including calling Cloud Run, or endpoints where you intend to validate the token yourself. */
+export interface OidcToken {
+  /** [Service account email](https://cloud.google.com/iam/docs/service-accounts) to be used for generating OIDC token. The service account must be within the same project as the queue. The caller must have iam.serviceAccounts.actAs permission for the service account. */
+  serviceAccountEmail?: string;
+  /** Audience to be used when generating OIDC token. If not specified, the URI specified in target will be used. */
+  audience?: string;
+}
+export const OidcToken = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceAccountEmail: S.optional(S.String),
+    audience: S.optional(S.String),
+  }),
+).annotate({ identifier: "OidcToken" }) as any as S.Schema<OidcToken>;
+
+/** HTTP request. The task will be pushed to the worker as an HTTP request. If the worker or the redirected worker acknowledges the task by returning a successful HTTP response code ([`200` - `299`]), the task will be removed from the queue. If any other HTTP response code is returned or no response is received, the task will be retried according to the following: * User-specified throttling: retry configuration, rate limits, and the queue's state. * System throttling: To prevent the worker from overloading, Cloud Tasks may temporarily reduce the queue's effective rate. User-specified settings will not be changed. System throttling happens because: * Cloud Tasks backs off on all errors. Normally the backoff specified in rate limits will be used. But if the worker returns `429` (Too Many Requests), `503` (Service Unavailable), or the rate of errors is high, Cloud Tasks will use a higher backoff rate. The retry specified in the `Retry-After` HTTP response header is considered. * To prevent traffic spikes and to smooth sudden increases in traffic, dispatches ramp up slowly when the queue is newly created or idle and if large numbers of tasks suddenly become available to dispatch (due to spikes in create task rates, the queue being unpaused, or many tasks that are scheduled at the same time). */
+export interface HttpRequest {
+  /** Required. The full url path that the request will be sent to. This string must begin with either "http://" or "https://". Some examples are: `http://acme.com` and `https://acme.com/sales:8080`. Cloud Tasks will encode some characters for safety and compatibility. The maximum allowed URL length is 2083 characters after encoding. The `Location` header response from a redirect response [`300` - `399`] may be followed. The redirect is not counted as a separate attempt. */
+  url?: string;
+  /** HTTP request body. A request body is allowed only if the HTTP method is POST, PUT, or PATCH. It is an error to set body on a task with an incompatible HttpMethod. */
+  body?: string;
+  /** The HTTP method to use for the request. The default is POST. */
+  httpMethod?: HttpRequestHttpMethodEnum | (string & {});
+  /** HTTP request headers. This map contains the header field names and values. Headers can be set when the task is created. These headers represent a subset of the headers that will accompany the task's HTTP request. Some HTTP request headers will be ignored or replaced. A partial list of headers that will be ignored or replaced is: * Any header that is prefixed with "X-CloudTasks-" will be treated as service header. Service headers define properties of the task and are predefined in Cloud Tasks. * Host: This will be computed by Cloud Tasks and derived from HttpRequest.url. * Content-Length: This will be computed by Cloud Tasks. * User-Agent: This will be set to `"Google-Cloud-Tasks"`. * `X-Google-*`: Google use only. * `X-AppEngine-*`: Google use only. `Content-Type` won't be set by Cloud Tasks. You can explicitly set `Content-Type` to a media type when the task is created. For example, `Content-Type` can be set to `"application/octet-stream"` or `"application/json"`. Headers which can have multiple values (according to RFC2616) can be specified using comma-separated values. The size of the headers must be less than 80KB. */
+  headers?: StringMap;
+  /** If specified, an [OAuth token](https://developers.google.com/identity/protocols/OAuth2) will be generated and attached as an `Authorization` header in the HTTP request. This type of authorization should generally only be used when calling Google APIs hosted on *.googleapis.com. */
+  oauthToken?: OAuthToken;
+  /** If specified, an [OIDC](https://developers.google.com/identity/protocols/OpenIDConnect) token will be generated and attached as an `Authorization` header in the HTTP request. This type of authorization can be used for many scenarios, including calling Cloud Run, or endpoints where you intend to validate the token yourself. */
+  oidcToken?: OidcToken;
+}
+export const HttpRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.optional(S.String),
+    body: S.optional(S.String),
+    httpMethod: S.optional(HttpRequestHttpMethodEnum),
+    headers: S.optional(StringMap),
+    oauthToken: S.optional(OAuthToken),
+    oidcToken: S.optional(OidcToken),
+  }),
+).annotate({ identifier: "HttpRequest" }) as any as S.Schema<HttpRequest>;
+
+export type AppEngineHttpRequestHttpMethodEnum =
+  | "HTTP_METHOD_UNSPECIFIED"
+  | "POST"
+  | "GET"
+  | "HEAD"
+  | "PUT"
+  | "DELETE"
+  | "PATCH"
+  | "OPTIONS";
+export const AppEngineHttpRequestHttpMethodEnum = S.String;
+
+/** App Engine Routing. Defines routing characteristics specific to App Engine - service, version, and instance. For more information about services, versions, and instances see [An Overview of App Engine](https://cloud.google.com/appengine/docs/python/an-overview-of-app-engine), [Microservices Architecture on Google App Engine](https://cloud.google.com/appengine/docs/python/microservices-on-app-engine), [App Engine Standard request routing](https://cloud.google.com/appengine/docs/standard/python/how-requests-are-routed), and [App Engine Flex request routing](https://cloud.google.com/appengine/docs/flexible/python/how-requests-are-routed). */
+export interface AppEngineRouting {
+  /** App instance. By default, the task is sent to an instance which is available when the task is attempted. Requests can only be sent to a specific instance if [manual scaling is used in App Engine Standard](https://cloud.google.com/appengine/docs/python/an-overview-of-app-engine?hl=en_US#scaling_types_and_instance_classes). App Engine Flex does not support instances. For more information, see [App Engine Standard request routing](https://cloud.google.com/appengine/docs/standard/python/how-requests-are-routed) and [App Engine Flex request routing](https://cloud.google.com/appengine/docs/flexible/python/how-requests-are-routed). */
+  instance?: string;
+  /** Output only. The host that the task is sent to. The host is constructed from the domain name of the app associated with the queue's project ID (for example .appspot.com), and the service, version, and instance. Tasks which were created using the App Engine SDK might have a custom domain name. For more information, see [How Requests are Routed](https://cloud.google.com/appengine/docs/standard/python/how-requests-are-routed). */
+  host?: string;
+  /** App service. By default, the task is sent to the service which is the default service when the task is attempted. For some queues or tasks which were created using the App Engine Task Queue API, host is not parsable into service, version, and instance. For example, some tasks which were created using the App Engine SDK use a custom domain name; custom domains are not parsed by Cloud Tasks. If host is not parsable, then service, version, and instance are the empty string. */
+  service?: string;
+  /** App version. By default, the task is sent to the version which is the default version when the task is attempted. For some queues or tasks which were created using the App Engine Task Queue API, host is not parsable into service, version, and instance. For example, some tasks which were created using the App Engine SDK use a custom domain name; custom domains are not parsed by Cloud Tasks. If host is not parsable, then service, version, and instance are the empty string. */
+  version?: string;
+}
+export const AppEngineRouting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instance: S.optional(S.String),
+    host: S.optional(S.String),
+    service: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AppEngineRouting",
+}) as any as S.Schema<AppEngineRouting>;
+
+/** App Engine HTTP request. The message defines the HTTP request that is sent to an App Engine app when the task is dispatched. Using AppEngineHttpRequest requires [`appengine.applications.get`](https://cloud.google.com/appengine/docs/admin-api/access-control) Google IAM permission for the project and the following scope: `https://www.googleapis.com/auth/cloud-platform` The task will be delivered to the App Engine app which belongs to the same project as the queue. For more information, see [How Requests are Routed](https://cloud.google.com/appengine/docs/standard/python/how-requests-are-routed) and how routing is affected by [dispatch files](https://cloud.google.com/appengine/docs/python/config/dispatchref). Traffic is encrypted during transport and never leaves Google datacenters. Because this traffic is carried over a communication mechanism internal to Google, you cannot explicitly set the protocol (for example, HTTP or HTTPS). The request to the handler, however, will appear to have used the HTTP protocol. The AppEngineRouting used to construct the URL that the task is delivered to can be set at the queue-level or task-level: * If set, app_engine_routing_override is used for all tasks in the queue, no matter what the setting is for the task-level app_engine_routing. The `url` that the task will be sent to is: * `url =` host `+` relative_uri Tasks can be dispatched to secure app handlers, unsecure app handlers, and URIs restricted with [`login: admin`](https://cloud.google.com/appengine/docs/standard/python/config/appref). Because tasks are not run as any user, they cannot be dispatched to URIs restricted with [`login: required`](https://cloud.google.com/appengine/docs/standard/python/config/appref) Task dispatches also do not follow redirects. The task attempt has succeeded if the app's request handler returns an HTTP response code in the range [`200` - `299`]. The task attempt has failed if the app's handler returns a non-2xx response code or Cloud Tasks does not receive response before the deadline. Failed tasks will be retried according to the retry configuration. `503` (Service Unavailable) is considered an App Engine system error instead of an application error and will cause Cloud Tasks' traffic congestion control to temporarily throttle the queue's dispatches. Unlike other types of task targets, a `429` (Too Many Requests) response from an app handler does not cause traffic congestion control to throttle the queue. */
+export interface AppEngineHttpRequest {
+  /** HTTP request body. A request body is allowed only if the HTTP method is POST or PUT. It is an error to set a body on a task with an incompatible HttpMethod. */
+  body?: string;
+  /** The HTTP method to use for the request. The default is POST. The app's request handler for the task's target URL must be able to handle HTTP requests with this http_method, otherwise the task attempt fails with error code 405 (Method Not Allowed). See [Writing a push task request handler](https://cloud.google.com/appengine/docs/java/taskqueue/push/creating-handlers#writing_a_push_task_request_handler) and the App Engine documentation for your runtime on [How Requests are Handled](https://cloud.google.com/appengine/docs/standard/python3/how-requests-are-handled). */
+  httpMethod?: AppEngineHttpRequestHttpMethodEnum | (string & {});
+  /** HTTP request headers. This map contains the header field names and values. Headers can be set when the task is created. Repeated headers are not supported but a header value can contain commas. Cloud Tasks sets some headers to default values: * `User-Agent`: By default, this header is `"AppEngine-Google; (+http://code.google.com/appengine)"`. This header can be modified, but Cloud Tasks will append `"AppEngine-Google; (+http://code.google.com/appengine)"` to the modified `User-Agent`. If the task has a body, Cloud Tasks sets the following headers: * `Content-Type`: By default, the `Content-Type` header is set to `"application/octet-stream"`. The default can be overridden by explicitly setting `Content-Type` to a particular media type when the task is created. For example, `Content-Type` can be set to `"application/json"`. * `Content-Length`: This is computed by Cloud Tasks. This value is output only. It cannot be changed. The headers below cannot be set or overridden: * `Host` * `X-Google-*` * `X-AppEngine-*` In addition, Cloud Tasks sets some headers when the task is dispatched, such as headers containing information about the task; see [request headers](https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_request_headers). These headers are set only when the task is dispatched, so they are not visible when the task is returned in a Cloud Tasks response. Although there is no specific limit for the maximum number of headers or the size, there is a limit on the maximum size of the Task. For more information, see the CreateTask documentation. */
+  headers?: StringMap;
+  /** Task-level setting for App Engine routing. If set, app_engine_routing_override is used for all tasks in the queue, no matter what the setting is for the task-level app_engine_routing. */
+  appEngineRouting?: AppEngineRouting;
+  /** The relative URI. The relative URI must begin with "/" and must be a valid HTTP relative URI. It can contain a path and query string arguments. If the relative URI is empty, then the root path "/" will be used. No spaces are allowed, and the maximum length allowed is 2083 characters. */
+  relativeUri?: string;
+}
+export const AppEngineHttpRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    body: S.optional(S.String),
+    httpMethod: S.optional(AppEngineHttpRequestHttpMethodEnum),
+    headers: S.optional(StringMap),
+    appEngineRouting: S.optional(AppEngineRouting),
+    relativeUri: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AppEngineHttpRequest",
+}) as any as S.Schema<AppEngineHttpRequest>;
+
 export type DocumentMap = { [key: string]: unknown | undefined };
 export const DocumentMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -75,6 +227,241 @@ export type DocumentMapList = Array<DocumentMap>;
 export const DocumentMapList = /*@__PURE__*/ S.Array(
   DocumentMap,
 ) as any as S.Schema<DocumentMapList>;
+
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
+}
+export const Status = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.Number),
+    message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
+  }),
+).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
+
+/** The status of a task attempt. */
+export interface Attempt {
+  /** Output only. The time that this attempt was dispatched. `dispatch_time` will be truncated to the nearest microsecond. */
+  dispatchTime?: string;
+  /** Output only. The time that this attempt response was received. `response_time` will be truncated to the nearest microsecond. */
+  responseTime?: string;
+  /** Output only. The time that this attempt was scheduled. `schedule_time` will be truncated to the nearest microsecond. */
+  scheduleTime?: string;
+  /** Output only. The response from the worker for this attempt. If `response_time` is unset, then the task has not been attempted or is currently running and the `response_status` field is meaningless. */
+  responseStatus?: Status;
+}
+export const Attempt = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dispatchTime: S.optional(S.String),
+    responseTime: S.optional(S.String),
+    scheduleTime: S.optional(S.String),
+    responseStatus: S.optional(Status),
+  }),
+).annotate({ identifier: "Attempt" }) as any as S.Schema<Attempt>;
+
+/** Pull Message. This proto can only be used for tasks in a queue which has PULL type. It currently exists for backwards compatibility with the App Engine Task Queue SDK. This message type maybe returned with methods list and get, when the response view is FULL. */
+export interface PullMessage {
+  /** The tasks's tag. The tag is less than 500 characters. SDK compatibility: Although the SDK allows tags to be either string or [bytes](https://cloud.google.com/appengine/docs/standard/java/javadoc/com/google/appengine/api/taskqueue/TaskOptions.html#tag-byte:A-), only UTF-8 encoded tags can be used in Cloud Tasks. If a tag isn't UTF-8 encoded, the tag will be empty when the task is returned by Cloud Tasks. */
+  tag?: string;
+  /** A data payload consumed by the worker to execute the task. */
+  payload?: string;
+}
+export const PullMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tag: S.optional(S.String),
+    payload: S.optional(S.String),
+  }),
+).annotate({ identifier: "PullMessage" }) as any as S.Schema<PullMessage>;
+
+export type TaskViewEnum = "VIEW_UNSPECIFIED" | "BASIC" | "FULL";
+export const TaskViewEnum = S.String;
+
+/** A unit of scheduled work. */
+export interface Task {
+  /** Optional. Specifies the task-level retry config. If present, this overrides the queue-level retry config for this task. */
+  retryConfig?: RetryConfig;
+  /** HTTP request that is sent to the task's target. An HTTP task is a task that has HttpRequest set. */
+  httpRequest?: HttpRequest;
+  /** Optionally caller-specified in CreateTask. The task name. The task name must have the following format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), or periods (.). For more information, see [Identifying projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects) * `LOCATION_ID` is the canonical ID for the task's location. The list of available locations can be obtained by calling ListLocations. For more information, see https://cloud.google.com/about/locations/. * `QUEUE_ID` can contain letters ([A-Za-z]), numbers ([0-9]), or hyphens (-). The maximum length is 100 characters. * `TASK_ID` can contain only letters ([A-Za-z]), numbers ([0-9]), hyphens (-), or underscores (_). The maximum length is 500 characters. */
+  name?: string;
+  /** Output only. The time that the task was created. `create_time` will be truncated to the nearest second. */
+  createTime?: string;
+  /** The deadline for requests sent to the worker. If the worker does not respond by this deadline then the request is cancelled and the attempt is marked as a `DEADLINE_EXCEEDED` failure. Cloud Tasks will retry the task according to the RetryConfig. Note that when the request is cancelled, Cloud Tasks will stop listening for the response, but whether the worker stops processing depends on the worker. For example, if the worker is stuck, it may not react to cancelled requests. The default and maximum values depend on the type of request: * For HTTP tasks, the default is 10 minutes. The deadline must be in the interval [15 seconds, 30 minutes]. * For App Engine tasks, 0 indicates that the request has the default deadline. The default deadline depends on the [scaling type](https://cloud.google.com/appengine/docs/standard/go/how-instances-are-managed#instance_scaling) of the service: 10 minutes for standard apps with automatic scaling, 24 hours for standard apps with manual and basic scaling, and 60 minutes for flex apps. If the request deadline is set, it must be in the interval [15 seconds, 24 hours 15 seconds]. Regardless of the task's `dispatch_deadline`, the app handler will not run for longer than than the service's timeout. We recommend setting the `dispatch_deadline` to at most a few seconds more than the app handler's timeout. For more information see [Timeouts](https://cloud.google.com/tasks/docs/creating-appengine-handlers#timeouts). The value must be given as a string that indicates the length of time (in seconds) followed by `s` (for "seconds"). For more information on the format, see the documentation for [Duration](https://protobuf.dev/reference/protobuf/google.protobuf/#duration). `dispatch_deadline` will be truncated to the nearest millisecond. The deadline is an approximate deadline. */
+  dispatchDeadline?: string;
+  /** HTTP request that is sent to the App Engine app handler. An App Engine task is a task that has AppEngineHttpRequest set. */
+  appEngineHttpRequest?: AppEngineHttpRequest;
+  /** Output only. The status of the task's first attempt. Only dispatch_time will be set. The other Attempt information is not retained by Cloud Tasks. */
+  firstAttempt?: Attempt;
+  /** Pull Message contained in a task in a PULL queue type. This payload type cannot be explicitly set through Cloud Tasks API. Its purpose, currently is to provide backward compatibility with App Engine Task Queue [pull](https://cloud.google.com/appengine/docs/standard/java/taskqueue/pull/) queues to provide a way to inspect contents of pull tasks through the CloudTasks.GetTask. */
+  pullMessage?: PullMessage;
+  /** Output only. The number of attempts which have received a response. */
+  responseCount?: number;
+  /** Output only. The status of the task's last attempt. */
+  lastAttempt?: Attempt;
+  /** The time when the task is scheduled to be attempted. For App Engine queues, this is when the task will be attempted or retried. `schedule_time` will be truncated to the nearest microsecond. */
+  scheduleTime?: string;
+  /** Output only. The number of attempts dispatched. This count includes attempts which have been dispatched but haven't received a response. */
+  dispatchCount?: number;
+  /** Output only. The view specifies which subset of the Task has been returned. */
+  view?: TaskViewEnum | (string & {});
+}
+export const Task = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    retryConfig: S.optional(RetryConfig),
+    httpRequest: S.optional(HttpRequest),
+    name: S.optional(S.String),
+    createTime: S.optional(S.String),
+    dispatchDeadline: S.optional(S.String),
+    appEngineHttpRequest: S.optional(AppEngineHttpRequest),
+    firstAttempt: S.optional(Attempt),
+    pullMessage: S.optional(PullMessage),
+    responseCount: S.optional(S.Number),
+    lastAttempt: S.optional(Attempt),
+    scheduleTime: S.optional(S.String),
+    dispatchCount: S.optional(S.Number),
+    view: S.optional(TaskViewEnum),
+  }),
+).annotate({ identifier: "Task" }) as any as S.Schema<Task>;
+
+export type CreateTaskRequestResponseViewEnum =
+  | "VIEW_UNSPECIFIED"
+  | "BASIC"
+  | "FULL";
+export const CreateTaskRequestResponseViewEnum = S.String;
+
+/** Request message for CreateTask. */
+export interface CreateTaskRequest {
+  /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must already exist. */
+  parent?: string;
+  /** Required. The task to add. Task names have the following format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID`. The user can optionally specify a task name. If a name is not specified then the system will generate a random unique task id, which will be set in the task returned in the response. If schedule_time is not set or is in the past then Cloud Tasks will set it to the current time. Task De-duplication: Explicitly specifying a task ID enables task de-duplication. If a task's ID is identical to that of an existing task or a task that was deleted or executed recently then the call will fail with ALREADY_EXISTS. The IDs of deleted tasks are not immediately available for reuse. It can take up to 24 hours (or 9 days if the task's queue was created using a queue.yaml or queue.xml) for the task ID to be released and made available again. Because there is an extra lookup cost to identify duplicate task names, these CreateTask calls have significantly increased latency. Using hashed strings for the task id or for the prefix of the task id is recommended. Choosing task ids that are sequential or have sequential prefixes, for example using a timestamp, causes an increase in latency and error rates in all task commands. The infrastructure relies on an approximately uniform distribution of task ids to store and serve tasks efficiently. */
+  task?: Task;
+  /** The response_view specifies which subset of the Task will be returned. By default response_view is BASIC; not all information is retrieved by default because some data, such as payloads, might be desirable to return only when needed because of its large size or because of the sensitivity of data that it contains. Authorization for FULL requires `cloudtasks.tasks.fullView` [Google IAM](https://cloud.google.com/iam/) permission on the Task resource. */
+  responseView?: CreateTaskRequestResponseViewEnum | (string & {});
+}
+export const CreateTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    parent: S.optional(S.String),
+    task: S.optional(Task),
+    responseView: S.optional(CreateTaskRequestResponseViewEnum),
+  }),
+).annotate({
+  identifier: "CreateTaskRequest",
+}) as any as S.Schema<CreateTaskRequest>;
+
+export type CreateTaskRequestList = Array<CreateTaskRequest>;
+export const CreateTaskRequestList = /*@__PURE__*/ S.Array(
+  CreateTaskRequest,
+) as any as S.Schema<CreateTaskRequestList>;
+
+/** Request message for [BatchCreateTasks]. */
+export interface BatchCreateTasksRequest {
+  /** Required. The list of requests to create tasks. The queue specified in parent field of each CreateTaskRequest will be the same. This validation happens on the client side as well as in the handler. BatchCreateTasksRequest.parent will also be the same value as the individual CreateTaskRequest.parent . The maximum number of requests is 100. */
+  requests?: CreateTaskRequestList;
+  /** Optional. This field will be used to identify the long running operation, avoiding duplication when user retries. If not provided, then a UUID will be generated at server side. */
+  requestId?: string;
+}
+export const BatchCreateTasksRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    requests: S.optional(CreateTaskRequestList),
+    requestId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BatchCreateTasksRequest",
+}) as any as S.Schema<BatchCreateTasksRequest>;
+
+export interface BatchCreateProjectsLocationsQueuesTasksRequest {
+  /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must already exist. */
+  parent: string;
+  /** Request body */
+  body?: BatchCreateTasksRequest;
+}
+export const BatchCreateProjectsLocationsQueuesTasksRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      body: S.optional(BatchCreateTasksRequest.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v2beta3/{+parent}/tasks:batchCreate",
+        baseUrl: "https://cloudtasks.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "BatchCreateProjectsLocationsQueuesTasksRequest",
+  }) as any as S.Schema<BatchCreateProjectsLocationsQueuesTasksRequest>;
+
+/** This resource represents a long-running operation that is the result of a network API call. */
+export interface Operation {
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+}
+export const Operation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    error: S.optional(Status),
+    metadata: S.optional(DocumentMap),
+    name: S.optional(S.String),
+    response: S.optional(DocumentMap),
+    done: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
+/** Request message for deleting a batch of tasks using BatchDeleteTasks. */
+export interface BatchDeleteTasksRequest {
+  /** Required. The names of the tasks to delete. A maximum of 1000 tasks can be deleted in a batch. For example: Format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
+  names?: StringList;
+  /** Optional. This field will be used to identify the long running operation, avoiding duplication when user retries. If not provided, then a UUID will be generated at server side. */
+  requestId?: string;
+}
+export const BatchDeleteTasksRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    names: S.optional(StringList),
+    requestId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BatchDeleteTasksRequest",
+}) as any as S.Schema<BatchDeleteTasksRequest>;
+
+export interface BatchDeleteProjectsLocationsQueuesTasksRequest {
+  /** Required. The queue name. For example: Format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
+  parent: string;
+  /** Request body */
+  body?: BatchDeleteTasksRequest;
+}
+export const BatchDeleteProjectsLocationsQueuesTasksRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      body: S.optional(BatchDeleteTasksRequest.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v2beta3/{+parent}/tasks:batchDelete",
+        baseUrl: "https://cloudtasks.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "BatchDeleteProjectsLocationsQueuesTasksRequest",
+  }) as any as S.Schema<BatchDeleteProjectsLocationsQueuesTasksRequest>;
 
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
@@ -107,18 +494,18 @@ export const BufferTaskRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BufferTaskRequest>;
 
 export interface BufferProjectsLocationsQueuesTasksRequest {
-  /** Optional. Task ID for the task being created. If not provided, a random task ID is assigned to the task. */
-  taskId: string;
   /** Required. The parent queue name. For example: projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must already exist. */
   queue: string;
+  /** Optional. Task ID for the task being created. If not provided, a random task ID is assigned to the task. */
+  taskId: string;
   /** Request body */
   body?: BufferTaskRequest;
 }
 export const BufferProjectsLocationsQueuesTasksRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      taskId: S.String.pipe(T.Label()),
       queue: S.String.pipe(T.Label()),
+      taskId: S.String.pipe(T.Label()),
       body: S.optional(BufferTaskRequest.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -130,233 +517,6 @@ export const BufferProjectsLocationsQueuesTasksRequest =
   ).annotate({
     identifier: "BufferProjectsLocationsQueuesTasksRequest",
   }) as any as S.Schema<BufferProjectsLocationsQueuesTasksRequest>;
-
-export type HttpRequestHttpMethodEnum =
-  | "HTTP_METHOD_UNSPECIFIED"
-  | "POST"
-  | "GET"
-  | "HEAD"
-  | "PUT"
-  | "DELETE"
-  | "PATCH"
-  | "OPTIONS";
-export const HttpRequestHttpMethodEnum = /*@__PURE__*/ S.String;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StringMap>;
-
-/** Contains information needed for generating an [OAuth token](https://developers.google.com/identity/protocols/OAuth2). This type of authorization should generally only be used when calling Google APIs hosted on *.googleapis.com. */
-export interface OAuthToken {
-  /** [Service account email](https://cloud.google.com/iam/docs/service-accounts) to be used for generating OAuth token. The service account must be within the same project as the queue. The caller must have iam.serviceAccounts.actAs permission for the service account. */
-  serviceAccountEmail?: string;
-  /** OAuth scope to be used for generating OAuth access token. If not specified, "https://www.googleapis.com/auth/cloud-platform" will be used. */
-  scope?: string;
-}
-export const OAuthToken = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceAccountEmail: S.optional(S.String),
-    scope: S.optional(S.String),
-  }),
-).annotate({ identifier: "OAuthToken" }) as any as S.Schema<OAuthToken>;
-
-/** Contains information needed for generating an [OpenID Connect token](https://developers.google.com/identity/protocols/OpenIDConnect). This type of authorization can be used for many scenarios, including calling Cloud Run, or endpoints where you intend to validate the token yourself. */
-export interface OidcToken {
-  /** Audience to be used when generating OIDC token. If not specified, the URI specified in target will be used. */
-  audience?: string;
-  /** [Service account email](https://cloud.google.com/iam/docs/service-accounts) to be used for generating OIDC token. The service account must be within the same project as the queue. The caller must have iam.serviceAccounts.actAs permission for the service account. */
-  serviceAccountEmail?: string;
-}
-export const OidcToken = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    audience: S.optional(S.String),
-    serviceAccountEmail: S.optional(S.String),
-  }),
-).annotate({ identifier: "OidcToken" }) as any as S.Schema<OidcToken>;
-
-/** HTTP request. The task will be pushed to the worker as an HTTP request. If the worker or the redirected worker acknowledges the task by returning a successful HTTP response code ([`200` - `299`]), the task will be removed from the queue. If any other HTTP response code is returned or no response is received, the task will be retried according to the following: * User-specified throttling: retry configuration, rate limits, and the queue's state. * System throttling: To prevent the worker from overloading, Cloud Tasks may temporarily reduce the queue's effective rate. User-specified settings will not be changed. System throttling happens because: * Cloud Tasks backs off on all errors. Normally the backoff specified in rate limits will be used. But if the worker returns `429` (Too Many Requests), `503` (Service Unavailable), or the rate of errors is high, Cloud Tasks will use a higher backoff rate. The retry specified in the `Retry-After` HTTP response header is considered. * To prevent traffic spikes and to smooth sudden increases in traffic, dispatches ramp up slowly when the queue is newly created or idle and if large numbers of tasks suddenly become available to dispatch (due to spikes in create task rates, the queue being unpaused, or many tasks that are scheduled at the same time). */
-export interface HttpRequest {
-  /** The HTTP method to use for the request. The default is POST. */
-  httpMethod?: HttpRequestHttpMethodEnum | (string & {});
-  /** HTTP request headers. This map contains the header field names and values. Headers can be set when the task is created. These headers represent a subset of the headers that will accompany the task's HTTP request. Some HTTP request headers will be ignored or replaced. A partial list of headers that will be ignored or replaced is: * Any header that is prefixed with "X-CloudTasks-" will be treated as service header. Service headers define properties of the task and are predefined in Cloud Tasks. * Host: This will be computed by Cloud Tasks and derived from HttpRequest.url. * Content-Length: This will be computed by Cloud Tasks. * User-Agent: This will be set to `"Google-Cloud-Tasks"`. * `X-Google-*`: Google use only. * `X-AppEngine-*`: Google use only. `Content-Type` won't be set by Cloud Tasks. You can explicitly set `Content-Type` to a media type when the task is created. For example, `Content-Type` can be set to `"application/octet-stream"` or `"application/json"`. Headers which can have multiple values (according to RFC2616) can be specified using comma-separated values. The size of the headers must be less than 80KB. */
-  headers?: StringMap;
-  /** If specified, an [OAuth token](https://developers.google.com/identity/protocols/OAuth2) will be generated and attached as an `Authorization` header in the HTTP request. This type of authorization should generally only be used when calling Google APIs hosted on *.googleapis.com. */
-  oauthToken?: OAuthToken;
-  /** Required. The full url path that the request will be sent to. This string must begin with either "http://" or "https://". Some examples are: `http://acme.com` and `https://acme.com/sales:8080`. Cloud Tasks will encode some characters for safety and compatibility. The maximum allowed URL length is 2083 characters after encoding. The `Location` header response from a redirect response [`300` - `399`] may be followed. The redirect is not counted as a separate attempt. */
-  url?: string;
-  /** HTTP request body. A request body is allowed only if the HTTP method is POST, PUT, or PATCH. It is an error to set body on a task with an incompatible HttpMethod. */
-  body?: string;
-  /** If specified, an [OIDC](https://developers.google.com/identity/protocols/OpenIDConnect) token will be generated and attached as an `Authorization` header in the HTTP request. This type of authorization can be used for many scenarios, including calling Cloud Run, or endpoints where you intend to validate the token yourself. */
-  oidcToken?: OidcToken;
-}
-export const HttpRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    httpMethod: S.optional(HttpRequestHttpMethodEnum),
-    headers: S.optional(StringMap),
-    oauthToken: S.optional(OAuthToken),
-    url: S.optional(S.String),
-    body: S.optional(S.String),
-    oidcToken: S.optional(OidcToken),
-  }),
-).annotate({ identifier: "HttpRequest" }) as any as S.Schema<HttpRequest>;
-
-export type TaskViewEnum = "VIEW_UNSPECIFIED" | "BASIC" | "FULL";
-export const TaskViewEnum = /*@__PURE__*/ S.String;
-
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-}
-export const Status = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    code: S.optional(S.Number),
-    details: S.optional(DocumentMapList),
-  }),
-).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
-
-/** The status of a task attempt. */
-export interface Attempt {
-  /** Output only. The time that this attempt was scheduled. `schedule_time` will be truncated to the nearest microsecond. */
-  scheduleTime?: string;
-  /** Output only. The time that this attempt was dispatched. `dispatch_time` will be truncated to the nearest microsecond. */
-  dispatchTime?: string;
-  /** Output only. The response from the worker for this attempt. If `response_time` is unset, then the task has not been attempted or is currently running and the `response_status` field is meaningless. */
-  responseStatus?: Status;
-  /** Output only. The time that this attempt response was received. `response_time` will be truncated to the nearest microsecond. */
-  responseTime?: string;
-}
-export const Attempt = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scheduleTime: S.optional(S.String),
-    dispatchTime: S.optional(S.String),
-    responseStatus: S.optional(Status),
-    responseTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "Attempt" }) as any as S.Schema<Attempt>;
-
-export type AppEngineHttpRequestHttpMethodEnum =
-  | "HTTP_METHOD_UNSPECIFIED"
-  | "POST"
-  | "GET"
-  | "HEAD"
-  | "PUT"
-  | "DELETE"
-  | "PATCH"
-  | "OPTIONS";
-export const AppEngineHttpRequestHttpMethodEnum = /*@__PURE__*/ S.String;
-
-/** App Engine Routing. Defines routing characteristics specific to App Engine - service, version, and instance. For more information about services, versions, and instances see [An Overview of App Engine](https://cloud.google.com/appengine/docs/python/an-overview-of-app-engine), [Microservices Architecture on Google App Engine](https://cloud.google.com/appengine/docs/python/microservices-on-app-engine), [App Engine Standard request routing](https://cloud.google.com/appengine/docs/standard/python/how-requests-are-routed), and [App Engine Flex request routing](https://cloud.google.com/appengine/docs/flexible/python/how-requests-are-routed). */
-export interface AppEngineRouting {
-  /** Output only. The host that the task is sent to. The host is constructed from the domain name of the app associated with the queue's project ID (for example .appspot.com), and the service, version, and instance. Tasks which were created using the App Engine SDK might have a custom domain name. For more information, see [How Requests are Routed](https://cloud.google.com/appengine/docs/standard/python/how-requests-are-routed). */
-  host?: string;
-  /** App instance. By default, the task is sent to an instance which is available when the task is attempted. Requests can only be sent to a specific instance if [manual scaling is used in App Engine Standard](https://cloud.google.com/appengine/docs/python/an-overview-of-app-engine?hl=en_US#scaling_types_and_instance_classes). App Engine Flex does not support instances. For more information, see [App Engine Standard request routing](https://cloud.google.com/appengine/docs/standard/python/how-requests-are-routed) and [App Engine Flex request routing](https://cloud.google.com/appengine/docs/flexible/python/how-requests-are-routed). */
-  instance?: string;
-  /** App service. By default, the task is sent to the service which is the default service when the task is attempted. For some queues or tasks which were created using the App Engine Task Queue API, host is not parsable into service, version, and instance. For example, some tasks which were created using the App Engine SDK use a custom domain name; custom domains are not parsed by Cloud Tasks. If host is not parsable, then service, version, and instance are the empty string. */
-  service?: string;
-  /** App version. By default, the task is sent to the version which is the default version when the task is attempted. For some queues or tasks which were created using the App Engine Task Queue API, host is not parsable into service, version, and instance. For example, some tasks which were created using the App Engine SDK use a custom domain name; custom domains are not parsed by Cloud Tasks. If host is not parsable, then service, version, and instance are the empty string. */
-  version?: string;
-}
-export const AppEngineRouting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    host: S.optional(S.String),
-    instance: S.optional(S.String),
-    service: S.optional(S.String),
-    version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AppEngineRouting",
-}) as any as S.Schema<AppEngineRouting>;
-
-/** App Engine HTTP request. The message defines the HTTP request that is sent to an App Engine app when the task is dispatched. Using AppEngineHttpRequest requires [`appengine.applications.get`](https://cloud.google.com/appengine/docs/admin-api/access-control) Google IAM permission for the project and the following scope: `https://www.googleapis.com/auth/cloud-platform` The task will be delivered to the App Engine app which belongs to the same project as the queue. For more information, see [How Requests are Routed](https://cloud.google.com/appengine/docs/standard/python/how-requests-are-routed) and how routing is affected by [dispatch files](https://cloud.google.com/appengine/docs/python/config/dispatchref). Traffic is encrypted during transport and never leaves Google datacenters. Because this traffic is carried over a communication mechanism internal to Google, you cannot explicitly set the protocol (for example, HTTP or HTTPS). The request to the handler, however, will appear to have used the HTTP protocol. The AppEngineRouting used to construct the URL that the task is delivered to can be set at the queue-level or task-level: * If set, app_engine_routing_override is used for all tasks in the queue, no matter what the setting is for the task-level app_engine_routing. The `url` that the task will be sent to is: * `url =` host `+` relative_uri Tasks can be dispatched to secure app handlers, unsecure app handlers, and URIs restricted with [`login: admin`](https://cloud.google.com/appengine/docs/standard/python/config/appref). Because tasks are not run as any user, they cannot be dispatched to URIs restricted with [`login: required`](https://cloud.google.com/appengine/docs/standard/python/config/appref) Task dispatches also do not follow redirects. The task attempt has succeeded if the app's request handler returns an HTTP response code in the range [`200` - `299`]. The task attempt has failed if the app's handler returns a non-2xx response code or Cloud Tasks does not receive response before the deadline. Failed tasks will be retried according to the retry configuration. `503` (Service Unavailable) is considered an App Engine system error instead of an application error and will cause Cloud Tasks' traffic congestion control to temporarily throttle the queue's dispatches. Unlike other types of task targets, a `429` (Too Many Requests) response from an app handler does not cause traffic congestion control to throttle the queue. */
-export interface AppEngineHttpRequest {
-  /** HTTP request body. A request body is allowed only if the HTTP method is POST or PUT. It is an error to set a body on a task with an incompatible HttpMethod. */
-  body?: string;
-  /** The relative URI. The relative URI must begin with "/" and must be a valid HTTP relative URI. It can contain a path and query string arguments. If the relative URI is empty, then the root path "/" will be used. No spaces are allowed, and the maximum length allowed is 2083 characters. */
-  relativeUri?: string;
-  /** HTTP request headers. This map contains the header field names and values. Headers can be set when the task is created. Repeated headers are not supported but a header value can contain commas. Cloud Tasks sets some headers to default values: * `User-Agent`: By default, this header is `"AppEngine-Google; (+http://code.google.com/appengine)"`. This header can be modified, but Cloud Tasks will append `"AppEngine-Google; (+http://code.google.com/appengine)"` to the modified `User-Agent`. If the task has a body, Cloud Tasks sets the following headers: * `Content-Type`: By default, the `Content-Type` header is set to `"application/octet-stream"`. The default can be overridden by explicitly setting `Content-Type` to a particular media type when the task is created. For example, `Content-Type` can be set to `"application/json"`. * `Content-Length`: This is computed by Cloud Tasks. This value is output only. It cannot be changed. The headers below cannot be set or overridden: * `Host` * `X-Google-*` * `X-AppEngine-*` In addition, Cloud Tasks sets some headers when the task is dispatched, such as headers containing information about the task; see [request headers](https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_request_headers). These headers are set only when the task is dispatched, so they are not visible when the task is returned in a Cloud Tasks response. Although there is no specific limit for the maximum number of headers or the size, there is a limit on the maximum size of the Task. For more information, see the CreateTask documentation. */
-  headers?: StringMap;
-  /** The HTTP method to use for the request. The default is POST. The app's request handler for the task's target URL must be able to handle HTTP requests with this http_method, otherwise the task attempt fails with error code 405 (Method Not Allowed). See [Writing a push task request handler](https://cloud.google.com/appengine/docs/java/taskqueue/push/creating-handlers#writing_a_push_task_request_handler) and the App Engine documentation for your runtime on [How Requests are Handled](https://cloud.google.com/appengine/docs/standard/python3/how-requests-are-handled). */
-  httpMethod?: AppEngineHttpRequestHttpMethodEnum | (string & {});
-  /** Task-level setting for App Engine routing. If set, app_engine_routing_override is used for all tasks in the queue, no matter what the setting is for the task-level app_engine_routing. */
-  appEngineRouting?: AppEngineRouting;
-}
-export const AppEngineHttpRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    body: S.optional(S.String),
-    relativeUri: S.optional(S.String),
-    headers: S.optional(StringMap),
-    httpMethod: S.optional(AppEngineHttpRequestHttpMethodEnum),
-    appEngineRouting: S.optional(AppEngineRouting),
-  }),
-).annotate({
-  identifier: "AppEngineHttpRequest",
-}) as any as S.Schema<AppEngineHttpRequest>;
-
-/** Pull Message. This proto can only be used for tasks in a queue which has PULL type. It currently exists for backwards compatibility with the App Engine Task Queue SDK. This message type maybe returned with methods list and get, when the response view is FULL. */
-export interface PullMessage {
-  /** The tasks's tag. The tag is less than 500 characters. SDK compatibility: Although the SDK allows tags to be either string or [bytes](https://cloud.google.com/appengine/docs/standard/java/javadoc/com/google/appengine/api/taskqueue/TaskOptions.html#tag-byte:A-), only UTF-8 encoded tags can be used in Cloud Tasks. If a tag isn't UTF-8 encoded, the tag will be empty when the task is returned by Cloud Tasks. */
-  tag?: string;
-  /** A data payload consumed by the worker to execute the task. */
-  payload?: string;
-}
-export const PullMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tag: S.optional(S.String),
-    payload: S.optional(S.String),
-  }),
-).annotate({ identifier: "PullMessage" }) as any as S.Schema<PullMessage>;
-
-/** A unit of scheduled work. */
-export interface Task {
-  /** HTTP request that is sent to the task's target. An HTTP task is a task that has HttpRequest set. */
-  httpRequest?: HttpRequest;
-  /** The deadline for requests sent to the worker. If the worker does not respond by this deadline then the request is cancelled and the attempt is marked as a `DEADLINE_EXCEEDED` failure. Cloud Tasks will retry the task according to the RetryConfig. Note that when the request is cancelled, Cloud Tasks will stop listening for the response, but whether the worker stops processing depends on the worker. For example, if the worker is stuck, it may not react to cancelled requests. The default and maximum values depend on the type of request: * For HTTP tasks, the default is 10 minutes. The deadline must be in the interval [15 seconds, 30 minutes]. * For App Engine tasks, 0 indicates that the request has the default deadline. The default deadline depends on the [scaling type](https://cloud.google.com/appengine/docs/standard/go/how-instances-are-managed#instance_scaling) of the service: 10 minutes for standard apps with automatic scaling, 24 hours for standard apps with manual and basic scaling, and 60 minutes for flex apps. If the request deadline is set, it must be in the interval [15 seconds, 24 hours 15 seconds]. Regardless of the task's `dispatch_deadline`, the app handler will not run for longer than than the service's timeout. We recommend setting the `dispatch_deadline` to at most a few seconds more than the app handler's timeout. For more information see [Timeouts](https://cloud.google.com/tasks/docs/creating-appengine-handlers#timeouts). The value must be given as a string that indicates the length of time (in seconds) followed by `s` (for "seconds"). For more information on the format, see the documentation for [Duration](https://protobuf.dev/reference/protobuf/google.protobuf/#duration). `dispatch_deadline` will be truncated to the nearest millisecond. The deadline is an approximate deadline. */
-  dispatchDeadline?: string;
-  /** Output only. The view specifies which subset of the Task has been returned. */
-  view?: TaskViewEnum | (string & {});
-  /** Output only. The status of the task's first attempt. Only dispatch_time will be set. The other Attempt information is not retained by Cloud Tasks. */
-  firstAttempt?: Attempt;
-  /** Output only. The status of the task's last attempt. */
-  lastAttempt?: Attempt;
-  /** Optionally caller-specified in CreateTask. The task name. The task name must have the following format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), or periods (.). For more information, see [Identifying projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects) * `LOCATION_ID` is the canonical ID for the task's location. The list of available locations can be obtained by calling ListLocations. For more information, see https://cloud.google.com/about/locations/. * `QUEUE_ID` can contain letters ([A-Za-z]), numbers ([0-9]), or hyphens (-). The maximum length is 100 characters. * `TASK_ID` can contain only letters ([A-Za-z]), numbers ([0-9]), hyphens (-), or underscores (_). The maximum length is 500 characters. */
-  name?: string;
-  /** Output only. The number of attempts which have received a response. */
-  responseCount?: number;
-  /** HTTP request that is sent to the App Engine app handler. An App Engine task is a task that has AppEngineHttpRequest set. */
-  appEngineHttpRequest?: AppEngineHttpRequest;
-  /** The time when the task is scheduled to be attempted. For App Engine queues, this is when the task will be attempted or retried. `schedule_time` will be truncated to the nearest microsecond. */
-  scheduleTime?: string;
-  /** Output only. The time that the task was created. `create_time` will be truncated to the nearest second. */
-  createTime?: string;
-  /** Output only. The number of attempts dispatched. This count includes attempts which have been dispatched but haven't received a response. */
-  dispatchCount?: number;
-  /** Pull Message contained in a task in a PULL queue type. This payload type cannot be explicitly set through Cloud Tasks API. Its purpose, currently is to provide backward compatibility with App Engine Task Queue [pull](https://cloud.google.com/appengine/docs/standard/java/taskqueue/pull/) queues to provide a way to inspect contents of pull tasks through the CloudTasks.GetTask. */
-  pullMessage?: PullMessage;
-}
-export const Task = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    httpRequest: S.optional(HttpRequest),
-    dispatchDeadline: S.optional(S.String),
-    view: S.optional(TaskViewEnum),
-    firstAttempt: S.optional(Attempt),
-    lastAttempt: S.optional(Attempt),
-    name: S.optional(S.String),
-    responseCount: S.optional(S.Number),
-    appEngineHttpRequest: S.optional(AppEngineHttpRequest),
-    scheduleTime: S.optional(S.String),
-    createTime: S.optional(S.String),
-    dispatchCount: S.optional(S.Number),
-    pullMessage: S.optional(PullMessage),
-  }),
-).annotate({ identifier: "Task" }) as any as S.Schema<Task>;
 
 /** Response message for BufferTask. */
 export interface BufferTaskResponse {
@@ -371,16 +531,94 @@ export const BufferTaskResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "BufferTaskResponse",
 }) as any as S.Schema<BufferTaskResponse>;
 
-export type HttpTargetHttpMethodEnum =
-  | "HTTP_METHOD_UNSPECIFIED"
-  | "POST"
-  | "GET"
-  | "HEAD"
-  | "PUT"
-  | "DELETE"
-  | "PATCH"
-  | "OPTIONS";
-export const HttpTargetHttpMethodEnum = /*@__PURE__*/ S.String;
+export type QueueStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "RUNNING"
+  | "PAUSED"
+  | "DISABLED";
+export const QueueStateEnum = S.String;
+
+/** Statistics for a queue. */
+export interface QueueStats {
+  /** Output only. An estimation of the number of tasks in the queue, that is, the tasks in the queue that haven't been executed, the tasks in the queue which the queue has dispatched but has not yet received a reply for, and the failed tasks that the queue is retrying. */
+  tasksCount?: string;
+  /** Output only. An estimation of the nearest time in the future where a task in the queue is scheduled to be executed. */
+  oldestEstimatedArrivalTime?: string;
+  /** Output only. The number of requests that the queue has dispatched but has not received a reply for yet. */
+  concurrentDispatchesCount?: string;
+  /** Output only. The number of tasks that the queue has dispatched and received a reply for during the last minute. This variable counts both successful and non-successful executions. */
+  executedLastMinuteCount?: string;
+  /** Output only. The current maximum number of tasks per second executed by the queue. The maximum value of this variable is controlled by the RateLimits of the Queue. However, this value could be less to avoid overloading the endpoints tasks in the queue are targeting. */
+  effectiveExecutionRate?: number;
+}
+export const QueueStats = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tasksCount: S.optional(S.String),
+    oldestEstimatedArrivalTime: S.optional(S.String),
+    concurrentDispatchesCount: S.optional(S.String),
+    executedLastMinuteCount: S.optional(S.String),
+    effectiveExecutionRate: S.optional(S.Number),
+  }),
+).annotate({ identifier: "QueueStats" }) as any as S.Schema<QueueStats>;
+
+export type UriOverrideUriOverrideEnforceModeEnum =
+  | "URI_OVERRIDE_ENFORCE_MODE_UNSPECIFIED"
+  | "IF_NOT_EXISTS"
+  | "ALWAYS";
+export const UriOverrideUriOverrideEnforceModeEnum = S.String;
+
+export type UriOverrideSchemeEnum = "SCHEME_UNSPECIFIED" | "HTTP" | "HTTPS";
+export const UriOverrideSchemeEnum = S.String;
+
+/** PathOverride. Path message defines path override for HTTP targets. */
+export interface PathOverride {
+  /** The URI path (e.g., /users/1234). Default is an empty string. */
+  path?: string;
+}
+export const PathOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    path: S.optional(S.String),
+  }),
+).annotate({ identifier: "PathOverride" }) as any as S.Schema<PathOverride>;
+
+/** QueryOverride. Query message defines query override for HTTP targets. */
+export interface QueryOverride {
+  /** The query parameters (e.g., qparam1=123&qparam2=456). Default is an empty string. */
+  queryParams?: string;
+}
+export const QueryOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    queryParams: S.optional(S.String),
+  }),
+).annotate({ identifier: "QueryOverride" }) as any as S.Schema<QueryOverride>;
+
+/** URI Override. When specified, all the HTTP tasks inside the queue will be partially or fully overridden depending on the configured values. */
+export interface UriOverride {
+  /** Port override. When specified, replaces the port part of the task URI. For instance, for a URI "https://www.example.com/example" and port=123, the overridden URI becomes "https://www.example.com:123/example". Note that the port value must be a positive integer. Setting the port to 0 (Zero) clears the URI port. */
+  port?: string;
+  /** URI Override Enforce Mode When specified, determines the Target UriOverride mode. If not specified, it defaults to ALWAYS. */
+  uriOverrideEnforceMode?:
+    | UriOverrideUriOverrideEnforceModeEnum
+    | (string & {});
+  /** Scheme override. When specified, the task URI scheme is replaced by the provided value (HTTP or HTTPS). */
+  scheme?: UriOverrideSchemeEnum | (string & {});
+  /** URI path. When specified, replaces the existing path of the task URL. Setting the path value to an empty string clears the URI path segment. */
+  pathOverride?: PathOverride;
+  /** Host override. When specified, replaces the host part of the task URL. For example, if the task URL is "https://www.google.com," and host value is set to "example.net", the overridden URI will be changed to "https://example.net." Host value cannot be an empty string (INVALID_ARGUMENT). */
+  host?: string;
+  /** URI Query. When specified, replaces the query part of the task URI. Setting the query value to an empty string clears the URI query segment. */
+  queryOverride?: QueryOverride;
+}
+export const UriOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    port: S.optional(S.String),
+    uriOverrideEnforceMode: S.optional(UriOverrideUriOverrideEnforceModeEnum),
+    scheme: S.optional(UriOverrideSchemeEnum),
+    pathOverride: S.optional(PathOverride),
+    host: S.optional(S.String),
+    queryOverride: S.optional(QueryOverride),
+  }),
+).annotate({ identifier: "UriOverride" }) as any as S.Schema<UriOverride>;
 
 /** Defines a header message. A header can have a key and a value. */
 export interface Header {
@@ -412,120 +650,39 @@ export const HeaderOverrideList = /*@__PURE__*/ S.Array(
   HeaderOverride,
 ) as any as S.Schema<HeaderOverrideList>;
 
-export type UriOverrideSchemeEnum = "SCHEME_UNSPECIFIED" | "HTTP" | "HTTPS";
-export const UriOverrideSchemeEnum = /*@__PURE__*/ S.String;
-
-/** QueryOverride. Query message defines query override for HTTP targets. */
-export interface QueryOverride {
-  /** The query parameters (e.g., qparam1=123&qparam2=456). Default is an empty string. */
-  queryParams?: string;
-}
-export const QueryOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queryParams: S.optional(S.String),
-  }),
-).annotate({ identifier: "QueryOverride" }) as any as S.Schema<QueryOverride>;
-
-/** PathOverride. Path message defines path override for HTTP targets. */
-export interface PathOverride {
-  /** The URI path (e.g., /users/1234). Default is an empty string. */
-  path?: string;
-}
-export const PathOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    path: S.optional(S.String),
-  }),
-).annotate({ identifier: "PathOverride" }) as any as S.Schema<PathOverride>;
-
-export type UriOverrideUriOverrideEnforceModeEnum =
-  | "URI_OVERRIDE_ENFORCE_MODE_UNSPECIFIED"
-  | "IF_NOT_EXISTS"
-  | "ALWAYS";
-export const UriOverrideUriOverrideEnforceModeEnum = /*@__PURE__*/ S.String;
-
-/** URI Override. When specified, all the HTTP tasks inside the queue will be partially or fully overridden depending on the configured values. */
-export interface UriOverride {
-  /** Scheme override. When specified, the task URI scheme is replaced by the provided value (HTTP or HTTPS). */
-  scheme?: UriOverrideSchemeEnum | (string & {});
-  /** URI Query. When specified, replaces the query part of the task URI. Setting the query value to an empty string clears the URI query segment. */
-  queryOverride?: QueryOverride;
-  /** Port override. When specified, replaces the port part of the task URI. For instance, for a URI "https://www.example.com/example" and port=123, the overridden URI becomes "https://www.example.com:123/example". Note that the port value must be a positive integer. Setting the port to 0 (Zero) clears the URI port. */
-  port?: string;
-  /** URI path. When specified, replaces the existing path of the task URL. Setting the path value to an empty string clears the URI path segment. */
-  pathOverride?: PathOverride;
-  /** Host override. When specified, replaces the host part of the task URL. For example, if the task URL is "https://www.google.com," and host value is set to "example.net", the overridden URI will be changed to "https://example.net." Host value cannot be an empty string (INVALID_ARGUMENT). */
-  host?: string;
-  /** URI Override Enforce Mode When specified, determines the Target UriOverride mode. If not specified, it defaults to ALWAYS. */
-  uriOverrideEnforceMode?:
-    | UriOverrideUriOverrideEnforceModeEnum
-    | (string & {});
-}
-export const UriOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scheme: S.optional(UriOverrideSchemeEnum),
-    queryOverride: S.optional(QueryOverride),
-    port: S.optional(S.String),
-    pathOverride: S.optional(PathOverride),
-    host: S.optional(S.String),
-    uriOverrideEnforceMode: S.optional(UriOverrideUriOverrideEnforceModeEnum),
-  }),
-).annotate({ identifier: "UriOverride" }) as any as S.Schema<UriOverride>;
+export type HttpTargetHttpMethodEnum =
+  | "HTTP_METHOD_UNSPECIFIED"
+  | "POST"
+  | "GET"
+  | "HEAD"
+  | "PUT"
+  | "DELETE"
+  | "PATCH"
+  | "OPTIONS";
+export const HttpTargetHttpMethodEnum = S.String;
 
 /** HTTP target. When specified as a Queue, all the tasks with [HttpRequest] will be overridden according to the target. */
 export interface HttpTarget {
-  /** If specified, an [OIDC](https://developers.google.com/identity/protocols/OpenIDConnect) token is generated and attached as an `Authorization` header in the HTTP request. This type of authorization can be used for many scenarios, including calling Cloud Run, or endpoints where you intend to validate the token yourself. Note that both the service account email and the audience MUST be specified when using the queue-level authorization override. */
-  oidcToken?: OidcToken;
-  /** The HTTP method to use for the request. When specified, it overrides HttpRequest.http_method for the task. Note that if the value is set to HttpMethod.GET the HttpRequest.body of the task will be ignored at execution time. */
-  httpMethod?: HttpTargetHttpMethodEnum | (string & {});
-  /** HTTP target headers. This map contains the header field names and values. Headers will be set when running the CreateTask and/or BufferTask. These headers represent a subset of the headers that will be configured for the task's HTTP request. Some HTTP request headers will be ignored or replaced. A partial list of headers that will be ignored or replaced is: * Several predefined headers, prefixed with "X-CloudTasks-", can be used to define properties of the task. * Host: This will be computed by Cloud Tasks and derived from HttpRequest.url. * Content-Length: This will be computed by Cloud Tasks. `Content-Type` won't be set by Cloud Tasks. You can explicitly set `Content-Type` to a media type when the task is created. For example,`Content-Type` can be set to `"application/octet-stream"` or `"application/json"`. The default value is set to `"application/json"`. * User-Agent: This will be set to `"Google-Cloud-Tasks"`. Headers which can have multiple values (according to RFC2616) can be specified using comma-separated values. The size of the headers must be less than 80KB. Queue-level headers to override headers of all the tasks in the queue. Do not put business sensitive or personally identifying data in the HTTP Header Override Configuration or other similar fields in accordance with Section 12 (Resource Fields) of the [Service Specific Terms](https://cloud.google.com/terms/service-terms). */
-  headerOverrides?: HeaderOverrideList;
   /** URI override. When specified, overrides the execution URI for all the tasks in the queue. */
   uriOverride?: UriOverride;
+  /** If specified, an [OIDC](https://developers.google.com/identity/protocols/OpenIDConnect) token is generated and attached as an `Authorization` header in the HTTP request. This type of authorization can be used for many scenarios, including calling Cloud Run, or endpoints where you intend to validate the token yourself. Note that both the service account email and the audience MUST be specified when using the queue-level authorization override. */
+  oidcToken?: OidcToken;
   /** If specified, an [OAuth token](https://developers.google.com/identity/protocols/OAuth2) is generated and attached as the `Authorization` header in the HTTP request. This type of authorization should generally be used only when calling Google APIs hosted on *.googleapis.com. Note that both the service account email and the scope MUST be specified when using the queue-level authorization override. */
   oauthToken?: OAuthToken;
+  /** HTTP target headers. This map contains the header field names and values. Headers will be set when running the CreateTask and/or BufferTask. These headers represent a subset of the headers that will be configured for the task's HTTP request. Some HTTP request headers will be ignored or replaced. A partial list of headers that will be ignored or replaced is: * Several predefined headers, prefixed with "X-CloudTasks-", can be used to define properties of the task. * Host: This will be computed by Cloud Tasks and derived from HttpRequest.url. * Content-Length: This will be computed by Cloud Tasks. `Content-Type` won't be set by Cloud Tasks. You can explicitly set `Content-Type` to a media type when the task is created. For example,`Content-Type` can be set to `"application/octet-stream"` or `"application/json"`. The default value is set to `"application/json"`. * User-Agent: This will be set to `"Google-Cloud-Tasks"`. Headers which can have multiple values (according to RFC2616) can be specified using comma-separated values. The size of the headers must be less than 80KB. Queue-level headers to override headers of all the tasks in the queue. Do not put business sensitive or personally identifying data in the HTTP Header Override Configuration or other similar fields in accordance with Section 12 (Resource Fields) of the [Service Specific Terms](https://cloud.google.com/terms/service-terms). */
+  headerOverrides?: HeaderOverrideList;
+  /** The HTTP method to use for the request. When specified, it overrides HttpRequest.http_method for the task. Note that if the value is set to HttpMethod.GET the HttpRequest.body of the task will be ignored at execution time. */
+  httpMethod?: HttpTargetHttpMethodEnum | (string & {});
 }
 export const HttpTarget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    oidcToken: S.optional(OidcToken),
-    httpMethod: S.optional(HttpTargetHttpMethodEnum),
-    headerOverrides: S.optional(HeaderOverrideList),
     uriOverride: S.optional(UriOverride),
+    oidcToken: S.optional(OidcToken),
     oauthToken: S.optional(OAuthToken),
+    headerOverrides: S.optional(HeaderOverrideList),
+    httpMethod: S.optional(HttpTargetHttpMethodEnum),
   }),
 ).annotate({ identifier: "HttpTarget" }) as any as S.Schema<HttpTarget>;
-
-export type QueueStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "RUNNING"
-  | "PAUSED"
-  | "DISABLED";
-export const QueueStateEnum = /*@__PURE__*/ S.String;
-
-export type QueueTypeEnum = "TYPE_UNSPECIFIED" | "PULL" | "PUSH";
-export const QueueTypeEnum = /*@__PURE__*/ S.String;
-
-/** Retry config. These settings determine when a failed task attempt is retried. */
-export interface RetryConfig {
-  /** If positive, `max_retry_duration` specifies the time limit for retrying a failed task, measured from when the task was first attempted. Once `max_retry_duration` time has passed *and* the task has been attempted max_attempts times, no further attempts are made and the task is deleted. A zero (0) indicates an unlimited duration, up to the [maximum task retention](https://docs.cloud.google.com/tasks/docs/quotas#limits) limit. The value must be given as a string that indicates the length of time (in seconds) followed by `s` (for "seconds"). For the maximum possible value or the format, see the documentation for [Duration](https://protobuf.dev/reference/protobuf/google.protobuf/#duration). `max_retry_duration` will be truncated to the nearest second. If unspecified when the queue is created, Cloud Tasks will pick the default. This field has the same meaning as [task_age_limit in queue.yaml/xml](https://cloud.google.com/appengine/docs/standard/python/config/queueref#retry_parameters). */
-  maxRetryDuration?: string;
-  /** A task will be scheduled for retry between min_backoff and max_backoff duration after it fails, if the queue's RetryConfig specifies that the task should be retried. The value must be given as a string that indicates the length of time (in seconds) followed by `s` (for "seconds"). For more information on the format, see the documentation for [Duration](https://protobuf.dev/reference/protobuf/google.protobuf/#duration). `max_backoff` will be truncated to the nearest second. If unspecified when the queue is created, Cloud Tasks will pick the default. This field has the same meaning as [max_backoff_seconds in queue.yaml/xml](https://cloud.google.com/appengine/docs/standard/python/config/queueref#retry_parameters). */
-  maxBackoff?: string;
-  /** A task will be scheduled for retry between min_backoff and max_backoff duration after it fails, if the queue's RetryConfig specifies that the task should be retried. The value must be given as a string that indicates the length of time (in seconds) followed by `s` (for "seconds"). For more information on the format, see the documentation for [Duration](https://protobuf.dev/reference/protobuf/google.protobuf/#duration). `min_backoff` will be truncated to the nearest second. If unspecified when the queue is created, Cloud Tasks will pick the default. This field has the same meaning as [min_backoff_seconds in queue.yaml/xml](https://cloud.google.com/appengine/docs/standard/python/config/queueref#retry_parameters). */
-  minBackoff?: string;
-  /** Number of attempts per task, including the first attempt. (If the first attempt fails, there will be `max_attempts - 1` retries.) Must be greater than or equal to -1, which indicates unlimited attempts. Cloud Tasks stops retrying only when `max_attempts` and `max_retry_duration` are both satisfied, or when the task is successfully executed. When the task has been attempted `max_attempts` times and when the `max_retry_duration` time has passed, no further attempts are made, and the task is deleted. If `max_attempts` is set to -1 and `max_retry_duration` is set to 0, the task is retried until the [maximum task retention](https://docs.cloud.google.com/tasks/docs/quotas#limits) limit is reached. If unspecified when the queue is created, Cloud Tasks will pick the default. This field has the same meaning as [task_retry_limit in queue.yaml/xml](https://cloud.google.com/appengine/docs/standard/python/config/queueref#retry_parameters). */
-  maxAttempts?: number;
-  /** The time between retries will double `max_doublings` times. A task's retry interval starts at min_backoff, then doubles `max_doublings` times, then increases linearly, and finally retries at intervals of max_backoff up to max_attempts times. For example, if min_backoff is 10s, max_backoff is 300s, and `max_doublings` is 3, then the a task will first be retried in 10s. The retry interval will double three times, and then increase linearly by 2^3 * 10s. Finally, the task will retry at intervals of max_backoff until the task has been attempted max_attempts times. Thus, the requests will retry at 10s, 20s, 40s, 80s, 160s, 240s, 300s, 300s, .... If unspecified when the queue is created, Cloud Tasks will pick the default. This field has the same meaning as [max_doublings in queue.yaml/xml](https://cloud.google.com/appengine/docs/standard/python/config/queueref#retry_parameters). */
-  maxDoublings?: number;
-}
-export const RetryConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxRetryDuration: S.optional(S.String),
-    maxBackoff: S.optional(S.String),
-    minBackoff: S.optional(S.String),
-    maxAttempts: S.optional(S.Number),
-    maxDoublings: S.optional(S.Number),
-  }),
-).annotate({ identifier: "RetryConfig" }) as any as S.Schema<RetryConfig>;
 
 /** Configuration options for writing logs to [Stackdriver Logging](https://cloud.google.com/logging/docs/). */
 export interface StackdriverLoggingConfig {
@@ -570,70 +727,50 @@ export const RateLimits = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "RateLimits" }) as any as S.Schema<RateLimits>;
 
-/** Statistics for a queue. */
-export interface QueueStats {
-  /** Output only. An estimation of the number of tasks in the queue, that is, the tasks in the queue that haven't been executed, the tasks in the queue which the queue has dispatched but has not yet received a reply for, and the failed tasks that the queue is retrying. */
-  tasksCount?: string;
-  /** Output only. An estimation of the nearest time in the future where a task in the queue is scheduled to be executed. */
-  oldestEstimatedArrivalTime?: string;
-  /** Output only. The number of tasks that the queue has dispatched and received a reply for during the last minute. This variable counts both successful and non-successful executions. */
-  executedLastMinuteCount?: string;
-  /** Output only. The current maximum number of tasks per second executed by the queue. The maximum value of this variable is controlled by the RateLimits of the Queue. However, this value could be less to avoid overloading the endpoints tasks in the queue are targeting. */
-  effectiveExecutionRate?: number;
-  /** Output only. The number of requests that the queue has dispatched but has not received a reply for yet. */
-  concurrentDispatchesCount?: string;
-}
-export const QueueStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tasksCount: S.optional(S.String),
-    oldestEstimatedArrivalTime: S.optional(S.String),
-    executedLastMinuteCount: S.optional(S.String),
-    effectiveExecutionRate: S.optional(S.Number),
-    concurrentDispatchesCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "QueueStats" }) as any as S.Schema<QueueStats>;
+export type QueueTypeEnum = "TYPE_UNSPECIFIED" | "PULL" | "PUSH";
+export const QueueTypeEnum = S.String;
 
 /** A queue is a container of related tasks. Queues are configured to manage how those tasks are dispatched. Configurable properties include rate limits, retry options, queue types, and others. */
 export interface Queue {
+  /** Settings that determine the retry behavior. * For tasks created using Cloud Tasks: the queue-level retry settings apply to all tasks in the queue that were created using Cloud Tasks. Optionally, retry settings can be set on individual tasks and override the queue-level retry settings for the task. * For tasks created using the App Engine SDK: the queue-level retry settings apply to all tasks in the queue which do not have retry settings explicitly set on the task and were created by the App Engine SDK. See [App Engine documentation](https://cloud.google.com/appengine/docs/standard/python/taskqueue/push/retrying-tasks). */
+  retryConfig?: RetryConfig;
+  /** Output only. The state of the queue. `state` can only be changed by called PauseQueue, ResumeQueue, or uploading [queue.yaml/xml](https://cloud.google.com/appengine/docs/python/config/queueref). UpdateQueue cannot be used to change `state`. */
+  state?: QueueStateEnum | (string & {});
+  /** Output only. The realtime, informational statistics for a queue. In order to receive the statistics the caller should include this field in the FieldMask. */
+  stats?: QueueStats;
+  /** Output only. The last time this queue was purged. All tasks that were created before this time were purged. A queue can be purged using PurgeQueue, the [App Engine Task Queue SDK, or the Cloud Console](https://cloud.google.com/appengine/docs/standard/python/taskqueue/push/deleting-tasks-and-queues#purging_all_tasks_from_a_queue). Purge time will be truncated to the nearest microsecond. Purge time will be unset if the queue has never been purged. */
+  purgeTime?: string;
   /** The task tombstone time to live (TTL). After a task is deleted or executed, the task's tombstone is retained for the length of time specified by `tombstone_ttl`. The tombstone is used by task de-duplication; another task with the same name can't be created until the tombstone has expired. For more information about task de-duplication, see the documentation for CreateTaskRequest. The minimum value is 1 hour. The maximum value is 9 days. The value must be given as a string that indicates the length of time (in seconds) followed by `s` (for "seconds"). For more information on the format, see the documentation for [Duration](https://protobuf.dev/reference/protobuf/google.protobuf/#duration). Queues created by Cloud Tasks have a default `tombstone_ttl` of 1 hour. */
   tombstoneTtl?: string;
   /** Caller-specified and required in CreateQueue, after which it becomes output only. The queue name. The queue name must have the following format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), or periods (.). For more information, see [Identifying projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects) * `LOCATION_ID` is the canonical ID for the queue's location. The list of available locations can be obtained by calling ListLocations. For more information, see https://cloud.google.com/about/locations/. * `QUEUE_ID` can contain letters ([A-Za-z]), numbers ([0-9]), or hyphens (-). The maximum length is 100 characters. */
   name?: string;
   /** Modifies HTTP target for HTTP tasks. */
   httpTarget?: HttpTarget;
-  /** Output only. The state of the queue. `state` can only be changed by called PauseQueue, ResumeQueue, or uploading [queue.yaml/xml](https://cloud.google.com/appengine/docs/python/config/queueref). UpdateQueue cannot be used to change `state`. */
-  state?: QueueStateEnum | (string & {});
-  /** Immutable. The type of a queue (push or pull). `Queue.type` is an immutable property of the queue that is set at the queue creation time. When left unspecified, the default value of `PUSH` is selected. */
-  type?: QueueTypeEnum | (string & {});
-  /** The maximum amount of time that a task will be retained in this queue. After a task has lived for `task_ttl`, the task will be deleted regardless of whether it was dispatched or not. The minimum value is 10 days. The maximum value is 10 years. The value must be given as a string that indicates the length of time (in seconds) followed by `s` (for "seconds"). For more information on the format, see the documentation for [Duration](https://protobuf.dev/reference/protobuf/google.protobuf/#duration). Queues created by Cloud Tasks have a default `task_ttl` of 31 days. . Queues created by queue.yaml/xml have a fixed `task_ttl` of the maximum duration, because there is a [storage quota](https://docs.cloud.google.com/appengine/docs/standard/quotas#Task_Queue) for these queues. */
-  taskTtl?: string;
-  /** Settings that determine the retry behavior. * For tasks created using Cloud Tasks: the queue-level retry settings apply to all tasks in the queue that were created using Cloud Tasks. Retry settings cannot be set on individual tasks. * For tasks created using the App Engine SDK: the queue-level retry settings apply to all tasks in the queue which do not have retry settings explicitly set on the task and were created by the App Engine SDK. See [App Engine documentation](https://cloud.google.com/appengine/docs/standard/python/taskqueue/push/retrying-tasks). */
-  retryConfig?: RetryConfig;
   /** Configuration options for writing logs to [Stackdriver Logging](https://cloud.google.com/logging/docs/). If this field is unset, then no logs are written. */
   stackdriverLoggingConfig?: StackdriverLoggingConfig;
   /** AppEngineHttpQueue settings apply only to App Engine tasks in this queue. Http tasks are not affected by this proto. */
   appEngineHttpQueue?: AppEngineHttpQueue;
   /** Rate limits for task dispatches. rate_limits and retry_config are related because they both control task attempts. However they control task attempts in different ways: * rate_limits controls the total rate of dispatches from a queue (i.e. all traffic dispatched from the queue, regardless of whether the dispatch is from a first attempt or a retry). * retry_config controls what happens to a particular task after its first attempt fails. That is, retry_config controls task retries (the second attempt, third attempt, etc). The queue's actual dispatch rate is the result of: * Number of tasks in the queue * User-specified throttling: rate_limits, retry_config, and the queue's state. * System throttling due to `429` (Too Many Requests) or `503` (Service Unavailable) responses from the worker, high error rates, or to smooth sudden large traffic spikes. */
   rateLimits?: RateLimits;
-  /** Output only. The realtime, informational statistics for a queue. In order to receive the statistics the caller should include this field in the FieldMask. */
-  stats?: QueueStats;
-  /** Output only. The last time this queue was purged. All tasks that were created before this time were purged. A queue can be purged using PurgeQueue, the [App Engine Task Queue SDK, or the Cloud Console](https://cloud.google.com/appengine/docs/standard/python/taskqueue/push/deleting-tasks-and-queues#purging_all_tasks_from_a_queue). Purge time will be truncated to the nearest microsecond. Purge time will be unset if the queue has never been purged. */
-  purgeTime?: string;
+  /** The maximum amount of time that a task will be retained in this queue. After a task has lived for `task_ttl`, the task will be deleted regardless of whether it was dispatched or not. The minimum value is 10 days. The maximum value is 10 years. The value must be given as a string that indicates the length of time (in seconds) followed by `s` (for "seconds"). For more information on the format, see the documentation for [Duration](https://protobuf.dev/reference/protobuf/google.protobuf/#duration). Queues created by Cloud Tasks have a default `task_ttl` of 31 days. . Queues created by queue.yaml/xml have a fixed `task_ttl` of the maximum duration, because there is a [storage quota](https://docs.cloud.google.com/appengine/docs/standard/quotas#Task_Queue) for these queues. */
+  taskTtl?: string;
+  /** Immutable. The type of a queue (push or pull). `Queue.type` is an immutable property of the queue that is set at the queue creation time. When left unspecified, the default value of `PUSH` is selected. */
+  type?: QueueTypeEnum | (string & {});
 }
 export const Queue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    retryConfig: S.optional(RetryConfig),
+    state: S.optional(QueueStateEnum),
+    stats: S.optional(QueueStats),
+    purgeTime: S.optional(S.String),
     tombstoneTtl: S.optional(S.String),
     name: S.optional(S.String),
     httpTarget: S.optional(HttpTarget),
-    state: S.optional(QueueStateEnum),
-    type: S.optional(QueueTypeEnum),
-    taskTtl: S.optional(S.String),
-    retryConfig: S.optional(RetryConfig),
     stackdriverLoggingConfig: S.optional(StackdriverLoggingConfig),
     appEngineHttpQueue: S.optional(AppEngineHttpQueue),
     rateLimits: S.optional(RateLimits),
-    stats: S.optional(QueueStats),
-    purgeTime: S.optional(S.String),
+    taskTtl: S.optional(S.String),
+    type: S.optional(QueueTypeEnum),
   }),
 ).annotate({ identifier: "Queue" }) as any as S.Schema<Queue>;
 
@@ -658,28 +795,6 @@ export const CreateProjectsLocationsQueuesRequest = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "CreateProjectsLocationsQueuesRequest",
 }) as any as S.Schema<CreateProjectsLocationsQueuesRequest>;
-
-export type CreateTaskRequestResponseViewEnum =
-  | "VIEW_UNSPECIFIED"
-  | "BASIC"
-  | "FULL";
-export const CreateTaskRequestResponseViewEnum = /*@__PURE__*/ S.String;
-
-/** Request message for CreateTask. */
-export interface CreateTaskRequest {
-  /** Required. The task to add. Task names have the following format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID`. The user can optionally specify a task name. If a name is not specified then the system will generate a random unique task id, which will be set in the task returned in the response. If schedule_time is not set or is in the past then Cloud Tasks will set it to the current time. Task De-duplication: Explicitly specifying a task ID enables task de-duplication. If a task's ID is identical to that of an existing task or a task that was deleted or executed recently then the call will fail with ALREADY_EXISTS. The IDs of deleted tasks are not immediately available for reuse. It can take up to 24 hours (or 9 days if the task's queue was created using a queue.yaml or queue.xml) for the task ID to be released and made available again. Because there is an extra lookup cost to identify duplicate task names, these CreateTask calls have significantly increased latency. Using hashed strings for the task id or for the prefix of the task id is recommended. Choosing task ids that are sequential or have sequential prefixes, for example using a timestamp, causes an increase in latency and error rates in all task commands. The infrastructure relies on an approximately uniform distribution of task ids to store and serve tasks efficiently. */
-  task?: Task;
-  /** The response_view specifies which subset of the Task will be returned. By default response_view is BASIC; not all information is retrieved by default because some data, such as payloads, might be desirable to return only when needed because of its large size or because of the sensitivity of data that it contains. Authorization for FULL requires `cloudtasks.tasks.fullView` [Google IAM](https://cloud.google.com/iam/) permission on the Task resource. */
-  responseView?: CreateTaskRequestResponseViewEnum | (string & {});
-}
-export const CreateTaskRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    task: S.optional(Task),
-    responseView: S.optional(CreateTaskRequestResponseViewEnum),
-  }),
-).annotate({
-  identifier: "CreateTaskRequest",
-}) as any as S.Schema<CreateTaskRequest>;
 
 export interface CreateProjectsLocationsQueuesTasksRequest {
   /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must already exist. */
@@ -768,15 +883,15 @@ export const GetCmekConfigProjectsLocationsRequest = /*@__PURE__*/ S.suspend(
 
 /** Describes the customer-managed encryption key (CMEK) configuration associated with a project and location. */
 export interface CmekConfig {
-  /** Output only. The config resource name which includes the project and location and must end in 'cmekConfig', in the format projects/PROJECT_ID/locations/LOCATION_ID/cmekConfig` */
-  name?: string;
   /** Resource name of the Cloud KMS key, of the form `projects/PROJECT_ID/locations/LOCATION_ID/keyRings/KEY_RING_ID/cryptoKeys/KEY_ID`, that will be used to encrypt the Queues & Tasks in the region. Setting this as blank will turn off CMEK encryption. */
   kmsKey?: string;
+  /** Output only. The config resource name which includes the project and location and must end in 'cmekConfig', in the format projects/PROJECT_ID/locations/LOCATION_ID/cmekConfig` */
+  name?: string;
 }
 export const CmekConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     kmsKey: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "CmekConfig" }) as any as S.Schema<CmekConfig>;
 
@@ -828,45 +943,40 @@ export const GetIamPolicyProjectsLocationsQueuesRequest =
     identifier: "GetIamPolicyProjectsLocationsQueuesRequest",
   }) as any as S.Schema<GetIamPolicyProjectsLocationsQueuesRequest>;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
-
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expression: S.optional(S.String),
-    title: S.optional(S.String),
-    location: S.optional(S.String),
     description: S.optional(S.String),
+    location: S.optional(S.String),
+    title: S.optional(S.String),
+    expression: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
   role?: string;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
   members?: StringList;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
 }
 export const Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    condition: S.optional(Expr),
     role: S.optional(S.String),
     members: S.optional(StringList),
-    condition: S.optional(Expr),
   }),
 ).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
 
@@ -877,17 +987,17 @@ export const BindingList = /*@__PURE__*/ S.Array(
 
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.optional(S.Number),
     bindings: S.optional(BindingList),
+    version: S.optional(S.Number),
     etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
@@ -912,37 +1022,56 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    labels: S.optional(StringMap),
-    metadata: S.optional(DocumentMap),
     locationId: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    name: S.optional(S.String),
     displayName: S.optional(S.String),
+    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
+export interface GetProjectsLocationsOperationsRequest {
+  /** The name of the operation resource. */
+  name: string;
+}
+export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v2beta3/{+name}",
+        baseUrl: "https://cloudtasks.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "GetProjectsLocationsOperationsRequest",
+}) as any as S.Schema<GetProjectsLocationsOperationsRequest>;
+
 export interface GetProjectsLocationsQueuesRequest {
-  /** Optional. Read mask is used for a more granular control over what the API returns. If the mask is not present all fields will be returned except [Queue.stats]. [Queue.stats] will be returned only if it was explicitly specified in the mask. */
-  readMask?: string;
   /** Required. The resource name of the queue. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
   name: string;
+  /** Optional. Read mask is used for a more granular control over what the API returns. If the mask is not present all fields will be returned except [Queue.stats]. [Queue.stats] will be returned only if it was explicitly specified in the mask. */
+  readMask?: string;
 }
 export const GetProjectsLocationsQueuesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    readMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    readMask: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -958,8 +1087,7 @@ export type GetProjectsLocationsQueuesTasksResponseViewEnum =
   | "VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const GetProjectsLocationsQueuesTasksResponseViewEnum =
-  /*@__PURE__*/ S.String;
+export const GetProjectsLocationsQueuesTasksResponseViewEnum = S.String;
 
 export interface GetProjectsLocationsQueuesTasksRequest {
   /** Required. The task name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
@@ -988,24 +1116,24 @@ export const GetProjectsLocationsQueuesTasksRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GetProjectsLocationsQueuesTasksRequest>;
 
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1039,24 +1167,24 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsQueuesRequest {
-  /** `filter` can be used to specify a subset of queues. Any Queue field can be used as a filter and several operators as supported. For example: `<=, <, >=, >, !=, =, :`. The filter syntax is the same as described in [Stackdriver's Advanced Logs Filters](https://cloud.google.com/logging/docs/view/advanced_filters). Sample filter "state: PAUSED". Note that using filters might cause fewer queues than the requested page_size to be returned. */
-  filter?: string;
-  /** Required. The location name. For example: `projects/PROJECT_ID/locations/LOCATION_ID` */
-  parent: string;
-  /** Requested page size. The maximum page size is 9800. If unspecified, the page size will be the maximum. Fewer queues than requested might be returned, even if more queues exist; use the next_page_token in the response to determine if more queues exist. */
-  pageSize?: number;
-  /** A token identifying the page of results to return. To request the first page results, page_token must be empty. To request the next page of results, page_token must be the value of next_page_token returned from the previous call to ListQueues method. It is an error to switch the value of the filter while iterating through pages. */
-  pageToken?: string;
   /** Optional. Read mask is used for a more granular control over what the API returns. If the mask is not present all fields will be returned except [Queue.stats]. [Queue.stats] will be returned only if it was explicitly specified in the mask. */
   readMask?: string;
+  /** Requested page size. The maximum page size is 9800. If unspecified, the page size will be the maximum. Fewer queues than requested might be returned, even if more queues exist; use the next_page_token in the response to determine if more queues exist. */
+  pageSize?: number;
+  /** Required. The location name. For example: `projects/PROJECT_ID/locations/LOCATION_ID` */
+  parent: string;
+  /** `filter` can be used to specify a subset of queues. Any Queue field can be used as a filter and several operators as supported. For example: `<=, <, >=, >, !=, =, :`. The filter syntax is the same as described in [Stackdriver's Advanced Logs Filters](https://cloud.google.com/logging/docs/view/advanced_filters). Sample filter "state: PAUSED". Note that using filters might cause fewer queues than the requested page_size to be returned. */
+  filter?: string;
+  /** A token identifying the page of results to return. To request the first page results, page_token must be empty. To request the next page of results, page_token must be the value of next_page_token returned from the previous call to ListQueues method. It is an error to switch the value of the filter while iterating through pages. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsQueuesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     readMask: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1093,30 +1221,29 @@ export type ListProjectsLocationsQueuesTasksResponseViewEnum =
   | "VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const ListProjectsLocationsQueuesTasksResponseViewEnum =
-  /*@__PURE__*/ S.String;
+export const ListProjectsLocationsQueuesTasksResponseViewEnum = S.String;
 
 export interface ListProjectsLocationsQueuesTasksRequest {
-  /** A token identifying the page of results to return. To request the first page results, page_token must be empty. To request the next page of results, page_token must be the value of next_page_token returned from the previous call to ListTasks method. The page token is valid for only 2 hours. */
-  pageToken?: string;
-  /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
-  parent: string;
   /** The response_view specifies which subset of the Task will be returned. By default response_view is BASIC; not all information is retrieved by default because some data, such as payloads, might be desirable to return only when needed because of its large size or because of the sensitivity of data that it contains. Authorization for FULL requires `cloudtasks.tasks.fullView` [Google IAM](https://cloud.google.com/iam/) permission on the Task resource. */
   responseView?:
     | ListProjectsLocationsQueuesTasksResponseViewEnum
     | (string & {});
   /** Maximum page size. Fewer tasks than requested might be returned, even if more tasks exist; use next_page_token in the response to determine if more tasks exist. The maximum page size is 1000. If unspecified, the page size will be the maximum. */
   pageSize?: number;
+  /** A token identifying the page of results to return. To request the first page results, page_token must be empty. To request the next page of results, page_token must be the value of next_page_token returned from the previous call to ListTasks method. The page token is valid for only 2 hours. */
+  pageToken?: string;
+  /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
+  parent: string;
 }
 export const ListProjectsLocationsQueuesTasksRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       responseView: S.optional(
         ListProjectsLocationsQueuesTasksResponseViewEnum.pipe(T.Query()),
       ),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1135,32 +1262,32 @@ export const TaskList = /*@__PURE__*/ S.Array(
 
 /** Response message for listing tasks using ListTasks. */
 export interface ListTasksResponse {
-  /** The list of tasks. */
-  tasks?: TaskList;
   /** A token to retrieve next page of results. To return the next page of results, call ListTasks with this value as the page_token. If the next_page_token is empty, there are no more results. */
   nextPageToken?: string;
+  /** The list of tasks. */
+  tasks?: TaskList;
 }
 export const ListTasksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tasks: S.optional(TaskList),
     nextPageToken: S.optional(S.String),
+    tasks: S.optional(TaskList),
   }),
 ).annotate({
   identifier: "ListTasksResponse",
 }) as any as S.Schema<ListTasksResponse>;
 
 export interface PatchProjectsLocationsQueuesRequest {
-  /** A mask used to specify which fields of the queue are being updated. If empty, then all fields will be updated. */
-  updateMask?: string;
   /** Caller-specified and required in CreateQueue, after which it becomes output only. The queue name. The queue name must have the following format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), or periods (.). For more information, see [Identifying projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects) * `LOCATION_ID` is the canonical ID for the queue's location. The list of available locations can be obtained by calling ListLocations. For more information, see https://cloud.google.com/about/locations/. * `QUEUE_ID` can contain letters ([A-Za-z]), numbers ([0-9]), or hyphens (-). The maximum length is 100 characters. */
   name: string;
+  /** A mask used to specify which fields of the queue are being updated. If empty, then all fields will be updated. */
+  updateMask?: string;
   /** Request body */
   body?: Queue;
 }
 export const PatchProjectsLocationsQueuesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Queue.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1257,7 +1384,7 @@ export type RunTaskRequestResponseViewEnum =
   | "VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const RunTaskRequestResponseViewEnum = /*@__PURE__*/ S.String;
+export const RunTaskRequestResponseViewEnum = S.String;
 
 /** Request message for forcing a task to run now using RunTask. */
 export interface RunTaskRequest {
@@ -1399,6 +1526,46 @@ export const UpdateCmekConfigProjectsLocationsRequest = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "UpdateCmekConfigProjectsLocationsRequest",
 }) as any as S.Schema<UpdateCmekConfigProjectsLocationsRequest>;
+
+export type BatchCreateProjectsLocationsQueuesTasksError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Creates a batch of tasks and adds them to a queue. This call is not atomic. All tasks must be for the same queue. A maximum of 100 tasks can be created in a single batch. */
+export const batchCreateProjectsLocationsQueuesTasks: API.OperationMethod<
+  BatchCreateProjectsLocationsQueuesTasksRequest,
+  Operation,
+  BatchCreateProjectsLocationsQueuesTasksError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BatchCreateProjectsLocationsQueuesTasksRequest,
+  output: Operation,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type BatchDeleteProjectsLocationsQueuesTasksError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Deletes a batch of tasks. This is a non-atomic operation: if deletion fails for some tasks, it can still succeed for others. The metadata field of google.longrunning.Operation contains details of failed deletions. A maximum of 1000 tasks can be deleted in a batch. */
+export const batchDeleteProjectsLocationsQueuesTasks: API.OperationMethod<
+  BatchDeleteProjectsLocationsQueuesTasksRequest,
+  Operation,
+  BatchDeleteProjectsLocationsQueuesTasksError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BatchDeleteProjectsLocationsQueuesTasksRequest,
+  output: Operation,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
 
 export type BufferProjectsLocationsQueuesTasksError =
   | NotFound
@@ -1548,6 +1715,24 @@ export const getProjectsLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: Location,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetProjectsLocationsOperationsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  Operation,
+  GetProjectsLocationsOperationsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsOperationsRequest,
+  output: Operation,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,

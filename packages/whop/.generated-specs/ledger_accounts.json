@@ -1,0 +1,1479 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.ledger_accounts#GetLedgerAccountRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The identifier to look up the ledger account. Accepts a user ID ('user_xxx'), company ID ('biz_xxx'), or ledger account ID ('ldgr_xxx')."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ledger_accounts#LedgerAccount": {
+      "type": "structure",
+      "members": {
+        "balances": {
+          "target": "com.whop.ledger_accounts#LedgerAccountBalancesList",
+          "traits": {
+            "smithy.api#documentation": "The balances associated with the account.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the ledger account.",
+            "smithy.api#required": {}
+          }
+        },
+        "ledger_type": {
+          "target": "com.whop.ledger_accounts#LedgerTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of ledger account.",
+            "smithy.api#required": {}
+          }
+        },
+        "owner": {
+          "target": "com.whop.ledger_accounts#LedgerAccountOwner",
+          "traits": {
+            "smithy.api#documentation": "The owner of the ledger account.",
+            "smithy.api#required": {}
+          }
+        },
+        "payments_approval_status": {
+          "target": "com.whop.ledger_accounts#PaymentsApprovalStatuses",
+          "traits": {
+            "smithy.api#documentation": "The status of payments approval for the ledger account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payout_account_details": {
+          "target": "com.whop.ledger_accounts#LedgerAccountPayoutAccountDetails",
+          "traits": {
+            "smithy.api#documentation": "The payout account associated with the LedgerAccount, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "settlement_time_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The settlement batch most recently posted to this account's available balance, at midnight UTC. Every payment settling in that batch carries the same `settlement_time_at`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "transfer_fee": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The fee for transfers, if applicable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "treasury_balance": {
+          "target": "com.whop.ledger_accounts#LedgerAccountTreasuryBalance",
+          "traits": {
+            "smithy.api#documentation": "The balance cache associated with the account by currency.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A ledger account represents a financial account on Whop that can hold many balances."
+      }
+    },
+    "com.whop.ledger_accounts#Currencies": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usd"
+          }
+        },
+        "SGD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sgd"
+          }
+        },
+        "INR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inr"
+          }
+        },
+        "AUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aud"
+          }
+        },
+        "BRL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brl"
+          }
+        },
+        "CAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cad"
+          }
+        },
+        "DKK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dkk"
+          }
+        },
+        "EUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eur"
+          }
+        },
+        "NOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nok"
+          }
+        },
+        "GBP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gbp"
+          }
+        },
+        "SEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sek"
+          }
+        },
+        "CHF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chf"
+          }
+        },
+        "HKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hkd"
+          }
+        },
+        "HUF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "huf"
+          }
+        },
+        "JPY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jpy"
+          }
+        },
+        "MXN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mxn"
+          }
+        },
+        "MYR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "myr"
+          }
+        },
+        "PLN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pln"
+          }
+        },
+        "CZK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "czk"
+          }
+        },
+        "NZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nzd"
+          }
+        },
+        "AED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aed"
+          }
+        },
+        "ETH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eth"
+          }
+        },
+        "APE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ape"
+          }
+        },
+        "COP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cop"
+          }
+        },
+        "RON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ron"
+          }
+        },
+        "THB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thb"
+          }
+        },
+        "BGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bgn"
+          }
+        },
+        "IDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "idr"
+          }
+        },
+        "DOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dop"
+          }
+        },
+        "PHP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "php"
+          }
+        },
+        "TRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "try"
+          }
+        },
+        "KRW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "krw"
+          }
+        },
+        "TWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twd"
+          }
+        },
+        "VND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vnd"
+          }
+        },
+        "PKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pkr"
+          }
+        },
+        "CLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clp"
+          }
+        },
+        "UYU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uyu"
+          }
+        },
+        "ARS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ars"
+          }
+        },
+        "ZAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zar"
+          }
+        },
+        "DZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dzd"
+          }
+        },
+        "TND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tnd"
+          }
+        },
+        "MAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mad"
+          }
+        },
+        "KES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kes"
+          }
+        },
+        "KWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kwd"
+          }
+        },
+        "JOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jod"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "XCD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xcd"
+          }
+        },
+        "AMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amd"
+          }
+        },
+        "BSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd"
+          }
+        },
+        "BHD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bhd"
+          }
+        },
+        "BOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bob"
+          }
+        },
+        "BAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bam"
+          }
+        },
+        "KHR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "khr"
+          }
+        },
+        "CRC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crc"
+          }
+        },
+        "XOF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xof"
+          }
+        },
+        "EGP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egp"
+          }
+        },
+        "ETB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "etb"
+          }
+        },
+        "GMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gmd"
+          }
+        },
+        "GHS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ghs"
+          }
+        },
+        "GTQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gtq"
+          }
+        },
+        "GYD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gyd"
+          }
+        },
+        "ILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ils"
+          }
+        },
+        "JMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jmd"
+          }
+        },
+        "MOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mop"
+          }
+        },
+        "MGA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mga"
+          }
+        },
+        "MUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mur"
+          }
+        },
+        "MDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mdl"
+          }
+        },
+        "MNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mnt"
+          }
+        },
+        "NAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nad"
+          }
+        },
+        "NGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ngn"
+          }
+        },
+        "MKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mkd"
+          }
+        },
+        "OMR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "omr"
+          }
+        },
+        "PYG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pyg"
+          }
+        },
+        "PEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pen"
+          }
+        },
+        "QAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qar"
+          }
+        },
+        "RWF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rwf"
+          }
+        },
+        "SAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sar"
+          }
+        },
+        "RSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsd"
+          }
+        },
+        "LKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lkr"
+          }
+        },
+        "TZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tzs"
+          }
+        },
+        "TTD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ttd"
+          }
+        },
+        "UZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uzs"
+          }
+        },
+        "RUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rub"
+          }
+        },
+        "BTC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "btc"
+          }
+        },
+        "CNY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cny"
+          }
+        },
+        "USDT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usdt"
+          }
+        },
+        "KZT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kzt"
+          }
+        },
+        "AWG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awg"
+          }
+        },
+        "WHOP_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whop_usd"
+          }
+        },
+        "XAU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xau"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The available currencies on the platform"
+      }
+    },
+    "com.whop.ledger_accounts#LedgerAccountBalancesItem": {
+      "type": "structure",
+      "members": {
+        "balance": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount of the balance.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.whop.ledger_accounts#Currencies",
+          "traits": {
+            "smithy.api#documentation": "The currency of the balance.",
+            "smithy.api#required": {}
+          }
+        },
+        "pending_balance": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount of the balance that is pending.",
+            "smithy.api#required": {}
+          }
+        },
+        "reserve_balance": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount of the balance that is reserved.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A cached balance for a LedgerAccount in respect to a currency."
+      }
+    },
+    "com.whop.ledger_accounts#LedgerAccountBalancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ledger_accounts#LedgerAccountBalancesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The balances associated with the account."
+      }
+    },
+    "com.whop.ledger_accounts#LedgerTypes": {
+      "type": "enum",
+      "members": {
+        "PRIMARY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "primary"
+          }
+        },
+        "POOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pool"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The types of ledgers that can be created."
+      }
+    },
+    "com.whop.ledger_accounts#LedgerAccountOwnerCase0": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A user account on Whop. Contains profile information, identity details, and social connections."
+      }
+    },
+    "com.whop.ledger_accounts#LedgerAccountOwnerCase1": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL slug for the account's store page, e.g. `pickaxe` in whop.com/pickaxe.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the company shown to customers.",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A company is a seller on Whop. Companies own products, manage members, and receive payouts."
+      }
+    },
+    "com.whop.ledger_accounts#LedgerAccountOwner": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.ledger_accounts#LedgerAccountOwnerCase0"
+        },
+        "Case1": {
+          "target": "com.whop.ledger_accounts#LedgerAccountOwnerCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The owner of the ledger account."
+      }
+    },
+    "com.whop.ledger_accounts#PaymentsApprovalStatuses": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "MONITORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monitoring"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The different approval statuses an account can have."
+      }
+    },
+    "com.whop.ledger_accounts#LedgerAccountPayoutAccountDetailsAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 1 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 2 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The physical address associated with this payout account"
+      }
+    },
+    "com.whop.ledger_accounts#LedgerAccountPayoutAccountDetailsBusinessRepresentative": {
+      "type": "structure",
+      "members": {
+        "date_of_birth": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date of birth of the business representative in ISO 8601 format (YYYY-MM-DD).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The first name of the business representative.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last name of the business representative.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "middle_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The middle name of the business representative.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The business representative for this payout account"
+      }
+    },
+    "com.whop.ledger_accounts#VerificationErrorCodes": {
+      "type": "enum",
+      "members": {
+        "ABANDONED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "abandoned"
+          }
+        },
+        "CONSENT_DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "consent_declined"
+          }
+        },
+        "COUNTRY_NOT_SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "country_not_supported"
+          }
+        },
+        "DEVICE_NOT_SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device_not_supported"
+          }
+        },
+        "DOCUMENT_EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document_expired"
+          }
+        },
+        "DOCUMENT_TYPE_NOT_SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document_type_not_supported"
+          }
+        },
+        "DOCUMENT_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document_unverified_other"
+          }
+        },
+        "EMAIL_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_unverified_other"
+          }
+        },
+        "EMAIL_VERIFICATION_DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_verification_declined"
+          }
+        },
+        "ID_NUMBER_INSUFFICIENT_DOCUMENT_DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_number_insufficient_document_data"
+          }
+        },
+        "ID_NUMBER_MISMATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_number_mismatch"
+          }
+        },
+        "ID_NUMBER_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_number_unverified_other"
+          }
+        },
+        "PHONE_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "phone_unverified_other"
+          }
+        },
+        "PHONE_VERIFICATION_DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "phone_verification_declined"
+          }
+        },
+        "SELFIE_DOCUMENT_MISSING_PHOTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selfie_document_missing_photo"
+          }
+        },
+        "SELFIE_FACE_MISMATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selfie_face_mismatch"
+          }
+        },
+        "SELFIE_MANIPULATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selfie_manipulated"
+          }
+        },
+        "SELFIE_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selfie_unverified_other"
+          }
+        },
+        "UNDER_SUPPORTED_AGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "under_supported_age"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An error code for a verification attempt."
+      }
+    },
+    "com.whop.ledger_accounts#VerificationStatuses": {
+      "type": "enum",
+      "members": {
+        "REQUIRES_INPUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requires_input"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "VERIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verified"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started"
+          }
+        },
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "declined"
+          }
+        },
+        "RESUBMISSION_REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resubmission_requested"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "ABANDONED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "abandoned"
+          }
+        },
+        "REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "review"
+          }
+        },
+        "ACTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "action_required"
+          }
+        },
+        "MANUAL_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual_review"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A status for a verification."
+      }
+    },
+    "com.whop.ledger_accounts#LedgerAccountPayoutAccountDetailsLatestVerification": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The numeric id of the verification record.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_error_code": {
+          "target": "com.whop.ledger_accounts#VerificationErrorCodes",
+          "traits": {
+            "smithy.api#documentation": "The most recent error code returned during verification. Null if no error has occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_error_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable explanation of the most recent verification error. Null if no error has occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.ledger_accounts#VerificationStatuses",
+          "traits": {
+            "smithy.api#documentation": "The current status of this verification session.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The latest verification for the connected account."
+      }
+    },
+    "com.whop.ledger_accounts#PayoutAccountCalculatedStatuses": {
+      "type": "enum",
+      "members": {
+        "CONNECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connected"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "ACTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "action_required"
+          }
+        },
+        "PENDING_VERIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_verification"
+          }
+        },
+        "VERIFICATION_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verification_failed"
+          }
+        },
+        "MANUAL_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual_review"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        },
+        "NOT_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_started"
+          }
+        },
+        "BLOCKED_BY_PARENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blocked_by_parent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The granular calculated statuses reflecting payout account KYC and payout readiness."
+      }
+    },
+    "com.whop.ledger_accounts#LedgerAccountPayoutAccountDetails": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "com.whop.ledger_accounts#LedgerAccountPayoutAccountDetailsAddress",
+          "traits": {
+            "smithy.api#documentation": "The physical address associated with this payout account",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The company's legal name",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_representative": {
+          "target": "com.whop.ledger_accounts#LedgerAccountPayoutAccountDetailsBusinessRepresentative",
+          "traits": {
+            "smithy.api#documentation": "The business representative for this payout account",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the representative",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the payout account.",
+            "smithy.api#required": {}
+          }
+        },
+        "latest_verification": {
+          "target": "com.whop.ledger_accounts#LedgerAccountPayoutAccountDetailsLatestVerification",
+          "traits": {
+            "smithy.api#documentation": "The latest verification for the connected account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The business representative's phone",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.ledger_accounts#PayoutAccountCalculatedStatuses",
+          "traits": {
+            "smithy.api#documentation": "The granular calculated status of the payout account reflecting its current KYC and payout readiness state.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payout account associated with the LedgerAccount, if any."
+      }
+    },
+    "com.whop.ledger_accounts#LedgerAccountTreasuryBalance": {
+      "type": "structure",
+      "members": {
+        "balance": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount of the balance.",
+            "smithy.api#required": {}
+          }
+        },
+        "balance_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The balance converted to USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.whop.ledger_accounts#Currencies",
+          "traits": {
+            "smithy.api#documentation": "The currency of the balance.",
+            "smithy.api#required": {}
+          }
+        },
+        "pending_balance": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount of the balance that is pending.",
+            "smithy.api#required": {}
+          }
+        },
+        "reserve_balance": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount of the balance that is reserved.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_withdrawable_balance": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount of the balance that is withdrawable.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The balance cache associated with the account by currency."
+      }
+    },
+    "com.whop.ledger_accounts#GetLedgerAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ledger_accounts#GetLedgerAccountRequest"
+      },
+      "output": {
+        "target": "com.whop.ledger_accounts#LedgerAccount"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ledger_accounts#BadRequest"
+        },
+        {
+          "target": "com.whop.ledger_accounts#Forbidden"
+        },
+        {
+          "target": "com.whop.ledger_accounts#NotFound"
+        },
+        {
+          "target": "com.whop.ledger_accounts#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ledger_accounts/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve ledger account\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing ledger account.\n\nRequired permissions:\n - `company:balance:read`\n - `payout:account:read`"
+      }
+    },
+    "com.whop.ledger_accounts#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.ledger_accounts#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.ledger_accounts#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.ledger_accounts#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.ledger_accounts#LedgerAccounts": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.ledger_accounts#GetLedgerAccount"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

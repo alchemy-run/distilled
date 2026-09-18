@@ -1,0 +1,447 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.s2.records#Format": {
+      "type": "enum",
+      "members": {
+        "RAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "raw"
+          }
+        },
+        "BASE64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "base64"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.records#ReadRequest": {
+      "type": "structure",
+      "members": {
+        "stream": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stream name."
+          }
+        },
+        "seq_num": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "seq_num",
+            "smithy.api#documentation": "Start from a sequence number."
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "timestamp",
+            "smithy.api#documentation": "Start from a timestamp."
+          }
+        },
+        "tail_offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "tail_offset",
+            "smithy.api#documentation": "Start from number of records before the next sequence number."
+          }
+        },
+        "clamp": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "clamp",
+            "smithy.api#documentation": "Start reading from the tail if the requested position is beyond it.\nOtherwise, a `416 Range Not Satisfiable` response is returned."
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "count",
+            "smithy.api#documentation": "Record count limit.\nNon-streaming reads are capped by the default limit of 1000 records."
+          }
+        },
+        "bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "bytes",
+            "smithy.api#documentation": "Metered bytes limit.\nNon-streaming reads are capped by the default limit of 1 MiB."
+          }
+        },
+        "until": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "until",
+            "smithy.api#documentation": "Exclusive timestamp to read until."
+          }
+        },
+        "wait": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "wait",
+            "smithy.api#documentation": "Duration in seconds to wait for new records.\nThe default duration is 0 if there is a bound on `count`, `bytes`, or `until`, and otherwise infinite.\nNon-streaming reads are always bounded on `count` and `bytes`, so you can achieve long poll semantics by specifying a non-zero duration up to 60 seconds.\nIn the context of an SSE or S2S streaming read, the duration will bound how much time can elapse between records throughout the lifetime of the session."
+          }
+        },
+        "s2Format": {
+          "target": "com.s2.records#Format",
+          "traits": {
+            "smithy.api#httpHeader": "s2-format",
+            "smithy.api#documentation": "Defines the interpretation of record data (header name, header value, and body) with the JSON content type.\nUse `raw` (default) for efficient transmission and storage of Unicode data — storage will be in UTF-8.\nUse `base64` for safe transmission with efficient storage of binary data."
+          }
+        },
+        "s2EncryptionKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "s2-encryption-key",
+            "smithy.api#documentation": "Encryption key material for append and read operations.\nProvide base64-encoded key when stream encryption is enabled."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.records#ReadBatch": {
+      "type": "structure",
+      "members": {
+        "records": {
+          "target": "com.s2.records#ReadBatchRecordsList",
+          "traits": {
+            "smithy.api#documentation": "Records that are durably sequenced on the stream, retrieved based on the requested criteria.\nThis can only be empty in response to a unary read (i.e. not SSE), if the request cannot be satisfied without violating an explicit bound (`count`, `bytes`, or `until`).",
+            "smithy.api#required": {}
+          }
+        },
+        "tail": {
+          "target": "com.s2.records#StreamPosition",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.records#SequencedRecord": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Body of the record."
+          }
+        },
+        "headers": {
+          "target": "com.s2.records#SequencedRecordHeadersList",
+          "traits": {
+            "smithy.api#documentation": "Series of name-value pairs for this record."
+          }
+        },
+        "seq_num": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sequence number assigned by the service.",
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp for this record.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Record that is durably sequenced on a stream."
+      }
+    },
+    "com.s2.records#Header": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.s2.records#SequencedRecordHeadersList": {
+      "type": "list",
+      "member": {
+        "target": "com.s2.records#Header"
+      },
+      "traits": {
+        "smithy.api#documentation": "Series of name-value pairs for this record."
+      }
+    },
+    "com.s2.records#ReadBatchRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.s2.records#SequencedRecord"
+      },
+      "traits": {
+        "smithy.api#documentation": "Records that are durably sequenced on the stream, retrieved based on the requested criteria.\nThis can only be empty in response to a unary read (i.e. not SSE), if the request cannot be satisfied without violating an explicit bound (`count`, `bytes`, or `until`)."
+      }
+    },
+    "com.s2.records#StreamPosition": {
+      "type": "structure",
+      "members": {
+        "seq_num": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sequence number assigned by the service.",
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp, which may be client-specified or assigned by the service.\nIf it is assigned by the service, it will represent milliseconds since Unix epoch.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Position of a record in a stream."
+      }
+    },
+    "com.s2.records#Read": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.records#ReadRequest"
+      },
+      "output": {
+        "target": "com.s2.records#ReadBatch"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/streams/{stream}/records",
+          "code": 200
+        },
+        "smithy.api#documentation": "Read records."
+      }
+    },
+    "com.s2.records#AppendRecord": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Body of the record."
+          }
+        },
+        "headers": {
+          "target": "com.s2.records#AppendRecordHeadersList",
+          "traits": {
+            "smithy.api#documentation": "Series of name-value pairs for this record."
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Record to be appended to a stream."
+      }
+    },
+    "com.s2.records#AppendRecordHeadersList": {
+      "type": "list",
+      "member": {
+        "target": "com.s2.records#Header"
+      },
+      "traits": {
+        "smithy.api#documentation": "Series of name-value pairs for this record."
+      }
+    },
+    "com.s2.records#AppendRequestRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.s2.records#AppendRecord"
+      },
+      "traits": {
+        "smithy.api#documentation": "Batch of records to append atomically, which must contain at least one record, and no more than 1000.\nThe total size of a batch of records may not exceed 1 MiB of metered bytes."
+      }
+    },
+    "com.s2.records#AppendRequest": {
+      "type": "structure",
+      "members": {
+        "stream": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stream name."
+          }
+        },
+        "s2Format": {
+          "target": "com.s2.records#Format",
+          "traits": {
+            "smithy.api#httpHeader": "s2-format",
+            "smithy.api#documentation": "Defines the interpretation of record data (header name, header value, and body) with the JSON content type.\nUse `raw` (default) for efficient transmission and storage of Unicode data — storage will be in UTF-8.\nUse `base64` for safe transmission with efficient storage of binary data."
+          }
+        },
+        "s2EncryptionKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "s2-encryption-key",
+            "smithy.api#documentation": "Encryption key material for append and read operations.\nProvide base64-encoded key when stream encryption is enabled."
+          }
+        },
+        "fencing_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "match_seq_num": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "records": {
+          "target": "com.s2.records#AppendRequestRecordsList",
+          "traits": {
+            "smithy.api#documentation": "Batch of records to append atomically, which must contain at least one record, and no more than 1000.\nThe total size of a batch of records may not exceed 1 MiB of metered bytes.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.records#AppendAck": {
+      "type": "structure",
+      "members": {
+        "end": {
+          "target": "com.s2.records#StreamPosition",
+          "traits": {
+            "smithy.api#documentation": "Sequence number of the last record that was appended `+ 1`, and timestamp of the last record that was appended.\nThe difference between `end.seq_num` and `start.seq_num` will be the number of records appended.",
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "com.s2.records#StreamPosition",
+          "traits": {
+            "smithy.api#documentation": "Sequence number and timestamp of the first record that was appended.",
+            "smithy.api#required": {}
+          }
+        },
+        "tail": {
+          "target": "com.s2.records#StreamPosition",
+          "traits": {
+            "smithy.api#documentation": "Sequence number that will be assigned to the next record on the stream, and timestamp of the last record on the stream.\nThis can be greater than the `end` position in case of concurrent appends.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Success response to an `append` request."
+      }
+    },
+    "com.s2.records#Append": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.records#AppendRequest"
+      },
+      "output": {
+        "target": "com.s2.records#AppendAck"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/streams/{stream}/records",
+          "code": 200
+        },
+        "smithy.api#documentation": "Append records."
+      }
+    },
+    "com.s2.records#CheckTailRequest": {
+      "type": "structure",
+      "members": {
+        "stream": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stream name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.records#TailResponse": {
+      "type": "structure",
+      "members": {
+        "tail": {
+          "target": "com.s2.records#StreamPosition",
+          "traits": {
+            "smithy.api#documentation": "Sequence number that will be assigned to the next record on the stream, and timestamp of the last record.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.records#CheckTail": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.records#CheckTailRequest"
+      },
+      "output": {
+        "target": "com.s2.records#TailResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/streams/{stream}/records/tail",
+          "code": 200
+        },
+        "smithy.api#documentation": "Check the tail."
+      }
+    },
+    "com.s2.records#Records": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.s2.records#Read"
+        },
+        {
+          "target": "com.s2.records#Append"
+        },
+        {
+          "target": "com.s2.records#CheckTail"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "S2, the durable streams API",
+        "smithy.api#documentation": "Streams as a cloud storage primitive."
+      }
+    }
+  }
+}

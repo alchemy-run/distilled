@@ -8,40 +8,37 @@
 - logging/otel/debug mode
 - unlisted properties
 - readme.md
-- agents.md
 - license.md
 - extract cf docs mirror into its own submodule
-- fix runaway spec-submodule size
-  - the general problem behind the github entry below. `specs:sync` at the
-    repo root is a plain recursive `submodule update --init` over every
-    package, so it materialises each upstream repo's ENTIRE working tree —
-    even though every generator reads a handful of files. github is the
-    worst case but not the only one: aws/api-models-aws,
-    azure/azure-rest-api-specs and kubernetes/kubernetes are all large
-    checkouts of which we consume a small fraction.
-  - sparse-checkout is the mitigation we use today, but it lives in LOCAL
-    git config, so it doesn't survive a clone and doesn't help the person
-    who runs `specs:sync` first. Per-package `specs:fetch` also checks out
-    before it narrows, so a cold run still passes through the full tree.
-  - options, roughly in order of preference:
-    1. mirror the consumed file(s) into `alchemy-run/distilled-spec-*`
-       (the neon/gcp/supabase pattern) — removes the problem rather than
-       managing it, and makes the spec a reviewable artefact
-    2. make `specs:sync` fetch with `--filter=blob:none` and configure
-       sparse-checkout BEFORE the first checkout (see the recipe in
-       packages/github/README.md), so no full tree is ever written
-    3. drop `--recursive` from the root sync and make each package's
-       `specs:fetch` the documented entry point
-  - worth measuring the checked-out size of every spec submodule first so
-    the fix is aimed at the ones that actually hurt.
-- mirror the github spec into alchemy-run/distilled-spec-github
-  - a full checkout of github/rest-api-description is ~6.7 GB (every GHES
-    version back to 2.18, plus dereferenced variants, in JSON and YAML); the
-    submodule is sparse-checked-out to the one 13 MB file we consume, but
-    that config is local, so a fresh repo-root `specs:sync` still expands to
-    6.7 GB. A one-file mirror repo — the neon/gcp/supabase pattern — removes
-    the footgun. See packages/github/README.md for the cold-fetch recipe
-    that avoids materialising the full tree in the meantime.
+- fix runaway spec-submodule size — DONE (stacks/distilled-submodules)
+  - the general problem: `specs:sync` at the repo root was a recursive
+    `submodule update --init` over every package, so it materialised each
+    upstream in full — github/rest-api-description at ~6.7 GB checked out for
+    one 13 MB file, kubernetes/kubernetes ~1.5 GB for one, and
+    Azure/azure-rest-api-specs (338k paths for ~780 documents).
+  - `stacks/distilled-submodules` manages one `distilled-mirror/spec-mirror-<pkg>`
+    repository per spec-consuming package, and an Alchemy Action commits the
+    exact file set into each — a per-upstream `fetch-specs.ts` plus a daily
+    refresh workflow.
+  - all 24 unblocked packages now submodule their mirror instead of the
+    upstream; `specs:sync` is 406 MB of working tree, shallow and
+    non-recursive. `pnpm specs:check` fails if a package drops back off its
+    mirror or loses `shallow = true`.
+  - contributors who cannot create a mirror develop against
+    `pnpm specs:local <pkg>` + `DISTILLED_SPECS_LOCAL=1`; see
+    `.agents/skills/distilled-sdk`.
+- cloudflare spec source is broken upstream
+  - developers.cloudflare.com migrated to Astro/Starlight and now serves the
+    full HTML page at every `<page>/index.md` URL — including the ones its own
+    /api/llms.txt still advertises as markdown. So
+    `packages/cloudflare/scripts/download-api-docs.ts` no longer downloads
+    markdown: a crawl today yields 7.2 GB of HTML instead of ~16 MB of
+    markdown, and `packages/cloudflare/specs` is a stale snapshot.
+  - `spec-mirror-cloudflare` is therefore managed but unscaffolded.
+  - likely fix: move the generator off the docs crawl and onto
+    cloudflare/api-schemas, which publishes a real 24 MB openapi.json. That is
+    a generator change (spec-to-smithy.ts parses markdown today), not a mirror
+    change.
 - requested sdks (name — source of the request)
   - xata — distilled#354
   - sentry — alchemy#1003 (review comment r3709110628)

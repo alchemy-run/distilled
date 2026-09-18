@@ -42,7 +42,16 @@ const rules = T.EndpointResolver((p, _) => {
   const _p4 = () => ({
     authSchemes: [{ name: "sigv4", signingRegion: "us-isob-east-1" }],
   });
-  const _p5 = (_0: unknown) => ({
+  const _p5 = () => ({
+    authSchemes: [{ name: "sigv4", signingRegion: "eu-isoe-west-1" }],
+  });
+  const _p6 = () => ({
+    authSchemes: [{ name: "sigv4", signingRegion: "us-isof-south-1" }],
+  });
+  const _p7 = () => ({
+    authSchemes: [{ name: "sigv4", signingRegion: "eusc-de-east-1" }],
+  });
+  const _p8 = (_0: unknown) => ({
     authSchemes: [
       {
         name: "sigv4",
@@ -70,6 +79,20 @@ const rules = T.EndpointResolver((p, _) => {
         if (
           _.getAttr(PartitionResult, "name") === "aws" &&
           UseFIPS === false &&
+          UseDualStack === false
+        ) {
+          return e("https://iam.amazonaws.com", _p0(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws" &&
+          UseFIPS === true &&
+          UseDualStack === false
+        ) {
+          return e("https://iam-fips.amazonaws.com", _p0(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws" &&
+          UseFIPS === false &&
           UseDualStack === true
         ) {
           return e("https://iam.global.api.aws", _p0(), {});
@@ -94,10 +117,24 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws-cn" &&
+          UseFIPS === true &&
+          UseDualStack === true
+        ) {
+          return e("https://iam-fips.api.amazonwebservices.com.cn", _p1(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-cn" &&
           UseFIPS === false &&
           UseDualStack === false
         ) {
           return e("https://iam.cn-north-1.amazonaws.com.cn", _p1(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-cn" &&
+          UseFIPS === true &&
+          UseDualStack === false
+        ) {
+          return e("https://iam-fips.amazonaws.com.cn", _p1(), {});
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
@@ -142,6 +179,20 @@ const rules = T.EndpointResolver((p, _) => {
           return e("https://iam-fips.us-iso-east-1.c2s.ic.gov", _p3(), {});
         }
         if (
+          _.getAttr(PartitionResult, "name") === "aws-iso" &&
+          UseFIPS === false &&
+          UseDualStack === true
+        ) {
+          return e("https://iam.api.aws.ic.gov", _p3(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-iso" &&
+          UseFIPS === true &&
+          UseDualStack === true
+        ) {
+          return e("https://iam-fips.api.aws.ic.gov", _p3(), {});
+        }
+        if (
           _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
           UseFIPS === false &&
           UseDualStack === false
@@ -156,45 +207,102 @@ const rules = T.EndpointResolver((p, _) => {
           return e("https://iam-fips.us-isob-east-1.sc2s.sgov.gov", _p4(), {});
         }
         if (
+          _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
+          UseFIPS === false &&
+          UseDualStack === true
+        ) {
+          return e("https://iam.api.aws.scloud", _p4(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
+          UseFIPS === true &&
+          UseDualStack === true
+        ) {
+          return e("https://iam-fips.api.aws.scloud", _p4(), {});
+        }
+        if (
           _.getAttr(PartitionResult, "name") === "aws-iso-e" &&
           UseFIPS === false &&
           UseDualStack === false
         ) {
-          return e(
-            "https://iam.eu-isoe-west-1.cloud.adc-e.uk",
-            {
-              authSchemes: [{ name: "sigv4", signingRegion: "eu-isoe-west-1" }],
-            },
-            {},
-          );
+          return e("https://iam.eu-isoe-west-1.cloud.adc-e.uk", _p5(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-iso-e" &&
+          UseFIPS === true &&
+          UseDualStack === false
+        ) {
+          return e("https://iam-fips.cloud.adc-e.uk", _p5(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-iso-e" &&
+          UseFIPS === false &&
+          UseDualStack === true
+        ) {
+          return e("https://iam.api.cloud-aws.adc-e.uk", _p5(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-iso-e" &&
+          UseFIPS === true &&
+          UseDualStack === true
+        ) {
+          return e("https://iam-fips.api.cloud-aws.adc-e.uk", _p5(), {});
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
           UseFIPS === false &&
           UseDualStack === false
         ) {
-          return e(
-            "https://iam.us-isof-south-1.csp.hci.ic.gov",
-            {
-              authSchemes: [
-                { name: "sigv4", signingRegion: "us-isof-south-1" },
-              ],
-            },
-            {},
-          );
+          return e("https://iam.us-isof-south-1.csp.hci.ic.gov", _p6(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
+          UseFIPS === true &&
+          UseDualStack === false
+        ) {
+          return e("https://iam-fips.csp.hci.ic.gov", _p6(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
+          UseFIPS === false &&
+          UseDualStack === true
+        ) {
+          return e("https://iam.api.aws.hci.ic.gov", _p6(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
+          UseFIPS === true &&
+          UseDualStack === true
+        ) {
+          return e("https://iam-fips.api.aws.hci.ic.gov", _p6(), {});
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws-eusc" &&
           UseFIPS === false &&
           UseDualStack === false
         ) {
-          return e(
-            "https://iam.eusc-de-east-1.amazonaws.eu",
-            {
-              authSchemes: [{ name: "sigv4", signingRegion: "eusc-de-east-1" }],
-            },
-            {},
-          );
+          return e("https://iam.eusc-de-east-1.amazonaws.eu", _p7(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+          UseFIPS === true &&
+          UseDualStack === false
+        ) {
+          return e("https://iam-fips.amazonaws.eu", _p7(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+          UseFIPS === false &&
+          UseDualStack === true
+        ) {
+          return e("https://iam.global.api.amazonwebservices.eu", _p7(), {});
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+          UseFIPS === true &&
+          UseDualStack === true
+        ) {
+          return e("https://iam-fips.api.amazonwebservices.eu", _p7(), {});
         }
         if (UseFIPS === true && UseDualStack === true) {
           if (
@@ -202,8 +310,8 @@ const rules = T.EndpointResolver((p, _) => {
             true === _.getAttr(PartitionResult, "supportsDualStack")
           ) {
             return e(
-              `https://iam-fips.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-              _p5(PartitionResult),
+              `https://iam-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              _p8(PartitionResult),
               {},
             );
           }
@@ -214,8 +322,8 @@ const rules = T.EndpointResolver((p, _) => {
         if (UseFIPS === true && UseDualStack === false) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
             return e(
-              `https://iam-fips.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-              _p5(PartitionResult),
+              `https://iam-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              _p8(PartitionResult),
               {},
             );
           }
@@ -226,8 +334,8 @@ const rules = T.EndpointResolver((p, _) => {
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
             return e(
-              `https://iam.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-              _p5(PartitionResult),
+              `https://iam.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              _p8(PartitionResult),
               {},
             );
           }
@@ -236,8 +344,8 @@ const rules = T.EndpointResolver((p, _) => {
           );
         }
         return e(
-          `https://iam.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          _p5(PartitionResult),
+          `https://iam.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          _p8(PartitionResult),
           {},
         );
       }
@@ -454,6 +562,15 @@ export class MalformedPolicyDocumentException
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
+export class NameConflictException
+  extends /*@__PURE__*/ S.TaggedError<NameConflictException>()(
+    "NameConflictException",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.all(
+      T.AwsQueryError({ code: "NameConflict", httpResponseCode: 409 }),
+      T.HttpError(409),
+    ),
+  ).pipe(C.withConflictError) {}
 export class NoSuchEntityException
   extends /*@__PURE__*/ S.TaggedError<NoSuchEntityException>()(
     "NoSuchEntityException",
@@ -534,6 +651,24 @@ export class RequestLimitExceeded
     "RequestLimitExceeded",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
+export class RoleModifiedException
+  extends /*@__PURE__*/ S.TaggedError<RoleModifiedException>()(
+    "RoleModifiedException",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.all(
+      T.AwsQueryError({ code: "RoleModified", httpResponseCode: 409 }),
+      T.HttpError(409),
+    ),
+  ).pipe(C.withConflictError) {}
+export class RoleTemplateDisabledException
+  extends /*@__PURE__*/ S.TaggedError<RoleTemplateDisabledException>()(
+    "RoleTemplateDisabledException",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.all(
+      T.AwsQueryError({ code: "RoleTemplateDisabled", httpResponseCode: 400 }),
+      T.HttpError(400),
+    ),
+  ).pipe(C.withBadRequestError) {}
 export class ServiceAccessNotEnabledException
   extends /*@__PURE__*/ S.TaggedError<ServiceAccessNotEnabledException>()(
     "ServiceAccessNotEnabledException",
@@ -605,6 +740,142 @@ export const AcceptDelegationRequestResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "AcceptDelegationRequestResponse",
 }) as any as S.Schema<AcceptDelegationRequestResponse>;
 export type ArnType = string;
+export type IntegerType = number;
+export type StringType = string;
+export type ReplacementValueListType = string[];
+export const ReplacementValueListType = /*@__PURE__*/ S.Array(S.String);
+export interface ReplacementValueEntry {
+  Values: string[];
+}
+export const ReplacementValueEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Values: ReplacementValueListType }),
+).annotate({
+  identifier: "ReplacementValueEntry",
+}) as any as S.Schema<ReplacementValueEntry>;
+export type MapStringReplacementValueEntry = {
+  [key: string]: ReplacementValueEntry | undefined;
+};
+export const MapStringReplacementValueEntry = /*@__PURE__*/ S.Record(
+  S.String,
+  ReplacementValueEntry.pipe(S.optional),
+);
+export interface AcquireRoleRequest {
+  TemplateArn: string;
+  TemplateMinorVersion?: number;
+  ReplacementValues?: { [key: string]: ReplacementValueEntry | undefined };
+}
+export const AcquireRoleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TemplateArn: S.String,
+    TemplateMinorVersion: S.optional(S.Number),
+    ReplacementValues: S.optional(MapStringReplacementValueEntry),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "AcquireRoleRequest",
+}) as any as S.Schema<AcquireRoleRequest>;
+export type PathType = string;
+export type RoleNameType = string;
+export type IdType = string;
+export type PolicyDocumentType = string;
+export type RoleDescriptionType = string;
+export type RoleMaxSessionDurationType = number;
+export type PermissionsBoundaryAttachmentType =
+  | "PermissionsBoundaryPolicy"
+  | (string & {});
+export const PermissionsBoundaryAttachmentType = S.String;
+
+export interface AttachedPermissionsBoundary {
+  PermissionsBoundaryType?: PermissionsBoundaryAttachmentType;
+  PermissionsBoundaryArn?: string;
+}
+export const AttachedPermissionsBoundary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PermissionsBoundaryType: S.optional(PermissionsBoundaryAttachmentType),
+    PermissionsBoundaryArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AttachedPermissionsBoundary",
+}) as any as S.Schema<AttachedPermissionsBoundary>;
+export type TagKeyType = string;
+export type TagValueType = string;
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+export const Tag = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type TagListType = Tag[];
+export const TagListType = /*@__PURE__*/ S.Array(Tag);
+export interface RoleLastUsed {
+  LastUsedDate?: Date;
+  Region?: string;
+}
+export const RoleLastUsed = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    LastUsedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    Region: S.optional(S.String),
+  }),
+).annotate({ identifier: "RoleLastUsed" }) as any as S.Schema<RoleLastUsed>;
+export interface SourceRoleTemplate {
+  TemplateArn: string;
+  TemplateMinorVersion: number;
+}
+export const SourceRoleTemplate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ TemplateArn: S.String, TemplateMinorVersion: S.Number }),
+).annotate({
+  identifier: "SourceRoleTemplate",
+}) as any as S.Schema<SourceRoleTemplate>;
+export interface Role {
+  Path: string;
+  RoleName: string;
+  RoleId: string;
+  Arn: string;
+  CreateDate: Date;
+  AssumeRolePolicyDocument?: string;
+  Description?: string;
+  MaxSessionDuration?: number;
+  PermissionsBoundary?: AttachedPermissionsBoundary;
+  Tags?: Tag[];
+  RoleLastUsed?: RoleLastUsed;
+  SourceRoleTemplate?: SourceRoleTemplate;
+}
+export const Role = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Path: S.String,
+    RoleName: S.String,
+    RoleId: S.String,
+    Arn: S.String,
+    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    AssumeRolePolicyDocument: S.optional(S.String),
+    Description: S.optional(S.String),
+    MaxSessionDuration: S.optional(S.Number),
+    PermissionsBoundary: S.optional(AttachedPermissionsBoundary),
+    Tags: S.optional(TagListType),
+    RoleLastUsed: S.optional(RoleLastUsed),
+    SourceRoleTemplate: S.optional(SourceRoleTemplate),
+  }),
+).annotate({ identifier: "Role" }) as any as S.Schema<Role>;
+export interface AcquireRoleResponse {
+  Role: Role;
+}
+export const AcquireRoleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Role: Role }).pipe(ns),
+).annotate({
+  identifier: "AcquireRoleResponse",
+}) as any as S.Schema<AcquireRoleResponse>;
 export type ClientIDType = string;
 export interface AddClientIDToOpenIDConnectProviderRequest {
   OpenIDConnectProviderArn: string;
@@ -632,7 +903,6 @@ export const AddClientIDToOpenIDConnectProviderResponse =
     identifier: "AddClientIDToOpenIDConnectProviderResponse",
   }) as any as S.Schema<AddClientIDToOpenIDConnectProviderResponse>;
 export type InstanceProfileNameType = string;
-export type RoleNameType = string;
 export interface AddRoleToInstanceProfileRequest {
   InstanceProfileName: string;
   RoleName: string;
@@ -831,7 +1101,7 @@ export const CreateAccessKeyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateAccessKeyRequest>;
 export type AccessKeyIdType = string;
 export type StatusType = "Active" | "Inactive" | "Expired" | (string & {});
-export const StatusType = /*@__PURE__*/ S.String;
+export const StatusType = S.String;
 
 export type AccessKeySecretType = string | redacted.Redacted<string>;
 export interface AccessKey {
@@ -892,7 +1162,7 @@ export type PolicyParameterValueType = string;
 export type PolicyParameterValuesListType = string[];
 export const PolicyParameterValuesListType = /*@__PURE__*/ S.Array(S.String);
 export type PolicyParameterTypeEnum = "string" | "stringList" | (string & {});
-export const PolicyParameterTypeEnum = /*@__PURE__*/ S.String;
+export const PolicyParameterTypeEnum = S.String;
 
 export interface PolicyParameter {
   Name?: string;
@@ -976,7 +1246,6 @@ export const CreateDelegationRequestResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateDelegationRequestResponse",
 }) as any as S.Schema<CreateDelegationRequestResponse>;
-export type PathType = string;
 export interface CreateGroupRequest {
   Path?: string;
   GroupName: string;
@@ -996,7 +1265,6 @@ export const CreateGroupRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateGroupRequest",
 }) as any as S.Schema<CreateGroupRequest>;
-export type IdType = string;
 export interface Group {
   Path: string;
   GroupName: string;
@@ -1021,17 +1289,6 @@ export const CreateGroupResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateGroupResponse",
 }) as any as S.Schema<CreateGroupResponse>;
-export type TagKeyType = string;
-export type TagValueType = string;
-export interface Tag {
-  Key: string;
-  Value: string;
-}
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
-export type TagListType = Tag[];
-export const TagListType = /*@__PURE__*/ S.Array(Tag);
 export interface CreateInstanceProfileRequest {
   InstanceProfileName: string;
   Path?: string;
@@ -1056,67 +1313,6 @@ export const CreateInstanceProfileRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateInstanceProfileRequest",
 }) as any as S.Schema<CreateInstanceProfileRequest>;
-export type PolicyDocumentType = string;
-export type RoleDescriptionType = string;
-export type RoleMaxSessionDurationType = number;
-export type PermissionsBoundaryAttachmentType =
-  | "PermissionsBoundaryPolicy"
-  | (string & {});
-export const PermissionsBoundaryAttachmentType = /*@__PURE__*/ S.String;
-
-export interface AttachedPermissionsBoundary {
-  PermissionsBoundaryType?: PermissionsBoundaryAttachmentType;
-  PermissionsBoundaryArn?: string;
-}
-export const AttachedPermissionsBoundary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PermissionsBoundaryType: S.optional(PermissionsBoundaryAttachmentType),
-    PermissionsBoundaryArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AttachedPermissionsBoundary",
-}) as any as S.Schema<AttachedPermissionsBoundary>;
-export type StringType = string;
-export interface RoleLastUsed {
-  LastUsedDate?: Date;
-  Region?: string;
-}
-export const RoleLastUsed = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LastUsedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Region: S.optional(S.String),
-  }),
-).annotate({ identifier: "RoleLastUsed" }) as any as S.Schema<RoleLastUsed>;
-export interface Role {
-  Path: string;
-  RoleName: string;
-  RoleId: string;
-  Arn: string;
-  CreateDate: Date;
-  AssumeRolePolicyDocument?: string;
-  Description?: string;
-  MaxSessionDuration?: number;
-  PermissionsBoundary?: AttachedPermissionsBoundary;
-  Tags?: Tag[];
-  RoleLastUsed?: RoleLastUsed;
-}
-export const Role = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.String,
-    RoleName: S.String,
-    RoleId: S.String,
-    Arn: S.String,
-    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    AssumeRolePolicyDocument: S.optional(S.String),
-    Description: S.optional(S.String),
-    MaxSessionDuration: S.optional(S.Number),
-    PermissionsBoundary: S.optional(AttachedPermissionsBoundary),
-    Tags: S.optional(TagListType),
-    RoleLastUsed: S.optional(RoleLastUsed),
-  }),
-).annotate({ identifier: "Role" }) as any as S.Schema<Role>;
 export type RoleListType = Role[];
 export const RoleListType = /*@__PURE__*/ S.Array(Role);
 export interface InstanceProfile {
@@ -1406,7 +1602,7 @@ export type AssertionEncryptionModeType =
   | "Required"
   | "Allowed"
   | (string & {});
-export const AssertionEncryptionModeType = /*@__PURE__*/ S.String;
+export const AssertionEncryptionModeType = S.String;
 
 export type PrivateKeyType = string | redacted.Redacted<string>;
 export interface CreateSAMLProviderRequest {
@@ -2362,7 +2558,7 @@ export type FeatureType =
   | "RootCredentialsManagement"
   | "RootSessions"
   | (string & {});
-export const FeatureType = /*@__PURE__*/ S.String;
+export const FeatureType = S.String;
 
 export type FeaturesListType = FeatureType[];
 export const FeaturesListType = /*@__PURE__*/ S.Array(FeatureType);
@@ -2571,7 +2767,7 @@ export type ReportStateType =
   | "INPROGRESS"
   | "COMPLETE"
   | (string & {});
-export const ReportStateType = /*@__PURE__*/ S.String;
+export const ReportStateType = S.String;
 
 export type ReportStateDescriptionType = string;
 export interface GenerateCredentialReportResponse {
@@ -2625,7 +2821,7 @@ export type AccessAdvisorUsageGranularityType =
   | "SERVICE_LEVEL"
   | "ACTION_LEVEL"
   | (string & {});
-export const AccessAdvisorUsageGranularityType = /*@__PURE__*/ S.String;
+export const AccessAdvisorUsageGranularityType = S.String;
 
 export interface GenerateServiceLastAccessedDetailsRequest {
   Arn: string;
@@ -2712,7 +2908,7 @@ export type EntityType =
   | "LocalManagedPolicy"
   | "AWSManagedPolicy"
   | (string & {});
-export const EntityType = /*@__PURE__*/ S.String;
+export const EntityType = S.String;
 
 export type EntityListType = EntityType[];
 export const EntityListType = /*@__PURE__*/ S.Array(EntityType);
@@ -2977,6 +3173,37 @@ export const GetAccountPasswordPolicyResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetAccountPasswordPolicyResponse",
 }) as any as S.Schema<GetAccountPasswordPolicyResponse>;
+export interface GetAccountPropertiesRequest {}
+export const GetAccountPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAccountPropertiesRequest",
+}) as any as S.Schema<GetAccountPropertiesRequest>;
+export type AccountPropertyKeyType = string;
+export type AccountPropertyValueType = string;
+export type AccountPropertiesMapType = { [key: string]: string | undefined };
+export const AccountPropertiesMapType = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface GetAccountPropertiesResponse {
+  Properties?: { [key: string]: string | undefined };
+}
+export const GetAccountPropertiesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Properties: S.optional(AccountPropertiesMapType) }).pipe(ns),
+).annotate({
+  identifier: "GetAccountPropertiesResponse",
+}) as any as S.Schema<GetAccountPropertiesResponse>;
 export interface GetAccountSummaryRequest {}
 export const GetAccountSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
@@ -3029,7 +3256,7 @@ export type SummaryKeyType =
   | "Roles"
   | "RolesQuota"
   | (string & {});
-export const SummaryKeyType = /*@__PURE__*/ S.String;
+export const SummaryKeyType = S.String;
 
 export type SummaryValueType = number;
 export type SummaryMapType = { [key in SummaryKeyType]?: number };
@@ -3120,7 +3347,7 @@ export const GetCredentialReportRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCredentialReportRequest>;
 export type ReportContentType = Uint8Array;
 export type ReportFormatType = "text/csv" | (string & {});
-export const ReportFormatType = /*@__PURE__*/ S.String;
+export const ReportFormatType = S.String;
 
 export interface GetCredentialReportResponse {
   Content?: Uint8Array;
@@ -3175,7 +3402,7 @@ export type StateType =
   | "REJECTED"
   | "EXPIRED"
   | (string & {});
-export const StateType = /*@__PURE__*/ S.String;
+export const StateType = S.String;
 
 export type RequestorNameType = string;
 export type NotesType = string;
@@ -3240,14 +3467,14 @@ export type PermissionCheckStatusType =
   | "IN_PROGRESS"
   | "FAILED"
   | (string & {});
-export const PermissionCheckStatusType = /*@__PURE__*/ S.String;
+export const PermissionCheckStatusType = S.String;
 
 export type PermissionCheckResultType =
   | "ALLOWED"
   | "DENIED"
   | "UNSURE"
   | (string & {});
-export const PermissionCheckResultType = /*@__PURE__*/ S.String;
+export const PermissionCheckResultType = S.String;
 
 export interface GetDelegationRequestResponse {
   DelegationRequest?: DelegationRequest;
@@ -3365,7 +3592,7 @@ export type SummaryStateType =
   | "NOT_SUPPORTED"
   | "FAILED"
   | (string & {});
-export const SummaryStateType = /*@__PURE__*/ S.String;
+export const SummaryStateType = S.String;
 
 export interface GetHumanReadableSummaryResponse {
   SummaryContent?: string;
@@ -3521,7 +3748,7 @@ export type SortKeyType =
   | "LAST_AUTHENTICATED_TIME_ASCENDING"
   | "LAST_AUTHENTICATED_TIME_DESCENDING"
   | (string & {});
-export const SortKeyType = /*@__PURE__*/ S.String;
+export const SortKeyType = S.String;
 
 export interface GetOrganizationsAccessReportRequest {
   JobId: string;
@@ -3554,9 +3781,8 @@ export type JobStatusType =
   | "COMPLETED"
   | "FAILED"
   | (string & {});
-export const JobStatusType = /*@__PURE__*/ S.String;
+export const JobStatusType = S.String;
 
-export type IntegerType = number;
 export type ServiceNameType = string;
 export type ServiceNamespaceType = string;
 export interface AccessDetail {
@@ -3757,6 +3983,162 @@ export const GetRolePolicyResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetRolePolicyResponse",
 }) as any as S.Schema<GetRolePolicyResponse>;
+export type MinorVersionType = number;
+export interface GetRoleTemplateVersionRequest {
+  TemplateArn: string;
+  MinorVersion?: number;
+}
+export const GetRoleTemplateVersionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ TemplateArn: S.String, MinorVersion: S.optional(S.Number) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetRoleTemplateVersionRequest",
+}) as any as S.Schema<GetRoleTemplateVersionRequest>;
+export type RoleTemplateNameType = string;
+export type RoleTemplateDescriptionType = string;
+export type ManagedByTypeType = "Service" | (string & {});
+export const ManagedByTypeType = S.String;
+
+export type ManagedByValueType = string;
+export type RoleNamePatternType = string;
+export type RolePathPatternType = string;
+export type RoleDescriptionPatternType = string;
+export interface InlinePolicy {
+  PolicyName: string;
+  PolicyDocument: string;
+}
+export const InlinePolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ PolicyName: S.String, PolicyDocument: S.String }),
+).annotate({ identifier: "InlinePolicy" }) as any as S.Schema<InlinePolicy>;
+export type InlinePolicyTemplateListType = InlinePolicy[];
+export const InlinePolicyTemplateListType = /*@__PURE__*/ S.Array(InlinePolicy);
+export type ManagedPolicyArnListType = string[];
+export const ManagedPolicyArnListType = /*@__PURE__*/ S.Array(S.String);
+export type ParameterNameType = string;
+export type ParameterTypeType =
+  | "String"
+  | "StringList"
+  | "Number"
+  | "NumberList"
+  | "Arn"
+  | "ArnList"
+  | (string & {});
+export const ParameterTypeType = S.String;
+
+export type ParameterSubTypeType = string;
+export type ParameterDescriptionType = string;
+export type ParameterDefaultValueType = string;
+export interface ParameterDefinition {
+  Name: string;
+  Type: ParameterTypeType;
+  SubType?: string;
+  Description?: string;
+  IsRequired?: boolean;
+  DefaultValue?: string;
+  Immutable?: boolean;
+}
+export const ParameterDefinition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    Type: ParameterTypeType,
+    SubType: S.optional(S.String),
+    Description: S.optional(S.String),
+    IsRequired: S.optional(S.Boolean),
+    DefaultValue: S.optional(S.String),
+    Immutable: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ParameterDefinition",
+}) as any as S.Schema<ParameterDefinition>;
+export type ParametersDefinitionListType = ParameterDefinition[];
+export const ParametersDefinitionListType =
+  /*@__PURE__*/ S.Array(ParameterDefinition);
+export type TagTemplateKeyType = string;
+export type TagTemplateValueType = string;
+export interface TagTemplate {
+  Key: string;
+  Value: string;
+}
+export const TagTemplate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Key: S.String, Value: S.String }),
+).annotate({ identifier: "TagTemplate" }) as any as S.Schema<TagTemplate>;
+export type TagTemplateListType = TagTemplate[];
+export const TagTemplateListType = /*@__PURE__*/ S.Array(TagTemplate);
+export interface RoleTemplateVersion {
+  TemplateArn?: string;
+  TemplateName?: string;
+  TemplateVersionId?: string;
+  Description?: string;
+  MajorVersion?: number;
+  DefaultMinorVersion?: number;
+  ManagedByType?: ManagedByTypeType;
+  ManagedByValue?: string;
+  Enabled?: boolean;
+  MinorVersion?: number;
+  RoleNamePattern?: string;
+  RolePathPattern?: string;
+  RoleDescriptionPattern?: string;
+  AssumeRolePolicyDocumentTemplate?: string;
+  InlinePolicyTemplates?: InlinePolicy[];
+  ManagedPolicyArns?: string[];
+  PermissionBoundaryArn?: string;
+  ParametersDefinition?: ParameterDefinition[];
+  RoleTagsTemplate?: TagTemplate[];
+  MaxSessionDuration?: number;
+  VersionEnabled?: boolean;
+  CreateTimestamp?: Date;
+  UpdateTimestamp?: Date;
+}
+export const RoleTemplateVersion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TemplateArn: S.optional(S.String),
+    TemplateName: S.optional(S.String),
+    TemplateVersionId: S.optional(S.String),
+    Description: S.optional(S.String),
+    MajorVersion: S.optional(S.Number),
+    DefaultMinorVersion: S.optional(S.Number),
+    ManagedByType: S.optional(ManagedByTypeType),
+    ManagedByValue: S.optional(S.String),
+    Enabled: S.optional(S.Boolean),
+    MinorVersion: S.optional(S.Number),
+    RoleNamePattern: S.optional(S.String),
+    RolePathPattern: S.optional(S.String),
+    RoleDescriptionPattern: S.optional(S.String),
+    AssumeRolePolicyDocumentTemplate: S.optional(S.String),
+    InlinePolicyTemplates: S.optional(InlinePolicyTemplateListType),
+    ManagedPolicyArns: S.optional(ManagedPolicyArnListType),
+    PermissionBoundaryArn: S.optional(S.String),
+    ParametersDefinition: S.optional(ParametersDefinitionListType),
+    RoleTagsTemplate: S.optional(TagTemplateListType),
+    MaxSessionDuration: S.optional(S.Number),
+    VersionEnabled: S.optional(S.Boolean),
+    CreateTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdateTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "RoleTemplateVersion",
+}) as any as S.Schema<RoleTemplateVersion>;
+export interface GetRoleTemplateVersionResponse {
+  RoleTemplateVersion: RoleTemplateVersion;
+}
+export const GetRoleTemplateVersionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ RoleTemplateVersion: RoleTemplateVersion }).pipe(ns),
+).annotate({
+  identifier: "GetRoleTemplateVersionResponse",
+}) as any as S.Schema<GetRoleTemplateVersionResponse>;
 export interface GetSAMLProviderRequest {
   SAMLProviderArn: string;
 }
@@ -4010,7 +4392,7 @@ export const GetServiceLastAccessedDetailsWithEntitiesRequest =
     identifier: "GetServiceLastAccessedDetailsWithEntitiesRequest",
   }) as any as S.Schema<GetServiceLastAccessedDetailsWithEntitiesRequest>;
 export type PolicyOwnerEntityType = "USER" | "ROLE" | "GROUP" | (string & {});
-export const PolicyOwnerEntityType = /*@__PURE__*/ S.String;
+export const PolicyOwnerEntityType = S.String;
 
 export interface EntityInfo {
   Arn: string;
@@ -4090,7 +4472,7 @@ export type DeletionTaskStatusType =
   | "FAILED"
   | "NOT_STARTED"
   | (string & {});
-export const DeletionTaskStatusType = /*@__PURE__*/ S.String;
+export const DeletionTaskStatusType = S.String;
 
 export type ReasonType = string;
 export type RegionNameType = string;
@@ -4134,7 +4516,7 @@ export const GetServiceLinkedRoleDeletionStatusResponse =
     identifier: "GetServiceLinkedRoleDeletionStatusResponse",
   }) as any as S.Schema<GetServiceLinkedRoleDeletionStatusResponse>;
 export type EncodingType = "SSH" | "PEM" | (string & {});
-export const EncodingType = /*@__PURE__*/ S.String;
+export const EncodingType = S.String;
 
 export interface GetSSHPublicKeyRequest {
   UserName: string;
@@ -4509,7 +4891,7 @@ export type PolicyUsageType =
   | "PermissionsPolicy"
   | "PermissionsBoundary"
   | (string & {});
-export const PolicyUsageType = /*@__PURE__*/ S.String;
+export const PolicyUsageType = S.String;
 
 export interface ListEntitiesForPolicyRequest {
   PolicyArn: string;
@@ -5016,7 +5398,7 @@ export const ListOrganizationsFeaturesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListOrganizationsFeaturesResponse",
 }) as any as S.Schema<ListOrganizationsFeaturesResponse>;
 export type PolicyScopeType = "All" | "AWS" | "Local" | (string & {});
-export const PolicyScopeType = /*@__PURE__*/ S.String;
+export const PolicyScopeType = S.String;
 
 export interface ListPoliciesRequest {
   Scope?: PolicyScopeType;
@@ -5092,7 +5474,7 @@ export const ListPoliciesGrantingServiceAccessRequest = /*@__PURE__*/ S.suspend(
   identifier: "ListPoliciesGrantingServiceAccessRequest",
 }) as any as S.Schema<ListPoliciesGrantingServiceAccessRequest>;
 export type PolicyType = "INLINE" | "MANAGED" | (string & {});
-export const PolicyType = /*@__PURE__*/ S.String;
+export const PolicyType = S.String;
 
 export type EntityNameType = string;
 export interface PolicyGrantingServiceAccess {
@@ -5817,7 +6199,7 @@ export type AssignmentStatusType =
   | "Unassigned"
   | "Any"
   | (string & {});
-export const AssignmentStatusType = /*@__PURE__*/ S.String;
+export const AssignmentStatusType = S.String;
 
 export interface ListVirtualMFADevicesRequest {
   AssignmentStatus?: AssignmentStatusType;
@@ -5859,6 +6241,30 @@ export const ListVirtualMFADevicesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListVirtualMFADevicesResponse",
 }) as any as S.Schema<ListVirtualMFADevicesResponse>;
+export interface PutAccountPropertiesRequest {
+  Properties: { [key: string]: string | undefined };
+}
+export const PutAccountPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Properties: AccountPropertiesMapType }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutAccountPropertiesRequest",
+}) as any as S.Schema<PutAccountPropertiesRequest>;
+export interface PutAccountPropertiesResponse {}
+export const PutAccountPropertiesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "PutAccountPropertiesResponse",
+}) as any as S.Schema<PutAccountPropertiesResponse>;
 export interface PutGroupPolicyRequest {
   GroupName: string;
   PolicyName: string;
@@ -6216,7 +6622,7 @@ export const SetDefaultPolicyVersionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "SetDefaultPolicyVersionResponse",
 }) as any as S.Schema<SetDefaultPolicyVersionResponse>;
 export type GlobalEndpointTokenVersion = "v1Token" | "v2Token" | (string & {});
-export const GlobalEndpointTokenVersion = /*@__PURE__*/ S.String;
+export const GlobalEndpointTokenVersion = S.String;
 
 export interface SetSecurityTokenServicePreferencesRequest {
   GlobalEndpointTokenVersion: GlobalEndpointTokenVersion;
@@ -6242,6 +6648,20 @@ export const SetSecurityTokenServicePreferencesResponse =
   /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
     identifier: "SetSecurityTokenServicePreferencesResponse",
   }) as any as S.Schema<SetSecurityTokenServicePreferencesResponse>;
+export interface OrderedOrganizationPolicyType {
+  ServiceControlPolicyInputList?: string[];
+}
+export const OrderedOrganizationPolicyType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServiceControlPolicyInputList: S.optional(SimulationPolicyListType),
+  }),
+).annotate({
+  identifier: "OrderedOrganizationPolicyType",
+}) as any as S.Schema<OrderedOrganizationPolicyType>;
+export type OrganizationPolicyListType = OrderedOrganizationPolicyType[];
+export const OrganizationPolicyListType = /*@__PURE__*/ S.Array(
+  OrderedOrganizationPolicyType,
+);
 export type ActionNameType = string;
 export type ActionNameListType = string[];
 export const ActionNameListType = /*@__PURE__*/ S.Array(S.String);
@@ -6265,7 +6685,7 @@ export type ContextKeyTypeEnum =
   | "date"
   | "dateList"
   | (string & {});
-export const ContextKeyTypeEnum = /*@__PURE__*/ S.String;
+export const ContextKeyTypeEnum = S.String;
 
 export interface ContextEntry {
   ContextKeyName?: string;
@@ -6285,6 +6705,7 @@ export type ResourceHandlingOptionType = string;
 export interface SimulateCustomPolicyRequest {
   PolicyInputList: string[];
   PermissionsBoundaryPolicyInputList?: string[];
+  OrderedOrganizationPolicyInputList?: OrderedOrganizationPolicyType[];
   ActionNames: string[];
   ResourceArns?: string[];
   ResourcePolicy?: string;
@@ -6299,6 +6720,7 @@ export const SimulateCustomPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PolicyInputList: SimulationPolicyListType,
     PermissionsBoundaryPolicyInputList: S.optional(SimulationPolicyListType),
+    OrderedOrganizationPolicyInputList: S.optional(OrganizationPolicyListType),
     ActionNames: ActionNameListType,
     ResourceArns: S.optional(ResourceNameListType),
     ResourcePolicy: S.optional(S.String),
@@ -6327,7 +6749,7 @@ export type PolicyEvaluationDecisionType =
   | "explicitDeny"
   | "implicitDeny"
   | (string & {});
-export const PolicyEvaluationDecisionType = /*@__PURE__*/ S.String;
+export const PolicyEvaluationDecisionType = S.String;
 
 export type PolicyIdentifierType = string;
 export type PolicySourceType =
@@ -6339,7 +6761,7 @@ export type PolicySourceType =
   | "resource"
   | "none"
   | (string & {});
-export const PolicySourceType = /*@__PURE__*/ S.String;
+export const PolicySourceType = S.String;
 
 export type LineNumber = number;
 export type ColumnNumber = number;
@@ -6465,10 +6887,58 @@ export const SimulatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SimulatePolicyResponse",
 }) as any as S.Schema<SimulatePolicyResponse>;
+export type PolicyIdentifierPolicyType =
+  | "inline"
+  | "aws-managed"
+  | "user-managed"
+  | "permission-boundary"
+  | "scp"
+  | "rcp"
+  | (string & {});
+export const PolicyIdentifierPolicyType = S.String;
+
+export type AttachmentType = "user" | "group" | "role" | (string & {});
+export const AttachmentType = S.String;
+
+export type AttachmentName = string;
+export interface InlinePolicyIdentifierType {
+  PolicyName: string;
+  AttachmentType: AttachmentType;
+  AttachmentName: string;
+}
+export const InlinePolicyIdentifierType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PolicyName: S.String,
+    AttachmentType: AttachmentType,
+    AttachmentName: S.String,
+  }),
+).annotate({
+  identifier: "InlinePolicyIdentifierType",
+}) as any as S.Schema<InlinePolicyIdentifierType>;
+export type PolicyIdentifier =
+  | {
+      PolicyType: PolicyIdentifierPolicyType;
+      PolicyArn?: never;
+      InlinePolicyIdentifier?: never;
+    }
+  | { PolicyType?: never; PolicyArn: string; InlinePolicyIdentifier?: never }
+  | {
+      PolicyType?: never;
+      PolicyArn?: never;
+      InlinePolicyIdentifier: InlinePolicyIdentifierType;
+    };
+export const PolicyIdentifier = /*@__PURE__*/ S.Union([
+  S.Struct({ PolicyType: PolicyIdentifierPolicyType }),
+  S.Struct({ PolicyArn: S.String }),
+  S.Struct({ InlinePolicyIdentifier: InlinePolicyIdentifierType }),
+]);
+export type PolicyExclusionsListType = PolicyIdentifier[];
+export const PolicyExclusionsListType = /*@__PURE__*/ S.Array(PolicyIdentifier);
 export interface SimulatePrincipalPolicyRequest {
   PolicySourceArn: string;
   PolicyInputList?: string[];
   PermissionsBoundaryPolicyInputList?: string[];
+  PolicyExclusionList?: PolicyIdentifier[];
   ActionNames: string[];
   ResourceArns?: string[];
   ResourcePolicy?: string;
@@ -6484,6 +6954,7 @@ export const SimulatePrincipalPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     PolicySourceArn: S.String,
     PolicyInputList: S.optional(SimulationPolicyListType),
     PermissionsBoundaryPolicyInputList: S.optional(SimulationPolicyListType),
+    PolicyExclusionList: S.optional(PolicyExclusionsListType),
     ActionNames: ActionNameListType,
     ResourceArns: S.optional(ResourceNameListType),
     ResourcePolicy: S.optional(S.String),
@@ -7461,16 +7932,19 @@ export const UploadSSHPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
 export type ConcurrentModificationMessage = string;
 export type NoSuchEntityMessage = string;
 export type ServiceFailureExceptionMessage = string;
+export type EntityAlreadyExistsMessage = string;
 export type InvalidInputMessage = string;
 export type LimitExceededMessage = string;
-export type EntityAlreadyExistsMessage = string;
+export type MalformedPolicyDocumentMessage = string;
+export type NameConflictMessage = string;
+export type RoleModifiedMessage = string;
+export type RoleTemplateDisabledMessage = string;
 export type UnmodifiableEntityMessage = string;
 export type PolicyNotAttachableMessage = string;
 export type EntityTemporarilyUnmodifiableMessage = string;
 export type InvalidUserTypeMessage = string;
 export type PasswordPolicyViolationMessage = string;
 export type OpenIdIdpCommunicationErrorExceptionMessage = string;
-export type MalformedPolicyDocumentMessage = string;
 export type ServiceNotSupportedMessage = string;
 export type DeleteConflictMessage = string;
 export type ExceptionMessage = string;
@@ -7522,6 +7996,54 @@ export const acceptDelegationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptDelegationRequest",
+}));
+
+export type AcquireRoleError =
+  | ConcurrentModificationException
+  | EntityAlreadyExistsException
+  | InvalidInputException
+  | LimitExceededException
+  | MalformedPolicyDocumentException
+  | NameConflictException
+  | NoSuchEntityException
+  | RoleModifiedException
+  | RoleTemplateDisabledException
+  | ServiceFailureException
+  | CommonErrors;
+/**
+ * Creates an IAM role from the specified role template. The new role takes its
+ * configuration—including its name, path, trust policy, inline and managed policies,
+ * permissions boundary, tags, and maximum session duration—from the role
+ * template version that you specify. For more information about roles, see IAM roles in the
+ * *IAM User Guide*.
+ *
+ * If the template version defines parameters, use the `ReplacementValues`
+ * parameter to supply the values that the service substitutes into the role during
+ * creation.
+ */
+export const acquireRole: API.OperationMethod<
+  AcquireRoleRequest,
+  AcquireRoleResponse,
+  AcquireRoleError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: AcquireRoleRequest,
+  output: AcquireRoleResponse,
+  errors: [
+    ConcurrentModificationException,
+    EntityAlreadyExistsException,
+    InvalidInputException,
+    LimitExceededException,
+    MalformedPolicyDocumentException,
+    NameConflictException,
+    NoSuchEntityException,
+    RoleModifiedException,
+    RoleTemplateDisabledException,
+    ServiceFailureException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "AcquireRole",
 }));
 
 export type AddClientIDToOpenIDConnectProviderError =
@@ -9938,6 +10460,33 @@ export const getAccountPasswordPolicy: API.OperationMethod<
   operationName: "GetAccountPasswordPolicy",
 }));
 
+export type GetAccountPropertiesError =
+  | InvalidInputException
+  | ServiceFailureException
+  | CommonErrors;
+/**
+ * Retrieves the account-level properties for the caller's Amazon Web Services account. Account
+ * properties are configuration settings that control account-wide IAM features such as
+ * Role Manager.
+ *
+ * The service returns properties as key-value pairs in
+ * `Namespace/PropertyName` format. Each namespace groups related
+ * configuration settings. Use PutAccountProperties to modify these properties.
+ */
+export const getAccountProperties: API.OperationMethod<
+  GetAccountPropertiesRequest,
+  GetAccountPropertiesResponse,
+  GetAccountPropertiesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAccountPropertiesRequest,
+  output: GetAccountPropertiesResponse,
+  errors: [InvalidInputException, ServiceFailureException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAccountProperties",
+}));
+
 export type GetAccountSummaryError = ServiceFailureException | CommonErrors;
 /**
  * Retrieves information about IAM entity usage and IAM quotas in the Amazon Web Services
@@ -10011,7 +10560,10 @@ export type GetContextKeysForPrincipalPolicyError =
  * Context keys are variables maintained by Amazon Web Services and its services that provide details
  * about the context of an API query request. Context keys can be evaluated by testing
  * against a value in an IAM policy. Use GetContextKeysForPrincipalPolicy to understand what key names and values
- * you must supply when you call SimulatePrincipalPolicy.
+ * you must supply when you call SimulatePrincipalPolicy. This operation doesn't return context keys
+ * referenced by service control policies (SCPs). Only context keys referenced by the
+ * identity-based policies attached to the specified entity, and any additional policies
+ * that you provide, are included.
  */
 export const getContextKeysForPrincipalPolicy: API.OperationMethod<
   GetContextKeysForPrincipalPolicyRequest,
@@ -10511,6 +11063,38 @@ export const getRolePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRolePolicy",
+}));
+
+export type GetRoleTemplateVersionError =
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | CommonErrors;
+/**
+ * Retrieves information about a version of the specified role template. Role templates
+ * define a reusable configuration—including role name and path patterns, trust
+ * policy, inline and managed policies, permissions boundary, tags, and maximum session
+ * duration—that you use to create IAM roles with AcquireRole.
+ *
+ * If you do not specify a minor version, the service returns the template's default
+ * minor version.
+ */
+export const getRoleTemplateVersion: API.OperationMethod<
+  GetRoleTemplateVersionRequest,
+  GetRoleTemplateVersionResponse,
+  GetRoleTemplateVersionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRoleTemplateVersionRequest,
+  output: GetRoleTemplateVersionResponse,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetRoleTemplateVersion",
 }));
 
 export type GetSAMLProviderError =
@@ -12097,6 +12681,38 @@ export const listVirtualMFADevices: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type PutAccountPropertiesError =
+  | ConcurrentModificationException
+  | InvalidInputException
+  | ServiceFailureException
+  | CommonErrors;
+/**
+ * Sets account-level properties for the caller's Amazon Web Services account. Account properties are
+ * configuration settings that control account-wide IAM features such as Role
+ * Manager.
+ *
+ * Specify properties as key-value pairs in
+ * `Namespace/PropertyName` format. All properties in a single request must
+ * belong to the same namespace. Use GetAccountProperties to view the current properties.
+ */
+export const putAccountProperties: API.OperationMethod<
+  PutAccountPropertiesRequest,
+  PutAccountPropertiesResponse,
+  PutAccountPropertiesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutAccountPropertiesRequest,
+  output: PutAccountPropertiesResponse,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    ServiceFailureException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutAccountProperties",
+}));
+
 export type PutGroupPolicyError =
   | LimitExceededException
   | MalformedPolicyDocumentException
@@ -12658,9 +13274,10 @@ export type SimulateCustomPolicyError =
  * If the output is long, you can use `MaxItems` and `Marker`
  * parameters to paginate the results.
  *
- * The IAM policy simulator evaluates statements in the identity-based policy and
- * the inputs that you provide during simulation. The policy simulator results can
- * differ from your live Amazon Web Services environment. We recommend that you check your policies
+ * The IAM policy simulator evaluates statements in identity-based policies,
+ * service control policies (SCPs) including their condition keys and resource
+ * scoping, and the inputs that you provide during simulation. The policy
+ * simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies
  * against your live Amazon Web Services environment after testing using the policy simulator to
  * confirm that you have the desired results. For more information about using the
  * policy simulator, see Testing IAM
@@ -12710,6 +13327,11 @@ export type SimulatePrincipalPolicyError =
  * The simulation does not perform the API operations; it only checks the authorization
  * to determine if the simulated policies allow or deny the operations.
  *
+ * For cross-account simulations, `EvalDecisionDetails` returns the decision
+ * for each policy type (identity-based policy, resource-based policy, and permissions
+ * boundary). This helps you identify which policy type is responsible for an allow or
+ * deny decision when policies span multiple accounts.
+ *
  * **Note:** This operation discloses information about the
  * permissions granted to other users. If you do not want users to see other user's
  * permissions, then consider allowing them to use SimulateCustomPolicy instead.
@@ -12722,9 +13344,10 @@ export type SimulatePrincipalPolicyError =
  * If the output is long, you can use the `MaxItems` and `Marker`
  * parameters to paginate the results.
  *
- * The IAM policy simulator evaluates statements in the identity-based policy and
- * the inputs that you provide during simulation. The policy simulator results can
- * differ from your live Amazon Web Services environment. We recommend that you check your policies
+ * The IAM policy simulator evaluates statements in identity-based policies,
+ * service control policies (SCPs) including their condition keys and resource
+ * scoping, and the inputs that you provide during simulation. The policy
+ * simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies
  * against your live Amazon Web Services environment after testing using the policy simulator to
  * confirm that you have the desired results. For more information about using the
  * policy simulator, see Testing IAM

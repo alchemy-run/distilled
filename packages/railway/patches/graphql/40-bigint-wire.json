@@ -1,0 +1,10 @@
+{
+  "description": "Live privateNetworks read on 2026-09-12 returned numeric BigInt networkId values 1538483960 and 3234591130, contradicting the legacy string-only scalar mapping. Preserve numeric values and allow strings for larger integer encodings rather than assuming the unobserved BigInt fields share one numeric serializer. Introspection describes signed whole numbers but does not declare JSON serialization. Generic scalar documentation permits string serialization: https://the-guild.dev/graphql/scalars/docs/scalars/big-int; this is not proof of Railway's server implementation.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/types/BigInt/scalar",
+      "value": "string | number"
+    }
+  ]
+}

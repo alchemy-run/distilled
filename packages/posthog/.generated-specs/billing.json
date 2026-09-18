@@ -1,0 +1,2537 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.billing#BillingOverviewResponse": {
+      "type": "structure",
+      "members": {
+        "customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subscription_level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_active_subscription": {
+          "target": "smithy.api#Boolean"
+        },
+        "deactivated": {
+          "target": "smithy.api#Boolean"
+        },
+        "is_annual_plan_customer": {
+          "target": "smithy.api#Boolean"
+        },
+        "free_trial_until": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "current_total_amount_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "current_total_amount_usd_after_discount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "projected_total_amount_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "projected_total_amount_usd_after_discount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "projected_total_amount_usd_with_limit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "projected_total_amount_usd_with_limit_after_discount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "discount_amount_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "discount_percent": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "amount_off_expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "startup_program_label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "startup_program_label_previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stripe_portal_url": {
+          "target": "smithy.api#String"
+        },
+        "external_billing_provider_invoices_url": {
+          "target": "smithy.api#String"
+        },
+        "products": {
+          "target": "com.posthog.billing#BillingOverviewResponseProductsList",
+          "traits": {
+            "smithy.api#documentation": "Subscribed and available products/addons with pricing, plan, limit, usage, and entitlement metadata."
+          }
+        },
+        "available_product_features": {
+          "target": "com.posthog.billing#BillingOverviewResponseAvailableProductFeaturesList"
+        },
+        "usage_summary": {
+          "target": "smithy.api#Document"
+        },
+        "billing_period": {
+          "target": "smithy.api#Document"
+        },
+        "custom_limits_usd": {
+          "target": "smithy.api#Document"
+        },
+        "next_period_custom_limits_usd": {
+          "target": "smithy.api#Document"
+        },
+        "trial": {
+          "target": "smithy.api#Document"
+        },
+        "license": {
+          "target": "smithy.api#Document"
+        },
+        "account_owner": {
+          "target": "smithy.api#Document"
+        },
+        "customer_trust_scores": {
+          "target": "smithy.api#Document"
+        },
+        "never_drop_data": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingOverviewResponseProductsItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingOverviewResponseProductsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.billing#BillingOverviewResponseProductsItemMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Subscribed and available products/addons with pricing, plan, limit, usage, and entitlement metadata."
+      }
+    },
+    "com.posthog.billing#BillingOverviewResponseAvailableProductFeaturesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#ListBilling": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.posthog.billing#BillingOverviewResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/billing/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#BillingActivateCreateRequest": {
+      "type": "structure",
+      "members": {
+        "plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "billing_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingActivateCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#BillingActivateCreateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/billing/activate/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#BillingActivateAuthorizeCreateRequest": {
+      "type": "structure",
+      "members": {
+        "plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "billing_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingActivateAuthorizeCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#BillingActivateAuthorizeCreateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/billing/activate/authorize/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#BillingActivateAuthorizeStatusCreateRequest": {
+      "type": "structure",
+      "members": {
+        "plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "billing_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingActivateAuthorizeStatusCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#BillingActivateAuthorizeStatusCreateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/billing/activate/authorize/status/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#CreateBillingCouponsClaimRequest": {
+      "type": "structure",
+      "members": {
+        "plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "billing_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#CreateBillingCouponsClaim": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#CreateBillingCouponsClaimRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/billing/coupons/claim/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#GetBillingCouponsOverview": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/billing/coupons/overview/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#GetBillingCreditsOverview": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/billing/credits/overview/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#CreateBillingCreditsPurchaseRequest": {
+      "type": "structure",
+      "members": {
+        "plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "billing_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#CreateBillingCreditsPurchase": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#CreateBillingCreditsPurchaseRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/billing/credits/purchase/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#BillingDeactivateCreateRequest": {
+      "type": "structure",
+      "members": {
+        "plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "billing_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingDeactivateCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#BillingDeactivateCreateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/billing/deactivate/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#BillingGetInvoicesRetrieve": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/billing/get_invoices/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#UpdateBillingLicensePartialRequest": {
+      "type": "structure",
+      "members": {
+        "plan": {
+          "target": "smithy.api#String"
+        },
+        "billing_limit": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#UpdateBillingLicensePartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#UpdateBillingLicensePartialRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/billing/license/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#BillingPeriodResponse": {
+      "type": "structure",
+      "members": {
+        "current_period_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the organization's current billing period, or null when billing has not synced a period.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "current_period_end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End of the organization's current billing period, or null when billing has not synced a period.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#GetBillingPeriod": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.posthog.billing#BillingPeriodResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/billing/period/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the current organization billing period"
+      }
+    },
+    "com.posthog.billing#GetBillingPortal": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/billing/portal/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#GetBillingSpendRequest": {
+      "type": "structure",
+      "members": {
+        "breakdowns": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "breakdowns",
+            "smithy.api#documentation": "JSON-encoded array of breakdown dimensions. Valid values are \"type\" and \"team\", for example [\"type\",\"team\"]. Omit for a single aggregate series."
+          }
+        },
+        "end_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "end_date"
+          }
+        },
+        "interval": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "interval"
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_date"
+          }
+        },
+        "team_ids": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "team_ids",
+            "smithy.api#documentation": "JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token."
+          }
+        },
+        "usage_types": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "usage_types",
+            "smithy.api#documentation": "JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. [\"event_count_in_period\",\"recording_count_in_period\"]. Omit for all types."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingTimeSeriesResponse": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "customer_id": {
+          "target": "smithy.api#Integer"
+        },
+        "results": {
+          "target": "com.posthog.billing#BillingTimeSeriesResponseResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "team_id_options": {
+          "target": "com.posthog.billing#BillingTimeSeriesResponseTeamIdOptionsList"
+        },
+        "next": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingTimeSeriesPoint": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "label": {
+          "target": "smithy.api#String"
+        },
+        "data": {
+          "target": "com.posthog.billing#BillingTimeSeriesPointDataList"
+        },
+        "dates": {
+          "target": "com.posthog.billing#BillingTimeSeriesPointDatesList"
+        },
+        "breakdown_type": {
+          "target": "com.posthog.billing#BreakdownTypeEnum",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "breakdown_value": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingTimeSeriesPointDataList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingTimeSeriesPointDatesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BreakdownTypeEnum": {
+      "type": "enum",
+      "members": {
+        "TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type"
+          }
+        },
+        "TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team"
+          }
+        },
+        "MULTIPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `type` - type\n* `team` - team\n* `multiple` - multiple"
+      }
+    },
+    "com.posthog.billing#BillingTimeSeriesResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.billing#BillingTimeSeriesPoint"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingTimeSeriesResponseTeamIdOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#GetBillingSpend": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#GetBillingSpendRequest"
+      },
+      "output": {
+        "target": "com.posthog.billing#BillingTimeSeriesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/billing/spend/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Endpoint to fetch spend data (proxy to billing service)."
+      }
+    },
+    "com.posthog.billing#BillingStartupsApplyCreateRequest": {
+      "type": "structure",
+      "members": {
+        "plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "billing_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingStartupsApplyCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#BillingStartupsApplyCreateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/billing/startups/apply/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#CreateBillingSubscriptionSwitchPlanRequest": {
+      "type": "structure",
+      "members": {
+        "plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "billing_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#CreateBillingSubscriptionSwitchPlan": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#CreateBillingSubscriptionSwitchPlanRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/billing/subscription/switch-plan/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#BillingTrialsActivateCreateRequest": {
+      "type": "structure",
+      "members": {
+        "plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "billing_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingTrialsActivateCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#BillingTrialsActivateCreateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/billing/trials/activate/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#BillingTrialsCancelCreateRequest": {
+      "type": "structure",
+      "members": {
+        "plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "billing_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingTrialsCancelCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#BillingTrialsCancelCreateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/billing/trials/cancel/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#GetBillingUsageRequest": {
+      "type": "structure",
+      "members": {
+        "breakdowns": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "breakdowns",
+            "smithy.api#documentation": "JSON-encoded array of breakdown dimensions. Valid values are \"type\" and \"team\", for example [\"type\",\"team\"]. Omit for a single aggregate series."
+          }
+        },
+        "end_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "end_date"
+          }
+        },
+        "interval": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "interval"
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_date"
+          }
+        },
+        "team_ids": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "team_ids",
+            "smithy.api#documentation": "JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token."
+          }
+        },
+        "usage_types": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "usage_types",
+            "smithy.api#documentation": "JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. [\"event_count_in_period\",\"recording_count_in_period\"]. Omit for all types."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#GetBillingUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#GetBillingUsageRequest"
+      },
+      "output": {
+        "target": "com.posthog.billing#BillingTimeSeriesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/billing/usage/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#ListBillingAlertsRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#PaginatedBillingAlertConfigurationListOutput": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.billing#PaginatedBillingAlertConfigurationListOutputResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingAlertConfigurationOutput": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for this billing alert.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization this billing alert belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "execution_team_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Team used as the execution context for internal notification destinations.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "User ID that created this alert.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_by_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "User ID that last updated this alert.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name for this billing alert.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional internal description."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether scheduled checks should evaluate this alert."
+          }
+        },
+        "metric": {
+          "target": "com.posthog.billing#BillingAlertConfigurationMetricEnum",
+          "traits": {
+            "smithy.api#documentation": "Billing-period total to evaluate: current spend so far, or projected period-end spend.\n\n* `spend` - Spend\n* `projected_spend` - Projected spend"
+          }
+        },
+        "currency": {
+          "target": "com.posthog.billing#CurrencyEnum",
+          "traits": {
+            "smithy.api#documentation": "Server-controlled currency for spend values.\n\n* `USD` - USD",
+            "smithy.api#required": {}
+          }
+        },
+        "configuration_revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Revision incremented whenever evaluation behavior changes.",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold_type": {
+          "target": "com.posthog.billing#BillingAlertConfigurationThresholdTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Threshold rule type. The first version supports absolute value only.\n\n* `relative_increase` - Relative increase\n* `absolute_value` - Absolute value\n* `absolute_increase` - Absolute increase"
+          }
+        },
+        "threshold_percentage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reserved for future increase-over-baseline rules. Not used by absolute value alerts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "threshold_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Absolute value or absolute increase that triggers absolute threshold alerts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minimum_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Minimum current value before the alert can fire."
+          }
+        },
+        "baseline_window_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Reserved for future increase-over-baseline rules. Not used by absolute value alerts."
+          }
+        },
+        "evaluation_delay_hours": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Hours after a UTC billing date ends before it becomes eligible for evaluation."
+          }
+        },
+        "state": {
+          "target": "com.posthog.billing#BillingAlertConfigurationStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Current lifecycle state of this alert.\n\n* `not_firing` - Not firing\n* `firing` - Firing\n* `errored` - Errored\n* `snoozed` - Snoozed\n* `broken` - Broken",
+            "smithy.api#required": {}
+          }
+        },
+        "cooldown_hours": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum hours between repeated firing notifications."
+          }
+        },
+        "snoozed_until": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp until which evaluation and notifications are snoozed, or null to resume.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "next_check_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the next scheduled evaluation is due.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_checked_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this alert was last evaluated.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_notified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When notifications were last delivered for this alert.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "consecutive_failures": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of consecutive failed evaluations.",
+            "smithy.api#required": {}
+          }
+        },
+        "destinations": {
+          "target": "com.posthog.billing#BillingAlertConfigurationOutputDestinationsList",
+          "traits": {
+            "smithy.api#documentation": "Notification destination groups configured for this alert, including their shared HogFunctions.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this alert was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this alert was last updated.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingAlertConfigurationMetricEnum": {
+      "type": "enum",
+      "members": {
+        "SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spend"
+          }
+        },
+        "PROJECTED_SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "projected_spend"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `spend` - Spend\n* `projected_spend` - Projected spend"
+      }
+    },
+    "com.posthog.billing#CurrencyEnum": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USD"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `USD` - USD"
+      }
+    },
+    "com.posthog.billing#BillingAlertConfigurationThresholdTypeEnum": {
+      "type": "enum",
+      "members": {
+        "RELATIVE_INCREASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "relative_increase"
+          }
+        },
+        "ABSOLUTE_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "absolute_value"
+          }
+        },
+        "ABSOLUTE_INCREASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "absolute_increase"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `relative_increase` - Relative increase\n* `absolute_value` - Absolute value\n* `absolute_increase` - Absolute increase"
+      }
+    },
+    "com.posthog.billing#BillingAlertConfigurationStateEnum": {
+      "type": "enum",
+      "members": {
+        "NOT_FIRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_firing"
+          }
+        },
+        "FIRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "firing"
+          }
+        },
+        "ERRORED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "errored"
+          }
+        },
+        "SNOOZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "snoozed"
+          }
+        },
+        "BROKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "broken"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `not_firing` - Not firing\n* `firing` - Firing\n* `errored` - Errored\n* `snoozed` - Snoozed\n* `broken` - Broken"
+      }
+    },
+    "com.posthog.billing#BillingAlertDestinationSummary": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.posthog.billing#NotificationDestinationTypeEnum",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hog_function_ids": {
+          "target": "com.posthog.billing#BillingAlertDestinationSummaryHogFunctionIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#NotificationDestinationTypeEnum": {
+      "type": "enum",
+      "members": {
+        "SLACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "slack"
+          }
+        },
+        "WEBHOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook"
+          }
+        },
+        "TEAMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "teams"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `slack` - slack\n* `webhook` - webhook\n* `teams` - teams"
+      }
+    },
+    "com.posthog.billing#BillingAlertDestinationSummaryHogFunctionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingAlertConfigurationOutputDestinationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.billing#BillingAlertDestinationSummary"
+      },
+      "traits": {
+        "smithy.api#documentation": "Notification destination groups configured for this alert, including their shared HogFunctions."
+      }
+    },
+    "com.posthog.billing#PaginatedBillingAlertConfigurationListOutputResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.billing#BillingAlertConfigurationOutput"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#ListBillingAlerts": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#ListBillingAlertsRequest"
+      },
+      "output": {
+        "target": "com.posthog.billing#PaginatedBillingAlertConfigurationListOutput"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/billing/alerts/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#BillingAlertDestinationChanges": {
+      "type": "structure",
+      "members": {
+        "delete": {
+          "target": "com.posthog.billing#BillingAlertDestinationChangesDeleteList"
+        },
+        "create": {
+          "target": "com.posthog.billing#BillingAlertDestinationChangesCreateList"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingAlertDestinationChangesDeleteItemList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingAlertDestinationChangesDeleteList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.billing#BillingAlertDestinationChangesDeleteItemList"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingAlertDestinationCreateData": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.posthog.billing#NotificationDestinationTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Destination type.\n\n* `slack` - slack\n* `webhook` - webhook\n* `teams` - teams",
+            "smithy.api#required": {}
+          }
+        },
+        "slack_workspace_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Slack integration ID in the alert execution project."
+          }
+        },
+        "slack_channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel ID for alert delivery."
+          }
+        },
+        "slack_channel_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional Slack channel name shown in the UI."
+          }
+        },
+        "webhook_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HTTPS webhook URL for webhook or Microsoft Teams delivery."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingAlertDestinationChangesCreateList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.billing#BillingAlertDestinationCreateData"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#CreateBillingAlertRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name for this billing alert.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional internal description."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether scheduled checks should evaluate this alert."
+          }
+        },
+        "metric": {
+          "target": "com.posthog.billing#BillingAlertConfigurationMetricEnum",
+          "traits": {
+            "smithy.api#documentation": "Billing-period total to evaluate: current spend so far, or projected period-end spend.\n\n* `spend` - Spend\n* `projected_spend` - Projected spend"
+          }
+        },
+        "threshold_type": {
+          "target": "com.posthog.billing#BillingAlertConfigurationThresholdTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Threshold rule type. The first version supports absolute value only.\n\n* `relative_increase` - Relative increase\n* `absolute_value` - Absolute value\n* `absolute_increase` - Absolute increase"
+          }
+        },
+        "threshold_percentage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reserved for future increase-over-baseline rules. Not used by absolute value alerts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "threshold_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Absolute value or absolute increase that triggers absolute threshold alerts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minimum_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Minimum current value before the alert can fire."
+          }
+        },
+        "baseline_window_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Reserved for future increase-over-baseline rules. Not used by absolute value alerts."
+          }
+        },
+        "evaluation_delay_hours": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Hours after a UTC billing date ends before it becomes eligible for evaluation."
+          }
+        },
+        "cooldown_hours": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum hours between repeated firing notifications."
+          }
+        },
+        "snoozed_until": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp until which evaluation and notifications are snoozed, or null to resume.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination_changes": {
+          "target": "com.posthog.billing#BillingAlertDestinationChanges",
+          "traits": {
+            "smithy.api#documentation": "Destination groups to create or delete in the same transaction as this configuration write."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#CreateBillingAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#CreateBillingAlertRequest"
+      },
+      "output": {
+        "target": "com.posthog.billing#BillingAlertConfigurationOutput"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/billing/alerts/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#GetBillingAlertRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this billing alert configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#GetBillingAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#GetBillingAlertRequest"
+      },
+      "output": {
+        "target": "com.posthog.billing#BillingAlertConfigurationOutput"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/billing/alerts/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#UpdateBillingAlertRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this billing alert configuration."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name for this billing alert.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional internal description."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether scheduled checks should evaluate this alert."
+          }
+        },
+        "metric": {
+          "target": "com.posthog.billing#BillingAlertConfigurationMetricEnum",
+          "traits": {
+            "smithy.api#documentation": "Billing-period total to evaluate: current spend so far, or projected period-end spend.\n\n* `spend` - Spend\n* `projected_spend` - Projected spend"
+          }
+        },
+        "threshold_type": {
+          "target": "com.posthog.billing#BillingAlertConfigurationThresholdTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Threshold rule type. The first version supports absolute value only.\n\n* `relative_increase` - Relative increase\n* `absolute_value` - Absolute value\n* `absolute_increase` - Absolute increase"
+          }
+        },
+        "threshold_percentage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reserved for future increase-over-baseline rules. Not used by absolute value alerts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "threshold_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Absolute value or absolute increase that triggers absolute threshold alerts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minimum_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Minimum current value before the alert can fire."
+          }
+        },
+        "baseline_window_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Reserved for future increase-over-baseline rules. Not used by absolute value alerts."
+          }
+        },
+        "evaluation_delay_hours": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Hours after a UTC billing date ends before it becomes eligible for evaluation."
+          }
+        },
+        "cooldown_hours": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum hours between repeated firing notifications."
+          }
+        },
+        "snoozed_until": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp until which evaluation and notifications are snoozed, or null to resume.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination_changes": {
+          "target": "com.posthog.billing#BillingAlertDestinationChanges",
+          "traits": {
+            "smithy.api#documentation": "Destination groups to create or delete in the same transaction as this configuration write."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#UpdateBillingAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#UpdateBillingAlertRequest"
+      },
+      "output": {
+        "target": "com.posthog.billing#BillingAlertConfigurationOutput"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/organizations/{organization_id}/billing/alerts/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#UpdateBillingAlertsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this billing alert configuration."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name for this billing alert."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional internal description."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether scheduled checks should evaluate this alert."
+          }
+        },
+        "metric": {
+          "target": "com.posthog.billing#BillingAlertConfigurationMetricEnum",
+          "traits": {
+            "smithy.api#documentation": "Billing-period total to evaluate: current spend so far, or projected period-end spend.\n\n* `spend` - Spend\n* `projected_spend` - Projected spend"
+          }
+        },
+        "threshold_type": {
+          "target": "com.posthog.billing#BillingAlertConfigurationThresholdTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Threshold rule type. The first version supports absolute value only.\n\n* `relative_increase` - Relative increase\n* `absolute_value` - Absolute value\n* `absolute_increase` - Absolute increase"
+          }
+        },
+        "threshold_percentage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reserved for future increase-over-baseline rules. Not used by absolute value alerts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "threshold_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Absolute value or absolute increase that triggers absolute threshold alerts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minimum_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Minimum current value before the alert can fire."
+          }
+        },
+        "baseline_window_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Reserved for future increase-over-baseline rules. Not used by absolute value alerts."
+          }
+        },
+        "evaluation_delay_hours": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Hours after a UTC billing date ends before it becomes eligible for evaluation."
+          }
+        },
+        "cooldown_hours": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum hours between repeated firing notifications."
+          }
+        },
+        "snoozed_until": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp until which evaluation and notifications are snoozed, or null to resume.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination_changes": {
+          "target": "com.posthog.billing#BillingAlertDestinationChanges",
+          "traits": {
+            "smithy.api#documentation": "Destination groups to create or delete in the same transaction as this configuration write."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#UpdateBillingAlertsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#UpdateBillingAlertsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.billing#BillingAlertConfigurationOutput"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/organizations/{organization_id}/billing/alerts/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#BillingAlertsDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this billing alert configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingAlertsDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#BillingAlertsDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/organizations/{organization_id}/billing/alerts/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.billing#CreateBillingAlertsCheckNowRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this billing alert configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingAlertCheckNowResponse": {
+      "type": "structure",
+      "members": {
+        "event": {
+          "target": "com.posthog.billing#BillingAlertEvent",
+          "traits": {
+            "smithy.api#documentation": "Evaluation event recorded by the manual check, or null for a paused preview.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dispatched_destinations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of destination HogFunctions queued.",
+            "smithy.api#required": {}
+          }
+        },
+        "preview": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the alert is paused: it was evaluated but no notifications were sent.",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold_breached": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the evaluated billing-period total breached the configured threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "current_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Evaluated billing-period total, or null when billing data was not available.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingAlertEvent": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for this billing alert event.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.posthog.billing#BillingAlertEventKindEnum",
+          "traits": {
+            "smithy.api#documentation": "Event kind for a check, state transition, or delivery-worthy alert event.\n\n* `check` - Check\n* `firing` - Firing\n* `resolved` - Resolved\n* `errored` - Errored\n* `broken_config` - Broken config",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.posthog.billing#BillingAlertEventSourceEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether this evaluation was scheduled or manually requested.\n\n* `scheduled` - Scheduled\n* `manual` - Manual",
+            "smithy.api#required": {}
+          }
+        },
+        "attempt_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Attempt number for this billing date and configuration revision.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this event was recorded.",
+            "smithy.api#required": {}
+          }
+        },
+        "evaluation_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing data date evaluated by this event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "configuration_revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Configuration revision used for this evaluation.",
+            "smithy.api#required": {}
+          }
+        },
+        "period_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the evaluated billing period.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "period_end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End of the evaluated billing period.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metric": {
+          "target": "com.posthog.billing#BillingAlertConfigurationMetricEnum",
+          "traits": {
+            "smithy.api#documentation": "Billing metric evaluated by this event.\n\n* `spend` - Spend\n* `projected_spend` - Projected spend",
+            "smithy.api#required": {}
+          }
+        },
+        "current_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Metric value for the evaluated billing date.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "baseline_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Average metric value across the baseline window.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "absolute_delta": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current value minus the baseline value.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "relative_delta_percentage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Percentage change against the baseline value.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "threshold_breached": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the evaluated value breached the configured threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "state_before": {
+          "target": "com.posthog.billing#BillingAlertConfigurationStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Alert state before this event was applied.\n\n* `not_firing` - Not firing\n* `firing` - Firing\n* `errored` - Errored\n* `snoozed` - Snoozed\n* `broken` - Broken",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state_after": {
+          "target": "com.posthog.billing#BillingAlertConfigurationStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Alert state after this event was applied.\n\n* `not_firing` - Not firing\n* `firing` - Firing\n* `errored` - Errored\n* `snoozed` - Snoozed\n* `broken` - Broken",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notification_sent_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When notifications for this event were delivered.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "targets_notified": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Notification targets recorded for this event.",
+            "smithy.api#required": {}
+          }
+        },
+        "query_duration_ms": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Milliseconds spent fetching billing data for this evaluation.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exception class name recorded when the evaluation failed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Failure description recorded when the evaluation failed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable explanation of the evaluation outcome.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingAlertEventKindEnum": {
+      "type": "enum",
+      "members": {
+        "CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "check"
+          }
+        },
+        "FIRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "firing"
+          }
+        },
+        "RESOLVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resolved"
+          }
+        },
+        "ERRORED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "errored"
+          }
+        },
+        "BROKEN_CONFIG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "broken_config"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `check` - Check\n* `firing` - Firing\n* `resolved` - Resolved\n* `errored` - Errored\n* `broken_config` - Broken config"
+      }
+    },
+    "com.posthog.billing#BillingAlertEventSourceEnum": {
+      "type": "enum",
+      "members": {
+        "SCHEDULED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scheduled"
+          }
+        },
+        "MANUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `scheduled` - Scheduled\n* `manual` - Manual"
+      }
+    },
+    "com.posthog.billing#CreateBillingAlertsCheckNow": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#CreateBillingAlertsCheckNowRequest"
+      },
+      "output": {
+        "target": "com.posthog.billing#BillingAlertCheckNowResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/billing/alerts/{id}/check_now/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Evaluate this billing alert immediately against real billing spend data. An enabled alert can send notifications when the evaluation records a dispatchable event. A paused alert is evaluated as a preview only: it reports the current spend and would-be outcome without sending notifications or recording an evaluation."
+      }
+    },
+    "com.posthog.billing#CreateBillingAlertsDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this billing alert configuration."
+          }
+        },
+        "type": {
+          "target": "com.posthog.billing#NotificationDestinationTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Destination type.\n\n* `slack` - slack\n* `webhook` - webhook\n* `teams` - teams",
+            "smithy.api#required": {}
+          }
+        },
+        "slack_workspace_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Slack integration ID in the alert execution project."
+          }
+        },
+        "slack_channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel ID for alert delivery."
+          }
+        },
+        "slack_channel_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional Slack channel name shown in the UI."
+          }
+        },
+        "webhook_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HTTPS webhook URL for webhook or Microsoft Teams delivery."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingAlertDestinationResponse": {
+      "type": "structure",
+      "members": {
+        "hog_function_ids": {
+          "target": "com.posthog.billing#BillingAlertDestinationResponseHogFunctionIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingAlertDestinationResponseHogFunctionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#CreateBillingAlertsDestination": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#CreateBillingAlertsDestinationRequest"
+      },
+      "output": {
+        "target": "com.posthog.billing#BillingAlertDestinationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/billing/alerts/{id}/destinations/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a notification destination for this alert. One HogFunction is created per alert event kind."
+      }
+    },
+    "com.posthog.billing#BillingAlertsDestinationsDeleteCreateRequestHogFunctionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "HogFunction IDs to delete as one atomic destination group."
+      }
+    },
+    "com.posthog.billing#BillingAlertsDestinationsDeleteCreateRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this billing alert configuration."
+          }
+        },
+        "hog_function_ids": {
+          "target": "com.posthog.billing#BillingAlertsDestinationsDeleteCreateRequestHogFunctionIdsList",
+          "traits": {
+            "smithy.api#documentation": "HogFunction IDs to delete as one atomic destination group.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingAlertsDestinationsDeleteCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#BillingAlertsDestinationsDeleteCreateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/billing/alerts/{id}/destinations/delete/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a notification destination by deleting its HogFunction group atomically."
+      }
+    },
+    "com.posthog.billing#ListBillingAlertsEventsRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this billing alert configuration."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#PaginatedBillingAlertEventList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.billing#PaginatedBillingAlertEventListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#PaginatedBillingAlertEventListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.billing#BillingAlertEvent"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#ListBillingAlertsEvents": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#ListBillingAlertsEventsRequest"
+      },
+      "output": {
+        "target": "com.posthog.billing#PaginatedBillingAlertEventList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/billing/alerts/{id}/events/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List evaluation and notification events for this billing alert, newest first."
+      }
+    },
+    "com.posthog.billing#Billing": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.billing#ListBilling"
+        },
+        {
+          "target": "com.posthog.billing#BillingActivateCreate"
+        },
+        {
+          "target": "com.posthog.billing#BillingActivateAuthorizeCreate"
+        },
+        {
+          "target": "com.posthog.billing#BillingActivateAuthorizeStatusCreate"
+        },
+        {
+          "target": "com.posthog.billing#CreateBillingCouponsClaim"
+        },
+        {
+          "target": "com.posthog.billing#GetBillingCouponsOverview"
+        },
+        {
+          "target": "com.posthog.billing#GetBillingCreditsOverview"
+        },
+        {
+          "target": "com.posthog.billing#CreateBillingCreditsPurchase"
+        },
+        {
+          "target": "com.posthog.billing#BillingDeactivateCreate"
+        },
+        {
+          "target": "com.posthog.billing#BillingGetInvoicesRetrieve"
+        },
+        {
+          "target": "com.posthog.billing#UpdateBillingLicensePartial"
+        },
+        {
+          "target": "com.posthog.billing#GetBillingPeriod"
+        },
+        {
+          "target": "com.posthog.billing#GetBillingPortal"
+        },
+        {
+          "target": "com.posthog.billing#GetBillingSpend"
+        },
+        {
+          "target": "com.posthog.billing#BillingStartupsApplyCreate"
+        },
+        {
+          "target": "com.posthog.billing#CreateBillingSubscriptionSwitchPlan"
+        },
+        {
+          "target": "com.posthog.billing#BillingTrialsActivateCreate"
+        },
+        {
+          "target": "com.posthog.billing#BillingTrialsCancelCreate"
+        },
+        {
+          "target": "com.posthog.billing#GetBillingUsage"
+        },
+        {
+          "target": "com.posthog.billing#ListBillingAlerts"
+        },
+        {
+          "target": "com.posthog.billing#CreateBillingAlert"
+        },
+        {
+          "target": "com.posthog.billing#GetBillingAlert"
+        },
+        {
+          "target": "com.posthog.billing#UpdateBillingAlert"
+        },
+        {
+          "target": "com.posthog.billing#UpdateBillingAlertsPartial"
+        },
+        {
+          "target": "com.posthog.billing#BillingAlertsDestroy"
+        },
+        {
+          "target": "com.posthog.billing#CreateBillingAlertsCheckNow"
+        },
+        {
+          "target": "com.posthog.billing#CreateBillingAlertsDestination"
+        },
+        {
+          "target": "com.posthog.billing#BillingAlertsDestinationsDeleteCreate"
+        },
+        {
+          "target": "com.posthog.billing#ListBillingAlertsEvents"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

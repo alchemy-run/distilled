@@ -28,8 +28,8 @@ export class Credentials extends Context.Service<
 >()("EasCredentials") {}
 
 const envConfig = EffectConfig.all({
-  accessToken: EffectConfig.string("EXPO_TOKEN"),
-  apiBaseUrl: EffectConfig.string("EXPO_API_URL").pipe(
+  accessToken: EffectConfig.String("EXPO_TOKEN"),
+  apiBaseUrl: EffectConfig.String("EXPO_API_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
 });

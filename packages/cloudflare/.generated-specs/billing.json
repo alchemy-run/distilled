@@ -14,10 +14,210 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "keyDictionary": {
+      "accountType": "account_type",
+      "billedCost": "BilledCost",
+      "billingAccountId": "BillingAccountId",
+      "billingAccountName": "BillingAccountName",
+      "billingCurrency": "BillingCurrency",
+      "billingPeriodEnd": "BillingPeriodEnd",
+      "billingPeriodStart": "BillingPeriodStart",
+      "cardExpiryMonth": "card_expiry_month",
+      "cardExpiryYear": "card_expiry_year",
+      "cardNumber": "card_number",
+      "chargeCategory": "ChargeCategory",
+      "chargeClass": "ChargeClass",
+      "chargeDescription": "ChargeDescription",
+      "chargeFrequency": "ChargeFrequency",
+      "chargePeriodEnd": "ChargePeriodEnd",
+      "chargePeriodStart": "ChargePeriodStart",
+      "consumedQuantity": "ConsumedQuantity",
+      "consumedUnit": "ConsumedUnit",
+      "contractedCost": "ContractedCost",
+      "contractedUnitPrice": "ContractedUnitPrice",
+      "createdOn": "created_on",
+      "cumulatedContractedCost": "CumulatedContractedCost",
+      "cumulatedPricingQuantity": "CumulatedPricingQuantity",
+      "deviceData": "device_data",
+      "editedOn": "edited_on",
+      "effectiveCost": "EffectiveCost",
+      "enterpriseBillingEmail": "enterprise_billing_email",
+      "enterprisePrimaryEmail": "enterprise_primary_email",
+      "firstName": "first_name",
+      "hostProviderName": "HostProviderName",
+      "invoiceIssuerName": "InvoiceIssuerName",
+      "isPartner": "is_partner",
+      "lastName": "last_name",
+      "listCost": "ListCost",
+      "listUnitPrice": "ListUnitPrice",
+      "nextBillDate": "next_bill_date",
+      "paymentAddress": "payment_address",
+      "paymentAddress2": "payment_address2",
+      "paymentCity": "payment_city",
+      "paymentCountry": "payment_country",
+      "paymentEmail": "payment_email",
+      "paymentFirstName": "payment_first_name",
+      "paymentGateway": "payment_gateway",
+      "paymentLastName": "payment_last_name",
+      "paymentNonce": "payment_nonce",
+      "paymentState": "payment_state",
+      "paymentZipcode": "payment_zipcode",
+      "pricingQuantity": "PricingQuantity",
+      "pricingUnit": "PricingUnit",
+      "primaryEmail": "primary_email",
+      "regionId": "RegionId",
+      "regionName": "RegionName",
+      "serviceFamilyName": "ServiceFamilyName",
+      "serviceName": "ServiceName",
+      "serviceProviderName": "ServiceProviderName",
+      "subAccountId": "SubAccountId",
+      "subAccountName": "SubAccountName",
+      "subscriptionId": "SubscriptionId",
+      "taxIdType": "tax_id_type",
+      "useLegacy": "use_legacy",
+      "validationCode": "validation_code",
+      "xBillableMetricId": "x_BillableMetricId",
+      "xBillableMetricName": "x_BillableMetricName",
+      "xProductFamilyName": "x_ProductFamilyName",
+      "xZoneId": "x_ZoneId",
+      "xZoneName": "x_ZoneName",
+      "zoneId": "ZoneId",
+      "zoneName": "ZoneName"
+    },
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.cloudflare.billing#ProfilesGetRequest": {
+    "com.cloudflare.billing#AddressValidationRequest": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Address line 1."
+          }
+        },
+        "address2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Address line 2."
+          }
+        },
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "City."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Country code."
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State or province."
+          }
+        },
+        "zipcode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or zip code."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#AddressValidationResponseValidatedAddressesItem": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Validated address line 1."
+          }
+        },
+        "address2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Validated address line 2."
+          }
+        },
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Validated city."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Validated country code."
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Validated state or province."
+          }
+        },
+        "validation_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The validation result code."
+          }
+        },
+        "zipcode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Validated postal or zip code."
+          }
+        }
+      }
+    },
+    "com.cloudflare.billing#AddressValidationResponseValidatedAddressesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.billing#AddressValidationResponseValidatedAddressesItem"
+      }
+    },
+    "com.cloudflare.billing#AddressValidationResponse": {
+      "type": "structure",
+      "members": {
+        "validated_addresses": {
+          "target": "com.cloudflare.billing#AddressValidationResponseValidatedAddressesList",
+          "traits": {
+            "smithy.api#documentation": "List of validated address suggestions."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.billing#AddressValidation": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#AddressValidationRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#AddressValidationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/billing/address-validation",
+          "code": 200
+        },
+        "smithy.api#documentation": "Validates a billing address and returns validated address suggestions. Authentication is not enforced to support pre-signup address validation flows, so credentials are accepted but not required."
+      }
+    },
+    "com.cloudflare.billing#GetBadDebtRequest": {
       "type": "structure",
       "members": {
         "account_id": {
@@ -33,7 +233,563 @@
         "smithy.api#input": {}
       }
     },
-    "com.cloudflare.billing#ProfilesGetResponse": {
+    "com.cloudflare.billing#GetBadDebtResponseInvoicesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing history item identifier."
+          }
+        },
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The billing item action."
+          }
+        },
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount associated with this billing item."
+          }
+        },
+        "amount_to_pay": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount remaining to pay."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The currency of the billing item."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The billing item description."
+          }
+        },
+        "external_invoice_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external invoice identifier."
+          }
+        },
+        "hosted_invoice_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to the hosted invoice."
+          }
+        },
+        "invoice_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The associated invoice identifier."
+          }
+        },
+        "occurred_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the billing event occurred."
+          }
+        },
+        "receipt_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The associated receipt identifier."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source of the billing item."
+          }
+        },
+        "source_invoice_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source invoice identifier."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The status of the billing item."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The billing item type."
+          }
+        }
+      }
+    },
+    "com.cloudflare.billing#GetBadDebtResponseInvoicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.billing#GetBadDebtResponseInvoicesItem"
+      }
+    },
+    "com.cloudflare.billing#GetBadDebtResponse": {
+      "type": "structure",
+      "members": {
+        "already_paid": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Amount already paid towards the debt."
+          }
+        },
+        "bad_debt_status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current bad debt status of the account."
+          }
+        },
+        "invoices": {
+          "target": "com.cloudflare.billing#GetBadDebtResponseInvoicesList",
+          "traits": {
+            "smithy.api#documentation": "List of outstanding invoices contributing to bad debt."
+          }
+        },
+        "total_debt_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total outstanding debt amount."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.billing#GetBadDebt": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#GetBadDebtRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#GetBadDebtResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/billing/bad-debt",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets bad debt information for an account, including outstanding invoices and total debt amount.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.billing#GetCreditRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#GetCreditResponse": {
+      "type": "structure",
+      "members": {
+        "confirmed_balance_cents": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The confirmed credit balance in cents."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency of the credit balance."
+          }
+        },
+        "days_remaining": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Days remaining until the credits expire."
+          }
+        },
+        "eligible": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the account is eligible to receive credits."
+          }
+        },
+        "has_record": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a credit record exists for the account."
+          }
+        },
+        "original_amount_cents": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The original credit amount in cents."
+          }
+        },
+        "percent_consumed": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Percentage of the original credit amount consumed."
+          }
+        },
+        "projected_depletion_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Projected date when the credits will be depleted."
+          }
+        },
+        "valid_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the credits become valid."
+          }
+        },
+        "valid_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the credits expire."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.billing#GetCredit": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#GetCreditRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#GetCreditResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/billing/credits",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets the credit balance and eligibility for an account.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.billing#ListHistoryRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Page number of paginated results.",
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of items per page.",
+            "smithy.api#httpQuery": "per_page"
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter billing history by status.",
+            "smithy.api#httpQuery": "status"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#ListHistoryResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing history item identifier."
+          }
+        },
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The billing item action."
+          }
+        },
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount associated with this billing item."
+          }
+        },
+        "amount_to_pay": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount remaining to pay."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The currency of the billing item."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The billing item description."
+          }
+        },
+        "external_invoice_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external invoice identifier."
+          }
+        },
+        "hosted_invoice_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to the hosted invoice."
+          }
+        },
+        "invoice_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The associated invoice identifier."
+          }
+        },
+        "occurred_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the billing event occurred."
+          }
+        },
+        "receipt_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The associated receipt identifier."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source of the billing item."
+          }
+        },
+        "source_invoice_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source invoice identifier."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The status of the billing item."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The billing item type."
+          }
+        }
+      }
+    },
+    "com.cloudflare.billing#ListHistoryResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.billing#ListHistoryResultItem"
+      }
+    },
+    "com.cloudflare.billing#ListHistoryResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.billing#ListHistoryResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.billing#ListHistory": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#ListHistoryRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#ListHistoryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/billing/history",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets the billing history for an account.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.billing#CreateProfileRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 1."
+          }
+        },
+        "address2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 2 (apt, suite, etc.)."
+          }
+        },
+        "billing_email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Primary billing email address."
+          }
+        },
+        "buying_rate_plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Rate plan being purchased right after profile setup."
+          }
+        },
+        "captcha_challenge_jwt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Captcha challenge JWT issued during onboarding."
+          }
+        },
+        "cf_turnstile_response": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare Turnstile response."
+          }
+        },
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "City on the billing profile."
+          }
+        },
+        "company": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Company name on the billing profile."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 3166-1 alpha-2 country code."
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First name on the billing profile."
+          }
+        },
+        "h_captcha_response": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "hCaptcha response."
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last name on the billing profile."
+          }
+        },
+        "preferred_locale": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Preferred locale for invoice rendering (BCP 47)."
+          }
+        },
+        "secondary_billing_email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secondary billing email address for CC on invoices."
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State or region on the billing profile."
+          }
+        },
+        "tax_id_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of tax ID provided."
+          }
+        },
+        "telephone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Contact phone number."
+          }
+        },
+        "vat": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "VAT identifier."
+          }
+        },
+        "zipcode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ZIP or postal code."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#CreateProfileResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -144,8 +900,312 @@
         "telephone": {
           "target": "smithy.api#String"
         },
-        "use_legacy": {
+        "validation_code": {
+          "target": "smithy.api#String"
+        },
+        "vat": {
+          "target": "smithy.api#String"
+        },
+        "zipcode": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.billing#CreateProfile": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#CreateProfileRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#CreateProfileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/billing/profile",
+          "code": 200
+        },
+        "smithy.api#documentation": "Creates a billing profile for an account."
+      }
+    },
+    "com.cloudflare.billing#DeleteProfileRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#DeleteProfile": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#DeleteProfileRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/billing/profile",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deletes the billing profile for an account.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.billing#UpdateProfileRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 1."
+          }
+        },
+        "address2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 2 (apt, suite, etc.)."
+          }
+        },
+        "billing_email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Primary billing email address."
+          }
+        },
+        "buying_rate_plan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Rate plan being purchased right after profile setup."
+          }
+        },
+        "captcha_challenge_jwt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Captcha challenge JWT issued during onboarding."
+          }
+        },
+        "cf_turnstile_response": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare Turnstile response."
+          }
+        },
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "City on the billing profile."
+          }
+        },
+        "company": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Company name on the billing profile."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 3166-1 alpha-2 country code."
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First name on the billing profile."
+          }
+        },
+        "h_captcha_response": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "hCaptcha response."
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last name on the billing profile."
+          }
+        },
+        "preferred_locale": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Preferred locale for invoice rendering (BCP 47)."
+          }
+        },
+        "secondary_billing_email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secondary billing email address for CC on invoices."
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State or region on the billing profile."
+          }
+        },
+        "tax_id_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of tax ID provided."
+          }
+        },
+        "telephone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Contact phone number."
+          }
+        },
+        "vat": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "VAT identifier."
+          }
+        },
+        "zipcode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ZIP or postal code."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#UpdateProfileResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing item identifier tag."
+          }
+        },
+        "account_type": {
+          "target": "smithy.api#String"
+        },
+        "address": {
+          "target": "smithy.api#String"
+        },
+        "address2": {
+          "target": "smithy.api#String"
+        },
+        "balance": {
+          "target": "smithy.api#String"
+        },
+        "card_expiry_month": {
+          "target": "smithy.api#Double"
+        },
+        "card_expiry_year": {
+          "target": "smithy.api#Double"
+        },
+        "card_number": {
+          "target": "smithy.api#String"
+        },
+        "city": {
+          "target": "smithy.api#String"
+        },
+        "company": {
+          "target": "smithy.api#String"
+        },
+        "country": {
+          "target": "smithy.api#String"
+        },
+        "created_on": {
+          "target": "smithy.api#String"
+        },
+        "device_data": {
+          "target": "smithy.api#String"
+        },
+        "edited_on": {
+          "target": "smithy.api#String"
+        },
+        "enterprise_billing_email": {
+          "target": "smithy.api#String"
+        },
+        "enterprise_primary_email": {
+          "target": "smithy.api#String"
+        },
+        "first_name": {
+          "target": "smithy.api#String"
+        },
+        "is_partner": {
           "target": "smithy.api#Boolean"
+        },
+        "last_name": {
+          "target": "smithy.api#String"
+        },
+        "next_bill_date": {
+          "target": "smithy.api#String"
+        },
+        "payment_address": {
+          "target": "smithy.api#String"
+        },
+        "payment_address2": {
+          "target": "smithy.api#String"
+        },
+        "payment_city": {
+          "target": "smithy.api#String"
+        },
+        "payment_country": {
+          "target": "smithy.api#String"
+        },
+        "payment_email": {
+          "target": "smithy.api#String"
+        },
+        "payment_first_name": {
+          "target": "smithy.api#String"
+        },
+        "payment_gateway": {
+          "target": "smithy.api#String"
+        },
+        "payment_last_name": {
+          "target": "smithy.api#String"
+        },
+        "payment_nonce": {
+          "target": "smithy.api#String"
+        },
+        "payment_state": {
+          "target": "smithy.api#String"
+        },
+        "payment_zipcode": {
+          "target": "smithy.api#String"
+        },
+        "primary_email": {
+          "target": "smithy.api#String"
+        },
+        "state": {
+          "target": "smithy.api#String"
+        },
+        "tax_id_type": {
+          "target": "smithy.api#String"
+        },
+        "telephone": {
+          "target": "smithy.api#String"
         },
         "validation_code": {
           "target": "smithy.api#String"
@@ -162,59 +1222,475 @@
         "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
       }
     },
-    "com.cloudflare.billing#ProfilesGet": {
+    "com.cloudflare.billing#UpdateProfile": {
       "type": "operation",
       "input": {
-        "target": "com.cloudflare.billing#ProfilesGetRequest"
+        "target": "com.cloudflare.billing#UpdateProfileRequest"
       },
       "output": {
-        "target": "com.cloudflare.billing#ProfilesGetResponse"
+        "target": "com.cloudflare.billing#UpdateProfileResponse"
       },
       "traits": {
         "smithy.api#http": {
-          "method": "GET",
+          "method": "PUT",
           "uri": "/accounts/{account_id}/billing/profile",
           "code": 200
         },
-        "smithy.api#documentation": "Gets the current billing profile for the account.",
-        "smithy.api#readonly": {}
+        "smithy.api#documentation": "Updates the billing profile for an account.",
+        "smithy.api#idempotent": {}
       }
     },
-    "com.cloudflare.billing#UsageGetRequest": {
+    "com.cloudflare.billing#ProfilesUpdateBillingEmailRequest": {
       "type": "structure",
       "members": {
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Represents a Cloudflare resource identifier tag.",
+            "smithy.api#documentation": "Identifier",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         },
-        "from": {
+        "billing_email": {
+          "target": "smithy.api#String"
+        },
+        "preferred_locale": {
+          "target": "smithy.api#String"
+        },
+        "secondary_billing_email": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#ProfilesUpdateBillingEmailResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Start date for the usage query (ISO 8601). Required if `to` is set. When omitted along with `to`, defaults to the start of the current month. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days.",
-            "smithy.api#httpQuery": "from"
+            "smithy.api#documentation": "Billing item identifier tag."
           }
         },
-        "metric": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Filter results by billable metric id (e.g., workers_standard_requests).",
-            "smithy.api#httpQuery": "metric"
-          }
+        "account_type": {
+          "target": "smithy.api#String"
         },
-        "to": {
+        "address": {
+          "target": "smithy.api#String"
+        },
+        "address2": {
+          "target": "smithy.api#String"
+        },
+        "balance": {
+          "target": "smithy.api#String"
+        },
+        "card_expiry_month": {
+          "target": "smithy.api#Double"
+        },
+        "card_expiry_year": {
+          "target": "smithy.api#Double"
+        },
+        "card_number": {
+          "target": "smithy.api#String"
+        },
+        "city": {
+          "target": "smithy.api#String"
+        },
+        "company": {
+          "target": "smithy.api#String"
+        },
+        "country": {
+          "target": "smithy.api#String"
+        },
+        "created_on": {
+          "target": "smithy.api#String"
+        },
+        "device_data": {
+          "target": "smithy.api#String"
+        },
+        "edited_on": {
+          "target": "smithy.api#String"
+        },
+        "enterprise_billing_email": {
+          "target": "smithy.api#String"
+        },
+        "enterprise_primary_email": {
+          "target": "smithy.api#String"
+        },
+        "first_name": {
+          "target": "smithy.api#String"
+        },
+        "is_partner": {
+          "target": "smithy.api#Boolean"
+        },
+        "last_name": {
+          "target": "smithy.api#String"
+        },
+        "next_bill_date": {
+          "target": "smithy.api#String"
+        },
+        "payment_address": {
+          "target": "smithy.api#String"
+        },
+        "payment_address2": {
+          "target": "smithy.api#String"
+        },
+        "payment_city": {
+          "target": "smithy.api#String"
+        },
+        "payment_country": {
+          "target": "smithy.api#String"
+        },
+        "payment_email": {
+          "target": "smithy.api#String"
+        },
+        "payment_first_name": {
+          "target": "smithy.api#String"
+        },
+        "payment_gateway": {
+          "target": "smithy.api#String"
+        },
+        "payment_last_name": {
+          "target": "smithy.api#String"
+        },
+        "payment_nonce": {
+          "target": "smithy.api#String"
+        },
+        "payment_state": {
+          "target": "smithy.api#String"
+        },
+        "payment_zipcode": {
+          "target": "smithy.api#String"
+        },
+        "primary_email": {
+          "target": "smithy.api#String"
+        },
+        "state": {
+          "target": "smithy.api#String"
+        },
+        "tax_id_type": {
+          "target": "smithy.api#String"
+        },
+        "telephone": {
+          "target": "smithy.api#String"
+        },
+        "validation_code": {
+          "target": "smithy.api#String"
+        },
+        "vat": {
+          "target": "smithy.api#String"
+        },
+        "zipcode": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.billing#ProfilesUpdateBillingEmail": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#ProfilesUpdateBillingEmailRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#ProfilesUpdateBillingEmailResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/accounts/{account_id}/billing/profile",
+          "code": 200
+        },
+        "smithy.api#documentation": "Updates the billing email addresses and preferred locale for an account."
+      }
+    },
+    "com.cloudflare.billing#CreateProfilesPaymentMethodRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "End date for the usage query (ISO 8601). Required if `from` is set. When omitted along with `from`, defaults to today. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days.",
-            "smithy.api#httpQuery": "to"
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         }
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#CreateProfilesPaymentMethodResponse": {
+      "type": "structure",
+      "members": {
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Stripe client secret for frontend payment method collection."
+          }
+        },
+        "intent_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of Stripe intent created."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.billing#CreateProfilesPaymentMethod": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#CreateProfilesPaymentMethodRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#CreateProfilesPaymentMethodResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/billing/profile/payment-method",
+          "code": 200
+        },
+        "smithy.api#documentation": "Creates a Stripe payment intent for adding or updating a payment method on the account's billing profile. Returns a client secret for frontend payment method collection."
+      }
+    },
+    "com.cloudflare.billing#GetRatePlanRequest": {
+      "type": "structure",
+      "members": {
+        "public_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#GetRatePlanResponseComponentsItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.billing#GetRatePlanResponseComponentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.billing#GetRatePlanResponseComponentsItemMap"
+      }
+    },
+    "com.cloudflare.billing#GetRatePlanResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The uppercase rate plan public key."
+          }
+        },
+        "components": {
+          "target": "com.cloudflare.billing#GetRatePlanResponseComponentsList",
+          "traits": {
+            "smithy.api#documentation": "Pricing components that make up this rate plan."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency of the rate plan pricing."
+          }
+        },
+        "public_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable description of the rate plan."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.billing#GetRatePlan": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#GetRatePlanRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#GetRatePlanResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/rate_plans/{public_key}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets a rate plan's details by its public key (e.g., 'teams_free', 'cf_pro_20_20'). This is a public catalog endpoint, so authentication is not enforced and credentials are accepted but not required.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.billing#GetUnpaidInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#GetUnpaidInvoiceResponseInvoicesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing history item identifier."
+          }
+        },
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The billing item action."
+          }
+        },
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount associated with this billing item."
+          }
+        },
+        "amount_to_pay": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount remaining to pay."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The currency of the billing item."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The billing item description."
+          }
+        },
+        "external_invoice_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external invoice identifier."
+          }
+        },
+        "hosted_invoice_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to the hosted invoice."
+          }
+        },
+        "invoice_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The associated invoice identifier."
+          }
+        },
+        "occurred_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the billing event occurred."
+          }
+        },
+        "receipt_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The associated receipt identifier."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source of the billing item."
+          }
+        },
+        "source_invoice_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source invoice identifier."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The status of the billing item."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The billing item type."
+          }
+        }
+      }
+    },
+    "com.cloudflare.billing#GetUnpaidInvoiceResponseInvoicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.billing#GetUnpaidInvoiceResponseInvoicesItem"
+      }
+    },
+    "com.cloudflare.billing#GetUnpaidInvoiceResponse": {
+      "type": "structure",
+      "members": {
+        "invoices": {
+          "target": "com.cloudflare.billing#GetUnpaidInvoiceResponseInvoicesList",
+          "traits": {
+            "smithy.api#documentation": "List of unpaid invoices."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.billing#GetUnpaidInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#GetUnpaidInvoiceRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#GetUnpaidInvoiceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/billing/unpaid-invoice",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets unpaid invoice information for an account.",
+        "smithy.api#readonly": {}
       }
     },
     "com.cloudflare.billing#UsageGetResultItemChargeCategory": {
@@ -247,6 +1723,17 @@
           "traits": {
             "smithy.api#enumValue": "Correction"
           }
+        }
+      }
+    },
+    "com.cloudflare.billing#UsageGetResultItemTags": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
         }
       }
     },
@@ -334,6 +1821,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Name of the entity that made the services available for purchase.",
+            "smithy.api#required": {}
+          }
+        },
+        "x_BillableMetricId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId.",
             "smithy.api#required": {}
           }
         },
@@ -440,10 +1934,22 @@
             "smithy.api#documentation": "Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name."
           }
         },
-        "x_BillableMetricId": {
+        "Tags": {
+          "target": "com.cloudflare.billing#UsageGetResultItemTags",
+          "traits": {
+            "smithy.api#documentation": "Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings."
+          }
+        },
+        "x_ProductCategoryName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId."
+            "smithy.api#documentation": "The product category the charge belongs to (e.g., \"Developer\", \"Cloudflare One\"). Cloudflare extension; replaces FOCUS ServiceCategory."
+          }
+        },
+        "x_ProductFamilyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product family in the Cloudflare catalog. Cloudflare extension; replaces FOCUS ServiceId."
           }
         },
         "x_ProductFamilyName": {
@@ -472,40 +1978,102 @@
         "target": "com.cloudflare.billing#UsageGetResultItem"
       }
     },
-    "com.cloudflare.billing#UsageGetResponse": {
+    "com.cloudflare.billing#UsageGetAccountUsageInfoV1Request": {
       "type": "structure",
       "members": {
-        "result": {
-          "target": "com.cloudflare.billing#UsageGetResultList",
+        "account_id": {
+          "target": "smithy.api#String",
           "traits": {
-            "com.cloudflare.protocols#envelopePayload": {},
-            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+            "smithy.api#documentation": "Represents a Cloudflare resource identifier tag.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         }
       },
       "traits": {
-        "smithy.api#output": {}
+        "smithy.api#input": {}
       }
     },
-    "com.cloudflare.billing#UsageGet": {
+    "com.cloudflare.billing#UsageGetAccountUsageInfoV1ResponseSubscriptionsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the Cloudflare subscription.",
+            "smithy.api#required": {}
+          }
+        },
+        "billing_cycle_anchor_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subscription billing cycle anchor timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "start_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subscription start timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "end_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subscription end timestamp. Omitted for active subscriptions; present only when the subscription has been cancelled."
+          }
+        }
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageInfoV1ResponseSubscriptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.billing#UsageGetAccountUsageInfoV1ResponseSubscriptionsItem"
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageInfoV1Response": {
+      "type": "structure",
+      "members": {
+        "covered": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the account is covered.",
+            "smithy.api#required": {}
+          }
+        },
+        "subscriptions": {
+          "target": "com.cloudflare.billing#UsageGetAccountUsageInfoV1ResponseSubscriptionsList",
+          "traits": {
+            "smithy.api#documentation": "List of subscriptions for the account.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageInfoV1": {
       "type": "operation",
       "input": {
-        "target": "com.cloudflare.billing#UsageGetRequest"
+        "target": "com.cloudflare.billing#UsageGetAccountUsageInfoV1Request"
       },
       "output": {
-        "target": "com.cloudflare.billing#UsageGetResponse"
+        "target": "com.cloudflare.billing#UsageGetAccountUsageInfoV1Response"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "/accounts/{account_id}/billable/usage",
+          "uri": "/accounts/{account_id}/billable-usage/info",
           "code": 200
         },
-        "smithy.api#documentation": "Returns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are not yet populated and will be absent from responses until billing integration is complete. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days.",
+        "smithy.api#documentation": "Returns high-level usage information for the account, including coverage, and subscription metadata.",
         "smithy.api#readonly": {}
       }
     },
-    "com.cloudflare.billing#UsagePaygoRequest": {
+    "com.cloudflare.billing#UsageGetAccountUsageV1Request": {
       "type": "structure",
       "members": {
         "account_id": {
@@ -519,7 +2087,7 @@
         "from": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Start date for the usage query (ISO 8601).",
+            "smithy.api#documentation": "Start date for the usage query (ISO 8601). The provided time range must include the subscription billing cycle anchor day, otherwise no usage data is returned. Use the info endpoint to retrieve the subscription anchor day.",
             "smithy.api#httpQuery": "from"
           }
         },
@@ -535,9 +2103,41 @@
         "smithy.api#input": {}
       }
     },
-    "com.cloudflare.billing#UsagePaygoResultItem": {
+    "com.cloudflare.billing#UsageGetAccountUsageV1ResultItemChargeCategory": {
+      "type": "enum",
+      "members": {
+        "USAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Usage"
+          }
+        }
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV1ResultItem": {
       "type": "structure",
       "members": {
+        "BilledCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount invoiced for this charge. PayGo is billed directly by Cloudflare, so this equals ContractedCost.",
+            "smithy.api#required": {}
+          }
+        },
+        "BillingAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of the account the charge is billed to (account tag).",
+            "smithy.api#required": {}
+          }
+        },
+        "BillingAccountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the billing account. Null when the name could not be resolved.",
+            "smithy.api#required": {}
+          }
+        },
         "BillingCurrency": {
           "target": "smithy.api#String",
           "traits": {
@@ -548,7 +2148,28 @@
         "BillingPeriodStart": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Indicates the start of the billing period.",
+            "smithy.api#documentation": "Indicates the start of the billing period. There is no `BillingPeriodEnd` counterpart; see the known gaps described on this schema.",
+            "smithy.api#required": {}
+          }
+        },
+        "ChargeCategory": {
+          "target": "com.cloudflare.billing#UsageGetAccountUsageV1ResultItemChargeCategory",
+          "traits": {
+            "smithy.api#documentation": "Describes the nature of the charge. Always \"Usage\" for this endpoint, which only returns metered usage.",
+            "smithy.api#required": {}
+          }
+        },
+        "ChargeClass": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the row corrects a previously invoiced billing period. Always null for this endpoint, which does not return corrections.",
+            "smithy.api#required": {}
+          }
+        },
+        "ChargeDescription": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable summary of the charge.",
             "smithy.api#required": {}
           }
         },
@@ -597,7 +2218,35 @@
         "CumulatedPricingQuantity": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Specifies the cumulated pricing quantity for the billing period.",
+            "smithy.api#documentation": "Specifies the portion of usage that is actually subject to a unit price.",
+            "smithy.api#required": {}
+          }
+        },
+        "EffectiveCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amortized cost of the charge. PayGo has no upfront commitments, so this equals ContractedCost.",
+            "smithy.api#required": {}
+          }
+        },
+        "HostProviderName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider that hosts the infrastructure or platform the service runs on.",
+            "smithy.api#required": {}
+          }
+        },
+        "InvoiceIssuerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The entity that issues the invoice for this charge.",
+            "smithy.api#required": {}
+          }
+        },
+        "ListCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The cost at published list prices, before any discount. PayGo has no commitment discounts, so this equals ContractedCost.",
             "smithy.api#required": {}
           }
         },
@@ -608,10 +2257,612 @@
             "smithy.api#required": {}
           }
         },
+        "PricingUnit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unit that PricingQuantity is expressed in. Unlike ConsumedUnit this is never empty; it falls back to \"Count\" when the service has no explicit unit.",
+            "smithy.api#required": {}
+          }
+        },
         "ServiceName": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Identifies the Cloudflare service.",
+            "smithy.api#required": {}
+          }
+        },
+        "ServiceProviderName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider of the purchased service.",
+            "smithy.api#required": {}
+          }
+        },
+        "ServiceFamilyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies the product family for the Cloudflare service."
+          }
+        },
+        "SubscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the Cloudflare subscription."
+          }
+        },
+        "ZoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the Cloudflare zone (zone tag)."
+          }
+        },
+        "ZoneName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the Cloudflare zone."
+          }
+        }
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV1ResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.billing#UsageGetAccountUsageV1ResultItem"
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV1Response": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.billing#UsageGetAccountUsageV1ResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV1": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#UsageGetAccountUsageV1Request"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#UsageGetAccountUsageV1Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/billable-usage",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns billable usage data for the account. When no query parameters are provided, returns usage for the current billing period.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV2Request": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a Cloudflare resource identifier tag.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start date for the usage query (ISO 8601). Required if `to` is set. When omitted along with `to`, defaults to the start of the current month. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days.",
+            "smithy.api#httpQuery": "from"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End date for the usage query (ISO 8601). Required if `from` is set. When omitted along with `from`, defaults to today. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days.",
+            "smithy.api#httpQuery": "to"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemChargeCategory": {
+      "type": "enum",
+      "members": {
+        "USAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Usage"
+          }
+        }
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemChargeFrequency": {
+      "type": "enum",
+      "members": {
+        "USAGE_BASED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Usage-Based"
+          }
+        }
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemChargeClass": {
+      "type": "enum",
+      "members": {
+        "CORRECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Correction"
+          }
+        }
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTags": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV2ResultItem": {
+      "type": "structure",
+      "members": {
+        "BillingAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public identifier of the Cloudflare account (account tag).",
+            "smithy.api#required": {}
+          }
+        },
+        "BillingAccountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the Cloudflare account.",
+            "smithy.api#required": {}
+          }
+        },
+        "ChargeCategory": {
+          "target": "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemChargeCategory",
+          "traits": {
+            "smithy.api#documentation": "Highest-level classification of a charge based on the nature of how it gets billed. Currently only \"Usage\" is supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "ChargeDescription": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Self-contained summary of the charge's purpose and price.",
+            "smithy.api#required": {}
+          }
+        },
+        "ChargeFrequency": {
+          "target": "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemChargeFrequency",
+          "traits": {
+            "smithy.api#documentation": "Indicates how often a charge occurs. Currently only \"Usage-Based\" is supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "ChargePeriodEnd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exclusive end of the time interval during which the usage was consumed.",
+            "smithy.api#required": {}
+          }
+        },
+        "ChargePeriodStart": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inclusive start of the time interval during which the usage was consumed.",
+            "smithy.api#required": {}
+          }
+        },
+        "ConsumedQuantity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations.",
+            "smithy.api#required": {}
+          }
+        },
+        "ConsumedUnit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit of measure for the consumed quantity (e.g., \"GB\", \"Requests\", \"vCPU-Hours\").",
+            "smithy.api#required": {}
+          }
+        },
+        "HostProviderName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the entity providing the underlying infrastructure or platform.",
+            "smithy.api#required": {}
+          }
+        },
+        "InvoiceIssuerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the entity responsible for invoicing for the services consumed.",
+            "smithy.api#required": {}
+          }
+        },
+        "ServiceProviderName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the entity that made the services available for purchase.",
+            "smithy.api#required": {}
+          }
+        },
+        "x_BillableMetricId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId.",
+            "smithy.api#required": {}
+          }
+        },
+        "x_BillableMetricName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter.",
+            "smithy.api#required": {}
+          }
+        },
+        "BilledCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring)."
+          }
+        },
+        "BillingCurrency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency that a charge was billed in (ISO 4217)."
+          }
+        },
+        "BillingPeriodEnd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exclusive end of the billing cycle that contains this usage record."
+          }
+        },
+        "BillingPeriodStart": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inclusive start of the billing cycle that contains this usage record."
+          }
+        },
+        "ChargeClass": {
+          "target": "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemChargeClass",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the row represents a correction to one or more charges invoiced in a previous billing period."
+          }
+        },
+        "ContractedCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity."
+          }
+        },
+        "ContractedUnitPrice": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The agreed-upon unit price for a single PricingUnit of the associated billable metric, inclusive of negotiated discounts, if present, while excluding any other discounts."
+          }
+        },
+        "EffectiveCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amortized cost of the charge after applying all reduced rates, discounts, and the applicable portion of relevant, prepaid purchases (one-time or recurring) that covered the charge."
+          }
+        },
+        "ListCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost calculated by multiplying ListUnitPrice and the corresponding PricingQuantity."
+          }
+        },
+        "ListUnitPrice": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Suggested provider-published unit price for a single PricingUnit of the associated billable metric, exclusive of any discounts."
+          }
+        },
+        "PricingQuantity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Volume of a given service used or purchased, based on the PricingUnit."
+          }
+        },
+        "PricingUnit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provider-specified measurement unit for determining unit prices, indicating how the provider rates measured usage after applying pricing rules like block pricing."
+          }
+        },
+        "RegionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provider-assigned identifier for an isolated geographic area where a service is provided."
+          }
+        },
+        "RegionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of an isolated geographic area where a service is provided."
+          }
+        },
+        "SubAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier assigned to a grouping of services. For Cloudflare, this is the subscription or contract ID."
+          }
+        },
+        "SubAccountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name."
+          }
+        },
+        "Tags": {
+          "target": "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTags",
+          "traits": {
+            "smithy.api#documentation": "Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings."
+          }
+        },
+        "x_ProductCategoryName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product category the charge belongs to (e.g., \"Developer\", \"Cloudflare One\"). Cloudflare extension; replaces FOCUS ServiceCategory."
+          }
+        },
+        "x_ProductFamilyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product family in the Cloudflare catalog. Cloudflare extension; replaces FOCUS ServiceId."
+          }
+        },
+        "x_ProductFamilyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product family the charge belongs to (e.g., \"R2\", \"Workers\"). Cloudflare extension; replaces FOCUS ServiceName."
+          }
+        },
+        "x_ZoneId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the Cloudflare zone (zone tag). Cloudflare extension."
+          }
+        },
+        "x_ZoneName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the Cloudflare zone. Cloudflare extension."
+          }
+        }
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV2ResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.billing#UsageGetAccountUsageV2ResultItem"
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV2Response": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.billing#UsageGetAccountUsageV2ResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.billing#UsageGetAccountUsageV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#UsageGetAccountUsageV2Request"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#UsageGetAccountUsageV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/billable/usage",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are not yet populated and will be absent from responses until billing integration is complete. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.billing#UsagePaygoResultItemChargeCategory": {
+      "type": "enum",
+      "members": {
+        "USAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Usage"
+          }
+        }
+      }
+    },
+    "com.cloudflare.billing#UsagePaygoResultItem": {
+      "type": "structure",
+      "members": {
+        "BilledCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount invoiced for this charge. PayGo is billed directly by Cloudflare, so this equals ContractedCost.",
+            "smithy.api#required": {}
+          }
+        },
+        "BillingAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of the account the charge is billed to (account tag).",
+            "smithy.api#required": {}
+          }
+        },
+        "BillingAccountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the billing account. Null when the name could not be resolved.",
+            "smithy.api#required": {}
+          }
+        },
+        "BillingCurrency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the billing currency code (ISO 4217).",
+            "smithy.api#required": {}
+          }
+        },
+        "BillingPeriodStart": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the start of the billing period. There is no `BillingPeriodEnd` counterpart; see the known gaps described on this schema.",
+            "smithy.api#required": {}
+          }
+        },
+        "ChargeCategory": {
+          "target": "com.cloudflare.billing#UsagePaygoResultItemChargeCategory",
+          "traits": {
+            "smithy.api#documentation": "Describes the nature of the charge. Always \"Usage\" for this endpoint, which only returns metered usage.",
+            "smithy.api#required": {}
+          }
+        },
+        "ChargeClass": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the row corrects a previously invoiced billing period. Always null for this endpoint, which does not return corrections.",
+            "smithy.api#required": {}
+          }
+        },
+        "ChargeDescription": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable summary of the charge.",
+            "smithy.api#required": {}
+          }
+        },
+        "ChargePeriodEnd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the end of the charge period.",
+            "smithy.api#required": {}
+          }
+        },
+        "ChargePeriodStart": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the start of the charge period.",
+            "smithy.api#required": {}
+          }
+        },
+        "ConsumedQuantity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Specifies the quantity consumed during this charge period.",
+            "smithy.api#required": {}
+          }
+        },
+        "ConsumedUnit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A display name for the unit of measurement used for the product (for example, \"GB-months\", \"GB-seconds\"). May be empty when the unit is implicit in the service name.",
+            "smithy.api#required": {}
+          }
+        },
+        "ContractedCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Specifies the cost for this charge period in the billing currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "CumulatedContractedCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Specifies the cumulated cost for the billing period in the billing currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "CumulatedPricingQuantity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Specifies the portion of usage that is actually subject to a unit price.",
+            "smithy.api#required": {}
+          }
+        },
+        "EffectiveCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amortized cost of the charge. PayGo has no upfront commitments, so this equals ContractedCost.",
+            "smithy.api#required": {}
+          }
+        },
+        "HostProviderName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider that hosts the infrastructure or platform the service runs on.",
+            "smithy.api#required": {}
+          }
+        },
+        "InvoiceIssuerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The entity that issues the invoice for this charge.",
+            "smithy.api#required": {}
+          }
+        },
+        "ListCost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The cost at published list prices, before any discount. PayGo has no commitment discounts, so this equals ContractedCost.",
+            "smithy.api#required": {}
+          }
+        },
+        "PricingQuantity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Specifies the pricing quantity for this charge period.",
+            "smithy.api#required": {}
+          }
+        },
+        "PricingUnit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unit that PricingQuantity is expressed in. Unlike ConsumedUnit this is never empty; it falls back to \"Count\" when the service has no explicit unit.",
+            "smithy.api#required": {}
+          }
+        },
+        "ServiceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies the Cloudflare service.",
+            "smithy.api#required": {}
+          }
+        },
+        "ServiceProviderName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider of the purchased service.",
             "smithy.api#required": {}
           }
         },
@@ -647,7 +2898,438 @@
         "target": "com.cloudflare.billing#UsagePaygoResultItem"
       }
     },
-    "com.cloudflare.billing#UsagePaygoResponse": {
+    "com.cloudflare.billing#UsagePaygoInfoRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a Cloudflare resource identifier tag.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#UsagePaygoInfoResponseSubscriptionsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier for the Cloudflare subscription.",
+            "smithy.api#required": {}
+          }
+        },
+        "billing_cycle_anchor_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subscription billing cycle anchor timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "start_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subscription start timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "end_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subscription end timestamp. Omitted for active subscriptions; present only when the subscription has been cancelled."
+          }
+        }
+      }
+    },
+    "com.cloudflare.billing#UsagePaygoInfoResponseSubscriptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.billing#UsagePaygoInfoResponseSubscriptionsItem"
+      }
+    },
+    "com.cloudflare.billing#UsagePaygoInfoResponse": {
+      "type": "structure",
+      "members": {
+        "covered": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the account is covered.",
+            "smithy.api#required": {}
+          }
+        },
+        "subscriptions": {
+          "target": "com.cloudflare.billing#UsagePaygoInfoResponseSubscriptionsList",
+          "traits": {
+            "smithy.api#documentation": "List of subscriptions for the account.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.billing#UsagePaygoInfo": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#UsagePaygoInfoRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#UsagePaygoInfoResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/billable-usage/info",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns high-level usage information for the account, including coverage, and subscription metadata.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.billing#Billing": {
+      "type": "service",
+      "version": "4.0",
+      "operations": [
+        {
+          "target": "com.cloudflare.billing#AddressValidation"
+        },
+        {
+          "target": "com.cloudflare.billing#GetBadDebt"
+        },
+        {
+          "target": "com.cloudflare.billing#GetCredit"
+        },
+        {
+          "target": "com.cloudflare.billing#ListHistory"
+        },
+        {
+          "target": "com.cloudflare.billing#CreateProfile"
+        },
+        {
+          "target": "com.cloudflare.billing#DeleteProfile"
+        },
+        {
+          "target": "com.cloudflare.billing#UpdateProfile"
+        },
+        {
+          "target": "com.cloudflare.billing#ProfilesUpdateBillingEmail"
+        },
+        {
+          "target": "com.cloudflare.billing#CreateProfilesPaymentMethod"
+        },
+        {
+          "target": "com.cloudflare.billing#GetRatePlan"
+        },
+        {
+          "target": "com.cloudflare.billing#GetUnpaidInvoice"
+        },
+        {
+          "target": "com.cloudflare.billing#UsageGetAccountUsageInfoV1"
+        },
+        {
+          "target": "com.cloudflare.billing#UsageGetAccountUsageV1"
+        },
+        {
+          "target": "com.cloudflare.billing#UsageGetAccountUsageV2"
+        },
+        {
+          "target": "com.cloudflare.billing#UsagePaygoInfo"
+        },
+        {
+          "target": "com.cloudflare.billing#GetProfile"
+        },
+        {
+          "target": "com.cloudflare.billing#GetUsage"
+        },
+        {
+          "target": "com.cloudflare.billing#PaygoUsage"
+        }
+      ],
+      "traits": {
+        "com.cloudflare.protocols#v4Json": {},
+        "smithy.api#title": "Cloudflare Billing",
+        "smithy.api#documentation": "Cloudflare API — billing resource. Speaks the v4 JSON envelope protocol; operation outputs describe the unwrapped `result` payload."
+      }
+    },
+    "com.cloudflare.billing#GetProfile": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#GetProfileRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#GetProfileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/billing/profile",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets the current billing profile for the account.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.billing#GetProfileRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#GetProfileResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing item identifier tag."
+          }
+        },
+        "account_type": {
+          "target": "smithy.api#String"
+        },
+        "address": {
+          "target": "smithy.api#String"
+        },
+        "address2": {
+          "target": "smithy.api#String"
+        },
+        "balance": {
+          "target": "smithy.api#String"
+        },
+        "card_expiry_month": {
+          "target": "smithy.api#Double"
+        },
+        "card_expiry_year": {
+          "target": "smithy.api#Double"
+        },
+        "card_number": {
+          "target": "smithy.api#String"
+        },
+        "city": {
+          "target": "smithy.api#String"
+        },
+        "company": {
+          "target": "smithy.api#String"
+        },
+        "country": {
+          "target": "smithy.api#String"
+        },
+        "created_on": {
+          "target": "smithy.api#String"
+        },
+        "device_data": {
+          "target": "smithy.api#String"
+        },
+        "edited_on": {
+          "target": "smithy.api#String"
+        },
+        "enterprise_billing_email": {
+          "target": "smithy.api#String"
+        },
+        "enterprise_primary_email": {
+          "target": "smithy.api#String"
+        },
+        "first_name": {
+          "target": "smithy.api#String"
+        },
+        "is_partner": {
+          "target": "smithy.api#Boolean"
+        },
+        "last_name": {
+          "target": "smithy.api#String"
+        },
+        "next_bill_date": {
+          "target": "smithy.api#String"
+        },
+        "payment_address": {
+          "target": "smithy.api#String"
+        },
+        "payment_address2": {
+          "target": "smithy.api#String"
+        },
+        "payment_city": {
+          "target": "smithy.api#String"
+        },
+        "payment_country": {
+          "target": "smithy.api#String"
+        },
+        "payment_email": {
+          "target": "smithy.api#String"
+        },
+        "payment_first_name": {
+          "target": "smithy.api#String"
+        },
+        "payment_gateway": {
+          "target": "smithy.api#String"
+        },
+        "payment_last_name": {
+          "target": "smithy.api#String"
+        },
+        "payment_nonce": {
+          "target": "smithy.api#String"
+        },
+        "payment_state": {
+          "target": "smithy.api#String"
+        },
+        "payment_zipcode": {
+          "target": "smithy.api#String"
+        },
+        "primary_email": {
+          "target": "smithy.api#String"
+        },
+        "state": {
+          "target": "smithy.api#String"
+        },
+        "tax_id_type": {
+          "target": "smithy.api#String"
+        },
+        "telephone": {
+          "target": "smithy.api#String"
+        },
+        "validation_code": {
+          "target": "smithy.api#String"
+        },
+        "vat": {
+          "target": "smithy.api#String"
+        },
+        "zipcode": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.billing#GetUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#GetUsageRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#GetUsageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/billable/usage",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are not yet populated and will be absent from responses until billing integration is complete. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.billing#GetUsageRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a Cloudflare resource identifier tag.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start date for the usage query (ISO 8601). Required if `to` is set. When omitted along with `to`, defaults to the start of the current month. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days.",
+            "smithy.api#httpQuery": "from"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End date for the usage query (ISO 8601). Required if `from` is set. When omitted along with `from`, defaults to today. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days.",
+            "smithy.api#httpQuery": "to"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#GetUsageResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.billing#UsageGetResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.billing#PaygoUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.billing#PaygoUsageRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.billing#PaygoUsageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/billable-usage",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns billable usage data for the account. When no query parameters are provided, returns usage for the current billing period.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.billing#PaygoUsageRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a Cloudflare resource identifier tag.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start date for the usage query (ISO 8601). The provided time range must include the subscription billing cycle anchor day, otherwise no usage data is returned. Use the info endpoint to retrieve the subscription anchor day.",
+            "smithy.api#httpQuery": "from"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End date for the usage query (ISO 8601).",
+            "smithy.api#httpQuery": "to"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.billing#PaygoUsageResponse": {
       "type": "structure",
       "members": {
         "result": {
@@ -660,44 +3342,6 @@
       },
       "traits": {
         "smithy.api#output": {}
-      }
-    },
-    "com.cloudflare.billing#UsagePaygo": {
-      "type": "operation",
-      "input": {
-        "target": "com.cloudflare.billing#UsagePaygoRequest"
-      },
-      "output": {
-        "target": "com.cloudflare.billing#UsagePaygoResponse"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/accounts/{account_id}/paygo-usage",
-          "code": 200
-        },
-        "smithy.api#documentation": "Returns billable usage data for PayGo (self-serve) accounts. When no query parameters are provided, returns usage for the current billing period. This endpoint is currently in alpha and access is restricted to select accounts. While in alpha, the endpoint may get breaking changes.",
-        "smithy.api#readonly": {}
-      }
-    },
-    "com.cloudflare.billing#Billing": {
-      "type": "service",
-      "version": "4.0",
-      "operations": [
-        {
-          "target": "com.cloudflare.billing#ProfilesGet"
-        },
-        {
-          "target": "com.cloudflare.billing#UsageGet"
-        },
-        {
-          "target": "com.cloudflare.billing#UsagePaygo"
-        }
-      ],
-      "traits": {
-        "com.cloudflare.protocols#v4Json": {},
-        "smithy.api#title": "Cloudflare Billing",
-        "smithy.api#documentation": "Cloudflare API — billing resource. Speaks the v4 JSON envelope protocol; operation outputs describe the unwrapped `result` payload."
       }
     }
   }

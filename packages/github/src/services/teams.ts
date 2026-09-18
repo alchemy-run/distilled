@@ -43,8 +43,7 @@ export class UnprocessableEntity
 export type AddOrUpdateMembershipForUserInOrgRequestRole =
   | "member"
   | "maintainer";
-export const AddOrUpdateMembershipForUserInOrgRequestRole =
-  /*@__PURE__*/ S.String;
+export const AddOrUpdateMembershipForUserInOrgRequestRole = S.String;
 
 export interface AddOrUpdateMembershipForUserInOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -76,11 +75,11 @@ export const AddOrUpdateMembershipForUserInOrgRequest = /*@__PURE__*/ S.suspend(
 
 /** The role of the user in the team. */
 export type TeamMembershipRole = "member" | "maintainer";
-export const TeamMembershipRole = /*@__PURE__*/ S.String;
+export const TeamMembershipRole = S.String;
 
 /** The state of the user's membership in the team. */
 export type TeamMembershipState = "active" | "pending";
-export const TeamMembershipState = /*@__PURE__*/ S.String;
+export const TeamMembershipState = S.String;
 
 /** Team Membership */
 export interface TeamMembership {
@@ -482,17 +481,17 @@ export const CreateRequestRepoNamesList = /*@__PURE__*/ S.Array(
 
 /** The level of privacy this team should have. The options are: **For a non-nested team:** * `secret` - only visible to organization owners and members of this team. * `closed` - visible to all members of this organization. Default: `secret` **For a parent or child team:** * `closed` - visible to all members of this organization. Default for child team: `closed` */
 export type CreateRequestPrivacy = "secret" | "closed";
-export const CreateRequestPrivacy = /*@__PURE__*/ S.String;
+export const CreateRequestPrivacy = S.String;
 
 /** The notification setting the team has chosen. The options are: * `notifications_enabled` - team members receive notifications when the team is @mentioned. * `notifications_disabled` - no one receives notifications. Default: `notifications_enabled` */
 export type CreateRequestNotificationSetting =
   | "notifications_enabled"
   | "notifications_disabled";
-export const CreateRequestNotificationSetting = /*@__PURE__*/ S.String;
+export const CreateRequestNotificationSetting = S.String;
 
 /** **Closing down notice**. The permission that new repositories will be added to the team with when none is specified. */
 export type CreateRequestPermission = "pull" | "push";
-export const CreateRequestPermission = /*@__PURE__*/ S.String;
+export const CreateRequestPermission = S.String;
 
 export interface CreateRequest {
   /** The organization name. The name is not case sensitive. */
@@ -533,17 +532,17 @@ export const CreateRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The level of privacy this team should have */
 export type TeamFullPrivacy = "closed" | "secret";
-export const TeamFullPrivacy = /*@__PURE__*/ S.String;
+export const TeamFullPrivacy = S.String;
 
 /** The notification setting the team has set */
 export type TeamFullNotificationSetting =
   | "notifications_enabled"
   | "notifications_disabled";
-export const TeamFullNotificationSetting = /*@__PURE__*/ S.String;
+export const TeamFullNotificationSetting = S.String;
 
 /** The ownership type of the team */
 export type NullableTeamSimpleType = "enterprise" | "organization";
-export const NullableTeamSimpleType = /*@__PURE__*/ S.String;
+export const NullableTeamSimpleType = S.String;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface NullableTeamSimple {
@@ -632,10 +631,10 @@ export interface TeamOrganization {
   avatar_url: string;
   description: string | null;
   name?: string;
-  company?: string;
-  blog?: string;
-  location?: string;
-  email?: string;
+  company?: string | null;
+  blog?: string | null;
+  location?: string | null;
+  email?: string | null;
   twitter_username?: string | null;
   is_verified?: boolean;
   has_organization_projects: boolean;
@@ -684,10 +683,10 @@ export const TeamOrganization = /*@__PURE__*/ S.suspend(() =>
     avatar_url: S.String,
     description: S.NullOr(S.String),
     name: S.optional(S.String),
-    company: S.optional(S.String),
-    blog: S.optional(S.String),
-    location: S.optional(S.String),
-    email: S.optional(S.String),
+    company: S.optional(S.NullOr(S.String)),
+    blog: S.optional(S.NullOr(S.String)),
+    location: S.optional(S.NullOr(S.String)),
+    email: S.optional(S.NullOr(S.String)),
     twitter_username: S.optional(S.NullOr(S.String)),
     is_verified: S.optional(S.Boolean),
     has_organization_projects: S.Boolean,
@@ -727,7 +726,7 @@ export const TeamOrganization = /*@__PURE__*/ S.suspend(() =>
 
 /** The ownership type of the team */
 export type TeamFullType = "enterprise" | "organization";
-export const TeamFullType = /*@__PURE__*/ S.String;
+export const TeamFullType = S.String;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface TeamFull {
@@ -860,7 +859,7 @@ export const GetMembershipForUserInOrgRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetMembershipForUserInOrgRequest>;
 
 export type ListRequestTeamType = "all" | "enterprise" | "organization";
-export const ListRequestTeamType = /*@__PURE__*/ S.String;
+export const ListRequestTeamType = S.String;
 
 export interface ListRequest {
   /** The organization name. The name is not case sensitive. */
@@ -902,11 +901,11 @@ export const TeamPermissions = /*@__PURE__*/ S.suspend(() =>
 
 /** The ownership type of the team */
 export type TeamType = "enterprise" | "organization";
-export const TeamType = /*@__PURE__*/ S.String;
+export const TeamType = S.String;
 
 /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
 export type TeamAccessSource = "direct" | "organization" | "enterprise";
-export const TeamAccessSource = /*@__PURE__*/ S.String;
+export const TeamAccessSource = S.String;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -1034,7 +1033,7 @@ export const ListForAuthenticatedUserResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListForAuthenticatedUserResponse>;
 
 export type ListMembersInOrgRequestRole = "member" | "maintainer" | "all";
-export const ListMembersInOrgRequestRole = /*@__PURE__*/ S.String;
+export const ListMembersInOrgRequestRole = S.String;
 
 export interface ListMembersInOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1068,7 +1067,7 @@ export const ListMembersInOrgRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The member's role on the team. Only present on the `List team members` endpoint, and only when the feature is enabled for the organization. */
 export type TeamMemberRole = "member" | "maintainer";
-export const TeamMemberRole = /*@__PURE__*/ S.String;
+export const TeamMemberRole = S.String;
 
 /** A user that is a member of a team, including their role on the team and whether the membership is inherited from a child team. */
 export interface TeamMember {
@@ -1256,8 +1255,7 @@ export const MinimalRepositoryTopicsList = /*@__PURE__*/ S.Array(
 export type MinimalRepositoryPullRequestCreationPolicy =
   | "all"
   | "collaborators_only";
-export const MinimalRepositoryPullRequestCreationPolicy =
-  /*@__PURE__*/ S.String;
+export const MinimalRepositoryPullRequestCreationPolicy = S.String;
 
 export interface MinimalRepositoryPermissions {
   admin?: boolean;
@@ -1316,7 +1314,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
-export const SecurityAndAnalysisAdvancedSecurityStatus = /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
 
 /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
 export interface SecurityAndAnalysisAdvancedSecurity {
@@ -1331,7 +1329,7 @@ export const SecurityAndAnalysisAdvancedSecurity = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SecurityAndAnalysisAdvancedSecurity>;
 
 export type SecurityAndAnalysisCodeSecurityStatus = "enabled" | "disabled";
-export const SecurityAndAnalysisCodeSecurityStatus = /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisCodeSecurityStatus = S.String;
 
 export interface SecurityAndAnalysisCodeSecurity {
   status?: SecurityAndAnalysisCodeSecurityStatus;
@@ -1348,8 +1346,7 @@ export const SecurityAndAnalysisCodeSecurity = /*@__PURE__*/ S.suspend(() =>
 export type SecurityAndAnalysisDependabotSecurityUpdatesStatus =
   | "enabled"
   | "disabled";
-export const SecurityAndAnalysisDependabotSecurityUpdatesStatus =
-  /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisDependabotSecurityUpdatesStatus = S.String;
 
 /** Enable or disable Dependabot security updates for the repository. */
 export interface SecurityAndAnalysisDependabotSecurityUpdates {
@@ -1366,7 +1363,7 @@ export const SecurityAndAnalysisDependabotSecurityUpdates =
   }) as any as S.Schema<SecurityAndAnalysisDependabotSecurityUpdates>;
 
 export type SecurityAndAnalysisSecretScanningStatus = "enabled" | "disabled";
-export const SecurityAndAnalysisSecretScanningStatus = /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisSecretScanningStatus = S.String;
 
 export interface SecurityAndAnalysisSecretScanning {
   status?: SecurityAndAnalysisSecretScanningStatus;
@@ -1382,8 +1379,7 @@ export const SecurityAndAnalysisSecretScanning = /*@__PURE__*/ S.suspend(() =>
 export type SecurityAndAnalysisSecretScanningPushProtectionStatus =
   | "enabled"
   | "disabled";
-export const SecurityAndAnalysisSecretScanningPushProtectionStatus =
-  /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisSecretScanningPushProtectionStatus = S.String;
 
 export interface SecurityAndAnalysisSecretScanningPushProtection {
   status?: SecurityAndAnalysisSecretScanningPushProtectionStatus;
@@ -1401,7 +1397,7 @@ export type SecurityAndAnalysisSecretScanningNonProviderPatternsStatus =
   | "enabled"
   | "disabled";
 export const SecurityAndAnalysisSecretScanningNonProviderPatternsStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SecurityAndAnalysisSecretScanningNonProviderPatterns {
   status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus;
@@ -1420,8 +1416,7 @@ export const SecurityAndAnalysisSecretScanningNonProviderPatterns =
 export type SecurityAndAnalysisSecretScanningAiDetectionStatus =
   | "enabled"
   | "disabled";
-export const SecurityAndAnalysisSecretScanningAiDetectionStatus =
-  /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisSecretScanningAiDetectionStatus = S.String;
 
 export interface SecurityAndAnalysisSecretScanningAiDetection {
   status?: SecurityAndAnalysisSecretScanningAiDetectionStatus;
@@ -1439,7 +1434,7 @@ export type SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus =
   | "enabled"
   | "disabled";
 export const SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SecurityAndAnalysisSecretScanningDelegatedAlertDismissal {
   status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus;
@@ -1458,8 +1453,7 @@ export const SecurityAndAnalysisSecretScanningDelegatedAlertDismissal =
 export type SecurityAndAnalysisSecretScanningDelegatedBypassStatus =
   | "enabled"
   | "disabled";
-export const SecurityAndAnalysisSecretScanningDelegatedBypassStatus =
-  /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisSecretScanningDelegatedBypassStatus = S.String;
 
 export interface SecurityAndAnalysisSecretScanningDelegatedBypass {
   status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus;
@@ -1477,15 +1471,17 @@ export const SecurityAndAnalysisSecretScanningDelegatedBypass =
 
 /** The type of the bypass reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
-  "TEAM" | "ROLE";
+  | "TEAM"
+  | "ROLE";
 export const SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** The bypass mode for the reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode =
-  "ALWAYS" | "EXEMPT";
+  | "ALWAYS"
+  | "EXEMPT";
 export const SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItem {
   /** The ID of the team or role selected as a bypass reviewer */
@@ -1861,17 +1857,17 @@ export const RemoveRepoInOrgResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The level of privacy this team should have. Editing teams without specifying this parameter leaves `privacy` intact. When a team is nested, the `privacy` for parent teams cannot be `secret`. The options are: **For a non-nested team:** * `secret` - only visible to organization owners and members of this team. * `closed` - visible to all members of this organization. **For a parent or child team:** * `closed` - visible to all members of this organization. */
 export type UpdateInOrgRequestPrivacy = "secret" | "closed";
-export const UpdateInOrgRequestPrivacy = /*@__PURE__*/ S.String;
+export const UpdateInOrgRequestPrivacy = S.String;
 
 /** The notification setting the team has chosen. Editing teams without specifying this parameter leaves `notification_setting` intact. The options are: * `notifications_enabled` - team members receive notifications when the team is @mentioned. * `notifications_disabled` - no one receives notifications. */
 export type UpdateInOrgRequestNotificationSetting =
   | "notifications_enabled"
   | "notifications_disabled";
-export const UpdateInOrgRequestNotificationSetting = /*@__PURE__*/ S.String;
+export const UpdateInOrgRequestNotificationSetting = S.String;
 
 /** **Closing down notice**. The permission that new repositories will be added to the team with when none is specified. */
 export type UpdateInOrgRequestPermission = "pull" | "push" | "admin";
-export const UpdateInOrgRequestPermission = /*@__PURE__*/ S.String;
+export const UpdateInOrgRequestPermission = S.String;
 
 export interface UpdateInOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -2072,7 +2068,7 @@ export const listForAuthenticatedUser: API.OperationMethod<
 }));
 
 export type ListMembersInOrgError = GithubOpError;
-/** List team members Team members will include the members of child teams. Each member includes their `role` on the team (`member` or `maintainer`) and an `inherited` flag indicating whether the membership is inherited from a child team (`true`) or is a direct membership (`false`). These fields let you read a member's role and direct/inherited status without additional requests. To list members in a team, the team must be visible to the authenticated user. */
+/** List team members Team members will include the members of child teams. Each member includes their `role` on the team (`member` or `maintainer`) and an `inherited` flag indicating whether the membership is inherited from a child team (`true`) or is a direct membership (`false`). These fields let you read a member's role and direct/inherited status without additional requests. To list members in a team, the team must be visible to the authenticated user. > [!NOTE] > You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/members`. */
 export const listMembersInOrg: API.OperationMethod<
   ListMembersInOrgRequest,
   ListMembersInOrgResponse,

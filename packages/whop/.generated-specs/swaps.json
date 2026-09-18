@@ -1,0 +1,977 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.swaps#ListSwapsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Business or user account ID (biz_* / user_*)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.swaps#ListSwapsResponseDataItemObject": {
+      "type": "enum",
+      "members": {
+        "SWAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swap"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.swaps#ListSwapsResponseDataItemStatus": {
+      "type": "enum",
+      "members": {
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "WORKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "working"
+          }
+        },
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current swap status. `complete` and `failed` are terminal."
+      }
+    },
+    "com.whop.swaps#ListSwapsResponseDataItemTxHashesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "On-chain transaction hashes produced by the swap."
+      }
+    },
+    "com.whop.swaps#ListSwapsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID that owns the wallet used for the swap.",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Latest error returned for a failed swap.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Swap ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.swaps#ListSwapsResponseDataItemObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.swaps#ListSwapsResponseDataItemStatus",
+          "traits": {
+            "smithy.api#documentation": "Current swap status. `complete` and `failed` are terminal.",
+            "smithy.api#required": {}
+          }
+        },
+        "tx_hashes": {
+          "target": "com.whop.swaps#ListSwapsResponseDataItemTxHashesList",
+          "traits": {
+            "smithy.api#documentation": "On-chain transaction hashes produced by the swap.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.swaps#ListSwapsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.swaps#ListSwapsResponseDataItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Swaps returned for this account."
+      }
+    },
+    "com.whop.swaps#ListSwapsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.swaps#ListSwapsResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "Swaps returned for this account.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.swaps#ListSwaps": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.swaps#ListSwapsRequest"
+      },
+      "output": {
+        "target": "com.whop.swaps#ListSwapsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.swaps#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/swaps",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Swaps\n\nRetrieve the account's completed or pending swaps — currently just the latest one."
+      }
+    },
+    "com.whop.swaps#CreateSwapRequestFromChain": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Source chain name or chain ID. Defaults to the source token's chain when omitted."
+      }
+    },
+    "com.whop.swaps#CreateSwapRequestToChain": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Destination chain name or chain ID. Defaults to the destination token's chain when omitted."
+      }
+    },
+    "com.whop.swaps#CreateSwapRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Business or user account ID (biz_* / user_*).",
+            "smithy.api#required": {}
+          }
+        },
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source token amount. Required for crypto swaps. For fiat pairs: the amount of from_token to convert at the mid-market rate; omit (along with to_amount) to repay the full negative to_token balance instead.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "from_chain": {
+          "target": "com.whop.swaps#CreateSwapRequestFromChain",
+          "traits": {
+            "smithy.api#documentation": "Source chain name or chain ID. Defaults to the source token's chain when omitted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "from_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source token contract address or ticker symbol, such as \"USDT\".",
+            "smithy.api#required": {}
+          }
+        },
+        "slippage_bps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum slippage tolerance in basis points.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "to_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fiat pairs only: sizes a partial repayment of the negative to_token balance, denominated in to_token. Must not exceed the debt. Mutually exclusive with amount.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "to_chain": {
+          "target": "com.whop.swaps#CreateSwapRequestToChain",
+          "traits": {
+            "smithy.api#documentation": "Destination chain name or chain ID. Defaults to the destination token's chain when omitted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "to_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination token contract address or ticker symbol, such as \"XAUT\".",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.swaps#CreateSwapResponseFromToken": {
+      "type": "structure",
+      "members": {
+        "symbol": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Fiat pairs only: the source currency."
+      }
+    },
+    "com.whop.swaps#CreateSwapResponseObject": {
+      "type": "enum",
+      "members": {
+        "SWAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swap"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.swaps#CreateSwapResponseStatus": {
+      "type": "enum",
+      "members": {
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "WORKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "working"
+          }
+        },
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Swap status. Crypto swaps start `queued`; fiat conversions return `complete`, or `working` while a stablecoin repayment settles."
+      }
+    },
+    "com.whop.swaps#CreateSwapResponseToToken": {
+      "type": "structure",
+      "members": {
+        "symbol": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Fiat pairs only: the destination currency."
+      }
+    },
+    "com.whop.swaps#CreateSwapResponse": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID that owns the wallet used for the swap.",
+            "smithy.api#required": {}
+          }
+        },
+        "amount_in": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Fiat pairs only: amount of the source currency converted. Null while a stablecoin repayment is processing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "amount_out": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Fiat pairs only: amount credited in the destination currency. Null while a stablecoin repayment is processing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "amount_out_expected": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expected destination token amount."
+          }
+        },
+        "amount_out_min": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Minimum destination amount after slippage."
+          }
+        },
+        "from_token": {
+          "target": "com.whop.swaps#CreateSwapResponseFromToken",
+          "traits": {
+            "smithy.api#documentation": "Fiat pairs only: the source currency.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Swap ID. Poll `GET /swaps/:id` for status."
+          }
+        },
+        "object": {
+          "target": "com.whop.swaps#CreateSwapResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Quoted exchange rate used to create the swap."
+          }
+        },
+        "status": {
+          "target": "com.whop.swaps#CreateSwapResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Swap status. Crypto swaps start `queued`; fiat conversions return `complete`, or `working` while a stablecoin repayment settles.",
+            "smithy.api#required": {}
+          }
+        },
+        "to_chain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination chain for the swap."
+          }
+        },
+        "to_token": {
+          "target": "com.whop.swaps#CreateSwapResponseToToken",
+          "traits": {
+            "smithy.api#documentation": "Fiat pairs only: the destination currency.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.swaps#CreateSwap": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.swaps#CreateSwapRequest"
+      },
+      "output": {
+        "target": "com.whop.swaps#CreateSwapResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.swaps#BadRequest"
+        },
+        {
+          "target": "com.whop.swaps#Forbidden"
+        },
+        {
+          "target": "com.whop.swaps#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/swaps",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Swap\n\nSwaps one token for another from the account's wallet, or converts between fiat currencies in the account's ledger at the mid-market rate. Crypto swaps finish in the background — check the swap for its status."
+      }
+    },
+    "com.whop.swaps#CreateSwapQuoteRequestFromChain": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Source chain name or chain ID. Defaults to the source token's chain when omitted."
+      }
+    },
+    "com.whop.swaps#CreateSwapQuoteRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata to include with the quote response."
+      }
+    },
+    "com.whop.swaps#CreateSwapQuoteRequestToChain": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Destination chain name or chain ID. Defaults to the destination token's chain when omitted."
+      }
+    },
+    "com.whop.swaps#CreateSwapQuoteRequest": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source token amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "from_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source wallet address used for the quote.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "from_chain": {
+          "target": "com.whop.swaps#CreateSwapQuoteRequestFromChain",
+          "traits": {
+            "smithy.api#documentation": "Source chain name or chain ID. Defaults to the source token's chain when omitted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "from_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source token contract address or ticker symbol, such as \"USDT\".",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.swaps#CreateSwapQuoteRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Metadata to include with the quote response."
+          }
+        },
+        "slippage_bps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum slippage tolerance in basis points.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "to_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination wallet address used for the quote.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "to_chain": {
+          "target": "com.whop.swaps#CreateSwapQuoteRequestToChain",
+          "traits": {
+            "smithy.api#documentation": "Destination chain name or chain ID. Defaults to the destination token's chain when omitted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "to_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination token contract address or ticker symbol, such as \"XAUT\".",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.swaps#CreateSwapQuoteResponseFromTokenMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resolved source token details."
+      }
+    },
+    "com.whop.swaps#CreateSwapQuoteResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata from the request."
+      }
+    },
+    "com.whop.swaps#CreateSwapQuoteResponseObject": {
+      "type": "enum",
+      "members": {
+        "SWAP_QUOTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swap_quote"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.swaps#CreateSwapQuoteResponseToTokenMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resolved destination token details."
+      }
+    },
+    "com.whop.swaps#CreateSwapQuoteResponse": {
+      "type": "structure",
+      "members": {
+        "amount_in": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source token amount used for the quote.",
+            "smithy.api#required": {}
+          }
+        },
+        "amount_out": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Estimated destination token amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "amount_out_min": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Minimum destination amount after slippage."
+          }
+        },
+        "bridge_fee": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Estimated bridge fee for cross-chain swaps.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "estimated_duration_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Estimated time for the swap to complete.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fee_bps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Whop fee in basis points.",
+            "smithy.api#required": {}
+          }
+        },
+        "from_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source wallet address used for the quote.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "from_token": {
+          "target": "com.whop.swaps#CreateSwapQuoteResponseFromTokenMap",
+          "traits": {
+            "smithy.api#documentation": "Resolved source token details.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.swaps#CreateSwapQuoteResponseMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Metadata from the request.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.swaps#CreateSwapQuoteResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Quoted exchange rate.",
+            "smithy.api#required": {}
+          }
+        },
+        "requires_token_approval": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the source token needs approval before swapping.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "to_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination wallet address used for the quote.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "to_token": {
+          "target": "com.whop.swaps#CreateSwapQuoteResponseToTokenMap",
+          "traits": {
+            "smithy.api#documentation": "Resolved destination token details.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.swaps#CreateSwapQuote": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.swaps#CreateSwapQuoteRequest"
+      },
+      "output": {
+        "target": "com.whop.swaps#CreateSwapQuoteResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.swaps#BadRequest"
+        },
+        {
+          "target": "com.whop.swaps#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/swaps/quote",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Swap Quote\n\nPreviews the price of a swap. Fiat pairs quote the in-ledger mid-market conversion — the same rate creating the swap fills at. No funds move and nothing is saved."
+      }
+    },
+    "com.whop.swaps#GetSwapRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Swap ID returned from POST /swaps."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.swaps#GetSwapResponseObject": {
+      "type": "enum",
+      "members": {
+        "SWAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swap"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.swaps#GetSwapResponseStatus": {
+      "type": "enum",
+      "members": {
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "WORKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "working"
+          }
+        },
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current swap status. `complete` and `failed` are terminal."
+      }
+    },
+    "com.whop.swaps#GetSwapResponseTxHashesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "On-chain transaction hashes produced by the swap."
+      }
+    },
+    "com.whop.swaps#GetSwapResponse": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID that owns the wallet used for the swap.",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Latest error returned for a failed swap.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Swap ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.swaps#GetSwapResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.swaps#GetSwapResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Current swap status. `complete` and `failed` are terminal.",
+            "smithy.api#required": {}
+          }
+        },
+        "tx_hashes": {
+          "target": "com.whop.swaps#GetSwapResponseTxHashesList",
+          "traits": {
+            "smithy.api#documentation": "On-chain transaction hashes produced by the swap.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.swaps#GetSwap": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.swaps#GetSwapRequest"
+      },
+      "output": {
+        "target": "com.whop.swaps#GetSwapResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.swaps#BadRequest"
+        },
+        {
+          "target": "com.whop.swaps#Forbidden"
+        },
+        {
+          "target": "com.whop.swaps#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/swaps/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Swap\n\nRetrieves a single swap and its status."
+      }
+    },
+    "com.whop.swaps#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.swaps#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.swaps#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.swaps#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.swaps#Swaps": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.swaps#ListSwaps"
+        },
+        {
+          "target": "com.whop.swaps#CreateSwap"
+        },
+        {
+          "target": "com.whop.swaps#CreateSwapQuote"
+        },
+        {
+          "target": "com.whop.swaps#GetSwap"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

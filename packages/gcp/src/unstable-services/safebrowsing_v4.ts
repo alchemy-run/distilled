@@ -65,21 +65,98 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type GoogleSecuritySafebrowsingV4ThreatHitThreatSourceTypeEnum =
+  | "THREAT_SOURCE_TYPE_UNSPECIFIED"
+  | "MATCHING_URL"
+  | "TAB_URL"
+  | "TAB_REDIRECT"
+  | "TAB_RESOURCE";
+export const GoogleSecuritySafebrowsingV4ThreatHitThreatSourceTypeEnum =
+  S.String;
+
+/** A single resource related to a threat hit. */
+export interface GoogleSecuritySafebrowsingV4ThreatHitThreatSource {
+  /** The URL of the resource. */
+  url?: string;
+  /** The type of source reported. */
+  type?:
+    | GoogleSecuritySafebrowsingV4ThreatHitThreatSourceTypeEnum
+    | (string & {});
+  /** Referrer of the resource. Only set if the referrer is available. */
+  referrer?: string;
+  /** The remote IP of the resource in ASCII format. Either IPv4 or IPv6. */
+  remoteIp?: string;
+}
+export const GoogleSecuritySafebrowsingV4ThreatHitThreatSource =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      url: S.optional(S.String),
+      type: S.optional(
+        GoogleSecuritySafebrowsingV4ThreatHitThreatSourceTypeEnum,
+      ),
+      referrer: S.optional(S.String),
+      remoteIp: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleSecuritySafebrowsingV4ThreatHitThreatSource",
+  }) as any as S.Schema<GoogleSecuritySafebrowsingV4ThreatHitThreatSource>;
+
+export type GoogleSecuritySafebrowsingV4ThreatHitThreatSourceList =
+  Array<GoogleSecuritySafebrowsingV4ThreatHitThreatSource>;
+export const GoogleSecuritySafebrowsingV4ThreatHitThreatSourceList =
+  /*@__PURE__*/ S.Array(
+    GoogleSecuritySafebrowsingV4ThreatHitThreatSource,
+  ) as any as S.Schema<GoogleSecuritySafebrowsingV4ThreatHitThreatSourceList>;
+
+/** The client metadata associated with Safe Browsing API requests. */
+export interface GoogleSecuritySafebrowsingV4ClientInfo {
+  /** A client ID that (hopefully) uniquely identifies the client implementation of the Safe Browsing API. */
+  clientId?: string;
+  /** The version of the client implementation. */
+  clientVersion?: string;
+}
+export const GoogleSecuritySafebrowsingV4ClientInfo = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      clientId: S.optional(S.String),
+      clientVersion: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleSecuritySafebrowsingV4ClientInfo",
+}) as any as S.Schema<GoogleSecuritySafebrowsingV4ClientInfo>;
+
+/** Details about the user that encountered the threat. */
+export interface GoogleSecuritySafebrowsingV4ThreatHitUserInfo {
+  /** Unique user identifier defined by the client. */
+  userId?: string;
+  /** The UN M.49 region code associated with the user's location. */
+  regionCode?: string;
+}
+export const GoogleSecuritySafebrowsingV4ThreatHitUserInfo =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      userId: S.optional(S.String),
+      regionCode: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleSecuritySafebrowsingV4ThreatHitUserInfo",
+  }) as any as S.Schema<GoogleSecuritySafebrowsingV4ThreatHitUserInfo>;
+
 /** An individual threat; for example, a malicious URL or its hash representation. Only one of these fields should be set. */
 export interface GoogleSecuritySafebrowsingV4ThreatEntry {
   /** The digest of an executable in SHA256 format. The API supports both binary and hex digests. For JSON requests, digests are base64-encoded. */
   digest?: string;
-  /** A hash prefix, consisting of the most significant 4-32 bytes of a SHA256 hash. This field is in binary format. For JSON requests, hashes are base64-encoded. */
-  hash?: string;
   /** A URL. */
   url?: string;
+  /** A hash prefix, consisting of the most significant 4-32 bytes of a SHA256 hash. This field is in binary format. For JSON requests, hashes are base64-encoded. */
+  hash?: string;
 }
 export const GoogleSecuritySafebrowsingV4ThreatEntry = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       digest: S.optional(S.String),
-      hash: S.optional(S.String),
       url: S.optional(S.String),
+      hash: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleSecuritySafebrowsingV4ThreatEntry",
@@ -104,68 +181,7 @@ export type GoogleSecuritySafebrowsingV4ThreatHitThreatTypeEnum =
   | "TRICK_TO_BILL"
   | "HIGH_CONFIDENCE_ALLOWLIST"
   | "ACCURACY_TIPS";
-export const GoogleSecuritySafebrowsingV4ThreatHitThreatTypeEnum =
-  /*@__PURE__*/ S.String;
-
-/** Details about the user that encountered the threat. */
-export interface GoogleSecuritySafebrowsingV4ThreatHitUserInfo {
-  /** The UN M.49 region code associated with the user's location. */
-  regionCode?: string;
-  /** Unique user identifier defined by the client. */
-  userId?: string;
-}
-export const GoogleSecuritySafebrowsingV4ThreatHitUserInfo =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      regionCode: S.optional(S.String),
-      userId: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleSecuritySafebrowsingV4ThreatHitUserInfo",
-  }) as any as S.Schema<GoogleSecuritySafebrowsingV4ThreatHitUserInfo>;
-
-export type GoogleSecuritySafebrowsingV4ThreatHitThreatSourceTypeEnum =
-  | "THREAT_SOURCE_TYPE_UNSPECIFIED"
-  | "MATCHING_URL"
-  | "TAB_URL"
-  | "TAB_REDIRECT"
-  | "TAB_RESOURCE";
-export const GoogleSecuritySafebrowsingV4ThreatHitThreatSourceTypeEnum =
-  /*@__PURE__*/ S.String;
-
-/** A single resource related to a threat hit. */
-export interface GoogleSecuritySafebrowsingV4ThreatHitThreatSource {
-  /** The URL of the resource. */
-  url?: string;
-  /** The remote IP of the resource in ASCII format. Either IPv4 or IPv6. */
-  remoteIp?: string;
-  /** The type of source reported. */
-  type?:
-    | GoogleSecuritySafebrowsingV4ThreatHitThreatSourceTypeEnum
-    | (string & {});
-  /** Referrer of the resource. Only set if the referrer is available. */
-  referrer?: string;
-}
-export const GoogleSecuritySafebrowsingV4ThreatHitThreatSource =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      url: S.optional(S.String),
-      remoteIp: S.optional(S.String),
-      type: S.optional(
-        GoogleSecuritySafebrowsingV4ThreatHitThreatSourceTypeEnum,
-      ),
-      referrer: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleSecuritySafebrowsingV4ThreatHitThreatSource",
-  }) as any as S.Schema<GoogleSecuritySafebrowsingV4ThreatHitThreatSource>;
-
-export type GoogleSecuritySafebrowsingV4ThreatHitThreatSourceList =
-  Array<GoogleSecuritySafebrowsingV4ThreatHitThreatSource>;
-export const GoogleSecuritySafebrowsingV4ThreatHitThreatSourceList =
-  /*@__PURE__*/ S.Array(
-    GoogleSecuritySafebrowsingV4ThreatHitThreatSource,
-  ) as any as S.Schema<GoogleSecuritySafebrowsingV4ThreatHitThreatSourceList>;
+export const GoogleSecuritySafebrowsingV4ThreatHitThreatTypeEnum = S.String;
 
 export type GoogleSecuritySafebrowsingV4ThreatHitPlatformTypeEnum =
   | "PLATFORM_TYPE_UNSPECIFIED"
@@ -177,59 +193,41 @@ export type GoogleSecuritySafebrowsingV4ThreatHitPlatformTypeEnum =
   | "ANY_PLATFORM"
   | "ALL_PLATFORMS"
   | "CHROME";
-export const GoogleSecuritySafebrowsingV4ThreatHitPlatformTypeEnum =
-  /*@__PURE__*/ S.String;
-
-/** The client metadata associated with Safe Browsing API requests. */
-export interface GoogleSecuritySafebrowsingV4ClientInfo {
-  /** The version of the client implementation. */
-  clientVersion?: string;
-  /** A client ID that (hopefully) uniquely identifies the client implementation of the Safe Browsing API. */
-  clientId?: string;
-}
-export const GoogleSecuritySafebrowsingV4ClientInfo = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      clientVersion: S.optional(S.String),
-      clientId: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleSecuritySafebrowsingV4ClientInfo",
-}) as any as S.Schema<GoogleSecuritySafebrowsingV4ClientInfo>;
+export const GoogleSecuritySafebrowsingV4ThreatHitPlatformTypeEnum = S.String;
 
 export interface GoogleSecuritySafebrowsingV4ThreatHit {
+  /** The resources related to the threat hit. */
+  resources?: GoogleSecuritySafebrowsingV4ThreatHitThreatSourceList;
+  /** Client-reported identification. */
+  clientInfo?: GoogleSecuritySafebrowsingV4ClientInfo;
+  /** Details about the user that encountered the threat. */
+  userInfo?: GoogleSecuritySafebrowsingV4ThreatHitUserInfo;
   /** The threat entry responsible for the hit. Full hash should be reported for hash-based hits. */
   entry?: GoogleSecuritySafebrowsingV4ThreatEntry;
   /** The threat type reported. */
   threatType?:
     | GoogleSecuritySafebrowsingV4ThreatHitThreatTypeEnum
     | (string & {});
-  /** Details about the user that encountered the threat. */
-  userInfo?: GoogleSecuritySafebrowsingV4ThreatHitUserInfo;
-  /** The resources related to the threat hit. */
-  resources?: GoogleSecuritySafebrowsingV4ThreatHitThreatSourceList;
   /** The platform type reported. */
   platformType?:
     | GoogleSecuritySafebrowsingV4ThreatHitPlatformTypeEnum
     | (string & {});
-  /** Client-reported identification. */
-  clientInfo?: GoogleSecuritySafebrowsingV4ClientInfo;
 }
 export const GoogleSecuritySafebrowsingV4ThreatHit = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      resources: S.optional(
+        GoogleSecuritySafebrowsingV4ThreatHitThreatSourceList,
+      ),
+      clientInfo: S.optional(GoogleSecuritySafebrowsingV4ClientInfo),
+      userInfo: S.optional(GoogleSecuritySafebrowsingV4ThreatHitUserInfo),
       entry: S.optional(GoogleSecuritySafebrowsingV4ThreatEntry),
       threatType: S.optional(
         GoogleSecuritySafebrowsingV4ThreatHitThreatTypeEnum,
       ),
-      userInfo: S.optional(GoogleSecuritySafebrowsingV4ThreatHitUserInfo),
-      resources: S.optional(
-        GoogleSecuritySafebrowsingV4ThreatHitThreatSourceList,
-      ),
       platformType: S.optional(
         GoogleSecuritySafebrowsingV4ThreatHitPlatformTypeEnum,
       ),
-      clientInfo: S.optional(GoogleSecuritySafebrowsingV4ClientInfo),
     }),
 ).annotate({
   identifier: "GoogleSecuritySafebrowsingV4ThreatHit",
@@ -262,22 +260,35 @@ export const GoogleProtobufEmpty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GoogleProtobufEmpty>;
 
 export type GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestPlatformTypeEnum =
-    | "PLATFORM_TYPE_UNSPECIFIED"
-    | "WINDOWS"
-    | "LINUX"
-    | "ANDROID"
-    | "OSX"
-    | "IOS"
-    | "ANY_PLATFORM"
-    | "ALL_PLATFORMS"
-    | "CHROME";
+  | "PLATFORM_TYPE_UNSPECIFIED"
+  | "WINDOWS"
+  | "LINUX"
+  | "ANDROID"
+  | "OSX"
+  | "IOS"
+  | "ANY_PLATFORM"
+  | "ALL_PLATFORMS"
+  | "CHROME";
 export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestPlatformTypeEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
+
+export type GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestThreatEntryTypeEnum =
+  | "THREAT_ENTRY_TYPE_UNSPECIFIED"
+  | "URL"
+  | "EXECUTABLE"
+  | "IP_RANGE"
+  | "CHROME_EXTENSION"
+  | "FILENAME"
+  | "CERT";
+export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestThreatEntryTypeEnum =
+  S.String;
 
 export type GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestConstraintsSupportedCompressionsItemEnum =
-  "COMPRESSION_TYPE_UNSPECIFIED" | "RAW" | "RICE";
+  | "COMPRESSION_TYPE_UNSPECIFIED"
+  | "RAW"
+  | "RICE";
 export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestConstraintsSupportedCompressionsItemEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestConstraintsSupportedCompressionsItemEnumList =
   Array<
@@ -293,28 +304,28 @@ export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdate
 export interface GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestConstraints {
   /** Sets the maximum number of entries that the client is willing to have in the local database for the specified list. This should be a power of 2 between 2**10 and 2**20. If zero, no database size limit is set. */
   maxDatabaseEntries?: number;
+  /** Requests the list for a specific geographic location. If not set the server may pick that value based on the user's IP address. Expects ISO 3166-1 alpha-2 format. */
+  region?: string;
   /** The maximum size in number of entries. The update will not contain more entries than this value. This should be a power of 2 between 2**10 and 2**20. If zero, no update size limit is set. */
   maxUpdateEntries?: number;
   /** Requests the lists for a specific language. Expects ISO 639 alpha-2 format. */
   language?: string;
-  /** The compression types supported by the client. */
-  supportedCompressions?: GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestConstraintsSupportedCompressionsItemEnumList;
   /** A client's physical location, expressed as a ISO 31166-1 alpha-2 region code. */
   deviceLocation?: string;
-  /** Requests the list for a specific geographic location. If not set the server may pick that value based on the user's IP address. Expects ISO 3166-1 alpha-2 format. */
-  region?: string;
+  /** The compression types supported by the client. */
+  supportedCompressions?: GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestConstraintsSupportedCompressionsItemEnumList;
 }
 export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestConstraints =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       maxDatabaseEntries: S.optional(S.Number),
+      region: S.optional(S.String),
       maxUpdateEntries: S.optional(S.Number),
       language: S.optional(S.String),
+      deviceLocation: S.optional(S.String),
       supportedCompressions: S.optional(
         GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestConstraintsSupportedCompressionsItemEnumList,
       ),
-      deviceLocation: S.optional(S.String),
-      region: S.optional(S.String),
     }),
   ).annotate({
     identifier:
@@ -322,43 +333,36 @@ export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdate
   }) as any as S.Schema<GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestConstraints>;
 
 export type GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestThreatTypeEnum =
-    | "THREAT_TYPE_UNSPECIFIED"
-    | "MALWARE"
-    | "SOCIAL_ENGINEERING"
-    | "UNWANTED_SOFTWARE"
-    | "POTENTIALLY_HARMFUL_APPLICATION"
-    | "SOCIAL_ENGINEERING_INTERNAL"
-    | "API_ABUSE"
-    | "MALICIOUS_BINARY"
-    | "CSD_WHITELIST"
-    | "CSD_DOWNLOAD_WHITELIST"
-    | "CLIENT_INCIDENT"
-    | "CLIENT_INCIDENT_WHITELIST"
-    | "APK_MALWARE_OFFLINE"
-    | "SUBRESOURCE_FILTER"
-    | "SUSPICIOUS"
-    | "TRICK_TO_BILL"
-    | "HIGH_CONFIDENCE_ALLOWLIST"
-    | "ACCURACY_TIPS";
+  | "THREAT_TYPE_UNSPECIFIED"
+  | "MALWARE"
+  | "SOCIAL_ENGINEERING"
+  | "UNWANTED_SOFTWARE"
+  | "POTENTIALLY_HARMFUL_APPLICATION"
+  | "SOCIAL_ENGINEERING_INTERNAL"
+  | "API_ABUSE"
+  | "MALICIOUS_BINARY"
+  | "CSD_WHITELIST"
+  | "CSD_DOWNLOAD_WHITELIST"
+  | "CLIENT_INCIDENT"
+  | "CLIENT_INCIDENT_WHITELIST"
+  | "APK_MALWARE_OFFLINE"
+  | "SUBRESOURCE_FILTER"
+  | "SUSPICIOUS"
+  | "TRICK_TO_BILL"
+  | "HIGH_CONFIDENCE_ALLOWLIST"
+  | "ACCURACY_TIPS";
 export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestThreatTypeEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestThreatEntryTypeEnum =
-    | "THREAT_ENTRY_TYPE_UNSPECIFIED"
-    | "URL"
-    | "EXECUTABLE"
-    | "IP_RANGE"
-    | "CHROME_EXTENSION"
-    | "FILENAME"
-    | "CERT";
-export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestThreatEntryTypeEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** A single list update request. */
 export interface GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequest {
   /** The type of platform at risk by entries present in the list. */
   platformType?:
     | GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestPlatformTypeEnum
+    | (string & {});
+  /** The types of entries present in the list. */
+  threatEntryType?:
+    | GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestThreatEntryTypeEnum
     | (string & {});
   /** The constraints associated with this request. */
   constraints?: GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestConstraints;
@@ -368,10 +372,6 @@ export interface GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUp
   threatType?:
     | GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestThreatTypeEnum
     | (string & {});
-  /** The types of entries present in the list. */
-  threatEntryType?:
-    | GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestThreatEntryTypeEnum
-    | (string & {});
 }
 export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -379,15 +379,15 @@ export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdate
       platformType: S.optional(
         GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestPlatformTypeEnum,
       ),
+      threatEntryType: S.optional(
+        GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestThreatEntryTypeEnum,
+      ),
       constraints: S.optional(
         GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestConstraints,
       ),
       state: S.optional(S.String),
       threatType: S.optional(
         GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestThreatTypeEnum,
-      ),
-      threatEntryType: S.optional(
-        GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestThreatEntryTypeEnum,
       ),
     }),
   ).annotate({
@@ -404,18 +404,18 @@ export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdate
 
 /** Describes a Safe Browsing API update request. Clients can request updates for multiple lists in a single request. The server may not respond to all requests, if the server has no updates for that list. NOTE: Field index 2 is unused. NEXT: 5 */
 export interface GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequest {
-  /** The client metadata. */
-  client?: GoogleSecuritySafebrowsingV4ClientInfo;
   /** The requested threat list updates. */
   listUpdateRequests?: GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestList;
+  /** The client metadata. */
+  client?: GoogleSecuritySafebrowsingV4ClientInfo;
 }
 export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      client: S.optional(GoogleSecuritySafebrowsingV4ClientInfo),
       listUpdateRequests: S.optional(
         GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestList,
       ),
+      client: S.optional(GoogleSecuritySafebrowsingV4ClientInfo),
     }),
   ).annotate({
     identifier: "GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequest",
@@ -443,18 +443,19 @@ export const FetchThreatListUpdatesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "FetchThreatListUpdatesRequest",
 }) as any as S.Schema<FetchThreatListUpdatesRequest>;
 
-export type GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponsePlatformTypeEnum =
-    | "PLATFORM_TYPE_UNSPECIFIED"
-    | "WINDOWS"
-    | "LINUX"
-    | "ANDROID"
-    | "OSX"
-    | "IOS"
-    | "ANY_PLATFORM"
-    | "ALL_PLATFORMS"
-    | "CHROME";
-export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponsePlatformTypeEnum =
-  /*@__PURE__*/ S.String;
+/** The expected state of a client's local database. */
+export interface GoogleSecuritySafebrowsingV4Checksum {
+  /** The SHA256 hash of the client state; that is, of the sorted list of all hashes present in the database. */
+  sha256?: string;
+}
+export const GoogleSecuritySafebrowsingV4Checksum = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      sha256: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleSecuritySafebrowsingV4Checksum",
+}) as any as S.Schema<GoogleSecuritySafebrowsingV4Checksum>;
 
 /** The uncompressed threat entries in hash format of a particular prefix length. Hashes can be anywhere from 4 to 32 bytes in size. A large majority are 4 bytes, but some hashes are lengthened if they collide with the hash of a popular URL. Used for sending ThreatEntrySet to clients that do not support compression, or when sending non-4-byte hashes to clients that do support compression. */
 export interface GoogleSecuritySafebrowsingV4RawHashes {
@@ -473,24 +474,12 @@ export const GoogleSecuritySafebrowsingV4RawHashes = /*@__PURE__*/ S.suspend(
   identifier: "GoogleSecuritySafebrowsingV4RawHashes",
 }) as any as S.Schema<GoogleSecuritySafebrowsingV4RawHashes>;
 
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(
-  S.Number,
-) as any as S.Schema<IntegerList>;
-
-/** A set of raw indices to remove from a local list. */
-export interface GoogleSecuritySafebrowsingV4RawIndices {
-  /** The indices to remove from a lexicographically-sorted local list. */
-  indices?: IntegerList;
-}
-export const GoogleSecuritySafebrowsingV4RawIndices = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      indices: S.optional(IntegerList),
-    }),
-).annotate({
-  identifier: "GoogleSecuritySafebrowsingV4RawIndices",
-}) as any as S.Schema<GoogleSecuritySafebrowsingV4RawIndices>;
+export type GoogleSecuritySafebrowsingV4ThreatEntrySetCompressionTypeEnum =
+  | "COMPRESSION_TYPE_UNSPECIFIED"
+  | "RAW"
+  | "RICE";
+export const GoogleSecuritySafebrowsingV4ThreatEntrySetCompressionTypeEnum =
+  S.String;
 
 /** The Rice-Golomb encoded data. Used for sending compressed 4-byte hashes or compressed removal indices. */
 export interface GoogleSecuritySafebrowsingV4RiceDeltaEncoding {
@@ -515,36 +504,48 @@ export const GoogleSecuritySafebrowsingV4RiceDeltaEncoding =
     identifier: "GoogleSecuritySafebrowsingV4RiceDeltaEncoding",
   }) as any as S.Schema<GoogleSecuritySafebrowsingV4RiceDeltaEncoding>;
 
-export type GoogleSecuritySafebrowsingV4ThreatEntrySetCompressionTypeEnum =
-  | "COMPRESSION_TYPE_UNSPECIFIED"
-  | "RAW"
-  | "RICE";
-export const GoogleSecuritySafebrowsingV4ThreatEntrySetCompressionTypeEnum =
-  /*@__PURE__*/ S.String;
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<IntegerList>;
+
+/** A set of raw indices to remove from a local list. */
+export interface GoogleSecuritySafebrowsingV4RawIndices {
+  /** The indices to remove from a lexicographically-sorted local list. */
+  indices?: IntegerList;
+}
+export const GoogleSecuritySafebrowsingV4RawIndices = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      indices: S.optional(IntegerList),
+    }),
+).annotate({
+  identifier: "GoogleSecuritySafebrowsingV4RawIndices",
+}) as any as S.Schema<GoogleSecuritySafebrowsingV4RawIndices>;
 
 /** A set of threats that should be added or removed from a client's local database. */
 export interface GoogleSecuritySafebrowsingV4ThreatEntrySet {
   /** The raw SHA256-formatted entries. */
   rawHashes?: GoogleSecuritySafebrowsingV4RawHashes;
-  /** The raw removal indices for a local list. */
-  rawIndices?: GoogleSecuritySafebrowsingV4RawIndices;
-  /** The encoded local, lexicographically-sorted list indices, using a Golomb-Rice encoding. Used for sending compressed removal indices. The removal indices (uint32) are sorted in ascending order, then delta encoded and stored as encoded_data. */
-  riceIndices?: GoogleSecuritySafebrowsingV4RiceDeltaEncoding;
   /** The compression type for the entries in this set. */
   compressionType?: GoogleSecuritySafebrowsingV4ThreatEntrySetCompressionTypeEnum;
   /** The encoded 4-byte prefixes of SHA256-formatted entries, using a Golomb-Rice encoding. The hashes are converted to uint32, sorted in ascending order, then delta encoded and stored as encoded_data. */
   riceHashes?: GoogleSecuritySafebrowsingV4RiceDeltaEncoding;
+  /** The encoded local, lexicographically-sorted list indices, using a Golomb-Rice encoding. Used for sending compressed removal indices. The removal indices (uint32) are sorted in ascending order, then delta encoded and stored as encoded_data. */
+  riceIndices?: GoogleSecuritySafebrowsingV4RiceDeltaEncoding;
+  /** The raw removal indices for a local list. */
+  rawIndices?: GoogleSecuritySafebrowsingV4RawIndices;
 }
 export const GoogleSecuritySafebrowsingV4ThreatEntrySet =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rawHashes: S.optional(GoogleSecuritySafebrowsingV4RawHashes),
-      rawIndices: S.optional(GoogleSecuritySafebrowsingV4RawIndices),
-      riceIndices: S.optional(GoogleSecuritySafebrowsingV4RiceDeltaEncoding),
       compressionType: S.optional(
         GoogleSecuritySafebrowsingV4ThreatEntrySetCompressionTypeEnum,
       ),
       riceHashes: S.optional(GoogleSecuritySafebrowsingV4RiceDeltaEncoding),
+      riceIndices: S.optional(GoogleSecuritySafebrowsingV4RiceDeltaEncoding),
+      rawIndices: S.optional(GoogleSecuritySafebrowsingV4RawIndices),
     }),
   ).annotate({
     identifier: "GoogleSecuritySafebrowsingV4ThreatEntrySet",
@@ -557,96 +558,97 @@ export const GoogleSecuritySafebrowsingV4ThreatEntrySetList =
     GoogleSecuritySafebrowsingV4ThreatEntrySet,
   ) as any as S.Schema<GoogleSecuritySafebrowsingV4ThreatEntrySetList>;
 
+export type GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseResponseTypeEnum =
+  | "RESPONSE_TYPE_UNSPECIFIED"
+  | "PARTIAL_UPDATE"
+  | "FULL_UPDATE";
+export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseResponseTypeEnum =
+  S.String;
+
+export type GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponsePlatformTypeEnum =
+  | "PLATFORM_TYPE_UNSPECIFIED"
+  | "WINDOWS"
+  | "LINUX"
+  | "ANDROID"
+  | "OSX"
+  | "IOS"
+  | "ANY_PLATFORM"
+  | "ALL_PLATFORMS"
+  | "CHROME";
+export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponsePlatformTypeEnum =
+  S.String;
+
 export type GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseThreatTypeEnum =
-    | "THREAT_TYPE_UNSPECIFIED"
-    | "MALWARE"
-    | "SOCIAL_ENGINEERING"
-    | "UNWANTED_SOFTWARE"
-    | "POTENTIALLY_HARMFUL_APPLICATION"
-    | "SOCIAL_ENGINEERING_INTERNAL"
-    | "API_ABUSE"
-    | "MALICIOUS_BINARY"
-    | "CSD_WHITELIST"
-    | "CSD_DOWNLOAD_WHITELIST"
-    | "CLIENT_INCIDENT"
-    | "CLIENT_INCIDENT_WHITELIST"
-    | "APK_MALWARE_OFFLINE"
-    | "SUBRESOURCE_FILTER"
-    | "SUSPICIOUS"
-    | "TRICK_TO_BILL"
-    | "HIGH_CONFIDENCE_ALLOWLIST"
-    | "ACCURACY_TIPS";
+  | "THREAT_TYPE_UNSPECIFIED"
+  | "MALWARE"
+  | "SOCIAL_ENGINEERING"
+  | "UNWANTED_SOFTWARE"
+  | "POTENTIALLY_HARMFUL_APPLICATION"
+  | "SOCIAL_ENGINEERING_INTERNAL"
+  | "API_ABUSE"
+  | "MALICIOUS_BINARY"
+  | "CSD_WHITELIST"
+  | "CSD_DOWNLOAD_WHITELIST"
+  | "CLIENT_INCIDENT"
+  | "CLIENT_INCIDENT_WHITELIST"
+  | "APK_MALWARE_OFFLINE"
+  | "SUBRESOURCE_FILTER"
+  | "SUSPICIOUS"
+  | "TRICK_TO_BILL"
+  | "HIGH_CONFIDENCE_ALLOWLIST"
+  | "ACCURACY_TIPS";
 export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseThreatTypeEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseThreatEntryTypeEnum =
-    | "THREAT_ENTRY_TYPE_UNSPECIFIED"
-    | "URL"
-    | "EXECUTABLE"
-    | "IP_RANGE"
-    | "CHROME_EXTENSION"
-    | "FILENAME"
-    | "CERT";
+  | "THREAT_ENTRY_TYPE_UNSPECIFIED"
+  | "URL"
+  | "EXECUTABLE"
+  | "IP_RANGE"
+  | "CHROME_EXTENSION"
+  | "FILENAME"
+  | "CERT";
 export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseThreatEntryTypeEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseResponseTypeEnum =
-  "RESPONSE_TYPE_UNSPECIFIED" | "PARTIAL_UPDATE" | "FULL_UPDATE";
-export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseResponseTypeEnum =
-  /*@__PURE__*/ S.String;
-
-/** The expected state of a client's local database. */
-export interface GoogleSecuritySafebrowsingV4Checksum {
-  /** The SHA256 hash of the client state; that is, of the sorted list of all hashes present in the database. */
-  sha256?: string;
-}
-export const GoogleSecuritySafebrowsingV4Checksum = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      sha256: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleSecuritySafebrowsingV4Checksum",
-}) as any as S.Schema<GoogleSecuritySafebrowsingV4Checksum>;
+  S.String;
 
 /** An update to an individual list. */
 export interface GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponse {
-  /** The platform type for which data is returned. */
-  platformType?: GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponsePlatformTypeEnum;
-  /** The new client state, in encrypted format. Opaque to clients. */
-  newClientState?: string;
+  /** The expected SHA256 hash of the client state; that is, of the sorted list of all hashes present in the database after applying the provided update. If the client state doesn't match the expected state, the client must disregard this update and retry later. */
+  checksum?: GoogleSecuritySafebrowsingV4Checksum;
   /** A set of entries to add to a local threat type's list. Repeated to allow for a combination of compressed and raw data to be sent in a single response. */
   additions?: GoogleSecuritySafebrowsingV4ThreatEntrySetList;
+  /** A set of entries to remove from a local threat type's list. In practice, this field is empty or contains exactly one ThreatEntrySet. */
+  removals?: GoogleSecuritySafebrowsingV4ThreatEntrySetList;
+  /** The new client state, in encrypted format. Opaque to clients. */
+  newClientState?: string;
+  /** The type of response. This may indicate that an action is required by the client when the response is received. */
+  responseType?: GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseResponseTypeEnum;
+  /** The platform type for which data is returned. */
+  platformType?: GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponsePlatformTypeEnum;
   /** The threat type for which data is returned. */
   threatType?: GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseThreatTypeEnum;
   /** The format of the threats. */
   threatEntryType?: GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseThreatEntryTypeEnum;
-  /** The type of response. This may indicate that an action is required by the client when the response is received. */
-  responseType?: GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseResponseTypeEnum;
-  /** A set of entries to remove from a local threat type's list. In practice, this field is empty or contains exactly one ThreatEntrySet. */
-  removals?: GoogleSecuritySafebrowsingV4ThreatEntrySetList;
-  /** The expected SHA256 hash of the client state; that is, of the sorted list of all hashes present in the database after applying the provided update. If the client state doesn't match the expected state, the client must disregard this update and retry later. */
-  checksum?: GoogleSecuritySafebrowsingV4Checksum;
 }
 export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      checksum: S.optional(GoogleSecuritySafebrowsingV4Checksum),
+      additions: S.optional(GoogleSecuritySafebrowsingV4ThreatEntrySetList),
+      removals: S.optional(GoogleSecuritySafebrowsingV4ThreatEntrySetList),
+      newClientState: S.optional(S.String),
+      responseType: S.optional(
+        GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseResponseTypeEnum,
+      ),
       platformType: S.optional(
         GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponsePlatformTypeEnum,
       ),
-      newClientState: S.optional(S.String),
-      additions: S.optional(GoogleSecuritySafebrowsingV4ThreatEntrySetList),
       threatType: S.optional(
         GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseThreatTypeEnum,
       ),
       threatEntryType: S.optional(
         GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseThreatEntryTypeEnum,
       ),
-      responseType: S.optional(
-        GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseResponseTypeEnum,
-      ),
-      removals: S.optional(GoogleSecuritySafebrowsingV4ThreatEntrySetList),
-      checksum: S.optional(GoogleSecuritySafebrowsingV4Checksum),
     }),
   ).annotate({
     identifier:
@@ -661,22 +663,27 @@ export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdat
   ) as any as S.Schema<GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseList>;
 
 export interface GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponse {
-  /** The list updates requested by the clients. The number of responses here may be less than the number of requests sent by clients. This is the case, for example, if the server has no updates for a particular list. */
-  listUpdateResponses?: GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseList;
   /** The minimum duration the client must wait before issuing any update request. If this field is not set clients may update as soon as they want. */
   minimumWaitDuration?: string;
+  /** The list updates requested by the clients. The number of responses here may be less than the number of requests sent by clients. This is the case, for example, if the server has no updates for a particular list. */
+  listUpdateResponses?: GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseList;
 }
 export const GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      minimumWaitDuration: S.optional(S.String),
       listUpdateResponses: S.optional(
         GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateResponseList,
       ),
-      minimumWaitDuration: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponse",
   }) as any as S.Schema<GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponse>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
 
 export type GoogleSecuritySafebrowsingV4ThreatInfoThreatTypesItemEnum =
   | "THREAT_TYPE_UNSPECIFIED"
@@ -698,7 +705,7 @@ export type GoogleSecuritySafebrowsingV4ThreatInfoThreatTypesItemEnum =
   | "HIGH_CONFIDENCE_ALLOWLIST"
   | "ACCURACY_TIPS";
 export const GoogleSecuritySafebrowsingV4ThreatInfoThreatTypesItemEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleSecuritySafebrowsingV4ThreatInfoThreatTypesItemEnumList =
   Array<
@@ -720,7 +727,7 @@ export type GoogleSecuritySafebrowsingV4ThreatInfoPlatformTypesItemEnum =
   | "ALL_PLATFORMS"
   | "CHROME";
 export const GoogleSecuritySafebrowsingV4ThreatInfoPlatformTypesItemEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleSecuritySafebrowsingV4ThreatInfoPlatformTypesItemEnumList =
   Array<
@@ -740,7 +747,7 @@ export type GoogleSecuritySafebrowsingV4ThreatInfoThreatEntryTypesItemEnum =
   | "FILENAME"
   | "CERT";
 export const GoogleSecuritySafebrowsingV4ThreatInfoThreatEntryTypesItemEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleSecuritySafebrowsingV4ThreatInfoThreatEntryTypesItemEnumList =
   Array<
@@ -788,29 +795,24 @@ export const GoogleSecuritySafebrowsingV4ThreatInfo = /*@__PURE__*/ S.suspend(
   identifier: "GoogleSecuritySafebrowsingV4ThreatInfo",
 }) as any as S.Schema<GoogleSecuritySafebrowsingV4ThreatInfo>;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
-
 /** Request to return full hashes matched by the provided hash prefixes. */
 export interface GoogleSecuritySafebrowsingV4FindFullHashesRequest {
-  /** The lists and hashes to be checked. */
-  threatInfo?: GoogleSecuritySafebrowsingV4ThreatInfo;
   /** Client metadata associated with callers of higher-level APIs built on top of the client's implementation. */
   apiClient?: GoogleSecuritySafebrowsingV4ClientInfo;
-  /** The client metadata. */
-  client?: GoogleSecuritySafebrowsingV4ClientInfo;
   /** The current client states for each of the client's local threat lists. */
   clientStates?: StringList;
+  /** The client metadata. */
+  client?: GoogleSecuritySafebrowsingV4ClientInfo;
+  /** The lists and hashes to be checked. */
+  threatInfo?: GoogleSecuritySafebrowsingV4ThreatInfo;
 }
 export const GoogleSecuritySafebrowsingV4FindFullHashesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      threatInfo: S.optional(GoogleSecuritySafebrowsingV4ThreatInfo),
       apiClient: S.optional(GoogleSecuritySafebrowsingV4ClientInfo),
-      client: S.optional(GoogleSecuritySafebrowsingV4ClientInfo),
       clientStates: S.optional(StringList),
+      client: S.optional(GoogleSecuritySafebrowsingV4ClientInfo),
+      threatInfo: S.optional(GoogleSecuritySafebrowsingV4ThreatInfo),
     }),
   ).annotate({
     identifier: "GoogleSecuritySafebrowsingV4FindFullHashesRequest",
@@ -836,64 +838,18 @@ export const FindFullHashesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "FindFullHashesRequest",
 }) as any as S.Schema<FindFullHashesRequest>;
 
-export type GoogleSecuritySafebrowsingV4ThreatMatchThreatTypeEnum =
-  | "THREAT_TYPE_UNSPECIFIED"
-  | "MALWARE"
-  | "SOCIAL_ENGINEERING"
-  | "UNWANTED_SOFTWARE"
-  | "POTENTIALLY_HARMFUL_APPLICATION"
-  | "SOCIAL_ENGINEERING_INTERNAL"
-  | "API_ABUSE"
-  | "MALICIOUS_BINARY"
-  | "CSD_WHITELIST"
-  | "CSD_DOWNLOAD_WHITELIST"
-  | "CLIENT_INCIDENT"
-  | "CLIENT_INCIDENT_WHITELIST"
-  | "APK_MALWARE_OFFLINE"
-  | "SUBRESOURCE_FILTER"
-  | "SUSPICIOUS"
-  | "TRICK_TO_BILL"
-  | "HIGH_CONFIDENCE_ALLOWLIST"
-  | "ACCURACY_TIPS";
-export const GoogleSecuritySafebrowsingV4ThreatMatchThreatTypeEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleSecuritySafebrowsingV4ThreatMatchThreatEntryTypeEnum =
-  | "THREAT_ENTRY_TYPE_UNSPECIFIED"
-  | "URL"
-  | "EXECUTABLE"
-  | "IP_RANGE"
-  | "CHROME_EXTENSION"
-  | "FILENAME"
-  | "CERT";
-export const GoogleSecuritySafebrowsingV4ThreatMatchThreatEntryTypeEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleSecuritySafebrowsingV4ThreatMatchPlatformTypeEnum =
-  | "PLATFORM_TYPE_UNSPECIFIED"
-  | "WINDOWS"
-  | "LINUX"
-  | "ANDROID"
-  | "OSX"
-  | "IOS"
-  | "ANY_PLATFORM"
-  | "ALL_PLATFORMS"
-  | "CHROME";
-export const GoogleSecuritySafebrowsingV4ThreatMatchPlatformTypeEnum =
-  /*@__PURE__*/ S.String;
-
 /** A single metadata entry. */
 export interface GoogleSecuritySafebrowsingV4ThreatEntryMetadataMetadataEntry {
-  /** The metadata entry key. For JSON requests, the key is base64-encoded. */
-  key?: string;
   /** The metadata entry value. For JSON requests, the value is base64-encoded. */
   value?: string;
+  /** The metadata entry key. For JSON requests, the key is base64-encoded. */
+  key?: string;
 }
 export const GoogleSecuritySafebrowsingV4ThreatEntryMetadataMetadataEntry =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      key: S.optional(S.String),
       value: S.optional(S.String),
+      key: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleSecuritySafebrowsingV4ThreatEntryMetadataMetadataEntry",
@@ -922,36 +878,80 @@ export const GoogleSecuritySafebrowsingV4ThreatEntryMetadata =
     identifier: "GoogleSecuritySafebrowsingV4ThreatEntryMetadata",
   }) as any as S.Schema<GoogleSecuritySafebrowsingV4ThreatEntryMetadata>;
 
+export type GoogleSecuritySafebrowsingV4ThreatMatchThreatEntryTypeEnum =
+  | "THREAT_ENTRY_TYPE_UNSPECIFIED"
+  | "URL"
+  | "EXECUTABLE"
+  | "IP_RANGE"
+  | "CHROME_EXTENSION"
+  | "FILENAME"
+  | "CERT";
+export const GoogleSecuritySafebrowsingV4ThreatMatchThreatEntryTypeEnum =
+  S.String;
+
+export type GoogleSecuritySafebrowsingV4ThreatMatchPlatformTypeEnum =
+  | "PLATFORM_TYPE_UNSPECIFIED"
+  | "WINDOWS"
+  | "LINUX"
+  | "ANDROID"
+  | "OSX"
+  | "IOS"
+  | "ANY_PLATFORM"
+  | "ALL_PLATFORMS"
+  | "CHROME";
+export const GoogleSecuritySafebrowsingV4ThreatMatchPlatformTypeEnum = S.String;
+
+export type GoogleSecuritySafebrowsingV4ThreatMatchThreatTypeEnum =
+  | "THREAT_TYPE_UNSPECIFIED"
+  | "MALWARE"
+  | "SOCIAL_ENGINEERING"
+  | "UNWANTED_SOFTWARE"
+  | "POTENTIALLY_HARMFUL_APPLICATION"
+  | "SOCIAL_ENGINEERING_INTERNAL"
+  | "API_ABUSE"
+  | "MALICIOUS_BINARY"
+  | "CSD_WHITELIST"
+  | "CSD_DOWNLOAD_WHITELIST"
+  | "CLIENT_INCIDENT"
+  | "CLIENT_INCIDENT_WHITELIST"
+  | "APK_MALWARE_OFFLINE"
+  | "SUBRESOURCE_FILTER"
+  | "SUSPICIOUS"
+  | "TRICK_TO_BILL"
+  | "HIGH_CONFIDENCE_ALLOWLIST"
+  | "ACCURACY_TIPS";
+export const GoogleSecuritySafebrowsingV4ThreatMatchThreatTypeEnum = S.String;
+
 /** A match when checking a threat entry in the Safe Browsing threat lists. */
 export interface GoogleSecuritySafebrowsingV4ThreatMatch {
+  /** Optional metadata associated with this threat. */
+  threatEntryMetadata?: GoogleSecuritySafebrowsingV4ThreatEntryMetadata;
   /** The threat matching this threat. */
   threat?: GoogleSecuritySafebrowsingV4ThreatEntry;
-  /** The threat type matching this threat. */
-  threatType?: GoogleSecuritySafebrowsingV4ThreatMatchThreatTypeEnum;
   /** The threat entry type matching this threat. */
   threatEntryType?: GoogleSecuritySafebrowsingV4ThreatMatchThreatEntryTypeEnum;
   /** The platform type matching this threat. */
   platformType?: GoogleSecuritySafebrowsingV4ThreatMatchPlatformTypeEnum;
-  /** Optional metadata associated with this threat. */
-  threatEntryMetadata?: GoogleSecuritySafebrowsingV4ThreatEntryMetadata;
+  /** The threat type matching this threat. */
+  threatType?: GoogleSecuritySafebrowsingV4ThreatMatchThreatTypeEnum;
   /** The cache lifetime for the returned match. Clients must not cache this response for more than this duration to avoid false positives. */
   cacheDuration?: string;
 }
 export const GoogleSecuritySafebrowsingV4ThreatMatch = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      threat: S.optional(GoogleSecuritySafebrowsingV4ThreatEntry),
-      threatType: S.optional(
-        GoogleSecuritySafebrowsingV4ThreatMatchThreatTypeEnum,
+      threatEntryMetadata: S.optional(
+        GoogleSecuritySafebrowsingV4ThreatEntryMetadata,
       ),
+      threat: S.optional(GoogleSecuritySafebrowsingV4ThreatEntry),
       threatEntryType: S.optional(
         GoogleSecuritySafebrowsingV4ThreatMatchThreatEntryTypeEnum,
       ),
       platformType: S.optional(
         GoogleSecuritySafebrowsingV4ThreatMatchPlatformTypeEnum,
       ),
-      threatEntryMetadata: S.optional(
-        GoogleSecuritySafebrowsingV4ThreatEntryMetadata,
+      threatType: S.optional(
+        GoogleSecuritySafebrowsingV4ThreatMatchThreatTypeEnum,
       ),
       cacheDuration: S.optional(S.String),
     }),
@@ -967,18 +967,18 @@ export const GoogleSecuritySafebrowsingV4ThreatMatchList =
   ) as any as S.Schema<GoogleSecuritySafebrowsingV4ThreatMatchList>;
 
 export interface GoogleSecuritySafebrowsingV4FindFullHashesResponse {
-  /** For requested entities that did not match the threat list, how long to cache the response. */
-  negativeCacheDuration?: string;
   /** The full hashes that matched the requested prefixes. */
   matches?: GoogleSecuritySafebrowsingV4ThreatMatchList;
+  /** For requested entities that did not match the threat list, how long to cache the response. */
+  negativeCacheDuration?: string;
   /** The minimum duration the client must wait before issuing any find hashes request. If this field is not set, clients can issue a request as soon as they want. */
   minimumWaitDuration?: string;
 }
 export const GoogleSecuritySafebrowsingV4FindFullHashesResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      negativeCacheDuration: S.optional(S.String),
       matches: S.optional(GoogleSecuritySafebrowsingV4ThreatMatchList),
+      negativeCacheDuration: S.optional(S.String),
       minimumWaitDuration: S.optional(S.String),
     }),
   ).annotate({
@@ -1036,17 +1036,17 @@ export const GoogleSecuritySafebrowsingV4FindThreatMatchesResponse =
   }) as any as S.Schema<GoogleSecuritySafebrowsingV4FindThreatMatchesResponse>;
 
 export interface GetEncodedFullHashesRequest {
-  /** The version of the client implementation. */
-  clientVersion?: string;
   /** A client ID that (hopefully) uniquely identifies the client implementation of the Safe Browsing API. */
   clientId?: string;
+  /** The version of the client implementation. */
+  clientVersion?: string;
   /** A serialized FindFullHashesRequest proto. */
   encodedRequest: string;
 }
 export const GetEncodedFullHashesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clientVersion: S.optional(S.String.pipe(T.Query())),
     clientId: S.optional(S.String.pipe(T.Query())),
+    clientVersion: S.optional(S.String.pipe(T.Query())),
     encodedRequest: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -1060,18 +1060,18 @@ export const GetEncodedFullHashesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetEncodedFullHashesRequest>;
 
 export interface GetEncodedUpdatesRequest {
+  /** A serialized FetchThreatListUpdatesRequest proto. */
+  encodedRequest: string;
   /** A client ID that uniquely identifies the client implementation of the Safe Browsing API. */
   clientId?: string;
   /** The version of the client implementation. */
   clientVersion?: string;
-  /** A serialized FetchThreatListUpdatesRequest proto. */
-  encodedRequest: string;
 }
 export const GetEncodedUpdatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    encodedRequest: S.String.pipe(T.Label()),
     clientId: S.optional(S.String.pipe(T.Query())),
     clientVersion: S.optional(S.String.pipe(T.Query())),
-    encodedRequest: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1096,6 +1096,30 @@ export const ListThreatListsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListThreatListsRequest",
 }) as any as S.Schema<ListThreatListsRequest>;
 
+export type GoogleSecuritySafebrowsingV4ThreatListDescriptorPlatformTypeEnum =
+  | "PLATFORM_TYPE_UNSPECIFIED"
+  | "WINDOWS"
+  | "LINUX"
+  | "ANDROID"
+  | "OSX"
+  | "IOS"
+  | "ANY_PLATFORM"
+  | "ALL_PLATFORMS"
+  | "CHROME";
+export const GoogleSecuritySafebrowsingV4ThreatListDescriptorPlatformTypeEnum =
+  S.String;
+
+export type GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatEntryTypeEnum =
+  | "THREAT_ENTRY_TYPE_UNSPECIFIED"
+  | "URL"
+  | "EXECUTABLE"
+  | "IP_RANGE"
+  | "CHROME_EXTENSION"
+  | "FILENAME"
+  | "CERT";
+export const GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatEntryTypeEnum =
+  S.String;
+
 export type GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatTypeEnum =
   | "THREAT_TYPE_UNSPECIFIED"
   | "MALWARE"
@@ -1116,52 +1140,28 @@ export type GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatTypeEnum =
   | "HIGH_CONFIDENCE_ALLOWLIST"
   | "ACCURACY_TIPS";
 export const GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatTypeEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatEntryTypeEnum =
-    | "THREAT_ENTRY_TYPE_UNSPECIFIED"
-    | "URL"
-    | "EXECUTABLE"
-    | "IP_RANGE"
-    | "CHROME_EXTENSION"
-    | "FILENAME"
-    | "CERT";
-export const GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatEntryTypeEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleSecuritySafebrowsingV4ThreatListDescriptorPlatformTypeEnum =
-  | "PLATFORM_TYPE_UNSPECIFIED"
-  | "WINDOWS"
-  | "LINUX"
-  | "ANDROID"
-  | "OSX"
-  | "IOS"
-  | "ANY_PLATFORM"
-  | "ALL_PLATFORMS"
-  | "CHROME";
-export const GoogleSecuritySafebrowsingV4ThreatListDescriptorPlatformTypeEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** Describes an individual threat list. A list is defined by three parameters: the type of threat posed, the type of platform targeted by the threat, and the type of entries in the list. */
 export interface GoogleSecuritySafebrowsingV4ThreatListDescriptor {
-  /** The threat type posed by the list's entries. */
-  threatType?: GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatTypeEnum;
-  /** The entry types contained in the list. */
-  threatEntryType?: GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatEntryTypeEnum;
   /** The platform type targeted by the list's entries. */
   platformType?: GoogleSecuritySafebrowsingV4ThreatListDescriptorPlatformTypeEnum;
+  /** The entry types contained in the list. */
+  threatEntryType?: GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatEntryTypeEnum;
+  /** The threat type posed by the list's entries. */
+  threatType?: GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatTypeEnum;
 }
 export const GoogleSecuritySafebrowsingV4ThreatListDescriptor =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      threatType: S.optional(
-        GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatTypeEnum,
+      platformType: S.optional(
+        GoogleSecuritySafebrowsingV4ThreatListDescriptorPlatformTypeEnum,
       ),
       threatEntryType: S.optional(
         GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatEntryTypeEnum,
       ),
-      platformType: S.optional(
-        GoogleSecuritySafebrowsingV4ThreatListDescriptorPlatformTypeEnum,
+      threatType: S.optional(
+        GoogleSecuritySafebrowsingV4ThreatListDescriptorThreatTypeEnum,
       ),
     }),
   ).annotate({

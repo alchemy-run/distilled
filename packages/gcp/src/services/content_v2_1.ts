@@ -79,15 +79,15 @@ export const AuthinfoAccountsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AuthinfoAccountsRequest>;
 
 export interface AccountIdentifier {
-  /** The merchant account ID, set for individual accounts and subaccounts. */
-  merchantId?: string;
   /** The aggregator ID, set for aggregators and subaccounts (in that case, it represents the aggregator of the subaccount). */
   aggregatorId?: string;
+  /** The merchant account ID, set for individual accounts and subaccounts. */
+  merchantId?: string;
 }
 export const AccountIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.optional(S.String),
     aggregatorId: S.optional(S.String),
+    merchantId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AccountIdentifier",
@@ -114,18 +114,18 @@ export const AccountsAuthInfoResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AccountsAuthInfoResponse>;
 
 export interface ClaimwebsiteAccountsRequest {
-  /** The ID of the account whose website is claimed. */
-  accountId: string;
-  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
-  merchantId: string;
   /** Only available to selected merchants, for example multi-client accounts (MCAs) and their sub-accounts. When set to `True`, this option removes any existing claim on the requested website and replaces it with a claim from the account that makes the request. */
   overwrite?: boolean;
+  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
+  merchantId: string;
+  /** The ID of the account whose website is claimed. */
+  accountId: string;
 }
 export const ClaimwebsiteAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountId: S.String.pipe(T.Label()),
-    merchantId: S.String.pipe(T.Label()),
     overwrite: S.optional(S.Boolean.pipe(T.Query())),
+    merchantId: S.String.pipe(T.Label()),
+    accountId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "POST",
@@ -157,18 +157,18 @@ export const AccountCredentialsPurposeEnum = /*@__PURE__*/ S.String;
 
 /** Credentials allowing Google to call a partner's API on behalf of a merchant. */
 export interface AccountCredentials {
+  /** Indicates to Google how Google should use these OAuth tokens. */
+  purpose?: AccountCredentialsPurposeEnum | (string & {});
   /** An OAuth access token. */
   accessToken?: string;
   /** The amount of time, in seconds, after which the access token is no longer valid. */
   expiresIn?: string;
-  /** Indicates to Google how Google should use these OAuth tokens. */
-  purpose?: AccountCredentialsPurposeEnum | (string & {});
 }
 export const AccountCredentials = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    purpose: S.optional(AccountCredentialsPurposeEnum),
     accessToken: S.optional(S.String),
     expiresIn: S.optional(S.String),
-    purpose: S.optional(AccountCredentialsPurposeEnum),
   }),
 ).annotate({
   identifier: "AccountCredentials",
@@ -203,24 +203,24 @@ export const AccountLabelLabelTypeEnum = /*@__PURE__*/ S.String;
 
 /** Label assigned by CSS domain or CSS group to one of its sub-accounts. */
 export interface AccountLabel {
+  /** The description of this label. */
+  description?: string;
+  /** Output only. The type of this label. */
+  labelType?: AccountLabelLabelTypeEnum | (string & {});
   /** The display name of this label. */
   name?: string;
   /** Output only. The ID of the label. */
   labelId?: string;
   /** Immutable. The ID of account this label belongs to. */
   accountId?: string;
-  /** The description of this label. */
-  description?: string;
-  /** Output only. The type of this label. */
-  labelType?: AccountLabelLabelTypeEnum | (string & {});
 }
 export const AccountLabel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    description: S.optional(S.String),
+    labelType: S.optional(AccountLabelLabelTypeEnum),
     name: S.optional(S.String),
     labelId: S.optional(S.String),
     accountId: S.optional(S.String),
-    description: S.optional(S.String),
-    labelType: S.optional(AccountLabelLabelTypeEnum),
   }),
 ).annotate({ identifier: "AccountLabel" }) as any as S.Schema<AccountLabel>;
 
@@ -253,21 +253,21 @@ export const AccountReturnCarrierCarrierCodeEnum = /*@__PURE__*/ S.String;
 
 /** The return carrier information. This service is designed for merchants enrolled in the Buy on Google program. */
 export interface AccountReturnCarrier {
-  /** Name of the carrier account. */
-  carrierAccountName?: string;
   /** Output only. Immutable. The Google-provided unique carrier ID, used to update the resource. */
   carrierAccountId?: string;
-  /** Number of the carrier account. */
-  carrierAccountNumber?: string;
   /** The carrier code enum. Accepts the values FEDEX or UPS. */
   carrierCode?: AccountReturnCarrierCarrierCodeEnum | (string & {});
+  /** Number of the carrier account. */
+  carrierAccountNumber?: string;
+  /** Name of the carrier account. */
+  carrierAccountName?: string;
 }
 export const AccountReturnCarrier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    carrierAccountName: S.optional(S.String),
     carrierAccountId: S.optional(S.String),
-    carrierAccountNumber: S.optional(S.String),
     carrierCode: S.optional(AccountReturnCarrierCarrierCodeEnum),
+    carrierAccountNumber: S.optional(S.String),
+    carrierAccountName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AccountReturnCarrier",
@@ -294,20 +294,25 @@ export const CreateAccountsReturncarrierRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAccountsReturncarrierRequest",
 }) as any as S.Schema<CreateAccountsReturncarrierRequest>;
 
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
 /** The message for FeaturedProduct. [FeaturedProduct](https://support.google.com/merchants/answer/9703736) */
 export interface CollectionFeaturedProduct {
+  /** Required. Y-coordinate of the product callout on the Shoppable Image. */
+  y?: number;
   /** The unique identifier for the product item. */
   offerId?: string;
   /** Required. X-coordinate of the product callout on the Shoppable Image. */
   x?: number;
-  /** Required. Y-coordinate of the product callout on the Shoppable Image. */
-  y?: number;
 }
 export const CollectionFeaturedProduct = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    y: S.optional(S.Number),
     offerId: S.optional(S.String),
     x: S.optional(S.Number),
-    y: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "CollectionFeaturedProduct",
@@ -318,54 +323,49 @@ export const CollectionFeaturedProductList = /*@__PURE__*/ S.Array(
   CollectionFeaturedProduct,
 ) as any as S.Schema<CollectionFeaturedProductList>;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
-
 /** The collection message. */
 export interface Collection {
-  /** Label that you assign to a collection to help organize bidding and reporting in Shopping campaigns. [Custom label](https://support.google.com/merchants/answer/9674217) */
-  customLabel0?: string;
-  /** This identifies one or more products associated with the collection. Used as a lookup to the corresponding product ID in your product feeds. Provide a maximum of 100 featuredProduct (for collections). Provide up to 10 featuredProduct (for Shoppable Images only) with ID and X and Y coordinates. [featured_product attribute](https://support.google.com/merchants/answer/9703736) */
-  featuredProduct?: CollectionFeaturedProductList;
-  /** Label that you assign to a collection to help organize bidding and reporting in Shopping campaigns. */
-  customLabel3?: string;
-  /** The URL of a collection’s image. [image_link attribute](https://support.google.com/merchants/answer/9703236) */
-  imageLink?: StringList;
-  /** A collection’s mobile-optimized landing page when you have a different URL for mobile and desktop traffic. [mobile_link attribute](https://support.google.com/merchants/answer/9646123) */
-  mobileLink?: string;
-  /** Required. The REST ID of the collection. Content API methods that operate on collections take this as their collectionId parameter. The REST ID for a collection is of the form collectionId. [id attribute](https://support.google.com/merchants/answer/9649290) */
-  id?: string;
-  /** The language of a collection and the language of any featured products linked to the collection. [language attribute](https://support.google.com/merchants/answer/9673781) */
-  language?: string;
   /** Label that you assign to a collection to help organize bidding and reporting in Shopping campaigns. */
   customLabel2?: string;
+  /** Required. The REST ID of the collection. Content API methods that operate on collections take this as their collectionId parameter. The REST ID for a collection is of the form collectionId. [id attribute](https://support.google.com/merchants/answer/9649290) */
+  id?: string;
+  /** Your collection's name. [headline attribute](https://support.google.com/merchants/answer/9673580) */
+  headline?: StringList;
+  /** Label that you assign to a collection to help organize bidding and reporting in Shopping campaigns. */
+  customLabel1?: string;
+  /** The URL of a collection’s image. [image_link attribute](https://support.google.com/merchants/answer/9703236) */
+  imageLink?: StringList;
   /** Label that you assign to a collection to help organize bidding and reporting in Shopping campaigns. */
   customLabel4?: string;
   /** A collection’s landing page. URL directly linking to your collection's page on your website. [link attribute](https://support.google.com/merchants/answer/9673983) */
   link?: string;
+  /** Label that you assign to a collection to help organize bidding and reporting in Shopping campaigns. [Custom label](https://support.google.com/merchants/answer/9674217) */
+  customLabel0?: string;
   /** Label that you assign to a collection to help organize bidding and reporting in Shopping campaigns. */
-  customLabel1?: string;
-  /** Your collection's name. [headline attribute](https://support.google.com/merchants/answer/9673580) */
-  headline?: StringList;
+  customLabel3?: string;
+  /** This identifies one or more products associated with the collection. Used as a lookup to the corresponding product ID in your product feeds. Provide a maximum of 100 featuredProduct (for collections). Provide up to 10 featuredProduct (for Shoppable Images only) with ID and X and Y coordinates. [featured_product attribute](https://support.google.com/merchants/answer/9703736) */
+  featuredProduct?: CollectionFeaturedProductList;
+  /** The language of a collection and the language of any featured products linked to the collection. [language attribute](https://support.google.com/merchants/answer/9673781) */
+  language?: string;
+  /** A collection’s mobile-optimized landing page when you have a different URL for mobile and desktop traffic. [mobile_link attribute](https://support.google.com/merchants/answer/9646123) */
+  mobileLink?: string;
   /** [product_country attribute](https://support.google.com/merchants/answer/9674155) */
   productCountry?: string;
 }
 export const Collection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customLabel0: S.optional(S.String),
-    featuredProduct: S.optional(CollectionFeaturedProductList),
-    customLabel3: S.optional(S.String),
-    imageLink: S.optional(StringList),
-    mobileLink: S.optional(S.String),
-    id: S.optional(S.String),
-    language: S.optional(S.String),
     customLabel2: S.optional(S.String),
+    id: S.optional(S.String),
+    headline: S.optional(StringList),
+    customLabel1: S.optional(S.String),
+    imageLink: S.optional(StringList),
     customLabel4: S.optional(S.String),
     link: S.optional(S.String),
-    customLabel1: S.optional(S.String),
-    headline: S.optional(StringList),
+    customLabel0: S.optional(S.String),
+    customLabel3: S.optional(S.String),
+    featuredProduct: S.optional(CollectionFeaturedProductList),
+    language: S.optional(S.String),
+    mobileLink: S.optional(S.String),
     productCountry: S.optional(S.String),
   }),
 ).annotate({ identifier: "Collection" }) as any as S.Schema<Collection>;
@@ -391,16 +391,12 @@ export const CreateCollectionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateCollectionsRequest",
 }) as any as S.Schema<CreateCollectionsRequest>;
 
-export type AttributionSettingsAttributionModelEnum =
-  | "ATTRIBUTION_MODEL_UNSPECIFIED"
-  | "CROSS_CHANNEL_LAST_CLICK"
-  | "ADS_PREFERRED_LAST_CLICK"
-  | "CROSS_CHANNEL_DATA_DRIVEN"
-  | "CROSS_CHANNEL_FIRST_CLICK"
-  | "CROSS_CHANNEL_LINEAR"
-  | "CROSS_CHANNEL_POSITION_BASED"
-  | "CROSS_CHANNEL_TIME_DECAY";
-export const AttributionSettingsAttributionModelEnum = /*@__PURE__*/ S.String;
+export type ConversionSourceStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "ARCHIVED"
+  | "PENDING";
+export const ConversionSourceStateEnum = /*@__PURE__*/ S.String;
 
 /** Message representing a types of conversion events */
 export interface AttributionSettingsConversionType {
@@ -424,19 +420,30 @@ export const AttributionSettingsConversionTypeList = /*@__PURE__*/ S.Array(
   AttributionSettingsConversionType,
 ) as any as S.Schema<AttributionSettingsConversionTypeList>;
 
+export type AttributionSettingsAttributionModelEnum =
+  | "ATTRIBUTION_MODEL_UNSPECIFIED"
+  | "CROSS_CHANNEL_LAST_CLICK"
+  | "ADS_PREFERRED_LAST_CLICK"
+  | "CROSS_CHANNEL_DATA_DRIVEN"
+  | "CROSS_CHANNEL_FIRST_CLICK"
+  | "CROSS_CHANNEL_LINEAR"
+  | "CROSS_CHANNEL_POSITION_BASED"
+  | "CROSS_CHANNEL_TIME_DECAY";
+export const AttributionSettingsAttributionModelEnum = /*@__PURE__*/ S.String;
+
 /** Represents attribution settings for conversion sources receiving pre-attribution data. */
 export interface AttributionSettings {
+  /** Immutable. Unordered list. List of different conversion types a conversion event can be classified as. A standard "purchase" type will be automatically created if this list is empty at creation time. */
+  conversionType?: AttributionSettingsConversionTypeList;
   /** Required. Lookback windows (in days) used for attribution in this source. Supported values are 7, 30, 40. */
   attributionLookbackWindowInDays?: number;
   attributionModel?: AttributionSettingsAttributionModelEnum | (string & {});
-  /** Immutable. Unordered list. List of different conversion types a conversion event can be classified as. A standard "purchase" type will be automatically created if this list is empty at creation time. */
-  conversionType?: AttributionSettingsConversionTypeList;
 }
 export const AttributionSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    conversionType: S.optional(AttributionSettingsConversionTypeList),
     attributionLookbackWindowInDays: S.optional(S.Number),
     attributionModel: S.optional(AttributionSettingsAttributionModelEnum),
-    conversionType: S.optional(AttributionSettingsConversionTypeList),
   }),
 ).annotate({
   identifier: "AttributionSettings",
@@ -448,17 +455,17 @@ export interface MerchantCenterDestination {
   attributionSettings?: AttributionSettings;
   /** Required. Three-letter currency code (ISO 4217). The currency code defines in which currency the conversions sent to this destination will be reported in Merchant Center. */
   currencyCode?: string;
-  /** Output only. Merchant Center Destination ID. */
-  destinationId?: string;
   /** Required. Merchant-specified display name for the destination. This is the name that identifies the conversion source within the Merchant Center UI. Limited to 64 characters. */
   displayName?: string;
+  /** Output only. Merchant Center Destination ID. */
+  destinationId?: string;
 }
 export const MerchantCenterDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     attributionSettings: S.optional(AttributionSettings),
     currencyCode: S.optional(S.String),
-    destinationId: S.optional(S.String),
     displayName: S.optional(S.String),
+    destinationId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "MerchantCenterDestination",
@@ -466,50 +473,43 @@ export const MerchantCenterDestination = /*@__PURE__*/ S.suspend(() =>
 
 /** "Google Analytics Link" sources can be used to get conversion data from an existing Google Analytics property into the linked Merchant Center account. */
 export interface GoogleAnalyticsLink {
-  /** Required. Immutable. ID of the Google Analytics property the merchant is linked to. */
-  propertyId?: string;
-  /** Output only. Attribution settings for the linked Google Analytics property. */
-  attributionSettings?: AttributionSettings;
   /** Output only. Name of the Google Analytics property the merchant is linked to. */
   propertyName?: string;
+  /** Output only. Attribution settings for the linked Google Analytics property. */
+  attributionSettings?: AttributionSettings;
+  /** Required. Immutable. ID of the Google Analytics property the merchant is linked to. */
+  propertyId?: string;
 }
 export const GoogleAnalyticsLink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    propertyId: S.optional(S.String),
-    attributionSettings: S.optional(AttributionSettings),
     propertyName: S.optional(S.String),
+    attributionSettings: S.optional(AttributionSettings),
+    propertyId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleAnalyticsLink",
 }) as any as S.Schema<GoogleAnalyticsLink>;
 
-export type ConversionSourceStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "ARCHIVED"
-  | "PENDING";
-export const ConversionSourceStateEnum = /*@__PURE__*/ S.String;
-
 /** Represents a conversion source owned by a Merchant account. A merchant account can have up to 200 conversion sources. */
 export interface ConversionSource {
+  /** Output only. Current state of this conversion source. Can't be edited through the API. */
+  state?: ConversionSourceStateEnum | (string & {});
+  /** Output only. The time when an archived conversion source becomes permanently deleted and is no longer available to undelete. */
+  expireTime?: string;
   /** Output only. Generated by the Content API upon creation of a new `ConversionSource`. Format: [a-z]{4}:.+ The four characters before the colon represent the type of conversio source. Content after the colon represents the ID of the conversion source within that type. The ID of two different conversion sources might be the same across different types. The following type prefixes are supported: - galk: For GoogleAnalyticsLink sources. - mcdn: For MerchantCenterDestination sources. */
   conversionSourceId?: string;
   /** Conversion Source of type "Merchant Center Tag Destination". */
   merchantCenterDestination?: MerchantCenterDestination;
   /** Immutable. Conversion Source of type "Link to Google Analytics Property". */
   googleAnalyticsLink?: GoogleAnalyticsLink;
-  /** Output only. Current state of this conversion source. Can't be edited through the API. */
-  state?: ConversionSourceStateEnum | (string & {});
-  /** Output only. The time when an archived conversion source becomes permanently deleted and is no longer available to undelete. */
-  expireTime?: string;
 }
 export const ConversionSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    state: S.optional(ConversionSourceStateEnum),
+    expireTime: S.optional(S.String),
     conversionSourceId: S.optional(S.String),
     merchantCenterDestination: S.optional(MerchantCenterDestination),
     googleAnalyticsLink: S.optional(GoogleAnalyticsLink),
-    state: S.optional(ConversionSourceStateEnum),
-    expireTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ConversionSource",
@@ -536,20 +536,69 @@ export const CreateConversionsourcesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateConversionsourcesRequest",
 }) as any as S.Schema<CreateConversionsourcesRequest>;
 
+/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
+export interface TimeZone {
+  /** IANA Time Zone Database time zone. For example "America/New_York". */
+  id?: string;
+  /** Optional. IANA Time Zone Database version number. For example "2019a". */
+  version?: string;
+}
+export const TimeZone = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotate({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
+
+/** Represents civil time (or occasionally physical time). This type can represent a civil time in one of a few possible ways: * When utc_offset is set and time_zone is unset: a civil time on a calendar day with a particular offset from UTC. * When time_zone is set and utc_offset is unset: a civil time on a calendar day in a particular time zone. * When neither time_zone nor utc_offset is set: a civil time on a calendar day in local time. The date is relative to the Proleptic Gregorian Calendar. If year, month, or day are 0, the DateTime is considered not to have a specific year, month, or day respectively. This type may also be used to represent a physical time if all the date and time fields are set and either case of the `time_offset` oneof is set. Consider using `Timestamp` message for physical time instead. If your use case also would like to store the user's timezone, that can be done in another field. This type is more flexible than some applications may want. Make sure to document and validate your application's limitations. */
+export interface DateTime {
+  /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number;
+  /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number;
+  /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
+  month?: number;
+  /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
+  nanos?: number;
+  /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
+  year?: number;
+  /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
+  day?: number;
+  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
+  minutes?: number;
+  /** Time zone. */
+  timeZone?: TimeZone;
+  /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
+  utcOffset?: string;
+}
+export const DateTime = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    seconds: S.optional(S.Number),
+    hours: S.optional(S.Number),
+    month: S.optional(S.Number),
+    nanos: S.optional(S.Number),
+    year: S.optional(S.Number),
+    day: S.optional(S.Number),
+    minutes: S.optional(S.Number),
+    timeZone: S.optional(TimeZone),
+    utcOffset: S.optional(S.String),
+  }),
+).annotate({ identifier: "DateTime" }) as any as S.Schema<DateTime>;
+
 /** Represents how many items are in the shipment for the given shipment_id and line_item_id. */
 export interface OrderTrackingSignalShipmentLineItemMapping {
-  /** Required. The shipment ID. This field will be hashed in returned OrderTrackingSignal creation response. */
-  shipmentId?: string;
   /** The line item quantity in the shipment. */
   quantity?: string;
+  /** Required. The shipment ID. This field will be hashed in returned OrderTrackingSignal creation response. */
+  shipmentId?: string;
   /** Required. The line item ID. */
   lineItemId?: string;
 }
 export const OrderTrackingSignalShipmentLineItemMapping =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      shipmentId: S.optional(S.String),
       quantity: S.optional(S.String),
+      shipmentId: S.optional(S.String),
       lineItemId: S.optional(S.String),
     }),
   ).annotate({
@@ -565,53 +614,53 @@ export const OrderTrackingSignalShipmentLineItemMappingList =
 
 /** The price represented as a number and currency. */
 export interface PriceAmount {
-  /** The price represented as a number. */
-  value?: string;
   /** The currency of the price. */
   currency?: string;
+  /** The price represented as a number. */
+  value?: string;
 }
 export const PriceAmount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(S.String),
     currency: S.optional(S.String),
+    value: S.optional(S.String),
   }),
 ).annotate({ identifier: "PriceAmount" }) as any as S.Schema<PriceAmount>;
 
 /** The line items of the order. */
 export interface OrderTrackingSignalLineItemDetails {
-  /** Required. The Content API REST ID of the product, in the form channel:contentLanguage:targetCountry:offerId. */
-  productId?: string;
   /** Required. The ID for this line item. */
   lineItemId?: string;
-  /** Brand of the product. */
-  brand?: string;
-  /** Universal product code for this item (deprecated: Please use GTIN instead). */
-  upc?: string;
-  /** Plain text description of this product (deprecated: Please use product_title instead). */
-  productDescription?: string;
-  /** Plain text title of this product. */
-  productTitle?: string;
-  /** Merchant SKU for this item (deprecated). */
-  sku?: string;
-  /** The Global Trade Item Number. */
-  gtin?: string;
   /** The quantity of the line item in the order. */
   quantity?: string;
+  /** Brand of the product. */
+  brand?: string;
+  /** Merchant SKU for this item (deprecated). */
+  sku?: string;
+  /** Plain text description of this product (deprecated: Please use product_title instead). */
+  productDescription?: string;
+  /** The Global Trade Item Number. */
+  gtin?: string;
+  /** Universal product code for this item (deprecated: Please use GTIN instead). */
+  upc?: string;
+  /** Plain text title of this product. */
+  productTitle?: string;
   /** The manufacturer part number. */
   mpn?: string;
+  /** Required. The Content API REST ID of the product, in the form channel:contentLanguage:targetCountry:offerId. */
+  productId?: string;
 }
 export const OrderTrackingSignalLineItemDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    productId: S.optional(S.String),
     lineItemId: S.optional(S.String),
-    brand: S.optional(S.String),
-    upc: S.optional(S.String),
-    productDescription: S.optional(S.String),
-    productTitle: S.optional(S.String),
-    sku: S.optional(S.String),
-    gtin: S.optional(S.String),
     quantity: S.optional(S.String),
+    brand: S.optional(S.String),
+    sku: S.optional(S.String),
+    productDescription: S.optional(S.String),
+    gtin: S.optional(S.String),
+    upc: S.optional(S.String),
+    productTitle: S.optional(S.String),
     mpn: S.optional(S.String),
+    productId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "OrderTrackingSignalLineItemDetails",
@@ -623,55 +672,6 @@ export const OrderTrackingSignalLineItemDetailsList = /*@__PURE__*/ S.Array(
   OrderTrackingSignalLineItemDetails,
 ) as any as S.Schema<OrderTrackingSignalLineItemDetailsList>;
 
-/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
-export interface TimeZone {
-  /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
-  /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
-}
-export const TimeZone = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    version: S.optional(S.String),
-    id: S.optional(S.String),
-  }),
-).annotate({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
-
-/** Represents civil time (or occasionally physical time). This type can represent a civil time in one of a few possible ways: * When utc_offset is set and time_zone is unset: a civil time on a calendar day with a particular offset from UTC. * When time_zone is set and utc_offset is unset: a civil time on a calendar day in a particular time zone. * When neither time_zone nor utc_offset is set: a civil time on a calendar day in local time. The date is relative to the Proleptic Gregorian Calendar. If year, month, or day are 0, the DateTime is considered not to have a specific year, month, or day respectively. This type may also be used to represent a physical time if all the date and time fields are set and either case of the `time_offset` oneof is set. Consider using `Timestamp` message for physical time instead. If your use case also would like to store the user's timezone, that can be done in another field. This type is more flexible than some applications may want. Make sure to document and validate your application's limitations. */
-export interface DateTime {
-  /** Time zone. */
-  timeZone?: TimeZone;
-  /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
-  /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
-  utcOffset?: string;
-  /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
-  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
-  minutes?: number;
-  /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
-  day?: number;
-  /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
-  year?: number;
-  /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
-  nanos?: number;
-  /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
-  month?: number;
-}
-export const DateTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timeZone: S.optional(TimeZone),
-    seconds: S.optional(S.Number),
-    utcOffset: S.optional(S.String),
-    hours: S.optional(S.Number),
-    minutes: S.optional(S.Number),
-    day: S.optional(S.Number),
-    year: S.optional(S.Number),
-    nanos: S.optional(S.Number),
-    month: S.optional(S.Number),
-  }),
-).annotate({ identifier: "DateTime" }) as any as S.Schema<DateTime>;
-
 export type OrderTrackingSignalShippingInfoShippingStatusEnum =
   | "SHIPPING_STATE_UNSPECIFIED"
   | "SHIPPED"
@@ -681,46 +681,46 @@ export const OrderTrackingSignalShippingInfoShippingStatusEnum =
 
 /** The shipping information for the order. */
 export interface OrderTrackingSignalShippingInfo {
-  /** Required. The shipment ID. This field will be hashed in returned OrderTrackingSignal creation response. */
-  shipmentId?: string;
-  /** The time when the shipment was actually delivered. Include the year and timezone string, if available. This field is required, if one of the following fields is absent: tracking_id or carrier_name. */
-  actualDeliveryTime?: DateTime;
-  /** The tracking ID of the shipment. This field is required if one of the following fields is absent: earliest_delivery_promise_time, latest_delivery_promise_time, and actual_delivery_time. */
-  trackingId?: string;
-  /** The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) for the shipping origin. */
-  originRegionCode?: string;
-  /** The time when the shipment was shipped. Include the year and timezone string, if available. */
-  shippedTime?: DateTime;
-  /** The earliest delivery promised time. Include the year and timezone string, if available. This field is required, if one of the following fields is absent: tracking_id or carrier_name. */
-  earliestDeliveryPromiseTime?: DateTime;
-  /** The latest delivery promised time. Include the year and timezone string, if available. This field is required, if one of the following fields is absent: tracking_id or carrier_name. */
-  latestDeliveryPromiseTime?: DateTime;
   /** The status of the shipment. */
   shippingStatus?:
     | OrderTrackingSignalShippingInfoShippingStatusEnum
     | (string & {});
-  /** The origin postal code, as a continuous string without spaces or dashes, e.g. "95016". This field will be anonymized in returned OrderTrackingSignal creation response. */
-  originPostalCode?: string;
+  /** The earliest delivery promised time. Include the year and timezone string, if available. This field is required, if one of the following fields is absent: tracking_id or carrier_name. */
+  earliestDeliveryPromiseTime?: DateTime;
   /** The name of the shipping carrier for the delivery. This field is required if one of the following fields is absent: earliest_delivery_promise_time, latest_delivery_promise_time, and actual_delivery_time. */
   carrierName?: string;
+  /** The time when the shipment was shipped. Include the year and timezone string, if available. */
+  shippedTime?: DateTime;
+  /** Required. The shipment ID. This field will be hashed in returned OrderTrackingSignal creation response. */
+  shipmentId?: string;
+  /** The latest delivery promised time. Include the year and timezone string, if available. This field is required, if one of the following fields is absent: tracking_id or carrier_name. */
+  latestDeliveryPromiseTime?: DateTime;
   /** The service type for fulfillment, e.g., GROUND, FIRST_CLASS, etc. */
   carrierServiceName?: string;
+  /** The origin postal code, as a continuous string without spaces or dashes, e.g. "95016". This field will be anonymized in returned OrderTrackingSignal creation response. */
+  originPostalCode?: string;
+  /** The tracking ID of the shipment. This field is required if one of the following fields is absent: earliest_delivery_promise_time, latest_delivery_promise_time, and actual_delivery_time. */
+  trackingId?: string;
+  /** The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) for the shipping origin. */
+  originRegionCode?: string;
+  /** The time when the shipment was actually delivered. Include the year and timezone string, if available. This field is required, if one of the following fields is absent: tracking_id or carrier_name. */
+  actualDeliveryTime?: DateTime;
 }
 export const OrderTrackingSignalShippingInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    shipmentId: S.optional(S.String),
-    actualDeliveryTime: S.optional(DateTime),
-    trackingId: S.optional(S.String),
-    originRegionCode: S.optional(S.String),
-    shippedTime: S.optional(DateTime),
-    earliestDeliveryPromiseTime: S.optional(DateTime),
-    latestDeliveryPromiseTime: S.optional(DateTime),
     shippingStatus: S.optional(
       OrderTrackingSignalShippingInfoShippingStatusEnum,
     ),
-    originPostalCode: S.optional(S.String),
+    earliestDeliveryPromiseTime: S.optional(DateTime),
     carrierName: S.optional(S.String),
+    shippedTime: S.optional(DateTime),
+    shipmentId: S.optional(S.String),
+    latestDeliveryPromiseTime: S.optional(DateTime),
     carrierServiceName: S.optional(S.String),
+    originPostalCode: S.optional(S.String),
+    trackingId: S.optional(S.String),
+    originRegionCode: S.optional(S.String),
+    actualDeliveryTime: S.optional(DateTime),
   }),
 ).annotate({
   identifier: "OrderTrackingSignalShippingInfo",
@@ -734,41 +734,41 @@ export const OrderTrackingSignalShippingInfoList = /*@__PURE__*/ S.Array(
 
 /** Represents a merchant trade from which signals are extracted, e.g. shipping. */
 export interface OrderTrackingSignal {
-  /** The mapping of the line items to the shipment information. */
-  shipmentLineItemMapping?: OrderTrackingSignalShipmentLineItemMappingList;
-  /** The shipping fee of the order; this value should be set to zero in the case of free shipping. */
-  customerShippingFee?: PriceAmount;
-  /** Required. The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) for the shipping destination. */
-  deliveryRegionCode?: string;
-  /** Output only. The ID that uniquely identifies this order tracking signal. */
-  orderTrackingSignalId?: string;
-  /** The Google merchant ID of this order tracking signal. This value is optional. If left unset, the caller's merchant ID is used. You must request access in order to provide data on behalf of another merchant. For more information, see [Submitting Order Tracking Signals](/shopping-content/guides/order-tracking-signals). */
-  merchantId?: string;
-  /** Information about line items in the order. */
-  lineItems?: OrderTrackingSignalLineItemDetailsList;
-  /** Required. The ID of the order on the merchant side. This field will be hashed in returned OrderTrackingSignal creation response. */
-  orderId?: string;
-  /** The shipping information for the order. */
-  shippingInfo?: OrderTrackingSignalShippingInfoList;
-  /** Required. The delivery postal code, as a continuous string without spaces or dashes, e.g. "95016". This field will be anonymized in returned OrderTrackingSignal creation response. */
-  deliveryPostalCode?: string;
   /** Required. The time when the order was created on the merchant side. Include the year and timezone string, if available. */
   orderCreatedTime?: DateTime;
+  /** The mapping of the line items to the shipment information. */
+  shipmentLineItemMapping?: OrderTrackingSignalShipmentLineItemMappingList;
+  /** Required. The delivery postal code, as a continuous string without spaces or dashes, e.g. "95016". This field will be anonymized in returned OrderTrackingSignal creation response. */
+  deliveryPostalCode?: string;
+  /** Required. The ID of the order on the merchant side. This field will be hashed in returned OrderTrackingSignal creation response. */
+  orderId?: string;
+  /** The Google merchant ID of this order tracking signal. This value is optional. If left unset, the caller's merchant ID is used. You must request access in order to provide data on behalf of another merchant. For more information, see [Submitting Order Tracking Signals](/shopping-content/guides/order-tracking-signals). */
+  merchantId?: string;
+  /** Output only. The ID that uniquely identifies this order tracking signal. */
+  orderTrackingSignalId?: string;
+  /** Required. The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) for the shipping destination. */
+  deliveryRegionCode?: string;
+  /** The shipping fee of the order; this value should be set to zero in the case of free shipping. */
+  customerShippingFee?: PriceAmount;
+  /** Information about line items in the order. */
+  lineItems?: OrderTrackingSignalLineItemDetailsList;
+  /** The shipping information for the order. */
+  shippingInfo?: OrderTrackingSignalShippingInfoList;
 }
 export const OrderTrackingSignal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    orderCreatedTime: S.optional(DateTime),
     shipmentLineItemMapping: S.optional(
       OrderTrackingSignalShipmentLineItemMappingList,
     ),
-    customerShippingFee: S.optional(PriceAmount),
-    deliveryRegionCode: S.optional(S.String),
-    orderTrackingSignalId: S.optional(S.String),
-    merchantId: S.optional(S.String),
-    lineItems: S.optional(OrderTrackingSignalLineItemDetailsList),
-    orderId: S.optional(S.String),
-    shippingInfo: S.optional(OrderTrackingSignalShippingInfoList),
     deliveryPostalCode: S.optional(S.String),
-    orderCreatedTime: S.optional(DateTime),
+    orderId: S.optional(S.String),
+    merchantId: S.optional(S.String),
+    orderTrackingSignalId: S.optional(S.String),
+    deliveryRegionCode: S.optional(S.String),
+    customerShippingFee: S.optional(PriceAmount),
+    lineItems: S.optional(OrderTrackingSignalLineItemDetailsList),
+    shippingInfo: S.optional(OrderTrackingSignalShippingInfoList),
   }),
 ).annotate({
   identifier: "OrderTrackingSignal",
@@ -806,40 +806,17 @@ export const ProductId = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ProductId" }) as any as S.Schema<ProductId>;
 
-/** A delivery time for this product. */
-export interface ProductDeliveryTimeAreaDeliveryTimeDeliveryTime {
-  /** Required. The maximum number of business days (inclusive) between when the product ships and when the product is delivered. */
-  maxTransitTimeDays?: number;
-  /** Required. The minimum number of business days (inclusive) between when the product ships and when the product is delivered. */
-  minTransitTimeDays?: number;
-  /** Required. The maximum number of business days (inclusive) between when an order is placed and when the product ships. If a product ships in the same day, set this value to 0. */
-  maxHandlingTimeDays?: number;
-  /** Required. The minimum number of business days (inclusive) between when an order is placed and when the product ships. If a product ships in the same day, set this value to 0. */
-  minHandlingTimeDays?: number;
-}
-export const ProductDeliveryTimeAreaDeliveryTimeDeliveryTime =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      maxTransitTimeDays: S.optional(S.Number),
-      minTransitTimeDays: S.optional(S.Number),
-      maxHandlingTimeDays: S.optional(S.Number),
-      minHandlingTimeDays: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "ProductDeliveryTimeAreaDeliveryTimeDeliveryTime",
-  }) as any as S.Schema<ProductDeliveryTimeAreaDeliveryTimeDeliveryTime>;
-
 /** A range of postal codes that defines the delivery area. Only set `firstPostalCode` when specifying a single postal code. */
 export interface DeliveryAreaPostalCodeRange {
-  /** A postal code or a pattern of the form prefix* denoting the inclusive upper bound of the range defining the area (for example [070* - 078*] results in the range [07000 - 07899]). It must have the same length as `firstPostalCode`: if `firstPostalCode` is a postal code then `lastPostalCode` must be a postal code too; if firstPostalCode is a pattern then `lastPostalCode` must be a pattern with the same prefix length. Ignored if not set, then the area is defined as being all the postal codes matching `firstPostalCode`. */
-  lastPostalCode?: string;
   /** Required. A postal code or a pattern of the form prefix* denoting the inclusive lower bound of the range defining the area. Examples values: `"94108"`, `"9410*"`, `"9*"`. */
   firstPostalCode?: string;
+  /** A postal code or a pattern of the form prefix* denoting the inclusive upper bound of the range defining the area (for example [070* - 078*] results in the range [07000 - 07899]). It must have the same length as `firstPostalCode`: if `firstPostalCode` is a postal code then `lastPostalCode` must be a postal code too; if firstPostalCode is a pattern then `lastPostalCode` must be a pattern with the same prefix length. Ignored if not set, then the area is defined as being all the postal codes matching `firstPostalCode`. */
+  lastPostalCode?: string;
 }
 export const DeliveryAreaPostalCodeRange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lastPostalCode: S.optional(S.String),
     firstPostalCode: S.optional(S.String),
+    lastPostalCode: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DeliveryAreaPostalCodeRange",
@@ -847,32 +824,55 @@ export const DeliveryAreaPostalCodeRange = /*@__PURE__*/ S.suspend(() =>
 
 /** A delivery area for the product. Only one of `countryCode` or `postalCodeRange` must be set. */
 export interface DeliveryArea {
-  /** A postal code, postal code range or postal code prefix that defines this area. Limited to US and AUS. */
-  postalCodeRange?: DeliveryAreaPostalCodeRange;
   /** Required. The country that the product can be delivered to. Submit a [unicode CLDR region](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) such as `US` or `CH`. */
   countryCode?: string;
   /** A state, territory, or prefecture. This is supported for the United States, Australia, and Japan. Provide a subdivision code from the ISO 3166-2 code tables ([US](https://en.wikipedia.org/wiki/ISO_3166-2:US), [AU](https://en.wikipedia.org/wiki/ISO_3166-2:AU), or [JP](https://en.wikipedia.org/wiki/ISO_3166-2:JP)) without country prefix (for example, `"NY"`, `"NSW"`, `"03"`). */
   regionCode?: string;
+  /** A postal code, postal code range or postal code prefix that defines this area. Limited to US and AUS. */
+  postalCodeRange?: DeliveryAreaPostalCodeRange;
 }
 export const DeliveryArea = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    postalCodeRange: S.optional(DeliveryAreaPostalCodeRange),
     countryCode: S.optional(S.String),
     regionCode: S.optional(S.String),
+    postalCodeRange: S.optional(DeliveryAreaPostalCodeRange),
   }),
 ).annotate({ identifier: "DeliveryArea" }) as any as S.Schema<DeliveryArea>;
 
+/** A delivery time for this product. */
+export interface ProductDeliveryTimeAreaDeliveryTimeDeliveryTime {
+  /** Required. The maximum number of business days (inclusive) between when the product ships and when the product is delivered. */
+  maxTransitTimeDays?: number;
+  /** Required. The minimum number of business days (inclusive) between when an order is placed and when the product ships. If a product ships in the same day, set this value to 0. */
+  minHandlingTimeDays?: number;
+  /** Required. The minimum number of business days (inclusive) between when the product ships and when the product is delivered. */
+  minTransitTimeDays?: number;
+  /** Required. The maximum number of business days (inclusive) between when an order is placed and when the product ships. If a product ships in the same day, set this value to 0. */
+  maxHandlingTimeDays?: number;
+}
+export const ProductDeliveryTimeAreaDeliveryTimeDeliveryTime =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      maxTransitTimeDays: S.optional(S.Number),
+      minHandlingTimeDays: S.optional(S.Number),
+      minTransitTimeDays: S.optional(S.Number),
+      maxHandlingTimeDays: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "ProductDeliveryTimeAreaDeliveryTimeDeliveryTime",
+  }) as any as S.Schema<ProductDeliveryTimeAreaDeliveryTimeDeliveryTime>;
+
 /** A pairing of `DeliveryArea` associated with a `DeliveryTime` for this product. */
 export interface ProductDeliveryTimeAreaDeliveryTime {
-  /** Required. The delivery time associated with `deliveryArea` for this product. */
-  deliveryTime?: ProductDeliveryTimeAreaDeliveryTimeDeliveryTime;
   /** Required. The delivery area associated with `deliveryTime` for this product. */
   deliveryArea?: DeliveryArea;
+  /** Required. The delivery time associated with `deliveryArea` for this product. */
+  deliveryTime?: ProductDeliveryTimeAreaDeliveryTimeDeliveryTime;
 }
 export const ProductDeliveryTimeAreaDeliveryTime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deliveryTime: S.optional(ProductDeliveryTimeAreaDeliveryTimeDeliveryTime),
     deliveryArea: S.optional(DeliveryArea),
+    deliveryTime: S.optional(ProductDeliveryTimeAreaDeliveryTimeDeliveryTime),
   }),
 ).annotate({
   identifier: "ProductDeliveryTimeAreaDeliveryTime",
@@ -921,6 +921,137 @@ export const CreateProductdeliverytimeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateProductdeliverytimeRequest",
 }) as any as S.Schema<CreateProductdeliverytimeRequest>;
 
+/** A message that represents a time period. */
+export interface TimePeriod {
+  /** The starting timestamp. */
+  startTime?: string;
+  /** The ending timestamp. */
+  endTime?: string;
+}
+export const TimePeriod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    startTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "TimePeriod" }) as any as S.Schema<TimePeriod>;
+
+export type PromotionPromotionStatusDestinationStatusStatusEnum =
+  | "STATE_UNSPECIFIED"
+  | "IN_REVIEW"
+  | "REJECTED"
+  | "LIVE"
+  | "STOPPED"
+  | "EXPIRED"
+  | "PENDING";
+export const PromotionPromotionStatusDestinationStatusStatusEnum =
+  /*@__PURE__*/ S.String;
+
+/** The destination status of the promotion. */
+export interface PromotionPromotionStatusDestinationStatus {
+  /** The name of the destination. */
+  destination?: string;
+  /** The status for the specified destination. */
+  status?: PromotionPromotionStatusDestinationStatusStatusEnum | (string & {});
+}
+export const PromotionPromotionStatusDestinationStatus =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      destination: S.optional(S.String),
+      status: S.optional(PromotionPromotionStatusDestinationStatusStatusEnum),
+    }),
+  ).annotate({
+    identifier: "PromotionPromotionStatusDestinationStatus",
+  }) as any as S.Schema<PromotionPromotionStatusDestinationStatus>;
+
+export type PromotionPromotionStatusDestinationStatusList =
+  Array<PromotionPromotionStatusDestinationStatus>;
+export const PromotionPromotionStatusDestinationStatusList =
+  /*@__PURE__*/ S.Array(
+    PromotionPromotionStatusDestinationStatus,
+  ) as any as S.Schema<PromotionPromotionStatusDestinationStatusList>;
+
+/** The issue associated with the promotion. */
+export interface PromotionPromotionStatusPromotionIssue {
+  /** Explanation of the issue. */
+  detail?: string;
+  /** Code of the issue. */
+  code?: string;
+}
+export const PromotionPromotionStatusPromotionIssue = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      detail: S.optional(S.String),
+      code: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "PromotionPromotionStatusPromotionIssue",
+}) as any as S.Schema<PromotionPromotionStatusPromotionIssue>;
+
+export type PromotionPromotionStatusPromotionIssueList =
+  Array<PromotionPromotionStatusPromotionIssue>;
+export const PromotionPromotionStatusPromotionIssueList = /*@__PURE__*/ S.Array(
+  PromotionPromotionStatusPromotionIssue,
+) as any as S.Schema<PromotionPromotionStatusPromotionIssueList>;
+
+/** The status of the promotion. */
+export interface PromotionPromotionStatus {
+  /** The intended destinations for the promotion. */
+  destinationStatuses?: PromotionPromotionStatusDestinationStatusList;
+  /** Date on which the promotion status has been last updated in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format: Date, time, and offset, for example "2020-01-02T09:00:00+01:00" or "2020-01-02T09:00:00Z" */
+  lastUpdateDate?: string;
+  /** Date on which the promotion has been created in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format: Date, time, and offset, for example "2020-01-02T09:00:00+01:00" or "2020-01-02T09:00:00Z" */
+  creationDate?: string;
+  /** A list of issues associated with the promotion. */
+  promotionIssue?: PromotionPromotionStatusPromotionIssueList;
+}
+export const PromotionPromotionStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    destinationStatuses: S.optional(
+      PromotionPromotionStatusDestinationStatusList,
+    ),
+    lastUpdateDate: S.optional(S.String),
+    creationDate: S.optional(S.String),
+    promotionIssue: S.optional(PromotionPromotionStatusPromotionIssueList),
+  }),
+).annotate({
+  identifier: "PromotionPromotionStatus",
+}) as any as S.Schema<PromotionPromotionStatus>;
+
+export type PromotionProductApplicabilityEnum =
+  | "PRODUCT_APPLICABILITY_UNSPECIFIED"
+  | "ALL_PRODUCTS"
+  | "SPECIFIC_PRODUCTS";
+export const PromotionProductApplicabilityEnum = /*@__PURE__*/ S.String;
+
+export type PromotionOfferTypeEnum =
+  | "OFFER_TYPE_UNSPECIFIED"
+  | "NO_CODE"
+  | "GENERIC_CODE";
+export const PromotionOfferTypeEnum = /*@__PURE__*/ S.String;
+
+export type PromotionRedemptionChannelItemEnum =
+  | "REDEMPTION_CHANNEL_UNSPECIFIED"
+  | "IN_STORE"
+  | "ONLINE";
+export const PromotionRedemptionChannelItemEnum = /*@__PURE__*/ S.String;
+
+export type PromotionRedemptionChannelItemEnumList = Array<
+  PromotionRedemptionChannelItemEnum | (string & {})
+>;
+export const PromotionRedemptionChannelItemEnumList = /*@__PURE__*/ S.Array(
+  PromotionRedemptionChannelItemEnum,
+) as any as S.Schema<PromotionRedemptionChannelItemEnumList>;
+
+export type PromotionRedemptionRestrictionEnum =
+  | "REDEMPTION_RESTRICTION_UNSPECIFIED"
+  | "SUBSCRIBE_AND_SAVE"
+  | "FIRST_ORDER"
+  | "SIGN_UP_FOR_EMAIL"
+  | "SIGN_UP_FOR_TEXT"
+  | "FORMS_OF_PAYMENT"
+  | "CUSTOM";
+export const PromotionRedemptionRestrictionEnum = /*@__PURE__*/ S.String;
+
 export type PromotionCouponValueTypeEnum =
   | "COUPON_VALUE_TYPE_UNSPECIFIED"
   | "MONEY_OFF"
@@ -937,280 +1068,149 @@ export type PromotionCouponValueTypeEnum =
   | "FREE_SHIPPING_TWO_DAY";
 export const PromotionCouponValueTypeEnum = /*@__PURE__*/ S.String;
 
-export type PromotionPromotionStatusDestinationStatusStatusEnum =
-  | "STATE_UNSPECIFIED"
-  | "IN_REVIEW"
-  | "REJECTED"
-  | "LIVE"
-  | "STOPPED"
-  | "EXPIRED"
-  | "PENDING";
-export const PromotionPromotionStatusDestinationStatusStatusEnum =
-  /*@__PURE__*/ S.String;
-
-/** The destination status of the promotion. */
-export interface PromotionPromotionStatusDestinationStatus {
-  /** The status for the specified destination. */
-  status?: PromotionPromotionStatusDestinationStatusStatusEnum | (string & {});
-  /** The name of the destination. */
-  destination?: string;
-}
-export const PromotionPromotionStatusDestinationStatus =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      status: S.optional(PromotionPromotionStatusDestinationStatusStatusEnum),
-      destination: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "PromotionPromotionStatusDestinationStatus",
-  }) as any as S.Schema<PromotionPromotionStatusDestinationStatus>;
-
-export type PromotionPromotionStatusDestinationStatusList =
-  Array<PromotionPromotionStatusDestinationStatus>;
-export const PromotionPromotionStatusDestinationStatusList =
-  /*@__PURE__*/ S.Array(
-    PromotionPromotionStatusDestinationStatus,
-  ) as any as S.Schema<PromotionPromotionStatusDestinationStatusList>;
-
-/** The issue associated with the promotion. */
-export interface PromotionPromotionStatusPromotionIssue {
-  /** Code of the issue. */
-  code?: string;
-  /** Explanation of the issue. */
-  detail?: string;
-}
-export const PromotionPromotionStatusPromotionIssue = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      code: S.optional(S.String),
-      detail: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "PromotionPromotionStatusPromotionIssue",
-}) as any as S.Schema<PromotionPromotionStatusPromotionIssue>;
-
-export type PromotionPromotionStatusPromotionIssueList =
-  Array<PromotionPromotionStatusPromotionIssue>;
-export const PromotionPromotionStatusPromotionIssueList = /*@__PURE__*/ S.Array(
-  PromotionPromotionStatusPromotionIssue,
-) as any as S.Schema<PromotionPromotionStatusPromotionIssueList>;
-
-/** The status of the promotion. */
-export interface PromotionPromotionStatus {
-  /** Date on which the promotion has been created in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format: Date, time, and offset, for example "2020-01-02T09:00:00+01:00" or "2020-01-02T09:00:00Z" */
-  creationDate?: string;
-  /** Date on which the promotion status has been last updated in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format: Date, time, and offset, for example "2020-01-02T09:00:00+01:00" or "2020-01-02T09:00:00Z" */
-  lastUpdateDate?: string;
-  /** The intended destinations for the promotion. */
-  destinationStatuses?: PromotionPromotionStatusDestinationStatusList;
-  /** A list of issues associated with the promotion. */
-  promotionIssue?: PromotionPromotionStatusPromotionIssueList;
-}
-export const PromotionPromotionStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    creationDate: S.optional(S.String),
-    lastUpdateDate: S.optional(S.String),
-    destinationStatuses: S.optional(
-      PromotionPromotionStatusDestinationStatusList,
-    ),
-    promotionIssue: S.optional(PromotionPromotionStatusPromotionIssueList),
-  }),
-).annotate({
-  identifier: "PromotionPromotionStatus",
-}) as any as S.Schema<PromotionPromotionStatus>;
-
-/** A message that represents a time period. */
-export interface TimePeriod {
-  /** The ending timestamp. */
-  endTime?: string;
-  /** The starting timestamp. */
-  startTime?: string;
-}
-export const TimePeriod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endTime: S.optional(S.String),
-    startTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "TimePeriod" }) as any as S.Schema<TimePeriod>;
-
 export type PromotionStoreApplicabilityEnum =
   | "STORE_APPLICABILITY_UNSPECIFIED"
   | "ALL_STORES"
   | "SPECIFIC_STORES";
 export const PromotionStoreApplicabilityEnum = /*@__PURE__*/ S.String;
 
-export type PromotionOfferTypeEnum =
-  | "OFFER_TYPE_UNSPECIFIED"
-  | "NO_CODE"
-  | "GENERIC_CODE";
-export const PromotionOfferTypeEnum = /*@__PURE__*/ S.String;
-
-export type PromotionRedemptionRestrictionEnum =
-  | "REDEMPTION_RESTRICTION_UNSPECIFIED"
-  | "SUBSCRIBE_AND_SAVE"
-  | "FIRST_ORDER"
-  | "SIGN_UP_FOR_EMAIL"
-  | "SIGN_UP_FOR_TEXT"
-  | "FORMS_OF_PAYMENT"
-  | "CUSTOM";
-export const PromotionRedemptionRestrictionEnum = /*@__PURE__*/ S.String;
-
-export type PromotionRedemptionChannelItemEnum =
-  | "REDEMPTION_CHANNEL_UNSPECIFIED"
-  | "IN_STORE"
-  | "ONLINE";
-export const PromotionRedemptionChannelItemEnum = /*@__PURE__*/ S.String;
-
-export type PromotionRedemptionChannelItemEnumList = Array<
-  PromotionRedemptionChannelItemEnum | (string & {})
->;
-export const PromotionRedemptionChannelItemEnumList = /*@__PURE__*/ S.Array(
-  PromotionRedemptionChannelItemEnum,
-) as any as S.Schema<PromotionRedemptionChannelItemEnumList>;
-
-export type PromotionProductApplicabilityEnum =
-  | "PRODUCT_APPLICABILITY_UNSPECIFIED"
-  | "ALL_PRODUCTS"
-  | "SPECIFIC_PRODUCTS";
-export const PromotionProductApplicabilityEnum = /*@__PURE__*/ S.String;
-
 /** Represents a promotion. See the following articles for more details. * [Promotions feed specification](https://support.google.com/merchants/answer/2906014) * [Local promotions feed specification](https://support.google.com/merchants/answer/10146130) * [Promotions on Buy on Google product data specification](https://support.google.com/merchants/answer/9173673) */
 export interface Promotion {
-  /** The percentage discount offered in the promotion. */
-  percentOff?: number;
+  /** URL to the page on the merchant's site where the promotion shows. Local Inventory ads promotions throw an error if no promo url is included. URL is used to confirm that the promotion is valid and can be redeemed. */
+  promotionUrl?: string;
+  /** Required. Long title for the promotion. */
+  longTitle?: string;
+  /** Maximum purchase quantity for the promotion. */
+  limitQuantity?: number;
+  /** Free gift item ID for the promotion. */
+  freeGiftItemId?: string;
+  /** `TimePeriod` representation of the promotion's display dates. */
+  promotionDisplayTimePeriod?: TimePeriod;
   /** Free gift description for the promotion. */
   freeGiftDescription?: string;
+  /** Output only. The current status of the promotion. */
+  promotionStatus?: PromotionPromotionStatus;
+  /** Product filter by item group ID for the promotion. */
+  itemGroupId?: StringList;
+  /** Cost cap for the promotion. */
+  moneyBudget?: PriceAmount;
+  /** Required. Applicability of the promotion to either all products or only specific products. */
+  productApplicability?: PromotionProductApplicabilityEnum | (string & {});
   /** Product filter by brand exclusion for the promotion. */
   brandExclusion?: StringList;
-  /** Product filter by brand for the promotion. */
-  brand?: StringList;
-  /** Minimum purchase amount for the promotion. */
-  minimumPurchaseAmount?: PriceAmount;
-  /** Order limit for the promotion. */
-  orderLimit?: number;
-  /** Product filter by product type for the promotion. */
-  productType?: StringList;
-  /** The maximum monetary discount a customer can receive for the promotion. This field is only supported with the `Percent off` coupon value type. */
-  maxDiscountAmount?: PriceAmount;
-  /** Store codes to exclude for the promotion. */
-  storeCodeExclusion?: StringList;
+  /** The custom redemption restriction for the promotion. If the `redemption_restriction` field is set to `CUSTOM`, this field must be set. */
+  customRedemptionRestriction?: string;
+  /** String representation of the promotion effective dates. Deprecated. Use `promotion_effective_time_period` instead. */
+  promotionEffectiveDates?: string;
+  /** String representation of the promotion display dates. Deprecated. Use `promotion_display_time_period` instead. */
+  promotionDisplayDates?: string;
   /** Output only. The REST promotion ID to uniquely identify the promotion. Content API methods that operate on promotions take this as their `promotionId` parameter. The REST ID for a promotion is of the form channel:contentLanguage:targetCountry:promotionId The `channel` field has a value of `"online"`, `"in_store"`, or `"online_in_store"`. */
   id?: string;
+  /** The maximum monetary discount a customer can receive for the promotion. This field is only supported with the `Percent off` coupon value type. */
+  maxDiscountAmount?: PriceAmount;
+  /** Order limit for the promotion. */
+  orderLimit?: number;
+  /** The percentage discount offered in the promotion. */
+  percentOff?: number;
+  /** Required. The target country used as part of the unique identifier. Can be `AU`, `CA`, `DE`, `FR`, `GB`, `IN`, `US`, `BR`, `ES`, `NL`, `JP`, `IT` or `KR`. */
+  targetCountry?: string;
+  /** Minimum purchase quantity for the promotion. */
+  minimumPurchaseQuantity?: number;
+  /** Required. Type of the promotion. */
+  offerType?: PromotionOfferTypeEnum | (string & {});
+  /** Product filter by product type for the promotion. */
+  productType?: StringList;
+  /** Required. The user provided promotion ID to uniquely identify the promotion. */
+  promotionId?: string;
+  /** Product filter by item ID for the promotion. */
+  itemId?: StringList;
+  /** The money off amount offered in the promotion. */
+  moneyOffAmount?: PriceAmount;
+  /** Generic redemption code for the promotion. To be used with the `offerType` field. */
+  genericRedemptionCode?: string;
+  /** Required. The content language used as part of the unique identifier. `en` content language is available for all target countries. `fr` content language is available for `CA` and `FR` target countries. `de` content language is available for `DE` target country. `nl` content language is available for `NL` target country. `it` content language is available for `IT` target country. `pt` content language is available for `BR` target country. `ja` content language is available for `JP` target country. `ko` content language is available for `KR` target country. */
+  contentLanguage?: string;
+  /** Required. Redemption channel for the promotion. At least one channel is required. */
+  redemptionChannel?: PromotionRedemptionChannelItemEnumList;
+  /** The redemption restriction for the promotion. */
+  redemptionRestriction?: PromotionRedemptionRestrictionEnum | (string & {});
+  /** Maximum purchase value for the promotion. */
+  limitValue?: PriceAmount;
+  /** Required. `TimePeriod` representation of the promotion's effective dates. */
+  promotionEffectiveTimePeriod?: TimePeriod;
+  /** Product filter by brand for the promotion. */
+  brand?: StringList;
+  /** Shipping service names for the promotion. */
+  shippingServiceNames?: StringList;
   /** Required. Coupon value type for the promotion. */
   couponValueType?: PromotionCouponValueTypeEnum | (string & {});
   /** Destination ID for the promotion. */
   promotionDestinationIds?: StringList;
-  /** Product filter by item ID for the promotion. */
-  itemId?: StringList;
-  /** Maximum purchase value for the promotion. */
-  limitValue?: PriceAmount;
-  /** String representation of the promotion effective dates. Deprecated. Use `promotion_effective_time_period` instead. */
-  promotionEffectiveDates?: string;
-  /** The custom redemption restriction for the promotion. If the `redemption_restriction` field is set to `CUSTOM`, this field must be set. */
-  customRedemptionRestriction?: string;
-  /** Output only. The current status of the promotion. */
-  promotionStatus?: PromotionPromotionStatus;
-  /** Required. The target country used as part of the unique identifier. Can be `AU`, `CA`, `DE`, `FR`, `GB`, `IN`, `US`, `BR`, `ES`, `NL`, `JP`, `IT` or `KR`. */
-  targetCountry?: string;
   /** Store codes to include for the promotion. */
   storeCode?: StringList;
-  /** Required. The user provided promotion ID to uniquely identify the promotion. */
-  promotionId?: string;
-  /** `TimePeriod` representation of the promotion's display dates. */
-  promotionDisplayTimePeriod?: TimePeriod;
   /** Free gift value for the promotion. */
   freeGiftValue?: PriceAmount;
-  /** Required. `TimePeriod` representation of the promotion's effective dates. */
-  promotionEffectiveTimePeriod?: TimePeriod;
-  /** Generic redemption code for the promotion. To be used with the `offerType` field. */
-  genericRedemptionCode?: string;
-  /** Product filter by item group ID for the promotion. */
-  itemGroupId?: StringList;
-  /** URL to the page on the merchant's site where the promotion shows. Local Inventory ads promotions throw an error if no promo url is included. URL is used to confirm that the promotion is valid and can be redeemed. */
-  promotionUrl?: string;
-  /** String representation of the promotion display dates. Deprecated. Use `promotion_display_time_period` instead. */
-  promotionDisplayDates?: string;
-  /** Minimum purchase quantity for the promotion. */
-  minimumPurchaseQuantity?: number;
-  /** Maximum purchase quantity for the promotion. */
-  limitQuantity?: number;
   /** Whether the promotion applies to all stores, or only specified stores. Local Inventory ads promotions throw an error if no store applicability is included. An INVALID_ARGUMENT error is thrown if store_applicability is set to ALL_STORES and store_code or score_code_exclusion is set to a value. */
   storeApplicability?: PromotionStoreApplicabilityEnum | (string & {});
+  /** Minimum purchase amount for the promotion. */
+  minimumPurchaseAmount?: PriceAmount;
   /** Product filter by item ID exclusion for the promotion. */
   itemIdExclusion?: StringList;
-  /** Required. Type of the promotion. */
-  offerType?: PromotionOfferTypeEnum | (string & {});
-  /** Product filter by item group ID exclusion for the promotion. */
-  itemGroupIdExclusion?: StringList;
-  /** Free gift item ID for the promotion. */
-  freeGiftItemId?: string;
   /** Product filter by product type exclusion for the promotion. */
   productTypeExclusion?: StringList;
-  /** Required. Long title for the promotion. */
-  longTitle?: string;
   /** The number of items discounted in the promotion. */
   getThisQuantityDiscounted?: number;
-  /** The redemption restriction for the promotion. */
-  redemptionRestriction?: PromotionRedemptionRestrictionEnum | (string & {});
-  /** Required. Redemption channel for the promotion. At least one channel is required. */
-  redemptionChannel?: PromotionRedemptionChannelItemEnumList;
-  /** The money off amount offered in the promotion. */
-  moneyOffAmount?: PriceAmount;
-  /** Cost cap for the promotion. */
-  moneyBudget?: PriceAmount;
-  /** Shipping service names for the promotion. */
-  shippingServiceNames?: StringList;
-  /** Required. The content language used as part of the unique identifier. `en` content language is available for all target countries. `fr` content language is available for `CA` and `FR` target countries. `de` content language is available for `DE` target country. `nl` content language is available for `NL` target country. `it` content language is available for `IT` target country. `pt` content language is available for `BR` target country. `ja` content language is available for `JP` target country. `ko` content language is available for `KR` target country. */
-  contentLanguage?: string;
-  /** Required. Applicability of the promotion to either all products or only specific products. */
-  productApplicability?: PromotionProductApplicabilityEnum | (string & {});
+  /** Product filter by item group ID exclusion for the promotion. */
+  itemGroupIdExclusion?: StringList;
+  /** Store codes to exclude for the promotion. */
+  storeCodeExclusion?: StringList;
 }
 export const Promotion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    percentOff: S.optional(S.Number),
+    promotionUrl: S.optional(S.String),
+    longTitle: S.optional(S.String),
+    limitQuantity: S.optional(S.Number),
+    freeGiftItemId: S.optional(S.String),
+    promotionDisplayTimePeriod: S.optional(TimePeriod),
     freeGiftDescription: S.optional(S.String),
+    promotionStatus: S.optional(PromotionPromotionStatus),
+    itemGroupId: S.optional(StringList),
+    moneyBudget: S.optional(PriceAmount),
+    productApplicability: S.optional(PromotionProductApplicabilityEnum),
     brandExclusion: S.optional(StringList),
-    brand: S.optional(StringList),
-    minimumPurchaseAmount: S.optional(PriceAmount),
-    orderLimit: S.optional(S.Number),
-    productType: S.optional(StringList),
-    maxDiscountAmount: S.optional(PriceAmount),
-    storeCodeExclusion: S.optional(StringList),
+    customRedemptionRestriction: S.optional(S.String),
+    promotionEffectiveDates: S.optional(S.String),
+    promotionDisplayDates: S.optional(S.String),
     id: S.optional(S.String),
+    maxDiscountAmount: S.optional(PriceAmount),
+    orderLimit: S.optional(S.Number),
+    percentOff: S.optional(S.Number),
+    targetCountry: S.optional(S.String),
+    minimumPurchaseQuantity: S.optional(S.Number),
+    offerType: S.optional(PromotionOfferTypeEnum),
+    productType: S.optional(StringList),
+    promotionId: S.optional(S.String),
+    itemId: S.optional(StringList),
+    moneyOffAmount: S.optional(PriceAmount),
+    genericRedemptionCode: S.optional(S.String),
+    contentLanguage: S.optional(S.String),
+    redemptionChannel: S.optional(PromotionRedemptionChannelItemEnumList),
+    redemptionRestriction: S.optional(PromotionRedemptionRestrictionEnum),
+    limitValue: S.optional(PriceAmount),
+    promotionEffectiveTimePeriod: S.optional(TimePeriod),
+    brand: S.optional(StringList),
+    shippingServiceNames: S.optional(StringList),
     couponValueType: S.optional(PromotionCouponValueTypeEnum),
     promotionDestinationIds: S.optional(StringList),
-    itemId: S.optional(StringList),
-    limitValue: S.optional(PriceAmount),
-    promotionEffectiveDates: S.optional(S.String),
-    customRedemptionRestriction: S.optional(S.String),
-    promotionStatus: S.optional(PromotionPromotionStatus),
-    targetCountry: S.optional(S.String),
     storeCode: S.optional(StringList),
-    promotionId: S.optional(S.String),
-    promotionDisplayTimePeriod: S.optional(TimePeriod),
     freeGiftValue: S.optional(PriceAmount),
-    promotionEffectiveTimePeriod: S.optional(TimePeriod),
-    genericRedemptionCode: S.optional(S.String),
-    itemGroupId: S.optional(StringList),
-    promotionUrl: S.optional(S.String),
-    promotionDisplayDates: S.optional(S.String),
-    minimumPurchaseQuantity: S.optional(S.Number),
-    limitQuantity: S.optional(S.Number),
     storeApplicability: S.optional(PromotionStoreApplicabilityEnum),
+    minimumPurchaseAmount: S.optional(PriceAmount),
     itemIdExclusion: S.optional(StringList),
-    offerType: S.optional(PromotionOfferTypeEnum),
-    itemGroupIdExclusion: S.optional(StringList),
-    freeGiftItemId: S.optional(S.String),
     productTypeExclusion: S.optional(StringList),
-    longTitle: S.optional(S.String),
     getThisQuantityDiscounted: S.optional(S.Number),
-    redemptionRestriction: S.optional(PromotionRedemptionRestrictionEnum),
-    redemptionChannel: S.optional(PromotionRedemptionChannelItemEnumList),
-    moneyOffAmount: S.optional(PriceAmount),
-    moneyBudget: S.optional(PriceAmount),
-    shippingServiceNames: S.optional(StringList),
-    contentLanguage: S.optional(S.String),
-    productApplicability: S.optional(PromotionProductApplicabilityEnum),
+    itemGroupIdExclusion: S.optional(StringList),
+    storeCodeExclusion: S.optional(StringList),
   }),
 ).annotate({ identifier: "Promotion" }) as any as S.Schema<Promotion>;
 
@@ -1234,6 +1234,19 @@ export const CreatePromotionsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreatePromotionsRequest",
 }) as any as S.Schema<CreatePromotionsRequest>;
+
+/** A list of geotargets that defines the region area. */
+export interface RegionGeoTargetArea {
+  /** Required. A non-empty list of [location IDs](https://developers.google.com/adwords/api/docs/appendix/geotargeting). They must all be of the same location type (e.g., state). */
+  geotargetCriteriaIds?: StringList;
+}
+export const RegionGeoTargetArea = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    geotargetCriteriaIds: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "RegionGeoTargetArea",
+}) as any as S.Schema<RegionGeoTargetArea>;
 
 /** A range of postal codes that defines the region area. */
 export interface RegionPostalCodeAreaPostalCodeRange {
@@ -1273,60 +1286,47 @@ export const RegionPostalCodeArea = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegionPostalCodeArea",
 }) as any as S.Schema<RegionPostalCodeArea>;
 
-/** A list of geotargets that defines the region area. */
-export interface RegionGeoTargetArea {
-  /** Required. A non-empty list of [location IDs](https://developers.google.com/adwords/api/docs/appendix/geotargeting). They must all be of the same location type (e.g., state). */
-  geotargetCriteriaIds?: StringList;
-}
-export const RegionGeoTargetArea = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    geotargetCriteriaIds: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "RegionGeoTargetArea",
-}) as any as S.Schema<RegionGeoTargetArea>;
-
 /** Represents a geographic region that you can use as a target with both the `RegionalInventory` and `ShippingSettings` services. You can define regions as collections of either postal codes or, in some countries, using predefined geotargets. */
 export interface Region {
-  /** Output only. Immutable. The ID uniquely identifying each region. */
-  regionId?: string;
   /** Output only. Indicates if the region is eligible to use in the Regional Inventory configuration. */
   regionalInventoryEligible?: boolean;
-  /** The display name of the region. */
-  displayName?: string;
-  /** A list of postal codes that defines the region area. */
-  postalCodeArea?: RegionPostalCodeArea;
-  /** A list of geotargets that defines the region area. */
-  geotargetArea?: RegionGeoTargetArea;
+  /** Output only. Immutable. The ID uniquely identifying each region. */
+  regionId?: string;
   /** Output only. Indicates if the region is eligible to use in the Shipping Services configuration. */
   shippingEligible?: boolean;
+  /** The display name of the region. */
+  displayName?: string;
+  /** A list of geotargets that defines the region area. */
+  geotargetArea?: RegionGeoTargetArea;
   /** Output only. Immutable. Merchant that owns the region. */
   merchantId?: string;
+  /** A list of postal codes that defines the region area. */
+  postalCodeArea?: RegionPostalCodeArea;
 }
 export const Region = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    regionId: S.optional(S.String),
     regionalInventoryEligible: S.optional(S.Boolean),
-    displayName: S.optional(S.String),
-    postalCodeArea: S.optional(RegionPostalCodeArea),
-    geotargetArea: S.optional(RegionGeoTargetArea),
+    regionId: S.optional(S.String),
     shippingEligible: S.optional(S.Boolean),
+    displayName: S.optional(S.String),
+    geotargetArea: S.optional(RegionGeoTargetArea),
     merchantId: S.optional(S.String),
+    postalCodeArea: S.optional(RegionPostalCodeArea),
   }),
 ).annotate({ identifier: "Region" }) as any as S.Schema<Region>;
 
 export interface CreateRegionsRequest {
-  /** Required. The id of the merchant for which to create region definition. */
-  merchantId: string;
   /** Required. The id of the region to create. */
   regionId?: string;
+  /** Required. The id of the merchant for which to create region definition. */
+  merchantId: string;
   /** Request body */
   body?: Region;
 }
 export const CreateRegionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     regionId: S.optional(S.String.pipe(T.Query())),
+    merchantId: S.String.pipe(T.Label()),
     body: S.optional(Region.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1338,22 +1338,6 @@ export const CreateRegionsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateRegionsRequest",
 }) as any as S.Schema<CreateRegionsRequest>;
-
-/** The restocking fee. This can either be a fixed fee or a micro percent. */
-export interface ReturnPolicyOnlineRestockingFee {
-  /** Percent of total price in micros. 15,000,000 means 15% of the total price would be charged. */
-  microPercent?: number;
-  /** Fixed restocking fee. */
-  fixedFee?: PriceAmount;
-}
-export const ReturnPolicyOnlineRestockingFee = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    microPercent: S.optional(S.Number),
-    fixedFee: S.optional(PriceAmount),
-  }),
-).annotate({
-  identifier: "ReturnPolicyOnlineRestockingFee",
-}) as any as S.Schema<ReturnPolicyOnlineRestockingFee>;
 
 export type ReturnPolicyOnlinePolicyTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -1379,7 +1363,9 @@ export const ReturnPolicyOnlinePolicy = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ReturnPolicyOnlinePolicy>;
 
 export type ReturnPolicyOnlineReturnReasonCategoryInfoReturnReasonCategoryEnum =
-  "RETURN_REASON_CATEGORY_UNSPECIFIED" | "BUYER_REMORSE" | "ITEM_DEFECT";
+  | "RETURN_REASON_CATEGORY_UNSPECIFIED"
+  | "BUYER_REMORSE"
+  | "ITEM_DEFECT";
 export const ReturnPolicyOnlineReturnReasonCategoryInfoReturnReasonCategoryEnum =
   /*@__PURE__*/ S.String;
 
@@ -1449,6 +1435,36 @@ export const ReturnPolicyOnlineReturnReasonCategoryInfoList =
     ReturnPolicyOnlineReturnReasonCategoryInfo,
   ) as any as S.Schema<ReturnPolicyOnlineReturnReasonCategoryInfoList>;
 
+export type ReturnPolicyOnlineItemConditionsItemEnum =
+  | "ITEM_CONDITION_UNSPECIFIED"
+  | "NEW"
+  | "USED";
+export const ReturnPolicyOnlineItemConditionsItemEnum = /*@__PURE__*/ S.String;
+
+export type ReturnPolicyOnlineItemConditionsItemEnumList = Array<
+  ReturnPolicyOnlineItemConditionsItemEnum | (string & {})
+>;
+export const ReturnPolicyOnlineItemConditionsItemEnumList =
+  /*@__PURE__*/ S.Array(
+    ReturnPolicyOnlineItemConditionsItemEnum,
+  ) as any as S.Schema<ReturnPolicyOnlineItemConditionsItemEnumList>;
+
+/** The restocking fee. This can either be a fixed fee or a micro percent. */
+export interface ReturnPolicyOnlineRestockingFee {
+  /** Fixed restocking fee. */
+  fixedFee?: PriceAmount;
+  /** Percent of total price in micros. 15,000,000 means 15% of the total price would be charged. */
+  microPercent?: number;
+}
+export const ReturnPolicyOnlineRestockingFee = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixedFee: S.optional(PriceAmount),
+    microPercent: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ReturnPolicyOnlineRestockingFee",
+}) as any as S.Schema<ReturnPolicyOnlineRestockingFee>;
+
 export type ReturnPolicyOnlineReturnMethodsItemEnum =
   | "RETURN_METHOD_UNSPECIFIED"
   | "BY_MAIL"
@@ -1464,57 +1480,43 @@ export const ReturnPolicyOnlineReturnMethodsItemEnumList =
     ReturnPolicyOnlineReturnMethodsItemEnum,
   ) as any as S.Schema<ReturnPolicyOnlineReturnMethodsItemEnumList>;
 
-export type ReturnPolicyOnlineItemConditionsItemEnum =
-  | "ITEM_CONDITION_UNSPECIFIED"
-  | "NEW"
-  | "USED";
-export const ReturnPolicyOnlineItemConditionsItemEnum = /*@__PURE__*/ S.String;
-
-export type ReturnPolicyOnlineItemConditionsItemEnumList = Array<
-  ReturnPolicyOnlineItemConditionsItemEnum | (string & {})
->;
-export const ReturnPolicyOnlineItemConditionsItemEnumList =
-  /*@__PURE__*/ S.Array(
-    ReturnPolicyOnlineItemConditionsItemEnum,
-  ) as any as S.Schema<ReturnPolicyOnlineItemConditionsItemEnumList>;
-
 /** Return policy online object. This is currently used to represent return policies for ads and free listings programs. */
 export interface ReturnPolicyOnline {
-  /** The countries of sale where the return policy is applicable. The values must be a valid 2 letter ISO 3166 code, e.g. "US". */
-  countries?: StringList;
-  /** The restocking fee that applies to all return reason categories. This would be treated as a free restocking fee if the value is not set. */
-  restockingFee?: ReturnPolicyOnlineRestockingFee;
-  /** The unique user-defined label of the return policy. The same label cannot be used in different return policies for the same country. Policies with the label 'default' will apply to all products, unless a product specifies a return_policy_label attribute. */
-  label?: string;
-  /** The name of the policy as shown in Merchant Center. */
-  name?: string;
   /** The return policy. */
   policy?: ReturnPolicyOnlinePolicy;
   /** The return reason category information. This required to not be empty unless the type of return policy is noReturns. */
   returnReasonCategoryInfo?: ReturnPolicyOnlineReturnReasonCategoryInfoList;
-  /** Output only. Return policy ID generated by Google. */
-  returnPolicyId?: string;
-  /** The return methods of how customers can return an item. This value is required to not be empty unless the type of return policy is noReturns. */
-  returnMethods?: ReturnPolicyOnlineReturnMethodsItemEnumList;
   /** The item conditions that are accepted for returns. This is required to not be empty unless the type of return policy is noReturns. */
   itemConditions?: ReturnPolicyOnlineItemConditionsItemEnumList;
+  /** The unique user-defined label of the return policy. The same label cannot be used in different return policies for the same country. Policies with the label 'default' will apply to all products, unless a product specifies a return_policy_label attribute. */
+  label?: string;
+  /** The countries of sale where the return policy is applicable. The values must be a valid 2 letter ISO 3166 code, e.g. "US". */
+  countries?: StringList;
+  /** The restocking fee that applies to all return reason categories. This would be treated as a free restocking fee if the value is not set. */
+  restockingFee?: ReturnPolicyOnlineRestockingFee;
+  /** The return methods of how customers can return an item. This value is required to not be empty unless the type of return policy is noReturns. */
+  returnMethods?: ReturnPolicyOnlineReturnMethodsItemEnumList;
   /** The return policy uri. This can used by Google to do a sanity check for the policy. */
   returnPolicyUri?: string;
+  /** Output only. Return policy ID generated by Google. */
+  returnPolicyId?: string;
+  /** The name of the policy as shown in Merchant Center. */
+  name?: string;
 }
 export const ReturnPolicyOnline = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    countries: S.optional(StringList),
-    restockingFee: S.optional(ReturnPolicyOnlineRestockingFee),
-    label: S.optional(S.String),
-    name: S.optional(S.String),
     policy: S.optional(ReturnPolicyOnlinePolicy),
     returnReasonCategoryInfo: S.optional(
       ReturnPolicyOnlineReturnReasonCategoryInfoList,
     ),
-    returnPolicyId: S.optional(S.String),
-    returnMethods: S.optional(ReturnPolicyOnlineReturnMethodsItemEnumList),
     itemConditions: S.optional(ReturnPolicyOnlineItemConditionsItemEnumList),
+    label: S.optional(S.String),
+    countries: S.optional(StringList),
+    restockingFee: S.optional(ReturnPolicyOnlineRestockingFee),
+    returnMethods: S.optional(ReturnPolicyOnlineReturnMethodsItemEnumList),
     returnPolicyUri: S.optional(S.String),
+    returnPolicyId: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ReturnPolicyOnline",
@@ -1541,53 +1543,49 @@ export const CreateReturnpolicyonlineRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateReturnpolicyonlineRequest",
 }) as any as S.Schema<CreateReturnpolicyonlineRequest>;
 
-export interface AccountsCustomBatchRequestEntryLinkRequest {
-  /** The ID of the linked account. */
-  linkedAccountId?: string;
-  /** Type of the link between the two accounts. Acceptable values are: - "`channelPartner`" - "`eCommercePlatform`" - "`paymentServiceProvider`" - "`localProductManager`" */
-  linkType?: string;
-  /** Provided services. Acceptable values are: - "`shoppingAdsProductManagement`" - "`shoppingActionsProductManagement`" - "`shoppingActionsOrderManagement`" - "`paymentProcessing`" - "`localProductManagement`" */
-  services?: StringList;
-  /** Action to perform for this link. The `"request"` action is only available to select merchants. Acceptable values are: - "`approve`" - "`remove`" - "`request`" */
-  action?: string;
+export interface AccountGoogleMyBusinessLink {
+  /** Status of the link between this Merchant Center account and the Business Profile. Acceptable values are: - "`active`" - "`pending`" */
+  status?: string;
+  /** The ID of the Business Profile. If this is provided, then `gmbEmail` is ignored. The value of this field should match the `accountId` used by the Business Profile API. */
+  gmbAccountId?: string;
+  /** The Business Profile email address of a specific account within a Business Profile. A sample account within a Business Profile could be a business account with set of locations, managed under the Business Profile. */
+  gmbEmail?: string;
 }
-export const AccountsCustomBatchRequestEntryLinkRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      linkedAccountId: S.optional(S.String),
-      linkType: S.optional(S.String),
-      services: S.optional(StringList),
-      action: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "AccountsCustomBatchRequestEntryLinkRequest",
-  }) as any as S.Schema<AccountsCustomBatchRequestEntryLinkRequest>;
+export const AccountGoogleMyBusinessLink = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    gmbAccountId: S.optional(S.String),
+    gmbEmail: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AccountGoogleMyBusinessLink",
+}) as any as S.Schema<AccountGoogleMyBusinessLink>;
 
 export interface AccountUser {
+  /** This role is deprecated and can no longer be assigned. Any value set will be ignored. */
+  orderManager?: boolean;
+  /** This role is deprecated and can no longer be assigned. Any value set will be ignored. */
+  paymentsAnalyst?: boolean;
   /** Whether user is an admin. */
   admin?: boolean;
   /** This role is deprecated and can no longer be assigned. Any value set will be ignored. */
   paymentsManager?: boolean;
   /** Whether user is a reporting manager. This role is equivalent to the Performance and insights role in Merchant Center. */
   reportingManager?: boolean;
-  /** This role is deprecated and can no longer be assigned. Any value set will be ignored. */
-  orderManager?: boolean;
-  /** This role is deprecated and can no longer be assigned. Any value set will be ignored. */
-  paymentsAnalyst?: boolean;
-  /** Optional. Whether user has standard read-only access. */
-  readOnly?: boolean;
   /** User's email address. */
   emailAddress?: string;
+  /** Optional. Whether user has standard read-only access. */
+  readOnly?: boolean;
 }
 export const AccountUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    orderManager: S.optional(S.Boolean),
+    paymentsAnalyst: S.optional(S.Boolean),
     admin: S.optional(S.Boolean),
     paymentsManager: S.optional(S.Boolean),
     reportingManager: S.optional(S.Boolean),
-    orderManager: S.optional(S.Boolean),
-    paymentsAnalyst: S.optional(S.Boolean),
-    readOnly: S.optional(S.Boolean),
     emailAddress: S.optional(S.String),
+    readOnly: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "AccountUser" }) as any as S.Schema<AccountUser>;
 
@@ -1595,24 +1593,6 @@ export type AccountUserList = Array<AccountUser>;
 export const AccountUserList = /*@__PURE__*/ S.Array(
   AccountUser,
 ) as any as S.Schema<AccountUserList>;
-
-export interface AccountGoogleMyBusinessLink {
-  /** The Business Profile email address of a specific account within a Business Profile. A sample account within a Business Profile could be a business account with set of locations, managed under the Business Profile. */
-  gmbEmail?: string;
-  /** The ID of the Business Profile. If this is provided, then `gmbEmail` is ignored. The value of this field should match the `accountId` used by the Business Profile API. */
-  gmbAccountId?: string;
-  /** Status of the link between this Merchant Center account and the Business Profile. Acceptable values are: - "`active`" - "`pending`" */
-  status?: string;
-}
-export const AccountGoogleMyBusinessLink = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gmbEmail: S.optional(S.String),
-    gmbAccountId: S.optional(S.String),
-    status: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AccountGoogleMyBusinessLink",
-}) as any as S.Schema<AccountGoogleMyBusinessLink>;
 
 export interface AccountAdsLink {
   /** Customer ID of the Ads account. */
@@ -1632,65 +1612,98 @@ export const AccountAdsLinkList = /*@__PURE__*/ S.Array(
   AccountAdsLink,
 ) as any as S.Schema<AccountAdsLinkList>;
 
+export interface AccountYouTubeChannelLink {
+  /** Status of the link between this Merchant Center account and the YouTube channel. Upon retrieval, it represents the actual status of the link and can be either `active` if it was approved in YT Creator Studio or `pending` if it's pending approval. Upon insertion, it represents the *intended* status of the link. Re-uploading a link with status `active` when it's still pending or with status `pending` when it's already active will have no effect: the status will remain unchanged. Re-uploading a link with deprecated status `inactive` is equivalent to not submitting the link at all and will delete the link if it was active or cancel the link request if it was pending. */
+  status?: string;
+  /** Channel ID. */
+  channelId?: string;
+}
+export const AccountYouTubeChannelLink = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    channelId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AccountYouTubeChannelLink",
+}) as any as S.Schema<AccountYouTubeChannelLink>;
+
+export type AccountYouTubeChannelLinkList = Array<AccountYouTubeChannelLink>;
+export const AccountYouTubeChannelLinkList = /*@__PURE__*/ S.Array(
+  AccountYouTubeChannelLink,
+) as any as S.Schema<AccountYouTubeChannelLinkList>;
+
+/** Settings for conversion tracking. */
+export interface AccountConversionSettings {
+  /** When enabled, free listing URLs have a parameter to enable conversion tracking for products owned by the current merchant account. See [auto-tagging](https://support.google.com/merchants/answer/11127659). */
+  freeListingsAutoTaggingEnabled?: boolean;
+}
+export const AccountConversionSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    freeListingsAutoTaggingEnabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "AccountConversionSettings",
+}) as any as S.Schema<AccountConversionSettings>;
+
 export interface AccountCustomerService {
+  /** Customer service email. */
+  email?: string;
   /** Customer service URL. */
   url?: string;
   /** Customer service phone number. */
   phoneNumber?: string;
-  /** Customer service email. */
-  email?: string;
 }
 export const AccountCustomerService = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    email: S.optional(S.String),
     url: S.optional(S.String),
     phoneNumber: S.optional(S.String),
-    email: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AccountCustomerService",
 }) as any as S.Schema<AccountCustomerService>;
 
 export interface AccountAddress {
-  /** Street-level part of the address. Use `\n` to add a second line. */
-  streetAddress?: string;
-  /** CLDR country code (for example, "US"). All MCA sub-accounts inherit the country of their parent MCA by default, however the country can be updated for individual sub-accounts. */
-  country?: string;
-  /** Postal code or ZIP (for example, "94043"). */
-  postalCode?: string;
-  /** City, town or commune. May also include dependent localities or sublocalities (for example, neighborhoods or suburbs). */
-  locality?: string;
   /** Top-level administrative subdivision of the country. For example, a state like California ("CA") or a province like Quebec ("QC"). */
   region?: string;
+  /** Postal code or ZIP (for example, "94043"). */
+  postalCode?: string;
+  /** Street-level part of the address. Use `\n` to add a second line. */
+  streetAddress?: string;
+  /** City, town or commune. May also include dependent localities or sublocalities (for example, neighborhoods or suburbs). */
+  locality?: string;
+  /** CLDR country code (for example, "US"). All MCA sub-accounts inherit the country of their parent MCA by default, however the country can be updated for individual sub-accounts. */
+  country?: string;
 }
 export const AccountAddress = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    streetAddress: S.optional(S.String),
-    country: S.optional(S.String),
-    postalCode: S.optional(S.String),
-    locality: S.optional(S.String),
     region: S.optional(S.String),
+    postalCode: S.optional(S.String),
+    streetAddress: S.optional(S.String),
+    locality: S.optional(S.String),
+    country: S.optional(S.String),
   }),
 ).annotate({ identifier: "AccountAddress" }) as any as S.Schema<AccountAddress>;
 
 export interface AccountBusinessInformation {
-  /** The phone number of the business in [E.164](https://en.wikipedia.org/wiki/E.164) format. This can only be updated if a verified phone number is not already set. To replace a verified phone number use the `Accounts.requestphoneverification` and `Accounts.verifyphonenumber`. */
-  phoneNumber?: string;
-  /** The customer service information of the business. */
-  customerService?: AccountCustomerService;
-  /** The address of the business. Use `\n` to add a second address line. */
-  address?: AccountAddress;
   /** The 10-digit [Korean business registration number](https://support.google.com/merchants/answer/9037766) separated with dashes in the format: XXX-XX-XXXXX. This field will only be updated if explicitly set. */
   koreanBusinessRegistrationNumber?: string;
   /** Verification status of the phone number of the business. This status is read only and can be updated only by successful phone verification. Acceptable values are: - "`verified`" - "`unverified`" */
   phoneVerificationStatus?: string;
+  /** The customer service information of the business. */
+  customerService?: AccountCustomerService;
+  /** The phone number of the business in [E.164](https://en.wikipedia.org/wiki/E.164) format. This can only be updated if a verified phone number is not already set. To replace a verified phone number use the `Accounts.requestphoneverification` and `Accounts.verifyphonenumber`. */
+  phoneNumber?: string;
+  /** The address of the business. Use `\n` to add a second address line. */
+  address?: AccountAddress;
 }
 export const AccountBusinessInformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    phoneNumber: S.optional(S.String),
-    customerService: S.optional(AccountCustomerService),
-    address: S.optional(AccountAddress),
     koreanBusinessRegistrationNumber: S.optional(S.String),
     phoneVerificationStatus: S.optional(S.String),
+    customerService: S.optional(AccountCustomerService),
+    phoneNumber: S.optional(S.String),
+    address: S.optional(AccountAddress),
   }),
 ).annotate({
   identifier: "AccountBusinessInformation",
@@ -1742,21 +1755,21 @@ export const AccountShippingImprovements = /*@__PURE__*/ S.suspend(() =>
 
 /** Settings for the Automatic Item Updates. */
 export interface AccountItemUpdatesSettings {
-  /** If price updates are enabled, Google always updates the active price with the crawled information. */
-  allowPriceUpdates?: boolean;
-  /** If availability updates are enabled, any previous availability values get overwritten if Google finds an out-of-stock annotation on the offer's page. If additionally `allow_availability_updates` field is set to true, values get overwritten if Google finds an in-stock annotation on the offer’s page. */
-  allowAvailabilityUpdates?: boolean;
   /** If condition updates are enabled, Google always updates item condition with the condition detected from the details of your product. */
   allowConditionUpdates?: boolean;
+  /** If price updates are enabled, Google always updates the active price with the crawled information. */
+  allowPriceUpdates?: boolean;
   /** If allow_availability_updates is enabled, items are automatically updated in all your Shopping target countries. By default, availability updates will only be applied to items that are 'out of stock' on your website but 'in stock' on Shopping. Set this to true to also update items that are 'in stock' on your website, but 'out of stock' on Google Shopping. In order for this field to have an effect, you must also allow availability updates. */
   allowStrictAvailabilityUpdates?: boolean;
+  /** If availability updates are enabled, any previous availability values get overwritten if Google finds an out-of-stock annotation on the offer's page. If additionally `allow_availability_updates` field is set to true, values get overwritten if Google finds an in-stock annotation on the offer’s page. */
+  allowAvailabilityUpdates?: boolean;
 }
 export const AccountItemUpdatesSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    allowPriceUpdates: S.optional(S.Boolean),
-    allowAvailabilityUpdates: S.optional(S.Boolean),
     allowConditionUpdates: S.optional(S.Boolean),
+    allowPriceUpdates: S.optional(S.Boolean),
     allowStrictAvailabilityUpdates: S.optional(S.Boolean),
+    allowAvailabilityUpdates: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "AccountItemUpdatesSettings",
@@ -1768,10 +1781,10 @@ export interface AccountItemUpdates {
   accountItemUpdatesSettings?: AccountItemUpdatesSettings;
   /** Output only. The effective value of allow_availability_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. Read-only. */
   effectiveAllowAvailabilityUpdates?: boolean;
-  /** Output only. The effective value of allow_condition_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. Read-only. */
-  effectiveAllowConditionUpdates?: boolean;
   /** Output only. The effective value of allow_price_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. Read-only. */
   effectiveAllowPriceUpdates?: boolean;
+  /** Output only. The effective value of allow_condition_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. Read-only. */
+  effectiveAllowConditionUpdates?: boolean;
   /** Output only. The effective value of allow_strict_availability_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. Read-only. */
   effectiveAllowStrictAvailabilityUpdates?: boolean;
 }
@@ -1779,8 +1792,8 @@ export const AccountItemUpdates = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountItemUpdatesSettings: S.optional(AccountItemUpdatesSettings),
     effectiveAllowAvailabilityUpdates: S.optional(S.Boolean),
-    effectiveAllowConditionUpdates: S.optional(S.Boolean),
     effectiveAllowPriceUpdates: S.optional(S.Boolean),
+    effectiveAllowConditionUpdates: S.optional(S.Boolean),
     effectiveAllowStrictAvailabilityUpdates: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -1806,26 +1819,6 @@ export const AccountAutomaticImprovements = /*@__PURE__*/ S.suspend(() =>
   identifier: "AccountAutomaticImprovements",
 }) as any as S.Schema<AccountAutomaticImprovements>;
 
-export interface AccountYouTubeChannelLink {
-  /** Channel ID. */
-  channelId?: string;
-  /** Status of the link between this Merchant Center account and the YouTube channel. Upon retrieval, it represents the actual status of the link and can be either `active` if it was approved in YT Creator Studio or `pending` if it's pending approval. Upon insertion, it represents the *intended* status of the link. Re-uploading a link with status `active` when it's still pending or with status `pending` when it's already active will have no effect: the status will remain unchanged. Re-uploading a link with deprecated status `inactive` is equivalent to not submitting the link at all and will delete the link if it was active or cancel the link request if it was pending. */
-  status?: string;
-}
-export const AccountYouTubeChannelLink = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    channelId: S.optional(S.String),
-    status: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AccountYouTubeChannelLink",
-}) as any as S.Schema<AccountYouTubeChannelLink>;
-
-export type AccountYouTubeChannelLinkList = Array<AccountYouTubeChannelLink>;
-export const AccountYouTubeChannelLinkList = /*@__PURE__*/ S.Array(
-  AccountYouTubeChannelLink,
-) as any as S.Schema<AccountYouTubeChannelLinkList>;
-
 /** The account identity type used to specify attributes. */
 export interface AccountIdentityType {
   /** Optional. Indicates that the business identifies itself with a given identity type. Setting this field does not automatically mean eligibility for promotions. */
@@ -1841,142 +1834,151 @@ export const AccountIdentityType = /*@__PURE__*/ S.suspend(() =>
 
 /** The [business identity attributes](https://support.google.com/merchants/answer/10342414) can be used to self-declare attributes that let customers know more about your business. */
 export interface AccountBusinessIdentity {
+  /** Specifies whether the business identifies itself as a small business. This optional field is only available for merchants with a business country set to "US". It is also not allowed for marketplaces, but it is allowed to marketplace sellers. */
+  smallBusiness?: AccountIdentityType;
+  /** Specifies whether the business identifies itself as being latino-owned. This optional field is only available for merchants with a business country set to "US". This field is not allowed for marketplaces or marketplace sellers. */
+  latinoOwned?: AccountIdentityType;
+  /** Specifies whether the business identifies itself as being veteran-owned. This optional field is only available for merchants with a business country set to "US". This field is not allowed for marketplaces or marketplace sellers. */
+  veteranOwned?: AccountIdentityType;
   /** Specifies whether the business identifies itself as being black-owned. This optional field is only available for merchants with a business country set to "US". This field is not allowed for marketplaces or marketplace sellers. */
   blackOwned?: AccountIdentityType;
   /** Specifies whether the business identifies itself as being women-owned. This optional field is only available for merchants with a business country set to "US". This field is not allowed for marketplaces or marketplace sellers. */
   womenOwned?: AccountIdentityType;
-  /** Specifies whether the business identifies itself as being veteran-owned. This optional field is only available for merchants with a business country set to "US". This field is not allowed for marketplaces or marketplace sellers. */
-  veteranOwned?: AccountIdentityType;
   /** Required. By setting this field, your business may be included in promotions for all the selected attributes. If you clear this option, it won't affect your identification with any of the attributes. For this field to be set, the merchant must self identify with at least one of the `AccountIdentityType`. If none are included, the request will be considered invalid. */
   includeForPromotions?: boolean;
-  /** Specifies whether the business identifies itself as being latino-owned. This optional field is only available for merchants with a business country set to "US". This field is not allowed for marketplaces or marketplace sellers. */
-  latinoOwned?: AccountIdentityType;
-  /** Specifies whether the business identifies itself as a small business. This optional field is only available for merchants with a business country set to "US". It is also not allowed for marketplaces, but it is allowed to marketplace sellers. */
-  smallBusiness?: AccountIdentityType;
 }
 export const AccountBusinessIdentity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    smallBusiness: S.optional(AccountIdentityType),
+    latinoOwned: S.optional(AccountIdentityType),
+    veteranOwned: S.optional(AccountIdentityType),
     blackOwned: S.optional(AccountIdentityType),
     womenOwned: S.optional(AccountIdentityType),
-    veteranOwned: S.optional(AccountIdentityType),
     includeForPromotions: S.optional(S.Boolean),
-    latinoOwned: S.optional(AccountIdentityType),
-    smallBusiness: S.optional(AccountIdentityType),
   }),
 ).annotate({
   identifier: "AccountBusinessIdentity",
 }) as any as S.Schema<AccountBusinessIdentity>;
 
-/** Settings for conversion tracking. */
-export interface AccountConversionSettings {
-  /** When enabled, free listing URLs have a parameter to enable conversion tracking for products owned by the current merchant account. See [auto-tagging](https://support.google.com/merchants/answer/11127659). */
-  freeListingsAutoTaggingEnabled?: boolean;
-}
-export const AccountConversionSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    freeListingsAutoTaggingEnabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AccountConversionSettings",
-}) as any as S.Schema<AccountConversionSettings>;
-
 /** Account data. After the creation of a new account it may take a few minutes before it's fully operational. The methods delete, insert, and update require the admin role. */
 export interface Account {
-  /** ID of CSS the account belongs to. */
-  cssId?: string;
-  /** Users with access to the account. Every account (except for subaccounts) must have at least one admin user. */
-  users?: AccountUserList;
-  /** The Business Profile which is linked or in the process of being linked with the Merchant Center account. */
-  googleMyBusinessLink?: AccountGoogleMyBusinessLink;
-  /** Linked Ads accounts that are active or pending approval. To create a new link request, add a new link with status `active` to the list. It will remain in a `pending` state until approved or rejected either in the Ads interface or through the Google Ads API. To delete an active link, or to cancel a link request, remove it from the list. */
-  adsLinks?: AccountAdsLinkList;
-  /** The business information of the account. */
-  businessInformation?: AccountBusinessInformation;
-  /** Client-specific, locally-unique, internal ID for the child account. */
-  sellerId?: string;
-  /** The automatic improvements of the account can be used to automatically update items, improve images and shipping. Each section inside AutomaticImprovements is updated separately. */
-  automaticImprovements?: AccountAutomaticImprovements;
-  /** Linked YouTube channels that are active or pending approval. To create a new link request, add a new link with status `active` to the list. It will remain in a `pending` state until approved or rejected in the YT Creator Studio interface. To delete an active link, or to cancel a link request, remove it from the list. */
-  youtubeChannelLinks?: AccountYouTubeChannelLinkList;
-  /** Manually created label IDs that are assigned to the account by CSS. */
-  labelIds?: StringList;
-  /** The business identity attributes can be used to self-declare attributes that let customers know more about your business. */
-  businessIdentity?: AccountBusinessIdentity;
-  /** Required. 64-bit Merchant Center account ID. */
-  id?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "`content#account`". */
-  kind?: string;
-  /** Settings for conversion tracking. */
-  conversionSettings?: AccountConversionSettings;
-  /** Indicates whether the merchant sells adult content. */
-  adultContent?: boolean;
-  /** Automatically created label IDs that are assigned to the account by CSS Center. */
-  automaticLabelIds?: StringList;
   /** The merchant's website. */
   websiteUrl?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "`content#account`". */
+  kind?: string;
+  /** Automatically created label IDs that are assigned to the account by CSS Center. */
+  automaticLabelIds?: StringList;
+  /** The Business Profile which is linked or in the process of being linked with the Merchant Center account. */
+  googleMyBusinessLink?: AccountGoogleMyBusinessLink;
+  /** Users with access to the account. Every account (except for subaccounts) must have at least one admin user. */
+  users?: AccountUserList;
+  /** Linked Ads accounts that are active or pending approval. To create a new link request, add a new link with status `active` to the list. It will remain in a `pending` state until approved or rejected either in the Ads interface or through the Google Ads API. To delete an active link, or to cancel a link request, remove it from the list. */
+  adsLinks?: AccountAdsLinkList;
   /** Required. Display name for the account. */
   name?: string;
+  /** Indicates whether the merchant sells adult content. */
+  adultContent?: boolean;
+  /** Linked YouTube channels that are active or pending approval. To create a new link request, add a new link with status `active` to the list. It will remain in a `pending` state until approved or rejected in the YT Creator Studio interface. To delete an active link, or to cancel a link request, remove it from the list. */
+  youtubeChannelLinks?: AccountYouTubeChannelLinkList;
+  /** ID of CSS the account belongs to. */
+  cssId?: string;
+  /** Settings for conversion tracking. */
+  conversionSettings?: AccountConversionSettings;
+  /** Client-specific, locally-unique, internal ID for the child account. */
+  sellerId?: string;
+  /** The business information of the account. */
+  businessInformation?: AccountBusinessInformation;
+  /** Manually created label IDs that are assigned to the account by CSS. */
+  labelIds?: StringList;
+  /** Required. 64-bit Merchant Center account ID. */
+  id?: string;
+  /** The automatic improvements of the account can be used to automatically update items, improve images and shipping. Each section inside AutomaticImprovements is updated separately. */
+  automaticImprovements?: AccountAutomaticImprovements;
   /** Output only. How the account is managed. Acceptable values are: - "`manual`" - "`automatic`" */
   accountManagement?: string;
+  /** The business identity attributes can be used to self-declare attributes that let customers know more about your business. */
+  businessIdentity?: AccountBusinessIdentity;
 }
 export const Account = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cssId: S.optional(S.String),
-    users: S.optional(AccountUserList),
-    googleMyBusinessLink: S.optional(AccountGoogleMyBusinessLink),
-    adsLinks: S.optional(AccountAdsLinkList),
-    businessInformation: S.optional(AccountBusinessInformation),
-    sellerId: S.optional(S.String),
-    automaticImprovements: S.optional(AccountAutomaticImprovements),
-    youtubeChannelLinks: S.optional(AccountYouTubeChannelLinkList),
-    labelIds: S.optional(StringList),
-    businessIdentity: S.optional(AccountBusinessIdentity),
-    id: S.optional(S.String),
-    kind: S.optional(S.String),
-    conversionSettings: S.optional(AccountConversionSettings),
-    adultContent: S.optional(S.Boolean),
-    automaticLabelIds: S.optional(StringList),
     websiteUrl: S.optional(S.String),
+    kind: S.optional(S.String),
+    automaticLabelIds: S.optional(StringList),
+    googleMyBusinessLink: S.optional(AccountGoogleMyBusinessLink),
+    users: S.optional(AccountUserList),
+    adsLinks: S.optional(AccountAdsLinkList),
     name: S.optional(S.String),
+    adultContent: S.optional(S.Boolean),
+    youtubeChannelLinks: S.optional(AccountYouTubeChannelLinkList),
+    cssId: S.optional(S.String),
+    conversionSettings: S.optional(AccountConversionSettings),
+    sellerId: S.optional(S.String),
+    businessInformation: S.optional(AccountBusinessInformation),
+    labelIds: S.optional(StringList),
+    id: S.optional(S.String),
+    automaticImprovements: S.optional(AccountAutomaticImprovements),
     accountManagement: S.optional(S.String),
+    businessIdentity: S.optional(AccountBusinessIdentity),
   }),
 ).annotate({ identifier: "Account" }) as any as S.Schema<Account>;
 
+export interface AccountsCustomBatchRequestEntryLinkRequest {
+  /** Type of the link between the two accounts. Acceptable values are: - "`channelPartner`" - "`eCommercePlatform`" - "`paymentServiceProvider`" - "`localProductManager`" */
+  linkType?: string;
+  /** Action to perform for this link. The `"request"` action is only available to select merchants. Acceptable values are: - "`approve`" - "`remove`" - "`request`" */
+  action?: string;
+  /** The ID of the linked account. */
+  linkedAccountId?: string;
+  /** Provided services. Acceptable values are: - "`shoppingAdsProductManagement`" - "`shoppingActionsProductManagement`" - "`shoppingActionsOrderManagement`" - "`paymentProcessing`" - "`localProductManagement`" */
+  services?: StringList;
+}
+export const AccountsCustomBatchRequestEntryLinkRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      linkType: S.optional(S.String),
+      action: S.optional(S.String),
+      linkedAccountId: S.optional(S.String),
+      services: S.optional(StringList),
+    }),
+  ).annotate({
+    identifier: "AccountsCustomBatchRequestEntryLinkRequest",
+  }) as any as S.Schema<AccountsCustomBatchRequestEntryLinkRequest>;
+
 /** A batch entry encoding a single non-batch accounts request. */
 export interface AccountsCustomBatchRequestEntry {
-  /** An entry ID, unique within the batch request. */
-  batchId?: number;
-  /** The ID of the managing account. */
-  merchantId?: string;
-  /** Details about the `link` request. */
-  linkRequest?: AccountsCustomBatchRequestEntryLinkRequest;
-  /** The account to create or update. Only defined if the method is `insert` or `update`. */
-  account?: Account;
-  /** The method of the batch entry. Acceptable values are: - "`claimWebsite`" - "`delete`" - "`get`" - "`insert`" - "`link`" - "`update`" */
-  method?: string;
-  /** The ID of the targeted account. Only defined if the method is not `insert`. */
-  accountId?: string;
-  /** Only applicable if the method is `claimwebsite`. Indicates whether or not to take the claim from another account in case there is a conflict. */
-  overwrite?: boolean;
-  /** Label IDs for the 'updatelabels' request. */
-  labelIds?: StringList;
-  /** Controls which fields are visible. Only applicable if the method is 'get'. */
-  view?: string;
   /** Whether the account should be deleted if the account has offers. Only applicable if the method is `delete`. */
   force?: boolean;
+  /** The ID of the managing account. */
+  merchantId?: string;
+  /** Only applicable if the method is `claimwebsite`. Indicates whether or not to take the claim from another account in case there is a conflict. */
+  overwrite?: boolean;
+  /** The ID of the targeted account. Only defined if the method is not `insert`. */
+  accountId?: string;
+  /** The account to create or update. Only defined if the method is `insert` or `update`. */
+  account?: Account;
+  /** Controls which fields are visible. Only applicable if the method is 'get'. */
+  view?: string;
+  /** The method of the batch entry. Acceptable values are: - "`claimWebsite`" - "`delete`" - "`get`" - "`insert`" - "`link`" - "`update`" */
+  method?: string;
+  /** Label IDs for the 'updatelabels' request. */
+  labelIds?: StringList;
+  /** Details about the `link` request. */
+  linkRequest?: AccountsCustomBatchRequestEntryLinkRequest;
+  /** An entry ID, unique within the batch request. */
+  batchId?: number;
 }
 export const AccountsCustomBatchRequestEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    batchId: S.optional(S.Number),
-    merchantId: S.optional(S.String),
-    linkRequest: S.optional(AccountsCustomBatchRequestEntryLinkRequest),
-    account: S.optional(Account),
-    method: S.optional(S.String),
-    accountId: S.optional(S.String),
-    overwrite: S.optional(S.Boolean),
-    labelIds: S.optional(StringList),
-    view: S.optional(S.String),
     force: S.optional(S.Boolean),
+    merchantId: S.optional(S.String),
+    overwrite: S.optional(S.Boolean),
+    accountId: S.optional(S.String),
+    account: S.optional(Account),
+    view: S.optional(S.String),
+    method: S.optional(S.String),
+    labelIds: S.optional(StringList),
+    linkRequest: S.optional(AccountsCustomBatchRequestEntryLinkRequest),
+    batchId: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "AccountsCustomBatchRequestEntry",
@@ -2020,17 +2022,17 @@ export const CustombatchAccountsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** An error returned by the API. */
 export interface Content_Error {
-  /** The domain of the error. */
-  domain?: string;
   /** The error code. */
   reason?: string;
+  /** The domain of the error. */
+  domain?: string;
   /** A description of the error. */
   message?: string;
 }
 export const Content_Error = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domain: S.optional(S.String),
     reason: S.optional(S.String),
+    domain: S.optional(S.String),
     message: S.optional(S.String),
   }),
 ).annotate({ identifier: "Content_Error" }) as any as S.Schema<Content_Error>;
@@ -2042,37 +2044,37 @@ export const Content_ErrorList = /*@__PURE__*/ S.Array(
 
 /** A list of errors returned by a failed batch entry. */
 export interface Errors {
-  /** The HTTP status of the first error in `errors`. */
-  code?: number;
   /** A list of errors. */
   errors?: Content_ErrorList;
   /** The message of the first error in `errors`. */
   message?: string;
+  /** The HTTP status of the first error in `errors`. */
+  code?: number;
 }
 export const Errors = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    code: S.optional(S.Number),
     errors: S.optional(Content_ErrorList),
     message: S.optional(S.String),
+    code: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Errors" }) as any as S.Schema<Errors>;
 
 /** A batch entry encoding a single non-batch accounts response. */
 export interface AccountsCustomBatchResponseEntry {
-  /** The retrieved, created, or updated account. Not defined if the method was `delete`, `claimwebsite` or `link`. */
-  account?: Account;
-  /** The ID of the request entry this entry responds to. */
-  batchId?: number;
   /** A list of errors for failed custombatch entries. *Note:* Schema errors fail the whole request. */
   errors?: Errors;
+  /** The ID of the request entry this entry responds to. */
+  batchId?: number;
+  /** The retrieved, created, or updated account. Not defined if the method was `delete`, `claimwebsite` or `link`. */
+  account?: Account;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#accountsCustomBatchResponseEntry`" */
   kind?: string;
 }
 export const AccountsCustomBatchResponseEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    account: S.optional(Account),
-    batchId: S.optional(S.Number),
     errors: S.optional(Errors),
+    batchId: S.optional(S.Number),
+    account: S.optional(Account),
     kind: S.optional(S.String),
   }),
 ).annotate({
@@ -2104,10 +2106,10 @@ export const AccountsCustomBatchResponse = /*@__PURE__*/ S.suspend(() =>
 export interface AccountstatusesCustomBatchRequestEntry {
   /** The ID of the managing account. */
   merchantId?: string;
-  /** An entry ID, unique within the batch request. */
-  batchId?: number;
   /** If set, only issues for the specified destinations are returned, otherwise only issues for the Shopping destination. */
   destinations?: StringList;
+  /** An entry ID, unique within the batch request. */
+  batchId?: number;
   /** The method of the batch entry. Acceptable values are: - "`get`" */
   method?: string;
   /** The ID of the (sub-)account whose status to get. */
@@ -2117,8 +2119,8 @@ export const AccountstatusesCustomBatchRequestEntry = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       merchantId: S.optional(S.String),
-      batchId: S.optional(S.Number),
       destinations: S.optional(StringList),
+      batchId: S.optional(S.Number),
       method: S.optional(S.String),
       accountId: S.optional(S.String),
     }),
@@ -2162,55 +2164,34 @@ export const CustombatchAccountstatusesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CustombatchAccountstatusesRequest",
 }) as any as S.Schema<CustombatchAccountstatusesRequest>;
 
-export interface AccountStatusStatistics {
-  /** Number of active offers. */
-  active?: string;
-  /** Number of pending offers. */
-  pending?: string;
-  /** Number of disapproved offers. */
-  disapproved?: string;
-  /** Number of expiring offers. */
-  expiring?: string;
-}
-export const AccountStatusStatistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.optional(S.String),
-    pending: S.optional(S.String),
-    disapproved: S.optional(S.String),
-    expiring: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AccountStatusStatistics",
-}) as any as S.Schema<AccountStatusStatistics>;
-
 export interface AccountStatusItemLevelIssue {
-  /** A short issue description in English. */
-  description?: string;
-  /** A detailed issue description in English. */
-  detail?: string;
   /** The attribute's name, if the issue is caused by a single attribute. */
   attributeName?: string;
   /** How this issue affects serving of the offer. */
   servability?: string;
-  /** Whether the issue can be resolved by the merchant. */
-  resolution?: string;
-  /** The URL of a web page to help with resolving this issue. */
-  documentation?: string;
+  /** A detailed issue description in English. */
+  detail?: string;
   /** Number of items with this issue. */
   numItems?: string;
+  /** The URL of a web page to help with resolving this issue. */
+  documentation?: string;
   /** The error code of the issue. */
   code?: string;
+  /** Whether the issue can be resolved by the merchant. */
+  resolution?: string;
+  /** A short issue description in English. */
+  description?: string;
 }
 export const AccountStatusItemLevelIssue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
-    detail: S.optional(S.String),
     attributeName: S.optional(S.String),
     servability: S.optional(S.String),
-    resolution: S.optional(S.String),
-    documentation: S.optional(S.String),
+    detail: S.optional(S.String),
     numItems: S.optional(S.String),
+    documentation: S.optional(S.String),
     code: S.optional(S.String),
+    resolution: S.optional(S.String),
+    description: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AccountStatusItemLevelIssue",
@@ -2222,25 +2203,46 @@ export const AccountStatusItemLevelIssueList = /*@__PURE__*/ S.Array(
   AccountStatusItemLevelIssue,
 ) as any as S.Schema<AccountStatusItemLevelIssueList>;
 
+export interface AccountStatusStatistics {
+  /** Number of disapproved offers. */
+  disapproved?: string;
+  /** Number of active offers. */
+  active?: string;
+  /** Number of expiring offers. */
+  expiring?: string;
+  /** Number of pending offers. */
+  pending?: string;
+}
+export const AccountStatusStatistics = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    disapproved: S.optional(S.String),
+    active: S.optional(S.String),
+    expiring: S.optional(S.String),
+    pending: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AccountStatusStatistics",
+}) as any as S.Schema<AccountStatusStatistics>;
+
 export interface AccountStatusProducts {
-  /** The country the data applies to. */
-  country?: string;
-  /** The channel the data applies to. Acceptable values are: - "`local`" - "`online`" */
-  channel?: string;
-  /** Aggregated product statistics. */
-  statistics?: AccountStatusStatistics;
-  /** The destination the data applies to. */
-  destination?: string;
   /** List of item-level issues. */
   itemLevelIssues?: AccountStatusItemLevelIssueList;
+  /** The country the data applies to. */
+  country?: string;
+  /** Aggregated product statistics. */
+  statistics?: AccountStatusStatistics;
+  /** The channel the data applies to. Acceptable values are: - "`local`" - "`online`" */
+  channel?: string;
+  /** The destination the data applies to. */
+  destination?: string;
 }
 export const AccountStatusProducts = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    country: S.optional(S.String),
-    channel: S.optional(S.String),
-    statistics: S.optional(AccountStatusStatistics),
-    destination: S.optional(S.String),
     itemLevelIssues: S.optional(AccountStatusItemLevelIssueList),
+    country: S.optional(S.String),
+    statistics: S.optional(AccountStatusStatistics),
+    channel: S.optional(S.String),
+    destination: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AccountStatusProducts",
@@ -2252,30 +2254,30 @@ export const AccountStatusProductsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AccountStatusProductsList>;
 
 export interface AccountStatusAccountLevelIssue {
-  /** Additional details about the issue. */
-  detail?: string;
-  /** Short description of the issue. */
-  title?: string;
-  /** Country for which this issue is reported. */
-  country?: string;
-  /** The URL of a web page to help resolving this issue. */
-  documentation?: string;
   /** The destination the issue applies to. If this field is empty then the issue applies to all available destinations. */
   destination?: string;
-  /** Issue identifier. */
-  id?: string;
   /** Severity of the issue. Acceptable values are: - "`critical`" - "`error`" - "`suggestion`" */
   severity?: string;
+  /** Issue identifier. */
+  id?: string;
+  /** Short description of the issue. */
+  title?: string;
+  /** The URL of a web page to help resolving this issue. */
+  documentation?: string;
+  /** Additional details about the issue. */
+  detail?: string;
+  /** Country for which this issue is reported. */
+  country?: string;
 }
 export const AccountStatusAccountLevelIssue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    detail: S.optional(S.String),
-    title: S.optional(S.String),
-    country: S.optional(S.String),
-    documentation: S.optional(S.String),
     destination: S.optional(S.String),
-    id: S.optional(S.String),
     severity: S.optional(S.String),
+    id: S.optional(S.String),
+    title: S.optional(S.String),
+    documentation: S.optional(S.String),
+    detail: S.optional(S.String),
+    country: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AccountStatusAccountLevelIssue",
@@ -2289,26 +2291,26 @@ export const AccountStatusAccountLevelIssueList = /*@__PURE__*/ S.Array(
 
 /** The status of an account, that is, information about its products, which is computed offline and not returned immediately at insertion time. */
 export interface AccountStatus {
-  /** Whether the account's website is claimed or not. */
-  websiteClaimed?: boolean;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#accountStatus`" */
   kind?: string;
   /** List of product-related data by channel, destination, and country. Data in this field may be delayed by up to 30 minutes. */
   products?: AccountStatusProductsList;
-  /** How the account is managed. Acceptable values are: - "`manual`" - "`automatic`" */
-  accountManagement?: string;
   /** A list of account level issues. */
   accountLevelIssues?: AccountStatusAccountLevelIssueList;
+  /** Whether the account's website is claimed or not. */
+  websiteClaimed?: boolean;
+  /** How the account is managed. Acceptable values are: - "`manual`" - "`automatic`" */
+  accountManagement?: string;
   /** The ID of the account for which the status is reported. */
   accountId?: string;
 }
 export const AccountStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    websiteClaimed: S.optional(S.Boolean),
     kind: S.optional(S.String),
     products: S.optional(AccountStatusProductsList),
-    accountManagement: S.optional(S.String),
     accountLevelIssues: S.optional(AccountStatusAccountLevelIssueList),
+    websiteClaimed: S.optional(S.Boolean),
+    accountManagement: S.optional(S.String),
     accountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "AccountStatus" }) as any as S.Schema<AccountStatus>;
@@ -2317,17 +2319,17 @@ export const AccountStatus = /*@__PURE__*/ S.suspend(() =>
 export interface AccountstatusesCustomBatchResponseEntry {
   /** The ID of the request entry this entry responds to. */
   batchId?: number;
-  /** The requested account status. Defined if and only if the request was successful. */
-  accountStatus?: AccountStatus;
   /** A list of errors for failed custombatch entries. *Note:* Schema errors fail the whole request. */
   errors?: Errors;
+  /** The requested account status. Defined if and only if the request was successful. */
+  accountStatus?: AccountStatus;
 }
 export const AccountstatusesCustomBatchResponseEntry = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       batchId: S.optional(S.Number),
-      accountStatus: S.optional(AccountStatus),
       errors: S.optional(Errors),
+      accountStatus: S.optional(AccountStatus),
     }),
 ).annotate({
   identifier: "AccountstatusesCustomBatchResponseEntry",
@@ -2357,24 +2359,24 @@ export const AccountstatusesCustomBatchResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Tax calculation rule to apply in a state or province (US only). */
 export interface AccountTaxTaxRule {
-  /** If true, shipping charges are also taxed. */
-  shippingTaxed?: boolean;
-  /** Explicit tax rate in percent, represented as a floating point number without the percentage character. Must not be negative. */
-  ratePercent?: string;
   /** Required. State (or province) is which the tax is applicable, described by its location ID (also called criteria ID). */
   locationId?: string;
   /** Country code in which tax is applicable. */
   country?: string;
   /** Whether the tax rate is taken from a global tax table or specified explicitly. */
   useGlobalRate?: boolean;
+  /** Explicit tax rate in percent, represented as a floating point number without the percentage character. Must not be negative. */
+  ratePercent?: string;
+  /** If true, shipping charges are also taxed. */
+  shippingTaxed?: boolean;
 }
 export const AccountTaxTaxRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    shippingTaxed: S.optional(S.Boolean),
-    ratePercent: S.optional(S.String),
     locationId: S.optional(S.String),
     country: S.optional(S.String),
     useGlobalRate: S.optional(S.Boolean),
+    ratePercent: S.optional(S.String),
+    shippingTaxed: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "AccountTaxTaxRule",
@@ -2387,41 +2389,41 @@ export const AccountTaxTaxRuleList = /*@__PURE__*/ S.Array(
 
 /** The tax settings of a merchant account. All methods require the admin role. */
 export interface AccountTax {
-  /** Required. The ID of the account to which these account tax settings belong. */
-  accountId?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "`content#accountTax`". */
-  kind?: string;
   /** Tax rules. Updating the tax rules will enable "US" taxes (not reversible). Defining no rules is equivalent to not charging tax at all. */
   rules?: AccountTaxTaxRuleList;
+  /** Identifies what kind of resource this is. Value: the fixed string "`content#accountTax`". */
+  kind?: string;
+  /** Required. The ID of the account to which these account tax settings belong. */
+  accountId?: string;
 }
 export const AccountTax = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountId: S.optional(S.String),
-    kind: S.optional(S.String),
     rules: S.optional(AccountTaxTaxRuleList),
+    kind: S.optional(S.String),
+    accountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "AccountTax" }) as any as S.Schema<AccountTax>;
 
 /** A batch entry encoding a single non-batch accounttax request. */
 export interface AccounttaxCustomBatchRequestEntry {
-  /** The method of the batch entry. Acceptable values are: - "`get`" - "`update`" */
-  method?: string;
-  /** The ID of the account for which to get/update account tax settings. */
-  accountId?: string;
-  /** An entry ID, unique within the batch request. */
-  batchId?: number;
-  /** The account tax settings to update. Only defined if the method is `update`. */
-  accountTax?: AccountTax;
   /** The ID of the managing account. */
   merchantId?: string;
+  /** The account tax settings to update. Only defined if the method is `update`. */
+  accountTax?: AccountTax;
+  /** An entry ID, unique within the batch request. */
+  batchId?: number;
+  /** The ID of the account for which to get/update account tax settings. */
+  accountId?: string;
+  /** The method of the batch entry. Acceptable values are: - "`get`" - "`update`" */
+  method?: string;
 }
 export const AccounttaxCustomBatchRequestEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    method: S.optional(S.String),
-    accountId: S.optional(S.String),
-    batchId: S.optional(S.Number),
-    accountTax: S.optional(AccountTax),
     merchantId: S.optional(S.String),
+    accountTax: S.optional(AccountTax),
+    batchId: S.optional(S.Number),
+    accountId: S.optional(S.String),
+    method: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AccounttaxCustomBatchRequestEntry",
@@ -2465,21 +2467,21 @@ export const CustombatchAccounttaxRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A batch entry encoding a single non-batch accounttax response. */
 export interface AccounttaxCustomBatchResponseEntry {
+  /** The retrieved or updated account tax settings. */
+  accountTax?: AccountTax;
   /** The ID of the request entry this entry responds to. */
   batchId?: number;
   /** A list of errors for failed custombatch entries. *Note:* Schema errors fail the whole request. */
   errors?: Errors;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#accounttaxCustomBatchResponseEntry`" */
   kind?: string;
-  /** The retrieved or updated account tax settings. */
-  accountTax?: AccountTax;
 }
 export const AccounttaxCustomBatchResponseEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    accountTax: S.optional(AccountTax),
     batchId: S.optional(S.Number),
     errors: S.optional(Errors),
     kind: S.optional(S.String),
-    accountTax: S.optional(AccountTax),
   }),
 ).annotate({
   identifier: "AccounttaxCustomBatchResponseEntry",
@@ -2492,42 +2494,95 @@ export const AccounttaxCustomBatchResponseEntryList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AccounttaxCustomBatchResponseEntryList>;
 
 export interface AccounttaxCustomBatchResponse {
-  /** The result of the execution of the batch requests. */
-  entries?: AccounttaxCustomBatchResponseEntryList;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#accounttaxCustomBatchResponse`". */
   kind?: string;
+  /** The result of the execution of the batch requests. */
+  entries?: AccounttaxCustomBatchResponseEntryList;
 }
 export const AccounttaxCustomBatchResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entries: S.optional(AccounttaxCustomBatchResponseEntryList),
     kind: S.optional(S.String),
+    entries: S.optional(AccounttaxCustomBatchResponseEntryList),
   }),
 ).annotate({
   identifier: "AccounttaxCustomBatchResponse",
 }) as any as S.Schema<AccounttaxCustomBatchResponse>;
 
+/** The required fields vary based on the frequency of fetching. For a monthly fetch schedule, day_of_month and hour are required. For a weekly fetch schedule, weekday and hour are required. For a daily fetch schedule, only hour is required. */
+export interface DatafeedFetchSchedule {
+  /** The minute of the hour the feed file should be fetched (0-59). Read-only. */
+  minuteOfHour?: number;
+  /** The URL where the feed file can be fetched. Google Merchant Center will support automatic scheduled uploads using the HTTP, HTTPS, FTP, or SFTP protocols, so the value will need to be a valid link using one of those four protocols. */
+  fetchUrl?: string;
+  /** Time zone used for schedule. UTC by default. For example, "America/Los_Angeles". */
+  timeZone?: string;
+  /** An optional password for fetch_url. */
+  password?: string;
+  /** An optional user name for fetch_url. */
+  username?: string;
+  /** The day of the month the feed file should be fetched (1-31). */
+  dayOfMonth?: number;
+  /** The day of the week the feed file should be fetched. Acceptable values are: - "`monday`" - "`tuesday`" - "`wednesday`" - "`thursday`" - "`friday`" - "`saturday`" - "`sunday`" */
+  weekday?: string;
+  /** Whether the scheduled fetch is paused or not. */
+  paused?: boolean;
+  /** The hour of the day the feed file should be fetched (0-23). */
+  hour?: number;
+}
+export const DatafeedFetchSchedule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minuteOfHour: S.optional(S.Number),
+    fetchUrl: S.optional(S.String),
+    timeZone: S.optional(S.String),
+    password: S.optional(S.String),
+    username: S.optional(S.String),
+    dayOfMonth: S.optional(S.Number),
+    weekday: S.optional(S.String),
+    paused: S.optional(S.Boolean),
+    hour: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "DatafeedFetchSchedule",
+}) as any as S.Schema<DatafeedFetchSchedule>;
+
+export interface DatafeedFormat {
+  /** Delimiter for the separation of values in a delimiter-separated values feed. If not specified, the delimiter will be auto-detected. Ignored for non-DSV data feeds. Acceptable values are: - "`pipe`" - "`tab`" - "`tilde`" */
+  columnDelimiter?: string;
+  /** Character encoding scheme of the data feed. If not specified, the encoding will be auto-detected. Acceptable values are: - "`latin-1`" - "`utf-16be`" - "`utf-16le`" - "`utf-8`" - "`windows-1252`" */
+  fileEncoding?: string;
+  /** Specifies how double quotes are interpreted. If not specified, the mode will be auto-detected. Ignored for non-DSV data feeds. Acceptable values are: - "`normal character`" - "`value quoting`" */
+  quotingMode?: string;
+}
+export const DatafeedFormat = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    columnDelimiter: S.optional(S.String),
+    fileEncoding: S.optional(S.String),
+    quotingMode: S.optional(S.String),
+  }),
+).annotate({ identifier: "DatafeedFormat" }) as any as S.Schema<DatafeedFormat>;
+
 export interface DatafeedTarget {
+  /** Feed label for the DatafeedTarget. Either `country` or `feedLabel` is required. If both `feedLabel` and `country` is specified, the values must match. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). */
+  feedLabel?: string;
+  /** The list of [destinations to include](//support.google.com/merchants/answer/7501026) for this target (corresponds to checked check boxes in Merchant Center). Default destinations are always included unless provided in `excludedDestinations`. */
+  includedDestinations?: StringList;
+  /** The list of [destinations to exclude](//support.google.com/merchants/answer/6324486) for this target (corresponds to cleared check boxes in Merchant Center). Products that are excluded from all destinations for more than 7 days are automatically deleted. */
+  excludedDestinations?: StringList;
+  /** The two-letter ISO 639-1 language of the items in the feed. Must be a valid language for `targets[].country`. */
+  language?: string;
   /** Deprecated. Use `feedLabel` instead. The country where the items in the feed will be included in the search index, represented as a CLDR territory code. */
   country?: string;
   /** The countries where the items may be displayed. Represented as a CLDR territory code. Will be ignored for "product inventory" feeds. */
   targetCountries?: StringList;
-  /** The two-letter ISO 639-1 language of the items in the feed. Must be a valid language for `targets[].country`. */
-  language?: string;
-  /** Feed label for the DatafeedTarget. Either `country` or `feedLabel` is required. If both `feedLabel` and `country` is specified, the values must match. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). */
-  feedLabel?: string;
-  /** The list of [destinations to exclude](//support.google.com/merchants/answer/6324486) for this target (corresponds to cleared check boxes in Merchant Center). Products that are excluded from all destinations for more than 7 days are automatically deleted. */
-  excludedDestinations?: StringList;
-  /** The list of [destinations to include](//support.google.com/merchants/answer/7501026) for this target (corresponds to checked check boxes in Merchant Center). Default destinations are always included unless provided in `excludedDestinations`. */
-  includedDestinations?: StringList;
 }
 export const DatafeedTarget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    feedLabel: S.optional(S.String),
+    includedDestinations: S.optional(StringList),
+    excludedDestinations: S.optional(StringList),
+    language: S.optional(S.String),
     country: S.optional(S.String),
     targetCountries: S.optional(StringList),
-    language: S.optional(S.String),
-    feedLabel: S.optional(S.String),
-    excludedDestinations: S.optional(StringList),
-    includedDestinations: S.optional(StringList),
   }),
 ).annotate({ identifier: "DatafeedTarget" }) as any as S.Schema<DatafeedTarget>;
 
@@ -2536,114 +2591,61 @@ export const DatafeedTargetList = /*@__PURE__*/ S.Array(
   DatafeedTarget,
 ) as any as S.Schema<DatafeedTargetList>;
 
-/** The required fields vary based on the frequency of fetching. For a monthly fetch schedule, day_of_month and hour are required. For a weekly fetch schedule, weekday and hour are required. For a daily fetch schedule, only hour is required. */
-export interface DatafeedFetchSchedule {
-  /** The URL where the feed file can be fetched. Google Merchant Center will support automatic scheduled uploads using the HTTP, HTTPS, FTP, or SFTP protocols, so the value will need to be a valid link using one of those four protocols. */
-  fetchUrl?: string;
-  /** An optional user name for fetch_url. */
-  username?: string;
-  /** The minute of the hour the feed file should be fetched (0-59). Read-only. */
-  minuteOfHour?: number;
-  /** An optional password for fetch_url. */
-  password?: string;
-  /** The day of the month the feed file should be fetched (1-31). */
-  dayOfMonth?: number;
-  /** Time zone used for schedule. UTC by default. For example, "America/Los_Angeles". */
-  timeZone?: string;
-  /** The hour of the day the feed file should be fetched (0-23). */
-  hour?: number;
-  /** The day of the week the feed file should be fetched. Acceptable values are: - "`monday`" - "`tuesday`" - "`wednesday`" - "`thursday`" - "`friday`" - "`saturday`" - "`sunday`" */
-  weekday?: string;
-  /** Whether the scheduled fetch is paused or not. */
-  paused?: boolean;
-}
-export const DatafeedFetchSchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fetchUrl: S.optional(S.String),
-    username: S.optional(S.String),
-    minuteOfHour: S.optional(S.Number),
-    password: S.optional(S.String),
-    dayOfMonth: S.optional(S.Number),
-    timeZone: S.optional(S.String),
-    hour: S.optional(S.Number),
-    weekday: S.optional(S.String),
-    paused: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "DatafeedFetchSchedule",
-}) as any as S.Schema<DatafeedFetchSchedule>;
-
-export interface DatafeedFormat {
-  /** Character encoding scheme of the data feed. If not specified, the encoding will be auto-detected. Acceptable values are: - "`latin-1`" - "`utf-16be`" - "`utf-16le`" - "`utf-8`" - "`windows-1252`" */
-  fileEncoding?: string;
-  /** Specifies how double quotes are interpreted. If not specified, the mode will be auto-detected. Ignored for non-DSV data feeds. Acceptable values are: - "`normal character`" - "`value quoting`" */
-  quotingMode?: string;
-  /** Delimiter for the separation of values in a delimiter-separated values feed. If not specified, the delimiter will be auto-detected. Ignored for non-DSV data feeds. Acceptable values are: - "`pipe`" - "`tab`" - "`tilde`" */
-  columnDelimiter?: string;
-}
-export const DatafeedFormat = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fileEncoding: S.optional(S.String),
-    quotingMode: S.optional(S.String),
-    columnDelimiter: S.optional(S.String),
-  }),
-).annotate({ identifier: "DatafeedFormat" }) as any as S.Schema<DatafeedFormat>;
-
 /** Datafeed configuration data. */
 export interface Datafeed {
   /** Required for insert. A descriptive name of the data feed. */
   name?: string;
-  /** The targets this feed should apply to (country, language, destinations). */
-  targets?: DatafeedTargetList;
-  /** The two-letter ISO 639-1 language in which the attributes are defined in the data feed. */
-  attributeLanguage?: string;
-  /** Required. The type of data feed. For product inventory feeds, only feeds for local stores, not online stores, are supported. Acceptable values are: - "`local products`" - "`product inventory`" - "`products`" */
-  contentType?: string;
-  /** Required. The filename of the feed. All feeds must have a unique file name. */
-  fileName?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "`content#datafeed`" */
-  kind?: string;
-  /** Required for update. The ID of the data feed. */
-  id?: string;
   /** Fetch schedule for the feed file. */
   fetchSchedule?: DatafeedFetchSchedule;
   /** Format of the feed file. */
   format?: DatafeedFormat;
+  /** Identifies what kind of resource this is. Value: the fixed string "`content#datafeed`" */
+  kind?: string;
+  /** The two-letter ISO 639-1 language in which the attributes are defined in the data feed. */
+  attributeLanguage?: string;
+  /** Required for update. The ID of the data feed. */
+  id?: string;
+  /** Required. The filename of the feed. All feeds must have a unique file name. */
+  fileName?: string;
+  /** The targets this feed should apply to (country, language, destinations). */
+  targets?: DatafeedTargetList;
+  /** Required. The type of data feed. For product inventory feeds, only feeds for local stores, not online stores, are supported. Acceptable values are: - "`local products`" - "`product inventory`" - "`products`" */
+  contentType?: string;
 }
 export const Datafeed = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    targets: S.optional(DatafeedTargetList),
-    attributeLanguage: S.optional(S.String),
-    contentType: S.optional(S.String),
-    fileName: S.optional(S.String),
-    kind: S.optional(S.String),
-    id: S.optional(S.String),
     fetchSchedule: S.optional(DatafeedFetchSchedule),
     format: S.optional(DatafeedFormat),
+    kind: S.optional(S.String),
+    attributeLanguage: S.optional(S.String),
+    id: S.optional(S.String),
+    fileName: S.optional(S.String),
+    targets: S.optional(DatafeedTargetList),
+    contentType: S.optional(S.String),
   }),
 ).annotate({ identifier: "Datafeed" }) as any as S.Schema<Datafeed>;
 
 /** A batch entry encoding a single non-batch datafeeds request. */
 export interface DatafeedsCustomBatchRequestEntry {
-  /** The data feed to insert. */
-  datafeed?: Datafeed;
-  /** The ID of the managing account. */
-  merchantId?: string;
   /** The ID of the data feed to get, delete or fetch. */
   datafeedId?: string;
-  /** The method of the batch entry. Acceptable values are: - "`delete`" - "`fetchNow`" - "`get`" - "`insert`" - "`update`" */
-  method?: string;
   /** An entry ID, unique within the batch request. */
   batchId?: number;
+  /** The data feed to insert. */
+  datafeed?: Datafeed;
+  /** The method of the batch entry. Acceptable values are: - "`delete`" - "`fetchNow`" - "`get`" - "`insert`" - "`update`" */
+  method?: string;
+  /** The ID of the managing account. */
+  merchantId?: string;
 }
 export const DatafeedsCustomBatchRequestEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    datafeed: S.optional(Datafeed),
-    merchantId: S.optional(S.String),
     datafeedId: S.optional(S.String),
-    method: S.optional(S.String),
     batchId: S.optional(S.Number),
+    datafeed: S.optional(Datafeed),
+    method: S.optional(S.String),
+    merchantId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DatafeedsCustomBatchRequestEntry",
@@ -2687,17 +2689,17 @@ export const CustombatchDatafeedsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A batch entry encoding a single non-batch datafeeds response. */
 export interface DatafeedsCustomBatchResponseEntry {
-  /** The ID of the request entry this entry responds to. */
-  batchId?: number;
   /** A list of errors for failed custombatch entries. *Note:* Schema errors fail the whole request. */
   errors?: Errors;
+  /** The ID of the request entry this entry responds to. */
+  batchId?: number;
   /** The requested data feed. Defined if and only if the request was successful. */
   datafeed?: Datafeed;
 }
 export const DatafeedsCustomBatchResponseEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    batchId: S.optional(S.Number),
     errors: S.optional(Errors),
+    batchId: S.optional(S.Number),
     datafeed: S.optional(Datafeed),
   }),
 ).annotate({
@@ -2711,15 +2713,15 @@ export const DatafeedsCustomBatchResponseEntryList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DatafeedsCustomBatchResponseEntryList>;
 
 export interface DatafeedsCustomBatchResponse {
-  /** The result of the execution of the batch requests. */
-  entries?: DatafeedsCustomBatchResponseEntryList;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#datafeedsCustomBatchResponse`". */
   kind?: string;
+  /** The result of the execution of the batch requests. */
+  entries?: DatafeedsCustomBatchResponseEntryList;
 }
 export const DatafeedsCustomBatchResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entries: S.optional(DatafeedsCustomBatchResponseEntryList),
     kind: S.optional(S.String),
+    entries: S.optional(DatafeedsCustomBatchResponseEntryList),
   }),
 ).annotate({
   identifier: "DatafeedsCustomBatchResponse",
@@ -2727,30 +2729,30 @@ export const DatafeedsCustomBatchResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** A batch entry encoding a single non-batch datafeedstatuses request. */
 export interface DatafeedstatusesCustomBatchRequestEntry {
-  /** The ID of the data feed to get. */
-  datafeedId?: string;
-  /** The ID of the managing account. */
-  merchantId?: string;
-  /** Deprecated. Use `feedLabel` instead. The country to get the datafeed status for. If this parameter is provided, then `language` must also be provided. Note that for multi-target datafeeds this parameter is required. */
-  country?: string;
-  /** The language to get the datafeed status for. If this parameter is provided then `country` must also be provided. Note that for multi-target datafeeds this parameter is required. */
-  language?: string;
-  /** The feed label to get the datafeed status for. If this parameter is provided, then `language` must also be provided. Note that for multi-target datafeeds this parameter is required. */
-  feedLabel?: string;
   /** An entry ID, unique within the batch request. */
   batchId?: number;
+  /** The feed label to get the datafeed status for. If this parameter is provided, then `language` must also be provided. Note that for multi-target datafeeds this parameter is required. */
+  feedLabel?: string;
+  /** The ID of the data feed to get. */
+  datafeedId?: string;
+  /** The language to get the datafeed status for. If this parameter is provided then `country` must also be provided. Note that for multi-target datafeeds this parameter is required. */
+  language?: string;
+  /** Deprecated. Use `feedLabel` instead. The country to get the datafeed status for. If this parameter is provided, then `language` must also be provided. Note that for multi-target datafeeds this parameter is required. */
+  country?: string;
+  /** The ID of the managing account. */
+  merchantId?: string;
   /** The method of the batch entry. Acceptable values are: - "`get`" */
   method?: string;
 }
 export const DatafeedstatusesCustomBatchRequestEntry = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      datafeedId: S.optional(S.String),
-      merchantId: S.optional(S.String),
-      country: S.optional(S.String),
-      language: S.optional(S.String),
-      feedLabel: S.optional(S.String),
       batchId: S.optional(S.Number),
+      feedLabel: S.optional(S.String),
+      datafeedId: S.optional(S.String),
+      language: S.optional(S.String),
+      country: S.optional(S.String),
+      merchantId: S.optional(S.String),
       method: S.optional(S.String),
     }),
 ).annotate({
@@ -2796,17 +2798,17 @@ export const CustombatchDatafeedstatusesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** An example occurrence for a particular error. */
 export interface DatafeedStatusExample {
-  /** The problematic value. */
-  value?: string;
   /** Line number in the data feed where the example is found. */
   lineNumber?: string;
+  /** The problematic value. */
+  value?: string;
   /** The ID of the example item. */
   itemId?: string;
 }
 export const DatafeedStatusExample = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(S.String),
     lineNumber: S.optional(S.String),
+    value: S.optional(S.String),
     itemId: S.optional(S.String),
   }),
 ).annotate({
@@ -2820,21 +2822,21 @@ export const DatafeedStatusExampleList = /*@__PURE__*/ S.Array(
 
 /** An error occurring in the feed, like "invalid price". */
 export interface DatafeedStatusError {
-  /** The code of the error, for example, "validation/invalid_value". */
-  code?: string;
-  /** The error message, for example, "Invalid price". */
-  message?: string;
-  /** The number of occurrences of the error in the feed. */
-  count?: string;
   /** A list of example occurrences of the error, grouped by product. */
   examples?: DatafeedStatusExampleList;
+  /** The error message, for example, "Invalid price". */
+  message?: string;
+  /** The code of the error, for example, "validation/invalid_value". */
+  code?: string;
+  /** The number of occurrences of the error in the feed. */
+  count?: string;
 }
 export const DatafeedStatusError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    code: S.optional(S.String),
-    message: S.optional(S.String),
-    count: S.optional(S.String),
     examples: S.optional(DatafeedStatusExampleList),
+    message: S.optional(S.String),
+    code: S.optional(S.String),
+    count: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DatafeedStatusError",
@@ -2847,60 +2849,60 @@ export const DatafeedStatusErrorList = /*@__PURE__*/ S.Array(
 
 /** The status of a datafeed, that is, the result of the last retrieval of the datafeed computed asynchronously when the feed processing is finished. */
 export interface DatafeedStatus {
-  /** The ID of the feed for which the status is reported. */
-  datafeedId?: string;
+  /** The country for which the status is reported, represented as a CLDR territory code. */
+  country?: string;
+  /** The list of errors occurring in the feed. */
+  errors?: DatafeedStatusErrorList;
+  /** The two-letter ISO 639-1 language for which the status is reported. */
+  language?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "`content#datafeedStatus`" */
+  kind?: string;
+  /** The processing status of the feed. Acceptable values are: - "`"`failure`": The feed could not be processed or all items had errors.`" - "`in progress`": The feed is being processed. - "`none`": The feed has not yet been processed. For example, a feed that has never been uploaded will have this processing status. - "`success`": The feed was processed successfully, though some items might have had errors. */
+  processingStatus?: string;
   /** The number of items in the feed that were processed. */
   itemsTotal?: string;
   /** The number of items in the feed that were valid. */
   itemsValid?: string;
-  /** The list of errors occurring in the feed. */
-  errors?: DatafeedStatusErrorList;
-  /** The country for which the status is reported, represented as a CLDR territory code. */
-  country?: string;
-  /** The two-letter ISO 639-1 language for which the status is reported. */
-  language?: string;
-  /** The processing status of the feed. Acceptable values are: - "`"`failure`": The feed could not be processed or all items had errors.`" - "`in progress`": The feed is being processed. - "`none`": The feed has not yet been processed. For example, a feed that has never been uploaded will have this processing status. - "`success`": The feed was processed successfully, though some items might have had errors. */
-  processingStatus?: string;
   /** The feed label status is reported for. */
   feedLabel?: string;
-  /** The list of errors occurring in the feed. */
-  warnings?: DatafeedStatusErrorList;
-  /** Identifies what kind of resource this is. Value: the fixed string "`content#datafeedStatus`" */
-  kind?: string;
   /** The last date at which the feed was uploaded. */
   lastUploadDate?: string;
+  /** The list of errors occurring in the feed. */
+  warnings?: DatafeedStatusErrorList;
+  /** The ID of the feed for which the status is reported. */
+  datafeedId?: string;
 }
 export const DatafeedStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    datafeedId: S.optional(S.String),
+    country: S.optional(S.String),
+    errors: S.optional(DatafeedStatusErrorList),
+    language: S.optional(S.String),
+    kind: S.optional(S.String),
+    processingStatus: S.optional(S.String),
     itemsTotal: S.optional(S.String),
     itemsValid: S.optional(S.String),
-    errors: S.optional(DatafeedStatusErrorList),
-    country: S.optional(S.String),
-    language: S.optional(S.String),
-    processingStatus: S.optional(S.String),
     feedLabel: S.optional(S.String),
-    warnings: S.optional(DatafeedStatusErrorList),
-    kind: S.optional(S.String),
     lastUploadDate: S.optional(S.String),
+    warnings: S.optional(DatafeedStatusErrorList),
+    datafeedId: S.optional(S.String),
   }),
 ).annotate({ identifier: "DatafeedStatus" }) as any as S.Schema<DatafeedStatus>;
 
 /** A batch entry encoding a single non-batch datafeedstatuses response. */
 export interface DatafeedstatusesCustomBatchResponseEntry {
-  /** The ID of the request entry this entry responds to. */
-  batchId?: number;
   /** A list of errors for failed custombatch entries. *Note:* Schema errors fail the whole request. */
   errors?: Errors;
   /** The requested data feed status. Defined if and only if the request was successful. */
   datafeedStatus?: DatafeedStatus;
+  /** The ID of the request entry this entry responds to. */
+  batchId?: number;
 }
 export const DatafeedstatusesCustomBatchResponseEntry = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      batchId: S.optional(S.Number),
       errors: S.optional(Errors),
       datafeedStatus: S.optional(DatafeedStatus),
+      batchId: S.optional(S.Number),
     }),
 ).annotate({
   identifier: "DatafeedstatusesCustomBatchResponseEntry",
@@ -2914,15 +2916,15 @@ export const DatafeedstatusesCustomBatchResponseEntryList =
   ) as any as S.Schema<DatafeedstatusesCustomBatchResponseEntryList>;
 
 export interface DatafeedstatusesCustomBatchResponse {
-  /** The result of the execution of the batch requests. */
-  entries?: DatafeedstatusesCustomBatchResponseEntryList;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#datafeedstatusesCustomBatchResponse`". */
   kind?: string;
+  /** The result of the execution of the batch requests. */
+  entries?: DatafeedstatusesCustomBatchResponseEntryList;
 }
 export const DatafeedstatusesCustomBatchResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entries: S.optional(DatafeedstatusesCustomBatchResponseEntryList),
     kind: S.optional(S.String),
+    entries: S.optional(DatafeedstatusesCustomBatchResponseEntryList),
   }),
 ).annotate({
   identifier: "DatafeedstatusesCustomBatchResponse",
@@ -2930,18 +2932,18 @@ export const DatafeedstatusesCustomBatchResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Omnichannel experience details. */
 export interface LiaOmnichannelExperience {
+  /** The Local Store Front (LSF) type for this country. Acceptable values are: - "`ghlsf`" (Google-Hosted Local Store Front) - "`mhlsfBasic`" (Merchant-Hosted Local Store Front Basic) - "`mhlsfFull`" (Merchant-Hosted Local Store Front Full) More details about these types can be found here. */
+  lsfType?: string;
   /** The CLDR country code (for example, "US"). */
   country?: string;
   /** The Pickup types for this country. Acceptable values are: - "`pickupToday`" - "`pickupLater`" */
   pickupTypes?: StringList;
-  /** The Local Store Front (LSF) type for this country. Acceptable values are: - "`ghlsf`" (Google-Hosted Local Store Front) - "`mhlsfBasic`" (Merchant-Hosted Local Store Front Basic) - "`mhlsfFull`" (Merchant-Hosted Local Store Front Full) More details about these types can be found here. */
-  lsfType?: string;
 }
 export const LiaOmnichannelExperience = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    lsfType: S.optional(S.String),
     country: S.optional(S.String),
     pickupTypes: S.optional(StringList),
-    lsfType: S.optional(S.String),
   }),
 ).annotate({
   identifier: "LiaOmnichannelExperience",
@@ -2962,85 +2964,85 @@ export const LiaAboutPageSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "LiaAboutPageSettings",
 }) as any as S.Schema<LiaAboutPageSettings>;
 
+export interface LiaOnDisplayToOrderSettings {
+  /** The status of the ?On display to order? feature. Acceptable values are: - "`active`" - "`inactive`" - "`pending`" */
+  status?: string;
+  /** Shipping cost and policy URL. */
+  shippingCostPolicyUrl?: string;
+}
+export const LiaOnDisplayToOrderSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    shippingCostPolicyUrl: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LiaOnDisplayToOrderSettings",
+}) as any as S.Schema<LiaOnDisplayToOrderSettings>;
+
 export interface LiaPosDataProvider {
-  /** The ID of the POS data provider. */
-  posDataProviderId?: string;
   /** The account ID by which this merchant is known to the POS data provider. */
   posExternalAccountId?: string;
+  /** The ID of the POS data provider. */
+  posDataProviderId?: string;
 }
 export const LiaPosDataProvider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    posDataProviderId: S.optional(S.String),
     posExternalAccountId: S.optional(S.String),
+    posDataProviderId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "LiaPosDataProvider",
 }) as any as S.Schema<LiaPosDataProvider>;
 
 export interface LiaInventorySettings {
-  /** The status of the inventory verification process. Acceptable values are: - "`active`" - "`inactive`" - "`pending`" */
-  status?: string;
   /** The email of the contact for the inventory verification process. */
   inventoryVerificationContactEmail?: string;
-  /** The status of the verification contact. Acceptable values are: - "`active`" - "`inactive`" - "`pending`" */
-  inventoryVerificationContactStatus?: string;
+  /** The status of the inventory verification process. Acceptable values are: - "`active`" - "`inactive`" - "`pending`" */
+  status?: string;
   /** The name of the contact for the inventory verification process. */
   inventoryVerificationContactName?: string;
+  /** The status of the verification contact. Acceptable values are: - "`active`" - "`inactive`" - "`pending`" */
+  inventoryVerificationContactStatus?: string;
 }
 export const LiaInventorySettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
     inventoryVerificationContactEmail: S.optional(S.String),
-    inventoryVerificationContactStatus: S.optional(S.String),
+    status: S.optional(S.String),
     inventoryVerificationContactName: S.optional(S.String),
+    inventoryVerificationContactStatus: S.optional(S.String),
   }),
 ).annotate({
   identifier: "LiaInventorySettings",
 }) as any as S.Schema<LiaInventorySettings>;
 
-export interface LiaOnDisplayToOrderSettings {
-  /** Shipping cost and policy URL. */
-  shippingCostPolicyUrl?: string;
-  /** The status of the ?On display to order? feature. Acceptable values are: - "`active`" - "`inactive`" - "`pending`" */
-  status?: string;
-}
-export const LiaOnDisplayToOrderSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    shippingCostPolicyUrl: S.optional(S.String),
-    status: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LiaOnDisplayToOrderSettings",
-}) as any as S.Schema<LiaOnDisplayToOrderSettings>;
-
 export interface LiaCountrySettings {
-  /** The status of the "Store pickup" feature. */
-  storePickupActive?: boolean;
   /** The omnichannel experience configured for this country. */
   omnichannelExperience?: LiaOmnichannelExperience;
-  /** The settings for the About page. */
-  about?: LiaAboutPageSettings;
-  /** The POS data provider linked with this country. */
-  posDataProvider?: LiaPosDataProvider;
   /** Required. CLDR country code (for example, "US"). */
   country?: string;
-  /** LIA inventory verification settings. */
-  inventory?: LiaInventorySettings;
-  /** LIA "On Display To Order" settings. */
-  onDisplayToOrder?: LiaOnDisplayToOrderSettings;
+  /** The status of the "Store pickup" feature. */
+  storePickupActive?: boolean;
   /** The status of the "Merchant hosted local storefront" feature. */
   hostedLocalStorefrontActive?: boolean;
+  /** The settings for the About page. */
+  about?: LiaAboutPageSettings;
+  /** LIA "On Display To Order" settings. */
+  onDisplayToOrder?: LiaOnDisplayToOrderSettings;
+  /** The POS data provider linked with this country. */
+  posDataProvider?: LiaPosDataProvider;
+  /** LIA inventory verification settings. */
+  inventory?: LiaInventorySettings;
 }
 export const LiaCountrySettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    storePickupActive: S.optional(S.Boolean),
     omnichannelExperience: S.optional(LiaOmnichannelExperience),
-    about: S.optional(LiaAboutPageSettings),
-    posDataProvider: S.optional(LiaPosDataProvider),
     country: S.optional(S.String),
-    inventory: S.optional(LiaInventorySettings),
-    onDisplayToOrder: S.optional(LiaOnDisplayToOrderSettings),
+    storePickupActive: S.optional(S.Boolean),
     hostedLocalStorefrontActive: S.optional(S.Boolean),
+    about: S.optional(LiaAboutPageSettings),
+    onDisplayToOrder: S.optional(LiaOnDisplayToOrderSettings),
+    posDataProvider: S.optional(LiaPosDataProvider),
+    inventory: S.optional(LiaInventorySettings),
   }),
 ).annotate({
   identifier: "LiaCountrySettings",
@@ -3053,61 +3055,61 @@ export const LiaCountrySettingsList = /*@__PURE__*/ S.Array(
 
 /** Local Inventory ads (LIA) settings. All methods except listposdataproviders require the admin role. */
 export interface LiaSettings {
-  /** The ID of the account to which these LIA settings belong. Ignored upon update, always present in get request responses. */
-  accountId?: string;
   /** The LIA settings for each country. */
   countrySettings?: LiaCountrySettingsList;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#liaSettings`" */
   kind?: string;
+  /** The ID of the account to which these LIA settings belong. Ignored upon update, always present in get request responses. */
+  accountId?: string;
 }
 export const LiaSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountId: S.optional(S.String),
     countrySettings: S.optional(LiaCountrySettingsList),
     kind: S.optional(S.String),
+    accountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "LiaSettings" }) as any as S.Schema<LiaSettings>;
 
 export interface LiasettingsCustomBatchRequestEntry {
-  /** The Business Profile. Required only for RequestGmbAccess. */
-  gmbEmail?: string;
-  /** The method of the batch entry. Acceptable values are: - "`get`" - "`getAccessibleGmbAccounts`" - "`requestGmbAccess`" - "`requestInventoryVerification`" - "`setInventoryVerificationContact`" - "`update`" */
-  method?: string;
-  /** The ID of the account for which to get/update account LIA settings. */
-  accountId?: string;
-  /** Inventory validation contact email. Required only for SetInventoryValidationContact. */
-  contactEmail?: string;
-  /** The country code. Required only for RequestInventoryVerification. */
-  country?: string;
-  /** An entry ID, unique within the batch request. */
-  batchId?: number;
-  /** The omnichannel experience for a country. Required only for SetOmnichannelExperience. */
-  omnichannelExperience?: LiaOmnichannelExperience;
-  /** Inventory validation contact name. Required only for SetInventoryValidationContact. */
-  contactName?: string;
-  /** The ID of the managing account. */
-  merchantId?: string;
-  /** The ID of POS data provider. Required only for SetPosProvider. */
-  posDataProviderId?: string;
-  /** The account Lia settings to update. Only defined if the method is `update`. */
-  liaSettings?: LiaSettings;
   /** The account ID by which this merchant is known to the POS provider. */
   posExternalAccountId?: string;
+  /** The Business Profile. Required only for RequestGmbAccess. */
+  gmbEmail?: string;
+  /** Inventory validation contact email. Required only for SetInventoryValidationContact. */
+  contactEmail?: string;
+  /** The ID of POS data provider. Required only for SetPosProvider. */
+  posDataProviderId?: string;
+  /** The country code. Required only for RequestInventoryVerification. */
+  country?: string;
+  /** The omnichannel experience for a country. Required only for SetOmnichannelExperience. */
+  omnichannelExperience?: LiaOmnichannelExperience;
+  /** The ID of the account for which to get/update account LIA settings. */
+  accountId?: string;
+  /** Inventory validation contact name. Required only for SetInventoryValidationContact. */
+  contactName?: string;
+  /** The account Lia settings to update. Only defined if the method is `update`. */
+  liaSettings?: LiaSettings;
+  /** The method of the batch entry. Acceptable values are: - "`get`" - "`getAccessibleGmbAccounts`" - "`requestGmbAccess`" - "`requestInventoryVerification`" - "`setInventoryVerificationContact`" - "`update`" */
+  method?: string;
+  /** An entry ID, unique within the batch request. */
+  batchId?: number;
+  /** The ID of the managing account. */
+  merchantId?: string;
 }
 export const LiasettingsCustomBatchRequestEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gmbEmail: S.optional(S.String),
-    method: S.optional(S.String),
-    accountId: S.optional(S.String),
-    contactEmail: S.optional(S.String),
-    country: S.optional(S.String),
-    batchId: S.optional(S.Number),
-    omnichannelExperience: S.optional(LiaOmnichannelExperience),
-    contactName: S.optional(S.String),
-    merchantId: S.optional(S.String),
-    posDataProviderId: S.optional(S.String),
-    liaSettings: S.optional(LiaSettings),
     posExternalAccountId: S.optional(S.String),
+    gmbEmail: S.optional(S.String),
+    contactEmail: S.optional(S.String),
+    posDataProviderId: S.optional(S.String),
+    country: S.optional(S.String),
+    omnichannelExperience: S.optional(LiaOmnichannelExperience),
+    accountId: S.optional(S.String),
+    contactName: S.optional(S.String),
+    liaSettings: S.optional(LiaSettings),
+    method: S.optional(S.String),
+    batchId: S.optional(S.Number),
+    merchantId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "LiasettingsCustomBatchRequestEntry",
@@ -3196,19 +3198,19 @@ export const PosDataProvidersList = /*@__PURE__*/ S.Array(
 export interface GmbAccountsGmbAccount {
   /** The type of the Business Profile (User or Business). */
   type?: string;
+  /** The name of the Business Profile. */
+  name?: string;
   /** The email which identifies the Business Profile. */
   email?: string;
   /** Number of listings under this account. */
   listingCount?: string;
-  /** The name of the Business Profile. */
-  name?: string;
 }
 export const GmbAccountsGmbAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
+    name: S.optional(S.String),
     email: S.optional(S.String),
     listingCount: S.optional(S.String),
-    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GmbAccountsGmbAccount",
@@ -3220,42 +3222,42 @@ export const GmbAccountsGmbAccountList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GmbAccountsGmbAccountList>;
 
 export interface GmbAccounts {
-  /** The ID of the Merchant Center account. */
-  accountId?: string;
   /** A list of Business Profiles which are available to the merchant. */
   gmbAccounts?: GmbAccountsGmbAccountList;
+  /** The ID of the Merchant Center account. */
+  accountId?: string;
 }
 export const GmbAccounts = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountId: S.optional(S.String),
     gmbAccounts: S.optional(GmbAccountsGmbAccountList),
+    accountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "GmbAccounts" }) as any as S.Schema<GmbAccounts>;
 
 export interface LiasettingsCustomBatchResponseEntry {
-  /** The retrieved or updated Lia settings. */
-  liaSettings?: LiaSettings;
   /** The list of POS data providers. */
   posDataProviders?: PosDataProvidersList;
   /** The list of accessible Business Profiles. */
   gmbAccounts?: GmbAccounts;
-  /** Identifies what kind of resource this is. Value: the fixed string "`content#liasettingsCustomBatchResponseEntry`" */
-  kind?: string;
   /** The ID of the request entry to which this entry responds. */
   batchId?: number;
+  /** Identifies what kind of resource this is. Value: the fixed string "`content#liasettingsCustomBatchResponseEntry`" */
+  kind?: string;
   /** A list of errors defined if, and only if, the request failed. */
   errors?: Errors;
+  /** The retrieved or updated Lia settings. */
+  liaSettings?: LiaSettings;
   /** The updated omnichannel experience for a country. */
   omnichannelExperience?: LiaOmnichannelExperience;
 }
 export const LiasettingsCustomBatchResponseEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    liaSettings: S.optional(LiaSettings),
     posDataProviders: S.optional(PosDataProvidersList),
     gmbAccounts: S.optional(GmbAccounts),
-    kind: S.optional(S.String),
     batchId: S.optional(S.Number),
+    kind: S.optional(S.String),
     errors: S.optional(Errors),
+    liaSettings: S.optional(LiaSettings),
     omnichannelExperience: S.optional(LiaOmnichannelExperience),
   }),
 ).annotate({
@@ -3283,33 +3285,20 @@ export const LiasettingsCustomBatchResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "LiasettingsCustomBatchResponse",
 }) as any as S.Schema<LiasettingsCustomBatchResponse>;
 
-export interface Price {
-  /** The currency of the price. */
-  currency?: string;
-  /** The price represented as a number. */
-  value?: string;
-}
-export const Price = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    currency: S.optional(S.String),
-    value: S.optional(S.String),
-  }),
-).annotate({ identifier: "Price" }) as any as S.Schema<Price>;
-
 /** A message that represents custom attributes. Exactly one of `value` or `groupValues` must be provided. Maximum allowed number of characters for each custom attribute is 10240 (represents sum of characters for name and value). Maximum 2500 custom attributes can be set per merchant, with total size of 102.4kB. */
 export interface CustomAttribute {
+  /** Subattributes within this attribute group. Exactly one of value or groupValues must be provided. */
+  groupValues?: CustomAttributeList;
   /** The value of the attribute. */
   value?: string;
   /** The name of the attribute. Underscores will be replaced by spaces upon insertion. */
   name?: string;
-  /** Subattributes within this attribute group. Exactly one of value or groupValues must be provided. */
-  groupValues?: CustomAttributeList;
 }
 export const CustomAttribute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    groupValues: S.optional(S.suspend(() => CustomAttributeList)),
     value: S.optional(S.String),
     name: S.optional(S.String),
-    groupValues: S.optional(S.suspend(() => CustomAttributeList)),
   }),
 ).annotate({
   identifier: "CustomAttribute",
@@ -3320,44 +3309,57 @@ export const CustomAttributeList = /*@__PURE__*/ S.Array(
   CustomAttribute,
 ) as any as S.Schema<CustomAttributeList>;
 
+export interface Price {
+  /** The price represented as a number. */
+  value?: string;
+  /** The currency of the price. */
+  currency?: string;
+}
+export const Price = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    currency: S.optional(S.String),
+  }),
+).annotate({ identifier: "Price" }) as any as S.Schema<Price>;
+
 /** Local inventory resource. For accepted attribute values, see the local product inventory feed specification. */
 export interface LocalInventory {
-  /** A date range represented by a pair of ISO 8601 dates separated by a space, comma, or slash. Both dates may be specified as 'null' if undecided. */
-  salePriceEffectiveDate?: string;
-  /** The sale price of the product. Mandatory if `sale_price_effective_date` is defined. */
-  salePrice?: Price;
-  /** The quantity of the product. Must be nonnegative. */
-  quantity?: number;
+  /** The supported pickup method for this offer. Unless the value is "not supported", this field must be submitted together with `pickupSla`. For accepted attribute values, see the local product inventory feed specification. */
+  pickupMethod?: string;
+  /** Required. The store code of this local inventory resource. */
+  storeCode?: string;
   /** A list of custom (merchant-provided) attributes. Can also be used to submit any attribute of the feed specification in its generic form, for example, `{ "name": "size type", "value": "regular" }`. */
   customAttributes?: CustomAttributeList;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#localInventory`" */
   kind?: string;
-  /** The expected date that an order will be ready for pickup relative to the order date. Must be submitted together with `pickupMethod`. For accepted attribute values, see the local product inventory feed specification. */
-  pickupSla?: string;
-  /** Required. The store code of this local inventory resource. */
-  storeCode?: string;
+  /** The quantity of the product. Must be nonnegative. */
+  quantity?: number;
+  /** The in-store product location. */
+  instoreProductLocation?: string;
   /** The price of the product. */
   price?: Price;
   /** The availability of the product. For accepted attribute values, see the local product inventory feed specification. */
   availability?: string;
-  /** The supported pickup method for this offer. Unless the value is "not supported", this field must be submitted together with `pickupSla`. For accepted attribute values, see the local product inventory feed specification. */
-  pickupMethod?: string;
-  /** The in-store product location. */
-  instoreProductLocation?: string;
+  /** A date range represented by a pair of ISO 8601 dates separated by a space, comma, or slash. Both dates may be specified as 'null' if undecided. */
+  salePriceEffectiveDate?: string;
+  /** The sale price of the product. Mandatory if `sale_price_effective_date` is defined. */
+  salePrice?: Price;
+  /** The expected date that an order will be ready for pickup relative to the order date. Must be submitted together with `pickupMethod`. For accepted attribute values, see the local product inventory feed specification. */
+  pickupSla?: string;
 }
 export const LocalInventory = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    salePriceEffectiveDate: S.optional(S.String),
-    salePrice: S.optional(Price),
-    quantity: S.optional(S.Number),
+    pickupMethod: S.optional(S.String),
+    storeCode: S.optional(S.String),
     customAttributes: S.optional(CustomAttributeList),
     kind: S.optional(S.String),
-    pickupSla: S.optional(S.String),
-    storeCode: S.optional(S.String),
+    quantity: S.optional(S.Number),
+    instoreProductLocation: S.optional(S.String),
     price: S.optional(Price),
     availability: S.optional(S.String),
-    pickupMethod: S.optional(S.String),
-    instoreProductLocation: S.optional(S.String),
+    salePriceEffectiveDate: S.optional(S.String),
+    salePrice: S.optional(Price),
+    pickupSla: S.optional(S.String),
   }),
 ).annotate({ identifier: "LocalInventory" }) as any as S.Schema<LocalInventory>;
 
@@ -3365,23 +3367,23 @@ export const LocalInventory = /*@__PURE__*/ S.suspend(() =>
 export interface LocalinventoryCustomBatchRequestEntry {
   /** Local inventory of the product. */
   localInventory?: LocalInventory;
-  /** Method of the batch request entry. Acceptable values are: - "`insert`" */
-  method?: string;
-  /** An entry ID, unique within the batch request. */
-  batchId?: number;
   /** The ID of the managing account. */
   merchantId?: string;
+  /** An entry ID, unique within the batch request. */
+  batchId?: number;
   /** The ID of the product for which to update local inventory. */
   productId?: string;
+  /** Method of the batch request entry. Acceptable values are: - "`insert`" */
+  method?: string;
 }
 export const LocalinventoryCustomBatchRequestEntry = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       localInventory: S.optional(LocalInventory),
-      method: S.optional(S.String),
-      batchId: S.optional(S.Number),
       merchantId: S.optional(S.String),
+      batchId: S.optional(S.Number),
       productId: S.optional(S.String),
+      method: S.optional(S.String),
     }),
 ).annotate({
   identifier: "LocalinventoryCustomBatchRequestEntry",
@@ -3450,165 +3452,165 @@ export const LocalinventoryCustomBatchResponseEntryList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<LocalinventoryCustomBatchResponseEntryList>;
 
 export interface LocalinventoryCustomBatchResponse {
-  /** The result of the execution of the batch requests. */
-  entries?: LocalinventoryCustomBatchResponseEntryList;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#localinventoryCustomBatchResponse`". */
   kind?: string;
+  /** The result of the execution of the batch requests. */
+  entries?: LocalinventoryCustomBatchResponseEntryList;
 }
 export const LocalinventoryCustomBatchResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entries: S.optional(LocalinventoryCustomBatchResponseEntryList),
     kind: S.optional(S.String),
+    entries: S.optional(LocalinventoryCustomBatchResponseEntryList),
   }),
 ).annotate({
   identifier: "LocalinventoryCustomBatchResponse",
 }) as any as S.Schema<LocalinventoryCustomBatchResponse>;
 
-/** Store resource. */
-export interface PosStore {
-  /** Output only. The hint of why the matching has failed. This is only set when matching_status=failed. Possible values are: - "`linked-store-not-found`": There aren't any Google Business Profile stores available for matching. Connect your Merchant Center account with the Google Business Profile account. Or add a new Google Business Profile store corresponding to the POS store. - "`store-match-not-found`": The provided POS store couldn't be matched to any of the connected Google Business Profile stores. Merchant Center account is connected correctly and stores are available on Google Business Profile, but POS store location address does not match with Google Business Profile stores' addresses. Update POS store address or Google Business Profile store address to match correctly. - "`store-match-unverified`": The provided POS store couldn't be matched to any of the connected Google Business Profile stores, as the matched Google Business Profile store is unverified. Go through the Google Business Profile verification process to match correctly. */
-  matchingStatusHint?: string;
-  /** The store phone number. */
-  phoneNumber?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "`content#posStore`" */
+/** The change of the available quantity of an item at the given store. */
+export interface PosSale {
+  /** Required. The relative change of the available quantity. Negative for items returned. */
+  quantity?: string;
+  /** Required. The inventory timestamp, in ISO 8601 format. */
+  timestamp?: string;
+  /** A unique ID to group items from the same sale event. */
+  saleId?: string;
+  /** Required. The two-letter ISO 639-1 language code for the item. */
+  contentLanguage?: string;
+  /** Required. A unique identifier for the item. */
+  itemId?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "`content#posSale`" */
   kind?: string;
-  /** Required. The street address of the store. */
-  storeAddress?: string;
-  /** The business type of the store. */
-  gcidCategory?: StringList;
-  /** The merchant or store name. */
-  storeName?: string;
-  /** The website url for the store or merchant. */
-  websiteUrl?: string;
-  /** Output only. The matching status of POS store and Google Business Profile store. Possible values are: - "`matched`": The POS store is successfully matched with the Google Business Profile store. - "`failed`": The POS store is not matched with the Google Business Profile store. See matching_status_hint for further details. Note that there is up to 48 hours propagation delay for changes in Merchant Center (e.g. creation of new account, accounts linking) and Google Business Profile (e.g. store address update) which may affect the matching status. In such cases, after a delay call [pos.list](https://developers.google.com/shopping-content/reference/rest/v2.1/pos/list) to retrieve the updated matching status. */
-  matchingStatus?: string;
-  /** Required. A store identifier that is unique for the given merchant. */
+  /** Global Trade Item Number. */
+  gtin?: string;
+  /** Required. The price of the item. */
+  price?: Price;
+  /** Required. The CLDR territory code for the item. */
+  targetCountry?: string;
+  /** Required. The identifier of the merchant's store. Either a `storeCode` inserted through the API or the code of the store in a Business Profile. */
   storeCode?: string;
-  /** The Google Place Id of the store location. */
-  placeId?: string;
 }
-export const PosStore = /*@__PURE__*/ S.suspend(() =>
+export const PosSale = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    matchingStatusHint: S.optional(S.String),
-    phoneNumber: S.optional(S.String),
+    quantity: S.optional(S.String),
+    timestamp: S.optional(S.String),
+    saleId: S.optional(S.String),
+    contentLanguage: S.optional(S.String),
+    itemId: S.optional(S.String),
     kind: S.optional(S.String),
-    storeAddress: S.optional(S.String),
-    gcidCategory: S.optional(StringList),
-    storeName: S.optional(S.String),
-    websiteUrl: S.optional(S.String),
-    matchingStatus: S.optional(S.String),
+    gtin: S.optional(S.String),
+    price: S.optional(Price),
+    targetCountry: S.optional(S.String),
     storeCode: S.optional(S.String),
-    placeId: S.optional(S.String),
   }),
-).annotate({ identifier: "PosStore" }) as any as S.Schema<PosStore>;
+).annotate({ identifier: "PosSale" }) as any as S.Schema<PosSale>;
 
 /** The absolute quantity of an item available at the given store. */
 export interface PosInventory {
+  /** Optional. Supported pickup method for this offer. Unless the value is "not supported", this field must be submitted together with `pickupSla`. For accepted attribute values, see the [local product inventory feed specification](https://support.google.com/merchants/answer/3061342). */
+  pickupMethod?: string;
+  /** Required. The available quantity of the item. */
+  quantity?: string;
+  /** Required. The identifier of the merchant's store. Either a `storeCode` inserted through the API or the code of the store in a Business Profile. */
+  storeCode?: string;
   /** Optional. Expected date that an order will be ready for pickup relative to the order date. Must be submitted together with `pickupMethod`. For accepted attribute values, see the [local product inventory feed specification](https://support.google.com/merchants/answer/3061342). */
   pickupSla?: string;
   /** Required. The two-letter ISO 639-1 language code for the item. */
   contentLanguage?: string;
-  /** Global Trade Item Number. */
-  gtin?: string;
-  /** Required. The available quantity of the item. */
-  quantity?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "`content#posInventory`" */
-  kind?: string;
   /** Required. A unique identifier for the item. */
   itemId?: string;
-  /** Required. The inventory timestamp, in ISO 8601 format. */
-  timestamp?: string;
-  /** Optional. Supported pickup method for this offer. Unless the value is "not supported", this field must be submitted together with `pickupSla`. For accepted attribute values, see the [local product inventory feed specification](https://support.google.com/merchants/answer/3061342). */
-  pickupMethod?: string;
-  /** Required. The identifier of the merchant's store. Either a `storeCode` inserted through the API or the code of the store in a Business Profile. */
-  storeCode?: string;
   /** Required. The CLDR territory code for the item. */
   targetCountry?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "`content#posInventory`" */
+  kind?: string;
+  /** Global Trade Item Number. */
+  gtin?: string;
+  /** Required. The inventory timestamp, in ISO 8601 format. */
+  timestamp?: string;
   /** Required. The current price of the item. */
   price?: Price;
 }
 export const PosInventory = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pickupMethod: S.optional(S.String),
+    quantity: S.optional(S.String),
+    storeCode: S.optional(S.String),
     pickupSla: S.optional(S.String),
     contentLanguage: S.optional(S.String),
-    gtin: S.optional(S.String),
-    quantity: S.optional(S.String),
-    kind: S.optional(S.String),
     itemId: S.optional(S.String),
-    timestamp: S.optional(S.String),
-    pickupMethod: S.optional(S.String),
-    storeCode: S.optional(S.String),
     targetCountry: S.optional(S.String),
+    kind: S.optional(S.String),
+    gtin: S.optional(S.String),
+    timestamp: S.optional(S.String),
     price: S.optional(Price),
   }),
 ).annotate({ identifier: "PosInventory" }) as any as S.Schema<PosInventory>;
 
-/** The change of the available quantity of an item at the given store. */
-export interface PosSale {
-  /** Required. The two-letter ISO 639-1 language code for the item. */
-  contentLanguage?: string;
-  /** Global Trade Item Number. */
-  gtin?: string;
-  /** Required. The relative change of the available quantity. Negative for items returned. */
-  quantity?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "`content#posSale`" */
+/** Store resource. */
+export interface PosStore {
+  /** The store phone number. */
+  phoneNumber?: string;
+  /** Required. The street address of the store. */
+  storeAddress?: string;
+  /** The merchant or store name. */
+  storeName?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "`content#posStore`" */
   kind?: string;
-  /** Required. A unique identifier for the item. */
-  itemId?: string;
-  /** Required. The inventory timestamp, in ISO 8601 format. */
-  timestamp?: string;
-  /** A unique ID to group items from the same sale event. */
-  saleId?: string;
-  /** Required. The identifier of the merchant's store. Either a `storeCode` inserted through the API or the code of the store in a Business Profile. */
+  /** Required. A store identifier that is unique for the given merchant. */
   storeCode?: string;
-  /** Required. The CLDR territory code for the item. */
-  targetCountry?: string;
-  /** Required. The price of the item. */
-  price?: Price;
+  /** The website url for the store or merchant. */
+  websiteUrl?: string;
+  /** The business type of the store. */
+  gcidCategory?: StringList;
+  /** Output only. The hint of why the matching has failed. This is only set when matching_status=failed. Possible values are: - "`linked-store-not-found`": There aren't any Google Business Profile stores available for matching. Connect your Merchant Center account with the Google Business Profile account. Or add a new Google Business Profile store corresponding to the POS store. - "`store-match-not-found`": The provided POS store couldn't be matched to any of the connected Google Business Profile stores. Merchant Center account is connected correctly and stores are available on Google Business Profile, but POS store location address does not match with Google Business Profile stores' addresses. Update POS store address or Google Business Profile store address to match correctly. - "`store-match-unverified`": The provided POS store couldn't be matched to any of the connected Google Business Profile stores, as the matched Google Business Profile store is unverified. Go through the Google Business Profile verification process to match correctly. */
+  matchingStatusHint?: string;
+  /** Output only. The matching status of POS store and Google Business Profile store. Possible values are: - "`matched`": The POS store is successfully matched with the Google Business Profile store. - "`failed`": The POS store is not matched with the Google Business Profile store. See matching_status_hint for further details. Note that there is up to 48 hours propagation delay for changes in Merchant Center (e.g. creation of new account, accounts linking) and Google Business Profile (e.g. store address update) which may affect the matching status. In such cases, after a delay call [pos.list](https://developers.google.com/shopping-content/reference/rest/v2.1/pos/list) to retrieve the updated matching status. */
+  matchingStatus?: string;
+  /** The Google Place Id of the store location. */
+  placeId?: string;
 }
-export const PosSale = /*@__PURE__*/ S.suspend(() =>
+export const PosStore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    contentLanguage: S.optional(S.String),
-    gtin: S.optional(S.String),
-    quantity: S.optional(S.String),
+    phoneNumber: S.optional(S.String),
+    storeAddress: S.optional(S.String),
+    storeName: S.optional(S.String),
     kind: S.optional(S.String),
-    itemId: S.optional(S.String),
-    timestamp: S.optional(S.String),
-    saleId: S.optional(S.String),
     storeCode: S.optional(S.String),
-    targetCountry: S.optional(S.String),
-    price: S.optional(Price),
+    websiteUrl: S.optional(S.String),
+    gcidCategory: S.optional(StringList),
+    matchingStatusHint: S.optional(S.String),
+    matchingStatus: S.optional(S.String),
+    placeId: S.optional(S.String),
   }),
-).annotate({ identifier: "PosSale" }) as any as S.Schema<PosSale>;
+).annotate({ identifier: "PosStore" }) as any as S.Schema<PosStore>;
 
 export interface PosCustomBatchRequestEntry {
-  /** The store information to submit. This should be set only if the method is `insert`. */
-  store?: PosStore;
-  /** An entry ID, unique within the batch request. */
-  batchId?: number;
-  /** The store code. This should be set only if the method is `delete` or `get`. */
-  storeCode?: string;
-  /** The ID of the account for which to get/submit data. */
-  targetMerchantId?: string;
-  /** The method of the batch entry. Acceptable values are: - "`delete`" - "`get`" - "`insert`" - "`inventory`" - "`sale`" */
-  method?: string;
   /** The ID of the POS data provider. */
   merchantId?: string;
-  /** The inventory to submit. This should be set only if the method is `inventory`. */
-  inventory?: PosInventory;
+  /** An entry ID, unique within the batch request. */
+  batchId?: number;
   /** The sale information to submit. This should be set only if the method is `sale`. */
   sale?: PosSale;
+  /** The ID of the account for which to get/submit data. */
+  targetMerchantId?: string;
+  /** The store code. This should be set only if the method is `delete` or `get`. */
+  storeCode?: string;
+  /** The inventory to submit. This should be set only if the method is `inventory`. */
+  inventory?: PosInventory;
+  /** The method of the batch entry. Acceptable values are: - "`delete`" - "`get`" - "`insert`" - "`inventory`" - "`sale`" */
+  method?: string;
+  /** The store information to submit. This should be set only if the method is `insert`. */
+  store?: PosStore;
 }
 export const PosCustomBatchRequestEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    store: S.optional(PosStore),
-    batchId: S.optional(S.Number),
-    storeCode: S.optional(S.String),
-    targetMerchantId: S.optional(S.String),
-    method: S.optional(S.String),
     merchantId: S.optional(S.String),
-    inventory: S.optional(PosInventory),
+    batchId: S.optional(S.Number),
     sale: S.optional(PosSale),
+    targetMerchantId: S.optional(S.String),
+    storeCode: S.optional(S.String),
+    inventory: S.optional(PosInventory),
+    method: S.optional(S.String),
+    store: S.optional(PosStore),
   }),
 ).annotate({
   identifier: "PosCustomBatchRequestEntry",
@@ -3650,27 +3652,27 @@ export const CustombatchPosRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CustombatchPosRequest>;
 
 export interface PosCustomBatchResponseEntry {
-  /** The updated inventory information. */
-  inventory?: PosInventory;
-  /** The updated sale information. */
-  sale?: PosSale;
-  /** The retrieved or updated store information. */
-  store?: PosStore;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#posCustomBatchResponseEntry`" */
   kind?: string;
-  /** The ID of the request entry to which this entry responds. */
-  batchId?: number;
   /** A list of errors defined if, and only if, the request failed. */
   errors?: Errors;
+  /** The ID of the request entry to which this entry responds. */
+  batchId?: number;
+  /** The updated sale information. */
+  sale?: PosSale;
+  /** The updated inventory information. */
+  inventory?: PosInventory;
+  /** The retrieved or updated store information. */
+  store?: PosStore;
 }
 export const PosCustomBatchResponseEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    inventory: S.optional(PosInventory),
-    sale: S.optional(PosSale),
-    store: S.optional(PosStore),
     kind: S.optional(S.String),
-    batchId: S.optional(S.Number),
     errors: S.optional(Errors),
+    batchId: S.optional(S.Number),
+    sale: S.optional(PosSale),
+    inventory: S.optional(PosInventory),
+    store: S.optional(PosStore),
   }),
 ).annotate({
   identifier: "PosCustomBatchResponseEntry",
@@ -3697,6 +3699,154 @@ export const PosCustomBatchResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PosCustomBatchResponse",
 }) as any as S.Schema<PosCustomBatchResponse>;
 
+export interface ProductDimension {
+  /** Required. The length value represented as a number. The value can have a maximum precision of four decimal places. */
+  value?: number;
+  /** Required. The length units. Acceptable values are: - "`in`" - "`cm`" */
+  unit?: string;
+}
+export const ProductDimension = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.Number),
+    unit: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ProductDimension",
+}) as any as S.Schema<ProductDimension>;
+
+export interface ProductUnitPricingBaseMeasure {
+  /** The denominator of the unit price. */
+  value?: string;
+  /** The unit of the denominator. */
+  unit?: string;
+}
+export const ProductUnitPricingBaseMeasure = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    unit: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ProductUnitPricingBaseMeasure",
+}) as any as S.Schema<ProductUnitPricingBaseMeasure>;
+
+/** Product [certification](https://support.google.com/merchants/answer/13528839), introduced for EU energy efficiency labeling compliance using the [EU EPREL](https://eprel.ec.europa.eu/screen/home) database. */
+export interface ProductCertification {
+  /** The certification value (also known as class, level or grade), for example "A+", "C", "gold". Maximum length is 2000 characters. */
+  certificationValue?: string;
+  /** The certification authority, for example "European_Commission". Maximum length is 2000 characters. */
+  certificationAuthority?: string;
+  /** The name of the certification, for example "EPREL". Maximum length is 2000 characters. */
+  certificationName?: string;
+  /** The certification code, for eaxample "123456". Maximum length is 2000 characters. */
+  certificationCode?: string;
+}
+export const ProductCertification = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    certificationValue: S.optional(S.String),
+    certificationAuthority: S.optional(S.String),
+    certificationName: S.optional(S.String),
+    certificationCode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ProductCertification",
+}) as any as S.Schema<ProductCertification>;
+
+export type ProductCertificationList = Array<ProductCertification>;
+export const ProductCertificationList = /*@__PURE__*/ S.Array(
+  ProductCertification,
+) as any as S.Schema<ProductCertificationList>;
+
+/** Allows the setting up of loyalty program benefits (for example price or points). https://support.google.com/merchants/answer/12922446 */
+export interface LoyaltyProgram {
+  /** Required. The label of the loyalty program. This is an internal label that uniquely identifies the relationship between a merchant entity and a loyalty program entity. It must be provided so that system can associate the assets below (for example, price and points) with a merchant. The corresponding program must be linked to the merchant account. */
+  programLabel?: string;
+  /** Required. The label of the tier within the loyalty program. Must match one of the labels within the program. */
+  tierLabel?: string;
+  /** Optional. The amount of loyalty points earned on a purchase. */
+  loyaltyPoints?: string;
+  /** Optional. A date range during which the item is eligible for member price. If not specified, the member price is always applicable. The date range is represented by a pair of ISO 8601 dates separated by a space, comma, or slash. */
+  memberPriceEffectiveDate?: string;
+  /** Optional. The price for members of the given tier (instant discount price). Must be smaller or equal to the regular price. */
+  price?: Price;
+  /** Optional. The cashback that can be used for future purchases. */
+  cashbackForFutureUse?: Price;
+  /** Optional. The shipping label for the loyalty program. You can use this label to indicate whether this offer has the loyalty shipping benefit. If not specified, the item is not eligible for loyalty shipping for the given loyalty tier. */
+  shippingLabel?: string;
+}
+export const LoyaltyProgram = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    programLabel: S.optional(S.String),
+    tierLabel: S.optional(S.String),
+    loyaltyPoints: S.optional(S.String),
+    memberPriceEffectiveDate: S.optional(S.String),
+    price: S.optional(Price),
+    cashbackForFutureUse: S.optional(Price),
+    shippingLabel: S.optional(S.String),
+  }),
+).annotate({ identifier: "LoyaltyProgram" }) as any as S.Schema<LoyaltyProgram>;
+
+export type ProductSustainabilityIncentiveTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "EV_TAX_CREDIT"
+  | "EV_PRICE_DISCOUNT";
+export const ProductSustainabilityIncentiveTypeEnum = /*@__PURE__*/ S.String;
+
+/** Information regarding sustainability related incentive programs such as rebates or tax relief. */
+export interface ProductSustainabilityIncentive {
+  /** Required. Sustainability incentive program. */
+  type?: ProductSustainabilityIncentiveTypeEnum | (string & {});
+  /** Optional. The percentage of the sale price that the incentive is applied to. */
+  percentage?: number;
+  /** Optional. The fixed amount of the incentive. */
+  amount?: Price;
+}
+export const ProductSustainabilityIncentive = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ProductSustainabilityIncentiveTypeEnum),
+    percentage: S.optional(S.Number),
+    amount: S.optional(Price),
+  }),
+).annotate({
+  identifier: "ProductSustainabilityIncentive",
+}) as any as S.Schema<ProductSustainabilityIncentive>;
+
+export type ProductSustainabilityIncentiveList =
+  Array<ProductSustainabilityIncentive>;
+export const ProductSustainabilityIncentiveList = /*@__PURE__*/ S.Array(
+  ProductSustainabilityIncentive,
+) as any as S.Schema<ProductSustainabilityIncentiveList>;
+
+export interface ProductUnitPricingMeasure {
+  /** The measure of an item. */
+  value?: number;
+  /** The unit of the measure. */
+  unit?: string;
+}
+export const ProductUnitPricingMeasure = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.Number),
+    unit: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ProductUnitPricingMeasure",
+}) as any as S.Schema<ProductUnitPricingMeasure>;
+
+/** Structured title, for algorithmically (AI)-generated titles. See [title](https://support.google.com/merchants/answer/6324415#Whentouse) for more information. */
+export interface ProductStructuredTitle {
+  /** Required. The title text. Maximum length is 150 characters. */
+  content?: string;
+  /** Optional. The digital source type. Acceptable values are: - "`trained_algorithmic_media`" - "`default`" */
+  digitalSourceType?: string;
+}
+export const ProductStructuredTitle = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    content: S.optional(S.String),
+    digitalSourceType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ProductStructuredTitle",
+}) as any as S.Schema<ProductStructuredTitle>;
+
 /** Conditions to be met for a product to have free shipping. */
 export interface FreeShippingThreshold {
   /** Required. The [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) of the country to which an item will ship. */
@@ -3718,38 +3868,36 @@ export const FreeShippingThresholdList = /*@__PURE__*/ S.Array(
   FreeShippingThreshold,
 ) as any as S.Schema<FreeShippingThresholdList>;
 
+export interface ProductWeight {
+  /** Required. The weight represented as a number. The weight can have a maximum precision of four decimal places. */
+  value?: number;
+  /** Required. The weight unit. Acceptable values are: - "`g`" - "`kg`" - "`oz`" - "`lb`" */
+  unit?: string;
+}
+export const ProductWeight = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.Number),
+    unit: S.optional(S.String),
+  }),
+).annotate({ identifier: "ProductWeight" }) as any as S.Schema<ProductWeight>;
+
 export interface ProductSubscriptionCost {
-  /** The number of subscription periods the buyer has to pay. */
-  periodLength?: string;
   /** The type of subscription period. - "`month`" - "`year`" */
   period?: string;
+  /** The number of subscription periods the buyer has to pay. */
+  periodLength?: string;
   /** The amount the buyer has to pay per subscription period. */
   amount?: Price;
 }
 export const ProductSubscriptionCost = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    periodLength: S.optional(S.String),
     period: S.optional(S.String),
+    periodLength: S.optional(S.String),
     amount: S.optional(Price),
   }),
 ).annotate({
   identifier: "ProductSubscriptionCost",
 }) as any as S.Schema<ProductSubscriptionCost>;
-
-export interface ProductUnitPricingBaseMeasure {
-  /** The denominator of the unit price. */
-  value?: string;
-  /** The unit of the denominator. */
-  unit?: string;
-}
-export const ProductUnitPricingBaseMeasure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    unit: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProductUnitPricingBaseMeasure",
-}) as any as S.Schema<ProductUnitPricingBaseMeasure>;
 
 export type DoubleList = Array<number>;
 export const DoubleList = /*@__PURE__*/ S.Array(
@@ -3758,33 +3906,33 @@ export const DoubleList = /*@__PURE__*/ S.Array(
 
 /** Product property for the Cloud Retail API. For example, properties for a TV product could be "Screen-Resolution" or "Screen-Size". */
 export interface CloudExportAdditionalProperties {
-  /** Name of the given property. For example, "Screen-Resolution" for a TV product. Maximum string size is 256 characters. */
-  propertyName?: string;
-  /** Unit of the given property. For example, "Pixels" for a TV product. Maximum string size is 256 bytes. */
-  unitCode?: string;
-  /** Float values of the given property. For example for a TV product 1.2345. Maximum number of specified values for this field is 400. Values are stored in an arbitrary but consistent order. */
-  floatValue?: DoubleList;
-  /** Integer values of the given property. For example, 1080 for a screen resolution of a TV product. Maximum number of specified values for this field is 400. Values are stored in an arbitrary but consistent order. */
-  intValue?: StringList;
-  /** Text value of the given property. For example, "8K(UHD)" could be a text value for a TV product. Maximum number of specified values for this field is 400. Values are stored in an arbitrary but consistent order. Maximum string size is 256 characters. */
-  textValue?: StringList;
   /** Minimum float value of the given property. For example for a TV product 1.00. */
   minValue?: number;
   /** Maximum float value of the given property. For example for a TV product 100.00. */
   maxValue?: number;
+  /** Unit of the given property. For example, "Pixels" for a TV product. Maximum string size is 256 bytes. */
+  unitCode?: string;
+  /** Integer values of the given property. For example, 1080 for a screen resolution of a TV product. Maximum number of specified values for this field is 400. Values are stored in an arbitrary but consistent order. */
+  intValue?: StringList;
   /** Boolean value of the given property. For example for a TV product, "True" or "False" if the screen is UHD. */
   boolValue?: boolean;
+  /** Name of the given property. For example, "Screen-Resolution" for a TV product. Maximum string size is 256 characters. */
+  propertyName?: string;
+  /** Text value of the given property. For example, "8K(UHD)" could be a text value for a TV product. Maximum number of specified values for this field is 400. Values are stored in an arbitrary but consistent order. Maximum string size is 256 characters. */
+  textValue?: StringList;
+  /** Float values of the given property. For example for a TV product 1.2345. Maximum number of specified values for this field is 400. Values are stored in an arbitrary but consistent order. */
+  floatValue?: DoubleList;
 }
 export const CloudExportAdditionalProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    propertyName: S.optional(S.String),
-    unitCode: S.optional(S.String),
-    floatValue: S.optional(DoubleList),
-    intValue: S.optional(StringList),
-    textValue: S.optional(StringList),
     minValue: S.optional(S.Number),
     maxValue: S.optional(S.Number),
+    unitCode: S.optional(S.String),
+    intValue: S.optional(StringList),
     boolValue: S.optional(S.Boolean),
+    propertyName: S.optional(S.String),
+    textValue: S.optional(StringList),
+    floatValue: S.optional(DoubleList),
   }),
 ).annotate({
   identifier: "CloudExportAdditionalProperties",
@@ -3795,36 +3943,6 @@ export type CloudExportAdditionalPropertiesList =
 export const CloudExportAdditionalPropertiesList = /*@__PURE__*/ S.Array(
   CloudExportAdditionalProperties,
 ) as any as S.Schema<CloudExportAdditionalPropertiesList>;
-
-export interface ProductShippingWeight {
-  /** The weight of the product used to calculate the shipping cost of the item. */
-  value?: number;
-  /** The unit of value. */
-  unit?: string;
-}
-export const ProductShippingWeight = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.Number),
-    unit: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProductShippingWeight",
-}) as any as S.Schema<ProductShippingWeight>;
-
-export interface ProductDimension {
-  /** Required. The length value represented as a number. The value can have a maximum precision of four decimal places. */
-  value?: number;
-  /** Required. The length units. Acceptable values are: - "`in`" - "`cm`" */
-  unit?: string;
-}
-export const ProductDimension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.Number),
-    unit: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProductDimension",
-}) as any as S.Schema<ProductDimension>;
 
 export interface ProductShippingDimension {
   /** The dimension of the product used to calculate the shipping cost of the item. */
@@ -3841,54 +3959,100 @@ export const ProductShippingDimension = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProductShippingDimension",
 }) as any as S.Schema<ProductShippingDimension>;
 
+export interface ProductShippingWeight {
+  /** The unit of value. */
+  unit?: string;
+  /** The weight of the product used to calculate the shipping cost of the item. */
+  value?: number;
+}
+export const ProductShippingWeight = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    unit: S.optional(S.String),
+    value: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ProductShippingWeight",
+}) as any as S.Schema<ProductShippingWeight>;
+
+/** Structured description, for algorithmically (AI)-generated descriptions. See [description](https://support.google.com/merchants/answer/6324468#When_to_use) for more information. */
+export interface ProductStructuredDescription {
+  /** Required. The description text. Maximum length is 5000 characters. */
+  content?: string;
+  /** Optional. The digital source type. Acceptable values are: - "`trained_algorithmic_media`" - "`default`" */
+  digitalSourceType?: string;
+}
+export const ProductStructuredDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    content: S.optional(S.String),
+    digitalSourceType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ProductStructuredDescription",
+}) as any as S.Schema<ProductStructuredDescription>;
+
+export interface ProductTax {
+  /** Should be set to true if tax is charged on shipping. */
+  taxShip?: boolean;
+  /** The percentage of tax rate that applies to the item price. */
+  rate?: number;
+  /** The numeric ID of a location that the tax rate applies to as defined in the Google Ads API. */
+  locationId?: string;
+  /** The postal code range that the tax rate applies to, represented by a ZIP code, a ZIP code prefix using * wildcard, a range between two ZIP codes or two ZIP code prefixes of equal length. Examples: 94114, 94*, 94002-95460, 94*-95*. */
+  postalCode?: string;
+  /** The geographic region to which the tax rate applies. */
+  region?: string;
+  /** The country within which the item is taxed, specified as a CLDR territory code. */
+  country?: string;
+}
+export const ProductTax = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    taxShip: S.optional(S.Boolean),
+    rate: S.optional(S.Number),
+    locationId: S.optional(S.String),
+    postalCode: S.optional(S.String),
+    region: S.optional(S.String),
+    country: S.optional(S.String),
+  }),
+).annotate({ identifier: "ProductTax" }) as any as S.Schema<ProductTax>;
+
+export type ProductTaxList = Array<ProductTax>;
+export const ProductTaxList = /*@__PURE__*/ S.Array(
+  ProductTax,
+) as any as S.Schema<ProductTaxList>;
+
 /** Details of a monthly installment payment offering. [Learn more](https://support.google.com/merchants/answer/6324474) about installments. */
 export interface Installment {
-  /** Optional. Type of installment payments. Supported values are: - "`finance`" - "`lease`" */
-  creditType?: string;
-  /** The number of installments the buyer has to pay. */
-  months?: string;
-  /** The amount the buyer has to pay per month. */
-  amount?: Price;
   /** Optional. The initial down payment amount the buyer has to pay. */
   downpayment?: Price;
+  /** The number of installments the buyer has to pay. */
+  months?: string;
+  /** Optional. Type of installment payments. Supported values are: - "`finance`" - "`lease`" */
+  creditType?: string;
+  /** The amount the buyer has to pay per month. */
+  amount?: Price;
 }
 export const Installment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creditType: S.optional(S.String),
-    months: S.optional(S.String),
-    amount: S.optional(Price),
     downpayment: S.optional(Price),
+    months: S.optional(S.String),
+    creditType: S.optional(S.String),
+    amount: S.optional(Price),
   }),
 ).annotate({ identifier: "Installment" }) as any as S.Schema<Installment>;
 
-export interface ProductUnitPricingMeasure {
-  /** The measure of an item. */
-  value?: number;
-  /** The unit of the measure. */
-  unit?: string;
-}
-export const ProductUnitPricingMeasure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.Number),
-    unit: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProductUnitPricingMeasure",
-}) as any as S.Schema<ProductUnitPricingMeasure>;
-
 export interface ProductProductDetail {
-  /** The value of the product detail. */
-  attributeValue?: string;
   /** The section header used to group a set of product details. */
   sectionName?: string;
   /** The name of the product detail. */
   attributeName?: string;
+  /** The value of the product detail. */
+  attributeValue?: string;
 }
 export const ProductProductDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    attributeValue: S.optional(S.String),
     sectionName: S.optional(S.String),
     attributeName: S.optional(S.String),
+    attributeValue: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ProductProductDetail",
@@ -3899,194 +4063,43 @@ export const ProductProductDetailList = /*@__PURE__*/ S.Array(
   ProductProductDetail,
 ) as any as S.Schema<ProductProductDetailList>;
 
-/** Structured title, for algorithmically (AI)-generated titles. See [title](https://support.google.com/merchants/answer/6324415#Whentouse) for more information. */
-export interface ProductStructuredTitle {
-  /** Optional. The digital source type. Acceptable values are: - "`trained_algorithmic_media`" - "`default`" */
-  digitalSourceType?: string;
-  /** Required. The title text. Maximum length is 150 characters. */
-  content?: string;
-}
-export const ProductStructuredTitle = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    digitalSourceType: S.optional(S.String),
-    content: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProductStructuredTitle",
-}) as any as S.Schema<ProductStructuredTitle>;
-
-/** Allows the setting up of loyalty program benefits (for example price or points). https://support.google.com/merchants/answer/12922446 */
-export interface LoyaltyProgram {
-  /** Optional. A date range during which the item is eligible for member price. If not specified, the member price is always applicable. The date range is represented by a pair of ISO 8601 dates separated by a space, comma, or slash. */
-  memberPriceEffectiveDate?: string;
-  /** Optional. The cashback that can be used for future purchases. */
-  cashbackForFutureUse?: Price;
-  /** Required. The label of the tier within the loyalty program. Must match one of the labels within the program. */
-  tierLabel?: string;
-  /** Required. The label of the loyalty program. This is an internal label that uniquely identifies the relationship between a merchant entity and a loyalty program entity. It must be provided so that system can associate the assets below (for example, price and points) with a merchant. The corresponding program must be linked to the merchant account. */
-  programLabel?: string;
-  /** Optional. The amount of loyalty points earned on a purchase. */
-  loyaltyPoints?: string;
-  /** Optional. The shipping label for the loyalty program. You can use this label to indicate whether this offer has the loyalty shipping benefit. If not specified, the item is not eligible for loyalty shipping for the given loyalty tier. */
-  shippingLabel?: string;
-  /** Optional. The price for members of the given tier (instant discount price). Must be smaller or equal to the regular price. */
-  price?: Price;
-}
-export const LoyaltyProgram = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    memberPriceEffectiveDate: S.optional(S.String),
-    cashbackForFutureUse: S.optional(Price),
-    tierLabel: S.optional(S.String),
-    programLabel: S.optional(S.String),
-    loyaltyPoints: S.optional(S.String),
-    shippingLabel: S.optional(S.String),
-    price: S.optional(Price),
-  }),
-).annotate({ identifier: "LoyaltyProgram" }) as any as S.Schema<LoyaltyProgram>;
-
-export type LoyaltyProgramList = Array<LoyaltyProgram>;
-export const LoyaltyProgramList = /*@__PURE__*/ S.Array(
-  LoyaltyProgram,
-) as any as S.Schema<LoyaltyProgramList>;
-
-export interface ProductTax {
-  /** The geographic region to which the tax rate applies. */
-  region?: string;
-  /** The numeric ID of a location that the tax rate applies to as defined in the Google Ads API. */
-  locationId?: string;
-  /** Should be set to true if tax is charged on shipping. */
-  taxShip?: boolean;
-  /** The postal code range that the tax rate applies to, represented by a ZIP code, a ZIP code prefix using * wildcard, a range between two ZIP codes or two ZIP code prefixes of equal length. Examples: 94114, 94*, 94002-95460, 94*-95*. */
-  postalCode?: string;
-  /** The country within which the item is taxed, specified as a CLDR territory code. */
-  country?: string;
-  /** The percentage of tax rate that applies to the item price. */
-  rate?: number;
-}
-export const ProductTax = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    region: S.optional(S.String),
-    locationId: S.optional(S.String),
-    taxShip: S.optional(S.Boolean),
-    postalCode: S.optional(S.String),
-    country: S.optional(S.String),
-    rate: S.optional(S.Number),
-  }),
-).annotate({ identifier: "ProductTax" }) as any as S.Schema<ProductTax>;
-
-export type ProductTaxList = Array<ProductTax>;
-export const ProductTaxList = /*@__PURE__*/ S.Array(
-  ProductTax,
-) as any as S.Schema<ProductTaxList>;
-
-export type ProductSustainabilityIncentiveTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "EV_TAX_CREDIT"
-  | "EV_PRICE_DISCOUNT";
-export const ProductSustainabilityIncentiveTypeEnum = /*@__PURE__*/ S.String;
-
-/** Information regarding sustainability related incentive programs such as rebates or tax relief. */
-export interface ProductSustainabilityIncentive {
-  /** Optional. The percentage of the sale price that the incentive is applied to. */
-  percentage?: number;
-  /** Required. Sustainability incentive program. */
-  type?: ProductSustainabilityIncentiveTypeEnum | (string & {});
-  /** Optional. The fixed amount of the incentive. */
-  amount?: Price;
-}
-export const ProductSustainabilityIncentive = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    percentage: S.optional(S.Number),
-    type: S.optional(ProductSustainabilityIncentiveTypeEnum),
-    amount: S.optional(Price),
-  }),
-).annotate({
-  identifier: "ProductSustainabilityIncentive",
-}) as any as S.Schema<ProductSustainabilityIncentive>;
-
-export type ProductSustainabilityIncentiveList =
-  Array<ProductSustainabilityIncentive>;
-export const ProductSustainabilityIncentiveList = /*@__PURE__*/ S.Array(
-  ProductSustainabilityIncentive,
-) as any as S.Schema<ProductSustainabilityIncentiveList>;
-
-/** Product [certification](https://support.google.com/merchants/answer/13528839), introduced for EU energy efficiency labeling compliance using the [EU EPREL](https://eprel.ec.europa.eu/screen/home) database. */
-export interface ProductCertification {
-  /** The certification authority, for example "European_Commission". Maximum length is 2000 characters. */
-  certificationAuthority?: string;
-  /** The certification code, for eaxample "123456". Maximum length is 2000 characters. */
-  certificationCode?: string;
-  /** The certification value (also known as class, level or grade), for example "A+", "C", "gold". Maximum length is 2000 characters. */
-  certificationValue?: string;
-  /** The name of the certification, for example "EPREL". Maximum length is 2000 characters. */
-  certificationName?: string;
-}
-export const ProductCertification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    certificationAuthority: S.optional(S.String),
-    certificationCode: S.optional(S.String),
-    certificationValue: S.optional(S.String),
-    certificationName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProductCertification",
-}) as any as S.Schema<ProductCertification>;
-
-export type ProductCertificationList = Array<ProductCertification>;
-export const ProductCertificationList = /*@__PURE__*/ S.Array(
-  ProductCertification,
-) as any as S.Schema<ProductCertificationList>;
-
-export interface ProductWeight {
-  /** Required. The weight represented as a number. The weight can have a maximum precision of four decimal places. */
-  value?: number;
-  /** Required. The weight unit. Acceptable values are: - "`g`" - "`kg`" - "`oz`" - "`lb`" */
-  unit?: string;
-}
-export const ProductWeight = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.Number),
-    unit: S.optional(S.String),
-  }),
-).annotate({ identifier: "ProductWeight" }) as any as S.Schema<ProductWeight>;
-
 export interface ProductShipping {
-  /** The geographic region to which a shipping rate applies. */
-  region?: string;
   /** The location where the shipping is applicable, represented by a location group name. */
   locationGroupName?: string;
-  /** Fixed shipping price, represented as a number. */
-  price?: Price;
-  /** A free-form description of the service class or delivery speed. */
-  service?: string;
-  /** Minimum handling time (inclusive) between when the order is received and shipped in business days. 0 means that the order is shipped on the same day as it's received if it happens before the cut-off time. minHandlingTime can only be present together with maxHandlingTime; but it's not required if maxHandlingTime is present. */
-  minHandlingTime?: string;
   /** The numeric ID of a location that the shipping rate applies to as defined in the Google Ads API. */
   locationId?: string;
   /** The postal code range that the shipping rate applies to, represented by a postal code, a postal code prefix followed by a * wildcard, a range between two postal codes or two postal code prefixes of equal length. */
   postalCode?: string;
-  /** Maximum transit time (inclusive) between when the order has shipped and when it's delivered in business days. 0 means that the order is delivered on the same day as it ships. Both maxHandlingTime and maxTransitTime are required if providing shipping speeds. */
-  maxTransitTime?: string;
-  /** The CLDR territory code of the country to which an item will ship. */
-  country?: string;
+  /** Minimum handling time (inclusive) between when the order is received and shipped in business days. 0 means that the order is shipped on the same day as it's received if it happens before the cut-off time. minHandlingTime can only be present together with maxHandlingTime; but it's not required if maxHandlingTime is present. */
+  minHandlingTime?: string;
+  /** Fixed shipping price, represented as a number. */
+  price?: Price;
   /** Minimum transit time (inclusive) between when the order has shipped and when it's delivered in business days. 0 means that the order is delivered on the same day as it ships. minTransitTime can only be present together with maxTransitTime; but it's not required if maxTransitTime is present. */
   minTransitTime?: string;
   /** Maximum handling time (inclusive) between when the order is received and shipped in business days. 0 means that the order is shipped on the same day as it's received if it happens before the cut-off time. Both maxHandlingTime and maxTransitTime are required if providing shipping speeds. */
   maxHandlingTime?: string;
+  /** The geographic region to which a shipping rate applies. */
+  region?: string;
+  /** The CLDR territory code of the country to which an item will ship. */
+  country?: string;
+  /** A free-form description of the service class or delivery speed. */
+  service?: string;
+  /** Maximum transit time (inclusive) between when the order has shipped and when it's delivered in business days. 0 means that the order is delivered on the same day as it ships. Both maxHandlingTime and maxTransitTime are required if providing shipping speeds. */
+  maxTransitTime?: string;
 }
 export const ProductShipping = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    region: S.optional(S.String),
     locationGroupName: S.optional(S.String),
-    price: S.optional(Price),
-    service: S.optional(S.String),
-    minHandlingTime: S.optional(S.String),
     locationId: S.optional(S.String),
     postalCode: S.optional(S.String),
-    maxTransitTime: S.optional(S.String),
-    country: S.optional(S.String),
+    minHandlingTime: S.optional(S.String),
+    price: S.optional(Price),
     minTransitTime: S.optional(S.String),
     maxHandlingTime: S.optional(S.String),
+    region: S.optional(S.String),
+    country: S.optional(S.String),
+    service: S.optional(S.String),
+    maxTransitTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ProductShipping",
@@ -4097,370 +4110,359 @@ export const ProductShippingList = /*@__PURE__*/ S.Array(
   ProductShipping,
 ) as any as S.Schema<ProductShippingList>;
 
-/** Structured description, for algorithmically (AI)-generated descriptions. See [description](https://support.google.com/merchants/answer/6324468#When_to_use) for more information. */
-export interface ProductStructuredDescription {
-  /** Optional. The digital source type. Acceptable values are: - "`trained_algorithmic_media`" - "`default`" */
-  digitalSourceType?: string;
-  /** Required. The description text. Maximum length is 5000 characters. */
-  content?: string;
-}
-export const ProductStructuredDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    digitalSourceType: S.optional(S.String),
-    content: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProductStructuredDescription",
-}) as any as S.Schema<ProductStructuredDescription>;
+export type LoyaltyProgramList = Array<LoyaltyProgram>;
+export const LoyaltyProgramList = /*@__PURE__*/ S.Array(
+  LoyaltyProgram,
+) as any as S.Schema<LoyaltyProgramList>;
 
 /** Required product attributes are primarily defined by the product data specification. See the Product Data Specification Help Center article for information. Product data. After inserting, updating, or deleting a product, it may take several minutes before changes take effect. The following reference documentation lists the field names in the **camelCase** casing style while the Products Data Specification lists the names in the **snake_case** casing style. */
 export interface Product {
-  /** The pick up option for the item. Acceptable values are: - "`buy`" - "`reserve`" - "`ship to store`" - "`not supported`" */
-  pickupMethod?: string;
-  /** Optional. Conditions to be met for a product to have free shipping. */
-  freeShippingThreshold?: FreeShippingThresholdList;
-  /** Manufacturer Part Number (MPN) of the item. */
-  mpn?: string;
-  /** The item's pattern (for example, polka dots). */
-  pattern?: string;
   /** Whether the item is a merchant-defined bundle. A bundle is a custom grouping of different products sold by a merchant for a single price. */
   isBundle?: boolean;
-  /** Number of periods (months or years) and amount of payment per period for an item with an associated subscription contract. */
-  subscriptionCost?: ProductSubscriptionCost;
-  /** URL template for merchant hosted local storefront optimized for mobile devices. */
-  mobileLinkTemplate?: string;
-  /** List of country codes (ISO 3166-1 alpha-2) to exclude the offer from Shopping Ads destination. Countries from this list are removed from countries configured in MC feed settings. */
-  shoppingAdsExcludedCountries?: StringList;
-  /** Custom label 1 for custom grouping of items in a Shopping campaign. */
-  customLabel1?: string;
-  /** The preference of the denominator of the unit price. */
-  unitPricingBaseMeasure?: ProductUnitPricingBaseMeasure;
-  /** Title of an item for dynamic remarketing campaigns. */
-  displayAdsTitle?: string;
-  /** The material of which the item is made. */
-  material?: string;
-  /** Google's category of the item (see [Google product taxonomy](https://support.google.com/merchants/answer/1705911)). When querying products, this field will contain the user provided value. There is currently no way to get back the auto assigned google product categories through the API. */
-  googleProductCategory?: string;
-  /** Required. The CLDR territory code for the item's country of sale. */
-  targetCountry?: string;
-  /** URL directly to your item's landing page for dynamic remarketing campaigns. */
-  displayAdsLink?: string;
-  /** Extra fields to export to the Cloud Retail program. */
-  cloudExportAdditionalProperties?: CloudExportAdditionalPropertiesList;
-  /** Weight of the item for shipping. */
-  shippingWeight?: ProductShippingWeight;
-  /** Offer margin for dynamic remarketing campaigns. */
-  displayAdsValue?: number;
-  /** Brand of the item. */
-  brand?: string;
+  /** Additional URLs of images of the item. */
+  additionalImageLinks?: StringList;
+  /** The REST ID of the product. Content API methods that operate on products take this as their `productId` parameter. The REST ID for a product has one of the 2 forms channel:contentLanguage: targetCountry: offerId or channel:contentLanguage:feedLabel: offerId. */
+  id?: string;
+  /** Required. The item's channel (online or local). Acceptable values are: - "`local`" - "`online`" */
+  channel?: string;
+  /** URL of the 3D model of the item to provide more visuals. */
+  virtualModelLink?: string;
+  /** Target age group of the item. */
+  ageGroup?: string;
+  /** The tax category of the product, used to configure detailed tax nexus in account-level tax settings. */
+  taxCategory?: string;
   /** The width of the product in the units provided. The value must be between 0 (exclusive) and 3000 (inclusive). */
   productWidth?: ProductDimension;
-  /** Allows advertisers to override the item URL when the product is shown within the context of Product Ads. */
-  adsRedirect?: string;
-  /** Width of the item for shipping. */
-  shippingWidth?: ProductShippingDimension;
-  /** URL for the canonical version of your item's landing page. */
-  canonicalLink?: string;
-  /** URL of an image of the item. */
-  imageLink?: string;
+  /** Feed label for the item. Either `targetCountry` or `feedLabel` is required. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). */
+  feedLabel?: string;
+  /** The energy efficiency class as defined in EU directive 2010/30/EU. */
+  maxEnergyEfficiencyClass?: string;
+  /** Bullet points describing the most relevant highlights of a product. */
+  productHighlights?: StringList;
+  /** A list of custom (merchant-provided) attributes. It can also be used for submitting any attribute of the feed specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API, such as additional attributes used for Buy on Google (formerly known as Shopping Actions). */
+  customAttributes?: CustomAttributeList;
+  /** Advertiser-specified recommendations. */
+  displayAdsSimilarIds?: StringList;
+  /** The preference of the denominator of the unit price. */
+  unitPricingBaseMeasure?: ProductUnitPricingBaseMeasure;
+  /** Required. The CLDR territory code for the item's country of sale. */
+  targetCountry?: string;
+  /** URL template for merchant hosted local storefront. */
+  linkTemplate?: string;
+  /** Product [certification](https://support.google.com/merchants/answer/13528839), introduced for EU energy efficiency labeling compliance using the [EU EPREL](https://eprel.ec.europa.eu/screen/home) database. */
+  certifications?: ProductCertificationList;
+  /** Date on which the item should expire, as specified upon insertion, in ISO 8601 format. The actual expiration date in Google Shopping is exposed in `productstatuses` as `googleExpirationDate` and might be earlier if `expirationDate` is too far in the future. */
+  expirationDate?: string;
+  /** Loyalty program information that is used to surface loyalty benefits ( for example, better pricing, points, etc) to the user of this item. This signular field points to the latest uploaded loyalty program info. This field will be deprecated in the coming weeks and should not be used in favor of the plural 'LoyaltyProgram' field below. */
+  loyaltyProgram?: LoyaltyProgram;
+  /** Should be set to true if the item is targeted towards adults. */
+  adult?: boolean;
+  /** Optional. The list of sustainability incentive programs. */
+  sustainabilityIncentives?: ProductSustainabilityIncentiveList;
   /** URL for the mobile-optimized version of your item's landing page. */
   mobileLink?: string;
-  /** Number and amount of installments to pay for an item. */
-  installment?: Installment;
-  /** Required for multi-seller accounts. Use this attribute if you're a marketplace uploading products for various sellers to your multi-seller account. */
-  externalSellerId?: string;
+  /** The transit time label of the product, used to group product in account-level transit time tables. */
+  transitTimeLabel?: string;
   /** The measure and dimension of an item. */
   unitPricingMeasure?: ProductUnitPricingMeasure;
-  /** The list of [destinations to include](//support.google.com/merchants/answer/7501026) for this target (corresponds to checked check boxes in Merchant Center). Default destinations are always included unless provided in `excludedDestinations`. */
-  includedDestinations?: StringList;
-  /** Technical specification or additional product details. */
-  productDetails?: ProductProductDetailList;
+  /** The cut of the item. Recommended for apparel items. */
+  sizeType?: string;
+  /** Item store pickup timeline. Acceptable values are: - "`same day`" - "`next day`" - "`2-day`" - "`3-day`" - "`4-day`" - "`5-day`" - "`6-day`" - "`7-day`" - "`multi-week`" */
+  pickupSla?: string;
+  /** The number of identical products in a merchant-defined multipack. */
+  multipack?: string;
+  /** The energy efficiency class as defined in EU directive 2010/30/EU. */
+  energyEfficiencyClass?: string;
+  /** Maximal product handling time (in business days). */
+  maxHandlingTime?: string;
+  /** Structured title, for algorithmically (AI)-generated titles. */
+  structuredTitle?: ProductStructuredTitle;
+  /** The date time when an offer becomes visible in search results across Google’s YouTube surfaces, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. See [Disclosure date](https://support.google.com/merchants/answer/13034208) for more information. */
+  disclosureDate?: string;
+  /** Availability status of the item. */
+  availability?: string;
+  /** Categories of the item (formatted as in product data specification). */
+  productTypes?: StringList;
+  /** Used to group items in an arbitrary way. Only for CPA%, discouraged otherwise. */
+  adsGrouping?: string;
+  /** Target gender of the item. */
+  gender?: string;
+  /** Custom label 0 for custom grouping of items in a Shopping campaign. */
+  customLabel0?: string;
+  /** Optional. Conditions to be met for a product to have free shipping. */
+  freeShippingThreshold?: FreeShippingThresholdList;
+  /** Date range during which the item is on sale (see product data specification ). */
+  salePriceEffectiveDate?: string;
+  /** Advertised sale price of the item. */
+  salePrice?: Price;
+  /** List of country codes (ISO 3166-1 alpha-2) to exclude the offer from Shopping Ads destination. Countries from this list are removed from countries configured in MC feed settings. */
+  shoppingAdsExcludedCountries?: StringList;
+  /** Minimal product handling time (in business days). */
+  minHandlingTime?: string;
+  /** Output only. The source of the offer, that is, how the offer was created. Acceptable values are: - "`api`" - "`crawl`" - "`feed`" */
+  source?: string;
+  /** The weight of the product in the units provided. The value must be between 0 (exclusive) and 2000 (inclusive). */
+  productWeight?: ProductWeight;
+  /** An identifier for an item for dynamic remarketing campaigns. */
+  displayAdsId?: string;
+  /** The length of the product in the units provided. The value must be between 0 (exclusive) and 3000 (inclusive). */
+  productLength?: ProductDimension;
+  /** Number of periods (months or years) and amount of payment per period for an item with an associated subscription contract. */
+  subscriptionCost?: ProductSubscriptionCost;
+  /** Extra fields to export to the Cloud Retail program. */
+  cloudExportAdditionalProperties?: CloudExportAdditionalPropertiesList;
+  /** Required for multi-seller accounts. Use this attribute if you're a marketplace uploading products for various sellers to your multi-seller account. */
+  externalSellerId?: string;
+  /** URL directly linking to your item's page on your website. */
+  link?: string;
+  /** A safeguard in the [Automated Discounts](//support.google.com/merchants/answer/10295759) and [Dynamic Promotions](//support.google.com/merchants/answer/13949249) projects, ensuring that discounts on merchants' offers do not fall below this value, thereby preserving the offer's value and profitability. */
+  autoPricingMinPrice?: Price;
+  /** Size of the item. Only one value is allowed. For variants with different sizes, insert a separate product for each size with the same `itemGroupId` value (see size definition). */
+  sizes?: StringList;
+  /** Offer margin for dynamic remarketing campaigns. */
+  displayAdsValue?: number;
+  /** The height of the product in the units provided. The value must be between 0 (exclusive) and 3000 (inclusive). */
+  productHeight?: ProductDimension;
+  /** Additional cut of the item. Used together with size_type to represent combined size types for apparel items. */
+  additionalSizeType?: string;
+  /** The material of which the item is made. */
+  material?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "`content#product`" */
+  kind?: string;
+  /** Global Trade Item Number (GTIN) of the item. */
+  gtin?: string;
+  /** The day a pre-ordered product becomes available for delivery, in ISO 8601 format. */
+  availabilityDate?: string;
+  /** Title of an item for dynamic remarketing campaigns. */
+  displayAdsTitle?: string;
+  /** Width of the item for shipping. */
+  shippingWidth?: ProductShippingDimension;
+  /** The list of [destinations to exclude](//support.google.com/merchants/answer/6324486) for this target (corresponds to cleared check boxes in Merchant Center). Products that are excluded from all destinations for more than 7 days are automatically deleted. */
+  excludedDestinations?: StringList;
   /** Maximum retail price (MRP) of the item. Applicable to India only. */
   maximumRetailPrice?: Price;
   /** The energy efficiency class as defined in EU directive 2010/30/EU. */
-  maxEnergyEfficiencyClass?: string;
-  /** Structured title, for algorithmically (AI)-generated titles. */
-  structuredTitle?: ProductStructuredTitle;
-  /** Date on which the item should expire, as specified upon insertion, in ISO 8601 format. The actual expiration date in Google Shopping is exposed in `productstatuses` as `googleExpirationDate` and might be earlier if `expirationDate` is too far in the future. */
-  expirationDate?: string;
-  /** The unique ID of a promotion. */
-  promotionIds?: StringList;
-  /** The transit time label of the product, used to group product in account-level transit time tables. */
-  transitTimeLabel?: string;
-  /** The cut of the item. Recommended for apparel items. */
-  sizeType?: string;
-  /** Target gender of the item. */
-  gender?: string;
-  /** A safeguard in the [Automated Discounts](//support.google.com/merchants/answer/10295759) and [Dynamic Promotions](//support.google.com/merchants/answer/13949249) projects, ensuring that discounts on merchants' offers do not fall below this value, thereby preserving the offer's value and profitability. */
-  autoPricingMinPrice?: Price;
-  /** Minimal product handling time (in business days). */
-  minHandlingTime?: string;
-  /** Additional URLs of lifestyle images of the item. Used to explicitly identify images that showcase your item in a real-world context. See the Help Center article for more information. */
-  lifestyleImageLinks?: StringList;
-  /** Optional. A list of loyalty program information that is used to surface loyalty benefits (for example, better pricing, points, etc) to the user of this item. */
-  loyaltyPrograms?: LoyaltyProgramList;
-  /** Item store pickup timeline. Acceptable values are: - "`same day`" - "`next day`" - "`2-day`" - "`3-day`" - "`4-day`" - "`5-day`" - "`6-day`" - "`7-day`" - "`multi-week`" */
-  pickupSla?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "`content#product`" */
-  kind?: string;
-  /** The list of [destinations to exclude](//support.google.com/merchants/answer/6324486) for this target (corresponds to cleared check boxes in Merchant Center). Products that are excluded from all destinations for more than 7 days are automatically deleted. */
-  excludedDestinations?: StringList;
-  /** Used to group items in an arbitrary way. Only for CPA%, discouraged otherwise. */
-  adsGrouping?: string;
-  /** Custom label 2 for custom grouping of items in a Shopping campaign. */
-  customLabel2?: string;
-  /** Condition or state of the item. */
-  condition?: string;
-  /** The length of the product in the units provided. The value must be between 0 (exclusive) and 3000 (inclusive). */
-  productLength?: ProductDimension;
-  /** An identifier for an item for dynamic remarketing campaigns. */
-  displayAdsId?: string;
+  minEnergyEfficiencyClass?: string;
   /** Publication of this item should be temporarily paused. Acceptable values are: - "`ads`" */
   pause?: string;
-  /** The number of identical products in a merchant-defined multipack. */
-  multipack?: string;
-  /** Required. The two-letter ISO 639-1 language code for the item. */
-  contentLanguage?: string;
-  /** Required. The item's channel (online or local). Acceptable values are: - "`local`" - "`online`" */
-  channel?: string;
-  /** Height of the item for shipping. */
-  shippingHeight?: ProductShippingDimension;
-  /** URL of the 3D model of the item to provide more visuals. */
-  virtualModelLink?: string;
-  /** The energy efficiency class as defined in EU directive 2010/30/EU. */
-  energyEfficiencyClass?: string;
-  /** Advertiser-specified recommendations. */
-  displayAdsSimilarIds?: StringList;
-  /** Global Trade Item Number (GTIN) of the item. */
-  gtin?: string;
-  /** Length of the item for shipping. */
-  shippingLength?: ProductShippingDimension;
-  /** URL directly linking to your item's page on your website. */
-  link?: string;
-  /** The day a pre-ordered product becomes available for delivery, in ISO 8601 format. */
-  availabilityDate?: string;
-  /** Cost of goods sold. Used for gross profit reporting. */
-  costOfGoodsSold?: Price;
-  /** Additional URLs of images of the item. */
-  additionalImageLinks?: StringList;
-  /** The quantity of the product that is available for selling on Google. Supported only for online products. */
-  sellOnGoogleQuantity?: string;
-  /** Tax information. */
-  taxes?: ProductTaxList;
-  /** Optional. The list of sustainability incentive programs. */
-  sustainabilityIncentives?: ProductSustainabilityIncentiveList;
-  /** Advertised sale price of the item. */
-  salePrice?: Price;
-  /** Feed label for the item. Either `targetCountry` or `feedLabel` is required. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). */
-  feedLabel?: string;
-  /** Title of the item. */
-  title?: string;
-  /** The date time when an offer becomes visible in search results across Google’s YouTube surfaces, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. See [Disclosure date](https://support.google.com/merchants/answer/13034208) for more information. */
-  disclosureDate?: string;
-  /** Shared identifier for all variants of the same product. */
-  itemGroupId?: string;
-  /** Custom label 0 for custom grouping of items in a Shopping campaign. */
-  customLabel0?: string;
-  /** Additional cut of the item. Used together with size_type to represent combined size types for apparel items. */
-  additionalSizeType?: string;
-  /** Availability status of the item. */
-  availability?: string;
-  /** Bullet points describing the most relevant highlights of a product. */
-  productHighlights?: StringList;
-  /** Required. A unique identifier for the item. Leading and trailing whitespaces are stripped and multiple whitespaces are replaced by a single whitespace upon submission. Only valid unicode characters are accepted. See the products feed specification for details. *Note:* Content API methods that operate on products take the REST ID of the product, *not* this identifier. */
-  offerId?: string;
-  /** The energy efficiency class as defined in EU directive 2010/30/EU. */
-  minEnergyEfficiencyClass?: string;
-  /** Product [certification](https://support.google.com/merchants/answer/13528839), introduced for EU energy efficiency labeling compliance using the [EU EPREL](https://eprel.ec.europa.eu/screen/home) database. */
-  certifications?: ProductCertificationList;
-  /** Description of the item. */
-  description?: string;
+  /** Brand of the item. */
+  brand?: string;
   /** False when the item does not have unique product identifiers appropriate to its category, such as GTIN, MPN, and brand. Required according to the Unique Product Identifier Rules for all target countries except for Canada. */
   identifierExists?: boolean;
-  /** The REST ID of the product. Content API methods that operate on products take this as their `productId` parameter. The REST ID for a product has one of the 2 forms channel:contentLanguage: targetCountry: offerId or channel:contentLanguage:feedLabel: offerId. */
-  id?: string;
-  /** Color of the item. */
-  color?: string;
-  /** A list of custom (merchant-provided) attributes. It can also be used for submitting any attribute of the feed specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API, such as additional attributes used for Buy on Google (formerly known as Shopping Actions). */
-  customAttributes?: CustomAttributeList;
-  /** Should be set to true if the item is targeted towards adults. */
-  adult?: boolean;
-  /** Date range during which the item is on sale (see product data specification ). */
-  salePriceEffectiveDate?: string;
-  /** The weight of the product in the units provided. The value must be between 0 (exclusive) and 2000 (inclusive). */
-  productWeight?: ProductWeight;
-  /** Size of the item. Only one value is allowed. For variants with different sizes, insert a separate product for each size with the same `itemGroupId` value (see size definition). */
-  sizes?: StringList;
-  /** Custom label 3 for custom grouping of items in a Shopping campaign. */
-  customLabel3?: string;
-  /** Similar to ads_grouping, but only works on CPC. */
-  adsLabels?: StringList;
-  /** Shipping rules. */
-  shipping?: ProductShippingList;
-  /** Loyalty program information that is used to surface loyalty benefits ( for example, better pricing, points, etc) to the user of this item. This signular field points to the latest uploaded loyalty program info. This field will be deprecated in the coming weeks and should not be used in favor of the plural 'LoyaltyProgram' field below. */
-  loyaltyProgram?: LoyaltyProgram;
-  /** The shipping label of the product, used to group product in account-level shipping rules. */
-  shippingLabel?: string;
-  /** Maximal product handling time (in business days). */
-  maxHandlingTime?: string;
-  /** Structured description, for algorithmically (AI)-generated descriptions. */
-  structuredDescription?: ProductStructuredDescription;
-  /** Target age group of the item. */
-  ageGroup?: string;
-  /** The height of the product in the units provided. The value must be between 0 (exclusive) and 3000 (inclusive). */
-  productHeight?: ProductDimension;
-  /** System in which the size is specified. Recommended for apparel items. */
-  sizeSystem?: string;
-  /** Price of the item. */
-  price?: Price;
-  /** Categories of the item (formatted as in product data specification). */
-  productTypes?: StringList;
-  /** URL template for merchant hosted local storefront. */
-  linkTemplate?: string;
-  /** Output only. The source of the offer, that is, how the offer was created. Acceptable values are: - "`api`" - "`crawl`" - "`feed`" */
-  source?: string;
-  /** The tax category of the product, used to configure detailed tax nexus in account-level tax settings. */
-  taxCategory?: string;
+  /** The list of [destinations to include](//support.google.com/merchants/answer/7501026) for this target (corresponds to checked check boxes in Merchant Center). Default destinations are always included unless provided in `excludedDestinations`. */
+  includedDestinations?: StringList;
+  /** Required. A unique identifier for the item. Leading and trailing whitespaces are stripped and multiple whitespaces are replaced by a single whitespace upon submission. Only valid unicode characters are accepted. See the products feed specification for details. *Note:* Content API methods that operate on products take the REST ID of the product, *not* this identifier. */
+  offerId?: string;
+  /** Shared identifier for all variants of the same product. */
+  itemGroupId?: string;
+  /** Google's category of the item (see [Google product taxonomy](https://support.google.com/merchants/answer/1705911)). When querying products, this field will contain the user provided value. There is currently no way to get back the auto assigned google product categories through the API. */
+  googleProductCategory?: string;
   /** Custom label 4 for custom grouping of items in a Shopping campaign. */
   customLabel4?: string;
+  /** Cost of goods sold. Used for gross profit reporting. */
+  costOfGoodsSold?: Price;
+  /** Weight of the item for shipping. */
+  shippingWeight?: ProductShippingWeight;
+  /** System in which the size is specified. Recommended for apparel items. */
+  sizeSystem?: string;
+  /** The item's pattern (for example, polka dots). */
+  pattern?: string;
+  /** Description of the item. */
+  description?: string;
+  /** The unique ID of a promotion. */
+  promotionIds?: StringList;
+  /** URL template for merchant hosted local storefront optimized for mobile devices. */
+  mobileLinkTemplate?: string;
+  /** The shipping label of the product, used to group product in account-level shipping rules. */
+  shippingLabel?: string;
+  /** Manufacturer Part Number (MPN) of the item. */
+  mpn?: string;
+  /** Custom label 3 for custom grouping of items in a Shopping campaign. */
+  customLabel3?: string;
+  /** The pick up option for the item. Acceptable values are: - "`buy`" - "`reserve`" - "`ship to store`" - "`not supported`" */
+  pickupMethod?: string;
+  /** Condition or state of the item. */
+  condition?: string;
+  /** Required. The two-letter ISO 639-1 language code for the item. */
+  contentLanguage?: string;
+  /** URL for the canonical version of your item's landing page. */
+  canonicalLink?: string;
+  /** Custom label 1 for custom grouping of items in a Shopping campaign. */
+  customLabel1?: string;
+  /** Allows advertisers to override the item URL when the product is shown within the context of Product Ads. */
+  adsRedirect?: string;
+  /** Price of the item. */
+  price?: Price;
+  /** Similar to ads_grouping, but only works on CPC. */
+  adsLabels?: StringList;
+  /** Structured description, for algorithmically (AI)-generated descriptions. */
+  structuredDescription?: ProductStructuredDescription;
+  /** Tax information. */
+  taxes?: ProductTaxList;
+  /** Color of the item. */
+  color?: string;
+  /** Additional URLs of lifestyle images of the item. Used to explicitly identify images that showcase your item in a real-world context. See the Help Center article for more information. */
+  lifestyleImageLinks?: StringList;
+  /** The quantity of the product that is available for selling on Google. Supported only for online products. */
+  sellOnGoogleQuantity?: string;
+  /** Height of the item for shipping. */
+  shippingHeight?: ProductShippingDimension;
+  /** Number and amount of installments to pay for an item. */
+  installment?: Installment;
+  /** Technical specification or additional product details. */
+  productDetails?: ProductProductDetailList;
+  /** URL of an image of the item. */
+  imageLink?: string;
+  /** Shipping rules. */
+  shipping?: ProductShippingList;
+  /** Title of the item. */
+  title?: string;
+  /** URL directly to your item's landing page for dynamic remarketing campaigns. */
+  displayAdsLink?: string;
+  /** Optional. A list of loyalty program information that is used to surface loyalty benefits (for example, better pricing, points, etc) to the user of this item. */
+  loyaltyPrograms?: LoyaltyProgramList;
+  /** Length of the item for shipping. */
+  shippingLength?: ProductShippingDimension;
+  /** Custom label 2 for custom grouping of items in a Shopping campaign. */
+  customLabel2?: string;
 }
 export const Product = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pickupMethod: S.optional(S.String),
-    freeShippingThreshold: S.optional(FreeShippingThresholdList),
-    mpn: S.optional(S.String),
-    pattern: S.optional(S.String),
     isBundle: S.optional(S.Boolean),
-    subscriptionCost: S.optional(ProductSubscriptionCost),
-    mobileLinkTemplate: S.optional(S.String),
-    shoppingAdsExcludedCountries: S.optional(StringList),
-    customLabel1: S.optional(S.String),
+    additionalImageLinks: S.optional(StringList),
+    id: S.optional(S.String),
+    channel: S.optional(S.String),
+    virtualModelLink: S.optional(S.String),
+    ageGroup: S.optional(S.String),
+    taxCategory: S.optional(S.String),
+    productWidth: S.optional(ProductDimension),
+    feedLabel: S.optional(S.String),
+    maxEnergyEfficiencyClass: S.optional(S.String),
+    productHighlights: S.optional(StringList),
+    customAttributes: S.optional(CustomAttributeList),
+    displayAdsSimilarIds: S.optional(StringList),
     unitPricingBaseMeasure: S.optional(ProductUnitPricingBaseMeasure),
-    displayAdsTitle: S.optional(S.String),
-    material: S.optional(S.String),
-    googleProductCategory: S.optional(S.String),
     targetCountry: S.optional(S.String),
-    displayAdsLink: S.optional(S.String),
+    linkTemplate: S.optional(S.String),
+    certifications: S.optional(ProductCertificationList),
+    expirationDate: S.optional(S.String),
+    loyaltyProgram: S.optional(LoyaltyProgram),
+    adult: S.optional(S.Boolean),
+    sustainabilityIncentives: S.optional(ProductSustainabilityIncentiveList),
+    mobileLink: S.optional(S.String),
+    transitTimeLabel: S.optional(S.String),
+    unitPricingMeasure: S.optional(ProductUnitPricingMeasure),
+    sizeType: S.optional(S.String),
+    pickupSla: S.optional(S.String),
+    multipack: S.optional(S.String),
+    energyEfficiencyClass: S.optional(S.String),
+    maxHandlingTime: S.optional(S.String),
+    structuredTitle: S.optional(ProductStructuredTitle),
+    disclosureDate: S.optional(S.String),
+    availability: S.optional(S.String),
+    productTypes: S.optional(StringList),
+    adsGrouping: S.optional(S.String),
+    gender: S.optional(S.String),
+    customLabel0: S.optional(S.String),
+    freeShippingThreshold: S.optional(FreeShippingThresholdList),
+    salePriceEffectiveDate: S.optional(S.String),
+    salePrice: S.optional(Price),
+    shoppingAdsExcludedCountries: S.optional(StringList),
+    minHandlingTime: S.optional(S.String),
+    source: S.optional(S.String),
+    productWeight: S.optional(ProductWeight),
+    displayAdsId: S.optional(S.String),
+    productLength: S.optional(ProductDimension),
+    subscriptionCost: S.optional(ProductSubscriptionCost),
     cloudExportAdditionalProperties: S.optional(
       CloudExportAdditionalPropertiesList,
     ),
-    shippingWeight: S.optional(ProductShippingWeight),
-    displayAdsValue: S.optional(S.Number),
-    brand: S.optional(S.String),
-    productWidth: S.optional(ProductDimension),
-    adsRedirect: S.optional(S.String),
-    shippingWidth: S.optional(ProductShippingDimension),
-    canonicalLink: S.optional(S.String),
-    imageLink: S.optional(S.String),
-    mobileLink: S.optional(S.String),
-    installment: S.optional(Installment),
     externalSellerId: S.optional(S.String),
-    unitPricingMeasure: S.optional(ProductUnitPricingMeasure),
-    includedDestinations: S.optional(StringList),
-    productDetails: S.optional(ProductProductDetailList),
-    maximumRetailPrice: S.optional(Price),
-    maxEnergyEfficiencyClass: S.optional(S.String),
-    structuredTitle: S.optional(ProductStructuredTitle),
-    expirationDate: S.optional(S.String),
-    promotionIds: S.optional(StringList),
-    transitTimeLabel: S.optional(S.String),
-    sizeType: S.optional(S.String),
-    gender: S.optional(S.String),
-    autoPricingMinPrice: S.optional(Price),
-    minHandlingTime: S.optional(S.String),
-    lifestyleImageLinks: S.optional(StringList),
-    loyaltyPrograms: S.optional(LoyaltyProgramList),
-    pickupSla: S.optional(S.String),
-    kind: S.optional(S.String),
-    excludedDestinations: S.optional(StringList),
-    adsGrouping: S.optional(S.String),
-    customLabel2: S.optional(S.String),
-    condition: S.optional(S.String),
-    productLength: S.optional(ProductDimension),
-    displayAdsId: S.optional(S.String),
-    pause: S.optional(S.String),
-    multipack: S.optional(S.String),
-    contentLanguage: S.optional(S.String),
-    channel: S.optional(S.String),
-    shippingHeight: S.optional(ProductShippingDimension),
-    virtualModelLink: S.optional(S.String),
-    energyEfficiencyClass: S.optional(S.String),
-    displayAdsSimilarIds: S.optional(StringList),
-    gtin: S.optional(S.String),
-    shippingLength: S.optional(ProductShippingDimension),
     link: S.optional(S.String),
-    availabilityDate: S.optional(S.String),
-    costOfGoodsSold: S.optional(Price),
-    additionalImageLinks: S.optional(StringList),
-    sellOnGoogleQuantity: S.optional(S.String),
-    taxes: S.optional(ProductTaxList),
-    sustainabilityIncentives: S.optional(ProductSustainabilityIncentiveList),
-    salePrice: S.optional(Price),
-    feedLabel: S.optional(S.String),
-    title: S.optional(S.String),
-    disclosureDate: S.optional(S.String),
-    itemGroupId: S.optional(S.String),
-    customLabel0: S.optional(S.String),
-    additionalSizeType: S.optional(S.String),
-    availability: S.optional(S.String),
-    productHighlights: S.optional(StringList),
-    offerId: S.optional(S.String),
-    minEnergyEfficiencyClass: S.optional(S.String),
-    certifications: S.optional(ProductCertificationList),
-    description: S.optional(S.String),
-    identifierExists: S.optional(S.Boolean),
-    id: S.optional(S.String),
-    color: S.optional(S.String),
-    customAttributes: S.optional(CustomAttributeList),
-    adult: S.optional(S.Boolean),
-    salePriceEffectiveDate: S.optional(S.String),
-    productWeight: S.optional(ProductWeight),
+    autoPricingMinPrice: S.optional(Price),
     sizes: S.optional(StringList),
-    customLabel3: S.optional(S.String),
-    adsLabels: S.optional(StringList),
-    shipping: S.optional(ProductShippingList),
-    loyaltyProgram: S.optional(LoyaltyProgram),
-    shippingLabel: S.optional(S.String),
-    maxHandlingTime: S.optional(S.String),
-    structuredDescription: S.optional(ProductStructuredDescription),
-    ageGroup: S.optional(S.String),
+    displayAdsValue: S.optional(S.Number),
     productHeight: S.optional(ProductDimension),
-    sizeSystem: S.optional(S.String),
-    price: S.optional(Price),
-    productTypes: S.optional(StringList),
-    linkTemplate: S.optional(S.String),
-    source: S.optional(S.String),
-    taxCategory: S.optional(S.String),
+    additionalSizeType: S.optional(S.String),
+    material: S.optional(S.String),
+    kind: S.optional(S.String),
+    gtin: S.optional(S.String),
+    availabilityDate: S.optional(S.String),
+    displayAdsTitle: S.optional(S.String),
+    shippingWidth: S.optional(ProductShippingDimension),
+    excludedDestinations: S.optional(StringList),
+    maximumRetailPrice: S.optional(Price),
+    minEnergyEfficiencyClass: S.optional(S.String),
+    pause: S.optional(S.String),
+    brand: S.optional(S.String),
+    identifierExists: S.optional(S.Boolean),
+    includedDestinations: S.optional(StringList),
+    offerId: S.optional(S.String),
+    itemGroupId: S.optional(S.String),
+    googleProductCategory: S.optional(S.String),
     customLabel4: S.optional(S.String),
+    costOfGoodsSold: S.optional(Price),
+    shippingWeight: S.optional(ProductShippingWeight),
+    sizeSystem: S.optional(S.String),
+    pattern: S.optional(S.String),
+    description: S.optional(S.String),
+    promotionIds: S.optional(StringList),
+    mobileLinkTemplate: S.optional(S.String),
+    shippingLabel: S.optional(S.String),
+    mpn: S.optional(S.String),
+    customLabel3: S.optional(S.String),
+    pickupMethod: S.optional(S.String),
+    condition: S.optional(S.String),
+    contentLanguage: S.optional(S.String),
+    canonicalLink: S.optional(S.String),
+    customLabel1: S.optional(S.String),
+    adsRedirect: S.optional(S.String),
+    price: S.optional(Price),
+    adsLabels: S.optional(StringList),
+    structuredDescription: S.optional(ProductStructuredDescription),
+    taxes: S.optional(ProductTaxList),
+    color: S.optional(S.String),
+    lifestyleImageLinks: S.optional(StringList),
+    sellOnGoogleQuantity: S.optional(S.String),
+    shippingHeight: S.optional(ProductShippingDimension),
+    installment: S.optional(Installment),
+    productDetails: S.optional(ProductProductDetailList),
+    imageLink: S.optional(S.String),
+    shipping: S.optional(ProductShippingList),
+    title: S.optional(S.String),
+    displayAdsLink: S.optional(S.String),
+    loyaltyPrograms: S.optional(LoyaltyProgramList),
+    shippingLength: S.optional(ProductShippingDimension),
+    customLabel2: S.optional(S.String),
   }),
 ).annotate({ identifier: "Product" }) as any as S.Schema<Product>;
 
 /** A batch entry encoding a single non-batch products request. */
 export interface ProductsCustomBatchRequestEntry {
-  /** An entry ID, unique within the batch request. */
-  batchId?: number;
-  /** The comma-separated list of product attributes to be updated. Example: `"title,salePrice"`. Attributes specified in the update mask without a value specified in the body will be deleted from the product. *You must specify the update mask to delete attributes.* Only top-level product attributes can be updated. If not defined, product attributes with set values will be updated and other attributes will stay unchanged. Only defined if the method is `update`. */
-  updateMask?: string;
-  /** The method of the batch entry. Acceptable values are: - "`delete`" - "`get`" - "`insert`" - "`update`" */
-  method?: string;
-  /** The Content API Supplemental Feed ID. If present then product insertion or deletion applies to a supplemental feed instead of primary Content API feed. */
-  feedId?: string;
-  /** The ID of the managing account. */
-  merchantId?: string;
-  /** The ID of the product to get or mutate. Only defined if the method is `get`, `delete`, or `update`. */
-  productId?: string;
   /** The product to insert or update. Only required if the method is `insert` or `update`. If the `update` method is used with `updateMask` only to delete a field, then this isn't required. For example, setting `salePrice` on the `updateMask` and not providing a `product` will result in an existing sale price on the product specified by `productId` being deleted. */
   product?: Product;
+  /** The ID of the product to get or mutate. Only defined if the method is `get`, `delete`, or `update`. */
+  productId?: string;
+  /** The Content API Supplemental Feed ID. If present then product insertion or deletion applies to a supplemental feed instead of primary Content API feed. */
+  feedId?: string;
+  /** The method of the batch entry. Acceptable values are: - "`delete`" - "`get`" - "`insert`" - "`update`" */
+  method?: string;
+  /** The ID of the managing account. */
+  merchantId?: string;
+  /** The comma-separated list of product attributes to be updated. Example: `"title,salePrice"`. Attributes specified in the update mask without a value specified in the body will be deleted from the product. *You must specify the update mask to delete attributes.* Only top-level product attributes can be updated. If not defined, product attributes with set values will be updated and other attributes will stay unchanged. Only defined if the method is `update`. */
+  updateMask?: string;
+  /** An entry ID, unique within the batch request. */
+  batchId?: number;
 }
 export const ProductsCustomBatchRequestEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    batchId: S.optional(S.Number),
-    updateMask: S.optional(S.String),
-    method: S.optional(S.String),
-    feedId: S.optional(S.String),
-    merchantId: S.optional(S.String),
-    productId: S.optional(S.String),
     product: S.optional(Product),
+    productId: S.optional(S.String),
+    feedId: S.optional(S.String),
+    method: S.optional(S.String),
+    merchantId: S.optional(S.String),
+    updateMask: S.optional(S.String),
+    batchId: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "ProductsCustomBatchRequestEntry",
@@ -4504,21 +4506,21 @@ export const CustombatchProductsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A batch entry encoding a single non-batch products response. */
 export interface ProductsCustomBatchResponseEntry {
-  /** The ID of the request entry this entry responds to. */
-  batchId?: number;
   /** The inserted product. Only defined if the method is `insert` and if the request was successful. */
   product?: Product;
-  /** A list of errors for failed custombatch entries. *Note:* Schema errors fail the whole request. */
-  errors?: Errors;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#productsCustomBatchResponseEntry`" */
   kind?: string;
+  /** The ID of the request entry this entry responds to. */
+  batchId?: number;
+  /** A list of errors for failed custombatch entries. *Note:* Schema errors fail the whole request. */
+  errors?: Errors;
 }
 export const ProductsCustomBatchResponseEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    batchId: S.optional(S.Number),
     product: S.optional(Product),
-    errors: S.optional(Errors),
     kind: S.optional(S.String),
+    batchId: S.optional(S.Number),
+    errors: S.optional(Errors),
   }),
 ).annotate({
   identifier: "ProductsCustomBatchResponseEntry",
@@ -4547,28 +4549,28 @@ export const ProductsCustomBatchResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** A batch entry encoding a single non-batch productstatuses request. */
 export interface ProductstatusesCustomBatchRequestEntry {
+  /** The ID of the product whose status to get. */
+  productId?: string;
+  /** An entry ID, unique within the batch request. */
+  batchId?: number;
+  /** The method of the batch entry. Acceptable values are: - "`get`" */
+  method?: string;
+  /** If set, only issues for the specified destinations are returned, otherwise only issues for the Shopping destination. */
+  destinations?: StringList;
   /** Deprecated: Setting this field has no effect and attributes are never included. */
   includeAttributes?: boolean;
   /** The ID of the managing account. */
   merchantId?: string;
-  /** The ID of the product whose status to get. */
-  productId?: string;
-  /** The method of the batch entry. Acceptable values are: - "`get`" */
-  method?: string;
-  /** An entry ID, unique within the batch request. */
-  batchId?: number;
-  /** If set, only issues for the specified destinations are returned, otherwise only issues for the Shopping destination. */
-  destinations?: StringList;
 }
 export const ProductstatusesCustomBatchRequestEntry = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      productId: S.optional(S.String),
+      batchId: S.optional(S.Number),
+      method: S.optional(S.String),
+      destinations: S.optional(StringList),
       includeAttributes: S.optional(S.Boolean),
       merchantId: S.optional(S.String),
-      productId: S.optional(S.String),
-      method: S.optional(S.String),
-      batchId: S.optional(S.Number),
-      destinations: S.optional(StringList),
     }),
 ).annotate({
   identifier: "ProductstatusesCustomBatchRequestEntry",
@@ -4611,27 +4613,27 @@ export const CustombatchProductstatusesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CustombatchProductstatusesRequest>;
 
 export interface ProductStatusDestinationStatus {
+  /** Deprecated. Destination approval status in `targetCountry` of the offer. */
+  status?: string;
+  /** The channel of the destination. */
+  channel?: string;
+  /** List of country codes (ISO 3166-1 alpha-2) where the offer is disapproved. */
+  disapprovedCountries?: StringList;
   /** The name of the destination */
   destination?: string;
   /** List of country codes (ISO 3166-1 alpha-2) where the offer is approved. */
   approvedCountries?: StringList;
-  /** List of country codes (ISO 3166-1 alpha-2) where the offer is disapproved. */
-  disapprovedCountries?: StringList;
   /** List of country codes (ISO 3166-1 alpha-2) where the offer is pending approval. */
   pendingCountries?: StringList;
-  /** The channel of the destination. */
-  channel?: string;
-  /** Deprecated. Destination approval status in `targetCountry` of the offer. */
-  status?: string;
 }
 export const ProductStatusDestinationStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    status: S.optional(S.String),
+    channel: S.optional(S.String),
+    disapprovedCountries: S.optional(StringList),
     destination: S.optional(S.String),
     approvedCountries: S.optional(StringList),
-    disapprovedCountries: S.optional(StringList),
     pendingCountries: S.optional(StringList),
-    channel: S.optional(S.String),
-    status: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ProductStatusDestinationStatus",
@@ -4644,36 +4646,36 @@ export const ProductStatusDestinationStatusList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ProductStatusDestinationStatusList>;
 
 export interface ProductStatusItemLevelIssue {
-  /** The error code of the issue. */
-  code?: string;
-  /** Whether the issue can be resolved by the merchant. */
-  resolution?: string;
-  /** The URL of a web page to help with resolving this issue. */
-  documentation?: string;
-  /** How this issue affects serving of the offer. */
-  servability?: string;
-  /** The attribute's name, if the issue is caused by a single attribute. */
-  attributeName?: string;
-  /** The destination the issue applies to. */
-  destination?: string;
   /** A short issue description in English. */
   description?: string;
   /** A detailed issue description in English. */
   detail?: string;
+  /** The error code of the issue. */
+  code?: string;
+  /** The attribute's name, if the issue is caused by a single attribute. */
+  attributeName?: string;
+  /** The destination the issue applies to. */
+  destination?: string;
+  /** Whether the issue can be resolved by the merchant. */
+  resolution?: string;
+  /** The URL of a web page to help with resolving this issue. */
+  documentation?: string;
   /** List of country codes (ISO 3166-1 alpha-2) where issue applies to the offer. */
   applicableCountries?: StringList;
+  /** How this issue affects serving of the offer. */
+  servability?: string;
 }
 export const ProductStatusItemLevelIssue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    code: S.optional(S.String),
-    resolution: S.optional(S.String),
-    documentation: S.optional(S.String),
-    servability: S.optional(S.String),
-    attributeName: S.optional(S.String),
-    destination: S.optional(S.String),
     description: S.optional(S.String),
     detail: S.optional(S.String),
+    code: S.optional(S.String),
+    attributeName: S.optional(S.String),
+    destination: S.optional(S.String),
+    resolution: S.optional(S.String),
+    documentation: S.optional(S.String),
     applicableCountries: S.optional(StringList),
+    servability: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ProductStatusItemLevelIssue",
@@ -4687,45 +4689,45 @@ export const ProductStatusItemLevelIssueList = /*@__PURE__*/ S.Array(
 
 /** The status of a product, that is, information about a product computed asynchronously. */
 export interface ProductStatus {
+  /** Date on which the item has been created, in ISO 8601 format. */
+  creationDate?: string;
   /** The link to the product. */
   link?: string;
   /** Date on which the item has been last updated, in ISO 8601 format. */
   lastUpdateDate?: string;
-  /** The title of the product. */
-  title?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "`content#productStatus`" */
-  kind?: string;
+  /** The ID of the product for which status is reported. */
+  productId?: string;
   /** The intended destinations for the product. */
   destinationStatuses?: ProductStatusDestinationStatusList;
   /** Date on which the item expires in Google Shopping, in ISO 8601 format. */
   googleExpirationDate?: string;
-  /** The ID of the product for which status is reported. */
-  productId?: string;
-  /** Date on which the item has been created, in ISO 8601 format. */
-  creationDate?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "`content#productStatus`" */
+  kind?: string;
   /** A list of all issues associated with the product. */
   itemLevelIssues?: ProductStatusItemLevelIssueList;
+  /** The title of the product. */
+  title?: string;
 }
 export const ProductStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    creationDate: S.optional(S.String),
     link: S.optional(S.String),
     lastUpdateDate: S.optional(S.String),
-    title: S.optional(S.String),
-    kind: S.optional(S.String),
+    productId: S.optional(S.String),
     destinationStatuses: S.optional(ProductStatusDestinationStatusList),
     googleExpirationDate: S.optional(S.String),
-    productId: S.optional(S.String),
-    creationDate: S.optional(S.String),
+    kind: S.optional(S.String),
     itemLevelIssues: S.optional(ProductStatusItemLevelIssueList),
+    title: S.optional(S.String),
   }),
 ).annotate({ identifier: "ProductStatus" }) as any as S.Schema<ProductStatus>;
 
 /** A batch entry encoding a single non-batch productstatuses response. */
 export interface ProductstatusesCustomBatchResponseEntry {
-  /** The ID of the request entry this entry responds to. */
-  batchId?: number;
   /** A list of errors for failed custombatch entries. *Note:* Schema errors fail the whole request. */
   errors?: Errors;
+  /** The ID of the request entry this entry responds to. */
+  batchId?: number;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#productstatusesCustomBatchResponseEntry`" */
   kind?: string;
   /** The requested product status. Only defined if the request was successful. */
@@ -4734,8 +4736,8 @@ export interface ProductstatusesCustomBatchResponseEntry {
 export const ProductstatusesCustomBatchResponseEntry = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      batchId: S.optional(S.Number),
       errors: S.optional(Errors),
+      batchId: S.optional(S.Number),
       kind: S.optional(S.String),
       productStatus: S.optional(ProductStatus),
     }),
@@ -4767,29 +4769,29 @@ export const ProductstatusesCustomBatchResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Regional inventory resource. contains the regional name and all attributes which are overridden for the specified region. */
 export interface RegionalInventory {
-  /** The price of the product. */
-  price?: Price;
-  /** The sale price of the product. Mandatory if `sale_price_effective_date` is defined. */
-  salePrice?: Price;
-  /** A list of custom (merchant-provided) attributes. It can also be used for submitting any attribute of the feed specification in its generic form. */
-  customAttributes?: CustomAttributeList;
-  /** Identifies what kind of resource this is. Value: the fixed string "`content#regionalInventory`". */
-  kind?: string;
-  /** The availability of the product. */
-  availability?: string;
   /** The ID uniquely identifying each region. */
   regionId?: string;
+  /** The availability of the product. */
+  availability?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "`content#regionalInventory`". */
+  kind?: string;
+  /** The sale price of the product. Mandatory if `sale_price_effective_date` is defined. */
+  salePrice?: Price;
+  /** The price of the product. */
+  price?: Price;
+  /** A list of custom (merchant-provided) attributes. It can also be used for submitting any attribute of the feed specification in its generic form. */
+  customAttributes?: CustomAttributeList;
   /** A date range represented by a pair of ISO 8601 dates separated by a space, comma, or slash. Both dates might be specified as 'null' if undecided. */
   salePriceEffectiveDate?: string;
 }
 export const RegionalInventory = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    price: S.optional(Price),
-    salePrice: S.optional(Price),
-    customAttributes: S.optional(CustomAttributeList),
-    kind: S.optional(S.String),
-    availability: S.optional(S.String),
     regionId: S.optional(S.String),
+    availability: S.optional(S.String),
+    kind: S.optional(S.String),
+    salePrice: S.optional(Price),
+    price: S.optional(Price),
+    customAttributes: S.optional(CustomAttributeList),
     salePriceEffectiveDate: S.optional(S.String),
   }),
 ).annotate({
@@ -4800,23 +4802,23 @@ export const RegionalInventory = /*@__PURE__*/ S.suspend(() =>
 export interface RegionalinventoryCustomBatchRequestEntry {
   /** The ID of the managing account. */
   merchantId?: string;
-  /** The ID of the product for which to update price and availability. */
-  productId?: string;
+  /** Method of the batch request entry. Acceptable values are: - "`insert`" */
+  method?: string;
   /** An entry ID, unique within the batch request. */
   batchId?: number;
   /** Price and availability of the product. */
   regionalInventory?: RegionalInventory;
-  /** Method of the batch request entry. Acceptable values are: - "`insert`" */
-  method?: string;
+  /** The ID of the product for which to update price and availability. */
+  productId?: string;
 }
 export const RegionalinventoryCustomBatchRequestEntry = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       merchantId: S.optional(S.String),
-      productId: S.optional(S.String),
+      method: S.optional(S.String),
       batchId: S.optional(S.Number),
       regionalInventory: S.optional(RegionalInventory),
-      method: S.optional(S.String),
+      productId: S.optional(S.String),
     }),
 ).annotate({
   identifier: "RegionalinventoryCustomBatchRequestEntry",
@@ -4865,18 +4867,18 @@ export interface RegionalinventoryCustomBatchResponseEntry {
   regionalInventory?: RegionalInventory;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#regionalinventoryCustomBatchResponseEntry`". */
   kind?: string;
-  /** The ID of the request entry this entry responds to. */
-  batchId?: number;
   /** A list of errors for failed custombatch entries. *Note:* Schema errors fail the whole request. */
   errors?: Errors;
+  /** The ID of the request entry this entry responds to. */
+  batchId?: number;
 }
 export const RegionalinventoryCustomBatchResponseEntry =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       regionalInventory: S.optional(RegionalInventory),
       kind: S.optional(S.String),
-      batchId: S.optional(S.Number),
       errors: S.optional(Errors),
+      batchId: S.optional(S.Number),
     }),
   ).annotate({
     identifier: "RegionalinventoryCustomBatchResponseEntry",
@@ -4904,613 +4906,6 @@ export const RegionalinventoryCustomBatchResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "RegionalinventoryCustomBatchResponse",
 }) as any as S.Schema<RegionalinventoryCustomBatchResponse>;
-
-export interface Address {
-  /** Required. City, town or commune. May also include dependent localities or sublocalities (for example, neighborhoods or suburbs). */
-  city?: string;
-  /** Street-level part of the address. Use `\n` to add a second line. */
-  streetAddress?: string;
-  /** Required. [CLDR country code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml) (for example, "US"). */
-  country?: string;
-  /** Required. Postal code or ZIP (for example, "94043"). */
-  postalCode?: string;
-  /** Required. Top-level administrative subdivision of the country. For example, a state like California ("CA") or a province like Quebec ("QC"). */
-  administrativeArea?: string;
-}
-export const Address = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    city: S.optional(S.String),
-    streetAddress: S.optional(S.String),
-    country: S.optional(S.String),
-    postalCode: S.optional(S.String),
-    administrativeArea: S.optional(S.String),
-  }),
-).annotate({ identifier: "Address" }) as any as S.Schema<Address>;
-
-export interface WarehouseCutoffTime {
-  /** Required. Hour (24-hour clock) of the cutoff time until which an order has to be placed to be processed in the same day by the warehouse. Hour is based on the timezone of warehouse. */
-  hour?: number;
-  /** Required. Minute of the cutoff time until which an order has to be placed to be processed in the same day by the warehouse. Minute is based on the timezone of warehouse. */
-  minute?: number;
-}
-export const WarehouseCutoffTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hour: S.optional(S.Number),
-    minute: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "WarehouseCutoffTime",
-}) as any as S.Schema<WarehouseCutoffTime>;
-
-export interface BusinessDayConfig {
-  /** Regular business days, such as '"monday"'. May not be empty. */
-  businessDays?: StringList;
-}
-export const BusinessDayConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    businessDays: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "BusinessDayConfig",
-}) as any as S.Schema<BusinessDayConfig>;
-
-/** A fulfillment warehouse, which stores and handles inventory. */
-export interface Warehouse {
-  /** Required. Shipping address of the warehouse. */
-  shippingAddress?: Address;
-  /** Required. The name of the warehouse. Must be unique within account. */
-  name?: string;
-  /** Required. The latest time of day that an order can be accepted and begin processing. Later orders will be processed in the next day. The time is based on the warehouse postal code. */
-  cutoffTime?: WarehouseCutoffTime;
-  /** Required. The number of days it takes for this warehouse to pack up and ship an item. This is on the warehouse level, but can be overridden on the offer level based on the attributes of an item. */
-  handlingDays?: string;
-  /** Business days of the warehouse. If not set, will be Monday to Friday by default. */
-  businessDayConfig?: BusinessDayConfig;
-}
-export const Warehouse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    shippingAddress: S.optional(Address),
-    name: S.optional(S.String),
-    cutoffTime: S.optional(WarehouseCutoffTime),
-    handlingDays: S.optional(S.String),
-    businessDayConfig: S.optional(BusinessDayConfig),
-  }),
-).annotate({ identifier: "Warehouse" }) as any as S.Schema<Warehouse>;
-
-export type WarehouseList = Array<Warehouse>;
-export const WarehouseList = /*@__PURE__*/ S.Array(
-  Warehouse,
-) as any as S.Schema<WarehouseList>;
-
-export interface CutoffTime {
-  /** Minute of the cutoff time until which an order has to be placed to be processed in the same day. Required. */
-  minute?: number;
-  /** Timezone identifier for the cutoff time (for example, "Europe/Zurich"). List of identifiers. Required. */
-  timezone?: string;
-  /** Hour of the cutoff time until which an order has to be placed to be processed in the same day. Required. */
-  hour?: number;
-}
-export const CutoffTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    minute: S.optional(S.Number),
-    timezone: S.optional(S.String),
-    hour: S.optional(S.Number),
-  }),
-).annotate({ identifier: "CutoffTime" }) as any as S.Schema<CutoffTime>;
-
-export interface TransitTableTransitTimeRowTransitTimeValue {
-  /** Must be greater than or equal to `minTransitTimeInDays`. */
-  maxTransitTimeInDays?: number;
-  /** Transit time range (min-max) in business days. 0 means same day delivery, 1 means next day delivery. */
-  minTransitTimeInDays?: number;
-}
-export const TransitTableTransitTimeRowTransitTimeValue =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      maxTransitTimeInDays: S.optional(S.Number),
-      minTransitTimeInDays: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "TransitTableTransitTimeRowTransitTimeValue",
-  }) as any as S.Schema<TransitTableTransitTimeRowTransitTimeValue>;
-
-export type TransitTableTransitTimeRowTransitTimeValueList =
-  Array<TransitTableTransitTimeRowTransitTimeValue>;
-export const TransitTableTransitTimeRowTransitTimeValueList =
-  /*@__PURE__*/ S.Array(
-    TransitTableTransitTimeRowTransitTimeValue,
-  ) as any as S.Schema<TransitTableTransitTimeRowTransitTimeValueList>;
-
-export interface TransitTableTransitTimeRow {
-  values?: TransitTableTransitTimeRowTransitTimeValueList;
-}
-export const TransitTableTransitTimeRow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    values: S.optional(TransitTableTransitTimeRowTransitTimeValueList),
-  }),
-).annotate({
-  identifier: "TransitTableTransitTimeRow",
-}) as any as S.Schema<TransitTableTransitTimeRow>;
-
-export type TransitTableTransitTimeRowList = Array<TransitTableTransitTimeRow>;
-export const TransitTableTransitTimeRowList = /*@__PURE__*/ S.Array(
-  TransitTableTransitTimeRow,
-) as any as S.Schema<TransitTableTransitTimeRowList>;
-
-export interface TransitTable {
-  /** A list of postal group names. The last value can be `"all other locations"`. Example: `["zone 1", "zone 2", "all other locations"]`. The referred postal code groups must match the delivery country of the service. */
-  postalCodeGroupNames?: StringList;
-  /** A list of transit time labels. The last value can be `"all other labels"`. Example: `["food", "electronics", "all other labels"]`. */
-  transitTimeLabels?: StringList;
-  rows?: TransitTableTransitTimeRowList;
-}
-export const TransitTable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    postalCodeGroupNames: S.optional(StringList),
-    transitTimeLabels: S.optional(StringList),
-    rows: S.optional(TransitTableTransitTimeRowList),
-  }),
-).annotate({ identifier: "TransitTable" }) as any as S.Schema<TransitTable>;
-
-export interface WarehouseBasedDeliveryTime {
-  /** The name of the warehouse. Warehouse name need to be matched with name. If warehouseName is set, the below fields will be ignored. The warehouse info will be read from warehouse. */
-  warehouseName?: string;
-  /** Shipping origin. */
-  originPostalCode?: string;
-  /** Required. Carrier service, such as `"ground"` or `"2 days"`. The list of supported services for a carrier can be retrieved through the `listSupportedCarriers` method. The name of the service must be in the eddSupportedServices list. */
-  carrierService?: string;
-  /** Shipping origin's city. */
-  originCity?: string;
-  /** Shipping origin's country represented as a [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml). */
-  originCountry?: string;
-  /** Required. Carrier, such as `"UPS"` or `"Fedex"`. The list of supported carriers can be retrieved through the `listSupportedCarriers` method. */
-  carrier?: string;
-  /** Shipping origin's state. */
-  originAdministrativeArea?: string;
-  /** Shipping origin's street address. */
-  originStreetAddress?: string;
-}
-export const WarehouseBasedDeliveryTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    warehouseName: S.optional(S.String),
-    originPostalCode: S.optional(S.String),
-    carrierService: S.optional(S.String),
-    originCity: S.optional(S.String),
-    originCountry: S.optional(S.String),
-    carrier: S.optional(S.String),
-    originAdministrativeArea: S.optional(S.String),
-    originStreetAddress: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "WarehouseBasedDeliveryTime",
-}) as any as S.Schema<WarehouseBasedDeliveryTime>;
-
-export type WarehouseBasedDeliveryTimeList = Array<WarehouseBasedDeliveryTime>;
-export const WarehouseBasedDeliveryTimeList = /*@__PURE__*/ S.Array(
-  WarehouseBasedDeliveryTime,
-) as any as S.Schema<WarehouseBasedDeliveryTimeList>;
-
-export interface HolidayCutoff {
-  /** Date of the order deadline, in ISO 8601 format. For example, "2016-11-29" for 29th November 2016. Required. */
-  deadlineDate?: string;
-  /** Hour of the day on the deadline date until which the order has to be placed to qualify for the delivery guarantee. Possible values are: 0 (midnight), 1, ..., 12 (noon), 13, ..., 23. Required. */
-  deadlineHour?: number;
-  /** Timezone identifier for the deadline hour (for example, "Europe/Zurich"). List of identifiers. Required. */
-  deadlineTimezone?: string;
-  /** Date on which the deadline will become visible to consumers in ISO 8601 format. For example, "2016-10-31" for 31st October 2016. Required. */
-  visibleFromDate?: string;
-  /** Unique identifier for the holiday. Required. */
-  holidayId?: string;
-}
-export const HolidayCutoff = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deadlineDate: S.optional(S.String),
-    deadlineHour: S.optional(S.Number),
-    deadlineTimezone: S.optional(S.String),
-    visibleFromDate: S.optional(S.String),
-    holidayId: S.optional(S.String),
-  }),
-).annotate({ identifier: "HolidayCutoff" }) as any as S.Schema<HolidayCutoff>;
-
-export type HolidayCutoffList = Array<HolidayCutoff>;
-export const HolidayCutoffList = /*@__PURE__*/ S.Array(
-  HolidayCutoff,
-) as any as S.Schema<HolidayCutoffList>;
-
-export interface DeliveryTime {
-  /** Minimum number of business days that are spent in transit. 0 means same day delivery, 1 means next day delivery. Either `{min,max}TransitTimeInDays` or `transitTimeTable` must be set, but not both. */
-  minTransitTimeInDays?: number;
-  /** Business days cutoff time definition. If not configured, the cutoff time will be defaulted to 8AM PST. If local delivery, use Service.StoreConfig.CutoffConfig. */
-  cutoffTime?: CutoffTime;
-  /** Maximum number of business days spent before an order is shipped. 0 means same day shipped, 1 means next day shipped. Must be greater than or equal to `minHandlingTimeInDays`. */
-  maxHandlingTimeInDays?: number;
-  /** Minimum number of business days spent before an order is shipped. 0 means same day shipped, 1 means next day shipped. */
-  minHandlingTimeInDays?: number;
-  /** Transit time table, number of business days spent in transit based on row and column dimensions. Either `{min,max}TransitTimeInDays` or `transitTimeTable` can be set, but not both. */
-  transitTimeTable?: TransitTable;
-  /** Indicates that the delivery time should be calculated per warehouse (shipping origin location) based on the settings of the selected carrier. When set, no other transit time related field in DeliveryTime should be set. */
-  warehouseBasedDeliveryTimes?: WarehouseBasedDeliveryTimeList;
-  /** Maximum number of business days that are spent in transit. 0 means same day delivery, 1 means next day delivery. Must be greater than or equal to `minTransitTimeInDays`. */
-  maxTransitTimeInDays?: number;
-  /** The business days during which orders can be in-transit. If not provided, Monday to Friday business days will be assumed. */
-  transitBusinessDayConfig?: BusinessDayConfig;
-  /** Holiday cutoff definitions. If configured, they specify order cutoff times for holiday-specific shipping. */
-  holidayCutoffs?: HolidayCutoffList;
-  /** The business days during which orders can be handled. If not provided, Monday to Friday business days will be assumed. */
-  handlingBusinessDayConfig?: BusinessDayConfig;
-}
-export const DeliveryTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    minTransitTimeInDays: S.optional(S.Number),
-    cutoffTime: S.optional(CutoffTime),
-    maxHandlingTimeInDays: S.optional(S.Number),
-    minHandlingTimeInDays: S.optional(S.Number),
-    transitTimeTable: S.optional(TransitTable),
-    warehouseBasedDeliveryTimes: S.optional(WarehouseBasedDeliveryTimeList),
-    maxTransitTimeInDays: S.optional(S.Number),
-    transitBusinessDayConfig: S.optional(BusinessDayConfig),
-    holidayCutoffs: S.optional(HolidayCutoffList),
-    handlingBusinessDayConfig: S.optional(BusinessDayConfig),
-  }),
-).annotate({ identifier: "DeliveryTime" }) as any as S.Schema<DeliveryTime>;
-
-/** A list of store code sets sharing the same minimum order value. At least two sets are required and the last one must be empty, which signifies 'MOV for all other stores'. Each store code can only appear once across all the sets. All prices within a service must have the same currency. */
-export interface MinimumOrderValueTableStoreCodeSetWithMov {
-  /** The minimum order value for the given stores. */
-  value?: Price;
-  /** A list of unique store codes or empty for the catch all. */
-  storeCodes?: StringList;
-}
-export const MinimumOrderValueTableStoreCodeSetWithMov =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      value: S.optional(Price),
-      storeCodes: S.optional(StringList),
-    }),
-  ).annotate({
-    identifier: "MinimumOrderValueTableStoreCodeSetWithMov",
-  }) as any as S.Schema<MinimumOrderValueTableStoreCodeSetWithMov>;
-
-export type MinimumOrderValueTableStoreCodeSetWithMovList =
-  Array<MinimumOrderValueTableStoreCodeSetWithMov>;
-export const MinimumOrderValueTableStoreCodeSetWithMovList =
-  /*@__PURE__*/ S.Array(
-    MinimumOrderValueTableStoreCodeSetWithMov,
-  ) as any as S.Schema<MinimumOrderValueTableStoreCodeSetWithMovList>;
-
-export interface MinimumOrderValueTable {
-  storeCodeSetWithMovs?: MinimumOrderValueTableStoreCodeSetWithMovList;
-}
-export const MinimumOrderValueTable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storeCodeSetWithMovs: S.optional(
-      MinimumOrderValueTableStoreCodeSetWithMovList,
-    ),
-  }),
-).annotate({
-  identifier: "MinimumOrderValueTable",
-}) as any as S.Schema<MinimumOrderValueTable>;
-
-/** Time in hours and minutes in the local timezone when local delivery ends. */
-export interface ServiceStoreConfigCutoffConfigLocalCutoffTime {
-  /** Hour local delivery orders must be placed by to process the same day. */
-  hour?: string;
-  /** Minute local delivery orders must be placed by to process the same day. */
-  minute?: string;
-}
-export const ServiceStoreConfigCutoffConfigLocalCutoffTime =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      hour: S.optional(S.String),
-      minute: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ServiceStoreConfigCutoffConfigLocalCutoffTime",
-  }) as any as S.Schema<ServiceStoreConfigCutoffConfigLocalCutoffTime>;
-
-/** Time local delivery ends for the day based on the local timezone of the store. `local_cutoff_time` and `store_close_offset_hours` are mutually exclusive. */
-export interface ServiceStoreConfigCutoffConfig {
-  /** Time in hours and minutes in the local timezone when local delivery ends. */
-  localCutoffTime?: ServiceStoreConfigCutoffConfigLocalCutoffTime;
-  /** Represents cutoff time as the number of hours before store closing. Mutually exclusive with other fields (hour and minute). */
-  storeCloseOffsetHours?: string;
-  /** Merchants can opt-out of showing n+1 day local delivery when they have a shipping service configured to n day local delivery. For example, if the shipping service defines same-day delivery, and it's past the cut-off, setting this field to `true` results in the calculated shipping service rate returning `NO_DELIVERY_POST_CUTOFF`. In the same example, setting this field to `false` results in the calculated shipping time being one day. This is only for local delivery. */
-  noDeliveryPostCutoff?: boolean;
-}
-export const ServiceStoreConfigCutoffConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    localCutoffTime: S.optional(ServiceStoreConfigCutoffConfigLocalCutoffTime),
-    storeCloseOffsetHours: S.optional(S.String),
-    noDeliveryPostCutoff: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ServiceStoreConfigCutoffConfig",
-}) as any as S.Schema<ServiceStoreConfigCutoffConfig>;
-
-/** Distance represented by an integer and unit. */
-export interface Distance {
-  /** The distance represented as a number. */
-  value?: string;
-  /** The distance unit. Acceptable values are `None`, `Miles`, and `Kilometers`. */
-  unit?: string;
-}
-export const Distance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    unit: S.optional(S.String),
-  }),
-).annotate({ identifier: "Distance" }) as any as S.Schema<Distance>;
-
-/** Stores that provide local delivery. Only valid with local delivery fulfillment. */
-export interface ServiceStoreConfig {
-  /** Indicates whether all stores listed by this merchant provide local delivery or not. Acceptable values are `all stores` and `selected stores` */
-  storeServiceType?: string;
-  /** A list of store codes that provide local delivery. If empty, then `store_service_type` must be `all_stores`, or an error is thrown. If not empty, then `store_service_type` must be `selected_stores`, or an error is thrown. */
-  storeCodes?: StringList;
-  /** Time local delivery ends for the day. This can be either `local_cutoff_time` or `store_close_offset_hours`, if both are provided an error is thrown. */
-  cutoffConfig?: ServiceStoreConfigCutoffConfig;
-  /** Maximum delivery radius. Only needed for local delivery fulfillment type. */
-  serviceRadius?: Distance;
-}
-export const ServiceStoreConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storeServiceType: S.optional(S.String),
-    storeCodes: S.optional(StringList),
-    cutoffConfig: S.optional(ServiceStoreConfigCutoffConfig),
-    serviceRadius: S.optional(Distance),
-  }),
-).annotate({
-  identifier: "ServiceStoreConfig",
-}) as any as S.Schema<ServiceStoreConfig>;
-
-export interface PickupCarrierService {
-  /** The name of the pickup service (for example, `"Access point"`). Required. */
-  serviceName?: string;
-  /** The name of the pickup carrier (for example, `"UPS"`). Required. */
-  carrierName?: string;
-}
-export const PickupCarrierService = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceName: S.optional(S.String),
-    carrierName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PickupCarrierService",
-}) as any as S.Schema<PickupCarrierService>;
-
-/** The single value of a rate group or the value of a rate group table's cell. Exactly one of `noShipping`, `flatRate`, `pricePercentage`, `carrierRateName`, `subtableName` must be set. */
-export interface Value {
-  /** The name of a subtable. Can only be set in table cells (not for single values), and only if all other fields are not set. */
-  subtableName?: string;
-  /** If true, then the product can't ship. Must be true when set, can only be set if all other fields are not set. */
-  noShipping?: boolean;
-  /** A flat rate. Can only be set if all other fields are not set. */
-  flatRate?: Price;
-  /** A percentage of the price represented as a number in decimal notation (for example, `"5.4"`). Can only be set if all other fields are not set. */
-  pricePercentage?: string;
-  /** The name of a carrier rate referring to a carrier rate defined in the same rate group. Can only be set if all other fields are not set. */
-  carrierRateName?: string;
-}
-export const Value = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subtableName: S.optional(S.String),
-    noShipping: S.optional(S.Boolean),
-    flatRate: S.optional(Price),
-    pricePercentage: S.optional(S.String),
-    carrierRateName: S.optional(S.String),
-  }),
-).annotate({ identifier: "Value" }) as any as S.Schema<Value>;
-
-export interface CarrierRate {
-  /** Name of the carrier rate. Must be unique per rate group. Required. */
-  name?: string;
-  /** Shipping origin for this carrier rate. Required. */
-  originPostalCode?: string;
-  /** Multiplicative shipping rate modifier as a number in decimal notation. Can be negative. For example `"5.4"` increases the rate by 5.4%, `"-3"` decreases the rate by 3%. Optional. */
-  percentageAdjustment?: string;
-  /** Carrier service, such as `"UPS"` or `"Fedex"`. The list of supported carriers can be retrieved through the `getSupportedCarriers` method. Required. */
-  carrierName?: string;
-  /** Additive shipping rate modifier. Can be negative. For example `{ "value": "1", "currency" : "USD" }` adds $1 to the rate, `{ "value": "-3", "currency" : "USD" }` removes $3 from the rate. Optional. */
-  flatAdjustment?: Price;
-  /** Carrier service, such as `"ground"` or `"2 days"`. The list of supported services for a carrier can be retrieved through the `getSupportedCarriers` method. Required. */
-  carrierService?: string;
-}
-export const CarrierRate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    originPostalCode: S.optional(S.String),
-    percentageAdjustment: S.optional(S.String),
-    carrierName: S.optional(S.String),
-    flatAdjustment: S.optional(Price),
-    carrierService: S.optional(S.String),
-  }),
-).annotate({ identifier: "CarrierRate" }) as any as S.Schema<CarrierRate>;
-
-export type CarrierRateList = Array<CarrierRate>;
-export const CarrierRateList = /*@__PURE__*/ S.Array(
-  CarrierRate,
-) as any as S.Schema<CarrierRateList>;
-
-export interface Weight {
-  /** Required. The weight represented as a number. The weight can have a maximum precision of four decimal places. */
-  value?: string;
-  /** Required. The weight unit. Acceptable values are: - "`kg`" - "`lb`" */
-  unit?: string;
-}
-export const Weight = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    unit: S.optional(S.String),
-  }),
-).annotate({ identifier: "Weight" }) as any as S.Schema<Weight>;
-
-export type WeightList = Array<Weight>;
-export const WeightList = /*@__PURE__*/ S.Array(
-  Weight,
-) as any as S.Schema<WeightList>;
-
-export type PriceList = Array<Price>;
-export const PriceList = /*@__PURE__*/ S.Array(
-  Price,
-) as any as S.Schema<PriceList>;
-
-export interface LocationIdSet {
-  /** A non-empty list of location IDs. They must all be of the same location type (for example, state). */
-  locationIds?: StringList;
-}
-export const LocationIdSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locationIds: S.optional(StringList),
-  }),
-).annotate({ identifier: "LocationIdSet" }) as any as S.Schema<LocationIdSet>;
-
-export type LocationIdSetList = Array<LocationIdSet>;
-export const LocationIdSetList = /*@__PURE__*/ S.Array(
-  LocationIdSet,
-) as any as S.Schema<LocationIdSetList>;
-
-/** A non-empty list of row or column headers for a table. Exactly one of `prices`, `weights`, `numItems`, `postalCodeGroupNames`, or `location` must be set. */
-export interface Headers {
-  /** A list of inclusive number of items upper bounds. The last value can be `"infinity"`. For example `["10", "50", "infinity"]` represents the headers "<= 10 items", "<= 50 items", and "> 50 items". Must be non-empty. Can only be set if all other fields are not set. */
-  numberOfItems?: StringList;
-  /** A list of postal group names. The last value can be `"all other locations"`. Example: `["zone 1", "zone 2", "all other locations"]`. The referred postal code groups must match the delivery country of the service. Must be non-empty. Can only be set if all other fields are not set. */
-  postalCodeGroupNames?: StringList;
-  /** A list of inclusive order weight upper bounds. The last weight's value can be `"infinity"`. For example `[{"value": "10", "unit": "kg"}, {"value": "50", "unit": "kg"}, {"value": "infinity", "unit": "kg"}]` represents the headers "<= 10kg", "<= 50kg", and "> 50kg". All weights within a service must have the same unit. Must be non-empty. Can only be set if all other fields are not set. */
-  weights?: WeightList;
-  /** A list of inclusive order price upper bounds. The last price's value can be `"infinity"`. For example `[{"value": "10", "currency": "USD"}, {"value": "500", "currency": "USD"}, {"value": "infinity", "currency": "USD"}]` represents the headers "<= $10", "<= $500", and "> $500". All prices within a service must have the same currency. Must be non-empty. Can only be set if all other fields are not set. */
-  prices?: PriceList;
-  /** A list of location ID sets. Must be non-empty. Can only be set if all other fields are not set. */
-  locations?: LocationIdSetList;
-}
-export const Headers = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    numberOfItems: S.optional(StringList),
-    postalCodeGroupNames: S.optional(StringList),
-    weights: S.optional(WeightList),
-    prices: S.optional(PriceList),
-    locations: S.optional(LocationIdSetList),
-  }),
-).annotate({ identifier: "Headers" }) as any as S.Schema<Headers>;
-
-export type ValueList = Array<Value>;
-export const ValueList = /*@__PURE__*/ S.Array(
-  Value,
-) as any as S.Schema<ValueList>;
-
-export interface Row {
-  /** The list of cells that constitute the row. Must have the same length as `columnHeaders` for two-dimensional tables, a length of 1 for one-dimensional tables. Required. */
-  cells?: ValueList;
-}
-export const Row = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cells: S.optional(ValueList),
-  }),
-).annotate({ identifier: "Row" }) as any as S.Schema<Row>;
-
-export type RowList = Array<Row>;
-export const RowList = /*@__PURE__*/ S.Array(Row) as any as S.Schema<RowList>;
-
-export interface Table {
-  /** Name of the table. Required for subtables, ignored for the main table. */
-  name?: string;
-  /** Headers of the table's rows. Required. */
-  rowHeaders?: Headers;
-  /** Headers of the table's columns. Optional: if not set then the table has only one dimension. */
-  columnHeaders?: Headers;
-  /** The list of rows that constitute the table. Must have the same length as `rowHeaders`. Required. */
-  rows?: RowList;
-}
-export const Table = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    rowHeaders: S.optional(Headers),
-    columnHeaders: S.optional(Headers),
-    rows: S.optional(RowList),
-  }),
-).annotate({ identifier: "Table" }) as any as S.Schema<Table>;
-
-export type TableList = Array<Table>;
-export const TableList = /*@__PURE__*/ S.Array(
-  Table,
-) as any as S.Schema<TableList>;
-
-export interface RateGroup {
-  /** The value of the rate group (for example, flat rate $10). Can only be set if `mainTable` and `subtables` are not set. */
-  singleValue?: Value;
-  /** A list of carrier rates that can be referred to by `mainTable` or `singleValue`. */
-  carrierRates?: CarrierRateList;
-  /** Name of the rate group. Optional. If set has to be unique within shipping service. */
-  name?: string;
-  /** A list of shipping labels defining the products to which this rate group applies to. This is a disjunction: only one of the labels has to match for the rate group to apply. May only be empty for the last rate group of a service. Required. */
-  applicableShippingLabels?: StringList;
-  /** A list of subtables referred to by `mainTable`. Can only be set if `mainTable` is set. */
-  subtables?: TableList;
-  /** A table defining the rate group, when `singleValue` is not expressive enough. Can only be set if `singleValue` is not set. */
-  mainTable?: Table;
-}
-export const RateGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    singleValue: S.optional(Value),
-    carrierRates: S.optional(CarrierRateList),
-    name: S.optional(S.String),
-    applicableShippingLabels: S.optional(StringList),
-    subtables: S.optional(TableList),
-    mainTable: S.optional(Table),
-  }),
-).annotate({ identifier: "RateGroup" }) as any as S.Schema<RateGroup>;
-
-export type RateGroupList = Array<RateGroup>;
-export const RateGroupList = /*@__PURE__*/ S.Array(
-  RateGroup,
-) as any as S.Schema<RateGroupList>;
-
-export interface Service {
-  /** The CLDR code of the currency to which this service applies. Must match that of the prices in rate groups. */
-  currency?: string;
-  /** Time spent in various aspects from order to the delivery of the product. Required. */
-  deliveryTime?: DeliveryTime;
-  /** Table of per store minimum order values for the pickup fulfillment type. Cannot be set together with minimum_order_value. */
-  minimumOrderValueTable?: MinimumOrderValueTable;
-  /** The CLDR territory code of the country to which the service applies. Required. */
-  deliveryCountry?: string;
-  /** Minimum order value for this service. If set, indicates that customers will have to spend at least this amount. All prices within a service must have the same currency. Cannot be set together with minimum_order_value_table. */
-  minimumOrderValue?: Price;
-  /** Free-form name of the service. Must be unique within target account. Required. */
-  name?: string;
-  /** Eligibility for this service. Acceptable values are: - "`All scenarios`" - "`All scenarios except Shopping Actions`" - "`Shopping Actions`" */
-  eligibility?: string;
-  /** A list of stores your products are delivered from. This is only available for the local delivery shipment type. */
-  storeConfig?: ServiceStoreConfig;
-  /** The carrier-service pair delivering items to collection points. The list of supported pickup services can be retrieved through the `getSupportedPickupServices` method. Required if and only if the service delivery type is `pickup`. */
-  pickupService?: PickupCarrierService;
-  /** Shipping rate group definitions. Only the last one is allowed to have an empty `applicableShippingLabels`, which means "everything else". The other `applicableShippingLabels` must not overlap. */
-  rateGroups?: RateGroupList;
-  /** A boolean exposing the active status of the shipping service. Required. */
-  active?: boolean;
-  /** Type of locations this service ships orders to. Acceptable values are: - "`delivery`" - "`pickup` (deprecated)" - "`local_delivery`" - "`collection_point`" */
-  shipmentType?: string;
-}
-export const Service = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    currency: S.optional(S.String),
-    deliveryTime: S.optional(DeliveryTime),
-    minimumOrderValueTable: S.optional(MinimumOrderValueTable),
-    deliveryCountry: S.optional(S.String),
-    minimumOrderValue: S.optional(Price),
-    name: S.optional(S.String),
-    eligibility: S.optional(S.String),
-    storeConfig: S.optional(ServiceStoreConfig),
-    pickupService: S.optional(PickupCarrierService),
-    rateGroups: S.optional(RateGroupList),
-    active: S.optional(S.Boolean),
-    shipmentType: S.optional(S.String),
-  }),
-).annotate({ identifier: "Service" }) as any as S.Schema<Service>;
-
-export type ServiceList = Array<Service>;
-export const ServiceList = /*@__PURE__*/ S.Array(
-  Service,
-) as any as S.Schema<ServiceList>;
 
 export interface PostalCodeRange {
   /** A postal code or a pattern of the form `prefix*` denoting the inclusive lower bound of the range defining the area. Examples values: `"94108"`, `"9410*"`, `"9*"`. Required. */
@@ -5555,23 +4950,630 @@ export const PostalCodeGroupList = /*@__PURE__*/ S.Array(
   PostalCodeGroup,
 ) as any as S.Schema<PostalCodeGroupList>;
 
+export interface WarehouseCutoffTime {
+  /** Required. Minute of the cutoff time until which an order has to be placed to be processed in the same day by the warehouse. Minute is based on the timezone of warehouse. */
+  minute?: number;
+  /** Required. Hour (24-hour clock) of the cutoff time until which an order has to be placed to be processed in the same day by the warehouse. Hour is based on the timezone of warehouse. */
+  hour?: number;
+}
+export const WarehouseCutoffTime = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minute: S.optional(S.Number),
+    hour: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "WarehouseCutoffTime",
+}) as any as S.Schema<WarehouseCutoffTime>;
+
+export interface BusinessDayConfig {
+  /** Regular business days, such as '"monday"'. May not be empty. */
+  businessDays?: StringList;
+}
+export const BusinessDayConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    businessDays: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "BusinessDayConfig",
+}) as any as S.Schema<BusinessDayConfig>;
+
+export interface Address {
+  /** Required. Top-level administrative subdivision of the country. For example, a state like California ("CA") or a province like Quebec ("QC"). */
+  administrativeArea?: string;
+  /** Required. Postal code or ZIP (for example, "94043"). */
+  postalCode?: string;
+  /** Street-level part of the address. Use `\n` to add a second line. */
+  streetAddress?: string;
+  /** Required. City, town or commune. May also include dependent localities or sublocalities (for example, neighborhoods or suburbs). */
+  city?: string;
+  /** Required. [CLDR country code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml) (for example, "US"). */
+  country?: string;
+}
+export const Address = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    administrativeArea: S.optional(S.String),
+    postalCode: S.optional(S.String),
+    streetAddress: S.optional(S.String),
+    city: S.optional(S.String),
+    country: S.optional(S.String),
+  }),
+).annotate({ identifier: "Address" }) as any as S.Schema<Address>;
+
+/** A fulfillment warehouse, which stores and handles inventory. */
+export interface Warehouse {
+  /** Required. The latest time of day that an order can be accepted and begin processing. Later orders will be processed in the next day. The time is based on the warehouse postal code. */
+  cutoffTime?: WarehouseCutoffTime;
+  /** Required. The name of the warehouse. Must be unique within account. */
+  name?: string;
+  /** Business days of the warehouse. If not set, will be Monday to Friday by default. */
+  businessDayConfig?: BusinessDayConfig;
+  /** Required. Shipping address of the warehouse. */
+  shippingAddress?: Address;
+  /** Required. The number of days it takes for this warehouse to pack up and ship an item. This is on the warehouse level, but can be overridden on the offer level based on the attributes of an item. */
+  handlingDays?: string;
+}
+export const Warehouse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cutoffTime: S.optional(WarehouseCutoffTime),
+    name: S.optional(S.String),
+    businessDayConfig: S.optional(BusinessDayConfig),
+    shippingAddress: S.optional(Address),
+    handlingDays: S.optional(S.String),
+  }),
+).annotate({ identifier: "Warehouse" }) as any as S.Schema<Warehouse>;
+
+export type WarehouseList = Array<Warehouse>;
+export const WarehouseList = /*@__PURE__*/ S.Array(
+  Warehouse,
+) as any as S.Schema<WarehouseList>;
+
+export type PriceList = Array<Price>;
+export const PriceList = /*@__PURE__*/ S.Array(
+  Price,
+) as any as S.Schema<PriceList>;
+
+export interface Weight {
+  /** Required. The weight represented as a number. The weight can have a maximum precision of four decimal places. */
+  value?: string;
+  /** Required. The weight unit. Acceptable values are: - "`kg`" - "`lb`" */
+  unit?: string;
+}
+export const Weight = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    unit: S.optional(S.String),
+  }),
+).annotate({ identifier: "Weight" }) as any as S.Schema<Weight>;
+
+export type WeightList = Array<Weight>;
+export const WeightList = /*@__PURE__*/ S.Array(
+  Weight,
+) as any as S.Schema<WeightList>;
+
+export interface LocationIdSet {
+  /** A non-empty list of location IDs. They must all be of the same location type (for example, state). */
+  locationIds?: StringList;
+}
+export const LocationIdSet = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    locationIds: S.optional(StringList),
+  }),
+).annotate({ identifier: "LocationIdSet" }) as any as S.Schema<LocationIdSet>;
+
+export type LocationIdSetList = Array<LocationIdSet>;
+export const LocationIdSetList = /*@__PURE__*/ S.Array(
+  LocationIdSet,
+) as any as S.Schema<LocationIdSetList>;
+
+/** A non-empty list of row or column headers for a table. Exactly one of `prices`, `weights`, `numItems`, `postalCodeGroupNames`, or `location` must be set. */
+export interface Headers {
+  /** A list of inclusive order price upper bounds. The last price's value can be `"infinity"`. For example `[{"value": "10", "currency": "USD"}, {"value": "500", "currency": "USD"}, {"value": "infinity", "currency": "USD"}]` represents the headers "<= $10", "<= $500", and "> $500". All prices within a service must have the same currency. Must be non-empty. Can only be set if all other fields are not set. */
+  prices?: PriceList;
+  /** A list of inclusive number of items upper bounds. The last value can be `"infinity"`. For example `["10", "50", "infinity"]` represents the headers "<= 10 items", "<= 50 items", and "> 50 items". Must be non-empty. Can only be set if all other fields are not set. */
+  numberOfItems?: StringList;
+  /** A list of inclusive order weight upper bounds. The last weight's value can be `"infinity"`. For example `[{"value": "10", "unit": "kg"}, {"value": "50", "unit": "kg"}, {"value": "infinity", "unit": "kg"}]` represents the headers "<= 10kg", "<= 50kg", and "> 50kg". All weights within a service must have the same unit. Must be non-empty. Can only be set if all other fields are not set. */
+  weights?: WeightList;
+  /** A list of postal group names. The last value can be `"all other locations"`. Example: `["zone 1", "zone 2", "all other locations"]`. The referred postal code groups must match the delivery country of the service. Must be non-empty. Can only be set if all other fields are not set. */
+  postalCodeGroupNames?: StringList;
+  /** A list of location ID sets. Must be non-empty. Can only be set if all other fields are not set. */
+  locations?: LocationIdSetList;
+}
+export const Headers = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    prices: S.optional(PriceList),
+    numberOfItems: S.optional(StringList),
+    weights: S.optional(WeightList),
+    postalCodeGroupNames: S.optional(StringList),
+    locations: S.optional(LocationIdSetList),
+  }),
+).annotate({ identifier: "Headers" }) as any as S.Schema<Headers>;
+
+/** The single value of a rate group or the value of a rate group table's cell. Exactly one of `noShipping`, `flatRate`, `pricePercentage`, `carrierRateName`, `subtableName` must be set. */
+export interface Value {
+  /** A percentage of the price represented as a number in decimal notation (for example, `"5.4"`). Can only be set if all other fields are not set. */
+  pricePercentage?: string;
+  /** The name of a subtable. Can only be set in table cells (not for single values), and only if all other fields are not set. */
+  subtableName?: string;
+  /** If true, then the product can't ship. Must be true when set, can only be set if all other fields are not set. */
+  noShipping?: boolean;
+  /** The name of a carrier rate referring to a carrier rate defined in the same rate group. Can only be set if all other fields are not set. */
+  carrierRateName?: string;
+  /** A flat rate. Can only be set if all other fields are not set. */
+  flatRate?: Price;
+}
+export const Value = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pricePercentage: S.optional(S.String),
+    subtableName: S.optional(S.String),
+    noShipping: S.optional(S.Boolean),
+    carrierRateName: S.optional(S.String),
+    flatRate: S.optional(Price),
+  }),
+).annotate({ identifier: "Value" }) as any as S.Schema<Value>;
+
+export type ValueList = Array<Value>;
+export const ValueList = /*@__PURE__*/ S.Array(
+  Value,
+) as any as S.Schema<ValueList>;
+
+export interface Row {
+  /** The list of cells that constitute the row. Must have the same length as `columnHeaders` for two-dimensional tables, a length of 1 for one-dimensional tables. Required. */
+  cells?: ValueList;
+}
+export const Row = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cells: S.optional(ValueList),
+  }),
+).annotate({ identifier: "Row" }) as any as S.Schema<Row>;
+
+export type RowList = Array<Row>;
+export const RowList = /*@__PURE__*/ S.Array(Row) as any as S.Schema<RowList>;
+
+export interface Table {
+  /** Headers of the table's rows. Required. */
+  rowHeaders?: Headers;
+  /** The list of rows that constitute the table. Must have the same length as `rowHeaders`. Required. */
+  rows?: RowList;
+  /** Name of the table. Required for subtables, ignored for the main table. */
+  name?: string;
+  /** Headers of the table's columns. Optional: if not set then the table has only one dimension. */
+  columnHeaders?: Headers;
+}
+export const Table = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rowHeaders: S.optional(Headers),
+    rows: S.optional(RowList),
+    name: S.optional(S.String),
+    columnHeaders: S.optional(Headers),
+  }),
+).annotate({ identifier: "Table" }) as any as S.Schema<Table>;
+
+export type TableList = Array<Table>;
+export const TableList = /*@__PURE__*/ S.Array(
+  Table,
+) as any as S.Schema<TableList>;
+
+export interface CarrierRate {
+  /** Name of the carrier rate. Must be unique per rate group. Required. */
+  name?: string;
+  /** Additive shipping rate modifier. Can be negative. For example `{ "value": "1", "currency" : "USD" }` adds $1 to the rate, `{ "value": "-3", "currency" : "USD" }` removes $3 from the rate. Optional. */
+  flatAdjustment?: Price;
+  /** Shipping origin for this carrier rate. Required. */
+  originPostalCode?: string;
+  /** Multiplicative shipping rate modifier as a number in decimal notation. Can be negative. For example `"5.4"` increases the rate by 5.4%, `"-3"` decreases the rate by 3%. Optional. */
+  percentageAdjustment?: string;
+  /** Carrier service, such as `"ground"` or `"2 days"`. The list of supported services for a carrier can be retrieved through the `getSupportedCarriers` method. Required. */
+  carrierService?: string;
+  /** Carrier service, such as `"UPS"` or `"Fedex"`. The list of supported carriers can be retrieved through the `getSupportedCarriers` method. Required. */
+  carrierName?: string;
+}
+export const CarrierRate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    flatAdjustment: S.optional(Price),
+    originPostalCode: S.optional(S.String),
+    percentageAdjustment: S.optional(S.String),
+    carrierService: S.optional(S.String),
+    carrierName: S.optional(S.String),
+  }),
+).annotate({ identifier: "CarrierRate" }) as any as S.Schema<CarrierRate>;
+
+export type CarrierRateList = Array<CarrierRate>;
+export const CarrierRateList = /*@__PURE__*/ S.Array(
+  CarrierRate,
+) as any as S.Schema<CarrierRateList>;
+
+export interface RateGroup {
+  /** A list of shipping labels defining the products to which this rate group applies to. This is a disjunction: only one of the labels has to match for the rate group to apply. May only be empty for the last rate group of a service. Required. */
+  applicableShippingLabels?: StringList;
+  /** A list of subtables referred to by `mainTable`. Can only be set if `mainTable` is set. */
+  subtables?: TableList;
+  /** A list of carrier rates that can be referred to by `mainTable` or `singleValue`. */
+  carrierRates?: CarrierRateList;
+  /** The value of the rate group (for example, flat rate $10). Can only be set if `mainTable` and `subtables` are not set. */
+  singleValue?: Value;
+  /** A table defining the rate group, when `singleValue` is not expressive enough. Can only be set if `singleValue` is not set. */
+  mainTable?: Table;
+  /** Name of the rate group. Optional. If set has to be unique within shipping service. */
+  name?: string;
+}
+export const RateGroup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applicableShippingLabels: S.optional(StringList),
+    subtables: S.optional(TableList),
+    carrierRates: S.optional(CarrierRateList),
+    singleValue: S.optional(Value),
+    mainTable: S.optional(Table),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "RateGroup" }) as any as S.Schema<RateGroup>;
+
+export type RateGroupList = Array<RateGroup>;
+export const RateGroupList = /*@__PURE__*/ S.Array(
+  RateGroup,
+) as any as S.Schema<RateGroupList>;
+
+/** Time in hours and minutes in the local timezone when local delivery ends. */
+export interface ServiceStoreConfigCutoffConfigLocalCutoffTime {
+  /** Hour local delivery orders must be placed by to process the same day. */
+  hour?: string;
+  /** Minute local delivery orders must be placed by to process the same day. */
+  minute?: string;
+}
+export const ServiceStoreConfigCutoffConfigLocalCutoffTime =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      hour: S.optional(S.String),
+      minute: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ServiceStoreConfigCutoffConfigLocalCutoffTime",
+  }) as any as S.Schema<ServiceStoreConfigCutoffConfigLocalCutoffTime>;
+
+/** Time local delivery ends for the day based on the local timezone of the store. `local_cutoff_time` and `store_close_offset_hours` are mutually exclusive. */
+export interface ServiceStoreConfigCutoffConfig {
+  /** Merchants can opt-out of showing n+1 day local delivery when they have a shipping service configured to n day local delivery. For example, if the shipping service defines same-day delivery, and it's past the cut-off, setting this field to `true` results in the calculated shipping service rate returning `NO_DELIVERY_POST_CUTOFF`. In the same example, setting this field to `false` results in the calculated shipping time being one day. This is only for local delivery. */
+  noDeliveryPostCutoff?: boolean;
+  /** Represents cutoff time as the number of hours before store closing. Mutually exclusive with other fields (hour and minute). */
+  storeCloseOffsetHours?: string;
+  /** Time in hours and minutes in the local timezone when local delivery ends. */
+  localCutoffTime?: ServiceStoreConfigCutoffConfigLocalCutoffTime;
+}
+export const ServiceStoreConfigCutoffConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    noDeliveryPostCutoff: S.optional(S.Boolean),
+    storeCloseOffsetHours: S.optional(S.String),
+    localCutoffTime: S.optional(ServiceStoreConfigCutoffConfigLocalCutoffTime),
+  }),
+).annotate({
+  identifier: "ServiceStoreConfigCutoffConfig",
+}) as any as S.Schema<ServiceStoreConfigCutoffConfig>;
+
+/** Distance represented by an integer and unit. */
+export interface Distance {
+  /** The distance represented as a number. */
+  value?: string;
+  /** The distance unit. Acceptable values are `None`, `Miles`, and `Kilometers`. */
+  unit?: string;
+}
+export const Distance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    unit: S.optional(S.String),
+  }),
+).annotate({ identifier: "Distance" }) as any as S.Schema<Distance>;
+
+/** Stores that provide local delivery. Only valid with local delivery fulfillment. */
+export interface ServiceStoreConfig {
+  /** Time local delivery ends for the day. This can be either `local_cutoff_time` or `store_close_offset_hours`, if both are provided an error is thrown. */
+  cutoffConfig?: ServiceStoreConfigCutoffConfig;
+  /** Indicates whether all stores listed by this merchant provide local delivery or not. Acceptable values are `all stores` and `selected stores` */
+  storeServiceType?: string;
+  /** Maximum delivery radius. Only needed for local delivery fulfillment type. */
+  serviceRadius?: Distance;
+  /** A list of store codes that provide local delivery. If empty, then `store_service_type` must be `all_stores`, or an error is thrown. If not empty, then `store_service_type` must be `selected_stores`, or an error is thrown. */
+  storeCodes?: StringList;
+}
+export const ServiceStoreConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cutoffConfig: S.optional(ServiceStoreConfigCutoffConfig),
+    storeServiceType: S.optional(S.String),
+    serviceRadius: S.optional(Distance),
+    storeCodes: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "ServiceStoreConfig",
+}) as any as S.Schema<ServiceStoreConfig>;
+
+/** A list of store code sets sharing the same minimum order value. At least two sets are required and the last one must be empty, which signifies 'MOV for all other stores'. Each store code can only appear once across all the sets. All prices within a service must have the same currency. */
+export interface MinimumOrderValueTableStoreCodeSetWithMov {
+  /** A list of unique store codes or empty for the catch all. */
+  storeCodes?: StringList;
+  /** The minimum order value for the given stores. */
+  value?: Price;
+}
+export const MinimumOrderValueTableStoreCodeSetWithMov =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storeCodes: S.optional(StringList),
+      value: S.optional(Price),
+    }),
+  ).annotate({
+    identifier: "MinimumOrderValueTableStoreCodeSetWithMov",
+  }) as any as S.Schema<MinimumOrderValueTableStoreCodeSetWithMov>;
+
+export type MinimumOrderValueTableStoreCodeSetWithMovList =
+  Array<MinimumOrderValueTableStoreCodeSetWithMov>;
+export const MinimumOrderValueTableStoreCodeSetWithMovList =
+  /*@__PURE__*/ S.Array(
+    MinimumOrderValueTableStoreCodeSetWithMov,
+  ) as any as S.Schema<MinimumOrderValueTableStoreCodeSetWithMovList>;
+
+export interface MinimumOrderValueTable {
+  storeCodeSetWithMovs?: MinimumOrderValueTableStoreCodeSetWithMovList;
+}
+export const MinimumOrderValueTable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storeCodeSetWithMovs: S.optional(
+      MinimumOrderValueTableStoreCodeSetWithMovList,
+    ),
+  }),
+).annotate({
+  identifier: "MinimumOrderValueTable",
+}) as any as S.Schema<MinimumOrderValueTable>;
+
+export interface HolidayCutoff {
+  /** Timezone identifier for the deadline hour (for example, "Europe/Zurich"). List of identifiers. Required. */
+  deadlineTimezone?: string;
+  /** Date on which the deadline will become visible to consumers in ISO 8601 format. For example, "2016-10-31" for 31st October 2016. Required. */
+  visibleFromDate?: string;
+  /** Unique identifier for the holiday. Required. */
+  holidayId?: string;
+  /** Date of the order deadline, in ISO 8601 format. For example, "2016-11-29" for 29th November 2016. Required. */
+  deadlineDate?: string;
+  /** Hour of the day on the deadline date until which the order has to be placed to qualify for the delivery guarantee. Possible values are: 0 (midnight), 1, ..., 12 (noon), 13, ..., 23. Required. */
+  deadlineHour?: number;
+}
+export const HolidayCutoff = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deadlineTimezone: S.optional(S.String),
+    visibleFromDate: S.optional(S.String),
+    holidayId: S.optional(S.String),
+    deadlineDate: S.optional(S.String),
+    deadlineHour: S.optional(S.Number),
+  }),
+).annotate({ identifier: "HolidayCutoff" }) as any as S.Schema<HolidayCutoff>;
+
+export type HolidayCutoffList = Array<HolidayCutoff>;
+export const HolidayCutoffList = /*@__PURE__*/ S.Array(
+  HolidayCutoff,
+) as any as S.Schema<HolidayCutoffList>;
+
+export interface WarehouseBasedDeliveryTime {
+  /** Shipping origin's city. */
+  originCity?: string;
+  /** Shipping origin's street address. */
+  originStreetAddress?: string;
+  /** Shipping origin. */
+  originPostalCode?: string;
+  /** Shipping origin's country represented as a [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml). */
+  originCountry?: string;
+  /** Shipping origin's state. */
+  originAdministrativeArea?: string;
+  /** Required. Carrier service, such as `"ground"` or `"2 days"`. The list of supported services for a carrier can be retrieved through the `listSupportedCarriers` method. The name of the service must be in the eddSupportedServices list. */
+  carrierService?: string;
+  /** Required. Carrier, such as `"UPS"` or `"Fedex"`. The list of supported carriers can be retrieved through the `listSupportedCarriers` method. */
+  carrier?: string;
+  /** The name of the warehouse. Warehouse name need to be matched with name. If warehouseName is set, the below fields will be ignored. The warehouse info will be read from warehouse. */
+  warehouseName?: string;
+}
+export const WarehouseBasedDeliveryTime = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    originCity: S.optional(S.String),
+    originStreetAddress: S.optional(S.String),
+    originPostalCode: S.optional(S.String),
+    originCountry: S.optional(S.String),
+    originAdministrativeArea: S.optional(S.String),
+    carrierService: S.optional(S.String),
+    carrier: S.optional(S.String),
+    warehouseName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WarehouseBasedDeliveryTime",
+}) as any as S.Schema<WarehouseBasedDeliveryTime>;
+
+export type WarehouseBasedDeliveryTimeList = Array<WarehouseBasedDeliveryTime>;
+export const WarehouseBasedDeliveryTimeList = /*@__PURE__*/ S.Array(
+  WarehouseBasedDeliveryTime,
+) as any as S.Schema<WarehouseBasedDeliveryTimeList>;
+
+export interface TransitTableTransitTimeRowTransitTimeValue {
+  /** Transit time range (min-max) in business days. 0 means same day delivery, 1 means next day delivery. */
+  minTransitTimeInDays?: number;
+  /** Must be greater than or equal to `minTransitTimeInDays`. */
+  maxTransitTimeInDays?: number;
+}
+export const TransitTableTransitTimeRowTransitTimeValue =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      minTransitTimeInDays: S.optional(S.Number),
+      maxTransitTimeInDays: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "TransitTableTransitTimeRowTransitTimeValue",
+  }) as any as S.Schema<TransitTableTransitTimeRowTransitTimeValue>;
+
+export type TransitTableTransitTimeRowTransitTimeValueList =
+  Array<TransitTableTransitTimeRowTransitTimeValue>;
+export const TransitTableTransitTimeRowTransitTimeValueList =
+  /*@__PURE__*/ S.Array(
+    TransitTableTransitTimeRowTransitTimeValue,
+  ) as any as S.Schema<TransitTableTransitTimeRowTransitTimeValueList>;
+
+export interface TransitTableTransitTimeRow {
+  values?: TransitTableTransitTimeRowTransitTimeValueList;
+}
+export const TransitTableTransitTimeRow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    values: S.optional(TransitTableTransitTimeRowTransitTimeValueList),
+  }),
+).annotate({
+  identifier: "TransitTableTransitTimeRow",
+}) as any as S.Schema<TransitTableTransitTimeRow>;
+
+export type TransitTableTransitTimeRowList = Array<TransitTableTransitTimeRow>;
+export const TransitTableTransitTimeRowList = /*@__PURE__*/ S.Array(
+  TransitTableTransitTimeRow,
+) as any as S.Schema<TransitTableTransitTimeRowList>;
+
+export interface TransitTable {
+  rows?: TransitTableTransitTimeRowList;
+  /** A list of transit time labels. The last value can be `"all other labels"`. Example: `["food", "electronics", "all other labels"]`. */
+  transitTimeLabels?: StringList;
+  /** A list of postal group names. The last value can be `"all other locations"`. Example: `["zone 1", "zone 2", "all other locations"]`. The referred postal code groups must match the delivery country of the service. */
+  postalCodeGroupNames?: StringList;
+}
+export const TransitTable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rows: S.optional(TransitTableTransitTimeRowList),
+    transitTimeLabels: S.optional(StringList),
+    postalCodeGroupNames: S.optional(StringList),
+  }),
+).annotate({ identifier: "TransitTable" }) as any as S.Schema<TransitTable>;
+
+export interface CutoffTime {
+  /** Timezone identifier for the cutoff time (for example, "Europe/Zurich"). List of identifiers. Required. */
+  timezone?: string;
+  /** Hour of the cutoff time until which an order has to be placed to be processed in the same day. Required. */
+  hour?: number;
+  /** Minute of the cutoff time until which an order has to be placed to be processed in the same day. Required. */
+  minute?: number;
+}
+export const CutoffTime = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timezone: S.optional(S.String),
+    hour: S.optional(S.Number),
+    minute: S.optional(S.Number),
+  }),
+).annotate({ identifier: "CutoffTime" }) as any as S.Schema<CutoffTime>;
+
+export interface DeliveryTime {
+  /** Minimum number of business days spent before an order is shipped. 0 means same day shipped, 1 means next day shipped. */
+  minHandlingTimeInDays?: number;
+  /** Holiday cutoff definitions. If configured, they specify order cutoff times for holiday-specific shipping. */
+  holidayCutoffs?: HolidayCutoffList;
+  /** The business days during which orders can be in-transit. If not provided, Monday to Friday business days will be assumed. */
+  transitBusinessDayConfig?: BusinessDayConfig;
+  /** Maximum number of business days spent before an order is shipped. 0 means same day shipped, 1 means next day shipped. Must be greater than or equal to `minHandlingTimeInDays`. */
+  maxHandlingTimeInDays?: number;
+  /** Minimum number of business days that are spent in transit. 0 means same day delivery, 1 means next day delivery. Either `{min,max}TransitTimeInDays` or `transitTimeTable` must be set, but not both. */
+  minTransitTimeInDays?: number;
+  /** Indicates that the delivery time should be calculated per warehouse (shipping origin location) based on the settings of the selected carrier. When set, no other transit time related field in DeliveryTime should be set. */
+  warehouseBasedDeliveryTimes?: WarehouseBasedDeliveryTimeList;
+  /** The business days during which orders can be handled. If not provided, Monday to Friday business days will be assumed. */
+  handlingBusinessDayConfig?: BusinessDayConfig;
+  /** Transit time table, number of business days spent in transit based on row and column dimensions. Either `{min,max}TransitTimeInDays` or `transitTimeTable` can be set, but not both. */
+  transitTimeTable?: TransitTable;
+  /** Maximum number of business days that are spent in transit. 0 means same day delivery, 1 means next day delivery. Must be greater than or equal to `minTransitTimeInDays`. */
+  maxTransitTimeInDays?: number;
+  /** Business days cutoff time definition. If not configured, the cutoff time will be defaulted to 8AM PST. If local delivery, use Service.StoreConfig.CutoffConfig. */
+  cutoffTime?: CutoffTime;
+}
+export const DeliveryTime = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minHandlingTimeInDays: S.optional(S.Number),
+    holidayCutoffs: S.optional(HolidayCutoffList),
+    transitBusinessDayConfig: S.optional(BusinessDayConfig),
+    maxHandlingTimeInDays: S.optional(S.Number),
+    minTransitTimeInDays: S.optional(S.Number),
+    warehouseBasedDeliveryTimes: S.optional(WarehouseBasedDeliveryTimeList),
+    handlingBusinessDayConfig: S.optional(BusinessDayConfig),
+    transitTimeTable: S.optional(TransitTable),
+    maxTransitTimeInDays: S.optional(S.Number),
+    cutoffTime: S.optional(CutoffTime),
+  }),
+).annotate({ identifier: "DeliveryTime" }) as any as S.Schema<DeliveryTime>;
+
+export interface PickupCarrierService {
+  /** The name of the pickup carrier (for example, `"UPS"`). Required. */
+  carrierName?: string;
+  /** The name of the pickup service (for example, `"Access point"`). Required. */
+  serviceName?: string;
+}
+export const PickupCarrierService = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    carrierName: S.optional(S.String),
+    serviceName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PickupCarrierService",
+}) as any as S.Schema<PickupCarrierService>;
+
+export interface Service {
+  /** Shipping rate group definitions. Only the last one is allowed to have an empty `applicableShippingLabels`, which means "everything else". The other `applicableShippingLabels` must not overlap. */
+  rateGroups?: RateGroupList;
+  /** A list of stores your products are delivered from. This is only available for the local delivery shipment type. */
+  storeConfig?: ServiceStoreConfig;
+  /** The CLDR code of the currency to which this service applies. Must match that of the prices in rate groups. */
+  currency?: string;
+  /** A boolean exposing the active status of the shipping service. Required. */
+  active?: boolean;
+  /** Table of per store minimum order values for the pickup fulfillment type. Cannot be set together with minimum_order_value. */
+  minimumOrderValueTable?: MinimumOrderValueTable;
+  /** Time spent in various aspects from order to the delivery of the product. Required. */
+  deliveryTime?: DeliveryTime;
+  /** Minimum order value for this service. If set, indicates that customers will have to spend at least this amount. All prices within a service must have the same currency. Cannot be set together with minimum_order_value_table. */
+  minimumOrderValue?: Price;
+  /** The carrier-service pair delivering items to collection points. The list of supported pickup services can be retrieved through the `getSupportedPickupServices` method. Required if and only if the service delivery type is `pickup`. */
+  pickupService?: PickupCarrierService;
+  /** Type of locations this service ships orders to. Acceptable values are: - "`delivery`" - "`pickup` (deprecated)" - "`local_delivery`" - "`collection_point`" */
+  shipmentType?: string;
+  /** Eligibility for this service. Acceptable values are: - "`All scenarios`" - "`All scenarios except Shopping Actions`" - "`Shopping Actions`" */
+  eligibility?: string;
+  /** The CLDR territory code of the country to which the service applies. Required. */
+  deliveryCountry?: string;
+  /** Free-form name of the service. Must be unique within target account. Required. */
+  name?: string;
+}
+export const Service = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rateGroups: S.optional(RateGroupList),
+    storeConfig: S.optional(ServiceStoreConfig),
+    currency: S.optional(S.String),
+    active: S.optional(S.Boolean),
+    minimumOrderValueTable: S.optional(MinimumOrderValueTable),
+    deliveryTime: S.optional(DeliveryTime),
+    minimumOrderValue: S.optional(Price),
+    pickupService: S.optional(PickupCarrierService),
+    shipmentType: S.optional(S.String),
+    eligibility: S.optional(S.String),
+    deliveryCountry: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "Service" }) as any as S.Schema<Service>;
+
+export type ServiceList = Array<Service>;
+export const ServiceList = /*@__PURE__*/ S.Array(
+  Service,
+) as any as S.Schema<ServiceList>;
+
 /** The merchant account's shipping settings. All methods except getsupportedcarriers and getsupportedholidays require the admin role. */
 export interface ShippingSettings {
-  /** Optional. A list of warehouses which can be referred to in `services`. */
-  warehouses?: WarehouseList;
-  /** The target account's list of services. Optional. */
-  services?: ServiceList;
   /** A list of postal code groups that can be referred to in `services`. Optional. */
   postalCodeGroups?: PostalCodeGroupList;
+  /** Optional. A list of warehouses which can be referred to in `services`. */
+  warehouses?: WarehouseList;
   /** The ID of the account to which these account shipping settings belong. Ignored upon update, always present in get request responses. */
   accountId?: string;
+  /** The target account's list of services. Optional. */
+  services?: ServiceList;
 }
 export const ShippingSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    warehouses: S.optional(WarehouseList),
-    services: S.optional(ServiceList),
     postalCodeGroups: S.optional(PostalCodeGroupList),
+    warehouses: S.optional(WarehouseList),
     accountId: S.optional(S.String),
+    services: S.optional(ServiceList),
   }),
 ).annotate({
   identifier: "ShippingSettings",
@@ -5579,25 +5581,25 @@ export const ShippingSettings = /*@__PURE__*/ S.suspend(() =>
 
 /** A batch entry encoding a single non-batch shippingsettings request. */
 export interface ShippingsettingsCustomBatchRequestEntry {
-  /** The ID of the managing account. */
-  merchantId?: string;
-  /** The method of the batch entry. Acceptable values are: - "`get`" - "`update`" */
-  method?: string;
-  /** The ID of the account for which to get/update account shipping settings. */
-  accountId?: string;
   /** An entry ID, unique within the batch request. */
   batchId?: number;
+  /** The ID of the account for which to get/update account shipping settings. */
+  accountId?: string;
+  /** The ID of the managing account. */
+  merchantId?: string;
   /** The account shipping settings to update. Only defined if the method is `update`. */
   shippingSettings?: ShippingSettings;
+  /** The method of the batch entry. Acceptable values are: - "`get`" - "`update`" */
+  method?: string;
 }
 export const ShippingsettingsCustomBatchRequestEntry = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      merchantId: S.optional(S.String),
-      method: S.optional(S.String),
-      accountId: S.optional(S.String),
       batchId: S.optional(S.Number),
+      accountId: S.optional(S.String),
+      merchantId: S.optional(S.String),
       shippingSettings: S.optional(ShippingSettings),
+      method: S.optional(S.String),
     }),
 ).annotate({
   identifier: "ShippingsettingsCustomBatchRequestEntry",
@@ -5642,22 +5644,22 @@ export const CustombatchShippingsettingsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A batch entry encoding a single non-batch shipping settings response. */
 export interface ShippingsettingsCustomBatchResponseEntry {
-  /** The ID of the request entry to which this entry responds. */
-  batchId?: number;
-  /** The retrieved or updated account shipping settings. */
-  shippingSettings?: ShippingSettings;
   /** A list of errors for failed custombatch entries. *Note:* Schema errors fail the whole request. */
   errors?: Errors;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#shippingsettingsCustomBatchResponseEntry`" */
   kind?: string;
+  /** The ID of the request entry to which this entry responds. */
+  batchId?: number;
+  /** The retrieved or updated account shipping settings. */
+  shippingSettings?: ShippingSettings;
 }
 export const ShippingsettingsCustomBatchResponseEntry = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      batchId: S.optional(S.Number),
-      shippingSettings: S.optional(ShippingSettings),
       errors: S.optional(Errors),
       kind: S.optional(S.String),
+      batchId: S.optional(S.Number),
+      shippingSettings: S.optional(ShippingSettings),
     }),
 ).annotate({
   identifier: "ShippingsettingsCustomBatchResponseEntry",
@@ -5686,18 +5688,18 @@ export const ShippingsettingsCustomBatchResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ShippingsettingsCustomBatchResponse>;
 
 export interface DeleteAccountsRequest {
-  /** The ID of the account. */
-  accountId: string;
   /** Option to delete sub-accounts with products. The default value is false. */
   force?: boolean;
   /** The ID of the managing account. This must be a multi-client account, and accountId must be the ID of a sub-account of this account. */
   merchantId: string;
+  /** The ID of the account. */
+  accountId: string;
 }
 export const DeleteAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountId: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
     merchantId: S.String.pipe(T.Label()),
+    accountId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -5801,15 +5803,15 @@ export const DeleteCollectionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteCollectionsResponse>;
 
 export interface DeleteConversionsourcesRequest {
-  /** Required. The ID of the account that owns the new conversion source. */
-  merchantId: string;
   /** Required. The ID of the conversion source to be deleted. */
   conversionSourceId: string;
+  /** Required. The ID of the account that owns the new conversion source. */
+  merchantId: string;
 }
 export const DeleteConversionsourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     conversionSourceId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -5882,17 +5884,17 @@ export const DeleteFreelistingsprogramCheckoutsettingsResponse =
   }) as any as S.Schema<DeleteFreelistingsprogramCheckoutsettingsResponse>;
 
 export interface DeletePosRequest {
-  /** The ID of the target merchant. */
-  targetMerchantId: string;
   /** The ID of the POS or inventory data provider. */
   merchantId: string;
+  /** The ID of the target merchant. */
+  targetMerchantId: string;
   /** A store code that is unique per merchant. */
   storeCode: string;
 }
 export const DeletePosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    targetMerchantId: S.String.pipe(T.Label()),
     merchantId: S.String.pipe(T.Label()),
+    targetMerchantId: S.String.pipe(T.Label()),
     storeCode: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -5941,18 +5943,18 @@ export const DeleteProductdeliverytimeResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteProductdeliverytimeResponse>;
 
 export interface DeleteProductsRequest {
-  /** The Content API Supplemental Feed ID. If present then product deletion applies to the data in a supplemental feed. If absent, entire product will be deleted. */
-  feedId?: string;
-  /** The ID of the account that contains the product. This account cannot be a multi-client account. */
-  merchantId: string;
   /** The REST ID of the product. */
   productId: string;
+  /** The ID of the account that contains the product. This account cannot be a multi-client account. */
+  merchantId: string;
+  /** The Content API Supplemental Feed ID. If present then product deletion applies to the data in a supplemental feed. If absent, entire product will be deleted. */
+  feedId?: string;
 }
 export const DeleteProductsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    feedId: S.optional(S.String.pipe(T.Query())),
-    merchantId: S.String.pipe(T.Label()),
     productId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
+    feedId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -6000,15 +6002,15 @@ export const DeleteRegionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteRegionsResponse>;
 
 export interface DeleteReturnpolicyonlineRequest {
-  /** Required. The id of the return policy to delete. */
-  returnPolicyId: string;
   /** Required. The id of the merchant for which to retrieve the return policy online object. */
   merchantId: string;
+  /** Required. The id of the return policy to delete. */
+  returnPolicyId: string;
 }
 export const DeleteReturnpolicyonlineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    returnPolicyId: S.String.pipe(T.Label()),
     merchantId: S.String.pipe(T.Label()),
+    returnPolicyId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -6028,15 +6030,15 @@ export const DeleteReturnpolicyonlineResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteReturnpolicyonlineResponse>;
 
 export interface FetchnowDatafeedsRequest {
-  /** The ID of the account that manages the datafeed. This account cannot be a multi-client account. */
-  merchantId: string;
   /** The ID of the datafeed to be fetched. */
   datafeedId: string;
+  /** The ID of the account that manages the datafeed. This account cannot be a multi-client account. */
+  merchantId: string;
 }
 export const FetchnowDatafeedsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     datafeedId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "POST",
@@ -6061,18 +6063,18 @@ export const DatafeedsFetchNowResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DatafeedsFetchNowResponse>;
 
 export interface GenerateRecommendationsRequest {
+  /** Optional. Language code of the client. If not set, the result will be in default language (English). This language code affects all fields prefixed with "localized". This should be set to ISO 639-1 country code. List of currently verified supported language code: en, fr, cs, da, de, es, it, nl, no, pl, pt, pt, fi, sv, vi, tr, th, ko, zh-CN, zh-TW, ja, id, hi */
+  languageCode?: string;
   /** Optional. List of allowed tags. Tags are a set of predefined strings that describe the category that individual recommendation types belong to. User can specify zero or more tags in this field to indicate what categories of recommendations they want to receive. Current list of supported tags: - TREND */
   allowedTag?: StringList;
   /** Required. The ID of the account to fetch recommendations for. */
   merchantId: string;
-  /** Optional. Language code of the client. If not set, the result will be in default language (English). This language code affects all fields prefixed with "localized". This should be set to ISO 639-1 country code. List of currently verified supported language code: en, fr, cs, da, de, es, it, nl, no, pl, pt, pt, fi, sv, vi, tr, th, ko, zh-CN, zh-TW, ja, id, hi */
-  languageCode?: string;
 }
 export const GenerateRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    languageCode: S.optional(S.String.pipe(T.Query())),
     allowedTag: S.optional(StringList.pipe(T.Query())),
     merchantId: S.String.pipe(T.Label()),
-    languageCode: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6083,30 +6085,6 @@ export const GenerateRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GenerateRecommendationsRequest",
 }) as any as S.Schema<GenerateRecommendationsRequest>;
-
-/** Call to action (CTA) that explains how a merchant can implement this recommendation */
-export interface RecommendationCallToAction {
-  /** Output only. Localized text of the CTA. Optional. */
-  localizedText?: string;
-  /** Optional. URL of the CTA. This field will only be set for some recommendations where there is a suggested landing URL. Otherwise it will be set to an empty string. We recommend developers to use their own custom landing page according to the description of the intent field above when this uri field is empty. */
-  uri?: string;
-  /** Output only. Intent of the action. This value describes the intent (for example, `OPEN_CREATE_EMAIL_CAMPAIGN_FLOW`) and can vary from recommendation to recommendation. This value can change over time for the same recommendation. Currently available intent values: - OPEN_CREATE_EMAIL_CAMPAIGN_FLOW: Opens a user journey where they can create a marketing email campaign. (No default URL) - OPEN_CREATE_COLLECTION_TAB: Opens a user journey where they can [create a collection](https://support.google.com/merchants/answer/9703228) for their Merchant account. (No default URL) */
-  intent?: string;
-}
-export const RecommendationCallToAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    localizedText: S.optional(S.String),
-    uri: S.optional(S.String),
-    intent: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RecommendationCallToAction",
-}) as any as S.Schema<RecommendationCallToAction>;
-
-export type RecommendationCallToActionList = Array<RecommendationCallToAction>;
-export const RecommendationCallToActionList = /*@__PURE__*/ S.Array(
-  RecommendationCallToAction,
-) as any as S.Schema<RecommendationCallToActionList>;
 
 export type RecommendationCreativeTypeEnum =
   | "CREATIVE_TYPE_UNSPECIFIED"
@@ -6134,6 +6112,30 @@ export type RecommendationCreativeList = Array<RecommendationCreative>;
 export const RecommendationCreativeList = /*@__PURE__*/ S.Array(
   RecommendationCreative,
 ) as any as S.Schema<RecommendationCreativeList>;
+
+/** Call to action (CTA) that explains how a merchant can implement this recommendation */
+export interface RecommendationCallToAction {
+  /** Optional. URL of the CTA. This field will only be set for some recommendations where there is a suggested landing URL. Otherwise it will be set to an empty string. We recommend developers to use their own custom landing page according to the description of the intent field above when this uri field is empty. */
+  uri?: string;
+  /** Output only. Intent of the action. This value describes the intent (for example, `OPEN_CREATE_EMAIL_CAMPAIGN_FLOW`) and can vary from recommendation to recommendation. This value can change over time for the same recommendation. Currently available intent values: - OPEN_CREATE_EMAIL_CAMPAIGN_FLOW: Opens a user journey where they can create a marketing email campaign. (No default URL) - OPEN_CREATE_COLLECTION_TAB: Opens a user journey where they can [create a collection](https://support.google.com/merchants/answer/9703228) for their Merchant account. (No default URL) */
+  intent?: string;
+  /** Output only. Localized text of the CTA. Optional. */
+  localizedText?: string;
+}
+export const RecommendationCallToAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uri: S.optional(S.String),
+    intent: S.optional(S.String),
+    localizedText: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RecommendationCallToAction",
+}) as any as S.Schema<RecommendationCallToAction>;
+
+export type RecommendationCallToActionList = Array<RecommendationCallToAction>;
+export const RecommendationCallToActionList = /*@__PURE__*/ S.Array(
+  RecommendationCallToAction,
+) as any as S.Schema<RecommendationCallToActionList>;
 
 export type RecommendationDescriptionTypeEnum =
   | "DESCRIPTION_TYPE_UNSPECIFIED"
@@ -6164,42 +6166,42 @@ export const RecommendationDescriptionList = /*@__PURE__*/ S.Array(
 
 /** Recommendations are suggested ways to improve your merchant account's performance. For example, to engage with a feature, or start using a new Google product. */
 export interface Recommendation {
-  /** Optional. Subtype of the recommendations. Only applicable when multiple recommendations can be generated per type, and is used as an identifier of recommendation under the same recommendation type. */
-  subType?: string;
-  /** Optional. Indicates whether a user needs to pay when they complete the user journey suggested by the recommendation. */
-  paid?: boolean;
-  /** Optional. Localized recommendation name. The localization uses the {@link `GenerateRecommendationsRequest.language_code`} field in {@link `GenerateRecommendationsRequest`} requests. */
-  recommendationName?: string;
-  /** Optional. A numerical score of the impact from the recommendation's description. For example, a recommendation might suggest an upward trend in sales for a certain product. Higher number means larger impact. */
-  numericalImpact?: number;
-  /** Output only. CTAs of this recommendation. Repeated. */
-  additionalCallToAction?: RecommendationCallToActionList;
-  /** Output only. Any creatives attached to the recommendation. Repeated. */
-  creative?: RecommendationCreativeList;
   /** Optional. Localized recommendation description. The localization the {@link `GenerateRecommendationsRequest.language_code`} field in {@link `GenerateRecommendationsRequest`} requests. */
   defaultDescription?: string;
-  /** Output only. Type of the recommendation. List of currently available recommendation types: - OPPORTUNITY_CREATE_NEW_COLLECTION - OPPORTUNITY_CREATE_EMAIL_CAMPAIGN */
-  type?: string;
-  /** Output only. List of additional localized descriptions for a recommendation. Localication uses the `languageCode` field in `GenerateRecommendations` requests. Not all description types are guaranteed to be present and we recommend to rely on default description. */
-  additionalDescriptions?: RecommendationDescriptionList;
-  /** Optional. Localized Recommendation Title. Localization uses the {@link `GenerateRecommendationsRequest.language_code`} field in {@link `GenerateRecommendationsRequest`} requests. */
-  title?: string;
+  /** Output only. Any creatives attached to the recommendation. Repeated. */
+  creative?: RecommendationCreativeList;
+  /** Optional. Subtype of the recommendations. Only applicable when multiple recommendations can be generated per type, and is used as an identifier of recommendation under the same recommendation type. */
+  subType?: string;
   /** Optional. Default CTA of the recommendation. */
   defaultCallToAction?: RecommendationCallToAction;
+  /** Output only. Type of the recommendation. List of currently available recommendation types: - OPPORTUNITY_CREATE_NEW_COLLECTION - OPPORTUNITY_CREATE_EMAIL_CAMPAIGN */
+  type?: string;
+  /** Output only. CTAs of this recommendation. Repeated. */
+  additionalCallToAction?: RecommendationCallToActionList;
+  /** Optional. A numerical score of the impact from the recommendation's description. For example, a recommendation might suggest an upward trend in sales for a certain product. Higher number means larger impact. */
+  numericalImpact?: number;
+  /** Optional. Indicates whether a user needs to pay when they complete the user journey suggested by the recommendation. */
+  paid?: boolean;
+  /** Output only. List of additional localized descriptions for a recommendation. Localication uses the `languageCode` field in `GenerateRecommendations` requests. Not all description types are guaranteed to be present and we recommend to rely on default description. */
+  additionalDescriptions?: RecommendationDescriptionList;
+  /** Optional. Localized recommendation name. The localization uses the {@link `GenerateRecommendationsRequest.language_code`} field in {@link `GenerateRecommendationsRequest`} requests. */
+  recommendationName?: string;
+  /** Optional. Localized Recommendation Title. Localization uses the {@link `GenerateRecommendationsRequest.language_code`} field in {@link `GenerateRecommendationsRequest`} requests. */
+  title?: string;
 }
 export const Recommendation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    subType: S.optional(S.String),
-    paid: S.optional(S.Boolean),
-    recommendationName: S.optional(S.String),
-    numericalImpact: S.optional(S.Number),
-    additionalCallToAction: S.optional(RecommendationCallToActionList),
-    creative: S.optional(RecommendationCreativeList),
     defaultDescription: S.optional(S.String),
-    type: S.optional(S.String),
-    additionalDescriptions: S.optional(RecommendationDescriptionList),
-    title: S.optional(S.String),
+    creative: S.optional(RecommendationCreativeList),
+    subType: S.optional(S.String),
     defaultCallToAction: S.optional(RecommendationCallToAction),
+    type: S.optional(S.String),
+    additionalCallToAction: S.optional(RecommendationCallToActionList),
+    numericalImpact: S.optional(S.Number),
+    paid: S.optional(S.Boolean),
+    additionalDescriptions: S.optional(RecommendationDescriptionList),
+    recommendationName: S.optional(S.String),
+    title: S.optional(S.String),
   }),
 ).annotate({ identifier: "Recommendation" }) as any as S.Schema<Recommendation>;
 
@@ -6249,17 +6251,17 @@ export const GetaccessiblegmbaccountsLiasettingsRequest =
 export interface LiasettingsGetAccessibleGmbAccountsResponse {
   /** The ID of the Merchant Center account. */
   accountId?: string;
-  /** A list of Business Profiles which are available to the merchant. */
-  gmbAccounts?: GmbAccountsGmbAccountList;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#liasettingsGetAccessibleGmbAccountsResponse`". */
   kind?: string;
+  /** A list of Business Profiles which are available to the merchant. */
+  gmbAccounts?: GmbAccountsGmbAccountList;
 }
 export const LiasettingsGetAccessibleGmbAccountsResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       accountId: S.optional(S.String),
-      gmbAccounts: S.optional(GmbAccountsGmbAccountList),
       kind: S.optional(S.String),
+      gmbAccounts: S.optional(GmbAccountsGmbAccountList),
     }),
   ).annotate({
     identifier: "LiasettingsGetAccessibleGmbAccountsResponse",
@@ -6269,18 +6271,18 @@ export type GetAccountsViewEnum = "MERCHANT" | "CSS";
 export const GetAccountsViewEnum = /*@__PURE__*/ S.String;
 
 export interface GetAccountsRequest {
-  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
-  merchantId: string;
-  /** Controls which fields will be populated. Acceptable values are: "merchant" and "css". The default value is "merchant". */
-  view?: GetAccountsViewEnum | (string & {});
   /** The ID of the account. */
   accountId: string;
+  /** Controls which fields will be populated. Acceptable values are: "merchant" and "css". The default value is "merchant". */
+  view?: GetAccountsViewEnum | (string & {});
+  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
+  merchantId: string;
 }
 export const GetAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
-    view: S.optional(GetAccountsViewEnum.pipe(T.Query())),
     accountId: S.String.pipe(T.Label()),
+    view: S.optional(GetAccountsViewEnum.pipe(T.Query())),
+    merchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6295,16 +6297,16 @@ export const GetAccountsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetAccountstatusesRequest {
   /** The ID of the account. */
   accountId: string;
-  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
-  merchantId: string;
   /** If set, only issues for the specified destinations are returned, otherwise only issues for the Shopping destination. */
   destinations?: StringList;
+  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
+  merchantId: string;
 }
 export const GetAccountstatusesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label()),
-    merchantId: S.String.pipe(T.Label()),
     destinations: S.optional(StringList.pipe(T.Query())),
+    merchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6338,15 +6340,15 @@ export const GetAccounttaxRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAccounttaxRequest>;
 
 export interface GetCollectionsRequest {
-  /** Required. The ID of the account that contains the collection. This account cannot be a multi-client account. */
-  merchantId: string;
   /** Required. The REST ID of the collection. */
   collectionId: string;
+  /** Required. The ID of the account that contains the collection. This account cannot be a multi-client account. */
+  merchantId: string;
 }
 export const GetCollectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     collectionId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6359,15 +6361,15 @@ export const GetCollectionsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCollectionsRequest>;
 
 export interface GetCollectionstatusesRequest {
-  /** Required. The ID of the account that contains the collection. This account cannot be a multi-client account. */
-  merchantId: string;
   /** Required. The collectionId of the collection. CollectionId is the same as the REST ID of the collection. */
   collectionId: string;
+  /** Required. The ID of the account that contains the collection. This account cannot be a multi-client account. */
+  merchantId: string;
 }
 export const GetCollectionstatusesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     collectionId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6379,68 +6381,25 @@ export const GetCollectionstatusesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCollectionstatusesRequest",
 }) as any as S.Schema<GetCollectionstatusesRequest>;
 
-/** Issue associated with the collection. */
-export interface CollectionStatusItemLevelIssue {
-  /** The attribute's name, if the issue is caused by a single attribute. */
-  attributeName?: string;
-  /** How this issue affects the serving of the collection. */
-  servability?: string;
-  /** Whether the issue can be resolved by the merchant. */
-  resolution?: string;
-  /** The URL of a web page to help with resolving this issue. */
-  documentation?: string;
-  /** The error code of the issue. */
-  code?: string;
-  /** A short issue description in English. */
-  description?: string;
-  /** A detailed issue description in English. */
-  detail?: string;
-  /** Country codes (ISO 3166-1 alpha-2) where issue applies to the offer. */
-  applicableCountries?: StringList;
-  /** The destination the issue applies to. */
-  destination?: string;
-}
-export const CollectionStatusItemLevelIssue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributeName: S.optional(S.String),
-    servability: S.optional(S.String),
-    resolution: S.optional(S.String),
-    documentation: S.optional(S.String),
-    code: S.optional(S.String),
-    description: S.optional(S.String),
-    detail: S.optional(S.String),
-    applicableCountries: S.optional(StringList),
-    destination: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CollectionStatusItemLevelIssue",
-}) as any as S.Schema<CollectionStatusItemLevelIssue>;
-
-export type CollectionStatusItemLevelIssueList =
-  Array<CollectionStatusItemLevelIssue>;
-export const CollectionStatusItemLevelIssueList = /*@__PURE__*/ S.Array(
-  CollectionStatusItemLevelIssue,
-) as any as S.Schema<CollectionStatusItemLevelIssueList>;
-
 /** Destination status message. */
 export interface CollectionStatusDestinationStatus {
-  /** The status for the specified destination in the collections target country. */
-  status?: string;
-  /** Country codes (ISO 3166-1 alpha-2) where the collection is pending approval. */
-  pendingCountries?: StringList;
   /** Country codes (ISO 3166-1 alpha-2) where the collection is approved. */
   approvedCountries?: StringList;
+  /** The status for the specified destination in the collections target country. */
+  status?: string;
   /** Country codes (ISO 3166-1 alpha-2) where the collection is disapproved. */
   disapprovedCountries?: StringList;
+  /** Country codes (ISO 3166-1 alpha-2) where the collection is pending approval. */
+  pendingCountries?: StringList;
   /** The name of the destination */
   destination?: string;
 }
 export const CollectionStatusDestinationStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(S.String),
-    pendingCountries: S.optional(StringList),
     approvedCountries: S.optional(StringList),
+    status: S.optional(S.String),
     disapprovedCountries: S.optional(StringList),
+    pendingCountries: S.optional(StringList),
     destination: S.optional(S.String),
   }),
 ).annotate({
@@ -6453,26 +6412,69 @@ export const CollectionStatusDestinationStatusList = /*@__PURE__*/ S.Array(
   CollectionStatusDestinationStatus,
 ) as any as S.Schema<CollectionStatusDestinationStatusList>;
 
+/** Issue associated with the collection. */
+export interface CollectionStatusItemLevelIssue {
+  /** A short issue description in English. */
+  description?: string;
+  /** Whether the issue can be resolved by the merchant. */
+  resolution?: string;
+  /** The attribute's name, if the issue is caused by a single attribute. */
+  attributeName?: string;
+  /** A detailed issue description in English. */
+  detail?: string;
+  /** The URL of a web page to help with resolving this issue. */
+  documentation?: string;
+  /** Country codes (ISO 3166-1 alpha-2) where issue applies to the offer. */
+  applicableCountries?: StringList;
+  /** The error code of the issue. */
+  code?: string;
+  /** The destination the issue applies to. */
+  destination?: string;
+  /** How this issue affects the serving of the collection. */
+  servability?: string;
+}
+export const CollectionStatusItemLevelIssue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    resolution: S.optional(S.String),
+    attributeName: S.optional(S.String),
+    detail: S.optional(S.String),
+    documentation: S.optional(S.String),
+    applicableCountries: S.optional(StringList),
+    code: S.optional(S.String),
+    destination: S.optional(S.String),
+    servability: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CollectionStatusItemLevelIssue",
+}) as any as S.Schema<CollectionStatusItemLevelIssue>;
+
+export type CollectionStatusItemLevelIssueList =
+  Array<CollectionStatusItemLevelIssue>;
+export const CollectionStatusItemLevelIssueList = /*@__PURE__*/ S.Array(
+  CollectionStatusItemLevelIssue,
+) as any as S.Schema<CollectionStatusItemLevelIssueList>;
+
 /** The collectionstatus message. */
 export interface CollectionStatus {
   /** Date on which the collection has been created in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format: Date, time, and offset, for example "2020-01-02T09:00:00+01:00" or "2020-01-02T09:00:00Z" */
   creationDate?: string;
-  /** Date on which the collection has been last updated in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format: Date, time, and offset, for example "2020-01-02T09:00:00+01:00" or "2020-01-02T09:00:00Z" */
-  lastUpdateDate?: string;
+  /** The intended destinations for the collection. */
+  destinationStatuses?: CollectionStatusDestinationStatusList;
   /** A list of all issues associated with the collection. */
   collectionLevelIssuses?: CollectionStatusItemLevelIssueList;
   /** Required. The ID of the collection for which status is reported. */
   id?: string;
-  /** The intended destinations for the collection. */
-  destinationStatuses?: CollectionStatusDestinationStatusList;
+  /** Date on which the collection has been last updated in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format: Date, time, and offset, for example "2020-01-02T09:00:00+01:00" or "2020-01-02T09:00:00Z" */
+  lastUpdateDate?: string;
 }
 export const CollectionStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     creationDate: S.optional(S.String),
-    lastUpdateDate: S.optional(S.String),
+    destinationStatuses: S.optional(CollectionStatusDestinationStatusList),
     collectionLevelIssuses: S.optional(CollectionStatusItemLevelIssueList),
     id: S.optional(S.String),
-    destinationStatuses: S.optional(CollectionStatusDestinationStatusList),
+    lastUpdateDate: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CollectionStatus",
@@ -6522,40 +6524,40 @@ export const GetCssesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Information about CSS domain. */
 export interface Css {
-  /** Output only. Immutable. The CSS domain ID. */
-  cssDomainId?: string;
-  /** A list of label IDs that are assigned to this CSS domain by its CSS group. Only populated for CSS group users. */
-  labelIds?: StringList;
-  /** Output only. Immutable. The CSS domain's full name. */
-  fullName?: string;
-  /** Output only. Immutable. The ID of the CSS group this CSS domain is affiliated with. Only populated for CSS group users. */
-  cssGroupId?: string;
   /** Output only. Immutable. The CSS domain's display name, used when space is constrained. */
   displayName?: string;
   /** Output only. Immutable. The CSS domain's homepage. */
   homepageUri?: string;
+  /** Output only. Immutable. The CSS domain ID. */
+  cssDomainId?: string;
+  /** Output only. Immutable. The ID of the CSS group this CSS domain is affiliated with. Only populated for CSS group users. */
+  cssGroupId?: string;
+  /** Output only. Immutable. The CSS domain's full name. */
+  fullName?: string;
+  /** A list of label IDs that are assigned to this CSS domain by its CSS group. Only populated for CSS group users. */
+  labelIds?: StringList;
 }
 export const Css = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cssDomainId: S.optional(S.String),
-    labelIds: S.optional(StringList),
-    fullName: S.optional(S.String),
-    cssGroupId: S.optional(S.String),
     displayName: S.optional(S.String),
     homepageUri: S.optional(S.String),
+    cssDomainId: S.optional(S.String),
+    cssGroupId: S.optional(S.String),
+    fullName: S.optional(S.String),
+    labelIds: S.optional(StringList),
   }),
 ).annotate({ identifier: "Css" }) as any as S.Schema<Css>;
 
 export interface GetDatafeedsRequest {
-  /** The ID of the datafeed. */
-  datafeedId: string;
   /** The ID of the account that manages the datafeed. This account cannot be a multi-client account. */
   merchantId: string;
+  /** The ID of the datafeed. */
+  datafeedId: string;
 }
 export const GetDatafeedsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    datafeedId: S.String.pipe(T.Label()),
     merchantId: S.String.pipe(T.Label()),
+    datafeedId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6568,24 +6570,24 @@ export const GetDatafeedsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDatafeedsRequest>;
 
 export interface GetDatafeedstatusesRequest {
-  /** The feed label to get the datafeed status for. If this parameter is provided then `language` must also be provided. Note that this parameter is required for feeds targeting multiple countries and languages, since a feed may have a different status for each target. */
-  feedLabel?: string;
-  /** Deprecated. Use `feedLabel` instead. The country to get the datafeed status for. If this parameter is provided then `language` must also be provided. Note that this parameter is required for feeds targeting multiple countries and languages, since a feed may have a different status for each target. */
-  country?: string;
-  /** The language to get the datafeed status for. If this parameter is provided then `country` must also be provided. Note that this parameter is required for feeds targeting multiple countries and languages, since a feed may have a different status for each target. */
-  language?: string;
   /** The ID of the account that manages the datafeed. This account cannot be a multi-client account. */
   merchantId: string;
+  /** Deprecated. Use `feedLabel` instead. The country to get the datafeed status for. If this parameter is provided then `language` must also be provided. Note that this parameter is required for feeds targeting multiple countries and languages, since a feed may have a different status for each target. */
+  country?: string;
   /** The ID of the datafeed. */
   datafeedId: string;
+  /** The language to get the datafeed status for. If this parameter is provided then `country` must also be provided. Note that this parameter is required for feeds targeting multiple countries and languages, since a feed may have a different status for each target. */
+  language?: string;
+  /** The feed label to get the datafeed status for. If this parameter is provided then `language` must also be provided. Note that this parameter is required for feeds targeting multiple countries and languages, since a feed may have a different status for each target. */
+  feedLabel?: string;
 }
 export const GetDatafeedstatusesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    feedLabel: S.optional(S.String.pipe(T.Query())),
-    country: S.optional(S.String.pipe(T.Query())),
-    language: S.optional(S.String.pipe(T.Query())),
     merchantId: S.String.pipe(T.Label()),
+    country: S.optional(S.String.pipe(T.Query())),
     datafeedId: S.String.pipe(T.Label()),
+    language: S.optional(S.String.pipe(T.Query())),
+    feedLabel: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6615,13 +6617,6 @@ export const GetFreelistingsprogramRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetFreelistingsprogramRequest",
 }) as any as S.Schema<GetFreelistingsprogramRequest>;
 
-export type FreeListingsProgramStatusGlobalStateEnum =
-  | "PROGRAM_STATE_UNSPECIFIED"
-  | "NOT_ENABLED"
-  | "NO_OFFERS_UPLOADED"
-  | "ENABLED";
-export const FreeListingsProgramStatusGlobalStateEnum = /*@__PURE__*/ S.String;
-
 export type FreeListingsProgramStatusRegionStatusReviewEligibilityStatusEnum =
   | "REVIEW_ELIGIBILITY_UNSPECIFIED"
   | "ELIGIBLE"
@@ -6629,27 +6624,16 @@ export type FreeListingsProgramStatusRegionStatusReviewEligibilityStatusEnum =
 export const FreeListingsProgramStatusRegionStatusReviewEligibilityStatusEnum =
   /*@__PURE__*/ S.String;
 
-export type FreeListingsProgramStatusRegionStatusEligibilityStatusEnum =
-  | "STATE_UNSPECIFIED"
-  | "APPROVED"
-  | "DISAPPROVED"
-  | "WARNING"
-  | "UNDER_REVIEW"
-  | "PENDING_REVIEW"
-  | "ONBOARDING";
-export const FreeListingsProgramStatusRegionStatusEligibilityStatusEnum =
-  /*@__PURE__*/ S.String;
-
 export type FreeListingsProgramStatusRegionStatusReviewIneligibilityReasonEnum =
-    | "REVIEW_INELIGIBILITY_REASON_UNSPECIFIED"
-    | "ONBOARDING_ISSUES"
-    | "NOT_ENOUGH_OFFERS"
-    | "IN_COOLDOWN_PERIOD"
-    | "ALREADY_UNDER_REVIEW"
-    | "NO_REVIEW_REQUIRED"
-    | "WILL_BE_REVIEWED_AUTOMATICALLY"
-    | "IS_RETIRED"
-    | "ALREADY_REVIEWED";
+  | "REVIEW_INELIGIBILITY_REASON_UNSPECIFIED"
+  | "ONBOARDING_ISSUES"
+  | "NOT_ENOUGH_OFFERS"
+  | "IN_COOLDOWN_PERIOD"
+  | "ALREADY_UNDER_REVIEW"
+  | "NO_REVIEW_REQUIRED"
+  | "WILL_BE_REVIEWED_AUTOMATICALLY"
+  | "IS_RETIRED"
+  | "ALREADY_REVIEWED";
 export const FreeListingsProgramStatusRegionStatusReviewIneligibilityReasonEnum =
   /*@__PURE__*/ S.String;
 
@@ -6667,45 +6651,56 @@ export const FreeListingsProgramStatusReviewIneligibilityReasonDetails =
     identifier: "FreeListingsProgramStatusReviewIneligibilityReasonDetails",
   }) as any as S.Schema<FreeListingsProgramStatusReviewIneligibilityReasonDetails>;
 
+export type FreeListingsProgramStatusRegionStatusEligibilityStatusEnum =
+  | "STATE_UNSPECIFIED"
+  | "APPROVED"
+  | "DISAPPROVED"
+  | "WARNING"
+  | "UNDER_REVIEW"
+  | "PENDING_REVIEW"
+  | "ONBOARDING";
+export const FreeListingsProgramStatusRegionStatusEligibilityStatusEnum =
+  /*@__PURE__*/ S.String;
+
 /** Status of program and region. */
 export interface FreeListingsProgramStatusRegionStatus {
+  /** Reason a program in a specific region isn’t eligible for review. Only visible if `reviewEligibilityStatus` is `INELIGIBLE`. */
+  reviewIneligibilityReasonDescription?: string;
+  /** If a program is eligible for review in a specific region. Only visible if `eligibilityStatus` is `DISAPPROVED`. */
+  reviewEligibilityStatus?: FreeListingsProgramStatusRegionStatusReviewEligibilityStatusEnum;
+  /** Review ineligibility reason if account is not eligible for review. */
+  reviewIneligibilityReason?: FreeListingsProgramStatusRegionStatusReviewIneligibilityReasonEnum;
+  /** Additional information for ineligibility. If `reviewIneligibilityReason` is `IN_COOLDOWN_PERIOD`, a timestamp for the end of the cooldown period is provided. */
+  reviewIneligibilityReasonDetails?: FreeListingsProgramStatusReviewIneligibilityReasonDetails;
+  /** Issues evaluated in the review process. Fix all issues before requesting a review. */
+  reviewIssues?: StringList;
   /** Issues that must be fixed to be eligible for review. */
   onboardingIssues?: StringList;
   /** The two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes for all the regions with the same `eligibilityStatus` and `reviewEligibility`. */
   regionCodes?: StringList;
-  /** If a program is eligible for review in a specific region. Only visible if `eligibilityStatus` is `DISAPPROVED`. */
-  reviewEligibilityStatus?: FreeListingsProgramStatusRegionStatusReviewEligibilityStatusEnum;
-  /** Reason a program in a specific region isn’t eligible for review. Only visible if `reviewEligibilityStatus` is `INELIGIBLE`. */
-  reviewIneligibilityReasonDescription?: string;
   /** Eligibility status of the standard free listing program. */
   eligibilityStatus?: FreeListingsProgramStatusRegionStatusEligibilityStatusEnum;
-  /** Review ineligibility reason if account is not eligible for review. */
-  reviewIneligibilityReason?: FreeListingsProgramStatusRegionStatusReviewIneligibilityReasonEnum;
-  /** Issues evaluated in the review process. Fix all issues before requesting a review. */
-  reviewIssues?: StringList;
-  /** Additional information for ineligibility. If `reviewIneligibilityReason` is `IN_COOLDOWN_PERIOD`, a timestamp for the end of the cooldown period is provided. */
-  reviewIneligibilityReasonDetails?: FreeListingsProgramStatusReviewIneligibilityReasonDetails;
   /** Date by which eligibilityStatus will go from `WARNING` to `DISAPPROVED`. Only visible when your eligibilityStatus is WARNING. In [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DD`. */
   disapprovalDate?: string;
 }
 export const FreeListingsProgramStatusRegionStatus = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      onboardingIssues: S.optional(StringList),
-      regionCodes: S.optional(StringList),
+      reviewIneligibilityReasonDescription: S.optional(S.String),
       reviewEligibilityStatus: S.optional(
         FreeListingsProgramStatusRegionStatusReviewEligibilityStatusEnum,
-      ),
-      reviewIneligibilityReasonDescription: S.optional(S.String),
-      eligibilityStatus: S.optional(
-        FreeListingsProgramStatusRegionStatusEligibilityStatusEnum,
       ),
       reviewIneligibilityReason: S.optional(
         FreeListingsProgramStatusRegionStatusReviewIneligibilityReasonEnum,
       ),
-      reviewIssues: S.optional(StringList),
       reviewIneligibilityReasonDetails: S.optional(
         FreeListingsProgramStatusReviewIneligibilityReasonDetails,
+      ),
+      reviewIssues: S.optional(StringList),
+      onboardingIssues: S.optional(StringList),
+      regionCodes: S.optional(StringList),
+      eligibilityStatus: S.optional(
+        FreeListingsProgramStatusRegionStatusEligibilityStatusEnum,
       ),
       disapprovalDate: S.optional(S.String),
     }),
@@ -6719,17 +6714,24 @@ export const FreeListingsProgramStatusRegionStatusList = /*@__PURE__*/ S.Array(
   FreeListingsProgramStatusRegionStatus,
 ) as any as S.Schema<FreeListingsProgramStatusRegionStatusList>;
 
+export type FreeListingsProgramStatusGlobalStateEnum =
+  | "PROGRAM_STATE_UNSPECIFIED"
+  | "NOT_ENABLED"
+  | "NO_OFFERS_UPLOADED"
+  | "ENABLED";
+export const FreeListingsProgramStatusGlobalStateEnum = /*@__PURE__*/ S.String;
+
 /** Response message for GetFreeListingsProgramStatus. */
 export interface FreeListingsProgramStatus {
-  /** State of the program. `ENABLED` if there are offers for at least one region. */
-  globalState?: FreeListingsProgramStatusGlobalStateEnum;
   /** Status of the program in each region. Regions with the same status and review eligibility are grouped together in `regionCodes`. */
   regionStatuses?: FreeListingsProgramStatusRegionStatusList;
+  /** State of the program. `ENABLED` if there are offers for at least one region. */
+  globalState?: FreeListingsProgramStatusGlobalStateEnum;
 }
 export const FreeListingsProgramStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    globalState: S.optional(FreeListingsProgramStatusGlobalStateEnum),
     regionStatuses: S.optional(FreeListingsProgramStatusRegionStatusList),
+    globalState: S.optional(FreeListingsProgramStatusGlobalStateEnum),
   }),
 ).annotate({
   identifier: "FreeListingsProgramStatus",
@@ -6754,6 +6756,21 @@ export const GetFreelistingsprogramCheckoutsettingsRequest =
     identifier: "GetFreelistingsprogramCheckoutsettingsRequest",
   }) as any as S.Schema<GetFreelistingsprogramCheckoutsettingsRequest>;
 
+export type CheckoutSettingsEffectiveEnrollmentStateEnum =
+  | "CHECKOUT_ON_MERCHANT_ENROLLMENT_STATE_UNSPECIFIED"
+  | "INACTIVE"
+  | "ENROLLED"
+  | "OPT_OUT";
+export const CheckoutSettingsEffectiveEnrollmentStateEnum =
+  /*@__PURE__*/ S.String;
+
+export type CheckoutSettingsEffectiveReviewStateEnum =
+  | "CHECKOUT_ON_MERCHANT_REVIEW_STATE_UNSPECIFIED"
+  | "IN_REVIEW"
+  | "APPROVED"
+  | "DISAPPROVED";
+export const CheckoutSettingsEffectiveReviewStateEnum = /*@__PURE__*/ S.String;
+
 export type CheckoutSettingsReviewStateEnum =
   | "CHECKOUT_ON_MERCHANT_REVIEW_STATE_UNSPECIFIED"
   | "IN_REVIEW"
@@ -6763,24 +6780,17 @@ export const CheckoutSettingsReviewStateEnum = /*@__PURE__*/ S.String;
 
 /** Specifications related to the `Checkout` URL. The `UriTemplate` is of the form `https://www.mystore.com/checkout?item_id={id}` where `{id}` will be automatically replaced with data from the merchant account with this attribute [offer_id](https://developers.google.com/shopping-content/reference/rest/v2.1/products#Product.FIELDS.offer_id) */
 export interface UrlSettings {
-  /** URL template when the placeholders are expanded will redirect the buyer to the merchant checkout page with the item in the cart. */
-  checkoutUriTemplate?: string;
   /** URL template when the placeholders are expanded will redirect the buyer to the cart page on the merchant website with the selected item in cart. */
   cartUriTemplate?: string;
+  /** URL template when the placeholders are expanded will redirect the buyer to the merchant checkout page with the item in the cart. */
+  checkoutUriTemplate?: string;
 }
 export const UrlSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    checkoutUriTemplate: S.optional(S.String),
     cartUriTemplate: S.optional(S.String),
+    checkoutUriTemplate: S.optional(S.String),
   }),
 ).annotate({ identifier: "UrlSettings" }) as any as S.Schema<UrlSettings>;
-
-export type CheckoutSettingsEffectiveReviewStateEnum =
-  | "CHECKOUT_ON_MERCHANT_REVIEW_STATE_UNSPECIFIED"
-  | "IN_REVIEW"
-  | "APPROVED"
-  | "DISAPPROVED";
-export const CheckoutSettingsEffectiveReviewStateEnum = /*@__PURE__*/ S.String;
 
 export type CheckoutSettingsEnrollmentStateEnum =
   | "CHECKOUT_ON_MERCHANT_ENROLLMENT_STATE_UNSPECIFIED"
@@ -6789,42 +6799,34 @@ export type CheckoutSettingsEnrollmentStateEnum =
   | "OPT_OUT";
 export const CheckoutSettingsEnrollmentStateEnum = /*@__PURE__*/ S.String;
 
-export type CheckoutSettingsEffectiveEnrollmentStateEnum =
-  | "CHECKOUT_ON_MERCHANT_ENROLLMENT_STATE_UNSPECIFIED"
-  | "INACTIVE"
-  | "ENROLLED"
-  | "OPT_OUT";
-export const CheckoutSettingsEffectiveEnrollmentStateEnum =
-  /*@__PURE__*/ S.String;
-
 /** `CheckoutSettings` for a specific merchant ID. */
 export interface CheckoutSettings {
-  /** Output only. Reflects the merchant review state in `Checkout` feature. This is set based on the data quality reviews of the URL provided by the merchant. A merchant with enrollment state as `ENROLLED` can be in the following review states: `IN_REVIEW`, `APPROVED` or `DISAPPROVED`. A merchant must be in an enrollment_state of `ENROLLED` before a review can begin for the merchant. */
-  reviewState?: CheckoutSettingsReviewStateEnum;
-  /** The effective value of `url_settings` for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account. */
-  effectiveUriSettings?: UrlSettings;
+  /** Output only. The effective value of enrollment state for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account. */
+  effectiveEnrollmentState?: CheckoutSettingsEffectiveEnrollmentStateEnum;
   /** Output only. The effective value of review state for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account. */
   effectiveReviewState?: CheckoutSettingsEffectiveReviewStateEnum;
+  /** Output only. Reflects the merchant review state in `Checkout` feature. This is set based on the data quality reviews of the URL provided by the merchant. A merchant with enrollment state as `ENROLLED` can be in the following review states: `IN_REVIEW`, `APPROVED` or `DISAPPROVED`. A merchant must be in an enrollment_state of `ENROLLED` before a review can begin for the merchant. */
+  reviewState?: CheckoutSettingsReviewStateEnum;
   /** URL settings for cart or checkout URL. */
   uriSettings?: UrlSettings;
   /** Required. The ID of the account. */
   merchantId?: string;
+  /** The effective value of `url_settings` for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account. */
+  effectiveUriSettings?: UrlSettings;
   /** Output only. Reflects the merchant enrollment state in `Checkout` feature. */
   enrollmentState?: CheckoutSettingsEnrollmentStateEnum;
-  /** Output only. The effective value of enrollment state for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account. */
-  effectiveEnrollmentState?: CheckoutSettingsEffectiveEnrollmentStateEnum;
 }
 export const CheckoutSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reviewState: S.optional(CheckoutSettingsReviewStateEnum),
-    effectiveUriSettings: S.optional(UrlSettings),
-    effectiveReviewState: S.optional(CheckoutSettingsEffectiveReviewStateEnum),
-    uriSettings: S.optional(UrlSettings),
-    merchantId: S.optional(S.String),
-    enrollmentState: S.optional(CheckoutSettingsEnrollmentStateEnum),
     effectiveEnrollmentState: S.optional(
       CheckoutSettingsEffectiveEnrollmentStateEnum,
     ),
+    effectiveReviewState: S.optional(CheckoutSettingsEffectiveReviewStateEnum),
+    reviewState: S.optional(CheckoutSettingsReviewStateEnum),
+    uriSettings: S.optional(UrlSettings),
+    merchantId: S.optional(S.String),
+    effectiveUriSettings: S.optional(UrlSettings),
+    enrollmentState: S.optional(CheckoutSettingsEnrollmentStateEnum),
   }),
 ).annotate({
   identifier: "CheckoutSettings",
@@ -6852,17 +6854,17 @@ export const GetLiasettingsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetLiasettingsRequest>;
 
 export interface GetPosRequest {
-  /** The ID of the POS or inventory data provider. */
-  merchantId: string;
   /** A store code that is unique per merchant. */
   storeCode: string;
+  /** The ID of the POS or inventory data provider. */
+  merchantId: string;
   /** The ID of the target merchant. */
   targetMerchantId: string;
 }
 export const GetPosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     storeCode: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
     targetMerchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -6916,18 +6918,18 @@ export const GetProductsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProductsRequest>;
 
 export interface GetProductstatusesRequest {
+  /** The REST ID of the product. */
+  productId: string;
   /** If set, only issues for the specified destinations are returned, otherwise only issues for the Shopping destination. */
   destinations?: StringList;
   /** The ID of the account that contains the product. This account cannot be a multi-client account. */
   merchantId: string;
-  /** The REST ID of the product. */
-  productId: string;
 }
 export const GetProductstatusesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    productId: S.String.pipe(T.Label()),
     destinations: S.optional(StringList.pipe(T.Query())),
     merchantId: S.String.pipe(T.Label()),
-    productId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6940,15 +6942,15 @@ export const GetProductstatusesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProductstatusesRequest>;
 
 export interface GetPromotionsRequest {
-  /** Required. The ID of the account that contains the collection. */
-  merchantId: string;
   /** Required. REST ID of the promotion to retrieve. */
   id: string;
+  /** Required. The ID of the account that contains the collection. */
+  merchantId: string;
 }
 export const GetPromotionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6983,31 +6985,31 @@ export const GetPubsubnotificationsettingsRequest = /*@__PURE__*/ S.suspend(
 export interface PubsubNotificationSettings {
   /** List of event types. Acceptable values are: - "`orderPendingShipment`" */
   registeredEvents?: StringList;
-  /** Identifies what kind of resource this is. Value: the fixed string "`content#pubsubNotificationSettings`" */
-  kind?: string;
   /** Cloud pub/sub topic to which notifications are sent (read-only). */
   cloudTopicName?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "`content#pubsubNotificationSettings`" */
+  kind?: string;
 }
 export const PubsubNotificationSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     registeredEvents: S.optional(StringList),
-    kind: S.optional(S.String),
     cloudTopicName: S.optional(S.String),
+    kind: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PubsubNotificationSettings",
 }) as any as S.Schema<PubsubNotificationSettings>;
 
 export interface GetRegionsRequest {
-  /** Required. The id of the merchant for which to retrieve region definition. */
-  merchantId: string;
   /** Required. The id of the region to retrieve. */
   regionId: string;
+  /** Required. The id of the merchant for which to retrieve region definition. */
+  merchantId: string;
 }
 export const GetRegionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     regionId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7020,15 +7022,15 @@ export const GetRegionsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetRegionsRequest>;
 
 export interface GetReturnpolicyonlineRequest {
-  /** Required. The id of the merchant for which to retrieve the return policy online object. */
-  merchantId: string;
   /** Required. The id of the return policy to retrieve. */
   returnPolicyId: string;
+  /** Required. The id of the merchant for which to retrieve the return policy online object. */
+  merchantId: string;
 }
 export const GetReturnpolicyonlineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     returnPolicyId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7086,12 +7088,11 @@ export type ShoppingAdsProgramStatusGlobalStateEnum =
   | "ENABLED";
 export const ShoppingAdsProgramStatusGlobalStateEnum = /*@__PURE__*/ S.String;
 
-export type ShoppingAdsProgramStatusRegionStatusReviewEligibilityStatusEnum =
-  | "REVIEW_ELIGIBILITY_UNSPECIFIED"
-  | "ELIGIBLE"
-  | "INELIGIBLE";
-export const ShoppingAdsProgramStatusRegionStatusReviewEligibilityStatusEnum =
-  /*@__PURE__*/ S.String;
+/** Additional details for review ineligibility reasons. */
+export type ShoppingAdsProgramStatusReviewIneligibilityReasonDetails =
+  FreeListingsProgramStatusReviewIneligibilityReasonDetails;
+export const ShoppingAdsProgramStatusReviewIneligibilityReasonDetails =
+  FreeListingsProgramStatusReviewIneligibilityReasonDetails;
 
 export type ShoppingAdsProgramStatusRegionStatusEligibilityStatusEnum =
   | "STATE_UNSPECIFIED"
@@ -7102,6 +7103,13 @@ export type ShoppingAdsProgramStatusRegionStatusEligibilityStatusEnum =
   | "PENDING_REVIEW"
   | "ONBOARDING";
 export const ShoppingAdsProgramStatusRegionStatusEligibilityStatusEnum =
+  /*@__PURE__*/ S.String;
+
+export type ShoppingAdsProgramStatusRegionStatusReviewEligibilityStatusEnum =
+  | "REVIEW_ELIGIBILITY_UNSPECIFIED"
+  | "ELIGIBLE"
+  | "INELIGIBLE";
+export const ShoppingAdsProgramStatusRegionStatusReviewEligibilityStatusEnum =
   /*@__PURE__*/ S.String;
 
 export type ShoppingAdsProgramStatusRegionStatusReviewIneligibilityReasonEnum =
@@ -7117,52 +7125,46 @@ export type ShoppingAdsProgramStatusRegionStatusReviewIneligibilityReasonEnum =
 export const ShoppingAdsProgramStatusRegionStatusReviewIneligibilityReasonEnum =
   /*@__PURE__*/ S.String;
 
-/** Additional details for review ineligibility reasons. */
-export type ShoppingAdsProgramStatusReviewIneligibilityReasonDetails =
-  FreeListingsProgramStatusReviewIneligibilityReasonDetails;
-export const ShoppingAdsProgramStatusReviewIneligibilityReasonDetails =
-  FreeListingsProgramStatusReviewIneligibilityReasonDetails;
-
 /** Status of program and region. */
 export interface ShoppingAdsProgramStatusRegionStatus {
-  /** Issues that must be fixed to be eligible for review. */
-  onboardingIssues?: StringList;
-  /** The two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes for all the regions with the same `eligibilityStatus` and `reviewEligibility`. */
-  regionCodes?: StringList;
-  /** If a program is eligible for review in a specific region. Only visible if `eligibilityStatus` is `DISAPPROVED`. */
-  reviewEligibilityStatus?: ShoppingAdsProgramStatusRegionStatusReviewEligibilityStatusEnum;
-  /** Eligibility status of the Shopping Ads program. */
-  eligibilityStatus?: ShoppingAdsProgramStatusRegionStatusEligibilityStatusEnum;
-  /** Reason a program in a specific region isn’t eligible for review. Only visible if `reviewEligibilityStatus` is `INELIGIBLE`. */
-  reviewIneligibilityReasonDescription?: string;
-  /** Review ineligibility reason if account is not eligible for review. */
-  reviewIneligibilityReason?: ShoppingAdsProgramStatusRegionStatusReviewIneligibilityReasonEnum;
   /** Date by which eligibilityStatus will go from `WARNING` to `DISAPPROVED`. Only visible when your eligibilityStatus is WARNING. In [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DD`. */
   disapprovalDate?: string;
-  /** Issues evaluated in the review process. Fix all issues before requesting a review. */
-  reviewIssues?: StringList;
+  /** Reason a program in a specific region isn’t eligible for review. Only visible if `reviewEligibilityStatus` is `INELIGIBLE`. */
+  reviewIneligibilityReasonDescription?: string;
   /** Additional information for ineligibility. If `reviewIneligibilityReason` is `IN_COOLDOWN_PERIOD`, a timestamp for the end of the cooldown period is provided. */
   reviewIneligibilityReasonDetails?: FreeListingsProgramStatusReviewIneligibilityReasonDetails;
+  /** Eligibility status of the Shopping Ads program. */
+  eligibilityStatus?: ShoppingAdsProgramStatusRegionStatusEligibilityStatusEnum;
+  /** If a program is eligible for review in a specific region. Only visible if `eligibilityStatus` is `DISAPPROVED`. */
+  reviewEligibilityStatus?: ShoppingAdsProgramStatusRegionStatusReviewEligibilityStatusEnum;
+  /** The two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes for all the regions with the same `eligibilityStatus` and `reviewEligibility`. */
+  regionCodes?: StringList;
+  /** Issues that must be fixed to be eligible for review. */
+  onboardingIssues?: StringList;
+  /** Issues evaluated in the review process. Fix all issues before requesting a review. */
+  reviewIssues?: StringList;
+  /** Review ineligibility reason if account is not eligible for review. */
+  reviewIneligibilityReason?: ShoppingAdsProgramStatusRegionStatusReviewIneligibilityReasonEnum;
 }
 export const ShoppingAdsProgramStatusRegionStatus = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      onboardingIssues: S.optional(StringList),
-      regionCodes: S.optional(StringList),
-      reviewEligibilityStatus: S.optional(
-        ShoppingAdsProgramStatusRegionStatusReviewEligibilityStatusEnum,
+      disapprovalDate: S.optional(S.String),
+      reviewIneligibilityReasonDescription: S.optional(S.String),
+      reviewIneligibilityReasonDetails: S.optional(
+        FreeListingsProgramStatusReviewIneligibilityReasonDetails,
       ),
       eligibilityStatus: S.optional(
         ShoppingAdsProgramStatusRegionStatusEligibilityStatusEnum,
       ),
-      reviewIneligibilityReasonDescription: S.optional(S.String),
+      reviewEligibilityStatus: S.optional(
+        ShoppingAdsProgramStatusRegionStatusReviewEligibilityStatusEnum,
+      ),
+      regionCodes: S.optional(StringList),
+      onboardingIssues: S.optional(StringList),
+      reviewIssues: S.optional(StringList),
       reviewIneligibilityReason: S.optional(
         ShoppingAdsProgramStatusRegionStatusReviewIneligibilityReasonEnum,
-      ),
-      disapprovalDate: S.optional(S.String),
-      reviewIssues: S.optional(StringList),
-      reviewIneligibilityReasonDetails: S.optional(
-        FreeListingsProgramStatusReviewIneligibilityReasonDetails,
       ),
     }),
 ).annotate({
@@ -7211,21 +7213,21 @@ export const GetsupportedcarriersShippingsettingsRequest =
   }) as any as S.Schema<GetsupportedcarriersShippingsettingsRequest>;
 
 export interface CarriersCarrier {
-  /** The name of the carrier (for example, `"UPS"`). Always present. */
-  name?: string;
   /** A list of supported services (for example, `"ground"`) for that carrier. Contains at least one service. This is the list of valid values for CarrierRate.carrierService. */
   services?: StringList;
-  /** A list of services supported for EDD (Estimated Delivery Date) calculation. This is the list of valid values for WarehouseBasedDeliveryTime.carrierService. */
-  eddServices?: StringList;
   /** The CLDR country code of the carrier (for example, "US"). Always present. */
   country?: string;
+  /** A list of services supported for EDD (Estimated Delivery Date) calculation. This is the list of valid values for WarehouseBasedDeliveryTime.carrierService. */
+  eddServices?: StringList;
+  /** The name of the carrier (for example, `"UPS"`). Always present. */
+  name?: string;
 }
 export const CarriersCarrier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     services: S.optional(StringList),
-    eddServices: S.optional(StringList),
     country: S.optional(S.String),
+    eddServices: S.optional(StringList),
+    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CarriersCarrier",
@@ -7237,16 +7239,16 @@ export const CarriersCarrierList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CarriersCarrierList>;
 
 export interface ShippingsettingsGetSupportedCarriersResponse {
-  /** A list of supported carriers. May be empty. */
-  carriers?: CarriersCarrierList;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#shippingsettingsGetSupportedCarriersResponse`". */
   kind?: string;
+  /** A list of supported carriers. May be empty. */
+  carriers?: CarriersCarrierList;
 }
 export const ShippingsettingsGetSupportedCarriersResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      carriers: S.optional(CarriersCarrierList),
       kind: S.optional(S.String),
+      carriers: S.optional(CarriersCarrierList),
     }),
   ).annotate({
     identifier: "ShippingsettingsGetSupportedCarriersResponse",
@@ -7272,27 +7274,27 @@ export const GetsupportedholidaysShippingsettingsRequest =
   }) as any as S.Schema<GetsupportedholidaysShippingsettingsRequest>;
 
 export interface HolidaysHoliday {
-  /** Unique identifier for the holiday to be used when configuring holiday cutoffs. Always present. */
-  id?: string;
   /** The holiday type. Always present. Acceptable values are: - "`Christmas`" - "`Easter`" - "`Father's Day`" - "`Halloween`" - "`Independence Day (USA)`" - "`Mother's Day`" - "`Thanksgiving`" - "`Valentine's Day`" */
   type?: string;
-  /** Date of the holiday, in ISO 8601 format. For example, "2016-12-25" for Christmas 2016. Always present. */
-  date?: string;
-  /** Date on which the order has to arrive at the customer's, in ISO 8601 format. For example, "2016-12-24" for 24th December 2016. Always present. */
-  deliveryGuaranteeDate?: string;
-  /** The CLDR territory code of the country in which the holiday is available. For example, "US", "DE", "GB". A holiday cutoff can only be configured in a shipping settings service with matching delivery country. Always present. */
-  countryCode?: string;
   /** Hour of the day in the delivery location's timezone on the guaranteed delivery date by which the order has to arrive at the customer's. Possible values are: 0 (midnight), 1, ..., 12 (noon), 13, ..., 23. Always present. */
   deliveryGuaranteeHour?: string;
+  /** The CLDR territory code of the country in which the holiday is available. For example, "US", "DE", "GB". A holiday cutoff can only be configured in a shipping settings service with matching delivery country. Always present. */
+  countryCode?: string;
+  /** Unique identifier for the holiday to be used when configuring holiday cutoffs. Always present. */
+  id?: string;
+  /** Date on which the order has to arrive at the customer's, in ISO 8601 format. For example, "2016-12-24" for 24th December 2016. Always present. */
+  deliveryGuaranteeDate?: string;
+  /** Date of the holiday, in ISO 8601 format. For example, "2016-12-25" for Christmas 2016. Always present. */
+  date?: string;
 }
 export const HolidaysHoliday = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
     type: S.optional(S.String),
-    date: S.optional(S.String),
-    deliveryGuaranteeDate: S.optional(S.String),
-    countryCode: S.optional(S.String),
     deliveryGuaranteeHour: S.optional(S.String),
+    countryCode: S.optional(S.String),
+    id: S.optional(S.String),
+    deliveryGuaranteeDate: S.optional(S.String),
+    date: S.optional(S.String),
   }),
 ).annotate({
   identifier: "HolidaysHoliday",
@@ -7363,16 +7365,16 @@ export const PickupServicesPickupServiceList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<PickupServicesPickupServiceList>;
 
 export interface ShippingsettingsGetSupportedPickupServicesResponse {
-  /** A list of supported pickup services. May be empty. */
-  pickupServices?: PickupServicesPickupServiceList;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#shippingsettingsGetSupportedPickupServicesResponse`". */
   kind?: string;
+  /** A list of supported pickup services. May be empty. */
+  pickupServices?: PickupServicesPickupServiceList;
 }
 export const ShippingsettingsGetSupportedPickupServicesResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pickupServices: S.optional(PickupServicesPickupServiceList),
       kind: S.optional(S.String),
+      pickupServices: S.optional(PickupServicesPickupServiceList),
     }),
   ).annotate({
     identifier: "ShippingsettingsGetSupportedPickupServicesResponse",
@@ -7552,39 +7554,39 @@ export const InsertRegionalinventoryRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<InsertRegionalinventoryRequest>;
 
 export interface PosInventoryRequest {
-  /** Required. The inventory timestamp, in ISO 8601 format. */
-  timestamp?: string;
-  /** Required. The identifier of the merchant's store. Either a `storeCode` inserted through the API or the code of the store in a Business Profile. */
-  storeCode?: string;
-  /** Required. The CLDR territory code for the item. */
-  targetCountry?: string;
   /** Required. The current price of the item. */
   price?: Price;
+  /** Required. The identifier of the merchant's store. Either a `storeCode` inserted through the API or the code of the store in a Business Profile. */
+  storeCode?: string;
   /** Optional. Supported pickup method for this offer. Unless the value is "not supported", this field must be submitted together with `pickupSla`. For accepted attribute values, see the [local product inventory feed specification](https://support.google.com/merchants/answer/3061342). */
   pickupMethod?: string;
   /** Required. A unique identifier for the item. */
   itemId?: string;
-  /** Global Trade Item Number. */
-  gtin?: string;
-  /** Required. The available quantity of the item. */
-  quantity?: string;
+  /** Required. The inventory timestamp, in ISO 8601 format. */
+  timestamp?: string;
   /** Required. The two-letter ISO 639-1 language code for the item. */
   contentLanguage?: string;
+  /** Required. The CLDR territory code for the item. */
+  targetCountry?: string;
+  /** Required. The available quantity of the item. */
+  quantity?: string;
   /** Optional. Expected date that an order will be ready for pickup relative to the order date. Must be submitted together with `pickupMethod`. For accepted attribute values, see the [local product inventory feed specification](https://support.google.com/merchants/answer/3061342). */
   pickupSla?: string;
+  /** Global Trade Item Number. */
+  gtin?: string;
 }
 export const PosInventoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    timestamp: S.optional(S.String),
-    storeCode: S.optional(S.String),
-    targetCountry: S.optional(S.String),
     price: S.optional(Price),
+    storeCode: S.optional(S.String),
     pickupMethod: S.optional(S.String),
     itemId: S.optional(S.String),
-    gtin: S.optional(S.String),
-    quantity: S.optional(S.String),
+    timestamp: S.optional(S.String),
     contentLanguage: S.optional(S.String),
+    targetCountry: S.optional(S.String),
+    quantity: S.optional(S.String),
     pickupSla: S.optional(S.String),
+    gtin: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PosInventoryRequest",
@@ -7615,46 +7617,62 @@ export const InventoryPosRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<InventoryPosRequest>;
 
 export interface PosInventoryResponse {
-  /** Required. The inventory timestamp, in ISO 8601 format. */
-  timestamp?: string;
-  /** Required. The identifier of the merchant's store. Either a `storeCode` inserted through the API or the code of the store in a Business Profile. */
-  storeCode?: string;
-  /** Required. The CLDR territory code for the item. */
-  targetCountry?: string;
-  /** Required. The current price of the item. */
-  price?: Price;
-  /** Optional. Supported pickup method for this offer. Unless the value is "not supported", this field must be submitted together with `pickupSla`. For accepted attribute values, see the [local product inventory feed specification](https://support.google.com/merchants/answer/3061342). */
-  pickupMethod?: string;
-  /** Global Trade Item Number. */
-  gtin?: string;
   /** Required. The available quantity of the item. */
   quantity?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "`content#posInventoryResponse`". */
-  kind?: string;
-  /** Required. A unique identifier for the item. */
-  itemId?: string;
   /** Optional. Expected date that an order will be ready for pickup relative to the order date. Must be submitted together with `pickupMethod`. For accepted attribute values, see the [local product inventory feed specification](https://support.google.com/merchants/answer/3061342). */
   pickupSla?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "`content#posInventoryResponse`". */
+  kind?: string;
+  /** Global Trade Item Number. */
+  gtin?: string;
+  /** Optional. Supported pickup method for this offer. Unless the value is "not supported", this field must be submitted together with `pickupSla`. For accepted attribute values, see the [local product inventory feed specification](https://support.google.com/merchants/answer/3061342). */
+  pickupMethod?: string;
+  /** Required. The CLDR territory code for the item. */
+  targetCountry?: string;
+  /** Required. The inventory timestamp, in ISO 8601 format. */
+  timestamp?: string;
+  /** Required. A unique identifier for the item. */
+  itemId?: string;
+  /** Required. The identifier of the merchant's store. Either a `storeCode` inserted through the API or the code of the store in a Business Profile. */
+  storeCode?: string;
+  /** Required. The current price of the item. */
+  price?: Price;
   /** Required. The two-letter ISO 639-1 language code for the item. */
   contentLanguage?: string;
 }
 export const PosInventoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    timestamp: S.optional(S.String),
-    storeCode: S.optional(S.String),
-    targetCountry: S.optional(S.String),
-    price: S.optional(Price),
-    pickupMethod: S.optional(S.String),
-    gtin: S.optional(S.String),
     quantity: S.optional(S.String),
-    kind: S.optional(S.String),
-    itemId: S.optional(S.String),
     pickupSla: S.optional(S.String),
+    kind: S.optional(S.String),
+    gtin: S.optional(S.String),
+    pickupMethod: S.optional(S.String),
+    targetCountry: S.optional(S.String),
+    timestamp: S.optional(S.String),
+    itemId: S.optional(S.String),
+    storeCode: S.optional(S.String),
+    price: S.optional(Price),
     contentLanguage: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PosInventoryResponse",
 }) as any as S.Schema<PosInventoryResponse>;
+
+/** Additional information required for PAYMENT_SERVICE_PROVIDER link type. */
+export interface PaymentServiceProviderLinkInfo {
+  /** The id used by the third party service provider to identify the merchant. */
+  externalAccountId?: string;
+  /** The business country of the merchant account as identified by the third party service provider. */
+  externalAccountBusinessCountry?: string;
+}
+export const PaymentServiceProviderLinkInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    externalAccountId: S.optional(S.String),
+    externalAccountBusinessCountry: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PaymentServiceProviderLinkInfo",
+}) as any as S.Schema<PaymentServiceProviderLinkInfo>;
 
 /** Additional information required for E_COMMERCE_PLATFORM link type. */
 export interface ECommercePlatformLinkInfo {
@@ -7669,61 +7687,45 @@ export const ECommercePlatformLinkInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "ECommercePlatformLinkInfo",
 }) as any as S.Schema<ECommercePlatformLinkInfo>;
 
-/** Additional information required for PAYMENT_SERVICE_PROVIDER link type. */
-export interface PaymentServiceProviderLinkInfo {
-  /** The business country of the merchant account as identified by the third party service provider. */
-  externalAccountBusinessCountry?: string;
-  /** The id used by the third party service provider to identify the merchant. */
-  externalAccountId?: string;
-}
-export const PaymentServiceProviderLinkInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    externalAccountBusinessCountry: S.optional(S.String),
-    externalAccountId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PaymentServiceProviderLinkInfo",
-}) as any as S.Schema<PaymentServiceProviderLinkInfo>;
-
 export interface AccountsLinkRequest {
   /** Type of the link between the two accounts. Acceptable values are: - "`channelPartner`" - "`eCommercePlatform`" - "`paymentServiceProvider`" */
   linkType?: string;
-  /** Acceptable values are: - "`shoppingAdsProductManagement`" - "`shoppingActionsProductManagement`" - "`shoppingActionsOrderManagement`" - "`paymentProcessing`" */
-  services?: StringList;
-  /** Action to perform for this link. The `"request"` action is only available to select merchants. Acceptable values are: - "`approve`" - "`remove`" - "`request`" */
-  action?: string;
-  /** Additional information required for `eCommercePlatform` link type. */
-  eCommercePlatformLinkInfo?: ECommercePlatformLinkInfo;
   /** The ID of the linked account. */
   linkedAccountId?: string;
   /** Additional information required for `paymentServiceProvider` link type. */
   paymentServiceProviderLinkInfo?: PaymentServiceProviderLinkInfo;
+  /** Acceptable values are: - "`shoppingAdsProductManagement`" - "`shoppingActionsProductManagement`" - "`shoppingActionsOrderManagement`" - "`paymentProcessing`" */
+  services?: StringList;
+  /** Additional information required for `eCommercePlatform` link type. */
+  eCommercePlatformLinkInfo?: ECommercePlatformLinkInfo;
+  /** Action to perform for this link. The `"request"` action is only available to select merchants. Acceptable values are: - "`approve`" - "`remove`" - "`request`" */
+  action?: string;
 }
 export const AccountsLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     linkType: S.optional(S.String),
-    services: S.optional(StringList),
-    action: S.optional(S.String),
-    eCommercePlatformLinkInfo: S.optional(ECommercePlatformLinkInfo),
     linkedAccountId: S.optional(S.String),
     paymentServiceProviderLinkInfo: S.optional(PaymentServiceProviderLinkInfo),
+    services: S.optional(StringList),
+    eCommercePlatformLinkInfo: S.optional(ECommercePlatformLinkInfo),
+    action: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AccountsLinkRequest",
 }) as any as S.Schema<AccountsLinkRequest>;
 
 export interface LinkAccountsRequest {
-  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
-  merchantId: string;
   /** The ID of the account that should be linked. */
   accountId: string;
+  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
+  merchantId: string;
   /** Request body */
   body?: AccountsLinkRequest;
 }
 export const LinkAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     accountId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
     body: S.optional(AccountsLinkRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7752,27 +7754,27 @@ export type ListAccountsViewEnum = "MERCHANT" | "CSS";
 export const ListAccountsViewEnum = /*@__PURE__*/ S.String;
 
 export interface ListAccountsRequest {
-  /** If view is set to "css", only return accounts that are assigned label with given ID. */
-  label?: string;
-  /** The token returned by the previous request. */
-  pageToken?: string;
-  /** The ID of the managing account. This must be a multi-client account. */
-  merchantId: string;
+  /** If set, only the accounts with the given name (case sensitive) will be returned. */
+  name?: string;
   /** Controls which fields will be populated. Acceptable values are: "merchant" and "css". The default value is "merchant". */
   view?: ListAccountsViewEnum | (string & {});
   /** The maximum number of accounts to return in the response, used for paging. */
   maxResults?: number;
-  /** If set, only the accounts with the given name (case sensitive) will be returned. */
-  name?: string;
+  /** The token returned by the previous request. */
+  pageToken?: string;
+  /** The ID of the managing account. This must be a multi-client account. */
+  merchantId: string;
+  /** If view is set to "css", only return accounts that are assigned label with given ID. */
+  label?: string;
 }
 export const ListAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    label: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    merchantId: S.String.pipe(T.Label()),
+    name: S.optional(S.String.pipe(T.Query())),
     view: S.optional(ListAccountsViewEnum.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
-    name: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    merchantId: S.String.pipe(T.Label()),
+    label: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7792,33 +7794,33 @@ export const AccountList = /*@__PURE__*/ S.Array(
 export interface AccountsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "`content#accountsListResponse`". */
   kind?: string;
-  resources?: AccountList;
   /** The token for the retrieval of the next page of accounts. */
   nextPageToken?: string;
+  resources?: AccountList;
 }
 export const AccountsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.optional(S.String),
-    resources: S.optional(AccountList),
     nextPageToken: S.optional(S.String),
+    resources: S.optional(AccountList),
   }),
 ).annotate({
   identifier: "AccountsListResponse",
 }) as any as S.Schema<AccountsListResponse>;
 
 export interface ListAccountsLabelsRequest {
-  /** A page token, received from a previous `ListAccountLabels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAccountLabels` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Required. The account id for whose labels are to be listed. */
-  accountId: string;
   /** The maximum number of labels to return. The service may return fewer than this value. If unspecified, at most 50 labels will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
+  /** Required. The account id for whose labels are to be listed. */
+  accountId: string;
+  /** A page token, received from a previous `ListAccountLabels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAccountLabels` must match the call that provided the page token. */
+  pageToken?: string;
 }
 export const ListAccountsLabelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    accountId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    accountId: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7888,24 +7890,24 @@ export const ListAccountReturnCarrierResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAccountReturnCarrierResponse>;
 
 export interface ListAccountstatusesRequest {
-  /** The token returned by the previous request. */
-  pageToken?: string;
-  /** The ID of the managing account. This must be a multi-client account. */
-  merchantId: string;
-  /** The maximum number of account statuses to return in the response, used for paging. */
-  maxResults?: number;
-  /** If set, only the accounts with the given name (case sensitive) will be returned. */
-  name?: string;
   /** If set, only issues for the specified destinations are returned, otherwise only issues for the Shopping destination. */
   destinations?: StringList;
+  /** The maximum number of account statuses to return in the response, used for paging. */
+  maxResults?: number;
+  /** The ID of the managing account. This must be a multi-client account. */
+  merchantId: string;
+  /** If set, only the accounts with the given name (case sensitive) will be returned. */
+  name?: string;
+  /** The token returned by the previous request. */
+  pageToken?: string;
 }
 export const ListAccountstatusesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    merchantId: S.String.pipe(T.Label()),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    name: S.optional(S.String.pipe(T.Query())),
     destinations: S.optional(StringList.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    merchantId: S.String.pipe(T.Label()),
+    name: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7940,18 +7942,18 @@ export const AccountstatusesListResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AccountstatusesListResponse>;
 
 export interface ListAccounttaxRequest {
-  /** The token returned by the previous request. */
-  pageToken?: string;
-  /** The maximum number of tax settings to return in the response, used for paging. */
-  maxResults?: number;
   /** The ID of the managing account. This must be a multi-client account. */
   merchantId: string;
+  /** The maximum number of tax settings to return in the response, used for paging. */
+  maxResults?: number;
+  /** The token returned by the previous request. */
+  pageToken?: string;
 }
 export const ListAccounttaxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
     merchantId: S.String.pipe(T.Label()),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7969,35 +7971,35 @@ export const AccountTaxList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AccountTaxList>;
 
 export interface AccounttaxListResponse {
-  /** The token for the retrieval of the next page of account tax settings. */
-  nextPageToken?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#accounttaxListResponse`". */
   kind?: string;
   resources?: AccountTaxList;
+  /** The token for the retrieval of the next page of account tax settings. */
+  nextPageToken?: string;
 }
 export const AccounttaxListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     kind: S.optional(S.String),
     resources: S.optional(AccountTaxList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AccounttaxListResponse",
 }) as any as S.Schema<AccounttaxListResponse>;
 
 export interface ListCollectionsRequest {
+  /** Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token. */
+  pageToken?: string;
   /** Required. The ID of the account that contains the collection. This account cannot be a multi-client account. */
   merchantId: string;
   /** The maximum number of collections to return in the response, used for paging. Defaults to 50; values above 1000 will be coerced to 1000. */
   pageSize?: number;
-  /** Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token. */
-  pageToken?: string;
 }
 export const ListCollectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
     merchantId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8016,33 +8018,33 @@ export const CollectionList = /*@__PURE__*/ S.Array(
 
 /** Response message for the ListCollections method. */
 export interface ListCollectionsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The collections listed. */
   resources?: CollectionList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListCollectionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     resources: S.optional(CollectionList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListCollectionsResponse",
 }) as any as S.Schema<ListCollectionsResponse>;
 
 export interface ListCollectionstatusesRequest {
+  /** The maximum number of collection statuses to return in the response, used for paging. Defaults to 50; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token. */
   pageToken?: string;
   /** Required. The ID of the account that contains the collection. This account cannot be a multi-client account. */
   merchantId: string;
-  /** The maximum number of collection statuses to return in the response, used for paging. Defaults to 50; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
 }
 export const ListCollectionstatusesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     merchantId: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8061,35 +8063,35 @@ export const CollectionStatusList = /*@__PURE__*/ S.Array(
 
 /** Response message for the ListCollectionStatuses method. */
 export interface ListCollectionStatusesResponse {
-  /** The collectionstatuses listed. */
-  resources?: CollectionStatusList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The collectionstatuses listed. */
+  resources?: CollectionStatusList;
 }
 export const ListCollectionStatusesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resources: S.optional(CollectionStatusList),
     nextPageToken: S.optional(S.String),
+    resources: S.optional(CollectionStatusList),
   }),
 ).annotate({
   identifier: "ListCollectionStatusesResponse",
 }) as any as S.Schema<ListCollectionStatusesResponse>;
 
 export interface ListConversionsourcesRequest {
-  /** Required. The ID of the account that owns the new conversion source. */
-  merchantId: string;
   /** The maximum number of conversion sources to return in a page. If no `page_size` is specified, `100` is used as the default value. The maximum value is `200`. Values above `200` will be coerced to `200`. Regardless of pagination, at most `200` conversion sources are returned in total. */
   pageSize?: number;
   /** Page token. */
   pageToken?: string;
+  /** Required. The ID of the account that owns the new conversion source. */
+  merchantId: string;
   /** If true, also returns archived conversion sources. */
   showDeleted?: boolean;
 }
 export const ListConversionsourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    merchantId: S.String.pipe(T.Label()),
     showDeleted: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -8124,18 +8126,18 @@ export const ListConversionSourcesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListConversionSourcesResponse>;
 
 export interface ListCssesRequest {
+  /** A page token, received from a previous `ListCsses` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCsses` must match the call that provided the page token. */
+  pageToken?: string;
   /** The maximum number of CSS domains to return. The service may return fewer than this value. If unspecified, at most 50 CSS domains will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
   /** Required. The CSS group ID of CSS domains to be listed. */
   cssGroupId: string;
-  /** A page token, received from a previous `ListCsses` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCsses` must match the call that provided the page token. */
-  pageToken?: string;
 }
 export const ListCssesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     cssGroupId: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8152,32 +8154,32 @@ export const CssList = /*@__PURE__*/ S.Array(Css) as any as S.Schema<CssList>;
 
 /** The response message for the `ListCsses` method */
 export interface ListCssesResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The CSS domains affiliated with the specified CSS group. */
   csses?: CssList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListCssesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     csses: S.optional(CssList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListCssesResponse",
 }) as any as S.Schema<ListCssesResponse>;
 
 export interface ListDatafeedsRequest {
-  /** The maximum number of products to return in the response, used for paging. */
-  maxResults?: number;
   /** The token returned by the previous request. */
   pageToken?: string;
+  /** The maximum number of products to return in the response, used for paging. */
+  maxResults?: number;
   /** The ID of the account that manages the datafeeds. This account cannot be a multi-client account. */
   merchantId: string;
 }
 export const ListDatafeedsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxResults: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
     merchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -8196,17 +8198,17 @@ export const DatafeedList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DatafeedList>;
 
 export interface DatafeedsListResponse {
+  /** The token for the retrieval of the next page of datafeeds. */
+  nextPageToken?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#datafeedsListResponse`". */
   kind?: string;
   resources?: DatafeedList;
-  /** The token for the retrieval of the next page of datafeeds. */
-  nextPageToken?: string;
 }
 export const DatafeedsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     kind: S.optional(S.String),
     resources: S.optional(DatafeedList),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DatafeedsListResponse",
@@ -8242,35 +8244,35 @@ export const DatafeedStatusList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DatafeedStatusList>;
 
 export interface DatafeedstatusesListResponse {
-  /** The token for the retrieval of the next page of datafeed statuses. */
-  nextPageToken?: string;
+  resources?: DatafeedStatusList;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#datafeedstatusesListResponse`". */
   kind?: string;
-  resources?: DatafeedStatusList;
+  /** The token for the retrieval of the next page of datafeed statuses. */
+  nextPageToken?: string;
 }
 export const DatafeedstatusesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    kind: S.optional(S.String),
     resources: S.optional(DatafeedStatusList),
+    kind: S.optional(S.String),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DatafeedstatusesListResponse",
 }) as any as S.Schema<DatafeedstatusesListResponse>;
 
 export interface ListLiasettingsRequest {
-  /** The ID of the managing account. This must be a multi-client account. */
-  merchantId: string;
   /** The token returned by the previous request. */
   pageToken?: string;
   /** The maximum number of LIA settings to return in the response, used for paging. */
   maxResults?: number;
+  /** The ID of the managing account. This must be a multi-client account. */
+  merchantId: string;
 }
 export const ListLiasettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    merchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8288,37 +8290,37 @@ export const LiaSettingsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<LiaSettingsList>;
 
 export interface LiasettingsListResponse {
+  resources?: LiaSettingsList;
   /** The token for the retrieval of the next page of LIA settings. */
   nextPageToken?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#liasettingsListResponse`". */
   kind?: string;
-  resources?: LiaSettingsList;
 }
 export const LiasettingsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    resources: S.optional(LiaSettingsList),
     nextPageToken: S.optional(S.String),
     kind: S.optional(S.String),
-    resources: S.optional(LiaSettingsList),
   }),
 ).annotate({
   identifier: "LiasettingsListResponse",
 }) as any as S.Schema<LiasettingsListResponse>;
 
 export interface ListlinksAccountsRequest {
-  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
-  merchantId: string;
   /** The ID of the account for which to list links. */
   accountId: string;
   /** The maximum number of links to return in the response, used for pagination. The minimum allowed value is 5 results per page. If provided value is lower than 5, it will be automatically increased to 5. */
   maxResults?: number;
+  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
+  merchantId: string;
   /** The token returned by the previous request. */
   pageToken?: string;
 }
 export const ListlinksAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     accountId: S.String.pipe(T.Label()),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    merchantId: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -8368,18 +8370,18 @@ export const LinkedAccountList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<LinkedAccountList>;
 
 export interface AccountsListLinksResponse {
-  /** The token for the retrieval of the next page of links. */
-  nextPageToken?: string;
-  /** The list of available links. */
-  links?: LinkedAccountList;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#accountsListLinksResponse`". */
   kind?: string;
+  /** The list of available links. */
+  links?: LinkedAccountList;
+  /** The token for the retrieval of the next page of links. */
+  nextPageToken?: string;
 }
 export const AccountsListLinksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    links: S.optional(LinkedAccountList),
     kind: S.optional(S.String),
+    links: S.optional(LinkedAccountList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AccountsListLinksResponse",
@@ -8456,16 +8458,16 @@ export const LiasettingsListPosDataProvidersResponse = /*@__PURE__*/ S.suspend(
 export interface ListProductsRequest {
   /** The ID of the account that contains the products. This account cannot be a multi-client account. */
   merchantId: string;
-  /** The maximum number of products to return in the response, used for paging. The default value is 25. The maximum value is 250. */
-  maxResults?: number;
   /** The token returned by the previous request. */
   pageToken?: string;
+  /** The maximum number of products to return in the response, used for paging. The default value is 25. The maximum value is 250. */
+  maxResults?: number;
 }
 export const ListProductsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     merchantId: S.String.pipe(T.Label()),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8485,36 +8487,36 @@ export const ProductList = /*@__PURE__*/ S.Array(
 export interface ProductsListResponse {
   /** The token for the retrieval of the next page of products. */
   nextPageToken?: string;
+  resources?: ProductList;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#productsListResponse`". */
   kind?: string;
-  resources?: ProductList;
 }
 export const ProductsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    kind: S.optional(S.String),
     resources: S.optional(ProductList),
+    kind: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ProductsListResponse",
 }) as any as S.Schema<ProductsListResponse>;
 
 export interface ListProductstatusesRequest {
-  /** The ID of the account that contains the products. This account cannot be a multi-client account. */
-  merchantId: string;
-  /** If set, only issues for the specified destinations are returned, otherwise only issues for the Shopping destination. */
-  destinations?: StringList;
-  /** The maximum number of product statuses to return in the response, used for paging. The default value is 25. The maximum value is 250. */
-  maxResults?: number;
   /** The token returned by the previous request. */
   pageToken?: string;
+  /** The maximum number of product statuses to return in the response, used for paging. The default value is 25. The maximum value is 250. */
+  maxResults?: number;
+  /** If set, only issues for the specified destinations are returned, otherwise only issues for the Shopping destination. */
+  destinations?: StringList;
+  /** The ID of the account that contains the products. This account cannot be a multi-client account. */
+  merchantId: string;
 }
 export const ListProductstatusesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
-    destinations: S.optional(StringList.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    destinations: S.optional(StringList.pipe(T.Query())),
+    merchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8532,16 +8534,16 @@ export const ProductStatusList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ProductStatusList>;
 
 export interface ProductstatusesListResponse {
-  /** The token for the retrieval of the next page of products statuses. */
-  nextPageToken?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#productstatusesListResponse`". */
   kind?: string;
+  /** The token for the retrieval of the next page of products statuses. */
+  nextPageToken?: string;
   resources?: ProductStatusList;
 }
 export const ProductstatusesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     kind: S.optional(S.String),
+    nextPageToken: S.optional(S.String),
     resources: S.optional(ProductStatusList),
   }),
 ).annotate({
@@ -8549,24 +8551,24 @@ export const ProductstatusesListResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ProductstatusesListResponse>;
 
 export interface ListPromotionsRequest {
-  /** The two-letter ISO 639-1 language code associated with the promotions, used as a filter. */
-  languageCode?: string;
+  /** The maximum number of promotions to return. The service may return fewer than this value. If unspecified, at most 50 labels will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** [CLDR country code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) (for example, "US"), used as a filter on promotions target country. */
   countryCode?: string;
   /** A page token, received from a previous `ListPromotion` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPromotion` must match the call that provided the page token. */
   pageToken?: string;
   /** Required. The ID of the account that contains the collection. */
   merchantId: string;
-  /** The maximum number of promotions to return. The service may return fewer than this value. If unspecified, at most 50 labels will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  /** The two-letter ISO 639-1 language code associated with the promotions, used as a filter. */
+  languageCode?: string;
 }
 export const ListPromotionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    languageCode: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     countryCode: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     merchantId: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    languageCode: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8600,18 +8602,18 @@ export const ListPromotionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListPromotionResponse>;
 
 export interface ListQuotasRequest {
-  /** Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token. */
-  pageToken?: string;
-  /** Required. The ID of the account that has quota. This account must be an admin. */
-  merchantId: string;
   /** The maximum number of quotas to return in the response, used for paging. Defaults to 500; values above 1000 will be coerced to 1000. */
   pageSize?: number;
+  /** Required. The ID of the account that has quota. This account must be an admin. */
+  merchantId: string;
+  /** Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token. */
+  pageToken?: string;
 }
 export const ListQuotasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    merchantId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    merchantId: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8627,19 +8629,19 @@ export const ListQuotasRequest = /*@__PURE__*/ S.suspend(() =>
 export interface MethodQuota {
   /** Output only. The method name, for example `products.list`. Method name does not contain version because quota can be shared between different API versions of the same method. */
   method?: string;
+  /** Output only. The maximum number of calls allowed per minute for the method. */
+  quotaMinuteLimit?: string;
   /** Output only. The current quota usage, meaning the number of calls already made to the method per day. Usage is reset every day at 12 PM midday UTC. */
   quotaUsage?: string;
   /** Output only. The maximum number of calls allowed per day for the method. */
   quotaLimit?: string;
-  /** Output only. The maximum number of calls allowed per minute for the method. */
-  quotaMinuteLimit?: string;
 }
 export const MethodQuota = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     method: S.optional(S.String),
+    quotaMinuteLimit: S.optional(S.String),
     quotaUsage: S.optional(S.String),
     quotaLimit: S.optional(S.String),
-    quotaMinuteLimit: S.optional(S.String),
   }),
 ).annotate({ identifier: "MethodQuota" }) as any as S.Schema<MethodQuota>;
 
@@ -8665,18 +8667,18 @@ export const ListMethodQuotasResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListMethodQuotasResponse>;
 
 export interface ListRegionsRequest {
+  /** The maximum number of regions to return. The service may return fewer than this value. If unspecified, at most 50 rules will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** A page token, received from a previous `ListRegions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListRegions` must match the call that provided the page token. */
   pageToken?: string;
   /** Required. The id of the merchant for which to list region definitions. */
   merchantId: string;
-  /** The maximum number of regions to return. The service may return fewer than this value. If unspecified, at most 50 rules will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
 }
 export const ListRegionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     merchantId: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8695,15 +8697,15 @@ export const RegionList = /*@__PURE__*/ S.Array(
 
 /** Response message for the `ListRegions` method. */
 export interface ListRegionsResponse {
-  /** The regions from the specified merchant. */
-  regions?: RegionList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The regions from the specified merchant. */
+  regions?: RegionList;
 }
 export const ListRegionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    regions: S.optional(RegionList),
     nextPageToken: S.optional(S.String),
+    regions: S.optional(RegionList),
   }),
 ).annotate({
   identifier: "ListRegionsResponse",
@@ -8746,18 +8748,18 @@ export const ListReturnPolicyOnlineResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListReturnPolicyOnlineResponse>;
 
 export interface ListShippingsettingsRequest {
-  /** The ID of the managing account. This must be a multi-client account. */
-  merchantId: string;
-  /** The token returned by the previous request. */
-  pageToken?: string;
   /** The maximum number of shipping settings to return in the response, used for paging. */
   maxResults?: number;
+  /** The token returned by the previous request. */
+  pageToken?: string;
+  /** The ID of the managing account. This must be a multi-client account. */
+  merchantId: string;
 }
 export const ListShippingsettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    merchantId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8775,17 +8777,17 @@ export const ShippingSettingsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ShippingSettingsList>;
 
 export interface ShippingsettingsListResponse {
+  /** The token for the retrieval of the next page of shipping settings. */
+  nextPageToken?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#shippingsettingsListResponse`". */
   kind?: string;
   resources?: ShippingSettingsList;
-  /** The token for the retrieval of the next page of shipping settings. */
-  nextPageToken?: string;
 }
 export const ShippingsettingsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     kind: S.optional(S.String),
     resources: S.optional(ShippingSettingsList),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ShippingsettingsListResponse",
@@ -8840,20 +8842,20 @@ export const PatchAccountsReturncarrierRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchAccountsReturncarrierRequest>;
 
 export interface PatchConversionsourcesRequest {
-  /** Required. The ID of the conversion source to be updated. */
-  conversionSourceId: string;
   /** Required. The ID of the account that owns the new conversion source. */
   merchantId: string;
   /** Optional. List of fields being updated. The following fields can be updated: `attribution_settings`, `display_name`, `currency_code`. */
   updateMask?: string;
+  /** Required. The ID of the conversion source to be updated. */
+  conversionSourceId: string;
   /** Request body */
   body?: ConversionSource;
 }
 export const PatchConversionsourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    conversionSourceId: S.String.pipe(T.Label()),
     merchantId: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    conversionSourceId: S.String.pipe(T.Label()),
     body: S.optional(ConversionSource.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -8894,17 +8896,17 @@ export const PatchRegionsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchRegionsRequest>;
 
 export interface PatchReturnpolicyonlineRequest {
-  /** Required. The id of the merchant for which to retrieve the return policy online object. */
-  merchantId: string;
   /** Required. The id of the return policy to update. */
   returnPolicyId: string;
+  /** Required. The id of the merchant for which to retrieve the return policy online object. */
+  merchantId: string;
   /** Request body */
   body?: ReturnPolicyOnline;
 }
 export const PatchReturnpolicyonlineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     returnPolicyId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
     body: S.optional(ReturnPolicyOnline.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -8917,6 +8919,12 @@ export const PatchReturnpolicyonlineRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PatchReturnpolicyonlineRequest",
 }) as any as S.Schema<PatchReturnpolicyonlineRequest>;
 
+export type RenderAccountIssuesRequestPayloadContentOptionEnum =
+  | "CONTENT_OPTION_UNSPECIFIED"
+  | "PRE_RENDERED_HTML";
+export const RenderAccountIssuesRequestPayloadContentOptionEnum =
+  /*@__PURE__*/ S.String;
+
 export type RenderAccountIssuesRequestPayloadUserInputActionOptionEnum =
   | "USER_INPUT_ACTION_RENDERING_OPTION_UNSPECIFIED"
   | "REDIRECT_TO_MERCHANT_CENTER"
@@ -8924,30 +8932,24 @@ export type RenderAccountIssuesRequestPayloadUserInputActionOptionEnum =
 export const RenderAccountIssuesRequestPayloadUserInputActionOptionEnum =
   /*@__PURE__*/ S.String;
 
-export type RenderAccountIssuesRequestPayloadContentOptionEnum =
-  | "CONTENT_OPTION_UNSPECIFIED"
-  | "PRE_RENDERED_HTML";
-export const RenderAccountIssuesRequestPayloadContentOptionEnum =
-  /*@__PURE__*/ S.String;
-
 /** The payload for configuring how the content should be rendered. */
 export interface RenderAccountIssuesRequestPayload {
-  /** Optional. How actions with user input form should be handled. If not provided, actions will be returned as links that points merchant to Merchant Center where they can request the action. */
-  userInputActionOption?:
-    | RenderAccountIssuesRequestPayloadUserInputActionOptionEnum
-    | (string & {});
   /** Optional. How the detailed content should be returned. Default option is to return the content as a pre-rendered HTML text. */
   contentOption?:
     | RenderAccountIssuesRequestPayloadContentOptionEnum
     | (string & {});
+  /** Optional. How actions with user input form should be handled. If not provided, actions will be returned as links that points merchant to Merchant Center where they can request the action. */
+  userInputActionOption?:
+    | RenderAccountIssuesRequestPayloadUserInputActionOptionEnum
+    | (string & {});
 }
 export const RenderAccountIssuesRequestPayload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userInputActionOption: S.optional(
-      RenderAccountIssuesRequestPayloadUserInputActionOptionEnum,
-    ),
     contentOption: S.optional(
       RenderAccountIssuesRequestPayloadContentOptionEnum,
+    ),
+    userInputActionOption: S.optional(
+      RenderAccountIssuesRequestPayloadUserInputActionOptionEnum,
     ),
   }),
 ).annotate({
@@ -8955,10 +8957,10 @@ export const RenderAccountIssuesRequestPayload = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RenderAccountIssuesRequestPayload>;
 
 export interface RenderaccountissuesMerchantsupportRequest {
-  /** Required. The ID of the account to fetch issues for. */
-  merchantId: string;
   /** Optional. The [IANA](https://www.iana.org/time-zones) timezone used to localize times in support content. For example 'America/Los_Angeles'. If not set, results will use as a default UTC. */
   timeZone?: string;
+  /** Required. The ID of the account to fetch issues for. */
+  merchantId: string;
   /** Optional. The [IETF BCP-47](https://tools.ietf.org/html/bcp47) language code used to localize support content. If not set, the result will be in default language `en-US`. */
   languageCode?: string;
   /** Request body */
@@ -8967,8 +8969,8 @@ export interface RenderaccountissuesMerchantsupportRequest {
 export const RenderaccountissuesMerchantsupportRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      merchantId: S.String.pipe(T.Label()),
       timeZone: S.optional(S.String.pipe(T.Query())),
+      merchantId: S.String.pipe(T.Label()),
       languageCode: S.optional(S.String.pipe(T.Query())),
       body: S.optional(RenderAccountIssuesRequestPayload.pipe(T.HttpBody())),
     }).pipe(
@@ -8982,98 +8984,94 @@ export const RenderaccountissuesMerchantsupportRequest =
     identifier: "RenderaccountissuesMerchantsupportRequest",
   }) as any as S.Schema<RenderaccountissuesMerchantsupportRequest>;
 
-/** A single reason why the action is not available. */
-export interface ActionReason {
-  /** Messages summarizing the reason, why the action is not available. For example: "Review requested on Jan 03. Review requests can take a few days to complete." */
-  message?: string;
-  /** Detailed explanation of the reason. Should be displayed as a hint if present. */
-  detail?: string;
-  /** Optional. An action that needs to be performed to solve the problem represented by this reason. This action will always be available. Should be rendered as a link or button next to the summarizing message. For example, the review may be available only once merchant configure all required attributes. In such a situation this action can be a link to the form, where they can fill the missing attribute to unblock the main action. */
-  action?: Action;
-}
-export const ActionReason = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    detail: S.optional(S.String),
-    action: S.optional(S.suspend(() => Action)),
-  }),
-).annotate({ identifier: "ActionReason" }) as any as S.Schema<ActionReason>;
-
-export type ActionReasonList = Array<ActionReason>;
-export const ActionReasonList = /*@__PURE__*/ S.Array(
-  ActionReason,
-) as any as S.Schema<ActionReasonList>;
-
-export type BuiltInSimpleActionTypeEnum =
-  | "BUILT_IN_SIMPLE_ACTION_TYPE_UNSPECIFIED"
-  | "VERIFY_PHONE"
-  | "CLAIM_WEBSITE"
-  | "ADD_PRODUCTS"
-  | "ADD_CONTACT_INFO"
-  | "LINK_ADS_ACCOUNT"
-  | "ADD_BUSINESS_REGISTRATION_NUMBER"
-  | "EDIT_ITEM_ATTRIBUTE"
-  | "FIX_ACCOUNT_ISSUE"
-  | "SHOW_ADDITIONAL_CONTENT";
-export const BuiltInSimpleActionTypeEnum = /*@__PURE__*/ S.String;
-
-/** Long text from external source. */
-export interface BuiltInSimpleActionAdditionalContent {
-  /** Title of the additional content; */
-  title?: string;
-  /** Long text organized into paragraphs. */
-  paragraphs?: StringList;
-}
-export const BuiltInSimpleActionAdditionalContent = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      title: S.optional(S.String),
-      paragraphs: S.optional(StringList),
-    }),
-).annotate({
-  identifier: "BuiltInSimpleActionAdditionalContent",
-}) as any as S.Schema<BuiltInSimpleActionAdditionalContent>;
-
-/** Action that is implemented and performed in (your) third-party application. Represents various functionality that is expected to be available to merchant and will help them with resolving the issue. The application should point the merchant to the place, where they can access the corresponding functionality. If the functionality is not supported, it is recommended to explain the situation to merchant and provide them with instructions how to solve the issue. */
-export interface BuiltInSimpleAction {
-  /** The type of action that represents a functionality that is expected to be available in third-party application. */
-  type?: BuiltInSimpleActionTypeEnum;
-  /** The attribute that needs to be updated. Present when the type is `EDIT_ITEM_ATTRIBUTE`. This field contains a code for attribute, represented in snake_case. You can find a list of product's attributes, with their codes [here](https://support.google.com/merchants/answer/7052112). */
-  attributeCode?: string;
-  /** Long text from an external source that should be available to the merchant. Present when the type is `SHOW_ADDITIONAL_CONTENT`. */
-  additionalContent?: BuiltInSimpleActionAdditionalContent;
-}
-export const BuiltInSimpleAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(BuiltInSimpleActionTypeEnum),
-    attributeCode: S.optional(S.String),
-    additionalContent: S.optional(BuiltInSimpleActionAdditionalContent),
-  }),
-).annotate({
-  identifier: "BuiltInSimpleAction",
-}) as any as S.Schema<BuiltInSimpleAction>;
-
-export type ExternalActionTypeEnum =
-  | "EXTERNAL_ACTION_TYPE_UNSPECIFIED"
-  | "REVIEW_PRODUCT_ISSUE_IN_MERCHANT_CENTER"
-  | "REVIEW_ACCOUNT_ISSUE_IN_MERCHANT_CENTER"
-  | "LEGAL_APPEAL_IN_HELP_CENTER"
-  | "VERIFY_IDENTITY_IN_MERCHANT_CENTER";
-export const ExternalActionTypeEnum = /*@__PURE__*/ S.String;
-
-/** Action that is implemented and performed outside of the third-party application. It should redirect the merchant to the provided URL of an external system where they can perform the action. For example to request a review in the Merchant Center. */
-export interface ExternalAction {
-  /** The type of external action. */
-  type?: ExternalActionTypeEnum;
-  /** URL to external system, for example Merchant Center, where the merchant can perform the action. */
+/** The Alternate Dispute Resolution (ADR) that may be available to merchants in some regions. If present, the link should be shown on the same page as the list of issues. */
+export interface AlternateDisputeResolution {
+  /** The URL pointing to a page, where merchant can request alternative dispute resolution with an [external body](https://support.google.com/european-union-digital-services-act-redress-options/answer/13535501). */
   uri?: string;
+  /** The label for the alternate dispute resolution link. */
+  label?: string;
 }
-export const ExternalAction = /*@__PURE__*/ S.suspend(() =>
+export const AlternateDisputeResolution = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(ExternalActionTypeEnum),
     uri: S.optional(S.String),
+    label: S.optional(S.String),
   }),
-).annotate({ identifier: "ExternalAction" }) as any as S.Schema<ExternalAction>;
+).annotate({
+  identifier: "AlternateDisputeResolution",
+}) as any as S.Schema<AlternateDisputeResolution>;
+
+/** Region with code and localized name. */
+export interface BreakdownRegion {
+  /** The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) */
+  code?: string;
+  /** The localized name of the region. For region with code='001' the value is 'All countries' or the equivalent in other languages. */
+  name?: string;
+}
+export const BreakdownRegion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BreakdownRegion",
+}) as any as S.Schema<BreakdownRegion>;
+
+export type BreakdownRegionList = Array<BreakdownRegion>;
+export const BreakdownRegionList = /*@__PURE__*/ S.Array(
+  BreakdownRegion,
+) as any as S.Schema<BreakdownRegionList>;
+
+/** A detailed impact breakdown for a group of regions where the impact of the issue on different shopping destinations is the same. */
+export interface Breakdown {
+  /** Human readable, localized description of issue's effect on different targets. Should be rendered as a list. For example: * "Products not showing in ads" * "Products not showing organically" */
+  details?: StringList;
+  /** Lists of regions. Should be rendered as a title for this group of details. The full list should be shown to merchant. If the list is too long, it is recommended to make it expandable. */
+  regions?: BreakdownRegionList;
+}
+export const Breakdown = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    details: S.optional(StringList),
+    regions: S.optional(BreakdownRegionList),
+  }),
+).annotate({ identifier: "Breakdown" }) as any as S.Schema<Breakdown>;
+
+export type BreakdownList = Array<Breakdown>;
+export const BreakdownList = /*@__PURE__*/ S.Array(
+  Breakdown,
+) as any as S.Schema<BreakdownList>;
+
+export type AccountIssueImpactSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "ERROR"
+  | "WARNING"
+  | "INFO";
+export const AccountIssueImpactSeverityEnum = /*@__PURE__*/ S.String;
+
+/** Overall impact of the issue. */
+export interface AccountIssueImpact {
+  /** Detailed impact breakdown. Explains the types of restriction the issue has in different shopping destinations and territory. If present, it should be rendered to the merchant. Can be shown as a mouse over dropdown or a dialog. Each breakdown item represents a group of regions with the same impact details. */
+  breakdowns?: BreakdownList;
+  /** The severity of the issue. */
+  severity?: AccountIssueImpactSeverityEnum;
+  /** Optional. Message summarizing the overall impact of the issue. If present, it should be rendered to the merchant. For example: "Disapproves 90k offers in 25 countries" */
+  message?: string;
+}
+export const AccountIssueImpact = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    breakdowns: S.optional(BreakdownList),
+    severity: S.optional(AccountIssueImpactSeverityEnum),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AccountIssueImpact",
+}) as any as S.Schema<AccountIssueImpact>;
+
+export type CalloutStyleHintEnum =
+  | "CALLOUT_STYLE_HINT_UNSPECIFIED"
+  | "ERROR"
+  | "WARNING"
+  | "INFO";
+export const CalloutStyleHintEnum = /*@__PURE__*/ S.String;
 
 export type TextWithTooltipTooltipIconStyleEnum =
   | "TOOLTIP_ICON_STYLE_UNSPECIFIED"
@@ -9083,38 +9081,80 @@ export const TextWithTooltipTooltipIconStyleEnum = /*@__PURE__*/ S.String;
 
 /** Block of text that may contain a tooltip with more information. */
 export interface TextWithTooltip {
-  /** Value of the message as a simple text. */
-  simpleValue?: string;
   /** Value of the tooltip as a simple text. */
   simpleTooltipValue?: string;
+  /** Value of the message as a simple text. */
+  simpleValue?: string;
   /** The suggested type of an icon for tooltip, if a tooltip is present. */
   tooltipIconStyle?: TextWithTooltipTooltipIconStyleEnum;
 }
 export const TextWithTooltip = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    simpleValue: S.optional(S.String),
     simpleTooltipValue: S.optional(S.String),
+    simpleValue: S.optional(S.String),
     tooltipIconStyle: S.optional(TextWithTooltipTooltipIconStyleEnum),
   }),
 ).annotate({
   identifier: "TextWithTooltip",
 }) as any as S.Schema<TextWithTooltip>;
 
+/** An important message that should be highlighted. Usually displayed as a banner. */
+export interface Callout {
+  /** Can be used to render messages with different severity in different styles. Snippets off all types contain important information that should be displayed to merchants. */
+  styleHint?: CalloutStyleHintEnum;
+  /** A full message that needs to be shown to the merchant. */
+  fullMessage?: TextWithTooltip;
+}
+export const Callout = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    styleHint: S.optional(CalloutStyleHintEnum),
+    fullMessage: S.optional(TextWithTooltip),
+  }),
+).annotate({ identifier: "Callout" }) as any as S.Schema<Callout>;
+
+export type InputFieldTextInputTypeEnum =
+  | "TEXT_INPUT_TYPE_UNSPECIFIED"
+  | "GENERIC_SHORT_TEXT"
+  | "GENERIC_LONG_TEXT";
+export const InputFieldTextInputTypeEnum = /*@__PURE__*/ S.String;
+
+/** Text input allows merchants to provide a text value. */
+export interface InputFieldTextInput {
+  /** Text to be used as the [aria-label](https://www.w3.org/TR/WCAG20-TECHS/ARIA14.html) for the input. */
+  ariaLabel?: string;
+  /** Additional info regarding the field to be displayed to merchant. For example, warning to not include personal identifiable information. There may be more information to be shown in a tooltip. */
+  additionalInfo?: TextWithTooltip;
+  /** Information about the required format. If present, it should be shown close to the input field to help merchants to provide a correct value. For example: "VAT numbers should be in a format similar to SK9999999999" */
+  formatInfo?: string;
+  /** Type of the text input */
+  type?: InputFieldTextInputTypeEnum;
+}
+export const InputFieldTextInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ariaLabel: S.optional(S.String),
+    additionalInfo: S.optional(TextWithTooltip),
+    formatInfo: S.optional(S.String),
+    type: S.optional(InputFieldTextInputTypeEnum),
+  }),
+).annotate({
+  identifier: "InputFieldTextInput",
+}) as any as S.Schema<InputFieldTextInput>;
+
 /** A choice that merchant can select. */
 export interface InputFieldChoiceInputChoiceInputOption {
-  /** Not for display but need to be sent back for the selected choice option. */
-  id?: string;
   /** Short description of the choice option. There may be more information to be shown as a tooltip. */
   label?: TextWithTooltip;
   /** Input that should be displayed when this option is selected. The additional input will not contain a `ChoiceInput`. */
   additionalInput?: InputField;
+  /** Not for display but need to be sent back for the selected choice option. */
+  id?: string;
 }
 export const InputFieldChoiceInputChoiceInputOption = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      id: S.optional(S.String),
       label: S.optional(TextWithTooltip),
       additionalInput: S.optional(S.suspend(() => InputField)),
+      id: S.optional(S.String),
     }),
 ).annotate({
   identifier: "InputFieldChoiceInputChoiceInputOption",
@@ -9147,57 +9187,29 @@ export const InputFieldCheckboxInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "InputFieldCheckboxInput",
 }) as any as S.Schema<InputFieldCheckboxInput>;
 
-export type InputFieldTextInputTypeEnum =
-  | "TEXT_INPUT_TYPE_UNSPECIFIED"
-  | "GENERIC_SHORT_TEXT"
-  | "GENERIC_LONG_TEXT";
-export const InputFieldTextInputTypeEnum = /*@__PURE__*/ S.String;
-
-/** Text input allows merchants to provide a text value. */
-export interface InputFieldTextInput {
-  /** Text to be used as the [aria-label](https://www.w3.org/TR/WCAG20-TECHS/ARIA14.html) for the input. */
-  ariaLabel?: string;
-  /** Type of the text input */
-  type?: InputFieldTextInputTypeEnum;
-  /** Additional info regarding the field to be displayed to merchant. For example, warning to not include personal identifiable information. There may be more information to be shown in a tooltip. */
-  additionalInfo?: TextWithTooltip;
-  /** Information about the required format. If present, it should be shown close to the input field to help merchants to provide a correct value. For example: "VAT numbers should be in a format similar to SK9999999999" */
-  formatInfo?: string;
-}
-export const InputFieldTextInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ariaLabel: S.optional(S.String),
-    type: S.optional(InputFieldTextInputTypeEnum),
-    additionalInfo: S.optional(TextWithTooltip),
-    formatInfo: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "InputFieldTextInput",
-}) as any as S.Schema<InputFieldTextInput>;
-
 /** Input field that needs to be available to the merchant. If the field is marked as required, then a value needs to be provided for a successful processing of the request. */
 export interface InputField {
+  /** Input field to provide text information. Corresponds to the [html input type=text](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.text.html#input.text) or [html textarea](https://www.w3.org/TR/2012/WD-html-markup-20121025/textarea.html#textarea). */
+  textInput?: InputFieldTextInput;
+  /** Not for display but need to be sent back for the given input field. */
+  id?: string;
   /** Input field to select one of the offered choices. Corresponds to the [html input type=radio](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.radio.html#input.radio). */
   choiceInput?: InputFieldChoiceInput;
+  /** Whether the field is required. The action button needs to stay disabled till values for all required fields are provided. */
+  required?: boolean;
   /** Input field label. There may be more information to be shown in a tooltip. */
   label?: TextWithTooltip;
   /** Input field to provide a boolean value. Corresponds to the [html input type=checkbox](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.checkbox.html#input.checkbox). */
   checkboxInput?: InputFieldCheckboxInput;
-  /** Not for display but need to be sent back for the given input field. */
-  id?: string;
-  /** Input field to provide text information. Corresponds to the [html input type=text](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.text.html#input.text) or [html textarea](https://www.w3.org/TR/2012/WD-html-markup-20121025/textarea.html#textarea). */
-  textInput?: InputFieldTextInput;
-  /** Whether the field is required. The action button needs to stay disabled till values for all required fields are provided. */
-  required?: boolean;
 }
 export const InputField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    textInput: S.optional(InputFieldTextInput),
+    id: S.optional(S.String),
     choiceInput: S.optional(InputFieldChoiceInput),
+    required: S.optional(S.Boolean),
     label: S.optional(TextWithTooltip),
     checkboxInput: S.optional(InputFieldCheckboxInput),
-    id: S.optional(S.String),
-    textInput: S.optional(InputFieldTextInput),
-    required: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "InputField" }) as any as S.Schema<InputField>;
 
@@ -9206,52 +9218,31 @@ export const InputFieldList = /*@__PURE__*/ S.Array(
   InputField,
 ) as any as S.Schema<InputFieldList>;
 
-export type CalloutStyleHintEnum =
-  | "CALLOUT_STYLE_HINT_UNSPECIFIED"
-  | "ERROR"
-  | "WARNING"
-  | "INFO";
-export const CalloutStyleHintEnum = /*@__PURE__*/ S.String;
-
-/** An important message that should be highlighted. Usually displayed as a banner. */
-export interface Callout {
-  /** Can be used to render messages with different severity in different styles. Snippets off all types contain important information that should be displayed to merchants. */
-  styleHint?: CalloutStyleHintEnum;
-  /** A full message that needs to be shown to the merchant. */
-  fullMessage?: TextWithTooltip;
-}
-export const Callout = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    styleHint: S.optional(CalloutStyleHintEnum),
-    fullMessage: S.optional(TextWithTooltip),
-  }),
-).annotate({ identifier: "Callout" }) as any as S.Schema<Callout>;
-
 /** Flow that can be selected for an action. When merchant selects a flow, application should open a dialog with more information and input form. */
 export interface ActionFlow {
-  /** Text value describing the intent for the action flow. It can be used as an input label if merchant needs to pick one of multiple flows. For example: "I disagree with the issue" */
-  label?: string;
-  /** A list of input fields. */
-  inputs?: InputFieldList;
-  /** Title of the request dialog. For example: "Before you request a review" */
-  dialogTitle?: string;
   /** Not for display but need to be sent back for the selected action flow. */
   id?: string;
   /** Important message to be highlighted in the request dialog. For example: "You can only request a review for disagreeing with this issue once. If it's not approved, you'll need to fix the issue and wait a few days before you can request another review." */
   dialogCallout?: Callout;
+  /** Text value describing the intent for the action flow. It can be used as an input label if merchant needs to pick one of multiple flows. For example: "I disagree with the issue" */
+  label?: string;
   /** Message displayed in the request dialog. For example: "Make sure you've fixed all your country-specific issues. If not, you may have to wait 7 days to request another review". There may be an more information to be shown in a tooltip. */
   dialogMessage?: TextWithTooltip;
+  /** A list of input fields. */
+  inputs?: InputFieldList;
+  /** Title of the request dialog. For example: "Before you request a review" */
+  dialogTitle?: string;
   /** Label for the button to trigger the action from the action dialog. For example: "Request review" */
   dialogButtonLabel?: string;
 }
 export const ActionFlow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    label: S.optional(S.String),
-    inputs: S.optional(InputFieldList),
-    dialogTitle: S.optional(S.String),
     id: S.optional(S.String),
     dialogCallout: S.optional(Callout),
+    label: S.optional(S.String),
     dialogMessage: S.optional(TextWithTooltip),
+    inputs: S.optional(InputFieldList),
+    dialogTitle: S.optional(S.String),
     dialogButtonLabel: S.optional(S.String),
   }),
 ).annotate({ identifier: "ActionFlow" }) as any as S.Schema<ActionFlow>;
@@ -9263,43 +9254,136 @@ export const ActionFlowList = /*@__PURE__*/ S.Array(
 
 /** Action that is implemented and performed in (your) third-party application. The application needs to show an additional content and input form to the merchant. They can start the action only when they provided all required inputs. The application will request processing of the action by calling the [triggeraction method](https://developers.google.com/shopping-content/reference/rest/v2.1/merchantsupport/triggeraction). */
 export interface BuiltInUserInputAction {
-  /** Internal details. Not for display but need to be sent back when triggering the action. */
-  actionContext?: string;
   /** Actions may provide multiple different flows. Merchant selects one that fits best to their intent. Selecting the flow is the first step in user's interaction with the action. It affects what input fields will be available and required and also how the request will be processed. */
   flows?: ActionFlowList;
+  /** Internal details. Not for display but need to be sent back when triggering the action. */
+  actionContext?: string;
 }
 export const BuiltInUserInputAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    actionContext: S.optional(S.String),
     flows: S.optional(ActionFlowList),
+    actionContext: S.optional(S.String),
   }),
 ).annotate({
   identifier: "BuiltInUserInputAction",
 }) as any as S.Schema<BuiltInUserInputAction>;
 
+/** A single reason why the action is not available. */
+export interface ActionReason {
+  /** Messages summarizing the reason, why the action is not available. For example: "Review requested on Jan 03. Review requests can take a few days to complete." */
+  message?: string;
+  /** Optional. An action that needs to be performed to solve the problem represented by this reason. This action will always be available. Should be rendered as a link or button next to the summarizing message. For example, the review may be available only once merchant configure all required attributes. In such a situation this action can be a link to the form, where they can fill the missing attribute to unblock the main action. */
+  action?: Action;
+  /** Detailed explanation of the reason. Should be displayed as a hint if present. */
+  detail?: string;
+}
+export const ActionReason = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    action: S.optional(S.suspend(() => Action)),
+    detail: S.optional(S.String),
+  }),
+).annotate({ identifier: "ActionReason" }) as any as S.Schema<ActionReason>;
+
+export type ActionReasonList = Array<ActionReason>;
+export const ActionReasonList = /*@__PURE__*/ S.Array(
+  ActionReason,
+) as any as S.Schema<ActionReasonList>;
+
+export type ExternalActionTypeEnum =
+  | "EXTERNAL_ACTION_TYPE_UNSPECIFIED"
+  | "REVIEW_PRODUCT_ISSUE_IN_MERCHANT_CENTER"
+  | "REVIEW_ACCOUNT_ISSUE_IN_MERCHANT_CENTER"
+  | "LEGAL_APPEAL_IN_HELP_CENTER"
+  | "VERIFY_IDENTITY_IN_MERCHANT_CENTER";
+export const ExternalActionTypeEnum = /*@__PURE__*/ S.String;
+
+/** Action that is implemented and performed outside of the third-party application. It should redirect the merchant to the provided URL of an external system where they can perform the action. For example to request a review in the Merchant Center. */
+export interface ExternalAction {
+  /** The type of external action. */
+  type?: ExternalActionTypeEnum;
+  /** URL to external system, for example Merchant Center, where the merchant can perform the action. */
+  uri?: string;
+}
+export const ExternalAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ExternalActionTypeEnum),
+    uri: S.optional(S.String),
+  }),
+).annotate({ identifier: "ExternalAction" }) as any as S.Schema<ExternalAction>;
+
+export type BuiltInSimpleActionTypeEnum =
+  | "BUILT_IN_SIMPLE_ACTION_TYPE_UNSPECIFIED"
+  | "VERIFY_PHONE"
+  | "CLAIM_WEBSITE"
+  | "ADD_PRODUCTS"
+  | "ADD_CONTACT_INFO"
+  | "LINK_ADS_ACCOUNT"
+  | "ADD_BUSINESS_REGISTRATION_NUMBER"
+  | "EDIT_ITEM_ATTRIBUTE"
+  | "FIX_ACCOUNT_ISSUE"
+  | "SHOW_ADDITIONAL_CONTENT";
+export const BuiltInSimpleActionTypeEnum = /*@__PURE__*/ S.String;
+
+/** Long text from external source. */
+export interface BuiltInSimpleActionAdditionalContent {
+  /** Long text organized into paragraphs. */
+  paragraphs?: StringList;
+  /** Title of the additional content; */
+  title?: string;
+}
+export const BuiltInSimpleActionAdditionalContent = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      paragraphs: S.optional(StringList),
+      title: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "BuiltInSimpleActionAdditionalContent",
+}) as any as S.Schema<BuiltInSimpleActionAdditionalContent>;
+
+/** Action that is implemented and performed in (your) third-party application. Represents various functionality that is expected to be available to merchant and will help them with resolving the issue. The application should point the merchant to the place, where they can access the corresponding functionality. If the functionality is not supported, it is recommended to explain the situation to merchant and provide them with instructions how to solve the issue. */
+export interface BuiltInSimpleAction {
+  /** The type of action that represents a functionality that is expected to be available in third-party application. */
+  type?: BuiltInSimpleActionTypeEnum;
+  /** Long text from an external source that should be available to the merchant. Present when the type is `SHOW_ADDITIONAL_CONTENT`. */
+  additionalContent?: BuiltInSimpleActionAdditionalContent;
+  /** The attribute that needs to be updated. Present when the type is `EDIT_ITEM_ATTRIBUTE`. This field contains a code for attribute, represented in snake_case. You can find a list of product's attributes, with their codes [here](https://support.google.com/merchants/answer/7052112). */
+  attributeCode?: string;
+}
+export const BuiltInSimpleAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(BuiltInSimpleActionTypeEnum),
+    additionalContent: S.optional(BuiltInSimpleActionAdditionalContent),
+    attributeCode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BuiltInSimpleAction",
+}) as any as S.Schema<BuiltInSimpleAction>;
+
 /** An actionable step that can be executed to solve the issue. */
 export interface Action {
-  /** Controlling whether the button is active or disabled. The value is 'false' when the action was already requested or is not available. If the action is not available then a reason will be present. If (your) third-party application shows a disabled button for action that is not available, then it should also show reasons. */
-  isAvailable?: boolean;
-  /** List of reasons why the action is not available. The list of reasons is empty if the action is available. If there is only one reason, it can be displayed next to the disabled button. If there are more reasons, all of them should be displayed, for example in a pop-up dialog. */
-  reasons?: ActionReasonList;
-  /** Action implemented and performed in (your) third-party application. The application should point the merchant to the place, where they can access the corresponding functionality or provide instructions, if the specific functionality is not available. */
-  builtinSimpleAction?: BuiltInSimpleAction;
-  /** Action that is implemented and performed outside of (your) third-party application. The application needs to redirect the merchant to the external location where they can perform the action. */
-  externalAction?: ExternalAction;
-  /** Action implemented and performed in (your) third-party application. The application needs to show an additional content and input form to the merchant as specified for given action. They can trigger the action only when they provided all required inputs. */
-  builtinUserInputAction?: BuiltInUserInputAction;
   /** Label of the action button. */
   buttonLabel?: string;
+  /** Controlling whether the button is active or disabled. The value is 'false' when the action was already requested or is not available. If the action is not available then a reason will be present. If (your) third-party application shows a disabled button for action that is not available, then it should also show reasons. */
+  isAvailable?: boolean;
+  /** Action implemented and performed in (your) third-party application. The application needs to show an additional content and input form to the merchant as specified for given action. They can trigger the action only when they provided all required inputs. */
+  builtinUserInputAction?: BuiltInUserInputAction;
+  /** List of reasons why the action is not available. The list of reasons is empty if the action is available. If there is only one reason, it can be displayed next to the disabled button. If there are more reasons, all of them should be displayed, for example in a pop-up dialog. */
+  reasons?: ActionReasonList;
+  /** Action that is implemented and performed outside of (your) third-party application. The application needs to redirect the merchant to the external location where they can perform the action. */
+  externalAction?: ExternalAction;
+  /** Action implemented and performed in (your) third-party application. The application should point the merchant to the place, where they can access the corresponding functionality or provide instructions, if the specific functionality is not available. */
+  builtinSimpleAction?: BuiltInSimpleAction;
 }
 export const Action = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    isAvailable: S.optional(S.Boolean),
-    reasons: S.optional(ActionReasonList),
-    builtinSimpleAction: S.optional(BuiltInSimpleAction),
-    externalAction: S.optional(ExternalAction),
-    builtinUserInputAction: S.optional(BuiltInUserInputAction),
     buttonLabel: S.optional(S.String),
+    isAvailable: S.optional(S.Boolean),
+    builtinUserInputAction: S.optional(BuiltInUserInputAction),
+    reasons: S.optional(ActionReasonList),
+    externalAction: S.optional(ExternalAction),
+    builtinSimpleAction: S.optional(BuiltInSimpleAction),
   }),
 ).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
 
@@ -9308,92 +9392,26 @@ export const ActionList = /*@__PURE__*/ S.Array(
   Action,
 ) as any as S.Schema<ActionList>;
 
-export type AccountIssueImpactSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "ERROR"
-  | "WARNING"
-  | "INFO";
-export const AccountIssueImpactSeverityEnum = /*@__PURE__*/ S.String;
-
-/** Region with code and localized name. */
-export interface BreakdownRegion {
-  /** The localized name of the region. For region with code='001' the value is 'All countries' or the equivalent in other languages. */
-  name?: string;
-  /** The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) */
-  code?: string;
-}
-export const BreakdownRegion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    code: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BreakdownRegion",
-}) as any as S.Schema<BreakdownRegion>;
-
-export type BreakdownRegionList = Array<BreakdownRegion>;
-export const BreakdownRegionList = /*@__PURE__*/ S.Array(
-  BreakdownRegion,
-) as any as S.Schema<BreakdownRegionList>;
-
-/** A detailed impact breakdown for a group of regions where the impact of the issue on different shopping destinations is the same. */
-export interface Breakdown {
-  /** Human readable, localized description of issue's effect on different targets. Should be rendered as a list. For example: * "Products not showing in ads" * "Products not showing organically" */
-  details?: StringList;
-  /** Lists of regions. Should be rendered as a title for this group of details. The full list should be shown to merchant. If the list is too long, it is recommended to make it expandable. */
-  regions?: BreakdownRegionList;
-}
-export const Breakdown = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    details: S.optional(StringList),
-    regions: S.optional(BreakdownRegionList),
-  }),
-).annotate({ identifier: "Breakdown" }) as any as S.Schema<Breakdown>;
-
-export type BreakdownList = Array<Breakdown>;
-export const BreakdownList = /*@__PURE__*/ S.Array(
-  Breakdown,
-) as any as S.Schema<BreakdownList>;
-
-/** Overall impact of the issue. */
-export interface AccountIssueImpact {
-  /** Optional. Message summarizing the overall impact of the issue. If present, it should be rendered to the merchant. For example: "Disapproves 90k offers in 25 countries" */
-  message?: string;
-  /** The severity of the issue. */
-  severity?: AccountIssueImpactSeverityEnum;
-  /** Detailed impact breakdown. Explains the types of restriction the issue has in different shopping destinations and territory. If present, it should be rendered to the merchant. Can be shown as a mouse over dropdown or a dialog. Each breakdown item represents a group of regions with the same impact details. */
-  breakdowns?: BreakdownList;
-}
-export const AccountIssueImpact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    severity: S.optional(AccountIssueImpactSeverityEnum),
-    breakdowns: S.optional(BreakdownList),
-  }),
-).annotate({
-  identifier: "AccountIssueImpact",
-}) as any as S.Schema<AccountIssueImpact>;
-
 /** An issue affecting specific merchant. */
 export interface AccountIssue {
+  /** Pre-rendered HTML that contains a link to the external location where the ODS can be requested and instructions for how to request it. HTML elements contain CSS classes that can be used to customize the style of this snippet. Always sanitize the HTML before embedding it directly to your application. The sanitizer needs to allow basic HTML tags, such as: `div`, `span`, `p`, `a`, `ul`, `li`, `table`, `tr`, `td`. For example, you can use [DOMPurify](https://www.npmjs.com/package/dompurify). CSS classes: * `ods-section`* - wrapper around the out-of-court dispute resolution section * `ods-description`* - intro text for the out-of-court dispute resolution. It may contain multiple segments and a link. * `ods-param`* - wrapper around the header-value pair for parameters that merchant may need to provide during the ODS process. * `ods-routing-id`* - ods param for the Routing ID. * `ods-reference-id`* - ods param for the Routing ID. * `ods-param-header`* - header for the ODS parameter * `ods-param-value`* - value of the ODS parameter. This value should be rendered in a way that it is easy for merchants to identify and copy. * `segment` - section of the text, `span` inside paragraph * `segment-attribute` - section of the text that represents a product attribute, for example 'image\_link' * `segment-literal` - section of the text that contains a special value, for example '0-1000 kg' * `segment-bold` - section of the text that should be rendered as bold * `segment-italic` - section of the text that should be rendered as italic * `tooltip` - used on paragraphs that should be rendered with a tooltip. A section of the text in such a paragraph will have a class `tooltip-text` and is intended to be shown in a mouse over dialog. If the style is not used, the `tooltip-text` section would be shown on a new line, after the main part of the text. * `tooltip-text` - marks a section of the text within a `tooltip`, that is intended to be shown in a mouse over dialog. * `tooltip-icon` - marks a section of the text within a `tooltip`, that can be replaced with a tooltip icon, for example '?' or 'i'. By default, this section contains a `br` tag, that is separating the main text and the tooltip text when the style is not used. * `tooltip-style-question` - the tooltip shows helpful information, can use the '?' as an icon. * `tooltip-style-info` - the tooltip adds additional information fitting to the context, can use the 'i' as an icon. */
+  prerenderedOutOfCourtDisputeSettlement?: string;
+  /** Clarifies the severity of the issue. The summarizing message, if present, should be shown right under the title for each issue. It helps merchants to quickly understand the impact of the issue. The detailed breakdown helps the merchant to fully understand the impact of the issue. It can be rendered as dialog that opens when the merchant mouse over the summarized impact statement. Issues with different severity can be styled differently. They may use a different color or icon to signal the difference between `ERROR`, `WARNING` and `INFO`. */
+  impact?: AccountIssueImpact;
+  /** Title of the issue. */
+  title?: string;
   /** Details of the issue as a pre-rendered HTML. HTML elements contain CSS classes that can be used to customize the style of the content. Always sanitize the HTML before embedding it directly to your application. The sanitizer needs to allow basic HTML tags, such as: `div`, `span`, `p`, `a`, `ul`, `li`, `table`, `tr`, `td`. For example, you can use [DOMPurify](https://www.npmjs.com/package/dompurify). CSS classes: * `issue-detail` - top level container for the detail of the issue * `callout-banners` - section of the `issue-detail` with callout banners * `callout-banner` - single callout banner, inside `callout-banners` * `callout-banner-info` - callout with important information (default) * `callout-banner-warning` - callout with a warning * `callout-banner-error` - callout informing about an error (most severe) * `issue-content` - section of the `issue-detail`, contains multiple `content-element` * `content-element` - content element such as a list, link or paragraph, inside `issue-content` * `root-causes` - unordered list with items describing root causes of the issue, inside `issue-content` * `root-causes-intro` - intro text before the `root-causes` list, inside `issue-content` * `segment` - section of the text, `span` inside paragraph * `segment-attribute` - section of the text that represents a product attribute, for example 'image\_link' * `segment-literal` - section of the text that contains a special value, for example '0-1000 kg' * `segment-bold` - section of the text that should be rendered as bold * `segment-italic` - section of the text that should be rendered as italic * `tooltip` - used on paragraphs that should be rendered with a tooltip. A section of the text in such a paragraph will have a class `tooltip-text` and is intended to be shown in a mouse over dialog. If the style is not used, the `tooltip-text` section would be shown on a new line, after the main part of the text. * `tooltip-text` - marks a section of the text within a `tooltip`, that is intended to be shown in a mouse over dialog. * `tooltip-icon` - marks a section of the text within a `tooltip`, that can be replaced with a tooltip icon, for example '?' or 'i'. By default, this section contains a `br` tag, that is separating the main text and the tooltip text when the style is not used. * `tooltip-style-question` - the tooltip shows helpful information, can use the '?' as an icon. * `tooltip-style-info` - the tooltip adds additional information fitting to the context, can use the 'i' as an icon. * `content-moderation` - marks the paragraph that explains how the issue was identified. * `new-element` - Present for new elements added to the pre-rendered content in the future. To make sure that a new content element does not break your style, you can hide everything with this class. */
   prerenderedContent?: string;
   /** A list of actionable steps that can be executed to solve the issue. An example is requesting a re-review or providing arguments when merchant disagrees with the issue. Actions that are supported in (your) third-party application can be rendered as buttons and should be available to merchant when they expand the issue. */
   actions?: ActionList;
-  /** Pre-rendered HTML that contains a link to the external location where the ODS can be requested and instructions for how to request it. HTML elements contain CSS classes that can be used to customize the style of this snippet. Always sanitize the HTML before embedding it directly to your application. The sanitizer needs to allow basic HTML tags, such as: `div`, `span`, `p`, `a`, `ul`, `li`, `table`, `tr`, `td`. For example, you can use [DOMPurify](https://www.npmjs.com/package/dompurify). CSS classes: * `ods-section`* - wrapper around the out-of-court dispute resolution section * `ods-description`* - intro text for the out-of-court dispute resolution. It may contain multiple segments and a link. * `ods-param`* - wrapper around the header-value pair for parameters that merchant may need to provide during the ODS process. * `ods-routing-id`* - ods param for the Routing ID. * `ods-reference-id`* - ods param for the Routing ID. * `ods-param-header`* - header for the ODS parameter * `ods-param-value`* - value of the ODS parameter. This value should be rendered in a way that it is easy for merchants to identify and copy. * `segment` - section of the text, `span` inside paragraph * `segment-attribute` - section of the text that represents a product attribute, for example 'image\_link' * `segment-literal` - section of the text that contains a special value, for example '0-1000 kg' * `segment-bold` - section of the text that should be rendered as bold * `segment-italic` - section of the text that should be rendered as italic * `tooltip` - used on paragraphs that should be rendered with a tooltip. A section of the text in such a paragraph will have a class `tooltip-text` and is intended to be shown in a mouse over dialog. If the style is not used, the `tooltip-text` section would be shown on a new line, after the main part of the text. * `tooltip-text` - marks a section of the text within a `tooltip`, that is intended to be shown in a mouse over dialog. * `tooltip-icon` - marks a section of the text within a `tooltip`, that can be replaced with a tooltip icon, for example '?' or 'i'. By default, this section contains a `br` tag, that is separating the main text and the tooltip text when the style is not used. * `tooltip-style-question` - the tooltip shows helpful information, can use the '?' as an icon. * `tooltip-style-info` - the tooltip adds additional information fitting to the context, can use the 'i' as an icon. */
-  prerenderedOutOfCourtDisputeSettlement?: string;
-  /** Title of the issue. */
-  title?: string;
-  /** Clarifies the severity of the issue. The summarizing message, if present, should be shown right under the title for each issue. It helps merchants to quickly understand the impact of the issue. The detailed breakdown helps the merchant to fully understand the impact of the issue. It can be rendered as dialog that opens when the merchant mouse over the summarized impact statement. Issues with different severity can be styled differently. They may use a different color or icon to signal the difference between `ERROR`, `WARNING` and `INFO`. */
-  impact?: AccountIssueImpact;
 }
 export const AccountIssue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    prerenderedOutOfCourtDisputeSettlement: S.optional(S.String),
+    impact: S.optional(AccountIssueImpact),
+    title: S.optional(S.String),
     prerenderedContent: S.optional(S.String),
     actions: S.optional(ActionList),
-    prerenderedOutOfCourtDisputeSettlement: S.optional(S.String),
-    title: S.optional(S.String),
-    impact: S.optional(AccountIssueImpact),
   }),
 ).annotate({ identifier: "AccountIssue" }) as any as S.Schema<AccountIssue>;
 
@@ -9402,37 +9420,27 @@ export const AccountIssueList = /*@__PURE__*/ S.Array(
   AccountIssue,
 ) as any as S.Schema<AccountIssueList>;
 
-/** The Alternate Dispute Resolution (ADR) that may be available to merchants in some regions. If present, the link should be shown on the same page as the list of issues. */
-export interface AlternateDisputeResolution {
-  /** The URL pointing to a page, where merchant can request alternative dispute resolution with an [external body](https://support.google.com/european-union-digital-services-act-redress-options/answer/13535501). */
-  uri?: string;
-  /** The label for the alternate dispute resolution link. */
-  label?: string;
-}
-export const AlternateDisputeResolution = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uri: S.optional(S.String),
-    label: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AlternateDisputeResolution",
-}) as any as S.Schema<AlternateDisputeResolution>;
-
 /** Response containing support content and actions for listed account issues. */
 export interface RenderAccountIssuesResponse {
-  /** List of account issues for a given account. This list can be shown with compressed, expandable items. In the compressed form, the title and impact should be shown for each issue. Once the issue is expanded, the detailed content and available actions should be rendered. */
-  issues?: AccountIssueList;
   /** Alternate Dispute Resolution (ADR) is deprecated. Use `prerendered_out_of_court_dispute_settlement` instead. */
   alternateDisputeResolution?: AlternateDisputeResolution;
+  /** List of account issues for a given account. This list can be shown with compressed, expandable items. In the compressed form, the title and impact should be shown for each issue. Once the issue is expanded, the detailed content and available actions should be rendered. */
+  issues?: AccountIssueList;
 }
 export const RenderAccountIssuesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    issues: S.optional(AccountIssueList),
     alternateDisputeResolution: S.optional(AlternateDisputeResolution),
+    issues: S.optional(AccountIssueList),
   }),
 ).annotate({
   identifier: "RenderAccountIssuesResponse",
 }) as any as S.Schema<RenderAccountIssuesResponse>;
+
+export type RenderProductIssuesRequestPayloadContentOptionEnum =
+  | "CONTENT_OPTION_UNSPECIFIED"
+  | "PRE_RENDERED_HTML";
+export const RenderProductIssuesRequestPayloadContentOptionEnum =
+  /*@__PURE__*/ S.String;
 
 export type RenderProductIssuesRequestPayloadUserInputActionOptionEnum =
   | "USER_INPUT_ACTION_RENDERING_OPTION_UNSPECIFIED"
@@ -9441,30 +9449,24 @@ export type RenderProductIssuesRequestPayloadUserInputActionOptionEnum =
 export const RenderProductIssuesRequestPayloadUserInputActionOptionEnum =
   /*@__PURE__*/ S.String;
 
-export type RenderProductIssuesRequestPayloadContentOptionEnum =
-  | "CONTENT_OPTION_UNSPECIFIED"
-  | "PRE_RENDERED_HTML";
-export const RenderProductIssuesRequestPayloadContentOptionEnum =
-  /*@__PURE__*/ S.String;
-
 /** The payload for configuring how the content should be rendered. */
 export interface RenderProductIssuesRequestPayload {
-  /** Optional. How actions with user input form should be handled. If not provided, actions will be returned as links that points merchant to Merchant Center where they can request the action. */
-  userInputActionOption?:
-    | RenderProductIssuesRequestPayloadUserInputActionOptionEnum
-    | (string & {});
   /** Optional. How the detailed content should be returned. Default option is to return the content as a pre-rendered HTML text. */
   contentOption?:
     | RenderProductIssuesRequestPayloadContentOptionEnum
     | (string & {});
+  /** Optional. How actions with user input form should be handled. If not provided, actions will be returned as links that points merchant to Merchant Center where they can request the action. */
+  userInputActionOption?:
+    | RenderProductIssuesRequestPayloadUserInputActionOptionEnum
+    | (string & {});
 }
 export const RenderProductIssuesRequestPayload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userInputActionOption: S.optional(
-      RenderProductIssuesRequestPayloadUserInputActionOptionEnum,
-    ),
     contentOption: S.optional(
       RenderProductIssuesRequestPayloadContentOptionEnum,
+    ),
+    userInputActionOption: S.optional(
+      RenderProductIssuesRequestPayloadUserInputActionOptionEnum,
     ),
   }),
 ).annotate({
@@ -9472,12 +9474,12 @@ export const RenderProductIssuesRequestPayload = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RenderProductIssuesRequestPayload>;
 
 export interface RenderproductissuesMerchantsupportRequest {
-  /** Required. The ID of the account that contains the product. */
-  merchantId: string;
-  /** Required. The [REST_ID](https://developers.google.com/shopping-content/reference/rest/v2.1/products#Product.FIELDS.id) of the product to fetch issues for. */
-  productId: string;
   /** Optional. The [IANA](https://www.iana.org/time-zones) timezone used to localize times in support content. For example 'America/Los_Angeles'. If not set, results will use as a default UTC. */
   timeZone?: string;
+  /** Required. The [REST_ID](https://developers.google.com/shopping-content/reference/rest/v2.1/products#Product.FIELDS.id) of the product to fetch issues for. */
+  productId: string;
+  /** Required. The ID of the account that contains the product. */
+  merchantId: string;
   /** Optional. The [IETF BCP-47](https://tools.ietf.org/html/bcp47) language code used to localize support content. If not set, the result will be in default language `en-US`. */
   languageCode?: string;
   /** Request body */
@@ -9486,9 +9488,9 @@ export interface RenderproductissuesMerchantsupportRequest {
 export const RenderproductissuesMerchantsupportRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      merchantId: S.String.pipe(T.Label()),
-      productId: S.String.pipe(T.Label()),
       timeZone: S.optional(S.String.pipe(T.Query())),
+      productId: S.String.pipe(T.Label()),
+      merchantId: S.String.pipe(T.Label()),
       languageCode: S.optional(S.String.pipe(T.Query())),
       body: S.optional(RenderProductIssuesRequestPayload.pipe(T.HttpBody())),
     }).pipe(
@@ -9513,16 +9515,16 @@ export const ProductIssueImpactSeverityEnum = /*@__PURE__*/ S.String;
 export interface ProductIssueImpact {
   /** The severity of the issue. */
   severity?: ProductIssueImpactSeverityEnum;
-  /** Detailed impact breakdown. Explains the types of restriction the issue has in different shopping destinations and territory. If present, it should be rendered to the merchant. Can be shown as a mouse over dropdown or a dialog. Each breakdown item represents a group of regions with the same impact details. */
-  breakdowns?: BreakdownList;
   /** Optional. Message summarizing the overall impact of the issue. If present, it should be rendered to the merchant. For example: "Limits visibility in France" */
   message?: string;
+  /** Detailed impact breakdown. Explains the types of restriction the issue has in different shopping destinations and territory. If present, it should be rendered to the merchant. Can be shown as a mouse over dropdown or a dialog. Each breakdown item represents a group of regions with the same impact details. */
+  breakdowns?: BreakdownList;
 }
 export const ProductIssueImpact = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     severity: S.optional(ProductIssueImpactSeverityEnum),
-    breakdowns: S.optional(BreakdownList),
     message: S.optional(S.String),
+    breakdowns: S.optional(BreakdownList),
   }),
 ).annotate({
   identifier: "ProductIssueImpact",
@@ -9532,22 +9534,22 @@ export const ProductIssueImpact = /*@__PURE__*/ S.suspend(() =>
 export interface ProductIssue {
   /** Title of the issue. */
   title?: string;
-  /** Clarifies the severity of the issue. The summarizing message, if present, should be shown right under the title for each issue. It helps merchants to quickly understand the impact of the issue. The detailed breakdown helps the merchant to fully understand the impact of the issue. It can be rendered as dialog that opens when the merchant mouse over the summarized impact statement. Issues with different severity can be styled differently. They may use a different color or icon to signal the difference between `ERROR`, `WARNING` and `INFO`. */
-  impact?: ProductIssueImpact;
-  /** Details of the issue as a pre-rendered HTML. HTML elements contain CSS classes that can be used to customize the style of the content. Always sanitize the HTML before embedding it directly to your application. The sanitizer needs to allow basic HTML tags, such as: `div`, `span`, `p`, `a`, `ul`, `li`, `table`, `tr`, `td`. For example, you can use [DOMPurify](https://www.npmjs.com/package/dompurify). CSS classes: * `issue-detail` - top level container for the detail of the issue * `callout-banners` - section of the `issue-detail` with callout banners * `callout-banner` - single callout banner, inside `callout-banners` * `callout-banner-info` - callout with important information (default) * `callout-banner-warning` - callout with a warning * `callout-banner-error` - callout informing about an error (most severe) * `issue-content` - section of the `issue-detail`, contains multiple `content-element` * `content-element` - content element such as a list, link or paragraph, inside `issue-content` * `root-causes` - unordered list with items describing root causes of the issue, inside `issue-content` * `root-causes-intro` - intro text before the `root-causes` list, inside `issue-content` * `segment` - section of the text, `span` inside paragraph * `segment-attribute` - section of the text that represents a product attribute, for example 'image\_link' * `segment-literal` - section of the text that contains a special value, for example '0-1000 kg' * `segment-bold` - section of the text that should be rendered as bold * `segment-italic` - section of the text that should be rendered as italic * `tooltip` - used on paragraphs that should be rendered with a tooltip. A section of the text in such a paragraph will have a class `tooltip-text` and is intended to be shown in a mouse over dialog. If the style is not used, the `tooltip-text` section would be shown on a new line, after the main part of the text. * `tooltip-text` - marks a section of the text within a `tooltip`, that is intended to be shown in a mouse over dialog. * `tooltip-icon` - marks a section of the text within a `tooltip`, that can be replaced with a tooltip icon, for example '?' or 'i'. By default, this section contains a `br` tag, that is separating the main text and the tooltip text when the style is not used. * `tooltip-style-question` - the tooltip shows helpful information, can use the '?' as an icon. * `tooltip-style-info` - the tooltip adds additional information fitting to the context, can use the 'i' as an icon. * `content-moderation` - marks the paragraph that explains how the issue was identified. * `list-intro` - marks the paragraph that contains an intro for a list. This paragraph will be always followed by a list. * `new-element` - Present for new elements added to the pre-rendered content in the future. To make sure that a new content element does not break your style, you can hide everything with this class. */
-  prerenderedContent?: string;
   /** A list of actionable steps that can be executed to solve the issue. An example is requesting a re-review or providing arguments when merchant disagrees with the issue. Actions that are supported in (your) third-party application can be rendered as buttons and should be available to merchant when they expand the issue. */
   actions?: ActionList;
   /** Pre-rendered HTML that contains a link to the external location where the ODS can be requested and instructions for how to request it. HTML elements contain CSS classes that can be used to customize the style of this snippet. Always sanitize the HTML before embedding it directly to your application. The sanitizer needs to allow basic HTML tags, such as: `div`, `span`, `p`, `a`, `ul`, `li`, `table`, `tr`, `td`. For example, you can use [DOMPurify](https://www.npmjs.com/package/dompurify). CSS classes: * `ods-section`* - wrapper around the out-of-court dispute resolution section * `ods-description`* - intro text for the out-of-court dispute resolution. It may contain multiple segments and a link. * `ods-param`* - wrapper around the header-value pair for parameters that merchant may need to provide during the ODS process. * `ods-routing-id`* - ods param for the Routing ID. * `ods-reference-id`* - ods param for the Routing ID. * `ods-param-header`* - header for the ODS parameter * `ods-param-value`* - value of the ODS parameter. This value should be rendered in a way that it is easy for merchants to identify and copy. * `segment` - section of the text, `span` inside paragraph * `segment-attribute` - section of the text that represents a product attribute, for example 'image\_link' * `segment-literal` - section of the text that contains a special value, for example '0-1000 kg' * `segment-bold` - section of the text that should be rendered as bold * `segment-italic` - section of the text that should be rendered as italic * `tooltip` - used on paragraphs that should be rendered with a tooltip. A section of the text in such a paragraph will have a class `tooltip-text` and is intended to be shown in a mouse over dialog. If the style is not used, the `tooltip-text` section would be shown on a new line, after the main part of the text. * `tooltip-text` - marks a section of the text within a `tooltip`, that is intended to be shown in a mouse over dialog. * `tooltip-icon` - marks a section of the text within a `tooltip`, that can be replaced with a tooltip icon, for example '?' or 'i'. By default, this section contains a `br` tag, that is separating the main text and the tooltip text when the style is not used. * `tooltip-style-question` - the tooltip shows helpful information, can use the '?' as an icon. * `tooltip-style-info` - the tooltip adds additional information fitting to the context, can use the 'i' as an icon. */
   prerenderedOutOfCourtDisputeSettlement?: string;
+  /** Clarifies the severity of the issue. The summarizing message, if present, should be shown right under the title for each issue. It helps merchants to quickly understand the impact of the issue. The detailed breakdown helps the merchant to fully understand the impact of the issue. It can be rendered as dialog that opens when the merchant mouse over the summarized impact statement. Issues with different severity can be styled differently. They may use a different color or icon to signal the difference between `ERROR`, `WARNING` and `INFO`. */
+  impact?: ProductIssueImpact;
+  /** Details of the issue as a pre-rendered HTML. HTML elements contain CSS classes that can be used to customize the style of the content. Always sanitize the HTML before embedding it directly to your application. The sanitizer needs to allow basic HTML tags, such as: `div`, `span`, `p`, `a`, `ul`, `li`, `table`, `tr`, `td`. For example, you can use [DOMPurify](https://www.npmjs.com/package/dompurify). CSS classes: * `issue-detail` - top level container for the detail of the issue * `callout-banners` - section of the `issue-detail` with callout banners * `callout-banner` - single callout banner, inside `callout-banners` * `callout-banner-info` - callout with important information (default) * `callout-banner-warning` - callout with a warning * `callout-banner-error` - callout informing about an error (most severe) * `issue-content` - section of the `issue-detail`, contains multiple `content-element` * `content-element` - content element such as a list, link or paragraph, inside `issue-content` * `root-causes` - unordered list with items describing root causes of the issue, inside `issue-content` * `root-causes-intro` - intro text before the `root-causes` list, inside `issue-content` * `segment` - section of the text, `span` inside paragraph * `segment-attribute` - section of the text that represents a product attribute, for example 'image\_link' * `segment-literal` - section of the text that contains a special value, for example '0-1000 kg' * `segment-bold` - section of the text that should be rendered as bold * `segment-italic` - section of the text that should be rendered as italic * `tooltip` - used on paragraphs that should be rendered with a tooltip. A section of the text in such a paragraph will have a class `tooltip-text` and is intended to be shown in a mouse over dialog. If the style is not used, the `tooltip-text` section would be shown on a new line, after the main part of the text. * `tooltip-text` - marks a section of the text within a `tooltip`, that is intended to be shown in a mouse over dialog. * `tooltip-icon` - marks a section of the text within a `tooltip`, that can be replaced with a tooltip icon, for example '?' or 'i'. By default, this section contains a `br` tag, that is separating the main text and the tooltip text when the style is not used. * `tooltip-style-question` - the tooltip shows helpful information, can use the '?' as an icon. * `tooltip-style-info` - the tooltip adds additional information fitting to the context, can use the 'i' as an icon. * `content-moderation` - marks the paragraph that explains how the issue was identified. * `list-intro` - marks the paragraph that contains an intro for a list. This paragraph will be always followed by a list. * `new-element` - Present for new elements added to the pre-rendered content in the future. To make sure that a new content element does not break your style, you can hide everything with this class. */
+  prerenderedContent?: string;
 }
 export const ProductIssue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     title: S.optional(S.String),
-    impact: S.optional(ProductIssueImpact),
-    prerenderedContent: S.optional(S.String),
     actions: S.optional(ActionList),
     prerenderedOutOfCourtDisputeSettlement: S.optional(S.String),
+    impact: S.optional(ProductIssueImpact),
+    prerenderedContent: S.optional(S.String),
   }),
 ).annotate({ identifier: "ProductIssue" }) as any as S.Schema<ProductIssue>;
 
@@ -9558,15 +9560,15 @@ export const ProductIssueList = /*@__PURE__*/ S.Array(
 
 /** Response containing support content and actions for listed product issues. */
 export interface RenderProductIssuesResponse {
-  /** Alternate Dispute Resolution (ADR) is deprecated. Use `prerendered_out_of_court_dispute_settlement` instead. */
-  alternateDisputeResolution?: AlternateDisputeResolution;
   /** List of issues for a given product. This list can be shown with compressed, expandable items. In the compressed form, the title and impact should be shown for each issue. Once the issue is expanded, the detailed content and available actions should be rendered. */
   issues?: ProductIssueList;
+  /** Alternate Dispute Resolution (ADR) is deprecated. Use `prerendered_out_of_court_dispute_settlement` instead. */
+  alternateDisputeResolution?: AlternateDisputeResolution;
 }
 export const RenderProductIssuesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    alternateDisputeResolution: S.optional(AlternateDisputeResolution),
     issues: S.optional(ProductIssueList),
+    alternateDisputeResolution: S.optional(AlternateDisputeResolution),
   }),
 ).annotate({
   identifier: "RenderProductIssuesResponse",
@@ -9585,17 +9587,17 @@ export interface ReportInteractionRequest {
   interactionType?: ReportInteractionRequestInteractionTypeEnum | (string & {});
   /** Required. Type of the recommendations on which this interaction happened. This field must be set only to the value that is returned by {@link `GenerateRecommendationsResponse`} call. */
   type?: string;
-  /** Required. Token of the response when recommendation was returned. */
-  responseToken?: string;
   /** Optional. Subtype of the recommendations this interaction happened on. This field must be set only to the value that is returned by {@link `RecommendationsService.GenerateRecommendations`} call. */
   subtype?: string;
+  /** Required. Token of the response when recommendation was returned. */
+  responseToken?: string;
 }
 export const ReportInteractionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     interactionType: S.optional(ReportInteractionRequestInteractionTypeEnum),
     type: S.optional(S.String),
-    responseToken: S.optional(S.String),
     subtype: S.optional(S.String),
+    responseToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ReportInteractionRequest",
@@ -9631,18 +9633,18 @@ export const ReportInteractionRecommendationsResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ReportInteractionRecommendationsResponse>;
 
 export interface RequestgmbaccessLiasettingsRequest {
-  /** The ID of the account for which Business Profile access is requested. */
-  accountId: string;
-  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
-  merchantId: string;
   /** The email of the Business Profile. */
   gmbEmail: string;
+  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
+  merchantId: string;
+  /** The ID of the account for which Business Profile access is requested. */
+  accountId: string;
 }
 export const RequestgmbaccessLiasettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountId: S.String.pipe(T.Label()),
-    merchantId: S.String.pipe(T.Label()),
     gmbEmail: S.String.pipe(T.Query()),
+    merchantId: S.String.pipe(T.Label()),
+    accountId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "POST",
@@ -9667,19 +9669,19 @@ export const LiasettingsRequestGmbAccessResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LiasettingsRequestGmbAccessResponse>;
 
 export interface RequestinventoryverificationLiasettingsRequest {
-  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
-  merchantId: string;
   /** The country for which inventory validation is requested. */
   country: string;
   /** The ID of the account that manages the order. This cannot be a multi-client account. */
   accountId: string;
+  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
+  merchantId: string;
 }
 export const RequestinventoryverificationLiasettingsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      merchantId: S.String.pipe(T.Label()),
       country: S.String.pipe(T.Label()),
       accountId: S.String.pipe(T.Label()),
+      merchantId: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "POST",
@@ -9719,10 +9721,10 @@ export interface RequestPhoneVerificationRequest {
     | (string & {});
   /** Required. Two letter country code for the phone number, for example `CA` for Canadian numbers. See the [ISO 3166-1 alpha-2](https://wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) officially assigned codes. */
   phoneRegionCode?: string;
-  /** Phone number to be verified. */
-  phoneNumber?: string;
   /** Language code [IETF BCP 47 syntax](https://tools.ietf.org/html/bcp47) (for example, en-US). Language code is used to provide localized `SMS` and `PHONE_CALL`. Default language used is en-US if not provided. */
   languageCode?: string;
+  /** Phone number to be verified. */
+  phoneNumber?: string;
 }
 export const RequestPhoneVerificationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9730,8 +9732,8 @@ export const RequestPhoneVerificationRequest = /*@__PURE__*/ S.suspend(() =>
       RequestPhoneVerificationRequestPhoneVerificationMethodEnum,
     ),
     phoneRegionCode: S.optional(S.String),
-    phoneNumber: S.optional(S.String),
     languageCode: S.optional(S.String),
+    phoneNumber: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RequestPhoneVerificationRequest",
@@ -9851,51 +9853,51 @@ export const RequestreviewShoppingadsprogramResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<RequestreviewShoppingadsprogramResponse>;
 
 export interface PosSaleRequest {
-  /** Required. The identifier of the merchant's store. Either a `storeCode` inserted through the API or the code of the store in a Business Profile. */
-  storeCode?: string;
-  /** Required. The CLDR territory code for the item. */
-  targetCountry?: string;
-  /** Required. The price of the item. */
-  price?: Price;
+  /** Global Trade Item Number. */
+  gtin?: string;
+  /** Required. A unique identifier for the item. */
+  itemId?: string;
   /** Required. The inventory timestamp, in ISO 8601 format. */
   timestamp?: string;
+  /** Required. The CLDR territory code for the item. */
+  targetCountry?: string;
+  /** Required. The identifier of the merchant's store. Either a `storeCode` inserted through the API or the code of the store in a Business Profile. */
+  storeCode?: string;
+  /** Required. The relative change of the available quantity. Negative for items returned. */
+  quantity?: string;
+  /** Required. The price of the item. */
+  price?: Price;
   /** A unique ID to group items from the same sale event. */
   saleId?: string;
   /** Required. The two-letter ISO 639-1 language code for the item. */
   contentLanguage?: string;
-  /** Global Trade Item Number. */
-  gtin?: string;
-  /** Required. The relative change of the available quantity. Negative for items returned. */
-  quantity?: string;
-  /** Required. A unique identifier for the item. */
-  itemId?: string;
 }
 export const PosSaleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    storeCode: S.optional(S.String),
-    targetCountry: S.optional(S.String),
-    price: S.optional(Price),
+    gtin: S.optional(S.String),
+    itemId: S.optional(S.String),
     timestamp: S.optional(S.String),
+    targetCountry: S.optional(S.String),
+    storeCode: S.optional(S.String),
+    quantity: S.optional(S.String),
+    price: S.optional(Price),
     saleId: S.optional(S.String),
     contentLanguage: S.optional(S.String),
-    gtin: S.optional(S.String),
-    quantity: S.optional(S.String),
-    itemId: S.optional(S.String),
   }),
 ).annotate({ identifier: "PosSaleRequest" }) as any as S.Schema<PosSaleRequest>;
 
 export interface SalePosRequest {
-  /** The ID of the POS or inventory data provider. */
-  merchantId: string;
   /** The ID of the target merchant. */
   targetMerchantId: string;
+  /** The ID of the POS or inventory data provider. */
+  merchantId: string;
   /** Request body */
   body?: PosSaleRequest;
 }
 export const SalePosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     targetMerchantId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
     body: S.optional(PosSaleRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -9907,39 +9909,39 @@ export const SalePosRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SalePosRequest" }) as any as S.Schema<SalePosRequest>;
 
 export interface PosSaleResponse {
+  /** Required. A unique identifier for the item. */
+  itemId?: string;
   /** Required. The inventory timestamp, in ISO 8601 format. */
   timestamp?: string;
-  /** A unique ID to group items from the same sale event. */
-  saleId?: string;
-  /** Required. The identifier of the merchant's store. Either a `storeCode` inserted through the API or the code of the store in a Business Profile. */
-  storeCode?: string;
-  /** Required. The CLDR territory code for the item. */
-  targetCountry?: string;
-  /** Required. The price of the item. */
-  price?: Price;
-  /** Global Trade Item Number. */
-  gtin?: string;
   /** Required. The relative change of the available quantity. Negative for items returned. */
   quantity?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "`content#posSaleResponse`". */
   kind?: string;
-  /** Required. A unique identifier for the item. */
-  itemId?: string;
+  /** Global Trade Item Number. */
+  gtin?: string;
+  /** Required. The price of the item. */
+  price?: Price;
+  /** Required. The CLDR territory code for the item. */
+  targetCountry?: string;
   /** Required. The two-letter ISO 639-1 language code for the item. */
   contentLanguage?: string;
+  /** Required. The identifier of the merchant's store. Either a `storeCode` inserted through the API or the code of the store in a Business Profile. */
+  storeCode?: string;
+  /** A unique ID to group items from the same sale event. */
+  saleId?: string;
 }
 export const PosSaleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    itemId: S.optional(S.String),
     timestamp: S.optional(S.String),
-    saleId: S.optional(S.String),
-    storeCode: S.optional(S.String),
-    targetCountry: S.optional(S.String),
-    price: S.optional(Price),
-    gtin: S.optional(S.String),
     quantity: S.optional(S.String),
     kind: S.optional(S.String),
-    itemId: S.optional(S.String),
+    gtin: S.optional(S.String),
+    price: S.optional(Price),
+    targetCountry: S.optional(S.String),
     contentLanguage: S.optional(S.String),
+    storeCode: S.optional(S.String),
+    saleId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PosSaleResponse",
@@ -9949,16 +9951,16 @@ export const PosSaleResponse = /*@__PURE__*/ S.suspend(() =>
 export interface SearchRequest {
   /** Required. Query that defines performance metrics to retrieve and dimensions according to which the metrics are to be segmented. For details on how to construct your query, see the [Query Language guide](https://developers.google.com/shopping-content/guides/reports/query-language/overview). */
   query?: string;
-  /** Number of ReportRows to retrieve in a single page. Defaults to 1000. Values above 5000 are coerced to 5000. */
-  pageSize?: number;
   /** Token of the page to retrieve. If not specified, the first page of results is returned. In order to request the next page of results, the value obtained from `next_page_token` in the previous response should be used. */
   pageToken?: string;
+  /** Number of ReportRows to retrieve in a single page. Defaults to 1000. Values above 5000 are coerced to 5000. */
+  pageSize?: number;
 }
 export const SearchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     query: S.optional(S.String),
-    pageSize: S.optional(S.Number),
     pageToken: S.optional(S.String),
+    pageSize: S.optional(S.Number),
   }),
 ).annotate({ identifier: "SearchRequest" }) as any as S.Schema<SearchRequest>;
 
@@ -9985,26 +9987,107 @@ export const SearchReportsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Content_Date {
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   month?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   day?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
 }
 export const Content_Date = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    year: S.optional(S.Number),
     month: S.optional(S.Number),
     day: S.optional(S.Number),
-    year: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Content_Date" }) as any as S.Schema<Content_Date>;
 
-export type BestSellersReportGranularityEnum =
-  | "REPORT_GRANULARITY_UNSPECIFIED"
-  | "WEEKLY"
-  | "MONTHLY";
-export const BestSellersReportGranularityEnum = /*@__PURE__*/ S.String;
+/** Topic trends fields requested by the merchant in the query. Field values are only set if the merchant queries `TopicTrendsView`. Forecast data can be queried up to 13 weeks by passing a future date in the `date` field. Historical data is measured daily, and forecasted data is projected weekly. All data points are normalized based on the highest data points returned in the response. If you make separate queries with different date ranges, you might see different values for the same date in each response. The recommended way to get a trend score of a topic is `last7_days_search_interest / last{$day}_days_search_interest - 1`. You can view trends for up to eight topics at a time. */
+export interface TopicTrends {
+  /** Date the trend score was retrieved. */
+  date?: Content_Date;
+  /** Search interest in the last 90 days, with the same normalization as search_interest. This field is only present for a past date. */
+  last90DaysSearchInterest?: number;
+  /** Daily search interest, normalized to the time and country to make comparisons easier, with 100 representing peak popularity (from 0 to 100) for the requested time period and location. */
+  searchInterest?: number;
+  /** Country trends are calculated for. Must be a two-letter country code (ISO 3166-1-alpha-2 code), for example, `“US”`. */
+  customerCountryCode?: string;
+  /** Search interest in the last 30 days, with the same normalization as search_interest. This field is only present for a past date. */
+  last30DaysSearchInterest?: number;
+  /** Search interest in the last 7 days, with the same normalization as search_interest. This field is only present for a past date. */
+  last7DaysSearchInterest?: number;
+  /** Estimated search interest in the next 7 days, with the same normalization as search_interest. This field is only present for a future date. */
+  next7DaysSearchInterest?: number;
+  /** Google-provided topic trends are calculated for. Only top eight topics are returned. Topic is what shoppers are searching for on Google, grouped by the same concept. */
+  topic?: string;
+  /** Search interest in the last 120 days, with the same normalization as search_interest. This field is only present for a past date. */
+  last120DaysSearchInterest?: number;
+}
+export const TopicTrends = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    date: S.optional(Content_Date),
+    last90DaysSearchInterest: S.optional(S.Number),
+    searchInterest: S.optional(S.Number),
+    customerCountryCode: S.optional(S.String),
+    last30DaysSearchInterest: S.optional(S.Number),
+    last7DaysSearchInterest: S.optional(S.Number),
+    next7DaysSearchInterest: S.optional(S.Number),
+    topic: S.optional(S.String),
+    last120DaysSearchInterest: S.optional(S.Number),
+  }),
+).annotate({ identifier: "TopicTrends" }) as any as S.Schema<TopicTrends>;
+
+export type ProductClusterBrandInventoryStatusEnum =
+  | "INVENTORY_STATUS_UNSPECIFIED"
+  | "IN_STOCK"
+  | "OUT_OF_STOCK"
+  | "NOT_IN_INVENTORY";
+export const ProductClusterBrandInventoryStatusEnum = /*@__PURE__*/ S.String;
+
+export type ProductClusterInventoryStatusEnum =
+  | "INVENTORY_STATUS_UNSPECIFIED"
+  | "IN_STOCK"
+  | "OUT_OF_STOCK"
+  | "NOT_IN_INVENTORY";
+export const ProductClusterInventoryStatusEnum = /*@__PURE__*/ S.String;
+
+/** Product cluster fields. A product cluster is a grouping for different offers that represent the same product. Values are only set for fields requested explicitly in the request's search query. */
+export interface ProductCluster {
+  /** Title of the product cluster. */
+  title?: string;
+  /** Tells if there is at least one product of the brand currently `IN_STOCK` in your product feed across multiple countries, all products are `OUT_OF_STOCK` in your product feed, or `NOT_IN_INVENTORY`. The field doesn't take the Best Sellers report country filter into account. */
+  brandInventoryStatus?: ProductClusterBrandInventoryStatusEnum;
+  /** Product category (5th level) of the product cluster, represented in Google's product taxonomy. */
+  categoryL5?: string;
+  /** Brand of the product cluster. */
+  brand?: string;
+  /** Product category (1st level) of the product cluster, represented in Google's product taxonomy. */
+  categoryL1?: string;
+  /** Product category (4th level) of the product cluster, represented in Google's product taxonomy. */
+  categoryL4?: string;
+  /** Tells whether the product cluster is `IN_STOCK` in your product feed across multiple countries, `OUT_OF_STOCK` in your product feed, or `NOT_IN_INVENTORY` at all. The field doesn't take the Best Sellers report country filter into account. */
+  inventoryStatus?: ProductClusterInventoryStatusEnum;
+  /** Product category (3rd level) of the product cluster, represented in Google's product taxonomy. */
+  categoryL3?: string;
+  /** Product category (2nd level) of the product cluster, represented in Google's product taxonomy. */
+  categoryL2?: string;
+  /** GTINs of example variants of the product cluster. */
+  variantGtins?: StringList;
+}
+export const ProductCluster = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    brandInventoryStatus: S.optional(ProductClusterBrandInventoryStatusEnum),
+    categoryL5: S.optional(S.String),
+    brand: S.optional(S.String),
+    categoryL1: S.optional(S.String),
+    categoryL4: S.optional(S.String),
+    inventoryStatus: S.optional(ProductClusterInventoryStatusEnum),
+    categoryL3: S.optional(S.String),
+    categoryL2: S.optional(S.String),
+    variantGtins: S.optional(StringList),
+  }),
+).annotate({ identifier: "ProductCluster" }) as any as S.Schema<ProductCluster>;
 
 export type BestSellersRelativeDemandEnum =
   | "RELATIVE_DEMAND_UNSPECIFIED"
@@ -10024,6 +10107,12 @@ export type BestSellersPreviousRelativeDemandEnum =
   | "VERY_HIGH";
 export const BestSellersPreviousRelativeDemandEnum = /*@__PURE__*/ S.String;
 
+export type BestSellersReportGranularityEnum =
+  | "REPORT_GRANULARITY_UNSPECIFIED"
+  | "WEEKLY"
+  | "MONTHLY";
+export const BestSellersReportGranularityEnum = /*@__PURE__*/ S.String;
+
 export type BestSellersRelativeDemandChangeEnum =
   | "RELATIVE_DEMAND_CHANGE_TYPE_UNSPECIFIED"
   | "SINKER"
@@ -10033,99 +10122,38 @@ export const BestSellersRelativeDemandChangeEnum = /*@__PURE__*/ S.String;
 
 /** Fields related to the [Best sellers reports](https://support.google.com/merchants/answer/9488679). */
 export interface BestSellers {
-  /** Report date. The value of this field can only be one of the following: * The first day of the week (Monday) for weekly reports. * The first day of the month for monthly reports. If a `WHERE` condition on `best_sellers.report_date` is not specified in the query, the latest available weekly or monthly report is returned. */
-  reportDate?: Content_Date;
-  /** Google product category ID to calculate the ranking for, represented in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). If a `WHERE` condition on `best_sellers.category_id` is not specified in the query, rankings for all top-level categories are returned. */
-  categoryId?: string;
-  /** Granularity of the report. The ranking can be done over a week or a month timeframe. A `WHERE` condition on `best_sellers.report_granularity` is required in the query. */
-  reportGranularity?: BestSellersReportGranularityEnum;
   /** Estimated demand in relation to the item with the highest popularity rank in the same category and country. */
   relativeDemand?: BestSellersRelativeDemandEnum;
-  /** Estimated demand in relation to the item with the highest popularity rank in the same category and country in the previous week or month. */
-  previousRelativeDemand?: BestSellersPreviousRelativeDemandEnum;
-  /** Country where the ranking is calculated. A `WHERE` condition on `best_sellers.country_code` is required in the query. */
-  countryCode?: string;
-  /** Popularity rank in the previous week or month. */
-  previousRank?: string;
+  /** Google product category ID to calculate the ranking for, represented in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). If a `WHERE` condition on `best_sellers.category_id` is not specified in the query, rankings for all top-level categories are returned. */
+  categoryId?: string;
   /** Popularity on Shopping ads and free listings, in the selected category and country, based on the estimated number of units sold. */
   rank?: string;
+  /** Estimated demand in relation to the item with the highest popularity rank in the same category and country in the previous week or month. */
+  previousRelativeDemand?: BestSellersPreviousRelativeDemandEnum;
+  /** Granularity of the report. The ranking can be done over a week or a month timeframe. A `WHERE` condition on `best_sellers.report_granularity` is required in the query. */
+  reportGranularity?: BestSellersReportGranularityEnum;
+  /** Country where the ranking is calculated. A `WHERE` condition on `best_sellers.country_code` is required in the query. */
+  countryCode?: string;
+  /** Report date. The value of this field can only be one of the following: * The first day of the week (Monday) for weekly reports. * The first day of the month for monthly reports. If a `WHERE` condition on `best_sellers.report_date` is not specified in the query, the latest available weekly or monthly report is returned. */
+  reportDate?: Content_Date;
+  /** Popularity rank in the previous week or month. */
+  previousRank?: string;
   /** Change in the estimated demand. Whether it rose, sank or remained flat. */
   relativeDemandChange?: BestSellersRelativeDemandChangeEnum;
 }
 export const BestSellers = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reportDate: S.optional(Content_Date),
-    categoryId: S.optional(S.String),
-    reportGranularity: S.optional(BestSellersReportGranularityEnum),
     relativeDemand: S.optional(BestSellersRelativeDemandEnum),
-    previousRelativeDemand: S.optional(BestSellersPreviousRelativeDemandEnum),
-    countryCode: S.optional(S.String),
-    previousRank: S.optional(S.String),
+    categoryId: S.optional(S.String),
     rank: S.optional(S.String),
+    previousRelativeDemand: S.optional(BestSellersPreviousRelativeDemandEnum),
+    reportGranularity: S.optional(BestSellersReportGranularityEnum),
+    countryCode: S.optional(S.String),
+    reportDate: S.optional(Content_Date),
+    previousRank: S.optional(S.String),
     relativeDemandChange: S.optional(BestSellersRelativeDemandChangeEnum),
   }),
 ).annotate({ identifier: "BestSellers" }) as any as S.Schema<BestSellers>;
-
-export type PriceInsightsEffectivenessEnum =
-  | "EFFECTIVENESS_UNSPECIFIED"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH";
-export const PriceInsightsEffectivenessEnum = /*@__PURE__*/ S.String;
-
-/** Price insights fields requested by the merchant in the query. Field values are only set if the merchant queries `PriceInsightsProductView`. https://support.google.com/merchants/answer/11916926 */
-export interface PriceInsights {
-  /** *Deprecated*: This field is no longer supported and will start returning 0. The predicted change in gross profit as a fraction after introducing the suggested price compared to current active price. For example, 0.05 is a 5% predicted increase in gross profit. */
-  predictedGrossProfitChangeFraction?: number;
-  /** The suggested price currency (ISO 4217 code). */
-  suggestedPriceCurrencyCode?: string;
-  /** The predicted effectiveness of applying the price suggestion, bucketed. */
-  effectiveness?: PriceInsightsEffectivenessEnum;
-  /** The predicted change in conversions as a fraction after introducing the suggested price compared to current active price. For example, 0.05 is a 5% predicted increase in conversions). */
-  predictedConversionsChangeFraction?: number;
-  /** The predicted change in clicks as a fraction after introducing the suggested price compared to current active price. For example, 0.05 is a 5% predicted increase in clicks. */
-  predictedClicksChangeFraction?: number;
-  /** *Deprecated*: This field is no longer supported and will start returning USD for all requests. The predicted monthly gross profit change currency (ISO 4217 code). */
-  predictedMonthlyGrossProfitChangeCurrencyCode?: string;
-  /** *Deprecated*: This field is no longer supported and will start returning 0. The predicted change in gross profit in micros (1 millionth of a standard unit, 1 USD = 1000000 micros) after introducing the suggested price for a month compared to current active price. */
-  predictedMonthlyGrossProfitChangeMicros?: string;
-  /** The latest suggested price in micros (1 millionth of a standard unit, 1 USD = 1000000 micros) for the product. */
-  suggestedPriceMicros?: string;
-  /** The predicted change in impressions as a fraction after introducing the suggested price compared to current active price. For example, 0.05 is a 5% predicted increase in impressions. */
-  predictedImpressionsChangeFraction?: number;
-}
-export const PriceInsights = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    predictedGrossProfitChangeFraction: S.optional(S.Number),
-    suggestedPriceCurrencyCode: S.optional(S.String),
-    effectiveness: S.optional(PriceInsightsEffectivenessEnum),
-    predictedConversionsChangeFraction: S.optional(S.Number),
-    predictedClicksChangeFraction: S.optional(S.Number),
-    predictedMonthlyGrossProfitChangeCurrencyCode: S.optional(S.String),
-    predictedMonthlyGrossProfitChangeMicros: S.optional(S.String),
-    suggestedPriceMicros: S.optional(S.String),
-    predictedImpressionsChangeFraction: S.optional(S.Number),
-  }),
-).annotate({ identifier: "PriceInsights" }) as any as S.Schema<PriceInsights>;
-
-/** Price competitiveness fields requested by the merchant in the query. Field values are only set if the merchant queries `PriceCompetitivenessProductView`. https://support.google.com/merchants/answer/9626903 */
-export interface PriceCompetitiveness {
-  /** The price benchmark currency (ISO 4217 code). */
-  benchmarkPriceCurrencyCode?: string;
-  /** The country of the price benchmark (ISO 3166 code). */
-  countryCode?: string;
-  /** The latest available price benchmark in micros (1 millionth of a standard unit, 1 USD = 1000000 micros) for the product's catalog in the benchmark country. */
-  benchmarkPriceMicros?: string;
-}
-export const PriceCompetitiveness = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    benchmarkPriceCurrencyCode: S.optional(S.String),
-    countryCode: S.optional(S.String),
-    benchmarkPriceMicros: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PriceCompetitiveness",
-}) as any as S.Schema<PriceCompetitiveness>;
 
 export type CompetitiveVisibilityTrafficSourceEnum =
   | "UNKNOWN"
@@ -10136,355 +10164,236 @@ export const CompetitiveVisibilityTrafficSourceEnum = /*@__PURE__*/ S.String;
 
 /** Fields related to [competitive visibility reports] (https://support.google.com/merchants/answer/11366442). */
 export interface CompetitiveVisibility {
-  /** True if this row contains data for your domain. Available only in `CompetitiveVisibilityTopMerchantView` and `CompetitiveVisibilityCompetitorView`. Cannot be filtered on in the 'WHERE' clause. */
-  isYourDomain?: boolean;
-  /** Change in visibility based on impressions for your domain with respect to the start of the selected time range (or first day with non-zero impressions). Available only in `CompetitiveVisibilityBenchmarkView`. Cannot be filtered on in the 'WHERE' clause. */
-  yourDomainVisibilityTrend?: number;
-  /** The country where impression appeared. Required in the `SELECT` clause. A `WHERE` condition on `competitive_visibility.country_code` is required in the query. */
-  countryCode?: string;
-  /** Page overlap rate describes how frequently competing retailers’ offers are shown together with your offers on the same page. Available only in `CompetitiveVisibilityTopMerchantView` and `CompetitiveVisibilityCompetitorView`. Cannot be filtered on in the 'WHERE' clause. */
-  pageOverlapRate?: number;
-  /** Domain of your competitor or your domain, if 'is_your_domain' is true. Available only in `CompetitiveVisibilityTopMerchantView` and `CompetitiveVisibilityCompetitorView`. Required in the `SELECT` clause for `CompetitiveVisibilityTopMerchantView` and `CompetitiveVisibilityCompetitorView`. Cannot be filtered on in the 'WHERE' clause. */
-  domain?: string;
-  /** Type of impression listing. Required in the `SELECT` clause. Cannot be filtered on in the 'WHERE' clause. */
-  trafficSource?: CompetitiveVisibilityTrafficSourceEnum;
-  /** Date of this row. Available only in `CompetitiveVisibilityBenchmarkView` and `CompetitiveVisibilityCompetitorView`. Required in the `SELECT` clause for `CompetitiveVisibilityMarketBenchmarkView`. */
-  date?: Content_Date;
-  /** Position of the domain in the top merchants ranking for the selected keys (`date`, `category_id`, `country_code`, `listing_type`) based on impressions. 1 is the highest. Available only in `CompetitiveVisibilityTopMerchantView` and `CompetitiveVisibilityCompetitorView`. Cannot be filtered on in the 'WHERE' clause. */
-  rank?: string;
   /** Higher position rate shows how often a competitor’s offer got placed in a higher position on the page than your offer. Available only in `CompetitiveVisibilityTopMerchantView` and `CompetitiveVisibilityCompetitorView`. Cannot be filtered on in the 'WHERE' clause. */
   higherPositionRate?: number;
-  /** Relative visibility shows how often your competitors’ offers are shown compared to your offers. In other words, this is the number of displayed impressions of a competitor retailer divided by the number of your displayed impressions during a selected time range for a selected product category and country. Available only in `CompetitiveVisibilityCompetitorView`. Cannot be filtered on in the 'WHERE' clause. */
-  relativeVisibility?: number;
+  /** Page overlap rate describes how frequently competing retailers’ offers are shown together with your offers on the same page. Available only in `CompetitiveVisibilityTopMerchantView` and `CompetitiveVisibilityCompetitorView`. Cannot be filtered on in the 'WHERE' clause. */
+  pageOverlapRate?: number;
+  /** True if this row contains data for your domain. Available only in `CompetitiveVisibilityTopMerchantView` and `CompetitiveVisibilityCompetitorView`. Cannot be filtered on in the 'WHERE' clause. */
+  isYourDomain?: boolean;
   /** [Ads / organic ratio] (https://support.google.com/merchants/answer/11366442#zippy=%2Cadsfree-ratio) shows how often a merchant receives impressions from Shopping ads compared to organic traffic. The number is rounded and bucketed. Available only in `CompetitiveVisibilityTopMerchantView` and `CompetitiveVisibilityCompetitorView`. Cannot be filtered on in the 'WHERE' clause. */
   adsOrganicRatio?: number;
+  /** Domain of your competitor or your domain, if 'is_your_domain' is true. Available only in `CompetitiveVisibilityTopMerchantView` and `CompetitiveVisibilityCompetitorView`. Required in the `SELECT` clause for `CompetitiveVisibilityTopMerchantView` and `CompetitiveVisibilityCompetitorView`. Cannot be filtered on in the 'WHERE' clause. */
+  domain?: string;
   /** Change in visibility based on impressions with respect to the start of the selected time range (or first day with non-zero impressions) for a combined set of merchants with highest visibility approximating the market. Available only in `CompetitiveVisibilityBenchmarkView`. Cannot be filtered on in the 'WHERE' clause. */
   categoryBenchmarkVisibilityTrend?: number;
+  /** Change in visibility based on impressions for your domain with respect to the start of the selected time range (or first day with non-zero impressions). Available only in `CompetitiveVisibilityBenchmarkView`. Cannot be filtered on in the 'WHERE' clause. */
+  yourDomainVisibilityTrend?: number;
+  /** Relative visibility shows how often your competitors’ offers are shown compared to your offers. In other words, this is the number of displayed impressions of a competitor retailer divided by the number of your displayed impressions during a selected time range for a selected product category and country. Available only in `CompetitiveVisibilityCompetitorView`. Cannot be filtered on in the 'WHERE' clause. */
+  relativeVisibility?: number;
   /** Google product category ID to calculate the report for, represented in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). Required in the `SELECT` clause. A `WHERE` condition on `competitive_visibility.category_id` is required in the query. */
   categoryId?: string;
+  /** Position of the domain in the top merchants ranking for the selected keys (`date`, `category_id`, `country_code`, `listing_type`) based on impressions. 1 is the highest. Available only in `CompetitiveVisibilityTopMerchantView` and `CompetitiveVisibilityCompetitorView`. Cannot be filtered on in the 'WHERE' clause. */
+  rank?: string;
+  /** Date of this row. Available only in `CompetitiveVisibilityBenchmarkView` and `CompetitiveVisibilityCompetitorView`. Required in the `SELECT` clause for `CompetitiveVisibilityMarketBenchmarkView`. */
+  date?: Content_Date;
+  /** Type of impression listing. Required in the `SELECT` clause. Cannot be filtered on in the 'WHERE' clause. */
+  trafficSource?: CompetitiveVisibilityTrafficSourceEnum;
+  /** The country where impression appeared. Required in the `SELECT` clause. A `WHERE` condition on `competitive_visibility.country_code` is required in the query. */
+  countryCode?: string;
 }
 export const CompetitiveVisibility = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    isYourDomain: S.optional(S.Boolean),
-    yourDomainVisibilityTrend: S.optional(S.Number),
-    countryCode: S.optional(S.String),
-    pageOverlapRate: S.optional(S.Number),
-    domain: S.optional(S.String),
-    trafficSource: S.optional(CompetitiveVisibilityTrafficSourceEnum),
-    date: S.optional(Content_Date),
-    rank: S.optional(S.String),
     higherPositionRate: S.optional(S.Number),
-    relativeVisibility: S.optional(S.Number),
+    pageOverlapRate: S.optional(S.Number),
+    isYourDomain: S.optional(S.Boolean),
     adsOrganicRatio: S.optional(S.Number),
+    domain: S.optional(S.String),
     categoryBenchmarkVisibilityTrend: S.optional(S.Number),
+    yourDomainVisibilityTrend: S.optional(S.Number),
+    relativeVisibility: S.optional(S.Number),
     categoryId: S.optional(S.String),
+    rank: S.optional(S.String),
+    date: S.optional(Content_Date),
+    trafficSource: S.optional(CompetitiveVisibilityTrafficSourceEnum),
+    countryCode: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CompetitiveVisibility",
 }) as any as S.Schema<CompetitiveVisibility>;
 
-export type SegmentsProgramEnum =
-  | "PROGRAM_UNSPECIFIED"
-  | "SHOPPING_ADS"
-  | "FREE_PRODUCT_LISTING"
-  | "FREE_LOCAL_PRODUCT_LISTING"
-  | "BUY_ON_GOOGLE_LISTING";
-export const SegmentsProgramEnum = /*@__PURE__*/ S.String;
-
-/** Dimensions according to which metrics are segmented in the response. Values of product dimensions, such as `offer_id`, reflect the state of a product at the time of the corresponding event, for example, impression or order. Segment fields cannot be selected in queries without also selecting at least one metric field. Values are only set for dimensions requested explicitly in the request's search query. */
-export interface Segments {
-  /** Code of the country where the customer is located at the time of the event. Represented in the ISO 3166 format. If the customer country cannot be determined, a special 'ZZ' code is returned. */
-  customerCountryCode?: string;
-  /** [Product type (2nd level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in merchant's own product taxonomy. */
-  productTypeL2?: string;
-  /** First day of the week (Monday) of the metrics date in the merchant timezone. */
-  week?: Content_Date;
-  /** Custom label 2 for custom grouping of products. */
-  customLabel2?: string;
-  /** Custom label 4 for custom grouping of products. */
-  customLabel4?: string;
-  /** [Product type (1st level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in merchant's own product taxonomy. */
-  productTypeL1?: string;
-  /** [Product category (5th level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in Google's product taxonomy. */
-  categoryL5?: string;
-  /** Custom label 1 for custom grouping of products. */
-  customLabel1?: string;
-  /** Currency in which price metrics are represented, for example, if you select `ordered_item_sales_micros`, the returned value will be represented by this currency. */
-  currencyCode?: string;
-  /** Date in the merchant timezone to which metrics apply. */
-  date?: Content_Date;
-  /** Brand of the product. */
-  brand?: string;
-  /** [Product category (1st level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in Google's product taxonomy. */
-  categoryL1?: string;
-  /** Merchant-provided id of the product. */
-  offerId?: string;
-  /** Program to which metrics apply, for example, Free Product Listing. */
-  program?: SegmentsProgramEnum;
-  /** [Product type (3rd level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in merchant's own product taxonomy. */
-  productTypeL3?: string;
-  /** [Product type (4th level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in merchant's own product taxonomy. */
-  productTypeL4?: string;
-  /** Title of the product. */
-  title?: string;
-  /** [Product category (2nd level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in Google's product taxonomy. */
-  categoryL2?: string;
-  /** [Product category (4th level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in Google's product taxonomy. */
-  categoryL4?: string;
-  /** Custom label 0 for custom grouping of products. */
-  customLabel0?: string;
-  /** [Product category (3rd level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in Google's product taxonomy. */
-  categoryL3?: string;
-  /** [Product type (5th level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in merchant's own product taxonomy. */
-  productTypeL5?: string;
-  /** Custom label 3 for custom grouping of products. */
-  customLabel3?: string;
+/** Price competitiveness fields requested by the merchant in the query. Field values are only set if the merchant queries `PriceCompetitivenessProductView`. https://support.google.com/merchants/answer/9626903 */
+export interface PriceCompetitiveness {
+  /** The latest available price benchmark in micros (1 millionth of a standard unit, 1 USD = 1000000 micros) for the product's catalog in the benchmark country. */
+  benchmarkPriceMicros?: string;
+  /** The price benchmark currency (ISO 4217 code). */
+  benchmarkPriceCurrencyCode?: string;
+  /** The country of the price benchmark (ISO 3166 code). */
+  countryCode?: string;
 }
-export const Segments = /*@__PURE__*/ S.suspend(() =>
+export const PriceCompetitiveness = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerCountryCode: S.optional(S.String),
-    productTypeL2: S.optional(S.String),
-    week: S.optional(Content_Date),
-    customLabel2: S.optional(S.String),
-    customLabel4: S.optional(S.String),
-    productTypeL1: S.optional(S.String),
-    categoryL5: S.optional(S.String),
-    customLabel1: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-    date: S.optional(Content_Date),
-    brand: S.optional(S.String),
-    categoryL1: S.optional(S.String),
-    offerId: S.optional(S.String),
-    program: S.optional(SegmentsProgramEnum),
-    productTypeL3: S.optional(S.String),
-    productTypeL4: S.optional(S.String),
-    title: S.optional(S.String),
-    categoryL2: S.optional(S.String),
-    categoryL4: S.optional(S.String),
-    customLabel0: S.optional(S.String),
-    categoryL3: S.optional(S.String),
-    productTypeL5: S.optional(S.String),
-    customLabel3: S.optional(S.String),
+    benchmarkPriceMicros: S.optional(S.String),
+    benchmarkPriceCurrencyCode: S.optional(S.String),
+    countryCode: S.optional(S.String),
   }),
-).annotate({ identifier: "Segments" }) as any as S.Schema<Segments>;
-
-export type ProductClusterBrandInventoryStatusEnum =
-  | "INVENTORY_STATUS_UNSPECIFIED"
-  | "IN_STOCK"
-  | "OUT_OF_STOCK"
-  | "NOT_IN_INVENTORY";
-export const ProductClusterBrandInventoryStatusEnum = /*@__PURE__*/ S.String;
-
-export type ProductClusterInventoryStatusEnum =
-  | "INVENTORY_STATUS_UNSPECIFIED"
-  | "IN_STOCK"
-  | "OUT_OF_STOCK"
-  | "NOT_IN_INVENTORY";
-export const ProductClusterInventoryStatusEnum = /*@__PURE__*/ S.String;
-
-/** Product cluster fields. A product cluster is a grouping for different offers that represent the same product. Values are only set for fields requested explicitly in the request's search query. */
-export interface ProductCluster {
-  /** Brand of the product cluster. */
-  brand?: string;
-  /** Product category (1st level) of the product cluster, represented in Google's product taxonomy. */
-  categoryL1?: string;
-  /** Tells if there is at least one product of the brand currently `IN_STOCK` in your product feed across multiple countries, all products are `OUT_OF_STOCK` in your product feed, or `NOT_IN_INVENTORY`. The field doesn't take the Best Sellers report country filter into account. */
-  brandInventoryStatus?: ProductClusterBrandInventoryStatusEnum;
-  /** Product category (3rd level) of the product cluster, represented in Google's product taxonomy. */
-  categoryL3?: string;
-  /** GTINs of example variants of the product cluster. */
-  variantGtins?: StringList;
-  /** Product category (2nd level) of the product cluster, represented in Google's product taxonomy. */
-  categoryL2?: string;
-  /** Product category (4th level) of the product cluster, represented in Google's product taxonomy. */
-  categoryL4?: string;
-  /** Product category (5th level) of the product cluster, represented in Google's product taxonomy. */
-  categoryL5?: string;
-  /** Tells whether the product cluster is `IN_STOCK` in your product feed across multiple countries, `OUT_OF_STOCK` in your product feed, or `NOT_IN_INVENTORY` at all. The field doesn't take the Best Sellers report country filter into account. */
-  inventoryStatus?: ProductClusterInventoryStatusEnum;
-  /** Title of the product cluster. */
-  title?: string;
-}
-export const ProductCluster = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    brand: S.optional(S.String),
-    categoryL1: S.optional(S.String),
-    brandInventoryStatus: S.optional(ProductClusterBrandInventoryStatusEnum),
-    categoryL3: S.optional(S.String),
-    variantGtins: S.optional(StringList),
-    categoryL2: S.optional(S.String),
-    categoryL4: S.optional(S.String),
-    categoryL5: S.optional(S.String),
-    inventoryStatus: S.optional(ProductClusterInventoryStatusEnum),
-    title: S.optional(S.String),
-  }),
-).annotate({ identifier: "ProductCluster" }) as any as S.Schema<ProductCluster>;
+).annotate({
+  identifier: "PriceCompetitiveness",
+}) as any as S.Schema<PriceCompetitiveness>;
 
 /** Performance metrics. Values are only set for metrics requested explicitly in the request's search query. */
 export interface Metrics {
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of fully shipped orders, reported on the last shipment date. **This metric cannot be segmented by product dimensions and customer_country_code.** */
-  shippedOrders?: string;
+  /** Number of conversions divided by the number of clicks, reported on the impression date. The metric is currently available only for the `FREE_PRODUCT_LISTING` program. */
+  conversionRate?: number;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Average number of days between an item being ordered and the item being **This metric cannot be segmented by customer_country_code.** */
+  itemDaysToShip?: number;
   /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of ordered items not shipped up until the end of the queried day. If a multi-day period is specified in the search query, the returned value is the average number of unshipped items over the days in the queried period. **This metric cannot be segmented by customer_country_code.** */
   unshippedItems?: number;
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Average order size - the average number of items in an order. **This metric cannot be segmented by product dimensions and customer_country_code.** */
-  aos?: number;
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of ordered items. Excludes customer cancellations that happened within 30 minutes of placing the order. **This metric cannot be segmented by customer_country_code.** */
-  orderedItems?: string;
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of placed orders. Excludes customer cancellations that happened within 30 minutes of placing the order. **This metric cannot be segmented by product dimensions and customer_country_code.** */
-  orders?: string;
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Average number of days between an order being placed and the order being fully shipped, reported on the last shipment date. **This metric cannot be segmented by product dimensions and customer_country_code.** */
-  daysToShip?: number;
-  /** Number of conversions attributed to the product, reported on the conversion date. Depending on the attribution model, a conversion might be distributed across multiple clicks, where each click gets its own credit assigned. This metric is a sum of all such credits. The metric is currently available only for the `FREE_PRODUCT_LISTING` program. */
-  conversions?: number;
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Average order value in micros (1 millionth of a standard unit, 1 USD = 1000000 micros) - the average value (total price of items) of all placed orders. The currency of the returned value is stored in the currency_code segment. If this metric is selected, 'segments.currency_code' is automatically added to the SELECT clause in the search query (unless it is explicitly selected by the user) and the currency_code segment is populated in the response. **This metric cannot be segmented by product dimensions and customer_country_code.** */
-  aovMicros?: number;
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of ordered items sent back for return, reported on the date when the merchant accepted the return. **This metric cannot be segmented by customer_country_code.** */
-  returnedItems?: string;
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Total price of ordered items in micros (1 millionth of a standard unit, 1 USD = 1000000 micros). Excludes shipping, taxes (US only), and customer cancellations that happened within 30 minutes of placing the order. The currency of the returned value is stored in the currency_code segment. If this metric is selected, 'segments.currency_code' is automatically added to the SELECT clause in the search query (unless it is explicitly selected by the user) and the currency_code segment is populated in the response. **This metric cannot be segmented by customer_country_code.** */
-  orderedItemSalesMicros?: string;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of orders not shipped or partially shipped up until the end of the queried day. If a multi-day period is specified in the search query, the returned value is the average number of unshipped orders over the days in the queried period. **This metric cannot be segmented by product dimensions and customer_country_code.** */
+  unshippedOrders?: number;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of shipped items, reported on the shipment date. **This metric cannot be segmented by customer_country_code.** */
+  shippedItems?: string;
+  /** Number of times merchant's products are shown. */
+  impressions?: string;
   /** Click-through rate - the number of clicks merchant's products receive (clicks) divided by the number of times the products are shown (impressions). */
   ctr?: number;
   /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Percentage of shipped items in relation to all finalized items (shipped or rejected by the merchant; unshipped items are not taken into account), reported on the order date. Item fill rate is lowered by merchant rejections. **This metric cannot be segmented by customer_country_code.** */
   itemFillRate?: number;
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of shipped items, reported on the shipment date. **This metric cannot be segmented by customer_country_code.** */
-  shippedItems?: string;
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Total price of ordered items sent back for return in micros (1 millionth of a standard unit, 1 USD = 1000000 micros), reported on the date when the merchant accepted the return. The currency of the returned value is stored in the currency_code segment. If this metric is selected, 'segments.currency_code' is automatically added to the SELECT clause in the search query (unless it is explicitly selected by the user) and the currency_code segment is populated in the response. **This metric cannot be segmented by customer_country_code.** */
-  returnsMicros?: string;
-  /** Number of clicks. */
-  clicks?: string;
-  /** Number of conversions divided by the number of clicks, reported on the impression date. The metric is currently available only for the `FREE_PRODUCT_LISTING` program. */
-  conversionRate?: number;
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of ordered items canceled by the merchant, reported on the order date. **This metric cannot be segmented by customer_country_code.** */
-  rejectedItems?: string;
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Average number of days between an item being ordered and the item being **This metric cannot be segmented by customer_country_code.** */
-  itemDaysToShip?: number;
-  /** Number of times merchant's products are shown. */
-  impressions?: string;
-  /** Value of conversions in micros (1 millionth of a standard unit, 1 USD = 1000000 micros) attributed to the product, reported on the conversion date. The metric is currently available only for the `FREE_PRODUCT_LISTING` program. The currency of the returned value is stored in the currency_code segment. If this metric is selected, 'segments.currency_code' is automatically added to the SELECT clause in the search query (unless it is explicitly selected by the user) and the currency_code segment is populated in the response. */
-  conversionValueMicros?: string;
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of orders not shipped or partially shipped up until the end of the queried day. If a multi-day period is specified in the search query, the returned value is the average number of unshipped orders over the days in the queried period. **This metric cannot be segmented by product dimensions and customer_country_code.** */
-  unshippedOrders?: number;
-  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Total price of returned items divided by the total price of shipped items, reported on the order date. If this metric is selected, 'segments.currency_code' is automatically added to the SELECT clause in the search query (unless it is explicitly selected by the user) and the currency_code segment is populated in the response. **This metric cannot be segmented by customer_country_code.** */
-  returnRate?: number;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of placed orders. Excludes customer cancellations that happened within 30 minutes of placing the order. **This metric cannot be segmented by product dimensions and customer_country_code.** */
+  orders?: string;
   /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Total price of shipped items in micros (1 millionth of a standard unit, 1 USD = 1000000 micros), reported on the order date. Excludes shipping and taxes (US only). The currency of the returned value is stored in the currency_code segment. If this metric is selected, 'segments.currency_code' is automatically added to the SELECT clause in the search query (unless it is explicitly selected by the user) and the currency_code segment is populated in the response. **This metric cannot be segmented by customer_country_code.** */
   shippedItemSalesMicros?: string;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of fully shipped orders, reported on the last shipment date. **This metric cannot be segmented by product dimensions and customer_country_code.** */
+  shippedOrders?: string;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Total price of ordered items in micros (1 millionth of a standard unit, 1 USD = 1000000 micros). Excludes shipping, taxes (US only), and customer cancellations that happened within 30 minutes of placing the order. The currency of the returned value is stored in the currency_code segment. If this metric is selected, 'segments.currency_code' is automatically added to the SELECT clause in the search query (unless it is explicitly selected by the user) and the currency_code segment is populated in the response. **This metric cannot be segmented by customer_country_code.** */
+  orderedItemSalesMicros?: string;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of ordered items sent back for return, reported on the date when the merchant accepted the return. **This metric cannot be segmented by customer_country_code.** */
+  returnedItems?: string;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Total price of returned items divided by the total price of shipped items, reported on the order date. If this metric is selected, 'segments.currency_code' is automatically added to the SELECT clause in the search query (unless it is explicitly selected by the user) and the currency_code segment is populated in the response. **This metric cannot be segmented by customer_country_code.** */
+  returnRate?: number;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of ordered items canceled by the merchant, reported on the order date. **This metric cannot be segmented by customer_country_code.** */
+  rejectedItems?: string;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Average order value in micros (1 millionth of a standard unit, 1 USD = 1000000 micros) - the average value (total price of items) of all placed orders. The currency of the returned value is stored in the currency_code segment. If this metric is selected, 'segments.currency_code' is automatically added to the SELECT clause in the search query (unless it is explicitly selected by the user) and the currency_code segment is populated in the response. **This metric cannot be segmented by product dimensions and customer_country_code.** */
+  aovMicros?: number;
+  /** Number of conversions attributed to the product, reported on the conversion date. Depending on the attribution model, a conversion might be distributed across multiple clicks, where each click gets its own credit assigned. This metric is a sum of all such credits. The metric is currently available only for the `FREE_PRODUCT_LISTING` program. */
+  conversions?: number;
+  /** Number of clicks. */
+  clicks?: string;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Total price of ordered items sent back for return in micros (1 millionth of a standard unit, 1 USD = 1000000 micros), reported on the date when the merchant accepted the return. The currency of the returned value is stored in the currency_code segment. If this metric is selected, 'segments.currency_code' is automatically added to the SELECT clause in the search query (unless it is explicitly selected by the user) and the currency_code segment is populated in the response. **This metric cannot be segmented by customer_country_code.** */
+  returnsMicros?: string;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of ordered items. Excludes customer cancellations that happened within 30 minutes of placing the order. **This metric cannot be segmented by customer_country_code.** */
+  orderedItems?: string;
+  /** Value of conversions in micros (1 millionth of a standard unit, 1 USD = 1000000 micros) attributed to the product, reported on the conversion date. The metric is currently available only for the `FREE_PRODUCT_LISTING` program. The currency of the returned value is stored in the currency_code segment. If this metric is selected, 'segments.currency_code' is automatically added to the SELECT clause in the search query (unless it is explicitly selected by the user) and the currency_code segment is populated in the response. */
+  conversionValueMicros?: string;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Average number of days between an order being placed and the order being fully shipped, reported on the last shipment date. **This metric cannot be segmented by product dimensions and customer_country_code.** */
+  daysToShip?: number;
+  /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Average order size - the average number of items in an order. **This metric cannot be segmented by product dimensions and customer_country_code.** */
+  aos?: number;
 }
 export const Metrics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    shippedOrders: S.optional(S.String),
+    conversionRate: S.optional(S.Number),
+    itemDaysToShip: S.optional(S.Number),
     unshippedItems: S.optional(S.Number),
-    aos: S.optional(S.Number),
-    orderedItems: S.optional(S.String),
-    orders: S.optional(S.String),
-    daysToShip: S.optional(S.Number),
-    conversions: S.optional(S.Number),
-    aovMicros: S.optional(S.Number),
-    returnedItems: S.optional(S.String),
-    orderedItemSalesMicros: S.optional(S.String),
+    unshippedOrders: S.optional(S.Number),
+    shippedItems: S.optional(S.String),
+    impressions: S.optional(S.String),
     ctr: S.optional(S.Number),
     itemFillRate: S.optional(S.Number),
-    shippedItems: S.optional(S.String),
-    returnsMicros: S.optional(S.String),
-    clicks: S.optional(S.String),
-    conversionRate: S.optional(S.Number),
-    rejectedItems: S.optional(S.String),
-    itemDaysToShip: S.optional(S.Number),
-    impressions: S.optional(S.String),
-    conversionValueMicros: S.optional(S.String),
-    unshippedOrders: S.optional(S.Number),
-    returnRate: S.optional(S.Number),
+    orders: S.optional(S.String),
     shippedItemSalesMicros: S.optional(S.String),
+    shippedOrders: S.optional(S.String),
+    orderedItemSalesMicros: S.optional(S.String),
+    returnedItems: S.optional(S.String),
+    returnRate: S.optional(S.Number),
+    rejectedItems: S.optional(S.String),
+    aovMicros: S.optional(S.Number),
+    conversions: S.optional(S.Number),
+    clicks: S.optional(S.String),
+    returnsMicros: S.optional(S.String),
+    orderedItems: S.optional(S.String),
+    conversionValueMicros: S.optional(S.String),
+    daysToShip: S.optional(S.Number),
+    aos: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Metrics" }) as any as S.Schema<Metrics>;
 
-/** Topic trends fields requested by the merchant in the query. Field values are only set if the merchant queries `TopicTrendsView`. Forecast data can be queried up to 13 weeks by passing a future date in the `date` field. Historical data is measured daily, and forecasted data is projected weekly. All data points are normalized based on the highest data points returned in the response. If you make separate queries with different date ranges, you might see different values for the same date in each response. The recommended way to get a trend score of a topic is `last7_days_search_interest / last{$day}_days_search_interest - 1`. You can view trends for up to eight topics at a time. */
-export interface TopicTrends {
-  /** Estimated search interest in the next 7 days, with the same normalization as search_interest. This field is only present for a future date. */
-  next7DaysSearchInterest?: number;
-  /** Search interest in the last 30 days, with the same normalization as search_interest. This field is only present for a past date. */
-  last30DaysSearchInterest?: number;
-  /** Date the trend score was retrieved. */
-  date?: Content_Date;
-  /** Daily search interest, normalized to the time and country to make comparisons easier, with 100 representing peak popularity (from 0 to 100) for the requested time period and location. */
-  searchInterest?: number;
-  /** Google-provided topic trends are calculated for. Only top eight topics are returned. Topic is what shoppers are searching for on Google, grouped by the same concept. */
-  topic?: string;
-  /** Search interest in the last 90 days, with the same normalization as search_interest. This field is only present for a past date. */
-  last90DaysSearchInterest?: number;
-  /** Country trends are calculated for. Must be a two-letter country code (ISO 3166-1-alpha-2 code), for example, `“US”`. */
-  customerCountryCode?: string;
-  /** Search interest in the last 7 days, with the same normalization as search_interest. This field is only present for a past date. */
-  last7DaysSearchInterest?: number;
-  /** Search interest in the last 120 days, with the same normalization as search_interest. This field is only present for a past date. */
-  last120DaysSearchInterest?: number;
-}
-export const TopicTrends = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    next7DaysSearchInterest: S.optional(S.Number),
-    last30DaysSearchInterest: S.optional(S.Number),
-    date: S.optional(Content_Date),
-    searchInterest: S.optional(S.Number),
-    topic: S.optional(S.String),
-    last90DaysSearchInterest: S.optional(S.Number),
-    customerCountryCode: S.optional(S.String),
-    last7DaysSearchInterest: S.optional(S.Number),
-    last120DaysSearchInterest: S.optional(S.Number),
-  }),
-).annotate({ identifier: "TopicTrends" }) as any as S.Schema<TopicTrends>;
-
-export type ProductViewClickPotentialEnum =
-  | "CLICK_POTENTIAL_UNSPECIFIED"
+export type PriceInsightsEffectivenessEnum =
+  | "EFFECTIVENESS_UNSPECIFIED"
   | "LOW"
   | "MEDIUM"
   | "HIGH";
-export const ProductViewClickPotentialEnum = /*@__PURE__*/ S.String;
+export const PriceInsightsEffectivenessEnum = /*@__PURE__*/ S.String;
 
-export type ProductViewAggregatedDestinationStatusEnum =
-  | "AGGREGATED_STATUS_UNSPECIFIED"
-  | "NOT_ELIGIBLE_OR_DISAPPROVED"
-  | "PENDING"
-  | "ELIGIBLE_LIMITED"
-  | "ELIGIBLE";
-export const ProductViewAggregatedDestinationStatusEnum =
-  /*@__PURE__*/ S.String;
+/** Price insights fields requested by the merchant in the query. Field values are only set if the merchant queries `PriceInsightsProductView`. https://support.google.com/merchants/answer/11916926 */
+export interface PriceInsights {
+  /** The predicted effectiveness of applying the price suggestion, bucketed. */
+  effectiveness?: PriceInsightsEffectivenessEnum;
+  /** *Deprecated*: This field is no longer supported and will start returning USD for all requests. The predicted monthly gross profit change currency (ISO 4217 code). */
+  predictedMonthlyGrossProfitChangeCurrencyCode?: string;
+  /** The predicted change in clicks as a fraction after introducing the suggested price compared to current active price. For example, 0.05 is a 5% predicted increase in clicks. */
+  predictedClicksChangeFraction?: number;
+  /** The predicted change in impressions as a fraction after introducing the suggested price compared to current active price. For example, 0.05 is a 5% predicted increase in impressions. */
+  predictedImpressionsChangeFraction?: number;
+  /** *Deprecated*: This field is no longer supported and will start returning 0. The predicted change in gross profit as a fraction after introducing the suggested price compared to current active price. For example, 0.05 is a 5% predicted increase in gross profit. */
+  predictedGrossProfitChangeFraction?: number;
+  /** The suggested price currency (ISO 4217 code). */
+  suggestedPriceCurrencyCode?: string;
+  /** *Deprecated*: This field is no longer supported and will start returning 0. The predicted change in gross profit in micros (1 millionth of a standard unit, 1 USD = 1000000 micros) after introducing the suggested price for a month compared to current active price. */
+  predictedMonthlyGrossProfitChangeMicros?: string;
+  /** The latest suggested price in micros (1 millionth of a standard unit, 1 USD = 1000000 micros) for the product. */
+  suggestedPriceMicros?: string;
+  /** The predicted change in conversions as a fraction after introducing the suggested price compared to current active price. For example, 0.05 is a 5% predicted increase in conversions). */
+  predictedConversionsChangeFraction?: number;
+}
+export const PriceInsights = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    effectiveness: S.optional(PriceInsightsEffectivenessEnum),
+    predictedMonthlyGrossProfitChangeCurrencyCode: S.optional(S.String),
+    predictedClicksChangeFraction: S.optional(S.Number),
+    predictedImpressionsChangeFraction: S.optional(S.Number),
+    predictedGrossProfitChangeFraction: S.optional(S.Number),
+    suggestedPriceCurrencyCode: S.optional(S.String),
+    predictedMonthlyGrossProfitChangeMicros: S.optional(S.String),
+    suggestedPriceMicros: S.optional(S.String),
+    predictedConversionsChangeFraction: S.optional(S.Number),
+  }),
+).annotate({ identifier: "PriceInsights" }) as any as S.Schema<PriceInsights>;
+
+/** Brand fields. Values are only set for fields requested explicitly in the request's search query. */
+export interface Brand {
+  /** Name of the brand. */
+  name?: string;
+}
+export const Brand = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "Brand" }) as any as S.Schema<Brand>;
+
+export type ProductViewChannelEnum = "CHANNEL_UNSPECIFIED" | "LOCAL" | "ONLINE";
+export const ProductViewChannelEnum = /*@__PURE__*/ S.String;
 
 /** Type of the item issue. */
 export interface ProductViewItemIssueItemIssueType {
-  /** Error code of the issue. */
-  code?: string;
   /** Canonical attribute name for attribute-specific issues. */
   canonicalAttribute?: string;
+  /** Error code of the issue. */
+  code?: string;
 }
 export const ProductViewItemIssueItemIssueType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    code: S.optional(S.String),
     canonicalAttribute: S.optional(S.String),
+    code: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ProductViewItemIssueItemIssueType",
 }) as any as S.Schema<ProductViewItemIssueItemIssueType>;
 
-export type ProductViewItemIssueResolutionEnum =
-  | "UNKNOWN"
-  | "MERCHANT_ACTION"
-  | "PENDING_PROCESSING";
-export const ProductViewItemIssueResolutionEnum = /*@__PURE__*/ S.String;
-
 /** Issue severity for all affected regions in a destination. */
 export interface ProductViewItemIssueIssueSeverityPerDestination {
-  /** List of demoted countries in the destination. */
-  demotedCountries?: StringList;
   /** List of disapproved countries in the destination. */
   disapprovedCountries?: StringList;
   /** Issue destination. */
   destination?: string;
+  /** List of demoted countries in the destination. */
+  demotedCountries?: StringList;
 }
 export const ProductViewItemIssueIssueSeverityPerDestination =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      demotedCountries: S.optional(StringList),
       disapprovedCountries: S.optional(StringList),
       destination: S.optional(S.String),
+      demotedCountries: S.optional(StringList),
     }),
   ).annotate({
     identifier: "ProductViewItemIssueIssueSeverityPerDestination",
@@ -10526,20 +10435,26 @@ export const ProductViewItemIssueItemIssueSeverity = /*@__PURE__*/ S.suspend(
   identifier: "ProductViewItemIssueItemIssueSeverity",
 }) as any as S.Schema<ProductViewItemIssueItemIssueSeverity>;
 
+export type ProductViewItemIssueResolutionEnum =
+  | "UNKNOWN"
+  | "MERCHANT_ACTION"
+  | "PENDING_PROCESSING";
+export const ProductViewItemIssueResolutionEnum = /*@__PURE__*/ S.String;
+
 /** Item issue associated with the product. */
 export interface ProductViewItemIssue {
   /** Item issue type. */
   issueType?: ProductViewItemIssueItemIssueType;
-  /** Item issue resolution. */
-  resolution?: ProductViewItemIssueResolutionEnum;
   /** Item issue severity. */
   severity?: ProductViewItemIssueItemIssueSeverity;
+  /** Item issue resolution. */
+  resolution?: ProductViewItemIssueResolutionEnum;
 }
 export const ProductViewItemIssue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     issueType: S.optional(ProductViewItemIssueItemIssueType),
-    resolution: S.optional(ProductViewItemIssueResolutionEnum),
     severity: S.optional(ProductViewItemIssueItemIssueSeverity),
+    resolution: S.optional(ProductViewItemIssueResolutionEnum),
   }),
 ).annotate({
   identifier: "ProductViewItemIssue",
@@ -10550,152 +10465,239 @@ export const ProductViewItemIssueList = /*@__PURE__*/ S.Array(
   ProductViewItemIssue,
 ) as any as S.Schema<ProductViewItemIssueList>;
 
-export type ProductViewChannelEnum = "CHANNEL_UNSPECIFIED" | "LOCAL" | "ONLINE";
-export const ProductViewChannelEnum = /*@__PURE__*/ S.String;
+export type ProductViewClickPotentialEnum =
+  | "CLICK_POTENTIAL_UNSPECIFIED"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH";
+export const ProductViewClickPotentialEnum = /*@__PURE__*/ S.String;
+
+export type ProductViewAggregatedDestinationStatusEnum =
+  | "AGGREGATED_STATUS_UNSPECIFIED"
+  | "NOT_ELIGIBLE_OR_DISAPPROVED"
+  | "PENDING"
+  | "ELIGIBLE_LIMITED"
+  | "ELIGIBLE";
+export const ProductViewAggregatedDestinationStatusEnum =
+  /*@__PURE__*/ S.String;
 
 /** Product fields. Values are only set for fields requested explicitly in the request's search query. */
 export interface ProductView {
-  /** Merchant-provided id of the product. */
-  offerId?: string;
-  /** Brand of the product. */
-  brand?: string;
-  /** Product price currency code (for example, ISO 4217). Absent if product price is not available. */
-  currencyCode?: string;
-  /** Product price specified as micros (1 millionth of a standard unit, 1 USD = 1000000 micros) in the product currency. Absent in case the information about the price of the product is not available. */
-  priceMicros?: string;
-  /** Availability of the product. */
-  availability?: string;
-  /** The REST ID of the product, in the form of channel:contentLanguage:targetCountry:offerId. Content API methods that operate on products take this as their productId parameter. Should always be included in the SELECT clause. */
-  id?: string;
-  /** Fifth level of the product category in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). */
-  categoryL5?: string;
-  /** First level of the product type in merchant's own [product taxonomy](https://support.google.com/merchants/answer/6324436). */
-  productTypeL1?: string;
-  /** Condition of the product. */
-  condition?: string;
-  /** The time the merchant created the product in timestamp seconds. */
-  creationTime?: string;
-  /** Estimated performance potential compared to highest performing products of the merchant. */
-  clickPotential?: ProductViewClickPotentialEnum;
-  /** Normalized click potential of the product. Values range from 1 to 1000, where 1 is the highest click potential and 1000 is the theoretical lowest. */
-  clickPotentialRank?: string;
-  /** Fourth level of the product type in merchant's own [product taxonomy](https://support.google.com/merchants/answer/6324436). */
-  productTypeL4?: string;
-  /** Item group ID provided by the merchant for grouping variants together. */
-  itemGroupId?: string;
-  /** Fourth level of the product category in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). */
-  categoryL4?: string;
-  /** Title of the product. */
-  title?: string;
-  /** First level of the product category in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). */
-  categoryL1?: string;
-  /** Expiration date for the product. Specified on insertion. */
-  expirationDate?: Content_Date;
-  /** GTIN of the product. */
-  gtin?: StringList;
-  /** Language code of the product in BCP 47 format. */
-  languageCode?: string;
-  /** Second level of the product type in merchant's own [product taxonomy](https://support.google.com/merchants/answer/6324436). */
-  productTypeL2?: string;
-  /** Aggregated destination status. */
-  aggregatedDestinationStatus?: ProductViewAggregatedDestinationStatusEnum;
   /** Fifth level of the product type in merchant's own [product taxonomy](https://support.google.com/merchants/answer/6324436). */
   productTypeL5?: string;
-  /** Third level of the product category in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). */
-  categoryL3?: string;
-  /** Third level of the product type in merchant's own [product taxonomy](https://support.google.com/merchants/answer/6324436). */
-  productTypeL3?: string;
-  /** The normalized shipping label specified in the feed */
-  shippingLabel?: string;
-  /** List of item issues for the product. */
-  itemIssues?: ProductViewItemIssueList;
-  /** Second level of the product category in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). */
-  categoryL2?: string;
+  /** First level of the product category in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). */
+  categoryL1?: string;
+  /** Second level of the product type in merchant's own [product taxonomy](https://support.google.com/merchants/answer/6324436). */
+  productTypeL2?: string;
+  /** Condition of the product. */
+  condition?: string;
   /** Channel of the product (online versus local). */
   channel?: ProductViewChannelEnum;
+  /** Third level of the product type in merchant's own [product taxonomy](https://support.google.com/merchants/answer/6324436). */
+  productTypeL3?: string;
+  /** List of item issues for the product. */
+  itemIssues?: ProductViewItemIssueList;
+  /** Title of the product. */
+  title?: string;
+  /** Fifth level of the product category in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). */
+  categoryL5?: string;
+  /** Product price currency code (for example, ISO 4217). Absent if product price is not available. */
+  currencyCode?: string;
+  /** Normalized click potential of the product. Values range from 1 to 1000, where 1 is the highest click potential and 1000 is the theoretical lowest. */
+  clickPotentialRank?: string;
+  /** Fourth level of the product category in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). */
+  categoryL4?: string;
+  /** Third level of the product category in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). */
+  categoryL3?: string;
+  /** Second level of the product category in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). */
+  categoryL2?: string;
+  /** The REST ID of the product, in the form of channel:contentLanguage:targetCountry:offerId. Content API methods that operate on products take this as their productId parameter. Should always be included in the SELECT clause. */
+  id?: string;
+  /** GTIN of the product. */
+  gtin?: StringList;
+  /** Product price specified as micros (1 millionth of a standard unit, 1 USD = 1000000 micros) in the product currency. Absent in case the information about the price of the product is not available. */
+  priceMicros?: string;
+  /** Merchant-provided id of the product. */
+  offerId?: string;
+  /** Estimated performance potential compared to highest performing products of the merchant. */
+  clickPotential?: ProductViewClickPotentialEnum;
+  /** First level of the product type in merchant's own [product taxonomy](https://support.google.com/merchants/answer/6324436). */
+  productTypeL1?: string;
+  /** Language code of the product in BCP 47 format. */
+  languageCode?: string;
+  /** Brand of the product. */
+  brand?: string;
+  /** The normalized shipping label specified in the feed */
+  shippingLabel?: string;
+  /** Expiration date for the product. Specified on insertion. */
+  expirationDate?: Content_Date;
+  /** Item group ID provided by the merchant for grouping variants together. */
+  itemGroupId?: string;
+  /** The time the merchant created the product in timestamp seconds. */
+  creationTime?: string;
+  /** Availability of the product. */
+  availability?: string;
+  /** Fourth level of the product type in merchant's own [product taxonomy](https://support.google.com/merchants/answer/6324436). */
+  productTypeL4?: string;
+  /** Aggregated destination status. */
+  aggregatedDestinationStatus?: ProductViewAggregatedDestinationStatusEnum;
 }
 export const ProductView = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    offerId: S.optional(S.String),
-    brand: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-    priceMicros: S.optional(S.String),
-    availability: S.optional(S.String),
-    id: S.optional(S.String),
-    categoryL5: S.optional(S.String),
-    productTypeL1: S.optional(S.String),
-    condition: S.optional(S.String),
-    creationTime: S.optional(S.String),
-    clickPotential: S.optional(ProductViewClickPotentialEnum),
-    clickPotentialRank: S.optional(S.String),
-    productTypeL4: S.optional(S.String),
-    itemGroupId: S.optional(S.String),
-    categoryL4: S.optional(S.String),
-    title: S.optional(S.String),
+    productTypeL5: S.optional(S.String),
     categoryL1: S.optional(S.String),
-    expirationDate: S.optional(Content_Date),
-    gtin: S.optional(StringList),
-    languageCode: S.optional(S.String),
     productTypeL2: S.optional(S.String),
+    condition: S.optional(S.String),
+    channel: S.optional(ProductViewChannelEnum),
+    productTypeL3: S.optional(S.String),
+    itemIssues: S.optional(ProductViewItemIssueList),
+    title: S.optional(S.String),
+    categoryL5: S.optional(S.String),
+    currencyCode: S.optional(S.String),
+    clickPotentialRank: S.optional(S.String),
+    categoryL4: S.optional(S.String),
+    categoryL3: S.optional(S.String),
+    categoryL2: S.optional(S.String),
+    id: S.optional(S.String),
+    gtin: S.optional(StringList),
+    priceMicros: S.optional(S.String),
+    offerId: S.optional(S.String),
+    clickPotential: S.optional(ProductViewClickPotentialEnum),
+    productTypeL1: S.optional(S.String),
+    languageCode: S.optional(S.String),
+    brand: S.optional(S.String),
+    shippingLabel: S.optional(S.String),
+    expirationDate: S.optional(Content_Date),
+    itemGroupId: S.optional(S.String),
+    creationTime: S.optional(S.String),
+    availability: S.optional(S.String),
+    productTypeL4: S.optional(S.String),
     aggregatedDestinationStatus: S.optional(
       ProductViewAggregatedDestinationStatusEnum,
     ),
-    productTypeL5: S.optional(S.String),
-    categoryL3: S.optional(S.String),
-    productTypeL3: S.optional(S.String),
-    shippingLabel: S.optional(S.String),
-    itemIssues: S.optional(ProductViewItemIssueList),
-    categoryL2: S.optional(S.String),
-    channel: S.optional(ProductViewChannelEnum),
   }),
 ).annotate({ identifier: "ProductView" }) as any as S.Schema<ProductView>;
 
-/** Brand fields. Values are only set for fields requested explicitly in the request's search query. */
-export interface Brand {
-  /** Name of the brand. */
-  name?: string;
+export type SegmentsProgramEnum =
+  | "PROGRAM_UNSPECIFIED"
+  | "SHOPPING_ADS"
+  | "FREE_PRODUCT_LISTING"
+  | "FREE_LOCAL_PRODUCT_LISTING"
+  | "BUY_ON_GOOGLE_LISTING";
+export const SegmentsProgramEnum = /*@__PURE__*/ S.String;
+
+/** Dimensions according to which metrics are segmented in the response. Values of product dimensions, such as `offer_id`, reflect the state of a product at the time of the corresponding event, for example, impression or order. Segment fields cannot be selected in queries without also selecting at least one metric field. Values are only set for dimensions requested explicitly in the request's search query. */
+export interface Segments {
+  /** [Product category (2nd level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in Google's product taxonomy. */
+  categoryL2?: string;
+  /** Custom label 1 for custom grouping of products. */
+  customLabel1?: string;
+  /** Merchant-provided id of the product. */
+  offerId?: string;
+  /** [Product type (4th level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in merchant's own product taxonomy. */
+  productTypeL4?: string;
+  /** [Product category (4th level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in Google's product taxonomy. */
+  categoryL4?: string;
+  /** [Product category (3rd level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in Google's product taxonomy. */
+  categoryL3?: string;
+  /** First day of the week (Monday) of the metrics date in the merchant timezone. */
+  week?: Content_Date;
+  /** Currency in which price metrics are represented, for example, if you select `ordered_item_sales_micros`, the returned value will be represented by this currency. */
+  currencyCode?: string;
+  /** Brand of the product. */
+  brand?: string;
+  /** Date in the merchant timezone to which metrics apply. */
+  date?: Content_Date;
+  /** Title of the product. */
+  title?: string;
+  /** Custom label 2 for custom grouping of products. */
+  customLabel2?: string;
+  /** Program to which metrics apply, for example, Free Product Listing. */
+  program?: SegmentsProgramEnum;
+  /** [Product type (1st level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in merchant's own product taxonomy. */
+  productTypeL1?: string;
+  /** [Product category (1st level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in Google's product taxonomy. */
+  categoryL1?: string;
+  /** Code of the country where the customer is located at the time of the event. Represented in the ISO 3166 format. If the customer country cannot be determined, a special 'ZZ' code is returned. */
+  customerCountryCode?: string;
+  /** [Product type (3rd level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in merchant's own product taxonomy. */
+  productTypeL3?: string;
+  /** [Product type (2nd level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in merchant's own product taxonomy. */
+  productTypeL2?: string;
+  /** Custom label 3 for custom grouping of products. */
+  customLabel3?: string;
+  /** Custom label 0 for custom grouping of products. */
+  customLabel0?: string;
+  /** [Product type (5th level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in merchant's own product taxonomy. */
+  productTypeL5?: string;
+  /** Custom label 4 for custom grouping of products. */
+  customLabel4?: string;
+  /** [Product category (5th level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in Google's product taxonomy. */
+  categoryL5?: string;
 }
-export const Brand = /*@__PURE__*/ S.suspend(() =>
+export const Segments = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    categoryL2: S.optional(S.String),
+    customLabel1: S.optional(S.String),
+    offerId: S.optional(S.String),
+    productTypeL4: S.optional(S.String),
+    categoryL4: S.optional(S.String),
+    categoryL3: S.optional(S.String),
+    week: S.optional(Content_Date),
+    currencyCode: S.optional(S.String),
+    brand: S.optional(S.String),
+    date: S.optional(Content_Date),
+    title: S.optional(S.String),
+    customLabel2: S.optional(S.String),
+    program: S.optional(SegmentsProgramEnum),
+    productTypeL1: S.optional(S.String),
+    categoryL1: S.optional(S.String),
+    customerCountryCode: S.optional(S.String),
+    productTypeL3: S.optional(S.String),
+    productTypeL2: S.optional(S.String),
+    customLabel3: S.optional(S.String),
+    customLabel0: S.optional(S.String),
+    productTypeL5: S.optional(S.String),
+    customLabel4: S.optional(S.String),
+    categoryL5: S.optional(S.String),
   }),
-).annotate({ identifier: "Brand" }) as any as S.Schema<Brand>;
+).annotate({ identifier: "Segments" }) as any as S.Schema<Segments>;
 
 /** Result row returned from the search query. */
 export interface ReportRow {
-  /** Best sellers fields requested by the merchant in the query. Field values are only set if the merchant queries `BestSellersProductClusterView` or `BestSellersBrandView`. */
-  bestSellers?: BestSellers;
-  /** Price insights fields requested by the merchant in the query. Field values are only set if the merchant queries `PriceInsightsProductView`. */
-  priceInsights?: PriceInsights;
-  /** Price competitiveness fields requested by the merchant in the query. Field values are only set if the merchant queries `PriceCompetitivenessProductView`. */
-  priceCompetitiveness?: PriceCompetitiveness;
-  /** Competitive visibility fields requested by the merchant in the query. Field values are only set if the merchant queries `CompetitiveVisibilityTopMerchantView`, `CompetitiveVisibilityBenchmarkView` or `CompetitiveVisibilityCompetitorView`. */
-  competitiveVisibility?: CompetitiveVisibility;
-  /** Segmentation dimensions requested by the merchant in the query. Dimension values are only set for dimensions requested explicitly in the query. */
-  segments?: Segments;
-  /** Product cluster fields requested by the merchant in the query. Field values are only set if the merchant queries `BestSellersProductClusterView`. */
-  productCluster?: ProductCluster;
-  /** Metrics requested by the merchant in the query. Metric values are only set for metrics requested explicitly in the query. */
-  metrics?: Metrics;
   /** [Topic trends](https://support.google.com/merchants/answer/13542370) fields requested by the merchant in the query. Field values are only set if the merchant queries `TopicTrendsView`. */
   topicTrends?: TopicTrends;
-  /** Product fields requested by the merchant in the query. Field values are only set if the merchant queries `ProductView`. */
-  productView?: ProductView;
+  /** Product cluster fields requested by the merchant in the query. Field values are only set if the merchant queries `BestSellersProductClusterView`. */
+  productCluster?: ProductCluster;
+  /** Best sellers fields requested by the merchant in the query. Field values are only set if the merchant queries `BestSellersProductClusterView` or `BestSellersBrandView`. */
+  bestSellers?: BestSellers;
+  /** Competitive visibility fields requested by the merchant in the query. Field values are only set if the merchant queries `CompetitiveVisibilityTopMerchantView`, `CompetitiveVisibilityBenchmarkView` or `CompetitiveVisibilityCompetitorView`. */
+  competitiveVisibility?: CompetitiveVisibility;
+  /** Price competitiveness fields requested by the merchant in the query. Field values are only set if the merchant queries `PriceCompetitivenessProductView`. */
+  priceCompetitiveness?: PriceCompetitiveness;
+  /** Metrics requested by the merchant in the query. Metric values are only set for metrics requested explicitly in the query. */
+  metrics?: Metrics;
+  /** Price insights fields requested by the merchant in the query. Field values are only set if the merchant queries `PriceInsightsProductView`. */
+  priceInsights?: PriceInsights;
   /** Brand fields requested by the merchant in the query. Field values are only set if the merchant queries `BestSellersBrandView`. */
   brand?: Brand;
+  /** Product fields requested by the merchant in the query. Field values are only set if the merchant queries `ProductView`. */
+  productView?: ProductView;
+  /** Segmentation dimensions requested by the merchant in the query. Dimension values are only set for dimensions requested explicitly in the query. */
+  segments?: Segments;
 }
 export const ReportRow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bestSellers: S.optional(BestSellers),
-    priceInsights: S.optional(PriceInsights),
-    priceCompetitiveness: S.optional(PriceCompetitiveness),
-    competitiveVisibility: S.optional(CompetitiveVisibility),
-    segments: S.optional(Segments),
-    productCluster: S.optional(ProductCluster),
-    metrics: S.optional(Metrics),
     topicTrends: S.optional(TopicTrends),
-    productView: S.optional(ProductView),
+    productCluster: S.optional(ProductCluster),
+    bestSellers: S.optional(BestSellers),
+    competitiveVisibility: S.optional(CompetitiveVisibility),
+    priceCompetitiveness: S.optional(PriceCompetitiveness),
+    metrics: S.optional(Metrics),
+    priceInsights: S.optional(PriceInsights),
     brand: S.optional(Brand),
+    productView: S.optional(ProductView),
+    segments: S.optional(Segments),
   }),
 ).annotate({ identifier: "ReportRow" }) as any as S.Schema<ReportRow>;
 
@@ -10706,41 +10708,41 @@ export const ReportRowList = /*@__PURE__*/ S.Array(
 
 /** Response message for the ReportService.Search method. */
 export interface SearchResponse {
-  /** Rows that matched the search query. */
-  results?: ReportRowList;
   /** Token which can be sent as `page_token` to retrieve the next page. If omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** Rows that matched the search query. */
+  results?: ReportRowList;
 }
 export const SearchResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    results: S.optional(ReportRowList),
     nextPageToken: S.optional(S.String),
+    results: S.optional(ReportRowList),
   }),
 ).annotate({ identifier: "SearchResponse" }) as any as S.Schema<SearchResponse>;
 
 export interface SetinventoryverificationcontactLiasettingsRequest {
+  /** The name of the inventory verification contact. */
+  contactName: string;
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
-  /** The email of the inventory verification contact. */
-  contactEmail: string;
-  /** The country for which inventory verification is requested. */
-  country: string;
   /** The language for which inventory verification is requested. */
   language: string;
   /** The ID of the account that manages the order. This cannot be a multi-client account. */
   accountId: string;
-  /** The name of the inventory verification contact. */
-  contactName: string;
+  /** The email of the inventory verification contact. */
+  contactEmail: string;
+  /** The country for which inventory verification is requested. */
+  country: string;
 }
 export const SetinventoryverificationcontactLiasettingsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      contactName: S.String.pipe(T.Query()),
       merchantId: S.String.pipe(T.Label()),
-      contactEmail: S.String.pipe(T.Query()),
-      country: S.String.pipe(T.Query()),
       language: S.String.pipe(T.Query()),
       accountId: S.String.pipe(T.Label()),
-      contactName: S.String.pipe(T.Query()),
+      contactEmail: S.String.pipe(T.Query()),
+      country: S.String.pipe(T.Query()),
     }).pipe(
       T.Http({
         method: "POST",
@@ -10766,25 +10768,25 @@ export const LiasettingsSetInventoryVerificationContactResponse =
   }) as any as S.Schema<LiasettingsSetInventoryVerificationContactResponse>;
 
 export interface SetomnichannelexperienceLiasettingsRequest {
+  /** The ID of the account for which to retrieve accessible Business Profiles. */
+  accountId: string;
+  /** The Local Store Front (LSF) type for this country. Acceptable values are: - "`ghlsf`" (Google-Hosted Local Store Front) - "`mhlsfBasic`" (Merchant-Hosted Local Store Front Basic) - "`mhlsfFull`" (Merchant-Hosted Local Store Front Full) More details about these types can be found here. */
+  lsfType?: string;
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
   /** The CLDR country code (for example, "US") for which the omnichannel experience is selected. */
   country?: string;
-  /** The Local Store Front (LSF) type for this country. Acceptable values are: - "`ghlsf`" (Google-Hosted Local Store Front) - "`mhlsfBasic`" (Merchant-Hosted Local Store Front Basic) - "`mhlsfFull`" (Merchant-Hosted Local Store Front Full) More details about these types can be found here. */
-  lsfType?: string;
   /** The Pickup types for this country. Acceptable values are: - "`pickupToday`" - "`pickupLater`" */
   pickupTypes?: StringList;
-  /** The ID of the account for which to retrieve accessible Business Profiles. */
-  accountId: string;
 }
 export const SetomnichannelexperienceLiasettingsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      accountId: S.String.pipe(T.Label()),
+      lsfType: S.optional(S.String.pipe(T.Query())),
       merchantId: S.String.pipe(T.Label()),
       country: S.optional(S.String.pipe(T.Query())),
-      lsfType: S.optional(S.String.pipe(T.Query())),
       pickupTypes: S.optional(StringList.pipe(T.Query())),
-      accountId: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "POST",
@@ -10799,23 +10801,23 @@ export const SetomnichannelexperienceLiasettingsRequest =
 export interface SetposdataproviderLiasettingsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
-  /** The ID of POS data provider. */
-  posDataProviderId?: string;
-  /** The country for which the POS data provider is selected. */
-  country: string;
   /** The account ID by which this merchant is known to the POS data provider. */
   posExternalAccountId?: string;
   /** The ID of the account for which to retrieve accessible Business Profiles. */
   accountId: string;
+  /** The ID of POS data provider. */
+  posDataProviderId?: string;
+  /** The country for which the POS data provider is selected. */
+  country: string;
 }
 export const SetposdataproviderLiasettingsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       merchantId: S.String.pipe(T.Label()),
-      posDataProviderId: S.optional(S.String.pipe(T.Query())),
-      country: S.String.pipe(T.Query()),
       posExternalAccountId: S.optional(S.String.pipe(T.Query())),
       accountId: S.String.pipe(T.Label()),
+      posDataProviderId: S.optional(S.String.pipe(T.Query())),
+      country: S.String.pipe(T.Query()),
     }).pipe(
       T.Http({
         method: "POST",
@@ -10881,10 +10883,10 @@ export const InputValueCheckboxInputValue = /*@__PURE__*/ S.suspend(() =>
 
 /** Input provided by the merchant for input field. */
 export interface InputValue {
-  /** Required. Id of the corresponding input field. */
-  inputFieldId?: string;
   /** Value for choice input field. */
   choiceInputValue?: InputValueChoiceInputValue;
+  /** Required. Id of the corresponding input field. */
+  inputFieldId?: string;
   /** Value for text input field. */
   textInputValue?: InputValueTextInputValue;
   /** Value for checkbox input field. */
@@ -10892,8 +10894,8 @@ export interface InputValue {
 }
 export const InputValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    inputFieldId: S.optional(S.String),
     choiceInputValue: S.optional(InputValueChoiceInputValue),
+    inputFieldId: S.optional(S.String),
     textInputValue: S.optional(InputValueTextInputValue),
     checkboxInputValue: S.optional(InputValueCheckboxInputValue),
   }),
@@ -10920,15 +10922,15 @@ export const ActionInput = /*@__PURE__*/ S.suspend(() =>
 
 /** The payload for the triggered action. */
 export interface TriggerActionPayload {
-  /** Required. The context from the selected action. The value is obtained from rendered issues and needs to be sent back to identify the action that is being triggered. */
-  actionContext?: string;
   /** Required. Input provided by the merchant. */
   actionInput?: ActionInput;
+  /** Required. The context from the selected action. The value is obtained from rendered issues and needs to be sent back to identify the action that is being triggered. */
+  actionContext?: string;
 }
 export const TriggerActionPayload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    actionContext: S.optional(S.String),
     actionInput: S.optional(ActionInput),
+    actionContext: S.optional(S.String),
   }),
 ).annotate({
   identifier: "TriggerActionPayload",
@@ -10976,17 +10978,17 @@ export type UndeleteConversionSourceRequest = InputFieldCheckboxInput;
 export const UndeleteConversionSourceRequest = InputFieldCheckboxInput;
 
 export interface UndeleteConversionsourcesRequest {
-  /** Required. The ID of the account that owns the new conversion source. */
-  merchantId: string;
   /** Required. The ID of the conversion source to be undeleted. */
   conversionSourceId: string;
+  /** Required. The ID of the account that owns the new conversion source. */
+  merchantId: string;
   /** Request body */
   body?: InputFieldCheckboxInput;
 }
 export const UndeleteConversionsourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     conversionSourceId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
     body: S.optional(InputFieldCheckboxInput.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -11007,17 +11009,17 @@ export const UndeleteConversionsourcesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UndeleteConversionsourcesResponse>;
 
 export interface UpdateAccountsRequest {
-  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
-  merchantId: string;
   /** The ID of the account. */
   accountId: string;
+  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
+  merchantId: string;
   /** Request body */
   body?: Account;
 }
 export const UpdateAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     accountId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
     body: S.optional(Account.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -11031,17 +11033,17 @@ export const UpdateAccountsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAccountsRequest>;
 
 export interface UpdateAccounttaxRequest {
-  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
-  merchantId: string;
   /** The ID of the account for which to get/update account tax settings. */
   accountId: string;
+  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
+  merchantId: string;
   /** Request body */
   body?: AccountTax;
 }
 export const UpdateAccounttaxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     accountId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
     body: S.optional(AccountTax.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -11055,17 +11057,17 @@ export const UpdateAccounttaxRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAccounttaxRequest>;
 
 export interface UpdateDatafeedsRequest {
-  /** The ID of the datafeed. */
-  datafeedId: string;
   /** The ID of the account that manages the datafeed. This account cannot be a multi-client account. */
   merchantId: string;
+  /** The ID of the datafeed. */
+  datafeedId: string;
   /** Request body */
   body?: Datafeed;
 }
 export const UpdateDatafeedsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    datafeedId: S.String.pipe(T.Label()),
     merchantId: S.String.pipe(T.Label()),
+    datafeedId: S.String.pipe(T.Label()),
     body: S.optional(Datafeed.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -11162,17 +11164,17 @@ export const UpdatelabelsCssesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdatelabelsCssesRequest>;
 
 export interface UpdateLiasettingsRequest {
-  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
-  merchantId: string;
   /** The ID of the account for which to get or update LIA settings. */
   accountId: string;
+  /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
+  merchantId: string;
   /** Request body */
   body?: LiaSettings;
 }
 export const UpdateLiasettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     accountId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
     body: S.optional(LiaSettings.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -11186,10 +11188,10 @@ export const UpdateLiasettingsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateLiasettingsRequest>;
 
 export interface UpdateProductsRequest {
-  /** The ID of the account that contains the product. This account cannot be a multi-client account. */
-  merchantId: string;
   /** The REST ID of the product for which to update. */
   productId: string;
+  /** The ID of the account that contains the product. This account cannot be a multi-client account. */
+  merchantId: string;
   /** The comma-separated list of product attributes to be updated. Example: `"title,salePrice"`. Attributes specified in the update mask without a value specified in the body will be deleted from the product. *You must specify the update mask to delete attributes.* Only top-level product attributes can be updated. If not defined, product attributes with set values will be updated and other attributes will stay unchanged. */
   updateMask?: string;
   /** Request body */
@@ -11197,8 +11199,8 @@ export interface UpdateProductsRequest {
 }
 export const UpdateProductsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     productId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Product.pipe(T.HttpBody())),
   }).pipe(
@@ -11267,39 +11269,39 @@ export const VerifyPhoneNumberRequestPhoneVerificationMethodEnum =
 
 /** Request message for the VerifyPhoneNumber method. */
 export interface VerifyPhoneNumberRequest {
+  /** The verification code that was sent to the phone number for validation. */
+  verificationCode?: string;
   /** Verification method used to receive verification code. */
   phoneVerificationMethod?:
     | VerifyPhoneNumberRequestPhoneVerificationMethodEnum
     | (string & {});
   /** The verification ID returned by `requestphoneverification`. */
   verificationId?: string;
-  /** The verification code that was sent to the phone number for validation. */
-  verificationCode?: string;
 }
 export const VerifyPhoneNumberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    verificationCode: S.optional(S.String),
     phoneVerificationMethod: S.optional(
       VerifyPhoneNumberRequestPhoneVerificationMethodEnum,
     ),
     verificationId: S.optional(S.String),
-    verificationCode: S.optional(S.String),
   }),
 ).annotate({
   identifier: "VerifyPhoneNumberRequest",
 }) as any as S.Schema<VerifyPhoneNumberRequest>;
 
 export interface VerifyphonenumberAccountsRequest {
-  /** Required. The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and accountId must be the ID of a sub-account of this account. */
-  merchantId: string;
   /** Required. The ID of the account. */
   accountId: string;
+  /** Required. The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and accountId must be the ID of a sub-account of this account. */
+  merchantId: string;
   /** Request body */
   body?: VerifyPhoneNumberRequest;
 }
 export const VerifyphonenumberAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.String.pipe(T.Label()),
     accountId: S.String.pipe(T.Label()),
+    merchantId: S.String.pipe(T.Label()),
     body: S.optional(VerifyPhoneNumberRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

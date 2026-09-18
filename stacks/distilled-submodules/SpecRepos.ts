@@ -1,0 +1,189 @@
+import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
+import * as Path from "effect/Path";
+import type { ScaffoldFiles } from "./Scaffold.ts";
+
+/**
+ * The spec mirrors: one `distilled-mirror/spec-mirror-<mirrorId>` repository
+ * per `packages/*` directory that consumes an API spec.
+ *
+ * Each mirror holds the spec files the package's generator reads and the
+ * machinery to refresh them daily — and nothing else. That is the whole point:
+ * several upstreams (github/rest-api-description at ~6.7 GB checked out,
+ * kubernetes/kubernetes at ~1.5 GB, Azure/azure-rest-api-specs at tens of GB)
+ * are submoduled today for a handful of files, and `specs:sync` at the repo
+ * root materialises every one of them in full. A mirror replaces the submodule
+ * with the subset, so cloning this monorepo stops being a multi-gigabyte
+ * operation.
+ *
+ * The per-repository fetch script lives in `spec-repos/<package>/`. Each one is
+ * written against ITS upstream — a raw file download, a sparse partial clone, a
+ * REST endpoint, a GraphQL introspection — because the upstreams have nothing
+ * in common. The shared scaffolding (workflow, tsconfig, gitignore) is in
+ * `scaffold/`.
+ */
+export interface SpecRepo {
+  /** Directory under `packages/` this mirror feeds. */
+  readonly package: string;
+  /** Stable mirror identity when the package directory is renamed. Defaults to package. */
+  readonly mirror?: string;
+  /**
+   * Why this mirror has no fetch machinery yet. A blocked mirror still gets
+   * its repository — so its settings and state stay converged — but no
+   * scaffold is committed, because there is nothing it could usefully fetch.
+   */
+  readonly blocked?: string;
+}
+
+/** Stable identity for repository and scaffold logical IDs. */
+export const mirrorId = (specRepo: SpecRepo) =>
+  specRepo.mirror ?? specRepo.package;
+
+/** Repository name for a mirror. */
+export const repositoryName = (specRepo: SpecRepo) =>
+  `spec-mirror-${mirrorId(specRepo)}`;
+
+export const SPEC_REPOS: readonly SpecRepo[] = [
+  { package: "adyen" },
+  { package: "apache-superset" },
+  { package: "archil" },
+  { package: "argocd" },
+  { package: "auth0" },
+  { package: "aws" },
+  { package: "axiom" },
+  { package: "azure" },
+  { package: "chronosphere" },
+  { package: "clerk" },
+  { package: "cloudflare" },
+  { package: "coinbase" },
+  { package: "coolify" },
+  { package: "customerio" },
+  { package: "datadog" },
+  { package: "digitalocean" },
+  { package: "discord" },
+  { package: "docker" },
+  { package: "doppler" },
+  { package: "elasticsearch" },
+  { package: "expo-eas" },
+  { package: "fly-io" },
+  { package: "forgejo" },
+  { package: "gcp" },
+  { package: "github" },
+  { package: "google-workspace" },
+  { package: "grafana" },
+  { package: "growthbook" },
+  { package: "gusto" },
+  { package: "hetzner" },
+  { package: "hostinger" },
+  { package: "huggingface" },
+  { package: "infisical" },
+  { package: "inngest" },
+  { package: "intercom" },
+  { package: "kubernetes" },
+  { package: "launchdarkly" },
+  { package: "meilisearch" },
+  { package: "mercury" },
+  { package: "metabase" },
+  { package: "mongodb-atlas" },
+  { package: "modal" },
+  { package: "modrinth" },
+  { package: "neon" },
+  { package: "okta" },
+  { package: "onepassword" },
+  { package: "opencode" },
+  { package: "ovh" },
+  { package: "paypal" },
+  { package: "plaid" },
+  { package: "planetscale" },
+  { package: "polar" },
+  { package: "porkbun" },
+  { package: "posthog" },
+  { package: "prisma", mirror: "prisma-postgres" },
+  { package: "railway" },
+  { package: "redis-cloud" },
+  { package: "remote" },
+  { package: "render" },
+  { package: "resend" },
+  { package: "s2" },
+  { package: "sentry" },
+  {
+    package: "slack",
+    // Slack publishes no machine-readable description; the SDK is built
+    // from the JSON twins of docs.slack.dev method pages, committed under
+    // packages/slack/specs by scripts/download-docs.ts.
+    blocked: "docs.slack.dev method JSON twins are committed in-repo",
+  },
+  { package: "spacetimedb" },
+  { package: "squarespace" },
+  { package: "stripe" },
+  { package: "supabase" },
+  { package: "surrealdb" },
+  { package: "temporal" },
+  { package: "trigger-dev" },
+  { package: "turbopuffer" },
+  { package: "turso" },
+  { package: "typesense" },
+  { package: "unkey" },
+  { package: "vanta" },
+  { package: "vercel" },
+  { package: "whop" },
+  { package: "workos" },
+  { package: "xata" },
+  { package: "zendesk" },
+];
+
+/** A scaffold file: where it is read from, and where it lands in the mirror. */
+type ScaffoldEntry = readonly [source: string, target: string];
+
+/**
+ * Where each file in `scaffold/` lands in the mirror. `.meta/` holds the
+ * machinery so that a consumer submoduling the repository sees `specs/` and
+ * little else.
+ *
+ * Exported alongside {@link PER_REPO} so `scripts/specs.ts` can materialise a
+ * local working copy with the identical layout: a `specs:local` tree that
+ * differed from the deployed mirror would be testing something else.
+ */
+export const SHARED: readonly ScaffoldEntry[] = [
+  ["gitignore", ".gitignore"],
+  ["tsconfig.json", ".meta/tsconfig.json"],
+  ["update-specs.yml", ".github/workflows/update-specs.yml"],
+];
+
+/** Where each file in `spec-repos/<package>/` lands in the mirror. */
+export const PER_REPO: readonly ScaffoldEntry[] = [
+  ["fetch-specs.ts", ".meta/fetch-specs.ts"],
+  ["package.json", ".meta/package.json"],
+  ["readme.md", "readme.md"],
+];
+
+/**
+ * Read the file set for every mirror off disk, keyed by repository name.
+ *
+ * Reading at deploy time rather than importing keeps the fetch scripts as
+ * ordinary files: they target Bun and each other's dependencies, so they are
+ * deliberately outside this stack's TypeScript program.
+ */
+export const loadScaffolds = Effect.gen(function* () {
+  const fs = yield* FileSystem.FileSystem;
+  const path = yield* Path.Path;
+
+  const read = (...segments: string[]) =>
+    fs.readFileString(path.join(import.meta.dirname, ...segments));
+
+  const shared: Record<string, string> = {};
+  for (const [source, target] of SHARED) {
+    shared[target] = yield* read("scaffold", source);
+  }
+
+  const scaffolds: Record<string, ScaffoldFiles> = {};
+  for (const specRepo of SPEC_REPOS) {
+    if (specRepo.blocked !== undefined) continue;
+    const files: Record<string, string> = { ...shared };
+    for (const [source, target] of PER_REPO) {
+      files[target] = yield* read("spec-repos", specRepo.package, source);
+    }
+    scaffolds[repositoryName(specRepo)] = files;
+  }
+  return scaffolds;
+}).pipe(Effect.orDie);

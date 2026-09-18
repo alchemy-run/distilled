@@ -1,0 +1,1576 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.identity_profiles#IdentityProfileKinds": {
+      "type": "enum",
+      "members": {
+        "INDIVIDUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "individual"
+          }
+        },
+        "BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "business"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The kind of identity profile (individual vs business)."
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfileStatuses": {
+      "type": "enum",
+      "members": {
+        "NOT_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_started"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "MANUAL_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual_review"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "ACTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "action_required"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Derived verification status for an identity profile."
+      }
+    },
+    "com.whop.identity_profiles#ListIdentityProfileRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id"
+          }
+        },
+        "profile_type": {
+          "target": "com.whop.identity_profiles#IdentityProfileKinds",
+          "traits": {
+            "smithy.api#httpQuery": "profile_type"
+          }
+        },
+        "status": {
+          "target": "com.whop.identity_profiles#IdentityProfileStatuses",
+          "traits": {
+            "smithy.api#httpQuery": "status"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfileListItem": {
+      "type": "structure",
+      "members": {
+        "business_address": {
+          "target": "com.whop.identity_profiles#IdentityProfileListItemBusinessAddress",
+          "traits": {
+            "smithy.api#documentation": "Registered business address reported by the identity provider. Present on `business` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Business entity name. Present on `business` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_structure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reported legal structure of a business profile (e.g. `corp`, `llc`). Provider-specific values; present on `business` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 3166-1 alpha-2 country code reported by the identity provider, such as `US` or `GB`. For individuals this is the country of citizenship or residence; for businesses, the country of incorporation.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the identity profile was first created.",
+            "smithy.api#required": {}
+          }
+        },
+        "date_of_birth": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO date (`YYYY-MM-DD`) reported by the identity provider. Present on `individual` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address reported by the identity provider. Typically present on `individual` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Individual's first name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tag of the identity profile (idpf_xxx).",
+            "smithy.api#required": {}
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Individual's last name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "linked_companies": {
+          "target": "com.whop.identity_profiles#IdentityProfileListItemLinkedCompaniesList",
+          "traits": {
+            "smithy.api#documentation": "The companies this identity profile is currently linked to. Only populated for direct Whop user sessions; always empty when authenticated via API key, app, or OAuth scope (a single identity can be linked to companies the calling platform is not entitled to see).",
+            "smithy.api#required": {}
+          }
+        },
+        "payout_status": {
+          "target": "com.whop.identity_profiles#PayoutAccountCalculatedStatuses",
+          "traits": {
+            "smithy.api#documentation": "Progress of payout-account setup for this profile, independent of holds. `connected` means onboarding is complete; a `connected` status paired with `payouts_enabled: false` indicates an active account restriction rather than incomplete setup.",
+            "smithy.api#required": {}
+          }
+        },
+        "payouts_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this profile can receive payouts right now. True only when payout onboarding is complete and no payout holds are active on the linked account. Treat this as the single source of truth for payout readiness.",
+            "smithy.api#required": {}
+          }
+        },
+        "personal_address": {
+          "target": "com.whop.identity_profiles#IdentityProfileListItemPersonalAddress",
+          "traits": {
+            "smithy.api#documentation": "Residential address reported by the identity provider. Present on `individual` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Phone number reported by the identity provider. Typically present on `individual` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether this is an 'individual' or 'business' profile.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.identity_profiles#IdentityProfileStatuses",
+          "traits": {
+            "smithy.api#documentation": "Derived verification status across all linked verifications. Returns `action_required` whenever the profile has an open request for information (whether a verification, payout, or audit RFI) — i.e. the merchant must submit something before it is in good standing.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the identity profile was last synced from a verification.",
+            "smithy.api#required": {}
+          }
+        },
+        "verifications": {
+          "target": "com.whop.identity_profiles#IdentityProfileListItemVerificationsList",
+          "traits": {
+            "smithy.api#documentation": "All verification attempts attached to this identity profile, ordered most-recent first.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A consolidated identity or business profile synced from verification provider data."
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfileListItemBusinessAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 1 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 2 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Registered business address reported by the identity provider. Present on `business` profiles."
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfileListItemLinkedCompaniesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the company shown to customers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A company is a seller on Whop. Companies own products, manage members, and receive payouts."
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfileListItemLinkedCompaniesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.identity_profiles#IdentityProfileListItemLinkedCompaniesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The companies this identity profile is currently linked to. Only populated for direct Whop user sessions; always empty when authenticated via API key, app, or OAuth scope (a single identity can be linked to companies the calling platform is not entitled to see)."
+      }
+    },
+    "com.whop.identity_profiles#PayoutAccountCalculatedStatuses": {
+      "type": "enum",
+      "members": {
+        "CONNECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connected"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "ACTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "action_required"
+          }
+        },
+        "PENDING_VERIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_verification"
+          }
+        },
+        "VERIFICATION_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verification_failed"
+          }
+        },
+        "MANUAL_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual_review"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        },
+        "NOT_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_started"
+          }
+        },
+        "BLOCKED_BY_PARENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blocked_by_parent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The granular calculated statuses reflecting payout account KYC and payout readiness."
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfileListItemPersonalAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 1 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 2 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Residential address reported by the identity provider. Present on `individual` profiles."
+      }
+    },
+    "com.whop.identity_profiles#VerificationErrorCodes": {
+      "type": "enum",
+      "members": {
+        "ABANDONED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "abandoned"
+          }
+        },
+        "CONSENT_DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "consent_declined"
+          }
+        },
+        "COUNTRY_NOT_SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "country_not_supported"
+          }
+        },
+        "DEVICE_NOT_SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device_not_supported"
+          }
+        },
+        "DOCUMENT_EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document_expired"
+          }
+        },
+        "DOCUMENT_TYPE_NOT_SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document_type_not_supported"
+          }
+        },
+        "DOCUMENT_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document_unverified_other"
+          }
+        },
+        "EMAIL_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_unverified_other"
+          }
+        },
+        "EMAIL_VERIFICATION_DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_verification_declined"
+          }
+        },
+        "ID_NUMBER_INSUFFICIENT_DOCUMENT_DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_number_insufficient_document_data"
+          }
+        },
+        "ID_NUMBER_MISMATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_number_mismatch"
+          }
+        },
+        "ID_NUMBER_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_number_unverified_other"
+          }
+        },
+        "PHONE_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "phone_unverified_other"
+          }
+        },
+        "PHONE_VERIFICATION_DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "phone_verification_declined"
+          }
+        },
+        "SELFIE_DOCUMENT_MISSING_PHOTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selfie_document_missing_photo"
+          }
+        },
+        "SELFIE_FACE_MISMATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selfie_face_mismatch"
+          }
+        },
+        "SELFIE_MANIPULATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selfie_manipulated"
+          }
+        },
+        "SELFIE_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selfie_unverified_other"
+          }
+        },
+        "UNDER_SUPPORTED_AGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "under_supported_age"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An error code for a verification attempt."
+      }
+    },
+    "com.whop.identity_profiles#VerificationStatuses": {
+      "type": "enum",
+      "members": {
+        "REQUIRES_INPUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requires_input"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "VERIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verified"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started"
+          }
+        },
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "declined"
+          }
+        },
+        "RESUBMISSION_REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resubmission_requested"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "ABANDONED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "abandoned"
+          }
+        },
+        "REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "review"
+          }
+        },
+        "ACTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "action_required"
+          }
+        },
+        "MANUAL_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual_review"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A status for a verification."
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfileListItemVerificationsItem": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the verification record was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The numeric id of the verification record.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_error_code": {
+          "target": "com.whop.identity_profiles#VerificationErrorCodes",
+          "traits": {
+            "smithy.api#documentation": "The most recent error code returned during verification. Null if no error has occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_error_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable explanation of the most recent verification error. Null if no error has occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "session_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL the user can visit to complete the verification process. Null if the session does not require user interaction.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.identity_profiles#VerificationStatuses",
+          "traits": {
+            "smithy.api#documentation": "The current status of this verification session.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An identity verification session used to confirm a person or entity's identity for payout account eligibility."
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfileListItemVerificationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.identity_profiles#IdentityProfileListItemVerificationsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "All verification attempts attached to this identity profile, ordered most-recent first."
+      }
+    },
+    "com.whop.identity_profiles#ListIdentityProfileResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.identity_profiles#IdentityProfileListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.identity_profiles#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.identity_profiles#ListIdentityProfileResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.identity_profiles#ListIdentityProfileResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.identity_profiles#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.identity_profiles#ListIdentityProfile": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.identity_profiles#ListIdentityProfileRequest"
+      },
+      "output": {
+        "target": "com.whop.identity_profiles#ListIdentityProfileResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.identity_profiles#BadRequest"
+        },
+        {
+          "target": "com.whop.identity_profiles#Forbidden"
+        },
+        {
+          "target": "com.whop.identity_profiles#NotFound"
+        },
+        {
+          "target": "com.whop.identity_profiles#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/identity_profiles",
+          "code": 200
+        },
+        "smithy.api#documentation": "List identity profiles\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of identity profiles. When company_id is provided, lists IPs currently linked to that company's ledger. When omitted, lists IPs linked to any ledger the actor can read (including child companies under a parent).\n\nRequired permissions:\n - `identity:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.identity_profiles#GetIdentityProfileRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the identity profile (idpf_xxx)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfile": {
+      "type": "structure",
+      "members": {
+        "business_address": {
+          "target": "com.whop.identity_profiles#IdentityProfileBusinessAddress",
+          "traits": {
+            "smithy.api#documentation": "Registered business address reported by the identity provider. Present on `business` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Business entity name. Present on `business` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_structure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reported legal structure of a business profile (e.g. `corp`, `llc`). Provider-specific values; present on `business` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 3166-1 alpha-2 country code reported by the identity provider, such as `US` or `GB`. For individuals this is the country of citizenship or residence; for businesses, the country of incorporation.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the identity profile was first created.",
+            "smithy.api#required": {}
+          }
+        },
+        "date_of_birth": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO date (`YYYY-MM-DD`) reported by the identity provider. Present on `individual` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address reported by the identity provider. Typically present on `individual` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Individual's first name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tag of the identity profile (idpf_xxx).",
+            "smithy.api#required": {}
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Individual's last name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "linked_companies": {
+          "target": "com.whop.identity_profiles#IdentityProfileLinkedCompaniesList",
+          "traits": {
+            "smithy.api#documentation": "The companies this identity profile is currently linked to. Only populated for direct Whop user sessions; always empty when authenticated via API key, app, or OAuth scope (a single identity can be linked to companies the calling platform is not entitled to see).",
+            "smithy.api#required": {}
+          }
+        },
+        "payout_status": {
+          "target": "com.whop.identity_profiles#PayoutAccountCalculatedStatuses",
+          "traits": {
+            "smithy.api#documentation": "Progress of payout-account setup for this profile, independent of holds. `connected` means onboarding is complete; a `connected` status paired with `payouts_enabled: false` indicates an active account restriction rather than incomplete setup.",
+            "smithy.api#required": {}
+          }
+        },
+        "payouts_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this profile can receive payouts right now. True only when payout onboarding is complete and no payout holds are active on the linked account. Treat this as the single source of truth for payout readiness.",
+            "smithy.api#required": {}
+          }
+        },
+        "personal_address": {
+          "target": "com.whop.identity_profiles#IdentityProfilePersonalAddress",
+          "traits": {
+            "smithy.api#documentation": "Residential address reported by the identity provider. Present on `individual` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Phone number reported by the identity provider. Typically present on `individual` profiles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether this is an 'individual' or 'business' profile.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.identity_profiles#IdentityProfileStatuses",
+          "traits": {
+            "smithy.api#documentation": "Derived verification status across all linked verifications. Returns `action_required` whenever the profile has an open request for information (whether a verification, payout, or audit RFI) — i.e. the merchant must submit something before it is in good standing.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the identity profile was last synced from a verification.",
+            "smithy.api#required": {}
+          }
+        },
+        "verifications": {
+          "target": "com.whop.identity_profiles#IdentityProfileVerificationsList",
+          "traits": {
+            "smithy.api#documentation": "All verification attempts attached to this identity profile, ordered most-recent first.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A consolidated identity or business profile synced from verification provider data."
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfileBusinessAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 1 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 2 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Registered business address reported by the identity provider. Present on `business` profiles."
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfileLinkedCompaniesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the company shown to customers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A company is a seller on Whop. Companies own products, manage members, and receive payouts."
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfileLinkedCompaniesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.identity_profiles#IdentityProfileLinkedCompaniesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The companies this identity profile is currently linked to. Only populated for direct Whop user sessions; always empty when authenticated via API key, app, or OAuth scope (a single identity can be linked to companies the calling platform is not entitled to see)."
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfilePersonalAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 1 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 2 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Residential address reported by the identity provider. Present on `individual` profiles."
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfileVerificationsItem": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the verification record was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The numeric id of the verification record.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_error_code": {
+          "target": "com.whop.identity_profiles#VerificationErrorCodes",
+          "traits": {
+            "smithy.api#documentation": "The most recent error code returned during verification. Null if no error has occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_error_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable explanation of the most recent verification error. Null if no error has occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "session_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL the user can visit to complete the verification process. Null if the session does not require user interaction.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.identity_profiles#VerificationStatuses",
+          "traits": {
+            "smithy.api#documentation": "The current status of this verification session.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An identity verification session used to confirm a person or entity's identity for payout account eligibility."
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfileVerificationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.identity_profiles#IdentityProfileVerificationsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "All verification attempts attached to this identity profile, ordered most-recent first."
+      }
+    },
+    "com.whop.identity_profiles#GetIdentityProfile": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.identity_profiles#GetIdentityProfileRequest"
+      },
+      "output": {
+        "target": "com.whop.identity_profiles#IdentityProfile"
+      },
+      "errors": [
+        {
+          "target": "com.whop.identity_profiles#BadRequest"
+        },
+        {
+          "target": "com.whop.identity_profiles#Forbidden"
+        },
+        {
+          "target": "com.whop.identity_profiles#NotFound"
+        },
+        {
+          "target": "com.whop.identity_profiles#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/identity_profiles/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve identity profile\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing identity profile.\n\nRequired permissions:\n - `identity:read`"
+      }
+    },
+    "com.whop.identity_profiles#UnlinkIdentityProfileRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the IdentityProfile to unlink."
+          }
+        },
+        "ledger_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "ledger_account_id",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.identity_profiles#UnlinkIdentityProfile": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.identity_profiles#UnlinkIdentityProfileRequest"
+      },
+      "output": {
+        "target": "com.whop.identity_profiles#IdentityProfile"
+      },
+      "errors": [
+        {
+          "target": "com.whop.identity_profiles#BadRequest"
+        },
+        {
+          "target": "com.whop.identity_profiles#Forbidden"
+        },
+        {
+          "target": "com.whop.identity_profiles#NotFound"
+        },
+        {
+          "target": "com.whop.identity_profiles#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/identity_profiles/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unlink an identity profile\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUnlinks an IdentityProfile from a LedgerAccount (flips the matching link to is_current=false)."
+      }
+    },
+    "com.whop.identity_profiles#ListVerificationsIdentityProfileRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the identity profile (idpf_xxx)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.identity_profiles#ListVerificationsIdentityProfileResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the verification record was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The numeric id of the verification record.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_error_code": {
+          "target": "com.whop.identity_profiles#VerificationErrorCodes",
+          "traits": {
+            "smithy.api#documentation": "The most recent error code returned during verification. Null if no error has occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_error_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable explanation of the most recent verification error. Null if no error has occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "session_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL the user can visit to complete the verification process. Null if the session does not require user interaction.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.identity_profiles#VerificationStatuses",
+          "traits": {
+            "smithy.api#documentation": "The current status of this verification session.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An identity verification session used to confirm a person or entity's identity for payout account eligibility."
+      }
+    },
+    "com.whop.identity_profiles#ListVerificationsIdentityProfileResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.identity_profiles#ListVerificationsIdentityProfileResponseDataItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.identity_profiles#ListVerificationsIdentityProfileResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.identity_profiles#ListVerificationsIdentityProfileResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.identity_profiles#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.identity_profiles#ListVerificationsIdentityProfile": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.identity_profiles#ListVerificationsIdentityProfileRequest"
+      },
+      "output": {
+        "target": "com.whop.identity_profiles#ListVerificationsIdentityProfileResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.identity_profiles#BadRequest"
+        },
+        {
+          "target": "com.whop.identity_profiles#Forbidden"
+        },
+        {
+          "target": "com.whop.identity_profiles#NotFound"
+        },
+        {
+          "target": "com.whop.identity_profiles#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/identity_profiles/{id}/verifications",
+          "code": 200
+        },
+        "smithy.api#documentation": "List identity profile verifications\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a list of verifications attached to an identity profile, ordered by most recent first.\n\nRequired permissions:\n - `identity:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.identity_profiles#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.identity_profiles#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.identity_profiles#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.identity_profiles#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.identity_profiles#IdentityProfiles": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.identity_profiles#ListIdentityProfile"
+        },
+        {
+          "target": "com.whop.identity_profiles#GetIdentityProfile"
+        },
+        {
+          "target": "com.whop.identity_profiles#UnlinkIdentityProfile"
+        },
+        {
+          "target": "com.whop.identity_profiles#ListVerificationsIdentityProfile"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

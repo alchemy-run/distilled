@@ -1,0 +1,2590 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.app#AppDisconnectReason": {
+      "type": "enum",
+      "members": {
+        "APP_DISCONNECT_REASON_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_DISCONNECT_REASON_UNSPECIFIED"
+          }
+        },
+        "APP_DISCONNECT_REASON_LOCAL_EXCEPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_DISCONNECT_REASON_LOCAL_EXCEPTION"
+          }
+        },
+        "APP_DISCONNECT_REASON_KEYBOARD_INTERRUPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_DISCONNECT_REASON_KEYBOARD_INTERRUPT"
+          }
+        },
+        "APP_DISCONNECT_REASON_ENTRYPOINT_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_DISCONNECT_REASON_ENTRYPOINT_COMPLETED"
+          }
+        },
+        "APP_DISCONNECT_REASON_DEPLOYMENT_EXCEPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_DISCONNECT_REASON_DEPLOYMENT_EXCEPTION"
+          }
+        },
+        "APP_DISCONNECT_REASON_REMOTE_EXCEPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_DISCONNECT_REASON_REMOTE_EXCEPTION"
+          }
+        }
+      }
+    },
+    "com.modal.app#DisconnectAppClientRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "reason": {
+          "target": "com.modal.app#AppDisconnectReason"
+        },
+        "exception": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#DisconnectAppClient": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#DisconnectAppClientRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppClientDisconnect",
+          "code": 200
+        },
+        "smithy.api#documentation": "Apps"
+      }
+    },
+    "com.modal.app#FileDescriptor": {
+      "type": "enum",
+      "members": {
+        "FILE_DESCRIPTOR_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_DESCRIPTOR_UNSPECIFIED"
+          }
+        },
+        "FILE_DESCRIPTOR_STDOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_DESCRIPTOR_STDOUT"
+          }
+        },
+        "FILE_DESCRIPTOR_STDERR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_DESCRIPTOR_STDERR"
+          }
+        },
+        "FILE_DESCRIPTOR_INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_DESCRIPTOR_INFO"
+          }
+        }
+      }
+    },
+    "com.modal.app#AppCountLogsRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "taskId": {
+          "target": "smithy.api#String"
+        },
+        "functionId": {
+          "target": "smithy.api#String"
+        },
+        "functionCallId": {
+          "target": "smithy.api#String"
+        },
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "searchText": {
+          "target": "smithy.api#String"
+        },
+        "since": {
+          "target": "smithy.api#Timestamp"
+        },
+        "until": {
+          "target": "smithy.api#Timestamp"
+        },
+        "bucketSecs": {
+          "target": "smithy.api#Integer"
+        },
+        "source": {
+          "target": "com.modal.app#FileDescriptor"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppCountLogsResponseLogBucket": {
+      "type": "structure",
+      "members": {
+        "bucketStartAt": {
+          "target": "smithy.api#Timestamp"
+        },
+        "stdoutLogs": {
+          "target": "smithy.api#String"
+        },
+        "stderrLogs": {
+          "target": "smithy.api#String"
+        },
+        "systemLogs": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.app#AppCountLogsResponseLogBucketList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.app#AppCountLogsResponseLogBucket"
+      }
+    },
+    "com.modal.app#AppCountLogsResponse": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "buckets": {
+          "target": "com.modal.app#AppCountLogsResponseLogBucketList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#AppCountLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppCountLogsRequest"
+      },
+      "output": {
+        "target": "com.modal.app#AppCountLogsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppCountLogs",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppState": {
+      "type": "enum",
+      "members": {
+        "APP_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STATE_UNSPECIFIED"
+          }
+        },
+        "APP_STATE_EPHEMERAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STATE_EPHEMERAL",
+            "smithy.api#documentation": "Will be discharged when the client disconnects"
+          }
+        },
+        "APP_STATE_DETACHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STATE_DETACHED"
+          }
+        },
+        "APP_STATE_DEPLOYED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STATE_DEPLOYED",
+            "smithy.api#documentation": "Will be discharged when overwritten"
+          }
+        },
+        "APP_STATE_STOPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STATE_STOPPING",
+            "smithy.api#documentation": "Winding down app due to user termination."
+          }
+        },
+        "APP_STATE_STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STATE_STOPPED",
+            "smithy.api#documentation": "Stopped"
+          }
+        },
+        "APP_STATE_INITIALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STATE_INITIALIZING",
+            "smithy.api#documentation": "App is created and in process of deployment."
+          }
+        },
+        "APP_STATE_DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STATE_DISABLED",
+            "smithy.api#documentation": "Same as stopped but prevented from being garbage collected"
+          }
+        },
+        "APP_STATE_DETACHED_DISCONNECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STATE_DETACHED_DISCONNECTED",
+            "smithy.api#documentation": "App is detached and local client has disconnected."
+          }
+        },
+        "APP_STATE_DERIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STATE_DERIVED",
+            "smithy.api#documentation": "App is derived from another workspace. Acts as a static, immutable group of functions.",
+            "smithy.api#deprecated": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "NOTE: make sure to update the frontend if we add a new state here https://github.com/modal-labs/modal/blob/main/frontend/src/routes/(dashboard)/%5B%5Bworkspace%5D%5D/apps/+page.svelte#L95"
+      }
+    },
+    "com.modal.app#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.app#CreateAppRequest": {
+      "type": "structure",
+      "members": {
+        "clientId": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human readable label for the app"
+          }
+        },
+        "appState": {
+          "target": "com.modal.app#AppState"
+        },
+        "tags": {
+          "target": "com.modal.app#StringMap"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#CreateAppResponse": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "appPageUrl": {
+          "target": "smithy.api#String"
+        },
+        "appLogsUrl": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#CreateApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#CreateAppRequest"
+      },
+      "output": {
+        "target": "com.modal.app#CreateAppResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppDeployVisibility": {
+      "type": "enum",
+      "members": {
+        "APP_DEPLOY_VISIBILITY_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_DEPLOY_VISIBILITY_UNSPECIFIED"
+          }
+        },
+        "APP_DEPLOY_VISIBILITY_WORKSPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_DEPLOY_VISIBILITY_WORKSPACE"
+          }
+        },
+        "APP_DEPLOY_VISIBILITY_PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_DEPLOY_VISIBILITY_PUBLIC"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "gRPC protos for Modal's public API surface. Warning: direct usage of Modal's gRPC API is discouraged, and no support or compatibility guarantees are provided. Message fields or entire RPCs may be changed or removed without notice. We recommend using official SDKs instead."
+      }
+    },
+    "com.modal.app#DeployAppRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "namespace"
+          }
+        },
+        "objectEntity": {
+          "target": "smithy.api#String"
+        },
+        "visibility": {
+          "target": "com.modal.app#AppDeployVisibility"
+        },
+        "tag": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#DeployAppResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#DeployApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#DeployAppRequest"
+      },
+      "output": {
+        "target": "com.modal.app#DeployAppResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppDeploy",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppDeploymentHistoryRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppDeploymentHistory2": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "version": {
+          "target": "smithy.api#Integer"
+        },
+        "clientVersion": {
+          "target": "smithy.api#String"
+        },
+        "deployedAt": {
+          "target": "smithy.api#Double"
+        },
+        "deployedBy": {
+          "target": "smithy.api#String"
+        },
+        "deployedByAvatarUrl": {
+          "target": "smithy.api#String"
+        },
+        "tag": {
+          "target": "smithy.api#String"
+        },
+        "rollbackVersion": {
+          "target": "smithy.api#Integer"
+        },
+        "rollbackAllowed": {
+          "target": "smithy.api#Boolean"
+        },
+        "commitInfo": {
+          "target": "com.modal.app#CommitInfo"
+        },
+        "deploymentType": {
+          "target": "com.modal.app#DeploymentType"
+        }
+      }
+    },
+    "com.modal.app#CommitInfo": {
+      "type": "structure",
+      "members": {
+        "vcs": {
+          "target": "smithy.api#String"
+        },
+        "branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Only git is supported for now"
+          }
+        },
+        "commitHash": {
+          "target": "smithy.api#String"
+        },
+        "commitTimestamp": {
+          "target": "smithy.api#String"
+        },
+        "dirty": {
+          "target": "smithy.api#Boolean"
+        },
+        "authorName": {
+          "target": "smithy.api#String"
+        },
+        "authorEmail": {
+          "target": "smithy.api#String"
+        },
+        "repoUrl": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.app#DeploymentType": {
+      "type": "enum",
+      "members": {
+        "DEPLOYMENT_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEPLOYMENT_TYPE_UNSPECIFIED"
+          }
+        },
+        "DEPLOYMENT_TYPE_STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEPLOYMENT_TYPE_STANDARD"
+          }
+        },
+        "DEPLOYMENT_TYPE_ROLLBACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEPLOYMENT_TYPE_ROLLBACK"
+          }
+        },
+        "DEPLOYMENT_TYPE_ROLLOVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEPLOYMENT_TYPE_ROLLOVER"
+          }
+        },
+        "DEPLOYMENT_TYPE_PROMOTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEPLOYMENT_TYPE_PROMOTION"
+          }
+        },
+        "DEPLOYMENT_TYPE_STAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEPLOYMENT_TYPE_STAGED"
+          }
+        }
+      }
+    },
+    "com.modal.app#AppDeploymentHistory2List": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.app#AppDeploymentHistory2"
+      }
+    },
+    "com.modal.app#AppDeploymentHistoryResponse": {
+      "type": "structure",
+      "members": {
+        "appDeploymentHistories": {
+          "target": "com.modal.app#AppDeploymentHistory2List"
+        },
+        "productionAppVersion": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#AppDeploymentHistory": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppDeploymentHistoryRequest"
+      },
+      "output": {
+        "target": "com.modal.app#AppDeploymentHistoryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppDeploymentHistory",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppFetchLogsRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "since": {
+          "target": "smithy.api#Timestamp"
+        },
+        "until": {
+          "target": "smithy.api#Timestamp"
+        },
+        "limit": {
+          "target": "smithy.api#Integer"
+        },
+        "source": {
+          "target": "com.modal.app#FileDescriptor"
+        },
+        "functionId": {
+          "target": "smithy.api#String"
+        },
+        "functionCallId": {
+          "target": "smithy.api#String"
+        },
+        "taskId": {
+          "target": "smithy.api#String"
+        },
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "searchText": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#TaskLogsBatch": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String"
+        },
+        "items": {
+          "target": "com.modal.app#TaskLogsList"
+        },
+        "entryId": {
+          "target": "smithy.api#String"
+        },
+        "appDone": {
+          "target": "smithy.api#Boolean"
+        },
+        "functionId": {
+          "target": "smithy.api#String"
+        },
+        "inputId": {
+          "target": "smithy.api#String"
+        },
+        "imageId": {
+          "target": "smithy.api#String"
+        },
+        "eof": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Used for image logs"
+          }
+        },
+        "ptyExecId": {
+          "target": "smithy.api#String"
+        },
+        "rootFunctionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Used for interactive functions"
+          }
+        },
+        "ttlDays": {
+          "target": "smithy.api#Integer"
+        }
+      }
+    },
+    "com.modal.app#TaskLogs": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#String"
+        },
+        "taskState": {
+          "target": "com.modal.app#TaskState"
+        },
+        "timestamp": {
+          "target": "smithy.api#Double"
+        },
+        "fileDescriptor": {
+          "target": "com.modal.app#FileDescriptor"
+        },
+        "taskProgress": {
+          "target": "com.modal.app#TaskProgress"
+        },
+        "functionCallId": {
+          "target": "smithy.api#String"
+        },
+        "inputId": {
+          "target": "smithy.api#String"
+        },
+        "timestampNs": {
+          "target": "smithy.api#String"
+        },
+        "containerId": {
+          "target": "smithy.api#String"
+        },
+        "containerName": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.app#TaskState": {
+      "type": "enum",
+      "members": {
+        "TASK_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_UNSPECIFIED"
+          }
+        },
+        "TASK_STATE_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_CREATED"
+          }
+        },
+        "TASK_STATE_QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_QUEUED"
+          }
+        },
+        "TASK_STATE_WORKER_ASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_WORKER_ASSIGNED"
+          }
+        },
+        "TASK_STATE_LOADING_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_LOADING_IMAGE"
+          }
+        },
+        "TASK_STATE_ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_ACTIVE"
+          }
+        },
+        "TASK_STATE_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_COMPLETED"
+          }
+        },
+        "TASK_STATE_CREATING_CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_CREATING_CONTAINER"
+          }
+        },
+        "TASK_STATE_IDLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_IDLE"
+          }
+        },
+        "TASK_STATE_PREEMPTIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_PREEMPTIBLE"
+          }
+        },
+        "TASK_STATE_PREEMPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_PREEMPTED"
+          }
+        },
+        "TASK_STATE_LOADING_CHECKPOINT_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_LOADING_CHECKPOINT_IMAGE"
+          }
+        }
+      }
+    },
+    "com.modal.app#TaskProgress": {
+      "type": "structure",
+      "members": {
+        "len": {
+          "target": "smithy.api#String"
+        },
+        "pos": {
+          "target": "smithy.api#String"
+        },
+        "progressType": {
+          "target": "com.modal.app#ProgressType"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.app#ProgressType": {
+      "type": "enum",
+      "members": {
+        "IMAGE_SNAPSHOT_UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IMAGE_SNAPSHOT_UPLOAD"
+          }
+        },
+        "FUNCTION_QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_QUEUED",
+            "smithy.api#documentation": "TODO(erikbern): shouldn't be zero, and needs prefix"
+          }
+        }
+      }
+    },
+    "com.modal.app#TaskLogsList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.app#TaskLogs"
+      }
+    },
+    "com.modal.app#TaskLogsBatchList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.app#TaskLogsBatch"
+      }
+    },
+    "com.modal.app#AppFetchLogsResponse": {
+      "type": "structure",
+      "members": {
+        "batches": {
+          "target": "com.modal.app#TaskLogsBatchList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#AppFetchLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppFetchLogsRequest"
+      },
+      "output": {
+        "target": "com.modal.app#AppFetchLogsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppFetchLogs",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppGetByDeploymentNameRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "removed namespace"
+          }
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppLifecycle": {
+      "type": "structure",
+      "members": {
+        "appState": {
+          "target": "com.modal.app#AppState"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "createdBy": {
+          "target": "smithy.api#String"
+        },
+        "deployedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "User or service user name"
+          }
+        },
+        "deployedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Most recent deployment event"
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "User or service user name"
+          }
+        },
+        "stoppedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Only meaningful when App is deployed"
+          }
+        },
+        "stoppedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unset when App is still running"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "tag -> class id"
+      }
+    },
+    "com.modal.app#AppGetByDeploymentNameResponse": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "previousAppId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Null when App with requested name is not deployed"
+          }
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Populated if App with requested name was recently stopped"
+          }
+        },
+        "lifecycle": {
+          "target": "com.modal.app#AppLifecycle",
+          "traits": {
+            "smithy.api#documentation": "Populated because server may resolve default environment"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#AppGetByDeploymentName": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppGetByDeploymentNameRequest"
+      },
+      "output": {
+        "target": "com.modal.app#AppGetByDeploymentNameResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppGetByDeploymentName",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppGetInfoRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppHandleMetadata": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "lifecycle": {
+          "target": "com.modal.app#AppLifecycle"
+        },
+        "functions": {
+          "target": "com.modal.app#StringMap"
+        },
+        "servers": {
+          "target": "com.modal.app#StringMap",
+          "traits": {
+            "smithy.api#documentation": "tag -> function id"
+          }
+        }
+      }
+    },
+    "com.modal.app#AppGetInfoResponse": {
+      "type": "structure",
+      "members": {
+        "info": {
+          "target": "com.modal.app#AppHandleMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#AppGetInfo": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppGetInfoRequest"
+      },
+      "output": {
+        "target": "com.modal.app#AppGetInfoResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppGetInfo",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppGetLayoutRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppLayout": {
+      "type": "structure",
+      "members": {
+        "objects": {
+          "target": "com.modal.app#ObjectList"
+        },
+        "functionIds": {
+          "target": "com.modal.app#StringMap"
+        },
+        "classIds": {
+          "target": "com.modal.app#StringMap",
+          "traits": {
+            "smithy.api#documentation": "tag -> function id"
+          }
+        }
+      }
+    },
+    "com.modal.app#Object": {
+      "type": "structure",
+      "members": {
+        "objectId": {
+          "target": "smithy.api#String"
+        },
+        "functionHandleMetadata": {
+          "target": "com.modal.app#FunctionHandleMetadata"
+        },
+        "mountHandleMetadata": {
+          "target": "com.modal.app#MountHandleMetadata"
+        },
+        "classHandleMetadata": {
+          "target": "com.modal.app#ClassHandleMetadata"
+        },
+        "sandboxHandleMetadata": {
+          "target": "com.modal.app#SandboxHandleMetadata"
+        },
+        "volumeMetadata": {
+          "target": "com.modal.app#VolumeMetadata"
+        }
+      }
+    },
+    "com.modal.app#FunctionHandleMetadata": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "contains all the info about a function that is needed to trigger the right behaviour when using a FunctionHandler. Notably excludes things purely used for *executing* the function in a container entrypoint Should be a subset and use IDs/types from `Function` above"
+          }
+        },
+        "functionType": {
+          "target": "com.modal.app#FunctionFunctionType"
+        },
+        "webUrl": {
+          "target": "smithy.api#String"
+        },
+        "isMethod": {
+          "target": "smithy.api#Boolean"
+        },
+        "useFunctionId": {
+          "target": "smithy.api#String"
+        },
+        "useMethodName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "used for methods"
+          }
+        },
+        "definitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "used for methods"
+          }
+        },
+        "classParameterInfo": {
+          "target": "com.modal.app#ClassParameterInfo"
+        },
+        "methodHandleMetadata": {
+          "target": "com.modal.app#FunctionHandleMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Mapping of method names to their metadata, only non-empty for class service functions"
+          }
+        },
+        "functionSchema": {
+          "target": "com.modal.app#FunctionSchema"
+        },
+        "inputPlaneUrl": {
+          "target": "smithy.api#String"
+        },
+        "inputPlaneRegion": {
+          "target": "smithy.api#String"
+        },
+        "maxObjectSizeBytes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Use optional to ensure unset values default to None instead of 0"
+          }
+        },
+        "maxAsyncObjectSizeBytes": {
+          "target": "smithy.api#String"
+        },
+        "ExperimentalFlashUrls": {
+          "target": "com.modal.app#StringList"
+        },
+        "supportedInputFormats": {
+          "target": "com.modal.app#DataFormatList",
+          "traits": {
+            "smithy.api#documentation": "(Optional) urls for flash services"
+          }
+        },
+        "supportedOutputFormats": {
+          "target": "com.modal.app#DataFormatList"
+        },
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.app#FunctionFunctionType": {
+      "type": "enum",
+      "members": {
+        "FUNCTION_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_TYPE_UNSPECIFIED"
+          }
+        },
+        "FUNCTION_TYPE_GENERATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_TYPE_GENERATOR"
+          }
+        },
+        "FUNCTION_TYPE_FUNCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_TYPE_FUNCTION"
+          }
+        }
+      }
+    },
+    "com.modal.app#ClassParameterInfo": {
+      "type": "structure",
+      "members": {
+        "format": {
+          "target": "com.modal.app#ClassParameterInfoParameterSerializationFormat",
+          "traits": {
+            "smithy.api#documentation": "new format using api.FunctionParameterSet"
+          }
+        },
+        "schema": {
+          "target": "com.modal.app#ClassParameterSpecList"
+        }
+      }
+    },
+    "com.modal.app#ClassParameterInfoParameterSerializationFormat": {
+      "type": "enum",
+      "members": {
+        "PARAM_SERIALIZATION_FORMAT_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_SERIALIZATION_FORMAT_UNSPECIFIED"
+          }
+        },
+        "PARAM_SERIALIZATION_FORMAT_PICKLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_SERIALIZATION_FORMAT_PICKLE"
+          }
+        },
+        "PARAM_SERIALIZATION_FORMAT_PROTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_SERIALIZATION_FORMAT_PROTO",
+            "smithy.api#documentation": "legacy format - pickle of (args, kwargs) tuple"
+          }
+        }
+      }
+    },
+    "com.modal.app#ClassParameterSpec": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "TODO: rename into NamedPayloadType or similar"
+          }
+        },
+        "type": {
+          "target": "com.modal.app#ParameterType"
+        },
+        "hasDefault": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "TODO: deprecate - use full_type instead"
+          }
+        },
+        "stringDefault": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default *values* are only registered for class parameters"
+          }
+        },
+        "intDefault": {
+          "target": "smithy.api#String"
+        },
+        "pickleDefault": {
+          "target": "smithy.api#Blob"
+        },
+        "bytesDefault": {
+          "target": "smithy.api#Blob"
+        },
+        "boolDefault": {
+          "target": "smithy.api#Boolean"
+        },
+        "fullType": {
+          "target": "com.modal.app#GenericPayloadType"
+        }
+      }
+    },
+    "com.modal.app#ParameterType": {
+      "type": "enum",
+      "members": {
+        "PARAM_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_TYPE_UNSPECIFIED"
+          }
+        },
+        "PARAM_TYPE_STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_TYPE_STRING"
+          }
+        },
+        "PARAM_TYPE_INT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_TYPE_INT"
+          }
+        },
+        "PARAM_TYPE_PICKLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_TYPE_PICKLE"
+          }
+        },
+        "PARAM_TYPE_BYTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_TYPE_BYTES",
+            "smithy.api#documentation": "currently unused"
+          }
+        },
+        "PARAM_TYPE_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_TYPE_UNKNOWN"
+          }
+        },
+        "PARAM_TYPE_LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_TYPE_LIST",
+            "smithy.api#documentation": "used in schemas to signify unrecognized or un-annotated types"
+          }
+        },
+        "PARAM_TYPE_DICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_TYPE_DICT"
+          }
+        },
+        "PARAM_TYPE_NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_TYPE_NONE"
+          }
+        },
+        "PARAM_TYPE_BOOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_TYPE_BOOL"
+          }
+        }
+      }
+    },
+    "com.modal.app#GenericPayloadType": {
+      "type": "structure",
+      "members": {
+        "baseType": {
+          "target": "com.modal.app#ParameterType"
+        },
+        "subTypes": {
+          "target": "com.modal.app#GenericPayloadTypeList"
+        }
+      }
+    },
+    "com.modal.app#GenericPayloadTypeList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.app#GenericPayloadType"
+      }
+    },
+    "com.modal.app#ClassParameterSpecList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.app#ClassParameterSpec"
+      }
+    },
+    "com.modal.app#FunctionHandleMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.modal.app#FunctionHandleMetadata"
+      }
+    },
+    "com.modal.app#FunctionSchema": {
+      "type": "structure",
+      "members": {
+        "schemaType": {
+          "target": "com.modal.app#FunctionSchemaFunctionSchemaType"
+        },
+        "arguments": {
+          "target": "com.modal.app#ClassParameterSpecList",
+          "traits": {
+            "smithy.api#documentation": "allows easy disambiguation between empty schema and no schema collection etc."
+          }
+        },
+        "returnType": {
+          "target": "com.modal.app#GenericPayloadType"
+        }
+      }
+    },
+    "com.modal.app#FunctionSchemaFunctionSchemaType": {
+      "type": "enum",
+      "members": {
+        "FUNCTION_SCHEMA_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_SCHEMA_UNSPECIFIED"
+          }
+        },
+        "FUNCTION_SCHEMA_V1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_SCHEMA_V1"
+          }
+        }
+      }
+    },
+    "com.modal.app#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.app#DataFormat": {
+      "type": "enum",
+      "members": {
+        "DATA_FORMAT_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_UNSPECIFIED"
+          }
+        },
+        "DATA_FORMAT_PICKLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_PICKLE"
+          }
+        },
+        "DATA_FORMAT_ASGI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_ASGI",
+            "smithy.api#documentation": "Cloudpickle"
+          }
+        },
+        "DATA_FORMAT_GENERATOR_DONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_GENERATOR_DONE",
+            "smithy.api#documentation": "\"Asgi\" protobuf message"
+          }
+        },
+        "DATA_FORMAT_CBOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_CBOR",
+            "smithy.api#documentation": "\"GeneratorDone\" protobuf message"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which data format a binary message is encoded with."
+      }
+    },
+    "com.modal.app#DataFormatList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.app#DataFormat"
+      }
+    },
+    "com.modal.app#MountHandleMetadata": {
+      "type": "structure",
+      "members": {
+        "contentChecksumSha256Hex": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.app#ClassHandleMetadata": {
+      "type": "structure",
+      "members": {
+        "methods": {
+          "target": "com.modal.app#ClassMethodList"
+        },
+        "classFunctionId": {
+          "target": "smithy.api#String"
+        },
+        "classFunctionMetadata": {
+          "target": "com.modal.app#FunctionHandleMetadata"
+        }
+      }
+    },
+    "com.modal.app#ClassMethod": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "smithy.api#String"
+        },
+        "functionId": {
+          "target": "smithy.api#String"
+        },
+        "functionHandleMetadata": {
+          "target": "com.modal.app#FunctionHandleMetadata",
+          "traits": {
+            "smithy.api#documentation": "Class methods need to hydrate all functions on the class"
+          }
+        }
+      }
+    },
+    "com.modal.app#ClassMethodList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.app#ClassMethod"
+      }
+    },
+    "com.modal.app#SandboxHandleMetadata": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.modal.app#GenericResult"
+        },
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.app#GenericResult": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.modal.app#GenericResultGenericStatus"
+        },
+        "exception": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status of the task or function output."
+          }
+        },
+        "exitcode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Exception message for failures, if available."
+          }
+        },
+        "traceback": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly."
+          }
+        },
+        "serializedTb": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "String value of the Python traceback."
+          }
+        },
+        "tbLineCache": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "Pickled traceback object."
+          }
+        },
+        "data": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "Pickled line cache for traceback object."
+          }
+        },
+        "dataBlobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inline data of the result."
+          }
+        },
+        "propagationReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Blob ID for large data."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "sub-type for generic types like lists"
+      }
+    },
+    "com.modal.app#GenericResultGenericStatus": {
+      "type": "enum",
+      "members": {
+        "GENERIC_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_UNSPECIFIED"
+          }
+        },
+        "GENERIC_STATUS_SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_SUCCESS"
+          }
+        },
+        "GENERIC_STATUS_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_FAILURE"
+          }
+        },
+        "GENERIC_STATUS_TERMINATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_TERMINATED",
+            "smithy.api#documentation": "Used when a task was killed using an external signal."
+          }
+        },
+        "GENERIC_STATUS_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_TIMEOUT"
+          }
+        },
+        "GENERIC_STATUS_INIT_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_INIT_FAILURE",
+            "smithy.api#documentation": "Used when the user's function fails to initialize (ex. S3 mount failed due to invalid credentials). Terminates the function and all remaining inputs."
+          }
+        },
+        "GENERIC_STATUS_INTERNAL_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_INTERNAL_FAILURE"
+          }
+        },
+        "GENERIC_STATUS_IDLE_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_IDLE_TIMEOUT",
+            "smithy.api#documentation": "Used when sandboxes are terminated due to idle_timeout"
+          }
+        },
+        "GENERIC_STATUS_MEMORY_MANAGER_EVICTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_MEMORY_MANAGER_EVICTION",
+            "smithy.api#documentation": "Used when a task was killed because it was evicted by the memory manager when the worker was under memory pressure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Used for both tasks and function outputs"
+      }
+    },
+    "com.modal.app#VolumeMetadata": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "com.modal.app#VolumeFsVersion"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "creationInfo": {
+          "target": "com.modal.app#CreationInfo"
+        }
+      }
+    },
+    "com.modal.app#VolumeFsVersion": {
+      "type": "enum",
+      "members": {
+        "VOLUME_FS_VERSION_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VOLUME_FS_VERSION_UNSPECIFIED"
+          }
+        },
+        "VOLUME_FS_VERSION_V1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VOLUME_FS_VERSION_V1"
+          }
+        },
+        "VOLUME_FS_VERSION_V2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VOLUME_FS_VERSION_V2"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "HTTP/2 tunnel"
+      }
+    },
+    "com.modal.app#CreationInfo": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "This message is used in metadata for resource objects like Dict, Queue, Volume, etc."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of resource creation"
+          }
+        }
+      }
+    },
+    "com.modal.app#ObjectList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.app#Object"
+      }
+    },
+    "com.modal.app#AppGetLayoutResponse": {
+      "type": "structure",
+      "members": {
+        "appLayout": {
+          "target": "com.modal.app#AppLayout"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#AppGetLayout": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppGetLayoutRequest"
+      },
+      "output": {
+        "target": "com.modal.app#AppGetLayoutResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppGetLayout",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppGetLifecycleRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppGetLifecycleResponse": {
+      "type": "structure",
+      "members": {
+        "lifecycle": {
+          "target": "com.modal.app#AppLifecycle"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#AppGetLifecycle": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppGetLifecycleRequest"
+      },
+      "output": {
+        "target": "com.modal.app#AppGetLifecycleResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppGetLifecycle",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppGetObjectsRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "includeUnindexed": {
+          "target": "smithy.api#Boolean"
+        },
+        "onlyClassFunction": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppGetObjectsItem": {
+      "type": "structure",
+      "members": {
+        "tag": {
+          "target": "smithy.api#String"
+        },
+        "object": {
+          "target": "com.modal.app#Object"
+        }
+      }
+    },
+    "com.modal.app#AppGetObjectsItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.app#AppGetObjectsItem"
+      }
+    },
+    "com.modal.app#AppGetObjectsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.modal.app#AppGetObjectsItemList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#AppGetObjects": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppGetObjectsRequest"
+      },
+      "output": {
+        "target": "com.modal.app#AppGetObjectsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppGetObjects",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#ObjectCreationType": {
+      "type": "enum",
+      "members": {
+        "OBJECT_CREATION_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_UNSPECIFIED"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_IF_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_IF_MISSING",
+            "smithy.api#documentation": "just lookup"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
+          }
+        },
+        "OBJECT_CREATION_TYPE_EPHEMERAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_EPHEMERAL",
+            "smithy.api#documentation": "deprecate at some point"
+          }
+        }
+      }
+    },
+    "com.modal.app#AppGetOrCreateRequest": {
+      "type": "structure",
+      "members": {
+        "appName": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "objectCreationType": {
+          "target": "com.modal.app#ObjectCreationType"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppGetOrCreateResponse": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "handleMetadata": {
+          "target": "com.modal.app#AppHandleMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#AppGetOrCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppGetOrCreateRequest"
+      },
+      "output": {
+        "target": "com.modal.app#AppGetOrCreateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppGetOrCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppGetTagsRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppGetTagsResponse": {
+      "type": "structure",
+      "members": {
+        "tags": {
+          "target": "com.modal.app#StringMap"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#AppGetTags": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppGetTagsRequest"
+      },
+      "output": {
+        "target": "com.modal.app#AppGetTagsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppGetTags",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppHeartbeatRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppHeartbeat": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppHeartbeatRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppHeartbeat",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#ListAppRequest": {
+      "type": "structure",
+      "members": {
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#ListAppResponseAppListItem": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "state": {
+          "target": "com.modal.app#AppState"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "stoppedAt": {
+          "target": "smithy.api#Double"
+        },
+        "nRunningTasks": {
+          "target": "smithy.api#Integer"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.app#ListAppResponseAppListItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.app#ListAppResponseAppListItem"
+      }
+    },
+    "com.modal.app#ListAppResponse": {
+      "type": "structure",
+      "members": {
+        "apps": {
+          "target": "com.modal.app#ListAppResponseAppListItemList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#ListApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#ListAppRequest"
+      },
+      "output": {
+        "target": "com.modal.app#ListAppResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppList",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#LookupAppRequest": {
+      "type": "structure",
+      "members": {
+        "appName": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#LookupAppResponse": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#LookupApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#LookupAppRequest"
+      },
+      "output": {
+        "target": "com.modal.app#LookupAppResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppLookup",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#PromoteAppRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "version": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#Warning": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.modal.app#WarningWarningType"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.app#WarningWarningType": {
+      "type": "enum",
+      "members": {
+        "WARNING_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WARNING_TYPE_UNSPECIFIED"
+          }
+        },
+        "WARNING_TYPE_CLIENT_DEPRECATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WARNING_TYPE_CLIENT_DEPRECATION"
+          }
+        },
+        "WARNING_TYPE_RESOURCE_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WARNING_TYPE_RESOURCE_LIMIT"
+          }
+        },
+        "WARNING_TYPE_FUNCTION_CONFIGURATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WARNING_TYPE_FUNCTION_CONFIGURATION"
+          }
+        }
+      }
+    },
+    "com.modal.app#WarningList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.app#Warning"
+      }
+    },
+    "com.modal.app#PromoteAppResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "serverWarnings": {
+          "target": "com.modal.app#WarningList"
+        },
+        "deployedAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#PromoteApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#PromoteAppRequest"
+      },
+      "output": {
+        "target": "com.modal.app#PromoteAppResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppPromote",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#PublishAppRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "deploymentTag": {
+          "target": "smithy.api#String"
+        },
+        "appState": {
+          "target": "com.modal.app#AppState",
+          "traits": {
+            "smithy.api#documentation": "Additional metadata to identify a deployment"
+          }
+        },
+        "functionIds": {
+          "target": "com.modal.app#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Published app will be in this state"
+          }
+        },
+        "classIds": {
+          "target": "com.modal.app#StringMap",
+          "traits": {
+            "smithy.api#documentation": "function_name -> function_id"
+          }
+        },
+        "definitionIds": {
+          "target": "com.modal.app#StringMap",
+          "traits": {
+            "smithy.api#documentation": "class_name -> class_id"
+          }
+        },
+        "rollbackVersion": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "function_id -> definition_id"
+          }
+        },
+        "clientVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unused by client, but used internally"
+          }
+        },
+        "commitInfo": {
+          "target": "com.modal.app#CommitInfo",
+          "traits": {
+            "smithy.api#documentation": "Unused by client, but used internally"
+          }
+        },
+        "tags": {
+          "target": "com.modal.app#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Git information for deployment tracking"
+          }
+        },
+        "staged": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Additional metadata to attach to the App If true, create a version pinned deployment but don't update the production deployment definition on publish"
+          }
+        },
+        "deploymentType": {
+          "target": "com.modal.app#DeploymentType"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#PublishAppResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "serverWarnings": {
+          "target": "com.modal.app#WarningList"
+        },
+        "deployedAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#PublishApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#PublishAppRequest"
+      },
+      "output": {
+        "target": "com.modal.app#PublishAppResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppPublish",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppRollbackRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "version": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppRollbackResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "serverWarnings": {
+          "target": "com.modal.app#WarningList"
+        },
+        "deployedAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#AppRollback": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppRollbackRequest"
+      },
+      "output": {
+        "target": "com.modal.app#AppRollbackResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppRollback",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppRolloverRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppRolloverResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "serverWarnings": {
+          "target": "com.modal.app#WarningList"
+        },
+        "deployedAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#AppRollover": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppRolloverRequest"
+      },
+      "output": {
+        "target": "com.modal.app#AppRolloverResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppRollover",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppSetObjectsRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "indexedObjectIds": {
+          "target": "com.modal.app#StringMap"
+        },
+        "clientId": {
+          "target": "smithy.api#String"
+        },
+        "unindexedObjectIds": {
+          "target": "com.modal.app#StringList"
+        },
+        "newAppState": {
+          "target": "com.modal.app#AppState"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppSetObjects": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppSetObjectsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppSetObjects",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppSetTagsRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "tags": {
+          "target": "com.modal.app#StringMap"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppSetTags": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppSetTagsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppSetTags",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppStopSource": {
+      "type": "enum",
+      "members": {
+        "APP_STOP_SOURCE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STOP_SOURCE_UNSPECIFIED"
+          }
+        },
+        "APP_STOP_SOURCE_CLI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STOP_SOURCE_CLI"
+          }
+        },
+        "APP_STOP_SOURCE_PYTHON_CLIENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STOP_SOURCE_PYTHON_CLIENT"
+          }
+        },
+        "APP_STOP_SOURCE_WEB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_STOP_SOURCE_WEB"
+          }
+        }
+      }
+    },
+    "com.modal.app#StopAppRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "source": {
+          "target": "com.modal.app#AppStopSource"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#StopApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#StopAppRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppStop",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.app#AppService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.app#DisconnectAppClient"
+        },
+        {
+          "target": "com.modal.app#AppCountLogs"
+        },
+        {
+          "target": "com.modal.app#CreateApp"
+        },
+        {
+          "target": "com.modal.app#DeployApp"
+        },
+        {
+          "target": "com.modal.app#AppDeploymentHistory"
+        },
+        {
+          "target": "com.modal.app#AppFetchLogs"
+        },
+        {
+          "target": "com.modal.app#AppGetByDeploymentName"
+        },
+        {
+          "target": "com.modal.app#AppGetInfo"
+        },
+        {
+          "target": "com.modal.app#AppGetLayout"
+        },
+        {
+          "target": "com.modal.app#AppGetLifecycle"
+        },
+        {
+          "target": "com.modal.app#AppGetObjects"
+        },
+        {
+          "target": "com.modal.app#AppGetOrCreate"
+        },
+        {
+          "target": "com.modal.app#AppGetTags"
+        },
+        {
+          "target": "com.modal.app#AppHeartbeat"
+        },
+        {
+          "target": "com.modal.app#ListApp"
+        },
+        {
+          "target": "com.modal.app#LookupApp"
+        },
+        {
+          "target": "com.modal.app#PromoteApp"
+        },
+        {
+          "target": "com.modal.app#PublishApp"
+        },
+        {
+          "target": "com.modal.app#AppRollback"
+        },
+        {
+          "target": "com.modal.app#AppRollover"
+        },
+        {
+          "target": "com.modal.app#AppSetObjects"
+        },
+        {
+          "target": "com.modal.app#AppSetTags"
+        },
+        {
+          "target": "com.modal.app#StopApp"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal App",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `App`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

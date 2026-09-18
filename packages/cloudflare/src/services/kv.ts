@@ -182,7 +182,7 @@ export const NamespacesBulkGetRequestKeysList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<NamespacesBulkGetRequestKeysList>;
 
 export type NamespacesBulkGetRequestType = "text" | "json";
-export const NamespacesBulkGetRequestType = /*@__PURE__*/ S.String;
+export const NamespacesBulkGetRequestType = S.String;
 
 export interface BulkGetNamespacesRequest {
   /** Identifier. */
@@ -400,16 +400,22 @@ export const BulkPutNamespacesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "BulkPutNamespacesResponse",
 }) as any as S.Schema<BulkPutNamespacesResponse>;
 
+export type NamespacesCreateRequestJurisdiction = "eu" | "fedramp" | "us";
+export const NamespacesCreateRequestJurisdiction = S.String;
+
 export interface CreateNamespaceRequest {
   /** Identifier. */
   accountId: string;
   /** A human-readable string name for a Namespace. */
   title: string;
+  /** Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time. */
+  jurisdiction?: NamespacesCreateRequestJurisdiction | (string & {});
 }
 export const CreateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     title: S.String,
+    jurisdiction: S.optional(NamespacesCreateRequestJurisdiction),
   })
     .pipe(
       T.Http({
@@ -423,12 +429,17 @@ export const CreateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateNamespaceRequest",
 }) as any as S.Schema<CreateNamespaceRequest>;
 
+export type NamespacesCreateResponseJurisdiction = "eu" | "fedramp" | "us";
+export const NamespacesCreateResponseJurisdiction = S.String;
+
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateNamespaceResponse {
   /** Namespace identifier tag. */
   id: string;
   /** A human-readable string name for a Namespace. */
   title: string;
+  /** Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time. */
+  jurisdiction?: NamespacesCreateResponseJurisdiction | null;
   /** True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?". */
   supportsUrlEncoding?: boolean | null;
 }
@@ -436,6 +447,7 @@ export const CreateNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     title: S.String,
+    jurisdiction: S.optional(S.NullOr(NamespacesCreateResponseJurisdiction)),
     supportsUrlEncoding: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("supports_url_encoding")),
     ),
@@ -530,12 +542,17 @@ export const GetNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetNamespaceRequest",
 }) as any as S.Schema<GetNamespaceRequest>;
 
+export type NamespacesGetResponseJurisdiction = "eu" | "fedramp" | "us";
+export const NamespacesGetResponseJurisdiction = S.String;
+
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetNamespaceResponse {
   /** Namespace identifier tag. */
   id: string;
   /** A human-readable string name for a Namespace. */
   title: string;
+  /** Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time. */
+  jurisdiction?: NamespacesGetResponseJurisdiction | null;
   /** True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?". */
   supportsUrlEncoding?: boolean | null;
 }
@@ -543,6 +560,7 @@ export const GetNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     title: S.String,
+    jurisdiction: S.optional(S.NullOr(NamespacesGetResponseJurisdiction)),
     supportsUrlEncoding: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("supports_url_encoding")),
     ),
@@ -699,10 +717,10 @@ export const ListNamespaceKeysResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListNamespaceKeysResponse>;
 
 export type NamespacesListRequestDirection = "asc" | "desc";
-export const NamespacesListRequestDirection = /*@__PURE__*/ S.String;
+export const NamespacesListRequestDirection = S.String;
 
 export type NamespacesListRequestOrder = "id" | "title";
-export const NamespacesListRequestOrder = /*@__PURE__*/ S.String;
+export const NamespacesListRequestOrder = S.String;
 
 export interface ListNamespacesRequest {
   /** Identifier. */
@@ -736,11 +754,16 @@ export const ListNamespacesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListNamespacesRequest",
 }) as any as S.Schema<ListNamespacesRequest>;
 
+export type NamespacesListResultItemJurisdiction = "eu" | "fedramp" | "us";
+export const NamespacesListResultItemJurisdiction = S.String;
+
 export interface NamespacesListResultItem {
   /** Namespace identifier tag. */
   id: string;
   /** A human-readable string name for a Namespace. */
   title: string;
+  /** Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time. */
+  jurisdiction?: NamespacesListResultItemJurisdiction | null;
   /** True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?". */
   supportsUrlEncoding?: boolean | null;
 }
@@ -748,6 +771,7 @@ export const NamespacesListResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     title: S.String,
+    jurisdiction: S.optional(S.NullOr(NamespacesListResultItemJurisdiction)),
     supportsUrlEncoding: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("supports_url_encoding")),
     ),
@@ -841,7 +865,7 @@ export const NamespacesKeysBulkGetRequestKeysList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<NamespacesKeysBulkGetRequestKeysList>;
 
 export type NamespacesKeysBulkGetRequestType = "text" | "json";
-export const NamespacesKeysBulkGetRequestType = /*@__PURE__*/ S.String;
+export const NamespacesKeysBulkGetRequestType = S.String;
 
 export interface NamespacesKeysBulkGetRequest {
   /** Identifier. */
@@ -1095,12 +1119,17 @@ export const UpdateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateNamespaceRequest",
 }) as any as S.Schema<UpdateNamespaceRequest>;
 
+export type NamespacesUpdateResponseJurisdiction = "eu" | "fedramp" | "us";
+export const NamespacesUpdateResponseJurisdiction = S.String;
+
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateNamespaceResponse {
   /** Namespace identifier tag. */
   id: string;
   /** A human-readable string name for a Namespace. */
   title: string;
+  /** Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time. */
+  jurisdiction?: NamespacesUpdateResponseJurisdiction | null;
   /** True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?". */
   supportsUrlEncoding?: boolean | null;
 }
@@ -1108,6 +1137,7 @@ export const UpdateNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     title: S.String,
+    jurisdiction: S.optional(S.NullOr(NamespacesUpdateResponseJurisdiction)),
     supportsUrlEncoding: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("supports_url_encoding")),
     ),

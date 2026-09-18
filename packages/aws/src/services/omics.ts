@@ -3193,6 +3193,7 @@ export const ImageDetails = /*@__PURE__*/ S.suspend(() =>
     sourceImage: S.optional(S.String),
   }),
 ).annotate({ identifier: "ImageDetails" }) as any as S.Schema<ImageDetails>;
+export type TaskUuid = string;
 export interface GetRunTaskResponse {
   taskId?: string;
   status?: string;
@@ -3210,6 +3211,7 @@ export interface GetRunTaskResponse {
   instanceType?: string;
   failureReason?: string;
   imageDetails?: ImageDetails;
+  uuid?: string;
 }
 export const GetRunTaskResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3233,6 +3235,7 @@ export const GetRunTaskResponse = /*@__PURE__*/ S.suspend(() =>
     instanceType: S.optional(S.String),
     failureReason: S.optional(S.String),
     imageDetails: S.optional(ImageDetails),
+    uuid: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetRunTaskResponse",
@@ -3258,7 +3261,7 @@ export const GetS3AccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetS3AccessPolicyRequest>;
 export type StoreId = string;
 export type StoreType = "SEQUENCE_STORE" | "REFERENCE_STORE" | (string & {});
-export const StoreType = /*@__PURE__*/ S.String;
+export const StoreType = S.String;
 
 export type S3AccessPolicy = string;
 export interface GetS3AccessPolicyResponse {
@@ -5145,6 +5148,7 @@ export interface TaskListItem {
   stopTime?: Date;
   gpus?: number;
   instanceType?: string;
+  uuid?: string;
 }
 export const TaskListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5164,6 +5168,7 @@ export const TaskListItem = /*@__PURE__*/ S.suspend(() =>
     stopTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     gpus: S.optional(S.Number),
     instanceType: S.optional(S.String),
+    uuid: S.optional(S.String),
   }),
 ).annotate({ identifier: "TaskListItem" }) as any as S.Schema<TaskListItem>;
 export type TaskList = TaskListItem[];

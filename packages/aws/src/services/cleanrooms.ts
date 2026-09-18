@@ -198,7 +198,7 @@ export const AnalysisSchema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ referencedTables: S.optional(QueryTables) }),
 ).annotate({ identifier: "AnalysisSchema" }) as any as S.Schema<AnalysisSchema>;
 export type AnalysisFormat = "SQL" | "PYSPARK_1_0" | (string & {});
-export const AnalysisFormat = /*@__PURE__*/ S.String;
+export const AnalysisFormat = S.String;
 
 export type AnalysisTemplateText = string | redacted.Redacted<string>;
 export interface S3Location {
@@ -299,7 +299,7 @@ export type ParameterType =
   | "TIMESTAMP_NTZ"
   | "TINYINT"
   | (string & {});
-export const ParameterType = /*@__PURE__*/ S.String;
+export const ParameterType = S.String;
 
 export type ParameterValue = string;
 export interface AnalysisParameter {
@@ -321,14 +321,14 @@ export const AnalysisParameterList = /*@__PURE__*/ S.Array(AnalysisParameter);
 export type AnalysisTemplateValidationType =
   | "DIFFERENTIAL_PRIVACY"
   | (string & {});
-export const AnalysisTemplateValidationType = /*@__PURE__*/ S.String;
+export const AnalysisTemplateValidationType = S.String;
 
 export type AnalysisTemplateValidationStatus =
   | "VALID"
   | "INVALID"
   | "UNABLE_TO_VALIDATE"
   | (string & {});
-export const AnalysisTemplateValidationStatus = /*@__PURE__*/ S.String;
+export const AnalysisTemplateValidationStatus = S.String;
 
 export interface AnalysisTemplateValidationStatusReason {
   message: string;
@@ -364,7 +364,7 @@ export const AnalysisTemplateValidationStatusDetailList = /*@__PURE__*/ S.Array(
   AnalysisTemplateValidationStatusDetail,
 );
 export type ErrorMessageType = "DETAILED" | (string & {});
-export const ErrorMessageType = /*@__PURE__*/ S.String;
+export const ErrorMessageType = S.String;
 
 export interface ErrorMessageConfiguration {
   type: ErrorMessageType;
@@ -380,7 +380,7 @@ export type SyntheticDataColumnType =
   | "CATEGORICAL"
   | "NUMERICAL"
   | (string & {});
-export const SyntheticDataColumnType = /*@__PURE__*/ S.String;
+export const SyntheticDataColumnType = S.String;
 
 export interface SyntheticDataColumnProperties {
   columnName: string;
@@ -547,7 +547,7 @@ export type AnalysisRuleType =
   | "CUSTOM"
   | "ID_MAPPING_TABLE"
   | (string & {});
-export const AnalysisRuleType = /*@__PURE__*/ S.String;
+export const AnalysisRuleType = S.String;
 
 export type AnalysisRuleTypeList = AnalysisRuleType[];
 export const AnalysisRuleTypeList = /*@__PURE__*/ S.Array(AnalysisRuleType);
@@ -556,24 +556,28 @@ export type AnalysisMethod =
   | "DIRECT_JOB"
   | "MULTIPLE"
   | (string & {});
-export const AnalysisMethod = /*@__PURE__*/ S.String;
+export const AnalysisMethod = S.String;
 
 export type SelectedAnalysisMethod =
   | "DIRECT_QUERY"
   | "DIRECT_JOB"
   | (string & {});
-export const SelectedAnalysisMethod = /*@__PURE__*/ S.String;
+export const SelectedAnalysisMethod = S.String;
 
 export type SelectedAnalysisMethods = SelectedAnalysisMethod[];
 export const SelectedAnalysisMethods = /*@__PURE__*/ S.Array(
   SelectedAnalysisMethod,
 );
 export type TableDescription = string;
-export type SchemaType = "TABLE" | "ID_MAPPING_TABLE" | (string & {});
-export const SchemaType = /*@__PURE__*/ S.String;
+export type SchemaType =
+  | "TABLE"
+  | "ID_MAPPING_TABLE"
+  | "INTERMEDIATE_TABLE"
+  | (string & {});
+export const SchemaType = S.String;
 
 export type SchemaStatus = "READY" | "NOT_READY" | (string & {});
-export const SchemaStatus = /*@__PURE__*/ S.String;
+export const SchemaStatus = S.String;
 
 export type SchemaStatusReasonCode =
   | "ANALYSIS_RULE_MISSING"
@@ -587,8 +591,14 @@ export type SchemaStatusReasonCode =
   | "ADDITIONAL_ANALYSES_NOT_ALLOWED"
   | "RESULT_RECEIVERS_NOT_ALLOWED"
   | "ANALYSIS_RULE_TYPES_NOT_COMPATIBLE"
+  | "INTERMEDIATE_TABLE_NOT_POPULATED"
+  | "INTERMEDIATE_TABLE_ANALYSIS_RULE_MISSING"
+  | "INTERMEDIATE_TABLE_BASE_TABLE_REMOVED"
+  | "INTERMEDIATE_TABLE_INHERITED_CONSTRAINTS_VIOLATED"
+  | "INTERMEDIATE_TABLE_DISALLOWED_BY_DATA_PROVIDER"
+  | "INTERMEDIATE_TABLE_RETENTION_PERIOD_EXPIRED"
   | (string & {});
-export const SchemaStatusReasonCode = /*@__PURE__*/ S.String;
+export const SchemaStatusReasonCode = S.String;
 
 export interface SchemaStatusReason {
   code: SchemaStatusReasonCode;
@@ -602,7 +612,7 @@ export const SchemaStatusReason = /*@__PURE__*/ S.suspend(() =>
 export type SchemaStatusReasonList = SchemaStatusReason[];
 export const SchemaStatusReasonList = /*@__PURE__*/ S.Array(SchemaStatusReason);
 export type SchemaConfiguration = "DIFFERENTIAL_PRIVACY" | (string & {});
-export const SchemaConfiguration = /*@__PURE__*/ S.String;
+export const SchemaConfiguration = S.String;
 
 export type SchemaConfigurationList = SchemaConfiguration[];
 export const SchemaConfigurationList =
@@ -611,7 +621,7 @@ export type AnalysisType =
   | "DIRECT_ANALYSIS"
   | "ADDITIONAL_ANALYSIS"
   | (string & {});
-export const AnalysisType = /*@__PURE__*/ S.String;
+export const AnalysisType = S.String;
 
 export interface SchemaStatusDetail {
   status: SchemaStatus;
@@ -635,7 +645,7 @@ export type SchemaStatusDetailList = SchemaStatusDetail[];
 export const SchemaStatusDetailList = /*@__PURE__*/ S.Array(SchemaStatusDetail);
 export type SchemaResourceArn = string;
 export type IdNamespaceType = "SOURCE" | "TARGET" | (string & {});
-export const IdNamespaceType = /*@__PURE__*/ S.String;
+export const IdNamespaceType = S.String;
 
 export interface IdMappingTableInputSource {
   idNamespaceAssociationId: string;
@@ -652,17 +662,55 @@ export const IdMappingTableInputSourceList = /*@__PURE__*/ S.Array(
 );
 export interface IdMappingTableSchemaTypeProperties {
   idMappingTableInputSource: IdMappingTableInputSource[];
+  idMappingTableId?: string;
 }
 export const IdMappingTableSchemaTypeProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ idMappingTableInputSource: IdMappingTableInputSourceList }),
+  S.Struct({
+    idMappingTableInputSource: IdMappingTableInputSourceList,
+    idMappingTableId: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "IdMappingTableSchemaTypeProperties",
 }) as any as S.Schema<IdMappingTableSchemaTypeProperties>;
-export type SchemaTypeProperties = {
-  idMappingTable: IdMappingTableSchemaTypeProperties;
-};
+export interface IntermediateTableSchemaTypeProperties {
+  intermediateTableId: string;
+}
+export const IntermediateTableSchemaTypeProperties = /*@__PURE__*/ S.suspend(
+  () => S.Struct({ intermediateTableId: S.String }),
+).annotate({
+  identifier: "IntermediateTableSchemaTypeProperties",
+}) as any as S.Schema<IntermediateTableSchemaTypeProperties>;
+export interface ConfiguredTableAssociationSchemaTypeProperties {
+  configuredTableAssociationId: string;
+}
+export const ConfiguredTableAssociationSchemaTypeProperties =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({ configuredTableAssociationId: S.String }),
+  ).annotate({
+    identifier: "ConfiguredTableAssociationSchemaTypeProperties",
+  }) as any as S.Schema<ConfiguredTableAssociationSchemaTypeProperties>;
+export type SchemaTypeProperties =
+  | {
+      idMappingTable: IdMappingTableSchemaTypeProperties;
+      intermediateTable?: never;
+      configuredTableAssociation?: never;
+    }
+  | {
+      idMappingTable?: never;
+      intermediateTable: IntermediateTableSchemaTypeProperties;
+      configuredTableAssociation?: never;
+    }
+  | {
+      idMappingTable?: never;
+      intermediateTable?: never;
+      configuredTableAssociation: ConfiguredTableAssociationSchemaTypeProperties;
+    };
 export const SchemaTypeProperties = /*@__PURE__*/ S.Union([
   S.Struct({ idMappingTable: IdMappingTableSchemaTypeProperties }),
+  S.Struct({ intermediateTable: IntermediateTableSchemaTypeProperties }),
+  S.Struct({
+    configuredTableAssociation: ConfiguredTableAssociationSchemaTypeProperties,
+  }),
 ]);
 export interface Schema {
   columns: Column[];
@@ -776,7 +824,7 @@ export type AdditionalAnalyses =
   | "REQUIRED"
   | "NOT_ALLOWED"
   | (string & {});
-export const AdditionalAnalyses = /*@__PURE__*/ S.String;
+export const AdditionalAnalyses = S.String;
 
 export interface AnalysisRuleList {
   joinColumns: string[];
@@ -876,12 +924,76 @@ export const DifferentialPrivacyConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DifferentialPrivacyConfiguration",
 }) as any as S.Schema<DifferentialPrivacyConfiguration>;
+export type AggregationThresholdType = "COUNT_DISTINCT" | (string & {});
+export const AggregationThresholdType = S.String;
+
+export interface OutputColumnThreshold {
+  outputColumnName: string;
+  minimumIdentityCount: number;
+}
+export const OutputColumnThreshold = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ outputColumnName: S.String, minimumIdentityCount: S.Number }),
+).annotate({
+  identifier: "OutputColumnThreshold",
+}) as any as S.Schema<OutputColumnThreshold>;
+export type OutputColumnThresholdList = OutputColumnThreshold[];
+export const OutputColumnThresholdList = /*@__PURE__*/ S.Array(
+  OutputColumnThreshold,
+);
+export type AllowedAggregateExpressionType =
+  | "COLUMNS_ONLY"
+  | "ANY_EXPRESSION"
+  | (string & {});
+export const AllowedAggregateExpressionType = S.String;
+
+export interface AggregationThreshold {
+  identityColumns: string[];
+  minimumIdentityCount: number;
+  type: AggregationThresholdType;
+  outputColumnThresholds?: OutputColumnThreshold[];
+  allowedAggregateExpressionType: AllowedAggregateExpressionType;
+}
+export const AggregationThreshold = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    identityColumns: AnalysisRuleColumnList,
+    minimumIdentityCount: S.Number,
+    type: AggregationThresholdType,
+    outputColumnThresholds: S.optional(OutputColumnThresholdList),
+    allowedAggregateExpressionType: AllowedAggregateExpressionType,
+  }),
+).annotate({
+  identifier: "AggregationThreshold",
+}) as any as S.Schema<AggregationThreshold>;
+export type AggregationThresholdList = AggregationThreshold[];
+export const AggregationThresholdList =
+  /*@__PURE__*/ S.Array(AggregationThreshold);
+export interface ComparisonControls {
+  allowedLiteralComparisonColumns: string[];
+  allowedColumnComparisonColumns: string[];
+}
+export const ComparisonControls = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedLiteralComparisonColumns: AnalysisRuleColumnList,
+    allowedColumnComparisonColumns: AnalysisRuleColumnList,
+  }),
+).annotate({
+  identifier: "ComparisonControls",
+}) as any as S.Schema<ComparisonControls>;
+export type AllowedResultReceivers = string[];
+export const AllowedResultReceivers = /*@__PURE__*/ S.Array(S.String);
+export type AdditionalAnalysesResourceArn = string;
+export type AllowedAdditionalAnalyses = string[];
+export const AllowedAdditionalAnalyses = /*@__PURE__*/ S.Array(S.String);
 export interface AnalysisRuleCustom {
   allowedAnalyses: string[];
   allowedAnalysisProviders?: string[];
   additionalAnalyses?: AdditionalAnalyses;
   disallowedOutputColumns?: string[];
   differentialPrivacy?: DifferentialPrivacyConfiguration;
+  aggregationThresholds?: AggregationThreshold[];
+  comparisonControls?: ComparisonControls;
+  allowedResultReceivers?: string[];
+  allowedAdditionalAnalyses?: string[];
 }
 export const AnalysisRuleCustom = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -890,6 +1002,10 @@ export const AnalysisRuleCustom = /*@__PURE__*/ S.suspend(() =>
     additionalAnalyses: S.optional(AdditionalAnalyses),
     disallowedOutputColumns: S.optional(AnalysisRuleColumnList),
     differentialPrivacy: S.optional(DifferentialPrivacyConfiguration),
+    aggregationThresholds: S.optional(AggregationThresholdList),
+    comparisonControls: S.optional(ComparisonControls),
+    allowedResultReceivers: S.optional(AllowedResultReceivers),
+    allowedAdditionalAnalyses: S.optional(AllowedAdditionalAnalyses),
   }),
 ).annotate({
   identifier: "AnalysisRuleCustom",
@@ -957,11 +1073,6 @@ export type AnalysisRulePolicy = { v1: AnalysisRulePolicyV1 };
 export const AnalysisRulePolicy = /*@__PURE__*/ S.Union([
   S.Struct({ v1: AnalysisRulePolicyV1 }),
 ]);
-export type AllowedResultReceivers = string[];
-export const AllowedResultReceivers = /*@__PURE__*/ S.Array(S.String);
-export type AdditionalAnalysesResourceArn = string;
-export type AllowedAdditionalAnalyses = string[];
-export const AllowedAdditionalAnalyses = /*@__PURE__*/ S.Array(S.String);
 export interface ConfiguredTableAssociationAnalysisRuleList {
   allowedResultReceivers?: string[];
   allowedAdditionalAnalyses?: string[];
@@ -1086,6 +1197,8 @@ export interface ConsolidatedPolicyCustom {
   additionalAnalyses?: AdditionalAnalyses;
   disallowedOutputColumns?: string[];
   differentialPrivacy?: DifferentialPrivacyConfiguration;
+  aggregationThresholds?: AggregationThreshold[];
+  comparisonControls?: ComparisonControls;
   allowedResultReceivers?: string[];
   allowedAdditionalAnalyses?: string[];
 }
@@ -1096,6 +1209,8 @@ export const ConsolidatedPolicyCustom = /*@__PURE__*/ S.suspend(() =>
     additionalAnalyses: S.optional(AdditionalAnalyses),
     disallowedOutputColumns: S.optional(AnalysisRuleColumnList),
     differentialPrivacy: S.optional(DifferentialPrivacyConfiguration),
+    aggregationThresholds: S.optional(AggregationThresholdList),
+    comparisonControls: S.optional(ComparisonControls),
     allowedResultReceivers: S.optional(AllowedResultReceivers),
     allowedAdditionalAnalyses: S.optional(AllowedAdditionalAnalyses),
   }),
@@ -1279,8 +1394,9 @@ export type MemberAbility =
   | "CAN_QUERY"
   | "CAN_RECEIVE_RESULTS"
   | "CAN_RUN_JOB"
+  | "CAN_EXPORT_QUERY_ANALYSIS_LOG"
   | (string & {});
-export const MemberAbility = /*@__PURE__*/ S.String;
+export const MemberAbility = S.String;
 
 export type MemberAbilities = MemberAbility[];
 export const MemberAbilities = /*@__PURE__*/ S.Array(MemberAbility);
@@ -1288,7 +1404,7 @@ export type CustomMLMemberAbility =
   | "CAN_RECEIVE_MODEL_OUTPUT"
   | "CAN_RECEIVE_INFERENCE_OUTPUT"
   | (string & {});
-export const CustomMLMemberAbility = /*@__PURE__*/ S.String;
+export const CustomMLMemberAbility = S.String;
 
 export type CustomMLMemberAbilities = CustomMLMemberAbility[];
 export const CustomMLMemberAbilities = /*@__PURE__*/ S.Array(
@@ -1413,20 +1529,22 @@ export type CollaborationQueryLogStatus =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const CollaborationQueryLogStatus = /*@__PURE__*/ S.String;
+export const CollaborationQueryLogStatus = S.String;
 
 export type CollaborationJobLogStatus = "ENABLED" | "DISABLED" | (string & {});
-export const CollaborationJobLogStatus = /*@__PURE__*/ S.String;
+export const CollaborationJobLogStatus = S.String;
 
 export type AnalyticsEngine = "SPARK" | "CLEAN_ROOMS_SQL" | (string & {});
-export const AnalyticsEngine = /*@__PURE__*/ S.String;
+export const AnalyticsEngine = S.String;
 
 export type AutoApprovedChangeType =
   | "ADD_MEMBER"
   | "GRANT_RECEIVE_RESULTS_ABILITY"
   | "REVOKE_RECEIVE_RESULTS_ABILITY"
+  | "GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"
+  | "REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"
   | (string & {});
-export const AutoApprovedChangeType = /*@__PURE__*/ S.String;
+export const AutoApprovedChangeType = S.String;
 
 export type AutoApprovedChangeTypeList = AutoApprovedChangeType[];
 export const AutoApprovedChangeTypeList = /*@__PURE__*/ S.Array(
@@ -1467,14 +1585,14 @@ export type SupportedS3Region =
   | "sa-east-1"
   | "mx-central-1"
   | (string & {});
-export const SupportedS3Region = /*@__PURE__*/ S.String;
+export const SupportedS3Region = S.String;
 
 export type AllowedResultRegions = SupportedS3Region[];
 export const AllowedResultRegions = /*@__PURE__*/ S.Array(SupportedS3Region);
 export interface CreateCollaborationInput {
   members: MemberSpecification[];
   name: string;
-  description: string;
+  description?: string;
   creatorMemberAbilities: MemberAbility[];
   creatorMLMemberAbilities?: MLMemberAbilities;
   creatorDisplayName: string;
@@ -1492,7 +1610,7 @@ export const CreateCollaborationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     members: MemberList,
     name: S.String,
-    description: S.String,
+    description: S.optional(S.String),
     creatorMemberAbilities: MemberAbilities,
     creatorMLMemberAbilities: S.optional(MLMemberAbilities),
     creatorDisplayName: S.String,
@@ -1573,7 +1691,7 @@ export type ChangeSpecificationType =
   | "MEMBER"
   | "COLLABORATION"
   | (string & {});
-export const ChangeSpecificationType = /*@__PURE__*/ S.String;
+export const ChangeSpecificationType = S.String;
 
 export interface MemberChangeSpecification {
   accountId: string;
@@ -1654,7 +1772,7 @@ export type ChangeRequestStatus =
   | "DENIED"
   | "COMMITTED"
   | (string & {});
-export const ChangeRequestStatus = /*@__PURE__*/ S.String;
+export const ChangeRequestStatus = S.String;
 
 export type ChangeType =
   | "ADD_MEMBER"
@@ -1667,8 +1785,10 @@ export type ChangeType =
   | "GRANT_CAN_RECEIVE_INFERENCE_OUTPUT"
   | "REVOKE_CAN_RECEIVE_MODEL_OUTPUT"
   | "REVOKE_CAN_RECEIVE_INFERENCE_OUTPUT"
+  | "GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"
+  | "REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"
   | (string & {});
-export const ChangeType = /*@__PURE__*/ S.String;
+export const ChangeType = S.String;
 
 export type ChangeTypeList = ChangeType[];
 export const ChangeTypeList = /*@__PURE__*/ S.Array(ChangeType);
@@ -1687,7 +1807,7 @@ export const Change = /*@__PURE__*/ S.suspend(() =>
 export type ChangeList = Change[];
 export const ChangeList = /*@__PURE__*/ S.Array(Change);
 export type ApprovalStatus = "APPROVED" | "DENIED" | "PENDING" | (string & {});
-export const ApprovalStatus = /*@__PURE__*/ S.String;
+export const ApprovalStatus = S.String;
 
 export interface ApprovalStatusDetails {
   status: ApprovalStatus;
@@ -1851,7 +1971,7 @@ export type CommercialRegion =
   | "mx-central-1"
   | "ap-east-2"
   | (string & {});
-export const CommercialRegion = /*@__PURE__*/ S.String;
+export const CommercialRegion = S.String;
 
 export type GlueTableName = string;
 export type GlueDatabaseName = string;
@@ -1984,7 +2104,7 @@ export type ConfiguredTableAnalysisRuleType =
   | "LIST"
   | "CUSTOM"
   | (string & {});
-export const ConfiguredTableAnalysisRuleType = /*@__PURE__*/ S.String;
+export const ConfiguredTableAnalysisRuleType = S.String;
 
 export type ConfiguredTableAnalysisRuleTypeList =
   ConfiguredTableAnalysisRuleType[];
@@ -2141,13 +2261,44 @@ export type ConfiguredTableAssociationAnalysisRuleType =
   | "LIST"
   | "CUSTOM"
   | (string & {});
-export const ConfiguredTableAssociationAnalysisRuleType =
-  /*@__PURE__*/ S.String;
+export const ConfiguredTableAssociationAnalysisRuleType = S.String;
 
 export type ConfiguredTableAssociationAnalysisRuleTypeList =
   ConfiguredTableAssociationAnalysisRuleType[];
 export const ConfiguredTableAssociationAnalysisRuleTypeList =
   /*@__PURE__*/ S.Array(ConfiguredTableAssociationAnalysisRuleType);
+export type ChildResourceType = "INTERMEDIATE_TABLE" | (string & {});
+export const ChildResourceType = S.String;
+
+export type ResourceStatus =
+  | "CREATED"
+  | "POPULATE_STARTED"
+  | "POPULATE_SUCCESS"
+  | "POPULATE_FAILED"
+  | "DISALLOWED_BY_DATA_PROVIDER"
+  | "BASE_TABLE_REMOVED"
+  | "RETENTION_PERIOD_EXPIRED"
+  | (string & {});
+export const ResourceStatus = S.String;
+
+export interface ChildResource {
+  resourceId?: string;
+  resourceType: ChildResourceType;
+  resourceName: string;
+  ownerAccountId: string;
+  resourceStatus?: ResourceStatus;
+}
+export const ChildResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceId: S.optional(S.String),
+    resourceType: ChildResourceType,
+    resourceName: S.String,
+    ownerAccountId: S.String,
+    resourceStatus: S.optional(ResourceStatus),
+  }),
+).annotate({ identifier: "ChildResource" }) as any as S.Schema<ChildResource>;
+export type ChildResourceList = ChildResource[];
+export const ChildResourceList = /*@__PURE__*/ S.Array(ChildResource);
 export interface ConfiguredTableAssociation {
   arn: string;
   id: string;
@@ -2161,6 +2312,7 @@ export interface ConfiguredTableAssociation {
   analysisRuleTypes?: ConfiguredTableAssociationAnalysisRuleType[];
   createTime: Date;
   updateTime: Date;
+  childResources?: ChildResource[];
 }
 export const ConfiguredTableAssociation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2178,6 +2330,7 @@ export const ConfiguredTableAssociation = /*@__PURE__*/ S.suspend(() =>
     ),
     createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    childResources: S.optional(ChildResourceList),
   }),
 ).annotate({
   identifier: "ConfiguredTableAssociation",
@@ -2320,6 +2473,7 @@ export interface IdMappingTable {
   updateTime: Date;
   inputReferenceProperties: IdMappingTableInputReferenceProperties;
   kmsKeyArn?: string;
+  childResources?: ChildResource[];
 }
 export const IdMappingTable = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2336,6 +2490,7 @@ export const IdMappingTable = /*@__PURE__*/ S.suspend(() =>
     updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     inputReferenceProperties: IdMappingTableInputReferenceProperties,
     kmsKeyArn: S.optional(S.String),
+    childResources: S.optional(ChildResourceList),
   }),
 ).annotate({ identifier: "IdMappingTable" }) as any as S.Schema<IdMappingTable>;
 export interface CreateIdMappingTableOutput {
@@ -2460,14 +2615,471 @@ export const CreateIdNamespaceAssociationOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateIdNamespaceAssociationOutput",
 }) as any as S.Schema<CreateIdNamespaceAssociationOutput>;
+export interface PopulationAnalysisSqlParameters {
+  queryString?: string;
+  analysisTemplateArn?: string;
+}
+export const PopulationAnalysisSqlParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    queryString: S.optional(S.String),
+    analysisTemplateArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PopulationAnalysisSqlParameters",
+}) as any as S.Schema<PopulationAnalysisSqlParameters>;
+export type PopulationAnalysisConfiguration = {
+  sqlParameters: PopulationAnalysisSqlParameters;
+};
+export const PopulationAnalysisConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ sqlParameters: PopulationAnalysisSqlParameters }),
+]);
+export interface CreateIntermediateTableInput {
+  membershipIdentifier: string;
+  name: string;
+  description?: string;
+  populationAnalysisConfiguration: PopulationAnalysisConfiguration;
+  kmsKeyArn?: string;
+  retentionInDays?: number;
+  tags?: { [key: string]: string | undefined };
+}
+export const CreateIntermediateTableInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    name: S.String,
+    description: S.optional(S.String),
+    populationAnalysisConfiguration: PopulationAnalysisConfiguration,
+    kmsKeyArn: S.optional(S.String),
+    retentionInDays: S.optional(S.Number),
+    tags: S.optional(TagMap),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memberships/{membershipIdentifier}/intermediateTables",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateIntermediateTableInput",
+}) as any as S.Schema<CreateIntermediateTableInput>;
+export type IntermediateTableArn = string;
+export type IntermediateTableStatus =
+  | "CREATED"
+  | "POPULATE_STARTED"
+  | "POPULATE_SUCCESS"
+  | "POPULATE_FAILED"
+  | "DISALLOWED_BY_DATA_PROVIDER"
+  | "BASE_TABLE_REMOVED"
+  | "RETENTION_PERIOD_EXPIRED"
+  | (string & {});
+export const IntermediateTableStatus = S.String;
+
+export type BaseTableDependencyType =
+  | "TABLE"
+  | "INTERMEDIATE_TABLE"
+  | "ID_MAPPING_TABLE"
+  | (string & {});
+export const BaseTableDependencyType = S.String;
+
+export type BaseTableParentType = "DIRECT" | "INDIRECT" | (string & {});
+export const BaseTableParentType = S.String;
+
+export interface IntermediateTableDependency {
+  id: string;
+  name: string;
+  type: BaseTableDependencyType;
+  parentType: BaseTableParentType;
+  creatorAccountId: string;
+}
+export const IntermediateTableDependency = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    type: BaseTableDependencyType,
+    parentType: BaseTableParentType,
+    creatorAccountId: S.String,
+  }),
+).annotate({
+  identifier: "IntermediateTableDependency",
+}) as any as S.Schema<IntermediateTableDependency>;
+export type DependencyList = IntermediateTableDependency[];
+export const DependencyList = /*@__PURE__*/ S.Array(
+  IntermediateTableDependency,
+);
+export type AnalysisIdentifier = string;
+export type PopulateIntermediateTableAnalysisType = "QUERY" | (string & {});
+export const PopulateIntermediateTableAnalysisType = S.String;
+
+export type ParameterMap = { [key: string]: string | undefined };
+export const ParameterMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface InheritedAdditionalAnalysesSource {
+  name: string;
+  id: string;
+  type: BaseTableDependencyType;
+  value: AdditionalAnalyses;
+  sourceAccountId: string;
+}
+export const InheritedAdditionalAnalysesSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    id: S.String,
+    type: BaseTableDependencyType,
+    value: AdditionalAnalyses,
+    sourceAccountId: S.String,
+  }),
+).annotate({
+  identifier: "InheritedAdditionalAnalysesSource",
+}) as any as S.Schema<InheritedAdditionalAnalysesSource>;
+export type InheritedAdditionalAnalysesSourceList =
+  InheritedAdditionalAnalysesSource[];
+export const InheritedAdditionalAnalysesSourceList = /*@__PURE__*/ S.Array(
+  InheritedAdditionalAnalysesSource,
+);
+export interface InheritedAdditionalAnalyses {
+  value: AdditionalAnalyses;
+  sources: InheritedAdditionalAnalysesSource[];
+}
+export const InheritedAdditionalAnalyses = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: AdditionalAnalyses,
+    sources: InheritedAdditionalAnalysesSourceList,
+  }),
+).annotate({
+  identifier: "InheritedAdditionalAnalyses",
+}) as any as S.Schema<InheritedAdditionalAnalyses>;
+export interface InheritedAllowedAdditionalAnalysesSource {
+  name: string;
+  id: string;
+  type: BaseTableDependencyType;
+  value: string[];
+  sourceAccountId: string;
+}
+export const InheritedAllowedAdditionalAnalysesSource = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      id: S.String,
+      type: BaseTableDependencyType,
+      value: AllowedAdditionalAnalyses,
+      sourceAccountId: S.String,
+    }),
+).annotate({
+  identifier: "InheritedAllowedAdditionalAnalysesSource",
+}) as any as S.Schema<InheritedAllowedAdditionalAnalysesSource>;
+export type InheritedAllowedAdditionalAnalysesSourceList =
+  InheritedAllowedAdditionalAnalysesSource[];
+export const InheritedAllowedAdditionalAnalysesSourceList =
+  /*@__PURE__*/ S.Array(InheritedAllowedAdditionalAnalysesSource);
+export interface InheritedAllowedAdditionalAnalyses {
+  value: string[];
+  sources: InheritedAllowedAdditionalAnalysesSource[];
+}
+export const InheritedAllowedAdditionalAnalyses = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: AllowedAdditionalAnalyses,
+    sources: InheritedAllowedAdditionalAnalysesSourceList,
+  }),
+).annotate({
+  identifier: "InheritedAllowedAdditionalAnalyses",
+}) as any as S.Schema<InheritedAllowedAdditionalAnalyses>;
+export type AccountIdList = string[];
+export const AccountIdList = /*@__PURE__*/ S.Array(S.String);
+export interface InheritedAllowedResultReceiversSource {
+  name: string;
+  id: string;
+  type: BaseTableDependencyType;
+  value: string[];
+  sourceAccountId: string;
+}
+export const InheritedAllowedResultReceiversSource = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      id: S.String,
+      type: BaseTableDependencyType,
+      value: AccountIdList,
+      sourceAccountId: S.String,
+    }),
+).annotate({
+  identifier: "InheritedAllowedResultReceiversSource",
+}) as any as S.Schema<InheritedAllowedResultReceiversSource>;
+export type InheritedAllowedResultReceiversSourceList =
+  InheritedAllowedResultReceiversSource[];
+export const InheritedAllowedResultReceiversSourceList = /*@__PURE__*/ S.Array(
+  InheritedAllowedResultReceiversSource,
+);
+export interface InheritedAllowedResultReceivers {
+  value: string[];
+  sources: InheritedAllowedResultReceiversSource[];
+}
+export const InheritedAllowedResultReceivers = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: AccountIdList,
+    sources: InheritedAllowedResultReceiversSourceList,
+  }),
+).annotate({
+  identifier: "InheritedAllowedResultReceivers",
+}) as any as S.Schema<InheritedAllowedResultReceivers>;
+export interface ColumnLineageEntry {
+  column: string;
+  sourceColumn: string;
+  sourceName: string;
+  sourceId: string;
+  sourceType: BaseTableDependencyType;
+  sourceAccountId: string;
+}
+export const ColumnLineageEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    column: S.String,
+    sourceColumn: S.String,
+    sourceName: S.String,
+    sourceId: S.String,
+    sourceType: BaseTableDependencyType,
+    sourceAccountId: S.String,
+  }),
+).annotate({
+  identifier: "ColumnLineageEntry",
+}) as any as S.Schema<ColumnLineageEntry>;
+export type ColumnLineageList = ColumnLineageEntry[];
+export const ColumnLineageList = /*@__PURE__*/ S.Array(ColumnLineageEntry);
+export interface InheritedDisallowedOutputColumns {
+  value: string[];
+  columnLineage: ColumnLineageEntry[];
+}
+export const InheritedDisallowedOutputColumns = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: AnalysisRuleColumnNameList,
+    columnLineage: ColumnLineageList,
+  }),
+).annotate({
+  identifier: "InheritedDisallowedOutputColumns",
+}) as any as S.Schema<InheritedDisallowedOutputColumns>;
+export interface IntermediateTableInheritedConstraints {
+  additionalAnalyses?: InheritedAdditionalAnalyses;
+  allowedAdditionalAnalyses?: InheritedAllowedAdditionalAnalyses;
+  allowedResultReceivers?: InheritedAllowedResultReceivers;
+  disallowedOutputColumns?: InheritedDisallowedOutputColumns;
+}
+export const IntermediateTableInheritedConstraints = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      additionalAnalyses: S.optional(InheritedAdditionalAnalyses),
+      allowedAdditionalAnalyses: S.optional(InheritedAllowedAdditionalAnalyses),
+      allowedResultReceivers: S.optional(InheritedAllowedResultReceivers),
+      disallowedOutputColumns: S.optional(InheritedDisallowedOutputColumns),
+    }),
+).annotate({
+  identifier: "IntermediateTableInheritedConstraints",
+}) as any as S.Schema<IntermediateTableInheritedConstraints>;
+export interface IntermediateTableActiveVersion {
+  versionId: string;
+  analysisId: string;
+  analysisType: PopulateIntermediateTableAnalysisType;
+  kmsKeyArn?: string;
+  parameters?: { [key: string]: string | undefined };
+  inheritedConstraints: IntermediateTableInheritedConstraints;
+  expirationTime?: Date;
+}
+export const IntermediateTableActiveVersion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    versionId: S.String,
+    analysisId: S.String,
+    analysisType: PopulateIntermediateTableAnalysisType,
+    kmsKeyArn: S.optional(S.String),
+    parameters: S.optional(ParameterMap),
+    inheritedConstraints: IntermediateTableInheritedConstraints,
+    expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "IntermediateTableActiveVersion",
+}) as any as S.Schema<IntermediateTableActiveVersion>;
+export type IntermediateTableAnalysisRuleType = "CUSTOM" | (string & {});
+export const IntermediateTableAnalysisRuleType = S.String;
+
+export type IntermediateTableAnalysisRuleTypeList =
+  IntermediateTableAnalysisRuleType[];
+export const IntermediateTableAnalysisRuleTypeList = /*@__PURE__*/ S.Array(
+  IntermediateTableAnalysisRuleType,
+);
+export interface IntermediateTableSchema {
+  columns: Column[];
+}
+export const IntermediateTableSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ columns: ColumnList }),
+).annotate({
+  identifier: "IntermediateTableSchema",
+}) as any as S.Schema<IntermediateTableSchema>;
+export interface IntermediateTable {
+  id: string;
+  arn: string;
+  name: string;
+  description?: string;
+  membershipArn: string;
+  membershipId: string;
+  collaborationArn: string;
+  collaborationId: string;
+  childResources?: ChildResource[];
+  createTime: Date;
+  updateTime: Date;
+  status: IntermediateTableStatus;
+  statusReason?: string;
+  kmsKeyArn?: string;
+  populationAnalysisConfiguration: PopulationAnalysisConfiguration;
+  retentionInDays?: number;
+  tableDependencies?: IntermediateTableDependency[];
+  intermediateTableVersion?: IntermediateTableActiveVersion;
+  analysisRuleTypes?: IntermediateTableAnalysisRuleType[];
+  schema?: IntermediateTableSchema;
+}
+export const IntermediateTable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    membershipArn: S.String,
+    membershipId: S.String,
+    collaborationArn: S.String,
+    collaborationId: S.String,
+    childResources: S.optional(ChildResourceList),
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    status: IntermediateTableStatus,
+    statusReason: S.optional(S.String),
+    kmsKeyArn: S.optional(S.String),
+    populationAnalysisConfiguration: PopulationAnalysisConfiguration,
+    retentionInDays: S.optional(S.Number),
+    tableDependencies: S.optional(DependencyList),
+    intermediateTableVersion: S.optional(IntermediateTableActiveVersion),
+    analysisRuleTypes: S.optional(IntermediateTableAnalysisRuleTypeList),
+    schema: S.optional(IntermediateTableSchema),
+  }),
+).annotate({
+  identifier: "IntermediateTable",
+}) as any as S.Schema<IntermediateTable>;
+export interface CreateIntermediateTableOutput {
+  intermediateTable: IntermediateTable;
+}
+export const CreateIntermediateTableOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ intermediateTable: IntermediateTable }),
+).annotate({
+  identifier: "CreateIntermediateTableOutput",
+}) as any as S.Schema<CreateIntermediateTableOutput>;
+export type IntermediateTableIdentifier = string;
+export interface IntermediateTableAnalysisRuleCustom {
+  allowedAnalyses?: string[];
+  additionalAnalyses?: AdditionalAnalyses;
+  allowedAdditionalAnalyses?: string[];
+  allowedAnalysisProviders?: string[];
+  allowedResultReceivers?: string[];
+  differentialPrivacy?: DifferentialPrivacyConfiguration;
+  disallowedOutputColumns?: string[];
+  aggregationThresholds?: AggregationThreshold[];
+  comparisonControls?: ComparisonControls;
+}
+export const IntermediateTableAnalysisRuleCustom = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedAnalyses: S.optional(AllowedAnalysesList),
+    additionalAnalyses: S.optional(AdditionalAnalyses),
+    allowedAdditionalAnalyses: S.optional(AllowedAdditionalAnalyses),
+    allowedAnalysisProviders: S.optional(AllowedAnalysisProviderList),
+    allowedResultReceivers: S.optional(AllowedResultReceivers),
+    differentialPrivacy: S.optional(DifferentialPrivacyConfiguration),
+    disallowedOutputColumns: S.optional(AnalysisRuleColumnList),
+    aggregationThresholds: S.optional(AggregationThresholdList),
+    comparisonControls: S.optional(ComparisonControls),
+  }),
+).annotate({
+  identifier: "IntermediateTableAnalysisRuleCustom",
+}) as any as S.Schema<IntermediateTableAnalysisRuleCustom>;
+export type IntermediateTableAnalysisRulePolicyV1 = {
+  custom: IntermediateTableAnalysisRuleCustom;
+};
+export const IntermediateTableAnalysisRulePolicyV1 = /*@__PURE__*/ S.Union([
+  S.Struct({ custom: IntermediateTableAnalysisRuleCustom }),
+]);
+export type IntermediateTableAnalysisRulePolicy = {
+  v1: IntermediateTableAnalysisRulePolicyV1;
+};
+export const IntermediateTableAnalysisRulePolicy = /*@__PURE__*/ S.Union([
+  S.Struct({ v1: IntermediateTableAnalysisRulePolicyV1 }),
+]);
+export interface CreateIntermediateTableAnalysisRuleInput {
+  membershipIdentifier: string;
+  intermediateTableIdentifier: string;
+  analysisRuleType: IntermediateTableAnalysisRuleType;
+  analysisRulePolicy: IntermediateTableAnalysisRulePolicy;
+}
+export const CreateIntermediateTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+      intermediateTableIdentifier: S.String.pipe(
+        T.HttpLabel("intermediateTableIdentifier"),
+      ),
+      analysisRuleType: IntermediateTableAnalysisRuleType,
+      analysisRulePolicy: IntermediateTableAnalysisRulePolicy,
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "CreateIntermediateTableAnalysisRuleInput",
+}) as any as S.Schema<CreateIntermediateTableAnalysisRuleInput>;
+export interface IntermediateTableAnalysisRule {
+  intermediateTableIdentifier: string;
+  intermediateTableArn: string;
+  analysisRulePolicy: IntermediateTableAnalysisRulePolicy;
+  analysisRuleType: IntermediateTableAnalysisRuleType;
+  createTime: Date;
+  updateTime: Date;
+}
+export const IntermediateTableAnalysisRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    intermediateTableIdentifier: S.String,
+    intermediateTableArn: S.String,
+    analysisRulePolicy: IntermediateTableAnalysisRulePolicy,
+    analysisRuleType: IntermediateTableAnalysisRuleType,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "IntermediateTableAnalysisRule",
+}) as any as S.Schema<IntermediateTableAnalysisRule>;
+export interface CreateIntermediateTableAnalysisRuleOutput {
+  analysisRule: IntermediateTableAnalysisRule;
+}
+export const CreateIntermediateTableAnalysisRuleOutput =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({ analysisRule: IntermediateTableAnalysisRule }),
+  ).annotate({
+    identifier: "CreateIntermediateTableAnalysisRuleOutput",
+  }) as any as S.Schema<CreateIntermediateTableAnalysisRuleOutput>;
 export type MembershipQueryLogStatus = "ENABLED" | "DISABLED" | (string & {});
-export const MembershipQueryLogStatus = /*@__PURE__*/ S.String;
+export const MembershipQueryLogStatus = S.String;
 
 export type MembershipJobLogStatus = "ENABLED" | "DISABLED" | (string & {});
-export const MembershipJobLogStatus = /*@__PURE__*/ S.String;
+export const MembershipJobLogStatus = S.String;
 
 export type ResultFormat = "CSV" | "PARQUET" | (string & {});
-export const ResultFormat = /*@__PURE__*/ S.String;
+export const ResultFormat = S.String;
 
 export type KeyPrefix = string;
 export interface ProtectedQueryS3OutputConfiguration {
@@ -2701,13 +3313,13 @@ export type PrivacyBudgetTemplateAutoRefresh =
   | "CALENDAR_MONTH"
   | "NONE"
   | (string & {});
-export const PrivacyBudgetTemplateAutoRefresh = /*@__PURE__*/ S.String;
+export const PrivacyBudgetTemplateAutoRefresh = S.String;
 
 export type PrivacyBudgetType =
   | "DIFFERENTIAL_PRIVACY"
   | "ACCESS_BUDGET"
   | (string & {});
-export const PrivacyBudgetType = /*@__PURE__*/ S.String;
+export const PrivacyBudgetType = S.String;
 
 export type Epsilon = number;
 export type UsersNoisePerQuery = number;
@@ -2727,11 +3339,11 @@ export type AccessBudgetType =
   | "CALENDAR_WEEK"
   | "LIFETIME"
   | (string & {});
-export const AccessBudgetType = /*@__PURE__*/ S.String;
+export const AccessBudgetType = S.String;
 
 export type Budget = number;
 export type AutoRefreshMode = "ENABLED" | "DISABLED" | (string & {});
-export const AutoRefreshMode = /*@__PURE__*/ S.String;
+export const AutoRefreshMode = S.String;
 
 export interface BudgetParameter {
   type: AccessBudgetType;
@@ -3170,6 +3782,74 @@ export const DeleteIdNamespaceAssociationOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteIdNamespaceAssociationOutput",
 }) as any as S.Schema<DeleteIdNamespaceAssociationOutput>;
+export interface DeleteIntermediateTableInput {
+  membershipIdentifier: string;
+  intermediateTableIdentifier: string;
+}
+export const DeleteIntermediateTableInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    intermediateTableIdentifier: S.String.pipe(
+      T.HttpLabel("intermediateTableIdentifier"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteIntermediateTableInput",
+}) as any as S.Schema<DeleteIntermediateTableInput>;
+export interface DeleteIntermediateTableOutput {}
+export const DeleteIntermediateTableOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteIntermediateTableOutput",
+}) as any as S.Schema<DeleteIntermediateTableOutput>;
+export interface DeleteIntermediateTableAnalysisRuleInput {
+  membershipIdentifier: string;
+  intermediateTableIdentifier: string;
+  analysisRuleType: IntermediateTableAnalysisRuleType;
+}
+export const DeleteIntermediateTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+      intermediateTableIdentifier: S.String.pipe(
+        T.HttpLabel("intermediateTableIdentifier"),
+      ),
+      analysisRuleType: IntermediateTableAnalysisRuleType.pipe(
+        T.HttpLabel("analysisRuleType"),
+      ),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule/{analysisRuleType}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "DeleteIntermediateTableAnalysisRuleInput",
+}) as any as S.Schema<DeleteIntermediateTableAnalysisRuleInput>;
+export interface DeleteIntermediateTableAnalysisRuleOutput {}
+export const DeleteIntermediateTableAnalysisRuleOutput =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteIntermediateTableAnalysisRuleOutput",
+  }) as any as S.Schema<DeleteIntermediateTableAnalysisRuleOutput>;
 export interface DeleteMemberInput {
   collaborationIdentifier: string;
   accountId: string;
@@ -3259,6 +3939,143 @@ export const DeletePrivacyBudgetTemplateOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeletePrivacyBudgetTemplateOutput",
 }) as any as S.Schema<DeletePrivacyBudgetTemplateOutput>;
+export interface DisallowIntermediateTableInput {
+  membershipIdentifier: string;
+  intermediateTableName: string;
+  includeDescendants?: boolean;
+}
+export const DisallowIntermediateTableInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    intermediateTableName: S.String,
+    includeDescendants: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memberships/{membershipIdentifier}/disallowIntermediateTable",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisallowIntermediateTableInput",
+}) as any as S.Schema<DisallowIntermediateTableInput>;
+export interface DisallowIntermediateTableOutput {}
+export const DisallowIntermediateTableOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisallowIntermediateTableOutput",
+}) as any as S.Schema<DisallowIntermediateTableOutput>;
+export type AnalysisLogExportIdentifier = string;
+export interface GetAnalysisLogExportInput {
+  membershipIdentifier: string;
+  analysisLogExportIdentifier: string;
+}
+export const GetAnalysisLogExportInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    analysisLogExportIdentifier: S.String.pipe(
+      T.HttpLabel("analysisLogExportIdentifier"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memberships/{membershipIdentifier}/analysislogexports/{analysisLogExportIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAnalysisLogExportInput",
+}) as any as S.Schema<GetAnalysisLogExportInput>;
+export type LogExportAnalysisType = "PROTECTED_QUERY" | (string & {});
+export const LogExportAnalysisType = S.String;
+
+export type AnalysisLogExportStatus =
+  | "IN_PROGRESS"
+  | "SUCCESS"
+  | "FAILED"
+  | (string & {});
+export const AnalysisLogExportStatus = S.String;
+
+export interface AnalysisLogExportS3OutputConfiguration {
+  bucket: string;
+  keyPrefix?: string;
+}
+export const AnalysisLogExportS3OutputConfiguration = /*@__PURE__*/ S.suspend(
+  () => S.Struct({ bucket: S.String, keyPrefix: S.optional(S.String) }),
+).annotate({
+  identifier: "AnalysisLogExportS3OutputConfiguration",
+}) as any as S.Schema<AnalysisLogExportS3OutputConfiguration>;
+export interface AnalysisLogExportOutputConfiguration {
+  s3: AnalysisLogExportS3OutputConfiguration;
+}
+export const AnalysisLogExportOutputConfiguration = /*@__PURE__*/ S.suspend(
+  () => S.Struct({ s3: AnalysisLogExportS3OutputConfiguration }),
+).annotate({
+  identifier: "AnalysisLogExportOutputConfiguration",
+}) as any as S.Schema<AnalysisLogExportOutputConfiguration>;
+export interface AnalysisLogExportResultConfiguration {
+  outputConfiguration: AnalysisLogExportOutputConfiguration;
+}
+export const AnalysisLogExportResultConfiguration = /*@__PURE__*/ S.suspend(
+  () => S.Struct({ outputConfiguration: AnalysisLogExportOutputConfiguration }),
+).annotate({
+  identifier: "AnalysisLogExportResultConfiguration",
+}) as any as S.Schema<AnalysisLogExportResultConfiguration>;
+export interface AnalysisLogExportError {
+  code: string;
+  message: string;
+}
+export const AnalysisLogExportError = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ code: S.String, message: S.String }),
+).annotate({
+  identifier: "AnalysisLogExportError",
+}) as any as S.Schema<AnalysisLogExportError>;
+export interface AnalysisLogExport {
+  analysisLogExportId: string;
+  analysisId: string;
+  analysisType: LogExportAnalysisType;
+  membershipId: string;
+  status: AnalysisLogExportStatus;
+  resultConfiguration: AnalysisLogExportResultConfiguration;
+  createTime: Date;
+  updateTime: Date;
+  error?: AnalysisLogExportError;
+}
+export const AnalysisLogExport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    analysisLogExportId: S.String,
+    analysisId: S.String,
+    analysisType: LogExportAnalysisType,
+    membershipId: S.String,
+    status: AnalysisLogExportStatus,
+    resultConfiguration: AnalysisLogExportResultConfiguration,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    error: S.optional(AnalysisLogExportError),
+  }),
+).annotate({
+  identifier: "AnalysisLogExport",
+}) as any as S.Schema<AnalysisLogExport>;
+export interface GetAnalysisLogExportOutput {
+  analysisLogExport: AnalysisLogExport;
+}
+export const GetAnalysisLogExportOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ analysisLogExport: AnalysisLogExport }),
+).annotate({
+  identifier: "GetAnalysisLogExportOutput",
+}) as any as S.Schema<GetAnalysisLogExportOutput>;
 export interface GetAnalysisTemplateInput {
   membershipIdentifier: string;
   analysisTemplateIdentifier: string;
@@ -3856,6 +4673,79 @@ export const GetIdNamespaceAssociationOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetIdNamespaceAssociationOutput",
 }) as any as S.Schema<GetIdNamespaceAssociationOutput>;
+export interface GetIntermediateTableInput {
+  intermediateTableIdentifier: string;
+  membershipIdentifier: string;
+}
+export const GetIntermediateTableInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    intermediateTableIdentifier: S.String.pipe(
+      T.HttpLabel("intermediateTableIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetIntermediateTableInput",
+}) as any as S.Schema<GetIntermediateTableInput>;
+export interface GetIntermediateTableOutput {
+  intermediateTable: IntermediateTable;
+}
+export const GetIntermediateTableOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ intermediateTable: IntermediateTable }),
+).annotate({
+  identifier: "GetIntermediateTableOutput",
+}) as any as S.Schema<GetIntermediateTableOutput>;
+export interface GetIntermediateTableAnalysisRuleInput {
+  membershipIdentifier: string;
+  intermediateTableIdentifier: string;
+  analysisRuleType: IntermediateTableAnalysisRuleType;
+}
+export const GetIntermediateTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+      intermediateTableIdentifier: S.String.pipe(
+        T.HttpLabel("intermediateTableIdentifier"),
+      ),
+      analysisRuleType: IntermediateTableAnalysisRuleType.pipe(
+        T.HttpLabel("analysisRuleType"),
+      ),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule/{analysisRuleType}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "GetIntermediateTableAnalysisRuleInput",
+}) as any as S.Schema<GetIntermediateTableAnalysisRuleInput>;
+export interface GetIntermediateTableAnalysisRuleOutput {
+  analysisRule: IntermediateTableAnalysisRule;
+}
+export const GetIntermediateTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(
+  () => S.Struct({ analysisRule: IntermediateTableAnalysisRule }),
+).annotate({
+  identifier: "GetIntermediateTableAnalysisRuleOutput",
+}) as any as S.Schema<GetIntermediateTableAnalysisRuleOutput>;
 export interface GetMembershipInput {
   membershipIdentifier: string;
 }
@@ -3971,7 +4861,7 @@ export type ProtectedJobStatus =
   | "FAILED"
   | "SUCCESS"
   | (string & {});
-export const ProtectedJobStatus = /*@__PURE__*/ S.String;
+export const ProtectedJobStatus = S.String;
 
 export interface ProtectedJobS3OutputConfigurationOutput {
   bucket: string;
@@ -4070,7 +4960,7 @@ export const ProtectedJobError = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProtectedJobError",
 }) as any as S.Schema<ProtectedJobError>;
 export type ProtectedJobWorkerComputeType = "CR.1X" | "CR.4X" | (string & {});
-export const ProtectedJobWorkerComputeType = /*@__PURE__*/ S.String;
+export const ProtectedJobWorkerComputeType = S.String;
 
 export type SparkPropertyKey = string;
 export type SparkPropertyValue = string;
@@ -4171,11 +5061,6 @@ export const GetProtectedQueryInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetProtectedQueryInput",
 }) as any as S.Schema<GetProtectedQueryInput>;
-export type ParameterMap = { [key: string]: string | undefined };
-export const ParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface ProtectedQuerySQLParameters {
   queryString?: string;
   analysisTemplateArn?: string;
@@ -4222,26 +5107,46 @@ export const ProtectedQueryDistributeOutputConfiguration =
   ).annotate({
     identifier: "ProtectedQueryDistributeOutputConfiguration",
   }) as any as S.Schema<ProtectedQueryDistributeOutputConfiguration>;
+export interface IntermediateTableOutputConfiguration {
+  id: string;
+  arn: string;
+  name: string;
+}
+export const IntermediateTableOutputConfiguration = /*@__PURE__*/ S.suspend(
+  () => S.Struct({ id: S.String, arn: S.String, name: S.String }),
+).annotate({
+  identifier: "IntermediateTableOutputConfiguration",
+}) as any as S.Schema<IntermediateTableOutputConfiguration>;
 export type ProtectedQueryOutputConfiguration =
   | {
       s3: ProtectedQueryS3OutputConfiguration;
       member?: never;
       distribute?: never;
+      intermediateTable?: never;
     }
   | {
       s3?: never;
       member: ProtectedQueryMemberOutputConfiguration;
       distribute?: never;
+      intermediateTable?: never;
     }
   | {
       s3?: never;
       member?: never;
       distribute: ProtectedQueryDistributeOutputConfiguration;
+      intermediateTable?: never;
+    }
+  | {
+      s3?: never;
+      member?: never;
+      distribute?: never;
+      intermediateTable: IntermediateTableOutputConfiguration;
     };
 export const ProtectedQueryOutputConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ s3: ProtectedQueryS3OutputConfiguration }),
   S.Struct({ member: ProtectedQueryMemberOutputConfiguration }),
   S.Struct({ distribute: ProtectedQueryDistributeOutputConfiguration }),
+  S.Struct({ intermediateTable: IntermediateTableOutputConfiguration }),
 ]);
 export interface ProtectedQueryResultConfiguration {
   outputConfiguration: ProtectedQueryOutputConfiguration;
@@ -4344,7 +5249,7 @@ export type DifferentialPrivacyAggregationType =
   | "SUM"
   | "STDDEV"
   | (string & {});
-export const DifferentialPrivacyAggregationType = /*@__PURE__*/ S.String;
+export const DifferentialPrivacyAggregationType = S.String;
 
 export type DifferentialPrivacyAggregationExpression = string;
 export interface DifferentialPrivacySensitivityParameters {
@@ -4380,8 +5285,8 @@ export const DifferentialPrivacyParameters = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DifferentialPrivacyParameters",
 }) as any as S.Schema<DifferentialPrivacyParameters>;
-export type WorkerComputeType = "CR.1X" | "CR.4X" | (string & {});
-export const WorkerComputeType = /*@__PURE__*/ S.String;
+export type WorkerComputeType = "CR.1X" | "CR.4X" | "CR.8X" | (string & {});
+export const WorkerComputeType = S.String;
 
 export interface WorkerComputeConfiguration {
   type?: WorkerComputeType;
@@ -4511,6 +5416,72 @@ export const GetSchemaAnalysisRuleOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSchemaAnalysisRuleOutput>;
 export type PaginationToken = string;
 export type MaxResults = number;
+export interface ListAnalysisLogExportsInput {
+  membershipIdentifier: string;
+  analysisIdentifier?: string;
+  status?: AnalysisLogExportStatus;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListAnalysisLogExportsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    analysisIdentifier: S.optional(S.String).pipe(
+      T.HttpQuery("analysisIdentifier"),
+    ),
+    status: S.optional(AnalysisLogExportStatus).pipe(T.HttpQuery("status")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memberships/{membershipIdentifier}/analysislogexports",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAnalysisLogExportsInput",
+}) as any as S.Schema<ListAnalysisLogExportsInput>;
+export interface AnalysisLogExportSummary {
+  analysisLogExportId: string;
+  analysisId: string;
+  analysisType: LogExportAnalysisType;
+  status: AnalysisLogExportStatus;
+  createTime: Date;
+}
+export const AnalysisLogExportSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    analysisLogExportId: S.String,
+    analysisId: S.String,
+    analysisType: LogExportAnalysisType,
+    status: AnalysisLogExportStatus,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "AnalysisLogExportSummary",
+}) as any as S.Schema<AnalysisLogExportSummary>;
+export type AnalysisLogExportSummaryList = AnalysisLogExportSummary[];
+export const AnalysisLogExportSummaryList = /*@__PURE__*/ S.Array(
+  AnalysisLogExportSummary,
+);
+export interface ListAnalysisLogExportsOutput {
+  nextToken?: string;
+  analysisLogExports: AnalysisLogExportSummary[];
+}
+export const ListAnalysisLogExportsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    analysisLogExports: AnalysisLogExportSummaryList,
+  }),
+).annotate({
+  identifier: "ListAnalysisLogExportsOutput",
+}) as any as S.Schema<ListAnalysisLogExportsOutput>;
 export interface ListAnalysisTemplatesInput {
   membershipIdentifier: string;
   nextToken?: string;
@@ -5556,6 +6527,161 @@ export const ListIdNamespaceAssociationsOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListIdNamespaceAssociationsOutput",
 }) as any as S.Schema<ListIdNamespaceAssociationsOutput>;
+export interface ListIntermediateTablesInput {
+  membershipIdentifier: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListIntermediateTablesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memberships/{membershipIdentifier}/intermediateTables",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListIntermediateTablesInput",
+}) as any as S.Schema<ListIntermediateTablesInput>;
+export interface IntermediateTableSummary {
+  id: string;
+  arn: string;
+  name: string;
+  description?: string;
+  membershipArn: string;
+  membershipId: string;
+  collaborationArn: string;
+  collaborationId: string;
+  createTime: Date;
+  updateTime: Date;
+  status: IntermediateTableStatus;
+  retentionInDays?: number;
+  analysisRuleTypes?: IntermediateTableAnalysisRuleType[];
+}
+export const IntermediateTableSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    membershipArn: S.String,
+    membershipId: S.String,
+    collaborationArn: S.String,
+    collaborationId: S.String,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    status: IntermediateTableStatus,
+    retentionInDays: S.optional(S.Number),
+    analysisRuleTypes: S.optional(IntermediateTableAnalysisRuleTypeList),
+  }),
+).annotate({
+  identifier: "IntermediateTableSummary",
+}) as any as S.Schema<IntermediateTableSummary>;
+export type IntermediateTableSummaryList = IntermediateTableSummary[];
+export const IntermediateTableSummaryList = /*@__PURE__*/ S.Array(
+  IntermediateTableSummary,
+);
+export interface ListIntermediateTablesOutput {
+  intermediateTableSummaries: IntermediateTableSummary[];
+  nextToken?: string;
+}
+export const ListIntermediateTablesOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    intermediateTableSummaries: IntermediateTableSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListIntermediateTablesOutput",
+}) as any as S.Schema<ListIntermediateTablesOutput>;
+export interface ListIntermediateTableVersionsInput {
+  membershipIdentifier: string;
+  intermediateTableIdentifier: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListIntermediateTableVersionsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    intermediateTableIdentifier: S.String.pipe(
+      T.HttpLabel("intermediateTableIdentifier"),
+    ),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListIntermediateTableVersionsInput",
+}) as any as S.Schema<ListIntermediateTableVersionsInput>;
+export type IntermediateTableVersionStatus =
+  | "POPULATE_STARTED"
+  | "POPULATE_SUCCESS"
+  | "POPULATE_FAILED"
+  | "RETENTION_PERIOD_EXPIRED"
+  | (string & {});
+export const IntermediateTableVersionStatus = S.String;
+
+export interface IntermediateTableVersionSummary {
+  versionId: string;
+  tableId: string;
+  createTime: Date;
+  analysisId: string;
+  status: IntermediateTableVersionStatus;
+  analysisType: PopulateIntermediateTableAnalysisType;
+  kmsKeyArn?: string;
+  expirationTime?: Date;
+}
+export const IntermediateTableVersionSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    versionId: S.String,
+    tableId: S.String,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    analysisId: S.String,
+    status: IntermediateTableVersionStatus,
+    analysisType: PopulateIntermediateTableAnalysisType,
+    kmsKeyArn: S.optional(S.String),
+    expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "IntermediateTableVersionSummary",
+}) as any as S.Schema<IntermediateTableVersionSummary>;
+export type IntermediateTableVersionSummaryList =
+  IntermediateTableVersionSummary[];
+export const IntermediateTableVersionSummaryList = /*@__PURE__*/ S.Array(
+  IntermediateTableVersionSummary,
+);
+export interface ListIntermediateTableVersionsOutput {
+  intermediateTableVersionSummaries: IntermediateTableVersionSummary[];
+  nextToken?: string;
+}
+export const ListIntermediateTableVersionsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    intermediateTableVersionSummaries: IntermediateTableVersionSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListIntermediateTableVersionsOutput",
+}) as any as S.Schema<ListIntermediateTableVersionsOutput>;
 export interface ListMembersInput {
   collaborationIdentifier: string;
   nextToken?: string;
@@ -5869,7 +6995,7 @@ export const ListProtectedJobsInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListProtectedJobsInput",
 }) as any as S.Schema<ListProtectedJobsInput>;
 export type ProtectedJobAnalysisType = "DIRECT_ANALYSIS" | (string & {});
-export const ProtectedJobAnalysisType = /*@__PURE__*/ S.String;
+export const ProtectedJobAnalysisType = S.String;
 
 export type ProtectedJobReceiverAccountIds = string[];
 export const ProtectedJobReceiverAccountIds = /*@__PURE__*/ S.Array(S.String);
@@ -6017,6 +7143,7 @@ export interface ProtectedQuerySummary {
   status: string;
   receiverConfigurations: ReceiverConfiguration[];
   queryComputePayerAccountId?: string;
+  intermediateTableConfiguration?: IntermediateTableOutputConfiguration;
 }
 export const ProtectedQuerySummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6027,6 +7154,9 @@ export const ProtectedQuerySummary = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     receiverConfigurations: ReceiverConfigurationsList,
     queryComputePayerAccountId: S.optional(S.String),
+    intermediateTableConfiguration: S.optional(
+      IntermediateTableOutputConfiguration,
+    ),
   }),
 ).annotate({
   identifier: "ProtectedQuerySummary",
@@ -6146,7 +7276,7 @@ export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export type JobType = "BATCH" | "INCREMENTAL" | "DELETE_ONLY" | (string & {});
-export const JobType = /*@__PURE__*/ S.String;
+export const JobType = S.String;
 
 export interface PopulateIdMappingTableInput {
   idMappingTableIdentifier: string;
@@ -6184,6 +7314,58 @@ export const PopulateIdMappingTableOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PopulateIdMappingTableOutput",
 }) as any as S.Schema<PopulateIdMappingTableOutput>;
+export type IntermediateTableComputeConfiguration = {
+  queryComputeConfiguration: WorkerComputeConfiguration;
+};
+export const IntermediateTableComputeConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ queryComputeConfiguration: WorkerComputeConfiguration }),
+]);
+export interface PopulateIntermediateTableInput {
+  intermediateTableIdentifier: string;
+  membershipIdentifier: string;
+  parameters?: { [key: string]: string | undefined };
+  computeConfiguration?: IntermediateTableComputeConfiguration;
+  analysisPayerAccountId?: string;
+}
+export const PopulateIntermediateTableInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    intermediateTableIdentifier: S.String.pipe(
+      T.HttpLabel("intermediateTableIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    parameters: S.optional(ParameterMap),
+    computeConfiguration: S.optional(IntermediateTableComputeConfiguration),
+    analysisPayerAccountId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/populate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PopulateIntermediateTableInput",
+}) as any as S.Schema<PopulateIntermediateTableInput>;
+export interface PopulateIntermediateTableOutput {
+  analysisId: string;
+  analysisType: PopulateIntermediateTableAnalysisType;
+  versionId: string;
+}
+export const PopulateIntermediateTableOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    analysisId: S.String,
+    analysisType: PopulateIntermediateTableAnalysisType,
+    versionId: S.String,
+  }),
+).annotate({
+  identifier: "PopulateIntermediateTableOutput",
+}) as any as S.Schema<PopulateIntermediateTableOutput>;
 export interface DifferentialPrivacyPreviewParametersInput {
   epsilon: number;
   usersNoisePerQuery: number;
@@ -6261,8 +7443,44 @@ export const PreviewPrivacyImpactOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PreviewPrivacyImpactOutput",
 }) as any as S.Schema<PreviewPrivacyImpactOutput>;
+export interface StartAnalysisLogExportInput {
+  membershipIdentifier: string;
+  analysisId: string;
+  analysisType: LogExportAnalysisType;
+  resultConfiguration: AnalysisLogExportResultConfiguration;
+}
+export const StartAnalysisLogExportInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    analysisId: S.String,
+    analysisType: LogExportAnalysisType,
+    resultConfiguration: AnalysisLogExportResultConfiguration,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memberships/{membershipIdentifier}/analysislogexports",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartAnalysisLogExportInput",
+}) as any as S.Schema<StartAnalysisLogExportInput>;
+export interface StartAnalysisLogExportOutput {
+  analysisLogExport: AnalysisLogExport;
+}
+export const StartAnalysisLogExportOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ analysisLogExport: AnalysisLogExport }),
+).annotate({
+  identifier: "StartAnalysisLogExportOutput",
+}) as any as S.Schema<StartAnalysisLogExportOutput>;
 export type ProtectedJobType = "PYSPARK" | (string & {});
-export const ProtectedJobType = /*@__PURE__*/ S.String;
+export const ProtectedJobType = S.String;
 
 export interface ProtectedJobMemberOutputConfigurationInput {
   accountId: string;
@@ -6502,7 +7720,7 @@ export type ChangeRequestAction =
   | "CANCEL"
   | "COMMIT"
   | (string & {});
-export const ChangeRequestAction = /*@__PURE__*/ S.String;
+export const ChangeRequestAction = S.String;
 
 export interface UpdateCollaborationChangeRequestInput {
   collaborationIdentifier: string;
@@ -6827,6 +8045,102 @@ export const UpdateIdNamespaceAssociationOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateIdNamespaceAssociationOutput",
 }) as any as S.Schema<UpdateIdNamespaceAssociationOutput>;
+export type IntermediateTableColumnTypeString = string;
+export interface IntermediateTableColumn {
+  name: string;
+  type: string;
+}
+export const IntermediateTableColumn = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ name: S.String, type: S.String }),
+).annotate({
+  identifier: "IntermediateTableColumn",
+}) as any as S.Schema<IntermediateTableColumn>;
+export type IntermediateTableColumnList = IntermediateTableColumn[];
+export const IntermediateTableColumnList = /*@__PURE__*/ S.Array(
+  IntermediateTableColumn,
+);
+export interface UpdateIntermediateTableInput {
+  intermediateTableIdentifier: string;
+  membershipIdentifier: string;
+  description?: string;
+  kmsKeyArn?: string;
+  columns?: IntermediateTableColumn[];
+}
+export const UpdateIntermediateTableInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    intermediateTableIdentifier: S.String.pipe(
+      T.HttpLabel("intermediateTableIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    description: S.optional(S.String),
+    kmsKeyArn: S.optional(S.String),
+    columns: S.optional(IntermediateTableColumnList),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateIntermediateTableInput",
+}) as any as S.Schema<UpdateIntermediateTableInput>;
+export interface UpdateIntermediateTableOutput {
+  intermediateTable: IntermediateTable;
+}
+export const UpdateIntermediateTableOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ intermediateTable: IntermediateTable }),
+).annotate({
+  identifier: "UpdateIntermediateTableOutput",
+}) as any as S.Schema<UpdateIntermediateTableOutput>;
+export interface UpdateIntermediateTableAnalysisRuleInput {
+  membershipIdentifier: string;
+  intermediateTableIdentifier: string;
+  analysisRuleType: IntermediateTableAnalysisRuleType;
+  analysisRulePolicy: IntermediateTableAnalysisRulePolicy;
+}
+export const UpdateIntermediateTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+      intermediateTableIdentifier: S.String.pipe(
+        T.HttpLabel("intermediateTableIdentifier"),
+      ),
+      analysisRuleType: IntermediateTableAnalysisRuleType.pipe(
+        T.HttpLabel("analysisRuleType"),
+      ),
+      analysisRulePolicy: IntermediateTableAnalysisRulePolicy,
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule/{analysisRuleType}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "UpdateIntermediateTableAnalysisRuleInput",
+}) as any as S.Schema<UpdateIntermediateTableAnalysisRuleInput>;
+export interface UpdateIntermediateTableAnalysisRuleOutput {
+  analysisRule: IntermediateTableAnalysisRule;
+}
+export const UpdateIntermediateTableAnalysisRuleOutput =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({ analysisRule: IntermediateTableAnalysisRule }),
+  ).annotate({
+    identifier: "UpdateIntermediateTableAnalysisRuleOutput",
+  }) as any as S.Schema<UpdateIntermediateTableAnalysisRuleOutput>;
 export interface UpdateMembershipPaymentConfiguration {
   queryCompute?: MembershipQueryComputePaymentConfig;
   machineLearning?: MembershipMLPaymentConfig;
@@ -6961,7 +8275,7 @@ export const UpdatePrivacyBudgetTemplateOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdatePrivacyBudgetTemplateOutput",
 }) as any as S.Schema<UpdatePrivacyBudgetTemplateOutput>;
 export type TargetProtectedJobStatus = "CANCELLED" | (string & {});
-export const TargetProtectedJobStatus = /*@__PURE__*/ S.String;
+export const TargetProtectedJobStatus = S.String;
 
 export interface UpdateProtectedJobInput {
   membershipIdentifier: string;
@@ -7477,6 +8791,74 @@ export const createIdNamespaceAssociation: API.OperationMethod<
   operationName: "CreateIdNamespaceAssociation",
 }));
 
+export type CreateIntermediateTableError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the table with results, use `PopulateIntermediateTable`.
+ */
+export const createIntermediateTable: API.OperationMethod<
+  CreateIntermediateTableInput,
+  CreateIntermediateTableOutput,
+  CreateIntermediateTableError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateIntermediateTableInput,
+  output: CreateIntermediateTableOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateIntermediateTable",
+}));
+
+export type CreateIntermediateTableAnalysisRuleError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an analysis rule for an intermediate table. Only the CUSTOM analysis rule type is supported. Only the intermediate table owner can call this operation.
+ */
+export const createIntermediateTableAnalysisRule: API.OperationMethod<
+  CreateIntermediateTableAnalysisRuleInput,
+  CreateIntermediateTableAnalysisRuleOutput,
+  CreateIntermediateTableAnalysisRuleError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateIntermediateTableAnalysisRuleInput,
+  output: CreateIntermediateTableAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateIntermediateTableAnalysisRule",
+}));
+
 export type CreateMembershipError =
   | AccessDeniedException
   | ConflictException
@@ -7821,6 +9203,70 @@ export const deleteIdNamespaceAssociation: API.OperationMethod<
   operationName: "DeleteIdNamespaceAssociation",
 }));
 
+export type DeleteIntermediateTableError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes an intermediate table. The delete is idempotent. Only the intermediate table owner can call this operation.
+ */
+export const deleteIntermediateTable: API.OperationMethod<
+  DeleteIntermediateTableInput,
+  DeleteIntermediateTableOutput,
+  DeleteIntermediateTableError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteIntermediateTableInput,
+  output: DeleteIntermediateTableOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteIntermediateTable",
+}));
+
+export type DeleteIntermediateTableAnalysisRuleError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes an analysis rule from an intermediate table. After the analysis rule is deleted, the intermediate table becomes unqueryable until a new analysis rule is attached. Only the intermediate table owner can call this operation.
+ */
+export const deleteIntermediateTableAnalysisRule: API.OperationMethod<
+  DeleteIntermediateTableAnalysisRuleInput,
+  DeleteIntermediateTableAnalysisRuleOutput,
+  DeleteIntermediateTableAnalysisRuleError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteIntermediateTableAnalysisRuleInput,
+  output: DeleteIntermediateTableAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteIntermediateTableAnalysisRule",
+}));
+
 export type DeleteMemberError =
   | AccessDeniedException
   | ConflictException
@@ -7913,6 +9359,70 @@ export const deletePrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrivacyBudgetTemplate",
+}));
+
+export type DisallowIntermediateTableError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Marks an intermediate table as invalid when it references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, the operation also marks all descendant intermediate tables as invalid.
+ */
+export const disallowIntermediateTable: API.OperationMethod<
+  DisallowIntermediateTableInput,
+  DisallowIntermediateTableOutput,
+  DisallowIntermediateTableError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DisallowIntermediateTableInput,
+  output: DisallowIntermediateTableOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DisallowIntermediateTable",
+}));
+
+export type GetAnalysisLogExportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns information about an analysis log export, including its current status and, if the export failed, the reason for the failure.
+ *
+ * Poll this operation until the `status` is `SUCCESS` or `FAILED`. An export can't be canceled after it starts.
+ */
+export const getAnalysisLogExport: API.OperationMethod<
+  GetAnalysisLogExportInput,
+  GetAnalysisLogExportOutput,
+  GetAnalysisLogExportError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAnalysisLogExportInput,
+  output: GetAnalysisLogExportOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAnalysisLogExport",
 }));
 
 export type GetAnalysisTemplateError =
@@ -8333,6 +9843,66 @@ export const getIdNamespaceAssociation: API.OperationMethod<
   operationName: "GetIdNamespaceAssociation",
 }));
 
+export type GetIntermediateTableError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves an intermediate table. Returns the full details of the intermediate table, including schema, table dependencies, inherited constraints, child resources, and status. Only the intermediate table owner can call this operation.
+ */
+export const getIntermediateTable: API.OperationMethod<
+  GetIntermediateTableInput,
+  GetIntermediateTableOutput,
+  GetIntermediateTableError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetIntermediateTableInput,
+  output: GetIntermediateTableOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetIntermediateTable",
+}));
+
+export type GetIntermediateTableAnalysisRuleError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves the analysis rule for an intermediate table.
+ */
+export const getIntermediateTableAnalysisRule: API.OperationMethod<
+  GetIntermediateTableAnalysisRuleInput,
+  GetIntermediateTableAnalysisRuleOutput,
+  GetIntermediateTableAnalysisRuleError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetIntermediateTableAnalysisRuleInput,
+  output: GetIntermediateTableAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetIntermediateTableAnalysisRule",
+}));
+
 export type GetMembershipError =
   | AccessDeniedException
   | InternalServerException
@@ -8512,6 +10082,43 @@ export const getSchemaAnalysisRule: API.OperationMethod<
   retry: Retry,
   operationName: "GetSchemaAnalysisRule",
 }));
+
+export type ListAnalysisLogExportsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists analysis log exports, sorted by the most recent export. Results are paginated. Use the `nextToken` parameter to retrieve additional results.
+ */
+export const listAnalysisLogExports: API.PaginatedOperationMethod<
+  ListAnalysisLogExportsInput,
+  ListAnalysisLogExportsOutput,
+  ListAnalysisLogExportsError,
+  Credentials | HttpClient.HttpClient,
+  AnalysisLogExportSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListAnalysisLogExportsInput,
+  output: ListAnalysisLogExportsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAnalysisLogExports",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "analysisLogExports",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
 
 export type ListAnalysisTemplatesError =
   | AccessDeniedException
@@ -8990,6 +10597,80 @@ export const listIdNamespaceAssociations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type ListIntermediateTablesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists intermediate tables owned by the caller in a membership. We recommend using pagination to ensure that the operation returns quickly and successfully.
+ */
+export const listIntermediateTables: API.PaginatedOperationMethod<
+  ListIntermediateTablesInput,
+  ListIntermediateTablesOutput,
+  ListIntermediateTablesError,
+  Credentials | HttpClient.HttpClient,
+  IntermediateTableSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListIntermediateTablesInput,
+  output: ListIntermediateTablesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListIntermediateTables",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "intermediateTableSummaries",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListIntermediateTableVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the version history of an intermediate table. Each call to `PopulateIntermediateTable` creates a new version. We recommend using pagination to ensure that the operation returns quickly and successfully.
+ */
+export const listIntermediateTableVersions: API.PaginatedOperationMethod<
+  ListIntermediateTableVersionsInput,
+  ListIntermediateTableVersionsOutput,
+  ListIntermediateTableVersionsError,
+  Credentials | HttpClient.HttpClient,
+  IntermediateTableVersionSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListIntermediateTableVersionsInput,
+  output: ListIntermediateTableVersionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListIntermediateTableVersions",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "intermediateTableVersionSummaries",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
 export type ListMembersError =
   | AccessDeniedException
   | InternalServerException
@@ -9302,6 +10983,40 @@ export const populateIdMappingTable: API.OperationMethod<
   operationName: "PopulateIdMappingTable",
 }));
 
+export type PopulateIntermediateTableError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use `GetProtectedQuery` with the returned analysis ID to track progress. Only the intermediate table owner can call this operation.
+ */
+export const populateIntermediateTable: API.OperationMethod<
+  PopulateIntermediateTableInput,
+  PopulateIntermediateTableOutput,
+  PopulateIntermediateTableError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: PopulateIntermediateTableInput,
+  output: PopulateIntermediateTableOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PopulateIntermediateTable",
+}));
+
 export type PreviewPrivacyImpactError =
   | AccessDeniedException
   | InternalServerException
@@ -9330,6 +11045,52 @@ export const previewPrivacyImpact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PreviewPrivacyImpact",
+}));
+
+export type StartAnalysisLogExportError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts an export of the Apache Spark logs for a protected query to an Amazon S3 bucket that you own. Use the exported logs to diagnose a query that failed or that ran more slowly than you expected.
+ *
+ * Clean Rooms exports a redacted copy of the Spark logs instead of the raw logs. Analyze the exported logs with the tooling of your choice, such as Spark History Server. For details about what the exported logs contain, see https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs-contents.html.
+ *
+ * The export runs asynchronously and returns with a `status` of `IN_PROGRESS`. Call `GetAnalysisLogExport` to poll for the final status.
+ *
+ * To use this operation, you must have the `CAN_EXPORT_QUERY_ANALYSIS_LOG` ability for your membership. You must also be the query runner or the query payer. Having the ability alone is not sufficient.
+ *
+ * The query must have reached a terminal state, and it must have reached the execution stage. A query that failed validation or that was canceled before it started produces no Spark logs.
+ *
+ * Log export isn't supported for queries that use differential privacy, and isn't supported for PySpark jobs.
+ *
+ * The destination bucket must be in the same Amazon Web Services Region as the collaboration. Cross-Region export isn't supported.
+ *
+ * For more information, see https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs.html.
+ */
+export const startAnalysisLogExport: API.OperationMethod<
+  StartAnalysisLogExportInput,
+  StartAnalysisLogExportOutput,
+  StartAnalysisLogExportError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: StartAnalysisLogExportInput,
+  output: StartAnalysisLogExportOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartAnalysisLogExport",
 }));
 
 export type StartProtectedJobError =
@@ -9599,6 +11360,7 @@ export type UpdateConfiguredTableAnalysisRuleError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | CommonErrors;
@@ -9618,6 +11380,7 @@ export const updateConfiguredTableAnalysisRule: API.OperationMethod<
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -9748,6 +11511,68 @@ export const updateIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdNamespaceAssociation",
+}));
+
+export type UpdateIntermediateTableError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates an intermediate table. You can update the description, KMS key ARN, and column types of existing columns. Only the intermediate table owner can call this operation.
+ */
+export const updateIntermediateTable: API.OperationMethod<
+  UpdateIntermediateTableInput,
+  UpdateIntermediateTableOutput,
+  UpdateIntermediateTableError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateIntermediateTableInput,
+  output: UpdateIntermediateTableOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateIntermediateTable",
+}));
+
+export type UpdateIntermediateTableAnalysisRuleError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the analysis rule policy for an intermediate table. Only the intermediate table owner can call this operation.
+ */
+export const updateIntermediateTableAnalysisRule: API.OperationMethod<
+  UpdateIntermediateTableAnalysisRuleInput,
+  UpdateIntermediateTableAnalysisRuleOutput,
+  UpdateIntermediateTableAnalysisRuleError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateIntermediateTableAnalysisRuleInput,
+  output: UpdateIntermediateTableAnalysisRuleOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateIntermediateTableAnalysisRule",
 }));
 
 export type UpdateMembershipError =

@@ -1,0 +1,19 @@
+{
+  "name": "@distilled.cloud/stack-distilled-monorepo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "pnpm exec alchemy deploy",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "alchemy": "catalog:alchemy",
+    "effect": "catalog:alchemy",
+    "@effect/platform-bun": "catalog:alchemy",
+    "@effect/platform-node": "catalog:alchemy"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "typescript": "catalog:"
+  }
+}

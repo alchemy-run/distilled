@@ -78,14 +78,13 @@ export const CreateRepositorySnapshotRequestDetector = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<CreateRepositorySnapshotRequestDetector>;
 
 export type MetadataValue = string | number | boolean;
-export const MetadataValue =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<MetadataValue>;
+export const MetadataValue = S.Unknown as any as S.Schema<MetadataValue>;
 
 /** User-defined metadata to store domain-specific information limited to 8 keys with scalar values. */
-export type Metadata = { [key: string]: MetadataValue | undefined };
+export type Metadata = { [key: string]: MetadataValue | null | undefined };
 export const Metadata = /*@__PURE__*/ S.Record(
   S.String,
-  MetadataValue,
+  S.NullOr(MetadataValue),
 ) as any as S.Schema<Metadata>;
 
 export interface ManifestFile {
@@ -100,11 +99,11 @@ export const ManifestFile = /*@__PURE__*/ S.suspend(() =>
 
 /** A notation of whether a dependency is requested directly by this manifest or is a dependency of another dependency. */
 export type DependencyRelationship = "direct" | "indirect";
-export const DependencyRelationship = /*@__PURE__*/ S.String;
+export const DependencyRelationship = S.String;
 
 /** A notation of whether the dependency is required for the primary build artifact (runtime) or is only used for development. Future versions of this specification may allow for more granular scopes. */
 export type DependencyScope = "runtime" | "development";
-export const DependencyScope = /*@__PURE__*/ S.String;
+export const DependencyScope = S.String;
 
 /** Array of package-url (PURLs) of direct child dependencies. */
 export type DependencyDependenciesList = Array<string>;
@@ -175,7 +174,7 @@ export interface CreateRepositorySnapshotRequest {
   /** The version of the repository snapshot submission. */
   version: number;
   job: CreateRepositorySnapshotRequestJob;
-  /** The commit SHA associated with this dependency snapshot. Maximum length: 40 characters. */
+  /** The commit SHA associated with this dependency snapshot. Maximum length: 64 characters. */
   sha: string;
   /** The repository branch that triggered this snapshot. */
   ref: string;
@@ -259,7 +258,7 @@ export const DiffRangeRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DiffRangeRequest>;
 
 export type DependencyGraphDiffItemChangeType = "added" | "removed";
-export const DependencyGraphDiffItemChangeType = /*@__PURE__*/ S.String;
+export const DependencyGraphDiffItemChangeType = S.String;
 
 export interface DependencyGraphDiffItemVulnerabilitiesItem {
   severity: string;
@@ -290,7 +289,7 @@ export type DependencyGraphDiffItemScope =
   | "unknown"
   | "runtime"
   | "development";
-export const DependencyGraphDiffItemScope = /*@__PURE__*/ S.String;
+export const DependencyGraphDiffItemScope = S.String;
 
 export interface DependencyGraphDiffItem {
   change_type: DependencyGraphDiffItemChangeType;
@@ -334,194 +333,6 @@ export const DiffRangeResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DiffRangeResponse",
 }) as any as S.Schema<DiffRangeResponse>;
-
-export interface ExportSbomRequest {
-  /** The account owner of the repository. The name is not case sensitive. */
-  owner: string;
-  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
-  repo: string;
-}
-export const ExportSbomRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    owner: S.String.pipe(T.Label()),
-    repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/dependency-graph/sbom",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ExportSbomRequest",
-}) as any as S.Schema<ExportSbomRequest>;
-
-/** The tools that were used to generate the SPDX document. */
-export type DependencyGraphSpdxSbomSbomCreationInfoCreatorsList = Array<string>;
-export const DependencyGraphSpdxSbomSbomCreationInfoCreatorsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<DependencyGraphSpdxSbomSbomCreationInfoCreatorsList>;
-
-export interface DependencyGraphSpdxSbomSbomCreationInfo {
-  /** The date and time the SPDX document was created. */
-  created: string;
-  /** The tools that were used to generate the SPDX document. */
-  creators: DependencyGraphSpdxSbomSbomCreationInfoCreatorsList;
-}
-export const DependencyGraphSpdxSbomSbomCreationInfo = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      created: S.String,
-      creators: DependencyGraphSpdxSbomSbomCreationInfoCreatorsList,
-    }),
-).annotate({
-  identifier: "DependencyGraphSpdxSbomSbomCreationInfo",
-}) as any as S.Schema<DependencyGraphSpdxSbomSbomCreationInfo>;
-
-export interface DependencyGraphSpdxSbomSbomPackagesItemExternalRefsItem {
-  /** The category of reference to an external resource this reference refers to. */
-  referenceCategory: string;
-  /** A locator for the particular external resource this reference refers to. */
-  referenceLocator: string;
-  /** The category of reference to an external resource this reference refers to. */
-  referenceType: string;
-}
-export const DependencyGraphSpdxSbomSbomPackagesItemExternalRefsItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      referenceCategory: S.String,
-      referenceLocator: S.String,
-      referenceType: S.String,
-    }),
-  ).annotate({
-    identifier: "DependencyGraphSpdxSbomSbomPackagesItemExternalRefsItem",
-  }) as any as S.Schema<DependencyGraphSpdxSbomSbomPackagesItemExternalRefsItem>;
-
-export type DependencyGraphSpdxSbomSbomPackagesItemExternalRefsList =
-  Array<DependencyGraphSpdxSbomSbomPackagesItemExternalRefsItem>;
-export const DependencyGraphSpdxSbomSbomPackagesItemExternalRefsList =
-  /*@__PURE__*/ S.Array(
-    DependencyGraphSpdxSbomSbomPackagesItemExternalRefsItem,
-  ) as any as S.Schema<DependencyGraphSpdxSbomSbomPackagesItemExternalRefsList>;
-
-export interface DependencyGraphSpdxSbomSbomPackagesItem {
-  /** A unique SPDX identifier for the package. */
-  SPDXID?: string;
-  /** The name of the package. */
-  name?: string;
-  /** The version of the package. If the package does not have an exact version specified, a version range is given. */
-  versionInfo?: string;
-  /** The location where the package can be downloaded, or NOASSERTION if this has not been determined. */
-  downloadLocation?: string;
-  /** Whether the package's file content has been subjected to analysis during the creation of the SPDX document. */
-  filesAnalyzed?: boolean;
-  /** The license of the package as determined while creating the SPDX document. */
-  licenseConcluded?: string;
-  /** The license of the package as declared by its author, or NOASSERTION if this information was not available when the SPDX document was created. */
-  licenseDeclared?: string;
-  /** The distribution source of this package, or NOASSERTION if this was not determined. */
-  supplier?: string;
-  /** The copyright holders of the package, and any dates present with those notices, if available. */
-  copyrightText?: string;
-  externalRefs?: DependencyGraphSpdxSbomSbomPackagesItemExternalRefsList;
-}
-export const DependencyGraphSpdxSbomSbomPackagesItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SPDXID: S.optional(S.String),
-      name: S.optional(S.String),
-      versionInfo: S.optional(S.String),
-      downloadLocation: S.optional(S.String),
-      filesAnalyzed: S.optional(S.Boolean),
-      licenseConcluded: S.optional(S.String),
-      licenseDeclared: S.optional(S.String),
-      supplier: S.optional(S.String),
-      copyrightText: S.optional(S.String),
-      externalRefs: S.optional(
-        DependencyGraphSpdxSbomSbomPackagesItemExternalRefsList,
-      ),
-    }),
-).annotate({
-  identifier: "DependencyGraphSpdxSbomSbomPackagesItem",
-}) as any as S.Schema<DependencyGraphSpdxSbomSbomPackagesItem>;
-
-export type DependencyGraphSpdxSbomSbomPackagesList =
-  Array<DependencyGraphSpdxSbomSbomPackagesItem>;
-export const DependencyGraphSpdxSbomSbomPackagesList = /*@__PURE__*/ S.Array(
-  DependencyGraphSpdxSbomSbomPackagesItem,
-) as any as S.Schema<DependencyGraphSpdxSbomSbomPackagesList>;
-
-export interface DependencyGraphSpdxSbomSbomRelationshipsItem {
-  /** The type of relationship between the two SPDX elements. */
-  relationshipType?: string;
-  /** The SPDX identifier of the package that is the source of the relationship. */
-  spdxElementId?: string;
-  /** The SPDX identifier of the package that is the target of the relationship. */
-  relatedSpdxElement?: string;
-}
-export const DependencyGraphSpdxSbomSbomRelationshipsItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      relationshipType: S.optional(S.String),
-      spdxElementId: S.optional(S.String),
-      relatedSpdxElement: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DependencyGraphSpdxSbomSbomRelationshipsItem",
-  }) as any as S.Schema<DependencyGraphSpdxSbomSbomRelationshipsItem>;
-
-export type DependencyGraphSpdxSbomSbomRelationshipsList =
-  Array<DependencyGraphSpdxSbomSbomRelationshipsItem>;
-export const DependencyGraphSpdxSbomSbomRelationshipsList =
-  /*@__PURE__*/ S.Array(
-    DependencyGraphSpdxSbomSbomRelationshipsItem,
-  ) as any as S.Schema<DependencyGraphSpdxSbomSbomRelationshipsList>;
-
-export interface DependencyGraphSpdxSbomSbom {
-  /** The SPDX identifier for the SPDX document. */
-  SPDXID: string;
-  /** The version of the SPDX specification that this document conforms to. */
-  spdxVersion: string;
-  /** An optional comment about the SPDX document. */
-  comment?: string;
-  creationInfo: DependencyGraphSpdxSbomSbomCreationInfo;
-  /** The name of the SPDX document. */
-  name: string;
-  /** The license under which the SPDX document is licensed. */
-  dataLicense: string;
-  /** The namespace for the SPDX document. */
-  documentNamespace: string;
-  packages: DependencyGraphSpdxSbomSbomPackagesList;
-  relationships?: DependencyGraphSpdxSbomSbomRelationshipsList;
-}
-export const DependencyGraphSpdxSbomSbom = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SPDXID: S.String,
-    spdxVersion: S.String,
-    comment: S.optional(S.String),
-    creationInfo: DependencyGraphSpdxSbomSbomCreationInfo,
-    name: S.String,
-    dataLicense: S.String,
-    documentNamespace: S.String,
-    packages: DependencyGraphSpdxSbomSbomPackagesList,
-    relationships: S.optional(DependencyGraphSpdxSbomSbomRelationshipsList),
-  }),
-).annotate({
-  identifier: "DependencyGraphSpdxSbomSbom",
-}) as any as S.Schema<DependencyGraphSpdxSbomSbom>;
-
-/** A schema for the SPDX JSON format returned by the Dependency Graph. */
-export interface DependencyGraphSpdxSbom {
-  sbom: DependencyGraphSpdxSbomSbom;
-}
-export const DependencyGraphSpdxSbom = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sbom: DependencyGraphSpdxSbomSbom,
-  }),
-).annotate({
-  identifier: "DependencyGraphSpdxSbom",
-}) as any as S.Schema<DependencyGraphSpdxSbom>;
 
 export interface FetchSbomReportRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -613,21 +424,6 @@ export const diffRange: API.OperationMethod<
   input: DiffRangeRequest,
   output: DiffRangeResponse,
   errors: [BadRequest, Forbidden, NotFound],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ExportSbomError = Forbidden | NotFound | GithubOpError;
-/** Export a software bill of materials (SBOM) for a repository. Exports the software bill of materials (SBOM) for a repository in SPDX JSON format. */
-export const exportSbom: API.OperationMethod<
-  ExportSbomRequest,
-  DependencyGraphSpdxSbom,
-  ExportSbomError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExportSbomRequest,
-  output: DependencyGraphSpdxSbom,
-  errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));

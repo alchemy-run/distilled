@@ -1,0 +1,621 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.payout_accounts#GetPayoutAccountRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the payout account to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payout_accounts#PayoutAccount": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "com.whop.payout_accounts#PayoutAccountAddress",
+          "traits": {
+            "smithy.api#documentation": "The physical address associated with this payout account",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The company's legal name",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_representative": {
+          "target": "com.whop.payout_accounts#PayoutAccountBusinessRepresentative",
+          "traits": {
+            "smithy.api#documentation": "The business representative for this payout account",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the representative",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the payout account.",
+            "smithy.api#required": {}
+          }
+        },
+        "latest_verification": {
+          "target": "com.whop.payout_accounts#PayoutAccountLatestVerification",
+          "traits": {
+            "smithy.api#documentation": "The latest verification for the connected account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The business representative's phone",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.payout_accounts#PayoutAccountCalculatedStatuses",
+          "traits": {
+            "smithy.api#documentation": "The granular calculated status of the payout account reflecting its current KYC and payout readiness state.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An object representing an account used for payouts."
+      }
+    },
+    "com.whop.payout_accounts#PayoutAccountAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 1 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 2 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The physical address associated with this payout account"
+      }
+    },
+    "com.whop.payout_accounts#PayoutAccountBusinessRepresentative": {
+      "type": "structure",
+      "members": {
+        "date_of_birth": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date of birth of the business representative in ISO 8601 format (YYYY-MM-DD).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The first name of the business representative.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last name of the business representative.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "middle_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The middle name of the business representative.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The business representative for this payout account"
+      }
+    },
+    "com.whop.payout_accounts#VerificationErrorCodes": {
+      "type": "enum",
+      "members": {
+        "ABANDONED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "abandoned"
+          }
+        },
+        "CONSENT_DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "consent_declined"
+          }
+        },
+        "COUNTRY_NOT_SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "country_not_supported"
+          }
+        },
+        "DEVICE_NOT_SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device_not_supported"
+          }
+        },
+        "DOCUMENT_EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document_expired"
+          }
+        },
+        "DOCUMENT_TYPE_NOT_SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document_type_not_supported"
+          }
+        },
+        "DOCUMENT_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document_unverified_other"
+          }
+        },
+        "EMAIL_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_unverified_other"
+          }
+        },
+        "EMAIL_VERIFICATION_DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_verification_declined"
+          }
+        },
+        "ID_NUMBER_INSUFFICIENT_DOCUMENT_DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_number_insufficient_document_data"
+          }
+        },
+        "ID_NUMBER_MISMATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_number_mismatch"
+          }
+        },
+        "ID_NUMBER_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_number_unverified_other"
+          }
+        },
+        "PHONE_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "phone_unverified_other"
+          }
+        },
+        "PHONE_VERIFICATION_DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "phone_verification_declined"
+          }
+        },
+        "SELFIE_DOCUMENT_MISSING_PHOTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selfie_document_missing_photo"
+          }
+        },
+        "SELFIE_FACE_MISMATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selfie_face_mismatch"
+          }
+        },
+        "SELFIE_MANIPULATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selfie_manipulated"
+          }
+        },
+        "SELFIE_UNVERIFIED_OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selfie_unverified_other"
+          }
+        },
+        "UNDER_SUPPORTED_AGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "under_supported_age"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An error code for a verification attempt."
+      }
+    },
+    "com.whop.payout_accounts#VerificationStatuses": {
+      "type": "enum",
+      "members": {
+        "REQUIRES_INPUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requires_input"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "VERIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verified"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started"
+          }
+        },
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "declined"
+          }
+        },
+        "RESUBMISSION_REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resubmission_requested"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "ABANDONED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "abandoned"
+          }
+        },
+        "REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "review"
+          }
+        },
+        "ACTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "action_required"
+          }
+        },
+        "MANUAL_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual_review"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A status for a verification."
+      }
+    },
+    "com.whop.payout_accounts#PayoutAccountLatestVerification": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The numeric id of the verification record.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_error_code": {
+          "target": "com.whop.payout_accounts#VerificationErrorCodes",
+          "traits": {
+            "smithy.api#documentation": "The most recent error code returned during verification. Null if no error has occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_error_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable explanation of the most recent verification error. Null if no error has occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.payout_accounts#VerificationStatuses",
+          "traits": {
+            "smithy.api#documentation": "The current status of this verification session.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The latest verification for the connected account."
+      }
+    },
+    "com.whop.payout_accounts#PayoutAccountCalculatedStatuses": {
+      "type": "enum",
+      "members": {
+        "CONNECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connected"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "ACTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "action_required"
+          }
+        },
+        "PENDING_VERIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_verification"
+          }
+        },
+        "VERIFICATION_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verification_failed"
+          }
+        },
+        "MANUAL_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual_review"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        },
+        "NOT_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_started"
+          }
+        },
+        "BLOCKED_BY_PARENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blocked_by_parent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The granular calculated statuses reflecting payout account KYC and payout readiness."
+      }
+    },
+    "com.whop.payout_accounts#GetPayoutAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payout_accounts#GetPayoutAccountRequest"
+      },
+      "output": {
+        "target": "com.whop.payout_accounts#PayoutAccount"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payout_accounts#BadRequest"
+        },
+        {
+          "target": "com.whop.payout_accounts#Forbidden"
+        },
+        {
+          "target": "com.whop.payout_accounts#NotFound"
+        },
+        {
+          "target": "com.whop.payout_accounts#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payout_accounts/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve payout account\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing payout account.\n\nRequired permissions:\n - `payout:account:read`"
+      }
+    },
+    "com.whop.payout_accounts#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.payout_accounts#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.payout_accounts#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.payout_accounts#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.payout_accounts#PayoutAccounts": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.payout_accounts#GetPayoutAccount"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

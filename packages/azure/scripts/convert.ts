@@ -3,7 +3,7 @@
  * convert — turn the Azure ARM Swagger 2.0 specs into Smithy 2.0 JSON models,
  * one merged model per Azure service.
  *
- * Input:  specs/azure-rest-api-specs/specification/<service>/resource-manager/
+ * Input:  specs/spec-mirror-azure/specs/specification/<service>/resource-manager/
  *         <Microsoft.Provider>[/<subService>]/stable/<version>/*.json
  * Output: .generated-specs/<service>.json
  *
@@ -42,11 +42,13 @@ import {
   convertOpenApiToSmithy,
   type SmithyModel,
 } from "@distilled.cloud/core/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dir, "..");
-const specsRoot = path.join(
+const specsRoot = resolveSpecPath(
   rootDir,
-  "specs/azure-rest-api-specs/specification",
+  "specs/spec-mirror-azure/specs/specification",
 );
 const outDir = path.join(rootDir, ".generated-specs");
 
@@ -730,7 +732,7 @@ function foldApiVersion(model: SmithyModel): void {
 // Main
 // ============================================================================
 
-function main() {
+async function main() {
   const started = Date.now();
   console.log("🛠️  azure specs → smithy");
   console.log("   Discovering Azure REST API specs...");
@@ -891,6 +893,7 @@ function main() {
   );
   console.log(`  Elapsed: ${((Date.now() - started) / 1000).toFixed(1)}s`);
   console.log(`  Output: ${outDir}`);
+  await finalizeConvert({ root: rootDir });
 }
 
 main();

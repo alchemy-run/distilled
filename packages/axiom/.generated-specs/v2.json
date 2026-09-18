@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.axiom.api#GetAnnotationsRequestDatasetsList": {
@@ -4176,6 +4177,87 @@
           "uri": "/v2/orgs",
           "code": 200
         }
+      }
+    },
+    "com.axiom.api#ProvisionOrgRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional display name for the organization. If omitted, a name is auto-generated and the owner can rename it later."
+          }
+        },
+        "edgeDeployment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional edge deployment (region) the organization is created in. If omitted, the environment's default region is used."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.axiom.api#ProvisionOrgResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "defaultEdgeDeployment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "claimUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL a human follows to claim ownership of the temporary org.",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full-permission API token the agent uses to create datasets, ingest, and query. Returned once and never retrievable again.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.axiom.api#ProvisionOrg": {
+      "type": "operation",
+      "input": {
+        "target": "com.axiom.api#ProvisionOrgRequest"
+      },
+      "output": {
+        "target": "com.axiom.api#ProvisionOrgResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/orgs/provision",
+          "code": 200
+        },
+        "smithy.api#documentation": "Provision a temporary organization for an agent\n\nPublicly provisions a temporary organization intended for automated agents. The organization is marked temporary with a TTL and is deleted automatically if it is not claimed before it expires. The response includes a claim URL that lets a human take ownership of the org. This endpoint is unauthenticated and strict rate limits apply."
       }
     },
     "com.axiom.api#GetOrgRequest": {
@@ -11968,6 +12050,9 @@
         },
         {
           "target": "com.axiom.api#CreateOrg"
+        },
+        {
+          "target": "com.axiom.api#ProvisionOrg"
         },
         {
           "target": "com.axiom.api#GetOrg"

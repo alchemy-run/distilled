@@ -184,7 +184,7 @@ export type BlueprintType = string;
 export type BlueprintTypes = string[];
 export const BlueprintTypes = /*@__PURE__*/ S.Array(S.String);
 export type DependencyType = "LambdaLayer" | (string & {});
-export const DependencyType = /*@__PURE__*/ S.String;
+export const DependencyType = S.String;
 
 export interface Dependency {
   Type?: DependencyType;
@@ -290,7 +290,7 @@ export const VpcConfigInput = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "VpcConfigInput" }) as any as S.Schema<VpcConfigInput>;
 export type ResourceToTag = "lambda-function" | (string & {});
-export const ResourceToTag = /*@__PURE__*/ S.String;
+export const ResourceToTag = S.String;
 
 export type ResourceList = ResourceToTag[];
 export const ResourceList = /*@__PURE__*/ S.Array(ResourceToTag);
@@ -298,10 +298,10 @@ export type ProvisionedResourceCleanupSetting =
   | "AUTOMATIC"
   | "OFF"
   | (string & {});
-export const ProvisionedResourceCleanupSetting = /*@__PURE__*/ S.String;
+export const ProvisionedResourceCleanupSetting = S.String;
 
 export type BrowserType = "CHROME" | "FIREFOX" | (string & {});
-export const BrowserType = /*@__PURE__*/ S.String;
+export const BrowserType = S.String;
 
 export interface BrowserConfig {
   BrowserType?: BrowserType;
@@ -312,12 +312,18 @@ export const BrowserConfig = /*@__PURE__*/ S.suspend(() =>
 export type BrowserConfigs = BrowserConfig[];
 export const BrowserConfigs = /*@__PURE__*/ S.Array(BrowserConfig);
 export type Location = string;
+export type KmsKeyArn = string;
 export interface AddReplicaLocationInput {
   Location: string;
   VpcConfig?: VpcConfigInput;
+  KmsKeyArn?: string;
 }
 export const AddReplicaLocationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Location: S.String, VpcConfig: S.optional(VpcConfigInput) }),
+  S.Struct({
+    Location: S.String,
+    VpcConfig: S.optional(VpcConfigInput),
+    KmsKeyArn: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "AddReplicaLocationInput",
 }) as any as S.Schema<AddReplicaLocationInput>;
@@ -333,9 +339,8 @@ export const TagMap = /*@__PURE__*/ S.Record(
   S.String.pipe(S.optional),
 );
 export type EncryptionMode = "SSE_S3" | "SSE_KMS" | (string & {});
-export const EncryptionMode = /*@__PURE__*/ S.String;
+export const EncryptionMode = S.String;
 
-export type KmsKeyArn = string;
 export interface S3EncryptionConfig {
   EncryptionMode?: EncryptionMode;
   KmsKeyArn?: string;
@@ -373,6 +378,7 @@ export interface CreateCanaryRequest {
   AddReplicaLocations?: AddReplicaLocationInput[];
   Tags?: { [key: string]: string | undefined };
   ArtifactConfig?: ArtifactConfigInput;
+  KmsKeyArn?: string;
 }
 export const CreateCanaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -392,6 +398,7 @@ export const CreateCanaryRequest = /*@__PURE__*/ S.suspend(() =>
     AddReplicaLocations: S.optional(AddReplicaLocations),
     Tags: S.optional(TagMap),
     ArtifactConfig: S.optional(ArtifactConfigInput),
+    KmsKeyArn: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/canary" }),
@@ -471,7 +478,7 @@ export type CanaryState =
   | "ERROR"
   | "DELETING"
   | (string & {});
-export const CanaryState = /*@__PURE__*/ S.String;
+export const CanaryState = S.String;
 
 export type CanaryStateReasonCode =
   | "INVALID_PERMISSIONS"
@@ -487,7 +494,7 @@ export type CanaryStateReasonCode =
   | "DELETE_FAILED"
   | "SYNC_DELETE_IN_PROGRESS"
   | (string & {});
-export const CanaryStateReasonCode = /*@__PURE__*/ S.String;
+export const CanaryStateReasonCode = S.String;
 
 export interface CanaryStatus {
   State?: CanaryState;
@@ -579,14 +586,14 @@ export const VisualReferencesOutput = /*@__PURE__*/ S.Array(
   VisualReferenceOutput,
 );
 export type LocationType = "Primary" | "Replica" | (string & {});
-export const LocationType = /*@__PURE__*/ S.String;
+export const LocationType = S.String;
 
 export type ReplicationState =
   | "InProgress"
   | "InSync"
   | "Inconsistent"
   | (string & {});
-export const ReplicationState = /*@__PURE__*/ S.String;
+export const ReplicationState = S.String;
 
 export interface ReplicationStatus {
   State?: ReplicationState;
@@ -679,6 +686,7 @@ export interface Canary {
   MultiLocationConfig?: MultiLocationConfig;
   Tags?: { [key: string]: string | undefined };
   ArtifactConfig?: ArtifactConfigOutput;
+  KmsKeyArn?: string;
   DryRunConfig?: DryRunConfigOutput;
 }
 export const Canary = /*@__PURE__*/ S.suspend(() =>
@@ -705,6 +713,7 @@ export const Canary = /*@__PURE__*/ S.suspend(() =>
     MultiLocationConfig: S.optional(MultiLocationConfig),
     Tags: S.optional(TagMap),
     ArtifactConfig: S.optional(ArtifactConfigOutput),
+    KmsKeyArn: S.optional(S.String),
     DryRunConfig: S.optional(DryRunConfigOutput),
   }),
 ).annotate({ identifier: "Canary" }) as any as S.Schema<Canary>;
@@ -886,20 +895,20 @@ export const DescribeCanariesLastRunRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeCanariesLastRunRequest>;
 export type RetryAttempt = number;
 export type CanaryRunState = "RUNNING" | "PASSED" | "FAILED" | (string & {});
-export const CanaryRunState = /*@__PURE__*/ S.String;
+export const CanaryRunState = S.String;
 
 export type CanaryRunStateReasonCode =
   | "CANARY_FAILURE"
   | "EXECUTION_FAILURE"
   | (string & {});
-export const CanaryRunStateReasonCode = /*@__PURE__*/ S.String;
+export const CanaryRunStateReasonCode = S.String;
 
 export type CanaryRunTestResult =
   | "PASSED"
   | "FAILED"
   | "UNKNOWN"
   | (string & {});
-export const CanaryRunTestResult = /*@__PURE__*/ S.String;
+export const CanaryRunTestResult = S.String;
 
 export interface CanaryRunStatus {
   State?: CanaryRunState;
@@ -1099,7 +1108,7 @@ export const GetCanaryResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCanaryResponse",
 }) as any as S.Schema<GetCanaryResponse>;
 export type RunType = "CANARY_RUN" | "DRY_RUN" | (string & {});
-export const RunType = /*@__PURE__*/ S.String;
+export const RunType = S.String;
 
 export interface GetCanaryRunsRequest {
   Name: string;
@@ -1508,6 +1517,7 @@ export interface UpdateCanaryRequest {
   BrowserConfigs?: BrowserConfig[];
   AddReplicaLocations?: AddReplicaLocationInput[];
   RemoveReplicaLocations?: string[];
+  KmsKeyArn?: string;
 }
 export const UpdateCanaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1529,6 +1539,7 @@ export const UpdateCanaryRequest = /*@__PURE__*/ S.suspend(() =>
     BrowserConfigs: S.optional(BrowserConfigs),
     AddReplicaLocations: S.optional(AddReplicaLocations),
     RemoveReplicaLocations: S.optional(RemoveReplicaLocations),
+    KmsKeyArn: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/canary/{Name}" }),

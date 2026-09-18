@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.huggingface.users#GetMcpToolsResponseBuiltInToolsList": {
@@ -2024,6 +2025,35 @@
       },
       "traits": {}
     },
+    "com.huggingface.users#UserOverviewResponseServiceAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgAvatarUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set when the user is a service account"
+      }
+    },
     "com.huggingface.users#UserOverviewResponseHardwareItemsItemSkuList": {
       "type": "list",
       "member": {
@@ -2156,6 +2186,12 @@
         "primaryOrgAvatarUrl": {
           "target": "smithy.api#String"
         },
+        "serviceAccount": {
+          "target": "com.huggingface.users#UserOverviewResponseServiceAccount",
+          "traits": {
+            "smithy.api#documentation": "Set when the user is a service account"
+          }
+        },
         "type": {
           "target": "smithy.api#Document",
           "traits": {
@@ -2272,7 +2308,7 @@
         "smithy.api#documentation": "Get social handles\n\nGet a user's social media handles"
       }
     },
-    "com.huggingface.users#RetrieveUserAvatarRequest": {
+    "com.huggingface.users#GetUserAvatarRequest": {
       "type": "structure",
       "members": {
         "username": {
@@ -2293,7 +2329,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.huggingface.users#RetrieveUserAvatarResponse": {
+    "com.huggingface.users#GetUserAvatarResponse": {
       "type": "structure",
       "members": {
         "avatarUrl": {
@@ -2307,13 +2343,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.huggingface.users#RetrieveUserAvatar": {
+    "com.huggingface.users#GetUserAvatar": {
       "type": "operation",
       "input": {
-        "target": "com.huggingface.users#RetrieveUserAvatarRequest"
+        "target": "com.huggingface.users#GetUserAvatarRequest"
       },
       "output": {
-        "target": "com.huggingface.users#RetrieveUserAvatarResponse"
+        "target": "com.huggingface.users#GetUserAvatarResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2462,6 +2498,736 @@
         "smithy.api#documentation": "List user likes\n\nList public repos liked by a user"
       }
     },
+    "com.huggingface.users#ListUserFollowersRequestExpandItem": {
+      "type": "enum",
+      "members": {
+        "FOLLOWEDAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "followedAt"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListUserFollowersRequestExpandList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.users#ListUserFollowersRequestExpandItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListUserFollowersRequest": {
+      "type": "structure",
+      "members": {
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "expand": {
+          "target": "com.huggingface.users#ListUserFollowersRequestExpandList",
+          "traits": {
+            "smithy.api#httpQuery": "expand"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.users#ListUserFollowersResponseBodyItemCase0OrgsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fullname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "avatarUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListUserFollowersResponseBodyItemCase0OrgsList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.users#ListUserFollowersResponseBodyItemCase0OrgsItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListUserFollowersResponseBodyItemCase0ServiceAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgAvatarUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set when the user is a service account"
+      }
+    },
+    "com.huggingface.users#ListUserFollowersResponseBodyItemCase0": {
+      "type": "structure",
+      "members": {
+        "_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgs": {
+          "target": "com.huggingface.users#ListUserFollowersResponseBodyItemCase0OrgsList"
+        },
+        "avatarUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fullname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isPro": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "numModels": {
+          "target": "smithy.api#Double"
+        },
+        "numDatasets": {
+          "target": "smithy.api#Double"
+        },
+        "numSpaces": {
+          "target": "smithy.api#Double"
+        },
+        "numBuckets": {
+          "target": "smithy.api#Double"
+        },
+        "numKernels": {
+          "target": "smithy.api#Double"
+        },
+        "numDiscussions": {
+          "target": "smithy.api#Double"
+        },
+        "numPapers": {
+          "target": "smithy.api#Double"
+        },
+        "numUpvotes": {
+          "target": "smithy.api#Double"
+        },
+        "numLikes": {
+          "target": "smithy.api#Double"
+        },
+        "numFollowers": {
+          "target": "smithy.api#Double"
+        },
+        "numFollowing": {
+          "target": "smithy.api#Double"
+        },
+        "numFollowingOrgs": {
+          "target": "smithy.api#Double"
+        },
+        "details": {
+          "target": "smithy.api#String"
+        },
+        "isFollowing": {
+          "target": "smithy.api#Boolean"
+        },
+        "reasonToFollow": {
+          "target": "smithy.api#String"
+        },
+        "primaryOrgAvatarUrl": {
+          "target": "smithy.api#String"
+        },
+        "serviceAccount": {
+          "target": "com.huggingface.users#ListUserFollowersResponseBodyItemCase0ServiceAccount",
+          "traits": {
+            "smithy.api#documentation": "Set when the user is a service account"
+          }
+        },
+        "type": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListUserFollowersResponseBodyItemCase1": {
+      "type": "structure",
+      "members": {
+        "_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "followedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Returned when `expand=followedAt` is set"
+      }
+    },
+    "com.huggingface.users#ListUserFollowersResponseBodyItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.users#ListUserFollowersResponseBodyItemCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.users#ListUserFollowersResponseBodyItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListUserFollowersResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.users#ListUserFollowersResponseBodyItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListUserFollowersResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.huggingface.users#ListUserFollowersResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.huggingface.users#ListUserFollowers": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.users#ListUserFollowersRequest"
+      },
+      "output": {
+        "target": "com.huggingface.users#ListUserFollowersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/users/{username}/followers",
+          "code": 200
+        },
+        "smithy.api#documentation": "List user followers"
+      }
+    },
+    "com.huggingface.users#ListFollowedUsersRequest": {
+      "type": "structure",
+      "members": {
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.users#ListFollowedUsersResponseBodyItemOrgsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fullname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "avatarUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListFollowedUsersResponseBodyItemOrgsList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.users#ListFollowedUsersResponseBodyItemOrgsItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListFollowedUsersResponseBodyItemServiceAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgAvatarUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set when the user is a service account"
+      }
+    },
+    "com.huggingface.users#ListFollowedUsersResponseBodyItem": {
+      "type": "structure",
+      "members": {
+        "_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgs": {
+          "target": "com.huggingface.users#ListFollowedUsersResponseBodyItemOrgsList"
+        },
+        "avatarUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fullname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isPro": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "numModels": {
+          "target": "smithy.api#Double"
+        },
+        "numDatasets": {
+          "target": "smithy.api#Double"
+        },
+        "numSpaces": {
+          "target": "smithy.api#Double"
+        },
+        "numBuckets": {
+          "target": "smithy.api#Double"
+        },
+        "numKernels": {
+          "target": "smithy.api#Double"
+        },
+        "numDiscussions": {
+          "target": "smithy.api#Double"
+        },
+        "numPapers": {
+          "target": "smithy.api#Double"
+        },
+        "numUpvotes": {
+          "target": "smithy.api#Double"
+        },
+        "numLikes": {
+          "target": "smithy.api#Double"
+        },
+        "numFollowers": {
+          "target": "smithy.api#Double"
+        },
+        "numFollowing": {
+          "target": "smithy.api#Double"
+        },
+        "numFollowingOrgs": {
+          "target": "smithy.api#Double"
+        },
+        "details": {
+          "target": "smithy.api#String"
+        },
+        "isFollowing": {
+          "target": "smithy.api#Boolean"
+        },
+        "reasonToFollow": {
+          "target": "smithy.api#String"
+        },
+        "primaryOrgAvatarUrl": {
+          "target": "smithy.api#String"
+        },
+        "serviceAccount": {
+          "target": "com.huggingface.users#ListFollowedUsersResponseBodyItemServiceAccount",
+          "traits": {
+            "smithy.api#documentation": "Set when the user is a service account"
+          }
+        },
+        "type": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListFollowedUsersResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.users#ListFollowedUsersResponseBodyItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListFollowedUsersResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.huggingface.users#ListFollowedUsersResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.huggingface.users#ListFollowedUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.users#ListFollowedUsersRequest"
+      },
+      "output": {
+        "target": "com.huggingface.users#ListFollowedUsersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/users/{username}/following",
+          "code": 200
+        },
+        "smithy.api#documentation": "List followed users"
+      }
+    },
+    "com.huggingface.users#ListFollowedOrganizationsRequest": {
+      "type": "structure",
+      "members": {
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.users#ListFollowedOrganizationsResponseBodyItemOrgType": {
+      "type": "enum",
+      "members": {
+        "COMPANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company"
+          }
+        },
+        "UNIVERSITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "university"
+          }
+        },
+        "CLASSROOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "classroom"
+          }
+        },
+        "NON_PROFIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "non-profit"
+          }
+        },
+        "GOVERNMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "government"
+          }
+        },
+        "COMMUNITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "community"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListFollowedOrganizationsResponseBodyItemPlan": {
+      "type": "enum",
+      "members": {
+        "TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team"
+          }
+        },
+        "ENTERPRISE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enterprise"
+          }
+        },
+        "PLUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plus"
+          }
+        },
+        "ACADEMIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "academia"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListFollowedOrganizationsResponseBodyItemEmailDomainsItem": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "verified": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListFollowedOrganizationsResponseBodyItemEmailDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.users#ListFollowedOrganizationsResponseBodyItemEmailDomainsItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListFollowedOrganizationsResponseBodyItem": {
+      "type": "structure",
+      "members": {
+        "_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "avatarUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fullname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isHf": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgType": {
+          "target": "com.huggingface.users#ListFollowedOrganizationsResponseBodyItemOrgType"
+        },
+        "plan": {
+          "target": "com.huggingface.users#ListFollowedOrganizationsResponseBodyItemPlan"
+        },
+        "isFollowing": {
+          "target": "smithy.api#Boolean"
+        },
+        "numModels": {
+          "target": "smithy.api#Double"
+        },
+        "followerCount": {
+          "target": "smithy.api#Double"
+        },
+        "reasonToFollow": {
+          "target": "smithy.api#String"
+        },
+        "emailDomains": {
+          "target": "com.huggingface.users#ListFollowedOrganizationsResponseBodyItemEmailDomainsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListFollowedOrganizationsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.users#ListFollowedOrganizationsResponseBodyItem"
+      },
+      "traits": {}
+    },
+    "com.huggingface.users#ListFollowedOrganizationsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.huggingface.users#ListFollowedOrganizationsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.huggingface.users#ListFollowedOrganizations": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.users#ListFollowedOrganizationsRequest"
+      },
+      "output": {
+        "target": "com.huggingface.users#ListFollowedOrganizationsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/users/{username}/following/orgs",
+          "code": 200
+        },
+        "smithy.api#documentation": "List followed organizations"
+      }
+    },
     "com.huggingface.users#GetAvatarRequest": {
       "type": "structure",
       "members": {
@@ -2532,10 +3298,19 @@
           "target": "com.huggingface.users#GetSocialHandles"
         },
         {
-          "target": "com.huggingface.users#RetrieveUserAvatar"
+          "target": "com.huggingface.users#GetUserAvatar"
         },
         {
           "target": "com.huggingface.users#ListUserLikes"
+        },
+        {
+          "target": "com.huggingface.users#ListUserFollowers"
+        },
+        {
+          "target": "com.huggingface.users#ListFollowedUsers"
+        },
+        {
+          "target": "com.huggingface.users#ListFollowedOrganizations"
         },
         {
           "target": "com.huggingface.users#GetAvatar"

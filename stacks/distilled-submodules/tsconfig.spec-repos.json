@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // Hand-written scripts — always check them for real.
+    "noCheck": false,
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "composite": false
+  },
+  // These files are shipped verbatim into the mirror repositories, where they
+  // run under Bun against each mirror's own dependencies — they are data to
+  // the stack, not part of its program, so they get their own project rather
+  // than joining `tsconfig.json`. Checking them here matters because a break
+  // would otherwise only surface a day later, in a mirror's nightly workflow.
+  // `graphql` and `yaml` are devDependencies of this stack purely so this
+  // project resolves; keep them in step with the mirror package.json files.
+  "include": ["spec-repos/*/fetch-specs.ts"]
+}

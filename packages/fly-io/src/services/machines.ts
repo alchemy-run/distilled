@@ -19,13 +19,61 @@ import * as Retry from "../retry.ts";
 
 export type { FlyIoOpError, FlyIoOpContext };
 
+export class MachineStartFromCreatedState
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MachineStartFromCreatedState>()(
+      "MachineStartFromCreatedState",
+      {
+        message: S.String,
+      },
+    ),
+    [
+      {
+        message:
+          "failed_precondition: unable to start machine from current state: 'created'",
+      },
+    ],
+  ) {}
+
+export class MachineWaitTimeout
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MachineWaitTimeout>()("MachineWaitTimeout", {
+      message: S.String,
+    }),
+    [
+      {
+        message: {
+          matches:
+            "^deadline_exceeded: machine failed to reach desired state, [a-z_]+, currently [a-z_]+$",
+        },
+      },
+    ],
+  ) {}
+
+export class VolumeAttached
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<VolumeAttached>()("VolumeAttached", {
+      message: S.String,
+    }),
+    [
+      {
+        message: {
+          includes:
+            "failed_precondition: volume is currently bound to machine:",
+        },
+      },
+    ],
+  ) {}
+
 export interface AuthenticateTokenRequest {
   header?: string;
 }
 export const AuthenticateTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     header: S.optional(S.String),
-  }).pipe(T.Http({ method: "POST", uri: "/tokens/authenticate", code: 200 })),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v1/tokens/authenticate", code: 200 }),
+  ),
 ).annotate({
   identifier: "AuthenticateTokenRequest",
 }) as any as S.Schema<AuthenticateTokenRequest>;
@@ -104,7 +152,7 @@ export const AuthenticateTokenResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AuthenticateTokenResponse>;
 
 export type RessetAction = 1 | 2 | 4 | 8 | 16 | 31 | 0;
-export const RessetAction = /*@__PURE__*/ S.Number;
+export const RessetAction = S.Number;
 
 /** Command is the command being executed on a machine. If this is specified, the Machine must be set. */
 export type MainTokenAccessCommandList = Array<string>;
@@ -165,7 +213,7 @@ export const AuthorizeTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     access: S.optional(MainTokenAccess),
     header: S.optional(S.String),
-  }).pipe(T.Http({ method: "POST", uri: "/tokens/authorize", code: 200 })),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/tokens/authorize", code: 200 })),
 ).annotate({
   identifier: "AuthorizeTokenRequest",
 }) as any as S.Schema<AuthorizeTokenRequest>;
@@ -238,7 +286,7 @@ export const CheckAppCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/certificates/{hostname}/check",
+      uri: "/v1/apps/{app_name}/certificates/{hostname}/check",
       code: 200,
     }),
   ),
@@ -247,7 +295,7 @@ export const CheckAppCertificateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CheckAppCertificateRequest>;
 
 export type IssuedCertificateType = "rsa" | "ecdsa";
-export const IssuedCertificateType = /*@__PURE__*/ S.String;
+export const IssuedCertificateType = S.String;
 
 export interface IssuedCertificate {
   certificate_authority?: string;
@@ -270,13 +318,13 @@ export const CertificateEntryIssuedList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CertificateEntryIssuedList>;
 
 export type CertificateEntrySource = "custom" | "fly";
-export const CertificateEntrySource = /*@__PURE__*/ S.String;
+export const CertificateEntrySource = S.String;
 
 export type CertificateEntryStatus =
   | "active"
   | "pending_ownership"
   | "pending_validation";
-export const CertificateEntryStatus = /*@__PURE__*/ S.String;
+export const CertificateEntryStatus = S.String;
 
 export interface CertificateEntry {
   created_at?: string;
@@ -485,7 +533,7 @@ export const CordonMachineRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/machines/{machine_id}/cordon",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/cordon",
       code: 200,
     }),
   ),
@@ -512,7 +560,7 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     network: S.optional(S.String),
     org_slug: S.optional(S.String),
-  }).pipe(T.Http({ method: "POST", uri: "/apps", code: 200 })),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/apps", code: 200 })),
 ).annotate({
   identifier: "CreateAppRequest",
 }) as any as S.Schema<CreateAppRequest>;
@@ -536,7 +584,7 @@ export const CreateAppAcmeCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/certificates/acme",
+      uri: "/v1/apps/{app_name}/certificates/acme",
       code: 200,
     }),
   ),
@@ -600,7 +648,7 @@ export const CreateAppCustomCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/certificates/custom",
+      uri: "/v1/apps/{app_name}/certificates/custom",
       code: 200,
     }),
   ),
@@ -618,7 +666,11 @@ export const CreateAppDeployTokenRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     expiry: S.optional(S.String),
   }).pipe(
-    T.Http({ method: "POST", uri: "/apps/{app_name}/deploy_token", code: 200 }),
+    T.Http({
+      method: "POST",
+      uri: "/v1/apps/{app_name}/deploy_token",
+      code: 200,
+    }),
   ),
 ).annotate({
   identifier: "CreateAppDeployTokenRequest",
@@ -635,6 +687,17 @@ export const CreateAppDeployTokenResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAppDeployTokenResponse",
 }) as any as S.Schema<CreateAppDeployTokenResponse>;
 
+/** Type of IP address to allocate. "egress-pair" allocates both v4 and v6 egress IP addresses (recommended when using egress IPs). */
+export type IPAssignmentType =
+  | "v4"
+  | "v6"
+  | "shared_v4"
+  | "private_v6"
+  | "egress_v4"
+  | "egress_v6"
+  | "egress_pair";
+export const IPAssignmentType = S.String;
+
 export interface CreateAppIPAssignmentRequest {
   /** Fly App Name */
   app_name: string;
@@ -642,7 +705,7 @@ export interface CreateAppIPAssignmentRequest {
   org_slug?: string;
   region?: string;
   service_name?: string;
-  type?: string;
+  type?: IPAssignmentType | (string & {});
 }
 export const CreateAppIPAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -651,11 +714,11 @@ export const CreateAppIPAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
     org_slug: S.optional(S.String),
     region: S.optional(S.String),
     service_name: S.optional(S.String),
-    type: S.optional(S.String),
+    type: S.optional(IPAssignmentType),
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/ip_assignments",
+      uri: "/v1/apps/{app_name}/ip_assignments",
       code: 200,
     }),
   ),
@@ -663,24 +726,40 @@ export const CreateAppIPAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAppIPAssignmentRequest",
 }) as any as S.Schema<CreateAppIPAssignmentRequest>;
 
-export interface IPAssignment {
+export interface IPPair {
+  v4?: string;
+  v6?: string;
+}
+export const IPPair = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    v4: S.optional(S.String),
+    v6: S.optional(S.String),
+  }),
+).annotate({ identifier: "IPPair" }) as any as S.Schema<IPPair>;
+
+export interface AssignIPResponse {
   created_at?: string;
+  egress?: boolean;
   ip?: string;
+  /** ip_pair is returned when "egress-pair" IP type is requested; in this case, ip is null. */
+  ip_pair?: IPPair;
   region?: string;
   service_name?: string;
   shared?: boolean;
-  type?: string;
 }
-export const IPAssignment = /*@__PURE__*/ S.suspend(() =>
+export const AssignIPResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     created_at: S.optional(S.String),
+    egress: S.optional(S.Boolean),
     ip: S.optional(S.String),
+    ip_pair: S.optional(IPPair),
     region: S.optional(S.String),
     service_name: S.optional(S.String),
     shared: S.optional(S.Boolean),
-    type: S.optional(S.String),
   }),
-).annotate({ identifier: "IPAssignment" }) as any as S.Schema<IPAssignment>;
+).annotate({
+  identifier: "AssignIPResponse",
+}) as any as S.Schema<AssignIPResponse>;
 
 export interface FlyMachineCacheDrive {
   size_mb?: number;
@@ -722,7 +801,7 @@ export const FlyMachineCheckHeadersList = /*@__PURE__*/ S.Array(
 
 /** Kind of the check (informational, readiness) */
 export type FlyMachineCheckKind = "informational" | "readiness";
-export const FlyMachineCheckKind = /*@__PURE__*/ S.String;
+export const FlyMachineCheckKind = S.String;
 
 export interface FlyMachineCheck {
   /** The time to wait after a VM starts before checking its health */
@@ -787,7 +866,7 @@ export type FlyContainerDependencyCondition =
   | "exited_successfully"
   | "healthy"
   | "started";
-export const FlyContainerDependencyCondition = /*@__PURE__*/ S.String;
+export const FlyContainerDependencyCondition = S.String;
 
 export interface FlyContainerDependency {
   condition?: FlyContainerDependencyCondition | (string & {});
@@ -829,7 +908,7 @@ export type FlyEnvFromFieldRef =
   | "private_ip"
   | "region"
   | "image";
-export const FlyEnvFromFieldRef = /*@__PURE__*/ S.String;
+export const FlyEnvFromFieldRef = S.String;
 
 /** EnvVar defines an environment variable to be populated from a machine field, env_var */
 export interface FlyEnvFrom {
@@ -911,7 +990,7 @@ export const FlyHTTPHealthcheckHeadersList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<FlyHTTPHealthcheckHeadersList>;
 
 export type FlyContainerHealthcheckScheme = "http" | "https";
-export const FlyContainerHealthcheckScheme = /*@__PURE__*/ S.String;
+export const FlyContainerHealthcheckScheme = S.String;
 
 export interface FlyHTTPHealthcheck {
   /** Additional headers to send with the request */
@@ -944,7 +1023,7 @@ export const FlyHTTPHealthcheck = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FlyHTTPHealthcheck>;
 
 export type FlyContainerHealthcheckKind = "readiness" | "liveness";
-export const FlyContainerHealthcheckKind = /*@__PURE__*/ S.String;
+export const FlyContainerHealthcheckKind = S.String;
 
 export interface FlyTCPHealthcheck {
   /** The port to connect to, often the same as internal_port */
@@ -959,7 +1038,7 @@ export const FlyTCPHealthcheck = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FlyTCPHealthcheck>;
 
 export type FlyUnhealthyPolicy = "stop";
-export const FlyUnhealthyPolicy = /*@__PURE__*/ S.String;
+export const FlyUnhealthyPolicy = S.String;
 
 export interface FlyContainerHealthcheck {
   exec?: FlyExecHealthcheck;
@@ -1012,7 +1091,7 @@ export type FlyMachineRestartPolicy =
   | "always"
   | "on-failure"
   | "spot-price";
-export const FlyMachineRestartPolicy = /*@__PURE__*/ S.String;
+export const FlyMachineRestartPolicy = S.String;
 
 /** The Machine restart policy defines whether and how flyd restarts a Machine after its main process exits. See https://fly.io/docs/machines/guides-examples/machine-restart-policy/. */
 export interface FlyMachineRestart {
@@ -1063,7 +1142,7 @@ export type FlyStopConfigSignal =
   | "SIGUSR1"
   | "SIGUSR2"
   | "SIGTERM";
-export const FlyStopConfigSignal = /*@__PURE__*/ S.String;
+export const FlyStopConfigSignal = S.String;
 
 export interface FlyStopConfig {
   signal?: FlyStopConfigSignal | (string & {});
@@ -1217,7 +1296,7 @@ export const FlyMachineGuestKernelArgsList = /*@__PURE__*/ S.Array(
 
 /** Deprecated: use MachineConfig.Rootfs instead */
 export type FlyMachineGuestPersistRootfs = "never" | "always" | "restart";
-export const FlyMachineGuestPersistRootfs = /*@__PURE__*/ S.String;
+export const FlyMachineGuestPersistRootfs = S.String;
 
 export interface FlyMachineGuest {
   cpu_kind?: string;
@@ -1404,7 +1483,7 @@ export const FlyMachineConfigProcessesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<FlyMachineConfigProcessesList>;
 
 export type FlyMachineRootfsPersist = "never" | "always" | "restart";
-export const FlyMachineRootfsPersist = /*@__PURE__*/ S.String;
+export const FlyMachineRootfsPersist = S.String;
 
 export interface FlyMachineRootfs {
   persist?: FlyMachineRootfsPersist | (string & {});
@@ -1421,7 +1500,7 @@ export const FlyMachineRootfs = /*@__PURE__*/ S.suspend(() =>
 
 /** Accepts a string (new format) or a boolean (old format). For backward compatibility with older clients, the API continues to use booleans for "off" and "stop" in responses. * "off" or false - Do not autostop the Machine. * "stop" or true - Automatically stop the Machine. * "suspend" - Automatically suspend the Machine, falling back to a full stop if this is not possible. */
 export type FlyMachineServiceAutostop = "off" | "stop" | "suspend";
-export const FlyMachineServiceAutostop = /*@__PURE__*/ S.String;
+export const FlyMachineServiceAutostop = S.String;
 
 export type FlyMachineServiceCheckHeadersList = Array<FlyMachineHTTPHeader>;
 export const FlyMachineServiceCheckHeadersList = /*@__PURE__*/ S.Array(
@@ -1497,7 +1576,7 @@ export const FlyMachinePortHandlersList = /*@__PURE__*/ S.Array(
 
 /** Currently either "cookie" or "header" */
 export type FlyReplayCacheType = "cookie" | "header";
-export const FlyReplayCacheType = /*@__PURE__*/ S.String;
+export const FlyReplayCacheType = S.String;
 
 export interface FlyReplayCache {
   allow_bypass?: boolean;
@@ -1789,7 +1868,7 @@ export const CreateMachineRequest = /*@__PURE__*/ S.suspend(() =>
     skip_secrets: S.optional(S.Boolean),
     skip_service_registration: S.optional(S.Boolean),
   }).pipe(
-    T.Http({ method: "POST", uri: "/apps/{app_name}/machines", code: 200 }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/machines", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMachineRequest",
@@ -1840,7 +1919,7 @@ export const MachineEventsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MachineEventsList>;
 
 export type MachineHostStatus = "ok" | "unknown" | "unreachable";
-export const MachineHostStatus = /*@__PURE__*/ S.String;
+export const MachineHostStatus = S.String;
 
 export type ImageRefLabelsMap = { [key: string]: string | undefined };
 export const ImageRefLabelsMap = /*@__PURE__*/ S.Record(
@@ -1865,9 +1944,23 @@ export const ImageRef = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ImageRef" }) as any as S.Schema<ImageRef>;
 
+export interface StrippedLease {
+  description?: string;
+  expires_at?: number;
+  owner?: string;
+}
+export const StrippedLease = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    expires_at: S.optional(S.Number),
+    owner: S.optional(S.String),
+  }),
+).annotate({ identifier: "StrippedLease" }) as any as S.Schema<StrippedLease>;
+
 export interface Machine {
   checks?: MachineChecksList;
   config?: FlyMachineConfig;
+  cordoned?: boolean;
   created_at?: string;
   events?: MachineEventsList;
   host_status?: MachineHostStatus;
@@ -1876,6 +1969,7 @@ export interface Machine {
   incomplete_config?: FlyMachineConfig;
   /** InstanceID is unique for each version of the machine */
   instance_id?: string;
+  lease?: StrippedLease;
   name?: string;
   /** Nonce is only every returned on machine creation if a lease_duration was provided. */
   nonce?: string;
@@ -1889,6 +1983,7 @@ export const Machine = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     checks: S.optional(MachineChecksList),
     config: S.optional(FlyMachineConfig),
+    cordoned: S.optional(S.Boolean),
     created_at: S.optional(S.String),
     events: S.optional(MachineEventsList),
     host_status: S.optional(MachineHostStatus),
@@ -1896,6 +1991,7 @@ export const Machine = /*@__PURE__*/ S.suspend(() =>
     image_ref: S.optional(ImageRef),
     incomplete_config: S.optional(FlyMachineConfig),
     instance_id: S.optional(S.String),
+    lease: S.optional(StrippedLease),
     name: S.optional(S.String),
     nonce: S.optional(S.String),
     private_ip: S.optional(S.String),
@@ -1923,7 +2019,7 @@ export const CreateMachineLeaseRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/machines/{machine_id}/lease",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/lease",
       code: 200,
     }),
   ),
@@ -1953,6 +2049,410 @@ export const Lease = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Lease" }) as any as S.Schema<Lease>;
 
+/** Postgres major version. */
+export type CreatePostgresRequestPgMajorVersion = "16" | "17";
+export const CreatePostgresRequestPgMajorVersion = S.String;
+
+/** Plan slug selecting CPU, memory, and disk sizing. */
+export type CreatePostgresRequestPlan =
+  | "basic"
+  | "starter"
+  | "launch"
+  | "scale"
+  | "Performance";
+export const CreatePostgresRequestPlan = S.String;
+
+/** Connection pooler mode. */
+export type CreatePostgresRequestPoolMode = "session" | "transaction";
+export const CreatePostgresRequestPoolMode = S.String;
+
+export interface CreatePostgresRequest {
+  /** Disk size in gigabytes. */
+  disk_size_gb?: number;
+  /** Name for the cluster. A name is generated when omitted. */
+  name?: string;
+  /** Slug of the organization that will own the cluster. */
+  org_slug: string;
+  /** Postgres major version. */
+  pg_major_version?: CreatePostgresRequestPgMajorVersion | (string & {});
+  /** Plan slug selecting CPU, memory, and disk sizing. */
+  plan: CreatePostgresRequestPlan | (string & {});
+  /** Connection pooler mode. */
+  pool_mode?: CreatePostgresRequestPoolMode | (string & {});
+  /** Enable PostGIS support, required to later enable PostGIS extensions. */
+  postgis_enabled?: boolean;
+  /** Fly region code where the cluster's primary runs. */
+  region: string;
+}
+export const CreatePostgresRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    disk_size_gb: S.optional(S.Number),
+    name: S.optional(S.String),
+    org_slug: S.String,
+    pg_major_version: S.optional(CreatePostgresRequestPgMajorVersion),
+    plan: CreatePostgresRequestPlan,
+    pool_mode: S.optional(CreatePostgresRequestPoolMode),
+    postgis_enabled: S.optional(S.Boolean),
+    region: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/postgres", code: 200 })),
+).annotate({
+  identifier: "CreatePostgresRequest",
+}) as any as S.Schema<CreatePostgresRequest>;
+
+export interface PostgresAttachedApp {
+  /** Attached Fly app name. */
+  name?: string;
+}
+export const PostgresAttachedApp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PostgresAttachedApp",
+}) as any as S.Schema<PostgresAttachedApp>;
+
+/** Apps attached to the cluster. */
+export type PostgresClusterAttachedAppsList = Array<PostgresAttachedApp>;
+export const PostgresClusterAttachedAppsList = /*@__PURE__*/ S.Array(
+  PostgresAttachedApp,
+) as any as S.Schema<PostgresClusterAttachedAppsList>;
+
+/** CPU class. */
+export type PostgresClusterCpuKind = "shared" | "performance";
+export const PostgresClusterCpuKind = S.String;
+
+export interface PostgresEndpoint {
+  /** Hostname to connect to. */
+  host?: string;
+  /** TCP port. */
+  port?: number;
+}
+export const PostgresEndpoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    host: S.optional(S.String),
+    port: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "PostgresEndpoint",
+}) as any as S.Schema<PostgresEndpoint>;
+
+export interface PostgresNodeEndpoints {
+  /** Unpooled connection to the cluster node. */
+  direct?: PostgresEndpoint;
+  /** Pooled connection to the cluster node (through PgBouncer). */
+  pooler?: PostgresEndpoint;
+}
+export const PostgresNodeEndpoints = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    direct: S.optional(PostgresEndpoint),
+    pooler: S.optional(PostgresEndpoint),
+  }),
+).annotate({
+  identifier: "PostgresNodeEndpoints",
+}) as any as S.Schema<PostgresNodeEndpoints>;
+
+export interface PostgresClusterEndpoints {
+  /** Endpoints for connecting to the primary node. */
+  primary?: PostgresNodeEndpoints;
+}
+export const PostgresClusterEndpoints = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    primary: S.optional(PostgresNodeEndpoints),
+  }),
+).annotate({
+  identifier: "PostgresClusterEndpoints",
+}) as any as S.Schema<PostgresClusterEndpoints>;
+
+export interface OrganizationRef {
+  /** Organization name. */
+  name?: string;
+  /** Organization slug. */
+  slug?: string;
+}
+export const OrganizationRef = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    slug: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "OrganizationRef",
+}) as any as S.Schema<OrganizationRef>;
+
+/** Postgres major version. */
+export type PostgresClusterPgMajorVersion = "16" | "17";
+export const PostgresClusterPgMajorVersion = S.String;
+
+/** Plan slug. */
+export type PostgresClusterPlan =
+  | "basic"
+  | "starter"
+  | "launch"
+  | "scale"
+  | "Performance";
+export const PostgresClusterPlan = S.String;
+
+/** Current lifecycle status. */
+export type PostgresClusterStatus =
+  | "creating"
+  | "initializing"
+  | "ready"
+  | "deleting"
+  | "deleted"
+  | "failed";
+export const PostgresClusterStatus = S.String;
+
+export interface PostgresCluster {
+  /** Apps attached to the cluster. */
+  attached_apps?: PostgresClusterAttachedAppsList;
+  /** CPU class. */
+  cpu_kind?: PostgresClusterCpuKind;
+  /** vCPUs per node. */
+  cpus?: number;
+  /** RFC 3339 creation timestamp. */
+  created_at?: string;
+  /** Disk size in gigabytes. */
+  disk_size_gb?: number;
+  /** Connection endpoints. Populated once the cluster is ready. */
+  endpoints?: PostgresClusterEndpoints;
+  /** Cluster ID. */
+  id?: string;
+  /** Memory per node in megabytes. */
+  memory_mb?: number;
+  /** Cluster name. */
+  name?: string;
+  organization?: OrganizationRef;
+  /** Postgres major version. */
+  pg_major_version?: PostgresClusterPgMajorVersion;
+  /** Plan slug. */
+  plan?: PostgresClusterPlan;
+  /** Whether PostGIS support is enabled. */
+  postgis_enabled?: boolean;
+  /** Fly region code. */
+  region?: string;
+  /** Number of replicas. */
+  replicas?: number;
+  /** Current lifecycle status. */
+  status?: PostgresClusterStatus;
+}
+export const PostgresCluster = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    attached_apps: S.optional(PostgresClusterAttachedAppsList),
+    cpu_kind: S.optional(PostgresClusterCpuKind),
+    cpus: S.optional(S.Number),
+    created_at: S.optional(S.String),
+    disk_size_gb: S.optional(S.Number),
+    endpoints: S.optional(PostgresClusterEndpoints),
+    id: S.optional(S.String),
+    memory_mb: S.optional(S.Number),
+    name: S.optional(S.String),
+    organization: S.optional(OrganizationRef),
+    pg_major_version: S.optional(PostgresClusterPgMajorVersion),
+    plan: S.optional(PostgresClusterPlan),
+    postgis_enabled: S.optional(S.Boolean),
+    region: S.optional(S.String),
+    replicas: S.optional(S.Number),
+    status: S.optional(PostgresClusterStatus),
+  }),
+).annotate({
+  identifier: "PostgresCluster",
+}) as any as S.Schema<PostgresCluster>;
+
+export interface ShowPostgresClusterResponse {
+  data?: PostgresCluster;
+}
+export const ShowPostgresClusterResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(PostgresCluster),
+  }),
+).annotate({
+  identifier: "ShowPostgresClusterResponse",
+}) as any as S.Schema<ShowPostgresClusterResponse>;
+
+export interface CreatePostgresAttachmentRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Name of the Fly app to attach. */
+  app_name: string;
+}
+export const CreatePostgresAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    app_name: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/postgres/{postgres_cluster_id}/attachments",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreatePostgresAttachmentRequest",
+}) as any as S.Schema<CreatePostgresAttachmentRequest>;
+
+export interface PostgresAttachment {
+  /** Attached Fly app name. */
+  app_name?: string;
+  /** RFC 3339 timestamp when the attachment was created. */
+  attached_at?: string;
+  /** Cluster ID the app is attached to. */
+  postgres_cluster_id?: string;
+}
+export const PostgresAttachment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    app_name: S.optional(S.String),
+    attached_at: S.optional(S.String),
+    postgres_cluster_id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PostgresAttachment",
+}) as any as S.Schema<PostgresAttachment>;
+
+export interface CreatePostgresAttachmentResponse {
+  data?: PostgresAttachment;
+}
+export const CreatePostgresAttachmentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(PostgresAttachment),
+  }),
+).annotate({
+  identifier: "CreatePostgresAttachmentResponse",
+}) as any as S.Schema<CreatePostgresAttachmentResponse>;
+
+/** Backup type. */
+export type CreatePostgresBackupRequestType = "full" | "incr" | "diff";
+export const CreatePostgresBackupRequestType = S.String;
+
+export interface CreatePostgresBackupRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Backup type. */
+  type: CreatePostgresBackupRequestType | (string & {});
+}
+export const CreatePostgresBackupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    type: CreatePostgresBackupRequestType,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/postgres/{postgres_cluster_id}/backups",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreatePostgresBackupRequest",
+}) as any as S.Schema<CreatePostgresBackupRequest>;
+
+export interface CreatePostgresBackupResponse {}
+export const CreatePostgresBackupResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreatePostgresBackupResponse",
+}) as any as S.Schema<CreatePostgresBackupResponse>;
+
+export interface CreatePostgresDatabaseRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Name of the database to create. */
+  name: string;
+}
+export const CreatePostgresDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    name: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/postgres/{postgres_cluster_id}/databases",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreatePostgresDatabaseRequest",
+}) as any as S.Schema<CreatePostgresDatabaseRequest>;
+
+export interface PostgresDatabase {
+  /** Database name. */
+  name?: string;
+}
+export const PostgresDatabase = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PostgresDatabase",
+}) as any as S.Schema<PostgresDatabase>;
+
+export interface PostgresDatabaseResponse {
+  data?: PostgresDatabase;
+}
+export const PostgresDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(PostgresDatabase),
+  }),
+).annotate({
+  identifier: "PostgresDatabaseResponse",
+}) as any as S.Schema<PostgresDatabaseResponse>;
+
+/** Role to grant the user. */
+export type CreatePostgresUserRequestRole =
+  | "schema_admin"
+  | "writer"
+  | "reader";
+export const CreatePostgresUserRequestRole = S.String;
+
+export interface CreatePostgresUserRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Role to grant the user. */
+  role: CreatePostgresUserRequestRole | (string & {});
+  /** Name for the new user. */
+  username: string;
+}
+export const CreatePostgresUserRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    role: CreatePostgresUserRequestRole,
+    username: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/postgres/{postgres_cluster_id}/users",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreatePostgresUserRequest",
+}) as any as S.Schema<CreatePostgresUserRequest>;
+
+/** User role. */
+export type PostgresUserRole = "schema_admin" | "writer" | "reader";
+export const PostgresUserRole = S.String;
+
+export interface PostgresUser {
+  /** User role. */
+  role?: PostgresUserRole;
+  /** User name. */
+  username?: string;
+}
+export const PostgresUser = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    role: S.optional(PostgresUserRole),
+    username: S.optional(S.String),
+  }),
+).annotate({ identifier: "PostgresUser" }) as any as S.Schema<PostgresUser>;
+
+export interface CreatePostgresUserResponse {
+  data?: PostgresUser;
+}
+export const CreatePostgresUserResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(PostgresUser),
+  }),
+).annotate({
+  identifier: "CreatePostgresUserResponse",
+}) as any as S.Schema<CreatePostgresUserResponse>;
+
 export interface CreateSecretRequest {
   /** Fly App Name */
   app_name: string;
@@ -1968,7 +2468,7 @@ export const CreateSecretRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/secrets/{secret_name}",
+      uri: "/v1/apps/{app_name}/secrets/{secret_name}",
       code: 200,
     }),
   ),
@@ -2037,17 +2537,17 @@ export const CreateVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     source_volume_id: S.optional(S.String),
     unique_zone_app_wide: S.optional(S.Boolean),
   }).pipe(
-    T.Http({ method: "POST", uri: "/apps/{app_name}/volumes", code: 200 }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/volumes", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateVolumeRequest",
 }) as any as S.Schema<CreateVolumeRequest>;
 
 export type VolumeHostStatus = "ok" | "unknown" | "unreachable";
-export const VolumeHostStatus = /*@__PURE__*/ S.String;
+export const VolumeHostStatus = S.String;
 
 export type VolumeType = "local" | "cache";
-export const VolumeType = /*@__PURE__*/ S.String;
+export const VolumeType = S.String;
 
 export interface Volume {
   attached_alloc_id?: string;
@@ -2111,7 +2611,7 @@ export const CreateVolumeSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/volumes/{volume_id}/snapshots",
+      uri: "/v1/apps/{app_name}/volumes/{volume_id}/snapshots",
       code: 200,
     }),
   ),
@@ -2146,7 +2646,7 @@ export const DecryptSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/secretkeys/{secret_name}/decrypt",
+      uri: "/v1/apps/{app_name}/secretkeys/{secret_name}/decrypt",
       code: 200,
     }),
   ),
@@ -2172,7 +2672,7 @@ export interface DeleteAppRequest {
 export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
-  }).pipe(T.Http({ method: "DELETE", uri: "/apps/{app_name}", code: 200 })),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/apps/{app_name}", code: 200 })),
 ).annotate({
   identifier: "DeleteAppRequest",
 }) as any as S.Schema<DeleteAppRequest>;
@@ -2197,7 +2697,7 @@ export const DeleteAppAcmeCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/apps/{app_name}/certificates/{hostname}/acme",
+      uri: "/v1/apps/{app_name}/certificates/{hostname}/acme",
       code: 200,
     }),
   ),
@@ -2218,7 +2718,7 @@ export const DeleteAppCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/apps/{app_name}/certificates/{hostname}",
+      uri: "/v1/apps/{app_name}/certificates/{hostname}",
       code: 200,
     }),
   ),
@@ -2246,7 +2746,7 @@ export const DeleteAppCustomCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/apps/{app_name}/certificates/{hostname}/custom",
+      uri: "/v1/apps/{app_name}/certificates/{hostname}/custom",
       code: 200,
     }),
   ),
@@ -2314,7 +2814,7 @@ export const DeleteAppIPAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/apps/{app_name}/ip_assignments/{ip}",
+      uri: "/v1/apps/{app_name}/ip_assignments/{ip}",
       code: 200,
     }),
   ),
@@ -2345,7 +2845,7 @@ export const DeleteMachineRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/apps/{app_name}/machines/{machine_id}",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}",
       code: 200,
     }),
   ),
@@ -2376,7 +2876,7 @@ export const DeleteMachineMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/apps/{app_name}/machines/{machine_id}/metadata/{key}",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/metadata/{key}",
       code: 200,
     }),
   ),
@@ -2391,6 +2891,108 @@ export const DeleteMachineMetadataResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMachineMetadataResponse",
 }) as any as S.Schema<DeleteMachineMetadataResponse>;
 
+export interface DeletePostgresRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+}
+export const DeletePostgresRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/postgres/{postgres_cluster_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeletePostgresRequest",
+}) as any as S.Schema<DeletePostgresRequest>;
+
+export interface DeletePostgresResponse {}
+export const DeletePostgresResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeletePostgresResponse",
+}) as any as S.Schema<DeletePostgresResponse>;
+
+export interface DeletePostgresAttachmentRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Fly App Name */
+  app_name: string;
+}
+export const DeletePostgresAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    app_name: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/postgres/{postgres_cluster_id}/attachments/{app_name}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeletePostgresAttachmentRequest",
+}) as any as S.Schema<DeletePostgresAttachmentRequest>;
+
+export interface DeletePostgresAttachmentResponse {}
+export const DeletePostgresAttachmentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeletePostgresAttachmentResponse",
+}) as any as S.Schema<DeletePostgresAttachmentResponse>;
+
+export interface DeletePostgresDatabaseRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Database Name */
+  database_name: string;
+}
+export const DeletePostgresDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    database_name: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/postgres/{postgres_cluster_id}/databases/{database_name}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeletePostgresDatabaseRequest",
+}) as any as S.Schema<DeletePostgresDatabaseRequest>;
+
+export interface DeletePostgresUserRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Postgres User Name */
+  username: string;
+}
+export const DeletePostgresUserRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    username: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/postgres/{postgres_cluster_id}/users/{username}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeletePostgresUserRequest",
+}) as any as S.Schema<DeletePostgresUserRequest>;
+
+export interface DeletePostgresUserResponse {}
+export const DeletePostgresUserResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeletePostgresUserResponse",
+}) as any as S.Schema<DeletePostgresUserResponse>;
+
 export interface DeleteSecretRequest {
   /** Fly App Name */
   app_name: string;
@@ -2404,7 +3006,7 @@ export const DeleteSecretRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/apps/{app_name}/secrets/{secret_name}",
+      uri: "/v1/apps/{app_name}/secrets/{secret_name}",
       code: 200,
     }),
   ),
@@ -2439,7 +3041,7 @@ export const DeleteSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/apps/{app_name}/secretkeys/{secret_name}",
+      uri: "/v1/apps/{app_name}/secretkeys/{secret_name}",
       code: 200,
     }),
   ),
@@ -2474,13 +3076,84 @@ export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/apps/{app_name}/volumes/{volume_id}",
+      uri: "/v1/apps/{app_name}/volumes/{volume_id}",
       code: 200,
     }),
   ),
 ).annotate({
   identifier: "DeleteVolumeRequest",
 }) as any as S.Schema<DeleteVolumeRequest>;
+
+export interface DisablePostgresExtensionRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Database Name */
+  database_name: string;
+  /** Extension Name */
+  extension_name: string;
+  /** Also drop objects that depend on the extension */
+  force?: boolean;
+}
+export const DisablePostgresExtensionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    database_name: S.String.pipe(T.Label()),
+    extension_name: S.String.pipe(T.Label()),
+    force: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/postgres/{postgres_cluster_id}/databases/{database_name}/extensions/{extension_name}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DisablePostgresExtensionRequest",
+}) as any as S.Schema<DisablePostgresExtensionRequest>;
+
+export interface DisablePostgresExtensionResponse {}
+export const DisablePostgresExtensionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisablePostgresExtensionResponse",
+}) as any as S.Schema<DisablePostgresExtensionResponse>;
+
+export interface EnablePostgresExtensionRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Database Name */
+  database_name: string;
+  /** Create the schema first if it does not exist. */
+  create_schema?: boolean;
+  /** Extension to enable. */
+  name: string;
+  /** Schema to install the extension into. Defaults to the database's default schema. */
+  schema?: string;
+}
+export const EnablePostgresExtensionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    database_name: S.String.pipe(T.Label()),
+    create_schema: S.optional(S.Boolean),
+    name: S.String,
+    schema: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/postgres/{postgres_cluster_id}/databases/{database_name}/extensions",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "EnablePostgresExtensionRequest",
+}) as any as S.Schema<EnablePostgresExtensionRequest>;
+
+export interface EnablePostgresExtensionResponse {}
+export const EnablePostgresExtensionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "EnablePostgresExtensionResponse",
+}) as any as S.Schema<EnablePostgresExtensionResponse>;
 
 export interface EncryptSecretKeyRequest {
   /** Fly App Name */
@@ -2502,7 +3175,7 @@ export const EncryptSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/secretkeys/{secret_name}/encrypt",
+      uri: "/v1/apps/{app_name}/secretkeys/{secret_name}/encrypt",
       code: 200,
     }),
   ),
@@ -2535,6 +3208,8 @@ export interface ExecMachineRequest {
   cmd?: string;
   command?: ExecMachineRequestCommandList;
   container?: string;
+  /** Machine runs the command in the machine's own namespace instead of in a container. It is mutually exclusive with Container. */
+  machine?: boolean;
   stdin?: string;
   timeout?: number;
 }
@@ -2545,12 +3220,13 @@ export const ExecMachineRequest = /*@__PURE__*/ S.suspend(() =>
     cmd: S.optional(S.String),
     command: S.optional(ExecMachineRequestCommandList),
     container: S.optional(S.String),
+    machine: S.optional(S.Boolean),
     stdin: S.optional(S.String),
     timeout: S.optional(S.Number),
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/machines/{machine_id}/exec",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/exec",
       code: 200,
     }),
   ),
@@ -2590,7 +3266,7 @@ export const ExtendVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/apps/{app_name}/volumes/{volume_id}/extend",
+      uri: "/v1/apps/{app_name}/volumes/{volume_id}/extend",
       code: 200,
     }),
   ),
@@ -2610,6 +3286,27 @@ export const ExtendVolumeResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ExtendVolumeResponse",
 }) as any as S.Schema<ExtendVolumeResponse>;
+
+export interface ForkPostgresRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Name for the forked cluster. Defaults to the source name with a -fork suffix. */
+  name?: string;
+}
+export const ForkPostgresRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    name: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/postgres/{postgres_cluster_id}/fork",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ForkPostgresRequest",
+}) as any as S.Schema<ForkPostgresRequest>;
 
 export type GenerateSecretKeyRequestValueList = Array<number>;
 export const GenerateSecretKeyRequestValueList = /*@__PURE__*/ S.Array(
@@ -2633,7 +3330,7 @@ export const GenerateSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/secretkeys/{secret_name}/generate",
+      uri: "/v1/apps/{app_name}/secretkeys/{secret_name}/generate",
       code: 200,
     }),
   ),
@@ -2672,7 +3369,7 @@ export interface GetAppRequest {
 export const GetAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
-  }).pipe(T.Http({ method: "GET", uri: "/apps/{app_name}", code: 200 })),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}", code: 200 })),
 ).annotate({ identifier: "GetAppRequest" }) as any as S.Schema<GetAppRequest>;
 
 export interface AppOrganizationInfo {
@@ -2696,6 +3393,7 @@ export interface App {
   machine_count?: number;
   name?: string;
   network?: string;
+  network_cidr?: string;
   organization?: AppOrganizationInfo;
   status?: string;
   volume_count?: number;
@@ -2707,6 +3405,7 @@ export const App = /*@__PURE__*/ S.suspend(() =>
     machine_count: S.optional(S.Number),
     name: S.optional(S.String),
     network: S.optional(S.String),
+    network_cidr: S.optional(S.String),
     organization: S.optional(AppOrganizationInfo),
     status: S.optional(S.String),
     volume_count: S.optional(S.Number),
@@ -2726,7 +3425,7 @@ export const GetAppCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/apps/{app_name}/certificates/{hostname}",
+      uri: "/v1/apps/{app_name}/certificates/{hostname}",
       code: 200,
     }),
   ),
@@ -2737,7 +3436,7 @@ export const GetAppCertificateRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetCurrentTokenRequest {}
 export const GetCurrentTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({ method: "GET", uri: "/tokens/current", code: 200 }),
+    T.Http({ method: "GET", uri: "/v1/tokens/current", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCurrentTokenRequest",
@@ -2793,15 +3492,18 @@ export interface GetMachineRequest {
   app_name: string;
   /** Machine ID */
   machine_id: string;
+  /** Include machine lease */
+  include_leases?: boolean;
 }
 export const GetMachineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
     machine_id: S.String.pipe(T.Label()),
+    include_leases: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/apps/{app_name}/machines/{machine_id}",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}",
       code: 200,
     }),
   ),
@@ -2822,7 +3524,7 @@ export const GetMachineLeaseRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/apps/{app_name}/machines/{machine_id}/lease",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/lease",
       code: 200,
     }),
   ),
@@ -2843,7 +3545,7 @@ export const GetMachineMemoryRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/apps/{app_name}/machines/{machine_id}/memory",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/memory",
       code: 200,
     }),
   ),
@@ -2877,7 +3579,7 @@ export const GetMachineMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/apps/{app_name}/machines/{machine_id}/metadata",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/metadata",
       code: 200,
     }),
   ),
@@ -2916,7 +3618,7 @@ export const GetMachineMetadataKeyRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/apps/{app_name}/machines/{machine_id}/metadata/{key}",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/metadata/{key}",
       code: 200,
     }),
   ),
@@ -2963,7 +3665,9 @@ export const GetPlacementsRequest = /*@__PURE__*/ S.suspend(() =>
     volume_name: S.optional(S.String),
     volume_size_bytes: S.optional(S.Number),
     weights: S.optional(PlacementWeights),
-  }).pipe(T.Http({ method: "POST", uri: "/platform/placements", code: 200 })),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v1/platform/placements", code: 200 }),
+  ),
 ).annotate({
   identifier: "GetPlacementsRequest",
 }) as any as S.Schema<GetPlacementsRequest>;
@@ -3000,10 +3704,28 @@ export const MainGetPlacementsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "MainGetPlacementsResponse",
 }) as any as S.Schema<MainGetPlacementsResponse>;
 
+export interface GetPostgresRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+}
+export const GetPostgresRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/postgres/{postgres_cluster_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetPostgresRequest",
+}) as any as S.Schema<GetPostgresRequest>;
+
 export interface GetRegionsRequest {}
 export const GetRegionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({ method: "GET", uri: "/platform/regions", code: 200 }),
+    T.Http({ method: "GET", uri: "/v1/platform/regions", code: 200 }),
   ),
 ).annotate({
   identifier: "GetRegionsRequest",
@@ -3016,6 +3738,7 @@ export interface MainRegionRow {
   geo_region?: string;
   latitude?: number;
   longitude?: number;
+  mpg_available?: boolean;
   name?: string;
   requires_paid_plan?: boolean;
 }
@@ -3027,6 +3750,7 @@ export const MainRegionRow = /*@__PURE__*/ S.suspend(() =>
     geo_region: S.optional(S.String),
     latitude: S.optional(S.Number),
     longitude: S.optional(S.Number),
+    mpg_available: S.optional(S.Boolean),
     name: S.optional(S.String),
     requires_paid_plan: S.optional(S.Boolean),
   }),
@@ -3069,7 +3793,7 @@ export const GetSecretRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/apps/{app_name}/secrets/{secret_name}",
+      uri: "/v1/apps/{app_name}/secrets/{secret_name}",
       code: 200,
     }),
   ),
@@ -3110,7 +3834,7 @@ export const GetSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/apps/{app_name}/secretkeys/{secret_name}",
+      uri: "/v1/apps/{app_name}/secretkeys/{secret_name}",
       code: 200,
     }),
   ),
@@ -3148,7 +3872,7 @@ export const GetVolumeByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/apps/{app_name}/volumes/{volume_id}",
+      uri: "/v1/apps/{app_name}/volumes/{volume_id}",
       code: 200,
     }),
   ),
@@ -3173,7 +3897,11 @@ export const ListAppCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({ method: "GET", uri: "/apps/{app_name}/certificates", code: 200 }),
+    T.Http({
+      method: "GET",
+      uri: "/v1/apps/{app_name}/certificates",
+      code: 200,
+    }),
   ),
 ).annotate({
   identifier: "ListAppCertificatesRequest",
@@ -3245,13 +3973,34 @@ export const ListAppIPAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/apps/{app_name}/ip_assignments",
+      uri: "/v1/apps/{app_name}/ip_assignments",
       code: 200,
     }),
   ),
 ).annotate({
   identifier: "ListAppIPAssignmentsRequest",
 }) as any as S.Schema<ListAppIPAssignmentsRequest>;
+
+export interface IPAssignment {
+  created_at?: string;
+  ip?: string;
+  region?: string;
+  service_name?: string;
+  shared?: boolean;
+  type?: string;
+  egress?: boolean;
+}
+export const IPAssignment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    created_at: S.optional(S.String),
+    ip: S.optional(S.String),
+    region: S.optional(S.String),
+    service_name: S.optional(S.String),
+    shared: S.optional(S.Boolean),
+    type: S.optional(S.String),
+    egress: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "IPAssignment" }) as any as S.Schema<IPAssignment>;
 
 export type ListIPAssignmentsResponseIpsList = Array<IPAssignment>;
 export const ListIPAssignmentsResponseIpsList = /*@__PURE__*/ S.Array(
@@ -3279,7 +4028,7 @@ export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org_slug: S.String.pipe(T.Query()),
     app_role: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/apps", code: 200 })),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/apps", code: 200 })),
 ).annotate({
   identifier: "ListAppsRequest",
 }) as any as S.Schema<ListAppsRequest>;
@@ -3318,7 +4067,7 @@ export const ListMachineEventsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/apps/{app_name}/machines/{machine_id}/events",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/events",
       code: 200,
     }),
   ),
@@ -3357,7 +4106,7 @@ export const ListMachineProcessesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/apps/{app_name}/machines/{machine_id}/ps",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/ps",
       code: 200,
     }),
   ),
@@ -3421,22 +4170,28 @@ export interface ListMachinesRequest {
   app_name: string;
   /** Include deleted machines */
   include_deleted?: boolean;
+  /** Include machine leases */
+  include_leases?: boolean;
   /** Region filter */
   region?: string;
   /** comma separated list of states to filter (created, started, stopped, suspended) */
   state?: string;
   /** Only return summary info about machines (omit config, checks, events, host_status, nonce, etc.) */
   summary?: boolean;
+  /** Filter by a machine metadata key and exact value. Replace {key} with the metadata key, for example metadata.foo=bar. Specify multiple metadata filters to require all matches. */
+  metadata__key_?: string;
 }
 export const ListMachinesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
     include_deleted: S.optional(S.Boolean.pipe(T.Query())),
+    include_leases: S.optional(S.Boolean.pipe(T.Query())),
     region: S.optional(S.String.pipe(T.Query())),
     state: S.optional(S.String.pipe(T.Query())),
     summary: S.optional(S.Boolean.pipe(T.Query())),
+    metadata__key_: S.optional(S.String.pipe(T.Query("metadata.{key}"))),
   }).pipe(
-    T.Http({ method: "GET", uri: "/apps/{app_name}/machines", code: 200 }),
+    T.Http({ method: "GET", uri: "/v1/apps/{app_name}/machines", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMachinesRequest",
@@ -3454,51 +4209,7 @@ export const ListMachinesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListMachinesResponse",
 }) as any as S.Schema<ListMachinesResponse>;
 
-export interface ListMachineVersionsRequest {
-  /** Fly App Name */
-  app_name: string;
-  /** Machine ID */
-  machine_id: string;
-}
-export const ListMachineVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    app_name: S.String.pipe(T.Label()),
-    machine_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apps/{app_name}/machines/{machine_id}/versions",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListMachineVersionsRequest",
-}) as any as S.Schema<ListMachineVersionsRequest>;
-
-export interface MachineVersion {
-  user_config?: FlyMachineConfig;
-  version?: string;
-}
-export const MachineVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    user_config: S.optional(FlyMachineConfig),
-    version: S.optional(S.String),
-  }),
-).annotate({ identifier: "MachineVersion" }) as any as S.Schema<MachineVersion>;
-
-export type ListMachineVersionsResponseBodyList = Array<MachineVersion>;
-export const ListMachineVersionsResponseBodyList = /*@__PURE__*/ S.Array(
-  MachineVersion,
-) as any as S.Schema<ListMachineVersionsResponseBodyList>;
-
-export type ListMachineVersionsResponse = ListMachineVersionsResponseBodyList;
-export const ListMachineVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  ListMachineVersionsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMachineVersionsResponse",
-}) as any as S.Schema<ListMachineVersionsResponse>;
-
-export interface ListOrgMachinesRequest {
+export interface ListMachinesOrgRequest {
   /** Fly Organization Slug */
   org_slug: string;
   /** Include deleted machines */
@@ -3516,7 +4227,7 @@ export interface ListOrgMachinesRequest {
   /** The number of machines to fetch (max of 1000). This limit is advisory. Responses may be shorter, or even empty, even when more machines remain. If omitted, the maximum is used */
   limit?: number;
 }
-export const ListOrgMachinesRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListMachinesOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org_slug: S.String.pipe(T.Label()),
     include_deleted: S.optional(S.Boolean.pipe(T.Query())),
@@ -3527,11 +4238,11 @@ export const ListOrgMachinesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({ method: "GET", uri: "/orgs/{org_slug}/machines", code: 200 }),
+    T.Http({ method: "GET", uri: "/v1/orgs/{org_slug}/machines", code: 200 }),
   ),
 ).annotate({
-  identifier: "ListOrgMachinesRequest",
-}) as any as S.Schema<ListOrgMachinesRequest>;
+  identifier: "ListMachinesOrgRequest",
+}) as any as S.Schema<ListMachinesOrgRequest>;
 
 export type OrgMachinesResponseErrorRegionsList = Array<string>;
 export const OrgMachinesResponseErrorRegionsList = /*@__PURE__*/ S.Array(
@@ -3612,7 +4323,499 @@ export const OrgMachinesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "OrgMachinesResponse",
 }) as any as S.Schema<OrgMachinesResponse>;
 
-export interface ListOrgVolumesRequest {
+export interface ListMachineVersionsRequest {
+  /** Fly App Name */
+  app_name: string;
+  /** Machine ID */
+  machine_id: string;
+}
+export const ListMachineVersionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    app_name: S.String.pipe(T.Label()),
+    machine_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/versions",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListMachineVersionsRequest",
+}) as any as S.Schema<ListMachineVersionsRequest>;
+
+export interface MachineVersion {
+  user_config?: FlyMachineConfig;
+  version?: string;
+}
+export const MachineVersion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    user_config: S.optional(FlyMachineConfig),
+    version: S.optional(S.String),
+  }),
+).annotate({ identifier: "MachineVersion" }) as any as S.Schema<MachineVersion>;
+
+export type ListMachineVersionsResponseBodyList = Array<MachineVersion>;
+export const ListMachineVersionsResponseBodyList = /*@__PURE__*/ S.Array(
+  MachineVersion,
+) as any as S.Schema<ListMachineVersionsResponseBodyList>;
+
+export type ListMachineVersionsResponse = ListMachineVersionsResponseBodyList;
+export const ListMachineVersionsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListMachineVersionsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListMachineVersionsResponse",
+}) as any as S.Schema<ListMachineVersionsResponse>;
+
+export interface ListPostgresRequest {
+  /** Fly Organization Slug */
+  org_slug: string;
+  /** Include deleted clusters */
+  include_deleted?: boolean;
+}
+export const ListPostgresRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org_slug: S.String.pipe(T.Query()),
+    include_deleted: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/postgres", code: 200 })),
+).annotate({
+  identifier: "ListPostgresRequest",
+}) as any as S.Schema<ListPostgresRequest>;
+
+/** Apps attached to the cluster. */
+export type PostgresClusterSummaryAttachedAppsList = Array<PostgresAttachedApp>;
+export const PostgresClusterSummaryAttachedAppsList = /*@__PURE__*/ S.Array(
+  PostgresAttachedApp,
+) as any as S.Schema<PostgresClusterSummaryAttachedAppsList>;
+
+/** Plan slug. */
+export type PostgresClusterSummaryPlan =
+  | "basic"
+  | "starter"
+  | "launch"
+  | "scale"
+  | "Performance";
+export const PostgresClusterSummaryPlan = S.String;
+
+/** Current lifecycle status. */
+export type PostgresClusterSummaryStatus =
+  | "creating"
+  | "initializing"
+  | "ready"
+  | "deleting"
+  | "deleted"
+  | "failed";
+export const PostgresClusterSummaryStatus = S.String;
+
+export interface PostgresClusterSummary {
+  /** Apps attached to the cluster. */
+  attached_apps?: PostgresClusterSummaryAttachedAppsList;
+  /** RFC 3339 creation timestamp. */
+  created_at?: string;
+  /** RFC 3339 deletion timestamp; present for deleted clusters. */
+  deleted_at?: string;
+  /** Cluster ID. */
+  id?: string;
+  /** Cluster name. */
+  name?: string;
+  /** Plan slug. */
+  plan?: PostgresClusterSummaryPlan;
+  /** Fly region code. */
+  region?: string;
+  /** Current lifecycle status. */
+  status?: PostgresClusterSummaryStatus;
+}
+export const PostgresClusterSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    attached_apps: S.optional(PostgresClusterSummaryAttachedAppsList),
+    created_at: S.optional(S.String),
+    deleted_at: S.optional(S.String),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    plan: S.optional(PostgresClusterSummaryPlan),
+    region: S.optional(S.String),
+    status: S.optional(PostgresClusterSummaryStatus),
+  }),
+).annotate({
+  identifier: "PostgresClusterSummary",
+}) as any as S.Schema<PostgresClusterSummary>;
+
+export type ListPostgresClustersResponseDataList =
+  Array<PostgresClusterSummary>;
+export const ListPostgresClustersResponseDataList = /*@__PURE__*/ S.Array(
+  PostgresClusterSummary,
+) as any as S.Schema<ListPostgresClustersResponseDataList>;
+
+export interface ListPostgresClustersResponse {
+  data?: ListPostgresClustersResponseDataList;
+}
+export const ListPostgresClustersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(ListPostgresClustersResponseDataList),
+  }),
+).annotate({
+  identifier: "ListPostgresClustersResponse",
+}) as any as S.Schema<ListPostgresClustersResponse>;
+
+export interface ListPostgresBackupsRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+}
+export const ListPostgresBackupsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/postgres/{postgres_cluster_id}/backups",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListPostgresBackupsRequest",
+}) as any as S.Schema<ListPostgresBackupsRequest>;
+
+/** Backup type. */
+export type PostgresBackupType = "full" | "incr" | "diff";
+export const PostgresBackupType = S.String;
+
+export interface PostgresBackup {
+  /** RFC 3339 stop timestamp. */
+  finished_at?: string;
+  /** Backup ID. */
+  id?: string;
+  /** Backup size in bytes. */
+  size_bytes?: number;
+  /** RFC 3339 start timestamp. */
+  started_at?: string;
+  /** Backup status. */
+  status?: string;
+  /** Backup type. */
+  type?: PostgresBackupType;
+}
+export const PostgresBackup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    finished_at: S.optional(S.String),
+    id: S.optional(S.String),
+    size_bytes: S.optional(S.Number),
+    started_at: S.optional(S.String),
+    status: S.optional(S.String),
+    type: S.optional(PostgresBackupType),
+  }),
+).annotate({ identifier: "PostgresBackup" }) as any as S.Schema<PostgresBackup>;
+
+export type ListPostgresBackupsResponseDataList = Array<PostgresBackup>;
+export const ListPostgresBackupsResponseDataList = /*@__PURE__*/ S.Array(
+  PostgresBackup,
+) as any as S.Schema<ListPostgresBackupsResponseDataList>;
+
+export interface ListPostgresBackupsResponse {
+  data?: ListPostgresBackupsResponseDataList;
+}
+export const ListPostgresBackupsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(ListPostgresBackupsResponseDataList),
+  }),
+).annotate({
+  identifier: "ListPostgresBackupsResponse",
+}) as any as S.Schema<ListPostgresBackupsResponse>;
+
+export interface ListPostgresDatabasesRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+}
+export const ListPostgresDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/postgres/{postgres_cluster_id}/databases",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListPostgresDatabasesRequest",
+}) as any as S.Schema<ListPostgresDatabasesRequest>;
+
+export type ListPostgresDatabasesResponseDataList = Array<PostgresDatabase>;
+export const ListPostgresDatabasesResponseDataList = /*@__PURE__*/ S.Array(
+  PostgresDatabase,
+) as any as S.Schema<ListPostgresDatabasesResponseDataList>;
+
+export interface ListPostgresDatabasesResponse {
+  data?: ListPostgresDatabasesResponseDataList;
+}
+export const ListPostgresDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(ListPostgresDatabasesResponseDataList),
+  }),
+).annotate({
+  identifier: "ListPostgresDatabasesResponse",
+}) as any as S.Schema<ListPostgresDatabasesResponse>;
+
+export interface ListPostgresExtensionsRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Database Name */
+  database_name: string;
+}
+export const ListPostgresExtensionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    database_name: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/postgres/{postgres_cluster_id}/databases/{database_name}/extensions",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListPostgresExtensionsRequest",
+}) as any as S.Schema<ListPostgresExtensionsRequest>;
+
+export interface PostgresInstalledExtension {
+  /** Schema the extension is installed into. */
+  schema?: string;
+  /** Installed version. */
+  version?: string;
+}
+export const PostgresInstalledExtension = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    schema: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PostgresInstalledExtension",
+}) as any as S.Schema<PostgresInstalledExtension>;
+
+export interface PostgresExtension {
+  /** Default version installed when enabled. */
+  default_version?: string;
+  /** Human-readable description. */
+  description?: string;
+  /** Installation details, or null when the extension is not installed. */
+  installed?: PostgresInstalledExtension;
+  /** Extension name. */
+  name?: string;
+  /** Whether this is a system extension that cannot be disabled. */
+  system?: boolean;
+}
+export const PostgresExtension = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    default_version: S.optional(S.String),
+    description: S.optional(S.String),
+    installed: S.optional(PostgresInstalledExtension),
+    name: S.optional(S.String),
+    system: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "PostgresExtension",
+}) as any as S.Schema<PostgresExtension>;
+
+export type ListPostgresExtensionsResponseDataList = Array<PostgresExtension>;
+export const ListPostgresExtensionsResponseDataList = /*@__PURE__*/ S.Array(
+  PostgresExtension,
+) as any as S.Schema<ListPostgresExtensionsResponseDataList>;
+
+export interface ListPostgresExtensionsResponse {
+  data?: ListPostgresExtensionsResponseDataList;
+}
+export const ListPostgresExtensionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(ListPostgresExtensionsResponseDataList),
+  }),
+).annotate({
+  identifier: "ListPostgresExtensionsResponse",
+}) as any as S.Schema<ListPostgresExtensionsResponse>;
+
+export interface ListPostgresUsersRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+}
+export const ListPostgresUsersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/postgres/{postgres_cluster_id}/users",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListPostgresUsersRequest",
+}) as any as S.Schema<ListPostgresUsersRequest>;
+
+export type ListPostgresUsersResponseDataList = Array<PostgresUser>;
+export const ListPostgresUsersResponseDataList = /*@__PURE__*/ S.Array(
+  PostgresUser,
+) as any as S.Schema<ListPostgresUsersResponseDataList>;
+
+export interface ListPostgresUsersResponse {
+  data?: ListPostgresUsersResponseDataList;
+}
+export const ListPostgresUsersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(ListPostgresUsersResponseDataList),
+  }),
+).annotate({
+  identifier: "ListPostgresUsersResponse",
+}) as any as S.Schema<ListPostgresUsersResponse>;
+
+export interface ListSecretKeysRequest {
+  /** Fly App Name */
+  app_name: string;
+  /** Minimum secrets version to return. Returned when setting a new secret */
+  min_version?: string;
+  /** Comma-seperated list of secret keys to list */
+  types?: string;
+}
+export const ListSecretKeysRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    app_name: S.String.pipe(T.Label()),
+    min_version: S.optional(S.String.pipe(T.Query())),
+    types: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/apps/{app_name}/secretkeys", code: 200 }),
+  ),
+).annotate({
+  identifier: "ListSecretKeysRequest",
+}) as any as S.Schema<ListSecretKeysRequest>;
+
+export type SecretKeysSecretKeysList = Array<SecretKey>;
+export const SecretKeysSecretKeysList = /*@__PURE__*/ S.Array(
+  SecretKey,
+) as any as S.Schema<SecretKeysSecretKeysList>;
+
+export interface SecretKeys {
+  secret_keys?: SecretKeysSecretKeysList;
+}
+export const SecretKeys = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secret_keys: S.optional(SecretKeysSecretKeysList),
+  }),
+).annotate({ identifier: "SecretKeys" }) as any as S.Schema<SecretKeys>;
+
+export interface ListSecretsRequest {
+  /** Fly App Name */
+  app_name: string;
+  /** Minimum secrets version to return. Returned when setting a new secret */
+  min_version?: string;
+  /** Show the secret values. */
+  show_secrets?: boolean;
+}
+export const ListSecretsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    app_name: S.String.pipe(T.Label()),
+    min_version: S.optional(S.String.pipe(T.Query())),
+    show_secrets: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/apps/{app_name}/secrets", code: 200 }),
+  ),
+).annotate({
+  identifier: "ListSecretsRequest",
+}) as any as S.Schema<ListSecretsRequest>;
+
+export type AppSecretsSecretsList = Array<AppSecret>;
+export const AppSecretsSecretsList = /*@__PURE__*/ S.Array(
+  AppSecret,
+) as any as S.Schema<AppSecretsSecretsList>;
+
+export interface AppSecrets {
+  secrets?: AppSecretsSecretsList;
+}
+export const AppSecrets = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secrets: S.optional(AppSecretsSecretsList),
+  }),
+).annotate({ identifier: "AppSecrets" }) as any as S.Schema<AppSecrets>;
+
+export interface ListVolumesRequest {
+  /** Fly App Name */
+  app_name: string;
+  /** Only return summary info about volumes (omit blocks, block size, etc) */
+  summary?: boolean;
+}
+export const ListVolumesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    app_name: S.String.pipe(T.Label()),
+    summary: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/apps/{app_name}/volumes", code: 200 }),
+  ),
+).annotate({
+  identifier: "ListVolumesRequest",
+}) as any as S.Schema<ListVolumesRequest>;
+
+export type ListVolumesResponseBodyList = Array<Volume>;
+export const ListVolumesResponseBodyList = /*@__PURE__*/ S.Array(
+  Volume,
+) as any as S.Schema<ListVolumesResponseBodyList>;
+
+export type ListVolumesResponse = ListVolumesResponseBodyList;
+export const ListVolumesResponse = /*@__PURE__*/ S.suspend(() =>
+  ListVolumesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListVolumesResponse",
+}) as any as S.Schema<ListVolumesResponse>;
+
+export interface ListVolumeSnapshotsRequest {
+  /** Fly App Name */
+  app_name: string;
+  /** Volume ID */
+  volume_id: string;
+}
+export const ListVolumeSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    app_name: S.String.pipe(T.Label()),
+    volume_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/apps/{app_name}/volumes/{volume_id}/snapshots",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListVolumeSnapshotsRequest",
+}) as any as S.Schema<ListVolumeSnapshotsRequest>;
+
+export interface VolumeSnapshot {
+  created_at?: string;
+  digest?: string;
+  id?: string;
+  retention_days?: number;
+  size?: number;
+  status?: string;
+  volume_size?: number;
+}
+export const VolumeSnapshot = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    created_at: S.optional(S.String),
+    digest: S.optional(S.String),
+    id: S.optional(S.String),
+    retention_days: S.optional(S.Number),
+    size: S.optional(S.Number),
+    status: S.optional(S.String),
+    volume_size: S.optional(S.Number),
+  }),
+).annotate({ identifier: "VolumeSnapshot" }) as any as S.Schema<VolumeSnapshot>;
+
+export type ListVolumeSnapshotsResponseBodyList = Array<VolumeSnapshot>;
+export const ListVolumeSnapshotsResponseBodyList = /*@__PURE__*/ S.Array(
+  VolumeSnapshot,
+) as any as S.Schema<ListVolumeSnapshotsResponseBodyList>;
+
+export type ListVolumeSnapshotsResponse = ListVolumeSnapshotsResponseBodyList;
+export const ListVolumeSnapshotsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListVolumeSnapshotsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListVolumeSnapshotsResponse",
+}) as any as S.Schema<ListVolumeSnapshotsResponse>;
+
+export interface ListVolumesOrgRequest {
   /** Fly Organization Slug */
   org_slug: string;
   /** Include deleted volumes */
@@ -3630,7 +4833,7 @@ export interface ListOrgVolumesRequest {
   /** The number of volumes to fetch (max of 1000). This limit is advisory. Responses may be shorter, even when more volumes remain. If omitted, the maximum is used */
   limit?: number;
 }
-export const ListOrgVolumesRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListVolumesOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org_slug: S.String.pipe(T.Label()),
     include_deleted: S.optional(S.Boolean.pipe(T.Query())),
@@ -3641,17 +4844,17 @@ export const ListOrgVolumesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({ method: "GET", uri: "/orgs/{org_slug}/volumes", code: 200 }),
+    T.Http({ method: "GET", uri: "/v1/orgs/{org_slug}/volumes", code: 200 }),
   ),
 ).annotate({
-  identifier: "ListOrgVolumesRequest",
-}) as any as S.Schema<ListOrgVolumesRequest>;
+  identifier: "ListVolumesOrgRequest",
+}) as any as S.Schema<ListVolumesOrgRequest>;
 
 export type OrgVolumeHostStatus = "ok" | "unknown" | "unreachable";
-export const OrgVolumeHostStatus = /*@__PURE__*/ S.String;
+export const OrgVolumeHostStatus = S.String;
 
 export type OrgVolumeType = "local" | "cache";
-export const OrgVolumeType = /*@__PURE__*/ S.String;
+export const OrgVolumeType = S.String;
 
 export interface OrgVolume {
   app_name?: string;
@@ -3728,156 +4931,33 @@ export const OrgVolumesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "OrgVolumesResponse",
 }) as any as S.Schema<OrgVolumesResponse>;
 
-export interface ListSecretKeysRequest {
+export interface MachinesReleaseLeaseRequest {
   /** Fly App Name */
   app_name: string;
-  /** Minimum secrets version to return. Returned when setting a new secret */
-  min_version?: string;
-  /** Comma-seperated list of secret keys to list */
-  types?: string;
+  /** Machine ID */
+  machine_id: string;
 }
-export const ListSecretKeysRequest = /*@__PURE__*/ S.suspend(() =>
+export const MachinesReleaseLeaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
-    min_version: S.optional(S.String.pipe(T.Query())),
-    types: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({ method: "GET", uri: "/apps/{app_name}/secretkeys", code: 200 }),
-  ),
-).annotate({
-  identifier: "ListSecretKeysRequest",
-}) as any as S.Schema<ListSecretKeysRequest>;
-
-export type SecretKeysSecretKeysList = Array<SecretKey>;
-export const SecretKeysSecretKeysList = /*@__PURE__*/ S.Array(
-  SecretKey,
-) as any as S.Schema<SecretKeysSecretKeysList>;
-
-export interface SecretKeys {
-  secret_keys?: SecretKeysSecretKeysList;
-}
-export const SecretKeys = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    secret_keys: S.optional(SecretKeysSecretKeysList),
-  }),
-).annotate({ identifier: "SecretKeys" }) as any as S.Schema<SecretKeys>;
-
-export interface ListSecretsRequest {
-  /** Fly App Name */
-  app_name: string;
-  /** Minimum secrets version to return. Returned when setting a new secret */
-  min_version?: string;
-  /** Show the secret values. */
-  show_secrets?: boolean;
-}
-export const ListSecretsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    app_name: S.String.pipe(T.Label()),
-    min_version: S.optional(S.String.pipe(T.Query())),
-    show_secrets: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({ method: "GET", uri: "/apps/{app_name}/secrets", code: 200 }),
-  ),
-).annotate({
-  identifier: "ListSecretsRequest",
-}) as any as S.Schema<ListSecretsRequest>;
-
-export type AppSecretsSecretsList = Array<AppSecret>;
-export const AppSecretsSecretsList = /*@__PURE__*/ S.Array(
-  AppSecret,
-) as any as S.Schema<AppSecretsSecretsList>;
-
-export interface AppSecrets {
-  secrets?: AppSecretsSecretsList;
-}
-export const AppSecrets = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    secrets: S.optional(AppSecretsSecretsList),
-  }),
-).annotate({ identifier: "AppSecrets" }) as any as S.Schema<AppSecrets>;
-
-export interface ListVolumesRequest {
-  /** Fly App Name */
-  app_name: string;
-  /** Only return summary info about volumes (omit blocks, block size, etc) */
-  summary?: boolean;
-}
-export const ListVolumesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    app_name: S.String.pipe(T.Label()),
-    summary: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({ method: "GET", uri: "/apps/{app_name}/volumes", code: 200 }),
-  ),
-).annotate({
-  identifier: "ListVolumesRequest",
-}) as any as S.Schema<ListVolumesRequest>;
-
-export type ListVolumesResponseBodyList = Array<Volume>;
-export const ListVolumesResponseBodyList = /*@__PURE__*/ S.Array(
-  Volume,
-) as any as S.Schema<ListVolumesResponseBodyList>;
-
-export type ListVolumesResponse = ListVolumesResponseBodyList;
-export const ListVolumesResponse = /*@__PURE__*/ S.suspend(() =>
-  ListVolumesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListVolumesResponse",
-}) as any as S.Schema<ListVolumesResponse>;
-
-export interface ListVolumeSnapshotsRequest {
-  /** Fly App Name */
-  app_name: string;
-  /** Volume ID */
-  volume_id: string;
-}
-export const ListVolumeSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    app_name: S.String.pipe(T.Label()),
-    volume_id: S.String.pipe(T.Label()),
+    machine_id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
-      method: "GET",
-      uri: "/apps/{app_name}/volumes/{volume_id}/snapshots",
+      method: "DELETE",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/lease",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "ListVolumeSnapshotsRequest",
-}) as any as S.Schema<ListVolumeSnapshotsRequest>;
+  identifier: "MachinesReleaseLeaseRequest",
+}) as any as S.Schema<MachinesReleaseLeaseRequest>;
 
-export interface VolumeSnapshot {
-  created_at?: string;
-  digest?: string;
-  id?: string;
-  retention_days?: number;
-  size?: number;
-  status?: string;
-  volume_size?: number;
-}
-export const VolumeSnapshot = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    created_at: S.optional(S.String),
-    digest: S.optional(S.String),
-    id: S.optional(S.String),
-    retention_days: S.optional(S.Number),
-    size: S.optional(S.Number),
-    status: S.optional(S.String),
-    volume_size: S.optional(S.Number),
-  }),
-).annotate({ identifier: "VolumeSnapshot" }) as any as S.Schema<VolumeSnapshot>;
-
-export type ListVolumeSnapshotsResponseBodyList = Array<VolumeSnapshot>;
-export const ListVolumeSnapshotsResponseBodyList = /*@__PURE__*/ S.Array(
-  VolumeSnapshot,
-) as any as S.Schema<ListVolumeSnapshotsResponseBodyList>;
-
-export type ListVolumeSnapshotsResponse = ListVolumeSnapshotsResponseBodyList;
-export const ListVolumeSnapshotsResponse = /*@__PURE__*/ S.suspend(() =>
-  ListVolumeSnapshotsResponseBodyList.pipe(T.RawResponseRoot()),
+export interface MachinesReleaseLeaseResponse {}
+export const MachinesReleaseLeaseResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
-  identifier: "ListVolumeSnapshotsResponse",
-}) as any as S.Schema<ListVolumeSnapshotsResponse>;
+  identifier: "MachinesReleaseLeaseResponse",
+}) as any as S.Schema<MachinesReleaseLeaseResponse>;
 
 export type PatchMachineMetadataRequestMetadataMap = {
   [key: string]: string | undefined;
@@ -3906,7 +4986,7 @@ export const PatchMachineMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/apps/{app_name}/machines/{machine_id}/metadata",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/metadata",
       code: 200,
     }),
   ),
@@ -3920,6 +5000,53 @@ export const PatchMachineMetadataResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PatchMachineMetadataResponse",
 }) as any as S.Schema<PatchMachineMetadataResponse>;
+
+export interface PostgresUsersCredentialsRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Postgres User Name */
+  username: string;
+}
+export const PostgresUsersCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    username: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/postgres/{postgres_cluster_id}/users/{username}/credentials",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PostgresUsersCredentialsRequest",
+}) as any as S.Schema<PostgresUsersCredentialsRequest>;
+
+export interface PostgresUserCredentials {
+  /** User password. */
+  password?: string;
+  /** User name. */
+  username?: string;
+}
+export const PostgresUserCredentials = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    username: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PostgresUserCredentials",
+}) as any as S.Schema<PostgresUserCredentials>;
+
+export interface GetPostgresUserCredentialsResponse {
+  data?: PostgresUserCredentials;
+}
+export const GetPostgresUserCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(PostgresUserCredentials),
+  }),
+).annotate({
+  identifier: "GetPostgresUserCredentialsResponse",
+}) as any as S.Schema<GetPostgresUserCredentialsResponse>;
 
 export interface ReclaimMachineMemoryRequest {
   /** Fly App Name */
@@ -3936,7 +5063,7 @@ export const ReclaimMachineMemoryRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/machines/{machine_id}/memory/reclaim",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/memory/reclaim",
       code: 200,
     }),
   ),
@@ -3955,37 +5082,11 @@ export const MainReclaimMemoryResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "MainReclaimMemoryResponse",
 }) as any as S.Schema<MainReclaimMemoryResponse>;
 
-export interface ReleaseMachineLeaseRequest {
-  /** Fly App Name */
-  app_name: string;
-  /** Machine ID */
-  machine_id: string;
-}
-export const ReleaseMachineLeaseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    app_name: S.String.pipe(T.Label()),
-    machine_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/apps/{app_name}/machines/{machine_id}/lease",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReleaseMachineLeaseRequest",
-}) as any as S.Schema<ReleaseMachineLeaseRequest>;
-
-export interface ReleaseMachineLeaseResponse {}
-export const ReleaseMachineLeaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ReleaseMachineLeaseResponse",
-}) as any as S.Schema<ReleaseMachineLeaseResponse>;
-
 export interface RequestKmsTokenRequest {}
 export const RequestKmsTokenRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.Http({ method: "POST", uri: "/tokens/kms", code: 200 })),
+  S.Struct({}).pipe(
+    T.Http({ method: "POST", uri: "/v1/tokens/kms", code: 200 }),
+  ),
 ).annotate({
   identifier: "RequestKmsTokenRequest",
 }) as any as S.Schema<RequestKmsTokenRequest>;
@@ -4005,7 +5106,7 @@ export const RequestOidcTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     aud: S.optional(S.String),
     aws_principal_tags: S.optional(S.Boolean),
-  }).pipe(T.Http({ method: "POST", uri: "/tokens/oidc", code: 200 })),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/tokens/oidc", code: 200 })),
 ).annotate({
   identifier: "RequestOidcTokenRequest",
 }) as any as S.Schema<RequestOidcTokenRequest>;
@@ -4025,7 +5126,7 @@ export type RestartMachineRequestSignal =
   | "SIGUSR1"
   | "SIGUSR2"
   | "SIGTERM";
-export const RestartMachineRequestSignal = /*@__PURE__*/ S.String;
+export const RestartMachineRequestSignal = S.String;
 
 export interface RestartMachineRequest {
   /** Fly App Name */
@@ -4046,7 +5147,7 @@ export const RestartMachineRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/machines/{machine_id}/restart",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/restart",
       code: 200,
     }),
   ),
@@ -4060,6 +5161,68 @@ export const RestartMachineResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RestartMachineResponse",
 }) as any as S.Schema<RestartMachineResponse>;
+
+export interface RestorePostgresRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Backup label to restore from, as returned by the backups list. Mutually exclusive with pitr_time. */
+  backup_id?: string;
+  /** Name for the restored cluster. Defaults to a generated name derived from the source cluster and backup/point in time when omitted or blank. */
+  name?: string;
+  /** Point in time to restore to, as an RFC3339 timestamp with an explicit offset from UTC (e.g. Z or +02:00). Normalized to UTC and must fall within the cluster's PITR recovery window. Mutually exclusive with backup_id. */
+  pitr_time?: string;
+}
+export const RestorePostgresRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    backup_id: S.optional(S.String),
+    name: S.optional(S.String),
+    pitr_time: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/postgres/{postgres_cluster_id}/restore",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "RestorePostgresRequest",
+}) as any as S.Schema<RestorePostgresRequest>;
+
+export interface RotatePostgresUserPasswordRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Postgres User Name */
+  username: string;
+  /** Terminate the user's existing sessions after rotating. */
+  kill_sessions?: boolean;
+}
+export const RotatePostgresUserPasswordRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    username: S.String.pipe(T.Label()),
+    kill_sessions: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/postgres/{postgres_cluster_id}/users/{username}/rotate_password",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "RotatePostgresUserPasswordRequest",
+}) as any as S.Schema<RotatePostgresUserPasswordRequest>;
+
+export interface RotatePostgresPasswordResponse {
+  data?: PostgresUserCredentials;
+}
+export const RotatePostgresPasswordResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(PostgresUserCredentials),
+  }),
+).annotate({
+  identifier: "RotatePostgresPasswordResponse",
+}) as any as S.Schema<RotatePostgresPasswordResponse>;
 
 export interface SetMachineMemoryLimitRequest {
   /** Fly App Name */
@@ -4076,7 +5239,7 @@ export const SetMachineMemoryLimitRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/apps/{app_name}/machines/{machine_id}/memory",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/memory",
       code: 200,
     }),
   ),
@@ -4106,7 +5269,7 @@ export const SetSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/secretkeys/{secret_name}",
+      uri: "/v1/apps/{app_name}/secretkeys/{secret_name}",
       code: 200,
     }),
   ),
@@ -4129,7 +5292,7 @@ export type SignalMachineRequestSignal =
   | "SIGTRAP"
   | "SIGUSR1"
   | "SIGUSR2";
-export const SignalMachineRequestSignal = /*@__PURE__*/ S.String;
+export const SignalMachineRequestSignal = S.String;
 
 export interface SignalMachineRequest {
   /** Fly App Name */
@@ -4146,7 +5309,7 @@ export const SignalMachineRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/machines/{machine_id}/signal",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/signal",
       code: 200,
     }),
   ),
@@ -4179,7 +5342,7 @@ export const SignSecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/secretkeys/{secret_name}/sign",
+      uri: "/v1/apps/{app_name}/secretkeys/{secret_name}/sign",
       code: 200,
     }),
   ),
@@ -4211,7 +5374,7 @@ export const StartMachineRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/machines/{machine_id}/start",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/start",
       code: 200,
     }),
   ),
@@ -4234,7 +5397,7 @@ export type StopMachineRequestSignal =
   | "SIGUSR1"
   | "SIGUSR2"
   | "SIGTERM";
-export const StopMachineRequestSignal = /*@__PURE__*/ S.String;
+export const StopMachineRequestSignal = S.String;
 
 export interface StopMachineRequest {
   /** Fly App Name */
@@ -4253,7 +5416,7 @@ export const StopMachineRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/machines/{machine_id}/stop",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/stop",
       code: 200,
     }),
   ),
@@ -4281,7 +5444,7 @@ export const SuspendMachineRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/machines/{machine_id}/suspend",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/suspend",
       code: 200,
     }),
   ),
@@ -4309,7 +5472,7 @@ export const UncordonMachineRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/machines/{machine_id}/uncordon",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/uncordon",
       code: 200,
     }),
   ),
@@ -4358,7 +5521,7 @@ export const UpdateMachineRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/machines/{machine_id}",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}",
       code: 200,
     }),
   ),
@@ -4393,7 +5556,7 @@ export const UpdateMachineMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/apps/{app_name}/machines/{machine_id}/metadata",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/metadata",
       code: 200,
     }),
   ),
@@ -4407,6 +5570,44 @@ export const UpdateMachineMetadataResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateMachineMetadataResponse",
 }) as any as S.Schema<UpdateMachineMetadataResponse>;
+
+/** New role for the user. */
+export type UpdatePostgresUserRoleRequestRole =
+  | "schema_admin"
+  | "writer"
+  | "reader";
+export const UpdatePostgresUserRoleRequestRole = S.String;
+
+export interface UpdatePostgresUserRoleRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Postgres User Name */
+  username: string;
+  /** New role for the user. */
+  role: UpdatePostgresUserRoleRequestRole | (string & {});
+}
+export const UpdatePostgresUserRoleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    username: S.String.pipe(T.Label()),
+    role: UpdatePostgresUserRoleRequestRole,
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/v1/postgres/{postgres_cluster_id}/users/{username}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdatePostgresUserRoleRequest",
+}) as any as S.Schema<UpdatePostgresUserRoleRequest>;
+
+export interface UpdatePostgresUserRoleResponse {}
+export const UpdatePostgresUserRoleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdatePostgresUserRoleResponse",
+}) as any as S.Schema<UpdatePostgresUserRoleResponse>;
 
 export type UpdateSecretsRequestValuesMap = {
   [key: string]: string | undefined;
@@ -4426,7 +5627,7 @@ export const UpdateSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     app_name: S.String.pipe(T.Label()),
     values: S.optional(UpdateSecretsRequestValuesMap),
   }).pipe(
-    T.Http({ method: "POST", uri: "/apps/{app_name}/secrets", code: 200 }),
+    T.Http({ method: "POST", uri: "/v1/apps/{app_name}/secrets", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateSecretsRequest",
@@ -4470,7 +5671,7 @@ export const UpdateVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/apps/{app_name}/volumes/{volume_id}",
+      uri: "/v1/apps/{app_name}/volumes/{volume_id}",
       code: 200,
     }),
   ),
@@ -4498,7 +5699,7 @@ export const UpsertMachineMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/machines/{machine_id}/metadata/{key}",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/metadata/{key}",
       code: 200,
     }),
   ),
@@ -4533,7 +5734,7 @@ export const VerifySecretKeyRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/apps/{app_name}/secretkeys/{secret_name}/verify",
+      uri: "/v1/apps/{app_name}/secretkeys/{secret_name}/verify",
       code: 200,
     }),
   ),
@@ -4555,7 +5756,7 @@ export type WaitMachineRequestState =
   | "destroyed"
   | "failed"
   | "settled";
-export const WaitMachineRequestState = /*@__PURE__*/ S.String;
+export const WaitMachineRequestState = S.String;
 
 export interface WaitMachineRequest {
   /** Fly App Name */
@@ -4585,7 +5786,7 @@ export const WaitMachineRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/apps/{app_name}/machines/{machine_id}/wait",
+      uri: "/v1/apps/{app_name}/machines/{machine_id}/wait",
       code: 200,
     }),
   ),
@@ -4769,12 +5970,12 @@ export type CreateAppIPAssignmentError =
 /** Assign new IP address to app */
 export const createAppIPAssignment: API.OperationMethod<
   CreateAppIPAssignmentRequest,
-  IPAssignment,
+  AssignIPResponse,
   CreateAppIPAssignmentError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAppIPAssignmentRequest,
-  output: IPAssignment,
+  output: AssignIPResponse,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
@@ -4815,6 +6016,94 @@ export const createMachineLease: API.OperationMethod<
   input: CreateMachineLeaseRequest,
   output: Lease,
   errors: [BadRequest, Forbidden, NotFound],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreatePostgresError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | FlyIoOpError;
+/** Create Postgres Cluster Create a Managed Postgres cluster for the organization named in the request body. Provisioning is asynchronous, and a name is generated when one is not supplied. */
+export const createPostgres: API.OperationMethod<
+  CreatePostgresRequest,
+  ShowPostgresClusterResponse,
+  CreatePostgresError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePostgresRequest,
+  output: ShowPostgresClusterResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreatePostgresAttachmentError = NotFound | FlyIoOpError;
+/** Attach Cluster to App Attach a specific cluster to a Fly app. The attachment is created if it does not already exist. */
+export const createPostgresAttachment: API.OperationMethod<
+  CreatePostgresAttachmentRequest,
+  CreatePostgresAttachmentResponse,
+  CreatePostgresAttachmentError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePostgresAttachmentRequest,
+  output: CreatePostgresAttachmentResponse,
+  errors: [NotFound],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreatePostgresBackupError = NotFound | Conflict | FlyIoOpError;
+/** Create Backup Create a backup for a specific cluster. The backup runs asynchronously and is rejected if one is already in progress. */
+export const createPostgresBackup: API.OperationMethod<
+  CreatePostgresBackupRequest,
+  CreatePostgresBackupResponse,
+  CreatePostgresBackupError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePostgresBackupRequest,
+  output: CreatePostgresBackupResponse,
+  errors: [NotFound, Conflict],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreatePostgresDatabaseError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | FlyIoOpError;
+/** Create Database Create a database within a specific cluster. */
+export const createPostgresDatabase: API.OperationMethod<
+  CreatePostgresDatabaseRequest,
+  PostgresDatabaseResponse,
+  CreatePostgresDatabaseError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePostgresDatabaseRequest,
+  output: PostgresDatabaseResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreatePostgresUserError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | FlyIoOpError;
+/** Create User Create a Postgres user within a specific cluster. Fetch the generated password from the credentials endpoint. */
+export const createPostgresUser: API.OperationMethod<
+  CreatePostgresUserRequest,
+  CreatePostgresUserResponse,
+  CreatePostgresUserError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePostgresUserRequest,
+  output: CreatePostgresUserResponse,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -5006,6 +6295,66 @@ export const deleteMachineMetadata: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeletePostgresError = NotFound | FlyIoOpError;
+/** Delete Postgres Cluster Delete a Managed Postgres cluster. The cluster is marked for deletion and removed asynchronously. */
+export const deletePostgres: API.OperationMethod<
+  DeletePostgresRequest,
+  DeletePostgresResponse,
+  DeletePostgresError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeletePostgresRequest,
+  output: DeletePostgresResponse,
+  errors: [NotFound],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeletePostgresAttachmentError = NotFound | FlyIoOpError;
+/** Detach Cluster from App Detach a specific cluster from a Fly app. */
+export const deletePostgresAttachment: API.OperationMethod<
+  DeletePostgresAttachmentRequest,
+  DeletePostgresAttachmentResponse,
+  DeletePostgresAttachmentError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeletePostgresAttachmentRequest,
+  output: DeletePostgresAttachmentResponse,
+  errors: [NotFound],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeletePostgresDatabaseError = BadRequest | NotFound | FlyIoOpError;
+/** Drop Database Delete a specific database within a cluster, along with objects that depend on it. */
+export const deletePostgresDatabase: API.OperationMethod<
+  DeletePostgresDatabaseRequest,
+  PostgresDatabaseResponse,
+  DeletePostgresDatabaseError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeletePostgresDatabaseRequest,
+  output: PostgresDatabaseResponse,
+  errors: [BadRequest, NotFound],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeletePostgresUserError = BadRequest | NotFound | FlyIoOpError;
+/** Delete User Delete a specific Postgres user within a cluster. */
+export const deletePostgresUser: API.OperationMethod<
+  DeletePostgresUserRequest,
+  DeletePostgresUserResponse,
+  DeletePostgresUserError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeletePostgresUserRequest,
+  output: DeletePostgresUserResponse,
+  errors: [BadRequest, NotFound],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteSecretError = Forbidden | NotFound | FlyIoOpError;
 /** Delete an app secret */
 export const deleteSecret: API.OperationMethod<
@@ -5036,7 +6385,12 @@ export const deleteSecretKey: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteVolumeError = Forbidden | NotFound | Conflict | FlyIoOpError;
+export type DeleteVolumeError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VolumeAttached
+  | FlyIoOpError;
 /** Destroy Volume Delete a specific volume within an app by volume ID. */
 export const deleteVolume: API.OperationMethod<
   DeleteVolumeRequest,
@@ -5046,7 +6400,46 @@ export const deleteVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteVolumeRequest,
   output: Volume,
-  errors: [Forbidden, NotFound, Conflict],
+  errors: [Forbidden, NotFound, Conflict, VolumeAttached],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DisablePostgresExtensionError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | FlyIoOpError;
+/** Disable Extension Disable a specific Postgres extension within a database, optionally dropping objects that depend on it. System extensions cannot be disabled. */
+export const disablePostgresExtension: API.OperationMethod<
+  DisablePostgresExtensionRequest,
+  DisablePostgresExtensionResponse,
+  DisablePostgresExtensionError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DisablePostgresExtensionRequest,
+  output: DisablePostgresExtensionResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EnablePostgresExtensionError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | FlyIoOpError;
+/** Enable Extension Enable a Postgres extension within a specific database. PostGIS extensions require a PostGIS-enabled cluster. */
+export const enablePostgresExtension: API.OperationMethod<
+  EnablePostgresExtensionRequest,
+  EnablePostgresExtensionResponse,
+  EnablePostgresExtensionError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EnablePostgresExtensionRequest,
+  output: EnablePostgresExtensionResponse,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -5104,6 +6497,26 @@ export const extendVolume: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ForkPostgresError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | FlyIoOpError;
+/** Fork Cluster to New Cluster Fork a ready Managed Postgres cluster into a new cluster that inherits the source's settings. The source cluster is left unchanged, and the fork is provisioned asynchronously. */
+export const forkPostgres: API.OperationMethod<
+  ForkPostgresRequest,
+  ShowPostgresClusterResponse,
+  ForkPostgresError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ForkPostgresRequest,
+  output: ShowPostgresClusterResponse,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GenerateSecretKeyError =
   | BadRequest
   | Forbidden
@@ -5154,7 +6567,7 @@ export const getAppCertificate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetCurrentTokenError = FlyIoOpError;
+export type GetCurrentTokenError = Forbidden | FlyIoOpError;
 /** Get Current Token Information Get information about the current macaroon token(s), including organizations, apps, user identity hashes, and machine restrictions */
 export const getCurrentToken: API.OperationMethod<
   GetCurrentTokenRequest,
@@ -5164,7 +6577,7 @@ export const getCurrentToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCurrentTokenRequest,
   output: CurrentTokenResponse,
-  errors: [],
+  errors: [Forbidden],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -5255,6 +6668,21 @@ export const getPlacements: API.OperationMethod<
   input: GetPlacementsRequest,
   output: MainGetPlacementsResponse,
   errors: [BadRequest, Forbidden],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPostgresError = NotFound | FlyIoOpError;
+/** Get Postgres Cluster Get details of a specific Managed Postgres cluster. */
+export const getPostgres: API.OperationMethod<
+  GetPostgresRequest,
+  ShowPostgresClusterResponse,
+  GetPostgresError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPostgresRequest,
+  output: ShowPostgresClusterResponse,
+  errors: [NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -5413,6 +6841,21 @@ export const listMachines: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListMachinesOrgError = Forbidden | NotFound | FlyIoOpError;
+/** List All Machines List all Machines associated with a specific organization. Machines are sorted by their `updated_at` timestamps, oldest to newest. This API call represents "a point in time". Recent machine changes, including creations and destructions, may take time to propagate. When polling with `updated_after`, offset your timestamps to catch late-arriving events. */
+export const listMachinesOrg: API.OperationMethod<
+  ListMachinesOrgRequest,
+  OrgMachinesResponse,
+  ListMachinesOrgError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListMachinesOrgRequest,
+  output: OrgMachinesResponse,
+  errors: [Forbidden, NotFound],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListMachineVersionsError = Forbidden | NotFound | FlyIoOpError;
 /** List Versions List all versions of the configuration for a specific Machine within an app. */
 export const listMachineVersions: API.OperationMethod<
@@ -5428,32 +6871,77 @@ export const listMachineVersions: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListOrgMachinesError = Forbidden | NotFound | FlyIoOpError;
-/** List All Machines List all Machines associated with a specific organization. Machines are sorted by their `updated_at` timestamps, oldest to newest. This API call represents "a point in time". Recent machine changes, including creations and destructions, may take time to propagate. When polling with `updated_after`, offset your timestamps to catch late-arriving events. */
-export const listOrgMachines: API.OperationMethod<
-  ListOrgMachinesRequest,
-  OrgMachinesResponse,
-  ListOrgMachinesError,
+export type ListPostgresError = NotFound | UnprocessableEntity | FlyIoOpError;
+/** List Postgres Clusters List Managed Postgres clusters for an organization. */
+export const listPostgres: API.OperationMethod<
+  ListPostgresRequest,
+  ListPostgresClustersResponse,
+  ListPostgresError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListOrgMachinesRequest,
-  output: OrgMachinesResponse,
-  errors: [Forbidden, NotFound],
+  input: ListPostgresRequest,
+  output: ListPostgresClustersResponse,
+  errors: [NotFound, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListOrgVolumesError = FlyIoOpError;
-/** List All Volumes List all volumes for an organization with optional filters and cursor-based pagination. */
-export const listOrgVolumes: API.OperationMethod<
-  ListOrgVolumesRequest,
-  OrgVolumesResponse,
-  ListOrgVolumesError,
+export type ListPostgresBackupsError = NotFound | FlyIoOpError;
+/** List Backups List all backups associated with a specific cluster. */
+export const listPostgresBackups: API.OperationMethod<
+  ListPostgresBackupsRequest,
+  ListPostgresBackupsResponse,
+  ListPostgresBackupsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListOrgVolumesRequest,
-  output: OrgVolumesResponse,
-  errors: [],
+  input: ListPostgresBackupsRequest,
+  output: ListPostgresBackupsResponse,
+  errors: [NotFound],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListPostgresDatabasesError = NotFound | FlyIoOpError;
+/** List Databases List all databases within a specific cluster. */
+export const listPostgresDatabases: API.OperationMethod<
+  ListPostgresDatabasesRequest,
+  ListPostgresDatabasesResponse,
+  ListPostgresDatabasesError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListPostgresDatabasesRequest,
+  output: ListPostgresDatabasesResponse,
+  errors: [NotFound],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListPostgresExtensionsError = BadRequest | NotFound | FlyIoOpError;
+/** List Extensions List all extensions available within a specific database, indicating which are installed. */
+export const listPostgresExtensions: API.OperationMethod<
+  ListPostgresExtensionsRequest,
+  ListPostgresExtensionsResponse,
+  ListPostgresExtensionsError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListPostgresExtensionsRequest,
+  output: ListPostgresExtensionsResponse,
+  errors: [BadRequest, NotFound],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListPostgresUsersError = NotFound | FlyIoOpError;
+/** List Users List all Postgres users within a specific cluster. */
+export const listPostgresUsers: API.OperationMethod<
+  ListPostgresUsersRequest,
+  ListPostgresUsersResponse,
+  ListPostgresUsersError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListPostgresUsersRequest,
+  output: ListPostgresUsersResponse,
+  errors: [NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -5518,6 +7006,36 @@ export const listVolumeSnapshots: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListVolumesOrgError = FlyIoOpError;
+/** List All Volumes List all volumes for an organization with optional filters and cursor-based pagination. */
+export const listVolumesOrg: API.OperationMethod<
+  ListVolumesOrgRequest,
+  OrgVolumesResponse,
+  ListVolumesOrgError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListVolumesOrgRequest,
+  output: OrgVolumesResponse,
+  errors: [],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type MachinesReleaseLeaseError = Forbidden | NotFound | FlyIoOpError;
+/** Release Lease Release the lease of a specific Machine within an app. Machine leases can be used to obtain an exclusive lock on modifying a Machine. */
+export const machinesReleaseLease: API.OperationMethod<
+  MachinesReleaseLeaseRequest,
+  MachinesReleaseLeaseResponse,
+  MachinesReleaseLeaseError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: MachinesReleaseLeaseRequest,
+  output: MachinesReleaseLeaseResponse,
+  errors: [Forbidden, NotFound],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PatchMachineMetadataError = BadRequest | FlyIoOpError;
 /** Update Metadata (set/remove multiple keys) Update multiple metadata keys at once. Null values and empty strings remove keys. + If `machine_version` is provided and no longer matches the current machine version, returns 412 Precondition Failed. */
 export const patchMachineMetadata: API.OperationMethod<
@@ -5529,6 +7047,24 @@ export const patchMachineMetadata: API.OperationMethod<
   input: PatchMachineMetadataRequest,
   output: PatchMachineMetadataResponse,
   errors: [BadRequest],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PostgresUsersCredentialsError =
+  | BadRequest
+  | NotFound
+  | FlyIoOpError;
+/** Get User Credentials Get the connection credentials for a specific Postgres user within a cluster. */
+export const postgresUsersCredentials: API.OperationMethod<
+  PostgresUsersCredentialsRequest,
+  GetPostgresUserCredentialsResponse,
+  PostgresUsersCredentialsError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PostgresUsersCredentialsRequest,
+  output: GetPostgresUserCredentialsResponse,
+  errors: [BadRequest, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -5548,21 +7084,6 @@ export const reclaimMachineMemory: API.OperationMethod<
   input: ReclaimMachineMemoryRequest,
   output: MainReclaimMemoryResponse,
   errors: [BadRequest, Forbidden, NotFound],
-  protocol: FlyIoProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ReleaseMachineLeaseError = Forbidden | NotFound | FlyIoOpError;
-/** Release Lease Release the lease of a specific Machine within an app. Machine leases can be used to obtain an exclusive lock on modifying a Machine. */
-export const releaseMachineLease: API.OperationMethod<
-  ReleaseMachineLeaseRequest,
-  ReleaseMachineLeaseResponse,
-  ReleaseMachineLeaseError,
-  FlyIoOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ReleaseMachineLeaseRequest,
-  output: ReleaseMachineLeaseResponse,
-  errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -5620,6 +7141,44 @@ export const restartMachine: API.OperationMethod<
   input: RestartMachineRequest,
   output: RestartMachineResponse,
   errors: [BadRequest, Forbidden, NotFound],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RestorePostgresError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | FlyIoOpError;
+/** Restore Backup or Point in Time to New Cluster Restore a backup, or a point in time within the cluster's PITR recovery window, into a new Managed Postgres cluster. The source cluster is left unchanged, and a new cluster is provisioned asynchronously. */
+export const restorePostgres: API.OperationMethod<
+  RestorePostgresRequest,
+  ShowPostgresClusterResponse,
+  RestorePostgresError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RestorePostgresRequest,
+  output: ShowPostgresClusterResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RotatePostgresUserPasswordError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | FlyIoOpError;
+/** Rotate User Password Rotate a specific Postgres user's password within a cluster, optionally terminating the user's existing sessions. */
+export const rotatePostgresUserPassword: API.OperationMethod<
+  RotatePostgresUserPasswordRequest,
+  RotatePostgresPasswordResponse,
+  RotatePostgresUserPasswordError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RotatePostgresUserPasswordRequest,
+  output: RotatePostgresPasswordResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -5706,6 +7265,7 @@ export type StartMachineError =
   | Forbidden
   | NotFound
   | Conflict
+  | MachineStartFromCreatedState
   | FlyIoOpError;
 /** Start Machine Start a specific Machine within an app. */
 export const startMachine: API.OperationMethod<
@@ -5716,7 +7276,13 @@ export const startMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartMachineRequest,
   output: StartMachineResponse,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    Conflict,
+    MachineStartFromCreatedState,
+  ],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -5813,6 +7379,25 @@ export const updateMachineMetadata: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdatePostgresUserRoleError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | FlyIoOpError;
+/** Update User Role Update a specific Postgres user's role within a cluster. */
+export const updatePostgresUserRole: API.OperationMethod<
+  UpdatePostgresUserRoleRequest,
+  UpdatePostgresUserRoleResponse,
+  UpdatePostgresUserRoleError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdatePostgresUserRoleRequest,
+  output: UpdatePostgresUserRoleResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateSecretsError =
   | BadRequest
   | Forbidden
@@ -5895,6 +7480,7 @@ export type WaitMachineError =
   | Forbidden
   | NotFound
   | GatewayTimeout
+  | MachineWaitTimeout
   | FlyIoOpError;
 /** Wait for State Wait for a Machine to reach a specific state. Specify the desired state with the state parameter. See the [Machine states table](https://fly.io/docs/machines/working-with-machines/#machine-states) for a list of possible states. The default for this parameter is `started`. This request will block for up to 60 seconds. Set a shorter timeout with the timeout parameter. */
 export const waitMachine: API.OperationMethod<
@@ -5905,7 +7491,7 @@ export const waitMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WaitMachineRequest,
   output: WaitMachineResponse,
-  errors: [BadRequest, Forbidden, NotFound, GatewayTimeout],
+  errors: [BadRequest, Forbidden, NotFound, GatewayTimeout, MachineWaitTimeout],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));

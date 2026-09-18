@@ -81,14 +81,14 @@ export class ZoneNotEntitled
   ) {}
 
 export type EventsCreateRequestTurnstileAction = "log" | "infinite_queue";
-export const EventsCreateRequestTurnstileAction = /*@__PURE__*/ S.String;
+export const EventsCreateRequestTurnstileAction = S.String;
 
 export type EventsCreateRequestTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const EventsCreateRequestTurnstileMode = /*@__PURE__*/ S.String;
+export const EventsCreateRequestTurnstileMode = S.String;
 
 export interface CreateEventRequest {
   /** Identifier. */
@@ -168,14 +168,14 @@ export const CreateEventRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateEventRequest>;
 
 export type EventsCreateResponseTurnstileAction = "log" | "infinite_queue";
-export const EventsCreateResponseTurnstileAction = /*@__PURE__*/ S.String;
+export const EventsCreateResponseTurnstileAction = S.String;
 
 export type EventsCreateResponseTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const EventsCreateResponseTurnstileMode = /*@__PURE__*/ S.String;
+export const EventsCreateResponseTurnstileMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateEventResponse {
@@ -265,7 +265,7 @@ export const CreateEventResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateEventResponse>;
 
 export type RulesCreateRequestRulesAction = "bypass_waiting_room";
-export const RulesCreateRequestRulesAction = /*@__PURE__*/ S.String;
+export const RulesCreateRequestRulesAction = S.String;
 
 export interface RulesCreateRequestRules {
   /** The action to take when the expression matches. */
@@ -313,7 +313,7 @@ export const CreateRuleRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateRuleRequest>;
 
 export type RulesCreateResultItemAction = "bypass_waiting_room";
-export const RulesCreateResultItemAction = /*@__PURE__*/ S.String;
+export const RulesCreateResultItemAction = S.String;
 
 export interface RulesCreateResultItem {
   /** The ID of the rule. */
@@ -390,10 +390,10 @@ export type CreateRequestCookieAttributesSamesite =
   | "lax"
   | "none"
   | "strict";
-export const CreateRequestCookieAttributesSamesite = /*@__PURE__*/ S.String;
+export const CreateRequestCookieAttributesSamesite = S.String;
 
 export type CreateRequestCookieAttributesSecure = "auto" | "always" | "never";
-export const CreateRequestCookieAttributesSecure = /*@__PURE__*/ S.String;
+export const CreateRequestCookieAttributesSecure = S.String;
 
 export interface CreateRequestCookieAttributes {
   /** Configures the SameSite attribute on the waiting room cookie. Value `auto` will be translated to `lax` or `none` depending if **Always Use HTTPS** is enabled. Note that when using value `none`, the secure attribute cannot be set to `never`. */
@@ -449,10 +449,10 @@ export type CreateRequestDefaultTemplateLanguage =
   | "th-TH"
   | "uk-UA"
   | "vi-VN";
-export const CreateRequestDefaultTemplateLanguage = /*@__PURE__*/ S.String;
+export const CreateRequestDefaultTemplateLanguage = S.String;
 
 export type CreateRequestEnabledOriginCommandsItem = "revoke";
-export const CreateRequestEnabledOriginCommandsItem = /*@__PURE__*/ S.String;
+export const CreateRequestEnabledOriginCommandsItem = S.String;
 
 export type CreateRequestEnabledOriginCommandsList = Array<
   CreateRequestEnabledOriginCommandsItem | (string & {})
@@ -466,20 +466,20 @@ export type CreateRequestQueueingMethod =
   | "random"
   | "passthrough"
   | "reject";
-export const CreateRequestQueueingMethod = /*@__PURE__*/ S.String;
+export const CreateRequestQueueingMethod = S.String;
 
 export type CreateRequestQueueingStatusCode = 200 | 202 | 429;
-export const CreateRequestQueueingStatusCode = /*@__PURE__*/ S.Number;
+export const CreateRequestQueueingStatusCode = S.Number;
 
 export type CreateRequestTurnstileAction = "log" | "infinite_queue";
-export const CreateRequestTurnstileAction = /*@__PURE__*/ S.String;
+export const CreateRequestTurnstileAction = S.String;
 
 export type CreateRequestTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const CreateRequestTurnstileMode = /*@__PURE__*/ S.String;
+export const CreateRequestTurnstileMode = S.String;
 
 export interface CreateWaitingRoomRequest {
   /** Identifier. */
@@ -524,9 +524,9 @@ export interface CreateWaitingRoomRequest {
   sessionDuration?: number;
   /** Suspends or allows traffic going to the waiting room. If set to `true`, the traffic will not go to the waiting room. */
   suspended?: boolean;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: CreateRequestTurnstileAction | (string & {});
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: CreateRequestTurnstileMode | (string & {});
 }
 export const CreateWaitingRoomRequest = /*@__PURE__*/ S.suspend(() =>
@@ -616,10 +616,10 @@ export type CreateResponseCookieAttributesSamesite =
   | "lax"
   | "none"
   | "strict";
-export const CreateResponseCookieAttributesSamesite = /*@__PURE__*/ S.String;
+export const CreateResponseCookieAttributesSamesite = S.String;
 
 export type CreateResponseCookieAttributesSecure = "auto" | "always" | "never";
-export const CreateResponseCookieAttributesSecure = /*@__PURE__*/ S.String;
+export const CreateResponseCookieAttributesSecure = S.String;
 
 export interface CreateResponseCookieAttributes {
   /** Configures the SameSite attribute on the waiting room cookie. Value `auto` will be translated to `lax` or `none` depending if **Always Use HTTPS** is enabled. Note that when using value `none`, the secure attribute cannot be set to `never`. */
@@ -675,10 +675,10 @@ export type CreateResponseDefaultTemplateLanguage =
   | "th-TH"
   | "uk-UA"
   | "vi-VN";
-export const CreateResponseDefaultTemplateLanguage = /*@__PURE__*/ S.String;
+export const CreateResponseDefaultTemplateLanguage = S.String;
 
 export type CreateResponseEnabledOriginCommandsItem = "revoke";
-export const CreateResponseEnabledOriginCommandsItem = /*@__PURE__*/ S.String;
+export const CreateResponseEnabledOriginCommandsItem = S.String;
 
 export type CreateResponseEnabledOriginCommandsList =
   Array<CreateResponseEnabledOriginCommandsItem>;
@@ -691,20 +691,20 @@ export type CreateResponseQueueingMethod =
   | "random"
   | "passthrough"
   | "reject";
-export const CreateResponseQueueingMethod = /*@__PURE__*/ S.String;
+export const CreateResponseQueueingMethod = S.String;
 
 export type CreateResponseQueueingStatusCode = 200 | 202 | 429;
-export const CreateResponseQueueingStatusCode = /*@__PURE__*/ S.Number;
+export const CreateResponseQueueingStatusCode = S.Number;
 
 export type CreateResponseTurnstileAction = "log" | "infinite_queue";
-export const CreateResponseTurnstileAction = /*@__PURE__*/ S.String;
+export const CreateResponseTurnstileAction = S.String;
 
 export type CreateResponseTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const CreateResponseTurnstileMode = /*@__PURE__*/ S.String;
+export const CreateResponseTurnstileMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateWaitingRoomResponse {
@@ -753,9 +753,9 @@ export interface CreateWaitingRoomResponse {
   suspended?: boolean | null;
   /** Sets the total number of active user sessions on the route at a point in time. A route is a combination of host and path on which a waiting room is available. This value is used as a baseline for the total number of active user sessions on the route. It is possible to have a situation where there are more or less active users sessions on the route based on the traffic patterns at that time around the world. */
   totalActiveUsers?: number | null;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: CreateResponseTurnstileAction | null;
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: CreateResponseTurnstileMode | null;
 }
 export const CreateWaitingRoomResponse = /*@__PURE__*/ S.suspend(() =>
@@ -895,7 +895,7 @@ export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteRuleRequest>;
 
 export type RulesDeleteResultItemAction = "bypass_waiting_room";
-export const RulesDeleteResultItemAction = /*@__PURE__*/ S.String;
+export const RulesDeleteResultItemAction = S.String;
 
 export interface RulesDeleteResultItem {
   /** The ID of the rule. */
@@ -1005,14 +1005,14 @@ export const GetEventRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetEventRequest>;
 
 export type EventsGetResponseTurnstileAction = "log" | "infinite_queue";
-export const EventsGetResponseTurnstileAction = /*@__PURE__*/ S.String;
+export const EventsGetResponseTurnstileAction = S.String;
 
 export type EventsGetResponseTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const EventsGetResponseTurnstileMode = /*@__PURE__*/ S.String;
+export const EventsGetResponseTurnstileMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetEventResponse {
@@ -1211,7 +1211,7 @@ export const GetRuleRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetRuleRequest" }) as any as S.Schema<GetRuleRequest>;
 
 export type RulesGetResultItemAction = "bypass_waiting_room";
-export const RulesGetResultItemAction = /*@__PURE__*/ S.String;
+export const RulesGetResultItemAction = S.String;
 
 export interface RulesGetResultItem {
   /** The ID of the rule. */
@@ -1284,7 +1284,7 @@ export const GetSettingRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingResponse {
-  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. */
+  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics. */
   searchEngineCrawlerBypass: boolean;
 }
 export const GetSettingResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1324,7 +1324,7 @@ export type StatusesGetResponseStatus =
   | "not_queueing"
   | "queueing"
   | "suspended";
-export const StatusesGetResponseStatus = /*@__PURE__*/ S.String;
+export const StatusesGetResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetStatusResponse {
@@ -1390,10 +1390,10 @@ export type GetResponseCookieAttributesSamesite =
   | "lax"
   | "none"
   | "strict";
-export const GetResponseCookieAttributesSamesite = /*@__PURE__*/ S.String;
+export const GetResponseCookieAttributesSamesite = S.String;
 
 export type GetResponseCookieAttributesSecure = "auto" | "always" | "never";
-export const GetResponseCookieAttributesSecure = /*@__PURE__*/ S.String;
+export const GetResponseCookieAttributesSecure = S.String;
 
 export interface GetResponseCookieAttributes {
   /** Configures the SameSite attribute on the waiting room cookie. Value `auto` will be translated to `lax` or `none` depending if **Always Use HTTPS** is enabled. Note that when using value `none`, the secure attribute cannot be set to `never`. */
@@ -1449,10 +1449,10 @@ export type GetResponseDefaultTemplateLanguage =
   | "th-TH"
   | "uk-UA"
   | "vi-VN";
-export const GetResponseDefaultTemplateLanguage = /*@__PURE__*/ S.String;
+export const GetResponseDefaultTemplateLanguage = S.String;
 
 export type GetResponseEnabledOriginCommandsItem = "revoke";
-export const GetResponseEnabledOriginCommandsItem = /*@__PURE__*/ S.String;
+export const GetResponseEnabledOriginCommandsItem = S.String;
 
 export type GetResponseEnabledOriginCommandsList =
   Array<GetResponseEnabledOriginCommandsItem>;
@@ -1465,20 +1465,20 @@ export type GetResponseQueueingMethod =
   | "random"
   | "passthrough"
   | "reject";
-export const GetResponseQueueingMethod = /*@__PURE__*/ S.String;
+export const GetResponseQueueingMethod = S.String;
 
 export type GetResponseQueueingStatusCode = 200 | 202 | 429;
-export const GetResponseQueueingStatusCode = /*@__PURE__*/ S.Number;
+export const GetResponseQueueingStatusCode = S.Number;
 
 export type GetResponseTurnstileAction = "log" | "infinite_queue";
-export const GetResponseTurnstileAction = /*@__PURE__*/ S.String;
+export const GetResponseTurnstileAction = S.String;
 
 export type GetResponseTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const GetResponseTurnstileMode = /*@__PURE__*/ S.String;
+export const GetResponseTurnstileMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetWaitingRoomResponse {
@@ -1527,9 +1527,9 @@ export interface GetWaitingRoomResponse {
   suspended?: boolean | null;
   /** Sets the total number of active user sessions on the route at a point in time. A route is a combination of host and path on which a waiting room is available. This value is used as a baseline for the total number of active user sessions on the route. It is possible to have a situation where there are more or less active users sessions on the route based on the traffic patterns at that time around the world. */
   totalActiveUsers?: number | null;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: GetResponseTurnstileAction | null;
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: GetResponseTurnstileMode | null;
 }
 export const GetWaitingRoomResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1634,14 +1634,14 @@ export const ListEventsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListEventsRequest>;
 
 export type EventsListResultItemTurnstileAction = "log" | "infinite_queue";
-export const EventsListResultItemTurnstileAction = /*@__PURE__*/ S.String;
+export const EventsListResultItemTurnstileAction = S.String;
 
 export type EventsListResultItemTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const EventsListResultItemTurnstileMode = /*@__PURE__*/ S.String;
+export const EventsListResultItemTurnstileMode = S.String;
 
 export interface EventsListResultItem {
   id?: string | null;
@@ -1791,10 +1791,10 @@ export type ListResultItemCookieAttributesSamesite =
   | "lax"
   | "none"
   | "strict";
-export const ListResultItemCookieAttributesSamesite = /*@__PURE__*/ S.String;
+export const ListResultItemCookieAttributesSamesite = S.String;
 
 export type ListResultItemCookieAttributesSecure = "auto" | "always" | "never";
-export const ListResultItemCookieAttributesSecure = /*@__PURE__*/ S.String;
+export const ListResultItemCookieAttributesSecure = S.String;
 
 export interface ListResultItemCookieAttributes {
   /** Configures the SameSite attribute on the waiting room cookie. Value `auto` will be translated to `lax` or `none` depending if **Always Use HTTPS** is enabled. Note that when using value `none`, the secure attribute cannot be set to `never`. */
@@ -1850,10 +1850,10 @@ export type ListResultItemDefaultTemplateLanguage =
   | "th-TH"
   | "uk-UA"
   | "vi-VN";
-export const ListResultItemDefaultTemplateLanguage = /*@__PURE__*/ S.String;
+export const ListResultItemDefaultTemplateLanguage = S.String;
 
 export type ListResultItemEnabledOriginCommandsItem = "revoke";
-export const ListResultItemEnabledOriginCommandsItem = /*@__PURE__*/ S.String;
+export const ListResultItemEnabledOriginCommandsItem = S.String;
 
 export type ListResultItemEnabledOriginCommandsList =
   Array<ListResultItemEnabledOriginCommandsItem>;
@@ -1866,20 +1866,20 @@ export type ListResultItemQueueingMethod =
   | "random"
   | "passthrough"
   | "reject";
-export const ListResultItemQueueingMethod = /*@__PURE__*/ S.String;
+export const ListResultItemQueueingMethod = S.String;
 
 export type ListResultItemQueueingStatusCode = 200 | 202 | 429;
-export const ListResultItemQueueingStatusCode = /*@__PURE__*/ S.Number;
+export const ListResultItemQueueingStatusCode = S.Number;
 
 export type ListResultItemTurnstileAction = "log" | "infinite_queue";
-export const ListResultItemTurnstileAction = /*@__PURE__*/ S.String;
+export const ListResultItemTurnstileAction = S.String;
 
 export type ListResultItemTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const ListResultItemTurnstileMode = /*@__PURE__*/ S.String;
+export const ListResultItemTurnstileMode = S.String;
 
 export interface ListResultItem {
   id?: string | null;
@@ -1927,9 +1927,9 @@ export interface ListResultItem {
   suspended?: boolean | null;
   /** Sets the total number of active user sessions on the route at a point in time. A route is a combination of host and path on which a waiting room is available. This value is used as a baseline for the total number of active user sessions on the route. It is possible to have a situation where there are more or less active users sessions on the route based on the traffic patterns at that time around the world. */
   totalActiveUsers?: number | null;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: ListResultItemTurnstileAction | null;
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: ListResultItemTurnstileMode | null;
 }
 export const ListResultItem = /*@__PURE__*/ S.suspend(() =>
@@ -2052,14 +2052,14 @@ export const ListWaitingRoomsForZoneRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListWaitingRoomsForZoneRequest>;
 
 export type EventsEditRequestTurnstileAction = "log" | "infinite_queue";
-export const EventsEditRequestTurnstileAction = /*@__PURE__*/ S.String;
+export const EventsEditRequestTurnstileAction = S.String;
 
 export type EventsEditRequestTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const EventsEditRequestTurnstileMode = /*@__PURE__*/ S.String;
+export const EventsEditRequestTurnstileMode = S.String;
 
 export interface PatchEventRequest {
   /** Identifier. */
@@ -2141,14 +2141,14 @@ export const PatchEventRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchEventRequest>;
 
 export type EventsEditResponseTurnstileAction = "log" | "infinite_queue";
-export const EventsEditResponseTurnstileAction = /*@__PURE__*/ S.String;
+export const EventsEditResponseTurnstileAction = S.String;
 
 export type EventsEditResponseTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const EventsEditResponseTurnstileMode = /*@__PURE__*/ S.String;
+export const EventsEditResponseTurnstileMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchEventResponse {
@@ -2236,10 +2236,10 @@ export const PatchEventResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchEventResponse>;
 
 export type RulesEditRequestAction = "bypass_waiting_room";
-export const RulesEditRequestAction = /*@__PURE__*/ S.String;
+export const RulesEditRequestAction = S.String;
 
 export interface RulesEditRequestPositionIndex {
-  /** Places the rule in the exact position specified by the integer number <POSITION_NUMBER>. Position numbers start with 1. Existing rules in the ruleset from the specified position number onward are shifted one position (no rule is overwritten). */
+  /** Places the rule in the exact position specified by the integer number &lt;POSITION_NUMBER&gt;. Position numbers start with 1. Existing rules in the ruleset from the specified position number onward are shifted one position (no rule is overwritten). */
   index?: number;
 }
 export const RulesEditRequestPositionIndex = /*@__PURE__*/ S.suspend(() =>
@@ -2251,7 +2251,7 @@ export const RulesEditRequestPositionIndex = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RulesEditRequestPositionIndex>;
 
 export interface RulesEditRequestPositionBefore {
-  /** Places the rule before rule <RULE_ID>. Use this argument with an empty rule ID value ("") to set the rule as the first rule in the ruleset. */
+  /** Places the rule before rule &lt;RULE_ID&gt;. Use this argument with an empty rule ID value ("") to set the rule as the first rule in the ruleset. */
   before?: string;
 }
 export const RulesEditRequestPositionBefore = /*@__PURE__*/ S.suspend(() =>
@@ -2263,7 +2263,7 @@ export const RulesEditRequestPositionBefore = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RulesEditRequestPositionBefore>;
 
 export interface RulesEditRequestPositionAfter {
-  /** Places the rule after rule <RULE_ID>. Use this argument with an empty rule ID value ("") to set the rule as the last rule in the ruleset. */
+  /** Places the rule after rule &lt;RULE_ID&gt;. Use this argument with an empty rule ID value ("") to set the rule as the last rule in the ruleset. */
   after?: string;
 }
 export const RulesEditRequestPositionAfter = /*@__PURE__*/ S.suspend(() =>
@@ -2323,7 +2323,7 @@ export const PatchRuleRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchRuleRequest>;
 
 export type RulesEditResultItemAction = "bypass_waiting_room";
-export const RulesEditResultItemAction = /*@__PURE__*/ S.String;
+export const RulesEditResultItemAction = S.String;
 
 export interface RulesEditResultItem {
   /** The ID of the rule. */
@@ -2377,7 +2377,7 @@ export const PatchRuleResponse = /*@__PURE__*/ S.suspend(() =>
 export interface PatchSettingRequest {
   /** Identifier. */
   zoneId: string;
-  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. */
+  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics. */
   searchEngineCrawlerBypass?: boolean;
 }
 export const PatchSettingRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2401,7 +2401,7 @@ export const PatchSettingRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSettingResponse {
-  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. */
+  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics. */
   searchEngineCrawlerBypass: boolean;
 }
 export const PatchSettingResponse = /*@__PURE__*/ S.suspend(() =>
@@ -2429,10 +2429,10 @@ export type EditRequestCookieAttributesSamesite =
   | "lax"
   | "none"
   | "strict";
-export const EditRequestCookieAttributesSamesite = /*@__PURE__*/ S.String;
+export const EditRequestCookieAttributesSamesite = S.String;
 
 export type EditRequestCookieAttributesSecure = "auto" | "always" | "never";
-export const EditRequestCookieAttributesSecure = /*@__PURE__*/ S.String;
+export const EditRequestCookieAttributesSecure = S.String;
 
 export interface EditRequestCookieAttributes {
   /** Configures the SameSite attribute on the waiting room cookie. Value `auto` will be translated to `lax` or `none` depending if **Always Use HTTPS** is enabled. Note that when using value `none`, the secure attribute cannot be set to `never`. */
@@ -2488,10 +2488,10 @@ export type EditRequestDefaultTemplateLanguage =
   | "th-TH"
   | "uk-UA"
   | "vi-VN";
-export const EditRequestDefaultTemplateLanguage = /*@__PURE__*/ S.String;
+export const EditRequestDefaultTemplateLanguage = S.String;
 
 export type EditRequestEnabledOriginCommandsItem = "revoke";
-export const EditRequestEnabledOriginCommandsItem = /*@__PURE__*/ S.String;
+export const EditRequestEnabledOriginCommandsItem = S.String;
 
 export type EditRequestEnabledOriginCommandsList = Array<
   EditRequestEnabledOriginCommandsItem | (string & {})
@@ -2505,20 +2505,20 @@ export type EditRequestQueueingMethod =
   | "random"
   | "passthrough"
   | "reject";
-export const EditRequestQueueingMethod = /*@__PURE__*/ S.String;
+export const EditRequestQueueingMethod = S.String;
 
 export type EditRequestQueueingStatusCode = 200 | 202 | 429;
-export const EditRequestQueueingStatusCode = /*@__PURE__*/ S.Number;
+export const EditRequestQueueingStatusCode = S.Number;
 
 export type EditRequestTurnstileAction = "log" | "infinite_queue";
-export const EditRequestTurnstileAction = /*@__PURE__*/ S.String;
+export const EditRequestTurnstileAction = S.String;
 
 export type EditRequestTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const EditRequestTurnstileMode = /*@__PURE__*/ S.String;
+export const EditRequestTurnstileMode = S.String;
 
 export interface PatchWaitingRoomRequest {
   /** Identifier. */
@@ -2562,9 +2562,9 @@ export interface PatchWaitingRoomRequest {
   sessionDuration?: number;
   /** Suspends or allows traffic going to the waiting room. If set to `true`, the traffic will not go to the waiting room. */
   suspended?: boolean;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: EditRequestTurnstileAction | (string & {});
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: EditRequestTurnstileMode | (string & {});
 }
 export const PatchWaitingRoomRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2645,10 +2645,10 @@ export type EditResponseCookieAttributesSamesite =
   | "lax"
   | "none"
   | "strict";
-export const EditResponseCookieAttributesSamesite = /*@__PURE__*/ S.String;
+export const EditResponseCookieAttributesSamesite = S.String;
 
 export type EditResponseCookieAttributesSecure = "auto" | "always" | "never";
-export const EditResponseCookieAttributesSecure = /*@__PURE__*/ S.String;
+export const EditResponseCookieAttributesSecure = S.String;
 
 export interface EditResponseCookieAttributes {
   /** Configures the SameSite attribute on the waiting room cookie. Value `auto` will be translated to `lax` or `none` depending if **Always Use HTTPS** is enabled. Note that when using value `none`, the secure attribute cannot be set to `never`. */
@@ -2704,10 +2704,10 @@ export type EditResponseDefaultTemplateLanguage =
   | "th-TH"
   | "uk-UA"
   | "vi-VN";
-export const EditResponseDefaultTemplateLanguage = /*@__PURE__*/ S.String;
+export const EditResponseDefaultTemplateLanguage = S.String;
 
 export type EditResponseEnabledOriginCommandsItem = "revoke";
-export const EditResponseEnabledOriginCommandsItem = /*@__PURE__*/ S.String;
+export const EditResponseEnabledOriginCommandsItem = S.String;
 
 export type EditResponseEnabledOriginCommandsList =
   Array<EditResponseEnabledOriginCommandsItem>;
@@ -2720,20 +2720,20 @@ export type EditResponseQueueingMethod =
   | "random"
   | "passthrough"
   | "reject";
-export const EditResponseQueueingMethod = /*@__PURE__*/ S.String;
+export const EditResponseQueueingMethod = S.String;
 
 export type EditResponseQueueingStatusCode = 200 | 202 | 429;
-export const EditResponseQueueingStatusCode = /*@__PURE__*/ S.Number;
+export const EditResponseQueueingStatusCode = S.Number;
 
 export type EditResponseTurnstileAction = "log" | "infinite_queue";
-export const EditResponseTurnstileAction = /*@__PURE__*/ S.String;
+export const EditResponseTurnstileAction = S.String;
 
 export type EditResponseTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const EditResponseTurnstileMode = /*@__PURE__*/ S.String;
+export const EditResponseTurnstileMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchWaitingRoomResponse {
@@ -2782,9 +2782,9 @@ export interface PatchWaitingRoomResponse {
   suspended?: boolean | null;
   /** Sets the total number of active user sessions on the route at a point in time. A route is a combination of host and path on which a waiting room is available. This value is used as a baseline for the total number of active user sessions on the route. It is possible to have a situation where there are more or less active users sessions on the route based on the traffic patterns at that time around the world. */
   totalActiveUsers?: number | null;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: EditResponseTurnstileAction | null;
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: EditResponseTurnstileMode | null;
 }
 export const PatchWaitingRoomResponse = /*@__PURE__*/ S.suspend(() =>
@@ -2899,7 +2899,7 @@ export const PreviewPageResponse = /*@__PURE__*/ S.suspend(() =>
 export interface PutSettingRequest {
   /** Identifier. */
   zoneId: string;
-  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. */
+  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics. */
   searchEngineCrawlerBypass?: boolean;
 }
 export const PutSettingRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2923,7 +2923,7 @@ export const PutSettingRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutSettingResponse {
-  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. */
+  /** Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics. */
   searchEngineCrawlerBypass: boolean;
 }
 export const PutSettingResponse = /*@__PURE__*/ S.suspend(() =>
@@ -2937,14 +2937,14 @@ export const PutSettingResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PutSettingResponse>;
 
 export type EventsUpdateRequestTurnstileAction = "log" | "infinite_queue";
-export const EventsUpdateRequestTurnstileAction = /*@__PURE__*/ S.String;
+export const EventsUpdateRequestTurnstileAction = S.String;
 
 export type EventsUpdateRequestTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const EventsUpdateRequestTurnstileMode = /*@__PURE__*/ S.String;
+export const EventsUpdateRequestTurnstileMode = S.String;
 
 export interface UpdateEventRequest {
   /** Identifier. */
@@ -3026,14 +3026,14 @@ export const UpdateEventRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateEventRequest>;
 
 export type EventsUpdateResponseTurnstileAction = "log" | "infinite_queue";
-export const EventsUpdateResponseTurnstileAction = /*@__PURE__*/ S.String;
+export const EventsUpdateResponseTurnstileAction = S.String;
 
 export type EventsUpdateResponseTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const EventsUpdateResponseTurnstileMode = /*@__PURE__*/ S.String;
+export const EventsUpdateResponseTurnstileMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateEventResponse {
@@ -3123,7 +3123,7 @@ export const UpdateEventResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateEventResponse>;
 
 export type RulesUpdateRequestRulesItemAction = "bypass_waiting_room";
-export const RulesUpdateRequestRulesItemAction = /*@__PURE__*/ S.String;
+export const RulesUpdateRequestRulesItemAction = S.String;
 
 export interface RulesUpdateRequestRulesItem {
   /** The action to take when the expression matches. */
@@ -3176,7 +3176,7 @@ export const UpdateRuleRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateRuleRequest>;
 
 export type RulesUpdateResultItemAction = "bypass_waiting_room";
-export const RulesUpdateResultItemAction = /*@__PURE__*/ S.String;
+export const RulesUpdateResultItemAction = S.String;
 
 export interface RulesUpdateResultItem {
   /** The ID of the rule. */
@@ -3243,10 +3243,10 @@ export type UpdateRequestCookieAttributesSamesite =
   | "lax"
   | "none"
   | "strict";
-export const UpdateRequestCookieAttributesSamesite = /*@__PURE__*/ S.String;
+export const UpdateRequestCookieAttributesSamesite = S.String;
 
 export type UpdateRequestCookieAttributesSecure = "auto" | "always" | "never";
-export const UpdateRequestCookieAttributesSecure = /*@__PURE__*/ S.String;
+export const UpdateRequestCookieAttributesSecure = S.String;
 
 export interface UpdateRequestCookieAttributes {
   /** Configures the SameSite attribute on the waiting room cookie. Value `auto` will be translated to `lax` or `none` depending if **Always Use HTTPS** is enabled. Note that when using value `none`, the secure attribute cannot be set to `never`. */
@@ -3302,10 +3302,10 @@ export type UpdateRequestDefaultTemplateLanguage =
   | "th-TH"
   | "uk-UA"
   | "vi-VN";
-export const UpdateRequestDefaultTemplateLanguage = /*@__PURE__*/ S.String;
+export const UpdateRequestDefaultTemplateLanguage = S.String;
 
 export type UpdateRequestEnabledOriginCommandsItem = "revoke";
-export const UpdateRequestEnabledOriginCommandsItem = /*@__PURE__*/ S.String;
+export const UpdateRequestEnabledOriginCommandsItem = S.String;
 
 export type UpdateRequestEnabledOriginCommandsList = Array<
   UpdateRequestEnabledOriginCommandsItem | (string & {})
@@ -3319,20 +3319,20 @@ export type UpdateRequestQueueingMethod =
   | "random"
   | "passthrough"
   | "reject";
-export const UpdateRequestQueueingMethod = /*@__PURE__*/ S.String;
+export const UpdateRequestQueueingMethod = S.String;
 
 export type UpdateRequestQueueingStatusCode = 200 | 202 | 429;
-export const UpdateRequestQueueingStatusCode = /*@__PURE__*/ S.Number;
+export const UpdateRequestQueueingStatusCode = S.Number;
 
 export type UpdateRequestTurnstileAction = "log" | "infinite_queue";
-export const UpdateRequestTurnstileAction = /*@__PURE__*/ S.String;
+export const UpdateRequestTurnstileAction = S.String;
 
 export type UpdateRequestTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const UpdateRequestTurnstileMode = /*@__PURE__*/ S.String;
+export const UpdateRequestTurnstileMode = S.String;
 
 export interface UpdateWaitingRoomRequest {
   /** Identifier. */
@@ -3378,9 +3378,9 @@ export interface UpdateWaitingRoomRequest {
   sessionDuration?: number;
   /** Suspends or allows traffic going to the waiting room. If set to `true`, the traffic will not go to the waiting room. */
   suspended?: boolean;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: UpdateRequestTurnstileAction | (string & {});
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: UpdateRequestTurnstileMode | (string & {});
 }
 export const UpdateWaitingRoomRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3461,10 +3461,10 @@ export type UpdateResponseCookieAttributesSamesite =
   | "lax"
   | "none"
   | "strict";
-export const UpdateResponseCookieAttributesSamesite = /*@__PURE__*/ S.String;
+export const UpdateResponseCookieAttributesSamesite = S.String;
 
 export type UpdateResponseCookieAttributesSecure = "auto" | "always" | "never";
-export const UpdateResponseCookieAttributesSecure = /*@__PURE__*/ S.String;
+export const UpdateResponseCookieAttributesSecure = S.String;
 
 export interface UpdateResponseCookieAttributes {
   /** Configures the SameSite attribute on the waiting room cookie. Value `auto` will be translated to `lax` or `none` depending if **Always Use HTTPS** is enabled. Note that when using value `none`, the secure attribute cannot be set to `never`. */
@@ -3520,10 +3520,10 @@ export type UpdateResponseDefaultTemplateLanguage =
   | "th-TH"
   | "uk-UA"
   | "vi-VN";
-export const UpdateResponseDefaultTemplateLanguage = /*@__PURE__*/ S.String;
+export const UpdateResponseDefaultTemplateLanguage = S.String;
 
 export type UpdateResponseEnabledOriginCommandsItem = "revoke";
-export const UpdateResponseEnabledOriginCommandsItem = /*@__PURE__*/ S.String;
+export const UpdateResponseEnabledOriginCommandsItem = S.String;
 
 export type UpdateResponseEnabledOriginCommandsList =
   Array<UpdateResponseEnabledOriginCommandsItem>;
@@ -3536,20 +3536,20 @@ export type UpdateResponseQueueingMethod =
   | "random"
   | "passthrough"
   | "reject";
-export const UpdateResponseQueueingMethod = /*@__PURE__*/ S.String;
+export const UpdateResponseQueueingMethod = S.String;
 
 export type UpdateResponseQueueingStatusCode = 200 | 202 | 429;
-export const UpdateResponseQueueingStatusCode = /*@__PURE__*/ S.Number;
+export const UpdateResponseQueueingStatusCode = S.Number;
 
 export type UpdateResponseTurnstileAction = "log" | "infinite_queue";
-export const UpdateResponseTurnstileAction = /*@__PURE__*/ S.String;
+export const UpdateResponseTurnstileAction = S.String;
 
 export type UpdateResponseTurnstileMode =
   | "off"
   | "invisible"
   | "visible_non_interactive"
   | "visible_managed";
-export const UpdateResponseTurnstileMode = /*@__PURE__*/ S.String;
+export const UpdateResponseTurnstileMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateWaitingRoomResponse {
@@ -3598,9 +3598,9 @@ export interface UpdateWaitingRoomResponse {
   suspended?: boolean | null;
   /** Sets the total number of active user sessions on the route at a point in time. A route is a combination of host and path on which a waiting room is available. This value is used as a baseline for the total number of active user sessions on the route. It is possible to have a situation where there are more or less active users sessions on the route based on the traffic patterns at that time around the world. */
   totalActiveUsers?: number | null;
-  /** Which action to take when a bot is detected using Turnstile. `log` will */
+  /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room. */
   turnstileAction?: UpdateResponseTurnstileAction | null;
-  /** Which Turnstile widget type to use for detecting bot traffic. See */
+  /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room. */
   turnstileMode?: UpdateResponseTurnstileMode | null;
 }
 export const UpdateWaitingRoomResponse = /*@__PURE__*/ S.suspend(() =>
@@ -3840,7 +3840,7 @@ export const getRule: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetSettingError = Forbidden | CloudflareOpError;
-/** Gets the zone-level Waiting Room settings that apply as defaults to all waiting rooms on the zone. */
+/** Get zone-level Waiting Room settings. */
 export const getSetting: API.OperationMethod<
   GetSettingRequest,
   GetSettingResponse,
@@ -3855,7 +3855,7 @@ export const getSetting: API.OperationMethod<
 }));
 
 export type GetStatusError = CloudflareOpError;
-/** Fetches the status of a configured waiting room. Response fields include: 1. `status`: String indicating the status of the waiting room. The possible status are: - **not\_queueing** indicates that the configured thresholds have not been met and all users are going through to the origin. - **queueing** indicates that the thresholds have been met and some users are held in the waiting room. - **event\_prequeueing** indicates that an event is active and is currently prequeueing users before it starts. - **suspended** indicates that the room is suspended. 1. `event_id`: String of the current event's `id` if an event is active, otherwise an empty string. 1. `estimated_queued_users`: Integer of the estimated number of users currently waiting in the queue. 1. `estimated_total_active_users`: Integer of the estimated number of users currently active on the origin. 1. `max_estimated_time_minutes`: Integer of the maximum estimated time currently presented to the users. */
+/** Fetches the status of a configured waiting room. Response fields include: 1. `status`: String indicating the status of the waiting room. The possible status are: - **not_queueing** indicates that the configured thresholds have not been met and all users are going through to the origin. - **queueing** indicates that the thresholds have been met and some users are held in the waiting room. - **event_prequeueing** indicates that an event is active and is currently prequeueing users before it starts. - **suspended** indicates that the room is suspended. 2. `event_id`: String of the current event's `id` if an event is active, otherwise an empty string. 3. `estimated_queued_users`: Integer of the estimated number of users currently waiting in the queue. 4. `estimated_total_active_users`: Integer of the estimated number of users currently active on the origin. 5. `max_estimated_time_minutes`: Integer of the maximum estimated time currently presented to the users. */
 export const getStatus: API.OperationMethod<
   GetStatusRequest,
   GetStatusResponse,
@@ -4006,7 +4006,7 @@ export const patchRule: API.PaginatedOperationMethod<
 ) as any;
 
 export type PatchSettingError = CloudflareOpError;
-/** Partially updates zone-level Waiting Room settings using PATCH semantics. */
+/** Patch zone-level Waiting Room settings. */
 export const patchSetting: API.OperationMethod<
   PatchSettingRequest,
   PatchSettingResponse,
@@ -4036,7 +4036,7 @@ export const patchWaitingRoom: API.OperationMethod<
 }));
 
 export type PreviewPageError = CloudflareOpError;
-/** Creates a waiting room page preview. Upload a custom waiting room page for preview. You will receive a preview URL in the form `http://waitingrooms.dev/preview/<uuid>`. You can use the following query parameters to change the state of the preview: 1. `force_queue`: Boolean indicating if all users will be queued in the waiting room and no one will be let into the origin website (also known as queueAll). 1. `queue_is_full`: Boolean indicating if the waiting room's queue is currently full and not accepting new users at the moment. 1. `queueing_method`: The queueing method currently used by the waiting room. - **fifo** indicates a FIFO queue. - **random** indicates a Random queue. - **passthrough** indicates a Passthrough queue. Keep in mind that the waiting room page will only be displayed if `force_queue=true` or `event=prequeueing` — for other cases the request will pass through to the origin. For our preview, this will be a fake origin website returning "Welcome". - **reject** indicates a Reject queue. 1. `event`: Used to preview a waiting room event. - **none** indicates no event is occurring. - **prequeueing** indicates that an event is prequeueing (between `prequeue_start_time` and `event_start_time`). - **started** indicates that an event has started (between `event_start_time` and `event_end_time`). 1. `shuffle_at_event_start`: Boolean indicating if the event will shuffle users in the prequeue when it starts. This can only be set to **true** if an event is active (`event` is not **none**). For example, you can make a request to `http://waitingrooms.dev/preview/<uuid>?force_queue=false&queue_is_full=false&queueing_method=random&event=started&shuffle_at_event_start=true` 6. `waitTime`: Non-zero, positive integer indicating the estimated wait time in minutes. The default value is 10 minutes. For example, you can make a request to `http://waitingrooms.dev/preview/<uuid>?waitTime=50` to configure the estimated wait time as 50 minutes. */
+/** Creates a waiting room page preview. Upload a custom waiting room page for preview. You will receive a preview URL in the form `http://waitingrooms.dev/preview/<uuid>`. You can use the following query parameters to change the state of the preview: 1. `force_queue`: Boolean indicating if all users will be queued in the waiting room and no one will be let into the origin website (also known as queueAll). 2. `queue_is_full`: Boolean indicating if the waiting room's queue is currently full and not accepting new users at the moment. 3. `queueing_method`: The queueing method currently used by the waiting room. - **fifo** indicates a FIFO queue. - **random** indicates a Random queue. - **passthrough** indicates a Passthrough queue. Keep in mind that the waiting room page will only be displayed if `force_queue=true` or `event=prequeueing` — for other cases the request will pass through to the origin. For our preview, this will be a fake origin website returning "Welcome". - **reject** indicates a Reject queue. 4. `event`: Used to preview a waiting room event. - **none** indicates no event is occurring. - **prequeueing** indicates that an event is prequeueing (between `prequeue_start_time` and `event_start_time`). - **started** indicates that an event has started (between `event_start_time` and `event_end_time`). 5. `shuffle_at_event_start`: Boolean indicating if the event will shuffle users in the prequeue when it starts. This can only be set to **true** if an event is active ( `event` is not **none**). For example, you can make a request to `http://waitingrooms.dev/preview/<uuid>?force_queue=false&queue_is_full=false&queueing_method=random&event=started&shuffle_at_event_start=true` 6. `waitTime`: Non-zero, positive integer indicating the estimated wait time in minutes. The default value is 10 minutes. For example, you can make a request to `http://waitingrooms.dev/preview/<uuid>?waitTime=50` to configure the estimated wait time as 50 minutes. */
 export const previewPage: API.OperationMethod<
   PreviewPageRequest,
   PreviewPageResponse,
@@ -4051,7 +4051,7 @@ export const previewPage: API.OperationMethod<
 }));
 
 export type PutSettingError = ZoneNotEntitled | Forbidden | CloudflareOpError;
-/** Fully updates zone-level Waiting Room settings, replacing the existing configuration. */
+/** Replace zone-level Waiting Room settings. */
 export const putSetting: API.OperationMethod<
   PutSettingRequest,
   PutSettingResponse,

@@ -2,7 +2,7 @@
 /**
  * convert — turn the Turso OpenAPI spec into a Smithy JSON model.
  *
- * Input:  specs/turso-docs/api-reference/openapi.json  (the spec lives inside
+ * Input:  specs/spec-mirror-turso/specs/openapi.json  (the spec lives inside
  *         Turso's Mintlify docs repo — only this one file is read)
  * Output: .generated-specs/turso.json  (Smithy 2.0 model)
  *
@@ -21,7 +21,7 @@ await runOpenApiConvert({
   specs: [
     {
       name: "turso",
-      specPath: "specs/turso-docs/api-reference/openapi.json",
+      specPath: "specs/spec-mirror-turso/specs/openapi.json",
     },
   ],
   options: {

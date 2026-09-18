@@ -155,7 +155,7 @@ export const BeginVerificationSsoResponse = /*@__PURE__*/ S.suspend(() =>
 export type OauthClientsCreateRequestGrantTypesItem =
   | "authorization_code"
   | "refresh_token";
-export const OauthClientsCreateRequestGrantTypesItem = /*@__PURE__*/ S.String;
+export const OauthClientsCreateRequestGrantTypesItem = S.String;
 
 export type OauthClientsCreateRequestGrantTypesList = Array<
   OauthClientsCreateRequestGrantTypesItem | (string & {})
@@ -173,8 +173,7 @@ export type OauthClientsCreateRequestResponseTypesItem =
   | "token"
   | "id_token"
   | "code";
-export const OauthClientsCreateRequestResponseTypesItem =
-  /*@__PURE__*/ S.String;
+export const OauthClientsCreateRequestResponseTypesItem = S.String;
 
 export type OauthClientsCreateRequestResponseTypesList = Array<
   OauthClientsCreateRequestResponseTypesItem | (string & {})
@@ -192,14 +191,19 @@ export type OauthClientsCreateRequestTokenEndpointAuthMethod =
   | "none"
   | "client_secret_basic"
   | "client_secret_post";
-export const OauthClientsCreateRequestTokenEndpointAuthMethod =
-  /*@__PURE__*/ S.String;
+export const OauthClientsCreateRequestTokenEndpointAuthMethod = S.String;
 
 export type OauthClientsCreateRequestAllowedCorsOriginsList = Array<string>;
 export const OauthClientsCreateRequestAllowedCorsOriginsList =
   /*@__PURE__*/ S.Array(
     S.String,
   ) as any as S.Schema<OauthClientsCreateRequestAllowedCorsOriginsList>;
+
+export type OauthClientsCreateRequestOptionalScopesList = Array<string>;
+export const OauthClientsCreateRequestOptionalScopesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<OauthClientsCreateRequestOptionalScopesList>;
 
 export type OauthClientsCreateRequestPostLogoutRedirectUrisList = Array<string>;
 export const OauthClientsCreateRequestPostLogoutRedirectUrisList =
@@ -230,6 +234,8 @@ export interface CreateOauthClientRequest {
   clientUri?: string;
   /** URL of the client's logo. */
   logoUri?: string;
+  /** Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional. */
+  optionalScopes?: OauthClientsCreateRequestOptionalScopesList;
   /** URL that points to a privacy policy document. */
   policyUri?: string;
   /** Array of allowed post-logout redirect URIs. */
@@ -262,6 +268,11 @@ export const CreateOauthClientRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     clientUri: S.optional(S.String.pipe(T.Body("client_uri"))),
     logoUri: S.optional(S.String.pipe(T.Body("logo_uri"))),
+    optionalScopes: S.optional(
+      OauthClientsCreateRequestOptionalScopesList.pipe(
+        T.Body("optional_scopes"),
+      ),
+    ),
     policyUri: S.optional(S.String.pipe(T.Body("policy_uri"))),
     postLogoutRedirectUris: S.optional(
       OauthClientsCreateRequestPostLogoutRedirectUrisList.pipe(
@@ -283,7 +294,7 @@ export const CreateOauthClientRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateOauthClientRequest>;
 
 export type OauthClientsCreateResponseVisibility = "public" | "private";
-export const OauthClientsCreateResponseVisibility = /*@__PURE__*/ S.String;
+export const OauthClientsCreateResponseVisibility = S.String;
 
 export type OauthClientsCreateResponseAllowedCorsOriginsList = Array<string>;
 export const OauthClientsCreateResponseAllowedCorsOriginsList =
@@ -296,8 +307,7 @@ export type OauthClientsCreateResponseClientUriVerificationStatus =
   | "in_progress"
   | "verified"
   | "failed";
-export const OauthClientsCreateResponseClientUriVerificationStatus =
-  /*@__PURE__*/ S.String;
+export const OauthClientsCreateResponseClientUriVerificationStatus = S.String;
 
 export interface OauthClientsCreateResponseClientUriVerification {
   /** Current verification status for the client URI host. */
@@ -320,13 +330,19 @@ export const OauthClientsCreateResponseClientUriVerification =
 export type OauthClientsCreateResponseGrantTypesItem =
   | "authorization_code"
   | "refresh_token";
-export const OauthClientsCreateResponseGrantTypesItem = /*@__PURE__*/ S.String;
+export const OauthClientsCreateResponseGrantTypesItem = S.String;
 
 export type OauthClientsCreateResponseGrantTypesList =
   Array<OauthClientsCreateResponseGrantTypesItem>;
 export const OauthClientsCreateResponseGrantTypesList = /*@__PURE__*/ S.Array(
   OauthClientsCreateResponseGrantTypesItem,
 ) as any as S.Schema<OauthClientsCreateResponseGrantTypesList>;
+
+export type OauthClientsCreateResponseOptionalScopesList = Array<string>;
+export const OauthClientsCreateResponseOptionalScopesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<OauthClientsCreateResponseOptionalScopesList>;
 
 export type OauthClientsCreateResponsePostLogoutRedirectUrisList =
   Array<string>;
@@ -344,8 +360,7 @@ export type OauthClientsCreateResponseResponseTypesItem =
   | "token"
   | "id_token"
   | "code";
-export const OauthClientsCreateResponseResponseTypesItem =
-  /*@__PURE__*/ S.String;
+export const OauthClientsCreateResponseResponseTypesItem = S.String;
 
 export type OauthClientsCreateResponseResponseTypesList =
   Array<OauthClientsCreateResponseResponseTypesItem>;
@@ -363,8 +378,7 @@ export type OauthClientsCreateResponseTokenEndpointAuthMethod =
   | "none"
   | "client_secret_basic"
   | "client_secret_post";
-export const OauthClientsCreateResponseTokenEndpointAuthMethod =
-  /*@__PURE__*/ S.String;
+export const OauthClientsCreateResponseTokenEndpointAuthMethod = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateOauthClientResponse {
@@ -390,6 +404,8 @@ export interface CreateOauthClientResponse {
   hasRotatedSecret?: boolean | null;
   /** URL of the client's logo. */
   logoUri?: string | null;
+  /** Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional. */
+  optionalScopes?: OauthClientsCreateResponseOptionalScopesList | null;
   /** URL that points to a privacy policy document. */
   policyUri?: string | null;
   /** Array of allowed post-logout redirect URIs. */
@@ -436,6 +452,11 @@ export const CreateOauthClientResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(S.Boolean).pipe(T.Body("has_rotated_secret")),
     ),
     logoUri: S.optional(S.NullOr(S.String).pipe(T.Body("logo_uri"))),
+    optionalScopes: S.optional(
+      S.NullOr(OauthClientsCreateResponseOptionalScopesList).pipe(
+        T.Body("optional_scopes"),
+      ),
+    ),
     policyUri: S.optional(S.NullOr(S.String).pipe(T.Body("policy_uri"))),
     postLogoutRedirectUris: S.optional(
       S.NullOr(OauthClientsCreateResponsePostLogoutRedirectUrisList).pipe(
@@ -527,39 +548,32 @@ export const CreateResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateResourceGroupRequest",
 }) as any as S.Schema<CreateResourceGroupRequest>;
 
-export type ResourceGroupsCreateResponseScopeItemObjectsItem =
+export type ResourceGroupsCreateResponseScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
-export const ResourceGroupsCreateResponseScopeItemObjectsItem =
+export const ResourceGroupsCreateResponseScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
 
-export type ResourceGroupsCreateResponseScopeItemObjectsList =
+export type ResourceGroupsCreateResponseScopeObjectsList =
   Array<ResourceGroupsCreateRequestScopeObjectsItem>;
-export const ResourceGroupsCreateResponseScopeItemObjectsList =
+export const ResourceGroupsCreateResponseScopeObjectsList =
   /*@__PURE__*/ S.Array(
     ResourceGroupsCreateRequestScopeObjectsItem,
-  ) as any as S.Schema<ResourceGroupsCreateResponseScopeItemObjectsList>;
+  ) as any as S.Schema<ResourceGroupsCreateResponseScopeObjectsList>;
 
-export interface ResourceGroupsCreateResponseScopeItem {
+export interface ResourceGroupsCreateResponseScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: ResourceGroupsCreateResponseScopeItemObjectsList;
+  objects: ResourceGroupsCreateResponseScopeObjectsList;
 }
-export const ResourceGroupsCreateResponseScopeItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      key: S.String,
-      objects: ResourceGroupsCreateResponseScopeItemObjectsList,
-    }),
+export const ResourceGroupsCreateResponseScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    objects: ResourceGroupsCreateResponseScopeObjectsList,
+  }),
 ).annotate({
-  identifier: "ResourceGroupsCreateResponseScopeItem",
-}) as any as S.Schema<ResourceGroupsCreateResponseScopeItem>;
-
-export type ResourceGroupsCreateResponseScopeList =
-  Array<ResourceGroupsCreateResponseScopeItem>;
-export const ResourceGroupsCreateResponseScopeList = /*@__PURE__*/ S.Array(
-  ResourceGroupsCreateResponseScopeItem,
-) as any as S.Schema<ResourceGroupsCreateResponseScopeList>;
+  identifier: "ResourceGroupsCreateResponseScope",
+}) as any as S.Schema<ResourceGroupsCreateResponseScope>;
 
 export interface ResourceGroupsCreateResponseMeta {
   key?: string | null;
@@ -578,8 +592,8 @@ export const ResourceGroupsCreateResponseMeta = /*@__PURE__*/ S.suspend(() =>
 export interface CreateResourceGroupResponse {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: ResourceGroupsCreateResponseScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: ResourceGroupsCreateResponseScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null;
   /** Name of the resource group. */
@@ -588,7 +602,7 @@ export interface CreateResourceGroupResponse {
 export const CreateResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    scope: ResourceGroupsCreateResponseScopeList,
+    scope: ResourceGroupsCreateResponseScope,
     meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -632,7 +646,7 @@ export type SsoCreateResponseVerificationStatus =
   | "pending"
   | "failed"
   | "verified";
-export const SsoCreateResponseVerificationStatus = /*@__PURE__*/ S.String;
+export const SsoCreateResponseVerificationStatus = S.String;
 
 export interface SsoCreateResponseVerification {
   /** DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership. */
@@ -680,7 +694,7 @@ export const CreateSsoResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateSsoResponse>;
 
 export type UserGroupsCreateRequestPoliciesItemAccess = "allow" | "deny";
-export const UserGroupsCreateRequestPoliciesItemAccess = /*@__PURE__*/ S.String;
+export const UserGroupsCreateRequestPoliciesItemAccess = S.String;
 
 export interface UserGroupsCreateRequestPoliciesItemPermissionGroupsItem {
   /** Permission Group identifier tag. */
@@ -778,8 +792,7 @@ export const CreateUserGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateUserGroupRequest>;
 
 export type UserGroupsCreateResponsePoliciesItemAccess = "allow" | "deny";
-export const UserGroupsCreateResponsePoliciesItemAccess =
-  /*@__PURE__*/ S.String;
+export const UserGroupsCreateResponsePoliciesItemAccess = S.String;
 
 export type UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta =
   ResourceGroupsCreateResponseMeta;
@@ -812,42 +825,34 @@ export const UserGroupsCreateResponsePoliciesItemPermissionGroupsList =
     UserGroupsCreateResponsePoliciesItemPermissionGroupsItem,
   ) as any as S.Schema<UserGroupsCreateResponsePoliciesItemPermissionGroupsList>;
 
-export type UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
+export type UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
-export const UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
+export const UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
 
-export type UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
+export type UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeObjectsList =
   Array<ResourceGroupsCreateRequestScopeObjectsItem>;
-export const UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
+export const UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeObjectsList =
   /*@__PURE__*/ S.Array(
     ResourceGroupsCreateRequestScopeObjectsItem,
-  ) as any as S.Schema<UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList>;
+  ) as any as S.Schema<UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeObjectsList>;
 
-export interface UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeItem {
+export interface UserGroupsCreateResponsePoliciesItemResourceGroupsItemScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList;
+  objects: UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeObjectsList;
 }
-export const UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeItem =
+export const UserGroupsCreateResponsePoliciesItemResourceGroupsItemScope =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       key: S.String,
       objects:
-        UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList,
+        UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeObjectsList,
     }),
   ).annotate({
-    identifier:
-      "UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeItem",
-  }) as any as S.Schema<UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeItem>;
-
-export type UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeList =
-  Array<UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeItem>;
-export const UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeList =
-  /*@__PURE__*/ S.Array(
-    UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeItem,
-  ) as any as S.Schema<UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeList>;
+    identifier: "UserGroupsCreateResponsePoliciesItemResourceGroupsItemScope",
+  }) as any as S.Schema<UserGroupsCreateResponsePoliciesItemResourceGroupsItemScope>;
 
 export type UserGroupsCreateResponsePoliciesItemResourceGroupsItemMeta =
   ResourceGroupsCreateResponseMeta;
@@ -857,8 +862,8 @@ export const UserGroupsCreateResponsePoliciesItemResourceGroupsItemMeta =
 export interface UserGroupsCreateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: UserGroupsCreateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null;
   /** Name of the resource group. */
@@ -868,7 +873,7 @@ export const UserGroupsCreateResponsePoliciesItemResourceGroupsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.String,
-      scope: UserGroupsCreateResponsePoliciesItemResourceGroupsItemScopeList,
+      scope: UserGroupsCreateResponsePoliciesItemResourceGroupsItemScope,
       meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
       name: S.optional(S.NullOr(S.String)),
     }),
@@ -989,7 +994,7 @@ export const CreateUserGroupMemberRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateUserGroupMemberRequest>;
 
 export type UserGroupsMembersCreateResultItemStatus = "accepted" | "pending";
-export const UserGroupsMembersCreateResultItemStatus = /*@__PURE__*/ S.String;
+export const UserGroupsMembersCreateResultItemStatus = S.String;
 
 export interface UserGroupsMembersCreateResultItem {
   /** Account member identifier. */
@@ -1239,7 +1244,7 @@ export const DeleteUserGroupMemberRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteUserGroupMemberRequest>;
 
 export type UserGroupsMembersDeleteResponseStatus = "accepted" | "pending";
-export const UserGroupsMembersDeleteResponseStatus = /*@__PURE__*/ S.String;
+export const UserGroupsMembersDeleteResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteUserGroupMemberResponse {
@@ -1284,7 +1289,7 @@ export const GetOauthClientRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetOauthClientRequest>;
 
 export type OauthClientsGetResponseVisibility = "public" | "private";
-export const OauthClientsGetResponseVisibility = /*@__PURE__*/ S.String;
+export const OauthClientsGetResponseVisibility = S.String;
 
 export type OauthClientsGetResponseAllowedCorsOriginsList = Array<string>;
 export const OauthClientsGetResponseAllowedCorsOriginsList =
@@ -1297,8 +1302,7 @@ export type OauthClientsGetResponseClientUriVerificationStatus =
   | "in_progress"
   | "verified"
   | "failed";
-export const OauthClientsGetResponseClientUriVerificationStatus =
-  /*@__PURE__*/ S.String;
+export const OauthClientsGetResponseClientUriVerificationStatus = S.String;
 
 export interface OauthClientsGetResponseClientUriVerification {
   /** Current verification status for the client URI host. */
@@ -1321,13 +1325,18 @@ export const OauthClientsGetResponseClientUriVerification =
 export type OauthClientsGetResponseGrantTypesItem =
   | "authorization_code"
   | "refresh_token";
-export const OauthClientsGetResponseGrantTypesItem = /*@__PURE__*/ S.String;
+export const OauthClientsGetResponseGrantTypesItem = S.String;
 
 export type OauthClientsGetResponseGrantTypesList =
   Array<OauthClientsGetResponseGrantTypesItem>;
 export const OauthClientsGetResponseGrantTypesList = /*@__PURE__*/ S.Array(
   OauthClientsGetResponseGrantTypesItem,
 ) as any as S.Schema<OauthClientsGetResponseGrantTypesList>;
+
+export type OauthClientsGetResponseOptionalScopesList = Array<string>;
+export const OauthClientsGetResponseOptionalScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<OauthClientsGetResponseOptionalScopesList>;
 
 export type OauthClientsGetResponsePostLogoutRedirectUrisList = Array<string>;
 export const OauthClientsGetResponsePostLogoutRedirectUrisList =
@@ -1344,7 +1353,7 @@ export type OauthClientsGetResponseResponseTypesItem =
   | "token"
   | "id_token"
   | "code";
-export const OauthClientsGetResponseResponseTypesItem = /*@__PURE__*/ S.String;
+export const OauthClientsGetResponseResponseTypesItem = S.String;
 
 export type OauthClientsGetResponseResponseTypesList =
   Array<OauthClientsGetResponseResponseTypesItem>;
@@ -1361,8 +1370,7 @@ export type OauthClientsGetResponseTokenEndpointAuthMethod =
   | "none"
   | "client_secret_basic"
   | "client_secret_post";
-export const OauthClientsGetResponseTokenEndpointAuthMethod =
-  /*@__PURE__*/ S.String;
+export const OauthClientsGetResponseTokenEndpointAuthMethod = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetOauthClientResponse {
@@ -1386,6 +1394,8 @@ export interface GetOauthClientResponse {
   hasRotatedSecret?: boolean | null;
   /** URL of the client's logo. */
   logoUri?: string | null;
+  /** Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional. */
+  optionalScopes?: OauthClientsGetResponseOptionalScopesList | null;
   /** URL that points to a privacy policy document. */
   policyUri?: string | null;
   /** Array of allowed post-logout redirect URIs. */
@@ -1431,6 +1441,11 @@ export const GetOauthClientResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(S.Boolean).pipe(T.Body("has_rotated_secret")),
     ),
     logoUri: S.optional(S.NullOr(S.String).pipe(T.Body("logo_uri"))),
+    optionalScopes: S.optional(
+      S.NullOr(OauthClientsGetResponseOptionalScopesList).pipe(
+        T.Body("optional_scopes"),
+      ),
+    ),
     policyUri: S.optional(S.NullOr(S.String).pipe(T.Body("policy_uri"))),
     postLogoutRedirectUris: S.optional(
       S.NullOr(OauthClientsGetResponsePostLogoutRedirectUrisList).pipe(
@@ -1529,38 +1544,31 @@ export const GetResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetResourceGroupRequest",
 }) as any as S.Schema<GetResourceGroupRequest>;
 
-export type ResourceGroupsGetResponseScopeItemObjectsItem =
+export type ResourceGroupsGetResponseScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
-export const ResourceGroupsGetResponseScopeItemObjectsItem =
+export const ResourceGroupsGetResponseScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
 
-export type ResourceGroupsGetResponseScopeItemObjectsList =
+export type ResourceGroupsGetResponseScopeObjectsList =
   Array<ResourceGroupsCreateRequestScopeObjectsItem>;
-export const ResourceGroupsGetResponseScopeItemObjectsList =
-  /*@__PURE__*/ S.Array(
-    ResourceGroupsCreateRequestScopeObjectsItem,
-  ) as any as S.Schema<ResourceGroupsGetResponseScopeItemObjectsList>;
+export const ResourceGroupsGetResponseScopeObjectsList = /*@__PURE__*/ S.Array(
+  ResourceGroupsCreateRequestScopeObjectsItem,
+) as any as S.Schema<ResourceGroupsGetResponseScopeObjectsList>;
 
-export interface ResourceGroupsGetResponseScopeItem {
+export interface ResourceGroupsGetResponseScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: ResourceGroupsGetResponseScopeItemObjectsList;
+  objects: ResourceGroupsGetResponseScopeObjectsList;
 }
-export const ResourceGroupsGetResponseScopeItem = /*@__PURE__*/ S.suspend(() =>
+export const ResourceGroupsGetResponseScope = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.String,
-    objects: ResourceGroupsGetResponseScopeItemObjectsList,
+    objects: ResourceGroupsGetResponseScopeObjectsList,
   }),
 ).annotate({
-  identifier: "ResourceGroupsGetResponseScopeItem",
-}) as any as S.Schema<ResourceGroupsGetResponseScopeItem>;
-
-export type ResourceGroupsGetResponseScopeList =
-  Array<ResourceGroupsGetResponseScopeItem>;
-export const ResourceGroupsGetResponseScopeList = /*@__PURE__*/ S.Array(
-  ResourceGroupsGetResponseScopeItem,
-) as any as S.Schema<ResourceGroupsGetResponseScopeList>;
+  identifier: "ResourceGroupsGetResponseScope",
+}) as any as S.Schema<ResourceGroupsGetResponseScope>;
 
 export type ResourceGroupsGetResponseMeta = ResourceGroupsCreateResponseMeta;
 export const ResourceGroupsGetResponseMeta = ResourceGroupsCreateResponseMeta;
@@ -1569,8 +1577,8 @@ export const ResourceGroupsGetResponseMeta = ResourceGroupsCreateResponseMeta;
 export interface GetResourceGroupResponse {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: ResourceGroupsGetResponseScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: ResourceGroupsGetResponseScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null;
   /** Name of the resource group. */
@@ -1579,7 +1587,7 @@ export interface GetResourceGroupResponse {
 export const GetResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    scope: ResourceGroupsGetResponseScopeList,
+    scope: ResourceGroupsGetResponseScope,
     meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -1613,7 +1621,7 @@ export type SsoGetResponseVerificationStatus =
   | "pending"
   | "failed"
   | "verified";
-export const SsoGetResponseVerificationStatus = /*@__PURE__*/ S.String;
+export const SsoGetResponseVerificationStatus = S.String;
 
 export interface SsoGetResponseVerification {
   /** DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership. */
@@ -1682,7 +1690,7 @@ export const GetUserGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetUserGroupRequest>;
 
 export type UserGroupsGetResponsePoliciesItemAccess = "allow" | "deny";
-export const UserGroupsGetResponsePoliciesItemAccess = /*@__PURE__*/ S.String;
+export const UserGroupsGetResponsePoliciesItemAccess = S.String;
 
 export type UserGroupsGetResponsePoliciesItemPermissionGroupsItemMeta =
   ResourceGroupsCreateResponseMeta;
@@ -1701,41 +1709,34 @@ export const UserGroupsGetResponsePoliciesItemPermissionGroupsList =
     UserGroupsCreateResponsePoliciesItemPermissionGroupsItem,
   ) as any as S.Schema<UserGroupsGetResponsePoliciesItemPermissionGroupsList>;
 
-export type UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
+export type UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
-export const UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
+export const UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
 
-export type UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
+export type UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeObjectsList =
   Array<ResourceGroupsCreateRequestScopeObjectsItem>;
-export const UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
+export const UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeObjectsList =
   /*@__PURE__*/ S.Array(
     ResourceGroupsCreateRequestScopeObjectsItem,
-  ) as any as S.Schema<UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList>;
+  ) as any as S.Schema<UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeObjectsList>;
 
-export interface UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeItem {
+export interface UserGroupsGetResponsePoliciesItemResourceGroupsItemScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList;
+  objects: UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeObjectsList;
 }
-export const UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeItem =
+export const UserGroupsGetResponsePoliciesItemResourceGroupsItemScope =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       key: S.String,
       objects:
-        UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList,
+        UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeObjectsList,
     }),
   ).annotate({
-    identifier: "UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeItem",
-  }) as any as S.Schema<UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeItem>;
-
-export type UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeList =
-  Array<UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeItem>;
-export const UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeList =
-  /*@__PURE__*/ S.Array(
-    UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeItem,
-  ) as any as S.Schema<UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeList>;
+    identifier: "UserGroupsGetResponsePoliciesItemResourceGroupsItemScope",
+  }) as any as S.Schema<UserGroupsGetResponsePoliciesItemResourceGroupsItemScope>;
 
 export type UserGroupsGetResponsePoliciesItemResourceGroupsItemMeta =
   ResourceGroupsCreateResponseMeta;
@@ -1745,8 +1746,8 @@ export const UserGroupsGetResponsePoliciesItemResourceGroupsItemMeta =
 export interface UserGroupsGetResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: UserGroupsGetResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null;
   /** Name of the resource group. */
@@ -1756,7 +1757,7 @@ export const UserGroupsGetResponsePoliciesItemResourceGroupsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.String,
-      scope: UserGroupsGetResponsePoliciesItemResourceGroupsItemScopeList,
+      scope: UserGroupsGetResponsePoliciesItemResourceGroupsItemScope,
       meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
       name: S.optional(S.NullOr(S.String)),
     }),
@@ -1858,7 +1859,7 @@ export const GetUserGroupMemberRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetUserGroupMemberRequest>;
 
 export type UserGroupsMembersGetResponseStatus = "accepted" | "pending";
-export const UserGroupsMembersGetResponseStatus = /*@__PURE__*/ S.String;
+export const UserGroupsMembersGetResponseStatus = S.String;
 
 export interface UserGroupsMembersGetResponseUser {
   /** User identifier tag. */
@@ -1927,7 +1928,7 @@ export const ListOauthClientsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOauthClientsRequest>;
 
 export type OauthClientsListResultItemVisibility = "public" | "private";
-export const OauthClientsListResultItemVisibility = /*@__PURE__*/ S.String;
+export const OauthClientsListResultItemVisibility = S.String;
 
 export type OauthClientsListResultItemAllowedCorsOriginsList = Array<string>;
 export const OauthClientsListResultItemAllowedCorsOriginsList =
@@ -1940,8 +1941,7 @@ export type OauthClientsListResultItemClientUriVerificationStatus =
   | "in_progress"
   | "verified"
   | "failed";
-export const OauthClientsListResultItemClientUriVerificationStatus =
-  /*@__PURE__*/ S.String;
+export const OauthClientsListResultItemClientUriVerificationStatus = S.String;
 
 export interface OauthClientsListResultItemClientUriVerification {
   /** Current verification status for the client URI host. */
@@ -1964,13 +1964,19 @@ export const OauthClientsListResultItemClientUriVerification =
 export type OauthClientsListResultItemGrantTypesItem =
   | "authorization_code"
   | "refresh_token";
-export const OauthClientsListResultItemGrantTypesItem = /*@__PURE__*/ S.String;
+export const OauthClientsListResultItemGrantTypesItem = S.String;
 
 export type OauthClientsListResultItemGrantTypesList =
   Array<OauthClientsListResultItemGrantTypesItem>;
 export const OauthClientsListResultItemGrantTypesList = /*@__PURE__*/ S.Array(
   OauthClientsListResultItemGrantTypesItem,
 ) as any as S.Schema<OauthClientsListResultItemGrantTypesList>;
+
+export type OauthClientsListResultItemOptionalScopesList = Array<string>;
+export const OauthClientsListResultItemOptionalScopesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<OauthClientsListResultItemOptionalScopesList>;
 
 export type OauthClientsListResultItemPostLogoutRedirectUrisList =
   Array<string>;
@@ -1988,8 +1994,7 @@ export type OauthClientsListResultItemResponseTypesItem =
   | "token"
   | "id_token"
   | "code";
-export const OauthClientsListResultItemResponseTypesItem =
-  /*@__PURE__*/ S.String;
+export const OauthClientsListResultItemResponseTypesItem = S.String;
 
 export type OauthClientsListResultItemResponseTypesList =
   Array<OauthClientsListResultItemResponseTypesItem>;
@@ -2007,8 +2012,7 @@ export type OauthClientsListResultItemTokenEndpointAuthMethod =
   | "none"
   | "client_secret_basic"
   | "client_secret_post";
-export const OauthClientsListResultItemTokenEndpointAuthMethod =
-  /*@__PURE__*/ S.String;
+export const OauthClientsListResultItemTokenEndpointAuthMethod = S.String;
 
 export interface OauthClientsListResultItem {
   /** The unique identifier for an OAuth client. */
@@ -2031,6 +2035,8 @@ export interface OauthClientsListResultItem {
   hasRotatedSecret?: boolean | null;
   /** URL of the client's logo. */
   logoUri?: string | null;
+  /** Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional. */
+  optionalScopes?: OauthClientsListResultItemOptionalScopesList | null;
   /** URL that points to a privacy policy document. */
   policyUri?: string | null;
   /** Array of allowed post-logout redirect URIs. */
@@ -2076,6 +2082,11 @@ export const OauthClientsListResultItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(S.Boolean).pipe(T.Body("has_rotated_secret")),
     ),
     logoUri: S.optional(S.NullOr(S.String).pipe(T.Body("logo_uri"))),
+    optionalScopes: S.optional(
+      S.NullOr(OauthClientsListResultItemOptionalScopesList).pipe(
+        T.Body("optional_scopes"),
+      ),
+    ),
     policyUri: S.optional(S.NullOr(S.String).pipe(T.Body("policy_uri"))),
     postLogoutRedirectUris: S.optional(
       S.NullOr(OauthClientsListResultItemPostLogoutRedirectUrisList).pipe(
@@ -2273,39 +2284,32 @@ export const ListResourceGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListResourceGroupsRequest",
 }) as any as S.Schema<ListResourceGroupsRequest>;
 
-export type ResourceGroupsListResultItemScopeItemObjectsItem =
+export type ResourceGroupsListResultItemScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
-export const ResourceGroupsListResultItemScopeItemObjectsItem =
+export const ResourceGroupsListResultItemScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
 
-export type ResourceGroupsListResultItemScopeItemObjectsList =
+export type ResourceGroupsListResultItemScopeObjectsList =
   Array<ResourceGroupsCreateRequestScopeObjectsItem>;
-export const ResourceGroupsListResultItemScopeItemObjectsList =
+export const ResourceGroupsListResultItemScopeObjectsList =
   /*@__PURE__*/ S.Array(
     ResourceGroupsCreateRequestScopeObjectsItem,
-  ) as any as S.Schema<ResourceGroupsListResultItemScopeItemObjectsList>;
+  ) as any as S.Schema<ResourceGroupsListResultItemScopeObjectsList>;
 
-export interface ResourceGroupsListResultItemScopeItem {
+export interface ResourceGroupsListResultItemScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: ResourceGroupsListResultItemScopeItemObjectsList;
+  objects: ResourceGroupsListResultItemScopeObjectsList;
 }
-export const ResourceGroupsListResultItemScopeItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      key: S.String,
-      objects: ResourceGroupsListResultItemScopeItemObjectsList,
-    }),
+export const ResourceGroupsListResultItemScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    objects: ResourceGroupsListResultItemScopeObjectsList,
+  }),
 ).annotate({
-  identifier: "ResourceGroupsListResultItemScopeItem",
-}) as any as S.Schema<ResourceGroupsListResultItemScopeItem>;
-
-export type ResourceGroupsListResultItemScopeList =
-  Array<ResourceGroupsListResultItemScopeItem>;
-export const ResourceGroupsListResultItemScopeList = /*@__PURE__*/ S.Array(
-  ResourceGroupsListResultItemScopeItem,
-) as any as S.Schema<ResourceGroupsListResultItemScopeList>;
+  identifier: "ResourceGroupsListResultItemScope",
+}) as any as S.Schema<ResourceGroupsListResultItemScope>;
 
 export type ResourceGroupsListResultItemMeta = ResourceGroupsCreateResponseMeta;
 export const ResourceGroupsListResultItemMeta =
@@ -2314,8 +2318,8 @@ export const ResourceGroupsListResultItemMeta =
 export interface ResourceGroupsListResultItem {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: ResourceGroupsListResultItemScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: ResourceGroupsListResultItemScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null;
   /** Name of the resource group. */
@@ -2324,7 +2328,7 @@ export interface ResourceGroupsListResultItem {
 export const ResourceGroupsListResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    scope: ResourceGroupsListResultItemScopeList,
+    scope: ResourceGroupsListResultItemScope,
     meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
     name: S.optional(S.NullOr(S.String)),
   }),
@@ -2377,7 +2381,7 @@ export type SsoListResultItemVerificationStatus =
   | "pending"
   | "failed"
   | "verified";
-export const SsoListResultItemVerificationStatus = /*@__PURE__*/ S.String;
+export const SsoListResultItemVerificationStatus = S.String;
 
 export interface SsoListResultItemVerification {
   /** DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership. */
@@ -2444,7 +2448,7 @@ export const ListSsosResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListSsosResponse>;
 
 export type UserGroupsMembersListRequestDirection = "asc" | "desc";
-export const UserGroupsMembersListRequestDirection = /*@__PURE__*/ S.String;
+export const UserGroupsMembersListRequestDirection = S.String;
 
 export interface ListUserGroupMembersRequest {
   /** Account identifier tag. */
@@ -2484,7 +2488,7 @@ export const ListUserGroupMembersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListUserGroupMembersRequest>;
 
 export type UserGroupsMembersListResultItemStatus = "accepted" | "pending";
-export const UserGroupsMembersListResultItemStatus = /*@__PURE__*/ S.String;
+export const UserGroupsMembersListResultItemStatus = S.String;
 
 export interface UserGroupsMembersListResultItem {
   /** Account member identifier. */
@@ -2526,7 +2530,7 @@ export const ListUserGroupMembersResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListUserGroupMembersResponse>;
 
 export type UserGroupsListRequestDirection = "asc" | "desc";
-export const UserGroupsListRequestDirection = /*@__PURE__*/ S.String;
+export const UserGroupsListRequestDirection = S.String;
 
 export interface ListUserGroupsRequest {
   /** Account identifier tag. */
@@ -2567,8 +2571,7 @@ export const ListUserGroupsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListUserGroupsRequest>;
 
 export type UserGroupsListResultItemPoliciesItemAccess = "allow" | "deny";
-export const UserGroupsListResultItemPoliciesItemAccess =
-  /*@__PURE__*/ S.String;
+export const UserGroupsListResultItemPoliciesItemAccess = S.String;
 
 export type UserGroupsListResultItemPoliciesItemPermissionGroupsItemMeta =
   ResourceGroupsCreateResponseMeta;
@@ -2587,42 +2590,34 @@ export const UserGroupsListResultItemPoliciesItemPermissionGroupsList =
     UserGroupsCreateResponsePoliciesItemPermissionGroupsItem,
   ) as any as S.Schema<UserGroupsListResultItemPoliciesItemPermissionGroupsList>;
 
-export type UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsItem =
+export type UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
-export const UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsItem =
+export const UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
 
-export type UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsList =
+export type UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeObjectsList =
   Array<ResourceGroupsCreateRequestScopeObjectsItem>;
-export const UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsList =
+export const UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeObjectsList =
   /*@__PURE__*/ S.Array(
     ResourceGroupsCreateRequestScopeObjectsItem,
-  ) as any as S.Schema<UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsList>;
+  ) as any as S.Schema<UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeObjectsList>;
 
-export interface UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeItem {
+export interface UserGroupsListResultItemPoliciesItemResourceGroupsItemScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsList;
+  objects: UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeObjectsList;
 }
-export const UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeItem =
+export const UserGroupsListResultItemPoliciesItemResourceGroupsItemScope =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       key: S.String,
       objects:
-        UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsList,
+        UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeObjectsList,
     }),
   ).annotate({
-    identifier:
-      "UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeItem",
-  }) as any as S.Schema<UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeItem>;
-
-export type UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeList =
-  Array<UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeItem>;
-export const UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeList =
-  /*@__PURE__*/ S.Array(
-    UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeItem,
-  ) as any as S.Schema<UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeList>;
+    identifier: "UserGroupsListResultItemPoliciesItemResourceGroupsItemScope",
+  }) as any as S.Schema<UserGroupsListResultItemPoliciesItemResourceGroupsItemScope>;
 
 export type UserGroupsListResultItemPoliciesItemResourceGroupsItemMeta =
   ResourceGroupsCreateResponseMeta;
@@ -2632,8 +2627,8 @@ export const UserGroupsListResultItemPoliciesItemResourceGroupsItemMeta =
 export interface UserGroupsListResultItemPoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: UserGroupsListResultItemPoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null;
   /** Name of the resource group. */
@@ -2643,7 +2638,7 @@ export const UserGroupsListResultItemPoliciesItemResourceGroupsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.String,
-      scope: UserGroupsListResultItemPoliciesItemResourceGroupsItemScopeList,
+      scope: UserGroupsListResultItemPoliciesItemResourceGroupsItemScope,
       meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
       name: S.optional(S.NullOr(S.String)),
     }),
@@ -2747,7 +2742,7 @@ export const OauthClientsUpdateRequestAllowedCorsOriginsList =
 export type OauthClientsUpdateRequestGrantTypesItem =
   | "authorization_code"
   | "refresh_token";
-export const OauthClientsUpdateRequestGrantTypesItem = /*@__PURE__*/ S.String;
+export const OauthClientsUpdateRequestGrantTypesItem = S.String;
 
 export type OauthClientsUpdateRequestGrantTypesList = Array<
   OauthClientsUpdateRequestGrantTypesItem | (string & {})
@@ -2755,6 +2750,12 @@ export type OauthClientsUpdateRequestGrantTypesList = Array<
 export const OauthClientsUpdateRequestGrantTypesList = /*@__PURE__*/ S.Array(
   OauthClientsUpdateRequestGrantTypesItem,
 ) as any as S.Schema<OauthClientsUpdateRequestGrantTypesList>;
+
+export type OauthClientsUpdateRequestOptionalScopesList = Array<string>;
+export const OauthClientsUpdateRequestOptionalScopesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<OauthClientsUpdateRequestOptionalScopesList>;
 
 export type OauthClientsUpdateRequestPostLogoutRedirectUrisList = Array<string>;
 export const OauthClientsUpdateRequestPostLogoutRedirectUrisList =
@@ -2771,8 +2772,7 @@ export type OauthClientsUpdateRequestResponseTypesItem =
   | "token"
   | "id_token"
   | "code";
-export const OauthClientsUpdateRequestResponseTypesItem =
-  /*@__PURE__*/ S.String;
+export const OauthClientsUpdateRequestResponseTypesItem = S.String;
 
 export type OauthClientsUpdateRequestResponseTypesList = Array<
   OauthClientsUpdateRequestResponseTypesItem | (string & {})
@@ -2790,11 +2790,10 @@ export type OauthClientsUpdateRequestTokenEndpointAuthMethod =
   | "none"
   | "client_secret_basic"
   | "client_secret_post";
-export const OauthClientsUpdateRequestTokenEndpointAuthMethod =
-  /*@__PURE__*/ S.String;
+export const OauthClientsUpdateRequestTokenEndpointAuthMethod = S.String;
 
 export type OauthClientsUpdateRequestVisibility = "public";
-export const OauthClientsUpdateRequestVisibility = /*@__PURE__*/ S.String;
+export const OauthClientsUpdateRequestVisibility = S.String;
 
 export interface PatchOauthClientRequest {
   /** Account identifier tag. */
@@ -2811,6 +2810,8 @@ export interface PatchOauthClientRequest {
   grantTypes?: OauthClientsUpdateRequestGrantTypesList;
   /** URL of the client's logo. */
   logoUri?: string;
+  /** Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional. */
+  optionalScopes?: OauthClientsUpdateRequestOptionalScopesList;
   /** URL that points to a privacy policy document. */
   policyUri?: string;
   /** Array of allowed post-logout redirect URIs. */
@@ -2845,6 +2846,11 @@ export const PatchOauthClientRequest = /*@__PURE__*/ S.suspend(() =>
       OauthClientsUpdateRequestGrantTypesList.pipe(T.Body("grant_types")),
     ),
     logoUri: S.optional(S.String.pipe(T.Body("logo_uri"))),
+    optionalScopes: S.optional(
+      OauthClientsUpdateRequestOptionalScopesList.pipe(
+        T.Body("optional_scopes"),
+      ),
+    ),
     policyUri: S.optional(S.String.pipe(T.Body("policy_uri"))),
     postLogoutRedirectUris: S.optional(
       OauthClientsUpdateRequestPostLogoutRedirectUrisList.pipe(
@@ -2879,7 +2885,7 @@ export const PatchOauthClientRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchOauthClientRequest>;
 
 export type OauthClientsUpdateResponseVisibility = "public" | "private";
-export const OauthClientsUpdateResponseVisibility = /*@__PURE__*/ S.String;
+export const OauthClientsUpdateResponseVisibility = S.String;
 
 export type OauthClientsUpdateResponseAllowedCorsOriginsList = Array<string>;
 export const OauthClientsUpdateResponseAllowedCorsOriginsList =
@@ -2892,8 +2898,7 @@ export type OauthClientsUpdateResponseClientUriVerificationStatus =
   | "in_progress"
   | "verified"
   | "failed";
-export const OauthClientsUpdateResponseClientUriVerificationStatus =
-  /*@__PURE__*/ S.String;
+export const OauthClientsUpdateResponseClientUriVerificationStatus = S.String;
 
 export interface OauthClientsUpdateResponseClientUriVerification {
   /** Current verification status for the client URI host. */
@@ -2916,13 +2921,19 @@ export const OauthClientsUpdateResponseClientUriVerification =
 export type OauthClientsUpdateResponseGrantTypesItem =
   | "authorization_code"
   | "refresh_token";
-export const OauthClientsUpdateResponseGrantTypesItem = /*@__PURE__*/ S.String;
+export const OauthClientsUpdateResponseGrantTypesItem = S.String;
 
 export type OauthClientsUpdateResponseGrantTypesList =
   Array<OauthClientsUpdateResponseGrantTypesItem>;
 export const OauthClientsUpdateResponseGrantTypesList = /*@__PURE__*/ S.Array(
   OauthClientsUpdateResponseGrantTypesItem,
 ) as any as S.Schema<OauthClientsUpdateResponseGrantTypesList>;
+
+export type OauthClientsUpdateResponseOptionalScopesList = Array<string>;
+export const OauthClientsUpdateResponseOptionalScopesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<OauthClientsUpdateResponseOptionalScopesList>;
 
 export type OauthClientsUpdateResponsePostLogoutRedirectUrisList =
   Array<string>;
@@ -2940,8 +2951,7 @@ export type OauthClientsUpdateResponseResponseTypesItem =
   | "token"
   | "id_token"
   | "code";
-export const OauthClientsUpdateResponseResponseTypesItem =
-  /*@__PURE__*/ S.String;
+export const OauthClientsUpdateResponseResponseTypesItem = S.String;
 
 export type OauthClientsUpdateResponseResponseTypesList =
   Array<OauthClientsUpdateResponseResponseTypesItem>;
@@ -2959,8 +2969,7 @@ export type OauthClientsUpdateResponseTokenEndpointAuthMethod =
   | "none"
   | "client_secret_basic"
   | "client_secret_post";
-export const OauthClientsUpdateResponseTokenEndpointAuthMethod =
-  /*@__PURE__*/ S.String;
+export const OauthClientsUpdateResponseTokenEndpointAuthMethod = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchOauthClientResponse {
@@ -2984,6 +2993,8 @@ export interface PatchOauthClientResponse {
   hasRotatedSecret?: boolean | null;
   /** URL of the client's logo. */
   logoUri?: string | null;
+  /** Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional. */
+  optionalScopes?: OauthClientsUpdateResponseOptionalScopesList | null;
   /** URL that points to a privacy policy document. */
   policyUri?: string | null;
   /** Array of allowed post-logout redirect URIs. */
@@ -3029,6 +3040,11 @@ export const PatchOauthClientResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(S.Boolean).pipe(T.Body("has_rotated_secret")),
     ),
     logoUri: S.optional(S.NullOr(S.String).pipe(T.Body("logo_uri"))),
+    optionalScopes: S.optional(
+      S.NullOr(OauthClientsUpdateResponseOptionalScopesList).pipe(
+        T.Body("optional_scopes"),
+      ),
+    ),
     policyUri: S.optional(S.NullOr(S.String).pipe(T.Body("policy_uri"))),
     postLogoutRedirectUris: S.optional(
       S.NullOr(OauthClientsUpdateResponsePostLogoutRedirectUrisList).pipe(
@@ -3095,7 +3111,7 @@ export type SsoUpdateResponseVerificationStatus =
   | "pending"
   | "failed"
   | "verified";
-export const SsoUpdateResponseVerificationStatus = /*@__PURE__*/ S.String;
+export const SsoUpdateResponseVerificationStatus = S.String;
 
 export interface SsoUpdateResponseVerification {
   /** DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership. */
@@ -3234,39 +3250,32 @@ export const UpdateResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateResourceGroupRequest",
 }) as any as S.Schema<UpdateResourceGroupRequest>;
 
-export type ResourceGroupsUpdateResponseScopeItemObjectsItem =
+export type ResourceGroupsUpdateResponseScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
-export const ResourceGroupsUpdateResponseScopeItemObjectsItem =
+export const ResourceGroupsUpdateResponseScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
 
-export type ResourceGroupsUpdateResponseScopeItemObjectsList =
+export type ResourceGroupsUpdateResponseScopeObjectsList =
   Array<ResourceGroupsCreateRequestScopeObjectsItem>;
-export const ResourceGroupsUpdateResponseScopeItemObjectsList =
+export const ResourceGroupsUpdateResponseScopeObjectsList =
   /*@__PURE__*/ S.Array(
     ResourceGroupsCreateRequestScopeObjectsItem,
-  ) as any as S.Schema<ResourceGroupsUpdateResponseScopeItemObjectsList>;
+  ) as any as S.Schema<ResourceGroupsUpdateResponseScopeObjectsList>;
 
-export interface ResourceGroupsUpdateResponseScopeItem {
+export interface ResourceGroupsUpdateResponseScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: ResourceGroupsUpdateResponseScopeItemObjectsList;
+  objects: ResourceGroupsUpdateResponseScopeObjectsList;
 }
-export const ResourceGroupsUpdateResponseScopeItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      key: S.String,
-      objects: ResourceGroupsUpdateResponseScopeItemObjectsList,
-    }),
+export const ResourceGroupsUpdateResponseScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    objects: ResourceGroupsUpdateResponseScopeObjectsList,
+  }),
 ).annotate({
-  identifier: "ResourceGroupsUpdateResponseScopeItem",
-}) as any as S.Schema<ResourceGroupsUpdateResponseScopeItem>;
-
-export type ResourceGroupsUpdateResponseScopeList =
-  Array<ResourceGroupsUpdateResponseScopeItem>;
-export const ResourceGroupsUpdateResponseScopeList = /*@__PURE__*/ S.Array(
-  ResourceGroupsUpdateResponseScopeItem,
-) as any as S.Schema<ResourceGroupsUpdateResponseScopeList>;
+  identifier: "ResourceGroupsUpdateResponseScope",
+}) as any as S.Schema<ResourceGroupsUpdateResponseScope>;
 
 export type ResourceGroupsUpdateResponseMeta = ResourceGroupsCreateResponseMeta;
 export const ResourceGroupsUpdateResponseMeta =
@@ -3276,8 +3285,8 @@ export const ResourceGroupsUpdateResponseMeta =
 export interface UpdateResourceGroupResponse {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: ResourceGroupsUpdateResponseScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: ResourceGroupsUpdateResponseScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null;
   /** Name of the resource group. */
@@ -3286,7 +3295,7 @@ export interface UpdateResourceGroupResponse {
 export const UpdateResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    scope: ResourceGroupsUpdateResponseScopeList,
+    scope: ResourceGroupsUpdateResponseScope,
     meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -3295,7 +3304,7 @@ export const UpdateResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateResourceGroupResponse>;
 
 export type UserGroupsUpdateRequestPoliciesItemAccess = "allow" | "deny";
-export const UserGroupsUpdateRequestPoliciesItemAccess = /*@__PURE__*/ S.String;
+export const UserGroupsUpdateRequestPoliciesItemAccess = S.String;
 
 export type UserGroupsUpdateRequestPoliciesItemPermissionGroupsItem =
   UserGroupsCreateRequestPoliciesItemPermissionGroupsItem;
@@ -3383,8 +3392,7 @@ export const UpdateUserGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateUserGroupRequest>;
 
 export type UserGroupsUpdateResponsePoliciesItemAccess = "allow" | "deny";
-export const UserGroupsUpdateResponsePoliciesItemAccess =
-  /*@__PURE__*/ S.String;
+export const UserGroupsUpdateResponsePoliciesItemAccess = S.String;
 
 export type UserGroupsUpdateResponsePoliciesItemPermissionGroupsItemMeta =
   ResourceGroupsCreateResponseMeta;
@@ -3403,42 +3411,34 @@ export const UserGroupsUpdateResponsePoliciesItemPermissionGroupsList =
     UserGroupsCreateResponsePoliciesItemPermissionGroupsItem,
   ) as any as S.Schema<UserGroupsUpdateResponsePoliciesItemPermissionGroupsList>;
 
-export type UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
+export type UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
-export const UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
+export const UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
 
-export type UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
+export type UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList =
   Array<ResourceGroupsCreateRequestScopeObjectsItem>;
-export const UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
+export const UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList =
   /*@__PURE__*/ S.Array(
     ResourceGroupsCreateRequestScopeObjectsItem,
-  ) as any as S.Schema<UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList>;
+  ) as any as S.Schema<UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList>;
 
-export interface UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeItem {
+export interface UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList;
+  objects: UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList;
 }
-export const UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeItem =
+export const UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScope =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       key: S.String,
       objects:
-        UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList,
+        UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList,
     }),
   ).annotate({
-    identifier:
-      "UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeItem",
-  }) as any as S.Schema<UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeItem>;
-
-export type UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeList =
-  Array<UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeItem>;
-export const UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeList =
-  /*@__PURE__*/ S.Array(
-    UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeItem,
-  ) as any as S.Schema<UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeList>;
+    identifier: "UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScope",
+  }) as any as S.Schema<UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScope>;
 
 export type UserGroupsUpdateResponsePoliciesItemResourceGroupsItemMeta =
   ResourceGroupsCreateResponseMeta;
@@ -3448,8 +3448,8 @@ export const UserGroupsUpdateResponsePoliciesItemResourceGroupsItemMeta =
 export interface UserGroupsUpdateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null;
   /** Name of the resource group. */
@@ -3459,7 +3459,7 @@ export const UserGroupsUpdateResponsePoliciesItemResourceGroupsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.String,
-      scope: UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScopeList,
+      scope: UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScope,
       meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
       name: S.optional(S.NullOr(S.String)),
     }),
@@ -3573,7 +3573,7 @@ export const UpdateUserGroupMemberRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateUserGroupMemberRequest>;
 
 export type UserGroupsMembersUpdateResultItemStatus = "accepted" | "pending";
-export const UserGroupsMembersUpdateResultItemStatus = /*@__PURE__*/ S.String;
+export const UserGroupsMembersUpdateResultItemStatus = S.String;
 
 export interface UserGroupsMembersUpdateResultItem {
   /** Account member identifier. */

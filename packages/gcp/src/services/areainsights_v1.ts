@@ -69,7 +69,7 @@ export type ComputeInsightsRequestInsightsItemEnum =
   | "INSIGHT_UNSPECIFIED"
   | "INSIGHT_COUNT"
   | "INSIGHT_PLACES";
-export const ComputeInsightsRequestInsightsItemEnum = /*@__PURE__*/ S.String;
+export const ComputeInsightsRequestInsightsItemEnum = S.String;
 
 export type ComputeInsightsRequestInsightsItemEnumList = Array<
   ComputeInsightsRequestInsightsItemEnum | (string & {})
@@ -78,20 +78,6 @@ export const ComputeInsightsRequestInsightsItemEnumList = /*@__PURE__*/ S.Array(
   ComputeInsightsRequestInsightsItemEnum,
 ) as any as S.Schema<ComputeInsightsRequestInsightsItemEnumList>;
 
-/** Average user rating filters. */
-export interface RatingFilter {
-  /** Optional. Restricts results to places whose average user rating is greater than or equal to min_rating. Values must be between 1.0 and 5.0. */
-  minRating?: number;
-  /** Optional. Restricts results to places whose average user rating is strictly less than or equal to max_rating. Values must be between 1.0 and 5.0. */
-  maxRating?: number;
-}
-export const RatingFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    minRating: S.optional(S.Number),
-    maxRating: S.optional(S.Number),
-  }),
-).annotate({ identifier: "RatingFilter" }) as any as S.Schema<RatingFilter>;
-
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
   S.String,
@@ -99,46 +85,30 @@ export const StringList = /*@__PURE__*/ S.Array(
 
 /** Place type filters. Only Place types from [Table a](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a) are supported. A place can only have a single primary type associated with it. For example, the primary type might be "mexican_restaurant" or "steak_house". Use included_primary_types and excluded_primary_types to filter the results on a place's primary type. A place can also have multiple type values associated with it. For example a restaurant might have the following types: "seafood_restaurant", "restaurant", "food", "point_of_interest", "establishment". Use included_types and excluded_types to filter the results on the list of types associated with a place. If a search is specified with multiple type restrictions, only places that satisfy all of the restrictions are returned. For example, if you specify {"included_types": ["restaurant"], "excluded_primary_types": ["steak_house"]}, the returned places provide "restaurant" related services but do not operate primarily as a "steak_house". If there are any conflicting types, i.e. a type appears in both included_types and excluded_types types or included_primary_types and excluded_primary_types, an INVALID_ARGUMENT error is returned. One of included_types or included_primary_types must be set. */
 export interface TypeFilter {
-  /** Optional. Excluded Place types. */
-  excludedTypes?: StringList;
-  /** Optional. Included Place types. */
-  includedTypes?: StringList;
-  /** Optional. Included primary Place types. */
-  includedPrimaryTypes?: StringList;
   /** Optional. Excluded primary Place types. */
   excludedPrimaryTypes?: StringList;
+  /** Optional. Included Place types. */
+  includedTypes?: StringList;
+  /** Optional. Excluded Place types. */
+  excludedTypes?: StringList;
+  /** Optional. Included primary Place types. */
+  includedPrimaryTypes?: StringList;
 }
 export const TypeFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    excludedTypes: S.optional(StringList),
-    includedTypes: S.optional(StringList),
-    includedPrimaryTypes: S.optional(StringList),
     excludedPrimaryTypes: S.optional(StringList),
+    includedTypes: S.optional(StringList),
+    excludedTypes: S.optional(StringList),
+    includedPrimaryTypes: S.optional(StringList),
   }),
 ).annotate({ identifier: "TypeFilter" }) as any as S.Schema<TypeFilter>;
-
-export type FilterPriceLevelsItemEnum =
-  | "PRICE_LEVEL_UNSPECIFIED"
-  | "PRICE_LEVEL_FREE"
-  | "PRICE_LEVEL_INEXPENSIVE"
-  | "PRICE_LEVEL_MODERATE"
-  | "PRICE_LEVEL_EXPENSIVE"
-  | "PRICE_LEVEL_VERY_EXPENSIVE";
-export const FilterPriceLevelsItemEnum = /*@__PURE__*/ S.String;
-
-export type FilterPriceLevelsItemEnumList = Array<
-  FilterPriceLevelsItemEnum | (string & {})
->;
-export const FilterPriceLevelsItemEnumList = /*@__PURE__*/ S.Array(
-  FilterPriceLevelsItemEnum,
-) as any as S.Schema<FilterPriceLevelsItemEnumList>;
 
 export type FilterOperatingStatusItemEnum =
   | "OPERATING_STATUS_UNSPECIFIED"
   | "OPERATING_STATUS_OPERATIONAL"
   | "OPERATING_STATUS_PERMANENTLY_CLOSED"
   | "OPERATING_STATUS_TEMPORARILY_CLOSED";
-export const FilterOperatingStatusItemEnum = /*@__PURE__*/ S.String;
+export const FilterOperatingStatusItemEnum = S.String;
 
 export type FilterOperatingStatusItemEnumList = Array<
   FilterOperatingStatusItemEnum | (string & {})
@@ -149,32 +119,32 @@ export const FilterOperatingStatusItemEnumList = /*@__PURE__*/ S.Array(
 
 /** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
 export interface LatLng {
-  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
-  longitude?: number;
   /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
   latitude?: number;
+  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
+  longitude?: number;
 }
 export const LatLng = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    longitude: S.optional(S.Number),
     latitude: S.optional(S.Number),
+    longitude: S.optional(S.Number),
   }),
 ).annotate({ identifier: "LatLng" }) as any as S.Schema<LatLng>;
 
 /** A circle is defined by a center point and radius in meters. */
 export interface Circle {
-  /** The latitude and longitude of the center of the circle. */
-  latLng?: LatLng;
-  /** Optional. The radius of the circle in meters */
-  radius?: number;
   /** **Format:** Must be in the format `places/PLACE_ID`, where `PLACE_ID` is the unique identifier of a place. For example: `places/ChIJgUbEo8cfqokR5lP9_Wh_DaM`. */
   place?: string;
+  /** Optional. The radius of the circle in meters */
+  radius?: number;
+  /** The latitude and longitude of the center of the circle. */
+  latLng?: LatLng;
 }
 export const Circle = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    latLng: S.optional(LatLng),
-    radius: S.optional(S.Number),
     place: S.optional(S.String),
+    radius: S.optional(S.Number),
+    latLng: S.optional(LatLng),
   }),
 ).annotate({ identifier: "Circle" }) as any as S.Schema<Circle>;
 
@@ -233,26 +203,56 @@ export const LocationFilter = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "LocationFilter" }) as any as S.Schema<LocationFilter>;
 
+/** Average user rating filters. */
+export interface RatingFilter {
+  /** Optional. Restricts results to places whose average user rating is greater than or equal to min_rating. Values must be between 1.0 and 5.0. */
+  minRating?: number;
+  /** Optional. Restricts results to places whose average user rating is strictly less than or equal to max_rating. Values must be between 1.0 and 5.0. */
+  maxRating?: number;
+}
+export const RatingFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minRating: S.optional(S.Number),
+    maxRating: S.optional(S.Number),
+  }),
+).annotate({ identifier: "RatingFilter" }) as any as S.Schema<RatingFilter>;
+
+export type FilterPriceLevelsItemEnum =
+  | "PRICE_LEVEL_UNSPECIFIED"
+  | "PRICE_LEVEL_FREE"
+  | "PRICE_LEVEL_INEXPENSIVE"
+  | "PRICE_LEVEL_MODERATE"
+  | "PRICE_LEVEL_EXPENSIVE"
+  | "PRICE_LEVEL_VERY_EXPENSIVE";
+export const FilterPriceLevelsItemEnum = S.String;
+
+export type FilterPriceLevelsItemEnumList = Array<
+  FilterPriceLevelsItemEnum | (string & {})
+>;
+export const FilterPriceLevelsItemEnumList = /*@__PURE__*/ S.Array(
+  FilterPriceLevelsItemEnum,
+) as any as S.Schema<FilterPriceLevelsItemEnumList>;
+
 /** Filters for the ComputeInsights RPC. */
 export interface Filter {
-  /** Optional. Restricts results to places whose average user ratings are in the range specified by rating_filter. If rating_filter is not set, all ratings are included in the result. */
-  ratingFilter?: RatingFilter;
   /** Required. Place type filters. */
   typeFilter?: TypeFilter;
-  /** Optional. Restricts results to places whose price level is included on this list. If `price_levels` is not set, all price levels are included in the results. */
-  priceLevels?: FilterPriceLevelsItemEnumList;
   /** Optional. Restricts results to places whose operating status is included on this list. If operating_status is not set, OPERATING_STATUS_OPERATIONAL is used as default. */
   operatingStatus?: FilterOperatingStatusItemEnumList;
   /** Required. Restricts results to places which are located in the area specified by location filters. */
   locationFilter?: LocationFilter;
+  /** Optional. Restricts results to places whose average user ratings are in the range specified by rating_filter. If rating_filter is not set, all ratings are included in the result. */
+  ratingFilter?: RatingFilter;
+  /** Optional. Restricts results to places whose price level is included on this list. If `price_levels` is not set, all price levels are included in the results. */
+  priceLevels?: FilterPriceLevelsItemEnumList;
 }
 export const Filter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ratingFilter: S.optional(RatingFilter),
     typeFilter: S.optional(TypeFilter),
-    priceLevels: S.optional(FilterPriceLevelsItemEnumList),
     operatingStatus: S.optional(FilterOperatingStatusItemEnumList),
     locationFilter: S.optional(LocationFilter),
+    ratingFilter: S.optional(RatingFilter),
+    priceLevels: S.optional(FilterPriceLevelsItemEnumList),
   }),
 ).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 
@@ -308,15 +308,15 @@ export const PlaceInsightList = /*@__PURE__*/ S.Array(
 
 /** Response for the ComputeInsights RPC. */
 export interface ComputeInsightsResponse {
-  /** Result for Insights.INSIGHT_COUNT. */
-  count?: string;
   /** Result for Insights.INSIGHT_PLACES. */
   placeInsights?: PlaceInsightList;
+  /** Result for Insights.INSIGHT_COUNT. */
+  count?: string;
 }
 export const ComputeInsightsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    count: S.optional(S.String),
     placeInsights: S.optional(PlaceInsightList),
+    count: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ComputeInsightsResponse",

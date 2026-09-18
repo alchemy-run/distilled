@@ -40,17 +40,17 @@ export class NotFound
   ) {}
 
 export interface ListAccountsQuotasRequest {
-  /** Required. The merchant account who owns the collection of method quotas Format: accounts/{account} */
-  parent: string;
   /** Optional. The maximum number of quotas to return in the response, used for paging. Defaults to 500; values above 1000 will be coerced to 1000. */
   pageSize?: number;
+  /** Required. The merchant account who owns the collection of method quotas Format: accounts/{account} */
+  parent: string;
   /** Optional. Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token. */
   pageToken?: string;
 }
 export const ListAccountsQuotasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -65,21 +65,21 @@ export const ListAccountsQuotasRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The method details per method in the Merchant API. */
 export interface MethodDetails {
-  /** Output only. The name of the method for example `products.list`. */
-  method?: string;
-  /** Output only. The API version that the method belongs to. */
-  version?: string;
   /** Output only. The sub-API that the method belongs to. */
   subapi?: string;
   /** Output only. The path for the method such as `products/v1/productInputs.insert` */
   path?: string;
+  /** Output only. The name of the method for example `products.list`. */
+  method?: string;
+  /** Output only. The API version that the method belongs to. */
+  version?: string;
 }
 export const MethodDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    method: S.optional(S.String),
-    version: S.optional(S.String),
     subapi: S.optional(S.String),
     path: S.optional(S.String),
+    method: S.optional(S.String),
+    version: S.optional(S.String),
   }),
 ).annotate({ identifier: "MethodDetails" }) as any as S.Schema<MethodDetails>;
 
@@ -90,24 +90,24 @@ export const MethodDetailsList = /*@__PURE__*/ S.Array(
 
 /** The group information for methods in the Merchant API. The quota is shared between all methods in the group. Even if none of the methods within the group have usage the information for the group is returned. */
 export interface QuotaGroup {
-  /** Output only. The current quota usage, meaning the number of calls already made on a given day to the methods in the group. The daily quota limits reset at at 12:00 PM midday UTC. */
-  quotaUsage?: string;
-  /** Output only. The maximum number of calls allowed per day for the group. */
-  quotaLimit?: string;
-  /** Output only. List of all methods group quota applies to. */
-  methodDetails?: MethodDetailsList;
   /** Identifier. The resource name of the quota group. Format: accounts/{account}/quotas/{group} Note: There is no guarantee on the format of {group} */
   name?: string;
+  /** Output only. The current quota usage, meaning the number of calls already made on a given day to the methods in the group. The daily quota limits reset at 12:00 PM midday UTC. */
+  quotaUsage?: string;
+  /** Output only. List of all methods group quota applies to. */
+  methodDetails?: MethodDetailsList;
   /** Output only. The maximum number of calls allowed per minute for the group. */
   quotaMinuteLimit?: string;
+  /** Output only. The maximum number of calls allowed per day for the group. */
+  quotaLimit?: string;
 }
 export const QuotaGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    quotaUsage: S.optional(S.String),
-    quotaLimit: S.optional(S.String),
-    methodDetails: S.optional(MethodDetailsList),
     name: S.optional(S.String),
+    quotaUsage: S.optional(S.String),
+    methodDetails: S.optional(MethodDetailsList),
     quotaMinuteLimit: S.optional(S.String),
+    quotaLimit: S.optional(S.String),
   }),
 ).annotate({ identifier: "QuotaGroup" }) as any as S.Schema<QuotaGroup>;
 

@@ -9,7 +9,9 @@
  *
  *   • one operation per (path × get/post/put/patch/delete — plus head/options
  *     when a provider opts in via `extraHttpMethods`), deprecated skipped by
- *     default; op shape name = PascalCase(operationId)
+ *     default; op shape name = PascalCase(operationId), or verbNoun
+ *     (`Apps_list` → `ListApps`) when {@link OpenApiConvertOptions.operationNaming}
+ *     is `"verbNoun"`
  *   • input `<Op>Request`: path params → `smithy.api#httpLabel` (+required),
  *     query params → `smithy.api#httpQuery`, header params →
  *     `smithy.api#httpHeader` when `headerParams` is on (dropped otherwise,
@@ -41,6 +43,15 @@
  *     first top-level array property) → `smithy.api#paginated` on the op
  *     (with the non-standard `mode` member the core runtime dispatches on)
  */
+
+import {
+  isMechanicalOperationId,
+  isVerbatimRouteId,
+  pathToVerbNoun,
+  resolveOperationName,
+  toVerbNoun,
+  type OperationIdRewrite,
+} from "./rewrite-operation-ids.ts";
 
 // ============================================================================
 // Trait ids (the `com.distilled.openapi` vocabulary)
@@ -177,6 +188,29 @@ export interface OpenApiConvertOptions {
    * {@link ERROR_MATCHERS_TRAIT} traits; overrides are merged over it.
    */
   readonly errorShapes?: Readonly<Record<string, any>>;
+  /**
+   * How to turn an OpenAPI `operationId` into the Smithy/SDK operation name.
+   * This is a convert policy, not a spec patch — the OpenAPI document is
+   * left alone.
+   *
+   * - `"verbNoun"` (default): `Apps_list` / `ConfigsList` / `showContact` →
+   *   `listApps` / `listConfigs` / `getApp`. Already verb-first ids stay.
+   *   An operation with no `operationId`, or a mechanical one that only
+   *   restates the method and path (`get-api-card`, `post_v1_users`), is
+   *   named from the route instead: `GET /users` → `listUsers`,
+   *   `GET /users/{id}` → `getUser`, `POST /users/{id}/reset` →
+   *   `resetUser`.
+   * - `"as-is"`: `PascalCase(operationId)` (`Apps_list` → `AppsList`).
+   *
+   * {@link operationNames} overrides win (lookup by `"METHOD path"`, then
+   * operationId).
+   */
+  readonly operationNaming?: "as-is" | "verbNoun";
+  /**
+   * Per-operation name overrides for {@link operationNaming}. Use
+   * `"METHOD path"` keys when two methods share an `operationId`.
+   */
+  readonly operationNames?: OperationIdRewrite;
 }
 
 export interface SmithyModel {
@@ -818,7 +852,14 @@ const convertSchema = (
     const item = convertSchema(ctx, def.items, `${hint}Item`, depth + 1, dir);
     return {
       target: emit(
-        { type: "list", member: { target: item.target }, traits: docTraits },
+        {
+          type: "list",
+          member: {
+            target: item.target,
+            ...(item.nullable ? { traits: { [NULLABLE_TRAIT]: {} } } : {}),
+          },
+          traits: docTraits,
+        },
         reservedId !== undefined ? hint : `${hint}List`,
       ),
       nullable,
@@ -855,7 +896,10 @@ const convertSchema = (
           {
             type: "map",
             key: { target: PRELUDE.String },
-            value: { target: value.target },
+            value: {
+              target: value.target,
+              ...(value.nullable ? { traits: { [NULLABLE_TRAIT]: {} } } : {}),
+            },
             traits: docTraits,
           },
           reservedId !== undefined ? hint : `${hint}Map`,
@@ -1079,6 +1123,37 @@ const successSchema = (
   return { schema: undefined };
 };
 
+/**
+ * Whether the success body is a collection: an array, or an object whose
+ * array members outnumber its scalar ones (envelopes like `{ data: [] }`,
+ * `{ items: [], total }`). `undefined` when there is no body to judge.
+ */
+const responseIsCollection = (
+  ctx: Ctx,
+  responses: any,
+  order: readonly string[],
+): boolean | undefined => {
+  const { schema } = successSchema(ctx, responses, order);
+  if (!schema) return undefined;
+  const s = deref(ctx, schema);
+  if (!s || typeof s !== "object") return undefined;
+  if (s.type === "array" || s.items) return true;
+  const props = s.properties;
+  if (!props || typeof props !== "object") {
+    return s.allOf || s.oneOf || s.anyOf ? undefined : false;
+  }
+  let arrays = 0;
+  let others = 0;
+  for (const prop of Object.values(props)) {
+    const p = deref(ctx, prop);
+    if (p?.type === "array" || p?.items) arrays++;
+    else others++;
+  }
+  if (arrays === 0) return false;
+  // `{ data: [...] }`, `{ items, next_cursor }`, `{ results, count, page }`
+  return arrays >= 1 && others <= 3;
+};
+
 // ============================================================================
 // Pagination detection (v0 detectPagination)
 // ============================================================================
@@ -1227,11 +1302,60 @@ export const convertOpenApiToSmithy = (
       if (!op || typeof op !== "object") continue;
       if (skipDeprecated && op.deprecated === true) continue;
 
-      const opName = pascal(
+      const rawOperationId =
         typeof op.operationId === "string" && op.operationId
           ? op.operationId
-          : `${method}_${rawPath}`,
-      );
+          : `${method}_${rawPath}`;
+      const idCtx = { path: rawPath, method };
+      const naming = options.operationNaming ?? "verbNoun";
+      let named =
+        options.operationNames !== undefined
+          ? resolveOperationName(options.operationNames, rawOperationId, idCtx)
+          : undefined;
+      if (named === undefined && naming === "verbNoun") {
+        // A mechanical id (`get-api-card`, or none at all) is named from
+        // the route. A hand-chosen one that merely starts with the method
+        // and reads the route in order (`get-feeds` on /feeds) keeps its
+        // own nouns; only the HTTP-method verb is normalised.
+        if (typeof op.operationId !== "string" || !op.operationId) {
+          // No id: everything comes from the route, including whether a
+          // GET on a collection route is `list` or `get`.
+          named = pathToVerbNoun(idCtx, {
+            returnsCollection: responseIsCollection(
+              ctx,
+              op.responses,
+              successStatuses,
+            ),
+          });
+        } else if (isMechanicalOperationId(op.operationId, idCtx)) {
+          // Method-prefixed and reading the route (`get-feeds`,
+          // `postV1AppsByAppIdPromote`, `deleteProjectJWKS`): keep the
+          // author's tokens and casing; normalise `post`/`patch`, drop
+          // parameter clauses (`ByAppId`, `ById`) and api/version roots.
+          named = pathToVerbNoun(idCtx, {
+            nouns: op.operationId,
+            verbatim: isVerbatimRouteId(op.operationId, idCtx),
+          });
+        } else {
+          named = toVerbNoun(rawOperationId);
+        }
+      }
+      let resolved: string = named ?? rawOperationId;
+      // Two routes can derive the same name (`/collections/{slug}` and
+      // `/collections/{slug}-{id}`); suffix the trailing parameter rather
+      // than a counter.
+      if (
+        naming === "verbNoun" &&
+        ctx.names.has(pascal(resolved)) &&
+        isMechanicalOperationId(
+          typeof op.operationId === "string" ? op.operationId : undefined,
+          idCtx,
+        )
+      ) {
+        const lastParam = /\{([^}]+)\}[^/]*$/.exec(rawPath)?.[1];
+        if (lastParam) resolved = `${resolved}By${pascal(lastParam)}`;
+      }
+      const opName = pascal(resolved);
 
       const params = collectParams(ctx, pathItem, op);
 

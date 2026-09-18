@@ -191,18 +191,19 @@ export const CancelJobResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelJobResponse",
 }) as any as S.Schema<CancelJobResponse>;
 export type CEType = "MANAGED" | "UNMANAGED" | (string & {});
-export const CEType = /*@__PURE__*/ S.String;
+export const CEType = S.String;
 
 export type CEState = "ENABLED" | "DISABLED" | (string & {});
-export const CEState = /*@__PURE__*/ S.String;
+export const CEState = S.String;
 
 export type CRType =
   | "EC2"
   | "SPOT"
   | "FARGATE"
   | "FARGATE_SPOT"
+  | "ECS_MANAGED_INSTANCES"
   | (string & {});
-export const CRType = /*@__PURE__*/ S.String;
+export const CRType = S.String;
 
 export type CRAllocationStrategy =
   | "BEST_FIT"
@@ -212,7 +213,7 @@ export type CRAllocationStrategy =
   | "SPOT_PRICE_CAPACITY_OPTIMIZED"
   | "SPOT_CAPACITY_OPTIMIZED_PRIORITIZED"
   | (string & {});
-export const CRAllocationStrategy = /*@__PURE__*/ S.String;
+export const CRAllocationStrategy = S.String;
 
 export type StringList = string[];
 export const StringList = /*@__PURE__*/ S.Array(S.String);
@@ -222,7 +223,7 @@ export const TagsMap = /*@__PURE__*/ S.Record(
   S.String.pipe(S.optional),
 );
 export type UserdataType = "EKS_BOOTSTRAP_SH" | "EKS_NODEADM" | (string & {});
-export const UserdataType = /*@__PURE__*/ S.String;
+export const UserdataType = S.String;
 
 export interface LaunchTemplateSpecificationOverride {
   launchTemplateId?: string;
@@ -294,6 +295,117 @@ export const ComputeScalingPolicy = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ComputeScalingPolicy",
 }) as any as S.Schema<ComputeScalingPolicy>;
+export interface ManagedInstancesNetworkConfiguration {
+  subnets?: string[];
+  securityGroups?: string[];
+}
+export const ManagedInstancesNetworkConfiguration = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subnets: S.optional(StringList),
+      securityGroups: S.optional(StringList),
+    }),
+).annotate({
+  identifier: "ManagedInstancesNetworkConfiguration",
+}) as any as S.Schema<ManagedInstancesNetworkConfiguration>;
+export interface InstanceRequirementsRequest {
+  allowedInstanceTypes?: string[];
+}
+export const InstanceRequirementsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ allowedInstanceTypes: S.optional(StringList) }),
+).annotate({
+  identifier: "InstanceRequirementsRequest",
+}) as any as S.Schema<InstanceRequirementsRequest>;
+export interface ManagedInstancesStorageConfiguration {
+  storageSizeGiB?: number;
+}
+export const ManagedInstancesStorageConfiguration = /*@__PURE__*/ S.suspend(
+  () => S.Struct({ storageSizeGiB: S.optional(S.Number) }),
+).annotate({
+  identifier: "ManagedInstancesStorageConfiguration",
+}) as any as S.Schema<ManagedInstancesStorageConfiguration>;
+export interface CapacityReservationRequest {
+  reservationGroupArn?: string;
+  reservationPreference?: string;
+}
+export const CapacityReservationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reservationGroupArn: S.optional(S.String),
+    reservationPreference: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CapacityReservationRequest",
+}) as any as S.Schema<CapacityReservationRequest>;
+export interface ManagedInstancesLocalStorageConfiguration {
+  useLocalStorage?: boolean;
+}
+export const ManagedInstancesLocalStorageConfiguration =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({ useLocalStorage: S.optional(S.Boolean) }),
+  ).annotate({
+    identifier: "ManagedInstancesLocalStorageConfiguration",
+  }) as any as S.Schema<ManagedInstancesLocalStorageConfiguration>;
+export interface InstanceLaunchTemplate {
+  ec2InstanceProfileArn?: string;
+  networkConfiguration?: ManagedInstancesNetworkConfiguration;
+  instanceRequirements?: InstanceRequirementsRequest;
+  capacityOptionType?: string;
+  storageConfiguration?: ManagedInstancesStorageConfiguration;
+  monitoring?: string;
+  fipsEnabled?: boolean;
+  capacityReservations?: CapacityReservationRequest;
+  instanceMetadataTagsPropagation?: boolean;
+  localStorageConfiguration?: ManagedInstancesLocalStorageConfiguration;
+}
+export const InstanceLaunchTemplate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ec2InstanceProfileArn: S.optional(S.String),
+    networkConfiguration: S.optional(ManagedInstancesNetworkConfiguration),
+    instanceRequirements: S.optional(InstanceRequirementsRequest),
+    capacityOptionType: S.optional(S.String),
+    storageConfiguration: S.optional(ManagedInstancesStorageConfiguration),
+    monitoring: S.optional(S.String),
+    fipsEnabled: S.optional(S.Boolean),
+    capacityReservations: S.optional(CapacityReservationRequest),
+    instanceMetadataTagsPropagation: S.optional(S.Boolean),
+    localStorageConfiguration: S.optional(
+      ManagedInstancesLocalStorageConfiguration,
+    ),
+  }),
+).annotate({
+  identifier: "InstanceLaunchTemplate",
+}) as any as S.Schema<InstanceLaunchTemplate>;
+export interface InfrastructureOptimization {
+  scaleInAfter?: number;
+}
+export const InfrastructureOptimization = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ scaleInAfter: S.optional(S.Number) }),
+).annotate({
+  identifier: "InfrastructureOptimization",
+}) as any as S.Schema<InfrastructureOptimization>;
+export interface ManagedInstancesProvider {
+  propagateTags?: string;
+  infrastructureRoleArn?: string;
+  instanceLaunchTemplate?: InstanceLaunchTemplate;
+  infrastructureOptimization?: InfrastructureOptimization;
+}
+export const ManagedInstancesProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    propagateTags: S.optional(S.String),
+    infrastructureRoleArn: S.optional(S.String),
+    instanceLaunchTemplate: S.optional(InstanceLaunchTemplate),
+    infrastructureOptimization: S.optional(InfrastructureOptimization),
+  }),
+).annotate({
+  identifier: "ManagedInstancesProvider",
+}) as any as S.Schema<ManagedInstancesProvider>;
+export type TagKey = string;
+export type TagValue = string;
+export type TagrisTagsMap = { [key: string]: string | undefined };
+export const TagrisTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface ComputeResource {
   type?: CRType;
   allocationStrategy?: CRAllocationStrategy;
@@ -313,6 +425,8 @@ export interface ComputeResource {
   launchTemplate?: LaunchTemplateSpecification;
   ec2Configuration?: Ec2Configuration[];
   scalingPolicy?: ComputeScalingPolicy;
+  managedInstancesProvider?: ManagedInstancesProvider;
+  capacityTags?: { [key: string]: string | undefined };
 }
 export const ComputeResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -334,17 +448,12 @@ export const ComputeResource = /*@__PURE__*/ S.suspend(() =>
     launchTemplate: S.optional(LaunchTemplateSpecification),
     ec2Configuration: S.optional(Ec2ConfigurationList),
     scalingPolicy: S.optional(ComputeScalingPolicy),
+    managedInstancesProvider: S.optional(ManagedInstancesProvider),
+    capacityTags: S.optional(TagrisTagsMap),
   }),
 ).annotate({
   identifier: "ComputeResource",
 }) as any as S.Schema<ComputeResource>;
-export type TagKey = string;
-export type TagValue = string;
-export type TagrisTagsMap = { [key: string]: string | undefined };
-export const TagrisTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface EksConfiguration {
   eksClusterArn?: string;
   kubernetesNamespace?: string;
@@ -357,6 +466,19 @@ export const EksConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "EksConfiguration",
 }) as any as S.Schema<EksConfiguration>;
+export type ContainerInsights =
+  | "ENABLED"
+  | "ENHANCED"
+  | "DISABLED"
+  | (string & {});
+export const ContainerInsights = S.String;
+
+export interface EcsSettings {
+  containerInsights?: ContainerInsights;
+}
+export const EcsSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ containerInsights: S.optional(ContainerInsights) }),
+).annotate({ identifier: "EcsSettings" }) as any as S.Schema<EcsSettings>;
 export interface CreateComputeEnvironmentRequest {
   computeEnvironmentName?: string;
   type?: CEType;
@@ -367,6 +489,7 @@ export interface CreateComputeEnvironmentRequest {
   tags?: { [key: string]: string | undefined };
   eksConfiguration?: EksConfiguration;
   context?: string;
+  ecsSettings?: EcsSettings;
 }
 export const CreateComputeEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -379,6 +502,7 @@ export const CreateComputeEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagrisTagsMap),
     eksConfiguration: S.optional(EksConfiguration),
     context: S.optional(S.String),
+    ecsSettings: S.optional(EcsSettings),
   }).pipe(
     T.all(
       ns,
@@ -444,7 +568,7 @@ export const CreateConsumableResourceResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateConsumableResourceResponse",
 }) as any as S.Schema<CreateConsumableResourceResponse>;
 export type JQState = "ENABLED" | "DISABLED" | (string & {});
-export const JQState = /*@__PURE__*/ S.String;
+export const JQState = S.String;
 
 export interface ComputeEnvironmentOrder {
   order?: number;
@@ -483,17 +607,18 @@ export type JobQueueType =
   | "ECS"
   | "ECS_FARGATE"
   | "SAGEMAKER_TRAINING"
+  | "ECS_MANAGED_INSTANCES"
   | (string & {});
-export const JobQueueType = /*@__PURE__*/ S.String;
+export const JobQueueType = S.String;
 
 export type JobStateTimeLimitActionsState = "RUNNABLE" | (string & {});
-export const JobStateTimeLimitActionsState = /*@__PURE__*/ S.String;
+export const JobStateTimeLimitActionsState = S.String;
 
 export type JobStateTimeLimitActionsAction =
   | "CANCEL"
   | "TERMINATE"
   | (string & {});
-export const JobStateTimeLimitActionsAction = /*@__PURE__*/ S.String;
+export const JobStateTimeLimitActionsAction = S.String;
 
 export interface JobStateTimeLimitAction {
   reason?: string;
@@ -584,7 +709,7 @@ export type QuotaShareResourceSharingStrategy =
   | "LEND"
   | "LEND_AND_BORROW"
   | (string & {});
-export const QuotaShareResourceSharingStrategy = /*@__PURE__*/ S.String;
+export const QuotaShareResourceSharingStrategy = S.String;
 
 export interface QuotaShareResourceSharingConfiguration {
   strategy?: QuotaShareResourceSharingStrategy;
@@ -603,7 +728,7 @@ export type QuotaShareInSharePreemptionState =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const QuotaShareInSharePreemptionState = /*@__PURE__*/ S.String;
+export const QuotaShareInSharePreemptionState = S.String;
 
 export interface QuotaSharePreemptionConfiguration {
   inSharePreemption?: QuotaShareInSharePreemptionState;
@@ -614,7 +739,7 @@ export const QuotaSharePreemptionConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "QuotaSharePreemptionConfiguration",
 }) as any as S.Schema<QuotaSharePreemptionConfiguration>;
 export type QuotaShareState = "ENABLED" | "DISABLED" | (string & {});
-export const QuotaShareState = /*@__PURE__*/ S.String;
+export const QuotaShareState = S.String;
 
 export interface CreateQuotaShareRequest {
   quotaShareName?: string;
@@ -663,7 +788,7 @@ export const CreateQuotaShareResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateQuotaShareResponse",
 }) as any as S.Schema<CreateQuotaShareResponse>;
 export type QuotaShareIdleResourceAssignmentStrategy = "FIFO" | (string & {});
-export const QuotaShareIdleResourceAssignmentStrategy = /*@__PURE__*/ S.String;
+export const QuotaShareIdleResourceAssignmentStrategy = S.String;
 
 export interface QuotaSharePolicy {
   idleResourceAssignmentStrategy?: QuotaShareIdleResourceAssignmentStrategy;
@@ -741,10 +866,10 @@ export const CreateSchedulingPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateSchedulingPolicyResponse",
 }) as any as S.Schema<CreateSchedulingPolicyResponse>;
 export type ServiceEnvironmentType = "SAGEMAKER_TRAINING" | (string & {});
-export const ServiceEnvironmentType = /*@__PURE__*/ S.String;
+export const ServiceEnvironmentType = S.String;
 
 export type ServiceEnvironmentState = "ENABLED" | "DISABLED" | (string & {});
-export const ServiceEnvironmentState = /*@__PURE__*/ S.String;
+export const ServiceEnvironmentState = S.String;
 
 export interface CapacityLimit {
   maxCapacity?: number;
@@ -998,7 +1123,7 @@ export type CEStatus =
   | "VALID"
   | "INVALID"
   | (string & {});
-export const CEStatus = /*@__PURE__*/ S.String;
+export const CEStatus = S.String;
 
 export type JobExecutionTimeoutMinutes = number;
 export interface UpdatePolicy {
@@ -1012,7 +1137,7 @@ export const UpdatePolicy = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UpdatePolicy" }) as any as S.Schema<UpdatePolicy>;
 export type OrchestrationType = "ECS" | "EKS" | (string & {});
-export const OrchestrationType = /*@__PURE__*/ S.String;
+export const OrchestrationType = S.String;
 
 export interface ComputeEnvironmentDetail {
   computeEnvironmentName?: string;
@@ -1031,6 +1156,7 @@ export interface ComputeEnvironmentDetail {
   containerOrchestrationType?: OrchestrationType;
   uuid?: string;
   context?: string;
+  ecsSettings?: EcsSettings;
 }
 export const ComputeEnvironmentDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1050,6 +1176,7 @@ export const ComputeEnvironmentDetail = /*@__PURE__*/ S.suspend(() =>
     containerOrchestrationType: S.optional(OrchestrationType),
     uuid: S.optional(S.String),
     context: S.optional(S.String),
+    ecsSettings: S.optional(EcsSettings),
   }),
 ).annotate({
   identifier: "ComputeEnvironmentDetail",
@@ -1066,6 +1193,16 @@ export interface DescribeComputeEnvironmentsResponse {
       type: CRType;
       maxvCpus: number;
       ec2Configuration: (Ec2Configuration & { imageType: ImageType })[];
+      managedInstancesProvider: ManagedInstancesProvider & {
+        infrastructureRoleArn: string;
+        instanceLaunchTemplate: InstanceLaunchTemplate & {
+          ec2InstanceProfileArn: string;
+          networkConfiguration: ManagedInstancesNetworkConfiguration & {
+            subnets: StringList;
+            securityGroups: StringList;
+          };
+        };
+      };
     };
     eksConfiguration: EksConfiguration & {
       eksClusterArn: string;
@@ -1158,7 +1295,7 @@ export const ParametersMap = /*@__PURE__*/ S.Record(
   S.String.pipe(S.optional),
 );
 export type RetryAction = "RETRY" | "EXIT" | (string & {});
-export const RetryAction = /*@__PURE__*/ S.String;
+export const RetryAction = S.String;
 
 export interface EvaluateOnExit {
   onStatusReason?: string;
@@ -1193,10 +1330,10 @@ export const Host = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ sourcePath: S.optional(S.String) }),
 ).annotate({ identifier: "Host" }) as any as S.Schema<Host>;
 export type EFSTransitEncryption = "ENABLED" | "DISABLED" | (string & {});
-export const EFSTransitEncryption = /*@__PURE__*/ S.String;
+export const EFSTransitEncryption = S.String;
 
 export type EFSAuthorizationConfigIAM = "ENABLED" | "DISABLED" | (string & {});
-export const EFSAuthorizationConfigIAM = /*@__PURE__*/ S.String;
+export const EFSAuthorizationConfigIAM = S.String;
 
 export interface EFSAuthorizationConfig {
   accessPointId?: string;
@@ -1298,7 +1435,7 @@ export const Ulimit = /*@__PURE__*/ S.suspend(() =>
 export type Ulimits = Ulimit[];
 export const Ulimits = /*@__PURE__*/ S.Array(Ulimit);
 export type ResourceType = "GPU" | "VCPU" | "MEMORY" | (string & {});
-export const ResourceType = /*@__PURE__*/ S.String;
+export const ResourceType = S.String;
 
 export interface ResourceRequirement {
   value?: string;
@@ -1312,7 +1449,7 @@ export const ResourceRequirement = /*@__PURE__*/ S.suspend(() =>
 export type ResourceRequirements = ResourceRequirement[];
 export const ResourceRequirements = /*@__PURE__*/ S.Array(ResourceRequirement);
 export type DeviceCgroupPermission = "READ" | "WRITE" | "MKNOD" | (string & {});
-export const DeviceCgroupPermission = /*@__PURE__*/ S.String;
+export const DeviceCgroupPermission = S.String;
 
 export type DeviceCgroupPermissions = DeviceCgroupPermission[];
 export const DeviceCgroupPermissions = /*@__PURE__*/ S.Array(
@@ -1376,7 +1513,7 @@ export type LogDriver =
   | "splunk"
   | "awsfirelens"
   | (string & {});
-export const LogDriver = /*@__PURE__*/ S.String;
+export const LogDriver = S.String;
 
 export type LogConfigurationOptionsMap = { [key: string]: string | undefined };
 export const LogConfigurationOptionsMap = /*@__PURE__*/ S.Record(
@@ -1407,7 +1544,7 @@ export const LogConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "LogConfiguration",
 }) as any as S.Schema<LogConfiguration>;
 export type AssignPublicIp = "ENABLED" | "DISABLED" | (string & {});
-export const AssignPublicIp = /*@__PURE__*/ S.String;
+export const AssignPublicIp = S.String;
 
 export interface NetworkConfiguration {
   assignPublicIp?: AssignPublicIp;
@@ -1532,7 +1669,7 @@ export const TaskContainerDependencyList = /*@__PURE__*/ S.Array(
   TaskContainerDependency,
 );
 export type FirelensConfigurationType = "fluentd" | "fluentbit" | (string & {});
-export const FirelensConfigurationType = /*@__PURE__*/ S.String;
+export const FirelensConfigurationType = S.String;
 
 export type FirelensConfigurationOptionsMap = {
   [key: string]: string | undefined;
@@ -1615,6 +1752,7 @@ export interface EcsTaskProperties {
   runtimePlatform?: RuntimePlatform;
   volumes?: Volume[];
   enableExecuteCommand?: boolean;
+  networkMode?: string;
 }
 export const EcsTaskProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1629,6 +1767,7 @@ export const EcsTaskProperties = /*@__PURE__*/ S.suspend(() =>
     runtimePlatform: S.optional(RuntimePlatform),
     volumes: S.optional(Volumes),
     enableExecuteCommand: S.optional(S.Boolean),
+    networkMode: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EcsTaskProperties",
@@ -1919,8 +2058,12 @@ export const NodeProperties = /*@__PURE__*/ S.suspend(() =>
     nodeRangeProperties: S.optional(NodeRangeProperties),
   }),
 ).annotate({ identifier: "NodeProperties" }) as any as S.Schema<NodeProperties>;
-export type PlatformCapability = "EC2" | "FARGATE" | (string & {});
-export const PlatformCapability = /*@__PURE__*/ S.String;
+export type PlatformCapability =
+  | "EC2"
+  | "FARGATE"
+  | "MANAGED_INSTANCES"
+  | (string & {});
+export const PlatformCapability = S.String;
 
 export type PlatformCapabilityList = PlatformCapability[];
 export const PlatformCapabilityList = /*@__PURE__*/ S.Array(PlatformCapability);
@@ -2211,7 +2354,7 @@ export type JQStatus =
   | "VALID"
   | "INVALID"
   | (string & {});
-export const JQStatus = /*@__PURE__*/ S.String;
+export const JQStatus = S.String;
 
 export interface JobQueueDetail {
   jobQueueName?: string;
@@ -2303,7 +2446,7 @@ export type JobStatus =
   | "SUCCEEDED"
   | "FAILED"
   | (string & {});
-export const JobStatus = /*@__PURE__*/ S.String;
+export const JobStatus = S.String;
 
 export interface NetworkInterface {
   attachmentId?: string;
@@ -2400,7 +2543,7 @@ export const AttemptDetail = /*@__PURE__*/ S.suspend(() =>
 export type AttemptDetails = AttemptDetail[];
 export const AttemptDetails = /*@__PURE__*/ S.Array(AttemptDetail);
 export type ArrayJobDependency = "N_TO_N" | "SEQUENTIAL" | (string & {});
-export const ArrayJobDependency = /*@__PURE__*/ S.String;
+export const ArrayJobDependency = S.String;
 
 export interface JobDependency {
   jobId?: string;
@@ -2702,6 +2845,7 @@ export interface EcsTaskDetails {
   runtimePlatform?: RuntimePlatform;
   volumes?: Volume[];
   enableExecuteCommand?: boolean;
+  networkMode?: string;
 }
 export const EcsTaskDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2718,6 +2862,7 @@ export const EcsTaskDetails = /*@__PURE__*/ S.suspend(() =>
     runtimePlatform: S.optional(RuntimePlatform),
     volumes: S.optional(Volumes),
     enableExecuteCommand: S.optional(S.Boolean),
+    networkMode: S.optional(S.String),
   }),
 ).annotate({ identifier: "EcsTaskDetails" }) as any as S.Schema<EcsTaskDetails>;
 export type ListEcsTaskDetails = EcsTaskDetails[];
@@ -3029,7 +3174,7 @@ export type QuotaShareStatus =
   | "UPDATING"
   | "DELETING"
   | (string & {});
-export const QuotaShareStatus = /*@__PURE__*/ S.String;
+export const QuotaShareStatus = S.String;
 
 export interface DescribeQuotaShareResponse {
   quotaShareName?: string;
@@ -3157,7 +3302,7 @@ export type ServiceEnvironmentStatus =
   | "VALID"
   | "INVALID"
   | (string & {});
-export const ServiceEnvironmentStatus = /*@__PURE__*/ S.String;
+export const ServiceEnvironmentStatus = S.String;
 
 export interface ServiceEnvironmentDetail {
   serviceEnvironmentName?: string;
@@ -3221,7 +3366,7 @@ export const DescribeServiceJobRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeServiceJobRequest",
 }) as any as S.Schema<DescribeServiceJobRequest>;
 export type ServiceResourceIdName = "TrainingJobArn" | (string & {});
-export const ServiceResourceIdName = /*@__PURE__*/ S.String;
+export const ServiceResourceIdName = S.String;
 
 export interface ServiceResourceId {
   name?: ServiceResourceIdName;
@@ -3280,7 +3425,7 @@ export const LatestServiceJobAttempt = /*@__PURE__*/ S.suspend(() =>
   identifier: "LatestServiceJobAttempt",
 }) as any as S.Schema<LatestServiceJobAttempt>;
 export type ServiceJobRetryAction = "RETRY" | "EXIT" | (string & {});
-export const ServiceJobRetryAction = /*@__PURE__*/ S.String;
+export const ServiceJobRetryAction = S.String;
 
 export interface ServiceJobEvaluateOnExit {
   action?: ServiceJobRetryAction;
@@ -3311,7 +3456,7 @@ export const ServiceJobRetryStrategy = /*@__PURE__*/ S.suspend(() =>
   identifier: "ServiceJobRetryStrategy",
 }) as any as S.Schema<ServiceJobRetryStrategy>;
 export type ServiceJobType = "SAGEMAKER_TRAINING" | (string & {});
-export const ServiceJobType = /*@__PURE__*/ S.String;
+export const ServiceJobType = S.String;
 
 export interface ServiceJobPreemptionConfiguration {
   preemptionRetriesBeforeTermination?: number;
@@ -3363,7 +3508,7 @@ export type ServiceJobStatus =
   | "SUCCEEDED"
   | "FAILED"
   | (string & {});
-export const ServiceJobStatus = /*@__PURE__*/ S.String;
+export const ServiceJobStatus = S.String;
 
 export interface ServiceJobTimeout {
   attemptDurationSeconds?: number;
@@ -4207,7 +4352,7 @@ export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export type JobDefinitionType = "container" | "multinode" | (string & {});
-export const JobDefinitionType = /*@__PURE__*/ S.String;
+export const JobDefinitionType = S.String;
 
 export interface RegisterJobDefinitionRequest {
   jobDefinitionName?: string;
@@ -4657,8 +4802,51 @@ export type CRUpdateAllocationStrategy =
   | "SPOT_PRICE_CAPACITY_OPTIMIZED"
   | "SPOT_CAPACITY_OPTIMIZED_PRIORITIZED"
   | (string & {});
-export const CRUpdateAllocationStrategy = /*@__PURE__*/ S.String;
+export const CRUpdateAllocationStrategy = S.String;
 
+export interface InstanceLaunchTemplateUpdate {
+  ec2InstanceProfileArn?: string;
+  networkConfiguration?: ManagedInstancesNetworkConfiguration;
+  instanceRequirements?: InstanceRequirementsRequest;
+  storageConfiguration?: ManagedInstancesStorageConfiguration;
+  monitoring?: string;
+  capacityReservations?: CapacityReservationRequest;
+  instanceMetadataTagsPropagation?: boolean;
+  localStorageConfiguration?: ManagedInstancesLocalStorageConfiguration;
+}
+export const InstanceLaunchTemplateUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ec2InstanceProfileArn: S.optional(S.String),
+    networkConfiguration: S.optional(ManagedInstancesNetworkConfiguration),
+    instanceRequirements: S.optional(InstanceRequirementsRequest),
+    storageConfiguration: S.optional(ManagedInstancesStorageConfiguration),
+    monitoring: S.optional(S.String),
+    capacityReservations: S.optional(CapacityReservationRequest),
+    instanceMetadataTagsPropagation: S.optional(S.Boolean),
+    localStorageConfiguration: S.optional(
+      ManagedInstancesLocalStorageConfiguration,
+    ),
+  }),
+).annotate({
+  identifier: "InstanceLaunchTemplateUpdate",
+}) as any as S.Schema<InstanceLaunchTemplateUpdate>;
+export interface UpdateManagedInstancesProviderConfiguration {
+  propagateTags?: string;
+  infrastructureRoleArn?: string;
+  instanceLaunchTemplate?: InstanceLaunchTemplateUpdate;
+  infrastructureOptimization?: InfrastructureOptimization;
+}
+export const UpdateManagedInstancesProviderConfiguration =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      propagateTags: S.optional(S.String),
+      infrastructureRoleArn: S.optional(S.String),
+      instanceLaunchTemplate: S.optional(InstanceLaunchTemplateUpdate),
+      infrastructureOptimization: S.optional(InfrastructureOptimization),
+    }),
+  ).annotate({
+    identifier: "UpdateManagedInstancesProviderConfiguration",
+  }) as any as S.Schema<UpdateManagedInstancesProviderConfiguration>;
 export interface ComputeResourceUpdate {
   minvCpus?: number;
   maxvCpus?: number;
@@ -4678,6 +4866,8 @@ export interface ComputeResourceUpdate {
   type?: CRType;
   imageId?: string;
   scalingPolicy?: ComputeScalingPolicy;
+  managedInstancesProvider?: UpdateManagedInstancesProviderConfiguration;
+  capacityTags?: { [key: string]: string | undefined };
 }
 export const ComputeResourceUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4699,6 +4889,10 @@ export const ComputeResourceUpdate = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CRType),
     imageId: S.optional(S.String),
     scalingPolicy: S.optional(ComputeScalingPolicy),
+    managedInstancesProvider: S.optional(
+      UpdateManagedInstancesProviderConfiguration,
+    ),
+    capacityTags: S.optional(TagrisTagsMap),
   }),
 ).annotate({
   identifier: "ComputeResourceUpdate",
@@ -4711,6 +4905,7 @@ export interface UpdateComputeEnvironmentRequest {
   serviceRole?: string;
   updatePolicy?: UpdatePolicy;
   context?: string;
+  ecsSettings?: EcsSettings;
 }
 export const UpdateComputeEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4721,6 +4916,7 @@ export const UpdateComputeEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     serviceRole: S.optional(S.String),
     updatePolicy: S.optional(UpdatePolicy),
     context: S.optional(S.String),
+    ecsSettings: S.optional(EcsSettings),
   }).pipe(
     T.all(
       ns,

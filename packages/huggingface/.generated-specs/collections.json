@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.huggingface.collections#GetCollectionRequest": {
@@ -21542,6 +21543,75 @@
         "smithy.api#documentation": "Batch update items\n\nBatch update items in a collection"
       }
     },
+    "com.huggingface.collections#UpdateItemRequestGalleryList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.collections#UpdateItemRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "itemId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gallery": {
+          "target": "com.huggingface.collections#UpdateItemRequestGalleryList"
+        },
+        "note": {
+          "target": "smithy.api#String"
+        },
+        "position": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.collections#UpdateItem": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.collections#UpdateItemRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/collections/{namespace}/{slug}-{id}/items/{itemId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update item\n\nUpdate an item in a collection"
+      }
+    },
     "com.huggingface.collections#DeleteItemRequest": {
       "type": "structure",
       "members": {
@@ -21593,6 +21663,61 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete item\n\nDelete an item from a collection"
+      }
+    },
+    "com.huggingface.collections#UpdateItemBySlugRequestGalleryList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.collections#UpdateItemBySlugRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gallery": {
+          "target": "com.huggingface.collections#UpdateItemBySlugRequestGalleryList"
+        },
+        "note": {
+          "target": "smithy.api#String"
+        },
+        "position": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.collections#UpdateItemBySlug": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.collections#UpdateItemBySlugRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/collections/{namespace}/{slug}/items/{slug}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update item\n\nUpdate an item in a collection"
       }
     },
     "com.huggingface.collections#DeleteItemBySlugRequest": {
@@ -29173,7 +29298,13 @@
           "target": "com.huggingface.collections#BatchUpdateItemsBySlug"
         },
         {
+          "target": "com.huggingface.collections#UpdateItem"
+        },
+        {
           "target": "com.huggingface.collections#DeleteItem"
+        },
+        {
+          "target": "com.huggingface.collections#UpdateItemBySlug"
         },
         {
           "target": "com.huggingface.collections#DeleteItemBySlug"

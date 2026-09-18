@@ -14,7 +14,7 @@ export type { AzureOpError, AzureOpContext };
 
 /** The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0. */
 export type TimeMinute = 0 | 30;
-export const TimeMinute = /*@__PURE__*/ S.Number;
+export const TimeMinute = S.Number;
 
 /** The time of day. */
 export interface Time {
@@ -39,7 +39,7 @@ export type DayOfWeek =
   | "Friday"
   | "Saturday"
   | "Sunday";
-export const DayOfWeek = /*@__PURE__*/ S.String;
+export const DayOfWeek = S.String;
 
 /** The set of days of week for the schedule recurrence. A day must not be specified more than once in a recurrence. */
 export type UploadLimitWeeklyRecurrenceDaysList = Array<
@@ -135,7 +135,7 @@ export const AgentsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/agents/{agentName}",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
@@ -148,7 +148,7 @@ export type SystemDataCreatedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const SystemDataCreatedByType = /*@__PURE__*/ S.String;
+export const SystemDataCreatedByType = S.String;
 
 /** The type of identity that last modified the resource. */
 export type SystemDataLastModifiedByType =
@@ -156,7 +156,7 @@ export type SystemDataLastModifiedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const SystemDataLastModifiedByType = /*@__PURE__*/ S.String;
+export const SystemDataLastModifiedByType = S.String;
 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
@@ -192,7 +192,7 @@ export type AgentStatus =
   | "Executing"
   | "RequiresAttention"
   | "Unregistering";
-export const AgentStatus = /*@__PURE__*/ S.String;
+export const AgentStatus = S.String;
 
 export interface AgentPropertiesErrorDetails {
   /** Error code reported by Agent */
@@ -215,7 +215,7 @@ export type ProvisioningState =
   | "Canceled"
   | "Failed"
   | "Deleting";
-export const ProvisioningState = /*@__PURE__*/ S.String;
+export const ProvisioningState = S.String;
 
 export interface AgentProperties {
   /** A description for the Agent. */
@@ -290,227 +290,6 @@ export const AgentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "AgentsCreateOrUpdateResponse",
 }) as any as S.Schema<AgentsCreateOrUpdateResponse>;
 
-export interface AgentsDeleteRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Agent resource. */
-  agentName: string;
-}
-export const AgentsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    agentName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/agents/{agentName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "AgentsDeleteRequest",
-}) as any as S.Schema<AgentsDeleteRequest>;
-
-export interface AgentsDeleteResponse {}
-export const AgentsDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AgentsDeleteResponse",
-}) as any as S.Schema<AgentsDeleteResponse>;
-
-export interface AgentsGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Agent resource. */
-  agentName: string;
-}
-export const AgentsGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    agentName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/agents/{agentName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "AgentsGetRequest",
-}) as any as S.Schema<AgentsGetRequest>;
-
-export interface AgentsGetResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties: AgentProperties;
-}
-export const AgentsGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: AgentProperties,
-  }),
-).annotate({
-  identifier: "AgentsGetResponse",
-}) as any as S.Schema<AgentsGetResponse>;
-
-export interface AgentsListRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-}
-export const AgentsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/agents",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "AgentsListRequest",
-}) as any as S.Schema<AgentsListRequest>;
-
-/** The Agent resource. */
-export interface Agent {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties: AgentProperties;
-}
-export const Agent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: AgentProperties,
-  }),
-).annotate({ identifier: "Agent" }) as any as S.Schema<Agent>;
-
-/** The Agent items on this page */
-export type AgentListValueList = Array<Agent>;
-export const AgentListValueList = /*@__PURE__*/ S.Array(
-  Agent,
-) as any as S.Schema<AgentListValueList>;
-
-/** List of Agents. */
-export interface AgentList {
-  /** The Agent items on this page */
-  value: AgentListValueList;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-export const AgentList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: AgentListValueList,
-    nextLink: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentList" }) as any as S.Schema<AgentList>;
-
-export interface AgentUpdateProperties {
-  /** A description for the Agent. */
-  description?: string;
-  /** The WAN-link upload limit schedule that applies to any Job Run the agent executes. Data plane operations (migrating files) are affected. Control plane operations ensure seamless migration functionality and are not limited by this schedule. The schedule is interpreted with the agent's local time. */
-  uploadLimitSchedule?: UploadLimitSchedule;
-}
-export const AgentUpdateProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    uploadLimitSchedule: S.optional(UploadLimitSchedule),
-  }),
-).annotate({
-  identifier: "AgentUpdateProperties",
-}) as any as S.Schema<AgentUpdateProperties>;
-
-export interface AgentsUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Agent resource. */
-  agentName: string;
-  properties?: AgentUpdateProperties;
-}
-export const AgentsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    agentName: S.String.pipe(T.Label()),
-    properties: S.optional(AgentUpdateProperties),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/agents/{agentName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "AgentsUpdateRequest",
-}) as any as S.Schema<AgentsUpdateRequest>;
-
-export interface AgentsUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties: AgentProperties;
-}
-export const AgentsUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: AgentProperties,
-  }),
-).annotate({
-  identifier: "AgentsUpdateResponse",
-}) as any as S.Schema<AgentsUpdateResponse>;
-
 /** List of job definitions associated with this connection. */
 export type ConnectionPropertiesInputJobListList = Array<string>;
 export const ConnectionPropertiesInputJobListList = /*@__PURE__*/ S.Array(
@@ -560,7 +339,7 @@ export const ConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/connections/{connectionName}",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
@@ -574,7 +353,7 @@ export type ConnectionStatus =
   | "Disconnected"
   | "Pending"
   | "Stale";
-export const ConnectionStatus = /*@__PURE__*/ S.String;
+export const ConnectionStatus = S.String;
 
 /** List of job definitions associated with this connection. */
 export type ConnectionPropertiesJobListList = Array<string>;
@@ -637,7 +416,42 @@ export const ConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConnectionsCreateOrUpdateResponse",
 }) as any as S.Schema<ConnectionsCreateOrUpdateResponse>;
 
-export interface ConnectionsDeleteRequest {
+export interface DeleteAgentRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Agent resource. */
+  agentName: string;
+}
+export const DeleteAgentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    agentName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/agents/{agentName}",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteAgentRequest",
+}) as any as S.Schema<DeleteAgentRequest>;
+
+export interface DeleteAgentResponse {}
+export const DeleteAgentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteAgentResponse",
+}) as any as S.Schema<DeleteAgentResponse>;
+
+export interface DeleteConnectionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -647,7 +461,7 @@ export interface ConnectionsDeleteRequest {
   /** The name of the Connection resource. */
   connectionName: string;
 }
-export const ConnectionsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
+export const DeleteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -658,73 +472,129 @@ export const ConnectionsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/connections/{connectionName}",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
-  identifier: "ConnectionsDeleteRequest",
-}) as any as S.Schema<ConnectionsDeleteRequest>;
+  identifier: "DeleteConnectionRequest",
+}) as any as S.Schema<DeleteConnectionRequest>;
 
-export interface ConnectionsDeleteResponse {}
-export const ConnectionsDeleteResponse = /*@__PURE__*/ S.suspend(() =>
+export interface DeleteConnectionResponse {}
+export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}),
 ).annotate({
-  identifier: "ConnectionsDeleteResponse",
-}) as any as S.Schema<ConnectionsDeleteResponse>;
+  identifier: "DeleteConnectionResponse",
+}) as any as S.Schema<DeleteConnectionResponse>;
 
-export interface ConnectionsGetRequest {
+export interface DeleteEndpointRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
-  /** The name of the Connection resource. */
-  connectionName: string;
+  /** The name of the Endpoint resource. */
+  endpointName: string;
 }
-export const ConnectionsGetRequest = /*@__PURE__*/ S.suspend(() =>
+export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     storageMoverName: S.String.pipe(T.Label()),
-    connectionName: S.String.pipe(T.Label()),
+    endpointName: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/connections/{connectionName}",
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
-  identifier: "ConnectionsGetRequest",
-}) as any as S.Schema<ConnectionsGetRequest>;
+  identifier: "DeleteEndpointRequest",
+}) as any as S.Schema<DeleteEndpointRequest>;
 
-export interface ConnectionsGetResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Connection properties. */
-  properties: ConnectionProperties;
-}
-export const ConnectionsGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: ConnectionProperties,
-  }),
+export interface DeleteEndpointResponse {}
+export const DeleteEndpointResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
-  identifier: "ConnectionsGetResponse",
-}) as any as S.Schema<ConnectionsGetResponse>;
+  identifier: "DeleteEndpointResponse",
+}) as any as S.Schema<DeleteEndpointResponse>;
 
-export interface ConnectionsListRequest {
+export interface DeleteJobDefinitionRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Project resource. */
+  projectName: string;
+  /** The name of the Job Definition resource. */
+  jobDefinitionName: string;
+}
+export const DeleteJobDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    projectName: S.String.pipe(T.Label()),
+    jobDefinitionName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteJobDefinitionRequest",
+}) as any as S.Schema<DeleteJobDefinitionRequest>;
+
+export interface DeleteJobDefinitionResponse {}
+export const DeleteJobDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteJobDefinitionResponse",
+}) as any as S.Schema<DeleteJobDefinitionResponse>;
+
+export interface DeleteProjectRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Project resource. */
+  projectName: string;
+}
+export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    projectName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteProjectRequest",
+}) as any as S.Schema<DeleteProjectRequest>;
+
+export interface DeleteProjectResponse {}
+export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteProjectResponse",
+}) as any as S.Schema<DeleteProjectResponse>;
+
+export interface DeleteStorageMoverRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -732,65 +602,29 @@ export interface ConnectionsListRequest {
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
 }
-export const ConnectionsListRequest = /*@__PURE__*/ S.suspend(() =>
+export const DeleteStorageMoverRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     storageMoverName: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/connections",
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
-  identifier: "ConnectionsListRequest",
-}) as any as S.Schema<ConnectionsListRequest>;
+  identifier: "DeleteStorageMoverRequest",
+}) as any as S.Schema<DeleteStorageMoverRequest>;
 
-/** The Connection resource. */
-export interface Connection {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Connection properties. */
-  properties: ConnectionProperties;
-}
-export const Connection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: ConnectionProperties,
-  }),
-).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
-
-/** The Connection items on this page */
-export type ConnectionListValueList = Array<Connection>;
-export const ConnectionListValueList = /*@__PURE__*/ S.Array(
-  Connection,
-) as any as S.Schema<ConnectionListValueList>;
-
-/** List of Connections. */
-export interface ConnectionList {
-  /** The Connection items on this page */
-  value: ConnectionListValueList;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-export const ConnectionList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: ConnectionListValueList,
-    nextLink: S.optional(S.String),
-  }),
-).annotate({ identifier: "ConnectionList" }) as any as S.Schema<ConnectionList>;
+export interface DeleteStorageMoverResponse {}
+export const DeleteStorageMoverResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteStorageMoverResponse",
+}) as any as S.Schema<DeleteStorageMoverResponse>;
 
 /** The Endpoint resource type. */
 export type EndpointType =
@@ -801,11 +635,11 @@ export type EndpointType =
   | "AzureMultiCloudConnector"
   | "AzureStorageNfsFileShare"
   | "S3WithHMAC";
-export const EndpointType = /*@__PURE__*/ S.String;
+export const EndpointType = S.String;
 
 /** The type of the endpoint source/target. */
 export type EndpointKind = "Source" | "Target";
-export const EndpointKind = /*@__PURE__*/ S.String;
+export const EndpointKind = S.String;
 
 /** The resource specific properties for the Storage Mover resource. */
 export interface EndpointBasePropertiesInput {
@@ -832,7 +666,7 @@ export type ManagedServiceIdentityType =
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned,UserAssigned";
-export const ManagedServiceIdentityType = /*@__PURE__*/ S.String;
+export const ManagedServiceIdentityType = S.String;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -893,7 +727,7 @@ export const EndpointsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
@@ -995,42 +829,110 @@ export const EndpointsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "EndpointsCreateOrUpdateResponse",
 }) as any as S.Schema<EndpointsCreateOrUpdateResponse>;
 
-export interface EndpointsDeleteRequest {
+export interface GetAgentRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
-  /** The name of the Endpoint resource. */
-  endpointName: string;
+  /** The name of the Agent resource. */
+  agentName: string;
 }
-export const EndpointsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetAgentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     storageMoverName: S.String.pipe(T.Label()),
-    endpointName: S.String.pipe(T.Label()),
+    agentName: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/endpoints/{endpointName}",
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/agents/{agentName}",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
-  identifier: "EndpointsDeleteRequest",
-}) as any as S.Schema<EndpointsDeleteRequest>;
+  identifier: "GetAgentRequest",
+}) as any as S.Schema<GetAgentRequest>;
 
-export interface EndpointsDeleteResponse {}
-export const EndpointsDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+export interface GetAgentResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties: AgentProperties;
+}
+export const GetAgentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: AgentProperties,
+  }),
 ).annotate({
-  identifier: "EndpointsDeleteResponse",
-}) as any as S.Schema<EndpointsDeleteResponse>;
+  identifier: "GetAgentResponse",
+}) as any as S.Schema<GetAgentResponse>;
 
-export interface EndpointsGetRequest {
+export interface GetConnectionRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Connection resource. */
+  connectionName: string;
+}
+export const GetConnectionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    connectionName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/connections/{connectionName}",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetConnectionRequest",
+}) as any as S.Schema<GetConnectionRequest>;
+
+export interface GetConnectionResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Connection properties. */
+  properties: ConnectionProperties;
+}
+export const GetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: ConnectionProperties,
+  }),
+).annotate({
+  identifier: "GetConnectionResponse",
+}) as any as S.Schema<GetConnectionResponse>;
+
+export interface GetEndpointRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -1040,7 +942,7 @@ export interface EndpointsGetRequest {
   /** The name of the Endpoint resource. */
   endpointName: string;
 }
-export const EndpointsGetRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -1051,20 +953,20 @@ export const EndpointsGetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
-  identifier: "EndpointsGetRequest",
-}) as any as S.Schema<EndpointsGetRequest>;
+  identifier: "GetEndpointRequest",
+}) as any as S.Schema<GetEndpointRequest>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
-export type EndpointsGetResponseIdentity =
+export type GetEndpointResponseIdentity =
   EndpointsCreateOrUpdateResponseIdentity;
-export const EndpointsGetResponseIdentity =
+export const GetEndpointResponseIdentity =
   EndpointsCreateOrUpdateResponseIdentity;
 
-export interface EndpointsGetResponse {
+export interface GetEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -1078,7 +980,7 @@ export interface EndpointsGetResponse {
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: EndpointsCreateOrUpdateResponseIdentity;
 }
-export const EndpointsGetResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -1088,324 +990,10 @@ export const EndpointsGetResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(EndpointsCreateOrUpdateResponseIdentity),
   }),
 ).annotate({
-  identifier: "EndpointsGetResponse",
-}) as any as S.Schema<EndpointsGetResponse>;
+  identifier: "GetEndpointResponse",
+}) as any as S.Schema<GetEndpointResponse>;
 
-export interface EndpointsListRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-}
-export const EndpointsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/endpoints",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "EndpointsListRequest",
-}) as any as S.Schema<EndpointsListRequest>;
-
-/** Managed service identity (system assigned and/or user assigned identities) */
-export type EndpointIdentity = EndpointsCreateOrUpdateResponseIdentity;
-export const EndpointIdentity = EndpointsCreateOrUpdateResponseIdentity;
-
-/** The Endpoint resource, which contains information about file sources and targets. */
-export interface Endpoint {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** The resource specific properties for the Storage Mover resource. */
-  properties: EndpointBaseProperties;
-  /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: EndpointsCreateOrUpdateResponseIdentity;
-}
-export const Endpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: EndpointBaseProperties,
-    identity: S.optional(EndpointsCreateOrUpdateResponseIdentity),
-  }),
-).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
-
-/** The Endpoint items on this page */
-export type EndpointListValueList = Array<Endpoint>;
-export const EndpointListValueList = /*@__PURE__*/ S.Array(
-  Endpoint,
-) as any as S.Schema<EndpointListValueList>;
-
-/** List of Endpoints. */
-export interface EndpointList {
-  /** The Endpoint items on this page */
-  value: EndpointListValueList;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-export const EndpointList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: EndpointListValueList,
-    nextLink: S.optional(S.String),
-  }),
-).annotate({ identifier: "EndpointList" }) as any as S.Schema<EndpointList>;
-
-/** The Endpoint resource, which contains information about file sources and targets. */
-export interface EndpointBaseUpdateProperties {
-  /** The Endpoint resource type. */
-  endpointType: EndpointType | (string & {});
-  /** A description for the Endpoint. */
-  description?: string;
-}
-export const EndpointBaseUpdateProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endpointType: EndpointType,
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EndpointBaseUpdateProperties",
-}) as any as S.Schema<EndpointBaseUpdateProperties>;
-
-/** Managed service identity (system assigned and/or user assigned identities) */
-export type EndpointsUpdateRequestIdentity =
-  EndpointsCreateOrUpdateRequestIdentity;
-export const EndpointsUpdateRequestIdentity =
-  EndpointsCreateOrUpdateRequestIdentity;
-
-export interface EndpointsUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Endpoint resource. */
-  endpointName: string;
-  /** The Endpoint resource, which contains information about file sources and targets. */
-  properties?: EndpointBaseUpdateProperties;
-  /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: EndpointsCreateOrUpdateRequestIdentity;
-}
-export const EndpointsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    endpointName: S.String.pipe(T.Label()),
-    properties: S.optional(EndpointBaseUpdateProperties),
-    identity: S.optional(EndpointsCreateOrUpdateRequestIdentity),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/endpoints/{endpointName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "EndpointsUpdateRequest",
-}) as any as S.Schema<EndpointsUpdateRequest>;
-
-/** Managed service identity (system assigned and/or user assigned identities) */
-export type EndpointsUpdateResponseIdentity =
-  EndpointsCreateOrUpdateResponseIdentity;
-export const EndpointsUpdateResponseIdentity =
-  EndpointsCreateOrUpdateResponseIdentity;
-
-export interface EndpointsUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** The resource specific properties for the Storage Mover resource. */
-  properties: EndpointBaseProperties;
-  /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: EndpointsCreateOrUpdateResponseIdentity;
-}
-export const EndpointsUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: EndpointBaseProperties,
-    identity: S.optional(EndpointsCreateOrUpdateResponseIdentity),
-  }),
-).annotate({
-  identifier: "EndpointsUpdateResponse",
-}) as any as S.Schema<EndpointsUpdateResponse>;
-
-/** The type of the Job. */
-export type JobDefinitionPropertiesInputJobType =
-  | "OnPremToCloud"
-  | "CloudToCloud";
-export const JobDefinitionPropertiesInputJobType = /*@__PURE__*/ S.String;
-
-/** Strategy to use for copy. */
-export type CopyMode = "Additive" | "Mirror";
-export const CopyMode = /*@__PURE__*/ S.String;
-
-/** The list of cloud endpoints to migrate. */
-export type JobDefinitionPropertiesInputSourceTargetMap =
-  UserAssignedIdentityInput;
-export const JobDefinitionPropertiesInputSourceTargetMap =
-  UserAssignedIdentityInput;
-
-/** List of connections associated to this job */
-export type JobDefinitionPropertiesInputConnectionsList = Array<string>;
-export const JobDefinitionPropertiesInputConnectionsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<JobDefinitionPropertiesInputConnectionsList>;
-
-/** Type of schedule — Monthly, Weekly, or Daily */
-export type Frequency = "Monthly" | "Weekly" | "Daily" | "Onetime" | "None";
-export const Frequency = /*@__PURE__*/ S.String;
-
-/** The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0. */
-export type SchedulerTimeMinute = 0 | 30;
-export const SchedulerTimeMinute = /*@__PURE__*/ S.Number;
-
-/** The time of day. */
-export interface SchedulerTime {
-  /** The hour element of the time. Allowed values range from 0 (start of the selected day) to 24 (end of the selected day). Hour value 24 cannot be combined with any other minute value but 0. */
-  hour?: number;
-  /** The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0. */
-  minute?: SchedulerTimeMinute | (number & {});
-}
-export const SchedulerTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hour: S.optional(S.Number),
-    minute: S.optional(SchedulerTimeMinute),
-  }),
-).annotate({ identifier: "SchedulerTime" }) as any as S.Schema<SchedulerTime>;
-
-/** Days of the week for weekly schedules */
-export type ScheduleInfoDaysOfWeekList = Array<string>;
-export const ScheduleInfoDaysOfWeekList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ScheduleInfoDaysOfWeekList>;
-
-/** Days of the month for monthly schedules */
-export type ScheduleInfoDaysOfMonthList = Array<number>;
-export const ScheduleInfoDaysOfMonthList = /*@__PURE__*/ S.Array(
-  S.Number,
-) as any as S.Schema<ScheduleInfoDaysOfMonthList>;
-
-/** Schedule information for the Job Definition. */
-export interface ScheduleInfo {
-  /** Type of schedule — Monthly, Weekly, or Daily */
-  frequency?: Frequency | (string & {});
-  /** Whether the schedule is currently active */
-  isActive?: boolean;
-  /** Time of day to execute (hours and minutes) */
-  executionTime?: SchedulerTime;
-  /** Specific one-time execution date and time */
-  startDate?: string;
-  /** Days of the week for weekly schedules */
-  daysOfWeek?: ScheduleInfoDaysOfWeekList;
-  /** Days of the month for monthly schedules */
-  daysOfMonth?: ScheduleInfoDaysOfMonthList;
-  /** Optional CRON expression for advanced scheduling */
-  cronExpression?: string;
-  /** End time of the schedule (in UTC) */
-  endDate?: string;
-}
-export const ScheduleInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    frequency: S.optional(Frequency),
-    isActive: S.optional(S.Boolean),
-    executionTime: S.optional(SchedulerTime),
-    startDate: S.optional(S.String),
-    daysOfWeek: S.optional(ScheduleInfoDaysOfWeekList),
-    daysOfMonth: S.optional(ScheduleInfoDaysOfMonthList),
-    cronExpression: S.optional(S.String),
-    endDate: S.optional(S.String),
-  }),
-).annotate({ identifier: "ScheduleInfo" }) as any as S.Schema<ScheduleInfo>;
-
-/** The checksum validation mode for the job definition. */
-export type JobDefinitionPropertiesInputDataIntegrityValidation =
-  | "SaveVerifyFileMD5"
-  | "SaveFileMD5"
-  | "None";
-export const JobDefinitionPropertiesInputDataIntegrityValidation =
-  /*@__PURE__*/ S.String;
-
-/** Job definition properties. */
-export interface JobDefinitionPropertiesInput {
-  /** A description for the Job Definition. OnPremToCloud is for migrating data from on-premises to cloud. CloudToCloud is for migrating data between cloud to cloud. */
-  description?: string;
-  /** The type of the Job. */
-  jobType?: JobDefinitionPropertiesInputJobType | (string & {});
-  /** Strategy to use for copy. */
-  copyMode: CopyMode | (string & {});
-  /** The name of the source Endpoint. */
-  sourceName: string;
-  /** The subpath to use when reading from the source Endpoint. */
-  sourceSubpath?: string;
-  /** The name of the target Endpoint. */
-  targetName: string;
-  /** The subpath to use when writing to the target Endpoint. */
-  targetSubpath?: string;
-  /** Name of the Agent to assign for new Job Runs of this Job Definition. */
-  agentName?: string;
-  /** The list of cloud endpoints to migrate. */
-  sourceTargetMap?: UserAssignedIdentityInput;
-  /** List of connections associated to this job */
-  connections?: JobDefinitionPropertiesInputConnectionsList;
-  /** Schedule information for the Job Definition. */
-  schedule?: ScheduleInfo;
-  /** The checksum validation mode for the job definition. */
-  dataIntegrityValidation?:
-    | JobDefinitionPropertiesInputDataIntegrityValidation
-    | (string & {});
-  /** Boolean to preserve permissions or not. */
-  preservePermissions?: boolean;
-}
-export const JobDefinitionPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    jobType: S.optional(JobDefinitionPropertiesInputJobType),
-    copyMode: CopyMode,
-    sourceName: S.String,
-    sourceSubpath: S.optional(S.String),
-    targetName: S.String,
-    targetSubpath: S.optional(S.String),
-    agentName: S.optional(S.String),
-    sourceTargetMap: S.optional(UserAssignedIdentityInput),
-    connections: S.optional(JobDefinitionPropertiesInputConnectionsList),
-    schedule: S.optional(ScheduleInfo),
-    dataIntegrityValidation: S.optional(
-      JobDefinitionPropertiesInputDataIntegrityValidation,
-    ),
-    preservePermissions: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "JobDefinitionPropertiesInput",
-}) as any as S.Schema<JobDefinitionPropertiesInput>;
-
-export interface JobDefinitionsCreateOrUpdateRequest {
+export interface GetJobDefinitionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -1416,32 +1004,36 @@ export interface JobDefinitionsCreateOrUpdateRequest {
   projectName: string;
   /** The name of the Job Definition resource. */
   jobDefinitionName: string;
-  /** Job definition properties. */
-  properties: JobDefinitionPropertiesInput;
 }
-export const JobDefinitionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetJobDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     storageMoverName: S.String.pipe(T.Label()),
     projectName: S.String.pipe(T.Label()),
     jobDefinitionName: S.String.pipe(T.Label()),
-    properties: JobDefinitionPropertiesInput,
   }).pipe(
     T.Http({
-      method: "PUT",
+      method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
-  identifier: "JobDefinitionsCreateOrUpdateRequest",
-}) as any as S.Schema<JobDefinitionsCreateOrUpdateRequest>;
+  identifier: "GetJobDefinitionRequest",
+}) as any as S.Schema<GetJobDefinitionRequest>;
 
 /** The type of the Job. */
-export type JobDefinitionPropertiesJobType = "OnPremToCloud" | "CloudToCloud";
-export const JobDefinitionPropertiesJobType = /*@__PURE__*/ S.String;
+export type JobDefinitionPropertiesJobType =
+  | "OnPremToCloud"
+  | "CloudToCloud"
+  | "OnPremToCloudAgentLess";
+export const JobDefinitionPropertiesJobType = S.String;
+
+/** Strategy to use for copy. */
+export type CopyMode = "Additive" | "Mirror";
+export const CopyMode = S.String;
 
 /** The current status of the Job Run in a non-terminal state, if exists. */
 export type JobRunStatus =
@@ -1454,7 +1046,7 @@ export type JobRunStatus =
   | "Failed"
   | "Succeeded"
   | "PausedByBandwidthManagement";
-export const JobRunStatus = /*@__PURE__*/ S.String;
+export const JobRunStatus = S.String;
 
 /** The properties of the cloud source endpoint to migrate. */
 export interface SourceEndpointProperties {
@@ -1559,13 +1151,87 @@ export const JobDefinitionPropertiesConnectionsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<JobDefinitionPropertiesConnectionsList>;
 
+/** Type of schedule — Monthly, Weekly, or Daily */
+export type Frequency =
+  | "Monthly"
+  | "Weekly"
+  | "Daily"
+  | "Onetime"
+  | "None"
+  | "Hourly";
+export const Frequency = S.String;
+
+/** The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0. */
+export type SchedulerTimeMinute = 0 | 30;
+export const SchedulerTimeMinute = S.Number;
+
+/** The time of day. */
+export interface SchedulerTime {
+  /** The hour element of the time. Allowed values range from 0 (start of the selected day) to 24 (end of the selected day). Hour value 24 cannot be combined with any other minute value but 0. */
+  hour?: number;
+  /** The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0. */
+  minute?: SchedulerTimeMinute | (number & {});
+}
+export const SchedulerTime = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hour: S.optional(S.Number),
+    minute: S.optional(SchedulerTimeMinute),
+  }),
+).annotate({ identifier: "SchedulerTime" }) as any as S.Schema<SchedulerTime>;
+
+/** Days of the week for weekly schedules */
+export type ScheduleInfoDaysOfWeekList = Array<string>;
+export const ScheduleInfoDaysOfWeekList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ScheduleInfoDaysOfWeekList>;
+
+/** Days of the month for monthly schedules */
+export type ScheduleInfoDaysOfMonthList = Array<number>;
+export const ScheduleInfoDaysOfMonthList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<ScheduleInfoDaysOfMonthList>;
+
+/** Schedule information for the Job Definition. */
+export interface ScheduleInfo {
+  /** Type of schedule — Monthly, Weekly, or Daily */
+  frequency?: Frequency | (string & {});
+  /** Whether the schedule is currently active */
+  isActive?: boolean;
+  /** Time of day to execute (hours and minutes) */
+  executionTime?: SchedulerTime;
+  /** Specific one-time execution date and time */
+  startDate?: string;
+  /** Days of the week for weekly schedules */
+  daysOfWeek?: ScheduleInfoDaysOfWeekList;
+  /** Days of the month for monthly schedules */
+  daysOfMonth?: ScheduleInfoDaysOfMonthList;
+  /** Optional CRON expression for advanced scheduling */
+  cronExpression?: string;
+  /** End time of the schedule (in UTC) */
+  endDate?: string;
+  /** Repeat interval used for sub-daily schedules. */
+  repeatInterval?: string;
+}
+export const ScheduleInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    frequency: S.optional(Frequency),
+    isActive: S.optional(S.Boolean),
+    executionTime: S.optional(SchedulerTime),
+    startDate: S.optional(S.String),
+    daysOfWeek: S.optional(ScheduleInfoDaysOfWeekList),
+    daysOfMonth: S.optional(ScheduleInfoDaysOfMonthList),
+    cronExpression: S.optional(S.String),
+    endDate: S.optional(S.String),
+    repeatInterval: S.optional(S.String),
+  }),
+).annotate({ identifier: "ScheduleInfo" }) as any as S.Schema<ScheduleInfo>;
+
 /** The checksum validation mode for the job definition. */
 export type JobDefinitionPropertiesDataIntegrityValidation =
   | "SaveVerifyFileMD5"
   | "SaveFileMD5"
   | "None";
-export const JobDefinitionPropertiesDataIntegrityValidation =
-  /*@__PURE__*/ S.String;
+export const JobDefinitionPropertiesDataIntegrityValidation = S.String;
 
 /** Job definition properties. */
 export interface JobDefinitionProperties {
@@ -1609,6 +1275,16 @@ export interface JobDefinitionProperties {
   dataIntegrityValidation?: JobDefinitionPropertiesDataIntegrityValidation;
   /** Boolean to preserve permissions or not. */
   preservePermissions?: boolean;
+  /** Indicates that this Job Definition is a cross-tenant job where the counterpart endpoint resides in a different Azure AD tenant. When true, `crossTenantEndpointTenantId` and `crossTenantEndpointResourceId` must be provided. Defaults to false. Cannot be modified after the Job Definition is created. */
+  isCrossTenantJob?: boolean;
+  /** The Azure AD tenant ID of the cross-tenant source endpoint. Required when `isCrossTenantJob` is true. Cannot be modified after the Job Definition is created. */
+  crossTenantEndpointTenantId?: string;
+  /** Full ARM resource ID of the cross-tenant (foreign) endpoint. On the source-tenant copy this is the TARGET endpoint; on the target-tenant copy this is the SOURCE endpoint. */
+  crossTenantEndpointResourceId?: string;
+  /** The synchronization mode for the Job Definition. */
+  syncMode?: string;
+  /** The last time the mover was synchronized. */
+  moverSyncedUntil?: string;
 }
 export const JobDefinitionProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1634,12 +1310,17 @@ export const JobDefinitionProperties = /*@__PURE__*/ S.suspend(() =>
       JobDefinitionPropertiesDataIntegrityValidation,
     ),
     preservePermissions: S.optional(S.Boolean),
+    isCrossTenantJob: S.optional(S.Boolean),
+    crossTenantEndpointTenantId: S.optional(S.String),
+    crossTenantEndpointResourceId: S.optional(S.String),
+    syncMode: S.optional(S.String),
+    moverSyncedUntil: S.optional(S.String),
   }),
 ).annotate({
   identifier: "JobDefinitionProperties",
 }) as any as S.Schema<JobDefinitionProperties>;
 
-export interface JobDefinitionsCreateOrUpdateResponse {
+export interface GetJobDefinitionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -1651,101 +1332,7 @@ export interface JobDefinitionsCreateOrUpdateResponse {
   /** Job definition properties. */
   properties: JobDefinitionProperties;
 }
-export const JobDefinitionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      systemData: S.optional(SystemData),
-      properties: JobDefinitionProperties,
-    }),
-).annotate({
-  identifier: "JobDefinitionsCreateOrUpdateResponse",
-}) as any as S.Schema<JobDefinitionsCreateOrUpdateResponse>;
-
-export interface JobDefinitionsDeleteRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Project resource. */
-  projectName: string;
-  /** The name of the Job Definition resource. */
-  jobDefinitionName: string;
-}
-export const JobDefinitionsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    projectName: S.String.pipe(T.Label()),
-    jobDefinitionName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "JobDefinitionsDeleteRequest",
-}) as any as S.Schema<JobDefinitionsDeleteRequest>;
-
-export interface JobDefinitionsDeleteResponse {}
-export const JobDefinitionsDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "JobDefinitionsDeleteResponse",
-}) as any as S.Schema<JobDefinitionsDeleteResponse>;
-
-export interface JobDefinitionsGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Project resource. */
-  projectName: string;
-  /** The name of the Job Definition resource. */
-  jobDefinitionName: string;
-}
-export const JobDefinitionsGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    projectName: S.String.pipe(T.Label()),
-    jobDefinitionName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "JobDefinitionsGetRequest",
-}) as any as S.Schema<JobDefinitionsGetRequest>;
-
-export interface JobDefinitionsGetResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Job definition properties. */
-  properties: JobDefinitionProperties;
-}
-export const JobDefinitionsGetResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetJobDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -1754,258 +1341,10 @@ export const JobDefinitionsGetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: JobDefinitionProperties,
   }),
 ).annotate({
-  identifier: "JobDefinitionsGetResponse",
-}) as any as S.Schema<JobDefinitionsGetResponse>;
+  identifier: "GetJobDefinitionResponse",
+}) as any as S.Schema<GetJobDefinitionResponse>;
 
-export interface JobDefinitionsListRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Project resource. */
-  projectName: string;
-}
-export const JobDefinitionsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    projectName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "JobDefinitionsListRequest",
-}) as any as S.Schema<JobDefinitionsListRequest>;
-
-/** The Job Definition resource. */
-export interface JobDefinition {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Job definition properties. */
-  properties: JobDefinitionProperties;
-}
-export const JobDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: JobDefinitionProperties,
-  }),
-).annotate({ identifier: "JobDefinition" }) as any as S.Schema<JobDefinition>;
-
-/** The JobDefinition items on this page */
-export type JobDefinitionListValueList = Array<JobDefinition>;
-export const JobDefinitionListValueList = /*@__PURE__*/ S.Array(
-  JobDefinition,
-) as any as S.Schema<JobDefinitionListValueList>;
-
-/** List of Job Definitions. */
-export interface JobDefinitionList {
-  /** The JobDefinition items on this page */
-  value: JobDefinitionListValueList;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-export const JobDefinitionList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: JobDefinitionListValueList,
-    nextLink: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "JobDefinitionList",
-}) as any as S.Schema<JobDefinitionList>;
-
-export interface JobDefinitionsStartJobRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Project resource. */
-  projectName: string;
-  /** The name of the Job Definition resource. */
-  jobDefinitionName: string;
-}
-export const JobDefinitionsStartJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    projectName: S.String.pipe(T.Label()),
-    jobDefinitionName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/startJob",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "JobDefinitionsStartJobRequest",
-}) as any as S.Schema<JobDefinitionsStartJobRequest>;
-
-/** Response that identifies a Job Run. */
-export interface JobRunResourceId {
-  /** Fully qualified resource id of the Job Run. */
-  jobRunResourceId?: string;
-}
-export const JobRunResourceId = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobRunResourceId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "JobRunResourceId",
-}) as any as S.Schema<JobRunResourceId>;
-
-export interface JobDefinitionsStopJobRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Project resource. */
-  projectName: string;
-  /** The name of the Job Definition resource. */
-  jobDefinitionName: string;
-}
-export const JobDefinitionsStopJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    projectName: S.String.pipe(T.Label()),
-    jobDefinitionName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/stopJob",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "JobDefinitionsStopJobRequest",
-}) as any as S.Schema<JobDefinitionsStopJobRequest>;
-
-/** List of connections associated to this job */
-export type JobDefinitionUpdatePropertiesConnectionsList = Array<string>;
-export const JobDefinitionUpdatePropertiesConnectionsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<JobDefinitionUpdatePropertiesConnectionsList>;
-
-/** The Data integrity validation mode. */
-export type DataIntegrityValidation =
-  | "SaveVerifyFileMD5"
-  | "SaveFileMD5"
-  | "None";
-export const DataIntegrityValidation = /*@__PURE__*/ S.String;
-
-/** Job definition properties. */
-export interface JobDefinitionUpdateProperties {
-  /** A description for the Job Definition. */
-  description?: string;
-  /** Strategy to use for copy. */
-  copyMode?: CopyMode | (string & {});
-  /** Name of the Agent to assign for new Job Runs of this Job Definition. */
-  agentName?: string;
-  /** List of connections associated to this job */
-  connections?: JobDefinitionUpdatePropertiesConnectionsList;
-  /** Data Integrity Validation mode. */
-  dataIntegrityValidation?: DataIntegrityValidation | (string & {});
-  /** Schedule information for the Job Definition. */
-  schedule?: ScheduleInfo;
-}
-export const JobDefinitionUpdateProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    copyMode: S.optional(CopyMode),
-    agentName: S.optional(S.String),
-    connections: S.optional(JobDefinitionUpdatePropertiesConnectionsList),
-    dataIntegrityValidation: S.optional(DataIntegrityValidation),
-    schedule: S.optional(ScheduleInfo),
-  }),
-).annotate({
-  identifier: "JobDefinitionUpdateProperties",
-}) as any as S.Schema<JobDefinitionUpdateProperties>;
-
-export interface JobDefinitionsUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Project resource. */
-  projectName: string;
-  /** The name of the Job Definition resource. */
-  jobDefinitionName: string;
-  /** Job definition properties. */
-  properties?: JobDefinitionUpdateProperties;
-}
-export const JobDefinitionsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    projectName: S.String.pipe(T.Label()),
-    jobDefinitionName: S.String.pipe(T.Label()),
-    properties: S.optional(JobDefinitionUpdateProperties),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "JobDefinitionsUpdateRequest",
-}) as any as S.Schema<JobDefinitionsUpdateRequest>;
-
-export interface JobDefinitionsUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Job definition properties. */
-  properties: JobDefinitionProperties;
-}
-export const JobDefinitionsUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: JobDefinitionProperties,
-  }),
-).annotate({
-  identifier: "JobDefinitionsUpdateResponse",
-}) as any as S.Schema<JobDefinitionsUpdateResponse>;
-
-export interface JobRunsGetRequest {
+export interface GetJobRunRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -2019,7 +1358,7 @@ export interface JobRunsGetRequest {
   /** The name of the Job Run resource. */
   jobRunName: string;
 }
-export const JobRunsGetRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetJobRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -2032,20 +1371,20 @@ export const JobRunsGetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/jobRuns/{jobRunName}",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
-  identifier: "JobRunsGetRequest",
-}) as any as S.Schema<JobRunsGetRequest>;
+  identifier: "GetJobRunRequest",
+}) as any as S.Schema<GetJobRunRequest>;
 
 /** The status of Agent's scanning of source. */
 export type JobRunScanStatus = "NotStarted" | "Scanning" | "Completed";
-export const JobRunScanStatus = /*@__PURE__*/ S.String;
+export const JobRunScanStatus = S.String;
 
 /** Trigger type for the job run. Default is manual. */
 export type JobRunPropertiesTriggerType = "Manual" | "Scheduled";
-export const JobRunPropertiesTriggerType = /*@__PURE__*/ S.String;
+export const JobRunPropertiesTriggerType = S.String;
 
 /** Error type */
 export interface JobRunError {
@@ -2190,7 +1529,7 @@ export const JobRunProperties = /*@__PURE__*/ S.suspend(() =>
   identifier: "JobRunProperties",
 }) as any as S.Schema<JobRunProperties>;
 
-export interface JobRunsGetResponse {
+export interface GetJobRunResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -2202,7 +1541,7 @@ export interface JobRunsGetResponse {
   /** Job run properties. */
   properties?: JobRunProperties;
 }
-export const JobRunsGetResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetJobRunResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -2211,10 +1550,312 @@ export const JobRunsGetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(JobRunProperties),
   }),
 ).annotate({
-  identifier: "JobRunsGetResponse",
-}) as any as S.Schema<JobRunsGetResponse>;
+  identifier: "GetJobRunResponse",
+}) as any as S.Schema<GetJobRunResponse>;
 
-export interface JobRunsListRequest {
+export interface GetProjectRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Project resource. */
+  projectName: string;
+}
+export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    projectName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetProjectRequest",
+}) as any as S.Schema<GetProjectRequest>;
+
+/** Project properties. */
+export interface ProjectProperties {
+  /** A description for the Project. */
+  description?: string;
+  /** The provisioning state of this resource. */
+  provisioningState?: ProvisioningState;
+}
+export const ProjectProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    provisioningState: S.optional(ProvisioningState),
+  }),
+).annotate({
+  identifier: "ProjectProperties",
+}) as any as S.Schema<ProjectProperties>;
+
+export interface GetProjectResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Project properties. */
+  properties?: ProjectProperties;
+}
+export const GetProjectResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: S.optional(ProjectProperties),
+  }),
+).annotate({
+  identifier: "GetProjectResponse",
+}) as any as S.Schema<GetProjectResponse>;
+
+export interface GetStorageMoverRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+}
+export const GetStorageMoverRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetStorageMoverRequest",
+}) as any as S.Schema<GetStorageMoverRequest>;
+
+/** Resource tags. */
+export type GetStorageMoverResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const GetStorageMoverResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<GetStorageMoverResponseTagsMap>;
+
+/** The resource specific properties for the Storage Mover resource. */
+export interface StorageMoverProperties {
+  /** A description for the Storage Mover. */
+  description?: string;
+  /** The provisioning state of this resource. */
+  provisioningState?: ProvisioningState;
+}
+export const StorageMoverProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    provisioningState: S.optional(ProvisioningState),
+  }),
+).annotate({
+  identifier: "StorageMoverProperties",
+}) as any as S.Schema<StorageMoverProperties>;
+
+export interface GetStorageMoverResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: GetStorageMoverResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource specific properties for the Storage Mover resource. */
+  properties?: StorageMoverProperties;
+}
+export const GetStorageMoverResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(GetStorageMoverResponseTagsMap),
+    location: S.String,
+    properties: S.optional(StorageMoverProperties),
+  }),
+).annotate({
+  identifier: "GetStorageMoverResponse",
+}) as any as S.Schema<GetStorageMoverResponse>;
+
+/** The type of the Job. */
+export type JobDefinitionPropertiesInputJobType =
+  | "OnPremToCloud"
+  | "CloudToCloud"
+  | "OnPremToCloudAgentLess";
+export const JobDefinitionPropertiesInputJobType = S.String;
+
+/** The list of cloud endpoints to migrate. */
+export type JobDefinitionPropertiesInputSourceTargetMap =
+  UserAssignedIdentityInput;
+export const JobDefinitionPropertiesInputSourceTargetMap =
+  UserAssignedIdentityInput;
+
+/** List of connections associated to this job */
+export type JobDefinitionPropertiesInputConnectionsList = Array<string>;
+export const JobDefinitionPropertiesInputConnectionsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<JobDefinitionPropertiesInputConnectionsList>;
+
+/** The checksum validation mode for the job definition. */
+export type JobDefinitionPropertiesInputDataIntegrityValidation =
+  | "SaveVerifyFileMD5"
+  | "SaveFileMD5"
+  | "None";
+export const JobDefinitionPropertiesInputDataIntegrityValidation = S.String;
+
+/** Job definition properties. */
+export interface JobDefinitionPropertiesInput {
+  /** A description for the Job Definition. OnPremToCloud is for migrating data from on-premises to cloud. CloudToCloud is for migrating data between cloud to cloud. */
+  description?: string;
+  /** The type of the Job. */
+  jobType?: JobDefinitionPropertiesInputJobType | (string & {});
+  /** Strategy to use for copy. */
+  copyMode: CopyMode | (string & {});
+  /** The name of the source Endpoint. */
+  sourceName: string;
+  /** The subpath to use when reading from the source Endpoint. */
+  sourceSubpath?: string;
+  /** The name of the target Endpoint. */
+  targetName: string;
+  /** The subpath to use when writing to the target Endpoint. */
+  targetSubpath?: string;
+  /** Name of the Agent to assign for new Job Runs of this Job Definition. */
+  agentName?: string;
+  /** The list of cloud endpoints to migrate. */
+  sourceTargetMap?: UserAssignedIdentityInput;
+  /** List of connections associated to this job */
+  connections?: JobDefinitionPropertiesInputConnectionsList;
+  /** Schedule information for the Job Definition. */
+  schedule?: ScheduleInfo;
+  /** The checksum validation mode for the job definition. */
+  dataIntegrityValidation?:
+    | JobDefinitionPropertiesInputDataIntegrityValidation
+    | (string & {});
+  /** Boolean to preserve permissions or not. */
+  preservePermissions?: boolean;
+  /** Indicates that this Job Definition is a cross-tenant job where the counterpart endpoint resides in a different Azure AD tenant. When true, `crossTenantEndpointTenantId` and `crossTenantEndpointResourceId` must be provided. Defaults to false. Cannot be modified after the Job Definition is created. */
+  isCrossTenantJob?: boolean;
+  /** The Azure AD tenant ID of the cross-tenant source endpoint. Required when `isCrossTenantJob` is true. Cannot be modified after the Job Definition is created. */
+  crossTenantEndpointTenantId?: string;
+  /** Full ARM resource ID of the cross-tenant (foreign) endpoint. On the source-tenant copy this is the TARGET endpoint; on the target-tenant copy this is the SOURCE endpoint. */
+  crossTenantEndpointResourceId?: string;
+  /** The synchronization mode for the Job Definition. */
+  syncMode?: string;
+  /** The last time the mover was synchronized. */
+  moverSyncedUntil?: string;
+}
+export const JobDefinitionPropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    jobType: S.optional(JobDefinitionPropertiesInputJobType),
+    copyMode: CopyMode,
+    sourceName: S.String,
+    sourceSubpath: S.optional(S.String),
+    targetName: S.String,
+    targetSubpath: S.optional(S.String),
+    agentName: S.optional(S.String),
+    sourceTargetMap: S.optional(UserAssignedIdentityInput),
+    connections: S.optional(JobDefinitionPropertiesInputConnectionsList),
+    schedule: S.optional(ScheduleInfo),
+    dataIntegrityValidation: S.optional(
+      JobDefinitionPropertiesInputDataIntegrityValidation,
+    ),
+    preservePermissions: S.optional(S.Boolean),
+    isCrossTenantJob: S.optional(S.Boolean),
+    crossTenantEndpointTenantId: S.optional(S.String),
+    crossTenantEndpointResourceId: S.optional(S.String),
+    syncMode: S.optional(S.String),
+    moverSyncedUntil: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "JobDefinitionPropertiesInput",
+}) as any as S.Schema<JobDefinitionPropertiesInput>;
+
+export interface JobDefinitionsCreateOrUpdateRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Project resource. */
+  projectName: string;
+  /** The name of the Job Definition resource. */
+  jobDefinitionName: string;
+  /** Job definition properties. */
+  properties: JobDefinitionPropertiesInput;
+}
+export const JobDefinitionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    projectName: S.String.pipe(T.Label()),
+    jobDefinitionName: S.String.pipe(T.Label()),
+    properties: JobDefinitionPropertiesInput,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "JobDefinitionsCreateOrUpdateRequest",
+}) as any as S.Schema<JobDefinitionsCreateOrUpdateRequest>;
+
+export interface JobDefinitionsCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Job definition properties. */
+  properties: JobDefinitionProperties;
+}
+export const JobDefinitionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: JobDefinitionProperties,
+    }),
+).annotate({
+  identifier: "JobDefinitionsCreateOrUpdateResponse",
+}) as any as S.Schema<JobDefinitionsCreateOrUpdateResponse>;
+
+export interface JobDefinitionsReconcileJobRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -2226,7 +1867,334 @@ export interface JobRunsListRequest {
   /** The name of the Job Definition resource. */
   jobDefinitionName: string;
 }
-export const JobRunsListRequest = /*@__PURE__*/ S.suspend(() =>
+export const JobDefinitionsReconcileJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    projectName: S.String.pipe(T.Label()),
+    jobDefinitionName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/reconcileJob",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "JobDefinitionsReconcileJobRequest",
+}) as any as S.Schema<JobDefinitionsReconcileJobRequest>;
+
+/** Response that identifies a Job Run. */
+export interface JobRunResourceId {
+  /** Fully qualified resource id of the Job Run. */
+  jobRunResourceId?: string;
+}
+export const JobRunResourceId = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    jobRunResourceId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "JobRunResourceId",
+}) as any as S.Schema<JobRunResourceId>;
+
+export interface ListAgentsRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+}
+export const ListAgentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/agents",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListAgentsRequest",
+}) as any as S.Schema<ListAgentsRequest>;
+
+/** The Agent resource. */
+export interface Agent {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties: AgentProperties;
+}
+export const Agent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: AgentProperties,
+  }),
+).annotate({ identifier: "Agent" }) as any as S.Schema<Agent>;
+
+/** The Agent items on this page */
+export type AgentListValueList = Array<Agent>;
+export const AgentListValueList = /*@__PURE__*/ S.Array(
+  Agent,
+) as any as S.Schema<AgentListValueList>;
+
+/** List of Agents. */
+export interface AgentList {
+  /** The Agent items on this page */
+  value: AgentListValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const AgentList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: AgentListValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentList" }) as any as S.Schema<AgentList>;
+
+export interface ListConnectionsRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+}
+export const ListConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/connections",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListConnectionsRequest",
+}) as any as S.Schema<ListConnectionsRequest>;
+
+/** The Connection resource. */
+export interface Connection {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Connection properties. */
+  properties: ConnectionProperties;
+}
+export const Connection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: ConnectionProperties,
+  }),
+).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
+
+/** The Connection items on this page */
+export type ConnectionListValueList = Array<Connection>;
+export const ConnectionListValueList = /*@__PURE__*/ S.Array(
+  Connection,
+) as any as S.Schema<ConnectionListValueList>;
+
+/** List of Connections. */
+export interface ConnectionList {
+  /** The Connection items on this page */
+  value: ConnectionListValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const ConnectionList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: ConnectionListValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({ identifier: "ConnectionList" }) as any as S.Schema<ConnectionList>;
+
+export interface ListEndpointsRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+}
+export const ListEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/endpoints",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListEndpointsRequest",
+}) as any as S.Schema<ListEndpointsRequest>;
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type EndpointIdentity = EndpointsCreateOrUpdateResponseIdentity;
+export const EndpointIdentity = EndpointsCreateOrUpdateResponseIdentity;
+
+/** The Endpoint resource, which contains information about file sources and targets. */
+export interface Endpoint {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The resource specific properties for the Storage Mover resource. */
+  properties: EndpointBaseProperties;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: EndpointsCreateOrUpdateResponseIdentity;
+}
+export const Endpoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: EndpointBaseProperties,
+    identity: S.optional(EndpointsCreateOrUpdateResponseIdentity),
+  }),
+).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+
+/** The Endpoint items on this page */
+export type EndpointListValueList = Array<Endpoint>;
+export const EndpointListValueList = /*@__PURE__*/ S.Array(
+  Endpoint,
+) as any as S.Schema<EndpointListValueList>;
+
+/** List of Endpoints. */
+export interface EndpointList {
+  /** The Endpoint items on this page */
+  value: EndpointListValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const EndpointList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: EndpointListValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({ identifier: "EndpointList" }) as any as S.Schema<EndpointList>;
+
+export interface ListJobDefinitionsRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Project resource. */
+  projectName: string;
+}
+export const ListJobDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    projectName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListJobDefinitionsRequest",
+}) as any as S.Schema<ListJobDefinitionsRequest>;
+
+/** The Job Definition resource. */
+export interface JobDefinition {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Job definition properties. */
+  properties: JobDefinitionProperties;
+}
+export const JobDefinition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: JobDefinitionProperties,
+  }),
+).annotate({ identifier: "JobDefinition" }) as any as S.Schema<JobDefinition>;
+
+/** The JobDefinition items on this page */
+export type JobDefinitionListValueList = Array<JobDefinition>;
+export const JobDefinitionListValueList = /*@__PURE__*/ S.Array(
+  JobDefinition,
+) as any as S.Schema<JobDefinitionListValueList>;
+
+/** List of Job Definitions. */
+export interface JobDefinitionList {
+  /** The JobDefinition items on this page */
+  value: JobDefinitionListValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const JobDefinitionList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: JobDefinitionListValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "JobDefinitionList",
+}) as any as S.Schema<JobDefinitionList>;
+
+export interface ListJobRunsRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Project resource. */
+  projectName: string;
+  /** The name of the Job Definition resource. */
+  jobDefinitionName: string;
+}
+export const ListJobRunsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -2238,12 +2206,12 @@ export const JobRunsListRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/jobRuns",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
-  identifier: "JobRunsListRequest",
-}) as any as S.Schema<JobRunsListRequest>;
+  identifier: "ListJobRunsRequest",
+}) as any as S.Schema<ListJobRunsRequest>;
 
 /** The Job Run resource. */
 export interface JobRun {
@@ -2288,19 +2256,19 @@ export const JobRunList = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "JobRunList" }) as any as S.Schema<JobRunList>;
 
-export interface OperationsListRequest {}
-export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
+export interface ListOperationsRequest {}
+export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
     T.Http({
       method: "GET",
       uri: "/providers/Microsoft.StorageMover/operations",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
-  identifier: "OperationsListRequest",
-}) as any as S.Schema<OperationsListRequest>;
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -2326,11 +2294,11 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
-export const OperationOrigin = /*@__PURE__*/ S.String;
+export const OperationOrigin = S.String;
 
 /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 export type OperationActionType = "Internal";
-export const OperationActionType = /*@__PURE__*/ S.String;
+export const OperationActionType = S.String;
 
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
@@ -2356,198 +2324,27 @@ export const Operation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
 /** List of operations supported by the resource provider */
-export type OperationsListResponseValueList = Array<Operation>;
-export const OperationsListResponseValueList = /*@__PURE__*/ S.Array(
+export type ListOperationsResponseValueList = Array<Operation>;
+export const ListOperationsResponseValueList = /*@__PURE__*/ S.Array(
   Operation,
-) as any as S.Schema<OperationsListResponseValueList>;
+) as any as S.Schema<ListOperationsResponseValueList>;
 
-export interface OperationsListResponse {
+export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: OperationsListResponseValueList;
+  value?: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string;
 }
-export const OperationsListResponse = /*@__PURE__*/ S.suspend(() =>
+export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(OperationsListResponseValueList),
+    value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "OperationsListResponse",
-}) as any as S.Schema<OperationsListResponse>;
+  identifier: "ListOperationsResponse",
+}) as any as S.Schema<ListOperationsResponse>;
 
-/** Project properties. */
-export interface ProjectPropertiesInput {
-  /** A description for the Project. */
-  description?: string;
-}
-export const ProjectPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProjectPropertiesInput",
-}) as any as S.Schema<ProjectPropertiesInput>;
-
-export interface ProjectsCreateOrUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Project resource. */
-  projectName: string;
-  /** Project properties. */
-  properties?: ProjectPropertiesInput;
-}
-export const ProjectsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    projectName: S.String.pipe(T.Label()),
-    properties: S.optional(ProjectPropertiesInput),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "ProjectsCreateOrUpdateRequest",
-}) as any as S.Schema<ProjectsCreateOrUpdateRequest>;
-
-/** Project properties. */
-export interface ProjectProperties {
-  /** A description for the Project. */
-  description?: string;
-  /** The provisioning state of this resource. */
-  provisioningState?: ProvisioningState;
-}
-export const ProjectProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    provisioningState: S.optional(ProvisioningState),
-  }),
-).annotate({
-  identifier: "ProjectProperties",
-}) as any as S.Schema<ProjectProperties>;
-
-export interface ProjectsCreateOrUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Project properties. */
-  properties?: ProjectProperties;
-}
-export const ProjectsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: S.optional(ProjectProperties),
-  }),
-).annotate({
-  identifier: "ProjectsCreateOrUpdateResponse",
-}) as any as S.Schema<ProjectsCreateOrUpdateResponse>;
-
-export interface ProjectsDeleteRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Project resource. */
-  projectName: string;
-}
-export const ProjectsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    projectName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "ProjectsDeleteRequest",
-}) as any as S.Schema<ProjectsDeleteRequest>;
-
-export interface ProjectsDeleteResponse {}
-export const ProjectsDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ProjectsDeleteResponse",
-}) as any as S.Schema<ProjectsDeleteResponse>;
-
-export interface ProjectsGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Project resource. */
-  projectName: string;
-}
-export const ProjectsGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    projectName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "ProjectsGetRequest",
-}) as any as S.Schema<ProjectsGetRequest>;
-
-export interface ProjectsGetResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Project properties. */
-  properties?: ProjectProperties;
-}
-export const ProjectsGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: S.optional(ProjectProperties),
-  }),
-).annotate({
-  identifier: "ProjectsGetResponse",
-}) as any as S.Schema<ProjectsGetResponse>;
-
-export interface ProjectsListRequest {
+export interface ListProjectsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -2555,7 +2352,7 @@ export interface ProjectsListRequest {
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
 }
-export const ProjectsListRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -2565,12 +2362,12 @@ export const ProjectsListRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
-  identifier: "ProjectsListRequest",
-}) as any as S.Schema<ProjectsListRequest>;
+  identifier: "ListProjectsRequest",
+}) as any as S.Schema<ListProjectsRequest>;
 
 /** The Project resource. */
 export interface Project {
@@ -2615,294 +2412,25 @@ export const ProjectList = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ProjectList" }) as any as S.Schema<ProjectList>;
 
-/** Project properties. */
-export type ProjectUpdateProperties = ProjectPropertiesInput;
-export const ProjectUpdateProperties = ProjectPropertiesInput;
-
-export interface ProjectsUpdateRequest {
+export interface ListStorageMoverBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** The name of the Project resource. */
-  projectName: string;
-  /** Project properties. */
-  properties?: ProjectPropertiesInput;
 }
-export const ProjectsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    projectName: S.String.pipe(T.Label()),
-    properties: S.optional(ProjectPropertiesInput),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
+export const ListStorageMoverBySubscriptionRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageMover/storageMovers",
+        code: 200,
+        apiVersion: "2026-05-01",
+      }),
+    ),
 ).annotate({
-  identifier: "ProjectsUpdateRequest",
-}) as any as S.Schema<ProjectsUpdateRequest>;
-
-export interface ProjectsUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Project properties. */
-  properties?: ProjectProperties;
-}
-export const ProjectsUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: S.optional(ProjectProperties),
-  }),
-).annotate({
-  identifier: "ProjectsUpdateResponse",
-}) as any as S.Schema<ProjectsUpdateResponse>;
-
-/** Resource tags. */
-export type StorageMoversCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
-export const StorageMoversCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StorageMoversCreateOrUpdateRequestTagsMap>;
-
-/** The resource specific properties for the Storage Mover resource. */
-export interface StorageMoverPropertiesInput {
-  /** A description for the Storage Mover. */
-  description?: string;
-}
-export const StorageMoverPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StorageMoverPropertiesInput",
-}) as any as S.Schema<StorageMoverPropertiesInput>;
-
-export interface StorageMoversCreateOrUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-  /** Resource tags. */
-  tags?: StorageMoversCreateOrUpdateRequestTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  /** The resource specific properties for the Storage Mover resource. */
-  properties?: StorageMoverPropertiesInput;
-}
-export const StorageMoversCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-    tags: S.optional(StorageMoversCreateOrUpdateRequestTagsMap),
-    location: S.String,
-    properties: S.optional(StorageMoverPropertiesInput),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "StorageMoversCreateOrUpdateRequest",
-}) as any as S.Schema<StorageMoversCreateOrUpdateRequest>;
-
-/** Resource tags. */
-export type StorageMoversCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const StorageMoversCreateOrUpdateResponseTagsMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.String,
-  ) as any as S.Schema<StorageMoversCreateOrUpdateResponseTagsMap>;
-
-/** The resource specific properties for the Storage Mover resource. */
-export interface StorageMoverProperties {
-  /** A description for the Storage Mover. */
-  description?: string;
-  /** The provisioning state of this resource. */
-  provisioningState?: ProvisioningState;
-}
-export const StorageMoverProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    provisioningState: S.optional(ProvisioningState),
-  }),
-).annotate({
-  identifier: "StorageMoverProperties",
-}) as any as S.Schema<StorageMoverProperties>;
-
-export interface StorageMoversCreateOrUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource tags. */
-  tags?: StorageMoversCreateOrUpdateResponseTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  /** The resource specific properties for the Storage Mover resource. */
-  properties?: StorageMoverProperties;
-}
-export const StorageMoversCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    tags: S.optional(StorageMoversCreateOrUpdateResponseTagsMap),
-    location: S.String,
-    properties: S.optional(StorageMoverProperties),
-  }),
-).annotate({
-  identifier: "StorageMoversCreateOrUpdateResponse",
-}) as any as S.Schema<StorageMoversCreateOrUpdateResponse>;
-
-export interface StorageMoversDeleteRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-}
-export const StorageMoversDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "StorageMoversDeleteRequest",
-}) as any as S.Schema<StorageMoversDeleteRequest>;
-
-export interface StorageMoversDeleteResponse {}
-export const StorageMoversDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "StorageMoversDeleteResponse",
-}) as any as S.Schema<StorageMoversDeleteResponse>;
-
-export interface StorageMoversGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Storage Mover resource. */
-  storageMoverName: string;
-}
-export const StorageMoversGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    storageMoverName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "StorageMoversGetRequest",
-}) as any as S.Schema<StorageMoversGetRequest>;
-
-/** Resource tags. */
-export type StorageMoversGetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const StorageMoversGetResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StorageMoversGetResponseTagsMap>;
-
-export interface StorageMoversGetResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource tags. */
-  tags?: StorageMoversGetResponseTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  /** The resource specific properties for the Storage Mover resource. */
-  properties?: StorageMoverProperties;
-}
-export const StorageMoversGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    tags: S.optional(StorageMoversGetResponseTagsMap),
-    location: S.String,
-    properties: S.optional(StorageMoverProperties),
-  }),
-).annotate({
-  identifier: "StorageMoversGetResponse",
-}) as any as S.Schema<StorageMoversGetResponse>;
-
-export interface StorageMoversListRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-}
-export const StorageMoversListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers",
-      code: 200,
-      apiVersion: "2025-12-01",
-    }),
-  ),
-).annotate({
-  identifier: "StorageMoversListRequest",
-}) as any as S.Schema<StorageMoversListRequest>;
+  identifier: "ListStorageMoverBySubscriptionRequest",
+}) as any as S.Schema<ListStorageMoverBySubscriptionRequest>;
 
 /** Resource tags. */
 export type StorageMoverTagsMap = { [key: string]: string | undefined };
@@ -2962,80 +2490,225 @@ export const StorageMoverList = /*@__PURE__*/ S.suspend(() =>
   identifier: "StorageMoverList",
 }) as any as S.Schema<StorageMoverList>;
 
-export interface StorageMoversListBySubscriptionRequest {
+export interface ListStorageMoversRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
 }
-export const StorageMoversListBySubscriptionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageMover/storageMovers",
-        code: 200,
-        apiVersion: "2025-12-01",
-      }),
-    ),
+export const ListStorageMoversRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
 ).annotate({
-  identifier: "StorageMoversListBySubscriptionRequest",
-}) as any as S.Schema<StorageMoversListBySubscriptionRequest>;
+  identifier: "ListStorageMoversRequest",
+}) as any as S.Schema<ListStorageMoversRequest>;
 
-/** The resource specific properties for the Storage Mover resource. */
-export type StorageMoverUpdateProperties = StorageMoverPropertiesInput;
-export const StorageMoverUpdateProperties = StorageMoverPropertiesInput;
+/** Project properties. */
+export interface ProjectPropertiesInput {
+  /** A description for the Project. */
+  description?: string;
+}
+export const ProjectPropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ProjectPropertiesInput",
+}) as any as S.Schema<ProjectPropertiesInput>;
 
-/** Resource tags. */
-export type StorageMoversUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
-export const StorageMoversUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StorageMoversUpdateRequestTagsMap>;
-
-export interface StorageMoversUpdateRequest {
+export interface ProjectsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the Storage Mover resource. */
   storageMoverName: string;
-  /** The resource specific properties for the Storage Mover resource. */
-  properties?: StorageMoverPropertiesInput;
-  /** Resource tags. */
-  tags?: StorageMoversUpdateRequestTagsMap;
+  /** The name of the Project resource. */
+  projectName: string;
+  /** Project properties. */
+  properties?: ProjectPropertiesInput;
 }
-export const StorageMoversUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+export const ProjectsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     storageMoverName: S.String.pipe(T.Label()),
-    properties: S.optional(StorageMoverPropertiesInput),
-    tags: S.optional(StorageMoversUpdateRequestTagsMap),
+    projectName: S.String.pipe(T.Label()),
+    properties: S.optional(ProjectPropertiesInput),
   }).pipe(
     T.Http({
-      method: "PATCH",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
+      method: "PUT",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
       code: 200,
-      apiVersion: "2025-12-01",
+      apiVersion: "2026-05-01",
     }),
   ),
 ).annotate({
-  identifier: "StorageMoversUpdateRequest",
-}) as any as S.Schema<StorageMoversUpdateRequest>;
+  identifier: "ProjectsCreateOrUpdateRequest",
+}) as any as S.Schema<ProjectsCreateOrUpdateRequest>;
+
+export interface ProjectsCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Project properties. */
+  properties?: ProjectProperties;
+}
+export const ProjectsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: S.optional(ProjectProperties),
+  }),
+).annotate({
+  identifier: "ProjectsCreateOrUpdateResponse",
+}) as any as S.Schema<ProjectsCreateOrUpdateResponse>;
+
+export interface StartJobDefinitionJobRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Project resource. */
+  projectName: string;
+  /** The name of the Job Definition resource. */
+  jobDefinitionName: string;
+}
+export const StartJobDefinitionJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    projectName: S.String.pipe(T.Label()),
+    jobDefinitionName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/startJob",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "StartJobDefinitionJobRequest",
+}) as any as S.Schema<StartJobDefinitionJobRequest>;
+
+export interface StopJobDefinitionJobRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Project resource. */
+  projectName: string;
+  /** The name of the Job Definition resource. */
+  jobDefinitionName: string;
+}
+export const StopJobDefinitionJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    projectName: S.String.pipe(T.Label()),
+    jobDefinitionName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/stopJob",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "StopJobDefinitionJobRequest",
+}) as any as S.Schema<StopJobDefinitionJobRequest>;
 
 /** Resource tags. */
-export type StorageMoversUpdateResponseTagsMap = {
+export type StorageMoversCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
 };
-export const StorageMoversUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
+export const StorageMoversCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<StorageMoversUpdateResponseTagsMap>;
+) as any as S.Schema<StorageMoversCreateOrUpdateRequestTagsMap>;
 
-export interface StorageMoversUpdateResponse {
+/** The resource specific properties for the Storage Mover resource. */
+export interface StorageMoverPropertiesInput {
+  /** A description for the Storage Mover. */
+  description?: string;
+}
+export const StorageMoverPropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "StorageMoverPropertiesInput",
+}) as any as S.Schema<StorageMoverPropertiesInput>;
+
+export interface StorageMoversCreateOrUpdateRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** Resource tags. */
+  tags?: StorageMoversCreateOrUpdateRequestTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource specific properties for the Storage Mover resource. */
+  properties?: StorageMoverPropertiesInput;
+}
+export const StorageMoversCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    tags: S.optional(StorageMoversCreateOrUpdateRequestTagsMap),
+    location: S.String,
+    properties: S.optional(StorageMoverPropertiesInput),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "StorageMoversCreateOrUpdateRequest",
+}) as any as S.Schema<StorageMoversCreateOrUpdateRequest>;
+
+/** Resource tags. */
+export type StorageMoversCreateOrUpdateResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const StorageMoversCreateOrUpdateResponseTagsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<StorageMoversCreateOrUpdateResponseTagsMap>;
+
+export interface StorageMoversCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -3045,25 +2718,430 @@ export interface StorageMoversUpdateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   /** Resource tags. */
-  tags?: StorageMoversUpdateResponseTagsMap;
+  tags?: StorageMoversCreateOrUpdateResponseTagsMap;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource specific properties for the Storage Mover resource. */
   properties?: StorageMoverProperties;
 }
-export const StorageMoversUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+export const StorageMoversCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
-    tags: S.optional(StorageMoversUpdateResponseTagsMap),
+    tags: S.optional(StorageMoversCreateOrUpdateResponseTagsMap),
     location: S.String,
     properties: S.optional(StorageMoverProperties),
   }),
 ).annotate({
-  identifier: "StorageMoversUpdateResponse",
-}) as any as S.Schema<StorageMoversUpdateResponse>;
+  identifier: "StorageMoversCreateOrUpdateResponse",
+}) as any as S.Schema<StorageMoversCreateOrUpdateResponse>;
+
+export interface AgentUpdateProperties {
+  /** A description for the Agent. */
+  description?: string;
+  /** The WAN-link upload limit schedule that applies to any Job Run the agent executes. Data plane operations (migrating files) are affected. Control plane operations ensure seamless migration functionality and are not limited by this schedule. The schedule is interpreted with the agent's local time. */
+  uploadLimitSchedule?: UploadLimitSchedule;
+}
+export const AgentUpdateProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    uploadLimitSchedule: S.optional(UploadLimitSchedule),
+  }),
+).annotate({
+  identifier: "AgentUpdateProperties",
+}) as any as S.Schema<AgentUpdateProperties>;
+
+export interface UpdateAgentRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Agent resource. */
+  agentName: string;
+  properties?: AgentUpdateProperties;
+}
+export const UpdateAgentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    agentName: S.String.pipe(T.Label()),
+    properties: S.optional(AgentUpdateProperties),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/agents/{agentName}",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateAgentRequest",
+}) as any as S.Schema<UpdateAgentRequest>;
+
+export interface UpdateAgentResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties: AgentProperties;
+}
+export const UpdateAgentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: AgentProperties,
+  }),
+).annotate({
+  identifier: "UpdateAgentResponse",
+}) as any as S.Schema<UpdateAgentResponse>;
+
+/** The Endpoint resource, which contains information about file sources and targets. */
+export interface EndpointBaseUpdateProperties {
+  /** The Endpoint resource type. */
+  endpointType: EndpointType | (string & {});
+  /** A description for the Endpoint. */
+  description?: string;
+}
+export const EndpointBaseUpdateProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endpointType: EndpointType,
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EndpointBaseUpdateProperties",
+}) as any as S.Schema<EndpointBaseUpdateProperties>;
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type UpdateEndpointRequestIdentity =
+  EndpointsCreateOrUpdateRequestIdentity;
+export const UpdateEndpointRequestIdentity =
+  EndpointsCreateOrUpdateRequestIdentity;
+
+export interface UpdateEndpointRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Endpoint resource. */
+  endpointName: string;
+  /** The Endpoint resource, which contains information about file sources and targets. */
+  properties?: EndpointBaseUpdateProperties;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: EndpointsCreateOrUpdateRequestIdentity;
+}
+export const UpdateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    endpointName: S.String.pipe(T.Label()),
+    properties: S.optional(EndpointBaseUpdateProperties),
+    identity: S.optional(EndpointsCreateOrUpdateRequestIdentity),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/endpoints/{endpointName}",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateEndpointRequest",
+}) as any as S.Schema<UpdateEndpointRequest>;
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type UpdateEndpointResponseIdentity =
+  EndpointsCreateOrUpdateResponseIdentity;
+export const UpdateEndpointResponseIdentity =
+  EndpointsCreateOrUpdateResponseIdentity;
+
+export interface UpdateEndpointResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The resource specific properties for the Storage Mover resource. */
+  properties: EndpointBaseProperties;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: EndpointsCreateOrUpdateResponseIdentity;
+}
+export const UpdateEndpointResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: EndpointBaseProperties,
+    identity: S.optional(EndpointsCreateOrUpdateResponseIdentity),
+  }),
+).annotate({
+  identifier: "UpdateEndpointResponse",
+}) as any as S.Schema<UpdateEndpointResponse>;
+
+/** List of connections associated to this job */
+export type JobDefinitionUpdatePropertiesConnectionsList = Array<string>;
+export const JobDefinitionUpdatePropertiesConnectionsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<JobDefinitionUpdatePropertiesConnectionsList>;
+
+/** The Data integrity validation mode. */
+export type DataIntegrityValidation =
+  | "SaveVerifyFileMD5"
+  | "SaveFileMD5"
+  | "None";
+export const DataIntegrityValidation = S.String;
+
+/** Job definition properties. */
+export interface JobDefinitionUpdateProperties {
+  /** A description for the Job Definition. */
+  description?: string;
+  /** Strategy to use for copy. */
+  copyMode?: CopyMode | (string & {});
+  /** Name of the Agent to assign for new Job Runs of this Job Definition. */
+  agentName?: string;
+  /** List of connections associated to this job */
+  connections?: JobDefinitionUpdatePropertiesConnectionsList;
+  /** Data Integrity Validation mode. */
+  dataIntegrityValidation?: DataIntegrityValidation | (string & {});
+  /** Schedule information for the Job Definition. */
+  schedule?: ScheduleInfo;
+  /** The synchronization mode for the Job Definition. */
+  syncMode?: string;
+  /** The last time the mover was synchronized. */
+  moverSyncedUntil?: string;
+}
+export const JobDefinitionUpdateProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    copyMode: S.optional(CopyMode),
+    agentName: S.optional(S.String),
+    connections: S.optional(JobDefinitionUpdatePropertiesConnectionsList),
+    dataIntegrityValidation: S.optional(DataIntegrityValidation),
+    schedule: S.optional(ScheduleInfo),
+    syncMode: S.optional(S.String),
+    moverSyncedUntil: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "JobDefinitionUpdateProperties",
+}) as any as S.Schema<JobDefinitionUpdateProperties>;
+
+export interface UpdateJobDefinitionRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Project resource. */
+  projectName: string;
+  /** The name of the Job Definition resource. */
+  jobDefinitionName: string;
+  /** Job definition properties. */
+  properties?: JobDefinitionUpdateProperties;
+}
+export const UpdateJobDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    projectName: S.String.pipe(T.Label()),
+    jobDefinitionName: S.String.pipe(T.Label()),
+    properties: S.optional(JobDefinitionUpdateProperties),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateJobDefinitionRequest",
+}) as any as S.Schema<UpdateJobDefinitionRequest>;
+
+export interface UpdateJobDefinitionResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Job definition properties. */
+  properties: JobDefinitionProperties;
+}
+export const UpdateJobDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: JobDefinitionProperties,
+  }),
+).annotate({
+  identifier: "UpdateJobDefinitionResponse",
+}) as any as S.Schema<UpdateJobDefinitionResponse>;
+
+/** Project properties. */
+export type ProjectUpdateProperties = ProjectPropertiesInput;
+export const ProjectUpdateProperties = ProjectPropertiesInput;
+
+export interface UpdateProjectRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The name of the Project resource. */
+  projectName: string;
+  /** Project properties. */
+  properties?: ProjectPropertiesInput;
+}
+export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    projectName: S.String.pipe(T.Label()),
+    properties: S.optional(ProjectPropertiesInput),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateProjectRequest",
+}) as any as S.Schema<UpdateProjectRequest>;
+
+export interface UpdateProjectResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Project properties. */
+  properties?: ProjectProperties;
+}
+export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: S.optional(ProjectProperties),
+  }),
+).annotate({
+  identifier: "UpdateProjectResponse",
+}) as any as S.Schema<UpdateProjectResponse>;
+
+/** The resource specific properties for the Storage Mover resource. */
+export type StorageMoverUpdateProperties = StorageMoverPropertiesInput;
+export const StorageMoverUpdateProperties = StorageMoverPropertiesInput;
+
+/** Resource tags. */
+export type UpdateStorageMoverRequestTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateStorageMoverRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateStorageMoverRequestTagsMap>;
+
+export interface UpdateStorageMoverRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Storage Mover resource. */
+  storageMoverName: string;
+  /** The resource specific properties for the Storage Mover resource. */
+  properties?: StorageMoverPropertiesInput;
+  /** Resource tags. */
+  tags?: UpdateStorageMoverRequestTagsMap;
+}
+export const UpdateStorageMoverRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    storageMoverName: S.String.pipe(T.Label()),
+    properties: S.optional(StorageMoverPropertiesInput),
+    tags: S.optional(UpdateStorageMoverRequestTagsMap),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
+      code: 200,
+      apiVersion: "2026-05-01",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateStorageMoverRequest",
+}) as any as S.Schema<UpdateStorageMoverRequest>;
+
+/** Resource tags. */
+export type UpdateStorageMoverResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateStorageMoverResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateStorageMoverResponseTagsMap>;
+
+export interface UpdateStorageMoverResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: UpdateStorageMoverResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource specific properties for the Storage Mover resource. */
+  properties?: StorageMoverProperties;
+}
+export const UpdateStorageMoverResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(UpdateStorageMoverResponseTagsMap),
+    location: S.String,
+    properties: S.optional(StorageMoverProperties),
+  }),
+).annotate({
+  identifier: "UpdateStorageMoverResponse",
+}) as any as S.Schema<UpdateStorageMoverResponse>;
 
 export type AgentsCreateOrUpdateError = AzureOpError;
 /** Creates or updates an Agent resource, which references a hybrid compute machine that can run jobs. */
@@ -3075,66 +3153,6 @@ export const AgentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AgentsCreateOrUpdateRequest,
   output: AgentsCreateOrUpdateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type AgentsDeleteError = AzureOpError;
-/** Deletes an Agent resource. */
-export const AgentsDelete: API.OperationMethod<
-  AgentsDeleteRequest,
-  AgentsDeleteResponse,
-  AgentsDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: AgentsDeleteRequest,
-  output: AgentsDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type AgentsGetError = AzureOpError;
-/** Gets an Agent resource. */
-export const AgentsGet: API.OperationMethod<
-  AgentsGetRequest,
-  AgentsGetResponse,
-  AgentsGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: AgentsGetRequest,
-  output: AgentsGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type AgentsListError = AzureOpError;
-/** Lists all Agents in a Storage Mover. */
-export const AgentsList: API.OperationMethod<
-  AgentsListRequest,
-  AgentList,
-  AgentsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: AgentsListRequest,
-  output: AgentList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type AgentsUpdateError = AzureOpError;
-/** Creates or updates an Agent resource. */
-export const AgentsUpdate: API.OperationMethod<
-  AgentsUpdateRequest,
-  AgentsUpdateResponse,
-  AgentsUpdateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: AgentsUpdateRequest,
-  output: AgentsUpdateResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3155,46 +3173,91 @@ export const ConnectionsCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ConnectionsDeleteError = AzureOpError;
+export type DeleteAgentError = AzureOpError;
+/** Deletes an Agent resource. */
+export const DeleteAgent: API.OperationMethod<
+  DeleteAgentRequest,
+  DeleteAgentResponse,
+  DeleteAgentError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteAgentRequest,
+  output: DeleteAgentResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteConnectionError = AzureOpError;
 /** Deletes a Connection resource. Returns 409 if there are active jobs using this connection. */
-export const ConnectionsDelete: API.OperationMethod<
-  ConnectionsDeleteRequest,
-  ConnectionsDeleteResponse,
-  ConnectionsDeleteError,
+export const DeleteConnection: API.OperationMethod<
+  DeleteConnectionRequest,
+  DeleteConnectionResponse,
+  DeleteConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ConnectionsDeleteRequest,
-  output: ConnectionsDeleteResponse,
+  input: DeleteConnectionRequest,
+  output: DeleteConnectionResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type ConnectionsGetError = AzureOpError;
-/** Gets a Connection resource. */
-export const ConnectionsGet: API.OperationMethod<
-  ConnectionsGetRequest,
-  ConnectionsGetResponse,
-  ConnectionsGetError,
+export type DeleteEndpointError = AzureOpError;
+/** Deletes an Endpoint resource. */
+export const DeleteEndpoint: API.OperationMethod<
+  DeleteEndpointRequest,
+  DeleteEndpointResponse,
+  DeleteEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ConnectionsGetRequest,
-  output: ConnectionsGetResponse,
+  input: DeleteEndpointRequest,
+  output: DeleteEndpointResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type ConnectionsListError = AzureOpError;
-/** Lists all Connections in a Storage Mover. */
-export const ConnectionsList: API.OperationMethod<
-  ConnectionsListRequest,
-  ConnectionList,
-  ConnectionsListError,
+export type DeleteJobDefinitionError = AzureOpError;
+/** Deletes a Job Definition resource. */
+export const DeleteJobDefinition: API.OperationMethod<
+  DeleteJobDefinitionRequest,
+  DeleteJobDefinitionResponse,
+  DeleteJobDefinitionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ConnectionsListRequest,
-  output: ConnectionList,
+  input: DeleteJobDefinitionRequest,
+  output: DeleteJobDefinitionResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteProjectError = AzureOpError;
+/** Deletes a Project resource. */
+export const DeleteProject: API.OperationMethod<
+  DeleteProjectRequest,
+  DeleteProjectResponse,
+  DeleteProjectError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteProjectRequest,
+  output: DeleteProjectResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteStorageMoverError = AzureOpError;
+/** Deletes a Storage Mover resource. */
+export const DeleteStorageMover: API.OperationMethod<
+  DeleteStorageMoverRequest,
+  DeleteStorageMoverResponse,
+  DeleteStorageMoverError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteStorageMoverRequest,
+  output: DeleteStorageMoverResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3215,61 +3278,106 @@ export const EndpointsCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type EndpointsDeleteError = AzureOpError;
-/** Deletes an Endpoint resource. */
-export const EndpointsDelete: API.OperationMethod<
-  EndpointsDeleteRequest,
-  EndpointsDeleteResponse,
-  EndpointsDeleteError,
+export type GetAgentError = AzureOpError;
+/** Gets an Agent resource. */
+export const GetAgent: API.OperationMethod<
+  GetAgentRequest,
+  GetAgentResponse,
+  GetAgentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: EndpointsDeleteRequest,
-  output: EndpointsDeleteResponse,
+  input: GetAgentRequest,
+  output: GetAgentResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type EndpointsGetError = AzureOpError;
+export type GetConnectionError = AzureOpError;
+/** Gets a Connection resource. */
+export const GetConnection: API.OperationMethod<
+  GetConnectionRequest,
+  GetConnectionResponse,
+  GetConnectionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetConnectionRequest,
+  output: GetConnectionResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEndpointError = AzureOpError;
 /** Gets an Endpoint resource. */
-export const EndpointsGet: API.OperationMethod<
-  EndpointsGetRequest,
-  EndpointsGetResponse,
-  EndpointsGetError,
+export const GetEndpoint: API.OperationMethod<
+  GetEndpointRequest,
+  GetEndpointResponse,
+  GetEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: EndpointsGetRequest,
-  output: EndpointsGetResponse,
+  input: GetEndpointRequest,
+  output: GetEndpointResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type EndpointsListError = AzureOpError;
-/** Lists all Endpoints in a Storage Mover. */
-export const EndpointsList: API.OperationMethod<
-  EndpointsListRequest,
-  EndpointList,
-  EndpointsListError,
+export type GetJobDefinitionError = AzureOpError;
+/** Gets a Job Definition resource. */
+export const GetJobDefinition: API.OperationMethod<
+  GetJobDefinitionRequest,
+  GetJobDefinitionResponse,
+  GetJobDefinitionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: EndpointsListRequest,
-  output: EndpointList,
+  input: GetJobDefinitionRequest,
+  output: GetJobDefinitionResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type EndpointsUpdateError = AzureOpError;
-/** Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged. */
-export const EndpointsUpdate: API.OperationMethod<
-  EndpointsUpdateRequest,
-  EndpointsUpdateResponse,
-  EndpointsUpdateError,
+export type GetJobRunError = AzureOpError;
+/** Gets a Job Run resource. */
+export const GetJobRun: API.OperationMethod<
+  GetJobRunRequest,
+  GetJobRunResponse,
+  GetJobRunError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: EndpointsUpdateRequest,
-  output: EndpointsUpdateResponse,
+  input: GetJobRunRequest,
+  output: GetJobRunResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetProjectError = AzureOpError;
+/** Gets a Project resource. */
+export const GetProject: API.OperationMethod<
+  GetProjectRequest,
+  GetProjectResponse,
+  GetProjectError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetProjectRequest,
+  output: GetProjectResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetStorageMoverError = AzureOpError;
+/** Gets a Storage Mover resource. */
+export const GetStorageMover: API.OperationMethod<
+  GetStorageMoverRequest,
+  GetStorageMoverResponse,
+  GetStorageMoverError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetStorageMoverRequest,
+  output: GetStorageMoverResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3290,136 +3398,151 @@ export const JobDefinitionsCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type JobDefinitionsDeleteError = AzureOpError;
-/** Deletes a Job Definition resource. */
-export const JobDefinitionsDelete: API.OperationMethod<
-  JobDefinitionsDeleteRequest,
-  JobDefinitionsDeleteResponse,
-  JobDefinitionsDeleteError,
+export type JobDefinitionsReconcileJobError = AzureOpError;
+/** Post action to reconcile the running job. */
+export const JobDefinitionsReconcileJob: API.OperationMethod<
+  JobDefinitionsReconcileJobRequest,
+  JobRunResourceId,
+  JobDefinitionsReconcileJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: JobDefinitionsDeleteRequest,
-  output: JobDefinitionsDeleteResponse,
+  input: JobDefinitionsReconcileJobRequest,
+  output: JobRunResourceId,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type JobDefinitionsGetError = AzureOpError;
-/** Gets a Job Definition resource. */
-export const JobDefinitionsGet: API.OperationMethod<
-  JobDefinitionsGetRequest,
-  JobDefinitionsGetResponse,
-  JobDefinitionsGetError,
+export type ListAgentsError = AzureOpError;
+/** Lists all Agents in a Storage Mover. */
+export const ListAgents: API.OperationMethod<
+  ListAgentsRequest,
+  AgentList,
+  ListAgentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: JobDefinitionsGetRequest,
-  output: JobDefinitionsGetResponse,
+  input: ListAgentsRequest,
+  output: AgentList,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type JobDefinitionsListError = AzureOpError;
+export type ListConnectionsError = AzureOpError;
+/** Lists all Connections in a Storage Mover. */
+export const ListConnections: API.OperationMethod<
+  ListConnectionsRequest,
+  ConnectionList,
+  ListConnectionsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListConnectionsRequest,
+  output: ConnectionList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListEndpointsError = AzureOpError;
+/** Lists all Endpoints in a Storage Mover. */
+export const ListEndpoints: API.OperationMethod<
+  ListEndpointsRequest,
+  EndpointList,
+  ListEndpointsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListEndpointsRequest,
+  output: EndpointList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListJobDefinitionsError = AzureOpError;
 /** Lists all Job Definitions in a Project. */
-export const JobDefinitionsList: API.OperationMethod<
-  JobDefinitionsListRequest,
+export const ListJobDefinitions: API.OperationMethod<
+  ListJobDefinitionsRequest,
   JobDefinitionList,
-  JobDefinitionsListError,
+  ListJobDefinitionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: JobDefinitionsListRequest,
+  input: ListJobDefinitionsRequest,
   output: JobDefinitionList,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type JobDefinitionsStartJobError = AzureOpError;
-/** Creates a new Job Run resource for the specified Job Definition and passes it to the Agent for execution. */
-export const JobDefinitionsStartJob: API.OperationMethod<
-  JobDefinitionsStartJobRequest,
-  JobRunResourceId,
-  JobDefinitionsStartJobError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: JobDefinitionsStartJobRequest,
-  output: JobRunResourceId,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type JobDefinitionsStopJobError = AzureOpError;
-/** Requests the Agent of any active instance of this Job Definition to stop. */
-export const JobDefinitionsStopJob: API.OperationMethod<
-  JobDefinitionsStopJobRequest,
-  JobRunResourceId,
-  JobDefinitionsStopJobError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: JobDefinitionsStopJobRequest,
-  output: JobRunResourceId,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type JobDefinitionsUpdateError = AzureOpError;
-/** Updates properties for a Job Definition resource. Properties not specified in the request body will be unchanged. */
-export const JobDefinitionsUpdate: API.OperationMethod<
-  JobDefinitionsUpdateRequest,
-  JobDefinitionsUpdateResponse,
-  JobDefinitionsUpdateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: JobDefinitionsUpdateRequest,
-  output: JobDefinitionsUpdateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type JobRunsGetError = AzureOpError;
-/** Gets a Job Run resource. */
-export const JobRunsGet: API.OperationMethod<
-  JobRunsGetRequest,
-  JobRunsGetResponse,
-  JobRunsGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: JobRunsGetRequest,
-  output: JobRunsGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type JobRunsListError = AzureOpError;
+export type ListJobRunsError = AzureOpError;
 /** Lists all Job Runs in a Job Definition. */
-export const JobRunsList: API.OperationMethod<
-  JobRunsListRequest,
+export const ListJobRuns: API.OperationMethod<
+  ListJobRunsRequest,
   JobRunList,
-  JobRunsListError,
+  ListJobRunsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: JobRunsListRequest,
+  input: ListJobRunsRequest,
   output: JobRunList,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type OperationsListError = AzureOpError;
+export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const OperationsList: API.OperationMethod<
-  OperationsListRequest,
-  OperationsListResponse,
-  OperationsListError,
+export const ListOperations: API.OperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse,
+  ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: OperationsListRequest,
-  output: OperationsListResponse,
+  input: ListOperationsRequest,
+  output: ListOperationsResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListProjectsError = AzureOpError;
+/** Lists all Projects in a Storage Mover. */
+export const ListProjects: API.OperationMethod<
+  ListProjectsRequest,
+  ProjectList,
+  ListProjectsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListProjectsRequest,
+  output: ProjectList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListStorageMoverBySubscriptionError = AzureOpError;
+/** Lists all Storage Movers in a subscription. */
+export const ListStorageMoverBySubscription: API.OperationMethod<
+  ListStorageMoverBySubscriptionRequest,
+  StorageMoverList,
+  ListStorageMoverBySubscriptionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListStorageMoverBySubscriptionRequest,
+  output: StorageMoverList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListStorageMoversError = AzureOpError;
+/** Lists all Storage Movers in a resource group. */
+export const ListStorageMovers: API.OperationMethod<
+  ListStorageMoversRequest,
+  StorageMoverList,
+  ListStorageMoversError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListStorageMoversRequest,
+  output: StorageMoverList,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3440,61 +3563,31 @@ export const ProjectsCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ProjectsDeleteError = AzureOpError;
-/** Deletes a Project resource. */
-export const ProjectsDelete: API.OperationMethod<
-  ProjectsDeleteRequest,
-  ProjectsDeleteResponse,
-  ProjectsDeleteError,
+export type StartJobDefinitionJobError = AzureOpError;
+/** Creates a new Job Run resource for the specified Job Definition and passes it to the Agent for execution. */
+export const StartJobDefinitionJob: API.OperationMethod<
+  StartJobDefinitionJobRequest,
+  JobRunResourceId,
+  StartJobDefinitionJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ProjectsDeleteRequest,
-  output: ProjectsDeleteResponse,
+  input: StartJobDefinitionJobRequest,
+  output: JobRunResourceId,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type ProjectsGetError = AzureOpError;
-/** Gets a Project resource. */
-export const ProjectsGet: API.OperationMethod<
-  ProjectsGetRequest,
-  ProjectsGetResponse,
-  ProjectsGetError,
+export type StopJobDefinitionJobError = AzureOpError;
+/** Requests the Agent of any active instance of this Job Definition to stop. */
+export const StopJobDefinitionJob: API.OperationMethod<
+  StopJobDefinitionJobRequest,
+  JobRunResourceId,
+  StopJobDefinitionJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ProjectsGetRequest,
-  output: ProjectsGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ProjectsListError = AzureOpError;
-/** Lists all Projects in a Storage Mover. */
-export const ProjectsList: API.OperationMethod<
-  ProjectsListRequest,
-  ProjectList,
-  ProjectsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ProjectsListRequest,
-  output: ProjectList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ProjectsUpdateError = AzureOpError;
-/** Updates properties for a Project resource. Properties not specified in the request body will be unchanged. */
-export const ProjectsUpdate: API.OperationMethod<
-  ProjectsUpdateRequest,
-  ProjectsUpdateResponse,
-  ProjectsUpdateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ProjectsUpdateRequest,
-  output: ProjectsUpdateResponse,
+  input: StopJobDefinitionJobRequest,
+  output: JobRunResourceId,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3515,76 +3608,76 @@ export const StorageMoversCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type StorageMoversDeleteError = AzureOpError;
-/** Deletes a Storage Mover resource. */
-export const StorageMoversDelete: API.OperationMethod<
-  StorageMoversDeleteRequest,
-  StorageMoversDeleteResponse,
-  StorageMoversDeleteError,
+export type UpdateAgentError = AzureOpError;
+/** Creates or updates an Agent resource. */
+export const UpdateAgent: API.OperationMethod<
+  UpdateAgentRequest,
+  UpdateAgentResponse,
+  UpdateAgentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: StorageMoversDeleteRequest,
-  output: StorageMoversDeleteResponse,
+  input: UpdateAgentRequest,
+  output: UpdateAgentResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type StorageMoversGetError = AzureOpError;
-/** Gets a Storage Mover resource. */
-export const StorageMoversGet: API.OperationMethod<
-  StorageMoversGetRequest,
-  StorageMoversGetResponse,
-  StorageMoversGetError,
+export type UpdateEndpointError = AzureOpError;
+/** Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged. */
+export const UpdateEndpoint: API.OperationMethod<
+  UpdateEndpointRequest,
+  UpdateEndpointResponse,
+  UpdateEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: StorageMoversGetRequest,
-  output: StorageMoversGetResponse,
+  input: UpdateEndpointRequest,
+  output: UpdateEndpointResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type StorageMoversListError = AzureOpError;
-/** Lists all Storage Movers in a resource group. */
-export const StorageMoversList: API.OperationMethod<
-  StorageMoversListRequest,
-  StorageMoverList,
-  StorageMoversListError,
+export type UpdateJobDefinitionError = AzureOpError;
+/** Updates properties for a Job Definition resource. Properties not specified in the request body will be unchanged. */
+export const UpdateJobDefinition: API.OperationMethod<
+  UpdateJobDefinitionRequest,
+  UpdateJobDefinitionResponse,
+  UpdateJobDefinitionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: StorageMoversListRequest,
-  output: StorageMoverList,
+  input: UpdateJobDefinitionRequest,
+  output: UpdateJobDefinitionResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type StorageMoversListBySubscriptionError = AzureOpError;
-/** Lists all Storage Movers in a subscription. */
-export const StorageMoversListBySubscription: API.OperationMethod<
-  StorageMoversListBySubscriptionRequest,
-  StorageMoverList,
-  StorageMoversListBySubscriptionError,
+export type UpdateProjectError = AzureOpError;
+/** Updates properties for a Project resource. Properties not specified in the request body will be unchanged. */
+export const UpdateProject: API.OperationMethod<
+  UpdateProjectRequest,
+  UpdateProjectResponse,
+  UpdateProjectError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: StorageMoversListBySubscriptionRequest,
-  output: StorageMoverList,
+  input: UpdateProjectRequest,
+  output: UpdateProjectResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type StorageMoversUpdateError = AzureOpError;
+export type UpdateStorageMoverError = AzureOpError;
 /** Updates properties for a Storage Mover resource. Properties not specified in the request body will be unchanged. */
-export const StorageMoversUpdate: API.OperationMethod<
-  StorageMoversUpdateRequest,
-  StorageMoversUpdateResponse,
-  StorageMoversUpdateError,
+export const UpdateStorageMover: API.OperationMethod<
+  UpdateStorageMoverRequest,
+  UpdateStorageMoverResponse,
+  UpdateStorageMoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: StorageMoversUpdateRequest,
-  output: StorageMoversUpdateResponse,
+  input: UpdateStorageMoverRequest,
+  output: UpdateStorageMoverResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

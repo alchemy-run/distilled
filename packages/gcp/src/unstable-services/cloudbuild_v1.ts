@@ -69,28 +69,28 @@ export type ApprovalResultDecisionEnum =
   | "DECISION_UNSPECIFIED"
   | "APPROVED"
   | "REJECTED";
-export const ApprovalResultDecisionEnum = /*@__PURE__*/ S.String;
+export const ApprovalResultDecisionEnum = S.String;
 
 /** ApprovalResult describes the decision and associated metadata of a manual approval of a build. */
 export interface ApprovalResult {
-  /** Output only. Email of the user that called the ApproveBuild API to approve or reject a build at the time that the API was called. */
-  approverAccount?: string;
-  /** Output only. The time when the approval decision was made. */
-  approvalTime?: string;
-  /** Required. The decision of this manual approval. */
-  decision?: ApprovalResultDecisionEnum | (string & {});
-  /** Optional. An optional comment for this manual approval result. */
-  comment?: string;
   /** Optional. An optional URL tied to this manual approval result. This field is essentially the same as comment, except that it will be rendered by the UI differently. An example use case is a link to an external job that approved this Build. */
   url?: string;
+  /** Required. The decision of this manual approval. */
+  decision?: ApprovalResultDecisionEnum | (string & {});
+  /** Output only. The time when the approval decision was made. */
+  approvalTime?: string;
+  /** Output only. Email of the user that called the ApproveBuild API to approve or reject a build at the time that the API was called. */
+  approverAccount?: string;
+  /** Optional. An optional comment for this manual approval result. */
+  comment?: string;
 }
 export const ApprovalResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    approverAccount: S.optional(S.String),
-    approvalTime: S.optional(S.String),
-    decision: S.optional(ApprovalResultDecisionEnum),
-    comment: S.optional(S.String),
     url: S.optional(S.String),
+    decision: S.optional(ApprovalResultDecisionEnum),
+    approvalTime: S.optional(S.String),
+    approverAccount: S.optional(S.String),
+    comment: S.optional(S.String),
   }),
 ).annotate({ identifier: "ApprovalResult" }) as any as S.Schema<ApprovalResult>;
 
@@ -141,41 +141,41 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    code: S.optional(S.Number),
     message: S.optional(S.String),
     details: S.optional(DocumentMapList),
+    code: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    done: S.optional(S.Boolean),
     name: S.optional(S.String),
     metadata: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
-    error: S.optional(Status),
     response: S.optional(DocumentMap),
+    error: S.optional(Status),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -203,18 +203,18 @@ export const ApproveProjectsLocationsBuildsRequest = /*@__PURE__*/ S.suspend(
 
 /** BitbucketServerRepositoryId identifies a specific repository hosted on a Bitbucket Server. */
 export interface BitbucketServerRepositoryId {
-  /** Required. Identifier for the project storing the repository. */
-  projectKey?: string;
   /** Required. Identifier for the repository. */
   repoSlug?: string;
   /** Output only. The ID of the webhook that was created for receiving events from this repo. We only create and manage a single webhook for each repo. */
   webhookId?: number;
+  /** Required. Identifier for the project storing the repository. */
+  projectKey?: string;
 }
 export const BitbucketServerRepositoryId = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    projectKey: S.optional(S.String),
     repoSlug: S.optional(S.String),
     webhookId: S.optional(S.Number),
+    projectKey: S.optional(S.String),
   }),
 ).annotate({
   identifier: "BitbucketServerRepositoryId",
@@ -222,18 +222,18 @@ export const BitbucketServerRepositoryId = /*@__PURE__*/ S.suspend(() =>
 
 /** / BitbucketServerConnectedRepository represents a connected Bitbucket Server / repository. */
 export interface BitbucketServerConnectedRepository {
+  /** Output only. The status of the repo connection request. */
+  status?: Status;
   /** The name of the `BitbucketServerConfig` that added connected repository. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{config}` */
   parent?: string;
   /** The Bitbucket Server repositories to connect. */
   repo?: BitbucketServerRepositoryId;
-  /** Output only. The status of the repo connection request. */
-  status?: Status;
 }
 export const BitbucketServerConnectedRepository = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    status: S.optional(Status),
     parent: S.optional(S.String),
     repo: S.optional(BitbucketServerRepositoryId),
-    status: S.optional(Status),
   }),
 ).annotate({
   identifier: "BitbucketServerConnectedRepository",
@@ -306,103 +306,6 @@ export const BatchCreateProjectsLocationsBitbucketServerConfigsConnectedReposito
       "BatchCreateProjectsLocationsBitbucketServerConfigsConnectedRepositoriesRequest",
   }) as any as S.Schema<BatchCreateProjectsLocationsBitbucketServerConfigsConnectedRepositoriesRequest>;
 
-/** GitLabRepositoryId identifies a specific repository hosted on GitLab.com or GitLabEnterprise */
-export interface GitLabRepositoryId {
-  /** Required. Identifier for the repository. example: "namespace/project-slug", namespace is usually the username or group ID */
-  id?: string;
-  /** Output only. The ID of the webhook that was created for receiving events from this repo. We only create and manage a single webhook for each repo. */
-  webhookId?: number;
-}
-export const GitLabRepositoryId = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    webhookId: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GitLabRepositoryId",
-}) as any as S.Schema<GitLabRepositoryId>;
-
-/** GitLabConnectedRepository represents a GitLab connected repository request response. */
-export interface GitLabConnectedRepository {
-  /** The name of the `GitLabConfig` that added connected repository. Format: `projects/{project}/locations/{location}/gitLabConfigs/{config}` */
-  parent?: string;
-  /** The GitLab repositories to connect. */
-  repo?: GitLabRepositoryId;
-  /** Output only. The status of the repo connection request. */
-  status?: Status;
-}
-export const GitLabConnectedRepository = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parent: S.optional(S.String),
-    repo: S.optional(GitLabRepositoryId),
-    status: S.optional(Status),
-  }),
-).annotate({
-  identifier: "GitLabConnectedRepository",
-}) as any as S.Schema<GitLabConnectedRepository>;
-
-/** Request to connect a repository from a connected GitLab host. */
-export interface CreateGitLabConnectedRepositoryRequest {
-  /** Required. The name of the `GitLabConfig` that adds connected repository. Format: `projects/{project}/locations/{location}/gitLabConfigs/{config}` */
-  parent?: string;
-  /** Required. The GitLab repository to connect. */
-  gitlabConnectedRepository?: GitLabConnectedRepository;
-}
-export const CreateGitLabConnectedRepositoryRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      parent: S.optional(S.String),
-      gitlabConnectedRepository: S.optional(GitLabConnectedRepository),
-    }),
-).annotate({
-  identifier: "CreateGitLabConnectedRepositoryRequest",
-}) as any as S.Schema<CreateGitLabConnectedRepositoryRequest>;
-
-export type CreateGitLabConnectedRepositoryRequestList =
-  Array<CreateGitLabConnectedRepositoryRequest>;
-export const CreateGitLabConnectedRepositoryRequestList = /*@__PURE__*/ S.Array(
-  CreateGitLabConnectedRepositoryRequest,
-) as any as S.Schema<CreateGitLabConnectedRepositoryRequestList>;
-
-/** RPC request object accepted by BatchCreateGitLabConnectedRepositories RPC method. */
-export interface BatchCreateGitLabConnectedRepositoriesRequest {
-  /** Required. Requests to connect GitLab repositories. */
-  requests?: CreateGitLabConnectedRepositoryRequestList;
-}
-export const BatchCreateGitLabConnectedRepositoriesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      requests: S.optional(CreateGitLabConnectedRepositoryRequestList),
-    }),
-  ).annotate({
-    identifier: "BatchCreateGitLabConnectedRepositoriesRequest",
-  }) as any as S.Schema<BatchCreateGitLabConnectedRepositoriesRequest>;
-
-export interface BatchCreateProjectsLocationsGitLabConfigsConnectedRepositoriesRequest {
-  /** The name of the `GitLabConfig` that adds connected repositories. Format: `projects/{project}/locations/{location}/gitLabConfigs/{config}` */
-  parent: string;
-  /** Request body */
-  body?: BatchCreateGitLabConnectedRepositoriesRequest;
-}
-export const BatchCreateProjectsLocationsGitLabConfigsConnectedRepositoriesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      parent: S.String.pipe(T.Label()),
-      body: S.optional(
-        BatchCreateGitLabConnectedRepositoriesRequest.pipe(T.HttpBody()),
-      ),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "v1/{+parent}/connectedRepositories:batchCreate",
-        baseUrl: "https://cloudbuild.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier:
-      "BatchCreateProjectsLocationsGitLabConfigsConnectedRepositoriesRequest",
-  }) as any as S.Schema<BatchCreateProjectsLocationsGitLabConfigsConnectedRepositoriesRequest>;
-
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
 export const CancelOperationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -440,17 +343,17 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 
 /** Request to cancel an ongoing build. */
 export interface CancelBuildRequest {
-  /** The name of the `Build` to cancel. Format: `projects/{project}/locations/{location}/builds/{build}` */
-  name?: string;
   /** Required. ID of the project. */
   projectId?: string;
+  /** The name of the `Build` to cancel. Format: `projects/{project}/locations/{location}/builds/{build}` */
+  name?: string;
   /** Required. ID of the build. */
   id?: string;
 }
 export const CancelBuildRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     projectId: S.optional(S.String),
+    name: S.optional(S.String),
     id: S.optional(S.String),
   }),
 ).annotate({
@@ -481,386 +384,6 @@ export const CancelProjectsBuildsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelProjectsBuildsRequest",
 }) as any as S.Schema<CancelProjectsBuildsRequest>;
 
-export type BuildStatusEnum =
-  | "STATUS_UNKNOWN"
-  | "PENDING"
-  | "QUEUED"
-  | "WORKING"
-  | "SUCCESS"
-  | "FAILURE"
-  | "INTERNAL_ERROR"
-  | "TIMEOUT"
-  | "CANCELLED"
-  | "EXPIRED";
-export const BuildStatusEnum = /*@__PURE__*/ S.String;
-
-export type StorageSourceSourceFetcherEnum =
-  | "SOURCE_FETCHER_UNSPECIFIED"
-  | "GSUTIL"
-  | "GCS_FETCHER";
-export const StorageSourceSourceFetcherEnum = /*@__PURE__*/ S.String;
-
-/** Location of the source in an archive file in Cloud Storage. */
-export interface StorageSource {
-  /** Cloud Storage bucket containing the source (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). */
-  bucket?: string;
-  /** Required. Cloud Storage object containing the source. This object must be a zipped (`.zip`) or gzipped archive file (`.tar.gz`) containing source to build. */
-  object?: string;
-  /** Optional. Cloud Storage generation for the object. If the generation is omitted, the latest generation will be used. */
-  generation?: string;
-  /** Optional. Option to specify the tool to fetch the source file for the build. */
-  sourceFetcher?: StorageSourceSourceFetcherEnum | (string & {});
-}
-export const StorageSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucket: S.optional(S.String),
-    object: S.optional(S.String),
-    generation: S.optional(S.String),
-    sourceFetcher: S.optional(StorageSourceSourceFetcherEnum),
-  }),
-).annotate({ identifier: "StorageSource" }) as any as S.Schema<StorageSource>;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StringMap>;
-
-/** Location of the source in a Google Cloud Source Repository. */
-export interface RepoSource {
-  /** Optional. ID of the project that owns the Cloud Source Repository. If omitted, the project ID requesting the build is assumed. */
-  projectId?: string;
-  /** Required. Name of the Cloud Source Repository. */
-  repoName?: string;
-  /** Regex matching branches to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  branchName?: string;
-  /** Regex matching tags to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  tagName?: string;
-  /** Explicit commit SHA to build. */
-  commitSha?: string;
-  /** Optional. Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's `dir` is specified and is an absolute path, this value is ignored for that step's execution. */
-  dir?: string;
-  /** Optional. Only trigger a build if the revision regex does NOT match the revision regex. */
-  invertRegex?: boolean;
-  /** Optional. Substitutions to use in a triggered build. Should only be used with RunBuildTrigger */
-  substitutions?: StringMap;
-}
-export const RepoSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.optional(S.String),
-    repoName: S.optional(S.String),
-    branchName: S.optional(S.String),
-    tagName: S.optional(S.String),
-    commitSha: S.optional(S.String),
-    dir: S.optional(S.String),
-    invertRegex: S.optional(S.Boolean),
-    substitutions: S.optional(StringMap),
-  }),
-).annotate({ identifier: "RepoSource" }) as any as S.Schema<RepoSource>;
-
-/** Location of the source in any accessible Git repository. */
-export interface GitSource {
-  /** Required. Location of the Git repo to build. This will be used as a `git remote`, see https://git-scm.com/docs/git-remote. */
-  url?: string;
-  /** Optional. Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's `dir` is specified and is an absolute path, this value is ignored for that step's execution. */
-  dir?: string;
-  /** Optional. The revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref. Cloud Build uses `git fetch` to fetch the revision from the Git repository; therefore make sure that the string you provide for `revision` is parsable by the command. For information on string values accepted by `git fetch`, see https://git-scm.com/docs/gitrevisions#_specifying_revisions. For information on `git fetch`, see https://git-scm.com/docs/git-fetch. */
-  revision?: string;
-}
-export const GitSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    url: S.optional(S.String),
-    dir: S.optional(S.String),
-    revision: S.optional(S.String),
-  }),
-).annotate({ identifier: "GitSource" }) as any as S.Schema<GitSource>;
-
-/** Location of the source manifest in Cloud Storage. This feature is in Preview; see description [here](https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/gcs-fetcher). */
-export interface StorageSourceManifest {
-  /** Required. Cloud Storage bucket containing the source manifest (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). */
-  bucket?: string;
-  /** Required. Cloud Storage object containing the source manifest. This object must be a JSON file. */
-  object?: string;
-  /** Cloud Storage generation for the object. If the generation is omitted, the latest generation will be used. */
-  generation?: string;
-}
-export const StorageSourceManifest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucket: S.optional(S.String),
-    object: S.optional(S.String),
-    generation: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StorageSourceManifest",
-}) as any as S.Schema<StorageSourceManifest>;
-
-/** Location of the source in a 2nd-gen Google Cloud Build repository resource. */
-export interface ConnectedRepository {
-  /** Required. Name of the Google Cloud Build repository, formatted as `projects/*\/locations/*\/connections/*\/repositories/*`. */
-  repository?: string;
-  /** Optional. Directory, relative to the source root, in which to run the build. */
-  dir?: string;
-  /** Required. The revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref. */
-  revision?: string;
-}
-export const ConnectedRepository = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    repository: S.optional(S.String),
-    dir: S.optional(S.String),
-    revision: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConnectedRepository",
-}) as any as S.Schema<ConnectedRepository>;
-
-/** This config defines the location of a source through Developer Connect. */
-export interface DeveloperConnectConfig {
-  /** Required. The Developer Connect Git repository link, formatted as `projects/*\/locations/*\/connections/*\/gitRepositoryLink/*`. */
-  gitRepositoryLink?: string;
-  /** Required. Directory, relative to the source root, in which to run the build. */
-  dir?: string;
-  /** Required. The revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref. */
-  revision?: string;
-}
-export const DeveloperConnectConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gitRepositoryLink: S.optional(S.String),
-    dir: S.optional(S.String),
-    revision: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeveloperConnectConfig",
-}) as any as S.Schema<DeveloperConnectConfig>;
-
-/** Location of the source in a supported storage service. */
-export interface Source {
-  /** If provided, get the source from this location in Cloud Storage. */
-  storageSource?: StorageSource;
-  /** If provided, get the source from this location in a Cloud Source Repository. */
-  repoSource?: RepoSource;
-  /** If provided, get the source from this Git repository. */
-  gitSource?: GitSource;
-  /** If provided, get the source from this manifest in Cloud Storage. This feature is in Preview; see description [here](https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/gcs-fetcher). */
-  storageSourceManifest?: StorageSourceManifest;
-  /** Optional. If provided, get the source from this 2nd-gen Google Cloud Build repository resource. */
-  connectedRepository?: ConnectedRepository;
-  /** If provided, get the source from this Developer Connect config. */
-  developerConnectConfig?: DeveloperConnectConfig;
-}
-export const Source = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storageSource: S.optional(StorageSource),
-    repoSource: S.optional(RepoSource),
-    gitSource: S.optional(GitSource),
-    storageSourceManifest: S.optional(StorageSourceManifest),
-    connectedRepository: S.optional(ConnectedRepository),
-    developerConnectConfig: S.optional(DeveloperConnectConfig),
-  }),
-).annotate({ identifier: "Source" }) as any as S.Schema<Source>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
-
-/** Volume describes a Docker container volume which is mounted into build steps in order to persist files across build step execution. */
-export interface Volume {
-  /** Name of the volume to mount. Volume names must be unique per build step and must be valid names for Docker volumes. Each named volume must be used by at least two build steps. */
-  name?: string;
-  /** Path at which to mount the volume. Paths must be absolute and cannot conflict with other volume paths on the same build step or with certain reserved volume paths. */
-  path?: string;
-}
-export const Volume = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    path: S.optional(S.String),
-  }),
-).annotate({ identifier: "Volume" }) as any as S.Schema<Volume>;
-
-export type VolumeList = Array<Volume>;
-export const VolumeList = /*@__PURE__*/ S.Array(
-  Volume,
-) as any as S.Schema<VolumeList>;
-
-/** Start and end times for a build execution phase. */
-export interface TimeSpan {
-  /** Start of time span. */
-  startTime?: string;
-  /** End of time span. */
-  endTime?: string;
-}
-export const TimeSpan = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startTime: S.optional(S.String),
-    endTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "TimeSpan" }) as any as S.Schema<TimeSpan>;
-
-export type BuildStepStatusEnum =
-  | "STATUS_UNKNOWN"
-  | "PENDING"
-  | "QUEUED"
-  | "WORKING"
-  | "SUCCESS"
-  | "FAILURE"
-  | "INTERNAL_ERROR"
-  | "TIMEOUT"
-  | "CANCELLED"
-  | "EXPIRED";
-export const BuildStepStatusEnum = /*@__PURE__*/ S.String;
-
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(
-  S.Number,
-) as any as S.Schema<IntegerList>;
-
-/** StepResult is the declaration of a result for a build step. */
-export interface StepResult {
-  /** Required. The name of the result. */
-  name?: string;
-  /** Optional. The content of the attestation to be generated. */
-  attestationContent?: string;
-  /** Optional. The type of attestation to be generated. */
-  attestationType?: string;
-}
-export const StepResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    attestationContent: S.optional(S.String),
-    attestationType: S.optional(S.String),
-  }),
-).annotate({ identifier: "StepResult" }) as any as S.Schema<StepResult>;
-
-export type StepResultList = Array<StepResult>;
-export const StepResultList = /*@__PURE__*/ S.Array(
-  StepResult,
-) as any as S.Schema<StepResultList>;
-
-/** A step in the build pipeline. */
-export interface BuildStep {
-  /** Required. The name of the container image that will run this particular build step. If the image is available in the host's Docker daemon's cache, it will be run directly. If not, the host will attempt to pull the image first, using the builder service account's credentials if necessary. The Docker daemon's cache will already have the latest versions of all of the officially supported build steps ([https://github.com/GoogleCloudPlatform/cloud-builders](https://github.com/GoogleCloudPlatform/cloud-builders)). The Docker daemon will also have cached many of the layers for some popular images, like "ubuntu", "debian", but they will be refreshed at the time you attempt to use them. If you built an image in a previous build step, it will be stored in the host's Docker daemon's cache and is available to use as the name for a later build step. */
-  name?: string;
-  /** A list of environment variable definitions to be used when running a step. The elements are of the form "KEY=VALUE" for the environment variable "KEY" being given the value "VALUE". */
-  env?: StringList;
-  /** A list of arguments that will be presented to the step when it is started. If the image used to run the step's container has an entrypoint, the `args` are used as arguments to that entrypoint. If the image does not define an entrypoint, the first element in args is used as the entrypoint, and the remainder will be used as arguments. */
-  args?: StringList;
-  /** Working directory to use when running this step's container. If this value is a relative path, it is relative to the build's working directory. If this value is absolute, it may be outside the build's working directory, in which case the contents of the path may not be persisted across build step executions, unless a `volume` for that path is specified. If the build specifies a `RepoSource` with `dir` and a step with a `dir`, which specifies an absolute path, the `RepoSource` `dir` is ignored for the step's execution. */
-  dir?: string;
-  /** Unique identifier for this build step, used in `wait_for` to reference this build step as a dependency. */
-  id?: string;
-  /** The ID(s) of the step(s) that this build step depends on. This build step will not start until all the build steps in `wait_for` have completed successfully. If `wait_for` is empty, this build step will start when all previous build steps in the `Build.Steps` list have completed successfully. */
-  waitFor?: StringList;
-  /** Entrypoint to be used instead of the build step image's default entrypoint. If unset, the image's default entrypoint is used. */
-  entrypoint?: string;
-  /** A list of environment variables which are encrypted using a Cloud Key Management Service crypto key. These values must be specified in the build's `Secret`. */
-  secretEnv?: StringList;
-  /** List of volumes to mount into the build step. Each volume is created as an empty volume prior to execution of the build step. Upon completion of the build, volumes and their contents are discarded. Using a named volume in only one step is not valid as it is indicative of a build request with an incorrect configuration. */
-  volumes?: VolumeList;
-  /** Output only. Stores timing information for executing this build step. */
-  timing?: TimeSpan;
-  /** Output only. Stores timing information for pulling this build step's builder image only. */
-  pullTiming?: TimeSpan;
-  /** Time limit for executing this build step. If not defined, the step has no time limit and will be allowed to continue to run until either it completes or the build itself times out. */
-  timeout?: string;
-  /** Output only. Status of the build step. At this time, build step status is only updated on build completion; step status is not updated in real-time as the build progresses. */
-  status?: BuildStepStatusEnum | (string & {});
-  /** Allow this build step to fail without failing the entire build. If false, the entire build will fail if this step fails. Otherwise, the build will succeed, but this step will still have a failure status. Error information will be reported in the failure_detail field. */
-  allowFailure?: boolean;
-  /** Output only. Return code from running the step. */
-  exitCode?: number;
-  /** Allow this build step to fail without failing the entire build if and only if the exit code is one of the specified codes. If allow_failure is also specified, this field will take precedence. */
-  allowExitCodes?: IntegerList;
-  /** A shell script to be executed in the step. When script is provided, the user cannot specify the entrypoint or args. */
-  script?: string;
-  /** Option to include built-in and custom substitutions as env variables for this build step. This option will override the global option in BuildOption. */
-  automapSubstitutions?: boolean;
-  /** Declaration of results for this build step. */
-  results?: StepResultList;
-}
-export const BuildStep = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    env: S.optional(StringList),
-    args: S.optional(StringList),
-    dir: S.optional(S.String),
-    id: S.optional(S.String),
-    waitFor: S.optional(StringList),
-    entrypoint: S.optional(S.String),
-    secretEnv: S.optional(StringList),
-    volumes: S.optional(VolumeList),
-    timing: S.optional(TimeSpan),
-    pullTiming: S.optional(TimeSpan),
-    timeout: S.optional(S.String),
-    status: S.optional(BuildStepStatusEnum),
-    allowFailure: S.optional(S.Boolean),
-    exitCode: S.optional(S.Number),
-    allowExitCodes: S.optional(IntegerList),
-    script: S.optional(S.String),
-    automapSubstitutions: S.optional(S.Boolean),
-    results: S.optional(StepResultList),
-  }),
-).annotate({ identifier: "BuildStep" }) as any as S.Schema<BuildStep>;
-
-export type BuildStepList = Array<BuildStep>;
-export const BuildStepList = /*@__PURE__*/ S.Array(
-  BuildStep,
-) as any as S.Schema<BuildStepList>;
-
-export type BuiltImageOciMediaTypeEnum =
-  | "OCI_MEDIA_TYPE_UNSPECIFIED"
-  | "IMAGE_MANIFEST"
-  | "IMAGE_INDEX";
-export const BuiltImageOciMediaTypeEnum = /*@__PURE__*/ S.String;
-
-/** An image built by the pipeline. */
-export interface BuiltImage {
-  /** Name used to push the container image to Google Container Registry, as presented to `docker push`. */
-  name?: string;
-  /** Docker Registry 2.0 digest. */
-  digest?: string;
-  /** Output only. Stores timing information for pushing the specified image. */
-  pushTiming?: TimeSpan;
-  /** Output only. Path to the artifact in Artifact Registry. */
-  artifactRegistryPackage?: string;
-  /** Output only. The OCI media type of the artifact. Non-OCI images, such as Docker images, will have an unspecified value. */
-  ociMediaType?: BuiltImageOciMediaTypeEnum | (string & {});
-}
-export const BuiltImage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    digest: S.optional(S.String),
-    pushTiming: S.optional(TimeSpan),
-    artifactRegistryPackage: S.optional(S.String),
-    ociMediaType: S.optional(BuiltImageOciMediaTypeEnum),
-  }),
-).annotate({ identifier: "BuiltImage" }) as any as S.Schema<BuiltImage>;
-
-export type BuiltImageList = Array<BuiltImage>;
-export const BuiltImageList = /*@__PURE__*/ S.Array(
-  BuiltImage,
-) as any as S.Schema<BuiltImageList>;
-
-/** Results for a build step. */
-export interface BuildStepResults {
-  /** Results for a build step. */
-  results?: StringMap;
-}
-export const BuildStepResults = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    results: S.optional(StringMap),
-  }),
-).annotate({
-  identifier: "BuildStepResults",
-}) as any as S.Schema<BuildStepResults>;
-
-export type BuildStepResultsMap = {
-  [key: string]: BuildStepResults | undefined;
-};
-export const BuildStepResultsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  BuildStepResults,
-) as any as S.Schema<BuildStepResultsMap>;
-
 export type HashTypeEnum =
   | "NONE"
   | "SHA256"
@@ -868,7 +391,7 @@ export type HashTypeEnum =
   | "GO_MODULE_H1"
   | "SHA512"
   | "DIRSUM_SHA256";
-export const HashTypeEnum = /*@__PURE__*/ S.String;
+export const HashTypeEnum = S.String;
 
 /** Container message for hash values. */
 export interface Hash {
@@ -900,50 +423,217 @@ export const FileHashes = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FileHashes" }) as any as S.Schema<FileHashes>;
 
-/** Artifact uploaded using the PythonPackage directive. */
-export interface UploadedPythonPackage {
-  /** URI of the uploaded artifact. */
-  uri?: string;
-  /** Hash types and values of the Python Artifact. */
-  fileHashes?: FileHashes;
-  /** Output only. Stores timing information for pushing the specified artifact. */
-  pushTiming?: TimeSpan;
-  /** Output only. Path to the artifact in Artifact Registry. */
-  artifactRegistryPackage?: string;
+export type FileHashesMap = { [key: string]: FileHashes | undefined };
+export const FileHashesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  FileHashes,
+) as any as S.Schema<FileHashesMap>;
+
+/** Location of the source manifest in Cloud Storage. This feature is in Preview; see description [here](https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/gcs-fetcher). */
+export interface StorageSourceManifest {
+  /** Required. Cloud Storage bucket containing the source manifest (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). */
+  bucket?: string;
+  /** Cloud Storage generation for the object. If the generation is omitted, the latest generation will be used. */
+  generation?: string;
+  /** Required. Cloud Storage object containing the source manifest. This object must be a JSON file. */
+  object?: string;
 }
-export const UploadedPythonPackage = /*@__PURE__*/ S.suspend(() =>
+export const StorageSourceManifest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uri: S.optional(S.String),
-    fileHashes: S.optional(FileHashes),
-    pushTiming: S.optional(TimeSpan),
-    artifactRegistryPackage: S.optional(S.String),
+    bucket: S.optional(S.String),
+    generation: S.optional(S.String),
+    object: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "UploadedPythonPackage",
-}) as any as S.Schema<UploadedPythonPackage>;
+  identifier: "StorageSourceManifest",
+}) as any as S.Schema<StorageSourceManifest>;
 
-export type UploadedPythonPackageList = Array<UploadedPythonPackage>;
-export const UploadedPythonPackageList = /*@__PURE__*/ S.Array(
-  UploadedPythonPackage,
-) as any as S.Schema<UploadedPythonPackageList>;
+export type StorageSourceSourceFetcherEnum =
+  | "SOURCE_FETCHER_UNSPECIFIED"
+  | "GSUTIL"
+  | "GCS_FETCHER";
+export const StorageSourceSourceFetcherEnum = S.String;
+
+/** Location of the source in an archive file in Cloud Storage. */
+export interface StorageSource {
+  /** Optional. Cloud Storage generation for the object. If the generation is omitted, the latest generation will be used. */
+  generation?: string;
+  /** Required. Cloud Storage object containing the source. This object must be a zipped (`.zip`) or gzipped archive file (`.tar.gz`) containing source to build. */
+  object?: string;
+  /** Cloud Storage bucket containing the source (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). */
+  bucket?: string;
+  /** Optional. Option to specify the tool to fetch the source file for the build. */
+  sourceFetcher?: StorageSourceSourceFetcherEnum | (string & {});
+}
+export const StorageSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    generation: S.optional(S.String),
+    object: S.optional(S.String),
+    bucket: S.optional(S.String),
+    sourceFetcher: S.optional(StorageSourceSourceFetcherEnum),
+  }),
+).annotate({ identifier: "StorageSource" }) as any as S.Schema<StorageSource>;
+
+/** Location of the source in any accessible Git repository. */
+export interface GitSource {
+  /** Required. Location of the Git repo to build. This will be used as a `git remote`, see https://git-scm.com/docs/git-remote. */
+  url?: string;
+  /** Optional. Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's `dir` is specified and is an absolute path, this value is ignored for that step's execution. */
+  dir?: string;
+  /** Optional. The revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref. Cloud Build uses `git fetch` to fetch the revision from the Git repository; therefore make sure that the string you provide for `revision` is parsable by the command. For information on string values accepted by `git fetch`, see https://git-scm.com/docs/gitrevisions#_specifying_revisions. For information on `git fetch`, see https://git-scm.com/docs/git-fetch. */
+  revision?: string;
+}
+export const GitSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.optional(S.String),
+    dir: S.optional(S.String),
+    revision: S.optional(S.String),
+  }),
+).annotate({ identifier: "GitSource" }) as any as S.Schema<GitSource>;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StringMap>;
+
+/** Location of the source in a Google Cloud Source Repository. */
+export interface RepoSource {
+  /** Required. Name of the Cloud Source Repository. */
+  repoName?: string;
+  /** Optional. Only trigger a build if the revision regex does NOT match the revision regex. */
+  invertRegex?: boolean;
+  /** Explicit commit SHA to build. */
+  commitSha?: string;
+  /** Optional. Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's `dir` is specified and is an absolute path, this value is ignored for that step's execution. */
+  dir?: string;
+  /** Optional. Substitutions to use in a triggered build. Should only be used with RunBuildTrigger */
+  substitutions?: StringMap;
+  /** Regex matching branches to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
+  branchName?: string;
+  /** Regex matching tags to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
+  tagName?: string;
+  /** Optional. ID of the project that owns the Cloud Source Repository. If omitted, the project ID requesting the build is assumed. */
+  projectId?: string;
+}
+export const RepoSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repoName: S.optional(S.String),
+    invertRegex: S.optional(S.Boolean),
+    commitSha: S.optional(S.String),
+    dir: S.optional(S.String),
+    substitutions: S.optional(StringMap),
+    branchName: S.optional(S.String),
+    tagName: S.optional(S.String),
+    projectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "RepoSource" }) as any as S.Schema<RepoSource>;
+
+/** Location of the source in a 2nd-gen Google Cloud Build repository resource. */
+export interface ConnectedRepository {
+  /** Required. The revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref. */
+  revision?: string;
+  /** Required. Name of the Google Cloud Build repository, formatted as `projects/*\/locations/*\/connections/*\/repositories/*`. */
+  repository?: string;
+  /** Optional. Directory, relative to the source root, in which to run the build. */
+  dir?: string;
+}
+export const ConnectedRepository = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    revision: S.optional(S.String),
+    repository: S.optional(S.String),
+    dir: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ConnectedRepository",
+}) as any as S.Schema<ConnectedRepository>;
+
+/** Provenance of the source. Ways to find the original source, or verify that some source was used for this build. */
+export interface SourceProvenance {
+  /** Output only. Hash(es) of the build source, which can be used to verify that the original source integrity was maintained in the build. Note that `FileHashes` will only be populated if `BuildOptions` has requested a `SourceProvenanceHash`. The keys to this map are file paths used as build source and the values contain the hash values for those files. If the build source came in a single package such as a gzipped tarfile (`.tar.gz`), the `FileHash` will be for the single path to that file. */
+  fileHashes?: FileHashesMap;
+  /** A copy of the build's `source.storage_source_manifest`, if exists, with any revisions resolved. This feature is in Preview. */
+  resolvedStorageSourceManifest?: StorageSourceManifest;
+  /** A copy of the build's `source.storage_source`, if exists, with any generations resolved. */
+  resolvedStorageSource?: StorageSource;
+  /** Output only. A copy of the build's `source.git_source`, if exists, with any revisions resolved. */
+  resolvedGitSource?: GitSource;
+  /** A copy of the build's `source.repo_source`, if exists, with any revisions resolved. */
+  resolvedRepoSource?: RepoSource;
+  /** Output only. A copy of the build's `source.connected_repository`, if exists, with any revisions resolved. */
+  resolvedConnectedRepository?: ConnectedRepository;
+}
+export const SourceProvenance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fileHashes: S.optional(FileHashesMap),
+    resolvedStorageSourceManifest: S.optional(StorageSourceManifest),
+    resolvedStorageSource: S.optional(StorageSource),
+    resolvedGitSource: S.optional(GitSource),
+    resolvedRepoSource: S.optional(RepoSource),
+    resolvedConnectedRepository: S.optional(ConnectedRepository),
+  }),
+).annotate({
+  identifier: "SourceProvenance",
+}) as any as S.Schema<SourceProvenance>;
+
+/** HttpConfig is a configuration for HTTP related git operations. */
+export interface HttpConfig {
+  /** SecretVersion resource of the HTTP proxy URL. The Service Account used in the build (either the default Service Account or user-specified Service Account) should have `secretmanager.versions.access` permissions on this secret. The proxy URL should be in format `protocol://@]proxyhost[:port]`. */
+  proxySecretVersionName?: string;
+}
+export const HttpConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    proxySecretVersionName: S.optional(S.String),
+  }),
+).annotate({ identifier: "HttpConfig" }) as any as S.Schema<HttpConfig>;
+
+/** GitConfig is a configuration for git operations. */
+export interface GitConfig {
+  /** Configuration for HTTP related git operations. */
+  http?: HttpConfig;
+}
+export const GitConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    http: S.optional(HttpConfig),
+  }),
+).annotate({ identifier: "GitConfig" }) as any as S.Schema<GitConfig>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
+/** Start and end times for a build execution phase. */
+export interface TimeSpan {
+  /** Start of time span. */
+  startTime?: string;
+  /** End of time span. */
+  endTime?: string;
+}
+export const TimeSpan = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    startTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "TimeSpan" }) as any as S.Schema<TimeSpan>;
 
 /** A Maven artifact uploaded using the MavenArtifact directive. */
 export interface UploadedMavenArtifact {
   /** URI of the uploaded artifact. */
   uri?: string;
-  /** Hash types and values of the Maven Artifact. */
-  fileHashes?: FileHashes;
   /** Output only. Stores timing information for pushing the specified artifact. */
   pushTiming?: TimeSpan;
   /** Output only. Path to the artifact in Artifact Registry. */
   artifactRegistryPackage?: string;
+  /** Hash types and values of the Maven Artifact. */
+  fileHashes?: FileHashes;
 }
 export const UploadedMavenArtifact = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uri: S.optional(S.String),
-    fileHashes: S.optional(FileHashes),
     pushTiming: S.optional(TimeSpan),
     artifactRegistryPackage: S.optional(S.String),
+    fileHashes: S.optional(FileHashes),
   }),
 ).annotate({
   identifier: "UploadedMavenArtifact",
@@ -954,39 +644,12 @@ export const UploadedMavenArtifactList = /*@__PURE__*/ S.Array(
   UploadedMavenArtifact,
 ) as any as S.Schema<UploadedMavenArtifactList>;
 
-/** A Go module artifact uploaded to Artifact Registry using the GoModule directive. */
-export interface UploadedGoModule {
-  /** URI of the uploaded artifact. */
-  uri?: string;
-  /** Hash types and values of the Go Module Artifact. */
-  fileHashes?: FileHashes;
-  /** Output only. Stores timing information for pushing the specified artifact. */
-  pushTiming?: TimeSpan;
-  /** Output only. Path to the artifact in Artifact Registry. */
-  artifactRegistryPackage?: string;
-}
-export const UploadedGoModule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uri: S.optional(S.String),
-    fileHashes: S.optional(FileHashes),
-    pushTiming: S.optional(TimeSpan),
-    artifactRegistryPackage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UploadedGoModule",
-}) as any as S.Schema<UploadedGoModule>;
-
-export type UploadedGoModuleList = Array<UploadedGoModule>;
-export const UploadedGoModuleList = /*@__PURE__*/ S.Array(
-  UploadedGoModule,
-) as any as S.Schema<UploadedGoModuleList>;
-
 /** An npm package uploaded to Artifact Registry using the NpmPackage directive. */
 export interface UploadedNpmPackage {
-  /** URI of the uploaded npm package. */
-  uri?: string;
   /** Hash types and values of the npm package. */
   fileHashes?: FileHashes;
+  /** URI of the uploaded npm package. */
+  uri?: string;
   /** Output only. Stores timing information for pushing the specified artifact. */
   pushTiming?: TimeSpan;
   /** Output only. Path to the artifact in Artifact Registry. */
@@ -994,8 +657,8 @@ export interface UploadedNpmPackage {
 }
 export const UploadedNpmPackage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uri: S.optional(S.String),
     fileHashes: S.optional(FileHashes),
+    uri: S.optional(S.String),
     pushTiming: S.optional(TimeSpan),
     artifactRegistryPackage: S.optional(S.String),
   }),
@@ -1008,32 +671,26 @@ export const UploadedNpmPackageList = /*@__PURE__*/ S.Array(
   UploadedNpmPackage,
 ) as any as S.Schema<UploadedNpmPackageList>;
 
-export type FileHashesMap = { [key: string]: FileHashes | undefined };
-export const FileHashesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  FileHashes,
-) as any as S.Schema<FileHashesMap>;
-
 /** A generic artifact uploaded to Artifact Registry using the GenericArtifact directive. */
 export interface UploadedGenericArtifact {
+  /** Output only. The file hashes that make up the generic artifact. */
+  fileHashes?: FileHashesMap;
+  /** Output only. Path to the artifact in Artifact Registry. */
+  artifactRegistryPackage?: string;
   /** Output only. URI of the uploaded artifact. Ex: projects/p1/locations/us/repositories/r1/packages/p1/versions/v1 */
   uri?: string;
   /** Output only. The hash of the whole artifact. */
   artifactFingerprint?: FileHashes;
-  /** Output only. The file hashes that make up the generic artifact. */
-  fileHashes?: FileHashesMap;
   /** Output only. Stores timing information for pushing the specified artifact. */
   pushTiming?: TimeSpan;
-  /** Output only. Path to the artifact in Artifact Registry. */
-  artifactRegistryPackage?: string;
 }
 export const UploadedGenericArtifact = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    fileHashes: S.optional(FileHashesMap),
+    artifactRegistryPackage: S.optional(S.String),
     uri: S.optional(S.String),
     artifactFingerprint: S.optional(FileHashes),
-    fileHashes: S.optional(FileHashesMap),
     pushTiming: S.optional(TimeSpan),
-    artifactRegistryPackage: S.optional(S.String),
   }),
 ).annotate({
   identifier: "UploadedGenericArtifact",
@@ -1044,91 +701,745 @@ export const UploadedGenericArtifactList = /*@__PURE__*/ S.Array(
   UploadedGenericArtifact,
 ) as any as S.Schema<UploadedGenericArtifactList>;
 
+/** Results for a build step. */
+export interface BuildStepResults {
+  /** Results for a build step. */
+  results?: StringMap;
+}
+export const BuildStepResults = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: S.optional(StringMap),
+  }),
+).annotate({
+  identifier: "BuildStepResults",
+}) as any as S.Schema<BuildStepResults>;
+
+export type BuildStepResultsMap = {
+  [key: string]: BuildStepResults | undefined;
+};
+export const BuildStepResultsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  BuildStepResults,
+) as any as S.Schema<BuildStepResultsMap>;
+
+export type BuiltImageOciMediaTypeEnum =
+  | "OCI_MEDIA_TYPE_UNSPECIFIED"
+  | "IMAGE_MANIFEST"
+  | "IMAGE_INDEX";
+export const BuiltImageOciMediaTypeEnum = S.String;
+
+/** An image built by the pipeline. */
+export interface BuiltImage {
+  /** Output only. Path to the artifact in Artifact Registry. */
+  artifactRegistryPackage?: string;
+  /** Docker Registry 2.0 digest. */
+  digest?: string;
+  /** Output only. The OCI media type of the artifact. Non-OCI images, such as Docker images, will have an unspecified value. */
+  ociMediaType?: BuiltImageOciMediaTypeEnum | (string & {});
+  /** Name used to push the container image to Google Container Registry, as presented to `docker push`. */
+  name?: string;
+  /** Output only. Stores timing information for pushing the specified image. */
+  pushTiming?: TimeSpan;
+}
+export const BuiltImage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    artifactRegistryPackage: S.optional(S.String),
+    digest: S.optional(S.String),
+    ociMediaType: S.optional(BuiltImageOciMediaTypeEnum),
+    name: S.optional(S.String),
+    pushTiming: S.optional(TimeSpan),
+  }),
+).annotate({ identifier: "BuiltImage" }) as any as S.Schema<BuiltImage>;
+
+export type BuiltImageList = Array<BuiltImage>;
+export const BuiltImageList = /*@__PURE__*/ S.Array(
+  BuiltImage,
+) as any as S.Schema<BuiltImageList>;
+
+/** Artifact uploaded using the PythonPackage directive. */
+export interface UploadedPythonPackage {
+  /** Hash types and values of the Python Artifact. */
+  fileHashes?: FileHashes;
+  /** URI of the uploaded artifact. */
+  uri?: string;
+  /** Output only. Stores timing information for pushing the specified artifact. */
+  pushTiming?: TimeSpan;
+  /** Output only. Path to the artifact in Artifact Registry. */
+  artifactRegistryPackage?: string;
+}
+export const UploadedPythonPackage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fileHashes: S.optional(FileHashes),
+    uri: S.optional(S.String),
+    pushTiming: S.optional(TimeSpan),
+    artifactRegistryPackage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UploadedPythonPackage",
+}) as any as S.Schema<UploadedPythonPackage>;
+
+export type UploadedPythonPackageList = Array<UploadedPythonPackage>;
+export const UploadedPythonPackageList = /*@__PURE__*/ S.Array(
+  UploadedPythonPackage,
+) as any as S.Schema<UploadedPythonPackageList>;
+
+/** A Go module artifact uploaded to Artifact Registry using the GoModule directive. */
+export interface UploadedGoModule {
+  /** Hash types and values of the Go Module Artifact. */
+  fileHashes?: FileHashes;
+  /** URI of the uploaded artifact. */
+  uri?: string;
+  /** Output only. Stores timing information for pushing the specified artifact. */
+  pushTiming?: TimeSpan;
+  /** Output only. Path to the artifact in Artifact Registry. */
+  artifactRegistryPackage?: string;
+}
+export const UploadedGoModule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fileHashes: S.optional(FileHashes),
+    uri: S.optional(S.String),
+    pushTiming: S.optional(TimeSpan),
+    artifactRegistryPackage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UploadedGoModule",
+}) as any as S.Schema<UploadedGoModule>;
+
+export type UploadedGoModuleList = Array<UploadedGoModule>;
+export const UploadedGoModuleList = /*@__PURE__*/ S.Array(
+  UploadedGoModule,
+) as any as S.Schema<UploadedGoModuleList>;
+
 /** Artifacts created by the build pipeline. */
 export interface Results {
-  /** Container images that were built as a part of the build. */
-  images?: BuiltImageList;
-  /** List of build step digests, in the order corresponding to build step indices. */
-  buildStepImages?: StringList;
+  /** List of build step outputs, produced by builder images, in the order corresponding to build step indices. [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders) can produce this output by writing to `$BUILDER_OUTPUT/output`. Only the first 50KB of data is stored. Note that the `$BUILDER_OUTPUT` variable is read-only and can't be substituted. */
+  buildStepOutputs?: StringList;
+  /** Maven artifacts uploaded to Artifact Registry at the end of the build. */
+  mavenArtifacts?: UploadedMavenArtifactList;
   /** Path to the artifact manifest for non-container artifacts uploaded to Cloud Storage. Only populated when artifacts are uploaded to Cloud Storage. */
   artifactManifest?: string;
   /** Number of non-container artifacts uploaded to Cloud Storage. Only populated when artifacts are uploaded to Cloud Storage. */
   numArtifacts?: string;
-  /** List of build step outputs, produced by builder images, in the order corresponding to build step indices. [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders) can produce this output by writing to `$BUILDER_OUTPUT/output`. Only the first 50KB of data is stored. Note that the `$BUILDER_OUTPUT` variable is read-only and can't be substituted. */
-  buildStepOutputs?: StringList;
-  /** Results for build steps. step_id -> */
-  buildStepResults?: BuildStepResultsMap;
-  /** Time to push all non-container artifacts to Cloud Storage. */
-  artifactTiming?: TimeSpan;
-  /** Python artifacts uploaded to Artifact Registry at the end of the build. */
-  pythonPackages?: UploadedPythonPackageList;
-  /** Maven artifacts uploaded to Artifact Registry at the end of the build. */
-  mavenArtifacts?: UploadedMavenArtifactList;
-  /** Optional. Go module artifacts uploaded to Artifact Registry at the end of the build. */
-  goModules?: UploadedGoModuleList;
+  /** List of build step digests, in the order corresponding to build step indices. */
+  buildStepImages?: StringList;
   /** Npm packages uploaded to Artifact Registry at the end of the build. */
   npmPackages?: UploadedNpmPackageList;
   /** Output only. Generic artifacts uploaded to Artifact Registry at the end of the build. */
   genericArtifacts?: UploadedGenericArtifactList;
+  /** Results for build steps. step_id -> */
+  buildStepResults?: BuildStepResultsMap;
+  /** Container images that were built as a part of the build. */
+  images?: BuiltImageList;
+  /** Python artifacts uploaded to Artifact Registry at the end of the build. */
+  pythonPackages?: UploadedPythonPackageList;
+  /** Optional. Go module artifacts uploaded to Artifact Registry at the end of the build. */
+  goModules?: UploadedGoModuleList;
+  /** Time to push all non-container artifacts to Cloud Storage. */
+  artifactTiming?: TimeSpan;
 }
 export const Results = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    images: S.optional(BuiltImageList),
-    buildStepImages: S.optional(StringList),
+    buildStepOutputs: S.optional(StringList),
+    mavenArtifacts: S.optional(UploadedMavenArtifactList),
     artifactManifest: S.optional(S.String),
     numArtifacts: S.optional(S.String),
-    buildStepOutputs: S.optional(StringList),
-    buildStepResults: S.optional(BuildStepResultsMap),
-    artifactTiming: S.optional(TimeSpan),
-    pythonPackages: S.optional(UploadedPythonPackageList),
-    mavenArtifacts: S.optional(UploadedMavenArtifactList),
-    goModules: S.optional(UploadedGoModuleList),
+    buildStepImages: S.optional(StringList),
     npmPackages: S.optional(UploadedNpmPackageList),
     genericArtifacts: S.optional(UploadedGenericArtifactList),
+    buildStepResults: S.optional(BuildStepResultsMap),
+    images: S.optional(BuiltImageList),
+    pythonPackages: S.optional(UploadedPythonPackageList),
+    goModules: S.optional(UploadedGoModuleList),
+    artifactTiming: S.optional(TimeSpan),
   }),
 ).annotate({ identifier: "Results" }) as any as S.Schema<Results>;
 
-/** Files in the workspace to upload to Cloud Storage upon successful completion of all build steps. */
-export interface ArtifactObjects {
-  /** Cloud Storage bucket and optional object path, in the form "gs://bucket/path/to/somewhere/". (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). Files in the workspace matching any path pattern will be uploaded to Cloud Storage with this location as a prefix. */
-  location?: string;
-  /** Path globs used to match files in the build's workspace. */
-  paths?: StringList;
-  /** Output only. Stores timing information for pushing all artifact objects. */
-  timing?: TimeSpan;
+/** This config defines the location of a source through Developer Connect. */
+export interface DeveloperConnectConfig {
+  /** Required. The revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref. */
+  revision?: string;
+  /** Required. Directory, relative to the source root, in which to run the build. */
+  dir?: string;
+  /** Required. The Developer Connect Git repository link, formatted as `projects/*\/locations/*\/connections/*\/gitRepositoryLink/*`. */
+  gitRepositoryLink?: string;
 }
-export const ArtifactObjects = /*@__PURE__*/ S.suspend(() =>
+export const DeveloperConnectConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    location: S.optional(S.String),
-    paths: S.optional(StringList),
-    timing: S.optional(TimeSpan),
+    revision: S.optional(S.String),
+    dir: S.optional(S.String),
+    gitRepositoryLink: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "ArtifactObjects",
-}) as any as S.Schema<ArtifactObjects>;
+  identifier: "DeveloperConnectConfig",
+}) as any as S.Schema<DeveloperConnectConfig>;
+
+/** Location of the source in a supported storage service. */
+export interface Source {
+  /** If provided, get the source from this location in Cloud Storage. */
+  storageSource?: StorageSource;
+  /** If provided, get the source from this Git repository. */
+  gitSource?: GitSource;
+  /** If provided, get the source from this manifest in Cloud Storage. This feature is in Preview; see description [here](https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/gcs-fetcher). */
+  storageSourceManifest?: StorageSourceManifest;
+  /** If provided, get the source from this location in a Cloud Source Repository. */
+  repoSource?: RepoSource;
+  /** If provided, get the source from this Developer Connect config. */
+  developerConnectConfig?: DeveloperConnectConfig;
+  /** Optional. If provided, get the source from this 2nd-gen Google Cloud Build repository resource. */
+  connectedRepository?: ConnectedRepository;
+}
+export const Source = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storageSource: S.optional(StorageSource),
+    gitSource: S.optional(GitSource),
+    storageSourceManifest: S.optional(StorageSourceManifest),
+    repoSource: S.optional(RepoSource),
+    developerConnectConfig: S.optional(DeveloperConnectConfig),
+    connectedRepository: S.optional(ConnectedRepository),
+  }),
+).annotate({ identifier: "Source" }) as any as S.Schema<Source>;
+
+/** StepResult is the declaration of a result for a build step. */
+export interface StepResult {
+  /** Optional. The content of the attestation to be generated. */
+  attestationContent?: string;
+  /** Required. The name of the result. */
+  name?: string;
+  /** Optional. The type of attestation to be generated. */
+  attestationType?: string;
+}
+export const StepResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    attestationContent: S.optional(S.String),
+    name: S.optional(S.String),
+    attestationType: S.optional(S.String),
+  }),
+).annotate({ identifier: "StepResult" }) as any as S.Schema<StepResult>;
+
+export type StepResultList = Array<StepResult>;
+export const StepResultList = /*@__PURE__*/ S.Array(
+  StepResult,
+) as any as S.Schema<StepResultList>;
+
+export type BuildStepStatusEnum =
+  | "STATUS_UNKNOWN"
+  | "PENDING"
+  | "QUEUED"
+  | "WORKING"
+  | "SUCCESS"
+  | "FAILURE"
+  | "INTERNAL_ERROR"
+  | "TIMEOUT"
+  | "CANCELLED"
+  | "EXPIRED";
+export const BuildStepStatusEnum = S.String;
+
+/** Volume describes a Docker container volume which is mounted into build steps in order to persist files across build step execution. */
+export interface Volume {
+  /** Path at which to mount the volume. Paths must be absolute and cannot conflict with other volume paths on the same build step or with certain reserved volume paths. */
+  path?: string;
+  /** Name of the volume to mount. Volume names must be unique per build step and must be valid names for Docker volumes. Each named volume must be used by at least two build steps. */
+  name?: string;
+}
+export const Volume = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    path: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "Volume" }) as any as S.Schema<Volume>;
+
+export type VolumeList = Array<Volume>;
+export const VolumeList = /*@__PURE__*/ S.Array(
+  Volume,
+) as any as S.Schema<VolumeList>;
+
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<IntegerList>;
+
+/** A step in the build pipeline. */
+export interface BuildStep {
+  /** Declaration of results for this build step. */
+  results?: StepResultList;
+  /** Allow this build step to fail without failing the entire build. If false, the entire build will fail if this step fails. Otherwise, the build will succeed, but this step will still have a failure status. Error information will be reported in the failure_detail field. */
+  allowFailure?: boolean;
+  /** A list of environment variable definitions to be used when running a step. The elements are of the form "KEY=VALUE" for the environment variable "KEY" being given the value "VALUE". */
+  env?: StringList;
+  /** Option to include built-in and custom substitutions as env variables for this build step. This option will override the global option in BuildOption. */
+  automapSubstitutions?: boolean;
+  /** Time limit for executing this build step. If not defined, the step has no time limit and will be allowed to continue to run until either it completes or the build itself times out. */
+  timeout?: string;
+  /** Working directory to use when running this step's container. If this value is a relative path, it is relative to the build's working directory. If this value is absolute, it may be outside the build's working directory, in which case the contents of the path may not be persisted across build step executions, unless a `volume` for that path is specified. If the build specifies a `RepoSource` with `dir` and a step with a `dir`, which specifies an absolute path, the `RepoSource` `dir` is ignored for the step's execution. */
+  dir?: string;
+  /** Output only. Status of the build step. At this time, build step status is only updated on build completion; step status is not updated in real-time as the build progresses. */
+  status?: BuildStepStatusEnum | (string & {});
+  /** Unique identifier for this build step, used in `wait_for` to reference this build step as a dependency. */
+  id?: string;
+  /** Output only. Stores timing information for pulling this build step's builder image only. */
+  pullTiming?: TimeSpan;
+  /** A list of arguments that will be presented to the step when it is started. If the image used to run the step's container has an entrypoint, the `args` are used as arguments to that entrypoint. If the image does not define an entrypoint, the first element in args is used as the entrypoint, and the remainder will be used as arguments. */
+  args?: StringList;
+  /** A list of environment variables which are encrypted using a Cloud Key Management Service crypto key. These values must be specified in the build's `Secret`. */
+  secretEnv?: StringList;
+  /** Required. The name of the container image that will run this particular build step. If the image is available in the host's Docker daemon's cache, it will be run directly. If not, the host will attempt to pull the image first, using the builder service account's credentials if necessary. The Docker daemon's cache will already have the latest versions of all of the officially supported build steps ([https://github.com/GoogleCloudPlatform/cloud-builders](https://github.com/GoogleCloudPlatform/cloud-builders)). The Docker daemon will also have cached many of the layers for some popular images, like "ubuntu", "debian", but they will be refreshed at the time you attempt to use them. If you built an image in a previous build step, it will be stored in the host's Docker daemon's cache and is available to use as the name for a later build step. */
+  name?: string;
+  /** Entrypoint to be used instead of the build step image's default entrypoint. If unset, the image's default entrypoint is used. */
+  entrypoint?: string;
+  /** The ID(s) of the step(s) that this build step depends on. This build step will not start until all the build steps in `wait_for` have completed successfully. If `wait_for` is empty, this build step will start when all previous build steps in the `Build.Steps` list have completed successfully. */
+  waitFor?: StringList;
+  /** Output only. Return code from running the step. */
+  exitCode?: number;
+  /** List of volumes to mount into the build step. Each volume is created as an empty volume prior to execution of the build step. Upon completion of the build, volumes and their contents are discarded. Using a named volume in only one step is not valid as it is indicative of a build request with an incorrect configuration. */
+  volumes?: VolumeList;
+  /** Output only. Stores timing information for executing this build step. */
+  timing?: TimeSpan;
+  /** Allow this build step to fail without failing the entire build if and only if the exit code is one of the specified codes. If allow_failure is also specified, this field will take precedence. */
+  allowExitCodes?: IntegerList;
+  /** A shell script to be executed in the step. When script is provided, the user cannot specify the entrypoint or args. */
+  script?: string;
+}
+export const BuildStep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: S.optional(StepResultList),
+    allowFailure: S.optional(S.Boolean),
+    env: S.optional(StringList),
+    automapSubstitutions: S.optional(S.Boolean),
+    timeout: S.optional(S.String),
+    dir: S.optional(S.String),
+    status: S.optional(BuildStepStatusEnum),
+    id: S.optional(S.String),
+    pullTiming: S.optional(TimeSpan),
+    args: S.optional(StringList),
+    secretEnv: S.optional(StringList),
+    name: S.optional(S.String),
+    entrypoint: S.optional(S.String),
+    waitFor: S.optional(StringList),
+    exitCode: S.optional(S.Number),
+    volumes: S.optional(VolumeList),
+    timing: S.optional(TimeSpan),
+    allowExitCodes: S.optional(IntegerList),
+    script: S.optional(S.String),
+  }),
+).annotate({ identifier: "BuildStep" }) as any as S.Schema<BuildStep>;
+
+export type BuildStepList = Array<BuildStep>;
+export const BuildStepList = /*@__PURE__*/ S.Array(
+  BuildStep,
+) as any as S.Schema<BuildStepList>;
+
+export type TimeSpanMap = { [key: string]: TimeSpan | undefined };
+export const TimeSpanMap = /*@__PURE__*/ S.Record(
+  S.String,
+  TimeSpan,
+) as any as S.Schema<TimeSpanMap>;
+
+export type WarningPriorityEnum =
+  | "PRIORITY_UNSPECIFIED"
+  | "INFO"
+  | "WARNING"
+  | "ALERT";
+export const WarningPriorityEnum = S.String;
+
+/** A non-fatal problem encountered during the execution of the build. */
+export interface Warning {
+  /** Explanation of the warning generated. */
+  text?: string;
+  /** The priority for this warning. */
+  priority?: WarningPriorityEnum | (string & {});
+}
+export const Warning = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    text: S.optional(S.String),
+    priority: S.optional(WarningPriorityEnum),
+  }),
+).annotate({ identifier: "Warning" }) as any as S.Schema<Warning>;
+
+export type WarningList = Array<Warning>;
+export const WarningList = /*@__PURE__*/ S.Array(
+  Warning,
+) as any as S.Schema<WarningList>;
+
+/** Pairs a set of secret environment variables containing encrypted values with the Cloud KMS key to use to decrypt the value. Note: Use `kmsKeyName` with `available_secrets` instead of using `kmsKeyName` with `secret`. For instructions see: https://cloud.google.com/cloud-build/docs/securing-builds/use-encrypted-credentials. */
+export interface Secret {
+  /** Cloud KMS key name to use to decrypt these envs. */
+  kmsKeyName?: string;
+  /** Map of environment variable name to its encrypted value. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. Values can be at most 64 KB in size. There can be at most 100 secret values across all of a build's secrets. */
+  secretEnv?: StringMap;
+}
+export const Secret = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kmsKeyName: S.optional(S.String),
+    secretEnv: S.optional(StringMap),
+  }),
+).annotate({ identifier: "Secret" }) as any as S.Schema<Secret>;
+
+export type SecretList = Array<Secret>;
+export const SecretList = /*@__PURE__*/ S.Array(
+  Secret,
+) as any as S.Schema<SecretList>;
+
+/** Pairs a set of secret environment variables mapped to encrypted values with the Cloud KMS key to use to decrypt the value. */
+export interface InlineSecret {
+  /** Resource name of Cloud KMS crypto key to decrypt the encrypted value. In format: projects/*\/locations/*\/keyRings/*\/cryptoKeys/* */
+  kmsKeyName?: string;
+  /** Map of environment variable name to its encrypted value. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. Values can be at most 64 KB in size. There can be at most 100 secret values across all of a build's secrets. */
+  envMap?: StringMap;
+}
+export const InlineSecret = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kmsKeyName: S.optional(S.String),
+    envMap: S.optional(StringMap),
+  }),
+).annotate({ identifier: "InlineSecret" }) as any as S.Schema<InlineSecret>;
+
+export type InlineSecretList = Array<InlineSecret>;
+export const InlineSecretList = /*@__PURE__*/ S.Array(
+  InlineSecret,
+) as any as S.Schema<InlineSecretList>;
+
+/** Pairs a secret environment variable with a SecretVersion in Secret Manager. */
+export interface SecretManagerSecret {
+  /** Environment variable name to associate with the secret. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. */
+  env?: string;
+  /** Resource name of the SecretVersion. In format: projects/*\/secrets/*\/versions/* */
+  versionName?: string;
+}
+export const SecretManagerSecret = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    env: S.optional(S.String),
+    versionName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SecretManagerSecret",
+}) as any as S.Schema<SecretManagerSecret>;
+
+export type SecretManagerSecretList = Array<SecretManagerSecret>;
+export const SecretManagerSecretList = /*@__PURE__*/ S.Array(
+  SecretManagerSecret,
+) as any as S.Schema<SecretManagerSecretList>;
+
+/** Secrets and secret environment variables. */
+export interface Secrets {
+  /** Secrets encrypted with KMS key and the associated secret environment variable. */
+  inline?: InlineSecretList;
+  /** Secrets in Secret Manager and associated secret environment variable. */
+  secretManager?: SecretManagerSecretList;
+}
+export const Secrets = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    inline: S.optional(InlineSecretList),
+    secretManager: S.optional(SecretManagerSecretList),
+  }),
+).annotate({ identifier: "Secrets" }) as any as S.Schema<Secrets>;
+
+export type BuildStatusEnum =
+  | "STATUS_UNKNOWN"
+  | "PENDING"
+  | "QUEUED"
+  | "WORKING"
+  | "SUCCESS"
+  | "FAILURE"
+  | "INTERNAL_ERROR"
+  | "TIMEOUT"
+  | "CANCELLED"
+  | "EXPIRED";
+export const BuildStatusEnum = S.String;
+
+export type FailureInfoTypeEnum =
+  | "FAILURE_TYPE_UNSPECIFIED"
+  | "PUSH_FAILED"
+  | "PUSH_IMAGE_NOT_FOUND"
+  | "PUSH_NOT_AUTHORIZED"
+  | "LOGGING_FAILURE"
+  | "USER_BUILD_STEP"
+  | "FETCH_SOURCE_FAILED";
+export const FailureInfoTypeEnum = S.String;
+
+/** A fatal problem encountered during the execution of the build. */
+export interface FailureInfo {
+  /** The name of the failure. */
+  type?: FailureInfoTypeEnum | (string & {});
+  /** Explains the failure issue in more detail using hard-coded text. */
+  detail?: string;
+}
+export const FailureInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(FailureInfoTypeEnum),
+    detail: S.optional(S.String),
+  }),
+).annotate({ identifier: "FailureInfo" }) as any as S.Schema<FailureInfo>;
+
+/** A repository for a git source. */
+export interface GitSourceRepository {
+  /** The Developer Connect Git repository link formatted as `projects/*\/locations/*\/connections/*\/gitRepositoryLink/*` */
+  developerConnect?: string;
+  /** Location of the Git repository. */
+  url?: string;
+}
+export const GitSourceRepository = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    developerConnect: S.optional(S.String),
+    url: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GitSourceRepository",
+}) as any as S.Schema<GitSourceRepository>;
+
+/** Represents a git repository as a build dependency. */
+export interface GitSourceDependency {
+  /** Optional. True if remote tags should be fetched too (default false). Note: when depth is 1 (default), git fetch only retrieves tags pointing to commits within the shallow boundary. Set depth to -1 to fetch all historical tags. */
+  fetchTags?: boolean;
+  /** Required. The revision that we will fetch the repo at. */
+  revision?: string;
+  /** Optional. True if submodules should be fetched too (default false). */
+  recurseSubmodules?: boolean;
+  /** Required. The kind of repo (url or dev connect). */
+  repository?: GitSourceRepository;
+  /** Optional. How much history should be fetched for the build (default 1, -1 for all history). */
+  depth?: string;
+  /** Required. Where should the files be placed on the worker. */
+  destPath?: string;
+}
+export const GitSourceDependency = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fetchTags: S.optional(S.Boolean),
+    revision: S.optional(S.String),
+    recurseSubmodules: S.optional(S.Boolean),
+    repository: S.optional(GitSourceRepository),
+    depth: S.optional(S.String),
+    destPath: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GitSourceDependency",
+}) as any as S.Schema<GitSourceDependency>;
+
+/** Represents a generic artifact as a build dependency. */
+export interface GenericArtifactDependency {
+  /** Required. The location to download the artifact files from. Ex: projects/p1/locations/us/repositories/r1/packages/p1/versions/v1 */
+  resource?: string;
+  /** Required. Where the artifact files should be placed on the worker. */
+  destPath?: string;
+}
+export const GenericArtifactDependency = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resource: S.optional(S.String),
+    destPath: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GenericArtifactDependency",
+}) as any as S.Schema<GenericArtifactDependency>;
+
+/** A dependency that the Cloud Build worker will fetch before executing user steps. */
+export interface Dependency {
+  /** Represents a git repository as a build dependency. */
+  gitSource?: GitSourceDependency;
+  /** If set to true disable all dependency fetching (ignoring the default source as well). */
+  empty?: boolean;
+  /** Represents a generic artifact as a build dependency. */
+  genericArtifact?: GenericArtifactDependency;
+}
+export const Dependency = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gitSource: S.optional(GitSourceDependency),
+    empty: S.optional(S.Boolean),
+    genericArtifact: S.optional(GenericArtifactDependency),
+  }),
+).annotate({ identifier: "Dependency" }) as any as S.Schema<Dependency>;
+
+export type DependencyList = Array<Dependency>;
+export const DependencyList = /*@__PURE__*/ S.Array(
+  Dependency,
+) as any as S.Schema<DependencyList>;
+
+export type BuildApprovalStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PENDING"
+  | "APPROVED"
+  | "REJECTED"
+  | "CANCELLED";
+export const BuildApprovalStateEnum = S.String;
+
+/** ApprovalConfig describes configuration for manual approval of a build. */
+export interface ApprovalConfig {
+  /** Whether or not approval is needed. If this is set on a build, it will become pending when created, and will need to be explicitly approved to start. */
+  approvalRequired?: boolean;
+}
+export const ApprovalConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    approvalRequired: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "ApprovalConfig" }) as any as S.Schema<ApprovalConfig>;
+
+/** BuildApproval describes a build's approval configuration, state, and result. */
+export interface BuildApproval {
+  /** Output only. The state of this build's approval. */
+  state?: BuildApprovalStateEnum | (string & {});
+  /** Output only. Result of manual approval for this Build. */
+  result?: ApprovalResult;
+  /** Output only. Configuration for manual approval of this build. */
+  config?: ApprovalConfig;
+}
+export const BuildApproval = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.optional(BuildApprovalStateEnum),
+    result: S.optional(ApprovalResult),
+    config: S.optional(ApprovalConfig),
+  }),
+).annotate({ identifier: "BuildApproval" }) as any as S.Schema<BuildApproval>;
+
+/** Details about how a build should be executed on a `WorkerPool`. See [running builds in a private pool](https://cloud.google.com/build/docs/private-pools/run-builds-in-private-pool) for more information. */
+export interface PoolOption {
+  /** The `WorkerPool` resource to execute the build on. You must have `cloudbuild.workerpools.use` on the project hosting the WorkerPool. Format projects/{project}/locations/{location}/workerPools/{workerPoolId} */
+  name?: string;
+}
+export const PoolOption = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "PoolOption" }) as any as S.Schema<PoolOption>;
+
+export type BuildOptionsMachineTypeEnum =
+  | "UNSPECIFIED"
+  | "N1_HIGHCPU_8"
+  | "N1_HIGHCPU_32"
+  | "E2_HIGHCPU_8"
+  | "E2_HIGHCPU_32"
+  | "E2_MEDIUM"
+  | "E2_STANDARD_2";
+export const BuildOptionsMachineTypeEnum = S.String;
+
+export type BuildOptionsRequestedVerifyOptionEnum = "NOT_VERIFIED" | "VERIFIED";
+export const BuildOptionsRequestedVerifyOptionEnum = S.String;
+
+export type BuildOptionsLoggingEnum =
+  | "LOGGING_UNSPECIFIED"
+  | "LEGACY"
+  | "GCS_ONLY"
+  | "STACKDRIVER_ONLY"
+  | "CLOUD_LOGGING_ONLY"
+  | "NONE";
+export const BuildOptionsLoggingEnum = S.String;
+
+export type BuildOptionsSourceProvenanceHashItemEnum =
+  | "NONE"
+  | "SHA256"
+  | "MD5"
+  | "GO_MODULE_H1"
+  | "SHA512"
+  | "DIRSUM_SHA256";
+export const BuildOptionsSourceProvenanceHashItemEnum = S.String;
+
+export type BuildOptionsSourceProvenanceHashItemEnumList = Array<
+  BuildOptionsSourceProvenanceHashItemEnum | (string & {})
+>;
+export const BuildOptionsSourceProvenanceHashItemEnumList =
+  /*@__PURE__*/ S.Array(
+    BuildOptionsSourceProvenanceHashItemEnum,
+  ) as any as S.Schema<BuildOptionsSourceProvenanceHashItemEnumList>;
+
+export type BuildOptionsLogStreamingOptionEnum =
+  | "STREAM_DEFAULT"
+  | "STREAM_ON"
+  | "STREAM_OFF";
+export const BuildOptionsLogStreamingOptionEnum = S.String;
+
+export type BuildOptionsSubstitutionOptionEnum = "MUST_MATCH" | "ALLOW_LOOSE";
+export const BuildOptionsSubstitutionOptionEnum = S.String;
+
+export type BuildOptionsDefaultLogsBucketBehaviorEnum =
+  | "DEFAULT_LOGS_BUCKET_BEHAVIOR_UNSPECIFIED"
+  | "REGIONAL_USER_OWNED_BUCKET"
+  | "LEGACY_BUCKET";
+export const BuildOptionsDefaultLogsBucketBehaviorEnum = S.String;
+
+/** Optional arguments to enable specific features of builds. */
+export interface BuildOptions {
+  /** A list of global environment variables, which are encrypted using a Cloud Key Management Service crypto key. These values must be specified in the build's `Secret`. These variables will be available to all build steps in this build. */
+  secretEnv?: StringList;
+  /** Requested disk size for the VM that runs the build. Note that this is *NOT* "disk free"; some of the space will be used by the operating system and build utilities. Also note that this is the minimum disk size that will be allocated for the build -- the build may run with a larger disk than requested. At present, the maximum disk size is 4000GB; builds that request more than the maximum are rejected with an error. */
+  diskSizeGb?: string;
+  /** Option to specify whether or not to apply bash style string operations to the substitutions. NOTE: this is always enabled for triggered builds and cannot be overridden in the build configuration file. */
+  dynamicSubstitutions?: boolean;
+  /** Optional. Specification for execution on a `WorkerPool`. See [running builds in a private pool](https://cloud.google.com/build/docs/private-pools/run-builds-in-private-pool) for more information. */
+  pool?: PoolOption;
+  /** Optional. Option to specify whether structured logging is enabled. If true, JSON-formatted logs are parsed as structured logs. */
+  enableStructuredLogging?: boolean;
+  /** This field deprecated; please use `pool.name` instead. */
+  workerPool?: string;
+  /** Compute Engine machine type on which to run the build. */
+  machineType?: BuildOptionsMachineTypeEnum | (string & {});
+  /** Global list of volumes to mount for ALL build steps Each volume is created as an empty volume prior to starting the build process. Upon completion of the build, volumes and their contents are discarded. Global volume names and paths cannot conflict with the volumes defined a build step. Using a global volume in a build with only one step is not valid as it is indicative of a build request with an incorrect configuration. */
+  volumes?: VolumeList;
+  /** Optional. Option to specify the Pub/Sub topic to receive build status updates. */
+  pubsubTopic?: string;
+  /** Requested verifiability options. */
+  requestedVerifyOption?: BuildOptionsRequestedVerifyOptionEnum | (string & {});
+  /** Option to specify the logging mode, which determines if and where build logs are stored. */
+  logging?: BuildOptionsLoggingEnum | (string & {});
+  /** Requested hash for SourceProvenance. */
+  sourceProvenanceHash?: BuildOptionsSourceProvenanceHashItemEnumList;
+  /** Option to define build log streaming behavior to Cloud Storage. */
+  logStreamingOption?: BuildOptionsLogStreamingOptionEnum | (string & {});
+  /** A list of global environment variable definitions that will exist for all build steps in this build. If a variable is defined in both globally and in a build step, the variable will use the build step value. The elements are of the form "KEY=VALUE" for the environment variable "KEY" being given the value "VALUE". */
+  env?: StringList;
+  /** Option to include built-in and custom substitutions as env variables for all build steps. */
+  automapSubstitutions?: boolean;
+  /** Option to specify behavior when there is an error in the substitution checks. NOTE: this is always set to ALLOW_LOOSE for triggered builds and cannot be overridden in the build configuration file. */
+  substitutionOption?: BuildOptionsSubstitutionOptionEnum | (string & {});
+  /** Optional. Option to specify how default logs buckets are setup. */
+  defaultLogsBucketBehavior?:
+    | BuildOptionsDefaultLogsBucketBehaviorEnum
+    | (string & {});
+}
+export const BuildOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secretEnv: S.optional(StringList),
+    diskSizeGb: S.optional(S.String),
+    dynamicSubstitutions: S.optional(S.Boolean),
+    pool: S.optional(PoolOption),
+    enableStructuredLogging: S.optional(S.Boolean),
+    workerPool: S.optional(S.String),
+    machineType: S.optional(BuildOptionsMachineTypeEnum),
+    volumes: S.optional(VolumeList),
+    pubsubTopic: S.optional(S.String),
+    requestedVerifyOption: S.optional(BuildOptionsRequestedVerifyOptionEnum),
+    logging: S.optional(BuildOptionsLoggingEnum),
+    sourceProvenanceHash: S.optional(
+      BuildOptionsSourceProvenanceHashItemEnumList,
+    ),
+    logStreamingOption: S.optional(BuildOptionsLogStreamingOptionEnum),
+    env: S.optional(StringList),
+    automapSubstitutions: S.optional(S.Boolean),
+    substitutionOption: S.optional(BuildOptionsSubstitutionOptionEnum),
+    defaultLogsBucketBehavior: S.optional(
+      BuildOptionsDefaultLogsBucketBehaviorEnum,
+    ),
+  }),
+).annotate({ identifier: "BuildOptions" }) as any as S.Schema<BuildOptions>;
 
 /** A Maven artifact to upload to Artifact Registry upon successful completion of all build steps. */
 export interface MavenArtifact {
   /** Artifact Registry repository, in the form "https://$REGION-maven.pkg.dev/$PROJECT/$REPOSITORY" Artifact in the workspace specified by path will be uploaded to Artifact Registry with this location as a prefix. */
   repository?: string;
-  /** Optional. Path to an artifact in the build's workspace to be uploaded to Artifact Registry. This can be either an absolute path, e.g. /workspace/my-app/target/my-app-1.0.SNAPSHOT.jar or a relative path from /workspace, e.g. my-app/target/my-app-1.0.SNAPSHOT.jar. */
-  path?: string;
   /** Maven `artifactId` value used when uploading the artifact to Artifact Registry. */
   artifactId?: string;
-  /** Maven `groupId` value used when uploading the artifact to Artifact Registry. */
-  groupId?: string;
   /** Maven `version` value used when uploading the artifact to Artifact Registry. */
   version?: string;
+  /** Maven `groupId` value used when uploading the artifact to Artifact Registry. */
+  groupId?: string;
+  /** Optional. Path to an artifact in the build's workspace to be uploaded to Artifact Registry. This can be either an absolute path, e.g. /workspace/my-app/target/my-app-1.0.SNAPSHOT.jar or a relative path from /workspace, e.g. my-app/target/my-app-1.0.SNAPSHOT.jar. */
+  path?: string;
   /** Optional. Path to a folder containing the files to upload to Artifact Registry. This can be either an absolute path, e.g. `/workspace/my-app/target/`, or a relative path from /workspace, e.g. `my-app/target/`. This field is mutually exclusive with the `path` field. */
   deployFolder?: string;
 }
 export const MavenArtifact = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repository: S.optional(S.String),
-    path: S.optional(S.String),
     artifactId: S.optional(S.String),
-    groupId: S.optional(S.String),
     version: S.optional(S.String),
+    groupId: S.optional(S.String),
+    path: S.optional(S.String),
     deployFolder: S.optional(S.String),
   }),
 ).annotate({ identifier: "MavenArtifact" }) as any as S.Schema<MavenArtifact>;
@@ -1138,48 +1449,37 @@ export const MavenArtifactList = /*@__PURE__*/ S.Array(
   MavenArtifact,
 ) as any as S.Schema<MavenArtifactList>;
 
-/** Go module to upload to Artifact Registry upon successful completion of all build steps. A module refers to all dependencies in a go.mod file. */
-export interface GoModule {
-  /** Optional. Artifact Registry repository name. Specified Go modules will be zipped and uploaded to Artifact Registry with this location as a prefix. e.g. my-go-repo */
-  repositoryName?: string;
-  /** Optional. Location of the Artifact Registry repository. i.e. us-east1 Defaults to the build’s location. */
-  repositoryLocation?: string;
-  /** Optional. Project ID of the Artifact Registry repository. Defaults to the build project. */
-  repositoryProjectId?: string;
-  /** Optional. Source path of the go.mod file in the build's workspace. If not specified, this will default to the current directory. e.g. ~/code/go/mypackage */
-  sourcePath?: string;
-  /** Optional. The Go module's "module path". e.g. example.com/foo/v2 */
-  modulePath?: string;
-  /** Optional. The Go module's semantic version in the form vX.Y.Z. e.g. v0.1.1 Pre-release identifiers can also be added by appending a dash and dot separated ASCII alphanumeric characters and hyphens. e.g. v0.2.3-alpha.x.12m.5 */
-  moduleVersion?: string;
+/** OCI image to upload to Artifact Registry upon successful completion of all build steps. */
+export interface Oci {
+  /** Required. Path on the local file system where to find the container to upload. e.g. /workspace/my-image.tar */
+  file?: string;
+  /** Required. Registry path to upload the container to. e.g. us-east1-docker.pkg.dev/my-project/my-repo/my-image */
+  registryPath?: string;
+  /** Optional. Tags to apply to the uploaded image. e.g. latest, 1.0.0 */
+  tags?: StringList;
 }
-export const GoModule = /*@__PURE__*/ S.suspend(() =>
+export const Oci = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    repositoryName: S.optional(S.String),
-    repositoryLocation: S.optional(S.String),
-    repositoryProjectId: S.optional(S.String),
-    sourcePath: S.optional(S.String),
-    modulePath: S.optional(S.String),
-    moduleVersion: S.optional(S.String),
+    file: S.optional(S.String),
+    registryPath: S.optional(S.String),
+    tags: S.optional(StringList),
   }),
-).annotate({ identifier: "GoModule" }) as any as S.Schema<GoModule>;
+).annotate({ identifier: "Oci" }) as any as S.Schema<Oci>;
 
-export type GoModuleList = Array<GoModule>;
-export const GoModuleList = /*@__PURE__*/ S.Array(
-  GoModule,
-) as any as S.Schema<GoModuleList>;
+export type OciList = Array<Oci>;
+export const OciList = /*@__PURE__*/ S.Array(Oci) as any as S.Schema<OciList>;
 
 /** Python package to upload to Artifact Registry upon successful completion of all build steps. A package can encapsulate multiple objects to be uploaded to a single repository. */
 export interface PythonPackage {
-  /** Artifact Registry repository, in the form "https://$REGION-python.pkg.dev/$PROJECT/$REPOSITORY" Files in the workspace matching any path pattern will be uploaded to Artifact Registry with this location as a prefix. */
-  repository?: string;
   /** Path globs used to match files in the build's workspace. For Python/ Twine, this is usually `dist/*`, and sometimes additionally an `.asc` file. */
   paths?: StringList;
+  /** Artifact Registry repository, in the form "https://$REGION-python.pkg.dev/$PROJECT/$REPOSITORY" Files in the workspace matching any path pattern will be uploaded to Artifact Registry with this location as a prefix. */
+  repository?: string;
 }
 export const PythonPackage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    repository: S.optional(S.String),
     paths: S.optional(StringList),
+    repository: S.optional(S.String),
   }),
 ).annotate({ identifier: "PythonPackage" }) as any as S.Schema<PythonPackage>;
 
@@ -1207,25 +1507,36 @@ export const NpmPackageList = /*@__PURE__*/ S.Array(
   NpmPackage,
 ) as any as S.Schema<NpmPackageList>;
 
-/** OCI image to upload to Artifact Registry upon successful completion of all build steps. */
-export interface Oci {
-  /** Required. Path on the local file system where to find the container to upload. e.g. /workspace/my-image.tar */
-  file?: string;
-  /** Required. Registry path to upload the container to. e.g. us-east1-docker.pkg.dev/my-project/my-repo/my-image */
-  registryPath?: string;
-  /** Optional. Tags to apply to the uploaded image. e.g. latest, 1.0.0 */
-  tags?: StringList;
+/** Go module to upload to Artifact Registry upon successful completion of all build steps. A module refers to all dependencies in a go.mod file. */
+export interface GoModule {
+  /** Optional. Artifact Registry repository name. Specified Go modules will be zipped and uploaded to Artifact Registry with this location as a prefix. e.g. my-go-repo */
+  repositoryName?: string;
+  /** Optional. Source path of the go.mod file in the build's workspace. If not specified, this will default to the current directory. e.g. ~/code/go/mypackage */
+  sourcePath?: string;
+  /** Optional. Location of the Artifact Registry repository. i.e. us-east1 Defaults to the build’s location. */
+  repositoryLocation?: string;
+  /** Optional. The Go module's "module path". e.g. example.com/foo/v2 */
+  modulePath?: string;
+  /** Optional. The Go module's semantic version in the form vX.Y.Z. e.g. v0.1.1 Pre-release identifiers can also be added by appending a dash and dot separated ASCII alphanumeric characters and hyphens. e.g. v0.2.3-alpha.x.12m.5 */
+  moduleVersion?: string;
+  /** Optional. Project ID of the Artifact Registry repository. Defaults to the build project. */
+  repositoryProjectId?: string;
 }
-export const Oci = /*@__PURE__*/ S.suspend(() =>
+export const GoModule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    file: S.optional(S.String),
-    registryPath: S.optional(S.String),
-    tags: S.optional(StringList),
+    repositoryName: S.optional(S.String),
+    sourcePath: S.optional(S.String),
+    repositoryLocation: S.optional(S.String),
+    modulePath: S.optional(S.String),
+    moduleVersion: S.optional(S.String),
+    repositoryProjectId: S.optional(S.String),
   }),
-).annotate({ identifier: "Oci" }) as any as S.Schema<Oci>;
+).annotate({ identifier: "GoModule" }) as any as S.Schema<GoModule>;
 
-export type OciList = Array<Oci>;
-export const OciList = /*@__PURE__*/ S.Array(Oci) as any as S.Schema<OciList>;
+export type GoModuleList = Array<GoModule>;
+export const GoModuleList = /*@__PURE__*/ S.Array(
+  GoModule,
+) as any as S.Schema<GoModuleList>;
 
 /** Generic artifact to upload to Artifact Registry upon successful completion of all build steps. */
 export interface GenericArtifact {
@@ -1248,559 +1559,155 @@ export const GenericArtifactList = /*@__PURE__*/ S.Array(
   GenericArtifact,
 ) as any as S.Schema<GenericArtifactList>;
 
+/** Files in the workspace to upload to Cloud Storage upon successful completion of all build steps. */
+export interface ArtifactObjects {
+  /** Path globs used to match files in the build's workspace. */
+  paths?: StringList;
+  /** Output only. Stores timing information for pushing all artifact objects. */
+  timing?: TimeSpan;
+  /** Cloud Storage bucket and optional object path, in the form "gs://bucket/path/to/somewhere/". (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). Files in the workspace matching any path pattern will be uploaded to Cloud Storage with this location as a prefix. */
+  location?: string;
+}
+export const ArtifactObjects = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    paths: S.optional(StringList),
+    timing: S.optional(TimeSpan),
+    location: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ArtifactObjects",
+}) as any as S.Schema<ArtifactObjects>;
+
 /** Artifacts produced by a build that should be uploaded upon successful completion of all build steps. */
 export interface Artifacts {
   /** A list of images to be pushed upon the successful completion of all build steps. The images will be pushed using the builder service account's credentials. The digests of the pushed images will be stored in the Build resource's results field. If any of the images fail to be pushed, the build is marked FAILURE. */
   images?: StringList;
-  /** A list of objects to be uploaded to Cloud Storage upon successful completion of all build steps. Files in the workspace matching specified paths globs will be uploaded to the specified Cloud Storage location using the builder service account's credentials. The location and generation of the uploaded objects will be stored in the Build resource's results field. If any objects fail to be pushed, the build is marked FAILURE. */
-  objects?: ArtifactObjects;
   /** A list of Maven artifacts to be uploaded to Artifact Registry upon successful completion of all build steps. Artifacts in the workspace matching specified paths globs will be uploaded to the specified Artifact Registry repository using the builder service account's credentials. If any artifacts fail to be pushed, the build is marked FAILURE. */
   mavenArtifacts?: MavenArtifactList;
-  /** Optional. A list of Go modules to be uploaded to Artifact Registry upon successful completion of all build steps. If any objects fail to be pushed, the build is marked FAILURE. */
-  goModules?: GoModuleList;
+  /** Optional. A list of OCI images to be uploaded to Artifact Registry upon successful completion of all build steps. OCI images in the specified paths will be uploaded to the specified Artifact Registry repository using the builder service account's credentials. If any images fail to be pushed, the build is marked FAILURE. */
+  oci?: OciList;
   /** A list of Python packages to be uploaded to Artifact Registry upon successful completion of all build steps. The build service account credentials will be used to perform the upload. If any objects fail to be pushed, the build is marked FAILURE. */
   pythonPackages?: PythonPackageList;
   /** A list of npm packages to be uploaded to Artifact Registry upon successful completion of all build steps. Npm packages in the specified paths will be uploaded to the specified Artifact Registry repository using the builder service account's credentials. If any packages fail to be pushed, the build is marked FAILURE. */
   npmPackages?: NpmPackageList;
-  /** Optional. A list of OCI images to be uploaded to Artifact Registry upon successful completion of all build steps. OCI images in the specified paths will be uploaded to the specified Artifact Registry repository using the builder service account's credentials. If any images fail to be pushed, the build is marked FAILURE. */
-  oci?: OciList;
+  /** Optional. A list of Go modules to be uploaded to Artifact Registry upon successful completion of all build steps. If any objects fail to be pushed, the build is marked FAILURE. */
+  goModules?: GoModuleList;
   /** Optional. A list of generic artifacts to be uploaded to Artifact Registry upon successful completion of all build steps. If any artifacts fail to be pushed, the build is marked FAILURE. */
   genericArtifacts?: GenericArtifactList;
+  /** A list of objects to be uploaded to Cloud Storage upon successful completion of all build steps. Files in the workspace matching specified paths globs will be uploaded to the specified Cloud Storage location using the builder service account's credentials. The location and generation of the uploaded objects will be stored in the Build resource's results field. If any objects fail to be pushed, the build is marked FAILURE. */
+  objects?: ArtifactObjects;
 }
 export const Artifacts = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     images: S.optional(StringList),
-    objects: S.optional(ArtifactObjects),
     mavenArtifacts: S.optional(MavenArtifactList),
-    goModules: S.optional(GoModuleList),
+    oci: S.optional(OciList),
     pythonPackages: S.optional(PythonPackageList),
     npmPackages: S.optional(NpmPackageList),
-    oci: S.optional(OciList),
+    goModules: S.optional(GoModuleList),
     genericArtifacts: S.optional(GenericArtifactList),
+    objects: S.optional(ArtifactObjects),
   }),
 ).annotate({ identifier: "Artifacts" }) as any as S.Schema<Artifacts>;
 
-/** Provenance of the source. Ways to find the original source, or verify that some source was used for this build. */
-export interface SourceProvenance {
-  /** A copy of the build's `source.storage_source`, if exists, with any generations resolved. */
-  resolvedStorageSource?: StorageSource;
-  /** A copy of the build's `source.repo_source`, if exists, with any revisions resolved. */
-  resolvedRepoSource?: RepoSource;
-  /** A copy of the build's `source.storage_source_manifest`, if exists, with any revisions resolved. This feature is in Preview. */
-  resolvedStorageSourceManifest?: StorageSourceManifest;
-  /** Output only. A copy of the build's `source.connected_repository`, if exists, with any revisions resolved. */
-  resolvedConnectedRepository?: ConnectedRepository;
-  /** Output only. A copy of the build's `source.git_source`, if exists, with any revisions resolved. */
-  resolvedGitSource?: GitSource;
-  /** Output only. Hash(es) of the build source, which can be used to verify that the original source integrity was maintained in the build. Note that `FileHashes` will only be populated if `BuildOptions` has requested a `SourceProvenanceHash`. The keys to this map are file paths used as build source and the values contain the hash values for those files. If the build source came in a single package such as a gzipped tarfile (`.tar.gz`), the `FileHash` will be for the single path to that file. */
-  fileHashes?: FileHashesMap;
-}
-export const SourceProvenance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resolvedStorageSource: S.optional(StorageSource),
-    resolvedRepoSource: S.optional(RepoSource),
-    resolvedStorageSourceManifest: S.optional(StorageSourceManifest),
-    resolvedConnectedRepository: S.optional(ConnectedRepository),
-    resolvedGitSource: S.optional(GitSource),
-    fileHashes: S.optional(FileHashesMap),
-  }),
-).annotate({
-  identifier: "SourceProvenance",
-}) as any as S.Schema<SourceProvenance>;
-
-export type BuildOptionsSourceProvenanceHashItemEnum =
-  | "NONE"
-  | "SHA256"
-  | "MD5"
-  | "GO_MODULE_H1"
-  | "SHA512"
-  | "DIRSUM_SHA256";
-export const BuildOptionsSourceProvenanceHashItemEnum = /*@__PURE__*/ S.String;
-
-export type BuildOptionsSourceProvenanceHashItemEnumList = Array<
-  BuildOptionsSourceProvenanceHashItemEnum | (string & {})
->;
-export const BuildOptionsSourceProvenanceHashItemEnumList =
-  /*@__PURE__*/ S.Array(
-    BuildOptionsSourceProvenanceHashItemEnum,
-  ) as any as S.Schema<BuildOptionsSourceProvenanceHashItemEnumList>;
-
-export type BuildOptionsRequestedVerifyOptionEnum = "NOT_VERIFIED" | "VERIFIED";
-export const BuildOptionsRequestedVerifyOptionEnum = /*@__PURE__*/ S.String;
-
-export type BuildOptionsMachineTypeEnum =
-  | "UNSPECIFIED"
-  | "N1_HIGHCPU_8"
-  | "N1_HIGHCPU_32"
-  | "E2_HIGHCPU_8"
-  | "E2_HIGHCPU_32"
-  | "E2_MEDIUM";
-export const BuildOptionsMachineTypeEnum = /*@__PURE__*/ S.String;
-
-export type BuildOptionsSubstitutionOptionEnum = "MUST_MATCH" | "ALLOW_LOOSE";
-export const BuildOptionsSubstitutionOptionEnum = /*@__PURE__*/ S.String;
-
-export type BuildOptionsLogStreamingOptionEnum =
-  | "STREAM_DEFAULT"
-  | "STREAM_ON"
-  | "STREAM_OFF";
-export const BuildOptionsLogStreamingOptionEnum = /*@__PURE__*/ S.String;
-
-/** Details about how a build should be executed on a `WorkerPool`. See [running builds in a private pool](https://cloud.google.com/build/docs/private-pools/run-builds-in-private-pool) for more information. */
-export interface PoolOption {
-  /** The `WorkerPool` resource to execute the build on. You must have `cloudbuild.workerpools.use` on the project hosting the WorkerPool. Format projects/{project}/locations/{location}/workerPools/{workerPoolId} */
-  name?: string;
-}
-export const PoolOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "PoolOption" }) as any as S.Schema<PoolOption>;
-
-export type BuildOptionsLoggingEnum =
-  | "LOGGING_UNSPECIFIED"
-  | "LEGACY"
-  | "GCS_ONLY"
-  | "STACKDRIVER_ONLY"
-  | "CLOUD_LOGGING_ONLY"
-  | "NONE";
-export const BuildOptionsLoggingEnum = /*@__PURE__*/ S.String;
-
-export type BuildOptionsDefaultLogsBucketBehaviorEnum =
-  | "DEFAULT_LOGS_BUCKET_BEHAVIOR_UNSPECIFIED"
-  | "REGIONAL_USER_OWNED_BUCKET"
-  | "LEGACY_BUCKET";
-export const BuildOptionsDefaultLogsBucketBehaviorEnum = /*@__PURE__*/ S.String;
-
-/** Optional arguments to enable specific features of builds. */
-export interface BuildOptions {
-  /** Requested hash for SourceProvenance. */
-  sourceProvenanceHash?: BuildOptionsSourceProvenanceHashItemEnumList;
-  /** Requested verifiability options. */
-  requestedVerifyOption?: BuildOptionsRequestedVerifyOptionEnum | (string & {});
-  /** Compute Engine machine type on which to run the build. */
-  machineType?: BuildOptionsMachineTypeEnum | (string & {});
-  /** Requested disk size for the VM that runs the build. Note that this is *NOT* "disk free"; some of the space will be used by the operating system and build utilities. Also note that this is the minimum disk size that will be allocated for the build -- the build may run with a larger disk than requested. At present, the maximum disk size is 4000GB; builds that request more than the maximum are rejected with an error. */
-  diskSizeGb?: string;
-  /** Option to specify behavior when there is an error in the substitution checks. NOTE: this is always set to ALLOW_LOOSE for triggered builds and cannot be overridden in the build configuration file. */
-  substitutionOption?: BuildOptionsSubstitutionOptionEnum | (string & {});
-  /** Option to specify whether or not to apply bash style string operations to the substitutions. NOTE: this is always enabled for triggered builds and cannot be overridden in the build configuration file. */
-  dynamicSubstitutions?: boolean;
-  /** Option to include built-in and custom substitutions as env variables for all build steps. */
-  automapSubstitutions?: boolean;
-  /** Option to define build log streaming behavior to Cloud Storage. */
-  logStreamingOption?: BuildOptionsLogStreamingOptionEnum | (string & {});
-  /** This field deprecated; please use `pool.name` instead. */
-  workerPool?: string;
-  /** Optional. Specification for execution on a `WorkerPool`. See [running builds in a private pool](https://cloud.google.com/build/docs/private-pools/run-builds-in-private-pool) for more information. */
-  pool?: PoolOption;
-  /** Option to specify the logging mode, which determines if and where build logs are stored. */
-  logging?: BuildOptionsLoggingEnum | (string & {});
-  /** A list of global environment variable definitions that will exist for all build steps in this build. If a variable is defined in both globally and in a build step, the variable will use the build step value. The elements are of the form "KEY=VALUE" for the environment variable "KEY" being given the value "VALUE". */
-  env?: StringList;
-  /** A list of global environment variables, which are encrypted using a Cloud Key Management Service crypto key. These values must be specified in the build's `Secret`. These variables will be available to all build steps in this build. */
-  secretEnv?: StringList;
-  /** Global list of volumes to mount for ALL build steps Each volume is created as an empty volume prior to starting the build process. Upon completion of the build, volumes and their contents are discarded. Global volume names and paths cannot conflict with the volumes defined a build step. Using a global volume in a build with only one step is not valid as it is indicative of a build request with an incorrect configuration. */
-  volumes?: VolumeList;
-  /** Optional. Option to specify how default logs buckets are setup. */
-  defaultLogsBucketBehavior?:
-    | BuildOptionsDefaultLogsBucketBehaviorEnum
-    | (string & {});
-  /** Optional. Option to specify whether structured logging is enabled. If true, JSON-formatted logs are parsed as structured logs. */
-  enableStructuredLogging?: boolean;
-  /** Optional. Option to specify the Pub/Sub topic to receive build status updates. */
-  pubsubTopic?: string;
-}
-export const BuildOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceProvenanceHash: S.optional(
-      BuildOptionsSourceProvenanceHashItemEnumList,
-    ),
-    requestedVerifyOption: S.optional(BuildOptionsRequestedVerifyOptionEnum),
-    machineType: S.optional(BuildOptionsMachineTypeEnum),
-    diskSizeGb: S.optional(S.String),
-    substitutionOption: S.optional(BuildOptionsSubstitutionOptionEnum),
-    dynamicSubstitutions: S.optional(S.Boolean),
-    automapSubstitutions: S.optional(S.Boolean),
-    logStreamingOption: S.optional(BuildOptionsLogStreamingOptionEnum),
-    workerPool: S.optional(S.String),
-    pool: S.optional(PoolOption),
-    logging: S.optional(BuildOptionsLoggingEnum),
-    env: S.optional(StringList),
-    secretEnv: S.optional(StringList),
-    volumes: S.optional(VolumeList),
-    defaultLogsBucketBehavior: S.optional(
-      BuildOptionsDefaultLogsBucketBehaviorEnum,
-    ),
-    enableStructuredLogging: S.optional(S.Boolean),
-    pubsubTopic: S.optional(S.String),
-  }),
-).annotate({ identifier: "BuildOptions" }) as any as S.Schema<BuildOptions>;
-
-/** Pairs a set of secret environment variables containing encrypted values with the Cloud KMS key to use to decrypt the value. Note: Use `kmsKeyName` with `available_secrets` instead of using `kmsKeyName` with `secret`. For instructions see: https://cloud.google.com/cloud-build/docs/securing-builds/use-encrypted-credentials. */
-export interface Secret {
-  /** Cloud KMS key name to use to decrypt these envs. */
-  kmsKeyName?: string;
-  /** Map of environment variable name to its encrypted value. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. Values can be at most 64 KB in size. There can be at most 100 secret values across all of a build's secrets. */
-  secretEnv?: StringMap;
-}
-export const Secret = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kmsKeyName: S.optional(S.String),
-    secretEnv: S.optional(StringMap),
-  }),
-).annotate({ identifier: "Secret" }) as any as S.Schema<Secret>;
-
-export type SecretList = Array<Secret>;
-export const SecretList = /*@__PURE__*/ S.Array(
-  Secret,
-) as any as S.Schema<SecretList>;
-
-export type TimeSpanMap = { [key: string]: TimeSpan | undefined };
-export const TimeSpanMap = /*@__PURE__*/ S.Record(
-  S.String,
-  TimeSpan,
-) as any as S.Schema<TimeSpanMap>;
-
-export type BuildApprovalStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PENDING"
-  | "APPROVED"
-  | "REJECTED"
-  | "CANCELLED";
-export const BuildApprovalStateEnum = /*@__PURE__*/ S.String;
-
-/** ApprovalConfig describes configuration for manual approval of a build. */
-export interface ApprovalConfig {
-  /** Whether or not approval is needed. If this is set on a build, it will become pending when created, and will need to be explicitly approved to start. */
-  approvalRequired?: boolean;
-}
-export const ApprovalConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    approvalRequired: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ApprovalConfig" }) as any as S.Schema<ApprovalConfig>;
-
-/** BuildApproval describes a build's approval configuration, state, and result. */
-export interface BuildApproval {
-  /** Output only. The state of this build's approval. */
-  state?: BuildApprovalStateEnum | (string & {});
-  /** Output only. Configuration for manual approval of this build. */
-  config?: ApprovalConfig;
-  /** Output only. Result of manual approval for this Build. */
-  result?: ApprovalResult;
-}
-export const BuildApproval = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: S.optional(BuildApprovalStateEnum),
-    config: S.optional(ApprovalConfig),
-    result: S.optional(ApprovalResult),
-  }),
-).annotate({ identifier: "BuildApproval" }) as any as S.Schema<BuildApproval>;
-
-/** Pairs a secret environment variable with a SecretVersion in Secret Manager. */
-export interface SecretManagerSecret {
-  /** Resource name of the SecretVersion. In format: projects/*\/secrets/*\/versions/* */
-  versionName?: string;
-  /** Environment variable name to associate with the secret. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. */
-  env?: string;
-}
-export const SecretManagerSecret = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    versionName: S.optional(S.String),
-    env: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SecretManagerSecret",
-}) as any as S.Schema<SecretManagerSecret>;
-
-export type SecretManagerSecretList = Array<SecretManagerSecret>;
-export const SecretManagerSecretList = /*@__PURE__*/ S.Array(
-  SecretManagerSecret,
-) as any as S.Schema<SecretManagerSecretList>;
-
-/** Pairs a set of secret environment variables mapped to encrypted values with the Cloud KMS key to use to decrypt the value. */
-export interface InlineSecret {
-  /** Resource name of Cloud KMS crypto key to decrypt the encrypted value. In format: projects/*\/locations/*\/keyRings/*\/cryptoKeys/* */
-  kmsKeyName?: string;
-  /** Map of environment variable name to its encrypted value. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. Values can be at most 64 KB in size. There can be at most 100 secret values across all of a build's secrets. */
-  envMap?: StringMap;
-}
-export const InlineSecret = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kmsKeyName: S.optional(S.String),
-    envMap: S.optional(StringMap),
-  }),
-).annotate({ identifier: "InlineSecret" }) as any as S.Schema<InlineSecret>;
-
-export type InlineSecretList = Array<InlineSecret>;
-export const InlineSecretList = /*@__PURE__*/ S.Array(
-  InlineSecret,
-) as any as S.Schema<InlineSecretList>;
-
-/** Secrets and secret environment variables. */
-export interface Secrets {
-  /** Secrets in Secret Manager and associated secret environment variable. */
-  secretManager?: SecretManagerSecretList;
-  /** Secrets encrypted with KMS key and the associated secret environment variable. */
-  inline?: InlineSecretList;
-}
-export const Secrets = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    secretManager: S.optional(SecretManagerSecretList),
-    inline: S.optional(InlineSecretList),
-  }),
-).annotate({ identifier: "Secrets" }) as any as S.Schema<Secrets>;
-
-export type WarningPriorityEnum =
-  | "PRIORITY_UNSPECIFIED"
-  | "INFO"
-  | "WARNING"
-  | "ALERT";
-export const WarningPriorityEnum = /*@__PURE__*/ S.String;
-
-/** A non-fatal problem encountered during the execution of the build. */
-export interface Warning {
-  /** Explanation of the warning generated. */
-  text?: string;
-  /** The priority for this warning. */
-  priority?: WarningPriorityEnum | (string & {});
-}
-export const Warning = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    text: S.optional(S.String),
-    priority: S.optional(WarningPriorityEnum),
-  }),
-).annotate({ identifier: "Warning" }) as any as S.Schema<Warning>;
-
-export type WarningList = Array<Warning>;
-export const WarningList = /*@__PURE__*/ S.Array(
-  Warning,
-) as any as S.Schema<WarningList>;
-
-/** HttpConfig is a configuration for HTTP related git operations. */
-export interface HttpConfig {
-  /** SecretVersion resource of the HTTP proxy URL. The Service Account used in the build (either the default Service Account or user-specified Service Account) should have `secretmanager.versions.access` permissions on this secret. The proxy URL should be in format `protocol://@]proxyhost[:port]`. */
-  proxySecretVersionName?: string;
-}
-export const HttpConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    proxySecretVersionName: S.optional(S.String),
-  }),
-).annotate({ identifier: "HttpConfig" }) as any as S.Schema<HttpConfig>;
-
-/** GitConfig is a configuration for git operations. */
-export interface GitConfig {
-  /** Configuration for HTTP related git operations. */
-  http?: HttpConfig;
-}
-export const GitConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    http: S.optional(HttpConfig),
-  }),
-).annotate({ identifier: "GitConfig" }) as any as S.Schema<GitConfig>;
-
-export type FailureInfoTypeEnum =
-  | "FAILURE_TYPE_UNSPECIFIED"
-  | "PUSH_FAILED"
-  | "PUSH_IMAGE_NOT_FOUND"
-  | "PUSH_NOT_AUTHORIZED"
-  | "LOGGING_FAILURE"
-  | "USER_BUILD_STEP"
-  | "FETCH_SOURCE_FAILED";
-export const FailureInfoTypeEnum = /*@__PURE__*/ S.String;
-
-/** A fatal problem encountered during the execution of the build. */
-export interface FailureInfo {
-  /** The name of the failure. */
-  type?: FailureInfoTypeEnum | (string & {});
-  /** Explains the failure issue in more detail using hard-coded text. */
-  detail?: string;
-}
-export const FailureInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(FailureInfoTypeEnum),
-    detail: S.optional(S.String),
-  }),
-).annotate({ identifier: "FailureInfo" }) as any as S.Schema<FailureInfo>;
-
-/** A repository for a git source. */
-export interface GitSourceRepository {
-  /** Location of the Git repository. */
-  url?: string;
-  /** The Developer Connect Git repository link formatted as `projects/*\/locations/*\/connections/*\/gitRepositoryLink/*` */
-  developerConnect?: string;
-}
-export const GitSourceRepository = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    url: S.optional(S.String),
-    developerConnect: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GitSourceRepository",
-}) as any as S.Schema<GitSourceRepository>;
-
-/** Represents a git repository as a build dependency. */
-export interface GitSourceDependency {
-  /** Required. The kind of repo (url or dev connect). */
-  repository?: GitSourceRepository;
-  /** Required. The revision that we will fetch the repo at. */
-  revision?: string;
-  /** Optional. True if submodules should be fetched too (default false). */
-  recurseSubmodules?: boolean;
-  /** Optional. How much history should be fetched for the build (default 1, -1 for all history). */
-  depth?: string;
-  /** Required. Where should the files be placed on the worker. */
-  destPath?: string;
-}
-export const GitSourceDependency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    repository: S.optional(GitSourceRepository),
-    revision: S.optional(S.String),
-    recurseSubmodules: S.optional(S.Boolean),
-    depth: S.optional(S.String),
-    destPath: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GitSourceDependency",
-}) as any as S.Schema<GitSourceDependency>;
-
-/** Represents a generic artifact as a build dependency. */
-export interface GenericArtifactDependency {
-  /** Required. The location to download the artifact files from. Ex: projects/p1/locations/us/repositories/r1/packages/p1/versions/v1 */
-  resource?: string;
-  /** Required. Where the artifact files should be placed on the worker. */
-  destPath?: string;
-}
-export const GenericArtifactDependency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resource: S.optional(S.String),
-    destPath: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GenericArtifactDependency",
-}) as any as S.Schema<GenericArtifactDependency>;
-
-/** A dependency that the Cloud Build worker will fetch before executing user steps. */
-export interface Dependency {
-  /** If set to true disable all dependency fetching (ignoring the default source as well). */
-  empty?: boolean;
-  /** Represents a git repository as a build dependency. */
-  gitSource?: GitSourceDependency;
-  /** Represents a generic artifact as a build dependency. */
-  genericArtifact?: GenericArtifactDependency;
-}
-export const Dependency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    empty: S.optional(S.Boolean),
-    gitSource: S.optional(GitSourceDependency),
-    genericArtifact: S.optional(GenericArtifactDependency),
-  }),
-).annotate({ identifier: "Dependency" }) as any as S.Schema<Dependency>;
-
-export type DependencyList = Array<Dependency>;
-export const DependencyList = /*@__PURE__*/ S.Array(
-  Dependency,
-) as any as S.Schema<DependencyList>;
-
 /** A build resource in the Cloud Build API. At a high level, a `Build` describes where to find source code, how to build it (for example, the builder image to run on the source), and where to store the built artifacts. Fields can include the following variables, which will be expanded when the build is created: - $PROJECT_ID: the project ID of the build. - $PROJECT_NUMBER: the project number of the build. - $LOCATION: the location/region of the build. - $BUILD_ID: the autogenerated ID of the build. - $REPO_NAME: the source repository name specified by RepoSource. - $BRANCH_NAME: the branch name specified by RepoSource. - $TAG_NAME: the tag name specified by RepoSource. - $REVISION_ID or $COMMIT_SHA: the commit SHA specified by RepoSource or resolved from the specified branch or tag. - $SHORT_SHA: first 7 characters of $REVISION_ID or $COMMIT_SHA. */
 export interface Build {
-  /** Output only. The 'Build' name with format: `projects/{project}/locations/{location}/builds/{build}`, where {build} is a unique identifier generated by the service. */
-  name?: string;
-  /** Output only. Unique identifier of the build. */
-  id?: string;
-  /** Output only. ID of the project. */
-  projectId?: string;
-  /** Output only. Status of the build. */
-  status?: BuildStatusEnum | (string & {});
-  /** Output only. Customer-readable message about the current status. */
-  statusDetail?: string;
+  /** Output only. A permanent fixed identifier for source. */
+  sourceProvenance?: SourceProvenance;
+  /** Amount of time that this build should be allowed to run, to second granularity. If this amount of time elapses, work on the build will cease and the build status will be `TIMEOUT`. `timeout` starts ticking from `startTime`. Default time is 60 minutes. */
+  timeout?: string;
+  /** Optional. Configuration for git operations. */
+  gitConfig?: GitConfig;
+  /** Output only. Results of the build. */
+  results?: Results;
+  /** Output only. Time at which execution of the build was started. */
+  startTime?: string;
   /** Optional. The location of the source files to build. */
   source?: Source;
   /** Required. The operations to be performed on the workspace. */
   steps?: BuildStepList;
-  /** Output only. Results of the build. */
-  results?: Results;
-  /** Output only. Time at which the request to create the build was received. */
-  createTime?: string;
-  /** Output only. Time at which execution of the build was started. */
-  startTime?: string;
-  /** Output only. Time at which execution of the build was finished. The difference between finish_time and start_time is the duration of the build's execution. */
-  finishTime?: string;
-  /** Amount of time that this build should be allowed to run, to second granularity. If this amount of time elapses, work on the build will cease and the build status will be `TIMEOUT`. `timeout` starts ticking from `startTime`. Default time is 60 minutes. */
-  timeout?: string;
-  /** A list of images to be pushed upon the successful completion of all build steps. The images are pushed using the builder service account's credentials. The digests of the pushed images will be stored in the `Build` resource's results field. If any of the images fail to be pushed, the build status is marked `FAILURE`. */
-  images?: StringList;
-  /** TTL in queue for this build. If provided and the build is enqueued longer than this value, the build will expire and the build status will be `EXPIRED`. The TTL starts ticking from create_time. */
-  queueTtl?: string;
-  /** Artifacts produced by the build that should be uploaded upon successful completion of all build steps. */
-  artifacts?: Artifacts;
-  /** Cloud Storage bucket where logs should be written (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). Logs file names will be of the format `${logs_bucket}/log-${build_id}.txt`. */
-  logsBucket?: string;
-  /** Output only. A permanent fixed identifier for source. */
-  sourceProvenance?: SourceProvenance;
-  /** Output only. The ID of the `BuildTrigger` that triggered this build, if it was triggered automatically. */
-  buildTriggerId?: string;
-  /** Special options for this build. */
-  options?: BuildOptions;
-  /** Output only. URL to logs for this build in Google Cloud Console. */
-  logUrl?: string;
   /** Substitutions data for `Build` resource. */
   substitutions?: StringMap;
-  /** Tags for annotation of a `Build`. These are not docker tags. */
-  tags?: StringList;
-  /** Secrets to decrypt using Cloud Key Management Service. Note: Secret Manager is the recommended technique for managing sensitive data with Cloud Build. Use `available_secrets` to configure builds to access secrets from Secret Manager. For instructions, see: https://cloud.google.com/cloud-build/docs/securing-builds/use-secrets */
-  secrets?: SecretList;
-  /** Output only. Stores timing information for phases of the build. Valid keys are: * BUILD: time to execute all build steps. * PUSH: time to push all artifacts including docker images and non docker artifacts. * FETCHSOURCE: time to fetch source. * SETUPBUILD: time to set up build. If the build does not specify source or images, these keys will not be included. */
-  timing?: TimeSpanMap;
-  /** Output only. Describes this build's approval configuration, status, and result. */
-  approval?: BuildApproval;
   /** IAM service account whose credentials will be used at build runtime. Must be of the format `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`. ACCOUNT can be email address or uniqueId of the service account. */
   serviceAccount?: string;
-  /** Secrets and secret environment variables. */
-  availableSecrets?: Secrets;
+  /** Cloud Storage bucket where logs should be written (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). Logs file names will be of the format `${logs_bucket}/log-${build_id}.txt`. */
+  logsBucket?: string;
+  /** Output only. Stores timing information for phases of the build. Valid keys are: * BUILD: time to execute all build steps. * PUSH: time to push all artifacts including docker images and non docker artifacts. * FETCHSOURCE: time to fetch source. * SETUPBUILD: time to set up build. If the build does not specify source or images, these keys will not be included. */
+  timing?: TimeSpanMap;
   /** Output only. Non-fatal problems encountered during the execution of the build. */
   warnings?: WarningList;
-  /** Optional. Configuration for git operations. */
-  gitConfig?: GitConfig;
+  /** Output only. Time at which execution of the build was finished. The difference between finish_time and start_time is the duration of the build's execution. */
+  finishTime?: string;
+  /** Secrets to decrypt using Cloud Key Management Service. Note: Secret Manager is the recommended technique for managing sensitive data with Cloud Build. Use `available_secrets` to configure builds to access secrets from Secret Manager. For instructions, see: https://cloud.google.com/cloud-build/docs/securing-builds/use-secrets */
+  secrets?: SecretList;
+  /** Secrets and secret environment variables. */
+  availableSecrets?: Secrets;
+  /** A list of images to be pushed upon the successful completion of all build steps. The images are pushed using the builder service account's credentials. The digests of the pushed images will be stored in the `Build` resource's results field. If any of the images fail to be pushed, the build status is marked `FAILURE`. */
+  images?: StringList;
+  /** Tags for annotation of a `Build`. These are not docker tags. */
+  tags?: StringList;
+  /** Output only. Status of the build. */
+  status?: BuildStatusEnum | (string & {});
+  /** Output only. URL to logs for this build in Google Cloud Console. */
+  logUrl?: string;
+  /** Output only. Unique identifier of the build. */
+  id?: string;
   /** Output only. Contains information about the build when status=FAILURE. */
   failureInfo?: FailureInfo;
+  /** Output only. The ID of the `BuildTrigger` that triggered this build, if it was triggered automatically. */
+  buildTriggerId?: string;
+  /** Output only. ID of the project. */
+  projectId?: string;
   /** Optional. Dependencies that the Cloud Build worker will fetch before executing user steps. */
   dependencies?: DependencyList;
+  /** Output only. Describes this build's approval configuration, status, and result. */
+  approval?: BuildApproval;
+  /** Special options for this build. */
+  options?: BuildOptions;
+  /** Artifacts produced by the build that should be uploaded upon successful completion of all build steps. */
+  artifacts?: Artifacts;
+  /** Output only. Time at which the request to create the build was received. */
+  createTime?: string;
+  /** TTL in queue for this build. If provided and the build is enqueued longer than this value, the build will expire and the build status will be `EXPIRED`. The TTL starts ticking from create_time. */
+  queueTtl?: string;
+  /** Output only. The 'Build' name with format: `projects/{project}/locations/{location}/builds/{build}`, where {build} is a unique identifier generated by the service. */
+  name?: string;
+  /** Output only. Customer-readable message about the current status. */
+  statusDetail?: string;
 }
 export const Build = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    id: S.optional(S.String),
-    projectId: S.optional(S.String),
-    status: S.optional(BuildStatusEnum),
-    statusDetail: S.optional(S.String),
+    sourceProvenance: S.optional(SourceProvenance),
+    timeout: S.optional(S.String),
+    gitConfig: S.optional(GitConfig),
+    results: S.optional(Results),
+    startTime: S.optional(S.String),
     source: S.optional(Source),
     steps: S.optional(BuildStepList),
-    results: S.optional(Results),
-    createTime: S.optional(S.String),
-    startTime: S.optional(S.String),
-    finishTime: S.optional(S.String),
-    timeout: S.optional(S.String),
-    images: S.optional(StringList),
-    queueTtl: S.optional(S.String),
-    artifacts: S.optional(Artifacts),
-    logsBucket: S.optional(S.String),
-    sourceProvenance: S.optional(SourceProvenance),
-    buildTriggerId: S.optional(S.String),
-    options: S.optional(BuildOptions),
-    logUrl: S.optional(S.String),
     substitutions: S.optional(StringMap),
-    tags: S.optional(StringList),
-    secrets: S.optional(SecretList),
-    timing: S.optional(TimeSpanMap),
-    approval: S.optional(BuildApproval),
     serviceAccount: S.optional(S.String),
-    availableSecrets: S.optional(Secrets),
+    logsBucket: S.optional(S.String),
+    timing: S.optional(TimeSpanMap),
     warnings: S.optional(WarningList),
-    gitConfig: S.optional(GitConfig),
+    finishTime: S.optional(S.String),
+    secrets: S.optional(SecretList),
+    availableSecrets: S.optional(Secrets),
+    images: S.optional(StringList),
+    tags: S.optional(StringList),
+    status: S.optional(BuildStatusEnum),
+    logUrl: S.optional(S.String),
+    id: S.optional(S.String),
     failureInfo: S.optional(FailureInfo),
+    buildTriggerId: S.optional(S.String),
+    projectId: S.optional(S.String),
     dependencies: S.optional(DependencyList),
+    approval: S.optional(BuildApproval),
+    options: S.optional(BuildOptions),
+    artifacts: S.optional(Artifacts),
+    createTime: S.optional(S.String),
+    queueTtl: S.optional(S.String),
+    name: S.optional(S.String),
+    statusDetail: S.optional(S.String),
   }),
 ).annotate({ identifier: "Build" }) as any as S.Schema<Build>;
 
@@ -1849,17 +1756,17 @@ export const CancelProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<CancelProjectsLocationsOperationsRequest>;
 
 export interface CreateProjectsBuildsRequest {
-  /** Required. ID of the project. */
-  projectId: string;
   /** The parent resource where this build will be created. Format: `projects/{project}/locations/{location}` */
   parent?: string;
+  /** Required. ID of the project. */
+  projectId: string;
   /** Request body */
   body?: Build;
 }
 export const CreateProjectsBuildsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    projectId: S.String.pipe(T.Label()),
     parent: S.optional(S.String.pipe(T.Query())),
+    projectId: S.String.pipe(T.Label()),
     body: S.optional(Build.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1874,33 +1781,33 @@ export const CreateProjectsBuildsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** GitHubEnterpriseSecrets represents the names of all necessary secrets in Secret Manager for a GitHub Enterprise server. Format is: projects//secrets/. */
 export interface GitHubEnterpriseSecrets {
-  /** The resource name for the private key secret. */
-  privateKeyName?: string;
   /** The resource name for the webhook secret in Secret Manager. */
   webhookSecretName?: string;
   /** The resource name for the OAuth secret in Secret Manager. */
   oauthSecretName?: string;
   /** The resource name for the OAuth client ID secret in Secret Manager. */
   oauthClientIdName?: string;
-  /** The resource name for the private key secret version. */
-  privateKeyVersionName?: string;
-  /** The resource name for the webhook secret secret version in Secret Manager. */
-  webhookSecretVersionName?: string;
-  /** The resource name for the OAuth secret secret version in Secret Manager. */
-  oauthSecretVersionName?: string;
   /** The resource name for the OAuth client ID secret version in Secret Manager. */
   oauthClientIdVersionName?: string;
+  /** The resource name for the private key secret. */
+  privateKeyName?: string;
+  /** The resource name for the private key secret version. */
+  privateKeyVersionName?: string;
+  /** The resource name for the OAuth secret secret version in Secret Manager. */
+  oauthSecretVersionName?: string;
+  /** The resource name for the webhook secret secret version in Secret Manager. */
+  webhookSecretVersionName?: string;
 }
 export const GitHubEnterpriseSecrets = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    privateKeyName: S.optional(S.String),
     webhookSecretName: S.optional(S.String),
     oauthSecretName: S.optional(S.String),
     oauthClientIdName: S.optional(S.String),
-    privateKeyVersionName: S.optional(S.String),
-    webhookSecretVersionName: S.optional(S.String),
-    oauthSecretVersionName: S.optional(S.String),
     oauthClientIdVersionName: S.optional(S.String),
+    privateKeyName: S.optional(S.String),
+    privateKeyVersionName: S.optional(S.String),
+    oauthSecretVersionName: S.optional(S.String),
+    webhookSecretVersionName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GitHubEnterpriseSecrets",
@@ -1908,57 +1815,57 @@ export const GitHubEnterpriseSecrets = /*@__PURE__*/ S.suspend(() =>
 
 /** GitHubEnterpriseConfig represents a configuration for a GitHub Enterprise server. */
 export interface GitHubEnterpriseConfig {
-  /** The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
-  name?: string;
-  /** The URL of the github enterprise host the configuration is for. */
-  hostUrl?: string;
-  /** Required. The GitHub app id of the Cloud Build app on the GitHub Enterprise server. */
-  appId?: string;
-  /** Output only. Time when the installation was associated with the project. */
-  createTime?: string;
-  /** The key that should be attached to webhook calls to the ReceiveWebhook endpoint. */
-  webhookKey?: string;
-  /** Optional. The network to be used when reaching out to the GitHub Enterprise server. The VPC network must be enabled for private service connection. This should be set if the GitHub Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, no network peering will occur and calls to the GitHub Enterprise server will be made over the public internet. Must be in the format `projects/{project}/global/networks/{network}`, where {project} is a project number or id and {network} is the name of a VPC network in the project. */
-  peeredNetwork?: string;
   /** Optional. Names of secrets in Secret Manager. */
   secrets?: GitHubEnterpriseSecrets;
-  /** Optional. Name to display for this config. */
-  displayName?: string;
+  /** The URL of the github enterprise host the configuration is for. */
+  hostUrl?: string;
+  /** Output only. Time when the installation was associated with the project. */
+  createTime?: string;
+  /** Optional. The network to be used when reaching out to the GitHub Enterprise server. The VPC network must be enabled for private service connection. This should be set if the GitHub Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, no network peering will occur and calls to the GitHub Enterprise server will be made over the public internet. Must be in the format `projects/{project}/global/networks/{network}`, where {project} is a project number or id and {network} is the name of a VPC network in the project. */
+  peeredNetwork?: string;
+  /** Identifier. The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
+  name?: string;
+  /** The key that should be attached to webhook calls to the ReceiveWebhook endpoint. */
+  webhookKey?: string;
+  /** Required. The GitHub app id of the Cloud Build app on the GitHub Enterprise server. */
+  appId?: string;
   /** Optional. SSL certificate to use for requests to GitHub Enterprise. */
   sslCa?: string;
+  /** Optional. Name to display for this config. */
+  displayName?: string;
 }
 export const GitHubEnterpriseConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    hostUrl: S.optional(S.String),
-    appId: S.optional(S.String),
-    createTime: S.optional(S.String),
-    webhookKey: S.optional(S.String),
-    peeredNetwork: S.optional(S.String),
     secrets: S.optional(GitHubEnterpriseSecrets),
-    displayName: S.optional(S.String),
+    hostUrl: S.optional(S.String),
+    createTime: S.optional(S.String),
+    peeredNetwork: S.optional(S.String),
+    name: S.optional(S.String),
+    webhookKey: S.optional(S.String),
+    appId: S.optional(S.String),
     sslCa: S.optional(S.String),
+    displayName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GitHubEnterpriseConfig",
 }) as any as S.Schema<GitHubEnterpriseConfig>;
 
 export interface CreateProjectsGithubEnterpriseConfigsRequest {
-  /** Name of the parent project. For example: projects/{$project_number} or projects/{$project_id} */
-  parent: string;
   /** ID of the project. */
   projectId?: string;
   /** Optional. The ID to use for the GithubEnterpriseConfig, which will become the final component of the GithubEnterpriseConfig's resource name. ghe_config_id must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character */
   gheConfigId?: string;
+  /** Name of the parent project. For example: projects/{$project_number} or projects/{$project_id} */
+  parent: string;
   /** Request body */
   body?: GitHubEnterpriseConfig;
 }
 export const CreateProjectsGithubEnterpriseConfigsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       projectId: S.optional(S.String.pipe(T.Query())),
       gheConfigId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(GitHubEnterpriseConfig.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1975,16 +1882,16 @@ export const CreateProjectsGithubEnterpriseConfigsRequest =
 export interface BitbucketServerSecrets {
   /** Required. The resource name for the admin access token's secret version. */
   adminAccessTokenVersionName?: string;
-  /** Required. The resource name for the read access token's secret version. */
-  readAccessTokenVersionName?: string;
   /** Required. Immutable. The resource name for the webhook secret's secret version. Once this field has been set, it cannot be changed. If you need to change it, please create another BitbucketServerConfig. */
   webhookSecretVersionName?: string;
+  /** Required. The resource name for the read access token's secret version. */
+  readAccessTokenVersionName?: string;
 }
 export const BitbucketServerSecrets = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     adminAccessTokenVersionName: S.optional(S.String),
-    readAccessTokenVersionName: S.optional(S.String),
     webhookSecretVersionName: S.optional(S.String),
+    readAccessTokenVersionName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "BitbucketServerSecrets",
@@ -1998,42 +1905,42 @@ export const BitbucketServerRepositoryIdList = /*@__PURE__*/ S.Array(
 
 /** BitbucketServerConfig represents the configuration for a Bitbucket Server. */
 export interface BitbucketServerConfig {
-  /** The resource name for the config. */
-  name?: string;
-  /** Required. Immutable. The URI of the Bitbucket Server host. Once this field has been set, it cannot be changed. If you need to change it, please create another BitbucketServerConfig. */
-  hostUri?: string;
-  /** Required. Secret Manager secrets needed by the config. */
-  secrets?: BitbucketServerSecrets;
-  /** Time when the config was created. */
-  createTime?: string;
-  /** Username of the account Cloud Build will use on Bitbucket Server. */
-  username?: string;
-  /** Output only. UUID included in webhook requests. The UUID is used to look up the corresponding config. */
-  webhookKey?: string;
-  /** Required. Immutable. API Key that will be attached to webhook. Once this field has been set, it cannot be changed. If you need to change it, please create another BitbucketServerConfig. */
-  apiKey?: string;
-  /** Output only. Connected Bitbucket Server repositories for this config. */
-  connectedRepositories?: BitbucketServerRepositoryIdList;
   /** Optional. The network to be used when reaching out to the Bitbucket Server instance. The VPC network must be enabled for private service connection. This should be set if the Bitbucket Server instance is hosted on-premises and not reachable by public internet. If this field is left empty, no network peering will occur and calls to the Bitbucket Server instance will be made over the public internet. Must be in the format `projects/{project}/global/networks/{network}`, where {project} is a project number or id and {network} is the name of a VPC network in the project. */
   peeredNetwork?: string;
-  /** Optional. SSL certificate to use for requests to Bitbucket Server. The format should be PEM format but the extension can be one of .pem, .cer, or .crt. */
-  sslCa?: string;
+  /** Identifier. The resource name for the config. */
+  name?: string;
+  /** Output only. UUID included in webhook requests. The UUID is used to look up the corresponding config. */
+  webhookKey?: string;
+  /** Time when the config was created. */
+  createTime?: string;
+  /** Required. Immutable. The URI of the Bitbucket Server host. Once this field has been set, it cannot be changed. If you need to change it, please create another BitbucketServerConfig. */
+  hostUri?: string;
+  /** Required. Immutable. API Key that will be attached to webhook. Once this field has been set, it cannot be changed. If you need to change it, please create another BitbucketServerConfig. */
+  apiKey?: string;
+  /** Required. Secret Manager secrets needed by the config. */
+  secrets?: BitbucketServerSecrets;
   /** Immutable. IP range within the peered network. This is specified in CIDR notation with a slash and the subnet prefix size. You can optionally specify an IP address before the subnet prefix value. e.g. `192.168.0.0/29` would specify an IP range starting at 192.168.0.0 with a 29 bit prefix size. `/16` would specify a prefix size of 16 bits, with an automatically determined IP within the peered VPC. If unspecified, a value of `/24` will be used. The field only has an effect if peered_network is set. */
   peeredNetworkIpRange?: string;
+  /** Optional. SSL certificate to use for requests to Bitbucket Server. The format should be PEM format but the extension can be one of .pem, .cer, or .crt. */
+  sslCa?: string;
+  /** Output only. Connected Bitbucket Server repositories for this config. */
+  connectedRepositories?: BitbucketServerRepositoryIdList;
+  /** Username of the account Cloud Build will use on Bitbucket Server. */
+  username?: string;
 }
 export const BitbucketServerConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    hostUri: S.optional(S.String),
-    secrets: S.optional(BitbucketServerSecrets),
-    createTime: S.optional(S.String),
-    username: S.optional(S.String),
-    webhookKey: S.optional(S.String),
-    apiKey: S.optional(S.String),
-    connectedRepositories: S.optional(BitbucketServerRepositoryIdList),
     peeredNetwork: S.optional(S.String),
-    sslCa: S.optional(S.String),
+    name: S.optional(S.String),
+    webhookKey: S.optional(S.String),
+    createTime: S.optional(S.String),
+    hostUri: S.optional(S.String),
+    apiKey: S.optional(S.String),
+    secrets: S.optional(BitbucketServerSecrets),
     peeredNetworkIpRange: S.optional(S.String),
+    sslCa: S.optional(S.String),
+    connectedRepositories: S.optional(BitbucketServerRepositoryIdList),
+    username: S.optional(S.String),
   }),
 ).annotate({
   identifier: "BitbucketServerConfig",
@@ -2065,18 +1972,18 @@ export const CreateProjectsLocationsBitbucketServerConfigsRequest =
   }) as any as S.Schema<CreateProjectsLocationsBitbucketServerConfigsRequest>;
 
 export interface CreateProjectsLocationsBuildsRequest {
-  /** The parent resource where this build will be created. Format: `projects/{project}/locations/{location}` */
-  parent: string;
   /** Required. ID of the project. */
   projectId?: string;
+  /** The parent resource where this build will be created. Format: `projects/{project}/locations/{location}` */
+  parent: string;
   /** Request body */
   body?: Build;
 }
 export const CreateProjectsLocationsBuildsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       projectId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(Build.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -2090,21 +1997,21 @@ export const CreateProjectsLocationsBuildsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<CreateProjectsLocationsBuildsRequest>;
 
 export interface CreateProjectsLocationsGithubEnterpriseConfigsRequest {
-  /** Name of the parent project. For example: projects/{$project_number} or projects/{$project_id} */
-  parent: string;
   /** ID of the project. */
   projectId?: string;
   /** Optional. The ID to use for the GithubEnterpriseConfig, which will become the final component of the GithubEnterpriseConfig's resource name. ghe_config_id must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character */
   gheConfigId?: string;
+  /** Name of the parent project. For example: projects/{$project_number} or projects/{$project_id} */
+  parent: string;
   /** Request body */
   body?: GitHubEnterpriseConfig;
 }
 export const CreateProjectsLocationsGithubEnterpriseConfigsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       projectId: S.optional(S.String.pipe(T.Query())),
       gheConfigId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(GitHubEnterpriseConfig.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -2117,182 +2024,272 @@ export const CreateProjectsLocationsGithubEnterpriseConfigsRequest =
     identifier: "CreateProjectsLocationsGithubEnterpriseConfigsRequest",
   }) as any as S.Schema<CreateProjectsLocationsGithubEnterpriseConfigsRequest>;
 
-/** GitLabSecrets represents the secrets in Secret Manager for a GitLab integration. */
-export interface GitLabSecrets {
-  /** Required. Immutable. The resource name for the webhook secret’s secret version. Once this field has been set, it cannot be changed. If you need to change it, please create another GitLabConfig. */
-  webhookSecretVersion?: string;
-  /** Required. Immutable. API Key that will be attached to webhook requests from GitLab to Cloud Build. */
-  apiKeyVersion?: string;
-  /** Required. The resource name for the api access token’s secret version */
-  apiAccessTokenVersion?: string;
-  /** Required. The resource name for the read access token’s secret version */
-  readAccessTokenVersion?: string;
+/** Push contains filter properties for matching GitHub git pushes. */
+export interface PushFilter {
+  /** Regexes matching branches to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
+  branch?: string;
+  /** When true, only trigger a build if the revision regex does NOT match the git_ref regex. */
+  invertRegex?: boolean;
+  /** Regexes matching tags to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
+  tag?: string;
 }
-export const GitLabSecrets = /*@__PURE__*/ S.suspend(() =>
+export const PushFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    webhookSecretVersion: S.optional(S.String),
-    apiKeyVersion: S.optional(S.String),
-    apiAccessTokenVersion: S.optional(S.String),
-    readAccessTokenVersion: S.optional(S.String),
+    branch: S.optional(S.String),
+    invertRegex: S.optional(S.Boolean),
+    tag: S.optional(S.String),
   }),
-).annotate({ identifier: "GitLabSecrets" }) as any as S.Schema<GitLabSecrets>;
+).annotate({ identifier: "PushFilter" }) as any as S.Schema<PushFilter>;
 
-export type GitLabRepositoryIdList = Array<GitLabRepositoryId>;
-export const GitLabRepositoryIdList = /*@__PURE__*/ S.Array(
-  GitLabRepositoryId,
-) as any as S.Schema<GitLabRepositoryIdList>;
-
-/** ServiceDirectoryConfig represents Service Directory configuration for a SCM host connection. */
-export interface ServiceDirectoryConfig {
-  /** The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. */
-  service?: string;
-}
-export const ServiceDirectoryConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    service: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ServiceDirectoryConfig",
-}) as any as S.Schema<ServiceDirectoryConfig>;
-
-/** GitLabEnterpriseConfig represents the configuration for a GitLabEnterprise integration. */
-export interface GitLabEnterpriseConfig {
-  /** Immutable. The URI of the GitlabEnterprise host. */
-  hostUri?: string;
-  /** The Service Directory configuration to be used when reaching out to the GitLab Enterprise instance. */
-  serviceDirectoryConfig?: ServiceDirectoryConfig;
-  /** The SSL certificate to use in requests to GitLab Enterprise instances. */
-  sslCa?: string;
-}
-export const GitLabEnterpriseConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hostUri: S.optional(S.String),
-    serviceDirectoryConfig: S.optional(ServiceDirectoryConfig),
-    sslCa: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GitLabEnterpriseConfig",
-}) as any as S.Schema<GitLabEnterpriseConfig>;
-
-/** GitLabConfig represents the configuration for a GitLab integration. */
-export interface GitLabConfig {
-  /** The resource name for the config. */
-  name?: string;
-  /** Username of the GitLab.com or GitLab Enterprise account Cloud Build will use. */
-  username?: string;
-  /** Required. Secret Manager secrets needed by the config. */
-  secrets?: GitLabSecrets;
-  /** Output only. Time when the config was created. */
-  createTime?: string;
-  /** Output only. UUID included in webhook requests. The UUID is used to look up the corresponding config. */
-  webhookKey?: string;
-  /** Connected GitLab.com or GitLabEnterprise repositories for this config. */
-  connectedRepositories?: GitLabRepositoryIdList;
-  /** Optional. GitLabEnterprise config. */
-  enterpriseConfig?: GitLabEnterpriseConfig;
-}
-export const GitLabConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    username: S.optional(S.String),
-    secrets: S.optional(GitLabSecrets),
-    createTime: S.optional(S.String),
-    webhookKey: S.optional(S.String),
-    connectedRepositories: S.optional(GitLabRepositoryIdList),
-    enterpriseConfig: S.optional(GitLabEnterpriseConfig),
-  }),
-).annotate({ identifier: "GitLabConfig" }) as any as S.Schema<GitLabConfig>;
-
-export interface CreateProjectsLocationsGitLabConfigsRequest {
-  /** Required. Name of the parent resource. */
-  parent: string;
-  /** Optional. The ID to use for the GitLabConfig, which will become the final component of the GitLabConfig’s resource name. gitlab_config_id must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character */
-  gitlabConfigId?: string;
-  /** Request body */
-  body?: GitLabConfig;
-}
-export const CreateProjectsLocationsGitLabConfigsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      parent: S.String.pipe(T.Label()),
-      gitlabConfigId: S.optional(S.String.pipe(T.Query())),
-      body: S.optional(GitLabConfig.pipe(T.HttpBody())),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "v1/{+parent}/gitLabConfigs",
-        baseUrl: "https://cloudbuild.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "CreateProjectsLocationsGitLabConfigsRequest",
-  }) as any as S.Schema<CreateProjectsLocationsGitLabConfigsRequest>;
+export type DeveloperConnectEventConfigGitRepositoryLinkTypeEnum =
+  | "GIT_REPOSITORY_LINK_TYPE_UNSPECIFIED"
+  | "GITHUB"
+  | "GITHUB_ENTERPRISE"
+  | "GITLAB"
+  | "GITLAB_ENTERPRISE"
+  | "BITBUCKET_DATA_CENTER"
+  | "BITBUCKET_CLOUD";
+export const DeveloperConnectEventConfigGitRepositoryLinkTypeEnum = S.String;
 
 export type PullRequestFilterCommentControlEnum =
   | "COMMENTS_DISABLED"
   | "COMMENTS_ENABLED"
   | "COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY";
-export const PullRequestFilterCommentControlEnum = /*@__PURE__*/ S.String;
+export const PullRequestFilterCommentControlEnum = S.String;
 
 /** PullRequestFilter contains filter properties for matching GitHub Pull Requests. */
 export interface PullRequestFilter {
-  /** Regex of branches to match. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  branch?: string;
   /** If CommentControl is enabled, depending on the setting, builds may not fire until a repository writer comments `/gcbrun` on a pull request or `/gcbrun` is in the pull request description. Only PR comments that contain `/gcbrun` will trigger builds. If CommentControl is set to disabled, comments with `/gcbrun` from a user with repository write permission or above will still trigger builds to run. */
   commentControl?: PullRequestFilterCommentControlEnum | (string & {});
+  /** Regex of branches to match. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
+  branch?: string;
   /** If true, branches that do NOT match the git_ref will trigger a build. */
   invertRegex?: boolean;
 }
 export const PullRequestFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    branch: S.optional(S.String),
     commentControl: S.optional(PullRequestFilterCommentControlEnum),
+    branch: S.optional(S.String),
     invertRegex: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "PullRequestFilter",
 }) as any as S.Schema<PullRequestFilter>;
 
-/** Push contains filter properties for matching GitHub git pushes. */
-export interface PushFilter {
-  /** Regexes matching branches to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  branch?: string;
-  /** Regexes matching tags to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  tag?: string;
-  /** When true, only trigger a build if the revision regex does NOT match the git_ref regex. */
-  invertRegex?: boolean;
+/** The configuration of a trigger that creates a build whenever an event from the DeveloperConnect API is received. */
+export interface DeveloperConnectEventConfig {
+  /** Required. The Developer Connect Git repository link, formatted as `projects/*\/locations/*\/connections/*\/gitRepositoryLink/*`. */
+  gitRepositoryLink?: string;
+  /** Filter to match changes in refs like branches and tags. */
+  push?: PushFilter;
+  /** Output only. The type of DeveloperConnect GitRepositoryLink. */
+  gitRepositoryLinkType?:
+    | DeveloperConnectEventConfigGitRepositoryLinkTypeEnum
+    | (string & {});
+  /** Filter to match changes in pull requests. */
+  pullRequest?: PullRequestFilter;
 }
-export const PushFilter = /*@__PURE__*/ S.suspend(() =>
+export const DeveloperConnectEventConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    branch: S.optional(S.String),
-    tag: S.optional(S.String),
-    invertRegex: S.optional(S.Boolean),
+    gitRepositoryLink: S.optional(S.String),
+    push: S.optional(PushFilter),
+    gitRepositoryLinkType: S.optional(
+      DeveloperConnectEventConfigGitRepositoryLinkTypeEnum,
+    ),
+    pullRequest: S.optional(PullRequestFilter),
   }),
-).annotate({ identifier: "PushFilter" }) as any as S.Schema<PushFilter>;
+).annotate({
+  identifier: "DeveloperConnectEventConfig",
+}) as any as S.Schema<DeveloperConnectEventConfig>;
+
+export type WebhookConfigStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "OK"
+  | "SECRET_DELETED";
+export const WebhookConfigStateEnum = S.String;
+
+/** WebhookConfig describes the configuration of a trigger that creates a build whenever a webhook is sent to a trigger's webhook URL. */
+export interface WebhookConfig {
+  /** Potential issues with the underlying Pub/Sub subscription configuration. Only populated on get requests. */
+  state?: WebhookConfigStateEnum | (string & {});
+  /** Required. Resource name for the secret required as a URL parameter. */
+  secret?: string;
+}
+export const WebhookConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.optional(WebhookConfigStateEnum),
+    secret: S.optional(S.String),
+  }),
+).annotate({ identifier: "WebhookConfig" }) as any as S.Schema<WebhookConfig>;
+
+export type BuildTriggerIncludeBuildLogsEnum =
+  | "INCLUDE_BUILD_LOGS_UNSPECIFIED"
+  | "INCLUDE_BUILD_LOGS_WITH_STATUS";
+export const BuildTriggerIncludeBuildLogsEnum = S.String;
+
+export type BuildTriggerEventTypeEnum =
+  | "EVENT_TYPE_UNSPECIFIED"
+  | "REPO"
+  | "WEBHOOK"
+  | "PUBSUB"
+  | "MANUAL";
+export const BuildTriggerEventTypeEnum = S.String;
+
+export type RepositoryEventConfigRepositoryTypeEnum =
+  | "REPOSITORY_TYPE_UNSPECIFIED"
+  | "GITHUB"
+  | "GITHUB_ENTERPRISE"
+  | "GITLAB_ENTERPRISE"
+  | "BITBUCKET_DATA_CENTER"
+  | "BITBUCKET_CLOUD";
+export const RepositoryEventConfigRepositoryTypeEnum = S.String;
+
+/** The configuration of a trigger that creates a build whenever an event from Repo API is received. */
+export interface RepositoryEventConfig {
+  /** Filter to match changes in refs like branches, tags. */
+  push?: PushFilter;
+  /** The resource name of the Repo API resource. */
+  repository?: string;
+  /** Filter to match changes in pull requests. */
+  pullRequest?: PullRequestFilter;
+  /** Output only. The type of the SCM vendor the repository points to. */
+  repositoryType?: RepositoryEventConfigRepositoryTypeEnum | (string & {});
+}
+export const RepositoryEventConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    push: S.optional(PushFilter),
+    repository: S.optional(S.String),
+    pullRequest: S.optional(PullRequestFilter),
+    repositoryType: S.optional(RepositoryEventConfigRepositoryTypeEnum),
+  }),
+).annotate({
+  identifier: "RepositoryEventConfig",
+}) as any as S.Schema<RepositoryEventConfig>;
+
+/** BitbucketServerTriggerConfig describes the configuration of a trigger that creates a build whenever a Bitbucket Server event is received. */
+export interface BitbucketServerTriggerConfig {
+  /** Output only. The BitbucketServerConfig specified in the bitbucket_server_config_resource field. */
+  bitbucketServerConfig?: BitbucketServerConfig;
+  /** Filter to match changes in refs like branches, tags. */
+  push?: PushFilter;
+  /** Required. Slug of the repository. A repository slug is a URL-friendly version of a repository name, automatically generated by Bitbucket for use in the URL. For example, if the repository name is 'test repo', in the URL it would become 'test-repo' as in https://mybitbucket.server/projects/TEST/repos/test-repo. */
+  repoSlug?: string;
+  /** Required. Key of the project that the repo is in. For example: The key for https://mybitbucket.server/projects/TEST/repos/test-repo is "TEST". */
+  projectKey?: string;
+  /** Filter to match changes in pull requests. */
+  pullRequest?: PullRequestFilter;
+  /** Required. The Bitbucket server config resource that this trigger config maps to. */
+  bitbucketServerConfigResource?: string;
+}
+export const BitbucketServerTriggerConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bitbucketServerConfig: S.optional(BitbucketServerConfig),
+    push: S.optional(PushFilter),
+    repoSlug: S.optional(S.String),
+    projectKey: S.optional(S.String),
+    pullRequest: S.optional(PullRequestFilter),
+    bitbucketServerConfigResource: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BitbucketServerTriggerConfig",
+}) as any as S.Schema<BitbucketServerTriggerConfig>;
+
+export type GitFileSourceRepoTypeEnum =
+  | "UNKNOWN"
+  | "CLOUD_SOURCE_REPOSITORIES"
+  | "GITHUB"
+  | "BITBUCKET_SERVER"
+  | "GITLAB"
+  | "BITBUCKET_CLOUD";
+export const GitFileSourceRepoTypeEnum = S.String;
+
+/** GitFileSource describes a file within a (possibly remote) code repository. */
+export interface GitFileSource {
+  /** The full resource name of the bitbucket server config. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{id}`. */
+  bitbucketServerConfig?: string;
+  /** See RepoType above. */
+  repoType?: GitFileSourceRepoTypeEnum | (string & {});
+  /** The full resource name of the github enterprise config. Format: `projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}`. `projects/{project}/githubEnterpriseConfigs/{id}`. */
+  githubEnterpriseConfig?: string;
+  /** The fully qualified resource name of the Repos API repository. Either URI or repository can be specified. If unspecified, the repo from which the trigger invocation originated is assumed to be the repo from which to read the specified path. */
+  repository?: string;
+  /** The path of the file, with the repo root as the root of the path. */
+  path?: string;
+  /** The branch, tag, arbitrary ref, or SHA version of the repo to use when resolving the filename (optional). This field respects the same syntax/resolution as described here: https://git-scm.com/docs/gitrevisions If unspecified, the revision from which the trigger invocation originated is assumed to be the revision from which to read the specified path. */
+  revision?: string;
+  /** The URI of the repo. Either uri or repository can be specified. If unspecified, the repo from which the trigger invocation originated is assumed to be the repo from which to read the specified path. */
+  uri?: string;
+}
+export const GitFileSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bitbucketServerConfig: S.optional(S.String),
+    repoType: S.optional(GitFileSourceRepoTypeEnum),
+    githubEnterpriseConfig: S.optional(S.String),
+    repository: S.optional(S.String),
+    path: S.optional(S.String),
+    revision: S.optional(S.String),
+    uri: S.optional(S.String),
+  }),
+).annotate({ identifier: "GitFileSource" }) as any as S.Schema<GitFileSource>;
+
+export type GitRepoSourceRepoTypeEnum =
+  | "UNKNOWN"
+  | "CLOUD_SOURCE_REPOSITORIES"
+  | "GITHUB"
+  | "BITBUCKET_SERVER"
+  | "GITLAB"
+  | "BITBUCKET_CLOUD";
+export const GitRepoSourceRepoTypeEnum = S.String;
+
+/** GitRepoSource describes a repo and ref of a code repository. */
+export interface GitRepoSource {
+  /** The connected repository resource name, in the format `projects/*\/locations/*\/connections/*\/repositories/*`. Either `uri` or `repository` can be specified and is required. */
+  repository?: string;
+  /** See RepoType below. */
+  repoType?: GitRepoSourceRepoTypeEnum | (string & {});
+  /** The full resource name of the github enterprise config. Format: `projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}`. `projects/{project}/githubEnterpriseConfigs/{id}`. */
+  githubEnterpriseConfig?: string;
+  /** The full resource name of the bitbucket server config. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{id}`. */
+  bitbucketServerConfig?: string;
+  /** The URI of the repo (e.g. https://github.com/user/repo.git). Either `uri` or `repository` can be specified and is required. */
+  uri?: string;
+  /** The branch or tag to use. Must start with "refs/" (required). */
+  ref?: string;
+}
+export const GitRepoSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repository: S.optional(S.String),
+    repoType: S.optional(GitRepoSourceRepoTypeEnum),
+    githubEnterpriseConfig: S.optional(S.String),
+    bitbucketServerConfig: S.optional(S.String),
+    uri: S.optional(S.String),
+    ref: S.optional(S.String),
+  }),
+).annotate({ identifier: "GitRepoSource" }) as any as S.Schema<GitRepoSource>;
 
 /** GitHubEventsConfig describes the configuration of a trigger that creates a build whenever a GitHub event is received. */
 export interface GitHubEventsConfig {
-  /** The installationID that emits the GitHub event. */
-  installationId?: string;
-  /** Owner of the repository. For example: The owner for https://github.com/googlecloudplatform/cloud-builders is "googlecloudplatform". */
-  owner?: string;
   /** Name of the repository. For example: The name for https://github.com/googlecloudplatform/cloud-builders is "cloud-builders". */
   name?: string;
-  /** filter to match changes in pull requests. */
-  pullRequest?: PullRequestFilter;
   /** filter to match changes in refs like branches, tags. */
   push?: PushFilter;
+  /** Owner of the repository. For example: The owner for https://github.com/googlecloudplatform/cloud-builders is "googlecloudplatform". */
+  owner?: string;
+  /** filter to match changes in pull requests. */
+  pullRequest?: PullRequestFilter;
   /** The resource name of the github enterprise config that should be applied to this installation. For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
   enterpriseConfigResourceName?: string;
+  /** The installationID that emits the GitHub event. */
+  installationId?: string;
 }
 export const GitHubEventsConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    installationId: S.optional(S.String),
-    owner: S.optional(S.String),
     name: S.optional(S.String),
-    pullRequest: S.optional(PullRequestFilter),
     push: S.optional(PushFilter),
+    owner: S.optional(S.String),
+    pullRequest: S.optional(PullRequestFilter),
     enterpriseConfigResourceName: S.optional(S.String),
+    installationId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GitHubEventsConfig",
@@ -2304,7 +2301,7 @@ export type PubsubConfigStateEnum =
   | "SUBSCRIPTION_DELETED"
   | "TOPIC_DELETED"
   | "SUBSCRIPTION_MISCONFIGURED";
-export const PubsubConfigStateEnum = /*@__PURE__*/ S.String;
+export const PubsubConfigStateEnum = S.String;
 
 /** PubsubConfig describes the configuration of a trigger that creates a build whenever a Pub/Sub message is published. */
 export interface PubsubConfig {
@@ -2326,322 +2323,92 @@ export const PubsubConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "PubsubConfig" }) as any as S.Schema<PubsubConfig>;
 
-export type WebhookConfigStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "OK"
-  | "SECRET_DELETED";
-export const WebhookConfigStateEnum = /*@__PURE__*/ S.String;
-
-/** WebhookConfig describes the configuration of a trigger that creates a build whenever a webhook is sent to a trigger's webhook URL. */
-export interface WebhookConfig {
-  /** Required. Resource name for the secret required as a URL parameter. */
-  secret?: string;
-  /** Potential issues with the underlying Pub/Sub subscription configuration. Only populated on get requests. */
-  state?: WebhookConfigStateEnum | (string & {});
-}
-export const WebhookConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    secret: S.optional(S.String),
-    state: S.optional(WebhookConfigStateEnum),
-  }),
-).annotate({ identifier: "WebhookConfig" }) as any as S.Schema<WebhookConfig>;
-
-/** BitbucketServerTriggerConfig describes the configuration of a trigger that creates a build whenever a Bitbucket Server event is received. */
-export interface BitbucketServerTriggerConfig {
-  /** Required. Slug of the repository. A repository slug is a URL-friendly version of a repository name, automatically generated by Bitbucket for use in the URL. For example, if the repository name is 'test repo', in the URL it would become 'test-repo' as in https://mybitbucket.server/projects/TEST/repos/test-repo. */
-  repoSlug?: string;
-  /** Required. Key of the project that the repo is in. For example: The key for https://mybitbucket.server/projects/TEST/repos/test-repo is "TEST". */
-  projectKey?: string;
-  /** Filter to match changes in pull requests. */
-  pullRequest?: PullRequestFilter;
-  /** Filter to match changes in refs like branches, tags. */
-  push?: PushFilter;
-  /** Required. The Bitbucket server config resource that this trigger config maps to. */
-  bitbucketServerConfigResource?: string;
-  /** Output only. The BitbucketServerConfig specified in the bitbucket_server_config_resource field. */
-  bitbucketServerConfig?: BitbucketServerConfig;
-}
-export const BitbucketServerTriggerConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    repoSlug: S.optional(S.String),
-    projectKey: S.optional(S.String),
-    pullRequest: S.optional(PullRequestFilter),
-    push: S.optional(PushFilter),
-    bitbucketServerConfigResource: S.optional(S.String),
-    bitbucketServerConfig: S.optional(BitbucketServerConfig),
-  }),
-).annotate({
-  identifier: "BitbucketServerTriggerConfig",
-}) as any as S.Schema<BitbucketServerTriggerConfig>;
-
-/** GitLabEventsConfig describes the configuration of a trigger that creates a build whenever a GitLab event is received. */
-export interface GitLabEventsConfig {
-  /** Namespace of the GitLab project. */
-  projectNamespace?: string;
-  /** Filter to match changes in pull requests. */
-  pullRequest?: PullRequestFilter;
-  /** Filter to match changes in refs like branches, tags. */
-  push?: PushFilter;
-  /** The GitLab config resource that this trigger config maps to. */
-  gitlabConfigResource?: string;
-  /** Output only. The GitLabConfig specified in the gitlab_config_resource field. */
-  gitlabConfig?: GitLabConfig;
-}
-export const GitLabEventsConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectNamespace: S.optional(S.String),
-    pullRequest: S.optional(PullRequestFilter),
-    push: S.optional(PushFilter),
-    gitlabConfigResource: S.optional(S.String),
-    gitlabConfig: S.optional(GitLabConfig),
-  }),
-).annotate({
-  identifier: "GitLabEventsConfig",
-}) as any as S.Schema<GitLabEventsConfig>;
-
-export type GitFileSourceRepoTypeEnum =
-  | "UNKNOWN"
-  | "CLOUD_SOURCE_REPOSITORIES"
-  | "GITHUB"
-  | "BITBUCKET_SERVER"
-  | "GITLAB"
-  | "BITBUCKET_CLOUD";
-export const GitFileSourceRepoTypeEnum = /*@__PURE__*/ S.String;
-
-/** GitFileSource describes a file within a (possibly remote) code repository. */
-export interface GitFileSource {
-  /** The path of the file, with the repo root as the root of the path. */
-  path?: string;
-  /** The URI of the repo. Either uri or repository can be specified. If unspecified, the repo from which the trigger invocation originated is assumed to be the repo from which to read the specified path. */
-  uri?: string;
-  /** The fully qualified resource name of the Repos API repository. Either URI or repository can be specified. If unspecified, the repo from which the trigger invocation originated is assumed to be the repo from which to read the specified path. */
-  repository?: string;
-  /** See RepoType above. */
-  repoType?: GitFileSourceRepoTypeEnum | (string & {});
-  /** The branch, tag, arbitrary ref, or SHA version of the repo to use when resolving the filename (optional). This field respects the same syntax/resolution as described here: https://git-scm.com/docs/gitrevisions If unspecified, the revision from which the trigger invocation originated is assumed to be the revision from which to read the specified path. */
-  revision?: string;
-  /** The full resource name of the github enterprise config. Format: `projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}`. `projects/{project}/githubEnterpriseConfigs/{id}`. */
-  githubEnterpriseConfig?: string;
-  /** The full resource name of the bitbucket server config. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{id}`. */
-  bitbucketServerConfig?: string;
-}
-export const GitFileSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    path: S.optional(S.String),
-    uri: S.optional(S.String),
-    repository: S.optional(S.String),
-    repoType: S.optional(GitFileSourceRepoTypeEnum),
-    revision: S.optional(S.String),
-    githubEnterpriseConfig: S.optional(S.String),
-    bitbucketServerConfig: S.optional(S.String),
-  }),
-).annotate({ identifier: "GitFileSource" }) as any as S.Schema<GitFileSource>;
-
-export type GitRepoSourceRepoTypeEnum =
-  | "UNKNOWN"
-  | "CLOUD_SOURCE_REPOSITORIES"
-  | "GITHUB"
-  | "BITBUCKET_SERVER"
-  | "GITLAB"
-  | "BITBUCKET_CLOUD";
-export const GitRepoSourceRepoTypeEnum = /*@__PURE__*/ S.String;
-
-/** GitRepoSource describes a repo and ref of a code repository. */
-export interface GitRepoSource {
-  /** The URI of the repo (e.g. https://github.com/user/repo.git). Either `uri` or `repository` can be specified and is required. */
-  uri?: string;
-  /** The connected repository resource name, in the format `projects/*\/locations/*\/connections/*\/repositories/*`. Either `uri` or `repository` can be specified and is required. */
-  repository?: string;
-  /** The branch or tag to use. Must start with "refs/" (required). */
-  ref?: string;
-  /** See RepoType below. */
-  repoType?: GitRepoSourceRepoTypeEnum | (string & {});
-  /** The full resource name of the github enterprise config. Format: `projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}`. `projects/{project}/githubEnterpriseConfigs/{id}`. */
-  githubEnterpriseConfig?: string;
-  /** The full resource name of the bitbucket server config. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{id}`. */
-  bitbucketServerConfig?: string;
-}
-export const GitRepoSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uri: S.optional(S.String),
-    repository: S.optional(S.String),
-    ref: S.optional(S.String),
-    repoType: S.optional(GitRepoSourceRepoTypeEnum),
-    githubEnterpriseConfig: S.optional(S.String),
-    bitbucketServerConfig: S.optional(S.String),
-  }),
-).annotate({ identifier: "GitRepoSource" }) as any as S.Schema<GitRepoSource>;
-
-export type BuildTriggerEventTypeEnum =
-  | "EVENT_TYPE_UNSPECIFIED"
-  | "REPO"
-  | "WEBHOOK"
-  | "PUBSUB"
-  | "MANUAL";
-export const BuildTriggerEventTypeEnum = /*@__PURE__*/ S.String;
-
-export type BuildTriggerIncludeBuildLogsEnum =
-  | "INCLUDE_BUILD_LOGS_UNSPECIFIED"
-  | "INCLUDE_BUILD_LOGS_WITH_STATUS";
-export const BuildTriggerIncludeBuildLogsEnum = /*@__PURE__*/ S.String;
-
-export type RepositoryEventConfigRepositoryTypeEnum =
-  | "REPOSITORY_TYPE_UNSPECIFIED"
-  | "GITHUB"
-  | "GITHUB_ENTERPRISE"
-  | "GITLAB_ENTERPRISE"
-  | "BITBUCKET_DATA_CENTER"
-  | "BITBUCKET_CLOUD";
-export const RepositoryEventConfigRepositoryTypeEnum = /*@__PURE__*/ S.String;
-
-/** The configuration of a trigger that creates a build whenever an event from Repo API is received. */
-export interface RepositoryEventConfig {
-  /** The resource name of the Repo API resource. */
-  repository?: string;
-  /** Output only. The type of the SCM vendor the repository points to. */
-  repositoryType?: RepositoryEventConfigRepositoryTypeEnum | (string & {});
-  /** Filter to match changes in pull requests. */
-  pullRequest?: PullRequestFilter;
-  /** Filter to match changes in refs like branches, tags. */
-  push?: PushFilter;
-}
-export const RepositoryEventConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    repository: S.optional(S.String),
-    repositoryType: S.optional(RepositoryEventConfigRepositoryTypeEnum),
-    pullRequest: S.optional(PullRequestFilter),
-    push: S.optional(PushFilter),
-  }),
-).annotate({
-  identifier: "RepositoryEventConfig",
-}) as any as S.Schema<RepositoryEventConfig>;
-
-export type DeveloperConnectEventConfigGitRepositoryLinkTypeEnum =
-  | "GIT_REPOSITORY_LINK_TYPE_UNSPECIFIED"
-  | "GITHUB"
-  | "GITHUB_ENTERPRISE"
-  | "GITLAB"
-  | "GITLAB_ENTERPRISE"
-  | "BITBUCKET_DATA_CENTER"
-  | "BITBUCKET_CLOUD";
-export const DeveloperConnectEventConfigGitRepositoryLinkTypeEnum =
-  /*@__PURE__*/ S.String;
-
-/** The configuration of a trigger that creates a build whenever an event from the DeveloperConnect API is received. */
-export interface DeveloperConnectEventConfig {
-  /** Required. The Developer Connect Git repository link, formatted as `projects/*\/locations/*\/connections/*\/gitRepositoryLink/*`. */
-  gitRepositoryLink?: string;
-  /** Output only. The type of DeveloperConnect GitRepositoryLink. */
-  gitRepositoryLinkType?:
-    | DeveloperConnectEventConfigGitRepositoryLinkTypeEnum
-    | (string & {});
-  /** Filter to match changes in pull requests. */
-  pullRequest?: PullRequestFilter;
-  /** Filter to match changes in refs like branches and tags. */
-  push?: PushFilter;
-}
-export const DeveloperConnectEventConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gitRepositoryLink: S.optional(S.String),
-    gitRepositoryLinkType: S.optional(
-      DeveloperConnectEventConfigGitRepositoryLinkTypeEnum,
-    ),
-    pullRequest: S.optional(PullRequestFilter),
-    push: S.optional(PushFilter),
-  }),
-).annotate({
-  identifier: "DeveloperConnectEventConfig",
-}) as any as S.Schema<DeveloperConnectEventConfig>;
-
 /** Configuration for an automated build in response to source repository changes. */
 export interface BuildTrigger {
-  /** The `Trigger` name with format: `projects/{project}/locations/{location}/triggers/{trigger}`, where {trigger} is a unique identifier generated by the service. */
-  resourceName?: string;
   /** Output only. Unique identifier of the trigger. */
   id?: string;
-  /** Human-readable description of this trigger. */
-  description?: string;
-  /** User-assigned name of the trigger. Must be unique within the project. Trigger names must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character. */
-  name?: string;
+  /** Optional. The configuration of a trigger that creates a build whenever an event from the DeveloperConnect API is received. */
+  developerConnectEventConfig?: DeveloperConnectEventConfig;
+  /** ignored_files and included_files are file glob matches using https://golang.org/pkg/path/filepath/#Match extended with support for "**". If ignored_files and changed files are both empty, then they are not used to determine whether or not to trigger a build. If ignored_files is not empty, then we ignore any files that match any of the ignored_file globs. If the change has no files that are outside of the ignored_files globs, then we do not trigger a build. */
+  ignoredFiles?: StringList;
   /** Tags for annotation of a `BuildTrigger` */
   tags?: StringList;
-  /** Template describing the types of source changes to trigger a build. Branch and tag names in trigger templates are interpreted as regular expressions. Any branch or tag change that matches that regular expression will trigger a build. Mutually exclusive with `github`. */
-  triggerTemplate?: RepoSource;
-  /** GitHubEventsConfig describes the configuration of a trigger that creates a build whenever a GitHub event is received. Mutually exclusive with `trigger_template`. */
-  github?: GitHubEventsConfig;
-  /** PubsubConfig describes the configuration of a trigger that creates a build whenever a Pub/Sub message is published. */
-  pubsubConfig?: PubsubConfig;
   /** WebhookConfig describes the configuration of a trigger that creates a build whenever a webhook is sent to a trigger's webhook URL. */
   webhookConfig?: WebhookConfig;
-  /** BitbucketServerTriggerConfig describes the configuration of a trigger that creates a build whenever a Bitbucket Server event is received. */
-  bitbucketServerTriggerConfig?: BitbucketServerTriggerConfig;
-  /** GitLabEnterpriseEventsConfig describes the configuration of a trigger that creates a build whenever a GitLab Enterprise event is received. */
-  gitlabEnterpriseEventsConfig?: GitLabEventsConfig;
+  /** If set to INCLUDE_BUILD_LOGS_WITH_STATUS, log url will be shown on GitHub page when build status is final. Setting this field to INCLUDE_BUILD_LOGS_WITH_STATUS for non GitHub triggers results in INVALID_ARGUMENT error. */
+  includeBuildLogs?: BuildTriggerIncludeBuildLogsEnum | (string & {});
+  /** EventType allows the user to explicitly set the type of event to which this BuildTrigger should respond. This field will be validated against the rest of the configuration if it is set. */
+  eventType?: BuildTriggerEventTypeEnum | (string & {});
+  /** The `Trigger` name with format: `projects/{project}/locations/{location}/triggers/{trigger}`, where {trigger} is a unique identifier generated by the service. */
+  resourceName?: string;
   /** Autodetect build configuration. The following precedence is used (case insensitive): 1. cloudbuild.yaml 2. cloudbuild.yml 3. cloudbuild.json 4. Dockerfile Currently only available for GitHub App Triggers. */
   autodetect?: boolean;
+  /** The configuration of a trigger that creates a build whenever an event from Repo API is received. */
+  repositoryEventConfig?: RepositoryEventConfig;
   /** Contents of the build template. */
   build?: Build;
+  /** If any of the files altered in the commit pass the ignored_files filter and included_files is empty, then as far as this filter is concerned, we should trigger the build. If any of the files altered in the commit pass the ignored_files filter and included_files is not empty, then we make sure that at least one of those files matches a included_files glob. If not, then we do not trigger a build. */
+  includedFiles?: StringList;
+  /** If true, the trigger will never automatically execute a build. */
+  disabled?: boolean;
+  /** User-assigned name of the trigger. Must be unique within the project. Trigger names must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character. */
+  name?: string;
+  /** Human-readable description of this trigger. */
+  description?: string;
+  /** Output only. Time when the trigger was created. */
+  createTime?: string;
+  /** The service account used for all user-controlled operations including UpdateBuildTrigger, RunBuildTrigger, CreateBuild, and CancelBuild. If no service account is set and the legacy Cloud Build service account ([PROJECT_NUM]@cloudbuild.gserviceaccount.com) is the default for the project then it will be used instead. Format: `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}` */
+  serviceAccount?: string;
+  /** Configuration for manual approval to start a build invocation of this BuildTrigger. */
+  approvalConfig?: ApprovalConfig;
+  /** BitbucketServerTriggerConfig describes the configuration of a trigger that creates a build whenever a Bitbucket Server event is received. */
+  bitbucketServerTriggerConfig?: BitbucketServerTriggerConfig;
   /** Path, from the source root, to the build configuration file (i.e. cloudbuild.yaml). */
   filename?: string;
   /** The file source describing the local or remote Build template. */
   gitFileSource?: GitFileSource;
-  /** Output only. Time when the trigger was created. */
-  createTime?: string;
-  /** If true, the trigger will never automatically execute a build. */
-  disabled?: boolean;
-  /** Substitutions for Build resource. The keys must match the following regular expression: `^_[A-Z0-9_]+$`. */
-  substitutions?: StringMap;
-  /** ignored_files and included_files are file glob matches using https://golang.org/pkg/path/filepath/#Match extended with support for "**". If ignored_files and changed files are both empty, then they are not used to determine whether or not to trigger a build. If ignored_files is not empty, then we ignore any files that match any of the ignored_file globs. If the change has no files that are outside of the ignored_files globs, then we do not trigger a build. */
-  ignoredFiles?: StringList;
-  /** If any of the files altered in the commit pass the ignored_files filter and included_files is empty, then as far as this filter is concerned, we should trigger the build. If any of the files altered in the commit pass the ignored_files filter and included_files is not empty, then we make sure that at least one of those files matches a included_files glob. If not, then we do not trigger a build. */
-  includedFiles?: StringList;
-  /** The repo and ref of the repository from which to build. This field is used only for those triggers that do not respond to SCM events. Triggers that respond to such events build source at whatever commit caused the event. This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers. */
-  sourceToBuild?: GitRepoSource;
-  /** Configuration for manual approval to start a build invocation of this BuildTrigger. */
-  approvalConfig?: ApprovalConfig;
   /** A Common Expression Language string. */
   filter?: string;
-  /** The service account used for all user-controlled operations including UpdateBuildTrigger, RunBuildTrigger, CreateBuild, and CancelBuild. If no service account is set and the legacy Cloud Build service account ([PROJECT_NUM]@cloudbuild.gserviceaccount.com) is the default for the project then it will be used instead. Format: `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}` */
-  serviceAccount?: string;
-  /** EventType allows the user to explicitly set the type of event to which this BuildTrigger should respond. This field will be validated against the rest of the configuration if it is set. */
-  eventType?: BuildTriggerEventTypeEnum | (string & {});
-  /** If set to INCLUDE_BUILD_LOGS_WITH_STATUS, log url will be shown on GitHub page when build status is final. Setting this field to INCLUDE_BUILD_LOGS_WITH_STATUS for non GitHub triggers results in INVALID_ARGUMENT error. */
-  includeBuildLogs?: BuildTriggerIncludeBuildLogsEnum | (string & {});
-  /** The configuration of a trigger that creates a build whenever an event from Repo API is received. */
-  repositoryEventConfig?: RepositoryEventConfig;
-  /** Optional. The configuration of a trigger that creates a build whenever an event from the DeveloperConnect API is received. */
-  developerConnectEventConfig?: DeveloperConnectEventConfig;
+  /** Substitutions for Build resource. The keys must match the following regular expression: `^_[A-Z0-9_]+$`. */
+  substitutions?: StringMap;
+  /** The repo and ref of the repository from which to build. This field is used only for those triggers that do not respond to SCM events. Triggers that respond to such events build source at whatever commit caused the event. This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers. */
+  sourceToBuild?: GitRepoSource;
+  /** GitHubEventsConfig describes the configuration of a trigger that creates a build whenever a GitHub event is received. Mutually exclusive with `trigger_template`. */
+  github?: GitHubEventsConfig;
+  /** PubsubConfig describes the configuration of a trigger that creates a build whenever a Pub/Sub message is published. */
+  pubsubConfig?: PubsubConfig;
+  /** Template describing the types of source changes to trigger a build. Branch and tag names in trigger templates are interpreted as regular expressions. Any branch or tag change that matches that regular expression will trigger a build. Mutually exclusive with `github`. */
+  triggerTemplate?: RepoSource;
 }
 export const BuildTrigger = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resourceName: S.optional(S.String),
     id: S.optional(S.String),
-    description: S.optional(S.String),
-    name: S.optional(S.String),
+    developerConnectEventConfig: S.optional(DeveloperConnectEventConfig),
+    ignoredFiles: S.optional(StringList),
     tags: S.optional(StringList),
-    triggerTemplate: S.optional(RepoSource),
-    github: S.optional(GitHubEventsConfig),
-    pubsubConfig: S.optional(PubsubConfig),
     webhookConfig: S.optional(WebhookConfig),
-    bitbucketServerTriggerConfig: S.optional(BitbucketServerTriggerConfig),
-    gitlabEnterpriseEventsConfig: S.optional(GitLabEventsConfig),
+    includeBuildLogs: S.optional(BuildTriggerIncludeBuildLogsEnum),
+    eventType: S.optional(BuildTriggerEventTypeEnum),
+    resourceName: S.optional(S.String),
     autodetect: S.optional(S.Boolean),
+    repositoryEventConfig: S.optional(RepositoryEventConfig),
     build: S.optional(Build),
+    includedFiles: S.optional(StringList),
+    disabled: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    createTime: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
+    approvalConfig: S.optional(ApprovalConfig),
+    bitbucketServerTriggerConfig: S.optional(BitbucketServerTriggerConfig),
     filename: S.optional(S.String),
     gitFileSource: S.optional(GitFileSource),
-    createTime: S.optional(S.String),
-    disabled: S.optional(S.Boolean),
-    substitutions: S.optional(StringMap),
-    ignoredFiles: S.optional(StringList),
-    includedFiles: S.optional(StringList),
-    sourceToBuild: S.optional(GitRepoSource),
-    approvalConfig: S.optional(ApprovalConfig),
     filter: S.optional(S.String),
-    serviceAccount: S.optional(S.String),
-    eventType: S.optional(BuildTriggerEventTypeEnum),
-    includeBuildLogs: S.optional(BuildTriggerIncludeBuildLogsEnum),
-    repositoryEventConfig: S.optional(RepositoryEventConfig),
-    developerConnectEventConfig: S.optional(DeveloperConnectEventConfig),
+    substitutions: S.optional(StringMap),
+    sourceToBuild: S.optional(GitRepoSource),
+    github: S.optional(GitHubEventsConfig),
+    pubsubConfig: S.optional(PubsubConfig),
+    triggerTemplate: S.optional(RepoSource),
   }),
 ).annotate({ identifier: "BuildTrigger" }) as any as S.Schema<BuildTrigger>;
 
@@ -2677,7 +2444,7 @@ export type WorkerPoolStateEnum =
   | "DELETING"
   | "DELETED"
   | "UPDATING";
-export const WorkerPoolStateEnum = /*@__PURE__*/ S.String;
+export const WorkerPoolStateEnum = S.String;
 
 /** Defines the configuration to be used for creating workers in the pool. */
 export interface WorkerConfig {
@@ -2700,22 +2467,22 @@ export type NetworkConfigEgressOptionEnum =
   | "EGRESS_OPTION_UNSPECIFIED"
   | "NO_PUBLIC_EGRESS"
   | "PUBLIC_EGRESS";
-export const NetworkConfigEgressOptionEnum = /*@__PURE__*/ S.String;
+export const NetworkConfigEgressOptionEnum = S.String;
 
 /** Defines the network configuration for the pool. */
 export interface NetworkConfig {
+  /** Immutable. Subnet IP range within the peered network. This is specified in CIDR notation with a slash and the subnet prefix size. You can optionally specify an IP address before the subnet prefix value. e.g. `192.168.0.0/29` would specify an IP range starting at 192.168.0.0 with a prefix size of 29 bits. `/16` would specify a prefix size of 16 bits, with an automatically determined IP within the peered VPC. If unspecified, a value of `/24` will be used. */
+  peeredNetworkIpRange?: string;
   /** Required. Immutable. The network definition that the workers are peered to. If this section is left empty, the workers will be peered to `WorkerPool.project_id` on the service producer network. Must be in the format `projects/{project}/global/networks/{network}`, where `{project}` is a project number, such as `12345`, and `{network}` is the name of a VPC network in the project. See [Understanding network configuration options](https://cloud.google.com/build/docs/private-pools/set-up-private-pool-environment) */
   peeredNetwork?: string;
   /** Option to configure network egress for the workers. */
   egressOption?: NetworkConfigEgressOptionEnum | (string & {});
-  /** Immutable. Subnet IP range within the peered network. This is specified in CIDR notation with a slash and the subnet prefix size. You can optionally specify an IP address before the subnet prefix value. e.g. `192.168.0.0/29` would specify an IP range starting at 192.168.0.0 with a prefix size of 29 bits. `/16` would specify a prefix size of 16 bits, with an automatically determined IP within the peered VPC. If unspecified, a value of `/24` will be used. */
-  peeredNetworkIpRange?: string;
 }
 export const NetworkConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    peeredNetworkIpRange: S.optional(S.String),
     peeredNetwork: S.optional(S.String),
     egressOption: S.optional(NetworkConfigEgressOptionEnum),
-    peeredNetworkIpRange: S.optional(S.String),
   }),
 ).annotate({ identifier: "NetworkConfig" }) as any as S.Schema<NetworkConfig>;
 
@@ -2759,39 +2526,39 @@ export const PrivatePoolV1Config = /*@__PURE__*/ S.suspend(() =>
 
 /** Configuration for a `WorkerPool`. Cloud Build owns and maintains a pool of workers for general use and have no access to a project's private network. By default, builds submitted to Cloud Build will use a worker from this pool. If your build needs access to resources on a private network, create and use a `WorkerPool` to run your builds. Private `WorkerPool`s give your builds access to any single VPC network that you administer, including any on-prem resources connected to that VPC network. For an overview of private pools, see [Private pools overview](https://cloud.google.com/build/docs/private-pools/private-pools-overview). */
 export interface WorkerPool {
-  /** Output only. The resource name of the `WorkerPool`, with format `projects/{project}/locations/{location}/workerPools/{worker_pool}`. The value of `{worker_pool}` is provided by `worker_pool_id` in `CreateWorkerPool` request and the value of `{location}` is determined by the endpoint accessed. */
-  name?: string;
   /** A user-specified, human-readable name for the `WorkerPool`. If provided, this value must be 1-63 characters. */
   displayName?: string;
-  /** Output only. A unique identifier for the `WorkerPool`. */
-  uid?: string;
-  /** User specified annotations. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap;
-  /** Output only. Time at which the request to create the `WorkerPool` was received. */
-  createTime?: string;
-  /** Output only. Time at which the request to update the `WorkerPool` was received. */
-  updateTime?: string;
+  /** Output only. Checksum computed by the server. May be sent on update and delete requests to ensure that the client has an up-to-date value before proceeding. */
+  etag?: string;
   /** Output only. Time at which the request to delete the `WorkerPool` was received. */
   deleteTime?: string;
   /** Output only. `WorkerPool` state. */
   state?: WorkerPoolStateEnum | (string & {});
+  /** Output only. A unique identifier for the `WorkerPool`. */
+  uid?: string;
   /** Private Pool configuration. */
   privatePoolV1Config?: PrivatePoolV1Config;
-  /** Output only. Checksum computed by the server. May be sent on update and delete requests to ensure that the client has an up-to-date value before proceeding. */
-  etag?: string;
+  /** Output only. The resource name of the `WorkerPool`, with format `projects/{project}/locations/{location}/workerPools/{worker_pool}`. The value of `{worker_pool}` is provided by `worker_pool_id` in `CreateWorkerPool` request and the value of `{location}` is determined by the endpoint accessed. */
+  name?: string;
+  /** Output only. Time at which the request to create the `WorkerPool` was received. */
+  createTime?: string;
+  /** User specified annotations. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
+  annotations?: StringMap;
+  /** Output only. Time at which the request to update the `WorkerPool` was received. */
+  updateTime?: string;
 }
 export const WorkerPool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     displayName: S.optional(S.String),
-    uid: S.optional(S.String),
-    annotations: S.optional(StringMap),
-    createTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
+    etag: S.optional(S.String),
     deleteTime: S.optional(S.String),
     state: S.optional(WorkerPoolStateEnum),
+    uid: S.optional(S.String),
     privatePoolV1Config: S.optional(PrivatePoolV1Config),
-    etag: S.optional(S.String),
+    name: S.optional(S.String),
+    createTime: S.optional(S.String),
+    annotations: S.optional(StringMap),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "WorkerPool" }) as any as S.Schema<WorkerPool>;
 
@@ -2892,19 +2659,19 @@ export const DeleteProjectsLocationsBitbucketServerConfigsRequest =
   }) as any as S.Schema<DeleteProjectsLocationsBitbucketServerConfigsRequest>;
 
 export interface DeleteProjectsLocationsGithubEnterpriseConfigsRequest {
-  /** This field should contain the name of the enterprise config resource. For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
-  name: string;
   /** ID of the project */
   projectId?: string;
   /** Unique identifier of the `GitHubEnterpriseConfig` */
   configId?: string;
+  /** This field should contain the name of the enterprise config resource. For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
+  name: string;
 }
 export const DeleteProjectsLocationsGithubEnterpriseConfigsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       projectId: S.optional(S.String.pipe(T.Query())),
       configId: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -2916,38 +2683,19 @@ export const DeleteProjectsLocationsGithubEnterpriseConfigsRequest =
     identifier: "DeleteProjectsLocationsGithubEnterpriseConfigsRequest",
   }) as any as S.Schema<DeleteProjectsLocationsGithubEnterpriseConfigsRequest>;
 
-export interface DeleteProjectsLocationsGitLabConfigsRequest {
-  /** Required. The config resource name. */
-  name: string;
-}
-export const DeleteProjectsLocationsGitLabConfigsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "v1/{+name}",
-        baseUrl: "https://cloudbuild.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "DeleteProjectsLocationsGitLabConfigsRequest",
-  }) as any as S.Schema<DeleteProjectsLocationsGitLabConfigsRequest>;
-
 export interface DeleteProjectsLocationsTriggersRequest {
-  /** The name of the `Trigger` to delete. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
-  name: string;
   /** Required. ID of the project that owns the trigger. */
   projectId?: string;
+  /** The name of the `Trigger` to delete. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
+  name: string;
   /** Required. ID of the `BuildTrigger` to delete. */
   triggerId?: string;
 }
 export const DeleteProjectsLocationsTriggersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       projectId: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       triggerId: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -3033,15 +2781,15 @@ export const GetDefaultServiceAccountProjectsLocationsRequest =
 
 /** The default service account used for `Builds`. */
 export interface DefaultServiceAccount {
-  /** Identifier. Format: `projects/{project}/locations/{location}/defaultServiceAccount`. */
-  name?: string;
   /** Output only. The email address of the service account identity that will be used for a build by default. This is returned in the format `projects/{project}/serviceAccounts/{service_account}` where `{service_account}` could be the legacy Cloud Build SA, in the format [PROJECT_NUMBER]@cloudbuild.gserviceaccount.com or the Compute SA, in the format [PROJECT_NUMBER]-compute@developer.gserviceaccount.com. If no service account will be used by default, this will be empty. */
   serviceAccountEmail?: string;
+  /** Identifier. Format: `projects/{project}/locations/{location}/defaultServiceAccount`. */
+  name?: string;
 }
 export const DefaultServiceAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     serviceAccountEmail: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DefaultServiceAccount",
@@ -3090,19 +2838,19 @@ export const GetProjectsBuildsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProjectsBuildsRequest>;
 
 export interface GetProjectsGithubEnterpriseConfigsRequest {
-  /** This field should contain the name of the enterprise config resource. For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
-  name: string;
   /** ID of the project */
   projectId?: string;
   /** Unique identifier of the `GitHubEnterpriseConfig` */
   configId?: string;
+  /** This field should contain the name of the enterprise config resource. For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
+  name: string;
 }
 export const GetProjectsGithubEnterpriseConfigsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       projectId: S.optional(S.String.pipe(T.Query())),
       configId: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3136,16 +2884,16 @@ export const GetProjectsLocationsBitbucketServerConfigsRequest =
 export interface GetProjectsLocationsBuildsRequest {
   /** The name of the `Build` to retrieve. Format: `projects/{project}/locations/{location}/builds/{build}` */
   name: string;
-  /** Required. ID of the project. */
-  projectId?: string;
   /** Required. ID of the build. */
   id?: string;
+  /** Required. ID of the project. */
+  projectId?: string;
 }
 export const GetProjectsLocationsBuildsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    projectId: S.optional(S.String.pipe(T.Query())),
     id: S.optional(S.String.pipe(T.Query())),
+    projectId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3182,25 +2930,6 @@ export const GetProjectsLocationsGithubEnterpriseConfigsRequest =
     identifier: "GetProjectsLocationsGithubEnterpriseConfigsRequest",
   }) as any as S.Schema<GetProjectsLocationsGithubEnterpriseConfigsRequest>;
 
-export interface GetProjectsLocationsGitLabConfigsRequest {
-  /** Required. The config resource name. */
-  name: string;
-}
-export const GetProjectsLocationsGitLabConfigsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1/{+name}",
-        baseUrl: "https://cloudbuild.googleapis.com/",
-      }),
-    ),
-).annotate({
-  identifier: "GetProjectsLocationsGitLabConfigsRequest",
-}) as any as S.Schema<GetProjectsLocationsGitLabConfigsRequest>;
-
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3221,18 +2950,18 @@ export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GetProjectsLocationsOperationsRequest>;
 
 export interface GetProjectsLocationsTriggersRequest {
-  /** The name of the `Trigger` to retrieve. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
-  name: string;
   /** Required. ID of the project that owns the trigger. */
   projectId?: string;
   /** Required. Identifier (`id` or `name`) of the `BuildTrigger` to get. */
   triggerId?: string;
+  /** The name of the `Trigger` to retrieve. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
+  name: string;
 }
 export const GetProjectsLocationsTriggersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     projectId: S.optional(S.String.pipe(T.Query())),
     triggerId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3264,18 +2993,18 @@ export const GetProjectsLocationsWorkerPoolsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GetProjectsLocationsWorkerPoolsRequest>;
 
 export interface GetProjectsTriggersRequest {
-  /** Required. ID of the project that owns the trigger. */
-  projectId: string;
-  /** Required. Identifier (`id` or `name`) of the `BuildTrigger` to get. */
-  triggerId: string;
   /** The name of the `Trigger` to retrieve. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
   name?: string;
+  /** Required. Identifier (`id` or `name`) of the `BuildTrigger` to get. */
+  triggerId: string;
+  /** Required. ID of the project that owns the trigger. */
+  projectId: string;
 }
 export const GetProjectsTriggersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    projectId: S.String.pipe(T.Label()),
-    triggerId: S.String.pipe(T.Label()),
     name: S.optional(S.String.pipe(T.Query())),
+    triggerId: S.String.pipe(T.Label()),
+    projectId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3290,22 +3019,22 @@ export const GetProjectsTriggersRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsBuildsRequest {
   /** Required. ID of the project. */
   projectId: string;
-  /** The parent of the collection of `Builds`. Format: `projects/{project}/locations/{location}` */
-  parent?: string;
-  /** Number of results to return in the list. */
-  pageSize?: number;
-  /** The page token for the next page of Builds. If unspecified, the first page of results is returned. If the token is rejected for any reason, INVALID_ARGUMENT will be thrown. In this case, the token should be discarded, and pagination should be restarted from the first page of results. See https://google.aip.dev/158 for more. */
-  pageToken?: string;
   /** The raw filter text to constrain the results. */
   filter?: string;
+  /** The page token for the next page of Builds. If unspecified, the first page of results is returned. If the token is rejected for any reason, INVALID_ARGUMENT will be thrown. In this case, the token should be discarded, and pagination should be restarted from the first page of results. See https://google.aip.dev/158 for more. */
+  pageToken?: string;
+  /** Number of results to return in the list. */
+  pageSize?: number;
+  /** The parent of the collection of `Builds`. Format: `projects/{project}/locations/{location}` */
+  parent?: string;
 }
 export const ListProjectsBuildsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
-    parent: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3339,16 +3068,16 @@ export const ListBuildsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListBuildsResponse>;
 
 export interface ListProjectsGithubEnterpriseConfigsRequest {
-  /** Name of the parent project. For example: projects/{$project_number} or projects/{$project_id} */
-  parent: string;
   /** ID of the project */
   projectId?: string;
+  /** Name of the parent project. For example: projects/{$project_number} or projects/{$project_id} */
+  parent: string;
 }
 export const ListProjectsGithubEnterpriseConfigsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       projectId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3381,17 +3110,17 @@ export const ListGithubEnterpriseConfigsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsBitbucketServerConfigsRequest {
   /** Required. Name of the parent resource. */
   parent: string;
-  /** The maximum number of configs to return. The service may return fewer than this value. If unspecified, at most 50 configs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** A page token, received from a previous `ListBitbucketServerConfigsRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBitbucketServerConfigsRequest` must match the call that provided the page token. */
   pageToken?: string;
+  /** The maximum number of configs to return. The service may return fewer than this value. If unspecified, at most 50 configs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsBitbucketServerConfigsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3425,19 +3154,19 @@ export const ListBitbucketServerConfigsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListBitbucketServerConfigsResponse>;
 
 export interface ListProjectsLocationsBitbucketServerConfigsReposRequest {
-  /** Required. Name of the parent resource. */
-  parent: string;
   /** The maximum number of configs to return. The service may return fewer than this value. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
   /** A page token, received from a previous `ListBitbucketServerRepositoriesRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBitbucketServerConfigsRequest` must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. Name of the parent resource. */
+  parent: string;
 }
 export const ListProjectsLocationsBitbucketServerConfigsReposRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3457,18 +3186,18 @@ export interface BitbucketServerRepository {
   displayName?: string;
   /** Description of the repository. */
   description?: string;
-  /** Link to the browse repo page on the Bitbucket Server instance. */
-  browseUri?: string;
   /** Identifier for a repository hosted on a Bitbucket Server. */
   repoId?: BitbucketServerRepositoryId;
+  /** Link to the browse repo page on the Bitbucket Server instance. */
+  browseUri?: string;
 }
 export const BitbucketServerRepository = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
-    browseUri: S.optional(S.String),
     repoId: S.optional(BitbucketServerRepositoryId),
+    browseUri: S.optional(S.String),
   }),
 ).annotate({
   identifier: "BitbucketServerRepository",
@@ -3499,21 +3228,21 @@ export const ListBitbucketServerRepositoriesResponse = /*@__PURE__*/ S.suspend(
 export interface ListProjectsLocationsBuildsRequest {
   /** The parent of the collection of `Builds`. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Required. ID of the project. */
-  projectId?: string;
   /** Number of results to return in the list. */
   pageSize?: number;
   /** The page token for the next page of Builds. If unspecified, the first page of results is returned. If the token is rejected for any reason, INVALID_ARGUMENT will be thrown. In this case, the token should be discarded, and pagination should be restarted from the first page of results. See https://google.aip.dev/158 for more. */
   pageToken?: string;
+  /** Required. ID of the project. */
+  projectId?: string;
   /** The raw filter text to constrain the results. */
   filter?: string;
 }
 export const ListProjectsLocationsBuildsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    projectId: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    projectId: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -3548,140 +3277,23 @@ export const ListProjectsLocationsGithubEnterpriseConfigsRequest =
     identifier: "ListProjectsLocationsGithubEnterpriseConfigsRequest",
   }) as any as S.Schema<ListProjectsLocationsGithubEnterpriseConfigsRequest>;
 
-export interface ListProjectsLocationsGitLabConfigsRequest {
-  /** Required. Name of the parent resource */
-  parent: string;
-  /** The maximum number of configs to return. The service may return fewer than this value. If unspecified, at most 50 configs will be returned. The maximum value is 1000;, values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** A page token, received from a previous ‘ListGitlabConfigsRequest’ call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ‘ListGitlabConfigsRequest’ must match the call that provided the page token. */
-  pageToken?: string;
-}
-export const ListProjectsLocationsGitLabConfigsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1/{+parent}/gitLabConfigs",
-        baseUrl: "https://cloudbuild.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "ListProjectsLocationsGitLabConfigsRequest",
-  }) as any as S.Schema<ListProjectsLocationsGitLabConfigsRequest>;
-
-export type GitLabConfigList = Array<GitLabConfig>;
-export const GitLabConfigList = /*@__PURE__*/ S.Array(
-  GitLabConfig,
-) as any as S.Schema<GitLabConfigList>;
-
-/** RPC response object returned by ListGitLabConfigs RPC method. */
-export interface ListGitLabConfigsResponse {
-  /** A list of GitLabConfigs */
-  gitlabConfigs?: GitLabConfigList;
-  /** A token that can be sent as `page_token` to retrieve the next page If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
-}
-export const ListGitLabConfigsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gitlabConfigs: S.optional(GitLabConfigList),
-    nextPageToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListGitLabConfigsResponse",
-}) as any as S.Schema<ListGitLabConfigsResponse>;
-
-export interface ListProjectsLocationsGitLabConfigsReposRequest {
-  /** Required. Name of the parent resource. */
-  parent: string;
-  /** The maximum number of repositories to return. The service may return fewer than this value. */
-  pageSize?: number;
-  /** A page token, received from a previous ListGitLabRepositoriesRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListGitLabRepositoriesRequest` must match the call that provided the page token. */
-  pageToken?: string;
-}
-export const ListProjectsLocationsGitLabConfigsReposRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1/{+parent}/repos",
-        baseUrl: "https://cloudbuild.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "ListProjectsLocationsGitLabConfigsReposRequest",
-  }) as any as S.Schema<ListProjectsLocationsGitLabConfigsReposRequest>;
-
-/** Proto Representing a GitLabRepository */
-export interface GitLabRepository {
-  /** The resource name of the repository */
-  name?: string;
-  /** Display name of the repository */
-  displayName?: string;
-  /** Description of the repository */
-  description?: string;
-  /** Link to the browse repo page on the GitLab instance */
-  browseUri?: string;
-  /** Identifier for a repository */
-  repositoryId?: GitLabRepositoryId;
-}
-export const GitLabRepository = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
-    browseUri: S.optional(S.String),
-    repositoryId: S.optional(GitLabRepositoryId),
-  }),
-).annotate({
-  identifier: "GitLabRepository",
-}) as any as S.Schema<GitLabRepository>;
-
-export type GitLabRepositoryList = Array<GitLabRepository>;
-export const GitLabRepositoryList = /*@__PURE__*/ S.Array(
-  GitLabRepository,
-) as any as S.Schema<GitLabRepositoryList>;
-
-/** RPC response object returned by the ListGitLabRepositories RPC method. */
-export interface ListGitLabRepositoriesResponse {
-  /** List of GitLab repositories */
-  gitlabRepositories?: GitLabRepositoryList;
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
-}
-export const ListGitLabRepositoriesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gitlabRepositories: S.optional(GitLabRepositoryList),
-    nextPageToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListGitLabRepositoriesResponse",
-}) as any as S.Schema<ListGitLabRepositoriesResponse>;
-
 export interface ListProjectsLocationsTriggersRequest {
   /** The parent of the collection of `Triggers`. Format: `projects/{project}/locations/{location}` */
   parent: string;
+  /** Token to provide to skip to a particular spot in the list. */
+  pageToken?: string;
   /** Required. ID of the project for which to list BuildTriggers. */
   projectId?: string;
   /** Number of results to return in the list. */
   pageSize?: number;
-  /** Token to provide to skip to a particular spot in the list. */
-  pageToken?: string;
 }
 export const ListProjectsLocationsTriggersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       projectId: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3700,34 +3312,34 @@ export const BuildTriggerList = /*@__PURE__*/ S.Array(
 
 /** Response containing existing `BuildTriggers`. */
 export interface ListBuildTriggersResponse {
-  /** `BuildTriggers` for the project, sorted by `create_time` descending. */
-  triggers?: BuildTriggerList;
   /** Token to receive the next page of results. */
   nextPageToken?: string;
+  /** `BuildTriggers` for the project, sorted by `create_time` descending. */
+  triggers?: BuildTriggerList;
 }
 export const ListBuildTriggersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    triggers: S.optional(BuildTriggerList),
     nextPageToken: S.optional(S.String),
+    triggers: S.optional(BuildTriggerList),
   }),
 ).annotate({
   identifier: "ListBuildTriggersResponse",
 }) as any as S.Schema<ListBuildTriggersResponse>;
 
 export interface ListProjectsLocationsWorkerPoolsRequest {
-  /** Required. The parent of the collection of `WorkerPools`. Format: `projects/{project}/locations/{location}`. */
-  parent: string;
   /** The maximum number of `WorkerPool`s to return. The service may return fewer than this value. If omitted, the server will use a sensible default. */
   pageSize?: number;
   /** A page token, received from a previous `ListWorkerPools` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
+  /** Required. The parent of the collection of `WorkerPools`. Format: `projects/{project}/locations/{location}`. */
+  parent: string;
 }
 export const ListProjectsLocationsWorkerPoolsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3746,15 +3358,15 @@ export const WorkerPoolList = /*@__PURE__*/ S.Array(
 
 /** Response containing existing `WorkerPools`. */
 export interface ListWorkerPoolsResponse {
-  /** `WorkerPools` for the specified project. */
-  workerPools?: WorkerPoolList;
   /** Continuation token used to page through large result sets. Provide this value in a subsequent ListWorkerPoolsRequest to return the next page of results. */
   nextPageToken?: string;
+  /** `WorkerPools` for the specified project. */
+  workerPools?: WorkerPoolList;
 }
 export const ListWorkerPoolsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    workerPools: S.optional(WorkerPoolList),
     nextPageToken: S.optional(S.String),
+    workerPools: S.optional(WorkerPoolList),
   }),
 ).annotate({
   identifier: "ListWorkerPoolsResponse",
@@ -3763,19 +3375,19 @@ export const ListWorkerPoolsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsTriggersRequest {
   /** Required. ID of the project for which to list BuildTriggers. */
   projectId: string;
-  /** The parent of the collection of `Triggers`. Format: `projects/{project}/locations/{location}` */
-  parent?: string;
   /** Number of results to return in the list. */
   pageSize?: number;
   /** Token to provide to skip to a particular spot in the list. */
   pageToken?: string;
+  /** The parent of the collection of `Triggers`. Format: `projects/{project}/locations/{location}` */
+  parent?: string;
 }
 export const ListProjectsTriggersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
-    parent: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3788,7 +3400,7 @@ export const ListProjectsTriggersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListProjectsTriggersRequest>;
 
 export interface PatchProjectsGithubEnterpriseConfigsRequest {
-  /** The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
+  /** Identifier. The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
   name: string;
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
   updateMask?: string;
@@ -3813,7 +3425,7 @@ export const PatchProjectsGithubEnterpriseConfigsRequest =
   }) as any as S.Schema<PatchProjectsGithubEnterpriseConfigsRequest>;
 
 export interface PatchProjectsLocationsBitbucketServerConfigsRequest {
-  /** The resource name for the config. */
+  /** Identifier. The resource name for the config. */
   name: string;
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
   updateMask?: string;
@@ -3838,7 +3450,7 @@ export const PatchProjectsLocationsBitbucketServerConfigsRequest =
   }) as any as S.Schema<PatchProjectsLocationsBitbucketServerConfigsRequest>;
 
 export interface PatchProjectsLocationsGithubEnterpriseConfigsRequest {
-  /** The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
+  /** Identifier. The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
   name: string;
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
   updateMask?: string;
@@ -3862,38 +3474,13 @@ export const PatchProjectsLocationsGithubEnterpriseConfigsRequest =
     identifier: "PatchProjectsLocationsGithubEnterpriseConfigsRequest",
   }) as any as S.Schema<PatchProjectsLocationsGithubEnterpriseConfigsRequest>;
 
-export interface PatchProjectsLocationsGitLabConfigsRequest {
-  /** The resource name for the config. */
-  name: string;
-  /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
-  updateMask?: string;
-  /** Request body */
-  body?: GitLabConfig;
-}
-export const PatchProjectsLocationsGitLabConfigsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String.pipe(T.Label()),
-      updateMask: S.optional(S.String.pipe(T.Query())),
-      body: S.optional(GitLabConfig.pipe(T.HttpBody())),
-    }).pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "v1/{+name}",
-        baseUrl: "https://cloudbuild.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "PatchProjectsLocationsGitLabConfigsRequest",
-  }) as any as S.Schema<PatchProjectsLocationsGitLabConfigsRequest>;
-
 export interface PatchProjectsLocationsTriggersRequest {
   /** The `Trigger` name with format: `projects/{project}/locations/{location}/triggers/{trigger}`, where {trigger} is a unique identifier generated by the service. */
   resourceName: string;
-  /** Required. ID of the project that owns the trigger. */
-  projectId?: string;
   /** Required. ID of the `BuildTrigger` to update. */
   triggerId?: string;
+  /** Required. ID of the project that owns the trigger. */
+  projectId?: string;
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
   updateMask?: string;
   /** Request body */
@@ -3903,8 +3490,8 @@ export const PatchProjectsLocationsTriggersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       resourceName: S.String.pipe(T.Label()),
-      projectId: S.optional(S.String.pipe(T.Query())),
       triggerId: S.optional(S.String.pipe(T.Query())),
+      projectId: S.optional(S.String.pipe(T.Query())),
       updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(BuildTrigger.pipe(T.HttpBody())),
     }).pipe(
@@ -3949,18 +3536,18 @@ export const PatchProjectsLocationsWorkerPoolsRequest = /*@__PURE__*/ S.suspend(
 export interface PatchProjectsTriggersRequest {
   /** Required. ID of the project that owns the trigger. */
   projectId: string;
-  /** Required. ID of the `BuildTrigger` to update. */
-  triggerId: string;
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
   updateMask?: string;
+  /** Required. ID of the `BuildTrigger` to update. */
+  triggerId: string;
   /** Request body */
   body?: BuildTrigger;
 }
 export const PatchProjectsTriggersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
-    triggerId: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    triggerId: S.String.pipe(T.Label()),
     body: S.optional(BuildTrigger.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -3977,16 +3564,16 @@ export const PatchProjectsTriggersRequest = /*@__PURE__*/ S.suspend(() =>
 export interface HttpBody {
   /** The HTTP Content-Type header value specifying the content type of the body. */
   contentType?: string;
-  /** The HTTP request/response body as raw binary. */
-  data?: string;
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
   extensions?: DocumentMapList;
+  /** The HTTP request/response body as raw binary. */
+  data?: string;
 }
 export const HttpBody = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contentType: S.optional(S.String),
-    data: S.optional(S.String),
     extensions: S.optional(DocumentMapList),
+    data: S.optional(S.String),
   }),
 ).annotate({ identifier: "HttpBody" }) as any as S.Schema<HttpBody>;
 
@@ -4012,17 +3599,17 @@ export const ReceiveGithubDotComWebhookRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ReceiveGithubDotComWebhookRequest>;
 
 export interface RegionalWebhookLocationsRequest {
-  /** Required. The location where the webhook should be sent. */
-  location: string;
   /** For GitHub Enterprise webhooks, this key is used to associate the webhook request with the GitHubEnterpriseConfig to use for validation. */
   webhookKey?: string;
+  /** Required. The location where the webhook should be sent. */
+  location: string;
   /** Request body */
   body?: HttpBody;
 }
 export const RegionalWebhookLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    location: S.String.pipe(T.Label()),
     webhookKey: S.optional(S.String.pipe(T.Query())),
+    location: S.String.pipe(T.Label()),
     body: S.optional(HttpBody.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -4074,59 +3661,20 @@ export const RemoveBitbucketServerConnectedRepositoryProjectsLocationsBitbucketS
       "RemoveBitbucketServerConnectedRepositoryProjectsLocationsBitbucketServerConfigsRequest",
   }) as any as S.Schema<RemoveBitbucketServerConnectedRepositoryProjectsLocationsBitbucketServerConfigsRequest>;
 
-/** RPC request object accepted by RemoveGitLabConnectedRepository RPC method. */
-export interface RemoveGitLabConnectedRepositoryRequest {
-  /** The connected repository to remove. */
-  connectedRepository?: GitLabRepositoryId;
-}
-export const RemoveGitLabConnectedRepositoryRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      connectedRepository: S.optional(GitLabRepositoryId),
-    }),
-).annotate({
-  identifier: "RemoveGitLabConnectedRepositoryRequest",
-}) as any as S.Schema<RemoveGitLabConnectedRepositoryRequest>;
-
-export interface RemoveGitLabConnectedRepositoryProjectsLocationsGitLabConfigsRequest {
-  /** Required. The name of the `GitLabConfig` to remove a connected repository. Format: `projects/{project}/locations/{location}/gitLabConfigs/{config}` */
-  config: string;
-  /** Request body */
-  body?: RemoveGitLabConnectedRepositoryRequest;
-}
-export const RemoveGitLabConnectedRepositoryProjectsLocationsGitLabConfigsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      config: S.String.pipe(T.Label()),
-      body: S.optional(
-        RemoveGitLabConnectedRepositoryRequest.pipe(T.HttpBody()),
-      ),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "v1/{+config}:removeGitLabConnectedRepository",
-        baseUrl: "https://cloudbuild.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier:
-      "RemoveGitLabConnectedRepositoryProjectsLocationsGitLabConfigsRequest",
-  }) as any as S.Schema<RemoveGitLabConnectedRepositoryProjectsLocationsGitLabConfigsRequest>;
-
 /** Specifies a build to retry. */
 export interface RetryBuildRequest {
   /** The name of the `Build` to retry. Format: `projects/{project}/locations/{location}/builds/{build}` */
   name?: string;
-  /** Required. ID of the project. */
-  projectId?: string;
   /** Required. Build ID of the original build. */
   id?: string;
+  /** Required. ID of the project. */
+  projectId?: string;
 }
 export const RetryBuildRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    projectId: S.optional(S.String),
     id: S.optional(S.String),
+    projectId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RetryBuildRequest",
@@ -4220,18 +3768,18 @@ export const RunProjectsLocationsTriggersRequest = /*@__PURE__*/ S.suspend(() =>
 export interface RunProjectsTriggersRequest {
   /** Required. ID of the project. */
   projectId: string;
-  /** Required. ID of the trigger. */
-  triggerId: string;
   /** The name of the `Trigger` to run. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
   name?: string;
+  /** Required. ID of the trigger. */
+  triggerId: string;
   /** Request body */
   body?: RepoSource;
 }
 export const RunProjectsTriggersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
-    triggerId: S.String.pipe(T.Label()),
     name: S.optional(S.String.pipe(T.Query())),
+    triggerId: S.String.pipe(T.Label()),
     body: S.optional(RepoSource.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -4247,12 +3795,12 @@ export const RunProjectsTriggersRequest = /*@__PURE__*/ S.suspend(() =>
 export interface WebhookProjectsLocationsTriggersRequest {
   /** The name of the `ReceiveTriggerWebhook` to retrieve. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
   name: string;
-  /** Project in which the specified trigger lives */
-  projectId?: string;
   /** Name of the trigger to run the payload against */
   trigger?: string;
   /** Secret token used for authorization if an OAuth token isn't provided. */
   secret?: string;
+  /** Project in which the specified trigger lives */
+  projectId?: string;
   /** Request body */
   body?: HttpBody;
 }
@@ -4260,9 +3808,9 @@ export const WebhookProjectsLocationsTriggersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       name: S.String.pipe(T.Label()),
-      projectId: S.optional(S.String.pipe(T.Query())),
       trigger: S.optional(S.String.pipe(T.Query())),
       secret: S.optional(S.String.pipe(T.Query())),
+      projectId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(HttpBody.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -4284,23 +3832,23 @@ export const ReceiveTriggerWebhookResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ReceiveTriggerWebhookResponse>;
 
 export interface WebhookProjectsTriggersRequest {
+  /** Secret token used for authorization if an OAuth token isn't provided. */
+  secret?: string;
   /** Project in which the specified trigger lives */
   projectId: string;
   /** Name of the trigger to run the payload against */
   trigger: string;
   /** The name of the `ReceiveTriggerWebhook` to retrieve. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
   name?: string;
-  /** Secret token used for authorization if an OAuth token isn't provided. */
-  secret?: string;
   /** Request body */
   body?: HttpBody;
 }
 export const WebhookProjectsTriggersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    secret: S.optional(S.String.pipe(T.Query())),
     projectId: S.String.pipe(T.Label()),
     trigger: S.String.pipe(T.Label()),
     name: S.optional(S.String.pipe(T.Query())),
-    secret: S.optional(S.String.pipe(T.Query())),
     body: S.optional(HttpBody.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -4375,7 +3923,11 @@ export const approveProjectsLocationsBuilds: API.OperationMethod<
 }));
 
 export type BatchCreateProjectsLocationsBitbucketServerConfigsConnectedRepositoriesError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Batch connecting Bitbucket Server repositories to Cloud Build. */
 export const batchCreateProjectsLocationsBitbucketServerConfigsConnectedRepositories: API.OperationMethod<
   BatchCreateProjectsLocationsBitbucketServerConfigsConnectedRepositoriesRequest,
@@ -4385,22 +3937,6 @@ export const batchCreateProjectsLocationsBitbucketServerConfigsConnectedReposito
 > = /*@__PURE__*/ API.make(() => ({
   input:
     BatchCreateProjectsLocationsBitbucketServerConfigsConnectedRepositoriesRequest,
-  output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type BatchCreateProjectsLocationsGitLabConfigsConnectedRepositoriesError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Batch connecting GitLab repositories to Cloud Build. This API is experimental. */
-export const batchCreateProjectsLocationsGitLabConfigsConnectedRepositories: API.OperationMethod<
-  BatchCreateProjectsLocationsGitLabConfigsConnectedRepositoriesRequest,
-  Operation,
-  BatchCreateProjectsLocationsGitLabConfigsConnectedRepositoriesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: BatchCreateProjectsLocationsGitLabConfigsConnectedRepositoriesRequest,
   output: Operation,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -4433,7 +3969,7 @@ export type CancelProjectsBuildsError =
   | BadRequest
   | Conflict
   | GcpOpError;
-/** Cancels a build in progress. */
+/** Cancels a build in progress. Note: This method only cancels builds in the "global" region when using the legacy resource path projects/{project_id}/builds/{id}:cancel. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/builds/{id}:cancel`. */
 export const cancelProjectsBuilds: API.OperationMethod<
   CancelProjectsBuildsRequest,
   Build,
@@ -4453,7 +3989,7 @@ export type CancelProjectsLocationsBuildsError =
   | BadRequest
   | Conflict
   | GcpOpError;
-/** Cancels a build in progress. */
+/** Cancels a build in progress. Note: This method only cancels builds in the "global" region when using the legacy resource path projects/{project_id}/builds/{id}:cancel. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/builds/{id}:cancel`. */
 export const cancelProjectsLocationsBuilds: API.OperationMethod<
   CancelProjectsLocationsBuildsRequest,
   Build,
@@ -4493,7 +4029,7 @@ export type CreateProjectsBuildsError =
   | BadRequest
   | Conflict
   | GcpOpError;
-/** Starts a build with the specified configuration. This method returns a long-running `Operation`, which includes the build ID. Pass the build ID to `GetBuild` to determine the build status (such as `SUCCESS` or `FAILURE`). */
+/** Starts a build with the specified configuration. This method returns a long-running `Operation`, which includes the build ID. Pass the build ID to `GetBuild` to determine the build status (such as `SUCCESS` or `FAILURE`). Note: This method only creates builds in the "global" region when using the legacy resource path projects/{project_id}/builds. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/builds`. */
 export const createProjectsBuilds: API.OperationMethod<
   CreateProjectsBuildsRequest,
   Operation,
@@ -4553,7 +4089,7 @@ export type CreateProjectsLocationsBuildsError =
   | BadRequest
   | Conflict
   | GcpOpError;
-/** Starts a build with the specified configuration. This method returns a long-running `Operation`, which includes the build ID. Pass the build ID to `GetBuild` to determine the build status (such as `SUCCESS` or `FAILURE`). */
+/** Starts a build with the specified configuration. This method returns a long-running `Operation`, which includes the build ID. Pass the build ID to `GetBuild` to determine the build status (such as `SUCCESS` or `FAILURE`). Note: This method only creates builds in the "global" region when using the legacy resource path projects/{project_id}/builds. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/builds`. */
 export const createProjectsLocationsBuilds: API.OperationMethod<
   CreateProjectsLocationsBuildsRequest,
   Operation,
@@ -4581,26 +4117,6 @@ export const createProjectsLocationsGithubEnterpriseConfigs: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsGithubEnterpriseConfigsRequest,
-  output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type CreateProjectsLocationsGitLabConfigsError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Creates a new `GitLabConfig`. This API is experimental */
-export const createProjectsLocationsGitLabConfigs: API.OperationMethod<
-  CreateProjectsLocationsGitLabConfigsRequest,
-  Operation,
-  CreateProjectsLocationsGitLabConfigsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CreateProjectsLocationsGitLabConfigsRequest,
   output: Operation,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -4727,26 +4243,6 @@ export const deleteProjectsLocationsGithubEnterpriseConfigs: API.OperationMethod
   retry: Retry.Retry,
 }));
 
-export type DeleteProjectsLocationsGitLabConfigsError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Delete a `GitLabConfig`. This API is experimental */
-export const deleteProjectsLocationsGitLabConfigs: API.OperationMethod<
-  DeleteProjectsLocationsGitLabConfigsRequest,
-  Operation,
-  DeleteProjectsLocationsGitLabConfigsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProjectsLocationsGitLabConfigsRequest,
-  output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
 export type DeleteProjectsLocationsTriggersError =
   | NotFound
   | Forbidden
@@ -4841,7 +4337,7 @@ export const getOperations: API.OperationMethod<
 }));
 
 export type GetProjectsBuildsError = NotFound | Forbidden | GcpOpError;
-/** Returns information about a previously requested build. The `Build` that is returned includes its status (such as `SUCCESS`, `FAILURE`, or `WORKING`), and timing information. */
+/** Returns information about a previously requested build. The `Build` that is returned includes its status (such as `SUCCESS`, `FAILURE`, or `WORKING`), and timing information. Note: This method only gets builds in the "global" region when using the legacy resource path projects/{project_id}/builds/{id}. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/builds/{id}`. */
 export const getProjectsBuilds: API.OperationMethod<
   GetProjectsBuildsRequest,
   Build,
@@ -4892,7 +4388,7 @@ export const getProjectsLocationsBitbucketServerConfigs: API.OperationMethod<
 }));
 
 export type GetProjectsLocationsBuildsError = NotFound | Forbidden | GcpOpError;
-/** Returns information about a previously requested build. The `Build` that is returned includes its status (such as `SUCCESS`, `FAILURE`, or `WORKING`), and timing information. */
+/** Returns information about a previously requested build. The `Build` that is returned includes its status (such as `SUCCESS`, `FAILURE`, or `WORKING`), and timing information. Note: This method only gets builds in the "global" region when using the legacy resource path projects/{project_id}/builds/{id}. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/builds/{id}`. */
 export const getProjectsLocationsBuilds: API.OperationMethod<
   GetProjectsLocationsBuildsRequest,
   Build,
@@ -4919,24 +4415,6 @@ export const getProjectsLocationsGithubEnterpriseConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsGithubEnterpriseConfigsRequest,
   output: GitHubEnterpriseConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GetProjectsLocationsGitLabConfigsError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** Retrieves a `GitLabConfig`. This API is experimental */
-export const getProjectsLocationsGitLabConfigs: API.OperationMethod<
-  GetProjectsLocationsGitLabConfigsRequest,
-  GitLabConfig,
-  GetProjectsLocationsGitLabConfigsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetProjectsLocationsGitLabConfigsRequest,
-  output: GitLabConfig,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5012,7 +4490,7 @@ export const getProjectsTriggers: API.OperationMethod<
 }));
 
 export type ListProjectsBuildsError = NotFound | Forbidden | GcpOpError;
-/** Lists previously requested builds. Previously requested builds may still be in-progress, or may have finished successfully or unsuccessfully. */
+/** Lists previously requested builds. Previously requested builds may still be in-progress, or may have finished successfully or unsuccessfully. Note: This method only lists builds in the "global" region when using the legacy resource path projects/{project_id}/builds. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/builds`. */
 export const listProjectsBuilds: API.PaginatedOperationMethod<
   ListProjectsBuildsRequest,
   ListBuildsResponse,
@@ -5099,7 +4577,7 @@ export type ListProjectsLocationsBuildsError =
   | NotFound
   | Forbidden
   | GcpOpError;
-/** Lists previously requested builds. Previously requested builds may still be in-progress, or may have finished successfully or unsuccessfully. */
+/** Lists previously requested builds. Previously requested builds may still be in-progress, or may have finished successfully or unsuccessfully. Note: This method only lists builds in the "global" region when using the legacy resource path projects/{project_id}/builds. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/builds`. */
 export const listProjectsLocationsBuilds: API.PaginatedOperationMethod<
   ListProjectsLocationsBuildsRequest,
   ListBuildsResponse,
@@ -5135,52 +4613,6 @@ export const listProjectsLocationsGithubEnterpriseConfigs: API.OperationMethod<
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
-
-export type ListProjectsLocationsGitLabConfigsError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** List all `GitLabConfigs` for a given project. This API is experimental */
-export const listProjectsLocationsGitLabConfigs: API.PaginatedOperationMethod<
-  ListProjectsLocationsGitLabConfigsRequest,
-  ListGitLabConfigsResponse,
-  ListProjectsLocationsGitLabConfigsError,
-  GcpOpContext,
-  ListGitLabConfigsResponse
-> = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectsLocationsGitLabConfigsRequest,
-  output: ListGitLabConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
-})) as any;
-
-export type ListProjectsLocationsGitLabConfigsReposError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** List all repositories for a given `GitLabConfig`. This API is experimental */
-export const listProjectsLocationsGitLabConfigsRepos: API.PaginatedOperationMethod<
-  ListProjectsLocationsGitLabConfigsReposRequest,
-  ListGitLabRepositoriesResponse,
-  ListProjectsLocationsGitLabConfigsReposError,
-  GcpOpContext,
-  ListGitLabRepositoriesResponse
-> = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectsLocationsGitLabConfigsReposRequest,
-  output: ListGitLabRepositoriesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
-})) as any;
 
 export type ListProjectsLocationsTriggersError =
   | NotFound
@@ -5308,26 +4740,6 @@ export const patchProjectsLocationsGithubEnterpriseConfigs: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type PatchProjectsLocationsGitLabConfigsError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Updates an existing `GitLabConfig`. This API is experimental */
-export const patchProjectsLocationsGitLabConfigs: API.OperationMethod<
-  PatchProjectsLocationsGitLabConfigsRequest,
-  Operation,
-  PatchProjectsLocationsGitLabConfigsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PatchProjectsLocationsGitLabConfigsRequest,
-  output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
 export type PatchProjectsLocationsTriggersError =
   | NotFound
   | Forbidden
@@ -5429,7 +4841,11 @@ export const regionalWebhookLocations: API.OperationMethod<
 }));
 
 export type RemoveBitbucketServerConnectedRepositoryProjectsLocationsBitbucketServerConfigsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Remove a Bitbucket Server repository from a given BitbucketServerConfig's connected repositories. This API is experimental. */
 export const removeBitbucketServerConnectedRepositoryProjectsLocationsBitbucketServerConfigs: API.OperationMethod<
   RemoveBitbucketServerConnectedRepositoryProjectsLocationsBitbucketServerConfigsRequest,
@@ -5445,29 +4861,13 @@ export const removeBitbucketServerConnectedRepositoryProjectsLocationsBitbucketS
   retry: Retry.Retry,
 }));
 
-export type RemoveGitLabConnectedRepositoryProjectsLocationsGitLabConfigsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Remove a GitLab repository from a given GitLabConfig's connected repositories. This API is experimental. */
-export const removeGitLabConnectedRepositoryProjectsLocationsGitLabConfigs: API.OperationMethod<
-  RemoveGitLabConnectedRepositoryProjectsLocationsGitLabConfigsRequest,
-  Empty,
-  RemoveGitLabConnectedRepositoryProjectsLocationsGitLabConfigsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RemoveGitLabConnectedRepositoryProjectsLocationsGitLabConfigsRequest,
-  output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
 export type RetryProjectsBuildsError =
   | NotFound
   | Forbidden
   | BadRequest
   | Conflict
   | GcpOpError;
-/** Creates a new build based on the specified build. This method creates a new build using the original build request, which may or may not result in an identical build. For triggered builds: * Triggered builds resolve to a precise revision; therefore a retry of a triggered build will result in a build that uses the same revision. For non-triggered builds that specify `RepoSource`: * If the original build built from the tip of a branch, the retried build will build from the tip of that branch, which may not be the same revision as the original build. * If the original build specified a commit sha or revision ID, the retried build will use the identical source. For builds that specify `StorageSource`: * If the original build pulled source from Cloud Storage without specifying the generation of the object, the new build will use the current object, which may be different from the original build source. * If the original build pulled source from Cloud Storage and specified the generation of the object, the new build will attempt to use the same object, which may or may not be available depending on the bucket's lifecycle management settings. */
+/** Creates a new build based on the specified build. Note: This method only creates builds in the "global" region when using the legacy resource path projects/{project_id}/builds/{id}:retry. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/builds/{id}:retry`. This method creates a new build using the original build request, which may or may not result in an identical build. For triggered builds: * Triggered builds resolve to a precise revision; therefore a retry of a triggered build will result in a build that uses the same revision. For non-triggered builds that specify `RepoSource`: * If the original build built from the tip of a branch, the retried build will build from the tip of that branch, which may not be the same revision as the original build. * If the original build specified a commit sha or revision ID, the retried build will use the identical source. For builds that specify `StorageSource`: * If the original build pulled source from Cloud Storage without specifying the generation of the object, the new build will use the current object, which may be different from the original build source. * If the original build pulled source from Cloud Storage and specified the generation of the object, the new build will attempt to use the same object, which may or may not be available depending on the bucket's lifecycle management settings. */
 export const retryProjectsBuilds: API.OperationMethod<
   RetryProjectsBuildsRequest,
   Operation,
@@ -5487,7 +4887,7 @@ export type RetryProjectsLocationsBuildsError =
   | BadRequest
   | Conflict
   | GcpOpError;
-/** Creates a new build based on the specified build. This method creates a new build using the original build request, which may or may not result in an identical build. For triggered builds: * Triggered builds resolve to a precise revision; therefore a retry of a triggered build will result in a build that uses the same revision. For non-triggered builds that specify `RepoSource`: * If the original build built from the tip of a branch, the retried build will build from the tip of that branch, which may not be the same revision as the original build. * If the original build specified a commit sha or revision ID, the retried build will use the identical source. For builds that specify `StorageSource`: * If the original build pulled source from Cloud Storage without specifying the generation of the object, the new build will use the current object, which may be different from the original build source. * If the original build pulled source from Cloud Storage and specified the generation of the object, the new build will attempt to use the same object, which may or may not be available depending on the bucket's lifecycle management settings. */
+/** Creates a new build based on the specified build. Note: This method only creates builds in the "global" region when using the legacy resource path projects/{project_id}/builds/{id}:retry. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/builds/{id}:retry`. This method creates a new build using the original build request, which may or may not result in an identical build. For triggered builds: * Triggered builds resolve to a precise revision; therefore a retry of a triggered build will result in a build that uses the same revision. For non-triggered builds that specify `RepoSource`: * If the original build built from the tip of a branch, the retried build will build from the tip of that branch, which may not be the same revision as the original build. * If the original build specified a commit sha or revision ID, the retried build will use the identical source. For builds that specify `StorageSource`: * If the original build pulled source from Cloud Storage without specifying the generation of the object, the new build will use the current object, which may be different from the original build source. * If the original build pulled source from Cloud Storage and specified the generation of the object, the new build will attempt to use the same object, which may or may not be available depending on the bucket's lifecycle management settings. */
 export const retryProjectsLocationsBuilds: API.OperationMethod<
   RetryProjectsLocationsBuildsRequest,
   Operation,

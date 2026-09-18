@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.vercel.log_drains#GetConfigurableLogDrainRequest": {
@@ -161,6 +162,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "express"
+          }
+        },
+        "FACTORY_EVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "factory-eve"
           }
         },
         "FASTAPI": {
@@ -801,6 +808,12 @@
             "smithy.api#enumValue": "express"
           }
         },
+        "FACTORY_EVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "factory-eve"
+          }
+        },
         "FASTAPI": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1258,6 +1271,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "feature-not-available"
+          }
+        },
+        "LIMITS_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limits-exceeded"
           }
         }
       },
@@ -2328,6 +2347,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "feature-not-available"
+          }
+        },
+        "LIMITS_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limits-exceeded"
           }
         }
       },

@@ -114,170 +114,20 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
     code: S.optional(S.Number),
     details: S.optional(DocumentMapList),
+    message: S.optional(S.String),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
-
-export type ConnectionProfileProviderEnum =
-  | "DATABASE_PROVIDER_UNSPECIFIED"
-  | "CLOUDSQL"
-  | "RDS";
-export const ConnectionProfileProviderEnum = /*@__PURE__*/ S.String;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StringMap>;
-
-/** An entry for an Access Control list. */
-export interface SqlAclEntry {
-  /** The time when this access control entry expires in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example: `2012-11-15T16:19:00.094Z`. */
-  expireTime?: string;
-  /** Input only. The time-to-leave of this access control entry. */
-  ttl?: string;
-  /** A label to identify this entry. */
-  label?: string;
-  /** The allowlisted value for the access control list. */
-  value?: string;
-}
-export const SqlAclEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    expireTime: S.optional(S.String),
-    ttl: S.optional(S.String),
-    label: S.optional(S.String),
-    value: S.optional(S.String),
-  }),
-).annotate({ identifier: "SqlAclEntry" }) as any as S.Schema<SqlAclEntry>;
-
-export type SqlAclEntryList = Array<SqlAclEntry>;
-export const SqlAclEntryList = /*@__PURE__*/ S.Array(
-  SqlAclEntry,
-) as any as S.Schema<SqlAclEntryList>;
-
-/** IP Management configuration. */
-export interface SqlIpConfig {
-  /** The list of external networks that are allowed to connect to the instance using the IP. See https://en.wikipedia.org/wiki/CIDR_notation#CIDR_notation, also known as 'slash' notation (e.g. `192.168.100.0/24`). */
-  authorizedNetworks?: SqlAclEntryList;
-  /** Whether the instance is assigned a public IP address or not. */
-  enableIpv4?: boolean;
-  /** The resource link for the VPC network from which the Cloud SQL instance is accessible for private IP. For example, `/projects/myProject/global/networks/default`. This setting can be updated, but it cannot be removed after it is set. */
-  privateNetwork?: string;
-  /** Whether SSL connections over IP should be enforced or not. */
-  requireSsl?: boolean;
-}
-export const SqlIpConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authorizedNetworks: S.optional(SqlAclEntryList),
-    enableIpv4: S.optional(S.Boolean),
-    privateNetwork: S.optional(S.String),
-    requireSsl: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "SqlIpConfig" }) as any as S.Schema<SqlIpConfig>;
-
-export type CloudSqlSettingsDatabaseVersionEnum =
-  | "SQL_DATABASE_VERSION_UNSPECIFIED"
-  | "MYSQL_5_6"
-  | "MYSQL_5_7"
-  | "MYSQL_8_0";
-export const CloudSqlSettingsDatabaseVersionEnum = /*@__PURE__*/ S.String;
-
-export type CloudSqlSettingsActivationPolicyEnum =
-  | "SQL_ACTIVATION_POLICY_UNSPECIFIED"
-  | "ALWAYS"
-  | "NEVER";
-export const CloudSqlSettingsActivationPolicyEnum = /*@__PURE__*/ S.String;
-
-export type CloudSqlSettingsDataDiskTypeEnum =
-  | "SQL_DATA_DISK_TYPE_UNSPECIFIED"
-  | "PD_SSD"
-  | "PD_HDD";
-export const CloudSqlSettingsDataDiskTypeEnum = /*@__PURE__*/ S.String;
-
-/** Settings for creating a Cloud SQL database instance. */
-export interface CloudSqlSettings {
-  /** The resource labels for a Cloud SQL instance to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "18kg", "count": "3" }`. */
-  userLabels?: StringMap;
-  /** The storage capacity available to the database, in GB. The minimum (and default) size is 10GB. */
-  dataDiskSizeGb?: string;
-  /** Input only. Initial root password. */
-  rootPassword?: string;
-  /** The Google Cloud Platform zone where your Cloud SQL database instance is located. */
-  zone?: string;
-  /** The settings for IP Management. This allows to enable or disable the instance IP and manage which external networks can connect to the instance. The IPv4 address cannot be disabled. */
-  ipConfig?: SqlIpConfig;
-  /** The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit. */
-  storageAutoResizeLimit?: string;
-  /** Output only. Indicates If this connection profile root password is stored. */
-  rootPasswordSet?: boolean;
-  /** The database flags passed to the Cloud SQL instance at startup. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }. */
-  databaseFlags?: StringMap;
-  /** The database engine type and version. */
-  databaseVersion?: CloudSqlSettingsDatabaseVersionEnum | (string & {});
-  /** The activation policy specifies when the instance is activated; it is applicable only when the instance state is 'RUNNABLE'. Valid values: 'ALWAYS': The instance is on, and remains so even in the absence of connection requests. `NEVER`: The instance is off; it is not activated, even if a connection request arrives. */
-  activationPolicy?: CloudSqlSettingsActivationPolicyEnum | (string & {});
-  /** The type of storage: `PD_SSD` (default) or `PD_HDD`. */
-  dataDiskType?: CloudSqlSettingsDataDiskTypeEnum | (string & {});
-  /** [default: ON] If you enable this setting, Cloud SQL checks your available storage every 30 seconds. If the available storage falls below a threshold size, Cloud SQL automatically adds additional storage capacity. If the available storage repeatedly falls below the threshold size, Cloud SQL continues to add storage until it reaches the maximum of 30 TB. */
-  autoStorageIncrease?: boolean;
-  /** The tier (or machine type) for this instance, for example: `db-n1-standard-1` (MySQL instances). For more information, see [Cloud SQL Instance Settings](https://cloud.google.com/sql/docs/mysql/instance-settings). */
-  tier?: string;
-  /** The Database Migration Service source connection profile ID, in the format: `projects/my_project_name/locations/us-central1/connectionProfiles/connection_profile_ID` */
-  sourceId?: string;
-}
-export const CloudSqlSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    userLabels: S.optional(StringMap),
-    dataDiskSizeGb: S.optional(S.String),
-    rootPassword: S.optional(S.String),
-    zone: S.optional(S.String),
-    ipConfig: S.optional(SqlIpConfig),
-    storageAutoResizeLimit: S.optional(S.String),
-    rootPasswordSet: S.optional(S.Boolean),
-    databaseFlags: S.optional(StringMap),
-    databaseVersion: S.optional(CloudSqlSettingsDatabaseVersionEnum),
-    activationPolicy: S.optional(CloudSqlSettingsActivationPolicyEnum),
-    dataDiskType: S.optional(CloudSqlSettingsDataDiskTypeEnum),
-    autoStorageIncrease: S.optional(S.Boolean),
-    tier: S.optional(S.String),
-    sourceId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CloudSqlSettings",
-}) as any as S.Schema<CloudSqlSettings>;
-
-/** Specifies required connection parameters, and, optionally, the parameters required to create a Cloud SQL destination database instance. */
-export interface CloudSqlConnectionProfile {
-  /** Output only. The Cloud SQL database instance's public IP. */
-  publicIp?: string;
-  /** Output only. The Cloud SQL instance ID that this connection profile is associated with. */
-  cloudSqlId?: string;
-  /** Output only. The Cloud SQL database instance's private IP. */
-  privateIp?: string;
-  /** Immutable. Metadata used to create the destination Cloud SQL database. */
-  settings?: CloudSqlSettings;
-}
-export const CloudSqlConnectionProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    publicIp: S.optional(S.String),
-    cloudSqlId: S.optional(S.String),
-    privateIp: S.optional(S.String),
-    settings: S.optional(CloudSqlSettings),
-  }),
-).annotate({
-  identifier: "CloudSqlConnectionProfile",
-}) as any as S.Schema<CloudSqlConnectionProfile>;
 
 export type ConnectionProfileStateEnum =
   | "STATE_UNSPECIFIED"
@@ -288,60 +138,210 @@ export type ConnectionProfileStateEnum =
   | "DELETING"
   | "DELETED"
   | "FAILED";
-export const ConnectionProfileStateEnum = /*@__PURE__*/ S.String;
+export const ConnectionProfileStateEnum = S.String;
+
+/** An entry for an Access Control list. */
+export interface SqlAclEntry {
+  /** The time when this access control entry expires in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example: `2012-11-15T16:19:00.094Z`. */
+  expireTime?: string;
+  /** The allowlisted value for the access control list. */
+  value?: string;
+  /** Input only. The time-to-leave of this access control entry. */
+  ttl?: string;
+  /** A label to identify this entry. */
+  label?: string;
+}
+export const SqlAclEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expireTime: S.optional(S.String),
+    value: S.optional(S.String),
+    ttl: S.optional(S.String),
+    label: S.optional(S.String),
+  }),
+).annotate({ identifier: "SqlAclEntry" }) as any as S.Schema<SqlAclEntry>;
+
+export type SqlAclEntryList = Array<SqlAclEntry>;
+export const SqlAclEntryList = /*@__PURE__*/ S.Array(
+  SqlAclEntry,
+) as any as S.Schema<SqlAclEntryList>;
+
+/** IP Management configuration. */
+export interface SqlIpConfig {
+  /** Whether SSL connections over IP should be enforced or not. */
+  requireSsl?: boolean;
+  /** The resource link for the VPC network from which the Cloud SQL instance is accessible for private IP. For example, `/projects/myProject/global/networks/default`. This setting can be updated, but it cannot be removed after it is set. */
+  privateNetwork?: string;
+  /** The list of external networks that are allowed to connect to the instance using the IP. See https://en.wikipedia.org/wiki/CIDR_notation#CIDR_notation, also known as 'slash' notation (e.g. `192.168.100.0/24`). */
+  authorizedNetworks?: SqlAclEntryList;
+  /** Whether the instance is assigned a public IP address or not. */
+  enableIpv4?: boolean;
+}
+export const SqlIpConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    requireSsl: S.optional(S.Boolean),
+    privateNetwork: S.optional(S.String),
+    authorizedNetworks: S.optional(SqlAclEntryList),
+    enableIpv4: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "SqlIpConfig" }) as any as S.Schema<SqlIpConfig>;
+
+export type CloudSqlSettingsDatabaseVersionEnum =
+  | "SQL_DATABASE_VERSION_UNSPECIFIED"
+  | "MYSQL_5_6"
+  | "MYSQL_5_7"
+  | "MYSQL_8_0";
+export const CloudSqlSettingsDatabaseVersionEnum = S.String;
+
+export type CloudSqlSettingsActivationPolicyEnum =
+  | "SQL_ACTIVATION_POLICY_UNSPECIFIED"
+  | "ALWAYS"
+  | "NEVER";
+export const CloudSqlSettingsActivationPolicyEnum = S.String;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StringMap>;
+
+export type CloudSqlSettingsDataDiskTypeEnum =
+  | "SQL_DATA_DISK_TYPE_UNSPECIFIED"
+  | "PD_SSD"
+  | "PD_HDD";
+export const CloudSqlSettingsDataDiskTypeEnum = S.String;
+
+/** Settings for creating a Cloud SQL database instance. */
+export interface CloudSqlSettings {
+  /** The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit. */
+  storageAutoResizeLimit?: string;
+  /** Input only. Initial root password. */
+  rootPassword?: string;
+  /** The tier (or machine type) for this instance, for example: `db-n1-standard-1` (MySQL instances). For more information, see [Cloud SQL Instance Settings](https://cloud.google.com/sql/docs/mysql/instance-settings). */
+  tier?: string;
+  /** [default: ON] If you enable this setting, Cloud SQL checks your available storage every 30 seconds. If the available storage falls below a threshold size, Cloud SQL automatically adds additional storage capacity. If the available storage repeatedly falls below the threshold size, Cloud SQL continues to add storage until it reaches the maximum of 30 TB. */
+  autoStorageIncrease?: boolean;
+  /** The settings for IP Management. This allows to enable or disable the instance IP and manage which external networks can connect to the instance. The IPv4 address cannot be disabled. */
+  ipConfig?: SqlIpConfig;
+  /** The Database Migration Service source connection profile ID, in the format: `projects/my_project_name/locations/us-central1/connectionProfiles/connection_profile_ID` */
+  sourceId?: string;
+  /** Output only. Indicates If this connection profile root password is stored. */
+  rootPasswordSet?: boolean;
+  /** The storage capacity available to the database, in GB. The minimum (and default) size is 10GB. */
+  dataDiskSizeGb?: string;
+  /** The database engine type and version. */
+  databaseVersion?: CloudSqlSettingsDatabaseVersionEnum | (string & {});
+  /** The activation policy specifies when the instance is activated; it is applicable only when the instance state is 'RUNNABLE'. Valid values: 'ALWAYS': The instance is on, and remains so even in the absence of connection requests. `NEVER`: The instance is off; it is not activated, even if a connection request arrives. */
+  activationPolicy?: CloudSqlSettingsActivationPolicyEnum | (string & {});
+  /** The resource labels for a Cloud SQL instance to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "18kg", "count": "3" }`. */
+  userLabels?: StringMap;
+  /** The type of storage: `PD_SSD` (default) or `PD_HDD`. */
+  dataDiskType?: CloudSqlSettingsDataDiskTypeEnum | (string & {});
+  /** The database flags passed to the Cloud SQL instance at startup. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }. */
+  databaseFlags?: StringMap;
+  /** The Google Cloud Platform zone where your Cloud SQL database instance is located. */
+  zone?: string;
+}
+export const CloudSqlSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storageAutoResizeLimit: S.optional(S.String),
+    rootPassword: S.optional(S.String),
+    tier: S.optional(S.String),
+    autoStorageIncrease: S.optional(S.Boolean),
+    ipConfig: S.optional(SqlIpConfig),
+    sourceId: S.optional(S.String),
+    rootPasswordSet: S.optional(S.Boolean),
+    dataDiskSizeGb: S.optional(S.String),
+    databaseVersion: S.optional(CloudSqlSettingsDatabaseVersionEnum),
+    activationPolicy: S.optional(CloudSqlSettingsActivationPolicyEnum),
+    userLabels: S.optional(StringMap),
+    dataDiskType: S.optional(CloudSqlSettingsDataDiskTypeEnum),
+    databaseFlags: S.optional(StringMap),
+    zone: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CloudSqlSettings",
+}) as any as S.Schema<CloudSqlSettings>;
+
+/** Specifies required connection parameters, and, optionally, the parameters required to create a Cloud SQL destination database instance. */
+export interface CloudSqlConnectionProfile {
+  /** Output only. The Cloud SQL instance ID that this connection profile is associated with. */
+  cloudSqlId?: string;
+  /** Output only. The Cloud SQL database instance's private IP. */
+  privateIp?: string;
+  /** Immutable. Metadata used to create the destination Cloud SQL database. */
+  settings?: CloudSqlSettings;
+  /** Output only. The Cloud SQL database instance's public IP. */
+  publicIp?: string;
+}
+export const CloudSqlConnectionProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cloudSqlId: S.optional(S.String),
+    privateIp: S.optional(S.String),
+    settings: S.optional(CloudSqlSettings),
+    publicIp: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CloudSqlConnectionProfile",
+}) as any as S.Schema<CloudSqlConnectionProfile>;
+
+export type ConnectionProfileProviderEnum =
+  | "DATABASE_PROVIDER_UNSPECIFIED"
+  | "CLOUDSQL"
+  | "RDS";
+export const ConnectionProfileProviderEnum = S.String;
 
 export type SslConfigTypeEnum =
   | "SSL_TYPE_UNSPECIFIED"
   | "SERVER_ONLY"
   | "SERVER_CLIENT";
-export const SslConfigTypeEnum = /*@__PURE__*/ S.String;
+export const SslConfigTypeEnum = S.String;
 
 /** SSL configuration information. */
 export interface SslConfig {
-  /** Output only. The ssl config type according to 'client_key', 'client_certificate' and 'ca_certificate'. */
-  type?: SslConfigTypeEnum | (string & {});
-  /** Required. Input only. The x509 PEM-encoded certificate of the CA that signed the source database server's certificate. The replica will use this certificate to verify it's connecting to the right host. */
-  caCertificate?: string;
   /** Input only. The unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' field is mandatory. */
   clientKey?: string;
   /** Input only. The x509 PEM-encoded certificate that will be used by the replica to authenticate against the source database server.If this field is used then the 'client_key' field is mandatory. */
   clientCertificate?: string;
+  /** Output only. The ssl config type according to 'client_key', 'client_certificate' and 'ca_certificate'. */
+  type?: SslConfigTypeEnum | (string & {});
+  /** Required. Input only. The x509 PEM-encoded certificate of the CA that signed the source database server's certificate. The replica will use this certificate to verify it's connecting to the right host. */
+  caCertificate?: string;
 }
 export const SslConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(SslConfigTypeEnum),
-    caCertificate: S.optional(S.String),
     clientKey: S.optional(S.String),
     clientCertificate: S.optional(S.String),
+    type: S.optional(SslConfigTypeEnum),
+    caCertificate: S.optional(S.String),
   }),
 ).annotate({ identifier: "SslConfig" }) as any as S.Schema<SslConfig>;
 
 /** Specifies connection parameters required specifically for MySQL databases. */
 export interface MySqlConnectionProfile {
-  /** SSL configuration for the destination to connect to the source database. */
-  ssl?: SslConfig;
-  /** If the source is a Cloud SQL database, use this field to provide the Cloud SQL instance ID of the source. */
-  cloudSqlId?: string;
-  /** Required. The IP or hostname of the source MySQL database. */
-  host?: string;
-  /** Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service. */
-  username?: string;
-  /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
-  password?: string;
   /** Output only. Indicates If this connection profile password is stored. */
   passwordSet?: boolean;
+  /** Required. The IP or hostname of the source MySQL database. */
+  host?: string;
   /** Required. The network port of the source MySQL database. */
   port?: number;
+  /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
+  password?: string;
+  /** If the source is a Cloud SQL database, use this field to provide the Cloud SQL instance ID of the source. */
+  cloudSqlId?: string;
+  /** Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service. */
+  username?: string;
+  /** SSL configuration for the destination to connect to the source database. */
+  ssl?: SslConfig;
 }
 export const MySqlConnectionProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ssl: S.optional(SslConfig),
-    cloudSqlId: S.optional(S.String),
-    host: S.optional(S.String),
-    username: S.optional(S.String),
-    password: S.optional(S.String),
     passwordSet: S.optional(S.Boolean),
+    host: S.optional(S.String),
     port: S.optional(S.Number),
+    password: S.optional(S.String),
+    cloudSqlId: S.optional(S.String),
+    username: S.optional(S.String),
+    ssl: S.optional(SslConfig),
   }),
 ).annotate({
   identifier: "MySqlConnectionProfile",
@@ -349,60 +349,60 @@ export const MySqlConnectionProfile = /*@__PURE__*/ S.suspend(() =>
 
 /** A connection profile definition. */
 export interface ConnectionProfile {
-  /** Output only. The timestamp when the resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  updateTime?: string;
   /** Output only. The error details in case of state FAILED. */
   error?: Status;
+  /** Output only. The timestamp when the resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
+  updateTime?: string;
+  /** The current connection profile state (e.g. DRAFT, READY, or FAILED). */
+  state?: ConnectionProfileStateEnum | (string & {});
+  /** A CloudSQL database connection profile. */
+  cloudsql?: CloudSqlConnectionProfile;
   /** The connection profile display name. */
   displayName?: string;
   /** The database provider. */
   provider?: ConnectionProfileProviderEnum | (string & {});
   /** The resource labels for connection profile to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
   labels?: StringMap;
-  /** Output only. The timestamp when the resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  createTime?: string;
-  /** A CloudSQL database connection profile. */
-  cloudsql?: CloudSqlConnectionProfile;
-  /** The current connection profile state (e.g. DRAFT, READY, or FAILED). */
-  state?: ConnectionProfileStateEnum | (string & {});
   /** The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
   name?: string;
   /** A MySQL database connection profile. */
   mysql?: MySqlConnectionProfile;
+  /** Output only. The timestamp when the resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
+  createTime?: string;
 }
 export const ConnectionProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateTime: S.optional(S.String),
     error: S.optional(Status),
+    updateTime: S.optional(S.String),
+    state: S.optional(ConnectionProfileStateEnum),
+    cloudsql: S.optional(CloudSqlConnectionProfile),
     displayName: S.optional(S.String),
     provider: S.optional(ConnectionProfileProviderEnum),
     labels: S.optional(StringMap),
-    createTime: S.optional(S.String),
-    cloudsql: S.optional(CloudSqlConnectionProfile),
-    state: S.optional(ConnectionProfileStateEnum),
     name: S.optional(S.String),
     mysql: S.optional(MySqlConnectionProfile),
+    createTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ConnectionProfile",
 }) as any as S.Schema<ConnectionProfile>;
 
 export interface CreateProjectsLocationsConnectionProfilesRequest {
-  /** Required. The parent, which owns this collection of connection profiles. */
-  parent: string;
-  /** Required. The connection profile identifier. */
-  connectionProfileId?: string;
   /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string;
+  /** Required. The connection profile identifier. */
+  connectionProfileId?: string;
+  /** Required. The parent, which owns this collection of connection profiles. */
+  parent: string;
   /** Request body */
   body?: ConnectionProfile;
 }
 export const CreateProjectsLocationsConnectionProfilesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      connectionProfileId: S.optional(S.String.pipe(T.Query())),
       requestId: S.optional(S.String.pipe(T.Query())),
+      connectionProfileId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(ConnectionProfile.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -417,55 +417,61 @@ export const CreateProjectsLocationsConnectionProfilesRequest =
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
-    response: S.optional(DocumentMap),
-    name: S.optional(S.String),
-    done: S.optional(S.Boolean),
     error: S.optional(Status),
+    metadata: S.optional(DocumentMap),
+    name: S.optional(S.String),
+    response: S.optional(DocumentMap),
+    done: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
-export type DatabaseTypeEngineEnum = "DATABASE_ENGINE_UNSPECIFIED" | "MYSQL";
-export const DatabaseTypeEngineEnum = /*@__PURE__*/ S.String;
-
-export type DatabaseTypeProviderEnum =
-  | "DATABASE_PROVIDER_UNSPECIFIED"
-  | "CLOUDSQL"
-  | "RDS";
-export const DatabaseTypeProviderEnum = /*@__PURE__*/ S.String;
-
-/** A message defining the database engine and provider. */
-export interface DatabaseType {
-  /** The database engine. */
-  engine?: DatabaseTypeEngineEnum | (string & {});
-  /** The database provider. */
-  provider?: DatabaseTypeProviderEnum | (string & {});
+/** The details of the VPC where the source database is located in Google Cloud. We will use this information to set up the VPC peering connection between Cloud SQL and this VPC. */
+export interface VpcPeeringConnectivity {
+  /** The name of the VPC network to peer with the Cloud SQL private network. */
+  vpc?: string;
 }
-export const DatabaseType = /*@__PURE__*/ S.suspend(() =>
+export const VpcPeeringConnectivity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    engine: S.optional(DatabaseTypeEngineEnum),
-    provider: S.optional(DatabaseTypeProviderEnum),
+    vpc: S.optional(S.String),
   }),
-).annotate({ identifier: "DatabaseType" }) as any as S.Schema<DatabaseType>;
+).annotate({
+  identifier: "VpcPeeringConnectivity",
+}) as any as S.Schema<VpcPeeringConnectivity>;
 
-export type MigrationJobTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "ONE_TIME"
-  | "CONTINUOUS";
-export const MigrationJobTypeEnum = /*@__PURE__*/ S.String;
+/** The details needed to configure a reverse SSH tunnel between the source and destination databases. These details will be used when calling the generateSshScript method (see https://cloud.google.com/database-migration/docs/reference/rest/v1beta1/projects.locations.migrationJobs/generateSshScript) to produce the script that will help set up the reverse SSH tunnel, and to set up the VPC peering between the Cloud SQL private network and the VPC. */
+export interface ReverseSshConnectivity {
+  /** The name of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
+  vm?: string;
+  /** Required. The IP of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
+  vmIp?: string;
+  /** Required. The forwarding port of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
+  vmPort?: number;
+  /** The name of the VPC to peer with the Cloud SQL private network. */
+  vpc?: string;
+}
+export const ReverseSshConnectivity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vm: S.optional(S.String),
+    vmIp: S.optional(S.String),
+    vmPort: S.optional(S.Number),
+    vpc: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ReverseSshConnectivity",
+}) as any as S.Schema<ReverseSshConnectivity>;
 
 export type MigrationJobStateEnum =
   | "STATE_UNSPECIFIED"
@@ -484,33 +490,7 @@ export type MigrationJobStateEnum =
   | "STARTING"
   | "RESTARTING"
   | "RESUMING";
-export const MigrationJobStateEnum = /*@__PURE__*/ S.String;
-
-/** The details needed to configure a reverse SSH tunnel between the source and destination databases. These details will be used when calling the generateSshScript method (see https://cloud.google.com/database-migration/docs/reference/rest/v1beta1/projects.locations.migrationJobs/generateSshScript) to produce the script that will help set up the reverse SSH tunnel, and to set up the VPC peering between the Cloud SQL private network and the VPC. */
-export interface ReverseSshConnectivity {
-  /** Required. The IP of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
-  vmIp?: string;
-  /** Required. The forwarding port of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
-  vmPort?: number;
-  /** The name of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
-  vm?: string;
-  /** The name of the VPC to peer with the Cloud SQL private network. */
-  vpc?: string;
-}
-export const ReverseSshConnectivity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vmIp: S.optional(S.String),
-    vmPort: S.optional(S.Number),
-    vm: S.optional(S.String),
-    vpc: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ReverseSshConnectivity",
-}) as any as S.Schema<ReverseSshConnectivity>;
-
-/** The source database will allow incoming connections from the destination database's public IP. You can retrieve the Cloud SQL instance's public IP from the Cloud SQL console or using Cloud SQL APIs. No additional configuration is required. */
-export type StaticIpConnectivity = CancelOperationRequest;
-export const StaticIpConnectivity = CancelOperationRequest;
+export const MigrationJobStateEnum = S.String;
 
 export type MigrationJobPhaseEnum =
   | "PHASE_UNSPECIFIED"
@@ -519,91 +499,111 @@ export type MigrationJobPhaseEnum =
   | "PROMOTE_IN_PROGRESS"
   | "WAITING_FOR_SOURCE_WRITES_TO_STOP"
   | "PREPARING_THE_DUMP";
-export const MigrationJobPhaseEnum = /*@__PURE__*/ S.String;
+export const MigrationJobPhaseEnum = S.String;
 
-/** The details of the VPC where the source database is located in Google Cloud. We will use this information to set up the VPC peering connection between Cloud SQL and this VPC. */
-export interface VpcPeeringConnectivity {
-  /** The name of the VPC network to peer with the Cloud SQL private network. */
-  vpc?: string;
+export type MigrationJobTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "ONE_TIME"
+  | "CONTINUOUS";
+export const MigrationJobTypeEnum = S.String;
+
+/** The source database will allow incoming connections from the destination database's public IP. You can retrieve the Cloud SQL instance's public IP from the Cloud SQL console or using Cloud SQL APIs. No additional configuration is required. */
+export type StaticIpConnectivity = CancelOperationRequest;
+export const StaticIpConnectivity = CancelOperationRequest;
+
+export type DatabaseTypeProviderEnum =
+  | "DATABASE_PROVIDER_UNSPECIFIED"
+  | "CLOUDSQL"
+  | "RDS";
+export const DatabaseTypeProviderEnum = S.String;
+
+export type DatabaseTypeEngineEnum = "DATABASE_ENGINE_UNSPECIFIED" | "MYSQL";
+export const DatabaseTypeEngineEnum = S.String;
+
+/** A message defining the database engine and provider. */
+export interface DatabaseType {
+  /** The database provider. */
+  provider?: DatabaseTypeProviderEnum | (string & {});
+  /** The database engine. */
+  engine?: DatabaseTypeEngineEnum | (string & {});
 }
-export const VpcPeeringConnectivity = /*@__PURE__*/ S.suspend(() =>
+export const DatabaseType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    vpc: S.optional(S.String),
+    provider: S.optional(DatabaseTypeProviderEnum),
+    engine: S.optional(DatabaseTypeEngineEnum),
   }),
-).annotate({
-  identifier: "VpcPeeringConnectivity",
-}) as any as S.Schema<VpcPeeringConnectivity>;
+).annotate({ identifier: "DatabaseType" }) as any as S.Schema<DatabaseType>;
 
 /** Represents a Database Migration Service migration job object. */
 export interface MigrationJob {
-  /** Required. The resource name (URI) of the source connection profile. */
-  source?: string;
-  /** The database engine type and provider of the destination. */
-  destinationDatabase?: DatabaseType;
-  /** Required. The migration job type. */
-  type?: MigrationJobTypeEnum | (string & {});
-  /** Output only. The timestamp when the migration job resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  updateTime?: string;
-  /** Output only. The timestamp when the migration job resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  createTime?: string;
-  /** The resource labels for migration job to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
-  labels?: StringMap;
-  /** Required. The resource name (URI) of the destination connection profile. */
-  destination?: string;
-  /** The current migration job state. */
-  state?: MigrationJobStateEnum | (string & {});
-  /** The database engine type and provider of the source. */
-  sourceDatabase?: DatabaseType;
-  /** The path to the dump file in Google Cloud Storage, in the format: (gs://[BUCKET_NAME]/[OBJECT_NAME]). */
-  dumpPath?: string;
-  /** The details needed to communicate to the source over Reverse SSH tunnel connectivity. */
-  reverseSshConnectivity?: ReverseSshConnectivity;
-  /** Output only. The duration of the migration job (in seconds). A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". */
-  duration?: string;
-  /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
-  name?: string;
-  /** The migration job display name. */
-  displayName?: string;
-  /** static ip connectivity data (default, no additional details needed). */
-  staticIpConnectivity?: CancelOperationRequest;
-  /** Output only. The error details in case of state FAILED. */
-  error?: Status;
-  /** Output only. The current migration job phase. */
-  phase?: MigrationJobPhaseEnum | (string & {});
   /** The details of the VPC network that the source database is located in. */
   vpcPeeringConnectivity?: VpcPeeringConnectivity;
+  /** The details needed to communicate to the source over Reverse SSH tunnel connectivity. */
+  reverseSshConnectivity?: ReverseSshConnectivity;
+  /** The current migration job state. */
+  state?: MigrationJobStateEnum | (string & {});
+  /** Output only. The timestamp when the migration job resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
+  createTime?: string;
+  /** Output only. The current migration job phase. */
+  phase?: MigrationJobPhaseEnum | (string & {});
+  /** Required. The resource name (URI) of the source connection profile. */
+  source?: string;
+  /** Required. The migration job type. */
+  type?: MigrationJobTypeEnum | (string & {});
   /** Output only. If the migration job is completed, the time when it was completed. */
   endTime?: string;
+  /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
+  name?: string;
+  /** static ip connectivity data (default, no additional details needed). */
+  staticIpConnectivity?: CancelOperationRequest;
+  /** The database engine type and provider of the destination. */
+  destinationDatabase?: DatabaseType;
+  /** Output only. The timestamp when the migration job resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
+  updateTime?: string;
+  /** The database engine type and provider of the source. */
+  sourceDatabase?: DatabaseType;
+  /** The resource labels for migration job to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
+  labels?: StringMap;
+  /** Output only. The duration of the migration job (in seconds). A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". */
+  duration?: string;
+  /** The path to the dump file in Google Cloud Storage, in the format: (gs://[BUCKET_NAME]/[OBJECT_NAME]). */
+  dumpPath?: string;
+  /** Output only. The error details in case of state FAILED. */
+  error?: Status;
+  /** The migration job display name. */
+  displayName?: string;
+  /** Required. The resource name (URI) of the destination connection profile. */
+  destination?: string;
 }
 export const MigrationJob = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    source: S.optional(S.String),
-    destinationDatabase: S.optional(DatabaseType),
-    type: S.optional(MigrationJobTypeEnum),
-    updateTime: S.optional(S.String),
-    createTime: S.optional(S.String),
-    labels: S.optional(StringMap),
-    destination: S.optional(S.String),
-    state: S.optional(MigrationJobStateEnum),
-    sourceDatabase: S.optional(DatabaseType),
-    dumpPath: S.optional(S.String),
-    reverseSshConnectivity: S.optional(ReverseSshConnectivity),
-    duration: S.optional(S.String),
-    name: S.optional(S.String),
-    displayName: S.optional(S.String),
-    staticIpConnectivity: S.optional(CancelOperationRequest),
-    error: S.optional(Status),
-    phase: S.optional(MigrationJobPhaseEnum),
     vpcPeeringConnectivity: S.optional(VpcPeeringConnectivity),
+    reverseSshConnectivity: S.optional(ReverseSshConnectivity),
+    state: S.optional(MigrationJobStateEnum),
+    createTime: S.optional(S.String),
+    phase: S.optional(MigrationJobPhaseEnum),
+    source: S.optional(S.String),
+    type: S.optional(MigrationJobTypeEnum),
     endTime: S.optional(S.String),
+    name: S.optional(S.String),
+    staticIpConnectivity: S.optional(CancelOperationRequest),
+    destinationDatabase: S.optional(DatabaseType),
+    updateTime: S.optional(S.String),
+    sourceDatabase: S.optional(DatabaseType),
+    labels: S.optional(StringMap),
+    duration: S.optional(S.String),
+    dumpPath: S.optional(S.String),
+    error: S.optional(Status),
+    displayName: S.optional(S.String),
+    destination: S.optional(S.String),
   }),
 ).annotate({ identifier: "MigrationJob" }) as any as S.Schema<MigrationJob>;
 
 export interface CreateProjectsLocationsMigrationJobsRequest {
-  /** Required. The parent, which owns this collection of migration jobs. */
-  parent: string;
   /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string;
+  /** Required. The parent, which owns this collection of migration jobs. */
+  parent: string;
   /** Required. The ID of the instance to create. */
   migrationJobId?: string;
   /** Request body */
@@ -612,8 +612,8 @@ export interface CreateProjectsLocationsMigrationJobsRequest {
 export const CreateProjectsLocationsMigrationJobsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       migrationJobId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(MigrationJob.pipe(T.HttpBody())),
     }).pipe(
@@ -630,17 +630,17 @@ export const CreateProjectsLocationsMigrationJobsRequest =
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
   /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string;
-  /** Required. Name of the connection profile resource to delete. */
-  name: string;
   /** In case of force delete, the CloudSQL replica database is also deleted (only for CloudSQL connection profile). */
   force?: boolean;
+  /** Required. Name of the connection profile resource to delete. */
+  name: string;
 }
 export const DeleteProjectsLocationsConnectionProfilesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       requestId: S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       force: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -653,18 +653,18 @@ export const DeleteProjectsLocationsConnectionProfilesRequest =
   }) as any as S.Schema<DeleteProjectsLocationsConnectionProfilesRequest>;
 
 export interface DeleteProjectsLocationsMigrationJobsRequest {
-  /** Required. Name of the migration job resource to delete. */
-  name: string;
   /** The destination CloudSQL connection profile is always deleted with the migration job. In case of force delete, the destination CloudSQL replica database is also deleted. */
   force?: boolean;
+  /** Required. Name of the migration job resource to delete. */
+  name: string;
   /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string;
 }
 export const DeleteProjectsLocationsMigrationJobsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       force: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -696,6 +696,25 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteProjectsLocationsOperationsRequest",
 }) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>;
 
+/** VM creation configuration message */
+export interface VmCreationConfig {
+  /** The subnet name the vm needs to be created in. */
+  subnet?: string;
+  /** Required. VM instance machine type to create. */
+  vmMachineType?: string;
+  /** The Google Cloud Platform zone to create the VM in. */
+  vmZone?: string;
+}
+export const VmCreationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subnet: S.optional(S.String),
+    vmMachineType: S.optional(S.String),
+    vmZone: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "VmCreationConfig",
+}) as any as S.Schema<VmCreationConfig>;
+
 /** VM selection configuration message */
 export interface VmSelectionConfig {
   /** Required. The Google Cloud Platform zone the VM is located. */
@@ -709,42 +728,23 @@ export const VmSelectionConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "VmSelectionConfig",
 }) as any as S.Schema<VmSelectionConfig>;
 
-/** VM creation configuration message */
-export interface VmCreationConfig {
-  /** Required. VM instance machine type to create. */
-  vmMachineType?: string;
-  /** The Google Cloud Platform zone to create the VM in. */
-  vmZone?: string;
-  /** The subnet name the vm needs to be created in. */
-  subnet?: string;
-}
-export const VmCreationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vmMachineType: S.optional(S.String),
-    vmZone: S.optional(S.String),
-    subnet: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VmCreationConfig",
-}) as any as S.Schema<VmCreationConfig>;
-
 /** Request message for 'GenerateSshScript' request. */
 export interface GenerateSshScriptRequest {
-  /** Required. Bastion VM Instance name to use or to create. */
-  vm?: string;
-  /** The port that will be open on the bastion host */
-  vmPort?: number;
-  /** The VM selection configuration */
-  vmSelectionConfig?: VmSelectionConfig;
   /** The VM creation configuration */
   vmCreationConfig?: VmCreationConfig;
+  /** The port that will be open on the bastion host */
+  vmPort?: number;
+  /** Required. Bastion VM Instance name to use or to create. */
+  vm?: string;
+  /** The VM selection configuration */
+  vmSelectionConfig?: VmSelectionConfig;
 }
 export const GenerateSshScriptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    vm: S.optional(S.String),
-    vmPort: S.optional(S.Number),
-    vmSelectionConfig: S.optional(VmSelectionConfig),
     vmCreationConfig: S.optional(VmCreationConfig),
+    vmPort: S.optional(S.Number),
+    vm: S.optional(S.String),
+    vmSelectionConfig: S.optional(VmSelectionConfig),
   }),
 ).annotate({
   identifier: "GenerateSshScriptRequest",
@@ -784,16 +784,16 @@ export const SshScript = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SshScript" }) as any as S.Schema<SshScript>;
 
 export interface GetIamPolicyProjectsLocationsConnectionProfilesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsConnectionProfilesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      resource: S.String.pipe(T.Label()),
       "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -805,29 +805,71 @@ export const GetIamPolicyProjectsLocationsConnectionProfilesRequest =
     identifier: "GetIamPolicyProjectsLocationsConnectionProfilesRequest",
   }) as any as S.Schema<GetIamPolicyProjectsLocationsConnectionProfilesRequest>;
 
-export type AuditLogConfigLogTypeEnum =
-  | "LOG_TYPE_UNSPECIFIED"
-  | "ADMIN_READ"
-  | "DATA_WRITE"
-  | "DATA_READ";
-export const AuditLogConfigLogTypeEnum = /*@__PURE__*/ S.String;
-
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<StringList>;
 
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+}
+export const Expr = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    location: S.optional(S.String),
+    title: S.optional(S.String),
+    description: S.optional(S.String),
+    expression: S.optional(S.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
+
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+}
+export const Binding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    members: S.optional(StringList),
+    condition: S.optional(Expr),
+    role: S.optional(S.String),
+  }),
+).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
+
+export type BindingList = Array<Binding>;
+export const BindingList = /*@__PURE__*/ S.Array(
+  Binding,
+) as any as S.Schema<BindingList>;
+
+export type AuditLogConfigLogTypeEnum =
+  | "LOG_TYPE_UNSPECIFIED"
+  | "ADMIN_READ"
+  | "DATA_WRITE"
+  | "DATA_READ";
+export const AuditLogConfigLogTypeEnum = S.String;
+
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: StringList;
+  /** The log type that this config enables. */
+  logType?: AuditLogConfigLogTypeEnum | (string & {});
 }
 export const AuditLogConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    logType: S.optional(AuditLogConfigLogTypeEnum),
     exemptedMembers: S.optional(StringList),
+    logType: S.optional(AuditLogConfigLogTypeEnum),
   }),
 ).annotate({ identifier: "AuditLogConfig" }) as any as S.Schema<AuditLogConfig>;
 
@@ -855,79 +897,37 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
   AuditConfig,
 ) as any as S.Schema<AuditConfigList>;
 
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-}
-export const Expr = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    location: S.optional(S.String),
-    title: S.optional(S.String),
-    expression: S.optional(S.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
-
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-}
-export const Binding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    members: S.optional(StringList),
-    role: S.optional(S.String),
-    condition: S.optional(Expr),
-  }),
-).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
-
-export type BindingList = Array<Binding>;
-export const BindingList = /*@__PURE__*/ S.Array(
-  Binding,
-) as any as S.Schema<BindingList>;
-
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: AuditConfigList;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    auditConfigs: S.optional(AuditConfigList),
-    etag: S.optional(S.String),
-    version: S.optional(S.Number),
     bindings: S.optional(BindingList),
+    version: S.optional(S.Number),
+    etag: S.optional(S.String),
+    auditConfigs: S.optional(AuditConfigList),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
 export interface GetIamPolicyProjectsLocationsMigrationJobsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsMigrationJobsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      resource: S.String.pipe(T.Label()),
       "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -959,24 +959,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
     displayName: S.optional(S.String),
-    locationId: S.optional(S.String),
     labels: S.optional(StringMap),
     metadata: S.optional(DocumentMap),
-    name: S.optional(S.String),
+    locationId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -1038,24 +1038,24 @@ export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GetProjectsLocationsOperationsRequest>;
 
 export interface ListProjectsLocationsRequest {
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1074,40 +1074,40 @@ export const LocationList = /*@__PURE__*/ S.Array(
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locations: S.optional(LocationList),
     nextPageToken: S.optional(S.String),
+    locations: S.optional(LocationList),
   }),
 ).annotate({
   identifier: "ListLocationsResponse",
 }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsConnectionProfilesRequest {
-  /** The maximum number of connection profiles to return. The service may return fewer than this value. If unspecified, at most 50 connection profiles will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** A page token, received from a previous `ListConnectionProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectionProfiles` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Required. The parent, which owns this collection of connection profiles. */
-  parent: string;
   /** the order by fields for the result. */
   orderBy?: string;
+  /** Required. The parent, which owns this collection of connection profiles. */
+  parent: string;
+  /** A page token, received from a previous `ListConnectionProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectionProfiles` must match the call that provided the page token. */
+  pageToken?: string;
   /** A filter expression that filters connection profiles listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either =, !=, >, or <. For example, list connection profiles created this year by specifying **createTime %gt; 2020-01-01T00:00:00.000000000Z**. You can also filter nested fields. For example, you could specify **mySql.username = %lt;my_username%gt;** to list all connection profiles configured to connect with a specific username. */
   filter?: string;
+  /** The maximum number of connection profiles to return. The service may return fewer than this value. If unspecified, at most 50 connection profiles will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsConnectionProfilesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1126,43 +1126,43 @@ export const ConnectionProfileList = /*@__PURE__*/ S.Array(
 
 /** Response message for 'ListConnectionProfiles' request. */
 export interface ListConnectionProfilesResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
   /** The response list of connection profiles. */
   connectionProfiles?: ConnectionProfileList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
 }
 export const ListConnectionProfilesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
     connectionProfiles: S.optional(ConnectionProfileList),
-    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListConnectionProfilesResponse",
 }) as any as S.Schema<ListConnectionProfilesResponse>;
 
 export interface ListProjectsLocationsMigrationJobsRequest {
-  /** Sort the results based on the migration job name. Valid values are: "name", "name asc", and "name desc". */
-  orderBy?: string;
-  /** Required. The parent, which owns this collection of migrationJobs. */
-  parent: string;
-  /** The maximum number of migration jobs to return. The service may return fewer than this value. If unspecified, at most 50 migration jobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** The nextPageToken value received in the previous call to migrationJobs.list, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to migrationJobs.list must match the call that provided the page token. */
   pageToken?: string;
+  /** Sort the results based on the migration job name. Valid values are: "name", "name asc", and "name desc". */
+  orderBy?: string;
   /** A filter expression that filters migration jobs listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either =, !=, >, or <. For example, list migration jobs created this year by specifying **createTime %gt; 2020-01-01T00:00:00.000000000Z.** You can also filter nested fields. For example, you could specify **reverseSshConnectivity.vmIp = "1.2.3.4"** to select all migration jobs connecting through the specific SSH tunnel bastion. */
   filter?: string;
+  /** The maximum number of migration jobs to return. The service may return fewer than this value. If unspecified, at most 50 migration jobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Required. The parent, which owns this collection of migrationJobs. */
+  parent: string;
 }
 export const ListProjectsLocationsMigrationJobsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      orderBy: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1181,43 +1181,43 @@ export const MigrationJobList = /*@__PURE__*/ S.Array(
 
 /** Response message for 'ListMigrationJobs' request. */
 export interface ListMigrationJobsResponse {
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
   /** The list of migration jobs objects. */
   migrationJobs?: MigrationJobList;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
 }
 export const ListMigrationJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
     migrationJobs: S.optional(MigrationJobList),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListMigrationJobsResponse",
 }) as any as S.Schema<ListMigrationJobsResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page size. */
-  pageSize?: number;
-  /** The standard list page token. */
-  pageToken?: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
+  /** The standard list page size. */
+  pageSize?: number;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
   filter?: string;
+  /** The standard list page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1236,39 +1236,39 @@ export const OperationList = /*@__PURE__*/ S.Array(
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     operations: S.optional(OperationList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListOperationsResponse",
 }) as any as S.Schema<ListOperationsResponse>;
 
 export interface PatchProjectsLocationsConnectionProfilesRequest {
-  /** The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
-  name: string;
   /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the connection profile resource by the update. */
   updateMask?: string;
+  /** The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
+  name: string;
   /** Request body */
   body?: ConnectionProfile;
 }
 export const PatchProjectsLocationsConnectionProfilesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(ConnectionProfile.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1284,10 +1284,10 @@ export const PatchProjectsLocationsConnectionProfilesRequest =
 export interface PatchProjectsLocationsMigrationJobsRequest {
   /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string;
-  /** Required. Field mask is used to specify the fields to be overwritten in the migration job resource by the update. */
-  updateMask?: string;
   /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
   name: string;
+  /** Required. Field mask is used to specify the fields to be overwritten in the migration job resource by the update. */
+  updateMask?: string;
   /** Request body */
   body?: MigrationJob;
 }
@@ -1295,8 +1295,8 @@ export const PatchProjectsLocationsMigrationJobsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       requestId: S.optional(S.String.pipe(T.Query())),
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(MigrationJob.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1389,15 +1389,15 @@ export const ResumeProjectsLocationsMigrationJobsRequest =
 
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy;
 }
 export const SetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    policy: S.optional(Policy),
     updateMask: S.optional(S.String),
+    policy: S.optional(Policy),
   }),
 ).annotate({
   identifier: "SetIamPolicyRequest",

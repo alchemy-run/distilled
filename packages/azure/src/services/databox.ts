@@ -13,57 +13,7 @@ import * as Retry from "../retry.ts";
 
 export type { AzureOpError, AzureOpContext };
 
-export interface JobsBookShipmentPickUpRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
-  jobName: string;
-  /** Minimum date after which the pick up should commence, this must be in local time of pick up area. */
-  startTime: string;
-  /** Maximum date before which the pick up should commence, this must be in local time of pick up area. */
-  endTime: string;
-  /** Shipment Location in the pickup place. Eg.front desk */
-  shipmentLocation: string;
-}
-export const JobsBookShipmentPickUpRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    jobName: S.String.pipe(T.Label()),
-    startTime: S.String,
-    endTime: S.String,
-    shipmentLocation: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}/bookShipmentPickUp",
-      code: 200,
-      apiVersion: "2025-07-01",
-    }),
-  ),
-).annotate({
-  identifier: "JobsBookShipmentPickUpRequest",
-}) as any as S.Schema<JobsBookShipmentPickUpRequest>;
-
-/** Shipment pick up response. */
-export interface ShipmentPickUpResponse {
-  /** Confirmation number for the pick up request. */
-  confirmationNumber?: string;
-  /** Time by which shipment should be ready for pick up, this is in local time of pick up area. */
-  readyByTime?: string;
-}
-export const ShipmentPickUpResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    confirmationNumber: S.optional(S.String),
-    readyByTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ShipmentPickUpResponse",
-}) as any as S.Schema<ShipmentPickUpResponse>;
-
-export interface JobsCancelRequest {
+export interface CancelJobRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -73,7 +23,7 @@ export interface JobsCancelRequest {
   /** Reason for cancellation. */
   reason: string;
 }
-export const JobsCancelRequest = /*@__PURE__*/ S.suspend(() =>
+export const CancelJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -88,26 +38,26 @@ export const JobsCancelRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "JobsCancelRequest",
-}) as any as S.Schema<JobsCancelRequest>;
+  identifier: "CancelJobRequest",
+}) as any as S.Schema<CancelJobRequest>;
 
-export interface JobsCancelResponse {}
-export const JobsCancelResponse = /*@__PURE__*/ S.suspend(() =>
+export interface CancelJobResponse {}
+export const CancelJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}),
 ).annotate({
-  identifier: "JobsCancelResponse",
-}) as any as S.Schema<JobsCancelResponse>;
+  identifier: "CancelJobResponse",
+}) as any as S.Schema<CancelJobResponse>;
 
 /** Resource tags. */
-export type JobsCreateRequestTagsMap = { [key: string]: string | undefined };
-export const JobsCreateRequestTagsMap = /*@__PURE__*/ S.Record(
+export type CreateJobRequestTagsMap = { [key: string]: string | undefined };
+export const CreateJobRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<JobsCreateRequestTagsMap>;
+) as any as S.Schema<CreateJobRequestTagsMap>;
 
 /** Type of the transfer. */
 export type TransferType = "ImportToAzure" | "ExportFromAzure";
-export const TransferType = /*@__PURE__*/ S.String;
+export const TransferType = S.String;
 
 /** List of Email-ids to be notified about job progress. */
 export type ContactDetailsEmailListList = Array<string>;
@@ -125,7 +75,7 @@ export type NotificationStageName =
   | "DataCopy"
   | "Created"
   | "ShippedToCustomer";
-export const NotificationStageName = /*@__PURE__*/ S.String;
+export const NotificationStageName = S.String;
 
 /** Notification preference for a job stage. */
 export interface NotificationPreference {
@@ -180,7 +130,7 @@ export const ContactDetails = /*@__PURE__*/ S.suspend(() =>
 
 /** Type of address. */
 export type ShippingAddressAddressType = "None" | "Residential" | "Commercial";
-export const ShippingAddressAddressType = /*@__PURE__*/ S.String;
+export const ShippingAddressAddressType = S.String;
 
 /** Shipping address where customer wishes to receive the device. */
 export interface ShippingAddress {
@@ -232,7 +182,7 @@ export const ShippingAddress = /*@__PURE__*/ S.suspend(() =>
 export type DataAccountDetailsDataAccountType =
   | "StorageAccount"
   | "ManagedDisk";
-export const DataAccountDetailsDataAccountType = /*@__PURE__*/ S.String;
+export const DataAccountDetailsDataAccountType = S.String;
 
 /** Account details of the data to be transferred */
 export interface DataAccountDetails {
@@ -252,7 +202,7 @@ export const DataAccountDetails = /*@__PURE__*/ S.suspend(() =>
 
 /** Level of the logs to be collected. */
 export type DataImportDetailsLogCollectionLevel = "Error" | "Verbose";
-export const DataImportDetailsLogCollectionLevel = /*@__PURE__*/ S.String;
+export const DataImportDetailsLogCollectionLevel = S.String;
 
 /** Details of the data to be used for importing data to azure. */
 export interface DataImportDetails {
@@ -278,13 +228,13 @@ export const JobDetailsInputDataImportDetailsList = /*@__PURE__*/ S.Array(
 
 /** Type of the configuration for transfer. */
 export type TransferConfigurationType = "TransferAll" | "TransferUsingFilter";
-export const TransferConfigurationType = /*@__PURE__*/ S.String;
+export const TransferConfigurationType = S.String;
 
 /** Type of the account of data. */
 export type TransferFilterDetailsDataAccountType =
   | "StorageAccount"
   | "ManagedDisk";
-export const TransferFilterDetailsDataAccountType = /*@__PURE__*/ S.String;
+export const TransferFilterDetailsDataAccountType = S.String;
 
 /** Prefix list of the Azure blobs to be transferred. */
 export type BlobFilterDetailsBlobPrefixListList = Array<string>;
@@ -362,7 +312,7 @@ export const AzureFileFilterDetails = /*@__PURE__*/ S.suspend(() =>
 
 /** Type of the filter file. */
 export type FilterFileType = "AzureBlob" | "AzureFile";
-export const FilterFileType = /*@__PURE__*/ S.String;
+export const FilterFileType = S.String;
 
 /** Details of the filter files to be used for data transfer. */
 export interface FilterFileDetails {
@@ -427,7 +377,7 @@ export const TransferConfigurationTransferFilterDetails =
 export type TransferAllDetailsDataAccountType =
   | "StorageAccount"
   | "ManagedDisk";
-export const TransferAllDetailsDataAccountType = /*@__PURE__*/ S.String;
+export const TransferAllDetailsDataAccountType = S.String;
 
 /** Details to transfer all data. */
 export interface TransferAllDetails {
@@ -485,7 +435,7 @@ export const TransferConfiguration = /*@__PURE__*/ S.suspend(() =>
 
 /** Level of the logs to be collected. */
 export type DataExportDetailsLogCollectionLevel = "Error" | "Verbose";
-export const DataExportDetailsLogCollectionLevel = /*@__PURE__*/ S.String;
+export const DataExportDetailsLogCollectionLevel = S.String;
 
 /** Details of the data to be used for exporting data from azure. */
 export interface DataExportDetails {
@@ -518,7 +468,7 @@ export type ClassDiscriminator =
   | "DataBoxDisk"
   | "DataBoxHeavy"
   | "DataBoxCustomerDisk";
-export const ClassDiscriminator = /*@__PURE__*/ S.String;
+export const ClassDiscriminator = S.String;
 
 /** Preferred data center region. */
 export type PreferencesInputPreferredDataCenterRegionList = Array<string>;
@@ -529,7 +479,7 @@ export const PreferencesInputPreferredDataCenterRegionList =
 
 /** Transport Shipment Type supported for given region. */
 export type TransportShipmentTypes = "CustomerManaged" | "MicrosoftManaged";
-export const TransportShipmentTypes = /*@__PURE__*/ S.String;
+export const TransportShipmentTypes = S.String;
 
 /** Preferences related to the shipment logistics of the sku */
 export interface TransportPreferencesInput {
@@ -546,11 +496,11 @@ export const TransportPreferencesInput = /*@__PURE__*/ S.suspend(() =>
 
 /** Defines secondary layer of software-based encryption enablement. */
 export type EncryptionPreferencesDoubleEncryption = "Enabled" | "Disabled";
-export const EncryptionPreferencesDoubleEncryption = /*@__PURE__*/ S.String;
+export const EncryptionPreferencesDoubleEncryption = S.String;
 
 /** Hardware encryption support for a given sku for a given region. */
 export type HardwareEncryption = "Enabled" | "Disabled";
-export const HardwareEncryption = /*@__PURE__*/ S.String;
+export const HardwareEncryption = S.String;
 
 /** Preferences related to the Encryption. */
 export interface EncryptionPreferences {
@@ -569,8 +519,7 @@ export const EncryptionPreferences = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EncryptionPreferences>;
 
 export type PreferencesInputStorageAccountAccessTierPreferencesItem = "Archive";
-export const PreferencesInputStorageAccountAccessTierPreferencesItem =
-  /*@__PURE__*/ S.String;
+export const PreferencesInputStorageAccountAccessTierPreferencesItem = S.String;
 
 /** Preferences related to the Access Tier of storage accounts. */
 export type PreferencesInputStorageAccountAccessTierPreferencesList = Array<
@@ -648,7 +597,7 @@ export const ReverseShippingDetailsInput = /*@__PURE__*/ S.suspend(() =>
 
 /** Type of encryption key used for key encryption. */
 export type KeyEncryptionKeyKekType = "MicrosoftManaged" | "CustomerManaged";
-export const KeyEncryptionKeyKekType = /*@__PURE__*/ S.String;
+export const KeyEncryptionKeyKekType = S.String;
 
 /** User assigned identity properties. */
 export interface UserAssignedProperties {
@@ -740,7 +689,7 @@ export const JobDetailsInput = /*@__PURE__*/ S.suspend(() =>
 
 /** Delivery type of Job. */
 export type JobPropertiesInputDeliveryType = "NonScheduled" | "Scheduled";
-export const JobPropertiesInputDeliveryType = /*@__PURE__*/ S.String;
+export const JobPropertiesInputDeliveryType = S.String;
 
 /** Additional delivery info. */
 export interface JobDeliveryInfo {
@@ -783,7 +732,7 @@ export type SkuName =
   | "DataBoxDisk"
   | "DataBoxHeavy"
   | "DataBoxCustomerDisk";
-export const SkuName = /*@__PURE__*/ S.String;
+export const SkuName = S.String;
 
 /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
 export type ModelName =
@@ -793,7 +742,7 @@ export type ModelName =
   | "DataBoxCustomerDisk"
   | "AzureDataBox120"
   | "AzureDataBox525";
-export const ModelName = /*@__PURE__*/ S.String;
+export const ModelName = S.String;
 
 /** The Sku. */
 export interface Sku {
@@ -850,7 +799,7 @@ export const ResourceIdentityInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResourceIdentityInput",
 }) as any as S.Schema<ResourceIdentityInput>;
 
-export interface JobsCreateRequest {
+export interface CreateJobRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -858,7 +807,7 @@ export interface JobsCreateRequest {
   /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
   jobName: string;
   /** Resource tags. */
-  tags?: JobsCreateRequestTagsMap;
+  tags?: CreateJobRequestTagsMap;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a job. */
@@ -868,12 +817,12 @@ export interface JobsCreateRequest {
   /** Msi identity of the resource */
   identity?: ResourceIdentityInput;
 }
-export const JobsCreateRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     jobName: S.String.pipe(T.Label()),
-    tags: S.optional(JobsCreateRequestTagsMap),
+    tags: S.optional(CreateJobRequestTagsMap),
     location: S.String,
     properties: JobPropertiesInput,
     sku: Sku,
@@ -887,8 +836,8 @@ export const JobsCreateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "JobsCreateRequest",
-}) as any as S.Schema<JobsCreateRequest>;
+  identifier: "CreateJobRequest",
+}) as any as S.Schema<CreateJobRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType =
@@ -896,7 +845,7 @@ export type SystemDataCreatedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const SystemDataCreatedByType = /*@__PURE__*/ S.String;
+export const SystemDataCreatedByType = S.String;
 
 /** The type of identity that last modified the resource. */
 export type SystemDataLastModifiedByType =
@@ -904,7 +853,7 @@ export type SystemDataLastModifiedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const SystemDataLastModifiedByType = /*@__PURE__*/ S.String;
+export const SystemDataLastModifiedByType = S.String;
 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
@@ -933,25 +882,25 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type JobsCreateResponseTagsMap = { [key: string]: string | undefined };
-export const JobsCreateResponseTagsMap = /*@__PURE__*/ S.Record(
+export type CreateJobResponseTagsMap = { [key: string]: string | undefined };
+export const CreateJobResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<JobsCreateResponseTagsMap>;
+) as any as S.Schema<CreateJobResponseTagsMap>;
 
 /** The Editable status for Reverse Shipping Address and Contact Info */
 export type ReverseShippingDetailsEditStatus =
   | "Enabled"
   | "Disabled"
   | "NotSupported";
-export const ReverseShippingDetailsEditStatus = /*@__PURE__*/ S.String;
+export const ReverseShippingDetailsEditStatus = S.String;
 
 /** The Editable status for Reverse Transport preferences */
 export type ReverseTransportPreferenceEditStatus =
   | "Enabled"
   | "Disabled"
   | "NotSupported";
-export const ReverseTransportPreferenceEditStatus = /*@__PURE__*/ S.String;
+export const ReverseTransportPreferenceEditStatus = S.String;
 
 /** Name of the stage which is in progress. */
 export type StageName =
@@ -976,7 +925,7 @@ export type StageName =
   | "AwaitingShipmentDetails"
   | "PreparingToShipFromAzureDC"
   | "ShippedToCustomer";
-export const StageName = /*@__PURE__*/ S.String;
+export const StageName = S.String;
 
 /** Additional information of the type of error. */
 export type AdditionalErrorInfoInfoMap = { [key: string]: unknown | undefined };
@@ -1051,11 +1000,11 @@ export type StageStatus =
   | "WaitingForCustomerActionForCleanUp"
   | "CustomerActionPerformedForCleanUp"
   | "CustomerActionPerformed";
-export const StageStatus = /*@__PURE__*/ S.String;
+export const StageStatus = S.String;
 
 /** Status of notification */
 export type DelayNotificationStatus = "Active" | "Resolved";
-export const DelayNotificationStatus = /*@__PURE__*/ S.String;
+export const DelayNotificationStatus = S.String;
 
 /** Delay Error code */
 export type PortalDelayErrorCode =
@@ -1063,7 +1012,7 @@ export type PortalDelayErrorCode =
   | "ActiveOrderLimitBreachedDelay"
   | "HighDemandDelay"
   | "LargeNumberOfFilesDelay";
-export const PortalDelayErrorCode = /*@__PURE__*/ S.String;
+export const PortalDelayErrorCode = S.String;
 
 /** Job Delay Notification details */
 export interface JobDelayDetails {
@@ -1182,8 +1131,7 @@ export const TransportPreferences = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TransportPreferences>;
 
 export type PreferencesStorageAccountAccessTierPreferencesItem = "Archive";
-export const PreferencesStorageAccountAccessTierPreferencesItem =
-  /*@__PURE__*/ S.String;
+export const PreferencesStorageAccountAccessTierPreferencesItem = S.String;
 
 /** Preferences related to the Access Tier of storage accounts. */
 export type PreferencesStorageAccountAccessTierPreferencesList =
@@ -1282,7 +1230,7 @@ export type CustomerResolutionCode =
   | "Resume"
   | "Restart"
   | "ReachOutToOperation";
-export const CustomerResolutionCode = /*@__PURE__*/ S.String;
+export const CustomerResolutionCode = S.String;
 
 /** Available actions on the job. */
 export type JobDetailsActionsList = Array<CustomerResolutionCode>;
@@ -1313,7 +1261,7 @@ export const LastMitigationActionOnJob = /*@__PURE__*/ S.suspend(() =>
 export type DatacenterAddressType =
   | "DatacenterAddressLocation"
   | "DatacenterAddressInstruction";
-export const DatacenterAddressType = /*@__PURE__*/ S.String;
+export const DatacenterAddressType = S.String;
 
 /** List of supported carriers for return shipment. */
 export type DatacenterAddressResponseSupportedCarriersForReturnShipmentList =
@@ -1414,7 +1362,7 @@ export type DataCenterCode =
   | "AMS25"
   | "CPQ21"
   | "OSA23";
-export const DataCenterCode = /*@__PURE__*/ S.String;
+export const DataCenterCode = S.String;
 
 /** Job details. */
 export interface JobDetails {
@@ -1486,7 +1434,7 @@ export const JobDetails = /*@__PURE__*/ S.suspend(() =>
 
 /** Delivery type of Job. */
 export type JobPropertiesDeliveryType = "NonScheduled" | "Scheduled";
-export const JobPropertiesDeliveryType = /*@__PURE__*/ S.String;
+export const JobPropertiesDeliveryType = S.String;
 
 /** Job Properties */
 export interface JobProperties {
@@ -1599,7 +1547,7 @@ export const ResourceIdentity = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResourceIdentity",
 }) as any as S.Schema<ResourceIdentity>;
 
-export interface JobsCreateResponse {
+export interface CreateJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -1609,7 +1557,7 @@ export interface JobsCreateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   /** Resource tags. */
-  tags?: JobsCreateResponseTagsMap;
+  tags?: CreateJobResponseTagsMap;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a job. */
@@ -1619,23 +1567,23 @@ export interface JobsCreateResponse {
   /** Msi identity of the resource */
   identity?: ResourceIdentity;
 }
-export const JobsCreateResponse = /*@__PURE__*/ S.suspend(() =>
+export const CreateJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
-    tags: S.optional(JobsCreateResponseTagsMap),
+    tags: S.optional(CreateJobResponseTagsMap),
     location: S.String,
     properties: JobProperties,
     sku: Sku,
     identity: S.optional(ResourceIdentity),
   }),
 ).annotate({
-  identifier: "JobsCreateResponse",
-}) as any as S.Schema<JobsCreateResponse>;
+  identifier: "CreateJobResponse",
+}) as any as S.Schema<CreateJobResponse>;
 
-export interface JobsDeleteRequest {
+export interface DeleteJobRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -1643,7 +1591,7 @@ export interface JobsDeleteRequest {
   /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
   jobName: string;
 }
-export const JobsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
+export const DeleteJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -1657,17 +1605,17 @@ export const JobsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "JobsDeleteRequest",
-}) as any as S.Schema<JobsDeleteRequest>;
+  identifier: "DeleteJobRequest",
+}) as any as S.Schema<DeleteJobRequest>;
 
-export interface JobsDeleteResponse {}
-export const JobsDeleteResponse = /*@__PURE__*/ S.suspend(() =>
+export interface DeleteJobResponse {}
+export const DeleteJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}),
 ).annotate({
-  identifier: "JobsDeleteResponse",
-}) as any as S.Schema<JobsDeleteResponse>;
+  identifier: "DeleteJobResponse",
+}) as any as S.Schema<DeleteJobResponse>;
 
-export interface JobsGetRequest {
+export interface GetJobRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -1677,7 +1625,7 @@ export interface JobsGetRequest {
   /** $expand is supported on details parameter for job, which provides details on the job stages. */
   _expand?: string;
 }
-export const JobsGetRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -1691,16 +1639,16 @@ export const JobsGetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({ identifier: "JobsGetRequest" }) as any as S.Schema<JobsGetRequest>;
+).annotate({ identifier: "GetJobRequest" }) as any as S.Schema<GetJobRequest>;
 
 /** Resource tags. */
-export type JobsGetResponseTagsMap = { [key: string]: string | undefined };
-export const JobsGetResponseTagsMap = /*@__PURE__*/ S.Record(
+export type GetJobResponseTagsMap = { [key: string]: string | undefined };
+export const GetJobResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<JobsGetResponseTagsMap>;
+) as any as S.Schema<GetJobResponseTagsMap>;
 
-export interface JobsGetResponse {
+export interface GetJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -1710,7 +1658,7 @@ export interface JobsGetResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   /** Resource tags. */
-  tags?: JobsGetResponseTagsMap;
+  tags?: GetJobResponseTagsMap;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a job. */
@@ -1720,43 +1668,145 @@ export interface JobsGetResponse {
   /** Msi identity of the resource */
   identity?: ResourceIdentity;
 }
-export const JobsGetResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
-    tags: S.optional(JobsGetResponseTagsMap),
+    tags: S.optional(GetJobResponseTagsMap),
     location: S.String,
     properties: JobProperties,
     sku: Sku,
     identity: S.optional(ResourceIdentity),
   }),
-).annotate({
-  identifier: "JobsGetResponse",
-}) as any as S.Schema<JobsGetResponse>;
+).annotate({ identifier: "GetJobResponse" }) as any as S.Schema<GetJobResponse>;
 
-export interface JobsListRequest {
+export interface JobsBookShipmentPickUpRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
-  /** $skipToken is supported on Get list of jobs, which provides the next page in the list of jobs. */
-  _skipToken?: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
+  jobName: string;
+  /** Minimum date after which the pick up should commence, this must be in local time of pick up area. */
+  startTime: string;
+  /** Maximum date before which the pick up should commence, this must be in local time of pick up area. */
+  endTime: string;
+  /** Shipment Location in the pickup place. Eg.front desk */
+  shipmentLocation: string;
 }
-export const JobsListRequest = /*@__PURE__*/ S.suspend(() =>
+export const JobsBookShipmentPickUpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
-    _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+    resourceGroupName: S.String.pipe(T.Label()),
+    jobName: S.String.pipe(T.Label()),
+    startTime: S.String,
+    endTime: S.String,
+    shipmentLocation: S.String,
   }).pipe(
     T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataBox/jobs",
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}/bookShipmentPickUp",
       code: 200,
       apiVersion: "2025-07-01",
     }),
   ),
 ).annotate({
-  identifier: "JobsListRequest",
-}) as any as S.Schema<JobsListRequest>;
+  identifier: "JobsBookShipmentPickUpRequest",
+}) as any as S.Schema<JobsBookShipmentPickUpRequest>;
+
+/** Shipment pick up response. */
+export interface ShipmentPickUpResponse {
+  /** Confirmation number for the pick up request. */
+  confirmationNumber?: string;
+  /** Time by which shipment should be ready for pick up, this is in local time of pick up area. */
+  readyByTime?: string;
+}
+export const ShipmentPickUpResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    confirmationNumber: S.optional(S.String),
+    readyByTime: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ShipmentPickUpResponse",
+}) as any as S.Schema<ShipmentPickUpResponse>;
+
+/** package carrier info */
+export interface PackageCarrierInfo {
+  /** Name of the carrier. */
+  carrierName?: string;
+  /** Tracking Id of shipment. */
+  trackingId?: string;
+}
+export const PackageCarrierInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    carrierName: S.optional(S.String),
+    trackingId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PackageCarrierInfo",
+}) as any as S.Schema<PackageCarrierInfo>;
+
+export interface JobsMarkDevicesShippedRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
+  jobName: string;
+  /** Delivery package details */
+  deliverToDcPackageDetails: PackageCarrierInfo;
+}
+export const JobsMarkDevicesShippedRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    jobName: S.String.pipe(T.Label()),
+    deliverToDcPackageDetails: PackageCarrierInfo,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}/markDevicesShipped",
+      code: 200,
+      apiVersion: "2025-07-01",
+    }),
+  ),
+).annotate({
+  identifier: "JobsMarkDevicesShippedRequest",
+}) as any as S.Schema<JobsMarkDevicesShippedRequest>;
+
+export interface JobsMarkDevicesShippedResponse {}
+export const JobsMarkDevicesShippedResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "JobsMarkDevicesShippedResponse",
+}) as any as S.Schema<JobsMarkDevicesShippedResponse>;
+
+export interface ListJobByResourceGroupRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** $skipToken is supported on Get list of jobs, which provides the next page in the list of jobs. */
+  _skipToken?: string;
+}
+export const ListJobByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs",
+      code: 200,
+      apiVersion: "2025-07-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListJobByResourceGroupRequest",
+}) as any as S.Schema<ListJobByResourceGroupRequest>;
 
 /** Resource tags. */
 export type JobResourceTagsMap = { [key: string]: string | undefined };
@@ -1822,32 +1872,7 @@ export const JobResourceList = /*@__PURE__*/ S.suspend(() =>
   identifier: "JobResourceList",
 }) as any as S.Schema<JobResourceList>;
 
-export interface JobsListByResourceGroupRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** $skipToken is supported on Get list of jobs, which provides the next page in the list of jobs. */
-  _skipToken?: string;
-}
-export const JobsListByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs",
-      code: 200,
-      apiVersion: "2025-07-01",
-    }),
-  ),
-).annotate({
-  identifier: "JobsListByResourceGroupRequest",
-}) as any as S.Schema<JobsListByResourceGroupRequest>;
-
-export interface JobsListCredentialsRequest {
+export interface ListJobCredentialsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -1855,7 +1880,7 @@ export interface JobsListCredentialsRequest {
   /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
   jobName: string;
 }
-export const JobsListCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListJobCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -1869,8 +1894,8 @@ export const JobsListCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "JobsListCredentialsRequest",
-}) as any as S.Schema<JobsListCredentialsRequest>;
+  identifier: "ListJobCredentialsRequest",
+}) as any as S.Schema<ListJobCredentialsRequest>;
 
 /** Dc access security code */
 export interface DcAccessSecurityCode {
@@ -1943,253 +1968,30 @@ export const UnencryptedCredentialsList = /*@__PURE__*/ S.suspend(() =>
   identifier: "UnencryptedCredentialsList",
 }) as any as S.Schema<UnencryptedCredentialsList>;
 
-/** package carrier info */
-export interface PackageCarrierInfo {
-  /** Name of the carrier. */
-  carrierName?: string;
-  /** Tracking Id of shipment. */
-  trackingId?: string;
-}
-export const PackageCarrierInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    carrierName: S.optional(S.String),
-    trackingId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PackageCarrierInfo",
-}) as any as S.Schema<PackageCarrierInfo>;
-
-export interface JobsMarkDevicesShippedRequest {
+export interface ListJobsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
-  jobName: string;
-  /** Delivery package details */
-  deliverToDcPackageDetails: PackageCarrierInfo;
+  /** $skipToken is supported on Get list of jobs, which provides the next page in the list of jobs. */
+  _skipToken?: string;
 }
-export const JobsMarkDevicesShippedRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    jobName: S.String.pipe(T.Label()),
-    deliverToDcPackageDetails: PackageCarrierInfo,
+    _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
   }).pipe(
     T.Http({
-      method: "POST",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}/markDevicesShipped",
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataBox/jobs",
       code: 200,
       apiVersion: "2025-07-01",
     }),
   ),
 ).annotate({
-  identifier: "JobsMarkDevicesShippedRequest",
-}) as any as S.Schema<JobsMarkDevicesShippedRequest>;
+  identifier: "ListJobsRequest",
+}) as any as S.Schema<ListJobsRequest>;
 
-export interface JobsMarkDevicesShippedResponse {}
-export const JobsMarkDevicesShippedResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "JobsMarkDevicesShippedResponse",
-}) as any as S.Schema<JobsMarkDevicesShippedResponse>;
-
-/** Package carrier details. */
-export interface PackageCarrierDetails {
-  /** Carrier Account Number of customer for customer disk. */
-  carrierAccountNumber?: string;
-  /** Name of the carrier. */
-  carrierName?: string;
-  /** Tracking Id of shipment. */
-  trackingId?: string;
-}
-export const PackageCarrierDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    carrierAccountNumber: S.optional(S.String),
-    carrierName: S.optional(S.String),
-    trackingId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PackageCarrierDetails",
-}) as any as S.Schema<PackageCarrierDetails>;
-
-/** Job details for update. */
-export interface UpdateJobDetailsInput {
-  /** Contact details for notification and shipping. */
-  contactDetails?: ContactDetails;
-  /** Shipping address of the customer. */
-  shippingAddress?: ShippingAddress;
-  /** Reverse Shipping Address and contact details for a job. */
-  reverseShippingDetails?: ReverseShippingDetailsInput;
-  /** Preferences related to the order */
-  preferences?: PreferencesInput;
-  /** Key encryption key for the job. */
-  keyEncryptionKey?: KeyEncryptionKey;
-  /** Return package details of job. */
-  returnToCustomerPackageDetails?: PackageCarrierDetails;
-}
-export const UpdateJobDetailsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contactDetails: S.optional(ContactDetails),
-    shippingAddress: S.optional(ShippingAddress),
-    reverseShippingDetails: S.optional(ReverseShippingDetailsInput),
-    preferences: S.optional(PreferencesInput),
-    keyEncryptionKey: S.optional(KeyEncryptionKey),
-    returnToCustomerPackageDetails: S.optional(PackageCarrierDetails),
-  }),
-).annotate({
-  identifier: "UpdateJobDetailsInput",
-}) as any as S.Schema<UpdateJobDetailsInput>;
-
-/** Job Properties for update */
-export interface UpdateJobPropertiesInput {
-  /** Details of a job to be updated. */
-  details?: UpdateJobDetailsInput;
-}
-export const UpdateJobPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    details: S.optional(UpdateJobDetailsInput),
-  }),
-).annotate({
-  identifier: "UpdateJobPropertiesInput",
-}) as any as S.Schema<UpdateJobPropertiesInput>;
-
-/** The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). */
-export type JobsUpdateRequestTagsMap = { [key: string]: string | undefined };
-export const JobsUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<JobsUpdateRequestTagsMap>;
-
-export interface JobsUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
-  jobName: string;
-  /** Properties of a job to be updated. */
-  properties?: UpdateJobPropertiesInput;
-  /** The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). */
-  tags?: JobsUpdateRequestTagsMap;
-  /** Msi identity of the resource */
-  identity?: ResourceIdentityInput;
-}
-export const JobsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    jobName: S.String.pipe(T.Label()),
-    properties: S.optional(UpdateJobPropertiesInput),
-    tags: S.optional(JobsUpdateRequestTagsMap),
-    identity: S.optional(ResourceIdentityInput),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}",
-      code: 200,
-      apiVersion: "2025-07-01",
-    }),
-  ),
-).annotate({
-  identifier: "JobsUpdateRequest",
-}) as any as S.Schema<JobsUpdateRequest>;
-
-/** Resource tags. */
-export type JobsUpdateResponseTagsMap = { [key: string]: string | undefined };
-export const JobsUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<JobsUpdateResponseTagsMap>;
-
-export interface JobsUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource tags. */
-  tags?: JobsUpdateResponseTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  /** Properties of a job. */
-  properties: JobProperties;
-  /** The sku type. */
-  sku: Sku;
-  /** Msi identity of the resource */
-  identity?: ResourceIdentity;
-}
-export const JobsUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    tags: S.optional(JobsUpdateResponseTagsMap),
-    location: S.String,
-    properties: JobProperties,
-    sku: Sku,
-    identity: S.optional(ResourceIdentity),
-  }),
-).annotate({
-  identifier: "JobsUpdateResponse",
-}) as any as S.Schema<JobsUpdateResponse>;
-
-/** Serial number and the customer resolution code corresponding to each serial number */
-export type MitigateRequestSerialNumberCustomerResolutionMapMap = {
-  [key: string]: CustomerResolutionCode | (string & {}) | undefined;
-};
-export const MitigateRequestSerialNumberCustomerResolutionMapMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    CustomerResolutionCode,
-  ) as any as S.Schema<MitigateRequestSerialNumberCustomerResolutionMapMap>;
-
-export interface MitigateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
-  jobName: string;
-  /** Resolution code for the job */
-  customerResolutionCode?: CustomerResolutionCode | (string & {});
-  /** Serial number and the customer resolution code corresponding to each serial number */
-  serialNumberCustomerResolutionMap?: MitigateRequestSerialNumberCustomerResolutionMapMap;
-}
-export const MitigateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    jobName: S.String.pipe(T.Label()),
-    customerResolutionCode: S.optional(CustomerResolutionCode),
-    serialNumberCustomerResolutionMap: S.optional(
-      MitigateRequestSerialNumberCustomerResolutionMapMap,
-    ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}/mitigate",
-      code: 200,
-      apiVersion: "2025-07-01",
-    }),
-  ),
-).annotate({
-  identifier: "MitigateRequest",
-}) as any as S.Schema<MitigateRequest>;
-
-export interface MitigateResponse {}
-export const MitigateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "MitigateResponse",
-}) as any as S.Schema<MitigateResponse>;
-
-export interface OperationsListRequest {}
-export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
+export interface ListOperationsRequest {}
+export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
     T.Http({
       method: "GET",
@@ -2199,8 +2001,8 @@ export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "OperationsListRequest",
-}) as any as S.Schema<OperationsListRequest>;
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
 
 /** Operation display */
 export interface OperationDisplay {
@@ -2268,15 +2070,15 @@ export const OperationList = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "OperationList" }) as any as S.Schema<OperationList>;
 
 /** Sku Names to filter for available skus */
-export type ServiceListAvailableSkusByResourceGroupRequestSkuNamesList = Array<
+export type ListServiceAvailableSkusByResourceGroupRequestSkuNamesList = Array<
   SkuName | (string & {})
 >;
-export const ServiceListAvailableSkusByResourceGroupRequestSkuNamesList =
+export const ListServiceAvailableSkusByResourceGroupRequestSkuNamesList =
   /*@__PURE__*/ S.Array(
     SkuName,
-  ) as any as S.Schema<ServiceListAvailableSkusByResourceGroupRequestSkuNamesList>;
+  ) as any as S.Schema<ListServiceAvailableSkusByResourceGroupRequestSkuNamesList>;
 
-export interface ServiceListAvailableSkusByResourceGroupRequest {
+export interface ListServiceAvailableSkusByResourceGroupRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -2288,9 +2090,9 @@ export interface ServiceListAvailableSkusByResourceGroupRequest {
   /** ISO country code. Country for hardware shipment. For codes check: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements */
   country: string;
   /** Sku Names to filter for available skus */
-  skuNames?: ServiceListAvailableSkusByResourceGroupRequestSkuNamesList;
+  skuNames?: ListServiceAvailableSkusByResourceGroupRequestSkuNamesList;
 }
-export const ServiceListAvailableSkusByResourceGroupRequest =
+export const ListServiceAvailableSkusByResourceGroupRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -2299,7 +2101,7 @@ export const ServiceListAvailableSkusByResourceGroupRequest =
       transferType: TransferType,
       country: S.String,
       skuNames: S.optional(
-        ServiceListAvailableSkusByResourceGroupRequestSkuNamesList,
+        ListServiceAvailableSkusByResourceGroupRequestSkuNamesList,
       ),
     }).pipe(
       T.Http({
@@ -2310,8 +2112,8 @@ export const ServiceListAvailableSkusByResourceGroupRequest =
       }),
     ),
   ).annotate({
-    identifier: "ServiceListAvailableSkusByResourceGroupRequest",
-  }) as any as S.Schema<ServiceListAvailableSkusByResourceGroupRequest>;
+    identifier: "ListServiceAvailableSkusByResourceGroupRequest",
+  }) as any as S.Schema<ListServiceAvailableSkusByResourceGroupRequest>;
 
 /** Map of data location to service location */
 export interface DataLocationToServiceLocationMap {
@@ -2391,7 +2193,7 @@ export type SkuDisabledReason =
   | "Feature"
   | "OfferType"
   | "NoSubscriptionInfo";
-export const SkuDisabledReason = /*@__PURE__*/ S.String;
+export const SkuDisabledReason = S.String;
 
 /** List of all the Countries in the SKU specific commerce boundary */
 export type SkuPropertiesCountriesWithinCommerceBoundaryList = Array<string>;
@@ -2474,6 +2276,56 @@ export const AvailableSkusResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AvailableSkusResult",
 }) as any as S.Schema<AvailableSkusResult>;
+
+/** Serial number and the customer resolution code corresponding to each serial number */
+export type MitigateRequestSerialNumberCustomerResolutionMapMap = {
+  [key: string]: CustomerResolutionCode | (string & {}) | undefined;
+};
+export const MitigateRequestSerialNumberCustomerResolutionMapMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    CustomerResolutionCode,
+  ) as any as S.Schema<MitigateRequestSerialNumberCustomerResolutionMapMap>;
+
+export interface MitigateRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
+  jobName: string;
+  /** Resolution code for the job */
+  customerResolutionCode?: CustomerResolutionCode | (string & {});
+  /** Serial number and the customer resolution code corresponding to each serial number */
+  serialNumberCustomerResolutionMap?: MitigateRequestSerialNumberCustomerResolutionMapMap;
+}
+export const MitigateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    jobName: S.String.pipe(T.Label()),
+    customerResolutionCode: S.optional(CustomerResolutionCode),
+    serialNumberCustomerResolutionMap: S.optional(
+      MitigateRequestSerialNumberCustomerResolutionMapMap,
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}/mitigate",
+      code: 200,
+      apiVersion: "2025-07-01",
+    }),
+  ),
+).annotate({
+  identifier: "MitigateRequest",
+}) as any as S.Schema<MitigateRequest>;
+
+export interface MitigateResponse {}
+export const MitigateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "MitigateResponse",
+}) as any as S.Schema<MitigateResponse>;
 
 /** Request body to get the availability for scheduling orders. */
 export interface ScheduleAvailabilityRequest {
@@ -2722,11 +2574,154 @@ export const ServiceRegionConfigurationByResourceGroupRequest =
     identifier: "ServiceRegionConfigurationByResourceGroupRequest",
   }) as any as S.Schema<ServiceRegionConfigurationByResourceGroupRequest>;
 
+/** Package carrier details. */
+export interface PackageCarrierDetails {
+  /** Carrier Account Number of customer for customer disk. */
+  carrierAccountNumber?: string;
+  /** Name of the carrier. */
+  carrierName?: string;
+  /** Tracking Id of shipment. */
+  trackingId?: string;
+}
+export const PackageCarrierDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    carrierAccountNumber: S.optional(S.String),
+    carrierName: S.optional(S.String),
+    trackingId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PackageCarrierDetails",
+}) as any as S.Schema<PackageCarrierDetails>;
+
+/** Job details for update. */
+export interface UpdateJobDetailsInput {
+  /** Contact details for notification and shipping. */
+  contactDetails?: ContactDetails;
+  /** Shipping address of the customer. */
+  shippingAddress?: ShippingAddress;
+  /** Reverse Shipping Address and contact details for a job. */
+  reverseShippingDetails?: ReverseShippingDetailsInput;
+  /** Preferences related to the order */
+  preferences?: PreferencesInput;
+  /** Key encryption key for the job. */
+  keyEncryptionKey?: KeyEncryptionKey;
+  /** Return package details of job. */
+  returnToCustomerPackageDetails?: PackageCarrierDetails;
+}
+export const UpdateJobDetailsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contactDetails: S.optional(ContactDetails),
+    shippingAddress: S.optional(ShippingAddress),
+    reverseShippingDetails: S.optional(ReverseShippingDetailsInput),
+    preferences: S.optional(PreferencesInput),
+    keyEncryptionKey: S.optional(KeyEncryptionKey),
+    returnToCustomerPackageDetails: S.optional(PackageCarrierDetails),
+  }),
+).annotate({
+  identifier: "UpdateJobDetailsInput",
+}) as any as S.Schema<UpdateJobDetailsInput>;
+
+/** Job Properties for update */
+export interface UpdateJobPropertiesInput {
+  /** Details of a job to be updated. */
+  details?: UpdateJobDetailsInput;
+}
+export const UpdateJobPropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    details: S.optional(UpdateJobDetailsInput),
+  }),
+).annotate({
+  identifier: "UpdateJobPropertiesInput",
+}) as any as S.Schema<UpdateJobPropertiesInput>;
+
+/** The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). */
+export type UpdateJobRequestTagsMap = { [key: string]: string | undefined };
+export const UpdateJobRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateJobRequestTagsMap>;
+
+export interface UpdateJobRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
+  jobName: string;
+  /** Properties of a job to be updated. */
+  properties?: UpdateJobPropertiesInput;
+  /** The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). */
+  tags?: UpdateJobRequestTagsMap;
+  /** Msi identity of the resource */
+  identity?: ResourceIdentityInput;
+}
+export const UpdateJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    jobName: S.String.pipe(T.Label()),
+    properties: S.optional(UpdateJobPropertiesInput),
+    tags: S.optional(UpdateJobRequestTagsMap),
+    identity: S.optional(ResourceIdentityInput),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}",
+      code: 200,
+      apiVersion: "2025-07-01",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateJobRequest",
+}) as any as S.Schema<UpdateJobRequest>;
+
+/** Resource tags. */
+export type UpdateJobResponseTagsMap = { [key: string]: string | undefined };
+export const UpdateJobResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateJobResponseTagsMap>;
+
+export interface UpdateJobResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: UpdateJobResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** Properties of a job. */
+  properties: JobProperties;
+  /** The sku type. */
+  sku: Sku;
+  /** Msi identity of the resource */
+  identity?: ResourceIdentity;
+}
+export const UpdateJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(UpdateJobResponseTagsMap),
+    location: S.String,
+    properties: JobProperties,
+    sku: Sku,
+    identity: S.optional(ResourceIdentity),
+  }),
+).annotate({
+  identifier: "UpdateJobResponse",
+}) as any as S.Schema<UpdateJobResponse>;
+
 /** Identify the nature of validation. */
-export type ServiceValidateInputsRequestValidationCategory =
+export type ValidateServiceInputsRequestValidationCategory =
   "JobCreationValidation";
-export const ServiceValidateInputsRequestValidationCategory =
-  /*@__PURE__*/ S.String;
+export const ValidateServiceInputsRequestValidationCategory = S.String;
 
 /** Identifies the type of validation request. */
 export type ValidationInputDiscriminator =
@@ -2736,7 +2731,7 @@ export type ValidationInputDiscriminator =
   | "ValidateCreateOrderLimit"
   | "ValidateSkuAvailability"
   | "ValidateDataTransferDetails";
-export const ValidationInputDiscriminator = /*@__PURE__*/ S.String;
+export const ValidationInputDiscriminator = S.String;
 
 /** Minimum fields that must be present in any type of validation request. */
 export interface ValidationInputRequest {
@@ -2752,32 +2747,32 @@ export const ValidationInputRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ValidationInputRequest>;
 
 /** List of request details contain validationType and its request as key and value respectively. */
-export type ServiceValidateInputsRequestIndividualRequestDetailsList =
+export type ValidateServiceInputsRequestIndividualRequestDetailsList =
   Array<ValidationInputRequest>;
-export const ServiceValidateInputsRequestIndividualRequestDetailsList =
+export const ValidateServiceInputsRequestIndividualRequestDetailsList =
   /*@__PURE__*/ S.Array(
     ValidationInputRequest,
-  ) as any as S.Schema<ServiceValidateInputsRequestIndividualRequestDetailsList>;
+  ) as any as S.Schema<ValidateServiceInputsRequestIndividualRequestDetailsList>;
 
-export interface ServiceValidateInputsRequest {
+export interface ValidateServiceInputsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of Azure region. */
   location: string;
   /** Identify the nature of validation. */
   validationCategory:
-    | ServiceValidateInputsRequestValidationCategory
+    | ValidateServiceInputsRequestValidationCategory
     | (string & {});
   /** List of request details contain validationType and its request as key and value respectively. */
-  individualRequestDetails: ServiceValidateInputsRequestIndividualRequestDetailsList;
+  individualRequestDetails: ValidateServiceInputsRequestIndividualRequestDetailsList;
 }
-export const ServiceValidateInputsRequest = /*@__PURE__*/ S.suspend(() =>
+export const ValidateServiceInputsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     location: S.String.pipe(T.Label()),
-    validationCategory: ServiceValidateInputsRequestValidationCategory,
+    validationCategory: ValidateServiceInputsRequestValidationCategory,
     individualRequestDetails:
-      ServiceValidateInputsRequestIndividualRequestDetailsList,
+      ValidateServiceInputsRequestIndividualRequestDetailsList,
   }).pipe(
     T.Http({
       method: "POST",
@@ -2787,15 +2782,15 @@ export const ServiceValidateInputsRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "ServiceValidateInputsRequest",
-}) as any as S.Schema<ServiceValidateInputsRequest>;
+  identifier: "ValidateServiceInputsRequest",
+}) as any as S.Schema<ValidateServiceInputsRequest>;
 
 /** Overall validation status. */
 export type OverallValidationStatus =
   | "AllValidToProceed"
   | "InputsRevisitRequired"
   | "CertainInputValidationsSkipped";
-export const OverallValidationStatus = /*@__PURE__*/ S.String;
+export const OverallValidationStatus = S.String;
 
 /** Minimum properties that should be present in each individual validation response. */
 export interface ValidationInputResponse {
@@ -2853,20 +2848,20 @@ export const ValidationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ValidationResponse>;
 
 /** Identify the nature of validation. */
-export type ServiceValidateInputsByResourceGroupRequestValidationCategory =
+export type ValidateServiceInputsByResourceGroupRequestValidationCategory =
   "JobCreationValidation";
-export const ServiceValidateInputsByResourceGroupRequestValidationCategory =
-  /*@__PURE__*/ S.String;
+export const ValidateServiceInputsByResourceGroupRequestValidationCategory =
+  S.String;
 
 /** List of request details contain validationType and its request as key and value respectively. */
-export type ServiceValidateInputsByResourceGroupRequestIndividualRequestDetailsList =
+export type ValidateServiceInputsByResourceGroupRequestIndividualRequestDetailsList =
   Array<ValidationInputRequest>;
-export const ServiceValidateInputsByResourceGroupRequestIndividualRequestDetailsList =
+export const ValidateServiceInputsByResourceGroupRequestIndividualRequestDetailsList =
   /*@__PURE__*/ S.Array(
     ValidationInputRequest,
-  ) as any as S.Schema<ServiceValidateInputsByResourceGroupRequestIndividualRequestDetailsList>;
+  ) as any as S.Schema<ValidateServiceInputsByResourceGroupRequestIndividualRequestDetailsList>;
 
-export interface ServiceValidateInputsByResourceGroupRequest {
+export interface ValidateServiceInputsByResourceGroupRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -2875,21 +2870,21 @@ export interface ServiceValidateInputsByResourceGroupRequest {
   location: string;
   /** Identify the nature of validation. */
   validationCategory:
-    | ServiceValidateInputsByResourceGroupRequestValidationCategory
+    | ValidateServiceInputsByResourceGroupRequestValidationCategory
     | (string & {});
   /** List of request details contain validationType and its request as key and value respectively. */
-  individualRequestDetails: ServiceValidateInputsByResourceGroupRequestIndividualRequestDetailsList;
+  individualRequestDetails: ValidateServiceInputsByResourceGroupRequestIndividualRequestDetailsList;
 }
-export const ServiceValidateInputsByResourceGroupRequest =
+export const ValidateServiceInputsByResourceGroupRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
       resourceGroupName: S.String.pipe(T.Label()),
       location: S.String.pipe(T.Label()),
       validationCategory:
-        ServiceValidateInputsByResourceGroupRequestValidationCategory,
+        ValidateServiceInputsByResourceGroupRequestValidationCategory,
       individualRequestDetails:
-        ServiceValidateInputsByResourceGroupRequestIndividualRequestDetailsList,
+        ValidateServiceInputsByResourceGroupRequestIndividualRequestDetailsList,
     }).pipe(
       T.Http({
         method: "POST",
@@ -2899,8 +2894,68 @@ export const ServiceValidateInputsByResourceGroupRequest =
       }),
     ),
   ).annotate({
-    identifier: "ServiceValidateInputsByResourceGroupRequest",
-  }) as any as S.Schema<ServiceValidateInputsByResourceGroupRequest>;
+    identifier: "ValidateServiceInputsByResourceGroupRequest",
+  }) as any as S.Schema<ValidateServiceInputsByResourceGroupRequest>;
+
+export type CancelJobError = AzureOpError;
+/** CancelJob. */
+export const CancelJob: API.OperationMethod<
+  CancelJobRequest,
+  CancelJobResponse,
+  CancelJobError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelJobRequest,
+  output: CancelJobResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateJobError = AzureOpError;
+/** Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API. */
+export const CreateJob: API.OperationMethod<
+  CreateJobRequest,
+  CreateJobResponse,
+  CreateJobError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateJobRequest,
+  output: CreateJobResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteJobError = AzureOpError;
+/** Deletes a job. */
+export const DeleteJob: API.OperationMethod<
+  DeleteJobRequest,
+  DeleteJobResponse,
+  DeleteJobError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteJobRequest,
+  output: DeleteJobResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetJobError = AzureOpError;
+/** Gets information about the specified job. */
+export const GetJob: API.OperationMethod<
+  GetJobRequest,
+  GetJobResponse,
+  GetJobError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetJobRequest,
+  output: GetJobResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
 
 export type JobsBookShipmentPickUpError = AzureOpError;
 /** Book shipment pick up. */
@@ -2912,111 +2967,6 @@ export const JobsBookShipmentPickUp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: JobsBookShipmentPickUpRequest,
   output: ShipmentPickUpResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type JobsCancelError = AzureOpError;
-/** CancelJob. */
-export const JobsCancel: API.OperationMethod<
-  JobsCancelRequest,
-  JobsCancelResponse,
-  JobsCancelError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: JobsCancelRequest,
-  output: JobsCancelResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type JobsCreateError = AzureOpError;
-/** Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API. */
-export const JobsCreate: API.OperationMethod<
-  JobsCreateRequest,
-  JobsCreateResponse,
-  JobsCreateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: JobsCreateRequest,
-  output: JobsCreateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type JobsDeleteError = AzureOpError;
-/** Deletes a job. */
-export const JobsDelete: API.OperationMethod<
-  JobsDeleteRequest,
-  JobsDeleteResponse,
-  JobsDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: JobsDeleteRequest,
-  output: JobsDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type JobsGetError = AzureOpError;
-/** Gets information about the specified job. */
-export const JobsGet: API.OperationMethod<
-  JobsGetRequest,
-  JobsGetResponse,
-  JobsGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: JobsGetRequest,
-  output: JobsGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type JobsListError = AzureOpError;
-/** Lists all the jobs available under the subscription. */
-export const JobsList: API.OperationMethod<
-  JobsListRequest,
-  JobResourceList,
-  JobsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: JobsListRequest,
-  output: JobResourceList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type JobsListByResourceGroupError = AzureOpError;
-/** Lists all the jobs available under the given resource group. */
-export const JobsListByResourceGroup: API.OperationMethod<
-  JobsListByResourceGroupRequest,
-  JobResourceList,
-  JobsListByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: JobsListByResourceGroupRequest,
-  output: JobResourceList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type JobsListCredentialsError = AzureOpError;
-/** This method gets the unencrypted secrets related to the job. */
-export const JobsListCredentials: API.OperationMethod<
-  JobsListCredentialsRequest,
-  UnencryptedCredentialsList,
-  JobsListCredentialsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: JobsListCredentialsRequest,
-  output: UnencryptedCredentialsList,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3037,16 +2987,76 @@ export const JobsMarkDevicesShipped: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type JobsUpdateError = AzureOpError;
-/** Updates the properties of an existing job. */
-export const JobsUpdate: API.OperationMethod<
-  JobsUpdateRequest,
-  JobsUpdateResponse,
-  JobsUpdateError,
+export type ListJobByResourceGroupError = AzureOpError;
+/** Lists all the jobs available under the given resource group. */
+export const ListJobByResourceGroup: API.OperationMethod<
+  ListJobByResourceGroupRequest,
+  JobResourceList,
+  ListJobByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: JobsUpdateRequest,
-  output: JobsUpdateResponse,
+  input: ListJobByResourceGroupRequest,
+  output: JobResourceList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListJobCredentialsError = AzureOpError;
+/** This method gets the unencrypted secrets related to the job. */
+export const ListJobCredentials: API.OperationMethod<
+  ListJobCredentialsRequest,
+  UnencryptedCredentialsList,
+  ListJobCredentialsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListJobCredentialsRequest,
+  output: UnencryptedCredentialsList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListJobsError = AzureOpError;
+/** Lists all the jobs available under the subscription. */
+export const ListJobs: API.OperationMethod<
+  ListJobsRequest,
+  JobResourceList,
+  ListJobsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListJobsRequest,
+  output: JobResourceList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListOperationsError = AzureOpError;
+/** List the operations for the provider */
+export const ListOperations: API.OperationMethod<
+  ListOperationsRequest,
+  OperationList,
+  ListOperationsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOperationsRequest,
+  output: OperationList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListServiceAvailableSkusByResourceGroupError = AzureOpError;
+/** This method provides the list of available skus for the given subscription, resource group and location. */
+export const ListServiceAvailableSkusByResourceGroup: API.OperationMethod<
+  ListServiceAvailableSkusByResourceGroupRequest,
+  AvailableSkusResult,
+  ListServiceAvailableSkusByResourceGroupError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListServiceAvailableSkusByResourceGroupRequest,
+  output: AvailableSkusResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3062,36 +3072,6 @@ export const Mitigate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MitigateRequest,
   output: MitigateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type OperationsListError = AzureOpError;
-/** List the operations for the provider */
-export const OperationsList: API.OperationMethod<
-  OperationsListRequest,
-  OperationList,
-  OperationsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: OperationsListRequest,
-  output: OperationList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ServiceListAvailableSkusByResourceGroupError = AzureOpError;
-/** This method provides the list of available skus for the given subscription, resource group and location. */
-export const ServiceListAvailableSkusByResourceGroup: API.OperationMethod<
-  ServiceListAvailableSkusByResourceGroupRequest,
-  AvailableSkusResult,
-  ServiceListAvailableSkusByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ServiceListAvailableSkusByResourceGroupRequest,
-  output: AvailableSkusResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3127,30 +3107,45 @@ export const ServiceRegionConfigurationByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ServiceValidateInputsError = AzureOpError;
-/** This method does all necessary pre-job creation validation under subscription. */
-export const ServiceValidateInputs: API.OperationMethod<
-  ServiceValidateInputsRequest,
-  ValidationResponse,
-  ServiceValidateInputsError,
+export type UpdateJobError = AzureOpError;
+/** Updates the properties of an existing job. */
+export const UpdateJob: API.OperationMethod<
+  UpdateJobRequest,
+  UpdateJobResponse,
+  UpdateJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ServiceValidateInputsRequest,
+  input: UpdateJobRequest,
+  output: UpdateJobResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ValidateServiceInputsError = AzureOpError;
+/** This method does all necessary pre-job creation validation under subscription. */
+export const ValidateServiceInputs: API.OperationMethod<
+  ValidateServiceInputsRequest,
+  ValidationResponse,
+  ValidateServiceInputsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ValidateServiceInputsRequest,
   output: ValidationResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type ServiceValidateInputsByResourceGroupError = AzureOpError;
+export type ValidateServiceInputsByResourceGroupError = AzureOpError;
 /** This method does all necessary pre-job creation validation under resource group. */
-export const ServiceValidateInputsByResourceGroup: API.OperationMethod<
-  ServiceValidateInputsByResourceGroupRequest,
+export const ValidateServiceInputsByResourceGroup: API.OperationMethod<
+  ValidateServiceInputsByResourceGroupRequest,
   ValidationResponse,
-  ServiceValidateInputsByResourceGroupError,
+  ValidateServiceInputsByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ServiceValidateInputsByResourceGroupRequest,
+  input: ValidateServiceInputsByResourceGroupRequest,
   output: ValidationResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,

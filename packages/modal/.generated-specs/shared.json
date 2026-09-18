@@ -1,0 +1,547 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.shared#DeleteSharedVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "sharedVolumeId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.shared#DeleteSharedVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.shared#DeleteSharedVolumeRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SharedVolumeDelete",
+          "code": 200
+        },
+        "smithy.api#documentation": "SharedVolumes"
+      }
+    },
+    "com.modal.shared#SharedVolumeGetFileRequest": {
+      "type": "structure",
+      "members": {
+        "sharedVolumeId": {
+          "target": "smithy.api#String"
+        },
+        "path": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.shared#SharedVolumeGetFileResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#Blob"
+        },
+        "dataBlobId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.shared#SharedVolumeGetFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.shared#SharedVolumeGetFileRequest"
+      },
+      "output": {
+        "target": "com.modal.shared#SharedVolumeGetFileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SharedVolumeGetFile",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.shared#ObjectCreationType": {
+      "type": "enum",
+      "members": {
+        "OBJECT_CREATION_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_UNSPECIFIED"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_IF_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_IF_MISSING",
+            "smithy.api#documentation": "just lookup"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
+          }
+        },
+        "OBJECT_CREATION_TYPE_EPHEMERAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_EPHEMERAL",
+            "smithy.api#documentation": "deprecate at some point"
+          }
+        }
+      }
+    },
+    "com.modal.shared#SharedVolumeGetOrCreateRequest": {
+      "type": "structure",
+      "members": {
+        "deploymentName": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "removed namespace"
+          }
+        },
+        "objectCreationType": {
+          "target": "com.modal.shared#ObjectCreationType"
+        },
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.shared#SharedVolumeGetOrCreateResponse": {
+      "type": "structure",
+      "members": {
+        "sharedVolumeId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.shared#SharedVolumeGetOrCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.shared#SharedVolumeGetOrCreateRequest"
+      },
+      "output": {
+        "target": "com.modal.shared#SharedVolumeGetOrCreateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SharedVolumeGetOrCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.shared#SharedVolumeHeartbeatRequest": {
+      "type": "structure",
+      "members": {
+        "sharedVolumeId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.shared#SharedVolumeHeartbeat": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.shared#SharedVolumeHeartbeatRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SharedVolumeHeartbeat",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.shared#ListSharedVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.shared#SharedVolumeListItem": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "smithy.api#String"
+        },
+        "sharedVolumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "app name of object entity app"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "cloudProvider": {
+          "target": "com.modal.shared#CloudProvider"
+        }
+      }
+    },
+    "com.modal.shared#CloudProvider": {
+      "type": "enum",
+      "members": {
+        "CLOUD_PROVIDER_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_PROVIDER_UNSPECIFIED"
+          }
+        },
+        "CLOUD_PROVIDER_AWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_PROVIDER_AWS"
+          }
+        },
+        "CLOUD_PROVIDER_GCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_PROVIDER_GCP"
+          }
+        },
+        "CLOUD_PROVIDER_AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_PROVIDER_AUTO"
+          }
+        },
+        "CLOUD_PROVIDER_OCI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_PROVIDER_OCI"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "libmodal/modal-go: Go SDK, since version modal-go/v0.0.15"
+      }
+    },
+    "com.modal.shared#SharedVolumeListItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.shared#SharedVolumeListItem"
+      }
+    },
+    "com.modal.shared#ListSharedVolumeResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.modal.shared#SharedVolumeListItemList"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.shared#ListSharedVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.shared#ListSharedVolumeRequest"
+      },
+      "output": {
+        "target": "com.modal.shared#ListSharedVolumeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SharedVolumeList",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.shared#SharedVolumeListFilesRequest": {
+      "type": "structure",
+      "members": {
+        "sharedVolumeId": {
+          "target": "smithy.api#String"
+        },
+        "path": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.shared#FileEntry": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "com.modal.shared#FileEntryFileType"
+        },
+        "mtime": {
+          "target": "smithy.api#String"
+        },
+        "size": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A file entry when listing files in a volume or network file system."
+      }
+    },
+    "com.modal.shared#FileEntryFileType": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "FILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE"
+          }
+        },
+        "DIRECTORY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DIRECTORY"
+          }
+        },
+        "SYMLINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYMLINK"
+          }
+        },
+        "FIFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FIFO"
+          }
+        },
+        "SOCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SOCKET"
+          }
+        }
+      }
+    },
+    "com.modal.shared#FileEntryList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.shared#FileEntry"
+      }
+    },
+    "com.modal.shared#SharedVolumeListFilesResponse": {
+      "type": "structure",
+      "members": {
+        "entries": {
+          "target": "com.modal.shared#FileEntryList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.shared#SharedVolumeListFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.shared#SharedVolumeListFilesRequest"
+      },
+      "output": {
+        "target": "com.modal.shared#SharedVolumeListFilesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SharedVolumeListFiles",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.shared#SharedVolumePutFileRequest": {
+      "type": "structure",
+      "members": {
+        "sharedVolumeId": {
+          "target": "smithy.api#String"
+        },
+        "path": {
+          "target": "smithy.api#String"
+        },
+        "sha256Hex": {
+          "target": "smithy.api#String"
+        },
+        "data": {
+          "target": "smithy.api#Blob"
+        },
+        "dataBlobId": {
+          "target": "smithy.api#String"
+        },
+        "resumable": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.shared#SharedVolumePutFileResponse": {
+      "type": "structure",
+      "members": {
+        "exists": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.shared#SharedVolumePutFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.shared#SharedVolumePutFileRequest"
+      },
+      "output": {
+        "target": "com.modal.shared#SharedVolumePutFileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SharedVolumePutFile",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.shared#SharedVolumeRemoveFileRequest": {
+      "type": "structure",
+      "members": {
+        "sharedVolumeId": {
+          "target": "smithy.api#String"
+        },
+        "path": {
+          "target": "smithy.api#String"
+        },
+        "recursive": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.shared#SharedVolumeRemoveFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.shared#SharedVolumeRemoveFileRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SharedVolumeRemoveFile",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.shared#SharedService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.shared#DeleteSharedVolume"
+        },
+        {
+          "target": "com.modal.shared#SharedVolumeGetFile"
+        },
+        {
+          "target": "com.modal.shared#SharedVolumeGetOrCreate"
+        },
+        {
+          "target": "com.modal.shared#SharedVolumeHeartbeat"
+        },
+        {
+          "target": "com.modal.shared#ListSharedVolume"
+        },
+        {
+          "target": "com.modal.shared#SharedVolumeListFiles"
+        },
+        {
+          "target": "com.modal.shared#SharedVolumePutFile"
+        },
+        {
+          "target": "com.modal.shared#SharedVolumeRemoveFile"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Shared",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Shared`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

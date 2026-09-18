@@ -1,0 +1,1550 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.ad_reports#GetAdReportRequestAdCampaignIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Scope the report to these ad campaigns (max 100); stats are summed across them. Mutually exclusive with `companyId`, `adGroupIds`, and `adIds`."
+      }
+    },
+    "com.whop.ad_reports#GetAdReportRequestAdGroupIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Scope the report to these ad groups (max 100); stats are summed across them. Mutually exclusive with `companyId`, `adCampaignIds`, and `adIds`."
+      }
+    },
+    "com.whop.ad_reports#GetAdReportRequestAdIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Scope the report to these ads (max 100); stats are summed across them. Mutually exclusive with `companyId`, `adCampaignIds`, and `adGroupIds`."
+      }
+    },
+    "com.whop.ad_reports#AdReportBreakdownLevels": {
+      "type": "enum",
+      "members": {
+        "CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "campaign"
+          }
+        },
+        "AD_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_group"
+          }
+        },
+        "AD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Entity level to group an ad report by."
+      }
+    },
+    "com.whop.ad_reports#Granularities": {
+      "type": "enum",
+      "members": {
+        "HOURLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hourly"
+          }
+        },
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Bucket size for external ad stat rows."
+      }
+    },
+    "com.whop.ad_reports#GetAdReportRequest": {
+      "type": "structure",
+      "members": {
+        "ad_campaign_ids": {
+          "target": "com.whop.ad_reports#GetAdReportRequestAdCampaignIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "ad_campaign_ids"
+          }
+        },
+        "ad_group_ids": {
+          "target": "com.whop.ad_reports#GetAdReportRequestAdGroupIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "ad_group_ids"
+          }
+        },
+        "ad_ids": {
+          "target": "com.whop.ad_reports#GetAdReportRequestAdIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "ad_ids"
+          }
+        },
+        "breakdown": {
+          "target": "com.whop.ad_reports#AdReportBreakdownLevels",
+          "traits": {
+            "smithy.api#httpQuery": "breakdown"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id"
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "currency"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {}
+          }
+        },
+        "granularity": {
+          "target": "com.whop.ad_reports#Granularities",
+          "traits": {
+            "smithy.api#httpQuery": "granularity"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_reports#AdReport": {
+      "type": "structure",
+      "members": {
+        "breakdown": {
+          "target": "com.whop.ad_reports#AdReportBreakdownList",
+          "traits": {
+            "smithy.api#documentation": "Per-entity rows over the date range. `null` when the `breakdown` arg on `adReport` is omitted; otherwise contains one row per ad campaign, ad group, or ad inside the requested scope at the requested level.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "granularity": {
+          "target": "com.whop.ad_reports#AdReportGranularityList",
+          "traits": {
+            "smithy.api#documentation": "Per-bucket time series over the date range, ordered ascending by `bucketStart`. `null` when the `granularity` arg on `adReport` is omitted; otherwise contains rows at the requested grain (`daily` or `hourly`).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "summary": {
+          "target": "com.whop.ad_reports#AdReportSummary",
+          "traits": {
+            "smithy.api#documentation": "Aggregate totals and rates over the date range.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An ads performance report. Always returns a summary. The `granularity` field contains a per-bucket time series when the `granularity` arg is set; the `breakdown` field contains per-entity rows when the `breakdown` arg is set."
+      }
+    },
+    "com.whop.ad_reports#ResultLabelKeys": {
+      "type": "enum",
+      "members": {
+        "APP_INSTALLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_installs"
+          }
+        },
+        "MESSAGING_CONVERSATIONS_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messaging_conversations_started"
+          }
+        },
+        "POST_ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post_engagement"
+          }
+        },
+        "EVENT_RESPONSES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "event_responses"
+          }
+        },
+        "IMPRESSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "impressions"
+          }
+        },
+        "WEBSITE_PURCHASES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website_purchases"
+          }
+        },
+        "LANDING_PAGE_VIEWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "landing_page_views"
+          }
+        },
+        "LEADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leads"
+          }
+        },
+        "LINK_CLICKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link_clicks"
+          }
+        },
+        "QUALITY_CALLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quality_calls"
+          }
+        },
+        "APPOINTMENTS_BOOKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "appointments_booked"
+          }
+        },
+        "MESSAGING_PURCHASES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messaging_purchases"
+          }
+        },
+        "PAGE_LIKES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "page_likes"
+          }
+        },
+        "INSTAGRAM_PROFILE_VISITS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram_profile_visits"
+          }
+        },
+        "REACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reach"
+          }
+        },
+        "REMINDERS_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reminders_set"
+          }
+        },
+        "NEW_SUBSCRIBERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "new_subscribers"
+          }
+        },
+        "VIDEO_VIEWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video_views"
+          }
+        },
+        "REGISTRATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "registrations"
+          }
+        },
+        "CONTENT_VIEWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_views"
+          }
+        },
+        "SEARCHES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "searches"
+          }
+        },
+        "ADDS_TO_CART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "adds_to_cart"
+          }
+        },
+        "ADDS_TO_WISHLIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "adds_to_wishlist"
+          }
+        },
+        "ADDS_OF_PAYMENT_INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "adds_of_payment_info"
+          }
+        },
+        "CHECKOUTS_INITIATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkouts_initiated"
+          }
+        },
+        "WEBSITE_SCHEDULES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website_schedules"
+          }
+        },
+        "WEBSITE_SUBMIT_APPLICATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website_submit_applications"
+          }
+        },
+        "WEBSITE_TRIALS_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website_trials_started"
+          }
+        },
+        "WEBSITE_SUBSCRIPTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website_subscriptions"
+          }
+        },
+        "WEBSITE_CONTACTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website_contacts"
+          }
+        },
+        "WEBSITE_DONATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website_donations"
+          }
+        },
+        "WEBSITE_FIND_LOCATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website_find_locations"
+          }
+        },
+        "WEBSITE_PRODUCT_CUSTOMIZATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website_product_customizations"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Types of optimization results tracked from external ad platforms"
+      }
+    },
+    "com.whop.ad_reports#Currencies": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usd"
+          }
+        },
+        "SGD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sgd"
+          }
+        },
+        "INR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inr"
+          }
+        },
+        "AUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aud"
+          }
+        },
+        "BRL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brl"
+          }
+        },
+        "CAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cad"
+          }
+        },
+        "DKK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dkk"
+          }
+        },
+        "EUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eur"
+          }
+        },
+        "NOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nok"
+          }
+        },
+        "GBP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gbp"
+          }
+        },
+        "SEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sek"
+          }
+        },
+        "CHF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chf"
+          }
+        },
+        "HKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hkd"
+          }
+        },
+        "HUF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "huf"
+          }
+        },
+        "JPY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jpy"
+          }
+        },
+        "MXN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mxn"
+          }
+        },
+        "MYR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "myr"
+          }
+        },
+        "PLN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pln"
+          }
+        },
+        "CZK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "czk"
+          }
+        },
+        "NZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nzd"
+          }
+        },
+        "AED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aed"
+          }
+        },
+        "ETH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eth"
+          }
+        },
+        "APE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ape"
+          }
+        },
+        "COP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cop"
+          }
+        },
+        "RON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ron"
+          }
+        },
+        "THB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thb"
+          }
+        },
+        "BGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bgn"
+          }
+        },
+        "IDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "idr"
+          }
+        },
+        "DOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dop"
+          }
+        },
+        "PHP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "php"
+          }
+        },
+        "TRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "try"
+          }
+        },
+        "KRW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "krw"
+          }
+        },
+        "TWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twd"
+          }
+        },
+        "VND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vnd"
+          }
+        },
+        "PKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pkr"
+          }
+        },
+        "CLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clp"
+          }
+        },
+        "UYU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uyu"
+          }
+        },
+        "ARS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ars"
+          }
+        },
+        "ZAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zar"
+          }
+        },
+        "DZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dzd"
+          }
+        },
+        "TND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tnd"
+          }
+        },
+        "MAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mad"
+          }
+        },
+        "KES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kes"
+          }
+        },
+        "KWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kwd"
+          }
+        },
+        "JOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jod"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "XCD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xcd"
+          }
+        },
+        "AMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amd"
+          }
+        },
+        "BSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd"
+          }
+        },
+        "BHD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bhd"
+          }
+        },
+        "BOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bob"
+          }
+        },
+        "BAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bam"
+          }
+        },
+        "KHR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "khr"
+          }
+        },
+        "CRC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crc"
+          }
+        },
+        "XOF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xof"
+          }
+        },
+        "EGP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egp"
+          }
+        },
+        "ETB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "etb"
+          }
+        },
+        "GMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gmd"
+          }
+        },
+        "GHS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ghs"
+          }
+        },
+        "GTQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gtq"
+          }
+        },
+        "GYD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gyd"
+          }
+        },
+        "ILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ils"
+          }
+        },
+        "JMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jmd"
+          }
+        },
+        "MOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mop"
+          }
+        },
+        "MGA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mga"
+          }
+        },
+        "MUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mur"
+          }
+        },
+        "MDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mdl"
+          }
+        },
+        "MNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mnt"
+          }
+        },
+        "NAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nad"
+          }
+        },
+        "NGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ngn"
+          }
+        },
+        "MKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mkd"
+          }
+        },
+        "OMR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "omr"
+          }
+        },
+        "PYG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pyg"
+          }
+        },
+        "PEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pen"
+          }
+        },
+        "QAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qar"
+          }
+        },
+        "RWF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rwf"
+          }
+        },
+        "SAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sar"
+          }
+        },
+        "RSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsd"
+          }
+        },
+        "LKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lkr"
+          }
+        },
+        "TZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tzs"
+          }
+        },
+        "TTD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ttd"
+          }
+        },
+        "UZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uzs"
+          }
+        },
+        "RUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rub"
+          }
+        },
+        "BTC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "btc"
+          }
+        },
+        "CNY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cny"
+          }
+        },
+        "USDT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usdt"
+          }
+        },
+        "KZT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kzt"
+          }
+        },
+        "AWG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awg"
+          }
+        },
+        "WHOP_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whop_usd"
+          }
+        },
+        "XAU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xau"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The available currencies on the platform"
+      }
+    },
+    "com.whop.ad_reports#AdReportBreakdownItemGranularityItem": {
+      "type": "structure",
+      "members": {
+        "bucket_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The bucket's start time as a real UTC instant. `(statDate, statHour)` resolved in the ad account's reporting timezone — render this in the viewer's local timezone.",
+            "smithy.api#required": {}
+          }
+        },
+        "clicks": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Clicks in this bucket.",
+            "smithy.api#required": {}
+          }
+        },
+        "granularity": {
+          "target": "com.whop.ad_reports#Granularities",
+          "traits": {
+            "smithy.api#documentation": "The bucket size of this row (`hourly`, `daily`, `weekly`, or `monthly`).",
+            "smithy.api#required": {}
+          }
+        },
+        "impressions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Impressions in this bucket.",
+            "smithy.api#required": {}
+          }
+        },
+        "reach": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unique users reached in this bucket. Always `0` for hourly rows (Meta does not return reach at hourly grain).",
+            "smithy.api#required": {}
+          }
+        },
+        "result_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Count of the primary optimization result in this bucket.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_label_key": {
+          "target": "com.whop.ad_reports#ResultLabelKeys",
+          "traits": {
+            "smithy.api#documentation": "The type of optimization result represented by `resultCount`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_label_override": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Advertiser-defined label for the result when `resultLabelKey` is `custom`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Charged spend in this bucket in the requested reporting currency — the amount billed including platform fees, not the platform-side net spend.",
+            "smithy.api#required": {}
+          }
+        },
+        "spend_currency": {
+          "target": "com.whop.ad_reports#Currencies",
+          "traits": {
+            "smithy.api#documentation": "Currency of the `spend` value.",
+            "smithy.api#required": {}
+          }
+        },
+        "stat_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date these stats cover (midnight UTC). For hourly rows, see `statHour` and `bucketStart`.",
+            "smithy.api#required": {}
+          }
+        },
+        "stat_hour": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Hour of the day in the ad account's reporting timezone (0-23). `null` for daily rows.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-bucket ad performance for an ad campaign, ad group, or ad. Bucket grain is set by the `ad_report` query's `granularity` argument."
+      }
+    },
+    "com.whop.ad_reports#AdReportBreakdownItemGranularityList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_reports#AdReportBreakdownItemGranularityItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-bucket time series for this entity over the date range, ordered ascending by `bucketStart`. `null` when the `granularity` arg on `adReport` is omitted; otherwise contains rows at the requested grain (`daily` or `hourly`)."
+      }
+    },
+    "com.whop.ad_reports#AdReportBreakdownItemSummary": {
+      "type": "structure",
+      "members": {
+        "click_through_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Click-through rate (clicks / impressions).",
+            "smithy.api#required": {}
+          }
+        },
+        "clicks": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total clicks over the date range.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_per_click": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost per click in the requested reporting currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_per_mille": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost per thousand impressions in the requested reporting currency.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_result": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by `resultCount`. Null when there are no results.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frequency": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Average number of times each reached user saw an ad.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "impressions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total impressions over the date range.",
+            "smithy.api#required": {}
+          }
+        },
+        "reach": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unique users reached, deduplicated by the external ad platform.",
+            "smithy.api#required": {}
+          }
+        },
+        "result_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Count of the campaign's primary optimization result (purchases, clicks, etc.) — see `resultLabelKey`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_label_key": {
+          "target": "com.whop.ad_reports#ResultLabelKeys",
+          "traits": {
+            "smithy.api#documentation": "The type of optimization result represented by `resultCount`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_label_override": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Advertiser-defined label for the result when `resultLabelKey` is `custom`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "return_on_ad_spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Alias for `purchaseReturnOnAdSpend` — return on ad spend for purchases, as reported by the external ad platform.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total spend over the date range in the requested reporting currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "spend_currency": {
+          "target": "com.whop.ad_reports#Currencies",
+          "traits": {
+            "smithy.api#documentation": "Currency of the `spend` value. Matches the requested `currency` when set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Aggregate totals and rates for this entity over the date range."
+      }
+    },
+    "com.whop.ad_reports#AdReportBreakdownItem": {
+      "type": "structure",
+      "members": {
+        "granularity": {
+          "target": "com.whop.ad_reports#AdReportBreakdownItemGranularityList",
+          "traits": {
+            "smithy.api#documentation": "Per-bucket time series for this entity over the date range, ordered ascending by `bucketStart`. `null` when the `granularity` arg on `adReport` is omitted; otherwise contains rows at the requested grain (`daily` or `hourly`).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tag of the entity (ad campaign, ad group, or ad).",
+            "smithy.api#required": {}
+          }
+        },
+        "level": {
+          "target": "com.whop.ad_reports#AdReportBreakdownLevels",
+          "traits": {
+            "smithy.api#documentation": "The entity level of this row — matches the `breakdown` arg.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the entity, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "summary": {
+          "target": "com.whop.ad_reports#AdReportBreakdownItemSummary",
+          "traits": {
+            "smithy.api#documentation": "Aggregate totals and rates for this entity over the date range.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-entity ad performance row. Returned when the `breakdown` arg on `adReport` is set."
+      }
+    },
+    "com.whop.ad_reports#AdReportBreakdownList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_reports#AdReportBreakdownItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-entity rows over the date range. `null` when the `breakdown` arg on `adReport` is omitted; otherwise contains one row per ad campaign, ad group, or ad inside the requested scope at the requested level."
+      }
+    },
+    "com.whop.ad_reports#AdReportGranularityItem": {
+      "type": "structure",
+      "members": {
+        "bucket_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The bucket's start time as a real UTC instant. `(statDate, statHour)` resolved in the ad account's reporting timezone — render this in the viewer's local timezone.",
+            "smithy.api#required": {}
+          }
+        },
+        "clicks": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Clicks in this bucket.",
+            "smithy.api#required": {}
+          }
+        },
+        "granularity": {
+          "target": "com.whop.ad_reports#Granularities",
+          "traits": {
+            "smithy.api#documentation": "The bucket size of this row (`hourly`, `daily`, `weekly`, or `monthly`).",
+            "smithy.api#required": {}
+          }
+        },
+        "impressions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Impressions in this bucket.",
+            "smithy.api#required": {}
+          }
+        },
+        "reach": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unique users reached in this bucket. Always `0` for hourly rows (Meta does not return reach at hourly grain).",
+            "smithy.api#required": {}
+          }
+        },
+        "result_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Count of the primary optimization result in this bucket.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_label_key": {
+          "target": "com.whop.ad_reports#ResultLabelKeys",
+          "traits": {
+            "smithy.api#documentation": "The type of optimization result represented by `resultCount`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_label_override": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Advertiser-defined label for the result when `resultLabelKey` is `custom`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Charged spend in this bucket in the requested reporting currency — the amount billed including platform fees, not the platform-side net spend.",
+            "smithy.api#required": {}
+          }
+        },
+        "spend_currency": {
+          "target": "com.whop.ad_reports#Currencies",
+          "traits": {
+            "smithy.api#documentation": "Currency of the `spend` value.",
+            "smithy.api#required": {}
+          }
+        },
+        "stat_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date these stats cover (midnight UTC). For hourly rows, see `statHour` and `bucketStart`.",
+            "smithy.api#required": {}
+          }
+        },
+        "stat_hour": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Hour of the day in the ad account's reporting timezone (0-23). `null` for daily rows.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-bucket ad performance for an ad campaign, ad group, or ad. Bucket grain is set by the `ad_report` query's `granularity` argument."
+      }
+    },
+    "com.whop.ad_reports#AdReportGranularityList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_reports#AdReportGranularityItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-bucket time series over the date range, ordered ascending by `bucketStart`. `null` when the `granularity` arg on `adReport` is omitted; otherwise contains rows at the requested grain (`daily` or `hourly`)."
+      }
+    },
+    "com.whop.ad_reports#AdReportSummary": {
+      "type": "structure",
+      "members": {
+        "click_through_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Click-through rate (clicks / impressions).",
+            "smithy.api#required": {}
+          }
+        },
+        "clicks": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total clicks over the date range.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_per_click": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost per click in the requested reporting currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_per_mille": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost per thousand impressions in the requested reporting currency.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_result": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by `resultCount`. Null when there are no results.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frequency": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Average number of times each reached user saw an ad.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "impressions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total impressions over the date range.",
+            "smithy.api#required": {}
+          }
+        },
+        "reach": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unique users reached, deduplicated by the external ad platform.",
+            "smithy.api#required": {}
+          }
+        },
+        "result_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Count of the campaign's primary optimization result (purchases, clicks, etc.) — see `resultLabelKey`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_label_key": {
+          "target": "com.whop.ad_reports#ResultLabelKeys",
+          "traits": {
+            "smithy.api#documentation": "The type of optimization result represented by `resultCount`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_label_override": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Advertiser-defined label for the result when `resultLabelKey` is `custom`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "return_on_ad_spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Alias for `purchaseReturnOnAdSpend` — return on ad spend for purchases, as reported by the external ad platform.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total spend over the date range in the requested reporting currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "spend_currency": {
+          "target": "com.whop.ad_reports#Currencies",
+          "traits": {
+            "smithy.api#documentation": "Currency of the `spend` value. Matches the requested `currency` when set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Aggregate totals and rates over the date range."
+      }
+    },
+    "com.whop.ad_reports#GetAdReport": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_reports#GetAdReportRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_reports#AdReport"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_reports#BadRequest"
+        },
+        {
+          "target": "com.whop.ad_reports#Forbidden"
+        },
+        {
+          "target": "com.whop.ad_reports#NotFound"
+        },
+        {
+          "target": "com.whop.ad_reports#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ad_reports",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve ad report\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nPerformance report for a company, ad campaigns, ad groups, or ads. Always returns aggregate `summary` totals summed across the scope. Set `granularity` to additionally get a time series, or set `breakdown` (`campaign`/`ad_group`/`ad`) to additionally get per-entity rows inside the requested scope. Exactly one of `companyId`, `adCampaignIds`, `adGroupIds`, or `adIds` must be provided.\n\nRequired permissions:\n - `ad_campaign:stats:read`"
+      }
+    },
+    "com.whop.ad_reports#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.ad_reports#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.ad_reports#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.ad_reports#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.ad_reports#AdReports": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.ad_reports#GetAdReport"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
  * ZeroSslProtocol — hand-written.
  *
  * ZeroSSL's REST API is JSON at `https://api.zerossl.com` authenticated by
- * the account's access key in the `access_key` query parameter. Failures
+ * the account's access key in the `Authorization: ApiKey` header. Failures
  * arrive as `{ success: false, error: { code, type, info? } }`, usually with
  * HTTP 200, so the decoder inspects the envelope and matches `error.type`
  * against the operation's typed error classes before trusting the status.
@@ -10,10 +10,12 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import * as Schema from "effect/Schema";
+import * as Category from "@distilled.cloud/core/category";
 import type * as AST from "effect/SchemaAST";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
+import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
 import * as API from "@distilled.cloud/core/api";
 import {
@@ -30,9 +32,16 @@ import {
   InternalServerError,
   type ConfigError,
 } from "@distilled.cloud/core/errors";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import {
+  parseRetryAfter,
+  parseRetryAfterForStatus,
+} from "@distilled.cloud/core/retry-after";
 import { Credentials, type Config } from "./credentials.ts";
-import { UnknownZeroSslError, type DefaultErrors } from "./errors.ts";
+import {
+  UnknownZeroSslError,
+  ZeroSslParseError,
+  type DefaultErrors,
+} from "./errors.ts";
 
 export type ZeroSslOpError =
   | DefaultErrors
@@ -59,17 +68,15 @@ const encode = ({
       input: unwrapRedactedDeep(input),
       inputAst,
       baseUrl: creds.apiBaseUrl,
-      headers: { Accept: "application/json" },
-    }).pipe(
-      HttpClientRequest.setUrlParam(
-        "access_key",
-        Redacted.value(creds.accessKey),
-      ),
-    );
+      headers: {
+        Accept: "application/json",
+        Authorization: `ApiKey ${Redacted.value(creds.accessKey)}`,
+      },
+    });
   });
 
 interface ErrorEnvelope {
-  readonly success?: boolean;
+  readonly success?: boolean | number;
   readonly error?: {
     readonly code?: number;
     readonly type?: string;
@@ -88,27 +95,36 @@ const decode = ({
 }) =>
   Effect.gen(function* () {
     const text = yield* response.text;
-    let json: unknown;
-    try {
-      json = text.trim().length > 0 ? JSON.parse(text) : {};
-    } catch {
-      json = undefined;
-    }
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
-    const envelope = (json ?? {}) as ErrorEnvelope;
-    const failed = status >= 400 || envelope.success === false;
+    const json: unknown = yield* Effect.try({
+      try: () => (text.trim().length > 0 ? JSON.parse(text) : {}),
+      catch: () => parseError("Invalid JSON response"),
+    }).pipe(
+      Effect.catchTag("ZeroSslParseError", (error) =>
+        status >= 400 ? Effect.succeed(undefined) : Effect.fail(error),
+      ),
+    );
+    const envelope = (isObject(json) ? json : {}) as ErrorEnvelope;
+    const failed =
+      status >= 400 || envelope.success === false || envelope.success === 0;
     if (failed) {
       const type = envelope.error?.type;
-      const message =
-        envelope.error?.info ??
-        type ??
-        (text.trim().length > 0 ? text.trim() : `HTTP ${status}`);
+      const message = envelope.error?.info ?? type ?? `HTTP ${status}`;
       // Matchers key on `error.type` (as `message`) and `error.code` (as `code`).
       const typed = matchTypedError(errorClasses, status, [
         { code: envelope.error?.code, message: type ?? message },
       ]);
-      if (typed !== undefined) return yield* fail(typed);
+      if (typed !== undefined) {
+        if (
+          typeof typed === "object" &&
+          typed !== null &&
+          Category.isThrottlingError(typed)
+        ) {
+          Object.assign(typed, { retryAfter: parseRetryAfter(headers) });
+        }
+        return yield* fail(typed);
+      }
       const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[
         status
       ] as
@@ -138,11 +154,34 @@ const decode = ({
           code: envelope.error?.code,
           type,
           message,
-          body: json ?? text,
+          body: Redacted.make(json ?? text),
         }),
       );
     }
-    return wrapSensitive(outputAst, mapKeys(outputAst, json ?? {}, "decode"));
+    if (!isObject(json))
+      return yield* fail(parseError("Expected a JSON object"));
+    // The EAB documentation uses 1/0; the live API also returns true/false.
+    const body =
+      json.success === 1 || json.success === 0
+        ? { ...json, success: json.success === 1 }
+        : json;
+    const output = yield* Schema.decodeUnknownEffect(
+      Schema.make<Schema.Schema<unknown>>(outputAst),
+    )(mapKeys(outputAst, body, "decode")).pipe(
+      Effect.mapError(() =>
+        parseError("Response does not match the output schema"),
+      ),
+    );
+    return wrapSensitive(outputAst, output);
+  });
+
+const isObject = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+const parseError = (cause: string) =>
+  new ZeroSslParseError({
+    body: "[REDACTED]",
+    cause,
   });
 
 const fail = <E>(error: E) => Effect.fail(error) as Effect.Effect<never, E>;

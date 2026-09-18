@@ -28,20 +28,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup pnpm & Bun
-        uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
+      - name: Setup pnpm, Node.js, Bun and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true
-          install: false
-
-      - name: Install Node 24
-        run: pnpm runtime set node 24 -g
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+          install: true
+          require-lockfile: true
 
       - name: Build packages
-        run: bun run build
+        run: pnpm run build
 
       - name: Publish packages
         id: publish
@@ -58,6 +53,7 @@ jobs:
               { "dir": "packages/discord",         "name": "@distilled.cloud/discord",         "group": "Distilled" },
               { "dir": "packages/expo-eas",        "name": "@distilled.cloud/expo-eas",        "group": "Distilled" },
               { "dir": "packages/fly-io",          "name": "@distilled.cloud/fly-io",          "group": "Distilled" },
+              { "dir": "packages/forgejo",         "name": "@distilled.cloud/forgejo",         "group": "Distilled" },
               { "dir": "packages/gcp",             "name": "@distilled.cloud/gcp",             "group": "Distilled" },
               { "dir": "packages/github",          "name": "@distilled.cloud/github",          "group": "Distilled" },
               { "dir": "packages/hetzner",         "name": "@distilled.cloud/hetzner",         "group": "Distilled" },
@@ -66,7 +62,7 @@ jobs:
               { "dir": "packages/neon",            "name": "@distilled.cloud/neon",            "group": "Distilled" },
               { "dir": "packages/planetscale",     "name": "@distilled.cloud/planetscale",     "group": "Distilled" },
               { "dir": "packages/posthog",         "name": "@distilled.cloud/posthog",         "group": "Distilled" },
-              { "dir": "packages/prisma-postgres", "name": "@distilled.cloud/prisma-postgres", "group": "Distilled" },
+              { "dir": "packages/prisma", "name": "@distilled.cloud/prisma", "group": "Distilled" },
               { "dir": "packages/railway",         "name": "@distilled.cloud/railway",         "group": "Distilled" },
               { "dir": "packages/stripe",          "name": "@distilled.cloud/stripe",          "group": "Distilled" },
               { "dir": "packages/supabase",        "name": "@distilled.cloud/supabase",        "group": "Distilled" },

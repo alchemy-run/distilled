@@ -101,12 +101,214 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
 
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StringMap>;
+
+export type AgentConnectivityTemplateAgentComputeEnum =
+  | "AGENT_COMPUTE_UNSPECIFIED"
+  | "GKE"
+  | "CLOUD_RUN"
+  | "BORG";
+export const AgentConnectivityTemplateAgentComputeEnum = S.String;
+
+export type AgentConnectivityTemplateDeploymentModelEnum =
+  | "DEPLOYMENT_MODEL_UNSPECIFIED"
+  | "CENTRALIZED"
+  | "AMBIENT";
+export const AgentConnectivityTemplateDeploymentModelEnum = S.String;
+
+export type AgentConnectivityTemplateAccessTypesItemEnum =
+  | "ACCESS_TYPE_UNSPECIFIED"
+  | "PUBLIC"
+  | "PRIVATE";
+export const AgentConnectivityTemplateAccessTypesItemEnum = S.String;
+
+export type AgentConnectivityTemplateAccessTypesItemEnumList = Array<
+  AgentConnectivityTemplateAccessTypesItemEnum | (string & {})
+>;
+export const AgentConnectivityTemplateAccessTypesItemEnumList =
+  /*@__PURE__*/ S.Array(
+    AgentConnectivityTemplateAccessTypesItemEnum,
+  ) as any as S.Schema<AgentConnectivityTemplateAccessTypesItemEnumList>;
+
+export type AgentConnectivityTemplateAccessPathEnum =
+  | "ACCESS_PATH_UNSPECIFIED"
+  | "CLIENT_TO_AGENT"
+  | "AGENT_TO_ANYWHERE";
+export const AgentConnectivityTemplateAccessPathEnum = S.String;
+
+/** DNS Peering configuration. */
+export interface DnsPeeringConfig {
+  /** Optional. The domain to peer. */
+  domain?: string;
+  /** Optional. The target network resource name for DNS peering. Format: projects/{project}/global/networks/{network_id} */
+  targetNetwork?: string;
+}
+export const DnsPeeringConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.optional(S.String),
+    targetNetwork: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DnsPeeringConfig",
+}) as any as S.Schema<DnsPeeringConfig>;
+
+export type EgressNetworkConfigVpcEgressEnum =
+  | "VPC_EGRESS_UNSPECIFIED"
+  | "ALL_TRAFFIC"
+  | "PRIVATE_RANGES_ONLY";
+export const EgressNetworkConfigVpcEgressEnum = S.String;
+
+export interface EgressNetworkConfig {
+  /** Optional. The network attachment resource name. Format: projects/{project}/regions/{region}/networkAttachments/{network_attachment_id} */
+  networkAttachment?: string;
+  /** Optional. DNS Peering configuration. */
+  dnsPeeringConfig?: DnsPeeringConfig;
+  /** Optional. Deprecated: Use tls_config instead. The trust config resource name. Format: projects/{project}/locations/{location}/trustConfigs/{trust_config} */
+  trustConfig?: string;
+  /** Optional. The VPC egress setting. */
+  vpcEgress?: EgressNetworkConfigVpcEgressEnum | (string & {});
+}
+export const EgressNetworkConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    networkAttachment: S.optional(S.String),
+    dnsPeeringConfig: S.optional(DnsPeeringConfig),
+    trustConfig: S.optional(S.String),
+    vpcEgress: S.optional(EgressNetworkConfigVpcEgressEnum),
+  }),
+).annotate({
+  identifier: "EgressNetworkConfig",
+}) as any as S.Schema<EgressNetworkConfig>;
+
+/** AgentConnectivityTemplate represents a reusable network configuration. */
+export interface AgentConnectivityTemplate {
+  /** Identifier. Name of the AgentConnectivityTemplate resource. It matches pattern `projects/*\/locations/*\/agentConnectivityTemplates/`. */
+  name?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Optional. Set of label tags associated with the AgentConnectivityTemplate resource. */
+  labels?: StringMap;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string;
+  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string;
+  /** Optional. The compute environment where the agent is hosted. Exactly one type of compute must be chosen. */
+  agentCompute?: AgentConnectivityTemplateAgentComputeEnum | (string & {});
+  /** Required. The deployment model for the gateway. */
+  deploymentModel?:
+    | AgentConnectivityTemplateDeploymentModelEnum
+    | (string & {});
+  /** Optional. The types of network access provided to the gateway. Both PUBLIC and PRIVATE can be configured. */
+  accessTypes?: AgentConnectivityTemplateAccessTypesItemEnumList;
+  /** Required. Immutable. The path of the access. Maps roughly to ingress/egress, though we keep CLIENT_TO_AGENT and AGENT_TO_ANYWHERE as carryovers from Agent Gateway's original resource model. The path is immutable once set. Exactly one path can be set. */
+  accessPath?: AgentConnectivityTemplateAccessPathEnum | (string & {});
+  /** Optional. Configuration for egress network traffic. */
+  egressNetworkConfig?: EgressNetworkConfig;
+}
+export const AgentConnectivityTemplate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    labels: S.optional(StringMap),
+    description: S.optional(S.String),
+    etag: S.optional(S.String),
+    agentCompute: S.optional(AgentConnectivityTemplateAgentComputeEnum),
+    deploymentModel: S.optional(AgentConnectivityTemplateDeploymentModelEnum),
+    accessTypes: S.optional(AgentConnectivityTemplateAccessTypesItemEnumList),
+    accessPath: S.optional(AgentConnectivityTemplateAccessPathEnum),
+    egressNetworkConfig: S.optional(EgressNetworkConfig),
+  }),
+).annotate({
+  identifier: "AgentConnectivityTemplate",
+}) as any as S.Schema<AgentConnectivityTemplate>;
+
+export interface CreateProjectsLocationsAgentConnectivityTemplatesRequest {
+  /** Required. The parent resource of the AgentConnectivityTemplate. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. Short name of the AgentConnectivityTemplate resource to be created. */
+  agentConnectivityTemplateId?: string;
+  /** Request body */
+  body?: AgentConnectivityTemplate;
+}
+export const CreateProjectsLocationsAgentConnectivityTemplatesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      agentConnectivityTemplateId: S.optional(S.String.pipe(T.Query())),
+      body: S.optional(AgentConnectivityTemplate.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1beta1/{+parent}/agentConnectivityTemplates",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "CreateProjectsLocationsAgentConnectivityTemplatesRequest",
+  }) as any as S.Schema<CreateProjectsLocationsAgentConnectivityTemplatesRequest>;
+
+export type DocumentMap = { [key: string]: unknown | undefined };
+export const DocumentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DocumentMap>;
+
+export type DocumentMapList = Array<DocumentMap>;
+export const DocumentMapList = /*@__PURE__*/ S.Array(
+  DocumentMap,
+) as any as S.Schema<DocumentMapList>;
+
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
+}
+export const Status = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.Number),
+    message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
+  }),
+).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
+
+/** This resource represents a long-running operation that is the result of a network API call. */
+export interface Operation {
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
+}
+export const Operation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    done: S.optional(S.Boolean),
+    error: S.optional(Status),
+    response: S.optional(DocumentMap),
+  }),
+).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
+
 export type AgentGatewayGoogleManagedGovernedAccessPathEnum =
   | "GOVERNED_ACCESS_PATH_UNSPECIFIED"
   | "AGENT_TO_ANYWHERE"
   | "CLIENT_TO_AGENT";
-export const AgentGatewayGoogleManagedGovernedAccessPathEnum =
-  /*@__PURE__*/ S.String;
+export const AgentGatewayGoogleManagedGovernedAccessPathEnum = S.String;
 
 /** Configuration for Google Managed deployment mode. Proxy is orchestrated and managed by GoogleCloud in a tenant project. */
 export interface AgentGatewayGoogleManaged {
@@ -125,27 +327,29 @@ export const AgentGatewayGoogleManaged = /*@__PURE__*/ S.suspend(() =>
   identifier: "AgentGatewayGoogleManaged",
 }) as any as S.Schema<AgentGatewayGoogleManaged>;
 
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
 /** Configuration for Self Managed deployment mode. Attach to existing Application Load Balancers or Secure Web Proxies. */
 export interface AgentGatewaySelfManaged {
   /** Optional. A supported Google Cloud networking proxy in the Project and Location */
   resourceUri?: string;
+  /** Optional. List of supported Google Cloud networking proxies in the Project and Location. resource_uris is mutually exclusive with resource_uri. */
+  resourceUris?: StringList;
 }
 export const AgentGatewaySelfManaged = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceUri: S.optional(S.String),
+    resourceUris: S.optional(StringList),
   }),
 ).annotate({
   identifier: "AgentGatewaySelfManaged",
 }) as any as S.Schema<AgentGatewaySelfManaged>;
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StringMap>;
-
 export type AgentGatewayProtocolsItemEnum = "PROTOCOL_UNSPECIFIED" | "MCP";
-export const AgentGatewayProtocolsItemEnum = /*@__PURE__*/ S.String;
+export const AgentGatewayProtocolsItemEnum = S.String;
 
 export type AgentGatewayProtocolsItemEnumList = Array<
   AgentGatewayProtocolsItemEnum | (string & {})
@@ -153,11 +357,6 @@ export type AgentGatewayProtocolsItemEnumList = Array<
 export const AgentGatewayProtocolsItemEnumList = /*@__PURE__*/ S.Array(
   AgentGatewayProtocolsItemEnum,
 ) as any as S.Schema<AgentGatewayProtocolsItemEnumList>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
 
 /** Configuration for Egress */
 export interface AgentGatewayNetworkConfigEgress {
@@ -247,12 +446,14 @@ export interface AgentGateway {
   etag?: string;
   /** Optional. Deprecated. */
   protocols?: AgentGatewayProtocolsItemEnumList;
-  /** Optional. A list of Agent registries containing the agents, MCP servers and tools governed by the Agent Gateway. Note: Currently limited to project-scoped registries Must be of format `//agentregistry.googleapis.com/projects/{project}/locations/{location}/ */
+  /** Optional. A list of Agent registries containing the agents, MCP servers and tools governed by the Agent Gateway. Note: Currently limited to project-scoped registries Must be of format `//agentregistry.googleapis.com/projects/{project}/locations/{location}/` */
   registries?: StringList;
   /** Optional. Network configuration for the AgentGateway. */
   networkConfig?: AgentGatewayNetworkConfig;
   /** Output only. Field for populated AgentGateway card. */
   agentGatewayCard?: AgentGatewayAgentGatewayOutputCard;
+  /** Optional. The resource name of the AgentConnectivityTemplate. Format: projects/{project}/locations/{location}/agentConnectivityTemplates/{template} */
+  agentConnectivityTemplate?: string;
 }
 export const AgentGateway = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -268,6 +469,7 @@ export const AgentGateway = /*@__PURE__*/ S.suspend(() =>
     registries: S.optional(StringList),
     networkConfig: S.optional(AgentGatewayNetworkConfig),
     agentGatewayCard: S.optional(AgentGatewayAgentGatewayOutputCard),
+    agentConnectivityTemplate: S.optional(S.String),
   }),
 ).annotate({ identifier: "AgentGateway" }) as any as S.Schema<AgentGateway>;
 
@@ -296,68 +498,17 @@ export const CreateProjectsLocationsAgentGatewaysRequest =
     identifier: "CreateProjectsLocationsAgentGatewaysRequest",
   }) as any as S.Schema<CreateProjectsLocationsAgentGatewaysRequest>;
 
-export type DocumentMap = { [key: string]: unknown | undefined };
-export const DocumentMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<DocumentMap>;
-
-export type DocumentMapList = Array<DocumentMap>;
-export const DocumentMapList = /*@__PURE__*/ S.Array(
-  DocumentMap,
-) as any as S.Schema<DocumentMapList>;
-
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-}
-export const Status = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    code: S.optional(S.Number),
-    message: S.optional(S.String),
-    details: S.optional(DocumentMapList),
-  }),
-).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
-
-/** This resource represents a long-running operation that is the result of a network API call. */
-export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-}
-export const Operation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
-    error: S.optional(Status),
-    response: S.optional(DocumentMap),
-  }),
-).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
-
 export type AuthzExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
   | "INTERNAL_MANAGED"
   | "EXTERNAL_MANAGED";
-export const AuthzExtensionLoadBalancingSchemeEnum = /*@__PURE__*/ S.String;
+export const AuthzExtensionLoadBalancingSchemeEnum = S.String;
 
 export type AuthzExtensionWireFormatEnum =
   | "WIRE_FORMAT_UNSPECIFIED"
   | "EXT_PROC_GRPC"
   | "EXT_AUTHZ_GRPC";
-export const AuthzExtensionWireFormatEnum = /*@__PURE__*/ S.String;
+export const AuthzExtensionWireFormatEnum = S.String;
 
 /** `AuthzExtension` is a resource that allows traffic forwarding to a callout backend service to make an authorization decision. */
 export interface AuthzExtension {
@@ -371,11 +522,11 @@ export interface AuthzExtension {
   description?: string;
   /** Optional. Set of labels associated with the `AuthzExtension` resource. The format must comply with [the requirements for labels](/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
   labels?: StringMap;
-  /** Optional. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED`, `EXTERNAL_MANAGED`. Can be omitted for AuthzExtensions that do not reference a backend service. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  /** Optional. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. The supported values are `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. You can omit this field for `AuthzExtensions` resources that don't reference a backend service. For more information, see [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
   loadBalancingScheme?: AuthzExtensionLoadBalancingSchemeEnum | (string & {});
-  /** Optional. The `:authority` header in the gRPC request sent from Envoy to the extension service. It is required when the `service` field points to a backend service or a wasm plugin. */
+  /** Optional. The `:authority` header in the gRPC request sent from Envoy to the extension service. It is required when the `service` field points to a backend service. */
   authority?: string;
-  /** Required. The reference to the service that runs the extension. To configure a callout extension, `service` must be a fully-qualified reference to a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/backendServices/{backendService}` or `https://www.googleapis.com/compute/v1/projects/{project}/global/backendServices/{backendService}`. */
+  /** Required. The reference to the service that runs the extension. To configure a callout extension: For global AuthzExtension, `service` must be a fully-qualified reference to a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/global/backendServices/{backendService}`. For regional AuthzExtension, `service` must be a fully-qualified reference to one of the following: * a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/backendServices/{backendService}`. * a fully qualified domain name that can be resolved by the Google Cloud DNS. * `iap.googleapis.com` and it can only be referenced by an AuthzPolicy with the policyProfile set to REQUEST_AUTHZ. * `modelarmor..rep.googleapis.com` and it can only be referenced by an AuthzPolicy with the policyProfile set to CONTENT_AUTHZ. */
   service?: string;
   /** Required. Specifies the timeout for each individual message on the stream. The timeout must be between 10-10000 milliseconds. */
   timeout?: string;
@@ -441,14 +592,13 @@ export type EndpointPolicyTypeEnum =
   | "ENDPOINT_POLICY_TYPE_UNSPECIFIED"
   | "SIDECAR_PROXY"
   | "GRPC_SERVER";
-export const EndpointPolicyTypeEnum = /*@__PURE__*/ S.String;
+export const EndpointPolicyTypeEnum = S.String;
 
 export type MetadataLabelMatcherMetadataLabelMatchCriteriaEnum =
   | "METADATA_LABEL_MATCH_CRITERIA_UNSPECIFIED"
   | "MATCH_ANY"
   | "MATCH_ALL";
-export const MetadataLabelMatcherMetadataLabelMatchCriteriaEnum =
-  /*@__PURE__*/ S.String;
+export const MetadataLabelMatcherMetadataLabelMatchCriteriaEnum = S.String;
 
 /** Defines a name-pair value for a single label. */
 export interface MetadataLabels {
@@ -537,7 +687,7 @@ export interface EndpointPolicy {
   description?: string;
   /** Optional. A URL referring to ServerTlsPolicy resource. ServerTlsPolicy is used to determine the authentication policy to be applied to terminate the inbound traffic at the identified backends. If this field is not set, authentication is disabled(open) for this endpoint. */
   serverTlsPolicy?: string;
-  /** Optional. A URL referring to a ClientTlsPolicy resource. ClientTlsPolicy can be set to specify the authentication for traffic from the proxy to the actual endpoints. More specifically, it is applied to the outgoing traffic from the proxy to the endpoint. This is typically used for sidecar model where the proxy identifies itself as endpoint to the control plane, with the connection between sidecar and endpoint requiring authentication. If this field is not set, authentication is disabled(open). Applicable only when EndpointPolicyType is SIDECAR_PROXY. */
+  /** Optional. Deprecated: This field is not used and is a no-op. A URL referring to a ClientTlsPolicy resource. ClientTlsPolicy can be set to specify the authentication for traffic from the proxy to the actual endpoints. More specifically, it is applied to the outgoing traffic from the proxy to the endpoint. This is typically used for sidecar model where the proxy identifies itself as endpoint to the control plane, with the connection between sidecar and endpoint requiring authentication. If this field is not set, authentication is disabled(open). Applicable only when EndpointPolicyType is SIDECAR_PROXY. */
   clientTlsPolicy?: string;
   /** Optional. A URL referring to a SecurityPolicy resource. SecurityPolicy is used to enforce rate limiting policy on the inbound traffic at the identified backends. If this field is not set, rate limiting is disabled for this endpoint. */
   securityPolicy?: string;
@@ -584,11 +734,261 @@ export const CreateProjectsLocationsEndpointPoliciesRequest =
     identifier: "CreateProjectsLocationsEndpointPoliciesRequest",
   }) as any as S.Schema<CreateProjectsLocationsEndpointPoliciesRequest>;
 
+export type ExtensionBindingTargetScopeResourceTypesItemEnum =
+  | "RESOURCE_TYPE_UNSPECIFIED"
+  | "AI_APPLICATION"
+  | "AGENT_GATEWAY";
+export const ExtensionBindingTargetScopeResourceTypesItemEnum = S.String;
+
+export type ExtensionBindingTargetScopeResourceTypesItemEnumList = Array<
+  ExtensionBindingTargetScopeResourceTypesItemEnum | (string & {})
+>;
+export const ExtensionBindingTargetScopeResourceTypesItemEnumList =
+  /*@__PURE__*/ S.Array(
+    ExtensionBindingTargetScopeResourceTypesItemEnum,
+  ) as any as S.Schema<ExtensionBindingTargetScopeResourceTypesItemEnumList>;
+
+/** Specifies the scope of resources to which this binding should attach. */
+export interface ExtensionBindingTargetScope {
+  /** Required. Parent resource name specification, in the format: `projects/{project_number}`. */
+  parent?: string;
+  /** Required. Type of the resource to which the binding should attach. Limited to 1 resource type. */
+  resourceTypes?: ExtensionBindingTargetScopeResourceTypesItemEnumList;
+}
+export const ExtensionBindingTargetScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    parent: S.optional(S.String),
+    resourceTypes: S.optional(
+      ExtensionBindingTargetScopeResourceTypesItemEnumList,
+    ),
+  }),
+).annotate({
+  identifier: "ExtensionBindingTargetScope",
+}) as any as S.Schema<ExtensionBindingTargetScope>;
+
+/** Specifies a list of targets to which this `ExtensionBinding` should attach. */
+export interface ExtensionBindingTarget {
+  /** Optional. The reference to the target resource, to which this binding should attach. Exactly one of `resources` or `scope` must be set. */
+  resources?: StringList;
+  /** Optional. Specifies the scope of resources to which this binding should attach. Exactly one of `resources` or `scope` must be set. */
+  scope?: ExtensionBindingTargetScope;
+}
+export const ExtensionBindingTarget = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resources: S.optional(StringList),
+    scope: S.optional(ExtensionBindingTargetScope),
+  }),
+).annotate({
+  identifier: "ExtensionBindingTarget",
+}) as any as S.Schema<ExtensionBindingTarget>;
+
+/** Specifies matching logic for string values. */
+export interface ExtensionBindingMatchConditionStringMatch {
+  /** Optional. The input string must match exactly the string specified here. Examples: * ``abc`` only matches the value ``abc``. */
+  exact?: string;
+  /** Optional. The input string must have the prefix specified here. Note: empty prefix is not allowed. Examples: * ``abc`` matches the value ``abc.xyz`` */
+  prefix?: string;
+  /** Optional. The input string must have the suffix specified here. Note: empty prefix is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``xyz.abc`` */
+  suffix?: string;
+  /** Optional. The input string must have the substring specified here. Note: empty contains match is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``xyz.abc.def`` */
+  contains?: string;
+  /** Optional. If true, indicates the exact/prefix/suffix/contains matching should be case insensitive. For example, the matcher ``data`` will match both input string ``Data`` and ``data`` if set to true. */
+  ignoreCase?: boolean;
+}
+export const ExtensionBindingMatchConditionStringMatch =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      exact: S.optional(S.String),
+      prefix: S.optional(S.String),
+      suffix: S.optional(S.String),
+      contains: S.optional(S.String),
+      ignoreCase: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "ExtensionBindingMatchConditionStringMatch",
+  }) as any as S.Schema<ExtensionBindingMatchConditionStringMatch>;
+
+/** Determines how an HTTP header should be matched. */
+export interface ExtensionBindingMatchConditionHeaderMatch {
+  /** Required. Specifies the name of the header in the request. */
+  name?: string;
+  /** Optional. Specifies how the header match will be performed. */
+  value?: ExtensionBindingMatchConditionStringMatch;
+}
+export const ExtensionBindingMatchConditionHeaderMatch =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.optional(S.String),
+      value: S.optional(ExtensionBindingMatchConditionStringMatch),
+    }),
+  ).annotate({
+    identifier: "ExtensionBindingMatchConditionHeaderMatch",
+  }) as any as S.Schema<ExtensionBindingMatchConditionHeaderMatch>;
+
+export type ExtensionBindingMatchConditionHeaderMatchList =
+  Array<ExtensionBindingMatchConditionHeaderMatch>;
+export const ExtensionBindingMatchConditionHeaderMatchList =
+  /*@__PURE__*/ S.Array(
+    ExtensionBindingMatchConditionHeaderMatch,
+  ) as any as S.Schema<ExtensionBindingMatchConditionHeaderMatchList>;
+
+/** Describes a set of HTTP headers to match against. */
+export interface ExtensionBindingMatchConditionToDestinationHeaderSet {
+  /** Required. A list of headers to match against in http header. If multiple header matches are provided, they will be evaluated as an AND, i.e. all header matches must match for the request to match. */
+  headers?: ExtensionBindingMatchConditionHeaderMatchList;
+}
+export const ExtensionBindingMatchConditionToDestinationHeaderSet =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      headers: S.optional(ExtensionBindingMatchConditionHeaderMatchList),
+    }),
+  ).annotate({
+    identifier: "ExtensionBindingMatchConditionToDestinationHeaderSet",
+  }) as any as S.Schema<ExtensionBindingMatchConditionToDestinationHeaderSet>;
+
+export type ExtensionBindingMatchConditionStringMatchList =
+  Array<ExtensionBindingMatchConditionStringMatch>;
+export const ExtensionBindingMatchConditionStringMatchList =
+  /*@__PURE__*/ S.Array(
+    ExtensionBindingMatchConditionStringMatch,
+  ) as any as S.Schema<ExtensionBindingMatchConditionStringMatchList>;
+
+/** Describes properties of a single destination. */
+export interface ExtensionBindingMatchConditionToDestination {
+  /** Optional. A set of HTTP headers to match against. If not specified, requests with any headers are matched. */
+  headerSet?: ExtensionBindingMatchConditionToDestinationHeaderSet;
+  /** Optional. A list of non-empty strings whose value is matched against the resource to which a request is sent (e.g., an Agent in AiApplication). If not specified, any resource is allowed. If specified, a match occurs if any of the resources matches the resource value in the request. Limited to 5 resources. When matching against resources in the AgentRegistry, use the URNs of the registry resources. */
+  resources?: ExtensionBindingMatchConditionStringMatchList;
+  /** Optional. A list of HTTP Hosts to match against. Limited to 10 hosts. If not specified, any host is allowed. If specified, a match occurs if any of the hosts matches the host value in the request. */
+  hosts?: ExtensionBindingMatchConditionStringMatchList;
+  /** Optional. A list of paths to match against. Limited to 10 paths. If not specified, any path is allowed. Note that this path match includes the query parameters. For gRPC services, this should be a fully-qualified name of the form /package.service/method. */
+  paths?: ExtensionBindingMatchConditionStringMatchList;
+}
+export const ExtensionBindingMatchConditionToDestination =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      headerSet: S.optional(
+        ExtensionBindingMatchConditionToDestinationHeaderSet,
+      ),
+      resources: S.optional(ExtensionBindingMatchConditionStringMatchList),
+      hosts: S.optional(ExtensionBindingMatchConditionStringMatchList),
+      paths: S.optional(ExtensionBindingMatchConditionStringMatchList),
+    }),
+  ).annotate({
+    identifier: "ExtensionBindingMatchConditionToDestination",
+  }) as any as S.Schema<ExtensionBindingMatchConditionToDestination>;
+
+/** Describes properties of one or more destinations of a request. */
+export interface ExtensionBindingMatchConditionTo {
+  /** Optional. Describes properties of destination of a request. Within a destination, the match follows AND semantics across fields and OR semantics within a field, i.e. a match occurs when ANY path matches AND ANY header matches and ANY method matches. At least one of destination or not_destination must be specified. */
+  destination?: ExtensionBindingMatchConditionToDestination;
+  /** Optional. Describes the negated properties of the request destination. Extension will not be invoked on requests that match the criteria specified in this field. At least one of destination or not_destination must be specified. */
+  notDestination?: ExtensionBindingMatchConditionToDestination;
+}
+export const ExtensionBindingMatchConditionTo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    destination: S.optional(ExtensionBindingMatchConditionToDestination),
+    notDestination: S.optional(ExtensionBindingMatchConditionToDestination),
+  }),
+).annotate({
+  identifier: "ExtensionBindingMatchConditionTo",
+}) as any as S.Schema<ExtensionBindingMatchConditionTo>;
+
+/** Conditions to match against the incoming request. */
+export interface ExtensionBindingMatchCondition {
+  /** Optional. Describes properties of a destination of a request. If specified, the extension will only be invoked on requests to destinations that match the specified criteria. */
+  to?: ExtensionBindingMatchConditionTo;
+}
+export const ExtensionBindingMatchCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    to: S.optional(ExtensionBindingMatchConditionTo),
+  }),
+).annotate({
+  identifier: "ExtensionBindingMatchCondition",
+}) as any as S.Schema<ExtensionBindingMatchCondition>;
+
+export type ExtensionBindingMatchConditionList =
+  Array<ExtensionBindingMatchCondition>;
+export const ExtensionBindingMatchConditionList = /*@__PURE__*/ S.Array(
+  ExtensionBindingMatchCondition,
+) as any as S.Schema<ExtensionBindingMatchConditionList>;
+
+/** `ExtensionBinding` is a resource representing the attachment of an extension to a service. */
+export interface ExtensionBinding {
+  /** Identifier. Name of the `ExtensionBinding` resource in the following format: `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
+  name?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Optional. A human-readable description of the resource. */
+  description?: string;
+  /** Optional. Set of labels associated with the `ExtensionBinding` resource. The format must comply with [the following requirements](https://cloud.google.com/compute/docs/labeling-resources#requirements). */
+  labels?: StringMap;
+  /** Optional. Etag of the resource. If provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string;
+  /** Required. The name of the extension that this binding should attach to target resources. Format: For Google-provided extensions, specify the service endpoint (see [Model Armor integration](https://docs.cloud.google.com/model-armor/integrations)) */
+  producerExtension?: string;
+  /** Required. Specifies a target to which this `ExtensionBinding` should be attached. The target can be either a single resource or a scope of resources. */
+  target?: ExtensionBindingTarget;
+  /** Optional. A list of match conditions to match against the incoming request. The extension will be invoked if at least one condition matches the request, or if no match conditions are specified. Limited to 5 conditions. */
+  matchConditions?: ExtensionBindingMatchConditionList;
+  /** Optional. Determines the behavior of the extension binding when the call to the extension fails or times out. Default value is `FALSE`. When set to `TRUE`, failures of the extension are silently ignored. */
+  failOpen?: boolean;
+  /** Optional. Additional metadata that should be passed to the attached extension with each request. */
+  producerMetadata?: StringMap;
+  /** Optional. Priority of the extension binding. Lower numbers indicate higher priority. Priority of extension bindings are used to determine the order in which extension bindings are applied to a request. */
+  priority?: number;
+}
+export const ExtensionBinding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    description: S.optional(S.String),
+    labels: S.optional(StringMap),
+    etag: S.optional(S.String),
+    producerExtension: S.optional(S.String),
+    target: S.optional(ExtensionBindingTarget),
+    matchConditions: S.optional(ExtensionBindingMatchConditionList),
+    failOpen: S.optional(S.Boolean),
+    producerMetadata: S.optional(StringMap),
+    priority: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ExtensionBinding",
+}) as any as S.Schema<ExtensionBinding>;
+
+export interface CreateProjectsLocationsExtensionBindingsRequest {
+  /** Required. The parent resource of the `ExtensionBinding` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Required. Short name of the `ExtensionBinding` resource to be created. */
+  extensionBindingId?: string;
+  /** Request body */
+  body?: ExtensionBinding;
+}
+export const CreateProjectsLocationsExtensionBindingsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      extensionBindingId: S.optional(S.String.pipe(T.Query())),
+      body: S.optional(ExtensionBinding.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1beta1/{+parent}/extensionBindings",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "CreateProjectsLocationsExtensionBindingsRequest",
+  }) as any as S.Schema<CreateProjectsLocationsExtensionBindingsRequest>;
+
 export type GatewayTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "OPEN_MESH"
   | "SECURE_WEB_GATEWAY";
-export const GatewayTypeEnum = /*@__PURE__*/ S.String;
+export const GatewayTypeEnum = S.String;
 
 export type IntegerList = Array<number>;
 export const IntegerList = /*@__PURE__*/ S.Array(
@@ -596,18 +996,18 @@ export const IntegerList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<IntegerList>;
 
 export type GatewayIpVersionEnum = "IP_VERSION_UNSPECIFIED" | "IPV4" | "IPV6";
-export const GatewayIpVersionEnum = /*@__PURE__*/ S.String;
+export const GatewayIpVersionEnum = S.String;
 
 export type GatewayEnvoyHeadersEnum =
   | "ENVOY_HEADERS_UNSPECIFIED"
   | "NONE"
   | "DEBUG_HEADERS";
-export const GatewayEnvoyHeadersEnum = /*@__PURE__*/ S.String;
+export const GatewayEnvoyHeadersEnum = S.String;
 
 export type GatewayRoutingModeEnum =
   | "EXPLICIT_ROUTING_MODE"
   | "NEXT_HOP_ROUTING_MODE";
-export const GatewayRoutingModeEnum = /*@__PURE__*/ S.String;
+export const GatewayRoutingModeEnum = S.String;
 
 /** Gateway represents the configuration for a proxy, typically a load balancer. It captures the ip:port over which the services are exposed by the proxy, along with any policy configurations. Routes have reference to to Gateways to dictate how requests should be routed by this Gateway. */
 export interface Gateway {
@@ -706,7 +1106,7 @@ export type GrpcRouteMethodMatchTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "EXACT"
   | "REGULAR_EXPRESSION";
-export const GrpcRouteMethodMatchTypeEnum = /*@__PURE__*/ S.String;
+export const GrpcRouteMethodMatchTypeEnum = S.String;
 
 /** Specifies a match against a method. */
 export interface GrpcRouteMethodMatch {
@@ -734,7 +1134,7 @@ export type GrpcRouteHeaderMatchTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "EXACT"
   | "REGULAR_EXPRESSION";
-export const GrpcRouteHeaderMatchTypeEnum = /*@__PURE__*/ S.String;
+export const GrpcRouteHeaderMatchTypeEnum = S.String;
 
 /** A match against a collection of headers. */
 export interface GrpcRouteHeaderMatch {
@@ -1161,7 +1561,7 @@ export type HttpRouteRedirectResponseCodeEnum =
   | "SEE_OTHER"
   | "TEMPORARY_REDIRECT"
   | "PERMANENT_REDIRECT";
-export const HttpRouteRedirectResponseCodeEnum = /*@__PURE__*/ S.String;
+export const HttpRouteRedirectResponseCodeEnum = S.String;
 
 /** The specification for redirecting traffic. */
 export interface HttpRouteRedirect {
@@ -1477,8 +1877,7 @@ export type ExtensionChainExtensionSupportedEventsItemEnum =
   | "RESPONSE_BODY"
   | "REQUEST_TRAILERS"
   | "RESPONSE_TRAILERS";
-export const ExtensionChainExtensionSupportedEventsItemEnum =
-  /*@__PURE__*/ S.String;
+export const ExtensionChainExtensionSupportedEventsItemEnum = S.String;
 
 export type ExtensionChainExtensionSupportedEventsItemEnumList = Array<
   ExtensionChainExtensionSupportedEventsItemEnum | (string & {})
@@ -1492,15 +1891,13 @@ export type ExtensionChainExtensionRequestBodySendModeEnum =
   | "BODY_SEND_MODE_UNSPECIFIED"
   | "BODY_SEND_MODE_STREAMED"
   | "BODY_SEND_MODE_FULL_DUPLEX_STREAMED";
-export const ExtensionChainExtensionRequestBodySendModeEnum =
-  /*@__PURE__*/ S.String;
+export const ExtensionChainExtensionRequestBodySendModeEnum = S.String;
 
 export type ExtensionChainExtensionResponseBodySendModeEnum =
   | "BODY_SEND_MODE_UNSPECIFIED"
   | "BODY_SEND_MODE_STREAMED"
   | "BODY_SEND_MODE_FULL_DUPLEX_STREAMED";
-export const ExtensionChainExtensionResponseBodySendModeEnum =
-  /*@__PURE__*/ S.String;
+export const ExtensionChainExtensionResponseBodySendModeEnum = S.String;
 
 /** A single extension in the chain to execute for the matching request. */
 export interface ExtensionChainExtension {
@@ -1592,7 +1989,7 @@ export type LbEdgeExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
   | "INTERNAL_MANAGED"
   | "EXTERNAL_MANAGED";
-export const LbEdgeExtensionLoadBalancingSchemeEnum = /*@__PURE__*/ S.String;
+export const LbEdgeExtensionLoadBalancingSchemeEnum = S.String;
 
 /** `LbEdgeExtension` is a resource that lets the extension service influence the selection of backend services and Cloud CDN cache keys by modifying request headers. */
 export interface LbEdgeExtension {
@@ -1660,7 +2057,7 @@ export type LbRouteExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
   | "INTERNAL_MANAGED"
   | "EXTERNAL_MANAGED";
-export const LbRouteExtensionLoadBalancingSchemeEnum = /*@__PURE__*/ S.String;
+export const LbRouteExtensionLoadBalancingSchemeEnum = S.String;
 
 /** `LbRouteExtension` is a resource that lets you control where traffic is routed to for a given request. */
 export interface LbRouteExtension {
@@ -1731,7 +2128,7 @@ export type LbTcpExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
   | "INTERNAL_MANAGED"
   | "EXTERNAL_MANAGED";
-export const LbTcpExtensionLoadBalancingSchemeEnum = /*@__PURE__*/ S.String;
+export const LbTcpExtensionLoadBalancingSchemeEnum = S.String;
 
 /** `LbTcpExtension` is a resource that allows traffic forwarding to different backend services to make allow/deny decisions on TCP connections for all L7 Load Balancers within a network. Currently only internal load-balancers are supported. */
 export interface LbTcpExtension {
@@ -1797,7 +2194,7 @@ export type LbTrafficExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
   | "INTERNAL_MANAGED"
   | "EXTERNAL_MANAGED";
-export const LbTrafficExtensionLoadBalancingSchemeEnum = /*@__PURE__*/ S.String;
+export const LbTrafficExtensionLoadBalancingSchemeEnum = S.String;
 
 /** `LbTrafficExtension` is a resource that lets the extension service modify the headers and payloads of both requests and responses without impacting the choice of backend services or any other security policies associated with the backend service. */
 export interface LbTrafficExtension {
@@ -1870,7 +2267,7 @@ export type MeshEnvoyHeadersEnum =
   | "ENVOY_HEADERS_UNSPECIFIED"
   | "NONE"
   | "DEBUG_HEADERS";
-export const MeshEnvoyHeadersEnum = /*@__PURE__*/ S.String;
+export const MeshEnvoyHeadersEnum = S.String;
 
 /** Mesh represents a logical configuration grouping for workload to workload communication within a service mesh. Routes that point to mesh dictate how requests are routed within this logical mesh boundary. */
 export interface Mesh {
@@ -1928,6 +2325,115 @@ export const CreateProjectsLocationsMeshesRequest = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "CreateProjectsLocationsMeshesRequest",
 }) as any as S.Schema<CreateProjectsLocationsMeshesRequest>;
+
+export type ProducerExtensionPhaseEnum =
+  | "PHASE_UNSPECIFIED"
+  | "TRAFFIC"
+  | "AUTHZ";
+export const ProducerExtensionPhaseEnum = S.String;
+
+export type ProducerExtensionExtensionSettingsSupportedEventsItemEnum =
+  | "EVENT_TYPE_UNSPECIFIED"
+  | "REQUEST_HEADERS"
+  | "REQUEST_BODY"
+  | "RESPONSE_HEADERS"
+  | "RESPONSE_BODY"
+  | "REQUEST_TRAILERS"
+  | "RESPONSE_TRAILERS";
+export const ProducerExtensionExtensionSettingsSupportedEventsItemEnum =
+  S.String;
+
+export type ProducerExtensionExtensionSettingsSupportedEventsItemEnumList =
+  Array<
+    ProducerExtensionExtensionSettingsSupportedEventsItemEnum | (string & {})
+  >;
+export const ProducerExtensionExtensionSettingsSupportedEventsItemEnumList =
+  /*@__PURE__*/ S.Array(
+    ProducerExtensionExtensionSettingsSupportedEventsItemEnum,
+  ) as any as S.Schema<ProducerExtensionExtensionSettingsSupportedEventsItemEnumList>;
+
+/** The configuration for the service that this `ProducerExtension` offers. */
+export interface ProducerExtensionExtensionSettings {
+  /** Required. URI of the PSC attachment. */
+  service?: string;
+  /** Optional. The `:authority` header in the request sent to the extension service. */
+  authority?: string;
+  /** Optional. Whether the extension should function in observability mode. */
+  observabilityMode?: boolean;
+  /** Required. The event types supported by the extension. */
+  supportedEvents?: ProducerExtensionExtensionSettingsSupportedEventsItemEnumList;
+}
+export const ProducerExtensionExtensionSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    service: S.optional(S.String),
+    authority: S.optional(S.String),
+    observabilityMode: S.optional(S.Boolean),
+    supportedEvents: S.optional(
+      ProducerExtensionExtensionSettingsSupportedEventsItemEnumList,
+    ),
+  }),
+).annotate({
+  identifier: "ProducerExtensionExtensionSettings",
+}) as any as S.Schema<ProducerExtensionExtensionSettings>;
+
+/** `ProducerExtension` is a resource representing producer defined configuration for their service extension. */
+export interface ProducerExtension {
+  /** Identifier. Name of the `ProducerExtension` resource in the following format: `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
+  name?: string;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string;
+  /** Optional. A human-readable description of the resource. */
+  description?: string;
+  /** Optional. Set of labels associated with the `ProducerExtension` resource. The format must comply with [the following requirements](https://cloud.google.com/compute/docs/labeling-resources#requirements). */
+  labels?: StringMap;
+  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string;
+  /** Required. The phase in which this `ProducerExtension` should execute. */
+  phase?: ProducerExtensionPhaseEnum | (string & {});
+  /** Required. The configuration for the service that this `ProducerExtension` offers. */
+  extensionSettings?: ProducerExtensionExtensionSettings;
+}
+export const ProducerExtension = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    description: S.optional(S.String),
+    labels: S.optional(StringMap),
+    etag: S.optional(S.String),
+    phase: S.optional(ProducerExtensionPhaseEnum),
+    extensionSettings: S.optional(ProducerExtensionExtensionSettings),
+  }),
+).annotate({
+  identifier: "ProducerExtension",
+}) as any as S.Schema<ProducerExtension>;
+
+export interface CreateProjectsLocationsProducerExtensionsRequest {
+  /** Required. The parent resource of the `ProducerExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Required. Short name of the `ProducerExtension` resource to be created. */
+  producerExtensionId?: string;
+  /** Request body */
+  body?: ProducerExtension;
+}
+export const CreateProjectsLocationsProducerExtensionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      producerExtensionId: S.optional(S.String.pipe(T.Query())),
+      body: S.optional(ProducerExtension.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1beta1/{+parent}/producerExtensions",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "CreateProjectsLocationsProducerExtensionsRequest",
+  }) as any as S.Schema<CreateProjectsLocationsProducerExtensionsRequest>;
 
 /** ServiceBinding can be used to: - Bind a Service Directory Service to be used in a BackendService resource. This feature will be deprecated soon. - Bind a Private Service Connect producer service to be used in consumer Cloud Service Mesh or Application Load Balancers. - Bind a Cloud Run service to be used in consumer Cloud Service Mesh or Application Load Balancers. */
 export interface ServiceBinding {
@@ -1989,7 +2495,7 @@ export type ServiceLbPolicyLoadBalancingAlgorithmEnum =
   | "SPRAY_TO_REGION"
   | "WATERFALL_BY_REGION"
   | "WATERFALL_BY_ZONE";
-export const ServiceLbPolicyLoadBalancingAlgorithmEnum = /*@__PURE__*/ S.String;
+export const ServiceLbPolicyLoadBalancingAlgorithmEnum = S.String;
 
 /** Option to specify if an unhealthy IG/NEG should be considered for global load balancing and traffic routing. */
 export interface ServiceLbPolicyAutoCapacityDrain {
@@ -2020,15 +2526,13 @@ export const ServiceLbPolicyFailoverConfig = /*@__PURE__*/ S.suspend(() =>
 export type ServiceLbPolicyIsolationConfigIsolationGranularityEnum =
   | "ISOLATION_GRANULARITY_UNSPECIFIED"
   | "REGION";
-export const ServiceLbPolicyIsolationConfigIsolationGranularityEnum =
-  /*@__PURE__*/ S.String;
+export const ServiceLbPolicyIsolationConfigIsolationGranularityEnum = S.String;
 
 export type ServiceLbPolicyIsolationConfigIsolationModeEnum =
   | "ISOLATION_MODE_UNSPECIFIED"
   | "NEAREST"
   | "STRICT";
-export const ServiceLbPolicyIsolationConfigIsolationModeEnum =
-  /*@__PURE__*/ S.String;
+export const ServiceLbPolicyIsolationConfigIsolationModeEnum = S.String;
 
 /** Configuration to provide isolation support for the associated Backend Service. */
 export interface ServiceLbPolicyIsolationConfig {
@@ -2410,15 +2914,15 @@ export type WasmPluginLogConfigMinLogLevelEnum =
   | "WARN"
   | "ERROR"
   | "CRITICAL";
-export const WasmPluginLogConfigMinLogLevelEnum = /*@__PURE__*/ S.String;
+export const WasmPluginLogConfigMinLogLevelEnum = S.String;
 
 /** Specifies the logging options for the activity performed by this plugin. If logging is enabled, plugin logs are exported to Cloud Logging. */
 export interface WasmPluginLogConfig {
   /** Optional. Specifies whether to enable logging for activity by this plugin. Defaults to `false`. */
   enable?: boolean;
-  /** Non-empty default. Configures the sampling rate of activity logs, where `1.0` means all logged activity is reported and `0.0` means no activity is reported. A floating point value between `0.0` and `1.0` indicates that a percentage of log messages is stored. The default value when logging is enabled is `1.0`. The value of the field must be between `0` and `1` (inclusive). This field can be specified only if logging is enabled for this plugin. */
+  /** Optional. Non-empty default. Configures the sampling rate of activity logs, where `1.0` means all logged activity is reported and `0.0` means no activity is reported. A floating point value between `0.0` and `1.0` indicates that a percentage of log messages is stored. The default value when logging is enabled is `1.0`. The value of the field must be between `0` and `1` (inclusive). This field can be specified only if logging is enabled for this plugin. */
   sampleRate?: number;
-  /** Non-empty default. Specifies the lowest level of the plugin logs that are exported to Cloud Logging. This setting relates to the logs generated by using logging statements in your Wasm code. This field is can be set only if logging is enabled for the plugin. If the field is not provided when logging is enabled, it is set to `INFO` by default. */
+  /** Optional. Non-empty default. Specifies the lowest level of the plugin logs that are exported to Cloud Logging. This setting relates to the logs generated by using logging statements in your Wasm code. This field is can be set only if logging is enabled for the plugin. If the field is not provided when logging is enabled, it is set to `INFO` by default. */
   minLogLevel?: WasmPluginLogConfigMinLogLevelEnum | (string & {});
 }
 export const WasmPluginLogConfig = /*@__PURE__*/ S.suspend(() =>
@@ -2625,6 +3129,28 @@ export const CreateProjectsLocationsWasmPluginsVersionsRequest =
     identifier: "CreateProjectsLocationsWasmPluginsVersionsRequest",
   }) as any as S.Schema<CreateProjectsLocationsWasmPluginsVersionsRequest>;
 
+export interface DeleteProjectsLocationsAgentConnectivityTemplatesRequest {
+  /** Required. A name of the AgentConnectivityTemplate to delete. Must be in the format `projects/*\/locations/*\/agentConnectivityTemplates/*`. */
+  name: string;
+  /** Optional. The etag of the AgentConnectivityTemplate to delete. */
+  etag?: string;
+}
+export const DeleteProjectsLocationsAgentConnectivityTemplatesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      etag: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "v1beta1/{+name}",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteProjectsLocationsAgentConnectivityTemplatesRequest",
+  }) as any as S.Schema<DeleteProjectsLocationsAgentConnectivityTemplatesRequest>;
+
 export interface DeleteProjectsLocationsAgentGatewaysRequest {
   /** Required. A name of the AgentGateway to delete. Must be in the format `projects/*\/locations/*\/agentGateways/*`. */
   name: string;
@@ -2687,6 +3213,28 @@ export const DeleteProjectsLocationsEndpointPoliciesRequest =
   ).annotate({
     identifier: "DeleteProjectsLocationsEndpointPoliciesRequest",
   }) as any as S.Schema<DeleteProjectsLocationsEndpointPoliciesRequest>;
+
+export interface DeleteProjectsLocationsExtensionBindingsRequest {
+  /** Required. A name of the `ExtensionBinding` resource to delete. Must be in the format `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
+  name: string;
+  /** Optional. The etag of the ExtensionBinding to delete. */
+  etag?: string;
+}
+export const DeleteProjectsLocationsExtensionBindingsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      etag: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "v1beta1/{+name}",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteProjectsLocationsExtensionBindingsRequest",
+  }) as any as S.Schema<DeleteProjectsLocationsExtensionBindingsRequest>;
 
 export interface DeleteProjectsLocationsGatewaysRequest {
   /** Required. A name of the Gateway to delete. Must be in the format `projects/*\/locations/*\/gateways/*`. */
@@ -2871,6 +3419,28 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteProjectsLocationsOperationsRequest",
 }) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>;
 
+export interface DeleteProjectsLocationsProducerExtensionsRequest {
+  /** Required. A name of the `ProducerExtension` resource to delete. Must be in the format `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
+  name: string;
+  /** Optional. The etag of the ProducerExtension to delete. */
+  etag?: string;
+}
+export const DeleteProjectsLocationsProducerExtensionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      etag: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "v1beta1/{+name}",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteProjectsLocationsProducerExtensionsRequest",
+  }) as any as S.Schema<DeleteProjectsLocationsProducerExtensionsRequest>;
+
 export interface DeleteProjectsLocationsServiceBindingsRequest {
   /** Required. A name of the ServiceBinding to delete. Must be in the format `projects/*\/locations/*\/serviceBindings/*`. */
   name: string;
@@ -3026,6 +3596,25 @@ export const Location = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
+export interface GetProjectsLocationsAgentConnectivityTemplatesRequest {
+  /** Required. A name of the AgentConnectivityTemplate to get. Must be in the format `projects/*\/locations/*\/agentConnectivityTemplates/*`. */
+  name: string;
+}
+export const GetProjectsLocationsAgentConnectivityTemplatesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+name}",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetProjectsLocationsAgentConnectivityTemplatesRequest",
+  }) as any as S.Schema<GetProjectsLocationsAgentConnectivityTemplatesRequest>;
+
 export interface GetProjectsLocationsAgentGatewaysRequest {
   /** Required. A name of the AgentGateway to get. Must be in the format `projects/*\/locations/*\/agentGateways/*`. */
   name: string;
@@ -3082,6 +3671,25 @@ export const GetProjectsLocationsEndpointPoliciesRequest =
   ).annotate({
     identifier: "GetProjectsLocationsEndpointPoliciesRequest",
   }) as any as S.Schema<GetProjectsLocationsEndpointPoliciesRequest>;
+
+export interface GetProjectsLocationsExtensionBindingsRequest {
+  /** Required. A name of the `ExtensionBinding` resource to get. Must be in the format `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
+  name: string;
+}
+export const GetProjectsLocationsExtensionBindingsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+name}",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetProjectsLocationsExtensionBindingsRequest",
+  }) as any as S.Schema<GetProjectsLocationsExtensionBindingsRequest>;
 
 export interface GetProjectsLocationsGatewaysRequest {
   /** Required. A name of the Gateway to get. Must be in the format `projects/*\/locations/*\/gateways/*`. */
@@ -3338,6 +3946,25 @@ export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   identifier: "GetProjectsLocationsOperationsRequest",
 }) as any as S.Schema<GetProjectsLocationsOperationsRequest>;
 
+export interface GetProjectsLocationsProducerExtensionsRequest {
+  /** Required. A name of the `ProducerExtension` resource to get. Must be in the format `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
+  name: string;
+}
+export const GetProjectsLocationsProducerExtensionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+name}",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetProjectsLocationsProducerExtensionsRequest",
+  }) as any as S.Schema<GetProjectsLocationsProducerExtensionsRequest>;
+
 export interface GetProjectsLocationsServiceBindingsRequest {
   /** Required. A name of the ServiceBinding to get. Must be in the format `projects/*\/locations/*\/serviceBindings/*`. */
   name: string;
@@ -3418,7 +4045,7 @@ export type GetProjectsLocationsWasmPluginsViewEnum =
   | "WASM_PLUGIN_VIEW_UNSPECIFIED"
   | "WASM_PLUGIN_VIEW_BASIC"
   | "WASM_PLUGIN_VIEW_FULL";
-export const GetProjectsLocationsWasmPluginsViewEnum = /*@__PURE__*/ S.String;
+export const GetProjectsLocationsWasmPluginsViewEnum = S.String;
 
 export interface GetProjectsLocationsWasmPluginsRequest {
   /** Required. A name of the `WasmPlugin` resource to get. Must be in the format `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}`. */
@@ -3511,6 +4138,59 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListLocationsResponse",
 }) as any as S.Schema<ListLocationsResponse>;
+
+export interface ListProjectsLocationsAgentConnectivityTemplatesRequest {
+  /** Required. The project and location from which the AgentConnectivityTemplates should be listed, specified in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Optional. Maximum number of AgentConnectivityTemplates to return per call. */
+  pageSize?: number;
+  /** Optional. The value returned by the last `ListAgentConnectivityTemplatesResponse` Indicates that this is a continuation of a prior `ListAgentConnectivityTemplates` call, and that the system should return the next page of data. */
+  pageToken?: string;
+  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. Otherwise if one of the locations is down or unreachable, the Aggregated List request will fail. */
+  returnPartialSuccess?: boolean;
+}
+export const ListProjectsLocationsAgentConnectivityTemplatesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+parent}/agentConnectivityTemplates",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "ListProjectsLocationsAgentConnectivityTemplatesRequest",
+  }) as any as S.Schema<ListProjectsLocationsAgentConnectivityTemplatesRequest>;
+
+export type AgentConnectivityTemplateList = Array<AgentConnectivityTemplate>;
+export const AgentConnectivityTemplateList = /*@__PURE__*/ S.Array(
+  AgentConnectivityTemplate,
+) as any as S.Schema<AgentConnectivityTemplateList>;
+
+/** Response returned by the ListAgentConnectivityTemplates method. */
+export interface ListAgentConnectivityTemplatesResponse {
+  /** List of AgentConnectivityTemplate resources. */
+  agentConnectivityTemplates?: AgentConnectivityTemplateList;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. */
+  unreachable?: StringList;
+}
+export const ListAgentConnectivityTemplatesResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      agentConnectivityTemplates: S.optional(AgentConnectivityTemplateList),
+      nextPageToken: S.optional(S.String),
+      unreachable: S.optional(StringList),
+    }),
+).annotate({
+  identifier: "ListAgentConnectivityTemplatesResponse",
+}) as any as S.Schema<ListAgentConnectivityTemplatesResponse>;
 
 export interface ListProjectsLocationsAgentGatewaysRequest {
   /** Required. The project and location from which the AgentGateways should be listed, specified in the format `projects/*\/locations/*`. */
@@ -3670,6 +4350,55 @@ export const ListEndpointPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListEndpointPoliciesResponse",
 }) as any as S.Schema<ListEndpointPoliciesResponse>;
+
+export interface ListProjectsLocationsExtensionBindingsRequest {
+  /** Required. The project and location from which the `ExtensionBinding` resources should be listed, specified in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. Maximum number of `ExtensionBinding` resources to return per call. */
+  pageSize?: number;
+  /** Optional. The value returned by the last `ListExtensionBindingsResponse` Indicates that this is a continuation of a prior `ListExtensionBindings` call, and that the system should return the next page of data. */
+  pageToken?: string;
+}
+export const ListProjectsLocationsExtensionBindingsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+parent}/extensionBindings",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "ListProjectsLocationsExtensionBindingsRequest",
+  }) as any as S.Schema<ListProjectsLocationsExtensionBindingsRequest>;
+
+export type ExtensionBindingList = Array<ExtensionBinding>;
+export const ExtensionBindingList = /*@__PURE__*/ S.Array(
+  ExtensionBinding,
+) as any as S.Schema<ExtensionBindingList>;
+
+/** Response returned by the `ListExtensionBindings` method. */
+export interface ListExtensionBindingsResponse {
+  /** List of `ExtensionBinding` resources. */
+  extensionBindings?: ExtensionBindingList;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. The resource names are in the format `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
+  unreachable?: StringList;
+}
+export const ListExtensionBindingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    extensionBindings: S.optional(ExtensionBindingList),
+    nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "ListExtensionBindingsResponse",
+}) as any as S.Schema<ListExtensionBindingsResponse>;
 
 export interface ListProjectsLocationsGatewaysRequest {
   /** Required. The project and location from which the Gateways should be listed, specified in the format `projects/*\/locations/*`. */
@@ -4251,6 +4980,55 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListOperationsResponse",
 }) as any as S.Schema<ListOperationsResponse>;
 
+export interface ListProjectsLocationsProducerExtensionsRequest {
+  /** Required. The project and location from which the `ProducerExtension` resources should be listed, specified in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. Maximum number of `ProducerExtension` resources to return per call. */
+  pageSize?: number;
+  /** Optional. The value returned by the last `ListProducerExtensionsResponse` Indicates that this is a continuation of a prior `ListProducerExtensions` call, and that the system should return the next page of data. */
+  pageToken?: string;
+}
+export const ListProjectsLocationsProducerExtensionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+parent}/producerExtensions",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "ListProjectsLocationsProducerExtensionsRequest",
+  }) as any as S.Schema<ListProjectsLocationsProducerExtensionsRequest>;
+
+export type ProducerExtensionList = Array<ProducerExtension>;
+export const ProducerExtensionList = /*@__PURE__*/ S.Array(
+  ProducerExtension,
+) as any as S.Schema<ProducerExtensionList>;
+
+/** Response returned by the `ListProducerExtensions` method. */
+export interface ListProducerExtensionsResponse {
+  /** List of `ProducerExtension` resources. */
+  producerExtensions?: ProducerExtensionList;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request attempts to list all resources across all supported locations, while some locations are temporarily unavailable. The resource names are in the format: `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
+  unreachable?: StringList;
+}
+export const ListProducerExtensionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    producerExtensions: S.optional(ProducerExtensionList),
+    nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "ListProducerExtensionsResponse",
+}) as any as S.Schema<ListProducerExtensionsResponse>;
+
 export interface ListProjectsLocationsServiceBindingsRequest {
   /** Required. The project and location from which the ServiceBindings should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
@@ -4551,6 +5329,31 @@ export const ListWasmPluginVersionsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListWasmPluginVersionsResponse",
 }) as any as S.Schema<ListWasmPluginVersionsResponse>;
 
+export interface PatchProjectsLocationsAgentConnectivityTemplatesRequest {
+  /** Identifier. Name of the AgentConnectivityTemplate resource. It matches pattern `projects/*\/locations/*\/agentConnectivityTemplates/`. */
+  name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the AgentConnectivityTemplate resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
+  /** Request body */
+  body?: AgentConnectivityTemplate;
+}
+export const PatchProjectsLocationsAgentConnectivityTemplatesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
+      body: S.optional(AgentConnectivityTemplate.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "v1beta1/{+name}",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchProjectsLocationsAgentConnectivityTemplatesRequest",
+  }) as any as S.Schema<PatchProjectsLocationsAgentConnectivityTemplatesRequest>;
+
 export interface PatchProjectsLocationsAgentGatewaysRequest {
   /** Identifier. Name of the AgentGateway resource. It matches pattern `projects/*\/locations/*\/agentGateways/`. */
   name: string;
@@ -4628,6 +5431,31 @@ export const PatchProjectsLocationsEndpointPoliciesRequest =
   ).annotate({
     identifier: "PatchProjectsLocationsEndpointPoliciesRequest",
   }) as any as S.Schema<PatchProjectsLocationsEndpointPoliciesRequest>;
+
+export interface PatchProjectsLocationsExtensionBindingsRequest {
+  /** Identifier. Name of the `ExtensionBinding` resource in the following format: `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
+  name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the `ExtensionBinding` resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
+  /** Request body */
+  body?: ExtensionBinding;
+}
+export const PatchProjectsLocationsExtensionBindingsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
+      body: S.optional(ExtensionBinding.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "v1beta1/{+name}",
+        baseUrl: "https://networkservices.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchProjectsLocationsExtensionBindingsRequest",
+  }) as any as S.Schema<PatchProjectsLocationsExtensionBindingsRequest>;
 
 export interface PatchProjectsLocationsGatewaysRequest {
   /** Identifier. Name of the Gateway resource. It matches pattern `projects/*\/locations/*\/gateways/`. */
@@ -4985,6 +5813,26 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateProjectsLocationsAgentConnectivityTemplatesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Creates a new AgentConnectivityTemplate in a given project and location. */
+export const createProjectsLocationsAgentConnectivityTemplates: API.OperationMethod<
+  CreateProjectsLocationsAgentConnectivityTemplatesRequest,
+  Operation,
+  CreateProjectsLocationsAgentConnectivityTemplatesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsAgentConnectivityTemplatesRequest,
+  output: Operation,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateProjectsLocationsAgentGatewaysError =
   | NotFound
   | Forbidden
@@ -5039,6 +5887,26 @@ export const createProjectsLocationsEndpointPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsEndpointPoliciesRequest,
+  output: Operation,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateProjectsLocationsExtensionBindingsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Creates a new `ExtensionBinding` resource in a given project and location. */
+export const createProjectsLocationsExtensionBindings: API.OperationMethod<
+  CreateProjectsLocationsExtensionBindingsRequest,
+  Operation,
+  CreateProjectsLocationsExtensionBindingsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsExtensionBindingsRequest,
   output: Operation,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5205,6 +6073,26 @@ export const createProjectsLocationsMeshes: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateProjectsLocationsProducerExtensionsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Creates a new `ProducerExtension` resource in a given project and location. */
+export const createProjectsLocationsProducerExtensions: API.OperationMethod<
+  CreateProjectsLocationsProducerExtensionsRequest,
+  Operation,
+  CreateProjectsLocationsProducerExtensionsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsProducerExtensionsRequest,
+  output: Operation,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateProjectsLocationsServiceBindingsError =
   | NotFound
   | Forbidden
@@ -5325,6 +6213,26 @@ export const createProjectsLocationsWasmPluginsVersions: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteProjectsLocationsAgentConnectivityTemplatesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Deletes a single AgentConnectivityTemplate. */
+export const deleteProjectsLocationsAgentConnectivityTemplates: API.OperationMethod<
+  DeleteProjectsLocationsAgentConnectivityTemplatesRequest,
+  Operation,
+  DeleteProjectsLocationsAgentConnectivityTemplatesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsAgentConnectivityTemplatesRequest,
+  output: Operation,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteProjectsLocationsAgentGatewaysError =
   | NotFound
   | Forbidden
@@ -5379,6 +6287,26 @@ export const deleteProjectsLocationsEndpointPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsEndpointPoliciesRequest,
+  output: Operation,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteProjectsLocationsExtensionBindingsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Deletes the specified `ExtensionBinding` resource. */
+export const deleteProjectsLocationsExtensionBindings: API.OperationMethod<
+  DeleteProjectsLocationsExtensionBindingsRequest,
+  Operation,
+  DeleteProjectsLocationsExtensionBindingsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsExtensionBindingsRequest,
   output: Operation,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5565,6 +6493,26 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteProjectsLocationsProducerExtensionsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Deletes the specified `ProducerExtension` resource. */
+export const deleteProjectsLocationsProducerExtensions: API.OperationMethod<
+  DeleteProjectsLocationsProducerExtensionsRequest,
+  Operation,
+  DeleteProjectsLocationsProducerExtensionsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsProducerExtensionsRequest,
+  output: Operation,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteProjectsLocationsServiceBindingsError =
   | NotFound
   | Forbidden
@@ -5700,6 +6648,24 @@ export const getProjectsLocations: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetProjectsLocationsAgentConnectivityTemplatesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Gets details of a single AgentConnectivityTemplate. */
+export const getProjectsLocationsAgentConnectivityTemplates: API.OperationMethod<
+  GetProjectsLocationsAgentConnectivityTemplatesRequest,
+  AgentConnectivityTemplate,
+  GetProjectsLocationsAgentConnectivityTemplatesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsAgentConnectivityTemplatesRequest,
+  output: AgentConnectivityTemplate,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetProjectsLocationsAgentGatewaysError =
   | NotFound
   | Forbidden
@@ -5749,6 +6715,24 @@ export const getProjectsLocationsEndpointPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsEndpointPoliciesRequest,
   output: EndpointPolicy,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetProjectsLocationsExtensionBindingsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Gets details of the specified `ExtensionBinding` resource. */
+export const getProjectsLocationsExtensionBindings: API.OperationMethod<
+  GetProjectsLocationsExtensionBindingsRequest,
+  ExtensionBinding,
+  GetProjectsLocationsExtensionBindingsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsExtensionBindingsRequest,
+  output: ExtensionBinding,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5949,6 +6933,24 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetProjectsLocationsProducerExtensionsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Gets details of the specified `ProducerExtension` resource. */
+export const getProjectsLocationsProducerExtensions: API.OperationMethod<
+  GetProjectsLocationsProducerExtensionsRequest,
+  ProducerExtension,
+  GetProjectsLocationsProducerExtensionsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsProducerExtensionsRequest,
+  output: ProducerExtension,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetProjectsLocationsServiceBindingsError =
   | NotFound
   | Forbidden
@@ -6077,6 +7079,29 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type ListProjectsLocationsAgentConnectivityTemplatesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Lists AgentConnectivityTemplates in a given project and location. */
+export const listProjectsLocationsAgentConnectivityTemplates: API.PaginatedOperationMethod<
+  ListProjectsLocationsAgentConnectivityTemplatesRequest,
+  ListAgentConnectivityTemplatesResponse,
+  ListProjectsLocationsAgentConnectivityTemplatesError,
+  GcpOpContext,
+  ListAgentConnectivityTemplatesResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsAgentConnectivityTemplatesRequest,
+  output: ListAgentConnectivityTemplatesResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  } as const,
+})) as any;
+
 export type ListProjectsLocationsAgentGatewaysError =
   | NotFound
   | Forbidden
@@ -6137,6 +7162,29 @@ export const listProjectsLocationsEndpointPolicies: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsEndpointPoliciesRequest,
   output: ListEndpointPoliciesResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  } as const,
+})) as any;
+
+export type ListProjectsLocationsExtensionBindingsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Lists `ExtensionBinding` resources in a given project and location. */
+export const listProjectsLocationsExtensionBindings: API.PaginatedOperationMethod<
+  ListProjectsLocationsExtensionBindingsRequest,
+  ListExtensionBindingsResponse,
+  ListProjectsLocationsExtensionBindingsError,
+  GcpOpContext,
+  ListExtensionBindingsResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsExtensionBindingsRequest,
+  output: ListExtensionBindingsResponse,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6399,6 +7447,29 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type ListProjectsLocationsProducerExtensionsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Lists `ProducerExtension` resources in a given project and location. */
+export const listProjectsLocationsProducerExtensions: API.PaginatedOperationMethod<
+  ListProjectsLocationsProducerExtensionsRequest,
+  ListProducerExtensionsResponse,
+  ListProjectsLocationsProducerExtensionsError,
+  GcpOpContext,
+  ListProducerExtensionsResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsProducerExtensionsRequest,
+  output: ListProducerExtensionsResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  } as const,
+})) as any;
+
 export type ListProjectsLocationsServiceBindingsError =
   | NotFound
   | Forbidden
@@ -6537,6 +7608,26 @@ export const listProjectsLocationsWasmPluginsVersions: API.PaginatedOperationMet
   } as const,
 })) as any;
 
+export type PatchProjectsLocationsAgentConnectivityTemplatesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Updates the parameters of a single AgentConnectivityTemplate. */
+export const patchProjectsLocationsAgentConnectivityTemplates: API.OperationMethod<
+  PatchProjectsLocationsAgentConnectivityTemplatesRequest,
+  Operation,
+  PatchProjectsLocationsAgentConnectivityTemplatesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchProjectsLocationsAgentConnectivityTemplatesRequest,
+  output: Operation,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PatchProjectsLocationsAgentGatewaysError =
   | NotFound
   | Forbidden
@@ -6591,6 +7682,26 @@ export const patchProjectsLocationsEndpointPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsEndpointPoliciesRequest,
+  output: Operation,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PatchProjectsLocationsExtensionBindingsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Updates the parameters of the specified `ExtensionBinding` resource. */
+export const patchProjectsLocationsExtensionBindings: API.OperationMethod<
+  PatchProjectsLocationsExtensionBindingsRequest,
+  Operation,
+  PatchProjectsLocationsExtensionBindingsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchProjectsLocationsExtensionBindingsRequest,
   output: Operation,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,

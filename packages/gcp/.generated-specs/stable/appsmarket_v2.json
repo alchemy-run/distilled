@@ -4,34 +4,17 @@
     "service": "appsmarket",
     "version": "v2",
     "title": "Google Workspace Marketplace API",
-    "baseUrl": "https://appsmarket.googleapis.com/"
+    "baseUrl": "https://appsmarket.googleapis.com/",
+    "distilled.finalized": true
   },
   "shapes": {
     "com.gcp.appsmarket_v2#UserLicense": {
       "type": "structure",
       "members": {
-        "editionId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "(Deprecated)"
-          }
-        },
         "kind": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The type of API resource. This is always `appsmarket#userLicense`."
-          }
-        },
-        "customerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The domain name of the user."
-          }
-        },
-        "state": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The user's licensing status. One of: - `ACTIVE`: The user has a valid license and should be permitted to use the application. - `UNLICENSED`: The administrator of this user's domain never assigned a seat for the application to this user. - `EXPIRED`: The administrator assigned a seat to this user, but the license is expired."
           }
         },
         "enabled": {
@@ -40,16 +23,28 @@
             "smithy.api#documentation": "The domain administrator has activated the application for this domain."
           }
         },
+        "editionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Deprecated)"
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's licensing status. One of: - `ACTIVE`: The user has a valid license and should be permitted to use the application. - `UNLICENSED`: The administrator of this user's domain never assigned a seat for the application to this user. - `EXPIRED`: The administrator assigned a seat to this user, but the license is expired."
+          }
+        },
         "userId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The email address of the user."
           }
         },
-        "id": {
+        "customerId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the user license."
+            "smithy.api#documentation": "The domain name of the user."
           }
         },
         "applicationId": {
@@ -57,28 +52,28 @@
           "traits": {
             "smithy.api#documentation": "The ID of the application corresponding to the license query."
           }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user license."
+          }
         }
       }
     },
     "com.gcp.appsmarket_v2#CustomerLicense": {
       "type": "structure",
       "members": {
+        "customerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain name of the customer."
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The ID of the customer license."
-          }
-        },
-        "applicationId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the application corresponding to this license query."
-          }
-        },
-        "state": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The customer's license status. One of: - `ACTIVE`: The customer has a valid license. - `UNLICENSED`: There is no license. Either this customer has never installed your application or has deleted it."
           }
         },
         "editions": {
@@ -87,16 +82,22 @@
             "smithy.api#documentation": "(Deprecated)"
           }
         },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's license status. One of: - `ACTIVE`: The customer has a valid license. - `UNLICENSED`: There is no license. Either this customer has never installed your application or has deleted it."
+          }
+        },
+        "applicationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the application corresponding to this license query."
+          }
+        },
         "kind": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The type of API resource. This is always `appsmarket#customerLicense`."
-          }
-        },
-        "customerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The domain name of the customer."
           }
         }
       }
@@ -110,14 +111,14 @@
     "com.gcp.appsmarket_v2#Editions": {
       "type": "structure",
       "members": {
-        "editionId": {
-          "target": "smithy.api#String",
+        "assignedSeats": {
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "(Deprecated)"
           }
         },
-        "assignedSeats": {
-          "target": "smithy.api#Integer",
+        "editionId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "(Deprecated)"
           }
@@ -133,18 +134,18 @@
     "com.gcp.appsmarket_v2#GetUserLicenseRequest": {
       "type": "structure",
       "members": {
-        "applicationId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the application.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
         "userId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "applicationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the application.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }

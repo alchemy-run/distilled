@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.kubernetes.authorization#IoK8sApimachineryPkgApisMetaV1APIGroup": {
@@ -841,8 +842,7 @@
         "allowed": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "allowed is required. True if the action would be allowed, false otherwise.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "allowed is set to true if the action is allowed, and should be set to false otherwise."
           }
         },
         "denied": {
@@ -1164,7 +1164,8 @@
         "namespace": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "namespace to evaluate rules for. Required."
+            "smithy.api#documentation": "namespace to evaluate rules for. Required.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -1184,22 +1185,19 @@
         "incomplete": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "incomplete is true when the rules returned by this call are incomplete. This is most commonly encountered when an authorizer, such as an external authorizer, doesn't support rules evaluation.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "incomplete is true when the rules returned by this call are incomplete. This is most commonly encountered when an authorizer, such as an external authorizer, doesn't support rules evaluation."
           }
         },
         "nonResourceRules": {
           "target": "com.kubernetes.authorization#IoK8sApiAuthorizationV1SubjectRulesReviewStatusNonResourceRulesList",
           "traits": {
-            "smithy.api#documentation": "nonResourceRules is the list of actions the subject is allowed to perform on non-resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "nonResourceRules is the list of actions the subject is allowed to perform on non-resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete."
           }
         },
         "resourceRules": {
           "target": "com.kubernetes.authorization#IoK8sApiAuthorizationV1SubjectRulesReviewStatusResourceRulesList",
           "traits": {
-            "smithy.api#documentation": "resourceRules is the list of actions the subject is allowed to perform on resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "resourceRules is the list of actions the subject is allowed to perform on resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete."
           }
         }
       },
@@ -1219,8 +1217,7 @@
         "verbs": {
           "target": "com.kubernetes.authorization#IoK8sApiAuthorizationV1NonResourceRuleVerbsList",
           "traits": {
-            "smithy.api#documentation": "verbs is a list of kubernetes non-resource API verbs, like: get, post, put, delete, patch, head, options.  \"*\" means all.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "verbs is a list of kubernetes non-resource API verbs, like: get, post, put, delete, patch, head, options.  \"*\" means all."
           }
         }
       },
@@ -1279,8 +1276,7 @@
         "verbs": {
           "target": "com.kubernetes.authorization#IoK8sApiAuthorizationV1ResourceRuleVerbsList",
           "traits": {
-            "smithy.api#documentation": "verbs is a list of kubernetes resource API verbs, like: get, list, watch, create, update, delete, proxy.  \"*\" means all.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "verbs is a list of kubernetes resource API verbs, like: get, list, watch, create, update, delete, proxy.  \"*\" means all."
           }
         }
       },

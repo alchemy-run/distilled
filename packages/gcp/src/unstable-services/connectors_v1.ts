@@ -101,184 +101,137 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
 
-export interface Destination {
-  /** Optional. The port is the target port number that is accepted by the destination. */
-  port?: number;
-  /** PSC service attachments. Format: projects/*\/regions/*\/serviceAttachments/* */
-  serviceAttachment?: string;
-  /** For publicly routable host. */
-  host?: string;
+/** Node configuration for the connection. */
+export interface NodeConfig {
+  /** Optional. Minimum number of nodes in the runtime nodes. */
+  minNodeCount?: number;
+  /** Optional. Maximum number of nodes in the runtime nodes. */
+  maxNodeCount?: number;
 }
-export const Destination = /*@__PURE__*/ S.suspend(() =>
+export const NodeConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    port: S.optional(S.Number),
-    serviceAttachment: S.optional(S.String),
-    host: S.optional(S.String),
+    minNodeCount: S.optional(S.Number),
+    maxNodeCount: S.optional(S.Number),
   }),
-).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
+).annotate({ identifier: "NodeConfig" }) as any as S.Schema<NodeConfig>;
 
-export type DestinationList = Array<Destination>;
-export const DestinationList = /*@__PURE__*/ S.Array(
-  Destination,
-) as any as S.Schema<DestinationList>;
+export type ConnectorsLogConfigLevelEnum =
+  | "LOG_LEVEL_UNSPECIFIED"
+  | "ERROR"
+  | "INFO"
+  | "DEBUG";
+export const ConnectorsLogConfigLevelEnum = S.String;
 
-/** Define the Connectors target endpoint. */
-export interface DestinationConfig {
-  /** Optional. The destinations for the key. */
-  destinations?: DestinationList;
-  /** Optional. The key is the destination identifier that is supported by the Connector. */
-  key?: string;
+/** Log configuration for the connection. */
+export interface ConnectorsLogConfig {
+  /** Optional. Enabled represents whether logging is enabled or not for a connection. */
+  enabled?: boolean;
+  /** Optional. Log configuration level. */
+  level?: ConnectorsLogConfigLevelEnum | (string & {});
 }
-export const DestinationConfig = /*@__PURE__*/ S.suspend(() =>
+export const ConnectorsLogConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    destinations: S.optional(DestinationList),
-    key: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DestinationConfig",
-}) as any as S.Schema<DestinationConfig>;
-
-export type DestinationConfigList = Array<DestinationConfig>;
-export const DestinationConfigList = /*@__PURE__*/ S.Array(
-  DestinationConfig,
-) as any as S.Schema<DestinationConfigList>;
-
-export type ConnectorVersionInfraConfigDeploymentModelEnum =
-  | "DEPLOYMENT_MODEL_UNSPECIFIED"
-  | "GKE_MST"
-  | "CLOUD_RUN_MST";
-export const ConnectorVersionInfraConfigDeploymentModelEnum =
-  /*@__PURE__*/ S.String;
-
-export type ConnectorVersionInfraConfigTlsMigrationStateEnum =
-  | "TLS_MIGRATION_STATE_UNSPECIFIED"
-  | "TLS_MIGRATION_NOT_STARTED"
-  | "TLS_MIGRATION_COMPLETED";
-export const ConnectorVersionInfraConfigTlsMigrationStateEnum =
-  /*@__PURE__*/ S.String;
-
-/** Resource requests defined for connection pods of a given connector type. */
-export interface ResourceRequests {
-  /** Output only. Memory request. */
-  memory?: string;
-  /** Output only. CPU request. */
-  cpu?: string;
-}
-export const ResourceRequests = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    memory: S.optional(S.String),
-    cpu: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+    level: S.optional(ConnectorsLogConfigLevelEnum),
   }),
 ).annotate({
-  identifier: "ResourceRequests",
-}) as any as S.Schema<ResourceRequests>;
+  identifier: "ConnectorsLogConfig",
+}) as any as S.Schema<ConnectorsLogConfig>;
 
-/** Resource limits defined for connection pods of a given connector type. */
-export interface ResourceLimits {
-  /** Output only. Memory limit. */
-  memory?: string;
-  /** Output only. CPU limit. */
-  cpu?: string;
+export type AdminFiltersFilterTypeEnum =
+  | "FILTER_TYPE_UNSPECIFIED"
+  | "INCLUSION"
+  | "EXCLUSION";
+export const AdminFiltersFilterTypeEnum = S.String;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
+/** StringListValues is a message to store a list of string values. */
+export interface StringListValues {
+  /** Required. The list of string values. */
+  listValues?: StringList;
 }
-export const ResourceLimits = /*@__PURE__*/ S.suspend(() =>
+export const StringListValues = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    memory: S.optional(S.String),
-    cpu: S.optional(S.String),
-  }),
-).annotate({ identifier: "ResourceLimits" }) as any as S.Schema<ResourceLimits>;
-
-export type ConnectorVersionInfraConfigDeploymentModelMigrationStateEnum =
-  | "DEPLOYMENT_MODEL_MIGRATION_STATE_UNSPECIFIED"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "ROLLEDBACK"
-  | "ROLLBACK_IN_PROGRESS";
-export const ConnectorVersionInfraConfigDeploymentModelMigrationStateEnum =
-  /*@__PURE__*/ S.String;
-
-/** Autoscaling config for connector deployment system metrics. */
-export interface HPAConfig {
-  /** Output only. Percent CPU utilization where HPA triggers autoscaling. */
-  cpuUtilizationThreshold?: string;
-  /** Output only. Percent Memory utilization where HPA triggers autoscaling. */
-  memoryUtilizationThreshold?: string;
-}
-export const HPAConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cpuUtilizationThreshold: S.optional(S.String),
-    memoryUtilizationThreshold: S.optional(S.String),
-  }),
-).annotate({ identifier: "HPAConfig" }) as any as S.Schema<HPAConfig>;
-
-/** This configuration provides infra configs like rate limit threshold which need to be configurable for every connector version */
-export interface ConnectorVersionInfraConfig {
-  /** Output only. Max QPS supported by the connector version before throttling of requests. */
-  ratelimitThreshold?: string;
-  /** Output only. The window used for ratelimiting runtime requests to connections. */
-  connectionRatelimitWindowSeconds?: string;
-  /** Output only. Indicates whether connector is deployed on GKE/CloudRun */
-  deploymentModel?:
-    | ConnectorVersionInfraConfigDeploymentModelEnum
-    | (string & {});
-  /** Output only. Max QPS supported for internal requests originating from Connd. */
-  internalclientRatelimitThreshold?: string;
-  /** Output only. The name of shared connector deployment. */
-  sharedDeployment?: string;
-  /** Output only. Status of the TLS migration. */
-  tlsMigrationState?:
-    | ConnectorVersionInfraConfigTlsMigrationStateEnum
-    | (string & {});
-  /** Output only. System resource requests. */
-  resourceRequests?: ResourceRequests;
-  /** Output only. Max instance request concurrency. */
-  maxInstanceRequestConcurrency?: number;
-  /** Output only. System resource limits. */
-  resourceLimits?: ResourceLimits;
-  /** Output only. Status of the deployment model migration. */
-  deploymentModelMigrationState?:
-    | ConnectorVersionInfraConfigDeploymentModelMigrationStateEnum
-    | (string & {});
-  /** Output only. HPA autoscaling config. */
-  hpaConfig?: HPAConfig;
-}
-export const ConnectorVersionInfraConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ratelimitThreshold: S.optional(S.String),
-    connectionRatelimitWindowSeconds: S.optional(S.String),
-    deploymentModel: S.optional(ConnectorVersionInfraConfigDeploymentModelEnum),
-    internalclientRatelimitThreshold: S.optional(S.String),
-    sharedDeployment: S.optional(S.String),
-    tlsMigrationState: S.optional(
-      ConnectorVersionInfraConfigTlsMigrationStateEnum,
-    ),
-    resourceRequests: S.optional(ResourceRequests),
-    maxInstanceRequestConcurrency: S.optional(S.Number),
-    resourceLimits: S.optional(ResourceLimits),
-    deploymentModelMigrationState: S.optional(
-      ConnectorVersionInfraConfigDeploymentModelMigrationStateEnum,
-    ),
-    hpaConfig: S.optional(HPAConfig),
+    listValues: S.optional(StringList),
   }),
 ).annotate({
-  identifier: "ConnectorVersionInfraConfig",
-}) as any as S.Schema<ConnectorVersionInfraConfig>;
+  identifier: "StringListValues",
+}) as any as S.Schema<StringListValues>;
 
-export type AuthConfigAuthTypeEnum =
-  | "AUTH_TYPE_UNSPECIFIED"
-  | "USER_PASSWORD"
-  | "OAUTH2_JWT_BEARER"
-  | "OAUTH2_CLIENT_CREDENTIALS"
-  | "SSH_PUBLIC_KEY"
-  | "OAUTH2_AUTH_CODE_FLOW"
-  | "GOOGLE_AUTHENTICATION"
-  | "OAUTH2_AUTH_CODE_FLOW_GOOGLE_MANAGED";
-export const AuthConfigAuthTypeEnum = /*@__PURE__*/ S.String;
+/** * AdminFilters defines a set of filters that can be applied to a connection. These are currently used by Gemini Enterprise connections. */
+export interface AdminFilters {
+  /** Required. Type of the filter. */
+  filterType?: AdminFiltersFilterTypeEnum | (string & {});
+  /** Optional. List of string values. */
+  stringListValues?: StringListValues;
+  /** Required. Unique name for the filter, e.g., "SharePointSiteURL", "DocumentType", "ChatSpaceName". */
+  filterKey?: string;
+  /** Optional. A single string value. */
+  stringValue?: string;
+  /** Optional. A single integer value. */
+  intValue?: string;
+}
+export const AdminFilters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    filterType: S.optional(AdminFiltersFilterTypeEnum),
+    stringListValues: S.optional(StringListValues),
+    filterKey: S.optional(S.String),
+    stringValue: S.optional(S.String),
+    intValue: S.optional(S.String),
+  }),
+).annotate({ identifier: "AdminFilters" }) as any as S.Schema<AdminFilters>;
+
+export type AdminFiltersList = Array<AdminFilters>;
+export const AdminFiltersList = /*@__PURE__*/ S.Array(
+  AdminFilters,
+) as any as S.Schema<AdminFiltersList>;
+
+/** Determines whether or no a connection is locked. If locked, a reason must be specified. */
+export interface LockConfig {
+  /** Optional. Indicates whether or not the connection is locked. */
+  locked?: boolean;
+  /** Optional. Describes why a connection is locked. */
+  reason?: string;
+}
+export const LockConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    locked: S.optional(S.Boolean),
+    reason: S.optional(S.String),
+  }),
+).annotate({ identifier: "LockConfig" }) as any as S.Schema<LockConfig>;
+
+export type BillingConfigBillingCategoryEnum =
+  | "BILLING_CATEGORY_UNSPECIFIED"
+  | "GCP_AND_TECHNICAL_CONNECTOR"
+  | "NON_GCP_CONNECTOR";
+export const BillingConfigBillingCategoryEnum = S.String;
+
+/** Billing config for the connection. */
+export interface BillingConfig {
+  /** Output only. Billing category for the connector. */
+  billingCategory?: BillingConfigBillingCategoryEnum | (string & {});
+}
+export const BillingConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billingCategory: S.optional(BillingConfigBillingCategoryEnum),
+  }),
+).annotate({ identifier: "BillingConfig" }) as any as S.Schema<BillingConfig>;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StringMap>;
 
 export type EncryptionKeyTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "GOOGLE_MANAGED"
   | "CUSTOMER_MANAGED";
-export const EncryptionKeyTypeEnum = /*@__PURE__*/ S.String;
+export const EncryptionKeyTypeEnum = S.String;
 
 /** Encryption Key value. */
 export interface EncryptionKey {
@@ -307,26 +260,26 @@ export const Secret = /*@__PURE__*/ S.suspend(() =>
 
 /** ConfigVariable represents a configuration variable present in a Connection. or AuthConfig. */
 export interface ConfigVariable {
-  /** Optional. Value is a string. */
-  stringValue?: string;
-  /** Optional. Value is a Encryption Key. */
-  encryptionKeyValue?: EncryptionKey;
   /** Optional. Value is an integer */
   intValue?: string;
   /** Optional. Value is a bool. */
   boolValue?: boolean;
   /** Optional. Key of the config variable. */
   key?: string;
+  /** Optional. Value is a Encryption Key. */
+  encryptionKeyValue?: EncryptionKey;
+  /** Optional. Value is a string. */
+  stringValue?: string;
   /** Optional. Value is a secret. */
   secretValue?: Secret;
 }
 export const ConfigVariable = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    stringValue: S.optional(S.String),
-    encryptionKeyValue: S.optional(EncryptionKey),
     intValue: S.optional(S.String),
     boolValue: S.optional(S.Boolean),
     key: S.optional(S.String),
+    encryptionKeyValue: S.optional(EncryptionKey),
+    stringValue: S.optional(S.String),
     secretValue: S.optional(Secret),
   }),
 ).annotate({ identifier: "ConfigVariable" }) as any as S.Schema<ConfigVariable>;
@@ -336,183 +289,47 @@ export const ConfigVariableList = /*@__PURE__*/ S.Array(
   ConfigVariable,
 ) as any as S.Schema<ConfigVariableList>;
 
-/** Parameters to support Username and Password Authentication. */
-export interface UserPassword {
-  /** Optional. Username. */
-  username?: string;
-  /** Optional. Secret version reference containing the password. */
-  password?: Secret;
+export interface Destination {
+  /** Optional. The port is the target port number that is accepted by the destination. */
+  port?: number;
+  /** PSC service attachments. Format: projects/*\/regions/*\/serviceAttachments/* */
+  serviceAttachment?: string;
+  /** For publicly routable host. */
+  host?: string;
 }
-export const UserPassword = /*@__PURE__*/ S.suspend(() =>
+export const Destination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    username: S.optional(S.String),
-    password: S.optional(Secret),
+    port: S.optional(S.Number),
+    serviceAttachment: S.optional(S.String),
+    host: S.optional(S.String),
   }),
-).annotate({ identifier: "UserPassword" }) as any as S.Schema<UserPassword>;
+).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
 
-/** Parameters to support Ssh public key Authentication. */
-export interface SshPublicKey {
-  /** Optional. The user account used to authenticate. */
-  username?: string;
-  /** Optional. Format of SSH Client cert. */
-  certType?: string;
-  /** Optional. Password (passphrase) for ssh client certificate if it has one. */
-  sshClientCertPass?: Secret;
-  /** Optional. SSH Client Cert. It should contain both public and private key. */
-  sshClientCert?: Secret;
+export type DestinationList = Array<Destination>;
+export const DestinationList = /*@__PURE__*/ S.Array(
+  Destination,
+) as any as S.Schema<DestinationList>;
+
+/** Define the Connectors target endpoint. */
+export interface DestinationConfig {
+  /** Optional. The key is the destination identifier that is supported by the Connector. */
+  key?: string;
+  /** Optional. The destinations for the key. */
+  destinations?: DestinationList;
 }
-export const SshPublicKey = /*@__PURE__*/ S.suspend(() =>
+export const DestinationConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    username: S.optional(S.String),
-    certType: S.optional(S.String),
-    sshClientCertPass: S.optional(Secret),
-    sshClientCert: S.optional(Secret),
-  }),
-).annotate({ identifier: "SshPublicKey" }) as any as S.Schema<SshPublicKey>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
-
-/** Parameters to support Oauth 2.0 Auth Code Grant Authentication. See https://www.rfc-editor.org/rfc/rfc6749#section-1.3.1 for more details. */
-export interface Oauth2AuthCodeFlow {
-  /** Optional. Redirect URI to be provided during the auth code exchange. */
-  redirectUri?: string;
-  /** Optional. Auth URL for Authorization Code Flow */
-  authUri?: string;
-  /** Optional. Authorization code to be exchanged for access and refresh tokens. */
-  authCode?: string;
-  /** Optional. Client ID for user-provided OAuth app. */
-  clientId?: string;
-  /** Optional. Scopes the connection will request when the user performs the auth code flow. */
-  scopes?: StringList;
-  /** Optional. Whether to enable PKCE when the user performs the auth code flow. */
-  enablePkce?: boolean;
-  /** Optional. PKCE verifier to be used during the auth code exchange. */
-  pkceVerifier?: string;
-  /** Optional. Client secret for user-provided OAuth app. */
-  clientSecret?: Secret;
-}
-export const Oauth2AuthCodeFlow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    redirectUri: S.optional(S.String),
-    authUri: S.optional(S.String),
-    authCode: S.optional(S.String),
-    clientId: S.optional(S.String),
-    scopes: S.optional(StringList),
-    enablePkce: S.optional(S.Boolean),
-    pkceVerifier: S.optional(S.String),
-    clientSecret: S.optional(Secret),
+    key: S.optional(S.String),
+    destinations: S.optional(DestinationList),
   }),
 ).annotate({
-  identifier: "Oauth2AuthCodeFlow",
-}) as any as S.Schema<Oauth2AuthCodeFlow>;
+  identifier: "DestinationConfig",
+}) as any as S.Schema<DestinationConfig>;
 
-/** Parameters to support Oauth 2.0 Auth Code Grant Authentication using Google Provided OAuth Client. See https://tools.ietf.org/html/rfc6749#section-1.3.1 for more details. */
-export interface Oauth2AuthCodeFlowGoogleManaged {
-  /** Optional. Redirect URI to be provided during the auth code exchange. */
-  redirectUri?: string;
-  /** Optional. Authorization code to be exchanged for access and refresh tokens. */
-  authCode?: string;
-  /** Required. Scopes the connection will request when the user performs the auth code flow. */
-  scopes?: StringList;
-}
-export const Oauth2AuthCodeFlowGoogleManaged = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    redirectUri: S.optional(S.String),
-    authCode: S.optional(S.String),
-    scopes: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "Oauth2AuthCodeFlowGoogleManaged",
-}) as any as S.Schema<Oauth2AuthCodeFlowGoogleManaged>;
-
-/** Parameters to support Oauth 2.0 Client Credentials Grant Authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. */
-export interface Oauth2ClientCredentials {
-  /** Optional. The client identifier. */
-  clientId?: string;
-  /** Optional. Secret version reference containing the client secret. */
-  clientSecret?: Secret;
-}
-export const Oauth2ClientCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientId: S.optional(S.String),
-    clientSecret: S.optional(Secret),
-  }),
-).annotate({
-  identifier: "Oauth2ClientCredentials",
-}) as any as S.Schema<Oauth2ClientCredentials>;
-
-/** JWT claims used for the jwt-bearer authorization grant. */
-export interface JwtClaims {
-  /** Optional. Value for the "iss" claim. */
-  issuer?: string;
-  /** Optional. Value for the "sub" claim. */
-  subject?: string;
-  /** Optional. Value for the "aud" claim. */
-  audience?: string;
-}
-export const JwtClaims = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    issuer: S.optional(S.String),
-    subject: S.optional(S.String),
-    audience: S.optional(S.String),
-  }),
-).annotate({ identifier: "JwtClaims" }) as any as S.Schema<JwtClaims>;
-
-/** Parameters to support JSON Web Token (JWT) Profile for Oauth 2.0 Authorization Grant based authentication. See https://tools.ietf.org/html/rfc7523 for more details. */
-export interface Oauth2JwtBearer {
-  /** Optional. JwtClaims providers fields to generate the token. */
-  jwtClaims?: JwtClaims;
-  /** Optional. Secret version reference containing a PKCS#8 PEM-encoded private key associated with the Client Certificate. This private key will be used to sign JWTs used for the jwt-bearer authorization grant. Specified in the form as: `projects/*\/secrets/*\/versions/*`. */
-  clientKey?: Secret;
-}
-export const Oauth2JwtBearer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jwtClaims: S.optional(JwtClaims),
-    clientKey: S.optional(Secret),
-  }),
-).annotate({
-  identifier: "Oauth2JwtBearer",
-}) as any as S.Schema<Oauth2JwtBearer>;
-
-/** AuthConfig defines details of a authentication type. */
-export interface AuthConfig {
-  /** Optional. The type of authentication configured. */
-  authType?: AuthConfigAuthTypeEnum | (string & {});
-  /** Optional. List containing additional auth configs. */
-  additionalVariables?: ConfigVariableList;
-  /** UserPassword. */
-  userPassword?: UserPassword;
-  /** Optional. Identifier key for auth config */
-  authKey?: string;
-  /** SSH Public Key. */
-  sshPublicKey?: SshPublicKey;
-  /** Oauth2AuthCodeFlow. */
-  oauth2AuthCodeFlow?: Oauth2AuthCodeFlow;
-  /** Oauth2AuthCodeFlowGoogleManaged. */
-  oauth2AuthCodeFlowGoogleManaged?: Oauth2AuthCodeFlowGoogleManaged;
-  /** Oauth2ClientCredentials. */
-  oauth2ClientCredentials?: Oauth2ClientCredentials;
-  /** Oauth2JwtBearer. */
-  oauth2JwtBearer?: Oauth2JwtBearer;
-}
-export const AuthConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authType: S.optional(AuthConfigAuthTypeEnum),
-    additionalVariables: S.optional(ConfigVariableList),
-    userPassword: S.optional(UserPassword),
-    authKey: S.optional(S.String),
-    sshPublicKey: S.optional(SshPublicKey),
-    oauth2AuthCodeFlow: S.optional(Oauth2AuthCodeFlow),
-    oauth2AuthCodeFlowGoogleManaged: S.optional(
-      Oauth2AuthCodeFlowGoogleManaged,
-    ),
-    oauth2ClientCredentials: S.optional(Oauth2ClientCredentials),
-    oauth2JwtBearer: S.optional(Oauth2JwtBearer),
-  }),
-).annotate({ identifier: "AuthConfig" }) as any as S.Schema<AuthConfig>;
+export type DestinationConfigList = Array<DestinationConfig>;
+export const DestinationConfigList = /*@__PURE__*/ S.Array(
+  DestinationConfig,
+) as any as S.Schema<DestinationConfigList>;
 
 export type ConnectionConnectorVersionLaunchStageEnum =
   | "LAUNCH_STAGE_UNSPECIFIED"
@@ -521,215 +338,37 @@ export type ConnectionConnectorVersionLaunchStageEnum =
   | "DEPRECATED"
   | "TEST"
   | "PRIVATE_PREVIEW";
-export const ConnectionConnectorVersionLaunchStageEnum = /*@__PURE__*/ S.String;
-
-/** StringListValues is a message to store a list of string values. */
-export interface StringListValues {
-  /** Required. The list of string values. */
-  listValues?: StringList;
-}
-export const StringListValues = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    listValues: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "StringListValues",
-}) as any as S.Schema<StringListValues>;
-
-export type AdminFiltersFilterTypeEnum =
-  | "FILTER_TYPE_UNSPECIFIED"
-  | "INCLUSION"
-  | "EXCLUSION";
-export const AdminFiltersFilterTypeEnum = /*@__PURE__*/ S.String;
-
-/** * AdminFilters defines a set of filters that can be applied to a connection. These are currently used by Gemini Enterprise connections. */
-export interface AdminFilters {
-  /** Optional. A single string value. */
-  stringValue?: string;
-  /** Optional. A single integer value. */
-  intValue?: string;
-  /** Optional. List of string values. */
-  stringListValues?: StringListValues;
-  /** Required. Unique name for the filter, e.g., "SharePointSiteURL", "DocumentType", "ChatSpaceName". */
-  filterKey?: string;
-  /** Required. Type of the filter. */
-  filterType?: AdminFiltersFilterTypeEnum | (string & {});
-}
-export const AdminFilters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stringValue: S.optional(S.String),
-    intValue: S.optional(S.String),
-    stringListValues: S.optional(StringListValues),
-    filterKey: S.optional(S.String),
-    filterType: S.optional(AdminFiltersFilterTypeEnum),
-  }),
-).annotate({ identifier: "AdminFilters" }) as any as S.Schema<AdminFilters>;
-
-export type AdminFiltersList = Array<AdminFilters>;
-export const AdminFiltersList = /*@__PURE__*/ S.Array(
-  AdminFilters,
-) as any as S.Schema<AdminFiltersList>;
-
-export type ConnectorsLogConfigLevelEnum =
-  | "LOG_LEVEL_UNSPECIFIED"
-  | "ERROR"
-  | "INFO"
-  | "DEBUG";
-export const ConnectorsLogConfigLevelEnum = /*@__PURE__*/ S.String;
-
-/** Log configuration for the connection. */
-export interface ConnectorsLogConfig {
-  /** Optional. Enabled represents whether logging is enabled or not for a connection. */
-  enabled?: boolean;
-  /** Optional. Log configuration level. */
-  level?: ConnectorsLogConfigLevelEnum | (string & {});
-}
-export const ConnectorsLogConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-    level: S.optional(ConnectorsLogConfigLevelEnum),
-  }),
-).annotate({
-  identifier: "ConnectorsLogConfig",
-}) as any as S.Schema<ConnectorsLogConfig>;
-
-export type SslConfigServerCertTypeEnum = "CERT_TYPE_UNSPECIFIED" | "PEM";
-export const SslConfigServerCertTypeEnum = /*@__PURE__*/ S.String;
-
-export type SslConfigClientCertTypeEnum = "CERT_TYPE_UNSPECIFIED" | "PEM";
-export const SslConfigClientCertTypeEnum = /*@__PURE__*/ S.String;
-
-export type SslConfigTypeEnum = "SSL_TYPE_UNSPECIFIED" | "TLS" | "MTLS";
-export const SslConfigTypeEnum = /*@__PURE__*/ S.String;
-
-export type SslConfigTrustModelEnum = "PUBLIC" | "PRIVATE" | "INSECURE";
-export const SslConfigTrustModelEnum = /*@__PURE__*/ S.String;
-
-/** SSL Configuration of a connection */
-export interface SslConfig {
-  /** Optional. Type of Server Cert (PEM/JKS/.. etc.) */
-  serverCertType?: SslConfigServerCertTypeEnum | (string & {});
-  /** Optional. Type of Client Cert (PEM/JKS/.. etc.) */
-  clientCertType?: SslConfigClientCertTypeEnum | (string & {});
-  /** Optional. Controls the ssl type for the given connector version. */
-  type?: SslConfigTypeEnum | (string & {});
-  /** Optional. Private Server Certificate. Needs to be specified if trust model is `PRIVATE`. */
-  privateServerCertificate?: Secret;
-  /** Optional. Secret containing the passphrase protecting the Client Private Key */
-  clientPrivateKeyPass?: Secret;
-  /** Optional. Additional SSL related field values */
-  additionalVariables?: ConfigVariableList;
-  /** Optional. Trust Model of the SSL connection */
-  trustModel?: SslConfigTrustModelEnum | (string & {});
-  /** Optional. Client Certificate */
-  clientCertificate?: Secret;
-  /** Optional. Client Private Key */
-  clientPrivateKey?: Secret;
-  /** Optional. Bool for enabling SSL */
-  useSsl?: boolean;
-}
-export const SslConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serverCertType: S.optional(SslConfigServerCertTypeEnum),
-    clientCertType: S.optional(SslConfigClientCertTypeEnum),
-    type: S.optional(SslConfigTypeEnum),
-    privateServerCertificate: S.optional(Secret),
-    clientPrivateKeyPass: S.optional(Secret),
-    additionalVariables: S.optional(ConfigVariableList),
-    trustModel: S.optional(SslConfigTrustModelEnum),
-    clientCertificate: S.optional(Secret),
-    clientPrivateKey: S.optional(Secret),
-    useSsl: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "SslConfig" }) as any as S.Schema<SslConfig>;
-
-export type BillingConfigBillingCategoryEnum =
-  | "BILLING_CATEGORY_UNSPECIFIED"
-  | "GCP_AND_TECHNICAL_CONNECTOR"
-  | "NON_GCP_CONNECTOR";
-export const BillingConfigBillingCategoryEnum = /*@__PURE__*/ S.String;
-
-/** Billing config for the connection. */
-export interface BillingConfig {
-  /** Output only. Billing category for the connector. */
-  billingCategory?: BillingConfigBillingCategoryEnum | (string & {});
-}
-export const BillingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    billingCategory: S.optional(BillingConfigBillingCategoryEnum),
-  }),
-).annotate({ identifier: "BillingConfig" }) as any as S.Schema<BillingConfig>;
-
-/** Determines whether or no a connection is locked. If locked, a reason must be specified. */
-export interface LockConfig {
-  /** Optional. Indicates whether or not the connection is locked. */
-  locked?: boolean;
-  /** Optional. Describes why a connection is locked. */
-  reason?: string;
-}
-export const LockConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locked: S.optional(S.Boolean),
-    reason: S.optional(S.String),
-  }),
-).annotate({ identifier: "LockConfig" }) as any as S.Schema<LockConfig>;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StringMap>;
-
-export type EventingStatusStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "ERROR"
-  | "INGRESS_ENDPOINT_REQUIRED";
-export const EventingStatusStateEnum = /*@__PURE__*/ S.String;
-
-/** EventingStatus indicates the state of eventing. */
-export interface EventingStatus {
-  /** Output only. State. */
-  state?: EventingStatusStateEnum | (string & {});
-  /** Output only. Description of error if State is set to "ERROR". */
-  description?: string;
-}
-export const EventingStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: S.optional(EventingStatusStateEnum),
-    description: S.optional(S.String),
-  }),
-).annotate({ identifier: "EventingStatus" }) as any as S.Schema<EventingStatus>;
+export const ConnectionConnectorVersionLaunchStageEnum = S.String;
 
 /** WebhookData has details of webhook configuration. */
 export interface WebhookData {
-  /** Output only. Next webhook refresh time. Will be null if refresh is not supported. */
-  nextRefreshTime?: string;
-  /** Output only. List of event subscriptions which are using the webhook. */
-  eventSubscriptions?: StringList;
-  /** Output only. ID to uniquely identify webhook. */
-  id?: string;
   /** Output only. Additional webhook related field values. */
   additionalVariables?: ConfigVariableList;
-  /** Output only. Timestamp when the webhook was created. */
-  createTime?: string;
-  /** Output only. Name of the Webhook */
-  name?: string;
   /** Output only. List of event types for the webhook. This is the event types subscribed by the current webhook. */
   eventTypes?: StringList;
+  /** Output only. ID to uniquely identify webhook. */
+  id?: string;
   /** Output only. Timestamp when the webhook was last updated. */
   updateTime?: string;
+  /** Output only. List of event subscriptions which are using the webhook. */
+  eventSubscriptions?: StringList;
+  /** Output only. Name of the Webhook */
+  name?: string;
+  /** Output only. Timestamp when the webhook was created. */
+  createTime?: string;
+  /** Output only. Next webhook refresh time. Will be null if refresh is not supported. */
+  nextRefreshTime?: string;
 }
 export const WebhookData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextRefreshTime: S.optional(S.String),
-    eventSubscriptions: S.optional(StringList),
-    id: S.optional(S.String),
     additionalVariables: S.optional(ConfigVariableList),
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
     eventTypes: S.optional(StringList),
+    id: S.optional(S.String),
     updateTime: S.optional(S.String),
+    eventSubscriptions: S.optional(StringList),
+    name: S.optional(S.String),
+    createTime: S.optional(S.String),
+    nextRefreshTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "WebhookData" }) as any as S.Schema<WebhookData>;
 
@@ -751,71 +390,301 @@ export const WebhookSubscriptions = /*@__PURE__*/ S.suspend(() =>
   identifier: "WebhookSubscriptions",
 }) as any as S.Schema<WebhookSubscriptions>;
 
+export type EventingStatusStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "ERROR"
+  | "INGRESS_ENDPOINT_REQUIRED";
+export const EventingStatusStateEnum = S.String;
+
+/** EventingStatus indicates the state of eventing. */
+export interface EventingStatus {
+  /** Output only. State. */
+  state?: EventingStatusStateEnum | (string & {});
+  /** Output only. Description of error if State is set to "ERROR". */
+  description?: string;
+}
+export const EventingStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.optional(EventingStatusStateEnum),
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "EventingStatus" }) as any as S.Schema<EventingStatus>;
+
 /** Eventing runtime data has the details related to eventing managed by the system. */
 export interface EventingRuntimeData {
-  /** Output only. Current status of eventing. */
-  status?: EventingStatus;
   /** Output only. Webhook subscriptions. */
   webhookSubscriptions?: WebhookSubscriptions;
-  /** Output only. Webhook data. */
-  webhookData?: WebhookData;
+  /** Output only. Current status of eventing. */
+  status?: EventingStatus;
   /** Output only. Events listener endpoint. The value will populated after provisioning the events listener. */
   eventsListenerEndpoint?: string;
   /** Output only. Events listener PSC Service attachment. The value will be populated after provisioning the events listener with private connectivity enabled. */
   eventsListenerPscSa?: string;
+  /** Output only. Webhook data. */
+  webhookData?: WebhookData;
 }
 export const EventingRuntimeData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(EventingStatus),
     webhookSubscriptions: S.optional(WebhookSubscriptions),
-    webhookData: S.optional(WebhookData),
+    status: S.optional(EventingStatus),
     eventsListenerEndpoint: S.optional(S.String),
     eventsListenerPscSa: S.optional(S.String),
+    webhookData: S.optional(WebhookData),
   }),
 ).annotate({
   identifier: "EventingRuntimeData",
 }) as any as S.Schema<EventingRuntimeData>;
 
-/** Node configuration for the connection. */
-export interface NodeConfig {
-  /** Optional. Minimum number of nodes in the runtime nodes. */
-  minNodeCount?: number;
-  /** Optional. Maximum number of nodes in the runtime nodes. */
-  maxNodeCount?: number;
+/** Parameters to support Oauth 2.0 Auth Code Grant Authentication using Google Provided OAuth Client. See https://tools.ietf.org/html/rfc6749#section-1.3.1 for more details. */
+export interface Oauth2AuthCodeFlowGoogleManaged {
+  /** Optional. Redirect URI to be provided during the auth code exchange. */
+  redirectUri?: string;
+  /** Optional. Authorization code to be exchanged for access and refresh tokens. */
+  authCode?: string;
+  /** Required. Scopes the connection will request when the user performs the auth code flow. */
+  scopes?: StringList;
 }
-export const NodeConfig = /*@__PURE__*/ S.suspend(() =>
+export const Oauth2AuthCodeFlowGoogleManaged = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    minNodeCount: S.optional(S.Number),
-    maxNodeCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "NodeConfig" }) as any as S.Schema<NodeConfig>;
-
-/** * TrafficShapingConfig defines the configuration for shaping API traffic by specifying a quota limit and the duration over which this limit is enforced. This configuration helps to control and manage the rate at which API calls are made on the client side, preventing service overload on the backend. For example: - if the quota limit is 100 calls per 10 seconds, then the message would be: { quota_limit: 100 duration: { seconds: 10 } } - if the quota limit is 100 calls per 5 minutes, then the message would be: { quota_limit: 100 duration: { seconds: 300 } } - if the quota limit is 10000 calls per day, then the message would be: { quota_limit: 10000 duration: { seconds: 86400 } and so on. */
-export interface TrafficShapingConfig {
-  /** Required. Maximum number of api calls allowed. */
-  quotaLimit?: string;
-  /** Required. Specifies the duration over which the API call quota limits are calculated. This duration is used to define the time window for evaluating if the number of API calls made by a user is within the allowed quota limits. For example: - To define a quota sampled over 16 seconds, set `seconds` to 16 - To define a quota sampled over 5 minutes, set `seconds` to 300 (5 * 60) - To define a quota sampled over 1 day, set `seconds` to 86400 (24 * 60 * 60) and so on. It is important to note that this duration is not the time the quota is valid for, but rather the time window over which the quota is evaluated. For example, if the quota is 100 calls per 10 seconds, then this duration field would be set to 10 seconds. */
-  duration?: string;
-}
-export const TrafficShapingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    quotaLimit: S.optional(S.String),
-    duration: S.optional(S.String),
+    redirectUri: S.optional(S.String),
+    authCode: S.optional(S.String),
+    scopes: S.optional(StringList),
   }),
 ).annotate({
-  identifier: "TrafficShapingConfig",
-}) as any as S.Schema<TrafficShapingConfig>;
+  identifier: "Oauth2AuthCodeFlowGoogleManaged",
+}) as any as S.Schema<Oauth2AuthCodeFlowGoogleManaged>;
 
-export type TrafficShapingConfigList = Array<TrafficShapingConfig>;
-export const TrafficShapingConfigList = /*@__PURE__*/ S.Array(
-  TrafficShapingConfig,
-) as any as S.Schema<TrafficShapingConfigList>;
+/** Parameters to support Ssh public key Authentication. */
+export interface SshPublicKey {
+  /** Optional. The user account used to authenticate. */
+  username?: string;
+  /** Optional. SSH Client Cert. It should contain both public and private key. */
+  sshClientCert?: Secret;
+  /** Optional. Password (passphrase) for ssh client certificate if it has one. */
+  sshClientCertPass?: Secret;
+  /** Optional. Format of SSH Client cert. */
+  certType?: string;
+}
+export const SshPublicKey = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.optional(S.String),
+    sshClientCert: S.optional(Secret),
+    sshClientCertPass: S.optional(Secret),
+    certType: S.optional(S.String),
+  }),
+).annotate({ identifier: "SshPublicKey" }) as any as S.Schema<SshPublicKey>;
 
-export type ConnectionSubscriptionTypeEnum =
-  | "SUBSCRIPTION_TYPE_UNSPECIFIED"
-  | "PAY_G"
-  | "PAID";
-export const ConnectionSubscriptionTypeEnum = /*@__PURE__*/ S.String;
+export type AuthConfigAuthTypeEnum =
+  | "AUTH_TYPE_UNSPECIFIED"
+  | "USER_PASSWORD"
+  | "OAUTH2_JWT_BEARER"
+  | "OAUTH2_CLIENT_CREDENTIALS"
+  | "SSH_PUBLIC_KEY"
+  | "OAUTH2_AUTH_CODE_FLOW"
+  | "GOOGLE_AUTHENTICATION"
+  | "OAUTH2_AUTH_CODE_FLOW_GOOGLE_MANAGED";
+export const AuthConfigAuthTypeEnum = S.String;
+
+/** Parameters to support Oauth 2.0 Auth Code Grant Authentication. See https://www.rfc-editor.org/rfc/rfc6749#section-1.3.1 for more details. */
+export interface Oauth2AuthCodeFlow {
+  /** Optional. Redirect URI to be provided during the auth code exchange. */
+  redirectUri?: string;
+  /** Optional. Auth URL for Authorization Code Flow */
+  authUri?: string;
+  /** Optional. Scopes the connection will request when the user performs the auth code flow. */
+  scopes?: StringList;
+  /** Optional. Client secret for user-provided OAuth app. */
+  clientSecret?: Secret;
+  /** Optional. Client ID for user-provided OAuth app. */
+  clientId?: string;
+  /** Optional. Authorization code to be exchanged for access and refresh tokens. */
+  authCode?: string;
+  /** Optional. PKCE verifier to be used during the auth code exchange. */
+  pkceVerifier?: string;
+  /** Optional. Whether to enable PKCE when the user performs the auth code flow. */
+  enablePkce?: boolean;
+}
+export const Oauth2AuthCodeFlow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    redirectUri: S.optional(S.String),
+    authUri: S.optional(S.String),
+    scopes: S.optional(StringList),
+    clientSecret: S.optional(Secret),
+    clientId: S.optional(S.String),
+    authCode: S.optional(S.String),
+    pkceVerifier: S.optional(S.String),
+    enablePkce: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "Oauth2AuthCodeFlow",
+}) as any as S.Schema<Oauth2AuthCodeFlow>;
+
+/** JWT claims used for the jwt-bearer authorization grant. */
+export interface JwtClaims {
+  /** Optional. Value for the "sub" claim. */
+  subject?: string;
+  /** Optional. Value for the "aud" claim. */
+  audience?: string;
+  /** Optional. Value for the "iss" claim. */
+  issuer?: string;
+}
+export const JwtClaims = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subject: S.optional(S.String),
+    audience: S.optional(S.String),
+    issuer: S.optional(S.String),
+  }),
+).annotate({ identifier: "JwtClaims" }) as any as S.Schema<JwtClaims>;
+
+/** Parameters to support JSON Web Token (JWT) Profile for Oauth 2.0 Authorization Grant based authentication. See https://tools.ietf.org/html/rfc7523 for more details. */
+export interface Oauth2JwtBearer {
+  /** Optional. Secret version reference containing a PKCS#8 PEM-encoded private key associated with the Client Certificate. This private key will be used to sign JWTs used for the jwt-bearer authorization grant. Specified in the form as: `projects/*\/secrets/*\/versions/*`. */
+  clientKey?: Secret;
+  /** Optional. JwtClaims providers fields to generate the token. */
+  jwtClaims?: JwtClaims;
+}
+export const Oauth2JwtBearer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientKey: S.optional(Secret),
+    jwtClaims: S.optional(JwtClaims),
+  }),
+).annotate({
+  identifier: "Oauth2JwtBearer",
+}) as any as S.Schema<Oauth2JwtBearer>;
+
+/** Parameters to support Oauth 2.0 Client Credentials Grant Authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. */
+export interface Oauth2ClientCredentials {
+  /** Optional. Secret version reference containing the client secret. */
+  clientSecret?: Secret;
+  /** Optional. The client identifier. */
+  clientId?: string;
+}
+export const Oauth2ClientCredentials = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientSecret: S.optional(Secret),
+    clientId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "Oauth2ClientCredentials",
+}) as any as S.Schema<Oauth2ClientCredentials>;
+
+/** Parameters to support Username and Password Authentication. */
+export interface UserPassword {
+  /** Optional. Username. */
+  username?: string;
+  /** Optional. Secret version reference containing the password. */
+  password?: Secret;
+}
+export const UserPassword = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.optional(S.String),
+    password: S.optional(Secret),
+  }),
+).annotate({ identifier: "UserPassword" }) as any as S.Schema<UserPassword>;
+
+/** AuthConfig defines details of a authentication type. */
+export interface AuthConfig {
+  /** Oauth2AuthCodeFlowGoogleManaged. */
+  oauth2AuthCodeFlowGoogleManaged?: Oauth2AuthCodeFlowGoogleManaged;
+  /** SSH Public Key. */
+  sshPublicKey?: SshPublicKey;
+  /** Optional. Identifier key for auth config */
+  authKey?: string;
+  /** Optional. The type of authentication configured. */
+  authType?: AuthConfigAuthTypeEnum | (string & {});
+  /** Optional. List containing additional auth configs. */
+  additionalVariables?: ConfigVariableList;
+  /** Oauth2AuthCodeFlow. */
+  oauth2AuthCodeFlow?: Oauth2AuthCodeFlow;
+  /** Oauth2JwtBearer. */
+  oauth2JwtBearer?: Oauth2JwtBearer;
+  /** Oauth2ClientCredentials. */
+  oauth2ClientCredentials?: Oauth2ClientCredentials;
+  /** UserPassword. */
+  userPassword?: UserPassword;
+}
+export const AuthConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    oauth2AuthCodeFlowGoogleManaged: S.optional(
+      Oauth2AuthCodeFlowGoogleManaged,
+    ),
+    sshPublicKey: S.optional(SshPublicKey),
+    authKey: S.optional(S.String),
+    authType: S.optional(AuthConfigAuthTypeEnum),
+    additionalVariables: S.optional(ConfigVariableList),
+    oauth2AuthCodeFlow: S.optional(Oauth2AuthCodeFlow),
+    oauth2JwtBearer: S.optional(Oauth2JwtBearer),
+    oauth2ClientCredentials: S.optional(Oauth2ClientCredentials),
+    userPassword: S.optional(UserPassword),
+  }),
+).annotate({ identifier: "AuthConfig" }) as any as S.Schema<AuthConfig>;
+
+export type SslConfigServerCertTypeEnum = "CERT_TYPE_UNSPECIFIED" | "PEM";
+export const SslConfigServerCertTypeEnum = S.String;
+
+export type SslConfigTrustModelEnum = "PUBLIC" | "PRIVATE" | "INSECURE";
+export const SslConfigTrustModelEnum = S.String;
+
+export type SslConfigTypeEnum = "SSL_TYPE_UNSPECIFIED" | "TLS" | "MTLS";
+export const SslConfigTypeEnum = S.String;
+
+export type SslConfigClientCertTypeEnum = "CERT_TYPE_UNSPECIFIED" | "PEM";
+export const SslConfigClientCertTypeEnum = S.String;
+
+/** SSL Configuration of a connection */
+export interface SslConfig {
+  /** Optional. Bool for enabling SSL */
+  useSsl?: boolean;
+  /** Optional. Type of Server Cert (PEM/JKS/.. etc.) */
+  serverCertType?: SslConfigServerCertTypeEnum | (string & {});
+  /** Optional. Trust Model of the SSL connection */
+  trustModel?: SslConfigTrustModelEnum | (string & {});
+  /** Optional. Controls the ssl type for the given connector version. */
+  type?: SslConfigTypeEnum | (string & {});
+  /** Optional. Client Private Key */
+  clientPrivateKey?: Secret;
+  /** Optional. Type of Client Cert (PEM/JKS/.. etc.) */
+  clientCertType?: SslConfigClientCertTypeEnum | (string & {});
+  /** Optional. Private Server Certificate. Needs to be specified if trust model is `PRIVATE`. */
+  privateServerCertificate?: Secret;
+  /** Optional. Secret containing the passphrase protecting the Client Private Key */
+  clientPrivateKeyPass?: Secret;
+  /** Optional. Additional SSL related field values */
+  additionalVariables?: ConfigVariableList;
+  /** Optional. Client Certificate */
+  clientCertificate?: Secret;
+}
+export const SslConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    useSsl: S.optional(S.Boolean),
+    serverCertType: S.optional(SslConfigServerCertTypeEnum),
+    trustModel: S.optional(SslConfigTrustModelEnum),
+    type: S.optional(SslConfigTypeEnum),
+    clientPrivateKey: S.optional(Secret),
+    clientCertType: S.optional(SslConfigClientCertTypeEnum),
+    privateServerCertificate: S.optional(Secret),
+    clientPrivateKeyPass: S.optional(Secret),
+    additionalVariables: S.optional(ConfigVariableList),
+    clientCertificate: S.optional(Secret),
+  }),
+).annotate({ identifier: "SslConfig" }) as any as S.Schema<SslConfig>;
+
+/** Dead Letter configuration details provided by the user. */
+export interface DeadLetterConfig {
+  /** Optional. Topic to push events which couldn't be processed. */
+  topic?: string;
+  /** Optional. Project which has the topic given. */
+  projectId?: string;
+}
+export const DeadLetterConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    topic: S.optional(S.String),
+    projectId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeadLetterConfig",
+}) as any as S.Schema<DeadLetterConfig>;
 
 /** Data enrichment configuration. */
 export interface EnrichmentConfig {
@@ -830,69 +699,53 @@ export const EnrichmentConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "EnrichmentConfig",
 }) as any as S.Schema<EnrichmentConfig>;
 
-/** Dead Letter configuration details provided by the user. */
-export interface DeadLetterConfig {
-  /** Optional. Project which has the topic given. */
-  projectId?: string;
-  /** Optional. Topic to push events which couldn't be processed. */
-  topic?: string;
-}
-export const DeadLetterConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.optional(S.String),
-    topic: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeadLetterConfig",
-}) as any as S.Schema<DeadLetterConfig>;
-
 /** Eventing Configuration of a connection next: 21 */
 export interface EventingConfig {
-  /** Optional. Proxy for Eventing auto-registration. */
-  proxyDestinationConfig?: DestinationConfig;
-  /** Optional. Auth details for the webhook adapter. */
-  authConfig?: AuthConfig;
-  /** Optional. Private Connectivity Enabled. */
-  privateConnectivityEnabled?: boolean;
-  /** Optional. Data enrichment configuration. */
-  enrichmentConfig?: EnrichmentConfig;
-  /** Optional. Registration endpoint for auto registration. */
-  registrationDestinationConfig?: DestinationConfig;
-  /** Optional. Enrichment Enabled. */
-  enrichmentEnabled?: boolean;
-  /** Optional. Ssl config of a connection */
-  sslConfig?: SslConfig;
-  /** Optional. Auth details for the event listener. */
-  listenerAuthConfig?: AuthConfig;
   /** Optional. Filter to be applied on the events to be received by the connection. */
   globalEventFilter?: string;
-  /** Optional. List of projects to be allowlisted for the service attachment created in the tenant project for eventing ingress. */
-  privateConnectivityAllowlistedProjects?: StringList;
+  /** Optional. Auth details for the event listener. */
+  listenerAuthConfig?: AuthConfig;
+  /** Optional. Ssl config of a connection */
+  sslConfig?: SslConfig;
   /** Optional. Dead letter configuration for eventing of a connection. */
   deadLetterConfig?: DeadLetterConfig;
-  /** Optional. List of allowed event types for the connection. */
-  allowedEventTypes?: StringList;
-  /** Output only. Ingress endpoint of the event listener. This is used only when private connectivity is enabled. */
-  eventsListenerIngressEndpoint?: string;
+  /** Optional. Proxy for Eventing auto-registration. */
+  proxyDestinationConfig?: DestinationConfig;
+  /** Optional. Data enrichment configuration. */
+  enrichmentConfig?: EnrichmentConfig;
   /** Optional. Additional eventing related field values */
   additionalVariables?: ConfigVariableList;
+  /** Optional. Enrichment Enabled. */
+  enrichmentEnabled?: boolean;
+  /** Optional. Private Connectivity Enabled. */
+  privateConnectivityEnabled?: boolean;
+  /** Optional. List of projects to be allowlisted for the service attachment created in the tenant project for eventing ingress. */
+  privateConnectivityAllowlistedProjects?: StringList;
+  /** Optional. List of allowed event types for the connection. */
+  allowedEventTypes?: StringList;
+  /** Optional. Registration endpoint for auto registration. */
+  registrationDestinationConfig?: DestinationConfig;
+  /** Optional. Auth details for the webhook adapter. */
+  authConfig?: AuthConfig;
+  /** Output only. Ingress endpoint of the event listener. This is used only when private connectivity is enabled. */
+  eventsListenerIngressEndpoint?: string;
 }
 export const EventingConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    proxyDestinationConfig: S.optional(DestinationConfig),
-    authConfig: S.optional(AuthConfig),
-    privateConnectivityEnabled: S.optional(S.Boolean),
-    enrichmentConfig: S.optional(EnrichmentConfig),
-    registrationDestinationConfig: S.optional(DestinationConfig),
-    enrichmentEnabled: S.optional(S.Boolean),
-    sslConfig: S.optional(SslConfig),
-    listenerAuthConfig: S.optional(AuthConfig),
     globalEventFilter: S.optional(S.String),
-    privateConnectivityAllowlistedProjects: S.optional(StringList),
+    listenerAuthConfig: S.optional(AuthConfig),
+    sslConfig: S.optional(SslConfig),
     deadLetterConfig: S.optional(DeadLetterConfig),
-    allowedEventTypes: S.optional(StringList),
-    eventsListenerIngressEndpoint: S.optional(S.String),
+    proxyDestinationConfig: S.optional(DestinationConfig),
+    enrichmentConfig: S.optional(EnrichmentConfig),
     additionalVariables: S.optional(ConfigVariableList),
+    enrichmentEnabled: S.optional(S.Boolean),
+    privateConnectivityEnabled: S.optional(S.Boolean),
+    privateConnectivityAllowlistedProjects: S.optional(StringList),
+    allowedEventTypes: S.optional(StringList),
+    registrationDestinationConfig: S.optional(DestinationConfig),
+    authConfig: S.optional(AuthConfig),
+    eventsListenerIngressEndpoint: S.optional(S.String),
   }),
 ).annotate({ identifier: "EventingConfig" }) as any as S.Schema<EventingConfig>;
 
@@ -900,7 +753,146 @@ export type ConnectionEventingEnablementTypeEnum =
   | "EVENTING_ENABLEMENT_TYPE_UNSPECIFIED"
   | "EVENTING_AND_CONNECTION"
   | "ONLY_EVENTING";
-export const ConnectionEventingEnablementTypeEnum = /*@__PURE__*/ S.String;
+export const ConnectionEventingEnablementTypeEnum = S.String;
+
+/** Resource requests defined for connection pods of a given connector type. */
+export interface ResourceRequests {
+  /** Output only. CPU request. */
+  cpu?: string;
+  /** Output only. Memory request. */
+  memory?: string;
+}
+export const ResourceRequests = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cpu: S.optional(S.String),
+    memory: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResourceRequests",
+}) as any as S.Schema<ResourceRequests>;
+
+export type ConnectorVersionInfraConfigDeploymentModelEnum =
+  | "DEPLOYMENT_MODEL_UNSPECIFIED"
+  | "GKE_MST"
+  | "CLOUD_RUN_MST";
+export const ConnectorVersionInfraConfigDeploymentModelEnum = S.String;
+
+/** Autoscaling config for connector deployment system metrics. */
+export interface HPAConfig {
+  /** Output only. Percent CPU utilization where HPA triggers autoscaling. */
+  cpuUtilizationThreshold?: string;
+  /** Output only. Percent Memory utilization where HPA triggers autoscaling. */
+  memoryUtilizationThreshold?: string;
+}
+export const HPAConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cpuUtilizationThreshold: S.optional(S.String),
+    memoryUtilizationThreshold: S.optional(S.String),
+  }),
+).annotate({ identifier: "HPAConfig" }) as any as S.Schema<HPAConfig>;
+
+/** Resource limits defined for connection pods of a given connector type. */
+export interface ResourceLimits {
+  /** Output only. Memory limit. */
+  memory?: string;
+  /** Output only. CPU limit. */
+  cpu?: string;
+}
+export const ResourceLimits = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    memory: S.optional(S.String),
+    cpu: S.optional(S.String),
+  }),
+).annotate({ identifier: "ResourceLimits" }) as any as S.Schema<ResourceLimits>;
+
+export type ConnectorVersionInfraConfigDeploymentModelMigrationStateEnum =
+  | "DEPLOYMENT_MODEL_MIGRATION_STATE_UNSPECIFIED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "ROLLEDBACK"
+  | "ROLLBACK_IN_PROGRESS";
+export const ConnectorVersionInfraConfigDeploymentModelMigrationStateEnum =
+  S.String;
+
+export type ConnectorVersionInfraConfigTlsMigrationStateEnum =
+  | "TLS_MIGRATION_STATE_UNSPECIFIED"
+  | "TLS_MIGRATION_NOT_STARTED"
+  | "TLS_MIGRATION_COMPLETED";
+export const ConnectorVersionInfraConfigTlsMigrationStateEnum = S.String;
+
+/** This configuration provides infra configs like rate limit threshold which need to be configurable for every connector version */
+export interface ConnectorVersionInfraConfig {
+  /** Output only. Max QPS supported by the connector version before throttling of requests. */
+  ratelimitThreshold?: string;
+  /** Output only. Max instance request concurrency. */
+  maxInstanceRequestConcurrency?: number;
+  /** Output only. System resource requests. */
+  resourceRequests?: ResourceRequests;
+  /** Output only. Indicates whether connector is deployed on GKE/CloudRun */
+  deploymentModel?:
+    | ConnectorVersionInfraConfigDeploymentModelEnum
+    | (string & {});
+  /** Output only. Max QPS supported for internal requests originating from Connd. */
+  internalclientRatelimitThreshold?: string;
+  /** Output only. HPA autoscaling config. */
+  hpaConfig?: HPAConfig;
+  /** Output only. System resource limits. */
+  resourceLimits?: ResourceLimits;
+  /** Output only. Status of the deployment model migration. */
+  deploymentModelMigrationState?:
+    | ConnectorVersionInfraConfigDeploymentModelMigrationStateEnum
+    | (string & {});
+  /** Output only. The window used for ratelimiting runtime requests to connections. */
+  connectionRatelimitWindowSeconds?: string;
+  /** Output only. The name of shared connector deployment. */
+  sharedDeployment?: string;
+  /** Output only. Status of the TLS migration. */
+  tlsMigrationState?:
+    | ConnectorVersionInfraConfigTlsMigrationStateEnum
+    | (string & {});
+}
+export const ConnectorVersionInfraConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ratelimitThreshold: S.optional(S.String),
+    maxInstanceRequestConcurrency: S.optional(S.Number),
+    resourceRequests: S.optional(ResourceRequests),
+    deploymentModel: S.optional(ConnectorVersionInfraConfigDeploymentModelEnum),
+    internalclientRatelimitThreshold: S.optional(S.String),
+    hpaConfig: S.optional(HPAConfig),
+    resourceLimits: S.optional(ResourceLimits),
+    deploymentModelMigrationState: S.optional(
+      ConnectorVersionInfraConfigDeploymentModelMigrationStateEnum,
+    ),
+    connectionRatelimitWindowSeconds: S.optional(S.String),
+    sharedDeployment: S.optional(S.String),
+    tlsMigrationState: S.optional(
+      ConnectorVersionInfraConfigTlsMigrationStateEnum,
+    ),
+  }),
+).annotate({
+  identifier: "ConnectorVersionInfraConfig",
+}) as any as S.Schema<ConnectorVersionInfraConfig>;
+
+/** * TrafficShapingConfig defines the configuration for shaping API traffic by specifying a quota limit and the duration over which this limit is enforced. This configuration helps to control and manage the rate at which API calls are made on the client side, preventing service overload on the backend. For example: - if the quota limit is 100 calls per 10 seconds, then the message would be: { quota_limit: 100 duration: { seconds: 10 } } - if the quota limit is 100 calls per 5 minutes, then the message would be: { quota_limit: 100 duration: { seconds: 300 } } - if the quota limit is 10000 calls per day, then the message would be: { quota_limit: 10000 duration: { seconds: 86400 } and so on. */
+export interface TrafficShapingConfig {
+  /** Required. Specifies the duration over which the API call quota limits are calculated. This duration is used to define the time window for evaluating if the number of API calls made by a user is within the allowed quota limits. For example: - To define a quota sampled over 16 seconds, set `seconds` to 16 - To define a quota sampled over 5 minutes, set `seconds` to 300 (5 * 60) - To define a quota sampled over 1 day, set `seconds` to 86400 (24 * 60 * 60) and so on. It is important to note that this duration is not the time the quota is valid for, but rather the time window over which the quota is evaluated. For example, if the quota is 100 calls per 10 seconds, then this duration field would be set to 10 seconds. */
+  duration?: string;
+  /** Required. Maximum number of api calls allowed. */
+  quotaLimit?: string;
+}
+export const TrafficShapingConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    duration: S.optional(S.String),
+    quotaLimit: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TrafficShapingConfig",
+}) as any as S.Schema<TrafficShapingConfig>;
+
+export type TrafficShapingConfigList = Array<TrafficShapingConfig>;
+export const TrafficShapingConfigList = /*@__PURE__*/ S.Array(
+  TrafficShapingConfig,
+) as any as S.Schema<TrafficShapingConfigList>;
 
 export type ConnectionStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -911,144 +903,150 @@ export type ConnectionStatusStateEnum =
   | "UPDATING"
   | "ERROR"
   | "AUTHORIZATION_REQUIRED";
-export const ConnectionStatusStateEnum = /*@__PURE__*/ S.String;
+export const ConnectionStatusStateEnum = S.String;
 
 /** ConnectionStatus indicates the state of the connection. */
 export interface ConnectionStatus {
+  /** State. */
+  state?: ConnectionStatusStateEnum | (string & {});
   /** Description. */
   description?: string;
   /** Status provides detailed information for the state. */
   status?: string;
-  /** State. */
-  state?: ConnectionStatusStateEnum | (string & {});
 }
 export const ConnectionStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    state: S.optional(ConnectionStatusStateEnum),
     description: S.optional(S.String),
     status: S.optional(S.String),
-    state: S.optional(ConnectionStatusStateEnum),
   }),
 ).annotate({
   identifier: "ConnectionStatus",
 }) as any as S.Schema<ConnectionStatus>;
 
+export type ConnectionSubscriptionTypeEnum =
+  | "SUBSCRIPTION_TYPE_UNSPECIFIED"
+  | "PAY_G"
+  | "PAID";
+export const ConnectionSubscriptionTypeEnum = S.String;
+
 /** Connection represents an instance of connector. */
 export interface Connection {
-  /** Output only. GCR location where the envoy image is stored. formatted like: gcr.io/{bucketName}/{imageName} */
-  envoyImageLocation?: string;
-  /** Optional. Configuration of the Connector's destination. Only accepted for Connectors that accepts user defined destination(s). */
-  destinationConfigs?: DestinationConfigList;
-  /** Optional. Service account needed for runtime plane to access Google Cloud resources. */
-  serviceAccount?: string;
   /** Optional. Suspended indicates if a user has suspended a connection or not. */
   suspended?: boolean;
-  /** Output only. Infra configs supported by Connector Version. */
-  connectorVersionInfraConfig?: ConnectorVersionInfraConfig;
-  /** Optional. Additional Oauth2.0 Auth config for EUA. If the connection is configured using non-OAuth authentication but OAuth needs to be used for EUA, this field can be populated with the OAuth config. This should be a OAuth2AuthCodeFlow Auth type only. */
-  euaOauthAuthConfig?: AuthConfig;
-  /** Output only. Is trusted tester program enabled for the project. */
-  isTrustedTester?: boolean;
-  /** Optional. Fallback on admin credentials for the connection. If this both auth_override_enabled and fallback_on_admin_credentials are set to true, the connection will use the admin credentials if the dynamic auth header is not present during auth override. */
-  fallbackOnAdminCredentials?: boolean;
-  /** Output only. Connection revision. This field is only updated when the connection is created or updated by User. */
-  connectionRevision?: string;
-  /** Output only. Flag to mark the version indicating the launch stage. */
-  connectorVersionLaunchStage?:
-    | ConnectionConnectorVersionLaunchStageEnum
-    | (string & {});
-  /** Required. Connector version on which the connection is created. The format is: projects/*\/locations/*\/providers/*\/connectors/*\/versions/* Only global location is supported for ConnectorVersion resource. */
-  connectorVersion?: string;
+  /** Optional. Node configuration for the connection. */
+  nodeConfig?: NodeConfig;
   /** Optional. Async operations enabled for the connection. If Async Operations is enabled, Connection allows the customers to initiate async long running operations using the actions API. */
   asyncOperationsEnabled?: boolean;
-  /** Optional. Description of the resource. */
-  description?: string;
-  /** Output only. GCR location where the runtime image is stored. formatted like: gcr.io/{bucketName}/{imageName} */
-  imageLocation?: string;
-  /** Optional. Admin filters for the connection. These are used by Gemini Enterprise. */
-  adminFilters?: AdminFiltersList;
   /** Optional. Log configuration for the connection. */
   logConfig?: ConnectorsLogConfig;
+  /** Optional. Admin filters for the connection. These are used by Gemini Enterprise. */
+  adminFilters?: AdminFiltersList;
+  /** Optional. Configuration that indicates whether or not the Connection can be edited. */
+  lockConfig?: LockConfig;
+  /** Optional. Fallback on admin credentials for the connection. If this both auth_override_enabled and fallback_on_admin_credentials are set to true, the connection will use the admin credentials if the dynamic auth header is not present during auth override. */
+  fallbackOnAdminCredentials?: boolean;
+  /** Output only. Billing config for the connection. */
+  billingConfig?: BillingConfig;
+  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
+  labels?: StringMap;
   /** Optional. Configuration for configuring the connection with an external system. */
   configVariables?: ConfigVariableList;
   /** Output only. The name of the Service Directory service name. Used for Private Harpoon to resolve the ILB address. e.g. "projects/cloud-connectors-e2e-testing/locations/us-central1/namespaces/istio-system/services/istio-ingressgateway-connectors" */
   serviceDirectory?: string;
-  /** Optional. Ssl config of a connection */
-  sslConfig?: SslConfig;
-  /** Optional. Auth override enabled for the connection. If Auth Override is enabled, Connection allows the backend service auth to be overridden in the entities/actions API. */
-  authOverrideEnabled?: boolean;
-  /** Output only. Billing config for the connection. */
-  billingConfig?: BillingConfig;
-  /** Optional. Configuration that indicates whether or not the Connection can be edited. */
-  lockConfig?: LockConfig;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
-  /** Output only. Created time. */
-  createTime?: string;
+  /** Output only. GCR location where the envoy image is stored. formatted like: gcr.io/{bucketName}/{imageName} */
+  envoyImageLocation?: string;
+  /** Optional. Configuration of the Connector's destination. Only accepted for Connectors that accepts user defined destination(s). */
+  destinationConfigs?: DestinationConfigList;
+  /** Optional. Description of the resource. */
+  description?: string;
+  /** Output only. Flag to mark the version indicating the launch stage. */
+  connectorVersionLaunchStage?:
+    | ConnectionConnectorVersionLaunchStageEnum
+    | (string & {});
   /** Output only. Eventing Runtime Data. */
   eventingRuntimeData?: EventingRuntimeData;
-  /** Optional. Configuration for establishing the connection's authentication with an external system. */
-  authConfig?: AuthConfig;
   /** Output only. The name of the Service Directory service with TLS. */
   tlsServiceDirectory?: string;
-  /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
-  name?: string;
-  /** Optional. Node configuration for the connection. */
-  nodeConfig?: NodeConfig;
-  /** Optional. Traffic shaping configuration for the connection. */
-  trafficShapingConfigs?: TrafficShapingConfigList;
-  /** Output only. This subscription type enum states the subscription type of the project. */
-  subscriptionType?: ConnectionSubscriptionTypeEnum | (string & {});
-  /** Output only. Updated time. */
-  updateTime?: string;
-  /** Optional. Eventing config of a connection */
-  eventingConfig?: EventingConfig;
+  /** Optional. Auth override enabled for the connection. If Auth Override is enabled, Connection allows the backend service auth to be overridden in the entities/actions API. */
+  authOverrideEnabled?: boolean;
   /** Output only. The name of the Hostname of the Service Directory service with TLS. */
   host?: string;
+  /** Optional. Configuration for establishing the connection's authentication with an external system. */
+  authConfig?: AuthConfig;
+  /** Output only. Created time. */
+  createTime?: string;
+  /** Optional. Eventing config of a connection */
+  eventingConfig?: EventingConfig;
+  /** Output only. Connection revision. This field is only updated when the connection is created or updated by User. */
+  connectionRevision?: string;
+  /** Output only. Is trusted tester program enabled for the project. */
+  isTrustedTester?: boolean;
   /** Optional. Eventing enablement type. Will be nil if eventing is not enabled. */
   eventingEnablementType?: ConnectionEventingEnablementTypeEnum | (string & {});
+  /** Output only. Updated time. */
+  updateTime?: string;
+  /** Output only. Infra configs supported by Connector Version. */
+  connectorVersionInfraConfig?: ConnectorVersionInfraConfig;
+  /** Required. Connector version on which the connection is created. The format is: projects/*\/locations/*\/providers/*\/connectors/*\/versions/* Only global location is supported for ConnectorVersion resource. */
+  connectorVersion?: string;
+  /** Optional. Additional Oauth2.0 Auth config for EUA. If the connection is configured using non-OAuth authentication but OAuth needs to be used for EUA, this field can be populated with the OAuth config. This should be a OAuth2AuthCodeFlow Auth type only. */
+  euaOauthAuthConfig?: AuthConfig;
+  /** Output only. GCR location where the runtime image is stored. formatted like: gcr.io/{bucketName}/{imageName} */
+  imageLocation?: string;
+  /** Optional. Traffic shaping configuration for the connection. */
+  trafficShapingConfigs?: TrafficShapingConfigList;
+  /** Optional. Service account needed for runtime plane to access Google Cloud resources. */
+  serviceAccount?: string;
   /** Output only. Current status of the connection. */
   status?: ConnectionStatus;
+  /** Optional. Ssl config of a connection */
+  sslConfig?: SslConfig;
+  /** Output only. This subscription type enum states the subscription type of the project. */
+  subscriptionType?: ConnectionSubscriptionTypeEnum | (string & {});
+  /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
+  name?: string;
 }
 export const Connection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    suspended: S.optional(S.Boolean),
+    nodeConfig: S.optional(NodeConfig),
+    asyncOperationsEnabled: S.optional(S.Boolean),
+    logConfig: S.optional(ConnectorsLogConfig),
+    adminFilters: S.optional(AdminFiltersList),
+    lockConfig: S.optional(LockConfig),
+    fallbackOnAdminCredentials: S.optional(S.Boolean),
+    billingConfig: S.optional(BillingConfig),
+    labels: S.optional(StringMap),
+    configVariables: S.optional(ConfigVariableList),
+    serviceDirectory: S.optional(S.String),
     envoyImageLocation: S.optional(S.String),
     destinationConfigs: S.optional(DestinationConfigList),
-    serviceAccount: S.optional(S.String),
-    suspended: S.optional(S.Boolean),
-    connectorVersionInfraConfig: S.optional(ConnectorVersionInfraConfig),
-    euaOauthAuthConfig: S.optional(AuthConfig),
-    isTrustedTester: S.optional(S.Boolean),
-    fallbackOnAdminCredentials: S.optional(S.Boolean),
-    connectionRevision: S.optional(S.String),
+    description: S.optional(S.String),
     connectorVersionLaunchStage: S.optional(
       ConnectionConnectorVersionLaunchStageEnum,
     ),
-    connectorVersion: S.optional(S.String),
-    asyncOperationsEnabled: S.optional(S.Boolean),
-    description: S.optional(S.String),
-    imageLocation: S.optional(S.String),
-    adminFilters: S.optional(AdminFiltersList),
-    logConfig: S.optional(ConnectorsLogConfig),
-    configVariables: S.optional(ConfigVariableList),
-    serviceDirectory: S.optional(S.String),
-    sslConfig: S.optional(SslConfig),
-    authOverrideEnabled: S.optional(S.Boolean),
-    billingConfig: S.optional(BillingConfig),
-    lockConfig: S.optional(LockConfig),
-    labels: S.optional(StringMap),
-    createTime: S.optional(S.String),
     eventingRuntimeData: S.optional(EventingRuntimeData),
-    authConfig: S.optional(AuthConfig),
     tlsServiceDirectory: S.optional(S.String),
-    name: S.optional(S.String),
-    nodeConfig: S.optional(NodeConfig),
-    trafficShapingConfigs: S.optional(TrafficShapingConfigList),
-    subscriptionType: S.optional(ConnectionSubscriptionTypeEnum),
-    updateTime: S.optional(S.String),
-    eventingConfig: S.optional(EventingConfig),
+    authOverrideEnabled: S.optional(S.Boolean),
     host: S.optional(S.String),
+    authConfig: S.optional(AuthConfig),
+    createTime: S.optional(S.String),
+    eventingConfig: S.optional(EventingConfig),
+    connectionRevision: S.optional(S.String),
+    isTrustedTester: S.optional(S.Boolean),
     eventingEnablementType: S.optional(ConnectionEventingEnablementTypeEnum),
+    updateTime: S.optional(S.String),
+    connectorVersionInfraConfig: S.optional(ConnectorVersionInfraConfig),
+    connectorVersion: S.optional(S.String),
+    euaOauthAuthConfig: S.optional(AuthConfig),
+    imageLocation: S.optional(S.String),
+    trafficShapingConfigs: S.optional(TrafficShapingConfigList),
+    serviceAccount: S.optional(S.String),
     status: S.optional(ConnectionStatus),
+    sslConfig: S.optional(SslConfig),
+    subscriptionType: S.optional(ConnectionSubscriptionTypeEnum),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
 
@@ -1109,10 +1107,10 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
@@ -1121,322 +1119,40 @@ export interface Operation {
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
     error: S.optional(Status),
+    done: S.optional(S.Boolean),
     name: S.optional(S.String),
     response: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
-
-export type EndUserAuthenticationConfigAuthTypeEnum =
-  | "AUTH_TYPE_UNSPECIFIED"
-  | "USER_PASSWORD"
-  | "OAUTH2_JWT_BEARER"
-  | "OAUTH2_CLIENT_CREDENTIALS"
-  | "SSH_PUBLIC_KEY"
-  | "OAUTH2_AUTH_CODE_FLOW"
-  | "GOOGLE_AUTHENTICATION"
-  | "OAUTH2_AUTH_CODE_FLOW_GOOGLE_MANAGED";
-export const EndUserAuthenticationConfigAuthTypeEnum = /*@__PURE__*/ S.String;
-
-/** EUASecret provides a reference to entries in Secret Manager. */
-export interface EUASecret {
-  /** Optional. The resource name of the secret version in the format, format as: `projects/*\/secrets/*\/versions/*`. */
-  secretVersion?: string;
-  /** Optional. The plain string value of the secret. */
-  secretValue?: string;
-}
-export const EUASecret = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    secretVersion: S.optional(S.String),
-    secretValue: S.optional(S.String),
-  }),
-).annotate({ identifier: "EUASecret" }) as any as S.Schema<EUASecret>;
-
-/** Parameters to support Username and Password Authentication. */
-export interface EndUserAuthenticationConfigUserPassword {
-  /** Username. */
-  username?: string;
-  /** Required. string value or secret version reference containing the password. */
-  password?: EUASecret;
-}
-export const EndUserAuthenticationConfigUserPassword = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      username: S.optional(S.String),
-      password: S.optional(EUASecret),
-    }),
-).annotate({
-  identifier: "EndUserAuthenticationConfigUserPassword",
-}) as any as S.Schema<EndUserAuthenticationConfigUserPassword>;
-
-/** EndUserAuthenticationConfigVariable represents a configuration variable present in a EndUserAuthentication. */
-export interface EndUserAuthenticationConfigVariable {
-  /** Required. Key of the config variable. */
-  key?: string;
-  /** Value is a secret */
-  secretValue?: EUASecret;
-  /** Value is a string. */
-  stringValue?: string;
-  /** Value is an integer */
-  intValue?: string;
-  /** Value is a bool. */
-  boolValue?: boolean;
-}
-export const EndUserAuthenticationConfigVariable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.optional(S.String),
-    secretValue: S.optional(EUASecret),
-    stringValue: S.optional(S.String),
-    intValue: S.optional(S.String),
-    boolValue: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "EndUserAuthenticationConfigVariable",
-}) as any as S.Schema<EndUserAuthenticationConfigVariable>;
-
-export type EndUserAuthenticationConfigVariableList =
-  Array<EndUserAuthenticationConfigVariable>;
-export const EndUserAuthenticationConfigVariableList = /*@__PURE__*/ S.Array(
-  EndUserAuthenticationConfigVariable,
-) as any as S.Schema<EndUserAuthenticationConfigVariableList>;
-
-/** Parameters to support Ssh public key Authentication. */
-export interface EndUserAuthenticationConfigSshPublicKey {
-  /** Required. SSH Client Cert. It should contain both public and private key. */
-  sshClientCert?: EUASecret;
-  /** The user account used to authenticate. */
-  username?: string;
-  /** Format of SSH Client cert. */
-  certType?: string;
-  /** Required. Password (passphrase) for ssh client certificate if it has one. */
-  sshClientCertPass?: EUASecret;
-}
-export const EndUserAuthenticationConfigSshPublicKey = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      sshClientCert: S.optional(EUASecret),
-      username: S.optional(S.String),
-      certType: S.optional(S.String),
-      sshClientCertPass: S.optional(EUASecret),
-    }),
-).annotate({
-  identifier: "EndUserAuthenticationConfigSshPublicKey",
-}) as any as S.Schema<EndUserAuthenticationConfigSshPublicKey>;
-
-/** Parameters to support Oauth 2.0 Client Credentials Grant Authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. */
-export interface EndUserAuthenticationConfigOauth2ClientCredentials {
-  /** Required. string value or secret version containing the client secret. */
-  clientSecret?: EUASecret;
-  /** The client identifier. */
-  clientId?: string;
-}
-export const EndUserAuthenticationConfigOauth2ClientCredentials =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      clientSecret: S.optional(EUASecret),
-      clientId: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "EndUserAuthenticationConfigOauth2ClientCredentials",
-  }) as any as S.Schema<EndUserAuthenticationConfigOauth2ClientCredentials>;
-
-/** pass only at create and not update using updateMask Auth Code Data */
-export interface OAuthTokenData {
-  /** Optional. Refresh token for the connection. */
-  refreshToken?: EUASecret;
-  /** Optional. Time in seconds when the access token expires. */
-  expiry?: string;
-  /** Optional. Access token for the connection. */
-  accessToken?: EUASecret;
-  /** Optional. Timestamp when the access token was created. */
-  createTime?: string;
-}
-export const OAuthTokenData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    refreshToken: S.optional(EUASecret),
-    expiry: S.optional(S.String),
-    accessToken: S.optional(EUASecret),
-    createTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "OAuthTokenData" }) as any as S.Schema<OAuthTokenData>;
-
-/** Parameters to support Oauth 2.0 Auth Code Grant Authentication. See https://www.rfc-editor.org/rfc/rfc6749#section-1.3.1 for more details. */
-export interface EndUserAuthenticationConfigOauth2AuthCodeFlow {
-  /** Optional. Client secret for user-provided OAuth app. */
-  clientSecret?: EUASecret;
-  /** Optional. Auth Code Data */
-  oauthTokenData?: OAuthTokenData;
-  /** Optional. Whether to enable PKCE when the user performs the auth code flow. */
-  enablePkce?: boolean;
-  /** Optional. Authorization code to be exchanged for access and refresh tokens. */
-  authCode?: string;
-  /** Optional. Scopes the connection will request when the user performs the auth code flow. */
-  scopes?: StringList;
-  /** Optional. PKCE verifier to be used during the auth code exchange. */
-  pkceVerifier?: string;
-  /** Optional. Client ID for user-provided OAuth app. */
-  clientId?: string;
-  /** Optional. Auth URL for Authorization Code Flow */
-  authUri?: string;
-  /** Optional. Redirect URI to be provided during the auth code exchange. */
-  redirectUri?: string;
-}
-export const EndUserAuthenticationConfigOauth2AuthCodeFlow =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      clientSecret: S.optional(EUASecret),
-      oauthTokenData: S.optional(OAuthTokenData),
-      enablePkce: S.optional(S.Boolean),
-      authCode: S.optional(S.String),
-      scopes: S.optional(StringList),
-      pkceVerifier: S.optional(S.String),
-      clientId: S.optional(S.String),
-      authUri: S.optional(S.String),
-      redirectUri: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "EndUserAuthenticationConfigOauth2AuthCodeFlow",
-  }) as any as S.Schema<EndUserAuthenticationConfigOauth2AuthCodeFlow>;
-
-/** Parameters to support Oauth 2.0 Auth Code Grant Authentication using Google Provided OAuth Client. See https://tools.ietf.org/html/rfc6749#section-1.3.1 for more details. */
-export interface EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged {
-  /** Optional. Authorization code to be exchanged for access and refresh tokens. */
-  authCode?: string;
-  /** Required. Scopes the connection will request when the user performs the auth code flow. */
-  scopes?: StringList;
-  /** Optional. Redirect URI to be provided during the auth code exchange. */
-  redirectUri?: string;
-  /** Auth Code Data */
-  oauthTokenData?: OAuthTokenData;
-}
-export const EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      authCode: S.optional(S.String),
-      scopes: S.optional(StringList),
-      redirectUri: S.optional(S.String),
-      oauthTokenData: S.optional(OAuthTokenData),
-    }),
-  ).annotate({
-    identifier: "EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged",
-  }) as any as S.Schema<EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged>;
-
-/** JWT claims used for the jwt-bearer authorization grant. */
-export interface EndUserAuthenticationConfigOauth2JwtBearerJwtClaims {
-  /** Value for the "iss" claim. */
-  issuer?: string;
-  /** Value for the "sub" claim. */
-  subject?: string;
-  /** Value for the "aud" claim. */
-  audience?: string;
-}
-export const EndUserAuthenticationConfigOauth2JwtBearerJwtClaims =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      issuer: S.optional(S.String),
-      subject: S.optional(S.String),
-      audience: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "EndUserAuthenticationConfigOauth2JwtBearerJwtClaims",
-  }) as any as S.Schema<EndUserAuthenticationConfigOauth2JwtBearerJwtClaims>;
-
-/** Parameters to support JSON Web Token (JWT) Profile for Oauth 2.0 Authorization Grant based authentication. See https://tools.ietf.org/html/rfc7523 for more details. */
-export interface EndUserAuthenticationConfigOauth2JwtBearer {
-  /** JwtClaims providers fields to generate the token. */
-  jwtClaims?: EndUserAuthenticationConfigOauth2JwtBearerJwtClaims;
-  /** Required. secret version/value reference containing a PKCS#8 PEM-encoded private key associated with the Client Certificate. This private key will be used to sign JWTs used for the jwt-bearer authorization grant. Specified in the form as: `projects/*\/strings/*\/versions/*`. */
-  clientKey?: EUASecret;
-}
-export const EndUserAuthenticationConfigOauth2JwtBearer =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      jwtClaims: S.optional(
-        EndUserAuthenticationConfigOauth2JwtBearerJwtClaims,
-      ),
-      clientKey: S.optional(EUASecret),
-    }),
-  ).annotate({
-    identifier: "EndUserAuthenticationConfigOauth2JwtBearer",
-  }) as any as S.Schema<EndUserAuthenticationConfigOauth2JwtBearer>;
-
-/** EndUserAuthenticationConfig defines details of a authentication configuration for EUC */
-export interface EndUserAuthenticationConfig {
-  /** The type of authentication configured. */
-  authType?: EndUserAuthenticationConfigAuthTypeEnum | (string & {});
-  /** UserPassword. */
-  userPassword?: EndUserAuthenticationConfigUserPassword;
-  /** Identifier key for auth config */
-  authKey?: string;
-  /** Optional. List containing additional auth configs. */
-  additionalVariables?: EndUserAuthenticationConfigVariableList;
-  /** SSH Public Key. */
-  sshPublicKey?: EndUserAuthenticationConfigSshPublicKey;
-  /** Oauth2ClientCredentials. */
-  oauth2ClientCredentials?: EndUserAuthenticationConfigOauth2ClientCredentials;
-  /** Oauth2AuthCodeFlow. */
-  oauth2AuthCodeFlow?: EndUserAuthenticationConfigOauth2AuthCodeFlow;
-  /** Oauth2AuthCodeFlowGoogleManaged. */
-  oauth2AuthCodeFlowGoogleManaged?: EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged;
-  /** Oauth2JwtBearer. */
-  oauth2JwtBearer?: EndUserAuthenticationConfigOauth2JwtBearer;
-}
-export const EndUserAuthenticationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authType: S.optional(EndUserAuthenticationConfigAuthTypeEnum),
-    userPassword: S.optional(EndUserAuthenticationConfigUserPassword),
-    authKey: S.optional(S.String),
-    additionalVariables: S.optional(EndUserAuthenticationConfigVariableList),
-    sshPublicKey: S.optional(EndUserAuthenticationConfigSshPublicKey),
-    oauth2ClientCredentials: S.optional(
-      EndUserAuthenticationConfigOauth2ClientCredentials,
-    ),
-    oauth2AuthCodeFlow: S.optional(
-      EndUserAuthenticationConfigOauth2AuthCodeFlow,
-    ),
-    oauth2AuthCodeFlowGoogleManaged: S.optional(
-      EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged,
-    ),
-    oauth2JwtBearer: S.optional(EndUserAuthenticationConfigOauth2JwtBearer),
-  }),
-).annotate({
-  identifier: "EndUserAuthenticationConfig",
-}) as any as S.Schema<EndUserAuthenticationConfig>;
 
 export type EndUserAuthenticationEndUserAuthenticationStatusStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
   | "ERROR";
 export const EndUserAuthenticationEndUserAuthenticationStatusStateEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** EndUserAuthentication Status denotes the status of the EndUserAuthentication resource. */
 export interface EndUserAuthenticationEndUserAuthenticationStatus {
+  /** Output only. Description of the state. */
+  description?: string;
   /** Output only. State of Event Subscription resource. */
   state?:
     | EndUserAuthenticationEndUserAuthenticationStatusStateEnum
     | (string & {});
-  /** Output only. Description of the state. */
-  description?: string;
 }
 export const EndUserAuthenticationEndUserAuthenticationStatus =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      description: S.optional(S.String),
       state: S.optional(
         EndUserAuthenticationEndUserAuthenticationStatusStateEnum,
       ),
-      description: S.optional(S.String),
     }),
   ).annotate({
     identifier: "EndUserAuthenticationEndUserAuthenticationStatus",
   }) as any as S.Schema<EndUserAuthenticationEndUserAuthenticationStatus>;
-
-export type EndUserAuthenticationNotifyEndpointDestinationTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "ENDPOINT";
-export const EndUserAuthenticationNotifyEndpointDestinationTypeEnum =
-  /*@__PURE__*/ S.String;
 
 /** Header details for a given header to be added to Endpoint. */
 export interface EndUserAuthenticationNotifyEndpointDestinationEndPointHeader {
@@ -1481,33 +1197,314 @@ export const EndUserAuthenticationNotifyEndpointDestinationEndPoint =
     identifier: "EndUserAuthenticationNotifyEndpointDestinationEndPoint",
   }) as any as S.Schema<EndUserAuthenticationNotifyEndpointDestinationEndPoint>;
 
+export type EndUserAuthenticationNotifyEndpointDestinationTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "ENDPOINT";
+export const EndUserAuthenticationNotifyEndpointDestinationTypeEnum = S.String;
+
 /** Message for NotifyEndpointDestination Destination to hit when the refresh token is expired. */
 export interface EndUserAuthenticationNotifyEndpointDestination {
-  /** Required. type of the destination */
-  type?: EndUserAuthenticationNotifyEndpointDestinationTypeEnum | (string & {});
   /** Required. Service account needed for runtime plane to notify the backend. */
   serviceAccount?: string;
   /** Optional. OPTION 1: Hit an endpoint when the refresh token is expired. */
   endpoint?: EndUserAuthenticationNotifyEndpointDestinationEndPoint;
+  /** Required. type of the destination */
+  type?: EndUserAuthenticationNotifyEndpointDestinationTypeEnum | (string & {});
 }
 export const EndUserAuthenticationNotifyEndpointDestination =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: S.optional(EndUserAuthenticationNotifyEndpointDestinationTypeEnum),
       serviceAccount: S.optional(S.String),
       endpoint: S.optional(
         EndUserAuthenticationNotifyEndpointDestinationEndPoint,
       ),
+      type: S.optional(EndUserAuthenticationNotifyEndpointDestinationTypeEnum),
     }),
   ).annotate({
     identifier: "EndUserAuthenticationNotifyEndpointDestination",
   }) as any as S.Schema<EndUserAuthenticationNotifyEndpointDestination>;
 
+/** EUASecret provides a reference to entries in Secret Manager. */
+export interface EUASecret {
+  /** Optional. The resource name of the secret version in the format, format as: `projects/*\/secrets/*\/versions/*`. */
+  secretVersion?: string;
+  /** Optional. The plain string value of the secret. */
+  secretValue?: string;
+}
+export const EUASecret = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secretVersion: S.optional(S.String),
+    secretValue: S.optional(S.String),
+  }),
+).annotate({ identifier: "EUASecret" }) as any as S.Schema<EUASecret>;
+
+/** pass only at create and not update using updateMask Auth Code Data */
+export interface OAuthTokenData {
+  /** Optional. Access token for the connection. */
+  accessToken?: EUASecret;
+  /** Optional. Time in seconds when the access token expires. */
+  expiry?: string;
+  /** Optional. Timestamp when the access token was created. */
+  createTime?: string;
+  /** Optional. Refresh token for the connection. */
+  refreshToken?: EUASecret;
+}
+export const OAuthTokenData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accessToken: S.optional(EUASecret),
+    expiry: S.optional(S.String),
+    createTime: S.optional(S.String),
+    refreshToken: S.optional(EUASecret),
+  }),
+).annotate({ identifier: "OAuthTokenData" }) as any as S.Schema<OAuthTokenData>;
+
+/** Parameters to support Oauth 2.0 Auth Code Grant Authentication using Google Provided OAuth Client. See https://tools.ietf.org/html/rfc6749#section-1.3.1 for more details. */
+export interface EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged {
+  /** Optional. Authorization code to be exchanged for access and refresh tokens. */
+  authCode?: string;
+  /** Optional. Redirect URI to be provided during the auth code exchange. */
+  redirectUri?: string;
+  /** Required. Scopes the connection will request when the user performs the auth code flow. */
+  scopes?: StringList;
+  /** Auth Code Data */
+  oauthTokenData?: OAuthTokenData;
+}
+export const EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      authCode: S.optional(S.String),
+      redirectUri: S.optional(S.String),
+      scopes: S.optional(StringList),
+      oauthTokenData: S.optional(OAuthTokenData),
+    }),
+  ).annotate({
+    identifier: "EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged",
+  }) as any as S.Schema<EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged>;
+
+/** Parameters to support Ssh public key Authentication. */
+export interface EndUserAuthenticationConfigSshPublicKey {
+  /** Format of SSH Client cert. */
+  certType?: string;
+  /** The user account used to authenticate. */
+  username?: string;
+  /** Required. SSH Client Cert. It should contain both public and private key. */
+  sshClientCert?: EUASecret;
+  /** Required. Password (passphrase) for ssh client certificate if it has one. */
+  sshClientCertPass?: EUASecret;
+}
+export const EndUserAuthenticationConfigSshPublicKey = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      certType: S.optional(S.String),
+      username: S.optional(S.String),
+      sshClientCert: S.optional(EUASecret),
+      sshClientCertPass: S.optional(EUASecret),
+    }),
+).annotate({
+  identifier: "EndUserAuthenticationConfigSshPublicKey",
+}) as any as S.Schema<EndUserAuthenticationConfigSshPublicKey>;
+
+/** Parameters to support Oauth 2.0 Auth Code Grant Authentication. See https://www.rfc-editor.org/rfc/rfc6749#section-1.3.1 for more details. */
+export interface EndUserAuthenticationConfigOauth2AuthCodeFlow {
+  /** Optional. Authorization code to be exchanged for access and refresh tokens. */
+  authCode?: string;
+  /** Optional. Auth URL for Authorization Code Flow */
+  authUri?: string;
+  /** Optional. Client secret for user-provided OAuth app. */
+  clientSecret?: EUASecret;
+  /** Optional. PKCE verifier to be used during the auth code exchange. */
+  pkceVerifier?: string;
+  /** Optional. Client ID for user-provided OAuth app. */
+  clientId?: string;
+  /** Optional. Whether to enable PKCE when the user performs the auth code flow. */
+  enablePkce?: boolean;
+  /** Optional. Redirect URI to be provided during the auth code exchange. */
+  redirectUri?: string;
+  /** Optional. Scopes the connection will request when the user performs the auth code flow. */
+  scopes?: StringList;
+  /** Optional. Auth Code Data */
+  oauthTokenData?: OAuthTokenData;
+}
+export const EndUserAuthenticationConfigOauth2AuthCodeFlow =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      authCode: S.optional(S.String),
+      authUri: S.optional(S.String),
+      clientSecret: S.optional(EUASecret),
+      pkceVerifier: S.optional(S.String),
+      clientId: S.optional(S.String),
+      enablePkce: S.optional(S.Boolean),
+      redirectUri: S.optional(S.String),
+      scopes: S.optional(StringList),
+      oauthTokenData: S.optional(OAuthTokenData),
+    }),
+  ).annotate({
+    identifier: "EndUserAuthenticationConfigOauth2AuthCodeFlow",
+  }) as any as S.Schema<EndUserAuthenticationConfigOauth2AuthCodeFlow>;
+
+export type EndUserAuthenticationConfigAuthTypeEnum =
+  | "AUTH_TYPE_UNSPECIFIED"
+  | "USER_PASSWORD"
+  | "OAUTH2_JWT_BEARER"
+  | "OAUTH2_CLIENT_CREDENTIALS"
+  | "SSH_PUBLIC_KEY"
+  | "OAUTH2_AUTH_CODE_FLOW"
+  | "GOOGLE_AUTHENTICATION"
+  | "OAUTH2_AUTH_CODE_FLOW_GOOGLE_MANAGED";
+export const EndUserAuthenticationConfigAuthTypeEnum = S.String;
+
+/** EndUserAuthenticationConfigVariable represents a configuration variable present in a EndUserAuthentication. */
+export interface EndUserAuthenticationConfigVariable {
+  /** Value is a secret */
+  secretValue?: EUASecret;
+  /** Value is a string. */
+  stringValue?: string;
+  /** Required. Key of the config variable. */
+  key?: string;
+  /** Value is a bool. */
+  boolValue?: boolean;
+  /** Value is an integer */
+  intValue?: string;
+}
+export const EndUserAuthenticationConfigVariable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secretValue: S.optional(EUASecret),
+    stringValue: S.optional(S.String),
+    key: S.optional(S.String),
+    boolValue: S.optional(S.Boolean),
+    intValue: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EndUserAuthenticationConfigVariable",
+}) as any as S.Schema<EndUserAuthenticationConfigVariable>;
+
+export type EndUserAuthenticationConfigVariableList =
+  Array<EndUserAuthenticationConfigVariable>;
+export const EndUserAuthenticationConfigVariableList = /*@__PURE__*/ S.Array(
+  EndUserAuthenticationConfigVariable,
+) as any as S.Schema<EndUserAuthenticationConfigVariableList>;
+
+/** Parameters to support Username and Password Authentication. */
+export interface EndUserAuthenticationConfigUserPassword {
+  /** Required. string value or secret version reference containing the password. */
+  password?: EUASecret;
+  /** Username. */
+  username?: string;
+}
+export const EndUserAuthenticationConfigUserPassword = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      password: S.optional(EUASecret),
+      username: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "EndUserAuthenticationConfigUserPassword",
+}) as any as S.Schema<EndUserAuthenticationConfigUserPassword>;
+
+/** JWT claims used for the jwt-bearer authorization grant. */
+export interface EndUserAuthenticationConfigOauth2JwtBearerJwtClaims {
+  /** Value for the "sub" claim. */
+  subject?: string;
+  /** Value for the "aud" claim. */
+  audience?: string;
+  /** Value for the "iss" claim. */
+  issuer?: string;
+}
+export const EndUserAuthenticationConfigOauth2JwtBearerJwtClaims =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subject: S.optional(S.String),
+      audience: S.optional(S.String),
+      issuer: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "EndUserAuthenticationConfigOauth2JwtBearerJwtClaims",
+  }) as any as S.Schema<EndUserAuthenticationConfigOauth2JwtBearerJwtClaims>;
+
+/** Parameters to support JSON Web Token (JWT) Profile for Oauth 2.0 Authorization Grant based authentication. See https://tools.ietf.org/html/rfc7523 for more details. */
+export interface EndUserAuthenticationConfigOauth2JwtBearer {
+  /** Required. secret version/value reference containing a PKCS#8 PEM-encoded private key associated with the Client Certificate. This private key will be used to sign JWTs used for the jwt-bearer authorization grant. Specified in the form as: `projects/*\/strings/*\/versions/*`. */
+  clientKey?: EUASecret;
+  /** JwtClaims providers fields to generate the token. */
+  jwtClaims?: EndUserAuthenticationConfigOauth2JwtBearerJwtClaims;
+}
+export const EndUserAuthenticationConfigOauth2JwtBearer =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      clientKey: S.optional(EUASecret),
+      jwtClaims: S.optional(
+        EndUserAuthenticationConfigOauth2JwtBearerJwtClaims,
+      ),
+    }),
+  ).annotate({
+    identifier: "EndUserAuthenticationConfigOauth2JwtBearer",
+  }) as any as S.Schema<EndUserAuthenticationConfigOauth2JwtBearer>;
+
+/** Parameters to support Oauth 2.0 Client Credentials Grant Authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. */
+export interface EndUserAuthenticationConfigOauth2ClientCredentials {
+  /** Required. string value or secret version containing the client secret. */
+  clientSecret?: EUASecret;
+  /** The client identifier. */
+  clientId?: string;
+}
+export const EndUserAuthenticationConfigOauth2ClientCredentials =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      clientSecret: S.optional(EUASecret),
+      clientId: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "EndUserAuthenticationConfigOauth2ClientCredentials",
+  }) as any as S.Schema<EndUserAuthenticationConfigOauth2ClientCredentials>;
+
+/** EndUserAuthenticationConfig defines details of a authentication configuration for EUC */
+export interface EndUserAuthenticationConfig {
+  /** Oauth2AuthCodeFlowGoogleManaged. */
+  oauth2AuthCodeFlowGoogleManaged?: EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged;
+  /** Identifier key for auth config */
+  authKey?: string;
+  /** SSH Public Key. */
+  sshPublicKey?: EndUserAuthenticationConfigSshPublicKey;
+  /** Oauth2AuthCodeFlow. */
+  oauth2AuthCodeFlow?: EndUserAuthenticationConfigOauth2AuthCodeFlow;
+  /** The type of authentication configured. */
+  authType?: EndUserAuthenticationConfigAuthTypeEnum | (string & {});
+  /** Optional. List containing additional auth configs. */
+  additionalVariables?: EndUserAuthenticationConfigVariableList;
+  /** UserPassword. */
+  userPassword?: EndUserAuthenticationConfigUserPassword;
+  /** Oauth2JwtBearer. */
+  oauth2JwtBearer?: EndUserAuthenticationConfigOauth2JwtBearer;
+  /** Oauth2ClientCredentials. */
+  oauth2ClientCredentials?: EndUserAuthenticationConfigOauth2ClientCredentials;
+}
+export const EndUserAuthenticationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    oauth2AuthCodeFlowGoogleManaged: S.optional(
+      EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged,
+    ),
+    authKey: S.optional(S.String),
+    sshPublicKey: S.optional(EndUserAuthenticationConfigSshPublicKey),
+    oauth2AuthCodeFlow: S.optional(
+      EndUserAuthenticationConfigOauth2AuthCodeFlow,
+    ),
+    authType: S.optional(EndUserAuthenticationConfigAuthTypeEnum),
+    additionalVariables: S.optional(EndUserAuthenticationConfigVariableList),
+    userPassword: S.optional(EndUserAuthenticationConfigUserPassword),
+    oauth2JwtBearer: S.optional(EndUserAuthenticationConfigOauth2JwtBearer),
+    oauth2ClientCredentials: S.optional(
+      EndUserAuthenticationConfigOauth2ClientCredentials,
+    ),
+  }),
+).annotate({
+  identifier: "EndUserAuthenticationConfig",
+}) as any as S.Schema<EndUserAuthenticationConfig>;
+
 export type EndUserAuthenticationRolesItemEnum =
   | "ROLE_UNSPECIFIED"
   | "READER"
   | "READER_DOMAIN_WIDE_ACCESSIBLE";
-export const EndUserAuthenticationRolesItemEnum = /*@__PURE__*/ S.String;
+export const EndUserAuthenticationRolesItemEnum = S.String;
 
 export type EndUserAuthenticationRolesItemEnumList = Array<
   EndUserAuthenticationRolesItemEnum | (string & {})
@@ -1518,43 +1515,43 @@ export const EndUserAuthenticationRolesItemEnumList = /*@__PURE__*/ S.Array(
 
 /** AuthConfig defines details of a authentication type. */
 export interface EndUserAuthentication {
-  /** Optional. The EndUserAuthenticationConfig for the EndUserAuthentication. */
-  endUserAuthenticationConfig?: EndUserAuthenticationConfig;
-  /** Optional. Destination configs for the EndUserAuthentication. */
-  destinationConfigs?: DestinationConfigList;
-  /** Optional. Config variables for the EndUserAuthentication. */
-  configVariables?: EndUserAuthenticationConfigVariableList;
-  /** Optional. The user id of the user. */
-  userId?: string;
   /** Output only. Created time. */
   createTime?: string;
   /** Optional. Status of the EndUserAuthentication. */
   status?: EndUserAuthenticationEndUserAuthenticationStatus;
-  /** Optional. Labels for the EndUserAuthentication. */
-  labels?: StringList;
+  /** Optional. The user id of the user. */
+  userId?: string;
+  /** Optional. Destination configs for the EndUserAuthentication. */
+  destinationConfigs?: DestinationConfigList;
   /** Output only. Updated time. */
   updateTime?: string;
   /** Optional. The destination to hit when we receive an event */
   notifyEndpointDestination?: EndUserAuthenticationNotifyEndpointDestination;
   /** Required. Identifier. Resource name of the EndUserAuthentication. Format: projects/{project}/locations/{location}/connections/{connection}/endUserAuthentications/{end_user_authentication} */
   name?: string;
+  /** Optional. The EndUserAuthenticationConfig for the EndUserAuthentication. */
+  endUserAuthenticationConfig?: EndUserAuthenticationConfig;
+  /** Optional. Labels for the EndUserAuthentication. */
+  labels?: StringList;
+  /** Optional. Config variables for the EndUserAuthentication. */
+  configVariables?: EndUserAuthenticationConfigVariableList;
   /** Optional. Roles for the EndUserAuthentication. */
   roles?: EndUserAuthenticationRolesItemEnumList;
 }
 export const EndUserAuthentication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    endUserAuthenticationConfig: S.optional(EndUserAuthenticationConfig),
-    destinationConfigs: S.optional(DestinationConfigList),
-    configVariables: S.optional(EndUserAuthenticationConfigVariableList),
-    userId: S.optional(S.String),
     createTime: S.optional(S.String),
     status: S.optional(EndUserAuthenticationEndUserAuthenticationStatus),
-    labels: S.optional(StringList),
+    userId: S.optional(S.String),
+    destinationConfigs: S.optional(DestinationConfigList),
     updateTime: S.optional(S.String),
     notifyEndpointDestination: S.optional(
       EndUserAuthenticationNotifyEndpointDestination,
     ),
     name: S.optional(S.String),
+    endUserAuthenticationConfig: S.optional(EndUserAuthenticationConfig),
+    labels: S.optional(StringList),
+    configVariables: S.optional(EndUserAuthenticationConfigVariableList),
     roles: S.optional(EndUserAuthenticationRolesItemEnumList),
   }),
 ).annotate({
@@ -1587,23 +1584,6 @@ export const CreateProjectsLocationsConnectionsEndUserAuthenticationsRequest =
       "CreateProjectsLocationsConnectionsEndUserAuthenticationsRequest",
   }) as any as S.Schema<CreateProjectsLocationsConnectionsEndUserAuthenticationsRequest>;
 
-export type JMSTypeEnum = "TYPE_UNSPECIFIED" | "QUEUE" | "TOPIC";
-export const JMSTypeEnum = /*@__PURE__*/ S.String;
-
-/** JMS message denotes the source of the event */
-export interface JMS {
-  /** Optional. Type of the JMS Source. i.e. Queue or Topic */
-  type?: JMSTypeEnum | (string & {});
-  /** Optional. Name of the JMS source. i.e. queueName or topicName */
-  name?: string;
-}
-export const JMS = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(JMSTypeEnum),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "JMS" }) as any as S.Schema<JMS>;
-
 export type EventSubscriptionStatusStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -1611,50 +1591,23 @@ export type EventSubscriptionStatusStateEnum =
   | "ACTIVE"
   | "SUSPENDED"
   | "ERROR";
-export const EventSubscriptionStatusStateEnum = /*@__PURE__*/ S.String;
+export const EventSubscriptionStatusStateEnum = S.String;
 
 /** EventSubscription Status denotes the status of the EventSubscription resource. */
 export interface EventSubscriptionStatus {
-  /** Output only. State of Event Subscription resource. */
-  state?: EventSubscriptionStatusStateEnum | (string & {});
   /** Output only. Description of the state. */
   description?: string;
+  /** Output only. State of Event Subscription resource. */
+  state?: EventSubscriptionStatusStateEnum | (string & {});
 }
 export const EventSubscriptionStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(EventSubscriptionStatusStateEnum),
     description: S.optional(S.String),
+    state: S.optional(EventSubscriptionStatusStateEnum),
   }),
 ).annotate({
   identifier: "EventSubscriptionStatus",
 }) as any as S.Schema<EventSubscriptionStatus>;
-
-export type EventSubscriptionDestinationTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "ENDPOINT"
-  | "GCS"
-  | "PUBSUB";
-export const EventSubscriptionDestinationTypeEnum = /*@__PURE__*/ S.String;
-
-/** Pub/Sub message includes details of the Destination Pub/Sub topic. */
-export interface PubSub {
-  /** Required. The project id which has the Pub/Sub topic. */
-  projectId?: string;
-  /** Required. The topic id of the Pub/Sub topic. */
-  topicId?: string;
-  /** Optional. Pub/Sub message attributes to be added to the Pub/Sub message. */
-  attributes?: StringMap;
-  /** Optional. Configuration for configuring the trigger */
-  configVariables?: ConfigVariableList;
-}
-export const PubSub = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.optional(S.String),
-    topicId: S.optional(S.String),
-    attributes: S.optional(StringMap),
-    configVariables: S.optional(ConfigVariableList),
-  }),
-).annotate({ identifier: "PubSub" }) as any as S.Schema<PubSub>;
 
 /** Header details for a given header to be added to Endpoint. */
 export interface Header {
@@ -1677,78 +1630,122 @@ export const HeaderList = /*@__PURE__*/ S.Array(
 
 /** Endpoint message includes details of the Destination endpoint. */
 export interface EndPoint {
-  /** Optional. The URI of the Endpoint. */
-  endpointUri?: string;
   /** Optional. List of Header to be added to the Endpoint. */
   headers?: HeaderList;
+  /** Optional. The URI of the Endpoint. */
+  endpointUri?: string;
 }
 export const EndPoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    endpointUri: S.optional(S.String),
     headers: S.optional(HeaderList),
+    endpointUri: S.optional(S.String),
   }),
 ).annotate({ identifier: "EndPoint" }) as any as S.Schema<EndPoint>;
 
+export type EventSubscriptionDestinationTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "ENDPOINT"
+  | "GCS"
+  | "PUBSUB";
+export const EventSubscriptionDestinationTypeEnum = S.String;
+
+/** Pub/Sub message includes details of the Destination Pub/Sub topic. */
+export interface PubSub {
+  /** Required. The project id which has the Pub/Sub topic. */
+  projectId?: string;
+  /** Optional. Configuration for configuring the trigger */
+  configVariables?: ConfigVariableList;
+  /** Optional. Pub/Sub message attributes to be added to the Pub/Sub message. */
+  attributes?: StringMap;
+  /** Required. The topic id of the Pub/Sub topic. */
+  topicId?: string;
+}
+export const PubSub = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    projectId: S.optional(S.String),
+    configVariables: S.optional(ConfigVariableList),
+    attributes: S.optional(StringMap),
+    topicId: S.optional(S.String),
+  }),
+).annotate({ identifier: "PubSub" }) as any as S.Schema<PubSub>;
+
 /** Message for EventSubscription Destination to act on receiving an event */
 export interface EventSubscriptionDestination {
-  /** Optional. type of the destination */
-  type?: EventSubscriptionDestinationTypeEnum | (string & {});
   /** Optional. Service account needed for runtime plane to trigger IP workflow. */
   serviceAccount?: string;
-  /** OPTION 3: Write the event to Pub/Sub topic. */
-  pubsub?: PubSub;
   /** OPTION 1: Hit an endpoint when we receive an event. */
   endpoint?: EndPoint;
+  /** Optional. type of the destination */
+  type?: EventSubscriptionDestinationTypeEnum | (string & {});
+  /** OPTION 3: Write the event to Pub/Sub topic. */
+  pubsub?: PubSub;
 }
 export const EventSubscriptionDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(EventSubscriptionDestinationTypeEnum),
     serviceAccount: S.optional(S.String),
-    pubsub: S.optional(PubSub),
     endpoint: S.optional(EndPoint),
+    type: S.optional(EventSubscriptionDestinationTypeEnum),
+    pubsub: S.optional(PubSub),
   }),
 ).annotate({
   identifier: "EventSubscriptionDestination",
 }) as any as S.Schema<EventSubscriptionDestination>;
 
+export type JMSTypeEnum = "TYPE_UNSPECIFIED" | "QUEUE" | "TOPIC";
+export const JMSTypeEnum = S.String;
+
+/** JMS message denotes the source of the event */
+export interface JMS {
+  /** Optional. Type of the JMS Source. i.e. Queue or Topic */
+  type?: JMSTypeEnum | (string & {});
+  /** Optional. Name of the JMS source. i.e. queueName or topicName */
+  name?: string;
+}
+export const JMS = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(JMSTypeEnum),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "JMS" }) as any as S.Schema<JMS>;
+
 /** represents the Connector's EventSubscription resource */
 export interface EventSubscription {
-  /** Optional. Configuration for configuring the trigger */
-  triggerConfigVariables?: ConfigVariableList;
   /** Optional. name of the Subscriber for the current EventSubscription. */
   subscriber?: string;
-  /** Optional. JMS is the source for the event listener. */
-  jms?: JMS;
-  /** Optional. Filter for the event subscription. Incoming events are filtered based on the filter expression. */
-  filter?: string;
-  /** Output only. Created time. */
-  createTime?: string;
-  /** Optional. Status indicates the status of the event subscription resource */
-  status?: EventSubscriptionStatus;
+  /** Optional. Configuration for configuring the trigger */
+  triggerConfigVariables?: ConfigVariableList;
   /** Optional. Event type id of the event of current EventSubscription. */
   eventTypeId?: string;
+  /** Optional. Status indicates the status of the event subscription resource */
+  status?: EventSubscriptionStatus;
+  /** Output only. Created time. */
+  createTime?: string;
   /** Optional. Link for Subscriber of the current EventSubscription. */
   subscriberLink?: string;
   /** Required. Identifier. Resource name of the EventSubscription. Format: projects/{project}/locations/{location}/connections/{connection}/eventSubscriptions/{event_subscription} */
   name?: string;
-  /** Optional. The destination to hit when we receive an event */
-  destinations?: EventSubscriptionDestination;
   /** Output only. Updated time. */
   updateTime?: string;
+  /** Optional. The destination to hit when we receive an event */
+  destinations?: EventSubscriptionDestination;
+  /** Optional. JMS is the source for the event listener. */
+  jms?: JMS;
+  /** Optional. Filter for the event subscription. Incoming events are filtered based on the filter expression. */
+  filter?: string;
 }
 export const EventSubscription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    triggerConfigVariables: S.optional(ConfigVariableList),
     subscriber: S.optional(S.String),
-    jms: S.optional(JMS),
-    filter: S.optional(S.String),
-    createTime: S.optional(S.String),
-    status: S.optional(EventSubscriptionStatus),
+    triggerConfigVariables: S.optional(ConfigVariableList),
     eventTypeId: S.optional(S.String),
+    status: S.optional(EventSubscriptionStatus),
+    createTime: S.optional(S.String),
     subscriberLink: S.optional(S.String),
     name: S.optional(S.String),
-    destinations: S.optional(EventSubscriptionDestination),
     updateTime: S.optional(S.String),
+    destinations: S.optional(EventSubscriptionDestination),
+    jms: S.optional(JMS),
+    filter: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EventSubscription",
@@ -1788,40 +1785,40 @@ export type EndpointAttachmentStateEnum =
   | "FROZEN"
   | "NEEDS_ATTENTION"
   | "ACCEPTED_NOT_PROGRAMMED";
-export const EndpointAttachmentStateEnum = /*@__PURE__*/ S.String;
+export const EndpointAttachmentStateEnum = S.String;
 
 /** represents the Connector's Endpoint Attachment resource */
 export interface EndpointAttachment {
+  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
+  labels?: StringMap;
   /** Output only. Resource name of the Endpoint Attachment. Format: projects/{project}/locations/{location}/endpointAttachments/{endpoint_attachment} */
   name?: string;
   /** Output only. Updated time. */
   updateTime?: string;
-  /** Required. The path of the service attachment */
-  serviceAttachment?: string;
-  /** Output only. The Private Service Connect connection endpoint ip */
-  endpointIp?: string;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
   /** Output only. Created time. */
   createTime?: string;
+  /** Output only. The Private Service Connect connection endpoint ip */
+  endpointIp?: string;
   /** Optional. The Private Service Connect Connection Endpoint Global Access. https://cloud.google.com/vpc/docs/about-accessing-vpc-hosted-services-endpoints#global-access */
   endpointGlobalAccess?: boolean;
-  /** Optional. Description of the resource. */
-  description?: string;
+  /** Required. The path of the service attachment */
+  serviceAttachment?: string;
   /** Output only. The Private Service Connect Connection Endpoint State. This value is only available in the Full view. */
   state?: EndpointAttachmentStateEnum | (string & {});
+  /** Optional. Description of the resource. */
+  description?: string;
 }
 export const EndpointAttachment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    labels: S.optional(StringMap),
     name: S.optional(S.String),
     updateTime: S.optional(S.String),
-    serviceAttachment: S.optional(S.String),
-    endpointIp: S.optional(S.String),
-    labels: S.optional(StringMap),
     createTime: S.optional(S.String),
+    endpointIp: S.optional(S.String),
     endpointGlobalAccess: S.optional(S.Boolean),
-    description: S.optional(S.String),
+    serviceAttachment: S.optional(S.String),
     state: S.optional(EndpointAttachmentStateEnum),
+    description: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EndpointAttachment",
@@ -1857,67 +1854,67 @@ export type CustomConnectorCustomConnectorTypeEnum =
   | "OPEN_API"
   | "PROTO"
   | "SDK";
-export const CustomConnectorCustomConnectorTypeEnum = /*@__PURE__*/ S.String;
+export const CustomConnectorCustomConnectorTypeEnum = S.String;
 
 /** CustomConnector represents the custom connector defined by the customer as part of byoc. */
 export interface CustomConnector {
+  /** Optional. Logo of the resource. */
+  logo?: string;
   /** Optional. Description of the resource. */
   description?: string;
   /** Output only. Created time. */
   createTime?: string;
-  /** Optional. Logo of the resource. */
-  logo?: string;
-  /** Identifier. Resource name of the CustomConnector. Format: projects/{project}/locations/{location}/customConnectors/{connector} */
-  name?: string;
   /** Output only. All marketplace versions. */
   allMarketplaceVersions?: StringList;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
-  /** Output only. Updated time. */
-  updateTime?: string;
-  /** Required. Type of the custom connector. */
-  customConnectorType?: CustomConnectorCustomConnectorTypeEnum | (string & {});
-  /** Optional. Display name. */
-  displayName?: string;
   /** Output only. All connector versions. */
   allConnectorVersions?: StringList;
+  /** Required. Type of the custom connector. */
+  customConnectorType?: CustomConnectorCustomConnectorTypeEnum | (string & {});
   /** Output only. Active connector versions. */
   activeConnectorVersions?: StringList;
+  /** Optional. Display name. */
+  displayName?: string;
+  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
+  labels?: StringMap;
+  /** Identifier. Resource name of the CustomConnector. Format: projects/{project}/locations/{location}/customConnectors/{connector} */
+  name?: string;
   /** Output only. Published marketplace versions. */
   publishedMarketplaceVersions?: StringList;
+  /** Output only. Updated time. */
+  updateTime?: string;
 }
 export const CustomConnector = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    logo: S.optional(S.String),
     description: S.optional(S.String),
     createTime: S.optional(S.String),
-    logo: S.optional(S.String),
-    name: S.optional(S.String),
     allMarketplaceVersions: S.optional(StringList),
-    labels: S.optional(StringMap),
-    updateTime: S.optional(S.String),
-    customConnectorType: S.optional(CustomConnectorCustomConnectorTypeEnum),
-    displayName: S.optional(S.String),
     allConnectorVersions: S.optional(StringList),
+    customConnectorType: S.optional(CustomConnectorCustomConnectorTypeEnum),
     activeConnectorVersions: S.optional(StringList),
+    displayName: S.optional(S.String),
+    labels: S.optional(StringMap),
+    name: S.optional(S.String),
     publishedMarketplaceVersions: S.optional(StringList),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CustomConnector",
 }) as any as S.Schema<CustomConnector>;
 
 export interface CreateProjectsLocationsGlobalCustomConnectorsRequest {
-  /** Required. Parent resource of the CreateCustomConnector, of the form: `projects/{project}/locations/*` */
-  parent: string;
   /** Required. Identifier to assign to the CreateCustomConnector. Must be unique within scope of the parent resource. */
   customConnectorId?: string;
+  /** Required. Parent resource of the CreateCustomConnector, of the form: `projects/{project}/locations/*` */
+  parent: string;
   /** Request body */
   body?: CustomConnector;
 }
 export const CreateProjectsLocationsGlobalCustomConnectorsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       customConnectorId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(CustomConnector.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1930,57 +1927,122 @@ export const CreateProjectsLocationsGlobalCustomConnectorsRequest =
     identifier: "CreateProjectsLocationsGlobalCustomConnectorsRequest",
   }) as any as S.Schema<CreateProjectsLocationsGlobalCustomConnectorsRequest>;
 
-export type CustomConnectorVersionStateEnum =
+export type PublishStatusPublishStateEnum =
+  | "PUBLISH_STATE_UNSPECIFIED"
+  | "PUBLISHED"
+  | "PUBLISH_IN_PROGRESS"
+  | "UNPUBLISHED";
+export const PublishStatusPublishStateEnum = S.String;
+
+/** Publish status of a custom connector. */
+export interface PublishStatus {
+  /** Output only. Publish state of the custom connector. */
+  publishState?: PublishStatusPublishStateEnum | (string & {});
+  /** Output only. Custom connector name. Will be set on the partner connector. Format: providers/customconnectors/connectors//versions/ */
+  publishedSource?: string;
+  /** Output only. Publish time. */
+  publishTime?: string;
+  /** Output only. Partner connector name. Will be set on the custom connector. Format: providers/partner/connectors//versions/ */
+  publishedAs?: string;
+}
+export const PublishStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    publishState: S.optional(PublishStatusPublishStateEnum),
+    publishedSource: S.optional(S.String),
+    publishTime: S.optional(S.String),
+    publishedAs: S.optional(S.String),
+  }),
+).annotate({ identifier: "PublishStatus" }) as any as S.Schema<PublishStatus>;
+
+export type ConfigVariableTemplateStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
   | "DEPRECATED";
-export const CustomConnectorVersionStateEnum = /*@__PURE__*/ S.String;
+export const ConfigVariableTemplateStateEnum = S.String;
 
-/** This configuration captures the details required to render an authorization link for the OAuth Authorization Code Flow. */
-export interface AuthorizationCodeLink {
-  /** Optional. The base URI the user must click to trigger the authorization code login flow. */
-  uri?: string;
-  /** Optional. The client secret assigned to the Google Cloud Connectors OAuth app for the connector data source. */
-  clientSecret?: Secret;
-  /** Optional. Whether to enable PKCE for the auth code flow. */
-  enablePkce?: boolean;
-  /** Optional. Omit query params from the redirect URI. */
-  omitQueryParams?: boolean;
-  /** Optional. The scopes for which the user will authorize Google Cloud Connectors on the connector data source. */
-  scopes?: StringList;
-  /** Optional. The client ID assigned to the Google Cloud Connectors OAuth app for the connector data source. */
-  clientId?: string;
+export type LogicalExpressionList = Array<LogicalExpression>;
+export const LogicalExpressionList = /*@__PURE__*/ S.Array(
+  S.suspend(() => LogicalExpression),
+) as any as S.Schema<LogicalExpressionList>;
+
+export type FieldComparisonComparatorEnum =
+  | "COMPARATOR_UNSPECIFIED"
+  | "EQUALS"
+  | "NOT_EQUALS";
+export const FieldComparisonComparatorEnum = S.String;
+
+/** Field that needs to be compared. */
+export interface FieldComparison {
+  /** Optional. Key of the field. */
+  key?: string;
+  /** String value */
+  stringValue?: string;
+  /** Optional. Comparator to use for comparing the field value. */
+  comparator?: FieldComparisonComparatorEnum | (string & {});
+  /** Integer value */
+  intValue?: string;
+  /** Boolean value */
+  boolValue?: boolean;
 }
-export const AuthorizationCodeLink = /*@__PURE__*/ S.suspend(() =>
+export const FieldComparison = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uri: S.optional(S.String),
-    clientSecret: S.optional(Secret),
-    enablePkce: S.optional(S.Boolean),
-    omitQueryParams: S.optional(S.Boolean),
-    scopes: S.optional(StringList),
-    clientId: S.optional(S.String),
+    key: S.optional(S.String),
+    stringValue: S.optional(S.String),
+    comparator: S.optional(FieldComparisonComparatorEnum),
+    intValue: S.optional(S.String),
+    boolValue: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "AuthorizationCodeLink",
-}) as any as S.Schema<AuthorizationCodeLink>;
+  identifier: "FieldComparison",
+}) as any as S.Schema<FieldComparison>;
+
+export type FieldComparisonList = Array<FieldComparison>;
+export const FieldComparisonList = /*@__PURE__*/ S.Array(
+  FieldComparison,
+) as any as S.Schema<FieldComparisonList>;
+
+export type LogicalExpressionLogicalOperatorEnum =
+  | "OPERATOR_UNSPECIFIED"
+  | "AND"
+  | "OR";
+export const LogicalExpressionLogicalOperatorEnum = S.String;
+
+/** Struct for representing boolean expressions. */
+export interface LogicalExpression {
+  /** Optional. A list of nested conditions to be compared. */
+  logicalExpressions?: LogicalExpressionList;
+  /** Optional. A list of fields to be compared. */
+  fieldComparisons?: FieldComparisonList;
+  /** Optional. The logical operator to use between the fields and conditions. */
+  logicalOperator?: LogicalExpressionLogicalOperatorEnum | (string & {});
+}
+export const LogicalExpression = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    logicalExpressions: S.optional(LogicalExpressionList),
+    fieldComparisons: S.optional(FieldComparisonList),
+    logicalOperator: S.optional(LogicalExpressionLogicalOperatorEnum),
+  }),
+).annotate({
+  identifier: "LogicalExpression",
+}) as any as S.Schema<LogicalExpression>;
 
 /** MultiplSelecteOption represents the single option for a config variable. */
 export interface MultipleSelectOption {
-  /** Required. Key of the option. */
-  key?: string;
-  /** Optional. Indicates if the option is preselected. */
-  preselected?: boolean;
-  /** Optional. Value of the option. */
-  description?: string;
   /** Required. Display name of the option. */
   displayName?: string;
+  /** Required. Key of the option. */
+  key?: string;
+  /** Optional. Value of the option. */
+  description?: string;
+  /** Optional. Indicates if the option is preselected. */
+  preselected?: boolean;
 }
 export const MultipleSelectOption = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    key: S.optional(S.String),
-    preselected: S.optional(S.Boolean),
-    description: S.optional(S.String),
     displayName: S.optional(S.String),
+    key: S.optional(S.String),
+    description: S.optional(S.String),
+    preselected: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "MultipleSelectOption",
@@ -1993,27 +2055,75 @@ export const MultipleSelectOptionList = /*@__PURE__*/ S.Array(
 
 /** MultipleSelectConfig represents the multiple options for a config variable. */
 export interface MultipleSelectConfig {
-  /** Required. Value separator. Only "," can be used for OAuth auth code flow scope field. */
-  valueSeparator?: string;
   /** Required. Multiple select options. */
   multipleSelectOptions?: MultipleSelectOptionList;
+  /** Required. Value separator. Only "," can be used for OAuth auth code flow scope field. */
+  valueSeparator?: string;
   /** Optional. Allow custom values. */
   allowCustomValues?: boolean;
 }
 export const MultipleSelectConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    valueSeparator: S.optional(S.String),
     multipleSelectOptions: S.optional(MultipleSelectOptionList),
+    valueSeparator: S.optional(S.String),
     allowCustomValues: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "MultipleSelectConfig",
 }) as any as S.Schema<MultipleSelectConfig>;
 
-export type ConfigVariableTemplateEnumSourceEnum =
-  | "ENUM_SOURCE_UNSPECIFIED"
-  | "EVENT_TYPES_API";
-export const ConfigVariableTemplateEnumSourceEnum = /*@__PURE__*/ S.String;
+export type ConfigVariableTemplateLocationTypeEnum =
+  | "LOCATION_TYPE_UNSPECIFIED"
+  | "HEADER"
+  | "PAYLOAD"
+  | "QUERY_PARAM"
+  | "PATH_PARAM";
+export const ConfigVariableTemplateLocationTypeEnum = S.String;
+
+export type RoleGrantPrincipalEnum = "PRINCIPAL_UNSPECIFIED" | "CONNECTOR_SA";
+export const RoleGrantPrincipalEnum = S.String;
+
+export type ResourceTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "GCP_PROJECT"
+  | "GCP_RESOURCE"
+  | "GCP_SECRETMANAGER_SECRET"
+  | "GCP_SECRETMANAGER_SECRET_VERSION";
+export const ResourceTypeEnum = S.String;
+
+/** Resource definition */
+export interface Resource {
+  /** Optional. Different types of resource supported. */
+  type?: ResourceTypeEnum | (string & {});
+  /** Optional. Template to uniquely represent a Google Cloud resource in a format IAM expects This is a template that can have references to other values provided in the config variable template. */
+  pathTemplate?: string;
+}
+export const Resource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ResourceTypeEnum),
+    pathTemplate: S.optional(S.String),
+  }),
+).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
+
+/** This configuration defines all the Cloud IAM roles that needs to be granted to a particular Google Cloud resource for the selected principal like service account. These configurations will let UI display to customers what IAM roles need to be granted by them. Or these configurations can be used by the UI to render a 'grant' button to do the same on behalf of the user. */
+export interface RoleGrant {
+  /** Optional. Template that UI can use to provide helper text to customers. */
+  helperTextTemplate?: string;
+  /** Optional. Principal/Identity for whom the role need to assigned. */
+  principal?: RoleGrantPrincipalEnum | (string & {});
+  /** Optional. List of roles that need to be granted. */
+  roles?: StringList;
+  /** Optional. Resource on which the roles needs to be granted for the principal. */
+  resource?: Resource;
+}
+export const RoleGrant = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    helperTextTemplate: S.optional(S.String),
+    principal: S.optional(RoleGrantPrincipalEnum),
+    roles: S.optional(StringList),
+    resource: S.optional(Resource),
+  }),
+).annotate({ identifier: "RoleGrant" }) as any as S.Schema<RoleGrant>;
 
 /** EnumOption definition */
 export interface EnumOption {
@@ -2034,86 +2144,6 @@ export const EnumOptionList = /*@__PURE__*/ S.Array(
   EnumOption,
 ) as any as S.Schema<EnumOptionList>;
 
-export type ConfigVariableTemplateLocationTypeEnum =
-  | "LOCATION_TYPE_UNSPECIFIED"
-  | "HEADER"
-  | "PAYLOAD"
-  | "QUERY_PARAM"
-  | "PATH_PARAM";
-export const ConfigVariableTemplateLocationTypeEnum = /*@__PURE__*/ S.String;
-
-export type ConfigVariableTemplateStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "DEPRECATED";
-export const ConfigVariableTemplateStateEnum = /*@__PURE__*/ S.String;
-
-export type FieldComparisonComparatorEnum =
-  | "COMPARATOR_UNSPECIFIED"
-  | "EQUALS"
-  | "NOT_EQUALS";
-export const FieldComparisonComparatorEnum = /*@__PURE__*/ S.String;
-
-/** Field that needs to be compared. */
-export interface FieldComparison {
-  /** Optional. Key of the field. */
-  key?: string;
-  /** String value */
-  stringValue?: string;
-  /** Optional. Comparator to use for comparing the field value. */
-  comparator?: FieldComparisonComparatorEnum | (string & {});
-  /** Boolean value */
-  boolValue?: boolean;
-  /** Integer value */
-  intValue?: string;
-}
-export const FieldComparison = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.optional(S.String),
-    stringValue: S.optional(S.String),
-    comparator: S.optional(FieldComparisonComparatorEnum),
-    boolValue: S.optional(S.Boolean),
-    intValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FieldComparison",
-}) as any as S.Schema<FieldComparison>;
-
-export type FieldComparisonList = Array<FieldComparison>;
-export const FieldComparisonList = /*@__PURE__*/ S.Array(
-  FieldComparison,
-) as any as S.Schema<FieldComparisonList>;
-
-export type LogicalExpressionList = Array<LogicalExpression>;
-export const LogicalExpressionList = /*@__PURE__*/ S.Array(
-  S.suspend(() => LogicalExpression),
-) as any as S.Schema<LogicalExpressionList>;
-
-export type LogicalExpressionLogicalOperatorEnum =
-  | "OPERATOR_UNSPECIFIED"
-  | "AND"
-  | "OR";
-export const LogicalExpressionLogicalOperatorEnum = /*@__PURE__*/ S.String;
-
-/** Struct for representing boolean expressions. */
-export interface LogicalExpression {
-  /** Optional. A list of fields to be compared. */
-  fieldComparisons?: FieldComparisonList;
-  /** Optional. A list of nested conditions to be compared. */
-  logicalExpressions?: LogicalExpressionList;
-  /** Optional. The logical operator to use between the fields and conditions. */
-  logicalOperator?: LogicalExpressionLogicalOperatorEnum | (string & {});
-}
-export const LogicalExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fieldComparisons: S.optional(FieldComparisonList),
-    logicalExpressions: S.optional(LogicalExpressionList),
-    logicalOperator: S.optional(LogicalExpressionLogicalOperatorEnum),
-  }),
-).annotate({
-  identifier: "LogicalExpression",
-}) as any as S.Schema<LogicalExpression>;
-
 export type ConfigVariableTemplateValueTypeEnum =
   | "VALUE_TYPE_UNSPECIFIED"
   | "STRING"
@@ -2124,103 +2154,91 @@ export type ConfigVariableTemplateValueTypeEnum =
   | "AUTHORIZATION_CODE"
   | "ENCRYPTION_KEY"
   | "MULTIPLE_SELECT";
-export const ConfigVariableTemplateValueTypeEnum = /*@__PURE__*/ S.String;
+export const ConfigVariableTemplateValueTypeEnum = S.String;
 
-export type RoleGrantPrincipalEnum = "PRINCIPAL_UNSPECIFIED" | "CONNECTOR_SA";
-export const RoleGrantPrincipalEnum = /*@__PURE__*/ S.String;
-
-export type ResourceTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "GCP_PROJECT"
-  | "GCP_RESOURCE"
-  | "GCP_SECRETMANAGER_SECRET"
-  | "GCP_SECRETMANAGER_SECRET_VERSION";
-export const ResourceTypeEnum = /*@__PURE__*/ S.String;
-
-/** Resource definition */
-export interface Resource {
-  /** Optional. Template to uniquely represent a Google Cloud resource in a format IAM expects This is a template that can have references to other values provided in the config variable template. */
-  pathTemplate?: string;
-  /** Optional. Different types of resource supported. */
-  type?: ResourceTypeEnum | (string & {});
+/** This configuration captures the details required to render an authorization link for the OAuth Authorization Code Flow. */
+export interface AuthorizationCodeLink {
+  /** Optional. Whether to enable PKCE for the auth code flow. */
+  enablePkce?: boolean;
+  /** Optional. Omit query params from the redirect URI. */
+  omitQueryParams?: boolean;
+  /** Optional. The client ID assigned to the Google Cloud Connectors OAuth app for the connector data source. */
+  clientId?: string;
+  /** Optional. The scopes for which the user will authorize Google Cloud Connectors on the connector data source. */
+  scopes?: StringList;
+  /** Optional. The base URI the user must click to trigger the authorization code login flow. */
+  uri?: string;
+  /** Optional. The client secret assigned to the Google Cloud Connectors OAuth app for the connector data source. */
+  clientSecret?: Secret;
 }
-export const Resource = /*@__PURE__*/ S.suspend(() =>
+export const AuthorizationCodeLink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pathTemplate: S.optional(S.String),
-    type: S.optional(ResourceTypeEnum),
+    enablePkce: S.optional(S.Boolean),
+    omitQueryParams: S.optional(S.Boolean),
+    clientId: S.optional(S.String),
+    scopes: S.optional(StringList),
+    uri: S.optional(S.String),
+    clientSecret: S.optional(Secret),
   }),
-).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
+).annotate({
+  identifier: "AuthorizationCodeLink",
+}) as any as S.Schema<AuthorizationCodeLink>;
 
-/** This configuration defines all the Cloud IAM roles that needs to be granted to a particular Google Cloud resource for the selected principal like service account. These configurations will let UI display to customers what IAM roles need to be granted by them. Or these configurations can be used by the UI to render a 'grant' button to do the same on behalf of the user. */
-export interface RoleGrant {
-  /** Optional. Principal/Identity for whom the role need to assigned. */
-  principal?: RoleGrantPrincipalEnum | (string & {});
-  /** Optional. Resource on which the roles needs to be granted for the principal. */
-  resource?: Resource;
-  /** Optional. List of roles that need to be granted. */
-  roles?: StringList;
-  /** Optional. Template that UI can use to provide helper text to customers. */
-  helperTextTemplate?: string;
-}
-export const RoleGrant = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    principal: S.optional(RoleGrantPrincipalEnum),
-    resource: S.optional(Resource),
-    roles: S.optional(StringList),
-    helperTextTemplate: S.optional(S.String),
-  }),
-).annotate({ identifier: "RoleGrant" }) as any as S.Schema<RoleGrant>;
+export type ConfigVariableTemplateEnumSourceEnum =
+  | "ENUM_SOURCE_UNSPECIFIED"
+  | "EVENT_TYPES_API";
+export const ConfigVariableTemplateEnumSourceEnum = S.String;
 
 /** ConfigVariableTemplate provides metadata about a `ConfigVariable` that is used in a Connection. */
 export interface ConfigVariableTemplate {
-  /** Optional. Authorization code link options. To be populated if `ValueType` is `AUTHORIZATION_CODE` */
-  authorizationCodeLink?: AuthorizationCodeLink;
-  /** Optional. Regular expression in RE2 syntax used for validating the `value` of a `ConfigVariable`. */
-  validationRegex?: string;
-  /** Optional. MultipleSelectConfig represents the multiple options for a config variable. */
-  multipleSelectConfig?: MultipleSelectConfig;
   /** Optional. Indicates if current template is part of advanced settings */
   isAdvanced?: boolean;
-  /** Optional. enum source denotes the source of api to fill the enum options */
-  enumSource?: ConfigVariableTemplateEnumSourceEnum | (string & {});
-  /** Optional. Flag represents that this `ConfigVariable` must be provided for a connection. */
-  required?: boolean;
-  /** Optional. Enum options. To be populated if `ValueType` is `ENUM` */
-  enumOptions?: EnumOptionList;
+  /** Optional. Key of the config variable. */
+  key?: string;
   /** Optional. Description. */
   description?: string;
-  /** Optional. Location Type denotes where this value should be sent in BYOC connections. */
-  locationType?: ConfigVariableTemplateLocationTypeEnum | (string & {});
   /** Output only. State of the config variable. */
   state?: ConfigVariableTemplateStateEnum | (string & {});
   /** Optional. Condition under which a field would be required. The condition can be represented in the form of a logical expression. */
   requiredCondition?: LogicalExpression;
   /** Optional. Display name of the parameter. */
   displayName?: string;
-  /** Optional. Key of the config variable. */
-  key?: string;
-  /** Optional. Type of the parameter: string, int, bool etc. consider custom type for the benefit for the validation. */
-  valueType?: ConfigVariableTemplateValueTypeEnum | (string & {});
+  /** Optional. MultipleSelectConfig represents the multiple options for a config variable. */
+  multipleSelectConfig?: MultipleSelectConfig;
+  /** Optional. Location Type denotes where this value should be sent in BYOC connections. */
+  locationType?: ConfigVariableTemplateLocationTypeEnum | (string & {});
   /** Optional. Role grant configuration for the config variable. */
   roleGrant?: RoleGrant;
+  /** Optional. Flag represents that this `ConfigVariable` must be provided for a connection. */
+  required?: boolean;
+  /** Optional. Regular expression in RE2 syntax used for validating the `value` of a `ConfigVariable`. */
+  validationRegex?: string;
+  /** Optional. Enum options. To be populated if `ValueType` is `ENUM` */
+  enumOptions?: EnumOptionList;
+  /** Optional. Type of the parameter: string, int, bool etc. consider custom type for the benefit for the validation. */
+  valueType?: ConfigVariableTemplateValueTypeEnum | (string & {});
+  /** Optional. Authorization code link options. To be populated if `ValueType` is `AUTHORIZATION_CODE` */
+  authorizationCodeLink?: AuthorizationCodeLink;
+  /** Optional. enum source denotes the source of api to fill the enum options */
+  enumSource?: ConfigVariableTemplateEnumSourceEnum | (string & {});
 }
 export const ConfigVariableTemplate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    authorizationCodeLink: S.optional(AuthorizationCodeLink),
-    validationRegex: S.optional(S.String),
-    multipleSelectConfig: S.optional(MultipleSelectConfig),
     isAdvanced: S.optional(S.Boolean),
-    enumSource: S.optional(ConfigVariableTemplateEnumSourceEnum),
-    required: S.optional(S.Boolean),
-    enumOptions: S.optional(EnumOptionList),
+    key: S.optional(S.String),
     description: S.optional(S.String),
-    locationType: S.optional(ConfigVariableTemplateLocationTypeEnum),
     state: S.optional(ConfigVariableTemplateStateEnum),
     requiredCondition: S.optional(LogicalExpression),
     displayName: S.optional(S.String),
-    key: S.optional(S.String),
-    valueType: S.optional(ConfigVariableTemplateValueTypeEnum),
+    multipleSelectConfig: S.optional(MultipleSelectConfig),
+    locationType: S.optional(ConfigVariableTemplateLocationTypeEnum),
     roleGrant: S.optional(RoleGrant),
+    required: S.optional(S.Boolean),
+    validationRegex: S.optional(S.String),
+    enumOptions: S.optional(EnumOptionList),
+    valueType: S.optional(ConfigVariableTemplateValueTypeEnum),
+    authorizationCodeLink: S.optional(AuthorizationCodeLink),
+    enumSource: S.optional(ConfigVariableTemplateEnumSourceEnum),
   }),
 ).annotate({
   identifier: "ConfigVariableTemplate",
@@ -2231,67 +2249,6 @@ export const ConfigVariableTemplateList = /*@__PURE__*/ S.Array(
   ConfigVariableTemplate,
 ) as any as S.Schema<ConfigVariableTemplateList>;
 
-/** Partner metadata details. This will be populated when publishing the custom connector as a partner connector version. On publishing, parntner connector version will be created using the fields in PartnerMetadata. */
-export interface PartnerMetadata {
-  /** Required. Details about partner connector use cases. */
-  useCases?: string;
-  /** Required. Whether the user has accepted the Google Cloud Platform Terms of Service (https://cloud.google.com/terms/) and the Google Cloud Marketplace Terms of Service (https://cloud.google.com/terms/marketplace/launcher?hl=en). */
-  acceptGcpTos?: boolean;
-  /** Required. Partner name. */
-  partner?: string;
-  /** Required. Integration example templates for the custom connector. */
-  integrationTemplates?: string;
-  /** Output only. Local spec path. Required if has_dynamic_spec_uri is true. */
-  localSpecPath?: string;
-  /** Required. Marketplace product ID. */
-  marketplaceProductId?: string;
-  /** Optional. Marketplace product name. */
-  marketplaceProduct?: string;
-  /** Output only. Publish request time. */
-  publishRequestTime?: string;
-  /** Output only. Has dynamic open api spec uri. */
-  hasDynamicSpecUri?: boolean;
-  /** Optional. Marketplace product URL. */
-  marketplaceProductUri?: string;
-  /** Required. Public URL for the demo video. */
-  demoUri?: string;
-  /** Required. Target customer segment for the partner connector. */
-  targetCustomerSegment?: string;
-  /** Required. Partner connector display name. */
-  partnerConnectorDisplayName?: string;
-  /** Required. Target application for which partner connector is built. */
-  targetApplication?: string;
-  /** Optional. Marketplace product project ID. */
-  marketplaceProductProjectId?: string;
-  /** Optional. Additional comments for the submission. */
-  additionalComments?: string;
-  /** Required. Confirmation that connector meets all applicable requirements mentioned in the Partner Connector Publishing requirements list and Partner onboardiong requirements list (https://cloud.google.com/marketplace/docs/partners/get-started#requirements). */
-  confirmPartnerRequirements?: boolean;
-}
-export const PartnerMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    useCases: S.optional(S.String),
-    acceptGcpTos: S.optional(S.Boolean),
-    partner: S.optional(S.String),
-    integrationTemplates: S.optional(S.String),
-    localSpecPath: S.optional(S.String),
-    marketplaceProductId: S.optional(S.String),
-    marketplaceProduct: S.optional(S.String),
-    publishRequestTime: S.optional(S.String),
-    hasDynamicSpecUri: S.optional(S.Boolean),
-    marketplaceProductUri: S.optional(S.String),
-    demoUri: S.optional(S.String),
-    targetCustomerSegment: S.optional(S.String),
-    partnerConnectorDisplayName: S.optional(S.String),
-    targetApplication: S.optional(S.String),
-    marketplaceProductProjectId: S.optional(S.String),
-    additionalComments: S.optional(S.String),
-    confirmPartnerRequirements: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "PartnerMetadata",
-}) as any as S.Schema<PartnerMetadata>;
-
 export type AuthConfigTemplateAuthTypeEnum =
   | "AUTH_TYPE_UNSPECIFIED"
   | "USER_PASSWORD"
@@ -2301,18 +2258,18 @@ export type AuthConfigTemplateAuthTypeEnum =
   | "OAUTH2_AUTH_CODE_FLOW"
   | "GOOGLE_AUTHENTICATION"
   | "OAUTH2_AUTH_CODE_FLOW_GOOGLE_MANAGED";
-export const AuthConfigTemplateAuthTypeEnum = /*@__PURE__*/ S.String;
+export const AuthConfigTemplateAuthTypeEnum = S.String;
 
 /** AuthConfigTemplate defines required field over an authentication type. */
 export interface AuthConfigTemplate {
   /** Display name for authentication template. */
   displayName?: string;
+  /** The type of authentication configured. */
+  authType?: AuthConfigTemplateAuthTypeEnum | (string & {});
   /** Connector specific description for an authentication template. */
   description?: string;
   /** Identifier key for auth config */
   authKey?: string;
-  /** The type of authentication configured. */
-  authType?: AuthConfigTemplateAuthTypeEnum | (string & {});
   /** Whether the auth config is the default one. */
   isDefault?: boolean;
   /** Config variables to describe an `AuthConfig` for a `Connection`. */
@@ -2321,9 +2278,9 @@ export interface AuthConfigTemplate {
 export const AuthConfigTemplate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
+    authType: S.optional(AuthConfigTemplateAuthTypeEnum),
     description: S.optional(S.String),
     authKey: S.optional(S.String),
-    authType: S.optional(AuthConfigTemplateAuthTypeEnum),
     isDefault: S.optional(S.Boolean),
     configVariableTemplates: S.optional(ConfigVariableTemplateList),
   }),
@@ -2336,89 +2293,129 @@ export const AuthConfigTemplateList = /*@__PURE__*/ S.Array(
   AuthConfigTemplate,
 ) as any as S.Schema<AuthConfigTemplateList>;
 
-export type PublishStatusPublishStateEnum =
-  | "PUBLISH_STATE_UNSPECIFIED"
-  | "PUBLISHED"
-  | "PUBLISH_IN_PROGRESS"
-  | "UNPUBLISHED";
-export const PublishStatusPublishStateEnum = /*@__PURE__*/ S.String;
+export type CustomConnectorVersionStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "DEPRECATED";
+export const CustomConnectorVersionStateEnum = S.String;
 
-/** Publish status of a custom connector. */
-export interface PublishStatus {
-  /** Output only. Custom connector name. Will be set on the partner connector. Format: providers/customconnectors/connectors//versions/ */
-  publishedSource?: string;
-  /** Output only. Partner connector name. Will be set on the custom connector. Format: providers/partner/connectors//versions/ */
-  publishedAs?: string;
-  /** Output only. Publish state of the custom connector. */
-  publishState?: PublishStatusPublishStateEnum | (string & {});
-  /** Output only. Publish time. */
-  publishTime?: string;
+/** Partner metadata details. This will be populated when publishing the custom connector as a partner connector version. On publishing, parntner connector version will be created using the fields in PartnerMetadata. */
+export interface PartnerMetadata {
+  /** Optional. Marketplace product URL. */
+  marketplaceProductUri?: string;
+  /** Output only. Local spec path. Required if has_dynamic_spec_uri is true. */
+  localSpecPath?: string;
+  /** Required. Whether the user has accepted the Google Cloud Platform Terms of Service (https://cloud.google.com/terms/) and the Google Cloud Marketplace Terms of Service (https://cloud.google.com/terms/marketplace/launcher?hl=en). */
+  acceptGcpTos?: boolean;
+  /** Output only. Publish request time. */
+  publishRequestTime?: string;
+  /** Optional. Marketplace product project ID. */
+  marketplaceProductProjectId?: string;
+  /** Required. Partner connector display name. */
+  partnerConnectorDisplayName?: string;
+  /** Output only. Has dynamic open api spec uri. */
+  hasDynamicSpecUri?: boolean;
+  /** Required. Partner name. */
+  partner?: string;
+  /** Required. Marketplace product ID. */
+  marketplaceProductId?: string;
+  /** Required. Details about partner connector use cases. */
+  useCases?: string;
+  /** Optional. Additional comments for the submission. */
+  additionalComments?: string;
+  /** Required. Target application for which partner connector is built. */
+  targetApplication?: string;
+  /** Required. Confirmation that connector meets all applicable requirements mentioned in the Partner Connector Publishing requirements list and Partner onboardiong requirements list (https://cloud.google.com/marketplace/docs/partners/get-started#requirements). */
+  confirmPartnerRequirements?: boolean;
+  /** Required. Integration example templates for the custom connector. */
+  integrationTemplates?: string;
+  /** Required. Public URL for the demo video. */
+  demoUri?: string;
+  /** Required. Target customer segment for the partner connector. */
+  targetCustomerSegment?: string;
+  /** Optional. Marketplace product name. */
+  marketplaceProduct?: string;
 }
-export const PublishStatus = /*@__PURE__*/ S.suspend(() =>
+export const PartnerMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    publishedSource: S.optional(S.String),
-    publishedAs: S.optional(S.String),
-    publishState: S.optional(PublishStatusPublishStateEnum),
-    publishTime: S.optional(S.String),
+    marketplaceProductUri: S.optional(S.String),
+    localSpecPath: S.optional(S.String),
+    acceptGcpTos: S.optional(S.Boolean),
+    publishRequestTime: S.optional(S.String),
+    marketplaceProductProjectId: S.optional(S.String),
+    partnerConnectorDisplayName: S.optional(S.String),
+    hasDynamicSpecUri: S.optional(S.Boolean),
+    partner: S.optional(S.String),
+    marketplaceProductId: S.optional(S.String),
+    useCases: S.optional(S.String),
+    additionalComments: S.optional(S.String),
+    targetApplication: S.optional(S.String),
+    confirmPartnerRequirements: S.optional(S.Boolean),
+    integrationTemplates: S.optional(S.String),
+    demoUri: S.optional(S.String),
+    targetCustomerSegment: S.optional(S.String),
+    marketplaceProduct: S.optional(S.String),
   }),
-).annotate({ identifier: "PublishStatus" }) as any as S.Schema<PublishStatus>;
+).annotate({
+  identifier: "PartnerMetadata",
+}) as any as S.Schema<PartnerMetadata>;
 
 /** CustomConnectorVersion indicates a specific version of a connector. */
 export interface CustomConnectorVersion {
-  /** Output only. Created time. */
-  createTime?: string;
-  /** Optional. Service account used by runtime plane to access auth config secrets. */
-  serviceAccount?: string;
-  /** Output only. Server URLs parsed from the Open API spec. This is only used for Open API based custom connectors. */
-  specServerUrls?: StringList;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
-  /** Optional. Destination config(s) for accessing connector service (facade). This is used only when enable_backend_destination_config is true. */
-  destinationConfigs?: DestinationConfigList;
-  /** Optional. Auth override support. */
-  authOverrideSupport?: boolean;
-  /** Optional. Indicates if Async Operations/Connector Job is supported. This is only available for SDK based custom connectors. */
-  asyncOperationsSupport?: boolean;
-  /** Output only. State of the custom connector version. */
-  state?: CustomConnectorVersionStateEnum | (string & {});
-  /** Optional. Backend variable templates is only used when connector backend is enabled. This is used to specify the variables required by the connector backend service to talk to the actual application backend. This translates to additional variable templates in the connection config. */
-  backendVariableTemplates?: ConfigVariableTemplateList;
-  /** Output only. Identifier. Resource name of the Version. Format: projects/{project}/locations/{location}/customConnectors/{custom_connector}/customConnectorVersions/{custom_connector_version} */
-  name?: string;
-  /** Optional. Partner metadata details. This should be populated only when publishing the custom connector to partner connector. */
-  partnerMetadata?: PartnerMetadata;
-  /** Optional. Auth Config Templates is only used when connector backend is enabled. This is used to specify the auth configs supported by the connector backend service to talk to the actual application backend. */
-  authConfigTemplates?: AuthConfigTemplateList;
-  /** Optional. Location of the custom connector spec. This is only used for Open API based custom connectors. The location can be either a public url like `https://public-url.com/spec` Or a Google Cloud Storage location like `gs:///`. */
-  specLocation?: string;
-  /** Output only. Updated time. */
-  updateTime?: string;
-  /** Optional. Indicates if an intermediatory connectorservice is used as backend. When this is enabled, the connector destination and connector auth config are required. For SDK based connectors, this is always enabled. */
-  enableBackendDestinationConfig?: boolean;
   /** Output only. Publish status of a custom connector. */
   publishStatus?: PublishStatus;
   /** Optional. Authentication config for accessing connector service (facade). This is used only when enable_backend_destination_config is true. */
   authConfig?: AuthConfig;
+  /** Output only. Created time. */
+  createTime?: string;
+  /** Optional. Backend variable templates is only used when connector backend is enabled. This is used to specify the variables required by the connector backend service to talk to the actual application backend. This translates to additional variable templates in the connection config. */
+  backendVariableTemplates?: ConfigVariableTemplateList;
+  /** Optional. Auth Config Templates is only used when connector backend is enabled. This is used to specify the auth configs supported by the connector backend service to talk to the actual application backend. */
+  authConfigTemplates?: AuthConfigTemplateList;
+  /** Optional. Auth override support. */
+  authOverrideSupport?: boolean;
+  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
+  labels?: StringMap;
+  /** Output only. Updated time. */
+  updateTime?: string;
+  /** Optional. Destination config(s) for accessing connector service (facade). This is used only when enable_backend_destination_config is true. */
+  destinationConfigs?: DestinationConfigList;
+  /** Optional. Indicates if an intermediatory connectorservice is used as backend. When this is enabled, the connector destination and connector auth config are required. For SDK based connectors, this is always enabled. */
+  enableBackendDestinationConfig?: boolean;
+  /** Optional. Service account used by runtime plane to access auth config secrets. */
+  serviceAccount?: string;
+  /** Optional. Location of the custom connector spec. This is only used for Open API based custom connectors. The location can be either a public url like `https://public-url.com/spec` Or a Google Cloud Storage location like `gs:///`. */
+  specLocation?: string;
+  /** Optional. Indicates if Async Operations/Connector Job is supported. This is only available for SDK based custom connectors. */
+  asyncOperationsSupport?: boolean;
+  /** Output only. State of the custom connector version. */
+  state?: CustomConnectorVersionStateEnum | (string & {});
+  /** Optional. Partner metadata details. This should be populated only when publishing the custom connector to partner connector. */
+  partnerMetadata?: PartnerMetadata;
+  /** Output only. Identifier. Resource name of the Version. Format: projects/{project}/locations/{location}/customConnectors/{custom_connector}/customConnectorVersions/{custom_connector_version} */
+  name?: string;
+  /** Output only. Server URLs parsed from the Open API spec. This is only used for Open API based custom connectors. */
+  specServerUrls?: StringList;
 }
 export const CustomConnectorVersion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    serviceAccount: S.optional(S.String),
-    specServerUrls: S.optional(StringList),
-    labels: S.optional(StringMap),
-    destinationConfigs: S.optional(DestinationConfigList),
-    authOverrideSupport: S.optional(S.Boolean),
-    asyncOperationsSupport: S.optional(S.Boolean),
-    state: S.optional(CustomConnectorVersionStateEnum),
-    backendVariableTemplates: S.optional(ConfigVariableTemplateList),
-    name: S.optional(S.String),
-    partnerMetadata: S.optional(PartnerMetadata),
-    authConfigTemplates: S.optional(AuthConfigTemplateList),
-    specLocation: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    enableBackendDestinationConfig: S.optional(S.Boolean),
     publishStatus: S.optional(PublishStatus),
     authConfig: S.optional(AuthConfig),
+    createTime: S.optional(S.String),
+    backendVariableTemplates: S.optional(ConfigVariableTemplateList),
+    authConfigTemplates: S.optional(AuthConfigTemplateList),
+    authOverrideSupport: S.optional(S.Boolean),
+    labels: S.optional(StringMap),
+    updateTime: S.optional(S.String),
+    destinationConfigs: S.optional(DestinationConfigList),
+    enableBackendDestinationConfig: S.optional(S.Boolean),
+    serviceAccount: S.optional(S.String),
+    specLocation: S.optional(S.String),
+    asyncOperationsSupport: S.optional(S.Boolean),
+    state: S.optional(CustomConnectorVersionStateEnum),
+    partnerMetadata: S.optional(PartnerMetadata),
+    name: S.optional(S.String),
+    specServerUrls: S.optional(StringList),
   }),
 ).annotate({
   identifier: "CustomConnectorVersion",
@@ -2452,49 +2449,49 @@ export const CreateProjectsLocationsGlobalCustomConnectorsCustomConnectorVersion
 
 /** represents the Connector's Managed Zone resource */
 export interface ManagedZone {
+  /** Required. The name of the Target Project */
+  targetProject?: string;
+  /** Output only. Updated time. */
+  updateTime?: string;
   /** Output only. Resource name of the Managed Zone. Format: projects/{project}/locations/global/managedZones/{managed_zone} */
   name?: string;
+  /** Output only. Created time. */
+  createTime?: string;
   /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
   labels?: StringMap;
   /** Required. The name of the Target Project VPC Network */
   targetVpc?: string;
-  /** Output only. Updated time. */
-  updateTime?: string;
   /** Optional. Description of the resource. */
   description?: string;
-  /** Output only. Created time. */
-  createTime?: string;
-  /** Required. The name of the Target Project */
-  targetProject?: string;
   /** Required. DNS Name of the resource */
   dns?: string;
 }
 export const ManagedZone = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    targetProject: S.optional(S.String),
+    updateTime: S.optional(S.String),
     name: S.optional(S.String),
+    createTime: S.optional(S.String),
     labels: S.optional(StringMap),
     targetVpc: S.optional(S.String),
-    updateTime: S.optional(S.String),
     description: S.optional(S.String),
-    createTime: S.optional(S.String),
-    targetProject: S.optional(S.String),
     dns: S.optional(S.String),
   }),
 ).annotate({ identifier: "ManagedZone" }) as any as S.Schema<ManagedZone>;
 
 export interface CreateProjectsLocationsGlobalManagedZonesRequest {
-  /** Required. Identifier to assign to the ManagedZone. Must be unique within scope of the parent resource. */
-  managedZoneId?: string;
   /** Required. Parent resource of the ManagedZone, of the form: `projects/*\/locations/global` */
   parent: string;
+  /** Required. Identifier to assign to the ManagedZone. Must be unique within scope of the parent resource. */
+  managedZoneId?: string;
   /** Request body */
   body?: ManagedZone;
 }
 export const CreateProjectsLocationsGlobalManagedZonesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      managedZoneId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      managedZoneId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(ManagedZone.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -2695,27 +2692,30 @@ export const DeprecateProjectsLocationsCustomConnectorsCustomConnectorVersionsRe
   }) as any as S.Schema<DeprecateProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest>;
 
 export type FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsViewEnum =
-  "AUTH_SCHEMA_VIEW_UNSPECIFIED" | "BASIC" | "JSON_SCHEMA" | "EUA_SCHEMA";
+  | "AUTH_SCHEMA_VIEW_UNSPECIFIED"
+  | "BASIC"
+  | "JSON_SCHEMA"
+  | "EUA_SCHEMA";
 export const FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsRequest {
+  /** Required. Parent resource of the Connector Version, of the form: `projects/*\/locations/*\/providers/*\/connectors/*\/versions/*` */
+  name: string;
   /** Optional. View of the AuthSchema. The default value is BASIC. */
   view?:
     | FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsViewEnum
     | (string & {});
-  /** Required. Parent resource of the Connector Version, of the form: `projects/*\/locations/*\/providers/*\/connectors/*\/versions/*` */
-  name: string;
 }
 export const FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      name: S.String.pipe(T.Label()),
       view: S.optional(
         FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsViewEnum.pipe(
           T.Query(),
         ),
       ),
-      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2727,70 +2727,6 @@ export const FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsRequest 
     identifier:
       "FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsRequest",
   }) as any as S.Schema<FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsRequest>;
-
-/** AuthField defines a field in an authentication type. */
-export interface AuthField {
-  /** Key of the field. */
-  key?: string;
-  /** Data type of the field. */
-  dataType?: string;
-  /** Description of the field. */
-  description?: string;
-}
-export const AuthField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.optional(S.String),
-    dataType: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({ identifier: "AuthField" }) as any as S.Schema<AuthField>;
-
-export type AuthFieldList = Array<AuthField>;
-export const AuthFieldList = /*@__PURE__*/ S.Array(
-  AuthField,
-) as any as S.Schema<AuthFieldList>;
-
-export type AuthSchemaAuthTypeEnum =
-  | "AUTH_TYPE_UNSPECIFIED"
-  | "USER_PASSWORD"
-  | "OAUTH2_JWT_BEARER"
-  | "OAUTH2_CLIENT_CREDENTIALS"
-  | "SSH_PUBLIC_KEY"
-  | "OAUTH2_AUTH_CODE_FLOW"
-  | "GOOGLE_AUTHENTICATION"
-  | "OAUTH2_AUTH_CODE_FLOW_GOOGLE_MANAGED";
-export const AuthSchemaAuthTypeEnum = /*@__PURE__*/ S.String;
-
-/** AuthSchema defines the schema of an authentication type. */
-export interface AuthSchema {
-  /** Auth key of the schema. */
-  authKey?: string;
-  /** Display name of the schema. */
-  displayName?: string;
-  /** Description of the schema. */
-  description?: string;
-  /** List of AuthFields. */
-  authFields?: AuthFieldList;
-  /** Whether the auth schema is the default one. */
-  isDefault?: boolean;
-  /** Auth type of the schema. */
-  authType?: AuthSchemaAuthTypeEnum;
-}
-export const AuthSchema = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authKey: S.optional(S.String),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
-    authFields: S.optional(AuthFieldList),
-    isDefault: S.optional(S.Boolean),
-    authType: S.optional(AuthSchemaAuthTypeEnum),
-  }),
-).annotate({ identifier: "AuthSchema" }) as any as S.Schema<AuthSchema>;
-
-export type AuthSchemaList = Array<AuthSchema>;
-export const AuthSchemaList = /*@__PURE__*/ S.Array(
-  AuthSchema,
-) as any as S.Schema<AuthSchemaList>;
 
 /** AuthProperty defines a property of an authentication type. */
 export interface AuthProperty {
@@ -2814,30 +2750,30 @@ export const AuthPropertyMap = /*@__PURE__*/ S.Record(
 
 /** AuthObject defines a JSON schema of an authentication type. */
 export interface AuthObject {
-  /** Whether the object is the default one. */
-  isDefault?: boolean;
-  /** Auth type of the object. */
-  authType?: string;
   /** Description of the object. */
   description?: string;
-  /** Auth key of the object. */
-  authKey?: string;
-  /** Properties of the object. */
-  properties?: AuthPropertyMap;
+  /** Auth type of the object. */
+  authType?: string;
   /** Type of the object. */
   type?: string;
+  /** Whether the object is the default one. */
+  isDefault?: boolean;
+  /** Properties of the object. */
+  properties?: AuthPropertyMap;
   /** Whether the object has additional properties. */
   additionalProperties?: boolean;
+  /** Auth key of the object. */
+  authKey?: string;
 }
 export const AuthObject = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    isDefault: S.optional(S.Boolean),
-    authType: S.optional(S.String),
     description: S.optional(S.String),
-    authKey: S.optional(S.String),
-    properties: S.optional(AuthPropertyMap),
+    authType: S.optional(S.String),
     type: S.optional(S.String),
+    isDefault: S.optional(S.Boolean),
+    properties: S.optional(AuthPropertyMap),
     additionalProperties: S.optional(S.Boolean),
+    authKey: S.optional(S.String),
   }),
 ).annotate({ identifier: "AuthObject" }) as any as S.Schema<AuthObject>;
 
@@ -2860,17 +2796,81 @@ export const JsonAuthSchema = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "JsonAuthSchema" }) as any as S.Schema<JsonAuthSchema>;
 
+/** AuthField defines a field in an authentication type. */
+export interface AuthField {
+  /** Data type of the field. */
+  dataType?: string;
+  /** Description of the field. */
+  description?: string;
+  /** Key of the field. */
+  key?: string;
+}
+export const AuthField = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dataType: S.optional(S.String),
+    description: S.optional(S.String),
+    key: S.optional(S.String),
+  }),
+).annotate({ identifier: "AuthField" }) as any as S.Schema<AuthField>;
+
+export type AuthFieldList = Array<AuthField>;
+export const AuthFieldList = /*@__PURE__*/ S.Array(
+  AuthField,
+) as any as S.Schema<AuthFieldList>;
+
+export type AuthSchemaAuthTypeEnum =
+  | "AUTH_TYPE_UNSPECIFIED"
+  | "USER_PASSWORD"
+  | "OAUTH2_JWT_BEARER"
+  | "OAUTH2_CLIENT_CREDENTIALS"
+  | "SSH_PUBLIC_KEY"
+  | "OAUTH2_AUTH_CODE_FLOW"
+  | "GOOGLE_AUTHENTICATION"
+  | "OAUTH2_AUTH_CODE_FLOW_GOOGLE_MANAGED";
+export const AuthSchemaAuthTypeEnum = S.String;
+
+/** AuthSchema defines the schema of an authentication type. */
+export interface AuthSchema {
+  /** List of AuthFields. */
+  authFields?: AuthFieldList;
+  /** Display name of the schema. */
+  displayName?: string;
+  /** Auth type of the schema. */
+  authType?: AuthSchemaAuthTypeEnum;
+  /** Description of the schema. */
+  description?: string;
+  /** Auth key of the schema. */
+  authKey?: string;
+  /** Whether the auth schema is the default one. */
+  isDefault?: boolean;
+}
+export const AuthSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authFields: S.optional(AuthFieldList),
+    displayName: S.optional(S.String),
+    authType: S.optional(AuthSchemaAuthTypeEnum),
+    description: S.optional(S.String),
+    authKey: S.optional(S.String),
+    isDefault: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "AuthSchema" }) as any as S.Schema<AuthSchema>;
+
+export type AuthSchemaList = Array<AuthSchema>;
+export const AuthSchemaList = /*@__PURE__*/ S.Array(
+  AuthSchema,
+) as any as S.Schema<AuthSchemaList>;
+
 /** Response message for Connectors.GetAuthSchema. */
 export interface FetchAuthSchemaResponse {
-  /** List of AuthSchemas. */
-  authSchemas?: AuthSchemaList;
   /** JSON schema of the AuthSchemas. This is only populated if the view is JSON_SCHEMA. The schema is in draft-07 format. */
   jsonSchema?: JsonAuthSchema;
+  /** List of AuthSchemas. */
+  authSchemas?: AuthSchemaList;
 }
 export const FetchAuthSchemaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    authSchemas: S.optional(AuthSchemaList),
     jsonSchema: S.optional(JsonAuthSchema),
+    authSchemas: S.optional(AuthSchemaList),
   }),
 ).annotate({
   identifier: "FetchAuthSchemaResponse",
@@ -2883,22 +2883,22 @@ export type ToolNameOperationEnum =
   | "CREATE"
   | "UPDATE"
   | "DELETE";
-export const ToolNameOperationEnum = /*@__PURE__*/ S.String;
+export const ToolNameOperationEnum = S.String;
 
 /** Tool name for which the tool spec override is to be generated. */
 export interface ToolName {
+  /** Optional. Entity type name for which the tool was generated. */
+  entityType?: string;
   /** Optional. Operation for which the tool was generated. */
   operation?: ToolNameOperationEnum | (string & {});
   /** Required. Tool name that was generated in the list tools call. */
   name?: string;
-  /** Optional. Entity type name for which the tool was generated. */
-  entityType?: string;
 }
 export const ToolName = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    entityType: S.optional(S.String),
     operation: S.optional(ToolNameOperationEnum),
     name: S.optional(S.String),
-    entityType: S.optional(S.String),
   }),
 ).annotate({ identifier: "ToolName" }) as any as S.Schema<ToolName>;
 
@@ -3026,16 +3026,16 @@ export const GenerateConnectionToolspecOverrideResponse =
   }) as any as S.Schema<GenerateConnectionToolspecOverrideResponse>;
 
 export interface GetActionProjectsLocationsConnectionsConnectionSchemaMetadataRequest {
-  /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
-  name: string;
   /** Required. Id of the action. */
   actionId?: string;
+  /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
+  name: string;
 }
 export const GetActionProjectsLocationsConnectionsConnectionSchemaMetadataRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       actionId: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3077,34 +3077,34 @@ export type ConnectionSchemaMetadataStateEnum =
   | "REFRESH_SCHEMA_METADATA_FAILED"
   | "REFRESHING_FULL_SCHEMA"
   | "UPDATED_FULL_SCHEMA";
-export const ConnectionSchemaMetadataStateEnum = /*@__PURE__*/ S.String;
+export const ConnectionSchemaMetadataStateEnum = S.String;
 
 /** ConnectionSchemaMetadata is the singleton resource of each connection. It includes the entity and action names of runtime resources exposed by a connection backend. */
 export interface ConnectionSchemaMetadata {
-  /** Output only. The current state of runtime schema. */
-  state?: ConnectionSchemaMetadataStateEnum;
   /** Output only. List of entity names. */
   entities?: StringList;
-  /** Output only. Timestamp when the connection runtime schema was updated. */
-  updateTime?: string;
   /** Output only. Timestamp when the connection runtime schema refresh was triggered. */
   refreshTime?: string;
+  /** Error message for users. */
+  errorMessage?: string;
   /** Output only. List of actions. */
   actions?: StringList;
   /** Output only. Resource name. Format: projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
   name?: string;
-  /** Error message for users. */
-  errorMessage?: string;
+  /** Output only. The current state of runtime schema. */
+  state?: ConnectionSchemaMetadataStateEnum;
+  /** Output only. Timestamp when the connection runtime schema was updated. */
+  updateTime?: string;
 }
 export const ConnectionSchemaMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(ConnectionSchemaMetadataStateEnum),
     entities: S.optional(StringList),
-    updateTime: S.optional(S.String),
     refreshTime: S.optional(S.String),
+    errorMessage: S.optional(S.String),
     actions: S.optional(StringList),
     name: S.optional(S.String),
-    errorMessage: S.optional(S.String),
+    state: S.optional(ConnectionSchemaMetadataStateEnum),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ConnectionSchemaMetadata",
@@ -3160,7 +3160,7 @@ export type AuditLogConfigLogTypeEnum =
   | "ADMIN_READ"
   | "DATA_WRITE"
   | "DATA_READ";
-export const AuditLogConfigLogTypeEnum = /*@__PURE__*/ S.String;
+export const AuditLogConfigLogTypeEnum = S.String;
 
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
@@ -3202,21 +3202,21 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
 
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
   /** Textual representation of an expression in Common Expression Language syntax. */
   expression?: string;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    title: S.optional(S.String),
     expression: S.optional(S.String),
     description: S.optional(S.String),
     location: S.optional(S.String),
+    title: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
@@ -3246,19 +3246,19 @@ export const BindingList = /*@__PURE__*/ S.Array(
 export interface Policy {
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     auditConfigs: S.optional(AuditConfigList),
-    bindings: S.optional(BindingList),
-    version: S.optional(S.Number),
     etag: S.optional(S.String),
+    version: S.optional(S.Number),
+    bindings: S.optional(BindingList),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
@@ -3304,24 +3304,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    locationId: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
-    name: S.optional(S.String),
     labels: S.optional(StringMap),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    locationId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -3329,7 +3329,7 @@ export type GetProjectsLocationsConnectionsViewEnum =
   | "CONNECTION_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const GetProjectsLocationsConnectionsViewEnum = /*@__PURE__*/ S.String;
+export const GetProjectsLocationsConnectionsViewEnum = S.String;
 
 export interface GetProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/connections/*` */
@@ -3358,7 +3358,7 @@ export type GetProjectsLocationsConnectionsEndUserAuthenticationsViewEnum =
   | "BASIC_VIEW"
   | "FULL_VIEW";
 export const GetProjectsLocationsConnectionsEndUserAuthenticationsViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GetProjectsLocationsConnectionsEndUserAuthenticationsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/connections/*\/EndUserAuthentications/*` */
@@ -3411,8 +3411,7 @@ export type GetProjectsLocationsEndpointAttachmentsViewEnum =
   | "ENDPOINT_ATTACHMENT_VIEW_UNSPECIFIED"
   | "ENDPOINT_ATTACHMENT_VIEW_BASIC"
   | "ENDPOINT_ATTACHMENT_VIEW_FULL";
-export const GetProjectsLocationsEndpointAttachmentsViewEnum =
-  /*@__PURE__*/ S.String;
+export const GetProjectsLocationsEndpointAttachmentsViewEnum = S.String;
 
 export interface GetProjectsLocationsEndpointAttachmentsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/endpointAttachments/*` */
@@ -3541,42 +3540,42 @@ export type ProviderLaunchStageEnum =
   | "DEPRECATED"
   | "TEST"
   | "PRIVATE_PREVIEW";
-export const ProviderLaunchStageEnum = /*@__PURE__*/ S.String;
+export const ProviderLaunchStageEnum = S.String;
 
 /** Provider indicates the owner who provides the connectors. */
 export interface Provider {
-  /** Output only. Cloud storage location of icons etc consumed by UI. */
-  webAssetsLocation?: string;
   /** Output only. Created time. */
   createTime?: string;
-  /** Output only. Link to documentation page. */
-  documentationUri?: string;
-  /** Output only. Link to external page. */
-  externalUri?: string;
-  /** Output only. Description of the resource. */
-  description?: string;
-  /** Output only. Updated time. */
-  updateTime?: string;
-  /** Output only. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
   /** Output only. Flag to mark the version indicating the launch stage. */
   launchStage?: ProviderLaunchStageEnum;
+  /** Output only. Link to documentation page. */
+  documentationUri?: string;
+  /** Output only. Cloud storage location of icons etc consumed by UI. */
+  webAssetsLocation?: string;
+  /** Output only. Description of the resource. */
+  description?: string;
+  /** Output only. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
+  labels?: StringMap;
   /** Output only. Resource name of the Provider. Format: projects/{project}/locations/{location}/providers/{provider} Only global location is supported for Provider resource. */
   name?: string;
+  /** Output only. Updated time. */
+  updateTime?: string;
+  /** Output only. Link to external page. */
+  externalUri?: string;
   /** Output only. Display name. */
   displayName?: string;
 }
 export const Provider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    webAssetsLocation: S.optional(S.String),
     createTime: S.optional(S.String),
-    documentationUri: S.optional(S.String),
-    externalUri: S.optional(S.String),
-    description: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    labels: S.optional(StringMap),
     launchStage: S.optional(ProviderLaunchStageEnum),
+    documentationUri: S.optional(S.String),
+    webAssetsLocation: S.optional(S.String),
+    description: S.optional(S.String),
+    labels: S.optional(StringMap),
     name: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    externalUri: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Provider" }) as any as S.Schema<Provider>;
@@ -3600,83 +3599,6 @@ export const GetProjectsLocationsProvidersConnectorsRequest =
     identifier: "GetProjectsLocationsProvidersConnectorsRequest",
   }) as any as S.Schema<GetProjectsLocationsProvidersConnectorsRequest>;
 
-export type EventingDetailsLaunchStageEnum =
-  | "LAUNCH_STAGE_UNSPECIFIED"
-  | "PREVIEW"
-  | "GA"
-  | "DEPRECATED"
-  | "TEST"
-  | "PRIVATE_PREVIEW";
-export const EventingDetailsLaunchStageEnum = /*@__PURE__*/ S.String;
-
-export type EventingDetailsTypeEnum = "TYPE_UNSPECIFIED" | "WEBHOOK" | "JMS";
-export const EventingDetailsTypeEnum = /*@__PURE__*/ S.String;
-
-export type EventingDetailsSubscriptionTypeEnum =
-  | "SUBSCRIPTION_TYPE_UNSPECIFIED"
-  | "SHARED"
-  | "USER_SPECIFIC";
-export const EventingDetailsSubscriptionTypeEnum = /*@__PURE__*/ S.String;
-
-/** Eventing Details message. */
-export interface EventingDetails {
-  /** Output only. Eventing Launch Stage. */
-  launchStage?: EventingDetailsLaunchStageEnum;
-  /** Output only. Name of the Eventing trigger. */
-  name?: string;
-  /** Output only. The type of the event listener for a specific connector. */
-  type?: EventingDetailsTypeEnum;
-  /** The webhook model supported by this connector. */
-  subscriptionType?: EventingDetailsSubscriptionTypeEnum;
-  /** Output only. Cloud storage location of the icon. */
-  iconLocation?: string;
-  /** Output only. Link to public documentation. */
-  documentationLink?: string;
-  /** Output only. Description. */
-  description?: string;
-  /** Output only. Custom Event Types. */
-  customEventTypes?: boolean;
-  /** Output only. Array of search keywords. */
-  searchTags?: StringList;
-}
-export const EventingDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    launchStage: S.optional(EventingDetailsLaunchStageEnum),
-    name: S.optional(S.String),
-    type: S.optional(EventingDetailsTypeEnum),
-    subscriptionType: S.optional(EventingDetailsSubscriptionTypeEnum),
-    iconLocation: S.optional(S.String),
-    documentationLink: S.optional(S.String),
-    description: S.optional(S.String),
-    customEventTypes: S.optional(S.Boolean),
-    searchTags: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "EventingDetails",
-}) as any as S.Schema<EventingDetails>;
-
-/** Marketplace connector details. */
-export interface MarketplaceConnectorDetails {
-  /** The name of the partner. */
-  partner?: string;
-  /** Marketplace product name. */
-  marketplaceProduct?: string;
-  /** Marketplace product ID. */
-  marketplaceProductId?: string;
-  /** Marketplace product URL. */
-  marketplaceProductUri?: string;
-}
-export const MarketplaceConnectorDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    partner: S.optional(S.String),
-    marketplaceProduct: S.optional(S.String),
-    marketplaceProductId: S.optional(S.String),
-    marketplaceProductUri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MarketplaceConnectorDetails",
-}) as any as S.Schema<MarketplaceConnectorDetails>;
-
 export type ConnectorLaunchStageEnum =
   | "LAUNCH_STAGE_UNSPECIFIED"
   | "PREVIEW"
@@ -3684,65 +3606,142 @@ export type ConnectorLaunchStageEnum =
   | "DEPRECATED"
   | "TEST"
   | "PRIVATE_PREVIEW";
-export const ConnectorLaunchStageEnum = /*@__PURE__*/ S.String;
+export const ConnectorLaunchStageEnum = S.String;
+
+/** Marketplace connector details. */
+export interface MarketplaceConnectorDetails {
+  /** The name of the partner. */
+  partner?: string;
+  /** Marketplace product URL. */
+  marketplaceProductUri?: string;
+  /** Marketplace product ID. */
+  marketplaceProductId?: string;
+  /** Marketplace product name. */
+  marketplaceProduct?: string;
+}
+export const MarketplaceConnectorDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    partner: S.optional(S.String),
+    marketplaceProductUri: S.optional(S.String),
+    marketplaceProductId: S.optional(S.String),
+    marketplaceProduct: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "MarketplaceConnectorDetails",
+}) as any as S.Schema<MarketplaceConnectorDetails>;
 
 export type ConnectorConnectorTypeEnum =
   | "CONNECTOR_TYPE_UNSPECIFIED"
   | "CONNECTOR_TYPE_GOOGLE"
   | "CONNECTOR_TYPE_TECHNICAL"
   | "CONNECTOR_TYPE_THIRD_PARTY";
-export const ConnectorConnectorTypeEnum = /*@__PURE__*/ S.String;
+export const ConnectorConnectorTypeEnum = S.String;
+
+export type EventingDetailsLaunchStageEnum =
+  | "LAUNCH_STAGE_UNSPECIFIED"
+  | "PREVIEW"
+  | "GA"
+  | "DEPRECATED"
+  | "TEST"
+  | "PRIVATE_PREVIEW";
+export const EventingDetailsLaunchStageEnum = S.String;
+
+export type EventingDetailsTypeEnum = "TYPE_UNSPECIFIED" | "WEBHOOK" | "JMS";
+export const EventingDetailsTypeEnum = S.String;
+
+export type EventingDetailsSubscriptionTypeEnum =
+  | "SUBSCRIPTION_TYPE_UNSPECIFIED"
+  | "SHARED"
+  | "USER_SPECIFIC";
+export const EventingDetailsSubscriptionTypeEnum = S.String;
+
+/** Eventing Details message. */
+export interface EventingDetails {
+  /** Output only. Array of search keywords. */
+  searchTags?: StringList;
+  /** Output only. Description. */
+  description?: string;
+  /** Output only. Eventing Launch Stage. */
+  launchStage?: EventingDetailsLaunchStageEnum;
+  /** Output only. Custom Event Types. */
+  customEventTypes?: boolean;
+  /** Output only. The type of the event listener for a specific connector. */
+  type?: EventingDetailsTypeEnum;
+  /** Output only. Cloud storage location of the icon. */
+  iconLocation?: string;
+  /** The webhook model supported by this connector. */
+  subscriptionType?: EventingDetailsSubscriptionTypeEnum;
+  /** Output only. Name of the Eventing trigger. */
+  name?: string;
+  /** Output only. Link to public documentation. */
+  documentationLink?: string;
+}
+export const EventingDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    searchTags: S.optional(StringList),
+    description: S.optional(S.String),
+    launchStage: S.optional(EventingDetailsLaunchStageEnum),
+    customEventTypes: S.optional(S.Boolean),
+    type: S.optional(EventingDetailsTypeEnum),
+    iconLocation: S.optional(S.String),
+    subscriptionType: S.optional(EventingDetailsSubscriptionTypeEnum),
+    name: S.optional(S.String),
+    documentationLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EventingDetails",
+}) as any as S.Schema<EventingDetails>;
 
 /** Connectors indicates a specific connector type, e.x. Salesforce, SAP etc. */
 export interface Connector {
-  /** Output only. Updated time. */
-  updateTime?: string;
-  /** Output only. Eventing details. Will be null if eventing is not supported. */
-  eventingDetails?: EventingDetails;
-  /** Output only. Resource name of the Connector. Format: projects/{project}/locations/{location}/providers/{provider}/connectors/{connector} Only global location is supported for Connector resource. */
-  name?: string;
-  /** Output only. Marketplace connector details. Will be null if the connector is not marketplace connector. */
-  marketplaceConnectorDetails?: MarketplaceConnectorDetails;
-  /** Output only. Link to external page. */
-  externalUri?: string;
   /** Output only. Description of the resource. */
   description?: string;
-  /** Output only. Category of the connector. */
-  category?: string;
-  /** Output only. Display name. */
-  displayName?: string;
-  /** Output only. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
-  /** Output only. Flag to mark the version indicating the launch stage. */
-  launchStage?: ConnectorLaunchStageEnum;
-  /** Output only. The type of the connector. */
-  connectorType?: ConnectorConnectorTypeEnum;
   /** Output only. Cloud storage location of icons etc consumed by UI. */
   webAssetsLocation?: string;
+  /** Output only. Flag to mark the version indicating the launch stage. */
+  launchStage?: ConnectorLaunchStageEnum;
+  /** Output only. Marketplace connector details. Will be null if the connector is not marketplace connector. */
+  marketplaceConnectorDetails?: MarketplaceConnectorDetails;
+  /** Output only. Display name. */
+  displayName?: string;
+  /** Output only. Link to external page. */
+  externalUri?: string;
+  /** Output only. Resource name of the Connector. Format: projects/{project}/locations/{location}/providers/{provider}/connectors/{connector} Only global location is supported for Connector resource. */
+  name?: string;
+  /** Output only. Category of the connector. */
+  category?: string;
+  /** Output only. The type of the connector. */
+  connectorType?: ConnectorConnectorTypeEnum;
   /** Output only. Created time. */
   createTime?: string;
   /** Output only. Link to documentation page. */
   documentationUri?: string;
   /** Output only. Tags of the connector. */
   tags?: StringList;
+  /** Output only. Updated time. */
+  updateTime?: string;
+  /** Output only. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
+  labels?: StringMap;
+  /** Output only. Eventing details. Will be null if eventing is not supported. */
+  eventingDetails?: EventingDetails;
 }
 export const Connector = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateTime: S.optional(S.String),
-    eventingDetails: S.optional(EventingDetails),
-    name: S.optional(S.String),
-    marketplaceConnectorDetails: S.optional(MarketplaceConnectorDetails),
-    externalUri: S.optional(S.String),
     description: S.optional(S.String),
-    category: S.optional(S.String),
-    displayName: S.optional(S.String),
-    labels: S.optional(StringMap),
-    launchStage: S.optional(ConnectorLaunchStageEnum),
-    connectorType: S.optional(ConnectorConnectorTypeEnum),
     webAssetsLocation: S.optional(S.String),
+    launchStage: S.optional(ConnectorLaunchStageEnum),
+    marketplaceConnectorDetails: S.optional(MarketplaceConnectorDetails),
+    displayName: S.optional(S.String),
+    externalUri: S.optional(S.String),
+    name: S.optional(S.String),
+    category: S.optional(S.String),
+    connectorType: S.optional(ConnectorConnectorTypeEnum),
     createTime: S.optional(S.String),
     documentationUri: S.optional(S.String),
     tags: S.optional(StringList),
+    updateTime: S.optional(S.String),
+    labels: S.optional(StringMap),
+    eventingDetails: S.optional(EventingDetails),
   }),
 ).annotate({ identifier: "Connector" }) as any as S.Schema<Connector>;
 
@@ -3750,24 +3749,23 @@ export type GetProjectsLocationsProvidersConnectorsVersionsViewEnum =
   | "CONNECTOR_VERSION_VIEW_UNSPECIFIED"
   | "CONNECTOR_VERSION_VIEW_BASIC"
   | "CONNECTOR_VERSION_VIEW_FULL";
-export const GetProjectsLocationsProvidersConnectorsVersionsViewEnum =
-  /*@__PURE__*/ S.String;
+export const GetProjectsLocationsProvidersConnectorsVersionsViewEnum = S.String;
 
 export interface GetProjectsLocationsProvidersConnectorsVersionsRequest {
+  /** Required. Resource name of the form: `projects/*\/locations/*\/providers/*\/connectors/*\/versions/*` Only global location is supported for ConnectorVersion resource. */
+  name: string;
   /** Specifies which fields of the ConnectorVersion are returned in the response. Defaults to `CUSTOMER` view. */
   view?:
     | GetProjectsLocationsProvidersConnectorsVersionsViewEnum
     | (string & {});
-  /** Required. Resource name of the form: `projects/*\/locations/*\/providers/*\/connectors/*\/versions/*` Only global location is supported for ConnectorVersion resource. */
-  name: string;
 }
 export const GetProjectsLocationsProvidersConnectorsVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      name: S.String.pipe(T.Label()),
       view: S.optional(
         GetProjectsLocationsProvidersConnectorsVersionsViewEnum.pipe(T.Query()),
       ),
-      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3779,77 +3777,63 @@ export const GetProjectsLocationsProvidersConnectorsVersionsRequest =
     identifier: "GetProjectsLocationsProvidersConnectorsVersionsRequest",
   }) as any as S.Schema<GetProjectsLocationsProvidersConnectorsVersionsRequest>;
 
+export type EventingConfigTemplateEventListenerTypeEnum =
+  | "EVENT_LISTENER_TYPE_UNSPECIFIED"
+  | "WEBHOOK_LISTENER"
+  | "JMS_LISTENER";
+export const EventingConfigTemplateEventListenerTypeEnum = S.String;
+
 export type DestinationConfigTemplatePortFieldTypeEnum =
   | "FIELD_TYPE_UNSPECIFIED"
   | "REQUIRED"
   | "OPTIONAL"
   | "NOT_USED";
-export const DestinationConfigTemplatePortFieldTypeEnum =
-  /*@__PURE__*/ S.String;
+export const DestinationConfigTemplatePortFieldTypeEnum = S.String;
 
 /** DestinationConfigTemplate defines required destinations supported by the Connector. */
 export interface DestinationConfigTemplate {
-  /** Autocomplete suggestions for destination URL field. */
-  autocompleteSuggestions?: StringList;
-  /** Key of the destination. */
-  key?: string;
-  /** Display name of the parameter. */
-  displayName?: string;
-  /** The maximum number of destinations supported for this key. */
-  max?: number;
   /** The default port. */
   defaultPort?: number;
+  /** Autocomplete suggestions for destination URL field. */
+  autocompleteSuggestions?: StringList;
   /** Whether the current destination tempalate is part of Advanced settings */
   isAdvanced?: boolean;
   /** Description. */
   description?: string;
-  /** The minimum number of destinations supported for this key. */
-  min?: number;
-  /** Regex pattern for host. */
-  regexPattern?: string;
+  /** Key of the destination. */
+  key?: string;
   /** Whether port number should be provided by customers. */
   portFieldType?: DestinationConfigTemplatePortFieldTypeEnum;
+  /** Regex pattern for host. */
+  regexPattern?: string;
+  /** The minimum number of destinations supported for this key. */
+  min?: number;
+  /** Display name of the parameter. */
+  displayName?: string;
+  /** The maximum number of destinations supported for this key. */
+  max?: number;
 }
 export const DestinationConfigTemplate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    autocompleteSuggestions: S.optional(StringList),
-    key: S.optional(S.String),
-    displayName: S.optional(S.String),
-    max: S.optional(S.Number),
     defaultPort: S.optional(S.Number),
+    autocompleteSuggestions: S.optional(StringList),
     isAdvanced: S.optional(S.Boolean),
     description: S.optional(S.String),
-    min: S.optional(S.Number),
-    regexPattern: S.optional(S.String),
+    key: S.optional(S.String),
     portFieldType: S.optional(DestinationConfigTemplatePortFieldTypeEnum),
+    regexPattern: S.optional(S.String),
+    min: S.optional(S.Number),
+    displayName: S.optional(S.String),
+    max: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "DestinationConfigTemplate",
 }) as any as S.Schema<DestinationConfigTemplate>;
 
-export type EventingConfigTemplateEventListenerTypeEnum =
-  | "EVENT_LISTENER_TYPE_UNSPECIFIED"
-  | "WEBHOOK_LISTENER"
-  | "JMS_LISTENER";
-export const EventingConfigTemplateEventListenerTypeEnum =
-  /*@__PURE__*/ S.String;
-
-export type SslConfigTemplateServerCertTypeItemEnum =
-  | "CERT_TYPE_UNSPECIFIED"
-  | "PEM";
-export const SslConfigTemplateServerCertTypeItemEnum = /*@__PURE__*/ S.String;
-
-export type SslConfigTemplateServerCertTypeItemEnumList =
-  Array<SslConfigTemplateServerCertTypeItemEnum>;
-export const SslConfigTemplateServerCertTypeItemEnumList =
-  /*@__PURE__*/ S.Array(
-    SslConfigTemplateServerCertTypeItemEnum,
-  ) as any as S.Schema<SslConfigTemplateServerCertTypeItemEnumList>;
-
 export type SslConfigTemplateClientCertTypeItemEnum =
   | "CERT_TYPE_UNSPECIFIED"
   | "PEM";
-export const SslConfigTemplateClientCertTypeItemEnum = /*@__PURE__*/ S.String;
+export const SslConfigTemplateClientCertTypeItemEnum = S.String;
 
 export type SslConfigTemplateClientCertTypeItemEnumList =
   Array<SslConfigTemplateClientCertTypeItemEnum>;
@@ -3862,28 +3846,40 @@ export type SslConfigTemplateSslTypeEnum =
   | "SSL_TYPE_UNSPECIFIED"
   | "TLS"
   | "MTLS";
-export const SslConfigTemplateSslTypeEnum = /*@__PURE__*/ S.String;
+export const SslConfigTemplateSslTypeEnum = S.String;
+
+export type SslConfigTemplateServerCertTypeItemEnum =
+  | "CERT_TYPE_UNSPECIFIED"
+  | "PEM";
+export const SslConfigTemplateServerCertTypeItemEnum = S.String;
+
+export type SslConfigTemplateServerCertTypeItemEnumList =
+  Array<SslConfigTemplateServerCertTypeItemEnum>;
+export const SslConfigTemplateServerCertTypeItemEnumList =
+  /*@__PURE__*/ S.Array(
+    SslConfigTemplateServerCertTypeItemEnum,
+  ) as any as S.Schema<SslConfigTemplateServerCertTypeItemEnumList>;
 
 /** Ssl config details of a connector version */
 export interface SslConfigTemplate {
-  /** List of supported Server Cert Types */
-  serverCertType?: SslConfigTemplateServerCertTypeItemEnumList;
   /** Boolean for determining if the connector version mandates TLS. */
   isTlsMandatory?: boolean;
   /** List of supported Client Cert Types */
   clientCertType?: SslConfigTemplateClientCertTypeItemEnumList;
-  /** Any additional fields that need to be rendered */
-  additionalVariables?: ConfigVariableTemplateList;
   /** Controls the ssl type for the given connector version */
   sslType?: SslConfigTemplateSslTypeEnum;
+  /** List of supported Server Cert Types */
+  serverCertType?: SslConfigTemplateServerCertTypeItemEnumList;
+  /** Any additional fields that need to be rendered */
+  additionalVariables?: ConfigVariableTemplateList;
 }
 export const SslConfigTemplate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serverCertType: S.optional(SslConfigTemplateServerCertTypeItemEnumList),
     isTlsMandatory: S.optional(S.Boolean),
     clientCertType: S.optional(SslConfigTemplateClientCertTypeItemEnumList),
-    additionalVariables: S.optional(ConfigVariableTemplateList),
     sslType: S.optional(SslConfigTemplateSslTypeEnum),
+    serverCertType: S.optional(SslConfigTemplateServerCertTypeItemEnumList),
+    additionalVariables: S.optional(ConfigVariableTemplateList),
   }),
 ).annotate({
   identifier: "SslConfigTemplate",
@@ -3891,60 +3887,116 @@ export const SslConfigTemplate = /*@__PURE__*/ S.suspend(() =>
 
 /** Eventing Config details of a connector version. next: 14 */
 export interface EventingConfigTemplate {
-  /** Enrichment Supported. */
-  enrichmentSupported?: boolean;
-  /** Registration host destination config template. */
-  registrationDestinationConfig?: DestinationConfigTemplate;
-  /** Auto refresh to extend webhook life. */
-  autoRefresh?: boolean;
-  /** The type of the event listener for a specific connector. */
-  eventListenerType?: EventingConfigTemplateEventListenerTypeEnum;
-  /** AuthConfigTemplates represents the auth values for the webhook adapter. */
-  authConfigTemplates?: AuthConfigTemplateList;
-  /** Trigger Config fields that needs to be rendered */
-  triggerConfigVariables?: ConfigVariableTemplateList;
-  /** ListenerAuthConfigTemplates represents the auth values for the event listener. */
-  listenerAuthConfigTemplates?: AuthConfigTemplateList;
-  /** Is Eventing Supported. */
-  isEventingSupported?: boolean;
-  /** Proxy destination config template. */
-  proxyDestinationConfig?: DestinationConfigTemplate;
   /** Encryption key (can be either Google managed or CMEK). */
   encryptionKeyTemplate?: ConfigVariableTemplate;
+  /** The type of the event listener for a specific connector. */
+  eventListenerType?: EventingConfigTemplateEventListenerTypeEnum;
   /** Additional fields that need to be rendered. */
   additionalVariables?: ConfigVariableTemplateList;
-  /** SSL Config template for the connector version. */
-  sslConfigTemplate?: SslConfigTemplate;
+  /** Is Eventing Supported. */
+  isEventingSupported?: boolean;
+  /** Enrichment Supported. */
+  enrichmentSupported?: boolean;
+  /** Auto refresh to extend webhook life. */
+  autoRefresh?: boolean;
   /** Auto Registration supported. */
   autoRegistrationSupported?: boolean;
+  /** ListenerAuthConfigTemplates represents the auth values for the event listener. */
+  listenerAuthConfigTemplates?: AuthConfigTemplateList;
+  /** Proxy destination config template. */
+  proxyDestinationConfig?: DestinationConfigTemplate;
+  /** SSL Config template for the connector version. */
+  sslConfigTemplate?: SslConfigTemplate;
+  /** Registration host destination config template. */
+  registrationDestinationConfig?: DestinationConfigTemplate;
+  /** Trigger Config fields that needs to be rendered */
+  triggerConfigVariables?: ConfigVariableTemplateList;
+  /** AuthConfigTemplates represents the auth values for the webhook adapter. */
+  authConfigTemplates?: AuthConfigTemplateList;
 }
 export const EventingConfigTemplate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enrichmentSupported: S.optional(S.Boolean),
-    registrationDestinationConfig: S.optional(DestinationConfigTemplate),
-    autoRefresh: S.optional(S.Boolean),
-    eventListenerType: S.optional(EventingConfigTemplateEventListenerTypeEnum),
-    authConfigTemplates: S.optional(AuthConfigTemplateList),
-    triggerConfigVariables: S.optional(ConfigVariableTemplateList),
-    listenerAuthConfigTemplates: S.optional(AuthConfigTemplateList),
-    isEventingSupported: S.optional(S.Boolean),
-    proxyDestinationConfig: S.optional(DestinationConfigTemplate),
     encryptionKeyTemplate: S.optional(ConfigVariableTemplate),
+    eventListenerType: S.optional(EventingConfigTemplateEventListenerTypeEnum),
     additionalVariables: S.optional(ConfigVariableTemplateList),
-    sslConfigTemplate: S.optional(SslConfigTemplate),
+    isEventingSupported: S.optional(S.Boolean),
+    enrichmentSupported: S.optional(S.Boolean),
+    autoRefresh: S.optional(S.Boolean),
     autoRegistrationSupported: S.optional(S.Boolean),
+    listenerAuthConfigTemplates: S.optional(AuthConfigTemplateList),
+    proxyDestinationConfig: S.optional(DestinationConfigTemplate),
+    sslConfigTemplate: S.optional(SslConfigTemplate),
+    registrationDestinationConfig: S.optional(DestinationConfigTemplate),
+    triggerConfigVariables: S.optional(ConfigVariableTemplateList),
+    authConfigTemplates: S.optional(AuthConfigTemplateList),
   }),
 ).annotate({
   identifier: "EventingConfigTemplate",
 }) as any as S.Schema<EventingConfigTemplate>;
+
+export type RoleGrantList = Array<RoleGrant>;
+export const RoleGrantList = /*@__PURE__*/ S.Array(
+  RoleGrant,
+) as any as S.Schema<RoleGrantList>;
+
+/** Supported runtime features of a connector version. */
+export interface SupportedRuntimeFeatures {
+  /** Specifies if the connector supports action apis like 'executeAction'. */
+  actionApis?: boolean;
+  /** Specifies if the connector supports async long running operations. */
+  asyncOperations?: boolean;
+  /** Specifies if the connector supports entity apis like 'createEntity'. */
+  entityApis?: boolean;
+  /** Specifies if the connector supports 'ExecuteSqlQuery' operation. */
+  sqlQuery?: boolean;
+}
+export const SupportedRuntimeFeatures = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actionApis: S.optional(S.Boolean),
+    asyncOperations: S.optional(S.Boolean),
+    entityApis: S.optional(S.Boolean),
+    sqlQuery: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "SupportedRuntimeFeatures",
+}) as any as S.Schema<SupportedRuntimeFeatures>;
+
+export type DestinationConfigTemplateList = Array<DestinationConfigTemplate>;
+export const DestinationConfigTemplateList = /*@__PURE__*/ S.Array(
+  DestinationConfigTemplate,
+) as any as S.Schema<DestinationConfigTemplateList>;
+
+export type ConnectorVersionLaunchStageEnum =
+  | "LAUNCH_STAGE_UNSPECIFIED"
+  | "PREVIEW"
+  | "GA"
+  | "DEPRECATED"
+  | "TEST"
+  | "PRIVATE_PREVIEW";
+export const ConnectorVersionLaunchStageEnum = S.String;
+
+/** Standard entity */
+export interface StandardEntity {
+  /** Name of the standard entity. */
+  name?: string;
+}
+export const StandardEntity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "StandardEntity" }) as any as S.Schema<StandardEntity>;
+
+export type StandardEntityList = Array<StandardEntity>;
+export const StandardEntityList = /*@__PURE__*/ S.Array(
+  StandardEntity,
+) as any as S.Schema<StandardEntityList>;
 
 export type ConnectorVersionUnsupportedConnectionTypesItemEnum =
   | "CONNECTION_TYPE_UNSPECIFIED"
   | "CONNECTION_WITH_EVENTING"
   | "ONLY_CONNECTION"
   | "ONLY_EVENTING";
-export const ConnectorVersionUnsupportedConnectionTypesItemEnum =
-  /*@__PURE__*/ S.String;
+export const ConnectorVersionUnsupportedConnectionTypesItemEnum = S.String;
 
 export type ConnectorVersionUnsupportedConnectionTypesItemEnumList =
   Array<ConnectorVersionUnsupportedConnectionTypesItemEnum>;
@@ -3953,33 +4005,160 @@ export const ConnectorVersionUnsupportedConnectionTypesItemEnumList =
     ConnectorVersionUnsupportedConnectionTypesItemEnum,
   ) as any as S.Schema<ConnectorVersionUnsupportedConnectionTypesItemEnumList>;
 
-/** Supported runtime features of a connector version. */
-export interface SupportedRuntimeFeatures {
-  /** Specifies if the connector supports entity apis like 'createEntity'. */
-  entityApis?: boolean;
-  /** Specifies if the connector supports action apis like 'executeAction'. */
-  actionApis?: boolean;
-  /** Specifies if the connector supports 'ExecuteSqlQuery' operation. */
-  sqlQuery?: boolean;
-  /** Specifies if the connector supports async long running operations. */
-  asyncOperations?: boolean;
+/** Config for connection schema refresh */
+export interface SchemaRefreshConfig {
+  /** Whether to use synchronous schema refresh. */
+  useSynchronousSchemaRefresh?: boolean;
+  /** Whether to use displayName for actions in UI. */
+  useActionDisplayNames?: boolean;
 }
-export const SupportedRuntimeFeatures = /*@__PURE__*/ S.suspend(() =>
+export const SchemaRefreshConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entityApis: S.optional(S.Boolean),
-    actionApis: S.optional(S.Boolean),
-    sqlQuery: S.optional(S.Boolean),
-    asyncOperations: S.optional(S.Boolean),
+    useSynchronousSchemaRefresh: S.optional(S.Boolean),
+    useActionDisplayNames: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "SupportedRuntimeFeatures",
-}) as any as S.Schema<SupportedRuntimeFeatures>;
+  identifier: "SchemaRefreshConfig",
+}) as any as S.Schema<SchemaRefreshConfig>;
+
+export type NetworkEgressModeOverrideNetworkEgressModeEnum =
+  | "NETWORK_EGRESS_MODE_UNSPECIFIED"
+  | "SERVERLESS_VPC_ACCESS_CONNECTOR"
+  | "DIRECT_VPC_EGRESS";
+export const NetworkEgressModeOverrideNetworkEgressModeEnum = S.String;
+
+/** NetworkEgressModeOverride provides the network egress mode override for a connector. */
+export interface NetworkEgressModeOverride {
+  /** Determines the VPC Egress mode for the connector. */
+  networkEgressMode?: NetworkEgressModeOverrideNetworkEgressModeEnum;
+  /** boolean should be set to true to make sure only async operations enabled connections are migrated to direct vpc egress. */
+  isJobsOverrideEnabled?: boolean;
+  /** boolean should be set to true to make sure only eventing enabled connections are migrated to direct vpc egress. */
+  isEventingOverrideEnabled?: boolean;
+}
+export const NetworkEgressModeOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    networkEgressMode: S.optional(
+      NetworkEgressModeOverrideNetworkEgressModeEnum,
+    ),
+    isJobsOverrideEnabled: S.optional(S.Boolean),
+    isEventingOverrideEnabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "NetworkEgressModeOverride",
+}) as any as S.Schema<NetworkEgressModeOverride>;
+
+export type ConnectorInfraConfigDeploymentModelEnum =
+  | "DEPLOYMENT_MODEL_UNSPECIFIED"
+  | "GKE_MST"
+  | "CLOUD_RUN_MST";
+export const ConnectorInfraConfigDeploymentModelEnum = S.String;
+
+/** This cofiguration provides infra configs like rate limit threshold which need to be configurable for every connector version */
+export interface ConnectorInfraConfig {
+  /** The name of shared connector deployment. */
+  sharedDeployment?: string;
+  /** Network egress mode override to migrate to direct VPC egress. */
+  networkEgressModeOverride?: NetworkEgressModeOverride;
+  /** Indicate whether cloud spanner is required for connector job. */
+  provisionCloudSpanner?: boolean;
+  /** Indicate whether connector versioning is enabled. */
+  connectorVersioningEnabled?: boolean;
+  /** Indicate whether connector is being migrated to cloud run deployment model. */
+  migrateDeploymentModel?: boolean;
+  /** System resource limits. */
+  resourceLimits?: ResourceLimits;
+  /** Indicate whether connector is being migrated to TLS. */
+  migrateTls?: boolean;
+  /** Max QPS supported by the connector version before throttling of requests. */
+  ratelimitThreshold?: string;
+  /** Max Instance Request Conncurrency for Cloud Run service. */
+  maxInstanceRequestConcurrency?: number;
+  /** Indicates that the Cloud Run CPU should always be allocated. */
+  alwaysAllocateCpu?: boolean;
+  /** Indicate whether memstore is required for connector job. */
+  provisionMemstore?: boolean;
+  /** Indicate whether public network ingress should be enabled. */
+  publicNetworkIngressEnabled?: boolean;
+  /** The window used for ratelimiting runtime requests to connections. */
+  connectionRatelimitWindowSeconds?: string;
+  /** Indicate whether connection service account is enabled. If false, the common runtime service agent is used. */
+  connectionServiceAccountEnabled?: boolean;
+  /** Max QPS supported for internal requests originating from Connd. */
+  internalclientRatelimitThreshold?: string;
+  /** HPA autoscaling config. */
+  hpaConfig?: HPAConfig;
+  /** System resource requests. */
+  resourceRequests?: ResourceRequests;
+  /** Indicate whether connector is deployed on GKE/CloudRun */
+  deploymentModel?: ConnectorInfraConfigDeploymentModelEnum;
+}
+export const ConnectorInfraConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sharedDeployment: S.optional(S.String),
+    networkEgressModeOverride: S.optional(NetworkEgressModeOverride),
+    provisionCloudSpanner: S.optional(S.Boolean),
+    connectorVersioningEnabled: S.optional(S.Boolean),
+    migrateDeploymentModel: S.optional(S.Boolean),
+    resourceLimits: S.optional(ResourceLimits),
+    migrateTls: S.optional(S.Boolean),
+    ratelimitThreshold: S.optional(S.String),
+    maxInstanceRequestConcurrency: S.optional(S.Number),
+    alwaysAllocateCpu: S.optional(S.Boolean),
+    provisionMemstore: S.optional(S.Boolean),
+    publicNetworkIngressEnabled: S.optional(S.Boolean),
+    connectionRatelimitWindowSeconds: S.optional(S.String),
+    connectionServiceAccountEnabled: S.optional(S.Boolean),
+    internalclientRatelimitThreshold: S.optional(S.String),
+    hpaConfig: S.optional(HPAConfig),
+    resourceRequests: S.optional(ResourceRequests),
+    deploymentModel: S.optional(ConnectorInfraConfigDeploymentModelEnum),
+  }),
+).annotate({
+  identifier: "ConnectorInfraConfig",
+}) as any as S.Schema<ConnectorInfraConfig>;
+
+/** Standard action */
+export interface StandardAction {
+  /** Name of the standard action. */
+  name?: string;
+}
+export const StandardAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "StandardAction" }) as any as S.Schema<StandardAction>;
+
+export type StandardActionList = Array<StandardAction>;
+export const StandardActionList = /*@__PURE__*/ S.Array(
+  StandardAction,
+) as any as S.Schema<StandardActionList>;
+
+/** This configuration provides VPCSC config for a connector. */
+export interface VpcscConfig {
+  /** The list of allowlisted FQDNs for VPCSC. */
+  defaultAllowlistedHost?: StringList;
+  /** Whether to disable firewall VPCSC flow. */
+  disableFirewallVpcscFlow?: boolean;
+}
+export const VpcscConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaultAllowlistedHost: S.optional(StringList),
+    disableFirewallVpcscFlow: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "VpcscConfig" }) as any as S.Schema<VpcscConfig>;
+
+export type EgressControlConfigAccessModeEnum =
+  | "ACCESS_MODE_UNSPECIFIED"
+  | "RESTRICTED"
+  | "ALLOW_ALL";
+export const EgressControlConfigAccessModeEnum = S.String;
 
 export type SourceSourceTypeEnum =
   | "SOURCE_TYPE_UNSPECIFIED"
   | "CONFIG_VARIABLE"
   | "AUTH_CONFIG_VARIABLE";
-export const SourceSourceTypeEnum = /*@__PURE__*/ S.String;
+export const SourceSourceTypeEnum = S.String;
 
 /** Source to extract the backend from. */
 export interface Source {
@@ -3997,17 +4176,17 @@ export const Source = /*@__PURE__*/ S.suspend(() =>
 
 /** Extraction Rule. */
 export interface ExtractionRule {
-  /** Regex used to extract backend details from source. If empty, whole source value will be used. */
-  extractionRegex?: string;
   /** Source on which the rule is applied. */
   source?: Source;
+  /** Regex used to extract backend details from source. If empty, whole source value will be used. */
+  extractionRegex?: string;
   /** Format string used to format the extracted backend details. If empty, extracted backend details will be returned as it is. */
   formatString?: string;
 }
 export const ExtractionRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    extractionRegex: S.optional(S.String),
     source: S.optional(Source),
+    extractionRegex: S.optional(S.String),
     formatString: S.optional(S.String),
   }),
 ).annotate({ identifier: "ExtractionRule" }) as any as S.Schema<ExtractionRule>;
@@ -4035,303 +4214,118 @@ export type EgressControlConfigLaunchEnvironmentEnum =
   | "AUTOPUSH"
   | "STAGING"
   | "PROD";
-export const EgressControlConfigLaunchEnvironmentEnum = /*@__PURE__*/ S.String;
-
-export type EgressControlConfigAccessModeEnum =
-  | "ACCESS_MODE_UNSPECIFIED"
-  | "RESTRICTED"
-  | "ALLOW_ALL";
-export const EgressControlConfigAccessModeEnum = /*@__PURE__*/ S.String;
+export const EgressControlConfigLaunchEnvironmentEnum = S.String;
 
 /** Egress control config for connector runtime. These configurations define the rules to identify which outbound domains/hosts needs to be whitelisted. It may be a static information for a particular connector version or it is derived from the configurations provided by the customer in Connection resource. */
 export interface EgressControlConfig {
+  /** Optional. Access mode for egress control. */
+  accessMode?: EgressControlConfigAccessModeEnum;
+  /** Extractions Rules to extract the backends from customer provided configuration. */
+  extractionRules?: ExtractionRules;
   /** Additional extraction rules to identity the backends from customer provided configuration in Connection resource. These rules are applied in addition to the ones specified in `oneof_backends`. */
   additionalExtractionRules?: ExtractionRules;
   /** Launch environment for egress control. */
   launchEnvironment?: EgressControlConfigLaunchEnvironmentEnum;
-  /** Static Comma separated backends which are common for all Connection resources. Supported formats for each backend are host:port or just host (host can be ip address or domain name). */
-  backends?: string;
-  /** Extractions Rules to extract the backends from customer provided configuration. */
-  extractionRules?: ExtractionRules;
-  /** Optional. Access mode for egress control. */
-  accessMode?: EgressControlConfigAccessModeEnum;
   /** Optional. Used when access_mode is RESTRICTED or ACCESS_MODE_UNSPECIFIED. */
   allowlistedProjectNumbers?: StringList;
+  /** Static Comma separated backends which are common for all Connection resources. Supported formats for each backend are host:port or just host (host can be ip address or domain name). */
+  backends?: string;
 }
 export const EgressControlConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    accessMode: S.optional(EgressControlConfigAccessModeEnum),
+    extractionRules: S.optional(ExtractionRules),
     additionalExtractionRules: S.optional(ExtractionRules),
     launchEnvironment: S.optional(EgressControlConfigLaunchEnvironmentEnum),
-    backends: S.optional(S.String),
-    extractionRules: S.optional(ExtractionRules),
-    accessMode: S.optional(EgressControlConfigAccessModeEnum),
     allowlistedProjectNumbers: S.optional(StringList),
+    backends: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EgressControlConfig",
 }) as any as S.Schema<EgressControlConfig>;
 
-export type DestinationConfigTemplateList = Array<DestinationConfigTemplate>;
-export const DestinationConfigTemplateList = /*@__PURE__*/ S.Array(
-  DestinationConfigTemplate,
-) as any as S.Schema<DestinationConfigTemplateList>;
-
-export type RoleGrantList = Array<RoleGrant>;
-export const RoleGrantList = /*@__PURE__*/ S.Array(
-  RoleGrant,
-) as any as S.Schema<RoleGrantList>;
-
-/** Standard entity */
-export interface StandardEntity {
-  /** Name of the standard entity. */
-  name?: string;
-}
-export const StandardEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "StandardEntity" }) as any as S.Schema<StandardEntity>;
-
-export type StandardEntityList = Array<StandardEntity>;
-export const StandardEntityList = /*@__PURE__*/ S.Array(
-  StandardEntity,
-) as any as S.Schema<StandardEntityList>;
-
-export type ConnectorInfraConfigDeploymentModelEnum =
-  | "DEPLOYMENT_MODEL_UNSPECIFIED"
-  | "GKE_MST"
-  | "CLOUD_RUN_MST";
-export const ConnectorInfraConfigDeploymentModelEnum = /*@__PURE__*/ S.String;
-
-export type NetworkEgressModeOverrideNetworkEgressModeEnum =
-  | "NETWORK_EGRESS_MODE_UNSPECIFIED"
-  | "SERVERLESS_VPC_ACCESS_CONNECTOR"
-  | "DIRECT_VPC_EGRESS";
-export const NetworkEgressModeOverrideNetworkEgressModeEnum =
-  /*@__PURE__*/ S.String;
-
-/** NetworkEgressModeOverride provides the network egress mode override for a connector. */
-export interface NetworkEgressModeOverride {
-  /** Determines the VPC Egress mode for the connector. */
-  networkEgressMode?: NetworkEgressModeOverrideNetworkEgressModeEnum;
-  /** boolean should be set to true to make sure only async operations enabled connections are migrated to direct vpc egress. */
-  isJobsOverrideEnabled?: boolean;
-  /** boolean should be set to true to make sure only eventing enabled connections are migrated to direct vpc egress. */
-  isEventingOverrideEnabled?: boolean;
-}
-export const NetworkEgressModeOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    networkEgressMode: S.optional(
-      NetworkEgressModeOverrideNetworkEgressModeEnum,
-    ),
-    isJobsOverrideEnabled: S.optional(S.Boolean),
-    isEventingOverrideEnabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "NetworkEgressModeOverride",
-}) as any as S.Schema<NetworkEgressModeOverride>;
-
-/** This cofiguration provides infra configs like rate limit threshold which need to be configurable for every connector version */
-export interface ConnectorInfraConfig {
-  /** The window used for ratelimiting runtime requests to connections. */
-  connectionRatelimitWindowSeconds?: string;
-  /** Indicate whether connector is being migrated to TLS. */
-  migrateTls?: boolean;
-  /** Indicate whether public network ingress should be enabled. */
-  publicNetworkIngressEnabled?: boolean;
-  /** Max QPS supported for internal requests originating from Connd. */
-  internalclientRatelimitThreshold?: string;
-  /** The name of shared connector deployment. */
-  sharedDeployment?: string;
-  /** Indicate whether connection service account is enabled. If false, the common runtime service agent is used. */
-  connectionServiceAccountEnabled?: boolean;
-  /** Max Instance Request Conncurrency for Cloud Run service. */
-  maxInstanceRequestConcurrency?: number;
-  /** HPA autoscaling config. */
-  hpaConfig?: HPAConfig;
-  /** Indicate whether connector versioning is enabled. */
-  connectorVersioningEnabled?: boolean;
-  /** Indicate whether connector is being migrated to cloud run deployment model. */
-  migrateDeploymentModel?: boolean;
-  /** Indicates that the Cloud Run CPU should always be allocated. */
-  alwaysAllocateCpu?: boolean;
-  /** Indicate whether memstore is required for connector job. */
-  provisionMemstore?: boolean;
-  /** Max QPS supported by the connector version before throttling of requests. */
-  ratelimitThreshold?: string;
-  /** Indicate whether connector is deployed on GKE/CloudRun */
-  deploymentModel?: ConnectorInfraConfigDeploymentModelEnum;
-  /** System resource requests. */
-  resourceRequests?: ResourceRequests;
-  /** Indicate whether cloud spanner is required for connector job. */
-  provisionCloudSpanner?: boolean;
-  /** System resource limits. */
-  resourceLimits?: ResourceLimits;
-  /** Network egress mode override to migrate to direct VPC egress. */
-  networkEgressModeOverride?: NetworkEgressModeOverride;
-}
-export const ConnectorInfraConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectionRatelimitWindowSeconds: S.optional(S.String),
-    migrateTls: S.optional(S.Boolean),
-    publicNetworkIngressEnabled: S.optional(S.Boolean),
-    internalclientRatelimitThreshold: S.optional(S.String),
-    sharedDeployment: S.optional(S.String),
-    connectionServiceAccountEnabled: S.optional(S.Boolean),
-    maxInstanceRequestConcurrency: S.optional(S.Number),
-    hpaConfig: S.optional(HPAConfig),
-    connectorVersioningEnabled: S.optional(S.Boolean),
-    migrateDeploymentModel: S.optional(S.Boolean),
-    alwaysAllocateCpu: S.optional(S.Boolean),
-    provisionMemstore: S.optional(S.Boolean),
-    ratelimitThreshold: S.optional(S.String),
-    deploymentModel: S.optional(ConnectorInfraConfigDeploymentModelEnum),
-    resourceRequests: S.optional(ResourceRequests),
-    provisionCloudSpanner: S.optional(S.Boolean),
-    resourceLimits: S.optional(ResourceLimits),
-    networkEgressModeOverride: S.optional(NetworkEgressModeOverride),
-  }),
-).annotate({
-  identifier: "ConnectorInfraConfig",
-}) as any as S.Schema<ConnectorInfraConfig>;
-
-/** Standard action */
-export interface StandardAction {
-  /** Name of the standard action. */
-  name?: string;
-}
-export const StandardAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "StandardAction" }) as any as S.Schema<StandardAction>;
-
-export type StandardActionList = Array<StandardAction>;
-export const StandardActionList = /*@__PURE__*/ S.Array(
-  StandardAction,
-) as any as S.Schema<StandardActionList>;
-
-/** Config for connection schema refresh */
-export interface SchemaRefreshConfig {
-  /** Whether to use synchronous schema refresh. */
-  useSynchronousSchemaRefresh?: boolean;
-  /** Whether to use displayName for actions in UI. */
-  useActionDisplayNames?: boolean;
-}
-export const SchemaRefreshConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    useSynchronousSchemaRefresh: S.optional(S.Boolean),
-    useActionDisplayNames: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "SchemaRefreshConfig",
-}) as any as S.Schema<SchemaRefreshConfig>;
-
-/** This configuration provides VPCSC config for a connector. */
-export interface VpcscConfig {
-  /** The list of allowlisted FQDNs for VPCSC. */
-  defaultAllowlistedHost?: StringList;
-  /** Whether to disable firewall VPCSC flow. */
-  disableFirewallVpcscFlow?: boolean;
-}
-export const VpcscConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    defaultAllowlistedHost: S.optional(StringList),
-    disableFirewallVpcscFlow: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "VpcscConfig" }) as any as S.Schema<VpcscConfig>;
-
-export type ConnectorVersionLaunchStageEnum =
-  | "LAUNCH_STAGE_UNSPECIFIED"
-  | "PREVIEW"
-  | "GA"
-  | "DEPRECATED"
-  | "TEST"
-  | "PRIVATE_PREVIEW";
-export const ConnectorVersionLaunchStageEnum = /*@__PURE__*/ S.String;
-
 /** ConnectorVersion indicates a specific version of a connector. */
 export interface ConnectorVersion {
-  /** Output only. Role grant configuration for this config variable. It will be DEPRECATED soon. */
-  roleGrant?: RoleGrant;
   /** Output only. Eventing configuration supported by the Connector. */
   eventingConfigTemplate?: EventingConfigTemplate;
-  /** Output only. Unsupported connection types. */
-  unsupportedConnectionTypes?: ConnectorVersionUnsupportedConnectionTypesItemEnumList;
+  /** Output only. List of config variables needed to create a connection. */
+  configVariableTemplates?: ConfigVariableTemplateList;
+  /** Output only. Role grant configurations for this connector version. */
+  roleGrants?: RoleGrantList;
+  /** Output only. Display name. */
+  displayName?: string;
   /** Output only. Is custom entities supported. */
   isCustomEntitiesSupported?: boolean;
   /** Output only. Information about the runtime features supported by the Connector. */
   supportedRuntimeFeatures?: SupportedRuntimeFeatures;
-  /** Output only. Configuration for Egress Control. */
-  egressControlConfig?: EgressControlConfig;
+  /** Output only. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
+  labels?: StringMap;
   /** Output only. List of destination configs needed to create a connection. */
   destinationConfigTemplates?: DestinationConfigTemplateList;
-  /** Output only. Ssl configuration supported by the Connector. */
-  sslConfigTemplate?: SslConfigTemplate;
-  /** Output only. Display name. */
-  displayName?: string;
-  /** Output only. Role grant configurations for this connector version. */
-  roleGrants?: RoleGrantList;
-  /** Output only. Supported standard entities. */
-  supportedStandardEntities?: StandardEntityList;
-  /** Output only. Infra configs supported by Connector. */
-  connectorInfraConfig?: ConnectorInfraConfig;
-  /** Output only. ReleaseVersion of the connector, for example: "1.0.1-alpha". */
-  releaseVersion?: string;
-  /** Output only. Resource name of the Version. Format: projects/{project}/locations/{location}/providers/{provider}/connectors/{connector}/versions/{version} Only global location is supported for Connector resource. */
-  name?: string;
-  /** Output only. List of auth configs supported by the Connector Version. */
-  authConfigTemplates?: AuthConfigTemplateList;
   /** Output only. Is custom actions supported. */
   isCustomActionsSupported?: boolean;
-  /** Output only. Updated time. */
-  updateTime?: string;
-  /** Output only. Flag to mark the dynamic auth override. */
-  authOverrideEnabled?: boolean;
-  /** Output only. List of config variables needed to create a connection. */
-  configVariableTemplates?: ConfigVariableTemplateList;
-  /** Output only. Supported standard actions. */
-  supportedStandardActions?: StandardActionList;
+  /** Output only. List of auth configs supported by the Connector Version. */
+  authConfigTemplates?: AuthConfigTemplateList;
+  /** Output only. Resource name of the Version. Format: projects/{project}/locations/{location}/providers/{provider}/connectors/{connector}/versions/{version} Only global location is supported for Connector resource. */
+  name?: string;
+  /** Output only. Role grant configuration for this config variable. It will be DEPRECATED soon. */
+  roleGrant?: RoleGrant;
+  /** Output only. Ssl configuration supported by the Connector. */
+  sslConfigTemplate?: SslConfigTemplate;
+  /** Output only. Flag to mark the version indicating the launch stage. */
+  launchStage?: ConnectorVersionLaunchStageEnum;
+  /** Output only. Supported standard entities. */
+  supportedStandardEntities?: StandardEntityList;
+  /** Output only. Unsupported connection types. */
+  unsupportedConnectionTypes?: ConnectorVersionUnsupportedConnectionTypesItemEnumList;
+  /** Output only. ReleaseVersion of the connector, for example: "1.0.1-alpha". */
+  releaseVersion?: string;
   /** Connection Schema Refresh Config */
   schemaRefreshConfig?: SchemaRefreshConfig;
+  /** Output only. Infra configs supported by Connector. */
+  connectorInfraConfig?: ConnectorInfraConfig;
+  /** Output only. Updated time. */
+  updateTime?: string;
+  /** Output only. Supported standard actions. */
+  supportedStandardActions?: StandardActionList;
   /** Output only. Created time. */
   createTime?: string;
   /** Output only. VPCSC config for the connector. */
   vpcscConfig?: VpcscConfig;
-  /** Output only. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
-  /** Output only. Flag to mark the version indicating the launch stage. */
-  launchStage?: ConnectorVersionLaunchStageEnum;
+  /** Output only. Flag to mark the dynamic auth override. */
+  authOverrideEnabled?: boolean;
+  /** Output only. Configuration for Egress Control. */
+  egressControlConfig?: EgressControlConfig;
 }
 export const ConnectorVersion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    roleGrant: S.optional(RoleGrant),
     eventingConfigTemplate: S.optional(EventingConfigTemplate),
+    configVariableTemplates: S.optional(ConfigVariableTemplateList),
+    roleGrants: S.optional(RoleGrantList),
+    displayName: S.optional(S.String),
+    isCustomEntitiesSupported: S.optional(S.Boolean),
+    supportedRuntimeFeatures: S.optional(SupportedRuntimeFeatures),
+    labels: S.optional(StringMap),
+    destinationConfigTemplates: S.optional(DestinationConfigTemplateList),
+    isCustomActionsSupported: S.optional(S.Boolean),
+    authConfigTemplates: S.optional(AuthConfigTemplateList),
+    name: S.optional(S.String),
+    roleGrant: S.optional(RoleGrant),
+    sslConfigTemplate: S.optional(SslConfigTemplate),
+    launchStage: S.optional(ConnectorVersionLaunchStageEnum),
+    supportedStandardEntities: S.optional(StandardEntityList),
     unsupportedConnectionTypes: S.optional(
       ConnectorVersionUnsupportedConnectionTypesItemEnumList,
     ),
-    isCustomEntitiesSupported: S.optional(S.Boolean),
-    supportedRuntimeFeatures: S.optional(SupportedRuntimeFeatures),
-    egressControlConfig: S.optional(EgressControlConfig),
-    destinationConfigTemplates: S.optional(DestinationConfigTemplateList),
-    sslConfigTemplate: S.optional(SslConfigTemplate),
-    displayName: S.optional(S.String),
-    roleGrants: S.optional(RoleGrantList),
-    supportedStandardEntities: S.optional(StandardEntityList),
-    connectorInfraConfig: S.optional(ConnectorInfraConfig),
     releaseVersion: S.optional(S.String),
-    name: S.optional(S.String),
-    authConfigTemplates: S.optional(AuthConfigTemplateList),
-    isCustomActionsSupported: S.optional(S.Boolean),
-    updateTime: S.optional(S.String),
-    authOverrideEnabled: S.optional(S.Boolean),
-    configVariableTemplates: S.optional(ConfigVariableTemplateList),
-    supportedStandardActions: S.optional(StandardActionList),
     schemaRefreshConfig: S.optional(SchemaRefreshConfig),
+    connectorInfraConfig: S.optional(ConnectorInfraConfig),
+    updateTime: S.optional(S.String),
+    supportedStandardActions: S.optional(StandardActionList),
     createTime: S.optional(S.String),
     vpcscConfig: S.optional(VpcscConfig),
-    labels: S.optional(StringMap),
-    launchStage: S.optional(ConnectorVersionLaunchStageEnum),
+    authOverrideEnabled: S.optional(S.Boolean),
+    egressControlConfig: S.optional(EgressControlConfig),
   }),
 ).annotate({
   identifier: "ConnectorVersion",
@@ -4359,33 +4353,33 @@ export const GetProjectsLocationsProvidersConnectorsVersionsEventtypesRequest =
 
 /** EventType includes fields. */
 export interface EventType {
-  /** Output only. Updated time. */
-  updateTime?: string;
-  /** Output only. Schema of webhook event payload. */
-  eventPayloadSchema?: string;
-  /** Output only. Resource name of the eventtype. Format: projects/{project}/locations/{location}/providers/{provider}/connectors/{connector}/versions/{version}/eventtypes/{eventtype} Only global location is supported for Connector resource. */
-  name?: string;
-  /** Output only. Runtime entity type name. Will be null if entity type map is not available. Used for read before send feature. */
-  entityType?: string;
   /** Output only. Event type id. Example: `ticket.created`. */
   eventTypeId?: string;
+  /** Output only. Schema of webhook event payload. */
+  eventPayloadSchema?: string;
+  /** Output only. Runtime entity type name. Will be null if entity type map is not available. Used for read before send feature. */
+  entityType?: string;
   /** Output only. Id path denotes the path of id in webhook payload. */
   idPath?: string;
   /** Output only. Schema of the event payload after enriched. Will be null if read before send is not supported. */
   enrichedEventPayloadSchema?: string;
   /** Output only. Created time. */
   createTime?: string;
+  /** Output only. Resource name of the eventtype. Format: projects/{project}/locations/{location}/providers/{provider}/connectors/{connector}/versions/{version}/eventtypes/{eventtype} Only global location is supported for Connector resource. */
+  name?: string;
+  /** Output only. Updated time. */
+  updateTime?: string;
 }
 export const EventType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateTime: S.optional(S.String),
-    eventPayloadSchema: S.optional(S.String),
-    name: S.optional(S.String),
-    entityType: S.optional(S.String),
     eventTypeId: S.optional(S.String),
+    eventPayloadSchema: S.optional(S.String),
+    entityType: S.optional(S.String),
     idPath: S.optional(S.String),
     enrichedEventPayloadSchema: S.optional(S.String),
     createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "EventType" }) as any as S.Schema<EventType>;
 
@@ -4408,11 +4402,31 @@ export const GetRegionalSettingsProjectsLocationsRequest =
     identifier: "GetRegionalSettingsProjectsLocationsRequest",
   }) as any as S.Schema<GetRegionalSettingsProjectsLocationsRequest>;
 
+export type NetworkConfigEgressModeEnum =
+  | "NETWORK_EGRESS_MODE_UNSPECIFIED"
+  | "AUTO_IP"
+  | "STATIC_IP";
+export const NetworkConfigEgressModeEnum = S.String;
+
+/** Regional Network Config. */
+export interface NetworkConfig {
+  /** Output only. Egress IPs */
+  egressIps?: StringList;
+  /** Optional. Egress mode for the network. */
+  egressMode?: NetworkConfigEgressModeEnum | (string & {});
+}
+export const NetworkConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    egressIps: S.optional(StringList),
+    egressMode: S.optional(NetworkConfigEgressModeEnum),
+  }),
+).annotate({ identifier: "NetworkConfig" }) as any as S.Schema<NetworkConfig>;
+
 export type EncryptionConfigEncryptionTypeEnum =
   | "ENCRYPTION_TYPE_UNSPECIFIED"
   | "GMEK"
   | "CMEK";
-export const EncryptionConfigEncryptionTypeEnum = /*@__PURE__*/ S.String;
+export const EncryptionConfigEncryptionTypeEnum = S.String;
 
 /** Regional encryption config for CMEK details. */
 export interface EncryptionConfig {
@@ -4430,46 +4444,26 @@ export const EncryptionConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "EncryptionConfig",
 }) as any as S.Schema<EncryptionConfig>;
 
-export type NetworkConfigEgressModeEnum =
-  | "NETWORK_EGRESS_MODE_UNSPECIFIED"
-  | "AUTO_IP"
-  | "STATIC_IP";
-export const NetworkConfigEgressModeEnum = /*@__PURE__*/ S.String;
-
-/** Regional Network Config. */
-export interface NetworkConfig {
-  /** Optional. Egress mode for the network. */
-  egressMode?: NetworkConfigEgressModeEnum | (string & {});
-  /** Output only. Egress IPs */
-  egressIps?: StringList;
-}
-export const NetworkConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    egressMode: S.optional(NetworkConfigEgressModeEnum),
-    egressIps: S.optional(StringList),
-  }),
-).annotate({ identifier: "NetworkConfig" }) as any as S.Schema<NetworkConfig>;
-
 /** Regional Settings details. */
 export interface RegionalSettings {
-  /** Output only. Specifies whether the region is provisioned. */
-  provisioned?: boolean;
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/regionalSettings */
   name?: string;
-  /** Optional. Regional encryption config to hold CMEK details. */
-  encryptionConfig?: EncryptionConfig;
-  /** Optional. Regional network config. */
-  networkConfig?: NetworkConfig;
+  /** Output only. Specifies whether the region is provisioned. */
+  provisioned?: boolean;
   /** Optional. Client type for the regional settings. */
   client?: string;
+  /** Optional. Regional network config. */
+  networkConfig?: NetworkConfig;
+  /** Optional. Regional encryption config to hold CMEK details. */
+  encryptionConfig?: EncryptionConfig;
 }
 export const RegionalSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    provisioned: S.optional(S.Boolean),
     name: S.optional(S.String),
-    encryptionConfig: S.optional(EncryptionConfig),
-    networkConfig: S.optional(NetworkConfig),
+    provisioned: S.optional(S.Boolean),
     client: S.optional(S.String),
+    networkConfig: S.optional(NetworkConfig),
+    encryptionConfig: S.optional(EncryptionConfig),
   }),
 ).annotate({
   identifier: "RegionalSettings",
@@ -4502,43 +4496,43 @@ export type RuntimeConfigStateEnum =
   | "CREATING"
   | "DELETING"
   | "UPDATING";
-export const RuntimeConfigStateEnum = /*@__PURE__*/ S.String;
+export const RuntimeConfigStateEnum = S.String;
 
 /** RuntimeConfig is the singleton resource of each location. It includes generic resource configs consumed by control plane and runtime plane like: pub/sub topic/subscription resource name, Cloud Storage location storing schema etc. */
 export interface RuntimeConfig {
-  /** Output only. Pub/Sub subscription for control plane to receive message. E.g. projects/{project-id}/subscriptions/{topic-id} */
-  controlPlaneSubscription?: string;
-  /** Output only. The name of the Service Directory service name. */
-  serviceDirectory?: string;
-  /** Output only. The Cloud Storage bucket that stores connector's schema reports. */
-  schemaGcsBucket?: string;
-  /** Output only. Pub/Sub topic for connd to send message. E.g. projects/{project-id}/topics/{topic-id} */
-  conndTopic?: string;
-  /** Output only. Pub/Sub topic for control plne to send message. communication. E.g. projects/{project-id}/topics/{topic-id} */
-  controlPlaneTopic?: string;
-  /** Output only. location_id of the runtime location. E.g. "us-west1". */
-  locationId?: string;
+  /** Output only. The state of the location. */
+  state?: RuntimeConfigStateEnum;
   /** Output only. Pub/Sub subscription for connd to receive message. E.g. projects/{project-id}/subscriptions/{topic-id} */
   conndSubscription?: string;
   /** Output only. The endpoint of the connectors runtime ingress. */
   runtimeEndpoint?: string;
-  /** Output only. The state of the location. */
-  state?: RuntimeConfigStateEnum;
+  /** Output only. The Cloud Storage bucket that stores connector's schema reports. */
+  schemaGcsBucket?: string;
   /** Output only. Name of the runtimeConfig resource. Format: projects/{project}/locations/{location}/runtimeConfig */
   name?: string;
+  /** Output only. The name of the Service Directory service name. */
+  serviceDirectory?: string;
+  /** Output only. Pub/Sub topic for control plne to send message. communication. E.g. projects/{project-id}/topics/{topic-id} */
+  controlPlaneTopic?: string;
+  /** Output only. Pub/Sub subscription for control plane to receive message. E.g. projects/{project-id}/subscriptions/{topic-id} */
+  controlPlaneSubscription?: string;
+  /** Output only. location_id of the runtime location. E.g. "us-west1". */
+  locationId?: string;
+  /** Output only. Pub/Sub topic for connd to send message. E.g. projects/{project-id}/topics/{topic-id} */
+  conndTopic?: string;
 }
 export const RuntimeConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    controlPlaneSubscription: S.optional(S.String),
-    serviceDirectory: S.optional(S.String),
-    schemaGcsBucket: S.optional(S.String),
-    conndTopic: S.optional(S.String),
-    controlPlaneTopic: S.optional(S.String),
-    locationId: S.optional(S.String),
+    state: S.optional(RuntimeConfigStateEnum),
     conndSubscription: S.optional(S.String),
     runtimeEndpoint: S.optional(S.String),
-    state: S.optional(RuntimeConfigStateEnum),
+    schemaGcsBucket: S.optional(S.String),
     name: S.optional(S.String),
+    serviceDirectory: S.optional(S.String),
+    controlPlaneTopic: S.optional(S.String),
+    controlPlaneSubscription: S.optional(S.String),
+    locationId: S.optional(S.String),
+    conndTopic: S.optional(S.String),
   }),
 ).annotate({ identifier: "RuntimeConfig" }) as any as S.Schema<RuntimeConfig>;
 
@@ -4563,55 +4557,56 @@ export const GetSettingsProjectsLocationsGlobalRequest =
 
 /** Global Settings details. */
 export interface Settings {
-  /** Optional. Flag indicates whether vpc-sc is enabled. */
-  vpcsc?: boolean;
-  /** Output only. Flag indicates if user is in PayG model */
-  payg?: boolean;
   /** Output only. Tenant project id of the consumer project. */
   tenantProjectId?: string;
+  /** Output only. Flag indicates if user is in PayG model */
+  payg?: boolean;
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/global/settings} */
   name?: string;
+  /** Optional. Flag indicates whether vpc-sc is enabled. */
+  vpcsc?: boolean;
 }
 export const Settings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    vpcsc: S.optional(S.Boolean),
-    payg: S.optional(S.Boolean),
     tenantProjectId: S.optional(S.String),
+    payg: S.optional(S.Boolean),
     name: S.optional(S.String),
+    vpcsc: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Settings" }) as any as S.Schema<Settings>;
 
 export type ListActionsProjectsLocationsConnectionsConnectionSchemaMetadataViewEnum =
-  "VIEW_UNSPECIFIED" | "BASIC";
+  | "VIEW_UNSPECIFIED"
+  | "BASIC";
 export const ListActionsProjectsLocationsConnectionsConnectionSchemaMetadataViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ListActionsProjectsLocationsConnectionsConnectionSchemaMetadataRequest {
+  /** Page size. If unspecified, at most 50 actions will be returned. */
+  pageSize?: number;
+  /** Page token. */
+  pageToken?: string;
+  /** Required. Filter Wildcards are not supported in the filter currently. */
+  filter?: string;
   /** Specifies which fields are returned in response. Defaults to BASIC view. */
   view?:
     | ListActionsProjectsLocationsConnectionsConnectionSchemaMetadataViewEnum
     | (string & {});
   /** Required. Resource name format. projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
   name: string;
-  /** Page size. If unspecified, at most 50 actions will be returned. */
-  pageSize?: number;
-  /** Required. Filter Wildcards are not supported in the filter currently. */
-  filter?: string;
-  /** Page token. */
-  pageToken?: string;
 }
 export const ListActionsProjectsLocationsConnectionsConnectionSchemaMetadataRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
       view: S.optional(
         ListActionsProjectsLocationsConnectionsConnectionSchemaMetadataViewEnum.pipe(
           T.Query(),
         ),
       ),
       name: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4630,15 +4625,15 @@ export const JsonSchemaMap = /*@__PURE__*/ S.Record(
   S.suspend(() => JsonSchema),
 ) as any as S.Schema<JsonSchemaMap>;
 
-export type JsonSchemaList = Array<JsonSchema>;
-export const JsonSchemaList = /*@__PURE__*/ S.Array(
-  S.suspend(() => JsonSchema),
-) as any as S.Schema<JsonSchemaList>;
-
 export type DocumentList = Array<unknown>;
 export const DocumentList = /*@__PURE__*/ S.Array(
   S.Unknown,
 ) as any as S.Schema<DocumentList>;
+
+export type JsonSchemaList = Array<JsonSchema>;
+export const JsonSchemaList = /*@__PURE__*/ S.Array(
+  S.suspend(() => JsonSchema),
+) as any as S.Schema<JsonSchemaList>;
 
 export type JsonSchemaJdbcTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -4686,160 +4681,160 @@ export type JsonSchemaJdbcTypeEnum =
   | "DATA_TYPE_REF_CURSOR"
   | "DATA_TYPE_TIME_WITH_TIMEZONE"
   | "DATA_TYPE_TIMESTAMP_WITH_TIMEZONE";
-export const JsonSchemaJdbcTypeEnum = /*@__PURE__*/ S.String;
+export const JsonSchemaJdbcTypeEnum = S.String;
 
 /** JsonSchema representation of schema metadata */
 export interface JsonSchema {
+  /** Definitions for the schema. */
+  definitions?: JsonSchemaMap;
   /** Minimum number of properties. */
   minProperties?: number;
-  /** Maximum length of the string field. */
-  maxLength?: number;
+  /** Schema for additional items. */
+  additionalItems?: JsonSchema;
+  /** Schema that must not be valid. */
+  not?: JsonSchema;
+  /** Examples of the value. */
+  examples?: DocumentList;
+  /** Schema for property names. */
+  propertyNames?: JsonSchema;
+  /** The default value of the field or object described by this schema. */
+  default?: unknown;
+  /** Pattern properties for the schema. */
+  patternProperties?: JsonSchemaMap;
+  /** The URI defining the core schema meta-schema. */
+  $id?: string;
+  /** JSON Schema Validation: A Vocabulary for Structural Validation of JSON */
+  type?: StringList;
+  /** Schema that must be valid against at least one of the sub-schemas. */
+  oneOf?: JsonSchemaList;
+  /** Whether the minimum number value is exclusive. */
+  exclusiveMinimum?: unknown;
+  /** The URI defining the schema. */
+  $schema?: string;
   /** Const value that the data must match. */
   const?: unknown;
+  /** Maximum number of items in the array field. */
+  maxItems?: number;
+  /** Number must be a multiple of this value. */
+  multipleOf?: number;
+  /** A comment on the schema. */
+  $comment?: string;
+  /** Schema that must be valid if the "if" schema is valid. */
+  if?: JsonSchema;
+  /** Dependencies for the schema. */
+  dependencies?: DocumentMap;
+  /** A title of the schema. */
+  title?: string;
+  /** Minimum length of the string field. */
+  minLength?: number;
+  /** Schema for additional properties. */
+  additionalProperties?: JsonSchema;
+  /** Whether the value is read-only. */
+  readOnly?: boolean;
+  /** Whether this property is required. */
+  required?: StringList;
+  /** Whether the value is write-only. */
+  writeOnly?: boolean;
+  /** Maximum length of the string field. */
+  maxLength?: number;
+  /** Maximum number of properties. */
+  maxProperties?: number;
+  /** Media type of the content. */
+  contentMediaType?: string;
+  /** JDBC datatype of the field. */
+  jdbcType?: JsonSchemaJdbcTypeEnum;
   /** Minimum value of the number field. */
   minimum?: unknown;
   /** Definitions for the schema. */
   $defs?: JsonSchemaMap;
-  /** Schema that must be valid against all of the sub-schemas. */
-  allOf?: JsonSchemaList;
-  /** Whether the minimum number value is exclusive. */
-  exclusiveMinimum?: unknown;
-  /** Schema for additional items. */
-  additionalItems?: JsonSchema;
-  /** Examples of the value. */
-  examples?: DocumentList;
-  /** Pattern properties for the schema. */
-  patternProperties?: JsonSchemaMap;
   /** A description of this schema. */
   description?: string;
-  /** Schema that must not be valid. */
-  not?: JsonSchema;
-  /** Whether this property is required. */
-  required?: StringList;
-  /** JSON Schema Validation: A Vocabulary for Structural Validation of JSON */
-  type?: StringList;
-  /** Format of the value as per https://json-schema.org/understanding-json-schema/reference/string.html#format */
-  format?: string;
-  /** A title of the schema. */
-  title?: string;
-  /** A reference to another schema. */
-  $ref?: string;
-  /** Schema for additional properties. */
-  additionalProperties?: JsonSchema;
-  /** Schema that must be valid against at least one of the sub-schemas. */
-  oneOf?: JsonSchemaList;
-  /** Schema that must be valid if the "if" schema is valid. */
-  if?: JsonSchema;
-  /** Regex pattern of the string field. This is a string value that describes the regular expression that the string value should match. */
-  pattern?: string;
-  /** Maximum number of items in the array field. */
-  maxItems?: number;
-  /** Schema that must be valid if the "if" schema is valid. */
-  then?: JsonSchema;
-  /** Media type of the content. */
-  contentMediaType?: string;
-  /** Schema that applies to at least one item in an array. */
-  contains?: JsonSchema;
-  /** Whether the items in the array field are unique. */
-  uniqueItems?: boolean;
-  /** Schema that must be valid if the "if" schema is invalid. */
-  else?: JsonSchema;
-  /** JDBC datatype of the field. */
-  jdbcType?: JsonSchemaJdbcTypeEnum;
-  /** Schema that applies to array values, applicable only if this is of type `array`. */
-  items?: JsonSchema;
-  /** Schema that must be valid against at least one of the sub-schemas. */
-  anyOf?: JsonSchemaList;
-  /** Whether the value is write-only. */
-  writeOnly?: boolean;
-  /** The child schemas, applicable only if this is of type `object`. The key is the name of the property and the value is the json schema that describes that property */
-  properties?: JsonSchemaMap;
   /** Whether the maximum number value is exclusive. */
   exclusiveMaximum?: unknown;
+  /** Schema that must be valid against at least one of the sub-schemas. */
+  anyOf?: JsonSchemaList;
+  /** Whether the items in the array field are unique. */
+  uniqueItems?: boolean;
+  /** The child schemas, applicable only if this is of type `object`. The key is the name of the property and the value is the json schema that describes that property */
+  properties?: JsonSchemaMap;
+  /** Schema that applies to at least one item in an array. */
+  contains?: JsonSchema;
   /** Additional details apart from standard json schema fields, this gives flexibility to store metadata about the schema */
   additionalDetails?: DocumentMap;
-  /** Whether the value is read-only. */
-  readOnly?: boolean;
-  /** Maximum number of properties. */
-  maxProperties?: number;
-  /** The default value of the field or object described by this schema. */
-  default?: unknown;
-  /** Possible values for an enumeration. This works in conjunction with `type` to represent types with a fixed set of legal values */
-  enum?: DocumentList;
-  /** Schema for property names. */
-  propertyNames?: JsonSchema;
-  /** Minimum number of items in the array field. */
-  minItems?: number;
-  /** A comment on the schema. */
-  $comment?: string;
-  /** Dependencies for the schema. */
-  dependencies?: DocumentMap;
-  /** Encoding of the content. */
-  contentEncoding?: string;
   /** Maximum value of the number field. */
   maximum?: unknown;
-  /** Number must be a multiple of this value. */
-  multipleOf?: number;
-  /** The URI defining the core schema meta-schema. */
-  $id?: string;
-  /** Definitions for the schema. */
-  definitions?: JsonSchemaMap;
-  /** The URI defining the schema. */
-  $schema?: string;
-  /** Minimum length of the string field. */
-  minLength?: number;
+  /** Possible values for an enumeration. This works in conjunction with `type` to represent types with a fixed set of legal values */
+  enum?: DocumentList;
+  /** Schema that must be valid if the "if" schema is valid. */
+  then?: JsonSchema;
+  /** Format of the value as per https://json-schema.org/understanding-json-schema/reference/string.html#format */
+  format?: string;
+  /** Encoding of the content. */
+  contentEncoding?: string;
+  /** Schema that must be valid against all of the sub-schemas. */
+  allOf?: JsonSchemaList;
+  /** A reference to another schema. */
+  $ref?: string;
+  /** Regex pattern of the string field. This is a string value that describes the regular expression that the string value should match. */
+  pattern?: string;
+  /** Schema that must be valid if the "if" schema is invalid. */
+  else?: JsonSchema;
+  /** Minimum number of items in the array field. */
+  minItems?: number;
+  /** Schema that applies to array values, applicable only if this is of type `array`. */
+  items?: JsonSchema;
 }
 export const JsonSchema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    definitions: S.optional(JsonSchemaMap),
     minProperties: S.optional(S.Number),
-    maxLength: S.optional(S.Number),
+    additionalItems: S.optional(JsonSchema),
+    not: S.optional(JsonSchema),
+    examples: S.optional(DocumentList),
+    propertyNames: S.optional(JsonSchema),
+    default: S.optional(S.Unknown),
+    patternProperties: S.optional(JsonSchemaMap),
+    $id: S.optional(S.String),
+    type: S.optional(StringList),
+    oneOf: S.optional(JsonSchemaList),
+    exclusiveMinimum: S.optional(S.Unknown),
+    $schema: S.optional(S.String),
     const: S.optional(S.Unknown),
+    maxItems: S.optional(S.Number),
+    multipleOf: S.optional(S.Number),
+    $comment: S.optional(S.String),
+    if: S.optional(JsonSchema),
+    dependencies: S.optional(DocumentMap),
+    title: S.optional(S.String),
+    minLength: S.optional(S.Number),
+    additionalProperties: S.optional(JsonSchema),
+    readOnly: S.optional(S.Boolean),
+    required: S.optional(StringList),
+    writeOnly: S.optional(S.Boolean),
+    maxLength: S.optional(S.Number),
+    maxProperties: S.optional(S.Number),
+    contentMediaType: S.optional(S.String),
+    jdbcType: S.optional(JsonSchemaJdbcTypeEnum),
     minimum: S.optional(S.Unknown),
     $defs: S.optional(JsonSchemaMap),
-    allOf: S.optional(JsonSchemaList),
-    exclusiveMinimum: S.optional(S.Unknown),
-    additionalItems: S.optional(JsonSchema),
-    examples: S.optional(DocumentList),
-    patternProperties: S.optional(JsonSchemaMap),
     description: S.optional(S.String),
-    not: S.optional(JsonSchema),
-    required: S.optional(StringList),
-    type: S.optional(StringList),
-    format: S.optional(S.String),
-    title: S.optional(S.String),
-    $ref: S.optional(S.String),
-    additionalProperties: S.optional(JsonSchema),
-    oneOf: S.optional(JsonSchemaList),
-    if: S.optional(JsonSchema),
-    pattern: S.optional(S.String),
-    maxItems: S.optional(S.Number),
-    then: S.optional(JsonSchema),
-    contentMediaType: S.optional(S.String),
-    contains: S.optional(JsonSchema),
-    uniqueItems: S.optional(S.Boolean),
-    else: S.optional(JsonSchema),
-    jdbcType: S.optional(JsonSchemaJdbcTypeEnum),
-    items: S.optional(JsonSchema),
-    anyOf: S.optional(JsonSchemaList),
-    writeOnly: S.optional(S.Boolean),
-    properties: S.optional(JsonSchemaMap),
     exclusiveMaximum: S.optional(S.Unknown),
+    anyOf: S.optional(JsonSchemaList),
+    uniqueItems: S.optional(S.Boolean),
+    properties: S.optional(JsonSchemaMap),
+    contains: S.optional(JsonSchema),
     additionalDetails: S.optional(DocumentMap),
-    readOnly: S.optional(S.Boolean),
-    maxProperties: S.optional(S.Number),
-    default: S.optional(S.Unknown),
-    enum: S.optional(DocumentList),
-    propertyNames: S.optional(JsonSchema),
-    minItems: S.optional(S.Number),
-    $comment: S.optional(S.String),
-    dependencies: S.optional(DocumentMap),
-    contentEncoding: S.optional(S.String),
     maximum: S.optional(S.Unknown),
-    multipleOf: S.optional(S.Number),
-    $id: S.optional(S.String),
-    definitions: S.optional(JsonSchemaMap),
-    $schema: S.optional(S.String),
-    minLength: S.optional(S.Number),
+    enum: S.optional(DocumentList),
+    then: S.optional(JsonSchema),
+    format: S.optional(S.String),
+    contentEncoding: S.optional(S.String),
+    allOf: S.optional(JsonSchemaList),
+    $ref: S.optional(S.String),
+    pattern: S.optional(S.String),
+    else: S.optional(JsonSchema),
+    minItems: S.optional(S.Number),
+    items: S.optional(JsonSchema),
   }),
 ).annotate({ identifier: "JsonSchema" }) as any as S.Schema<JsonSchema>;
 
@@ -4889,30 +4884,30 @@ export type InputParameterDataTypeEnum =
   | "DATA_TYPE_REF_CURSOR"
   | "DATA_TYPE_TIME_WITH_TIMEZONE"
   | "DATA_TYPE_TIMESTAMP_WITH_TIMEZONE";
-export const InputParameterDataTypeEnum = /*@__PURE__*/ S.String;
+export const InputParameterDataTypeEnum = S.String;
 
 /** Metadata of an input parameter. */
 export interface InputParameter {
   /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
   defaultValue?: unknown;
-  /** JsonSchema representation of this action's parameter */
-  jsonSchema?: JsonSchema;
   /** A brief description of the Parameter. */
   description?: string;
-  /** The data type of the Parameter. */
-  dataType?: InputParameterDataTypeEnum;
+  /** JsonSchema representation of this action's parameter */
+  jsonSchema?: JsonSchema;
   /** Name of the Parameter. */
   parameter?: string;
+  /** The data type of the Parameter. */
+  dataType?: InputParameterDataTypeEnum;
   /** Specifies whether a null value is allowed. */
   nullable?: boolean;
 }
 export const InputParameter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultValue: S.optional(S.Unknown),
-    jsonSchema: S.optional(JsonSchema),
     description: S.optional(S.String),
-    dataType: S.optional(InputParameterDataTypeEnum),
+    jsonSchema: S.optional(JsonSchema),
     parameter: S.optional(S.String),
+    dataType: S.optional(InputParameterDataTypeEnum),
     nullable: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "InputParameter" }) as any as S.Schema<InputParameter>;
@@ -4968,31 +4963,31 @@ export type ResultMetadataDataTypeEnum =
   | "DATA_TYPE_REF_CURSOR"
   | "DATA_TYPE_TIME_WITH_TIMEZONE"
   | "DATA_TYPE_TIMESTAMP_WITH_TIMEZONE";
-export const ResultMetadataDataTypeEnum = /*@__PURE__*/ S.String;
+export const ResultMetadataDataTypeEnum = S.String;
 
 /** Metadata of result field. */
 export interface ResultMetadata {
-  /** Specifies whether a null value is allowed. */
-  nullable?: boolean;
   /** Name of the result field. */
   field?: string;
-  /** A brief description of the field. */
-  description?: string;
   /** The data type of the field. */
   dataType?: ResultMetadataDataTypeEnum;
-  /** JsonSchema representation of this action's result */
-  jsonSchema?: JsonSchema;
+  /** Specifies whether a null value is allowed. */
+  nullable?: boolean;
   /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
   defaultValue?: unknown;
+  /** A brief description of the field. */
+  description?: string;
+  /** JsonSchema representation of this action's result */
+  jsonSchema?: JsonSchema;
 }
 export const ResultMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nullable: S.optional(S.Boolean),
     field: S.optional(S.String),
-    description: S.optional(S.String),
     dataType: S.optional(ResultMetadataDataTypeEnum),
-    jsonSchema: S.optional(JsonSchema),
+    nullable: S.optional(S.Boolean),
     defaultValue: S.optional(S.Unknown),
+    description: S.optional(S.String),
+    jsonSchema: S.optional(JsonSchema),
   }),
 ).annotate({ identifier: "ResultMetadata" }) as any as S.Schema<ResultMetadata>;
 
@@ -5003,36 +4998,36 @@ export const ResultMetadataList = /*@__PURE__*/ S.Array(
 
 /** Schema of a runtime action. */
 export interface RuntimeActionSchema {
-  /** Output only. List of input parameter metadata for the action. */
-  inputParameters?: InputParameterList;
   /** Output only. Input schema as string. */
   inputSchemaAsString?: string;
-  /** Output only. JsonSchema representation of this action's input metadata */
-  inputJsonSchema?: JsonSchema;
-  /** Output only. Brief Description of action */
-  description?: string;
-  /** Output only. List of result field metadata. */
-  resultMetadata?: ResultMetadataList;
-  /** Output only. JsonSchema representation of this action's result metadata */
-  resultJsonSchema?: JsonSchema;
+  /** Output only. List of input parameter metadata for the action. */
+  inputParameters?: InputParameterList;
   /** Output only. Result schema as string. */
   resultSchemaAsString?: string;
-  /** Output only. Display Name of action to be shown on client side */
-  displayName?: string;
+  /** Output only. List of result field metadata. */
+  resultMetadata?: ResultMetadataList;
+  /** Output only. Brief Description of action */
+  description?: string;
+  /** Output only. JsonSchema representation of this action's result metadata */
+  resultJsonSchema?: JsonSchema;
+  /** Output only. JsonSchema representation of this action's input metadata */
+  inputJsonSchema?: JsonSchema;
   /** Output only. Name of the action. */
   action?: string;
+  /** Output only. Display Name of action to be shown on client side */
+  displayName?: string;
 }
 export const RuntimeActionSchema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    inputParameters: S.optional(InputParameterList),
     inputSchemaAsString: S.optional(S.String),
-    inputJsonSchema: S.optional(JsonSchema),
-    description: S.optional(S.String),
-    resultMetadata: S.optional(ResultMetadataList),
-    resultJsonSchema: S.optional(JsonSchema),
+    inputParameters: S.optional(InputParameterList),
     resultSchemaAsString: S.optional(S.String),
-    displayName: S.optional(S.String),
+    resultMetadata: S.optional(ResultMetadataList),
+    description: S.optional(S.String),
+    resultJsonSchema: S.optional(JsonSchema),
+    inputJsonSchema: S.optional(JsonSchema),
     action: S.optional(S.String),
+    displayName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RuntimeActionSchema",
@@ -5103,19 +5098,20 @@ export const ListenEventResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListenEventResponse>;
 
 export type ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadataViewEnum =
-  "VIEW_UNSPECIFIED" | "BASIC";
+  | "VIEW_UNSPECIFIED"
+  | "BASIC";
 export const ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadataViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadataRequest {
-  /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
-  name: string;
   /** Page size. If unspecified, at most 50 entity types will be returned. */
   pageSize?: number;
-  /** Required. Filter Wildcards are not supported in the filter currently. */
-  filter?: string;
   /** Page token. */
   pageToken?: string;
+  /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
+  name: string;
+  /** Required. Filter Wildcards are not supported in the filter currently. */
+  filter?: string;
   /** Specifies which fields are returned in response. Defaults to BASIC view. */
   view?:
     | ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadataViewEnum
@@ -5124,10 +5120,10 @@ export interface ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMeta
 export const ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadataRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
       view: S.optional(
         ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadataViewEnum.pipe(
           T.Query(),
@@ -5144,21 +5140,6 @@ export const ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadata
     identifier:
       "ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadataRequest",
   }) as any as S.Schema<ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadataRequest>;
-
-export type RuntimeEntitySchemaOperationsItemEnum =
-  | "OPERATION_UNSPECIFIED"
-  | "LIST"
-  | "GET"
-  | "CREATE"
-  | "UPDATE"
-  | "DELETE";
-export const RuntimeEntitySchemaOperationsItemEnum = /*@__PURE__*/ S.String;
-
-export type RuntimeEntitySchemaOperationsItemEnumList =
-  Array<RuntimeEntitySchemaOperationsItemEnum>;
-export const RuntimeEntitySchemaOperationsItemEnumList = /*@__PURE__*/ S.Array(
-  RuntimeEntitySchemaOperationsItemEnum,
-) as any as S.Schema<RuntimeEntitySchemaOperationsItemEnumList>;
 
 export type FieldDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -5206,40 +5187,40 @@ export type FieldDataTypeEnum =
   | "DATA_TYPE_REF_CURSOR"
   | "DATA_TYPE_TIME_WITH_TIMEZONE"
   | "DATA_TYPE_TIMESTAMP_WITH_TIMEZONE";
-export const FieldDataTypeEnum = /*@__PURE__*/ S.String;
+export const FieldDataTypeEnum = S.String;
 
 /** Metadata of an entity field. */
 export interface Field {
-  /** The following field specifies the default value of the Field provided by the external system if a value is not provided. */
-  defaultValue?: unknown;
-  /** The following map contains fields that are not explicitly mentioned above,this give connectors the flexibility to add new metadata fields. */
-  additionalDetails?: DocumentMap;
   /** Name of the Field. */
   field?: string;
   /** The following boolean field specifies if the current Field acts as a primary key or id if the parent is of type entity. */
   key?: boolean;
-  /** Specifies if the Field is readonly. */
-  readonly?: boolean;
-  /** JsonSchema representation of this entity's schema */
-  jsonSchema?: JsonSchema;
   /** A brief description of the Field. */
   description?: string;
+  /** JsonSchema representation of this entity's schema */
+  jsonSchema?: JsonSchema;
+  /** Specifies if the Field is readonly. */
+  readonly?: boolean;
+  /** The following map contains fields that are not explicitly mentioned above,this give connectors the flexibility to add new metadata fields. */
+  additionalDetails?: DocumentMap;
   /** The data type of the Field. */
   dataType?: FieldDataTypeEnum;
   /** Specifies whether a null value is allowed. */
   nullable?: boolean;
+  /** The following field specifies the default value of the Field provided by the external system if a value is not provided. */
+  defaultValue?: unknown;
 }
 export const Field = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    defaultValue: S.optional(S.Unknown),
-    additionalDetails: S.optional(DocumentMap),
     field: S.optional(S.String),
     key: S.optional(S.Boolean),
-    readonly: S.optional(S.Boolean),
-    jsonSchema: S.optional(JsonSchema),
     description: S.optional(S.String),
+    jsonSchema: S.optional(JsonSchema),
+    readonly: S.optional(S.Boolean),
+    additionalDetails: S.optional(DocumentMap),
     dataType: S.optional(FieldDataTypeEnum),
     nullable: S.optional(S.Boolean),
+    defaultValue: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Field" }) as any as S.Schema<Field>;
 
@@ -5248,23 +5229,38 @@ export const FieldList = /*@__PURE__*/ S.Array(
   Field,
 ) as any as S.Schema<FieldList>;
 
+export type RuntimeEntitySchemaOperationsItemEnum =
+  | "OPERATION_UNSPECIFIED"
+  | "LIST"
+  | "GET"
+  | "CREATE"
+  | "UPDATE"
+  | "DELETE";
+export const RuntimeEntitySchemaOperationsItemEnum = S.String;
+
+export type RuntimeEntitySchemaOperationsItemEnumList =
+  Array<RuntimeEntitySchemaOperationsItemEnum>;
+export const RuntimeEntitySchemaOperationsItemEnumList = /*@__PURE__*/ S.Array(
+  RuntimeEntitySchemaOperationsItemEnum,
+) as any as S.Schema<RuntimeEntitySchemaOperationsItemEnumList>;
+
 /** Schema of a runtime entity. */
 export interface RuntimeEntitySchema {
-  /** Output only. Name of the entity. */
-  entity?: string;
-  /** List of operations supported by this entity */
-  operations?: RuntimeEntitySchemaOperationsItemEnumList;
   /** Output only. List of fields in the entity. */
   fields?: FieldList;
   /** Output only. JsonSchema representation of this entity's metadata */
   jsonSchema?: JsonSchema;
+  /** List of operations supported by this entity */
+  operations?: RuntimeEntitySchemaOperationsItemEnumList;
+  /** Output only. Name of the entity. */
+  entity?: string;
 }
 export const RuntimeEntitySchema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entity: S.optional(S.String),
-    operations: S.optional(RuntimeEntitySchemaOperationsItemEnumList),
     fields: S.optional(FieldList),
     jsonSchema: S.optional(JsonSchema),
+    operations: S.optional(RuntimeEntitySchemaOperationsItemEnumList),
+    entity: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RuntimeEntitySchema",
@@ -5292,23 +5288,23 @@ export const ListEntityTypesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListEntityTypesResponse>;
 
 export interface ListProjectsLocationsRequest {
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -5328,15 +5324,15 @@ export const LocationList = /*@__PURE__*/ S.Array(
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locations: S.optional(LocationList),
     nextPageToken: S.optional(S.String),
+    locations: S.optional(LocationList),
   }),
 ).annotate({
   identifier: "ListLocationsResponse",
@@ -5346,33 +5342,33 @@ export type ListProjectsLocationsConnectionsViewEnum =
   | "CONNECTION_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const ListProjectsLocationsConnectionsViewEnum = /*@__PURE__*/ S.String;
+export const ListProjectsLocationsConnectionsViewEnum = S.String;
 
 export interface ListProjectsLocationsConnectionsRequest {
-  /** Required. Parent resource of the Connection, of the form: `projects/*\/locations/*` */
-  parent: string;
   /** Order by parameters. */
   orderBy?: string;
-  /** Specifies which fields of the Connection are returned in the response. Defaults to `BASIC` view. */
-  view?: ListProjectsLocationsConnectionsViewEnum | (string & {});
   /** Page size. */
   pageSize?: number;
-  /** Filter. */
-  filter?: string;
   /** Page token. */
   pageToken?: string;
+  /** Required. Parent resource of the Connection, of the form: `projects/*\/locations/*` */
+  parent: string;
+  /** Filter. */
+  filter?: string;
+  /** Specifies which fields of the Connection are returned in the response. Defaults to `BASIC` view. */
+  view?: ListProjectsLocationsConnectionsViewEnum | (string & {});
 }
 export const ListProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
       view: S.optional(
         ListProjectsLocationsConnectionsViewEnum.pipe(T.Query()),
       ),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5409,25 +5405,25 @@ export const ListConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListConnectionsResponse>;
 
 export interface ListProjectsLocationsConnectionsEndUserAuthenticationsRequest {
-  /** Required. Parent resource of the EndUserAuthentication, of the form: `projects/*\/locations/*\/connections/*` */
-  parent: string;
-  /** Order by parameters. */
-  orderBy?: string;
   /** Page size. */
   pageSize?: number;
-  /** Filter. */
-  filter?: string;
   /** Page token. */
   pageToken?: string;
+  /** Order by parameters. */
+  orderBy?: string;
+  /** Required. Parent resource of the EndUserAuthentication, of the form: `projects/*\/locations/*\/connections/*` */
+  parent: string;
+  /** Filter. */
+  filter?: string;
 }
 export const ListProjectsLocationsConnectionsEndUserAuthenticationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      orderBy: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5446,18 +5442,18 @@ export const EndUserAuthenticationList = /*@__PURE__*/ S.Array(
 
 /** Response message for ConnectorsService.ListEndUserAuthentications */
 export interface ListEndUserAuthenticationsResponse {
+  /** Subscriptions. */
+  endUserAuthentications?: EndUserAuthenticationList;
   /** Next page token. */
   nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** Subscriptions. */
-  endUserAuthentications?: EndUserAuthenticationList;
 }
 export const ListEndUserAuthenticationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    endUserAuthentications: S.optional(EndUserAuthenticationList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
-    endUserAuthentications: S.optional(EndUserAuthenticationList),
   }),
 ).annotate({
   identifier: "ListEndUserAuthenticationsResponse",
@@ -5466,23 +5462,23 @@ export const ListEndUserAuthenticationsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsConnectionsEventSubscriptionsRequest {
   /** Page size. */
   pageSize?: number;
-  /** Filter. */
-  filter?: string;
   /** Page token. */
   pageToken?: string;
-  /** Required. Parent resource of the EventSubscription, of the form: `projects/*\/locations/*\/connections/*` */
-  parent: string;
   /** Order by parameters. */
   orderBy?: string;
+  /** Required. Parent resource of the EventSubscription, of the form: `projects/*\/locations/*\/connections/*` */
+  parent: string;
+  /** Filter. */
+  filter?: string;
 }
 export const ListProjectsLocationsConnectionsEventSubscriptionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5501,42 +5497,42 @@ export const EventSubscriptionList = /*@__PURE__*/ S.Array(
 
 /** Response message for ConnectorsService.ListEventSubscriptions */
 export interface ListEventSubscriptionsResponse {
-  /** Subscriptions. */
-  eventSubscriptions?: EventSubscriptionList;
   /** Next page token. */
   nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** Subscriptions. */
+  eventSubscriptions?: EventSubscriptionList;
 }
 export const ListEventSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    eventSubscriptions: S.optional(EventSubscriptionList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    eventSubscriptions: S.optional(EventSubscriptionList),
   }),
 ).annotate({
   identifier: "ListEventSubscriptionsResponse",
 }) as any as S.Schema<ListEventSubscriptionsResponse>;
 
 export interface ListProjectsLocationsConnectionsRuntimeActionSchemasRequest {
-  /** Required. Parent resource of RuntimeActionSchema Format: projects/{project}/locations/{location}/connections/{connection} */
-  parent: string;
-  /** Optional. Flag to indicate if schema should be returned as string or not */
-  schemaAsString?: boolean;
-  /** Page token. */
-  pageToken?: string;
   /** Page size. */
   pageSize?: number;
+  /** Page token. */
+  pageToken?: string;
+  /** Optional. Flag to indicate if schema should be returned as string or not */
+  schemaAsString?: boolean;
+  /** Required. Parent resource of RuntimeActionSchema Format: projects/{project}/locations/{location}/connections/{connection} */
+  parent: string;
   /** Required. Filter Format: action="{actionId}" Only action field is supported with literal equality operator. Accepted filter example: action="CancelOrder" Wildcards are not supported in the filter currently. */
   filter?: string;
 }
 export const ListProjectsLocationsConnectionsRuntimeActionSchemasRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      schemaAsString: S.optional(S.Boolean.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      schemaAsString: S.optional(S.Boolean.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -5568,10 +5564,10 @@ export const ListRuntimeActionSchemasResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest {
   /** Required. Parent resource of RuntimeEntitySchema Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
-  /** Page token. */
-  pageToken?: string;
   /** Page size. */
   pageSize?: number;
+  /** Page token. */
+  pageToken?: string;
   /** Required. Filter Format: entity="{entityId}" Only entity field is supported with literal equality operator. Accepted filter example: entity="Order" Wildcards are not supported in the filter currently. */
   filter?: string;
 }
@@ -5579,8 +5575,8 @@ export const ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -5613,34 +5609,33 @@ export type ListProjectsLocationsEndpointAttachmentsViewEnum =
   | "ENDPOINT_ATTACHMENT_VIEW_UNSPECIFIED"
   | "ENDPOINT_ATTACHMENT_VIEW_BASIC"
   | "ENDPOINT_ATTACHMENT_VIEW_FULL";
-export const ListProjectsLocationsEndpointAttachmentsViewEnum =
-  /*@__PURE__*/ S.String;
+export const ListProjectsLocationsEndpointAttachmentsViewEnum = S.String;
 
 export interface ListProjectsLocationsEndpointAttachmentsRequest {
-  /** Required. Parent resource od the EndpointAttachment, of the form: `projects/*\/locations/*` */
-  parent: string;
-  /** Order by parameters. */
-  orderBy?: string;
-  /** Optional. Specifies which fields of the EndpointAttachment are returned in the response. Defaults to `ENDPOINT_ATTACHMENT_VIEW_BASIC` view. */
-  view?: ListProjectsLocationsEndpointAttachmentsViewEnum | (string & {});
-  /** Page token. */
-  pageToken?: string;
   /** Page size. */
   pageSize?: number;
+  /** Page token. */
+  pageToken?: string;
+  /** Order by parameters. */
+  orderBy?: string;
+  /** Required. Parent resource od the EndpointAttachment, of the form: `projects/*\/locations/*` */
+  parent: string;
   /** Filter. */
   filter?: string;
+  /** Optional. Specifies which fields of the EndpointAttachment are returned in the response. Defaults to `ENDPOINT_ATTACHMENT_VIEW_BASIC` view. */
+  view?: ListProjectsLocationsEndpointAttachmentsViewEnum | (string & {});
 }
 export const ListProjectsLocationsEndpointAttachmentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
       view: S.optional(
         ListProjectsLocationsEndpointAttachmentsViewEnum.pipe(T.Query()),
       ),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5677,22 +5672,22 @@ export const ListEndpointAttachmentsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListEndpointAttachmentsResponse>;
 
 export interface ListProjectsLocationsGlobalCustomConnectorsRequest {
-  /** Page size. */
-  pageSize?: number;
-  /** Filter string. */
-  filter?: string;
   /** Required. Parent resource of the custom connectors, of the form: `projects/*\/locations/*` Only global location is supported for CustomConnector resource. */
   parent: string;
+  /** Page size. */
+  pageSize?: number;
   /** Page token. */
   pageToken?: string;
+  /** Filter string. */
+  filter?: string;
 }
 export const ListProjectsLocationsGlobalCustomConnectorsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5731,17 +5726,17 @@ export const ListCustomConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest {
   /** Required. Parent resource of the connectors, of the form: `projects/*\/locations/{location}/customConnectors/*\/customConnectorVersions/*` */
   parent: string;
-  /** Page token. */
-  pageToken?: string;
   /** Page size. */
   pageSize?: number;
+  /** Page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5779,27 +5774,27 @@ export const ListCustomConnectorVersionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListCustomConnectorVersionsResponse>;
 
 export interface ListProjectsLocationsGlobalManagedZonesRequest {
-  /** Page size. */
-  pageSize?: number;
-  /** Filter. */
-  filter?: string;
-  /** Page token. */
-  pageToken?: string;
-  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. */
-  returnPartialSuccess?: boolean;
   /** Required. Parent resource of the Managed Zone, of the form: `projects/*\/locations/global` */
   parent: string;
+  /** Filter. */
+  filter?: string;
+  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. */
+  returnPartialSuccess?: boolean;
+  /** Page size. */
+  pageSize?: number;
+  /** Page token. */
+  pageToken?: string;
   /** Order by parameters. */
   orderBy?: string;
 }
 export const ListProjectsLocationsGlobalManagedZonesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
+      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -5837,25 +5832,25 @@ export const ListManagedZonesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListManagedZonesResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The standard list filter. */
-  filter?: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** The standard list page token. */
+  pageToken?: string;
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
+  /** The standard list filter. */
+  filter?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
       returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5874,36 +5869,36 @@ export const OperationList = /*@__PURE__*/ S.Array(
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operations: S.optional(OperationList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    operations: S.optional(OperationList),
   }),
 ).annotate({
   identifier: "ListOperationsResponse",
 }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProjectsLocationsProvidersRequest {
-  /** Page size. */
-  pageSize?: number;
   /** Required. Parent resource of the API, of the form: `projects/*\/locations/*` Only global location is supported for Provider resource. */
   parent: string;
+  /** Page size. */
+  pageSize?: number;
   /** Page token. */
   pageToken?: string;
 }
 export const ListProjectsLocationsProvidersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -5923,18 +5918,18 @@ export const ProviderList = /*@__PURE__*/ S.Array(
 
 /** Response message for Connectors.ListProviders. */
 export interface ListProvidersResponse {
+  /** A list of providers. */
+  providers?: ProviderList;
   /** Next page token. */
   nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** A list of providers. */
-  providers?: ProviderList;
 }
 export const ListProvidersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    providers: S.optional(ProviderList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
-    providers: S.optional(ProviderList),
   }),
 ).annotate({
   identifier: "ListProvidersResponse",
@@ -5943,10 +5938,10 @@ export const ListProvidersResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsProvidersConnectorsRequest {
   /** Required. Parent resource of the connectors, of the form: `projects/*\/locations/*\/providers/*` Only global location is supported for Connector resource. */
   parent: string;
-  /** Page token. */
-  pageToken?: string;
   /** Page size. */
   pageSize?: number;
+  /** Page token. */
+  pageToken?: string;
   /** Filter string. */
   filter?: string;
 }
@@ -5954,8 +5949,8 @@ export const ListProjectsLocationsProvidersConnectorsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -5975,18 +5970,18 @@ export const ConnectorList = /*@__PURE__*/ S.Array(
 
 /** Response message for Connectors.ListConnectors. */
 export interface ListConnectorsResponse {
+  /** A list of connectors. */
+  connectors?: ConnectorList;
   /** Next page token. */
   nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** A list of connectors. */
-  connectors?: ConnectorList;
 }
 export const ListConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    connectors: S.optional(ConnectorList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
-    connectors: S.optional(ConnectorList),
   }),
 ).annotate({
   identifier: "ListConnectorsResponse",
@@ -5997,30 +5992,30 @@ export type ListProjectsLocationsProvidersConnectorsVersionsViewEnum =
   | "CONNECTOR_VERSION_VIEW_BASIC"
   | "CONNECTOR_VERSION_VIEW_FULL";
 export const ListProjectsLocationsProvidersConnectorsVersionsViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ListProjectsLocationsProvidersConnectorsVersionsRequest {
   parent: string;
+  /** Page size. */
+  pageSize?: number;
   /** Page token. */
   pageToken?: string;
   /** Specifies which fields of the ConnectorVersion are returned in the response. Defaults to `BASIC` view. */
   view?:
     | ListProjectsLocationsProvidersConnectorsVersionsViewEnum
     | (string & {});
-  /** Page size. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsProvidersConnectorsVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       view: S.optional(
         ListProjectsLocationsProvidersConnectorsVersionsViewEnum.pipe(
           T.Query(),
         ),
       ),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6039,36 +6034,36 @@ export const ConnectorVersionList = /*@__PURE__*/ S.Array(
 
 /** Response message for Connectors.ListConnectorVersions. */
 export interface ListConnectorVersionsResponse {
-  /** A list of connector versions. */
-  connectorVersions?: ConnectorVersionList;
   /** Next page token. */
   nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** A list of connector versions. */
+  connectorVersions?: ConnectorVersionList;
 }
 export const ListConnectorVersionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    connectorVersions: S.optional(ConnectorVersionList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    connectorVersions: S.optional(ConnectorVersionList),
   }),
 ).annotate({
   identifier: "ListConnectorVersionsResponse",
 }) as any as S.Schema<ListConnectorVersionsResponse>;
 
 export interface ListProjectsLocationsProvidersConnectorsVersionsEventtypesRequest {
-  /** Page size. */
-  pageSize?: number;
   /** Required. Parent resource of the connectors, of the form: `projects/*\/locations/*\/providers/*\/connectors/*\/versions/*` Only global location is supported for EventType resource. */
   parent: string;
+  /** Page size. */
+  pageSize?: number;
   /** Page token. */
   pageToken?: string;
 }
 export const ListProjectsLocationsProvidersConnectorsVersionsEventtypesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -6089,15 +6084,15 @@ export const EventTypeList = /*@__PURE__*/ S.Array(
 
 /** Response message for Connectors.ListEventTypes. */
 export interface ListEventTypesResponse {
-  /** Next page token. */
-  nextPageToken?: string;
   /** A list of connector versions. */
   eventTypes?: EventTypeList;
+  /** Next page token. */
+  nextPageToken?: string;
 }
 export const ListEventTypesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     eventTypes: S.optional(EventTypeList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListEventTypesResponse",
@@ -6181,18 +6176,18 @@ export const PatchProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PatchProjectsLocationsConnectionsRequest>;
 
 export interface PatchProjectsLocationsConnectionsEndUserAuthenticationsRequest {
-  /** Required. Identifier. Resource name of the EndUserAuthentication. Format: projects/{project}/locations/{location}/connections/{connection}/endUserAuthentications/{end_user_authentication} */
-  name: string;
   /** Required. The list of fields to update. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the EndUserAuthentication details: * `notify_endpoint_destination` */
   updateMask?: string;
+  /** Required. Identifier. Resource name of the EndUserAuthentication. Format: projects/{project}/locations/{location}/connections/{connection}/endUserAuthentications/{end_user_authentication} */
+  name: string;
   /** Request body */
   body?: EndUserAuthentication;
 }
 export const PatchProjectsLocationsConnectionsEndUserAuthenticationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(EndUserAuthentication.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -6232,18 +6227,18 @@ export const PatchProjectsLocationsConnectionsEventSubscriptionsRequest =
   }) as any as S.Schema<PatchProjectsLocationsConnectionsEventSubscriptionsRequest>;
 
 export interface PatchProjectsLocationsEndpointAttachmentsRequest {
-  /** Output only. Resource name of the Endpoint Attachment. Format: projects/{project}/locations/{location}/endpointAttachments/{endpoint_attachment} */
-  name: string;
   /** Required. The list of fields to update. Fields are specified relative to the endpointAttachment. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the endpointAttachment details: * `description` * `labels` */
   updateMask?: string;
+  /** Output only. Resource name of the Endpoint Attachment. Format: projects/{project}/locations/{location}/endpointAttachments/{endpoint_attachment} */
+  name: string;
   /** Request body */
   body?: EndpointAttachment;
 }
 export const PatchProjectsLocationsEndpointAttachmentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(EndpointAttachment.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -6257,18 +6252,18 @@ export const PatchProjectsLocationsEndpointAttachmentsRequest =
   }) as any as S.Schema<PatchProjectsLocationsEndpointAttachmentsRequest>;
 
 export interface PatchProjectsLocationsGlobalCustomConnectorsRequest {
-  /** Identifier. Resource name of the CustomConnector. Format: projects/{project}/locations/{location}/customConnectors/{connector} */
-  name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Connector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. Set the mask as "*" for full replacement, which means all fields will be overwritten. */
   updateMask?: string;
+  /** Identifier. Resource name of the CustomConnector. Format: projects/{project}/locations/{location}/customConnectors/{connector} */
+  name: string;
   /** Request body */
   body?: CustomConnector;
 }
 export const PatchProjectsLocationsGlobalCustomConnectorsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(CustomConnector.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -6451,10 +6446,10 @@ export const RetryProjectsLocationsConnectionsEventSubscriptionsRequest =
 export interface SearchProjectsLocationsConnectionsRequest {
   /** Required. The query against which the search needs to be done. */
   query?: string;
-  /** Optional. page_token */
-  pageToken?: string;
   /** Optional. The number of top matching connectors to return */
   pageSize?: number;
+  /** Optional. page_token */
+  pageToken?: string;
   /** Required. Parent resource of the Connection, of the form: `projects/*\/locations/*\/connections` */
   name: string;
 }
@@ -6462,8 +6457,8 @@ export const SearchProjectsLocationsConnectionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       query: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
@@ -6478,18 +6473,18 @@ export const SearchProjectsLocationsConnectionsRequest =
 
 /** SearchConnectionInstance represents an instance of connector with specific fields */
 export interface SearchConnectionInstance {
-  /** Output only. Connection details */
-  connection?: Connection;
-  /** Output only. Schema of a runtime action. */
-  actionSchema?: RuntimeActionSchema;
   /** Output only. Schema of a runtime entity. */
   entitySchema?: RuntimeEntitySchema;
+  /** Output only. Schema of a runtime action. */
+  actionSchema?: RuntimeActionSchema;
+  /** Output only. Connection details */
+  connection?: Connection;
 }
 export const SearchConnectionInstance = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    connection: S.optional(Connection),
-    actionSchema: S.optional(RuntimeActionSchema),
     entitySchema: S.optional(RuntimeEntitySchema),
+    actionSchema: S.optional(RuntimeActionSchema),
+    connection: S.optional(Connection),
   }),
 ).annotate({
   identifier: "SearchConnectionInstance",
@@ -6650,18 +6645,18 @@ export const TestIamPermissionsProjectsLocationsProvidersRequest =
   }) as any as S.Schema<TestIamPermissionsProjectsLocationsProvidersRequest>;
 
 export interface UpdateRegionalSettingsProjectsLocationsRequest {
-  /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/regionalSettings */
-  name: string;
   /** Required. The list of fields to update. */
   updateMask?: string;
+  /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/regionalSettings */
+  name: string;
   /** Request body */
   body?: RegionalSettings;
 }
 export const UpdateRegionalSettingsProjectsLocationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(RegionalSettings.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -6704,23 +6699,22 @@ export type ValidateCustomConnectorSpecRequestSpecTypeEnum =
   | "OPEN_API"
   | "PROTO"
   | "SDK";
-export const ValidateCustomConnectorSpecRequestSpecTypeEnum =
-  /*@__PURE__*/ S.String;
+export const ValidateCustomConnectorSpecRequestSpecTypeEnum = S.String;
 
 /** Request message for ConnectorsService.ValidateCustomConnectorSpec */
 export interface ValidateCustomConnectorSpecRequest {
   /** Required. Location of the custom connector spec. The location can be either a public url like `https://public-url.com/spec` Or a Google Cloud Storage location like `gs:///` */
   specLocation?: string;
-  /** Required. Service account to access the spec from Google Cloud Storage. */
-  serviceAccount?: string;
   /** Required. Spec type of the custom connector spec. */
   specType?: ValidateCustomConnectorSpecRequestSpecTypeEnum | (string & {});
+  /** Required. Service account to access the spec from Google Cloud Storage. */
+  serviceAccount?: string;
 }
 export const ValidateCustomConnectorSpecRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     specLocation: S.optional(S.String),
-    serviceAccount: S.optional(S.String),
     specType: S.optional(ValidateCustomConnectorSpecRequestSpecTypeEnum),
+    serviceAccount: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ValidateCustomConnectorSpecRequest",
@@ -6910,7 +6904,11 @@ export const createProjectsLocationsGlobalCustomConnectors: API.OperationMethod<
 }));
 
 export type CreateProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Creates a new CustomConnectorVersion in a given project and location. */
 export const createProjectsLocationsGlobalCustomConnectorsCustomConnectorVersions: API.OperationMethod<
   CreateProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest,
@@ -7007,7 +7005,11 @@ export const deleteProjectsLocationsConnectionsEventSubscriptions: API.Operation
 }));
 
 export type DeleteProjectsLocationsCustomConnectorsCustomConnectorVersionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Deletes a single CustomConnectorVersion. */
 export const deleteProjectsLocationsCustomConnectorsCustomConnectorVersions: API.OperationMethod<
   DeleteProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest,
@@ -7103,7 +7105,11 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
 }));
 
 export type DeprecateProjectsLocationsCustomConnectorsCustomConnectorVersionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Deprecates a single CustomConnectorVersion. */
 export const deprecateProjectsLocationsCustomConnectorsCustomConnectorVersions: API.OperationMethod<
   DeprecateProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest,
@@ -7178,7 +7184,9 @@ export const generateToolspecOverrideProjectsLocationsConnections: API.Operation
 }));
 
 export type GetActionProjectsLocationsConnectionsConnectionSchemaMetadataError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 /** Get action. */
 export const getActionProjectsLocationsConnectionsConnectionSchemaMetadata: API.OperationMethod<
   GetActionProjectsLocationsConnectionsConnectionSchemaMetadataRequest,
@@ -7212,7 +7220,9 @@ export const getConnectionSchemaMetadataProjectsLocationsConnections: API.Operat
 }));
 
 export type GetEntityTypeProjectsLocationsConnectionsConnectionSchemaMetadataError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 /** Get entity type. */
 export const getEntityTypeProjectsLocationsConnectionsConnectionSchemaMetadata: API.OperationMethod<
   GetEntityTypeProjectsLocationsConnectionsConnectionSchemaMetadataRequest,
@@ -7370,7 +7380,9 @@ export const getProjectsLocationsGlobalCustomConnectors: API.OperationMethod<
 }));
 
 export type GetProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 /** Gets details of a single CustomConnectorVersion. */
 export const getProjectsLocationsGlobalCustomConnectorsCustomConnectorVersions: API.OperationMethod<
   GetProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest,
@@ -7549,7 +7561,9 @@ export const getSettingsProjectsLocationsGlobal: API.OperationMethod<
 }));
 
 export type ListActionsProjectsLocationsConnectionsConnectionSchemaMetadataError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 /** List actions. */
 export const listActionsProjectsLocationsConnectionsConnectionSchemaMetadata: API.PaginatedOperationMethod<
   ListActionsProjectsLocationsConnectionsConnectionSchemaMetadataRequest,
@@ -7590,7 +7604,9 @@ export const listenEventProjectsLocationsConnections: API.OperationMethod<
 }));
 
 export type ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadataError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 /** List entity types. */
 export const listEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadata: API.PaginatedOperationMethod<
   ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadataRequest,
@@ -7793,7 +7809,9 @@ export const listProjectsLocationsGlobalCustomConnectors: API.PaginatedOperation
 })) as any;
 
 export type ListProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 /** List CustomConnectorVersions in a given project */
 export const listProjectsLocationsGlobalCustomConnectorsCustomConnectorVersions: API.PaginatedOperationMethod<
   ListProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest,
@@ -8093,7 +8111,11 @@ export const patchProjectsLocationsGlobalManagedZones: API.OperationMethod<
 }));
 
 export type PublishProjectsLocationsCustomConnectorsCustomConnectorVersionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Publish request for the CustomConnectorVersion. Once approved, the CustomConnectorVersion will be published as PartnerConnector. */
 export const publishProjectsLocationsCustomConnectorsCustomConnectorVersions: API.OperationMethod<
   PublishProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest,
@@ -8352,7 +8374,11 @@ export const validateCustomConnectorSpecProjectsLocationsCustomConnectors: API.O
 }));
 
 export type WithdrawProjectsLocationsCustomConnectorsCustomConnectorVersionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Withdraw the publish request for the CustomConnectorVersion. This can only be used before the CustomConnectorVersion is published. */
 export const withdrawProjectsLocationsCustomConnectorsCustomConnectorVersions: API.OperationMethod<
   WithdrawProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest,

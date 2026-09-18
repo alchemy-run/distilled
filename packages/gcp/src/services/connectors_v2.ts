@@ -96,15 +96,15 @@ export const CheckReadinessResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CheckReadinessResponse>;
 
 export interface CheckStatusProjectsLocationsConnectionsRequest {
-  name: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string;
+  name: string;
 }
 export const CheckStatusProjectsLocationsConnectionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -133,21 +133,21 @@ export type CheckStatusResponseStateEnum =
   | "ACTIVE"
   | "ERROR"
   | "AUTH_ERROR";
-export const CheckStatusResponseStateEnum = /*@__PURE__*/ S.String;
+export const CheckStatusResponseStateEnum = S.String;
 
 /** The status of the connector. */
 export interface CheckStatusResponse {
-  /** When the connector is not in ACTIVE state, the description must be populated to specify the reason why it's not in ACTIVE state. */
-  description?: string;
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap;
+  /** When the connector is not in ACTIVE state, the description must be populated to specify the reason why it's not in ACTIVE state. */
+  description?: string;
   /** State of the connector. */
   state?: CheckStatusResponseStateEnum;
 }
 export const CheckStatusResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
     metadata: S.optional(DocumentMapMap),
+    description: S.optional(S.String),
     state: S.optional(CheckStatusResponseStateEnum),
   }),
 ).annotate({
@@ -156,34 +156,34 @@ export const CheckStatusResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** 'Entity row'/ 'Entity' refers to a single row of an entity type. */
 export interface Entity {
+  /** Metadata like service latency, etc. */
+  metadata?: DocumentMapMap;
   /** Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name?: string;
   /** Fields of the entity. The key is name of the field and the value contains the applicable `google.protobuf.Value` entry for this field. */
   fields?: DocumentMap;
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
 }
 export const Entity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    metadata: S.optional(DocumentMapMap),
     name: S.optional(S.String),
     fields: S.optional(DocumentMap),
-    metadata: S.optional(DocumentMapMap),
   }),
 ).annotate({ identifier: "Entity" }) as any as S.Schema<Entity>;
 
 export interface CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest {
-  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
-  parent: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string;
+  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
+  parent: string;
   /** Request body */
   body?: Entity;
 }
 export const CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(Entity.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -197,19 +197,19 @@ export const CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest =
   }) as any as S.Schema<CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest>;
 
 export interface DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest {
-  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   entityType: string;
   /** Required. Conditions to be used when deleting entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. Note: If this conditions field is left empty, an exception is thrown. We don't want to consider 'empty conditions' to be a match-all case. Connector developers can determine and document what a match-all case constraint would be. */
   conditions?: string;
+  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
+  "executionConfig.headers"?: string;
 }
 export const DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
       entityType: S.String.pipe(T.Label()),
       conditions: S.optional(S.String.pipe(T.Query())),
+      "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "POST",
@@ -229,16 +229,16 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 }) as any as S.Schema<Empty>;
 
 export interface DeleteProjectsLocationsConnectionsEntityTypesEntitiesRequest {
-  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
-  name: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string;
+  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
+  name: string;
 }
 export const DeleteProjectsLocationsConnectionsEntityTypesEntitiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -249,43 +249,6 @@ export const DeleteProjectsLocationsConnectionsEntityTypesEntitiesRequest =
   ).annotate({
     identifier: "DeleteProjectsLocationsConnectionsEntityTypesEntitiesRequest",
   }) as any as S.Schema<DeleteProjectsLocationsConnectionsEntityTypesEntitiesRequest>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
-
-/** AuthCodeData contains the data the runtime plane will give the connector backend in exchange for access and refresh tokens. */
-export interface AuthCodeData {
-  /** OAuth redirect URI passed in during the auth code flow, required by some OAuth backends. */
-  redirectUri?: string;
-  /** OAuth PKCE verifier, needed if PKCE is enabled for this particular connection. */
-  pkceVerifier?: string;
-  /** OAuth authorization code. */
-  authCode?: string;
-  /** Scopes the connection will request when the user performs the auth code flow. */
-  scopes?: StringList;
-}
-export const AuthCodeData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    redirectUri: S.optional(S.String),
-    pkceVerifier: S.optional(S.String),
-    authCode: S.optional(S.String),
-    scopes: S.optional(StringList),
-  }),
-).annotate({ identifier: "AuthCodeData" }) as any as S.Schema<AuthCodeData>;
-
-export interface ExecutionConfig {
-  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  headers?: string;
-}
-export const ExecutionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    headers: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExecutionConfig",
-}) as any as S.Schema<ExecutionConfig>;
 
 export interface OAuth2Config {
   /** Authorization Server URL/Token Endpoint for Authorization Code Flow */
@@ -303,20 +266,57 @@ export const OAuth2Config = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "OAuth2Config" }) as any as S.Schema<OAuth2Config>;
 
+export interface ExecutionConfig {
+  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
+  headers?: string;
+}
+export const ExecutionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    headers: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ExecutionConfig",
+}) as any as S.Schema<ExecutionConfig>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
+/** AuthCodeData contains the data the runtime plane will give the connector backend in exchange for access and refresh tokens. */
+export interface AuthCodeData {
+  /** OAuth PKCE verifier, needed if PKCE is enabled for this particular connection. */
+  pkceVerifier?: string;
+  /** Scopes the connection will request when the user performs the auth code flow. */
+  scopes?: StringList;
+  /** OAuth authorization code. */
+  authCode?: string;
+  /** OAuth redirect URI passed in during the auth code flow, required by some OAuth backends. */
+  redirectUri?: string;
+}
+export const AuthCodeData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pkceVerifier: S.optional(S.String),
+    scopes: S.optional(StringList),
+    authCode: S.optional(S.String),
+    redirectUri: S.optional(S.String),
+  }),
+).annotate({ identifier: "AuthCodeData" }) as any as S.Schema<AuthCodeData>;
+
 /** ExchangeAuthCodeRequest currently includes the auth code data. */
 export interface ExchangeAuthCodeRequest {
-  /** Optional. AuthCodeData contains the data the runtime requires to exchange for access and refresh tokens. If the data is not provided, the runtime will read the data from the secret manager. */
-  authCodeData?: AuthCodeData;
-  /** ExecutionConfig contains the configuration for the execution of the request. */
-  executionConfig?: ExecutionConfig;
   /** OAuth2Config contains the OAuth2 config for the connection. */
   oauth2Config?: OAuth2Config;
+  /** ExecutionConfig contains the configuration for the execution of the request. */
+  executionConfig?: ExecutionConfig;
+  /** Optional. AuthCodeData contains the data the runtime requires to exchange for access and refresh tokens. If the data is not provided, the runtime will read the data from the secret manager. */
+  authCodeData?: AuthCodeData;
 }
 export const ExchangeAuthCodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    authCodeData: S.optional(AuthCodeData),
-    executionConfig: S.optional(ExecutionConfig),
     oauth2Config: S.optional(OAuth2Config),
+    executionConfig: S.optional(ExecutionConfig),
+    authCodeData: S.optional(AuthCodeData),
   }),
 ).annotate({
   identifier: "ExchangeAuthCodeRequest",
@@ -345,18 +345,18 @@ export const ExchangeAuthCodeProjectsLocationsConnectionsRequest =
 
 /** AccessCredentials includes the OAuth access token, and the other fields returned along with it. */
 export interface AccessCredentials {
-  /** OAuth access token. */
-  accessToken?: string;
-  /** Duration till the access token expires. */
-  expiresIn?: string;
   /** OAuth refresh token. */
   refreshToken?: string;
+  /** Duration till the access token expires. */
+  expiresIn?: string;
+  /** OAuth access token. */
+  accessToken?: string;
 }
 export const AccessCredentials = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accessToken: S.optional(S.String),
-    expiresIn: S.optional(S.String),
     refreshToken: S.optional(S.String),
+    expiresIn: S.optional(S.String),
+    accessToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AccessCredentials",
@@ -386,7 +386,7 @@ export type ExecuteHttpRequestRequestHttpMethodEnum =
   | "HTTP_METHOD_DELETE"
   | "HTTP_METHOD_HEAD"
   | "HTTP_METHOD_OPTIONS";
-export const ExecuteHttpRequestRequestHttpMethodEnum = /*@__PURE__*/ S.String;
+export const ExecuteHttpRequestRequestHttpMethodEnum = S.String;
 
 /** A single HTTP header. Keys are case-insensitive. Multiple headers with the same key may be present. */
 export interface HttpHeader {
@@ -408,20 +408,20 @@ export const HttpHeaderList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<HttpHeaderList>;
 
 export interface ExecuteHttpRequestRequest {
-  /** Required. The HTTP method to use for the request. */
-  httpMethod?: ExecuteHttpRequestRequestHttpMethodEnum | (string & {});
   /** Required. The fully resolved absolute target URL. Callers must pre-encode any query parameters. */
   url?: string;
   /** Raw byte payload. Used for all pre-serialized formats including JSON, XML, GraphQL, and Multipart. */
   rawBody?: string;
+  /** Required. The HTTP method to use for the request. */
+  httpMethod?: ExecuteHttpRequestRequestHttpMethodEnum | (string & {});
   /** HTTP headers to send with the request (e.g., Content-Type: application/json). Order is preserved and duplicate keys are allowed. */
   headers?: HttpHeaderList;
 }
 export const ExecuteHttpRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    httpMethod: S.optional(ExecuteHttpRequestRequestHttpMethodEnum),
     url: S.optional(S.String),
     rawBody: S.optional(S.String),
+    httpMethod: S.optional(ExecuteHttpRequestRequestHttpMethodEnum),
     headers: S.optional(HttpHeaderList),
   }),
 ).annotate({
@@ -451,21 +451,21 @@ export const ExecuteHttpRequestProjectsLocationsConnectionsRequest =
   }) as any as S.Schema<ExecuteHttpRequestProjectsLocationsConnectionsRequest>;
 
 export interface ExecuteHttpRequestResponse {
-  /** The HTTP status code received from the backend. */
-  statusCode?: number;
   /** The HTTP status reason phrase received from the backend (e.g., "Not Found"). May be empty if the backend did not provide one. */
   reason?: string;
-  /** The raw response body. */
-  body?: string;
   /** HTTP headers received in the response. Order is preserved and duplicate keys are allowed (e.g., multiple Set-Cookie headers). */
   headers?: HttpHeaderList;
+  /** The HTTP status code received from the backend. */
+  statusCode?: number;
+  /** The raw response body. */
+  body?: string;
 }
 export const ExecuteHttpRequestResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    statusCode: S.optional(S.Number),
     reason: S.optional(S.String),
-    body: S.optional(S.String),
     headers: S.optional(HttpHeaderList),
+    statusCode: S.optional(S.Number),
+    body: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ExecuteHttpRequestResponse",
@@ -516,15 +516,15 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** Response message for ActionService.ExecuteAction */
 export interface ExecuteActionResponse {
-  /** In the case of successful invocation of the specified action, the results Struct contains values based on the response of the action invoked. 1. If the action execution produces any entities as a result, they are returned as an array of Structs with the 'key' being the field name and the 'value' being the value of that field in each result row. { 'results': [{'key': 'value'}, ...] } */
-  results?: DocumentMapList;
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap;
+  /** In the case of successful invocation of the specified action, the results Struct contains values based on the response of the action invoked. 1. If the action execution produces any entities as a result, they are returned as an array of Structs with the 'key' being the field name and the 'value' being the value of that field in each result row. { 'results': [{'key': 'value'}, ...] } */
+  results?: DocumentMapList;
 }
 export const ExecuteActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    results: S.optional(DocumentMapList),
     metadata: S.optional(DocumentMapMap),
+    results: S.optional(DocumentMapList),
   }),
 ).annotate({
   identifier: "ExecuteActionResponse",
@@ -532,17 +532,17 @@ export const ExecuteActionResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Request message for ConnectorAgentService.ExecuteTool */
 export interface ExecuteToolRequest {
-  /** execution config for the request. */
-  executionConfig?: ExecutionConfig;
   /** Tool definition for the tool to be executed. */
   toolDefinition?: DocumentMap;
+  /** execution config for the request. */
+  executionConfig?: ExecutionConfig;
   /** Input parameters for the tool. */
   parameters?: DocumentMap;
 }
 export const ExecuteToolRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    executionConfig: S.optional(ExecutionConfig),
     toolDefinition: S.optional(DocumentMap),
+    executionConfig: S.optional(ExecutionConfig),
     parameters: S.optional(DocumentMap),
   }),
 ).annotate({
@@ -573,17 +573,17 @@ export const ExecuteProjectsLocationsConnectionsToolsRequest =
 
 /** Response message for ConnectorAgentService.ExecuteTool */
 export interface ExecuteToolResponse {
-  /** Output from the tool execution. */
-  result?: DocumentMap;
   /** Metadata for the tool execution result. */
   _meta?: DocumentMap;
+  /** Output from the tool execution. */
+  result?: DocumentMap;
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap;
 }
 export const ExecuteToolResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    result: S.optional(DocumentMap),
     _meta: S.optional(DocumentMap),
+    result: S.optional(DocumentMap),
     metadata: S.optional(DocumentMapMap),
   }),
 ).annotate({
@@ -636,7 +636,7 @@ export type QueryParameterDataTypeEnum =
   | "REF_CURSOR"
   | "TIME_WITH_TIMEZONE"
   | "TIMESTAMP_WITH_TIMEZONE";
-export const QueryParameterDataTypeEnum = /*@__PURE__*/ S.String;
+export const QueryParameterDataTypeEnum = S.String;
 
 /** Query parameter definition */
 export interface QueryParameter {
@@ -657,21 +657,21 @@ export const QueryParameterList = /*@__PURE__*/ S.Array(
 
 /** A wrapper around the SQL query statement. This is needed so that the JSON representation of ExecuteSqlQueryRequest has the following format: `{"query":"select *"}`. */
 export interface Query {
-  /** Required. Sql query to execute. */
-  query?: string;
+  /** Sets the number of seconds the driver will wait for a query to execute. */
+  timeout?: string;
   /** Sets the limit for the maximum number of rows returned after the query execution. */
   maxRows?: string;
   /** In the struct, the value corresponds to the value of query parameter and date type corresponds to the date type of the query parameter. */
   queryParameters?: QueryParameterList;
-  /** Sets the number of seconds the driver will wait for a query to execute. */
-  timeout?: string;
+  /** Required. Sql query to execute. */
+  query?: string;
 }
 export const Query = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    query: S.optional(S.String),
+    timeout: S.optional(S.String),
     maxRows: S.optional(S.String),
     queryParameters: S.optional(QueryParameterList),
-    timeout: S.optional(S.String),
+    query: S.optional(S.String),
   }),
 ).annotate({ identifier: "Query" }) as any as S.Schema<Query>;
 
@@ -730,21 +730,21 @@ export type ToolNameOperationEnum =
   | "CREATE"
   | "UPDATE"
   | "DELETE";
-export const ToolNameOperationEnum = /*@__PURE__*/ S.String;
+export const ToolNameOperationEnum = S.String;
 
 export interface ToolName {
   /** Operation for which the tool was generated. */
   operation?: ToolNameOperationEnum | (string & {});
-  /** Tool name that was generated in the list tools call. */
-  name?: string;
   /** Entity name for which the tool was generated. */
   entityName?: string;
+  /** Tool name that was generated in the list tools call. */
+  name?: string;
 }
 export const ToolName = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operation: S.optional(ToolNameOperationEnum),
-    name: S.optional(S.String),
     entityName: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "ToolName" }) as any as S.Schema<ToolName>;
 
@@ -789,15 +789,15 @@ export const GenerateConnectionToolspecOverrideProjectsLocationsConnectionsReque
   }) as any as S.Schema<GenerateConnectionToolspecOverrideProjectsLocationsConnectionsRequest>;
 
 export interface ToolSpec {
-  /** Version of the tool spec. Format: providerId/connectorId/versionId/toolSpecId */
-  toolSpecVersion?: string;
   /** List of tool definitions. */
   toolDefinitions?: DocumentMapList;
+  /** Version of the tool spec. Format: providerId/connectorId/versionId/toolSpecId */
+  toolSpecVersion?: string;
 }
 export const ToolSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    toolSpecVersion: S.optional(S.String),
     toolDefinitions: S.optional(DocumentMapList),
+    toolSpecVersion: S.optional(S.String),
   }),
 ).annotate({ identifier: "ToolSpec" }) as any as S.Schema<ToolSpec>;
 
@@ -817,25 +817,24 @@ export type GetProjectsLocationsConnectionsActionsViewEnum =
   | "ACTION_SCHEMA_VIEW_UNSPECIFIED"
   | "ACTION_SCHEMA_VIEW_BASIC"
   | "ACTION_SCHEMA_VIEW_ENRICHED";
-export const GetProjectsLocationsConnectionsActionsViewEnum =
-  /*@__PURE__*/ S.String;
+export const GetProjectsLocationsConnectionsActionsViewEnum = S.String;
 
 export interface GetProjectsLocationsConnectionsActionsRequest {
-  /** Specified view of the action schema. */
-  view?: GetProjectsLocationsConnectionsActionsViewEnum | (string & {});
-  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
   /** Required. Resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection}/actions/{action} */
   name: string;
+  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
+  "executionConfig.headers"?: string;
+  /** Specified view of the action schema. */
+  view?: GetProjectsLocationsConnectionsActionsViewEnum | (string & {});
 }
 export const GetProjectsLocationsConnectionsActionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      name: S.String.pipe(T.Label()),
+      "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
       view: S.optional(
         GetProjectsLocationsConnectionsActionsViewEnum.pipe(T.Query()),
       ),
-      "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -846,307 +845,6 @@ export const GetProjectsLocationsConnectionsActionsRequest =
   ).annotate({
     identifier: "GetProjectsLocationsConnectionsActionsRequest",
   }) as any as S.Schema<GetProjectsLocationsConnectionsActionsRequest>;
-
-export type InputParameterDataTypeEnum =
-  | "DATA_TYPE_UNSPECIFIED"
-  | "INT"
-  | "SMALLINT"
-  | "DOUBLE"
-  | "DATE"
-  | "DATETIME"
-  | "TIME"
-  | "STRING"
-  | "LONG"
-  | "BOOLEAN"
-  | "DECIMAL"
-  | "UUID"
-  | "BLOB"
-  | "BIT"
-  | "TINYINT"
-  | "INTEGER"
-  | "BIGINT"
-  | "FLOAT"
-  | "REAL"
-  | "NUMERIC"
-  | "CHAR"
-  | "VARCHAR"
-  | "LONGVARCHAR"
-  | "TIMESTAMP"
-  | "NCHAR"
-  | "NVARCHAR"
-  | "LONGNVARCHAR"
-  | "NULL"
-  | "OTHER"
-  | "JAVA_OBJECT"
-  | "DISTINCT"
-  | "STRUCT"
-  | "ARRAY"
-  | "CLOB"
-  | "REF"
-  | "DATALINK"
-  | "ROWID"
-  | "BINARY"
-  | "VARBINARY"
-  | "LONGVARBINARY"
-  | "NCLOB"
-  | "SQLXML"
-  | "REF_CURSOR"
-  | "TIME_WITH_TIMEZONE"
-  | "TIMESTAMP_WITH_TIMEZONE";
-export const InputParameterDataTypeEnum = /*@__PURE__*/ S.String;
-
-export type DocumentList = Array<unknown>;
-export const DocumentList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<DocumentList>;
-
-export type JsonSchemaList = Array<JsonSchema>;
-export const JsonSchemaList = /*@__PURE__*/ S.Array(
-  S.suspend(() => JsonSchema),
-) as any as S.Schema<JsonSchemaList>;
-
-export type JsonSchemaMap = { [key: string]: JsonSchema | undefined };
-export const JsonSchemaMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.suspend(() => JsonSchema),
-) as any as S.Schema<JsonSchemaMap>;
-
-export type JsonSchemaJdbcTypeEnum =
-  | "DATA_TYPE_UNSPECIFIED"
-  | "INT"
-  | "SMALLINT"
-  | "DOUBLE"
-  | "DATE"
-  | "DATETIME"
-  | "TIME"
-  | "STRING"
-  | "LONG"
-  | "BOOLEAN"
-  | "DECIMAL"
-  | "UUID"
-  | "BLOB"
-  | "BIT"
-  | "TINYINT"
-  | "INTEGER"
-  | "BIGINT"
-  | "FLOAT"
-  | "REAL"
-  | "NUMERIC"
-  | "CHAR"
-  | "VARCHAR"
-  | "LONGVARCHAR"
-  | "TIMESTAMP"
-  | "NCHAR"
-  | "NVARCHAR"
-  | "LONGNVARCHAR"
-  | "NULL"
-  | "OTHER"
-  | "JAVA_OBJECT"
-  | "DISTINCT"
-  | "STRUCT"
-  | "ARRAY"
-  | "CLOB"
-  | "REF"
-  | "DATALINK"
-  | "ROWID"
-  | "BINARY"
-  | "VARBINARY"
-  | "LONGVARBINARY"
-  | "NCLOB"
-  | "SQLXML"
-  | "REF_CURSOR"
-  | "TIME_WITH_TIMEZONE"
-  | "TIMESTAMP_WITH_TIMEZONE";
-export const JsonSchemaJdbcTypeEnum = /*@__PURE__*/ S.String;
-
-/** JsonSchema representation of schema metadata */
-export interface JsonSchema {
-  /** The default value of the field or object described by this schema. */
-  default?: unknown;
-  /** Maximum number of properties. */
-  maxProperties?: number;
-  /** Possible values for an enumeration. This works in conjunction with `type` to represent types with a fixed set of legal values */
-  enum?: DocumentList;
-  /** Schema for property names. */
-  propertyNames?: JsonSchema;
-  /** Additional details apart from standard json schema fields, this gives flexibility to store metadata about the schema */
-  additionalDetails?: DocumentMap;
-  /** Whether the value is read-only. */
-  readOnly?: boolean;
-  /** Schema that applies to array values, applicable only if this is of type `array`. */
-  items?: JsonSchema;
-  /** Schema that must be valid against at least one of the sub-schemas. */
-  anyOf?: JsonSchemaList;
-  /** The child schemas, applicable only if this is of type `object`. The key is the name of the property and the value is the json schema that describes that property */
-  properties?: JsonSchemaMap;
-  /** Whether the maximum number value is exclusive. */
-  exclusiveMaximum?: unknown;
-  /** Whether the value is write-only. */
-  writeOnly?: boolean;
-  /** Schema that applies to at least one item in an array. */
-  contains?: JsonSchema;
-  /** Whether the items in the array field are unique. */
-  uniqueItems?: boolean;
-  /** Schema that must be valid if the "if" schema is invalid. */
-  else?: JsonSchema;
-  /** JDBC datatype of the field. */
-  jdbcType?: JsonSchemaJdbcTypeEnum;
-  /** The URI defining the schema. */
-  $schema?: string;
-  /** Minimum length of the string field. */
-  minLength?: number;
-  /** The URI defining the core schema meta-schema. */
-  $id?: string;
-  /** Definitions for the schema. */
-  definitions?: JsonSchemaMap;
-  /** Maximum value of the number field. */
-  maximum?: unknown;
-  /** Number must be a multiple of this value. */
-  multipleOf?: number;
-  /** A comment on the schema. */
-  $comment?: string;
-  /** Dependencies for the schema. */
-  dependencies?: DocumentMap;
-  /** Encoding of the content. */
-  contentEncoding?: string;
-  /** Minimum number of items in the array field. */
-  minItems?: number;
-  /** Schema for additional items. */
-  additionalItems?: JsonSchema;
-  /** Pattern properties for the schema. */
-  patternProperties?: JsonSchemaMap;
-  /** A description of this schema. */
-  description?: string;
-  /** Examples of the value. */
-  examples?: DocumentList;
-  /** Minimum value of the number field. */
-  minimum?: unknown;
-  /** Schema that must be valid against all of the sub-schemas. */
-  allOf?: JsonSchemaList;
-  /** Whether the minimum number value is exclusive. */
-  exclusiveMinimum?: unknown;
-  /** Definitions for the schema. */
-  $defs?: JsonSchemaMap;
-  /** Const value that the data must match. */
-  const?: unknown;
-  /** Maximum length of the string field. */
-  maxLength?: number;
-  /** Minimum number of properties. */
-  minProperties?: number;
-  /** Regex pattern of the string field. This is a string value that describes the regular expression that the string value should match. */
-  pattern?: string;
-  /** Maximum number of items in the array field. */
-  maxItems?: number;
-  /** Schema that must be valid if the "if" schema is valid. */
-  then?: JsonSchema;
-  /** Media type of the content. */
-  contentMediaType?: string;
-  /** Schema for additional properties. */
-  additionalProperties?: JsonSchema;
-  /** Schema that must be valid against at least one of the sub-schemas. */
-  oneOf?: JsonSchemaList;
-  /** Schema that must be valid if the "if" schema is valid. */
-  if?: JsonSchema;
-  /** JSON Schema Validation: A Vocabulary for Structural Validation of JSON */
-  type?: StringList;
-  /** Format of the value as per https://json-schema.org/understanding-json-schema/reference/string.html#format */
-  format?: string;
-  /** A title of the schema. */
-  title?: string;
-  /** A reference to another schema. */
-  $ref?: string;
-  /** Whether this property is required. */
-  required?: StringList;
-  /** Schema that must not be valid. */
-  not?: JsonSchema;
-}
-export const JsonSchema = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    default: S.optional(S.Unknown),
-    maxProperties: S.optional(S.Number),
-    enum: S.optional(DocumentList),
-    propertyNames: S.optional(JsonSchema),
-    additionalDetails: S.optional(DocumentMap),
-    readOnly: S.optional(S.Boolean),
-    items: S.optional(JsonSchema),
-    anyOf: S.optional(JsonSchemaList),
-    properties: S.optional(JsonSchemaMap),
-    exclusiveMaximum: S.optional(S.Unknown),
-    writeOnly: S.optional(S.Boolean),
-    contains: S.optional(JsonSchema),
-    uniqueItems: S.optional(S.Boolean),
-    else: S.optional(JsonSchema),
-    jdbcType: S.optional(JsonSchemaJdbcTypeEnum),
-    $schema: S.optional(S.String),
-    minLength: S.optional(S.Number),
-    $id: S.optional(S.String),
-    definitions: S.optional(JsonSchemaMap),
-    maximum: S.optional(S.Unknown),
-    multipleOf: S.optional(S.Number),
-    $comment: S.optional(S.String),
-    dependencies: S.optional(DocumentMap),
-    contentEncoding: S.optional(S.String),
-    minItems: S.optional(S.Number),
-    additionalItems: S.optional(JsonSchema),
-    patternProperties: S.optional(JsonSchemaMap),
-    description: S.optional(S.String),
-    examples: S.optional(DocumentList),
-    minimum: S.optional(S.Unknown),
-    allOf: S.optional(JsonSchemaList),
-    exclusiveMinimum: S.optional(S.Unknown),
-    $defs: S.optional(JsonSchemaMap),
-    const: S.optional(S.Unknown),
-    maxLength: S.optional(S.Number),
-    minProperties: S.optional(S.Number),
-    pattern: S.optional(S.String),
-    maxItems: S.optional(S.Number),
-    then: S.optional(JsonSchema),
-    contentMediaType: S.optional(S.String),
-    additionalProperties: S.optional(JsonSchema),
-    oneOf: S.optional(JsonSchemaList),
-    if: S.optional(JsonSchema),
-    type: S.optional(StringList),
-    format: S.optional(S.String),
-    title: S.optional(S.String),
-    $ref: S.optional(S.String),
-    required: S.optional(StringList),
-    not: S.optional(JsonSchema),
-  }),
-).annotate({ identifier: "JsonSchema" }) as any as S.Schema<JsonSchema>;
-
-/** Input Parameter message contains metadata about the parameters required for executing an Action. */
-export interface InputParameter {
-  /** A brief description of the Parameter. */
-  description?: string;
-  /** The data type of the Parameter */
-  dataType?: InputParameterDataTypeEnum;
-  /** Specifies whether a null value is allowed. */
-  nullable?: boolean;
-  /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
-  defaultValue?: unknown;
-  /** Name of the Parameter. */
-  name?: string;
-  /** JsonSchema of the parameter, applicable only if parameter is of type `STRUCT` */
-  jsonSchema?: JsonSchema;
-  /** The following map contains fields that are not explicitly mentioned above,this give connectors the flexibility to add new metadata fields. */
-  additionalDetails?: DocumentMap;
-}
-export const InputParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    dataType: S.optional(InputParameterDataTypeEnum),
-    nullable: S.optional(S.Boolean),
-    defaultValue: S.optional(S.Unknown),
-    name: S.optional(S.String),
-    jsonSchema: S.optional(JsonSchema),
-    additionalDetails: S.optional(DocumentMap),
-  }),
-).annotate({ identifier: "InputParameter" }) as any as S.Schema<InputParameter>;
-
-export type InputParameterList = Array<InputParameter>;
-export const InputParameterList = /*@__PURE__*/ S.Array(
-  InputParameter,
-) as any as S.Schema<InputParameterList>;
 
 export type ResultMetadataDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -1194,31 +892,250 @@ export type ResultMetadataDataTypeEnum =
   | "REF_CURSOR"
   | "TIME_WITH_TIMEZONE"
   | "TIMESTAMP_WITH_TIMEZONE";
-export const ResultMetadataDataTypeEnum = /*@__PURE__*/ S.String;
+export const ResultMetadataDataTypeEnum = S.String;
+
+export type JsonSchemaMap = { [key: string]: JsonSchema | undefined };
+export const JsonSchemaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.suspend(() => JsonSchema),
+) as any as S.Schema<JsonSchemaMap>;
+
+export type JsonSchemaList = Array<JsonSchema>;
+export const JsonSchemaList = /*@__PURE__*/ S.Array(
+  S.suspend(() => JsonSchema),
+) as any as S.Schema<JsonSchemaList>;
+
+export type DocumentList = Array<unknown>;
+export const DocumentList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<DocumentList>;
+
+export type JsonSchemaJdbcTypeEnum =
+  | "DATA_TYPE_UNSPECIFIED"
+  | "INT"
+  | "SMALLINT"
+  | "DOUBLE"
+  | "DATE"
+  | "DATETIME"
+  | "TIME"
+  | "STRING"
+  | "LONG"
+  | "BOOLEAN"
+  | "DECIMAL"
+  | "UUID"
+  | "BLOB"
+  | "BIT"
+  | "TINYINT"
+  | "INTEGER"
+  | "BIGINT"
+  | "FLOAT"
+  | "REAL"
+  | "NUMERIC"
+  | "CHAR"
+  | "VARCHAR"
+  | "LONGVARCHAR"
+  | "TIMESTAMP"
+  | "NCHAR"
+  | "NVARCHAR"
+  | "LONGNVARCHAR"
+  | "NULL"
+  | "OTHER"
+  | "JAVA_OBJECT"
+  | "DISTINCT"
+  | "STRUCT"
+  | "ARRAY"
+  | "CLOB"
+  | "REF"
+  | "DATALINK"
+  | "ROWID"
+  | "BINARY"
+  | "VARBINARY"
+  | "LONGVARBINARY"
+  | "NCLOB"
+  | "SQLXML"
+  | "REF_CURSOR"
+  | "TIME_WITH_TIMEZONE"
+  | "TIMESTAMP_WITH_TIMEZONE";
+export const JsonSchemaJdbcTypeEnum = S.String;
+
+/** JsonSchema representation of schema metadata */
+export interface JsonSchema {
+  /** The default value of the field or object described by this schema. */
+  default?: unknown;
+  /** The URI defining the schema. */
+  $schema?: string;
+  /** Minimum length of the string field. */
+  minLength?: number;
+  /** Maximum length of the string field. */
+  maxLength?: number;
+  /** Schema that applies to array values, applicable only if this is of type `array`. */
+  items?: JsonSchema;
+  /** The child schemas, applicable only if this is of type `object`. The key is the name of the property and the value is the json schema that describes that property */
+  properties?: JsonSchemaMap;
+  /** Maximum number of properties. */
+  maxProperties?: number;
+  /** Media type of the content. */
+  contentMediaType?: string;
+  /** Maximum value of the number field. */
+  maximum?: unknown;
+  /** Definitions for the schema. */
+  $defs?: JsonSchemaMap;
+  /** Schema for property names. */
+  propertyNames?: JsonSchema;
+  /** Minimum number of items in the array field. */
+  minItems?: number;
+  /** Schema that must be valid if the "if" schema is invalid. */
+  else?: JsonSchema;
+  /** Dependencies for the schema. */
+  dependencies?: DocumentMap;
+  /** Whether the maximum number value is exclusive. */
+  exclusiveMaximum?: unknown;
+  /** Regex pattern of the string field. This is a string value that describes the regular expression that the string value should match. */
+  pattern?: string;
+  /** Schema that applies to at least one item in an array. */
+  contains?: JsonSchema;
+  /** Schema that must be valid if the "if" schema is valid. */
+  then?: JsonSchema;
+  /** Definitions for the schema. */
+  definitions?: JsonSchemaMap;
+  /** JSON Schema Validation: A Vocabulary for Structural Validation of JSON */
+  type?: StringList;
+  /** Pattern properties for the schema. */
+  patternProperties?: JsonSchemaMap;
+  /** Schema that must be valid against at least one of the sub-schemas. */
+  oneOf?: JsonSchemaList;
+  /** A title of the schema. */
+  title?: string;
+  /** Whether the value is write-only. */
+  writeOnly?: boolean;
+  /** Whether the minimum number value is exclusive. */
+  exclusiveMinimum?: unknown;
+  /** Whether the items in the array field are unique. */
+  uniqueItems?: boolean;
+  /** A comment on the schema. */
+  $comment?: string;
+  /** A reference to another schema. */
+  $ref?: string;
+  /** Whether the value is read-only. */
+  readOnly?: boolean;
+  /** Possible values for an enumeration. This works in conjunction with `type` to represent types with a fixed set of legal values */
+  enum?: DocumentList;
+  /** Format of the value as per https://json-schema.org/understanding-json-schema/reference/string.html#format */
+  format?: string;
+  /** Encoding of the content. */
+  contentEncoding?: string;
+  /** Schema that must not be valid. */
+  not?: JsonSchema;
+  /** Number must be a multiple of this value. */
+  multipleOf?: number;
+  /** Additional details apart from standard json schema fields, this gives flexibility to store metadata about the schema */
+  additionalDetails?: DocumentMap;
+  /** A description of this schema. */
+  description?: string;
+  /** The URI defining the core schema meta-schema. */
+  $id?: string;
+  /** Schema that must be valid against at least one of the sub-schemas. */
+  anyOf?: JsonSchemaList;
+  /** JDBC datatype of the field. */
+  jdbcType?: JsonSchemaJdbcTypeEnum;
+  /** Minimum value of the number field. */
+  minimum?: unknown;
+  /** Schema that must be valid if the "if" schema is valid. */
+  if?: JsonSchema;
+  /** Schema that must be valid against all of the sub-schemas. */
+  allOf?: JsonSchemaList;
+  /** Examples of the value. */
+  examples?: DocumentList;
+  /** Const value that the data must match. */
+  const?: unknown;
+  /** Maximum number of items in the array field. */
+  maxItems?: number;
+  /** Schema for additional items. */
+  additionalItems?: JsonSchema;
+  /** Schema for additional properties. */
+  additionalProperties?: JsonSchema;
+  /** Minimum number of properties. */
+  minProperties?: number;
+  /** Whether this property is required. */
+  required?: StringList;
+}
+export const JsonSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    default: S.optional(S.Unknown),
+    $schema: S.optional(S.String),
+    minLength: S.optional(S.Number),
+    maxLength: S.optional(S.Number),
+    items: S.optional(JsonSchema),
+    properties: S.optional(JsonSchemaMap),
+    maxProperties: S.optional(S.Number),
+    contentMediaType: S.optional(S.String),
+    maximum: S.optional(S.Unknown),
+    $defs: S.optional(JsonSchemaMap),
+    propertyNames: S.optional(JsonSchema),
+    minItems: S.optional(S.Number),
+    else: S.optional(JsonSchema),
+    dependencies: S.optional(DocumentMap),
+    exclusiveMaximum: S.optional(S.Unknown),
+    pattern: S.optional(S.String),
+    contains: S.optional(JsonSchema),
+    then: S.optional(JsonSchema),
+    definitions: S.optional(JsonSchemaMap),
+    type: S.optional(StringList),
+    patternProperties: S.optional(JsonSchemaMap),
+    oneOf: S.optional(JsonSchemaList),
+    title: S.optional(S.String),
+    writeOnly: S.optional(S.Boolean),
+    exclusiveMinimum: S.optional(S.Unknown),
+    uniqueItems: S.optional(S.Boolean),
+    $comment: S.optional(S.String),
+    $ref: S.optional(S.String),
+    readOnly: S.optional(S.Boolean),
+    enum: S.optional(DocumentList),
+    format: S.optional(S.String),
+    contentEncoding: S.optional(S.String),
+    not: S.optional(JsonSchema),
+    multipleOf: S.optional(S.Number),
+    additionalDetails: S.optional(DocumentMap),
+    description: S.optional(S.String),
+    $id: S.optional(S.String),
+    anyOf: S.optional(JsonSchemaList),
+    jdbcType: S.optional(JsonSchemaJdbcTypeEnum),
+    minimum: S.optional(S.Unknown),
+    if: S.optional(JsonSchema),
+    allOf: S.optional(JsonSchemaList),
+    examples: S.optional(DocumentList),
+    const: S.optional(S.Unknown),
+    maxItems: S.optional(S.Number),
+    additionalItems: S.optional(JsonSchema),
+    additionalProperties: S.optional(JsonSchema),
+    minProperties: S.optional(S.Number),
+    required: S.optional(StringList),
+  }),
+).annotate({ identifier: "JsonSchema" }) as any as S.Schema<JsonSchema>;
 
 /** Result Metadata message contains metadata about the result returned after executing an Action. */
 export interface ResultMetadata {
-  /** Name of the metadata field. */
-  name?: string;
-  /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
-  defaultValue?: unknown;
-  /** JsonSchema of the result, applicable only if parameter is of type `STRUCT` */
-  jsonSchema?: JsonSchema;
+  /** Specifies whether a null value is allowed. */
+  nullable?: boolean;
   /** A brief description of the metadata field. */
   description?: string;
   /** The data type of the metadata field */
   dataType?: ResultMetadataDataTypeEnum;
-  /** Specifies whether a null value is allowed. */
-  nullable?: boolean;
+  /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
+  defaultValue?: unknown;
+  /** Name of the metadata field. */
+  name?: string;
+  /** JsonSchema of the result, applicable only if parameter is of type `STRUCT` */
+  jsonSchema?: JsonSchema;
 }
 export const ResultMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    defaultValue: S.optional(S.Unknown),
-    jsonSchema: S.optional(JsonSchema),
+    nullable: S.optional(S.Boolean),
     description: S.optional(S.String),
     dataType: S.optional(ResultMetadataDataTypeEnum),
-    nullable: S.optional(S.Boolean),
+    defaultValue: S.optional(S.Unknown),
+    name: S.optional(S.String),
+    jsonSchema: S.optional(JsonSchema),
   }),
 ).annotate({ identifier: "ResultMetadata" }) as any as S.Schema<ResultMetadata>;
 
@@ -1227,35 +1144,117 @@ export const ResultMetadataList = /*@__PURE__*/ S.Array(
   ResultMetadata,
 ) as any as S.Schema<ResultMetadataList>;
 
+export type InputParameterDataTypeEnum =
+  | "DATA_TYPE_UNSPECIFIED"
+  | "INT"
+  | "SMALLINT"
+  | "DOUBLE"
+  | "DATE"
+  | "DATETIME"
+  | "TIME"
+  | "STRING"
+  | "LONG"
+  | "BOOLEAN"
+  | "DECIMAL"
+  | "UUID"
+  | "BLOB"
+  | "BIT"
+  | "TINYINT"
+  | "INTEGER"
+  | "BIGINT"
+  | "FLOAT"
+  | "REAL"
+  | "NUMERIC"
+  | "CHAR"
+  | "VARCHAR"
+  | "LONGVARCHAR"
+  | "TIMESTAMP"
+  | "NCHAR"
+  | "NVARCHAR"
+  | "LONGNVARCHAR"
+  | "NULL"
+  | "OTHER"
+  | "JAVA_OBJECT"
+  | "DISTINCT"
+  | "STRUCT"
+  | "ARRAY"
+  | "CLOB"
+  | "REF"
+  | "DATALINK"
+  | "ROWID"
+  | "BINARY"
+  | "VARBINARY"
+  | "LONGVARBINARY"
+  | "NCLOB"
+  | "SQLXML"
+  | "REF_CURSOR"
+  | "TIME_WITH_TIMEZONE"
+  | "TIMESTAMP_WITH_TIMEZONE";
+export const InputParameterDataTypeEnum = S.String;
+
+/** Input Parameter message contains metadata about the parameters required for executing an Action. */
+export interface InputParameter {
+  /** A brief description of the Parameter. */
+  description?: string;
+  /** JsonSchema of the parameter, applicable only if parameter is of type `STRUCT` */
+  jsonSchema?: JsonSchema;
+  /** Name of the Parameter. */
+  name?: string;
+  /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
+  defaultValue?: unknown;
+  /** Specifies whether a null value is allowed. */
+  nullable?: boolean;
+  /** The following map contains fields that are not explicitly mentioned above,this give connectors the flexibility to add new metadata fields. */
+  additionalDetails?: DocumentMap;
+  /** The data type of the Parameter */
+  dataType?: InputParameterDataTypeEnum;
+}
+export const InputParameter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    jsonSchema: S.optional(JsonSchema),
+    name: S.optional(S.String),
+    defaultValue: S.optional(S.Unknown),
+    nullable: S.optional(S.Boolean),
+    additionalDetails: S.optional(DocumentMap),
+    dataType: S.optional(InputParameterDataTypeEnum),
+  }),
+).annotate({ identifier: "InputParameter" }) as any as S.Schema<InputParameter>;
+
+export type InputParameterList = Array<InputParameter>;
+export const InputParameterList = /*@__PURE__*/ S.Array(
+  InputParameter,
+) as any as S.Schema<InputParameterList>;
+
 /** Action message contains metadata information about a single action present in the external system. */
 export interface Action {
-  /** List containing input parameter metadata. */
-  inputParameters?: InputParameterList;
+  /** Brief Description of action */
+  description?: string;
+  /** Metadata like service latency, etc. */
+  metadata?: DocumentMapMap;
+  /** List containing the metadata of result fields. */
+  resultMetadata?: ResultMetadataList;
   /** Name of the action. */
   name?: string;
-  /** JsonSchema representation of this actions's result schema */
-  resultJsonSchema?: JsonSchema;
   /** JsonSchema representation of this actions's input schema */
   inputJsonSchema?: JsonSchema;
   /** Display Name of action to be shown on client side */
   displayName?: string;
-  /** Brief Description of action */
-  description?: string;
-  /** List containing the metadata of result fields. */
-  resultMetadata?: ResultMetadataList;
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  /** JsonSchema representation of this actions's result schema */
+  resultJsonSchema?: JsonSchema;
+  /** List containing input parameter metadata. */
+  inputParameters?: InputParameterList;
 }
 export const Action = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    inputParameters: S.optional(InputParameterList),
+    description: S.optional(S.String),
+    metadata: S.optional(DocumentMapMap),
+    resultMetadata: S.optional(ResultMetadataList),
     name: S.optional(S.String),
-    resultJsonSchema: S.optional(JsonSchema),
     inputJsonSchema: S.optional(JsonSchema),
     displayName: S.optional(S.String),
-    description: S.optional(S.String),
-    resultMetadata: S.optional(ResultMetadataList),
-    metadata: S.optional(DocumentMapMap),
+    resultJsonSchema: S.optional(JsonSchema),
+    inputParameters: S.optional(InputParameterList),
   }),
 ).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
 
@@ -1263,28 +1262,27 @@ export type GetProjectsLocationsConnectionsEntityTypesViewEnum =
   | "ENTITY_TYPE_SCHEMA_VIEW_UNSPECIFIED"
   | "ENTITY_TYPE_SCHEMA_VIEW_BASIC"
   | "ENTITY_TYPE_SCHEMA_VIEW_ENRICHED";
-export const GetProjectsLocationsConnectionsEntityTypesViewEnum =
-  /*@__PURE__*/ S.String;
+export const GetProjectsLocationsConnectionsEntityTypesViewEnum = S.String;
 
 export interface GetProjectsLocationsConnectionsEntityTypesRequest {
-  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{entityType} */
-  name: string;
-  /** Context metadata for request could be used to fetch customization of entity type schema. */
-  contextMetadata?: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string;
   /** Specifies view for entity type schema. */
   view?: GetProjectsLocationsConnectionsEntityTypesViewEnum | (string & {});
+  /** Context metadata for request could be used to fetch customization of entity type schema. */
+  contextMetadata?: string;
+  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{entityType} */
+  name: string;
 }
 export const GetProjectsLocationsConnectionsEntityTypesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
-      contextMetadata: S.optional(S.String.pipe(T.Query())),
       "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
       view: S.optional(
         GetProjectsLocationsConnectionsEntityTypesViewEnum.pipe(T.Query()),
       ),
+      contextMetadata: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1342,53 +1340,53 @@ export type FieldDataTypeEnum =
   | "REF_CURSOR"
   | "TIME_WITH_TIMEZONE"
   | "TIMESTAMP_WITH_TIMEZONE";
-export const FieldDataTypeEnum = /*@__PURE__*/ S.String;
+export const FieldDataTypeEnum = S.String;
 
 export interface Reference {
-  /** Name of reference entity type. */
-  type?: string;
   /** Name of the reference field. */
   name?: string;
+  /** Name of reference entity type. */
+  type?: string;
 }
 export const Reference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
     name: S.optional(S.String),
+    type: S.optional(S.String),
   }),
 ).annotate({ identifier: "Reference" }) as any as S.Schema<Reference>;
 
 /** Message contains EntityType's Field metadata. */
 export interface Field {
-  /** A brief description of the Field. */
-  description?: string;
+  /** The following field specifies the default value of the Field provided by the external system if a value is not provided. */
+  defaultValue?: unknown;
   /** The data type of the Field. */
   dataType?: FieldDataTypeEnum;
   /** Specifies whether a null value is allowed. */
   nullable?: boolean;
-  /** Name of the Field. */
-  name?: string;
-  /** JsonSchema of the field, applicable only if field is of type `STRUCT` */
-  jsonSchema?: JsonSchema;
   /** The following boolean field specifies if the current Field acts as a primary key or id if the parent is of type entity. */
   key?: boolean;
+  /** A brief description of the Field. */
+  description?: string;
   /** Reference captures the association between two different entity types. Value links to the reference of another entity type. */
   reference?: Reference;
-  /** The following field specifies the default value of the Field provided by the external system if a value is not provided. */
-  defaultValue?: unknown;
+  /** Name of the Field. */
+  name?: string;
   /** The following map contains fields that are not explicitly mentioned above,this give connectors the flexibility to add new metadata fields. */
   additionalDetails?: DocumentMap;
+  /** JsonSchema of the field, applicable only if field is of type `STRUCT` */
+  jsonSchema?: JsonSchema;
 }
 export const Field = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
+    defaultValue: S.optional(S.Unknown),
     dataType: S.optional(FieldDataTypeEnum),
     nullable: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    jsonSchema: S.optional(JsonSchema),
     key: S.optional(S.Boolean),
+    description: S.optional(S.String),
     reference: S.optional(Reference),
-    defaultValue: S.optional(S.Unknown),
+    name: S.optional(S.String),
     additionalDetails: S.optional(DocumentMap),
+    jsonSchema: S.optional(JsonSchema),
   }),
 ).annotate({ identifier: "Field" }) as any as S.Schema<Field>;
 
@@ -1404,7 +1402,7 @@ export type EntityTypeOperationsItemEnum =
   | "CREATE"
   | "UPDATE"
   | "DELETE";
-export const EntityTypeOperationsItemEnum = /*@__PURE__*/ S.String;
+export const EntityTypeOperationsItemEnum = S.String;
 
 export type EntityTypeOperationsItemEnumList =
   Array<EntityTypeOperationsItemEnum>;
@@ -1414,39 +1412,39 @@ export const EntityTypeOperationsItemEnumList = /*@__PURE__*/ S.Array(
 
 /** EntityType message contains metadata information about a single entity type present in the external system. */
 export interface EntityType {
-  /** List containing metadata information about each field of the entity type. */
-  fields?: FieldList;
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap;
-  operations?: EntityTypeOperationsItemEnumList;
-  /** JsonSchema representation of this entity's schema */
-  jsonSchema?: JsonSchema;
-  defaultSortBy?: string;
   /** The name of the entity type. */
   name?: string;
+  defaultSortBy?: string;
+  /** List containing metadata information about each field of the entity type. */
+  fields?: FieldList;
+  /** JsonSchema representation of this entity's schema */
+  jsonSchema?: JsonSchema;
+  operations?: EntityTypeOperationsItemEnumList;
 }
 export const EntityType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fields: S.optional(FieldList),
     metadata: S.optional(DocumentMapMap),
-    operations: S.optional(EntityTypeOperationsItemEnumList),
-    jsonSchema: S.optional(JsonSchema),
-    defaultSortBy: S.optional(S.String),
     name: S.optional(S.String),
+    defaultSortBy: S.optional(S.String),
+    fields: S.optional(FieldList),
+    jsonSchema: S.optional(JsonSchema),
+    operations: S.optional(EntityTypeOperationsItemEnumList),
   }),
 ).annotate({ identifier: "EntityType" }) as any as S.Schema<EntityType>;
 
 export interface GetProjectsLocationsConnectionsEntityTypesEntitiesRequest {
-  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
-  name: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string;
+  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
+  name: string;
 }
 export const GetProjectsLocationsConnectionsEntityTypesEntitiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1481,21 +1479,21 @@ export const GetProjectsLocationsConnectionsResourcesRequest =
   }) as any as S.Schema<GetProjectsLocationsConnectionsResourcesRequest>;
 
 export interface GetResourceResponse {
-  /** The content of the resource. */
-  data?: string;
-  /** Metadata for the resource. */
-  _meta?: DocumentMap;
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
   /** The MIME type of the resource. */
   mimeType?: string;
+  /** Metadata for the resource. */
+  _meta?: DocumentMap;
+  /** The content of the resource. */
+  data?: string;
+  /** Metadata like service latency, etc. */
+  metadata?: DocumentMapMap;
 }
 export const GetResourceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: S.optional(S.String),
-    _meta: S.optional(DocumentMap),
-    metadata: S.optional(DocumentMapMap),
     mimeType: S.optional(S.String),
+    _meta: S.optional(DocumentMap),
+    data: S.optional(S.String),
+    metadata: S.optional(DocumentMapMap),
   }),
 ).annotate({
   identifier: "GetResourceResponse",
@@ -1574,31 +1572,30 @@ export type ListProjectsLocationsConnectionsActionsViewEnum =
   | "ACTION_VIEW_UNSPECIFIED"
   | "ACTION_VIEW_BASIC"
   | "ACTION_VIEW_FULL";
-export const ListProjectsLocationsConnectionsActionsViewEnum =
-  /*@__PURE__*/ S.String;
+export const ListProjectsLocationsConnectionsActionsViewEnum = S.String;
 
 export interface ListProjectsLocationsConnectionsActionsRequest {
   /** Page token, return from a previous ListActions call, that can be used retrieve the next page of content. If unspecified, the request returns the first page of actions. */
   pageToken?: string;
+  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
+  "executionConfig.headers"?: string;
+  /** Specifies which fields of the Action are returned in the response. */
+  view?: ListProjectsLocationsConnectionsActionsViewEnum | (string & {});
   /** Number of Actions to return. Defaults to 25. */
   pageSize?: number;
   /** Required. Parent resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
-  /** Specifies which fields of the Action are returned in the response. */
-  view?: ListProjectsLocationsConnectionsActionsViewEnum | (string & {});
-  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
 }
 export const ListProjectsLocationsConnectionsActionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageToken: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
+      "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
       view: S.optional(
         ListProjectsLocationsConnectionsActionsViewEnum.pipe(T.Query()),
       ),
-      "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1641,31 +1638,30 @@ export type ListProjectsLocationsConnectionsEntityTypesViewEnum =
   | "ENTITY_TYPE_VIEW_UNSPECIFIED"
   | "ENTITY_TYPE_VIEW_BASIC"
   | "ENTITY_TYPE_VIEW_FULL";
-export const ListProjectsLocationsConnectionsEntityTypesViewEnum =
-  /*@__PURE__*/ S.String;
+export const ListProjectsLocationsConnectionsEntityTypesViewEnum = S.String;
 
 export interface ListProjectsLocationsConnectionsEntityTypesRequest {
+  /** Number of entity types to return. Defaults to 25. */
+  pageSize?: number;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string;
+  /** Page token, return from a previous ListEntityTypes call, that can be used retrieve the next page of content. If unspecified, the request returns the first page of entity types. */
+  pageToken?: string;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
   /** Specifies which fields of the Entity Type are returned in the response. */
   view?: ListProjectsLocationsConnectionsEntityTypesViewEnum | (string & {});
-  /** Number of entity types to return. Defaults to 25. */
-  pageSize?: number;
-  /** Page token, return from a previous ListEntityTypes call, that can be used retrieve the next page of content. If unspecified, the request returns the first page of entity types. */
-  pageToken?: string;
 }
 export const ListProjectsLocationsConnectionsEntityTypesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       view: S.optional(
         ListProjectsLocationsConnectionsEntityTypesViewEnum.pipe(T.Query()),
       ),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1686,18 +1682,18 @@ export const EntityTypeList = /*@__PURE__*/ S.Array(
 export interface ListEntityTypesResponse {
   /** List of entity type names which contain unsupported Datatypes. Check datatype.proto for more information. */
   unsupportedTypeNames?: StringList;
-  /** List of metadata related to all entity types. */
-  types?: EntityTypeList;
   /** Next page token if more entity types available. */
   nextPageToken?: string;
+  /** List of metadata related to all entity types. */
+  types?: EntityTypeList;
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap;
 }
 export const ListEntityTypesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unsupportedTypeNames: S.optional(StringList),
-    types: S.optional(EntityTypeList),
     nextPageToken: S.optional(S.String),
+    types: S.optional(EntityTypeList),
     metadata: S.optional(DocumentMapMap),
   }),
 ).annotate({
@@ -1705,31 +1701,31 @@ export const ListEntityTypesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListEntityTypesResponse>;
 
 export interface ListProjectsLocationsConnectionsEntityTypesEntitiesRequest {
+  /** Page token value if available from a previous request. */
+  pageToken?: string;
+  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
+  parent: string;
+  /** List of 'sort_by' columns to use when returning the results. */
+  sortBy?: StringList;
   /** List of 'sort_order' columns to use when returning the results. */
   sortOrder?: StringList;
   /** Conditions to be used when listing entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. */
   conditions?: string;
-  /** Number of entity rows to return. Defaults page size = 25. Max page size = 200. */
-  pageSize?: number;
-  /** Page token value if available from a previous request. */
-  pageToken?: string;
-  /** List of 'sort_by' columns to use when returning the results. */
-  sortBy?: StringList;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string;
-  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
-  parent: string;
+  /** Number of entity rows to return. Defaults page size = 25. Max page size = 200. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsConnectionsEntityTypesEntitiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      sortBy: S.optional(StringList.pipe(T.Query())),
       sortOrder: S.optional(StringList.pipe(T.Query())),
       conditions: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      sortBy: S.optional(StringList.pipe(T.Query())),
       "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1748,39 +1744,39 @@ export const EntityList = /*@__PURE__*/ S.Array(
 
 /** Response message for EntityService.ListEntities */
 export interface ListEntitiesResponse {
+  /** List containing entity rows. */
+  entities?: EntityList;
   /** Next page token if more records are available. */
   nextPageToken?: string;
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap;
-  /** List containing entity rows. */
-  entities?: EntityList;
 }
 export const ListEntitiesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    entities: S.optional(EntityList),
     nextPageToken: S.optional(S.String),
     metadata: S.optional(DocumentMapMap),
-    entities: S.optional(EntityList),
   }),
 ).annotate({
   identifier: "ListEntitiesResponse",
 }) as any as S.Schema<ListEntitiesResponse>;
 
 export interface ListProjectsLocationsConnectionsResourcesRequest {
-  /** Required. Resource name of the connection. Format: projects/{project}/locations/{location}/connections/{connection} */
-  parent: string;
-  /** Optional. Page token for the request. */
-  pageToken?: string;
   /** Optional. Page size for the request. */
   pageSize?: number;
+  /** Optional. Page token for the request. */
+  pageToken?: string;
+  /** Required. Resource name of the connection. Format: projects/{project}/locations/{location}/connections/{connection} */
+  parent: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string;
 }
 export const ListProjectsLocationsConnectionsResourcesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -1794,27 +1790,27 @@ export const ListProjectsLocationsConnectionsResourcesRequest =
   }) as any as S.Schema<ListProjectsLocationsConnectionsResourcesRequest>;
 
 export interface Resource {
-  /** The MIME type of this resource, if known. */
-  mimeType?: string;
-  /** A description of what this resource represents. */
-  description?: string;
-  /** The size of the raw resource content, in bytes, if known. */
-  size?: string;
-  /** The URI of this resource. */
-  uri?: string;
   /** A human-readable name for this resource. */
   name?: string;
+  /** The URI of this resource. */
+  uri?: string;
   /** Metadata for the resource. */
   _meta?: DocumentMap;
+  /** The size of the raw resource content, in bytes, if known. */
+  size?: string;
+  /** A description of what this resource represents. */
+  description?: string;
+  /** The MIME type of this resource, if known. */
+  mimeType?: string;
 }
 export const Resource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mimeType: S.optional(S.String),
-    description: S.optional(S.String),
-    size: S.optional(S.String),
-    uri: S.optional(S.String),
     name: S.optional(S.String),
+    uri: S.optional(S.String),
     _meta: S.optional(DocumentMap),
+    size: S.optional(S.String),
+    description: S.optional(S.String),
+    mimeType: S.optional(S.String),
   }),
 ).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 
@@ -1826,41 +1822,41 @@ export const ResourceList = /*@__PURE__*/ S.Array(
 export interface ListResourcesResponse {
   /** List of available resources. */
   resources?: ResourceList;
-  /** Next page token if more resources available. */
-  nextPageToken?: string;
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap;
+  /** Next page token if more resources available. */
+  nextPageToken?: string;
 }
 export const ListResourcesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resources: S.optional(ResourceList),
-    nextPageToken: S.optional(S.String),
     metadata: S.optional(DocumentMapMap),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListResourcesResponse",
 }) as any as S.Schema<ListResourcesResponse>;
 
 export interface ListProjectsLocationsConnectionsToolsRequest {
+  /** Page size. */
+  pageSize?: number;
+  /** Page token. */
+  pageToken?: string;
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string;
-  /** Page token. */
-  pageToken?: string;
   /** List of tool names for selective tool fetching. */
   toolNames?: StringList;
-  /** Page size. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsConnectionsToolsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       toolNames: S.optional(StringList.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1874,24 +1870,24 @@ export const ListProjectsLocationsConnectionsToolsRequest =
 
 /** ToolAnnotations holds annotations for a tool. */
 export interface ToolAnnotations {
-  /** If true, the tool does not modify its environment. */
-  readOnlyHint?: boolean;
+  /** A human-readable title for the tool. */
+  title?: string;
   /** If true, the tool may perform destructive updates to its environment. If false, the tool performs only additive updates. (This property is meaningful only when `read_only_hint == false`) */
   destructiveHint?: boolean;
   /** If true, calling the tool repeatedly with the same arguments will have no additional effect on the environment. (This property is meaningful only when `read_only_hint == false`) */
   idempotentHint?: boolean;
+  /** If true, the tool does not modify its environment. */
+  readOnlyHint?: boolean;
   /** If true, this tool may interact with an "open world" of external entities. If false, the tool's domain of interaction is closed. For example, the world of a web search tool is open, whereas that of a memory tool is not. */
   openWorldHint?: boolean;
-  /** A human-readable title for the tool. */
-  title?: string;
 }
 export const ToolAnnotations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    readOnlyHint: S.optional(S.Boolean),
+    title: S.optional(S.String),
     destructiveHint: S.optional(S.Boolean),
     idempotentHint: S.optional(S.Boolean),
+    readOnlyHint: S.optional(S.Boolean),
     openWorldHint: S.optional(S.Boolean),
-    title: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ToolAnnotations",
@@ -1899,30 +1895,30 @@ export const ToolAnnotations = /*@__PURE__*/ S.suspend(() =>
 
 /** Message representing a single tool. */
 export interface Tool {
-  /** Name of the tool. */
-  name?: string;
-  /** Metadata for the tool. */
-  _meta?: DocumentMap;
-  /** List of tool names that this tool depends on. */
-  dependsOn?: StringList;
-  /** Annotations for the tool. */
-  annotations?: ToolAnnotations;
   /** JSON schema for the output of the tool. */
   outputSchema?: JsonSchema;
-  /** Description of the tool. */
-  description?: string;
+  /** List of tool names that this tool depends on. */
+  dependsOn?: StringList;
+  /** Metadata for the tool. */
+  _meta?: DocumentMap;
+  /** Name of the tool. */
+  name?: string;
   /** JSON schema for the input parameters of the tool. */
   inputSchema?: JsonSchema;
+  /** Description of the tool. */
+  description?: string;
+  /** Annotations for the tool. */
+  annotations?: ToolAnnotations;
 }
 export const Tool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    _meta: S.optional(DocumentMap),
-    dependsOn: S.optional(StringList),
-    annotations: S.optional(ToolAnnotations),
     outputSchema: S.optional(JsonSchema),
-    description: S.optional(S.String),
+    dependsOn: S.optional(StringList),
+    _meta: S.optional(DocumentMap),
+    name: S.optional(S.String),
     inputSchema: S.optional(JsonSchema),
+    description: S.optional(S.String),
+    annotations: S.optional(ToolAnnotations),
   }),
 ).annotate({ identifier: "Tool" }) as any as S.Schema<Tool>;
 
@@ -1977,18 +1973,18 @@ export const PatchProjectsLocationsConnectionsEntityTypesEntitiesRequest =
 
 /** RefreshAccessTokenRequest includes the refresh token. */
 export interface RefreshAccessTokenRequest {
+  /** OAuth2Config contains the OAuth2 config for the connection. */
+  oauth2Config?: OAuth2Config;
   /** Optional. Refresh Token String. If the Refresh Token is not provided, the runtime will read the data from the secret manager. */
   refreshToken?: string;
   /** ExecutionConfig contains the configuration for the execution of the request. */
   executionConfig?: ExecutionConfig;
-  /** OAuth2Config contains the OAuth2 config for the connection. */
-  oauth2Config?: OAuth2Config;
 }
 export const RefreshAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    oauth2Config: S.optional(OAuth2Config),
     refreshToken: S.optional(S.String),
     executionConfig: S.optional(ExecutionConfig),
-    oauth2Config: S.optional(OAuth2Config),
   }),
 ).annotate({
   identifier: "RefreshAccessTokenRequest",
@@ -2036,20 +2032,20 @@ export interface ListToolsPostRequest {
   pageToken?: string;
   /** execution config for the request. */
   executionConfig?: ExecutionConfig;
-  /** List of tool names to for selective tool fetching. */
-  toolNames?: StringList;
   /** Page size. */
   pageSize?: number;
   /** List of tool specifications. */
   toolSpec?: ToolSpec;
+  /** List of tool names to for selective tool fetching. */
+  toolNames?: StringList;
 }
 export const ListToolsPostRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String),
     executionConfig: S.optional(ExecutionConfig),
-    toolNames: S.optional(StringList),
     pageSize: S.optional(S.Number),
     toolSpec: S.optional(ToolSpec),
+    toolNames: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListToolsPostRequest",
@@ -2080,10 +2076,10 @@ export const ToolsProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.suspend(
 export interface UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string;
-  /** Required. Conditions to be used when updating entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. Note: If this conditions field is left empty, an exception is thrown. We don't want to consider 'empty conditions' to be a match-all case. Connector developers can determine and document what a match-all case constraint would be. */
-  conditions?: string;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   entityType: string;
+  /** Required. Conditions to be used when updating entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. Note: If this conditions field is left empty, an exception is thrown. We don't want to consider 'empty conditions' to be a match-all case. Connector developers can determine and document what a match-all case constraint would be. */
+  conditions?: string;
   /** Request body */
   body?: Entity;
 }
@@ -2091,8 +2087,8 @@ export const UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypes
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
-      conditions: S.optional(S.String.pipe(T.Query())),
       entityType: S.String.pipe(T.Label()),
+      conditions: S.optional(S.String.pipe(T.Query())),
       body: S.optional(Entity.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -2108,16 +2104,16 @@ export const UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypes
 
 /** Response message for EntityService.UpdateEntitiesWithConditions */
 export interface UpdateEntitiesWithConditionsResponse {
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
   /** Response returned by the external system. */
   response?: DocumentMap;
+  /** Metadata like service latency, etc. */
+  metadata?: DocumentMapMap;
 }
 export const UpdateEntitiesWithConditionsResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      metadata: S.optional(DocumentMapMap),
       response: S.optional(DocumentMap),
+      metadata: S.optional(DocumentMapMap),
     }),
 ).annotate({
   identifier: "UpdateEntitiesWithConditionsResponse",
@@ -2180,7 +2176,11 @@ export const createProjectsLocationsConnectionsEntityTypesEntities: API.Operatio
 }));
 
 export type DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Deletes entities based on conditions specified in the request and not on entity id. */
 export const deleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntities: API.OperationMethod<
   DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest,
@@ -2317,7 +2317,11 @@ export const executeSqlQueryProjectsLocationsConnections: API.OperationMethod<
 }));
 
 export type GenerateConnectionToolspecOverrideProjectsLocationsConnectionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Generate toolspec override for the given list of toolNames. */
 export const generateConnectionToolspecOverrideProjectsLocationsConnections: API.OperationMethod<
   GenerateConnectionToolspecOverrideProjectsLocationsConnectionsRequest,
@@ -2618,7 +2622,11 @@ export const toolsProjectsLocationsConnections: API.OperationMethod<
 }));
 
 export type UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Updates entities based on conditions specified in the request and not on entity id. */
 export const updateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntities: API.OperationMethod<
   UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest,

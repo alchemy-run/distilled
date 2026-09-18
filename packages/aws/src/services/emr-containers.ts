@@ -300,7 +300,7 @@ export const JobDriver = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "JobDriver" }) as any as S.Schema<JobDriver>;
 export type TemplateParameterName = string;
 export type TemplateParameterDataType = "NUMBER" | "STRING" | (string & {});
-export const TemplateParameterDataType = /*@__PURE__*/ S.String;
+export const TemplateParameterDataType = S.String;
 
 export interface TemplateParameterConfiguration {
   type?: TemplateParameterDataType;
@@ -402,7 +402,7 @@ export type ReleaseLabel = string;
 export type IAMRoleArn = string;
 export type ACMCertArn = string;
 export type AllowAWSToRetainLogs = "ENABLED" | "DISABLED" | (string & {});
-export const AllowAWSToRetainLogs = /*@__PURE__*/ S.String;
+export const AllowAWSToRetainLogs = S.String;
 
 export interface ManagedLogs {
   allowAWSToRetainLogs?: AllowAWSToRetainLogs;
@@ -415,7 +415,7 @@ export const ManagedLogs = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ManagedLogs" }) as any as S.Schema<ManagedLogs>;
 export type PersistentAppUI = "ENABLED" | "DISABLED" | (string & {});
-export const PersistentAppUI = /*@__PURE__*/ S.String;
+export const PersistentAppUI = S.String;
 
 export type LogGroupName = string;
 export interface CloudWatchMonitoringConfiguration {
@@ -432,9 +432,10 @@ export const CloudWatchMonitoringConfiguration = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CloudWatchMonitoringConfiguration>;
 export interface S3MonitoringConfiguration {
   logUri: string;
+  encryptionKeyArn?: string;
 }
 export const S3MonitoringConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ logUri: S.String }),
+  S.Struct({ logUri: S.String, encryptionKeyArn: S.optional(S.String) }),
 ).annotate({
   identifier: "S3MonitoringConfiguration",
 }) as any as S.Schema<S3MonitoringConfiguration>;
@@ -483,6 +484,7 @@ export const ConfigurationOverrides = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ConfigurationOverrides",
 }) as any as S.Schema<ConfigurationOverrides>;
+export type SessionIdleTimeoutInMinutes = number;
 export interface CreateManagedEndpointRequest {
   name: string;
   virtualClusterId: string;
@@ -493,6 +495,7 @@ export interface CreateManagedEndpointRequest {
   configurationOverrides?: ConfigurationOverrides;
   clientToken: string;
   tags?: { [key: string]: string | undefined };
+  sessionIdleTimeoutInMinutes?: number;
 }
 export const CreateManagedEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -505,6 +508,7 @@ export const CreateManagedEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     configurationOverrides: S.optional(ConfigurationOverrides),
     clientToken: S.String.pipe(T.IdempotencyToken()),
     tags: S.optional(TagMap),
+    sessionIdleTimeoutInMinutes: S.optional(S.Number),
   }).pipe(
     T.all(
       T.Http({
@@ -539,10 +543,11 @@ export const CreateManagedEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateManagedEndpointResponse",
 }) as any as S.Schema<CreateManagedEndpointResponse>;
 export type ContainerProviderType = "EKS" | (string & {});
-export const ContainerProviderType = /*@__PURE__*/ S.String;
+export const ContainerProviderType = S.String;
 
 export type ClusterId = string;
 export type KubernetesNamespace = string;
+export type NodeLabelString = string;
 export interface EksInfo {
   namespace?: string;
   nodeLabel?: string;
@@ -599,7 +604,7 @@ export const LakeFormationConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "LakeFormationConfiguration",
 }) as any as S.Schema<LakeFormationConfiguration>;
 export type CertificateProviderType = "PEM" | (string & {});
-export const CertificateProviderType = /*@__PURE__*/ S.String;
+export const CertificateProviderType = S.String;
 
 export type SecretsManagerArn = string;
 export interface TLSCertificateConfiguration {
@@ -650,12 +655,52 @@ export const AuthorizationConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AuthorizationConfiguration",
 }) as any as S.Schema<AuthorizationConfiguration>;
+export type IdentityCenterInstanceARN = string;
+export type EmrIdentityCenterApplicationARN = string;
+export interface IdentityCenterConfiguration {
+  enableIdentityCenter?: boolean;
+  identityCenterApplicationAssignmentRequired?: boolean;
+  identityCenterInstanceARN?: string;
+  emrIdentityCenterApplicationARN?: string;
+}
+export const IdentityCenterConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enableIdentityCenter: S.optional(S.Boolean),
+    identityCenterApplicationAssignmentRequired: S.optional(S.Boolean),
+    identityCenterInstanceARN: S.optional(S.String),
+    emrIdentityCenterApplicationARN: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IdentityCenterConfiguration",
+}) as any as S.Schema<IdentityCenterConfiguration>;
+export interface IAMConfiguration {
+  systemRole?: string;
+}
+export const IAMConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ systemRole: S.optional(S.String) }),
+).annotate({
+  identifier: "IAMConfiguration",
+}) as any as S.Schema<IAMConfiguration>;
+export interface AuthenticationConfiguration {
+  identityCenterConfiguration?: IdentityCenterConfiguration;
+  iamConfiguration?: IAMConfiguration;
+}
+export const AuthenticationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    identityCenterConfiguration: S.optional(IdentityCenterConfiguration),
+    iamConfiguration: S.optional(IAMConfiguration),
+  }),
+).annotate({
+  identifier: "AuthenticationConfiguration",
+}) as any as S.Schema<AuthenticationConfiguration>;
 export interface SecurityConfigurationData {
   authorizationConfiguration?: AuthorizationConfiguration;
+  authenticationConfiguration?: AuthenticationConfiguration;
 }
 export const SecurityConfigurationData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     authorizationConfiguration: S.optional(AuthorizationConfiguration),
+    authenticationConfiguration: S.optional(AuthenticationConfiguration),
   }),
 ).annotate({
   identifier: "SecurityConfigurationData",
@@ -702,12 +747,28 @@ export const CreateSecurityConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateSecurityConfigurationResponse",
 }) as any as S.Schema<CreateSecurityConfigurationResponse>;
+export type InQueueJobLimitInteger = number;
+export type JobLimitInteger = number;
+export interface SchedulerConfiguration {
+  maxInQueueJobRuns?: number;
+  maxConcurrentJobRuns?: number;
+}
+export const SchedulerConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxInQueueJobRuns: S.optional(S.Number),
+    maxConcurrentJobRuns: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "SchedulerConfiguration",
+}) as any as S.Schema<SchedulerConfiguration>;
 export interface CreateVirtualClusterRequest {
   name: string;
   containerProvider: ContainerProvider;
   clientToken: string;
   tags?: { [key: string]: string | undefined };
   securityConfigurationId?: string;
+  sessionEnabled?: boolean;
+  schedulerConfiguration?: SchedulerConfiguration;
 }
 export const CreateVirtualClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -716,6 +777,8 @@ export const CreateVirtualClusterRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.String.pipe(T.IdempotencyToken()),
     tags: S.optional(TagMap),
     securityConfigurationId: S.optional(S.String),
+    sessionEnabled: S.optional(S.Boolean),
+    schedulerConfiguration: S.optional(SchedulerConfiguration),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/virtualclusters" }),
@@ -805,6 +868,31 @@ export const DeleteManagedEndpointResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteManagedEndpointResponse",
 }) as any as S.Schema<DeleteManagedEndpointResponse>;
+export interface DeleteSecurityConfigurationRequest {
+  id: string;
+}
+export const DeleteSecurityConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/securityconfigurations/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteSecurityConfigurationRequest",
+}) as any as S.Schema<DeleteSecurityConfigurationRequest>;
+export interface DeleteSecurityConfigurationResponse {
+  id?: string;
+}
+export const DeleteSecurityConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.optional(S.String) }),
+).annotate({
+  identifier: "DeleteSecurityConfigurationResponse",
+}) as any as S.Schema<DeleteSecurityConfigurationResponse>;
 export interface DeleteVirtualClusterRequest {
   id: string;
 }
@@ -864,7 +952,7 @@ export type JobRunState =
   | "CANCEL_PENDING"
   | "COMPLETED"
   | (string & {});
-export const JobRunState = /*@__PURE__*/ S.String;
+export const JobRunState = S.String;
 
 export type RequestIdentityUserArn = string;
 export type FailureReason =
@@ -873,7 +961,7 @@ export type FailureReason =
   | "VALIDATION_ERROR"
   | "CLUSTER_UNAVAILABLE"
   | (string & {});
-export const FailureReason = /*@__PURE__*/ S.String;
+export const FailureReason = S.String;
 
 export type JavaInteger = number;
 export interface RetryPolicyConfiguration {
@@ -1029,7 +1117,7 @@ export type EndpointState =
   | "TERMINATED"
   | "TERMINATED_WITH_ERRORS"
   | (string & {});
-export const EndpointState = /*@__PURE__*/ S.String;
+export const EndpointState = S.String;
 
 export type Base64Encoded = string;
 export interface Certificate {
@@ -1057,6 +1145,7 @@ export interface Endpoint {
   certificateAuthority?: Certificate;
   configurationOverrides?: ConfigurationOverrides;
   serverUrl?: string;
+  authProxyUrl?: string;
   createdAt?: Date;
   securityGroup?: string;
   subnetIds?: string[];
@@ -1078,6 +1167,7 @@ export const Endpoint = /*@__PURE__*/ S.suspend(() =>
     certificateAuthority: S.optional(Certificate),
     configurationOverrides: S.optional(ConfigurationOverrides),
     serverUrl: S.optional(S.String),
+    authProxyUrl: S.optional(S.String),
     createdAt: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
@@ -1169,8 +1259,21 @@ export type VirtualClusterState =
   | "TERMINATED"
   | "ARRESTED"
   | (string & {});
-export const VirtualClusterState = /*@__PURE__*/ S.String;
+export const VirtualClusterState = S.String;
 
+export type NonNegativeInteger = number;
+export interface SchedulerStatus {
+  currentInQueueJobRuns?: number;
+  currentConcurrentJobRuns?: number;
+}
+export const SchedulerStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    currentInQueueJobRuns: S.optional(S.Number),
+    currentConcurrentJobRuns: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "SchedulerStatus",
+}) as any as S.Schema<SchedulerStatus>;
 export interface VirtualCluster {
   id?: string;
   name?: string;
@@ -1180,6 +1283,9 @@ export interface VirtualCluster {
   createdAt?: Date;
   tags?: { [key: string]: string | undefined };
   securityConfigurationId?: string;
+  sessionEnabled?: boolean;
+  schedulerConfiguration?: SchedulerConfiguration;
+  schedulerStatus?: SchedulerStatus;
 }
 export const VirtualCluster = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1193,6 +1299,9 @@ export const VirtualCluster = /*@__PURE__*/ S.suspend(() =>
     ),
     tags: S.optional(TagMap),
     securityConfigurationId: S.optional(S.String),
+    sessionEnabled: S.optional(S.Boolean),
+    schedulerConfiguration: S.optional(SchedulerConfiguration),
+    schedulerStatus: S.optional(SchedulerStatus),
   }),
 ).annotate({ identifier: "VirtualCluster" }) as any as S.Schema<VirtualCluster>;
 export interface DescribeVirtualClusterResponse {
@@ -1250,6 +1359,7 @@ export const Credentials = /*@__PURE__*/ S.Union([
 export interface GetManagedEndpointSessionCredentialsResponse {
   id?: string;
   credentials?: Credentials;
+  endpointCredentials?: Credentials;
   expiresAt?: Date;
 }
 export const GetManagedEndpointSessionCredentialsResponse =
@@ -1257,6 +1367,7 @@ export const GetManagedEndpointSessionCredentialsResponse =
     S.Struct({
       id: S.optional(S.String),
       credentials: S.optional(Credentials),
+      endpointCredentials: S.optional(Credentials),
       expiresAt: S.optional(
         T.DateFromString.pipe(T.TimestampFormat("date-time")),
       ),
@@ -1664,6 +1775,37 @@ export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
+export interface UpdateVirtualClusterRequest {
+  id: string;
+  schedulerConfiguration?: SchedulerConfiguration;
+  clientToken: string;
+}
+export const UpdateVirtualClusterRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.HttpLabel("id")),
+    schedulerConfiguration: S.optional(SchedulerConfiguration),
+    clientToken: S.String.pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/virtualclusters/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateVirtualClusterRequest",
+}) as any as S.Schema<UpdateVirtualClusterRequest>;
+export interface UpdateVirtualClusterResponse {
+  virtualCluster?: VirtualCluster;
+}
+export const UpdateVirtualClusterResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ virtualCluster: S.optional(VirtualCluster) }),
+).annotate({
+  identifier: "UpdateVirtualClusterResponse",
+}) as any as S.Schema<UpdateVirtualClusterResponse>;
 export type CancelJobRunError =
   | InternalServerException
   | ValidationException
@@ -1788,7 +1930,7 @@ export type CreateVirtualClusterError =
   | TooManyRequestsException
   | CommonErrors;
 /**
- * Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any
+ * Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any
  * additional resource in your system. A single virtual cluster maps to a single Kubernetes
  * namespace. Given this relationship, you can model virtual clusters the same way you model
  * Kubernetes namespaces to meet your requirements.
@@ -1869,13 +2011,34 @@ export const deleteManagedEndpoint: API.OperationMethod<
   operationName: "DeleteManagedEndpoint",
 }));
 
+export type DeleteSecurityConfigurationError =
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a security configuration.
+ */
+export const deleteSecurityConfiguration: API.OperationMethod<
+  DeleteSecurityConfigurationRequest,
+  DeleteSecurityConfigurationResponse,
+  DeleteSecurityConfigurationError,
+  Creds | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSecurityConfigurationRequest,
+  output: DeleteSecurityConfigurationResponse,
+  errors: [InternalServerException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteSecurityConfiguration",
+}));
+
 export type DeleteVirtualClusterError =
   | InternalServerException
   | ValidationException
   | TooManyRequestsException
   | CommonErrors;
 /**
- * Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any
+ * Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any
  * additional resource in your system. A single virtual cluster maps to a single Kubernetes
  * namespace. Given this relationship, you can model virtual clusters the same way you model
  * Kubernetes namespaces to meet your requirements.
@@ -2027,7 +2190,7 @@ export type DescribeVirtualClusterError =
   | CommonErrors;
 /**
  * Displays detailed information about a specified virtual cluster. Virtual cluster is a
- * managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual
+ * managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual
  * clusters. They do not consume any additional resource in your system. A single virtual
  * cluster maps to a single Kubernetes namespace. Given this relationship, you can model
  * virtual clusters the same way you model Kubernetes namespaces to meet your
@@ -2258,7 +2421,7 @@ export type ListVirtualClustersError =
   | CommonErrors;
 /**
  * Lists information about the specified virtual cluster. Virtual cluster is a managed
- * entity on Amazon EMR on EKS. You can create, describe, list and delete virtual
+ * entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual
  * clusters. They do not consume any additional resource in your system. A single virtual
  * cluster maps to a single Kubernetes namespace. Given this relationship, you can model
  * virtual clusters the same way you model Kubernetes namespaces to meet your
@@ -2384,4 +2547,33 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+}));
+
+export type UpdateVirtualClusterError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any
+ * additional resource in your system. A single virtual cluster maps to a single Kubernetes
+ * namespace. Given this relationship, you can model virtual clusters the same way you model
+ * Kubernetes namespaces to meet your requirements.
+ */
+export const updateVirtualCluster: API.OperationMethod<
+  UpdateVirtualClusterRequest,
+  UpdateVirtualClusterResponse,
+  UpdateVirtualClusterError,
+  Creds | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateVirtualClusterRequest,
+  output: UpdateVirtualClusterResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateVirtualCluster",
 }));

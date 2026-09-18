@@ -273,7 +273,7 @@ export interface IoK8sApimachineryPkgApisMetaV1Condition {
   /** lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed. If that is not known, then using the time when the API field changed is acceptable. */
   lastTransitionTime: string;
   /** message is a human readable message indicating details about the transition. This may be an empty string. */
-  message: string;
+  message?: string;
   /** observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance. */
   observedGeneration?: number;
   /** reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty. */
@@ -287,7 +287,7 @@ export const IoK8sApimachineryPkgApisMetaV1Condition = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       lastTransitionTime: S.String,
-      message: S.String,
+      message: S.optional(S.String),
       observedGeneration: S.optional(S.Number),
       reason: S.String,
       status: S.String,
@@ -392,6 +392,8 @@ export const IoK8sApiResourceV1alpha3DeviceTaintRule = /*@__PURE__*/ S.suspend(
 
 /** ResourcePoolStatusRequestSpec defines the filters for the pool status request. */
 export interface IoK8sApiResourceV1alpha3ResourcePoolStatusRequestSpec {
+  /** DefaultPartitionTypeAttribute optionally names a device attribute (by its fully qualified name, e.g. "gpu.example.com/profile") to use as the default grouping attribute for partitionable devices whose slice has not declared one themselves. A slice's own PartitionTypeAttribute always takes precedence. This default applies only to devices whose slice does not declare one, so that a request can still get an accurate partitionSummary from a driver that has not been updated to declare it. When neither the slice nor this default names an attribute, a partitionable pool reports no partitionSummary. Must include the domain qualifier. */
+  defaultPartitionTypeAttribute?: string;
   /** Driver specifies the DRA driver name to filter pools. Only pools from ResourceSlices with this driver will be included. Must be a DNS subdomain (e.g., "gpu.example.com"). */
   driver: string;
   /** Limit optionally specifies the maximum number of pools to return in the status. If more pools match the filter criteria, the response will be truncated (i.e., len(status.pools) < status.poolCount). Default: 100 Minimum: 1 Maximum: 1000 */
@@ -402,6 +404,7 @@ export interface IoK8sApiResourceV1alpha3ResourcePoolStatusRequestSpec {
 export const IoK8sApiResourceV1alpha3ResourcePoolStatusRequestSpec =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      defaultPartitionTypeAttribute: S.optional(S.String),
       driver: S.String,
       limit: S.optional(S.Number),
       poolName: S.optional(S.String),
@@ -418,6 +421,90 @@ export const IoK8sApiResourceV1alpha3ResourcePoolStatusRequestStatusConditionsLi
     IoK8sApimachineryPkgApisMetaV1Condition,
   ) as any as S.Schema<IoK8sApiResourceV1alpha3ResourcePoolStatusRequestStatusConditionsList>;
 
+/** PartitionTypeStatus reports allocatability for a single partition type, identified by the value of a grouping attribute. */
+export interface IoK8sApiResourceV1alpha3PartitionTypeStatus {
+  /** Allocatable is the number of additional devices of this partition type that could still be allocated given current shared-counter consumption. */
+  allocatable: number;
+  /** Attribute is the fully qualified name of the device attribute whose value groups this entry. It is the PartitionTypeAttribute declared by the devices' own slice, or the default named in the request when their slice declares none. */
+  attribute: string;
+  /** Total is the number of devices of this partition type in the pool. */
+  total: number;
+  /** Type is the partition type value (e.g. "Full" or "Half"). */
+  type: string;
+}
+export const IoK8sApiResourceV1alpha3PartitionTypeStatus =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      allocatable: S.Number,
+      attribute: S.String,
+      total: S.Number,
+      type: S.String,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiResourceV1alpha3PartitionTypeStatus",
+  }) as any as S.Schema<IoK8sApiResourceV1alpha3PartitionTypeStatus>;
+
+/** PartitionSummary reports allocatability per (attribute, partition type) for a partitionable pool that publishes SharedCounters. Each entry names the grouping attribute it was resolved from: the PartitionTypeAttribute declared by a device's own slice, or for devices whose slice declares none, the default named in the request. A pool that mixes partitions declared under different attributes reports each independently. When no slice declares an attribute and the request names no default, the pool reports no partition summary. */
+export type IoK8sApiResourceV1alpha3PoolStatusPartitionSummaryList =
+  Array<IoK8sApiResourceV1alpha3PartitionTypeStatus>;
+export const IoK8sApiResourceV1alpha3PoolStatusPartitionSummaryList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiResourceV1alpha3PartitionTypeStatus,
+  ) as any as S.Schema<IoK8sApiResourceV1alpha3PoolStatusPartitionSummaryList>;
+
+/** ShareableCapacityStatus reports aggregate amounts for a single shareable capacity key. */
+export interface IoK8sApiResourceV1alpha3ShareableCapacityStatus {
+  /** Available is Total minus Consumed, never negative. */
+  available: string;
+  /** Consumed is the amount drawn by current allocations. */
+  consumed: string;
+  /** Name is the capacity name. */
+  name: string;
+  /** Total is the sum of this capacity across shareable devices in the pool. */
+  total: string;
+}
+export const IoK8sApiResourceV1alpha3ShareableCapacityStatus =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      available: S.String,
+      consumed: S.String,
+      name: S.String,
+      total: S.String,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiResourceV1alpha3ShareableCapacityStatus",
+  }) as any as S.Schema<IoK8sApiResourceV1alpha3ShareableCapacityStatus>;
+
+/** Capacity reports aggregate total, consumed, and available amounts per shareable capacity key across the pool. */
+export type IoK8sApiResourceV1alpha3ShareableSummaryStatusCapacityList =
+  Array<IoK8sApiResourceV1alpha3ShareableCapacityStatus>;
+export const IoK8sApiResourceV1alpha3ShareableSummaryStatusCapacityList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiResourceV1alpha3ShareableCapacityStatus,
+  ) as any as S.Schema<IoK8sApiResourceV1alpha3ShareableSummaryStatusCapacityList>;
+
+/** ShareableSummaryStatus reports aggregate capacity for a pool that contains devices with AllowMultipleAllocations. */
+export interface IoK8sApiResourceV1alpha3ShareableSummaryStatus {
+  /** Capacity reports aggregate total, consumed, and available amounts per shareable capacity key across the pool. */
+  capacity?: IoK8sApiResourceV1alpha3ShareableSummaryStatusCapacityList;
+  /** FullyAvailableDevices is the number of shareable devices with no capacity consumed. */
+  fullyAvailableDevices: number;
+  /** PartiallyAvailableDevices is the number of shareable devices with some but not all capacity consumed. */
+  partiallyAvailableDevices: number;
+}
+export const IoK8sApiResourceV1alpha3ShareableSummaryStatus =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      capacity: S.optional(
+        IoK8sApiResourceV1alpha3ShareableSummaryStatusCapacityList,
+      ),
+      fullyAvailableDevices: S.Number,
+      partiallyAvailableDevices: S.Number,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiResourceV1alpha3ShareableSummaryStatus",
+  }) as any as S.Schema<IoK8sApiResourceV1alpha3ShareableSummaryStatus>;
+
 /** PoolStatus contains status information for a single resource pool. */
 export interface IoK8sApiResourceV1alpha3PoolStatus {
   /** AllocatedDevices is the number of devices currently allocated to claims. A value of 0 means no devices are allocated. May be unset when validationError is set. */
@@ -430,10 +517,14 @@ export interface IoK8sApiResourceV1alpha3PoolStatus {
   generation: number;
   /** NodeName is the node this pool is associated with. When omitted, the pool is not associated with a specific node. Must be a valid DNS subdomain name (RFC1123). */
   nodeName?: string;
+  /** PartitionSummary reports allocatability per (attribute, partition type) for a partitionable pool that publishes SharedCounters. Each entry names the grouping attribute it was resolved from: the PartitionTypeAttribute declared by a device's own slice, or for devices whose slice declares none, the default named in the request. A pool that mixes partitions declared under different attributes reports each independently. When no slice declares an attribute and the request names no default, the pool reports no partition summary. */
+  partitionSummary?: IoK8sApiResourceV1alpha3PoolStatusPartitionSummaryList;
   /** PoolName is the name of the pool. Must be a valid resource pool name (DNS subdomains separated by "/"). */
   poolName: string;
   /** ResourceSliceCount is the number of ResourceSlices that make up this pool. May be unset when validationError is set. */
   resourceSliceCount?: number;
+  /** ShareableSummary reports aggregate capacity for a pool that contains devices with AllowMultipleAllocations. It is populated only when at least one device in the pool is shareable. */
+  shareableSummary?: IoK8sApiResourceV1alpha3ShareableSummaryStatus;
   /** TotalDevices is the total number of devices in the pool across all slices. A value of 0 means the pool has no devices. May be unset when validationError is set. */
   totalDevices?: number;
   /** UnavailableDevices is the number of devices that are not available due to taints or other conditions, but are not allocated. A value of 0 means all unallocated devices are available. May be unset when validationError is set. */
@@ -448,8 +539,14 @@ export const IoK8sApiResourceV1alpha3PoolStatus = /*@__PURE__*/ S.suspend(() =>
     driver: S.String,
     generation: S.Number,
     nodeName: S.optional(S.String),
+    partitionSummary: S.optional(
+      IoK8sApiResourceV1alpha3PoolStatusPartitionSummaryList,
+    ),
     poolName: S.String,
     resourceSliceCount: S.optional(S.Number),
+    shareableSummary: S.optional(
+      IoK8sApiResourceV1alpha3ShareableSummaryStatus,
+    ),
     totalDevices: S.optional(S.Number),
     unavailableDevices: S.optional(S.Number),
     validationError: S.optional(S.String),
@@ -818,6 +915,39 @@ export const IoK8sApiResourceV1beta1CapacityRequirements =
     identifier: "IoK8sApiResourceV1beta1CapacityRequirements",
   }) as any as S.Schema<IoK8sApiResourceV1beta1CapacityRequirements>;
 
+/** DeviceDerivedAttribute defines a derived attribute computed via CEL. */
+export interface IoK8sApiResourceV1beta1DeviceDerivedAttribute {
+  /** Expression is a CEL expression evaluated against each candidate device. The expression must evaluate to a primitive scalar (string, integer, boolean, or semver) or a list of these scalars ([]string, []int64, []bool, []semver) to act as a virtual grouping key. Any other return type is an error and causes CEL evaluation for the device to fail. The expression's input is an object named "device", which carries the same properties as in a CELDeviceSelector. When pod scheduling encounters CEL runtime errors (such as looking up an attribute that isn't defined) for some devices, it will abort allocation and fail scheduling for the Pod. Surfacing evaluation errors immediately prevents silent topology matching failures that are extremely hard to detect. A robust expression should, for example, check for the existence of attributes before referencing them to avoid runtime evaluation errors. The expression gets evaluated after a device has passed the other selector expressions for the request in which this expression is used. This allows writing expressions that are tailored towards the specific devices being requested (for example, by assuming the device is from a certain vendor and skipping those checks). The length of the expression must be smaller or equal to 10 Ki. The cost of evaluating it is also limited based on the estimated number of logical steps; the combined cost of all derived attributes in a claim is capped by a shared CEL cost budget. */
+  expression: string;
+  /** Name is the identifier for this derived attribute, used in constraints. It must be a DNS subdomain followed by a slash ("/") followed by a C identifier (e.g. "example.com/numaNode" or "derived/numaNode"). If the chosen name matches an existing physical attribute from a driver, the derived attribute's expression will shadow the physical attribute, and its evaluated value will be used in constraints instead. When the goal is to define a derived attribute that is only used within the ResourceClaim and not meant to shadow an existing attribute, use a domain prefix that no DRA driver should be using (e.g. "derived/myAttribute"). It is not valid to define a derived attribute that isn't used in at least one constraint. */
+  name: string;
+}
+export const IoK8sApiResourceV1beta1DeviceDerivedAttribute =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      expression: S.String,
+      name: S.String,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiResourceV1beta1DeviceDerivedAttribute",
+  }) as any as S.Schema<IoK8sApiResourceV1beta1DeviceDerivedAttribute>;
+
+/** DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions. Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints. Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list. The maximum number of derived attributes is 32. This is an alpha field and requires enabling the DRADerivedAttributes feature gate. */
+export type IoK8sApiResourceV1beta1DeviceRequestDerivedAttributesList =
+  Array<IoK8sApiResourceV1beta1DeviceDerivedAttribute>;
+export const IoK8sApiResourceV1beta1DeviceRequestDerivedAttributesList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiResourceV1beta1DeviceDerivedAttribute,
+  ) as any as S.Schema<IoK8sApiResourceV1beta1DeviceRequestDerivedAttributesList>;
+
+/** DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions. Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints. Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list. The maximum number of derived attributes is 32. This is an alpha field and requires enabling the DRADerivedAttributes feature gate. */
+export type IoK8sApiResourceV1beta1DeviceSubRequestDerivedAttributesList =
+  Array<IoK8sApiResourceV1beta1DeviceDerivedAttribute>;
+export const IoK8sApiResourceV1beta1DeviceSubRequestDerivedAttributesList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiResourceV1beta1DeviceDerivedAttribute,
+  ) as any as S.Schema<IoK8sApiResourceV1beta1DeviceSubRequestDerivedAttributesList>;
+
 /** Selectors define criteria which must be satisfied by a specific device in order for that device to be considered for this subrequest. All selectors must be satisfied for a device to be considered. */
 export type IoK8sApiResourceV1beta1DeviceSubRequestSelectorsList =
   Array<IoK8sApiResourceV1beta1DeviceSelector>;
@@ -868,6 +998,8 @@ export interface IoK8sApiResourceV1beta1DeviceSubRequest {
   capacity?: IoK8sApiResourceV1beta1CapacityRequirements;
   /** Count is used only when the count mode is "ExactCount". Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one. */
   count?: number;
+  /** DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions. Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints. Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list. The maximum number of derived attributes is 32. This is an alpha field and requires enabling the DRADerivedAttributes feature gate. */
+  derivedAttributes?: IoK8sApiResourceV1beta1DeviceSubRequestDerivedAttributesList;
   /** DeviceClassName references a specific DeviceClass, which can define additional configuration and selectors to be inherited by this subrequest. A class is required. Which classes are available depends on the cluster. Administrators may use this to restrict which devices may get requested by only installing classes with selectors for permitted devices. If users are free to request anything without restrictions, then administrators can create an empty DeviceClass for users to reference. */
   deviceClassName: string;
   /** Name can be used to reference this subrequest in the list of constraints or the list of configurations for the claim. References must use the format <main request>/<subrequest>. Must be a DNS label. */
@@ -883,6 +1015,9 @@ export const IoK8sApiResourceV1beta1DeviceSubRequest = /*@__PURE__*/ S.suspend(
       allocationMode: S.optional(S.String),
       capacity: S.optional(IoK8sApiResourceV1beta1CapacityRequirements),
       count: S.optional(S.Number),
+      derivedAttributes: S.optional(
+        IoK8sApiResourceV1beta1DeviceSubRequestDerivedAttributesList,
+      ),
       deviceClassName: S.String,
       name: S.String,
       selectors: S.optional(
@@ -930,6 +1065,8 @@ export interface IoK8sApiResourceV1beta1DeviceRequest {
   capacity?: IoK8sApiResourceV1beta1CapacityRequirements;
   /** Count is used only when the count mode is "ExactCount". Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one. This field can only be set when deviceClassName is set and no subrequests are specified in the firstAvailable list. */
   count?: number;
+  /** DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions. Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints. Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list. The maximum number of derived attributes is 32. This is an alpha field and requires enabling the DRADerivedAttributes feature gate. */
+  derivedAttributes?: IoK8sApiResourceV1beta1DeviceRequestDerivedAttributesList;
   /** DeviceClassName references a specific DeviceClass, which can define additional configuration and selectors to be inherited by this request. A class is required if no subrequests are specified in the firstAvailable list and no class can be set if subrequests are specified in the firstAvailable list. Which classes are available depends on the cluster. Administrators may use this to restrict which devices may get requested by only installing classes with selectors for permitted devices. If users are free to request anything without restrictions, then administrators can create an empty DeviceClass for users to reference. */
   deviceClassName?: string;
   /** FirstAvailable contains subrequests, of which exactly one will be satisfied by the scheduler to satisfy this request. It tries to satisfy them in the order in which they are listed here. So if there are two entries in the list, the scheduler will only check the second one if it determines that the first one cannot be used. This field may only be set in the entries of DeviceClaim.Requests. DRA does not yet implement scoring, so the scheduler will select the first set of devices that satisfies all the requests in the claim. And if the requirements can be satisfied on more than one node, other scheduling features will determine which node is chosen. This means that the set of devices allocated to a claim might not be the optimal set available to the cluster. Scoring will be implemented later. */
@@ -948,6 +1085,9 @@ export const IoK8sApiResourceV1beta1DeviceRequest = /*@__PURE__*/ S.suspend(
       allocationMode: S.optional(S.String),
       capacity: S.optional(IoK8sApiResourceV1beta1CapacityRequirements),
       count: S.optional(S.Number),
+      derivedAttributes: S.optional(
+        IoK8sApiResourceV1beta1DeviceRequestDerivedAttributesList,
+      ),
       deviceClassName: S.optional(S.String),
       firstAvailable: S.optional(
         IoK8sApiResourceV1beta1DeviceRequestFirstAvailableList,
@@ -1066,6 +1206,14 @@ export const IoK8sApiResourceV1beta1DeviceRequestAllocationResultConsumedCapacit
     S.String,
   ) as any as S.Schema<IoK8sApiResourceV1beta1DeviceRequestAllocationResultConsumedCapacityMap>;
 
+/** SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for this allocated device when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. It is a copy of the ResourceSlice.spec.skipNodeOperations value at the time when the device was allocated. */
+export type IoK8sApiResourceV1beta1DeviceRequestAllocationResultSkipNodeOperationsList =
+  Array<string>;
+export const IoK8sApiResourceV1beta1DeviceRequestAllocationResultSkipNodeOperationsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiResourceV1beta1DeviceRequestAllocationResultSkipNodeOperationsList>;
+
 /** A copy of all tolerations specified in the request at the time when the device got allocated. The maximum number of tolerations is 16. This is a beta field and requires enabling the DRADeviceTaints feature gate. */
 export type IoK8sApiResourceV1beta1DeviceRequestAllocationResultTolerationsList =
   Array<IoK8sApiResourceV1beta1DeviceToleration>;
@@ -1094,6 +1242,8 @@ export interface IoK8sApiResourceV1beta1DeviceRequestAllocationResult {
   request: string;
   /** ShareID uniquely identifies an individual allocation share of the device, used when the device supports multiple simultaneous allocations. It serves as an additional map key to differentiate concurrent shares of the same device. */
   shareID?: string;
+  /** SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for this allocated device when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. It is a copy of the ResourceSlice.spec.skipNodeOperations value at the time when the device was allocated. */
+  skipNodeOperations?: IoK8sApiResourceV1beta1DeviceRequestAllocationResultSkipNodeOperationsList;
   /** A copy of all tolerations specified in the request at the time when the device got allocated. The maximum number of tolerations is 16. This is a beta field and requires enabling the DRADeviceTaints feature gate. */
   tolerations?: IoK8sApiResourceV1beta1DeviceRequestAllocationResultTolerationsList;
 }
@@ -1115,6 +1265,9 @@ export const IoK8sApiResourceV1beta1DeviceRequestAllocationResult =
       pool: S.String,
       request: S.String,
       shareID: S.optional(S.String),
+      skipNodeOperations: S.optional(
+        IoK8sApiResourceV1beta1DeviceRequestAllocationResultSkipNodeOperationsList,
+      ),
       tolerations: S.optional(
         IoK8sApiResourceV1beta1DeviceRequestAllocationResultTolerationsList,
       ),
@@ -1630,7 +1783,7 @@ export const IoK8sApiResourceV1beta1BasicDeviceBindingFailureConditionsList =
     S.String,
   ) as any as S.Schema<IoK8sApiResourceV1beta1BasicDeviceBindingFailureConditionsList>;
 
-/** CapacityRequestPolicyRange defines a valid range for consumable capacity values. - If the requested amount is less than Min, it is rounded up to the Min value. - If Step is set and the requested amount is between Min and Max but not aligned with Step, it will be rounded up to the next value equal to Min + (n * Step). - If Step is not set, the requested amount is used as-is if it falls within the range Min to Max (if set). - If the requested or rounded amount exceeds Max (if set), the request does not satisfy the policy, and the device cannot be allocated. */
+/** CapacityRequestPolicyRange defines a valid range for consumable capacity values. If the DRAFractionalCapacityRange feature gate is enabled and at least one of Min, Max, or Step is a fractional quantity (i.e. its value is not an integer), milli-unit arithmetic is used instead, supporting values with up to 3 decimal places (e.g. 100m = 0.1). The largest supported value then is 1000 times smaller compared to using 64-bit integers. Otherwise, all comparisons use 64-bit integer arithmetic via resource.Quantity.Value(). - If the requested amount is less than Min, it is rounded up to the Min value. - If Step is set and the requested amount is between Min and Max but not aligned with Step, it will be rounded up to the next value equal to Min + (n * Step). - If Step is not set, the requested amount is used as-is if it falls within the range Min to Max (if set). - If the requested or rounded amount exceeds Max (if set), the request does not satisfy the policy, and the device cannot be allocated. */
 export interface IoK8sApiResourceV1beta1CapacityRequestPolicyRange {
   /** Max defines the upper limit for capacity that can be requested. Max must be less than or equal to the capacity value. Min and requestPolicy.default must be less than or equal to the maximum. */
   max?: string;
@@ -1707,6 +1860,14 @@ export const IoK8sApiResourceV1beta1BasicDeviceCapacityMap =
     IoK8sApiResourceV1beta1DeviceCapacity,
   ) as any as S.Schema<IoK8sApiResourceV1beta1BasicDeviceCapacityMap>;
 
+/** CompatibilityGroups is a list of opaque group names for this counter set consumption. Devices that consume counters from the same counter set may only be allocated at the same time ("co-allocated") if they all share at least one common group: the intersection of the CompatibilityGroups of all co-allocated devices on that counter set must be non-empty. Devices that consume from different counter sets are never compared via this field. An unset field, an explicit nil, and an empty list are equivalent and mean "no groups": such a device is only co-allocatable with sibling devices on the same counter set that also have no groups, and is never co-allocatable with a device that declares one or more groups. Group names are opaque and meaningful only within the publishing driver's pool. The maximum number of groups is 2, and the names must be unique. */
+export type IoK8sApiResourceV1beta1DeviceCounterConsumptionCompatibilityGroupsList =
+  Array<string>;
+export const IoK8sApiResourceV1beta1DeviceCounterConsumptionCompatibilityGroupsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiResourceV1beta1DeviceCounterConsumptionCompatibilityGroupsList>;
+
 /** Counter describes a quantity associated with a device. */
 export interface IoK8sApiResourceV1beta1Counter {
   /** Value defines how much of a certain device counter is available. */
@@ -1732,6 +1893,8 @@ export const IoK8sApiResourceV1beta1DeviceCounterConsumptionCountersMap =
 
 /** DeviceCounterConsumption defines a set of counters that a device will consume from a CounterSet. */
 export interface IoK8sApiResourceV1beta1DeviceCounterConsumption {
+  /** CompatibilityGroups is a list of opaque group names for this counter set consumption. Devices that consume counters from the same counter set may only be allocated at the same time ("co-allocated") if they all share at least one common group: the intersection of the CompatibilityGroups of all co-allocated devices on that counter set must be non-empty. Devices that consume from different counter sets are never compared via this field. An unset field, an explicit nil, and an empty list are equivalent and mean "no groups": such a device is only co-allocatable with sibling devices on the same counter set that also have no groups, and is never co-allocatable with a device that declares one or more groups. Group names are opaque and meaningful only within the publishing driver's pool. The maximum number of groups is 2, and the names must be unique. */
+  compatibilityGroups?: IoK8sApiResourceV1beta1DeviceCounterConsumptionCompatibilityGroupsList;
   /** CounterSet is the name of the set from which the counters defined will be consumed. */
   counterSet: string;
   /** Counters defines the counters that will be consumed by the device. The maximum number of counters is 32. */
@@ -1740,6 +1903,9 @@ export interface IoK8sApiResourceV1beta1DeviceCounterConsumption {
 export const IoK8sApiResourceV1beta1DeviceCounterConsumption =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      compatibilityGroups: S.optional(
+        IoK8sApiResourceV1beta1DeviceCounterConsumptionCompatibilityGroupsList,
+      ),
       counterSet: S.String,
       counters: IoK8sApiResourceV1beta1DeviceCounterConsumptionCountersMap,
     }),
@@ -1755,35 +1921,69 @@ export const IoK8sApiResourceV1beta1BasicDeviceConsumesCountersList =
     IoK8sApiResourceV1beta1DeviceCounterConsumption,
   ) as any as S.Schema<IoK8sApiResourceV1beta1BasicDeviceConsumesCountersList>;
 
-/** NodeAllocatableResourceMapping defines the translation between the DRA device/capacity units requested to the corresponding quantity of the node allocatable resource. */
-export interface IoK8sApiResourceV1beta1NodeAllocatableResourceMapping {
-  /** AllocationMultiplier is used as a multiplier for the allocated device count or the allocated capacity in the claim. It defaults to 1 if not specified. How the field is used also depends on whether `capacityKey` is set. 1. If `capacityKey` is NOT set: `allocationMultiplier` multiplies the device count allocated to the claim. a. A DRA driver representing each CPU core as a device would have {ResourceName: "cpu", allocationMultiplier: "2"} in its `nodeAllocatableResourceMappings`. If 4 devices are allocated to the claim, 4 * 2 CPUs would be considered as allocated and subtracted from the node's capacity. b. A GPU device that needs additional node memory per GPU allocation would have {ResourceName: "memory", allocationMultiplier: "2Gi"}. Each allocated GPU device instance of this type will account for 2Gi of memory. 2. If `capacityKey` IS set: `allocationMultiplier` is multiplied by the amount of that capacity consumed. The final node allocatable resource amount is `consumedCapacity[capacityKey]` * `allocationMultiplier`. For example, if a Device's capacity "dra.example.com/cores" is consumed, and each "core" provides 2 "cpu"s, the mapping would be: {ResourceName: "cpu", capacityKey: "dra.example.com/cores", allocationMultiplier: "2"}. If a claim consumes 8 "dra.example.com/cores", the CPU footprint is 8 * 2 = 16. */
-  allocationMultiplier?: string;
-  /** CapacityKey references a capacity name defined as a key in the `spec.devices[*].capacity` map. When this field is set, the value associated with this key in the `status.allocation.devices.results[*].consumedCapacity` map (for a specific claim allocation) determines the base quantity for the node allocatable resource. If `allocationMultiplier` is also set, it is multiplied with the base quantity. For example, if `spec.devices[*].capacity` has an entry "dra.example.com/memory": "128Gi", and this field is set to "dra.example.com/memory", then for a claim allocation that consumes { "dra.example.com/memory": "4Gi" } the base quantity for the node allocatable resource mapping will be "4Gi", and `allocationMultiplier` should be omitted or set to "1". */
+/** NodeAllocatableMapping defines how a DRA allocation directly translates into a node allocatable resource quantity. The mapping can be derived from either the count of allocated devices or the specific capacity consumed. These options are mutually exclusive. Kubelet adds this mapped resource quantity from claim to both requests and limits at the pod-level cgroup, and to limits at the container-level cgroup for each container referencing the claim. */
+export interface IoK8sApiResourceV1beta1NodeAllocatableMapping {
+  /** CapacityKey references a capacity name defined as a key in the `spec.devices[*].capacity` map. When this field is set, the value associated with this key in the `status.allocation.devices.results[*].consumedCapacity` map (for a specific claim allocation) determines the base quantity for the node allocatable resource. `capacityMultiplier` must also be set and is multiplied with the base quantity. For example, if `spec.devices[*].capacity` has an entry "dra.example.com/memory": "128Gi", and this field is set to "dra.example.com/memory", then for a claim allocation that consumes { "dra.example.com/memory": "4Gi" } the base quantity for the node allocatable resource mapping will be "4Gi". The final node allocatable resource amount is `consumedCapacity[capacityKey]` * `capacityMultiplier`. */
   capacityKey?: string;
+  /** CapacityMultiplier is used as a multiplier for the allocated capacity consumed. It is only valid if `capacityKey` is set. The final node allocatable resource amount is `consumedCapacity[capacityKey]` * `capacityMultiplier`. For example, if a Device's capacity "dra.example.com/cores" is consumed, and each "core" provides 2 "cpu"s, the mapping would be: {ResourceName: "cpu", capacityKey: "dra.example.com/cores", capacityMultiplier: "2"}. If a claim consumes 8 "dra.example.com/cores", the CPU footprint is 8 * 2 = 16. */
+  capacityMultiplier?: string;
+  /** DeviceMultiplier is used as a multiplier for the allocated device count in the claim. The final node allocatable resource amount is `deviceCount` * `deviceMultiplier`. For example, a DRA driver representing each cache complex (CCX) as a device would have {ResourceName: "cpu", deviceMultiplier: "8"} in its `nodeAllocatableResources`. If 2 devices (CCX) are allocated to the claim, 2 * 8 = 16 CPUs would be considered as allocated. It is only valid when `capacityKey` and `capacityMultiplier` are not set. */
+  deviceMultiplier?: string;
 }
-export const IoK8sApiResourceV1beta1NodeAllocatableResourceMapping =
+export const IoK8sApiResourceV1beta1NodeAllocatableMapping =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      allocationMultiplier: S.optional(S.String),
       capacityKey: S.optional(S.String),
+      capacityMultiplier: S.optional(S.String),
+      deviceMultiplier: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "IoK8sApiResourceV1beta1NodeAllocatableResourceMapping",
-  }) as any as S.Schema<IoK8sApiResourceV1beta1NodeAllocatableResourceMapping>;
+    identifier: "IoK8sApiResourceV1beta1NodeAllocatableMapping",
+  }) as any as S.Schema<IoK8sApiResourceV1beta1NodeAllocatableMapping>;
 
-/** NodeAllocatableResourceMappings defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
-export type IoK8sApiResourceV1beta1BasicDeviceNodeAllocatableResourceMappingsMap =
-  {
-    [key: string]:
-      | IoK8sApiResourceV1beta1NodeAllocatableResourceMapping
-      | undefined;
-  };
-export const IoK8sApiResourceV1beta1BasicDeviceNodeAllocatableResourceMappingsMap =
+/** NodeAllocatableOverhead defines auxiliary resource overheads incurred when allocating a device. Overheads can be specified as a fixed cost per pod referencing the claim, a variable cost per container reference, or both. Kubelet accounts for this overhead by adding it to both the pod-level and container-level cgroups of referencing containers. */
+export interface IoK8sApiResourceV1beta1NodeAllocatableOverhead {
+  /** PerContainer is applied per container reference to the claim. This models overhead scaling linearly with the number of containers actively using the device. When both PerPod and PerContainer are specified, the total overhead allocated for each pod referencing the claim is computed as: Quantity = PerPod + (PerContainer * NumReferences) Kubelet accounts for this overhead in cgroups: - Pod-level cgroup (requests and limits): Kubelet adds PerPod + (PerContainer * NumReferences). - Container-level cgroup (limits only): Kubelet adds PerPod + PerContainer for each referencing container. This allows any single container to access the pod-level overhead, while the parent cgroup caps the total usage to account for PerPod exactly once. */
+  perContainer?: string;
+  /** PerPod is overhead applied once per pod referencing the claim on this node. This is a flat overhead incurred for every pod referencing the claim. */
+  perPod?: string;
+}
+export const IoK8sApiResourceV1beta1NodeAllocatableOverhead =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      perContainer: S.optional(S.String),
+      perPod: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiResourceV1beta1NodeAllocatableOverhead",
+  }) as any as S.Schema<IoK8sApiResourceV1beta1NodeAllocatableOverhead>;
+
+/** NodeAllocatableResource defines the translation between the DRA device/capacity units requested to the corresponding quantity of the node allocatable resource. At least one of Mapping or Overhead must be specified. Not specifying either is an invalid configuration. */
+export interface IoK8sApiResourceV1beta1NodeAllocatableResource {
+  /** Mapping is used when the device directly models a node allocatable resource like standard CPU or memory (e.g., with a CPU DRA driver). The calculated quantity is accounted for exactly once per claim instance on the node. To prevent node cgroup isolation friction, the scheduler explicitly blocks sharing mapped device claims across multiple pods. */
+  mapping?: IoK8sApiResourceV1beta1NodeAllocatableMapping;
+  /** Overhead contains fields for modeling auxiliary overhead incurred on node allocatable resources when allocating devices that are not themselves modeling a node allocatable resource (e.g., host memory overhead for GPUs). Sharing overhead-mapped claims across multiple pods is allowed. The node allocatable overhead is accounted for individually for each pod referencing the claim. Overhead is always subtracted from the node's allocatable capacity for the resource, even when mapping is specified for the same resource. Eg: If a device models memory capacity per socket as a consumable capacity pool via Mapping (with CapacityKey), any overhead specified for the same resource will be subtracted from the node's general allocatable capacity and not from the per-socket capacity pool in Mapping. */
+  overhead?: IoK8sApiResourceV1beta1NodeAllocatableOverhead;
+}
+export const IoK8sApiResourceV1beta1NodeAllocatableResource =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      mapping: S.optional(IoK8sApiResourceV1beta1NodeAllocatableMapping),
+      overhead: S.optional(IoK8sApiResourceV1beta1NodeAllocatableOverhead),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiResourceV1beta1NodeAllocatableResource",
+  }) as any as S.Schema<IoK8sApiResourceV1beta1NodeAllocatableResource>;
+
+/** NodeAllocatableResources defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
+export type IoK8sApiResourceV1beta1BasicDeviceNodeAllocatableResourcesMap = {
+  [key: string]: IoK8sApiResourceV1beta1NodeAllocatableResource | undefined;
+};
+export const IoK8sApiResourceV1beta1BasicDeviceNodeAllocatableResourcesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    IoK8sApiResourceV1beta1NodeAllocatableResourceMapping,
-  ) as any as S.Schema<IoK8sApiResourceV1beta1BasicDeviceNodeAllocatableResourceMappingsMap>;
+    IoK8sApiResourceV1beta1NodeAllocatableResource,
+  ) as any as S.Schema<IoK8sApiResourceV1beta1BasicDeviceNodeAllocatableResourcesMap>;
 
 /** The device this taint is attached to has the "effect" on any claim which does not tolerate the taint and, through the claim, to pods using the claim. */
 export type IoK8sApiResourceV1beta1DeviceTaint =
@@ -1817,8 +2017,8 @@ export interface IoK8sApiResourceV1beta1BasicDevice {
   capacity?: IoK8sApiResourceV1beta1BasicDeviceCapacityMap;
   /** ConsumesCounters defines a list of references to sharedCounters and the set of counters that the device will consume from those counter sets. There can only be a single entry per counterSet. The maximum number of device counter consumptions per device is 2. */
   consumesCounters?: IoK8sApiResourceV1beta1BasicDeviceConsumesCountersList;
-  /** NodeAllocatableResourceMappings defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
-  nodeAllocatableResourceMappings?: IoK8sApiResourceV1beta1BasicDeviceNodeAllocatableResourceMappingsMap;
+  /** NodeAllocatableResources defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
+  nodeAllocatableResources?: IoK8sApiResourceV1beta1BasicDeviceNodeAllocatableResourcesMap;
   /** NodeName identifies the node where the device is available. Must only be set if Spec.PerDeviceNodeSelection is set to true. At most one of NodeName, NodeSelector and AllNodes can be set. */
   nodeName?: string;
   /** NodeSelector defines the nodes where the device is available. Must use exactly one term. Must only be set if Spec.PerDeviceNodeSelection is set to true. At most one of NodeName, NodeSelector and AllNodes can be set. */
@@ -1842,8 +2042,8 @@ export const IoK8sApiResourceV1beta1BasicDevice = /*@__PURE__*/ S.suspend(() =>
     consumesCounters: S.optional(
       IoK8sApiResourceV1beta1BasicDeviceConsumesCountersList,
     ),
-    nodeAllocatableResourceMappings: S.optional(
-      IoK8sApiResourceV1beta1BasicDeviceNodeAllocatableResourceMappingsMap,
+    nodeAllocatableResources: S.optional(
+      IoK8sApiResourceV1beta1BasicDeviceNodeAllocatableResourcesMap,
     ),
     nodeName: S.optional(S.String),
     nodeSelector: S.optional(IoK8sApiCoreV1NodeSelector),
@@ -1881,7 +2081,7 @@ export const IoK8sApiResourceV1beta1ResourceSliceSpecDevicesList =
 export interface IoK8sApiResourceV1beta1ResourcePool {
   /** Generation tracks the change in a pool over time. Whenever a driver changes something about one or more of the resources in a pool, it must change the generation in all ResourceSlices which are part of that pool. Consumers of ResourceSlices should only consider resources from the pool with the highest generation number. The generation may be reset by drivers, which should be fine for consumers, assuming that all ResourceSlices in a pool are updated to match or deleted. Combined with ResourceSliceCount, this mechanism enables consumers to detect pools which are comprised of multiple ResourceSlices and are in an incomplete state. */
   generation: number;
-  /** Name is used to identify the pool. For node-local devices, this is often the node name, but this is not required. It must not be longer than 253 characters and must consist of one or more DNS sub-domains separated by slashes. This field is immutable. */
+  /** Name is used to identify the pool. For node-local devices, this is often the node name, but this is not required. A field selector can be used to list only ResourceSlice objects belonging to a certain pool. It must not be longer than 253 characters and must consist of one or more DNS sub-domains separated by slashes. This field is immutable. */
   name: string;
   /** ResourceSliceCount is the total number of ResourceSlices in the pool at this generation number. Must be greater than zero. Consumers can use this to check whether they have seen all ResourceSlices belonging to the same pool. */
   resourceSliceCount: number;
@@ -1930,6 +2130,14 @@ export const IoK8sApiResourceV1beta1ResourceSliceSpecSharedCountersList =
     IoK8sApiResourceV1beta1CounterSet,
   ) as any as S.Schema<IoK8sApiResourceV1beta1ResourceSliceSpecSharedCountersList>;
 
+/** SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for the devices in this slice when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. Valid values are: - "NodePrepareResources": NodePrepareResources gRPC calls are skipped. This value cannot be specified unless "NodeUnprepareResources" is also listed (or "*" is specified). - "NodeUnprepareResources": NodeUnprepareResources gRPC calls are skipped. - "*": All node-local resource operations are skipped. Other values may be added in the future. The kubelet must ignore unknown values. */
+export type IoK8sApiResourceV1beta1ResourceSliceSpecSkipNodeOperationsList =
+  Array<string>;
+export const IoK8sApiResourceV1beta1ResourceSliceSpecSkipNodeOperationsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiResourceV1beta1ResourceSliceSpecSkipNodeOperationsList>;
+
 /** ResourceSliceSpec contains the information published by the driver in one ResourceSlice. */
 export interface IoK8sApiResourceV1beta1ResourceSliceSpec {
   /** AllNodes indicates that all nodes have access to the resources in the pool. Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set. */
@@ -1942,12 +2150,16 @@ export interface IoK8sApiResourceV1beta1ResourceSliceSpec {
   nodeName?: string;
   /** NodeSelector defines which nodes have access to the resources in the pool, when that pool is not limited to a single node. Must use exactly one term. Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set. */
   nodeSelector?: IoK8sApiCoreV1NodeSelector;
+  /** PartitionTypeAttribute names a string device attribute (by fully qualified name, e.g. "gpu.example.com/profile") whose value labels each device with its partition type, such as "Full" or "Half" for a MIG-style GPU. When set, every partitionable device in the slice must carry the attribute and devices sharing a value must share the same ConsumesCounters cost. */
+  partitionTypeAttribute?: string;
   /** PerDeviceNodeSelection defines whether the access from nodes to resources in the pool is set on the ResourceSlice level or on each device. If it is set to true, every device defined the ResourceSlice must specify this individually. Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set. */
   perDeviceNodeSelection?: boolean;
   /** Pool describes the pool that this ResourceSlice belongs to. */
   pool: IoK8sApiResourceV1beta1ResourcePool;
   /** SharedCounters defines a list of counter sets, each of which has a name and a list of counters available. The names of the counter sets must be unique in the ResourcePool. Only one of Devices and SharedCounters can be set in a ResourceSlice. The maximum number of counter sets is 8. */
   sharedCounters?: IoK8sApiResourceV1beta1ResourceSliceSpecSharedCountersList;
+  /** SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for the devices in this slice when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. Valid values are: - "NodePrepareResources": NodePrepareResources gRPC calls are skipped. This value cannot be specified unless "NodeUnprepareResources" is also listed (or "*" is specified). - "NodeUnprepareResources": NodeUnprepareResources gRPC calls are skipped. - "*": All node-local resource operations are skipped. Other values may be added in the future. The kubelet must ignore unknown values. */
+  skipNodeOperations?: IoK8sApiResourceV1beta1ResourceSliceSpecSkipNodeOperationsList;
 }
 export const IoK8sApiResourceV1beta1ResourceSliceSpec = /*@__PURE__*/ S.suspend(
   () =>
@@ -1957,10 +2169,14 @@ export const IoK8sApiResourceV1beta1ResourceSliceSpec = /*@__PURE__*/ S.suspend(
       driver: S.String,
       nodeName: S.optional(S.String),
       nodeSelector: S.optional(IoK8sApiCoreV1NodeSelector),
+      partitionTypeAttribute: S.optional(S.String),
       perDeviceNodeSelection: S.optional(S.Boolean),
       pool: IoK8sApiResourceV1beta1ResourcePool,
       sharedCounters: S.optional(
         IoK8sApiResourceV1beta1ResourceSliceSpecSharedCountersList,
+      ),
+      skipNodeOperations: S.optional(
+        IoK8sApiResourceV1beta1ResourceSliceSpecSkipNodeOperationsList,
       ),
     }),
 ).annotate({
@@ -2361,6 +2577,20 @@ export const IoK8sApiResourceV1beta2CapacityRequirements =
     identifier: "IoK8sApiResourceV1beta2CapacityRequirements",
   }) as any as S.Schema<IoK8sApiResourceV1beta2CapacityRequirements>;
 
+/** DeviceDerivedAttribute defines a derived attribute computed via CEL. */
+export type IoK8sApiResourceV1beta2DeviceDerivedAttribute =
+  IoK8sApiResourceV1beta1DeviceDerivedAttribute;
+export const IoK8sApiResourceV1beta2DeviceDerivedAttribute =
+  IoK8sApiResourceV1beta1DeviceDerivedAttribute;
+
+/** DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions. Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints. Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list. The maximum number of derived attributes is 32. This is an alpha field and requires enabling the DRADerivedAttributes feature gate. */
+export type IoK8sApiResourceV1beta2ExactDeviceRequestDerivedAttributesList =
+  Array<IoK8sApiResourceV1beta1DeviceDerivedAttribute>;
+export const IoK8sApiResourceV1beta2ExactDeviceRequestDerivedAttributesList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiResourceV1beta1DeviceDerivedAttribute,
+  ) as any as S.Schema<IoK8sApiResourceV1beta2ExactDeviceRequestDerivedAttributesList>;
+
 /** Selectors define criteria which must be satisfied by a specific device in order for that device to be considered for this request. All selectors must be satisfied for a device to be considered. */
 export type IoK8sApiResourceV1beta2ExactDeviceRequestSelectorsList =
   Array<IoK8sApiResourceV1beta1DeviceSelector>;
@@ -2393,6 +2623,8 @@ export interface IoK8sApiResourceV1beta2ExactDeviceRequest {
   capacity?: IoK8sApiResourceV1beta2CapacityRequirements;
   /** Count is used only when the count mode is "ExactCount". Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one. */
   count?: number;
+  /** DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions. Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints. Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list. The maximum number of derived attributes is 32. This is an alpha field and requires enabling the DRADerivedAttributes feature gate. */
+  derivedAttributes?: IoK8sApiResourceV1beta2ExactDeviceRequestDerivedAttributesList;
   /** DeviceClassName references a specific DeviceClass, which can define additional configuration and selectors to be inherited by this request. A DeviceClassName is required. Administrators may use this to restrict which devices may get requested by only installing classes with selectors for permitted devices. If users are free to request anything without restrictions, then administrators can create an empty DeviceClass for users to reference. */
   deviceClassName: string;
   /** Selectors define criteria which must be satisfied by a specific device in order for that device to be considered for this request. All selectors must be satisfied for a device to be considered. */
@@ -2407,6 +2639,9 @@ export const IoK8sApiResourceV1beta2ExactDeviceRequest =
       allocationMode: S.optional(S.String),
       capacity: S.optional(IoK8sApiResourceV1beta2CapacityRequirements),
       count: S.optional(S.Number),
+      derivedAttributes: S.optional(
+        IoK8sApiResourceV1beta2ExactDeviceRequestDerivedAttributesList,
+      ),
       deviceClassName: S.String,
       selectors: S.optional(
         IoK8sApiResourceV1beta2ExactDeviceRequestSelectorsList,
@@ -2418,6 +2653,14 @@ export const IoK8sApiResourceV1beta2ExactDeviceRequest =
   ).annotate({
     identifier: "IoK8sApiResourceV1beta2ExactDeviceRequest",
   }) as any as S.Schema<IoK8sApiResourceV1beta2ExactDeviceRequest>;
+
+/** DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions. Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints. Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list. The maximum number of derived attributes is 32. This is an alpha field and requires enabling the DRADerivedAttributes feature gate. */
+export type IoK8sApiResourceV1beta2DeviceSubRequestDerivedAttributesList =
+  Array<IoK8sApiResourceV1beta1DeviceDerivedAttribute>;
+export const IoK8sApiResourceV1beta2DeviceSubRequestDerivedAttributesList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiResourceV1beta1DeviceDerivedAttribute,
+  ) as any as S.Schema<IoK8sApiResourceV1beta2DeviceSubRequestDerivedAttributesList>;
 
 /** Selectors define criteria which must be satisfied by a specific device in order for that device to be considered for this subrequest. All selectors must be satisfied for a device to be considered. */
 export type IoK8sApiResourceV1beta2DeviceSubRequestSelectorsList =
@@ -2443,6 +2686,8 @@ export interface IoK8sApiResourceV1beta2DeviceSubRequest {
   capacity?: IoK8sApiResourceV1beta2CapacityRequirements;
   /** Count is used only when the count mode is "ExactCount". Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one. */
   count?: number;
+  /** DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions. Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints. Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list. The maximum number of derived attributes is 32. This is an alpha field and requires enabling the DRADerivedAttributes feature gate. */
+  derivedAttributes?: IoK8sApiResourceV1beta2DeviceSubRequestDerivedAttributesList;
   /** DeviceClassName references a specific DeviceClass, which can define additional configuration and selectors to be inherited by this subrequest. A class is required. Which classes are available depends on the cluster. Administrators may use this to restrict which devices may get requested by only installing classes with selectors for permitted devices. If users are free to request anything without restrictions, then administrators can create an empty DeviceClass for users to reference. */
   deviceClassName: string;
   /** Name can be used to reference this subrequest in the list of constraints or the list of configurations for the claim. References must use the format <main request>/<subrequest>. Must be a DNS label. */
@@ -2458,6 +2703,9 @@ export const IoK8sApiResourceV1beta2DeviceSubRequest = /*@__PURE__*/ S.suspend(
       allocationMode: S.optional(S.String),
       capacity: S.optional(IoK8sApiResourceV1beta2CapacityRequirements),
       count: S.optional(S.Number),
+      derivedAttributes: S.optional(
+        IoK8sApiResourceV1beta2DeviceSubRequestDerivedAttributesList,
+      ),
       deviceClassName: S.String,
       name: S.String,
       selectors: S.optional(
@@ -2605,6 +2853,14 @@ export const IoK8sApiResourceV1beta2DeviceRequestAllocationResultConsumedCapacit
     S.String,
   ) as any as S.Schema<IoK8sApiResourceV1beta2DeviceRequestAllocationResultConsumedCapacityMap>;
 
+/** SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for this allocated device when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. It is a copy of the ResourceSlice.spec.skipNodeOperations value at the time when the device was allocated. */
+export type IoK8sApiResourceV1beta2DeviceRequestAllocationResultSkipNodeOperationsList =
+  Array<string>;
+export const IoK8sApiResourceV1beta2DeviceRequestAllocationResultSkipNodeOperationsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiResourceV1beta2DeviceRequestAllocationResultSkipNodeOperationsList>;
+
 /** A copy of all tolerations specified in the request at the time when the device got allocated. The maximum number of tolerations is 16. This is a beta field and requires enabling the DRADeviceTaints feature gate. */
 export type IoK8sApiResourceV1beta2DeviceRequestAllocationResultTolerationsList =
   Array<IoK8sApiResourceV1beta1DeviceToleration>;
@@ -2633,6 +2889,8 @@ export interface IoK8sApiResourceV1beta2DeviceRequestAllocationResult {
   request: string;
   /** ShareID uniquely identifies an individual allocation share of the device, used when the device supports multiple simultaneous allocations. It serves as an additional map key to differentiate concurrent shares of the same device. */
   shareID?: string;
+  /** SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for this allocated device when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. It is a copy of the ResourceSlice.spec.skipNodeOperations value at the time when the device was allocated. */
+  skipNodeOperations?: IoK8sApiResourceV1beta2DeviceRequestAllocationResultSkipNodeOperationsList;
   /** A copy of all tolerations specified in the request at the time when the device got allocated. The maximum number of tolerations is 16. This is a beta field and requires enabling the DRADeviceTaints feature gate. */
   tolerations?: IoK8sApiResourceV1beta2DeviceRequestAllocationResultTolerationsList;
 }
@@ -2654,6 +2912,9 @@ export const IoK8sApiResourceV1beta2DeviceRequestAllocationResult =
       pool: S.String,
       request: S.String,
       shareID: S.optional(S.String),
+      skipNodeOperations: S.optional(
+        IoK8sApiResourceV1beta2DeviceRequestAllocationResultSkipNodeOperationsList,
+      ),
       tolerations: S.optional(
         IoK8sApiResourceV1beta2DeviceRequestAllocationResultTolerationsList,
       ),
@@ -3069,7 +3330,7 @@ export const IoK8sApiResourceV1beta2DeviceBindingFailureConditionsList =
     S.String,
   ) as any as S.Schema<IoK8sApiResourceV1beta2DeviceBindingFailureConditionsList>;
 
-/** CapacityRequestPolicyRange defines a valid range for consumable capacity values. - If the requested amount is less than Min, it is rounded up to the Min value. - If Step is set and the requested amount is between Min and Max but not aligned with Step, it will be rounded up to the next value equal to Min + (n * Step). - If Step is not set, the requested amount is used as-is if it falls within the range Min to Max (if set). - If the requested or rounded amount exceeds Max (if set), the request does not satisfy the policy, and the device cannot be allocated. */
+/** CapacityRequestPolicyRange defines a valid range for consumable capacity values. If the DRAFractionalCapacityRange feature gate is enabled and at least one of Min, Max, or Step is a fractional quantity (i.e. its value is not an integer), milli-unit arithmetic is used instead, supporting values with up to 3 decimal places (e.g. 100m = 0.1). The largest supported value then is 1000 times smaller compared to using 64-bit integers. Otherwise, all comparisons use 64-bit integer arithmetic via resource.Quantity.Value(). - If the requested amount is less than Min, it is rounded up to the Min value. - If Step is set and the requested amount is between Min and Max but not aligned with Step, it will be rounded up to the next value equal to Min + (n * Step). - If Step is not set, the requested amount is used as-is if it falls within the range Min to Max (if set). - If the requested or rounded amount exceeds Max (if set), the request does not satisfy the policy, and the device cannot be allocated. */
 export type IoK8sApiResourceV1beta2CapacityRequestPolicyRange =
   IoK8sApiResourceV1beta1CapacityRequestPolicyRange;
 export const IoK8sApiResourceV1beta2CapacityRequestPolicyRange =
@@ -3131,6 +3392,14 @@ export const IoK8sApiResourceV1beta2DeviceCapacityMap = /*@__PURE__*/ S.Record(
   IoK8sApiResourceV1beta2DeviceCapacity,
 ) as any as S.Schema<IoK8sApiResourceV1beta2DeviceCapacityMap>;
 
+/** CompatibilityGroups is a list of opaque group names for this counter set consumption. Devices that consume counters from the same counter set may only be allocated at the same time ("co-allocated") if they all share at least one common group: the intersection of the CompatibilityGroups of all co-allocated devices on that counter set must be non-empty. Devices that consume from different counter sets are never compared via this field. An unset field, an explicit nil, and an empty list are equivalent and mean "no groups": such a device is only co-allocatable with sibling devices on the same counter set that also have no groups, and is never co-allocatable with a device that declares one or more groups. Group names are opaque and meaningful only within the publishing driver's pool. The maximum number of groups is 2, and the names must be unique. */
+export type IoK8sApiResourceV1beta2DeviceCounterConsumptionCompatibilityGroupsList =
+  Array<string>;
+export const IoK8sApiResourceV1beta2DeviceCounterConsumptionCompatibilityGroupsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiResourceV1beta2DeviceCounterConsumptionCompatibilityGroupsList>;
+
 /** Counter describes a quantity associated with a device. */
 export type IoK8sApiResourceV1beta2Counter = IoK8sApiResourceV1beta1Counter;
 export const IoK8sApiResourceV1beta2Counter = IoK8sApiResourceV1beta1Counter;
@@ -3147,6 +3416,8 @@ export const IoK8sApiResourceV1beta2DeviceCounterConsumptionCountersMap =
 
 /** DeviceCounterConsumption defines a set of counters that a device will consume from a CounterSet. */
 export interface IoK8sApiResourceV1beta2DeviceCounterConsumption {
+  /** CompatibilityGroups is a list of opaque group names for this counter set consumption. Devices that consume counters from the same counter set may only be allocated at the same time ("co-allocated") if they all share at least one common group: the intersection of the CompatibilityGroups of all co-allocated devices on that counter set must be non-empty. Devices that consume from different counter sets are never compared via this field. An unset field, an explicit nil, and an empty list are equivalent and mean "no groups": such a device is only co-allocatable with sibling devices on the same counter set that also have no groups, and is never co-allocatable with a device that declares one or more groups. Group names are opaque and meaningful only within the publishing driver's pool. The maximum number of groups is 2, and the names must be unique. */
+  compatibilityGroups?: IoK8sApiResourceV1beta2DeviceCounterConsumptionCompatibilityGroupsList;
   /** CounterSet is the name of the set from which the counters defined will be consumed. */
   counterSet: string;
   /** Counters defines the counters that will be consumed by the device. The maximum number of counters is 32. */
@@ -3155,6 +3426,9 @@ export interface IoK8sApiResourceV1beta2DeviceCounterConsumption {
 export const IoK8sApiResourceV1beta2DeviceCounterConsumption =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      compatibilityGroups: S.optional(
+        IoK8sApiResourceV1beta2DeviceCounterConsumptionCompatibilityGroupsList,
+      ),
       counterSet: S.String,
       counters: IoK8sApiResourceV1beta2DeviceCounterConsumptionCountersMap,
     }),
@@ -3170,23 +3444,33 @@ export const IoK8sApiResourceV1beta2DeviceConsumesCountersList =
     IoK8sApiResourceV1beta2DeviceCounterConsumption,
   ) as any as S.Schema<IoK8sApiResourceV1beta2DeviceConsumesCountersList>;
 
-/** NodeAllocatableResourceMapping defines the translation between the DRA device/capacity units requested to the corresponding quantity of the node allocatable resource. */
-export type IoK8sApiResourceV1beta2NodeAllocatableResourceMapping =
-  IoK8sApiResourceV1beta1NodeAllocatableResourceMapping;
-export const IoK8sApiResourceV1beta2NodeAllocatableResourceMapping =
-  IoK8sApiResourceV1beta1NodeAllocatableResourceMapping;
+/** NodeAllocatableMapping defines how a DRA allocation directly translates into a node allocatable resource quantity. The mapping can be derived from either the count of allocated devices (via deviceMultiplier) or the specific capacity consumed (via capacityKey and capacityMultiplier). These options are mutually exclusive. Kubelet adds this mapped resource quantity from claim to both requests and limits at the pod-level cgroup, and to limits at the container-level cgroup for each container referencing the claim. */
+export type IoK8sApiResourceV1beta2NodeAllocatableMapping =
+  IoK8sApiResourceV1beta1NodeAllocatableMapping;
+export const IoK8sApiResourceV1beta2NodeAllocatableMapping =
+  IoK8sApiResourceV1beta1NodeAllocatableMapping;
 
-/** NodeAllocatableResourceMappings defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
-export type IoK8sApiResourceV1beta2DeviceNodeAllocatableResourceMappingsMap = {
-  [key: string]:
-    | IoK8sApiResourceV1beta1NodeAllocatableResourceMapping
-    | undefined;
+/** NodeAllocatableOverhead defines auxiliary resource overheads incurred when allocating a device. Overheads can be specified as a fixed cost per pod referencing the claim, a variable cost per container reference, or both. Kubelet accounts for this overhead by adding it to both the pod-level and container-level cgroups of referencing containers. */
+export type IoK8sApiResourceV1beta2NodeAllocatableOverhead =
+  IoK8sApiResourceV1beta1NodeAllocatableOverhead;
+export const IoK8sApiResourceV1beta2NodeAllocatableOverhead =
+  IoK8sApiResourceV1beta1NodeAllocatableOverhead;
+
+/** NodeAllocatableResource defines the translation between the DRA device/capacity units requested to the corresponding quantity of the node allocatable resource. At least one of Mapping or Overhead must be specified. Not specifying either is an invalid configuration. */
+export type IoK8sApiResourceV1beta2NodeAllocatableResource =
+  IoK8sApiResourceV1beta1NodeAllocatableResource;
+export const IoK8sApiResourceV1beta2NodeAllocatableResource =
+  IoK8sApiResourceV1beta1NodeAllocatableResource;
+
+/** NodeAllocatableResources defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
+export type IoK8sApiResourceV1beta2DeviceNodeAllocatableResourcesMap = {
+  [key: string]: IoK8sApiResourceV1beta1NodeAllocatableResource | undefined;
 };
-export const IoK8sApiResourceV1beta2DeviceNodeAllocatableResourceMappingsMap =
+export const IoK8sApiResourceV1beta2DeviceNodeAllocatableResourcesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    IoK8sApiResourceV1beta1NodeAllocatableResourceMapping,
-  ) as any as S.Schema<IoK8sApiResourceV1beta2DeviceNodeAllocatableResourceMappingsMap>;
+    IoK8sApiResourceV1beta1NodeAllocatableResource,
+  ) as any as S.Schema<IoK8sApiResourceV1beta2DeviceNodeAllocatableResourcesMap>;
 
 /** If specified, these are the driver-defined taints. The maximum number of taints is 16. If taints are set for any device in a ResourceSlice, then the maximum number of allowed devices per ResourceSlice is 64 instead of 128. This is a beta field and requires enabling the DRADeviceTaints feature gate. */
 export type IoK8sApiResourceV1beta2DeviceTaintsList =
@@ -3215,8 +3499,8 @@ export interface IoK8sApiResourceV1beta2Device {
   consumesCounters?: IoK8sApiResourceV1beta2DeviceConsumesCountersList;
   /** Name is unique identifier among all devices managed by the driver in the pool. It must be a DNS label. */
   name: string;
-  /** NodeAllocatableResourceMappings defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
-  nodeAllocatableResourceMappings?: IoK8sApiResourceV1beta2DeviceNodeAllocatableResourceMappingsMap;
+  /** NodeAllocatableResources defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
+  nodeAllocatableResources?: IoK8sApiResourceV1beta2DeviceNodeAllocatableResourcesMap;
   /** NodeName identifies the node where the device is available. Must only be set if Spec.PerDeviceNodeSelection is set to true. At most one of NodeName, NodeSelector and AllNodes can be set. */
   nodeName?: string;
   /** NodeSelector defines the nodes where the device is available. Must use exactly one term. Must only be set if Spec.PerDeviceNodeSelection is set to true. At most one of NodeName, NodeSelector and AllNodes can be set. */
@@ -3241,8 +3525,8 @@ export const IoK8sApiResourceV1beta2Device = /*@__PURE__*/ S.suspend(() =>
       IoK8sApiResourceV1beta2DeviceConsumesCountersList,
     ),
     name: S.String,
-    nodeAllocatableResourceMappings: S.optional(
-      IoK8sApiResourceV1beta2DeviceNodeAllocatableResourceMappingsMap,
+    nodeAllocatableResources: S.optional(
+      IoK8sApiResourceV1beta2DeviceNodeAllocatableResourcesMap,
     ),
     nodeName: S.optional(S.String),
     nodeSelector: S.optional(IoK8sApiCoreV1NodeSelector),
@@ -3300,6 +3584,14 @@ export const IoK8sApiResourceV1beta2ResourceSliceSpecSharedCountersList =
     IoK8sApiResourceV1beta2CounterSet,
   ) as any as S.Schema<IoK8sApiResourceV1beta2ResourceSliceSpecSharedCountersList>;
 
+/** SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for the devices in this slice when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. Valid values are: - "NodePrepareResources": NodePrepareResources gRPC calls are skipped. This value cannot be specified unless "NodeUnprepareResources" is also listed (or "*" is specified). - "NodeUnprepareResources": NodeUnprepareResources gRPC calls are skipped. - "*": All node-local resource operations are skipped. Other values may be added in the future. The kubelet must ignore unknown values. */
+export type IoK8sApiResourceV1beta2ResourceSliceSpecSkipNodeOperationsList =
+  Array<string>;
+export const IoK8sApiResourceV1beta2ResourceSliceSpecSkipNodeOperationsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiResourceV1beta2ResourceSliceSpecSkipNodeOperationsList>;
+
 /** ResourceSliceSpec contains the information published by the driver in one ResourceSlice. */
 export interface IoK8sApiResourceV1beta2ResourceSliceSpec {
   /** AllNodes indicates that all nodes have access to the resources in the pool. Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set. */
@@ -3312,12 +3604,16 @@ export interface IoK8sApiResourceV1beta2ResourceSliceSpec {
   nodeName?: string;
   /** NodeSelector defines which nodes have access to the resources in the pool, when that pool is not limited to a single node. Must use exactly one term. Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set. */
   nodeSelector?: IoK8sApiCoreV1NodeSelector;
+  /** PartitionTypeAttribute names a string device attribute (by fully qualified name, e.g. "gpu.example.com/profile") whose value labels each device with its partition type, such as "Full" or "Half" for a MIG-style GPU. When set, every partitionable device in the slice must carry the attribute and devices sharing a value must share the same ConsumesCounters cost. */
+  partitionTypeAttribute?: string;
   /** PerDeviceNodeSelection defines whether the access from nodes to resources in the pool is set on the ResourceSlice level or on each device. If it is set to true, every device defined the ResourceSlice must specify this individually. Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set. */
   perDeviceNodeSelection?: boolean;
   /** Pool describes the pool that this ResourceSlice belongs to. */
   pool: IoK8sApiResourceV1beta1ResourcePool;
   /** SharedCounters defines a list of counter sets, each of which has a name and a list of counters available. The names of the counter sets must be unique in the ResourcePool. Only one of Devices and SharedCounters can be set in a ResourceSlice. The maximum number of counter sets is 8. */
   sharedCounters?: IoK8sApiResourceV1beta2ResourceSliceSpecSharedCountersList;
+  /** SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for the devices in this slice when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. Valid values are: - "NodePrepareResources": NodePrepareResources gRPC calls are skipped. This value cannot be specified unless "NodeUnprepareResources" is also listed (or "*" is specified). - "NodeUnprepareResources": NodeUnprepareResources gRPC calls are skipped. - "*": All node-local resource operations are skipped. Other values may be added in the future. The kubelet must ignore unknown values. */
+  skipNodeOperations?: IoK8sApiResourceV1beta2ResourceSliceSpecSkipNodeOperationsList;
 }
 export const IoK8sApiResourceV1beta2ResourceSliceSpec = /*@__PURE__*/ S.suspend(
   () =>
@@ -3327,10 +3623,14 @@ export const IoK8sApiResourceV1beta2ResourceSliceSpec = /*@__PURE__*/ S.suspend(
       driver: S.String,
       nodeName: S.optional(S.String),
       nodeSelector: S.optional(IoK8sApiCoreV1NodeSelector),
+      partitionTypeAttribute: S.optional(S.String),
       perDeviceNodeSelection: S.optional(S.Boolean),
       pool: IoK8sApiResourceV1beta1ResourcePool,
       sharedCounters: S.optional(
         IoK8sApiResourceV1beta2ResourceSliceSpecSharedCountersList,
+      ),
+      skipNodeOperations: S.optional(
+        IoK8sApiResourceV1beta2ResourceSliceSpecSkipNodeOperationsList,
       ),
     }),
 ).annotate({
@@ -3520,6 +3820,115 @@ export const IoK8sApiResourceV1DeviceClass = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiResourceV1DeviceClass",
 }) as any as S.Schema<IoK8sApiResourceV1DeviceClass>;
 
+/** DeviceTaintSelector defines which device(s) a DeviceTaintRule applies to. The empty selector matches all devices. Without a selector, no devices are matched. */
+export type IoK8sApiResourceV1DeviceTaintSelector =
+  IoK8sApiResourceV1alpha3DeviceTaintSelector;
+export const IoK8sApiResourceV1DeviceTaintSelector =
+  IoK8sApiResourceV1alpha3DeviceTaintSelector;
+
+/** The device this taint is attached to has the "effect" on any claim which does not tolerate the taint and, through the claim, to pods using the claim. */
+export type IoK8sApiResourceV1DeviceTaint = IoK8sApiResourceV1alpha3DeviceTaint;
+export const IoK8sApiResourceV1DeviceTaint =
+  IoK8sApiResourceV1alpha3DeviceTaint;
+
+/** DeviceTaintRuleSpec specifies the selector and one taint. */
+export type IoK8sApiResourceV1DeviceTaintRuleSpec =
+  IoK8sApiResourceV1alpha3DeviceTaintRuleSpec;
+export const IoK8sApiResourceV1DeviceTaintRuleSpec =
+  IoK8sApiResourceV1alpha3DeviceTaintRuleSpec;
+
+/** Conditions provide information about the state of the DeviceTaintRule and the cluster at some point in time, in a machine-readable and human-readable format. The following condition is currently defined as part of this API, more may get added: - Type: EvictionInProgress - Status: True if there are currently pods which need to be evicted, False otherwise (includes the effects which don't cause eviction). - Reason: not specified, may change - Message: includes information about number of pending pods and already evicted pods in a human-readable format, updated periodically, may change For `effect: None`, the condition above gets set once for each change to the spec, with the message containing information about what would happen if the effect was `NoExecute`. This feedback can be used to decide whether changing the effect to `NoExecute` will work as intended. It only gets set once to avoid having to constantly update the status. Must have 8 or fewer entries. */
+export type IoK8sApiResourceV1DeviceTaintRuleStatusConditionsList =
+  Array<IoK8sApimachineryPkgApisMetaV1Condition>;
+export const IoK8sApiResourceV1DeviceTaintRuleStatusConditionsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApimachineryPkgApisMetaV1Condition,
+  ) as any as S.Schema<IoK8sApiResourceV1DeviceTaintRuleStatusConditionsList>;
+
+/** DeviceTaintRuleStatus provides information about an on-going pod eviction. */
+export interface IoK8sApiResourceV1DeviceTaintRuleStatus {
+  /** Conditions provide information about the state of the DeviceTaintRule and the cluster at some point in time, in a machine-readable and human-readable format. The following condition is currently defined as part of this API, more may get added: - Type: EvictionInProgress - Status: True if there are currently pods which need to be evicted, False otherwise (includes the effects which don't cause eviction). - Reason: not specified, may change - Message: includes information about number of pending pods and already evicted pods in a human-readable format, updated periodically, may change For `effect: None`, the condition above gets set once for each change to the spec, with the message containing information about what would happen if the effect was `NoExecute`. This feedback can be used to decide whether changing the effect to `NoExecute` will work as intended. It only gets set once to avoid having to constantly update the status. Must have 8 or fewer entries. */
+  conditions?: IoK8sApiResourceV1DeviceTaintRuleStatusConditionsList;
+}
+export const IoK8sApiResourceV1DeviceTaintRuleStatus = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      conditions: S.optional(
+        IoK8sApiResourceV1DeviceTaintRuleStatusConditionsList,
+      ),
+    }),
+).annotate({
+  identifier: "IoK8sApiResourceV1DeviceTaintRuleStatus",
+}) as any as S.Schema<IoK8sApiResourceV1DeviceTaintRuleStatus>;
+
+export interface CreateResourceV1DeviceTaintRuleRequest {
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Standard object metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** Spec specifies the selector and one taint. Changing the spec automatically increments the metadata.generation number. */
+  spec: IoK8sApiResourceV1alpha3DeviceTaintRuleSpec;
+  /** Status provides information about what was requested in the spec. */
+  status?: IoK8sApiResourceV1DeviceTaintRuleStatus;
+}
+export const CreateResourceV1DeviceTaintRuleRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiResourceV1alpha3DeviceTaintRuleSpec,
+      status: S.optional(IoK8sApiResourceV1DeviceTaintRuleStatus),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/apis/resource.k8s.io/v1/devicetaintrules",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "CreateResourceV1DeviceTaintRuleRequest",
+}) as any as S.Schema<CreateResourceV1DeviceTaintRuleRequest>;
+
+/** DeviceTaintRule adds one taint to all devices which match the selector. This has the same effect as if the taint was specified directly in the ResourceSlice by the DRA driver. */
+export interface IoK8sApiResourceV1DeviceTaintRule {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Standard object metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** Spec specifies the selector and one taint. Changing the spec automatically increments the metadata.generation number. */
+  spec: IoK8sApiResourceV1alpha3DeviceTaintRuleSpec;
+  /** Status provides information about what was requested in the spec. */
+  status?: IoK8sApiResourceV1DeviceTaintRuleStatus;
+}
+export const IoK8sApiResourceV1DeviceTaintRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    apiVersion: S.optional(S.String),
+    kind: S.optional(S.String),
+    metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+    spec: IoK8sApiResourceV1alpha3DeviceTaintRuleSpec,
+    status: S.optional(IoK8sApiResourceV1DeviceTaintRuleStatus),
+  }),
+).annotate({
+  identifier: "IoK8sApiResourceV1DeviceTaintRule",
+}) as any as S.Schema<IoK8sApiResourceV1DeviceTaintRule>;
+
 /** Requests lists the names of requests where the configuration applies. If empty, it applies to all requests. References to subrequests must include the name of the main request and may include the subrequest using the format <main request>[/<subrequest>]. If just the main request is given, the configuration applies to all subrequests. */
 export type IoK8sApiResourceV1DeviceClaimConfigurationRequestsList =
   Array<string>;
@@ -3612,6 +4021,20 @@ export const IoK8sApiResourceV1CapacityRequirements = /*@__PURE__*/ S.suspend(
   identifier: "IoK8sApiResourceV1CapacityRequirements",
 }) as any as S.Schema<IoK8sApiResourceV1CapacityRequirements>;
 
+/** DeviceDerivedAttribute defines a derived attribute computed via CEL. */
+export type IoK8sApiResourceV1DeviceDerivedAttribute =
+  IoK8sApiResourceV1beta1DeviceDerivedAttribute;
+export const IoK8sApiResourceV1DeviceDerivedAttribute =
+  IoK8sApiResourceV1beta1DeviceDerivedAttribute;
+
+/** DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions. Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints. Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list. The maximum number of derived attributes is 32. This is an alpha field and requires enabling the DRADerivedAttributes feature gate. */
+export type IoK8sApiResourceV1ExactDeviceRequestDerivedAttributesList =
+  Array<IoK8sApiResourceV1beta1DeviceDerivedAttribute>;
+export const IoK8sApiResourceV1ExactDeviceRequestDerivedAttributesList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiResourceV1beta1DeviceDerivedAttribute,
+  ) as any as S.Schema<IoK8sApiResourceV1ExactDeviceRequestDerivedAttributesList>;
+
 /** Selectors define criteria which must be satisfied by a specific device in order for that device to be considered for this request. All selectors must be satisfied for a device to be considered. */
 export type IoK8sApiResourceV1ExactDeviceRequestSelectorsList =
   Array<IoK8sApiResourceV1beta1DeviceSelector>;
@@ -3644,6 +4067,8 @@ export interface IoK8sApiResourceV1ExactDeviceRequest {
   capacity?: IoK8sApiResourceV1CapacityRequirements;
   /** Count is used only when the count mode is "ExactCount". Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one. */
   count?: number;
+  /** DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions. Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints. Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list. The maximum number of derived attributes is 32. This is an alpha field and requires enabling the DRADerivedAttributes feature gate. */
+  derivedAttributes?: IoK8sApiResourceV1ExactDeviceRequestDerivedAttributesList;
   /** DeviceClassName references a specific DeviceClass, which can define additional configuration and selectors to be inherited by this request. A DeviceClassName is required. Administrators may use this to restrict which devices may get requested by only installing classes with selectors for permitted devices. If users are free to request anything without restrictions, then administrators can create an empty DeviceClass for users to reference. */
   deviceClassName: string;
   /** Selectors define criteria which must be satisfied by a specific device in order for that device to be considered for this request. All selectors must be satisfied for a device to be considered. */
@@ -3658,6 +4083,9 @@ export const IoK8sApiResourceV1ExactDeviceRequest = /*@__PURE__*/ S.suspend(
       allocationMode: S.optional(S.String),
       capacity: S.optional(IoK8sApiResourceV1CapacityRequirements),
       count: S.optional(S.Number),
+      derivedAttributes: S.optional(
+        IoK8sApiResourceV1ExactDeviceRequestDerivedAttributesList,
+      ),
       deviceClassName: S.String,
       selectors: S.optional(IoK8sApiResourceV1ExactDeviceRequestSelectorsList),
       tolerations: S.optional(
@@ -3667,6 +4095,14 @@ export const IoK8sApiResourceV1ExactDeviceRequest = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "IoK8sApiResourceV1ExactDeviceRequest",
 }) as any as S.Schema<IoK8sApiResourceV1ExactDeviceRequest>;
+
+/** DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions. Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints. Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list. The maximum number of derived attributes is 32. This is an alpha field and requires enabling the DRADerivedAttributes feature gate. */
+export type IoK8sApiResourceV1DeviceSubRequestDerivedAttributesList =
+  Array<IoK8sApiResourceV1beta1DeviceDerivedAttribute>;
+export const IoK8sApiResourceV1DeviceSubRequestDerivedAttributesList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiResourceV1beta1DeviceDerivedAttribute,
+  ) as any as S.Schema<IoK8sApiResourceV1DeviceSubRequestDerivedAttributesList>;
 
 /** Selectors define criteria which must be satisfied by a specific device in order for that device to be considered for this subrequest. All selectors must be satisfied for a device to be considered. */
 export type IoK8sApiResourceV1DeviceSubRequestSelectorsList =
@@ -3692,6 +4128,8 @@ export interface IoK8sApiResourceV1DeviceSubRequest {
   capacity?: IoK8sApiResourceV1CapacityRequirements;
   /** Count is used only when the count mode is "ExactCount". Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one. */
   count?: number;
+  /** DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions. Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints. Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list. The maximum number of derived attributes is 32. This is an alpha field and requires enabling the DRADerivedAttributes feature gate. */
+  derivedAttributes?: IoK8sApiResourceV1DeviceSubRequestDerivedAttributesList;
   /** DeviceClassName references a specific DeviceClass, which can define additional configuration and selectors to be inherited by this subrequest. A class is required. Which classes are available depends on the cluster. Administrators may use this to restrict which devices may get requested by only installing classes with selectors for permitted devices. If users are free to request anything without restrictions, then administrators can create an empty DeviceClass for users to reference. */
   deviceClassName: string;
   /** Name can be used to reference this subrequest in the list of constraints or the list of configurations for the claim. References must use the format <main request>/<subrequest>. Must be a DNS label. */
@@ -3706,6 +4144,9 @@ export const IoK8sApiResourceV1DeviceSubRequest = /*@__PURE__*/ S.suspend(() =>
     allocationMode: S.optional(S.String),
     capacity: S.optional(IoK8sApiResourceV1CapacityRequirements),
     count: S.optional(S.Number),
+    derivedAttributes: S.optional(
+      IoK8sApiResourceV1DeviceSubRequestDerivedAttributesList,
+    ),
     deviceClassName: S.String,
     name: S.String,
     selectors: S.optional(IoK8sApiResourceV1DeviceSubRequestSelectorsList),
@@ -3846,6 +4287,14 @@ export const IoK8sApiResourceV1DeviceRequestAllocationResultConsumedCapacityMap 
     S.String,
   ) as any as S.Schema<IoK8sApiResourceV1DeviceRequestAllocationResultConsumedCapacityMap>;
 
+/** SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for this allocated device when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. It is a copy of the ResourceSlice.spec.skipNodeOperations value at the time when the device was allocated. */
+export type IoK8sApiResourceV1DeviceRequestAllocationResultSkipNodeOperationsList =
+  Array<string>;
+export const IoK8sApiResourceV1DeviceRequestAllocationResultSkipNodeOperationsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiResourceV1DeviceRequestAllocationResultSkipNodeOperationsList>;
+
 /** A copy of all tolerations specified in the request at the time when the device got allocated. The maximum number of tolerations is 16. This is a beta field and requires enabling the DRADeviceTaints feature gate. */
 export type IoK8sApiResourceV1DeviceRequestAllocationResultTolerationsList =
   Array<IoK8sApiResourceV1beta1DeviceToleration>;
@@ -3874,6 +4323,8 @@ export interface IoK8sApiResourceV1DeviceRequestAllocationResult {
   request: string;
   /** ShareID uniquely identifies an individual allocation share of the device, used when the device supports multiple simultaneous allocations. It serves as an additional map key to differentiate concurrent shares of the same device. */
   shareID?: string;
+  /** SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for this allocated device when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. It is a copy of the ResourceSlice.spec.skipNodeOperations value at the time when the device was allocated. */
+  skipNodeOperations?: IoK8sApiResourceV1DeviceRequestAllocationResultSkipNodeOperationsList;
   /** A copy of all tolerations specified in the request at the time when the device got allocated. The maximum number of tolerations is 16. This is a beta field and requires enabling the DRADeviceTaints feature gate. */
   tolerations?: IoK8sApiResourceV1DeviceRequestAllocationResultTolerationsList;
 }
@@ -3895,6 +4346,9 @@ export const IoK8sApiResourceV1DeviceRequestAllocationResult =
       pool: S.String,
       request: S.String,
       shareID: S.optional(S.String),
+      skipNodeOperations: S.optional(
+        IoK8sApiResourceV1DeviceRequestAllocationResultSkipNodeOperationsList,
+      ),
       tolerations: S.optional(
         IoK8sApiResourceV1DeviceRequestAllocationResultTolerationsList,
       ),
@@ -4296,7 +4750,7 @@ export const IoK8sApiResourceV1DeviceBindingFailureConditionsList =
     S.String,
   ) as any as S.Schema<IoK8sApiResourceV1DeviceBindingFailureConditionsList>;
 
-/** CapacityRequestPolicyRange defines a valid range for consumable capacity values. - If the requested amount is less than Min, it is rounded up to the Min value. - If Step is set and the requested amount is between Min and Max but not aligned with Step, it will be rounded up to the next value equal to Min + (n * Step). - If Step is not set, the requested amount is used as-is if it falls within the range Min to Max (if set). - If the requested or rounded amount exceeds Max (if set), the request does not satisfy the policy, and the device cannot be allocated. */
+/** CapacityRequestPolicyRange defines a valid range for consumable capacity values. If the DRAFractionalCapacityRange feature gate is enabled and at least one of Min, Max, or Step is a fractional quantity (i.e. its value is not an integer), milli-unit arithmetic is used instead, supporting values with up to 3 decimal places (e.g. 100m = 0.1). The largest supported value then is 1000 times smaller compared to using 64-bit integers. Otherwise, all comparisons use 64-bit integer arithmetic via resource.Quantity.Value(). - If the requested amount is less than Min, it is rounded up to the Min value. - If Step is set and the requested amount is between Min and Max but not aligned with Step, it will be rounded up to the next value equal to Min + (n * Step). - If Step is not set, the requested amount is used as-is if it falls within the range Min to Max (if set). - If the requested or rounded amount exceeds Max (if set), the request does not satisfy the policy, and the device cannot be allocated. */
 export type IoK8sApiResourceV1CapacityRequestPolicyRange =
   IoK8sApiResourceV1beta1CapacityRequestPolicyRange;
 export const IoK8sApiResourceV1CapacityRequestPolicyRange =
@@ -4357,6 +4811,14 @@ export const IoK8sApiResourceV1DeviceCapacityMap = /*@__PURE__*/ S.Record(
   IoK8sApiResourceV1DeviceCapacity,
 ) as any as S.Schema<IoK8sApiResourceV1DeviceCapacityMap>;
 
+/** CompatibilityGroups is a list of opaque group names for this counter set consumption. Devices that consume counters from the same counter set may only be allocated at the same time ("co-allocated") if they all share at least one common group: the intersection of the CompatibilityGroups of all co-allocated devices on that counter set must be non-empty. Devices that consume from different counter sets are never compared via this field. An unset field, an explicit nil, and an empty list are equivalent and mean "no groups": such a device is only co-allocatable with sibling devices on the same counter set that also have no groups, and is never co-allocatable with a device that declares one or more groups. Group names are opaque and meaningful only within the publishing driver's pool. The maximum number of groups is 2, and the names must be unique. */
+export type IoK8sApiResourceV1DeviceCounterConsumptionCompatibilityGroupsList =
+  Array<string>;
+export const IoK8sApiResourceV1DeviceCounterConsumptionCompatibilityGroupsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiResourceV1DeviceCounterConsumptionCompatibilityGroupsList>;
+
 /** Counter describes a quantity associated with a device. */
 export type IoK8sApiResourceV1Counter = IoK8sApiResourceV1beta1Counter;
 export const IoK8sApiResourceV1Counter = IoK8sApiResourceV1beta1Counter;
@@ -4373,6 +4835,8 @@ export const IoK8sApiResourceV1DeviceCounterConsumptionCountersMap =
 
 /** DeviceCounterConsumption defines a set of counters that a device will consume from a CounterSet. */
 export interface IoK8sApiResourceV1DeviceCounterConsumption {
+  /** CompatibilityGroups is a list of opaque group names for this counter set consumption. Devices that consume counters from the same counter set may only be allocated at the same time ("co-allocated") if they all share at least one common group: the intersection of the CompatibilityGroups of all co-allocated devices on that counter set must be non-empty. Devices that consume from different counter sets are never compared via this field. An unset field, an explicit nil, and an empty list are equivalent and mean "no groups": such a device is only co-allocatable with sibling devices on the same counter set that also have no groups, and is never co-allocatable with a device that declares one or more groups. Group names are opaque and meaningful only within the publishing driver's pool. The maximum number of groups is 2, and the names must be unique. */
+  compatibilityGroups?: IoK8sApiResourceV1DeviceCounterConsumptionCompatibilityGroupsList;
   /** CounterSet is the name of the set from which the counters defined will be consumed. */
   counterSet: string;
   /** Counters defines the counters that will be consumed by the device. The maximum number of counters is 32. */
@@ -4381,6 +4845,9 @@ export interface IoK8sApiResourceV1DeviceCounterConsumption {
 export const IoK8sApiResourceV1DeviceCounterConsumption =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      compatibilityGroups: S.optional(
+        IoK8sApiResourceV1DeviceCounterConsumptionCompatibilityGroupsList,
+      ),
       counterSet: S.String,
       counters: IoK8sApiResourceV1DeviceCounterConsumptionCountersMap,
     }),
@@ -4396,28 +4863,33 @@ export const IoK8sApiResourceV1DeviceConsumesCountersList =
     IoK8sApiResourceV1DeviceCounterConsumption,
   ) as any as S.Schema<IoK8sApiResourceV1DeviceConsumesCountersList>;
 
-/** NodeAllocatableResourceMapping defines the translation between the DRA device/capacity units requested to the corresponding quantity of the node allocatable resource. */
-export type IoK8sApiResourceV1NodeAllocatableResourceMapping =
-  IoK8sApiResourceV1beta1NodeAllocatableResourceMapping;
-export const IoK8sApiResourceV1NodeAllocatableResourceMapping =
-  IoK8sApiResourceV1beta1NodeAllocatableResourceMapping;
+/** NodeAllocatableMapping defines how a DRA allocation directly translates into a node allocatable resource quantity. The mapping can be derived from either the count of allocated devices (via deviceMultiplier) or the specific capacity consumed (via capacityKey and capacityMultiplier). These options are mutually exclusive. Kubelet adds this mapped resource quantity from claim to both requests and limits at the pod-level cgroup, and to limits at the container-level cgroup for each container referencing the claim. */
+export type IoK8sApiResourceV1NodeAllocatableMapping =
+  IoK8sApiResourceV1beta1NodeAllocatableMapping;
+export const IoK8sApiResourceV1NodeAllocatableMapping =
+  IoK8sApiResourceV1beta1NodeAllocatableMapping;
 
-/** NodeAllocatableResourceMappings defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
-export type IoK8sApiResourceV1DeviceNodeAllocatableResourceMappingsMap = {
-  [key: string]:
-    | IoK8sApiResourceV1beta1NodeAllocatableResourceMapping
-    | undefined;
+/** NodeAllocatableOverhead defines auxiliary resource overheads incurred when allocating a device. Overheads can be specified as a fixed cost per pod referencing the claim, a variable cost per container reference, or both. Kubelet accounts for this overhead by adding it to both the pod-level and container-level cgroups of referencing containers. */
+export type IoK8sApiResourceV1NodeAllocatableOverhead =
+  IoK8sApiResourceV1beta1NodeAllocatableOverhead;
+export const IoK8sApiResourceV1NodeAllocatableOverhead =
+  IoK8sApiResourceV1beta1NodeAllocatableOverhead;
+
+/** NodeAllocatableResource defines the translation between the DRA device/capacity units requested to the corresponding quantity of the node allocatable resource. At least one of Mapping or Overhead must be specified. Not specifying either is an invalid configuration. */
+export type IoK8sApiResourceV1NodeAllocatableResource =
+  IoK8sApiResourceV1beta1NodeAllocatableResource;
+export const IoK8sApiResourceV1NodeAllocatableResource =
+  IoK8sApiResourceV1beta1NodeAllocatableResource;
+
+/** NodeAllocatableResources defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
+export type IoK8sApiResourceV1DeviceNodeAllocatableResourcesMap = {
+  [key: string]: IoK8sApiResourceV1beta1NodeAllocatableResource | undefined;
 };
-export const IoK8sApiResourceV1DeviceNodeAllocatableResourceMappingsMap =
+export const IoK8sApiResourceV1DeviceNodeAllocatableResourcesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    IoK8sApiResourceV1beta1NodeAllocatableResourceMapping,
-  ) as any as S.Schema<IoK8sApiResourceV1DeviceNodeAllocatableResourceMappingsMap>;
-
-/** The device this taint is attached to has the "effect" on any claim which does not tolerate the taint and, through the claim, to pods using the claim. */
-export type IoK8sApiResourceV1DeviceTaint = IoK8sApiResourceV1alpha3DeviceTaint;
-export const IoK8sApiResourceV1DeviceTaint =
-  IoK8sApiResourceV1alpha3DeviceTaint;
+    IoK8sApiResourceV1beta1NodeAllocatableResource,
+  ) as any as S.Schema<IoK8sApiResourceV1DeviceNodeAllocatableResourcesMap>;
 
 /** If specified, these are the driver-defined taints. The maximum number of taints is 16. If taints are set for any device in a ResourceSlice, then the maximum number of allowed devices per ResourceSlice is 64 instead of 128. This is a beta field and requires enabling the DRADeviceTaints feature gate. */
 export type IoK8sApiResourceV1DeviceTaintsList =
@@ -4446,8 +4918,8 @@ export interface IoK8sApiResourceV1Device {
   consumesCounters?: IoK8sApiResourceV1DeviceConsumesCountersList;
   /** Name is unique identifier among all devices managed by the driver in the pool. It must be a DNS label. */
   name: string;
-  /** NodeAllocatableResourceMappings defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
-  nodeAllocatableResourceMappings?: IoK8sApiResourceV1DeviceNodeAllocatableResourceMappingsMap;
+  /** NodeAllocatableResources defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
+  nodeAllocatableResources?: IoK8sApiResourceV1DeviceNodeAllocatableResourcesMap;
   /** NodeName identifies the node where the device is available. Must only be set if Spec.PerDeviceNodeSelection is set to true. At most one of NodeName, NodeSelector and AllNodes can be set. */
   nodeName?: string;
   /** NodeSelector defines the nodes where the device is available. Must use exactly one term. Must only be set if Spec.PerDeviceNodeSelection is set to true. At most one of NodeName, NodeSelector and AllNodes can be set. */
@@ -4470,8 +4942,8 @@ export const IoK8sApiResourceV1Device = /*@__PURE__*/ S.suspend(() =>
     capacity: S.optional(IoK8sApiResourceV1DeviceCapacityMap),
     consumesCounters: S.optional(IoK8sApiResourceV1DeviceConsumesCountersList),
     name: S.String,
-    nodeAllocatableResourceMappings: S.optional(
-      IoK8sApiResourceV1DeviceNodeAllocatableResourceMappingsMap,
+    nodeAllocatableResources: S.optional(
+      IoK8sApiResourceV1DeviceNodeAllocatableResourcesMap,
     ),
     nodeName: S.optional(S.String),
     nodeSelector: S.optional(IoK8sApiCoreV1NodeSelector),
@@ -4528,6 +5000,14 @@ export const IoK8sApiResourceV1ResourceSliceSpecSharedCountersList =
     IoK8sApiResourceV1CounterSet,
   ) as any as S.Schema<IoK8sApiResourceV1ResourceSliceSpecSharedCountersList>;
 
+/** SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for the devices in this slice when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. Valid values are: - "NodePrepareResources": NodePrepareResources gRPC calls are skipped. This value cannot be specified unless "NodeUnprepareResources" is also listed (or "*" is specified). - "NodeUnprepareResources": NodeUnprepareResources gRPC calls are skipped. - "*": All node-local resource operations are skipped. Other values may be added in the future. The kubelet must ignore unknown values. */
+export type IoK8sApiResourceV1ResourceSliceSpecSkipNodeOperationsList =
+  Array<string>;
+export const IoK8sApiResourceV1ResourceSliceSpecSkipNodeOperationsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiResourceV1ResourceSliceSpecSkipNodeOperationsList>;
+
 /** ResourceSliceSpec contains the information published by the driver in one ResourceSlice. */
 export interface IoK8sApiResourceV1ResourceSliceSpec {
   /** AllNodes indicates that all nodes have access to the resources in the pool. Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set. */
@@ -4540,12 +5020,16 @@ export interface IoK8sApiResourceV1ResourceSliceSpec {
   nodeName?: string;
   /** NodeSelector defines which nodes have access to the resources in the pool, when that pool is not limited to a single node. Must use exactly one term. Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set. */
   nodeSelector?: IoK8sApiCoreV1NodeSelector;
+  /** PartitionTypeAttribute names a string device attribute (by fully qualified name, e.g. "gpu.example.com/profile") whose value labels each device with its partition type, such as "Full" or "Half" for a MIG-style GPU. When set, every partitionable device in the slice must carry the attribute and devices sharing a value must share the same ConsumesCounters cost. */
+  partitionTypeAttribute?: string;
   /** PerDeviceNodeSelection defines whether the access from nodes to resources in the pool is set on the ResourceSlice level or on each device. If it is set to true, every device defined the ResourceSlice must specify this individually. Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set. */
   perDeviceNodeSelection?: boolean;
   /** Pool describes the pool that this ResourceSlice belongs to. */
   pool: IoK8sApiResourceV1beta1ResourcePool;
   /** SharedCounters defines a list of counter sets, each of which has a name and a list of counters available. The names of the counter sets must be unique in the ResourcePool. Only one of Devices and SharedCounters can be set in a ResourceSlice. The maximum number of counter sets is 8. */
   sharedCounters?: IoK8sApiResourceV1ResourceSliceSpecSharedCountersList;
+  /** SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for the devices in this slice when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. Valid values are: - "NodePrepareResources": NodePrepareResources gRPC calls are skipped. This value cannot be specified unless "NodeUnprepareResources" is also listed (or "*" is specified). - "NodeUnprepareResources": NodeUnprepareResources gRPC calls are skipped. - "*": All node-local resource operations are skipped. Other values may be added in the future. The kubelet must ignore unknown values. */
+  skipNodeOperations?: IoK8sApiResourceV1ResourceSliceSpecSkipNodeOperationsList;
 }
 export const IoK8sApiResourceV1ResourceSliceSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4554,10 +5038,14 @@ export const IoK8sApiResourceV1ResourceSliceSpec = /*@__PURE__*/ S.suspend(() =>
     driver: S.String,
     nodeName: S.optional(S.String),
     nodeSelector: S.optional(IoK8sApiCoreV1NodeSelector),
+    partitionTypeAttribute: S.optional(S.String),
     perDeviceNodeSelection: S.optional(S.Boolean),
     pool: IoK8sApiResourceV1beta1ResourcePool,
     sharedCounters: S.optional(
       IoK8sApiResourceV1ResourceSliceSpecSharedCountersList,
+    ),
+    skipNodeOperations: S.optional(
+      IoK8sApiResourceV1ResourceSliceSpecSkipNodeOperationsList,
     ),
   }),
 ).annotate({
@@ -6194,6 +6682,78 @@ export const DeleteResourceV1CollectionDeviceClassRequest =
     identifier: "DeleteResourceV1CollectionDeviceClassRequest",
   }) as any as S.Schema<DeleteResourceV1CollectionDeviceClassRequest>;
 
+export interface DeleteResourceV1CollectionDeviceTaintRuleRequest {
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteResourceV1CollectionDeviceTaintRuleRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      pretty: S.optional(S.String.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/resource.k8s.io/v1/devicetaintrules",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteResourceV1CollectionDeviceTaintRuleRequest",
+  }) as any as S.Schema<DeleteResourceV1CollectionDeviceTaintRuleRequest>;
+
 export interface DeleteResourceV1CollectionNamespacedResourceClaimRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -6463,6 +7023,54 @@ export const DeleteResourceV1DeviceClassRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteResourceV1DeviceClassRequest",
 }) as any as S.Schema<DeleteResourceV1DeviceClassRequest>;
+
+export interface DeleteResourceV1DeviceTaintRuleRequest {
+  /** name of the DeviceTaintRule */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteResourceV1DeviceTaintRuleRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/resource.k8s.io/v1/devicetaintrules/{name}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "DeleteResourceV1DeviceTaintRuleRequest",
+}) as any as S.Schema<DeleteResourceV1DeviceTaintRuleRequest>;
 
 export interface DeleteResourceV1NamespacedResourceClaimRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -8071,6 +8679,89 @@ export const IoK8sApiResourceV1DeviceClassList = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiResourceV1DeviceClassList",
 }) as any as S.Schema<IoK8sApiResourceV1DeviceClassList>;
 
+export interface ListResourceV1DeviceTaintRuleRequest {
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const ListResourceV1DeviceTaintRuleRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      pretty: S.optional(S.String.pipe(T.Query())),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/resource.k8s.io/v1/devicetaintrules",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "ListResourceV1DeviceTaintRuleRequest",
+}) as any as S.Schema<ListResourceV1DeviceTaintRuleRequest>;
+
+/** Items is the list of DeviceTaintRules. */
+export type IoK8sApiResourceV1DeviceTaintRuleListItemsList =
+  Array<IoK8sApiResourceV1DeviceTaintRule>;
+export const IoK8sApiResourceV1DeviceTaintRuleListItemsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiResourceV1DeviceTaintRule,
+  ) as any as S.Schema<IoK8sApiResourceV1DeviceTaintRuleListItemsList>;
+
+/** DeviceTaintRuleList is a collection of DeviceTaintRules. */
+export interface IoK8sApiResourceV1DeviceTaintRuleList {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Items is the list of DeviceTaintRules. */
+  items: IoK8sApiResourceV1DeviceTaintRuleListItemsList;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Standard list metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+}
+export const IoK8sApiResourceV1DeviceTaintRuleList = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      apiVersion: S.optional(S.String),
+      items: IoK8sApiResourceV1DeviceTaintRuleListItemsList,
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ListMeta),
+    }),
+).annotate({
+  identifier: "IoK8sApiResourceV1DeviceTaintRuleList",
+}) as any as S.Schema<IoK8sApiResourceV1DeviceTaintRuleList>;
+
 export interface ListResourceV1NamespacedResourceClaimRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -9022,6 +9713,74 @@ export const PatchResourceV1DeviceClassRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PatchResourceV1DeviceClassRequest",
 }) as any as S.Schema<PatchResourceV1DeviceClassRequest>;
 
+export interface PatchResourceV1DeviceTaintRuleRequest {
+  /** name of the DeviceTaintRule */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchResourceV1DeviceTaintRuleRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/apis/resource.k8s.io/v1/devicetaintrules/{name}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "PatchResourceV1DeviceTaintRuleRequest",
+}) as any as S.Schema<PatchResourceV1DeviceTaintRuleRequest>;
+
+export interface PatchResourceV1DeviceTaintRuleStatusRequest {
+  /** name of the DeviceTaintRule */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchResourceV1DeviceTaintRuleStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/apis/resource.k8s.io/v1/devicetaintrules/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchResourceV1DeviceTaintRuleStatusRequest",
+  }) as any as S.Schema<PatchResourceV1DeviceTaintRuleStatusRequest>;
+
 export interface PatchResourceV1NamespacedResourceClaimRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -9556,6 +10315,50 @@ export const ReadResourceV1DeviceClassRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ReadResourceV1DeviceClassRequest",
 }) as any as S.Schema<ReadResourceV1DeviceClassRequest>;
+
+export interface ReadResourceV1DeviceTaintRuleRequest {
+  /** name of the DeviceTaintRule */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadResourceV1DeviceTaintRuleRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/resource.k8s.io/v1/devicetaintrules/{name}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "ReadResourceV1DeviceTaintRuleRequest",
+}) as any as S.Schema<ReadResourceV1DeviceTaintRuleRequest>;
+
+export interface ReadResourceV1DeviceTaintRuleStatusRequest {
+  /** name of the DeviceTaintRule */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadResourceV1DeviceTaintRuleStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/resource.k8s.io/v1/devicetaintrules/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReadResourceV1DeviceTaintRuleStatusRequest",
+  }) as any as S.Schema<ReadResourceV1DeviceTaintRuleStatusRequest>;
 
 export interface ReadResourceV1NamespacedResourceClaimRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -10434,6 +11237,98 @@ export const ReplaceResourceV1DeviceClassRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ReplaceResourceV1DeviceClassRequest",
 }) as any as S.Schema<ReplaceResourceV1DeviceClassRequest>;
+
+export interface ReplaceResourceV1DeviceTaintRuleRequest {
+  /** name of the DeviceTaintRule */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Standard object metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** Spec specifies the selector and one taint. Changing the spec automatically increments the metadata.generation number. */
+  spec: IoK8sApiResourceV1alpha3DeviceTaintRuleSpec;
+  /** Status provides information about what was requested in the spec. */
+  status?: IoK8sApiResourceV1DeviceTaintRuleStatus;
+}
+export const ReplaceResourceV1DeviceTaintRuleRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiResourceV1alpha3DeviceTaintRuleSpec,
+      status: S.optional(IoK8sApiResourceV1DeviceTaintRuleStatus),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/resource.k8s.io/v1/devicetaintrules/{name}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "ReplaceResourceV1DeviceTaintRuleRequest",
+}) as any as S.Schema<ReplaceResourceV1DeviceTaintRuleRequest>;
+
+export interface ReplaceResourceV1DeviceTaintRuleStatusRequest {
+  /** name of the DeviceTaintRule */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Standard object metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** Spec specifies the selector and one taint. Changing the spec automatically increments the metadata.generation number. */
+  spec: IoK8sApiResourceV1alpha3DeviceTaintRuleSpec;
+  /** Status provides information about what was requested in the spec. */
+  status?: IoK8sApiResourceV1DeviceTaintRuleStatus;
+}
+export const ReplaceResourceV1DeviceTaintRuleStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiResourceV1alpha3DeviceTaintRuleSpec,
+      status: S.optional(IoK8sApiResourceV1DeviceTaintRuleStatus),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/resource.k8s.io/v1/devicetaintrules/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReplaceResourceV1DeviceTaintRuleStatusRequest",
+  }) as any as S.Schema<ReplaceResourceV1DeviceTaintRuleStatusRequest>;
 
 export interface ReplaceResourceV1NamespacedResourceClaimRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -12157,6 +13052,113 @@ export const WatchResourceV1DeviceClassListRequest = /*@__PURE__*/ S.suspend(
   identifier: "WatchResourceV1DeviceClassListRequest",
 }) as any as S.Schema<WatchResourceV1DeviceClassListRequest>;
 
+export interface WatchResourceV1DeviceTaintRuleRequest {
+  /** name of the DeviceTaintRule */
+  name: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchResourceV1DeviceTaintRuleRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/resource.k8s.io/v1/watch/devicetaintrules/{name}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "WatchResourceV1DeviceTaintRuleRequest",
+}) as any as S.Schema<WatchResourceV1DeviceTaintRuleRequest>;
+
+export interface WatchResourceV1DeviceTaintRuleListRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchResourceV1DeviceTaintRuleListRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/resource.k8s.io/v1/watch/devicetaintrules",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchResourceV1DeviceTaintRuleListRequest",
+  }) as any as S.Schema<WatchResourceV1DeviceTaintRuleListRequest>;
+
 export interface WatchResourceV1NamespacedResourceClaimRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -12808,6 +13810,21 @@ export const createResourceV1DeviceClass: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateResourceV1DeviceTaintRuleError = KubernetesOpError;
+/** create a DeviceTaintRule */
+export const createResourceV1DeviceTaintRule: API.OperationMethod<
+  CreateResourceV1DeviceTaintRuleRequest,
+  IoK8sApiResourceV1DeviceTaintRule,
+  CreateResourceV1DeviceTaintRuleError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateResourceV1DeviceTaintRuleRequest,
+  output: IoK8sApiResourceV1DeviceTaintRule,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateResourceV1NamespacedResourceClaimError =
   | Conflict
   | UnprocessableEntity
@@ -13247,6 +14264,21 @@ export const deleteResourceV1CollectionDeviceClass: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteResourceV1CollectionDeviceTaintRuleError = KubernetesOpError;
+/** delete collection of DeviceTaintRule */
+export const deleteResourceV1CollectionDeviceTaintRule: API.OperationMethod<
+  DeleteResourceV1CollectionDeviceTaintRuleRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteResourceV1CollectionDeviceTaintRuleError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteResourceV1CollectionDeviceTaintRuleRequest,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteResourceV1CollectionNamespacedResourceClaimError =
   KubernetesOpError;
 /** delete collection of ResourceClaim */
@@ -13308,6 +14340,21 @@ export const deleteResourceV1DeviceClass: API.OperationMethod<
   input: DeleteResourceV1DeviceClassRequest,
   output: IoK8sApiResourceV1DeviceClass,
   errors: [NotFound, Conflict, UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteResourceV1DeviceTaintRuleError = KubernetesOpError;
+/** delete a DeviceTaintRule */
+export const deleteResourceV1DeviceTaintRule: API.OperationMethod<
+  DeleteResourceV1DeviceTaintRuleRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteResourceV1DeviceTaintRuleError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteResourceV1DeviceTaintRuleRequest,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
 }));
@@ -13683,6 +14730,21 @@ export const listResourceV1DeviceClass: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListResourceV1DeviceClassRequest,
   output: IoK8sApiResourceV1DeviceClassList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListResourceV1DeviceTaintRuleError = KubernetesOpError;
+/** list or watch objects of kind DeviceTaintRule */
+export const listResourceV1DeviceTaintRule: API.OperationMethod<
+  ListResourceV1DeviceTaintRuleRequest,
+  IoK8sApiResourceV1DeviceTaintRuleList,
+  ListResourceV1DeviceTaintRuleError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListResourceV1DeviceTaintRuleRequest,
+  output: IoK8sApiResourceV1DeviceTaintRuleList,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -14083,6 +15145,36 @@ export const patchResourceV1DeviceClass: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PatchResourceV1DeviceTaintRuleError = KubernetesOpError;
+/** partially update the specified DeviceTaintRule */
+export const patchResourceV1DeviceTaintRule: API.OperationMethod<
+  PatchResourceV1DeviceTaintRuleRequest,
+  IoK8sApiResourceV1DeviceTaintRule,
+  PatchResourceV1DeviceTaintRuleError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchResourceV1DeviceTaintRuleRequest,
+  output: IoK8sApiResourceV1DeviceTaintRule,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PatchResourceV1DeviceTaintRuleStatusError = KubernetesOpError;
+/** partially update status of the specified DeviceTaintRule */
+export const patchResourceV1DeviceTaintRuleStatus: API.OperationMethod<
+  PatchResourceV1DeviceTaintRuleStatusRequest,
+  IoK8sApiResourceV1DeviceTaintRule,
+  PatchResourceV1DeviceTaintRuleStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchResourceV1DeviceTaintRuleStatusRequest,
+  output: IoK8sApiResourceV1DeviceTaintRule,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PatchResourceV1NamespacedResourceClaimError =
   | NotFound
   | Conflict
@@ -14436,6 +15528,36 @@ export const readResourceV1DeviceClass: API.OperationMethod<
   input: ReadResourceV1DeviceClassRequest,
   output: IoK8sApiResourceV1DeviceClass,
   errors: [NotFound, UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadResourceV1DeviceTaintRuleError = KubernetesOpError;
+/** read the specified DeviceTaintRule */
+export const readResourceV1DeviceTaintRule: API.OperationMethod<
+  ReadResourceV1DeviceTaintRuleRequest,
+  IoK8sApiResourceV1DeviceTaintRule,
+  ReadResourceV1DeviceTaintRuleError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadResourceV1DeviceTaintRuleRequest,
+  output: IoK8sApiResourceV1DeviceTaintRule,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadResourceV1DeviceTaintRuleStatusError = KubernetesOpError;
+/** read status of the specified DeviceTaintRule */
+export const readResourceV1DeviceTaintRuleStatus: API.OperationMethod<
+  ReadResourceV1DeviceTaintRuleStatusRequest,
+  IoK8sApiResourceV1DeviceTaintRule,
+  ReadResourceV1DeviceTaintRuleStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadResourceV1DeviceTaintRuleStatusRequest,
+  output: IoK8sApiResourceV1DeviceTaintRule,
+  errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
 }));
@@ -14819,6 +15941,36 @@ export const replaceResourceV1DeviceClass: API.OperationMethod<
   input: ReplaceResourceV1DeviceClassRequest,
   output: IoK8sApiResourceV1DeviceClass,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReplaceResourceV1DeviceTaintRuleError = KubernetesOpError;
+/** replace the specified DeviceTaintRule */
+export const replaceResourceV1DeviceTaintRule: API.OperationMethod<
+  ReplaceResourceV1DeviceTaintRuleRequest,
+  IoK8sApiResourceV1DeviceTaintRule,
+  ReplaceResourceV1DeviceTaintRuleError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceResourceV1DeviceTaintRuleRequest,
+  output: IoK8sApiResourceV1DeviceTaintRule,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReplaceResourceV1DeviceTaintRuleStatusError = KubernetesOpError;
+/** replace status of the specified DeviceTaintRule */
+export const replaceResourceV1DeviceTaintRuleStatus: API.OperationMethod<
+  ReplaceResourceV1DeviceTaintRuleStatusRequest,
+  IoK8sApiResourceV1DeviceTaintRule,
+  ReplaceResourceV1DeviceTaintRuleStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceResourceV1DeviceTaintRuleStatusRequest,
+  output: IoK8sApiResourceV1DeviceTaintRule,
+  errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
 }));
@@ -15327,6 +16479,36 @@ export const watchResourceV1DeviceClassList: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: WatchResourceV1DeviceClassListRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchResourceV1DeviceTaintRuleError = KubernetesOpError;
+/** watch changes to an object of kind DeviceTaintRule. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter. */
+export const watchResourceV1DeviceTaintRule: API.OperationMethod<
+  WatchResourceV1DeviceTaintRuleRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchResourceV1DeviceTaintRuleError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchResourceV1DeviceTaintRuleRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchResourceV1DeviceTaintRuleListError = KubernetesOpError;
+/** watch individual changes to a list of DeviceTaintRule. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchResourceV1DeviceTaintRuleList: API.OperationMethod<
+  WatchResourceV1DeviceTaintRuleListRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchResourceV1DeviceTaintRuleListError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchResourceV1DeviceTaintRuleListRequest,
   output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,

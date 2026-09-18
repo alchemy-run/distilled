@@ -251,7 +251,7 @@ export interface IoK8sApiStorageV1CSIDriverSpec {
   nodeAllocatableUpdatePeriodSeconds?: number;
   /** podInfoOnMount indicates this CSI volume driver requires additional pod information (like podName, podUID, etc.) during mount operations, if set to true. If set to false, pod information will not be passed on mount. Default is false. The CSI driver specifies podInfoOnMount as part of driver deployment. If true, Kubelet will pass pod information as VolumeContext in the CSI NodePublishVolume() calls. The CSI driver is responsible for parsing and validating the information passed in as VolumeContext. The following VolumeContext will be passed if podInfoOnMount is set to true. This list might grow, but the prefix will be used. "csi.storage.k8s.io/pod.name": pod.Name "csi.storage.k8s.io/pod.namespace": pod.Namespace "csi.storage.k8s.io/pod.uid": string(pod.UID) "csi.storage.k8s.io/ephemeral": "true" if the volume is an ephemeral inline volume defined by a CSIVolumeSource, otherwise "false" "csi.storage.k8s.io/ephemeral" is a new feature in Kubernetes 1.16. It is only required for drivers which support both the "Persistent" and "Ephemeral" VolumeLifecycleMode. Other drivers can leave pod info disabled and/or ignore this field. As Kubernetes 1.15 doesn't support this field, drivers can only support one mode when deployed on such a cluster and the deployment determines which mode that is, for example via a command line parameter of the driver. This field was immutable in Kubernetes < 1.29 and now is mutable. */
   podInfoOnMount?: boolean;
-  /** PreventPodSchedulingIfMissing indicates that the CSI driver wants to prevent pod scheduling if the CSI driver on the node is missing. Enabling this option will prevent the scheduler (or any other component which embeds default scheduler such as cluster-autoscaler) from scheduling pods to nodes where CSI driver is not installed. For components(such as cluster-autoscaler) that embed the scheduler and run pod placement simulations using scheduler plugins, they MUST be aware of CSI driver registration information via CSINode object. They must create simulated CSINode objects in addition to Node objects during scheduling simulation, otherwise if PreventPodSchedulingIfMissing is enabled globally for CSIDriver object, any newly created node may be rejected by the scheduler because of missing CSI driver information from the node. This is an alpha feature and requires the VolumeLimitScaling feature gate to be enabled. Default is "false". */
+  /** preventPodSchedulingIfMissing indicates that the CSI driver wants to prevent pod scheduling if the CSI driver on the node is missing. Enabling this option will prevent the scheduler (or any other component which embeds default scheduler such as cluster-autoscaler) from scheduling pods to nodes where CSI driver is not installed. For components(such as cluster-autoscaler) that embed the scheduler and run pod placement simulations using scheduler plugins, they MUST be aware of CSI driver registration information via CSINode object. They must create simulated CSINode objects in addition to Node objects during scheduling simulation, otherwise if PreventPodSchedulingIfMissing is enabled globally for CSIDriver object, any newly created node may be rejected by the scheduler because of missing CSI driver information from the node. This is a beta feature and requires the VolumeLimitScaling feature gate to be enabled. Default is "false". */
   preventPodSchedulingIfMissing?: boolean;
   /** requiresRepublish indicates the CSI driver wants `NodePublishVolume` being periodically called to reflect any possible change in the mounted volume. This field defaults to false. Note: After a successful initial NodePublishVolume call, subsequent calls to NodePublishVolume should only update the contents of the volume. New mount points will not be seen by a running container. */
   requiresRepublish?: boolean;
@@ -299,7 +299,7 @@ export interface CreateStorageV1CSIDriverRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec represents the specification of the CSI Driver. */
   spec: IoK8sApiStorageV1CSIDriverSpec;
@@ -331,7 +331,7 @@ export interface IoK8sApiStorageV1CSIDriver {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec represents the specification of the CSI Driver. */
   spec: IoK8sApiStorageV1CSIDriverSpec;
@@ -410,6 +410,82 @@ export const IoK8sApiStorageV1CSINodeSpec = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiStorageV1CSINodeSpec",
 }) as any as S.Schema<IoK8sApiStorageV1CSINodeSpec>;
 
+/** StorageHealthCondition represents an adverse health condition reported by a CSI driver for its storage backend on a node. */
+export interface IoK8sApiStorageV1StorageHealthCondition {
+  /** accessMode is the access mode affected. Nil means all access modes are affected. */
+  accessMode?: string;
+  /** lastTransitionTime is when this condition first appeared at its current state. */
+  lastTransitionTime?: string;
+  /** message is a human-readable description. Maximum permitted length of a message is 1024 characters. */
+  message?: string;
+  /** reason is a brief CamelCase machine-parseable reason. Maximum permitted length of a reason is 256 characters. */
+  reason: string;
+  /** status is the health status category. One of "StorageUnreachable", "StorageDegraded". */
+  status: string;
+  /** volumeMode is the volume mode affected. Nil means both are affected. */
+  volumeMode?: string;
+}
+export const IoK8sApiStorageV1StorageHealthCondition = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      accessMode: S.optional(S.String),
+      lastTransitionTime: S.optional(S.String),
+      message: S.optional(S.String),
+      reason: S.String,
+      status: S.String,
+      volumeMode: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "IoK8sApiStorageV1StorageHealthCondition",
+}) as any as S.Schema<IoK8sApiStorageV1StorageHealthCondition>;
+
+/** healthConditions are the adverse storage backend conditions reported by the CSI driver. At most 16 conditions may be reported. */
+export type IoK8sApiStorageV1StorageHealthHealthConditionsList =
+  Array<IoK8sApiStorageV1StorageHealthCondition>;
+export const IoK8sApiStorageV1StorageHealthHealthConditionsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiStorageV1StorageHealthCondition,
+  ) as any as S.Schema<IoK8sApiStorageV1StorageHealthHealthConditionsList>;
+
+/** StorageHealth contains storage backend health reported by a CSI driver on a node. */
+export interface IoK8sApiStorageV1StorageHealth {
+  /** healthConditions are the adverse storage backend conditions reported by the CSI driver. At most 16 conditions may be reported. */
+  healthConditions?: IoK8sApiStorageV1StorageHealthHealthConditionsList;
+  /** name is the CSI driver name, matching CSINodeDriver.name. */
+  name: string;
+}
+export const IoK8sApiStorageV1StorageHealth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    healthConditions: S.optional(
+      IoK8sApiStorageV1StorageHealthHealthConditionsList,
+    ),
+    name: S.String,
+  }),
+).annotate({
+  identifier: "IoK8sApiStorageV1StorageHealth",
+}) as any as S.Schema<IoK8sApiStorageV1StorageHealth>;
+
+/** storageHealth contains backend health reports for CSI drivers registered on the node. */
+export type IoK8sApiStorageV1CSINodeStatusStorageHealthList =
+  Array<IoK8sApiStorageV1StorageHealth>;
+export const IoK8sApiStorageV1CSINodeStatusStorageHealthList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiStorageV1StorageHealth,
+  ) as any as S.Schema<IoK8sApiStorageV1CSINodeStatusStorageHealthList>;
+
+/** CSINodeStatus contains health and status information for storage on a node. */
+export interface IoK8sApiStorageV1CSINodeStatus {
+  /** storageHealth contains backend health reports for CSI drivers registered on the node. */
+  storageHealth?: IoK8sApiStorageV1CSINodeStatusStorageHealthList;
+}
+export const IoK8sApiStorageV1CSINodeStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storageHealth: S.optional(IoK8sApiStorageV1CSINodeStatusStorageHealthList),
+  }),
+).annotate({
+  identifier: "IoK8sApiStorageV1CSINodeStatus",
+}) as any as S.Schema<IoK8sApiStorageV1CSINodeStatus>;
+
 export interface CreateStorageV1CSINodeRequest {
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
   pretty?: string;
@@ -423,10 +499,12 @@ export interface CreateStorageV1CSINodeRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. metadata.name must be the Kubernetes node name. */
+  /** metadata is the standard object metadata. metadata.name must be the Kubernetes node name. */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec is the specification of CSINode */
   spec: IoK8sApiStorageV1CSINodeSpec;
+  /** status contains health and status information for the node's storage. */
+  status?: IoK8sApiStorageV1CSINodeStatus;
 }
 export const CreateStorageV1CSINodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -438,6 +516,7 @@ export const CreateStorageV1CSINodeRequest = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
     spec: IoK8sApiStorageV1CSINodeSpec,
+    status: S.optional(IoK8sApiStorageV1CSINodeStatus),
   }).pipe(
     T.Http({
       method: "POST",
@@ -455,10 +534,12 @@ export interface IoK8sApiStorageV1CSINode {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. metadata.name must be the Kubernetes node name. */
+  /** metadata is the standard object metadata. metadata.name must be the Kubernetes node name. */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec is the specification of CSINode */
   spec: IoK8sApiStorageV1CSINodeSpec;
+  /** status contains health and status information for the node's storage. */
+  status?: IoK8sApiStorageV1CSINodeStatus;
 }
 export const IoK8sApiStorageV1CSINode = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -466,6 +547,7 @@ export const IoK8sApiStorageV1CSINode = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
     spec: IoK8sApiStorageV1CSINodeSpec,
+    status: S.optional(IoK8sApiStorageV1CSINodeStatus),
   }),
 ).annotate({
   identifier: "IoK8sApiStorageV1CSINode",
@@ -559,7 +641,7 @@ export interface CreateStorageV1NamespacedCSIStorageCapacityRequest {
   kind?: string;
   /** maximumVolumeSize is the value reported by the CSI driver in its GetCapacityResponse for a GetCapacityRequest with topology and parameters that match the previous fields. This is defined since CSI spec 1.4.0 as the largest size that may be used in a CreateVolumeRequest.capacity_range.required_bytes field to create a volume with the same parameters as those in GetCapacityRequest. The corresponding value in the Kubernetes API is ResourceRequirements.Requests in a volume claim. */
   maximumVolumeSize?: string;
-  /** Standard object's metadata. The name has no particular meaning. It must be a DNS subdomain (dots allowed, 253 characters). To ensure that there are no conflicts with other CSI drivers on the cluster, the recommendation is to use csisc-<uuid>, a generated name, or a reverse-domain name which ends with the unique CSI driver name. Objects are namespaced. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. The name has no particular meaning. It must be a DNS subdomain (dots allowed, 253 characters). To ensure that there are no conflicts with other CSI drivers on the cluster, the recommendation is to use csisc-<uuid>, a generated name, or a reverse-domain name which ends with the unique CSI driver name. Objects are namespaced. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** nodeTopology defines which nodes have access to the storage for which capacity was reported. If not set, the storage is not accessible from any node in the cluster. If empty, the storage is accessible from all nodes. This field is immutable. */
   nodeTopology?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
@@ -602,7 +684,7 @@ export interface IoK8sApiStorageV1CSIStorageCapacity {
   kind?: string;
   /** maximumVolumeSize is the value reported by the CSI driver in its GetCapacityResponse for a GetCapacityRequest with topology and parameters that match the previous fields. This is defined since CSI spec 1.4.0 as the largest size that may be used in a CreateVolumeRequest.capacity_range.required_bytes field to create a volume with the same parameters as those in GetCapacityRequest. The corresponding value in the Kubernetes API is ResourceRequirements.Requests in a volume claim. */
   maximumVolumeSize?: string;
-  /** Standard object's metadata. The name has no particular meaning. It must be a DNS subdomain (dots allowed, 253 characters). To ensure that there are no conflicts with other CSI drivers on the cluster, the recommendation is to use csisc-<uuid>, a generated name, or a reverse-domain name which ends with the unique CSI driver name. Objects are namespaced. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. The name has no particular meaning. It must be a DNS subdomain (dots allowed, 253 characters). To ensure that there are no conflicts with other CSI drivers on the cluster, the recommendation is to use csisc-<uuid>, a generated name, or a reverse-domain name which ends with the unique CSI driver name. Objects are namespaced. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** nodeTopology defines which nodes have access to the storage for which capacity was reported. If not set, the storage is not accessible from any node in the cluster. If empty, the storage is accessible from all nodes. This field is immutable. */
   nodeTopology?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
@@ -713,7 +795,7 @@ export interface CreateStorageV1StorageClassRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** mountOptions controls the mountOptions for dynamically provisioned PersistentVolumes of this storage class. e.g. ["ro", "soft"]. Not validated - mount of the PVs will simply fail if one is invalid. */
   mountOptions?: CreateStorageV1StorageClassRequestMountOptionsList;
@@ -792,7 +874,7 @@ export interface IoK8sApiStorageV1StorageClass {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** mountOptions controls the mountOptions for dynamically provisioned PersistentVolumes of this storage class. e.g. ["ro", "soft"]. Not validated - mount of the PVs will simply fail if one is invalid. */
   mountOptions?: IoK8sApiStorageV1StorageClassMountOptionsList;
@@ -1824,7 +1906,7 @@ export interface CreateStorageV1VolumeAttachmentRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec represents specification of the desired attach/detach volume behavior. Populated by the Kubernetes system. */
   spec: IoK8sApiStorageV1VolumeAttachmentSpec;
@@ -1860,7 +1942,7 @@ export interface IoK8sApiStorageV1VolumeAttachment {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec represents specification of the desired attach/detach volume behavior. Populated by the Kubernetes system. */
   spec: IoK8sApiStorageV1VolumeAttachmentSpec;
@@ -1900,11 +1982,11 @@ export interface CreateStorageV1VolumeAttributesClassRequest {
   fieldValidation?: string;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
   apiVersion?: string;
-  /** Name of the CSI driver This field is immutable. */
+  /** driverName is the name of the CSI driver This field is immutable. */
   driverName: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** parameters hold volume attributes defined by the CSI driver. These values are opaque to the Kubernetes and are passed directly to the CSI driver. The underlying storage provider supports changing these attributes on an existing volume, however the parameters field itself is immutable. To invoke a volume update, a new VolumeAttributesClass should be created with new parameters, and the PersistentVolumeClaim should be updated to reference the new VolumeAttributesClass. This field is required and must contain at least one key/value pair. The keys cannot be empty, and the maximum number of parameters is 512, with a cumulative max size of 256K. If the CSI driver rejects invalid parameters, the target PersistentVolumeClaim will be set to an "Infeasible" state in the modifyVolumeStatus field. */
   parameters?: CreateStorageV1VolumeAttributesClassRequestParametersMap;
@@ -1948,11 +2030,11 @@ export const IoK8sApiStorageV1VolumeAttributesClassParametersMap =
 export interface IoK8sApiStorageV1VolumeAttributesClass {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
   apiVersion?: string;
-  /** Name of the CSI driver This field is immutable. */
+  /** driverName is the name of the CSI driver This field is immutable. */
   driverName: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** parameters hold volume attributes defined by the CSI driver. These values are opaque to the Kubernetes and are passed directly to the CSI driver. The underlying storage provider supports changing these attributes on an existing volume, however the parameters field itself is immutable. To invoke a volume update, a new VolumeAttributesClass should be created with new parameters, and the PersistentVolumeClaim should be updated to reference the new VolumeAttributesClass. This field is required and must contain at least one key/value pair. The keys cannot be empty, and the maximum number of parameters is 512, with a cumulative max size of 256K. If the CSI driver rejects invalid parameters, the target PersistentVolumeClaim will be set to an "Infeasible" state in the modifyVolumeStatus field. */
   parameters?: IoK8sApiStorageV1VolumeAttributesClassParametersMap;
@@ -3654,6 +3736,39 @@ export const PatchStorageV1CSINodeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PatchStorageV1CSINodeRequest",
 }) as any as S.Schema<PatchStorageV1CSINodeRequest>;
 
+export interface PatchStorageV1CSINodeStatusRequest {
+  /** name of the CSINode */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchStorageV1CSINodeStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    pretty: S.optional(S.String.pipe(T.Query())),
+    dryRun: S.optional(S.String.pipe(T.Query())),
+    fieldManager: S.optional(S.String.pipe(T.Query())),
+    fieldValidation: S.optional(S.String.pipe(T.Query())),
+    force: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/apis/storage.k8s.io/v1/csinodes/{name}/status",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PatchStorageV1CSINodeStatusRequest",
+}) as any as S.Schema<PatchStorageV1CSINodeStatusRequest>;
+
 export interface PatchStorageV1NamespacedCSIStorageCapacityRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -3868,6 +3983,27 @@ export const ReadStorageV1CSINodeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReadStorageV1CSINodeRequest",
 }) as any as S.Schema<ReadStorageV1CSINodeRequest>;
 
+export interface ReadStorageV1CSINodeStatusRequest {
+  /** name of the CSINode */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadStorageV1CSINodeStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    pretty: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/apis/storage.k8s.io/v1/csinodes/{name}/status",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ReadStorageV1CSINodeStatusRequest",
+}) as any as S.Schema<ReadStorageV1CSINodeStatusRequest>;
+
 export interface ReadStorageV1NamespacedCSIStorageCapacityRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -3995,7 +4131,7 @@ export interface ReplaceStorageV1CSIDriverRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec represents the specification of the CSI Driver. */
   spec: IoK8sApiStorageV1CSIDriverSpec;
@@ -4037,10 +4173,12 @@ export interface ReplaceStorageV1CSINodeRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. metadata.name must be the Kubernetes node name. */
+  /** metadata is the standard object metadata. metadata.name must be the Kubernetes node name. */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec is the specification of CSINode */
   spec: IoK8sApiStorageV1CSINodeSpec;
+  /** status contains health and status information for the node's storage. */
+  status?: IoK8sApiStorageV1CSINodeStatus;
 }
 export const ReplaceStorageV1CSINodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4053,6 +4191,7 @@ export const ReplaceStorageV1CSINodeRequest = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
     spec: IoK8sApiStorageV1CSINodeSpec,
+    status: S.optional(IoK8sApiStorageV1CSINodeStatus),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -4063,6 +4202,52 @@ export const ReplaceStorageV1CSINodeRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ReplaceStorageV1CSINodeRequest",
 }) as any as S.Schema<ReplaceStorageV1CSINodeRequest>;
+
+export interface ReplaceStorageV1CSINodeStatusRequest {
+  /** name of the CSINode */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata. metadata.name must be the Kubernetes node name. */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec is the specification of CSINode */
+  spec: IoK8sApiStorageV1CSINodeSpec;
+  /** status contains health and status information for the node's storage. */
+  status?: IoK8sApiStorageV1CSINodeStatus;
+}
+export const ReplaceStorageV1CSINodeStatusRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiStorageV1CSINodeSpec,
+      status: S.optional(IoK8sApiStorageV1CSINodeStatus),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/storage.k8s.io/v1/csinodes/{name}/status",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "ReplaceStorageV1CSINodeStatusRequest",
+}) as any as S.Schema<ReplaceStorageV1CSINodeStatusRequest>;
 
 export interface ReplaceStorageV1NamespacedCSIStorageCapacityRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -4085,7 +4270,7 @@ export interface ReplaceStorageV1NamespacedCSIStorageCapacityRequest {
   kind?: string;
   /** maximumVolumeSize is the value reported by the CSI driver in its GetCapacityResponse for a GetCapacityRequest with topology and parameters that match the previous fields. This is defined since CSI spec 1.4.0 as the largest size that may be used in a CreateVolumeRequest.capacity_range.required_bytes field to create a volume with the same parameters as those in GetCapacityRequest. The corresponding value in the Kubernetes API is ResourceRequirements.Requests in a volume claim. */
   maximumVolumeSize?: string;
-  /** Standard object's metadata. The name has no particular meaning. It must be a DNS subdomain (dots allowed, 253 characters). To ensure that there are no conflicts with other CSI drivers on the cluster, the recommendation is to use csisc-<uuid>, a generated name, or a reverse-domain name which ends with the unique CSI driver name. Objects are namespaced. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. The name has no particular meaning. It must be a DNS subdomain (dots allowed, 253 characters). To ensure that there are no conflicts with other CSI drivers on the cluster, the recommendation is to use csisc-<uuid>, a generated name, or a reverse-domain name which ends with the unique CSI driver name. Objects are namespaced. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** nodeTopology defines which nodes have access to the storage for which capacity was reported. If not set, the storage is not accessible from any node in the cluster. If empty, the storage is accessible from all nodes. This field is immutable. */
   nodeTopology?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
@@ -4163,7 +4348,7 @@ export interface ReplaceStorageV1StorageClassRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** mountOptions controls the mountOptions for dynamically provisioned PersistentVolumes of this storage class. e.g. ["ro", "soft"]. Not validated - mount of the PVs will simply fail if one is invalid. */
   mountOptions?: ReplaceStorageV1StorageClassRequestMountOptionsList;
@@ -4223,7 +4408,7 @@ export interface ReplaceStorageV1VolumeAttachmentRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec represents specification of the desired attach/detach volume behavior. Populated by the Kubernetes system. */
   spec: IoK8sApiStorageV1VolumeAttachmentSpec;
@@ -4269,7 +4454,7 @@ export interface ReplaceStorageV1VolumeAttachmentStatusRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec represents specification of the desired attach/detach volume behavior. Populated by the Kubernetes system. */
   spec: IoK8sApiStorageV1VolumeAttachmentSpec;
@@ -4323,11 +4508,11 @@ export interface ReplaceStorageV1VolumeAttributesClassRequest {
   fieldValidation?: string;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
   apiVersion?: string;
-  /** Name of the CSI driver This field is immutable. */
+  /** driverName is the name of the CSI driver This field is immutable. */
   driverName: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** parameters hold volume attributes defined by the CSI driver. These values are opaque to the Kubernetes and are passed directly to the CSI driver. The underlying storage provider supports changing these attributes on an existing volume, however the parameters field itself is immutable. To invoke a volume update, a new VolumeAttributesClass should be created with new parameters, and the PersistentVolumeClaim should be updated to reference the new VolumeAttributesClass. This field is required and must contain at least one key/value pair. The keys cannot be empty, and the maximum number of parameters is 512, with a cumulative max size of 256K. If the CSI driver rejects invalid parameters, the target PersistentVolumeClaim will be set to an "Infeasible" state in the modifyVolumeStatus field. */
   parameters?: ReplaceStorageV1VolumeAttributesClassRequestParametersMap;
@@ -5551,6 +5736,21 @@ export const patchStorageV1CSINode: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PatchStorageV1CSINodeStatusError = KubernetesOpError;
+/** partially update status of the specified CSINode */
+export const patchStorageV1CSINodeStatus: API.OperationMethod<
+  PatchStorageV1CSINodeStatusRequest,
+  IoK8sApiStorageV1CSINode,
+  PatchStorageV1CSINodeStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchStorageV1CSINodeStatusRequest,
+  output: IoK8sApiStorageV1CSINode,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PatchStorageV1NamespacedCSIStorageCapacityError =
   | NotFound
   | Conflict
@@ -5676,6 +5876,21 @@ export const readStorageV1CSINode: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ReadStorageV1CSINodeStatusError = KubernetesOpError;
+/** read status of the specified CSINode */
+export const readStorageV1CSINodeStatus: API.OperationMethod<
+  ReadStorageV1CSINodeStatusRequest,
+  IoK8sApiStorageV1CSINode,
+  ReadStorageV1CSINodeStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadStorageV1CSINodeStatusRequest,
+  output: IoK8sApiStorageV1CSINode,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ReadStorageV1NamespacedCSIStorageCapacityError =
   | NotFound
   | KubernetesOpError;
@@ -5791,6 +6006,21 @@ export const replaceStorageV1CSINode: API.OperationMethod<
   input: ReplaceStorageV1CSINodeRequest,
   output: IoK8sApiStorageV1CSINode,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReplaceStorageV1CSINodeStatusError = KubernetesOpError;
+/** replace status of the specified CSINode */
+export const replaceStorageV1CSINodeStatus: API.OperationMethod<
+  ReplaceStorageV1CSINodeStatusRequest,
+  IoK8sApiStorageV1CSINode,
+  ReplaceStorageV1CSINodeStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceStorageV1CSINodeStatusRequest,
+  output: IoK8sApiStorageV1CSINode,
+  errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
 }));

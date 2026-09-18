@@ -43,7 +43,7 @@ export { ErrorMessage, errorMessageSymbol };
  * Any type that has an .annotate() method returning itself.
  * This includes Schema.Schema and Schema.PropertySignature (from S.optional).
  */
-type Annotatable = {
+export type Annotatable = {
   annotate(annotations: any): Annotatable;
 };
 

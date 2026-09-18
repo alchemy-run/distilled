@@ -1,0 +1,4890 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.disputes#ListDisputesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "AMOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amount"
+          }
+        },
+        "EVIDENCE_DUE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "evidence_due_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#ListDisputesRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#ListDisputesRequestStatusItem": {
+      "type": "enum",
+      "members": {
+        "NEEDS_RESPONSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_response"
+          }
+        },
+        "UNDER_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "under_review"
+          }
+        },
+        "WON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "won"
+          }
+        },
+        "LOST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lost"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#ListDisputesRequestStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.disputes#ListDisputesRequestStatusItem"
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#ListDisputesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Only disputes filed against this account (`biz_` tag). Omit it to cover every account you can read."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of disputes to return (default 20, max 100)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor; returns disputes after this position."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of disputes to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor; returns disputes before this position."
+          }
+        },
+        "order": {
+          "target": "com.whop.disputes#ListDisputesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort disputes by."
+          }
+        },
+        "direction": {
+          "target": "com.whop.disputes#ListDisputesRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        },
+        "status": {
+          "target": "com.whop.disputes#ListDisputesRequestStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only disputes in these statuses. Repeat the parameter to pass several — one paginated list covers all of them. Covers both chargebacks and inquiries at each stage. A `needs_response` dispute whose evidence deadline has passed reports and filters as `under_review` instead."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "currency",
+            "smithy.api#documentation": "Only disputes in this three-letter ISO currency."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only disputes opened before this ISO 8601 timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only disputes opened after this ISO 8601 timestamp."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.disputes#Dispute": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account the dispute was filed against, prefixed `biz_`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The disputed amount, in whole units of `currency`.",
+            "smithy.api#required": {}
+          }
+        },
+        "buyer": {
+          "target": "com.whop.disputes#DisputeBuyer",
+          "traits": {
+            "smithy.api#documentation": "The customer who filed the dispute.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the dispute was opened, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO currency code of the disputed amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "evidence": {
+          "target": "com.whop.disputes#DisputeEvidence",
+          "traits": {
+            "smithy.api#documentation": "The evidence packet sent to the processor to contest the dispute.",
+            "smithy.api#required": {}
+          }
+        },
+        "evidence_due_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deadline to submit evidence, as an ISO 8601 timestamp. Whop reserves the last 24 hours before the processor's own cutoff to forward the submission.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "evidence_editable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `evidence` can still be changed and submitted.",
+            "smithy.api#required": {}
+          }
+        },
+        "evidence_locked_reason": {
+          "target": "com.whop.disputes#DisputeEvidenceLockedReason",
+          "traits": {
+            "smithy.api#documentation": "Why evidence can no longer be edited. `null` while `evidence_editable` is true.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "evidence_submitted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the evidence was submitted to the processor, as an ISO 8601 timestamp.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "generated_response_attachment": {
+          "target": "com.whop.disputes#DisputeAttachment",
+          "traits": {
+            "smithy.api#documentation": "The AI-generated representment document filed with the processor on the seller's behalf, once ready. Null until generation completes, and for disputes not using Whop Dispute Fighter.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dispute ID, prefixed `dspt_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "inquiry": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this is a pre-dispute inquiry rather than a formal chargeback. Inquiries follow the same lifecycle but move no funds unless one escalates.",
+            "smithy.api#required": {}
+          }
+        },
+        "issuer_comments": {
+          "target": "com.whop.disputes#DisputeIssuerCommentsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "payment": {
+          "target": "com.whop.disputes#DisputePayment",
+          "traits": {
+            "smithy.api#documentation": "The payment being disputed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan the disputed payment was made on, prefixed `plan_`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product the disputed payment was for, prefixed `prod_`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rapid_dispute_resolution": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Visa Rapid Dispute Resolution settled this automatically. These refund the customer without an evidence round.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "com.whop.disputes#DisputeReason",
+          "traits": {
+            "smithy.api#documentation": "Why the customer says they are disputing, normalized across card networks. `other` covers a code Whop has not categorized yet — read `reason_code` for the raw value.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The raw card-network or processor reason code, such as `10.4`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.disputes#DisputeStatus",
+          "traits": {
+            "smithy.api#documentation": "Where the dispute stands. `needs_response` is awaiting evidence, `under_review` is with the processor, `won` returned the funds to the seller, `lost` returned them to the customer, and `closed` ended without a ruling. A dispute past its `evidence_due_at` reports `under_review` — the window to respond has closed.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the dispute was last changed, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#DisputeBuyer": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's email address. Requires the `member:email:read` scope; `null` without it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's member row on the account, prefixed `mem_`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's user ID, prefixed `user_`. `null` for a guest checkout.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's Whop username.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#DisputeEvidence": {
+      "type": "structure",
+      "members": {
+        "access_activity_log": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Log of the customer's access to the product, such as sign-in or download activity.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The billing address the customer provided at checkout.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancellation_policy_attachment": {
+          "target": "com.whop.disputes#DisputeAttachment",
+          "traits": {
+            "smithy.api#documentation": "The cancellation policy document. Falls back to Whop's platform policy when the seller has not uploaded their own.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancellation_policy_disclosure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the cancellation policy was shown to the customer before purchase.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_communication_attachment": {
+          "target": "com.whop.disputes#DisputeAttachment",
+          "traits": {
+            "smithy.api#documentation": "Correspondence with the customer, or proof they used the product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_email_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address the customer used at checkout.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's name as given at checkout.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "documents": {
+          "target": "com.whop.disputes#DisputeEvidenceDocumentsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Any additional context for the processor reviewing the dispute.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the customer purchased, in the seller's own words.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refund_policy_attachment": {
+          "target": "com.whop.disputes#DisputeAttachment",
+          "traits": {
+            "smithy.api#documentation": "The refund policy document. Falls back to Whop's platform policy when the seller has not uploaded their own.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refund_policy_disclosure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the refund policy was shown to the customer before purchase.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refund_refusal_explanation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why a refund was refused, when one was requested and denied.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "service_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the product or service was delivered.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "uncategorized_attachment": {
+          "target": "com.whop.disputes#DisputeAttachment",
+          "traits": {
+            "smithy.api#documentation": "Supporting evidence that does not fit the other categories.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#DisputeAttachment": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The uploaded file's MIME type.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The uploaded file's name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The attachment's ID. `null` for a Whop-hosted policy, which is not an uploaded file.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "platform": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this is Whop's own hosted policy, standing in because the seller uploaded none. Sending it back on a PATCH changes nothing.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL to download the attachment.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#DisputeEvidenceDocument": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "com.whop.disputes#DisputeEvidenceDocumentContentType",
+          "traits": {
+            "smithy.api#documentation": "The uploaded file's MIME type. Uploads are restricted to the types the processor accepts.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the file was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "document_type": {
+          "target": "com.whop.disputes#DisputeEvidenceDocumentDocumentType",
+          "traits": {
+            "smithy.api#documentation": "What kind of evidence the document is.",
+            "smithy.api#required": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original filename, including its extension.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file's ID, prefixed `file_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "multipart_chunk_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The byte size each part (except the last) must be. Present only on create, and only for multipart uploads.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "multipart_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the multipart upload, passed back to `complete`. Present only on create, and only for multipart uploads.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "multipart_upload_urls": {
+          "target": "com.whop.disputes#DisputeEvidenceDocumentMultipartUploadUrlsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of this object, always `file`.",
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The file size in bytes. `null` until the upload has finished.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "upload_headers": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Headers to send with the upload PUT. Present only on create."
+          }
+        },
+        "upload_status": {
+          "target": "com.whop.disputes#DisputeEvidenceDocumentUploadStatus",
+          "traits": {
+            "smithy.api#documentation": "Where the file is in its upload lifecycle.",
+            "smithy.api#required": {}
+          }
+        },
+        "upload_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Presigned URL to PUT the file's bytes to. Present only on create, and only for single-part uploads.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL to download the file: a permanent CDN URL for public files, a signed expiring URL for private ones. `null` until the upload has finished.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.disputes#DisputeEvidenceDocumentVisibility",
+          "traits": {
+            "smithy.api#documentation": "`public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#DisputeEvidenceDocumentContentType": {
+      "type": "enum",
+      "members": {
+        "APPLICATION_PDF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/pdf"
+          }
+        },
+        "APPLICATION_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/json"
+          }
+        },
+        "IMAGE_JPEG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image/jpeg"
+          }
+        },
+        "IMAGE_PNG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image/png"
+          }
+        },
+        "IMAGE_WEBP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image/webp"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The uploaded file's MIME type. Uploads are restricted to the types the processor accepts."
+      }
+    },
+    "com.whop.disputes#DisputeEvidenceDocumentDocumentType": {
+      "type": "enum",
+      "members": {
+        "RETURN_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "return_policy"
+          }
+        },
+        "SHIPPING_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shipping_policy"
+          }
+        },
+        "PHYSICAL_FULFILLMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "physical_fulfillment"
+          }
+        },
+        "CUSTOMER_ORDER_HISTORY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_order_history"
+          }
+        },
+        "PRODUCT_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_image"
+          }
+        },
+        "PRIOR_TRANSACTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "prior_transactions"
+          }
+        },
+        "CUSTOMER_SESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_session"
+          }
+        },
+        "DIGITAL_FULFILLMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "digital_fulfillment"
+          }
+        },
+        "SUBSCRIPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What kind of evidence the document is."
+      }
+    },
+    "com.whop.disputes#FileMultipartUrl": {
+      "type": "structure",
+      "members": {
+        "part_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The 1-based index of this part within the multipart upload.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The presigned URL to PUT this part's bytes to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#DisputeEvidenceDocumentMultipartUploadUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.disputes#FileMultipartUrl"
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#DisputeEvidenceDocumentUploadStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where the file is in its upload lifecycle."
+      }
+    },
+    "com.whop.disputes#DisputeEvidenceDocumentVisibility": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL."
+      }
+    },
+    "com.whop.disputes#DisputeEvidenceDocumentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.disputes#DisputeEvidenceDocument"
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#DisputeEvidenceLockedReason": {
+      "type": "enum",
+      "members": {
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        },
+        "RESPONSE_WINDOW_CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "response_window_closed"
+          }
+        },
+        "NOT_CONTESTABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_contestable"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why evidence can no longer be edited. `null` while `evidence_editable` is true."
+      }
+    },
+    "com.whop.disputes#DisputeIssuerComment": {
+      "type": "structure",
+      "members": {
+        "received_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the comment was received, as an ISO 8601 timestamp.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the issuer wrote, as received.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#DisputeIssuerCommentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.disputes#DisputeIssuerComment"
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#DisputePayment": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "What the customer was charged, in whole units of the payment's currency.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "card_brand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card brand, when the customer paid by card.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "card_last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last four digits of the card, when the customer paid by card.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the payment was made, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO currency code of the payment. Can differ from the dispute's currency when the processor settles in another currency.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payment ID, prefixed `pay_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_instrument": {
+          "target": "com.whop.disputes#PaymentInstrument",
+          "traits": {
+            "smithy.api#documentation": "The instrument this payment was made with, shaped for display: the method type, a buyer-facing name, the standard icon set, and the card facts when it was a card. Null when the payment names no method.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the customer paid, such as `card` or `paypal`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_processor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The processor that handled the payment, such as `stripe`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#PaymentInstrument": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.disputes#PaymentInstrumentCard",
+          "traits": {
+            "smithy.api#documentation": "Card payments only: the card's network and last four.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Buyer-facing instrument name — \"Visa •••• 4242\" when the card surfaced, else the method's own name (\"Klarna\").",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.disputes#PaymentMethodIcons",
+          "traits": {
+            "smithy.api#documentation": "The standard icon set: square and card shapes, each in light and dark colorways.",
+            "smithy.api#required": {}
+          }
+        },
+        "installment_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Installment methods only: how many payments the charge splits into. Data, not copy — compose and translate the label client-side.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payment method type identifier, e.g. `card`, `klarna`, `apple_pay`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#PaymentInstrumentCard": {
+      "type": "structure",
+      "members": {
+        "brand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The network identifier (`visa`, `amex`, …), matching `card.networks` entries and saved card payment methods.",
+            "smithy.api#required": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The card's last four digits, when captured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#PaymentMethodIcons": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.disputes#PaymentMethodIconVariants",
+          "traits": {
+            "smithy.api#documentation": "The credit-card-proportioned tile (48x30).",
+            "smithy.api#required": {}
+          }
+        },
+        "square": {
+          "target": "com.whop.disputes#PaymentMethodIconVariants",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#PaymentMethodIconVariants": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.disputes#PaymentMethodIconFiles",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.disputes#PaymentMethodIconFiles",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#PaymentMethodIconFiles": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#DisputeReason": {
+      "type": "enum",
+      "members": {
+        "FRAUDULENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fraudulent"
+          }
+        },
+        "UNRECOGNIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unrecognized"
+          }
+        },
+        "DECLINED_AUTHORIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "declined_authorization"
+          }
+        },
+        "PRODUCT_NOT_RECEIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_not_received"
+          }
+        },
+        "PRODUCT_UNACCEPTABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_unacceptable"
+          }
+        },
+        "SUBSCRIPTION_CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription_canceled"
+          }
+        },
+        "CREDIT_NOT_PROCESSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "credit_not_processed"
+          }
+        },
+        "DUPLICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duplicate"
+          }
+        },
+        "PROCESSING_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing_error"
+          }
+        },
+        "DOCUMENTATION_REQUEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "documentation_request"
+          }
+        },
+        "BANK_CANNOT_PROCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_cannot_process"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why the customer says they are disputing, normalized across card networks. `other` covers a code Whop has not categorized yet — read `reason_code` for the raw value."
+      }
+    },
+    "com.whop.disputes#DisputeStatus": {
+      "type": "enum",
+      "members": {
+        "NEEDS_RESPONSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_response"
+          }
+        },
+        "UNDER_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "under_review"
+          }
+        },
+        "WON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "won"
+          }
+        },
+        "LOST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lost"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where the dispute stands. `needs_response` is awaiting evidence, `under_review` is with the processor, `won` returned the funds to the seller, `lost` returned them to the customer, and `closed` ended without a ruling. A dispute past its `evidence_due_at` reports `under_review` — the window to respond has closed."
+      }
+    },
+    "com.whop.disputes#ListDisputesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.disputes#Dispute"
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#ListDisputesResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#ListDisputesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.disputes#ListDisputesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.disputes#ListDisputesResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.disputes#ListDisputes": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.disputes#ListDisputesRequest"
+      },
+      "output": {
+        "target": "com.whop.disputes#ListDisputesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.disputes#BadRequest"
+        },
+        {
+          "target": "com.whop.disputes#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/disputes",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Disputes\n\nLists the disputes across the accounts you can read.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.disputes#GetDisputeSummaryRequestGroupsItem": {
+      "type": "enum",
+      "members": {
+        "STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status"
+          }
+        },
+        "CURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "currency"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#GetDisputeSummaryRequestGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.disputes#GetDisputeSummaryRequestGroupsItem"
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#GetDisputeSummaryRequestStatusItem": {
+      "type": "enum",
+      "members": {
+        "NEEDS_RESPONSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_response"
+          }
+        },
+        "UNDER_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "under_review"
+          }
+        },
+        "WON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "won"
+          }
+        },
+        "LOST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lost"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#GetDisputeSummaryRequestStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.disputes#GetDisputeSummaryRequestStatusItem"
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#GetDisputeSummaryRequest": {
+      "type": "structure",
+      "members": {
+        "groups": {
+          "target": "com.whop.disputes#GetDisputeSummaryRequestGroupsList",
+          "traits": {
+            "smithy.api#httpQuery": "groups",
+            "smithy.api#documentation": "Which breakdowns to return, keyed by these names under `groups`. Repeat the parameter to ask for several; omit it for all of them."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Only disputes filed against this account (`biz_` tag). Omit it to cover every account you can read."
+          }
+        },
+        "status": {
+          "target": "com.whop.disputes#GetDisputeSummaryRequestStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only disputes in these statuses. Repeat the parameter to pass several. A `needs_response` dispute whose evidence deadline has passed reports and filters as `under_review` instead."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "currency",
+            "smithy.api#documentation": "Only disputes in this three-letter ISO currency."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only disputes opened before this ISO 8601 timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only disputes opened after this ISO 8601 timestamp."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.disputes#GetDisputeSummaryResponseGroupsCurrencyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "How many of the matching disputes are in each currency, keyed by three-letter ISO code. Only currencies with at least one dispute are present."
+      }
+    },
+    "com.whop.disputes#GetDisputeSummaryResponseGroupsStatus": {
+      "type": "structure",
+      "members": {
+        "closed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "lost": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "needs_response": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "under_review": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "won": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How many of the matching disputes are in each status. Every status is present, including those with a count of zero."
+      }
+    },
+    "com.whop.disputes#GetDisputeSummaryResponseGroups": {
+      "type": "structure",
+      "members": {
+        "currency": {
+          "target": "com.whop.disputes#GetDisputeSummaryResponseGroupsCurrencyMap",
+          "traits": {
+            "smithy.api#documentation": "How many of the matching disputes are in each currency, keyed by three-letter ISO code. Only currencies with at least one dispute are present."
+          }
+        },
+        "status": {
+          "target": "com.whop.disputes#GetDisputeSummaryResponseGroupsStatus",
+          "traits": {
+            "smithy.api#documentation": "How many of the matching disputes are in each status. Every status is present, including those with a count of zero."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One entry per requested breakdown, keyed by the field it groups on. A field you did not ask for is absent."
+      }
+    },
+    "com.whop.disputes#GetDisputeSummaryResponse": {
+      "type": "structure",
+      "members": {
+        "groups": {
+          "target": "com.whop.disputes#GetDisputeSummaryResponseGroups",
+          "traits": {
+            "smithy.api#documentation": "One entry per requested breakdown, keyed by the field it groups on. A field you did not ask for is absent.",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many disputes match the filters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.disputes#GetDisputeSummary": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.disputes#GetDisputeSummaryRequest"
+      },
+      "output": {
+        "target": "com.whop.disputes#GetDisputeSummaryResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.disputes#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/disputes/summary",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Dispute Summary\n\nTotals up the same disputes the list returns, so you can build status tabs and totals without paging through them."
+      }
+    },
+    "com.whop.disputes#GetDisputeRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The dispute ID (`dspt_` tag)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.disputes#GetDispute": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.disputes#GetDisputeRequest"
+      },
+      "output": {
+        "target": "com.whop.disputes#Dispute"
+      },
+      "errors": [
+        {
+          "target": "com.whop.disputes#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/disputes/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Dispute\n\nRetrieves a single dispute."
+      }
+    },
+    "com.whop.disputes#UpdateDisputeRequestEvidenceCancellationPolicyAttachment": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID returned by a direct upload."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an already-uploaded file."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The cancellation policy document."
+      }
+    },
+    "com.whop.disputes#UpdateDisputeRequestEvidenceCustomerCommunicationAttachment": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID returned by a direct upload."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an already-uploaded file."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Correspondence with the customer, or proof they used the product."
+      }
+    },
+    "com.whop.disputes#UpdateDisputeRequestEvidenceRefundPolicyAttachment": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID returned by a direct upload."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an already-uploaded file."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The refund policy document."
+      }
+    },
+    "com.whop.disputes#UpdateDisputeRequestEvidenceUncategorizedAttachment": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID returned by a direct upload."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an already-uploaded file."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Supporting evidence that does not fit the other categories."
+      }
+    },
+    "com.whop.disputes#UpdateDisputeRequestEvidence": {
+      "type": "structure",
+      "members": {
+        "access_activity_log": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Log of the customer's access to the product, such as sign-in or download activity.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The billing address the customer provided at checkout.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancellation_policy_attachment": {
+          "target": "com.whop.disputes#UpdateDisputeRequestEvidenceCancellationPolicyAttachment",
+          "traits": {
+            "smithy.api#documentation": "The cancellation policy document.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancellation_policy_disclosure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the cancellation policy was shown to the customer before purchase.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_communication_attachment": {
+          "target": "com.whop.disputes#UpdateDisputeRequestEvidenceCustomerCommunicationAttachment",
+          "traits": {
+            "smithy.api#documentation": "Correspondence with the customer, or proof they used the product.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_email_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address the customer used at checkout.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's name as given at checkout.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Any additional context for the processor reviewing the dispute.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the customer purchased, in the seller's own words.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refund_policy_attachment": {
+          "target": "com.whop.disputes#UpdateDisputeRequestEvidenceRefundPolicyAttachment",
+          "traits": {
+            "smithy.api#documentation": "The refund policy document.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refund_policy_disclosure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the refund policy was shown to the customer before purchase.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refund_refusal_explanation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why a refund was refused, when one was requested and denied.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "service_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the product or service was delivered.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "uncategorized_attachment": {
+          "target": "com.whop.disputes#UpdateDisputeRequestEvidenceUncategorizedAttachment",
+          "traits": {
+            "smithy.api#documentation": "Supporting evidence that does not fit the other categories.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The evidence packet to send to the processor. Only the fields you provide are changed."
+      }
+    },
+    "com.whop.disputes#UpdateDisputeRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The dispute ID (`dspt_` tag)."
+          }
+        },
+        "evidence": {
+          "target": "com.whop.disputes#UpdateDisputeRequestEvidence",
+          "traits": {
+            "smithy.api#documentation": "The evidence packet to send to the processor. Only the fields you provide are changed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.disputes#UpdateDispute": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.disputes#UpdateDisputeRequest"
+      },
+      "output": {
+        "target": "com.whop.disputes#Dispute"
+      },
+      "errors": [
+        {
+          "target": "com.whop.disputes#BadRequest"
+        },
+        {
+          "target": "com.whop.disputes#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/disputes/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Dispute\n\nEdits a dispute's evidence, while it is still editable. Sending it is a separate call."
+      }
+    },
+    "com.whop.disputes#SubmitDisputeRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The dispute ID (`dspt_` tag)."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.disputes#SubmitDispute": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.disputes#SubmitDisputeRequest"
+      },
+      "output": {
+        "target": "com.whop.disputes#Dispute"
+      },
+      "errors": [
+        {
+          "target": "com.whop.disputes#BadRequest"
+        },
+        {
+          "target": "com.whop.disputes#NotFound"
+        },
+        {
+          "target": "com.whop.disputes#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/disputes/{id}/submit",
+          "code": 200
+        },
+        "smithy.api#documentation": "Submit Dispute\n\nSends a dispute's evidence to the payment processor. This is final — it cannot be edited or sent again."
+      }
+    },
+    "com.whop.disputes#UploadDisputeEvidenceRequestDocumentsItemDocumentType": {
+      "type": "enum",
+      "members": {
+        "RETURN_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "return_policy"
+          }
+        },
+        "SHIPPING_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shipping_policy"
+          }
+        },
+        "PHYSICAL_FULFILLMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "physical_fulfillment"
+          }
+        },
+        "CUSTOMER_ORDER_HISTORY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_order_history"
+          }
+        },
+        "PRODUCT_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_image"
+          }
+        },
+        "PRIOR_TRANSACTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "prior_transactions"
+          }
+        },
+        "CUSTOMER_SESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_session"
+          }
+        },
+        "DIGITAL_FULFILLMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "digital_fulfillment"
+          }
+        },
+        "SUBSCRIPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What kind of evidence the document is."
+      }
+    },
+    "com.whop.disputes#UploadDisputeEvidenceRequestDocumentsItem": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID returned by a direct upload."
+          }
+        },
+        "document_type": {
+          "target": "com.whop.disputes#UploadDisputeEvidenceRequestDocumentsItemDocumentType",
+          "traits": {
+            "smithy.api#documentation": "What kind of evidence the document is.",
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file itself. Send it as a file part to upload and attach in one call, or use `id`/`direct_upload_id` for a file that is already stored."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of a file already stored on Whop, prefixed `file_`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.disputes#UploadDisputeEvidenceRequestDocumentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.disputes#UploadDisputeEvidenceRequestDocumentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The full set of evidence documents the dispute should carry. Replaces all previously uploaded documents."
+      }
+    },
+    "com.whop.disputes#UploadDisputeEvidenceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The dispute ID (`dspt_` tag)."
+          }
+        },
+        "documents": {
+          "target": "com.whop.disputes#UploadDisputeEvidenceRequestDocumentsList",
+          "traits": {
+            "smithy.api#documentation": "The full set of evidence documents the dispute should carry. Replaces all previously uploaded documents.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.disputes#UploadDisputeEvidence": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.disputes#UploadDisputeEvidenceRequest"
+      },
+      "output": {
+        "target": "com.whop.disputes#Dispute"
+      },
+      "errors": [
+        {
+          "target": "com.whop.disputes#BadRequest"
+        },
+        {
+          "target": "com.whop.disputes#NotFound"
+        },
+        {
+          "target": "com.whop.disputes#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/disputes/{id}/upload_evidence",
+          "code": 200
+        },
+        "smithy.api#documentation": "Upload Dispute Evidence\n\nReplaces the full set of uploaded evidence documents on a dispute, beyond the four fixed evidence slots. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Send every document the packet should carry — up to 10, 10MB each and 25MB in total; an empty list removes them all. Accepted content types: application/pdf, application/json, image/jpeg, image/png, image/webp — any other type is rejected."
+      }
+    },
+    "com.whop.disputes#SubmitEvidenceDisputeRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the dispute to submit to the payment processor for review."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.disputes#LegacyDispute": {
+      "type": "structure",
+      "members": {
+        "access_activity_log": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A log of IP-based access activity for the customer on Whop, submitted as evidence in the dispute.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The disputed amount in the specified currency, formatted as a decimal.",
+            "smithy.api#required": {}
+          }
+        },
+        "billing_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's billing address from their payment details, submitted as evidence in the dispute.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancellation_policy_attachment": {
+          "target": "com.whop.disputes#LegacyDisputeCancellationPolicyAttachment",
+          "traits": {
+            "smithy.api#documentation": "The cancellation policy document uploaded as dispute evidence. Null if no cancellation policy has been provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancellation_policy_disclosure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A text disclosure describing the company's cancellation policy, submitted as dispute evidence.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.disputes#LegacyDisputeCompany",
+          "traits": {
+            "smithy.api#documentation": "The company that the dispute was filed against.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the dispute was created.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "com.whop.disputes#Currencies",
+          "traits": {
+            "smithy.api#documentation": "The three-letter ISO currency code for the disputed amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "customer_communication_attachment": {
+          "target": "com.whop.disputes#LegacyDisputeCustomerCommunicationAttachment",
+          "traits": {
+            "smithy.api#documentation": "Evidence of customer communication or product usage, uploaded as a dispute attachment. Null if not provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_email_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's email address from their payment details, included in the evidence packet sent to the payment processor. Editable before submission.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's full name from their payment details, included in the evidence packet sent to the payment processor. Editable before submission.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "editable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the dispute evidence can still be edited and submitted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the dispute.",
+            "smithy.api#required": {}
+          }
+        },
+        "needs_response_by": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deadline by which dispute evidence must be submitted. Null if no response deadline is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional freeform notes submitted by the company as part of the dispute evidence.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment": {
+          "target": "com.whop.disputes#LegacyDisputePayment",
+          "traits": {
+            "smithy.api#documentation": "The original payment that was disputed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan": {
+          "target": "com.whop.disputes#LegacyDisputePlan",
+          "traits": {
+            "smithy.api#documentation": "The plan associated with the disputed payment. Null if the dispute is not linked to a specific plan.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product": {
+          "target": "com.whop.disputes#LegacyDisputeProduct",
+          "traits": {
+            "smithy.api#documentation": "The product associated with the disputed payment. Null if the dispute is not linked to a specific product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A description of the product or service provided, submitted as dispute evidence.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable reason for the dispute.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reason_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The card network reason code for the dispute. Null when the payment processor did not provide one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refund_policy_attachment": {
+          "target": "com.whop.disputes#LegacyDisputeRefundPolicyAttachment",
+          "traits": {
+            "smithy.api#documentation": "The refund policy document uploaded as dispute evidence. Null if no refund policy has been provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refund_policy_disclosure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A text disclosure describing the company's refund policy, submitted as dispute evidence.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refund_refusal_explanation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An explanation from the company for why a refund was refused, submitted as dispute evidence.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "service_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date when the product or service was delivered to the customer, submitted as dispute evidence.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.disputes#DisputeStatuses",
+          "traits": {
+            "smithy.api#documentation": "The current status of the dispute lifecycle, such as needs_response, under_review, won, or lost.",
+            "smithy.api#required": {}
+          }
+        },
+        "uncategorized_attachment": {
+          "target": "com.whop.disputes#LegacyDisputeUncategorizedAttachment",
+          "traits": {
+            "smithy.api#documentation": "An additional attachment that does not fit into the standard evidence categories. Null if not provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visa_rdr": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the dispute was automatically resolved through Visa Rapid Dispute Resolution (RDR).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A dispute is a chargeback or payment challenge filed against a company, including evidence and response status."
+      }
+    },
+    "com.whop.disputes#LegacyDisputeCancellationPolicyAttachment": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded file MIME type, such as image/jpeg, video/mp4, or audio/mpeg.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original filename of the uploaded attachment, including its file extension.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The cancellation policy document uploaded as dispute evidence. Null if no cancellation policy has been provided."
+      }
+    },
+    "com.whop.disputes#LegacyDisputeCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The written name of the company.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company that the dispute was filed against."
+      }
+    },
+    "com.whop.disputes#Currencies": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usd"
+          }
+        },
+        "SGD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sgd"
+          }
+        },
+        "INR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inr"
+          }
+        },
+        "AUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aud"
+          }
+        },
+        "BRL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brl"
+          }
+        },
+        "CAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cad"
+          }
+        },
+        "DKK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dkk"
+          }
+        },
+        "EUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eur"
+          }
+        },
+        "NOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nok"
+          }
+        },
+        "GBP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gbp"
+          }
+        },
+        "SEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sek"
+          }
+        },
+        "CHF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chf"
+          }
+        },
+        "HKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hkd"
+          }
+        },
+        "HUF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "huf"
+          }
+        },
+        "JPY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jpy"
+          }
+        },
+        "MXN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mxn"
+          }
+        },
+        "MYR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "myr"
+          }
+        },
+        "PLN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pln"
+          }
+        },
+        "CZK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "czk"
+          }
+        },
+        "NZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nzd"
+          }
+        },
+        "AED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aed"
+          }
+        },
+        "ETH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eth"
+          }
+        },
+        "APE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ape"
+          }
+        },
+        "COP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cop"
+          }
+        },
+        "RON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ron"
+          }
+        },
+        "THB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thb"
+          }
+        },
+        "BGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bgn"
+          }
+        },
+        "IDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "idr"
+          }
+        },
+        "DOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dop"
+          }
+        },
+        "PHP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "php"
+          }
+        },
+        "TRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "try"
+          }
+        },
+        "KRW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "krw"
+          }
+        },
+        "TWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twd"
+          }
+        },
+        "VND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vnd"
+          }
+        },
+        "PKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pkr"
+          }
+        },
+        "CLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clp"
+          }
+        },
+        "UYU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uyu"
+          }
+        },
+        "ARS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ars"
+          }
+        },
+        "ZAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zar"
+          }
+        },
+        "DZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dzd"
+          }
+        },
+        "TND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tnd"
+          }
+        },
+        "MAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mad"
+          }
+        },
+        "KES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kes"
+          }
+        },
+        "KWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kwd"
+          }
+        },
+        "JOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jod"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "XCD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xcd"
+          }
+        },
+        "AMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amd"
+          }
+        },
+        "BSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd"
+          }
+        },
+        "BHD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bhd"
+          }
+        },
+        "BOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bob"
+          }
+        },
+        "BAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bam"
+          }
+        },
+        "KHR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "khr"
+          }
+        },
+        "CRC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crc"
+          }
+        },
+        "XOF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xof"
+          }
+        },
+        "EGP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egp"
+          }
+        },
+        "ETB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "etb"
+          }
+        },
+        "GMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gmd"
+          }
+        },
+        "GHS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ghs"
+          }
+        },
+        "GTQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gtq"
+          }
+        },
+        "GYD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gyd"
+          }
+        },
+        "ILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ils"
+          }
+        },
+        "JMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jmd"
+          }
+        },
+        "MOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mop"
+          }
+        },
+        "MGA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mga"
+          }
+        },
+        "MUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mur"
+          }
+        },
+        "MDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mdl"
+          }
+        },
+        "MNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mnt"
+          }
+        },
+        "NAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nad"
+          }
+        },
+        "NGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ngn"
+          }
+        },
+        "MKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mkd"
+          }
+        },
+        "OMR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "omr"
+          }
+        },
+        "PYG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pyg"
+          }
+        },
+        "PEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pen"
+          }
+        },
+        "QAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qar"
+          }
+        },
+        "RWF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rwf"
+          }
+        },
+        "SAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sar"
+          }
+        },
+        "RSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsd"
+          }
+        },
+        "LKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lkr"
+          }
+        },
+        "TZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tzs"
+          }
+        },
+        "TTD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ttd"
+          }
+        },
+        "UZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uzs"
+          }
+        },
+        "RUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rub"
+          }
+        },
+        "BTC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "btc"
+          }
+        },
+        "CNY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cny"
+          }
+        },
+        "USDT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usdt"
+          }
+        },
+        "KZT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kzt"
+          }
+        },
+        "AWG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awg"
+          }
+        },
+        "WHOP_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whop_usd"
+          }
+        },
+        "XAU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xau"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The available currencies on the platform"
+      }
+    },
+    "com.whop.disputes#LegacyDisputeCustomerCommunicationAttachment": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded file MIME type, such as image/jpeg, video/mp4, or audio/mpeg.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original filename of the uploaded attachment, including its file extension.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Evidence of customer communication or product usage, uploaded as a dispute attachment. Null if not provided."
+      }
+    },
+    "com.whop.disputes#BillingReasons": {
+      "type": "enum",
+      "members": {
+        "SUBSCRIPTION_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription_create"
+          }
+        },
+        "SUBSCRIPTION_CYCLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription_cycle"
+          }
+        },
+        "SUBSCRIPTION_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription_update"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        },
+        "MANUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual"
+          }
+        },
+        "SUBSCRIPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The reason why a specific payment was billed"
+      }
+    },
+    "com.whop.disputes#CardBrands": {
+      "type": "enum",
+      "members": {
+        "MASTERCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mastercard"
+          }
+        },
+        "VISA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visa"
+          }
+        },
+        "AMEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amex"
+          }
+        },
+        "DISCOVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "discover"
+          }
+        },
+        "UNIONPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unionpay"
+          }
+        },
+        "JCB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jcb"
+          }
+        },
+        "DINERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "diners"
+          }
+        },
+        "LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link"
+          }
+        },
+        "TROY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "troy"
+          }
+        },
+        "VISADANKORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visadankort"
+          }
+        },
+        "VISABANCONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visabancontact"
+          }
+        },
+        "CHINA_UNION_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "china_union_pay"
+          }
+        },
+        "RUPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rupay"
+          }
+        },
+        "JCBRUPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jcbrupay"
+          }
+        },
+        "ELO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elo"
+          }
+        },
+        "MAESTRO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "maestro"
+          }
+        },
+        "TARJETA_NARANJA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tarjeta_naranja"
+          }
+        },
+        "CIRRUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cirrus"
+          }
+        },
+        "NSPK_MIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nspk_mir"
+          }
+        },
+        "VERVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verve"
+          }
+        },
+        "EBT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ebt"
+          }
+        },
+        "PRIVATE_LABEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private_label"
+          }
+        },
+        "LOCAL_BRAND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local_brand"
+          }
+        },
+        "UATP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uatp"
+          }
+        },
+        "WEXCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wexcard"
+          }
+        },
+        "UZCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uzcard"
+          }
+        },
+        "MEEZA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meeza"
+          }
+        },
+        "HRG_STORE_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hrg_store_card"
+          }
+        },
+        "GIROCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "girocard"
+          }
+        },
+        "FUEL_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fuel_card"
+          }
+        },
+        "DANKORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dankort"
+          }
+        },
+        "CARNET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "carnet"
+          }
+        },
+        "ATM_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "atm_card"
+          }
+        },
+        "CHINA_UNION_PAYUZCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "china_union_payuzcard"
+          }
+        },
+        "CODENSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "codensa"
+          }
+        },
+        "CABAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cabal"
+          }
+        },
+        "HIPERCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hipercard"
+          }
+        },
+        "JCBLANKAPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jcblankapay"
+          }
+        },
+        "CMI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cmi"
+          }
+        },
+        "AURA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aura"
+          }
+        },
+        "ACCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accel"
+          }
+        },
+        "CULIANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "culiance"
+          }
+        },
+        "NYCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nyce"
+          }
+        },
+        "PULSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pulse"
+          }
+        },
+        "STAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "star"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Possible card brands that a payment token can have"
+      }
+    },
+    "com.whop.disputes#LegacyDisputePaymentMember": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company member.",
+            "smithy.api#required": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The phone number for the member, if available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The member attached to this payment."
+      }
+    },
+    "com.whop.disputes#MembershipStatus": {
+      "type": "enum",
+      "members": {
+        "TRIALING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trialing"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAST_DUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "past_due"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "UNRESOLVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unresolved"
+          }
+        },
+        "DRAFTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "drafted"
+          }
+        },
+        "CANCELING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceling"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The status of a membership"
+      }
+    },
+    "com.whop.disputes#LegacyDisputePaymentMembership": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the membership.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.disputes#MembershipStatus",
+          "traits": {
+            "smithy.api#documentation": "The state of the membership.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The membership attached to this payment."
+      }
+    },
+    "com.whop.disputes#LegacyDisputePaymentPaymentInstrumentIconsSquareDark": {
+      "type": "structure",
+      "members": {
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.disputes#LegacyDisputePaymentPaymentInstrumentIconsSquareLight": {
+      "type": "structure",
+      "members": {
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.disputes#LegacyDisputePaymentPaymentInstrumentIconsSquare": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.disputes#LegacyDisputePaymentPaymentInstrumentIconsSquareDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.disputes#LegacyDisputePaymentPaymentInstrumentIconsSquareLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The square tile (32x32)."
+      }
+    },
+    "com.whop.disputes#LegacyDisputePaymentPaymentInstrumentIcons": {
+      "type": "structure",
+      "members": {
+        "square": {
+          "target": "com.whop.disputes#LegacyDisputePaymentPaymentInstrumentIconsSquare",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The standard icon set: square and card shapes, each in light and dark colorways."
+      }
+    },
+    "com.whop.disputes#LegacyDisputePaymentPaymentInstrument": {
+      "type": "structure",
+      "members": {
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Buyer-facing instrument name — \"Visa •••• 4242\" when the card surfaced, else the method's own name (\"Klarna\").",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.disputes#LegacyDisputePaymentPaymentInstrumentIcons",
+          "traits": {
+            "smithy.api#documentation": "The standard icon set: square and card shapes, each in light and dark colorways.",
+            "smithy.api#required": {}
+          }
+        },
+        "installment_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Installment methods only: how many payments the charge splits into. Data, not copy — compose and translate the label client-side.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payment method type identifier, e.g. `card`, `klarna`, `apple_pay`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The instrument this payment was made with, shaped for display: the method type, a buyer-facing name, the standard icon set, and the card facts when it was a card. Null when the receipt names no payment method."
+      }
+    },
+    "com.whop.disputes#PaymentMethodTypes": {
+      "type": "enum",
+      "members": {
+        "ACSS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "acss_debit"
+          }
+        },
+        "ADDI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "addi"
+          }
+        },
+        "AFFIRM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affirm"
+          }
+        },
+        "AFTERPAY_CLEARPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "afterpay_clearpay"
+          }
+        },
+        "ALIPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alipay"
+          }
+        },
+        "ALMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alma"
+          }
+        },
+        "AMAZON_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amazon_pay"
+          }
+        },
+        "APPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple"
+          }
+        },
+        "APPLE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple_pay"
+          }
+        },
+        "AU_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_bank_transfer"
+          }
+        },
+        "AU_BECS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_becs_debit"
+          }
+        },
+        "BACS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bacs_debit"
+          }
+        },
+        "BANCOLOMBIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bancolombia"
+          }
+        },
+        "BANCONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bancontact"
+          }
+        },
+        "BANK_WIRE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_wire"
+          }
+        },
+        "BILLIE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "billie"
+          }
+        },
+        "BIZUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bizum"
+          }
+        },
+        "BLIK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blik"
+          }
+        },
+        "BOLETO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boleto"
+          }
+        },
+        "BRE_B": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bre_b"
+          }
+        },
+        "CA_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_bank_transfer"
+          }
+        },
+        "CAPCHASE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "capchase_pay"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CARD_INSTALLMENTS_THREE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_three"
+          }
+        },
+        "CARD_INSTALLMENTS_SIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_six"
+          }
+        },
+        "CARD_INSTALLMENTS_TWELVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_twelve"
+          }
+        },
+        "CASHAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashapp"
+          }
+        },
+        "CLARITYPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claritypay"
+          }
+        },
+        "COINBASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "coinbase"
+          }
+        },
+        "CRYPTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "CUSTOMER_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_balance"
+          }
+        },
+        "DEMO_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "demo_pay"
+          }
+        },
+        "EFECTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "efecty"
+          }
+        },
+        "EPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eps"
+          }
+        },
+        "EU_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu_bank_transfer"
+          }
+        },
+        "FPX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fpx"
+          }
+        },
+        "GB_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gb_bank_transfer"
+          }
+        },
+        "GIROPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "giropay"
+          }
+        },
+        "GOOGLE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google_pay"
+          }
+        },
+        "GOPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gopay"
+          }
+        },
+        "GRABPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "grabpay"
+          }
+        },
+        "ID_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_bank_transfer"
+          }
+        },
+        "IDEAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ideal"
+          }
+        },
+        "INTERAC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "interac"
+          }
+        },
+        "KAKAO_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kakao_pay"
+          }
+        },
+        "KLARNA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "klarna"
+          }
+        },
+        "KLARNA_PAY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "klarna_pay_now"
+          }
+        },
+        "KONBINI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "konbini"
+          }
+        },
+        "KR_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_card"
+          }
+        },
+        "KR_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_market"
+          }
+        },
+        "KRIYA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kriya"
+          }
+        },
+        "KUESKI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kueski"
+          }
+        },
+        "LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link"
+          }
+        },
+        "MB_WAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mb_way"
+          }
+        },
+        "M_PESA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "m_pesa"
+          }
+        },
+        "MERCADO_PAGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago"
+          }
+        },
+        "MOBILEPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobilepay"
+          }
+        },
+        "MODO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modo"
+          }
+        },
+        "MONDU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mondu"
+          }
+        },
+        "MULTIBANCO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multibanco"
+          }
+        },
+        "NAVER_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "naver_pay"
+          }
+        },
+        "NEQUI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nequi"
+          }
+        },
+        "NETBANKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "netbanking"
+          }
+        },
+        "NG_BANK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_bank"
+          }
+        },
+        "NG_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_bank_transfer"
+          }
+        },
+        "NG_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_card"
+          }
+        },
+        "NG_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_market"
+          }
+        },
+        "NG_USSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_ussd"
+          }
+        },
+        "NG_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_wallet"
+          }
+        },
+        "NZ_BANK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nz_bank_account"
+          }
+        },
+        "OXXO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oxxo"
+          }
+        },
+        "P24": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p24"
+          }
+        },
+        "PAGO_EFECTIVO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pago_efectivo"
+          }
+        },
+        "PSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pse"
+          }
+        },
+        "PAY_BY_BANK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pay_by_bank"
+          }
+        },
+        "PAYCO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payco"
+          }
+        },
+        "PAYNOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paynow"
+          }
+        },
+        "PAYPAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypal"
+          }
+        },
+        "PAYPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypay"
+          }
+        },
+        "PAYTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payto"
+          }
+        },
+        "PIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pix"
+          }
+        },
+        "PLATFORM_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_balance"
+          }
+        },
+        "PROMPTPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promptpay"
+          }
+        },
+        "QRIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qris"
+          }
+        },
+        "RAPIPAGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rapipago"
+          }
+        },
+        "RECHNUNG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rechnung"
+          }
+        },
+        "REVOLUT_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revolut_pay"
+          }
+        },
+        "SAMSUNG_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "samsung_pay"
+          }
+        },
+        "SATISPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "satispay"
+          }
+        },
+        "SCALAPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scalapay"
+          }
+        },
+        "SENCILLITO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sencillito"
+          }
+        },
+        "SEPA_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sepa_debit"
+          }
+        },
+        "SEQURA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sequra"
+          }
+        },
+        "SERVIPAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "servipag"
+          }
+        },
+        "SEZZLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sezzle"
+          }
+        },
+        "SHOP_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shop_pay"
+          }
+        },
+        "SHOPEEPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shopeepay"
+          }
+        },
+        "SOFORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sofort"
+          }
+        },
+        "SOUTH_KOREA_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "south_korea_market"
+          }
+        },
+        "SPEI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spei"
+          }
+        },
+        "SPLITIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "splitit"
+          }
+        },
+        "SUNBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sunbit"
+          }
+        },
+        "SWISH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swish"
+          }
+        },
+        "TAMARA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tamara"
+          }
+        },
+        "TWINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twint"
+          }
+        },
+        "UPI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upi"
+          }
+        },
+        "US_BANK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_bank_account"
+          }
+        },
+        "US_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_bank_transfer"
+          }
+        },
+        "VENMO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "venmo"
+          }
+        },
+        "VIPPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vipps"
+          }
+        },
+        "WEBPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webpay"
+          }
+        },
+        "WECHAT_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wechat_pay"
+          }
+        },
+        "YAPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yape"
+          }
+        },
+        "ZIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zip"
+          }
+        },
+        "COINFLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "coinflow"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The different types of payment methods that can be used."
+      }
+    },
+    "com.whop.disputes#LegacyDisputePaymentUser": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's email address. Requires the member:email:read permission to access. Null if not authorized.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user that made this payment."
+      }
+    },
+    "com.whop.disputes#LegacyDisputePayment": {
+      "type": "structure",
+      "members": {
+        "billing_reason": {
+          "target": "com.whop.disputes#BillingReasons",
+          "traits": {
+            "smithy.api#documentation": "The machine-readable reason this charge was created, such as initial subscription purchase, renewal cycle, or one-time payment.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "card_brand": {
+          "target": "com.whop.disputes#CardBrands",
+          "traits": {
+            "smithy.api#documentation": "Card network reported by the processor (e.g., 'visa', 'mastercard', 'amex'). Present only when the payment method type is 'card'.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "card_last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last four digits of the card used to make this payment. Null if the payment was not made with a card.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the payment was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.whop.disputes#Currencies",
+          "traits": {
+            "smithy.api#documentation": "The three-letter ISO currency code for this payment (e.g., 'usd', 'eur').",
+            "smithy.api#required": {}
+          }
+        },
+        "dispute_alerted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When an alert came in that this transaction will be disputed",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the payment.",
+            "smithy.api#required": {}
+          }
+        },
+        "member": {
+          "target": "com.whop.disputes#LegacyDisputePaymentMember",
+          "traits": {
+            "smithy.api#documentation": "The member attached to this payment.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "membership": {
+          "target": "com.whop.disputes#LegacyDisputePaymentMembership",
+          "traits": {
+            "smithy.api#documentation": "The membership attached to this payment.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "paid_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which this payment was successfully collected. Null if the payment has not yet succeeded. As a Unix timestamp.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_instrument": {
+          "target": "com.whop.disputes#LegacyDisputePaymentPaymentInstrument",
+          "traits": {
+            "smithy.api#documentation": "The instrument this payment was made with, shaped for display: the method type, a buyer-facing name, the standard icon set, and the card facts when it was a card. Null when the receipt names no payment method.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.disputes#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of payment instrument used for this payment (e.g., card, Cash App, iDEAL, Klarna, crypto). Null when the processor does not supply a type.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subtotal": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The subtotal to show to the creator (excluding buyer fees).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The total to show to the creator (excluding buyer fees).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "usd_total": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The total in USD to show to the creator (excluding buyer fees).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.disputes#LegacyDisputePaymentUser",
+          "traits": {
+            "smithy.api#documentation": "The user that made this payment.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The original payment that was disputed."
+      }
+    },
+    "com.whop.disputes#LegacyDisputePlan": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the plan.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The plan associated with the disputed payment. Null if the dispute is not linked to a specific plan."
+      }
+    },
+    "com.whop.disputes#LegacyDisputeProduct": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the product shown to customers on the product page and in search results.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The product associated with the disputed payment. Null if the dispute is not linked to a specific product."
+      }
+    },
+    "com.whop.disputes#LegacyDisputeRefundPolicyAttachment": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded file MIME type, such as image/jpeg, video/mp4, or audio/mpeg.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original filename of the uploaded attachment, including its file extension.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The refund policy document uploaded as dispute evidence. Null if no refund policy has been provided."
+      }
+    },
+    "com.whop.disputes#DisputeStatuses": {
+      "type": "enum",
+      "members": {
+        "WARNING_NEEDS_RESPONSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning_needs_response"
+          }
+        },
+        "WARNING_UNDER_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning_under_review"
+          }
+        },
+        "WARNING_CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning_closed"
+          }
+        },
+        "NEEDS_RESPONSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_response"
+          }
+        },
+        "UNDER_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "under_review"
+          }
+        },
+        "WON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "won"
+          }
+        },
+        "LOST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lost"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The possible statuses of a dispute"
+      }
+    },
+    "com.whop.disputes#LegacyDisputeUncategorizedAttachment": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded file MIME type, such as image/jpeg, video/mp4, or audio/mpeg.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original filename of the uploaded attachment, including its file extension.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An additional attachment that does not fit into the standard evidence categories. Null if not provided."
+      }
+    },
+    "com.whop.disputes#SubmitEvidenceDispute": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.disputes#SubmitEvidenceDisputeRequest"
+      },
+      "output": {
+        "target": "com.whop.disputes#LegacyDispute"
+      },
+      "errors": [
+        {
+          "target": "com.whop.disputes#BadRequest"
+        },
+        {
+          "target": "com.whop.disputes#Forbidden"
+        },
+        {
+          "target": "com.whop.disputes#NotFound"
+        },
+        {
+          "target": "com.whop.disputes#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/disputes/{id}/submit_evidence",
+          "code": 200
+        },
+        "smithy.api#documentation": "Submit evidence\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nSubmit a payment dispute to the payment processor for review. Once submitted, no further edits can be made.\n\nRequired permissions:\n - `payment:dispute`\n - `plan:basic:read`\n - `access_pass:basic:read`\n - `company:basic:read`\n - `payment:basic:read`\n - `member:email:read`\n - `member:basic:read`\n - `member:phone:read`"
+      }
+    },
+    "com.whop.disputes#UpdateEvidenceDisputeRequestCancellationPolicyAttachment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A file upload containing the company's cancellation policy document."
+      }
+    },
+    "com.whop.disputes#UpdateEvidenceDisputeRequestCustomerCommunicationAttachment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A file upload containing evidence of customer communication. Must be a JPEG, PNG, GIF, or PDF."
+      }
+    },
+    "com.whop.disputes#UpdateEvidenceDisputeRequestRefundPolicyAttachment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A file upload containing the company's refund policy document."
+      }
+    },
+    "com.whop.disputes#UpdateEvidenceDisputeRequestUncategorizedAttachment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A file upload for evidence that does not fit into the other categories."
+      }
+    },
+    "com.whop.disputes#UpdateEvidenceDisputeRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the dispute to update."
+          }
+        },
+        "access_activity_log": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An IP access activity log showing the customer used the service.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The billing address associated with the customer's payment method.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancellation_policy_attachment": {
+          "target": "com.whop.disputes#UpdateEvidenceDisputeRequestCancellationPolicyAttachment",
+          "traits": {
+            "smithy.api#documentation": "A file upload containing the company's cancellation policy document.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancellation_policy_disclosure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The company's cancellation policy text to submit as evidence.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_communication_attachment": {
+          "target": "com.whop.disputes#UpdateEvidenceDisputeRequestCustomerCommunicationAttachment",
+          "traits": {
+            "smithy.api#documentation": "A file upload containing evidence of customer communication. Must be a JPEG, PNG, GIF, or PDF.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_email_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the customer associated with the disputed payment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full name of the customer associated with the disputed payment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional notes or context to submit as part of the dispute evidence.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A description of the product or service that was provided to the customer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refund_policy_attachment": {
+          "target": "com.whop.disputes#UpdateEvidenceDisputeRequestRefundPolicyAttachment",
+          "traits": {
+            "smithy.api#documentation": "A file upload containing the company's refund policy document.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refund_policy_disclosure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The company's refund policy text to submit as evidence.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refund_refusal_explanation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An explanation of why the refund request was refused.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "service_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date when the product or service was delivered to the customer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "uncategorized_attachment": {
+          "target": "com.whop.disputes#UpdateEvidenceDisputeRequestUncategorizedAttachment",
+          "traits": {
+            "smithy.api#documentation": "A file upload for evidence that does not fit into the other categories.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.disputes#UpdateEvidenceDispute": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.disputes#UpdateEvidenceDisputeRequest"
+      },
+      "output": {
+        "target": "com.whop.disputes#LegacyDispute"
+      },
+      "errors": [
+        {
+          "target": "com.whop.disputes#BadRequest"
+        },
+        {
+          "target": "com.whop.disputes#Forbidden"
+        },
+        {
+          "target": "com.whop.disputes#NotFound"
+        },
+        {
+          "target": "com.whop.disputes#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/disputes/{id}/update_evidence",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update evidence\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUpdate a dispute with evidence data to attempt to win the dispute.\n\nRequired permissions:\n - `payment:dispute`\n - `plan:basic:read`\n - `access_pass:basic:read`\n - `company:basic:read`\n - `payment:basic:read`\n - `member:email:read`\n - `member:basic:read`\n - `member:phone:read`"
+      }
+    },
+    "com.whop.disputes#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.disputes#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.disputes#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.disputes#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.disputes#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.disputes#Disputes": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.disputes#ListDisputes"
+        },
+        {
+          "target": "com.whop.disputes#GetDisputeSummary"
+        },
+        {
+          "target": "com.whop.disputes#GetDispute"
+        },
+        {
+          "target": "com.whop.disputes#UpdateDispute"
+        },
+        {
+          "target": "com.whop.disputes#SubmitDispute"
+        },
+        {
+          "target": "com.whop.disputes#UploadDisputeEvidence"
+        },
+        {
+          "target": "com.whop.disputes#SubmitEvidenceDispute"
+        },
+        {
+          "target": "com.whop.disputes#UpdateEvidenceDispute"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

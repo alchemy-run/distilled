@@ -2,7 +2,7 @@
 /**
  * generate — turn the hand-authored Smithy model into the Effect ZeroSSL SDK.
  *
- * Input:  specs/zerossl.json — written by hand from ZeroSSL's REST docs,
+ * Input:  manual-specs/zerossl.json — written by hand from ZeroSSL's REST docs,
  *         typed errors included; no conversion step, no patch chain.
  * Output: src/services/zerossl.ts  +  src/services/index.ts
  */
@@ -28,7 +28,21 @@ const spec: SdkSpec = {
   memberTraitPipes: {
     "smithy.api#sensitive": "T.SensitiveValue",
   },
-  sourceNote: "specs/zerossl.json (hand-authored Smithy)",
+  memberTsType: (member, tsRef) =>
+    "smithy.api#sensitive" in member.traits
+      ? `import("effect/Redacted").Redacted<${tsRef(member.target)}>`
+      : undefined,
+  errors: {
+    field: (name, target) =>
+      `${JSON.stringify(name)}: ${
+        name === "retryAfter"
+          ? "S.optional(S.Duration)"
+          : target === "smithy.api#Integer"
+            ? "S.Number"
+            : "S.String"
+      },`,
+  },
+  sourceNote: "manual-specs/zerossl.json (hand-authored Smithy)",
   operationDecl: {
     contextType: "ZeroSslOpContext",
     commonErrorType: "ZeroSslOpError",
@@ -43,7 +57,7 @@ const spec: SdkSpec = {
 runGeneratorCli({
   description: "Generate the ZeroSSL Effect SDK from the Smithy model",
   root: `${import.meta.dir}/..`,
-  smithyDir: "specs",
+  smithyDir: "manual-specs",
   patchesDir: false,
   spec: () => spec,
 });

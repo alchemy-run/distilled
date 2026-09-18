@@ -46,7 +46,7 @@ export class WidgetNotFound
   ) {}
 
 export type WidgetsCreateRequestDirection = "asc" | "desc";
-export const WidgetsCreateRequestDirection = /*@__PURE__*/ S.String;
+export const WidgetsCreateRequestDirection = S.String;
 
 export type WidgetsCreateRequestOrder =
   | "id"
@@ -54,7 +54,7 @@ export type WidgetsCreateRequestOrder =
   | "name"
   | "created_on"
   | "modified_on";
-export const WidgetsCreateRequestOrder = /*@__PURE__*/ S.String;
+export const WidgetsCreateRequestOrder = S.String;
 
 export type WidgetsCreateRequestDomainsList = Array<string>;
 export const WidgetsCreateRequestDomainsList = /*@__PURE__*/ S.Array(
@@ -65,24 +65,24 @@ export type WidgetsCreateRequestMode =
   | "non-interactive"
   | "invisible"
   | "managed";
-export const WidgetsCreateRequestMode = /*@__PURE__*/ S.String;
+export const WidgetsCreateRequestMode = S.String;
 
 export type WidgetsCreateRequestClearanceLevel =
   | "no_clearance"
   | "jschallenge"
   | "managed"
   | "interactive";
-export const WidgetsCreateRequestClearanceLevel = /*@__PURE__*/ S.String;
+export const WidgetsCreateRequestClearanceLevel = S.String;
 
 export type WidgetsCreateRequestRegion = "world" | "china";
-export const WidgetsCreateRequestRegion = /*@__PURE__*/ S.String;
+export const WidgetsCreateRequestRegion = S.String;
 
 export interface CreateWidgetRequest {
   /** Identifier */
   accountId: string;
   /** Direction to order widgets. */
   direction?: WidgetsCreateRequestDirection | (string & {});
-  /** Filter widgets by field using case-insensitive substring matching. */
+  /** Filter widgets by field using case-insensitive substring matching. Format: `field:value` */
   filter?: string;
   /** Field to order widgets by. */
   order?: WidgetsCreateRequestOrder | (string & {});
@@ -93,11 +93,11 @@ export interface CreateWidgetRequest {
   domains: WidgetsCreateRequestDomainsList;
   /** Widget Mode */
   mode: WidgetsCreateRequestMode | (string & {});
-  /** Human readable widget name. Not unique. Cloudflare suggests that you */
+  /** Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. */
   name: string;
-  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally */
+  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
   botFightMode?: boolean;
-  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, */
+  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set */
   clearanceLevel?: WidgetsCreateRequestClearanceLevel | (string & {});
   /** Return the Ephemeral ID in /siteverify (ENT only). */
   ephemeralId?: boolean;
@@ -142,7 +142,7 @@ export type WidgetsCreateResponseClearanceLevel =
   | "jschallenge"
   | "managed"
   | "interactive";
-export const WidgetsCreateResponseClearanceLevel = /*@__PURE__*/ S.String;
+export const WidgetsCreateResponseClearanceLevel = S.String;
 
 export type WidgetsCreateResponseDomainsList = Array<string>;
 export const WidgetsCreateResponseDomainsList = /*@__PURE__*/ S.Array(
@@ -153,16 +153,32 @@ export type WidgetsCreateResponseMode =
   | "non-interactive"
   | "invisible"
   | "managed";
-export const WidgetsCreateResponseMode = /*@__PURE__*/ S.String;
+export const WidgetsCreateResponseMode = S.String;
 
 export type WidgetsCreateResponseRegion = "world" | "china";
-export const WidgetsCreateResponseRegion = /*@__PURE__*/ S.String;
+export const WidgetsCreateResponseRegion = S.String;
+
+export type WidgetsCreateResponseDeployedVia =
+  | "wrangler"
+  | "dashboard"
+  | "spin"
+  | "api"
+  | "unknown";
+export const WidgetsCreateResponseDeployedVia = S.String;
+
+export type WidgetsCreateResponseLastModifiedVia =
+  | "wrangler"
+  | "dashboard"
+  | "spin"
+  | "api"
+  | "unknown";
+export const WidgetsCreateResponseLastModifiedVia = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateWidgetResponse {
-  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally */
+  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
   botFightMode: boolean;
-  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, */
+  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set */
   clearanceLevel: WidgetsCreateResponseClearanceLevel;
   /** When the widget was created. */
   createdOn: string;
@@ -173,7 +189,7 @@ export interface CreateWidgetResponse {
   mode: WidgetsCreateResponseMode;
   /** When the widget was modified. */
   modifiedOn: string;
-  /** Human readable widget name. Not unique. Cloudflare suggests that you */
+  /** Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. */
   name: string;
   /** Do not show any Cloudflare branding on the widget (ENT only). */
   offlabel: boolean;
@@ -183,6 +199,10 @@ export interface CreateWidgetResponse {
   secret: string;
   /** Widget item identifier tag. */
   sitekey: string;
+  /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
+  deployedVia?: WidgetsCreateResponseDeployedVia | null;
+  /** Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed. */
+  lastModifiedVia?: WidgetsCreateResponseLastModifiedVia | null;
 }
 export const CreateWidgetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -200,6 +220,14 @@ export const CreateWidgetResponse = /*@__PURE__*/ S.suspend(() =>
     region: WidgetsCreateResponseRegion,
     secret: S.String,
     sitekey: S.String,
+    deployedVia: S.optional(
+      S.NullOr(WidgetsCreateResponseDeployedVia).pipe(T.Body("deployed_via")),
+    ),
+    lastModifiedVia: S.optional(
+      S.NullOr(WidgetsCreateResponseLastModifiedVia).pipe(
+        T.Body("last_modified_via"),
+      ),
+    ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateWidgetResponse",
@@ -233,7 +261,7 @@ export type WidgetsDeleteResponseClearanceLevel =
   | "jschallenge"
   | "managed"
   | "interactive";
-export const WidgetsDeleteResponseClearanceLevel = /*@__PURE__*/ S.String;
+export const WidgetsDeleteResponseClearanceLevel = S.String;
 
 export type WidgetsDeleteResponseDomainsList = Array<string>;
 export const WidgetsDeleteResponseDomainsList = /*@__PURE__*/ S.Array(
@@ -244,16 +272,32 @@ export type WidgetsDeleteResponseMode =
   | "non-interactive"
   | "invisible"
   | "managed";
-export const WidgetsDeleteResponseMode = /*@__PURE__*/ S.String;
+export const WidgetsDeleteResponseMode = S.String;
 
 export type WidgetsDeleteResponseRegion = "world" | "china";
-export const WidgetsDeleteResponseRegion = /*@__PURE__*/ S.String;
+export const WidgetsDeleteResponseRegion = S.String;
+
+export type WidgetsDeleteResponseDeployedVia =
+  | "wrangler"
+  | "dashboard"
+  | "spin"
+  | "api"
+  | "unknown";
+export const WidgetsDeleteResponseDeployedVia = S.String;
+
+export type WidgetsDeleteResponseLastModifiedVia =
+  | "wrangler"
+  | "dashboard"
+  | "spin"
+  | "api"
+  | "unknown";
+export const WidgetsDeleteResponseLastModifiedVia = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteWidgetResponse {
-  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally */
+  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
   botFightMode: boolean;
-  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, */
+  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set */
   clearanceLevel: WidgetsDeleteResponseClearanceLevel;
   /** When the widget was created. */
   createdOn: string;
@@ -264,7 +308,7 @@ export interface DeleteWidgetResponse {
   mode: WidgetsDeleteResponseMode;
   /** When the widget was modified. */
   modifiedOn: string;
-  /** Human readable widget name. Not unique. Cloudflare suggests that you */
+  /** Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. */
   name: string;
   /** Do not show any Cloudflare branding on the widget (ENT only). */
   offlabel: boolean;
@@ -274,6 +318,10 @@ export interface DeleteWidgetResponse {
   secret: string;
   /** Widget item identifier tag. */
   sitekey: string;
+  /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
+  deployedVia?: WidgetsDeleteResponseDeployedVia | null;
+  /** Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed. */
+  lastModifiedVia?: WidgetsDeleteResponseLastModifiedVia | null;
 }
 export const DeleteWidgetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -291,6 +339,14 @@ export const DeleteWidgetResponse = /*@__PURE__*/ S.suspend(() =>
     region: WidgetsDeleteResponseRegion,
     secret: S.String,
     sitekey: S.String,
+    deployedVia: S.optional(
+      S.NullOr(WidgetsDeleteResponseDeployedVia).pipe(T.Body("deployed_via")),
+    ),
+    lastModifiedVia: S.optional(
+      S.NullOr(WidgetsDeleteResponseLastModifiedVia).pipe(
+        T.Body("last_modified_via"),
+      ),
+    ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DeleteWidgetResponse",
@@ -324,7 +380,7 @@ export type WidgetsGetResponseClearanceLevel =
   | "jschallenge"
   | "managed"
   | "interactive";
-export const WidgetsGetResponseClearanceLevel = /*@__PURE__*/ S.String;
+export const WidgetsGetResponseClearanceLevel = S.String;
 
 export type WidgetsGetResponseDomainsList = Array<string>;
 export const WidgetsGetResponseDomainsList = /*@__PURE__*/ S.Array(
@@ -335,16 +391,32 @@ export type WidgetsGetResponseMode =
   | "non-interactive"
   | "invisible"
   | "managed";
-export const WidgetsGetResponseMode = /*@__PURE__*/ S.String;
+export const WidgetsGetResponseMode = S.String;
 
 export type WidgetsGetResponseRegion = "world" | "china";
-export const WidgetsGetResponseRegion = /*@__PURE__*/ S.String;
+export const WidgetsGetResponseRegion = S.String;
+
+export type WidgetsGetResponseDeployedVia =
+  | "wrangler"
+  | "dashboard"
+  | "spin"
+  | "api"
+  | "unknown";
+export const WidgetsGetResponseDeployedVia = S.String;
+
+export type WidgetsGetResponseLastModifiedVia =
+  | "wrangler"
+  | "dashboard"
+  | "spin"
+  | "api"
+  | "unknown";
+export const WidgetsGetResponseLastModifiedVia = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetWidgetResponse {
-  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally */
+  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
   botFightMode: boolean;
-  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, */
+  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set */
   clearanceLevel: WidgetsGetResponseClearanceLevel;
   /** When the widget was created. */
   createdOn: string;
@@ -355,7 +427,7 @@ export interface GetWidgetResponse {
   mode: WidgetsGetResponseMode;
   /** When the widget was modified. */
   modifiedOn: string;
-  /** Human readable widget name. Not unique. Cloudflare suggests that you */
+  /** Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. */
   name: string;
   /** Do not show any Cloudflare branding on the widget (ENT only). */
   offlabel: boolean;
@@ -365,6 +437,10 @@ export interface GetWidgetResponse {
   secret: string;
   /** Widget item identifier tag. */
   sitekey: string;
+  /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
+  deployedVia?: WidgetsGetResponseDeployedVia | null;
+  /** Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed. */
+  lastModifiedVia?: WidgetsGetResponseLastModifiedVia | null;
 }
 export const GetWidgetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -382,13 +458,21 @@ export const GetWidgetResponse = /*@__PURE__*/ S.suspend(() =>
     region: WidgetsGetResponseRegion,
     secret: S.String,
     sitekey: S.String,
+    deployedVia: S.optional(
+      S.NullOr(WidgetsGetResponseDeployedVia).pipe(T.Body("deployed_via")),
+    ),
+    lastModifiedVia: S.optional(
+      S.NullOr(WidgetsGetResponseLastModifiedVia).pipe(
+        T.Body("last_modified_via"),
+      ),
+    ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetWidgetResponse",
 }) as any as S.Schema<GetWidgetResponse>;
 
 export type WidgetsListRequestDirection = "asc" | "desc";
-export const WidgetsListRequestDirection = /*@__PURE__*/ S.String;
+export const WidgetsListRequestDirection = S.String;
 
 export type WidgetsListRequestOrder =
   | "id"
@@ -396,14 +480,14 @@ export type WidgetsListRequestOrder =
   | "name"
   | "created_on"
   | "modified_on";
-export const WidgetsListRequestOrder = /*@__PURE__*/ S.String;
+export const WidgetsListRequestOrder = S.String;
 
 export interface ListWidgetsRequest {
   /** Identifier */
   accountId: string;
   /** Direction to order widgets. */
   direction?: WidgetsListRequestDirection | (string & {});
-  /** Filter widgets by field using case-insensitive substring matching. */
+  /** Filter widgets by field using case-insensitive substring matching. Format: `field:value` */
   filter?: string;
   /** Field to order widgets by. */
   order?: WidgetsListRequestOrder | (string & {});
@@ -438,7 +522,7 @@ export type WidgetsListResultItemClearanceLevel =
   | "jschallenge"
   | "managed"
   | "interactive";
-export const WidgetsListResultItemClearanceLevel = /*@__PURE__*/ S.String;
+export const WidgetsListResultItemClearanceLevel = S.String;
 
 export type WidgetsListResultItemDomainsList = Array<string>;
 export const WidgetsListResultItemDomainsList = /*@__PURE__*/ S.Array(
@@ -449,15 +533,31 @@ export type WidgetsListResultItemMode =
   | "non-interactive"
   | "invisible"
   | "managed";
-export const WidgetsListResultItemMode = /*@__PURE__*/ S.String;
+export const WidgetsListResultItemMode = S.String;
 
 export type WidgetsListResultItemRegion = "world" | "china";
-export const WidgetsListResultItemRegion = /*@__PURE__*/ S.String;
+export const WidgetsListResultItemRegion = S.String;
+
+export type WidgetsListResultItemDeployedVia =
+  | "wrangler"
+  | "dashboard"
+  | "spin"
+  | "api"
+  | "unknown";
+export const WidgetsListResultItemDeployedVia = S.String;
+
+export type WidgetsListResultItemLastModifiedVia =
+  | "wrangler"
+  | "dashboard"
+  | "spin"
+  | "api"
+  | "unknown";
+export const WidgetsListResultItemLastModifiedVia = S.String;
 
 export interface WidgetsListResultItem {
-  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally */
+  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
   botFightMode: boolean;
-  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, */
+  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set */
   clearanceLevel: WidgetsListResultItemClearanceLevel;
   /** When the widget was created. */
   createdOn: string;
@@ -468,7 +568,7 @@ export interface WidgetsListResultItem {
   mode: WidgetsListResultItemMode;
   /** When the widget was modified. */
   modifiedOn: string;
-  /** Human readable widget name. Not unique. Cloudflare suggests that you */
+  /** Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. */
   name: string;
   /** Do not show any Cloudflare branding on the widget (ENT only). */
   offlabel: boolean;
@@ -476,6 +576,10 @@ export interface WidgetsListResultItem {
   region: WidgetsListResultItemRegion;
   /** Widget item identifier tag. */
   sitekey: string;
+  /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
+  deployedVia?: WidgetsListResultItemDeployedVia | null;
+  /** Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed. */
+  lastModifiedVia?: WidgetsListResultItemLastModifiedVia | null;
 }
 export const WidgetsListResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -492,6 +596,14 @@ export const WidgetsListResultItem = /*@__PURE__*/ S.suspend(() =>
     offlabel: S.Boolean,
     region: WidgetsListResultItemRegion,
     sitekey: S.String,
+    deployedVia: S.optional(
+      S.NullOr(WidgetsListResultItemDeployedVia).pipe(T.Body("deployed_via")),
+    ),
+    lastModifiedVia: S.optional(
+      S.NullOr(WidgetsListResultItemLastModifiedVia).pipe(
+        T.Body("last_modified_via"),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "WidgetsListResultItem",
@@ -522,7 +634,7 @@ export interface RotateSecretWidgetRequest {
   accountId: string;
   /** Widget item identifier tag. */
   sitekey: string;
-  /** If `invalidate_immediately` is set to `false`, the previous secret will */
+  /** If `invalidate_immediately` is set to `false`, the previous secret will remain valid for two hours. Otherwise, the secret is immediately invalidated, and requests using it will be rejected. */
   invalidateImmediately?: boolean;
 }
 export const RotateSecretWidgetRequest = /*@__PURE__*/ S.suspend(() =>
@@ -550,7 +662,7 @@ export type WidgetsRotateSecretResponseClearanceLevel =
   | "jschallenge"
   | "managed"
   | "interactive";
-export const WidgetsRotateSecretResponseClearanceLevel = /*@__PURE__*/ S.String;
+export const WidgetsRotateSecretResponseClearanceLevel = S.String;
 
 export type WidgetsRotateSecretResponseDomainsList = Array<string>;
 export const WidgetsRotateSecretResponseDomainsList = /*@__PURE__*/ S.Array(
@@ -561,16 +673,32 @@ export type WidgetsRotateSecretResponseMode =
   | "non-interactive"
   | "invisible"
   | "managed";
-export const WidgetsRotateSecretResponseMode = /*@__PURE__*/ S.String;
+export const WidgetsRotateSecretResponseMode = S.String;
 
 export type WidgetsRotateSecretResponseRegion = "world" | "china";
-export const WidgetsRotateSecretResponseRegion = /*@__PURE__*/ S.String;
+export const WidgetsRotateSecretResponseRegion = S.String;
+
+export type WidgetsRotateSecretResponseDeployedVia =
+  | "wrangler"
+  | "dashboard"
+  | "spin"
+  | "api"
+  | "unknown";
+export const WidgetsRotateSecretResponseDeployedVia = S.String;
+
+export type WidgetsRotateSecretResponseLastModifiedVia =
+  | "wrangler"
+  | "dashboard"
+  | "spin"
+  | "api"
+  | "unknown";
+export const WidgetsRotateSecretResponseLastModifiedVia = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface RotateSecretWidgetResponse {
-  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally */
+  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
   botFightMode: boolean;
-  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, */
+  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set */
   clearanceLevel: WidgetsRotateSecretResponseClearanceLevel;
   /** When the widget was created. */
   createdOn: string;
@@ -581,7 +709,7 @@ export interface RotateSecretWidgetResponse {
   mode: WidgetsRotateSecretResponseMode;
   /** When the widget was modified. */
   modifiedOn: string;
-  /** Human readable widget name. Not unique. Cloudflare suggests that you */
+  /** Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. */
   name: string;
   /** Do not show any Cloudflare branding on the widget (ENT only). */
   offlabel: boolean;
@@ -591,6 +719,10 @@ export interface RotateSecretWidgetResponse {
   secret: string;
   /** Widget item identifier tag. */
   sitekey: string;
+  /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
+  deployedVia?: WidgetsRotateSecretResponseDeployedVia | null;
+  /** Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed. */
+  lastModifiedVia?: WidgetsRotateSecretResponseLastModifiedVia | null;
 }
 export const RotateSecretWidgetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -608,6 +740,16 @@ export const RotateSecretWidgetResponse = /*@__PURE__*/ S.suspend(() =>
     region: WidgetsRotateSecretResponseRegion,
     secret: S.String,
     sitekey: S.String,
+    deployedVia: S.optional(
+      S.NullOr(WidgetsRotateSecretResponseDeployedVia).pipe(
+        T.Body("deployed_via"),
+      ),
+    ),
+    lastModifiedVia: S.optional(
+      S.NullOr(WidgetsRotateSecretResponseLastModifiedVia).pipe(
+        T.Body("last_modified_via"),
+      ),
+    ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "RotateSecretWidgetResponse",
@@ -622,17 +764,17 @@ export type WidgetsUpdateRequestMode =
   | "non-interactive"
   | "invisible"
   | "managed";
-export const WidgetsUpdateRequestMode = /*@__PURE__*/ S.String;
+export const WidgetsUpdateRequestMode = S.String;
 
 export type WidgetsUpdateRequestClearanceLevel =
   | "no_clearance"
   | "jschallenge"
   | "managed"
   | "interactive";
-export const WidgetsUpdateRequestClearanceLevel = /*@__PURE__*/ S.String;
+export const WidgetsUpdateRequestClearanceLevel = S.String;
 
 export type WidgetsUpdateRequestRegion = "world" | "china";
-export const WidgetsUpdateRequestRegion = /*@__PURE__*/ S.String;
+export const WidgetsUpdateRequestRegion = S.String;
 
 export interface UpdateWidgetRequest {
   /** Identifier */
@@ -642,11 +784,11 @@ export interface UpdateWidgetRequest {
   domains: WidgetsUpdateRequestDomainsList;
   /** Widget Mode */
   mode: WidgetsUpdateRequestMode | (string & {});
-  /** Human readable widget name. Not unique. Cloudflare suggests that you */
+  /** Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. */
   name: string;
-  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally */
+  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
   botFightMode?: boolean;
-  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, */
+  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set */
   clearanceLevel?: WidgetsUpdateRequestClearanceLevel | (string & {});
   /** Return the Ephemeral ID in /siteverify (ENT only). */
   ephemeralId?: boolean;
@@ -687,7 +829,7 @@ export type WidgetsUpdateResponseClearanceLevel =
   | "jschallenge"
   | "managed"
   | "interactive";
-export const WidgetsUpdateResponseClearanceLevel = /*@__PURE__*/ S.String;
+export const WidgetsUpdateResponseClearanceLevel = S.String;
 
 export type WidgetsUpdateResponseDomainsList = Array<string>;
 export const WidgetsUpdateResponseDomainsList = /*@__PURE__*/ S.Array(
@@ -698,16 +840,32 @@ export type WidgetsUpdateResponseMode =
   | "non-interactive"
   | "invisible"
   | "managed";
-export const WidgetsUpdateResponseMode = /*@__PURE__*/ S.String;
+export const WidgetsUpdateResponseMode = S.String;
 
 export type WidgetsUpdateResponseRegion = "world" | "china";
-export const WidgetsUpdateResponseRegion = /*@__PURE__*/ S.String;
+export const WidgetsUpdateResponseRegion = S.String;
+
+export type WidgetsUpdateResponseDeployedVia =
+  | "wrangler"
+  | "dashboard"
+  | "spin"
+  | "api"
+  | "unknown";
+export const WidgetsUpdateResponseDeployedVia = S.String;
+
+export type WidgetsUpdateResponseLastModifiedVia =
+  | "wrangler"
+  | "dashboard"
+  | "spin"
+  | "api"
+  | "unknown";
+export const WidgetsUpdateResponseLastModifiedVia = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateWidgetResponse {
-  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally */
+  /** If bot_fight_mode is set to `true`, Cloudflare issues computationally expensive challenges in response to malicious bots (ENT only). */
   botFightMode: boolean;
-  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, */
+  /** If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance, this setting can determine the clearance level to be set */
   clearanceLevel: WidgetsUpdateResponseClearanceLevel;
   /** When the widget was created. */
   createdOn: string;
@@ -718,7 +876,7 @@ export interface UpdateWidgetResponse {
   mode: WidgetsUpdateResponseMode;
   /** When the widget was modified. */
   modifiedOn: string;
-  /** Human readable widget name. Not unique. Cloudflare suggests that you */
+  /** Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. */
   name: string;
   /** Do not show any Cloudflare branding on the widget (ENT only). */
   offlabel: boolean;
@@ -728,6 +886,10 @@ export interface UpdateWidgetResponse {
   secret: string;
   /** Widget item identifier tag. */
   sitekey: string;
+  /** Origin that created this widget, recorded at creation time and immutable afterward. Server-derived from the create request; not client-settable. Omitted from the response for widgets created before this field existed. */
+  deployedVia?: WidgetsUpdateResponseDeployedVia | null;
+  /** Origin of the most recent mutation (create, update, delete, or secret rotation). Server-derived; not client-settable. Omitted for widgets last mutated before this field existed. */
+  lastModifiedVia?: WidgetsUpdateResponseLastModifiedVia | null;
 }
 export const UpdateWidgetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -745,6 +907,14 @@ export const UpdateWidgetResponse = /*@__PURE__*/ S.suspend(() =>
     region: WidgetsUpdateResponseRegion,
     secret: S.String,
     sitekey: S.String,
+    deployedVia: S.optional(
+      S.NullOr(WidgetsUpdateResponseDeployedVia).pipe(T.Body("deployed_via")),
+    ),
+    lastModifiedVia: S.optional(
+      S.NullOr(WidgetsUpdateResponseLastModifiedVia).pipe(
+        T.Body("last_modified_via"),
+      ),
+    ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateWidgetResponse",

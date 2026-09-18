@@ -49,7 +49,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseDualStack === false
         ) {
           return e(
-            `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}/v2`,
+            `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
           );
         }
         if (
@@ -58,7 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseDualStack === true
         ) {
           return e(
-            `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}/v2`,
+            `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
           );
         }
         if (
@@ -67,7 +67,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseDualStack === false
         ) {
           return e(
-            `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}/v2`,
+            `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
           );
         }
         if (
@@ -76,7 +76,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseDualStack === true
         ) {
           return e(
-            `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}/v2`,
+            `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
           );
         }
         if (
@@ -85,7 +85,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseDualStack === false
         ) {
           return e(
-            `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}/v2`,
+            `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
           );
         }
         if (
@@ -94,7 +94,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseDualStack === true
         ) {
           return e(
-            `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}/v2`,
+            `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
           );
         }
         if (
@@ -103,7 +103,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseDualStack === false
         ) {
           return e(
-            `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}/v2`,
+            `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
           );
         }
         if (
@@ -112,7 +112,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseDualStack === true
         ) {
           return e(
-            `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}/v2`,
+            `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
           );
         }
         if (UseFIPS === true && UseDualStack === true) {
@@ -186,7 +186,9 @@ export class ValidationException
     "ValidationException",
     {
       message: S.String.pipe(T.ErrorMessage()),
-      Reason: S.String,
+      Reason: S.suspend(() => ValidationExceptionReason).annotate({
+        identifier: "ValidationExceptionReason",
+      }),
       FieldList: S.suspend(() => ValidationExceptionFieldList).annotate({
         identifier: "ValidationExceptionFieldList",
       }),
@@ -203,7 +205,10 @@ export const GetGlyphsRequest = /*@__PURE__*/ S.suspend(() =>
     FontUnicodeRange: S.String.pipe(T.HttpLabel("FontUnicodeRange")),
   }).pipe(
     T.all(
-      T.Http({ method: "GET", uri: "/glyphs/{FontStack}/{FontUnicodeRange}" }),
+      T.Http({
+        method: "GET",
+        uri: "/v2/glyphs/{FontStack}/{FontUnicodeRange}",
+      }),
       svc,
       auth,
       proto,
@@ -230,26 +235,37 @@ export const GetGlyphsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetGlyphsResponse",
 }) as any as S.Schema<GetGlyphsResponse>;
-export type MapStyle = string;
-export type ColorScheme = string;
-export type Variant = string;
+export type MapStyle =
+  | "Standard"
+  | "Monochrome"
+  | "Hybrid"
+  | "Satellite"
+  | (string & {});
+export const MapStyle = S.String;
+
+export type ColorScheme = "Light" | "Dark" | (string & {});
+export const ColorScheme = S.String;
+
+export type Variant = "Default" | (string & {});
+export const Variant = S.String;
+
 export interface GetSpritesRequest {
   FileName: string;
-  Style: string;
-  ColorScheme: string;
-  Variant: string;
+  Style: MapStyle;
+  ColorScheme: ColorScheme;
+  Variant: Variant;
 }
 export const GetSpritesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     FileName: S.String.pipe(T.HttpLabel("FileName")),
-    Style: S.String.pipe(T.HttpLabel("Style")),
-    ColorScheme: S.String.pipe(T.HttpLabel("ColorScheme")),
-    Variant: S.String.pipe(T.HttpLabel("Variant")),
+    Style: MapStyle.pipe(T.HttpLabel("Style")),
+    ColorScheme: ColorScheme.pipe(T.HttpLabel("ColorScheme")),
+    Variant: Variant.pipe(T.HttpLabel("Variant")),
   }).pipe(
     T.all(
       T.Http({
         method: "GET",
-        uri: "/styles/{Style}/{ColorScheme}/{Variant}/sprites/{FileName}",
+        uri: "/v2/styles/{Style}/{ColorScheme}/{Variant}/sprites/{FileName}",
       }),
       svc,
       auth,
@@ -283,33 +299,46 @@ export type CompactOverlay = string | redacted.Redacted<string>;
 export type GeoJsonOverlay = string | redacted.Redacted<string>;
 export type SensitiveInteger = number;
 export type ApiKey = string | redacted.Redacted<string>;
-export type LabelSize = string;
+export type LabelSize = "Small" | "Large" | (string & {});
+export const LabelSize = S.String;
+
 export type LanguageTag = string;
 export type CountryCode = string | redacted.Redacted<string>;
-export type MapFeatureMode = string;
+export type MapFeatureMode = "Enabled" | "Disabled" | (string & {});
+export const MapFeatureMode = S.String;
+
 export type DistanceMeters = number;
-export type ScaleBarUnit = string;
-export type StaticMapStyle = string;
+export type ScaleBarUnit =
+  | "Kilometers"
+  | "KilometersMiles"
+  | "Miles"
+  | "MilesKilometers"
+  | (string & {});
+export const ScaleBarUnit = S.String;
+
+export type StaticMapStyle = "Satellite" | "Standard" | (string & {});
+export const StaticMapStyle = S.String;
+
 export type SensitiveFloat = number;
 export interface GetStaticMapRequest {
   BoundingBox?: string | redacted.Redacted<string>;
   BoundedPositions?: string | redacted.Redacted<string>;
   Center?: string | redacted.Redacted<string>;
-  ColorScheme?: string;
+  ColorScheme?: ColorScheme;
   CompactOverlay?: string | redacted.Redacted<string>;
   CropLabels?: boolean;
   GeoJsonOverlay?: string | redacted.Redacted<string>;
   Height: number;
   Key?: string | redacted.Redacted<string>;
-  LabelSize?: string;
+  LabelSize?: LabelSize;
   Language?: string;
   Padding?: number;
   PoliticalView?: string | redacted.Redacted<string>;
-  PointsOfInterests?: string;
+  PointsOfInterests?: MapFeatureMode;
   Radius?: number;
   FileName: string;
-  ScaleBarUnit?: string;
-  Style?: string;
+  ScaleBarUnit?: ScaleBarUnit;
+  Style?: StaticMapStyle;
   Width: number;
   Zoom?: number;
 }
@@ -320,7 +349,7 @@ export const GetStaticMapRequest = /*@__PURE__*/ S.suspend(() =>
       T.HttpQuery("bounded-positions"),
     ),
     Center: S.optional(SensitiveString).pipe(T.HttpQuery("center")),
-    ColorScheme: S.optional(S.String).pipe(T.HttpQuery("color-scheme")),
+    ColorScheme: S.optional(ColorScheme).pipe(T.HttpQuery("color-scheme")),
     CompactOverlay: S.optional(SensitiveString).pipe(
       T.HttpQuery("compact-overlay"),
     ),
@@ -330,22 +359,22 @@ export const GetStaticMapRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     Height: S.Number.pipe(T.HttpQuery("height")),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
-    LabelSize: S.optional(S.String).pipe(T.HttpQuery("label-size")),
+    LabelSize: S.optional(LabelSize).pipe(T.HttpQuery("label-size")),
     Language: S.optional(S.String).pipe(T.HttpQuery("lang")),
     Padding: S.optional(S.Number).pipe(T.HttpQuery("padding")),
     PoliticalView: S.optional(SensitiveString).pipe(
       T.HttpQuery("political-view"),
     ),
-    PointsOfInterests: S.optional(S.String).pipe(T.HttpQuery("pois")),
+    PointsOfInterests: S.optional(MapFeatureMode).pipe(T.HttpQuery("pois")),
     Radius: S.optional(S.Number).pipe(T.HttpQuery("radius")),
     FileName: S.String.pipe(T.HttpLabel("FileName")),
-    ScaleBarUnit: S.optional(S.String).pipe(T.HttpQuery("scale-unit")),
-    Style: S.optional(S.String).pipe(T.HttpQuery("style")),
+    ScaleBarUnit: S.optional(ScaleBarUnit).pipe(T.HttpQuery("scale-unit")),
+    Style: S.optional(StaticMapStyle).pipe(T.HttpQuery("style")),
     Width: S.Number.pipe(T.HttpQuery("width")),
     Zoom: S.optional(S.Number).pipe(T.HttpQuery("zoom")),
   }).pipe(
     T.all(
-      T.Http({ method: "GET", uri: "/static/{FileName}" }),
+      T.Http({ method: "GET", uri: "/v2/static/{FileName}" }),
       svc,
       auth,
       proto,
@@ -374,40 +403,83 @@ export const GetStaticMapResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetStaticMapResponse",
 }) as any as S.Schema<GetStaticMapResponse>;
-export type Terrain = string;
-export type ContourDensity = string;
-export type Traffic = string;
-export type TravelMode = string;
-export type TravelModeList = string[];
-export const TravelModeList = /*@__PURE__*/ S.Array(S.String);
-export type Buildings = string;
+export type Terrain = "Hillshade" | "Terrain3D" | (string & {});
+export const Terrain = S.String;
+
+export type ContourDensity = "Low" | "Medium" | "High" | (string & {});
+export const ContourDensity = S.String;
+
+export type Traffic = "All" | "Congestion" | (string & {});
+export const Traffic = S.String;
+
+export type TravelMode = "Transit" | "Truck" | (string & {});
+export const TravelMode = S.String;
+
+export type TravelModeList = TravelMode[];
+export const TravelModeList = /*@__PURE__*/ S.Array(TravelMode);
+export type Buildings = "Buildings3D" | (string & {});
+export const Buildings = S.String;
+
+export type PoiDensity =
+  | "Off"
+  | "VerySparse"
+  | "Sparse"
+  | "Default"
+  | "Dense"
+  | "VeryDense"
+  | (string & {});
+export const PoiDensity = S.String;
+
+export type PoiCategory =
+  | "FoodAndDrink"
+  | "Entertainment"
+  | "SightsAndMuseums"
+  | "Transportation"
+  | "Accommodations"
+  | "LeisureAndOutdoor"
+  | "Shopping"
+  | "BusinessAndServices"
+  | "FacilitiesAndBuildings"
+  | (string & {});
+export const PoiCategory = S.String;
+
+export type PoiCategoryList = PoiCategory[];
+export const PoiCategoryList = /*@__PURE__*/ S.Array(PoiCategory);
 export interface GetStyleDescriptorRequest {
-  Style: string;
-  ColorScheme?: string;
+  Style: MapStyle;
+  ColorScheme?: ColorScheme;
   PoliticalView?: string | redacted.Redacted<string>;
-  Terrain?: string;
-  ContourDensity?: string;
-  Traffic?: string;
-  TravelModes?: string[];
-  Buildings?: string;
+  Terrain?: Terrain;
+  ContourDensity?: ContourDensity;
+  Traffic?: Traffic;
+  TravelModes?: TravelMode[];
+  Buildings?: Buildings;
+  PoiDensity?: PoiDensity;
+  PoiCategories?: PoiCategory[];
   Key?: string | redacted.Redacted<string>;
 }
 export const GetStyleDescriptorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    Style: S.String.pipe(T.HttpLabel("Style")),
-    ColorScheme: S.optional(S.String).pipe(T.HttpQuery("color-scheme")),
+    Style: MapStyle.pipe(T.HttpLabel("Style")),
+    ColorScheme: S.optional(ColorScheme).pipe(T.HttpQuery("color-scheme")),
     PoliticalView: S.optional(SensitiveString).pipe(
       T.HttpQuery("political-view"),
     ),
-    Terrain: S.optional(S.String).pipe(T.HttpQuery("terrain")),
-    ContourDensity: S.optional(S.String).pipe(T.HttpQuery("contour-density")),
-    Traffic: S.optional(S.String).pipe(T.HttpQuery("traffic")),
+    Terrain: S.optional(Terrain).pipe(T.HttpQuery("terrain")),
+    ContourDensity: S.optional(ContourDensity).pipe(
+      T.HttpQuery("contour-density"),
+    ),
+    Traffic: S.optional(Traffic).pipe(T.HttpQuery("traffic")),
     TravelModes: S.optional(TravelModeList).pipe(T.HttpQuery("travel-modes")),
-    Buildings: S.optional(S.String).pipe(T.HttpQuery("buildings")),
+    Buildings: S.optional(Buildings).pipe(T.HttpQuery("buildings")),
+    PoiDensity: S.optional(PoiDensity).pipe(T.HttpQuery("poi-density")),
+    PoiCategories: S.optional(PoiCategoryList).pipe(
+      T.HttpQuery("poi-categories"),
+    ),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
-      T.Http({ method: "GET", uri: "/styles/{Style}/descriptor" }),
+      T.Http({ method: "GET", uri: "/v2/styles/{Style}/descriptor" }),
       svc,
       auth,
       proto,
@@ -434,13 +506,22 @@ export const GetStyleDescriptorResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetStyleDescriptorResponse",
 }) as any as S.Schema<GetStyleDescriptorResponse>;
-export type TileAdditionalFeature = string;
-export type TileAdditionalFeatureList = string[];
-export const TileAdditionalFeatureList = /*@__PURE__*/ S.Array(S.String);
+export type TileAdditionalFeature =
+  | "ContourLines"
+  | "Hillshade"
+  | "Logistics"
+  | "Transit"
+  | (string & {});
+export const TileAdditionalFeature = S.String;
+
+export type TileAdditionalFeatureList = TileAdditionalFeature[];
+export const TileAdditionalFeatureList = /*@__PURE__*/ S.Array(
+  TileAdditionalFeature,
+);
 export type Tileset = string;
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface GetTileRequest {
-  AdditionalFeatures?: string[];
+  AdditionalFeatures?: TileAdditionalFeature[];
   Tileset: string;
   Z: string | redacted.Redacted<string>;
   X: string | redacted.Redacted<string>;
@@ -459,7 +540,7 @@ export const GetTileRequest = /*@__PURE__*/ S.suspend(() =>
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
-      T.Http({ method: "GET", uri: "/tiles/{Tileset}/{Z}/{X}/{Y}" }),
+      T.Http({ method: "GET", uri: "/v2/tiles/{Tileset}/{Z}/{X}/{Y}" }),
       svc,
       auth,
       proto,
@@ -486,7 +567,16 @@ export const GetTileResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetTileResponse",
 }) as any as S.Schema<GetTileResponse>;
-export type ValidationExceptionReason = string;
+export type ValidationExceptionReason =
+  | "UnknownOperation"
+  | "Missing"
+  | "CannotParse"
+  | "FieldValidationFailed"
+  | "Other"
+  | "UnknownField"
+  | (string & {});
+export const ValidationExceptionReason = S.String;
+
 export interface ValidationExceptionField {
   Name: string;
   Message: string;
@@ -549,9 +639,7 @@ export type GetStaticMapError =
   | ValidationException
   | CommonErrors;
 /**
- * This operation is not supported in `ap-southeast-1` and `ap-southeast-5` regions for GrabMaps customers.
- *
- * `GetStaticMap` provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots.
+ * `GetStaticMap` provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. Not supported in `ap-southeast-1` and `ap-southeast-5` regions for GrabMaps customers.
  *
  * For more information, see the following topics in the *Amazon Location Service Developer Guide*:
  *

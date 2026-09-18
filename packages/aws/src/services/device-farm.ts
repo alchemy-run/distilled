@@ -178,7 +178,7 @@ export type DeviceAttribute =
   | "MODEL"
   | "AVAILABILITY"
   | (string & {});
-export const DeviceAttribute = /*@__PURE__*/ S.String;
+export const DeviceAttribute = S.String;
 
 export type RuleOperator =
   | "EQUALS"
@@ -190,7 +190,7 @@ export type RuleOperator =
   | "NOT_IN"
   | "CONTAINS"
   | (string & {});
-export const RuleOperator = /*@__PURE__*/ S.String;
+export const RuleOperator = S.String;
 
 export interface Rule {
   attribute?: DeviceAttribute;
@@ -235,7 +235,7 @@ export const CreateDevicePoolRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateDevicePoolRequest",
 }) as any as S.Schema<CreateDevicePoolRequest>;
 export type DevicePoolType = "CURATED" | "PRIVATE" | (string & {});
-export const DevicePoolType = /*@__PURE__*/ S.String;
+export const DevicePoolType = S.String;
 
 export interface DevicePool {
   arn?: string;
@@ -322,7 +322,7 @@ export const CreateInstanceProfileResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateInstanceProfileResult",
 }) as any as S.Schema<CreateInstanceProfileResult>;
 export type NetworkProfileType = "CURATED" | "PRIVATE" | (string & {});
-export const NetworkProfileType = /*@__PURE__*/ S.String;
+export const NetworkProfileType = S.String;
 
 export type PercentInteger = number;
 export interface CreateNetworkProfileRequest {
@@ -498,7 +498,7 @@ export const CreateProjectResult = /*@__PURE__*/ S.suspend(() =>
 export type AuxiliaryAppArnList = string[];
 export const AuxiliaryAppArnList = /*@__PURE__*/ S.Array(S.String);
 export type BillingMethod = "METERED" | "UNMETERED" | (string & {});
-export const BillingMethod = /*@__PURE__*/ S.String;
+export const BillingMethod = S.String;
 
 export type AmazonResourceNames = string[];
 export const AmazonResourceNames = /*@__PURE__*/ S.Array(S.String);
@@ -511,11 +511,19 @@ export interface DeviceProxy {
 export const DeviceProxy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ host: S.String, port: S.Number }),
 ).annotate({ identifier: "DeviceProxy" }) as any as S.Schema<DeviceProxy>;
+export type RemoteAccessParameterKey = string;
+export type RemoteAccessParameterValue = string;
+export type RemoteAccessParameters = { [key: string]: string | undefined };
+export const RemoteAccessParameters = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface CreateRemoteAccessSessionConfiguration {
   auxiliaryApps?: string[];
   billingMethod?: BillingMethod;
   vpceConfigurationArns?: string[];
   deviceProxy?: DeviceProxy;
+  parameters?: { [key: string]: string | undefined };
 }
 export const CreateRemoteAccessSessionConfiguration = /*@__PURE__*/ S.suspend(
   () =>
@@ -524,6 +532,7 @@ export const CreateRemoteAccessSessionConfiguration = /*@__PURE__*/ S.suspend(
       billingMethod: S.optional(BillingMethod),
       vpceConfigurationArns: S.optional(AmazonResourceNames),
       deviceProxy: S.optional(DeviceProxy),
+      parameters: S.optional(RemoteAccessParameters),
     }),
 ).annotate({
   identifier: "CreateRemoteAccessSessionConfiguration",
@@ -533,7 +542,7 @@ export type InteractionMode =
   | "NO_VIDEO"
   | "VIDEO_ONLY"
   | (string & {});
-export const InteractionMode = /*@__PURE__*/ S.String;
+export const InteractionMode = S.String;
 
 export interface CreateRemoteAccessSessionRequest {
   projectArn: string;
@@ -580,7 +589,7 @@ export type ExecutionStatus =
   | "COMPLETED"
   | "STOPPING"
   | (string & {});
-export const ExecutionStatus = /*@__PURE__*/ S.String;
+export const ExecutionStatus = S.String;
 
 export type ExecutionResult =
   | "PENDING"
@@ -591,13 +600,13 @@ export type ExecutionResult =
   | "ERRORED"
   | "STOPPED"
   | (string & {});
-export const ExecutionResult = /*@__PURE__*/ S.String;
+export const ExecutionResult = S.String;
 
 export type DeviceFormFactor = "PHONE" | "TABLET" | (string & {});
-export const DeviceFormFactor = /*@__PURE__*/ S.String;
+export const DeviceFormFactor = S.String;
 
 export type DevicePlatform = "ANDROID" | "IOS" | (string & {});
-export const DevicePlatform = /*@__PURE__*/ S.String;
+export const DevicePlatform = S.String;
 
 export interface CPU {
   frequency?: string;
@@ -626,7 +635,7 @@ export type InstanceStatus =
   | "AVAILABLE"
   | "NOT_AVAILABLE"
   | (string & {});
-export const InstanceStatus = /*@__PURE__*/ S.String;
+export const InstanceStatus = S.String;
 
 export interface DeviceInstance {
   arn?: string;
@@ -654,7 +663,7 @@ export type DeviceAvailability =
   | "AVAILABLE"
   | "HIGHLY_AVAILABLE"
   | (string & {});
-export const DeviceAvailability = /*@__PURE__*/ S.String;
+export const DeviceAvailability = S.String;
 
 export interface Device {
   arn?: string;
@@ -924,7 +933,7 @@ export type UploadType =
   | "INSTRUMENTATION_TEST_SPEC"
   | "XCTEST_UI_TEST_SPEC"
   | (string & {});
-export const UploadType = /*@__PURE__*/ S.String;
+export const UploadType = S.String;
 
 export type ContentType = string;
 export interface CreateUploadRequest {
@@ -959,11 +968,11 @@ export type UploadStatus =
   | "SUCCEEDED"
   | "FAILED"
   | (string & {});
-export const UploadStatus = /*@__PURE__*/ S.String;
+export const UploadStatus = S.String;
 
 export type Metadata = string;
 export type UploadCategory = "CURATED" | "PRIVATE" | (string & {});
-export const UploadCategory = /*@__PURE__*/ S.String;
+export const UploadCategory = S.String;
 
 export interface Upload {
   arn?: string;
@@ -1431,7 +1440,7 @@ export type TestType =
   | "XCTEST"
   | "XCTEST_UI"
   | (string & {});
-export const TestType = /*@__PURE__*/ S.String;
+export const TestType = S.String;
 
 export type Filter = string;
 export type TestParameters = { [key: string]: string | undefined };
@@ -1498,6 +1507,11 @@ export const Radios = /*@__PURE__*/ S.suspend(() =>
     gps: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Radios" }) as any as S.Schema<Radios>;
+export type InsightsType = "TEST_REPORT" | (string & {});
+export const InsightsType = S.String;
+
+export type InsightsTypes = InsightsType[];
+export const InsightsTypes = /*@__PURE__*/ S.Array(InsightsType);
 export interface ScheduleRunConfiguration {
   extraDataPackageArn?: string;
   networkProfileArn?: string;
@@ -1511,6 +1525,7 @@ export interface ScheduleRunConfiguration {
   billingMethod?: BillingMethod;
   environmentVariables?: EnvironmentVariable[];
   executionRoleArn?: string;
+  insightsTypes?: InsightsType[];
 }
 export const ScheduleRunConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1526,6 +1541,7 @@ export const ScheduleRunConfiguration = /*@__PURE__*/ S.suspend(() =>
     billingMethod: S.optional(BillingMethod),
     environmentVariables: S.optional(EnvironmentVariables),
     executionRoleArn: S.optional(S.String),
+    insightsTypes: S.optional(InsightsTypes),
   }),
 ).annotate({
   identifier: "ScheduleRunConfiguration",
@@ -1669,6 +1685,64 @@ export const Counters = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Counters" }) as any as S.Schema<Counters>;
 export type VideoCapture = boolean;
+export type ReportStatus =
+  | "PENDING"
+  | "RUNNING"
+  | "COMPLETED"
+  | "SKIPPED"
+  | "ERRORED"
+  | (string & {});
+export const ReportStatus = S.String;
+
+export type ReportMessage = string;
+export interface TestReportMetrics {
+  testsTotal?: number;
+  testsPassed?: number;
+  testsFailed?: number;
+  testsSkipped?: number;
+  testsErrored?: number;
+  testsOther?: number;
+  testsPassedPercentage?: number;
+  totalTestExecutionDurationSeconds?: number;
+  medianTestExecutionDurationSeconds?: number;
+}
+export const TestReportMetrics = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testsTotal: S.optional(S.Number),
+    testsPassed: S.optional(S.Number),
+    testsFailed: S.optional(S.Number),
+    testsSkipped: S.optional(S.Number),
+    testsErrored: S.optional(S.Number),
+    testsOther: S.optional(S.Number),
+    testsPassedPercentage: S.optional(S.Number),
+    totalTestExecutionDurationSeconds: S.optional(S.Number),
+    medianTestExecutionDurationSeconds: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "TestReportMetrics",
+}) as any as S.Schema<TestReportMetrics>;
+export interface TestReport {
+  message?: string;
+  metrics?: TestReportMetrics;
+  testDetailsUrl?: string | redacted.Redacted<string>;
+}
+export const TestReport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    metrics: S.optional(TestReportMetrics),
+    testDetailsUrl: S.optional(SensitiveString),
+  }),
+).annotate({ identifier: "TestReport" }) as any as S.Schema<TestReport>;
+export interface JobInsights {
+  status?: ReportStatus;
+  testReport?: TestReport;
+}
+export const JobInsights = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(ReportStatus),
+    testReport: S.optional(TestReport),
+  }),
+).annotate({ identifier: "JobInsights" }) as any as S.Schema<JobInsights>;
 export interface Job {
   arn?: string;
   name?: string;
@@ -1685,6 +1759,7 @@ export interface Job {
   deviceMinutes?: DeviceMinutes;
   videoEndpoint?: string;
   videoCapture?: boolean;
+  insights?: JobInsights;
 }
 export const Job = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1703,6 +1778,7 @@ export const Job = /*@__PURE__*/ S.suspend(() =>
     deviceMinutes: S.optional(DeviceMinutes),
     videoEndpoint: S.optional(S.String),
     videoCapture: S.optional(S.Boolean),
+    insights: S.optional(JobInsights),
   }),
 ).annotate({ identifier: "Job" }) as any as S.Schema<Job>;
 export interface GetJobResult {
@@ -1762,13 +1838,13 @@ export type OfferingTransactionType =
   | "RENEW"
   | "SYSTEM"
   | (string & {});
-export const OfferingTransactionType = /*@__PURE__*/ S.String;
+export const OfferingTransactionType = S.String;
 
 export type OfferingType = "RECURRING" | (string & {});
-export const OfferingType = /*@__PURE__*/ S.String;
+export const OfferingType = S.String;
 
 export type CurrencyCode = "USD" | (string & {});
-export const CurrencyCode = /*@__PURE__*/ S.String;
+export const CurrencyCode = S.String;
 
 export interface MonetaryAmount {
   amount?: number;
@@ -1781,7 +1857,7 @@ export const MonetaryAmount = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "MonetaryAmount" }) as any as S.Schema<MonetaryAmount>;
 export type RecurringChargeFrequency = "MONTHLY" | (string & {});
-export const RecurringChargeFrequency = /*@__PURE__*/ S.String;
+export const RecurringChargeFrequency = S.String;
 
 export interface RecurringCharge {
   cost?: MonetaryAmount;
@@ -1918,7 +1994,7 @@ export type ExecutionResultCode =
   | "PARSING_FAILED"
   | "VPC_ENDPOINT_SETUP_FAILED"
   | (string & {});
-export const ExecutionResultCode = /*@__PURE__*/ S.String;
+export const ExecutionResultCode = S.String;
 
 export type DeviceFilterAttribute =
   | "ARN"
@@ -1934,7 +2010,7 @@ export type DeviceFilterAttribute =
   | "INSTANCE_LABELS"
   | "FLEET_TYPE"
   | (string & {});
-export const DeviceFilterAttribute = /*@__PURE__*/ S.String;
+export const DeviceFilterAttribute = S.String;
 
 export type DeviceFilterValues = string[];
 export const DeviceFilterValues = /*@__PURE__*/ S.Array(S.String);
@@ -1966,6 +2042,56 @@ export const DeviceSelectionResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeviceSelectionResult",
 }) as any as S.Schema<DeviceSelectionResult>;
+export interface JobReportMetrics {
+  jobsTotal?: number;
+  jobsPassed?: number;
+  jobsFailed?: number;
+  jobsSkipped?: number;
+  jobsErrored?: number;
+  jobsStopped?: number;
+  jobsPassedPercentage?: number;
+  totalJobExecutionDurationSeconds?: number;
+  averageJobExecutionDurationSeconds?: number;
+  medianJobExecutionDurationSeconds?: number;
+}
+export const JobReportMetrics = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    jobsTotal: S.optional(S.Number),
+    jobsPassed: S.optional(S.Number),
+    jobsFailed: S.optional(S.Number),
+    jobsSkipped: S.optional(S.Number),
+    jobsErrored: S.optional(S.Number),
+    jobsStopped: S.optional(S.Number),
+    jobsPassedPercentage: S.optional(S.Number),
+    totalJobExecutionDurationSeconds: S.optional(S.Number),
+    averageJobExecutionDurationSeconds: S.optional(S.Number),
+    medianJobExecutionDurationSeconds: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "JobReportMetrics",
+}) as any as S.Schema<JobReportMetrics>;
+export interface JobReport {
+  message?: string;
+  metrics?: JobReportMetrics;
+  jobDetailsUrl?: string | redacted.Redacted<string>;
+}
+export const JobReport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    metrics: S.optional(JobReportMetrics),
+    jobDetailsUrl: S.optional(SensitiveString),
+  }),
+).annotate({ identifier: "JobReport" }) as any as S.Schema<JobReport>;
+export interface RunInsights {
+  status?: ReportStatus;
+  jobReport?: JobReport;
+}
+export const RunInsights = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(ReportStatus),
+    jobReport: S.optional(JobReport),
+  }),
+).annotate({ identifier: "RunInsights" }) as any as S.Schema<RunInsights>;
 export interface Run {
   arn?: string;
   name?: string;
@@ -2002,6 +2128,8 @@ export interface Run {
   vpcConfig?: VpcConfig;
   executionRoleArn?: string;
   environmentVariables?: EnvironmentVariable[];
+  insightsTypes?: InsightsType[];
+  insights?: RunInsights;
 }
 export const Run = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2040,6 +2168,8 @@ export const Run = /*@__PURE__*/ S.suspend(() =>
     vpcConfig: S.optional(VpcConfig),
     executionRoleArn: S.optional(S.String),
     environmentVariables: S.optional(EnvironmentVariables),
+    insightsTypes: S.optional(InsightsTypes),
+    insights: S.optional(RunInsights),
   }),
 ).annotate({ identifier: "Run" }) as any as S.Schema<Run>;
 export interface GetRunResult {
@@ -2206,7 +2336,7 @@ export type TestGridSessionStatus =
   | "CLOSED"
   | "ERRORED"
   | (string & {});
-export const TestGridSessionStatus = /*@__PURE__*/ S.String;
+export const TestGridSessionStatus = S.String;
 
 export interface TestGridSession {
   arn?: string;
@@ -2316,7 +2446,7 @@ export const InstallToRemoteAccessSessionResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "InstallToRemoteAccessSessionResult",
 }) as any as S.Schema<InstallToRemoteAccessSessionResult>;
 export type ArtifactCategory = "SCREENSHOT" | "FILE" | "LOG" | (string & {});
-export const ArtifactCategory = /*@__PURE__*/ S.String;
+export const ArtifactCategory = S.String;
 
 export interface ListArtifactsRequest {
   arn: string;
@@ -2372,7 +2502,7 @@ export type ArtifactType =
   | "CUSTOMER_ARTIFACT_LOG"
   | "TESTSPEC_OUTPUT"
   | (string & {});
-export const ArtifactType = /*@__PURE__*/ S.String;
+export const ArtifactType = S.String;
 
 export type URL = string;
 export interface Artifact {
@@ -2878,7 +3008,7 @@ export type SampleType =
   | "OPENGL_AVG_DRAWTIME"
   | "OPENGL_MAX_DRAWTIME"
   | (string & {});
-export const SampleType = /*@__PURE__*/ S.String;
+export const SampleType = S.String;
 
 export interface Sample {
   arn?: string;
@@ -3072,7 +3202,7 @@ export const ListTestGridSessionActionsResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListTestGridSessionActionsResult",
 }) as any as S.Schema<ListTestGridSessionActionsResult>;
 export type TestGridSessionArtifactCategory = "VIDEO" | "LOG" | (string & {});
-export const TestGridSessionArtifactCategory = /*@__PURE__*/ S.String;
+export const TestGridSessionArtifactCategory = S.String;
 
 export interface ListTestGridSessionArtifactsRequest {
   sessionArn: string;
@@ -3105,7 +3235,7 @@ export type TestGridSessionArtifactType =
   | "VIDEO"
   | "SELENIUM_LOG"
   | (string & {});
-export const TestGridSessionArtifactType = /*@__PURE__*/ S.String;
+export const TestGridSessionArtifactType = S.String;
 
 export interface TestGridSessionArtifact {
   filename?: string;
@@ -4853,11 +4983,12 @@ export type GetTestGridSessionError =
   | NotFoundException
   | CommonErrors;
 /**
- * A session is an instance of a browser created through a `RemoteWebDriver` with the URL from CreateTestGridUrlResult$url. You can use the following to look up sessions:
+ * A session is an instance of a browser created through a `RemoteWebDriver` with the URL from
+ * CreateTestGridUrlResult. You can use the following to look up sessions:
  *
- * - The session ARN (GetTestGridSessionRequest$sessionArn).
+ * - The session ARN.
  *
- * - The project ARN and a session ID (GetTestGridSessionRequest$projectArn and GetTestGridSessionRequest$sessionId).
+ * - The project ARN and a session ID.
  */
 export const getTestGridSession: API.OperationMethod<
   GetTestGridSessionRequest,
@@ -5389,6 +5520,8 @@ export type ListSamplesError =
   | CommonErrors;
 /**
  * Gets information about samples, given an AWS Device Farm job ARN.
+ *
+ * Device Farm does not support performance data samples during test executions.
  */
 export const listSamples: API.PaginatedOperationMethod<
   ListSamplesRequest,

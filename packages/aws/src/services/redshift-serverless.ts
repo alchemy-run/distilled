@@ -460,6 +460,33 @@ export const CreateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateNamespaceRequest",
 }) as any as S.Schema<CreateNamespaceRequest>;
 export type NamespaceStatus = string;
+export type S3TableName = string;
+export type S3TableNameList = string[];
+export const S3TableNameList = /*@__PURE__*/ S.Array(S.String);
+export type S3TableGranularity = string;
+export type S3TableLastIngestionTimeMap = { [key: string]: string | undefined };
+export const S3TableLastIngestionTimeMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface S3TablePublishStatus {
+  s3Tables?: string[];
+  s3TableNamespace?: string;
+  s3TableGranularity?: string;
+  enabledAll?: boolean;
+  lastIngestionTimes?: { [key: string]: string | undefined };
+}
+export const S3TablePublishStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    s3Tables: S.optional(S3TableNameList),
+    s3TableNamespace: S.optional(S.String),
+    s3TableGranularity: S.optional(S.String),
+    enabledAll: S.optional(S.Boolean),
+    lastIngestionTimes: S.optional(S3TableLastIngestionTimeMap),
+  }),
+).annotate({
+  identifier: "S3TablePublishStatus",
+}) as any as S.Schema<S3TablePublishStatus>;
 export interface Namespace {
   namespaceArn?: string;
   namespaceId?: string;
@@ -476,6 +503,7 @@ export interface Namespace {
   adminPasswordSecretKmsKeyId?: string;
   lakehouseRegistrationStatus?: string;
   catalogArn?: string;
+  s3TablePublishStatus?: S3TablePublishStatus;
 }
 export const Namespace = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -496,6 +524,7 @@ export const Namespace = /*@__PURE__*/ S.suspend(() =>
     adminPasswordSecretKmsKeyId: S.optional(S.String),
     lakehouseRegistrationStatus: S.optional(S.String),
     catalogArn: S.optional(S.String),
+    s3TablePublishStatus: S.optional(S3TablePublishStatus),
   }),
 ).annotate({ identifier: "Namespace" }) as any as S.Schema<Namespace>;
 export interface CreateNamespaceResponse {
@@ -1646,7 +1675,7 @@ export type ManagedWorkgroupStatus =
   | "AVAILABLE"
   | "NOT_AVAILABLE"
   | (string & {});
-export const ManagedWorkgroupStatus = /*@__PURE__*/ S.String;
+export const ManagedWorkgroupStatus = S.String;
 
 export interface ManagedWorkgroupListItem {
   managedWorkgroupName?: string;
@@ -2076,12 +2105,14 @@ export interface RestoreFromRecoveryPointRequest {
   recoveryPointId: string;
   namespaceName: string;
   workgroupName: string;
+  maintainIntegration?: boolean;
 }
 export const RestoreFromRecoveryPointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recoveryPointId: S.String,
     namespaceName: S.String,
     workgroupName: S.String,
+    maintainIntegration: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2108,6 +2139,7 @@ export interface RestoreFromSnapshotRequest {
   ownerAccount?: string;
   manageAdminPassword?: boolean;
   adminPasswordSecretKmsKeyId?: string;
+  maintainIntegration?: boolean;
 }
 export const RestoreFromSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2118,6 +2150,7 @@ export const RestoreFromSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     ownerAccount: S.optional(S.String),
     manageAdminPassword: S.optional(S.Boolean),
     adminPasswordSecretKmsKeyId: S.optional(S.String),
+    maintainIntegration: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2351,6 +2384,8 @@ export const UpdateLakehouseConfigurationResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "UpdateLakehouseConfigurationResponse",
 }) as any as S.Schema<UpdateLakehouseConfigurationResponse>;
+export type LogDestinationType = string;
+export type S3TableAction = string;
 export interface UpdateNamespaceRequest {
   namespaceName: string;
   adminUserPassword?: string | redacted.Redacted<string>;
@@ -2361,6 +2396,11 @@ export interface UpdateNamespaceRequest {
   logExports?: string[];
   manageAdminPassword?: boolean;
   adminPasswordSecretKmsKeyId?: string;
+  logDestinationType?: string;
+  s3TableAction?: string;
+  s3TableNames?: string[];
+  s3TableKmsKeyId?: string;
+  s3TableGranularity?: string;
 }
 export const UpdateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2373,6 +2413,11 @@ export const UpdateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
     logExports: S.optional(LogExportList),
     manageAdminPassword: S.optional(S.Boolean),
     adminPasswordSecretKmsKeyId: S.optional(S.String),
+    logDestinationType: S.optional(S.String),
+    s3TableAction: S.optional(S.String),
+    s3TableNames: S.optional(S3TableNameList),
+    s3TableKmsKeyId: S.optional(S.String),
+    s3TableGranularity: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -4323,6 +4368,8 @@ export type UpdateNamespaceError =
   | CommonErrors;
 /**
  * Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both `adminUsername` and `adminUserPassword` to update either field, but you can't update both `kmsKeyId` and `logExports` in a single request.
+ *
+ * Similarly, an S3 Tables log-publishing update (a request where `logDestinationType` is `s3table`) cannot be combined with any other namespace configuration change and must be submitted as its own request.
  */
 export const updateNamespace: API.OperationMethod<
   UpdateNamespaceRequest,

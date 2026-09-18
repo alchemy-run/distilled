@@ -119,15 +119,15 @@ export const BareMetalLvpConfig = /*@__PURE__*/ S.suspend(() =>
 
 /** Specifies the configs for local persistent volumes under a shared file system. */
 export interface BareMetalLvpShareConfig {
-  /** Required. Defines the machine path and storage class for the LVP Share. */
-  lvpConfig?: BareMetalLvpConfig;
   /** The number of subdirectories to create under path. */
   sharedPathPvCount?: number;
+  /** Required. Defines the machine path and storage class for the LVP Share. */
+  lvpConfig?: BareMetalLvpConfig;
 }
 export const BareMetalLvpShareConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lvpConfig: S.optional(BareMetalLvpConfig),
     sharedPathPvCount: S.optional(S.Number),
+    lvpConfig: S.optional(BareMetalLvpConfig),
   }),
 ).annotate({
   identifier: "BareMetalLvpShareConfig",
@@ -149,46 +149,178 @@ export const BareMetalAdminStorageConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "BareMetalAdminStorageConfig",
 }) as any as S.Schema<BareMetalAdminStorageConfig>;
 
-/** Specifies the node access related settings for the bare metal admin cluster. */
-export interface BareMetalAdminNodeAccessConfig {
-  /** Required. LoginUser is the user name used to access node machines. It defaults to "root" if not set. */
-  loginUser?: string;
+export type BinaryAuthorizationEvaluationModeEnum =
+  | "EVALUATION_MODE_UNSPECIFIED"
+  | "DISABLED"
+  | "PROJECT_SINGLETON_POLICY_ENFORCE";
+export const BinaryAuthorizationEvaluationModeEnum = S.String;
+
+/** Configuration for Binary Authorization. */
+export interface BinaryAuthorization {
+  /** Mode of operation for binauthz policy evaluation. If unspecified, defaults to DISABLED. */
+  evaluationMode?: BinaryAuthorizationEvaluationModeEnum | (string & {});
 }
-export const BareMetalAdminNodeAccessConfig = /*@__PURE__*/ S.suspend(() =>
+export const BinaryAuthorization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    loginUser: S.optional(S.String),
+    evaluationMode: S.optional(BinaryAuthorizationEvaluationModeEnum),
   }),
 ).annotate({
-  identifier: "BareMetalAdminNodeAccessConfig",
-}) as any as S.Schema<BareMetalAdminNodeAccessConfig>;
+  identifier: "BinaryAuthorization",
+}) as any as S.Schema<BinaryAuthorization>;
+
+/** ClusterUser configures user principals for an RBAC policy. */
+export interface ClusterUser {
+  /** Required. The name of the user, e.g. `my-gcp-id@gmail.com`. */
+  username?: string;
+}
+export const ClusterUser = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.optional(S.String),
+  }),
+).annotate({ identifier: "ClusterUser" }) as any as S.Schema<ClusterUser>;
+
+export type ClusterUserList = Array<ClusterUser>;
+export const ClusterUserList = /*@__PURE__*/ S.Array(
+  ClusterUser,
+) as any as S.Schema<ClusterUserList>;
+
+/** Authorization defines the On-Prem cluster authorization configuration to bootstrap onto the admin cluster. */
+export interface Authorization {
+  /** For VMware and bare metal user clusters, users will be granted the cluster-admin role on the cluster, which provides full administrative access to the cluster. For bare metal admin clusters, users will be granted the cluster-view role, which limits users to read-only access. */
+  adminUsers?: ClusterUserList;
+}
+export const Authorization = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    adminUsers: S.optional(ClusterUserList),
+  }),
+).annotate({ identifier: "Authorization" }) as any as S.Schema<Authorization>;
+
+/** Specifies the security related settings for the bare metal admin cluster. */
+export interface BareMetalAdminSecurityConfig {
+  /** Configures user access to the admin cluster. */
+  authorization?: Authorization;
+}
+export const BareMetalAdminSecurityConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authorization: S.optional(Authorization),
+  }),
+).annotate({
+  identifier: "BareMetalAdminSecurityConfig",
+}) as any as S.Schema<BareMetalAdminSecurityConfig>;
+
+/** BareMetalAdminWorkloadNodeConfig specifies the workload node configurations. */
+export interface BareMetalAdminWorkloadNodeConfig {
+  /** The maximum number of pods a node can run. The size of the CIDR range assigned to the node will be derived from this parameter. By default 110 Pods are created per Node. Upper bound is 250 for both HA and non-HA admin cluster. Lower bound is 64 for non-HA admin cluster and 32 for HA admin cluster. */
+  maxPodsPerNode?: string;
+}
+export const BareMetalAdminWorkloadNodeConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxPodsPerNode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BareMetalAdminWorkloadNodeConfig",
+}) as any as S.Schema<BareMetalAdminWorkloadNodeConfig>;
+
+/** Fleet related configuration. Fleets are a Google Cloud concept for logically organizing clusters, letting you use and manage multi-cluster capabilities and apply consistent policies across your systems. See [Anthos Fleets](`https://cloud.google.com/anthos/multicluster-management/fleets`) for more details on Anthos multi-cluster capabilities using Fleets. ## */
+export interface Fleet {
+  /** Output only. The name of the managed fleet Membership resource associated to this cluster. Membership names are formatted as `projects//locations//memberships/`. */
+  membership?: string;
+}
+export const Fleet = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membership: S.optional(S.String),
+  }),
+).annotate({ identifier: "Fleet" }) as any as S.Schema<Fleet>;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StringMap>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
+/** BareMetalAdminIslandModeCidrConfig specifies the cluster CIDR configuration while running in island mode. */
+export interface BareMetalAdminIslandModeCidrConfig {
+  /** Required. All services in the cluster are assigned an RFC1918 IPv4 address from these ranges. This field cannot be changed after creation. */
+  serviceAddressCidrBlocks?: StringList;
+  /** Required. All pods in the cluster are assigned an RFC1918 IPv4 address from these ranges. This field cannot be changed after creation. */
+  podAddressCidrBlocks?: StringList;
+}
+export const BareMetalAdminIslandModeCidrConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceAddressCidrBlocks: S.optional(StringList),
+    podAddressCidrBlocks: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "BareMetalAdminIslandModeCidrConfig",
+}) as any as S.Schema<BareMetalAdminIslandModeCidrConfig>;
+
+/** Specifies the multiple networking interfaces cluster configuration. */
+export interface BareMetalAdminMultipleNetworkInterfacesConfig {
+  /** Whether to enable multiple network interfaces for your pods. When set network_config.advanced_networking is automatically set to true. */
+  enabled?: boolean;
+}
+export const BareMetalAdminMultipleNetworkInterfacesConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      enabled: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "BareMetalAdminMultipleNetworkInterfacesConfig",
+  }) as any as S.Schema<BareMetalAdminMultipleNetworkInterfacesConfig>;
+
+/** BareMetalAdminNetworkConfig specifies the cluster network configuration. */
+export interface BareMetalAdminNetworkConfig {
+  /** Enables the use of advanced Anthos networking features, such as Bundled Load Balancing with BGP or the egress NAT gateway. Setting configuration for advanced networking features will automatically set this flag. */
+  advancedNetworking?: boolean;
+  /** Configuration for Island mode CIDR. */
+  islandModeCidr?: BareMetalAdminIslandModeCidrConfig;
+  /** Configuration for multiple network interfaces. */
+  multipleNetworkInterfacesConfig?: BareMetalAdminMultipleNetworkInterfacesConfig;
+}
+export const BareMetalAdminNetworkConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    advancedNetworking: S.optional(S.Boolean),
+    islandModeCidr: S.optional(BareMetalAdminIslandModeCidrConfig),
+    multipleNetworkInterfacesConfig: S.optional(
+      BareMetalAdminMultipleNetworkInterfacesConfig,
+    ),
+  }),
+).annotate({
+  identifier: "BareMetalAdminNetworkConfig",
+}) as any as S.Schema<BareMetalAdminNetworkConfig>;
 
 export type ResourceConditionStateEnum =
   | "STATE_UNSPECIFIED"
   | "STATE_TRUE"
   | "STATE_FALSE"
   | "STATE_UNKNOWN";
-export const ResourceConditionStateEnum = /*@__PURE__*/ S.String;
+export const ResourceConditionStateEnum = S.String;
 
 /** ResourceCondition provides a standard mechanism for higher-level status reporting from controller. */
 export interface ResourceCondition {
-  /** Human-readable message indicating details about last transition. */
-  message?: string;
+  /** state of the condition. */
+  state?: ResourceConditionStateEnum | (string & {});
   /** Type of the condition. (e.g., ClusterRunning, NodePoolRunning or ServerSidePreflightReady) */
   type?: string;
+  /** Human-readable message indicating details about last transition. */
+  message?: string;
   /** Machine-readable message indicating details about last transition. */
   reason?: string;
   /** Last time the condition transit from one status to another. */
   lastTransitionTime?: string;
-  /** state of the condition. */
-  state?: ResourceConditionStateEnum | (string & {});
 }
 export const ResourceCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
+    state: S.optional(ResourceConditionStateEnum),
     type: S.optional(S.String),
+    message: S.optional(S.String),
     reason: S.optional(S.String),
     lastTransitionTime: S.optional(S.String),
-    state: S.optional(ResourceConditionStateEnum),
   }),
 ).annotate({
   identifier: "ResourceCondition",
@@ -249,84 +381,100 @@ export const ResourceStatus = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ResourceStatus" }) as any as S.Schema<ResourceStatus>;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
+export type BareMetalAdminClusterStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PROVISIONING"
+  | "RUNNING"
+  | "RECONCILING"
+  | "STOPPING"
+  | "ERROR"
+  | "DEGRADED";
+export const BareMetalAdminClusterStateEnum = S.String;
 
-/** BareMetalAdminProxyConfig specifies the cluster proxy configuration. */
-export interface BareMetalAdminProxyConfig {
-  /** Required. Specifies the address of your proxy server. Examples: `http://domain` WARNING: Do not provide credentials in the format `http://(username:password@)domain` these will be rejected by the server. */
-  uri?: string;
-  /** A list of IPs, hostnames, and domains that should skip the proxy. Examples: ["127.0.0.1", "example.com", ".corp", "localhost"]. */
-  noProxy?: StringList;
+/** BareMetalAdminPortConfig is the specification of load balancer ports. */
+export interface BareMetalAdminPortConfig {
+  /** The port that control plane hosted load balancers will listen on. */
+  controlPlaneLoadBalancerPort?: number;
 }
-export const BareMetalAdminProxyConfig = /*@__PURE__*/ S.suspend(() =>
+export const BareMetalAdminPortConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uri: S.optional(S.String),
-    noProxy: S.optional(StringList),
+    controlPlaneLoadBalancerPort: S.optional(S.Number),
   }),
 ).annotate({
-  identifier: "BareMetalAdminProxyConfig",
-}) as any as S.Schema<BareMetalAdminProxyConfig>;
+  identifier: "BareMetalAdminPortConfig",
+}) as any as S.Schema<BareMetalAdminPortConfig>;
 
-/** ClusterUser configures user principals for an RBAC policy. */
-export interface ClusterUser {
-  /** Required. The name of the user, e.g. `my-gcp-id@gmail.com`. */
-  username?: string;
+/** BareMetalAdminVipConfig for bare metal load balancer configurations. */
+export interface BareMetalAdminVipConfig {
+  /** The VIP which you previously set aside for the Kubernetes API of this bare metal admin cluster. */
+  controlPlaneVip?: string;
 }
-export const ClusterUser = /*@__PURE__*/ S.suspend(() =>
+export const BareMetalAdminVipConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    username: S.optional(S.String),
-  }),
-).annotate({ identifier: "ClusterUser" }) as any as S.Schema<ClusterUser>;
-
-export type ClusterUserList = Array<ClusterUser>;
-export const ClusterUserList = /*@__PURE__*/ S.Array(
-  ClusterUser,
-) as any as S.Schema<ClusterUserList>;
-
-/** Authorization defines the On-Prem cluster authorization configuration to bootstrap onto the admin cluster. */
-export interface Authorization {
-  /** For VMware and bare metal user clusters, users will be granted the cluster-admin role on the cluster, which provides full administrative access to the cluster. For bare metal admin clusters, users will be granted the cluster-view role, which limits users to read-only access. */
-  adminUsers?: ClusterUserList;
-}
-export const Authorization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    adminUsers: S.optional(ClusterUserList),
-  }),
-).annotate({ identifier: "Authorization" }) as any as S.Schema<Authorization>;
-
-/** Specifies the security related settings for the bare metal admin cluster. */
-export interface BareMetalAdminSecurityConfig {
-  /** Configures user access to the admin cluster. */
-  authorization?: Authorization;
-}
-export const BareMetalAdminSecurityConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authorization: S.optional(Authorization),
+    controlPlaneVip: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "BareMetalAdminSecurityConfig",
-}) as any as S.Schema<BareMetalAdminSecurityConfig>;
+  identifier: "BareMetalAdminVipConfig",
+}) as any as S.Schema<BareMetalAdminVipConfig>;
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StringMap>;
+/** BareMetalAdminManualLbConfig represents configuration parameters for a manual load balancer. */
+export interface BareMetalAdminManualLbConfig {
+  /** Whether manual load balancing is enabled. */
+  enabled?: boolean;
+}
+export const BareMetalAdminManualLbConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "BareMetalAdminManualLbConfig",
+}) as any as S.Schema<BareMetalAdminManualLbConfig>;
+
+export type NodeTaintEffectEnum =
+  | "EFFECT_UNSPECIFIED"
+  | "NO_SCHEDULE"
+  | "PREFER_NO_SCHEDULE"
+  | "NO_EXECUTE";
+export const NodeTaintEffectEnum = S.String;
+
+/** NodeTaint applied to every Kubernetes node in a node pool. Kubernetes taints can be used together with tolerations to control how workloads are scheduled to your nodes. Node taints are permanent. */
+export interface NodeTaint {
+  /** Key associated with the effect. */
+  key?: string;
+  /** The taint effect. */
+  effect?: NodeTaintEffectEnum | (string & {});
+  /** Value associated with the effect. */
+  value?: string;
+}
+export const NodeTaint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    effect: S.optional(NodeTaintEffectEnum),
+    value: S.optional(S.String),
+  }),
+).annotate({ identifier: "NodeTaint" }) as any as S.Schema<NodeTaint>;
+
+export type NodeTaintList = Array<NodeTaint>;
+export const NodeTaintList = /*@__PURE__*/ S.Array(
+  NodeTaint,
+) as any as S.Schema<NodeTaintList>;
+
+export type BareMetalNodePoolConfigOperatingSystemEnum =
+  | "OPERATING_SYSTEM_UNSPECIFIED"
+  | "LINUX";
+export const BareMetalNodePoolConfigOperatingSystemEnum = S.String;
 
 /** BareMetalNodeConfig lists machine addresses to access Nodes. */
 export interface BareMetalNodeConfig {
-  /** The default IPv4 address for SSH access and Kubernetes node. Example: 192.168.0.1 */
-  nodeIp?: string;
   /** The labels assigned to this node. An object containing a list of key/value pairs. The labels here, unioned with the labels set on BareMetalNodePoolConfig are the set of labels that will be applied to the node. If there are any conflicts, the BareMetalNodeConfig labels take precedence. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }. */
   labels?: StringMap;
+  /** The default IPv4 address for SSH access and Kubernetes node. Example: 192.168.0.1 */
+  nodeIp?: string;
 }
 export const BareMetalNodeConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nodeIp: S.optional(S.String),
     labels: S.optional(StringMap),
+    nodeIp: S.optional(S.String),
   }),
 ).annotate({
   identifier: "BareMetalNodeConfig",
@@ -339,82 +487,187 @@ export const BareMetalNodeConfigList = /*@__PURE__*/ S.Array(
 
 /** KubeletConfig defines the modifiable kubelet configurations for bare metal machines. Note: this list includes fields supported in GKE (see https://cloud.google.com/kubernetes-engine/docs/how-to/node-system-config#kubelet-options). */
 export interface BareMetalKubeletConfig {
+  /** Prevents the Kubelet from pulling multiple images at a time. We recommend *not* changing the default value on nodes that run docker daemon with version < 1.9 or an Another Union File System (Aufs) storage backend. Issue https://github.com/kubernetes/kubernetes/issues/10959 has more details. */
+  serializeImagePullsDisabled?: boolean;
   /** The limit of registry pulls per second. Setting this value to 0 means no limit. Updating this field may impact scalability by changing the amount of traffic produced by image pulls. Defaults to 5. */
   registryPullQps?: number;
   /** The maximum size of bursty pulls, temporarily allows pulls to burst to this number, while still not exceeding registry_pull_qps. The value must not be a negative number. Updating this field may impact scalability by changing the amount of traffic produced by image pulls. Defaults to 10. */
   registryBurst?: number;
-  /** Prevents the Kubelet from pulling multiple images at a time. We recommend *not* changing the default value on nodes that run docker daemon with version < 1.9 or an Another Union File System (Aufs) storage backend. Issue https://github.com/kubernetes/kubernetes/issues/10959 has more details. */
-  serializeImagePullsDisabled?: boolean;
 }
 export const BareMetalKubeletConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    serializeImagePullsDisabled: S.optional(S.Boolean),
     registryPullQps: S.optional(S.Number),
     registryBurst: S.optional(S.Number),
-    serializeImagePullsDisabled: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "BareMetalKubeletConfig",
 }) as any as S.Schema<BareMetalKubeletConfig>;
 
-export type BareMetalNodePoolConfigOperatingSystemEnum =
-  | "OPERATING_SYSTEM_UNSPECIFIED"
-  | "LINUX";
-export const BareMetalNodePoolConfigOperatingSystemEnum =
-  /*@__PURE__*/ S.String;
-
-export type NodeTaintEffectEnum =
-  | "EFFECT_UNSPECIFIED"
-  | "NO_SCHEDULE"
-  | "PREFER_NO_SCHEDULE"
-  | "NO_EXECUTE";
-export const NodeTaintEffectEnum = /*@__PURE__*/ S.String;
-
-/** NodeTaint applied to every Kubernetes node in a node pool. Kubernetes taints can be used together with tolerations to control how workloads are scheduled to your nodes. Node taints are permanent. */
-export interface NodeTaint {
-  /** The taint effect. */
-  effect?: NodeTaintEffectEnum | (string & {});
-  /** Key associated with the effect. */
-  key?: string;
-  /** Value associated with the effect. */
-  value?: string;
-}
-export const NodeTaint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    effect: S.optional(NodeTaintEffectEnum),
-    key: S.optional(S.String),
-    value: S.optional(S.String),
-  }),
-).annotate({ identifier: "NodeTaint" }) as any as S.Schema<NodeTaint>;
-
-export type NodeTaintList = Array<NodeTaint>;
-export const NodeTaintList = /*@__PURE__*/ S.Array(
-  NodeTaint,
-) as any as S.Schema<NodeTaintList>;
-
 /** BareMetalNodePoolConfig describes the configuration of all nodes within a given bare metal node pool. */
 export interface BareMetalNodePoolConfig {
+  /** The initial taints assigned to nodes of this node pool. */
+  taints?: NodeTaintList;
+  /** Specifies the nodes operating system (default: LINUX). */
+  operatingSystem?: BareMetalNodePoolConfigOperatingSystemEnum | (string & {});
   /** The labels assigned to nodes of this node pool. An object containing a list of key/value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }. */
   labels?: StringMap;
   /** Required. The list of machine addresses in the bare metal node pool. */
   nodeConfigs?: BareMetalNodeConfigList;
   /** The modifiable kubelet configurations for the bare metal machines. */
   kubeletConfig?: BareMetalKubeletConfig;
-  /** Specifies the nodes operating system (default: LINUX). */
-  operatingSystem?: BareMetalNodePoolConfigOperatingSystemEnum | (string & {});
-  /** The initial taints assigned to nodes of this node pool. */
-  taints?: NodeTaintList;
 }
 export const BareMetalNodePoolConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    taints: S.optional(NodeTaintList),
+    operatingSystem: S.optional(BareMetalNodePoolConfigOperatingSystemEnum),
     labels: S.optional(StringMap),
     nodeConfigs: S.optional(BareMetalNodeConfigList),
     kubeletConfig: S.optional(BareMetalKubeletConfig),
-    operatingSystem: S.optional(BareMetalNodePoolConfigOperatingSystemEnum),
-    taints: S.optional(NodeTaintList),
   }),
 ).annotate({
   identifier: "BareMetalNodePoolConfig",
 }) as any as S.Schema<BareMetalNodePoolConfig>;
+
+/** Specifies the load balancer's node pool configuration. */
+export interface BareMetalAdminLoadBalancerNodePoolConfig {
+  /** The generic configuration for a node pool running a load balancer. */
+  nodePoolConfig?: BareMetalNodePoolConfig;
+}
+export const BareMetalAdminLoadBalancerNodePoolConfig = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      nodePoolConfig: S.optional(BareMetalNodePoolConfig),
+    }),
+).annotate({
+  identifier: "BareMetalAdminLoadBalancerNodePoolConfig",
+}) as any as S.Schema<BareMetalAdminLoadBalancerNodePoolConfig>;
+
+/** BareMetalAdminBgpPeerConfig represents configuration parameters for a Border Gateway Protocol (BGP) peer. */
+export interface BareMetalAdminBgpPeerConfig {
+  /** The IP address of the control plane node that connects to the external peer. If you don't specify any control plane nodes, all control plane nodes can connect to the external peer. If you specify one or more IP addresses, only the nodes specified participate in peering sessions. */
+  controlPlaneNodes?: StringList;
+  /** Required. BGP autonomous system number (ASN) for the network that contains the external peer device. */
+  asn?: string;
+  /** Required. The IP address of the external peer device. */
+  ipAddress?: string;
+}
+export const BareMetalAdminBgpPeerConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    controlPlaneNodes: S.optional(StringList),
+    asn: S.optional(S.String),
+    ipAddress: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BareMetalAdminBgpPeerConfig",
+}) as any as S.Schema<BareMetalAdminBgpPeerConfig>;
+
+export type BareMetalAdminBgpPeerConfigList =
+  Array<BareMetalAdminBgpPeerConfig>;
+export const BareMetalAdminBgpPeerConfigList = /*@__PURE__*/ S.Array(
+  BareMetalAdminBgpPeerConfig,
+) as any as S.Schema<BareMetalAdminBgpPeerConfigList>;
+
+/** Represents an IP pool used by the load balancer. */
+export interface BareMetalAdminLoadBalancerAddressPool {
+  /** Required. The name of the address pool. */
+  pool?: string;
+  /** If true, avoid using IPs ending in .0 or .255. This avoids buggy consumer devices mistakenly dropping IPv4 traffic for those special IP addresses. */
+  avoidBuggyIps?: boolean;
+  /** If true, prevent IP addresses from being automatically assigned. */
+  manualAssign?: boolean;
+  /** Required. The addresses that are part of this pool. Each address must be either in the CIDR form (1.2.3.0/24) or range form (1.2.3.1-1.2.3.5). */
+  addresses?: StringList;
+}
+export const BareMetalAdminLoadBalancerAddressPool = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      pool: S.optional(S.String),
+      avoidBuggyIps: S.optional(S.Boolean),
+      manualAssign: S.optional(S.Boolean),
+      addresses: S.optional(StringList),
+    }),
+).annotate({
+  identifier: "BareMetalAdminLoadBalancerAddressPool",
+}) as any as S.Schema<BareMetalAdminLoadBalancerAddressPool>;
+
+export type BareMetalAdminLoadBalancerAddressPoolList =
+  Array<BareMetalAdminLoadBalancerAddressPool>;
+export const BareMetalAdminLoadBalancerAddressPoolList = /*@__PURE__*/ S.Array(
+  BareMetalAdminLoadBalancerAddressPool,
+) as any as S.Schema<BareMetalAdminLoadBalancerAddressPoolList>;
+
+/** BareMetalAdminBgpLbConfig represents configuration parameters for a Border Gateway Protocol (BGP) load balancer. */
+export interface BareMetalAdminBgpLbConfig {
+  /** Required. BGP autonomous system number (ASN) of the cluster. This field can be updated after cluster creation. */
+  asn?: string;
+  /** Specifies the node pool running data plane load balancing. L2 connectivity is required among nodes in this pool. If missing, the control plane node pool is used for data plane load balancing. */
+  loadBalancerNodePoolConfig?: BareMetalAdminLoadBalancerNodePoolConfig;
+  /** Required. The list of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Control plane nodes will connect to these peers to advertise the control plane VIP. The Services load balancer also uses these peers by default. This field can be updated after cluster creation. */
+  bgpPeerConfigs?: BareMetalAdminBgpPeerConfigList;
+  /** Required. AddressPools is a list of non-overlapping IP pools used by load balancer typed services. All addresses must be routable to load balancer nodes. IngressVIP must be included in the pools. */
+  addressPools?: BareMetalAdminLoadBalancerAddressPoolList;
+}
+export const BareMetalAdminBgpLbConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    asn: S.optional(S.String),
+    loadBalancerNodePoolConfig: S.optional(
+      BareMetalAdminLoadBalancerNodePoolConfig,
+    ),
+    bgpPeerConfigs: S.optional(BareMetalAdminBgpPeerConfigList),
+    addressPools: S.optional(BareMetalAdminLoadBalancerAddressPoolList),
+  }),
+).annotate({
+  identifier: "BareMetalAdminBgpLbConfig",
+}) as any as S.Schema<BareMetalAdminBgpLbConfig>;
+
+/** BareMetalAdminLoadBalancerConfig specifies the load balancer configuration. */
+export interface BareMetalAdminLoadBalancerConfig {
+  /** Configures the ports that the load balancer will listen on. */
+  portConfig?: BareMetalAdminPortConfig;
+  /** The VIPs used by the load balancer. */
+  vipConfig?: BareMetalAdminVipConfig;
+  /** Manually configured load balancers. */
+  manualLbConfig?: BareMetalAdminManualLbConfig;
+  /** Configuration for BGP typed load balancers. */
+  bgpLbConfig?: BareMetalAdminBgpLbConfig;
+}
+export const BareMetalAdminLoadBalancerConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    portConfig: S.optional(BareMetalAdminPortConfig),
+    vipConfig: S.optional(BareMetalAdminVipConfig),
+    manualLbConfig: S.optional(BareMetalAdminManualLbConfig),
+    bgpLbConfig: S.optional(BareMetalAdminBgpLbConfig),
+  }),
+).annotate({
+  identifier: "BareMetalAdminLoadBalancerConfig",
+}) as any as S.Schema<BareMetalAdminLoadBalancerConfig>;
+
+/** Specifies operating system operation settings for cluster provisioning. */
+export interface BareMetalAdminOsEnvironmentConfig {
+  /** Whether the package repo should be added when initializing bare metal machines. */
+  packageRepoExcluded?: boolean;
+}
+export const BareMetalAdminOsEnvironmentConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    packageRepoExcluded: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "BareMetalAdminOsEnvironmentConfig",
+}) as any as S.Schema<BareMetalAdminOsEnvironmentConfig>;
+
+/** Specifies the node access related settings for the bare metal admin cluster. */
+export interface BareMetalAdminNodeAccessConfig {
+  /** Required. LoginUser is the user name used to access node machines. It defaults to "root" if not set. */
+  loginUser?: string;
+}
+export const BareMetalAdminNodeAccessConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    loginUser: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BareMetalAdminNodeAccessConfig",
+}) as any as S.Schema<BareMetalAdminNodeAccessConfig>;
 
 /** BareMetalAdminControlPlaneNodePoolConfig specifies the control plane node pool configuration. We have a control plane specific node pool config so that we can flexible about supporting control plane specific fields in the future. */
 export interface BareMetalAdminControlPlaneNodePoolConfig {
@@ -470,396 +723,17 @@ export const BareMetalAdminControlPlaneConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "BareMetalAdminControlPlaneConfig",
 }) as any as S.Schema<BareMetalAdminControlPlaneConfig>;
 
-export type ValidationCheckResultStateEnum =
-  | "STATE_UNKNOWN"
-  | "STATE_FAILURE"
-  | "STATE_SKIPPED"
-  | "STATE_FATAL"
-  | "STATE_WARNING";
-export const ValidationCheckResultStateEnum = /*@__PURE__*/ S.String;
-
-/** ValidationCheckResult defines the details about the validation check. */
-export interface ValidationCheckResult {
-  /** The description of the validation check. */
-  description?: string;
-  /** The category of the validation. */
-  category?: string;
-  /** The validation check state. */
-  state?: ValidationCheckResultStateEnum | (string & {});
-  /** A human-readable message of the check failure. */
-  reason?: string;
-  /** Detailed failure information, which might be unformatted. */
-  details?: string;
-}
-export const ValidationCheckResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    category: S.optional(S.String),
-    state: S.optional(ValidationCheckResultStateEnum),
-    reason: S.optional(S.String),
-    details: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ValidationCheckResult",
-}) as any as S.Schema<ValidationCheckResult>;
-
-export type ValidationCheckResultList = Array<ValidationCheckResult>;
-export const ValidationCheckResultList = /*@__PURE__*/ S.Array(
-  ValidationCheckResult,
-) as any as S.Schema<ValidationCheckResultList>;
-
-/** ValidationCheckStatus defines the detailed validation check status. */
-export interface ValidationCheckStatus {
-  /** Individual checks which failed as part of the Preflight check execution. */
-  result?: ValidationCheckResultList;
-}
-export const ValidationCheckStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    result: S.optional(ValidationCheckResultList),
-  }),
-).annotate({
-  identifier: "ValidationCheckStatus",
-}) as any as S.Schema<ValidationCheckStatus>;
-
-export type ValidationCheckScenarioEnum =
-  | "SCENARIO_UNSPECIFIED"
-  | "CREATE"
-  | "UPDATE";
-export const ValidationCheckScenarioEnum = /*@__PURE__*/ S.String;
-
-export type ValidationCheckOptionEnum =
-  | "OPTIONS_UNSPECIFIED"
-  | "SKIP_VALIDATION_CHECK_BLOCKING"
-  | "SKIP_VALIDATION_ALL";
-export const ValidationCheckOptionEnum = /*@__PURE__*/ S.String;
-
-/** ValidationCheck represents the result of preflight check. */
-export interface ValidationCheck {
-  /** Output only. The detailed validation check status. */
-  status?: ValidationCheckStatus;
-  /** Output only. The scenario when the preflight checks were run. */
-  scenario?: ValidationCheckScenarioEnum | (string & {});
-  /** Options used for the validation check */
-  option?: ValidationCheckOptionEnum | (string & {});
-}
-export const ValidationCheck = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(ValidationCheckStatus),
-    scenario: S.optional(ValidationCheckScenarioEnum),
-    option: S.optional(ValidationCheckOptionEnum),
-  }),
-).annotate({
-  identifier: "ValidationCheck",
-}) as any as S.Schema<ValidationCheck>;
-
-/** Specifies operating system operation settings for cluster provisioning. */
-export interface BareMetalAdminOsEnvironmentConfig {
-  /** Whether the package repo should be added when initializing bare metal machines. */
-  packageRepoExcluded?: boolean;
-}
-export const BareMetalAdminOsEnvironmentConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    packageRepoExcluded: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "BareMetalAdminOsEnvironmentConfig",
-}) as any as S.Schema<BareMetalAdminOsEnvironmentConfig>;
-
-/** BareMetalAdminVipConfig for bare metal load balancer configurations. */
-export interface BareMetalAdminVipConfig {
-  /** The VIP which you previously set aside for the Kubernetes API of this bare metal admin cluster. */
-  controlPlaneVip?: string;
-}
-export const BareMetalAdminVipConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    controlPlaneVip: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BareMetalAdminVipConfig",
-}) as any as S.Schema<BareMetalAdminVipConfig>;
-
-/** BareMetalAdminPortConfig is the specification of load balancer ports. */
-export interface BareMetalAdminPortConfig {
-  /** The port that control plane hosted load balancers will listen on. */
-  controlPlaneLoadBalancerPort?: number;
-}
-export const BareMetalAdminPortConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    controlPlaneLoadBalancerPort: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "BareMetalAdminPortConfig",
-}) as any as S.Schema<BareMetalAdminPortConfig>;
-
-/** BareMetalAdminManualLbConfig represents configuration parameters for a manual load balancer. */
-export interface BareMetalAdminManualLbConfig {
-  /** Whether manual load balancing is enabled. */
-  enabled?: boolean;
-}
-export const BareMetalAdminManualLbConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "BareMetalAdminManualLbConfig",
-}) as any as S.Schema<BareMetalAdminManualLbConfig>;
-
-/** BareMetalAdminBgpPeerConfig represents configuration parameters for a Border Gateway Protocol (BGP) peer. */
-export interface BareMetalAdminBgpPeerConfig {
-  /** Required. BGP autonomous system number (ASN) for the network that contains the external peer device. */
-  asn?: string;
-  /** Required. The IP address of the external peer device. */
-  ipAddress?: string;
-  /** The IP address of the control plane node that connects to the external peer. If you don't specify any control plane nodes, all control plane nodes can connect to the external peer. If you specify one or more IP addresses, only the nodes specified participate in peering sessions. */
-  controlPlaneNodes?: StringList;
-}
-export const BareMetalAdminBgpPeerConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    asn: S.optional(S.String),
-    ipAddress: S.optional(S.String),
-    controlPlaneNodes: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "BareMetalAdminBgpPeerConfig",
-}) as any as S.Schema<BareMetalAdminBgpPeerConfig>;
-
-export type BareMetalAdminBgpPeerConfigList =
-  Array<BareMetalAdminBgpPeerConfig>;
-export const BareMetalAdminBgpPeerConfigList = /*@__PURE__*/ S.Array(
-  BareMetalAdminBgpPeerConfig,
-) as any as S.Schema<BareMetalAdminBgpPeerConfigList>;
-
-/** Represents an IP pool used by the load balancer. */
-export interface BareMetalAdminLoadBalancerAddressPool {
-  /** If true, prevent IP addresses from being automatically assigned. */
-  manualAssign?: boolean;
-  /** Required. The name of the address pool. */
-  pool?: string;
-  /** Required. The addresses that are part of this pool. Each address must be either in the CIDR form (1.2.3.0/24) or range form (1.2.3.1-1.2.3.5). */
-  addresses?: StringList;
-  /** If true, avoid using IPs ending in .0 or .255. This avoids buggy consumer devices mistakenly dropping IPv4 traffic for those special IP addresses. */
-  avoidBuggyIps?: boolean;
-}
-export const BareMetalAdminLoadBalancerAddressPool = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      manualAssign: S.optional(S.Boolean),
-      pool: S.optional(S.String),
-      addresses: S.optional(StringList),
-      avoidBuggyIps: S.optional(S.Boolean),
-    }),
-).annotate({
-  identifier: "BareMetalAdminLoadBalancerAddressPool",
-}) as any as S.Schema<BareMetalAdminLoadBalancerAddressPool>;
-
-export type BareMetalAdminLoadBalancerAddressPoolList =
-  Array<BareMetalAdminLoadBalancerAddressPool>;
-export const BareMetalAdminLoadBalancerAddressPoolList = /*@__PURE__*/ S.Array(
-  BareMetalAdminLoadBalancerAddressPool,
-) as any as S.Schema<BareMetalAdminLoadBalancerAddressPoolList>;
-
-/** Specifies the load balancer's node pool configuration. */
-export interface BareMetalAdminLoadBalancerNodePoolConfig {
-  /** The generic configuration for a node pool running a load balancer. */
-  nodePoolConfig?: BareMetalNodePoolConfig;
-}
-export const BareMetalAdminLoadBalancerNodePoolConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nodePoolConfig: S.optional(BareMetalNodePoolConfig),
-    }),
-).annotate({
-  identifier: "BareMetalAdminLoadBalancerNodePoolConfig",
-}) as any as S.Schema<BareMetalAdminLoadBalancerNodePoolConfig>;
-
-/** BareMetalAdminBgpLbConfig represents configuration parameters for a Border Gateway Protocol (BGP) load balancer. */
-export interface BareMetalAdminBgpLbConfig {
-  /** Required. The list of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Control plane nodes will connect to these peers to advertise the control plane VIP. The Services load balancer also uses these peers by default. This field can be updated after cluster creation. */
-  bgpPeerConfigs?: BareMetalAdminBgpPeerConfigList;
-  /** Required. BGP autonomous system number (ASN) of the cluster. This field can be updated after cluster creation. */
-  asn?: string;
-  /** Required. AddressPools is a list of non-overlapping IP pools used by load balancer typed services. All addresses must be routable to load balancer nodes. IngressVIP must be included in the pools. */
-  addressPools?: BareMetalAdminLoadBalancerAddressPoolList;
-  /** Specifies the node pool running data plane load balancing. L2 connectivity is required among nodes in this pool. If missing, the control plane node pool is used for data plane load balancing. */
-  loadBalancerNodePoolConfig?: BareMetalAdminLoadBalancerNodePoolConfig;
-}
-export const BareMetalAdminBgpLbConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bgpPeerConfigs: S.optional(BareMetalAdminBgpPeerConfigList),
-    asn: S.optional(S.String),
-    addressPools: S.optional(BareMetalAdminLoadBalancerAddressPoolList),
-    loadBalancerNodePoolConfig: S.optional(
-      BareMetalAdminLoadBalancerNodePoolConfig,
-    ),
-  }),
-).annotate({
-  identifier: "BareMetalAdminBgpLbConfig",
-}) as any as S.Schema<BareMetalAdminBgpLbConfig>;
-
-/** BareMetalAdminLoadBalancerConfig specifies the load balancer configuration. */
-export interface BareMetalAdminLoadBalancerConfig {
-  /** The VIPs used by the load balancer. */
-  vipConfig?: BareMetalAdminVipConfig;
-  /** Configures the ports that the load balancer will listen on. */
-  portConfig?: BareMetalAdminPortConfig;
-  /** Manually configured load balancers. */
-  manualLbConfig?: BareMetalAdminManualLbConfig;
-  /** Configuration for BGP typed load balancers. */
-  bgpLbConfig?: BareMetalAdminBgpLbConfig;
-}
-export const BareMetalAdminLoadBalancerConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vipConfig: S.optional(BareMetalAdminVipConfig),
-    portConfig: S.optional(BareMetalAdminPortConfig),
-    manualLbConfig: S.optional(BareMetalAdminManualLbConfig),
-    bgpLbConfig: S.optional(BareMetalAdminBgpLbConfig),
-  }),
-).annotate({
-  identifier: "BareMetalAdminLoadBalancerConfig",
-}) as any as S.Schema<BareMetalAdminLoadBalancerConfig>;
-
-/** BareMetalAdminClusterOperationsConfig specifies the admin cluster's observability infrastructure. */
-export interface BareMetalAdminClusterOperationsConfig {
-  /** Whether collection of application logs/metrics should be enabled (in addition to system logs/metrics). */
-  enableApplicationLogs?: boolean;
-}
-export const BareMetalAdminClusterOperationsConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      enableApplicationLogs: S.optional(S.Boolean),
-    }),
-).annotate({
-  identifier: "BareMetalAdminClusterOperationsConfig",
-}) as any as S.Schema<BareMetalAdminClusterOperationsConfig>;
-
-/** Fleet related configuration. Fleets are a Google Cloud concept for logically organizing clusters, letting you use and manage multi-cluster capabilities and apply consistent policies across your systems. See [Anthos Fleets](`https://cloud.google.com/anthos/multicluster-management/fleets`) for more details on Anthos multi-cluster capabilities using Fleets. ## */
-export interface Fleet {
-  /** Output only. The name of the managed fleet Membership resource associated to this cluster. Membership names are formatted as `projects//locations//memberships/`. */
-  membership?: string;
-}
-export const Fleet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    membership: S.optional(S.String),
-  }),
-).annotate({ identifier: "Fleet" }) as any as S.Schema<Fleet>;
-
-/** BareMetalAdminWorkloadNodeConfig specifies the workload node configurations. */
-export interface BareMetalAdminWorkloadNodeConfig {
-  /** The maximum number of pods a node can run. The size of the CIDR range assigned to the node will be derived from this parameter. By default 110 Pods are created per Node. Upper bound is 250 for both HA and non-HA admin cluster. Lower bound is 64 for non-HA admin cluster and 32 for HA admin cluster. */
-  maxPodsPerNode?: string;
-}
-export const BareMetalAdminWorkloadNodeConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxPodsPerNode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BareMetalAdminWorkloadNodeConfig",
-}) as any as S.Schema<BareMetalAdminWorkloadNodeConfig>;
-
-export type BinaryAuthorizationEvaluationModeEnum =
-  | "EVALUATION_MODE_UNSPECIFIED"
-  | "DISABLED"
-  | "PROJECT_SINGLETON_POLICY_ENFORCE";
-export const BinaryAuthorizationEvaluationModeEnum = /*@__PURE__*/ S.String;
-
-/** Configuration for Binary Authorization. */
-export interface BinaryAuthorization {
-  /** Mode of operation for binauthz policy evaluation. If unspecified, defaults to DISABLED. */
-  evaluationMode?: BinaryAuthorizationEvaluationModeEnum | (string & {});
-}
-export const BinaryAuthorization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    evaluationMode: S.optional(BinaryAuthorizationEvaluationModeEnum),
-  }),
-).annotate({
-  identifier: "BinaryAuthorization",
-}) as any as S.Schema<BinaryAuthorization>;
-
-export type BareMetalAdminClusterStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PROVISIONING"
-  | "RUNNING"
-  | "RECONCILING"
-  | "STOPPING"
-  | "ERROR"
-  | "DEGRADED";
-export const BareMetalAdminClusterStateEnum = /*@__PURE__*/ S.String;
-
-/** Specifies the multiple networking interfaces cluster configuration. */
-export interface BareMetalAdminMultipleNetworkInterfacesConfig {
-  /** Whether to enable multiple network interfaces for your pods. When set network_config.advanced_networking is automatically set to true. */
-  enabled?: boolean;
-}
-export const BareMetalAdminMultipleNetworkInterfacesConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      enabled: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier: "BareMetalAdminMultipleNetworkInterfacesConfig",
-  }) as any as S.Schema<BareMetalAdminMultipleNetworkInterfacesConfig>;
-
-/** BareMetalAdminIslandModeCidrConfig specifies the cluster CIDR configuration while running in island mode. */
-export interface BareMetalAdminIslandModeCidrConfig {
-  /** Required. All services in the cluster are assigned an RFC1918 IPv4 address from these ranges. This field cannot be changed after creation. */
-  serviceAddressCidrBlocks?: StringList;
-  /** Required. All pods in the cluster are assigned an RFC1918 IPv4 address from these ranges. This field cannot be changed after creation. */
-  podAddressCidrBlocks?: StringList;
-}
-export const BareMetalAdminIslandModeCidrConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceAddressCidrBlocks: S.optional(StringList),
-    podAddressCidrBlocks: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "BareMetalAdminIslandModeCidrConfig",
-}) as any as S.Schema<BareMetalAdminIslandModeCidrConfig>;
-
-/** BareMetalAdminNetworkConfig specifies the cluster network configuration. */
-export interface BareMetalAdminNetworkConfig {
-  /** Enables the use of advanced Anthos networking features, such as Bundled Load Balancing with BGP or the egress NAT gateway. Setting configuration for advanced networking features will automatically set this flag. */
-  advancedNetworking?: boolean;
-  /** Configuration for multiple network interfaces. */
-  multipleNetworkInterfacesConfig?: BareMetalAdminMultipleNetworkInterfacesConfig;
-  /** Configuration for Island mode CIDR. */
-  islandModeCidr?: BareMetalAdminIslandModeCidrConfig;
-}
-export const BareMetalAdminNetworkConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    advancedNetworking: S.optional(S.Boolean),
-    multipleNetworkInterfacesConfig: S.optional(
-      BareMetalAdminMultipleNetworkInterfacesConfig,
-    ),
-    islandModeCidr: S.optional(BareMetalAdminIslandModeCidrConfig),
-  }),
-).annotate({
-  identifier: "BareMetalAdminNetworkConfig",
-}) as any as S.Schema<BareMetalAdminNetworkConfig>;
-
-/** BareMetalAdminMaintenanceConfig specifies configurations to put bare metal Admin cluster CRs nodes in and out of maintenance. */
-export interface BareMetalAdminMaintenanceConfig {
-  /** Required. All IPv4 address from these ranges will be placed into maintenance mode. Nodes in maintenance mode will be cordoned and drained. When both of these are true, the "baremetal.cluster.gke.io/maintenance" annotation will be set on the node resource. */
-  maintenanceAddressCidrBlocks?: StringList;
-}
-export const BareMetalAdminMaintenanceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maintenanceAddressCidrBlocks: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "BareMetalAdminMaintenanceConfig",
-}) as any as S.Schema<BareMetalAdminMaintenanceConfig>;
-
 /** BareMetalAdminDrainingMachine represents the machines that are currently draining. */
 export interface BareMetalAdminDrainingMachine {
-  /** Draining machine IP address. */
-  nodeIp?: string;
   /** The count of pods yet to drain. */
   podCount?: number;
+  /** Draining machine IP address. */
+  nodeIp?: string;
 }
 export const BareMetalAdminDrainingMachine = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nodeIp: S.optional(S.String),
     podCount: S.optional(S.Number),
+    nodeIp: S.optional(S.String),
   }),
 ).annotate({
   identifier: "BareMetalAdminDrainingMachine",
@@ -919,110 +793,235 @@ export const BareMetalAdminMaintenanceStatus = /*@__PURE__*/ S.suspend(() =>
   identifier: "BareMetalAdminMaintenanceStatus",
 }) as any as S.Schema<BareMetalAdminMaintenanceStatus>;
 
+/** BareMetalAdminProxyConfig specifies the cluster proxy configuration. */
+export interface BareMetalAdminProxyConfig {
+  /** A list of IPs, hostnames, and domains that should skip the proxy. Examples: ["127.0.0.1", "example.com", ".corp", "localhost"]. */
+  noProxy?: StringList;
+  /** Required. Specifies the address of your proxy server. Examples: `http://domain` WARNING: Do not provide credentials in the format `http://(username:password@)domain` these will be rejected by the server. */
+  uri?: string;
+}
+export const BareMetalAdminProxyConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    noProxy: S.optional(StringList),
+    uri: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BareMetalAdminProxyConfig",
+}) as any as S.Schema<BareMetalAdminProxyConfig>;
+
+/** BareMetalAdminClusterOperationsConfig specifies the admin cluster's observability infrastructure. */
+export interface BareMetalAdminClusterOperationsConfig {
+  /** Whether collection of application logs/metrics should be enabled (in addition to system logs/metrics). */
+  enableApplicationLogs?: boolean;
+}
+export const BareMetalAdminClusterOperationsConfig = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      enableApplicationLogs: S.optional(S.Boolean),
+    }),
+).annotate({
+  identifier: "BareMetalAdminClusterOperationsConfig",
+}) as any as S.Schema<BareMetalAdminClusterOperationsConfig>;
+
+export type ValidationCheckScenarioEnum =
+  | "SCENARIO_UNSPECIFIED"
+  | "CREATE"
+  | "UPDATE";
+export const ValidationCheckScenarioEnum = S.String;
+
+export type ValidationCheckResultStateEnum =
+  | "STATE_UNKNOWN"
+  | "STATE_FAILURE"
+  | "STATE_SKIPPED"
+  | "STATE_FATAL"
+  | "STATE_WARNING";
+export const ValidationCheckResultStateEnum = S.String;
+
+/** ValidationCheckResult defines the details about the validation check. */
+export interface ValidationCheckResult {
+  /** The validation check state. */
+  state?: ValidationCheckResultStateEnum | (string & {});
+  /** Detailed failure information, which might be unformatted. */
+  details?: string;
+  /** A human-readable message of the check failure. */
+  reason?: string;
+  /** The category of the validation. */
+  category?: string;
+  /** The description of the validation check. */
+  description?: string;
+}
+export const ValidationCheckResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.optional(ValidationCheckResultStateEnum),
+    details: S.optional(S.String),
+    reason: S.optional(S.String),
+    category: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ValidationCheckResult",
+}) as any as S.Schema<ValidationCheckResult>;
+
+export type ValidationCheckResultList = Array<ValidationCheckResult>;
+export const ValidationCheckResultList = /*@__PURE__*/ S.Array(
+  ValidationCheckResult,
+) as any as S.Schema<ValidationCheckResultList>;
+
+/** ValidationCheckStatus defines the detailed validation check status. */
+export interface ValidationCheckStatus {
+  /** Individual checks which failed as part of the Preflight check execution. */
+  result?: ValidationCheckResultList;
+}
+export const ValidationCheckStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    result: S.optional(ValidationCheckResultList),
+  }),
+).annotate({
+  identifier: "ValidationCheckStatus",
+}) as any as S.Schema<ValidationCheckStatus>;
+
+export type ValidationCheckOptionEnum =
+  | "OPTIONS_UNSPECIFIED"
+  | "SKIP_VALIDATION_CHECK_BLOCKING"
+  | "SKIP_VALIDATION_ALL";
+export const ValidationCheckOptionEnum = S.String;
+
+/** ValidationCheck represents the result of preflight check. */
+export interface ValidationCheck {
+  /** Output only. The scenario when the preflight checks were run. */
+  scenario?: ValidationCheckScenarioEnum | (string & {});
+  /** Output only. The detailed validation check status. */
+  status?: ValidationCheckStatus;
+  /** Options used for the validation check */
+  option?: ValidationCheckOptionEnum | (string & {});
+}
+export const ValidationCheck = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scenario: S.optional(ValidationCheckScenarioEnum),
+    status: S.optional(ValidationCheckStatus),
+    option: S.optional(ValidationCheckOptionEnum),
+  }),
+).annotate({
+  identifier: "ValidationCheck",
+}) as any as S.Schema<ValidationCheck>;
+
+/** BareMetalAdminMaintenanceConfig specifies configurations to put bare metal Admin cluster CRs nodes in and out of maintenance. */
+export interface BareMetalAdminMaintenanceConfig {
+  /** Required. All IPv4 address from these ranges will be placed into maintenance mode. Nodes in maintenance mode will be cordoned and drained. When both of these are true, the "baremetal.cluster.gke.io/maintenance" annotation will be set on the node resource. */
+  maintenanceAddressCidrBlocks?: StringList;
+}
+export const BareMetalAdminMaintenanceConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maintenanceAddressCidrBlocks: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "BareMetalAdminMaintenanceConfig",
+}) as any as S.Schema<BareMetalAdminMaintenanceConfig>;
+
 /** Resource that represents a bare metal admin cluster. */
 export interface BareMetalAdminCluster {
   /** Storage configuration. */
   storage?: BareMetalAdminStorageConfig;
-  /** Node access related configurations. */
-  nodeAccessConfig?: BareMetalAdminNodeAccessConfig;
-  /** Output only. ResourceStatus representing detailed cluster status. */
-  status?: ResourceStatus;
-  /** The Anthos clusters on bare metal version for the bare metal admin cluster. */
-  bareMetalVersion?: string;
-  /** Proxy configuration. */
-  proxy?: BareMetalAdminProxyConfig;
+  /** Binary Authorization related configurations. */
+  binaryAuthorization?: BinaryAuthorization;
   /** Security related configuration. */
   securityConfig?: BareMetalAdminSecurityConfig;
-  /** Output only. The IP address name of bare metal admin cluster's API server. */
-  endpoint?: string;
-  /** Control plane configuration. */
-  controlPlane?: BareMetalAdminControlPlaneConfig;
+  /** A human readable description of this bare metal admin cluster. */
+  description?: string;
+  /** Workload node configuration. */
+  nodeConfig?: BareMetalAdminWorkloadNodeConfig;
+  /** The Anthos clusters on bare metal version for the bare metal admin cluster. */
+  bareMetalVersion?: string;
+  /** Output only. Fleet configuration for the cluster. */
+  fleet?: Fleet;
+  /** Annotations on the bare metal admin cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
+  annotations?: StringMap;
+  /** Network configuration. */
+  networkConfig?: BareMetalAdminNetworkConfig;
+  /** Output only. ResourceStatus representing detailed cluster status. */
+  status?: ResourceStatus;
   /** Output only. If set, there are currently changes in flight to the bare metal Admin Cluster. */
   reconciling?: boolean;
-  /** Output only. The unique identifier of the bare metal admin cluster. */
-  uid?: string;
+  /** Output only. The current state of the bare metal admin cluster. */
+  state?: BareMetalAdminClusterStateEnum | (string & {});
+  /** Output only. The time at which this bare metal admin cluster was created. */
+  createTime?: string;
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
+  etag?: string;
+  /** Load balancer configuration. */
+  loadBalancer?: BareMetalAdminLoadBalancerConfig;
+  /** OS environment related configurations. */
+  osEnvironmentConfig?: BareMetalAdminOsEnvironmentConfig;
+  /** Output only. The object name of the bare metal cluster custom resource. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the ID in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. All users should use this name to access their cluster using gkectl or kubectl and should expect to see the local name when viewing admin cluster controller logs. */
+  localName?: string;
+  /** Node access related configurations. */
+  nodeAccessConfig?: BareMetalAdminNodeAccessConfig;
+  /** Output only. The time at which this bare metal admin cluster was last updated. */
+  updateTime?: string;
+  /** Immutable. The bare metal admin cluster resource name. */
+  name?: string;
+  /** Control plane configuration. */
+  controlPlane?: BareMetalAdminControlPlaneConfig;
+  /** Output only. MaintenanceStatus representing state of maintenance. */
+  maintenanceStatus?: BareMetalAdminMaintenanceStatus;
+  /** Proxy configuration. */
+  proxy?: BareMetalAdminProxyConfig;
+  /** Cluster operations configuration. */
+  clusterOperations?: BareMetalAdminClusterOperationsConfig;
+  /** Output only. The IP address name of bare metal admin cluster's API server. */
+  endpoint?: string;
   /** Output only. The time at which this bare metal admin cluster was deleted. If the resource is not deleted, this must be empty */
   deleteTime?: string;
   /** Output only. ValidationCheck representing the result of the preflight check. */
   validationCheck?: ValidationCheck;
-  /** OS environment related configurations. */
-  osEnvironmentConfig?: BareMetalAdminOsEnvironmentConfig;
-  /** Load balancer configuration. */
-  loadBalancer?: BareMetalAdminLoadBalancerConfig;
-  /** Cluster operations configuration. */
-  clusterOperations?: BareMetalAdminClusterOperationsConfig;
-  /** Output only. The time at which this bare metal admin cluster was last updated. */
-  updateTime?: string;
-  /** Annotations on the bare metal admin cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap;
-  /** Output only. Fleet configuration for the cluster. */
-  fleet?: Fleet;
-  /** Workload node configuration. */
-  nodeConfig?: BareMetalAdminWorkloadNodeConfig;
-  /** Output only. The time at which this bare metal admin cluster was created. */
-  createTime?: string;
-  /** Binary Authorization related configurations. */
-  binaryAuthorization?: BinaryAuthorization;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string;
-  /** Immutable. The bare metal admin cluster resource name. */
-  name?: string;
-  /** Output only. The current state of the bare metal admin cluster. */
-  state?: BareMetalAdminClusterStateEnum | (string & {});
-  /** Output only. The object name of the bare metal cluster custom resource. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the ID in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. All users should use this name to access their cluster using gkectl or kubectl and should expect to see the local name when viewing admin cluster controller logs. */
-  localName?: string;
-  /** Network configuration. */
-  networkConfig?: BareMetalAdminNetworkConfig;
+  /** Output only. The unique identifier of the bare metal admin cluster. */
+  uid?: string;
   /** Maintenance configuration. */
   maintenanceConfig?: BareMetalAdminMaintenanceConfig;
-  /** A human readable description of this bare metal admin cluster. */
-  description?: string;
-  /** Output only. MaintenanceStatus representing state of maintenance. */
-  maintenanceStatus?: BareMetalAdminMaintenanceStatus;
 }
 export const BareMetalAdminCluster = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     storage: S.optional(BareMetalAdminStorageConfig),
-    nodeAccessConfig: S.optional(BareMetalAdminNodeAccessConfig),
-    status: S.optional(ResourceStatus),
-    bareMetalVersion: S.optional(S.String),
-    proxy: S.optional(BareMetalAdminProxyConfig),
+    binaryAuthorization: S.optional(BinaryAuthorization),
     securityConfig: S.optional(BareMetalAdminSecurityConfig),
-    endpoint: S.optional(S.String),
-    controlPlane: S.optional(BareMetalAdminControlPlaneConfig),
+    description: S.optional(S.String),
+    nodeConfig: S.optional(BareMetalAdminWorkloadNodeConfig),
+    bareMetalVersion: S.optional(S.String),
+    fleet: S.optional(Fleet),
+    annotations: S.optional(StringMap),
+    networkConfig: S.optional(BareMetalAdminNetworkConfig),
+    status: S.optional(ResourceStatus),
     reconciling: S.optional(S.Boolean),
-    uid: S.optional(S.String),
+    state: S.optional(BareMetalAdminClusterStateEnum),
+    createTime: S.optional(S.String),
+    etag: S.optional(S.String),
+    loadBalancer: S.optional(BareMetalAdminLoadBalancerConfig),
+    osEnvironmentConfig: S.optional(BareMetalAdminOsEnvironmentConfig),
+    localName: S.optional(S.String),
+    nodeAccessConfig: S.optional(BareMetalAdminNodeAccessConfig),
+    updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    controlPlane: S.optional(BareMetalAdminControlPlaneConfig),
+    maintenanceStatus: S.optional(BareMetalAdminMaintenanceStatus),
+    proxy: S.optional(BareMetalAdminProxyConfig),
+    clusterOperations: S.optional(BareMetalAdminClusterOperationsConfig),
+    endpoint: S.optional(S.String),
     deleteTime: S.optional(S.String),
     validationCheck: S.optional(ValidationCheck),
-    osEnvironmentConfig: S.optional(BareMetalAdminOsEnvironmentConfig),
-    loadBalancer: S.optional(BareMetalAdminLoadBalancerConfig),
-    clusterOperations: S.optional(BareMetalAdminClusterOperationsConfig),
-    updateTime: S.optional(S.String),
-    annotations: S.optional(StringMap),
-    fleet: S.optional(Fleet),
-    nodeConfig: S.optional(BareMetalAdminWorkloadNodeConfig),
-    createTime: S.optional(S.String),
-    binaryAuthorization: S.optional(BinaryAuthorization),
-    etag: S.optional(S.String),
-    name: S.optional(S.String),
-    state: S.optional(BareMetalAdminClusterStateEnum),
-    localName: S.optional(S.String),
-    networkConfig: S.optional(BareMetalAdminNetworkConfig),
+    uid: S.optional(S.String),
     maintenanceConfig: S.optional(BareMetalAdminMaintenanceConfig),
-    description: S.optional(S.String),
-    maintenanceStatus: S.optional(BareMetalAdminMaintenanceStatus),
   }),
 ).annotate({
   identifier: "BareMetalAdminCluster",
 }) as any as S.Schema<BareMetalAdminCluster>;
 
 export interface CreateProjectsLocationsBareMetalAdminClustersRequest {
-  /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
-  parent: string;
-  /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
-  bareMetalAdminClusterId?: string;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
+  /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
+  bareMetalAdminClusterId?: string;
+  /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
+  parent: string;
   /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
   allowPreflightFailure?: boolean;
   /** Request body */
@@ -1031,9 +1030,9 @@ export interface CreateProjectsLocationsBareMetalAdminClustersRequest {
 export const CreateProjectsLocationsBareMetalAdminClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      bareMetalAdminClusterId: S.optional(S.String.pipe(T.Query())),
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+      bareMetalAdminClusterId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
       body: S.optional(BareMetalAdminCluster.pipe(T.HttpBody())),
     }).pipe(
@@ -1079,158 +1078,79 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    done: S.optional(S.Boolean),
-    error: S.optional(Status),
     metadata: S.optional(DocumentMap),
+    done: S.optional(S.Boolean),
     response: S.optional(DocumentMap),
+    error: S.optional(Status),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
-/** Specifies operating system settings for cluster provisioning. */
-export interface BareMetalOsEnvironmentConfig {
-  /** Whether the package repo should not be included when initializing bare metal machines. */
-  packageRepoExcluded?: boolean;
+export type BareMetalClusterStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PROVISIONING"
+  | "RUNNING"
+  | "RECONCILING"
+  | "STOPPING"
+  | "ERROR"
+  | "DEGRADED";
+export const BareMetalClusterStateEnum = S.String;
+
+export type BareMetalWorkloadNodeConfigContainerRuntimeEnum =
+  | "CONTAINER_RUNTIME_UNSPECIFIED"
+  | "CONTAINERD";
+export const BareMetalWorkloadNodeConfigContainerRuntimeEnum = S.String;
+
+/** Specifies the workload node configurations. */
+export interface BareMetalWorkloadNodeConfig {
+  /** Specifies which container runtime will be used. */
+  containerRuntime?:
+    | BareMetalWorkloadNodeConfigContainerRuntimeEnum
+    | (string & {});
+  /** The maximum number of pods a node can run. The size of the CIDR range assigned to the node will be derived from this parameter. */
+  maxPodsPerNode?: string;
 }
-export const BareMetalOsEnvironmentConfig = /*@__PURE__*/ S.suspend(() =>
+export const BareMetalWorkloadNodeConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    packageRepoExcluded: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "BareMetalOsEnvironmentConfig",
-}) as any as S.Schema<BareMetalOsEnvironmentConfig>;
-
-/** Represents an arg name->value pair. Only a subset of customized flags are supported. For the exact format, refer to the [API server documentation](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/). */
-export interface BareMetalApiServerArgument {
-  /** Required. The value of the arg as it will be passed to the API Server command line. */
-  value?: string;
-  /** Required. The argument name as it appears on the API Server command line, make sure to remove the leading dashes. */
-  argument?: string;
-}
-export const BareMetalApiServerArgument = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    argument: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BareMetalApiServerArgument",
-}) as any as S.Schema<BareMetalApiServerArgument>;
-
-export type BareMetalApiServerArgumentList = Array<BareMetalApiServerArgument>;
-export const BareMetalApiServerArgumentList = /*@__PURE__*/ S.Array(
-  BareMetalApiServerArgument,
-) as any as S.Schema<BareMetalApiServerArgumentList>;
-
-/** Specifies the control plane node pool configuration. */
-export type BareMetalControlPlaneNodePoolConfig =
-  BareMetalAdminControlPlaneNodePoolConfig;
-export const BareMetalControlPlaneNodePoolConfig =
-  BareMetalAdminControlPlaneNodePoolConfig;
-
-/** Specifies the control plane configuration. */
-export interface BareMetalControlPlaneConfig {
-  /** Customizes the default API server args. Only a subset of customized flags are supported. For the exact format, refer to the [API server documentation](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/). */
-  apiServerArgs?: BareMetalApiServerArgumentList;
-  /** Required. Configures the node pool running the control plane. */
-  controlPlaneNodePoolConfig?: BareMetalAdminControlPlaneNodePoolConfig;
-}
-export const BareMetalControlPlaneConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiServerArgs: S.optional(BareMetalApiServerArgumentList),
-    controlPlaneNodePoolConfig: S.optional(
-      BareMetalAdminControlPlaneNodePoolConfig,
+    containerRuntime: S.optional(
+      BareMetalWorkloadNodeConfigContainerRuntimeEnum,
     ),
+    maxPodsPerNode: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "BareMetalControlPlaneConfig",
-}) as any as S.Schema<BareMetalControlPlaneConfig>;
-
-/** Specifies the security related settings for the bare metal user cluster. */
-export interface BareMetalSecurityConfig {
-  /** Configures user access to the user cluster. */
-  authorization?: Authorization;
-}
-export const BareMetalSecurityConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authorization: S.optional(Authorization),
-  }),
-).annotate({
-  identifier: "BareMetalSecurityConfig",
-}) as any as S.Schema<BareMetalSecurityConfig>;
-
-/** Specifies the cluster proxy configuration. */
-export interface BareMetalProxyConfig {
-  /** Required. Specifies the address of your proxy server. Examples: `http://domain` Do not provide credentials in the format `http://(username:password@)domain` these will be rejected by the server. */
-  uri?: string;
-  /** A list of IPs, hostnames, and domains that should skip the proxy. Examples: ["127.0.0.1", "example.com", ".corp", "localhost"]. */
-  noProxy?: StringList;
-}
-export const BareMetalProxyConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uri: S.optional(S.String),
-    noProxy: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "BareMetalProxyConfig",
-}) as any as S.Schema<BareMetalProxyConfig>;
-
-export type BareMetalClusterUpgradePolicyPolicyEnum =
-  | "NODE_POOL_POLICY_UNSPECIFIED"
-  | "SERIAL"
-  | "CONCURRENT";
-export const BareMetalClusterUpgradePolicyPolicyEnum = /*@__PURE__*/ S.String;
-
-/** BareMetalClusterUpgradePolicy defines the cluster upgrade policy. */
-export interface BareMetalClusterUpgradePolicy {
-  /** Output only. Pause is used to show the upgrade pause status. It's view only for now. */
-  pause?: boolean;
-  /** Specifies which upgrade policy to use. */
-  policy?: BareMetalClusterUpgradePolicyPolicyEnum | (string & {});
-}
-export const BareMetalClusterUpgradePolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pause: S.optional(S.Boolean),
-    policy: S.optional(BareMetalClusterUpgradePolicyPolicyEnum),
-  }),
-).annotate({
-  identifier: "BareMetalClusterUpgradePolicy",
-}) as any as S.Schema<BareMetalClusterUpgradePolicy>;
-
-/** BareMetalStorageConfig specifies the cluster storage configuration. */
-export type BareMetalStorageConfig = BareMetalAdminStorageConfig;
-export const BareMetalStorageConfig = BareMetalAdminStorageConfig;
-
-/** Specifies the node access related settings for the bare metal user cluster. */
-export interface BareMetalNodeAccessConfig {
-  /** LoginUser is the user name used to access node machines. It defaults to "root" if not set. */
-  loginUser?: string;
-}
-export const BareMetalNodeAccessConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    loginUser: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BareMetalNodeAccessConfig",
-}) as any as S.Schema<BareMetalNodeAccessConfig>;
+  identifier: "BareMetalWorkloadNodeConfig",
+}) as any as S.Schema<BareMetalWorkloadNodeConfig>;
 
 /** Represents a machine that is currently draining. */
-export type BareMetalDrainingMachine = BareMetalAdminDrainingMachine;
-export const BareMetalDrainingMachine = BareMetalAdminDrainingMachine;
+export interface BareMetalDrainingMachine {
+  /** Draining machine IP address. */
+  nodeIp?: string;
+  /** The count of pods yet to drain. */
+  podCount?: number;
+}
+export const BareMetalDrainingMachine = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nodeIp: S.optional(S.String),
+    podCount: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "BareMetalDrainingMachine",
+}) as any as S.Schema<BareMetalDrainingMachine>;
 
-export type BareMetalDrainingMachineList = Array<BareMetalAdminDrainingMachine>;
+export type BareMetalDrainingMachineList = Array<BareMetalDrainingMachine>;
 export const BareMetalDrainingMachineList = /*@__PURE__*/ S.Array(
-  BareMetalAdminDrainingMachine,
+  BareMetalDrainingMachine,
 ) as any as S.Schema<BareMetalDrainingMachineList>;
 
 /** Represents a machine that is currently drained. */
@@ -1271,104 +1191,160 @@ export const BareMetalMaintenanceStatus = /*@__PURE__*/ S.suspend(() =>
   identifier: "BareMetalMaintenanceStatus",
 }) as any as S.Schema<BareMetalMaintenanceStatus>;
 
-/** Specifies the cluster CIDR configuration while running in island mode. */
-export interface BareMetalIslandModeCidrConfig {
-  /** Required. All services in the cluster are assigned an RFC1918 IPv4 address from these ranges. This field is mutable after creation starting with version 1.15. */
-  serviceAddressCidrBlocks?: StringList;
-  /** Required. All pods in the cluster are assigned an RFC1918 IPv4 address from these ranges. This field cannot be changed after creation. */
-  podAddressCidrBlocks?: StringList;
+/** Specifies operating system settings for cluster provisioning. */
+export interface BareMetalOsEnvironmentConfig {
+  /** Whether the package repo should not be included when initializing bare metal machines. */
+  packageRepoExcluded?: boolean;
 }
-export const BareMetalIslandModeCidrConfig = /*@__PURE__*/ S.suspend(() =>
+export const BareMetalOsEnvironmentConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceAddressCidrBlocks: S.optional(StringList),
-    podAddressCidrBlocks: S.optional(StringList),
+    packageRepoExcluded: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "BareMetalIslandModeCidrConfig",
-}) as any as S.Schema<BareMetalIslandModeCidrConfig>;
+  identifier: "BareMetalOsEnvironmentConfig",
+}) as any as S.Schema<BareMetalOsEnvironmentConfig>;
 
-/** Specifies the SR-IOV networking operator config. */
-export interface BareMetalSrIovConfig {
-  /** Whether to install the SR-IOV operator. */
-  enabled?: boolean;
+/** Specifies the security related settings for the bare metal user cluster. */
+export interface BareMetalSecurityConfig {
+  /** Configures user access to the user cluster. */
+  authorization?: Authorization;
 }
-export const BareMetalSrIovConfig = /*@__PURE__*/ S.suspend(() =>
+export const BareMetalSecurityConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.optional(S.Boolean),
+    authorization: S.optional(Authorization),
   }),
 ).annotate({
-  identifier: "BareMetalSrIovConfig",
-}) as any as S.Schema<BareMetalSrIovConfig>;
+  identifier: "BareMetalSecurityConfig",
+}) as any as S.Schema<BareMetalSecurityConfig>;
 
-/** Specifies the multiple networking interfaces cluster configuration. */
-export type BareMetalMultipleNetworkInterfacesConfig =
-  BareMetalAdminMultipleNetworkInterfacesConfig;
-export const BareMetalMultipleNetworkInterfacesConfig =
-  BareMetalAdminMultipleNetworkInterfacesConfig;
-
-/** Specifies the cluster network configuration. */
-export interface BareMetalNetworkConfig {
-  /** Configuration for island mode CIDR. In an island-mode network, nodes have unique IP addresses, but pods don't have unique addresses across clusters. This doesn't cause problems because pods in one cluster never directly communicate with pods in another cluster. Instead, there are gateways that mediate between a pod in one cluster and a pod in another cluster. */
-  islandModeCidr?: BareMetalIslandModeCidrConfig;
-  /** Configuration for SR-IOV. */
-  srIovConfig?: BareMetalSrIovConfig;
-  /** Enables the use of advanced Anthos networking features, such as Bundled Load Balancing with BGP or the egress NAT gateway. Setting configuration for advanced networking features will automatically set this flag. */
-  advancedNetworking?: boolean;
-  /** Configuration for multiple network interfaces. */
-  multipleNetworkInterfacesConfig?: BareMetalAdminMultipleNetworkInterfacesConfig;
+/** Specifies the node access related settings for the bare metal user cluster. */
+export interface BareMetalNodeAccessConfig {
+  /** LoginUser is the user name used to access node machines. It defaults to "root" if not set. */
+  loginUser?: string;
 }
-export const BareMetalNetworkConfig = /*@__PURE__*/ S.suspend(() =>
+export const BareMetalNodeAccessConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    islandModeCidr: S.optional(BareMetalIslandModeCidrConfig),
-    srIovConfig: S.optional(BareMetalSrIovConfig),
-    advancedNetworking: S.optional(S.Boolean),
-    multipleNetworkInterfacesConfig: S.optional(
-      BareMetalAdminMultipleNetworkInterfacesConfig,
-    ),
+    loginUser: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "BareMetalNetworkConfig",
-}) as any as S.Schema<BareMetalNetworkConfig>;
+  identifier: "BareMetalNodeAccessConfig",
+}) as any as S.Schema<BareMetalNodeAccessConfig>;
+
+/** BareMetalStorageConfig specifies the cluster storage configuration. */
+export type BareMetalStorageConfig = BareMetalAdminStorageConfig;
+export const BareMetalStorageConfig = BareMetalAdminStorageConfig;
 
 /** Specifies configurations to put bare metal nodes in and out of maintenance. */
 export type BareMetalMaintenanceConfig = BareMetalAdminMaintenanceConfig;
 export const BareMetalMaintenanceConfig = BareMetalAdminMaintenanceConfig;
 
-export type BareMetalClusterStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PROVISIONING"
-  | "RUNNING"
-  | "RECONCILING"
-  | "STOPPING"
-  | "ERROR"
-  | "DEGRADED";
-export const BareMetalClusterStateEnum = /*@__PURE__*/ S.String;
+/** Specifies the bare metal user cluster's observability infrastructure. */
+export type BareMetalClusterOperationsConfig =
+  BareMetalAdminClusterOperationsConfig;
+export const BareMetalClusterOperationsConfig =
+  BareMetalAdminClusterOperationsConfig;
 
-export type BareMetalWorkloadNodeConfigContainerRuntimeEnum =
-  | "CONTAINER_RUNTIME_UNSPECIFIED"
-  | "CONTAINERD";
-export const BareMetalWorkloadNodeConfigContainerRuntimeEnum =
-  /*@__PURE__*/ S.String;
-
-/** Specifies the workload node configurations. */
-export interface BareMetalWorkloadNodeConfig {
-  /** The maximum number of pods a node can run. The size of the CIDR range assigned to the node will be derived from this parameter. */
-  maxPodsPerNode?: string;
-  /** Specifies which container runtime will be used. */
-  containerRuntime?:
-    | BareMetalWorkloadNodeConfigContainerRuntimeEnum
-    | (string & {});
+/** Specifies the cluster proxy configuration. */
+export interface BareMetalProxyConfig {
+  /** Required. Specifies the address of your proxy server. Examples: `http://domain` Do not provide credentials in the format `http://(username:password@)domain` these will be rejected by the server. */
+  uri?: string;
+  /** A list of IPs, hostnames, and domains that should skip the proxy. Examples: ["127.0.0.1", "example.com", ".corp", "localhost"]. */
+  noProxy?: StringList;
 }
-export const BareMetalWorkloadNodeConfig = /*@__PURE__*/ S.suspend(() =>
+export const BareMetalProxyConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxPodsPerNode: S.optional(S.String),
-    containerRuntime: S.optional(
-      BareMetalWorkloadNodeConfigContainerRuntimeEnum,
+    uri: S.optional(S.String),
+    noProxy: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "BareMetalProxyConfig",
+}) as any as S.Schema<BareMetalProxyConfig>;
+
+/** Specifies load balancer ports for the bare metal user cluster. */
+export type BareMetalPortConfig = BareMetalAdminPortConfig;
+export const BareMetalPortConfig = BareMetalAdminPortConfig;
+
+/** Represents an IP pool used by the load balancer. */
+export interface BareMetalLoadBalancerAddressPool {
+  /** If true, avoid using IPs ending in .0 or .255. This avoids buggy consumer devices mistakenly dropping IPv4 traffic for those special IP addresses. */
+  avoidBuggyIps?: boolean;
+  /** If true, prevent IP addresses from being automatically assigned. */
+  manualAssign?: boolean;
+  /** Required. The addresses that are part of this pool. Each address must be either in the CIDR form (1.2.3.0/24) or range form (1.2.3.1-1.2.3.5). */
+  addresses?: StringList;
+  /** Required. The name of the address pool. */
+  pool?: string;
+}
+export const BareMetalLoadBalancerAddressPool = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    avoidBuggyIps: S.optional(S.Boolean),
+    manualAssign: S.optional(S.Boolean),
+    addresses: S.optional(StringList),
+    pool: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BareMetalLoadBalancerAddressPool",
+}) as any as S.Schema<BareMetalLoadBalancerAddressPool>;
+
+export type BareMetalLoadBalancerAddressPoolList =
+  Array<BareMetalLoadBalancerAddressPool>;
+export const BareMetalLoadBalancerAddressPoolList = /*@__PURE__*/ S.Array(
+  BareMetalLoadBalancerAddressPool,
+) as any as S.Schema<BareMetalLoadBalancerAddressPoolList>;
+
+/** BareMetalBgpPeerConfig represents configuration parameters for a Border Gateway Protocol (BGP) peer. */
+export interface BareMetalBgpPeerConfig {
+  /** Required. The IP address of the external peer device. */
+  ipAddress?: string;
+  /** The IP address of the control plane node that connects to the external peer. If you don't specify any control plane nodes, all control plane nodes can connect to the external peer. If you specify one or more IP addresses, only the nodes specified participate in peering sessions. */
+  controlPlaneNodes?: StringList;
+  /** Required. BGP autonomous system number (ASN) for the network that contains the external peer device. */
+  asn?: string;
+}
+export const BareMetalBgpPeerConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ipAddress: S.optional(S.String),
+    controlPlaneNodes: S.optional(StringList),
+    asn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BareMetalBgpPeerConfig",
+}) as any as S.Schema<BareMetalBgpPeerConfig>;
+
+export type BareMetalBgpPeerConfigList = Array<BareMetalBgpPeerConfig>;
+export const BareMetalBgpPeerConfigList = /*@__PURE__*/ S.Array(
+  BareMetalBgpPeerConfig,
+) as any as S.Schema<BareMetalBgpPeerConfigList>;
+
+/** Specifies the load balancer's node pool configuration. */
+export type BareMetalLoadBalancerNodePoolConfig =
+  BareMetalAdminLoadBalancerNodePoolConfig;
+export const BareMetalLoadBalancerNodePoolConfig =
+  BareMetalAdminLoadBalancerNodePoolConfig;
+
+/** BareMetalBgpLbConfig represents configuration parameters for a Border Gateway Protocol (BGP) load balancer. */
+export interface BareMetalBgpLbConfig {
+  /** Required. AddressPools is a list of non-overlapping IP pools used by load balancer typed services. All addresses must be routable to load balancer nodes. IngressVIP must be included in the pools. */
+  addressPools?: BareMetalLoadBalancerAddressPoolList;
+  /** Required. The list of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Control plane nodes will connect to these peers to advertise the control plane VIP. The Services load balancer also uses these peers by default. This field can be updated after cluster creation. */
+  bgpPeerConfigs?: BareMetalBgpPeerConfigList;
+  /** Required. BGP autonomous system number (ASN) of the cluster. This field can be updated after cluster creation. */
+  asn?: string;
+  /** Specifies the node pool running data plane load balancing. L2 connectivity is required among nodes in this pool. If missing, the control plane node pool is used for data plane load balancing. */
+  loadBalancerNodePoolConfig?: BareMetalAdminLoadBalancerNodePoolConfig;
+}
+export const BareMetalBgpLbConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    addressPools: S.optional(BareMetalLoadBalancerAddressPoolList),
+    bgpPeerConfigs: S.optional(BareMetalBgpPeerConfigList),
+    asn: S.optional(S.String),
+    loadBalancerNodePoolConfig: S.optional(
+      BareMetalAdminLoadBalancerNodePoolConfig,
     ),
   }),
 ).annotate({
-  identifier: "BareMetalWorkloadNodeConfig",
-}) as any as S.Schema<BareMetalWorkloadNodeConfig>;
+  identifier: "BareMetalBgpLbConfig",
+}) as any as S.Schema<BareMetalBgpLbConfig>;
 
 /** Specifies the VIP config for the bare metal load balancer. */
 export interface BareMetalVipConfig {
@@ -1386,39 +1362,9 @@ export const BareMetalVipConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "BareMetalVipConfig",
 }) as any as S.Schema<BareMetalVipConfig>;
 
-/** Represents an IP pool used by the load balancer. */
-export interface BareMetalLoadBalancerAddressPool {
-  /** Required. The name of the address pool. */
-  pool?: string;
-  /** Required. The addresses that are part of this pool. Each address must be either in the CIDR form (1.2.3.0/24) or range form (1.2.3.1-1.2.3.5). */
-  addresses?: StringList;
-  /** If true, avoid using IPs ending in .0 or .255. This avoids buggy consumer devices mistakenly dropping IPv4 traffic for those special IP addresses. */
-  avoidBuggyIps?: boolean;
-  /** If true, prevent IP addresses from being automatically assigned. */
-  manualAssign?: boolean;
-}
-export const BareMetalLoadBalancerAddressPool = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pool: S.optional(S.String),
-    addresses: S.optional(StringList),
-    avoidBuggyIps: S.optional(S.Boolean),
-    manualAssign: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "BareMetalLoadBalancerAddressPool",
-}) as any as S.Schema<BareMetalLoadBalancerAddressPool>;
-
-export type BareMetalLoadBalancerAddressPoolList =
-  Array<BareMetalLoadBalancerAddressPool>;
-export const BareMetalLoadBalancerAddressPoolList = /*@__PURE__*/ S.Array(
-  BareMetalLoadBalancerAddressPool,
-) as any as S.Schema<BareMetalLoadBalancerAddressPoolList>;
-
-/** Specifies the load balancer's node pool configuration. */
-export type BareMetalLoadBalancerNodePoolConfig =
-  BareMetalAdminLoadBalancerNodePoolConfig;
-export const BareMetalLoadBalancerNodePoolConfig =
-  BareMetalAdminLoadBalancerNodePoolConfig;
+/** Represents configuration parameters for a manual load balancer. */
+export type BareMetalManualLbConfig = BareMetalAdminManualLbConfig;
+export const BareMetalManualLbConfig = BareMetalAdminManualLbConfig;
 
 /** Represents configuration parameters for a MetalLB load balancer. */
 export interface BareMetalMetalLbConfig {
@@ -1438,221 +1384,285 @@ export const BareMetalMetalLbConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "BareMetalMetalLbConfig",
 }) as any as S.Schema<BareMetalMetalLbConfig>;
 
-/** Specifies load balancer ports for the bare metal user cluster. */
-export type BareMetalPortConfig = BareMetalAdminPortConfig;
-export const BareMetalPortConfig = BareMetalAdminPortConfig;
-
-/** Represents configuration parameters for a manual load balancer. */
-export type BareMetalManualLbConfig = BareMetalAdminManualLbConfig;
-export const BareMetalManualLbConfig = BareMetalAdminManualLbConfig;
-
-/** BareMetalBgpPeerConfig represents configuration parameters for a Border Gateway Protocol (BGP) peer. */
-export interface BareMetalBgpPeerConfig {
-  /** The IP address of the control plane node that connects to the external peer. If you don't specify any control plane nodes, all control plane nodes can connect to the external peer. If you specify one or more IP addresses, only the nodes specified participate in peering sessions. */
-  controlPlaneNodes?: StringList;
-  /** Required. BGP autonomous system number (ASN) for the network that contains the external peer device. */
-  asn?: string;
-  /** Required. The IP address of the external peer device. */
-  ipAddress?: string;
-}
-export const BareMetalBgpPeerConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    controlPlaneNodes: S.optional(StringList),
-    asn: S.optional(S.String),
-    ipAddress: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BareMetalBgpPeerConfig",
-}) as any as S.Schema<BareMetalBgpPeerConfig>;
-
-export type BareMetalBgpPeerConfigList = Array<BareMetalBgpPeerConfig>;
-export const BareMetalBgpPeerConfigList = /*@__PURE__*/ S.Array(
-  BareMetalBgpPeerConfig,
-) as any as S.Schema<BareMetalBgpPeerConfigList>;
-
-/** BareMetalBgpLbConfig represents configuration parameters for a Border Gateway Protocol (BGP) load balancer. */
-export interface BareMetalBgpLbConfig {
-  /** Specifies the node pool running data plane load balancing. L2 connectivity is required among nodes in this pool. If missing, the control plane node pool is used for data plane load balancing. */
-  loadBalancerNodePoolConfig?: BareMetalAdminLoadBalancerNodePoolConfig;
-  /** Required. BGP autonomous system number (ASN) of the cluster. This field can be updated after cluster creation. */
-  asn?: string;
-  /** Required. AddressPools is a list of non-overlapping IP pools used by load balancer typed services. All addresses must be routable to load balancer nodes. IngressVIP must be included in the pools. */
-  addressPools?: BareMetalLoadBalancerAddressPoolList;
-  /** Required. The list of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Control plane nodes will connect to these peers to advertise the control plane VIP. The Services load balancer also uses these peers by default. This field can be updated after cluster creation. */
-  bgpPeerConfigs?: BareMetalBgpPeerConfigList;
-}
-export const BareMetalBgpLbConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    loadBalancerNodePoolConfig: S.optional(
-      BareMetalAdminLoadBalancerNodePoolConfig,
-    ),
-    asn: S.optional(S.String),
-    addressPools: S.optional(BareMetalLoadBalancerAddressPoolList),
-    bgpPeerConfigs: S.optional(BareMetalBgpPeerConfigList),
-  }),
-).annotate({
-  identifier: "BareMetalBgpLbConfig",
-}) as any as S.Schema<BareMetalBgpLbConfig>;
-
 /** Specifies the load balancer configuration. */
 export interface BareMetalLoadBalancerConfig {
-  /** The VIPs used by the load balancer. */
-  vipConfig?: BareMetalVipConfig;
-  /** Configuration for MetalLB load balancers. */
-  metalLbConfig?: BareMetalMetalLbConfig;
   /** Configures the ports that the load balancer will listen on. */
   portConfig?: BareMetalAdminPortConfig;
-  /** Manually configured load balancers. */
-  manualLbConfig?: BareMetalAdminManualLbConfig;
   /** Configuration for BGP typed load balancers. When set network_config.advanced_networking is automatically set to true. */
   bgpLbConfig?: BareMetalBgpLbConfig;
+  /** The VIPs used by the load balancer. */
+  vipConfig?: BareMetalVipConfig;
+  /** Manually configured load balancers. */
+  manualLbConfig?: BareMetalAdminManualLbConfig;
+  /** Configuration for MetalLB load balancers. */
+  metalLbConfig?: BareMetalMetalLbConfig;
 }
 export const BareMetalLoadBalancerConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    vipConfig: S.optional(BareMetalVipConfig),
-    metalLbConfig: S.optional(BareMetalMetalLbConfig),
     portConfig: S.optional(BareMetalAdminPortConfig),
-    manualLbConfig: S.optional(BareMetalAdminManualLbConfig),
     bgpLbConfig: S.optional(BareMetalBgpLbConfig),
+    vipConfig: S.optional(BareMetalVipConfig),
+    manualLbConfig: S.optional(BareMetalAdminManualLbConfig),
+    metalLbConfig: S.optional(BareMetalMetalLbConfig),
   }),
 ).annotate({
   identifier: "BareMetalLoadBalancerConfig",
 }) as any as S.Schema<BareMetalLoadBalancerConfig>;
 
-/** Specifies the bare metal user cluster's observability infrastructure. */
-export type BareMetalClusterOperationsConfig =
-  BareMetalAdminClusterOperationsConfig;
-export const BareMetalClusterOperationsConfig =
-  BareMetalAdminClusterOperationsConfig;
+/** Specifies the control plane node pool configuration. */
+export type BareMetalControlPlaneNodePoolConfig =
+  BareMetalAdminControlPlaneNodePoolConfig;
+export const BareMetalControlPlaneNodePoolConfig =
+  BareMetalAdminControlPlaneNodePoolConfig;
+
+/** Represents an arg name->value pair. Only a subset of customized flags are supported. For the exact format, refer to the [API server documentation](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/). */
+export interface BareMetalApiServerArgument {
+  /** Required. The argument name as it appears on the API Server command line, make sure to remove the leading dashes. */
+  argument?: string;
+  /** Required. The value of the arg as it will be passed to the API Server command line. */
+  value?: string;
+}
+export const BareMetalApiServerArgument = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    argument: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BareMetalApiServerArgument",
+}) as any as S.Schema<BareMetalApiServerArgument>;
+
+export type BareMetalApiServerArgumentList = Array<BareMetalApiServerArgument>;
+export const BareMetalApiServerArgumentList = /*@__PURE__*/ S.Array(
+  BareMetalApiServerArgument,
+) as any as S.Schema<BareMetalApiServerArgumentList>;
+
+/** Specifies the control plane configuration. */
+export interface BareMetalControlPlaneConfig {
+  /** Required. Configures the node pool running the control plane. */
+  controlPlaneNodePoolConfig?: BareMetalAdminControlPlaneNodePoolConfig;
+  /** Customizes the default API server args. Only a subset of customized flags are supported. For the exact format, refer to the [API server documentation](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/). */
+  apiServerArgs?: BareMetalApiServerArgumentList;
+}
+export const BareMetalControlPlaneConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    controlPlaneNodePoolConfig: S.optional(
+      BareMetalAdminControlPlaneNodePoolConfig,
+    ),
+    apiServerArgs: S.optional(BareMetalApiServerArgumentList),
+  }),
+).annotate({
+  identifier: "BareMetalControlPlaneConfig",
+}) as any as S.Schema<BareMetalControlPlaneConfig>;
+
+/** Specifies the cluster CIDR configuration while running in island mode. */
+export interface BareMetalIslandModeCidrConfig {
+  /** Required. All pods in the cluster are assigned an RFC1918 IPv4 address from these ranges. This field cannot be changed after creation. */
+  podAddressCidrBlocks?: StringList;
+  /** Required. All services in the cluster are assigned an RFC1918 IPv4 address from these ranges. This field is mutable after creation starting with version 1.15. */
+  serviceAddressCidrBlocks?: StringList;
+}
+export const BareMetalIslandModeCidrConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    podAddressCidrBlocks: S.optional(StringList),
+    serviceAddressCidrBlocks: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "BareMetalIslandModeCidrConfig",
+}) as any as S.Schema<BareMetalIslandModeCidrConfig>;
+
+/** Specifies the multiple networking interfaces cluster configuration. */
+export type BareMetalMultipleNetworkInterfacesConfig =
+  BareMetalAdminMultipleNetworkInterfacesConfig;
+export const BareMetalMultipleNetworkInterfacesConfig =
+  BareMetalAdminMultipleNetworkInterfacesConfig;
+
+/** Specifies the SR-IOV networking operator config. */
+export interface BareMetalSrIovConfig {
+  /** Whether to install the SR-IOV operator. */
+  enabled?: boolean;
+}
+export const BareMetalSrIovConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "BareMetalSrIovConfig",
+}) as any as S.Schema<BareMetalSrIovConfig>;
+
+/** Specifies the cluster network configuration. */
+export interface BareMetalNetworkConfig {
+  /** Configuration for island mode CIDR. In an island-mode network, nodes have unique IP addresses, but pods don't have unique addresses across clusters. This doesn't cause problems because pods in one cluster never directly communicate with pods in another cluster. Instead, there are gateways that mediate between a pod in one cluster and a pod in another cluster. */
+  islandModeCidr?: BareMetalIslandModeCidrConfig;
+  /** Configuration for multiple network interfaces. */
+  multipleNetworkInterfacesConfig?: BareMetalAdminMultipleNetworkInterfacesConfig;
+  /** Configuration for SR-IOV. */
+  srIovConfig?: BareMetalSrIovConfig;
+  /** Enables the use of advanced Anthos networking features, such as Bundled Load Balancing with BGP or the egress NAT gateway. Setting configuration for advanced networking features will automatically set this flag. */
+  advancedNetworking?: boolean;
+}
+export const BareMetalNetworkConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    islandModeCidr: S.optional(BareMetalIslandModeCidrConfig),
+    multipleNetworkInterfacesConfig: S.optional(
+      BareMetalAdminMultipleNetworkInterfacesConfig,
+    ),
+    srIovConfig: S.optional(BareMetalSrIovConfig),
+    advancedNetworking: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "BareMetalNetworkConfig",
+}) as any as S.Schema<BareMetalNetworkConfig>;
+
+export type BareMetalClusterUpgradePolicyPolicyEnum =
+  | "NODE_POOL_POLICY_UNSPECIFIED"
+  | "SERIAL"
+  | "CONCURRENT";
+export const BareMetalClusterUpgradePolicyPolicyEnum = S.String;
+
+/** BareMetalClusterUpgradePolicy defines the cluster upgrade policy. */
+export interface BareMetalClusterUpgradePolicy {
+  /** Output only. Pause is used to show the upgrade pause status. It's view only for now. */
+  pause?: boolean;
+  /** Specifies which upgrade policy to use. */
+  policy?: BareMetalClusterUpgradePolicyPolicyEnum | (string & {});
+}
+export const BareMetalClusterUpgradePolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pause: S.optional(S.Boolean),
+    policy: S.optional(BareMetalClusterUpgradePolicyPolicyEnum),
+  }),
+).annotate({
+  identifier: "BareMetalClusterUpgradePolicy",
+}) as any as S.Schema<BareMetalClusterUpgradePolicy>;
 
 /** Resource that represents a bare metal user cluster. */
 export interface BareMetalCluster {
-  /** Output only. The time when the bare metal user cluster was deleted. If the resource is not deleted, this must be empty */
-  deleteTime?: string;
-  /** Output only. The result of the preflight check. */
-  validationCheck?: ValidationCheck;
-  /** OS environment related configurations. */
-  osEnvironmentConfig?: BareMetalOsEnvironmentConfig;
-  /** Output only. If set, there are currently changes in flight to the bare metal user cluster. */
-  reconciling?: boolean;
-  /** Output only. The resource name of the bare metal admin cluster managing this user cluster. */
-  adminClusterName?: string;
-  /** Output only. The unique identifier of the bare metal user cluster. */
-  uid?: string;
-  /** Output only. The IP address of the bare metal user cluster's API server. */
-  endpoint?: string;
-  /** Required. Control plane configuration. */
-  controlPlane?: BareMetalControlPlaneConfig;
-  /** Security related setting configuration. */
-  securityConfig?: BareMetalSecurityConfig;
-  /** Required. The Anthos clusters on bare metal version for your user cluster. */
-  bareMetalVersion?: string;
-  /** Proxy configuration. */
-  proxy?: BareMetalProxyConfig;
-  /** The cluster upgrade policy. */
-  upgradePolicy?: BareMetalClusterUpgradePolicy;
-  /** Output only. Detailed cluster status. */
-  status?: ResourceStatus;
-  /** Required. Storage configuration. */
-  storage?: BareMetalAdminStorageConfig;
-  /** Node access related configurations. */
-  nodeAccessConfig?: BareMetalNodeAccessConfig;
   /** A human readable description of this bare metal user cluster. */
   description?: string;
+  /** Output only. The current state of the bare metal user cluster. */
+  state?: BareMetalClusterStateEnum | (string & {});
+  /** Required. The admin cluster this bare metal user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. */
+  adminClusterMembership?: string;
+  /** Workload node configuration. */
+  nodeConfig?: BareMetalWorkloadNodeConfig;
+  /** Output only. Fleet configuration for the cluster. */
+  fleet?: Fleet;
+  /** Annotations on the bare metal user cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
+  annotations?: StringMap;
+  /** Output only. The object name of the bare metal user cluster custom resource on the associated admin cluster. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the name in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. When the local name and cluster name differ, the local name is used in the admin cluster controller logs. You use the cluster name when accessing the cluster using bmctl and kubectl. */
+  localName?: string;
+  /** Output only. The IP address of the bare metal user cluster's API server. */
+  endpoint?: string;
   /** Output only. Status of on-going maintenance tasks. */
   maintenanceStatus?: BareMetalMaintenanceStatus;
-  /** Required. Network configuration. */
-  networkConfig?: BareMetalNetworkConfig;
+  /** Output only. If set, there are currently changes in flight to the bare metal user cluster. */
+  reconciling?: boolean;
+  /** OS environment related configurations. */
+  osEnvironmentConfig?: BareMetalOsEnvironmentConfig;
+  /** Security related setting configuration. */
+  securityConfig?: BareMetalSecurityConfig;
+  /** Immutable. The bare metal user cluster resource name. */
+  name?: string;
+  /** Node access related configurations. */
+  nodeAccessConfig?: BareMetalNodeAccessConfig;
+  /** Required. Storage configuration. */
+  storage?: BareMetalAdminStorageConfig;
   /** Maintenance configuration. */
   maintenanceConfig?: BareMetalAdminMaintenanceConfig;
   /** Output only. The namespace of the cluster. */
   localNamespace?: string;
-  /** Immutable. The bare metal user cluster resource name. */
-  name?: string;
-  /** Output only. The current state of the bare metal user cluster. */
-  state?: BareMetalClusterStateEnum | (string & {});
-  /** Output only. The object name of the bare metal user cluster custom resource on the associated admin cluster. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the name in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. When the local name and cluster name differ, the local name is used in the admin cluster controller logs. You use the cluster name when accessing the cluster using bmctl and kubectl. */
-  localName?: string;
-  /** Binary Authorization related configurations. */
-  binaryAuthorization?: BinaryAuthorization;
-  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string;
-  /** Output only. The time when the bare metal user cluster was created. */
-  createTime?: string;
-  /** Output only. Fleet configuration for the cluster. */
-  fleet?: Fleet;
-  /** Workload node configuration. */
-  nodeConfig?: BareMetalWorkloadNodeConfig;
-  /** Required. Load balancer configuration. */
-  loadBalancer?: BareMetalLoadBalancerConfig;
   /** Cluster operations configuration. */
   clusterOperations?: BareMetalAdminClusterOperationsConfig;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
+  etag?: string;
+  /** Required. The Anthos clusters on bare metal version for your user cluster. */
+  bareMetalVersion?: string;
+  /** Output only. Detailed cluster status. */
+  status?: ResourceStatus;
+  /** Binary Authorization related configurations. */
+  binaryAuthorization?: BinaryAuthorization;
+  /** Output only. The time when the bare metal user cluster was deleted. If the resource is not deleted, this must be empty */
+  deleteTime?: string;
+  /** Output only. The result of the preflight check. */
+  validationCheck?: ValidationCheck;
+  /** Proxy configuration. */
+  proxy?: BareMetalProxyConfig;
+  /** Required. Load balancer configuration. */
+  loadBalancer?: BareMetalLoadBalancerConfig;
+  /** Output only. The time when the bare metal user cluster was created. */
+  createTime?: string;
+  /** Output only. The unique identifier of the bare metal user cluster. */
+  uid?: string;
+  /** Required. Control plane configuration. */
+  controlPlane?: BareMetalControlPlaneConfig;
+  /** Required. Network configuration. */
+  networkConfig?: BareMetalNetworkConfig;
   /** Output only. The time when the bare metal user cluster was last updated. */
   updateTime?: string;
-  /** Annotations on the bare metal user cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap;
-  /** Required. The admin cluster this bare metal user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. */
-  adminClusterMembership?: string;
+  /** Output only. The resource name of the bare metal admin cluster managing this user cluster. */
+  adminClusterName?: string;
+  /** The cluster upgrade policy. */
+  upgradePolicy?: BareMetalClusterUpgradePolicy;
 }
 export const BareMetalCluster = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deleteTime: S.optional(S.String),
-    validationCheck: S.optional(ValidationCheck),
-    osEnvironmentConfig: S.optional(BareMetalOsEnvironmentConfig),
-    reconciling: S.optional(S.Boolean),
-    adminClusterName: S.optional(S.String),
-    uid: S.optional(S.String),
-    endpoint: S.optional(S.String),
-    controlPlane: S.optional(BareMetalControlPlaneConfig),
-    securityConfig: S.optional(BareMetalSecurityConfig),
-    bareMetalVersion: S.optional(S.String),
-    proxy: S.optional(BareMetalProxyConfig),
-    upgradePolicy: S.optional(BareMetalClusterUpgradePolicy),
-    status: S.optional(ResourceStatus),
-    storage: S.optional(BareMetalAdminStorageConfig),
-    nodeAccessConfig: S.optional(BareMetalNodeAccessConfig),
     description: S.optional(S.String),
+    state: S.optional(BareMetalClusterStateEnum),
+    adminClusterMembership: S.optional(S.String),
+    nodeConfig: S.optional(BareMetalWorkloadNodeConfig),
+    fleet: S.optional(Fleet),
+    annotations: S.optional(StringMap),
+    localName: S.optional(S.String),
+    endpoint: S.optional(S.String),
     maintenanceStatus: S.optional(BareMetalMaintenanceStatus),
-    networkConfig: S.optional(BareMetalNetworkConfig),
+    reconciling: S.optional(S.Boolean),
+    osEnvironmentConfig: S.optional(BareMetalOsEnvironmentConfig),
+    securityConfig: S.optional(BareMetalSecurityConfig),
+    name: S.optional(S.String),
+    nodeAccessConfig: S.optional(BareMetalNodeAccessConfig),
+    storage: S.optional(BareMetalAdminStorageConfig),
     maintenanceConfig: S.optional(BareMetalAdminMaintenanceConfig),
     localNamespace: S.optional(S.String),
-    name: S.optional(S.String),
-    state: S.optional(BareMetalClusterStateEnum),
-    localName: S.optional(S.String),
-    binaryAuthorization: S.optional(BinaryAuthorization),
-    etag: S.optional(S.String),
-    createTime: S.optional(S.String),
-    fleet: S.optional(Fleet),
-    nodeConfig: S.optional(BareMetalWorkloadNodeConfig),
-    loadBalancer: S.optional(BareMetalLoadBalancerConfig),
     clusterOperations: S.optional(BareMetalAdminClusterOperationsConfig),
+    etag: S.optional(S.String),
+    bareMetalVersion: S.optional(S.String),
+    status: S.optional(ResourceStatus),
+    binaryAuthorization: S.optional(BinaryAuthorization),
+    deleteTime: S.optional(S.String),
+    validationCheck: S.optional(ValidationCheck),
+    proxy: S.optional(BareMetalProxyConfig),
+    loadBalancer: S.optional(BareMetalLoadBalancerConfig),
+    createTime: S.optional(S.String),
+    uid: S.optional(S.String),
+    controlPlane: S.optional(BareMetalControlPlaneConfig),
+    networkConfig: S.optional(BareMetalNetworkConfig),
     updateTime: S.optional(S.String),
-    annotations: S.optional(StringMap),
-    adminClusterMembership: S.optional(S.String),
+    adminClusterName: S.optional(S.String),
+    upgradePolicy: S.optional(BareMetalClusterUpgradePolicy),
   }),
 ).annotate({
   identifier: "BareMetalCluster",
 }) as any as S.Schema<BareMetalCluster>;
 
 export interface CreateProjectsLocationsBareMetalClustersRequest {
-  /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
-  bareMetalClusterId?: string;
-  /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
-  parent: string;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
+  /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
+  parent: string;
   /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
   allowPreflightFailure?: boolean;
+  /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
+  bareMetalClusterId?: string;
   /** Request body */
   body?: BareMetalCluster;
 }
 export const CreateProjectsLocationsBareMetalClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      bareMetalClusterId: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
+      bareMetalClusterId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(BareMetalCluster.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1702,73 +1712,73 @@ export type BareMetalNodePoolStateEnum =
   | "STOPPING"
   | "ERROR"
   | "DEGRADED";
-export const BareMetalNodePoolStateEnum = /*@__PURE__*/ S.String;
+export const BareMetalNodePoolStateEnum = S.String;
 
 /** Resource that represents a bare metal node pool. */
 export interface BareMetalNodePool {
+  /** Output only. The time at which this bare metal node pool was deleted. If the resource is not deleted, this must be empty */
+  deleteTime?: string;
+  /** Immutable. The bare metal node pool resource name. */
+  name?: string;
+  /** Output only. If set, there are currently changes in flight to the bare metal node pool. */
+  reconciling?: boolean;
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
+  etag?: string;
   /** Annotations on the bare metal node pool. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
   annotations?: StringMap;
-  /** Output only. The time at which this bare metal node pool was last updated. */
-  updateTime?: string;
   /** Output only. ResourceStatus representing the detailed node pool status. */
   status?: ResourceStatus;
-  /** The display name for the bare metal node pool. */
-  displayName?: string;
-  /** Output only. The time at which this bare metal node pool was created. */
-  createTime?: string;
   /** Required. Node pool configuration. */
   nodePoolConfig?: BareMetalNodePoolConfig;
   /** The worker node pool upgrade policy. */
   upgradePolicy?: BareMetalNodePoolUpgradePolicy;
-  /** Immutable. The bare metal node pool resource name. */
-  name?: string;
-  /** Output only. The current state of the bare metal node pool. */
-  state?: BareMetalNodePoolStateEnum | (string & {});
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string;
-  /** Output only. The time at which this bare metal node pool was deleted. If the resource is not deleted, this must be empty */
-  deleteTime?: string;
-  /** Output only. If set, there are currently changes in flight to the bare metal node pool. */
-  reconciling?: boolean;
+  /** Output only. The time at which this bare metal node pool was last updated. */
+  updateTime?: string;
+  /** The display name for the bare metal node pool. */
+  displayName?: string;
   /** Output only. The unique identifier of the bare metal node pool. */
   uid?: string;
+  /** Output only. The time at which this bare metal node pool was created. */
+  createTime?: string;
+  /** Output only. The current state of the bare metal node pool. */
+  state?: BareMetalNodePoolStateEnum | (string & {});
 }
 export const BareMetalNodePool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    deleteTime: S.optional(S.String),
+    name: S.optional(S.String),
+    reconciling: S.optional(S.Boolean),
+    etag: S.optional(S.String),
     annotations: S.optional(StringMap),
-    updateTime: S.optional(S.String),
     status: S.optional(ResourceStatus),
-    displayName: S.optional(S.String),
-    createTime: S.optional(S.String),
     nodePoolConfig: S.optional(BareMetalNodePoolConfig),
     upgradePolicy: S.optional(BareMetalNodePoolUpgradePolicy),
-    name: S.optional(S.String),
-    state: S.optional(BareMetalNodePoolStateEnum),
-    etag: S.optional(S.String),
-    deleteTime: S.optional(S.String),
-    reconciling: S.optional(S.Boolean),
+    updateTime: S.optional(S.String),
+    displayName: S.optional(S.String),
     uid: S.optional(S.String),
+    createTime: S.optional(S.String),
+    state: S.optional(BareMetalNodePoolStateEnum),
   }),
 ).annotate({
   identifier: "BareMetalNodePool",
 }) as any as S.Schema<BareMetalNodePool>;
 
 export interface CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
-  /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/bareMetalClusters/{cluster} */
-  parent: string;
   /** The ID to use for the node pool, which will become the final component of the node pool's resource name. This value must be up to 63 characters, and valid characters are /a-z-/. The value must not be permitted to be a UUID (or UUID-like: anything matching /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i). */
   bareMetalNodePoolId?: string;
   /** If set, only validate the request, but do not actually create the node pool. */
   validateOnly?: boolean;
+  /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/bareMetalClusters/{cluster} */
+  parent: string;
   /** Request body */
   body?: BareMetalNodePool;
 }
 export const CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       bareMetalNodePoolId: S.optional(S.String.pipe(T.Query())),
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(BareMetalNodePool.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1782,50 +1792,18 @@ export const CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest =
       "CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest",
   }) as any as S.Schema<CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest>;
 
-/** Specifies anti affinity group config for the VMware user cluster. */
-export interface VmwareAAGConfig {
-  /** Spread nodes across at least three physical hosts (requires at least three hosts). Enabled by default. */
-  aagConfigDisabled?: boolean;
-}
-export const VmwareAAGConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aagConfigDisabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "VmwareAAGConfig",
-}) as any as S.Schema<VmwareAAGConfig>;
-
-/** VmwareAdminPreparedSecretsConfig represents configuration for admin cluster prepared secrets. */
-export interface VmwareAdminPreparedSecretsConfig {
-  /** Whether prepared secrets is enabled. */
+/** Specifies config to enable/disable auto repair. The cluster-health-controller is deployed only if Enabled is true. */
+export interface VmwareAutoRepairConfig {
+  /** Whether auto repair is enabled. */
   enabled?: boolean;
 }
-export const VmwareAdminPreparedSecretsConfig = /*@__PURE__*/ S.suspend(() =>
+export const VmwareAutoRepairConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "VmwareAdminPreparedSecretsConfig",
-}) as any as S.Schema<VmwareAdminPreparedSecretsConfig>;
-
-/** VmwareAdminControlPlaneNodeConfig contains control plane node configuration for VMware admin cluster. */
-export interface VmwareAdminControlPlaneNodeConfig {
-  /** The number of mebibytes of memory for the control-plane node of the admin cluster. */
-  memory?: string;
-  /** The number of control plane nodes for this VMware admin cluster. (default: 1 replica). */
-  replicas?: string;
-  /** The number of vCPUs for the control-plane node of the admin cluster. */
-  cpus?: string;
-}
-export const VmwareAdminControlPlaneNodeConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    memory: S.optional(S.String),
-    replicas: S.optional(S.String),
-    cpus: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VmwareAdminControlPlaneNodeConfig",
-}) as any as S.Schema<VmwareAdminControlPlaneNodeConfig>;
+  identifier: "VmwareAutoRepairConfig",
+}) as any as S.Schema<VmwareAutoRepairConfig>;
 
 /** VmwareAdminProxy represents configuration for admin cluster proxy. */
 export interface VmwareAdminProxy {
@@ -1843,21 +1821,219 @@ export const VmwareAdminProxy = /*@__PURE__*/ S.suspend(() =>
   identifier: "VmwareAdminProxy",
 }) as any as S.Schema<VmwareAdminProxy>;
 
+/** VmwareAdminVipConfig for VMware load balancer configurations. */
+export interface VmwareAdminVipConfig {
+  /** The VIP to configure the load balancer for add-ons. */
+  addonsVip?: string;
+  /** The VIP which you previously set aside for the Kubernetes API of the admin cluster. */
+  controlPlaneVip?: string;
+}
+export const VmwareAdminVipConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    addonsVip: S.optional(S.String),
+    controlPlaneVip: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "VmwareAdminVipConfig",
+}) as any as S.Schema<VmwareAdminVipConfig>;
+
+/** VmwareAdminMetalLbConfig represents configuration parameters for a MetalLB load balancer. For admin clusters, currently no configurations is needed. */
+export interface VmwareAdminMetalLbConfig {
+  /** Whether MetalLB is enabled. */
+  enabled?: boolean;
+}
+export const VmwareAdminMetalLbConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "VmwareAdminMetalLbConfig",
+}) as any as S.Schema<VmwareAdminMetalLbConfig>;
+
+export interface VmwareAdminManualLbConfig {
+  /** NodePort for ingress service's https. The ingress service in the admin cluster is implemented as a Service of type NodePort (ex. 30139). */
+  ingressHttpsNodePort?: number;
+  /** NodePort for add-ons server in the admin cluster. */
+  addonsNodePort?: number;
+  /** NodePort for ingress service's http. The ingress service in the admin cluster is implemented as a Service of type NodePort (ex. 32527). */
+  ingressHttpNodePort?: number;
+  /** NodePort for konnectivity server service running as a sidecar in each kube-apiserver pod (ex. 30564). */
+  konnectivityServerNodePort?: number;
+  /** NodePort for control plane service. The Kubernetes API server in the admin cluster is implemented as a Service of type NodePort (ex. 30968). */
+  controlPlaneNodePort?: number;
+}
+export const VmwareAdminManualLbConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ingressHttpsNodePort: S.optional(S.Number),
+    addonsNodePort: S.optional(S.Number),
+    ingressHttpNodePort: S.optional(S.Number),
+    konnectivityServerNodePort: S.optional(S.Number),
+    controlPlaneNodePort: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "VmwareAdminManualLbConfig",
+}) as any as S.Schema<VmwareAdminManualLbConfig>;
+
+/** Represents VMware user cluster node's network configuration. */
+export interface VmwareHostIp {
+  /** Hostname of the machine. VM's name will be used if this field is empty. */
+  hostname?: string;
+  /** IP could be an IP address (like 1.2.3.4) or a CIDR (like 1.2.3.0/24). */
+  ip?: string;
+}
+export const VmwareHostIp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hostname: S.optional(S.String),
+    ip: S.optional(S.String),
+  }),
+).annotate({ identifier: "VmwareHostIp" }) as any as S.Schema<VmwareHostIp>;
+
+export type VmwareHostIpList = Array<VmwareHostIp>;
+export const VmwareHostIpList = /*@__PURE__*/ S.Array(
+  VmwareHostIp,
+) as any as S.Schema<VmwareHostIpList>;
+
+/** Represents a collection of IP addresses to assign to nodes. */
+export interface VmwareIpBlock {
+  /** The netmask used by the VMware user cluster. */
+  netmask?: string;
+  /** The network gateway used by the VMware user cluster. */
+  gateway?: string;
+  /** The node's network configurations used by the VMware user cluster. */
+  ips?: VmwareHostIpList;
+}
+export const VmwareIpBlock = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    netmask: S.optional(S.String),
+    gateway: S.optional(S.String),
+    ips: S.optional(VmwareHostIpList),
+  }),
+).annotate({ identifier: "VmwareIpBlock" }) as any as S.Schema<VmwareIpBlock>;
+
+export type VmwareIpBlockList = Array<VmwareIpBlock>;
+export const VmwareIpBlockList = /*@__PURE__*/ S.Array(
+  VmwareIpBlock,
+) as any as S.Schema<VmwareIpBlockList>;
+
+/** VmwareSeesawConfig represents configuration parameters for an already existing Seesaw load balancer. IMPORTANT: Please note that the Anthos On-Prem API will not generate or update Seesaw configurations it can only bind a pre-existing configuration to a new user cluster. IMPORTANT: When attempting to create a user cluster with a pre-existing Seesaw load balancer you will need to follow some preparation steps before calling the 'CreateVmwareCluster' API method. First you will need to create the user cluster's namespace via kubectl. The namespace will need to use the following naming convention : -gke-onprem-mgmt or -gke-onprem-mgmt depending on whether you used the 'VmwareCluster.local_name' to disambiguate collisions; for more context see the documentation of 'VmwareCluster.local_name'. Once the namespace is created you will need to create a secret resource via kubectl. This secret will contain copies of your Seesaw credentials. The Secret must be called 'user-cluster-creds' and contain Seesaw's SSH and Cert credentials. The credentials must be keyed with the following names: 'seesaw-ssh-private-key', 'seesaw-ssh-public-key', 'seesaw-ssh-ca-key', 'seesaw-ssh-ca-cert'. */
+export interface VmwareAdminSeesawConfig {
+  /** MasterIP is the IP announced by the master of Seesaw group. */
+  masterIp?: string;
+  /** In general the following format should be used for the Seesaw group name: seesaw-for-[cluster_name]. */
+  group?: string;
+  /** The IP Blocks to be used by the Seesaw load balancer */
+  ipBlocks?: VmwareIpBlockList;
+  /** Name to be used by Stackdriver. */
+  stackdriverName?: string;
+  /** Enable two load balancer VMs to achieve a highly-available Seesaw load balancer. */
+  enableHa?: boolean;
+  /** Names of the VMs created for this Seesaw group. */
+  vms?: StringList;
+}
+export const VmwareAdminSeesawConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    masterIp: S.optional(S.String),
+    group: S.optional(S.String),
+    ipBlocks: S.optional(VmwareIpBlockList),
+    stackdriverName: S.optional(S.String),
+    enableHa: S.optional(S.Boolean),
+    vms: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "VmwareAdminSeesawConfig",
+}) as any as S.Schema<VmwareAdminSeesawConfig>;
+
+/** VmwareAdminF5BigIpConfig represents configuration parameters for an F5 BIG-IP load balancer. */
+export interface VmwareAdminF5BigIpConfig {
+  /** The preexisting partition to be used by the load balancer. This partition is usually created for the admin cluster for example: 'my-f5-admin-partition'. */
+  partition?: string;
+  /** The load balancer's IP address. */
+  address?: string;
+  /** The pool name. Only necessary, if using SNAT. */
+  snatPool?: string;
+}
+export const VmwareAdminF5BigIpConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    partition: S.optional(S.String),
+    address: S.optional(S.String),
+    snatPool: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "VmwareAdminF5BigIpConfig",
+}) as any as S.Schema<VmwareAdminF5BigIpConfig>;
+
+/** VmwareAdminLoadBalancerConfig contains load balancer configuration for VMware admin cluster. */
+export interface VmwareAdminLoadBalancerConfig {
+  /** The VIPs used by the load balancer. */
+  vipConfig?: VmwareAdminVipConfig;
+  /** MetalLB load balancers. */
+  metalLbConfig?: VmwareAdminMetalLbConfig;
+  /** Manually configured load balancers. */
+  manualLbConfig?: VmwareAdminManualLbConfig;
+  /** Output only. Configuration for Seesaw typed load balancers. */
+  seesawConfig?: VmwareAdminSeesawConfig;
+  /** Configuration for F5 Big IP typed load balancers. */
+  f5Config?: VmwareAdminF5BigIpConfig;
+}
+export const VmwareAdminLoadBalancerConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vipConfig: S.optional(VmwareAdminVipConfig),
+    metalLbConfig: S.optional(VmwareAdminMetalLbConfig),
+    manualLbConfig: S.optional(VmwareAdminManualLbConfig),
+    seesawConfig: S.optional(VmwareAdminSeesawConfig),
+    f5Config: S.optional(VmwareAdminF5BigIpConfig),
+  }),
+).annotate({
+  identifier: "VmwareAdminLoadBalancerConfig",
+}) as any as S.Schema<VmwareAdminLoadBalancerConfig>;
+
 /** VmwareAdminPrivateRegistryConfig represents configuration for admin cluster registry. */
 export interface VmwareAdminPrivateRegistryConfig {
-  /** The registry address. */
-  address?: string;
   /** When the container runtime pulls an image from private registry, the registry must prove its identity by presenting a certificate. The registry's certificate is signed by a certificate authority (CA). The container runtime uses the CA's certificate to validate the registry's certificate. */
   caCert?: string;
+  /** The registry address. */
+  address?: string;
 }
 export const VmwareAdminPrivateRegistryConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    address: S.optional(S.String),
     caCert: S.optional(S.String),
+    address: S.optional(S.String),
   }),
 ).annotate({
   identifier: "VmwareAdminPrivateRegistryConfig",
 }) as any as S.Schema<VmwareAdminPrivateRegistryConfig>;
+
+/** VmwareAdminControlPlaneNodeConfig contains control plane node configuration for VMware admin cluster. */
+export interface VmwareAdminControlPlaneNodeConfig {
+  /** The number of mebibytes of memory for the control-plane node of the admin cluster. */
+  memory?: string;
+  /** The number of vCPUs for the control-plane node of the admin cluster. */
+  cpus?: string;
+  /** The number of control plane nodes for this VMware admin cluster. (default: 1 replica). */
+  replicas?: string;
+}
+export const VmwareAdminControlPlaneNodeConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    memory: S.optional(S.String),
+    cpus: S.optional(S.String),
+    replicas: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "VmwareAdminControlPlaneNodeConfig",
+}) as any as S.Schema<VmwareAdminControlPlaneNodeConfig>;
+
+/** VmwareAdminAuthorizationConfig represents configuration for admin cluster authorization. */
+export interface VmwareAdminAuthorizationConfig {
+  /** For VMware admin clusters, users will be granted the cluster-viewer role on the cluster. */
+  viewerUsers?: ClusterUserList;
+}
+export const VmwareAdminAuthorizationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    viewerUsers: S.optional(ClusterUserList),
+  }),
+).annotate({
+  identifier: "VmwareAdminAuthorizationConfig",
+}) as any as S.Schema<VmwareAdminAuthorizationConfig>;
 
 /** Represents auto resizing configurations for the VMware user cluster. */
 export interface VmwareAutoResizeConfig {
@@ -1885,313 +2061,42 @@ export const VmwareAdminAddonNodeConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "VmwareAdminAddonNodeConfig",
 }) as any as S.Schema<VmwareAdminAddonNodeConfig>;
 
-/** VmwareAdminAuthorizationConfig represents configuration for admin cluster authorization. */
-export interface VmwareAdminAuthorizationConfig {
-  /** For VMware admin clusters, users will be granted the cluster-viewer role on the cluster. */
-  viewerUsers?: ClusterUserList;
-}
-export const VmwareAdminAuthorizationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    viewerUsers: S.optional(ClusterUserList),
-  }),
-).annotate({
-  identifier: "VmwareAdminAuthorizationConfig",
-}) as any as S.Schema<VmwareAdminAuthorizationConfig>;
-
-/** VmwareBundleConfig represents configuration for the bundle. */
-export interface VmwareBundleConfig {
-  /** Output only. Resource status for the bundle. */
-  status?: ResourceStatus;
-  /** The version of the bundle. */
-  version?: string;
-}
-export const VmwareBundleConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(ResourceStatus),
-    version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VmwareBundleConfig",
-}) as any as S.Schema<VmwareBundleConfig>;
-
-export type VmwareBundleConfigList = Array<VmwareBundleConfig>;
-export const VmwareBundleConfigList = /*@__PURE__*/ S.Array(
-  VmwareBundleConfig,
-) as any as S.Schema<VmwareBundleConfigList>;
-
-/** VmwarePlatformConfig represents configuration for the VMware platform. */
-export interface VmwarePlatformConfig {
-  /** Input only. The required platform version e.g. 1.13.1. If the current platform version is lower than the target version, the platform version will be updated to the target version. If the target version is not installed in the platform (bundle versions), download the target version bundle. */
-  requiredPlatformVersion?: string;
-  /** Output only. The list of bundles installed in the admin cluster. */
-  bundles?: VmwareBundleConfigList;
-  /** Output only. Resource status for the platform. */
-  status?: ResourceStatus;
-  /** Output only. The platform version e.g. 1.13.2. */
-  platformVersion?: string;
-}
-export const VmwarePlatformConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requiredPlatformVersion: S.optional(S.String),
-    bundles: S.optional(VmwareBundleConfigList),
-    status: S.optional(ResourceStatus),
-    platformVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VmwarePlatformConfig",
-}) as any as S.Schema<VmwarePlatformConfig>;
-
-/** Specifies config to enable/disable auto repair. The cluster-health-controller is deployed only if Enabled is true. */
-export interface VmwareAutoRepairConfig {
-  /** Whether auto repair is enabled. */
-  enabled?: boolean;
-}
-export const VmwareAutoRepairConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "VmwareAutoRepairConfig",
-}) as any as S.Schema<VmwareAutoRepairConfig>;
-
-export interface VmwareAdminManualLbConfig {
-  /** NodePort for ingress service's https. The ingress service in the admin cluster is implemented as a Service of type NodePort (ex. 30139). */
-  ingressHttpsNodePort?: number;
-  /** NodePort for konnectivity server service running as a sidecar in each kube-apiserver pod (ex. 30564). */
-  konnectivityServerNodePort?: number;
-  /** NodePort for add-ons server in the admin cluster. */
-  addonsNodePort?: number;
-  /** NodePort for control plane service. The Kubernetes API server in the admin cluster is implemented as a Service of type NodePort (ex. 30968). */
-  controlPlaneNodePort?: number;
-  /** NodePort for ingress service's http. The ingress service in the admin cluster is implemented as a Service of type NodePort (ex. 32527). */
-  ingressHttpNodePort?: number;
-}
-export const VmwareAdminManualLbConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ingressHttpsNodePort: S.optional(S.Number),
-    konnectivityServerNodePort: S.optional(S.Number),
-    addonsNodePort: S.optional(S.Number),
-    controlPlaneNodePort: S.optional(S.Number),
-    ingressHttpNodePort: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "VmwareAdminManualLbConfig",
-}) as any as S.Schema<VmwareAdminManualLbConfig>;
-
-/** VmwareAdminMetalLbConfig represents configuration parameters for a MetalLB load balancer. For admin clusters, currently no configurations is needed. */
-export interface VmwareAdminMetalLbConfig {
-  /** Whether MetalLB is enabled. */
-  enabled?: boolean;
-}
-export const VmwareAdminMetalLbConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "VmwareAdminMetalLbConfig",
-}) as any as S.Schema<VmwareAdminMetalLbConfig>;
-
-/** Represents VMware user cluster node's network configuration. */
-export interface VmwareHostIp {
-  /** IP could be an IP address (like 1.2.3.4) or a CIDR (like 1.2.3.0/24). */
-  ip?: string;
-  /** Hostname of the machine. VM's name will be used if this field is empty. */
-  hostname?: string;
-}
-export const VmwareHostIp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ip: S.optional(S.String),
-    hostname: S.optional(S.String),
-  }),
-).annotate({ identifier: "VmwareHostIp" }) as any as S.Schema<VmwareHostIp>;
-
-export type VmwareHostIpList = Array<VmwareHostIp>;
-export const VmwareHostIpList = /*@__PURE__*/ S.Array(
-  VmwareHostIp,
-) as any as S.Schema<VmwareHostIpList>;
-
-/** Represents a collection of IP addresses to assign to nodes. */
-export interface VmwareIpBlock {
-  /** The netmask used by the VMware user cluster. */
-  netmask?: string;
-  /** The node's network configurations used by the VMware user cluster. */
-  ips?: VmwareHostIpList;
-  /** The network gateway used by the VMware user cluster. */
-  gateway?: string;
-}
-export const VmwareIpBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    netmask: S.optional(S.String),
-    ips: S.optional(VmwareHostIpList),
-    gateway: S.optional(S.String),
-  }),
-).annotate({ identifier: "VmwareIpBlock" }) as any as S.Schema<VmwareIpBlock>;
-
-export type VmwareIpBlockList = Array<VmwareIpBlock>;
-export const VmwareIpBlockList = /*@__PURE__*/ S.Array(
-  VmwareIpBlock,
-) as any as S.Schema<VmwareIpBlockList>;
-
-/** VmwareSeesawConfig represents configuration parameters for an already existing Seesaw load balancer. IMPORTANT: Please note that the Anthos On-Prem API will not generate or update Seesaw configurations it can only bind a pre-existing configuration to a new user cluster. IMPORTANT: When attempting to create a user cluster with a pre-existing Seesaw load balancer you will need to follow some preparation steps before calling the 'CreateVmwareCluster' API method. First you will need to create the user cluster's namespace via kubectl. The namespace will need to use the following naming convention : -gke-onprem-mgmt or -gke-onprem-mgmt depending on whether you used the 'VmwareCluster.local_name' to disambiguate collisions; for more context see the documentation of 'VmwareCluster.local_name'. Once the namespace is created you will need to create a secret resource via kubectl. This secret will contain copies of your Seesaw credentials. The Secret must be called 'user-cluster-creds' and contain Seesaw's SSH and Cert credentials. The credentials must be keyed with the following names: 'seesaw-ssh-private-key', 'seesaw-ssh-public-key', 'seesaw-ssh-ca-key', 'seesaw-ssh-ca-cert'. */
-export interface VmwareAdminSeesawConfig {
-  /** In general the following format should be used for the Seesaw group name: seesaw-for-[cluster_name]. */
-  group?: string;
-  /** MasterIP is the IP announced by the master of Seesaw group. */
-  masterIp?: string;
-  /** Name to be used by Stackdriver. */
-  stackdriverName?: string;
-  /** Enable two load balancer VMs to achieve a highly-available Seesaw load balancer. */
-  enableHa?: boolean;
-  /** The IP Blocks to be used by the Seesaw load balancer */
-  ipBlocks?: VmwareIpBlockList;
-  /** Names of the VMs created for this Seesaw group. */
-  vms?: StringList;
-}
-export const VmwareAdminSeesawConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    group: S.optional(S.String),
-    masterIp: S.optional(S.String),
-    stackdriverName: S.optional(S.String),
-    enableHa: S.optional(S.Boolean),
-    ipBlocks: S.optional(VmwareIpBlockList),
-    vms: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "VmwareAdminSeesawConfig",
-}) as any as S.Schema<VmwareAdminSeesawConfig>;
-
-/** VmwareAdminVipConfig for VMware load balancer configurations. */
-export interface VmwareAdminVipConfig {
-  /** The VIP which you previously set aside for the Kubernetes API of the admin cluster. */
-  controlPlaneVip?: string;
-  /** The VIP to configure the load balancer for add-ons. */
-  addonsVip?: string;
-}
-export const VmwareAdminVipConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    controlPlaneVip: S.optional(S.String),
-    addonsVip: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VmwareAdminVipConfig",
-}) as any as S.Schema<VmwareAdminVipConfig>;
-
-/** VmwareAdminF5BigIpConfig represents configuration parameters for an F5 BIG-IP load balancer. */
-export interface VmwareAdminF5BigIpConfig {
-  /** The load balancer's IP address. */
-  address?: string;
-  /** The preexisting partition to be used by the load balancer. This partition is usually created for the admin cluster for example: 'my-f5-admin-partition'. */
-  partition?: string;
-  /** The pool name. Only necessary, if using SNAT. */
-  snatPool?: string;
-}
-export const VmwareAdminF5BigIpConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    address: S.optional(S.String),
-    partition: S.optional(S.String),
-    snatPool: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VmwareAdminF5BigIpConfig",
-}) as any as S.Schema<VmwareAdminF5BigIpConfig>;
-
-/** VmwareAdminLoadBalancerConfig contains load balancer configuration for VMware admin cluster. */
-export interface VmwareAdminLoadBalancerConfig {
-  /** Manually configured load balancers. */
-  manualLbConfig?: VmwareAdminManualLbConfig;
-  /** MetalLB load balancers. */
-  metalLbConfig?: VmwareAdminMetalLbConfig;
-  /** Output only. Configuration for Seesaw typed load balancers. */
-  seesawConfig?: VmwareAdminSeesawConfig;
-  /** The VIPs used by the load balancer. */
-  vipConfig?: VmwareAdminVipConfig;
-  /** Configuration for F5 Big IP typed load balancers. */
-  f5Config?: VmwareAdminF5BigIpConfig;
-}
-export const VmwareAdminLoadBalancerConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    manualLbConfig: S.optional(VmwareAdminManualLbConfig),
-    metalLbConfig: S.optional(VmwareAdminMetalLbConfig),
-    seesawConfig: S.optional(VmwareAdminSeesawConfig),
-    vipConfig: S.optional(VmwareAdminVipConfig),
-    f5Config: S.optional(VmwareAdminF5BigIpConfig),
-  }),
-).annotate({
-  identifier: "VmwareAdminLoadBalancerConfig",
-}) as any as S.Schema<VmwareAdminLoadBalancerConfig>;
-
 /** VmwareAdminVCenterConfig contains VCenter configuration for VMware admin cluster. */
 export interface VmwareAdminVCenterConfig {
-  /** The name of the vCenter folder for the admin cluster. */
-  folder?: string;
-  /** The name of the vCenter resource pool for the admin cluster. */
-  resourcePool?: string;
-  /** The name of the vCenter storage policy for the user cluster. */
-  storagePolicyName?: string;
   /** The name of the vCenter datastore for the admin cluster. */
   datastore?: string;
-  /** The name of the vCenter cluster for the admin cluster. */
-  cluster?: string;
-  /** The vCenter IP address. */
-  address?: string;
-  /** The name of the virtual machine disk (VMDK) for the admin cluster. */
-  dataDisk?: string;
+  /** The name of the vCenter resource pool for the admin cluster. */
+  resourcePool?: string;
   /** Contains the vCenter CA certificate public key for SSL verification. */
   caCertData?: string;
+  /** The vCenter IP address. */
+  address?: string;
+  /** The name of the vCenter storage policy for the user cluster. */
+  storagePolicyName?: string;
+  /** The name of the vCenter cluster for the admin cluster. */
+  cluster?: string;
   /** The name of the vCenter datacenter for the admin cluster. */
   datacenter?: string;
+  /** The name of the virtual machine disk (VMDK) for the admin cluster. */
+  dataDisk?: string;
+  /** The name of the vCenter folder for the admin cluster. */
+  folder?: string;
 }
 export const VmwareAdminVCenterConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    folder: S.optional(S.String),
-    resourcePool: S.optional(S.String),
-    storagePolicyName: S.optional(S.String),
     datastore: S.optional(S.String),
-    cluster: S.optional(S.String),
-    address: S.optional(S.String),
-    dataDisk: S.optional(S.String),
+    resourcePool: S.optional(S.String),
     caCertData: S.optional(S.String),
+    address: S.optional(S.String),
+    storagePolicyName: S.optional(S.String),
+    cluster: S.optional(S.String),
     datacenter: S.optional(S.String),
+    dataDisk: S.optional(S.String),
+    folder: S.optional(S.String),
   }),
 ).annotate({
   identifier: "VmwareAdminVCenterConfig",
 }) as any as S.Schema<VmwareAdminVCenterConfig>;
-
-export type VmwareAdminClusterStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PROVISIONING"
-  | "RUNNING"
-  | "RECONCILING"
-  | "STOPPING"
-  | "ERROR"
-  | "DEGRADED";
-export const VmwareAdminClusterStateEnum = /*@__PURE__*/ S.String;
-
-/** Specifies HA admin control plane config. */
-export interface VmwareAdminHAControlPlaneConfig {
-  /** Static IP addresses for the admin control plane nodes. */
-  controlPlaneIpBlock?: VmwareIpBlock;
-}
-export const VmwareAdminHAControlPlaneConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    controlPlaneIpBlock: S.optional(VmwareIpBlock),
-  }),
-).annotate({
-  identifier: "VmwareAdminHAControlPlaneConfig",
-}) as any as S.Schema<VmwareAdminHAControlPlaneConfig>;
-
-/** Represents the network configuration required for the VMware user clusters with Static IP configurations. */
-export interface VmwareStaticIpConfig {
-  /** Represents the configuration values for static IP allocation to nodes. */
-  ipBlocks?: VmwareIpBlockList;
-}
-export const VmwareStaticIpConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ipBlocks: S.optional(VmwareIpBlockList),
-  }),
-).annotate({
-  identifier: "VmwareStaticIpConfig",
-}) as any as S.Schema<VmwareStaticIpConfig>;
 
 /** Represents the network configuration required for the VMware user clusters with DHCP IP configurations. */
 export interface VmwareDhcpIpConfig {
@@ -2225,132 +2130,237 @@ export const VmwareHostConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "VmwareHostConfig",
 }) as any as S.Schema<VmwareHostConfig>;
 
+/** Specifies HA admin control plane config. */
+export interface VmwareAdminHAControlPlaneConfig {
+  /** Static IP addresses for the admin control plane nodes. */
+  controlPlaneIpBlock?: VmwareIpBlock;
+}
+export const VmwareAdminHAControlPlaneConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    controlPlaneIpBlock: S.optional(VmwareIpBlock),
+  }),
+).annotate({
+  identifier: "VmwareAdminHAControlPlaneConfig",
+}) as any as S.Schema<VmwareAdminHAControlPlaneConfig>;
+
+/** Represents the network configuration required for the VMware user clusters with Static IP configurations. */
+export interface VmwareStaticIpConfig {
+  /** Represents the configuration values for static IP allocation to nodes. */
+  ipBlocks?: VmwareIpBlockList;
+}
+export const VmwareStaticIpConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ipBlocks: S.optional(VmwareIpBlockList),
+  }),
+).annotate({
+  identifier: "VmwareStaticIpConfig",
+}) as any as S.Schema<VmwareStaticIpConfig>;
+
 /** VmwareAdminNetworkConfig contains network configuration for VMware admin cluster. */
 export interface VmwareAdminNetworkConfig {
+  /** Configuration settings for a DHCP IP configuration. */
+  dhcpIpConfig?: VmwareDhcpIpConfig;
+  /** vcenter_network specifies vCenter network name. */
+  vcenterNetwork?: string;
+  /** Represents common network settings irrespective of the host's IP address. */
+  hostConfig?: VmwareHostConfig;
+  /** Required. All pods in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation. */
+  podAddressCidrBlocks?: StringList;
   /** Configuration for HA admin cluster control plane. */
   haControlPlaneConfig?: VmwareAdminHAControlPlaneConfig;
   /** Required. All services in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation. */
   serviceAddressCidrBlocks?: StringList;
-  /** Required. All pods in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation. */
-  podAddressCidrBlocks?: StringList;
   /** Configuration settings for a static IP configuration. */
   staticIpConfig?: VmwareStaticIpConfig;
-  /** Configuration settings for a DHCP IP configuration. */
-  dhcpIpConfig?: VmwareDhcpIpConfig;
-  /** Represents common network settings irrespective of the host's IP address. */
-  hostConfig?: VmwareHostConfig;
-  /** vcenter_network specifies vCenter network name. */
-  vcenterNetwork?: string;
 }
 export const VmwareAdminNetworkConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    dhcpIpConfig: S.optional(VmwareDhcpIpConfig),
+    vcenterNetwork: S.optional(S.String),
+    hostConfig: S.optional(VmwareHostConfig),
+    podAddressCidrBlocks: S.optional(StringList),
     haControlPlaneConfig: S.optional(VmwareAdminHAControlPlaneConfig),
     serviceAddressCidrBlocks: S.optional(StringList),
-    podAddressCidrBlocks: S.optional(StringList),
     staticIpConfig: S.optional(VmwareStaticIpConfig),
-    dhcpIpConfig: S.optional(VmwareDhcpIpConfig),
-    hostConfig: S.optional(VmwareHostConfig),
-    vcenterNetwork: S.optional(S.String),
   }),
 ).annotate({
   identifier: "VmwareAdminNetworkConfig",
 }) as any as S.Schema<VmwareAdminNetworkConfig>;
 
+/** VmwareAdminPreparedSecretsConfig represents configuration for admin cluster prepared secrets. */
+export interface VmwareAdminPreparedSecretsConfig {
+  /** Whether prepared secrets is enabled. */
+  enabled?: boolean;
+}
+export const VmwareAdminPreparedSecretsConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "VmwareAdminPreparedSecretsConfig",
+}) as any as S.Schema<VmwareAdminPreparedSecretsConfig>;
+
+/** VmwareBundleConfig represents configuration for the bundle. */
+export interface VmwareBundleConfig {
+  /** The version of the bundle. */
+  version?: string;
+  /** Output only. Resource status for the bundle. */
+  status?: ResourceStatus;
+}
+export const VmwareBundleConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    version: S.optional(S.String),
+    status: S.optional(ResourceStatus),
+  }),
+).annotate({
+  identifier: "VmwareBundleConfig",
+}) as any as S.Schema<VmwareBundleConfig>;
+
+export type VmwareBundleConfigList = Array<VmwareBundleConfig>;
+export const VmwareBundleConfigList = /*@__PURE__*/ S.Array(
+  VmwareBundleConfig,
+) as any as S.Schema<VmwareBundleConfigList>;
+
+/** VmwarePlatformConfig represents configuration for the VMware platform. */
+export interface VmwarePlatformConfig {
+  /** Output only. The platform version e.g. 1.13.2. */
+  platformVersion?: string;
+  /** Input only. The required platform version e.g. 1.13.1. If the current platform version is lower than the target version, the platform version will be updated to the target version. If the target version is not installed in the platform (bundle versions), download the target version bundle. */
+  requiredPlatformVersion?: string;
+  /** Output only. Resource status for the platform. */
+  status?: ResourceStatus;
+  /** Output only. The list of bundles installed in the admin cluster. */
+  bundles?: VmwareBundleConfigList;
+}
+export const VmwarePlatformConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    platformVersion: S.optional(S.String),
+    requiredPlatformVersion: S.optional(S.String),
+    status: S.optional(ResourceStatus),
+    bundles: S.optional(VmwareBundleConfigList),
+  }),
+).annotate({
+  identifier: "VmwarePlatformConfig",
+}) as any as S.Schema<VmwarePlatformConfig>;
+
+/** Specifies anti affinity group config for the VMware user cluster. */
+export interface VmwareAAGConfig {
+  /** Spread nodes across at least three physical hosts (requires at least three hosts). Enabled by default. */
+  aagConfigDisabled?: boolean;
+}
+export const VmwareAAGConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    aagConfigDisabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "VmwareAAGConfig",
+}) as any as S.Schema<VmwareAAGConfig>;
+
+export type VmwareAdminClusterStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PROVISIONING"
+  | "RUNNING"
+  | "RECONCILING"
+  | "STOPPING"
+  | "ERROR"
+  | "DEGRADED";
+export const VmwareAdminClusterStateEnum = S.String;
+
 /** Resource that represents a VMware admin cluster. */
 export interface VmwareAdminCluster {
-  /** The VMware admin cluster anti affinity group configuration. */
-  antiAffinityGroups?: VmwareAAGConfig;
-  /** Output only. The VMware admin cluster prepared secrets configuration. It should always be enabled by the Central API, instead of letting users set it. */
-  preparedSecrets?: VmwareAdminPreparedSecretsConfig;
-  /** Output only. ResourceStatus representing detailed cluster state. */
-  status?: ResourceStatus;
-  /** The VMware admin cluster control plane node configuration. */
-  controlPlaneNode?: VmwareAdminControlPlaneNodeConfig;
-  /** The OS image type for the VMware admin cluster. */
-  imageType?: string;
-  /** Configuration for proxy. */
-  proxy?: VmwareAdminProxy;
-  /** Configuration for registry. */
-  privateRegistryConfig?: VmwareAdminPrivateRegistryConfig;
-  /** Output only. The DNS name of VMware admin cluster's API server. */
-  endpoint?: string;
-  /** The VMware admin cluster addon node configuration. */
-  addonNode?: VmwareAdminAddonNodeConfig;
-  /** The Anthos clusters on the VMware version for the admin cluster. */
-  onPremVersion?: string;
-  /** Output only. If set, there are currently changes in flight to the VMware admin cluster. */
-  reconciling?: boolean;
-  /** Output only. The unique identifier of the VMware admin cluster. */
-  uid?: string;
-  /** The bootstrap cluster this VMware admin cluster belongs to. */
-  bootstrapClusterMembership?: string;
-  /** Output only. ValidationCheck represents the result of the preflight check job. */
-  validationCheck?: ValidationCheck;
-  /** The VMware admin cluster authorization configuration. */
-  authorization?: VmwareAdminAuthorizationConfig;
-  /** The VMware platform configuration. */
-  platformConfig?: VmwarePlatformConfig;
-  /** The VMware admin cluster auto repair configuration. */
-  autoRepairConfig?: VmwareAutoRepairConfig;
-  /** The VMware admin cluster load balancer configuration. */
-  loadBalancer?: VmwareAdminLoadBalancerConfig;
-  /** Output only. The time at which VMware admin cluster was last updated. */
-  updateTime?: string;
-  /** The VMware admin cluster VCenter configuration. */
-  vcenter?: VmwareAdminVCenterConfig;
-  /** Annotations on the VMware admin cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap;
-  /** Output only. Fleet configuration for the cluster. */
-  fleet?: Fleet;
-  /** Output only. The time at which VMware admin cluster was created. */
-  createTime?: string;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string;
-  /** Immutable. The VMware admin cluster resource name. */
-  name?: string;
-  /** Output only. The current state of VMware admin cluster. */
-  state?: VmwareAdminClusterStateEnum | (string & {});
-  /** Output only. The object name of the VMware OnPremAdminCluster custom resource. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the ID in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. All users should use this name to access their cluster using gkectl or kubectl and should expect to see the local name when viewing admin cluster controller logs. */
-  localName?: string;
-  /** The VMware admin cluster network configuration. */
-  networkConfig?: VmwareAdminNetworkConfig;
   /** Enable advanced cluster. */
   enableAdvancedCluster?: boolean;
+  /** Output only. ValidationCheck represents the result of the preflight check job. */
+  validationCheck?: ValidationCheck;
+  /** Output only. If set, there are currently changes in flight to the VMware admin cluster. */
+  reconciling?: boolean;
+  /** Annotations on the VMware admin cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
+  annotations?: StringMap;
+  /** The VMware admin cluster auto repair configuration. */
+  autoRepairConfig?: VmwareAutoRepairConfig;
+  /** Configuration for proxy. */
+  proxy?: VmwareAdminProxy;
+  /** The VMware admin cluster load balancer configuration. */
+  loadBalancer?: VmwareAdminLoadBalancerConfig;
+  /** Configuration for registry. */
+  privateRegistryConfig?: VmwareAdminPrivateRegistryConfig;
+  /** Output only. The unique identifier of the VMware admin cluster. */
+  uid?: string;
   /** A human readable description of this VMware admin cluster. */
   description?: string;
+  /** The OS image type for the VMware admin cluster. */
+  imageType?: string;
+  /** The Anthos clusters on the VMware version for the admin cluster. */
+  onPremVersion?: string;
+  /** The VMware admin cluster control plane node configuration. */
+  controlPlaneNode?: VmwareAdminControlPlaneNodeConfig;
+  /** Output only. ResourceStatus representing detailed cluster state. */
+  status?: ResourceStatus;
+  /** Output only. The time at which VMware admin cluster was last updated. */
+  updateTime?: string;
+  /** The VMware admin cluster authorization configuration. */
+  authorization?: VmwareAdminAuthorizationConfig;
+  /** Output only. The time at which VMware admin cluster was created. */
+  createTime?: string;
+  /** The VMware admin cluster addon node configuration. */
+  addonNode?: VmwareAdminAddonNodeConfig;
+  /** The VMware admin cluster VCenter configuration. */
+  vcenter?: VmwareAdminVCenterConfig;
+  /** The VMware admin cluster network configuration. */
+  networkConfig?: VmwareAdminNetworkConfig;
+  /** Output only. The DNS name of VMware admin cluster's API server. */
+  endpoint?: string;
+  /** Output only. Fleet configuration for the cluster. */
+  fleet?: Fleet;
+  /** Output only. The VMware admin cluster prepared secrets configuration. It should always be enabled by the Central API, instead of letting users set it. */
+  preparedSecrets?: VmwareAdminPreparedSecretsConfig;
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
+  etag?: string;
+  /** Output only. The object name of the VMware OnPremAdminCluster custom resource. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the ID in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. All users should use this name to access their cluster using gkectl or kubectl and should expect to see the local name when viewing admin cluster controller logs. */
+  localName?: string;
+  /** The VMware platform configuration. */
+  platformConfig?: VmwarePlatformConfig;
+  /** The VMware admin cluster anti affinity group configuration. */
+  antiAffinityGroups?: VmwareAAGConfig;
+  /** Output only. The current state of VMware admin cluster. */
+  state?: VmwareAdminClusterStateEnum | (string & {});
+  /** Immutable. The VMware admin cluster resource name. */
+  name?: string;
+  /** The bootstrap cluster this VMware admin cluster belongs to. */
+  bootstrapClusterMembership?: string;
 }
 export const VmwareAdminCluster = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    antiAffinityGroups: S.optional(VmwareAAGConfig),
-    preparedSecrets: S.optional(VmwareAdminPreparedSecretsConfig),
-    status: S.optional(ResourceStatus),
-    controlPlaneNode: S.optional(VmwareAdminControlPlaneNodeConfig),
-    imageType: S.optional(S.String),
-    proxy: S.optional(VmwareAdminProxy),
-    privateRegistryConfig: S.optional(VmwareAdminPrivateRegistryConfig),
-    endpoint: S.optional(S.String),
-    addonNode: S.optional(VmwareAdminAddonNodeConfig),
-    onPremVersion: S.optional(S.String),
-    reconciling: S.optional(S.Boolean),
-    uid: S.optional(S.String),
-    bootstrapClusterMembership: S.optional(S.String),
-    validationCheck: S.optional(ValidationCheck),
-    authorization: S.optional(VmwareAdminAuthorizationConfig),
-    platformConfig: S.optional(VmwarePlatformConfig),
-    autoRepairConfig: S.optional(VmwareAutoRepairConfig),
-    loadBalancer: S.optional(VmwareAdminLoadBalancerConfig),
-    updateTime: S.optional(S.String),
-    vcenter: S.optional(VmwareAdminVCenterConfig),
-    annotations: S.optional(StringMap),
-    fleet: S.optional(Fleet),
-    createTime: S.optional(S.String),
-    etag: S.optional(S.String),
-    name: S.optional(S.String),
-    state: S.optional(VmwareAdminClusterStateEnum),
-    localName: S.optional(S.String),
-    networkConfig: S.optional(VmwareAdminNetworkConfig),
     enableAdvancedCluster: S.optional(S.Boolean),
+    validationCheck: S.optional(ValidationCheck),
+    reconciling: S.optional(S.Boolean),
+    annotations: S.optional(StringMap),
+    autoRepairConfig: S.optional(VmwareAutoRepairConfig),
+    proxy: S.optional(VmwareAdminProxy),
+    loadBalancer: S.optional(VmwareAdminLoadBalancerConfig),
+    privateRegistryConfig: S.optional(VmwareAdminPrivateRegistryConfig),
+    uid: S.optional(S.String),
     description: S.optional(S.String),
+    imageType: S.optional(S.String),
+    onPremVersion: S.optional(S.String),
+    controlPlaneNode: S.optional(VmwareAdminControlPlaneNodeConfig),
+    status: S.optional(ResourceStatus),
+    updateTime: S.optional(S.String),
+    authorization: S.optional(VmwareAdminAuthorizationConfig),
+    createTime: S.optional(S.String),
+    addonNode: S.optional(VmwareAdminAddonNodeConfig),
+    vcenter: S.optional(VmwareAdminVCenterConfig),
+    networkConfig: S.optional(VmwareAdminNetworkConfig),
+    endpoint: S.optional(S.String),
+    fleet: S.optional(Fleet),
+    preparedSecrets: S.optional(VmwareAdminPreparedSecretsConfig),
+    etag: S.optional(S.String),
+    localName: S.optional(S.String),
+    platformConfig: S.optional(VmwarePlatformConfig),
+    antiAffinityGroups: S.optional(VmwareAAGConfig),
+    state: S.optional(VmwareAdminClusterStateEnum),
+    name: S.optional(S.String),
+    bootstrapClusterMembership: S.optional(S.String),
   }),
 ).annotate({
   identifier: "VmwareAdminCluster",
@@ -2359,14 +2369,14 @@ export const VmwareAdminCluster = /*@__PURE__*/ S.suspend(() =>
 export interface CreateProjectsLocationsVmwareAdminClustersRequest {
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
-  /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
-  allowPreflightFailure?: boolean;
-  /** Optional. If set, skip the specified validations. */
-  skipValidations?: StringList;
   /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
   parent: string;
+  /** Optional. If set, skip the specified validations. */
+  skipValidations?: StringList;
   /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
   vmwareAdminClusterId?: string;
+  /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
+  allowPreflightFailure?: boolean;
   /** Request body */
   body?: VmwareAdminCluster;
 }
@@ -2374,10 +2384,10 @@ export const CreateProjectsLocationsVmwareAdminClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-      allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
-      skipValidations: S.optional(StringList.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      skipValidations: S.optional(StringList.pipe(T.Query())),
       vmwareAdminClusterId: S.optional(S.String.pipe(T.Query())),
+      allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
       body: S.optional(VmwareAdminCluster.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -2389,60 +2399,6 @@ export const CreateProjectsLocationsVmwareAdminClustersRequest =
   ).annotate({
     identifier: "CreateProjectsLocationsVmwareAdminClustersRequest",
   }) as any as S.Schema<CreateProjectsLocationsVmwareAdminClustersRequest>;
-
-/** VmwareClusterUpgradePolicy defines the cluster upgrade policy. */
-export interface VmwareClusterUpgradePolicy {
-  /** Controls whether the upgrade applies to the control plane only. */
-  controlPlaneOnly?: boolean;
-}
-export const VmwareClusterUpgradePolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    controlPlaneOnly: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "VmwareClusterUpgradePolicy",
-}) as any as S.Schema<VmwareClusterUpgradePolicy>;
-
-/** Specifies control plane node config. */
-export interface VmwareControlPlaneVsphereConfig {
-  /** The Vsphere datastore used by the control plane Node. */
-  datastore?: string;
-  /** The Vsphere storage policy used by the control plane Node. */
-  storagePolicyName?: string;
-}
-export const VmwareControlPlaneVsphereConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastore: S.optional(S.String),
-    storagePolicyName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VmwareControlPlaneVsphereConfig",
-}) as any as S.Schema<VmwareControlPlaneVsphereConfig>;
-
-/** Specifies control plane node config for the VMware user cluster. */
-export interface VmwareControlPlaneNodeConfig {
-  /** The megabytes of memory for each admin cluster node that serves as a control plane for this VMware user cluster (default: 8192 MB memory). */
-  memory?: string;
-  /** AutoResizeConfig provides auto resizing configurations. */
-  autoResizeConfig?: VmwareAutoResizeConfig;
-  /** The number of CPUs for each admin cluster node that serve as control planes for this VMware user cluster. (default: 4 CPUs) */
-  cpus?: string;
-  /** Vsphere-specific config. */
-  vsphereConfig?: VmwareControlPlaneVsphereConfig;
-  /** The number of control plane nodes for this VMware user cluster. (default: 1 replica). */
-  replicas?: string;
-}
-export const VmwareControlPlaneNodeConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    memory: S.optional(S.String),
-    autoResizeConfig: S.optional(VmwareAutoResizeConfig),
-    cpus: S.optional(S.String),
-    vsphereConfig: S.optional(VmwareControlPlaneVsphereConfig),
-    replicas: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VmwareControlPlaneNodeConfig",
-}) as any as S.Schema<VmwareControlPlaneNodeConfig>;
 
 /** Specifies vSphere CSI components deployment config in the VMware user cluster. */
 export interface VmwareStorageConfig {
@@ -2459,37 +2415,100 @@ export const VmwareStorageConfig = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents configuration for the VMware VCenter for the user cluster. */
 export interface VmwareVCenterConfig {
-  /** Contains the vCenter CA certificate public key for SSL verification. */
-  caCertData?: string;
   /** The name of the vCenter datastore for the user cluster. */
   datastore?: string;
-  /** The name of the vCenter datacenter for the user cluster. */
-  datacenter?: string;
-  /** The name of the vCenter cluster for the user cluster. */
-  cluster?: string;
-  /** The name of the vCenter folder for the user cluster. */
-  folder?: string;
   /** Output only. The vCenter IP address. */
   address?: string;
+  /** Contains the vCenter CA certificate public key for SSL verification. */
+  caCertData?: string;
   /** The name of the vCenter resource pool for the user cluster. */
   resourcePool?: string;
   /** The name of the vCenter storage policy for the user cluster. */
   storagePolicyName?: string;
+  /** The name of the vCenter cluster for the user cluster. */
+  cluster?: string;
+  /** The name of the vCenter datacenter for the user cluster. */
+  datacenter?: string;
+  /** The name of the vCenter folder for the user cluster. */
+  folder?: string;
 }
 export const VmwareVCenterConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    caCertData: S.optional(S.String),
     datastore: S.optional(S.String),
-    datacenter: S.optional(S.String),
-    cluster: S.optional(S.String),
-    folder: S.optional(S.String),
     address: S.optional(S.String),
+    caCertData: S.optional(S.String),
     resourcePool: S.optional(S.String),
     storagePolicyName: S.optional(S.String),
+    cluster: S.optional(S.String),
+    datacenter: S.optional(S.String),
+    folder: S.optional(S.String),
   }),
 ).annotate({
   identifier: "VmwareVCenterConfig",
 }) as any as S.Schema<VmwareVCenterConfig>;
+
+/** Specifies control plane node config. */
+export interface VmwareControlPlaneVsphereConfig {
+  /** The Vsphere storage policy used by the control plane Node. */
+  storagePolicyName?: string;
+  /** The Vsphere datastore used by the control plane Node. */
+  datastore?: string;
+}
+export const VmwareControlPlaneVsphereConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storagePolicyName: S.optional(S.String),
+    datastore: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "VmwareControlPlaneVsphereConfig",
+}) as any as S.Schema<VmwareControlPlaneVsphereConfig>;
+
+/** Specifies control plane node config for the VMware user cluster. */
+export interface VmwareControlPlaneNodeConfig {
+  /** The megabytes of memory for each admin cluster node that serves as a control plane for this VMware user cluster (default: 8192 MB memory). */
+  memory?: string;
+  /** The number of control plane nodes for this VMware user cluster. (default: 1 replica). */
+  replicas?: string;
+  /** The number of CPUs for each admin cluster node that serve as control planes for this VMware user cluster. (default: 4 CPUs) */
+  cpus?: string;
+  /** Vsphere-specific config. */
+  vsphereConfig?: VmwareControlPlaneVsphereConfig;
+  /** AutoResizeConfig provides auto resizing configurations. */
+  autoResizeConfig?: VmwareAutoResizeConfig;
+}
+export const VmwareControlPlaneNodeConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    memory: S.optional(S.String),
+    replicas: S.optional(S.String),
+    cpus: S.optional(S.String),
+    vsphereConfig: S.optional(VmwareControlPlaneVsphereConfig),
+    autoResizeConfig: S.optional(VmwareAutoResizeConfig),
+  }),
+).annotate({
+  identifier: "VmwareControlPlaneNodeConfig",
+}) as any as S.Schema<VmwareControlPlaneNodeConfig>;
+
+/** Contains configurations for Dataplane V2, which is optimized dataplane for Kubernetes networking. For more information, see: https://cloud.google.com/kubernetes-engine/docs/concepts/dataplane-v2 */
+export interface VmwareDataplaneV2Config {
+  /** Configure ForwardMode for Dataplane v2. */
+  forwardMode?: string;
+  /** Enable Dataplane V2 for clusters with Windows nodes. */
+  windowsDataplaneV2Enabled?: boolean;
+  /** Enables Dataplane V2. */
+  dataplaneV2Enabled?: boolean;
+  /** Enable advanced networking which requires dataplane_v2_enabled to be set true. */
+  advancedNetworking?: boolean;
+}
+export const VmwareDataplaneV2Config = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    forwardMode: S.optional(S.String),
+    windowsDataplaneV2Enabled: S.optional(S.Boolean),
+    dataplaneV2Enabled: S.optional(S.Boolean),
+    advancedNetworking: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "VmwareDataplaneV2Config",
+}) as any as S.Schema<VmwareDataplaneV2Config>;
 
 /** Specifies the VIP config for the VMware user cluster load balancer. */
 export interface VmwareVipConfig {
@@ -2507,51 +2526,8 @@ export const VmwareVipConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "VmwareVipConfig",
 }) as any as S.Schema<VmwareVipConfig>;
 
-/** Represents configuration parameters for an F5 BIG-IP load balancer. */
-export interface VmwareF5BigIpConfig {
-  /** The preexisting partition to be used by the load balancer. This partition is usually created for the admin cluster for example: 'my-f5-admin-partition'. */
-  partition?: string;
-  /** The pool name. Only necessary, if using SNAT. */
-  snatPool?: string;
-  /** The load balancer's IP address. */
-  address?: string;
-}
-export const VmwareF5BigIpConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    partition: S.optional(S.String),
-    snatPool: S.optional(S.String),
-    address: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VmwareF5BigIpConfig",
-}) as any as S.Schema<VmwareF5BigIpConfig>;
-
-/** Represents configuration parameters for an already existing manual load balancer. Given the nature of manual load balancers it is expected that said load balancer will be fully managed by users. IMPORTANT: Please note that the Anthos On-Prem API will not generate or update ManualLB configurations it can only bind a pre-existing configuration to a new VMware user cluster. */
-export interface VmwareManualLbConfig {
-  /** NodePort for control plane service. The Kubernetes API server in the admin cluster is implemented as a Service of type NodePort (ex. 30968). */
-  controlPlaneNodePort?: number;
-  /** NodePort for ingress service's http. The ingress service in the admin cluster is implemented as a Service of type NodePort (ex. 32527). */
-  ingressHttpNodePort?: number;
-  /** NodePort for ingress service's https. The ingress service in the admin cluster is implemented as a Service of type NodePort (ex. 30139). */
-  ingressHttpsNodePort?: number;
-  /** NodePort for konnectivity server service running as a sidecar in each kube-apiserver pod (ex. 30564). */
-  konnectivityServerNodePort?: number;
-}
-export const VmwareManualLbConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    controlPlaneNodePort: S.optional(S.Number),
-    ingressHttpNodePort: S.optional(S.Number),
-    ingressHttpsNodePort: S.optional(S.Number),
-    konnectivityServerNodePort: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "VmwareManualLbConfig",
-}) as any as S.Schema<VmwareManualLbConfig>;
-
 /** VmwareSeesawConfig represents configuration parameters for an already existing Seesaw load balancer. IMPORTANT: Please note that the Anthos On-Prem API will not generate or update Seesaw configurations it can only bind a pre-existing configuration to a new user cluster. IMPORTANT: When attempting to create a user cluster with a pre-existing Seesaw load balancer you will need to follow some preparation steps before calling the 'CreateVmwareCluster' API method. First you will need to create the user cluster's namespace via kubectl. The namespace will need to use the following naming convention : -gke-onprem-mgmt or -gke-onprem-mgmt depending on whether you used the 'VmwareCluster.local_name' to disambiguate collisions; for more context see the documentation of 'VmwareCluster.local_name'. Once the namespace is created you will need to create a secret resource via kubectl. This secret will contain copies of your Seesaw credentials. The Secret must be called 'user-cluster-creds' and contain Seesaw's SSH and Cert credentials. The credentials must be keyed with the following names: 'seesaw-ssh-private-key', 'seesaw-ssh-public-key', 'seesaw-ssh-ca-key', 'seesaw-ssh-ca-cert'. */
 export interface VmwareSeesawConfig {
-  /** Enable two load balancer VMs to achieve a highly-available Seesaw load balancer. */
-  enableHa?: boolean;
   /** Required. The IP Blocks to be used by the Seesaw load balancer */
   ipBlocks?: VmwareIpBlockList;
   /** Names of the VMs created for this Seesaw group. */
@@ -2560,16 +2536,18 @@ export interface VmwareSeesawConfig {
   group?: string;
   /** Required. MasterIP is the IP announced by the master of Seesaw group. */
   masterIp?: string;
+  /** Enable two load balancer VMs to achieve a highly-available Seesaw load balancer. */
+  enableHa?: boolean;
   /** Name to be used by Stackdriver. */
   stackdriverName?: string;
 }
 export const VmwareSeesawConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enableHa: S.optional(S.Boolean),
     ipBlocks: S.optional(VmwareIpBlockList),
     vms: S.optional(StringList),
     group: S.optional(S.String),
     masterIp: S.optional(S.String),
+    enableHa: S.optional(S.Boolean),
     stackdriverName: S.optional(S.String),
   }),
 ).annotate({
@@ -2577,13 +2555,30 @@ export const VmwareSeesawConfig = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VmwareSeesawConfig>;
 
 /** Represents an IP pool used by the load balancer. */
-export type VmwareAddressPool = BareMetalAdminLoadBalancerAddressPool;
-export const VmwareAddressPool = BareMetalAdminLoadBalancerAddressPool;
+export interface VmwareAddressPool {
+  /** Required. The addresses that are part of this pool. Each address must be either in the CIDR form (1.2.3.0/24) or range form (1.2.3.1-1.2.3.5). */
+  addresses?: StringList;
+  /** If true, avoid using IPs ending in .0 or .255. This avoids buggy consumer devices mistakenly dropping IPv4 traffic for those special IP addresses. */
+  avoidBuggyIps?: boolean;
+  /** If true, prevent IP addresses from being automatically assigned. */
+  manualAssign?: boolean;
+  /** Required. The name of the address pool. */
+  pool?: string;
+}
+export const VmwareAddressPool = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    addresses: S.optional(StringList),
+    avoidBuggyIps: S.optional(S.Boolean),
+    manualAssign: S.optional(S.Boolean),
+    pool: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "VmwareAddressPool",
+}) as any as S.Schema<VmwareAddressPool>;
 
-export type VmwareAddressPoolList =
-  Array<BareMetalAdminLoadBalancerAddressPool>;
+export type VmwareAddressPoolList = Array<VmwareAddressPool>;
 export const VmwareAddressPoolList = /*@__PURE__*/ S.Array(
-  BareMetalAdminLoadBalancerAddressPool,
+  VmwareAddressPool,
 ) as any as S.Schema<VmwareAddressPoolList>;
 
 /** Represents configuration parameters for the MetalLB load balancer. */
@@ -2599,30 +2594,66 @@ export const VmwareMetalLbConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "VmwareMetalLbConfig",
 }) as any as S.Schema<VmwareMetalLbConfig>;
 
+/** Represents configuration parameters for an F5 BIG-IP load balancer. */
+export type VmwareF5BigIpConfig = VmwareAdminF5BigIpConfig;
+export const VmwareF5BigIpConfig = VmwareAdminF5BigIpConfig;
+
+/** Represents configuration parameters for an already existing manual load balancer. Given the nature of manual load balancers it is expected that said load balancer will be fully managed by users. IMPORTANT: Please note that the Anthos On-Prem API will not generate or update ManualLB configurations it can only bind a pre-existing configuration to a new VMware user cluster. */
+export interface VmwareManualLbConfig {
+  /** NodePort for ingress service's http. The ingress service in the admin cluster is implemented as a Service of type NodePort (ex. 32527). */
+  ingressHttpNodePort?: number;
+  /** NodePort for control plane service. The Kubernetes API server in the admin cluster is implemented as a Service of type NodePort (ex. 30968). */
+  controlPlaneNodePort?: number;
+  /** NodePort for konnectivity server service running as a sidecar in each kube-apiserver pod (ex. 30564). */
+  konnectivityServerNodePort?: number;
+  /** NodePort for ingress service's https. The ingress service in the admin cluster is implemented as a Service of type NodePort (ex. 30139). */
+  ingressHttpsNodePort?: number;
+}
+export const VmwareManualLbConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ingressHttpNodePort: S.optional(S.Number),
+    controlPlaneNodePort: S.optional(S.Number),
+    konnectivityServerNodePort: S.optional(S.Number),
+    ingressHttpsNodePort: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "VmwareManualLbConfig",
+}) as any as S.Schema<VmwareManualLbConfig>;
+
 /** Specifies the locad balancer config for the VMware user cluster. */
 export interface VmwareLoadBalancerConfig {
   /** The VIPs used by the load balancer. */
   vipConfig?: VmwareVipConfig;
-  /** Configuration for F5 Big IP typed load balancers. */
-  f5Config?: VmwareF5BigIpConfig;
-  /** Manually configured load balancers. */
-  manualLbConfig?: VmwareManualLbConfig;
   /** Output only. Configuration for Seesaw typed load balancers. */
   seesawConfig?: VmwareSeesawConfig;
   /** Configuration for MetalLB typed load balancers. */
   metalLbConfig?: VmwareMetalLbConfig;
+  /** Configuration for F5 Big IP typed load balancers. */
+  f5Config?: VmwareAdminF5BigIpConfig;
+  /** Manually configured load balancers. */
+  manualLbConfig?: VmwareManualLbConfig;
 }
 export const VmwareLoadBalancerConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vipConfig: S.optional(VmwareVipConfig),
-    f5Config: S.optional(VmwareF5BigIpConfig),
-    manualLbConfig: S.optional(VmwareManualLbConfig),
     seesawConfig: S.optional(VmwareSeesawConfig),
     metalLbConfig: S.optional(VmwareMetalLbConfig),
+    f5Config: S.optional(VmwareAdminF5BigIpConfig),
+    manualLbConfig: S.optional(VmwareManualLbConfig),
   }),
 ).annotate({
   identifier: "VmwareLoadBalancerConfig",
 }) as any as S.Schema<VmwareLoadBalancerConfig>;
+
+export type VmwareClusterStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PROVISIONING"
+  | "RUNNING"
+  | "RECONCILING"
+  | "STOPPING"
+  | "ERROR"
+  | "DEGRADED";
+export const VmwareClusterStateEnum = S.String;
 
 /** Specifies control plane V2 config. */
 export interface VmwareControlPlaneV2Config {
@@ -2639,196 +2670,177 @@ export const VmwareControlPlaneV2Config = /*@__PURE__*/ S.suspend(() =>
 
 /** Specifies network config for the VMware user cluster. */
 export interface VmwareNetworkConfig {
-  /** vcenter_network specifies vCenter network name. Inherited from the admin cluster. */
-  vcenterNetwork?: string;
-  /** Represents common network settings irrespective of the host's IP address. */
-  hostConfig?: VmwareHostConfig;
-  /** Configuration for control plane V2 mode. */
-  controlPlaneV2Config?: VmwareControlPlaneV2Config;
   /** Required. All services in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation. */
   serviceAddressCidrBlocks?: StringList;
-  /** Required. All pods in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation. */
-  podAddressCidrBlocks?: StringList;
   /** Configuration settings for a static IP configuration. */
   staticIpConfig?: VmwareStaticIpConfig;
+  /** Required. All pods in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation. */
+  podAddressCidrBlocks?: StringList;
+  /** Configuration for control plane V2 mode. */
+  controlPlaneV2Config?: VmwareControlPlaneV2Config;
+  /** Represents common network settings irrespective of the host's IP address. */
+  hostConfig?: VmwareHostConfig;
+  /** vcenter_network specifies vCenter network name. Inherited from the admin cluster. */
+  vcenterNetwork?: string;
   /** Configuration settings for a DHCP IP configuration. */
   dhcpIpConfig?: VmwareDhcpIpConfig;
 }
 export const VmwareNetworkConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    vcenterNetwork: S.optional(S.String),
-    hostConfig: S.optional(VmwareHostConfig),
-    controlPlaneV2Config: S.optional(VmwareControlPlaneV2Config),
     serviceAddressCidrBlocks: S.optional(StringList),
-    podAddressCidrBlocks: S.optional(StringList),
     staticIpConfig: S.optional(VmwareStaticIpConfig),
+    podAddressCidrBlocks: S.optional(StringList),
+    controlPlaneV2Config: S.optional(VmwareControlPlaneV2Config),
+    hostConfig: S.optional(VmwareHostConfig),
+    vcenterNetwork: S.optional(S.String),
     dhcpIpConfig: S.optional(VmwareDhcpIpConfig),
   }),
 ).annotate({
   identifier: "VmwareNetworkConfig",
 }) as any as S.Schema<VmwareNetworkConfig>;
 
-/** Contains configurations for Dataplane V2, which is optimized dataplane for Kubernetes networking. For more information, see: https://cloud.google.com/kubernetes-engine/docs/concepts/dataplane-v2 */
-export interface VmwareDataplaneV2Config {
-  /** Enable Dataplane V2 for clusters with Windows nodes. */
-  windowsDataplaneV2Enabled?: boolean;
-  /** Enables Dataplane V2. */
-  dataplaneV2Enabled?: boolean;
-  /** Enable advanced networking which requires dataplane_v2_enabled to be set true. */
-  advancedNetworking?: boolean;
-  /** Configure ForwardMode for Dataplane v2. */
-  forwardMode?: string;
+/** VmwareClusterUpgradePolicy defines the cluster upgrade policy. */
+export interface VmwareClusterUpgradePolicy {
+  /** Controls whether the upgrade applies to the control plane only. */
+  controlPlaneOnly?: boolean;
 }
-export const VmwareDataplaneV2Config = /*@__PURE__*/ S.suspend(() =>
+export const VmwareClusterUpgradePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    windowsDataplaneV2Enabled: S.optional(S.Boolean),
-    dataplaneV2Enabled: S.optional(S.Boolean),
-    advancedNetworking: S.optional(S.Boolean),
-    forwardMode: S.optional(S.String),
+    controlPlaneOnly: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "VmwareDataplaneV2Config",
-}) as any as S.Schema<VmwareDataplaneV2Config>;
-
-export type VmwareClusterStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PROVISIONING"
-  | "RUNNING"
-  | "RECONCILING"
-  | "STOPPING"
-  | "ERROR"
-  | "DEGRADED";
-export const VmwareClusterStateEnum = /*@__PURE__*/ S.String;
+  identifier: "VmwareClusterUpgradePolicy",
+}) as any as S.Schema<VmwareClusterUpgradePolicy>;
 
 /** Resource that represents a VMware user cluster. ## */
 export interface VmwareCluster {
-  /** Specifies upgrade policy for the cluster. */
-  upgradePolicy?: VmwareClusterUpgradePolicy;
-  /** VMware user cluster control plane nodes must have either 1 or 3 replicas. */
-  controlPlaneNode?: VmwareControlPlaneNodeConfig;
-  /** Output only. ResourceStatus representing detailed cluster state. */
-  status?: ResourceStatus;
   /** Storage configuration. */
   storage?: VmwareStorageConfig;
-  /** AAGConfig specifies whether to spread VMware user cluster nodes across at least three physical hosts in the datacenter. */
-  antiAffinityGroups?: VmwareAAGConfig;
-  /** RBAC policy that will be applied and managed by the Anthos On-Prem API. */
-  authorization?: Authorization;
+  /** Required. The Anthos clusters on the VMware version for your user cluster. */
+  onPremVersion?: string;
+  /** Disable bundled ingress. */
+  disableBundledIngress?: boolean;
+  /** Configuration for auto repairing. */
+  autoRepairConfig?: VmwareAutoRepairConfig;
+  /** Output only. The resource name of the VMware admin cluster hosting this user cluster. */
+  adminClusterName?: string;
+  /** Output only. The DNS name of VMware user cluster's API server. */
+  endpoint?: string;
+  /** VmwareVCenterConfig specifies vCenter config for the user cluster. If unspecified, it is inherited from the admin cluster. */
+  vcenter?: VmwareVCenterConfig;
+  /** Output only. ResourceStatus representing detailed cluster state. */
+  status?: ResourceStatus;
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
+  etag?: string;
+  /** VMware user cluster control plane nodes must have either 1 or 3 replicas. */
+  controlPlaneNode?: VmwareControlPlaneNodeConfig;
+  /** Binary Authorization related configurations. */
+  binaryAuthorization?: BinaryAuthorization;
+  /** Enable VM tracking. */
+  vmTrackingEnabled?: boolean;
+  /** VmwareDataplaneV2Config specifies configuration for Dataplane V2. */
+  dataplaneV2?: VmwareDataplaneV2Config;
+  /** Immutable. The VMware user cluster resource name. */
+  name?: string;
+  /** Enable advanced cluster. */
+  enableAdvancedCluster?: boolean;
+  /** Load balancer configuration. */
+  loadBalancer?: VmwareLoadBalancerConfig;
   /** Output only. The time at which VMware user cluster was deleted. */
   deleteTime?: string;
   /** Output only. ValidationCheck represents the result of the preflight check job. */
   validationCheck?: ValidationCheck;
-  /** Output only. The unique identifier of the VMware user cluster. */
-  uid?: string;
-  /** Output only. If set, there are currently changes in flight to the VMware user cluster. */
-  reconciling?: boolean;
-  /** Output only. The resource name of the VMware admin cluster hosting this user cluster. */
-  adminClusterName?: string;
-  /** Required. The Anthos clusters on the VMware version for your user cluster. */
-  onPremVersion?: string;
-  /** Output only. The DNS name of VMware user cluster's API server. */
-  endpoint?: string;
-  /** Output only. The time at which VMware user cluster was created. */
-  createTime?: string;
-  /** Enable VM tracking. */
-  vmTrackingEnabled?: boolean;
-  /** Output only. Fleet configuration for the cluster. */
-  fleet?: Fleet;
-  /** Required. The admin cluster this VMware user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. In the future, references to other resource types might be allowed if admin clusters are modeled as their own resources. */
-  adminClusterMembership?: string;
-  /** Annotations on the VMware user cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap;
-  /** Output only. The time at which VMware user cluster was last updated. */
-  updateTime?: string;
-  /** VmwareVCenterConfig specifies vCenter config for the user cluster. If unspecified, it is inherited from the admin cluster. */
-  vcenter?: VmwareVCenterConfig;
-  /** Load balancer configuration. */
-  loadBalancer?: VmwareLoadBalancerConfig;
-  /** Configuration for auto repairing. */
-  autoRepairConfig?: VmwareAutoRepairConfig;
-  /** Enable control plane V2. Default to false. */
-  enableControlPlaneV2?: boolean;
-  /** A human readable description of this VMware user cluster. */
-  description?: string;
-  /** Disable bundled ingress. */
-  disableBundledIngress?: boolean;
-  /** Enable advanced cluster. */
-  enableAdvancedCluster?: boolean;
-  /** The VMware user cluster network configuration. */
-  networkConfig?: VmwareNetworkConfig;
-  /** VmwareDataplaneV2Config specifies configuration for Dataplane V2. */
-  dataplaneV2?: VmwareDataplaneV2Config;
+  /** AAGConfig specifies whether to spread VMware user cluster nodes across at least three physical hosts in the datacenter. */
+  antiAffinityGroups?: VmwareAAGConfig;
   /** Output only. The object name of the VMware OnPremUserCluster custom resource on the associated admin cluster. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the ID in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. All users should use this name to access their cluster using gkectl or kubectl and should expect to see the local name when viewing admin cluster controller logs. */
   localName?: string;
-  /** Immutable. The VMware user cluster resource name. */
-  name?: string;
+  /** Annotations on the VMware user cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
+  annotations?: StringMap;
+  /** Required. The admin cluster this VMware user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. In the future, references to other resource types might be allowed if admin clusters are modeled as their own resources. */
+  adminClusterMembership?: string;
   /** Output only. The current state of VMware user cluster. */
   state?: VmwareClusterStateEnum | (string & {});
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string;
-  /** Binary Authorization related configurations. */
-  binaryAuthorization?: BinaryAuthorization;
+  /** Output only. The time at which VMware user cluster was created. */
+  createTime?: string;
+  /** RBAC policy that will be applied and managed by the Anthos On-Prem API. */
+  authorization?: Authorization;
+  /** Output only. If set, there are currently changes in flight to the VMware user cluster. */
+  reconciling?: boolean;
+  /** Output only. The time at which VMware user cluster was last updated. */
+  updateTime?: string;
+  /** Enable control plane V2. Default to false. */
+  enableControlPlaneV2?: boolean;
+  /** Output only. Fleet configuration for the cluster. */
+  fleet?: Fleet;
+  /** A human readable description of this VMware user cluster. */
+  description?: string;
+  /** Output only. The unique identifier of the VMware user cluster. */
+  uid?: string;
+  /** The VMware user cluster network configuration. */
+  networkConfig?: VmwareNetworkConfig;
+  /** Specifies upgrade policy for the cluster. */
+  upgradePolicy?: VmwareClusterUpgradePolicy;
 }
 export const VmwareCluster = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    upgradePolicy: S.optional(VmwareClusterUpgradePolicy),
-    controlPlaneNode: S.optional(VmwareControlPlaneNodeConfig),
-    status: S.optional(ResourceStatus),
     storage: S.optional(VmwareStorageConfig),
-    antiAffinityGroups: S.optional(VmwareAAGConfig),
-    authorization: S.optional(Authorization),
+    onPremVersion: S.optional(S.String),
+    disableBundledIngress: S.optional(S.Boolean),
+    autoRepairConfig: S.optional(VmwareAutoRepairConfig),
+    adminClusterName: S.optional(S.String),
+    endpoint: S.optional(S.String),
+    vcenter: S.optional(VmwareVCenterConfig),
+    status: S.optional(ResourceStatus),
+    etag: S.optional(S.String),
+    controlPlaneNode: S.optional(VmwareControlPlaneNodeConfig),
+    binaryAuthorization: S.optional(BinaryAuthorization),
+    vmTrackingEnabled: S.optional(S.Boolean),
+    dataplaneV2: S.optional(VmwareDataplaneV2Config),
+    name: S.optional(S.String),
+    enableAdvancedCluster: S.optional(S.Boolean),
+    loadBalancer: S.optional(VmwareLoadBalancerConfig),
     deleteTime: S.optional(S.String),
     validationCheck: S.optional(ValidationCheck),
-    uid: S.optional(S.String),
-    reconciling: S.optional(S.Boolean),
-    adminClusterName: S.optional(S.String),
-    onPremVersion: S.optional(S.String),
-    endpoint: S.optional(S.String),
-    createTime: S.optional(S.String),
-    vmTrackingEnabled: S.optional(S.Boolean),
-    fleet: S.optional(Fleet),
-    adminClusterMembership: S.optional(S.String),
-    annotations: S.optional(StringMap),
-    updateTime: S.optional(S.String),
-    vcenter: S.optional(VmwareVCenterConfig),
-    loadBalancer: S.optional(VmwareLoadBalancerConfig),
-    autoRepairConfig: S.optional(VmwareAutoRepairConfig),
-    enableControlPlaneV2: S.optional(S.Boolean),
-    description: S.optional(S.String),
-    disableBundledIngress: S.optional(S.Boolean),
-    enableAdvancedCluster: S.optional(S.Boolean),
-    networkConfig: S.optional(VmwareNetworkConfig),
-    dataplaneV2: S.optional(VmwareDataplaneV2Config),
+    antiAffinityGroups: S.optional(VmwareAAGConfig),
     localName: S.optional(S.String),
-    name: S.optional(S.String),
+    annotations: S.optional(StringMap),
+    adminClusterMembership: S.optional(S.String),
     state: S.optional(VmwareClusterStateEnum),
-    etag: S.optional(S.String),
-    binaryAuthorization: S.optional(BinaryAuthorization),
+    createTime: S.optional(S.String),
+    authorization: S.optional(Authorization),
+    reconciling: S.optional(S.Boolean),
+    updateTime: S.optional(S.String),
+    enableControlPlaneV2: S.optional(S.Boolean),
+    fleet: S.optional(Fleet),
+    description: S.optional(S.String),
+    uid: S.optional(S.String),
+    networkConfig: S.optional(VmwareNetworkConfig),
+    upgradePolicy: S.optional(VmwareClusterUpgradePolicy),
   }),
 ).annotate({ identifier: "VmwareCluster" }) as any as S.Schema<VmwareCluster>;
 
 export interface CreateProjectsLocationsVmwareClustersRequest {
-  /** Validate the request without actually doing any updates. */
-  validateOnly?: boolean;
-  /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
-  allowPreflightFailure?: boolean;
   /** Optional. List of validations to skip during cluster creation. */
   skipValidations?: StringList;
   /** Required. The parent of the project and location where this cluster is created in. Format: "projects/{project}/locations/{location}" */
   parent: string;
+  /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
+  allowPreflightFailure?: boolean;
   /** User provided identifier that is used as part of the resource name; This value must be up to 40 characters and follow RFC-1123 (https://tools.ietf.org/html/rfc1123) format. */
   vmwareClusterId?: string;
+  /** Validate the request without actually doing any updates. */
+  validateOnly?: boolean;
   /** Request body */
   body?: VmwareCluster;
 }
 export const CreateProjectsLocationsVmwareClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-      allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
       skipValidations: S.optional(StringList.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
       vmwareClusterId: S.optional(S.String.pipe(T.Query())),
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       body: S.optional(VmwareCluster.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -2841,33 +2853,17 @@ export const CreateProjectsLocationsVmwareClustersRequest =
     identifier: "CreateProjectsLocationsVmwareClustersRequest",
   }) as any as S.Schema<CreateProjectsLocationsVmwareClustersRequest>;
 
-/** NodePoolAutoscaling config for the NodePool to allow for the kubernetes to scale NodePool. */
-export interface VmwareNodePoolAutoscalingConfig {
-  /** Minimum number of replicas in the NodePool. */
-  minReplicas?: number;
-  /** Maximum number of replicas in the NodePool. */
-  maxReplicas?: number;
-}
-export const VmwareNodePoolAutoscalingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    minReplicas: S.optional(S.Number),
-    maxReplicas: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "VmwareNodePoolAutoscalingConfig",
-}) as any as S.Schema<VmwareNodePoolAutoscalingConfig>;
-
 /** VmwareVsphereTag describes a vSphere tag to be placed on VMs in the node pool. For more information, see https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.vcenterhost.doc/GUID-E8E854DD-AA97-4E0C-8419-CE84F93C4058.html */
 export interface VmwareVsphereTag {
-  /** The Vsphere tag name. */
-  tag?: string;
   /** The Vsphere tag category. */
   category?: string;
+  /** The Vsphere tag name. */
+  tag?: string;
 }
 export const VmwareVsphereTag = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tag: S.optional(S.String),
     category: S.optional(S.String),
+    tag: S.optional(S.String),
   }),
 ).annotate({
   identifier: "VmwareVsphereTag",
@@ -2880,17 +2876,17 @@ export const VmwareVsphereTagList = /*@__PURE__*/ S.Array(
 
 /** VmwareVsphereConfig represents configuration for the VMware VCenter for node pool. */
 export interface VmwareVsphereConfig {
-  /** Vsphere host groups to apply to all VMs in the node pool */
-  hostGroups?: StringList;
   /** The name of the vCenter datastore. Inherited from the user cluster. */
   datastore?: string;
+  /** Vsphere host groups to apply to all VMs in the node pool */
+  hostGroups?: StringList;
   /** Tags to apply to VMs. */
   tags?: VmwareVsphereTagList;
 }
 export const VmwareVsphereConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    hostGroups: S.optional(StringList),
     datastore: S.optional(S.String),
+    hostGroups: S.optional(StringList),
     tags: S.optional(VmwareVsphereTagList),
   }),
 ).annotate({
@@ -2899,43 +2895,59 @@ export const VmwareVsphereConfig = /*@__PURE__*/ S.suspend(() =>
 
 /** Parameters that describe the configuration of all nodes within a given node pool. */
 export interface VmwareNodeConfig {
-  /** The number of nodes in the node pool. */
-  replicas?: string;
   /** The OS image name in vCenter, only valid when using Windows. */
   image?: string;
-  /** Allow node pool traffic to be load balanced. Only works for clusters with MetalLB load balancers. */
-  enableLoadBalancer?: boolean;
-  /** Required. The OS image to be used for each node in a node pool. Currently `cos`, `cos_cgv2`, `ubuntu`, `ubuntu_cgv2`, `ubuntu_containerd` and `windows` are supported. */
-  imageType?: string;
-  /** The initial taints assigned to nodes of this node pool. */
-  taints?: NodeTaintList;
-  /** The number of CPUs for each node in the node pool. */
-  cpus?: string;
+  /** VMware disk size to be used during creation. */
+  bootDiskSizeGb?: string;
   /** Specifies the vSphere config for node pool. */
   vsphereConfig?: VmwareVsphereConfig;
   /** The megabytes of memory for each node in the node pool. */
   memoryMb?: string;
-  /** VMware disk size to be used during creation. */
-  bootDiskSizeGb?: string;
+  /** Allow node pool traffic to be load balanced. Only works for clusters with MetalLB load balancers. */
+  enableLoadBalancer?: boolean;
+  /** The number of nodes in the node pool. */
+  replicas?: string;
+  /** Required. The OS image to be used for each node in a node pool. Currently `cos`, `cos_cgv2`, `ubuntu`, `ubuntu_cgv2`, `ubuntu_containerd` and `windows` are supported. */
+  imageType?: string;
   /** The map of Kubernetes labels (key/value pairs) to be applied to each node. These will added in addition to any default label(s) that Kubernetes may apply to the node. In case of conflict in label keys, the applied set may differ depending on the Kubernetes version -- it's best to assume the behavior is undefined and conflicts should be avoided. For more information, including usage and the valid values, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ */
   labels?: StringMap;
+  /** The initial taints assigned to nodes of this node pool. */
+  taints?: NodeTaintList;
+  /** The number of CPUs for each node in the node pool. */
+  cpus?: string;
 }
 export const VmwareNodeConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    replicas: S.optional(S.String),
     image: S.optional(S.String),
-    enableLoadBalancer: S.optional(S.Boolean),
-    imageType: S.optional(S.String),
-    taints: S.optional(NodeTaintList),
-    cpus: S.optional(S.String),
+    bootDiskSizeGb: S.optional(S.String),
     vsphereConfig: S.optional(VmwareVsphereConfig),
     memoryMb: S.optional(S.String),
-    bootDiskSizeGb: S.optional(S.String),
+    enableLoadBalancer: S.optional(S.Boolean),
+    replicas: S.optional(S.String),
+    imageType: S.optional(S.String),
     labels: S.optional(StringMap),
+    taints: S.optional(NodeTaintList),
+    cpus: S.optional(S.String),
   }),
 ).annotate({
   identifier: "VmwareNodeConfig",
 }) as any as S.Schema<VmwareNodeConfig>;
+
+/** NodePoolAutoscaling config for the NodePool to allow for the kubernetes to scale NodePool. */
+export interface VmwareNodePoolAutoscalingConfig {
+  /** Maximum number of replicas in the NodePool. */
+  maxReplicas?: number;
+  /** Minimum number of replicas in the NodePool. */
+  minReplicas?: number;
+}
+export const VmwareNodePoolAutoscalingConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxReplicas: S.optional(S.Number),
+    minReplicas: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "VmwareNodePoolAutoscalingConfig",
+}) as any as S.Schema<VmwareNodePoolAutoscalingConfig>;
 
 export type VmwareNodePoolStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2945,65 +2957,65 @@ export type VmwareNodePoolStateEnum =
   | "STOPPING"
   | "ERROR"
   | "DEGRADED";
-export const VmwareNodePoolStateEnum = /*@__PURE__*/ S.String;
+export const VmwareNodePoolStateEnum = S.String;
 
 /** Resource VmwareNodePool represents a VMware node pool. ## */
 export interface VmwareNodePool {
-  /** Annotations on the node pool. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap;
-  /** Output only. The time at which this node pool was last updated. */
-  updateTime?: string;
-  /** Output only. ResourceStatus representing the detailed VMware node pool state. */
-  status?: ResourceStatus;
-  /** Node pool autoscaling config for the node pool. */
-  nodePoolAutoscaling?: VmwareNodePoolAutoscalingConfig;
+  /** Output only. The time at which this node pool was deleted. If the resource is not deleted, this must be empty */
+  deleteTime?: string;
   /** The display name for the node pool. */
   displayName?: string;
-  /** Output only. The time at which this node pool was created. */
-  createTime?: string;
   /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
   etag?: string;
-  /** Required. The node configuration of the node pool. */
-  config?: VmwareNodeConfig;
+  /** Output only. The unique identifier of the node pool. */
+  uid?: string;
   /** Immutable. The resource name of this node pool. */
   name?: string;
+  /** Required. The node configuration of the node pool. */
+  config?: VmwareNodeConfig;
+  /** Node pool autoscaling config for the node pool. */
+  nodePoolAutoscaling?: VmwareNodePoolAutoscalingConfig;
+  /** Output only. The time at which this node pool was last updated. */
+  updateTime?: string;
   /** Output only. The current state of the node pool. */
   state?: VmwareNodePoolStateEnum | (string & {});
   /** Anthos version for the node pool. Defaults to the user cluster version. */
   onPremVersion?: string;
-  /** Output only. The unique identifier of the node pool. */
-  uid?: string;
+  /** Output only. The time at which this node pool was created. */
+  createTime?: string;
+  /** Output only. ResourceStatus representing the detailed VMware node pool state. */
+  status?: ResourceStatus;
+  /** Annotations on the node pool. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
+  annotations?: StringMap;
   /** Output only. If set, there are currently changes in flight to the node pool. */
   reconciling?: boolean;
-  /** Output only. The time at which this node pool was deleted. If the resource is not deleted, this must be empty */
-  deleteTime?: string;
 }
 export const VmwareNodePool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    annotations: S.optional(StringMap),
-    updateTime: S.optional(S.String),
-    status: S.optional(ResourceStatus),
-    nodePoolAutoscaling: S.optional(VmwareNodePoolAutoscalingConfig),
+    deleteTime: S.optional(S.String),
     displayName: S.optional(S.String),
-    createTime: S.optional(S.String),
     etag: S.optional(S.String),
-    config: S.optional(VmwareNodeConfig),
+    uid: S.optional(S.String),
     name: S.optional(S.String),
+    config: S.optional(VmwareNodeConfig),
+    nodePoolAutoscaling: S.optional(VmwareNodePoolAutoscalingConfig),
+    updateTime: S.optional(S.String),
     state: S.optional(VmwareNodePoolStateEnum),
     onPremVersion: S.optional(S.String),
-    uid: S.optional(S.String),
+    createTime: S.optional(S.String),
+    status: S.optional(ResourceStatus),
+    annotations: S.optional(StringMap),
     reconciling: S.optional(S.Boolean),
-    deleteTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "VmwareNodePool" }) as any as S.Schema<VmwareNodePool>;
 
 export interface CreateProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** The ID to use for the node pool, which will become the final component of the node pool's resource name. This value must be up to 40 characters and follow RFC-1123 (https://tools.ietf.org/html/rfc1123) format. The value must not be permitted to be a UUID (or UUID-like: anything matching /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i). */
   vmwareNodePoolId?: string;
-  /** If set, only validate the request, but do not actually create the node pool. */
-  validateOnly?: boolean;
   /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/vmwareClusters/{cluster} */
   parent: string;
+  /** If set, only validate the request, but do not actually create the node pool. */
+  validateOnly?: boolean;
   /** Request body */
   body?: VmwareNodePool;
 }
@@ -3011,8 +3023,8 @@ export const CreateProjectsLocationsVmwareClustersVmwareNodePoolsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       vmwareNodePoolId: S.optional(S.String.pipe(T.Query())),
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       body: S.optional(VmwareNodePool.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3026,28 +3038,28 @@ export const CreateProjectsLocationsVmwareClustersVmwareNodePoolsRequest =
   }) as any as S.Schema<CreateProjectsLocationsVmwareClustersVmwareNodePoolsRequest>;
 
 export interface DeleteProjectsLocationsBareMetalClustersRequest {
+  /** The current etag of the bare metal Cluster. If an etag is provided and does not match the current etag of the cluster, deletion will be blocked and an ABORTED error will be returned. */
+  etag?: string;
+  /** Validate the request without actually doing any updates. */
+  validateOnly?: boolean;
+  /** If set to true, the deletion of a bare metal user cluster resource will succeed even if errors occur during deletion. This parameter can be used when you want to delete GCP's cluster resource and the on-prem admin cluster that hosts your user cluster is disconnected / unreachable or deleted. WARNING: Using this parameter when your user cluster still exists may result in a deleted GCP user cluster but an existing on-prem user cluster. */
+  ignoreErrors?: boolean;
+  /** If set to true, any node pools from the cluster will also be deleted. */
+  force?: boolean;
   /** Required. Name of the bare metal user cluster to be deleted. Format: "projects/{project}/locations/{location}/bareMetalClusters/{bare_metal_cluster}" */
   name: string;
   /** If set to true, and the bare metal cluster is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
   allowMissing?: boolean;
-  /** Validate the request without actually doing any updates. */
-  validateOnly?: boolean;
-  /** If set to true, any node pools from the cluster will also be deleted. */
-  force?: boolean;
-  /** If set to true, the deletion of a bare metal user cluster resource will succeed even if errors occur during deletion. This parameter can be used when you want to delete GCP's cluster resource and the on-prem admin cluster that hosts your user cluster is disconnected / unreachable or deleted. WARNING: Using this parameter when your user cluster still exists may result in a deleted GCP user cluster but an existing on-prem user cluster. */
-  ignoreErrors?: boolean;
-  /** The current etag of the bare metal Cluster. If an etag is provided and does not match the current etag of the cluster, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
 }
 export const DeleteProjectsLocationsBareMetalClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      etag: S.optional(S.String.pipe(T.Query())),
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+      ignoreErrors: S.optional(S.Boolean.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
       allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-      force: S.optional(S.Boolean.pipe(T.Query())),
-      ignoreErrors: S.optional(S.Boolean.pipe(T.Query())),
-      etag: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -3060,25 +3072,25 @@ export const DeleteProjectsLocationsBareMetalClustersRequest =
   }) as any as S.Schema<DeleteProjectsLocationsBareMetalClustersRequest>;
 
 export interface DeleteProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
+  /** If set, only validate the request, but do not actually delete the node pool. */
+  validateOnly?: boolean;
   /** If set to true, the deletion of a bare metal node pool resource will succeed even if errors occur during deletion. This parameter can be used when you want to delete GCP's node pool resource and you've already deleted the on-prem admin cluster that hosted your node pool. WARNING: Using this parameter when your user cluster still exists may result in a deleted GCP node pool but an existing on-prem node pool. */
   ignoreErrors?: boolean;
-  /** The current etag of the BareMetalNodePool. If an etag is provided and does not match the current etag of the node pool, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
   /** Required. The name of the node pool to delete. Format: projects/{project}/locations/{location}/bareMetalClusters/{cluster}/bareMetalNodePools/{nodepool} */
   name: string;
   /** If set to true, and the bare metal node pool is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
   allowMissing?: boolean;
-  /** If set, only validate the request, but do not actually delete the node pool. */
-  validateOnly?: boolean;
+  /** The current etag of the BareMetalNodePool. If an etag is provided and does not match the current etag of the node pool, deletion will be blocked and an ABORTED error will be returned. */
+  etag?: string;
 }
 export const DeleteProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       ignoreErrors: S.optional(S.Boolean.pipe(T.Query())),
-      etag: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
       allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+      etag: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -3111,28 +3123,28 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>;
 
 export interface DeleteProjectsLocationsVmwareClustersRequest {
-  /** Required. Name of the VMware user cluster to be deleted. Format: "projects/{project}/locations/{location}/vmwareClusters/{vmware_cluster}" */
-  name: string;
-  /** If set to true, and the VMware cluster is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
-  allowMissing?: boolean;
-  /** Validate the request without actually doing any updates. */
-  validateOnly?: boolean;
-  /** If set to true, any node pools from the cluster will also be deleted. */
-  force?: boolean;
   /** If set to true, the deletion of a VMware user cluster resource will succeed even if errors occur during deletion. This parameter can be used when you want to delete GCP's cluster resource and the on-prem admin cluster that hosts your user cluster is disconnected / unreachable or deleted. WARNING: Using this parameter when your user cluster still exists may result in a deleted GCP user cluster but an existing on-prem user cluster. */
   ignoreErrors?: boolean;
   /** The current etag of the VMware cluster. If an etag is provided and does not match the current etag of the cluster, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
+  /** Validate the request without actually doing any updates. */
+  validateOnly?: boolean;
+  /** Required. Name of the VMware user cluster to be deleted. Format: "projects/{project}/locations/{location}/vmwareClusters/{vmware_cluster}" */
+  name: string;
+  /** If set to true, any node pools from the cluster will also be deleted. */
+  force?: boolean;
+  /** If set to true, and the VMware cluster is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
+  allowMissing?: boolean;
 }
 export const DeleteProjectsLocationsVmwareClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
-      allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-      force: S.optional(S.Boolean.pipe(T.Query())),
       ignoreErrors: S.optional(S.Boolean.pipe(T.Query())),
       etag: S.optional(S.String.pipe(T.Query())),
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+      allowMissing: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -3145,25 +3157,25 @@ export const DeleteProjectsLocationsVmwareClustersRequest =
   }) as any as S.Schema<DeleteProjectsLocationsVmwareClustersRequest>;
 
 export interface DeleteProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
-  /** If set to true, and the VMware node pool is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
-  allowMissing?: boolean;
-  /** If set, only validate the request, but do not actually delete the node pool. */
-  validateOnly?: boolean;
   /** Required. The name of the node pool to delete. Format: projects/{project}/locations/{location}/vmwareClusters/{cluster}/vmwareNodePools/{nodepool} */
   name: string;
+  /** If set to true, and the VMware node pool is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
+  allowMissing?: boolean;
   /** The current etag of the VmwareNodePool. If an etag is provided and does not match the current etag of the node pool, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
   /** If set to true, the deletion of a VMware node pool resource will succeed even if errors occur during deletion. This parameter can be used when you want to delete GCP's node pool resource and you've already deleted the on-prem admin cluster that hosted your node pool. WARNING: Using this parameter when your user cluster still exists may result in a deleted GCP node pool but an existing on-prem node pool. */
   ignoreErrors?: boolean;
+  /** If set, only validate the request, but do not actually delete the node pool. */
+  validateOnly?: boolean;
 }
 export const DeleteProjectsLocationsVmwareClustersVmwareNodePoolsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      allowMissing: S.optional(S.Boolean.pipe(T.Query())),
       etag: S.optional(S.String.pipe(T.Query())),
       ignoreErrors: S.optional(S.Boolean.pipe(T.Query())),
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -3217,19 +3229,19 @@ export const EnrollProjectsLocationsBareMetalAdminClustersRequest =
 export interface EnrollBareMetalClusterRequest {
   /** User provided OnePlatform identifier that is used as part of the resource name. This must be unique among all bare metal clusters within a project and location and will return a 409 if the cluster already exists. (https://tools.ietf.org/html/rfc1123) format. */
   bareMetalClusterId?: string;
-  /** Optional. The namespace of the cluster. */
-  localNamespace?: string;
-  /** Optional. The object name of the bare metal cluster custom resource on the associated admin cluster. This field is used to support conflicting resource names when enrolling existing clusters to the API. When not provided, this field will resolve to the bare_metal_cluster_id. Otherwise, it must match the object name of the bare metal cluster custom resource. It is not modifiable outside / beyond the enrollment operation. */
-  localName?: string;
   /** Required. The admin cluster this bare metal user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. In the future, references to other resource types might be allowed if admin clusters are modeled as their own resources. */
   adminClusterMembership?: string;
+  /** Optional. The object name of the bare metal cluster custom resource on the associated admin cluster. This field is used to support conflicting resource names when enrolling existing clusters to the API. When not provided, this field will resolve to the bare_metal_cluster_id. Otherwise, it must match the object name of the bare metal cluster custom resource. It is not modifiable outside / beyond the enrollment operation. */
+  localName?: string;
+  /** Optional. The namespace of the cluster. */
+  localNamespace?: string;
 }
 export const EnrollBareMetalClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bareMetalClusterId: S.optional(S.String),
-    localNamespace: S.optional(S.String),
-    localName: S.optional(S.String),
     adminClusterMembership: S.optional(S.String),
+    localName: S.optional(S.String),
+    localNamespace: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EnrollBareMetalClusterRequest",
@@ -3259,15 +3271,15 @@ export const EnrollProjectsLocationsBareMetalClustersRequest =
 
 /** Message for enrolling an existing bare metal node pool to the GKE on-prem API. */
 export interface EnrollBareMetalNodePoolRequest {
-  /** User provided OnePlatform identifier that is used as part of the resource name. (https://tools.ietf.org/html/rfc1123) format. */
-  bareMetalNodePoolId?: string;
   /** If set, only validate the request, but do not actually enroll the node pool. */
   validateOnly?: boolean;
+  /** User provided OnePlatform identifier that is used as part of the resource name. (https://tools.ietf.org/html/rfc1123) format. */
+  bareMetalNodePoolId?: string;
 }
 export const EnrollBareMetalNodePoolRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bareMetalNodePoolId: S.optional(S.String),
     validateOnly: S.optional(S.Boolean),
+    bareMetalNodePoolId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EnrollBareMetalNodePoolRequest",
@@ -3336,21 +3348,21 @@ export const EnrollProjectsLocationsVmwareAdminClustersRequest =
 
 /** Message for enrolling an existing VMware cluster to the Anthos On-Prem API. */
 export interface EnrollVmwareClusterRequest {
-  /** User provided OnePlatform identifier that is used as part of the resource name. This must be unique among all GKE on-prem clusters within a project and location and will return a 409 if the cluster already exists. (https://tools.ietf.org/html/rfc1123) format. */
-  vmwareClusterId?: string;
-  /** Validate the request without actually doing any updates. */
-  validateOnly?: boolean;
-  /** Optional. The object name of the VMware OnPremUserCluster custom resource on the associated admin cluster. This field is used to support conflicting resource names when enrolling existing clusters to the API. When not provided, this field will resolve to the vmware_cluster_id. Otherwise, it must match the object name of the VMware OnPremUserCluster custom resource. It is not modifiable outside / beyond the enrollment operation. */
-  localName?: string;
   /** Required. The admin cluster this VMware user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. In the future, references to other resource types might be allowed if admin clusters are modeled as their own resources. */
   adminClusterMembership?: string;
+  /** Validate the request without actually doing any updates. */
+  validateOnly?: boolean;
+  /** User provided OnePlatform identifier that is used as part of the resource name. This must be unique among all GKE on-prem clusters within a project and location and will return a 409 if the cluster already exists. (https://tools.ietf.org/html/rfc1123) format. */
+  vmwareClusterId?: string;
+  /** Optional. The object name of the VMware OnPremUserCluster custom resource on the associated admin cluster. This field is used to support conflicting resource names when enrolling existing clusters to the API. When not provided, this field will resolve to the vmware_cluster_id. Otherwise, it must match the object name of the VMware OnPremUserCluster custom resource. It is not modifiable outside / beyond the enrollment operation. */
+  localName?: string;
 }
 export const EnrollVmwareClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    vmwareClusterId: S.optional(S.String),
-    validateOnly: S.optional(S.Boolean),
-    localName: S.optional(S.String),
     adminClusterMembership: S.optional(S.String),
+    validateOnly: S.optional(S.Boolean),
+    vmwareClusterId: S.optional(S.String),
+    localName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EnrollVmwareClusterRequest",
@@ -3439,19 +3451,19 @@ export const GetIamPolicyProjectsLocationsBareMetalAdminClustersRequest =
 export interface Expr {
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     title: S.optional(S.String),
-    expression: S.optional(S.String),
-    description: S.optional(S.String),
     location: S.optional(S.String),
+    description: S.optional(S.String),
+    expression: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
@@ -3459,16 +3471,16 @@ export const Expr = /*@__PURE__*/ S.suspend(() =>
 export interface Binding {
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   condition?: Expr;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
   members?: StringList;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
 }
 export const Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     condition: S.optional(Expr),
-    role: S.optional(S.String),
     members: S.optional(StringList),
+    role: S.optional(S.String),
   }),
 ).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
 
@@ -3495,16 +3507,16 @@ export const Policy = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
 export interface GetIamPolicyProjectsLocationsBareMetalClustersRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
 }
 export const GetIamPolicyProjectsLocationsBareMetalClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
       resource: S.String.pipe(T.Label()),
+      "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3517,16 +3529,16 @@ export const GetIamPolicyProjectsLocationsBareMetalClustersRequest =
   }) as any as S.Schema<GetIamPolicyProjectsLocationsBareMetalClustersRequest>;
 
 export interface GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
 }
 export const GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
       resource: S.String.pipe(T.Label()),
+      "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3540,16 +3552,16 @@ export const GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsReq
   }) as any as S.Schema<GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest>;
 
 export interface GetIamPolicyProjectsLocationsVmwareAdminClustersRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsVmwareAdminClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      resource: S.String.pipe(T.Label()),
       "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3626,24 +3638,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    labels: S.optional(StringMap),
-    name: S.optional(S.String),
     locationId: S.optional(S.String),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
     metadata: S.optional(DocumentMap),
+    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -3651,8 +3663,7 @@ export type GetProjectsLocationsBareMetalAdminClustersViewEnum =
   | "CLUSTER_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const GetProjectsLocationsBareMetalAdminClustersViewEnum =
-  /*@__PURE__*/ S.String;
+export const GetProjectsLocationsBareMetalAdminClustersViewEnum = S.String;
 
 export interface GetProjectsLocationsBareMetalAdminClustersRequest {
   /** View for bare metal admin cluster. When `BASIC` is specified, only the cluster resource name and membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete cluster configuration details. */
@@ -3704,25 +3715,24 @@ export type GetProjectsLocationsBareMetalClustersViewEnum =
   | "CLUSTER_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const GetProjectsLocationsBareMetalClustersViewEnum =
-  /*@__PURE__*/ S.String;
+export const GetProjectsLocationsBareMetalClustersViewEnum = S.String;
 
 export interface GetProjectsLocationsBareMetalClustersRequest {
-  /** View for bare metal user cluster. When `BASIC` is specified, only the cluster resource name and admin cluster membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete cluster configuration details. */
-  view?: GetProjectsLocationsBareMetalClustersViewEnum | (string & {});
-  /** Optional. If true, return BareMetal Cluster including the one that only exists in RMS. */
-  allowMissing?: boolean;
   /** Required. Name of the bare metal user cluster to get. Format: "projects/{project}/locations/{location}/bareMetalClusters/{bare_metal_cluster}" */
   name: string;
+  /** Optional. If true, return BareMetal Cluster including the one that only exists in RMS. */
+  allowMissing?: boolean;
+  /** View for bare metal user cluster. When `BASIC` is specified, only the cluster resource name and admin cluster membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete cluster configuration details. */
+  view?: GetProjectsLocationsBareMetalClustersViewEnum | (string & {});
 }
 export const GetProjectsLocationsBareMetalClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      name: S.String.pipe(T.Label()),
+      allowMissing: S.optional(S.Boolean.pipe(T.Query())),
       view: S.optional(
         GetProjectsLocationsBareMetalClustersViewEnum.pipe(T.Query()),
       ),
-      allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3739,7 +3749,7 @@ export type GetProjectsLocationsBareMetalClustersBareMetalNodePoolsViewEnum =
   | "BASIC"
   | "FULL";
 export const GetProjectsLocationsBareMetalClustersBareMetalNodePoolsViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GetProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
   /** View for bare metal node pool. When `BASIC` is specified, only the node pool resource name is returned. The default/unset value `NODE_POOL_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete node pool configuration details. */
@@ -3832,8 +3842,7 @@ export type GetProjectsLocationsVmwareAdminClustersViewEnum =
   | "CLUSTER_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const GetProjectsLocationsVmwareAdminClustersViewEnum =
-  /*@__PURE__*/ S.String;
+export const GetProjectsLocationsVmwareAdminClustersViewEnum = S.String;
 
 export interface GetProjectsLocationsVmwareAdminClustersRequest {
   /** View for VMware admin cluster. When `BASIC` is specified, only the cluster resource name and membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete cluster configuration details. */
@@ -3885,25 +3894,24 @@ export type GetProjectsLocationsVmwareClustersViewEnum =
   | "CLUSTER_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const GetProjectsLocationsVmwareClustersViewEnum =
-  /*@__PURE__*/ S.String;
+export const GetProjectsLocationsVmwareClustersViewEnum = S.String;
 
 export interface GetProjectsLocationsVmwareClustersRequest {
-  /** View for VMware user cluster. When `BASIC` is specified, only the cluster resource name and admin cluster membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete cluster configuration details. */
-  view?: GetProjectsLocationsVmwareClustersViewEnum | (string & {});
   /** Optional. If true, return Vmware Cluster including the one that only exists in RMS. */
   allowMissing?: boolean;
   /** Required. Name of the VMware user cluster to be returned. Format: "projects/{project}/locations/{location}/vmwareClusters/{vmware_cluster}" */
   name: string;
+  /** View for VMware user cluster. When `BASIC` is specified, only the cluster resource name and admin cluster membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete cluster configuration details. */
+  view?: GetProjectsLocationsVmwareClustersViewEnum | (string & {});
 }
 export const GetProjectsLocationsVmwareClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       view: S.optional(
         GetProjectsLocationsVmwareClustersViewEnum.pipe(T.Query()),
       ),
-      allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3939,7 +3947,7 @@ export type GetProjectsLocationsVmwareClustersVmwareNodePoolsViewEnum =
   | "BASIC"
   | "FULL";
 export const GetProjectsLocationsVmwareClustersVmwareNodePoolsViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GetProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** View for VMware node pool. When `BASIC` is specified, only the node pool resource name is returned. The default/unset value `NODE_POOL_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete node pool configuration details. */
@@ -3996,18 +4004,18 @@ export interface ListProjectsLocationsRequest {
   extraLocationTypes?: StringList;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4044,31 +4052,30 @@ export type ListProjectsLocationsBareMetalAdminClustersViewEnum =
   | "CLUSTER_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const ListProjectsLocationsBareMetalAdminClustersViewEnum =
-  /*@__PURE__*/ S.String;
+export const ListProjectsLocationsBareMetalAdminClustersViewEnum = S.String;
 
 export interface ListProjectsLocationsBareMetalAdminClustersRequest {
-  /** Required. The parent of the project and location where the clusters are listed in. Format: "projects/{project}/locations/{location}" */
-  parent: string;
+  /** Requested page size. Server may return fewer items than requested. If unspecified, at most 50 clusters will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** View for bare metal admin clusters. When `BASIC` is specified, only the admin cluster resource name and membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete admin cluster configuration details. */
   view?: ListProjectsLocationsBareMetalAdminClustersViewEnum | (string & {});
   /** Optional. If true, return list of BareMetal Admin Clusters including the ones that only exists in RMS. */
   allowMissing?: boolean;
+  /** Required. The parent of the project and location where the clusters are listed in. Format: "projects/{project}/locations/{location}" */
+  parent: string;
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
-  /** Requested page size. Server may return fewer items than requested. If unspecified, at most 50 clusters will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsBareMetalAdminClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       view: S.optional(
         ListProjectsLocationsBareMetalAdminClustersViewEnum.pipe(T.Query()),
       ),
       allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4087,43 +4094,43 @@ export const BareMetalAdminClusterList = /*@__PURE__*/ S.Array(
 
 /** Response message for listing bare metal admin clusters. */
 export interface ListBareMetalAdminClustersResponse {
-  /** A token identifying a page of results the server should return. If the token is not empty this means that more results are available and should be retrieved by repeating the request with the provided page token. */
-  nextPageToken?: string;
-  /** The list of bare metal admin cluster. */
-  bareMetalAdminClusters?: BareMetalAdminClusterList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** The list of bare metal admin cluster. */
+  bareMetalAdminClusters?: BareMetalAdminClusterList;
+  /** A token identifying a page of results the server should return. If the token is not empty this means that more results are available and should be retrieved by repeating the request with the provided page token. */
+  nextPageToken?: string;
 }
 export const ListBareMetalAdminClustersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    bareMetalAdminClusters: S.optional(BareMetalAdminClusterList),
     unreachable: S.optional(StringList),
+    bareMetalAdminClusters: S.optional(BareMetalAdminClusterList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListBareMetalAdminClustersResponse",
 }) as any as S.Schema<ListBareMetalAdminClustersResponse>;
 
 export interface ListProjectsLocationsBareMetalAdminClustersOperationsRequest {
-  /** The standard list filter. */
-  filter?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page token. */
   pageToken?: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
   /** The standard list page size. */
   pageSize?: number;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list filter. */
+  filter?: string;
 }
 export const ListProjectsLocationsBareMetalAdminClustersOperationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4142,18 +4149,18 @@ export const OperationList = /*@__PURE__*/ S.Array(
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
+  /** The standard List next-page token. */
+  nextPageToken?: string;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
-  /** The standard List next-page token. */
-  nextPageToken?: string;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     operations: S.optional(OperationList),
     unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListOperationsResponse",
@@ -4163,34 +4170,33 @@ export type ListProjectsLocationsBareMetalClustersViewEnum =
   | "CLUSTER_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const ListProjectsLocationsBareMetalClustersViewEnum =
-  /*@__PURE__*/ S.String;
+export const ListProjectsLocationsBareMetalClustersViewEnum = S.String;
 
 export interface ListProjectsLocationsBareMetalClustersRequest {
-  /** Requested page size. Server may return fewer items than requested. If unspecified, at most 50 clusters will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** View for bare metal Clusters. When `BASIC` is specified, only the cluster resource name and admin cluster membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete cluster configuration details. */
-  view?: ListProjectsLocationsBareMetalClustersViewEnum | (string & {});
-  /** Optional. If true, return list of BareMetal Clusters including the ones that only exists in RMS. */
-  allowMissing?: boolean;
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
   /** A resource filtering expression following https://google.aip.dev/160. When non-empty, only resource's whose attributes field matches the filter are returned. */
   filter?: string;
+  /** Requested page size. Server may return fewer items than requested. If unspecified, at most 50 clusters will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Required. The parent of the project and location where the clusters are listed in. Format: "projects/{project}/locations/{location}" */
   parent: string;
+  /** View for bare metal Clusters. When `BASIC` is specified, only the cluster resource name and admin cluster membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete cluster configuration details. */
+  view?: ListProjectsLocationsBareMetalClustersViewEnum | (string & {});
+  /** Optional. If true, return list of BareMetal Clusters including the ones that only exists in RMS. */
+  allowMissing?: boolean;
 }
 export const ListProjectsLocationsBareMetalClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       view: S.optional(
         ListProjectsLocationsBareMetalClustersViewEnum.pipe(T.Query()),
       ),
       allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4209,18 +4215,18 @@ export const BareMetalClusterList = /*@__PURE__*/ S.Array(
 
 /** Response message for listing bare metal Clusters. */
 export interface ListBareMetalClustersResponse {
-  /** A token identifying a page of results the server should return. If the token is not empty this means that more results are available and should be retrieved by repeating the request with the provided page token. */
-  nextPageToken?: string;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** The list of bare metal Clusters. */
   bareMetalClusters?: BareMetalClusterList;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
+  /** A token identifying a page of results the server should return. If the token is not empty this means that more results are available and should be retrieved by repeating the request with the provided page token. */
+  nextPageToken?: string;
 }
 export const ListBareMetalClustersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    unreachable: S.optional(StringList),
     bareMetalClusters: S.optional(BareMetalClusterList),
+    unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListBareMetalClustersResponse",
@@ -4231,31 +4237,31 @@ export type ListProjectsLocationsBareMetalClustersBareMetalNodePoolsViewEnum =
   | "BASIC"
   | "FULL";
 export const ListProjectsLocationsBareMetalClustersBareMetalNodePoolsViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ListProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
-  /** Required. The parent, which owns this collection of node pools. Format: projects/{project}/locations/{location}/bareMetalClusters/{bareMetalCluster} */
-  parent: string;
-  /** The maximum number of node pools to return. The service may return fewer than this value. If unspecified, at most 50 node pools will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** A page token, received from a previous `ListBareMetalNodePools` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBareMetalNodePools` must match the call that provided the page token. */
-  pageToken?: string;
   /** View for bare metal node pools. When `BASIC` is specified, only the node pool resource name is returned. The default/unset value `NODE_POOL_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete node pool configuration details. */
   view?:
     | ListProjectsLocationsBareMetalClustersBareMetalNodePoolsViewEnum
     | (string & {});
+  /** The maximum number of node pools to return. The service may return fewer than this value. If unspecified, at most 50 node pools will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Required. The parent, which owns this collection of node pools. Format: projects/{project}/locations/{location}/bareMetalClusters/{bareMetalCluster} */
+  parent: string;
+  /** A page token, received from a previous `ListBareMetalNodePools` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBareMetalNodePools` must match the call that provided the page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       view: S.optional(
         ListProjectsLocationsBareMetalClustersBareMetalNodePoolsViewEnum.pipe(
           T.Query(),
         ),
       ),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4275,43 +4281,43 @@ export const BareMetalNodePoolList = /*@__PURE__*/ S.Array(
 
 /** Response message for listing bare metal node pools. */
 export interface ListBareMetalNodePoolsResponse {
-  /** The node pools from the specified parent resource. */
-  bareMetalNodePools?: BareMetalNodePoolList;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+  /** The node pools from the specified parent resource. */
+  bareMetalNodePools?: BareMetalNodePoolList;
 }
 export const ListBareMetalNodePoolsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bareMetalNodePools: S.optional(BareMetalNodePoolList),
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
+    bareMetalNodePools: S.optional(BareMetalNodePoolList),
   }),
 ).annotate({
   identifier: "ListBareMetalNodePoolsResponse",
 }) as any as S.Schema<ListBareMetalNodePoolsResponse>;
 
 export interface ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest {
-  /** The standard list filter. */
-  filter?: string;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
   pageToken?: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
   /** The standard list page size. */
   pageSize?: number;
+  /** The standard list filter. */
+  filter?: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
 }
 export const ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4325,25 +4331,25 @@ export const ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsR
   }) as any as S.Schema<ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest>;
 
 export interface ListProjectsLocationsBareMetalClustersOperationsRequest {
-  /** The standard list filter. */
-  filter?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page token. */
   pageToken?: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  /** The name of the operation's parent resource. */
+  name: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** The standard list filter. */
+  filter?: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
 }
 export const ListProjectsLocationsBareMetalClustersOperationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4356,25 +4362,25 @@ export const ListProjectsLocationsBareMetalClustersOperationsRequest =
   }) as any as S.Schema<ListProjectsLocationsBareMetalClustersOperationsRequest>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
   /** The standard list filter. */
   filter?: string;
+  /** The standard list page token. */
+  pageToken?: string;
   /** The name of the operation's parent resource. */
   name: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
   /** The standard list page size. */
   pageSize?: number;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
-      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4390,31 +4396,30 @@ export type ListProjectsLocationsVmwareAdminClustersViewEnum =
   | "CLUSTER_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const ListProjectsLocationsVmwareAdminClustersViewEnum =
-  /*@__PURE__*/ S.String;
+export const ListProjectsLocationsVmwareAdminClustersViewEnum = S.String;
 
 export interface ListProjectsLocationsVmwareAdminClustersRequest {
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
-  /** View for VMware admin clusters. When `BASIC` is specified, only the admin cluster resource name and membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete admin cluster configuration details. */
-  view?: ListProjectsLocationsVmwareAdminClustersViewEnum | (string & {});
-  /** Optional. If true, return list of Vmware Admin Clusters including the ones that only exists in RMS. */
-  allowMissing?: boolean;
   /** Required. The parent of the project and location where the clusters are listed in. Format: "projects/{project}/locations/{location}" */
   parent: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, at most 50 clusters will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
+  /** View for VMware admin clusters. When `BASIC` is specified, only the admin cluster resource name and membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete admin cluster configuration details. */
+  view?: ListProjectsLocationsVmwareAdminClustersViewEnum | (string & {});
+  /** Optional. If true, return list of Vmware Admin Clusters including the ones that only exists in RMS. */
+  allowMissing?: boolean;
 }
 export const ListProjectsLocationsVmwareAdminClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       view: S.optional(
         ListProjectsLocationsVmwareAdminClustersViewEnum.pipe(T.Query()),
       ),
       allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4433,42 +4438,42 @@ export const VmwareAdminClusterList = /*@__PURE__*/ S.Array(
 
 /** Response message for listing VMware admin clusters. */
 export interface ListVmwareAdminClustersResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** The list of VMware admin cluster. */
   vmwareAdminClusters?: VmwareAdminClusterList;
   /** A token identifying a page of results the server should return. If the token is not empty this means that more results are available and should be retrieved by repeating the request with the provided page token. */
   nextPageToken?: string;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
 }
 export const ListVmwareAdminClustersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachable: S.optional(StringList),
     vmwareAdminClusters: S.optional(VmwareAdminClusterList),
     nextPageToken: S.optional(S.String),
-    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListVmwareAdminClustersResponse",
 }) as any as S.Schema<ListVmwareAdminClustersResponse>;
 
 export interface ListProjectsLocationsVmwareAdminClustersOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list filter. */
-  filter?: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** The standard list filter. */
+  filter?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list page token. */
+  pageToken?: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
 }
 export const ListProjectsLocationsVmwareAdminClustersOperationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
-      filter: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -4485,34 +4490,33 @@ export type ListProjectsLocationsVmwareClustersViewEnum =
   | "CLUSTER_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const ListProjectsLocationsVmwareClustersViewEnum =
-  /*@__PURE__*/ S.String;
+export const ListProjectsLocationsVmwareClustersViewEnum = S.String;
 
 export interface ListProjectsLocationsVmwareClustersRequest {
-  /** Requested page size. Server may return fewer items than requested. If unspecified, at most 50 clusters will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Required. The parent of the project and location where the clusters are listed in. Format: "projects/{project}/locations/{location}" */
-  parent: string;
   /** A resource filtering expression following https://google.aip.dev/160. When non-empty, only resource's whose attributes field matches the filter are returned. */
   filter?: string;
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
+  /** Required. The parent of the project and location where the clusters are listed in. Format: "projects/{project}/locations/{location}" */
+  parent: string;
   /** View for VMware clusters. When `BASIC` is specified, only the cluster resource name and admin cluster membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete cluster configuration details. */
   view?: ListProjectsLocationsVmwareClustersViewEnum | (string & {});
   /** Optional. If true, return list of Vmware Clusters including the ones that only exists in RMS. */
   allowMissing?: boolean;
+  /** Requested page size. Server may return fewer items than requested. If unspecified, at most 50 clusters will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsVmwareClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       view: S.optional(
         ListProjectsLocationsVmwareClustersViewEnum.pipe(T.Query()),
       ),
       allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4531,43 +4535,43 @@ export const VmwareClusterList = /*@__PURE__*/ S.Array(
 
 /** Response message for listing VMware Clusters. */
 export interface ListVmwareClustersResponse {
+  /** The list of VMware Cluster. */
+  vmwareClusters?: VmwareClusterList;
   /** A token identifying a page of results the server should return. If the token is not empty this means that more results are available and should be retrieved by repeating the request with the provided page token. */
   nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** The list of VMware Cluster. */
-  vmwareClusters?: VmwareClusterList;
 }
 export const ListVmwareClustersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    vmwareClusters: S.optional(VmwareClusterList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
-    vmwareClusters: S.optional(VmwareClusterList),
   }),
 ).annotate({
   identifier: "ListVmwareClustersResponse",
 }) as any as S.Schema<ListVmwareClustersResponse>;
 
 export interface ListProjectsLocationsVmwareClustersOperationsRequest {
-  /** The standard list filter. */
-  filter?: string;
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list page token. */
-  pageToken?: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
   /** The standard list page size. */
   pageSize?: number;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
+  /** The standard list filter. */
+  filter?: string;
+  /** The standard list page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsVmwareClustersOperationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4584,7 +4588,7 @@ export type ListProjectsLocationsVmwareClustersVmwareNodePoolsViewEnum =
   | "BASIC"
   | "FULL";
 export const ListProjectsLocationsVmwareClustersVmwareNodePoolsViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ListProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** Required. The parent, which owns this collection of node pools. Format: projects/{project}/locations/{location}/vmwareClusters/{vmwareCluster} */
@@ -4627,43 +4631,43 @@ export const VmwareNodePoolList = /*@__PURE__*/ S.Array(
 
 /** Response message for listing VMware node pools. */
 export interface ListVmwareNodePoolsResponse {
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
   /** The node pools from the specified parent resource. */
   vmwareNodePools?: VmwareNodePoolList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
 }
 export const ListVmwareNodePoolsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     vmwareNodePools: S.optional(VmwareNodePoolList),
     unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListVmwareNodePoolsResponse",
 }) as any as S.Schema<ListVmwareNodePoolsResponse>;
 
 export interface ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRequest {
-  /** The standard list filter. */
-  filter?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page token. */
   pageToken?: string;
+  /** The standard list filter. */
+  filter?: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
   /** The standard list page size. */
   pageSize?: number;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export const ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
       returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4677,21 +4681,21 @@ export const ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRequest
   }) as any as S.Schema<ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRequest>;
 
 export interface PatchProjectsLocationsBareMetalAdminClustersRequest {
-  /** Immutable. The bare metal admin cluster resource name. */
-  name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the BareMetalAdminCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the BareMetalAdminCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
   updateMask?: string;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
+  /** Immutable. The bare metal admin cluster resource name. */
+  name: string;
   /** Request body */
   body?: BareMetalAdminCluster;
 }
 export const PatchProjectsLocationsBareMetalAdminClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(BareMetalAdminCluster.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -4705,24 +4709,24 @@ export const PatchProjectsLocationsBareMetalAdminClustersRequest =
   }) as any as S.Schema<PatchProjectsLocationsBareMetalAdminClustersRequest>;
 
 export interface PatchProjectsLocationsBareMetalClustersRequest {
-  /** Immutable. The bare metal user cluster resource name. */
-  name: string;
-  /** Required. Field mask is used to specify the fields to be overwritten in the BareMetalCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the BareMetalCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
-  updateMask?: string;
   /** If set to true, and the bare metal cluster is not found, the request will create a new bare metal cluster with the provided configuration. The user must have both create and update permission to call Update with allow_missing set to true. */
   allowMissing?: boolean;
+  /** Immutable. The bare metal user cluster resource name. */
+  name: string;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
+  /** Required. Field mask is used to specify the fields to be overwritten in the BareMetalCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the BareMetalCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
+  updateMask?: string;
   /** Request body */
   body?: BareMetalCluster;
 }
 export const PatchProjectsLocationsBareMetalClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
-      updateMask: S.optional(S.String.pipe(T.Query())),
       allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(BareMetalCluster.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -4738,12 +4742,12 @@ export const PatchProjectsLocationsBareMetalClustersRequest =
 export interface PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
   /** If set to true, and the bare metal node pool is not found, the request will create a new bare metal node pool with the provided configuration. The user must have both create and update permission to call Update with allow_missing set to true. */
   allowMissing?: boolean;
+  /** Required. Field mask is used to specify the fields to be overwritten in the BareMetalNodePool resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the BareMetalNodePool message will be updated. Empty fields will be ignored unless a field mask is used. */
+  updateMask?: string;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
   /** Immutable. The bare metal node pool resource name. */
   name: string;
-  /** Required. Field mask is used to specify the fields to be overwritten in the BareMetalNodePool resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the BareMetalNodePool message will be updated. Empty fields will be ignored unless a field mask is used. */
-  updateMask?: string;
   /** Request body */
   body?: BareMetalNodePool;
 }
@@ -4751,9 +4755,9 @@ export const PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
-      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(BareMetalNodePool.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -4770,12 +4774,12 @@ export const PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest =
 export interface PatchProjectsLocationsVmwareAdminClustersRequest {
   /** Immutable. The VMware admin cluster resource name. */
   name: string;
-  /** Required. Field mask is used to specify the fields to be overwritten in the VMwareAdminCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the VmwareAdminCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
-  updateMask?: string;
   /** Optional. If set, the server-side preflight checks will be skipped. */
   skipValidations?: StringList;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
+  /** Required. Field mask is used to specify the fields to be overwritten in the VMwareAdminCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the VmwareAdminCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
+  updateMask?: string;
   /** Request body */
   body?: VmwareAdminCluster;
 }
@@ -4783,9 +4787,9 @@ export const PatchProjectsLocationsVmwareAdminClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       name: S.String.pipe(T.Label()),
-      updateMask: S.optional(S.String.pipe(T.Query())),
       skipValidations: S.optional(StringList.pipe(T.Query())),
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(VmwareAdminCluster.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -4801,11 +4805,11 @@ export const PatchProjectsLocationsVmwareAdminClustersRequest =
 export interface PatchProjectsLocationsVmwareClustersRequest {
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
-  /** Immutable. The VMware user cluster resource name. */
-  name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the VMwareCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the VmwareCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
   updateMask?: string;
   skipValidations?: StringList;
+  /** Immutable. The VMware user cluster resource name. */
+  name: string;
   /** Request body */
   body?: VmwareCluster;
 }
@@ -4813,9 +4817,9 @@ export const PatchProjectsLocationsVmwareClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
       skipValidations: S.optional(StringList.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(VmwareCluster.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -4829,10 +4833,10 @@ export const PatchProjectsLocationsVmwareClustersRequest =
   }) as any as S.Schema<PatchProjectsLocationsVmwareClustersRequest>;
 
 export interface PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
-  /** Validate the request without actually doing any updates. */
-  validateOnly?: boolean;
   /** Immutable. The resource name of this node pool. */
   name: string;
+  /** Validate the request without actually doing any updates. */
+  validateOnly?: boolean;
   /** Required. Field mask is used to specify the fields to be overwritten in the VMwareNodePool resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the VMwareNodePool message will be updated. Empty fields will be ignored unless a field mask is used. */
   updateMask?: string;
   /** Request body */
@@ -4841,8 +4845,8 @@ export interface PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
 export const PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(VmwareNodePool.pipe(T.HttpBody())),
     }).pipe(
@@ -4857,16 +4861,16 @@ export const PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest =
   }) as any as S.Schema<PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest>;
 
 export interface QueryVersionConfigProjectsLocationsBareMetalAdminClustersRequest {
-  /** Required. The parent of the project and location to query for version config. Format: "projects/{project}/locations/{location}" */
-  parent: string;
   /** The admin cluster resource name. This is the full resource name of the admin cluster resource. Format: "projects/{project}/locations/{location}/bareMetalAdminClusters/{bare_metal_admin_cluster}" */
   "upgradeConfig.clusterName"?: string;
+  /** Required. The parent of the project and location to query for version config. Format: "projects/{project}/locations/{location}" */
+  parent: string;
 }
 export const QueryVersionConfigProjectsLocationsBareMetalAdminClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       "upgradeConfig.clusterName": S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "POST",
@@ -4885,17 +4889,17 @@ export interface UpgradeDependency {
   resourceName?: string;
   /** Current version of the dependency e.g. 1.15.0. */
   currentVersion?: string;
-  /** Target version of the dependency e.g. 1.16.1. This is the version the dependency needs to be upgraded to before a resource can be upgraded. */
-  targetVersion?: string;
   /** Membership names are formatted as `projects//locations//memberships/`. */
   membership?: string;
+  /** Target version of the dependency e.g. 1.16.1. This is the version the dependency needs to be upgraded to before a resource can be upgraded. */
+  targetVersion?: string;
 }
 export const UpgradeDependency = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceName: S.optional(S.String),
     currentVersion: S.optional(S.String),
-    targetVersion: S.optional(S.String),
     membership: S.optional(S.String),
+    targetVersion: S.optional(S.String),
   }),
 ).annotate({
   identifier: "UpgradeDependency",
@@ -4910,16 +4914,16 @@ export const UpgradeDependencyList = /*@__PURE__*/ S.Array(
 export interface BareMetalVersionInfo {
   /** The list of upgrade dependencies for this version. */
   dependencies?: UpgradeDependencyList;
-  /** Version number e.g. 1.13.1. */
-  version?: string;
   /** If set, the cluster dependencies (e.g. the admin cluster, other user clusters managed by the same admin cluster, version skew policy, etc) must be upgraded before this version can be installed or upgraded to. */
   hasDependencies?: boolean;
+  /** Version number e.g. 1.13.1. */
+  version?: string;
 }
 export const BareMetalVersionInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dependencies: S.optional(UpgradeDependencyList),
-    version: S.optional(S.String),
     hasDependencies: S.optional(S.Boolean),
+    version: S.optional(S.String),
   }),
 ).annotate({
   identifier: "BareMetalVersionInfo",
@@ -4945,24 +4949,24 @@ export const QueryBareMetalAdminVersionConfigResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<QueryBareMetalAdminVersionConfigResponse>;
 
 export interface QueryVersionConfigProjectsLocationsBareMetalClustersRequest {
+  /** The admin cluster membership. This is the full resource name of the admin cluster's fleet membership. Format: "projects/{project}/locations/{location}/memberships/{membership}" */
+  "createConfig.adminClusterMembership"?: string;
   /** Required. The parent of the project and location to query for version config. Format: "projects/{project}/locations/{location}" */
   parent: string;
   /** The admin cluster resource name. This is the full resource name of the admin cluster resource. Format: "projects/{project}/locations/{location}/bareMetalAdminClusters/{bare_metal_admin_cluster}" */
   "createConfig.adminClusterName"?: string;
   /** The user cluster resource name. This is the full resource name of the user cluster resource. Format: "projects/{project}/locations/{location}/bareMetalClusters/{bare_metal_cluster}" */
   "upgradeConfig.clusterName"?: string;
-  /** The admin cluster membership. This is the full resource name of the admin cluster's fleet membership. Format: "projects/{project}/locations/{location}/memberships/{membership}" */
-  "createConfig.adminClusterMembership"?: string;
 }
 export const QueryVersionConfigProjectsLocationsBareMetalClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      "createConfig.adminClusterName": S.optional(S.String.pipe(T.Query())),
-      "upgradeConfig.clusterName": S.optional(S.String.pipe(T.Query())),
       "createConfig.adminClusterMembership": S.optional(
         S.String.pipe(T.Query()),
       ),
+      parent: S.String.pipe(T.Label()),
+      "createConfig.adminClusterName": S.optional(S.String.pipe(T.Query())),
+      "upgradeConfig.clusterName": S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "POST",
@@ -4988,24 +4992,24 @@ export const QueryBareMetalVersionConfigResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<QueryBareMetalVersionConfigResponse>;
 
 export interface QueryVersionConfigProjectsLocationsVmwareClustersRequest {
-  /** The admin cluster membership. This is the full resource name of the admin cluster's fleet membership. Format: "projects/{project}/locations/{location}/memberships/{membership}" */
-  "createConfig.adminClusterMembership"?: string;
-  /** Required. The parent of the project and location to query for version config. Format: "projects/{project}/locations/{location}" */
-  parent: string;
-  /** The admin cluster resource name. This is the full resource name of the admin cluster resource. Format: "projects/{project}/locations/{location}/vmwareAdminClusters/{vmware_admin_cluster}" */
-  "createConfig.adminClusterName"?: string;
   /** The user cluster resource name. This is the full resource name of the user cluster resource. Format: "projects/{project}/locations/{location}/vmwareClusters/{vmware_cluster}" */
   "upgradeConfig.clusterName"?: string;
+  /** The admin cluster resource name. This is the full resource name of the admin cluster resource. Format: "projects/{project}/locations/{location}/vmwareAdminClusters/{vmware_admin_cluster}" */
+  "createConfig.adminClusterName"?: string;
+  /** Required. The parent of the project and location to query for version config. Format: "projects/{project}/locations/{location}" */
+  parent: string;
+  /** The admin cluster membership. This is the full resource name of the admin cluster's fleet membership. Format: "projects/{project}/locations/{location}/memberships/{membership}" */
+  "createConfig.adminClusterMembership"?: string;
 }
 export const QueryVersionConfigProjectsLocationsVmwareClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      "upgradeConfig.clusterName": S.optional(S.String.pipe(T.Query())),
+      "createConfig.adminClusterName": S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       "createConfig.adminClusterMembership": S.optional(
         S.String.pipe(T.Query()),
       ),
-      parent: S.String.pipe(T.Label()),
-      "createConfig.adminClusterName": S.optional(S.String.pipe(T.Query())),
-      "upgradeConfig.clusterName": S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "POST",
@@ -5019,21 +5023,21 @@ export const QueryVersionConfigProjectsLocationsVmwareClustersRequest =
 
 /** Contains information about a specific Anthos on VMware version. */
 export interface VmwareVersionInfo {
-  /** Version number e.g. 1.13.1-gke.1000. */
-  version?: string;
   /** If set, the cluster dependencies (e.g. the admin cluster, other user clusters managed by the same admin cluster) must be upgraded before this version can be installed or upgraded to. */
   hasDependencies?: boolean;
-  /** If set, the version is installed in the admin cluster. Otherwise, the version bundle must be downloaded and installed before a user cluster can be created at or upgraded to this version. */
-  isInstalled?: boolean;
+  /** Version number e.g. 1.13.1-gke.1000. */
+  version?: string;
   /** The list of upgrade dependencies for this version. */
   dependencies?: UpgradeDependencyList;
+  /** If set, the version is installed in the admin cluster. Otherwise, the version bundle must be downloaded and installed before a user cluster can be created at or upgraded to this version. */
+  isInstalled?: boolean;
 }
 export const VmwareVersionInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.optional(S.String),
     hasDependencies: S.optional(S.Boolean),
-    isInstalled: S.optional(S.Boolean),
+    version: S.optional(S.String),
     dependencies: S.optional(UpgradeDependencyList),
+    isInstalled: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "VmwareVersionInfo",
@@ -5366,25 +5370,25 @@ export const TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsReq
   }) as any as S.Schema<TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsRequest>;
 
 export interface UnenrollProjectsLocationsBareMetalAdminClustersRequest {
+  /** Validate the request without actually doing any updates. */
+  validateOnly?: boolean;
   /** The current etag of the bare metal admin cluster. If an etag is provided and does not match the current etag of the cluster, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
+  /** Required. Name of the bare metal admin cluster to be unenrolled. Format: "projects/{project}/locations/{location}/bareMetalAdminClusters/{cluster}" */
+  name: string;
   /** If set to true, the unenrollment of a bare metal admin cluster resource will succeed even if errors occur during unenrollment. This parameter can be used when you want to unenroll admin cluster resource and the on-prem admin cluster is disconnected / unreachable. WARNING: Using this parameter when your admin cluster still exists may result in a deleted GCP admin cluster but existing resourcelink in on-prem admin cluster and membership. */
   ignoreErrors?: boolean;
   /** If set to true, and the bare metal admin cluster is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
   allowMissing?: boolean;
-  /** Validate the request without actually doing any updates. */
-  validateOnly?: boolean;
-  /** Required. Name of the bare metal admin cluster to be unenrolled. Format: "projects/{project}/locations/{location}/bareMetalAdminClusters/{cluster}" */
-  name: string;
 }
 export const UnenrollProjectsLocationsBareMetalAdminClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       etag: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       ignoreErrors: S.optional(S.Boolean.pipe(T.Query())),
       allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -5397,25 +5401,25 @@ export const UnenrollProjectsLocationsBareMetalAdminClustersRequest =
   }) as any as S.Schema<UnenrollProjectsLocationsBareMetalAdminClustersRequest>;
 
 export interface UnenrollProjectsLocationsBareMetalClustersRequest {
+  /** This is required if the cluster has any associated node pools. When set, any child node pools will also be unenrolled. */
+  force?: boolean;
+  /** The current etag of the bare metal Cluster. If an etag is provided and does not match the current etag of the cluster, deletion will be blocked and an ABORTED error will be returned. */
+  etag?: string;
+  /** Required. Name of the bare metal user cluster to be unenrolled. Format: "projects/{project}/locations/{location}/bareMetalClusters/{cluster}" */
+  name: string;
   /** If set to true, and the bare metal cluster is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
   allowMissing?: boolean;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
-  /** Required. Name of the bare metal user cluster to be unenrolled. Format: "projects/{project}/locations/{location}/bareMetalClusters/{cluster}" */
-  name: string;
-  /** The current etag of the bare metal Cluster. If an etag is provided and does not match the current etag of the cluster, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
-  /** This is required if the cluster has any associated node pools. When set, any child node pools will also be unenrolled. */
-  force?: boolean;
 }
 export const UnenrollProjectsLocationsBareMetalClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      force: S.optional(S.Boolean.pipe(T.Query())),
+      etag: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       allowMissing: S.optional(S.Boolean.pipe(T.Query())),
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
-      etag: S.optional(S.String.pipe(T.Query())),
-      force: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -5430,10 +5434,10 @@ export const UnenrollProjectsLocationsBareMetalClustersRequest =
 export interface UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
   /** If set to true, and the bare metal node pool is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
   allowMissing?: boolean;
-  /** If set, only validate the request, but do not actually unenroll the node pool. */
-  validateOnly?: boolean;
   /** The current etag of the bare metal node pool. If an etag is provided and does not match the current etag of node pool, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
+  /** If set, only validate the request, but do not actually unenroll the node pool. */
+  validateOnly?: boolean;
   /** Required. The name of the node pool to unenroll. Format: projects/{project}/locations/{location}/bareMetalClusters/{cluster}/bareMetalNodePools/{nodepool} */
   name: string;
 }
@@ -5441,8 +5445,8 @@ export const UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       etag: S.optional(S.String.pipe(T.Query())),
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
@@ -5457,24 +5461,24 @@ export const UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest
   }) as any as S.Schema<UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest>;
 
 export interface UnenrollProjectsLocationsVmwareAdminClustersRequest {
-  /** Required. Name of the VMware admin cluster to be unenrolled. Format: "projects/{project}/locations/{location}/vmwareAdminClusters/{cluster}" */
-  name: string;
   /** If set to true, and the VMware admin cluster is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
   allowMissing?: boolean;
-  /** Validate the request without actually doing any updates. */
-  validateOnly?: boolean;
   /** Optional. If set to true, the unenrollment of a vmware admin cluster resource will succeed even if errors occur during unenrollment. This parameter can be used when you want to unenroll admin cluster resource and the on-prem admin cluster is disconnected / unreachable. WARNING: Using this parameter when your admin cluster still exists may result in a deleted GCP admin cluster but existing resourcelink in on-prem admin cluster and membership. */
   ignoreErrors?: boolean;
+  /** Required. Name of the VMware admin cluster to be unenrolled. Format: "projects/{project}/locations/{location}/vmwareAdminClusters/{cluster}" */
+  name: string;
+  /** Validate the request without actually doing any updates. */
+  validateOnly?: boolean;
   /** The current etag of the VMware admin cluster. If an etag is provided and does not match the current etag of the cluster, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
 }
 export const UnenrollProjectsLocationsVmwareAdminClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       ignoreErrors: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       etag: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -5488,24 +5492,24 @@ export const UnenrollProjectsLocationsVmwareAdminClustersRequest =
   }) as any as S.Schema<UnenrollProjectsLocationsVmwareAdminClustersRequest>;
 
 export interface UnenrollProjectsLocationsVmwareClustersRequest {
-  /** If set to true, and the VMware cluster is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
-  allowMissing?: boolean;
-  /** Validate the request without actually doing any updates. */
-  validateOnly?: boolean;
   /** Required. Name of the VMware user cluster to be unenrolled. Format: "projects/{project}/locations/{location}/vmwareClusters/{vmware_cluster}" */
   name: string;
+  /** Validate the request without actually doing any updates. */
+  validateOnly?: boolean;
   /** The current etag of the VMware Cluster. If an etag is provided and does not match the current etag of the cluster, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
+  /** If set to true, and the VMware cluster is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
+  allowMissing?: boolean;
   /** This is required if the cluster has any associated node pools. When set, any child node pools will also be unenrolled. */
   force?: boolean;
 }
 export const UnenrollProjectsLocationsVmwareClustersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       etag: S.optional(S.String.pipe(T.Query())),
+      allowMissing: S.optional(S.Boolean.pipe(T.Query())),
       force: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -5519,22 +5523,22 @@ export const UnenrollProjectsLocationsVmwareClustersRequest =
   }) as any as S.Schema<UnenrollProjectsLocationsVmwareClustersRequest>;
 
 export interface UnenrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
-  /** Required. The name of the node pool to unenroll. Format: projects/{project}/locations/{location}/vmwareClusters/{cluster}/vmwareNodePools/{nodepool} */
-  name: string;
-  /** If set to true, and the VMware node pool is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
-  allowMissing?: boolean;
-  /** If set, only validate the request, but do not actually unenroll the node pool. */
-  validateOnly?: boolean;
   /** The current etag of the VMware node pool. If an etag is provided and does not match the current etag of node pool, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
+  /** If set to true, and the VMware node pool is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
+  allowMissing?: boolean;
+  /** Required. The name of the node pool to unenroll. Format: projects/{project}/locations/{location}/vmwareClusters/{cluster}/vmwareNodePools/{nodepool} */
+  name: string;
+  /** If set, only validate the request, but do not actually unenroll the node pool. */
+  validateOnly?: boolean;
 }
 export const UnenrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
-      allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       etag: S.optional(S.String.pipe(T.Query())),
+      allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -5943,7 +5947,9 @@ export const getIamPolicyProjectsLocationsBareMetalClusters: API.OperationMethod
 }));
 
 export type GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePools: API.OperationMethod<
   GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest,
@@ -6101,7 +6107,9 @@ export const getProjectsLocationsBareMetalClustersBareMetalNodePools: API.Operat
 }));
 
 export type GetProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsBareMetalClustersBareMetalNodePoolsOperations: API.OperationMethod<
   GetProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest,
@@ -6374,7 +6382,9 @@ export const listProjectsLocationsBareMetalClustersBareMetalNodePools: API.Pagin
 })) as any;
 
 export type ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export const listProjectsLocationsBareMetalClustersBareMetalNodePoolsOperations: API.PaginatedOperationMethod<
   ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest,
@@ -6800,7 +6810,11 @@ export const setIamPolicyProjectsLocationsBareMetalClusters: API.OperationMethod
 }));
 
 export type SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePools: API.OperationMethod<
   SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest,
@@ -6917,7 +6931,11 @@ export const testIamPermissionsProjectsLocationsBareMetalClusters: API.Operation
 }));
 
 export type TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePools: API.OperationMethod<
   TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest,
@@ -6974,7 +6992,11 @@ export const testIamPermissionsProjectsLocationsVmwareClusters: API.OperationMet
 }));
 
 export type TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsVmwareClustersVmwareNodePools: API.OperationMethod<
   TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsRequest,

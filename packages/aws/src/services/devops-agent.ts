@@ -125,14 +125,23 @@ export class ValidationException
 export type AgentSpaceId = string;
 export type ServiceId = string;
 export type SourceAccountType = "source" | (string & {});
-export const SourceAccountType = /*@__PURE__*/ S.String;
+export const SourceAccountType = S.String;
 
 export type RoleArn = string;
+export type ValidationStatus =
+  | "valid"
+  | "invalid"
+  | "pending-confirmation"
+  | (string & {});
+export const ValidationStatus = S.String;
+
 export interface SourceAwsConfiguration {
   accountId: string;
   accountType: SourceAccountType;
   assumableRoleArn: string;
   externalId?: string;
+  agentElevatedRoleArn?: string;
+  agentElevatedRoleArnStatus?: ValidationStatus;
 }
 export const SourceAwsConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -140,29 +149,35 @@ export const SourceAwsConfiguration = /*@__PURE__*/ S.suspend(() =>
     accountType: SourceAccountType,
     assumableRoleArn: S.String,
     externalId: S.optional(S.String),
+    agentElevatedRoleArn: S.optional(S.String),
+    agentElevatedRoleArnStatus: S.optional(ValidationStatus),
   }),
 ).annotate({
   identifier: "SourceAwsConfiguration",
 }) as any as S.Schema<SourceAwsConfiguration>;
 export type MonitorAccountType = "monitor" | (string & {});
-export const MonitorAccountType = /*@__PURE__*/ S.String;
+export const MonitorAccountType = S.String;
 
 export interface AWSConfiguration {
   assumableRoleArn: string;
   accountId: string;
   accountType: MonitorAccountType;
+  agentElevatedRoleArn?: string;
+  agentElevatedRoleArnStatus?: ValidationStatus;
 }
 export const AWSConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     assumableRoleArn: S.String,
     accountId: S.String,
     accountType: MonitorAccountType,
+    agentElevatedRoleArn: S.optional(S.String),
+    agentElevatedRoleArnStatus: S.optional(ValidationStatus),
   }),
 ).annotate({
   identifier: "AWSConfiguration",
 }) as any as S.Schema<AWSConfiguration>;
 export type GithubRepoOwnerType = "organization" | "user" | (string & {});
-export const GithubRepoOwnerType = /*@__PURE__*/ S.String;
+export const GithubRepoOwnerType = S.String;
 
 export interface GitHubConfiguration {
   repoName: string;
@@ -253,9 +268,30 @@ export const MCPServerNewRelicConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "MCPServerNewRelicConfiguration",
 }) as any as S.Schema<MCPServerNewRelicConfiguration>;
-export interface MCPServerDatadogConfiguration {}
+export type ToolClassification =
+  | "READ_ONLY"
+  | "MUTATIVE"
+  | "DESTRUCTIVE"
+  | (string & {});
+export const ToolClassification = S.String;
+
+export interface MCPToolDetail {
+  name: string;
+  toolClassification?: ToolClassification;
+}
+export const MCPToolDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    toolClassification: S.optional(ToolClassification),
+  }),
+).annotate({ identifier: "MCPToolDetail" }) as any as S.Schema<MCPToolDetail>;
+export type MCPToolDetailsList = MCPToolDetail[];
+export const MCPToolDetailsList = /*@__PURE__*/ S.Array(MCPToolDetail);
+export interface MCPServerDatadogConfiguration {
+  enabledElevatedTools?: MCPToolDetail[];
+}
 export const MCPServerDatadogConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({ enabledElevatedTools: S.optional(MCPToolDetailsList) }),
 ).annotate({
   identifier: "MCPServerDatadogConfiguration",
 }) as any as S.Schema<MCPServerDatadogConfiguration>;
@@ -263,9 +299,13 @@ export type MCPToolsList = string[];
 export const MCPToolsList = /*@__PURE__*/ S.Array(S.String);
 export interface MCPServerConfiguration {
   tools: string[];
+  toolDetails?: MCPToolDetail[];
 }
 export const MCPServerConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tools: MCPToolsList }),
+  S.Struct({
+    tools: MCPToolsList,
+    toolDetails: S.optional(MCPToolDetailsList),
+  }),
 ).annotate({
   identifier: "MCPServerConfiguration",
 }) as any as S.Schema<MCPServerConfiguration>;
@@ -323,12 +363,14 @@ export interface MCPServerGrafanaConfiguration {
   endpoint: string;
   organizationId?: string;
   tools?: string[];
+  enabledElevatedTools?: MCPToolDetail[];
 }
 export const MCPServerGrafanaConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpoint: S.String,
     organizationId: S.optional(S.String),
     tools: S.optional(MCPToolsList),
+    enabledElevatedTools: S.optional(MCPToolDetailsList),
   }),
 ).annotate({
   identifier: "MCPServerGrafanaConfiguration",
@@ -347,9 +389,13 @@ export const PagerDutyConfiguration = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PagerDutyConfiguration>;
 export interface MCPServerSigV4Configuration {
   tools: string[];
+  toolDetails?: MCPToolDetail[];
 }
 export const MCPServerSigV4Configuration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tools: MCPToolsList }),
+  S.Struct({
+    tools: MCPToolsList,
+    toolDetails: S.optional(MCPToolDetailsList),
+  }),
 ).annotate({
   identifier: "MCPServerSigV4Configuration",
 }) as any as S.Schema<MCPServerSigV4Configuration>;
@@ -790,13 +836,48 @@ export type CapabilityType =
   | "RELEASE_READINESS_REVIEW"
   | "RELEASE_READINESS_REVIEW_AUTOMATED_TESTING"
   | (string & {});
-export const CapabilityType = /*@__PURE__*/ S.String;
+export const CapabilityType = S.String;
 
+export type TriggerEvent =
+  | "PULL_REQUEST_READY_FOR_REVIEW"
+  | "PULL_REQUEST_DRAFT"
+  | (string & {});
+export const TriggerEvent = S.String;
+
+export type TriggerEventList = TriggerEvent[];
+export const TriggerEventList = /*@__PURE__*/ S.Array(TriggerEvent);
+export type TriggerRegexPattern = string;
+export type TriggerRegexPatternList = string[];
+export const TriggerRegexPatternList = /*@__PURE__*/ S.Array(S.String);
+export interface PatternFilter {
+  patterns: string[];
+}
+export const PatternFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ patterns: TriggerRegexPatternList }),
+).annotate({ identifier: "PatternFilter" }) as any as S.Schema<PatternFilter>;
+export interface TriggerFilterGroup {
+  events?: TriggerEvent[];
+  targetBranches?: PatternFilter;
+}
+export const TriggerFilterGroup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    events: S.optional(TriggerEventList),
+    targetBranches: S.optional(PatternFilter),
+  }),
+).annotate({
+  identifier: "TriggerFilterGroup",
+}) as any as S.Schema<TriggerFilterGroup>;
+export type TriggerFilterGroups = TriggerFilterGroup[];
+export const TriggerFilterGroups = /*@__PURE__*/ S.Array(TriggerFilterGroup);
 export interface CapabilityConfiguration {
   enabled?: boolean;
+  triggerFilterGroups?: TriggerFilterGroup[];
 }
 export const CapabilityConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ enabled: S.optional(S.Boolean) }),
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    triggerFilterGroups: S.optional(TriggerFilterGroups),
+  }),
 ).annotate({
   identifier: "CapabilityConfiguration",
 }) as any as S.Schema<CapabilityConfiguration>;
@@ -835,13 +916,6 @@ export const AssociateServiceInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AssociateServiceInput",
 }) as any as S.Schema<AssociateServiceInput>;
-export type ValidationStatus =
-  | "valid"
-  | "invalid"
-  | "pending-confirmation"
-  | (string & {});
-export const ValidationStatus = /*@__PURE__*/ S.String;
-
 export type AssociationId = string;
 export interface Association {
   agentSpaceId: string;
@@ -871,7 +945,7 @@ export type WebhookType =
   | "gitlab"
   | "pagerduty"
   | (string & {});
-export const WebhookType = /*@__PURE__*/ S.String;
+export const WebhookType = S.String;
 
 export type WebhookSecret = string | redacted.Redacted<string>;
 export type ApiKeyValue = string | redacted.Redacted<string>;
@@ -908,6 +982,16 @@ export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
+export type AgentSpacePreferenceKey = "elevatedActionsEnabled" | (string & {});
+export const AgentSpacePreferenceKey = S.String;
+
+export type AgentSpacePreferences = {
+  [key in AgentSpacePreferenceKey]?: boolean;
+};
+export const AgentSpacePreferences = /*@__PURE__*/ S.Record(
+  AgentSpacePreferenceKey,
+  S.Boolean.pipe(S.optional),
+);
 export interface CreateAgentSpaceInput {
   name: string;
   description?: string | redacted.Redacted<string>;
@@ -915,6 +999,7 @@ export interface CreateAgentSpaceInput {
   kmsKeyArn?: string;
   clientToken?: string;
   tags?: { [key: string]: string | undefined };
+  preferences?: { [key: string]: boolean | undefined };
 }
 export const CreateAgentSpaceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -924,6 +1009,7 @@ export const CreateAgentSpaceInput = /*@__PURE__*/ S.suspend(() =>
     kmsKeyArn: S.optional(S.String),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(Tags),
+    preferences: S.optional(AgentSpacePreferences),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/agentspaces" }),
@@ -945,6 +1031,7 @@ export interface AgentSpace {
   updatedAt: Date;
   kmsKeyArn?: string;
   agentSpaceId: string;
+  preferences?: { [key: string]: boolean | undefined };
 }
 export const AgentSpace = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -955,6 +1042,7 @@ export const AgentSpace = /*@__PURE__*/ S.suspend(() =>
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     kmsKeyArn: S.optional(S.String),
     agentSpaceId: S.String,
+    preferences: S.optional(AgentSpacePreferences),
   }),
 ).annotate({ identifier: "AgentSpace" }) as any as S.Schema<AgentSpace>;
 export interface CreateAgentSpaceOutput {
@@ -966,6 +1054,7 @@ export const CreateAgentSpaceOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateAgentSpaceOutput",
 }) as any as S.Schema<CreateAgentSpaceOutput>;
+export type AgentSpaceIdentifier = string;
 export type AssetType = string;
 export type AssetFilePath = string;
 export type AssetFileBytes = Uint8Array;
@@ -1155,7 +1244,7 @@ export type TaskType =
   | "RELEASE_READINESS_REVIEW"
   | "RELEASE_TESTING"
   | (string & {});
-export const TaskType = /*@__PURE__*/ S.String;
+export const TaskType = S.String;
 
 export type BacklogTaskTitle = string;
 export type BacklogTaskDescription = string;
@@ -1166,7 +1255,7 @@ export type Priority =
   | "LOW"
   | "MINIMAL"
   | (string & {});
-export const Priority = /*@__PURE__*/ S.String;
+export const Priority = S.String;
 
 export interface CreateBacklogTaskRequest {
   agentSpaceId: string;
@@ -1231,8 +1320,9 @@ export type TaskStatus =
   | "TIMED_OUT"
   | "CANCELED"
   | "SKIPPED"
+  | "WAITING"
   | (string & {});
-export const TaskStatus = /*@__PURE__*/ S.String;
+export const TaskStatus = S.String;
 
 export type BackLogTimestamp = Date;
 export interface Task {
@@ -1284,7 +1374,7 @@ export const CreateBacklogTaskResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateBacklogTaskResponse",
 }) as any as S.Schema<CreateBacklogTaskResponse>;
 export type UserType = "IAM" | "IDC" | "IDP" | (string & {});
-export const UserType = /*@__PURE__*/ S.String;
+export const UserType = S.String;
 
 export interface CreateChatRequest {
   agentSpaceId: string;
@@ -1334,7 +1424,7 @@ export type SecurityGroupId = string;
 export type ListOfSecurityGroupIds = string[];
 export const ListOfSecurityGroupIds = /*@__PURE__*/ S.Array(S.String);
 export type IpAddressType = "IPV4" | "IPV6" | "DUAL_STACK" | (string & {});
-export const IpAddressType = /*@__PURE__*/ S.String;
+export const IpAddressType = S.String;
 
 export type MaxIpv4AddressesPerEni = number;
 export type PortRange = string;
@@ -1342,7 +1432,7 @@ export type PortRanges = string[];
 export const PortRanges = /*@__PURE__*/ S.Array(S.String);
 export type CertificateString = string;
 export type ResourceConfigDnsResolution = "PUBLIC" | "IN_VPC" | (string & {});
-export const ResourceConfigDnsResolution = /*@__PURE__*/ S.String;
+export const ResourceConfigDnsResolution = S.String;
 
 export interface ServiceManagedInput {
   hostAddress: string;
@@ -1417,7 +1507,7 @@ export type PrivateConnectionType =
   | "SELF_MANAGED"
   | "SERVICE_MANAGED"
   | (string & {});
-export const PrivateConnectionType = /*@__PURE__*/ S.String;
+export const PrivateConnectionType = S.String;
 
 export type ResourceGatewayArn = string;
 export type PrivateConnectionStatus =
@@ -1427,7 +1517,7 @@ export type PrivateConnectionStatus =
   | "DELETE_IN_PROGRESS"
   | "DELETE_FAILED"
   | (string & {});
-export const PrivateConnectionStatus = /*@__PURE__*/ S.String;
+export const PrivateConnectionStatus = S.String;
 
 export type FailureMessage = string;
 export interface CreatePrivateConnectionOutput {
@@ -1754,7 +1844,7 @@ export const DescribePrivateConnectionOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribePrivateConnectionOutput",
 }) as any as S.Schema<DescribePrivateConnectionOutput>;
 export type AuthFlow = "iam" | "idc" | "idp" | (string & {});
-export const AuthFlow = /*@__PURE__*/ S.String;
+export const AuthFlow = S.String;
 
 export interface DisableOperatorAppInput {
   agentSpaceId: string;
@@ -2246,10 +2336,10 @@ export type RecommendationStatus =
   | "COMPLETED"
   | "UPDATE_IN_PROGRESS"
   | (string & {});
-export const RecommendationStatus = /*@__PURE__*/ S.String;
+export const RecommendationStatus = S.String;
 
 export type RecommendationPriority = "HIGH" | "MEDIUM" | "LOW" | (string & {});
-export const RecommendationPriority = /*@__PURE__*/ S.String;
+export const RecommendationPriority = S.String;
 
 export interface Recommendation {
   agentSpaceArn: string;
@@ -2332,7 +2422,7 @@ export type Service =
   | "remoteagent"
   | "remoteagentsigv4"
   | (string & {});
-export const Service = /*@__PURE__*/ S.String;
+export const Service = S.String;
 
 export type ServiceName = string;
 export type DocumentList = any[];
@@ -2366,7 +2456,7 @@ export type MCPServerAuthorizationMethod =
   | "api-key"
   | "bearer-token"
   | (string & {});
-export const MCPServerAuthorizationMethod = /*@__PURE__*/ S.String;
+export const MCPServerAuthorizationMethod = S.String;
 
 export interface RegisteredMCPServerDetails {
   name: string;
@@ -2396,7 +2486,7 @@ export const RegisteredServiceNowDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegisteredServiceNowDetails",
 }) as any as S.Schema<RegisteredServiceNowDetails>;
 export type GitLabTokenType = "personal" | "group" | (string & {});
-export const GitLabTokenType = /*@__PURE__*/ S.String;
+export const GitLabTokenType = S.String;
 
 export interface RegisteredGitLabServiceDetails {
   targetUrl: string;
@@ -2412,8 +2502,8 @@ export const RegisteredGitLabServiceDetails = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RegisteredGitLabServiceDetails",
 }) as any as S.Schema<RegisteredGitLabServiceDetails>;
-export type NewRelicRegion = "US" | "EU" | (string & {});
-export const NewRelicRegion = /*@__PURE__*/ S.String;
+export type NewRelicRegion = "US" | "EU" | "JP" | (string & {});
+export const NewRelicRegion = S.String;
 
 export interface RegisteredNewRelicDetails {
   accountId: string;
@@ -2523,7 +2613,7 @@ export type RemoteAgentAuthorizationMethod =
   | "api-key"
   | "bearer-token"
   | (string & {});
-export const RemoteAgentAuthorizationMethod = /*@__PURE__*/ S.String;
+export const RemoteAgentAuthorizationMethod = S.String;
 
 export interface RegisteredRemoteAgentDetails {
   name: string;
@@ -2844,6 +2934,8 @@ export interface RegisteredService {
   additionalServiceDetails?: AdditionalServiceDetails;
   kmsKeyArn?: string;
   privateConnectionName?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 export const RegisteredService = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2854,12 +2946,18 @@ export const RegisteredService = /*@__PURE__*/ S.suspend(() =>
     additionalServiceDetails: S.optional(AdditionalServiceDetails),
     kmsKeyArn: S.optional(S.String),
     privateConnectionName: S.optional(S.String),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "RegisteredService",
 }) as any as S.Schema<RegisteredService>;
 export interface GetServiceOutput {
-  service: RegisteredService;
+  service: RegisteredService & { createdAt: Date; updatedAt: Date };
   tags?: { [key: string]: string | undefined };
 }
 export const GetServiceOutput = /*@__PURE__*/ S.suspend(() =>
@@ -3206,10 +3304,10 @@ export const TaskFilter = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "TaskFilter" }) as any as S.Schema<TaskFilter>;
 export type TaskSortField = "CREATED_AT" | "PRIORITY" | (string & {});
-export const TaskSortField = /*@__PURE__*/ S.String;
+export const TaskSortField = S.String;
 
 export type TaskSortOrder = "ASC" | "DESC" | (string & {});
-export const TaskSortOrder = /*@__PURE__*/ S.String;
+export const TaskSortOrder = S.String;
 
 export interface ListBacklogTasksRequest {
   agentSpaceId: string;
@@ -3342,8 +3440,9 @@ export type ExecutionStatus =
   | "STOPPED"
   | "CANCELED"
   | "TIMED_OUT"
+  | "WAITING"
   | (string & {});
-export const ExecutionStatus = /*@__PURE__*/ S.String;
+export const ExecutionStatus = S.String;
 
 export interface Execution {
   agentSpaceId: string;
@@ -3381,10 +3480,10 @@ export const ListExecutionsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListExecutionsResponse",
 }) as any as S.Schema<ListExecutionsResponse>;
 export type GoalStatus = "ACTIVE" | "PAUSED" | "COMPLETE" | (string & {});
-export const GoalStatus = /*@__PURE__*/ S.String;
+export const GoalStatus = S.String;
 
 export type GoalType = "CUSTOMER_DEFINED" | "ONCALL_REPORT" | (string & {});
-export const GoalType = /*@__PURE__*/ S.String;
+export const GoalType = S.String;
 
 export interface ListGoalsRequest {
   agentSpaceId: string;
@@ -3424,7 +3523,7 @@ export const GoalContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ description: S.String, objectives: S.String }),
 ).annotate({ identifier: "GoalContent" }) as any as S.Schema<GoalContent>;
 export type SchedulerState = "ENABLED" | "DISABLED" | (string & {});
-export const SchedulerState = /*@__PURE__*/ S.String;
+export const SchedulerState = S.String;
 
 export interface GoalSchedule {
   state: SchedulerState;
@@ -3479,7 +3578,7 @@ export const ListGoalsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListGoalsResponse",
 }) as any as S.Schema<ListGoalsResponse>;
 export type OrderType = "ASC" | "DESC" | (string & {});
-export const OrderType = /*@__PURE__*/ S.String;
+export const OrderType = S.String;
 
 export interface ListJournalRecordsRequest {
   agentSpaceId: string;
@@ -3759,7 +3858,7 @@ export type RegisteredServicesList = RegisteredService[];
 export const RegisteredServicesList = /*@__PURE__*/ S.Array(RegisteredService);
 export interface ListServicesOutput {
   nextToken?: string;
-  services: RegisteredService[];
+  services: (RegisteredService & { createdAt: Date; updatedAt: Date })[];
 }
 export const ListServicesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3895,7 +3994,7 @@ export type PostRegisterServiceSupportedService =
   | "remoteagent"
   | "remoteagentsigv4"
   | (string & {});
-export const PostRegisterServiceSupportedService = /*@__PURE__*/ S.String;
+export const PostRegisterServiceSupportedService = S.String;
 
 export type ClientId = string | redacted.Redacted<string>;
 export type ExchangeParameterValue = string | redacted.Redacted<string>;
@@ -4153,6 +4252,7 @@ export const MCPServerDetails = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "MCPServerDetails",
 }) as any as S.Schema<MCPServerDetails>;
+export type GitLabTokenValue = string | redacted.Redacted<string>;
 export interface GitLabDetails {
   targetUrl: string;
   tokenType: GitLabTokenType;
@@ -4167,6 +4267,7 @@ export const GitLabDetails = /*@__PURE__*/ S.suspend(() =>
     groupId: S.optional(S.String),
   }),
 ).annotate({ identifier: "GitLabDetails" }) as any as S.Schema<GitLabDetails>;
+export type NewRelicApiKey = string | redacted.Redacted<string>;
 export type NewRelicApplicationIds = string[];
 export const NewRelicApplicationIds = /*@__PURE__*/ S.Array(S.String);
 export type NewRelicEntityGuids = string[];
@@ -4208,7 +4309,7 @@ export const NewRelicServiceDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "NewRelicServiceDetails",
 }) as any as S.Schema<NewRelicServiceDetails>;
 export type EventChannelType = "webhook" | (string & {});
-export const EventChannelType = /*@__PURE__*/ S.String;
+export const EventChannelType = S.String;
 
 export interface EventChannelDetails {
   type?: EventChannelType;
@@ -4733,16 +4834,41 @@ export const RegisterServiceOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RegisterServiceOutput>;
 export type ChatExecutionId = string;
 export type MessageContent = string;
+export type ToolUseId = string;
+export type InterruptId = string;
+export type ApprovalId = string;
+export type ButtonText = string;
+export type ApprovalActionType = "APPROVED" | "REJECTED" | (string & {});
+export const ApprovalActionType = S.String;
+
+export interface ApprovalAction {
+  toolUseId?: string;
+  interruptId?: string;
+  approvalId?: string;
+  buttonText?: string;
+  action?: ApprovalActionType;
+}
+export const ApprovalAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    toolUseId: S.optional(S.String),
+    interruptId: S.optional(S.String),
+    approvalId: S.optional(S.String),
+    buttonText: S.optional(S.String),
+    action: S.optional(ApprovalActionType),
+  }),
+).annotate({ identifier: "ApprovalAction" }) as any as S.Schema<ApprovalAction>;
 export interface SendMessageContext {
   currentPage?: string;
   lastMessage?: string;
   userActionResponse?: string;
+  approvalAction?: ApprovalAction;
 }
 export const SendMessageContext = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     currentPage: S.optional(S.String),
     lastMessage: S.optional(S.String),
     userActionResponse: S.optional(S.String),
+    approvalAction: S.optional(ApprovalAction),
   }),
 ).annotate({
   identifier: "SendMessageContext",
@@ -4756,6 +4882,7 @@ export interface SendMessageRequest {
   context?: SendMessageContext;
   userId?: string;
   assetIds?: string[];
+  modelTier?: string;
 }
 export const SendMessageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4765,6 +4892,7 @@ export const SendMessageRequest = /*@__PURE__*/ S.suspend(() =>
     context: S.optional(SendMessageContext),
     userId: S.optional(S.String),
     assetIds: S.optional(AssetIdList),
+    modelTier: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({
@@ -5122,6 +5250,7 @@ export interface UpdateAgentSpaceInput {
   name?: string;
   description?: string | redacted.Redacted<string>;
   locale?: string;
+  preferences?: { [key: string]: boolean | undefined };
 }
 export const UpdateAgentSpaceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5129,6 +5258,7 @@ export const UpdateAgentSpaceInput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(SensitiveString),
     locale: S.optional(S.String),
+    preferences: S.optional(AgentSpacePreferences),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/v1/agentspaces/{agentSpaceId}" }),
@@ -5150,6 +5280,81 @@ export const UpdateAgentSpaceOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateAgentSpaceOutput",
 }) as any as S.Schema<UpdateAgentSpaceOutput>;
+export type ToolIdentifier = string;
+export type ApprovalPinKey = string;
+export type ApprovalPinValue = string;
+export type ApprovalArgumentPins = { [key: string]: string | undefined };
+export const ApprovalArgumentPins = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface ApprovalPattern {
+  tool: string;
+  argumentPins: { [key: string]: string | undefined };
+}
+export const ApprovalPattern = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ tool: S.String, argumentPins: ApprovalArgumentPins }),
+).annotate({
+  identifier: "ApprovalPattern",
+}) as any as S.Schema<ApprovalPattern>;
+export type ApprovalReason = string;
+export interface UpdateApprovalActionRequest {
+  agentSpaceId: string;
+  approvalId: string;
+  action: ApprovalActionType;
+  finalPattern?: ApprovalPattern;
+  reason?: string;
+  ttlSeconds?: number;
+  singleUse?: boolean;
+}
+export const UpdateApprovalActionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
+    approvalId: S.String.pipe(T.HttpLabel("approvalId")),
+    action: ApprovalActionType,
+    finalPattern: S.optional(ApprovalPattern),
+    reason: S.optional(S.String),
+    ttlSeconds: S.optional(S.Number),
+    singleUse: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/agents/agent-space/{agentSpaceId}/approvals/{approvalId}/update-action",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateApprovalActionRequest",
+}) as any as S.Schema<UpdateApprovalActionRequest>;
+export type ApprovalStatus =
+  | "PENDING"
+  | "APPROVED"
+  | "REJECTED"
+  | "REVOKED"
+  | "REDEEMED"
+  | (string & {});
+export const ApprovalStatus = S.String;
+
+export interface UpdateApprovalActionResponse {
+  approvalId: string;
+  status: ApprovalStatus;
+  expiresAt?: Date;
+}
+export const UpdateApprovalActionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    approvalId: S.String,
+    status: ApprovalStatus,
+    expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "UpdateApprovalActionResponse",
+}) as any as S.Schema<UpdateApprovalActionResponse>;
 export interface UpdateAssetRequest {
   agentSpaceId: string;
   assetId: string;
@@ -5744,6 +5949,7 @@ export const createChat: API.OperationMethod<
 export type CreatePrivateConnectionError =
   | AccessDeniedException
   | InternalServerException
+  | InvalidParameterException
   | ThrottlingException
   | ValidationException
   | CommonErrors;
@@ -5761,6 +5967,7 @@ export const createPrivateConnection: API.OperationMethod<
   errors: [
     AccessDeniedException,
     InternalServerException,
+    InvalidParameterException,
     ThrottlingException,
     ValidationException,
   ],
@@ -7195,6 +7402,41 @@ export const updateAgentSpace: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAgentSpace",
   endpointHostPrefix: "cp.",
+}));
+
+export type UpdateApprovalActionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates an approval request with the terminal decision (APPROVED or REJECTED). A single operation handles both verbs via the action enum.
+ */
+export const updateApprovalAction: API.OperationMethod<
+  UpdateApprovalActionRequest,
+  UpdateApprovalActionResponse,
+  UpdateApprovalActionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateApprovalActionRequest,
+  output: UpdateApprovalActionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateApprovalAction",
+  endpointHostPrefix: "dp.",
 }));
 
 export type UpdateAssetError =

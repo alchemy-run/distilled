@@ -42,24 +42,41 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
-export interface FeedbackCreateRequestRequestsByAttribute {
+export interface CreateFeedbackRequestRequestsByAttribute {
   metric: string;
   requests: number;
 }
-export const FeedbackCreateRequestRequestsByAttribute = /*@__PURE__*/ S.suspend(
+export const CreateFeedbackRequestRequestsByAttribute = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       metric: S.String,
       requests: S.Number,
     }),
 ).annotate({
-  identifier: "FeedbackCreateRequestRequestsByAttribute",
-}) as any as S.Schema<FeedbackCreateRequestRequestsByAttribute>;
+  identifier: "CreateFeedbackRequestRequestsByAttribute",
+}) as any as S.Schema<CreateFeedbackRequestRequestsByAttribute>;
 
-export type FeedbackCreateRequestType = "false_positive" | "false_negative";
-export const FeedbackCreateRequestType = /*@__PURE__*/ S.String;
+export type CreateFeedbackRequestRequestsByScoreMap = {
+  [key: string]: number | undefined;
+};
+export const CreateFeedbackRequestRequestsByScoreMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Number,
+) as any as S.Schema<CreateFeedbackRequestRequestsByScoreMap>;
 
-export interface FeedbackCreateRequest {
+export type CreateFeedbackRequestRequestsByScoreSrcMap = {
+  [key: string]: number | undefined;
+};
+export const CreateFeedbackRequestRequestsByScoreSrcMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Number,
+  ) as any as S.Schema<CreateFeedbackRequestRequestsByScoreSrcMap>;
+
+export type CreateFeedbackRequestType = "false_positive" | "false_negative";
+export const CreateFeedbackRequestType = S.String;
+
+export interface CreateFeedbackRequest {
   /** Identifier. */
   zoneId: string;
   description: string;
@@ -69,16 +86,16 @@ export interface FeedbackCreateRequest {
   lastRequestSeenAt: string;
   requests: number;
   /** Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents. */
-  requestsByAttribute: FeedbackCreateRequestRequestsByAttribute;
+  requestsByAttribute: CreateFeedbackRequestRequestsByAttribute;
   /** Map of bot scores (1-99) to request counts. Sum must equal `requests`. */
-  requestsByScore: unknown;
+  requestsByScore: CreateFeedbackRequestRequestsByScoreMap;
   /** Map of score source to request counts. Sum must equal `requests`. */
-  requestsByScoreSrc: unknown;
+  requestsByScoreSrc: CreateFeedbackRequestRequestsByScoreSrcMap;
   /** Type of feedback report. */
-  type: FeedbackCreateRequestType | (string & {});
+  type: CreateFeedbackRequestType | (string & {});
   subtype?: string;
 }
-export const FeedbackCreateRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateFeedbackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
     description: S.String,
@@ -86,12 +103,16 @@ export const FeedbackCreateRequest = /*@__PURE__*/ S.suspend(() =>
     firstRequestSeenAt: S.String.pipe(T.Body("first_request_seen_at")),
     lastRequestSeenAt: S.String.pipe(T.Body("last_request_seen_at")),
     requests: S.Number,
-    requestsByAttribute: FeedbackCreateRequestRequestsByAttribute.pipe(
+    requestsByAttribute: CreateFeedbackRequestRequestsByAttribute.pipe(
       T.Body("requests_by_attribute"),
     ),
-    requestsByScore: S.Unknown.pipe(T.Body("requests_by_score")),
-    requestsByScoreSrc: S.Unknown.pipe(T.Body("requests_by_score_src")),
-    type: FeedbackCreateRequestType,
+    requestsByScore: CreateFeedbackRequestRequestsByScoreMap.pipe(
+      T.Body("requests_by_score"),
+    ),
+    requestsByScoreSrc: CreateFeedbackRequestRequestsByScoreSrcMap.pipe(
+      T.Body("requests_by_score_src"),
+    ),
+    type: CreateFeedbackRequestType,
     subtype: S.optional(S.String),
   })
     .pipe(
@@ -103,82 +124,15 @@ export const FeedbackCreateRequest = /*@__PURE__*/ S.suspend(() =>
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
-  identifier: "FeedbackCreateRequest",
-}) as any as S.Schema<FeedbackCreateRequest>;
+  identifier: "CreateFeedbackRequest",
+}) as any as S.Schema<CreateFeedbackRequest>;
 
-export interface FeedbackCreateResponse {}
-export const FeedbackCreateResponse = /*@__PURE__*/ S.suspend(() =>
+export interface CreateFeedbackResponse {}
+export const CreateFeedbackResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
-  identifier: "FeedbackCreateResponse",
-}) as any as S.Schema<FeedbackCreateResponse>;
-
-export interface FeedbackListRequest {
-  /** Identifier. */
-  zoneId: string;
-}
-export const FeedbackListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    zoneId: S.String.pipe(T.Label("zone_id")),
-  })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/bot_management/feedback",
-        code: 200,
-      }),
-    )
-    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "FeedbackListRequest",
-}) as any as S.Schema<FeedbackListRequest>;
-
-export type FeedbackListResponseRequestsByAttribute =
-  FeedbackCreateRequestRequestsByAttribute;
-export const FeedbackListResponseRequestsByAttribute =
-  FeedbackCreateRequestRequestsByAttribute;
-
-export type FeedbackListResponseType = "false_positive" | "false_negative";
-export const FeedbackListResponseType = /*@__PURE__*/ S.String;
-
-/** Raw response payload (operation does not use the standard v4 result envelope). */
-export interface FeedbackListResponse {
-  description: string;
-  /** Wirefilter expression describing the traffic being reported. */
-  expression: string;
-  firstRequestSeenAt: string;
-  lastRequestSeenAt: string;
-  requests: number;
-  /** Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents. */
-  requestsByAttribute: FeedbackCreateRequestRequestsByAttribute;
-  /** Map of bot scores (1-99) to request counts. Sum must equal `requests`. */
-  requestsByScore: unknown;
-  /** Map of score source to request counts. Sum must equal `requests`. */
-  requestsByScoreSrc: unknown;
-  /** Type of feedback report. */
-  type: FeedbackListResponseType;
-  createdAt?: string | null;
-  subtype?: string | null;
-}
-export const FeedbackListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.String,
-    expression: S.String,
-    firstRequestSeenAt: S.String.pipe(T.Body("first_request_seen_at")),
-    lastRequestSeenAt: S.String.pipe(T.Body("last_request_seen_at")),
-    requests: S.Number,
-    requestsByAttribute: FeedbackCreateRequestRequestsByAttribute.pipe(
-      T.Body("requests_by_attribute"),
-    ),
-    requestsByScore: S.Unknown.pipe(T.Body("requests_by_score")),
-    requestsByScoreSrc: S.Unknown.pipe(T.Body("requests_by_score_src")),
-    type: FeedbackListResponseType,
-    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
-    subtype: S.optional(S.NullOr(S.String)),
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "FeedbackListResponse",
-}) as any as S.Schema<FeedbackListResponse>;
+  identifier: "CreateFeedbackResponse",
+}) as any as S.Schema<CreateFeedbackResponse>;
 
 export interface GetBotManagementRequest {
   /** Identifier. */
@@ -204,26 +158,41 @@ export type GetResultBotFightModeConfigurationAiBotsProtection =
   | "block"
   | "disabled"
   | "only_on_ad_pages";
-export const GetResultBotFightModeConfigurationAiBotsProtection =
-  /*@__PURE__*/ S.String;
+export const GetResultBotFightModeConfigurationAiBotsProtection = S.String;
+
+export type GetResultBotFightModeConfigurationAiSearch =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const GetResultBotFightModeConfigurationAiSearch = S.String;
+
+export type GetResultBotFightModeConfigurationAiTraining =
+  | "disabled"
+  | "disallow"
+  | "block"
+  | "only_on_ad_pages";
+export const GetResultBotFightModeConfigurationAiTraining = S.String;
+
+export type GetResultBotFightModeConfigurationAiUser =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const GetResultBotFightModeConfigurationAiUser = S.String;
 
 export type GetResultBotFightModeConfigurationCfRobotsVariant =
   | "off"
   | "policy_only";
-export const GetResultBotFightModeConfigurationCfRobotsVariant =
-  /*@__PURE__*/ S.String;
+export const GetResultBotFightModeConfigurationCfRobotsVariant = S.String;
 
 export type GetResultBotFightModeConfigurationContentBotsProtection =
   | "block"
   | "disabled";
-export const GetResultBotFightModeConfigurationContentBotsProtection =
-  /*@__PURE__*/ S.String;
+export const GetResultBotFightModeConfigurationContentBotsProtection = S.String;
 
 export type GetResultBotFightModeConfigurationCrawlerProtection =
   | "enabled"
   | "disabled";
-export const GetResultBotFightModeConfigurationCrawlerProtection =
-  /*@__PURE__*/ S.String;
+export const GetResultBotFightModeConfigurationCrawlerProtection = S.String;
 
 export interface GetResultBotFightModeConfigurationStaleZoneConfiguration {
   /** Indicates that the zone's wordpress optimization for SBFM is turned on. */
@@ -266,8 +235,18 @@ export const GetResultBotFightModeConfigurationStaleZoneConfiguration =
   }) as any as S.Schema<GetResultBotFightModeConfigurationStaleZoneConfiguration>;
 
 export interface GetResultBotFightModeConfiguration {
+  /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
+  aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
   aiBotsProtection?: GetResultBotFightModeConfigurationAiBotsProtection | null;
+  /** Configure robots.txt policy for AI search bots. */
+  aiSearch?: GetResultBotFightModeConfigurationAiSearch | null;
+  /** Configure robots.txt policy for AI model training bots. */
+  aiTraining?: GetResultBotFightModeConfigurationAiTraining | null;
+  /** Configure robots.txt policy for AI assistant and agent bots. */
+  aiUser?: GetResultBotFightModeConfigurationAiUser | null;
+  /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
+  botPreferenceSyncEnabled?: boolean | null;
   /** Specifies the Robots Access Control License variant to use. */
   cfRobotsVariant?: GetResultBotFightModeConfigurationCfRobotsVariant | null;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
@@ -287,10 +266,31 @@ export interface GetResultBotFightModeConfiguration {
 }
 export const GetResultBotFightModeConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    aiBotsMigrationOptOut: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("ai_bots_migration_opt_out")),
+    ),
     aiBotsProtection: S.optional(
       S.NullOr(GetResultBotFightModeConfigurationAiBotsProtection).pipe(
         T.Body("ai_bots_protection"),
       ),
+    ),
+    aiSearch: S.optional(
+      S.NullOr(GetResultBotFightModeConfigurationAiSearch).pipe(
+        T.Body("ai_search"),
+      ),
+    ),
+    aiTraining: S.optional(
+      S.NullOr(GetResultBotFightModeConfigurationAiTraining).pipe(
+        T.Body("ai_training"),
+      ),
+    ),
+    aiUser: S.optional(
+      S.NullOr(GetResultBotFightModeConfigurationAiUser).pipe(
+        T.Body("ai_user"),
+      ),
+    ),
+    botPreferenceSyncEnabled: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("bot_preference_sync_enabled")),
     ),
     cfRobotsVariant: S.optional(
       S.NullOr(GetResultBotFightModeConfigurationCfRobotsVariant).pipe(
@@ -330,34 +330,59 @@ export type GetResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection =
   | "disabled"
   | "only_on_ad_pages";
 export const GetResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
+
+export type GetResultSuperBotFightModeDefinitelyConfigurationAiSearch =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const GetResultSuperBotFightModeDefinitelyConfigurationAiSearch =
+  S.String;
+
+export type GetResultSuperBotFightModeDefinitelyConfigurationAiTraining =
+  | "disabled"
+  | "disallow"
+  | "block"
+  | "only_on_ad_pages";
+export const GetResultSuperBotFightModeDefinitelyConfigurationAiTraining =
+  S.String;
+
+export type GetResultSuperBotFightModeDefinitelyConfigurationAiUser =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const GetResultSuperBotFightModeDefinitelyConfigurationAiUser = S.String;
 
 export type GetResultSuperBotFightModeDefinitelyConfigurationCfRobotsVariant =
   | "off"
   | "policy_only";
 export const GetResultSuperBotFightModeDefinitelyConfigurationCfRobotsVariant =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GetResultSuperBotFightModeDefinitelyConfigurationContentBotsProtection =
-  "block" | "disabled";
+  | "block"
+  | "disabled";
 export const GetResultSuperBotFightModeDefinitelyConfigurationContentBotsProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GetResultSuperBotFightModeDefinitelyConfigurationCrawlerProtection =
-  "enabled" | "disabled";
+  | "enabled"
+  | "disabled";
 export const GetResultSuperBotFightModeDefinitelyConfigurationCrawlerProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GetResultSuperBotFightModeDefinitelyConfigurationSbfmDefinitelyAutomated =
-  "allow" | "block" | "managed_challenge";
+  | "allow"
+  | "block"
+  | "managed_challenge";
 export const GetResultSuperBotFightModeDefinitelyConfigurationSbfmDefinitelyAutomated =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GetResultSuperBotFightModeDefinitelyConfigurationSbfmVerifiedBots =
   | "allow"
   | "block";
 export const GetResultSuperBotFightModeDefinitelyConfigurationSbfmVerifiedBots =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GetResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfiguration {
   /** Indicates that the zone's Bot Fight Mode is turned on. */
@@ -379,8 +404,18 @@ export const GetResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfigura
   }) as any as S.Schema<GetResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfiguration>;
 
 export interface GetResultSuperBotFightModeDefinitelyConfiguration {
+  /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
+  aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
   aiBotsProtection?: GetResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection | null;
+  /** Configure robots.txt policy for AI search bots. */
+  aiSearch?: GetResultSuperBotFightModeDefinitelyConfigurationAiSearch | null;
+  /** Configure robots.txt policy for AI model training bots. */
+  aiTraining?: GetResultSuperBotFightModeDefinitelyConfigurationAiTraining | null;
+  /** Configure robots.txt policy for AI assistant and agent bots. */
+  aiUser?: GetResultSuperBotFightModeDefinitelyConfigurationAiUser | null;
+  /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
+  botPreferenceSyncEnabled?: boolean | null;
   /** Specifies the Robots Access Control License variant to use. */
   cfRobotsVariant?: GetResultSuperBotFightModeDefinitelyConfigurationCfRobotsVariant | null;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
@@ -395,7 +430,7 @@ export interface GetResultSuperBotFightModeDefinitelyConfiguration {
   optimizeWordpress?: boolean | null;
   /** Super Bot Fight Mode (SBFM) action to take on definitely automated requests. */
   sbfmDefinitelyAutomated?: GetResultSuperBotFightModeDefinitelyConfigurationSbfmDefinitelyAutomated | null;
-  /** Super Bot Fight Mode (SBFM) to enable static resource protection. */
+  /** Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked. */
   sbfmStaticResourceProtection?: boolean | null;
   /** Super Bot Fight Mode (SBFM) action to take on verified bots requests. */
   sbfmVerifiedBots?: GetResultSuperBotFightModeDefinitelyConfigurationSbfmVerifiedBots | null;
@@ -407,10 +442,31 @@ export interface GetResultSuperBotFightModeDefinitelyConfiguration {
 export const GetResultSuperBotFightModeDefinitelyConfiguration =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      aiBotsMigrationOptOut: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("ai_bots_migration_opt_out")),
+      ),
       aiBotsProtection: S.optional(
         S.NullOr(
           GetResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection,
         ).pipe(T.Body("ai_bots_protection")),
+      ),
+      aiSearch: S.optional(
+        S.NullOr(
+          GetResultSuperBotFightModeDefinitelyConfigurationAiSearch,
+        ).pipe(T.Body("ai_search")),
+      ),
+      aiTraining: S.optional(
+        S.NullOr(
+          GetResultSuperBotFightModeDefinitelyConfigurationAiTraining,
+        ).pipe(T.Body("ai_training")),
+      ),
+      aiUser: S.optional(
+        S.NullOr(GetResultSuperBotFightModeDefinitelyConfigurationAiUser).pipe(
+          T.Body("ai_user"),
+        ),
+      ),
+      botPreferenceSyncEnabled: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("bot_preference_sync_enabled")),
       ),
       cfRobotsVariant: S.optional(
         S.NullOr(
@@ -465,42 +521,64 @@ export type GetResultSuperBotFightModeLikelyConfigurationAiBotsProtection =
   | "disabled"
   | "only_on_ad_pages";
 export const GetResultSuperBotFightModeLikelyConfigurationAiBotsProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
+
+export type GetResultSuperBotFightModeLikelyConfigurationAiSearch =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const GetResultSuperBotFightModeLikelyConfigurationAiSearch = S.String;
+
+export type GetResultSuperBotFightModeLikelyConfigurationAiTraining =
+  | "disabled"
+  | "disallow"
+  | "block"
+  | "only_on_ad_pages";
+export const GetResultSuperBotFightModeLikelyConfigurationAiTraining = S.String;
+
+export type GetResultSuperBotFightModeLikelyConfigurationAiUser =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const GetResultSuperBotFightModeLikelyConfigurationAiUser = S.String;
 
 export type GetResultSuperBotFightModeLikelyConfigurationCfRobotsVariant =
   | "off"
   | "policy_only";
 export const GetResultSuperBotFightModeLikelyConfigurationCfRobotsVariant =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GetResultSuperBotFightModeLikelyConfigurationContentBotsProtection =
-  "block" | "disabled";
+  | "block"
+  | "disabled";
 export const GetResultSuperBotFightModeLikelyConfigurationContentBotsProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GetResultSuperBotFightModeLikelyConfigurationCrawlerProtection =
   | "enabled"
   | "disabled";
 export const GetResultSuperBotFightModeLikelyConfigurationCrawlerProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GetResultSuperBotFightModeLikelyConfigurationSbfmDefinitelyAutomated =
-  "allow" | "block" | "managed_challenge";
+  | "allow"
+  | "block"
+  | "managed_challenge";
 export const GetResultSuperBotFightModeLikelyConfigurationSbfmDefinitelyAutomated =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GetResultSuperBotFightModeLikelyConfigurationSbfmLikelyAutomated =
   | "allow"
   | "block"
   | "managed_challenge";
 export const GetResultSuperBotFightModeLikelyConfigurationSbfmLikelyAutomated =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GetResultSuperBotFightModeLikelyConfigurationSbfmVerifiedBots =
   | "allow"
   | "block";
 export const GetResultSuperBotFightModeLikelyConfigurationSbfmVerifiedBots =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GetResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration {
   /** Indicates that the zone's Bot Fight Mode is turned on. */
@@ -517,8 +595,18 @@ export const GetResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration
   }) as any as S.Schema<GetResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration>;
 
 export interface GetResultSuperBotFightModeLikelyConfiguration {
+  /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
+  aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
   aiBotsProtection?: GetResultSuperBotFightModeLikelyConfigurationAiBotsProtection | null;
+  /** Configure robots.txt policy for AI search bots. */
+  aiSearch?: GetResultSuperBotFightModeLikelyConfigurationAiSearch | null;
+  /** Configure robots.txt policy for AI model training bots. */
+  aiTraining?: GetResultSuperBotFightModeLikelyConfigurationAiTraining | null;
+  /** Configure robots.txt policy for AI assistant and agent bots. */
+  aiUser?: GetResultSuperBotFightModeLikelyConfigurationAiUser | null;
+  /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
+  botPreferenceSyncEnabled?: boolean | null;
   /** Specifies the Robots Access Control License variant to use. */
   cfRobotsVariant?: GetResultSuperBotFightModeLikelyConfigurationCfRobotsVariant | null;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
@@ -535,7 +623,7 @@ export interface GetResultSuperBotFightModeLikelyConfiguration {
   sbfmDefinitelyAutomated?: GetResultSuperBotFightModeLikelyConfigurationSbfmDefinitelyAutomated | null;
   /** Super Bot Fight Mode (SBFM) action to take on likely automated requests. */
   sbfmLikelyAutomated?: GetResultSuperBotFightModeLikelyConfigurationSbfmLikelyAutomated | null;
-  /** Super Bot Fight Mode (SBFM) to enable static resource protection. */
+  /** Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked. */
   sbfmStaticResourceProtection?: boolean | null;
   /** Super Bot Fight Mode (SBFM) action to take on verified bots requests. */
   sbfmVerifiedBots?: GetResultSuperBotFightModeLikelyConfigurationSbfmVerifiedBots | null;
@@ -547,10 +635,31 @@ export interface GetResultSuperBotFightModeLikelyConfiguration {
 export const GetResultSuperBotFightModeLikelyConfiguration =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      aiBotsMigrationOptOut: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("ai_bots_migration_opt_out")),
+      ),
       aiBotsProtection: S.optional(
         S.NullOr(
           GetResultSuperBotFightModeLikelyConfigurationAiBotsProtection,
         ).pipe(T.Body("ai_bots_protection")),
+      ),
+      aiSearch: S.optional(
+        S.NullOr(GetResultSuperBotFightModeLikelyConfigurationAiSearch).pipe(
+          T.Body("ai_search"),
+        ),
+      ),
+      aiTraining: S.optional(
+        S.NullOr(GetResultSuperBotFightModeLikelyConfigurationAiTraining).pipe(
+          T.Body("ai_training"),
+        ),
+      ),
+      aiUser: S.optional(
+        S.NullOr(GetResultSuperBotFightModeLikelyConfigurationAiUser).pipe(
+          T.Body("ai_user"),
+        ),
+      ),
+      botPreferenceSyncEnabled: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("bot_preference_sync_enabled")),
       ),
       cfRobotsVariant: S.optional(
         S.NullOr(
@@ -609,26 +718,41 @@ export type GetResultSubscriptionConfigurationAiBotsProtection =
   | "block"
   | "disabled"
   | "only_on_ad_pages";
-export const GetResultSubscriptionConfigurationAiBotsProtection =
-  /*@__PURE__*/ S.String;
+export const GetResultSubscriptionConfigurationAiBotsProtection = S.String;
+
+export type GetResultSubscriptionConfigurationAiSearch =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const GetResultSubscriptionConfigurationAiSearch = S.String;
+
+export type GetResultSubscriptionConfigurationAiTraining =
+  | "disabled"
+  | "disallow"
+  | "block"
+  | "only_on_ad_pages";
+export const GetResultSubscriptionConfigurationAiTraining = S.String;
+
+export type GetResultSubscriptionConfigurationAiUser =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const GetResultSubscriptionConfigurationAiUser = S.String;
 
 export type GetResultSubscriptionConfigurationCfRobotsVariant =
   | "off"
   | "policy_only";
-export const GetResultSubscriptionConfigurationCfRobotsVariant =
-  /*@__PURE__*/ S.String;
+export const GetResultSubscriptionConfigurationCfRobotsVariant = S.String;
 
 export type GetResultSubscriptionConfigurationContentBotsProtection =
   | "block"
   | "disabled";
-export const GetResultSubscriptionConfigurationContentBotsProtection =
-  /*@__PURE__*/ S.String;
+export const GetResultSubscriptionConfigurationContentBotsProtection = S.String;
 
 export type GetResultSubscriptionConfigurationCrawlerProtection =
   | "enabled"
   | "disabled";
-export const GetResultSubscriptionConfigurationCrawlerProtection =
-  /*@__PURE__*/ S.String;
+export const GetResultSubscriptionConfigurationCrawlerProtection = S.String;
 
 export interface GetResultSubscriptionConfigurationStaleZoneConfiguration {
   /** Indicates that the zone's Bot Fight Mode is turned on. */
@@ -669,12 +793,22 @@ export const GetResultSubscriptionConfigurationStaleZoneConfiguration =
   }) as any as S.Schema<GetResultSubscriptionConfigurationStaleZoneConfiguration>;
 
 export interface GetResultSubscriptionConfiguration {
+  /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
+  aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
   aiBotsProtection?: GetResultSubscriptionConfigurationAiBotsProtection | null;
+  /** Configure robots.txt policy for AI search bots. */
+  aiSearch?: GetResultSubscriptionConfigurationAiSearch | null;
+  /** Configure robots.txt policy for AI model training bots. */
+  aiTraining?: GetResultSubscriptionConfigurationAiTraining | null;
+  /** Configure robots.txt policy for AI assistant and agent bots. */
+  aiUser?: GetResultSubscriptionConfigurationAiUser | null;
   /** Automatically update to the newest bot detection models created by Cloudflare as they are released. [Learn more.](https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes) */
   autoUpdateModel?: boolean | null;
   /** Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true */
   bmCookieEnabled?: boolean | null;
+  /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
+  botPreferenceSyncEnabled?: boolean | null;
   /** Specifies the Robots Access Control License variant to use. */
   cfRobotsVariant?: GetResultSubscriptionConfigurationCfRobotsVariant | null;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
@@ -694,9 +828,27 @@ export interface GetResultSubscriptionConfiguration {
 }
 export const GetResultSubscriptionConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    aiBotsMigrationOptOut: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("ai_bots_migration_opt_out")),
+    ),
     aiBotsProtection: S.optional(
       S.NullOr(GetResultSubscriptionConfigurationAiBotsProtection).pipe(
         T.Body("ai_bots_protection"),
+      ),
+    ),
+    aiSearch: S.optional(
+      S.NullOr(GetResultSubscriptionConfigurationAiSearch).pipe(
+        T.Body("ai_search"),
+      ),
+    ),
+    aiTraining: S.optional(
+      S.NullOr(GetResultSubscriptionConfigurationAiTraining).pipe(
+        T.Body("ai_training"),
+      ),
+    ),
+    aiUser: S.optional(
+      S.NullOr(GetResultSubscriptionConfigurationAiUser).pipe(
+        T.Body("ai_user"),
       ),
     ),
     autoUpdateModel: S.optional(
@@ -704,6 +856,9 @@ export const GetResultSubscriptionConfiguration = /*@__PURE__*/ S.suspend(() =>
     ),
     bmCookieEnabled: S.optional(
       S.NullOr(S.Boolean).pipe(T.Body("bm_cookie_enabled")),
+    ),
+    botPreferenceSyncEnabled: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("bot_preference_sync_enabled")),
     ),
     cfRobotsVariant: S.optional(
       S.NullOr(GetResultSubscriptionConfigurationCfRobotsVariant).pipe(
@@ -748,7 +903,12 @@ export type GetResult =
 export const GetResult = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
     [
+      "aiBotsMigrationOptOut",
       "aiBotsProtection",
+      "aiSearch",
+      "aiTraining",
+      "aiUser",
+      "botPreferenceSyncEnabled",
       "cfRobotsVariant",
       "contentBotsProtection",
       "crawlerProtection",
@@ -759,7 +919,12 @@ export const GetResult = /*@__PURE__*/ S.Unknown.pipe(
       "usingLatestModel",
     ],
     [
+      "aiBotsMigrationOptOut",
       "aiBotsProtection",
+      "aiSearch",
+      "aiTraining",
+      "aiUser",
+      "botPreferenceSyncEnabled",
       "cfRobotsVariant",
       "contentBotsProtection",
       "crawlerProtection",
@@ -773,7 +938,12 @@ export const GetResult = /*@__PURE__*/ S.Unknown.pipe(
       "usingLatestModel",
     ],
     [
+      "aiBotsMigrationOptOut",
       "aiBotsProtection",
+      "aiSearch",
+      "aiTraining",
+      "aiUser",
+      "botPreferenceSyncEnabled",
       "cfRobotsVariant",
       "contentBotsProtection",
       "crawlerProtection",
@@ -788,9 +958,14 @@ export const GetResult = /*@__PURE__*/ S.Unknown.pipe(
       "usingLatestModel",
     ],
     [
+      "aiBotsMigrationOptOut",
       "aiBotsProtection",
+      "aiSearch",
+      "aiTraining",
+      "aiUser",
       "autoUpdateModel",
       "bmCookieEnabled",
+      "botPreferenceSyncEnabled",
       "cfRobotsVariant",
       "contentBotsProtection",
       "crawlerProtection",
@@ -810,20 +985,120 @@ export const GetBotManagementResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetBotManagementResponse",
 }) as any as S.Schema<GetBotManagementResponse>;
 
+export interface ListFeedbackRequest {
+  /** Identifier. */
+  zoneId: string;
+}
+export const ListFeedbackRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/zones/{zone_id}/bot_management/feedback",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListFeedbackRequest",
+}) as any as S.Schema<ListFeedbackRequest>;
+
+export type ListFeedbackResponseRequestsByAttribute =
+  CreateFeedbackRequestRequestsByAttribute;
+export const ListFeedbackResponseRequestsByAttribute =
+  CreateFeedbackRequestRequestsByAttribute;
+
+export type ListFeedbackResponseRequestsByScoreMap = {
+  [key: string]: number | undefined;
+};
+export const ListFeedbackResponseRequestsByScoreMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Number,
+) as any as S.Schema<ListFeedbackResponseRequestsByScoreMap>;
+
+export type ListFeedbackResponseRequestsByScoreSrcMap = {
+  [key: string]: number | undefined;
+};
+export const ListFeedbackResponseRequestsByScoreSrcMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Number,
+) as any as S.Schema<ListFeedbackResponseRequestsByScoreSrcMap>;
+
+export type ListFeedbackResponseType = "false_positive" | "false_negative";
+export const ListFeedbackResponseType = S.String;
+
+/** Raw response payload (operation does not use the standard v4 result envelope). */
+export interface ListFeedbackResponse {
+  description: string;
+  /** Wirefilter expression describing the traffic being reported. */
+  expression: string;
+  firstRequestSeenAt: string;
+  lastRequestSeenAt: string;
+  requests: number;
+  /** Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents. */
+  requestsByAttribute: CreateFeedbackRequestRequestsByAttribute;
+  /** Map of bot scores (1-99) to request counts. Sum must equal `requests`. */
+  requestsByScore: ListFeedbackResponseRequestsByScoreMap;
+  /** Map of score source to request counts. Sum must equal `requests`. */
+  requestsByScoreSrc: ListFeedbackResponseRequestsByScoreSrcMap;
+  /** Type of feedback report. */
+  type: ListFeedbackResponseType;
+  createdAt?: string | null;
+  subtype?: string | null;
+}
+export const ListFeedbackResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.String,
+    expression: S.String,
+    firstRequestSeenAt: S.String.pipe(T.Body("first_request_seen_at")),
+    lastRequestSeenAt: S.String.pipe(T.Body("last_request_seen_at")),
+    requests: S.Number,
+    requestsByAttribute: CreateFeedbackRequestRequestsByAttribute.pipe(
+      T.Body("requests_by_attribute"),
+    ),
+    requestsByScore: ListFeedbackResponseRequestsByScoreMap.pipe(
+      T.Body("requests_by_score"),
+    ),
+    requestsByScoreSrc: ListFeedbackResponseRequestsByScoreSrcMap.pipe(
+      T.Body("requests_by_score_src"),
+    ),
+    type: ListFeedbackResponseType,
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    subtype: S.optional(S.NullOr(S.String)),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListFeedbackResponse",
+}) as any as S.Schema<ListFeedbackResponse>;
+
 export type UpdateRequestAiBotsProtection =
   | "block"
   | "disabled"
   | "only_on_ad_pages";
-export const UpdateRequestAiBotsProtection = /*@__PURE__*/ S.String;
+export const UpdateRequestAiBotsProtection = S.String;
+
+export type UpdateRequestAiSearch = "disabled" | "block" | "only_on_ad_pages";
+export const UpdateRequestAiSearch = S.String;
+
+export type UpdateRequestAiTraining =
+  | "disabled"
+  | "disallow"
+  | "block"
+  | "only_on_ad_pages";
+export const UpdateRequestAiTraining = S.String;
+
+export type UpdateRequestAiUser = "disabled" | "block" | "only_on_ad_pages";
+export const UpdateRequestAiUser = S.String;
 
 export type UpdateRequestCfRobotsVariant = "off" | "policy_only";
-export const UpdateRequestCfRobotsVariant = /*@__PURE__*/ S.String;
+export const UpdateRequestCfRobotsVariant = S.String;
 
 export type UpdateRequestContentBotsProtection = "block" | "disabled";
-export const UpdateRequestContentBotsProtection = /*@__PURE__*/ S.String;
+export const UpdateRequestContentBotsProtection = S.String;
 
 export type UpdateRequestCrawlerProtection = "enabled" | "disabled";
-export const UpdateRequestCrawlerProtection = /*@__PURE__*/ S.String;
+export const UpdateRequestCrawlerProtection = S.String;
 
 export interface UpdateRequestStaleZoneConfigurationBotFightModeConfiguration {
   /** Indicates that the zone's wordpress optimization for SBFM is turned on. */
@@ -964,22 +1239,32 @@ export type UpdateRequestSbfmDefinitelyAutomated =
   | "allow"
   | "block"
   | "managed_challenge";
-export const UpdateRequestSbfmDefinitelyAutomated = /*@__PURE__*/ S.String;
+export const UpdateRequestSbfmDefinitelyAutomated = S.String;
 
 export type UpdateRequestSbfmVerifiedBots = "allow" | "block";
-export const UpdateRequestSbfmVerifiedBots = /*@__PURE__*/ S.String;
+export const UpdateRequestSbfmVerifiedBots = S.String;
 
 export type UpdateRequestSbfmLikelyAutomated =
   | "allow"
   | "block"
   | "managed_challenge";
-export const UpdateRequestSbfmLikelyAutomated = /*@__PURE__*/ S.String;
+export const UpdateRequestSbfmLikelyAutomated = S.String;
 
 export interface PutBotManagementRequest {
   /** Identifier. */
   zoneId: string;
+  /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
+  aiBotsMigrationOptOut?: boolean;
   /** Enable rule to block AI Scrapers and Crawlers. */
   aiBotsProtection?: UpdateRequestAiBotsProtection | (string & {});
+  /** Configure robots.txt policy for AI search bots. */
+  aiSearch?: UpdateRequestAiSearch | (string & {});
+  /** Configure robots.txt policy for AI model training bots. */
+  aiTraining?: UpdateRequestAiTraining | (string & {});
+  /** Configure robots.txt policy for AI assistant and agent bots. */
+  aiUser?: UpdateRequestAiUser | (string & {});
+  /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
+  botPreferenceSyncEnabled?: boolean;
   /** Specifies the Robots Access Control License variant to use. */
   cfRobotsVariant?: UpdateRequestCfRobotsVariant | (string & {});
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
@@ -1002,7 +1287,7 @@ export interface PutBotManagementRequest {
   sbfmDefinitelyAutomated?:
     | UpdateRequestSbfmDefinitelyAutomated
     | (string & {});
-  /** Super Bot Fight Mode (SBFM) to enable static resource protection. */
+  /** Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked. */
   sbfmStaticResourceProtection?: boolean;
   /** Super Bot Fight Mode (SBFM) action to take on verified bots requests. */
   sbfmVerifiedBots?: UpdateRequestSbfmVerifiedBots | (string & {});
@@ -1018,8 +1303,17 @@ export interface PutBotManagementRequest {
 export const PutBotManagementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
+    aiBotsMigrationOptOut: S.optional(
+      S.Boolean.pipe(T.Body("ai_bots_migration_opt_out")),
+    ),
     aiBotsProtection: S.optional(
       UpdateRequestAiBotsProtection.pipe(T.Body("ai_bots_protection")),
+    ),
+    aiSearch: S.optional(UpdateRequestAiSearch.pipe(T.Body("ai_search"))),
+    aiTraining: S.optional(UpdateRequestAiTraining.pipe(T.Body("ai_training"))),
+    aiUser: S.optional(UpdateRequestAiUser.pipe(T.Body("ai_user"))),
+    botPreferenceSyncEnabled: S.optional(
+      S.Boolean.pipe(T.Body("bot_preference_sync_enabled")),
     ),
     cfRobotsVariant: S.optional(
       UpdateRequestCfRobotsVariant.pipe(T.Body("cf_robots_variant")),
@@ -1080,26 +1374,42 @@ export type UpdateResultBotFightModeConfigurationAiBotsProtection =
   | "block"
   | "disabled"
   | "only_on_ad_pages";
-export const UpdateResultBotFightModeConfigurationAiBotsProtection =
-  /*@__PURE__*/ S.String;
+export const UpdateResultBotFightModeConfigurationAiBotsProtection = S.String;
+
+export type UpdateResultBotFightModeConfigurationAiSearch =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const UpdateResultBotFightModeConfigurationAiSearch = S.String;
+
+export type UpdateResultBotFightModeConfigurationAiTraining =
+  | "disabled"
+  | "disallow"
+  | "block"
+  | "only_on_ad_pages";
+export const UpdateResultBotFightModeConfigurationAiTraining = S.String;
+
+export type UpdateResultBotFightModeConfigurationAiUser =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const UpdateResultBotFightModeConfigurationAiUser = S.String;
 
 export type UpdateResultBotFightModeConfigurationCfRobotsVariant =
   | "off"
   | "policy_only";
-export const UpdateResultBotFightModeConfigurationCfRobotsVariant =
-  /*@__PURE__*/ S.String;
+export const UpdateResultBotFightModeConfigurationCfRobotsVariant = S.String;
 
 export type UpdateResultBotFightModeConfigurationContentBotsProtection =
   | "block"
   | "disabled";
 export const UpdateResultBotFightModeConfigurationContentBotsProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UpdateResultBotFightModeConfigurationCrawlerProtection =
   | "enabled"
   | "disabled";
-export const UpdateResultBotFightModeConfigurationCrawlerProtection =
-  /*@__PURE__*/ S.String;
+export const UpdateResultBotFightModeConfigurationCrawlerProtection = S.String;
 
 export type UpdateResultBotFightModeConfigurationStaleZoneConfiguration =
   GetResultBotFightModeConfigurationStaleZoneConfiguration;
@@ -1107,8 +1417,18 @@ export const UpdateResultBotFightModeConfigurationStaleZoneConfiguration =
   GetResultBotFightModeConfigurationStaleZoneConfiguration;
 
 export interface UpdateResultBotFightModeConfiguration {
+  /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
+  aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
   aiBotsProtection?: UpdateResultBotFightModeConfigurationAiBotsProtection | null;
+  /** Configure robots.txt policy for AI search bots. */
+  aiSearch?: UpdateResultBotFightModeConfigurationAiSearch | null;
+  /** Configure robots.txt policy for AI model training bots. */
+  aiTraining?: UpdateResultBotFightModeConfigurationAiTraining | null;
+  /** Configure robots.txt policy for AI assistant and agent bots. */
+  aiUser?: UpdateResultBotFightModeConfigurationAiUser | null;
+  /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
+  botPreferenceSyncEnabled?: boolean | null;
   /** Specifies the Robots Access Control License variant to use. */
   cfRobotsVariant?: UpdateResultBotFightModeConfigurationCfRobotsVariant | null;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
@@ -1129,10 +1449,31 @@ export interface UpdateResultBotFightModeConfiguration {
 export const UpdateResultBotFightModeConfiguration = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      aiBotsMigrationOptOut: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("ai_bots_migration_opt_out")),
+      ),
       aiBotsProtection: S.optional(
         S.NullOr(UpdateResultBotFightModeConfigurationAiBotsProtection).pipe(
           T.Body("ai_bots_protection"),
         ),
+      ),
+      aiSearch: S.optional(
+        S.NullOr(UpdateResultBotFightModeConfigurationAiSearch).pipe(
+          T.Body("ai_search"),
+        ),
+      ),
+      aiTraining: S.optional(
+        S.NullOr(UpdateResultBotFightModeConfigurationAiTraining).pipe(
+          T.Body("ai_training"),
+        ),
+      ),
+      aiUser: S.optional(
+        S.NullOr(UpdateResultBotFightModeConfigurationAiUser).pipe(
+          T.Body("ai_user"),
+        ),
+      ),
+      botPreferenceSyncEnabled: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("bot_preference_sync_enabled")),
       ),
       cfRobotsVariant: S.optional(
         S.NullOr(UpdateResultBotFightModeConfigurationCfRobotsVariant).pipe(
@@ -1168,34 +1509,64 @@ export const UpdateResultBotFightModeConfiguration = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<UpdateResultBotFightModeConfiguration>;
 
 export type UpdateResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection =
-  "block" | "disabled" | "only_on_ad_pages";
+  | "block"
+  | "disabled"
+  | "only_on_ad_pages";
 export const UpdateResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
+
+export type UpdateResultSuperBotFightModeDefinitelyConfigurationAiSearch =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const UpdateResultSuperBotFightModeDefinitelyConfigurationAiSearch =
+  S.String;
+
+export type UpdateResultSuperBotFightModeDefinitelyConfigurationAiTraining =
+  | "disabled"
+  | "disallow"
+  | "block"
+  | "only_on_ad_pages";
+export const UpdateResultSuperBotFightModeDefinitelyConfigurationAiTraining =
+  S.String;
+
+export type UpdateResultSuperBotFightModeDefinitelyConfigurationAiUser =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const UpdateResultSuperBotFightModeDefinitelyConfigurationAiUser =
+  S.String;
 
 export type UpdateResultSuperBotFightModeDefinitelyConfigurationCfRobotsVariant =
-  "off" | "policy_only";
+  | "off"
+  | "policy_only";
 export const UpdateResultSuperBotFightModeDefinitelyConfigurationCfRobotsVariant =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UpdateResultSuperBotFightModeDefinitelyConfigurationContentBotsProtection =
-  "block" | "disabled";
+  | "block"
+  | "disabled";
 export const UpdateResultSuperBotFightModeDefinitelyConfigurationContentBotsProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UpdateResultSuperBotFightModeDefinitelyConfigurationCrawlerProtection =
-  "enabled" | "disabled";
+  | "enabled"
+  | "disabled";
 export const UpdateResultSuperBotFightModeDefinitelyConfigurationCrawlerProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UpdateResultSuperBotFightModeDefinitelyConfigurationSbfmDefinitelyAutomated =
-  "allow" | "block" | "managed_challenge";
+  | "allow"
+  | "block"
+  | "managed_challenge";
 export const UpdateResultSuperBotFightModeDefinitelyConfigurationSbfmDefinitelyAutomated =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UpdateResultSuperBotFightModeDefinitelyConfigurationSbfmVerifiedBots =
-  "allow" | "block";
+  | "allow"
+  | "block";
 export const UpdateResultSuperBotFightModeDefinitelyConfigurationSbfmVerifiedBots =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UpdateResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfiguration =
   GetResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfiguration;
@@ -1203,8 +1574,18 @@ export const UpdateResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfig
   GetResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfiguration;
 
 export interface UpdateResultSuperBotFightModeDefinitelyConfiguration {
+  /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
+  aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
   aiBotsProtection?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection | null;
+  /** Configure robots.txt policy for AI search bots. */
+  aiSearch?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiSearch | null;
+  /** Configure robots.txt policy for AI model training bots. */
+  aiTraining?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiTraining | null;
+  /** Configure robots.txt policy for AI assistant and agent bots. */
+  aiUser?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiUser | null;
+  /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
+  botPreferenceSyncEnabled?: boolean | null;
   /** Specifies the Robots Access Control License variant to use. */
   cfRobotsVariant?: UpdateResultSuperBotFightModeDefinitelyConfigurationCfRobotsVariant | null;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
@@ -1219,7 +1600,7 @@ export interface UpdateResultSuperBotFightModeDefinitelyConfiguration {
   optimizeWordpress?: boolean | null;
   /** Super Bot Fight Mode (SBFM) action to take on definitely automated requests. */
   sbfmDefinitelyAutomated?: UpdateResultSuperBotFightModeDefinitelyConfigurationSbfmDefinitelyAutomated | null;
-  /** Super Bot Fight Mode (SBFM) to enable static resource protection. */
+  /** Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked. */
   sbfmStaticResourceProtection?: boolean | null;
   /** Super Bot Fight Mode (SBFM) action to take on verified bots requests. */
   sbfmVerifiedBots?: UpdateResultSuperBotFightModeDefinitelyConfigurationSbfmVerifiedBots | null;
@@ -1231,10 +1612,31 @@ export interface UpdateResultSuperBotFightModeDefinitelyConfiguration {
 export const UpdateResultSuperBotFightModeDefinitelyConfiguration =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      aiBotsMigrationOptOut: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("ai_bots_migration_opt_out")),
+      ),
       aiBotsProtection: S.optional(
         S.NullOr(
           UpdateResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection,
         ).pipe(T.Body("ai_bots_protection")),
+      ),
+      aiSearch: S.optional(
+        S.NullOr(
+          UpdateResultSuperBotFightModeDefinitelyConfigurationAiSearch,
+        ).pipe(T.Body("ai_search")),
+      ),
+      aiTraining: S.optional(
+        S.NullOr(
+          UpdateResultSuperBotFightModeDefinitelyConfigurationAiTraining,
+        ).pipe(T.Body("ai_training")),
+      ),
+      aiUser: S.optional(
+        S.NullOr(
+          UpdateResultSuperBotFightModeDefinitelyConfigurationAiUser,
+        ).pipe(T.Body("ai_user")),
+      ),
+      botPreferenceSyncEnabled: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("bot_preference_sync_enabled")),
       ),
       cfRobotsVariant: S.optional(
         S.NullOr(
@@ -1289,40 +1691,66 @@ export type UpdateResultSuperBotFightModeLikelyConfigurationAiBotsProtection =
   | "disabled"
   | "only_on_ad_pages";
 export const UpdateResultSuperBotFightModeLikelyConfigurationAiBotsProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
+
+export type UpdateResultSuperBotFightModeLikelyConfigurationAiSearch =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const UpdateResultSuperBotFightModeLikelyConfigurationAiSearch =
+  S.String;
+
+export type UpdateResultSuperBotFightModeLikelyConfigurationAiTraining =
+  | "disabled"
+  | "disallow"
+  | "block"
+  | "only_on_ad_pages";
+export const UpdateResultSuperBotFightModeLikelyConfigurationAiTraining =
+  S.String;
+
+export type UpdateResultSuperBotFightModeLikelyConfigurationAiUser =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const UpdateResultSuperBotFightModeLikelyConfigurationAiUser = S.String;
 
 export type UpdateResultSuperBotFightModeLikelyConfigurationCfRobotsVariant =
   | "off"
   | "policy_only";
 export const UpdateResultSuperBotFightModeLikelyConfigurationCfRobotsVariant =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UpdateResultSuperBotFightModeLikelyConfigurationContentBotsProtection =
-  "block" | "disabled";
+  | "block"
+  | "disabled";
 export const UpdateResultSuperBotFightModeLikelyConfigurationContentBotsProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UpdateResultSuperBotFightModeLikelyConfigurationCrawlerProtection =
   | "enabled"
   | "disabled";
 export const UpdateResultSuperBotFightModeLikelyConfigurationCrawlerProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UpdateResultSuperBotFightModeLikelyConfigurationSbfmDefinitelyAutomated =
-  "allow" | "block" | "managed_challenge";
+  | "allow"
+  | "block"
+  | "managed_challenge";
 export const UpdateResultSuperBotFightModeLikelyConfigurationSbfmDefinitelyAutomated =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UpdateResultSuperBotFightModeLikelyConfigurationSbfmLikelyAutomated =
-  "allow" | "block" | "managed_challenge";
+  | "allow"
+  | "block"
+  | "managed_challenge";
 export const UpdateResultSuperBotFightModeLikelyConfigurationSbfmLikelyAutomated =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UpdateResultSuperBotFightModeLikelyConfigurationSbfmVerifiedBots =
   | "allow"
   | "block";
 export const UpdateResultSuperBotFightModeLikelyConfigurationSbfmVerifiedBots =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UpdateResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration =
   GetResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration;
@@ -1330,8 +1758,18 @@ export const UpdateResultSuperBotFightModeLikelyConfigurationStaleZoneConfigurat
   GetResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration;
 
 export interface UpdateResultSuperBotFightModeLikelyConfiguration {
+  /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
+  aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
   aiBotsProtection?: UpdateResultSuperBotFightModeLikelyConfigurationAiBotsProtection | null;
+  /** Configure robots.txt policy for AI search bots. */
+  aiSearch?: UpdateResultSuperBotFightModeLikelyConfigurationAiSearch | null;
+  /** Configure robots.txt policy for AI model training bots. */
+  aiTraining?: UpdateResultSuperBotFightModeLikelyConfigurationAiTraining | null;
+  /** Configure robots.txt policy for AI assistant and agent bots. */
+  aiUser?: UpdateResultSuperBotFightModeLikelyConfigurationAiUser | null;
+  /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
+  botPreferenceSyncEnabled?: boolean | null;
   /** Specifies the Robots Access Control License variant to use. */
   cfRobotsVariant?: UpdateResultSuperBotFightModeLikelyConfigurationCfRobotsVariant | null;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
@@ -1348,7 +1786,7 @@ export interface UpdateResultSuperBotFightModeLikelyConfiguration {
   sbfmDefinitelyAutomated?: UpdateResultSuperBotFightModeLikelyConfigurationSbfmDefinitelyAutomated | null;
   /** Super Bot Fight Mode (SBFM) action to take on likely automated requests. */
   sbfmLikelyAutomated?: UpdateResultSuperBotFightModeLikelyConfigurationSbfmLikelyAutomated | null;
-  /** Super Bot Fight Mode (SBFM) to enable static resource protection. */
+  /** Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked. */
   sbfmStaticResourceProtection?: boolean | null;
   /** Super Bot Fight Mode (SBFM) action to take on verified bots requests. */
   sbfmVerifiedBots?: UpdateResultSuperBotFightModeLikelyConfigurationSbfmVerifiedBots | null;
@@ -1360,10 +1798,31 @@ export interface UpdateResultSuperBotFightModeLikelyConfiguration {
 export const UpdateResultSuperBotFightModeLikelyConfiguration =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      aiBotsMigrationOptOut: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("ai_bots_migration_opt_out")),
+      ),
       aiBotsProtection: S.optional(
         S.NullOr(
           UpdateResultSuperBotFightModeLikelyConfigurationAiBotsProtection,
         ).pipe(T.Body("ai_bots_protection")),
+      ),
+      aiSearch: S.optional(
+        S.NullOr(UpdateResultSuperBotFightModeLikelyConfigurationAiSearch).pipe(
+          T.Body("ai_search"),
+        ),
+      ),
+      aiTraining: S.optional(
+        S.NullOr(
+          UpdateResultSuperBotFightModeLikelyConfigurationAiTraining,
+        ).pipe(T.Body("ai_training")),
+      ),
+      aiUser: S.optional(
+        S.NullOr(UpdateResultSuperBotFightModeLikelyConfigurationAiUser).pipe(
+          T.Body("ai_user"),
+        ),
+      ),
+      botPreferenceSyncEnabled: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("bot_preference_sync_enabled")),
       ),
       cfRobotsVariant: S.optional(
         S.NullOr(
@@ -1422,26 +1881,42 @@ export type UpdateResultSubscriptionConfigurationAiBotsProtection =
   | "block"
   | "disabled"
   | "only_on_ad_pages";
-export const UpdateResultSubscriptionConfigurationAiBotsProtection =
-  /*@__PURE__*/ S.String;
+export const UpdateResultSubscriptionConfigurationAiBotsProtection = S.String;
+
+export type UpdateResultSubscriptionConfigurationAiSearch =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const UpdateResultSubscriptionConfigurationAiSearch = S.String;
+
+export type UpdateResultSubscriptionConfigurationAiTraining =
+  | "disabled"
+  | "disallow"
+  | "block"
+  | "only_on_ad_pages";
+export const UpdateResultSubscriptionConfigurationAiTraining = S.String;
+
+export type UpdateResultSubscriptionConfigurationAiUser =
+  | "disabled"
+  | "block"
+  | "only_on_ad_pages";
+export const UpdateResultSubscriptionConfigurationAiUser = S.String;
 
 export type UpdateResultSubscriptionConfigurationCfRobotsVariant =
   | "off"
   | "policy_only";
-export const UpdateResultSubscriptionConfigurationCfRobotsVariant =
-  /*@__PURE__*/ S.String;
+export const UpdateResultSubscriptionConfigurationCfRobotsVariant = S.String;
 
 export type UpdateResultSubscriptionConfigurationContentBotsProtection =
   | "block"
   | "disabled";
 export const UpdateResultSubscriptionConfigurationContentBotsProtection =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UpdateResultSubscriptionConfigurationCrawlerProtection =
   | "enabled"
   | "disabled";
-export const UpdateResultSubscriptionConfigurationCrawlerProtection =
-  /*@__PURE__*/ S.String;
+export const UpdateResultSubscriptionConfigurationCrawlerProtection = S.String;
 
 export type UpdateResultSubscriptionConfigurationStaleZoneConfiguration =
   GetResultSubscriptionConfigurationStaleZoneConfiguration;
@@ -1449,12 +1924,22 @@ export const UpdateResultSubscriptionConfigurationStaleZoneConfiguration =
   GetResultSubscriptionConfigurationStaleZoneConfiguration;
 
 export interface UpdateResultSubscriptionConfiguration {
+  /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
+  aiBotsMigrationOptOut?: boolean | null;
   /** Enable rule to block AI Scrapers and Crawlers. */
   aiBotsProtection?: UpdateResultSubscriptionConfigurationAiBotsProtection | null;
+  /** Configure robots.txt policy for AI search bots. */
+  aiSearch?: UpdateResultSubscriptionConfigurationAiSearch | null;
+  /** Configure robots.txt policy for AI model training bots. */
+  aiTraining?: UpdateResultSubscriptionConfigurationAiTraining | null;
+  /** Configure robots.txt policy for AI assistant and agent bots. */
+  aiUser?: UpdateResultSubscriptionConfigurationAiUser | null;
   /** Automatically update to the newest bot detection models created by Cloudflare as they are released. [Learn more.](https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes) */
   autoUpdateModel?: boolean | null;
   /** Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true */
   bmCookieEnabled?: boolean | null;
+  /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
+  botPreferenceSyncEnabled?: boolean | null;
   /** Specifies the Robots Access Control License variant to use. */
   cfRobotsVariant?: UpdateResultSubscriptionConfigurationCfRobotsVariant | null;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
@@ -1475,9 +1960,27 @@ export interface UpdateResultSubscriptionConfiguration {
 export const UpdateResultSubscriptionConfiguration = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      aiBotsMigrationOptOut: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("ai_bots_migration_opt_out")),
+      ),
       aiBotsProtection: S.optional(
         S.NullOr(UpdateResultSubscriptionConfigurationAiBotsProtection).pipe(
           T.Body("ai_bots_protection"),
+        ),
+      ),
+      aiSearch: S.optional(
+        S.NullOr(UpdateResultSubscriptionConfigurationAiSearch).pipe(
+          T.Body("ai_search"),
+        ),
+      ),
+      aiTraining: S.optional(
+        S.NullOr(UpdateResultSubscriptionConfigurationAiTraining).pipe(
+          T.Body("ai_training"),
+        ),
+      ),
+      aiUser: S.optional(
+        S.NullOr(UpdateResultSubscriptionConfigurationAiUser).pipe(
+          T.Body("ai_user"),
         ),
       ),
       autoUpdateModel: S.optional(
@@ -1485,6 +1988,9 @@ export const UpdateResultSubscriptionConfiguration = /*@__PURE__*/ S.suspend(
       ),
       bmCookieEnabled: S.optional(
         S.NullOr(S.Boolean).pipe(T.Body("bm_cookie_enabled")),
+      ),
+      botPreferenceSyncEnabled: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("bot_preference_sync_enabled")),
       ),
       cfRobotsVariant: S.optional(
         S.NullOr(UpdateResultSubscriptionConfigurationCfRobotsVariant).pipe(
@@ -1529,7 +2035,12 @@ export type UpdateResult =
 export const UpdateResult = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
     [
+      "aiBotsMigrationOptOut",
       "aiBotsProtection",
+      "aiSearch",
+      "aiTraining",
+      "aiUser",
+      "botPreferenceSyncEnabled",
       "cfRobotsVariant",
       "contentBotsProtection",
       "crawlerProtection",
@@ -1540,7 +2051,12 @@ export const UpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "usingLatestModel",
     ],
     [
+      "aiBotsMigrationOptOut",
       "aiBotsProtection",
+      "aiSearch",
+      "aiTraining",
+      "aiUser",
+      "botPreferenceSyncEnabled",
       "cfRobotsVariant",
       "contentBotsProtection",
       "crawlerProtection",
@@ -1554,7 +2070,12 @@ export const UpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "usingLatestModel",
     ],
     [
+      "aiBotsMigrationOptOut",
       "aiBotsProtection",
+      "aiSearch",
+      "aiTraining",
+      "aiUser",
+      "botPreferenceSyncEnabled",
       "cfRobotsVariant",
       "contentBotsProtection",
       "crawlerProtection",
@@ -1569,9 +2090,14 @@ export const UpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "usingLatestModel",
     ],
     [
+      "aiBotsMigrationOptOut",
       "aiBotsProtection",
+      "aiSearch",
+      "aiTraining",
+      "aiUser",
       "autoUpdateModel",
       "bmCookieEnabled",
+      "botPreferenceSyncEnabled",
       "cfRobotsVariant",
       "contentBotsProtection",
       "crawlerProtection",
@@ -1591,31 +2117,16 @@ export const PutBotManagementResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutBotManagementResponse",
 }) as any as S.Schema<PutBotManagementResponse>;
 
-export type FeedbackCreateError = CloudflareOpError;
+export type CreateFeedbackError = CloudflareOpError;
 /** Submit a feedback report for the specified zone. Use `type` to indicate whether the report is a false positive (good traffic flagged as bot) or a false negative (bot traffic missed). Furthermore, you can also use `expression` as a wirefilter to identify the affected traffic sample. See more accepted API fields and expression types at https://developers.cloudflare.com/bots/concepts/feedback-loop/#api-fields and https://developers.cloudflare.com/bots/concepts/feedback-loop/#expression-fields, respectively. */
-export const feedbackCreate: API.OperationMethod<
-  FeedbackCreateRequest,
-  FeedbackCreateResponse,
-  FeedbackCreateError,
+export const createFeedback: API.OperationMethod<
+  CreateFeedbackRequest,
+  CreateFeedbackResponse,
+  CreateFeedbackError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: FeedbackCreateRequest,
-  output: FeedbackCreateResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
-  protocol: CloudflareProtocol,
-  retry: Retry.Retry,
-}));
-
-export type FeedbackListError = CloudflareOpError;
-/** Returns all feedback reports previously submitted for the specified zone. Feedback reports help improve detection by sharing samples of traffic that were misclassified as bots or humans. */
-export const feedbackList: API.OperationMethod<
-  FeedbackListRequest,
-  FeedbackListResponse,
-  FeedbackListError,
-  CloudflareOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: FeedbackListRequest,
-  output: FeedbackListResponse,
+  input: CreateFeedbackRequest,
+  output: CreateFeedbackResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1636,8 +2147,23 @@ export const getBotManagement: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListFeedbackError = CloudflareOpError;
+/** Returns all feedback reports previously submitted for the specified zone. Feedback reports help improve detection by sharing samples of traffic that were misclassified as bots or humans. */
+export const listFeedback: API.OperationMethod<
+  ListFeedbackRequest,
+  ListFeedbackResponse,
+  ListFeedbackError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListFeedbackRequest,
+  output: ListFeedbackResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PutBotManagementError = Forbidden | CloudflareOpError;
-/** Updates the Bot Management configuration for a zone. This API is used to update: - **Bot Fight Mode** - **Super Bot Fight Mode** - **Bot Management for Enterprise** See [Bot Plans](https://developers.cloudflare.com/bots/plans/) for more information on the different plans \ If you recently upgraded or downgraded your plan, refer to the following examples to clean up old configurations. Copy and paste the example body to remove old zone configurations based on your current plan. #### Clean up configuration for Bot Fight Mode plan ```json { "sbfm_likely_automated": "allow", "sbfm_definitely_automated": "allow", "sbfm_verified_bots": "allow", "sbfm_static_resource_protection": false, "optimize_wordpress": false, "suppress_session_score": false } ``` #### Clean up configuration for SBFM Pro plan ```json { "sbfm_likely_automated": "allow", "fight_mode": false } ``` #### Clean up configuration for SBFM Biz plan ```json { "fight_mode": false } ``` #### Clean up configuration for BM Enterprise Subscription plan It is strongly recommended that you ensure you have [custom rules](https://developers.cloudflare.com/waf/custom-rules/) in place to protect your zone before disabling the SBFM rules. Without these protections, your zone is vulnerable to attacks. ```json { "sbfm_likely_automated": "allow", "sbfm_definitely_automated": "allow", "sbfm_verified_bots": "allow", "sbfm_static_resource_protection": false, "optimize_wordpress": false, "fight_mode": false } ``` */
+/** Updates the Bot Management configuration for a zone. This API is used to update: - **Bot Fight Mode** - **Super Bot Fight Mode** - **Bot Management for Enterprise** See [Bot Plans](https://developers.cloudflare.com/bots/plans/) for more information on the different plans If you recently upgraded or downgraded your plan, refer to the following examples to clean up old configurations. Copy and paste the example body to remove old zone configurations based on your current plan. */
 export const putBotManagement: API.OperationMethod<
   PutBotManagementRequest,
   PutBotManagementResponse,

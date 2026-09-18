@@ -1,0 +1,1184 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.messages#Direction": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The direction of the sort."
+      }
+    },
+    "com.whop.messages#ListMessageRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "channel_id",
+            "smithy.api#required": {}
+          }
+        },
+        "direction": {
+          "target": "com.whop.messages#Direction",
+          "traits": {
+            "smithy.api#httpQuery": "direction"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.messages#MessageListItem": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The message content formatted as Markdown. Null if the message has no text content.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp when this message was originally created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_edited": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the message content has been edited after it was originally sent.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_pinned": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this message is pinned to the top of the channel for easy access.",
+            "smithy.api#required": {}
+          }
+        },
+        "mentions": {
+          "target": "com.whop.messages#MessageListItemMentionsList",
+          "traits": {
+            "smithy.api#documentation": "A list of user IDs that are explicitly mentioned in this message.",
+            "smithy.api#required": {}
+          }
+        },
+        "mentions_everyone": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the message includes an @everyone mention that notifies all channel members.",
+            "smithy.api#required": {}
+          }
+        },
+        "message_type": {
+          "target": "com.whop.messages#DmsPostTypes",
+          "traits": {
+            "smithy.api#documentation": "The classification of this message: regular, system, or automated.",
+            "smithy.api#required": {}
+          }
+        },
+        "poll": {
+          "target": "com.whop.messages#MessageListItemPoll",
+          "traits": {
+            "smithy.api#documentation": "A poll attached to this message. Null if the message does not contain a poll.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "poll_votes": {
+          "target": "com.whop.messages#MessageListItemPollVotesList",
+          "traits": {
+            "smithy.api#documentation": "Aggregated reaction counts on this message, filtered to a specific reaction type.",
+            "smithy.api#required": {}
+          }
+        },
+        "reaction_counts": {
+          "target": "com.whop.messages#MessageListItemReactionCountsList",
+          "traits": {
+            "smithy.api#documentation": "Aggregated reaction counts on this message, filtered to a specific reaction type.",
+            "smithy.api#required": {}
+          }
+        },
+        "replying_to_message_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the message this post is replying to. Null if this is not a reply.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp when this message was last modified.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.messages#MessageListItemUser",
+          "traits": {
+            "smithy.api#documentation": "The user who authored this message.",
+            "smithy.api#required": {}
+          }
+        },
+        "view_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of unique views this message has received. Null if view tracking is not enabled for this channel.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A message sent within an experience chat, direct message, or group chat."
+      }
+    },
+    "com.whop.messages#MessageListItemMentionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of user IDs that are explicitly mentioned in this message."
+      }
+    },
+    "com.whop.messages#DmsPostTypes": {
+      "type": "enum",
+      "members": {
+        "REGULAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "regular"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        },
+        "AUTOMATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "automated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The types of post"
+      }
+    },
+    "com.whop.messages#MessageListItemPollOptionsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the poll option.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text of the poll option",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a single poll option"
+      }
+    },
+    "com.whop.messages#MessageListItemPollOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.messages#MessageListItemPollOptionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The options for the poll"
+      }
+    },
+    "com.whop.messages#MessageListItemPoll": {
+      "type": "structure",
+      "members": {
+        "options": {
+          "target": "com.whop.messages#MessageListItemPollOptionsList",
+          "traits": {
+            "smithy.api#documentation": "The options for the poll",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A poll attached to this message. Null if the message does not contain a poll."
+      }
+    },
+    "com.whop.messages#MessageListItemPollVotesItem": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of users who reacted",
+            "smithy.api#required": {}
+          }
+        },
+        "option_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reaction that was used",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a reaction count for a feed post"
+      }
+    },
+    "com.whop.messages#MessageListItemPollVotesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.messages#MessageListItemPollVotesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Aggregated reaction counts on this message, filtered to a specific reaction type."
+      }
+    },
+    "com.whop.messages#MessageListItemReactionCountsItem": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of users who reacted",
+            "smithy.api#required": {}
+          }
+        },
+        "emoji": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The emoji that was used in shortcode format (:heart:)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a reaction count for a feed post"
+      }
+    },
+    "com.whop.messages#MessageListItemReactionCountsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.messages#MessageListItemReactionCountsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Aggregated reaction counts on this message, filtered to a specific reaction type."
+      }
+    },
+    "com.whop.messages#MessageListItemUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who authored this message."
+      }
+    },
+    "com.whop.messages#ListMessageResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.messages#MessageListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.messages#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.messages#ListMessageResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.messages#ListMessageResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.messages#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.messages#ListMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.messages#ListMessageRequest"
+      },
+      "output": {
+        "target": "com.whop.messages#ListMessageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.messages#BadRequest"
+        },
+        {
+          "target": "com.whop.messages#Forbidden"
+        },
+        {
+          "target": "com.whop.messages#NotFound"
+        },
+        {
+          "target": "com.whop.messages#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/messages",
+          "code": 200
+        },
+        "smithy.api#documentation": "List messages\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of messages within a specific experience chat, DM, or group chat channel, sorted by creation time.\n\nRequired permissions (one of):\n - `chat:read`\n - `dms:read`\n - `support_chat:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.messages#CreateMessageRequestAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Input for an attachment"
+      }
+    },
+    "com.whop.messages#CreateMessageRequestAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.messages#CreateMessageRequestAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of file attachments to include with the message, such as images or videos."
+      }
+    },
+    "com.whop.messages#CreateMessageRequestPollOptionsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sequential ID for the poll option (starting from '1')",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text of the poll option",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Input type for a single poll option"
+      }
+    },
+    "com.whop.messages#CreateMessageRequestPollOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.messages#CreateMessageRequestPollOptionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The options for the poll. Must have sequential IDs starting from 1"
+      }
+    },
+    "com.whop.messages#CreateMessageRequestPoll": {
+      "type": "structure",
+      "members": {
+        "options": {
+          "target": "com.whop.messages#CreateMessageRequestPollOptionsList",
+          "traits": {
+            "smithy.api#documentation": "The options for the poll. Must have sequential IDs starting from 1",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A poll to attach to this message, allowing recipients to vote on options."
+      }
+    },
+    "com.whop.messages#CreateMessageRequest": {
+      "type": "structure",
+      "members": {
+        "attachments": {
+          "target": "com.whop.messages#CreateMessageRequestAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "A list of file attachments to include with the message, such as images or videos.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "auto_detect_links": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Automatically detect URLs in the message and generate link previews.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the channel or experience to send the message in. For example, 'exp_xxxxx' or 'feed_xxxxx'.",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The body of the message in Markdown format. For example, 'Hello **world**'.",
+            "smithy.api#required": {}
+          }
+        },
+        "poll": {
+          "target": "com.whop.messages#CreateMessageRequestPoll",
+          "traits": {
+            "smithy.api#documentation": "A poll to attach to this message, allowing recipients to vote on options.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "replying_to_message_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the message this is replying to, creating a threaded reply.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.messages#Message": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The message content formatted as Markdown. Null if the message has no text content.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp when this message was originally created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_edited": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the message content has been edited after it was originally sent.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_pinned": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this message is pinned to the top of the channel for easy access.",
+            "smithy.api#required": {}
+          }
+        },
+        "mentions": {
+          "target": "com.whop.messages#MessageMentionsList",
+          "traits": {
+            "smithy.api#documentation": "A list of user IDs that are explicitly mentioned in this message.",
+            "smithy.api#required": {}
+          }
+        },
+        "mentions_everyone": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the message includes an @everyone mention that notifies all channel members.",
+            "smithy.api#required": {}
+          }
+        },
+        "message_type": {
+          "target": "com.whop.messages#DmsPostTypes",
+          "traits": {
+            "smithy.api#documentation": "The classification of this message: regular, system, or automated.",
+            "smithy.api#required": {}
+          }
+        },
+        "poll": {
+          "target": "com.whop.messages#MessagePoll",
+          "traits": {
+            "smithy.api#documentation": "A poll attached to this message. Null if the message does not contain a poll.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "poll_votes": {
+          "target": "com.whop.messages#MessagePollVotesList",
+          "traits": {
+            "smithy.api#documentation": "Aggregated reaction counts on this message, filtered to a specific reaction type.",
+            "smithy.api#required": {}
+          }
+        },
+        "reaction_counts": {
+          "target": "com.whop.messages#MessageReactionCountsList",
+          "traits": {
+            "smithy.api#documentation": "Aggregated reaction counts on this message, filtered to a specific reaction type.",
+            "smithy.api#required": {}
+          }
+        },
+        "replying_to_message_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the message this post is replying to. Null if this is not a reply.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp when this message was last modified.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.messages#MessageUser",
+          "traits": {
+            "smithy.api#documentation": "The user who authored this message.",
+            "smithy.api#required": {}
+          }
+        },
+        "view_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of unique views this message has received. Null if view tracking is not enabled for this channel.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A message sent within an experience chat, direct message, or group chat."
+      }
+    },
+    "com.whop.messages#MessageMentionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of user IDs that are explicitly mentioned in this message."
+      }
+    },
+    "com.whop.messages#MessagePollOptionsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the poll option.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text of the poll option",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a single poll option"
+      }
+    },
+    "com.whop.messages#MessagePollOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.messages#MessagePollOptionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The options for the poll"
+      }
+    },
+    "com.whop.messages#MessagePoll": {
+      "type": "structure",
+      "members": {
+        "options": {
+          "target": "com.whop.messages#MessagePollOptionsList",
+          "traits": {
+            "smithy.api#documentation": "The options for the poll",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A poll attached to this message. Null if the message does not contain a poll."
+      }
+    },
+    "com.whop.messages#MessagePollVotesItem": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of users who reacted",
+            "smithy.api#required": {}
+          }
+        },
+        "option_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reaction that was used",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a reaction count for a feed post"
+      }
+    },
+    "com.whop.messages#MessagePollVotesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.messages#MessagePollVotesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Aggregated reaction counts on this message, filtered to a specific reaction type."
+      }
+    },
+    "com.whop.messages#MessageReactionCountsItem": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of users who reacted",
+            "smithy.api#required": {}
+          }
+        },
+        "emoji": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The emoji that was used in shortcode format (:heart:)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a reaction count for a feed post"
+      }
+    },
+    "com.whop.messages#MessageReactionCountsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.messages#MessageReactionCountsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Aggregated reaction counts on this message, filtered to a specific reaction type."
+      }
+    },
+    "com.whop.messages#MessageUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who authored this message."
+      }
+    },
+    "com.whop.messages#CreateMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.messages#CreateMessageRequest"
+      },
+      "output": {
+        "target": "com.whop.messages#Message"
+      },
+      "errors": [
+        {
+          "target": "com.whop.messages#BadRequest"
+        },
+        {
+          "target": "com.whop.messages#Forbidden"
+        },
+        {
+          "target": "com.whop.messages#NotFound"
+        },
+        {
+          "target": "com.whop.messages#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/messages",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create message\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nSend a new message in an experience chat, DM, or group chat channel. Supports text content, attachments, polls, and replies.\n\nRequired permissions (one of):\n - `chat:message:create`\n - `dms:message:manage`\n - `livestream:chat:write`\n - `support_chat:message:create`"
+      }
+    },
+    "com.whop.messages#GetMessageRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the message to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.messages#GetMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.messages#GetMessageRequest"
+      },
+      "output": {
+        "target": "com.whop.messages#Message"
+      },
+      "errors": [
+        {
+          "target": "com.whop.messages#BadRequest"
+        },
+        {
+          "target": "com.whop.messages#Forbidden"
+        },
+        {
+          "target": "com.whop.messages#NotFound"
+        },
+        {
+          "target": "com.whop.messages#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/messages/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve message\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing message.\n\nRequired permissions (one of):\n - `chat:read`\n - `dms:read`\n - `livestream:chat:read`\n - `support_chat:read`"
+      }
+    },
+    "com.whop.messages#UpdateMessageRequestAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Input for an attachment"
+      }
+    },
+    "com.whop.messages#UpdateMessageRequestAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.messages#UpdateMessageRequestAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A replacement list of file attachments for this message, such as images or videos."
+      }
+    },
+    "com.whop.messages#UpdateMessageRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the message to update."
+          }
+        },
+        "attachments": {
+          "target": "com.whop.messages#UpdateMessageRequestAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "A replacement list of file attachments for this message, such as images or videos.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The updated body of the message in Markdown format. For example, 'Hello **world**'.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_pinned": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this message should be pinned to the top of the channel.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.messages#UpdateMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.messages#UpdateMessageRequest"
+      },
+      "output": {
+        "target": "com.whop.messages#Message"
+      },
+      "errors": [
+        {
+          "target": "com.whop.messages#BadRequest"
+        },
+        {
+          "target": "com.whop.messages#Forbidden"
+        },
+        {
+          "target": "com.whop.messages#NotFound"
+        },
+        {
+          "target": "com.whop.messages#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/messages/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update message\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nEdit the content, attachments, or pinned status of an existing message in an experience chat, DM, or group chat channel.\n\nRequired permissions (one of):\n - `chat:message:create`\n - `dms:message:manage`\n - `livestream:chat:write`\n - `support_chat:message:create`"
+      }
+    },
+    "com.whop.messages#DeleteMessageRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the message to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.messages#DeleteMessageResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.messages#DeleteMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.messages#DeleteMessageRequest"
+      },
+      "output": {
+        "target": "com.whop.messages#DeleteMessageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.messages#BadRequest"
+        },
+        {
+          "target": "com.whop.messages#Forbidden"
+        },
+        {
+          "target": "com.whop.messages#NotFound"
+        },
+        {
+          "target": "com.whop.messages#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/messages/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete message\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nPermanently delete a message from an experience chat, DM, or group chat channel. Only the message author or a channel admin can delete a message.\n\nRequired permissions (one of):\n - `chat:message:create` and `chat:read`\n - `dms:message:manage` and `dms:read`\n - `livestream:chat:write` and `livestream:chat:read`\n - `support_chat:message:create` and `support_chat:read`"
+      }
+    },
+    "com.whop.messages#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.messages#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.messages#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.messages#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.messages#Messages": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.messages#ListMessage"
+        },
+        {
+          "target": "com.whop.messages#CreateMessage"
+        },
+        {
+          "target": "com.whop.messages#GetMessage"
+        },
+        {
+          "target": "com.whop.messages#UpdateMessage"
+        },
+        {
+          "target": "com.whop.messages#DeleteMessage"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

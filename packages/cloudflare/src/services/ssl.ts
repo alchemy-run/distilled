@@ -81,113 +81,11 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
-export interface AutomaticUpgraderGetRequest {
-  zoneId: string;
-}
-export const AutomaticUpgraderGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    zoneId: S.String.pipe(T.Label("zone_id")),
-  })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/settings/ssl_automatic_mode",
-        code: 200,
-      }),
-    )
-    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AutomaticUpgraderGetRequest",
-}) as any as S.Schema<AutomaticUpgraderGetRequest>;
-
-export type AutomaticUpgraderGetResponseValue = "auto" | "custom";
-export const AutomaticUpgraderGetResponseValue = /*@__PURE__*/ S.String;
-
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface AutomaticUpgraderGetResponse {
-  id: string;
-  /** Whether this setting can be updated or not. */
-  editable: boolean;
-  /** Last time this setting was modified. */
-  modifiedOn: string;
-  /** Current setting of the automatic SSL/TLS. */
-  value: AutomaticUpgraderGetResponseValue;
-  /** Next time this zone will be scanned by the Automatic SSL/TLS. */
-  nextScheduledScan?: string | null;
-}
-export const AutomaticUpgraderGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    editable: S.Boolean,
-    modifiedOn: S.String.pipe(T.Body("modified_on")),
-    value: AutomaticUpgraderGetResponseValue,
-    nextScheduledScan: S.optional(
-      S.NullOr(S.String).pipe(T.Body("next_scheduled_scan")),
-    ),
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AutomaticUpgraderGetResponse",
-}) as any as S.Schema<AutomaticUpgraderGetResponse>;
-
-export type AutomaticUpgraderPatchRequestValue = "auto" | "custom";
-export const AutomaticUpgraderPatchRequestValue = /*@__PURE__*/ S.String;
-
-export interface AutomaticUpgraderPatchRequest {
-  zoneId: string;
-  /** Controls enablement of Automatic SSL/TLS. */
-  value: AutomaticUpgraderPatchRequestValue | (string & {});
-}
-export const AutomaticUpgraderPatchRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    zoneId: S.String.pipe(T.Label("zone_id")),
-    value: AutomaticUpgraderPatchRequestValue,
-  })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/settings/ssl_automatic_mode",
-        code: 200,
-      }),
-    )
-    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AutomaticUpgraderPatchRequest",
-}) as any as S.Schema<AutomaticUpgraderPatchRequest>;
-
-export type AutomaticUpgraderPatchResponseValue = "auto" | "custom";
-export const AutomaticUpgraderPatchResponseValue = /*@__PURE__*/ S.String;
-
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface AutomaticUpgraderPatchResponse {
-  id: string;
-  /** Whether this setting can be updated or not. */
-  editable: boolean;
-  /** Last time this setting was modified. */
-  modifiedOn: string;
-  /** Current setting of the automatic SSL/TLS. */
-  value: AutomaticUpgraderPatchResponseValue;
-  /** Next time this zone will be scanned by the Automatic SSL/TLS. */
-  nextScheduledScan?: string | null;
-}
-export const AutomaticUpgraderPatchResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    editable: S.Boolean,
-    modifiedOn: S.String.pipe(T.Body("modified_on")),
-    value: AutomaticUpgraderPatchResponseValue,
-    nextScheduledScan: S.optional(
-      S.NullOr(S.String).pipe(T.Body("next_scheduled_scan")),
-    ),
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AutomaticUpgraderPatchResponse",
-}) as any as S.Schema<AutomaticUpgraderPatchResponse>;
-
 export type AnalyzeCreateRequestBundleMethod =
   | "ubiquitous"
   | "optimal"
   | "force";
-export const AnalyzeCreateRequestBundleMethod = /*@__PURE__*/ S.String;
+export const AnalyzeCreateRequestBundleMethod = S.String;
 
 export interface CreateAnalyzeRequest {
   /** Identifier. */
@@ -228,8 +126,7 @@ export type CertificatePacksCreateRequestCertificateAuthority =
   | "google"
   | "lets_encrypt"
   | "ssl_com";
-export const CertificatePacksCreateRequestCertificateAuthority =
-  /*@__PURE__*/ S.String;
+export const CertificatePacksCreateRequestCertificateAuthority = S.String;
 
 export type CertificatePacksCreateRequestHostsList = Array<string>;
 export const CertificatePacksCreateRequestHostsList = /*@__PURE__*/ S.Array(
@@ -237,17 +134,16 @@ export const CertificatePacksCreateRequestHostsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CertificatePacksCreateRequestHostsList>;
 
 export type CertificatePacksCreateRequestType = "advanced";
-export const CertificatePacksCreateRequestType = /*@__PURE__*/ S.String;
+export const CertificatePacksCreateRequestType = S.String;
 
 export type CertificatePacksCreateRequestValidationMethod =
   | "txt"
   | "http"
   | "email";
-export const CertificatePacksCreateRequestValidationMethod =
-  /*@__PURE__*/ S.String;
+export const CertificatePacksCreateRequestValidationMethod = S.String;
 
 export type CertificatePacksCreateRequestValidityDays = 14 | 30 | 90 | 365;
-export const CertificatePacksCreateRequestValidityDays = /*@__PURE__*/ S.Number;
+export const CertificatePacksCreateRequestValidityDays = S.Number;
 
 export interface CreateCertificatePackRequest {
   /** Identifier. */
@@ -308,9 +204,11 @@ export const CertificatePacksCreateResponseCertificatesItemHostsList =
   ) as any as S.Schema<CertificatePacksCreateResponseCertificatesItemHostsList>;
 
 export type CertificatePacksCreateResponseCertificatesItemGeoRestrictionsLabel =
-  "us" | "eu" | "highest_security";
+  | "us"
+  | "eu"
+  | "highest_security";
 export const CertificatePacksCreateResponseCertificatesItemGeoRestrictionsLabel =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface CertificatePacksCreateResponseCertificatesItemGeoRestrictions {
   label?: CertificatePacksCreateResponseCertificatesItemGeoRestrictionsLabel | null;
@@ -414,7 +312,7 @@ export type CertificatePacksCreateResponseStatus =
   | "inactive"
   | "backup_issued"
   | "holding_deployment";
-export const CertificatePacksCreateResponseStatus = /*@__PURE__*/ S.String;
+export const CertificatePacksCreateResponseStatus = S.String;
 
 export type CertificatePacksCreateResponseType =
   | "mh_custom"
@@ -425,14 +323,13 @@ export type CertificatePacksCreateResponseType =
   | "total_tls"
   | "keyless"
   | "legacy_custom";
-export const CertificatePacksCreateResponseType = /*@__PURE__*/ S.String;
+export const CertificatePacksCreateResponseType = S.String;
 
 export type CertificatePacksCreateResponseCertificateAuthority =
   | "google"
   | "lets_encrypt"
   | "ssl_com";
-export const CertificatePacksCreateResponseCertificateAuthority =
-  /*@__PURE__*/ S.String;
+export const CertificatePacksCreateResponseCertificateAuthority = S.String;
 
 export type CertificatePacksCreateResponseDcvDelegationRecordsItemEmailsList =
   Array<string>;
@@ -510,8 +407,7 @@ export type CertificatePacksCreateResponseValidationMethod =
   | "txt"
   | "http"
   | "email";
-export const CertificatePacksCreateResponseValidationMethod =
-  /*@__PURE__*/ S.String;
+export const CertificatePacksCreateResponseValidationMethod = S.String;
 
 export type CertificatePacksCreateResponseValidationRecordsItemEmailsList =
   Array<string>;
@@ -564,8 +460,7 @@ export const CertificatePacksCreateResponseValidationRecordsList =
   ) as any as S.Schema<CertificatePacksCreateResponseValidationRecordsList>;
 
 export type CertificatePacksCreateResponseValidityDays = 14 | 30 | 90 | 365;
-export const CertificatePacksCreateResponseValidityDays =
-  /*@__PURE__*/ S.Number;
+export const CertificatePacksCreateResponseValidityDays = S.Number;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateCertificatePackResponse {
@@ -680,6 +575,54 @@ export const DeleteCertificatePackResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCertificatePackResponse",
 }) as any as S.Schema<DeleteCertificatePackResponse>;
 
+export interface GetAutomaticUpgraderRequest {
+  zoneId: string;
+}
+export const GetAutomaticUpgraderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/zones/{zone_id}/settings/ssl_automatic_mode",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetAutomaticUpgraderRequest",
+}) as any as S.Schema<GetAutomaticUpgraderRequest>;
+
+export type GetAutomaticUpgraderResponseValue = "auto" | "custom";
+export const GetAutomaticUpgraderResponseValue = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetAutomaticUpgraderResponse {
+  id: string;
+  /** Whether this setting can be updated or not. */
+  editable: boolean;
+  /** Last time this setting was modified. */
+  modifiedOn: string;
+  /** Current setting of the automatic SSL/TLS. */
+  value: GetAutomaticUpgraderResponseValue;
+  /** Next time this zone will be scanned by the Automatic SSL/TLS. */
+  nextScheduledScan?: string | null;
+}
+export const GetAutomaticUpgraderResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    editable: S.Boolean,
+    modifiedOn: S.String.pipe(T.Body("modified_on")),
+    value: GetAutomaticUpgraderResponseValue,
+    nextScheduledScan: S.optional(
+      S.NullOr(S.String).pipe(T.Body("next_scheduled_scan")),
+    ),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetAutomaticUpgraderResponse",
+}) as any as S.Schema<GetAutomaticUpgraderResponse>;
+
 export interface GetAutoOriginTlsKexRequest {
   zoneId: string;
 }
@@ -752,7 +695,7 @@ export type CertificatePacksGetResponseCertificatesItemGeoRestrictionsLabel =
   | "eu"
   | "highest_security";
 export const CertificatePacksGetResponseCertificatesItemGeoRestrictionsLabel =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface CertificatePacksGetResponseCertificatesItemGeoRestrictions {
   label?: CertificatePacksGetResponseCertificatesItemGeoRestrictionsLabel | null;
@@ -856,7 +799,7 @@ export type CertificatePacksGetResponseStatus =
   | "inactive"
   | "backup_issued"
   | "holding_deployment";
-export const CertificatePacksGetResponseStatus = /*@__PURE__*/ S.String;
+export const CertificatePacksGetResponseStatus = S.String;
 
 export type CertificatePacksGetResponseType =
   | "mh_custom"
@@ -867,14 +810,13 @@ export type CertificatePacksGetResponseType =
   | "total_tls"
   | "keyless"
   | "legacy_custom";
-export const CertificatePacksGetResponseType = /*@__PURE__*/ S.String;
+export const CertificatePacksGetResponseType = S.String;
 
 export type CertificatePacksGetResponseCertificateAuthority =
   | "google"
   | "lets_encrypt"
   | "ssl_com";
-export const CertificatePacksGetResponseCertificateAuthority =
-  /*@__PURE__*/ S.String;
+export const CertificatePacksGetResponseCertificateAuthority = S.String;
 
 export type CertificatePacksGetResponseDcvDelegationRecordsItemEmailsList =
   Array<string>;
@@ -943,8 +885,7 @@ export type CertificatePacksGetResponseValidationMethod =
   | "http"
   | "email"
   | "cname";
-export const CertificatePacksGetResponseValidationMethod =
-  /*@__PURE__*/ S.String;
+export const CertificatePacksGetResponseValidationMethod = S.String;
 
 export type CertificatePacksGetResponseValidationRecordsItemEmailsList =
   Array<string>;
@@ -997,7 +938,7 @@ export const CertificatePacksGetResponseValidationRecordsList =
   ) as any as S.Schema<CertificatePacksGetResponseValidationRecordsList>;
 
 export type CertificatePacksGetResponseValidityDays = 14 | 30 | 90 | 365;
-export const CertificatePacksGetResponseValidityDays = /*@__PURE__*/ S.Number;
+export const CertificatePacksGetResponseValidityDays = S.Number;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCertificatePackResponse {
@@ -1124,6 +1065,54 @@ export const GetCertificatePackQuotaResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCertificatePackQuotaResponse",
 }) as any as S.Schema<GetCertificatePackQuotaResponse>;
 
+export interface GetRecommendationRequest {
+  zoneId: string;
+}
+export const GetRecommendationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/zones/{zone_id}/ssl/recommendation",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetRecommendationRequest",
+}) as any as S.Schema<GetRecommendationRequest>;
+
+export type GetRecommendationResponseValue = "auto" | "custom";
+export const GetRecommendationResponseValue = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetRecommendationResponse {
+  id: string;
+  /** Whether this setting can be updated or not. */
+  editable: boolean;
+  /** Last time this setting was modified. */
+  modifiedOn: string;
+  /** Current setting of the automatic SSL/TLS. */
+  value: GetRecommendationResponseValue;
+  /** Next time this zone will be scanned by the Automatic SSL/TLS. */
+  nextScheduledScan?: string | null;
+}
+export const GetRecommendationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    editable: S.Boolean,
+    modifiedOn: S.String.pipe(T.Body("modified_on")),
+    value: GetRecommendationResponseValue,
+    nextScheduledScan: S.optional(
+      S.NullOr(S.String).pipe(T.Body("next_scheduled_scan")),
+    ),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetRecommendationResponse",
+}) as any as S.Schema<GetRecommendationResponse>;
+
 export interface GetUniversalSettingRequest {
   /** Identifier. */
   zoneId: string;
@@ -1188,36 +1177,33 @@ export type VerificationGetResultItemCertificateStatus =
   | "issuing"
   | "timing_out"
   | "pending_deployment";
-export const VerificationGetResultItemCertificateStatus =
-  /*@__PURE__*/ S.String;
+export const VerificationGetResultItemCertificateStatus = S.String;
 
 export type VerificationGetResultItemSignature =
   | "ECDSAWithSHA256"
   | "SHA1WithRSA"
   | "SHA256WithRSA";
-export const VerificationGetResultItemSignature = /*@__PURE__*/ S.String;
+export const VerificationGetResultItemSignature = S.String;
 
 export type VerificationGetResultItemValidationMethod =
   | "http"
   | "cname"
   | "txt";
-export const VerificationGetResultItemValidationMethod = /*@__PURE__*/ S.String;
+export const VerificationGetResultItemValidationMethod = S.String;
 
 export type VerificationGetResultItemVerificationInfoRecordName =
   | "record_name"
   | "http_url"
   | "cname"
   | "txt_name";
-export const VerificationGetResultItemVerificationInfoRecordName =
-  /*@__PURE__*/ S.String;
+export const VerificationGetResultItemVerificationInfoRecordName = S.String;
 
 export type VerificationGetResultItemVerificationInfoRecordTarget =
   | "record_value"
   | "http_body"
   | "cname_target"
   | "txt_value";
-export const VerificationGetResultItemVerificationInfoRecordTarget =
-  /*@__PURE__*/ S.String;
+export const VerificationGetResultItemVerificationInfoRecordTarget = S.String;
 
 export interface VerificationGetResultItemVerificationInfo {
   /** Name of CNAME record. */
@@ -1244,7 +1230,7 @@ export const VerificationGetResultItemVerificationInfo =
   }) as any as S.Schema<VerificationGetResultItemVerificationInfo>;
 
 export type VerificationGetResultItemVerificationType = "cname" | "meta tag";
-export const VerificationGetResultItemVerificationType = /*@__PURE__*/ S.String;
+export const VerificationGetResultItemVerificationType = S.String;
 
 export interface VerificationGetResultItem {
   /** Current status of certificate. */
@@ -1311,10 +1297,10 @@ export const GetVerificationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVerificationResponse>;
 
 export type CertificatePacksListRequestDeploy = "staging" | "production";
-export const CertificatePacksListRequestDeploy = /*@__PURE__*/ S.String;
+export const CertificatePacksListRequestDeploy = S.String;
 
 export type CertificatePacksListRequestStatus = "all";
-export const CertificatePacksListRequestStatus = /*@__PURE__*/ S.String;
+export const CertificatePacksListRequestStatus = S.String;
 
 export interface ListCertificatePacksRequest {
   /** Identifier. */
@@ -1356,9 +1342,11 @@ export const CertificatePacksListResultItemCertificatesItemHostsList =
   ) as any as S.Schema<CertificatePacksListResultItemCertificatesItemHostsList>;
 
 export type CertificatePacksListResultItemCertificatesItemGeoRestrictionsLabel =
-  "us" | "eu" | "highest_security";
+  | "us"
+  | "eu"
+  | "highest_security";
 export const CertificatePacksListResultItemCertificatesItemGeoRestrictionsLabel =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface CertificatePacksListResultItemCertificatesItemGeoRestrictions {
   label?: CertificatePacksListResultItemCertificatesItemGeoRestrictionsLabel | null;
@@ -1462,7 +1450,7 @@ export type CertificatePacksListResultItemStatus =
   | "inactive"
   | "backup_issued"
   | "holding_deployment";
-export const CertificatePacksListResultItemStatus = /*@__PURE__*/ S.String;
+export const CertificatePacksListResultItemStatus = S.String;
 
 export type CertificatePacksListResultItemType =
   | "mh_custom"
@@ -1473,14 +1461,13 @@ export type CertificatePacksListResultItemType =
   | "total_tls"
   | "keyless"
   | "legacy_custom";
-export const CertificatePacksListResultItemType = /*@__PURE__*/ S.String;
+export const CertificatePacksListResultItemType = S.String;
 
 export type CertificatePacksListResultItemCertificateAuthority =
   | "google"
   | "lets_encrypt"
   | "ssl_com";
-export const CertificatePacksListResultItemCertificateAuthority =
-  /*@__PURE__*/ S.String;
+export const CertificatePacksListResultItemCertificateAuthority = S.String;
 
 export type CertificatePacksListResultItemDcvDelegationRecordsItemEmailsList =
   Array<string>;
@@ -1550,8 +1537,7 @@ export type CertificatePacksListResultItemValidationMethod =
   | "txt"
   | "http"
   | "email";
-export const CertificatePacksListResultItemValidationMethod =
-  /*@__PURE__*/ S.String;
+export const CertificatePacksListResultItemValidationMethod = S.String;
 
 export type CertificatePacksListResultItemValidationRecordsItemEmailsList =
   Array<string>;
@@ -1604,8 +1590,7 @@ export const CertificatePacksListResultItemValidationRecordsList =
   ) as any as S.Schema<CertificatePacksListResultItemValidationRecordsList>;
 
 export type CertificatePacksListResultItemValidityDays = 14 | 30 | 90 | 365;
-export const CertificatePacksListResultItemValidityDays =
-  /*@__PURE__*/ S.Number;
+export const CertificatePacksListResultItemValidityDays = S.Number;
 
 export interface CertificatePacksListResultItem {
   /** Identifier. */
@@ -1704,6 +1689,60 @@ export const ListCertificatePacksResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListCertificatePacksResponse",
 }) as any as S.Schema<ListCertificatePacksResponse>;
 
+export type PatchAutomaticUpgraderRequestValue = "auto" | "custom";
+export const PatchAutomaticUpgraderRequestValue = S.String;
+
+export interface PatchAutomaticUpgraderRequest {
+  zoneId: string;
+  /** Controls enablement of Automatic SSL/TLS. */
+  value: PatchAutomaticUpgraderRequestValue | (string & {});
+}
+export const PatchAutomaticUpgraderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+    value: PatchAutomaticUpgraderRequestValue,
+  })
+    .pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/zones/{zone_id}/settings/ssl_automatic_mode",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "PatchAutomaticUpgraderRequest",
+}) as any as S.Schema<PatchAutomaticUpgraderRequest>;
+
+export type PatchAutomaticUpgraderResponseValue = "auto" | "custom";
+export const PatchAutomaticUpgraderResponseValue = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface PatchAutomaticUpgraderResponse {
+  id: string;
+  /** Whether this setting can be updated or not. */
+  editable: boolean;
+  /** Last time this setting was modified. */
+  modifiedOn: string;
+  /** Current setting of the automatic SSL/TLS. */
+  value: PatchAutomaticUpgraderResponseValue;
+  /** Next time this zone will be scanned by the Automatic SSL/TLS. */
+  nextScheduledScan?: string | null;
+}
+export const PatchAutomaticUpgraderResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    editable: S.Boolean,
+    modifiedOn: S.String.pipe(T.Body("modified_on")),
+    value: PatchAutomaticUpgraderResponseValue,
+    nextScheduledScan: S.optional(
+      S.NullOr(S.String).pipe(T.Body("next_scheduled_scan")),
+    ),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "PatchAutomaticUpgraderResponse",
+}) as any as S.Schema<PatchAutomaticUpgraderResponse>;
+
 export interface PatchAutoOriginTlsKexRequest {
   zoneId: string;
   /** Controls enablement of Auto-Origin TLS KEX selection for the zone. */
@@ -1784,7 +1823,7 @@ export type CertificatePacksEditResponseCertificatesItemGeoRestrictionsLabel =
   | "eu"
   | "highest_security";
 export const CertificatePacksEditResponseCertificatesItemGeoRestrictionsLabel =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface CertificatePacksEditResponseCertificatesItemGeoRestrictions {
   label?: CertificatePacksEditResponseCertificatesItemGeoRestrictionsLabel | null;
@@ -1888,7 +1927,7 @@ export type CertificatePacksEditResponseStatus =
   | "inactive"
   | "backup_issued"
   | "holding_deployment";
-export const CertificatePacksEditResponseStatus = /*@__PURE__*/ S.String;
+export const CertificatePacksEditResponseStatus = S.String;
 
 export type CertificatePacksEditResponseType =
   | "mh_custom"
@@ -1899,14 +1938,13 @@ export type CertificatePacksEditResponseType =
   | "total_tls"
   | "keyless"
   | "legacy_custom";
-export const CertificatePacksEditResponseType = /*@__PURE__*/ S.String;
+export const CertificatePacksEditResponseType = S.String;
 
 export type CertificatePacksEditResponseCertificateAuthority =
   | "google"
   | "lets_encrypt"
   | "ssl_com";
-export const CertificatePacksEditResponseCertificateAuthority =
-  /*@__PURE__*/ S.String;
+export const CertificatePacksEditResponseCertificateAuthority = S.String;
 
 export type CertificatePacksEditResponseDcvDelegationRecordsItemEmailsList =
   Array<string>;
@@ -1976,8 +2014,7 @@ export type CertificatePacksEditResponseValidationMethod =
   | "txt"
   | "http"
   | "email";
-export const CertificatePacksEditResponseValidationMethod =
-  /*@__PURE__*/ S.String;
+export const CertificatePacksEditResponseValidationMethod = S.String;
 
 export type CertificatePacksEditResponseValidationRecordsItemEmailsList =
   Array<string>;
@@ -2030,7 +2067,7 @@ export const CertificatePacksEditResponseValidationRecordsList =
   ) as any as S.Schema<CertificatePacksEditResponseValidationRecordsList>;
 
 export type CertificatePacksEditResponseValidityDays = 14 | 30 | 90 | 365;
-export const CertificatePacksEditResponseValidityDays = /*@__PURE__*/ S.Number;
+export const CertificatePacksEditResponseValidityDays = S.Number;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchCertificatePackResponse {
@@ -2150,7 +2187,7 @@ export type VerificationEditRequestValidationMethod =
   | "cname"
   | "txt"
   | "email";
-export const VerificationEditRequestValidationMethod = /*@__PURE__*/ S.String;
+export const VerificationEditRequestValidationMethod = S.String;
 
 export interface PatchVerificationRequest {
   /** Identifier. */
@@ -2185,7 +2222,7 @@ export type VerificationEditResponseValidationMethod =
   | "cname"
   | "txt"
   | "email";
-export const VerificationEditResponseValidationMethod = /*@__PURE__*/ S.String;
+export const VerificationEditResponseValidationMethod = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchVerificationResponse {
@@ -2206,36 +2243,6 @@ export const PatchVerificationResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PatchVerificationResponse",
 }) as any as S.Schema<PatchVerificationResponse>;
-
-export type AutomaticUpgraderGetError = CloudflareOpError;
-/** If the system is enabled, the response will include next_scheduled_scan, representing the next time this zone will be scanned and the zone's ssl/tls encryption mode is potentially upgraded by the system. If the system is disabled, next_scheduled_scan will not be present in the response body. */
-export const automaticUpgraderGet: API.OperationMethod<
-  AutomaticUpgraderGetRequest,
-  AutomaticUpgraderGetResponse,
-  AutomaticUpgraderGetError,
-  CloudflareOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: AutomaticUpgraderGetRequest,
-  output: AutomaticUpgraderGetResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
-  protocol: CloudflareProtocol,
-  retry: Retry.Retry,
-}));
-
-export type AutomaticUpgraderPatchError = CloudflareOpError;
-/** The automatic system is enabled when this endpoint is hit with value in the request body is set to "auto", and disabled when the request body value is set to "custom". */
-export const automaticUpgraderPatch: API.OperationMethod<
-  AutomaticUpgraderPatchRequest,
-  AutomaticUpgraderPatchResponse,
-  AutomaticUpgraderPatchError,
-  CloudflareOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: AutomaticUpgraderPatchRequest,
-  output: AutomaticUpgraderPatchResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
-  protocol: CloudflareProtocol,
-  retry: Retry.Retry,
-}));
 
 export type CreateAnalyzeError = CloudflareOpError;
 /** Returns the set of hostnames, the signature algorithm, and the expiration date of the certificate. */
@@ -2298,6 +2305,21 @@ export const deleteCertificatePack: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetAutomaticUpgraderError = CloudflareOpError;
+/** If the system is enabled, the response will include next_scheduled_scan, representing the next time this zone will be scanned and the zone's ssl/tls encryption mode is potentially upgraded by the system. If the system is disabled, next_scheduled_scan will not be present in the response body. */
+export const getAutomaticUpgrader: API.OperationMethod<
+  GetAutomaticUpgraderRequest,
+  GetAutomaticUpgraderResponse,
+  GetAutomaticUpgraderError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAutomaticUpgraderRequest,
+  output: GetAutomaticUpgraderResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetAutoOriginTlsKexError = CloudflareOpError;
 /** When enabled, Cloudflare automatically selects the preferred TLS key-exchange algorithm to use when establishing the TLS connection to the zone's origin, picking from the algorithms permitted by the zone's `origin_tls_compliance_modes` setting. When disabled, the default key-exchange ordering is used. */
 export const getAutoOriginTlsKex: API.OperationMethod<
@@ -2346,6 +2368,21 @@ export const getCertificatePackQuota: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCertificatePackQuotaRequest,
   output: GetCertificatePackQuotaResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetRecommendationError = CloudflareOpError;
+/** Retrieve the SSL/TLS Recommender's recommendation for a zone. */
+export const getRecommendation: API.OperationMethod<
+  GetRecommendationRequest,
+  GetRecommendationResponse,
+  GetRecommendationError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRecommendationRequest,
+  output: GetRecommendationResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -2406,6 +2443,21 @@ export const listCertificatePacks: API.PaginatedOperationMethod<
   }),
   cloudflarePaginate,
 ) as any;
+
+export type PatchAutomaticUpgraderError = CloudflareOpError;
+/** The automatic system is enabled when this endpoint is hit with value in the request body is set to "auto", and disabled when the request body value is set to "custom". */
+export const patchAutomaticUpgrader: API.OperationMethod<
+  PatchAutomaticUpgraderRequest,
+  PatchAutomaticUpgraderResponse,
+  PatchAutomaticUpgraderError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchAutomaticUpgraderRequest,
+  output: PatchAutomaticUpgraderResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
 
 export type PatchAutoOriginTlsKexError = CloudflareOpError;
 /** Enable or disable Auto-Origin TLS KEX selection for the zone by sending `{"enabled": true}` or `{"enabled": false}`. When enabled, Cloudflare runs a periodic scan of the zone's origins to determine the preferred key-exchange algorithm and writes that preference to the edge so it is sent first in the TLS ClientHello to the origin. */

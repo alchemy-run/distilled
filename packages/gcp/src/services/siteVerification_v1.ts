@@ -198,18 +198,18 @@ export const SiteVerificationWebResourceResourceSite = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SiteVerificationWebResourceResourceSite>;
 
 export interface SiteVerificationWebResourceResource {
+  /** The string used to identify this site. This value should be used in the "id" portion of the REST URL for the Get, Update, and Delete operations. */
+  id?: string;
   /** The email addresses of all verified owners. */
   owners?: StringList;
   /** The address and type of a site that is verified or will be verified. */
   site?: SiteVerificationWebResourceResourceSite;
-  /** The string used to identify this site. This value should be used in the "id" portion of the REST URL for the Get, Update, and Delete operations. */
-  id?: string;
 }
 export const SiteVerificationWebResourceResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    id: S.optional(S.String),
     owners: S.optional(StringList),
     site: S.optional(SiteVerificationWebResourceResourceSite),
-    id: S.optional(S.String),
   }),
 ).annotate({
   identifier: "SiteVerificationWebResourceResource",

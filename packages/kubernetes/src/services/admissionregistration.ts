@@ -1056,7 +1056,7 @@ export interface IoK8sApiAdmissionregistrationV1beta1ParamRef {
   /** namespace is the namespace of the referenced resource. Allows limiting the search for params to a specific namespace. Applies to both `name` and `selector` fields. A per-namespace parameter may be used by specifying a namespace-scoped `paramKind` in the policy and leaving this field empty. - If `paramKind` is cluster-scoped, this field MUST be unset. Setting this field results in a configuration error. - If `paramKind` is namespace-scoped, the namespace of the object being evaluated for admission will be used when this field is left unset. Take care that if this is left empty the binding must not match any cluster-scoped resources, which will result in an error. */
   namespace?: string;
   /** parameterNotFoundAction controls the behavior of the binding when the resource exists, and name or selector is valid, but there are no parameters matched by the binding. If the value is set to `Allow`, then no matched parameters will be treated as successful validation by the binding. If set to `Deny`, then no matched parameters will be subject to the `failurePolicy` of the policy. Allowed values are `Allow` or `Deny` Required */
-  parameterNotFoundAction?: string;
+  parameterNotFoundAction: string;
   /** selector can be used to match multiple param objects based on their labels. Supply selector: {} to match all resources of the ParamKind. If multiple params are found, they are all evaluated with the policy expressions and the results are ANDed together. One of `name` or `selector` must be set, but `name` and `selector` are mutually exclusive properties. If one is set, the other must be unset. */
   selector?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
 }
@@ -1065,7 +1065,7 @@ export const IoK8sApiAdmissionregistrationV1beta1ParamRef =
     S.Struct({
       name: S.optional(S.String),
       namespace: S.optional(S.String),
-      parameterNotFoundAction: S.optional(S.String),
+      parameterNotFoundAction: S.String,
       selector: S.optional(IoK8sApimachineryPkgApisMetaV1LabelSelector),
     }),
   ).annotate({
@@ -1943,7 +1943,7 @@ export interface IoK8sApimachineryPkgApisMetaV1Condition {
   /** lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed. If that is not known, then using the time when the API field changed is acceptable. */
   lastTransitionTime: string;
   /** message is a human readable message indicating details about the transition. This may be an empty string. */
-  message: string;
+  message?: string;
   /** observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance. */
   observedGeneration?: number;
   /** reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty. */
@@ -1957,7 +1957,7 @@ export const IoK8sApimachineryPkgApisMetaV1Condition = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       lastTransitionTime: S.String,
-      message: S.String,
+      message: S.optional(S.String),
       observedGeneration: S.optional(S.Number),
       reason: S.String,
       status: S.String,
@@ -7120,7 +7120,9 @@ export const createAdmissionregistrationV1alpha1MutatingAdmissionPolicy: API.Ope
 }));
 
 export type CreateAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingError =
-  Conflict | UnprocessableEntity | KubernetesOpError;
+  | Conflict
+  | UnprocessableEntity
+  | KubernetesOpError;
 /** create a MutatingAdmissionPolicyBinding */
 export const createAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding: API.OperationMethod<
   CreateAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingRequest,
@@ -7155,7 +7157,9 @@ export const createAdmissionregistrationV1beta1MutatingAdmissionPolicy: API.Oper
 }));
 
 export type CreateAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingError =
-  Conflict | UnprocessableEntity | KubernetesOpError;
+  | Conflict
+  | UnprocessableEntity
+  | KubernetesOpError;
 /** create a MutatingAdmissionPolicyBinding */
 export const createAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding: API.OperationMethod<
   CreateAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingRequest,
@@ -7244,7 +7248,9 @@ export const createAdmissionregistrationV1ValidatingAdmissionPolicy: API.Operati
 }));
 
 export type CreateAdmissionregistrationV1ValidatingAdmissionPolicyBindingError =
-  Conflict | UnprocessableEntity | KubernetesOpError;
+  | Conflict
+  | UnprocessableEntity
+  | KubernetesOpError;
 /** create a ValidatingAdmissionPolicyBinding */
 export const createAdmissionregistrationV1ValidatingAdmissionPolicyBinding: API.OperationMethod<
   CreateAdmissionregistrationV1ValidatingAdmissionPolicyBindingRequest,
@@ -7330,7 +7336,9 @@ export const deleteAdmissionregistrationV1alpha1MutatingAdmissionPolicy: API.Ope
 }));
 
 export type DeleteAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingError =
-  NotFound | Conflict | KubernetesOpError;
+  | NotFound
+  | Conflict
+  | KubernetesOpError;
 /** delete a MutatingAdmissionPolicyBinding */
 export const deleteAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding: API.OperationMethod<
   DeleteAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingRequest,
@@ -7399,7 +7407,9 @@ export const deleteAdmissionregistrationV1beta1MutatingAdmissionPolicy: API.Oper
 }));
 
 export type DeleteAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingError =
-  NotFound | Conflict | KubernetesOpError;
+  | NotFound
+  | Conflict
+  | KubernetesOpError;
 /** delete a MutatingAdmissionPolicyBinding */
 export const deleteAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding: API.OperationMethod<
   DeleteAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingRequest,
@@ -7589,7 +7599,9 @@ export const deleteAdmissionregistrationV1ValidatingAdmissionPolicy: API.Operati
 }));
 
 export type DeleteAdmissionregistrationV1ValidatingAdmissionPolicyBindingError =
-  NotFound | Conflict | KubernetesOpError;
+  | NotFound
+  | Conflict
+  | KubernetesOpError;
 /** delete a ValidatingAdmissionPolicyBinding */
 export const deleteAdmissionregistrationV1ValidatingAdmissionPolicyBinding: API.OperationMethod<
   DeleteAdmissionregistrationV1ValidatingAdmissionPolicyBindingRequest,
@@ -7866,7 +7878,10 @@ export const patchAdmissionregistrationV1alpha1MutatingAdmissionPolicy: API.Oper
 }));
 
 export type PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingError =
-  NotFound | Conflict | UnprocessableEntity | KubernetesOpError;
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | KubernetesOpError;
 /** partially update the specified MutatingAdmissionPolicyBinding */
 export const patchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding: API.OperationMethod<
   PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingRequest,
@@ -7902,7 +7917,10 @@ export const patchAdmissionregistrationV1beta1MutatingAdmissionPolicy: API.Opera
 }));
 
 export type PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingError =
-  NotFound | Conflict | UnprocessableEntity | KubernetesOpError;
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | KubernetesOpError;
 /** partially update the specified MutatingAdmissionPolicyBinding */
 export const patchAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding: API.OperationMethod<
   PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingRequest,
@@ -8068,7 +8086,8 @@ export const readAdmissionregistrationV1alpha1MutatingAdmissionPolicy: API.Opera
 }));
 
 export type ReadAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingError =
-  NotFound | KubernetesOpError;
+  | NotFound
+  | KubernetesOpError;
 /** read the specified MutatingAdmissionPolicyBinding */
 export const readAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding: API.OperationMethod<
   ReadAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingRequest,
@@ -8101,7 +8120,8 @@ export const readAdmissionregistrationV1beta1MutatingAdmissionPolicy: API.Operat
 }));
 
 export type ReadAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingError =
-  NotFound | KubernetesOpError;
+  | NotFound
+  | KubernetesOpError;
 /** read the specified MutatingAdmissionPolicyBinding */
 export const readAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding: API.OperationMethod<
   ReadAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingRequest,
@@ -8255,7 +8275,10 @@ export const replaceAdmissionregistrationV1alpha1MutatingAdmissionPolicy: API.Op
 }));
 
 export type ReplaceAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingError =
-  NotFound | Conflict | UnprocessableEntity | KubernetesOpError;
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | KubernetesOpError;
 /** replace the specified MutatingAdmissionPolicyBinding */
 export const replaceAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding: API.OperationMethod<
   ReplaceAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingRequest,
@@ -8291,7 +8314,10 @@ export const replaceAdmissionregistrationV1beta1MutatingAdmissionPolicy: API.Ope
 }));
 
 export type ReplaceAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingError =
-  NotFound | Conflict | UnprocessableEntity | KubernetesOpError;
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | KubernetesOpError;
 /** replace the specified MutatingAdmissionPolicyBinding */
 export const replaceAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding: API.OperationMethod<
   ReplaceAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingRequest,
@@ -8384,7 +8410,10 @@ export const replaceAdmissionregistrationV1ValidatingAdmissionPolicy: API.Operat
 }));
 
 export type ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyBindingError =
-  NotFound | Conflict | UnprocessableEntity | KubernetesOpError;
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | KubernetesOpError;
 /** replace the specified ValidatingAdmissionPolicyBinding */
 export const replaceAdmissionregistrationV1ValidatingAdmissionPolicyBinding: API.OperationMethod<
   ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyBindingRequest,
@@ -8400,7 +8429,10 @@ export const replaceAdmissionregistrationV1ValidatingAdmissionPolicyBinding: API
 }));
 
 export type ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyStatusError =
-  NotFound | Conflict | UnprocessableEntity | KubernetesOpError;
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | KubernetesOpError;
 /** replace status of the specified ValidatingAdmissionPolicy */
 export const replaceAdmissionregistrationV1ValidatingAdmissionPolicyStatus: API.OperationMethod<
   ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyStatusRequest,

@@ -575,7 +575,7 @@ export type HandshakePartyType =
   | "ORGANIZATION"
   | "EMAIL"
   | (string & {});
-export const HandshakePartyType = /*@__PURE__*/ S.String;
+export const HandshakePartyType = S.String;
 
 export interface HandshakeParty {
   Id: string | redacted.Redacted<string>;
@@ -594,7 +594,7 @@ export type HandshakeState =
   | "DECLINED"
   | "EXPIRED"
   | (string & {});
-export const HandshakeState = /*@__PURE__*/ S.String;
+export const HandshakeState = S.String;
 
 export type ActionType =
   | "INVITE"
@@ -603,7 +603,7 @@ export type ActionType =
   | "ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE"
   | "TRANSFER_RESPONSIBILITY"
   | (string & {});
-export const ActionType = /*@__PURE__*/ S.String;
+export const ActionType = S.String;
 
 export type HandshakeResourceValue = string | redacted.Redacted<string>;
 export type HandshakeResourceType =
@@ -622,7 +622,7 @@ export type HandshakeResourceType =
   | "MANAGEMENT_EMAIL"
   | "MANAGEMENT_NAME"
   | (string & {});
-export const HandshakeResourceType = /*@__PURE__*/ S.String;
+export const HandshakeResourceType = S.String;
 
 export interface HandshakeResource {
   Value?: string | redacted.Redacted<string>;
@@ -764,7 +764,7 @@ export type Email = string | redacted.Redacted<string>;
 export type CreateAccountName = string | redacted.Redacted<string>;
 export type RoleName = string;
 export type IAMUserAccessToBilling = "ALLOW" | "DENY" | (string & {});
-export const IAMUserAccessToBilling = /*@__PURE__*/ S.String;
+export const IAMUserAccessToBilling = S.String;
 
 export type TagKey = string;
 export type TagValue = string;
@@ -811,7 +811,7 @@ export type CreateAccountState =
   | "SUCCEEDED"
   | "FAILED"
   | (string & {});
-export const CreateAccountState = /*@__PURE__*/ S.String;
+export const CreateAccountState = S.String;
 
 export type CreateAccountFailureReason =
   | "ACCOUNT_LIMIT_EXCEEDED"
@@ -830,7 +830,7 @@ export type CreateAccountFailureReason =
   | "INVALID_PAYMENT_INSTRUMENT"
   | "UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED"
   | (string & {});
-export const CreateAccountFailureReason = /*@__PURE__*/ S.String;
+export const CreateAccountFailureReason = S.String;
 
 export interface CreateAccountStatus {
   Id?: string;
@@ -908,7 +908,7 @@ export type OrganizationFeatureSet =
   | "ALL"
   | "CONSOLIDATED_BILLING"
   | (string & {});
-export const OrganizationFeatureSet = /*@__PURE__*/ S.String;
+export const OrganizationFeatureSet = S.String;
 
 export interface CreateOrganizationRequest {
   FeatureSet?: OrganizationFeatureSet;
@@ -946,14 +946,14 @@ export type PolicyType =
   | "S3_POLICY"
   | "NETWORK_SECURITY_DIRECTOR_POLICY"
   | (string & {});
-export const PolicyType = /*@__PURE__*/ S.String;
+export const PolicyType = S.String;
 
 export type PolicyTypeStatus =
   | "ENABLED"
   | "PENDING_ENABLE"
   | "PENDING_DISABLE"
   | (string & {});
-export const PolicyTypeStatus = /*@__PURE__*/ S.String;
+export const PolicyTypeStatus = S.String;
 
 export interface PolicyTypeSummary {
   Type?: PolicyType;
@@ -1284,7 +1284,7 @@ export type AccountStatus =
   | "SUSPENDED"
   | "PENDING_CLOSURE"
   | (string & {});
-export const AccountStatus = /*@__PURE__*/ S.String;
+export const AccountStatus = S.String;
 
 export type AccountState =
   | "PENDING_ACTIVATION"
@@ -1293,12 +1293,12 @@ export type AccountState =
   | "PENDING_CLOSURE"
   | "CLOSED"
   | (string & {});
-export const AccountState = /*@__PURE__*/ S.String;
+export const AccountState = S.String;
 
 export type Paths = string[];
 export const Paths = /*@__PURE__*/ S.Array(S.String);
 export type AccountJoinedMethod = "INVITED" | "CREATED" | (string & {});
-export const AccountJoinedMethod = /*@__PURE__*/ S.String;
+export const AccountJoinedMethod = S.String;
 
 export interface Account {
   Id?: string;
@@ -1373,7 +1373,7 @@ export type EffectivePolicyType =
   | "S3_POLICY"
   | "NETWORK_SECURITY_DIRECTOR_POLICY"
   | (string & {});
-export const EffectivePolicyType = /*@__PURE__*/ S.String;
+export const EffectivePolicyType = S.String;
 
 export interface DescribeEffectivePolicyRequest {
   PolicyType: EffectivePolicyType;
@@ -1594,7 +1594,7 @@ export const DescribeResponsibilityTransferRequest = /*@__PURE__*/ S.suspend(
 export type ResponsibilityTransferArn = string;
 export type ResponsibilityTransferName = string | redacted.Redacted<string>;
 export type ResponsibilityTransferType = "BILLING" | (string & {});
-export const ResponsibilityTransferType = /*@__PURE__*/ S.String;
+export const ResponsibilityTransferType = S.String;
 
 export type ResponsibilityTransferStatus =
   | "REQUESTED"
@@ -1604,7 +1604,7 @@ export type ResponsibilityTransferStatus =
   | "ACCEPTED"
   | "WITHDRAWN"
   | (string & {});
-export const ResponsibilityTransferStatus = /*@__PURE__*/ S.String;
+export const ResponsibilityTransferStatus = S.String;
 
 export interface TransferParticipant {
   ManagementAccountId?: string;
@@ -2087,7 +2087,7 @@ export const ListAWSServiceAccessForOrganizationResponse =
     identifier: "ListAWSServiceAccessForOrganizationResponse",
   }) as any as S.Schema<ListAWSServiceAccessForOrganizationResponse>;
 export type ChildType = "ACCOUNT" | "ORGANIZATIONAL_UNIT" | (string & {});
-export const ChildType = /*@__PURE__*/ S.String;
+export const ChildType = S.String;
 
 export interface ListChildrenRequest {
   ParentId: string;
@@ -2613,7 +2613,7 @@ export const ListParentsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListParentsRequest",
 }) as any as S.Schema<ListParentsRequest>;
 export type ParentType = "ROOT" | "ORGANIZATIONAL_UNIT" | (string & {});
-export const ParentType = /*@__PURE__*/ S.String;
+export const ParentType = S.String;
 
 export interface Parent {
   Id?: string;
@@ -2809,7 +2809,7 @@ export type TargetType =
   | "ORGANIZATIONAL_UNIT"
   | "ROOT"
   | (string & {});
-export const TargetType = /*@__PURE__*/ S.String;
+export const TargetType = S.String;
 
 export interface PolicyTargetSummary {
   TargetId?: string;
@@ -3130,7 +3130,7 @@ export type ExceptionMessage = string;
 export type AccessDeniedForDependencyExceptionReason =
   | "ACCESS_DENIED_DURING_CREATE_SERVICE_LINKED_ROLE"
   | (string & {});
-export const AccessDeniedForDependencyExceptionReason = /*@__PURE__*/ S.String;
+export const AccessDeniedForDependencyExceptionReason = S.String;
 
 export type ConstraintViolationExceptionReason =
   | "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
@@ -3178,8 +3178,11 @@ export type ConstraintViolationExceptionReason =
   | "TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS"
   | "TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS"
   | "UNSUPPORTED_PRICING"
+  | "UNMET_BILLING_PREREQUISITE"
+  | "ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY"
+  | "TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED"
   | (string & {});
-export const ConstraintViolationExceptionReason = /*@__PURE__*/ S.String;
+export const ConstraintViolationExceptionReason = S.String;
 
 export type HandshakeConstraintViolationExceptionReason =
   | "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
@@ -3196,9 +3199,10 @@ export type HandshakeConstraintViolationExceptionReason =
   | "SOURCE_AND_TARGET_CANNOT_MATCH"
   | "UNUSED_PREPAYMENT_BALANCE"
   | "LEGACY_PERMISSIONS_STILL_IN_USE"
+  | "PAST_DUE_INVOICE"
+  | "TARGET_ACCOUNT_VALIDATION_FAILURE"
   | (string & {});
-export const HandshakeConstraintViolationExceptionReason =
-  /*@__PURE__*/ S.String;
+export const HandshakeConstraintViolationExceptionReason = S.String;
 
 export type InvalidInputExceptionReason =
   | "INVALID_PARTY_TYPE_TARGET"
@@ -3240,9 +3244,10 @@ export type InvalidInputExceptionReason =
   | "INVALID_START_DATE"
   | "END_DATE_NOT_END_OF_MONTH"
   | "END_DATE_TOO_EARLY"
+  | "END_DATE_TOO_LATE"
   | "INVALID_END_DATE"
   | (string & {});
-export const InvalidInputExceptionReason = /*@__PURE__*/ S.String;
+export const InvalidInputExceptionReason = S.String;
 
 export type ExceptionType = string;
 export type AcceptHandshakeError =
@@ -3288,12 +3293,18 @@ export type AcceptHandshakeError =
  * When a handshake is accepted, Organizations logs membership events in CloudTrail, available
  * only in the management account's event history. If the account was standalone and joined
  * a new organization, an `AccountJoinedOrganization` event is logged with
- * `joinedMethod:Invited` and `joinedTime` fields. If the account
+ * `joinedMethod:INVITED` and `joinedTime` fields. If the account
  * departed one organization and joined another, both an
- * `AccountDepartedOrganization` event with `departedMethod:Left`
- * and `departedTime` and an `AccountJoinedOrganization` event with
- * `joinedMethod:Invited` and `joinedTime` are logged in their
+ * `AccountDepartedOrganization` event with `departureMethod:LEFT`
+ * and `departureTime` and an `AccountJoinedOrganization` event with
+ * `joinedMethod:INVITED` and `joinedTime` are logged in their
  * respective management accounts.
+ *
+ * When a billing transfer (`TRANSFER_RESPONSIBILITY`) handshake is accepted,
+ * Organizations publishes a `ResponsibilityTransferAccepted` service event to CloudTrail.
+ * Each affected account receives this event, including upstream participants such as
+ * distributors in a chained transfer. For an example log entry, see Example log entries: AcceptResponsibilityTransfer in the
+ * *Organizations User Guide*.
  */
 export const acceptHandshake: API.OperationMethod<
   AcceptHandshakeRequest,
@@ -3500,7 +3511,7 @@ export type CloseAccountError =
  * After the permanent termination of the account after the 90-day waiting period,
  * Organizations logs a membership event in CloudTrail. The event is an
  * `AccountDepartedOrganization` event with
- * `departedMethod:Cleaned` and `departedTime`. This event is
+ * `departureMethod:CLEANED` and `departureTime`. This event is
  * available only in the management account's event history.
  */
 export const closeAccount: API.OperationMethod<
@@ -3697,7 +3708,7 @@ export type CreateGovCloudAccountError =
  * you can successfully access the account. To check the status of the request, do one of
  * the following:
  *
- * - Use the `OperationId` response element from this operation to
+ * - Use the `Id` response element from this operation to
  * provide as a parameter to the DescribeCreateAccountStatus
  * operation.
  *
@@ -3814,7 +3825,7 @@ export type CreateOrganizationError =
  *
  * The `AccountJoinedOrganization` event is logged in CloudTrail and
  * is available only in the management account's event history. This event includes
- * `joinedMethod:Invited` and `joinedTime` fields to provide
+ * `joinedMethod:INVITED` and `joinedTime` fields to provide
  * context on how and when the account joined the organization.
  */
 export const createOrganization: API.OperationMethod<
@@ -3999,7 +4010,7 @@ export type DeleteOrganizationError =
  *
  * When an organization is deleted, Organizations logs a membership event in CloudTrail. The
  * event is an `AccountDepartedOrganization` event with
- * `departedMethod:Left` and `departedTime`. This event is available
+ * `departureMethod:LEFT` and `departureTime`. This event is available
  * only in the management account's event history.
  */
 export const deleteOrganization: API.OperationMethod<
@@ -5033,7 +5044,7 @@ export type LeaveOrganizationError =
  *
  * When an account leaves an organization, Organizations logs a membership event in
  * CloudTrail. The event is an `AccountDepartedOrganization` event with
- * `departedMethod:Left` and `departedTime`. This event is available
+ * `departureMethod:LEFT` and `departureTime`. This event is available
  * only in the management account's event history.
  *
  * - The management account in an organization with all features enabled can
@@ -6179,7 +6190,7 @@ export type RemoveAccountFromOrganizationError =
  * When an account is removed from an organization, Organizations logs a membership
  * event in CloudTrail. The event is an
  * `AccountDepartedOrganization` event with
- * `departedMethod:Removed` and `departedTime`. This event is
+ * `departureMethod:REMOVED` and `departureTime`. This event is
  * available only in the management account's event history.
  *
  * - You can remove an account from your organization only if the account is
@@ -6289,6 +6300,12 @@ export type TerminateResponsibilityTransferError =
  * Ends a transfer. A *transfer* is an arrangement between two
  * management accounts where one account designates the other with specified
  * responsibilities for their organization.
+ *
+ * When a transfer ends, Organizations publishes a
+ * `ResponsibilityTransferTerminated` service event to CloudTrail. Each affected
+ * account receives this event, including upstream participants such as distributors in a
+ * chained transfer. For an example log entry, see Example log entries: TerminateResponsibilityTransfer in the
+ * *Organizations User Guide*.
  */
 export const terminateResponsibilityTransfer: API.OperationMethod<
   TerminateResponsibilityTransferRequest,

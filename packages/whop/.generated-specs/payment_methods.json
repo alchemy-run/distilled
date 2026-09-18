@@ -1,0 +1,5082 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.payment_methods#Direction": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The direction of the sort."
+      }
+    },
+    "com.whop.payment_methods#FutureUsageTypes": {
+      "type": "enum",
+      "members": {
+        "OFF_SESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off_session"
+          }
+        },
+        "ON_SESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "on_session"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How a payment method will be charged after the buyer leaves — the same vocabulary as a confirmation token's setup_future_usage."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodTypes": {
+      "type": "enum",
+      "members": {
+        "ACSS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "acss_debit"
+          }
+        },
+        "ADDI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "addi"
+          }
+        },
+        "AFFIRM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affirm"
+          }
+        },
+        "AFTERPAY_CLEARPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "afterpay_clearpay"
+          }
+        },
+        "ALIPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alipay"
+          }
+        },
+        "ALMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alma"
+          }
+        },
+        "AMAZON_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amazon_pay"
+          }
+        },
+        "APPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple"
+          }
+        },
+        "APPLE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple_pay"
+          }
+        },
+        "AU_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_bank_transfer"
+          }
+        },
+        "AU_BECS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_becs_debit"
+          }
+        },
+        "BACS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bacs_debit"
+          }
+        },
+        "BANCOLOMBIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bancolombia"
+          }
+        },
+        "BANCONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bancontact"
+          }
+        },
+        "BANK_WIRE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_wire"
+          }
+        },
+        "BILLIE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "billie"
+          }
+        },
+        "BIZUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bizum"
+          }
+        },
+        "BLIK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blik"
+          }
+        },
+        "BOLETO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boleto"
+          }
+        },
+        "BRE_B": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bre_b"
+          }
+        },
+        "CA_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_bank_transfer"
+          }
+        },
+        "CAPCHASE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "capchase_pay"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CARD_INSTALLMENTS_THREE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_three"
+          }
+        },
+        "CARD_INSTALLMENTS_SIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_six"
+          }
+        },
+        "CARD_INSTALLMENTS_TWELVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_twelve"
+          }
+        },
+        "CASHAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashapp"
+          }
+        },
+        "CLARITYPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claritypay"
+          }
+        },
+        "COINBASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "coinbase"
+          }
+        },
+        "CRYPTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "CUSTOMER_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_balance"
+          }
+        },
+        "DEMO_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "demo_pay"
+          }
+        },
+        "EFECTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "efecty"
+          }
+        },
+        "EPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eps"
+          }
+        },
+        "EU_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu_bank_transfer"
+          }
+        },
+        "FPX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fpx"
+          }
+        },
+        "GB_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gb_bank_transfer"
+          }
+        },
+        "GIROPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "giropay"
+          }
+        },
+        "GOOGLE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google_pay"
+          }
+        },
+        "GOPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gopay"
+          }
+        },
+        "GRABPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "grabpay"
+          }
+        },
+        "ID_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_bank_transfer"
+          }
+        },
+        "IDEAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ideal"
+          }
+        },
+        "INTERAC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "interac"
+          }
+        },
+        "KAKAO_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kakao_pay"
+          }
+        },
+        "KLARNA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "klarna"
+          }
+        },
+        "KLARNA_PAY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "klarna_pay_now"
+          }
+        },
+        "KONBINI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "konbini"
+          }
+        },
+        "KR_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_card"
+          }
+        },
+        "KR_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_market"
+          }
+        },
+        "KRIYA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kriya"
+          }
+        },
+        "KUESKI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kueski"
+          }
+        },
+        "LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link"
+          }
+        },
+        "MB_WAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mb_way"
+          }
+        },
+        "M_PESA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "m_pesa"
+          }
+        },
+        "MERCADO_PAGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago"
+          }
+        },
+        "MOBILEPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobilepay"
+          }
+        },
+        "MODO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modo"
+          }
+        },
+        "MONDU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mondu"
+          }
+        },
+        "MULTIBANCO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multibanco"
+          }
+        },
+        "NAVER_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "naver_pay"
+          }
+        },
+        "NEQUI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nequi"
+          }
+        },
+        "NETBANKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "netbanking"
+          }
+        },
+        "NG_BANK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_bank"
+          }
+        },
+        "NG_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_bank_transfer"
+          }
+        },
+        "NG_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_card"
+          }
+        },
+        "NG_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_market"
+          }
+        },
+        "NG_USSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_ussd"
+          }
+        },
+        "NG_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_wallet"
+          }
+        },
+        "NZ_BANK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nz_bank_account"
+          }
+        },
+        "OXXO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oxxo"
+          }
+        },
+        "P24": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p24"
+          }
+        },
+        "PAGO_EFECTIVO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pago_efectivo"
+          }
+        },
+        "PSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pse"
+          }
+        },
+        "PAY_BY_BANK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pay_by_bank"
+          }
+        },
+        "PAYCO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payco"
+          }
+        },
+        "PAYNOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paynow"
+          }
+        },
+        "PAYPAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypal"
+          }
+        },
+        "PAYPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypay"
+          }
+        },
+        "PAYTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payto"
+          }
+        },
+        "PIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pix"
+          }
+        },
+        "PLATFORM_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_balance"
+          }
+        },
+        "PROMPTPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promptpay"
+          }
+        },
+        "QRIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qris"
+          }
+        },
+        "RAPIPAGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rapipago"
+          }
+        },
+        "RECHNUNG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rechnung"
+          }
+        },
+        "REVOLUT_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revolut_pay"
+          }
+        },
+        "SAMSUNG_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "samsung_pay"
+          }
+        },
+        "SATISPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "satispay"
+          }
+        },
+        "SCALAPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scalapay"
+          }
+        },
+        "SENCILLITO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sencillito"
+          }
+        },
+        "SEPA_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sepa_debit"
+          }
+        },
+        "SEQURA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sequra"
+          }
+        },
+        "SERVIPAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "servipag"
+          }
+        },
+        "SEZZLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sezzle"
+          }
+        },
+        "SHOP_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shop_pay"
+          }
+        },
+        "SHOPEEPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shopeepay"
+          }
+        },
+        "SOFORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sofort"
+          }
+        },
+        "SOUTH_KOREA_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "south_korea_market"
+          }
+        },
+        "SPEI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spei"
+          }
+        },
+        "SPLITIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "splitit"
+          }
+        },
+        "SUNBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sunbit"
+          }
+        },
+        "SWISH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swish"
+          }
+        },
+        "TAMARA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tamara"
+          }
+        },
+        "TWINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twint"
+          }
+        },
+        "UPI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upi"
+          }
+        },
+        "US_BANK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_bank_account"
+          }
+        },
+        "US_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_bank_transfer"
+          }
+        },
+        "VENMO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "venmo"
+          }
+        },
+        "VIPPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vipps"
+          }
+        },
+        "WEBPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webpay"
+          }
+        },
+        "WECHAT_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wechat_pay"
+          }
+        },
+        "YAPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yape"
+          }
+        },
+        "ZIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zip"
+          }
+        },
+        "COINFLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "coinflow"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The different types of payment methods that can be used."
+      }
+    },
+    "com.whop.payment_methods#ListPaymentMethodRequestPaymentMethodTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payment_methods#PaymentMethodTypes"
+      },
+      "traits": {
+        "smithy.api#documentation": "Only return payment methods of these types. Pass the eligible `type` values from the payment method types catalogue so the list holds nothing the purchase cannot take. An empty list returns no payment methods."
+      }
+    },
+    "com.whop.payment_methods#CardBrands": {
+      "type": "enum",
+      "members": {
+        "MASTERCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mastercard"
+          }
+        },
+        "VISA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visa"
+          }
+        },
+        "AMEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amex"
+          }
+        },
+        "DISCOVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "discover"
+          }
+        },
+        "UNIONPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unionpay"
+          }
+        },
+        "JCB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jcb"
+          }
+        },
+        "DINERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "diners"
+          }
+        },
+        "LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link"
+          }
+        },
+        "TROY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "troy"
+          }
+        },
+        "VISADANKORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visadankort"
+          }
+        },
+        "VISABANCONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visabancontact"
+          }
+        },
+        "CHINA_UNION_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "china_union_pay"
+          }
+        },
+        "RUPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rupay"
+          }
+        },
+        "JCBRUPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jcbrupay"
+          }
+        },
+        "ELO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elo"
+          }
+        },
+        "MAESTRO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "maestro"
+          }
+        },
+        "TARJETA_NARANJA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tarjeta_naranja"
+          }
+        },
+        "CIRRUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cirrus"
+          }
+        },
+        "NSPK_MIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nspk_mir"
+          }
+        },
+        "VERVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verve"
+          }
+        },
+        "EBT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ebt"
+          }
+        },
+        "PRIVATE_LABEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private_label"
+          }
+        },
+        "LOCAL_BRAND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local_brand"
+          }
+        },
+        "UATP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uatp"
+          }
+        },
+        "WEXCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wexcard"
+          }
+        },
+        "UZCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uzcard"
+          }
+        },
+        "MEEZA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meeza"
+          }
+        },
+        "HRG_STORE_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hrg_store_card"
+          }
+        },
+        "GIROCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "girocard"
+          }
+        },
+        "FUEL_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fuel_card"
+          }
+        },
+        "DANKORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dankort"
+          }
+        },
+        "CARNET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "carnet"
+          }
+        },
+        "ATM_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "atm_card"
+          }
+        },
+        "CHINA_UNION_PAYUZCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "china_union_payuzcard"
+          }
+        },
+        "CODENSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "codensa"
+          }
+        },
+        "CABAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cabal"
+          }
+        },
+        "HIPERCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hipercard"
+          }
+        },
+        "JCBLANKAPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jcblankapay"
+          }
+        },
+        "CMI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cmi"
+          }
+        },
+        "AURA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aura"
+          }
+        },
+        "ACCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accel"
+          }
+        },
+        "CULIANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "culiance"
+          }
+        },
+        "NYCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nyce"
+          }
+        },
+        "PULSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pulse"
+          }
+        },
+        "STAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "star"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Possible card brands that a payment token can have"
+      }
+    },
+    "com.whop.payment_methods#ListPaymentMethodRequestCardBrandsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payment_methods#CardBrands"
+      },
+      "traits": {
+        "smithy.api#documentation": "Only return cards on these networks, such as the networks the seller accepts. Payment methods that are not cards are unaffected."
+      }
+    },
+    "com.whop.payment_methods#CardFundingTypes": {
+      "type": "enum",
+      "members": {
+        "CREDIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "credit"
+          }
+        },
+        "DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "debit"
+          }
+        },
+        "PREPAID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "prepaid"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The funding types of a card"
+      }
+    },
+    "com.whop.payment_methods#ListPaymentMethodRequestCardFundingTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payment_methods#CardFundingTypes"
+      },
+      "traits": {
+        "smithy.api#documentation": "Only return cards funded this way. A card whose funding could not be determined is excluded, and payment methods that are not cards are unaffected."
+      }
+    },
+    "com.whop.payment_methods#ListPaymentMethodRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "member_id"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id"
+          }
+        },
+        "direction": {
+          "target": "com.whop.payment_methods#Direction",
+          "traits": {
+            "smithy.api#httpQuery": "direction"
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before"
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after"
+          }
+        },
+        "future_usage": {
+          "target": "com.whop.payment_methods#FutureUsageTypes",
+          "traits": {
+            "smithy.api#httpQuery": "future_usage"
+          }
+        },
+        "payment_method_types": {
+          "target": "com.whop.payment_methods#ListPaymentMethodRequestPaymentMethodTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "payment_method_types"
+          }
+        },
+        "card_brands": {
+          "target": "com.whop.payment_methods#ListPaymentMethodRequestCardBrandsList",
+          "traits": {
+            "smithy.api#httpQuery": "card_brands"
+          }
+        },
+        "card_funding_types": {
+          "target": "com.whop.payment_methods#ListPaymentMethodRequestCardFundingTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "card_funding_types"
+          }
+        },
+        "has_payer_document": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "has_payer_document"
+          }
+        },
+        "expired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "expired"
+          }
+        },
+        "broken": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "broken"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase0"
+        },
+        "Case1": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase1"
+        },
+        "Case2": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase2"
+        },
+        "Case3": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase3"
+        },
+        "Case4": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase4"
+        },
+        "Case5": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase5"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase0IconsCardDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase0IconsCardLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase0IconsCard": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase0IconsCardDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase0IconsCardLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The credit-card-proportioned tile (48x30)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase0IconsSquareDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase0IconsSquareLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase0IconsSquare": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase0IconsSquareDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase0IconsSquareLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The square tile (32x32)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase0Icons": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase0IconsCard",
+          "traits": {
+            "smithy.api#documentation": "The credit-card-proportioned tile (48x30).",
+            "smithy.api#required": {}
+          }
+        },
+        "square": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase0IconsSquare",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase0": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of the event in ISO 8601 UTC format with millisecond precision",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase0Icons",
+          "traits": {
+            "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A saved payment method with no type-specific details available."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase1Card": {
+      "type": "structure",
+      "members": {
+        "brand": {
+          "target": "com.whop.payment_methods#CardBrands",
+          "traits": {
+            "smithy.api#documentation": "The card network (e.g., visa, mastercard, amex). Null if the brand could not be determined.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exp_month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The two-digit expiration month of the card (1-12). Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exp_year": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The two-digit expiration year of the card (e.g., 27 for 2027). Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the card is past its expiration month. An expired card cannot take a new charge.",
+            "smithy.api#required": {}
+          }
+        },
+        "fingerprint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A stable identifier for the underlying card. Two payment methods with the same fingerprint are the same card. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "funding_type": {
+          "target": "com.whop.payment_methods#CardFundingTypes",
+          "traits": {
+            "smithy.api#documentation": "How the card is funded by the issuer. Null if the funding type could not be determined.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last four digits of the card number. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "three_ds_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this card was verified with 3D Secure, either when it was saved or on a payment that used it.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The card-specific details for this payment method, including brand, last four digits, and expiration."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase1IconsCardDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase1IconsCardLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase1IconsCard": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase1IconsCardDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase1IconsCardLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The credit-card-proportioned tile (48x30)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase1IconsSquareDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase1IconsSquareLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase1IconsSquare": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase1IconsSquareDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase1IconsSquareLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The square tile (32x32)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase1Icons": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase1IconsCard",
+          "traits": {
+            "smithy.api#documentation": "The credit-card-proportioned tile (48x30).",
+            "smithy.api#required": {}
+          }
+        },
+        "square": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase1IconsSquare",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase1": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase1Card",
+          "traits": {
+            "smithy.api#documentation": "The card-specific details for this payment method, including brand, last four digits, and expiration.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of the event in ISO 8601 UTC format with millisecond precision",
+            "smithy.api#required": {}
+          }
+        },
+        "has_payer_document": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this card has the payer identity document required by its payment provider.",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase1Icons",
+          "traits": {
+            "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A saved card payment method, including brand, last four digits, and expiration details."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase2IconsCardDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase2IconsCardLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase2IconsCard": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase2IconsCardDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase2IconsCardLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The credit-card-proportioned tile (48x30)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase2IconsSquareDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase2IconsSquareLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase2IconsSquare": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase2IconsSquareDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase2IconsSquareLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The square tile (32x32)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase2Icons": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase2IconsCard",
+          "traits": {
+            "smithy.api#documentation": "The credit-card-proportioned tile (48x30).",
+            "smithy.api#required": {}
+          }
+        },
+        "square": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase2IconsSquare",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase2UsBankAccount": {
+      "type": "structure",
+      "members": {
+        "account_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of bank account (e.g., checking, savings).",
+            "smithy.api#required": {}
+          }
+        },
+        "bank_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the financial institution holding the account.",
+            "smithy.api#required": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last four digits of the bank account number.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The bank account-specific details for this payment method, including bank name and last four digits."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase2": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of the event in ISO 8601 UTC format with millisecond precision",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase2Icons",
+          "traits": {
+            "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        },
+        "us_bank_account": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase2UsBankAccount",
+          "traits": {
+            "smithy.api#documentation": "The bank account-specific details for this payment method, including bank name and last four digits.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A saved US bank account payment method, including bank name, last four digits, and account type."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase3Cashapp": {
+      "type": "structure",
+      "members": {
+        "buyer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique and immutable identifier assigned by Cash App to the buyer. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cashtag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public cashtag handle of the buyer on Cash App. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Cash App-specific details for this payment method, including cashtag and buyer ID."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase3IconsCardDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase3IconsCardLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase3IconsCard": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase3IconsCardDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase3IconsCardLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The credit-card-proportioned tile (48x30)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase3IconsSquareDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase3IconsSquareLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase3IconsSquare": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase3IconsSquareDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase3IconsSquareLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The square tile (32x32)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase3Icons": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase3IconsCard",
+          "traits": {
+            "smithy.api#documentation": "The credit-card-proportioned tile (48x30).",
+            "smithy.api#required": {}
+          }
+        },
+        "square": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase3IconsSquare",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase3": {
+      "type": "structure",
+      "members": {
+        "cashapp": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase3Cashapp",
+          "traits": {
+            "smithy.api#documentation": "The Cash App-specific details for this payment method, including cashtag and buyer ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of the event in ISO 8601 UTC format with millisecond precision",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase3Icons",
+          "traits": {
+            "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A saved Cash App payment method, including the buyer's cashtag and unique identifier."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase4IconsCardDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase4IconsCardLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase4IconsCard": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase4IconsCardDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase4IconsCardLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The credit-card-proportioned tile (48x30)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase4IconsSquareDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase4IconsSquareLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase4IconsSquare": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase4IconsSquareDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase4IconsSquareLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The square tile (32x32)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase4Icons": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase4IconsCard",
+          "traits": {
+            "smithy.api#documentation": "The credit-card-proportioned tile (48x30).",
+            "smithy.api#required": {}
+          }
+        },
+        "square": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase4IconsSquare",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase4Ideal": {
+      "type": "structure",
+      "members": {
+        "bank": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the customer's bank used for the iDEAL transaction. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bic": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Bank Identifier Code (BIC/SWIFT) of the customer's bank. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The iDEAL-specific details for this payment method, including bank name and BIC."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase4": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of the event in ISO 8601 UTC format with millisecond precision",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase4Icons",
+          "traits": {
+            "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "ideal": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase4Ideal",
+          "traits": {
+            "smithy.api#documentation": "The iDEAL-specific details for this payment method, including bank name and BIC.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A saved iDEAL payment method, including the customer's bank name and BIC code."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase5IconsCardDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase5IconsCardLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase5IconsCard": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase5IconsCardDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase5IconsCardLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The credit-card-proportioned tile (48x30)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase5IconsSquareDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase5IconsSquareLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase5IconsSquare": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase5IconsSquareDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase5IconsSquareLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The square tile (32x32)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase5Icons": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase5IconsCard",
+          "traits": {
+            "smithy.api#documentation": "The credit-card-proportioned tile (48x30).",
+            "smithy.api#required": {}
+          }
+        },
+        "square": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase5IconsSquare",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase5SepaDebit": {
+      "type": "structure",
+      "members": {
+        "bank_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The bank code of the financial institution associated with this SEPA account. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "branch_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The branch code of the financial institution associated with this SEPA account. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The two-letter ISO country code where the bank account is located. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last four digits of the IBAN associated with this SEPA account. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The SEPA Direct Debit-specific details for this payment method, including bank code and last four IBAN digits."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodListItemCase5": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of the event in ISO 8601 UTC format with millisecond precision",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase5Icons",
+          "traits": {
+            "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
+            "smithy.api#required": {}
+          }
+        },
+        "sepa_debit": {
+          "target": "com.whop.payment_methods#PaymentMethodListItemCase5SepaDebit",
+          "traits": {
+            "smithy.api#documentation": "The SEPA Direct Debit-specific details for this payment method, including bank code and last four IBAN digits.",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A saved SEPA Direct Debit payment method, including the bank code, country, and last four IBAN digits."
+      }
+    },
+    "com.whop.payment_methods#ListPaymentMethodResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payment_methods#PaymentMethodListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.payment_methods#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.payment_methods#ListPaymentMethodResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.payment_methods#ListPaymentMethodResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.payment_methods#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payment_methods#ListPaymentMethod": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_methods#ListPaymentMethodRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_methods#ListPaymentMethodResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_methods#BadRequest"
+        },
+        {
+          "target": "com.whop.payment_methods#Forbidden"
+        },
+        {
+          "target": "com.whop.payment_methods#NotFound"
+        },
+        {
+          "target": "com.whop.payment_methods#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payment_methods",
+          "code": 200
+        },
+        "smithy.api#documentation": "List payment methods\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of payment methods for a member or company, or for the authenticated user when neither is given, with optional filtering by creation date. A payment method is a stored representation of how a customer intends to pay, such as a card, bank account, or digital wallet.\n\nRequired permissions:\n - `member:payment_methods:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.payment_methods#GetPaymentMethodRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the payment method."
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id"
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "member_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_methods#PaymentMethod": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.payment_methods#PaymentMethodCase0"
+        },
+        "Case1": {
+          "target": "com.whop.payment_methods#PaymentMethodCase1"
+        },
+        "Case2": {
+          "target": "com.whop.payment_methods#PaymentMethodCase2"
+        },
+        "Case3": {
+          "target": "com.whop.payment_methods#PaymentMethodCase3"
+        },
+        "Case4": {
+          "target": "com.whop.payment_methods#PaymentMethodCase4"
+        },
+        "Case5": {
+          "target": "com.whop.payment_methods#PaymentMethodCase5"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_methods#PaymentMethodCase0IconsCardDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase0IconsCardLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase0IconsCard": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodCase0IconsCardDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodCase0IconsCardLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The credit-card-proportioned tile (48x30)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase0IconsSquareDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase0IconsSquareLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase0IconsSquare": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodCase0IconsSquareDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodCase0IconsSquareLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The square tile (32x32)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase0Icons": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodCase0IconsCard",
+          "traits": {
+            "smithy.api#documentation": "The credit-card-proportioned tile (48x30).",
+            "smithy.api#required": {}
+          }
+        },
+        "square": {
+          "target": "com.whop.payment_methods#PaymentMethodCase0IconsSquare",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase0": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of the event in ISO 8601 UTC format with millisecond precision",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.payment_methods#PaymentMethodCase0Icons",
+          "traits": {
+            "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A saved payment method with no type-specific details available."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase1Card": {
+      "type": "structure",
+      "members": {
+        "brand": {
+          "target": "com.whop.payment_methods#CardBrands",
+          "traits": {
+            "smithy.api#documentation": "The card network (e.g., visa, mastercard, amex). Null if the brand could not be determined.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exp_month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The two-digit expiration month of the card (1-12). Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exp_year": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The two-digit expiration year of the card (e.g., 27 for 2027). Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the card is past its expiration month. An expired card cannot take a new charge.",
+            "smithy.api#required": {}
+          }
+        },
+        "fingerprint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A stable identifier for the underlying card. Two payment methods with the same fingerprint are the same card. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "funding_type": {
+          "target": "com.whop.payment_methods#CardFundingTypes",
+          "traits": {
+            "smithy.api#documentation": "How the card is funded by the issuer. Null if the funding type could not be determined.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last four digits of the card number. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "three_ds_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this card was verified with 3D Secure, either when it was saved or on a payment that used it.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The card-specific details for this payment method, including brand, last four digits, and expiration."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase1IconsCardDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase1IconsCardLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase1IconsCard": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodCase1IconsCardDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodCase1IconsCardLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The credit-card-proportioned tile (48x30)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase1IconsSquareDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase1IconsSquareLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase1IconsSquare": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodCase1IconsSquareDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodCase1IconsSquareLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The square tile (32x32)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase1Icons": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodCase1IconsCard",
+          "traits": {
+            "smithy.api#documentation": "The credit-card-proportioned tile (48x30).",
+            "smithy.api#required": {}
+          }
+        },
+        "square": {
+          "target": "com.whop.payment_methods#PaymentMethodCase1IconsSquare",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase1": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodCase1Card",
+          "traits": {
+            "smithy.api#documentation": "The card-specific details for this payment method, including brand, last four digits, and expiration.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of the event in ISO 8601 UTC format with millisecond precision",
+            "smithy.api#required": {}
+          }
+        },
+        "has_payer_document": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this card has the payer identity document required by its payment provider.",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.payment_methods#PaymentMethodCase1Icons",
+          "traits": {
+            "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A saved card payment method, including brand, last four digits, and expiration details."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase2IconsCardDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase2IconsCardLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase2IconsCard": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodCase2IconsCardDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodCase2IconsCardLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The credit-card-proportioned tile (48x30)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase2IconsSquareDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase2IconsSquareLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase2IconsSquare": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodCase2IconsSquareDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodCase2IconsSquareLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The square tile (32x32)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase2Icons": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodCase2IconsCard",
+          "traits": {
+            "smithy.api#documentation": "The credit-card-proportioned tile (48x30).",
+            "smithy.api#required": {}
+          }
+        },
+        "square": {
+          "target": "com.whop.payment_methods#PaymentMethodCase2IconsSquare",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase2UsBankAccount": {
+      "type": "structure",
+      "members": {
+        "account_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of bank account (e.g., checking, savings).",
+            "smithy.api#required": {}
+          }
+        },
+        "bank_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the financial institution holding the account.",
+            "smithy.api#required": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last four digits of the bank account number.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The bank account-specific details for this payment method, including bank name and last four digits."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase2": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of the event in ISO 8601 UTC format with millisecond precision",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.payment_methods#PaymentMethodCase2Icons",
+          "traits": {
+            "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        },
+        "us_bank_account": {
+          "target": "com.whop.payment_methods#PaymentMethodCase2UsBankAccount",
+          "traits": {
+            "smithy.api#documentation": "The bank account-specific details for this payment method, including bank name and last four digits.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A saved US bank account payment method, including bank name, last four digits, and account type."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase3Cashapp": {
+      "type": "structure",
+      "members": {
+        "buyer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique and immutable identifier assigned by Cash App to the buyer. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cashtag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public cashtag handle of the buyer on Cash App. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Cash App-specific details for this payment method, including cashtag and buyer ID."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase3IconsCardDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase3IconsCardLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase3IconsCard": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodCase3IconsCardDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodCase3IconsCardLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The credit-card-proportioned tile (48x30)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase3IconsSquareDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase3IconsSquareLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase3IconsSquare": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodCase3IconsSquareDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodCase3IconsSquareLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The square tile (32x32)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase3Icons": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodCase3IconsCard",
+          "traits": {
+            "smithy.api#documentation": "The credit-card-proportioned tile (48x30).",
+            "smithy.api#required": {}
+          }
+        },
+        "square": {
+          "target": "com.whop.payment_methods#PaymentMethodCase3IconsSquare",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase3": {
+      "type": "structure",
+      "members": {
+        "cashapp": {
+          "target": "com.whop.payment_methods#PaymentMethodCase3Cashapp",
+          "traits": {
+            "smithy.api#documentation": "The Cash App-specific details for this payment method, including cashtag and buyer ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of the event in ISO 8601 UTC format with millisecond precision",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.payment_methods#PaymentMethodCase3Icons",
+          "traits": {
+            "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A saved Cash App payment method, including the buyer's cashtag and unique identifier."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase4IconsCardDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase4IconsCardLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase4IconsCard": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodCase4IconsCardDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodCase4IconsCardLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The credit-card-proportioned tile (48x30)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase4IconsSquareDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase4IconsSquareLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase4IconsSquare": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodCase4IconsSquareDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodCase4IconsSquareLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The square tile (32x32)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase4Icons": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodCase4IconsCard",
+          "traits": {
+            "smithy.api#documentation": "The credit-card-proportioned tile (48x30).",
+            "smithy.api#required": {}
+          }
+        },
+        "square": {
+          "target": "com.whop.payment_methods#PaymentMethodCase4IconsSquare",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase4Ideal": {
+      "type": "structure",
+      "members": {
+        "bank": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the customer's bank used for the iDEAL transaction. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bic": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Bank Identifier Code (BIC/SWIFT) of the customer's bank. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The iDEAL-specific details for this payment method, including bank name and BIC."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase4": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of the event in ISO 8601 UTC format with millisecond precision",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.payment_methods#PaymentMethodCase4Icons",
+          "traits": {
+            "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "ideal": {
+          "target": "com.whop.payment_methods#PaymentMethodCase4Ideal",
+          "traits": {
+            "smithy.api#documentation": "The iDEAL-specific details for this payment method, including bank name and BIC.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A saved iDEAL payment method, including the customer's bank name and BIC code."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase5IconsCardDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase5IconsCardLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase5IconsCard": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodCase5IconsCardDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodCase5IconsCardLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The credit-card-proportioned tile (48x30)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase5IconsSquareDark": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for dark surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase5IconsSquareLight": {
+      "type": "structure",
+      "members": {
+        "png_1x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at the shape's native size.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_2x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at double density.",
+            "smithy.api#required": {}
+          }
+        },
+        "png_4x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raster fallback at quadruple density.",
+            "smithy.api#required": {}
+          }
+        },
+        "svg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vector file. Prefer this everywhere SVG renders.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The colorway for light surfaces."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase5IconsSquare": {
+      "type": "structure",
+      "members": {
+        "dark": {
+          "target": "com.whop.payment_methods#PaymentMethodCase5IconsSquareDark",
+          "traits": {
+            "smithy.api#documentation": "The colorway for dark surfaces.",
+            "smithy.api#required": {}
+          }
+        },
+        "light": {
+          "target": "com.whop.payment_methods#PaymentMethodCase5IconsSquareLight",
+          "traits": {
+            "smithy.api#documentation": "The colorway for light surfaces.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The square tile (32x32)."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase5Icons": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.payment_methods#PaymentMethodCase5IconsCard",
+          "traits": {
+            "smithy.api#documentation": "The credit-card-proportioned tile (48x30).",
+            "smithy.api#required": {}
+          }
+        },
+        "square": {
+          "target": "com.whop.payment_methods#PaymentMethodCase5IconsSquare",
+          "traits": {
+            "smithy.api#documentation": "The square tile (32x32).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase5SepaDebit": {
+      "type": "structure",
+      "members": {
+        "bank_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The bank code of the financial institution associated with this SEPA account. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "branch_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The branch code of the financial institution associated with this SEPA account. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The two-letter ISO country code where the bank account is located. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last four digits of the IBAN associated with this SEPA account. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The SEPA Direct Debit-specific details for this payment method, including bank code and last four IBAN digits."
+      }
+    },
+    "com.whop.payment_methods#PaymentMethodCase5": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of the event in ISO 8601 UTC format with millisecond precision",
+            "smithy.api#required": {}
+          }
+        },
+        "icons": {
+          "target": "com.whop.payment_methods#PaymentMethodCase5Icons",
+          "traits": {
+            "smithy.api#documentation": "Every rendition of the icon to display this payment method with. A saved card carries its brand's icon (Visa, Mastercard, ...) rather than the generic card art.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.payment_methods#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit).",
+            "smithy.api#required": {}
+          }
+        },
+        "sepa_debit": {
+          "target": "com.whop.payment_methods#PaymentMethodCase5SepaDebit",
+          "traits": {
+            "smithy.api#documentation": "The SEPA Direct Debit-specific details for this payment method, including bank code and last four IBAN digits.",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A saved SEPA Direct Debit payment method, including the bank code, country, and last four IBAN digits."
+      }
+    },
+    "com.whop.payment_methods#GetPaymentMethodResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.whop.payment_methods#PaymentMethod",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payment_methods#GetPaymentMethod": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_methods#GetPaymentMethodRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_methods#GetPaymentMethodResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_methods#BadRequest"
+        },
+        {
+          "target": "com.whop.payment_methods#Forbidden"
+        },
+        {
+          "target": "com.whop.payment_methods#NotFound"
+        },
+        {
+          "target": "com.whop.payment_methods#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payment_methods/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve payment method\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing payment method. Addresses a member's wallet when member_id or company_id is given, otherwise your own.\n\nRequired permissions:\n - `member:payment_methods:read`"
+      }
+    },
+    "com.whop.payment_methods#DeletePaymentMethodRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the payment method to delete."
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id"
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "member_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_methods#DeletePaymentMethodResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payment_methods#DeletePaymentMethod": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_methods#DeletePaymentMethodRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_methods#DeletePaymentMethodResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_methods#BadRequest"
+        },
+        {
+          "target": "com.whop.payment_methods#Forbidden"
+        },
+        {
+          "target": "com.whop.payment_methods#NotFound"
+        },
+        {
+          "target": "com.whop.payment_methods#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/payment_methods/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete payment method\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nDelete a saved payment method. Cannot delete a payment method attached to an active subscription.\n\nRequired permissions:\n - `member:payment_methods:manage`"
+      }
+    },
+    "com.whop.payment_methods#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.payment_methods#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.payment_methods#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.payment_methods#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.payment_methods#PaymentMethods": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.payment_methods#ListPaymentMethod"
+        },
+        {
+          "target": "com.whop.payment_methods#GetPaymentMethod"
+        },
+        {
+          "target": "com.whop.payment_methods#DeletePaymentMethod"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

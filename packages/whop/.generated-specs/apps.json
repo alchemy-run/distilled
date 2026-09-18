@@ -1,0 +1,2960 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.apps#ListAppsRequestAppType": {
+      "type": "enum",
+      "members": {
+        "B2B_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b2b_app"
+          }
+        },
+        "B2C_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b2c_app"
+          }
+        },
+        "COMPANY_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company_app"
+          }
+        },
+        "COMPONENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "component"
+          }
+        },
+        "WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#ListAppsRequestViewType": {
+      "type": "enum",
+      "members": {
+        "HUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hub"
+          }
+        },
+        "DISCOVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "discover"
+          }
+        },
+        "DASH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dash"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "ANALYTICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analytics"
+          }
+        },
+        "SKILLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skills"
+          }
+        },
+        "OPENAPI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openapi"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#ListAppsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "DISCOVERABLE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "discoverable_at"
+          }
+        },
+        "TEMPLATE_USAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "template_usage"
+          }
+        },
+        "TOTAL_INSTALLS_LAST_30_DAYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total_installs_last_30_days"
+          }
+        },
+        "TOTAL_INSTALLS_LAST_7_DAYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total_installs_last_7_days"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#ListAppsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#ListAppsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Only return apps created by this account (`biz_` tag). With developer access to the account this includes its unlisted and hidden apps."
+          }
+        },
+        "app_type": {
+          "target": "com.whop.apps#ListAppsRequestAppType",
+          "traits": {
+            "smithy.api#httpQuery": "app_type",
+            "smithy.api#documentation": "Filter apps by the type of end-user they are built for. Apps of type `website` are left out unless you ask for them by name."
+          }
+        },
+        "view_type": {
+          "target": "com.whop.apps#ListAppsRequestViewType",
+          "traits": {
+            "smithy.api#httpQuery": "view_type",
+            "smithy.api#documentation": "Only return apps supporting this view type, such as `dashboard` or `hub`."
+          }
+        },
+        "verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "verified",
+            "smithy.api#documentation": "Only return apps whose Whop verification status matches this value. Omit this filter to include every verification status the caller can see."
+          }
+        },
+        "verified_apps_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "verified_apps_only",
+            "smithy.api#documentation": "Legacy compatibility filter. Use `verified` for field equality. `true` returns verified apps; clients pinned before `2026-08-25-2` retain the earlier public website discovery behavior."
+          }
+        },
+        "recommended": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "recommended",
+            "smithy.api#documentation": "Only return apps Whop recommends (or, with `false`, only those it does not), independently of verification status."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "A search string matched against app names."
+          }
+        },
+        "order": {
+          "target": "com.whop.apps#ListAppsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort apps by. Defaults to discoverable_at, showing the most recently published apps first. `template_usage` ranks Whop-verified apps first, then apps with a banner image, then by how many apps were created from each app as a template."
+          }
+        },
+        "direction": {
+          "target": "com.whop.apps#ListAppsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of apps to return (default 20, max 100)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor; returns apps after this position."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of apps to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor; returns apps before this position."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.apps#AppListItem": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "com.whop.apps#AccountParent",
+          "traits": {
+            "smithy.api#documentation": "The account that owns the app.",
+            "smithy.api#required": {}
+          }
+        },
+        "app_type": {
+          "target": "com.whop.apps#AppListItemAppType",
+          "traits": {
+            "smithy.api#documentation": "The type of end-user the app is built for.",
+            "smithy.api#required": {}
+          }
+        },
+        "banner_image": {
+          "target": "com.whop.apps#AppBannerImage",
+          "traits": {
+            "smithy.api#documentation": "Banner image from the app's product listing, or `null` when none is uploaded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "base_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The production base URL where the app is hosted. `null` if no base URL is configured, if the caller lacks the `developer:basic:read` permission on the app's account, or on list responses, which never expose it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "businesses_created_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of businesses created from this app as a template.",
+            "smithy.api#required": {}
+          }
+        },
+        "businesses_created_logo_urls": {
+          "target": "com.whop.apps#AppListItemBusinessesCreatedLogoUrlsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "creator": {
+          "target": "com.whop.apps#AppCreator",
+          "traits": {
+            "smithy.api#documentation": "The user who owns the publishing account.",
+            "smithy.api#required": {}
+          }
+        },
+        "dashboard_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL path for the account dashboard view, or `null` when not configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short description shown in listings and search results, or `null` if none has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "discover_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL path for the discover view, or `null` when not configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subdomain identifier for the app's proxied URL, forming https://{domain_id}.apps.whop.com.",
+            "smithy.api#required": {}
+          }
+        },
+        "experience_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL path for the member-facing hub view, or `null` when not configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hosted_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full URL where the app's hosted web build is served, or `null` if no route is claimed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "icon": {
+          "target": "com.whop.apps#AppIcon",
+          "traits": {
+            "smithy.api#documentation": "The app's icon. Falls back to the default app icon when none is uploaded.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "App ID, prefixed `app_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name shown on the app store and in experience navigation.",
+            "smithy.api#required": {}
+          }
+        },
+        "openapi_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL path to the app's OpenAPI spec file, or `null` when not configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "origin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full origin URL of the app's proxied domain, for example https://ab1c2d3e4f.apps.whop.com.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Claimed subdomain route where hosted web builds are served (`myapp` for myapp.whop.app), or `null` if no route is claimed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "skills_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL path to the app's skills directory, or `null` when not configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.apps#AppListItemStatus",
+          "traits": {
+            "smithy.api#documentation": "Visibility on the Whop app store: `live` is publicly discoverable, `unlisted` is accessible only via direct link, `hidden` is not visible anywhere.",
+            "smithy.api#required": {}
+          }
+        },
+        "verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the app has been verified by Whop and is eligible for the featured apps section.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AccountParent": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "logo_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account logo image URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account public route identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account display name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppListItemAppType": {
+      "type": "enum",
+      "members": {
+        "B2B_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b2b_app"
+          }
+        },
+        "B2C_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b2c_app"
+          }
+        },
+        "COMPANY_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company_app"
+          }
+        },
+        "COMPONENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "component"
+          }
+        },
+        "WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of end-user the app is built for."
+      }
+    },
+    "com.whop.apps#AppBannerImage": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Banner image URL, taken from the app's product listing.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppListItemBusinessesCreatedLogoUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppCreator": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppIcon": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Icon image URL. Always present — the default app icon when none is uploaded.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppListItemStatus": {
+      "type": "enum",
+      "members": {
+        "LIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "live"
+          }
+        },
+        "UNLISTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unlisted"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Visibility on the Whop app store: `live` is publicly discoverable, `unlisted` is accessible only via direct link, `hidden` is not visible anywhere."
+      }
+    },
+    "com.whop.apps#ListAppsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.apps#AppListItem"
+      },
+      "traits": {}
+    },
+    "com.whop.apps#ListAppsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#ListAppsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.apps#ListAppsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.apps#ListAppsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.apps#ListApps": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.apps#ListAppsRequest"
+      },
+      "output": {
+        "target": "com.whop.apps#ListAppsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.apps#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/apps",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Apps\n\nLists apps on the Whop platform: the app store's live apps, or — with `account_id` and developer access to that account — every app the account owns. Requires authentication except for Whop's public app and website discovery lists. Public website discovery includes built official blueprints (verified apps with a product) and built, live community blueprints that Whop recommends.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.apps#CreateAppRequestAppType": {
+      "type": "enum",
+      "members": {
+        "B2B_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b2b_app"
+          }
+        },
+        "B2C_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b2c_app"
+          }
+        },
+        "COMPANY_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company_app"
+          }
+        },
+        "COMPONENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "component"
+          }
+        },
+        "WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of app to create. Defaults to `b2c_app`."
+      }
+    },
+    "com.whop.apps#CreateAppRequestIcon": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed id of a completed direct upload."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tag of an already-uploaded attachment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The icon image for the app in PNG, JPEG, or GIF format, referencing an uploaded file: `{ id }` for an existing attachment or `{ direct_upload_id }` for a new direct upload."
+      }
+    },
+    "com.whop.apps#CreateAppRequestRedirectUrisList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The whitelisted OAuth callback URLs that users are redirected to after authorizing the app."
+      }
+    },
+    "com.whop.apps#CreateAppRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account to create the app for (`biz_` tag). Defaults to the account behind the presented credential."
+          }
+        },
+        "app_type": {
+          "target": "com.whop.apps#CreateAppRequestAppType",
+          "traits": {
+            "smithy.api#documentation": "The type of app to create. Defaults to `b2c_app`."
+          }
+        },
+        "base_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base production URL where the app is hosted, such as `https://myapp.example.com`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "icon": {
+          "target": "com.whop.apps#CreateAppRequestIcon",
+          "traits": {
+            "smithy.api#documentation": "The icon image for the app in PNG, JPEG, or GIF format, referencing an uploaded file: `{ id }` for an existing attachment or `{ direct_upload_id }` for a new direct upload."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name for the app, shown to users on the app store and product pages.",
+            "smithy.api#required": {}
+          }
+        },
+        "redirect_uris": {
+          "target": "com.whop.apps#CreateAppRequestRedirectUrisList",
+          "traits": {
+            "smithy.api#documentation": "The whitelisted OAuth callback URLs that users are redirected to after authorizing the app."
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subdomain route where the app's hosted web builds are served, such as `myapp` for myapp.whop.app.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.apps#App": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "com.whop.apps#AccountParent",
+          "traits": {
+            "smithy.api#documentation": "The account that owns the app.",
+            "smithy.api#required": {}
+          }
+        },
+        "api_key": {
+          "target": "com.whop.apps#AppApiKey",
+          "traits": {
+            "smithy.api#documentation": "Legacy app API key used to authenticate requests on the app's behalf. `null` when no key exists or the caller lacks the `developer:manage_api_key` permission.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "app_store_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Detailed description shown on the app store's in-depth app page, or `null` when none has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "app_type": {
+          "target": "com.whop.apps#AppAppType",
+          "traits": {
+            "smithy.api#documentation": "The type of end-user the app is built for.",
+            "smithy.api#required": {}
+          }
+        },
+        "banner_image": {
+          "target": "com.whop.apps#AppBannerImage",
+          "traits": {
+            "smithy.api#documentation": "Banner image from the app's product listing, or `null` when none is uploaded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "base_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The production base URL where the app is hosted. `null` if no base URL is configured, if the caller lacks the `developer:basic:read` permission on the app's account, or on list responses, which never expose it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "businesses_created_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Website businesses created from this app as a template.",
+            "smithy.api#required": {}
+          }
+        },
+        "businesses_created_logo_urls": {
+          "target": "com.whop.apps#AppBusinessesCreatedLogoUrlsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "creator": {
+          "target": "com.whop.apps#AppCreator",
+          "traits": {
+            "smithy.api#documentation": "The user who owns the publishing account.",
+            "smithy.api#required": {}
+          }
+        },
+        "dashboard_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL path for the account dashboard view, or `null` when not configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "default_api_key": {
+          "target": "com.whop.apps#AppDefaultApiKey",
+          "traits": {
+            "smithy.api#documentation": "The app's default API key. `null` when the app has no default key or the caller lacks the `developer:manage_api_key` permission; `secret_key` is additionally `null` unless the caller could have created the key themselves.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deployment": {
+          "target": "com.whop.apps#AppDeployment",
+          "traits": {
+            "smithy.api#documentation": "What the app has left to publish, and how a publish in flight is going — `status` is only ever `unpublished`, `publishing`, or `failed` here. `null` means there is nothing to report: the app is fully published, there is no working copy to publish from, or the caller cannot deploy this app. Tell those apart from the app's own `production_web_build`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short description shown in listings and search results, or `null` if none has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "discover_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL path for the discover view, or `null` when not configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subdomain identifier for the app's proxied URL, forming https://{domain_id}.apps.whop.com.",
+            "smithy.api#required": {}
+          }
+        },
+        "elements_used": {
+          "target": "com.whop.apps#AppElementsUsedList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "experience_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL path for the member-facing hub view, or `null` when not configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hosted_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full URL where the app's hosted web build is served, or `null` if no route is claimed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "icon": {
+          "target": "com.whop.apps#AppIcon",
+          "traits": {
+            "smithy.api#documentation": "The app's icon. Falls back to the default app icon when none is uploaded.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "App ID, prefixed `app_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "marketplace_status": {
+          "target": "com.whop.apps#AppMarketplaceStatus",
+          "traits": {
+            "smithy.api#documentation": "Approval status of the app's product listing on the Whop app store, or `null` when the app has no associated product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name shown on the app store and in experience navigation.",
+            "smithy.api#required": {}
+          }
+        },
+        "oauth_client_type": {
+          "target": "com.whop.apps#AppOauthClientType",
+          "traits": {
+            "smithy.api#documentation": "How the app authenticates at the OAuth token endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "openapi_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL path to the app's OpenAPI spec file, or `null` when not configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "origin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full origin URL of the app's proxied domain, for example https://ab1c2d3e4f.apps.whop.com.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the app's product listing on the Whop app store, or `null` when the app has no associated product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "production_android_build": {
+          "target": "com.whop.apps#AppProductionBuild",
+          "traits": {
+            "smithy.api#documentation": "The approved build currently served on Android, or `null` when none is deployed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "production_ios_build": {
+          "target": "com.whop.apps#AppProductionBuild",
+          "traits": {
+            "smithy.api#documentation": "The approved build currently served on iOS, or `null` when none is deployed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "production_web_build": {
+          "target": "com.whop.apps#AppProductionBuild",
+          "traits": {
+            "smithy.api#documentation": "The approved build currently served on web, or `null` when none is deployed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "redirect_uris": {
+          "target": "com.whop.apps#AppRedirectUrisList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "requested_permissions": {
+          "target": "com.whop.apps#AppRequestedPermissionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "required_scopes": {
+          "target": "com.whop.apps#AppRequiredScopesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Claimed subdomain route where hosted web builds are served (`myapp` for myapp.whop.app), or `null` if no route is claimed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "secrets": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The app's production secrets as an object of string values, injected into the hosted server runtime. `null` when the caller lacks the `developer:update_app` permission.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "skills_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL path to the app's skills directory, or `null` when not configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.apps#AppStatus",
+          "traits": {
+            "smithy.api#documentation": "Visibility on the Whop app store: `live` is publicly discoverable, `unlisted` is accessible only via direct link, `hidden` is not visible anywhere.",
+            "smithy.api#required": {}
+          }
+        },
+        "verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the app has been verified by Whop and is eligible for the featured apps section.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppApiKey": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the key was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The key's secret token, sent as a bearer token to authenticate requests on the app's behalf.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppAppType": {
+      "type": "enum",
+      "members": {
+        "B2B_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b2b_app"
+          }
+        },
+        "B2C_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b2c_app"
+          }
+        },
+        "COMPANY_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company_app"
+          }
+        },
+        "COMPONENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "component"
+          }
+        },
+        "WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of end-user the app is built for."
+      }
+    },
+    "com.whop.apps#AppBusinessesCreatedLogoUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppDefaultApiKey": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "API key ID, prefixed `apik_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name identifying the API key, or `null` when none was set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "obfuscated_secret_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Masked version of the secret key, so the key can be recognized without revealing the full secret.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "secret_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full secret used to authenticate requests. `null` unless the caller could have created the key themselves.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppDeployment": {
+      "type": "structure",
+      "members": {
+        "app_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The app being deployed, prefixed `app_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "build_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The build the deployment produced, prefixed `abld_`, or `null` until it succeeds.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "draft": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the running or last deployment uploaded a build without making it live.",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the deployment failed, or `null` when it did not.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "estimated_duration_ms": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How long this deployment is expected to take in total, estimated from previous runs.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "estimated_remaining_ms": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How much longer the deployment is expected to take. Held above zero until it actually finishes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "When the deployment ended, in milliseconds since the epoch, or `null` while it is still running.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phase": {
+          "target": "com.whop.apps#AppDeploymentPhase",
+          "traits": {
+            "smithy.api#documentation": "The stage a running deployment has reached, or `null` when none is running. Later phases dominate the wall clock: `process_archive` waits on the upload pipeline and `promote` waits for the build to go live.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "progress": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Fraction of the deployment estimated to be complete, from 0 to 1. Stops just short of 1 until the run ends.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "When the deployment began, in milliseconds since the epoch, or `null` when none has run.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.apps#AppDeploymentStatus",
+          "traits": {
+            "smithy.api#documentation": "Whether the app has anything to publish, and what a publish in flight is doing. `unpublished` means publishing would ship something new; `no_source` means the sandbox holds no copy of this app, so there is nothing to publish from.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where the deployed site is served, or `null` unless the deployment went live.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppDeploymentPhase": {
+      "type": "enum",
+      "members": {
+        "INSTALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "install"
+          }
+        },
+        "BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build"
+          }
+        },
+        "TYPECHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "typecheck"
+          }
+        },
+        "UPLOAD_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upload_build"
+          }
+        },
+        "UPLOAD_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upload_source"
+          }
+        },
+        "PROCESS_ARCHIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "process_archive"
+          }
+        },
+        "CREATE_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_build"
+          }
+        },
+        "PROMOTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promote"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The stage a running deployment has reached, or `null` when none is running. Later phases dominate the wall clock: `process_archive` waits on the upload pipeline and `promote` waits for the build to go live."
+      }
+    },
+    "com.whop.apps#AppDeploymentStatus": {
+      "type": "enum",
+      "members": {
+        "PUBLISHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "published"
+          }
+        },
+        "UNPUBLISHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unpublished"
+          }
+        },
+        "PUBLISHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "publishing"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "NO_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_source"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the app has anything to publish, and what a publish in flight is doing. `unpublished` means publishing would ship something new; `no_source` means the sandbox holds no copy of this app, so there is nothing to publish from."
+      }
+    },
+    "com.whop.apps#AppElementsUsedItem": {
+      "type": "enum",
+      "members": {
+        "ADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ads"
+          }
+        },
+        "ADS_BILLING_SETUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ads.billing-setup"
+          }
+        },
+        "ADS_CAMPAIGN_CREATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ads.campaign-creator"
+          }
+        },
+        "ADS_REPORTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ads.reporting"
+          }
+        },
+        "ADS_REPORTING_CHART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ads.reporting.chart"
+          }
+        },
+        "ADS_REPORTING_TABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ads.reporting.table"
+          }
+        },
+        "CHECKOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkout"
+          }
+        },
+        "CHECKOUT_CHECKOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkout.checkout"
+          }
+        },
+        "CHECKOUT_EXPRESSCHECKOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkout.expressCheckout"
+          }
+        },
+        "PAYMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payments"
+          }
+        },
+        "PAYMENTS_ADDRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payments.address"
+          }
+        },
+        "PAYMENTS_BRANDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payments.branding"
+          }
+        },
+        "PAYMENTS_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payments.card"
+          }
+        },
+        "PAYMENTS_CARDFIELDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payments.cardFields"
+          }
+        },
+        "PAYMENTS_CARDFIELDS_CARDCVC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payments.cardFields.cardCvc"
+          }
+        },
+        "PAYMENTS_CARDFIELDS_CARDEXPIRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payments.cardFields.cardExpiry"
+          }
+        },
+        "PAYMENTS_CARDFIELDS_CARDNUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payments.cardFields.cardNumber"
+          }
+        },
+        "PAYMENTS_EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payments.email"
+          }
+        },
+        "PAYMENTS_PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payments.payment"
+          }
+        },
+        "PAYMENTS_TAXID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payments.taxId"
+          }
+        },
+        "TRACKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracking"
+          }
+        },
+        "TRACKING_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracking.events"
+          }
+        },
+        "TRACKING_PEOPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracking.people"
+          }
+        },
+        "WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet"
+          }
+        },
+        "WALLET_ACTIVITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet.activity"
+          }
+        },
+        "WALLET_BALANCES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet.balances"
+          }
+        },
+        "WALLET_BALANCES_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet.balances.balance"
+          }
+        },
+        "WALLET_BALANCES_LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet.balances.list"
+          }
+        },
+        "WALLET_CARDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet.cards"
+          }
+        },
+        "WALLET_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet.deposit"
+          }
+        },
+        "WALLET_SEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet.send"
+          }
+        },
+        "WALLET_WITHDRAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet.withdraw"
+          }
+        },
+        "WEBSITES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "websites"
+          }
+        },
+        "WEBSITES_PIXEL_SETUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "websites.pixel-setup"
+          }
+        },
+        "WEBSITES_WEBSITES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "websites.websites"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whop Elements the app's production web build mounts, as `<namespace>.<element>` keys (sub-controller children take a third segment, e.g. `payments.cardFields.cardNumber`). A bare namespace means the build reaches that namespace but the individual elements could not be resolved. Empty when the build mounts none, when it has not been scanned yet, or when the app has no production web build."
+      }
+    },
+    "com.whop.apps#AppElementsUsedList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.apps#AppElementsUsedItem"
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppMarketplaceStatus": {
+      "type": "enum",
+      "members": {
+        "NOT_AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_available"
+          }
+        },
+        "PENDING_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_review"
+          }
+        },
+        "LIVE_MARKETPLACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "live_marketplace"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Approval status of the app's product listing on the Whop app store, or `null` when the app has no associated product."
+      }
+    },
+    "com.whop.apps#AppOauthClientType": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "CONFIDENTIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "confidential"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the app authenticates at the OAuth token endpoint."
+      }
+    },
+    "com.whop.apps#AppProductionBuild": {
+      "type": "structure",
+      "members": {
+        "checksum": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client-generated checksum of the build file, used to verify file integrity.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "file_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to download the uploaded build artifact.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "App build ID, prefixed `abld_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to download the compressed source code archive that produced this build, or `null` when the build was uploaded without a source archive.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.apps#AppProductionBuildStatus",
+          "traits": {
+            "smithy.api#documentation": "The build's review status.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppProductionBuildStatus": {
+      "type": "enum",
+      "members": {
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The build's review status."
+      }
+    },
+    "com.whop.apps#AppRedirectUrisList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppRequestedPermission": {
+      "type": "structure",
+      "members": {
+        "is_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the app requires the permission to be granted on install, as opposed to requesting it optionally.",
+            "smithy.api#required": {}
+          }
+        },
+        "justification": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The developer's explanation of why the app needs the permission, or `null` when none was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "permission_action": {
+          "target": "com.whop.apps#AppRequestedPermissionAction",
+          "traits": {
+            "smithy.api#documentation": "The permission action the app requests.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppRequestedPermissionAction": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The permission action's identifier, for example `company:basic:read`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the action.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppRequestedPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.apps#AppRequestedPermission"
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppRequiredScopesItem": {
+      "type": "enum",
+      "members": {
+        "READ_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read_user"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scopes the app asks a user to grant when they authorize it, shown on the consent screen."
+      }
+    },
+    "com.whop.apps#AppRequiredScopesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.apps#AppRequiredScopesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.apps#AppStatus": {
+      "type": "enum",
+      "members": {
+        "LIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "live"
+          }
+        },
+        "UNLISTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unlisted"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Visibility on the Whop app store: `live` is publicly discoverable, `unlisted` is accessible only via direct link, `hidden` is not visible anywhere."
+      }
+    },
+    "com.whop.apps#CreateApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.apps#CreateAppRequest"
+      },
+      "output": {
+        "target": "com.whop.apps#App"
+      },
+      "errors": [
+        {
+          "target": "com.whop.apps#BadRequest"
+        },
+        {
+          "target": "com.whop.apps#Forbidden"
+        },
+        {
+          "target": "com.whop.apps#NotFound"
+        },
+        {
+          "target": "com.whop.apps#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/apps",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create App\n\nRegisters a new app on the Whop developer platform. Apps provide custom experiences that can be added to products."
+      }
+    },
+    "com.whop.apps#GetAppRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "App ID (prefixed `app_`), the app's claimed route, or its proxy domain id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.apps#GetApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.apps#GetAppRequest"
+      },
+      "output": {
+        "target": "com.whop.apps#App"
+      },
+      "errors": [
+        {
+          "target": "com.whop.apps#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/apps/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve App\n\nRetrieves an app by ID, claimed route, or proxy domain id. Credential fields (api_key, default_api_key, secrets) render `null` unless the caller has the corresponding developer permission on the owning account."
+      }
+    },
+    "com.whop.apps#UpdateAppRequestAppType": {
+      "type": "enum",
+      "members": {
+        "B2B_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b2b_app"
+          }
+        },
+        "B2C_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b2c_app"
+          }
+        },
+        "COMPANY_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company_app"
+          }
+        },
+        "COMPONENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "component"
+          }
+        },
+        "WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of end-user the app is built for. Cannot be changed on an app whose type is already `website`."
+      }
+    },
+    "com.whop.apps#UpdateAppRequestIcon": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed id of a completed direct upload."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tag of an already-uploaded attachment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The icon image for the app in PNG, JPEG, or GIF format, referencing an uploaded file: `{ id }` for an existing attachment or `{ direct_upload_id }` for a new direct upload."
+      }
+    },
+    "com.whop.apps#UpdateAppRequestOauthClientType": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "CONFIDENTIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "confidential"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the app authenticates at the OAuth token endpoint."
+      }
+    },
+    "com.whop.apps#UpdateAppRequestRedirectUrisList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The whitelisted OAuth callback URLs users are redirected to after authorizing the app."
+      }
+    },
+    "com.whop.apps#UpdateAppRequestRequiredScopesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The OAuth scopes the app requests from users when they install it."
+      }
+    },
+    "com.whop.apps#UpdateAppRequestStatus": {
+      "type": "enum",
+      "members": {
+        "LIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "live"
+          }
+        },
+        "UNLISTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unlisted"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls whether the app is published on Whop discovery or accessible only through its direct link. Publishing requires a name, icon, and description."
+      }
+    },
+    "com.whop.apps#UpdateAppRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "App ID (prefixed `app_`), the app's claimed route, or its proxy domain id."
+          }
+        },
+        "app_store_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The detailed description shown on the app store's in-depth app view page."
+          }
+        },
+        "app_type": {
+          "target": "com.whop.apps#UpdateAppRequestAppType",
+          "traits": {
+            "smithy.api#documentation": "The type of end-user the app is built for. Cannot be changed on an app whose type is already `website`."
+          }
+        },
+        "base_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base production URL where the app is hosted. Set to `null` to take the app proxy offline.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dashboard_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL path for the account dashboard view.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short description of the app shown in listings and search results."
+          }
+        },
+        "discover_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL path for the discover view.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "experience_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL path for the member-facing hub view, such as `/experiences/[experienceId]`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "icon": {
+          "target": "com.whop.apps#UpdateAppRequestIcon",
+          "traits": {
+            "smithy.api#documentation": "The icon image for the app in PNG, JPEG, or GIF format, referencing an uploaded file: `{ id }` for an existing attachment or `{ direct_upload_id }` for a new direct upload."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name for the app, shown to users on the app store and product pages."
+          }
+        },
+        "oauth_client_type": {
+          "target": "com.whop.apps#UpdateAppRequestOauthClientType",
+          "traits": {
+            "smithy.api#documentation": "How the app authenticates at the OAuth token endpoint."
+          }
+        },
+        "openapi_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL path to the app's OpenAPI spec file (requires the ai_chat capability).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "production_android_build_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The app build (`abld_` tag) to serve as the Android production build, or `null` to unassign it. Same rules as `production_web_build_id`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "production_ios_build_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The app build (`abld_` tag) to serve as the iOS production build, or `null` to unassign it. Same rules as `production_web_build_id`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "production_web_build_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The app build (`abld_` tag) to serve as the web production build, or `null` to unassign it. The build must belong to this app, target web, and be in the draft or approved status; a draft build is queued for approval and takes over once approved. Requires the `developer:manage_builds` scope.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "redirect_uris": {
+          "target": "com.whop.apps#UpdateAppRequestRedirectUrisList",
+          "traits": {
+            "smithy.api#documentation": "The whitelisted OAuth callback URLs users are redirected to after authorizing the app."
+          }
+        },
+        "required_scopes": {
+          "target": "com.whop.apps#UpdateAppRequestRequiredScopesList",
+          "traits": {
+            "smithy.api#documentation": "The OAuth scopes the app requests from users when they install it."
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subdomain route where the app's hosted web builds are served."
+          }
+        },
+        "secrets": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Secrets to add or overwrite on the app, as an object of string values. Keys not included are left untouched; pass null or an empty string as the value to delete a secret. Encrypted at rest and injected into the app's hosted server runtime."
+          }
+        },
+        "skills_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL path to the app's skills directory (requires the ai_chat capability).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.apps#UpdateAppRequestStatus",
+          "traits": {
+            "smithy.api#documentation": "Controls whether the app is published on Whop discovery or accessible only through its direct link. Publishing requires a name, icon, and description."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.apps#UpdateApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.apps#UpdateAppRequest"
+      },
+      "output": {
+        "target": "com.whop.apps#App"
+      },
+      "errors": [
+        {
+          "target": "com.whop.apps#BadRequest"
+        },
+        {
+          "target": "com.whop.apps#Forbidden"
+        },
+        {
+          "target": "com.whop.apps#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apps/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update App\n\nUpdates the settings, metadata, or status of an app. Fields that are omitted keep their current value."
+      }
+    },
+    "com.whop.apps#DeleteAppRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "App ID (prefixed `app_`), the app's claimed route, or its proxy domain id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.apps#DeleteAppResponse": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always true.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the deleted app.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.apps#DeleteApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.apps#DeleteAppRequest"
+      },
+      "output": {
+        "target": "com.whop.apps#DeleteAppResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.apps#Forbidden"
+        },
+        {
+          "target": "com.whop.apps#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/apps/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete App\n\nDeletes an app. The app stops resolving within seconds — a website's site stops serving, and any claimed subdomain is reserved for a month before it can be claimed again."
+      }
+    },
+    "com.whop.apps#DeployAppRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The app to deploy, prefixed `app_`."
+          }
+        },
+        "draft": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Upload the build without making it live. Defaults to `false`, which deploys and promotes in one step."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.apps#DeployApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.apps#DeployAppRequest"
+      },
+      "output": {
+        "target": "com.whop.apps#AppDeployment"
+      },
+      "errors": [
+        {
+          "target": "com.whop.apps#NotFound"
+        },
+        {
+          "target": "com.whop.apps#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/apps/{id}/deploy",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deploy App\n\nBuilds the app's current source and ships it. Returns the run it started, so the caller can render progress from this response and then follow it on the app's `deployment` field. Only one deployment runs per app at a time — calling this while one is in flight reports that run rather than starting a second, and calling it with nothing to publish reports that instead of starting one."
+      }
+    },
+    "com.whop.apps#ListAppLogsRequestLevel": {
+      "type": "enum",
+      "members": {
+        "LOG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "log"
+          }
+        },
+        "DEBUG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "debug"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        },
+        "WARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warn"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#ListAppLogsRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the app, which will look like app_*************."
+          }
+        },
+        "app_build_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "app_build_id",
+            "smithy.api#documentation": "Only return logs from this build."
+          }
+        },
+        "level": {
+          "target": "com.whop.apps#ListAppLogsRequestLevel",
+          "traits": {
+            "smithy.api#httpQuery": "level",
+            "smithy.api#documentation": "Only return console lines of this level."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "Only return logs whose message contains this text (case-insensitive)."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Start of the time window as an ISO 8601 timestamp. Defaults to 7 days before created_before."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "End of the time window as an ISO 8601 timestamp. Defaults to now."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of log lines to return (max 500)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for fetching logs after a previous page."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor for fetching logs before a later page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.apps#ListAppLogsResponseDataItemLevel": {
+      "type": "enum",
+      "members": {
+        "LOG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "log"
+          }
+        },
+        "DEBUG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "debug"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        },
+        "WARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warn"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#ListAppLogsResponseDataItemSource": {
+      "type": "enum",
+      "members": {
+        "CONSOLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "console"
+          }
+        },
+        "EXCEPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exception"
+          }
+        },
+        "REQUEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "request"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#ListAppLogsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "app_build_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "app_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cpu_time_ms": {
+          "target": "smithy.api#Integer"
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "level": {
+          "target": "com.whop.apps#ListAppLogsResponseDataItemLevel",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "outcome": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "request_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "request_method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "request_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "response_status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.whop.apps#ListAppLogsResponseDataItemSource",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "stack": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "truncated": {
+          "target": "smithy.api#Boolean"
+        },
+        "wall_time_ms": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#ListAppLogsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.apps#ListAppLogsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.apps#ListAppLogsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#ListAppLogsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.apps#ListAppLogsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.apps#ListAppLogsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.apps#ListAppLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.apps#ListAppLogsRequest"
+      },
+      "output": {
+        "target": "com.whop.apps#ListAppLogsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.apps#Forbidden"
+        },
+        {
+          "target": "com.whop.apps#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/apps/{id}/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "List App Logs\n\nLists a hosted app's server runtime logs, most recent first: console output, uncaught exceptions, and failed-request summaries captured on whop.app hosting. Logs are retained for 7 days.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.apps#UpdateAppPermissionsRequestRequestedPermissionsItem": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The permission action, for example `company:basic:read`.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether installing the app requires granting this permission.",
+            "smithy.api#required": {}
+          }
+        },
+        "justification": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the app needs this permission (20-512 characters), shown to the installing user.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.apps#UpdateAppPermissionsRequestRequestedPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.apps#UpdateAppPermissionsRequestRequestedPermissionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The full set of permissions the app requests on install; permissions not listed are removed."
+      }
+    },
+    "com.whop.apps#UpdateAppPermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "App ID, prefixed `app_`."
+          }
+        },
+        "requested_permissions": {
+          "target": "com.whop.apps#UpdateAppPermissionsRequestRequestedPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "The full set of permissions the app requests on install; permissions not listed are removed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.apps#UpdateAppPermissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.apps#UpdateAppPermissionsRequest"
+      },
+      "output": {
+        "target": "com.whop.apps#App"
+      },
+      "errors": [
+        {
+          "target": "com.whop.apps#BadRequest"
+        },
+        {
+          "target": "com.whop.apps#Forbidden"
+        },
+        {
+          "target": "com.whop.apps#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apps/{id}/permissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update App Permissions\n\nReplaces the set of permissions the app requests from users when they install it. Requires a user session: the `developer:update_app_authorization` scope cannot be delegated to API keys. Sensitive permissions require step-up verification."
+      }
+    },
+    "com.whop.apps#UpdatePermissionsAppRequestRequestedPermissionsItem": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The action that the app will request off of users when a user installs the app.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the action is required for the app to function.",
+            "smithy.api#required": {}
+          }
+        },
+        "justification": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reason for requesting the action.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Input for creating a requested permission"
+      }
+    },
+    "com.whop.apps#UpdatePermissionsAppRequestRequestedPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.apps#UpdatePermissionsAppRequestRequestedPermissionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The permissions that the app will request off of users when a user installs the app."
+      }
+    },
+    "com.whop.apps#UpdatePermissionsAppRequest": {
+      "type": "structure",
+      "members": {
+        "app_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the app the permission requirements are being updated for"
+          }
+        },
+        "requested_permissions": {
+          "target": "com.whop.apps#UpdatePermissionsAppRequestRequestedPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "The permissions that the app will request off of users when a user installs the app.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.apps#UpdatePermissionsAppResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.apps#UpdatePermissionsApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.apps#UpdatePermissionsAppRequest"
+      },
+      "output": {
+        "target": "com.whop.apps#UpdatePermissionsAppResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.apps#BadRequest"
+        },
+        {
+          "target": "com.whop.apps#Forbidden"
+        },
+        {
+          "target": "com.whop.apps#NotFound"
+        },
+        {
+          "target": "com.whop.apps#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apps/{app_id}/permissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update requested permissions\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUpdates the permission requirements for an app\n\nRequired permissions:\n - `developer:update_app_authorization`"
+      }
+    },
+    "com.whop.apps#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.apps#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.apps#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.apps#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.apps#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.apps#Apps": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.apps#ListApps"
+        },
+        {
+          "target": "com.whop.apps#CreateApp"
+        },
+        {
+          "target": "com.whop.apps#GetApp"
+        },
+        {
+          "target": "com.whop.apps#UpdateApp"
+        },
+        {
+          "target": "com.whop.apps#DeleteApp"
+        },
+        {
+          "target": "com.whop.apps#DeployApp"
+        },
+        {
+          "target": "com.whop.apps#ListAppLogs"
+        },
+        {
+          "target": "com.whop.apps#UpdateAppPermissions"
+        },
+        {
+          "target": "com.whop.apps#UpdatePermissionsApp"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

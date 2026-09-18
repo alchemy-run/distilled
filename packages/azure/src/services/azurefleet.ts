@@ -13,6 +13,38 @@ import * as Retry from "../retry.ts";
 
 export type { AzureOpError, AzureOpContext };
 
+export interface DeleteFleetRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Compute Fleet */
+  fleetName: string;
+}
+export const DeleteFleetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    fleetName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
+      code: 200,
+      apiVersion: "2024-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteFleetRequest",
+}) as any as S.Schema<DeleteFleetRequest>;
+
+export interface DeleteFleetResponse {}
+export const DeleteFleetResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteFleetResponse",
+}) as any as S.Schema<DeleteFleetResponse>;
+
 /** Resource tags. */
 export type FleetsCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
@@ -24,14 +56,14 @@ export const FleetsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
 
 /** Different kind of eviction policies */
 export type EvictionPolicy = "Delete" | "Deallocate";
-export const EvictionPolicy = /*@__PURE__*/ S.String;
+export const EvictionPolicy = S.String;
 
 /** Spot allocation strategy types for Compute Fleet */
 export type SpotAllocationStrategy =
   | "PriceCapacityOptimized"
   | "LowestPrice"
   | "CapacityOptimized";
-export const SpotAllocationStrategy = /*@__PURE__*/ S.String;
+export const SpotAllocationStrategy = S.String;
 
 /** Configuration Options for Spot instances in Compute Fleet. */
 export interface SpotPriorityProfile {
@@ -63,7 +95,7 @@ export const SpotPriorityProfile = /*@__PURE__*/ S.suspend(() =>
 
 /** Regular VM Allocation strategy types for Compute Fleet */
 export type RegularPriorityAllocationStrategy = "LowestPrice" | "Prioritized";
-export const RegularPriorityAllocationStrategy = /*@__PURE__*/ S.String;
+export const RegularPriorityAllocationStrategy = S.String;
 
 /** Configuration Options for Regular instances in Compute Fleet. */
 export interface RegularPriorityProfile {
@@ -138,11 +170,11 @@ export const VMAttributeMinMaxDouble = /*@__PURE__*/ S.suspend(() =>
 
 /** VMSizes supported by Azure VMs. Included is a union of Excluded and Required. */
 export type VMAttributeSupport = "Excluded" | "Included" | "Required";
-export const VMAttributeSupport = /*@__PURE__*/ S.String;
+export const VMAttributeSupport = S.String;
 
 /** Different kind of Local storage disk types supported by Azure VMs. */
 export type LocalStorageDiskType = "HDD" | "SSD";
-export const LocalStorageDiskType = /*@__PURE__*/ S.String;
+export const LocalStorageDiskType = S.String;
 
 /** The local storage disk types specified as a list. LocalStorageSupport should be set to "Included" or "Required" to use this VMAttribute. If localStorageSupport is "Excluded", this VMAttribute can not be used. */
 export type VMAttributesLocalStorageDiskTypesList = Array<
@@ -154,7 +186,7 @@ export const VMAttributesLocalStorageDiskTypesList = /*@__PURE__*/ S.Array(
 
 /** Accelerator manufacturers supported by Azure VMs. */
 export type AcceleratorManufacturer = "AMD" | "Nvidia" | "Xilinx";
-export const AcceleratorManufacturer = /*@__PURE__*/ S.String;
+export const AcceleratorManufacturer = S.String;
 
 /** The accelerator manufacturers specified as a list. acceleratorSupport should be set to "Included" or "Required" to use this VMAttribute. If acceleratorSupport is "Excluded", this VMAttribute can not be used. */
 export type VMAttributesAcceleratorManufacturersList = Array<
@@ -166,7 +198,7 @@ export const VMAttributesAcceleratorManufacturersList = /*@__PURE__*/ S.Array(
 
 /** Accelerator types supported by Azure VMs. */
 export type AcceleratorType = "GPU" | "FPGA";
-export const AcceleratorType = /*@__PURE__*/ S.String;
+export const AcceleratorType = S.String;
 
 /** The accelerator types specified as a list. acceleratorSupport should be set to "Included" or "Required" to use this VMAttribute. If acceleratorSupport is "Excluded", this VMAttribute can not be used. */
 export type VMAttributesAcceleratorTypesList = Array<
@@ -185,7 +217,7 @@ export type VMCategory =
   | "GpuAccelerated"
   | "FpgaAccelerated"
   | "HighPerformanceCompute";
-export const VMCategory = /*@__PURE__*/ S.String;
+export const VMCategory = S.String;
 
 /** The VM category specified as a list. Optional parameter. */
 export type VMAttributesVmCategoriesList = Array<VMCategory | (string & {})>;
@@ -195,7 +227,7 @@ export const VMAttributesVmCategoriesList = /*@__PURE__*/ S.Array(
 
 /** Architecture types supported by Azure VMs. */
 export type ArchitectureType = "ARM64" | "X64";
-export const ArchitectureType = /*@__PURE__*/ S.String;
+export const ArchitectureType = S.String;
 
 /** The VM architecture types specified as a list. Optional parameter. */
 export type VMAttributesArchitectureTypesList = Array<
@@ -207,7 +239,7 @@ export const VMAttributesArchitectureTypesList = /*@__PURE__*/ S.Array(
 
 /** Cpu Manufacturers supported by Azure VMs. */
 export type CpuManufacturer = "Intel" | "AMD" | "Microsoft" | "Ampere";
-export const CpuManufacturer = /*@__PURE__*/ S.String;
+export const CpuManufacturer = S.String;
 
 /** The VM CPU manufacturers specified as a list. Optional parameter. */
 export type VMAttributesCpuManufacturersList = Array<
@@ -295,16 +327,16 @@ export const VMAttributes = /*@__PURE__*/ S.suspend(() =>
 
 /** The pass name. Currently, the only allowable value is OobeSystem. */
 export type AdditionalUnattendContentPassName = "OobeSystem";
-export const AdditionalUnattendContentPassName = /*@__PURE__*/ S.String;
+export const AdditionalUnattendContentPassName = S.String;
 
 /** The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup. */
 export type AdditionalUnattendContentComponentName =
   "Microsoft-Windows-Shell-Setup";
-export const AdditionalUnattendContentComponentName = /*@__PURE__*/ S.String;
+export const AdditionalUnattendContentComponentName = S.String;
 
 /** Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and AutoLogon. */
 export type SettingNames = "AutoLogon" | "FirstLogonCommands";
-export const SettingNames = /*@__PURE__*/ S.String;
+export const SettingNames = S.String;
 
 /** Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied. */
 export interface AdditionalUnattendContent {
@@ -341,11 +373,11 @@ export type WindowsVMGuestPatchMode =
   | "Manual"
   | "AutomaticByOS"
   | "AutomaticByPlatform";
-export const WindowsVMGuestPatchMode = /*@__PURE__*/ S.String;
+export const WindowsVMGuestPatchMode = S.String;
 
 /** Specifies the mode of VM Guest patch assessment for the IaaS virtual machine. */
 export type WindowsPatchAssessmentMode = "ImageDefault" | "AutomaticByPlatform";
-export const WindowsPatchAssessmentMode = /*@__PURE__*/ S.String;
+export const WindowsPatchAssessmentMode = S.String;
 
 /** Specifies the reboot setting for all AutomaticByPlatform patch installation operations. */
 export type WindowsVMGuestPatchAutomaticByPlatformRebootSetting =
@@ -353,8 +385,7 @@ export type WindowsVMGuestPatchAutomaticByPlatformRebootSetting =
   | "IfRequired"
   | "Never"
   | "Always";
-export const WindowsVMGuestPatchAutomaticByPlatformRebootSetting =
-  /*@__PURE__*/ S.String;
+export const WindowsVMGuestPatchAutomaticByPlatformRebootSetting = S.String;
 
 /** Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Windows patch settings. */
 export interface WindowsVMGuestPatchAutomaticByPlatformSettings {
@@ -401,7 +432,7 @@ export const PatchSettings = /*@__PURE__*/ S.suspend(() =>
 
 /** Specifies the protocol of WinRM listener. Possible values are: **http,** **https.** */
 export type ProtocolTypes = "Http" | "Https";
-export const ProtocolTypes = /*@__PURE__*/ S.String;
+export const ProtocolTypes = S.String;
 
 /** Describes Protocol and thumbprint of Windows Remote Management listener */
 export interface WinRMListener {
@@ -504,11 +535,11 @@ export const SshConfiguration = /*@__PURE__*/ S.suspend(() =>
 
 /** Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual machine scale set with OrchestrationMode as Flexible. */
 export type LinuxVMGuestPatchMode = "ImageDefault" | "AutomaticByPlatform";
-export const LinuxVMGuestPatchMode = /*@__PURE__*/ S.String;
+export const LinuxVMGuestPatchMode = S.String;
 
 /** Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine. <br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true. */
 export type LinuxPatchAssessmentMode = "ImageDefault" | "AutomaticByPlatform";
-export const LinuxPatchAssessmentMode = /*@__PURE__*/ S.String;
+export const LinuxPatchAssessmentMode = S.String;
 
 /** Specifies the reboot setting for all AutomaticByPlatform patch installation operations. */
 export type LinuxVMGuestPatchAutomaticByPlatformRebootSetting =
@@ -516,8 +547,7 @@ export type LinuxVMGuestPatchAutomaticByPlatformRebootSetting =
   | "IfRequired"
   | "Never"
   | "Always";
-export const LinuxVMGuestPatchAutomaticByPlatformRebootSetting =
-  /*@__PURE__*/ S.String;
+export const LinuxVMGuestPatchAutomaticByPlatformRebootSetting = S.String;
 
 /** Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings. */
 export interface LinuxVMGuestPatchAutomaticByPlatformSettings {
@@ -712,7 +742,7 @@ export const ImageReferenceInput = /*@__PURE__*/ S.suspend(() =>
 
 /** Specifies the caching requirements. */
 export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
-export const CachingTypes = /*@__PURE__*/ S.String;
+export const CachingTypes = S.String;
 
 /** Specifies how the virtual machine should be created. */
 export type DiskCreateOptionTypes =
@@ -721,15 +751,15 @@ export type DiskCreateOptionTypes =
   | "Attach"
   | "Copy"
   | "Restore";
-export const DiskCreateOptionTypes = /*@__PURE__*/ S.String;
+export const DiskCreateOptionTypes = S.String;
 
 /** Specifies the ephemeral disk option for operating system disk. */
 export type DiffDiskOptions = "Local";
-export const DiffDiskOptions = /*@__PURE__*/ S.String;
+export const DiffDiskOptions = S.String;
 
 /** Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at https://learn.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VM at https://learn.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements Minimum api-version for NvmeDisk: 2024-03-01. */
 export type DiffDiskPlacement = "CacheDisk" | "ResourceDisk" | "NvmeDisk";
-export const DiffDiskPlacement = /*@__PURE__*/ S.String;
+export const DiffDiskPlacement = S.String;
 
 /** Describes the parameters of ephemeral disk settings that can be specified for operating system disk. **Note:** The ephemeral disk settings can only be specified for managed disk. */
 export interface DiffDiskSettings {
@@ -749,7 +779,7 @@ export const DiffDiskSettings = /*@__PURE__*/ S.suspend(() =>
 
 /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. Possible values are: **Windows,** **Linux.** */
 export type OperatingSystemTypes = "Windows" | "Linux";
-export const OperatingSystemTypes = /*@__PURE__*/ S.String;
+export const OperatingSystemTypes = S.String;
 
 /** Describes the uri of a disk. */
 export interface VirtualHardDisk {
@@ -780,7 +810,7 @@ export type StorageAccountTypes =
   | "Premium_ZRS"
   | "StandardSSD_ZRS"
   | "PremiumV2_LRS";
-export const StorageAccountTypes = /*@__PURE__*/ S.String;
+export const StorageAccountTypes = S.String;
 
 /** Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. **Note:** The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details. */
 export type DiskEncryptionSetParameters = SubResource;
@@ -791,7 +821,7 @@ export type SecurityEncryptionTypes =
   | "VMGuestStateOnly"
   | "DiskWithVMGuestState"
   | "NonPersistedTPM";
-export const SecurityEncryptionTypes = /*@__PURE__*/ S.String;
+export const SecurityEncryptionTypes = S.String;
 
 /** Specifies the security profile settings for the managed disk. **Note:** It can only be set for Confidential VMs. */
 export interface VMDiskSecurityProfile {
@@ -831,7 +861,7 @@ export const VirtualMachineScaleSetManagedDiskParameters =
 
 /** Specifies the behavior of the managed disk when the VM gets deleted, for example whether the managed disk is deleted or detached. Supported values are: **Delete.** If this value is used, the managed disk is deleted when VM gets deleted. **Detach.** If this value is used, the managed disk is retained after VM gets deleted. Minimum api-version: 2021-03-01. */
 export type DiskDeleteOptionTypes = "Delete" | "Detach";
-export const DiskDeleteOptionTypes = /*@__PURE__*/ S.String;
+export const DiskDeleteOptionTypes = S.String;
 
 /** Describes a virtual machine scale set operating system disk. */
 export interface VirtualMachineScaleSetOSDisk {
@@ -926,7 +956,7 @@ export const VirtualMachineScaleSetStorageProfileInputDataDisksList =
 
 /** Specifies the disk controller type configured for the VM and VirtualMachineScaleSet. This property is only supported for virtual machines whose operating system disk and VM sku supports Generation 2 (https://learn.microsoft.com/en-us/azure/virtual-machines/generation-2), please check the HyperVGenerations capability returned as part of VM sku capabilities in the response of Microsoft.Compute SKUs api for the region contains V2 (https://learn.microsoft.com/rest/api/compute/resourceskus/list). For more information about Disk Controller Types supported please refer to https://aka.ms/azure-diskcontrollertypes. */
 export type DiskControllerTypes = "SCSI" | "NVMe";
-export const DiskControllerTypes = /*@__PURE__*/ S.String;
+export const DiskControllerTypes = S.String;
 
 /** Describes a virtual machine scale set storage profile. */
 export interface VirtualMachineScaleSetStorageProfileInput {
@@ -996,7 +1026,7 @@ export type DomainNameLabelScopeTypes =
   | "SubscriptionReuse"
   | "ResourceGroupReuse"
   | "NoReuse";
-export const DomainNameLabelScopeTypes = /*@__PURE__*/ S.String;
+export const DomainNameLabelScopeTypes = S.String;
 
 /** Describes a virtual machines scale sets network configuration's DNS settings. */
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
@@ -1041,11 +1071,11 @@ export const VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesIpTagsL
 
 /** Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'. */
 export type IPVersion = "IPv4" | "IPv6";
-export const IPVersion = /*@__PURE__*/ S.String;
+export const IPVersion = S.String;
 
 /** Specify what happens to the network interface when the VM is deleted */
 export type DeleteOptions = "Delete" | "Detach";
-export const DeleteOptions = /*@__PURE__*/ S.String;
+export const DeleteOptions = S.String;
 
 /** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration */
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationProperties {
@@ -1082,11 +1112,11 @@ export const VirtualMachineScaleSetPublicIPAddressConfigurationProperties =
 
 /** Specify public IP sku name. */
 export type PublicIPAddressSkuName = "Basic" | "Standard";
-export const PublicIPAddressSkuName = /*@__PURE__*/ S.String;
+export const PublicIPAddressSkuName = S.String;
 
 /** Specify public IP sku tier */
 export type PublicIPAddressSkuTier = "Regional" | "Global";
-export const PublicIPAddressSkuTier = /*@__PURE__*/ S.String;
+export const PublicIPAddressSkuTier = S.String;
 
 /** Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible. */
 export interface PublicIPAddressSku {
@@ -1233,11 +1263,11 @@ export type NetworkInterfaceAuxiliaryMode =
   | "None"
   | "AcceleratedConnections"
   | "Floating";
-export const NetworkInterfaceAuxiliaryMode = /*@__PURE__*/ S.String;
+export const NetworkInterfaceAuxiliaryMode = S.String;
 
 /** Specifies whether the Auxiliary sku is enabled for the Network Interface resource. */
 export type NetworkInterfaceAuxiliarySku = "None" | "A1" | "A2" | "A4" | "A8";
-export const NetworkInterfaceAuxiliarySku = /*@__PURE__*/ S.String;
+export const NetworkInterfaceAuxiliarySku = S.String;
 
 /** Describes a virtual machine scale set network profile's IP configuration. */
 export interface VirtualMachineScaleSetNetworkConfigurationProperties {
@@ -1315,7 +1345,7 @@ export const VirtualMachineScaleSetNetworkProfileNetworkInterfaceConfigurationsL
 
 /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
 export type NetworkApiVersion = "2020-11-01";
-export const NetworkApiVersion = /*@__PURE__*/ S.String;
+export const NetworkApiVersion = S.String;
 
 /** Describes a virtual machine scale set network profile. */
 export interface VirtualMachineScaleSetNetworkProfile {
@@ -1355,7 +1385,7 @@ export const UefiSettings = /*@__PURE__*/ S.suspend(() =>
 
 /** Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. The default behavior is: UefiSettings will not be enabled unless this property is set. */
 export type SecurityTypes = "TrustedLaunch" | "ConfidentialVM";
-export const SecurityTypes = /*@__PURE__*/ S.String;
+export const SecurityTypes = S.String;
 
 /** Specifies the Managed Identity used by ADE to get access token for keyvault operations. */
 export interface EncryptionIdentity {
@@ -1372,7 +1402,7 @@ export const EncryptionIdentity = /*@__PURE__*/ S.suspend(() =>
 
 /** Specifies the mode that ProxyAgent will execute on if the feature is enabled. ProxyAgent will start to audit or monitor but not enforce access control over requests to host endpoints in Audit mode, while in Enforce mode it will enforce access control. The default value is Enforce mode. */
 export type Mode = "Audit" | "Enforce";
-export const Mode = /*@__PURE__*/ S.String;
+export const Mode = S.String;
 
 /** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2023-09-01. */
 export interface ProxyAgentSettings {
@@ -1931,7 +1961,7 @@ export type ManagedServiceIdentityType =
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned,UserAssigned";
-export const ManagedServiceIdentityType = /*@__PURE__*/ S.String;
+export const ManagedServiceIdentityType = S.String;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -1943,11 +1973,11 @@ export const UserAssignedIdentityInput = /*@__PURE__*/ S.suspend(() =>
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentitiesInput = {
-  [key: string]: UserAssignedIdentityInput | undefined;
+  [key: string]: UserAssignedIdentityInput | null | undefined;
 };
 export const UserAssignedIdentitiesInput = /*@__PURE__*/ S.Record(
   S.String,
-  UserAssignedIdentityInput,
+  S.NullOr(UserAssignedIdentityInput),
 ) as any as S.Schema<UserAssignedIdentitiesInput>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -2038,7 +2068,7 @@ export type SystemDataCreatedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const SystemDataCreatedByType = /*@__PURE__*/ S.String;
+export const SystemDataCreatedByType = S.String;
 
 /** The type of identity that last modified the resource. */
 export type SystemDataLastModifiedByType =
@@ -2046,7 +2076,7 @@ export type SystemDataLastModifiedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const SystemDataLastModifiedByType = /*@__PURE__*/ S.String;
+export const SystemDataLastModifiedByType = S.String;
 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
@@ -2092,7 +2122,7 @@ export type ProvisioningState =
   | "Updating"
   | "Deleting"
   | "Migrating";
-export const ProvisioningState = /*@__PURE__*/ S.String;
+export const ProvisioningState = S.String;
 
 /** List of VM sizes supported for Compute Fleet */
 export type FleetPropertiesVmSizesProfileList = Array<VmSizeProfile>;
@@ -2466,11 +2496,11 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
-  UserAssignedIdentity,
+  S.NullOr(UserAssignedIdentity),
 ) as any as S.Schema<UserAssignedIdentities>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -2537,7 +2567,7 @@ export const FleetsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "FleetsCreateOrUpdateResponse",
 }) as any as S.Schema<FleetsCreateOrUpdateResponse>;
 
-export interface FleetsDeleteRequest {
+export interface GetFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -2545,39 +2575,7 @@ export interface FleetsDeleteRequest {
   /** The name of the Compute Fleet */
   fleetName: string;
 }
-export const FleetsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    fleetName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
-      code: 200,
-      apiVersion: "2024-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "FleetsDeleteRequest",
-}) as any as S.Schema<FleetsDeleteRequest>;
-
-export interface FleetsDeleteResponse {}
-export const FleetsDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "FleetsDeleteResponse",
-}) as any as S.Schema<FleetsDeleteResponse>;
-
-export interface FleetsGetRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Compute Fleet */
-  fleetName: string;
-}
-export const FleetsGetRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetFleetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -2591,31 +2589,31 @@ export const FleetsGetRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "FleetsGetRequest",
-}) as any as S.Schema<FleetsGetRequest>;
+  identifier: "GetFleetRequest",
+}) as any as S.Schema<GetFleetRequest>;
 
 /** Resource tags. */
-export type FleetsGetResponseTagsMap = { [key: string]: string | undefined };
-export const FleetsGetResponseTagsMap = /*@__PURE__*/ S.Record(
+export type GetFleetResponseTagsMap = { [key: string]: string | undefined };
+export const GetFleetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<FleetsGetResponseTagsMap>;
+) as any as S.Schema<GetFleetResponseTagsMap>;
 
 /** Zones in which the Compute Fleet is available */
-export type FleetsGetResponseZonesList = Array<string>;
-export const FleetsGetResponseZonesList = /*@__PURE__*/ S.Array(
+export type GetFleetResponseZonesList = Array<string>;
+export const GetFleetResponseZonesList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<FleetsGetResponseZonesList>;
+) as any as S.Schema<GetFleetResponseZonesList>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
-export type FleetsGetResponseIdentity = FleetsCreateOrUpdateResponseIdentity;
-export const FleetsGetResponseIdentity = FleetsCreateOrUpdateResponseIdentity;
+export type GetFleetResponseIdentity = FleetsCreateOrUpdateResponseIdentity;
+export const GetFleetResponseIdentity = FleetsCreateOrUpdateResponseIdentity;
 
 /** Plan for the resource. */
-export type FleetsGetResponsePlan = FleetsCreateOrUpdateRequestPlan;
-export const FleetsGetResponsePlan = FleetsCreateOrUpdateRequestPlan;
+export type GetFleetResponsePlan = FleetsCreateOrUpdateRequestPlan;
+export const GetFleetResponsePlan = FleetsCreateOrUpdateRequestPlan;
 
-export interface FleetsGetResponse {
+export interface GetFleetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
@@ -2625,42 +2623,42 @@ export interface FleetsGetResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   /** Resource tags. */
-  tags?: FleetsGetResponseTagsMap;
+  tags?: GetFleetResponseTagsMap;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: FleetProperties;
   /** Zones in which the Compute Fleet is available */
-  zones?: FleetsGetResponseZonesList;
+  zones?: GetFleetResponseZonesList;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: FleetsCreateOrUpdateResponseIdentity;
   /** Plan for the resource. */
   plan?: FleetsCreateOrUpdateRequestPlan;
 }
-export const FleetsGetResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetFleetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
-    tags: S.optional(FleetsGetResponseTagsMap),
+    tags: S.optional(GetFleetResponseTagsMap),
     location: S.String,
     properties: S.optional(FleetProperties),
-    zones: S.optional(FleetsGetResponseZonesList),
+    zones: S.optional(GetFleetResponseZonesList),
     identity: S.optional(FleetsCreateOrUpdateResponseIdentity),
     plan: S.optional(FleetsCreateOrUpdateRequestPlan),
   }),
 ).annotate({
-  identifier: "FleetsGetResponse",
-}) as any as S.Schema<FleetsGetResponse>;
+  identifier: "GetFleetResponse",
+}) as any as S.Schema<GetFleetResponse>;
 
-export interface FleetsListByResourceGroupRequest {
+export interface ListFleetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
 }
-export const FleetsListByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListFleetByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -2673,8 +2671,8 @@ export const FleetsListByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "FleetsListByResourceGroupRequest",
-}) as any as S.Schema<FleetsListByResourceGroupRequest>;
+  identifier: "ListFleetByResourceGroupRequest",
+}) as any as S.Schema<ListFleetByResourceGroupRequest>;
 
 /** Resource tags. */
 export type FleetTagsMap = { [key: string]: string | undefined };
@@ -2757,11 +2755,11 @@ export const FleetListResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "FleetListResult",
 }) as any as S.Schema<FleetListResult>;
 
-export interface FleetsListBySubscriptionRequest {
+export interface ListFleetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
 }
-export const FleetsListBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListFleetBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
   }).pipe(
@@ -2773,10 +2771,10 @@ export const FleetsListBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "FleetsListBySubscriptionRequest",
-}) as any as S.Schema<FleetsListBySubscriptionRequest>;
+  identifier: "ListFleetBySubscriptionRequest",
+}) as any as S.Schema<ListFleetBySubscriptionRequest>;
 
-export interface FleetsListVirtualMachineScaleSetsRequest {
+export interface ListFleetVirtualMachineScaleSetsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -2784,7 +2782,7 @@ export interface FleetsListVirtualMachineScaleSetsRequest {
   /** The name of the Fleet */
   name: string;
 }
-export const FleetsListVirtualMachineScaleSetsRequest = /*@__PURE__*/ S.suspend(
+export const ListFleetVirtualMachineScaleSetsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -2799,8 +2797,8 @@ export const FleetsListVirtualMachineScaleSetsRequest = /*@__PURE__*/ S.suspend(
       }),
     ),
 ).annotate({
-  identifier: "FleetsListVirtualMachineScaleSetsRequest",
-}) as any as S.Schema<FleetsListVirtualMachineScaleSetsRequest>;
+  identifier: "ListFleetVirtualMachineScaleSetsRequest",
+}) as any as S.Schema<ListFleetVirtualMachineScaleSetsRequest>;
 
 /** API error base. */
 export interface ApiErrorBase {
@@ -2910,12 +2908,100 @@ export const VirtualMachineScaleSetListResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "VirtualMachineScaleSetListResult",
 }) as any as S.Schema<VirtualMachineScaleSetListResult>;
 
+export interface ListOperationsRequest {}
+export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/providers/Microsoft.AzureFleet/operations",
+      code: 200,
+      apiVersion: "2024-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  description?: string;
+}
+export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.optional(S.String),
+    resource: S.optional(S.String),
+    operation: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "OperationDisplay",
+}) as any as S.Schema<OperationDisplay>;
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+export type OperationOrigin = "user" | "system" | "user,system";
+export const OperationOrigin = S.String;
+
+/** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+export type OperationActionType = "Internal";
+export const OperationActionType = S.String;
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
+  name?: string;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
+  isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  origin?: OperationOrigin;
+  /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  actionType?: OperationActionType;
+}
+export const Operation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    isDataAction: S.optional(S.Boolean),
+    display: S.optional(OperationDisplay),
+    origin: S.optional(OperationOrigin),
+    actionType: S.optional(OperationActionType),
+  }),
+).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
+
+/** List of operations supported by the resource provider */
+export type ListOperationsResponseValueList = Array<Operation>;
+export const ListOperationsResponseValueList = /*@__PURE__*/ S.Array(
+  Operation,
+) as any as S.Schema<ListOperationsResponseValueList>;
+
+export interface ListOperationsResponse {
+  /** List of operations supported by the resource provider */
+  value?: ListOperationsResponseValueList;
+  /** URL to get the next set of operation list results (if there are any). */
+  nextLink?: string;
+}
+export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(ListOperationsResponseValueList),
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListOperationsResponse",
+}) as any as S.Schema<ListOperationsResponse>;
+
 /** Resource tags. */
-export type FleetsUpdateRequestTagsMap = { [key: string]: string | undefined };
-export const FleetsUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
+export type UpdateFleetRequestTagsMap = { [key: string]: string | undefined };
+export const UpdateFleetRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<FleetsUpdateRequestTagsMap>;
+) as any as S.Schema<UpdateFleetRequestTagsMap>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityUpdateInputType =
@@ -2923,7 +3009,7 @@ export type ManagedServiceIdentityUpdateInputType =
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned,UserAssigned";
-export const ManagedServiceIdentityUpdateInputType = /*@__PURE__*/ S.String;
+export const ManagedServiceIdentityUpdateInputType = S.String;
 
 /** User assigned identity properties */
 export type ManagedServiceIdentityUpdateInputUserAssignedIdentitiesValue =
@@ -2984,7 +3070,7 @@ export const ResourcePlanUpdate = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResourcePlanUpdate",
 }) as any as S.Schema<ResourcePlanUpdate>;
 
-export interface FleetsUpdateRequest {
+export interface UpdateFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -2992,7 +3078,7 @@ export interface FleetsUpdateRequest {
   /** The name of the Compute Fleet */
   fleetName: string;
   /** Resource tags. */
-  tags?: FleetsUpdateRequestTagsMap;
+  tags?: UpdateFleetRequestTagsMap;
   /** Updatable managed service identity */
   identity?: ManagedServiceIdentityUpdateInput;
   /** Updatable resource plan */
@@ -3000,12 +3086,12 @@ export interface FleetsUpdateRequest {
   /** RP-specific updatable properties */
   properties?: FleetPropertiesInput;
 }
-export const FleetsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateFleetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     fleetName: S.String.pipe(T.Label()),
-    tags: S.optional(FleetsUpdateRequestTagsMap),
+    tags: S.optional(UpdateFleetRequestTagsMap),
     identity: S.optional(ManagedServiceIdentityUpdateInput),
     plan: S.optional(ResourcePlanUpdate),
     properties: S.optional(FleetPropertiesInput),
@@ -3018,32 +3104,31 @@ export const FleetsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "FleetsUpdateRequest",
-}) as any as S.Schema<FleetsUpdateRequest>;
+  identifier: "UpdateFleetRequest",
+}) as any as S.Schema<UpdateFleetRequest>;
 
 /** Resource tags. */
-export type FleetsUpdateResponseTagsMap = { [key: string]: string | undefined };
-export const FleetsUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
+export type UpdateFleetResponseTagsMap = { [key: string]: string | undefined };
+export const UpdateFleetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<FleetsUpdateResponseTagsMap>;
+) as any as S.Schema<UpdateFleetResponseTagsMap>;
 
 /** Zones in which the Compute Fleet is available */
-export type FleetsUpdateResponseZonesList = Array<string>;
-export const FleetsUpdateResponseZonesList = /*@__PURE__*/ S.Array(
+export type UpdateFleetResponseZonesList = Array<string>;
+export const UpdateFleetResponseZonesList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<FleetsUpdateResponseZonesList>;
+) as any as S.Schema<UpdateFleetResponseZonesList>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
-export type FleetsUpdateResponseIdentity = FleetsCreateOrUpdateResponseIdentity;
-export const FleetsUpdateResponseIdentity =
-  FleetsCreateOrUpdateResponseIdentity;
+export type UpdateFleetResponseIdentity = FleetsCreateOrUpdateResponseIdentity;
+export const UpdateFleetResponseIdentity = FleetsCreateOrUpdateResponseIdentity;
 
 /** Plan for the resource. */
-export type FleetsUpdateResponsePlan = FleetsCreateOrUpdateRequestPlan;
-export const FleetsUpdateResponsePlan = FleetsCreateOrUpdateRequestPlan;
+export type UpdateFleetResponsePlan = FleetsCreateOrUpdateRequestPlan;
+export const UpdateFleetResponsePlan = FleetsCreateOrUpdateRequestPlan;
 
-export interface FleetsUpdateResponse {
+export interface UpdateFleetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
@@ -3053,122 +3138,49 @@ export interface FleetsUpdateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   /** Resource tags. */
-  tags?: FleetsUpdateResponseTagsMap;
+  tags?: UpdateFleetResponseTagsMap;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: FleetProperties;
   /** Zones in which the Compute Fleet is available */
-  zones?: FleetsUpdateResponseZonesList;
+  zones?: UpdateFleetResponseZonesList;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: FleetsCreateOrUpdateResponseIdentity;
   /** Plan for the resource. */
   plan?: FleetsCreateOrUpdateRequestPlan;
 }
-export const FleetsUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+export const UpdateFleetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
-    tags: S.optional(FleetsUpdateResponseTagsMap),
+    tags: S.optional(UpdateFleetResponseTagsMap),
     location: S.String,
     properties: S.optional(FleetProperties),
-    zones: S.optional(FleetsUpdateResponseZonesList),
+    zones: S.optional(UpdateFleetResponseZonesList),
     identity: S.optional(FleetsCreateOrUpdateResponseIdentity),
     plan: S.optional(FleetsCreateOrUpdateRequestPlan),
   }),
 ).annotate({
-  identifier: "FleetsUpdateResponse",
-}) as any as S.Schema<FleetsUpdateResponse>;
+  identifier: "UpdateFleetResponse",
+}) as any as S.Schema<UpdateFleetResponse>;
 
-export interface OperationsListRequest {}
-export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/providers/Microsoft.AzureFleet/operations",
-      code: 200,
-      apiVersion: "2024-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "OperationsListRequest",
-}) as any as S.Schema<OperationsListRequest>;
-
-/** Localized display information for this particular operation. */
-export interface OperationDisplay {
-  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
-  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
-  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
-  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
-}
-export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provider: S.optional(S.String),
-    resource: S.optional(S.String),
-    operation: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
-
-/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-export type OperationOrigin = "user" | "system" | "user,system";
-export const OperationOrigin = /*@__PURE__*/ S.String;
-
-/** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-export type OperationActionType = "Internal";
-export const OperationActionType = /*@__PURE__*/ S.String;
-
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
-  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
-  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
-  /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
-}
-export const Operation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    isDataAction: S.optional(S.Boolean),
-    display: S.optional(OperationDisplay),
-    origin: S.optional(OperationOrigin),
-    actionType: S.optional(OperationActionType),
-  }),
-).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
-
-/** List of operations supported by the resource provider */
-export type OperationsListResponseValueList = Array<Operation>;
-export const OperationsListResponseValueList = /*@__PURE__*/ S.Array(
-  Operation,
-) as any as S.Schema<OperationsListResponseValueList>;
-
-export interface OperationsListResponse {
-  /** List of operations supported by the resource provider */
-  value?: OperationsListResponseValueList;
-  /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
-}
-export const OperationsListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(OperationsListResponseValueList),
-    nextLink: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OperationsListResponse",
-}) as any as S.Schema<OperationsListResponse>;
+export type DeleteFleetError = AzureOpError;
+/** Delete a Fleet */
+export const DeleteFleet: API.OperationMethod<
+  DeleteFleetRequest,
+  DeleteFleetResponse,
+  DeleteFleetError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteFleetRequest,
+  output: DeleteFleetResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
 
 export type FleetsCreateOrUpdateError = AzureOpError;
 /** Create a Fleet */
@@ -3185,106 +3197,91 @@ export const FleetsCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type FleetsDeleteError = AzureOpError;
-/** Delete a Fleet */
-export const FleetsDelete: API.OperationMethod<
-  FleetsDeleteRequest,
-  FleetsDeleteResponse,
-  FleetsDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: FleetsDeleteRequest,
-  output: FleetsDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type FleetsGetError = AzureOpError;
+export type GetFleetError = AzureOpError;
 /** Get a Fleet */
-export const FleetsGet: API.OperationMethod<
-  FleetsGetRequest,
-  FleetsGetResponse,
-  FleetsGetError,
+export const GetFleet: API.OperationMethod<
+  GetFleetRequest,
+  GetFleetResponse,
+  GetFleetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: FleetsGetRequest,
-  output: FleetsGetResponse,
+  input: GetFleetRequest,
+  output: GetFleetResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type FleetsListByResourceGroupError = AzureOpError;
+export type ListFleetByResourceGroupError = AzureOpError;
 /** List Fleet resources by resource group */
-export const FleetsListByResourceGroup: API.OperationMethod<
-  FleetsListByResourceGroupRequest,
+export const ListFleetByResourceGroup: API.OperationMethod<
+  ListFleetByResourceGroupRequest,
   FleetListResult,
-  FleetsListByResourceGroupError,
+  ListFleetByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: FleetsListByResourceGroupRequest,
+  input: ListFleetByResourceGroupRequest,
   output: FleetListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type FleetsListBySubscriptionError = AzureOpError;
+export type ListFleetBySubscriptionError = AzureOpError;
 /** List Fleet resources by subscription ID */
-export const FleetsListBySubscription: API.OperationMethod<
-  FleetsListBySubscriptionRequest,
+export const ListFleetBySubscription: API.OperationMethod<
+  ListFleetBySubscriptionRequest,
   FleetListResult,
-  FleetsListBySubscriptionError,
+  ListFleetBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: FleetsListBySubscriptionRequest,
+  input: ListFleetBySubscriptionRequest,
   output: FleetListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type FleetsListVirtualMachineScaleSetsError = AzureOpError;
+export type ListFleetVirtualMachineScaleSetsError = AzureOpError;
 /** List VirtualMachineScaleSet resources by Fleet */
-export const FleetsListVirtualMachineScaleSets: API.OperationMethod<
-  FleetsListVirtualMachineScaleSetsRequest,
+export const ListFleetVirtualMachineScaleSets: API.OperationMethod<
+  ListFleetVirtualMachineScaleSetsRequest,
   VirtualMachineScaleSetListResult,
-  FleetsListVirtualMachineScaleSetsError,
+  ListFleetVirtualMachineScaleSetsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: FleetsListVirtualMachineScaleSetsRequest,
+  input: ListFleetVirtualMachineScaleSetsRequest,
   output: VirtualMachineScaleSetListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type FleetsUpdateError = AzureOpError;
-/** Update a Fleet */
-export const FleetsUpdate: API.OperationMethod<
-  FleetsUpdateRequest,
-  FleetsUpdateResponse,
-  FleetsUpdateError,
+export type ListOperationsError = AzureOpError;
+/** List the operations for the provider */
+export const ListOperations: API.OperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse,
+  ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: FleetsUpdateRequest,
-  output: FleetsUpdateResponse,
+  input: ListOperationsRequest,
+  output: ListOperationsResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type OperationsListError = AzureOpError;
-/** List the operations for the provider */
-export const OperationsList: API.OperationMethod<
-  OperationsListRequest,
-  OperationsListResponse,
-  OperationsListError,
+export type UpdateFleetError = AzureOpError;
+/** Update a Fleet */
+export const UpdateFleet: API.OperationMethod<
+  UpdateFleetRequest,
+  UpdateFleetResponse,
+  UpdateFleetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: OperationsListRequest,
-  output: OperationsListResponse,
+  input: UpdateFleetRequest,
+  output: UpdateFleetResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

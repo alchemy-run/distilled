@@ -1,0 +1,4975 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.invoices#Direction": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The direction of the sort."
+      }
+    },
+    "com.whop.invoices#ListInvoiceRequestProductIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Filter invoices to only those associated with these specific product identifiers."
+      }
+    },
+    "com.whop.invoices#InvoiceCollectionMethods": {
+      "type": "enum",
+      "members": {
+        "SEND_INVOICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "send_invoice"
+          }
+        },
+        "CHARGE_AUTOMATICALLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "charge_automatically"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The method of collection for an invoice."
+      }
+    },
+    "com.whop.invoices#ListInvoiceRequestCollectionMethodsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#InvoiceCollectionMethods"
+      },
+      "traits": {
+        "smithy.api#documentation": "Filter invoices by their collection method."
+      }
+    },
+    "com.whop.invoices#InvoiceStatuses": {
+      "type": "enum",
+      "members": {
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open"
+          }
+        },
+        "PAID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paid"
+          }
+        },
+        "PAST_DUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "past_due"
+          }
+        },
+        "UNCOLLECTIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uncollectible"
+          }
+        },
+        "VOID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "void"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The different statuses an invoice can be in"
+      }
+    },
+    "com.whop.invoices#ListInvoiceRequestStatusesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#InvoiceStatuses"
+      },
+      "traits": {
+        "smithy.api#documentation": "Filter invoices by their current status."
+      }
+    },
+    "com.whop.invoices#InvoicesSortableColumns": {
+      "type": "enum",
+      "members": {
+        "ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id"
+          }
+        },
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "DUE_DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "due_date"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which columns can be used to sort."
+      }
+    },
+    "com.whop.invoices#ListInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id"
+          }
+        },
+        "direction": {
+          "target": "com.whop.invoices#Direction",
+          "traits": {
+            "smithy.api#httpQuery": "direction"
+          }
+        },
+        "product_ids": {
+          "target": "com.whop.invoices#ListInvoiceRequestProductIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "product_ids"
+          }
+        },
+        "collection_methods": {
+          "target": "com.whop.invoices#ListInvoiceRequestCollectionMethodsList",
+          "traits": {
+            "smithy.api#httpQuery": "collection_methods"
+          }
+        },
+        "statuses": {
+          "target": "com.whop.invoices#ListInvoiceRequestStatusesList",
+          "traits": {
+            "smithy.api#httpQuery": "statuses"
+          }
+        },
+        "order": {
+          "target": "com.whop.invoices#InvoicesSortableColumns",
+          "traits": {
+            "smithy.api#httpQuery": "order"
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before"
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.invoices#InvoiceListItem": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the invoice was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "current_plan": {
+          "target": "com.whop.invoices#InvoiceListItemCurrentPlan",
+          "traits": {
+            "smithy.api#documentation": "The plan that this invoice charges for.",
+            "smithy.api#required": {}
+          }
+        },
+        "due_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deadline by which payment is expected. Null if the invoice is collected automatically.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the customer this invoice is addressed to. Null if no email is on file.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fetch_invoice_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A signed token that allows fetching invoice data publicly without authentication.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the invoice.",
+            "smithy.api#required": {}
+          }
+        },
+        "line_items": {
+          "target": "com.whop.invoices#InvoiceListItemLineItemsList",
+          "traits": {
+            "smithy.api#documentation": "Optional line items that break down the invoice total into individual charges.",
+            "smithy.api#required": {}
+          }
+        },
+        "number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sequential invoice number for display purposes.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_processing": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a payment on this invoice is still clearing. True while a delayed payment method such as ACH or SEPA settles, during which the invoice stays open and is not marked past due.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.invoices#InvoiceStatuses",
+          "traits": {
+            "smithy.api#documentation": "The current payment status of the invoice, such as draft, open, paid, or void.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.invoices#InvoiceListItemUser",
+          "traits": {
+            "smithy.api#documentation": "The user this invoice is addressed to. Null if the user account has been removed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An invoice represents an itemized bill sent by a company to a customer for a specific product and plan, tracking the amount owed, due date, and payment status."
+      }
+    },
+    "com.whop.invoices#Currencies": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usd"
+          }
+        },
+        "SGD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sgd"
+          }
+        },
+        "INR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inr"
+          }
+        },
+        "AUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aud"
+          }
+        },
+        "BRL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brl"
+          }
+        },
+        "CAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cad"
+          }
+        },
+        "DKK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dkk"
+          }
+        },
+        "EUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eur"
+          }
+        },
+        "NOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nok"
+          }
+        },
+        "GBP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gbp"
+          }
+        },
+        "SEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sek"
+          }
+        },
+        "CHF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chf"
+          }
+        },
+        "HKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hkd"
+          }
+        },
+        "HUF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "huf"
+          }
+        },
+        "JPY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jpy"
+          }
+        },
+        "MXN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mxn"
+          }
+        },
+        "MYR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "myr"
+          }
+        },
+        "PLN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pln"
+          }
+        },
+        "CZK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "czk"
+          }
+        },
+        "NZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nzd"
+          }
+        },
+        "AED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aed"
+          }
+        },
+        "ETH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eth"
+          }
+        },
+        "APE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ape"
+          }
+        },
+        "COP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cop"
+          }
+        },
+        "RON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ron"
+          }
+        },
+        "THB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thb"
+          }
+        },
+        "BGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bgn"
+          }
+        },
+        "IDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "idr"
+          }
+        },
+        "DOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dop"
+          }
+        },
+        "PHP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "php"
+          }
+        },
+        "TRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "try"
+          }
+        },
+        "KRW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "krw"
+          }
+        },
+        "TWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twd"
+          }
+        },
+        "VND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vnd"
+          }
+        },
+        "PKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pkr"
+          }
+        },
+        "CLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clp"
+          }
+        },
+        "UYU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uyu"
+          }
+        },
+        "ARS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ars"
+          }
+        },
+        "ZAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zar"
+          }
+        },
+        "DZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dzd"
+          }
+        },
+        "TND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tnd"
+          }
+        },
+        "MAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mad"
+          }
+        },
+        "KES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kes"
+          }
+        },
+        "KWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kwd"
+          }
+        },
+        "JOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jod"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "XCD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xcd"
+          }
+        },
+        "AMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amd"
+          }
+        },
+        "BSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd"
+          }
+        },
+        "BHD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bhd"
+          }
+        },
+        "BOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bob"
+          }
+        },
+        "BAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bam"
+          }
+        },
+        "KHR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "khr"
+          }
+        },
+        "CRC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crc"
+          }
+        },
+        "XOF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xof"
+          }
+        },
+        "EGP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egp"
+          }
+        },
+        "ETB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "etb"
+          }
+        },
+        "GMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gmd"
+          }
+        },
+        "GHS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ghs"
+          }
+        },
+        "GTQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gtq"
+          }
+        },
+        "GYD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gyd"
+          }
+        },
+        "ILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ils"
+          }
+        },
+        "JMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jmd"
+          }
+        },
+        "MOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mop"
+          }
+        },
+        "MGA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mga"
+          }
+        },
+        "MUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mur"
+          }
+        },
+        "MDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mdl"
+          }
+        },
+        "MNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mnt"
+          }
+        },
+        "NAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nad"
+          }
+        },
+        "NGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ngn"
+          }
+        },
+        "MKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mkd"
+          }
+        },
+        "OMR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "omr"
+          }
+        },
+        "PYG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pyg"
+          }
+        },
+        "PEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pen"
+          }
+        },
+        "QAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qar"
+          }
+        },
+        "RWF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rwf"
+          }
+        },
+        "SAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sar"
+          }
+        },
+        "RSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsd"
+          }
+        },
+        "LKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lkr"
+          }
+        },
+        "TZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tzs"
+          }
+        },
+        "TTD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ttd"
+          }
+        },
+        "UZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uzs"
+          }
+        },
+        "RUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rub"
+          }
+        },
+        "BTC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "btc"
+          }
+        },
+        "CNY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cny"
+          }
+        },
+        "USDT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usdt"
+          }
+        },
+        "KZT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kzt"
+          }
+        },
+        "AWG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awg"
+          }
+        },
+        "WHOP_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whop_usd"
+          }
+        },
+        "XAU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xau"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The available currencies on the platform"
+      }
+    },
+    "com.whop.invoices#InvoiceListItemCurrentPlan": {
+      "type": "structure",
+      "members": {
+        "currency": {
+          "target": "com.whop.invoices#Currencies",
+          "traits": {
+            "smithy.api#documentation": "The currency used for all prices on this plan (e.g., 'usd', 'eur'). All monetary amounts on the plan are denominated in this currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "formatted_price": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The formatted price (including currency) for the plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the plan.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The plan that this invoice charges for."
+      }
+    },
+    "com.whop.invoices#InvoiceListItemLineItemsItem": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The label or description for this line item.",
+            "smithy.api#required": {}
+          }
+        },
+        "position": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The display order of this line item within the invoice.",
+            "smithy.api#required": {}
+          }
+        },
+        "quantity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The quantity of this line item.",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The computed total for this line item (quantity * unit_price).",
+            "smithy.api#required": {}
+          }
+        },
+        "unit_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The unit price for this line item. Negative for a credit or deduction.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A line item on an invoice, representing a single charge with a label, quantity, and unit price."
+      }
+    },
+    "com.whop.invoices#InvoiceListItemLineItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#InvoiceListItemLineItemsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional line items that break down the invoice total into individual charges."
+      }
+    },
+    "com.whop.invoices#InvoiceListItemUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user this invoice is addressed to. Null if the user account has been removed."
+      }
+    },
+    "com.whop.invoices#ListInvoiceResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#InvoiceListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.invoices#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.invoices#ListInvoiceResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.invoices#ListInvoiceResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.invoices#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.invoices#ListInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.invoices#ListInvoiceRequest"
+      },
+      "output": {
+        "target": "com.whop.invoices#ListInvoiceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.invoices#BadRequest"
+        },
+        {
+          "target": "com.whop.invoices#Forbidden"
+        },
+        {
+          "target": "com.whop.invoices#NotFound"
+        },
+        {
+          "target": "com.whop.invoices#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/invoices",
+          "code": 200
+        },
+        "smithy.api#documentation": "List invoices\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of invoices for a company, with optional filtering by product, status, collection method, and creation date.\n\nRequired permissions:\n - `invoice:basic:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.invoices#TaxIdentifierTypes": {
+      "type": "enum",
+      "members": {
+        "AD_NRT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_nrt"
+          }
+        },
+        "AO_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ao_tin"
+          }
+        },
+        "AR_CUIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ar_cuit"
+          }
+        },
+        "AL_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "al_tin"
+          }
+        },
+        "AM_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "am_tin"
+          }
+        },
+        "AW_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aw_tin"
+          }
+        },
+        "AU_ABN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_abn"
+          }
+        },
+        "AU_ARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_arn"
+          }
+        },
+        "EU_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu_vat"
+          }
+        },
+        "AZ_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "az_tin"
+          }
+        },
+        "BS_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bs_tin"
+          }
+        },
+        "BH_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bh_vat"
+          }
+        },
+        "BD_BIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bd_bin"
+          }
+        },
+        "BB_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bb_tin"
+          }
+        },
+        "BY_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "by_tin"
+          }
+        },
+        "BJ_IFU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bj_ifu"
+          }
+        },
+        "BO_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bo_tin"
+          }
+        },
+        "BA_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ba_tin"
+          }
+        },
+        "BR_CNPJ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "br_cnpj"
+          }
+        },
+        "BR_CPF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "br_cpf"
+          }
+        },
+        "BG_UIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bg_uic"
+          }
+        },
+        "BF_IFU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bf_ifu"
+          }
+        },
+        "KH_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kh_tin"
+          }
+        },
+        "CM_NIU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cm_niu"
+          }
+        },
+        "CA_BN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_bn"
+          }
+        },
+        "CA_GST_HST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_gst_hst"
+          }
+        },
+        "CA_PST_BC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_pst_bc"
+          }
+        },
+        "CA_PST_MB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_pst_mb"
+          }
+        },
+        "CA_PST_SK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_pst_sk"
+          }
+        },
+        "CA_QST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_qst"
+          }
+        },
+        "CV_NIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cv_nif"
+          }
+        },
+        "CL_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cl_tin"
+          }
+        },
+        "CN_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cn_tin"
+          }
+        },
+        "CO_NIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "co_nit"
+          }
+        },
+        "CD_NIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cd_nif"
+          }
+        },
+        "CR_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cr_tin"
+          }
+        },
+        "HR_OIB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hr_oib"
+          }
+        },
+        "DO_RCN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "do_rcn"
+          }
+        },
+        "EC_RUC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ec_ruc"
+          }
+        },
+        "EG_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eg_tin"
+          }
+        },
+        "SV_NIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sv_nit"
+          }
+        },
+        "ET_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "et_tin"
+          }
+        },
+        "EU_OSS_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu_oss_vat"
+          }
+        },
+        "GE_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ge_vat"
+          }
+        },
+        "GH_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gh_tin"
+          }
+        },
+        "DE_STN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de_stn"
+          }
+        },
+        "GB_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gb_vat"
+          }
+        },
+        "GN_NIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gn_nif"
+          }
+        },
+        "HK_BR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hk_br"
+          }
+        },
+        "HU_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hu_tin"
+          }
+        },
+        "IS_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_vat"
+          }
+        },
+        "IN_GST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_gst"
+          }
+        },
+        "ID_NPWP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_npwp"
+          }
+        },
+        "IL_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "il_vat"
+          }
+        },
+        "JP_CN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jp_cn"
+          }
+        },
+        "JP_RN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jp_rn"
+          }
+        },
+        "JP_TRN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jp_trn"
+          }
+        },
+        "KZ_BIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kz_bin"
+          }
+        },
+        "KE_PIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ke_pin"
+          }
+        },
+        "KG_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kg_tin"
+          }
+        },
+        "LA_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "la_tin"
+          }
+        },
+        "LI_UID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "li_uid"
+          }
+        },
+        "LI_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "li_vat"
+          }
+        },
+        "MY_FRP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "my_frp"
+          }
+        },
+        "MY_ITN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "my_itn"
+          }
+        },
+        "MY_SST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "my_sst"
+          }
+        },
+        "MR_NIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mr_nif"
+          }
+        },
+        "MX_RFC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mx_rfc"
+          }
+        },
+        "MD_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "md_vat"
+          }
+        },
+        "ME_PIB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "me_pib"
+          }
+        },
+        "MA_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ma_vat"
+          }
+        },
+        "NP_PAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "np_pan"
+          }
+        },
+        "NZ_GST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nz_gst"
+          }
+        },
+        "NG_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_tin"
+          }
+        },
+        "MK_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mk_vat"
+          }
+        },
+        "NO_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_vat"
+          }
+        },
+        "NO_VOEC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_voec"
+          }
+        },
+        "OM_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "om_vat"
+          }
+        },
+        "PE_RUC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pe_ruc"
+          }
+        },
+        "PH_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ph_tin"
+          }
+        },
+        "PL_NIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl_nip"
+          }
+        },
+        "RO_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ro_tin"
+          }
+        },
+        "RU_INN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ru_inn"
+          }
+        },
+        "RU_KPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ru_kpp"
+          }
+        },
+        "SA_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sa_vat"
+          }
+        },
+        "SN_NINEA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sn_ninea"
+          }
+        },
+        "RS_PIB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rs_pib"
+          }
+        },
+        "SG_GST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sg_gst"
+          }
+        },
+        "SG_UEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sg_uen"
+          }
+        },
+        "SI_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "si_tin"
+          }
+        },
+        "ZA_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "za_vat"
+          }
+        },
+        "KR_BRN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_brn"
+          }
+        },
+        "ES_CIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "es_cif"
+          }
+        },
+        "CH_UID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ch_uid"
+          }
+        },
+        "CH_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ch_vat"
+          }
+        },
+        "TW_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tw_vat"
+          }
+        },
+        "TJ_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tj_tin"
+          }
+        },
+        "TZ_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tz_vat"
+          }
+        },
+        "TH_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "th_vat"
+          }
+        },
+        "TR_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tr_tin"
+          }
+        },
+        "UG_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ug_tin"
+          }
+        },
+        "UA_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ua_vat"
+          }
+        },
+        "AE_TRN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ae_trn"
+          }
+        },
+        "US_EIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_ein"
+          }
+        },
+        "UY_RUC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uy_ruc"
+          }
+        },
+        "UZ_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uz_tin"
+          }
+        },
+        "UZ_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uz_vat"
+          }
+        },
+        "VE_RIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ve_rif"
+          }
+        },
+        "VN_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vn_tin"
+          }
+        },
+        "ZM_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zm_tin"
+          }
+        },
+        "ZW_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zw_tin"
+          }
+        },
+        "SR_FIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sr_fin"
+          }
+        },
+        "XI_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xi_vat"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of tax identifier"
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase0BillingAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 1 of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 2 of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the customer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The phone number of the customer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tax_id_type": {
+          "target": "com.whop.invoices#TaxIdentifierTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of tax identifier.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tax_id_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value of the tax identifier.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Inline billing address to create a new mailing address for this invoice. Cannot be used together with mailing_address_id."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase0LineItemsItem": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The label or description for this line item.",
+            "smithy.api#required": {}
+          }
+        },
+        "quantity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The quantity of this line item. Defaults to 1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unit_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The unit price for this line item. Provided as a number in the specified currency. Eg: 10.43 for $10.43. Negative values represent a credit or deduction, as long as the line items still total a chargeable amount.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single line item to include on the invoice, with a label, quantity, and unit price."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase0LineItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#CreateInvoiceRequestBodyCase0LineItemsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional line items that break down the invoice total. When provided, the sum of (quantity * unit_price) for all items must equal the plan price. Individual items may be negative to represent a credit, as long as the sum is not negative and clears the currency's minimum charge."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase0PlanCustomFieldsItem": {
+      "type": "structure",
+      "members": {
+        "field_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the custom field.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the custom field (if being updated)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the custom field.",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The order of the field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "placeholder": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The placeholder value of the field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not the field is required.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase0PlanCustomFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#CreateInvoiceRequestBodyCase0PlanCustomFieldsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of custom field objects."
+      }
+    },
+    "com.whop.invoices#PaymentMethodTypes": {
+      "type": "enum",
+      "members": {
+        "ACSS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "acss_debit"
+          }
+        },
+        "ADDI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "addi"
+          }
+        },
+        "AFFIRM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affirm"
+          }
+        },
+        "AFTERPAY_CLEARPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "afterpay_clearpay"
+          }
+        },
+        "ALIPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alipay"
+          }
+        },
+        "ALMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alma"
+          }
+        },
+        "AMAZON_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amazon_pay"
+          }
+        },
+        "APPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple"
+          }
+        },
+        "APPLE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple_pay"
+          }
+        },
+        "AU_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_bank_transfer"
+          }
+        },
+        "AU_BECS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_becs_debit"
+          }
+        },
+        "BACS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bacs_debit"
+          }
+        },
+        "BANCOLOMBIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bancolombia"
+          }
+        },
+        "BANCONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bancontact"
+          }
+        },
+        "BANK_WIRE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_wire"
+          }
+        },
+        "BILLIE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "billie"
+          }
+        },
+        "BIZUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bizum"
+          }
+        },
+        "BLIK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blik"
+          }
+        },
+        "BOLETO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boleto"
+          }
+        },
+        "BRE_B": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bre_b"
+          }
+        },
+        "CA_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_bank_transfer"
+          }
+        },
+        "CAPCHASE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "capchase_pay"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CARD_INSTALLMENTS_THREE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_three"
+          }
+        },
+        "CARD_INSTALLMENTS_SIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_six"
+          }
+        },
+        "CARD_INSTALLMENTS_TWELVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_twelve"
+          }
+        },
+        "CASHAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashapp"
+          }
+        },
+        "CLARITYPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claritypay"
+          }
+        },
+        "COINBASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "coinbase"
+          }
+        },
+        "CRYPTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "CUSTOMER_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_balance"
+          }
+        },
+        "DEMO_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "demo_pay"
+          }
+        },
+        "EFECTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "efecty"
+          }
+        },
+        "EPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eps"
+          }
+        },
+        "EU_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu_bank_transfer"
+          }
+        },
+        "FPX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fpx"
+          }
+        },
+        "GB_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gb_bank_transfer"
+          }
+        },
+        "GIROPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "giropay"
+          }
+        },
+        "GOOGLE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google_pay"
+          }
+        },
+        "GOPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gopay"
+          }
+        },
+        "GRABPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "grabpay"
+          }
+        },
+        "ID_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_bank_transfer"
+          }
+        },
+        "IDEAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ideal"
+          }
+        },
+        "INTERAC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "interac"
+          }
+        },
+        "KAKAO_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kakao_pay"
+          }
+        },
+        "KLARNA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "klarna"
+          }
+        },
+        "KLARNA_PAY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "klarna_pay_now"
+          }
+        },
+        "KONBINI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "konbini"
+          }
+        },
+        "KR_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_card"
+          }
+        },
+        "KR_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_market"
+          }
+        },
+        "KRIYA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kriya"
+          }
+        },
+        "KUESKI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kueski"
+          }
+        },
+        "LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link"
+          }
+        },
+        "MB_WAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mb_way"
+          }
+        },
+        "M_PESA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "m_pesa"
+          }
+        },
+        "MERCADO_PAGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago"
+          }
+        },
+        "MOBILEPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobilepay"
+          }
+        },
+        "MODO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modo"
+          }
+        },
+        "MONDU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mondu"
+          }
+        },
+        "MULTIBANCO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multibanco"
+          }
+        },
+        "NAVER_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "naver_pay"
+          }
+        },
+        "NEQUI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nequi"
+          }
+        },
+        "NETBANKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "netbanking"
+          }
+        },
+        "NG_BANK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_bank"
+          }
+        },
+        "NG_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_bank_transfer"
+          }
+        },
+        "NG_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_card"
+          }
+        },
+        "NG_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_market"
+          }
+        },
+        "NG_USSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_ussd"
+          }
+        },
+        "NG_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_wallet"
+          }
+        },
+        "NZ_BANK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nz_bank_account"
+          }
+        },
+        "OXXO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oxxo"
+          }
+        },
+        "P24": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p24"
+          }
+        },
+        "PAGO_EFECTIVO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pago_efectivo"
+          }
+        },
+        "PSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pse"
+          }
+        },
+        "PAY_BY_BANK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pay_by_bank"
+          }
+        },
+        "PAYCO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payco"
+          }
+        },
+        "PAYNOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paynow"
+          }
+        },
+        "PAYPAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypal"
+          }
+        },
+        "PAYPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypay"
+          }
+        },
+        "PAYTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payto"
+          }
+        },
+        "PIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pix"
+          }
+        },
+        "PLATFORM_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_balance"
+          }
+        },
+        "PROMPTPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promptpay"
+          }
+        },
+        "QRIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qris"
+          }
+        },
+        "RAPIPAGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rapipago"
+          }
+        },
+        "RECHNUNG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rechnung"
+          }
+        },
+        "REVOLUT_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revolut_pay"
+          }
+        },
+        "SAMSUNG_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "samsung_pay"
+          }
+        },
+        "SATISPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "satispay"
+          }
+        },
+        "SCALAPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scalapay"
+          }
+        },
+        "SENCILLITO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sencillito"
+          }
+        },
+        "SEPA_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sepa_debit"
+          }
+        },
+        "SEQURA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sequra"
+          }
+        },
+        "SERVIPAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "servipag"
+          }
+        },
+        "SEZZLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sezzle"
+          }
+        },
+        "SHOP_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shop_pay"
+          }
+        },
+        "SHOPEEPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shopeepay"
+          }
+        },
+        "SOFORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sofort"
+          }
+        },
+        "SOUTH_KOREA_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "south_korea_market"
+          }
+        },
+        "SPEI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spei"
+          }
+        },
+        "SPLITIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "splitit"
+          }
+        },
+        "SUNBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sunbit"
+          }
+        },
+        "SWISH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swish"
+          }
+        },
+        "TAMARA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tamara"
+          }
+        },
+        "TWINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twint"
+          }
+        },
+        "UPI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upi"
+          }
+        },
+        "US_BANK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_bank_account"
+          }
+        },
+        "US_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_bank_transfer"
+          }
+        },
+        "VENMO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "venmo"
+          }
+        },
+        "VIPPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vipps"
+          }
+        },
+        "WEBPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webpay"
+          }
+        },
+        "WECHAT_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wechat_pay"
+          }
+        },
+        "YAPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yape"
+          }
+        },
+        "ZIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zip"
+          }
+        },
+        "COINFLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "coinflow"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The different types of payment methods that can be used."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase0PlanPaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#PaymentMethodTypes"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of payment method identifiers that are explicitly disabled. Only applies if the include_platform_defaults is true."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase0PlanPaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#PaymentMethodTypes"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of payment method identifiers that are explicitly enabled. This means these payment methods will be shown on checkout. Example use case is to only enable a specific payment method like cashapp, or extending the platform defaults with additional methods."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase0PlanPaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase0PlanPaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#documentation": "An array of payment method identifiers that are explicitly disabled. Only applies if the include_platform_defaults is true.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase0PlanPaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#documentation": "An array of payment method identifiers that are explicitly enabled. This means these payment methods will be shown on checkout. Example use case is to only enable a specific payment method like cashapp, or extending the platform defaults with additional methods.",
+            "smithy.api#required": {}
+          }
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop's platform default payment method enablement settings are included in this configuration. The full list of default payment methods can be found in the documentation at docs.whop.com/payments.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The explicit payment method configuration for the plan. If not provided, the platform or company's defaults will apply."
+      }
+    },
+    "com.whop.invoices#PlanTypes": {
+      "type": "enum",
+      "members": {
+        "RENEWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renewal"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of plan that can be attached to a product"
+      }
+    },
+    "com.whop.invoices#ReleaseMethod": {
+      "type": "enum",
+      "members": {
+        "BUY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buy_now"
+          }
+        },
+        "WAITLIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waitlist"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The methods of how a plan can be released."
+      }
+    },
+    "com.whop.invoices#Visibility": {
+      "type": "enum",
+      "members": {
+        "VISIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visible"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "QUICK_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quick_link"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Visibility of a resource"
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase0Plan": {
+      "type": "structure",
+      "members": {
+        "adaptive_pricing_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this plan accepts local currency payments via adaptive pricing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The interval in days at which the plan charges (renewal plans).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "com.whop.invoices#Currencies",
+          "traits": {
+            "smithy.api#documentation": "The three-letter ISO currency code for the plan's pricing. Defaults to USD.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_fields": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase0PlanCustomFieldsList",
+          "traits": {
+            "smithy.api#documentation": "An array of custom field objects.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of days until the membership expires and revokes access (expiration plans). For example, 365 for a one-year access period.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "An additional amount charged upon first purchase. Use only if a one time payment OR you want to charge an additional amount on top of the renewal price. Provided as a number in the specified currency. Eg: 10.43 for $10.43",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "internal_notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A personal description or notes section for the business.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "legacy_payment_method_controls": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this plan uses legacy payment method controls",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_configuration": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase0PlanPaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "The explicit payment method configuration for the plan. If not provided, the platform or company's defaults will apply.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_type": {
+          "target": "com.whop.invoices#PlanTypes",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the plan is a one time payment or recurring.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "release_method": {
+          "target": "com.whop.invoices#ReleaseMethod",
+          "traits": {
+            "smithy.api#documentation": "This is the release method the business uses to sell this plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount the customer is charged every billing period. Use only if a recurring payment. Provided as a number in the specified currency. Eg: 10.43 for $10.43",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stock": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of units available for purchase.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trial_period_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of free trial days added before a renewal plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unlimited_stock": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the plan has unlimited stock (stock field is ignored). When false, purchases are limited by the stock field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.invoices#Visibility",
+          "traits": {
+            "smithy.api#documentation": "Shows or hides the plan from public/business view.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The plan attributes defining the price, currency, and billing interval for this invoice."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase0Product": {
+      "type": "structure",
+      "members": {
+        "product_tax_code_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the product tax code to apply to this product.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the product.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The properties of the product to create for this invoice. Provide this to create a new product inline."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase0": {
+      "type": "structure",
+      "members": {
+        "automatically_finalizes_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time when the invoice will be automatically finalized. For charge_automatically, triggers an automatic charge. For send_invoice, sends the invoice email to the customer at the specified time.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_address": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase0BillingAddress",
+          "traits": {
+            "smithy.api#documentation": "Inline billing address to create a new mailing address for this invoice. Cannot be used together with mailing_address_id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "charge_buyer_fee": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to charge the customer a buyer fee on this invoice.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "collection_method": {
+          "target": "com.whop.invoices#InvoiceCollectionMethods",
+          "traits": {
+            "smithy.api#documentation": "How the invoice should be collected. Use charge_automatically to charge a stored payment method, or send_invoice to email the customer.",
+            "smithy.api#required": {}
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to create this invoice for.",
+            "smithy.api#required": {}
+          }
+        },
+        "customer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the customer. Required when creating an invoice for a customer who is not yet a member of the company.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "due_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date by which the invoice must be paid. Required unless save_as_draft is true.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the customer. Required when creating an invoice for a customer who is not yet a member of the company.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line_items": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase0LineItemsList",
+          "traits": {
+            "smithy.api#documentation": "Optional line items that break down the invoice total. When provided, the sum of (quantity * unit_price) for all items must equal the plan price. Individual items may be negative to represent a credit, as long as the sum is not negative and clears the currency's minimum charge.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mailing_address_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of an existing mailing address to attach to this invoice. Cannot be used together with billing_address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of an existing member to create this invoice for. If not provided, you must supply an email_address and customer_name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the payment method to charge. Required when collection_method is charge_automatically.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_token_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payment token ID to use for this invoice. If using charge_automatically, you must provide a payment_token.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase0Plan",
+          "traits": {
+            "smithy.api#documentation": "The plan attributes defining the price, currency, and billing interval for this invoice.",
+            "smithy.api#required": {}
+          }
+        },
+        "product": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase0Product",
+          "traits": {
+            "smithy.api#documentation": "The properties of the product to create for this invoice. Provide this to create a new product inline.",
+            "smithy.api#required": {}
+          }
+        },
+        "save_as_draft": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, creates the invoice as a draft without sending or charging. Relaxes customer and due date requirements.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subscription_billing_anchor_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date that defines when the subscription billing cycle should start. When set on a renewal plan invoice, this anchors all future billing periods to this date.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of CreateInvoice"
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase1BillingAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 1 of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 2 of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the customer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The phone number of the customer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tax_id_type": {
+          "target": "com.whop.invoices#TaxIdentifierTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of tax identifier.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tax_id_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value of the tax identifier.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Inline billing address to create a new mailing address for this invoice. Cannot be used together with mailing_address_id."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase1LineItemsItem": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The label or description for this line item.",
+            "smithy.api#required": {}
+          }
+        },
+        "quantity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The quantity of this line item. Defaults to 1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unit_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The unit price for this line item. Provided as a number in the specified currency. Eg: 10.43 for $10.43. Negative values represent a credit or deduction, as long as the line items still total a chargeable amount.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single line item to include on the invoice, with a label, quantity, and unit price."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase1LineItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#CreateInvoiceRequestBodyCase1LineItemsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional line items that break down the invoice total. When provided, the sum of (quantity * unit_price) for all items must equal the plan price. Individual items may be negative to represent a credit, as long as the sum is not negative and clears the currency's minimum charge."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase1PlanCustomFieldsItem": {
+      "type": "structure",
+      "members": {
+        "field_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the custom field.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the custom field (if being updated)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the custom field.",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The order of the field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "placeholder": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The placeholder value of the field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not the field is required.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase1PlanCustomFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#CreateInvoiceRequestBodyCase1PlanCustomFieldsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of custom field objects."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase1PlanPaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#PaymentMethodTypes"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of payment method identifiers that are explicitly disabled. Only applies if the include_platform_defaults is true."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase1PlanPaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#PaymentMethodTypes"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of payment method identifiers that are explicitly enabled. This means these payment methods will be shown on checkout. Example use case is to only enable a specific payment method like cashapp, or extending the platform defaults with additional methods."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase1PlanPaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase1PlanPaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#documentation": "An array of payment method identifiers that are explicitly disabled. Only applies if the include_platform_defaults is true.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase1PlanPaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#documentation": "An array of payment method identifiers that are explicitly enabled. This means these payment methods will be shown on checkout. Example use case is to only enable a specific payment method like cashapp, or extending the platform defaults with additional methods.",
+            "smithy.api#required": {}
+          }
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop's platform default payment method enablement settings are included in this configuration. The full list of default payment methods can be found in the documentation at docs.whop.com/payments.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The explicit payment method configuration for the plan. If not provided, the platform or company's defaults will apply."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase1Plan": {
+      "type": "structure",
+      "members": {
+        "adaptive_pricing_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this plan accepts local currency payments via adaptive pricing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The interval in days at which the plan charges (renewal plans).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "com.whop.invoices#Currencies",
+          "traits": {
+            "smithy.api#documentation": "The three-letter ISO currency code for the plan's pricing. Defaults to USD.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_fields": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase1PlanCustomFieldsList",
+          "traits": {
+            "smithy.api#documentation": "An array of custom field objects.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of days until the membership expires and revokes access (expiration plans). For example, 365 for a one-year access period.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "An additional amount charged upon first purchase. Use only if a one time payment OR you want to charge an additional amount on top of the renewal price. Provided as a number in the specified currency. Eg: 10.43 for $10.43",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "internal_notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A personal description or notes section for the business.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "legacy_payment_method_controls": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this plan uses legacy payment method controls",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_configuration": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase1PlanPaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "The explicit payment method configuration for the plan. If not provided, the platform or company's defaults will apply.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_type": {
+          "target": "com.whop.invoices#PlanTypes",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the plan is a one time payment or recurring.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "release_method": {
+          "target": "com.whop.invoices#ReleaseMethod",
+          "traits": {
+            "smithy.api#documentation": "This is the release method the business uses to sell this plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount the customer is charged every billing period. Use only if a recurring payment. Provided as a number in the specified currency. Eg: 10.43 for $10.43",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stock": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of units available for purchase.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trial_period_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of free trial days added before a renewal plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unlimited_stock": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the plan has unlimited stock (stock field is ignored). When false, purchases are limited by the stock field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.invoices#Visibility",
+          "traits": {
+            "smithy.api#documentation": "Shows or hides the plan from public/business view.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The plan attributes defining the price, currency, and billing interval for this invoice."
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBodyCase1": {
+      "type": "structure",
+      "members": {
+        "automatically_finalizes_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time when the invoice will be automatically finalized. For charge_automatically, triggers an automatic charge. For send_invoice, sends the invoice email to the customer at the specified time.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_address": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase1BillingAddress",
+          "traits": {
+            "smithy.api#documentation": "Inline billing address to create a new mailing address for this invoice. Cannot be used together with mailing_address_id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "charge_buyer_fee": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to charge the customer a buyer fee on this invoice.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "collection_method": {
+          "target": "com.whop.invoices#InvoiceCollectionMethods",
+          "traits": {
+            "smithy.api#documentation": "How the invoice should be collected. Use charge_automatically to charge a stored payment method, or send_invoice to email the customer.",
+            "smithy.api#required": {}
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to create this invoice for.",
+            "smithy.api#required": {}
+          }
+        },
+        "customer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the customer. Required when creating an invoice for a customer who is not yet a member of the company.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "due_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date by which the invoice must be paid. Required unless save_as_draft is true.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the customer. Required when creating an invoice for a customer who is not yet a member of the company.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line_items": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase1LineItemsList",
+          "traits": {
+            "smithy.api#documentation": "Optional line items that break down the invoice total. When provided, the sum of (quantity * unit_price) for all items must equal the plan price. Individual items may be negative to represent a credit, as long as the sum is not negative and clears the currency's minimum charge.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mailing_address_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of an existing mailing address to attach to this invoice. Cannot be used together with billing_address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of an existing member to create this invoice for. If not provided, you must supply an email_address and customer_name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the payment method to charge. Required when collection_method is charge_automatically.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_token_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payment token ID to use for this invoice. If using charge_automatically, you must provide a payment_token.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase1Plan",
+          "traits": {
+            "smithy.api#documentation": "The plan attributes defining the price, currency, and billing interval for this invoice.",
+            "smithy.api#required": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of an existing product to create this invoice for.",
+            "smithy.api#required": {}
+          }
+        },
+        "save_as_draft": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, creates the invoice as a draft without sending or charging. Relaxes customer and due date requirements.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subscription_billing_anchor_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date that defines when the subscription billing cycle should start. When set on a renewal plan invoice, this anchors all future billing periods to this date.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of CreateInvoice"
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequestBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase0"
+        },
+        "Case1": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBodyCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Parameters for CreateInvoice"
+      }
+    },
+    "com.whop.invoices#CreateInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.whop.invoices#CreateInvoiceRequestBody",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.invoices#Invoice": {
+      "type": "structure",
+      "members": {
+        "automatically_finalizes_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time when the invoice will be automatically finalized. For charge_automatically, triggers an automatic charge. For send_invoice, sends the invoice email at the specified time.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "charge_buyer_fee": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the invoice includes a buyer processing fee on top of the plan price.",
+            "smithy.api#required": {}
+          }
+        },
+        "collection_method": {
+          "target": "com.whop.invoices#InvoiceCollectionMethods",
+          "traits": {
+            "smithy.api#documentation": "The method used to collect payment for this invoice, such as automatic charging or manual payment.",
+            "smithy.api#required": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.invoices#InvoiceCompany",
+          "traits": {
+            "smithy.api#documentation": "The company that issued this invoice.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the invoice was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "current_plan": {
+          "target": "com.whop.invoices#InvoiceCurrentPlan",
+          "traits": {
+            "smithy.api#documentation": "The plan that this invoice charges for.",
+            "smithy.api#required": {}
+          }
+        },
+        "customer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full name of the customer this invoice is addressed to. Null if no name is on file.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "due_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deadline by which payment is expected. Null if the invoice is collected automatically.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the customer this invoice is addressed to. Null if no email is on file.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fetch_invoice_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A signed token that allows fetching invoice data publicly without authentication.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the invoice.",
+            "smithy.api#required": {}
+          }
+        },
+        "line_items": {
+          "target": "com.whop.invoices#InvoiceLineItemsList",
+          "traits": {
+            "smithy.api#documentation": "Optional line items that break down the invoice total into individual charges.",
+            "smithy.api#required": {}
+          }
+        },
+        "mailing_address": {
+          "target": "com.whop.invoices#InvoiceMailingAddress",
+          "traits": {
+            "smithy.api#documentation": "The billing/mailing address associated with this invoice, if one was provided at creation time.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member": {
+          "target": "com.whop.invoices#InvoiceMember",
+          "traits": {
+            "smithy.api#documentation": "The member that the invoice was created for. Null when the invoice is addressed to an email address with no member record behind it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sequential invoice number for display purposes.",
+            "smithy.api#required": {}
+          }
+        },
+        "pay_online_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The checkout URL where the customer can pay this invoice online, with their email address pre-filled and locked.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment": {
+          "target": "com.whop.invoices#InvoicePayment",
+          "traits": {
+            "smithy.api#documentation": "The payment that settled this invoice. Null while the invoice is unpaid, when the invoice was marked paid manually, and on a subscription renewal invoice, where the settling payment cannot yet be identified.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_processing": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a payment on this invoice is still clearing. True while a delayed payment method such as ACH or SEPA settles, during which the invoice stays open and is not marked past due.",
+            "smithy.api#required": {}
+          }
+        },
+        "product": {
+          "target": "com.whop.invoices#InvoiceProduct",
+          "traits": {
+            "smithy.api#documentation": "The product that this invoice was generated for.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.invoices#InvoiceStatuses",
+          "traits": {
+            "smithy.api#documentation": "The current payment status of the invoice, such as draft, open, paid, or void.",
+            "smithy.api#required": {}
+          }
+        },
+        "subscription_billing_anchor_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date that defines when the subscription billing cycle starts. When set on a renewal plan invoice, all future billing periods anchor to this date.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the invoice was last updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.invoices#InvoiceUser",
+          "traits": {
+            "smithy.api#documentation": "The user this invoice is addressed to. Null if the user account has been removed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An invoice represents an itemized bill sent by a company to a customer for a specific product and plan, tracking the amount owed, due date, and payment status."
+      }
+    },
+    "com.whop.invoices#InvoiceCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company that issued this invoice."
+      }
+    },
+    "com.whop.invoices#InvoiceCurrentPlan": {
+      "type": "structure",
+      "members": {
+        "currency": {
+          "target": "com.whop.invoices#Currencies",
+          "traits": {
+            "smithy.api#documentation": "The currency used for all prices on this plan (e.g., 'usd', 'eur'). All monetary amounts on the plan are denominated in this currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A text description of the plan visible to customers. Maximum 1000 characters. Null if no description is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "formatted_price": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The formatted price (including currency) for the plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the plan.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The plan that this invoice charges for."
+      }
+    },
+    "com.whop.invoices#InvoiceLineItemsItem": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The label or description for this line item.",
+            "smithy.api#required": {}
+          }
+        },
+        "position": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The display order of this line item within the invoice.",
+            "smithy.api#required": {}
+          }
+        },
+        "quantity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The quantity of this line item.",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The computed total for this line item (quantity * unit_price).",
+            "smithy.api#required": {}
+          }
+        },
+        "unit_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The unit price for this line item. Negative for a credit or deduction.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A line item on an invoice, representing a single charge with a label, quantity, and unit price."
+      }
+    },
+    "com.whop.invoices#InvoiceLineItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#InvoiceLineItemsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional line items that break down the invoice total into individual charges."
+      }
+    },
+    "com.whop.invoices#InvoiceMailingAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 1 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 2 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the customer.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The phone number of the customer.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The billing/mailing address associated with this invoice, if one was provided at creation time."
+      }
+    },
+    "com.whop.invoices#InvoiceMember": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company member.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The member that the invoice was created for. Null when the invoice is addressed to an email address with no member record behind it."
+      }
+    },
+    "com.whop.invoices#InvoicePayment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the payment.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payment that settled this invoice. Null while the invoice is unpaid, when the invoice was marked paid manually, and on a subscription renewal invoice, where the settling payment cannot yet be identified."
+      }
+    },
+    "com.whop.invoices#InvoiceProduct": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the product shown to customers on the product page and in search results.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The product that this invoice was generated for."
+      }
+    },
+    "com.whop.invoices#InvoiceUser": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's email address. Requires the member:email:read permission to access. Null if not authorized.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user this invoice is addressed to. Null if the user account has been removed."
+      }
+    },
+    "com.whop.invoices#CreateInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.invoices#CreateInvoiceRequest"
+      },
+      "output": {
+        "target": "com.whop.invoices#Invoice"
+      },
+      "errors": [
+        {
+          "target": "com.whop.invoices#BadRequest"
+        },
+        {
+          "target": "com.whop.invoices#Forbidden"
+        },
+        {
+          "target": "com.whop.invoices#NotFound"
+        },
+        {
+          "target": "com.whop.invoices#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/invoices",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create invoice\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreate an invoice for a customer. The invoice can be charged automatically using a stored payment method, or sent to the customer for manual payment.\n\nRequired permissions:\n - `invoice:create`\n - `member:email:read`\n - `member:basic:read`\n - `payment:basic:read`"
+      }
+    },
+    "com.whop.invoices#GetInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the invoice, or a secure token."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.invoices#GetInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.invoices#GetInvoiceRequest"
+      },
+      "output": {
+        "target": "com.whop.invoices#Invoice"
+      },
+      "errors": [
+        {
+          "target": "com.whop.invoices#BadRequest"
+        },
+        {
+          "target": "com.whop.invoices#Forbidden"
+        },
+        {
+          "target": "com.whop.invoices#NotFound"
+        },
+        {
+          "target": "com.whop.invoices#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/invoices/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve invoice\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing invoice.\n\nRequired permissions:\n - `invoice:basic:read`\n - `member:email:read`\n - `member:basic:read`\n - `payment:basic:read`"
+      }
+    },
+    "com.whop.invoices#UpdateInvoiceRequestBillingAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 1 of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 2 of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the customer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The phone number of the customer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tax_id_type": {
+          "target": "com.whop.invoices#TaxIdentifierTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of tax identifier.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tax_id_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value of the tax identifier.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Inline billing address to create or update a mailing address for this invoice."
+      }
+    },
+    "com.whop.invoices#UpdateInvoiceRequestLineItemsItem": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The label or description for this line item.",
+            "smithy.api#required": {}
+          }
+        },
+        "quantity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The quantity of this line item. Defaults to 1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unit_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The unit price for this line item. Provided as a number in the specified currency. Eg: 10.43 for $10.43. Negative values represent a credit or deduction, as long as the line items still total a chargeable amount.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single line item to include on the invoice, with a label, quantity, and unit price."
+      }
+    },
+    "com.whop.invoices#UpdateInvoiceRequestLineItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#UpdateInvoiceRequestLineItemsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Line items that break down the invoice total. When provided, the sum of (quantity * unit_price) for all items must equal the plan price. Individual items may be negative to represent a credit, as long as the sum is not negative and clears the currency's minimum charge. Pass an empty list to remove the breakdown."
+      }
+    },
+    "com.whop.invoices#UpdateInvoiceRequestPlanCustomFieldsItem": {
+      "type": "structure",
+      "members": {
+        "field_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the custom field.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the custom field (if being updated)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the custom field.",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The order of the field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "placeholder": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The placeholder value of the field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not the field is required.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.invoices#UpdateInvoiceRequestPlanCustomFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#UpdateInvoiceRequestPlanCustomFieldsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of custom field objects."
+      }
+    },
+    "com.whop.invoices#UpdateInvoiceRequestPlanPaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#PaymentMethodTypes"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of payment method identifiers that are explicitly disabled. Only applies if the include_platform_defaults is true."
+      }
+    },
+    "com.whop.invoices#UpdateInvoiceRequestPlanPaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.invoices#PaymentMethodTypes"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of payment method identifiers that are explicitly enabled. This means these payment methods will be shown on checkout. Example use case is to only enable a specific payment method like cashapp, or extending the platform defaults with additional methods."
+      }
+    },
+    "com.whop.invoices#UpdateInvoiceRequestPlanPaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.invoices#UpdateInvoiceRequestPlanPaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#documentation": "An array of payment method identifiers that are explicitly disabled. Only applies if the include_platform_defaults is true.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "com.whop.invoices#UpdateInvoiceRequestPlanPaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#documentation": "An array of payment method identifiers that are explicitly enabled. This means these payment methods will be shown on checkout. Example use case is to only enable a specific payment method like cashapp, or extending the platform defaults with additional methods.",
+            "smithy.api#required": {}
+          }
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop's platform default payment method enablement settings are included in this configuration. The full list of default payment methods can be found in the documentation at docs.whop.com/payments.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The explicit payment method configuration for the plan. If not provided, the platform or company's defaults will apply."
+      }
+    },
+    "com.whop.invoices#UpdateInvoiceRequestPlan": {
+      "type": "structure",
+      "members": {
+        "adaptive_pricing_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this plan accepts local currency payments via adaptive pricing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The interval in days at which the plan charges (renewal plans).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "com.whop.invoices#Currencies",
+          "traits": {
+            "smithy.api#documentation": "The three-letter ISO currency code for the plan's pricing. Defaults to USD.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_fields": {
+          "target": "com.whop.invoices#UpdateInvoiceRequestPlanCustomFieldsList",
+          "traits": {
+            "smithy.api#documentation": "An array of custom field objects.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of days until the membership expires and revokes access (expiration plans). For example, 365 for a one-year access period.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "An additional amount charged upon first purchase. Use only if a one time payment OR you want to charge an additional amount on top of the renewal price. Provided as a number in the specified currency. Eg: 10.43 for $10.43",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "internal_notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A personal description or notes section for the business.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "legacy_payment_method_controls": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this plan uses legacy payment method controls",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_configuration": {
+          "target": "com.whop.invoices#UpdateInvoiceRequestPlanPaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "The explicit payment method configuration for the plan. If not provided, the platform or company's defaults will apply.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_type": {
+          "target": "com.whop.invoices#PlanTypes",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the plan is a one time payment or recurring.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "release_method": {
+          "target": "com.whop.invoices#ReleaseMethod",
+          "traits": {
+            "smithy.api#documentation": "This is the release method the business uses to sell this plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount the customer is charged every billing period. Use only if a recurring payment. Provided as a number in the specified currency. Eg: 10.43 for $10.43",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stock": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of units available for purchase.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trial_period_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of free trial days added before a renewal plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unlimited_stock": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the plan has unlimited stock (stock field is ignored). When false, purchases are limited by the stock field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.invoices#Visibility",
+          "traits": {
+            "smithy.api#documentation": "Shows or hides the plan from public/business view.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Updated plan attributes."
+      }
+    },
+    "com.whop.invoices#UpdateInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the invoice to update."
+          }
+        },
+        "automatically_finalizes_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time when the invoice will be automatically finalized. For charge_automatically, triggers an automatic charge. For send_invoice, sends the invoice email at the specified time.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_address": {
+          "target": "com.whop.invoices#UpdateInvoiceRequestBillingAddress",
+          "traits": {
+            "smithy.api#documentation": "Inline billing address to create or update a mailing address for this invoice.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "charge_buyer_fee": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to charge the customer a buyer fee on this invoice.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "collection_method": {
+          "target": "com.whop.invoices#InvoiceCollectionMethods",
+          "traits": {
+            "smithy.api#documentation": "How the invoice should be collected.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the customer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "due_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date by which the invoice must be paid.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the customer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line_items": {
+          "target": "com.whop.invoices#UpdateInvoiceRequestLineItemsList",
+          "traits": {
+            "smithy.api#documentation": "Line items that break down the invoice total. When provided, the sum of (quantity * unit_price) for all items must equal the plan price. Individual items may be negative to represent a credit, as long as the sum is not negative and clears the currency's minimum charge. Pass an empty list to remove the breakdown.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mailing_address_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of an existing mailing address to attach.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of a member to assign as the customer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the payment method to charge.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan": {
+          "target": "com.whop.invoices#UpdateInvoiceRequestPlan",
+          "traits": {
+            "smithy.api#documentation": "Updated plan attributes.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of an existing product to attach to this invoice. Only allowed while the invoice is still a draft.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subscription_billing_anchor_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date that defines when the subscription billing cycle should start.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.invoices#UpdateInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.invoices#UpdateInvoiceRequest"
+      },
+      "output": {
+        "target": "com.whop.invoices#Invoice"
+      },
+      "errors": [
+        {
+          "target": "com.whop.invoices#BadRequest"
+        },
+        {
+          "target": "com.whop.invoices#Forbidden"
+        },
+        {
+          "target": "com.whop.invoices#NotFound"
+        },
+        {
+          "target": "com.whop.invoices#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/invoices/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update invoice\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUpdate a draft invoice's details.\n\nRequired permissions:\n - `invoice:update`\n - `member:email:read`\n - `member:basic:read`\n - `payment:basic:read`"
+      }
+    },
+    "com.whop.invoices#DeleteInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the draft invoice to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.invoices#DeleteInvoiceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.invoices#DeleteInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.invoices#DeleteInvoiceRequest"
+      },
+      "output": {
+        "target": "com.whop.invoices#DeleteInvoiceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.invoices#BadRequest"
+        },
+        {
+          "target": "com.whop.invoices#Forbidden"
+        },
+        {
+          "target": "com.whop.invoices#NotFound"
+        },
+        {
+          "target": "com.whop.invoices#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/invoices/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete invoice\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nDelete a draft invoice.\n\nRequired permissions:\n - `invoice:update`"
+      }
+    },
+    "com.whop.invoices#MarkPaidInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the invoice to mark as paid."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.invoices#MarkPaidInvoiceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.invoices#MarkPaidInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.invoices#MarkPaidInvoiceRequest"
+      },
+      "output": {
+        "target": "com.whop.invoices#MarkPaidInvoiceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.invoices#BadRequest"
+        },
+        {
+          "target": "com.whop.invoices#Forbidden"
+        },
+        {
+          "target": "com.whop.invoices#NotFound"
+        },
+        {
+          "target": "com.whop.invoices#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/invoices/{id}/mark_paid",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mark paid invoice\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nMark an open invoice as paid when payment was collected outside of Whop.\n\nRequired permissions:\n - `invoice:update`"
+      }
+    },
+    "com.whop.invoices#MarkUncollectibleInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the invoice to mark as uncollectible."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.invoices#MarkUncollectibleInvoiceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.invoices#MarkUncollectibleInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.invoices#MarkUncollectibleInvoiceRequest"
+      },
+      "output": {
+        "target": "com.whop.invoices#MarkUncollectibleInvoiceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.invoices#BadRequest"
+        },
+        {
+          "target": "com.whop.invoices#Forbidden"
+        },
+        {
+          "target": "com.whop.invoices#NotFound"
+        },
+        {
+          "target": "com.whop.invoices#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/invoices/{id}/mark_uncollectible",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mark uncollectible invoice\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nMark an open invoice as uncollectible when payment is not expected.\n\nRequired permissions:\n - `invoice:update`"
+      }
+    },
+    "com.whop.invoices#ResendInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the invoice to resend."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.invoices#ResendInvoiceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.invoices#ResendInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.invoices#ResendInvoiceRequest"
+      },
+      "output": {
+        "target": "com.whop.invoices#ResendInvoiceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.invoices#BadRequest"
+        },
+        {
+          "target": "com.whop.invoices#Forbidden"
+        },
+        {
+          "target": "com.whop.invoices#NotFound"
+        },
+        {
+          "target": "com.whop.invoices#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/invoices/{id}/resend",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resend invoice\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nResend the notification email for an existing invoice to the customer.\n\nRequired permissions:\n - `invoice:update`"
+      }
+    },
+    "com.whop.invoices#VoidInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the invoice to void."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.invoices#VoidInvoiceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.invoices#VoidInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.invoices#VoidInvoiceRequest"
+      },
+      "output": {
+        "target": "com.whop.invoices#VoidInvoiceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.invoices#BadRequest"
+        },
+        {
+          "target": "com.whop.invoices#Forbidden"
+        },
+        {
+          "target": "com.whop.invoices#NotFound"
+        },
+        {
+          "target": "com.whop.invoices#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/invoices/{id}/void",
+          "code": 200
+        },
+        "smithy.api#documentation": "Void invoice\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nVoid an open invoice so it can no longer be paid. Voiding is permanent and cannot be undone.\n\nRequired permissions:\n - `invoice:update`"
+      }
+    },
+    "com.whop.invoices#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.invoices#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.invoices#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.invoices#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.invoices#Invoices": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.invoices#ListInvoice"
+        },
+        {
+          "target": "com.whop.invoices#CreateInvoice"
+        },
+        {
+          "target": "com.whop.invoices#GetInvoice"
+        },
+        {
+          "target": "com.whop.invoices#UpdateInvoice"
+        },
+        {
+          "target": "com.whop.invoices#DeleteInvoice"
+        },
+        {
+          "target": "com.whop.invoices#MarkPaidInvoice"
+        },
+        {
+          "target": "com.whop.invoices#MarkUncollectibleInvoice"
+        },
+        {
+          "target": "com.whop.invoices#ResendInvoice"
+        },
+        {
+          "target": "com.whop.invoices#VoidInvoice"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

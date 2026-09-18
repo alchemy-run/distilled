@@ -14,13 +14,14 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.azure.devopsinfrastructure#PoolsDeleteResources": {
+    "com.azure.devopsinfrastructure#DeletePoolResources": {
       "type": "operation",
       "input": {
-        "target": "com.azure.devopsinfrastructure#PoolsDeleteResourcesRequest"
+        "target": "com.azure.devopsinfrastructure#DeletePoolResourcesRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -30,13 +31,13 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}/resources",
           "code": 200,
-          "apiVersion": "2025-09-20"
+          "apiVersion": "2026-06-02"
         },
         "smithy.api#documentation": "A synchronous resource action.",
-        "com.distilled.openapi#apiVersion": "2025-09-20"
+        "com.distilled.openapi#apiVersion": "2026-06-02"
       }
     },
-    "com.azure.devopsinfrastructure#PoolsDeleteResourcesRequest": {
+    "com.azure.devopsinfrastructure#DeletePoolResourcesRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -64,7 +65,7 @@
           }
         },
         "resourceIds": {
-          "target": "com.azure.devopsinfrastructure#PoolsDeleteResourcesRequestResourceIdsList",
+          "target": "com.azure.devopsinfrastructure#DeletePoolResourcesRequestResourceIdsList",
           "traits": {
             "smithy.api#documentation": "List of resource IDs to delete.",
             "smithy.api#required": {}
@@ -75,7 +76,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.devopsinfrastructure#PoolsDeleteResourcesRequestResourceIdsList": {
+    "com.azure.devopsinfrastructure#DeletePoolResourcesRequestResourceIdsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -84,10 +85,10 @@
         "smithy.api#documentation": "List of resource IDs to delete."
       }
     },
-    "com.azure.devopsinfrastructure#ResourceDetailsListByPool": {
+    "com.azure.devopsinfrastructure#ListResourceDetailByPool": {
       "type": "operation",
       "input": {
-        "target": "com.azure.devopsinfrastructure#ResourceDetailsListByPoolRequest"
+        "target": "com.azure.devopsinfrastructure#ListResourceDetailByPoolRequest"
       },
       "output": {
         "target": "com.azure.devopsinfrastructure#ResourceDetailsObjectListResult"
@@ -97,10 +98,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}/resources",
           "code": 200,
-          "apiVersion": "2025-09-20"
+          "apiVersion": "2026-06-02"
         },
         "smithy.api#documentation": "List ResourceDetailsObject resources by Pool",
-        "com.distilled.openapi#apiVersion": "2025-09-20"
+        "com.distilled.openapi#apiVersion": "2026-06-02"
       }
     },
     "com.azure.devopsinfrastructure#ResourceDetailsObjectListResult": {
@@ -382,7 +383,7 @@
         "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
-    "com.azure.devopsinfrastructure#ResourceDetailsListByPoolRequest": {
+    "com.azure.devopsinfrastructure#ListResourceDetailByPoolRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -414,10 +415,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.devopsinfrastructure#PoolsDelete": {
+    "com.azure.devopsinfrastructure#DeletePool": {
       "type": "operation",
       "input": {
-        "target": "com.azure.devopsinfrastructure#PoolsDeleteRequest"
+        "target": "com.azure.devopsinfrastructure#DeletePoolRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -427,13 +428,13 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}",
           "code": 200,
-          "apiVersion": "2025-09-20"
+          "apiVersion": "2026-06-02"
         },
         "smithy.api#documentation": "Delete a Pool",
-        "com.distilled.openapi#apiVersion": "2025-09-20"
+        "com.distilled.openapi#apiVersion": "2026-06-02"
       }
     },
-    "com.azure.devopsinfrastructure#PoolsDeleteRequest": {
+    "com.azure.devopsinfrastructure#DeletePoolRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -465,26 +466,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.devopsinfrastructure#PoolsUpdate": {
+    "com.azure.devopsinfrastructure#UpdatePool": {
       "type": "operation",
       "input": {
-        "target": "com.azure.devopsinfrastructure#PoolsUpdateRequest"
+        "target": "com.azure.devopsinfrastructure#UpdatePoolRequest"
       },
       "output": {
-        "target": "com.azure.devopsinfrastructure#PoolsUpdateResponse"
+        "target": "com.azure.devopsinfrastructure#UpdatePoolResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}",
           "code": 200,
-          "apiVersion": "2025-09-20"
+          "apiVersion": "2026-06-02"
         },
         "smithy.api#documentation": "Update a Pool",
-        "com.distilled.openapi#apiVersion": "2025-09-20"
+        "com.distilled.openapi#apiVersion": "2026-06-02"
       }
     },
-    "com.azure.devopsinfrastructure#PoolsUpdateResponse": {
+    "com.azure.devopsinfrastructure#UpdatePoolResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -512,7 +513,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.devopsinfrastructure#PoolsUpdateResponseTagsMap",
+          "target": "com.azure.devopsinfrastructure#UpdatePoolResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -531,7 +532,7 @@
           }
         },
         "identity": {
-          "target": "com.azure.devopsinfrastructure#PoolsUpdateResponseIdentity",
+          "target": "com.azure.devopsinfrastructure#UpdatePoolResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -541,7 +542,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.devopsinfrastructure#PoolsUpdateResponseIdentity": {
+    "com.azure.devopsinfrastructure#UpdatePoolResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -563,7 +564,7 @@
           }
         },
         "userAssignedIdentities": {
-          "target": "com.azure.devopsinfrastructure#PoolsUpdateResponseIdentityUserAssignedIdentitiesMap",
+          "target": "com.azure.devopsinfrastructure#UpdatePoolResponseIdentityUserAssignedIdentitiesMap",
           "traits": {
             "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
           }
@@ -573,13 +574,16 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.devopsinfrastructure#PoolsUpdateResponseIdentityUserAssignedIdentitiesMap": {
+    "com.azure.devopsinfrastructure#UpdatePoolResponseIdentityUserAssignedIdentitiesMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.devopsinfrastructure#UserAssignedIdentity"
+        "target": "com.azure.devopsinfrastructure#UserAssignedIdentity",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
@@ -677,8 +681,7 @@
         "devCenterProjectResourceId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The resource id of the DevCenter Project the pool belongs to.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The resource id of the DevCenter Project the pool belongs to."
           }
         },
         "runtimeConfiguration": {
@@ -848,7 +851,7 @@
         "smithy.api#documentation": "The status of the current operation."
       }
     },
-    "com.azure.devopsinfrastructure#PoolsUpdateResponseTagsMap": {
+    "com.azure.devopsinfrastructure#UpdatePoolResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -860,7 +863,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.devopsinfrastructure#PoolsUpdateRequest": {
+    "com.azure.devopsinfrastructure#UpdatePoolRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -888,13 +891,13 @@
           }
         },
         "identity": {
-          "target": "com.azure.devopsinfrastructure#PoolsUpdateRequestIdentity",
+          "target": "com.azure.devopsinfrastructure#UpdatePoolRequestIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         },
         "tags": {
-          "target": "com.azure.devopsinfrastructure#PoolsUpdateRequestTagsMap",
+          "target": "com.azure.devopsinfrastructure#UpdatePoolRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -960,7 +963,7 @@
         "smithy.api#documentation": "The updatable properties of the Pool."
       }
     },
-    "com.azure.devopsinfrastructure#PoolsUpdateRequestTagsMap": {
+    "com.azure.devopsinfrastructure#UpdatePoolRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -972,7 +975,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.devopsinfrastructure#PoolsUpdateRequestIdentity": {
+    "com.azure.devopsinfrastructure#UpdatePoolRequestIdentity": {
       "type": "structure",
       "members": {
         "type": {
@@ -982,7 +985,7 @@
           }
         },
         "userAssignedIdentities": {
-          "target": "com.azure.devopsinfrastructure#PoolsUpdateRequestIdentityUserAssignedIdentitiesMap",
+          "target": "com.azure.devopsinfrastructure#UpdatePoolRequestIdentityUserAssignedIdentitiesMap",
           "traits": {
             "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
           }
@@ -992,13 +995,16 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.devopsinfrastructure#PoolsUpdateRequestIdentityUserAssignedIdentitiesMap": {
+    "com.azure.devopsinfrastructure#UpdatePoolRequestIdentityUserAssignedIdentitiesMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.devopsinfrastructure#UserAssignedIdentityInput"
+        "target": "com.azure.devopsinfrastructure#UserAssignedIdentityInput",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
@@ -1024,10 +1030,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}",
           "code": 200,
-          "apiVersion": "2025-09-20"
+          "apiVersion": "2026-06-02"
         },
         "smithy.api#documentation": "Create a Pool",
-        "com.distilled.openapi#apiVersion": "2025-09-20"
+        "com.distilled.openapi#apiVersion": "2026-06-02"
       }
     },
     "com.azure.devopsinfrastructure#PoolsCreateOrUpdateResponse": {
@@ -1125,7 +1131,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.devopsinfrastructure#UserAssignedIdentity"
+        "target": "com.azure.devopsinfrastructure#UserAssignedIdentity",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
@@ -1226,7 +1235,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.devopsinfrastructure#UserAssignedIdentityInput"
+        "target": "com.azure.devopsinfrastructure#UserAssignedIdentityInput",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
@@ -1244,26 +1256,26 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.devopsinfrastructure#PoolsGet": {
+    "com.azure.devopsinfrastructure#GetPool": {
       "type": "operation",
       "input": {
-        "target": "com.azure.devopsinfrastructure#PoolsGetRequest"
+        "target": "com.azure.devopsinfrastructure#GetPoolRequest"
       },
       "output": {
-        "target": "com.azure.devopsinfrastructure#PoolsGetResponse"
+        "target": "com.azure.devopsinfrastructure#GetPoolResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}",
           "code": 200,
-          "apiVersion": "2025-09-20"
+          "apiVersion": "2026-06-02"
         },
         "smithy.api#documentation": "Get a Pool",
-        "com.distilled.openapi#apiVersion": "2025-09-20"
+        "com.distilled.openapi#apiVersion": "2026-06-02"
       }
     },
-    "com.azure.devopsinfrastructure#PoolsGetResponse": {
+    "com.azure.devopsinfrastructure#GetPoolResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -1291,7 +1303,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.devopsinfrastructure#PoolsGetResponseTagsMap",
+          "target": "com.azure.devopsinfrastructure#GetPoolResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -1310,7 +1322,7 @@
           }
         },
         "identity": {
-          "target": "com.azure.devopsinfrastructure#PoolsGetResponseIdentity",
+          "target": "com.azure.devopsinfrastructure#GetPoolResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -1320,7 +1332,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.devopsinfrastructure#PoolsGetResponseIdentity": {
+    "com.azure.devopsinfrastructure#GetPoolResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -1342,7 +1354,7 @@
           }
         },
         "userAssignedIdentities": {
-          "target": "com.azure.devopsinfrastructure#PoolsGetResponseIdentityUserAssignedIdentitiesMap",
+          "target": "com.azure.devopsinfrastructure#GetPoolResponseIdentityUserAssignedIdentitiesMap",
           "traits": {
             "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
           }
@@ -1352,19 +1364,22 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.devopsinfrastructure#PoolsGetResponseIdentityUserAssignedIdentitiesMap": {
+    "com.azure.devopsinfrastructure#GetPoolResponseIdentityUserAssignedIdentitiesMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.devopsinfrastructure#UserAssignedIdentity"
+        "target": "com.azure.devopsinfrastructure#UserAssignedIdentity",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
       }
     },
-    "com.azure.devopsinfrastructure#PoolsGetResponseTagsMap": {
+    "com.azure.devopsinfrastructure#GetPoolResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1376,7 +1391,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.devopsinfrastructure#PoolsGetRequest": {
+    "com.azure.devopsinfrastructure#GetPoolRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1408,10 +1423,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.devopsinfrastructure#PoolsListByResourceGroup": {
+    "com.azure.devopsinfrastructure#ListPoolByResourceGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.devopsinfrastructure#PoolsListByResourceGroupRequest"
+        "target": "com.azure.devopsinfrastructure#ListPoolByResourceGroupRequest"
       },
       "output": {
         "target": "com.azure.devopsinfrastructure#PoolListResult"
@@ -1421,10 +1436,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools",
           "code": 200,
-          "apiVersion": "2025-09-20"
+          "apiVersion": "2026-06-02"
         },
         "smithy.api#documentation": "List Pool resources by resource group",
-        "com.distilled.openapi#apiVersion": "2025-09-20"
+        "com.distilled.openapi#apiVersion": "2026-06-02"
       }
     },
     "com.azure.devopsinfrastructure#PoolListResult": {
@@ -1552,7 +1567,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.devopsinfrastructure#UserAssignedIdentity"
+        "target": "com.azure.devopsinfrastructure#UserAssignedIdentity",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
@@ -1570,7 +1588,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.devopsinfrastructure#PoolsListByResourceGroupRequest": {
+    "com.azure.devopsinfrastructure#ListPoolByResourceGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1594,10 +1612,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.devopsinfrastructure#ImageVersionsListByImage": {
+    "com.azure.devopsinfrastructure#ListImageVersionByImage": {
       "type": "operation",
       "input": {
-        "target": "com.azure.devopsinfrastructure#ImageVersionsListByImageRequest"
+        "target": "com.azure.devopsinfrastructure#ListImageVersionByImageRequest"
       },
       "output": {
         "target": "com.azure.devopsinfrastructure#ImageVersionListResult"
@@ -1607,10 +1625,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/images/{imageName}/versions",
           "code": 200,
-          "apiVersion": "2025-09-20"
+          "apiVersion": "2026-06-02"
         },
         "smithy.api#documentation": "List ImageVersion resources by Image",
-        "com.distilled.openapi#apiVersion": "2025-09-20"
+        "com.distilled.openapi#apiVersion": "2026-06-02"
       }
     },
     "com.azure.devopsinfrastructure#ImageVersionListResult": {
@@ -1696,7 +1714,7 @@
         "smithy.api#documentation": "Details of the ImageVersionProperties."
       }
     },
-    "com.azure.devopsinfrastructure#ImageVersionsListByImageRequest": {
+    "com.azure.devopsinfrastructure#ListImageVersionByImageRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1728,10 +1746,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.devopsinfrastructure#PoolsListBySubscription": {
+    "com.azure.devopsinfrastructure#ListPoolBySubscription": {
       "type": "operation",
       "input": {
-        "target": "com.azure.devopsinfrastructure#PoolsListBySubscriptionRequest"
+        "target": "com.azure.devopsinfrastructure#ListPoolBySubscriptionRequest"
       },
       "output": {
         "target": "com.azure.devopsinfrastructure#PoolListResult"
@@ -1741,13 +1759,13 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/pools",
           "code": 200,
-          "apiVersion": "2025-09-20"
+          "apiVersion": "2026-06-02"
         },
         "smithy.api#documentation": "List Pool resources by subscription ID",
-        "com.distilled.openapi#apiVersion": "2025-09-20"
+        "com.distilled.openapi#apiVersion": "2026-06-02"
       }
     },
-    "com.azure.devopsinfrastructure#PoolsListBySubscriptionRequest": {
+    "com.azure.devopsinfrastructure#ListPoolBySubscriptionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1776,10 +1794,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/locations/{location}/usages",
           "code": 200,
-          "apiVersion": "2025-09-20"
+          "apiVersion": "2026-06-02"
         },
         "smithy.api#documentation": "List Quota resources by subscription ID",
-        "com.distilled.openapi#apiVersion": "2025-09-20"
+        "com.distilled.openapi#apiVersion": "2026-06-02"
       }
     },
     "com.azure.devopsinfrastructure#PagedQuota": {
@@ -1898,10 +1916,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.devopsinfrastructure#SkuListByLocation": {
+    "com.azure.devopsinfrastructure#ListSkuByLocation": {
       "type": "operation",
       "input": {
-        "target": "com.azure.devopsinfrastructure#SkuListByLocationRequest"
+        "target": "com.azure.devopsinfrastructure#ListSkuByLocationRequest"
       },
       "output": {
         "target": "com.azure.devopsinfrastructure#ResourceSkuListResult"
@@ -1911,10 +1929,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/locations/{locationName}/skus",
           "code": 200,
-          "apiVersion": "2025-09-20"
+          "apiVersion": "2026-06-02"
         },
         "smithy.api#documentation": "List ResourceSku resources by subscription ID",
-        "com.distilled.openapi#apiVersion": "2025-09-20"
+        "com.distilled.openapi#apiVersion": "2026-06-02"
       }
     },
     "com.azure.devopsinfrastructure#ResourceSkuListResult": {
@@ -2315,7 +2333,7 @@
         "smithy.api#documentation": "The set of locations that the SKU is available."
       }
     },
-    "com.azure.devopsinfrastructure#SkuListByLocationRequest": {
+    "com.azure.devopsinfrastructure#ListSkuByLocationRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2339,10 +2357,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.devopsinfrastructure#PoolsCheckNameAvailability": {
+    "com.azure.devopsinfrastructure#CheckPoolNameAvailability": {
       "type": "operation",
       "input": {
-        "target": "com.azure.devopsinfrastructure#PoolsCheckNameAvailabilityRequest"
+        "target": "com.azure.devopsinfrastructure#CheckPoolNameAvailabilityRequest"
       },
       "output": {
         "target": "com.azure.devopsinfrastructure#CheckNameAvailabilityResult"
@@ -2352,10 +2370,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/checkNameAvailability",
           "code": 200,
-          "apiVersion": "2025-09-20"
+          "apiVersion": "2026-06-02"
         },
         "smithy.api#documentation": "Checks that the pool name is valid and is not already in use.",
-        "com.distilled.openapi#apiVersion": "2025-09-20"
+        "com.distilled.openapi#apiVersion": "2026-06-02"
       }
     },
     "com.azure.devopsinfrastructure#CheckNameAvailabilityResult": {
@@ -2434,7 +2452,7 @@
         "smithy.api#documentation": "AvailabilityStatus of a name."
       }
     },
-    "com.azure.devopsinfrastructure#PoolsCheckNameAvailabilityRequest": {
+    "com.azure.devopsinfrastructure#CheckPoolNameAvailabilityRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2478,30 +2496,30 @@
         "smithy.api#documentation": "The type of resource."
       }
     },
-    "com.azure.devopsinfrastructure#OperationsList": {
+    "com.azure.devopsinfrastructure#ListOperations": {
       "type": "operation",
       "input": {
         "target": "smithy.api#Unit"
       },
       "output": {
-        "target": "com.azure.devopsinfrastructure#OperationsListResponse"
+        "target": "com.azure.devopsinfrastructure#ListOperationsResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/providers/Microsoft.DevOpsInfrastructure/operations",
           "code": 200,
-          "apiVersion": "2025-09-20"
+          "apiVersion": "2026-06-02"
         },
         "smithy.api#documentation": "List the operations for the provider",
-        "com.distilled.openapi#apiVersion": "2025-09-20"
+        "com.distilled.openapi#apiVersion": "2026-06-02"
       }
     },
-    "com.azure.devopsinfrastructure#OperationsListResponse": {
+    "com.azure.devopsinfrastructure#ListOperationsResponse": {
       "type": "structure",
       "members": {
         "value": {
-          "target": "com.azure.devopsinfrastructure#OperationsListResponseValueList",
+          "target": "com.azure.devopsinfrastructure#ListOperationsResponseValueList",
           "traits": {
             "smithy.api#documentation": "List of operations supported by the resource provider"
           }
@@ -2517,7 +2535,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.devopsinfrastructure#OperationsListResponseValueList": {
+    "com.azure.devopsinfrastructure#ListOperationsResponseValueList": {
       "type": "list",
       "member": {
         "target": "com.azure.devopsinfrastructure#Operation"
@@ -2641,43 +2659,43 @@
       "version": "1.0",
       "operations": [
         {
-          "target": "com.azure.devopsinfrastructure#PoolsDeleteResources"
+          "target": "com.azure.devopsinfrastructure#DeletePoolResources"
         },
         {
-          "target": "com.azure.devopsinfrastructure#ResourceDetailsListByPool"
+          "target": "com.azure.devopsinfrastructure#ListResourceDetailByPool"
         },
         {
-          "target": "com.azure.devopsinfrastructure#PoolsDelete"
+          "target": "com.azure.devopsinfrastructure#DeletePool"
         },
         {
-          "target": "com.azure.devopsinfrastructure#PoolsUpdate"
+          "target": "com.azure.devopsinfrastructure#UpdatePool"
         },
         {
           "target": "com.azure.devopsinfrastructure#PoolsCreateOrUpdate"
         },
         {
-          "target": "com.azure.devopsinfrastructure#PoolsGet"
+          "target": "com.azure.devopsinfrastructure#GetPool"
         },
         {
-          "target": "com.azure.devopsinfrastructure#PoolsListByResourceGroup"
+          "target": "com.azure.devopsinfrastructure#ListPoolByResourceGroup"
         },
         {
-          "target": "com.azure.devopsinfrastructure#ImageVersionsListByImage"
+          "target": "com.azure.devopsinfrastructure#ListImageVersionByImage"
         },
         {
-          "target": "com.azure.devopsinfrastructure#PoolsListBySubscription"
+          "target": "com.azure.devopsinfrastructure#ListPoolBySubscription"
         },
         {
           "target": "com.azure.devopsinfrastructure#SubscriptionUsagesUsages"
         },
         {
-          "target": "com.azure.devopsinfrastructure#SkuListByLocation"
+          "target": "com.azure.devopsinfrastructure#ListSkuByLocation"
         },
         {
-          "target": "com.azure.devopsinfrastructure#PoolsCheckNameAvailability"
+          "target": "com.azure.devopsinfrastructure#CheckPoolNameAvailability"
         },
         {
-          "target": "com.azure.devopsinfrastructure#OperationsList"
+          "target": "com.azure.devopsinfrastructure#ListOperations"
         }
       ],
       "traits": {

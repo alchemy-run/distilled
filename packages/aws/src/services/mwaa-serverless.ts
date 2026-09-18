@@ -146,13 +146,29 @@ export const DefinitionS3Location = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DefinitionS3Location",
 }) as any as S.Schema<DefinitionS3Location>;
+export interface S3Location {
+  Bucket: string;
+  ObjectKey: string;
+  VersionId?: string;
+}
+export const S3Location = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Bucket: S.String,
+    ObjectKey: S.String,
+    VersionId: S.optional(S.String),
+  }),
+).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export type Code = { S3Location: S3Location };
+export const Code = /*@__PURE__*/ S.Union([
+  S.Struct({ S3Location: S3Location }),
+]);
 export type RoleARN = string;
 export type DescriptionString = string;
 export type EncryptionType =
   | "AWS_MANAGED_KEY"
   | "CUSTOMER_MANAGED_KEY"
   | (string & {});
-export const EncryptionType = /*@__PURE__*/ S.String;
+export const EncryptionType = S.String;
 
 export interface EncryptionConfiguration {
   Type: EncryptionType;
@@ -172,7 +188,7 @@ export const LoggingConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "LoggingConfiguration",
 }) as any as S.Schema<LoggingConfiguration>;
 export type EngineVersion = 1 | (number & {});
-export const EngineVersion = /*@__PURE__*/ S.Number;
+export const EngineVersion = S.Number;
 export type SecurityGroupString = string;
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = /*@__PURE__*/ S.Array(S.String);
@@ -199,6 +215,7 @@ export interface CreateWorkflowRequest {
   Name: string;
   ClientToken?: string;
   DefinitionS3Location: DefinitionS3Location;
+  Code?: Code;
   RoleArn: string;
   Description?: string;
   EncryptionConfiguration?: EncryptionConfiguration;
@@ -213,6 +230,7 @@ export const CreateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
     Name: S.String,
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     DefinitionS3Location: DefinitionS3Location,
+    Code: S.optional(Code),
     RoleArn: S.String,
     Description: S.optional(S.String),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
@@ -237,7 +255,7 @@ export const CreateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
 export type WorkflowArn = string;
 export type TimestampValue = Date;
 export type WorkflowStatus = "READY" | "DELETING" | (string & {});
-export const WorkflowStatus = /*@__PURE__*/ S.String;
+export const WorkflowStatus = S.String;
 
 export type WorkflowVersion = string;
 export type IsLatestVersion = boolean;
@@ -341,7 +359,7 @@ export type TaskInstanceStatus =
   | "CANCELLED"
   | "TIMEOUT"
   | (string & {});
-export const TaskInstanceStatus = /*@__PURE__*/ S.String;
+export const TaskInstanceStatus = S.String;
 
 export type GenericMap = { [key: string]: string | undefined };
 export const GenericMap = /*@__PURE__*/ S.Record(
@@ -431,6 +449,8 @@ export interface GetWorkflowResponse {
   EngineVersion?: EngineVersion;
   WorkflowStatus?: WorkflowStatus;
   DefinitionS3Location?: DefinitionS3Location;
+  Code?: Code;
+  CodeSnapshottedAt?: Date;
   ScheduleConfiguration?: ScheduleConfiguration;
   RoleArn?: string;
   NetworkConfiguration?: NetworkConfiguration;
@@ -454,6 +474,10 @@ export const GetWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     EngineVersion: S.optional(EngineVersion),
     WorkflowStatus: S.optional(WorkflowStatus),
     DefinitionS3Location: S.optional(DefinitionS3Location),
+    Code: S.optional(Code),
+    CodeSnapshottedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ScheduleConfiguration: S.optional(ScheduleConfiguration),
     RoleArn: S.optional(S.String),
     NetworkConfiguration: S.optional(NetworkConfiguration),
@@ -485,7 +509,7 @@ export const GetWorkflowRunRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetWorkflowRunRequest",
 }) as any as S.Schema<GetWorkflowRunRequest>;
 export type RunType = "ON_DEMAND" | "SCHEDULED" | (string & {});
-export const RunType = /*@__PURE__*/ S.String;
+export const RunType = S.String;
 
 export type ObjectMap = { [key: string]: any | undefined };
 export const ObjectMap = /*@__PURE__*/ S.Record(
@@ -504,7 +528,7 @@ export type WorkflowRunStatus =
   | "STOPPING"
   | "STOPPED"
   | (string & {});
-export const WorkflowRunStatus = /*@__PURE__*/ S.String;
+export const WorkflowRunStatus = S.String;
 
 export interface WorkflowRunDetail {
   WorkflowArn?: string;
@@ -1000,6 +1024,7 @@ export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
 export interface UpdateWorkflowRequest {
   WorkflowArn: string;
   DefinitionS3Location: DefinitionS3Location;
+  Code?: Code;
   RoleArn: string;
   Description?: string;
   LoggingConfiguration?: LoggingConfiguration;
@@ -1011,6 +1036,7 @@ export const UpdateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     DefinitionS3Location: DefinitionS3Location,
+    Code: S.optional(Code),
     RoleArn: S.String,
     Description: S.optional(S.String),
     LoggingConfiguration: S.optional(LoggingConfiguration),
@@ -1055,7 +1081,7 @@ export type ValidationExceptionReason =
   | "fieldValidationFailed"
   | "other"
   | (string & {});
-export const ValidationExceptionReason = /*@__PURE__*/ S.String;
+export const ValidationExceptionReason = S.String;
 
 export interface ValidationExceptionField {
   Name: string;

@@ -14,10 +14,517 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.customer_analytics#AccountsCustomPropertyValuesListRequest": {
+    "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccountRequest": {
+      "type": "structure",
+      "members": {
+        "assigned_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "assigned_only",
+            "smithy.api#documentation": "When true, return only accounts with at least one active relationship assignment to a current member of the project's organization."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Account UUID from `next_cursor` to continue listing from. Omit for the first page."
+          }
+        },
+        "include_ignored": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_ignored",
+            "smithy.api#documentation": "Include ignored accounts. Ignored accounts are hidden by default."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of accounts to return. Values below 1 are clamped to 1; values above 100 are clamped to 100."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#ExternalAccountListPage": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.customer_analytics#ExternalAccountListPageResultsList",
+          "traits": {
+            "smithy.api#documentation": "Accounts in this page, ordered by account id.",
+            "smithy.api#required": {}
+          }
+        },
+        "next_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account UUID to pass as `cursor` for the next page, or null when the list is exhausted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#ExternalAccountListItem": {
+      "type": "structure",
+      "members": {
+        "external_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "External account key used by downstream systems.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable account name.",
+            "smithy.api#required": {}
+          }
+        },
+        "churned_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the account churned, or null if it has not churned.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ignored_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When Track Rules ignored the account, or null if it is tracked.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "relationships": {
+          "target": "com.posthog.customer_analytics#ExternalAccountListItemRelationshipsMap",
+          "traits": {
+            "smithy.api#documentation": "Active relationship assignments to current organization members, keyed by relationship definition name (e.g. 'CSM', 'Account executive'). Definitions with no active assignment are omitted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#ExternalAccountListAssignment": {
+      "type": "structure",
+      "members": {
+        "user_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "PostHog user id of the assigned user.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current email address of the assigned user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current display name of the assigned user, or null when the user has no name set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#ExternalAccountListItemRelationshipsValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.customer_analytics#ExternalAccountListAssignment"
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#ExternalAccountListItemRelationshipsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.customer_analytics#ExternalAccountListItemRelationshipsValueList"
+      },
+      "traits": {
+        "smithy.api#documentation": "Active relationship assignments to current organization members, keyed by relationship definition name (e.g. 'CSM', 'Account executive'). Definitions with no active assignment are omitted."
+      }
+    },
+    "com.posthog.customer_analytics#ExternalAccountListPageResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.customer_analytics#ExternalAccountListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Accounts in this page, ordered by account id."
+      }
+    },
+    "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccountRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#ExternalAccountListPage"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.customer_analytics#BadRequest"
+        },
+        {
+          "target": "com.posthog.customer_analytics#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/customer_analytics/external/accounts",
+          "code": 200
+        },
+        "smithy.api#documentation": "List external customer analytics accounts\n\nList tracked accounts with external IDs, lifecycle timestamps, and active relationship assignments. Set `include_ignored=true` to include ignored accounts. Requires a project secret API key with the `account:read` scope."
+      }
+    },
+    "com.posthog.customer_analytics#ListAccountNotesRequestAssignedToList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#ListAccountNotesRequestCreatedByList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#ListAccountNotesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Only return notes linked to this account."
+          }
+        },
+        "assigned_to": {
+          "target": "com.posthog.customer_analytics#ListAccountNotesRequestAssignedToList",
+          "traits": {
+            "smithy.api#httpQuery": "assigned_to",
+            "smithy.api#documentation": "Only return notes on accounts assigned to these user IDs (the account's CSM or account executive; repeat the param per user)."
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.customer_analytics#ListAccountNotesRequestCreatedByList",
+          "traits": {
+            "smithy.api#httpQuery": "created_by",
+            "smithy.api#documentation": "Only return notes created by these user IDs (repeat the param per user)."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Full-text search across note title and content, plus substring match on account name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#PaginatedAccountNoteList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.customer_analytics#PaginatedAccountNoteListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#AccountNote": {
+      "type": "structure",
+      "members": {
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL-safe short ID of the notebook.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Title of the note.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the note was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the note was last modified.",
+            "smithy.api#required": {}
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the account this note is linked to.",
+            "smithy.api#required": {}
+          }
+        },
+        "account_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the account this note is linked to.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.customer_analytics#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "User who created the note, if known.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A team-wide account note — an internal notebook linked to a Customer analytics account."
+      }
+    },
+    "com.posthog.customer_analytics#UserBasic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "uuid": {
+          "target": "smithy.api#String"
+        },
+        "distinct_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String"
+        },
+        "last_name": {
+          "target": "smithy.api#String"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "is_email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hedgehog_config": {
+          "target": "com.posthog.customer_analytics#UserBasicHedgehogConfigMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role_at_organization": {
+          "target": "com.posthog.customer_analytics#UserBasicRoleAtOrganization",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#UserBasicHedgehogConfigMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#RoleAtOrganizationEnum": {
+      "type": "enum",
+      "members": {
+        "ENGINEERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engineering"
+          }
+        },
+        "DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data"
+          }
+        },
+        "PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product"
+          }
+        },
+        "FOUNDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "founder"
+          }
+        },
+        "LEADERSHIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leadership"
+          }
+        },
+        "MARKETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marketing"
+          }
+        },
+        "SALES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales"
+          }
+        },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
+      }
+    },
+    "com.posthog.customer_analytics#BlankEnum": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": ""
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#UserBasicRoleAtOrganization": {
+      "type": "union",
+      "members": {
+        "RoleAtOrganizationEnum": {
+          "target": "com.posthog.customer_analytics#RoleAtOrganizationEnum"
+        },
+        "BlankEnum": {
+          "target": "com.posthog.customer_analytics#BlankEnum"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#PaginatedAccountNoteListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.customer_analytics#AccountNote"
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#ListAccountNotes": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#ListAccountNotesRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#PaginatedAccountNoteList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/account_notes/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.customer_analytics#ListAccountsCustomPropertyValuesRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -109,18 +616,18 @@
         "smithy.api#documentation": "The stored value, typed per the property's data type."
       }
     },
-    "com.posthog.customer_analytics#AccountsCustomPropertyValuesListResponseBodyList": {
+    "com.posthog.customer_analytics#ListAccountsCustomPropertyValuesResponseBodyList": {
       "type": "list",
       "member": {
         "target": "com.posthog.customer_analytics#CustomPropertyValue"
       },
       "traits": {}
     },
-    "com.posthog.customer_analytics#AccountsCustomPropertyValuesListResponse": {
+    "com.posthog.customer_analytics#ListAccountsCustomPropertyValuesResponse": {
       "type": "structure",
       "members": {
         "body": {
-          "target": "com.posthog.customer_analytics#AccountsCustomPropertyValuesListResponseBodyList",
+          "target": "com.posthog.customer_analytics#ListAccountsCustomPropertyValuesResponseBodyList",
           "traits": {
             "com.distilled.openapi#rawResponse": {},
             "smithy.api#required": {}
@@ -131,13 +638,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.posthog.customer_analytics#AccountsCustomPropertyValuesList": {
+    "com.posthog.customer_analytics#ListAccountsCustomPropertyValues": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.customer_analytics#AccountsCustomPropertyValuesListRequest"
+        "target": "com.posthog.customer_analytics#ListAccountsCustomPropertyValuesRequest"
       },
       "output": {
-        "target": "com.posthog.customer_analytics#AccountsCustomPropertyValuesListResponse"
+        "target": "com.posthog.customer_analytics#ListAccountsCustomPropertyValuesResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -147,7 +654,7 @@
         }
       }
     },
-    "com.posthog.customer_analytics#AccountsCustomPropertyValuesCreateRequestValue": {
+    "com.posthog.customer_analytics#CreateAccountsCustomPropertyValueRequestValue": {
       "type": "union",
       "members": {
         "Case0": {
@@ -161,10 +668,10 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Value to store, matching the definition's type: a number for number/currency/percent, a boolean for boolean, an ISO-8601 string for date/datetime, or text for text properties."
+        "smithy.api#documentation": "Value to store, matching the definition's type: a number for number/currency/percent, a boolean for boolean, an ISO-8601 string for date/datetime, an HTTP or HTTPS URL for link properties, or text for text properties."
       }
     },
-    "com.posthog.customer_analytics#AccountsCustomPropertyValuesCreateRequest": {
+    "com.posthog.customer_analytics#CreateAccountsCustomPropertyValueRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -191,9 +698,9 @@
           }
         },
         "value": {
-          "target": "com.posthog.customer_analytics#AccountsCustomPropertyValuesCreateRequestValue",
+          "target": "com.posthog.customer_analytics#CreateAccountsCustomPropertyValueRequestValue",
           "traits": {
-            "smithy.api#documentation": "Value to store, matching the definition's type: a number for number/currency/percent, a boolean for boolean, an ISO-8601 string for date/datetime, or text for text properties.",
+            "smithy.api#documentation": "Value to store, matching the definition's type: a number for number/currency/percent, a boolean for boolean, an ISO-8601 string for date/datetime, an HTTP or HTTPS URL for link properties, or text for text properties.",
             "smithy.api#required": {}
           }
         }
@@ -202,10 +709,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.customer_analytics#AccountsCustomPropertyValuesCreate": {
+    "com.posthog.customer_analytics#CreateAccountsCustomPropertyValue": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.customer_analytics#AccountsCustomPropertyValuesCreateRequest"
+        "target": "com.posthog.customer_analytics#CreateAccountsCustomPropertyValueRequest"
       },
       "output": {
         "target": "com.posthog.customer_analytics#CustomPropertyValue"
@@ -218,7 +725,7 @@
         }
       }
     },
-    "com.posthog.customer_analytics#AccountsNotebooksListRequestOrdering": {
+    "com.posthog.customer_analytics#ListAccountsNotebooksRequestOrdering": {
       "type": "enum",
       "members": {
         "CREATED_AT": {
@@ -248,7 +755,7 @@
       },
       "traits": {}
     },
-    "com.posthog.customer_analytics#AccountsNotebooksListRequest": {
+    "com.posthog.customer_analytics#ListAccountsNotebooksRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -282,7 +789,7 @@
           }
         },
         "ordering": {
-          "target": "com.posthog.customer_analytics#AccountsNotebooksListRequestOrdering",
+          "target": "com.posthog.customer_analytics#ListAccountsNotebooksRequestOrdering",
           "traits": {
             "smithy.api#httpQuery": "ordering",
             "smithy.api#documentation": "Sort by creation date or author. Defaults to '-created_at'."
@@ -392,141 +899,6 @@
       },
       "traits": {}
     },
-    "com.posthog.customer_analytics#UserBasic": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#Integer"
-        },
-        "uuid": {
-          "target": "smithy.api#String"
-        },
-        "distinct_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "first_name": {
-          "target": "smithy.api#String"
-        },
-        "last_name": {
-          "target": "smithy.api#String"
-        },
-        "email": {
-          "target": "smithy.api#String"
-        },
-        "is_email_verified": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "hedgehog_config": {
-          "target": "com.posthog.customer_analytics#UserBasicHedgehogConfigMap",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "role_at_organization": {
-          "target": "com.posthog.customer_analytics#UserBasicRoleAtOrganization",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.customer_analytics#UserBasicHedgehogConfigMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {}
-    },
-    "com.posthog.customer_analytics#RoleAtOrganizationEnum": {
-      "type": "enum",
-      "members": {
-        "ENGINEERING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "engineering"
-          }
-        },
-        "DATA": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "data"
-          }
-        },
-        "PRODUCT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "product"
-          }
-        },
-        "FOUNDER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "founder"
-          }
-        },
-        "LEADERSHIP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "leadership"
-          }
-        },
-        "MARKETING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "marketing"
-          }
-        },
-        "SALES": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sales"
-          }
-        },
-        "OTHER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "other"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `other` - Other"
-      }
-    },
-    "com.posthog.customer_analytics#BlankEnum": {
-      "type": "enum",
-      "members": {
-        "VALUE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": ""
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.customer_analytics#UserBasicRoleAtOrganization": {
-      "type": "union",
-      "members": {
-        "RoleAtOrganizationEnum": {
-          "target": "com.posthog.customer_analytics#RoleAtOrganizationEnum"
-        },
-        "BlankEnum": {
-          "target": "com.posthog.customer_analytics#BlankEnum"
-        }
-      },
-      "traits": {}
-    },
     "com.posthog.customer_analytics#PaginatedAccountNotebookListResultsList": {
       "type": "list",
       "member": {
@@ -534,10 +906,10 @@
       },
       "traits": {}
     },
-    "com.posthog.customer_analytics#AccountsNotebooksList": {
+    "com.posthog.customer_analytics#ListAccountsNotebooks": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.customer_analytics#AccountsNotebooksListRequest"
+        "target": "com.posthog.customer_analytics#ListAccountsNotebooksRequest"
       },
       "output": {
         "target": "com.posthog.customer_analytics#PaginatedAccountNotebookList"
@@ -550,7 +922,7 @@
         }
       }
     },
-    "com.posthog.customer_analytics#AccountsNotebooksCreateRequest": {
+    "com.posthog.customer_analytics#CreateAccountsNotebookRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -594,10 +966,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.customer_analytics#AccountsNotebooksCreate": {
+    "com.posthog.customer_analytics#CreateAccountsNotebook": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.customer_analytics#AccountsNotebooksCreateRequest"
+        "target": "com.posthog.customer_analytics#CreateAccountsNotebookRequest"
       },
       "output": {
         "target": "com.posthog.customer_analytics#AccountNotebook"
@@ -610,7 +982,7 @@
         }
       }
     },
-    "com.posthog.customer_analytics#AccountsNotebooksRetrieveRequest": {
+    "com.posthog.customer_analytics#GetAccountsNotebookRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -641,10 +1013,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.customer_analytics#AccountsNotebooksRetrieve": {
+    "com.posthog.customer_analytics#GetAccountsNotebook": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.customer_analytics#AccountsNotebooksRetrieveRequest"
+        "target": "com.posthog.customer_analytics#GetAccountsNotebookRequest"
       },
       "output": {
         "target": "com.posthog.customer_analytics#AccountNotebook"
@@ -704,27 +1076,987 @@
         }
       }
     },
+    "com.posthog.customer_analytics#ListAccountsRelationshipsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the parent account."
+          }
+        },
+        "include_history": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_history",
+            "smithy.api#documentation": "Include ended assignments (the full timeline), not just active ones."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#AccountRelationship": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique id of this assignment row.",
+            "smithy.api#required": {}
+          }
+        },
+        "definition": {
+          "target": "com.posthog.customer_analytics#AccountRelationshipDefinition",
+          "traits": {
+            "smithy.api#documentation": "The relationship type this assignment belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.posthog.customer_analytics#AccountAssignment",
+          "traits": {
+            "smithy.api#documentation": "The assigned user; null when their account was deleted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this assignment became effective.",
+            "smithy.api#required": {}
+          }
+        },
+        "ended_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this assignment ended; null while it is active.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One assignment of a user to an account relationship, with its effective range."
+      }
+    },
+    "com.posthog.customer_analytics#AccountRelationshipDefinition": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Relationship definition UUID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the relationship. Unique within the team.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What this relationship means, e.g. 'The customer success manager responsible for this account'.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_single_holder": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A team-defined account relationship type (CSM, Onboarding manager, ...)."
+      }
+    },
+    "com.posthog.customer_analytics#AccountAssignment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "PostHog user id of the assignee.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the assignee.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A user assigned to an account relationship (read shape)."
+      }
+    },
+    "com.posthog.customer_analytics#ListAccountsRelationshipsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.customer_analytics#AccountRelationship"
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#ListAccountsRelationshipsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.customer_analytics#ListAccountsRelationshipsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.customer_analytics#ListAccountsRelationships": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#ListAccountsRelationshipsRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#ListAccountsRelationshipsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/accounts/{account_id}/relationships/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.customer_analytics#CreateAccountsRelationshipRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the parent account."
+          }
+        },
+        "definition": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the relationship definition to assign.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "PostHog user id of the assignee. Must be a member of the account's organization.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#CreateAccountsRelationship": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#CreateAccountsRelationshipRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#AccountRelationship"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/accounts/{account_id}/relationships/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.customer_analytics#AccountsRelationshipsDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the parent account."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#AccountsRelationshipsDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#AccountsRelationshipsDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/accounts/{account_id}/relationships/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.customer_analytics#CreateAccountsRelationshipsEndRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the parent account."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#CreateAccountsRelationshipsEnd": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#CreateAccountsRelationshipsEndRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#AccountRelationship"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/accounts/{account_id}/relationships/{id}/end/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.customer_analytics#ListEventStreamsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#EventStream": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the stream delivers to Slack. Delivery also requires at least one event, at least one member account with an external ID, and a Slack workspace + channel."
+          }
+        },
+        "event_names": {
+          "target": "com.posthog.customer_analytics#EventStreamEventNamesList",
+          "traits": {
+            "smithy.api#documentation": "Names of the events to stream (matched exactly). Duplicates and blanks are dropped."
+          }
+        },
+        "slack_integration": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "ID of the team's Slack workspace integration to deliver through.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "slack_channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel ID to post to (e.g. C0123ABC)."
+          }
+        },
+        "slack_channel_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the Slack channel (e.g. #customer-events). Informational only."
+          }
+        },
+        "account_ids": {
+          "target": "com.posthog.customer_analytics#EventStreamAccountIdsList",
+          "traits": {
+            "smithy.api#documentation": "UUIDs of the member accounts whose users' events are streamed. Managed via the add_account/remove_account endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The caller's event stream — a live feed of selected accounts' events posted to a\nSlack channel of their choice. One stream per user per project."
+      }
+    },
+    "com.posthog.customer_analytics#EventStreamEventNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the events to stream (matched exactly). Duplicates and blanks are dropped."
+      }
+    },
+    "com.posthog.customer_analytics#EventStreamAccountIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "UUIDs of the member accounts whose users' events are streamed. Managed via the add_account/remove_account endpoints."
+      }
+    },
+    "com.posthog.customer_analytics#ListEventStreamsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.customer_analytics#EventStream"
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#ListEventStreamsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.customer_analytics#ListEventStreamsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.customer_analytics#ListEventStreams": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#ListEventStreamsRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#ListEventStreamsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/event_streams/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The caller's event stream: a live feed of selected accounts' events posted to a\nSlack channel of their choice. Per-user — each team member owns at most one stream, and\nevery endpoint is scoped to the caller's own. Delivery runs through a managed CDP\ndestination that is re-provisioned inside the same transaction as every write, so\nconfig and delivery can't drift apart."
+      }
+    },
+    "com.posthog.customer_analytics#CreateEventStreamRequestEventNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the events to stream (matched exactly). Duplicates and blanks are dropped."
+      }
+    },
+    "com.posthog.customer_analytics#CreateEventStreamRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the stream delivers to Slack. Delivery also requires at least one event, at least one member account with an external ID, and a Slack workspace + channel."
+          }
+        },
+        "event_names": {
+          "target": "com.posthog.customer_analytics#CreateEventStreamRequestEventNamesList",
+          "traits": {
+            "smithy.api#documentation": "Names of the events to stream (matched exactly). Duplicates and blanks are dropped."
+          }
+        },
+        "slack_integration": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "ID of the team's Slack workspace integration to deliver through.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "slack_channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel ID to post to (e.g. C0123ABC)."
+          }
+        },
+        "slack_channel_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the Slack channel (e.g. #customer-events). Informational only."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#CreateEventStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#CreateEventStreamRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#EventStream"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/event_streams/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The caller's event stream: a live feed of selected accounts' events posted to a\nSlack channel of their choice. Per-user — each team member owns at most one stream, and\nevery endpoint is scoped to the caller's own. Delivery runs through a managed CDP\ndestination that is re-provisioned inside the same transaction as every write, so\nconfig and delivery can't drift apart."
+      }
+    },
+    "com.posthog.customer_analytics#UpdateEventStreamRequestEventNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the events to stream (matched exactly). Duplicates and blanks are dropped."
+      }
+    },
+    "com.posthog.customer_analytics#UpdateEventStreamRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this event stream."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the stream delivers to Slack. Delivery also requires at least one event, at least one member account with an external ID, and a Slack workspace + channel."
+          }
+        },
+        "event_names": {
+          "target": "com.posthog.customer_analytics#UpdateEventStreamRequestEventNamesList",
+          "traits": {
+            "smithy.api#documentation": "Names of the events to stream (matched exactly). Duplicates and blanks are dropped."
+          }
+        },
+        "slack_integration": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "ID of the team's Slack workspace integration to deliver through.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "slack_channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel ID to post to (e.g. C0123ABC)."
+          }
+        },
+        "slack_channel_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the Slack channel (e.g. #customer-events). Informational only."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#UpdateEventStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#UpdateEventStreamRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#EventStream"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/event_streams/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The caller's event stream: a live feed of selected accounts' events posted to a\nSlack channel of their choice. Per-user — each team member owns at most one stream, and\nevery endpoint is scoped to the caller's own. Delivery runs through a managed CDP\ndestination that is re-provisioned inside the same transaction as every write, so\nconfig and delivery can't drift apart."
+      }
+    },
+    "com.posthog.customer_analytics#UpdateEventStreamsPartialRequestEventNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the events to stream (matched exactly). Duplicates and blanks are dropped."
+      }
+    },
+    "com.posthog.customer_analytics#UpdateEventStreamsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this event stream."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the stream delivers to Slack. Delivery also requires at least one event, at least one member account with an external ID, and a Slack workspace + channel."
+          }
+        },
+        "event_names": {
+          "target": "com.posthog.customer_analytics#UpdateEventStreamsPartialRequestEventNamesList",
+          "traits": {
+            "smithy.api#documentation": "Names of the events to stream (matched exactly). Duplicates and blanks are dropped."
+          }
+        },
+        "slack_integration": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "ID of the team's Slack workspace integration to deliver through.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "slack_channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel ID to post to (e.g. C0123ABC)."
+          }
+        },
+        "slack_channel_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the Slack channel (e.g. #customer-events). Informational only."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#UpdateEventStreamsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#UpdateEventStreamsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#EventStream"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/event_streams/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The caller's event stream: a live feed of selected accounts' events posted to a\nSlack channel of their choice. Per-user — each team member owns at most one stream, and\nevery endpoint is scoped to the caller's own. Delivery runs through a managed CDP\ndestination that is re-provisioned inside the same transaction as every write, so\nconfig and delivery can't drift apart."
+      }
+    },
+    "com.posthog.customer_analytics#EventStreamsDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this event stream."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#EventStreamsDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#EventStreamsDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/event_streams/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The caller's event stream: a live feed of selected accounts' events posted to a\nSlack channel of their choice. Per-user — each team member owns at most one stream, and\nevery endpoint is scoped to the caller's own. Delivery runs through a managed CDP\ndestination that is re-provisioned inside the same transaction as every write, so\nconfig and delivery can't drift apart."
+      }
+    },
+    "com.posthog.customer_analytics#EventStreamsAddAccountCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this event stream."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the account to add to or remove from the stream.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#EventStreamsAddAccountCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#EventStreamsAddAccountCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#EventStream"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/event_streams/{id}/add_account/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The caller's event stream: a live feed of selected accounts' events posted to a\nSlack channel of their choice. Per-user — each team member owns at most one stream, and\nevery endpoint is scoped to the caller's own. Delivery runs through a managed CDP\ndestination that is re-provisioned inside the same transaction as every write, so\nconfig and delivery can't drift apart."
+      }
+    },
+    "com.posthog.customer_analytics#EventStreamsRemoveAccountCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this event stream."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the account to add to or remove from the stream.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#EventStreamsRemoveAccountCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#EventStreamsRemoveAccountCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#EventStream"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/event_streams/{id}/remove_account/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The caller's event stream: a live feed of selected accounts' events posted to a\nSlack channel of their choice. Per-user — each team member owns at most one stream, and\nevery endpoint is scoped to the caller's own. Delivery runs through a managed CDP\ndestination that is re-provisioned inside the same transaction as every write, so\nconfig and delivery can't drift apart."
+      }
+    },
+    "com.posthog.customer_analytics#EventStreamsSendTestMessageCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this event stream."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#EventStreamTestMessage": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel ID the test message was posted to (e.g. C0123ABC).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Result of posting an event-stream test message to Slack."
+      }
+    },
+    "com.posthog.customer_analytics#EventStreamsSendTestMessageCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#EventStreamsSendTestMessageCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#EventStreamTestMessage"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/event_streams/{id}/send_test_message/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The caller's event stream: a live feed of selected accounts' events posted to a\nSlack channel of their choice. Per-user — each team member owns at most one stream, and\nevery endpoint is scoped to the caller's own. Delivery runs through a managed CDP\ndestination that is re-provisioned inside the same transaction as every write, so\nconfig and delivery can't drift apart."
+      }
+    },
+    "com.posthog.customer_analytics#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.customer_analytics#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
     "com.posthog.customer_analytics#CustomerAnalytics": {
       "type": "service",
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.customer_analytics#AccountsCustomPropertyValuesList"
+          "target": "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccount"
         },
         {
-          "target": "com.posthog.customer_analytics#AccountsCustomPropertyValuesCreate"
+          "target": "com.posthog.customer_analytics#ListAccountNotes"
         },
         {
-          "target": "com.posthog.customer_analytics#AccountsNotebooksList"
+          "target": "com.posthog.customer_analytics#ListAccountsCustomPropertyValues"
         },
         {
-          "target": "com.posthog.customer_analytics#AccountsNotebooksCreate"
+          "target": "com.posthog.customer_analytics#CreateAccountsCustomPropertyValue"
         },
         {
-          "target": "com.posthog.customer_analytics#AccountsNotebooksRetrieve"
+          "target": "com.posthog.customer_analytics#ListAccountsNotebooks"
+        },
+        {
+          "target": "com.posthog.customer_analytics#CreateAccountsNotebook"
+        },
+        {
+          "target": "com.posthog.customer_analytics#GetAccountsNotebook"
         },
         {
           "target": "com.posthog.customer_analytics#AccountsNotebooksDestroy"
+        },
+        {
+          "target": "com.posthog.customer_analytics#ListAccountsRelationships"
+        },
+        {
+          "target": "com.posthog.customer_analytics#CreateAccountsRelationship"
+        },
+        {
+          "target": "com.posthog.customer_analytics#AccountsRelationshipsDestroy"
+        },
+        {
+          "target": "com.posthog.customer_analytics#CreateAccountsRelationshipsEnd"
+        },
+        {
+          "target": "com.posthog.customer_analytics#ListEventStreams"
+        },
+        {
+          "target": "com.posthog.customer_analytics#CreateEventStream"
+        },
+        {
+          "target": "com.posthog.customer_analytics#UpdateEventStream"
+        },
+        {
+          "target": "com.posthog.customer_analytics#UpdateEventStreamsPartial"
+        },
+        {
+          "target": "com.posthog.customer_analytics#EventStreamsDestroy"
+        },
+        {
+          "target": "com.posthog.customer_analytics#EventStreamsAddAccountCreate"
+        },
+        {
+          "target": "com.posthog.customer_analytics#EventStreamsRemoveAccountCreate"
+        },
+        {
+          "target": "com.posthog.customer_analytics#EventStreamsSendTestMessageCreate"
         }
       ],
       "traits": {

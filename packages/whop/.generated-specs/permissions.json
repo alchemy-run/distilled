@@ -1,0 +1,1671 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.permissions#ListPermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resource_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Tag of the resource to check against: an account (`biz_`), product (`prod_`), experience (`exp_`), or app (`app_`). A resource the credential cannot see is reported as granted nothing rather than as an error."
+          }
+        },
+        "actions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "actions",
+            "smithy.api#documentation": "Comma-separated permission actions to check, for example `stats:read,payment:basic:read`. Every action is returned when omitted."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.permissions#PermissionAction": {
+      "type": "enum",
+      "members": {
+        "AI_PROMPT_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai_prompt:create"
+          }
+        },
+        "ACCESS_PASS_BASIC_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_pass:basic:export"
+          }
+        },
+        "ACCESS_PASS_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_pass:basic:read"
+          }
+        },
+        "ACCESS_PASS_CONTROL_CENTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_pass:control_center"
+          }
+        },
+        "ACCESS_PASS_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_pass:create"
+          }
+        },
+        "ACCESS_PASS_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_pass:delete"
+          }
+        },
+        "ACCESS_PASS_STATS_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_pass:stats:export"
+          }
+        },
+        "ACCESS_PASS_STATS_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_pass:stats:read"
+          }
+        },
+        "ACCESS_PASS_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_pass:update"
+          }
+        },
+        "AD_CAMPAIGN_BASIC_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign:basic:export"
+          }
+        },
+        "AD_CAMPAIGN_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign:basic:read"
+          }
+        },
+        "AD_CAMPAIGN_CONVERSION_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign:conversion:create"
+          }
+        },
+        "AD_CAMPAIGN_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign:create"
+          }
+        },
+        "AD_CAMPAIGN_CREDIT_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign:credit:create"
+          }
+        },
+        "AD_CAMPAIGN_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign:delete"
+          }
+        },
+        "AD_CAMPAIGN_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign:read"
+          }
+        },
+        "AD_CAMPAIGN_STATS_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign:stats:read"
+          }
+        },
+        "AD_CAMPAIGN_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign:update"
+          }
+        },
+        "AUDIENCE_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audience:basic:read"
+          }
+        },
+        "AUDIENCE_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audience:update"
+          }
+        },
+        "AD_PUBLISHER_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_publisher:read"
+          }
+        },
+        "AFFILIATE_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affiliate:basic:read"
+          }
+        },
+        "AFFILIATE_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affiliate:create"
+          }
+        },
+        "AFFILIATE_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affiliate:update"
+          }
+        },
+        "AUTHORIZED_USER_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authorized_user:create"
+          }
+        },
+        "AUTHORIZED_USER_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authorized_user:delete"
+          }
+        },
+        "AUTHORIZED_USER_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authorized_user:update"
+          }
+        },
+        "AUTHORIZED_ROLE_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authorized_role:create"
+          }
+        },
+        "AUTHORIZED_ROLE_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authorized_role:update"
+          }
+        },
+        "AUTHORIZED_ROLE_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authorized_role:delete"
+          }
+        },
+        "AUTHORIZED_ROLE_ATTACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authorized_role:attach"
+          }
+        },
+        "AUTHORIZED_ROLE_DETACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authorized_role:detach"
+          }
+        },
+        "APP_AUTHORIZATION_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_authorization:create"
+          }
+        },
+        "APP_AUTHORIZATION_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_authorization:read"
+          }
+        },
+        "APP_AUTHORIZATION_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_authorization:update"
+          }
+        },
+        "APP_AUTHORIZATION_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_authorization:delete"
+          }
+        },
+        "BOUNTY_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounty:basic:read"
+          }
+        },
+        "BOUNTY_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounty:create"
+          }
+        },
+        "BOUNTY_CAPTURE_CLIP_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounty:capture_clip:create"
+          }
+        },
+        "BOUNTY_CAPTURE_CLIP_COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounty:capture_clip:complete"
+          }
+        },
+        "BOUNTY_CAPTURE_CLIP_DISCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounty:capture_clip:discard"
+          }
+        },
+        "BOUNTY_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounty:update"
+          }
+        },
+        "BOUNTY_SUBMISSION_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounty:submission:create"
+          }
+        },
+        "BOUNTY_SUBMISSION_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounty:submission:delete"
+          }
+        },
+        "BOUNTY_SUBMISSION_VOTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounty:submission:vote"
+          }
+        },
+        "CHAT_MANAGE_WEBHOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chat:manage_webhook"
+          }
+        },
+        "CHAT_MODERATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chat:moderate"
+          }
+        },
+        "CHAT_MESSAGE_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chat:message:create"
+          }
+        },
+        "CHAT_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chat:read"
+          }
+        },
+        "DMS_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dms:read"
+          }
+        },
+        "DMS_MESSAGE_MANAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dms:message:manage"
+          }
+        },
+        "DMS_CHANNEL_MANAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dms:channel:manage"
+          }
+        },
+        "FORUM_POST_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "forum:post:create"
+          }
+        },
+        "FORUM_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "forum:read"
+          }
+        },
+        "FORUM_MODERATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "forum:moderate"
+          }
+        },
+        "COMPANY_AUTHORIZED_USER_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:authorized_user:read"
+          }
+        },
+        "COMPANY_AUTHORIZED_USER_EMAIL_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:authorized_user:email:read"
+          }
+        },
+        "COMPANY_BALANCE_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:balance:read"
+          }
+        },
+        "COMPANY_BALANCE_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:balance:export"
+          }
+        },
+        "COMPANY_TOKEN_TRANSACTION_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company_token_transaction:read"
+          }
+        },
+        "COMPANY_TOKEN_TRANSACTION_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company_token_transaction:create"
+          }
+        },
+        "COMPANY_LOG_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:log:read"
+          }
+        },
+        "COMPANY_MANAGE_CHECKOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:manage_checkout"
+          }
+        },
+        "COMPANY_MANAGE_LEGAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:manage_legal"
+          }
+        },
+        "COMPANY_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:basic:read"
+          }
+        },
+        "COMPANY_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:update"
+          }
+        },
+        "COMPANY_TRANSFER_OWNERSHIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:transfer_ownership"
+          }
+        },
+        "COMPANY_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:create"
+          }
+        },
+        "COMPANY_CREATE_CHILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:create_child"
+          }
+        },
+        "COMPANY_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:delete"
+          }
+        },
+        "COMPANY_DELETE_CHILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:delete_child"
+          }
+        },
+        "COMPANY_UPDATE_CHILD_FEES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company:update_child_fees"
+          }
+        },
+        "CHILD_COMPANY_BASIC_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "child_company:basic:export"
+          }
+        },
+        "SOCIAL_ACCOUNT_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "social_account:create"
+          }
+        },
+        "SOCIAL_ACCOUNT_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "social_account:delete"
+          }
+        },
+        "SOCIAL_ACCOUNT_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "social_account:read"
+          }
+        },
+        "SOCIAL_LINK_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "social_link:update"
+          }
+        },
+        "CUSTOM_EMOJI_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom_emoji:update"
+          }
+        },
+        "CONTENT_REWARDS_BASIC_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_rewards:basic:export"
+          }
+        },
+        "CONTENT_REWARDS_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_rewards:basic:read"
+          }
+        },
+        "CONTENT_REWARDS_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_rewards:create"
+          }
+        },
+        "CONTENT_REWARDS_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_rewards:delete"
+          }
+        },
+        "CONTENT_REWARDS_MODERATE_SUBMISSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_rewards:moderate_submission"
+          }
+        },
+        "CONTENT_REWARDS_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_rewards:update"
+          }
+        },
+        "DEVELOPER_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "developer:basic:read"
+          }
+        },
+        "DEVELOPER_CREATE_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "developer:create_app"
+          }
+        },
+        "DEVELOPER_MANAGE_API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "developer:manage_api_key"
+          }
+        },
+        "DEVELOPER_MANAGE_OAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "developer:manage_oauth"
+          }
+        },
+        "DEVELOPER_MANAGE_WEBHOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "developer:manage_webhook"
+          }
+        },
+        "DEVELOPER_LOGS_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "developer:logs:read"
+          }
+        },
+        "DEVELOPER_MANAGE_BUILDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "developer:manage_builds"
+          }
+        },
+        "DEVELOPER_UPDATE_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "developer:update_app"
+          }
+        },
+        "DEVELOPER_UPDATE_APP_AUTHORIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "developer:update_app_authorization"
+          }
+        },
+        "EVENT_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "event:create"
+          }
+        },
+        "EXPERIENCE_ATTACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experience:attach"
+          }
+        },
+        "EXPERIENCE_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experience:create"
+          }
+        },
+        "EXPERIENCE_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experience:delete"
+          }
+        },
+        "EXPERIENCE_DETACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experience:detach"
+          }
+        },
+        "EXPERIENCE_HIDDEN_EXPERIENCE_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experience:hidden_experience:read"
+          }
+        },
+        "EXPERIENCE_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experience:update"
+          }
+        },
+        "IAP_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "iap:read"
+          }
+        },
+        "IDENTITY_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "identity:read"
+          }
+        },
+        "IDENTITY_WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "identity:write"
+          }
+        },
+        "INCORPORATION_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "incorporation:read"
+          }
+        },
+        "INCORPORATION_WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "incorporation:write"
+          }
+        },
+        "LIVESTREAM_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "livestream:create"
+          }
+        },
+        "LIVESTREAM_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "livestream:delete"
+          }
+        },
+        "LIVESTREAM_MANAGE_RECORDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "livestream:manage_recording"
+          }
+        },
+        "LIVESTREAM_CHAT_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "livestream:chat:read"
+          }
+        },
+        "LIVESTREAM_CHAT_WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "livestream:chat:write"
+          }
+        },
+        "LIVESTREAM_MODERATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "livestream:moderate"
+          }
+        },
+        "MEDIA_GENERATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "media:generate"
+          }
+        },
+        "MEDIA_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "media:read"
+          }
+        },
+        "MEMBER_BASIC_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member:basic:export"
+          }
+        },
+        "MEMBER_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member:basic:read"
+          }
+        },
+        "MEMBER_EMAIL_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member:email:read"
+          }
+        },
+        "MEMBER_PHONE_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member:phone:read"
+          }
+        },
+        "MEMBER_PAYMENT_METHODS_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member:payment_methods:read"
+          }
+        },
+        "MEMBER_PAYMENT_METHODS_USE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member:payment_methods:use"
+          }
+        },
+        "MEMBER_PAYMENT_METHODS_MANAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member:payment_methods:manage"
+          }
+        },
+        "MEMBER_MANAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member:manage"
+          }
+        },
+        "MEMBERSHIP_CANCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "membership:cancel"
+          }
+        },
+        "MEMBERSHIP_RESYNC_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "membership:resync_access"
+          }
+        },
+        "MEMBERSHIP_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "membership:create"
+          }
+        },
+        "MEMBERSHIP_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "membership:update"
+          }
+        },
+        "MEMBERSHIP_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "membership:transfer"
+          }
+        },
+        "MEMBER_MODERATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member:moderate"
+          }
+        },
+        "MEMBER_STATS_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member:stats:export"
+          }
+        },
+        "MEMBER_STATS_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member:stats:read"
+          }
+        },
+        "MEMBER_JOURNEY_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member:journey:read"
+          }
+        },
+        "PAYMENT_BASIC_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:basic:export"
+          }
+        },
+        "PAYMENT_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:basic:read"
+          }
+        },
+        "PAYMENT_CHARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:charge"
+          }
+        },
+        "PAYMENT_DISPUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:dispute"
+          }
+        },
+        "PAYMENT_DISPUTE_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:dispute:export"
+          }
+        },
+        "PAYMENT_DISPUTE_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:dispute:read"
+          }
+        },
+        "PAYMENT_DISPUTE_ALERT_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:dispute_alert:read"
+          }
+        },
+        "PAYMENT_SETUP_INTENT_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:setup_intent:read"
+          }
+        },
+        "PAYMENT_SETUP_INTENT_MANAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:setup_intent:manage"
+          }
+        },
+        "PAYMENT_MANAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:manage"
+          }
+        },
+        "PAYMENT_RESOLUTION_CENTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:resolution_center"
+          }
+        },
+        "PAYMENT_RESOLUTION_CENTER_CASE_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:resolution_center_case:export"
+          }
+        },
+        "PAYMENT_RESOLUTION_CENTER_CASE_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:resolution_center_case:read"
+          }
+        },
+        "PAYMENT_RESOLUTION_CENTER_CASE_MANAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment:resolution_center_case:manage"
+          }
+        },
+        "PAYOUT_CREATE_DESTINATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout:create_destination"
+          }
+        },
+        "PAYOUT_DELETE_DESTINATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout:delete_destination"
+          }
+        },
+        "PAYOUT_DESTINATION_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout:destination:read"
+          }
+        },
+        "PAYOUT_TRANSFER_FUNDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout:transfer_funds"
+          }
+        },
+        "PAYOUT_TRANSFER_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout:transfer:read"
+          }
+        },
+        "PAYOUT_TRANSFER_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout:transfer:export"
+          }
+        },
+        "PAYOUT_UPDATE_DESTINATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout:update_destination"
+          }
+        },
+        "PAYOUT_WITHDRAW_FUNDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout:withdraw_funds"
+          }
+        },
+        "PAYOUT_WITHDRAWAL_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout:withdrawal:read"
+          }
+        },
+        "PAYOUT_WITHDRAWAL_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout:withdrawal:export"
+          }
+        },
+        "PAYOUT_ACCOUNT_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout:account:read"
+          }
+        },
+        "PAYOUT_ACCOUNT_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout:account:update"
+          }
+        },
+        "PLAN_BASIC_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan:basic:export"
+          }
+        },
+        "PLAN_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan:basic:read"
+          }
+        },
+        "PLAN_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan:create"
+          }
+        },
+        "PLAN_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan:delete"
+          }
+        },
+        "PLAN_STATS_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan:stats:export"
+          }
+        },
+        "PLAN_STATS_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan:stats:read"
+          }
+        },
+        "PLAN_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan:update"
+          }
+        },
+        "PLAN_WAITLIST_MANAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan:waitlist:manage"
+          }
+        },
+        "PLAN_WAITLIST_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan:waitlist:export"
+          }
+        },
+        "PLAN_WAITLIST_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan:waitlist:read"
+          }
+        },
+        "PROMO_CODE_BASIC_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promo_code:basic:export"
+          }
+        },
+        "PROMO_CODE_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promo_code:basic:read"
+          }
+        },
+        "PROMO_CODE_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promo_code:create"
+          }
+        },
+        "PROMO_CODE_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promo_code:delete"
+          }
+        },
+        "PROMO_CODE_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promo_code:update"
+          }
+        },
+        "REFERRAL_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "referral:basic:read"
+          }
+        },
+        "REFERRAL_PARTNER_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "referral:partner:create"
+          }
+        },
+        "PARTNER_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner:basic:read"
+          }
+        },
+        "PARTNER_INVITE_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner:invite:create"
+          }
+        },
+        "PARTNER_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner:create"
+          }
+        },
+        "STATS_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stats:read"
+          }
+        },
+        "SUPPORT_CHAT_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "support_chat:read"
+          }
+        },
+        "SUPPORT_CHAT_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "support_chat:create"
+          }
+        },
+        "SUPPORT_CHAT_MESSAGE_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "support_chat:message:create"
+          }
+        },
+        "TRACKING_LINK_BASIC_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracking_link:basic:export"
+          }
+        },
+        "TRACKING_LINK_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracking_link:basic:read"
+          }
+        },
+        "TRACKING_LINK_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracking_link:create"
+          }
+        },
+        "TRACKING_LINK_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracking_link:delete"
+          }
+        },
+        "TRACKING_LINK_STATS_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracking_link:stats:export"
+          }
+        },
+        "TRACKING_LINK_STATS_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracking_link:stats:read"
+          }
+        },
+        "TRACKING_LINK_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracking_link:update"
+          }
+        },
+        "COURSES_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "courses:read"
+          }
+        },
+        "COURSES_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "courses:update"
+          }
+        },
+        "COURSE_LESSON_INTERACTION_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "course_lesson_interaction:read"
+          }
+        },
+        "COURSE_ANALYTICS_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "course_analytics:read"
+          }
+        },
+        "LEAD_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead:basic:read"
+          }
+        },
+        "LEAD_BASIC_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead:basic:export"
+          }
+        },
+        "INVOICE_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoice:create"
+          }
+        },
+        "INVOICE_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoice:basic:read"
+          }
+        },
+        "INVOICE_BASIC_EXPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoice:basic:export"
+          }
+        },
+        "INVOICE_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoice:update"
+          }
+        },
+        "WEBHOOK_RECEIVE_INVOICES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:invoices"
+          }
+        },
+        "WEBHOOK_RECEIVE_SETUP_INTENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:setup_intents"
+          }
+        },
+        "WEBHOOK_RECEIVE_WITHDRAWALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:withdrawals"
+          }
+        },
+        "WEBHOOK_RECEIVE_SWAPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:swaps"
+          }
+        },
+        "WEBHOOK_RECEIVE_LEDGER_ACCOUNTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:ledger_accounts"
+          }
+        },
+        "WEBHOOK_RECEIVE_ACCOUNTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:accounts"
+          }
+        },
+        "WEBHOOK_RECEIVE_DEPOSITS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:deposits"
+          }
+        },
+        "WEBHOOK_RECEIVE_TRANSFERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:transfers"
+          }
+        },
+        "WEBHOOK_RECEIVE_CARD_TRANSACTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:card_transactions"
+          }
+        },
+        "WEBHOOK_RECEIVE_CARDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:cards"
+          }
+        },
+        "WEBHOOK_RECEIVE_CARD_APPLICATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:card_applications"
+          }
+        },
+        "WEBHOOK_RECEIVE_PAYOUT_METHODS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:payout_methods"
+          }
+        },
+        "WEBHOOK_RECEIVE_VERIFICATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:verifications"
+          }
+        },
+        "WEBHOOK_RECEIVE_IDENTITY_PROFILES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:identity_profiles"
+          }
+        },
+        "WEBHOOK_RECEIVE_PAYOUT_ACCOUNTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:payout_accounts"
+          }
+        },
+        "WEBHOOK_RECEIVE_CHAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:chat"
+          }
+        },
+        "WEBHOOK_RECEIVE_ENTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:entries"
+          }
+        },
+        "WEBHOOK_RECEIVE_AD_CAMPAIGNS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:ad_campaigns"
+          }
+        },
+        "WEBHOOK_RECEIVE_PRODUCTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:products"
+          }
+        },
+        "WEBHOOK_RECEIVE_PLANS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:plans"
+          }
+        },
+        "WEBHOOK_RECEIVE_SHIPMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:shipments"
+          }
+        },
+        "WEBHOOK_RECEIVE_MEMBERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:members"
+          }
+        },
+        "WEBHOOK_RECEIVE_EXPORTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:exports"
+          }
+        },
+        "WEBHOOK_RECEIVE_COURSES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:courses"
+          }
+        },
+        "WEBHOOK_RECEIVE_MEMBERSHIPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:memberships"
+          }
+        },
+        "WEBHOOK_RECEIVE_PAYMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:payments"
+          }
+        },
+        "WEBHOOK_RECEIVE_REFUNDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:refunds"
+          }
+        },
+        "WEBHOOK_RECEIVE_DISPUTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:disputes"
+          }
+        },
+        "WEBHOOK_RECEIVE_RESOLUTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:resolutions"
+          }
+        },
+        "WEBHOOK_RECEIVE_APP_PAYMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:app_payments"
+          }
+        },
+        "WEBHOOK_RECEIVE_APP_MEMBERSHIPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook_receive:app_memberships"
+          }
+        },
+        "SHIPMENT_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shipment:create"
+          }
+        },
+        "SHIPMENT_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shipment:basic:read"
+          }
+        },
+        "CHECKOUT_CONFIGURATION_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkout_configuration:basic:read"
+          }
+        },
+        "CHECKOUT_CONFIGURATION_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkout_configuration:create"
+          }
+        },
+        "CHECKOUT_CONFIGURATION_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkout_configuration:delete"
+          }
+        },
+        "CHECKOUT_REQUEST_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkout_request:create"
+          }
+        },
+        "CHECKOUT_REQUEST_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkout_request:basic:read"
+          }
+        },
+        "CRYPTO_WALLET_MANAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto_wallet:manage"
+          }
+        },
+        "CRYPTO_WALLET_SWAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto_wallet:swap"
+          }
+        },
+        "AIRDROP_LINK_BASIC_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "airdrop_link:basic:read"
+          }
+        },
+        "AIRDROP_LINK_MANAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "airdrop_link:manage"
+          }
+        },
+        "LEAD_MANAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead:manage"
+          }
+        },
+        "NOTIFICATION_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notification:create"
+          }
+        },
+        "USER_BALANCE_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user:balance:read"
+          }
+        },
+        "USER_EMAIL_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user:email:read"
+          }
+        },
+        "USER_STAFF_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user:staff:read"
+          }
+        },
+        "OAUTH_TOKEN_EXCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oauth:token_exchange"
+          }
+        },
+        "OPENID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openid"
+          }
+        },
+        "PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "profile"
+          }
+        },
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email"
+          }
+        },
+        "AI_CHAT_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai_chat:read"
+          }
+        },
+        "AI_CHAT_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai_chat:create"
+          }
+        },
+        "AI_CHAT_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai_chat:delete"
+          }
+        },
+        "AI_CHAT_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai_chat:update"
+          }
+        },
+        "USER_NOTIFICATIONS_READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user:notifications:read"
+          }
+        },
+        "USER_NOTIFICATIONS_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user:notifications:update"
+          }
+        },
+        "USER_PROFILE_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user:profile:update"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A permission action identifier, such as `company:basic:read`."
+      }
+    },
+    "com.whop.permissions#ListPermissionsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.whop.permissions#PermissionAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "granted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the credential is granted the action for the resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.permissions#ListPermissionsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.permissions#ListPermissionsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.permissions#ListPermissionsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.permissions#ListPermissionsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.permissions#ListPermissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.permissions#ListPermissionsRequest"
+      },
+      "output": {
+        "target": "com.whop.permissions#ListPermissionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.permissions#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/permissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Check Permissions\n\nLists permission actions and whether the calling credential is granted each one for a resource. Answers for whichever identity authenticated the request — a user session, an OAuth token, or an account or app API key — so it never describes who else can reach the resource."
+      }
+    },
+    "com.whop.permissions#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.permissions#Permissions": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.permissions#ListPermissions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

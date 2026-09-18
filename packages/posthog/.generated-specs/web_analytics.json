@@ -14,9 +14,75 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
+    "com.posthog.web_analytics#FetchWebAnalyticsLlmsTxtRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public HTTP or HTTPS URL of the llms.txt file to load.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics#LlmsTxtFetchResponse": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTF-8 contents of the fetched llms.txt file.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Final public URL after redirects.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#FetchWebAnalyticsLlmsTxt": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics#FetchWebAnalyticsLlmsTxtRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics#LlmsTxtFetchResponse"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.web_analytics#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics/llms_txt/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Load an llms.txt file\n\nLoads an llms.txt file from a public URL for coverage analysis without saving it."
+      }
+    },
     "com.posthog.web_analytics#WebAnalyticsRecapRequest": {
       "type": "structure",
       "members": {
@@ -623,10 +689,26 @@
         "smithy.api#documentation": "Summarize web analytics\n\nSummarizes a project's web analytics over a lookback window (default 7 days): unique visitors, pageviews, sessions, bounce rate, and average session duration with period-over-period comparisons, plus the top 5 pages, top 5 traffic sources, and goal conversions."
       }
     },
+    "com.posthog.web_analytics#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
     "com.posthog.web_analytics#WebAnalytics": {
       "type": "service",
       "version": "1.0.0",
       "operations": [
+        {
+          "target": "com.posthog.web_analytics#FetchWebAnalyticsLlmsTxt"
+        },
         {
           "target": "com.posthog.web_analytics#WebAnalyticsRecap"
         },

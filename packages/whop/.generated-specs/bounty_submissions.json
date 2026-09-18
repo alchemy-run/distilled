@@ -1,0 +1,1402 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.bounty_submissions#ListBountySubmissionsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#ListBountySubmissionsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#ListBountySubmissionsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#ListBountySubmissionsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Scope the list to submissions on this account's bounties (`biz_` tag). Requires read access to the account."
+          }
+        },
+        "bounty_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "bounty_id",
+            "smithy.api#documentation": "Only submissions on this bounty (`bnty_` tag)."
+          }
+        },
+        "status": {
+          "target": "com.whop.bounty_submissions#ListBountySubmissionsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by lifecycle state."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only submissions created after this ISO 8601 timestamp."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only submissions created before this ISO 8601 timestamp."
+          }
+        },
+        "order": {
+          "target": "com.whop.bounty_submissions#ListBountySubmissionsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort field."
+          }
+        },
+        "direction": {
+          "target": "com.whop.bounty_submissions#ListBountySubmissionsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of submissions to return from the start of the window."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to paginate forwards from."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of submissions to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to paginate backwards from."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.bounty_submissions#BountySubmission": {
+      "type": "structure",
+      "members": {
+        "bounty_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The bounty the work was submitted to, prefixed `bnty_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "capture_clips": {
+          "target": "com.whop.bounty_submissions#BountySubmissionCaptureClipsList",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "capture_filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The vendor filename stem `Country_City_Site_Station_Operator`, derived from the capture metadata. `null` until every component is present.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "captured_clip_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of verified capture clips accepted for this submission so far. `0` for submissions whose deliverable doesn't accumulate clips.",
+            "smithy.api#required": {}
+          }
+        },
+        "captured_duration_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total verified duration of accepted capture clips, in whole seconds. `0` for submissions whose deliverable doesn't accumulate clips.",
+            "smithy.api#required": {}
+          }
+        },
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Capture metadata: city the footage was recorded in. `null` unless capture metadata was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "claimed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the worker claimed the submission, as an ISO 8601 timestamp.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Written proof the worker submitted with their work.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Capture metadata: country the footage was recorded in. `null` unless capture metadata was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the submission was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "deliverable_type": {
+          "target": "com.whop.bounty_submissions#BountySubmissionDeliverableType",
+          "traits": {
+            "smithy.api#documentation": "How the work arrived when it came in through the API in one shot, informational only — read the work from `deliverable_urls`, `files`, and `capture_clips` directly. `null` for submissions whose proof is a livestream recording, including ones that attached links or files on submit.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deliverable_urls": {
+          "target": "com.whop.bounty_submissions#BountySubmissionDeliverableUrlsList",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "denial_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the submission was denied, when a presentable reason exists. Always `null` unless `status` is `denied`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "device": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Capture metadata: device the footage was recorded on. `null` unless capture metadata was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "files": {
+          "target": "com.whop.bounty_submissions#BountySubmissionFilesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fov": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Capture metadata: horizontal field of view in degrees. `null` when not reported.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Submission ID, prefixed `btys_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "latest_proof_livestream_feed": {
+          "target": "com.whop.bounty_submissions#BountySubmissionLivestreamFeed",
+          "traits": {
+            "smithy.api#documentation": "Latest public proof livestream attached to the submission.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "operator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Capture metadata: identifier of the person who recorded the footage. `null` unless capture metadata was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resolved_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the submission was approved or denied, as an ISO 8601 timestamp. `null` until then.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "site": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Capture metadata: site or venue the footage was recorded at. `null` unless capture metadata was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "station": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Capture metadata: station or position within the site. `null` unless capture metadata was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.bounty_submissions#BountySubmissionStatus",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle state. `in_progress` submissions are active attempts that have not submitted proof yet; `submitted` submissions await review; `approved` submissions were accepted and paid; `denied` submissions were rejected. `null` when the attempt ended without proof, taking it out of the public lifecycle — those attempts are absent from every public list and read.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "submitted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When proof was submitted for review, as an ISO 8601 timestamp. `null` while the attempt is in progress.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the submission was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "worker": {
+          "target": "com.whop.bounty_submissions#UserSummary",
+          "traits": {
+            "smithy.api#documentation": "User who submitted the work.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#BountyCaptureClip": {
+      "type": "structure",
+      "members": {
+        "bounty_submission_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The bounty submission (attempt) this clip belongs to, prefixed `btys_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the clip was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "duration_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Server-validated clip duration in whole seconds. `null` until validation completes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failure_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable validation failure code. `null` unless `status` is `failed`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failure_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable validation failure reason. `null` unless `status` is `failed`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frames_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporary signed URL for the video frame timestamp log. Returned only on single-clip reads for an authorized viewer; `null` on list responses or until the artifact is attached.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Capture clip ID, prefixed `bclip_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "imu_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporary signed URL for the IMU (accelerometer + gyroscope) log. Returned only on single-clip reads for an authorized viewer; `null` on list responses or until the artifact is attached.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "manifest_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporary signed URL for the capture manifest. Returned only on single-clip reads for an authorized viewer; `null` on list responses or until the artifact is attached.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ready_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When server-side validation completed successfully, as an ISO 8601 timestamp. `null` until then.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sequence": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The clip's stable order within the attempt, starting at 1.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.bounty_submissions#BountyCaptureClipStatus",
+          "traits": {
+            "smithy.api#documentation": "Recording and validation state. `recording` is still capturing; `verifying` is running server-side validation; `ready` passed validation and counts toward the verified-duration payout gate; `failed` did not validate.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the clip was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "video_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporary signed URL for the synchronized MP4 video. Returned only on single-clip reads for an authorized viewer; `null` on list responses or until the artifact is attached.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#BountyCaptureClipStatus": {
+      "type": "enum",
+      "members": {
+        "RECORDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "recording"
+          }
+        },
+        "VERIFYING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verifying"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Recording and validation state. `recording` is still capturing; `verifying` is running server-side validation; `ready` passed validation and counts toward the verified-duration payout gate; `failed` did not validate."
+      }
+    },
+    "com.whop.bounty_submissions#BountySubmissionCaptureClipsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.bounty_submissions#BountyCaptureClip"
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#BountySubmissionDeliverableType": {
+      "type": "enum",
+      "members": {
+        "CONTENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_url"
+          }
+        },
+        "MEDIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "media"
+          }
+        },
+        "DATA_CAPTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data_capture"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the work arrived when it came in through the API in one shot, informational only — read the work from `deliverable_urls`, `files`, and `capture_clips` directly. `null` for submissions whose proof is a livestream recording, including ones that attached links or files on submit."
+      }
+    },
+    "com.whop.bounty_submissions#BountySubmissionDeliverableUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#BountySubmissionFile": {
+      "type": "structure",
+      "members": {
+        "attachment_type": {
+          "target": "com.whop.bounty_submissions#BountySubmissionFileAttachmentType",
+          "traits": {
+            "smithy.api#documentation": "Broad kind of file.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MIME type of the file.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name the file was uploaded with.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "File ID, prefixed `file_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporary download URL for the file.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#BountySubmissionFileAttachmentType": {
+      "type": "enum",
+      "members": {
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image"
+          }
+        },
+        "VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video"
+          }
+        },
+        "AUDIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Broad kind of file."
+      }
+    },
+    "com.whop.bounty_submissions#BountySubmissionFilesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.bounty_submissions#BountySubmissionFile"
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#BountySubmissionLivestreamFeed": {
+      "type": "structure",
+      "members": {
+        "ended_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the proof livestream ended, as an ISO 8601 timestamp. `null` while it is still live — a feed with a `started_at` and no `ended_at` is streaming right now.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Livestream feed ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "recording_status": {
+          "target": "com.whop.bounty_submissions#BountySubmissionLivestreamFeedRecordingStatus",
+          "traits": {
+            "smithy.api#documentation": "Recording lifecycle state.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "recording_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Playback URL for a completed proof recording, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the proof livestream went live, as an ISO 8601 timestamp. `null` before it starts.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current proof thumbnail URL, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display title for the proof livestream.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#BountySubmissionLivestreamFeedRecordingStatus": {
+      "type": "enum",
+      "members": {
+        "RECORDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "recording"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Recording lifecycle state."
+      }
+    },
+    "com.whop.bounty_submissions#BountySubmissionStatus": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Lifecycle state. `in_progress` submissions are active attempts that have not submitted proof yet; `submitted` submissions await review; `approved` submissions were accepted and paid; `denied` submissions were rejected. `null` when the attempt ended without proof, taking it out of the public lifecycle — those attempts are absent from every public list and read."
+      }
+    },
+    "com.whop.bounty_submissions#UserSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture": {
+          "target": "com.whop.bounty_submissions#UserProfilePicture",
+          "traits": {
+            "smithy.api#documentation": "Avatar wrapper; its `url` is always present, using a generated placeholder when the user set no picture.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#UserProfilePicture": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Avatar image URL. Always present — a generated placeholder when the user set no picture.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#ListBountySubmissionsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.bounty_submissions#BountySubmission"
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#ListBountySubmissionsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounty_submissions#ListBountySubmissionsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.bounty_submissions#ListBountySubmissionsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.bounty_submissions#ListBountySubmissionsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.bounty_submissions#ListBountySubmissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.bounty_submissions#ListBountySubmissionsRequest"
+      },
+      "output": {
+        "target": "com.whop.bounty_submissions#ListBountySubmissionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.bounty_submissions#BadRequest"
+        },
+        {
+          "target": "com.whop.bounty_submissions#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/bounty_submissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Bounty Submissions\n\nLists bounty submissions visible to the credential — for a user token, the submissions they authored plus those on bounties they posted; for an account API key, the submissions on the account's bounties. For the anonymous view of one bounty's reviewed work, use the submissions list under the bounty instead.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.bounty_submissions#CreateBountySubmissionRequestDeliverableFileIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IDs of uploaded files attached as work, up to 10, each prefixed `file_`. Combinable with `urls` and `caption`."
+      }
+    },
+    "com.whop.bounty_submissions#CreateBountySubmissionRequestDeliverableType": {
+      "type": "enum",
+      "members": {
+        "CONTENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_url"
+          }
+        },
+        "MEDIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "media"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Legacy shape selector; no longer selects anything. When present it must name an inline shape (`content_url` or `media`)."
+      }
+    },
+    "com.whop.bounty_submissions#CreateBountySubmissionRequestDeliverableUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Links to the posted work, up to 10. Combinable with `file_ids` and `caption`."
+      }
+    },
+    "com.whop.bounty_submissions#CreateBountySubmissionRequestDeliverable": {
+      "type": "structure",
+      "members": {
+        "caption": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Written context shown to reviewers alongside the work.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "file_ids": {
+          "target": "com.whop.bounty_submissions#CreateBountySubmissionRequestDeliverableFileIdsList",
+          "traits": {
+            "smithy.api#documentation": "IDs of uploaded files attached as work, up to 10, each prefixed `file_`. Combinable with `urls` and `caption`."
+          }
+        },
+        "type": {
+          "target": "com.whop.bounty_submissions#CreateBountySubmissionRequestDeliverableType",
+          "traits": {
+            "smithy.api#documentation": "Legacy shape selector; no longer selects anything. When present it must name an inline shape (`content_url` or `media`).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "urls": {
+          "target": "com.whop.bounty_submissions#CreateBountySubmissionRequestDeliverableUrlsList",
+          "traits": {
+            "smithy.api#documentation": "Links to the posted work, up to 10. Combinable with `file_ids` and `caption`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The submitted work. Combine `urls`, `file_ids`, and `caption` freely; at least one link or file is required."
+      }
+    },
+    "com.whop.bounty_submissions#CreateBountySubmissionRequestMetadata": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "City the footage was recorded in.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Country the footage was recorded in.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "device": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device the footage was recorded on.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fov": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Horizontal field of view in degrees.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "operator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the person who recorded the footage.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "site": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Site or venue the footage was recorded at.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "station": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Station or position within the site.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional capture metadata describing where and how the footage was recorded. Persisted on the submission. On a `data_capture` bounty every field except `fov` is required whenever metadata is provided."
+      }
+    },
+    "com.whop.bounty_submissions#CreateBountySubmissionRequest": {
+      "type": "structure",
+      "members": {
+        "affiliate_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Affiliate code crediting the referrer, when the worker arrived through one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bounty_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The bounty to submit to (`bnty_` tag).",
+            "smithy.api#required": {}
+          }
+        },
+        "deliverable": {
+          "target": "com.whop.bounty_submissions#CreateBountySubmissionRequestDeliverable",
+          "traits": {
+            "smithy.api#documentation": "The submitted work. Combine `urls`, `file_ids`, and `caption` freely; at least one link or file is required.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.bounty_submissions#CreateBountySubmissionRequestMetadata",
+          "traits": {
+            "smithy.api#documentation": "Optional capture metadata describing where and how the footage was recorded. Persisted on the submission. On a `data_capture` bounty every field except `fov` is required whenever metadata is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.bounty_submissions#CreateBountySubmission": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.bounty_submissions#CreateBountySubmissionRequest"
+      },
+      "output": {
+        "target": "com.whop.bounty_submissions#BountySubmission"
+      },
+      "errors": [
+        {
+          "target": "com.whop.bounty_submissions#BadRequest"
+        },
+        {
+          "target": "com.whop.bounty_submissions#Forbidden"
+        },
+        {
+          "target": "com.whop.bounty_submissions#NotFound"
+        },
+        {
+          "target": "com.whop.bounty_submissions#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/bounty_submissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Bounty Submission\n\nCreates a submission on a workforce bounty. Include a `deliverable` payload — any combination of links and uploaded files, with at least one of the two — and the submission goes straight to review; create is the only step. For `data_capture` bounties, omit the deliverable: this starts a claimed attempt whose proof accumulates server-side, and the separate submit endpoint sends it to review once complete. Requires a user credential — account API keys cannot author submissions."
+      }
+    },
+    "com.whop.bounty_submissions#GetBountySubmissionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The bounty submission to act on (`btys_` tag)."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Read the submission as this account (`biz_` tag), scoping the lookup to its bounties rather than the caller's own work. Requires read access to the account. Without it the lookup covers only what the credential owns — the submissions the caller authored plus those on bounties they posted."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.bounty_submissions#GetBountySubmission": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.bounty_submissions#GetBountySubmissionRequest"
+      },
+      "output": {
+        "target": "com.whop.bounty_submissions#BountySubmission"
+      },
+      "errors": [
+        {
+          "target": "com.whop.bounty_submissions#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/bounty_submissions/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Bounty Submission\n\nRetrieves one bounty submission the credential can see — one the caller authored, or one on a bounty they posted or their account owns. Reading another member's work on an account's bounty takes `account_id`, the same way the list does."
+      }
+    },
+    "com.whop.bounty_submissions#CancelBountySubmissionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The bounty submission to act on (`btys_` tag)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.bounty_submissions#CancelBountySubmissionResponse": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always true.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the cancelled submission.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.bounty_submissions#CancelBountySubmission": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.bounty_submissions#CancelBountySubmissionRequest"
+      },
+      "output": {
+        "target": "com.whop.bounty_submissions#CancelBountySubmissionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.bounty_submissions#Forbidden"
+        },
+        {
+          "target": "com.whop.bounty_submissions#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/bounty_submissions/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel Bounty Submission\n\nCancels the caller's own active attempt on a bounty and discards any accumulated capture clips. Only the worker who started the attempt can cancel it — account API keys cannot."
+      }
+    },
+    "com.whop.bounty_submissions#SubmitBountySubmissionRequestDeliverableFileIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IDs of uploaded files attached as work, up to 10, each prefixed `file_`. Combinable with `urls` and `caption`."
+      }
+    },
+    "com.whop.bounty_submissions#SubmitBountySubmissionRequestDeliverableUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Links to the posted work, up to 10. Combinable with `file_ids` and `caption`."
+      }
+    },
+    "com.whop.bounty_submissions#SubmitBountySubmissionRequestDeliverable": {
+      "type": "structure",
+      "members": {
+        "caption": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Written context shown to reviewers alongside the work.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "file_ids": {
+          "target": "com.whop.bounty_submissions#SubmitBountySubmissionRequestDeliverableFileIdsList",
+          "traits": {
+            "smithy.api#documentation": "IDs of uploaded files attached as work, up to 10, each prefixed `file_`. Combinable with `urls` and `caption`."
+          }
+        },
+        "urls": {
+          "target": "com.whop.bounty_submissions#SubmitBountySubmissionRequestDeliverableUrlsList",
+          "traits": {
+            "smithy.api#documentation": "Links to the posted work, up to 10. Combinable with `file_ids` and `caption`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Work to attach to the submission. Combine `urls`, `file_ids`, and `caption` freely; all are optional."
+      }
+    },
+    "com.whop.bounty_submissions#SubmitBountySubmissionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The claimed attempt to submit for review (`btys_` tag)."
+          }
+        },
+        "deliverable": {
+          "target": "com.whop.bounty_submissions#SubmitBountySubmissionRequestDeliverable",
+          "traits": {
+            "smithy.api#documentation": "Work to attach to the submission. Combine `urls`, `file_ids`, and `caption` freely; all are optional.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.bounty_submissions#SubmitBountySubmission": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.bounty_submissions#SubmitBountySubmissionRequest"
+      },
+      "output": {
+        "target": "com.whop.bounty_submissions#BountySubmission"
+      },
+      "errors": [
+        {
+          "target": "com.whop.bounty_submissions#BadRequest"
+        },
+        {
+          "target": "com.whop.bounty_submissions#Forbidden"
+        },
+        {
+          "target": "com.whop.bounty_submissions#NotFound"
+        },
+        {
+          "target": "com.whop.bounty_submissions#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/bounty_submissions/{id}/submit",
+          "code": 200
+        },
+        "smithy.api#documentation": "Submit Bounty Submission\n\nSubmits a claimed attempt for review. A livestream attempt needs an ended proof stream and can attach an optional `deliverable` — links, files, and a caption in any combination; if the attempt already went to review when its stream ended, the payload attaches to it once, until reviewers start voting. A data capture attempt instead needs enough validated clip time and takes no payload. Only the worker who started the attempt can submit it — account API keys cannot."
+      }
+    },
+    "com.whop.bounty_submissions#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.bounty_submissions#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.bounty_submissions#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.bounty_submissions#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.bounty_submissions#BountySubmissions": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.bounty_submissions#ListBountySubmissions"
+        },
+        {
+          "target": "com.whop.bounty_submissions#CreateBountySubmission"
+        },
+        {
+          "target": "com.whop.bounty_submissions#GetBountySubmission"
+        },
+        {
+          "target": "com.whop.bounty_submissions#CancelBountySubmission"
+        },
+        {
+          "target": "com.whop.bounty_submissions#SubmitBountySubmission"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

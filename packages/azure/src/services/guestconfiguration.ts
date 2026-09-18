@@ -12,7 +12,7 @@ import * as Retry from "../retry.ts";
 
 export type { AzureOpError, AzureOpContext };
 
-export interface GuestConfigurationAssignmentReportsGetRequest {
+export interface DeleteGuestConfigurationAssignmentRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -21,32 +21,197 @@ export interface GuestConfigurationAssignmentReportsGetRequest {
   vmName: string;
   /** The guest configuration assignment name. */
   guestConfigurationAssignmentName: string;
-  /** The GUID for the guest configuration assignment report. */
-  reportId: string;
 }
-export const GuestConfigurationAssignmentReportsGetRequest =
+export const DeleteGuestConfigurationAssignmentRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
       resourceGroupName: S.String.pipe(T.Label()),
       vmName: S.String.pipe(T.Label()),
       guestConfigurationAssignmentName: S.String.pipe(T.Label()),
-      reportId: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports/{reportId}",
+        method: "DELETE",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
         code: 200,
         apiVersion: "2024-04-05",
       }),
     ),
   ).annotate({
-    identifier: "GuestConfigurationAssignmentReportsGetRequest",
-  }) as any as S.Schema<GuestConfigurationAssignmentReportsGetRequest>;
+    identifier: "DeleteGuestConfigurationAssignmentRequest",
+  }) as any as S.Schema<DeleteGuestConfigurationAssignmentRequest>;
+
+export interface DeleteGuestConfigurationAssignmentResponse {}
+export const DeleteGuestConfigurationAssignmentResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteGuestConfigurationAssignmentResponse",
+  }) as any as S.Schema<DeleteGuestConfigurationAssignmentResponse>;
+
+export interface DeleteGuestConfigurationAssignmentsVMSSRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the virtual machine scale set. */
+  vmssName: string;
+  /** The guest configuration assignment name. */
+  name: string;
+}
+export const DeleteGuestConfigurationAssignmentsVMSSRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      vmssName: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{name}",
+        code: 200,
+        apiVersion: "2024-04-05",
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteGuestConfigurationAssignmentsVMSSRequest",
+  }) as any as S.Schema<DeleteGuestConfigurationAssignmentsVMSSRequest>;
+
+/** Kind of the guest configuration. For example:DSC */
+export type Kind = "DSC";
+export const Kind = S.String;
+
+/** Specifies the assignment type and execution of the configuration. Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor. */
+export type AssignmentType =
+  | "Audit"
+  | "DeployAndAutoCorrect"
+  | "ApplyAndAutoCorrect"
+  | "ApplyAndMonitor";
+export const AssignmentType = S.String;
+
+/** Represents a configuration parameter. */
+export interface ConfigurationParameter {
+  /** Name of the configuration parameter. */
+  name?: string;
+  /** Value of the configuration parameter. */
+  value?: string;
+}
+export const ConfigurationParameter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ConfigurationParameter",
+}) as any as S.Schema<ConfigurationParameter>;
+
+/** The configuration parameters for the guest configuration. */
+export type GuestConfigurationNavigationConfigurationParameterList =
+  Array<ConfigurationParameter>;
+export const GuestConfigurationNavigationConfigurationParameterList =
+  /*@__PURE__*/ S.Array(
+    ConfigurationParameter,
+  ) as any as S.Schema<GuestConfigurationNavigationConfigurationParameterList>;
+
+/** The protected configuration parameters for the guest configuration. */
+export type GuestConfigurationNavigationConfigurationProtectedParameterList =
+  Array<ConfigurationParameter>;
+export const GuestConfigurationNavigationConfigurationProtectedParameterList =
+  /*@__PURE__*/ S.Array(
+    ConfigurationParameter,
+  ) as any as S.Schema<GuestConfigurationNavigationConfigurationProtectedParameterList>;
+
+/** Specifies how the LCM(Local Configuration Manager) actually applies the configuration to the target nodes. Possible values are ApplyOnly, ApplyAndMonitor, and ApplyAndAutoCorrect. */
+export type ConfigurationMode =
+  | "ApplyOnly"
+  | "ApplyAndMonitor"
+  | "ApplyAndAutoCorrect";
+export const ConfigurationMode = S.String;
+
+/** Specifies what happens after a reboot during the application of a configuration. The possible values are ContinueConfiguration and StopConfiguration */
+export type ActionAfterReboot = "ContinueConfiguration" | "StopConfiguration";
+export const ActionAfterReboot = S.String;
+
+/** Configuration setting of LCM (Local Configuration Manager). */
+export interface ConfigurationSetting {
+  /** Specifies how the LCM(Local Configuration Manager) actually applies the configuration to the target nodes. Possible values are ApplyOnly, ApplyAndMonitor, and ApplyAndAutoCorrect. */
+  configurationMode?: ConfigurationMode;
+  /** If true - new configurations downloaded from the pull service are allowed to overwrite the old ones on the target node. Otherwise, false */
+  allowModuleOverwrite?: boolean;
+  /** Specifies what happens after a reboot during the application of a configuration. The possible values are ContinueConfiguration and StopConfiguration */
+  actionAfterReboot?: ActionAfterReboot;
+  /** The time interval, in minutes, at which the LCM checks a pull service to get updated configurations. This value is ignored if the LCM is not configured in pull mode. The default value is 30. */
+  refreshFrequencyMins?: number;
+  /** Set this to true to automatically reboot the node after a configuration that requires reboot is applied. Otherwise, you will have to manually reboot the node for any configuration that requires it. The default value is false. To use this setting when a reboot condition is enacted by something other than DSC (such as Windows Installer), combine this setting with the xPendingReboot module. */
+  rebootIfNeeded?: boolean;
+  /** How often, in minutes, the current configuration is checked and applied. This property is ignored if the ConfigurationMode property is set to ApplyOnly. The default value is 15. */
+  configurationModeFrequencyMins?: number;
+}
+export const ConfigurationSetting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configurationMode: S.optional(ConfigurationMode),
+    allowModuleOverwrite: S.optional(S.Boolean),
+    actionAfterReboot: S.optional(ActionAfterReboot),
+    refreshFrequencyMins: S.optional(S.Number),
+    rebootIfNeeded: S.optional(S.Boolean),
+    configurationModeFrequencyMins: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ConfigurationSetting",
+}) as any as S.Schema<ConfigurationSetting>;
+
+/** Guest configuration is an artifact that encapsulates DSC configuration and its dependencies. The artifact is a zip file containing DSC configuration (as MOF) and dependent resources and other dependencies like modules. */
+export interface GuestConfigurationNavigation {
+  /** Kind of the guest configuration. For example:DSC */
+  kind?: Kind;
+  /** Name of the guest configuration. */
+  name?: string;
+  /** Version of the guest configuration. */
+  version?: string;
+  /** Uri of the storage where guest configuration package is uploaded. */
+  contentUri?: string;
+  /** Combined hash of the guest configuration package and configuration parameters. */
+  contentHash?: string;
+  /** Managed identity with storage access of the guest configuration package and configuration parameters. */
+  contentManagedIdentity?: string;
+  /** Specifies the assignment type and execution of the configuration. Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor. */
+  assignmentType?: AssignmentType;
+  /** Specifies the origin of the configuration. */
+  assignmentSource?: string | null;
+  /** Specifies the content type of the configuration. Possible values could be Builtin or Custom. */
+  contentType?: string | null;
+  /** The configuration parameters for the guest configuration. */
+  configurationParameter?: GuestConfigurationNavigationConfigurationParameterList;
+  /** The protected configuration parameters for the guest configuration. */
+  configurationProtectedParameter?: GuestConfigurationNavigationConfigurationProtectedParameterList;
+  /** The configuration setting for the guest configuration. */
+  configurationSetting?: ConfigurationSetting;
+}
+export const GuestConfigurationNavigation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(Kind),
+    name: S.optional(S.String),
+    version: S.optional(S.String),
+    contentUri: S.optional(S.String),
+    contentHash: S.optional(S.String),
+    contentManagedIdentity: S.optional(S.String),
+    assignmentType: S.optional(AssignmentType),
+    assignmentSource: S.optional(S.NullOr(S.String)),
+    contentType: S.optional(S.NullOr(S.String)),
+    configurationParameter: S.optional(
+      GuestConfigurationNavigationConfigurationParameterList,
+    ),
+    configurationProtectedParameter: S.optional(
+      GuestConfigurationNavigationConfigurationProtectedParameterList,
+    ),
+    configurationSetting: S.optional(ConfigurationSetting),
+  }),
+).annotate({
+  identifier: "GuestConfigurationNavigation",
+}) as any as S.Schema<GuestConfigurationNavigation>;
 
 /** A value indicating compliance status of the machine for the assigned guest configuration. */
 export type ComplianceStatus = "Compliant" | "NonCompliant" | "Pending";
-export const ComplianceStatus = /*@__PURE__*/ S.String;
+export const ComplianceStatus = S.String;
 
 /** Information about the configuration. */
 export interface ConfigurationInfo {
@@ -94,7 +259,7 @@ export const VMInfo = /*@__PURE__*/ S.suspend(() =>
 
 /** Type of report, Consistency or Initial */
 export type Type = "Consistency" | "Initial";
-export const Type = /*@__PURE__*/ S.String;
+export const Type = S.String;
 
 /** Reason and code for the compliance of the guest configuration assignment resource. */
 export interface AssignmentReportResourceComplianceReason {
@@ -141,6 +306,425 @@ export const AssignmentReportResource = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AssignmentReportResource",
 }) as any as S.Schema<AssignmentReportResource>;
+
+/** The list of resources for which guest configuration assignment compliance is checked. */
+export type AssignmentReportResourcesList = Array<AssignmentReportResource>;
+export const AssignmentReportResourcesList = /*@__PURE__*/ S.Array(
+  AssignmentReportResource,
+) as any as S.Schema<AssignmentReportResourcesList>;
+
+export interface AssignmentReport {
+  /** ARM resource id of the report for the guest configuration assignment. */
+  id?: string;
+  /** GUID that identifies the guest configuration assignment report under a subscription, resource group. */
+  reportId?: string;
+  /** Configuration details of the guest configuration assignment. */
+  assignment?: AssignmentInfo;
+  /** Information about the VM. */
+  vm?: VMInfo;
+  /** Start date and time of the guest configuration assignment compliance status check. */
+  startTime?: string;
+  /** End date and time of the guest configuration assignment compliance status check. */
+  endTime?: string;
+  /** A value indicating compliance status of the machine for the assigned guest configuration. */
+  complianceStatus?: ComplianceStatus;
+  /** Type of report, Consistency or Initial */
+  operationType?: Type;
+  /** The list of resources for which guest configuration assignment compliance is checked. */
+  resources?: AssignmentReportResourcesList;
+}
+export const AssignmentReport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    reportId: S.optional(S.String),
+    assignment: S.optional(AssignmentInfo),
+    vm: S.optional(VMInfo),
+    startTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+    complianceStatus: S.optional(ComplianceStatus),
+    operationType: S.optional(Type),
+    resources: S.optional(AssignmentReportResourcesList),
+  }),
+).annotate({
+  identifier: "AssignmentReport",
+}) as any as S.Schema<AssignmentReport>;
+
+/** The provisioning state, which only appears in the response. */
+export type ProvisioningState = "Succeeded" | "Failed" | "Canceled" | "Created";
+export const ProvisioningState = S.String;
+
+/** Information about VMSS VM */
+export interface VMSSVMInfo {
+  /** UUID of the VM. */
+  vmId?: string;
+  /** Azure resource Id of the VM. */
+  vmResourceId?: string;
+  /** A value indicating compliance status of the machine for the assigned guest configuration. */
+  complianceStatus?: ComplianceStatus;
+  /** Id of the latest report for the guest configuration assignment. */
+  latestReportId?: string | null;
+  /** Date and time when last compliance status was checked. */
+  lastComplianceChecked?: string | null;
+}
+export const VMSSVMInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vmId: S.optional(S.String),
+    vmResourceId: S.optional(S.String),
+    complianceStatus: S.optional(ComplianceStatus),
+    latestReportId: S.optional(S.NullOr(S.String)),
+    lastComplianceChecked: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "VMSSVMInfo" }) as any as S.Schema<VMSSVMInfo>;
+
+/** The list of VM Compliance data for VMSS */
+export type GuestConfigurationAssignmentPropertiesVmssVMListList =
+  Array<VMSSVMInfo>;
+export const GuestConfigurationAssignmentPropertiesVmssVMListList =
+  /*@__PURE__*/ S.Array(
+    VMSSVMInfo,
+  ) as any as S.Schema<GuestConfigurationAssignmentPropertiesVmssVMListList>;
+
+/** Guest configuration assignment properties. */
+export interface GuestConfigurationAssignmentProperties {
+  /** VM resource Id. */
+  targetResourceId?: string | null;
+  /** The guest configuration to assign. */
+  guestConfiguration?: GuestConfigurationNavigation;
+  /** A value indicating compliance status of the machine for the assigned guest configuration. */
+  complianceStatus?: ComplianceStatus;
+  /** Date and time when last compliance status was checked. */
+  lastComplianceStatusChecked?: string | null;
+  /** Id of the latest report for the guest configuration assignment. */
+  latestReportId?: string | null;
+  /** parameter hash for the guest configuration assignment. */
+  parameterHash?: string | null;
+  /** Last reported guest configuration assignment report. */
+  latestAssignmentReport?: AssignmentReport;
+  /** The source which initiated the guest configuration assignment. Ex: Azure Policy */
+  context?: string;
+  /** Combined hash of the configuration package and parameters. */
+  assignmentHash?: string | null;
+  /** The provisioning state, which only appears in the response. */
+  provisioningState?: ProvisioningState | null;
+  /** Type of the resource - VMSS / VM */
+  resourceType?: string | null;
+  /** The list of VM Compliance data for VMSS */
+  vmssVMList?: GuestConfigurationAssignmentPropertiesVmssVMListList;
+}
+export const GuestConfigurationAssignmentProperties = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      targetResourceId: S.optional(S.NullOr(S.String)),
+      guestConfiguration: S.optional(GuestConfigurationNavigation),
+      complianceStatus: S.optional(ComplianceStatus),
+      lastComplianceStatusChecked: S.optional(S.NullOr(S.String)),
+      latestReportId: S.optional(S.NullOr(S.String)),
+      parameterHash: S.optional(S.NullOr(S.String)),
+      latestAssignmentReport: S.optional(AssignmentReport),
+      context: S.optional(S.String),
+      assignmentHash: S.optional(S.NullOr(S.String)),
+      provisioningState: S.optional(S.NullOr(ProvisioningState)),
+      resourceType: S.optional(S.NullOr(S.String)),
+      vmssVMList: S.optional(
+        GuestConfigurationAssignmentPropertiesVmssVMListList,
+      ),
+    }),
+).annotate({
+  identifier: "GuestConfigurationAssignmentProperties",
+}) as any as S.Schema<GuestConfigurationAssignmentProperties>;
+
+/** The type of identity that created the resource. */
+export type DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataCreatedByType =
+  S.String;
+
+/** The type of identity that last modified the resource. */
+export type DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifiedByType =
+  S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface DeleteGuestConfigurationAssignmentsVMSSResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const DeleteGuestConfigurationAssignmentsVMSSResponseSystemData =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      createdBy: S.optional(S.String),
+      createdByType: S.optional(
+        DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataCreatedByType,
+      ),
+      createdAt: S.optional(S.String),
+      lastModifiedBy: S.optional(S.String),
+      lastModifiedByType: S.optional(
+        DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifiedByType,
+      ),
+      lastModifiedAt: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DeleteGuestConfigurationAssignmentsVMSSResponseSystemData",
+  }) as any as S.Schema<DeleteGuestConfigurationAssignmentsVMSSResponseSystemData>;
+
+export interface DeleteGuestConfigurationAssignmentsVMSSResponse {
+  /** ARM resource id of the guest configuration assignment. */
+  id?: string;
+  /** The guest configuration assignment name. */
+  name: string;
+  /** Region where the VM is located. */
+  location?: string;
+  /** The type of the resource. */
+  type?: string;
+  /** Properties of the Guest configuration assignment. */
+  properties?: GuestConfigurationAssignmentProperties;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: DeleteGuestConfigurationAssignmentsVMSSResponseSystemData;
+}
+export const DeleteGuestConfigurationAssignmentsVMSSResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.String,
+      location: S.optional(S.String),
+      type: S.optional(S.String),
+      properties: S.optional(GuestConfigurationAssignmentProperties),
+      systemData: S.optional(
+        DeleteGuestConfigurationAssignmentsVMSSResponseSystemData,
+      ),
+    }),
+  ).annotate({
+    identifier: "DeleteGuestConfigurationAssignmentsVMSSResponse",
+  }) as any as S.Schema<DeleteGuestConfigurationAssignmentsVMSSResponse>;
+
+export interface DeleteGuestConfigurationConnectedVMwarevSphereAssignmentRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the virtual machine. */
+  vmName: string;
+  /** The guest configuration assignment name. */
+  guestConfigurationAssignmentName: string;
+}
+export const DeleteGuestConfigurationConnectedVMwarevSphereAssignmentRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      vmName: S.String.pipe(T.Label()),
+      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualmachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
+        code: 200,
+        apiVersion: "2024-04-05",
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "DeleteGuestConfigurationConnectedVMwarevSphereAssignmentRequest",
+  }) as any as S.Schema<DeleteGuestConfigurationConnectedVMwarevSphereAssignmentRequest>;
+
+export interface DeleteGuestConfigurationConnectedVMwarevSphereAssignmentResponse {}
+export const DeleteGuestConfigurationConnectedVMwarevSphereAssignmentResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier:
+      "DeleteGuestConfigurationConnectedVMwarevSphereAssignmentResponse",
+  }) as any as S.Schema<DeleteGuestConfigurationConnectedVMwarevSphereAssignmentResponse>;
+
+export interface DeleteGuestConfigurationHCRPAssignmentRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the ARC machine. */
+  machineName: string;
+  /** The guest configuration assignment name. */
+  guestConfigurationAssignmentName: string;
+}
+export const DeleteGuestConfigurationHCRPAssignmentRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      machineName: S.String.pipe(T.Label()),
+      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
+        code: 200,
+        apiVersion: "2024-04-05",
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteGuestConfigurationHCRPAssignmentRequest",
+  }) as any as S.Schema<DeleteGuestConfigurationHCRPAssignmentRequest>;
+
+export interface DeleteGuestConfigurationHCRPAssignmentResponse {}
+export const DeleteGuestConfigurationHCRPAssignmentResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteGuestConfigurationHCRPAssignmentResponse",
+  }) as any as S.Schema<DeleteGuestConfigurationHCRPAssignmentResponse>;
+
+export interface GetGuestConfigurationAssignmentRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the virtual machine. */
+  vmName: string;
+  /** The guest configuration assignment name. */
+  guestConfigurationAssignmentName: string;
+}
+export const GetGuestConfigurationAssignmentRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      vmName: S.String.pipe(T.Label()),
+      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
+        code: 200,
+        apiVersion: "2024-04-05",
+      }),
+    ),
+).annotate({
+  identifier: "GetGuestConfigurationAssignmentRequest",
+}) as any as S.Schema<GetGuestConfigurationAssignmentRequest>;
+
+/** The type of identity that created the resource. */
+export type GetGuestConfigurationAssignmentResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GetGuestConfigurationAssignmentResponseSystemDataCreatedByType =
+  S.String;
+
+/** The type of identity that last modified the resource. */
+export type GetGuestConfigurationAssignmentResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GetGuestConfigurationAssignmentResponseSystemDataLastModifiedByType =
+  S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface GetGuestConfigurationAssignmentResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: GetGuestConfigurationAssignmentResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: GetGuestConfigurationAssignmentResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const GetGuestConfigurationAssignmentResponseSystemData =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      createdBy: S.optional(S.String),
+      createdByType: S.optional(
+        GetGuestConfigurationAssignmentResponseSystemDataCreatedByType,
+      ),
+      createdAt: S.optional(S.String),
+      lastModifiedBy: S.optional(S.String),
+      lastModifiedByType: S.optional(
+        GetGuestConfigurationAssignmentResponseSystemDataLastModifiedByType,
+      ),
+      lastModifiedAt: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetGuestConfigurationAssignmentResponseSystemData",
+  }) as any as S.Schema<GetGuestConfigurationAssignmentResponseSystemData>;
+
+export interface GetGuestConfigurationAssignmentResponse {
+  /** ARM resource id of the guest configuration assignment. */
+  id?: string;
+  /** The guest configuration assignment name. */
+  name: string;
+  /** Region where the VM is located. */
+  location?: string;
+  /** The type of the resource. */
+  type?: string;
+  /** Properties of the Guest configuration assignment. */
+  properties?: GuestConfigurationAssignmentProperties;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: GetGuestConfigurationAssignmentResponseSystemData;
+}
+export const GetGuestConfigurationAssignmentResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.String,
+      location: S.optional(S.String),
+      type: S.optional(S.String),
+      properties: S.optional(GuestConfigurationAssignmentProperties),
+      systemData: S.optional(GetGuestConfigurationAssignmentResponseSystemData),
+    }),
+).annotate({
+  identifier: "GetGuestConfigurationAssignmentResponse",
+}) as any as S.Schema<GetGuestConfigurationAssignmentResponse>;
+
+export interface GetGuestConfigurationAssignmentReportRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the virtual machine. */
+  vmName: string;
+  /** The guest configuration assignment name. */
+  guestConfigurationAssignmentName: string;
+  /** The GUID for the guest configuration assignment report. */
+  reportId: string;
+}
+export const GetGuestConfigurationAssignmentReportRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      vmName: S.String.pipe(T.Label()),
+      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
+      reportId: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports/{reportId}",
+        code: 200,
+        apiVersion: "2024-04-05",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetGuestConfigurationAssignmentReportRequest",
+  }) as any as S.Schema<GetGuestConfigurationAssignmentReportRequest>;
 
 /** The list of resources for which guest configuration assignment compliance is checked. */
 export type AssignmentReportDetailsResourcesList =
@@ -231,60 +815,7 @@ export const GuestConfigurationAssignmentReport = /*@__PURE__*/ S.suspend(() =>
   identifier: "GuestConfigurationAssignmentReport",
 }) as any as S.Schema<GuestConfigurationAssignmentReport>;
 
-export interface GuestConfigurationAssignmentReportsListRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the virtual machine. */
-  vmName: string;
-  /** The guest configuration assignment name. */
-  guestConfigurationAssignmentName: string;
-}
-export const GuestConfigurationAssignmentReportsListRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      vmName: S.String.pipe(T.Label()),
-      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports",
-        code: 200,
-        apiVersion: "2024-04-05",
-      }),
-    ),
-  ).annotate({
-    identifier: "GuestConfigurationAssignmentReportsListRequest",
-  }) as any as S.Schema<GuestConfigurationAssignmentReportsListRequest>;
-
-/** List of reports for the guest configuration. Report contains information such as compliance status, reason and more. */
-export type GuestConfigurationAssignmentReportListValueList =
-  Array<GuestConfigurationAssignmentReport>;
-export const GuestConfigurationAssignmentReportListValueList =
-  /*@__PURE__*/ S.Array(
-    GuestConfigurationAssignmentReport,
-  ) as any as S.Schema<GuestConfigurationAssignmentReportListValueList>;
-
-/** List of guest configuration assignment reports. */
-export interface GuestConfigurationAssignmentReportList {
-  /** List of reports for the guest configuration. Report contains information such as compliance status, reason and more. */
-  value?: GuestConfigurationAssignmentReportListValueList;
-  nextLink?: string;
-}
-export const GuestConfigurationAssignmentReportList = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      value: S.optional(GuestConfigurationAssignmentReportListValueList),
-      nextLink: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GuestConfigurationAssignmentReportList",
-}) as any as S.Schema<GuestConfigurationAssignmentReportList>;
-
-export interface GuestConfigurationAssignmentReportsVMSSGetRequest {
+export interface GetGuestConfigurationAssignmentReportsVMSSRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -296,7 +827,7 @@ export interface GuestConfigurationAssignmentReportsVMSSGetRequest {
   /** The GUID for the guest configuration assignment report. */
   id: string;
 }
-export const GuestConfigurationAssignmentReportsVMSSGetRequest =
+export const GetGuestConfigurationAssignmentReportsVMSSRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -313,10 +844,10 @@ export const GuestConfigurationAssignmentReportsVMSSGetRequest =
       }),
     ),
   ).annotate({
-    identifier: "GuestConfigurationAssignmentReportsVMSSGetRequest",
-  }) as any as S.Schema<GuestConfigurationAssignmentReportsVMSSGetRequest>;
+    identifier: "GetGuestConfigurationAssignmentReportsVMSSRequest",
+  }) as any as S.Schema<GetGuestConfigurationAssignmentReportsVMSSRequest>;
 
-export interface GuestConfigurationAssignmentReportsVMSSListRequest {
+export interface GetGuestConfigurationAssignmentsVMSSRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -326,7 +857,7 @@ export interface GuestConfigurationAssignmentReportsVMSSListRequest {
   /** The guest configuration assignment name. */
   name: string;
 }
-export const GuestConfigurationAssignmentReportsVMSSListRequest =
+export const GetGuestConfigurationAssignmentsVMSSRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -336,42 +867,381 @@ export const GuestConfigurationAssignmentReportsVMSSListRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{name}/reports",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{name}",
         code: 200,
         apiVersion: "2024-04-05",
       }),
     ),
   ).annotate({
-    identifier: "GuestConfigurationAssignmentReportsVMSSListRequest",
-  }) as any as S.Schema<GuestConfigurationAssignmentReportsVMSSListRequest>;
+    identifier: "GetGuestConfigurationAssignmentsVMSSRequest",
+  }) as any as S.Schema<GetGuestConfigurationAssignmentsVMSSRequest>;
 
-/** Kind of the guest configuration. For example:DSC */
-export type Kind = "DSC";
-export const Kind = /*@__PURE__*/ S.String;
+/** The type of identity that created the resource. */
+export type GetGuestConfigurationAssignmentsVMSSResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GetGuestConfigurationAssignmentsVMSSResponseSystemDataCreatedByType =
+  S.String;
 
-/** Specifies the assignment type and execution of the configuration. Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor. */
-export type AssignmentType =
-  | "Audit"
-  | "DeployAndAutoCorrect"
-  | "ApplyAndAutoCorrect"
-  | "ApplyAndMonitor";
-export const AssignmentType = /*@__PURE__*/ S.String;
+/** The type of identity that last modified the resource. */
+export type GetGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GetGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifiedByType =
+  S.String;
 
-/** Represents a configuration parameter. */
-export interface ConfigurationParameter {
-  /** Name of the configuration parameter. */
-  name?: string;
-  /** Value of the configuration parameter. */
-  value?: string;
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface GetGuestConfigurationAssignmentsVMSSResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: GetGuestConfigurationAssignmentsVMSSResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: GetGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
 }
-export const ConfigurationParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    value: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConfigurationParameter",
-}) as any as S.Schema<ConfigurationParameter>;
+export const GetGuestConfigurationAssignmentsVMSSResponseSystemData =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      createdBy: S.optional(S.String),
+      createdByType: S.optional(
+        GetGuestConfigurationAssignmentsVMSSResponseSystemDataCreatedByType,
+      ),
+      createdAt: S.optional(S.String),
+      lastModifiedBy: S.optional(S.String),
+      lastModifiedByType: S.optional(
+        GetGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifiedByType,
+      ),
+      lastModifiedAt: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetGuestConfigurationAssignmentsVMSSResponseSystemData",
+  }) as any as S.Schema<GetGuestConfigurationAssignmentsVMSSResponseSystemData>;
+
+export interface GetGuestConfigurationAssignmentsVMSSResponse {
+  /** ARM resource id of the guest configuration assignment. */
+  id?: string;
+  /** The guest configuration assignment name. */
+  name: string;
+  /** Region where the VM is located. */
+  location?: string;
+  /** The type of the resource. */
+  type?: string;
+  /** Properties of the Guest configuration assignment. */
+  properties?: GuestConfigurationAssignmentProperties;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: GetGuestConfigurationAssignmentsVMSSResponseSystemData;
+}
+export const GetGuestConfigurationAssignmentsVMSSResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.String,
+      location: S.optional(S.String),
+      type: S.optional(S.String),
+      properties: S.optional(GuestConfigurationAssignmentProperties),
+      systemData: S.optional(
+        GetGuestConfigurationAssignmentsVMSSResponseSystemData,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetGuestConfigurationAssignmentsVMSSResponse",
+  }) as any as S.Schema<GetGuestConfigurationAssignmentsVMSSResponse>;
+
+export interface GetGuestConfigurationConnectedVMwarevSphereAssignmentRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the virtual machine. */
+  vmName: string;
+  /** The guest configuration assignment name. */
+  guestConfigurationAssignmentName: string;
+}
+export const GetGuestConfigurationConnectedVMwarevSphereAssignmentRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      vmName: S.String.pipe(T.Label()),
+      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualmachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
+        code: 200,
+        apiVersion: "2024-04-05",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetGuestConfigurationConnectedVMwarevSphereAssignmentRequest",
+  }) as any as S.Schema<GetGuestConfigurationConnectedVMwarevSphereAssignmentRequest>;
+
+/** The type of identity that created the resource. */
+export type GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemDataCreatedByType =
+  S.String;
+
+/** The type of identity that last modified the resource. */
+export type GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemDataLastModifiedByType =
+  S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemData =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      createdBy: S.optional(S.String),
+      createdByType: S.optional(
+        GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemDataCreatedByType,
+      ),
+      createdAt: S.optional(S.String),
+      lastModifiedBy: S.optional(S.String),
+      lastModifiedByType: S.optional(
+        GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemDataLastModifiedByType,
+      ),
+      lastModifiedAt: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemData",
+  }) as any as S.Schema<GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemData>;
+
+export interface GetGuestConfigurationConnectedVMwarevSphereAssignmentResponse {
+  /** ARM resource id of the guest configuration assignment. */
+  id?: string;
+  /** The guest configuration assignment name. */
+  name: string;
+  /** Region where the VM is located. */
+  location?: string;
+  /** The type of the resource. */
+  type?: string;
+  /** Properties of the Guest configuration assignment. */
+  properties?: GuestConfigurationAssignmentProperties;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemData;
+}
+export const GetGuestConfigurationConnectedVMwarevSphereAssignmentResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.String,
+      location: S.optional(S.String),
+      type: S.optional(S.String),
+      properties: S.optional(GuestConfigurationAssignmentProperties),
+      systemData: S.optional(
+        GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemData,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetGuestConfigurationConnectedVMwarevSphereAssignmentResponse",
+  }) as any as S.Schema<GetGuestConfigurationConnectedVMwarevSphereAssignmentResponse>;
+
+export interface GetGuestConfigurationConnectedVMwarevSphereAssignmentsReportRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the virtual machine. */
+  vmName: string;
+  /** The guest configuration assignment name. */
+  guestConfigurationAssignmentName: string;
+  /** The GUID for the guest configuration assignment report. */
+  reportId: string;
+}
+export const GetGuestConfigurationConnectedVMwarevSphereAssignmentsReportRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      vmName: S.String.pipe(T.Label()),
+      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
+      reportId: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualmachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports/{reportId}",
+        code: 200,
+        apiVersion: "2024-04-05",
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "GetGuestConfigurationConnectedVMwarevSphereAssignmentsReportRequest",
+  }) as any as S.Schema<GetGuestConfigurationConnectedVMwarevSphereAssignmentsReportRequest>;
+
+export interface GetGuestConfigurationHCRPAssignmentRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the ARC machine. */
+  machineName: string;
+  /** The guest configuration assignment name. */
+  guestConfigurationAssignmentName: string;
+}
+export const GetGuestConfigurationHCRPAssignmentRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      machineName: S.String.pipe(T.Label()),
+      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
+        code: 200,
+        apiVersion: "2024-04-05",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetGuestConfigurationHCRPAssignmentRequest",
+  }) as any as S.Schema<GetGuestConfigurationHCRPAssignmentRequest>;
+
+/** The type of identity that created the resource. */
+export type GetGuestConfigurationHCRPAssignmentResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GetGuestConfigurationHCRPAssignmentResponseSystemDataCreatedByType =
+  S.String;
+
+/** The type of identity that last modified the resource. */
+export type GetGuestConfigurationHCRPAssignmentResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GetGuestConfigurationHCRPAssignmentResponseSystemDataLastModifiedByType =
+  S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface GetGuestConfigurationHCRPAssignmentResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: GetGuestConfigurationHCRPAssignmentResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: GetGuestConfigurationHCRPAssignmentResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const GetGuestConfigurationHCRPAssignmentResponseSystemData =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      createdBy: S.optional(S.String),
+      createdByType: S.optional(
+        GetGuestConfigurationHCRPAssignmentResponseSystemDataCreatedByType,
+      ),
+      createdAt: S.optional(S.String),
+      lastModifiedBy: S.optional(S.String),
+      lastModifiedByType: S.optional(
+        GetGuestConfigurationHCRPAssignmentResponseSystemDataLastModifiedByType,
+      ),
+      lastModifiedAt: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetGuestConfigurationHCRPAssignmentResponseSystemData",
+  }) as any as S.Schema<GetGuestConfigurationHCRPAssignmentResponseSystemData>;
+
+export interface GetGuestConfigurationHCRPAssignmentResponse {
+  /** ARM resource id of the guest configuration assignment. */
+  id?: string;
+  /** The guest configuration assignment name. */
+  name: string;
+  /** Region where the VM is located. */
+  location?: string;
+  /** The type of the resource. */
+  type?: string;
+  /** Properties of the Guest configuration assignment. */
+  properties?: GuestConfigurationAssignmentProperties;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: GetGuestConfigurationHCRPAssignmentResponseSystemData;
+}
+export const GetGuestConfigurationHCRPAssignmentResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.String,
+      location: S.optional(S.String),
+      type: S.optional(S.String),
+      properties: S.optional(GuestConfigurationAssignmentProperties),
+      systemData: S.optional(
+        GetGuestConfigurationHCRPAssignmentResponseSystemData,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetGuestConfigurationHCRPAssignmentResponse",
+  }) as any as S.Schema<GetGuestConfigurationHCRPAssignmentResponse>;
+
+export interface GetGuestConfigurationHCRPAssignmentReportRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the ARC machine. */
+  machineName: string;
+  /** The guest configuration assignment name. */
+  guestConfigurationAssignmentName: string;
+  /** The GUID for the guest configuration assignment report. */
+  reportId: string;
+}
+export const GetGuestConfigurationHCRPAssignmentReportRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      machineName: S.String.pipe(T.Label()),
+      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
+      reportId: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports/{reportId}",
+        code: 200,
+        apiVersion: "2024-04-05",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetGuestConfigurationHCRPAssignmentReportRequest",
+  }) as any as S.Schema<GetGuestConfigurationHCRPAssignmentReportRequest>;
 
 /** The configuration parameters for the guest configuration. */
 export type GuestConfigurationNavigationInputConfigurationParameterList =
@@ -581,248 +1451,23 @@ export const GuestConfigurationAssignmentsCreateOrUpdateRequest =
     identifier: "GuestConfigurationAssignmentsCreateOrUpdateRequest",
   }) as any as S.Schema<GuestConfigurationAssignmentsCreateOrUpdateRequest>;
 
-/** The configuration parameters for the guest configuration. */
-export type GuestConfigurationNavigationConfigurationParameterList =
-  Array<ConfigurationParameter>;
-export const GuestConfigurationNavigationConfigurationParameterList =
-  /*@__PURE__*/ S.Array(
-    ConfigurationParameter,
-  ) as any as S.Schema<GuestConfigurationNavigationConfigurationParameterList>;
-
-/** The protected configuration parameters for the guest configuration. */
-export type GuestConfigurationNavigationConfigurationProtectedParameterList =
-  Array<ConfigurationParameter>;
-export const GuestConfigurationNavigationConfigurationProtectedParameterList =
-  /*@__PURE__*/ S.Array(
-    ConfigurationParameter,
-  ) as any as S.Schema<GuestConfigurationNavigationConfigurationProtectedParameterList>;
-
-/** Specifies how the LCM(Local Configuration Manager) actually applies the configuration to the target nodes. Possible values are ApplyOnly, ApplyAndMonitor, and ApplyAndAutoCorrect. */
-export type ConfigurationMode =
-  | "ApplyOnly"
-  | "ApplyAndMonitor"
-  | "ApplyAndAutoCorrect";
-export const ConfigurationMode = /*@__PURE__*/ S.String;
-
-/** Specifies what happens after a reboot during the application of a configuration. The possible values are ContinueConfiguration and StopConfiguration */
-export type ActionAfterReboot = "ContinueConfiguration" | "StopConfiguration";
-export const ActionAfterReboot = /*@__PURE__*/ S.String;
-
-/** Configuration setting of LCM (Local Configuration Manager). */
-export interface ConfigurationSetting {
-  /** Specifies how the LCM(Local Configuration Manager) actually applies the configuration to the target nodes. Possible values are ApplyOnly, ApplyAndMonitor, and ApplyAndAutoCorrect. */
-  configurationMode?: ConfigurationMode;
-  /** If true - new configurations downloaded from the pull service are allowed to overwrite the old ones on the target node. Otherwise, false */
-  allowModuleOverwrite?: boolean;
-  /** Specifies what happens after a reboot during the application of a configuration. The possible values are ContinueConfiguration and StopConfiguration */
-  actionAfterReboot?: ActionAfterReboot;
-  /** The time interval, in minutes, at which the LCM checks a pull service to get updated configurations. This value is ignored if the LCM is not configured in pull mode. The default value is 30. */
-  refreshFrequencyMins?: number;
-  /** Set this to true to automatically reboot the node after a configuration that requires reboot is applied. Otherwise, you will have to manually reboot the node for any configuration that requires it. The default value is false. To use this setting when a reboot condition is enacted by something other than DSC (such as Windows Installer), combine this setting with the xPendingReboot module. */
-  rebootIfNeeded?: boolean;
-  /** How often, in minutes, the current configuration is checked and applied. This property is ignored if the ConfigurationMode property is set to ApplyOnly. The default value is 15. */
-  configurationModeFrequencyMins?: number;
-}
-export const ConfigurationSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    configurationMode: S.optional(ConfigurationMode),
-    allowModuleOverwrite: S.optional(S.Boolean),
-    actionAfterReboot: S.optional(ActionAfterReboot),
-    refreshFrequencyMins: S.optional(S.Number),
-    rebootIfNeeded: S.optional(S.Boolean),
-    configurationModeFrequencyMins: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ConfigurationSetting",
-}) as any as S.Schema<ConfigurationSetting>;
-
-/** Guest configuration is an artifact that encapsulates DSC configuration and its dependencies. The artifact is a zip file containing DSC configuration (as MOF) and dependent resources and other dependencies like modules. */
-export interface GuestConfigurationNavigation {
-  /** Kind of the guest configuration. For example:DSC */
-  kind?: Kind;
-  /** Name of the guest configuration. */
-  name?: string;
-  /** Version of the guest configuration. */
-  version?: string;
-  /** Uri of the storage where guest configuration package is uploaded. */
-  contentUri?: string;
-  /** Combined hash of the guest configuration package and configuration parameters. */
-  contentHash?: string;
-  /** Managed identity with storage access of the guest configuration package and configuration parameters. */
-  contentManagedIdentity?: string;
-  /** Specifies the assignment type and execution of the configuration. Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor. */
-  assignmentType?: AssignmentType;
-  /** Specifies the origin of the configuration. */
-  assignmentSource?: string | null;
-  /** Specifies the content type of the configuration. Possible values could be Builtin or Custom. */
-  contentType?: string | null;
-  /** The configuration parameters for the guest configuration. */
-  configurationParameter?: GuestConfigurationNavigationConfigurationParameterList;
-  /** The protected configuration parameters for the guest configuration. */
-  configurationProtectedParameter?: GuestConfigurationNavigationConfigurationProtectedParameterList;
-  /** The configuration setting for the guest configuration. */
-  configurationSetting?: ConfigurationSetting;
-}
-export const GuestConfigurationNavigation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.optional(Kind),
-    name: S.optional(S.String),
-    version: S.optional(S.String),
-    contentUri: S.optional(S.String),
-    contentHash: S.optional(S.String),
-    contentManagedIdentity: S.optional(S.String),
-    assignmentType: S.optional(AssignmentType),
-    assignmentSource: S.optional(S.NullOr(S.String)),
-    contentType: S.optional(S.NullOr(S.String)),
-    configurationParameter: S.optional(
-      GuestConfigurationNavigationConfigurationParameterList,
-    ),
-    configurationProtectedParameter: S.optional(
-      GuestConfigurationNavigationConfigurationProtectedParameterList,
-    ),
-    configurationSetting: S.optional(ConfigurationSetting),
-  }),
-).annotate({
-  identifier: "GuestConfigurationNavigation",
-}) as any as S.Schema<GuestConfigurationNavigation>;
-
-/** The list of resources for which guest configuration assignment compliance is checked. */
-export type AssignmentReportResourcesList = Array<AssignmentReportResource>;
-export const AssignmentReportResourcesList = /*@__PURE__*/ S.Array(
-  AssignmentReportResource,
-) as any as S.Schema<AssignmentReportResourcesList>;
-
-export interface AssignmentReport {
-  /** ARM resource id of the report for the guest configuration assignment. */
-  id?: string;
-  /** GUID that identifies the guest configuration assignment report under a subscription, resource group. */
-  reportId?: string;
-  /** Configuration details of the guest configuration assignment. */
-  assignment?: AssignmentInfo;
-  /** Information about the VM. */
-  vm?: VMInfo;
-  /** Start date and time of the guest configuration assignment compliance status check. */
-  startTime?: string;
-  /** End date and time of the guest configuration assignment compliance status check. */
-  endTime?: string;
-  /** A value indicating compliance status of the machine for the assigned guest configuration. */
-  complianceStatus?: ComplianceStatus;
-  /** Type of report, Consistency or Initial */
-  operationType?: Type;
-  /** The list of resources for which guest configuration assignment compliance is checked. */
-  resources?: AssignmentReportResourcesList;
-}
-export const AssignmentReport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    reportId: S.optional(S.String),
-    assignment: S.optional(AssignmentInfo),
-    vm: S.optional(VMInfo),
-    startTime: S.optional(S.String),
-    endTime: S.optional(S.String),
-    complianceStatus: S.optional(ComplianceStatus),
-    operationType: S.optional(Type),
-    resources: S.optional(AssignmentReportResourcesList),
-  }),
-).annotate({
-  identifier: "AssignmentReport",
-}) as any as S.Schema<AssignmentReport>;
-
-/** The provisioning state, which only appears in the response. */
-export type ProvisioningState = "Succeeded" | "Failed" | "Canceled" | "Created";
-export const ProvisioningState = /*@__PURE__*/ S.String;
-
-/** Information about VMSS VM */
-export interface VMSSVMInfo {
-  /** UUID of the VM. */
-  vmId?: string;
-  /** Azure resource Id of the VM. */
-  vmResourceId?: string;
-  /** A value indicating compliance status of the machine for the assigned guest configuration. */
-  complianceStatus?: ComplianceStatus;
-  /** Id of the latest report for the guest configuration assignment. */
-  latestReportId?: string | null;
-  /** Date and time when last compliance status was checked. */
-  lastComplianceChecked?: string | null;
-}
-export const VMSSVMInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vmId: S.optional(S.String),
-    vmResourceId: S.optional(S.String),
-    complianceStatus: S.optional(ComplianceStatus),
-    latestReportId: S.optional(S.NullOr(S.String)),
-    lastComplianceChecked: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({ identifier: "VMSSVMInfo" }) as any as S.Schema<VMSSVMInfo>;
-
-/** The list of VM Compliance data for VMSS */
-export type GuestConfigurationAssignmentPropertiesVmssVMListList =
-  Array<VMSSVMInfo>;
-export const GuestConfigurationAssignmentPropertiesVmssVMListList =
-  /*@__PURE__*/ S.Array(
-    VMSSVMInfo,
-  ) as any as S.Schema<GuestConfigurationAssignmentPropertiesVmssVMListList>;
-
-/** Guest configuration assignment properties. */
-export interface GuestConfigurationAssignmentProperties {
-  /** VM resource Id. */
-  targetResourceId?: string | null;
-  /** The guest configuration to assign. */
-  guestConfiguration?: GuestConfigurationNavigation;
-  /** A value indicating compliance status of the machine for the assigned guest configuration. */
-  complianceStatus?: ComplianceStatus;
-  /** Date and time when last compliance status was checked. */
-  lastComplianceStatusChecked?: string | null;
-  /** Id of the latest report for the guest configuration assignment. */
-  latestReportId?: string | null;
-  /** parameter hash for the guest configuration assignment. */
-  parameterHash?: string | null;
-  /** Last reported guest configuration assignment report. */
-  latestAssignmentReport?: AssignmentReport;
-  /** The source which initiated the guest configuration assignment. Ex: Azure Policy */
-  context?: string;
-  /** Combined hash of the configuration package and parameters. */
-  assignmentHash?: string | null;
-  /** The provisioning state, which only appears in the response. */
-  provisioningState?: ProvisioningState | null;
-  /** Type of the resource - VMSS / VM */
-  resourceType?: string | null;
-  /** The list of VM Compliance data for VMSS */
-  vmssVMList?: GuestConfigurationAssignmentPropertiesVmssVMListList;
-}
-export const GuestConfigurationAssignmentProperties = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      targetResourceId: S.optional(S.NullOr(S.String)),
-      guestConfiguration: S.optional(GuestConfigurationNavigation),
-      complianceStatus: S.optional(ComplianceStatus),
-      lastComplianceStatusChecked: S.optional(S.NullOr(S.String)),
-      latestReportId: S.optional(S.NullOr(S.String)),
-      parameterHash: S.optional(S.NullOr(S.String)),
-      latestAssignmentReport: S.optional(AssignmentReport),
-      context: S.optional(S.String),
-      assignmentHash: S.optional(S.NullOr(S.String)),
-      provisioningState: S.optional(S.NullOr(ProvisioningState)),
-      resourceType: S.optional(S.NullOr(S.String)),
-      vmssVMList: S.optional(
-        GuestConfigurationAssignmentPropertiesVmssVMListList,
-      ),
-    }),
-).annotate({
-  identifier: "GuestConfigurationAssignmentProperties",
-}) as any as S.Schema<GuestConfigurationAssignmentProperties>;
-
 /** The type of identity that created the resource. */
 export type GuestConfigurationAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
 export const GuestConfigurationAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** The type of identity that last modified the resource. */
 export type GuestConfigurationAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
 export const GuestConfigurationAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GuestConfigurationAssignmentsCreateOrUpdateResponseSystemData {
@@ -887,119 +1532,94 @@ export const GuestConfigurationAssignmentsCreateOrUpdateResponse =
     identifier: "GuestConfigurationAssignmentsCreateOrUpdateResponse",
   }) as any as S.Schema<GuestConfigurationAssignmentsCreateOrUpdateResponse>;
 
-export interface GuestConfigurationAssignmentsDeleteRequest {
+export interface GuestConfigurationAssignmentsVMSSCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the virtual machine. */
-  vmName: string;
+  /** The name of the virtual machine scale set. */
+  vmssName: string;
   /** The guest configuration assignment name. */
-  guestConfigurationAssignmentName: string;
+  name: string;
+  /** Region where the VM is located. */
+  location?: string;
+  /** Properties of the Guest configuration assignment. */
+  properties?: GuestConfigurationAssignmentPropertiesInput;
 }
-export const GuestConfigurationAssignmentsDeleteRequest =
+export const GuestConfigurationAssignmentsVMSSCreateOrUpdateRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
       resourceGroupName: S.String.pipe(T.Label()),
-      vmName: S.String.pipe(T.Label()),
-      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
+      vmssName: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      location: S.optional(S.String),
+      properties: S.optional(GuestConfigurationAssignmentPropertiesInput),
     }).pipe(
       T.Http({
-        method: "DELETE",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
+        method: "PUT",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{name}",
         code: 200,
         apiVersion: "2024-04-05",
       }),
     ),
   ).annotate({
-    identifier: "GuestConfigurationAssignmentsDeleteRequest",
-  }) as any as S.Schema<GuestConfigurationAssignmentsDeleteRequest>;
-
-export interface GuestConfigurationAssignmentsDeleteResponse {}
-export const GuestConfigurationAssignmentsDeleteResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "GuestConfigurationAssignmentsDeleteResponse",
-  }) as any as S.Schema<GuestConfigurationAssignmentsDeleteResponse>;
-
-export interface GuestConfigurationAssignmentsGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the virtual machine. */
-  vmName: string;
-  /** The guest configuration assignment name. */
-  guestConfigurationAssignmentName: string;
-}
-export const GuestConfigurationAssignmentsGetRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      vmName: S.String.pipe(T.Label()),
-      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
-        code: 200,
-        apiVersion: "2024-04-05",
-      }),
-    ),
-).annotate({
-  identifier: "GuestConfigurationAssignmentsGetRequest",
-}) as any as S.Schema<GuestConfigurationAssignmentsGetRequest>;
+    identifier: "GuestConfigurationAssignmentsVMSSCreateOrUpdateRequest",
+  }) as any as S.Schema<GuestConfigurationAssignmentsVMSSCreateOrUpdateRequest>;
 
 /** The type of identity that created the resource. */
-export type GuestConfigurationAssignmentsGetResponseSystemDataCreatedByType =
+export type GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataCreatedByType =
   | "User"
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const GuestConfigurationAssignmentsGetResponseSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
+export const GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataCreatedByType =
+  S.String;
 
 /** The type of identity that last modified the resource. */
-export type GuestConfigurationAssignmentsGetResponseSystemDataLastModifiedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationAssignmentsGetResponseSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
+export type GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataLastModifiedByType =
+  S.String;
 
 /** Metadata pertaining to creation and last modification of the resource. */
-export interface GuestConfigurationAssignmentsGetResponseSystemData {
+export interface GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
   createdBy?: string;
   /** The type of identity that created the resource. */
-  createdByType?: GuestConfigurationAssignmentsGetResponseSystemDataCreatedByType;
+  createdByType?: GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataCreatedByType;
   /** The timestamp of resource creation (UTC). */
   createdAt?: string;
   /** The identity that last modified the resource. */
   lastModifiedBy?: string;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestConfigurationAssignmentsGetResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataLastModifiedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: string;
 }
-export const GuestConfigurationAssignmentsGetResponseSystemData =
+export const GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       createdBy: S.optional(S.String),
       createdByType: S.optional(
-        GuestConfigurationAssignmentsGetResponseSystemDataCreatedByType,
+        GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataCreatedByType,
       ),
       createdAt: S.optional(S.String),
       lastModifiedBy: S.optional(S.String),
       lastModifiedByType: S.optional(
-        GuestConfigurationAssignmentsGetResponseSystemDataLastModifiedByType,
+        GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataLastModifiedByType,
       ),
       lastModifiedAt: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "GuestConfigurationAssignmentsGetResponseSystemData",
-  }) as any as S.Schema<GuestConfigurationAssignmentsGetResponseSystemData>;
+    identifier:
+      "GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData",
+  }) as any as S.Schema<GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData>;
 
-export interface GuestConfigurationAssignmentsGetResponse {
+export interface GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse {
   /** ARM resource id of the guest configuration assignment. */
   id?: string;
   /** The guest configuration assignment name. */
@@ -1011,10 +1631,10 @@ export interface GuestConfigurationAssignmentsGetResponse {
   /** Properties of the Guest configuration assignment. */
   properties?: GuestConfigurationAssignmentProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestConfigurationAssignmentsGetResponseSystemData;
+  systemData?: GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData;
 }
-export const GuestConfigurationAssignmentsGetResponse = /*@__PURE__*/ S.suspend(
-  () =>
+export const GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.optional(S.String),
       name: S.String,
@@ -1022,14 +1642,338 @@ export const GuestConfigurationAssignmentsGetResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       properties: S.optional(GuestConfigurationAssignmentProperties),
       systemData: S.optional(
-        GuestConfigurationAssignmentsGetResponseSystemData,
+        GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData,
       ),
     }),
-).annotate({
-  identifier: "GuestConfigurationAssignmentsGetResponse",
-}) as any as S.Schema<GuestConfigurationAssignmentsGetResponse>;
+  ).annotate({
+    identifier: "GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse",
+  }) as any as S.Schema<GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse>;
 
-export interface GuestConfigurationAssignmentsListRequest {
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the virtual machine. */
+  vmName: string;
+  /** The guest configuration assignment name. */
+  guestConfigurationAssignmentName: string;
+  /** The guest configuration assignment name. */
+  name: string;
+  /** Region where the VM is located. */
+  location?: string;
+  /** Properties of the Guest configuration assignment. */
+  properties?: GuestConfigurationAssignmentPropertiesInput;
+}
+export const GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      vmName: S.String.pipe(T.Label()),
+      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
+      name: S.String,
+      location: S.optional(S.String),
+      properties: S.optional(GuestConfigurationAssignmentPropertiesInput),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualmachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
+        code: 200,
+        apiVersion: "2024-04-05",
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateRequest",
+  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateRequest>;
+
+/** The type of identity that created the resource. */
+export type GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
+  S.String;
+
+/** The type of identity that last modified the resource. */
+export type GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType =
+  S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      createdBy: S.optional(S.String),
+      createdByType: S.optional(
+        GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataCreatedByType,
+      ),
+      createdAt: S.optional(S.String),
+      lastModifiedBy: S.optional(S.String),
+      lastModifiedByType: S.optional(
+        GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType,
+      ),
+      lastModifiedAt: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData",
+  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData>;
+
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse {
+  /** ARM resource id of the guest configuration assignment. */
+  id?: string;
+  /** The guest configuration assignment name. */
+  name: string;
+  /** Region where the VM is located. */
+  location?: string;
+  /** The type of the resource. */
+  type?: string;
+  /** Properties of the Guest configuration assignment. */
+  properties?: GuestConfigurationAssignmentProperties;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData;
+}
+export const GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.String,
+      location: S.optional(S.String),
+      type: S.optional(S.String),
+      properties: S.optional(GuestConfigurationAssignmentProperties),
+      systemData: S.optional(
+        GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse",
+  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse>;
+
+export interface GuestConfigurationHCRPAssignmentsCreateOrUpdateRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the ARC machine. */
+  machineName: string;
+  /** The guest configuration assignment name. */
+  guestConfigurationAssignmentName: string;
+  /** The guest configuration assignment name. */
+  name: string;
+  /** Region where the VM is located. */
+  location?: string;
+  /** Properties of the Guest configuration assignment. */
+  properties?: GuestConfigurationAssignmentPropertiesInput;
+}
+export const GuestConfigurationHCRPAssignmentsCreateOrUpdateRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      machineName: S.String.pipe(T.Label()),
+      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
+      name: S.String,
+      location: S.optional(S.String),
+      properties: S.optional(GuestConfigurationAssignmentPropertiesInput),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
+        code: 200,
+        apiVersion: "2024-04-05",
+      }),
+    ),
+  ).annotate({
+    identifier: "GuestConfigurationHCRPAssignmentsCreateOrUpdateRequest",
+  }) as any as S.Schema<GuestConfigurationHCRPAssignmentsCreateOrUpdateRequest>;
+
+/** The type of identity that created the resource. */
+export type GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
+  S.String;
+
+/** The type of identity that last modified the resource. */
+export type GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType =
+  S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      createdBy: S.optional(S.String),
+      createdByType: S.optional(
+        GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType,
+      ),
+      createdAt: S.optional(S.String),
+      lastModifiedBy: S.optional(S.String),
+      lastModifiedByType: S.optional(
+        GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType,
+      ),
+      lastModifiedAt: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData",
+  }) as any as S.Schema<GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData>;
+
+export interface GuestConfigurationHCRPAssignmentsCreateOrUpdateResponse {
+  /** ARM resource id of the guest configuration assignment. */
+  id?: string;
+  /** The guest configuration assignment name. */
+  name: string;
+  /** Region where the VM is located. */
+  location?: string;
+  /** The type of the resource. */
+  type?: string;
+  /** Properties of the Guest configuration assignment. */
+  properties?: GuestConfigurationAssignmentProperties;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData;
+}
+export const GuestConfigurationHCRPAssignmentsCreateOrUpdateResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.String,
+      location: S.optional(S.String),
+      type: S.optional(S.String),
+      properties: S.optional(GuestConfigurationAssignmentProperties),
+      systemData: S.optional(
+        GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData,
+      ),
+    }),
+  ).annotate({
+    identifier: "GuestConfigurationHCRPAssignmentsCreateOrUpdateResponse",
+  }) as any as S.Schema<GuestConfigurationHCRPAssignmentsCreateOrUpdateResponse>;
+
+export interface ListGuestConfigurationAssignmentReportsRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the virtual machine. */
+  vmName: string;
+  /** The guest configuration assignment name. */
+  guestConfigurationAssignmentName: string;
+}
+export const ListGuestConfigurationAssignmentReportsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      vmName: S.String.pipe(T.Label()),
+      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports",
+        code: 200,
+        apiVersion: "2024-04-05",
+      }),
+    ),
+  ).annotate({
+    identifier: "ListGuestConfigurationAssignmentReportsRequest",
+  }) as any as S.Schema<ListGuestConfigurationAssignmentReportsRequest>;
+
+/** List of reports for the guest configuration. Report contains information such as compliance status, reason and more. */
+export type GuestConfigurationAssignmentReportListValueList =
+  Array<GuestConfigurationAssignmentReport>;
+export const GuestConfigurationAssignmentReportListValueList =
+  /*@__PURE__*/ S.Array(
+    GuestConfigurationAssignmentReport,
+  ) as any as S.Schema<GuestConfigurationAssignmentReportListValueList>;
+
+/** List of guest configuration assignment reports. */
+export interface GuestConfigurationAssignmentReportList {
+  /** List of reports for the guest configuration. Report contains information such as compliance status, reason and more. */
+  value?: GuestConfigurationAssignmentReportListValueList;
+  nextLink?: string;
+}
+export const GuestConfigurationAssignmentReportList = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      value: S.optional(GuestConfigurationAssignmentReportListValueList),
+      nextLink: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GuestConfigurationAssignmentReportList",
+}) as any as S.Schema<GuestConfigurationAssignmentReportList>;
+
+export interface ListGuestConfigurationAssignmentReportsVMSSRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the virtual machine scale set. */
+  vmssName: string;
+  /** The guest configuration assignment name. */
+  name: string;
+}
+export const ListGuestConfigurationAssignmentReportsVMSSRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      vmssName: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{name}/reports",
+        code: 200,
+        apiVersion: "2024-04-05",
+      }),
+    ),
+  ).annotate({
+    identifier: "ListGuestConfigurationAssignmentReportsVMSSRequest",
+  }) as any as S.Schema<ListGuestConfigurationAssignmentReportsVMSSRequest>;
+
+export interface ListGuestConfigurationAssignmentsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -1037,7 +1981,7 @@ export interface GuestConfigurationAssignmentsListRequest {
   /** The name of the virtual machine. */
   vmName: string;
 }
-export const GuestConfigurationAssignmentsListRequest = /*@__PURE__*/ S.suspend(
+export const ListGuestConfigurationAssignmentsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -1052,8 +1996,8 @@ export const GuestConfigurationAssignmentsListRequest = /*@__PURE__*/ S.suspend(
       }),
     ),
 ).annotate({
-  identifier: "GuestConfigurationAssignmentsListRequest",
-}) as any as S.Schema<GuestConfigurationAssignmentsListRequest>;
+  identifier: "ListGuestConfigurationAssignmentsRequest",
+}) as any as S.Schema<ListGuestConfigurationAssignmentsRequest>;
 
 /** The type of identity that created the resource. */
 export type GuestConfigurationAssignmentSystemDataCreatedByType =
@@ -1061,8 +2005,7 @@ export type GuestConfigurationAssignmentSystemDataCreatedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const GuestConfigurationAssignmentSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
+export const GuestConfigurationAssignmentSystemDataCreatedByType = S.String;
 
 /** The type of identity that last modified the resource. */
 export type GuestConfigurationAssignmentSystemDataLastModifiedByType =
@@ -1071,7 +2014,7 @@ export type GuestConfigurationAssignmentSystemDataLastModifiedByType =
   | "ManagedIdentity"
   | "Key";
 export const GuestConfigurationAssignmentSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GuestConfigurationAssignmentSystemData {
@@ -1156,13 +2099,13 @@ export const GuestConfigurationAssignmentList = /*@__PURE__*/ S.suspend(() =>
   identifier: "GuestConfigurationAssignmentList",
 }) as any as S.Schema<GuestConfigurationAssignmentList>;
 
-export interface GuestConfigurationAssignmentsRGListRequest {
+export interface ListGuestConfigurationAssignmentsRGRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
 }
-export const GuestConfigurationAssignmentsRGListRequest =
+export const ListGuestConfigurationAssignmentsRGRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -1176,14 +2119,14 @@ export const GuestConfigurationAssignmentsRGListRequest =
       }),
     ),
   ).annotate({
-    identifier: "GuestConfigurationAssignmentsRGListRequest",
-  }) as any as S.Schema<GuestConfigurationAssignmentsRGListRequest>;
+    identifier: "ListGuestConfigurationAssignmentsRGRequest",
+  }) as any as S.Schema<ListGuestConfigurationAssignmentsRGRequest>;
 
-export interface GuestConfigurationAssignmentsSubscriptionListRequest {
+export interface ListGuestConfigurationAssignmentsSubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
 }
-export const GuestConfigurationAssignmentsSubscriptionListRequest =
+export const ListGuestConfigurationAssignmentsSubscriptionRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -1196,329 +2139,10 @@ export const GuestConfigurationAssignmentsSubscriptionListRequest =
       }),
     ),
   ).annotate({
-    identifier: "GuestConfigurationAssignmentsSubscriptionListRequest",
-  }) as any as S.Schema<GuestConfigurationAssignmentsSubscriptionListRequest>;
+    identifier: "ListGuestConfigurationAssignmentsSubscriptionRequest",
+  }) as any as S.Schema<ListGuestConfigurationAssignmentsSubscriptionRequest>;
 
-export interface GuestConfigurationAssignmentsVMSSCreateOrUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the virtual machine scale set. */
-  vmssName: string;
-  /** The guest configuration assignment name. */
-  name: string;
-  /** Region where the VM is located. */
-  location?: string;
-  /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentPropertiesInput;
-}
-export const GuestConfigurationAssignmentsVMSSCreateOrUpdateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      vmssName: S.String.pipe(T.Label()),
-      name: S.String.pipe(T.Label()),
-      location: S.optional(S.String),
-      properties: S.optional(GuestConfigurationAssignmentPropertiesInput),
-    }).pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{name}",
-        code: 200,
-        apiVersion: "2024-04-05",
-      }),
-    ),
-  ).annotate({
-    identifier: "GuestConfigurationAssignmentsVMSSCreateOrUpdateRequest",
-  }) as any as S.Schema<GuestConfigurationAssignmentsVMSSCreateOrUpdateRequest>;
-
-/** The type of identity that created the resource. */
-export type GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataCreatedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataLastModifiedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      createdBy: S.optional(S.String),
-      createdByType: S.optional(
-        GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataCreatedByType,
-      ),
-      createdAt: S.optional(S.String),
-      lastModifiedBy: S.optional(S.String),
-      lastModifiedByType: S.optional(
-        GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataLastModifiedByType,
-      ),
-      lastModifiedAt: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData",
-  }) as any as S.Schema<GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData>;
-
-export interface GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse {
-  /** ARM resource id of the guest configuration assignment. */
-  id?: string;
-  /** The guest configuration assignment name. */
-  name: string;
-  /** Region where the VM is located. */
-  location?: string;
-  /** The type of the resource. */
-  type?: string;
-  /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData;
-}
-export const GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.String,
-      location: S.optional(S.String),
-      type: S.optional(S.String),
-      properties: S.optional(GuestConfigurationAssignmentProperties),
-      systemData: S.optional(
-        GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData,
-      ),
-    }),
-  ).annotate({
-    identifier: "GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse",
-  }) as any as S.Schema<GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse>;
-
-export interface GuestConfigurationAssignmentsVMSSDeleteRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the virtual machine scale set. */
-  vmssName: string;
-  /** The guest configuration assignment name. */
-  name: string;
-}
-export const GuestConfigurationAssignmentsVMSSDeleteRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      vmssName: S.String.pipe(T.Label()),
-      name: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{name}",
-        code: 200,
-        apiVersion: "2024-04-05",
-      }),
-    ),
-  ).annotate({
-    identifier: "GuestConfigurationAssignmentsVMSSDeleteRequest",
-  }) as any as S.Schema<GuestConfigurationAssignmentsVMSSDeleteRequest>;
-
-/** The type of identity that created the resource. */
-export type GuestConfigurationAssignmentsVMSSDeleteResponseSystemDataCreatedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationAssignmentsVMSSDeleteResponseSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type GuestConfigurationAssignmentsVMSSDeleteResponseSystemDataLastModifiedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationAssignmentsVMSSDeleteResponseSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GuestConfigurationAssignmentsVMSSDeleteResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GuestConfigurationAssignmentsVMSSDeleteResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestConfigurationAssignmentsVMSSDeleteResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const GuestConfigurationAssignmentsVMSSDeleteResponseSystemData =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      createdBy: S.optional(S.String),
-      createdByType: S.optional(
-        GuestConfigurationAssignmentsVMSSDeleteResponseSystemDataCreatedByType,
-      ),
-      createdAt: S.optional(S.String),
-      lastModifiedBy: S.optional(S.String),
-      lastModifiedByType: S.optional(
-        GuestConfigurationAssignmentsVMSSDeleteResponseSystemDataLastModifiedByType,
-      ),
-      lastModifiedAt: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GuestConfigurationAssignmentsVMSSDeleteResponseSystemData",
-  }) as any as S.Schema<GuestConfigurationAssignmentsVMSSDeleteResponseSystemData>;
-
-export interface GuestConfigurationAssignmentsVMSSDeleteResponse {
-  /** ARM resource id of the guest configuration assignment. */
-  id?: string;
-  /** The guest configuration assignment name. */
-  name: string;
-  /** Region where the VM is located. */
-  location?: string;
-  /** The type of the resource. */
-  type?: string;
-  /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestConfigurationAssignmentsVMSSDeleteResponseSystemData;
-}
-export const GuestConfigurationAssignmentsVMSSDeleteResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.String,
-      location: S.optional(S.String),
-      type: S.optional(S.String),
-      properties: S.optional(GuestConfigurationAssignmentProperties),
-      systemData: S.optional(
-        GuestConfigurationAssignmentsVMSSDeleteResponseSystemData,
-      ),
-    }),
-  ).annotate({
-    identifier: "GuestConfigurationAssignmentsVMSSDeleteResponse",
-  }) as any as S.Schema<GuestConfigurationAssignmentsVMSSDeleteResponse>;
-
-export interface GuestConfigurationAssignmentsVMSSGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the virtual machine scale set. */
-  vmssName: string;
-  /** The guest configuration assignment name. */
-  name: string;
-}
-export const GuestConfigurationAssignmentsVMSSGetRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      vmssName: S.String.pipe(T.Label()),
-      name: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{name}",
-        code: 200,
-        apiVersion: "2024-04-05",
-      }),
-    ),
-  ).annotate({
-    identifier: "GuestConfigurationAssignmentsVMSSGetRequest",
-  }) as any as S.Schema<GuestConfigurationAssignmentsVMSSGetRequest>;
-
-/** The type of identity that created the resource. */
-export type GuestConfigurationAssignmentsVMSSGetResponseSystemDataCreatedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationAssignmentsVMSSGetResponseSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type GuestConfigurationAssignmentsVMSSGetResponseSystemDataLastModifiedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationAssignmentsVMSSGetResponseSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GuestConfigurationAssignmentsVMSSGetResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GuestConfigurationAssignmentsVMSSGetResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestConfigurationAssignmentsVMSSGetResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const GuestConfigurationAssignmentsVMSSGetResponseSystemData =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      createdBy: S.optional(S.String),
-      createdByType: S.optional(
-        GuestConfigurationAssignmentsVMSSGetResponseSystemDataCreatedByType,
-      ),
-      createdAt: S.optional(S.String),
-      lastModifiedBy: S.optional(S.String),
-      lastModifiedByType: S.optional(
-        GuestConfigurationAssignmentsVMSSGetResponseSystemDataLastModifiedByType,
-      ),
-      lastModifiedAt: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GuestConfigurationAssignmentsVMSSGetResponseSystemData",
-  }) as any as S.Schema<GuestConfigurationAssignmentsVMSSGetResponseSystemData>;
-
-export interface GuestConfigurationAssignmentsVMSSGetResponse {
-  /** ARM resource id of the guest configuration assignment. */
-  id?: string;
-  /** The guest configuration assignment name. */
-  name: string;
-  /** Region where the VM is located. */
-  location?: string;
-  /** The type of the resource. */
-  type?: string;
-  /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestConfigurationAssignmentsVMSSGetResponseSystemData;
-}
-export const GuestConfigurationAssignmentsVMSSGetResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.String,
-      location: S.optional(S.String),
-      type: S.optional(S.String),
-      properties: S.optional(GuestConfigurationAssignmentProperties),
-      systemData: S.optional(
-        GuestConfigurationAssignmentsVMSSGetResponseSystemData,
-      ),
-    }),
-  ).annotate({
-    identifier: "GuestConfigurationAssignmentsVMSSGetResponse",
-  }) as any as S.Schema<GuestConfigurationAssignmentsVMSSGetResponse>;
-
-export interface GuestConfigurationAssignmentsVMSSListRequest {
+export interface ListGuestConfigurationAssignmentsVMSSRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -1526,7 +2150,7 @@ export interface GuestConfigurationAssignmentsVMSSListRequest {
   /** The name of the virtual machine scale set. */
   vmssName: string;
 }
-export const GuestConfigurationAssignmentsVMSSListRequest =
+export const ListGuestConfigurationAssignmentsVMSSRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -1541,269 +2165,10 @@ export const GuestConfigurationAssignmentsVMSSListRequest =
       }),
     ),
   ).annotate({
-    identifier: "GuestConfigurationAssignmentsVMSSListRequest",
-  }) as any as S.Schema<GuestConfigurationAssignmentsVMSSListRequest>;
+    identifier: "ListGuestConfigurationAssignmentsVMSSRequest",
+  }) as any as S.Schema<ListGuestConfigurationAssignmentsVMSSRequest>;
 
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the virtual machine. */
-  vmName: string;
-  /** The guest configuration assignment name. */
-  guestConfigurationAssignmentName: string;
-  /** The guest configuration assignment name. */
-  name: string;
-  /** Region where the VM is located. */
-  location?: string;
-  /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentPropertiesInput;
-}
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      vmName: S.String.pipe(T.Label()),
-      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
-      name: S.String,
-      location: S.optional(S.String),
-      properties: S.optional(GuestConfigurationAssignmentPropertiesInput),
-    }).pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualmachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
-        code: 200,
-        apiVersion: "2024-04-05",
-      }),
-    ),
-  ).annotate({
-    identifier:
-      "GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateRequest",
-  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateRequest>;
-
-/** The type of identity that created the resource. */
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      createdBy: S.optional(S.String),
-      createdByType: S.optional(
-        GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataCreatedByType,
-      ),
-      createdAt: S.optional(S.String),
-      lastModifiedBy: S.optional(S.String),
-      lastModifiedByType: S.optional(
-        GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType,
-      ),
-      lastModifiedAt: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData",
-  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData>;
-
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse {
-  /** ARM resource id of the guest configuration assignment. */
-  id?: string;
-  /** The guest configuration assignment name. */
-  name: string;
-  /** Region where the VM is located. */
-  location?: string;
-  /** The type of the resource. */
-  type?: string;
-  /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData;
-}
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.String,
-      location: S.optional(S.String),
-      type: S.optional(S.String),
-      properties: S.optional(GuestConfigurationAssignmentProperties),
-      systemData: S.optional(
-        GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse",
-  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse>;
-
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the virtual machine. */
-  vmName: string;
-  /** The guest configuration assignment name. */
-  guestConfigurationAssignmentName: string;
-}
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      vmName: S.String.pipe(T.Label()),
-      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualmachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
-        code: 200,
-        apiVersion: "2024-04-05",
-      }),
-    ),
-  ).annotate({
-    identifier:
-      "GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteRequest",
-  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteRequest>;
-
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteResponse {}
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier:
-      "GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteResponse",
-  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteResponse>;
-
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the virtual machine. */
-  vmName: string;
-  /** The guest configuration assignment name. */
-  guestConfigurationAssignmentName: string;
-}
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsGetRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      vmName: S.String.pipe(T.Label()),
-      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualmachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
-        code: 200,
-        apiVersion: "2024-04-05",
-      }),
-    ),
-  ).annotate({
-    identifier: "GuestConfigurationConnectedVMwarevSphereAssignmentsGetRequest",
-  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsGetRequest>;
-
-/** The type of identity that created the resource. */
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemDataCreatedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemDataLastModifiedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemData =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      createdBy: S.optional(S.String),
-      createdByType: S.optional(
-        GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemDataCreatedByType,
-      ),
-      createdAt: S.optional(S.String),
-      lastModifiedBy: S.optional(S.String),
-      lastModifiedByType: S.optional(
-        GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemDataLastModifiedByType,
-      ),
-      lastModifiedAt: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemData",
-  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemData>;
-
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponse {
-  /** ARM resource id of the guest configuration assignment. */
-  id?: string;
-  /** The guest configuration assignment name. */
-  name: string;
-  /** Region where the VM is located. */
-  location?: string;
-  /** The type of the resource. */
-  type?: string;
-  /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemData;
-}
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.String,
-      location: S.optional(S.String),
-      type: S.optional(S.String),
-      properties: S.optional(GuestConfigurationAssignmentProperties),
-      systemData: S.optional(
-        GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponseSystemData,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponse",
-  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponse>;
-
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsListRequest {
+export interface ListGuestConfigurationConnectedVMwarevSphereAssignmentsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -1811,7 +2176,7 @@ export interface GuestConfigurationConnectedVMwarevSphereAssignmentsListRequest 
   /** The name of the virtual machine. */
   vmName: string;
 }
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsListRequest =
+export const ListGuestConfigurationConnectedVMwarevSphereAssignmentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -1827,43 +2192,10 @@ export const GuestConfigurationConnectedVMwarevSphereAssignmentsListRequest =
     ),
   ).annotate({
     identifier:
-      "GuestConfigurationConnectedVMwarevSphereAssignmentsListRequest",
-  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsListRequest>;
+      "ListGuestConfigurationConnectedVMwarevSphereAssignmentsRequest",
+  }) as any as S.Schema<ListGuestConfigurationConnectedVMwarevSphereAssignmentsRequest>;
 
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the virtual machine. */
-  vmName: string;
-  /** The guest configuration assignment name. */
-  guestConfigurationAssignmentName: string;
-  /** The GUID for the guest configuration assignment report. */
-  reportId: string;
-}
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      vmName: S.String.pipe(T.Label()),
-      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
-      reportId: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualmachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports/{reportId}",
-        code: 200,
-        apiVersion: "2024-04-05",
-      }),
-    ),
-  ).annotate({
-    identifier:
-      "GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetRequest",
-  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetRequest>;
-
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListRequest {
+export interface ListGuestConfigurationConnectedVMwarevSphereAssignmentsReportsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -1873,7 +2205,7 @@ export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListR
   /** The guest configuration assignment name. */
   guestConfigurationAssignmentName: string;
 }
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListRequest =
+export const ListGuestConfigurationConnectedVMwarevSphereAssignmentsReportsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -1890,42 +2222,10 @@ export const GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListReque
     ),
   ).annotate({
     identifier:
-      "GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListRequest",
-  }) as any as S.Schema<GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListRequest>;
+      "ListGuestConfigurationConnectedVMwarevSphereAssignmentsReportsRequest",
+  }) as any as S.Schema<ListGuestConfigurationConnectedVMwarevSphereAssignmentsReportsRequest>;
 
-export interface GuestConfigurationHCRPAssignmentReportsGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the ARC machine. */
-  machineName: string;
-  /** The guest configuration assignment name. */
-  guestConfigurationAssignmentName: string;
-  /** The GUID for the guest configuration assignment report. */
-  reportId: string;
-}
-export const GuestConfigurationHCRPAssignmentReportsGetRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      machineName: S.String.pipe(T.Label()),
-      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
-      reportId: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports/{reportId}",
-        code: 200,
-        apiVersion: "2024-04-05",
-      }),
-    ),
-  ).annotate({
-    identifier: "GuestConfigurationHCRPAssignmentReportsGetRequest",
-  }) as any as S.Schema<GuestConfigurationHCRPAssignmentReportsGetRequest>;
-
-export interface GuestConfigurationHCRPAssignmentReportsListRequest {
+export interface ListGuestConfigurationHCRPAssignmentReportsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -1935,7 +2235,7 @@ export interface GuestConfigurationHCRPAssignmentReportsListRequest {
   /** The guest configuration assignment name. */
   guestConfigurationAssignmentName: string;
 }
-export const GuestConfigurationHCRPAssignmentReportsListRequest =
+export const ListGuestConfigurationHCRPAssignmentReportsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -1951,263 +2251,10 @@ export const GuestConfigurationHCRPAssignmentReportsListRequest =
       }),
     ),
   ).annotate({
-    identifier: "GuestConfigurationHCRPAssignmentReportsListRequest",
-  }) as any as S.Schema<GuestConfigurationHCRPAssignmentReportsListRequest>;
+    identifier: "ListGuestConfigurationHCRPAssignmentReportsRequest",
+  }) as any as S.Schema<ListGuestConfigurationHCRPAssignmentReportsRequest>;
 
-export interface GuestConfigurationHCRPAssignmentsCreateOrUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the ARC machine. */
-  machineName: string;
-  /** The guest configuration assignment name. */
-  guestConfigurationAssignmentName: string;
-  /** The guest configuration assignment name. */
-  name: string;
-  /** Region where the VM is located. */
-  location?: string;
-  /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentPropertiesInput;
-}
-export const GuestConfigurationHCRPAssignmentsCreateOrUpdateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      machineName: S.String.pipe(T.Label()),
-      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
-      name: S.String,
-      location: S.optional(S.String),
-      properties: S.optional(GuestConfigurationAssignmentPropertiesInput),
-    }).pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
-        code: 200,
-        apiVersion: "2024-04-05",
-      }),
-    ),
-  ).annotate({
-    identifier: "GuestConfigurationHCRPAssignmentsCreateOrUpdateRequest",
-  }) as any as S.Schema<GuestConfigurationHCRPAssignmentsCreateOrUpdateRequest>;
-
-/** The type of identity that created the resource. */
-export type GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      createdBy: S.optional(S.String),
-      createdByType: S.optional(
-        GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType,
-      ),
-      createdAt: S.optional(S.String),
-      lastModifiedBy: S.optional(S.String),
-      lastModifiedByType: S.optional(
-        GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType,
-      ),
-      lastModifiedAt: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData",
-  }) as any as S.Schema<GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData>;
-
-export interface GuestConfigurationHCRPAssignmentsCreateOrUpdateResponse {
-  /** ARM resource id of the guest configuration assignment. */
-  id?: string;
-  /** The guest configuration assignment name. */
-  name: string;
-  /** Region where the VM is located. */
-  location?: string;
-  /** The type of the resource. */
-  type?: string;
-  /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData;
-}
-export const GuestConfigurationHCRPAssignmentsCreateOrUpdateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.String,
-      location: S.optional(S.String),
-      type: S.optional(S.String),
-      properties: S.optional(GuestConfigurationAssignmentProperties),
-      systemData: S.optional(
-        GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData,
-      ),
-    }),
-  ).annotate({
-    identifier: "GuestConfigurationHCRPAssignmentsCreateOrUpdateResponse",
-  }) as any as S.Schema<GuestConfigurationHCRPAssignmentsCreateOrUpdateResponse>;
-
-export interface GuestConfigurationHCRPAssignmentsDeleteRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the ARC machine. */
-  machineName: string;
-  /** The guest configuration assignment name. */
-  guestConfigurationAssignmentName: string;
-}
-export const GuestConfigurationHCRPAssignmentsDeleteRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      machineName: S.String.pipe(T.Label()),
-      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
-        code: 200,
-        apiVersion: "2024-04-05",
-      }),
-    ),
-  ).annotate({
-    identifier: "GuestConfigurationHCRPAssignmentsDeleteRequest",
-  }) as any as S.Schema<GuestConfigurationHCRPAssignmentsDeleteRequest>;
-
-export interface GuestConfigurationHCRPAssignmentsDeleteResponse {}
-export const GuestConfigurationHCRPAssignmentsDeleteResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "GuestConfigurationHCRPAssignmentsDeleteResponse",
-  }) as any as S.Schema<GuestConfigurationHCRPAssignmentsDeleteResponse>;
-
-export interface GuestConfigurationHCRPAssignmentsGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the ARC machine. */
-  machineName: string;
-  /** The guest configuration assignment name. */
-  guestConfigurationAssignmentName: string;
-}
-export const GuestConfigurationHCRPAssignmentsGetRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      machineName: S.String.pipe(T.Label()),
-      guestConfigurationAssignmentName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
-        code: 200,
-        apiVersion: "2024-04-05",
-      }),
-    ),
-  ).annotate({
-    identifier: "GuestConfigurationHCRPAssignmentsGetRequest",
-  }) as any as S.Schema<GuestConfigurationHCRPAssignmentsGetRequest>;
-
-/** The type of identity that created the resource. */
-export type GuestConfigurationHCRPAssignmentsGetResponseSystemDataCreatedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationHCRPAssignmentsGetResponseSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type GuestConfigurationHCRPAssignmentsGetResponseSystemDataLastModifiedByType =
-  "User" | "Application" | "ManagedIdentity" | "Key";
-export const GuestConfigurationHCRPAssignmentsGetResponseSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GuestConfigurationHCRPAssignmentsGetResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GuestConfigurationHCRPAssignmentsGetResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestConfigurationHCRPAssignmentsGetResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const GuestConfigurationHCRPAssignmentsGetResponseSystemData =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      createdBy: S.optional(S.String),
-      createdByType: S.optional(
-        GuestConfigurationHCRPAssignmentsGetResponseSystemDataCreatedByType,
-      ),
-      createdAt: S.optional(S.String),
-      lastModifiedBy: S.optional(S.String),
-      lastModifiedByType: S.optional(
-        GuestConfigurationHCRPAssignmentsGetResponseSystemDataLastModifiedByType,
-      ),
-      lastModifiedAt: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GuestConfigurationHCRPAssignmentsGetResponseSystemData",
-  }) as any as S.Schema<GuestConfigurationHCRPAssignmentsGetResponseSystemData>;
-
-export interface GuestConfigurationHCRPAssignmentsGetResponse {
-  /** ARM resource id of the guest configuration assignment. */
-  id?: string;
-  /** The guest configuration assignment name. */
-  name: string;
-  /** Region where the VM is located. */
-  location?: string;
-  /** The type of the resource. */
-  type?: string;
-  /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestConfigurationHCRPAssignmentsGetResponseSystemData;
-}
-export const GuestConfigurationHCRPAssignmentsGetResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.String,
-      location: S.optional(S.String),
-      type: S.optional(S.String),
-      properties: S.optional(GuestConfigurationAssignmentProperties),
-      systemData: S.optional(
-        GuestConfigurationHCRPAssignmentsGetResponseSystemData,
-      ),
-    }),
-  ).annotate({
-    identifier: "GuestConfigurationHCRPAssignmentsGetResponse",
-  }) as any as S.Schema<GuestConfigurationHCRPAssignmentsGetResponse>;
-
-export interface GuestConfigurationHCRPAssignmentsListRequest {
+export interface ListGuestConfigurationHCRPAssignmentsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -2215,7 +2262,7 @@ export interface GuestConfigurationHCRPAssignmentsListRequest {
   /** The name of the ARC machine. */
   machineName: string;
 }
-export const GuestConfigurationHCRPAssignmentsListRequest =
+export const ListGuestConfigurationHCRPAssignmentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -2230,11 +2277,11 @@ export const GuestConfigurationHCRPAssignmentsListRequest =
       }),
     ),
   ).annotate({
-    identifier: "GuestConfigurationHCRPAssignmentsListRequest",
-  }) as any as S.Schema<GuestConfigurationHCRPAssignmentsListRequest>;
+    identifier: "ListGuestConfigurationHCRPAssignmentsRequest",
+  }) as any as S.Schema<ListGuestConfigurationHCRPAssignmentsRequest>;
 
-export interface OperationsListRequest {}
-export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
+export interface ListOperationsRequest {}
+export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
     T.Http({
       method: "GET",
@@ -2244,8 +2291,8 @@ export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "OperationsListRequest",
-}) as any as S.Schema<OperationsListRequest>;
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
 
 /** Provider, Resource, Operation, and description values. */
 export interface OperationDisplay {
@@ -2318,61 +2365,184 @@ export const OperationList = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "OperationList" }) as any as S.Schema<OperationList>;
 
-export type GuestConfigurationAssignmentReportsGetError = AzureOpError;
+export type DeleteGuestConfigurationAssignmentError = AzureOpError;
+/** Delete a guest configuration assignment */
+export const DeleteGuestConfigurationAssignment: API.OperationMethod<
+  DeleteGuestConfigurationAssignmentRequest,
+  DeleteGuestConfigurationAssignmentResponse,
+  DeleteGuestConfigurationAssignmentError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteGuestConfigurationAssignmentRequest,
+  output: DeleteGuestConfigurationAssignmentResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteGuestConfigurationAssignmentsVMSSError = AzureOpError;
+/** Delete a guest configuration assignment for VMSS */
+export const DeleteGuestConfigurationAssignmentsVMSS: API.OperationMethod<
+  DeleteGuestConfigurationAssignmentsVMSSRequest,
+  DeleteGuestConfigurationAssignmentsVMSSResponse,
+  DeleteGuestConfigurationAssignmentsVMSSError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteGuestConfigurationAssignmentsVMSSRequest,
+  output: DeleteGuestConfigurationAssignmentsVMSSResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteGuestConfigurationConnectedVMwarevSphereAssignmentError =
+  AzureOpError;
+/** Delete a guest configuration assignment */
+export const DeleteGuestConfigurationConnectedVMwarevSphereAssignment: API.OperationMethod<
+  DeleteGuestConfigurationConnectedVMwarevSphereAssignmentRequest,
+  DeleteGuestConfigurationConnectedVMwarevSphereAssignmentResponse,
+  DeleteGuestConfigurationConnectedVMwarevSphereAssignmentError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteGuestConfigurationConnectedVMwarevSphereAssignmentRequest,
+  output: DeleteGuestConfigurationConnectedVMwarevSphereAssignmentResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteGuestConfigurationHCRPAssignmentError = AzureOpError;
+/** Delete a guest configuration assignment */
+export const DeleteGuestConfigurationHCRPAssignment: API.OperationMethod<
+  DeleteGuestConfigurationHCRPAssignmentRequest,
+  DeleteGuestConfigurationHCRPAssignmentResponse,
+  DeleteGuestConfigurationHCRPAssignmentError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteGuestConfigurationHCRPAssignmentRequest,
+  output: DeleteGuestConfigurationHCRPAssignmentResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetGuestConfigurationAssignmentError = AzureOpError;
+/** Get information about a guest configuration assignment */
+export const GetGuestConfigurationAssignment: API.OperationMethod<
+  GetGuestConfigurationAssignmentRequest,
+  GetGuestConfigurationAssignmentResponse,
+  GetGuestConfigurationAssignmentError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetGuestConfigurationAssignmentRequest,
+  output: GetGuestConfigurationAssignmentResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetGuestConfigurationAssignmentReportError = AzureOpError;
 /** Get a report for the guest configuration assignment, by reportId. */
-export const GuestConfigurationAssignmentReportsGet: API.OperationMethod<
-  GuestConfigurationAssignmentReportsGetRequest,
+export const GetGuestConfigurationAssignmentReport: API.OperationMethod<
+  GetGuestConfigurationAssignmentReportRequest,
   GuestConfigurationAssignmentReport,
-  GuestConfigurationAssignmentReportsGetError,
+  GetGuestConfigurationAssignmentReportError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationAssignmentReportsGetRequest,
+  input: GetGuestConfigurationAssignmentReportRequest,
   output: GuestConfigurationAssignmentReport,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type GuestConfigurationAssignmentReportsListError = AzureOpError;
-/** List all reports for the guest configuration assignment, latest report first. */
-export const GuestConfigurationAssignmentReportsList: API.OperationMethod<
-  GuestConfigurationAssignmentReportsListRequest,
-  GuestConfigurationAssignmentReportList,
-  GuestConfigurationAssignmentReportsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationAssignmentReportsListRequest,
-  output: GuestConfigurationAssignmentReportList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationAssignmentReportsVMSSGetError = AzureOpError;
+export type GetGuestConfigurationAssignmentReportsVMSSError = AzureOpError;
 /** Get a report for the VMSS guest configuration assignment, by reportId. */
-export const GuestConfigurationAssignmentReportsVMSSGet: API.OperationMethod<
-  GuestConfigurationAssignmentReportsVMSSGetRequest,
+export const GetGuestConfigurationAssignmentReportsVMSS: API.OperationMethod<
+  GetGuestConfigurationAssignmentReportsVMSSRequest,
   GuestConfigurationAssignmentReport,
-  GuestConfigurationAssignmentReportsVMSSGetError,
+  GetGuestConfigurationAssignmentReportsVMSSError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationAssignmentReportsVMSSGetRequest,
+  input: GetGuestConfigurationAssignmentReportsVMSSRequest,
   output: GuestConfigurationAssignmentReport,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type GuestConfigurationAssignmentReportsVMSSListError = AzureOpError;
-/** List all reports for the VMSS guest configuration assignment, latest report first. */
-export const GuestConfigurationAssignmentReportsVMSSList: API.OperationMethod<
-  GuestConfigurationAssignmentReportsVMSSListRequest,
-  GuestConfigurationAssignmentReportList,
-  GuestConfigurationAssignmentReportsVMSSListError,
+export type GetGuestConfigurationAssignmentsVMSSError = AzureOpError;
+/** Get information about a guest configuration assignment for VMSS */
+export const GetGuestConfigurationAssignmentsVMSS: API.OperationMethod<
+  GetGuestConfigurationAssignmentsVMSSRequest,
+  GetGuestConfigurationAssignmentsVMSSResponse,
+  GetGuestConfigurationAssignmentsVMSSError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationAssignmentReportsVMSSListRequest,
-  output: GuestConfigurationAssignmentReportList,
+  input: GetGuestConfigurationAssignmentsVMSSRequest,
+  output: GetGuestConfigurationAssignmentsVMSSResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetGuestConfigurationConnectedVMwarevSphereAssignmentError =
+  AzureOpError;
+/** Get information about a guest configuration assignment */
+export const GetGuestConfigurationConnectedVMwarevSphereAssignment: API.OperationMethod<
+  GetGuestConfigurationConnectedVMwarevSphereAssignmentRequest,
+  GetGuestConfigurationConnectedVMwarevSphereAssignmentResponse,
+  GetGuestConfigurationConnectedVMwarevSphereAssignmentError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetGuestConfigurationConnectedVMwarevSphereAssignmentRequest,
+  output: GetGuestConfigurationConnectedVMwarevSphereAssignmentResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetGuestConfigurationConnectedVMwarevSphereAssignmentsReportError =
+  AzureOpError;
+/** Get a report for the guest configuration assignment, by reportId. */
+export const GetGuestConfigurationConnectedVMwarevSphereAssignmentsReport: API.OperationMethod<
+  GetGuestConfigurationConnectedVMwarevSphereAssignmentsReportRequest,
+  GuestConfigurationAssignmentReport,
+  GetGuestConfigurationConnectedVMwarevSphereAssignmentsReportError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetGuestConfigurationConnectedVMwarevSphereAssignmentsReportRequest,
+  output: GuestConfigurationAssignmentReport,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetGuestConfigurationHCRPAssignmentError = AzureOpError;
+/** Get information about a guest configuration assignment */
+export const GetGuestConfigurationHCRPAssignment: API.OperationMethod<
+  GetGuestConfigurationHCRPAssignmentRequest,
+  GetGuestConfigurationHCRPAssignmentResponse,
+  GetGuestConfigurationHCRPAssignmentError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetGuestConfigurationHCRPAssignmentRequest,
+  output: GetGuestConfigurationHCRPAssignmentResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetGuestConfigurationHCRPAssignmentReportError = AzureOpError;
+/** Get a report for the guest configuration assignment, by reportId. */
+export const GetGuestConfigurationHCRPAssignmentReport: API.OperationMethod<
+  GetGuestConfigurationHCRPAssignmentReportRequest,
+  GuestConfigurationAssignmentReport,
+  GetGuestConfigurationHCRPAssignmentReportError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetGuestConfigurationHCRPAssignmentReportRequest,
+  output: GuestConfigurationAssignmentReport,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2393,81 +2563,6 @@ export const GuestConfigurationAssignmentsCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GuestConfigurationAssignmentsDeleteError = AzureOpError;
-/** Delete a guest configuration assignment */
-export const GuestConfigurationAssignmentsDelete: API.OperationMethod<
-  GuestConfigurationAssignmentsDeleteRequest,
-  GuestConfigurationAssignmentsDeleteResponse,
-  GuestConfigurationAssignmentsDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationAssignmentsDeleteRequest,
-  output: GuestConfigurationAssignmentsDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationAssignmentsGetError = AzureOpError;
-/** Get information about a guest configuration assignment */
-export const GuestConfigurationAssignmentsGet: API.OperationMethod<
-  GuestConfigurationAssignmentsGetRequest,
-  GuestConfigurationAssignmentsGetResponse,
-  GuestConfigurationAssignmentsGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationAssignmentsGetRequest,
-  output: GuestConfigurationAssignmentsGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationAssignmentsListError = AzureOpError;
-/** List all guest configuration assignments for a virtual machine. */
-export const GuestConfigurationAssignmentsList: API.OperationMethod<
-  GuestConfigurationAssignmentsListRequest,
-  GuestConfigurationAssignmentList,
-  GuestConfigurationAssignmentsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationAssignmentsListRequest,
-  output: GuestConfigurationAssignmentList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationAssignmentsRGListError = AzureOpError;
-/** List all guest configuration assignments for a resource group. */
-export const GuestConfigurationAssignmentsRGList: API.OperationMethod<
-  GuestConfigurationAssignmentsRGListRequest,
-  GuestConfigurationAssignmentList,
-  GuestConfigurationAssignmentsRGListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationAssignmentsRGListRequest,
-  output: GuestConfigurationAssignmentList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationAssignmentsSubscriptionListError = AzureOpError;
-/** List all guest configuration assignments for a subscription. */
-export const GuestConfigurationAssignmentsSubscriptionList: API.OperationMethod<
-  GuestConfigurationAssignmentsSubscriptionListRequest,
-  GuestConfigurationAssignmentList,
-  GuestConfigurationAssignmentsSubscriptionListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationAssignmentsSubscriptionListRequest,
-  output: GuestConfigurationAssignmentList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GuestConfigurationAssignmentsVMSSCreateOrUpdateError = AzureOpError;
 /** Creates an association between a VMSS and guest configuration */
 export const GuestConfigurationAssignmentsVMSSCreateOrUpdate: API.OperationMethod<
@@ -2478,51 +2573,6 @@ export const GuestConfigurationAssignmentsVMSSCreateOrUpdate: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: GuestConfigurationAssignmentsVMSSCreateOrUpdateRequest,
   output: GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationAssignmentsVMSSDeleteError = AzureOpError;
-/** Delete a guest configuration assignment for VMSS */
-export const GuestConfigurationAssignmentsVMSSDelete: API.OperationMethod<
-  GuestConfigurationAssignmentsVMSSDeleteRequest,
-  GuestConfigurationAssignmentsVMSSDeleteResponse,
-  GuestConfigurationAssignmentsVMSSDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationAssignmentsVMSSDeleteRequest,
-  output: GuestConfigurationAssignmentsVMSSDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationAssignmentsVMSSGetError = AzureOpError;
-/** Get information about a guest configuration assignment for VMSS */
-export const GuestConfigurationAssignmentsVMSSGet: API.OperationMethod<
-  GuestConfigurationAssignmentsVMSSGetRequest,
-  GuestConfigurationAssignmentsVMSSGetResponse,
-  GuestConfigurationAssignmentsVMSSGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationAssignmentsVMSSGetRequest,
-  output: GuestConfigurationAssignmentsVMSSGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationAssignmentsVMSSListError = AzureOpError;
-/** List all guest configuration assignments for VMSS. */
-export const GuestConfigurationAssignmentsVMSSList: API.OperationMethod<
-  GuestConfigurationAssignmentsVMSSListRequest,
-  GuestConfigurationAssignmentList,
-  GuestConfigurationAssignmentsVMSSListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationAssignmentsVMSSListRequest,
-  output: GuestConfigurationAssignmentList,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2546,116 +2596,6 @@ export const GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdate: 
   retry: Retry.Retry,
 }));
 
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteError =
-  AzureOpError;
-/** Delete a guest configuration assignment */
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsDelete: API.OperationMethod<
-  GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteRequest,
-  GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteResponse,
-  GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteRequest,
-  output: GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsGetError =
-  AzureOpError;
-/** Get information about a guest configuration assignment */
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsGet: API.OperationMethod<
-  GuestConfigurationConnectedVMwarevSphereAssignmentsGetRequest,
-  GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponse,
-  GuestConfigurationConnectedVMwarevSphereAssignmentsGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationConnectedVMwarevSphereAssignmentsGetRequest,
-  output: GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsListError =
-  AzureOpError;
-/** List all guest configuration assignments for an ARC machine. */
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsList: API.OperationMethod<
-  GuestConfigurationConnectedVMwarevSphereAssignmentsListRequest,
-  GuestConfigurationAssignmentList,
-  GuestConfigurationConnectedVMwarevSphereAssignmentsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationConnectedVMwarevSphereAssignmentsListRequest,
-  output: GuestConfigurationAssignmentList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetError =
-  AzureOpError;
-/** Get a report for the guest configuration assignment, by reportId. */
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGet: API.OperationMethod<
-  GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetRequest,
-  GuestConfigurationAssignmentReport,
-  GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetRequest,
-  output: GuestConfigurationAssignmentReport,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListError =
-  AzureOpError;
-/** List all reports for the guest configuration assignment, latest report first. */
-export const GuestConfigurationConnectedVMwarevSphereAssignmentsReportsList: API.OperationMethod<
-  GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListRequest,
-  GuestConfigurationAssignmentReportList,
-  GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListRequest,
-  output: GuestConfigurationAssignmentReportList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationHCRPAssignmentReportsGetError = AzureOpError;
-/** Get a report for the guest configuration assignment, by reportId. */
-export const GuestConfigurationHCRPAssignmentReportsGet: API.OperationMethod<
-  GuestConfigurationHCRPAssignmentReportsGetRequest,
-  GuestConfigurationAssignmentReport,
-  GuestConfigurationHCRPAssignmentReportsGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationHCRPAssignmentReportsGetRequest,
-  output: GuestConfigurationAssignmentReport,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GuestConfigurationHCRPAssignmentReportsListError = AzureOpError;
-/** List all reports for the guest configuration assignment, latest report first. */
-export const GuestConfigurationHCRPAssignmentReportsList: API.OperationMethod<
-  GuestConfigurationHCRPAssignmentReportsListRequest,
-  GuestConfigurationAssignmentReportList,
-  GuestConfigurationHCRPAssignmentReportsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationHCRPAssignmentReportsListRequest,
-  output: GuestConfigurationAssignmentReportList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GuestConfigurationHCRPAssignmentsCreateOrUpdateError = AzureOpError;
 /** Creates an association between a ARC machine and guest configuration */
 export const GuestConfigurationHCRPAssignmentsCreateOrUpdate: API.OperationMethod<
@@ -2671,60 +2611,167 @@ export const GuestConfigurationHCRPAssignmentsCreateOrUpdate: API.OperationMetho
   retry: Retry.Retry,
 }));
 
-export type GuestConfigurationHCRPAssignmentsDeleteError = AzureOpError;
-/** Delete a guest configuration assignment */
-export const GuestConfigurationHCRPAssignmentsDelete: API.OperationMethod<
-  GuestConfigurationHCRPAssignmentsDeleteRequest,
-  GuestConfigurationHCRPAssignmentsDeleteResponse,
-  GuestConfigurationHCRPAssignmentsDeleteError,
+export type ListGuestConfigurationAssignmentReportsError = AzureOpError;
+/** List all reports for the guest configuration assignment, latest report first. */
+export const ListGuestConfigurationAssignmentReports: API.OperationMethod<
+  ListGuestConfigurationAssignmentReportsRequest,
+  GuestConfigurationAssignmentReportList,
+  ListGuestConfigurationAssignmentReportsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationHCRPAssignmentsDeleteRequest,
-  output: GuestConfigurationHCRPAssignmentsDeleteResponse,
+  input: ListGuestConfigurationAssignmentReportsRequest,
+  output: GuestConfigurationAssignmentReportList,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type GuestConfigurationHCRPAssignmentsGetError = AzureOpError;
-/** Get information about a guest configuration assignment */
-export const GuestConfigurationHCRPAssignmentsGet: API.OperationMethod<
-  GuestConfigurationHCRPAssignmentsGetRequest,
-  GuestConfigurationHCRPAssignmentsGetResponse,
-  GuestConfigurationHCRPAssignmentsGetError,
+export type ListGuestConfigurationAssignmentReportsVMSSError = AzureOpError;
+/** List all reports for the VMSS guest configuration assignment, latest report first. */
+export const ListGuestConfigurationAssignmentReportsVMSS: API.OperationMethod<
+  ListGuestConfigurationAssignmentReportsVMSSRequest,
+  GuestConfigurationAssignmentReportList,
+  ListGuestConfigurationAssignmentReportsVMSSError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationHCRPAssignmentsGetRequest,
-  output: GuestConfigurationHCRPAssignmentsGetResponse,
+  input: ListGuestConfigurationAssignmentReportsVMSSRequest,
+  output: GuestConfigurationAssignmentReportList,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type GuestConfigurationHCRPAssignmentsListError = AzureOpError;
-/** List all guest configuration assignments for an ARC machine. */
-export const GuestConfigurationHCRPAssignmentsList: API.OperationMethod<
-  GuestConfigurationHCRPAssignmentsListRequest,
+export type ListGuestConfigurationAssignmentsError = AzureOpError;
+/** List all guest configuration assignments for a virtual machine. */
+export const ListGuestConfigurationAssignments: API.OperationMethod<
+  ListGuestConfigurationAssignmentsRequest,
   GuestConfigurationAssignmentList,
-  GuestConfigurationHCRPAssignmentsListError,
+  ListGuestConfigurationAssignmentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: GuestConfigurationHCRPAssignmentsListRequest,
+  input: ListGuestConfigurationAssignmentsRequest,
   output: GuestConfigurationAssignmentList,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type OperationsListError = AzureOpError;
-/** List the operations for the provider */
-export const OperationsList: API.OperationMethod<
-  OperationsListRequest,
-  OperationList,
-  OperationsListError,
+export type ListGuestConfigurationAssignmentsRGError = AzureOpError;
+/** List all guest configuration assignments for a resource group. */
+export const ListGuestConfigurationAssignmentsRG: API.OperationMethod<
+  ListGuestConfigurationAssignmentsRGRequest,
+  GuestConfigurationAssignmentList,
+  ListGuestConfigurationAssignmentsRGError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: OperationsListRequest,
+  input: ListGuestConfigurationAssignmentsRGRequest,
+  output: GuestConfigurationAssignmentList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListGuestConfigurationAssignmentsSubscriptionError = AzureOpError;
+/** List all guest configuration assignments for a subscription. */
+export const ListGuestConfigurationAssignmentsSubscription: API.OperationMethod<
+  ListGuestConfigurationAssignmentsSubscriptionRequest,
+  GuestConfigurationAssignmentList,
+  ListGuestConfigurationAssignmentsSubscriptionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListGuestConfigurationAssignmentsSubscriptionRequest,
+  output: GuestConfigurationAssignmentList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListGuestConfigurationAssignmentsVMSSError = AzureOpError;
+/** List all guest configuration assignments for VMSS. */
+export const ListGuestConfigurationAssignmentsVMSS: API.OperationMethod<
+  ListGuestConfigurationAssignmentsVMSSRequest,
+  GuestConfigurationAssignmentList,
+  ListGuestConfigurationAssignmentsVMSSError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListGuestConfigurationAssignmentsVMSSRequest,
+  output: GuestConfigurationAssignmentList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListGuestConfigurationConnectedVMwarevSphereAssignmentsError =
+  AzureOpError;
+/** List all guest configuration assignments for an ARC machine. */
+export const ListGuestConfigurationConnectedVMwarevSphereAssignments: API.OperationMethod<
+  ListGuestConfigurationConnectedVMwarevSphereAssignmentsRequest,
+  GuestConfigurationAssignmentList,
+  ListGuestConfigurationConnectedVMwarevSphereAssignmentsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListGuestConfigurationConnectedVMwarevSphereAssignmentsRequest,
+  output: GuestConfigurationAssignmentList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListGuestConfigurationConnectedVMwarevSphereAssignmentsReportsError =
+  AzureOpError;
+/** List all reports for the guest configuration assignment, latest report first. */
+export const ListGuestConfigurationConnectedVMwarevSphereAssignmentsReports: API.OperationMethod<
+  ListGuestConfigurationConnectedVMwarevSphereAssignmentsReportsRequest,
+  GuestConfigurationAssignmentReportList,
+  ListGuestConfigurationConnectedVMwarevSphereAssignmentsReportsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListGuestConfigurationConnectedVMwarevSphereAssignmentsReportsRequest,
+  output: GuestConfigurationAssignmentReportList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListGuestConfigurationHCRPAssignmentReportsError = AzureOpError;
+/** List all reports for the guest configuration assignment, latest report first. */
+export const ListGuestConfigurationHCRPAssignmentReports: API.OperationMethod<
+  ListGuestConfigurationHCRPAssignmentReportsRequest,
+  GuestConfigurationAssignmentReportList,
+  ListGuestConfigurationHCRPAssignmentReportsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListGuestConfigurationHCRPAssignmentReportsRequest,
+  output: GuestConfigurationAssignmentReportList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListGuestConfigurationHCRPAssignmentsError = AzureOpError;
+/** List all guest configuration assignments for an ARC machine. */
+export const ListGuestConfigurationHCRPAssignments: API.OperationMethod<
+  ListGuestConfigurationHCRPAssignmentsRequest,
+  GuestConfigurationAssignmentList,
+  ListGuestConfigurationHCRPAssignmentsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListGuestConfigurationHCRPAssignmentsRequest,
+  output: GuestConfigurationAssignmentList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListOperationsError = AzureOpError;
+/** List the operations for the provider */
+export const ListOperations: API.OperationMethod<
+  ListOperationsRequest,
+  OperationList,
+  ListOperationsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOperationsRequest,
   output: OperationList,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,

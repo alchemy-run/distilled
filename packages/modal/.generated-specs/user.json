@@ -1,0 +1,98 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.user#EnvironmentRole": {
+      "type": "enum",
+      "members": {
+        "ENVIRONMENT_ROLE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_ROLE_UNSPECIFIED"
+          }
+        },
+        "ENVIRONMENT_ROLE_VIEWER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_ROLE_VIEWER"
+          }
+        },
+        "ENVIRONMENT_ROLE_CONTRIBUTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_ROLE_CONTRIBUTOR"
+          }
+        },
+        "ENVIRONMENT_ROLE_NO_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_ROLE_NO_ACCESS"
+          }
+        }
+      }
+    },
+    "com.modal.user#SetUserGroupEnvironmentRequest": {
+      "type": "structure",
+      "members": {
+        "environmentId": {
+          "target": "smithy.api#String"
+        },
+        "userGroupId": {
+          "target": "smithy.api#String"
+        },
+        "role": {
+          "target": "com.modal.user#EnvironmentRole"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.user#SetUserGroupEnvironment": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.user#SetUserGroupEnvironmentRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/UserGroupEnvironmentSet",
+          "code": 200
+        },
+        "smithy.api#documentation": "User groups"
+      }
+    },
+    "com.modal.user#UserService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.user#SetUserGroupEnvironment"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal User",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `User`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

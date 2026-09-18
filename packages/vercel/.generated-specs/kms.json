@@ -1,0 +1,4642 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.vercel.kms#ListKmsIssuersRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of issuers to return."
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "next",
+            "smithy.api#documentation": "Continuation cursor to retrieve the next page of results."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemAlgorithm": {
+      "type": "enum",
+      "members": {
+        "ES256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES256"
+          }
+        },
+        "ES384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES384"
+          }
+        },
+        "ES512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES512"
+          }
+        },
+        "EDDSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EdDSA"
+          }
+        },
+        "PS256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS256"
+          }
+        },
+        "PS384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS384"
+          }
+        },
+        "PS512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS512"
+          }
+        },
+        "RS256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS256"
+          }
+        },
+        "RS384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS384"
+          }
+        },
+        "RS512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS512"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemOrigin": {
+      "type": "enum",
+      "members": {
+        "EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external"
+          }
+        },
+        "VERCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemClaimsSchemaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemSigningKeysItemStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "REVOKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revoking"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKeyKeyOpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKeyX5cList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+      }
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKey": {
+      "type": "structure",
+      "members": {
+        "kty": {
+          "target": "smithy.api#String"
+        },
+        "kid": {
+          "target": "smithy.api#String"
+        },
+        "alg": {
+          "target": "smithy.api#String"
+        },
+        "use": {
+          "target": "smithy.api#String"
+        },
+        "key_ops": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKeyKeyOpsList"
+        },
+        "x5c": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKeyX5cList",
+          "traits": {
+            "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+          }
+        },
+        "x5t_S256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9).",
+            "smithy.api#jsonName": "x5t#S256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemSigningKeysItem": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "importKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys."
+          }
+        },
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemSigningKeysItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "publicKey": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKey"
+        },
+        "publicKeyFingerprint": {
+          "target": "smithy.api#String"
+        },
+        "publicKeyPem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it."
+          }
+        },
+        "certificatePem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored."
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "revokeAt": {
+          "target": "smithy.api#String"
+        },
+        "activateAt": {
+          "target": "smithy.api#String"
+        },
+        "activatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemSigningKeysList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemSigningKeysItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase0Kind": {
+      "type": "enum",
+      "members": {
+        "PROJECT_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase0EnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim."
+      }
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase0TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase0Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environments": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase0EnvironmentsList",
+          "traits": {
+            "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim.",
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase0TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase1Kind": {
+      "type": "enum",
+      "members": {
+        "CONNEX_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connex-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase1TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase1": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase1Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase1TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemAlgorithm",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "origin": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemOrigin",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "managedBy": {
+          "target": "smithy.api#String"
+        },
+        "claimsSchema": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemClaimsSchemaMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "signingKeys": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemSigningKeysList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "policies": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItemPoliciesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponseIssuersList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.kms#ListKmsIssuersResponseIssuersItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponsePagination": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ListKmsIssuersResponse": {
+      "type": "structure",
+      "members": {
+        "issuers": {
+          "target": "com.vercel.kms#ListKmsIssuersResponseIssuersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pagination": {
+          "target": "com.vercel.kms#ListKmsIssuersResponsePagination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.kms#ListKmsIssuers": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.kms#ListKmsIssuersRequest"
+      },
+      "output": {
+        "target": "com.vercel.kms#ListKmsIssuersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.kms#BadRequest"
+        },
+        {
+          "target": "com.vercel.kms#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/kms/issuers",
+          "code": 200
+        },
+        "smithy.api#documentation": "List issuers\n\nRetrieve the list of KMS issuers that belong to the authenticated team. The results are paginated."
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerRequestAlgorithm": {
+      "type": "enum",
+      "members": {
+        "RS256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS256"
+          }
+        },
+        "RS384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS384"
+          }
+        },
+        "RS512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS512"
+          }
+        },
+        "PS256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS256"
+          }
+        },
+        "PS384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS384"
+          }
+        },
+        "PS512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS512"
+          }
+        },
+        "ES256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES256"
+          }
+        },
+        "ES384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES384"
+          }
+        },
+        "ES512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES512"
+          }
+        },
+        "EDDSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EdDSA"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The signing algorithm to use for the issuer."
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerRequestClaimsSchemaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "A JSON Schema used to validate the resolved token claims when signing tokens for this issuer."
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerRequestPolicyCase0Kind": {
+      "type": "enum",
+      "members": {
+        "PROJECT_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerRequestPolicyCase0EnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The environments for the project grant policy. Each entry is a system environment (production, preview, development) or a custom environment ID (env_...)."
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerRequestPolicyCase0TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The claims that KMS should include in signed JWTs for this policy."
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerRequestPolicyCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#CreateKmsIssuerRequestPolicyCase0Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The team ID for the project grant policy.",
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID for the project grant policy.",
+            "smithy.api#required": {}
+          }
+        },
+        "environments": {
+          "target": "com.vercel.kms#CreateKmsIssuerRequestPolicyCase0EnvironmentsList",
+          "traits": {
+            "smithy.api#documentation": "The environments for the project grant policy. Each entry is a system environment (production, preview, development) or a custom environment ID (env_...).",
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#CreateKmsIssuerRequestPolicyCase0TokenClaimsMap",
+          "traits": {
+            "smithy.api#documentation": "The claims that KMS should include in signed JWTs for this policy."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerRequestPolicyCase1Kind": {
+      "type": "enum",
+      "members": {
+        "CONNEX_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connex-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerRequestPolicyCase1TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The claims that KMS should include in signed JWTs for this policy."
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerRequestPolicyCase1": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#CreateKmsIssuerRequestPolicyCase1Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Connex client ID for the Connex grant policy.",
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#CreateKmsIssuerRequestPolicyCase1TokenClaimsMap",
+          "traits": {
+            "smithy.api#documentation": "The claims that KMS should include in signed JWTs for this policy."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerRequestPolicy": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.kms#CreateKmsIssuerRequestPolicyCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.kms#CreateKmsIssuerRequestPolicyCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerRequest": {
+      "type": "structure",
+      "members": {
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the issuer.",
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "com.vercel.kms#CreateKmsIssuerRequestAlgorithm",
+          "traits": {
+            "smithy.api#documentation": "The signing algorithm to use for the issuer."
+          }
+        },
+        "claimsSchema": {
+          "target": "com.vercel.kms#CreateKmsIssuerRequestClaimsSchemaMap",
+          "traits": {
+            "smithy.api#documentation": "A JSON Schema used to validate the resolved token claims when signing tokens for this issuer."
+          }
+        },
+        "policy": {
+          "target": "com.vercel.kms#CreateKmsIssuerRequestPolicy"
+        },
+        "importKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The PEM-encoded private key to use for the issuer."
+          }
+        },
+        "importKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The key id to use as the imported key's JWT/JWKS `kid`. Only allowed when `importKey` is provided. Not required to be unique; the addressable key id is the server-minted `keyId` returned in the response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerResponseAlgorithm": {
+      "type": "enum",
+      "members": {
+        "ES256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES256"
+          }
+        },
+        "ES384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES384"
+          }
+        },
+        "ES512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES512"
+          }
+        },
+        "EDDSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EdDSA"
+          }
+        },
+        "PS256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS256"
+          }
+        },
+        "PS384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS384"
+          }
+        },
+        "PS512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS512"
+          }
+        },
+        "RS256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS256"
+          }
+        },
+        "RS384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS384"
+          }
+        },
+        "RS512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS512"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponseOrigin": {
+      "type": "enum",
+      "members": {
+        "EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external"
+          }
+        },
+        "VERCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponseClaimsSchemaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponseSigningKeysItemStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "REVOKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revoking"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponseSigningKeysItemPublicKeyX5cList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerResponseSigningKeysItemPublicKey": {
+      "type": "structure",
+      "members": {
+        "kty": {
+          "target": "smithy.api#String"
+        },
+        "kid": {
+          "target": "smithy.api#String"
+        },
+        "alg": {
+          "target": "smithy.api#String"
+        },
+        "use": {
+          "target": "smithy.api#String"
+        },
+        "key_ops": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList"
+        },
+        "x5c": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponseSigningKeysItemPublicKeyX5cList",
+          "traits": {
+            "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+          }
+        },
+        "x5t_S256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9).",
+            "smithy.api#jsonName": "x5t#S256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponseSigningKeysItem": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "importKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys."
+          }
+        },
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponseSigningKeysItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "publicKey": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponseSigningKeysItemPublicKey"
+        },
+        "publicKeyFingerprint": {
+          "target": "smithy.api#String"
+        },
+        "publicKeyPem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it."
+          }
+        },
+        "certificatePem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored."
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "revokeAt": {
+          "target": "smithy.api#String"
+        },
+        "activateAt": {
+          "target": "smithy.api#String"
+        },
+        "activatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponseSigningKeysList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.kms#CreateKmsIssuerResponseSigningKeysItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase0Kind": {
+      "type": "enum",
+      "members": {
+        "PROJECT_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase0EnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim."
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase0TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase0Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environments": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase0EnvironmentsList",
+          "traits": {
+            "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim.",
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase0TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase1Kind": {
+      "type": "enum",
+      "members": {
+        "CONNEX_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connex-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase1TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase1": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase1Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase1TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponsePoliciesItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponsePoliciesItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponsePoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.kms#CreateKmsIssuerResponsePoliciesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponseAlgorithm",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "origin": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponseOrigin",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "managedBy": {
+          "target": "smithy.api#String"
+        },
+        "claimsSchema": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponseClaimsSchemaMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "signingKeys": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponseSigningKeysList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "policies": {
+          "target": "com.vercel.kms#CreateKmsIssuerResponsePoliciesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuer": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.kms#CreateKmsIssuerRequest"
+      },
+      "output": {
+        "target": "com.vercel.kms#CreateKmsIssuerResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.kms#BadRequest"
+        },
+        {
+          "target": "com.vercel.kms#Forbidden"
+        },
+        {
+          "target": "com.vercel.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/kms/issuers",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an issuer\n\nCreate a new KMS issuer for the authenticated team. An issuer owns the asymmetric signing keys that are used to sign tokens and messages."
+      }
+    },
+    "com.vercel.kms#SignKmsMessageRequest": {
+      "type": "structure",
+      "members": {
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the issuer."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Base64-encoded message to be signed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.kms#SignKmsMessageResponseSignatureHeaderCritList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "JWS \"crit\" (Critical) Header Parameter"
+      }
+    },
+    "com.vercel.kms#SignKmsMessageResponseSignatureHeaderX5cList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "\"x5c\" (X.509 Certificate Chain) Header Parameter"
+      }
+    },
+    "com.vercel.kms#SignKmsMessageResponseSignatureHeaderJwk": {
+      "type": "structure",
+      "members": {
+        "n": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RSA JWK \"n\" (Modulus) Parameter"
+          }
+        },
+        "e": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RSA JWK \"e\" (Exponent) Parameter"
+          }
+        },
+        "kty": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JWK \"kty\" (Key Type) Parameter"
+          }
+        },
+        "crv": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "- EC JWK \"crv\" (Curve) Parameter - OKP JWK \"crv\" (The Subtype of Key Pair) Parameter"
+          }
+        },
+        "x": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "- EC JWK \"x\" (X Coordinate) Parameter - OKP JWK \"x\" (The public key) Parameter"
+          }
+        },
+        "y": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EC JWK \"y\" (Y Coordinate) Parameter"
+          }
+        },
+        "alg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JWK \"alg\" (Algorithm) Parameter"
+          }
+        },
+        "pub": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AKP JWK \"pub\" (Public Key) Parameter"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "\"jwk\" (JSON Web Key) Header Parameter"
+      }
+    },
+    "com.vercel.kms#SignKmsMessageResponseSignatureHeader": {
+      "type": "structure",
+      "members": {
+        "alg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JWS \"alg\" (Algorithm) Header Parameter"
+          }
+        },
+        "b64": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "This JWS Extension Header Parameter modifies the JWS Payload representation and the JWS Signing Input computation as per {@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}."
+          }
+        },
+        "crit": {
+          "target": "com.vercel.kms#SignKmsMessageResponseSignatureHeaderCritList",
+          "traits": {
+            "smithy.api#documentation": "JWS \"crit\" (Critical) Header Parameter"
+          }
+        },
+        "kid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "\"kid\" (Key ID) Header Parameter"
+          }
+        },
+        "x5t": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "\"x5t\" (X.509 Certificate SHA-1 Thumbprint) Header Parameter"
+          }
+        },
+        "x5c": {
+          "target": "com.vercel.kms#SignKmsMessageResponseSignatureHeaderX5cList",
+          "traits": {
+            "smithy.api#documentation": "\"x5c\" (X.509 Certificate Chain) Header Parameter"
+          }
+        },
+        "x5u": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "\"x5u\" (X.509 URL) Header Parameter"
+          }
+        },
+        "jku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "\"jku\" (JWK Set URL) Header Parameter"
+          }
+        },
+        "jwk": {
+          "target": "com.vercel.kms#SignKmsMessageResponseSignatureHeaderJwk",
+          "traits": {
+            "smithy.api#documentation": "\"jwk\" (JSON Web Key) Header Parameter"
+          }
+        },
+        "typ": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "\"typ\" (Type) Header Parameter"
+          }
+        },
+        "cty": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "\"cty\" (Content Type) Header Parameter"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The \"header\" member MUST be present and contain the value JWS Unprotected Header when the JWS Unprotected Header value is non- empty; otherwise, it MUST be absent. This value is represented as an unencoded JSON object, rather than as a string. These Header Parameter values are not integrity protected."
+      }
+    },
+    "com.vercel.kms#SignKmsMessageResponseSignature": {
+      "type": "structure",
+      "members": {
+        "payload": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "header": {
+          "target": "com.vercel.kms#SignKmsMessageResponseSignatureHeader",
+          "traits": {
+            "smithy.api#documentation": "The \"header\" member MUST be present and contain the value JWS Unprotected Header when the JWS Unprotected Header value is non- empty; otherwise, it MUST be absent. This value is represented as an unencoded JSON object, rather than as a string. These Header Parameter values are not integrity protected."
+          }
+        },
+        "protected": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The \"protected\" member MUST be present and contain the value BASE64URL(UTF8(JWS Protected Header)) when the JWS Protected Header value is non-empty; otherwise, it MUST be absent. These Header Parameter values are integrity protected."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Flattened JWS JSON Serialization Syntax token. Payload is returned as an empty string when JWS Unencoded Payload ({@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}) is used."
+      }
+    },
+    "com.vercel.kms#SignKmsMessageResponse": {
+      "type": "structure",
+      "members": {
+        "signature": {
+          "target": "com.vercel.kms#SignKmsMessageResponseSignature",
+          "traits": {
+            "smithy.api#documentation": "Flattened JWS JSON Serialization Syntax token. Payload is returned as an empty string when JWS Unencoded Payload ({@link https://www.rfc-editor.org/rfc/rfc7797 RFC7797}) is used.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.kms#SignKmsMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.kms#SignKmsMessageRequest"
+      },
+      "output": {
+        "target": "com.vercel.kms#SignKmsMessageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.kms#BadRequest"
+        },
+        {
+          "target": "com.vercel.kms#Forbidden"
+        },
+        {
+          "target": "com.vercel.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/kms/issuers/{issuerId}/sign/message",
+          "code": 200
+        },
+        "smithy.api#documentation": "Sign a message\n\nSign a raw message with a KMS issuer's active signing key. Authenticate the request with a Vercel OIDC token in the `Authorization: Bearer` header; the issuer's policies decide which workloads are allowed to sign."
+      }
+    },
+    "com.vercel.kms#SignKmsTokenRequest": {
+      "type": "structure",
+      "members": {
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the issuer."
+          }
+        },
+        "claims": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The claims to include in the token."
+          }
+        },
+        "headers": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Additional headers to include in the token."
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The time-to-live for the token, in seconds.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.kms#SignKmsTokenResponse": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.kms#SignKmsToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.kms#SignKmsTokenRequest"
+      },
+      "output": {
+        "target": "com.vercel.kms#SignKmsTokenResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.kms#BadRequest"
+        },
+        {
+          "target": "com.vercel.kms#Forbidden"
+        },
+        {
+          "target": "com.vercel.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/kms/issuers/{issuerId}/sign/token",
+          "code": 200
+        },
+        "smithy.api#documentation": "Sign a token\n\nSign a JWT with a KMS issuer's active signing key. Authenticate the request with a Vercel OIDC token in the `Authorization: Bearer` header; the issuer's policies decide which workloads are allowed to sign."
+      }
+    },
+    "com.vercel.kms#CreateKmsSigningKeyRequestActivation": {
+      "type": "enum",
+      "members": {
+        "AUTOMATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "automatic"
+          }
+        },
+        "MANUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the new key is activated automatically after its public key has propagated, or manually via the activate endpoint. Defaults to `automatic`."
+      }
+    },
+    "com.vercel.kms#CreateKmsSigningKeyRequestRevokePreviousAt": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Deprecated. The ISO date string or timestamp when the previous signing key should stop being used. Converted to a relative grace and applied at activation, not creation. Prefer revokePreviousAfterHours."
+      }
+    },
+    "com.vercel.kms#CreateKmsSigningKeyRequest": {
+      "type": "structure",
+      "members": {
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the issuer."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        },
+        "activation": {
+          "target": "com.vercel.kms#CreateKmsSigningKeyRequestActivation",
+          "traits": {
+            "smithy.api#documentation": "Whether the new key is activated automatically after its public key has propagated, or manually via the activate endpoint. Defaults to `automatic`."
+          }
+        },
+        "revokePreviousAfterHours": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "For automatic activation, how many hours after activation the previous signing key should stop being used. Defaults to a 1 hour grace period so already-issued tokens keep verifying."
+          }
+        },
+        "revokePreviousAt": {
+          "target": "com.vercel.kms#CreateKmsSigningKeyRequestRevokePreviousAt",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. The ISO date string or timestamp when the previous signing key should stop being used. Converted to a relative grace and applied at activation, not creation. Prefer revokePreviousAfterHours."
+          }
+        },
+        "importKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The PEM-encoded private key to use for the issuer."
+          }
+        },
+        "importKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The key id to use as the imported key's JWT/JWKS `kid`. Only allowed when `importKey` is provided. Not required to be unique; the addressable key id is the server-minted `keyId` returned in the response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.kms#CreateKmsSigningKeyResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "REVOKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revoking"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsSigningKeyResponsePublicKeyKeyOpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsSigningKeyResponsePublicKeyX5cList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+      }
+    },
+    "com.vercel.kms#CreateKmsSigningKeyResponsePublicKey": {
+      "type": "structure",
+      "members": {
+        "kty": {
+          "target": "smithy.api#String"
+        },
+        "kid": {
+          "target": "smithy.api#String"
+        },
+        "alg": {
+          "target": "smithy.api#String"
+        },
+        "use": {
+          "target": "smithy.api#String"
+        },
+        "key_ops": {
+          "target": "com.vercel.kms#CreateKmsSigningKeyResponsePublicKeyKeyOpsList"
+        },
+        "x5c": {
+          "target": "com.vercel.kms#CreateKmsSigningKeyResponsePublicKeyX5cList",
+          "traits": {
+            "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+          }
+        },
+        "x5t_S256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9).",
+            "smithy.api#jsonName": "x5t#S256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsSigningKeyResponse": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "importKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys."
+          }
+        },
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.vercel.kms#CreateKmsSigningKeyResponseStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "publicKey": {
+          "target": "com.vercel.kms#CreateKmsSigningKeyResponsePublicKey"
+        },
+        "publicKeyFingerprint": {
+          "target": "smithy.api#String"
+        },
+        "publicKeyPem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it."
+          }
+        },
+        "certificatePem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored."
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "revokeAt": {
+          "target": "smithy.api#String"
+        },
+        "activateAt": {
+          "target": "smithy.api#String"
+        },
+        "activatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.kms#CreateKmsSigningKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.kms#CreateKmsSigningKeyRequest"
+      },
+      "output": {
+        "target": "com.vercel.kms#CreateKmsSigningKeyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.kms#BadRequest"
+        },
+        {
+          "target": "com.vercel.kms#Forbidden"
+        },
+        {
+          "target": "com.vercel.kms#NotFound"
+        },
+        {
+          "target": "com.vercel.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/kms/issuers/{issuerId}/keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a signing key\n\nCreate a new signing key for a KMS issuer. Depending on the activation mode, the key is activated automatically once its public key has propagated, or manually via the activate endpoint."
+      }
+    },
+    "com.vercel.kms#ActivateKmsSigningKeyRequest": {
+      "type": "structure",
+      "members": {
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the issuer."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the pending signing key to activate."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        },
+        "revokePreviousAfterHours": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "How many hours after activation the previously-active key should stop being used. Defaults to a 1 hour grace period so already-issued tokens keep verifying."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.kms#ActivateKmsSigningKeyResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "REVOKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revoking"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ActivateKmsSigningKeyResponsePublicKeyKeyOpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ActivateKmsSigningKeyResponsePublicKeyX5cList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+      }
+    },
+    "com.vercel.kms#ActivateKmsSigningKeyResponsePublicKey": {
+      "type": "structure",
+      "members": {
+        "kty": {
+          "target": "smithy.api#String"
+        },
+        "kid": {
+          "target": "smithy.api#String"
+        },
+        "alg": {
+          "target": "smithy.api#String"
+        },
+        "use": {
+          "target": "smithy.api#String"
+        },
+        "key_ops": {
+          "target": "com.vercel.kms#ActivateKmsSigningKeyResponsePublicKeyKeyOpsList"
+        },
+        "x5c": {
+          "target": "com.vercel.kms#ActivateKmsSigningKeyResponsePublicKeyX5cList",
+          "traits": {
+            "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+          }
+        },
+        "x5t_S256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9).",
+            "smithy.api#jsonName": "x5t#S256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#ActivateKmsSigningKeyResponse": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "importKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys."
+          }
+        },
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.vercel.kms#ActivateKmsSigningKeyResponseStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "publicKey": {
+          "target": "com.vercel.kms#ActivateKmsSigningKeyResponsePublicKey"
+        },
+        "publicKeyFingerprint": {
+          "target": "smithy.api#String"
+        },
+        "publicKeyPem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it."
+          }
+        },
+        "certificatePem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored."
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "revokeAt": {
+          "target": "smithy.api#String"
+        },
+        "activateAt": {
+          "target": "smithy.api#String"
+        },
+        "activatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.kms#ActivateKmsSigningKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.kms#ActivateKmsSigningKeyRequest"
+      },
+      "output": {
+        "target": "com.vercel.kms#ActivateKmsSigningKeyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.kms#BadRequest"
+        },
+        {
+          "target": "com.vercel.kms#Forbidden"
+        },
+        {
+          "target": "com.vercel.kms#NotFound"
+        },
+        {
+          "target": "com.vercel.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/kms/issuers/{issuerId}/keys/{keyId}/activate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Activate a signing key\n\nActivate a pending signing key so the issuer starts signing with it."
+      }
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyRequest": {
+      "type": "structure",
+      "members": {
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the issuer."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the signing key to revoke immediately. The key must already be scheduled for revocation."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponseAlgorithm": {
+      "type": "enum",
+      "members": {
+        "ES256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES256"
+          }
+        },
+        "ES384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES384"
+          }
+        },
+        "ES512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES512"
+          }
+        },
+        "EDDSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EdDSA"
+          }
+        },
+        "PS256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS256"
+          }
+        },
+        "PS384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS384"
+          }
+        },
+        "PS512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS512"
+          }
+        },
+        "RS256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS256"
+          }
+        },
+        "RS384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS384"
+          }
+        },
+        "RS512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS512"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponseOrigin": {
+      "type": "enum",
+      "members": {
+        "EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external"
+          }
+        },
+        "VERCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponseClaimsSchemaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponseSigningKeysItemStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "REVOKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revoking"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponseSigningKeysItemPublicKeyKeyOpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponseSigningKeysItemPublicKeyX5cList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+      }
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponseSigningKeysItemPublicKey": {
+      "type": "structure",
+      "members": {
+        "kty": {
+          "target": "smithy.api#String"
+        },
+        "kid": {
+          "target": "smithy.api#String"
+        },
+        "alg": {
+          "target": "smithy.api#String"
+        },
+        "use": {
+          "target": "smithy.api#String"
+        },
+        "key_ops": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponseSigningKeysItemPublicKeyKeyOpsList"
+        },
+        "x5c": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponseSigningKeysItemPublicKeyX5cList",
+          "traits": {
+            "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+          }
+        },
+        "x5t_S256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9).",
+            "smithy.api#jsonName": "x5t#S256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponseSigningKeysItem": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "importKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys."
+          }
+        },
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponseSigningKeysItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "publicKey": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponseSigningKeysItemPublicKey"
+        },
+        "publicKeyFingerprint": {
+          "target": "smithy.api#String"
+        },
+        "publicKeyPem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it."
+          }
+        },
+        "certificatePem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored."
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "revokeAt": {
+          "target": "smithy.api#String"
+        },
+        "activateAt": {
+          "target": "smithy.api#String"
+        },
+        "activatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponseSigningKeysList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.kms#RevokeKmsSigningKeyResponseSigningKeysItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase0Kind": {
+      "type": "enum",
+      "members": {
+        "PROJECT_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase0EnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim."
+      }
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase0TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase0Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environments": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase0EnvironmentsList",
+          "traits": {
+            "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim.",
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase0TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase1Kind": {
+      "type": "enum",
+      "members": {
+        "CONNEX_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connex-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase1TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase1": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase1Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase1TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#RevokeKmsSigningKeyResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponseAlgorithm",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "origin": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponseOrigin",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "managedBy": {
+          "target": "smithy.api#String"
+        },
+        "claimsSchema": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponseClaimsSchemaMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "signingKeys": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponseSigningKeysList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "policies": {
+          "target": "com.vercel.kms#RevokeKmsSigningKeyResponsePoliciesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.kms#RevokeKmsSigningKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.kms#RevokeKmsSigningKeyRequest"
+      },
+      "output": {
+        "target": "com.vercel.kms#RevokeKmsSigningKeyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.kms#BadRequest"
+        },
+        {
+          "target": "com.vercel.kms#Forbidden"
+        },
+        {
+          "target": "com.vercel.kms#NotFound"
+        },
+        {
+          "target": "com.vercel.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/kms/issuers/{issuerId}/keys/{keyId}/revoke",
+          "code": 200
+        },
+        "smithy.api#documentation": "Revoke a signing key\n\nImmediately revoke a signing key that is already scheduled for revocation."
+      }
+    },
+    "com.vercel.kms#GetKmsIssuerRequest": {
+      "type": "structure",
+      "members": {
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the issuer."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.kms#GetKmsIssuerResponseAlgorithm": {
+      "type": "enum",
+      "members": {
+        "ES256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES256"
+          }
+        },
+        "ES384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES384"
+          }
+        },
+        "ES512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES512"
+          }
+        },
+        "EDDSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EdDSA"
+          }
+        },
+        "PS256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS256"
+          }
+        },
+        "PS384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS384"
+          }
+        },
+        "PS512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS512"
+          }
+        },
+        "RS256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS256"
+          }
+        },
+        "RS384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS384"
+          }
+        },
+        "RS512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS512"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponseOrigin": {
+      "type": "enum",
+      "members": {
+        "EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external"
+          }
+        },
+        "VERCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponseClaimsSchemaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponseSigningKeysItemStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "REVOKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revoking"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponseSigningKeysItemPublicKeyX5cList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+      }
+    },
+    "com.vercel.kms#GetKmsIssuerResponseSigningKeysItemPublicKey": {
+      "type": "structure",
+      "members": {
+        "kty": {
+          "target": "smithy.api#String"
+        },
+        "kid": {
+          "target": "smithy.api#String"
+        },
+        "alg": {
+          "target": "smithy.api#String"
+        },
+        "use": {
+          "target": "smithy.api#String"
+        },
+        "key_ops": {
+          "target": "com.vercel.kms#GetKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList"
+        },
+        "x5c": {
+          "target": "com.vercel.kms#GetKmsIssuerResponseSigningKeysItemPublicKeyX5cList",
+          "traits": {
+            "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+          }
+        },
+        "x5t_S256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9).",
+            "smithy.api#jsonName": "x5t#S256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponseSigningKeysItem": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "importKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys."
+          }
+        },
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.vercel.kms#GetKmsIssuerResponseSigningKeysItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "publicKey": {
+          "target": "com.vercel.kms#GetKmsIssuerResponseSigningKeysItemPublicKey"
+        },
+        "publicKeyFingerprint": {
+          "target": "smithy.api#String"
+        },
+        "publicKeyPem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it."
+          }
+        },
+        "certificatePem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored."
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "revokeAt": {
+          "target": "smithy.api#String"
+        },
+        "activateAt": {
+          "target": "smithy.api#String"
+        },
+        "activatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponseSigningKeysList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.kms#GetKmsIssuerResponseSigningKeysItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase0Kind": {
+      "type": "enum",
+      "members": {
+        "PROJECT_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase0EnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim."
+      }
+    },
+    "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase0TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase0Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environments": {
+          "target": "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase0EnvironmentsList",
+          "traits": {
+            "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim.",
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase0TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase1Kind": {
+      "type": "enum",
+      "members": {
+        "CONNEX_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connex-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase1TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase1": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase1Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase1TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponsePoliciesItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.kms#GetKmsIssuerResponsePoliciesItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponsePoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.kms#GetKmsIssuerResponsePoliciesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#GetKmsIssuerResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "com.vercel.kms#GetKmsIssuerResponseAlgorithm",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "origin": {
+          "target": "com.vercel.kms#GetKmsIssuerResponseOrigin",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "managedBy": {
+          "target": "smithy.api#String"
+        },
+        "claimsSchema": {
+          "target": "com.vercel.kms#GetKmsIssuerResponseClaimsSchemaMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "signingKeys": {
+          "target": "com.vercel.kms#GetKmsIssuerResponseSigningKeysList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "policies": {
+          "target": "com.vercel.kms#GetKmsIssuerResponsePoliciesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.kms#GetKmsIssuer": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.kms#GetKmsIssuerRequest"
+      },
+      "output": {
+        "target": "com.vercel.kms#GetKmsIssuerResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.kms#BadRequest"
+        },
+        {
+          "target": "com.vercel.kms#Forbidden"
+        },
+        {
+          "target": "com.vercel.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/kms/issuers/{issuerId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get an issuer\n\nRetrieve a single KMS issuer by its ID. Accepts either a team bearer token (existing path) or an OIDC token authorized by one of the issuer's policies (e.g. a connex-grant token). The OIDC path returns the issuer without policies, since a policy token only proves signing access, not management access."
+      }
+    },
+    "com.vercel.kms#UpdateKmsIssuerRequestClaimsSchemaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "A JSON Schema used to validate the resolved token claims when signing tokens for this issuer. Pass null to remove it."
+      }
+    },
+    "com.vercel.kms#UpdateKmsIssuerRequest": {
+      "type": "structure",
+      "members": {
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the issuer."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the issuer."
+          }
+        },
+        "claimsSchema": {
+          "target": "com.vercel.kms#UpdateKmsIssuerRequestClaimsSchemaMap",
+          "traits": {
+            "smithy.api#documentation": "A JSON Schema used to validate the resolved token claims when signing tokens for this issuer. Pass null to remove it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponseAlgorithm": {
+      "type": "enum",
+      "members": {
+        "ES256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES256"
+          }
+        },
+        "ES384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES384"
+          }
+        },
+        "ES512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ES512"
+          }
+        },
+        "EDDSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EdDSA"
+          }
+        },
+        "PS256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS256"
+          }
+        },
+        "PS384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS384"
+          }
+        },
+        "PS512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS512"
+          }
+        },
+        "RS256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS256"
+          }
+        },
+        "RS384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS384"
+          }
+        },
+        "RS512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RS512"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponseOrigin": {
+      "type": "enum",
+      "members": {
+        "EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external"
+          }
+        },
+        "VERCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponseClaimsSchemaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponseSigningKeysItemStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "REVOKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revoking"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponseSigningKeysItemPublicKeyX5cList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+      }
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponseSigningKeysItemPublicKey": {
+      "type": "structure",
+      "members": {
+        "kty": {
+          "target": "smithy.api#String"
+        },
+        "kid": {
+          "target": "smithy.api#String"
+        },
+        "alg": {
+          "target": "smithy.api#String"
+        },
+        "use": {
+          "target": "smithy.api#String"
+        },
+        "key_ops": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList"
+        },
+        "x5c": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponseSigningKeysItemPublicKeyX5cList",
+          "traits": {
+            "smithy.api#documentation": "The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`."
+          }
+        },
+        "x5t_S256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9).",
+            "smithy.api#jsonName": "x5t#S256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponseSigningKeysItem": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "importKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys."
+          }
+        },
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponseSigningKeysItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "publicKey": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponseSigningKeysItemPublicKey"
+        },
+        "publicKeyFingerprint": {
+          "target": "smithy.api#String"
+        },
+        "publicKeyPem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it."
+          }
+        },
+        "certificatePem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored."
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "revokeAt": {
+          "target": "smithy.api#String"
+        },
+        "activateAt": {
+          "target": "smithy.api#String"
+        },
+        "activatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponseSigningKeysList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.kms#UpdateKmsIssuerResponseSigningKeysItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase0Kind": {
+      "type": "enum",
+      "members": {
+        "PROJECT_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase0EnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim."
+      }
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase0TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase0Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environments": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase0EnvironmentsList",
+          "traits": {
+            "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim.",
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase0TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase1Kind": {
+      "type": "enum",
+      "members": {
+        "CONNEX_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connex-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase1TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase1": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase1Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase1TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponsePoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.kms#UpdateKmsIssuerResponsePoliciesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponseAlgorithm",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "origin": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponseOrigin",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "managedBy": {
+          "target": "smithy.api#String"
+        },
+        "claimsSchema": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponseClaimsSchemaMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "signingKeys": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponseSigningKeysList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "policies": {
+          "target": "com.vercel.kms#UpdateKmsIssuerResponsePoliciesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.kms#UpdateKmsIssuer": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.kms#UpdateKmsIssuerRequest"
+      },
+      "output": {
+        "target": "com.vercel.kms#UpdateKmsIssuerResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.kms#BadRequest"
+        },
+        {
+          "target": "com.vercel.kms#Forbidden"
+        },
+        {
+          "target": "com.vercel.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/kms/issuers/{issuerId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update an issuer\n\nUpdate a KMS issuer's name or claims schema."
+      }
+    },
+    "com.vercel.kms#DeleteKmsIssuerRequest": {
+      "type": "structure",
+      "members": {
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the issuer."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.kms#DeleteKmsIssuer": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.kms#DeleteKmsIssuerRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.kms#BadRequest"
+        },
+        {
+          "target": "com.vercel.kms#Forbidden"
+        },
+        {
+          "target": "com.vercel.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/kms/issuers/{issuerId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete an issuer\n\nDelete a KMS issuer and its signing keys."
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicyRequestKind": {
+      "type": "enum",
+      "members": {
+        "PROJECT_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicyRequestEnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The environments for the project grant policy. Each entry is a system environment (production, preview, development) or a custom environment ID (env_...)."
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicyRequestTokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The claims that KMS should include in signed JWTs for this policy."
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the issuer."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        },
+        "kind": {
+          "target": "com.vercel.kms#CreateKmsIssuerPolicyRequestKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID for the project grant policy.",
+            "smithy.api#required": {}
+          }
+        },
+        "environments": {
+          "target": "com.vercel.kms#CreateKmsIssuerPolicyRequestEnvironmentsList",
+          "traits": {
+            "smithy.api#documentation": "The environments for the project grant policy. Each entry is a system environment (production, preview, development) or a custom environment ID (env_...).",
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#CreateKmsIssuerPolicyRequestTokenClaimsMap",
+          "traits": {
+            "smithy.api#documentation": "The claims that KMS should include in signed JWTs for this policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase0Kind": {
+      "type": "enum",
+      "members": {
+        "PROJECT_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase0EnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim."
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase0TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase0Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environments": {
+          "target": "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase0EnvironmentsList",
+          "traits": {
+            "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim.",
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase0TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase1Kind": {
+      "type": "enum",
+      "members": {
+        "CONNEX_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connex-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase1TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase1": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase1Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase1TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicyResponseBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.kms#CreateKmsIssuerPolicyResponseBodyCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.vercel.kms#CreateKmsIssuerPolicyResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.kms#CreateKmsIssuerPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.kms#CreateKmsIssuerPolicyRequest"
+      },
+      "output": {
+        "target": "com.vercel.kms#CreateKmsIssuerPolicyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.kms#BadRequest"
+        },
+        {
+          "target": "com.vercel.kms#Forbidden"
+        },
+        {
+          "target": "com.vercel.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/kms/issuers/{issuerId}/policies",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an issuer policy\n\nAttach a policy to a KMS issuer that grants a project's deployments permission to sign with it."
+      }
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicyRequestKind": {
+      "type": "enum",
+      "members": {
+        "PROJECT_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-grant"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The issuer policy kind."
+      }
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicyRequestEnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The environments for the project grant policy. Each entry is a system environment (production, preview, development) or a custom environment ID (env_...)."
+      }
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicyRequestTokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The claims that KMS should include in signed JWTs for this policy. Pass null to remove them."
+      }
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the issuer."
+          }
+        },
+        "kind": {
+          "target": "com.vercel.kms#UpdateKmsIssuerPolicyRequestKind",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The issuer policy kind."
+          }
+        },
+        "policyKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The policy identifier."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        },
+        "environments": {
+          "target": "com.vercel.kms#UpdateKmsIssuerPolicyRequestEnvironmentsList",
+          "traits": {
+            "smithy.api#documentation": "The environments for the project grant policy. Each entry is a system environment (production, preview, development) or a custom environment ID (env_...)."
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#UpdateKmsIssuerPolicyRequestTokenClaimsMap",
+          "traits": {
+            "smithy.api#documentation": "The claims that KMS should include in signed JWTs for this policy. Pass null to remove them.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase0Kind": {
+      "type": "enum",
+      "members": {
+        "PROJECT_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase0EnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim."
+      }
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase0TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase0Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environments": {
+          "target": "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase0EnvironmentsList",
+          "traits": {
+            "smithy.api#documentation": "Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim.",
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase0TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase1Kind": {
+      "type": "enum",
+      "members": {
+        "CONNEX_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connex-grant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase1TokenClaimsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase1": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase1Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tokenClaims": {
+          "target": "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase1TokenClaimsMap"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicyResponseBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.kms#UpdateKmsIssuerPolicyResponseBodyCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.vercel.kms#UpdateKmsIssuerPolicyResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.kms#UpdateKmsIssuerPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.kms#UpdateKmsIssuerPolicyRequest"
+      },
+      "output": {
+        "target": "com.vercel.kms#UpdateKmsIssuerPolicyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.kms#BadRequest"
+        },
+        {
+          "target": "com.vercel.kms#Forbidden"
+        },
+        {
+          "target": "com.vercel.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/kms/issuers/{issuerId}/policies/{kind}/{policyKey}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update an issuer policy\n\nUpdate an existing KMS issuer policy's environments or token claims."
+      }
+    },
+    "com.vercel.kms#DeleteKmsIssuerPolicyRequestKind": {
+      "type": "enum",
+      "members": {
+        "PROJECT_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-grant"
+          }
+        },
+        "CONNEX_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connex-grant"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The issuer policy kind."
+      }
+    },
+    "com.vercel.kms#DeleteKmsIssuerPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "issuerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the issuer."
+          }
+        },
+        "kind": {
+          "target": "com.vercel.kms#DeleteKmsIssuerPolicyRequestKind",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The issuer policy kind."
+          }
+        },
+        "policyKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The policy identifier."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.kms#DeleteKmsIssuerPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.kms#DeleteKmsIssuerPolicyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.kms#BadRequest"
+        },
+        {
+          "target": "com.vercel.kms#Forbidden"
+        },
+        {
+          "target": "com.vercel.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/kms/issuers/{issuerId}/policies/{kind}/{policyKey}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete an issuer policy\n\nRemove a policy from a KMS issuer."
+      }
+    },
+    "com.vercel.kms#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.vercel.kms#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.vercel.kms#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.vercel.kms#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.vercel.kms#Kms": {
+      "type": "service",
+      "version": "0.0.1",
+      "operations": [
+        {
+          "target": "com.vercel.kms#ListKmsIssuers"
+        },
+        {
+          "target": "com.vercel.kms#CreateKmsIssuer"
+        },
+        {
+          "target": "com.vercel.kms#SignKmsMessage"
+        },
+        {
+          "target": "com.vercel.kms#SignKmsToken"
+        },
+        {
+          "target": "com.vercel.kms#CreateKmsSigningKey"
+        },
+        {
+          "target": "com.vercel.kms#ActivateKmsSigningKey"
+        },
+        {
+          "target": "com.vercel.kms#RevokeKmsSigningKey"
+        },
+        {
+          "target": "com.vercel.kms#GetKmsIssuer"
+        },
+        {
+          "target": "com.vercel.kms#UpdateKmsIssuer"
+        },
+        {
+          "target": "com.vercel.kms#DeleteKmsIssuer"
+        },
+        {
+          "target": "com.vercel.kms#CreateKmsIssuerPolicy"
+        },
+        {
+          "target": "com.vercel.kms#UpdateKmsIssuerPolicy"
+        },
+        {
+          "target": "com.vercel.kms#DeleteKmsIssuerPolicy"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Vercel API",
+        "smithy.api#documentation": "Vercel combines the best developer experience with an obsessive focus on end-user performance. Our platform enables frontend teams to do their best work."
+      }
+    }
+  }
+}

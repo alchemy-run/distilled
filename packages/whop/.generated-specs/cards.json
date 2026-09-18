@@ -1,0 +1,2431 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.cards#ListCardTransactionsRequestTransactionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.cards#ListCardTransactionsRequestCardIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.cards#ListCardTransactionsRequestCardholderIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.cards#ListCardTransactionsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "REVERSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reversed"
+          }
+        },
+        "DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "declined"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.cards#ListCardTransactionsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.cards#ListCardTransactionsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.cards#ListCardTransactionsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The account whose card transactions to list, prefixed `biz_`. Defaults to the credential's account."
+          }
+        },
+        "transaction_ids": {
+          "target": "com.whop.cards#ListCardTransactionsRequestTransactionIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "transaction_ids",
+            "smithy.api#documentation": "Return only these card transactions, each prefixed `citx_`. Repeat the parameter, or pass one comma-separated value."
+          }
+        },
+        "card_id": {
+          "target": "com.whop.cards#ListCardTransactionsRequestCardIdList",
+          "traits": {
+            "smithy.api#httpQuery": "card_id",
+            "smithy.api#documentation": "Return only transactions charged to these cards, each prefixed `icrd_`."
+          }
+        },
+        "cardholder_id": {
+          "target": "com.whop.cards#ListCardTransactionsRequestCardholderIdList",
+          "traits": {
+            "smithy.api#httpQuery": "cardholder_id",
+            "smithy.api#documentation": "Return only transactions on cards assigned to these users, each prefixed `user_`."
+          }
+        },
+        "status": {
+          "target": "com.whop.cards#ListCardTransactionsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Return only transactions with this status."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Return only transactions authorized at or after this ISO 8601 timestamp."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Return only transactions authorized at or before this ISO 8601 timestamp."
+          }
+        },
+        "order": {
+          "target": "com.whop.cards#ListCardTransactionsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort by. Defaults to `created_at`."
+          }
+        },
+        "direction": {
+          "target": "com.whop.cards#ListCardTransactionsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "The sort direction. Defaults to `desc`."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of card transactions to return."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor; returns card transactions after this position."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of card transactions to return, counting back from the end."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor; returns card transactions before this position."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.cards#CardTransaction": {
+      "type": "structure",
+      "members": {
+        "card_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The card this transaction was charged to, prefixed `icrd_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "cardholder_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user the card is assigned to, prefixed `user_`. Null when the card has no assigned cardholder.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cashback_usd_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cashback earned on this transaction as a USD amount. Zero for declined or ineligible transactions, and null when cashback has not been computed yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transaction was authorized, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 4217 currency code the merchant charged in.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "declined_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the transaction was declined. Null unless `status` is `declined`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card transaction ID, prefixed `citx_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "international": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the merchant is outside the card's home country.",
+            "smithy.api#required": {}
+          }
+        },
+        "local_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Amount the merchant charged in their own currency. Pair with `currency`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "merchant_category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Merchant category label, enriched where available and otherwise as the card network reported it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "merchant_category_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Four-digit ISO 18245 merchant category code (MCC).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "merchant_icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the enriched merchant logo. Null when no logo was matched.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "merchant_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Merchant name, enriched where available and otherwise as the card network reported it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "posted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the card network settled the transaction, as an ISO 8601 timestamp. Null until it settles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.cards#CardTransactionStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the transaction.",
+            "smithy.api#required": {}
+          }
+        },
+        "transaction_type": {
+          "target": "com.whop.cards#CardTransactionTransactionType",
+          "traits": {
+            "smithy.api#documentation": "The kind of card transaction. Always `spend` today.",
+            "smithy.api#required": {}
+          }
+        },
+        "usd_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Amount charged in USD. Negative when the merchant refunded the card.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.cards#CardTransactionStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "REVERSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reversed"
+          }
+        },
+        "DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "declined"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current status of the transaction."
+      }
+    },
+    "com.whop.cards#CardTransactionTransactionType": {
+      "type": "enum",
+      "members": {
+        "SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spend"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The kind of card transaction. Always `spend` today."
+      }
+    },
+    "com.whop.cards#ListCardTransactionsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.cards#CardTransaction"
+      },
+      "traits": {}
+    },
+    "com.whop.cards#ListCardTransactionsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.cards#ListCardTransactionsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.cards#ListCardTransactionsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.cards#ListCardTransactionsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.cards#ListCardTransactions": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.cards#ListCardTransactionsRequest"
+      },
+      "output": {
+        "target": "com.whop.cards#ListCardTransactionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.cards#BadRequest"
+        },
+        {
+          "target": "com.whop.cards#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/card_transactions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Card Transactions\n\nLists an account's card transactions, newest first. Defaults to the account the credential belongs to. Covers every card the owner has ever had, including canceled cards and spend that predates a re-application, and team members only see transactions on the cards assigned to them. Pass `transaction_ids` to fetch specific transactions instead of paging for them.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.cards#GetCardTransactionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The card transaction ID, prefixed `citx_`."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The account that owns the transaction, prefixed `biz_`. Defaults to the credential's account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.cards#GetCardTransaction": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.cards#GetCardTransactionRequest"
+      },
+      "output": {
+        "target": "com.whop.cards#CardTransaction"
+      },
+      "errors": [
+        {
+          "target": "com.whop.cards#Forbidden"
+        },
+        {
+          "target": "com.whop.cards#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/card_transactions/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Card Transaction\n\nFetches a single card transaction by its `citx_` identifier. The owner defaults to the account the credential belongs to."
+      }
+    },
+    "com.whop.cards#ListCardsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The owning account ID (a biz_ identifier). Provide this or user_id."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "The owning user ID (a user_ identifier). Provide this or account_id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.cards#ListCardsResponseDataItemBilling": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing city.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing country code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 1.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 2.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing postal code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing region or state.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The billing address."
+      }
+    },
+    "com.whop.cards#ListCardsResponseDataItemLimitFrequency": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        },
+        "PER_TRANSACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "per_transaction"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The window the limit amount applies to. `per_transaction` caps each individual authorization and is what a limit set with `transaction_limit` reports."
+      }
+    },
+    "com.whop.cards#ListCardsResponseDataItemLimit": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The limit amount in dollars.",
+            "smithy.api#required": {}
+          }
+        },
+        "frequency": {
+          "target": "com.whop.cards#ListCardsResponseDataItemLimitFrequency",
+          "traits": {
+            "smithy.api#documentation": "The window the limit amount applies to. `per_transaction` caps each individual authorization and is what a limit set with `transaction_limit` reports.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The spending limit configuration."
+      }
+    },
+    "com.whop.cards#ListCardsResponseDataItemObject": {
+      "type": "enum",
+      "members": {
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.cards#ListCardsResponseDataItemSecrets": {
+      "type": "structure",
+      "members": {
+        "card_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full card number.",
+            "smithy.api#required": {}
+          }
+        },
+        "cvc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card verification code.",
+            "smithy.api#required": {}
+          }
+        },
+        "name_on_card": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cardholder name printed on the card.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The card PIN. Only returned when the request is authenticated as the user the card is assigned to; `null` for all other callers, including account API keys.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved."
+      }
+    },
+    "com.whop.cards#ListCardsResponseDataItemStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "FROZEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frozen"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "INVITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invited"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The card status. `denied` means the issuer declined the cardholder, so the card will never be issued."
+      }
+    },
+    "com.whop.cards#ListCardsResponseDataItemType": {
+      "type": "enum",
+      "members": {
+        "VIRTUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "virtual"
+          }
+        },
+        "PHYSICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "physical"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The card type."
+      }
+    },
+    "com.whop.cards#ListCardsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "billing": {
+          "target": "com.whop.cards#ListCardsResponseDataItemBilling",
+          "traits": {
+            "smithy.api#documentation": "The billing address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "canceled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the card was canceled.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the card was created.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_month": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card expiration month.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_year": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card expiration year.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card ID, prefixed `icrd_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last four digits of the card number. `null` for pending invitation cards.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "limit": {
+          "target": "com.whop.cards#ListCardsResponseDataItemLimit",
+          "traits": {
+            "smithy.api#documentation": "The spending limit configuration.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.cards#ListCardsResponseDataItemObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "secrets": {
+          "target": "com.whop.cards#ListCardsResponseDataItemSecrets",
+          "traits": {
+            "smithy.api#documentation": "Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spent_last_month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total spend in the last 30 days, in cents.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.cards#ListCardsResponseDataItemStatus",
+          "traits": {
+            "smithy.api#documentation": "The card status. `denied` means the issuer declined the cardholder, so the card will never be issued.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.cards#ListCardsResponseDataItemType",
+          "traits": {
+            "smithy.api#documentation": "The card type.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cardholder user ID, prefixed `user_`, when assigned.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.cards#ListCardsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.cards#ListCardsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.cards#ListCardsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.cards#ListCardsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.cards#ListCards": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.cards#ListCardsRequest"
+      },
+      "output": {
+        "target": "com.whop.cards#ListCardsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.cards#BadRequest"
+        },
+        {
+          "target": "com.whop.cards#Forbidden"
+        },
+        {
+          "target": "com.whop.cards#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cards",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Cards\n\nLists the Whop cards of an account or user, including ones still being set up. Team members only see the cards assigned to them."
+      }
+    },
+    "com.whop.cards#CreateCardRequestSpendLimitFrequency": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The window the spend limit applies to."
+      }
+    },
+    "com.whop.cards#CreateCardRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The owning account ID (a biz_ identifier). Provide this or user_id."
+          }
+        },
+        "assigned_user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account member (a user_ identifier) to assign the card to. Required for business card issuing accounts."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A display name for the card."
+          }
+        },
+        "spend_limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spending limit amount, in dollars."
+          }
+        },
+        "spend_limit_frequency": {
+          "target": "com.whop.cards#CreateCardRequestSpendLimitFrequency",
+          "traits": {
+            "smithy.api#documentation": "The window the spend limit applies to."
+          }
+        },
+        "transaction_limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Per-transaction limit amount, in dollars."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The owning user ID (a user_ identifier). Provide this or account_id."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.cards#CreateCardResponseBilling": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing city.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing country code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 1.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 2.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing postal code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing region or state.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The billing address."
+      }
+    },
+    "com.whop.cards#CreateCardResponseLimitFrequency": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        },
+        "PER_TRANSACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "per_transaction"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The window the limit amount applies to. `per_transaction` caps each individual authorization and is what a limit set with `transaction_limit` reports."
+      }
+    },
+    "com.whop.cards#CreateCardResponseLimit": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The limit amount in dollars.",
+            "smithy.api#required": {}
+          }
+        },
+        "frequency": {
+          "target": "com.whop.cards#CreateCardResponseLimitFrequency",
+          "traits": {
+            "smithy.api#documentation": "The window the limit amount applies to. `per_transaction` caps each individual authorization and is what a limit set with `transaction_limit` reports.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The spending limit configuration."
+      }
+    },
+    "com.whop.cards#CreateCardResponseObject": {
+      "type": "enum",
+      "members": {
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.cards#CreateCardResponseSecrets": {
+      "type": "structure",
+      "members": {
+        "card_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full card number.",
+            "smithy.api#required": {}
+          }
+        },
+        "cvc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card verification code.",
+            "smithy.api#required": {}
+          }
+        },
+        "name_on_card": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cardholder name printed on the card.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The card PIN. Only returned when the request is authenticated as the user the card is assigned to; `null` for all other callers, including account API keys.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved."
+      }
+    },
+    "com.whop.cards#CreateCardResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "FROZEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frozen"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "INVITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invited"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The card status. `denied` means the issuer declined the cardholder, so the card will never be issued."
+      }
+    },
+    "com.whop.cards#CreateCardResponseType": {
+      "type": "enum",
+      "members": {
+        "VIRTUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "virtual"
+          }
+        },
+        "PHYSICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "physical"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The card type."
+      }
+    },
+    "com.whop.cards#CreateCardResponse": {
+      "type": "structure",
+      "members": {
+        "billing": {
+          "target": "com.whop.cards#CreateCardResponseBilling",
+          "traits": {
+            "smithy.api#documentation": "The billing address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "canceled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the card was canceled.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the card was created.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_month": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card expiration month.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_year": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card expiration year.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card ID, prefixed `icrd_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last four digits of the card number. `null` for pending invitation cards.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "limit": {
+          "target": "com.whop.cards#CreateCardResponseLimit",
+          "traits": {
+            "smithy.api#documentation": "The spending limit configuration.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.cards#CreateCardResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "secrets": {
+          "target": "com.whop.cards#CreateCardResponseSecrets",
+          "traits": {
+            "smithy.api#documentation": "Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spent_last_month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total spend in the last 30 days, in cents.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.cards#CreateCardResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "The card status. `denied` means the issuer declined the cardholder, so the card will never be issued.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.cards#CreateCardResponseType",
+          "traits": {
+            "smithy.api#documentation": "The card type.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cardholder user ID, prefixed `user_`, when assigned.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.cards#CreateCard": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.cards#CreateCardRequest"
+      },
+      "output": {
+        "target": "com.whop.cards#CreateCardResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.cards#BadRequest"
+        },
+        {
+          "target": "com.whop.cards#Forbidden"
+        },
+        {
+          "target": "com.whop.cards#NotFound"
+        },
+        {
+          "target": "com.whop.cards#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/cards",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Card\n\nIssue a virtual card, or apply for card issuing."
+      }
+    },
+    "com.whop.cards#GetCardRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Card ID to retrieve, prefixed `icrd_`."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The owning account ID (a biz_ identifier). Provide this or user_id."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "The owning user ID (a user_ identifier). Provide this or account_id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.cards#GetCardResponseBilling": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing city.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing country code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 1.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 2.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing postal code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing region or state.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The billing address."
+      }
+    },
+    "com.whop.cards#GetCardResponseLimitFrequency": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        },
+        "PER_TRANSACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "per_transaction"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The window the limit amount applies to. `per_transaction` caps each individual authorization and is what a limit set with `transaction_limit` reports."
+      }
+    },
+    "com.whop.cards#GetCardResponseLimit": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The limit amount in dollars.",
+            "smithy.api#required": {}
+          }
+        },
+        "frequency": {
+          "target": "com.whop.cards#GetCardResponseLimitFrequency",
+          "traits": {
+            "smithy.api#documentation": "The window the limit amount applies to. `per_transaction` caps each individual authorization and is what a limit set with `transaction_limit` reports.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The spending limit configuration."
+      }
+    },
+    "com.whop.cards#GetCardResponseObject": {
+      "type": "enum",
+      "members": {
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.cards#GetCardResponseSecrets": {
+      "type": "structure",
+      "members": {
+        "card_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full card number.",
+            "smithy.api#required": {}
+          }
+        },
+        "cvc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card verification code.",
+            "smithy.api#required": {}
+          }
+        },
+        "name_on_card": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cardholder name printed on the card.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The card PIN. Only returned when the request is authenticated as the user the card is assigned to; `null` for all other callers, including account API keys.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved."
+      }
+    },
+    "com.whop.cards#GetCardResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "FROZEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frozen"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "INVITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invited"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The card status. `denied` means the issuer declined the cardholder, so the card will never be issued."
+      }
+    },
+    "com.whop.cards#GetCardResponseType": {
+      "type": "enum",
+      "members": {
+        "VIRTUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "virtual"
+          }
+        },
+        "PHYSICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "physical"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The card type."
+      }
+    },
+    "com.whop.cards#GetCardResponse": {
+      "type": "structure",
+      "members": {
+        "billing": {
+          "target": "com.whop.cards#GetCardResponseBilling",
+          "traits": {
+            "smithy.api#documentation": "The billing address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "canceled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the card was canceled.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the card was created.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_month": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card expiration month.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_year": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card expiration year.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card ID, prefixed `icrd_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last four digits of the card number. `null` for pending invitation cards.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "limit": {
+          "target": "com.whop.cards#GetCardResponseLimit",
+          "traits": {
+            "smithy.api#documentation": "The spending limit configuration.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.cards#GetCardResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "secrets": {
+          "target": "com.whop.cards#GetCardResponseSecrets",
+          "traits": {
+            "smithy.api#documentation": "Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spent_last_month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total spend in the last 30 days, in cents.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.cards#GetCardResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "The card status. `denied` means the issuer declined the cardholder, so the card will never be issued.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.cards#GetCardResponseType",
+          "traits": {
+            "smithy.api#documentation": "The card type.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cardholder user ID, prefixed `user_`, when assigned.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.cards#GetCard": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.cards#GetCardRequest"
+      },
+      "output": {
+        "target": "com.whop.cards#GetCardResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.cards#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cards/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Card\n\nRetrieve a single card."
+      }
+    },
+    "com.whop.cards#UpdateCardRequestBilling": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing city.",
+            "smithy.api#required": {}
+          }
+        },
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing country code, ISO 3166-1 alpha-2.",
+            "smithy.api#required": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 1.",
+            "smithy.api#required": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 2."
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing postal code.",
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing region or state.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "New billing address. Requires line1, city, region, postal_code, and country_code. On an invited card, passing billing alone (as the invited user) completes onboarding and starts card provisioning."
+      }
+    },
+    "com.whop.cards#UpdateCardRequestSpendLimitFrequency": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The window the spend limit applies to."
+      }
+    },
+    "com.whop.cards#UpdateCardRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Card ID to retrieve, prefixed `icrd_`."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The owning account ID (a biz_ identifier). Provide this or user_id."
+          }
+        },
+        "billing": {
+          "target": "com.whop.cards#UpdateCardRequestBilling",
+          "traits": {
+            "smithy.api#documentation": "New billing address. Requires line1, city, region, postal_code, and country_code. On an invited card, passing billing alone (as the invited user) completes onboarding and starts card provisioning."
+          }
+        },
+        "canceled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Pass `true` to permanently cancel the card. A canceled card cannot be uncanceled. Cannot be combined with other fields."
+          }
+        },
+        "frozen": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Pass `true` to freeze the card, `false` to unfreeze it. The assigned cardholder may freeze their own card without the payout:account:update scope."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A display name for the card."
+          }
+        },
+        "pin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New 4-digit PIN. Can only be set on a card assigned to the acting user, who may set it without the payout:account:update scope."
+          }
+        },
+        "remove_limit": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Pass `true` to remove the spending limit (make the card unlimited)."
+          }
+        },
+        "spend_limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spending limit amount, in dollars."
+          }
+        },
+        "spend_limit_frequency": {
+          "target": "com.whop.cards#UpdateCardRequestSpendLimitFrequency",
+          "traits": {
+            "smithy.api#documentation": "The window the spend limit applies to."
+          }
+        },
+        "transaction_limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Per-transaction limit amount, in dollars."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The owning user ID (a user_ identifier). Provide this or account_id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.cards#UpdateCardResponseBilling": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing city.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing country code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 1.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address line 2.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing postal code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing region or state.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The billing address."
+      }
+    },
+    "com.whop.cards#UpdateCardResponseLimitFrequency": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        },
+        "PER_TRANSACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "per_transaction"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The window the limit amount applies to. `per_transaction` caps each individual authorization and is what a limit set with `transaction_limit` reports."
+      }
+    },
+    "com.whop.cards#UpdateCardResponseLimit": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The limit amount in dollars.",
+            "smithy.api#required": {}
+          }
+        },
+        "frequency": {
+          "target": "com.whop.cards#UpdateCardResponseLimitFrequency",
+          "traits": {
+            "smithy.api#documentation": "The window the limit amount applies to. `per_transaction` caps each individual authorization and is what a limit set with `transaction_limit` reports.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The spending limit configuration."
+      }
+    },
+    "com.whop.cards#UpdateCardResponseObject": {
+      "type": "enum",
+      "members": {
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.cards#UpdateCardResponseSecrets": {
+      "type": "structure",
+      "members": {
+        "card_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full card number.",
+            "smithy.api#required": {}
+          }
+        },
+        "cvc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card verification code.",
+            "smithy.api#required": {}
+          }
+        },
+        "name_on_card": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cardholder name printed on the card.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The card PIN. Only returned when the request is authenticated as the user the card is assigned to; `null` for all other callers, including account API keys.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved."
+      }
+    },
+    "com.whop.cards#UpdateCardResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "FROZEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frozen"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "INVITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invited"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The card status. `denied` means the issuer declined the cardholder, so the card will never be issued."
+      }
+    },
+    "com.whop.cards#UpdateCardResponseType": {
+      "type": "enum",
+      "members": {
+        "VIRTUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "virtual"
+          }
+        },
+        "PHYSICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "physical"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The card type."
+      }
+    },
+    "com.whop.cards#UpdateCardResponse": {
+      "type": "structure",
+      "members": {
+        "billing": {
+          "target": "com.whop.cards#UpdateCardResponseBilling",
+          "traits": {
+            "smithy.api#documentation": "The billing address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "canceled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the card was canceled.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the card was created.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_month": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card expiration month.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_year": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card expiration year.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card ID, prefixed `icrd_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last four digits of the card number. `null` for pending invitation cards.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "limit": {
+          "target": "com.whop.cards#UpdateCardResponseLimit",
+          "traits": {
+            "smithy.api#documentation": "The spending limit configuration.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.cards#UpdateCardResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "secrets": {
+          "target": "com.whop.cards#UpdateCardResponseSecrets",
+          "traits": {
+            "smithy.api#documentation": "Sensitive card details. Present only on `GET /cards/:id` for active cards; `null` when the card is inactive or details cannot be retrieved.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spent_last_month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total spend in the last 30 days, in cents.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.cards#UpdateCardResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "The card status. `denied` means the issuer declined the cardholder, so the card will never be issued.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.cards#UpdateCardResponseType",
+          "traits": {
+            "smithy.api#documentation": "The card type.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cardholder user ID, prefixed `user_`, when assigned.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.cards#UpdateCard": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.cards#UpdateCardRequest"
+      },
+      "output": {
+        "target": "com.whop.cards#UpdateCardResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.cards#BadRequest"
+        },
+        {
+          "target": "com.whop.cards#Forbidden"
+        },
+        {
+          "target": "com.whop.cards#NotFound"
+        },
+        {
+          "target": "com.whop.cards#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/cards/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Card\n\nUpdate, freeze, or cancel a card. Updating the card's name, billing address, or limits requires both `payout:account:update` and `company:balance:read`; a card's assigned holder may update their own card's pin and frozen state with any user token."
+      }
+    },
+    "com.whop.cards#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.cards#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.cards#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.cards#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.cards#Cards": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.cards#ListCardTransactions"
+        },
+        {
+          "target": "com.whop.cards#GetCardTransaction"
+        },
+        {
+          "target": "com.whop.cards#ListCards"
+        },
+        {
+          "target": "com.whop.cards#CreateCard"
+        },
+        {
+          "target": "com.whop.cards#GetCard"
+        },
+        {
+          "target": "com.whop.cards#UpdateCard"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

@@ -1,0 +1,1032 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfigRequest": {
+      "type": "structure",
+      "members": {
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "ownerId"
+          }
+        },
+        "virtualModelSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "virtualModelSlug",
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfig": {
+      "type": "structure",
+      "members": {
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Team (owner) that owns this VMC.",
+            "smithy.api#required": {}
+          }
+        },
+        "virtualModelSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client-facing alias used as the model slug in Gateway calls.",
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name for UI."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description for UI."
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this VMC is soft-deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UI lifecycle status: draft, active, or archived.",
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Visibility in listings: public, internal, or stealth."
+          }
+        },
+        "updatedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User id that last updated this VMC."
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "VMC kind: alias, relay, or router.",
+            "smithy.api#required": {}
+          }
+        },
+        "baseUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For kind=relay: URL the gateway forwards requests to as a transparent proxy."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The concrete model-provider instance this VMC resolves to."
+          }
+        },
+        "providerOrder": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigProviderOrderList",
+          "traits": {
+            "smithy.api#documentation": "Ordered list of providers to try as fallbacks on failure."
+          }
+        },
+        "providerOnly": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigProviderOnlyList",
+          "traits": {
+            "smithy.api#documentation": "Restrict routing to only these providers."
+          }
+        },
+        "providerOptions": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigProviderOptionsMap",
+          "traits": {
+            "smithy.api#documentation": "Arbitrary per-provider AI SDK options, keyed by gateway provider slug."
+          }
+        },
+        "inferenceRegion": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigInferenceRegion",
+          "traits": {
+            "smithy.api#documentation": "Region pinned on the VMC for system-credential routing (alias/router only)."
+          }
+        },
+        "modelSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Canonical model slug this VMC maps to (e.g. \"creator/model\"). Not used by kind=router."
+          }
+        },
+        "models": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigModelsList",
+          "traits": {
+            "smithy.api#documentation": "For kind=router: ordered candidates, model slugs or router references. Otherwise: fallback models."
+          }
+        },
+        "selector": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigSelector",
+          "traits": {
+            "smithy.api#documentation": "For kind=router: how to order candidates."
+          }
+        },
+        "requires": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigRequiresList",
+          "traits": {
+            "smithy.api#documentation": "For kind=router: capability tags a candidate must have."
+          }
+        },
+        "byokCredentialIds": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigByokCredentialIdsList",
+          "traits": {
+            "smithy.api#documentation": "BYOK credential IDs allowed for this VMC."
+          }
+        },
+        "observabilityTags": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigObservabilityTagsList",
+          "traits": {
+            "smithy.api#documentation": "Observability tags attached to requests through this VMC."
+          }
+        },
+        "sort": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigSort",
+          "traits": {
+            "smithy.api#documentation": "Rank eligible providers by an attribute."
+          }
+        },
+        "has": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigHasList",
+          "traits": {
+            "smithy.api#documentation": "Limit providers to those with these features."
+          }
+        },
+        "caching": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigCaching",
+          "traits": {
+            "smithy.api#documentation": "Use caching if available."
+          }
+        },
+        "serviceTier": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigServiceTier",
+          "traits": {
+            "smithy.api#documentation": "Service tier for providers that support it."
+          }
+        },
+        "providerTimeouts": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigProviderTimeouts",
+          "traits": {
+            "smithy.api#documentation": "Per-request provider timeouts in ms, keyed by provider slug for BYOK credentials."
+          }
+        },
+        "zeroDataRetention": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Only use providers with zero data retention."
+          }
+        },
+        "hipaaCompliant": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Only use HIPAA-compliant providers."
+          }
+        },
+        "disallowPromptTraining": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Only use providers that will not train on your prompts."
+          }
+        },
+        "speed": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigSpeed",
+          "traits": {
+            "smithy.api#documentation": "Only use fastest providers with short timeouts."
+          }
+        },
+        "allowFallbackFromFast": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow fallback from fast to standard providers on failure."
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp (epoch ms).",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Last update timestamp (epoch ms).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Public response shape for virtual model configs. Used so OpenAPI generation can avoid ElectroDB's recursive EntityItem types."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigProviderOrderList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ordered list of providers to try as fallbacks on failure."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigProviderOnlyList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Restrict routing to only these providers."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayProviderOptionBag": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Arbitrary per-provider AI SDK options, keyed by gateway provider slug."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigProviderOptionsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.vercel.api_ai_gateway#AiGatewayProviderOptionBag"
+      },
+      "traits": {
+        "smithy.api#documentation": "Arbitrary per-provider AI SDK options, keyed by gateway provider slug."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope": {
+      "type": "enum",
+      "members": {
+        "GLOBAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "global"
+          }
+        },
+        "SPECIFIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "specific"
+          }
+        },
+        "ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zone"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigInferenceRegionProvidersValue": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope",
+          "traits": {
+            "smithy.api#documentation": "Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`."
+          }
+        },
+        "geoRegion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Geo zone (e.g. \"us\", \"eu\")."
+          }
+        },
+        "providerRegion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provider-specific region identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-provider region overrides keyed by provider slug."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigInferenceRegionProvidersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigInferenceRegionProvidersValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-provider region overrides keyed by provider slug."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigInferenceRegionScope": {
+      "type": "enum",
+      "members": {
+        "GLOBAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "global"
+          }
+        },
+        "SPECIFIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "specific"
+          }
+        },
+        "ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zone"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigInferenceRegion": {
+      "type": "structure",
+      "members": {
+        "providers": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigInferenceRegionProvidersMap",
+          "traits": {
+            "smithy.api#documentation": "Per-provider region overrides keyed by provider slug."
+          }
+        },
+        "scope": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigInferenceRegionScope",
+          "traits": {
+            "smithy.api#documentation": "Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`."
+          }
+        },
+        "geoRegion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Geo zone (e.g. \"us\", \"eu\")."
+          }
+        },
+        "providerRegion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provider-specific region identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Region pinned on the VMC for system-credential routing (alias/router only)."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigModelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "For kind=router: ordered candidates, model slugs or router references. Otherwise: fallback models."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigSelector": {
+      "type": "enum",
+      "members": {
+        "COST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cost"
+          }
+        },
+        "PRIORITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "priority"
+          }
+        },
+        "TPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tps"
+          }
+        },
+        "TTFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ttft"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "For kind=router: how to order candidates."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigRequiresList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "For kind=router: capability tags a candidate must have."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigByokCredentialIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "BYOK credential IDs allowed for this VMC."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigObservabilityTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Observability tags attached to requests through this VMC."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigSort": {
+      "type": "enum",
+      "members": {
+        "COST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cost"
+          }
+        },
+        "LATENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "latency"
+          }
+        },
+        "PRICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "price"
+          }
+        },
+        "THROUGHPUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "throughput"
+          }
+        },
+        "TPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tps"
+          }
+        },
+        "TTFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ttft"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Rank eligible providers by an attribute."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigHasItem": {
+      "type": "enum",
+      "members": {
+        "IMPLICIT_CACHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "implicit-caching"
+          }
+        },
+        "VISION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vision"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Limit providers to those with these features."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigHasList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigHasItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Limit providers to those with these features."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigCaching": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use caching if available."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigServiceTier": {
+      "type": "enum",
+      "members": {
+        "FAST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fast"
+          }
+        },
+        "FLEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flex"
+          }
+        },
+        "PRIORITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "priority"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Service tier for providers that support it."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigProviderTimeoutsByokMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {}
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigProviderTimeouts": {
+      "type": "structure",
+      "members": {
+        "byok": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigProviderTimeoutsByokMap"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-request provider timeouts in ms, keyed by provider slug for BYOK credentials."
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigSpeed": {
+      "type": "enum",
+      "members": {
+        "FAST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fast"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Only use fastest providers with short timeouts."
+      }
+    },
+    "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfigRequest"
+      },
+      "output": {
+        "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfig"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.api_ai_gateway#BadRequest"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#Forbidden"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/ai-gateway/virtual-model-configs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get virtual model config\n\nGet a virtual model config"
+      }
+    },
+    "com.vercel.api_ai_gateway#CreateAiGatewayVirtualModelConfigRequest": {
+      "type": "structure",
+      "members": {
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.api_ai_gateway#CreateAiGatewayVirtualModelConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.api_ai_gateway#CreateAiGatewayVirtualModelConfigRequest"
+      },
+      "output": {
+        "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfig"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.api_ai_gateway#BadRequest"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#Forbidden"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/ai-gateway/virtual-model-configs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create virtual model config\n\nCreate a virtual model config (VMC)"
+      }
+    },
+    "com.vercel.api_ai_gateway#UpdateAiGatewayVirtualModelConfigRequest": {
+      "type": "structure",
+      "members": {
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.api_ai_gateway#UpdateAiGatewayVirtualModelConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.api_ai_gateway#UpdateAiGatewayVirtualModelConfigRequest"
+      },
+      "output": {
+        "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfig"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.api_ai_gateway#BadRequest"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#Forbidden"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/ai-gateway/virtual-model-configs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update virtual model config\n\nUpdate a virtual model config"
+      }
+    },
+    "com.vercel.api_ai_gateway#DeleteAiGatewayVirtualModelConfigRequest": {
+      "type": "structure",
+      "members": {
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "ownerId"
+          }
+        },
+        "virtualModelSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "virtualModelSlug",
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.api_ai_gateway#DeleteAiGatewayVirtualModelConfigResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.api_ai_gateway#DeleteAiGatewayVirtualModelConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.api_ai_gateway#DeleteAiGatewayVirtualModelConfigRequest"
+      },
+      "output": {
+        "target": "com.vercel.api_ai_gateway#DeleteAiGatewayVirtualModelConfigResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.api_ai_gateway#BadRequest"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#Forbidden"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/ai-gateway/virtual-model-configs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete virtual model config\n\nDelete a virtual model config (soft delete)"
+      }
+    },
+    "com.vercel.api_ai_gateway#ListAiGatewayVirtualModelConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "ownerId"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigList": {
+      "type": "structure",
+      "members": {
+        "virtualModelConfigs": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigListVirtualModelConfigsList",
+          "traits": {
+            "smithy.api#documentation": "The page of VMCs.",
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cursor for the next page, or null when no more pages remain.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigListVirtualModelConfigsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfig"
+      },
+      "traits": {
+        "smithy.api#documentation": "The page of VMCs."
+      }
+    },
+    "com.vercel.api_ai_gateway#ListAiGatewayVirtualModelConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.api_ai_gateway#ListAiGatewayVirtualModelConfigsRequest"
+      },
+      "output": {
+        "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigList"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.api_ai_gateway#BadRequest"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/ai-gateway/virtual-model-configs/list",
+          "code": 200
+        },
+        "smithy.api#documentation": "List virtual model configs\n\nList virtual model configs. With `ownerId`, returns all of that team's VMCs. Without it, pages through VMCs across all teams (newest-first, `limit`/`cursor`)."
+      }
+    },
+    "com.vercel.api_ai_gateway#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.vercel.api_ai_gateway#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.vercel.api_ai_gateway#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.vercel.api_ai_gateway#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.vercel.api_ai_gateway#ApiAiGateway": {
+      "type": "service",
+      "version": "0.0.1",
+      "operations": [
+        {
+          "target": "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfig"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#CreateAiGatewayVirtualModelConfig"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#UpdateAiGatewayVirtualModelConfig"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#DeleteAiGatewayVirtualModelConfig"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#ListAiGatewayVirtualModelConfigs"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Vercel API",
+        "smithy.api#documentation": "Vercel combines the best developer experience with an obsessive focus on end-user performance. Our platform enables frontend teams to do their best work."
+      }
+    }
+  }
+}

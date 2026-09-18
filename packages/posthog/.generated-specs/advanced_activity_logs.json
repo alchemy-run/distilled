@@ -14,59 +14,90 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestActivitiesList": {
+    "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestActivitiesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestClientsList": {
+    "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestClientsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestIpAddressesList": {
+    "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestIpAddressesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestItemIdsList": {
+    "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestItemIdsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestScopesList": {
+    "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestOrdering": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-created_at"
+          }
+        },
+        "CREATED_AT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestSchema": {
+      "type": "enum",
+      "members": {
+        "OCSF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ocsf"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestScopesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestTeamIdsList": {
+    "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestTeamIdsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
       },
       "traits": {}
     },
-    "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestUsersList": {
+    "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestUsersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequest": {
+    "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -78,14 +109,14 @@
           }
         },
         "activities": {
-          "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestActivitiesList",
+          "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestActivitiesList",
           "traits": {
             "smithy.api#httpQuery": "activities",
             "smithy.api#documentation": "Filter by activity types (e.g. \"created\", \"updated\", \"deleted\")."
           }
         },
         "clients": {
-          "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestClientsList",
+          "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestClientsList",
           "traits": {
             "smithy.api#httpQuery": "clients",
             "smithy.api#documentation": "Filter by API clients that generated the activity (from x-posthog-client header)."
@@ -105,6 +136,13 @@
             "smithy.api#documentation": "Upper bound on `created_at` (inclusive), ISO-8601."
           }
         },
+        "follow": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "follow",
+            "smithy.api#documentation": "Keep the next link valid after the last entry, so the same cursor can be re-polled as new entries arrive. Only applies with oldest-first ordering. When following, stop on an empty results list rather than on a null next link."
+          }
+        },
         "hogql_filter": {
           "target": "smithy.api#String",
           "traits": {
@@ -112,8 +150,15 @@
             "smithy.api#documentation": "Reserved for future HogQL-based filtering."
           }
         },
+        "include_values": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_values",
+            "smithy.api#documentation": "Include the previous and new values of changed fields. Only applies when schema is ocsf. Values can contain the content of the changed object, which makes responses larger and sends that content to your security tool."
+          }
+        },
         "ip_addresses": {
-          "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestIpAddressesList",
+          "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestIpAddressesList",
           "traits": {
             "smithy.api#httpQuery": "ip_addresses",
             "smithy.api#documentation": "Filter by client IP addresses. Accepts exact IPv4/IPv6 values or wildcard patterns using `*` (e.g. `203.0.113.*`). Multiple entries are OR-combined."
@@ -127,10 +172,17 @@
           }
         },
         "item_ids": {
-          "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestItemIdsList",
+          "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestItemIdsList",
           "traits": {
             "smithy.api#httpQuery": "item_ids",
             "smithy.api#documentation": "Filter by the `item_id` of the affected resource(s)."
+          }
+        },
+        "ordering": {
+          "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestOrdering",
+          "traits": {
+            "smithy.api#httpQuery": "ordering",
+            "smithy.api#documentation": "Sort by when the entry was created. Defaults to newest first. Use created_at for oldest first when polling for new entries, so a saved cursor picks up where the last request stopped.\n\n* `-created_at` - -created_at\n* `created_at` - created_at"
           }
         },
         "page": {
@@ -144,11 +196,18 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "page_size",
-            "smithy.api#documentation": "Number of results per page (default: 100, max: 1000). Only used with page-based pagination."
+            "smithy.api#documentation": "Number of results per page (default: 100, max: 1000)."
+          }
+        },
+        "schema": {
+          "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestSchema",
+          "traits": {
+            "smithy.api#httpQuery": "schema",
+            "smithy.api#documentation": "Response format. Set to ocsf to return Open Cybersecurity Schema Framework events for ingestion into a security tool. Omit for the default PostHog format.\n\n* `ocsf` - ocsf"
           }
         },
         "scopes": {
-          "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestScopesList",
+          "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestScopesList",
           "traits": {
             "smithy.api#httpQuery": "scopes",
             "smithy.api#documentation": "Filter by activity scopes (e.g. \"FeatureFlag\", \"Insight\")."
@@ -169,14 +228,14 @@
           }
         },
         "team_ids": {
-          "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestTeamIdsList",
+          "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestTeamIdsList",
           "traits": {
             "smithy.api#httpQuery": "team_ids",
             "smithy.api#documentation": "Filter by project (team) IDs. Only honored on the organization-scoped endpoint; ignored on the project-scoped endpoint."
           }
         },
         "users": {
-          "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequestUsersList",
+          "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestUsersList",
           "traits": {
             "smithy.api#httpQuery": "users",
             "smithy.api#documentation": "Filter by users who performed the activity (user UUIDs)."
@@ -197,9 +256,6 @@
     "com.posthog.advanced_activity_logs#PaginatedActivityLogList": {
       "type": "structure",
       "members": {
-        "count": {
-          "target": "smithy.api#Integer"
-        },
         "next": {
           "target": "smithy.api#String",
           "traits": {
@@ -214,6 +270,9 @@
         },
         "results": {
           "target": "com.posthog.advanced_activity_logs#PaginatedActivityLogListResultsList"
+        },
+        "count": {
+          "target": "smithy.api#Integer"
         }
       },
       "traits": {}
@@ -393,6 +452,12 @@
             "smithy.api#enumValue": "sales"
           }
         },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
         "OTHER": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -401,7 +466,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `other` - Other"
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
       }
     },
     "com.posthog.advanced_activity_logs#BlankEnum": {
@@ -435,10 +500,10 @@
       },
       "traits": {}
     },
-    "com.posthog.advanced_activity_logs#AdvancedActivityLogsList": {
+    "com.posthog.advanced_activity_logs#ListAdvancedActivityLogs": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsListRequest"
+        "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequest"
       },
       "output": {
         "target": "com.posthog.advanced_activity_logs#PaginatedActivityLogList"
@@ -462,7 +527,7 @@
         }
       }
     },
-    "com.posthog.advanced_activity_logs#AdvancedActivityLogsAvailableFiltersRetrieveRequest": {
+    "com.posthog.advanced_activity_logs#GetAdvancedActivityLogsAvailableFilterRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -614,10 +679,10 @@
         "smithy.api#documentation": "Discovered detail fields and their value distributions."
       }
     },
-    "com.posthog.advanced_activity_logs#AdvancedActivityLogsAvailableFiltersRetrieve": {
+    "com.posthog.advanced_activity_logs#GetAdvancedActivityLogsAvailableFilter": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsAvailableFiltersRetrieveRequest"
+        "target": "com.posthog.advanced_activity_logs#GetAdvancedActivityLogsAvailableFilterRequest"
       },
       "output": {
         "target": "com.posthog.advanced_activity_logs#AvailableFiltersResponse"
@@ -830,10 +895,10 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsList"
+          "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogs"
         },
         {
-          "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsAvailableFiltersRetrieve"
+          "target": "com.posthog.advanced_activity_logs#GetAdvancedActivityLogsAvailableFilter"
         },
         {
           "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsExportCreate"

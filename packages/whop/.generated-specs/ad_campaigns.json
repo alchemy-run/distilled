@@ -1,0 +1,2197 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.ad_campaigns#ListAdCampaignsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "PAYMENT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_failed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#ListAdCampaignsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        },
+        "SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spend"
+          }
+        },
+        "IMPRESSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "impressions"
+          }
+        },
+        "REACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reach"
+          }
+        },
+        "CLICKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clicks"
+          }
+        },
+        "UNIQUE_CLICKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unique_clicks"
+          }
+        },
+        "FREQUENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frequency"
+          }
+        },
+        "CLICK_THROUGH_RATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "click_through_rate"
+          }
+        },
+        "RESULTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "results"
+          }
+        },
+        "COST_PER_MILLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cost_per_mille"
+          }
+        },
+        "COST_PER_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cost_per_click"
+          }
+        },
+        "COST_PER_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cost_per_result"
+          }
+        },
+        "RETURN_ON_AD_SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "return_on_ad_spend"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#ListAdCampaignsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#ListAdCampaignsRequestAttributionModel": {
+      "type": "enum",
+      "members": {
+        "LAST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_touch"
+          }
+        },
+        "FIRST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_touch"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#ListAdCampaignsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The account the campaigns belong to. Defaults to the account-scoped key's own account."
+          }
+        },
+        "status": {
+          "target": "com.whop.ad_campaigns#ListAdCampaignsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only return campaigns with this status."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "Filter campaigns by a title or ID substring."
+          }
+        },
+        "order": {
+          "target": "com.whop.ad_campaigns#ListAdCampaignsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort by. Defaults to created_at. Stat columns (spend, impressions, …) rank over the stats_from/stats_to window across the whole list, not just the current page. results, cost_per_result and return_on_ad_spend rank by the same Whop pixel-attributed values the response reports."
+          }
+        },
+        "direction": {
+          "target": "com.whop.ad_campaigns#ListAdCampaignsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "The sort direction. Defaults to desc."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only return campaigns created before this timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return campaigns created after this timestamp."
+          }
+        },
+        "stats_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "stats_from",
+            "smithy.api#documentation": "Start of the stats window. Defaults to all-time."
+          }
+        },
+        "stats_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "stats_to",
+            "smithy.api#documentation": "End of the stats window. Defaults to now."
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "time_zone",
+            "smithy.api#documentation": "IANA timezone (e.g. America/New_York) the stats window is interpreted in. Bare stats_from/stats_to dates resolve to day boundaries on this clock. Defaults to UTC."
+          }
+        },
+        "attribution_model": {
+          "target": "com.whop.ad_campaigns#ListAdCampaignsRequestAttributionModel",
+          "traits": {
+            "smithy.api#httpQuery": "attribution_model",
+            "smithy.api#documentation": "Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of campaigns to return."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of campaigns to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_campaigns#AdCampaign": {
+      "type": "structure",
+      "members": {
+        "added_to_cart_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to add-to-cart events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "added_to_carts": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed add-to-cart events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "bid_type": {
+          "target": "com.whop.ad_campaigns#AdCampaignBidType",
+          "traits": {
+            "smithy.api#documentation": "How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, and `maximum_target` never bids above a cap.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "budget_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The campaign's budget, in the ad account's currency. `null` when each ad group sets its own budget instead.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "budget_optimization": {
+          "target": "com.whop.ad_campaigns#AdCampaignBudgetOptimization",
+          "traits": {
+            "smithy.api#documentation": "Which level owns the budget: the whole campaign (`ad_campaign`) or each ad group individually (`ad_group`).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "budget_type": {
+          "target": "com.whop.ad_campaigns#AdCampaignBudgetType",
+          "traits": {
+            "smithy.api#documentation": "Whether `budget_amount` is spent per day (`daily`) or over the campaign's full run (`lifetime`).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "click_through_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Clicks divided by impressions, between 0 and 1.",
+            "smithy.api#required": {}
+          }
+        },
+        "clicks": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of clicks.",
+            "smithy.api#required": {}
+          }
+        },
+        "completed_registration_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to complete-registration events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "completed_registrations": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed complete-registration events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "contact_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to contact events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "contacts": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed contact events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_per_added_to_cart": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed add-to-cart events; null when they are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_click": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by clicks; 0 when there are no clicks.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_per_completed_registration": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed complete-registration events; null when they are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_contact": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed contact events; null when contacts are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_lead": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed leads; null when leads are not a goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_mille": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend per 1,000 impressions; 0 when there are no impressions.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_per_purchase": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed purchases; null when purchases are not a goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_result": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by Whop pixel-attributed results; null when nothing Whop-attributable is being optimized for.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_schedule": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed schedule events; null when schedules are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_submitted_application": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed submit-application events; null when they are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_unique_click": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by unique clicks; null when there are no unique clicks.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_viewed_content": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed view-content events; null when they are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the campaign was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_conversions": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed custom (merchant-defined) conversion events, last-click, across all custom event names.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_event_counts": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed custom conversions, keyed by your event name with its last-click count as the value. Empty when no named custom events are attributed. Custom events fired without a name are counted in custom_conversions but omitted here, so these values sum to at most custom_conversions.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_event_values": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Conversion value attributed to each custom event, keyed by event name like custom_event_counts. Sums the value passed to whop.track, normalized to USD; events fired without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "delivery_status": {
+          "target": "com.whop.ad_campaigns#AdCampaignDeliveryStatus",
+          "traits": {
+            "smithy.api#documentation": "Whether the campaign's ads are delivering right now, and if not, why. When several states apply at once, the highest-precedence one is returned.",
+            "smithy.api#required": {}
+          }
+        },
+        "frequency": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Platform-reported impressions divided by reach.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the ad campaign, prefixed `adcamp_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "impressions": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of impressions.",
+            "smithy.api#required": {}
+          }
+        },
+        "issues": {
+          "target": "com.whop.ad_campaigns#AdCampaignIssuesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "lead_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to lead events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "leads": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed leads, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "objective": {
+          "target": "com.whop.ad_campaigns#AdCampaignObjective",
+          "traits": {
+            "smithy.api#documentation": "The goal the campaign optimizes toward.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "optimization_goal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event the campaign optimizes for when a single goal is set campaign-wide. `null` when each ad group sets its own optimization_goal.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "platform": {
+          "target": "com.whop.ad_campaigns#AdCampaignPlatform",
+          "traits": {
+            "smithy.api#documentation": "The ad network the campaign runs on.",
+            "smithy.api#required": {}
+          }
+        },
+        "purchase_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value of pixel-attributed purchases.",
+            "smithy.api#required": {}
+          }
+        },
+        "purchases": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed purchases, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "reach": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of unique people who saw this.",
+            "smithy.api#required": {}
+          }
+        },
+        "result_event": {
+          "target": "com.whop.ad_campaigns#AdCampaignResultEvent",
+          "traits": {
+            "smithy.api#documentation": "The Whop pixel conversion event whose attributed count represents results — the optimization goal, or the highest-volume attributed event for campaigns that budget per ad group. Null when the goal isn't a Whop-attributed event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_event_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The merchant-defined event name when result_event is custom; null for the standard events.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The Whop pixel-attributed count behind result_event. When a campaign's ad groups optimize different goals there is no single result_event (it is null), and this is instead the sum of each ad group's own attributed results. Null when nothing Whop-attributable is being optimized for.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "return_on_ad_spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Purchase value divided by spend, both in USD (a currency-neutral ratio); 0 when there is no spend.",
+            "smithy.api#required": {}
+          }
+        },
+        "schedule_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to schedule events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "schedules": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed schedule events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "special_ad_categories": {
+          "target": "com.whop.ad_campaigns#AdCampaignSpecialAdCategoriesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount charged, in spend_currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "spend_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 4217 currency code of all monetary metrics.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.ad_campaigns#AdCampaignStatus",
+          "traits": {
+            "smithy.api#documentation": "The lifecycle status of the ad campaign.",
+            "smithy.api#required": {}
+          }
+        },
+        "submitted_application_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to submit-application events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "submitted_applications": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed submit-application events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the ad campaign.",
+            "smithy.api#required": {}
+          }
+        },
+        "unique_click_through_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Unique clicks divided by impressions, between 0 and 1.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unique_clicks": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "People who clicked, reported by the Whop pixel, counted once per person.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the campaign was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "viewed_content_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to view-content events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "viewed_contents": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed view-content events, last-click.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#AdCampaignBidType": {
+      "type": "enum",
+      "members": {
+        "MINIMUM_COST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minimum_cost"
+          }
+        },
+        "AVERAGE_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "average_target"
+          }
+        },
+        "MAXIMUM_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "maximum_target"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, and `maximum_target` never bids above a cap."
+      }
+    },
+    "com.whop.ad_campaigns#AdCampaignBudgetOptimization": {
+      "type": "enum",
+      "members": {
+        "AD_CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign"
+          }
+        },
+        "AD_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which level owns the budget: the whole campaign (`ad_campaign`) or each ad group individually (`ad_group`)."
+      }
+    },
+    "com.whop.ad_campaigns#AdCampaignBudgetType": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "LIFETIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lifetime"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether `budget_amount` is spent per day (`daily`) or over the campaign's full run (`lifetime`)."
+      }
+    },
+    "com.whop.ad_campaigns#AdCampaignDeliveryStatus": {
+      "type": "enum",
+      "members": {
+        "PAYMENT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_failed"
+          }
+        },
+        "ALL_ADS_REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all_ads_rejected"
+          }
+        },
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "NO_AD_GROUPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_ad_groups"
+          }
+        },
+        "NO_ADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_ads"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "ISSUES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "issues"
+          }
+        },
+        "SCHEDULED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scheduled"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "AD_GROUPS_OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_groups_off"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the campaign's ads are delivering right now, and if not, why. When several states apply at once, the highest-precedence one is returned."
+      }
+    },
+    "com.whop.ad_campaigns#AdPlatformIssue": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the issue.",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A description of what the issue is and how it can be resolved.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the campaign, ad group, or ad the issue is attached to.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resource_type": {
+          "target": "com.whop.ad_campaigns#AdPlatformIssueResourceType",
+          "traits": {
+            "smithy.api#documentation": "The type of resource the issue is attached to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#AdPlatformIssueResourceType": {
+      "type": "enum",
+      "members": {
+        "AD_CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign"
+          }
+        },
+        "AD_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_group"
+          }
+        },
+        "AD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of resource the issue is attached to."
+      }
+    },
+    "com.whop.ad_campaigns#AdCampaignIssuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_campaigns#AdPlatformIssue"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#AdCampaignObjective": {
+      "type": "enum",
+      "members": {
+        "AWARENESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awareness"
+          }
+        },
+        "TRAFFIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "traffic"
+          }
+        },
+        "ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engagement"
+          }
+        },
+        "LEADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leads"
+          }
+        },
+        "SALES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The goal the campaign optimizes toward."
+      }
+    },
+    "com.whop.ad_campaigns#AdCampaignPlatform": {
+      "type": "enum",
+      "members": {
+        "META": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meta"
+          }
+        },
+        "TIKTOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tiktok"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The ad network the campaign runs on."
+      }
+    },
+    "com.whop.ad_campaigns#AdCampaignResultEvent": {
+      "type": "enum",
+      "members": {
+        "PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purchase"
+          }
+        },
+        "LEAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead"
+          }
+        },
+        "SCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule"
+          }
+        },
+        "SUBMIT_APPLICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submit_application"
+          }
+        },
+        "CONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contact"
+          }
+        },
+        "COMPLETE_REGISTRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete_registration"
+          }
+        },
+        "VIEW_CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view_content"
+          }
+        },
+        "ADD_TO_CART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add_to_cart"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "MESSAGING_CONVERSATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messaging_conversation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Whop pixel conversion event whose attributed count represents results — the optimization goal, or the highest-volume attributed event for campaigns that budget per ad group. Null when the goal isn't a Whop-attributed event."
+      }
+    },
+    "com.whop.ad_campaigns#AdCampaignSpecialAdCategoriesItem": {
+      "type": "enum",
+      "members": {
+        "HOUSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "housing"
+          }
+        },
+        "EMPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "employment"
+          }
+        },
+        "FINANCIAL_PRODUCTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial_products"
+          }
+        },
+        "POLITICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "politics"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Regulated categories the campaign is declared under. Ads in these categories are subject to extra targeting restrictions. Empty when none apply."
+      }
+    },
+    "com.whop.ad_campaigns#AdCampaignSpecialAdCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_campaigns#AdCampaignSpecialAdCategoriesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#AdCampaignStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "STALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stale"
+          }
+        },
+        "PENDING_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_refund"
+          }
+        },
+        "PAYMENT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_failed"
+          }
+        },
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "IN_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_review"
+          }
+        },
+        "FLAGGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flagged"
+          }
+        },
+        "IMPORTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "importing"
+          }
+        },
+        "IMPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "imported"
+          }
+        },
+        "DUPLICATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duplicating"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The lifecycle status of the ad campaign."
+      }
+    },
+    "com.whop.ad_campaigns#ListAdCampaignsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_campaigns#AdCampaign"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#ListAdCampaignsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#ListAdCampaignsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.ad_campaigns#ListAdCampaignsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.ad_campaigns#ListAdCampaignsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ad_campaigns#ListAdCampaigns": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_campaigns#ListAdCampaignsRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_campaigns#ListAdCampaignsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_campaigns#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ad_campaigns",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Ad Campaigns\n\nLists the ad campaigns for an account, with stats over the requested window.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.ad_campaigns#CreateAdCampaignRequestBidType": {
+      "type": "enum",
+      "members": {
+        "MINIMUM_COST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minimum_cost"
+          }
+        },
+        "AVERAGE_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "average_target"
+          }
+        },
+        "MAXIMUM_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "maximum_target"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, `maximum_target` never bids above a cap. Only for campaigns that own the budget."
+      }
+    },
+    "com.whop.ad_campaigns#CreateAdCampaignRequestBudgetOptimization": {
+      "type": "enum",
+      "members": {
+        "AD_CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign"
+          }
+        },
+        "AD_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which level owns the budget: the whole campaign (`ad_campaign`) or each ad group individually (`ad_group`). Defaults to `ad_group`."
+      }
+    },
+    "com.whop.ad_campaigns#CreateAdCampaignRequestBudgetType": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "LIFETIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lifetime"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the budget is spent per day (`daily`) or over the campaign's full run (`lifetime`). Defaults to `daily`."
+      }
+    },
+    "com.whop.ad_campaigns#CreateAdCampaignRequestObjective": {
+      "type": "enum",
+      "members": {
+        "AWARENESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awareness"
+          }
+        },
+        "TRAFFIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "traffic"
+          }
+        },
+        "ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engagement"
+          }
+        },
+        "LEADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leads"
+          }
+        },
+        "SALES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The goal the campaign optimizes toward."
+      }
+    },
+    "com.whop.ad_campaigns#CreateAdCampaignRequestPlatform": {
+      "type": "enum",
+      "members": {
+        "META": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The ad network the campaign runs on."
+      }
+    },
+    "com.whop.ad_campaigns#CreateAdCampaignRequestSpecialAdCategoriesItem": {
+      "type": "enum",
+      "members": {
+        "HOUSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "housing"
+          }
+        },
+        "EMPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "employment"
+          }
+        },
+        "FINANCIAL_PRODUCTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial_products"
+          }
+        },
+        "POLITICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "politics"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#CreateAdCampaignRequestSpecialAdCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_campaigns#CreateAdCampaignRequestSpecialAdCategoriesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Regulated categories the campaign falls under. Ads in these categories are subject to extra targeting restrictions."
+      }
+    },
+    "com.whop.ad_campaigns#CreateAdCampaignRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account to create the campaign under. Defaults to the account-scoped key's own account."
+          }
+        },
+        "bid_type": {
+          "target": "com.whop.ad_campaigns#CreateAdCampaignRequestBidType",
+          "traits": {
+            "smithy.api#documentation": "How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, `maximum_target` never bids above a cap. Only for campaigns that own the budget."
+          }
+        },
+        "budget_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The campaign's budget, in the ad account's currency. Required when budget_optimization is `ad_campaign`; omit when each ad group sets its own budget."
+          }
+        },
+        "budget_optimization": {
+          "target": "com.whop.ad_campaigns#CreateAdCampaignRequestBudgetOptimization",
+          "traits": {
+            "smithy.api#documentation": "Which level owns the budget: the whole campaign (`ad_campaign`) or each ad group individually (`ad_group`). Defaults to `ad_group`."
+          }
+        },
+        "budget_type": {
+          "target": "com.whop.ad_campaigns#CreateAdCampaignRequestBudgetType",
+          "traits": {
+            "smithy.api#documentation": "Whether the budget is spent per day (`daily`) or over the campaign's full run (`lifetime`). Defaults to `daily`."
+          }
+        },
+        "desired_cost_per_result": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost per result to aim for (`average_target`) or never exceed (`maximum_target`). Only for campaigns that own the budget."
+          }
+        },
+        "ends_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the campaign stops delivering, as an ISO 8601 timestamp. Only for campaigns that own the budget."
+          }
+        },
+        "objective": {
+          "target": "com.whop.ad_campaigns#CreateAdCampaignRequestObjective",
+          "traits": {
+            "smithy.api#documentation": "The goal the campaign optimizes toward.",
+            "smithy.api#required": {}
+          }
+        },
+        "platform": {
+          "target": "com.whop.ad_campaigns#CreateAdCampaignRequestPlatform",
+          "traits": {
+            "smithy.api#documentation": "The ad network the campaign runs on.",
+            "smithy.api#required": {}
+          }
+        },
+        "special_ad_categories": {
+          "target": "com.whop.ad_campaigns#CreateAdCampaignRequestSpecialAdCategoriesList",
+          "traits": {
+            "smithy.api#documentation": "Regulated categories the campaign falls under. Ads in these categories are subject to extra targeting restrictions."
+          }
+        },
+        "starts_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the campaign starts delivering, as an ISO 8601 timestamp. Only for campaigns that own the budget."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the campaign.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_campaigns#CreateAdCampaign": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_campaigns#CreateAdCampaignRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_campaigns#AdCampaign"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_campaigns#BadRequest"
+        },
+        {
+          "target": "com.whop.ad_campaigns#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ad_campaigns",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an Ad Campaign\n\nCreates an ad campaign for an account."
+      }
+    },
+    "com.whop.ad_campaigns#GetAdCampaignRequestAttributionModel": {
+      "type": "enum",
+      "members": {
+        "LAST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_touch"
+          }
+        },
+        "FIRST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_touch"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#GetAdCampaignRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad campaign ID."
+          }
+        },
+        "stats_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "stats_from",
+            "smithy.api#documentation": "Start of the stats window."
+          }
+        },
+        "stats_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "stats_to",
+            "smithy.api#documentation": "End of the stats window."
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "time_zone",
+            "smithy.api#documentation": "IANA timezone the stats window is interpreted in. Defaults to UTC."
+          }
+        },
+        "attribution_model": {
+          "target": "com.whop.ad_campaigns#GetAdCampaignRequestAttributionModel",
+          "traits": {
+            "smithy.api#httpQuery": "attribution_model",
+            "smithy.api#documentation": "Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_campaigns#GetAdCampaign": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_campaigns#GetAdCampaignRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_campaigns#AdCampaign"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_campaigns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ad_campaigns/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve an Ad Campaign\n\nRetrieves a single ad campaign with stats over the requested window."
+      }
+    },
+    "com.whop.ad_campaigns#UpdateAdCampaignRequestBidType": {
+      "type": "enum",
+      "members": {
+        "MINIMUM_COST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minimum_cost"
+          }
+        },
+        "AVERAGE_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "average_target"
+          }
+        },
+        "MAXIMUM_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "maximum_target"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, `maximum_target` never bids above a cap. Switching to `minimum_cost` clears the cap amounts stored on the campaign's ad groups. Only for campaigns that own the budget."
+      }
+    },
+    "com.whop.ad_campaigns#UpdateAdCampaignRequestBudgetOptimization": {
+      "type": "enum",
+      "members": {
+        "AD_CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign"
+          }
+        },
+        "AD_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which level owns the budget: the whole campaign (`ad_campaign`) or each ad group individually (`ad_group`). Only changeable before the campaign is live on the ad network; switching to `ad_campaign` requires budget_amount in the same request, and switching to `ad_group` clears the campaign budget."
+      }
+    },
+    "com.whop.ad_campaigns#UpdateAdCampaignRequestBudgetType": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "LIFETIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lifetime"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether `budget_amount` is spent per day (`daily`) or over the campaign's full run (`lifetime`). Only changeable while the campaign is a draft; send budget_amount in the same request so the amount lands on the new type."
+      }
+    },
+    "com.whop.ad_campaigns#UpdateAdCampaignRequestSpecialAdCategoriesItem": {
+      "type": "enum",
+      "members": {
+        "HOUSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "housing"
+          }
+        },
+        "EMPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "employment"
+          }
+        },
+        "FINANCIAL_PRODUCTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial_products"
+          }
+        },
+        "POLITICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "politics"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#UpdateAdCampaignRequestSpecialAdCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_campaigns#UpdateAdCampaignRequestSpecialAdCategoriesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Regulated categories the campaign falls under. Editable on any campaign, draft or launched; pass an empty array to clear."
+      }
+    },
+    "com.whop.ad_campaigns#UpdateAdCampaignRequestStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set to active to launch a draft campaign (moderates and pushes it live). Live-campaign pause and resume use the pause and unpause actions."
+      }
+    },
+    "com.whop.ad_campaigns#UpdateAdCampaignRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad campaign ID."
+          }
+        },
+        "bid_type": {
+          "target": "com.whop.ad_campaigns#UpdateAdCampaignRequestBidType",
+          "traits": {
+            "smithy.api#documentation": "How delivery bids in the ad auction: `minimum_cost` gets the most results for the budget, `average_target` holds an average cost per result, `maximum_target` never bids above a cap. Switching to `minimum_cost` clears the cap amounts stored on the campaign's ad groups. Only for campaigns that own the budget."
+          }
+        },
+        "budget_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The campaign budget, in the account's currency. Interpreted as daily or lifetime per the campaign's budget type, including a budget_type sent in the same request."
+          }
+        },
+        "budget_optimization": {
+          "target": "com.whop.ad_campaigns#UpdateAdCampaignRequestBudgetOptimization",
+          "traits": {
+            "smithy.api#documentation": "Which level owns the budget: the whole campaign (`ad_campaign`) or each ad group individually (`ad_group`). Only changeable before the campaign is live on the ad network; switching to `ad_campaign` requires budget_amount in the same request, and switching to `ad_group` clears the campaign budget."
+          }
+        },
+        "budget_type": {
+          "target": "com.whop.ad_campaigns#UpdateAdCampaignRequestBudgetType",
+          "traits": {
+            "smithy.api#documentation": "Whether `budget_amount` is spent per day (`daily`) or over the campaign's full run (`lifetime`). Only changeable while the campaign is a draft; send budget_amount in the same request so the amount lands on the new type."
+          }
+        },
+        "ends_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the campaign stops delivering, as an ISO 8601 timestamp. Only for campaigns that own the budget."
+          }
+        },
+        "special_ad_categories": {
+          "target": "com.whop.ad_campaigns#UpdateAdCampaignRequestSpecialAdCategoriesList",
+          "traits": {
+            "smithy.api#documentation": "Regulated categories the campaign falls under. Editable on any campaign, draft or launched; pass an empty array to clear."
+          }
+        },
+        "starts_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the campaign starts delivering, as an ISO 8601 timestamp. Only for campaigns that own the budget."
+          }
+        },
+        "status": {
+          "target": "com.whop.ad_campaigns#UpdateAdCampaignRequestStatus",
+          "traits": {
+            "smithy.api#documentation": "Set to active to launch a draft campaign (moderates and pushes it live). Live-campaign pause and resume use the pause and unpause actions."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the campaign."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_campaigns#UpdateAdCampaign": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_campaigns#UpdateAdCampaignRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_campaigns#AdCampaign"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/ad_campaigns/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update an Ad Campaign\n\nUpdates an ad campaign's editable fields (title, budget, schedule, bid strategy, special ad categories, and, before launch, budget type and budget optimization), and launches a draft campaign by setting status to active. Objective and desired cost per result are fixed at creation and cannot be changed."
+      }
+    },
+    "com.whop.ad_campaigns#DeleteAdCampaignRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad campaign ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_campaigns#DeleteAdCampaignResponse": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always true.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the deleted ad campaign.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ad_campaigns#DeleteAdCampaign": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_campaigns#DeleteAdCampaignRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_campaigns#DeleteAdCampaignResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_campaigns#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/ad_campaigns/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete an Ad Campaign\n\nDeletes an ad campaign and archives it on the ad platform (cascades to ad groups and ads)."
+      }
+    },
+    "com.whop.ad_campaigns#DuplicateAdCampaignRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad campaign ID."
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of copies to create (1-10). Defaults to 1."
+          }
+        },
+        "preserve_engagement": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the copied ads keep the original posts' engagement (likes, comments, shares). Defaults to false."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_campaigns#DuplicateAdCampaignResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_campaigns#AdCampaign"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_campaigns#DuplicateAdCampaignResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.ad_campaigns#DuplicateAdCampaignResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ad_campaigns#DuplicateAdCampaign": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_campaigns#DuplicateAdCampaignRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_campaigns#DuplicateAdCampaignResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_campaigns#BadRequest"
+        },
+        {
+          "target": "com.whop.ad_campaigns#NotFound"
+        },
+        {
+          "target": "com.whop.ad_campaigns#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ad_campaigns/{id}/duplicate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Duplicate an Ad Campaign\n\nCreates copies of the campaign in `duplicating` status and returns them; each copy transitions to `draft` once duplication completes. Poll each returned campaign until it leaves `duplicating` — a copy that could not be completed is deleted and returns 404."
+      }
+    },
+    "com.whop.ad_campaigns#PauseAdCampaignRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad campaign ID."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_campaigns#PauseAdCampaign": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_campaigns#PauseAdCampaignRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_campaigns#AdCampaign"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_campaigns#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ad_campaigns/{id}/pause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Pause an Ad Campaign\n\nPauses an active ad campaign."
+      }
+    },
+    "com.whop.ad_campaigns#RetryAdCampaignPaymentRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad campaign ID."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_campaigns#RetryAdCampaignPayment": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_campaigns#RetryAdCampaignPaymentRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_campaigns#AdCampaign"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_campaigns#BadRequest"
+        },
+        {
+          "target": "com.whop.ad_campaigns#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ad_campaigns/{id}/retry_payment",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retry a Failed Ad Campaign Payment\n\nRetries billing for an ad campaign whose payment previously failed."
+      }
+    },
+    "com.whop.ad_campaigns#UnpauseAdCampaignRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad campaign ID."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_campaigns#UnpauseAdCampaign": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_campaigns#UnpauseAdCampaignRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_campaigns#AdCampaign"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_campaigns#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ad_campaigns/{id}/unpause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unpause an Ad Campaign\n\nResumes a paused ad campaign."
+      }
+    },
+    "com.whop.ad_campaigns#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.ad_campaigns#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.ad_campaigns#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.ad_campaigns#AdCampaigns": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.ad_campaigns#ListAdCampaigns"
+        },
+        {
+          "target": "com.whop.ad_campaigns#CreateAdCampaign"
+        },
+        {
+          "target": "com.whop.ad_campaigns#GetAdCampaign"
+        },
+        {
+          "target": "com.whop.ad_campaigns#UpdateAdCampaign"
+        },
+        {
+          "target": "com.whop.ad_campaigns#DeleteAdCampaign"
+        },
+        {
+          "target": "com.whop.ad_campaigns#DuplicateAdCampaign"
+        },
+        {
+          "target": "com.whop.ad_campaigns#PauseAdCampaign"
+        },
+        {
+          "target": "com.whop.ad_campaigns#RetryAdCampaignPayment"
+        },
+        {
+          "target": "com.whop.ad_campaigns#UnpauseAdCampaign"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
 /**
  * convert — turn the Stripe OpenAPI spec into a Smithy 2.0 JSON model.
  *
- * Input:  specs/stripe-openapi/latest/openapi.spec3.sdk.json  (spec
+ * Input:  specs/spec-mirror-stripe/specs/openapi.spec3.sdk.json  (spec
  *         submodule — the SDK-flavored spec, the same file distilled v0
  *         read; NOT openapi.spec3.json)
  *         patches/*.patch.json  (RFC-6902 patches to the OpenAPI document —
@@ -16,7 +16,9 @@
  * v0 parity notes:
  *   • `statusToErrorClass: {}` ⇔ v0's `includeOperationErrors: false` —
  *     Stripe answers every failure with the single `{ error: { type, … } }`
- *     envelope, dispatched by the protocol, so no per-op typed errors.
+ *     envelope, dispatched by the protocol, so convert does not emit
+ *     per-status error classes. Per-op tagged errors (e.g. ProductHasPrices)
+ *     are added by patches and matched by the protocol.
  *   • `skipDeprecated: true` is load-bearing (v0 skipped deprecated ops).
  *   • Nearly every operation's request body is
  *     `application/x-www-form-urlencoded` (the converter stamps
@@ -31,7 +33,7 @@ await runOpenApiConvert({
   specs: [
     {
       name: "stripe",
-      specPath: "specs/stripe-openapi/latest/openapi.spec3.sdk.json",
+      specPath: "specs/spec-mirror-stripe/specs/openapi.spec3.sdk.json",
     },
   ],
   // OpenAPI-document patches (v0 layout: flat patches/*.patch.json). The

@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/planetscale",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
@@ -80,18 +80,18 @@
     "convert": "bun scripts/convert.ts",
     "generate": "bun scripts/convert.ts && bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "specs:fetch": "git submodule update --force --init --recursive --depth=1 specs/distilled-spec-planetscale && git -C specs/distilled-spec-planetscale checkout -- .",
-    "specs:update": "git -C specs/distilled-spec-planetscale fetch && git -C specs/distilled-spec-planetscale checkout main && git -C specs/distilled-spec-planetscale pull"
+    "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-planetscale",
+    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-planetscale"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:tooling",
-    "@types/node": "catalog:tooling",
-    "@effect/platform-bun": "catalog:effect"
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "@effect/platform-bun": "catalog:"
   },
   "peerDependencies": {
-    "effect": "catalog:effect"
+    "effect": "catalog:"
   }
 }

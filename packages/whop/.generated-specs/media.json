@@ -1,0 +1,553 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.media#GenerateMediaAssetRequestDurationSeconds": {
+      "type": "intEnum",
+      "members": {
+        "_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 5
+          }
+        },
+        "_10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 10
+          }
+        },
+        "_15": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 15
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Video length in seconds. Video only; defaults to 5."
+      }
+    },
+    "com.whop.media#GenerateMediaAssetRequestReferenceMediaList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional reference image file IDs (`file_` prefixed), up to 4. For video, a single reference seeds the opening frame; multiple references guide subject and style instead."
+      }
+    },
+    "com.whop.media#GenerateMediaAssetRequestResolution": {
+      "type": "enum",
+      "members": {
+        "_480P": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "480p"
+          }
+        },
+        "_720P": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "720p"
+          }
+        },
+        "_1080P": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1080p"
+          }
+        },
+        "_4K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "4k"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Video resolution. Video only; defaults to `1080p`. `1080p` is not supported by Seedance 2.0 Fast or Mini; `4k` is only supported by Seedance 2.0."
+      }
+    },
+    "com.whop.media#GenerateMediaAssetRequestType": {
+      "type": "enum",
+      "members": {
+        "VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video"
+          }
+        },
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The kind of media to generate."
+      }
+    },
+    "com.whop.media#GenerateMediaAssetRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`. Defaults to the account the API key belongs to."
+          }
+        },
+        "duration_seconds": {
+          "target": "com.whop.media#GenerateMediaAssetRequestDurationSeconds",
+          "traits": {
+            "smithy.api#documentation": "Video length in seconds. Video only; defaults to 5."
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What to generate. Up to 2,000 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "reference_media": {
+          "target": "com.whop.media#GenerateMediaAssetRequestReferenceMediaList",
+          "traits": {
+            "smithy.api#documentation": "Optional reference image file IDs (`file_` prefixed), up to 4. For video, a single reference seeds the opening frame; multiple references guide subject and style instead."
+          }
+        },
+        "resolution": {
+          "target": "com.whop.media#GenerateMediaAssetRequestResolution",
+          "traits": {
+            "smithy.api#documentation": "Video resolution. Video only; defaults to `1080p`. `1080p` is not supported by Seedance 2.0 Fast or Mini; `4k` is only supported by Seedance 2.0."
+          }
+        },
+        "type": {
+          "target": "com.whop.media#GenerateMediaAssetRequestType",
+          "traits": {
+            "smithy.api#documentation": "The kind of media to generate.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.media#MediaAsset": {
+      "type": "structure",
+      "members": {
+        "amount_charged": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD amount charged to the account's balance for this generation. `null` if the generation wasn't billed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp when the asset reached a terminal state. `null` while `processing`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp when the generation was requested.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency of `amount_charged`. Always `usd`.",
+            "smithy.api#required": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why generation failed. `null` unless status is `failed`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "file": {
+          "target": "com.whop.media#MediaAssetFile",
+          "traits": {
+            "smithy.api#documentation": "The produced file, usable anywhere attachments are accepted. `null` until the asset is `ready`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "generation": {
+          "target": "com.whop.media#MediaAssetGeneration",
+          "traits": {
+            "smithy.api#documentation": "The inputs the asset was generated from.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Media asset ID, prefixed `media_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "media_type": {
+          "target": "com.whop.media#MediaAssetMediaType",
+          "traits": {
+            "smithy.api#documentation": "The kind of media this asset holds.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.whop.media#MediaAssetSource",
+          "traits": {
+            "smithy.api#documentation": "How the asset was created. Always `generated`.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.media#MediaAssetStatus",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle state: `processing` while generation runs, `ready` when the file is available, `failed` when generation failed and the charge was refunded.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.media#MediaAssetFile": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "File ID, prefixed `file_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CDN URL for downloading the file.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.media#MediaAssetGeneration": {
+      "type": "structure",
+      "members": {
+        "duration_seconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Requested video length in seconds. `null` for images.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the asset was generated from.",
+            "smithy.api#required": {}
+          }
+        },
+        "reference_media": {
+          "target": "com.whop.media#MediaAssetGenerationReferenceMediaList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resolution": {
+          "target": "com.whop.media#MediaAssetGenerationResolution",
+          "traits": {
+            "smithy.api#documentation": "Requested video resolution. `null` for images. `1080p` is not supported by Seedance 2.0 Fast or Mini; `4k` is only supported by Seedance 2.0.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.media#MediaAssetGenerationReferenceMediaList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.media#MediaAssetGenerationResolution": {
+      "type": "enum",
+      "members": {
+        "_480P": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "480p"
+          }
+        },
+        "_720P": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "720p"
+          }
+        },
+        "_1080P": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "1080p"
+          }
+        },
+        "_4K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "4k"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Requested video resolution. `null` for images. `1080p` is not supported by Seedance 2.0 Fast or Mini; `4k` is only supported by Seedance 2.0."
+      }
+    },
+    "com.whop.media#MediaAssetMediaType": {
+      "type": "enum",
+      "members": {
+        "VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video"
+          }
+        },
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The kind of media this asset holds."
+      }
+    },
+    "com.whop.media#MediaAssetSource": {
+      "type": "enum",
+      "members": {
+        "GENERATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "generated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the asset was created. Always `generated`."
+      }
+    },
+    "com.whop.media#MediaAssetStatus": {
+      "type": "enum",
+      "members": {
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Lifecycle state: `processing` while generation runs, `ready` when the file is available, `failed` when generation failed and the charge was refunded."
+      }
+    },
+    "com.whop.media#GenerateMediaAsset": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.media#GenerateMediaAssetRequest"
+      },
+      "output": {
+        "target": "com.whop.media#MediaAsset"
+      },
+      "errors": [
+        {
+          "target": "com.whop.media#BadRequest"
+        },
+        {
+          "target": "com.whop.media#PaymentRequired"
+        },
+        {
+          "target": "com.whop.media#Forbidden"
+        },
+        {
+          "target": "com.whop.media#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/media/generate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Generate Media Asset\n\nStarts an AI media generation job billed from the account's balance. Generation is asynchronous — poll `GET /media/{id}` until the asset is `ready`, then use `file.id` anywhere attachments are accepted."
+      }
+    },
+    "com.whop.media#GetMediaAssetRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Media asset ID, prefixed `media_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.media#GetMediaAsset": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.media#GetMediaAssetRequest"
+      },
+      "output": {
+        "target": "com.whop.media#MediaAsset"
+      },
+      "errors": [
+        {
+          "target": "com.whop.media#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/media/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Media Asset\n\nRetrieves a media asset by ID. Poll this while the asset is `processing`."
+      }
+    },
+    "com.whop.media#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.media#PaymentRequired": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 402,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 402
+          }
+        ]
+      }
+    },
+    "com.whop.media#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.media#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.media#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.media#Media": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.media#GenerateMediaAsset"
+        },
+        {
+          "target": "com.whop.media#GetMediaAsset"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

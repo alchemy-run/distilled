@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.kubernetes.apps#IoK8sApimachineryPkgApisMetaV1APIGroup": {
@@ -1146,6 +1147,12 @@
             "smithy.api#documentation": "List of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource."
           }
         },
+        "evictionResponders": {
+          "target": "com.kubernetes.apps#IoK8sApiCoreV1PodSpecEvictionRespondersList",
+          "traits": {
+            "smithy.api#documentation": "evictionResponders reference responders that react to Evictions based on EvictionRequests. Responders should observe and communicate through the Eviction Resource API to help with the graceful termination of a pod. The responders are selected sequentially, according to their specified priority.\n\nResponders should periodically report on an eviction progress by updating the .status.responders[].heartbeatTime field of the Eviction object. If this field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there is no other responder, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource).\n\nThe maximum length of the responders list is 10. Responders are not supported when the pod is part of a PodGroup (.spec.schedulingGroup is set). This field can only be set on creation and is immutable afterwards."
+          }
+        },
         "hostAliases": {
           "target": "com.kubernetes.apps#IoK8sApiCoreV1PodSpecHostAliasesList",
           "traits": {
@@ -1185,7 +1192,7 @@
         "hostnameOverride": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "HostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false.\n\nThis field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters. Requires the HostnameOverride feature gate to be enabled."
+            "smithy.api#documentation": "HostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false.\n\nThis field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters."
           }
         },
         "imagePullSecrets": {
@@ -2273,6 +2280,12 @@
             "smithy.api#required": {}
           }
         },
+        "protocol": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Protocol selects the wire protocol for the probe connection. Nil defaults to HTTP/1.1."
+          }
+        },
         "scheme": {
           "target": "smithy.api#String",
           "traits": {
@@ -2422,6 +2435,12 @@
     "com.kubernetes.apps#IoK8sApiCoreV1GRPCAction": {
       "type": "structure",
       "members": {
+        "mode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "mode specifies the connection mode for the gRPC health probe. Set to \"TLS\" to use TLS without certificate verification. Set to \"Plaintext\" to use a plaintext (insecure) connection explicitly. If not specified, the probe uses a plaintext (insecure) connection."
+          }
+        },
         "port": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -2917,6 +2936,12 @@
     "com.kubernetes.apps#IoK8sApiCoreV1VolumeMount": {
       "type": "structure",
       "members": {
+        "bindMountOptions": {
+          "target": "com.kubernetes.apps#IoK8sApiCoreV1VolumeMountBindMountOptionsList",
+          "traits": {
+            "smithy.api#documentation": "bindMountOptions is the list of additional bind mount options to apply when mounting this volume into the container. Allowed values are noexec, nodev, and nosuid. These are Linux mount options and have no effect on Windows nodes. This field is not supported with image volumes. This is an alpha field and requires enabling the VolumeBindMountOptions feature gate."
+          }
+        },
         "mountPath": {
           "target": "smithy.api#String",
           "traits": {
@@ -2964,6 +2989,15 @@
       },
       "traits": {
         "smithy.api#documentation": "VolumeMount describes a mounting of a Volume within a container."
+      }
+    },
+    "com.kubernetes.apps#IoK8sApiCoreV1VolumeMountBindMountOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "bindMountOptions is the list of additional bind mount options to apply when mounting this volume into the container. Allowed values are noexec, nodev, and nosuid. These are Linux mount options and have no effect on Windows nodes. This field is not supported with image volumes. This is an alpha field and requires enabling the VolumeBindMountOptions feature gate."
       }
     },
     "com.kubernetes.apps#IoK8sApiCoreV1ContainerVolumeMountsList": {
@@ -3310,6 +3344,37 @@
       },
       "traits": {
         "smithy.api#documentation": "List of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource."
+      }
+    },
+    "com.kubernetes.apps#IoK8sApiCoreV1EvictionResponder": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "name allows you to identify the responder responding to the Eviction.\n\nIt must be a valid domain-prefixed key (such as \"acme.io/foo\"). Domain names *.k8s.io and *.kubernetes.io are reserved. This field must be unique for each responder. This field is required.",
+            "smithy.api#required": {}
+          }
+        },
+        "priority": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "priority for this responder. Higher priorities are selected first by the evictionrequest-controller. If there are responders with the same priority, the responder whose domain name comes first in the alphabetical higher domain order, will be picked. This means that the top domain labels are compared alphabetically first, followed by the lower domain labels. The key is compared last.\n\nThe responder that is the managing controller of the pod should set the value of this field to 10000 to allow both for preemption or fallback registration by other responders.\n\nThe minimum value is 0 and the maximum value is 100000. The interval 0-999 is reserved for responders with *.k8s.io suffix. This field is required.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "EvictionResponder allows you to specify the responder reacting to an Eviction. Responders should observe and communicate through the Eviction Resource API to help with the graceful eviction of a target (e.g. termination of a pod)."
+      }
+    },
+    "com.kubernetes.apps#IoK8sApiCoreV1PodSpecEvictionRespondersList": {
+      "type": "list",
+      "member": {
+        "target": "com.kubernetes.apps#IoK8sApiCoreV1EvictionResponder"
+      },
+      "traits": {
+        "smithy.api#documentation": "evictionResponders reference responders that react to Evictions based on EvictionRequests. Responders should observe and communicate through the Eviction Resource API to help with the graceful termination of a pod. The responders are selected sequentially, according to their specified priority.\n\nResponders should periodically report on an eviction progress by updating the .status.responders[].heartbeatTime field of the Eviction object. If this field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there is no other responder, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource).\n\nThe maximum length of the responders list is 10. Responders are not supported when the pod is part of a PodGroup (.spec.schedulingGroup is set). This field can only be set on creation and is immutable afterwards."
       }
     },
     "com.kubernetes.apps#IoK8sApiCoreV1HostAlias": {
@@ -4168,6 +4233,12 @@
             "smithy.api#documentation": "defaultMode is optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set."
           }
         },
+        "defaultUser": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
+          }
+        },
         "items": {
           "target": "com.kubernetes.apps#IoK8sApiCoreV1ConfigMapVolumeSourceItemsList",
           "traits": {
@@ -4212,6 +4283,12 @@
           "traits": {
             "smithy.api#documentation": "path is the relative path of the file to map the key to. May not be an absolute path. May not contain the path element '..'. May not start with the string '..'.",
             "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
           }
         }
       },
@@ -4288,6 +4365,12 @@
             "smithy.api#documentation": "Optional: mode bits to use on created files by default. Must be a Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set."
           }
         },
+        "defaultUser": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
+          }
+        },
         "items": {
           "target": "com.kubernetes.apps#IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList",
           "traits": {
@@ -4326,6 +4409,12 @@
           "traits": {
             "smithy.api#documentation": "Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported."
           }
+        },
+        "user": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
+          }
         }
       },
       "traits": {
@@ -4348,6 +4437,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "medium represents what type of storage medium should back this directory. The default is \"\" which means to use the node's default medium. Must be an empty string (default) or Memory. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir"
+          }
+        },
+        "mode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "mode specifies the permission bits for the emptyDir directory, in numeric notation (e.g., 0755, 01777). Must be a value between 0000 and 01777. If not specified, defaults to 0777. This might be in conflict with other options that affect the file mode, like fsGroup. If fsGroup is specified, the fsGroup permissions will override the mode specified here. This field has no effect on Windows. This field is alpha and requires EmptyDirVolumeMode featuregate to be enabled."
           }
         },
         "sizeLimit": {
@@ -5021,6 +5116,12 @@
             "smithy.api#documentation": "defaultMode are the mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set."
           }
         },
+        "defaultUser": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
+          }
+        },
         "sources": {
           "target": "com.kubernetes.apps#IoK8sApiCoreV1ProjectedVolumeSourceSourcesList",
           "traits": {
@@ -5108,6 +5209,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Select all ClusterTrustBundles that match this signer name. Mutually-exclusive with name.  The contents of all selected ClusterTrustBundles will be unified and deduplicated."
+          }
+        },
+        "user": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
           }
         }
       },
@@ -5214,6 +5321,12 @@
             "smithy.api#required": {}
           }
         },
+        "user": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
+          }
+        },
         "userAnnotations": {
           "target": "com.kubernetes.apps#IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap",
           "traits": {
@@ -5292,6 +5405,12 @@
           "traits": {
             "smithy.api#documentation": "path is the path relative to the mount point of the file to project the token into.",
             "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
           }
         }
       },
@@ -5499,6 +5618,12 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "defaultMode is Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set."
+          }
+        },
+        "defaultUser": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
           }
         },
         "items": {
@@ -11297,6 +11422,12 @@
             "smithy.api#documentation": "currentVolumeAttributesClassName is the current name of the VolumeAttributesClass the PVC is using. When unset, there is no VolumeAttributeClass applied to this PersistentVolumeClaim"
           }
         },
+        "healthStatus": {
+          "target": "com.kubernetes.apps#IoK8sApiCoreV1VolumeHealthStatus",
+          "traits": {
+            "smithy.api#documentation": "healthStatus contains the latest controller-reported health information for the volume bound to this claim."
+          }
+        },
         "modifyVolumeStatus": {
           "target": "com.kubernetes.apps#IoK8sApiCoreV1ModifyVolumeStatus",
           "traits": {
@@ -11412,6 +11543,63 @@
       },
       "traits": {
         "smithy.api#documentation": "conditions is the current Condition of persistent volume claim. If underlying persistent volume is being resized then the Condition will be set to 'Resizing'."
+      }
+    },
+    "com.kubernetes.apps#IoK8sApiCoreV1VolumeHealthStatus": {
+      "type": "structure",
+      "members": {
+        "healthConditions": {
+          "target": "com.kubernetes.apps#IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList",
+          "traits": {
+            "smithy.api#documentation": "conditions is the set of adverse conditions reported by the CSI controller plugin. An empty list means no adverse condition. At most 16 conditions may be reported."
+          }
+        },
+        "lastTransitionTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "lastTransitionTime is when the current set of conditions first appeared."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "VolumeHealthStatus contains health information for a volume reported by the CSI controller plugin."
+      }
+    },
+    "com.kubernetes.apps#IoK8sApiCoreV1VolumeHealthCondition": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "message is a human-readable description. Maximum permitted length of a message is 1024 bytes."
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "reason is a brief CamelCase machine-parseable reason. Together with status it forms the unique identity of a condition entry. Maximum permitted length of a reason is 256 bytes.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "status is the machine-parseable health category. Possible values: - \"Inaccessible\": the volume cannot be accessed. - \"DataLoss\": data loss has been detected on the volume. - \"Degraded\": the volume is functioning with reduced capability.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "VolumeHealthCondition represents an adverse health condition reported for a volume."
+      }
+    },
+    "com.kubernetes.apps#IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.kubernetes.apps#IoK8sApiCoreV1VolumeHealthCondition"
+      },
+      "traits": {
+        "smithy.api#documentation": "conditions is the set of adverse conditions reported by the CSI controller plugin. An empty list means no adverse condition. At most 16 conditions may be reported."
       }
     },
     "com.kubernetes.apps#IoK8sApiCoreV1ModifyVolumeStatus": {

@@ -1,0 +1,1090 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.notifications#ListNotificationsRequest": {
+      "type": "structure",
+      "members": {
+        "unread": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "unread",
+            "smithy.api#documentation": "Only return notifications created since the user last viewed their source."
+          }
+        },
+        "experience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "experience_id",
+            "smithy.api#documentation": "Only return notifications from this experience (`exp_` tag)."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Only return team notifications for this account (`biz_` tag)."
+          }
+        },
+        "mentions": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "mentions",
+            "smithy.api#documentation": "Only return notifications that mention the user directly."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of notifications to return (default 20, max 100)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor (a notification `id` from a previous page); returns notifications older than it."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.notifications#Notification": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "com.whop.notifications#NotificationAccount",
+          "traits": {
+            "smithy.api#documentation": "Account the notification belongs to. `null` when the notification is not associated with an account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "attachment_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Image displayed alongside the notification — the sender's avatar, or the default notification image.",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The body text of the notification displayed to the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the notification was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "experience": {
+          "target": "com.whop.notifications#NotificationExperience",
+          "traits": {
+            "smithy.api#documentation": "Experience the notification is related to. `null` when not tied to a specific experience.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Notification ID. Feed rows carry a composite id that doubles as the list cursor.",
+            "smithy.api#required": {}
+          }
+        },
+        "iframe_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The same destination on the app's own domain, which the Whop web and mobile clients embed instead of navigating to it. Only relevant if you render Whop apps yourself. `null` when the notification carries its own `link`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The whop.com page the notification opens, as a normal top-level navigation. This is the link to use unless you host Whop apps yourself. `null` when the notification has no click-through destination.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mentions_me": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the authenticated user was directly mentioned in this notification.",
+            "smithy.api#required": {}
+          }
+        },
+        "rest_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional path information appended to the notification's deep link, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sender": {
+          "target": "com.whop.notifications#NotificationSender",
+          "traits": {
+            "smithy.api#documentation": "User who triggered the notification. `null` when it was system-generated.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title line of the notification displayed to the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "topic": {
+          "target": "com.whop.notifications#NotificationTopicSummary",
+          "traits": {
+            "smithy.api#documentation": "Topic category the notification belongs to, used for grouping and preference management. `null` when uncategorized.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#NotificationAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "logo_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account logo image URL. `null` when the account has not uploaded one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL slug of the account's store page on whop.com.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account display name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#NotificationExperience": {
+      "type": "structure",
+      "members": {
+        "app": {
+          "target": "com.whop.notifications#NotificationExperienceApp",
+          "traits": {
+            "smithy.api#documentation": "App the experience belongs to.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Experience ID, prefixed `exp_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the experience.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#NotificationExperienceApp": {
+      "type": "structure",
+      "members": {
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Icon image URL. Always present — the default app icon when none is uploaded.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "App ID, prefixed `app_`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#NotificationSender": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#NotificationTopicSummary": {
+      "type": "structure",
+      "members": {
+        "default_preference_value": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether notifications for this topic are enabled by default when the user has not set a preference.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Notification topic ID, prefixed `topic_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_mention": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this topic exclusively handles mention-based notifications.",
+            "smithy.api#required": {}
+          }
+        },
+        "topic_type": {
+          "target": "com.whop.notifications#NotificationTopicSummaryTopicType",
+          "traits": {
+            "smithy.api#documentation": "Scope of the topic: whether it applies to an account, a user, or an account's team.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#NotificationTopicSummaryTopicType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "ACCOUNT_TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_team"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scope of the topic: whether it applies to an account, a user, or an account's team."
+      }
+    },
+    "com.whop.notifications#ListNotificationsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.notifications#Notification"
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#ListNotificationsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#ListNotificationsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.notifications#ListNotificationsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.notifications#ListNotificationsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.notifications#ListNotifications": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.notifications#ListNotificationsRequest"
+      },
+      "output": {
+        "target": "com.whop.notifications#ListNotificationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.notifications#BadRequest"
+        },
+        {
+          "target": "com.whop.notifications#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/notifications",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Notifications\n\nLists the authenticated user's notifications, newest first. Requires a user credential — an account API key has no notification feed. Without filters the feed spans every experience the user belongs to plus the teams they are a member of.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.notifications#SendNotificationRequestUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional `user_` tags narrowing the audience. When provided, only these users are notified (as a mention), provided they are in the targeted experience or account."
+      }
+    },
+    "com.whop.notifications#SendNotificationRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account whose team members receive the notification (`biz_` tag). Exactly one of `experience_id` or `account_id` is required."
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Main body text of the notification.",
+            "smithy.api#required": {}
+          }
+        },
+        "experience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Experience whose users receive the notification (`exp_` tag). Exactly one of `experience_id` or `account_id` is required."
+          }
+        },
+        "icon_user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User whose profile picture is used as the notification icon. Defaults to the experience or account avatar.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rest_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path segment appended to the generated deep link that opens your app, for example `/settings/billing`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subtitle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional secondary line displayed below the title.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Headline text of the notification.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_ids": {
+          "target": "com.whop.notifications#SendNotificationRequestUserIdsList",
+          "traits": {
+            "smithy.api#documentation": "Optional `user_` tags narrowing the audience. When provided, only these users are notified (as a mention), provided they are in the targeted experience or account."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.notifications#SendNotificationResponse": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.notifications#SendNotification": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.notifications#SendNotificationRequest"
+      },
+      "output": {
+        "target": "com.whop.notifications#SendNotificationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.notifications#BadRequest"
+        },
+        {
+          "target": "com.whop.notifications#Forbidden"
+        },
+        {
+          "target": "com.whop.notifications#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/notifications",
+          "code": 200
+        },
+        "smithy.api#documentation": "Send Notification\n\nQueues a notification to every user of an experience or to an account's team, processed asynchronously. Every send is attributed to an app: use an app API key, or a credential acting on behalf of an app. Narrow the audience with `user_ids` to send a mention."
+      }
+    },
+    "com.whop.notifications#ListNotificationBadgesRequestExperienceIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#ListNotificationBadgesRequest": {
+      "type": "structure",
+      "members": {
+        "experience_ids": {
+          "target": "com.whop.notifications#ListNotificationBadgesRequestExperienceIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "experience_ids",
+            "smithy.api#documentation": "Only return badges for these experiences (`exp_` tags)."
+          }
+        },
+        "last_fetched_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "last_fetched_at",
+            "smithy.api#documentation": "The client's last fetched-at ISO 8601 timestamp, used to partially refresh badges after a websocket message."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.notifications#NotificationBadge": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account the experience belongs to, prefixed `biz_`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "experience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Experience the badge counts, prefixed `exp_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_unread": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the caller has unread notifications in this experience.",
+            "smithy.api#required": {}
+          }
+        },
+        "important_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of unread important (mention) notifications in this experience.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_viewed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the caller last viewed the experience, as an ISO 8601 timestamp. `null` when never viewed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#ListNotificationBadgesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.notifications#NotificationBadge"
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#ListNotificationBadgesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.notifications#ListNotificationBadgesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.notifications#ListNotificationBadges": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.notifications#ListNotificationBadgesRequest"
+      },
+      "output": {
+        "target": "com.whop.notifications#ListNotificationBadgesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.notifications#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/notifications/badges",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Notification Badges\n\nLists the authenticated user's per-experience unread badge state. Requires a user credential. Returns one row per experience the user belongs to (or per requested experience)."
+      }
+    },
+    "com.whop.notifications#ReadMarkNotificationRequest": {
+      "type": "structure",
+      "members": {
+        "all": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Pass `true` to mark every notification read. Exactly one of `experience_id` or `all` is required."
+          }
+        },
+        "experience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Experience to mark read (`exp_` tag). Exactly one of `experience_id` or `all` is required."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.notifications#ReadMarkNotificationResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.notifications#NotificationBadge"
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#ReadMarkNotificationResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.notifications#ReadMarkNotificationResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.notifications#ReadMarkNotification": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.notifications#ReadMarkNotificationRequest"
+      },
+      "output": {
+        "target": "com.whop.notifications#ReadMarkNotificationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.notifications#BadRequest"
+        },
+        {
+          "target": "com.whop.notifications#Forbidden"
+        },
+        {
+          "target": "com.whop.notifications#NotFound"
+        },
+        {
+          "target": "com.whop.notifications#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/notifications/mark_read",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mark Notifications Read\n\nMarks the authenticated user's notifications as read: one experience's (`experience_id`) or everything (`all: true`) — exactly one of the two. Requires a user credential. Responds with the refreshed badge rows for the affected scope."
+      }
+    },
+    "com.whop.notifications#ListNotificationTopicsRequestTopicType": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "ACCOUNT_TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_team"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#ListNotificationTopicsRequest": {
+      "type": "structure",
+      "members": {
+        "topic_type": {
+          "target": "com.whop.notifications#ListNotificationTopicsRequestTopicType",
+          "traits": {
+            "smithy.api#httpQuery": "topic_type",
+            "smithy.api#documentation": "Only return topics of this scope: `user` (member notifications) or `account_team` (team notifications)."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of topics to return (default 20, max 100)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor; returns topics after this position."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.notifications#NotificationTopic": {
+      "type": "structure",
+      "members": {
+        "default_preference_value": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether notifications for this topic are enabled by default when the user has not set a preference.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable explanation of what notifications in this topic are about. `null` when no description has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Notification topic ID, prefixed `topic_`. This is the value the notification preference endpoints take as `topic_id`.",
+            "smithy.api#required": {}
+          }
+        },
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, human-readable name for the category, such as `new-follower`. Unlike `id`, it is the same in every environment, which makes it the value to match on in code and to read in logs. Treat it as an opaque string: the set is open and the casing is historical rather than normalized.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_mention": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this topic exclusively handles mention-based notifications.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name shown in notification preference settings.",
+            "smithy.api#required": {}
+          }
+        },
+        "topic_type": {
+          "target": "com.whop.notifications#NotificationTopicTopicType",
+          "traits": {
+            "smithy.api#documentation": "Scope of the topic: whether it applies to an account, a user, or an account's team.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#NotificationTopicTopicType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "ACCOUNT_TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_team"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scope of the topic: whether it applies to an account, a user, or an account's team."
+      }
+    },
+    "com.whop.notifications#ListNotificationTopicsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.notifications#NotificationTopic"
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#ListNotificationTopicsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.notifications#ListNotificationTopicsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.notifications#ListNotificationTopicsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.notifications#ListNotificationTopicsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.notifications#ListNotificationTopics": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.notifications#ListNotificationTopicsRequest"
+      },
+      "output": {
+        "target": "com.whop.notifications#ListNotificationTopicsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.notifications#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/notifications/topics",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Notification Topics\n\nLists the platform's visible notification topics — the categories users can set notification preferences on. App-created topics are internal and not returned.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.notifications#GetNotificationRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A notification `id` from List Notifications, or the id delivered with a push/websocket event."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.notifications#GetNotification": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.notifications#GetNotificationRequest"
+      },
+      "output": {
+        "target": "com.whop.notifications#Notification"
+      },
+      "errors": [
+        {
+          "target": "com.whop.notifications#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/notifications/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Notification\n\nRetrieves a single notification by id — either an `id` returned by List Notifications, or the ephemeral id delivered with a push/websocket event. Requires a user credential."
+      }
+    },
+    "com.whop.notifications#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.notifications#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.notifications#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.notifications#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.notifications#Notifications": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.notifications#ListNotifications"
+        },
+        {
+          "target": "com.whop.notifications#SendNotification"
+        },
+        {
+          "target": "com.whop.notifications#ListNotificationBadges"
+        },
+        {
+          "target": "com.whop.notifications#ReadMarkNotification"
+        },
+        {
+          "target": "com.whop.notifications#ListNotificationTopics"
+        },
+        {
+          "target": "com.whop.notifications#GetNotification"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

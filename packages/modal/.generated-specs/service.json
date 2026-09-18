@@ -1,0 +1,95 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.service#ServiceUser": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "tokenId": {
+          "target": "smithy.api#String"
+        },
+        "createdBy": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "lastUsedAt": {
+          "target": "smithy.api#Double"
+        },
+        "createdByAvatarUrl": {
+          "target": "smithy.api#String"
+        },
+        "serviceUserId": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.service#ServiceUserList2": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.service#ServiceUser"
+      }
+    },
+    "com.modal.service#ListServiceUserResponse": {
+      "type": "structure",
+      "members": {
+        "serviceUsers": {
+          "target": "com.modal.service#ServiceUserList2"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.service#ListServiceUser": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.modal.service#ListServiceUserResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ServiceUserList",
+          "code": 200
+        },
+        "smithy.api#documentation": "Service users"
+      }
+    },
+    "com.modal.service#Service": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.service#ListServiceUser"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Service",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Service`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

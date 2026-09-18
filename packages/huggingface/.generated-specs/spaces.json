@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.huggingface.spaces#GetFolderSizeRequest": {
@@ -92,6 +93,42 @@
         "smithy.api#documentation": "Get folder size\n\nGet the total size of a repository at a given revision, optionally under a specific subpath. Returns the total size in bytes of all files under the specified path (recursively). If a file is stored via Xet/LFS, the LFS file size is used."
       }
     },
+    "com.huggingface.spaces#ListLargeFilesRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.spaces#ListLargeFilesRequestSort": {
+      "type": "enum",
+      "members": {
+        "SIZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "size"
+          }
+        },
+        "PUSHEDAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pushedAt"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.huggingface.spaces#ListLargeFilesRequest": {
       "type": "structure",
       "members": {
@@ -115,10 +152,22 @@
             "smithy.api#httpQuery": "cursor"
           }
         },
+        "direction": {
+          "target": "com.huggingface.spaces#ListLargeFilesRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction"
+          }
+        },
         "limit": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "limit"
+          }
+        },
+        "sort": {
+          "target": "com.huggingface.spaces#ListLargeFilesRequestSort",
+          "traits": {
+            "smithy.api#httpQuery": "sort"
           }
         },
         "xet": {
@@ -4539,6 +4588,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "expiration"
+          }
+        },
+        "expires_in": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "expires_in"
           }
         },
         "encrypted": {

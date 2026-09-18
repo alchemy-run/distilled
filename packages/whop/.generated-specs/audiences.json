@@ -1,0 +1,908 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.audiences#ListAudiencesRequestAudienceType": {
+      "type": "enum",
+      "members": {
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "LOOKALIKE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lookalike"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#ListAudiencesRequestSourceType": {
+      "type": "enum",
+      "members": {
+        "CSV_UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "csv_upload"
+          }
+        },
+        "PEOPLE_FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "people_filter"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#ListAudiencesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Account ID, prefixed `biz_`."
+          }
+        },
+        "audience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "audience_id",
+            "smithy.api#documentation": "Audience ID, prefixed `adaud_`, used to filter the response to one audience."
+          }
+        },
+        "audience_type": {
+          "target": "com.whop.audiences#ListAudiencesRequestAudienceType",
+          "traits": {
+            "smithy.api#httpQuery": "audience_type",
+            "smithy.api#documentation": "Filter by audience type: `custom` (uploaded lists) or `lookalike`."
+          }
+        },
+        "source_type": {
+          "target": "com.whop.audiences#ListAudiencesRequestSourceType",
+          "traits": {
+            "smithy.api#httpQuery": "source_type",
+            "smithy.api#documentation": "Filter by member source: `csv_upload` (uploaded lists) or `people_filter` (automatic audiences built from saved People filters)."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of audiences to return. Defaults to 20; maximum 100."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor for the next page of audiences."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.audiences#Audience": {
+      "type": "structure",
+      "members": {
+        "audience_type": {
+          "target": "com.whop.audiences#AudienceAudienceType",
+          "traits": {
+            "smithy.api#documentation": "`custom` = a customer list (uploaded, or built from saved People filters); `lookalike` = Meta lookalike built from a custom audience.",
+            "smithy.api#required": {}
+          }
+        },
+        "auto_refresh": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether membership keeps updating. `true` rebuilds it from the saved filters twice a day, so people join and leave as they start and stop matching. `false` keeps whoever matched when it was built and never rebuilds. Always `false` for uploaded lists and lookalikes.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the audience was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Processing error message. `null` unless processing is partial or failed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "For audiences built from People filters: the filters that define membership, keyed exactly as `GET /people` accepts them — for example `{\"os\": \"iOS\", \"country\": \"US\"}`. `null` for uploaded lists and lookalikes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Audience ID, prefixed `adaud_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_refreshed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the audience membership was last rebuilt, as an ISO 8601 timestamp. `null` until the first build completes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lookalike_ratio": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "For lookalikes: the upper bound of the similarity band as a fraction (0.02 = top 2%). `null` for custom audiences.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lookalike_starting_ratio": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "For lookalikes: the lower bound of the similarity band as a fraction. `null` for custom audiences and first-tier lookalikes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "match_rates": {
+          "target": "com.whop.audiences#AudienceMatchRatesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "matched_rows": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Members successfully uploaded to connected ad accounts. Always 0 for lookalikes.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Audience display name.",
+            "smithy.api#required": {}
+          }
+        },
+        "platform_audience_ids": {
+          "target": "com.whop.audiences#AudiencePlatformAudienceIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "processed_rows": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Members processed from the source so far. Always 0 for lookalikes.",
+            "smithy.api#required": {}
+          }
+        },
+        "progress_percent": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Processing progress from 0 to 100.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_audience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For lookalikes: the audience this lookalike was built from. `null` for custom audiences.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_type": {
+          "target": "com.whop.audiences#AudienceSourceType",
+          "traits": {
+            "smithy.api#documentation": "Where members come from. `csv_upload` = an uploaded customer list; `people_filter` = built from saved People filters. See `auto_refresh` for whether a `people_filter` audience keeps updating.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.audiences#AudienceStatus",
+          "traits": {
+            "smithy.api#documentation": "Current state of the audience import. `syncing` means Whop is sending matched rows to connected ad accounts. When status is `partial` or `failed`, `error_message` explains what went wrong.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_rows": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total members detected in the source — CSV rows for uploaded lists, matching people for automatic audiences. Always 0 for lookalikes.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the audience was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#AudienceAudienceType": {
+      "type": "enum",
+      "members": {
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "LOOKALIKE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lookalike"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`custom` = a customer list (uploaded, or built from saved People filters); `lookalike` = Meta lookalike built from a custom audience."
+      }
+    },
+    "com.whop.audiences#AudienceMatchRate": {
+      "type": "structure",
+      "members": {
+        "lower_bound": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Lower bound of the estimated match rate percentage. `null` until available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "platform": {
+          "target": "com.whop.audiences#AudienceMatchRatePlatform",
+          "traits": {
+            "smithy.api#documentation": "The ad platform that provided the match-rate estimate.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.audiences#AudienceMatchRateStatus",
+          "traits": {
+            "smithy.api#documentation": "Availability of the estimated match rate.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "upper_bound": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Upper bound of the estimated match rate percentage. `null` until available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#AudienceMatchRatePlatform": {
+      "type": "enum",
+      "members": {
+        "META": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The ad platform that provided the match-rate estimate."
+      }
+    },
+    "com.whop.audiences#AudienceMatchRateStatus": {
+      "type": "enum",
+      "members": {
+        "CALCULATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "calculating"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        },
+        "UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unavailable"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Availability of the estimated match rate."
+      }
+    },
+    "com.whop.audiences#AudienceMatchRatesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.audiences#AudienceMatchRate"
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#AudiencePlatformAudienceIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#AudienceSourceType": {
+      "type": "enum",
+      "members": {
+        "CSV_UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "csv_upload"
+          }
+        },
+        "PEOPLE_FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "people_filter"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where members come from. `csv_upload` = an uploaded customer list; `people_filter` = built from saved People filters. See `auto_refresh` for whether a `people_filter` audience keeps updating."
+      }
+    },
+    "com.whop.audiences#AudienceStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "SYNCING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "syncing"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "PARTIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partial"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current state of the audience import. `syncing` means Whop is sending matched rows to connected ad accounts. When status is `partial` or `failed`, `error_message` explains what went wrong."
+      }
+    },
+    "com.whop.audiences#ListAudiencesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.audiences#Audience"
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#ListAudiencesResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#ListAudiencesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.audiences#ListAudiencesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.audiences#ListAudiencesResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.audiences#ListAudiences": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.audiences#ListAudiencesRequest"
+      },
+      "output": {
+        "target": "com.whop.audiences#ListAudiencesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/audiences",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Audiences\n\nLists uploaded customer-list audiences for an account. Pass `audience_id` to return a specific audience.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.audiences#CreateAudienceRequestAudienceType": {
+      "type": "enum",
+      "members": {
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "LOOKALIKE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lookalike"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What to create. Defaults to `custom` (CSV upload)."
+      }
+    },
+    "com.whop.audiences#CreateAudienceRequestColumnMapping": {
+      "type": "structure",
+      "members": {
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CSV header for ISO 3166-1 alpha-2 country codes, such as `US`."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CSV header for email addresses."
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CSV header for first names."
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CSV header for last names."
+          }
+        },
+        "ltv": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CSV header for each customer's lifetime value — a non-negative number, currency symbols allowed. When mapped, Meta creates the audience as value-based, so lookalikes built from it favor people similar to the highest-value customers."
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CSV header for phone numbers."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`."
+      }
+    },
+    "com.whop.audiences#CreateAudienceRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "audience_type": {
+          "target": "com.whop.audiences#CreateAudienceRequestAudienceType",
+          "traits": {
+            "smithy.api#documentation": "What to create. Defaults to `custom` (CSV upload)."
+          }
+        },
+        "auto_refresh": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Filter audiences only, and set only at creation. `true` (the default) rebuilds membership from the filters twice a day. `false` keeps whoever matched at creation and never rebuilds."
+          }
+        },
+        "column_mapping": {
+          "target": "com.whop.audiences#CreateAudienceRequestColumnMapping",
+          "traits": {
+            "smithy.api#documentation": "Custom audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`."
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lookalikes only. Number of lookalike audiences to create (1–6)."
+          }
+        },
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom audiences only. The uploaded customer CSV — a file id (`file_...`) returned by `POST /files`."
+          }
+        },
+        "filters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Filter audiences only. The People filters that define membership, keyed exactly as `GET /people` accepts them — for example `{\"os\": \"iOS\", \"country\": \"US\"}`. Date filters must be rolling windows — `first_seen_within_days` or `last_seen_within_days` — so the audience re-anchors on every refresh; fixed dates such as `first_seen_after` are rejected. Source values are canonical source paths (`whop:<campaign>:<group>:<ad>`, `ext:<platform>:...`, `referrer:<domain>`, `direct`), exact or with a trailing `:*` wildcard."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Audience display name. Required for custom audiences; lookalike names are generated from the source audience."
+          }
+        },
+        "percentage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lookalikes only. Total similarity reach as a whole percent (1–20), sliced evenly across `count` — must be divisible by `count`."
+          }
+        },
+        "source_audience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Lookalikes only. The ready custom audience (`adaud_`) to build from; it needs at least 100 matched people."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.audiences#CreateAudienceResponseBodyCase1DataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.audiences#Audience"
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#CreateAudienceResponseBodyCase1": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.audiences#CreateAudienceResponseBodyCase1DataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#CreateAudienceResponseBody": {
+      "type": "union",
+      "members": {
+        "Audience": {
+          "target": "com.whop.audiences#Audience"
+        },
+        "Case1": {
+          "target": "com.whop.audiences#CreateAudienceResponseBodyCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.audiences#CreateAudienceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.whop.audiences#CreateAudienceResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.audiences#CreateAudience": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.audiences#CreateAudienceRequest"
+      },
+      "output": {
+        "target": "com.whop.audiences#CreateAudienceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.audiences#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/audiences",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Audience\n\nCreates an audience. Default (`audience_type` omitted or `custom`): creates one audience from an uploaded customer identity CSV file (`name`, `column_mapping`, and `file_id` required) and starts processing it; responds with the audience object. With `filters`: creates an audience from saved People filters (`name` required) — membership is built from the account's People data, and `auto_refresh` decides whether it keeps tracking the filters or keeps whoever matched at creation. With `audience_type: lookalike`: creates a ladder of Meta lookalike audiences from an existing ready custom audience (`source_audience_id`, `count`, and `percentage` required) — `count` equal similarity bands slicing the top `percentage`% (3 audiences at 6% = 0–2%, 2–4%, 4–6%), each returned as its own audience in a `{ data: [...] }` envelope."
+      }
+    },
+    "com.whop.audiences#UpdateAudienceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Audience ID, prefixed `adaud_`."
+          }
+        },
+        "filters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Replaces the People filters that define membership. The whole definition is replaced rather than merged, so send every filter you want to keep — a filter you leave out stops applying. Keys and values are the ones `GET /people` accepts, such as an `os` of `iOS` or a `country` of `US`, and at least one filter is required. Date filters must be rolling windows — `first_seen_within_days` or `last_seen_within_days` — so the audience re-anchors every time it rebuilds; fixed dates such as `first_seen_after` are rejected, as is `audience_id`. An array value holds at most 500 items, and each value at most 10 KB. Only an audience with a `source_type` of `people_filter` and `auto_refresh` of `true` accepts filters: an uploaded list has no filters to replace, and with auto refresh off the audience keeps the people it matched when it was built, so create a new audience instead."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New audience display name. A blank value is ignored rather than clearing the name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.audiences#UpdateAudience": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.audiences#UpdateAudienceRequest"
+      },
+      "output": {
+        "target": "com.whop.audiences#Audience"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/audiences/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Audience\n\nRenames an audience. For an audience built from People filters that keeps itself up to date, pass `filters` to replace them, which rebuilds membership immediately. Whether an audience auto refreshes is set when it is created."
+      }
+    },
+    "com.whop.audiences#DeleteAudienceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Audience ID, prefixed `adaud_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.audiences#DeleteAudienceResponse": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.audiences#DeleteAudience": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.audiences#DeleteAudienceRequest"
+      },
+      "output": {
+        "target": "com.whop.audiences#DeleteAudienceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/audiences/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete Audience\n\nDeletes an audience so it is no longer available for targeting."
+      }
+    },
+    "com.whop.audiences#AddAudiencePeopleRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Audience ID, prefixed `adaud_`."
+          }
+        },
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The new customer CSV — a file id (`file_...`) returned by `POST /files`. Its headers must match the audience's saved column mapping.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.audiences#AddAudiencePeople": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.audiences#AddAudiencePeopleRequest"
+      },
+      "output": {
+        "target": "com.whop.audiences#Audience"
+      },
+      "errors": [
+        {
+          "target": "com.whop.audiences#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/audiences/{id}/add_people",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add People\n\nAdds users from a new CSV file to an existing uploaded custom audience. The file uses the audience's saved column mapping, processing happens in the background, and existing audience members remain unchanged."
+      }
+    },
+    "com.whop.audiences#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.audiences#Audiences": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.audiences#ListAudiences"
+        },
+        {
+          "target": "com.whop.audiences#CreateAudience"
+        },
+        {
+          "target": "com.whop.audiences#UpdateAudience"
+        },
+        {
+          "target": "com.whop.audiences#DeleteAudience"
+        },
+        {
+          "target": "com.whop.audiences#AddAudiencePeople"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

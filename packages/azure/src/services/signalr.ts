@@ -12,8 +12,1449 @@ import * as Retry from "../retry.ts";
 
 export type { AzureOpError, AzureOpContext };
 
-export interface OperationsListRequest {}
-export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
+export interface CheckSignalRNameAvailabilityRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** the region */
+  location: string;
+  /** The resource type. Can be "Microsoft.SignalRService/SignalR", "Microsoft.SignalRService/WebPubSub", "Microsoft.SignalRService/SignalR/replicas" or "Microsoft.SignalRService/WebPubSub/replicas" */
+  type: string;
+  /** The resource name to validate. e.g."my-resource-name" */
+  name: string;
+}
+export const CheckSignalRNameAvailabilityRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    location: S.String.pipe(T.Label()),
+    type: S.String,
+    name: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/checkNameAvailability",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "CheckSignalRNameAvailabilityRequest",
+}) as any as S.Schema<CheckSignalRNameAvailabilityRequest>;
+
+/** Result of the request to check name availability. It contains a flag and possible reason of failure. */
+export interface NameAvailability {
+  /** Indicates whether the name is available or not. */
+  nameAvailable?: boolean;
+  /** The reason of the availability. Required if name is not available. */
+  reason?: string;
+  /** The message of the operation. */
+  message?: string;
+}
+export const NameAvailability = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nameAvailable: S.optional(S.Boolean),
+    reason: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "NameAvailability",
+}) as any as S.Schema<NameAvailability>;
+
+export interface DeleteSignalRRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+}
+export const DeleteSignalRRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteSignalRRequest",
+}) as any as S.Schema<DeleteSignalRRequest>;
+
+export interface DeleteSignalRResponse {}
+export const DeleteSignalRResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteSignalRResponse",
+}) as any as S.Schema<DeleteSignalRResponse>;
+
+export interface DeleteSignalRCustomCertificateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** Custom certificate name */
+  certificateName: string;
+}
+export const DeleteSignalRCustomCertificateRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+      certificateName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates/{certificateName}",
+        code: 200,
+        apiVersion: "2024-03-01",
+      }),
+    ),
+).annotate({
+  identifier: "DeleteSignalRCustomCertificateRequest",
+}) as any as S.Schema<DeleteSignalRCustomCertificateRequest>;
+
+export interface DeleteSignalRCustomCertificateResponse {}
+export const DeleteSignalRCustomCertificateResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "DeleteSignalRCustomCertificateResponse",
+}) as any as S.Schema<DeleteSignalRCustomCertificateResponse>;
+
+export interface DeleteSignalRCustomDomainRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** Custom domain name. */
+  name: string;
+}
+export const DeleteSignalRCustomDomainRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+    name: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains/{name}",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteSignalRCustomDomainRequest",
+}) as any as S.Schema<DeleteSignalRCustomDomainRequest>;
+
+export interface DeleteSignalRCustomDomainResponse {}
+export const DeleteSignalRCustomDomainResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteSignalRCustomDomainResponse",
+}) as any as S.Schema<DeleteSignalRCustomDomainResponse>;
+
+export interface DeleteSignalRPrivateEndpointConnectionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** The name of the private endpoint connection associated with the Azure resource. */
+  privateEndpointConnectionName: string;
+}
+export const DeleteSignalRPrivateEndpointConnectionRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+      privateEndpointConnectionName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+        code: 200,
+        apiVersion: "2024-03-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteSignalRPrivateEndpointConnectionRequest",
+  }) as any as S.Schema<DeleteSignalRPrivateEndpointConnectionRequest>;
+
+export interface DeleteSignalRPrivateEndpointConnectionResponse {}
+export const DeleteSignalRPrivateEndpointConnectionResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteSignalRPrivateEndpointConnectionResponse",
+  }) as any as S.Schema<DeleteSignalRPrivateEndpointConnectionResponse>;
+
+export interface DeleteSignalRReplicasRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** The name of the replica. */
+  replicaName: string;
+}
+export const DeleteSignalRReplicasRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+    replicaName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteSignalRReplicasRequest",
+}) as any as S.Schema<DeleteSignalRReplicasRequest>;
+
+export interface DeleteSignalRReplicasResponse {}
+export const DeleteSignalRReplicasResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteSignalRReplicasResponse",
+}) as any as S.Schema<DeleteSignalRReplicasResponse>;
+
+export interface DeleteSignalRSharedPrivateLinkResourceRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** The name of the shared private link resource. */
+  sharedPrivateLinkResourceName: string;
+}
+export const DeleteSignalRSharedPrivateLinkResourceRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+      sharedPrivateLinkResourceName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+        code: 200,
+        apiVersion: "2024-03-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteSignalRSharedPrivateLinkResourceRequest",
+  }) as any as S.Schema<DeleteSignalRSharedPrivateLinkResourceRequest>;
+
+export interface DeleteSignalRSharedPrivateLinkResourceResponse {}
+export const DeleteSignalRSharedPrivateLinkResourceResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteSignalRSharedPrivateLinkResourceResponse",
+  }) as any as S.Schema<DeleteSignalRSharedPrivateLinkResourceResponse>;
+
+export interface GetSignalRRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+}
+export const GetSignalRRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetSignalRRequest",
+}) as any as S.Schema<GetSignalRRequest>;
+
+/** The type of identity that created the resource. */
+export type SystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const SystemDataCreatedByType = S.String;
+
+/** The type of identity that last modified the resource. */
+export type SystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const SystemDataLastModifiedByType = S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: SystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: SystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const SystemData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createdBy: S.optional(S.String),
+    createdByType: S.optional(SystemDataCreatedByType),
+    createdAt: S.optional(S.String),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedByType: S.optional(SystemDataLastModifiedByType),
+    lastModifiedAt: S.optional(S.String),
+  }),
+).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
+
+/** Resource tags. */
+export type GetSignalRResponseTagsMap = { [key: string]: string | undefined };
+export const GetSignalRResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<GetSignalRResponseTagsMap>;
+
+/** Optional tier of this particular SKU. 'Standard' or 'Free'. `Basic` is deprecated, use `Standard` instead. */
+export type SignalRSkuTier = "Free" | "Basic" | "Standard" | "Premium";
+export const SignalRSkuTier = S.String;
+
+/** The billing information of the resource. */
+export interface ResourceSku {
+  /** The name of the SKU. Required. Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2 */
+  name: string;
+  tier?: SignalRSkuTier;
+  /** Not used. Retained for future use. */
+  size?: string;
+  /** Not used. Retained for future use. */
+  family?: string;
+  /** Optional, integer. The unit count of the resource. 1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default. If present, following values are allowed: Free_F1: 1; Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P2: 100,200,300,400,500,600,700,800,900,1000; */
+  capacity?: number;
+}
+export const ResourceSku = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    tier: S.optional(SignalRSkuTier),
+    size: S.optional(S.String),
+    family: S.optional(S.String),
+    capacity: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ResourceSku" }) as any as S.Schema<ResourceSku>;
+
+/** Provisioning state of the resource. */
+export type ProvisioningState =
+  | "Unknown"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Running"
+  | "Creating"
+  | "Updating"
+  | "Deleting"
+  | "Moving";
+export const ProvisioningState = S.String;
+
+/** Private endpoint */
+export interface PrivateEndpoint {
+  /** Full qualified Id of the private endpoint */
+  id?: string;
+}
+export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PrivateEndpoint",
+}) as any as S.Schema<PrivateEndpoint>;
+
+/** Group IDs */
+export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
+export const PrivateEndpointConnectionPropertiesGroupIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PrivateEndpointConnectionPropertiesGroupIdsList>;
+
+/** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+export type PrivateLinkServiceConnectionStatus =
+  | "Pending"
+  | "Approved"
+  | "Rejected"
+  | "Disconnected";
+export const PrivateLinkServiceConnectionStatus = S.String;
+
+/** Connection state of the private endpoint connection */
+export interface PrivateLinkServiceConnectionState {
+  status?: PrivateLinkServiceConnectionStatus | (string & {});
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+export const PrivateLinkServiceConnectionState = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(PrivateLinkServiceConnectionStatus),
+    description: S.optional(S.String),
+    actionsRequired: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PrivateLinkServiceConnectionState",
+}) as any as S.Schema<PrivateLinkServiceConnectionState>;
+
+/** Private endpoint connection properties */
+export interface PrivateEndpointConnectionProperties {
+  provisioningState?: ProvisioningState;
+  privateEndpoint?: PrivateEndpoint;
+  /** Group IDs */
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+}
+export const PrivateEndpointConnectionProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provisioningState: S.optional(ProvisioningState),
+    privateEndpoint: S.optional(PrivateEndpoint),
+    groupIds: S.optional(PrivateEndpointConnectionPropertiesGroupIdsList),
+    privateLinkServiceConnectionState: S.optional(
+      PrivateLinkServiceConnectionState,
+    ),
+  }),
+).annotate({
+  identifier: "PrivateEndpointConnectionProperties",
+}) as any as S.Schema<PrivateEndpointConnectionProperties>;
+
+/** A private endpoint connection to an azure resource */
+export interface PrivateEndpointConnection {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties?: PrivateEndpointConnectionProperties;
+}
+export const PrivateEndpointConnection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: S.optional(PrivateEndpointConnectionProperties),
+  }),
+).annotate({
+  identifier: "PrivateEndpointConnection",
+}) as any as S.Schema<PrivateEndpointConnection>;
+
+/** Private endpoint connections to the resource. */
+export type SignalRPropertiesPrivateEndpointConnectionsList =
+  Array<PrivateEndpointConnection>;
+export const SignalRPropertiesPrivateEndpointConnectionsList =
+  /*@__PURE__*/ S.Array(
+    PrivateEndpointConnection,
+  ) as any as S.Schema<SignalRPropertiesPrivateEndpointConnectionsList>;
+
+/** Status of the shared private link resource */
+export type SharedPrivateLinkResourceStatus =
+  | "Pending"
+  | "Approved"
+  | "Rejected"
+  | "Disconnected"
+  | "Timeout";
+export const SharedPrivateLinkResourceStatus = S.String;
+
+/** Describes the properties of an existing Shared Private Link Resource */
+export interface SharedPrivateLinkResourceProperties {
+  /** The group id from the provider of resource the shared private link resource is for */
+  groupId: string;
+  /** The resource id of the resource the shared private link resource is for */
+  privateLinkResourceId: string;
+  provisioningState?: ProvisioningState;
+  /** The request message for requesting approval of the shared private link resource */
+  requestMessage?: string;
+  status?: SharedPrivateLinkResourceStatus;
+}
+export const SharedPrivateLinkResourceProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groupId: S.String,
+    privateLinkResourceId: S.String,
+    provisioningState: S.optional(ProvisioningState),
+    requestMessage: S.optional(S.String),
+    status: S.optional(SharedPrivateLinkResourceStatus),
+  }),
+).annotate({
+  identifier: "SharedPrivateLinkResourceProperties",
+}) as any as S.Schema<SharedPrivateLinkResourceProperties>;
+
+/** Describes a Shared Private Link Resource */
+export interface SharedPrivateLinkResource {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties?: SharedPrivateLinkResourceProperties;
+}
+export const SharedPrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: S.optional(SharedPrivateLinkResourceProperties),
+  }),
+).annotate({
+  identifier: "SharedPrivateLinkResource",
+}) as any as S.Schema<SharedPrivateLinkResource>;
+
+/** The list of shared private link resources. */
+export type SignalRPropertiesSharedPrivateLinkResourcesList =
+  Array<SharedPrivateLinkResource>;
+export const SignalRPropertiesSharedPrivateLinkResourcesList =
+  /*@__PURE__*/ S.Array(
+    SharedPrivateLinkResource,
+  ) as any as S.Schema<SignalRPropertiesSharedPrivateLinkResourcesList>;
+
+/** TLS settings for the resource */
+export interface SignalRTlsSettings {
+  /** Request client certificate during TLS handshake if enabled. Not supported for free tier. Any input will be ignored for free tier. */
+  clientCertEnabled?: boolean;
+}
+export const SignalRTlsSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientCertEnabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "SignalRTlsSettings",
+}) as any as S.Schema<SignalRTlsSettings>;
+
+/** FeatureFlags is the supported features of Azure SignalR service. - ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended; "PredefinedOnly": for future use. - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively. - EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category respectively. - EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: "true"/"false", to enable/disable live trace feature. */
+export type FeatureFlags =
+  | "ServiceMode"
+  | "EnableConnectivityLogs"
+  | "EnableMessagingLogs"
+  | "EnableLiveTrace";
+export const FeatureFlags = S.String;
+
+/** Optional properties related to this feature. */
+export type SignalRFeaturePropertiesMap = { [key: string]: string | undefined };
+export const SignalRFeaturePropertiesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<SignalRFeaturePropertiesMap>;
+
+/** Feature of a resource, which controls the runtime behavior. */
+export interface SignalRFeature {
+  flag: FeatureFlags | (string & {});
+  /** Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for allowed values. */
+  value: string;
+  /** Optional properties related to this feature. */
+  properties?: SignalRFeaturePropertiesMap;
+}
+export const SignalRFeature = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    flag: FeatureFlags,
+    value: S.String,
+    properties: S.optional(SignalRFeaturePropertiesMap),
+  }),
+).annotate({ identifier: "SignalRFeature" }) as any as S.Schema<SignalRFeature>;
+
+/** List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags. */
+export type SignalRPropertiesFeaturesList = Array<SignalRFeature>;
+export const SignalRPropertiesFeaturesList = /*@__PURE__*/ S.Array(
+  SignalRFeature,
+) as any as S.Schema<SignalRPropertiesFeaturesList>;
+
+/** Live trace category configuration of a Microsoft.SignalRService resource. */
+export interface LiveTraceCategory {
+  /** Gets or sets the live trace category's name. Available values: ConnectivityLogs, MessagingLogs. Case insensitive. */
+  name?: string;
+  /** Indicates whether or the live trace category is enabled. Available values: true, false. Case insensitive. */
+  enabled?: string;
+}
+export const LiveTraceCategory = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    enabled: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LiveTraceCategory",
+}) as any as S.Schema<LiveTraceCategory>;
+
+/** Gets or sets the list of category configurations. */
+export type LiveTraceConfigurationCategoriesList = Array<LiveTraceCategory>;
+export const LiveTraceConfigurationCategoriesList = /*@__PURE__*/ S.Array(
+  LiveTraceCategory,
+) as any as S.Schema<LiveTraceConfigurationCategoriesList>;
+
+/** Live trace configuration of a Microsoft.SignalRService resource. */
+export interface LiveTraceConfiguration {
+  /** Indicates whether or not enable live trace. When it's set to true, live trace client can connect to the service. Otherwise, live trace client can't connect to the service, so that you are unable to receive any log, no matter what you configure in "categories". Available values: true, false. Case insensitive. */
+  enabled?: string;
+  /** Gets or sets the list of category configurations. */
+  categories?: LiveTraceConfigurationCategoriesList;
+}
+export const LiveTraceConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.String),
+    categories: S.optional(LiveTraceConfigurationCategoriesList),
+  }),
+).annotate({
+  identifier: "LiveTraceConfiguration",
+}) as any as S.Schema<LiveTraceConfiguration>;
+
+/** Resource log category configuration of a Microsoft.SignalRService resource. */
+export interface ResourceLogCategory {
+  /** Gets or sets the resource log category's name. Available values: ConnectivityLogs, MessagingLogs. Case insensitive. */
+  name?: string;
+  /** Indicates whether or the resource log category is enabled. Available values: true, false. Case insensitive. */
+  enabled?: string;
+}
+export const ResourceLogCategory = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    enabled: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResourceLogCategory",
+}) as any as S.Schema<ResourceLogCategory>;
+
+/** Gets or sets the list of category configurations. */
+export type ResourceLogConfigurationCategoriesList = Array<ResourceLogCategory>;
+export const ResourceLogConfigurationCategoriesList = /*@__PURE__*/ S.Array(
+  ResourceLogCategory,
+) as any as S.Schema<ResourceLogConfigurationCategoriesList>;
+
+/** Resource log configuration of a Microsoft.SignalRService resource. */
+export interface ResourceLogConfiguration {
+  /** Gets or sets the list of category configurations. */
+  categories?: ResourceLogConfigurationCategoriesList;
+}
+export const ResourceLogConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    categories: S.optional(ResourceLogConfigurationCategoriesList),
+  }),
+).annotate({
+  identifier: "ResourceLogConfiguration",
+}) as any as S.Schema<ResourceLogConfiguration>;
+
+/** Gets or sets the list of origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). Use "*" to allow all. If omitted, allow all by default. */
+export type SignalRCorsSettingsAllowedOriginsList = Array<string>;
+export const SignalRCorsSettingsAllowedOriginsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SignalRCorsSettingsAllowedOriginsList>;
+
+/** Cross-Origin Resource Sharing (CORS) settings. */
+export interface SignalRCorsSettings {
+  /** Gets or sets the list of origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). Use "*" to allow all. If omitted, allow all by default. */
+  allowedOrigins?: SignalRCorsSettingsAllowedOriginsList;
+}
+export const SignalRCorsSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedOrigins: S.optional(SignalRCorsSettingsAllowedOriginsList),
+  }),
+).annotate({
+  identifier: "SignalRCorsSettings",
+}) as any as S.Schema<SignalRCorsSettings>;
+
+/** Serverless settings. */
+export interface ServerlessSettings {
+  /** Gets or sets Client Connection Timeout. Optional to be set. Value in seconds. Default value is 30 seconds. Customer should set the timeout to a shorter period if messages are expected to be sent in shorter intervals, and want the client to disconnect more quickly after the last message is sent. You can set the timeout to a longer period if messages are expected to be sent in longer intervals, and they want to keep the same client connection alive during this session. The service considers the client disconnected if it hasn't received a message (including keep-alive) in this interval. */
+  connectionTimeoutInSeconds?: number;
+}
+export const ServerlessSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connectionTimeoutInSeconds: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ServerlessSettings",
+}) as any as S.Schema<ServerlessSettings>;
+
+/** Upstream auth type enum. */
+export type UpstreamAuthType = "None" | "ManagedIdentity";
+export const UpstreamAuthType = S.String;
+
+/** Managed identity settings for upstream. */
+export interface ManagedIdentitySettings {
+  /** The Resource indicating the App ID URI of the target resource. It also appears in the aud (audience) claim of the issued token. */
+  resource?: string;
+}
+export const ManagedIdentitySettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resource: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ManagedIdentitySettings",
+}) as any as S.Schema<ManagedIdentitySettings>;
+
+/** Upstream auth settings. If not set, no auth is used for upstream messages. */
+export interface UpstreamAuthSettings {
+  type?: UpstreamAuthType | (string & {});
+  managedIdentity?: ManagedIdentitySettings;
+}
+export const UpstreamAuthSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(UpstreamAuthType),
+    managedIdentity: S.optional(ManagedIdentitySettings),
+  }),
+).annotate({
+  identifier: "UpstreamAuthSettings",
+}) as any as S.Schema<UpstreamAuthSettings>;
+
+/** Upstream template item settings. It defines the Upstream URL of the incoming requests. The template defines the pattern of the event, the hub or the category of the incoming request that matches current URL template. */
+export interface UpstreamTemplate {
+  /** Gets or sets the matching pattern for hub names. If not set, it matches any hub. There are 3 kind of patterns supported: 1. "*", it to matches any hub name. 2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1" and "hub2". 3. The single hub name, for example, "hub1", it matches "hub1". */
+  hubPattern?: string;
+  /** Gets or sets the matching pattern for event names. If not set, it matches any event. There are 3 kind of patterns supported: 1. "*", it to matches any event name. 2. Combine multiple events with ",", for example "connect,disconnect", it matches event "connect" and "disconnect". 3. The single event name, for example, "connect", it matches "connect". */
+  eventPattern?: string;
+  /** Gets or sets the matching pattern for category names. If not set, it matches any category. There are 3 kind of patterns supported: 1. "*", it to matches any category name. 2. Combine multiple categories with ",", for example "connections,messages", it matches category "connections" and "messages". 3. The single category name, for example, "connections", it matches the category "connections". */
+  categoryPattern?: string;
+  /** Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event} inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in. For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat` connects, it will first POST to this URL: `http://example.com/chat/api/connect`. */
+  urlTemplate: string;
+  auth?: UpstreamAuthSettings;
+}
+export const UpstreamTemplate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hubPattern: S.optional(S.String),
+    eventPattern: S.optional(S.String),
+    categoryPattern: S.optional(S.String),
+    urlTemplate: S.String,
+    auth: S.optional(UpstreamAuthSettings),
+  }),
+).annotate({
+  identifier: "UpstreamTemplate",
+}) as any as S.Schema<UpstreamTemplate>;
+
+/** Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects. */
+export type ServerlessUpstreamSettingsTemplatesList = Array<UpstreamTemplate>;
+export const ServerlessUpstreamSettingsTemplatesList = /*@__PURE__*/ S.Array(
+  UpstreamTemplate,
+) as any as S.Schema<ServerlessUpstreamSettingsTemplatesList>;
+
+/** The settings for the Upstream when the service is in server-less mode. */
+export interface ServerlessUpstreamSettings {
+  /** Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects. */
+  templates?: ServerlessUpstreamSettingsTemplatesList;
+}
+export const ServerlessUpstreamSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    templates: S.optional(ServerlessUpstreamSettingsTemplatesList),
+  }),
+).annotate({
+  identifier: "ServerlessUpstreamSettings",
+}) as any as S.Schema<ServerlessUpstreamSettings>;
+
+/** Azure Networking ACL Action. */
+export type ACLAction = "Allow" | "Deny";
+export const ACLAction = S.String;
+
+/** The incoming request type to the service */
+export type SignalRRequestType =
+  | "ClientConnection"
+  | "ServerConnection"
+  | "RESTAPI"
+  | "Trace";
+export const SignalRRequestType = S.String;
+
+/** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
+export type NetworkACLAllowList = Array<SignalRRequestType | (string & {})>;
+export const NetworkACLAllowList = /*@__PURE__*/ S.Array(
+  SignalRRequestType,
+) as any as S.Schema<NetworkACLAllowList>;
+
+/** Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
+export type NetworkACLDenyList = Array<SignalRRequestType | (string & {})>;
+export const NetworkACLDenyList = /*@__PURE__*/ S.Array(
+  SignalRRequestType,
+) as any as S.Schema<NetworkACLDenyList>;
+
+/** Network ACL */
+export interface NetworkACL {
+  /** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
+  allow?: NetworkACLAllowList;
+  /** Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
+  deny?: NetworkACLDenyList;
+}
+export const NetworkACL = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allow: S.optional(NetworkACLAllowList),
+    deny: S.optional(NetworkACLDenyList),
+  }),
+).annotate({ identifier: "NetworkACL" }) as any as S.Schema<NetworkACL>;
+
+/** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
+export type PrivateEndpointACLAllowList = Array<
+  SignalRRequestType | (string & {})
+>;
+export const PrivateEndpointACLAllowList = /*@__PURE__*/ S.Array(
+  SignalRRequestType,
+) as any as S.Schema<PrivateEndpointACLAllowList>;
+
+/** Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
+export type PrivateEndpointACLDenyList = Array<
+  SignalRRequestType | (string & {})
+>;
+export const PrivateEndpointACLDenyList = /*@__PURE__*/ S.Array(
+  SignalRRequestType,
+) as any as S.Schema<PrivateEndpointACLDenyList>;
+
+/** ACL for a private endpoint */
+export interface PrivateEndpointACL {
+  /** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
+  allow?: PrivateEndpointACLAllowList;
+  /** Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
+  deny?: PrivateEndpointACLDenyList;
+  /** Name of the private endpoint connection */
+  name: string;
+}
+export const PrivateEndpointACL = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allow: S.optional(PrivateEndpointACLAllowList),
+    deny: S.optional(PrivateEndpointACLDenyList),
+    name: S.String,
+  }),
+).annotate({
+  identifier: "PrivateEndpointACL",
+}) as any as S.Schema<PrivateEndpointACL>;
+
+/** ACLs for requests from private endpoints */
+export type SignalRNetworkACLsPrivateEndpointsList = Array<PrivateEndpointACL>;
+export const SignalRNetworkACLsPrivateEndpointsList = /*@__PURE__*/ S.Array(
+  PrivateEndpointACL,
+) as any as S.Schema<SignalRNetworkACLsPrivateEndpointsList>;
+
+/** An IP rule */
+export interface IPRule {
+  /** An IP or CIDR or ServiceTag */
+  value?: string;
+  action?: ACLAction | (string & {});
+}
+export const IPRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    action: S.optional(ACLAction),
+  }),
+).annotate({ identifier: "IPRule" }) as any as S.Schema<IPRule>;
+
+/** IP rules for filtering public traffic */
+export type SignalRNetworkACLsIpRulesList = Array<IPRule>;
+export const SignalRNetworkACLsIpRulesList = /*@__PURE__*/ S.Array(
+  IPRule,
+) as any as S.Schema<SignalRNetworkACLsIpRulesList>;
+
+/** Network ACLs for the resource */
+export interface SignalRNetworkACLs {
+  defaultAction?: ACLAction | (string & {});
+  publicNetwork?: NetworkACL;
+  /** ACLs for requests from private endpoints */
+  privateEndpoints?: SignalRNetworkACLsPrivateEndpointsList;
+  /** IP rules for filtering public traffic */
+  ipRules?: SignalRNetworkACLsIpRulesList;
+}
+export const SignalRNetworkACLs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaultAction: S.optional(ACLAction),
+    publicNetwork: S.optional(NetworkACL),
+    privateEndpoints: S.optional(SignalRNetworkACLsPrivateEndpointsList),
+    ipRules: S.optional(SignalRNetworkACLsIpRulesList),
+  }),
+).annotate({
+  identifier: "SignalRNetworkACLs",
+}) as any as S.Schema<SignalRNetworkACLs>;
+
+/** A class that describes the properties of the resource */
+export interface SignalRProperties {
+  provisioningState?: ProvisioningState;
+  /** The publicly accessible IP of the resource. */
+  externalIP?: string;
+  /** FQDN of the service instance. */
+  hostName?: string;
+  /** The publicly accessible port of the resource which is designed for browser/client side usage. */
+  publicPort?: number;
+  /** The publicly accessible port of the resource which is designed for customer server side usage. */
+  serverPort?: number;
+  /** Version of the resource. Probably you need the same or higher version of client SDKs. */
+  version?: string;
+  /** Private endpoint connections to the resource. */
+  privateEndpointConnections?: SignalRPropertiesPrivateEndpointConnectionsList;
+  /** The list of shared private link resources. */
+  sharedPrivateLinkResources?: SignalRPropertiesSharedPrivateLinkResourcesList;
+  tls?: SignalRTlsSettings;
+  /** Deprecated. */
+  hostNamePrefix?: string;
+  /** List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags. */
+  features?: SignalRPropertiesFeaturesList;
+  liveTraceConfiguration?: LiveTraceConfiguration;
+  resourceLogConfiguration?: ResourceLogConfiguration;
+  cors?: SignalRCorsSettings;
+  serverless?: ServerlessSettings;
+  upstream?: ServerlessUpstreamSettings;
+  networkACLs?: SignalRNetworkACLs;
+  /** Enable or disable public network access. Default to "Enabled". When it's Enabled, network ACLs still apply. When it's Disabled, public network access is always disabled no matter what you set in network ACLs. */
+  publicNetworkAccess?: string;
+  /** DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won't work. */
+  disableLocalAuth?: boolean;
+  /** DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won't work. */
+  disableAadAuth?: boolean;
+  /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. This property is replica specific. Disable the regional endpoint without replica is not allowed. */
+  regionEndpointEnabled?: string;
+  /** Stop or start the resource. Default to "False". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
+  resourceStopped?: string;
+}
+export const SignalRProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provisioningState: S.optional(ProvisioningState),
+    externalIP: S.optional(S.String),
+    hostName: S.optional(S.String),
+    publicPort: S.optional(S.Number),
+    serverPort: S.optional(S.Number),
+    version: S.optional(S.String),
+    privateEndpointConnections: S.optional(
+      SignalRPropertiesPrivateEndpointConnectionsList,
+    ),
+    sharedPrivateLinkResources: S.optional(
+      SignalRPropertiesSharedPrivateLinkResourcesList,
+    ),
+    tls: S.optional(SignalRTlsSettings),
+    hostNamePrefix: S.optional(S.String),
+    features: S.optional(SignalRPropertiesFeaturesList),
+    liveTraceConfiguration: S.optional(LiveTraceConfiguration),
+    resourceLogConfiguration: S.optional(ResourceLogConfiguration),
+    cors: S.optional(SignalRCorsSettings),
+    serverless: S.optional(ServerlessSettings),
+    upstream: S.optional(ServerlessUpstreamSettings),
+    networkACLs: S.optional(SignalRNetworkACLs),
+    publicNetworkAccess: S.optional(S.String),
+    disableLocalAuth: S.optional(S.Boolean),
+    disableAadAuth: S.optional(S.Boolean),
+    regionEndpointEnabled: S.optional(S.String),
+    resourceStopped: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SignalRProperties",
+}) as any as S.Schema<SignalRProperties>;
+
+/** The kind of the service */
+export type ServiceKind = "SignalR" | "RawWebSockets";
+export const ServiceKind = S.String;
+
+/** Represents the identity type: systemAssigned, userAssigned, None */
+export type ManagedIdentityType = "None" | "SystemAssigned" | "UserAssigned";
+export const ManagedIdentityType = S.String;
+
+/** Properties of user assigned identity. */
+export interface UserAssignedIdentityProperty {
+  /** Get the principal id for the user assigned identity */
+  principalId?: string;
+  /** Get the client id for the user assigned identity */
+  clientId?: string;
+}
+export const UserAssignedIdentityProperty = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    clientId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UserAssignedIdentityProperty",
+}) as any as S.Schema<UserAssignedIdentityProperty>;
+
+/** Get or set the user assigned identities */
+export type ManagedIdentityUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentityProperty | undefined;
+};
+export const ManagedIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UserAssignedIdentityProperty,
+) as any as S.Schema<ManagedIdentityUserAssignedIdentitiesMap>;
+
+/** A class represent managed identities used for request and response */
+export interface ManagedIdentity {
+  type?: ManagedIdentityType;
+  /** Get or set the user assigned identities */
+  userAssignedIdentities?: ManagedIdentityUserAssignedIdentitiesMap;
+  /** Get the principal id for the system assigned identity. Only be used in response. */
+  principalId?: string;
+  /** Get the tenant id for the system assigned identity. Only be used in response */
+  tenantId?: string;
+}
+export const ManagedIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ManagedIdentityType),
+    userAssignedIdentities: S.optional(
+      ManagedIdentityUserAssignedIdentitiesMap,
+    ),
+    principalId: S.optional(S.String),
+    tenantId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ManagedIdentity",
+}) as any as S.Schema<ManagedIdentity>;
+
+export interface GetSignalRResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: GetSignalRResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  sku?: ResourceSku;
+  properties?: SignalRProperties;
+  kind?: ServiceKind;
+  identity?: ManagedIdentity;
+}
+export const GetSignalRResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(GetSignalRResponseTagsMap),
+    location: S.String,
+    sku: S.optional(ResourceSku),
+    properties: S.optional(SignalRProperties),
+    kind: S.optional(ServiceKind),
+    identity: S.optional(ManagedIdentity),
+  }),
+).annotate({
+  identifier: "GetSignalRResponse",
+}) as any as S.Schema<GetSignalRResponse>;
+
+export interface GetSignalRCustomCertificateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** Custom certificate name */
+  certificateName: string;
+}
+export const GetSignalRCustomCertificateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+    certificateName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates/{certificateName}",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetSignalRCustomCertificateRequest",
+}) as any as S.Schema<GetSignalRCustomCertificateRequest>;
+
+/** Custom certificate properties. */
+export interface CustomCertificateProperties {
+  provisioningState?: ProvisioningState;
+  /** Base uri of the KeyVault that stores certificate. */
+  keyVaultBaseUri: string;
+  /** Certificate secret name. */
+  keyVaultSecretName: string;
+  /** Certificate secret version. */
+  keyVaultSecretVersion?: string;
+}
+export const CustomCertificateProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provisioningState: S.optional(ProvisioningState),
+    keyVaultBaseUri: S.String,
+    keyVaultSecretName: S.String,
+    keyVaultSecretVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CustomCertificateProperties",
+}) as any as S.Schema<CustomCertificateProperties>;
+
+export interface GetSignalRCustomCertificateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties: CustomCertificateProperties;
+}
+export const GetSignalRCustomCertificateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: CustomCertificateProperties,
+  }),
+).annotate({
+  identifier: "GetSignalRCustomCertificateResponse",
+}) as any as S.Schema<GetSignalRCustomCertificateResponse>;
+
+export interface GetSignalRCustomDomainRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** Custom domain name. */
+  name: string;
+}
+export const GetSignalRCustomDomainRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+    name: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains/{name}",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetSignalRCustomDomainRequest",
+}) as any as S.Schema<GetSignalRCustomDomainRequest>;
+
+/** Reference to a resource. */
+export interface ResourceReference {
+  /** Resource ID. */
+  id?: string;
+}
+export const ResourceReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResourceReference",
+}) as any as S.Schema<ResourceReference>;
+
+/** Properties of a custom domain. */
+export interface CustomDomainProperties {
+  provisioningState?: ProvisioningState;
+  /** The custom domain name. */
+  domainName: string;
+  customCertificate: ResourceReference;
+}
+export const CustomDomainProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provisioningState: S.optional(ProvisioningState),
+    domainName: S.String,
+    customCertificate: ResourceReference,
+  }),
+).annotate({
+  identifier: "CustomDomainProperties",
+}) as any as S.Schema<CustomDomainProperties>;
+
+export interface GetSignalRCustomDomainResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties: CustomDomainProperties;
+}
+export const GetSignalRCustomDomainResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: CustomDomainProperties,
+  }),
+).annotate({
+  identifier: "GetSignalRCustomDomainResponse",
+}) as any as S.Schema<GetSignalRCustomDomainResponse>;
+
+export interface GetSignalRPrivateEndpointConnectionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** The name of the private endpoint connection associated with the Azure resource. */
+  privateEndpointConnectionName: string;
+}
+export const GetSignalRPrivateEndpointConnectionRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+      privateEndpointConnectionName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+        code: 200,
+        apiVersion: "2024-03-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetSignalRPrivateEndpointConnectionRequest",
+  }) as any as S.Schema<GetSignalRPrivateEndpointConnectionRequest>;
+
+export interface GetSignalRPrivateEndpointConnectionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties?: PrivateEndpointConnectionProperties;
+}
+export const GetSignalRPrivateEndpointConnectionResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: S.optional(PrivateEndpointConnectionProperties),
+    }),
+  ).annotate({
+    identifier: "GetSignalRPrivateEndpointConnectionResponse",
+  }) as any as S.Schema<GetSignalRPrivateEndpointConnectionResponse>;
+
+export interface GetSignalRReplicasRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** The name of the replica. */
+  replicaName: string;
+}
+export const GetSignalRReplicasRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+    replicaName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetSignalRReplicasRequest",
+}) as any as S.Schema<GetSignalRReplicasRequest>;
+
+/** Resource tags. */
+export type GetSignalRReplicasResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const GetSignalRReplicasResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<GetSignalRReplicasResponseTagsMap>;
+
+export interface ReplicaProperties {
+  provisioningState?: ProvisioningState;
+  /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. */
+  regionEndpointEnabled?: string;
+  /** Stop or start the resource. Default to "false". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
+  resourceStopped?: string;
+}
+export const ReplicaProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provisioningState: S.optional(ProvisioningState),
+    regionEndpointEnabled: S.optional(S.String),
+    resourceStopped: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ReplicaProperties",
+}) as any as S.Schema<ReplicaProperties>;
+
+export interface GetSignalRReplicasResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: GetSignalRReplicasResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  sku?: ResourceSku;
+  properties?: ReplicaProperties;
+}
+export const GetSignalRReplicasResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(GetSignalRReplicasResponseTagsMap),
+    location: S.String,
+    sku: S.optional(ResourceSku),
+    properties: S.optional(ReplicaProperties),
+  }),
+).annotate({
+  identifier: "GetSignalRReplicasResponse",
+}) as any as S.Schema<GetSignalRReplicasResponse>;
+
+export interface GetSignalRReplicaSharedPrivateLinkResourceRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** The name of the replica. */
+  replicaName: string;
+  /** The name of the shared private link resource. */
+  sharedPrivateLinkResourceName: string;
+}
+export const GetSignalRReplicaSharedPrivateLinkResourceRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+      replicaName: S.String.pipe(T.Label()),
+      sharedPrivateLinkResourceName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+        code: 200,
+        apiVersion: "2024-03-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetSignalRReplicaSharedPrivateLinkResourceRequest",
+  }) as any as S.Schema<GetSignalRReplicaSharedPrivateLinkResourceRequest>;
+
+export interface GetSignalRReplicaSharedPrivateLinkResourceResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties?: SharedPrivateLinkResourceProperties;
+}
+export const GetSignalRReplicaSharedPrivateLinkResourceResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: S.optional(SharedPrivateLinkResourceProperties),
+    }),
+  ).annotate({
+    identifier: "GetSignalRReplicaSharedPrivateLinkResourceResponse",
+  }) as any as S.Schema<GetSignalRReplicaSharedPrivateLinkResourceResponse>;
+
+export interface GetSignalRSharedPrivateLinkResourceRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** The name of the shared private link resource. */
+  sharedPrivateLinkResourceName: string;
+}
+export const GetSignalRSharedPrivateLinkResourceRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+      sharedPrivateLinkResourceName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+        code: 200,
+        apiVersion: "2024-03-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetSignalRSharedPrivateLinkResourceRequest",
+  }) as any as S.Schema<GetSignalRSharedPrivateLinkResourceRequest>;
+
+export interface GetSignalRSharedPrivateLinkResourceResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties?: SharedPrivateLinkResourceProperties;
+}
+export const GetSignalRSharedPrivateLinkResourceResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: S.optional(SharedPrivateLinkResourceProperties),
+    }),
+  ).annotate({
+    identifier: "GetSignalRSharedPrivateLinkResourceResponse",
+  }) as any as S.Schema<GetSignalRSharedPrivateLinkResourceResponse>;
+
+export interface ListOperationsRequest {}
+export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
     T.Http({
       method: "GET",
@@ -23,8 +1464,8 @@ export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "OperationsListRequest",
-}) as any as S.Schema<OperationsListRequest>;
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that describes a operation. */
 export interface OperationDisplay {
@@ -209,1581 +1650,13 @@ export const OperationList = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "OperationList" }) as any as S.Schema<OperationList>;
 
-export interface SignalRCheckNameAvailabilityRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** the region */
-  location: string;
-  /** The resource type. Can be "Microsoft.SignalRService/SignalR", "Microsoft.SignalRService/WebPubSub", "Microsoft.SignalRService/SignalR/replicas" or "Microsoft.SignalRService/WebPubSub/replicas" */
-  type: string;
-  /** The resource name to validate. e.g."my-resource-name" */
-  name: string;
-}
-export const SignalRCheckNameAvailabilityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    location: S.String.pipe(T.Label()),
-    type: S.String,
-    name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/checkNameAvailability",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRCheckNameAvailabilityRequest",
-}) as any as S.Schema<SignalRCheckNameAvailabilityRequest>;
-
-/** Result of the request to check name availability. It contains a flag and possible reason of failure. */
-export interface NameAvailability {
-  /** Indicates whether the name is available or not. */
-  nameAvailable?: boolean;
-  /** The reason of the availability. Required if name is not available. */
-  reason?: string;
-  /** The message of the operation. */
-  message?: string;
-}
-export const NameAvailability = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nameAvailable: S.optional(S.Boolean),
-    reason: S.optional(S.String),
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NameAvailability",
-}) as any as S.Schema<NameAvailability>;
-
-/** Resource tags. */
-export type SignalRCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
-export const SignalRCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<SignalRCreateOrUpdateRequestTagsMap>;
-
-/** Optional tier of this particular SKU. 'Standard' or 'Free'. `Basic` is deprecated, use `Standard` instead. */
-export type SignalRSkuTier = "Free" | "Basic" | "Standard" | "Premium";
-export const SignalRSkuTier = /*@__PURE__*/ S.String;
-
-/** The billing information of the resource. */
-export interface ResourceSkuInput {
-  /** The name of the SKU. Required. Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2 */
-  name: string;
-  tier?: SignalRSkuTier | (string & {});
-  /** Optional, integer. The unit count of the resource. 1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default. If present, following values are allowed: Free_F1: 1; Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P2: 100,200,300,400,500,600,700,800,900,1000; */
-  capacity?: number;
-}
-export const ResourceSkuInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    tier: S.optional(SignalRSkuTier),
-    capacity: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ResourceSkuInput",
-}) as any as S.Schema<ResourceSkuInput>;
-
-/** TLS settings for the resource */
-export interface SignalRTlsSettings {
-  /** Request client certificate during TLS handshake if enabled. Not supported for free tier. Any input will be ignored for free tier. */
-  clientCertEnabled?: boolean;
-}
-export const SignalRTlsSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientCertEnabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "SignalRTlsSettings",
-}) as any as S.Schema<SignalRTlsSettings>;
-
-/** FeatureFlags is the supported features of Azure SignalR service. - ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended; "PredefinedOnly": for future use. - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively. - EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category respectively. - EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: "true"/"false", to enable/disable live trace feature. */
-export type FeatureFlags =
-  | "ServiceMode"
-  | "EnableConnectivityLogs"
-  | "EnableMessagingLogs"
-  | "EnableLiveTrace";
-export const FeatureFlags = /*@__PURE__*/ S.String;
-
-/** Optional properties related to this feature. */
-export type SignalRFeaturePropertiesMap = { [key: string]: string | undefined };
-export const SignalRFeaturePropertiesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<SignalRFeaturePropertiesMap>;
-
-/** Feature of a resource, which controls the runtime behavior. */
-export interface SignalRFeature {
-  flag: FeatureFlags | (string & {});
-  /** Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for allowed values. */
-  value: string;
-  /** Optional properties related to this feature. */
-  properties?: SignalRFeaturePropertiesMap;
-}
-export const SignalRFeature = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    flag: FeatureFlags,
-    value: S.String,
-    properties: S.optional(SignalRFeaturePropertiesMap),
-  }),
-).annotate({ identifier: "SignalRFeature" }) as any as S.Schema<SignalRFeature>;
-
-/** List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags. */
-export type SignalRPropertiesInputFeaturesList = Array<SignalRFeature>;
-export const SignalRPropertiesInputFeaturesList = /*@__PURE__*/ S.Array(
-  SignalRFeature,
-) as any as S.Schema<SignalRPropertiesInputFeaturesList>;
-
-/** Live trace category configuration of a Microsoft.SignalRService resource. */
-export interface LiveTraceCategory {
-  /** Gets or sets the live trace category's name. Available values: ConnectivityLogs, MessagingLogs. Case insensitive. */
-  name?: string;
-  /** Indicates whether or the live trace category is enabled. Available values: true, false. Case insensitive. */
-  enabled?: string;
-}
-export const LiveTraceCategory = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    enabled: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LiveTraceCategory",
-}) as any as S.Schema<LiveTraceCategory>;
-
-/** Gets or sets the list of category configurations. */
-export type LiveTraceConfigurationCategoriesList = Array<LiveTraceCategory>;
-export const LiveTraceConfigurationCategoriesList = /*@__PURE__*/ S.Array(
-  LiveTraceCategory,
-) as any as S.Schema<LiveTraceConfigurationCategoriesList>;
-
-/** Live trace configuration of a Microsoft.SignalRService resource. */
-export interface LiveTraceConfiguration {
-  /** Indicates whether or not enable live trace. When it's set to true, live trace client can connect to the service. Otherwise, live trace client can't connect to the service, so that you are unable to receive any log, no matter what you configure in "categories". Available values: true, false. Case insensitive. */
-  enabled?: string;
-  /** Gets or sets the list of category configurations. */
-  categories?: LiveTraceConfigurationCategoriesList;
-}
-export const LiveTraceConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.String),
-    categories: S.optional(LiveTraceConfigurationCategoriesList),
-  }),
-).annotate({
-  identifier: "LiveTraceConfiguration",
-}) as any as S.Schema<LiveTraceConfiguration>;
-
-/** Resource log category configuration of a Microsoft.SignalRService resource. */
-export interface ResourceLogCategory {
-  /** Gets or sets the resource log category's name. Available values: ConnectivityLogs, MessagingLogs. Case insensitive. */
-  name?: string;
-  /** Indicates whether or the resource log category is enabled. Available values: true, false. Case insensitive. */
-  enabled?: string;
-}
-export const ResourceLogCategory = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    enabled: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResourceLogCategory",
-}) as any as S.Schema<ResourceLogCategory>;
-
-/** Gets or sets the list of category configurations. */
-export type ResourceLogConfigurationCategoriesList = Array<ResourceLogCategory>;
-export const ResourceLogConfigurationCategoriesList = /*@__PURE__*/ S.Array(
-  ResourceLogCategory,
-) as any as S.Schema<ResourceLogConfigurationCategoriesList>;
-
-/** Resource log configuration of a Microsoft.SignalRService resource. */
-export interface ResourceLogConfiguration {
-  /** Gets or sets the list of category configurations. */
-  categories?: ResourceLogConfigurationCategoriesList;
-}
-export const ResourceLogConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    categories: S.optional(ResourceLogConfigurationCategoriesList),
-  }),
-).annotate({
-  identifier: "ResourceLogConfiguration",
-}) as any as S.Schema<ResourceLogConfiguration>;
-
-/** Gets or sets the list of origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). Use "*" to allow all. If omitted, allow all by default. */
-export type SignalRCorsSettingsAllowedOriginsList = Array<string>;
-export const SignalRCorsSettingsAllowedOriginsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<SignalRCorsSettingsAllowedOriginsList>;
-
-/** Cross-Origin Resource Sharing (CORS) settings. */
-export interface SignalRCorsSettings {
-  /** Gets or sets the list of origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). Use "*" to allow all. If omitted, allow all by default. */
-  allowedOrigins?: SignalRCorsSettingsAllowedOriginsList;
-}
-export const SignalRCorsSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    allowedOrigins: S.optional(SignalRCorsSettingsAllowedOriginsList),
-  }),
-).annotate({
-  identifier: "SignalRCorsSettings",
-}) as any as S.Schema<SignalRCorsSettings>;
-
-/** Serverless settings. */
-export interface ServerlessSettings {
-  /** Gets or sets Client Connection Timeout. Optional to be set. Value in seconds. Default value is 30 seconds. Customer should set the timeout to a shorter period if messages are expected to be sent in shorter intervals, and want the client to disconnect more quickly after the last message is sent. You can set the timeout to a longer period if messages are expected to be sent in longer intervals, and they want to keep the same client connection alive during this session. The service considers the client disconnected if it hasn't received a message (including keep-alive) in this interval. */
-  connectionTimeoutInSeconds?: number;
-}
-export const ServerlessSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectionTimeoutInSeconds: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ServerlessSettings",
-}) as any as S.Schema<ServerlessSettings>;
-
-/** Upstream auth type enum. */
-export type UpstreamAuthType = "None" | "ManagedIdentity";
-export const UpstreamAuthType = /*@__PURE__*/ S.String;
-
-/** Managed identity settings for upstream. */
-export interface ManagedIdentitySettings {
-  /** The Resource indicating the App ID URI of the target resource. It also appears in the aud (audience) claim of the issued token. */
-  resource?: string;
-}
-export const ManagedIdentitySettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resource: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ManagedIdentitySettings",
-}) as any as S.Schema<ManagedIdentitySettings>;
-
-/** Upstream auth settings. If not set, no auth is used for upstream messages. */
-export interface UpstreamAuthSettings {
-  type?: UpstreamAuthType | (string & {});
-  managedIdentity?: ManagedIdentitySettings;
-}
-export const UpstreamAuthSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(UpstreamAuthType),
-    managedIdentity: S.optional(ManagedIdentitySettings),
-  }),
-).annotate({
-  identifier: "UpstreamAuthSettings",
-}) as any as S.Schema<UpstreamAuthSettings>;
-
-/** Upstream template item settings. It defines the Upstream URL of the incoming requests. The template defines the pattern of the event, the hub or the category of the incoming request that matches current URL template. */
-export interface UpstreamTemplate {
-  /** Gets or sets the matching pattern for hub names. If not set, it matches any hub. There are 3 kind of patterns supported: 1. "*", it to matches any hub name. 2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1" and "hub2". 3. The single hub name, for example, "hub1", it matches "hub1". */
-  hubPattern?: string;
-  /** Gets or sets the matching pattern for event names. If not set, it matches any event. There are 3 kind of patterns supported: 1. "*", it to matches any event name. 2. Combine multiple events with ",", for example "connect,disconnect", it matches event "connect" and "disconnect". 3. The single event name, for example, "connect", it matches "connect". */
-  eventPattern?: string;
-  /** Gets or sets the matching pattern for category names. If not set, it matches any category. There are 3 kind of patterns supported: 1. "*", it to matches any category name. 2. Combine multiple categories with ",", for example "connections,messages", it matches category "connections" and "messages". 3. The single category name, for example, "connections", it matches the category "connections". */
-  categoryPattern?: string;
-  /** Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event} inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in. For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat` connects, it will first POST to this URL: `http://example.com/chat/api/connect`. */
-  urlTemplate: string;
-  auth?: UpstreamAuthSettings;
-}
-export const UpstreamTemplate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hubPattern: S.optional(S.String),
-    eventPattern: S.optional(S.String),
-    categoryPattern: S.optional(S.String),
-    urlTemplate: S.String,
-    auth: S.optional(UpstreamAuthSettings),
-  }),
-).annotate({
-  identifier: "UpstreamTemplate",
-}) as any as S.Schema<UpstreamTemplate>;
-
-/** Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects. */
-export type ServerlessUpstreamSettingsTemplatesList = Array<UpstreamTemplate>;
-export const ServerlessUpstreamSettingsTemplatesList = /*@__PURE__*/ S.Array(
-  UpstreamTemplate,
-) as any as S.Schema<ServerlessUpstreamSettingsTemplatesList>;
-
-/** The settings for the Upstream when the service is in server-less mode. */
-export interface ServerlessUpstreamSettings {
-  /** Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects. */
-  templates?: ServerlessUpstreamSettingsTemplatesList;
-}
-export const ServerlessUpstreamSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    templates: S.optional(ServerlessUpstreamSettingsTemplatesList),
-  }),
-).annotate({
-  identifier: "ServerlessUpstreamSettings",
-}) as any as S.Schema<ServerlessUpstreamSettings>;
-
-/** Azure Networking ACL Action. */
-export type ACLAction = "Allow" | "Deny";
-export const ACLAction = /*@__PURE__*/ S.String;
-
-/** The incoming request type to the service */
-export type SignalRRequestType =
-  | "ClientConnection"
-  | "ServerConnection"
-  | "RESTAPI"
-  | "Trace";
-export const SignalRRequestType = /*@__PURE__*/ S.String;
-
-/** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-export type NetworkACLAllowList = Array<SignalRRequestType | (string & {})>;
-export const NetworkACLAllowList = /*@__PURE__*/ S.Array(
-  SignalRRequestType,
-) as any as S.Schema<NetworkACLAllowList>;
-
-/** Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-export type NetworkACLDenyList = Array<SignalRRequestType | (string & {})>;
-export const NetworkACLDenyList = /*@__PURE__*/ S.Array(
-  SignalRRequestType,
-) as any as S.Schema<NetworkACLDenyList>;
-
-/** Network ACL */
-export interface NetworkACL {
-  /** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-  allow?: NetworkACLAllowList;
-  /** Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-  deny?: NetworkACLDenyList;
-}
-export const NetworkACL = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    allow: S.optional(NetworkACLAllowList),
-    deny: S.optional(NetworkACLDenyList),
-  }),
-).annotate({ identifier: "NetworkACL" }) as any as S.Schema<NetworkACL>;
-
-/** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-export type PrivateEndpointACLAllowList = Array<
-  SignalRRequestType | (string & {})
->;
-export const PrivateEndpointACLAllowList = /*@__PURE__*/ S.Array(
-  SignalRRequestType,
-) as any as S.Schema<PrivateEndpointACLAllowList>;
-
-/** Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-export type PrivateEndpointACLDenyList = Array<
-  SignalRRequestType | (string & {})
->;
-export const PrivateEndpointACLDenyList = /*@__PURE__*/ S.Array(
-  SignalRRequestType,
-) as any as S.Schema<PrivateEndpointACLDenyList>;
-
-/** ACL for a private endpoint */
-export interface PrivateEndpointACL {
-  /** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-  allow?: PrivateEndpointACLAllowList;
-  /** Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-  deny?: PrivateEndpointACLDenyList;
-  /** Name of the private endpoint connection */
-  name: string;
-}
-export const PrivateEndpointACL = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    allow: S.optional(PrivateEndpointACLAllowList),
-    deny: S.optional(PrivateEndpointACLDenyList),
-    name: S.String,
-  }),
-).annotate({
-  identifier: "PrivateEndpointACL",
-}) as any as S.Schema<PrivateEndpointACL>;
-
-/** ACLs for requests from private endpoints */
-export type SignalRNetworkACLsPrivateEndpointsList = Array<PrivateEndpointACL>;
-export const SignalRNetworkACLsPrivateEndpointsList = /*@__PURE__*/ S.Array(
-  PrivateEndpointACL,
-) as any as S.Schema<SignalRNetworkACLsPrivateEndpointsList>;
-
-/** An IP rule */
-export interface IPRule {
-  /** An IP or CIDR or ServiceTag */
-  value?: string;
-  action?: ACLAction | (string & {});
-}
-export const IPRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    action: S.optional(ACLAction),
-  }),
-).annotate({ identifier: "IPRule" }) as any as S.Schema<IPRule>;
-
-/** IP rules for filtering public traffic */
-export type SignalRNetworkACLsIpRulesList = Array<IPRule>;
-export const SignalRNetworkACLsIpRulesList = /*@__PURE__*/ S.Array(
-  IPRule,
-) as any as S.Schema<SignalRNetworkACLsIpRulesList>;
-
-/** Network ACLs for the resource */
-export interface SignalRNetworkACLs {
-  defaultAction?: ACLAction | (string & {});
-  publicNetwork?: NetworkACL;
-  /** ACLs for requests from private endpoints */
-  privateEndpoints?: SignalRNetworkACLsPrivateEndpointsList;
-  /** IP rules for filtering public traffic */
-  ipRules?: SignalRNetworkACLsIpRulesList;
-}
-export const SignalRNetworkACLs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    defaultAction: S.optional(ACLAction),
-    publicNetwork: S.optional(NetworkACL),
-    privateEndpoints: S.optional(SignalRNetworkACLsPrivateEndpointsList),
-    ipRules: S.optional(SignalRNetworkACLsIpRulesList),
-  }),
-).annotate({
-  identifier: "SignalRNetworkACLs",
-}) as any as S.Schema<SignalRNetworkACLs>;
-
-/** A class that describes the properties of the resource */
-export interface SignalRPropertiesInput {
-  tls?: SignalRTlsSettings;
-  /** List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags. */
-  features?: SignalRPropertiesInputFeaturesList;
-  liveTraceConfiguration?: LiveTraceConfiguration;
-  resourceLogConfiguration?: ResourceLogConfiguration;
-  cors?: SignalRCorsSettings;
-  serverless?: ServerlessSettings;
-  upstream?: ServerlessUpstreamSettings;
-  networkACLs?: SignalRNetworkACLs;
-  /** Enable or disable public network access. Default to "Enabled". When it's Enabled, network ACLs still apply. When it's Disabled, public network access is always disabled no matter what you set in network ACLs. */
-  publicNetworkAccess?: string;
-  /** DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won't work. */
-  disableLocalAuth?: boolean;
-  /** DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won't work. */
-  disableAadAuth?: boolean;
-  /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. This property is replica specific. Disable the regional endpoint without replica is not allowed. */
-  regionEndpointEnabled?: string;
-  /** Stop or start the resource. Default to "False". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
-  resourceStopped?: string;
-}
-export const SignalRPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tls: S.optional(SignalRTlsSettings),
-    features: S.optional(SignalRPropertiesInputFeaturesList),
-    liveTraceConfiguration: S.optional(LiveTraceConfiguration),
-    resourceLogConfiguration: S.optional(ResourceLogConfiguration),
-    cors: S.optional(SignalRCorsSettings),
-    serverless: S.optional(ServerlessSettings),
-    upstream: S.optional(ServerlessUpstreamSettings),
-    networkACLs: S.optional(SignalRNetworkACLs),
-    publicNetworkAccess: S.optional(S.String),
-    disableLocalAuth: S.optional(S.Boolean),
-    disableAadAuth: S.optional(S.Boolean),
-    regionEndpointEnabled: S.optional(S.String),
-    resourceStopped: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SignalRPropertiesInput",
-}) as any as S.Schema<SignalRPropertiesInput>;
-
-/** The kind of the service */
-export type ServiceKind = "SignalR" | "RawWebSockets";
-export const ServiceKind = /*@__PURE__*/ S.String;
-
-/** Represents the identity type: systemAssigned, userAssigned, None */
-export type ManagedIdentityType = "None" | "SystemAssigned" | "UserAssigned";
-export const ManagedIdentityType = /*@__PURE__*/ S.String;
-
-/** Properties of user assigned identity. */
-export interface UserAssignedIdentityPropertyInput {}
-export const UserAssignedIdentityPropertyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UserAssignedIdentityPropertyInput",
-}) as any as S.Schema<UserAssignedIdentityPropertyInput>;
-
-/** Get or set the user assigned identities */
-export type ManagedIdentityInputUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentityPropertyInput | undefined;
-};
-export const ManagedIdentityInputUserAssignedIdentitiesMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    UserAssignedIdentityPropertyInput,
-  ) as any as S.Schema<ManagedIdentityInputUserAssignedIdentitiesMap>;
-
-/** A class represent managed identities used for request and response */
-export interface ManagedIdentityInput {
-  type?: ManagedIdentityType | (string & {});
-  /** Get or set the user assigned identities */
-  userAssignedIdentities?: ManagedIdentityInputUserAssignedIdentitiesMap;
-}
-export const ManagedIdentityInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(ManagedIdentityType),
-    userAssignedIdentities: S.optional(
-      ManagedIdentityInputUserAssignedIdentitiesMap,
-    ),
-  }),
-).annotate({
-  identifier: "ManagedIdentityInput",
-}) as any as S.Schema<ManagedIdentityInput>;
-
-export interface SignalRCreateOrUpdateRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** Resource tags. */
-  tags?: SignalRCreateOrUpdateRequestTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  sku?: ResourceSkuInput;
-  properties?: SignalRPropertiesInput;
-  kind?: ServiceKind | (string & {});
-  identity?: ManagedIdentityInput;
-}
-export const SignalRCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-    tags: S.optional(SignalRCreateOrUpdateRequestTagsMap),
-    location: S.String,
-    sku: S.optional(ResourceSkuInput),
-    properties: S.optional(SignalRPropertiesInput),
-    kind: S.optional(ServiceKind),
-    identity: S.optional(ManagedIdentityInput),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRCreateOrUpdateRequest",
-}) as any as S.Schema<SignalRCreateOrUpdateRequest>;
-
-/** The type of identity that created the resource. */
-export type SystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const SystemDataCreatedByType = /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type SystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const SystemDataLastModifiedByType = /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const SystemData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    createdBy: S.optional(S.String),
-    createdByType: S.optional(SystemDataCreatedByType),
-    createdAt: S.optional(S.String),
-    lastModifiedBy: S.optional(S.String),
-    lastModifiedByType: S.optional(SystemDataLastModifiedByType),
-    lastModifiedAt: S.optional(S.String),
-  }),
-).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
-
-/** Resource tags. */
-export type SignalRCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const SignalRCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<SignalRCreateOrUpdateResponseTagsMap>;
-
-/** The billing information of the resource. */
-export interface ResourceSku {
-  /** The name of the SKU. Required. Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2 */
-  name: string;
-  tier?: SignalRSkuTier;
-  /** Not used. Retained for future use. */
-  size?: string;
-  /** Not used. Retained for future use. */
-  family?: string;
-  /** Optional, integer. The unit count of the resource. 1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default. If present, following values are allowed: Free_F1: 1; Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P2: 100,200,300,400,500,600,700,800,900,1000; */
-  capacity?: number;
-}
-export const ResourceSku = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    tier: S.optional(SignalRSkuTier),
-    size: S.optional(S.String),
-    family: S.optional(S.String),
-    capacity: S.optional(S.Number),
-  }),
-).annotate({ identifier: "ResourceSku" }) as any as S.Schema<ResourceSku>;
-
-/** Provisioning state of the resource. */
-export type ProvisioningState =
-  | "Unknown"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Running"
-  | "Creating"
-  | "Updating"
-  | "Deleting"
-  | "Moving";
-export const ProvisioningState = /*@__PURE__*/ S.String;
-
-/** Private endpoint */
-export interface PrivateEndpoint {
-  /** Full qualified Id of the private endpoint */
-  id?: string;
-}
-export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
-
-/** Group IDs */
-export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
-export const PrivateEndpointConnectionPropertiesGroupIdsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<PrivateEndpointConnectionPropertiesGroupIdsList>;
-
-/** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-export type PrivateLinkServiceConnectionStatus =
-  | "Pending"
-  | "Approved"
-  | "Rejected"
-  | "Disconnected";
-export const PrivateLinkServiceConnectionStatus = /*@__PURE__*/ S.String;
-
-/** Connection state of the private endpoint connection */
-export interface PrivateLinkServiceConnectionState {
-  status?: PrivateLinkServiceConnectionStatus | (string & {});
-  /** The reason for approval/rejection of the connection. */
-  description?: string;
-  /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
-}
-export const PrivateLinkServiceConnectionState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(PrivateLinkServiceConnectionStatus),
-    description: S.optional(S.String),
-    actionsRequired: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PrivateLinkServiceConnectionState",
-}) as any as S.Schema<PrivateLinkServiceConnectionState>;
-
-/** Private endpoint connection properties */
-export interface PrivateEndpointConnectionProperties {
-  provisioningState?: ProvisioningState;
-  privateEndpoint?: PrivateEndpoint;
-  /** Group IDs */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-}
-export const PrivateEndpointConnectionProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provisioningState: S.optional(ProvisioningState),
-    privateEndpoint: S.optional(PrivateEndpoint),
-    groupIds: S.optional(PrivateEndpointConnectionPropertiesGroupIdsList),
-    privateLinkServiceConnectionState: S.optional(
-      PrivateLinkServiceConnectionState,
-    ),
-  }),
-).annotate({
-  identifier: "PrivateEndpointConnectionProperties",
-}) as any as S.Schema<PrivateEndpointConnectionProperties>;
-
-/** A private endpoint connection to an azure resource */
-export interface PrivateEndpointConnection {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateEndpointConnectionProperties;
-}
-export const PrivateEndpointConnection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: S.optional(PrivateEndpointConnectionProperties),
-  }),
-).annotate({
-  identifier: "PrivateEndpointConnection",
-}) as any as S.Schema<PrivateEndpointConnection>;
-
-/** Private endpoint connections to the resource. */
-export type SignalRPropertiesPrivateEndpointConnectionsList =
-  Array<PrivateEndpointConnection>;
-export const SignalRPropertiesPrivateEndpointConnectionsList =
-  /*@__PURE__*/ S.Array(
-    PrivateEndpointConnection,
-  ) as any as S.Schema<SignalRPropertiesPrivateEndpointConnectionsList>;
-
-/** Status of the shared private link resource */
-export type SharedPrivateLinkResourceStatus =
-  | "Pending"
-  | "Approved"
-  | "Rejected"
-  | "Disconnected"
-  | "Timeout";
-export const SharedPrivateLinkResourceStatus = /*@__PURE__*/ S.String;
-
-/** Describes the properties of an existing Shared Private Link Resource */
-export interface SharedPrivateLinkResourceProperties {
-  /** The group id from the provider of resource the shared private link resource is for */
-  groupId: string;
-  /** The resource id of the resource the shared private link resource is for */
-  privateLinkResourceId: string;
-  provisioningState?: ProvisioningState;
-  /** The request message for requesting approval of the shared private link resource */
-  requestMessage?: string;
-  status?: SharedPrivateLinkResourceStatus;
-}
-export const SharedPrivateLinkResourceProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    groupId: S.String,
-    privateLinkResourceId: S.String,
-    provisioningState: S.optional(ProvisioningState),
-    requestMessage: S.optional(S.String),
-    status: S.optional(SharedPrivateLinkResourceStatus),
-  }),
-).annotate({
-  identifier: "SharedPrivateLinkResourceProperties",
-}) as any as S.Schema<SharedPrivateLinkResourceProperties>;
-
-/** Describes a Shared Private Link Resource */
-export interface SharedPrivateLinkResource {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedPrivateLinkResourceProperties;
-}
-export const SharedPrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: S.optional(SharedPrivateLinkResourceProperties),
-  }),
-).annotate({
-  identifier: "SharedPrivateLinkResource",
-}) as any as S.Schema<SharedPrivateLinkResource>;
-
-/** The list of shared private link resources. */
-export type SignalRPropertiesSharedPrivateLinkResourcesList =
-  Array<SharedPrivateLinkResource>;
-export const SignalRPropertiesSharedPrivateLinkResourcesList =
-  /*@__PURE__*/ S.Array(
-    SharedPrivateLinkResource,
-  ) as any as S.Schema<SignalRPropertiesSharedPrivateLinkResourcesList>;
-
-/** List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags. */
-export type SignalRPropertiesFeaturesList = Array<SignalRFeature>;
-export const SignalRPropertiesFeaturesList = /*@__PURE__*/ S.Array(
-  SignalRFeature,
-) as any as S.Schema<SignalRPropertiesFeaturesList>;
-
-/** A class that describes the properties of the resource */
-export interface SignalRProperties {
-  provisioningState?: ProvisioningState;
-  /** The publicly accessible IP of the resource. */
-  externalIP?: string;
-  /** FQDN of the service instance. */
-  hostName?: string;
-  /** The publicly accessible port of the resource which is designed for browser/client side usage. */
-  publicPort?: number;
-  /** The publicly accessible port of the resource which is designed for customer server side usage. */
-  serverPort?: number;
-  /** Version of the resource. Probably you need the same or higher version of client SDKs. */
-  version?: string;
-  /** Private endpoint connections to the resource. */
-  privateEndpointConnections?: SignalRPropertiesPrivateEndpointConnectionsList;
-  /** The list of shared private link resources. */
-  sharedPrivateLinkResources?: SignalRPropertiesSharedPrivateLinkResourcesList;
-  tls?: SignalRTlsSettings;
-  /** Deprecated. */
-  hostNamePrefix?: string;
-  /** List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags. */
-  features?: SignalRPropertiesFeaturesList;
-  liveTraceConfiguration?: LiveTraceConfiguration;
-  resourceLogConfiguration?: ResourceLogConfiguration;
-  cors?: SignalRCorsSettings;
-  serverless?: ServerlessSettings;
-  upstream?: ServerlessUpstreamSettings;
-  networkACLs?: SignalRNetworkACLs;
-  /** Enable or disable public network access. Default to "Enabled". When it's Enabled, network ACLs still apply. When it's Disabled, public network access is always disabled no matter what you set in network ACLs. */
-  publicNetworkAccess?: string;
-  /** DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won't work. */
-  disableLocalAuth?: boolean;
-  /** DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won't work. */
-  disableAadAuth?: boolean;
-  /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. This property is replica specific. Disable the regional endpoint without replica is not allowed. */
-  regionEndpointEnabled?: string;
-  /** Stop or start the resource. Default to "False". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
-  resourceStopped?: string;
-}
-export const SignalRProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provisioningState: S.optional(ProvisioningState),
-    externalIP: S.optional(S.String),
-    hostName: S.optional(S.String),
-    publicPort: S.optional(S.Number),
-    serverPort: S.optional(S.Number),
-    version: S.optional(S.String),
-    privateEndpointConnections: S.optional(
-      SignalRPropertiesPrivateEndpointConnectionsList,
-    ),
-    sharedPrivateLinkResources: S.optional(
-      SignalRPropertiesSharedPrivateLinkResourcesList,
-    ),
-    tls: S.optional(SignalRTlsSettings),
-    hostNamePrefix: S.optional(S.String),
-    features: S.optional(SignalRPropertiesFeaturesList),
-    liveTraceConfiguration: S.optional(LiveTraceConfiguration),
-    resourceLogConfiguration: S.optional(ResourceLogConfiguration),
-    cors: S.optional(SignalRCorsSettings),
-    serverless: S.optional(ServerlessSettings),
-    upstream: S.optional(ServerlessUpstreamSettings),
-    networkACLs: S.optional(SignalRNetworkACLs),
-    publicNetworkAccess: S.optional(S.String),
-    disableLocalAuth: S.optional(S.Boolean),
-    disableAadAuth: S.optional(S.Boolean),
-    regionEndpointEnabled: S.optional(S.String),
-    resourceStopped: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SignalRProperties",
-}) as any as S.Schema<SignalRProperties>;
-
-/** Properties of user assigned identity. */
-export interface UserAssignedIdentityProperty {
-  /** Get the principal id for the user assigned identity */
-  principalId?: string;
-  /** Get the client id for the user assigned identity */
-  clientId?: string;
-}
-export const UserAssignedIdentityProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    principalId: S.optional(S.String),
-    clientId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UserAssignedIdentityProperty",
-}) as any as S.Schema<UserAssignedIdentityProperty>;
-
-/** Get or set the user assigned identities */
-export type ManagedIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentityProperty | undefined;
-};
-export const ManagedIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  UserAssignedIdentityProperty,
-) as any as S.Schema<ManagedIdentityUserAssignedIdentitiesMap>;
-
-/** A class represent managed identities used for request and response */
-export interface ManagedIdentity {
-  type?: ManagedIdentityType;
-  /** Get or set the user assigned identities */
-  userAssignedIdentities?: ManagedIdentityUserAssignedIdentitiesMap;
-  /** Get the principal id for the system assigned identity. Only be used in response. */
-  principalId?: string;
-  /** Get the tenant id for the system assigned identity. Only be used in response */
-  tenantId?: string;
-}
-export const ManagedIdentity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(ManagedIdentityType),
-    userAssignedIdentities: S.optional(
-      ManagedIdentityUserAssignedIdentitiesMap,
-    ),
-    principalId: S.optional(S.String),
-    tenantId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ManagedIdentity",
-}) as any as S.Schema<ManagedIdentity>;
-
-export interface SignalRCreateOrUpdateResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource tags. */
-  tags?: SignalRCreateOrUpdateResponseTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  sku?: ResourceSku;
-  properties?: SignalRProperties;
-  kind?: ServiceKind;
-  identity?: ManagedIdentity;
-}
-export const SignalRCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    tags: S.optional(SignalRCreateOrUpdateResponseTagsMap),
-    location: S.String,
-    sku: S.optional(ResourceSku),
-    properties: S.optional(SignalRProperties),
-    kind: S.optional(ServiceKind),
-    identity: S.optional(ManagedIdentity),
-  }),
-).annotate({
-  identifier: "SignalRCreateOrUpdateResponse",
-}) as any as S.Schema<SignalRCreateOrUpdateResponse>;
-
-/** Custom certificate properties. */
-export interface CustomCertificatePropertiesInput {
-  /** Base uri of the KeyVault that stores certificate. */
-  keyVaultBaseUri: string;
-  /** Certificate secret name. */
-  keyVaultSecretName: string;
-  /** Certificate secret version. */
-  keyVaultSecretVersion?: string;
-}
-export const CustomCertificatePropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    keyVaultBaseUri: S.String,
-    keyVaultSecretName: S.String,
-    keyVaultSecretVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomCertificatePropertiesInput",
-}) as any as S.Schema<CustomCertificatePropertiesInput>;
-
-export interface SignalRCustomCertificatesCreateOrUpdateRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** Custom certificate name */
-  certificateName: string;
-  properties: CustomCertificatePropertiesInput;
-}
-export const SignalRCustomCertificatesCreateOrUpdateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-      certificateName: S.String.pipe(T.Label()),
-      properties: CustomCertificatePropertiesInput,
-    }).pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates/{certificateName}",
-        code: 200,
-        apiVersion: "2024-03-01",
-      }),
-    ),
-  ).annotate({
-    identifier: "SignalRCustomCertificatesCreateOrUpdateRequest",
-  }) as any as S.Schema<SignalRCustomCertificatesCreateOrUpdateRequest>;
-
-/** Custom certificate properties. */
-export interface CustomCertificateProperties {
-  provisioningState?: ProvisioningState;
-  /** Base uri of the KeyVault that stores certificate. */
-  keyVaultBaseUri: string;
-  /** Certificate secret name. */
-  keyVaultSecretName: string;
-  /** Certificate secret version. */
-  keyVaultSecretVersion?: string;
-}
-export const CustomCertificateProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provisioningState: S.optional(ProvisioningState),
-    keyVaultBaseUri: S.String,
-    keyVaultSecretName: S.String,
-    keyVaultSecretVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomCertificateProperties",
-}) as any as S.Schema<CustomCertificateProperties>;
-
-export interface SignalRCustomCertificatesCreateOrUpdateResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties: CustomCertificateProperties;
-}
-export const SignalRCustomCertificatesCreateOrUpdateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      systemData: S.optional(SystemData),
-      properties: CustomCertificateProperties,
-    }),
-  ).annotate({
-    identifier: "SignalRCustomCertificatesCreateOrUpdateResponse",
-  }) as any as S.Schema<SignalRCustomCertificatesCreateOrUpdateResponse>;
-
-export interface SignalRCustomCertificatesDeleteRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** Custom certificate name */
-  certificateName: string;
-}
-export const SignalRCustomCertificatesDeleteRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-      certificateName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates/{certificateName}",
-        code: 200,
-        apiVersion: "2024-03-01",
-      }),
-    ),
-).annotate({
-  identifier: "SignalRCustomCertificatesDeleteRequest",
-}) as any as S.Schema<SignalRCustomCertificatesDeleteRequest>;
-
-export interface SignalRCustomCertificatesDeleteResponse {}
-export const SignalRCustomCertificatesDeleteResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "SignalRCustomCertificatesDeleteResponse",
-}) as any as S.Schema<SignalRCustomCertificatesDeleteResponse>;
-
-export interface SignalRCustomCertificatesGetRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** Custom certificate name */
-  certificateName: string;
-}
-export const SignalRCustomCertificatesGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-    certificateName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates/{certificateName}",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRCustomCertificatesGetRequest",
-}) as any as S.Schema<SignalRCustomCertificatesGetRequest>;
-
-export interface SignalRCustomCertificatesGetResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties: CustomCertificateProperties;
-}
-export const SignalRCustomCertificatesGetResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      systemData: S.optional(SystemData),
-      properties: CustomCertificateProperties,
-    }),
-).annotate({
-  identifier: "SignalRCustomCertificatesGetResponse",
-}) as any as S.Schema<SignalRCustomCertificatesGetResponse>;
-
-export interface SignalRCustomCertificatesListRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-}
-export const SignalRCustomCertificatesListRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates",
-        code: 200,
-        apiVersion: "2024-03-01",
-      }),
-    ),
-).annotate({
-  identifier: "SignalRCustomCertificatesListRequest",
-}) as any as S.Schema<SignalRCustomCertificatesListRequest>;
-
-/** A custom certificate. */
-export interface CustomCertificate {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties: CustomCertificateProperties;
-}
-export const CustomCertificate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: CustomCertificateProperties,
-  }),
-).annotate({
-  identifier: "CustomCertificate",
-}) as any as S.Schema<CustomCertificate>;
-
-/** List of custom certificates of this resource. */
-export type CustomCertificateListValueList = Array<CustomCertificate>;
-export const CustomCertificateListValueList = /*@__PURE__*/ S.Array(
-  CustomCertificate,
-) as any as S.Schema<CustomCertificateListValueList>;
-
-/** Custom certificates list. */
-export interface CustomCertificateList {
-  /** List of custom certificates of this resource. */
-  value?: CustomCertificateListValueList;
-  /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
-}
-export const CustomCertificateList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(CustomCertificateListValueList),
-    nextLink: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomCertificateList",
-}) as any as S.Schema<CustomCertificateList>;
-
-/** Reference to a resource. */
-export interface ResourceReference {
-  /** Resource ID. */
-  id?: string;
-}
-export const ResourceReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResourceReference",
-}) as any as S.Schema<ResourceReference>;
-
-/** Properties of a custom domain. */
-export interface CustomDomainPropertiesInput {
-  /** The custom domain name. */
-  domainName: string;
-  customCertificate: ResourceReference;
-}
-export const CustomDomainPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainName: S.String,
-    customCertificate: ResourceReference,
-  }),
-).annotate({
-  identifier: "CustomDomainPropertiesInput",
-}) as any as S.Schema<CustomDomainPropertiesInput>;
-
-export interface SignalRCustomDomainsCreateOrUpdateRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** Custom domain name. */
-  name: string;
-  properties: CustomDomainPropertiesInput;
-}
-export const SignalRCustomDomainsCreateOrUpdateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-      name: S.String.pipe(T.Label()),
-      properties: CustomDomainPropertiesInput,
-    }).pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains/{name}",
-        code: 200,
-        apiVersion: "2024-03-01",
-      }),
-    ),
-  ).annotate({
-    identifier: "SignalRCustomDomainsCreateOrUpdateRequest",
-  }) as any as S.Schema<SignalRCustomDomainsCreateOrUpdateRequest>;
-
-/** Properties of a custom domain. */
-export interface CustomDomainProperties {
-  provisioningState?: ProvisioningState;
-  /** The custom domain name. */
-  domainName: string;
-  customCertificate: ResourceReference;
-}
-export const CustomDomainProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provisioningState: S.optional(ProvisioningState),
-    domainName: S.String,
-    customCertificate: ResourceReference,
-  }),
-).annotate({
-  identifier: "CustomDomainProperties",
-}) as any as S.Schema<CustomDomainProperties>;
-
-export interface SignalRCustomDomainsCreateOrUpdateResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties: CustomDomainProperties;
-}
-export const SignalRCustomDomainsCreateOrUpdateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      systemData: S.optional(SystemData),
-      properties: CustomDomainProperties,
-    }),
-  ).annotate({
-    identifier: "SignalRCustomDomainsCreateOrUpdateResponse",
-  }) as any as S.Schema<SignalRCustomDomainsCreateOrUpdateResponse>;
-
-export interface SignalRCustomDomainsDeleteRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** Custom domain name. */
-  name: string;
-}
-export const SignalRCustomDomainsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-    name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains/{name}",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRCustomDomainsDeleteRequest",
-}) as any as S.Schema<SignalRCustomDomainsDeleteRequest>;
-
-export interface SignalRCustomDomainsDeleteResponse {}
-export const SignalRCustomDomainsDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "SignalRCustomDomainsDeleteResponse",
-}) as any as S.Schema<SignalRCustomDomainsDeleteResponse>;
-
-export interface SignalRCustomDomainsGetRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** Custom domain name. */
-  name: string;
-}
-export const SignalRCustomDomainsGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-    name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains/{name}",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRCustomDomainsGetRequest",
-}) as any as S.Schema<SignalRCustomDomainsGetRequest>;
-
-export interface SignalRCustomDomainsGetResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties: CustomDomainProperties;
-}
-export const SignalRCustomDomainsGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: CustomDomainProperties,
-  }),
-).annotate({
-  identifier: "SignalRCustomDomainsGetResponse",
-}) as any as S.Schema<SignalRCustomDomainsGetResponse>;
-
-export interface SignalRCustomDomainsListRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-}
-export const SignalRCustomDomainsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRCustomDomainsListRequest",
-}) as any as S.Schema<SignalRCustomDomainsListRequest>;
-
-/** A custom domain */
-export interface CustomDomain {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties: CustomDomainProperties;
-}
-export const CustomDomain = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: CustomDomainProperties,
-  }),
-).annotate({ identifier: "CustomDomain" }) as any as S.Schema<CustomDomain>;
-
-/** List of custom domains that bind to this resource. */
-export type CustomDomainListValueList = Array<CustomDomain>;
-export const CustomDomainListValueList = /*@__PURE__*/ S.Array(
-  CustomDomain,
-) as any as S.Schema<CustomDomainListValueList>;
-
-/** Custom domains list */
-export interface CustomDomainList {
-  /** List of custom domains that bind to this resource. */
-  value?: CustomDomainListValueList;
-  /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
-}
-export const CustomDomainList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(CustomDomainListValueList),
-    nextLink: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomDomainList",
-}) as any as S.Schema<CustomDomainList>;
-
-export interface SignalRDeleteRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-}
-export const SignalRDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRDeleteRequest",
-}) as any as S.Schema<SignalRDeleteRequest>;
-
-export interface SignalRDeleteResponse {}
-export const SignalRDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "SignalRDeleteResponse",
-}) as any as S.Schema<SignalRDeleteResponse>;
-
-export interface SignalRGetRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-}
-export const SignalRGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRGetRequest",
-}) as any as S.Schema<SignalRGetRequest>;
-
-/** Resource tags. */
-export type SignalRGetResponseTagsMap = { [key: string]: string | undefined };
-export const SignalRGetResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<SignalRGetResponseTagsMap>;
-
-export interface SignalRGetResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource tags. */
-  tags?: SignalRGetResponseTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  sku?: ResourceSku;
-  properties?: SignalRProperties;
-  kind?: ServiceKind;
-  identity?: ManagedIdentity;
-}
-export const SignalRGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    tags: S.optional(SignalRGetResponseTagsMap),
-    location: S.String,
-    sku: S.optional(ResourceSku),
-    properties: S.optional(SignalRProperties),
-    kind: S.optional(ServiceKind),
-    identity: S.optional(ManagedIdentity),
-  }),
-).annotate({
-  identifier: "SignalRGetResponse",
-}) as any as S.Schema<SignalRGetResponse>;
-
-export interface SignalRListByResourceGroupRequest {
+export interface ListSignalRByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
 }
-export const SignalRListByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListSignalRByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -1796,8 +1669,8 @@ export const SignalRListByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "SignalRListByResourceGroupRequest",
-}) as any as S.Schema<SignalRListByResourceGroupRequest>;
+  identifier: "ListSignalRByResourceGroupRequest",
+}) as any as S.Schema<ListSignalRByResourceGroupRequest>;
 
 /** Resource tags. */
 export type SignalRResourceTagsMap = { [key: string]: string | undefined };
@@ -1864,11 +1737,11 @@ export const SignalRResourceList = /*@__PURE__*/ S.suspend(() =>
   identifier: "SignalRResourceList",
 }) as any as S.Schema<SignalRResourceList>;
 
-export interface SignalRListBySubscriptionRequest {
+export interface ListSignalRBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
 }
-export const SignalRListBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListSignalRBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
   }).pipe(
@@ -1880,10 +1753,10 @@ export const SignalRListBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "SignalRListBySubscriptionRequest",
-}) as any as S.Schema<SignalRListBySubscriptionRequest>;
+  identifier: "ListSignalRBySubscriptionRequest",
+}) as any as S.Schema<ListSignalRBySubscriptionRequest>;
 
-export interface SignalRListKeysRequest {
+export interface ListSignalRCustomCertificatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -1891,7 +1764,148 @@ export interface SignalRListKeysRequest {
   /** The name of the resource. */
   resourceName: string;
 }
-export const SignalRListKeysRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListSignalRCustomCertificatesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates",
+        code: 200,
+        apiVersion: "2024-03-01",
+      }),
+    ),
+).annotate({
+  identifier: "ListSignalRCustomCertificatesRequest",
+}) as any as S.Schema<ListSignalRCustomCertificatesRequest>;
+
+/** A custom certificate. */
+export interface CustomCertificate {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties: CustomCertificateProperties;
+}
+export const CustomCertificate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: CustomCertificateProperties,
+  }),
+).annotate({
+  identifier: "CustomCertificate",
+}) as any as S.Schema<CustomCertificate>;
+
+/** List of custom certificates of this resource. */
+export type CustomCertificateListValueList = Array<CustomCertificate>;
+export const CustomCertificateListValueList = /*@__PURE__*/ S.Array(
+  CustomCertificate,
+) as any as S.Schema<CustomCertificateListValueList>;
+
+/** Custom certificates list. */
+export interface CustomCertificateList {
+  /** List of custom certificates of this resource. */
+  value?: CustomCertificateListValueList;
+  /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
+  nextLink?: string;
+}
+export const CustomCertificateList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(CustomCertificateListValueList),
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CustomCertificateList",
+}) as any as S.Schema<CustomCertificateList>;
+
+export interface ListSignalRCustomDomainsRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+}
+export const ListSignalRCustomDomainsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListSignalRCustomDomainsRequest",
+}) as any as S.Schema<ListSignalRCustomDomainsRequest>;
+
+/** A custom domain */
+export interface CustomDomain {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties: CustomDomainProperties;
+}
+export const CustomDomain = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: CustomDomainProperties,
+  }),
+).annotate({ identifier: "CustomDomain" }) as any as S.Schema<CustomDomain>;
+
+/** List of custom domains that bind to this resource. */
+export type CustomDomainListValueList = Array<CustomDomain>;
+export const CustomDomainListValueList = /*@__PURE__*/ S.Array(
+  CustomDomain,
+) as any as S.Schema<CustomDomainListValueList>;
+
+/** Custom domains list */
+export interface CustomDomainList {
+  /** List of custom domains that bind to this resource. */
+  value?: CustomDomainListValueList;
+  /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
+  nextLink?: string;
+}
+export const CustomDomainList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(CustomDomainListValueList),
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CustomDomainList",
+}) as any as S.Schema<CustomDomainList>;
+
+export interface ListSignalRKeysRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+}
+export const ListSignalRKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -1905,8 +1919,8 @@ export const SignalRListKeysRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "SignalRListKeysRequest",
-}) as any as S.Schema<SignalRListKeysRequest>;
+  identifier: "ListSignalRKeysRequest",
+}) as any as S.Schema<ListSignalRKeysRequest>;
 
 /** A class represents the access keys of the resource. */
 export interface SignalRKeys {
@@ -1928,102 +1942,7 @@ export const SignalRKeys = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "SignalRKeys" }) as any as S.Schema<SignalRKeys>;
 
-export interface SignalRListReplicaSkusRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** The name of the replica. */
-  replicaName: string;
-}
-export const SignalRListReplicaSkusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-    replicaName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/skus",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRListReplicaSkusRequest",
-}) as any as S.Schema<SignalRListReplicaSkusRequest>;
-
-/** Allows capacity value list. */
-export type SkuCapacityAllowedValuesList = Array<number>;
-export const SkuCapacityAllowedValuesList = /*@__PURE__*/ S.Array(
-  S.Number,
-) as any as S.Schema<SkuCapacityAllowedValuesList>;
-
-/** The scale type applicable to the sku. */
-export type ScaleType = "None" | "Manual" | "Automatic";
-export const ScaleType = /*@__PURE__*/ S.String;
-
-/** Describes scaling information of a sku. */
-export interface SkuCapacity {
-  /** The lowest permitted capacity for this resource */
-  minimum?: number;
-  /** The highest permitted capacity for this resource */
-  maximum?: number;
-  /** The default capacity. */
-  default?: number;
-  /** Allows capacity value list. */
-  allowedValues?: SkuCapacityAllowedValuesList;
-  scaleType?: ScaleType;
-}
-export const SkuCapacity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    minimum: S.optional(S.Number),
-    maximum: S.optional(S.Number),
-    default: S.optional(S.Number),
-    allowedValues: S.optional(SkuCapacityAllowedValuesList),
-    scaleType: S.optional(ScaleType),
-  }),
-).annotate({ identifier: "SkuCapacity" }) as any as S.Schema<SkuCapacity>;
-
-/** Describes an available sku." */
-export interface Sku {
-  /** The resource type that this object applies to */
-  resourceType?: string;
-  sku?: ResourceSku;
-  capacity?: SkuCapacity;
-}
-export const Sku = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceType: S.optional(S.String),
-    sku: S.optional(ResourceSku),
-    capacity: S.optional(SkuCapacity),
-  }),
-).annotate({ identifier: "Sku" }) as any as S.Schema<Sku>;
-
-/** The list of skus available for the resource. */
-export type SkuListValueList = Array<Sku>;
-export const SkuListValueList = /*@__PURE__*/ S.Array(
-  Sku,
-) as any as S.Schema<SkuListValueList>;
-
-/** The list skus operation response */
-export interface SkuList {
-  /** The list of skus available for the resource. */
-  value?: SkuListValueList;
-  /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
-}
-export const SkuList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(SkuListValueList),
-    nextLink: S.optional(S.String),
-  }),
-).annotate({ identifier: "SkuList" }) as any as S.Schema<SkuList>;
-
-export interface SignalRListSkusRequest {
+export interface ListSignalRPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -2031,120 +1950,7 @@ export interface SignalRListSkusRequest {
   /** The name of the resource. */
   resourceName: string;
 }
-export const SignalRListSkusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/skus",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRListSkusRequest",
-}) as any as S.Schema<SignalRListSkusRequest>;
-
-export interface SignalRPrivateEndpointConnectionsDeleteRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** The name of the private endpoint connection associated with the Azure resource. */
-  privateEndpointConnectionName: string;
-}
-export const SignalRPrivateEndpointConnectionsDeleteRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-      privateEndpointConnectionName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-        code: 200,
-        apiVersion: "2024-03-01",
-      }),
-    ),
-  ).annotate({
-    identifier: "SignalRPrivateEndpointConnectionsDeleteRequest",
-  }) as any as S.Schema<SignalRPrivateEndpointConnectionsDeleteRequest>;
-
-export interface SignalRPrivateEndpointConnectionsDeleteResponse {}
-export const SignalRPrivateEndpointConnectionsDeleteResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "SignalRPrivateEndpointConnectionsDeleteResponse",
-  }) as any as S.Schema<SignalRPrivateEndpointConnectionsDeleteResponse>;
-
-export interface SignalRPrivateEndpointConnectionsGetRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** The name of the private endpoint connection associated with the Azure resource. */
-  privateEndpointConnectionName: string;
-}
-export const SignalRPrivateEndpointConnectionsGetRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-      privateEndpointConnectionName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-        code: 200,
-        apiVersion: "2024-03-01",
-      }),
-    ),
-  ).annotate({
-    identifier: "SignalRPrivateEndpointConnectionsGetRequest",
-  }) as any as S.Schema<SignalRPrivateEndpointConnectionsGetRequest>;
-
-export interface SignalRPrivateEndpointConnectionsGetResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateEndpointConnectionProperties;
-}
-export const SignalRPrivateEndpointConnectionsGetResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      systemData: S.optional(SystemData),
-      properties: S.optional(PrivateEndpointConnectionProperties),
-    }),
-  ).annotate({
-    identifier: "SignalRPrivateEndpointConnectionsGetResponse",
-  }) as any as S.Schema<SignalRPrivateEndpointConnectionsGetResponse>;
-
-export interface SignalRPrivateEndpointConnectionsListRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-}
-export const SignalRPrivateEndpointConnectionsListRequest =
+export const ListSignalRPrivateEndpointConnectionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -2159,8 +1965,8 @@ export const SignalRPrivateEndpointConnectionsListRequest =
       }),
     ),
   ).annotate({
-    identifier: "SignalRPrivateEndpointConnectionsListRequest",
-  }) as any as S.Schema<SignalRPrivateEndpointConnectionsListRequest>;
+    identifier: "ListSignalRPrivateEndpointConnectionsRequest",
+  }) as any as S.Schema<ListSignalRPrivateEndpointConnectionsRequest>;
 
 /** The list of the private endpoint connections */
 export type PrivateEndpointConnectionListValueList =
@@ -2185,79 +1991,7 @@ export const PrivateEndpointConnectionList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PrivateEndpointConnectionList",
 }) as any as S.Schema<PrivateEndpointConnectionList>;
 
-/** Private endpoint connection properties */
-export interface PrivateEndpointConnectionPropertiesInput {
-  privateEndpoint?: PrivateEndpoint;
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-}
-export const PrivateEndpointConnectionPropertiesInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      privateEndpoint: S.optional(PrivateEndpoint),
-      privateLinkServiceConnectionState: S.optional(
-        PrivateLinkServiceConnectionState,
-      ),
-    }),
-).annotate({
-  identifier: "PrivateEndpointConnectionPropertiesInput",
-}) as any as S.Schema<PrivateEndpointConnectionPropertiesInput>;
-
-export interface SignalRPrivateEndpointConnectionsUpdateRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** The name of the private endpoint connection associated with the Azure resource. */
-  privateEndpointConnectionName: string;
-  properties?: PrivateEndpointConnectionPropertiesInput;
-}
-export const SignalRPrivateEndpointConnectionsUpdateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-      privateEndpointConnectionName: S.String.pipe(T.Label()),
-      properties: S.optional(PrivateEndpointConnectionPropertiesInput),
-    }).pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-        code: 200,
-        apiVersion: "2024-03-01",
-      }),
-    ),
-  ).annotate({
-    identifier: "SignalRPrivateEndpointConnectionsUpdateRequest",
-  }) as any as S.Schema<SignalRPrivateEndpointConnectionsUpdateRequest>;
-
-export interface SignalRPrivateEndpointConnectionsUpdateResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateEndpointConnectionProperties;
-}
-export const SignalRPrivateEndpointConnectionsUpdateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      systemData: S.optional(SystemData),
-      properties: S.optional(PrivateEndpointConnectionProperties),
-    }),
-  ).annotate({
-    identifier: "SignalRPrivateEndpointConnectionsUpdateResponse",
-  }) as any as S.Schema<SignalRPrivateEndpointConnectionsUpdateResponse>;
-
-export interface SignalRPrivateLinkResourcesListRequest {
+export interface ListSignalRPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -2265,7 +1999,7 @@ export interface SignalRPrivateLinkResourcesListRequest {
   /** The name of the resource. */
   resourceName: string;
 }
-export const SignalRPrivateLinkResourcesListRequest = /*@__PURE__*/ S.suspend(
+export const ListSignalRPrivateLinkResourcesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -2280,8 +2014,8 @@ export const SignalRPrivateLinkResourcesListRequest = /*@__PURE__*/ S.suspend(
       }),
     ),
 ).annotate({
-  identifier: "SignalRPrivateLinkResourcesListRequest",
-}) as any as S.Schema<SignalRPrivateLinkResourcesListRequest>;
+  identifier: "ListSignalRPrivateLinkResourcesRequest",
+}) as any as S.Schema<ListSignalRPrivateLinkResourcesRequest>;
 
 /** Required members of the private link resource */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -2414,11 +2148,372 @@ export const PrivateLinkResourceList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PrivateLinkResourceList",
 }) as any as S.Schema<PrivateLinkResourceList>;
 
+export interface ListSignalRReplicasRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+}
+export const ListSignalRReplicasRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListSignalRReplicasRequest",
+}) as any as S.Schema<ListSignalRReplicasRequest>;
+
+/** Resource tags. */
+export type ReplicaTagsMap = { [key: string]: string | undefined };
+export const ReplicaTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<ReplicaTagsMap>;
+
+/** A class represent a replica resource. */
+export interface Replica {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: ReplicaTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  sku?: ResourceSku;
+  properties?: ReplicaProperties;
+}
+export const Replica = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(ReplicaTagsMap),
+    location: S.String,
+    sku: S.optional(ResourceSku),
+    properties: S.optional(ReplicaProperties),
+  }),
+).annotate({ identifier: "Replica" }) as any as S.Schema<Replica>;
+
+/** List of the replica */
+export type ReplicaListValueList = Array<Replica>;
+export const ReplicaListValueList = /*@__PURE__*/ S.Array(
+  Replica,
+) as any as S.Schema<ReplicaListValueList>;
+
+export interface ReplicaList {
+  /** List of the replica */
+  value?: ReplicaListValueList;
+  /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
+  nextLink?: string;
+}
+export const ReplicaList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(ReplicaListValueList),
+    nextLink: S.optional(S.String),
+  }),
+).annotate({ identifier: "ReplicaList" }) as any as S.Schema<ReplicaList>;
+
+export interface ListSignalRReplicaSharedPrivateLinkResourcesRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** The name of the replica. */
+  replicaName: string;
+}
+export const ListSignalRReplicaSharedPrivateLinkResourcesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+      replicaName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/sharedPrivateLinkResources",
+        code: 200,
+        apiVersion: "2024-03-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "ListSignalRReplicaSharedPrivateLinkResourcesRequest",
+  }) as any as S.Schema<ListSignalRReplicaSharedPrivateLinkResourcesRequest>;
+
+/** The list of the shared private link resources */
+export type SharedPrivateLinkResourceListValueList =
+  Array<SharedPrivateLinkResource>;
+export const SharedPrivateLinkResourceListValueList = /*@__PURE__*/ S.Array(
+  SharedPrivateLinkResource,
+) as any as S.Schema<SharedPrivateLinkResourceListValueList>;
+
+/** A list of shared private link resources */
+export interface SharedPrivateLinkResourceList {
+  /** The list of the shared private link resources */
+  value?: SharedPrivateLinkResourceListValueList;
+  /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
+  nextLink?: string;
+}
+export const SharedPrivateLinkResourceList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(SharedPrivateLinkResourceListValueList),
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SharedPrivateLinkResourceList",
+}) as any as S.Schema<SharedPrivateLinkResourceList>;
+
+export interface ListSignalRReplicaSkusRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** The name of the replica. */
+  replicaName: string;
+}
+export const ListSignalRReplicaSkusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+    replicaName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/skus",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListSignalRReplicaSkusRequest",
+}) as any as S.Schema<ListSignalRReplicaSkusRequest>;
+
+/** Allows capacity value list. */
+export type SkuCapacityAllowedValuesList = Array<number>;
+export const SkuCapacityAllowedValuesList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<SkuCapacityAllowedValuesList>;
+
+/** The scale type applicable to the sku. */
+export type ScaleType = "None" | "Manual" | "Automatic";
+export const ScaleType = S.String;
+
+/** Describes scaling information of a sku. */
+export interface SkuCapacity {
+  /** The lowest permitted capacity for this resource */
+  minimum?: number;
+  /** The highest permitted capacity for this resource */
+  maximum?: number;
+  /** The default capacity. */
+  default?: number;
+  /** Allows capacity value list. */
+  allowedValues?: SkuCapacityAllowedValuesList;
+  scaleType?: ScaleType;
+}
+export const SkuCapacity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minimum: S.optional(S.Number),
+    maximum: S.optional(S.Number),
+    default: S.optional(S.Number),
+    allowedValues: S.optional(SkuCapacityAllowedValuesList),
+    scaleType: S.optional(ScaleType),
+  }),
+).annotate({ identifier: "SkuCapacity" }) as any as S.Schema<SkuCapacity>;
+
+/** Describes an available sku." */
+export interface Sku {
+  /** The resource type that this object applies to */
+  resourceType?: string;
+  sku?: ResourceSku;
+  capacity?: SkuCapacity;
+}
+export const Sku = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceType: S.optional(S.String),
+    sku: S.optional(ResourceSku),
+    capacity: S.optional(SkuCapacity),
+  }),
+).annotate({ identifier: "Sku" }) as any as S.Schema<Sku>;
+
+/** The list of skus available for the resource. */
+export type SkuListValueList = Array<Sku>;
+export const SkuListValueList = /*@__PURE__*/ S.Array(
+  Sku,
+) as any as S.Schema<SkuListValueList>;
+
+/** The list skus operation response */
+export interface SkuList {
+  /** The list of skus available for the resource. */
+  value?: SkuListValueList;
+  /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
+  nextLink?: string;
+}
+export const SkuList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(SkuListValueList),
+    nextLink: S.optional(S.String),
+  }),
+).annotate({ identifier: "SkuList" }) as any as S.Schema<SkuList>;
+
+export interface ListSignalRSharedPrivateLinkResourcesRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+}
+export const ListSignalRSharedPrivateLinkResourcesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources",
+        code: 200,
+        apiVersion: "2024-03-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "ListSignalRSharedPrivateLinkResourcesRequest",
+  }) as any as S.Schema<ListSignalRSharedPrivateLinkResourcesRequest>;
+
+export interface ListSignalRSkusRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+}
+export const ListSignalRSkusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/skus",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListSignalRSkusRequest",
+}) as any as S.Schema<ListSignalRSkusRequest>;
+
+export interface ListUsagesRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** the location like "eastus" */
+  location: string;
+}
+export const ListUsagesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    location: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/usages",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListUsagesRequest",
+}) as any as S.Schema<ListUsagesRequest>;
+
+/** Localizable String object containing the name and a localized value. */
+export interface SignalRUsageName {
+  /** The identifier of the usage. */
+  value?: string;
+  /** Localized name of the usage. */
+  localizedValue?: string;
+}
+export const SignalRUsageName = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    localizedValue: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SignalRUsageName",
+}) as any as S.Schema<SignalRUsageName>;
+
+/** Object that describes a specific usage of the resources. */
+export interface SignalRUsage {
+  /** Fully qualified ARM resource id */
+  id?: string;
+  /** Current value for the usage quota. */
+  currentValue?: number;
+  /** The maximum permitted value for the usage quota. If there is no limit, this value will be -1. */
+  limit?: number;
+  name?: SignalRUsageName;
+  /** Representing the units of the usage quota. Possible values are: Count, Bytes, Seconds, Percent, CountPerSecond, BytesPerSecond. */
+  unit?: string;
+}
+export const SignalRUsage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    currentValue: S.optional(S.Number),
+    limit: S.optional(S.Number),
+    name: S.optional(SignalRUsageName),
+    unit: S.optional(S.String),
+  }),
+).annotate({ identifier: "SignalRUsage" }) as any as S.Schema<SignalRUsage>;
+
+/** List of the resource usages */
+export type SignalRUsageListValueList = Array<SignalRUsage>;
+export const SignalRUsageListValueList = /*@__PURE__*/ S.Array(
+  SignalRUsage,
+) as any as S.Schema<SignalRUsageListValueList>;
+
+/** Object that includes an array of the resource usages and a possible link for next set. */
+export interface SignalRUsageList {
+  /** List of the resource usages */
+  value?: SignalRUsageListValueList;
+  /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
+  nextLink?: string;
+}
+export const SignalRUsageList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(SignalRUsageListValueList),
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SignalRUsageList",
+}) as any as S.Schema<SignalRUsageList>;
+
 /** The type of access key. */
 export type KeyType = "Primary" | "Secondary" | "Salt";
-export const KeyType = /*@__PURE__*/ S.String;
+export const KeyType = S.String;
 
-export interface SignalRRegenerateKeyRequest {
+export interface RegenerateSignalRKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -2427,7 +2522,7 @@ export interface SignalRRegenerateKeyRequest {
   resourceName: string;
   keyType?: KeyType | (string & {});
 }
-export const SignalRRegenerateKeyRequest = /*@__PURE__*/ S.suspend(() =>
+export const RegenerateSignalRKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -2442,8 +2537,412 @@ export const SignalRRegenerateKeyRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "SignalRRegenerateKeyRequest",
-}) as any as S.Schema<SignalRRegenerateKeyRequest>;
+  identifier: "RegenerateSignalRKeyRequest",
+}) as any as S.Schema<RegenerateSignalRKeyRequest>;
+
+export interface RestartSignalRRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+}
+export const RestartSignalRRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/restart",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "RestartSignalRRequest",
+}) as any as S.Schema<RestartSignalRRequest>;
+
+export interface RestartSignalRResponse {}
+export const RestartSignalRResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "RestartSignalRResponse",
+}) as any as S.Schema<RestartSignalRResponse>;
+
+export interface RestartSignalRReplicasRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** The name of the replica. */
+  replicaName: string;
+}
+export const RestartSignalRReplicasRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+    replicaName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/restart",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "RestartSignalRReplicasRequest",
+}) as any as S.Schema<RestartSignalRReplicasRequest>;
+
+export interface RestartSignalRReplicasResponse {}
+export const RestartSignalRReplicasResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "RestartSignalRReplicasResponse",
+}) as any as S.Schema<RestartSignalRReplicasResponse>;
+
+/** Resource tags. */
+export type SignalRCreateOrUpdateRequestTagsMap = {
+  [key: string]: string | undefined;
+};
+export const SignalRCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<SignalRCreateOrUpdateRequestTagsMap>;
+
+/** The billing information of the resource. */
+export interface ResourceSkuInput {
+  /** The name of the SKU. Required. Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2 */
+  name: string;
+  tier?: SignalRSkuTier | (string & {});
+  /** Optional, integer. The unit count of the resource. 1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default. If present, following values are allowed: Free_F1: 1; Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P2: 100,200,300,400,500,600,700,800,900,1000; */
+  capacity?: number;
+}
+export const ResourceSkuInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    tier: S.optional(SignalRSkuTier),
+    capacity: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ResourceSkuInput",
+}) as any as S.Schema<ResourceSkuInput>;
+
+/** List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags. */
+export type SignalRPropertiesInputFeaturesList = Array<SignalRFeature>;
+export const SignalRPropertiesInputFeaturesList = /*@__PURE__*/ S.Array(
+  SignalRFeature,
+) as any as S.Schema<SignalRPropertiesInputFeaturesList>;
+
+/** A class that describes the properties of the resource */
+export interface SignalRPropertiesInput {
+  tls?: SignalRTlsSettings;
+  /** List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags. */
+  features?: SignalRPropertiesInputFeaturesList;
+  liveTraceConfiguration?: LiveTraceConfiguration;
+  resourceLogConfiguration?: ResourceLogConfiguration;
+  cors?: SignalRCorsSettings;
+  serverless?: ServerlessSettings;
+  upstream?: ServerlessUpstreamSettings;
+  networkACLs?: SignalRNetworkACLs;
+  /** Enable or disable public network access. Default to "Enabled". When it's Enabled, network ACLs still apply. When it's Disabled, public network access is always disabled no matter what you set in network ACLs. */
+  publicNetworkAccess?: string;
+  /** DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won't work. */
+  disableLocalAuth?: boolean;
+  /** DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won't work. */
+  disableAadAuth?: boolean;
+  /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. This property is replica specific. Disable the regional endpoint without replica is not allowed. */
+  regionEndpointEnabled?: string;
+  /** Stop or start the resource. Default to "False". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
+  resourceStopped?: string;
+}
+export const SignalRPropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tls: S.optional(SignalRTlsSettings),
+    features: S.optional(SignalRPropertiesInputFeaturesList),
+    liveTraceConfiguration: S.optional(LiveTraceConfiguration),
+    resourceLogConfiguration: S.optional(ResourceLogConfiguration),
+    cors: S.optional(SignalRCorsSettings),
+    serverless: S.optional(ServerlessSettings),
+    upstream: S.optional(ServerlessUpstreamSettings),
+    networkACLs: S.optional(SignalRNetworkACLs),
+    publicNetworkAccess: S.optional(S.String),
+    disableLocalAuth: S.optional(S.Boolean),
+    disableAadAuth: S.optional(S.Boolean),
+    regionEndpointEnabled: S.optional(S.String),
+    resourceStopped: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SignalRPropertiesInput",
+}) as any as S.Schema<SignalRPropertiesInput>;
+
+/** Properties of user assigned identity. */
+export interface UserAssignedIdentityPropertyInput {}
+export const UserAssignedIdentityPropertyInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UserAssignedIdentityPropertyInput",
+}) as any as S.Schema<UserAssignedIdentityPropertyInput>;
+
+/** Get or set the user assigned identities */
+export type ManagedIdentityInputUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentityPropertyInput | undefined;
+};
+export const ManagedIdentityInputUserAssignedIdentitiesMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    UserAssignedIdentityPropertyInput,
+  ) as any as S.Schema<ManagedIdentityInputUserAssignedIdentitiesMap>;
+
+/** A class represent managed identities used for request and response */
+export interface ManagedIdentityInput {
+  type?: ManagedIdentityType | (string & {});
+  /** Get or set the user assigned identities */
+  userAssignedIdentities?: ManagedIdentityInputUserAssignedIdentitiesMap;
+}
+export const ManagedIdentityInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ManagedIdentityType),
+    userAssignedIdentities: S.optional(
+      ManagedIdentityInputUserAssignedIdentitiesMap,
+    ),
+  }),
+).annotate({
+  identifier: "ManagedIdentityInput",
+}) as any as S.Schema<ManagedIdentityInput>;
+
+export interface SignalRCreateOrUpdateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** Resource tags. */
+  tags?: SignalRCreateOrUpdateRequestTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  sku?: ResourceSkuInput;
+  properties?: SignalRPropertiesInput;
+  kind?: ServiceKind | (string & {});
+  identity?: ManagedIdentityInput;
+}
+export const SignalRCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+    tags: S.optional(SignalRCreateOrUpdateRequestTagsMap),
+    location: S.String,
+    sku: S.optional(ResourceSkuInput),
+    properties: S.optional(SignalRPropertiesInput),
+    kind: S.optional(ServiceKind),
+    identity: S.optional(ManagedIdentityInput),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
+      code: 200,
+      apiVersion: "2024-03-01",
+    }),
+  ),
+).annotate({
+  identifier: "SignalRCreateOrUpdateRequest",
+}) as any as S.Schema<SignalRCreateOrUpdateRequest>;
+
+/** Resource tags. */
+export type SignalRCreateOrUpdateResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const SignalRCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<SignalRCreateOrUpdateResponseTagsMap>;
+
+export interface SignalRCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: SignalRCreateOrUpdateResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  sku?: ResourceSku;
+  properties?: SignalRProperties;
+  kind?: ServiceKind;
+  identity?: ManagedIdentity;
+}
+export const SignalRCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(SignalRCreateOrUpdateResponseTagsMap),
+    location: S.String,
+    sku: S.optional(ResourceSku),
+    properties: S.optional(SignalRProperties),
+    kind: S.optional(ServiceKind),
+    identity: S.optional(ManagedIdentity),
+  }),
+).annotate({
+  identifier: "SignalRCreateOrUpdateResponse",
+}) as any as S.Schema<SignalRCreateOrUpdateResponse>;
+
+/** Custom certificate properties. */
+export interface CustomCertificatePropertiesInput {
+  /** Base uri of the KeyVault that stores certificate. */
+  keyVaultBaseUri: string;
+  /** Certificate secret name. */
+  keyVaultSecretName: string;
+  /** Certificate secret version. */
+  keyVaultSecretVersion?: string;
+}
+export const CustomCertificatePropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    keyVaultBaseUri: S.String,
+    keyVaultSecretName: S.String,
+    keyVaultSecretVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CustomCertificatePropertiesInput",
+}) as any as S.Schema<CustomCertificatePropertiesInput>;
+
+export interface SignalRCustomCertificatesCreateOrUpdateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** Custom certificate name */
+  certificateName: string;
+  properties: CustomCertificatePropertiesInput;
+}
+export const SignalRCustomCertificatesCreateOrUpdateRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+      certificateName: S.String.pipe(T.Label()),
+      properties: CustomCertificatePropertiesInput,
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates/{certificateName}",
+        code: 200,
+        apiVersion: "2024-03-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "SignalRCustomCertificatesCreateOrUpdateRequest",
+  }) as any as S.Schema<SignalRCustomCertificatesCreateOrUpdateRequest>;
+
+export interface SignalRCustomCertificatesCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties: CustomCertificateProperties;
+}
+export const SignalRCustomCertificatesCreateOrUpdateResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: CustomCertificateProperties,
+    }),
+  ).annotate({
+    identifier: "SignalRCustomCertificatesCreateOrUpdateResponse",
+  }) as any as S.Schema<SignalRCustomCertificatesCreateOrUpdateResponse>;
+
+/** Properties of a custom domain. */
+export interface CustomDomainPropertiesInput {
+  /** The custom domain name. */
+  domainName: string;
+  customCertificate: ResourceReference;
+}
+export const CustomDomainPropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domainName: S.String,
+    customCertificate: ResourceReference,
+  }),
+).annotate({
+  identifier: "CustomDomainPropertiesInput",
+}) as any as S.Schema<CustomDomainPropertiesInput>;
+
+export interface SignalRCustomDomainsCreateOrUpdateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** Custom domain name. */
+  name: string;
+  properties: CustomDomainPropertiesInput;
+}
+export const SignalRCustomDomainsCreateOrUpdateRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      properties: CustomDomainPropertiesInput,
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains/{name}",
+        code: 200,
+        apiVersion: "2024-03-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "SignalRCustomDomainsCreateOrUpdateRequest",
+  }) as any as S.Schema<SignalRCustomDomainsCreateOrUpdateRequest>;
+
+export interface SignalRCustomDomainsCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties: CustomDomainProperties;
+}
+export const SignalRCustomDomainsCreateOrUpdateResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: CustomDomainProperties,
+    }),
+  ).annotate({
+    identifier: "SignalRCustomDomainsCreateOrUpdateResponse",
+  }) as any as S.Schema<SignalRCustomDomainsCreateOrUpdateResponse>;
 
 /** Resource tags. */
 export type SignalRReplicasCreateOrUpdateRequestTagsMap = {
@@ -2519,23 +3018,6 @@ export const SignalRReplicasCreateOrUpdateResponseTagsMap =
     S.String,
   ) as any as S.Schema<SignalRReplicasCreateOrUpdateResponseTagsMap>;
 
-export interface ReplicaProperties {
-  provisioningState?: ProvisioningState;
-  /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. */
-  regionEndpointEnabled?: string;
-  /** Stop or start the resource. Default to "false". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
-  resourceStopped?: string;
-}
-export const ReplicaProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provisioningState: S.optional(ProvisioningState),
-    regionEndpointEnabled: S.optional(S.String),
-    resourceStopped: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ReplicaProperties",
-}) as any as S.Schema<ReplicaProperties>;
-
 export interface SignalRReplicasCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -2567,109 +3049,6 @@ export const SignalRReplicasCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "SignalRReplicasCreateOrUpdateResponse",
 }) as any as S.Schema<SignalRReplicasCreateOrUpdateResponse>;
-
-export interface SignalRReplicasDeleteRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** The name of the replica. */
-  replicaName: string;
-}
-export const SignalRReplicasDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-    replicaName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRReplicasDeleteRequest",
-}) as any as S.Schema<SignalRReplicasDeleteRequest>;
-
-export interface SignalRReplicasDeleteResponse {}
-export const SignalRReplicasDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "SignalRReplicasDeleteResponse",
-}) as any as S.Schema<SignalRReplicasDeleteResponse>;
-
-export interface SignalRReplicasGetRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** The name of the replica. */
-  replicaName: string;
-}
-export const SignalRReplicasGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-    replicaName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRReplicasGetRequest",
-}) as any as S.Schema<SignalRReplicasGetRequest>;
-
-/** Resource tags. */
-export type SignalRReplicasGetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const SignalRReplicasGetResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<SignalRReplicasGetResponseTagsMap>;
-
-export interface SignalRReplicasGetResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource tags. */
-  tags?: SignalRReplicasGetResponseTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  sku?: ResourceSku;
-  properties?: ReplicaProperties;
-}
-export const SignalRReplicasGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    tags: S.optional(SignalRReplicasGetResponseTagsMap),
-    location: S.String,
-    sku: S.optional(ResourceSku),
-    properties: S.optional(ReplicaProperties),
-  }),
-).annotate({
-  identifier: "SignalRReplicasGetResponse",
-}) as any as S.Schema<SignalRReplicasGetResponse>;
 
 /** Describes the properties of an existing Shared Private Link Resource */
 export interface SharedPrivateLinkResourcePropertiesInput {
@@ -2750,349 +3129,6 @@ export const SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse =
       "SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse",
   }) as any as S.Schema<SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>;
 
-export interface SignalRReplicaSharedPrivateLinkResourcesGetRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** The name of the replica. */
-  replicaName: string;
-  /** The name of the shared private link resource. */
-  sharedPrivateLinkResourceName: string;
-}
-export const SignalRReplicaSharedPrivateLinkResourcesGetRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-      replicaName: S.String.pipe(T.Label()),
-      sharedPrivateLinkResourceName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
-        code: 200,
-        apiVersion: "2024-03-01",
-      }),
-    ),
-  ).annotate({
-    identifier: "SignalRReplicaSharedPrivateLinkResourcesGetRequest",
-  }) as any as S.Schema<SignalRReplicaSharedPrivateLinkResourcesGetRequest>;
-
-export interface SignalRReplicaSharedPrivateLinkResourcesGetResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedPrivateLinkResourceProperties;
-}
-export const SignalRReplicaSharedPrivateLinkResourcesGetResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      systemData: S.optional(SystemData),
-      properties: S.optional(SharedPrivateLinkResourceProperties),
-    }),
-  ).annotate({
-    identifier: "SignalRReplicaSharedPrivateLinkResourcesGetResponse",
-  }) as any as S.Schema<SignalRReplicaSharedPrivateLinkResourcesGetResponse>;
-
-export interface SignalRReplicaSharedPrivateLinkResourcesListRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** The name of the replica. */
-  replicaName: string;
-}
-export const SignalRReplicaSharedPrivateLinkResourcesListRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-      replicaName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/sharedPrivateLinkResources",
-        code: 200,
-        apiVersion: "2024-03-01",
-      }),
-    ),
-  ).annotate({
-    identifier: "SignalRReplicaSharedPrivateLinkResourcesListRequest",
-  }) as any as S.Schema<SignalRReplicaSharedPrivateLinkResourcesListRequest>;
-
-/** The list of the shared private link resources */
-export type SharedPrivateLinkResourceListValueList =
-  Array<SharedPrivateLinkResource>;
-export const SharedPrivateLinkResourceListValueList = /*@__PURE__*/ S.Array(
-  SharedPrivateLinkResource,
-) as any as S.Schema<SharedPrivateLinkResourceListValueList>;
-
-/** A list of shared private link resources */
-export interface SharedPrivateLinkResourceList {
-  /** The list of the shared private link resources */
-  value?: SharedPrivateLinkResourceListValueList;
-  /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
-  nextLink?: string;
-}
-export const SharedPrivateLinkResourceList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(SharedPrivateLinkResourceListValueList),
-    nextLink: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SharedPrivateLinkResourceList",
-}) as any as S.Schema<SharedPrivateLinkResourceList>;
-
-export interface SignalRReplicasListRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-}
-export const SignalRReplicasListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRReplicasListRequest",
-}) as any as S.Schema<SignalRReplicasListRequest>;
-
-/** Resource tags. */
-export type ReplicaTagsMap = { [key: string]: string | undefined };
-export const ReplicaTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<ReplicaTagsMap>;
-
-/** A class represent a replica resource. */
-export interface Replica {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource tags. */
-  tags?: ReplicaTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  sku?: ResourceSku;
-  properties?: ReplicaProperties;
-}
-export const Replica = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    tags: S.optional(ReplicaTagsMap),
-    location: S.String,
-    sku: S.optional(ResourceSku),
-    properties: S.optional(ReplicaProperties),
-  }),
-).annotate({ identifier: "Replica" }) as any as S.Schema<Replica>;
-
-/** List of the replica */
-export type ReplicaListValueList = Array<Replica>;
-export const ReplicaListValueList = /*@__PURE__*/ S.Array(
-  Replica,
-) as any as S.Schema<ReplicaListValueList>;
-
-export interface ReplicaList {
-  /** List of the replica */
-  value?: ReplicaListValueList;
-  /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
-}
-export const ReplicaList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(ReplicaListValueList),
-    nextLink: S.optional(S.String),
-  }),
-).annotate({ identifier: "ReplicaList" }) as any as S.Schema<ReplicaList>;
-
-export interface SignalRReplicasRestartRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** The name of the replica. */
-  replicaName: string;
-}
-export const SignalRReplicasRestartRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-    replicaName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/restart",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRReplicasRestartRequest",
-}) as any as S.Schema<SignalRReplicasRestartRequest>;
-
-export interface SignalRReplicasRestartResponse {}
-export const SignalRReplicasRestartResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "SignalRReplicasRestartResponse",
-}) as any as S.Schema<SignalRReplicasRestartResponse>;
-
-/** Resource tags. */
-export type SignalRReplicasUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
-export const SignalRReplicasUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<SignalRReplicasUpdateRequestTagsMap>;
-
-export interface SignalRReplicasUpdateRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** The name of the replica. */
-  replicaName: string;
-  /** Resource tags. */
-  tags?: SignalRReplicasUpdateRequestTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  sku?: ResourceSkuInput;
-  properties?: ReplicaPropertiesInput;
-}
-export const SignalRReplicasUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-    replicaName: S.String.pipe(T.Label()),
-    tags: S.optional(SignalRReplicasUpdateRequestTagsMap),
-    location: S.String,
-    sku: S.optional(ResourceSkuInput),
-    properties: S.optional(ReplicaPropertiesInput),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRReplicasUpdateRequest",
-}) as any as S.Schema<SignalRReplicasUpdateRequest>;
-
-/** Resource tags. */
-export type SignalRReplicasUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const SignalRReplicasUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<SignalRReplicasUpdateResponseTagsMap>;
-
-export interface SignalRReplicasUpdateResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource tags. */
-  tags?: SignalRReplicasUpdateResponseTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  sku?: ResourceSku;
-  properties?: ReplicaProperties;
-}
-export const SignalRReplicasUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    tags: S.optional(SignalRReplicasUpdateResponseTagsMap),
-    location: S.String,
-    sku: S.optional(ResourceSku),
-    properties: S.optional(ReplicaProperties),
-  }),
-).annotate({
-  identifier: "SignalRReplicasUpdateResponse",
-}) as any as S.Schema<SignalRReplicasUpdateResponse>;
-
-export interface SignalRRestartRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-}
-export const SignalRRestartRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/restart",
-      code: 200,
-      apiVersion: "2024-03-01",
-    }),
-  ),
-).annotate({
-  identifier: "SignalRRestartRequest",
-}) as any as S.Schema<SignalRRestartRequest>;
-
-export interface SignalRRestartResponse {}
-export const SignalRRestartResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "SignalRRestartResponse",
-}) as any as S.Schema<SignalRRestartResponse>;
-
 export interface SignalRSharedPrivateLinkResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -3148,128 +3184,14 @@ export const SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse =
     identifier: "SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse",
   }) as any as S.Schema<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>;
 
-export interface SignalRSharedPrivateLinkResourcesDeleteRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** The name of the shared private link resource. */
-  sharedPrivateLinkResourceName: string;
-}
-export const SignalRSharedPrivateLinkResourcesDeleteRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-      sharedPrivateLinkResourceName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
-        code: 200,
-        apiVersion: "2024-03-01",
-      }),
-    ),
-  ).annotate({
-    identifier: "SignalRSharedPrivateLinkResourcesDeleteRequest",
-  }) as any as S.Schema<SignalRSharedPrivateLinkResourcesDeleteRequest>;
-
-export interface SignalRSharedPrivateLinkResourcesDeleteResponse {}
-export const SignalRSharedPrivateLinkResourcesDeleteResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "SignalRSharedPrivateLinkResourcesDeleteResponse",
-  }) as any as S.Schema<SignalRSharedPrivateLinkResourcesDeleteResponse>;
-
-export interface SignalRSharedPrivateLinkResourcesGetRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-  /** The name of the shared private link resource. */
-  sharedPrivateLinkResourceName: string;
-}
-export const SignalRSharedPrivateLinkResourcesGetRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-      sharedPrivateLinkResourceName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
-        code: 200,
-        apiVersion: "2024-03-01",
-      }),
-    ),
-  ).annotate({
-    identifier: "SignalRSharedPrivateLinkResourcesGetRequest",
-  }) as any as S.Schema<SignalRSharedPrivateLinkResourcesGetRequest>;
-
-export interface SignalRSharedPrivateLinkResourcesGetResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedPrivateLinkResourceProperties;
-}
-export const SignalRSharedPrivateLinkResourcesGetResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      systemData: S.optional(SystemData),
-      properties: S.optional(SharedPrivateLinkResourceProperties),
-    }),
-  ).annotate({
-    identifier: "SignalRSharedPrivateLinkResourcesGetResponse",
-  }) as any as S.Schema<SignalRSharedPrivateLinkResourcesGetResponse>;
-
-export interface SignalRSharedPrivateLinkResourcesListRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the resource. */
-  resourceName: string;
-}
-export const SignalRSharedPrivateLinkResourcesListRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources",
-        code: 200,
-        apiVersion: "2024-03-01",
-      }),
-    ),
-  ).annotate({
-    identifier: "SignalRSharedPrivateLinkResourcesListRequest",
-  }) as any as S.Schema<SignalRSharedPrivateLinkResourcesListRequest>;
-
 /** Resource tags. */
-export type SignalRUpdateRequestTagsMap = { [key: string]: string | undefined };
-export const SignalRUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
+export type UpdateSignalRRequestTagsMap = { [key: string]: string | undefined };
+export const UpdateSignalRRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<SignalRUpdateRequestTagsMap>;
+) as any as S.Schema<UpdateSignalRRequestTagsMap>;
 
-export interface SignalRUpdateRequest {
+export interface UpdateSignalRRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -3277,7 +3199,7 @@ export interface SignalRUpdateRequest {
   /** The name of the resource. */
   resourceName: string;
   /** Resource tags. */
-  tags?: SignalRUpdateRequestTagsMap;
+  tags?: UpdateSignalRRequestTagsMap;
   /** The geo-location where the resource lives */
   location: string;
   sku?: ResourceSkuInput;
@@ -3285,12 +3207,12 @@ export interface SignalRUpdateRequest {
   kind?: ServiceKind | (string & {});
   identity?: ManagedIdentityInput;
 }
-export const SignalRUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateSignalRRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     resourceName: S.String.pipe(T.Label()),
-    tags: S.optional(SignalRUpdateRequestTagsMap),
+    tags: S.optional(UpdateSignalRRequestTagsMap),
     location: S.String,
     sku: S.optional(ResourceSkuInput),
     properties: S.optional(SignalRPropertiesInput),
@@ -3305,19 +3227,19 @@ export const SignalRUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "SignalRUpdateRequest",
-}) as any as S.Schema<SignalRUpdateRequest>;
+  identifier: "UpdateSignalRRequest",
+}) as any as S.Schema<UpdateSignalRRequest>;
 
 /** Resource tags. */
-export type SignalRUpdateResponseTagsMap = {
+export type UpdateSignalRResponseTagsMap = {
   [key: string]: string | undefined;
 };
-export const SignalRUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
+export const UpdateSignalRResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<SignalRUpdateResponseTagsMap>;
+) as any as S.Schema<UpdateSignalRResponseTagsMap>;
 
-export interface SignalRUpdateResponse {
+export interface UpdateSignalRResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
   /** The name of the resource */
@@ -3327,7 +3249,7 @@ export interface SignalRUpdateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   /** Resource tags. */
-  tags?: SignalRUpdateResponseTagsMap;
+  tags?: UpdateSignalRResponseTagsMap;
   /** The geo-location where the resource lives */
   location: string;
   sku?: ResourceSku;
@@ -3335,13 +3257,13 @@ export interface SignalRUpdateResponse {
   kind?: ServiceKind;
   identity?: ManagedIdentity;
 }
-export const SignalRUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+export const UpdateSignalRResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
-    tags: S.optional(SignalRUpdateResponseTagsMap),
+    tags: S.optional(UpdateSignalRResponseTagsMap),
     location: S.String,
     sku: S.optional(ResourceSku),
     properties: S.optional(SignalRProperties),
@@ -3349,116 +3271,628 @@ export const SignalRUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(ManagedIdentity),
   }),
 ).annotate({
-  identifier: "SignalRUpdateResponse",
-}) as any as S.Schema<SignalRUpdateResponse>;
+  identifier: "UpdateSignalRResponse",
+}) as any as S.Schema<UpdateSignalRResponse>;
 
-export interface UsagesListRequest {
+/** Private endpoint connection properties */
+export interface PrivateEndpointConnectionPropertiesInput {
+  privateEndpoint?: PrivateEndpoint;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+}
+export const PrivateEndpointConnectionPropertiesInput = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      privateEndpoint: S.optional(PrivateEndpoint),
+      privateLinkServiceConnectionState: S.optional(
+        PrivateLinkServiceConnectionState,
+      ),
+    }),
+).annotate({
+  identifier: "PrivateEndpointConnectionPropertiesInput",
+}) as any as S.Schema<PrivateEndpointConnectionPropertiesInput>;
+
+export interface UpdateSignalRPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** the location like "eastus" */
-  location: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** The name of the private endpoint connection associated with the Azure resource. */
+  privateEndpointConnectionName: string;
+  properties?: PrivateEndpointConnectionPropertiesInput;
 }
-export const UsagesListRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateSignalRPrivateEndpointConnectionRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+      privateEndpointConnectionName: S.String.pipe(T.Label()),
+      properties: S.optional(PrivateEndpointConnectionPropertiesInput),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+        code: 200,
+        apiVersion: "2024-03-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "UpdateSignalRPrivateEndpointConnectionRequest",
+  }) as any as S.Schema<UpdateSignalRPrivateEndpointConnectionRequest>;
+
+export interface UpdateSignalRPrivateEndpointConnectionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  properties?: PrivateEndpointConnectionProperties;
+}
+export const UpdateSignalRPrivateEndpointConnectionResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: S.optional(PrivateEndpointConnectionProperties),
+    }),
+  ).annotate({
+    identifier: "UpdateSignalRPrivateEndpointConnectionResponse",
+  }) as any as S.Schema<UpdateSignalRPrivateEndpointConnectionResponse>;
+
+/** Resource tags. */
+export type UpdateSignalRReplicasRequestTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateSignalRReplicasRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateSignalRReplicasRequestTagsMap>;
+
+export interface UpdateSignalRReplicasRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the resource. */
+  resourceName: string;
+  /** The name of the replica. */
+  replicaName: string;
+  /** Resource tags. */
+  tags?: UpdateSignalRReplicasRequestTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  sku?: ResourceSkuInput;
+  properties?: ReplicaPropertiesInput;
+}
+export const UpdateSignalRReplicasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
-    location: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+    replicaName: S.String.pipe(T.Label()),
+    tags: S.optional(UpdateSignalRReplicasRequestTagsMap),
+    location: S.String,
+    sku: S.optional(ResourceSkuInput),
+    properties: S.optional(ReplicaPropertiesInput),
   }).pipe(
     T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/usages",
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
   ),
 ).annotate({
-  identifier: "UsagesListRequest",
-}) as any as S.Schema<UsagesListRequest>;
+  identifier: "UpdateSignalRReplicasRequest",
+}) as any as S.Schema<UpdateSignalRReplicasRequest>;
 
-/** Localizable String object containing the name and a localized value. */
-export interface SignalRUsageName {
-  /** The identifier of the usage. */
-  value?: string;
-  /** Localized name of the usage. */
-  localizedValue?: string;
-}
-export const SignalRUsageName = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    localizedValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SignalRUsageName",
-}) as any as S.Schema<SignalRUsageName>;
+/** Resource tags. */
+export type UpdateSignalRReplicasResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateSignalRReplicasResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateSignalRReplicasResponseTagsMap>;
 
-/** Object that describes a specific usage of the resources. */
-export interface SignalRUsage {
-  /** Fully qualified ARM resource id */
+export interface UpdateSignalRReplicasResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
-  /** Current value for the usage quota. */
-  currentValue?: number;
-  /** The maximum permitted value for the usage quota. If there is no limit, this value will be -1. */
-  limit?: number;
-  name?: SignalRUsageName;
-  /** Representing the units of the usage quota. Possible values are: Count, Bytes, Seconds, Percent, CountPerSecond, BytesPerSecond. */
-  unit?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: UpdateSignalRReplicasResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  sku?: ResourceSku;
+  properties?: ReplicaProperties;
 }
-export const SignalRUsage = /*@__PURE__*/ S.suspend(() =>
+export const UpdateSignalRReplicasResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
-    currentValue: S.optional(S.Number),
-    limit: S.optional(S.Number),
-    name: S.optional(SignalRUsageName),
-    unit: S.optional(S.String),
-  }),
-).annotate({ identifier: "SignalRUsage" }) as any as S.Schema<SignalRUsage>;
-
-/** List of the resource usages */
-export type SignalRUsageListValueList = Array<SignalRUsage>;
-export const SignalRUsageListValueList = /*@__PURE__*/ S.Array(
-  SignalRUsage,
-) as any as S.Schema<SignalRUsageListValueList>;
-
-/** Object that includes an array of the resource usages and a possible link for next set. */
-export interface SignalRUsageList {
-  /** List of the resource usages */
-  value?: SignalRUsageListValueList;
-  /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
-}
-export const SignalRUsageList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(SignalRUsageListValueList),
-    nextLink: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(UpdateSignalRReplicasResponseTagsMap),
+    location: S.String,
+    sku: S.optional(ResourceSku),
+    properties: S.optional(ReplicaProperties),
   }),
 ).annotate({
-  identifier: "SignalRUsageList",
-}) as any as S.Schema<SignalRUsageList>;
+  identifier: "UpdateSignalRReplicasResponse",
+}) as any as S.Schema<UpdateSignalRReplicasResponse>;
 
-export type OperationsListError = AzureOpError;
-/** Lists all of the available REST API operations of the Microsoft.SignalRService provider. */
-export const OperationsList: API.OperationMethod<
-  OperationsListRequest,
-  OperationList,
-  OperationsListError,
+export type CheckSignalRNameAvailabilityError = AzureOpError;
+/** Checks that the resource name is valid and is not already in use. */
+export const CheckSignalRNameAvailability: API.OperationMethod<
+  CheckSignalRNameAvailabilityRequest,
+  NameAvailability,
+  CheckSignalRNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: OperationsListRequest,
+  input: CheckSignalRNameAvailabilityRequest,
+  output: NameAvailability,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSignalRError = AzureOpError;
+/** Operation to delete a resource. */
+export const DeleteSignalR: API.OperationMethod<
+  DeleteSignalRRequest,
+  DeleteSignalRResponse,
+  DeleteSignalRError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSignalRRequest,
+  output: DeleteSignalRResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSignalRCustomCertificateError = AzureOpError;
+/** Delete a custom certificate. */
+export const DeleteSignalRCustomCertificate: API.OperationMethod<
+  DeleteSignalRCustomCertificateRequest,
+  DeleteSignalRCustomCertificateResponse,
+  DeleteSignalRCustomCertificateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSignalRCustomCertificateRequest,
+  output: DeleteSignalRCustomCertificateResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSignalRCustomDomainError = AzureOpError;
+/** Delete a custom domain. */
+export const DeleteSignalRCustomDomain: API.OperationMethod<
+  DeleteSignalRCustomDomainRequest,
+  DeleteSignalRCustomDomainResponse,
+  DeleteSignalRCustomDomainError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSignalRCustomDomainRequest,
+  output: DeleteSignalRCustomDomainResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSignalRPrivateEndpointConnectionError = AzureOpError;
+/** Delete the specified private endpoint connection */
+export const DeleteSignalRPrivateEndpointConnection: API.OperationMethod<
+  DeleteSignalRPrivateEndpointConnectionRequest,
+  DeleteSignalRPrivateEndpointConnectionResponse,
+  DeleteSignalRPrivateEndpointConnectionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSignalRPrivateEndpointConnectionRequest,
+  output: DeleteSignalRPrivateEndpointConnectionResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSignalRReplicasError = AzureOpError;
+/** Operation to delete a replica. */
+export const DeleteSignalRReplicas: API.OperationMethod<
+  DeleteSignalRReplicasRequest,
+  DeleteSignalRReplicasResponse,
+  DeleteSignalRReplicasError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSignalRReplicasRequest,
+  output: DeleteSignalRReplicasResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSignalRSharedPrivateLinkResourceError = AzureOpError;
+/** Delete the specified shared private link resource */
+export const DeleteSignalRSharedPrivateLinkResource: API.OperationMethod<
+  DeleteSignalRSharedPrivateLinkResourceRequest,
+  DeleteSignalRSharedPrivateLinkResourceResponse,
+  DeleteSignalRSharedPrivateLinkResourceError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSignalRSharedPrivateLinkResourceRequest,
+  output: DeleteSignalRSharedPrivateLinkResourceResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSignalRError = AzureOpError;
+/** Get the resource and its properties. */
+export const GetSignalR: API.OperationMethod<
+  GetSignalRRequest,
+  GetSignalRResponse,
+  GetSignalRError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSignalRRequest,
+  output: GetSignalRResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSignalRCustomCertificateError = AzureOpError;
+/** Get a custom certificate. */
+export const GetSignalRCustomCertificate: API.OperationMethod<
+  GetSignalRCustomCertificateRequest,
+  GetSignalRCustomCertificateResponse,
+  GetSignalRCustomCertificateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSignalRCustomCertificateRequest,
+  output: GetSignalRCustomCertificateResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSignalRCustomDomainError = AzureOpError;
+/** Get a custom domain. */
+export const GetSignalRCustomDomain: API.OperationMethod<
+  GetSignalRCustomDomainRequest,
+  GetSignalRCustomDomainResponse,
+  GetSignalRCustomDomainError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSignalRCustomDomainRequest,
+  output: GetSignalRCustomDomainResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSignalRPrivateEndpointConnectionError = AzureOpError;
+/** Get the specified private endpoint connection */
+export const GetSignalRPrivateEndpointConnection: API.OperationMethod<
+  GetSignalRPrivateEndpointConnectionRequest,
+  GetSignalRPrivateEndpointConnectionResponse,
+  GetSignalRPrivateEndpointConnectionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSignalRPrivateEndpointConnectionRequest,
+  output: GetSignalRPrivateEndpointConnectionResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSignalRReplicasError = AzureOpError;
+/** Get the replica and its properties. */
+export const GetSignalRReplicas: API.OperationMethod<
+  GetSignalRReplicasRequest,
+  GetSignalRReplicasResponse,
+  GetSignalRReplicasError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSignalRReplicasRequest,
+  output: GetSignalRReplicasResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSignalRReplicaSharedPrivateLinkResourceError = AzureOpError;
+/** Get the specified shared private link resource */
+export const GetSignalRReplicaSharedPrivateLinkResource: API.OperationMethod<
+  GetSignalRReplicaSharedPrivateLinkResourceRequest,
+  GetSignalRReplicaSharedPrivateLinkResourceResponse,
+  GetSignalRReplicaSharedPrivateLinkResourceError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSignalRReplicaSharedPrivateLinkResourceRequest,
+  output: GetSignalRReplicaSharedPrivateLinkResourceResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSignalRSharedPrivateLinkResourceError = AzureOpError;
+/** Get the specified shared private link resource */
+export const GetSignalRSharedPrivateLinkResource: API.OperationMethod<
+  GetSignalRSharedPrivateLinkResourceRequest,
+  GetSignalRSharedPrivateLinkResourceResponse,
+  GetSignalRSharedPrivateLinkResourceError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSignalRSharedPrivateLinkResourceRequest,
+  output: GetSignalRSharedPrivateLinkResourceResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListOperationsError = AzureOpError;
+/** Lists all of the available REST API operations of the Microsoft.SignalRService provider. */
+export const ListOperations: API.OperationMethod<
+  ListOperationsRequest,
+  OperationList,
+  ListOperationsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOperationsRequest,
   output: OperationList,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type SignalRCheckNameAvailabilityError = AzureOpError;
-/** Checks that the resource name is valid and is not already in use. */
-export const SignalRCheckNameAvailability: API.OperationMethod<
-  SignalRCheckNameAvailabilityRequest,
-  NameAvailability,
-  SignalRCheckNameAvailabilityError,
+export type ListSignalRByResourceGroupError = AzureOpError;
+/** Handles requests to list all resources in a resource group. */
+export const ListSignalRByResourceGroup: API.OperationMethod<
+  ListSignalRByResourceGroupRequest,
+  SignalRResourceList,
+  ListSignalRByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: SignalRCheckNameAvailabilityRequest,
-  output: NameAvailability,
+  input: ListSignalRByResourceGroupRequest,
+  output: SignalRResourceList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSignalRBySubscriptionError = AzureOpError;
+/** Handles requests to list all resources in a subscription. */
+export const ListSignalRBySubscription: API.OperationMethod<
+  ListSignalRBySubscriptionRequest,
+  SignalRResourceList,
+  ListSignalRBySubscriptionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSignalRBySubscriptionRequest,
+  output: SignalRResourceList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSignalRCustomCertificatesError = AzureOpError;
+/** List all custom certificates. */
+export const ListSignalRCustomCertificates: API.OperationMethod<
+  ListSignalRCustomCertificatesRequest,
+  CustomCertificateList,
+  ListSignalRCustomCertificatesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSignalRCustomCertificatesRequest,
+  output: CustomCertificateList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSignalRCustomDomainsError = AzureOpError;
+/** List all custom domains. */
+export const ListSignalRCustomDomains: API.OperationMethod<
+  ListSignalRCustomDomainsRequest,
+  CustomDomainList,
+  ListSignalRCustomDomainsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSignalRCustomDomainsRequest,
+  output: CustomDomainList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSignalRKeysError = AzureOpError;
+/** Get the access keys of the resource. */
+export const ListSignalRKeys: API.OperationMethod<
+  ListSignalRKeysRequest,
+  SignalRKeys,
+  ListSignalRKeysError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSignalRKeysRequest,
+  output: SignalRKeys,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSignalRPrivateEndpointConnectionsError = AzureOpError;
+/** List private endpoint connections */
+export const ListSignalRPrivateEndpointConnections: API.OperationMethod<
+  ListSignalRPrivateEndpointConnectionsRequest,
+  PrivateEndpointConnectionList,
+  ListSignalRPrivateEndpointConnectionsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSignalRPrivateEndpointConnectionsRequest,
+  output: PrivateEndpointConnectionList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSignalRPrivateLinkResourcesError = AzureOpError;
+/** Get the private link resources that need to be created for a resource. */
+export const ListSignalRPrivateLinkResources: API.OperationMethod<
+  ListSignalRPrivateLinkResourcesRequest,
+  PrivateLinkResourceList,
+  ListSignalRPrivateLinkResourcesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSignalRPrivateLinkResourcesRequest,
+  output: PrivateLinkResourceList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSignalRReplicasError = AzureOpError;
+/** List all replicas belong to this resource */
+export const ListSignalRReplicas: API.OperationMethod<
+  ListSignalRReplicasRequest,
+  ReplicaList,
+  ListSignalRReplicasError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSignalRReplicasRequest,
+  output: ReplicaList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSignalRReplicaSharedPrivateLinkResourcesError = AzureOpError;
+/** List shared private link resources */
+export const ListSignalRReplicaSharedPrivateLinkResources: API.OperationMethod<
+  ListSignalRReplicaSharedPrivateLinkResourcesRequest,
+  SharedPrivateLinkResourceList,
+  ListSignalRReplicaSharedPrivateLinkResourcesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSignalRReplicaSharedPrivateLinkResourcesRequest,
+  output: SharedPrivateLinkResourceList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSignalRReplicaSkusError = AzureOpError;
+/** List all available skus of the replica resource. */
+export const ListSignalRReplicaSkus: API.OperationMethod<
+  ListSignalRReplicaSkusRequest,
+  SkuList,
+  ListSignalRReplicaSkusError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSignalRReplicaSkusRequest,
+  output: SkuList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSignalRSharedPrivateLinkResourcesError = AzureOpError;
+/** List shared private link resources */
+export const ListSignalRSharedPrivateLinkResources: API.OperationMethod<
+  ListSignalRSharedPrivateLinkResourcesRequest,
+  SharedPrivateLinkResourceList,
+  ListSignalRSharedPrivateLinkResourcesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSignalRSharedPrivateLinkResourcesRequest,
+  output: SharedPrivateLinkResourceList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSignalRSkusError = AzureOpError;
+/** List all available skus of the resource. */
+export const ListSignalRSkus: API.OperationMethod<
+  ListSignalRSkusRequest,
+  SkuList,
+  ListSignalRSkusError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSignalRSkusRequest,
+  output: SkuList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListUsagesError = AzureOpError;
+/** List resource usage quotas by location. */
+export const ListUsages: API.OperationMethod<
+  ListUsagesRequest,
+  SignalRUsageList,
+  ListUsagesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListUsagesRequest,
+  output: SignalRUsageList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RegenerateSignalRKeyError = AzureOpError;
+/** Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time. */
+export const RegenerateSignalRKey: API.OperationMethod<
+  RegenerateSignalRKeyRequest,
+  SignalRKeys,
+  RegenerateSignalRKeyError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RegenerateSignalRKeyRequest,
+  output: SignalRKeys,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RestartSignalRError = AzureOpError;
+/** Operation to restart a resource. */
+export const RestartSignalR: API.OperationMethod<
+  RestartSignalRRequest,
+  RestartSignalRResponse,
+  RestartSignalRError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RestartSignalRRequest,
+  output: RestartSignalRResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RestartSignalRReplicasError = AzureOpError;
+/** Operation to restart a replica. */
+export const RestartSignalRReplicas: API.OperationMethod<
+  RestartSignalRReplicasRequest,
+  RestartSignalRReplicasResponse,
+  RestartSignalRReplicasError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RestartSignalRReplicasRequest,
+  output: RestartSignalRReplicasResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3494,51 +3928,6 @@ export const SignalRCustomCertificatesCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type SignalRCustomCertificatesDeleteError = AzureOpError;
-/** Delete a custom certificate. */
-export const SignalRCustomCertificatesDelete: API.OperationMethod<
-  SignalRCustomCertificatesDeleteRequest,
-  SignalRCustomCertificatesDeleteResponse,
-  SignalRCustomCertificatesDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRCustomCertificatesDeleteRequest,
-  output: SignalRCustomCertificatesDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRCustomCertificatesGetError = AzureOpError;
-/** Get a custom certificate. */
-export const SignalRCustomCertificatesGet: API.OperationMethod<
-  SignalRCustomCertificatesGetRequest,
-  SignalRCustomCertificatesGetResponse,
-  SignalRCustomCertificatesGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRCustomCertificatesGetRequest,
-  output: SignalRCustomCertificatesGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRCustomCertificatesListError = AzureOpError;
-/** List all custom certificates. */
-export const SignalRCustomCertificatesList: API.OperationMethod<
-  SignalRCustomCertificatesListRequest,
-  CustomCertificateList,
-  SignalRCustomCertificatesListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRCustomCertificatesListRequest,
-  output: CustomCertificateList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
 export type SignalRCustomDomainsCreateOrUpdateError = AzureOpError;
 /** Create or update a custom domain. */
 export const SignalRCustomDomainsCreateOrUpdate: API.OperationMethod<
@@ -3554,246 +3943,6 @@ export const SignalRCustomDomainsCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type SignalRCustomDomainsDeleteError = AzureOpError;
-/** Delete a custom domain. */
-export const SignalRCustomDomainsDelete: API.OperationMethod<
-  SignalRCustomDomainsDeleteRequest,
-  SignalRCustomDomainsDeleteResponse,
-  SignalRCustomDomainsDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRCustomDomainsDeleteRequest,
-  output: SignalRCustomDomainsDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRCustomDomainsGetError = AzureOpError;
-/** Get a custom domain. */
-export const SignalRCustomDomainsGet: API.OperationMethod<
-  SignalRCustomDomainsGetRequest,
-  SignalRCustomDomainsGetResponse,
-  SignalRCustomDomainsGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRCustomDomainsGetRequest,
-  output: SignalRCustomDomainsGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRCustomDomainsListError = AzureOpError;
-/** List all custom domains. */
-export const SignalRCustomDomainsList: API.OperationMethod<
-  SignalRCustomDomainsListRequest,
-  CustomDomainList,
-  SignalRCustomDomainsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRCustomDomainsListRequest,
-  output: CustomDomainList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRDeleteError = AzureOpError;
-/** Operation to delete a resource. */
-export const SignalRDelete: API.OperationMethod<
-  SignalRDeleteRequest,
-  SignalRDeleteResponse,
-  SignalRDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRDeleteRequest,
-  output: SignalRDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRGetError = AzureOpError;
-/** Get the resource and its properties. */
-export const SignalRGet: API.OperationMethod<
-  SignalRGetRequest,
-  SignalRGetResponse,
-  SignalRGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRGetRequest,
-  output: SignalRGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRListByResourceGroupError = AzureOpError;
-/** Handles requests to list all resources in a resource group. */
-export const SignalRListByResourceGroup: API.OperationMethod<
-  SignalRListByResourceGroupRequest,
-  SignalRResourceList,
-  SignalRListByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRListByResourceGroupRequest,
-  output: SignalRResourceList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRListBySubscriptionError = AzureOpError;
-/** Handles requests to list all resources in a subscription. */
-export const SignalRListBySubscription: API.OperationMethod<
-  SignalRListBySubscriptionRequest,
-  SignalRResourceList,
-  SignalRListBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRListBySubscriptionRequest,
-  output: SignalRResourceList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRListKeysError = AzureOpError;
-/** Get the access keys of the resource. */
-export const SignalRListKeys: API.OperationMethod<
-  SignalRListKeysRequest,
-  SignalRKeys,
-  SignalRListKeysError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRListKeysRequest,
-  output: SignalRKeys,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRListReplicaSkusError = AzureOpError;
-/** List all available skus of the replica resource. */
-export const SignalRListReplicaSkus: API.OperationMethod<
-  SignalRListReplicaSkusRequest,
-  SkuList,
-  SignalRListReplicaSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRListReplicaSkusRequest,
-  output: SkuList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRListSkusError = AzureOpError;
-/** List all available skus of the resource. */
-export const SignalRListSkus: API.OperationMethod<
-  SignalRListSkusRequest,
-  SkuList,
-  SignalRListSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRListSkusRequest,
-  output: SkuList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRPrivateEndpointConnectionsDeleteError = AzureOpError;
-/** Delete the specified private endpoint connection */
-export const SignalRPrivateEndpointConnectionsDelete: API.OperationMethod<
-  SignalRPrivateEndpointConnectionsDeleteRequest,
-  SignalRPrivateEndpointConnectionsDeleteResponse,
-  SignalRPrivateEndpointConnectionsDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRPrivateEndpointConnectionsDeleteRequest,
-  output: SignalRPrivateEndpointConnectionsDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRPrivateEndpointConnectionsGetError = AzureOpError;
-/** Get the specified private endpoint connection */
-export const SignalRPrivateEndpointConnectionsGet: API.OperationMethod<
-  SignalRPrivateEndpointConnectionsGetRequest,
-  SignalRPrivateEndpointConnectionsGetResponse,
-  SignalRPrivateEndpointConnectionsGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRPrivateEndpointConnectionsGetRequest,
-  output: SignalRPrivateEndpointConnectionsGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRPrivateEndpointConnectionsListError = AzureOpError;
-/** List private endpoint connections */
-export const SignalRPrivateEndpointConnectionsList: API.OperationMethod<
-  SignalRPrivateEndpointConnectionsListRequest,
-  PrivateEndpointConnectionList,
-  SignalRPrivateEndpointConnectionsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRPrivateEndpointConnectionsListRequest,
-  output: PrivateEndpointConnectionList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRPrivateEndpointConnectionsUpdateError = AzureOpError;
-/** Update the state of specified private endpoint connection */
-export const SignalRPrivateEndpointConnectionsUpdate: API.OperationMethod<
-  SignalRPrivateEndpointConnectionsUpdateRequest,
-  SignalRPrivateEndpointConnectionsUpdateResponse,
-  SignalRPrivateEndpointConnectionsUpdateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRPrivateEndpointConnectionsUpdateRequest,
-  output: SignalRPrivateEndpointConnectionsUpdateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRPrivateLinkResourcesListError = AzureOpError;
-/** Get the private link resources that need to be created for a resource. */
-export const SignalRPrivateLinkResourcesList: API.OperationMethod<
-  SignalRPrivateLinkResourcesListRequest,
-  PrivateLinkResourceList,
-  SignalRPrivateLinkResourcesListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRPrivateLinkResourcesListRequest,
-  output: PrivateLinkResourceList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRRegenerateKeyError = AzureOpError;
-/** Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time. */
-export const SignalRRegenerateKey: API.OperationMethod<
-  SignalRRegenerateKeyRequest,
-  SignalRKeys,
-  SignalRRegenerateKeyError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRRegenerateKeyRequest,
-  output: SignalRKeys,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
 export type SignalRReplicasCreateOrUpdateError = AzureOpError;
 /** Create or update a replica. */
 export const SignalRReplicasCreateOrUpdate: API.OperationMethod<
@@ -3804,36 +3953,6 @@ export const SignalRReplicasCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SignalRReplicasCreateOrUpdateRequest,
   output: SignalRReplicasCreateOrUpdateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRReplicasDeleteError = AzureOpError;
-/** Operation to delete a replica. */
-export const SignalRReplicasDelete: API.OperationMethod<
-  SignalRReplicasDeleteRequest,
-  SignalRReplicasDeleteResponse,
-  SignalRReplicasDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRReplicasDeleteRequest,
-  output: SignalRReplicasDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRReplicasGetError = AzureOpError;
-/** Get the replica and its properties. */
-export const SignalRReplicasGet: API.OperationMethod<
-  SignalRReplicasGetRequest,
-  SignalRReplicasGetResponse,
-  SignalRReplicasGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRReplicasGetRequest,
-  output: SignalRReplicasGetResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3855,96 +3974,6 @@ export const SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdate: API.Operati
   retry: Retry.Retry,
 }));
 
-export type SignalRReplicaSharedPrivateLinkResourcesGetError = AzureOpError;
-/** Get the specified shared private link resource */
-export const SignalRReplicaSharedPrivateLinkResourcesGet: API.OperationMethod<
-  SignalRReplicaSharedPrivateLinkResourcesGetRequest,
-  SignalRReplicaSharedPrivateLinkResourcesGetResponse,
-  SignalRReplicaSharedPrivateLinkResourcesGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRReplicaSharedPrivateLinkResourcesGetRequest,
-  output: SignalRReplicaSharedPrivateLinkResourcesGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRReplicaSharedPrivateLinkResourcesListError = AzureOpError;
-/** List shared private link resources */
-export const SignalRReplicaSharedPrivateLinkResourcesList: API.OperationMethod<
-  SignalRReplicaSharedPrivateLinkResourcesListRequest,
-  SharedPrivateLinkResourceList,
-  SignalRReplicaSharedPrivateLinkResourcesListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRReplicaSharedPrivateLinkResourcesListRequest,
-  output: SharedPrivateLinkResourceList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRReplicasListError = AzureOpError;
-/** List all replicas belong to this resource */
-export const SignalRReplicasList: API.OperationMethod<
-  SignalRReplicasListRequest,
-  ReplicaList,
-  SignalRReplicasListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRReplicasListRequest,
-  output: ReplicaList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRReplicasRestartError = AzureOpError;
-/** Operation to restart a replica. */
-export const SignalRReplicasRestart: API.OperationMethod<
-  SignalRReplicasRestartRequest,
-  SignalRReplicasRestartResponse,
-  SignalRReplicasRestartError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRReplicasRestartRequest,
-  output: SignalRReplicasRestartResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRReplicasUpdateError = AzureOpError;
-/** Operation to update an exiting replica. */
-export const SignalRReplicasUpdate: API.OperationMethod<
-  SignalRReplicasUpdateRequest,
-  SignalRReplicasUpdateResponse,
-  SignalRReplicasUpdateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRReplicasUpdateRequest,
-  output: SignalRReplicasUpdateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRRestartError = AzureOpError;
-/** Operation to restart a resource. */
-export const SignalRRestart: API.OperationMethod<
-  SignalRRestartRequest,
-  SignalRRestartResponse,
-  SignalRRestartError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRRestartRequest,
-  output: SignalRRestartResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
 export type SignalRSharedPrivateLinkResourcesCreateOrUpdateError = AzureOpError;
 /** Create or update a shared private link resource */
 export const SignalRSharedPrivateLinkResourcesCreateOrUpdate: API.OperationMethod<
@@ -3960,76 +3989,46 @@ export const SignalRSharedPrivateLinkResourcesCreateOrUpdate: API.OperationMetho
   retry: Retry.Retry,
 }));
 
-export type SignalRSharedPrivateLinkResourcesDeleteError = AzureOpError;
-/** Delete the specified shared private link resource */
-export const SignalRSharedPrivateLinkResourcesDelete: API.OperationMethod<
-  SignalRSharedPrivateLinkResourcesDeleteRequest,
-  SignalRSharedPrivateLinkResourcesDeleteResponse,
-  SignalRSharedPrivateLinkResourcesDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRSharedPrivateLinkResourcesDeleteRequest,
-  output: SignalRSharedPrivateLinkResourcesDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRSharedPrivateLinkResourcesGetError = AzureOpError;
-/** Get the specified shared private link resource */
-export const SignalRSharedPrivateLinkResourcesGet: API.OperationMethod<
-  SignalRSharedPrivateLinkResourcesGetRequest,
-  SignalRSharedPrivateLinkResourcesGetResponse,
-  SignalRSharedPrivateLinkResourcesGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRSharedPrivateLinkResourcesGetRequest,
-  output: SignalRSharedPrivateLinkResourcesGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRSharedPrivateLinkResourcesListError = AzureOpError;
-/** List shared private link resources */
-export const SignalRSharedPrivateLinkResourcesList: API.OperationMethod<
-  SignalRSharedPrivateLinkResourcesListRequest,
-  SharedPrivateLinkResourceList,
-  SignalRSharedPrivateLinkResourcesListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SignalRSharedPrivateLinkResourcesListRequest,
-  output: SharedPrivateLinkResourceList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SignalRUpdateError = AzureOpError;
+export type UpdateSignalRError = AzureOpError;
 /** Operation to update an exiting resource. */
-export const SignalRUpdate: API.OperationMethod<
-  SignalRUpdateRequest,
-  SignalRUpdateResponse,
-  SignalRUpdateError,
+export const UpdateSignalR: API.OperationMethod<
+  UpdateSignalRRequest,
+  UpdateSignalRResponse,
+  UpdateSignalRError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: SignalRUpdateRequest,
-  output: SignalRUpdateResponse,
+  input: UpdateSignalRRequest,
+  output: UpdateSignalRResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type UsagesListError = AzureOpError;
-/** List resource usage quotas by location. */
-export const UsagesList: API.OperationMethod<
-  UsagesListRequest,
-  SignalRUsageList,
-  UsagesListError,
+export type UpdateSignalRPrivateEndpointConnectionError = AzureOpError;
+/** Update the state of specified private endpoint connection */
+export const UpdateSignalRPrivateEndpointConnection: API.OperationMethod<
+  UpdateSignalRPrivateEndpointConnectionRequest,
+  UpdateSignalRPrivateEndpointConnectionResponse,
+  UpdateSignalRPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: UsagesListRequest,
-  output: SignalRUsageList,
+  input: UpdateSignalRPrivateEndpointConnectionRequest,
+  output: UpdateSignalRPrivateEndpointConnectionResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateSignalRReplicasError = AzureOpError;
+/** Operation to update an exiting replica. */
+export const UpdateSignalRReplicas: API.OperationMethod<
+  UpdateSignalRReplicasRequest,
+  UpdateSignalRReplicasResponse,
+  UpdateSignalRReplicasError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateSignalRReplicasRequest,
+  output: UpdateSignalRReplicasResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

@@ -1,60 +1,492 @@
 {
   "files": [],
   "references": [
-    { "path": "./packages/core/tsconfig.json" },
-    { "path": "./packages/cloudflare/tsconfig.json" },
-    { "path": "./packages/cloudflare/tsconfig.scripts.json" },
     { "path": "./packages/acme/tsconfig.json" },
     { "path": "./packages/acme/tsconfig.scripts.json" },
-    { "path": "./packages/aws/tsconfig.json" },
     { "path": "./packages/zerossl/tsconfig.json" },
     { "path": "./packages/zerossl/tsconfig.scripts.json" },
-    { "path": "./packages/aws/tsconfig.scripts.json" },
-    { "path": "./packages/axiom/tsconfig.json" },
-    { "path": "./packages/axiom/tsconfig.scripts.json" },
-    { "path": "./packages/azure/tsconfig.json" },
-    { "path": "./packages/azure/tsconfig.scripts.json" },
-    { "path": "./packages/coinbase/tsconfig.json" },
-    { "path": "./packages/coinbase/tsconfig.scripts.json" },
-    { "path": "./packages/discord/tsconfig.json" },
-    { "path": "./packages/discord/tsconfig.scripts.json" },
-    { "path": "./packages/expo-eas/tsconfig.json" },
-    { "path": "./packages/expo-eas/tsconfig.scripts.json" },
-    { "path": "./packages/fly-io/tsconfig.json" },
-    { "path": "./packages/fly-io/tsconfig.scripts.json" },
-    { "path": "./packages/gcp/tsconfig.json" },
-    { "path": "./packages/gcp/tsconfig.scripts.json" },
-    { "path": "./packages/github/tsconfig.json" },
-    { "path": "./packages/github/tsconfig.scripts.json" },
-    { "path": "./packages/hetzner/tsconfig.json" },
-    { "path": "./packages/hetzner/tsconfig.scripts.json" },
-    { "path": "./packages/huggingface/tsconfig.json" },
-    { "path": "./packages/huggingface/tsconfig.scripts.json" },
-    { "path": "./packages/kubernetes/tsconfig.json" },
-    { "path": "./packages/kubernetes/tsconfig.scripts.json" },
-    { "path": "./packages/mongodb-atlas/tsconfig.json" },
-    { "path": "./packages/mongodb-atlas/tsconfig.scripts.json" },
-    { "path": "./packages/neon/tsconfig.json" },
-    { "path": "./packages/neon/tsconfig.scripts.json" },
-    { "path": "./packages/planetscale/tsconfig.json" },
-    { "path": "./packages/planetscale/tsconfig.scripts.json" },
-    { "path": "./packages/posthog/tsconfig.json" },
-    { "path": "./packages/posthog/tsconfig.scripts.json" },
-    { "path": "./packages/prisma-postgres/tsconfig.json" },
-    { "path": "./packages/prisma-postgres/tsconfig.scripts.json" },
-    { "path": "./packages/railway/tsconfig.json" },
-    { "path": "./packages/railway/tsconfig.scripts.json" },
-    { "path": "./packages/stripe/tsconfig.json" },
-    { "path": "./packages/stripe/tsconfig.scripts.json" },
-    { "path": "./packages/supabase/tsconfig.json" },
-    { "path": "./packages/supabase/tsconfig.scripts.json" },
-    { "path": "./packages/turso/tsconfig.json" },
-    { "path": "./packages/turso/tsconfig.scripts.json" },
-    { "path": "./packages/typesense/tsconfig.json" },
-    { "path": "./packages/typesense/tsconfig.scripts.json" },
-    { "path": "./packages/vercel/tsconfig.json" },
-    { "path": "./packages/vercel/tsconfig.scripts.json" },
-    { "path": "./packages/workos/tsconfig.json" },
-    { "path": "./packages/workos/tsconfig.scripts.json" }
+    {
+      "path": "./packages/core/tsconfig.json"
+    },
+    {
+      "path": "./packages/cloudflare/tsconfig.json"
+    },
+    {
+      "path": "./packages/cloudflare/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/aws/tsconfig.json"
+    },
+    {
+      "path": "./packages/aws/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/axiom/tsconfig.json"
+    },
+    {
+      "path": "./packages/axiom/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/azure/tsconfig.json"
+    },
+    {
+      "path": "./packages/azure/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/coinbase/tsconfig.json"
+    },
+    {
+      "path": "./packages/coinbase/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/discord/tsconfig.json"
+    },
+    {
+      "path": "./packages/discord/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/expo-eas/tsconfig.json"
+    },
+    {
+      "path": "./packages/expo-eas/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/fly-io/tsconfig.json"
+    },
+    {
+      "path": "./packages/fly-io/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/gcp/tsconfig.json"
+    },
+    {
+      "path": "./packages/gcp/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/github/tsconfig.json"
+    },
+    {
+      "path": "./packages/github/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/hetzner/tsconfig.json"
+    },
+    {
+      "path": "./packages/hetzner/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/huggingface/tsconfig.json"
+    },
+    {
+      "path": "./packages/huggingface/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/kubernetes/tsconfig.json"
+    },
+    {
+      "path": "./packages/kubernetes/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/modal/tsconfig.json"
+    },
+    {
+      "path": "./packages/modal/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/mongodb-atlas/tsconfig.json"
+    },
+    {
+      "path": "./packages/mongodb-atlas/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/neon/tsconfig.json"
+    },
+    {
+      "path": "./packages/neon/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/planetscale/tsconfig.json"
+    },
+    {
+      "path": "./packages/planetscale/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/polar/tsconfig.json"
+    },
+    {
+      "path": "./packages/polar/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/posthog/tsconfig.json"
+    },
+    {
+      "path": "./packages/posthog/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/prisma/tsconfig.json"
+    },
+    {
+      "path": "./packages/prisma/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/railway/tsconfig.json"
+    },
+    {
+      "path": "./packages/railway/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/stripe/tsconfig.json"
+    },
+    {
+      "path": "./packages/stripe/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/supabase/tsconfig.json"
+    },
+    {
+      "path": "./packages/supabase/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/turso/tsconfig.json"
+    },
+    {
+      "path": "./packages/turso/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/typesense/tsconfig.json"
+    },
+    {
+      "path": "./packages/typesense/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/vercel/tsconfig.json"
+    },
+    {
+      "path": "./packages/vercel/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/whop/tsconfig.json"
+    },
+    {
+      "path": "./packages/whop/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/workos/tsconfig.json"
+    },
+    {
+      "path": "./packages/workos/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/adyen/tsconfig.json"
+    },
+    {
+      "path": "./packages/adyen/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/coolify/tsconfig.json"
+    },
+    {
+      "path": "./packages/coolify/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/paypal/tsconfig.json"
+    },
+    {
+      "path": "./packages/paypal/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/plaid/tsconfig.json"
+    },
+    {
+      "path": "./packages/plaid/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/redis-cloud/tsconfig.json"
+    },
+    {
+      "path": "./packages/redis-cloud/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/xata/tsconfig.json"
+    },
+    {
+      "path": "./packages/xata/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/auth0/tsconfig.json"
+    },
+    {
+      "path": "./packages/auth0/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/clerk/tsconfig.json"
+    },
+    {
+      "path": "./packages/clerk/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/grafana/tsconfig.json"
+    },
+    {
+      "path": "./packages/grafana/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/okta/tsconfig.json"
+    },
+    {
+      "path": "./packages/okta/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/porkbun/tsconfig.json"
+    },
+    {
+      "path": "./packages/porkbun/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/resend/tsconfig.json"
+    },
+    {
+      "path": "./packages/resend/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/surrealdb/tsconfig.json"
+    },
+    {
+      "path": "./packages/surrealdb/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/apache-superset/tsconfig.json"
+    },
+    {
+      "path": "./packages/apache-superset/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/archil/tsconfig.json"
+    },
+    {
+      "path": "./packages/archil/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/argocd/tsconfig.json"
+    },
+    {
+      "path": "./packages/argocd/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/chronosphere/tsconfig.json"
+    },
+    {
+      "path": "./packages/chronosphere/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/customerio/tsconfig.json"
+    },
+    {
+      "path": "./packages/customerio/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/datadog/tsconfig.json"
+    },
+    {
+      "path": "./packages/datadog/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/docker/tsconfig.json"
+    },
+    {
+      "path": "./packages/docker/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/doppler/tsconfig.json"
+    },
+    {
+      "path": "./packages/doppler/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/elasticsearch/tsconfig.json"
+    },
+    {
+      "path": "./packages/elasticsearch/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/gusto/tsconfig.json"
+    },
+    {
+      "path": "./packages/gusto/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/hostinger/tsconfig.json"
+    },
+    {
+      "path": "./packages/hostinger/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/infisical/tsconfig.json"
+    },
+    {
+      "path": "./packages/infisical/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/inngest/tsconfig.json"
+    },
+    {
+      "path": "./packages/inngest/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/intercom/tsconfig.json"
+    },
+    {
+      "path": "./packages/intercom/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/launchdarkly/tsconfig.json"
+    },
+    {
+      "path": "./packages/launchdarkly/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/meilisearch/tsconfig.json"
+    },
+    {
+      "path": "./packages/meilisearch/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/mercury/tsconfig.json"
+    },
+    {
+      "path": "./packages/mercury/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/metabase/tsconfig.json"
+    },
+    {
+      "path": "./packages/metabase/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/onepassword/tsconfig.json"
+    },
+    {
+      "path": "./packages/onepassword/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/ovh/tsconfig.json"
+    },
+    {
+      "path": "./packages/ovh/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/remote/tsconfig.json"
+    },
+    {
+      "path": "./packages/remote/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/render/tsconfig.json"
+    },
+    {
+      "path": "./packages/render/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/sentry/tsconfig.json"
+    },
+    {
+      "path": "./packages/sentry/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/squarespace/tsconfig.json"
+    },
+    {
+      "path": "./packages/squarespace/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/temporal/tsconfig.json"
+    },
+    {
+      "path": "./packages/temporal/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/trigger-dev/tsconfig.json"
+    },
+    {
+      "path": "./packages/trigger-dev/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/turbopuffer/tsconfig.json"
+    },
+    {
+      "path": "./packages/turbopuffer/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/unkey/tsconfig.json"
+    },
+    {
+      "path": "./packages/unkey/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/vanta/tsconfig.json"
+    },
+    {
+      "path": "./packages/vanta/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/zendesk/tsconfig.json"
+    },
+    {
+      "path": "./packages/zendesk/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/modrinth/tsconfig.json"
+    },
+    {
+      "path": "./packages/modrinth/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/spacetimedb/tsconfig.json"
+    },
+    {
+      "path": "./packages/spacetimedb/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/digitalocean/tsconfig.json"
+    },
+    {
+      "path": "./packages/digitalocean/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/opencode/tsconfig.json"
+    },
+    {
+      "path": "./packages/opencode/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/growthbook/tsconfig.json"
+    },
+    {
+      "path": "./packages/growthbook/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/google-workspace/tsconfig.json"
+    },
+    {
+      "path": "./packages/google-workspace/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/forgejo/tsconfig.json"
+    },
+    {
+      "path": "./packages/forgejo/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/slack/tsconfig.json"
+    },
+    {
+      "path": "./packages/slack/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/s2/tsconfig.json"
+    },
+    {
+      "path": "./packages/s2/tsconfig.scripts.json"
+    }
   ]
 }

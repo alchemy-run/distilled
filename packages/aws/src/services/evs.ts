@@ -175,7 +175,7 @@ export type VlanState =
   | "DELETED"
   | "CREATE_FAILED"
   | (string & {});
-export const VlanState = /*@__PURE__*/ S.String;
+export const VlanState = S.String;
 
 export type StateDetails = string;
 export type AssociationId = string;
@@ -235,7 +235,7 @@ export const AssociateEipToVlanResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AssociateEipToVlanResponse>;
 export type ConnectorId = string;
 export type EntitlementType = "WINDOWS_SERVER" | (string & {});
-export const EntitlementType = /*@__PURE__*/ S.String;
+export const EntitlementType = S.String;
 
 export type VmId = string;
 export type VmIdList = string[];
@@ -269,7 +269,7 @@ export type EntitlementStatus =
   | "ENTITLEMENT_REMOVED"
   | "CREATE_FAILED"
   | (string & {});
-export const EntitlementStatus = /*@__PURE__*/ S.String;
+export const EntitlementStatus = S.String;
 
 export interface ErrorDetail {
   errorCode: string;
@@ -339,7 +339,7 @@ export type VcfVersion =
   | "VCF-5.2.2"
   | "SELF_DEPLOYED"
   | (string & {});
-export const VcfVersion = /*@__PURE__*/ S.String;
+export const VcfVersion = S.String;
 
 export interface InitialVlanInfo {
   cidr: string;
@@ -403,8 +403,12 @@ export type LicenseInfoList = LicenseInfo[];
 export const LicenseInfoList = /*@__PURE__*/ S.Array(LicenseInfo);
 export type HostName = string;
 export type KeyName = string;
-export type InstanceType = "i4i.metal" | "i7i.metal-24xl" | (string & {});
-export const InstanceType = /*@__PURE__*/ S.String;
+export type InstanceType =
+  | "i4i.metal"
+  | "i7i.metal-24xl"
+  | "i7i.metal-48xl"
+  | (string & {});
+export const InstanceType = S.String;
 
 export type PlacementGroupId = string;
 export type DedicatedHostId = string;
@@ -499,11 +503,11 @@ export type EnvironmentState =
   | "DELETED"
   | "CREATE_FAILED"
   | (string & {});
-export const EnvironmentState = /*@__PURE__*/ S.String;
+export const EnvironmentState = S.String;
 
 export type Arn = string;
 export type CheckResult = "PASSED" | "FAILED" | "UNKNOWN" | (string & {});
-export const CheckResult = /*@__PURE__*/ S.String;
+export const CheckResult = S.String;
 
 export type CheckType =
   | "KEY_REUSE"
@@ -520,7 +524,7 @@ export type CheckType =
   | "SDDC_MANAGER_KEY_REUSE"
   | "CONNECTOR_HEALTH"
   | (string & {});
-export const CheckType = /*@__PURE__*/ S.String;
+export const CheckType = S.String;
 
 export interface Check {
   type?: CheckType;
@@ -605,7 +609,7 @@ export type ConnectorType =
   | "SDDC_MANAGER"
   | "VCENTER"
   | (string & {});
-export const ConnectorType = /*@__PURE__*/ S.String;
+export const ConnectorType = S.String;
 
 export type ApplianceFqdn = string;
 export type SecretIdentifier = string;
@@ -638,7 +642,7 @@ export type ConnectorState =
   | "DELETING"
   | "DELETED"
   | (string & {});
-export const ConnectorState = /*@__PURE__*/ S.String;
+export const ConnectorState = S.String;
 
 export interface ConnectorCheck {
   type?: CheckType;
@@ -746,7 +750,7 @@ export type HostState =
   | "CREATE_FAILED"
   | "UPDATE_FAILED"
   | (string & {});
-export const HostState = /*@__PURE__*/ S.String;
+export const HostState = S.String;
 
 export type NetworkInterfaceId = string;
 export interface NetworkInterface {
@@ -1276,7 +1280,7 @@ export type ValidationExceptionReason =
   | "fieldValidationFailed"
   | "other"
   | (string & {});
-export const ValidationExceptionReason = /*@__PURE__*/ S.String;
+export const ValidationExceptionReason = S.String;
 
 export interface ValidationExceptionField {
   name: string;

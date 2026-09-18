@@ -95,6 +95,12 @@ export class ActiveStatementsExceededException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
+export class ActiveWaitingRequestsExceededException
+  extends /*@__PURE__*/ S.TaggedError<ActiveWaitingRequestsExceededException>()(
+    "ActiveWaitingRequestsExceededException",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.HttpError(400),
+  ).pipe(C.withBadRequestError) {}
 export class BatchExecuteStatementException
   extends /*@__PURE__*/ S.TaggedError<BatchExecuteStatementException>()(
     "BatchExecuteStatementException",
@@ -159,6 +165,8 @@ export type ClientToken = string;
 export type ResultFormatString = string;
 export type SessionAliveSeconds = number;
 export type UUID = string;
+export type ExecutionMode = string;
+export type WaitTimeSeconds = number;
 export interface BatchExecuteStatementInput {
   Sqls: string[];
   ClusterIdentifier?: string;
@@ -173,6 +181,8 @@ export interface BatchExecuteStatementInput {
   ResultFormat?: string;
   SessionKeepAliveSeconds?: number;
   SessionId?: string;
+  ExecutionMode?: string;
+  WaitTimeSeconds?: number;
 }
 export const BatchExecuteStatementInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -189,6 +199,8 @@ export const BatchExecuteStatementInput = /*@__PURE__*/ S.suspend(() =>
     ResultFormat: S.optional(S.String),
     SessionKeepAliveSeconds: S.optional(S.Number),
     SessionId: S.optional(S.String),
+    ExecutionMode: S.optional(S.String),
+    WaitTimeSeconds: S.optional(S.Number),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -197,6 +209,9 @@ export const BatchExecuteStatementInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BatchExecuteStatementInput>;
 export type DbGroupList = string[];
 export const DbGroupList = /*@__PURE__*/ S.Array(S.String);
+export type StatementStatusString = string;
+export type BoxedLong = number;
+export type BoxedBoolean = boolean;
 export interface BatchExecuteStatementOutput {
   Id?: string;
   CreatedAt?: Date;
@@ -207,6 +222,9 @@ export interface BatchExecuteStatementOutput {
   SecretArn?: string;
   WorkgroupName?: string;
   SessionId?: string;
+  Status?: string;
+  RedshiftPid?: number;
+  HasResultSet?: boolean;
 }
 export const BatchExecuteStatementOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -219,6 +237,9 @@ export const BatchExecuteStatementOutput = /*@__PURE__*/ S.suspend(() =>
     SecretArn: S.optional(S.String),
     WorkgroupName: S.optional(S.String),
     SessionId: S.optional(S.String),
+    Status: S.optional(S.String),
+    RedshiftPid: S.optional(S.Number),
+    HasResultSet: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "BatchExecuteStatementOutput",
@@ -243,16 +264,16 @@ export const CancelStatementResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CancelStatementResponse>;
 export interface DescribeStatementRequest {
   Id: string;
+  WaitTimeSeconds?: number;
 }
 export const DescribeStatementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String }).pipe(
+  S.Struct({ Id: S.String, WaitTimeSeconds: S.optional(S.Number) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeStatementRequest",
 }) as any as S.Schema<DescribeStatementRequest>;
 export type StatusString = string;
-export type StatementStatusString = string;
 export interface SubStatementData {
   Id: string;
   Duration?: number;
@@ -307,6 +328,7 @@ export interface DescribeStatementResponse {
   WorkgroupName?: string;
   ResultFormat?: string;
   SessionId?: string;
+  ExecutionMode?: string;
 }
 export const DescribeStatementResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -331,6 +353,7 @@ export const DescribeStatementResponse = /*@__PURE__*/ S.suspend(() =>
     WorkgroupName: S.optional(S.String),
     ResultFormat: S.optional(S.String),
     SessionId: S.optional(S.String),
+    ExecutionMode: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DescribeStatementResponse",
@@ -428,6 +451,7 @@ export interface ExecuteStatementInput {
   ResultFormat?: string;
   SessionKeepAliveSeconds?: number;
   SessionId?: string;
+  WaitTimeSeconds?: number;
 }
 export const ExecuteStatementInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -444,6 +468,7 @@ export const ExecuteStatementInput = /*@__PURE__*/ S.suspend(() =>
     ResultFormat: S.optional(S.String),
     SessionKeepAliveSeconds: S.optional(S.Number),
     SessionId: S.optional(S.String),
+    WaitTimeSeconds: S.optional(S.Number),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -460,6 +485,9 @@ export interface ExecuteStatementOutput {
   SecretArn?: string;
   WorkgroupName?: string;
   SessionId?: string;
+  Status?: string;
+  RedshiftPid?: number;
+  HasResultSet?: boolean;
 }
 export const ExecuteStatementOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -472,6 +500,9 @@ export const ExecuteStatementOutput = /*@__PURE__*/ S.suspend(() =>
     SecretArn: S.optional(S.String),
     WorkgroupName: S.optional(S.String),
     SessionId: S.optional(S.String),
+    Status: S.optional(S.String),
+    RedshiftPid: S.optional(S.Number),
+    HasResultSet: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ExecuteStatementOutput",
@@ -479,16 +510,19 @@ export const ExecuteStatementOutput = /*@__PURE__*/ S.suspend(() =>
 export interface GetStatementResultRequest {
   Id: string;
   NextToken?: string;
+  WaitTimeSeconds?: number;
 }
 export const GetStatementResultRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String, NextToken: S.optional(S.String) }).pipe(
+  S.Struct({
+    Id: S.String,
+    NextToken: S.optional(S.String),
+    WaitTimeSeconds: S.optional(S.Number),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetStatementResultRequest",
 }) as any as S.Schema<GetStatementResultRequest>;
-export type BoxedBoolean = boolean;
-export type BoxedLong = number;
 export type BoxedDouble = number;
 export type Field =
   | {
@@ -572,9 +606,14 @@ export const GetStatementResultResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetStatementResultV2Request {
   Id: string;
   NextToken?: string;
+  WaitTimeSeconds?: number;
 }
 export const GetStatementResultV2Request = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String, NextToken: S.optional(S.String) }).pipe(
+  S.Struct({
+    Id: S.String,
+    NextToken: S.optional(S.String),
+    WaitTimeSeconds: S.optional(S.Number),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -685,6 +724,72 @@ export const ListSchemasResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSchemasResponse",
 }) as any as S.Schema<ListSchemasResponse>;
 export type ListStatementsLimit = number;
+export type SessionStatusString = string;
+export interface ListSessionsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  SessionId?: string;
+  Status?: string;
+  RoleLevel?: boolean;
+  ClusterIdentifier?: string;
+  WorkgroupName?: string;
+  Database?: string;
+}
+export const ListSessionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    SessionId: S.optional(S.String),
+    Status: S.optional(S.String),
+    RoleLevel: S.optional(S.Boolean),
+    ClusterIdentifier: S.optional(S.String),
+    WorkgroupName: S.optional(S.String),
+    Database: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListSessionsRequest",
+}) as any as S.Schema<ListSessionsRequest>;
+export interface SessionData {
+  SessionId: string;
+  Status: string;
+  CreatedAt: Date;
+  UpdatedAt?: Date;
+  Database?: string;
+  DbUser?: string;
+  ClusterIdentifier?: string;
+  WorkgroupName?: string;
+  SessionAliveSeconds?: number;
+  SessionTtl?: Date;
+  CurrentStatementId?: string;
+}
+export const SessionData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SessionId: S.String,
+    Status: S.String,
+    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Database: S.optional(S.String),
+    DbUser: S.optional(S.String),
+    ClusterIdentifier: S.optional(S.String),
+    WorkgroupName: S.optional(S.String),
+    SessionAliveSeconds: S.optional(S.Number),
+    SessionTtl: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CurrentStatementId: S.optional(S.String),
+  }),
+).annotate({ identifier: "SessionData" }) as any as S.Schema<SessionData>;
+export type SessionList = SessionData[];
+export const SessionList = /*@__PURE__*/ S.Array(SessionData);
+export interface ListSessionsResponse {
+  Sessions: SessionData[];
+  NextToken?: string;
+}
+export const ListSessionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Sessions: SessionList, NextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListSessionsResponse",
+}) as any as S.Schema<ListSessionsResponse>;
 export interface ListStatementsRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -884,6 +989,7 @@ export const cancelStatement: API.OperationMethod<
 }));
 
 export type DescribeStatementError =
+  | ActiveWaitingRequestsExceededException
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
@@ -902,6 +1008,7 @@ export const describeStatement: API.OperationMethod<
   input: DescribeStatementRequest,
   output: DescribeStatementResponse,
   errors: [
+    ActiveWaitingRequestsExceededException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
@@ -1005,6 +1112,7 @@ export const executeStatement: API.OperationMethod<
 }));
 
 export type GetStatementResultError =
+  | ActiveWaitingRequestsExceededException
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
@@ -1024,6 +1132,7 @@ export const getStatementResult: API.PaginatedOperationMethod<
   input: GetStatementResultRequest,
   output: GetStatementResultResponse,
   errors: [
+    ActiveWaitingRequestsExceededException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
@@ -1039,6 +1148,7 @@ export const getStatementResult: API.PaginatedOperationMethod<
 })) as any;
 
 export type GetStatementResultV2Error =
+  | ActiveWaitingRequestsExceededException
   | InternalServerException
   | ResourceNotFoundException
   | ValidationException
@@ -1058,6 +1168,7 @@ export const getStatementResultV2: API.PaginatedOperationMethod<
   input: GetStatementResultV2Request,
   output: GetStatementResultV2Response,
   errors: [
+    ActiveWaitingRequestsExceededException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
@@ -1166,6 +1277,41 @@ export const listSchemas: API.PaginatedOperationMethod<
     inputToken: "NextToken",
     outputToken: "NextToken",
     items: "Schemas",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
+
+export type ListSessionsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the sessions that the caller created in the last 24 hours. By default, only sessions with a status of `AVAILABLE` or `BUSY` are returned. You can filter the results by session status, compute target (cluster or serverless workgroup), or database. To retrieve the metadata for a single session, provide the `SessionId` parameter. Use `NextToken` to page through the session list.
+ *
+ * Returns only the sessions that the caller created. When identity-enhanced role sessions are used, you must provide either the `ClusterIdentifier` or `WorkgroupName` parameter to ensure that the AWS IAM Identity Center user can only access the Amazon Redshift IAM Identity Center applications they are assigned. For more information, see Trusted identity propagation overview.
+ */
+export const listSessions: API.PaginatedOperationMethod<
+  ListSessionsRequest,
+  ListSessionsResponse,
+  ListSessionsError,
+  Credentials | HttpClient.HttpClient,
+  SessionData
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListSessionsRequest,
+  output: ListSessionsResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListSessions",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Sessions",
     pageSize: "MaxResults",
   } as const,
 })) as any;

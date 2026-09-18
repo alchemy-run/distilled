@@ -235,120 +235,8 @@ export class ValidationError
     [{ code: 1001 }],
   ) {}
 
-export interface AccountOrganizationsCreateRequest {
-  accountId: string;
-  destinationOrganizationId: string;
-}
-export const AccountOrganizationsCreateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.Label("account_id")),
-    destinationOrganizationId: S.String.pipe(
-      T.Body("destination_organization_id"),
-    ),
-  })
-    .pipe(
-      T.Http({ method: "POST", uri: "/accounts/{account_id}/move", code: 200 }),
-    )
-    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AccountOrganizationsCreateRequest",
-}) as any as S.Schema<AccountOrganizationsCreateRequest>;
-
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface AccountOrganizationsCreateResponse {
-  accountId: string;
-  destinationOrganizationId: string;
-  sourceOrganizationId: string;
-}
-export const AccountOrganizationsCreateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.Body("account_id")),
-    destinationOrganizationId: S.String.pipe(
-      T.Body("destination_organization_id"),
-    ),
-    sourceOrganizationId: S.String.pipe(T.Body("source_organization_id")),
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AccountOrganizationsCreateResponse",
-}) as any as S.Schema<AccountOrganizationsCreateResponse>;
-
-export interface AccountProfileGetRequest {
-  accountId: string;
-}
-export const AccountProfileGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.Label("account_id")),
-  })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/profile",
-        code: 200,
-      }),
-    )
-    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AccountProfileGetRequest",
-}) as any as S.Schema<AccountProfileGetRequest>;
-
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface AccountProfileGetResponse {
-  businessAddress: string;
-  businessEmail: string;
-  businessName: string;
-  businessPhone: string;
-  externalMetadata: string;
-}
-export const AccountProfileGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    businessAddress: S.String.pipe(T.Body("business_address")),
-    businessEmail: S.String.pipe(T.Body("business_email")),
-    businessName: S.String.pipe(T.Body("business_name")),
-    businessPhone: S.String.pipe(T.Body("business_phone")),
-    externalMetadata: S.String.pipe(T.Body("external_metadata")),
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AccountProfileGetResponse",
-}) as any as S.Schema<AccountProfileGetResponse>;
-
-export interface AccountProfileUpdateRequest {
-  accountId: string;
-  businessAddress: string;
-  businessEmail: string;
-  businessName: string;
-  businessPhone: string;
-  externalMetadata: string;
-}
-export const AccountProfileUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.Label("account_id")),
-    businessAddress: S.String.pipe(T.Body("business_address")),
-    businessEmail: S.String.pipe(T.Body("business_email")),
-    businessName: S.String.pipe(T.Body("business_name")),
-    businessPhone: S.String.pipe(T.Body("business_phone")),
-    externalMetadata: S.String.pipe(T.Body("external_metadata")),
-  })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/profile",
-        code: 200,
-      }),
-    )
-    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AccountProfileUpdateRequest",
-}) as any as S.Schema<AccountProfileUpdateRequest>;
-
-export interface AccountProfileUpdateResponse {}
-export const AccountProfileUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AccountProfileUpdateResponse",
-}) as any as S.Schema<AccountProfileUpdateResponse>;
-
 export type CreateRequestType = "standard" | "enterprise";
-export const CreateRequestType = /*@__PURE__*/ S.String;
+export const CreateRequestType = S.String;
 
 export interface CreateRequestUnit {
   /** Tenant unit ID */
@@ -382,7 +270,7 @@ export const CreateAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateAccountRequest>;
 
 export type CreateResponseType = "standard" | "enterprise";
-export const CreateResponseType = /*@__PURE__*/ S.String;
+export const CreateResponseType = S.String;
 
 export interface CreateResponseManagedBy {
   /** ID of the parent Organization, if one exists */
@@ -404,7 +292,7 @@ export const CreateResponseManagedBy = /*@__PURE__*/ S.suspend(() =>
 export interface CreateResponseSettings {
   /** Sets an abuse contact email to notify for abuse reports. */
   abuseContactEmail?: string | null;
-  /** Indicates whether membership in this account requires that */
+  /** Indicates whether membership in this account requires that Two-Factor Authentication is enabled */
   enforceTwofactor?: boolean | null;
 }
 export const CreateResponseSettings = /*@__PURE__*/ S.suspend(() =>
@@ -449,16 +337,86 @@ export const CreateAccountResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAccountResponse",
 }) as any as S.Schema<CreateAccountResponse>;
 
+export interface CreateAccountOrganizationRequest {
+  accountId: string;
+  destinationOrganizationId: string;
+}
+export const CreateAccountOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    destinationOrganizationId: S.String.pipe(
+      T.Body("destination_organization_id"),
+    ),
+  })
+    .pipe(
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/move", code: 200 }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreateAccountOrganizationRequest",
+}) as any as S.Schema<CreateAccountOrganizationRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface CreateAccountOrganizationResponse {
+  accountId: string;
+  destinationOrganizationId: string;
+  sourceOrganizationId: string;
+}
+export const CreateAccountOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Body("account_id")),
+    destinationOrganizationId: S.String.pipe(
+      T.Body("destination_organization_id"),
+    ),
+    sourceOrganizationId: S.String.pipe(T.Body("source_organization_id")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreateAccountOrganizationResponse",
+}) as any as S.Schema<CreateAccountOrganizationResponse>;
+
+export interface CreateClientSecretRequest {
+  /** Identifier */
+  accountId: string;
+}
+export const CreateClientSecretRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/client-secret",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreateClientSecretRequest",
+}) as any as S.Schema<CreateClientSecretRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface CreateClientSecretResponse {
+  /** The Stripe client secret for frontend payment confirmation. */
+  clientSecret?: string | null;
+}
+export const CreateClientSecretResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientSecret: S.optional(S.NullOr(S.String).pipe(T.Body("client_secret"))),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreateClientSecretResponse",
+}) as any as S.Schema<CreateClientSecretResponse>;
+
 export type MembersCreateRequestRolesList = Array<string>;
 export const MembersCreateRequestRolesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<MembersCreateRequestRolesList>;
 
 export type MembersCreateRequestStatus = "accepted" | "pending";
-export const MembersCreateRequestStatus = /*@__PURE__*/ S.String;
+export const MembersCreateRequestStatus = S.String;
 
 export type MembersCreateRequestPoliciesItemAccess = "allow" | "deny";
-export const MembersCreateRequestPoliciesItemAccess = /*@__PURE__*/ S.String;
+export const MembersCreateRequestPoliciesItemAccess = S.String;
 
 export interface MembersCreateRequestPoliciesItemPermissionGroupsItem {
   /** Identifier of the group. */
@@ -527,7 +485,7 @@ export interface CreateMemberRequest {
   email: string;
   /** Array of roles associated with this member. */
   roles?: MembersCreateRequestRolesList;
-  /** Status of the member invitation. If not provided during creation, defaults to 'pending'. */
+  /** Status of the member invitation. If not provided during creation, defaults to 'pending'. Changing from 'accepted' back to 'pending' will trigger a replacement of the member resource in Terraform. */
   status?: MembersCreateRequestStatus | (string & {});
   /** Array of policies associated with this member. */
   policies?: MembersCreateRequestPoliciesList;
@@ -553,7 +511,7 @@ export const CreateMemberRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateMemberRequest>;
 
 export type MembersCreateResponsePoliciesItemAccess = "allow" | "deny";
-export const MembersCreateResponsePoliciesItemAccess = /*@__PURE__*/ S.String;
+export const MembersCreateResponsePoliciesItemAccess = S.String;
 
 export interface MembersCreateResponsePoliciesItemPermissionGroupsItemMeta {
   key?: string | null;
@@ -597,50 +555,43 @@ export const MembersCreateResponsePoliciesItemPermissionGroupsList =
     MembersCreateResponsePoliciesItemPermissionGroupsItem,
   ) as any as S.Schema<MembersCreateResponsePoliciesItemPermissionGroupsList>;
 
-export interface MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem {
+export interface MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem {
   /** This is a combination of pre-defined resource name and identifier (like Zone ID etc.) */
   key: string;
 }
-export const MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
+export const MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       key: S.String,
     }),
   ).annotate({
     identifier:
-      "MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem",
-  }) as any as S.Schema<MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem>;
+      "MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem",
+  }) as any as S.Schema<MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem>;
 
-export type MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
-  Array<MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem>;
-export const MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
+export type MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsList =
+  Array<MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem>;
+export const MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsList =
   /*@__PURE__*/ S.Array(
-    MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem,
-  ) as any as S.Schema<MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList>;
+    MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem,
+  ) as any as S.Schema<MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsList>;
 
-export interface MembersCreateResponsePoliciesItemResourceGroupsItemScopeItem {
+export interface MembersCreateResponsePoliciesItemResourceGroupsItemScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList;
+  objects: MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsList;
 }
-export const MembersCreateResponsePoliciesItemResourceGroupsItemScopeItem =
+export const MembersCreateResponsePoliciesItemResourceGroupsItemScope =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       key: S.String,
       objects:
-        MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList,
+        MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsList,
     }),
   ).annotate({
-    identifier: "MembersCreateResponsePoliciesItemResourceGroupsItemScopeItem",
-  }) as any as S.Schema<MembersCreateResponsePoliciesItemResourceGroupsItemScopeItem>;
-
-export type MembersCreateResponsePoliciesItemResourceGroupsItemScopeList =
-  Array<MembersCreateResponsePoliciesItemResourceGroupsItemScopeItem>;
-export const MembersCreateResponsePoliciesItemResourceGroupsItemScopeList =
-  /*@__PURE__*/ S.Array(
-    MembersCreateResponsePoliciesItemResourceGroupsItemScopeItem,
-  ) as any as S.Schema<MembersCreateResponsePoliciesItemResourceGroupsItemScopeList>;
+    identifier: "MembersCreateResponsePoliciesItemResourceGroupsItemScope",
+  }) as any as S.Schema<MembersCreateResponsePoliciesItemResourceGroupsItemScope>;
 
 export type MembersCreateResponsePoliciesItemResourceGroupsItemMeta =
   MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
@@ -650,8 +601,8 @@ export const MembersCreateResponsePoliciesItemResourceGroupsItemMeta =
 export interface MembersCreateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: MembersCreateResponsePoliciesItemResourceGroupsItemScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: MembersCreateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: MembersCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
   /** Name of the resource group. */
@@ -661,7 +612,7 @@ export const MembersCreateResponsePoliciesItemResourceGroupsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.String,
-      scope: MembersCreateResponsePoliciesItemResourceGroupsItemScopeList,
+      scope: MembersCreateResponsePoliciesItemResourceGroupsItemScope,
       meta: S.optional(
         S.NullOr(MembersCreateResponsePoliciesItemPermissionGroupsItemMeta),
       ),
@@ -726,6 +677,61 @@ export const MembersCreateResponseRolesItemPermissionsAnalytics =
   ).annotate({
     identifier: "MembersCreateResponseRolesItemPermissionsAnalytics",
   }) as any as S.Schema<MembersCreateResponseRolesItemPermissionsAnalytics>;
+
+export type MembersCreateResponseRolesItemPermissionsBilling =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersCreateResponseRolesItemPermissionsBilling =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersCreateResponseRolesItemPermissionsCachePurge =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersCreateResponseRolesItemPermissionsCachePurge =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersCreateResponseRolesItemPermissionsDns =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersCreateResponseRolesItemPermissionsDns =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersCreateResponseRolesItemPermissionsDnsRecords =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersCreateResponseRolesItemPermissionsDnsRecords =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersCreateResponseRolesItemPermissionsLb =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersCreateResponseRolesItemPermissionsLb =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersCreateResponseRolesItemPermissionsLogs =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersCreateResponseRolesItemPermissionsLogs =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersCreateResponseRolesItemPermissionsOrganization =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersCreateResponseRolesItemPermissionsOrganization =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersCreateResponseRolesItemPermissionsSsl =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersCreateResponseRolesItemPermissionsSsl =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersCreateResponseRolesItemPermissionsWaf =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersCreateResponseRolesItemPermissionsWaf =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersCreateResponseRolesItemPermissionsZoneSettings =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersCreateResponseRolesItemPermissionsZoneSettings =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersCreateResponseRolesItemPermissionsZones =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersCreateResponseRolesItemPermissionsZones =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
 
 export interface MembersCreateResponseRolesItemPermissions {
   analytics?: MembersCreateResponseRolesItemPermissionsAnalytics | null;
@@ -818,7 +824,7 @@ export const MembersCreateResponseRolesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MembersCreateResponseRolesList>;
 
 export type MembersCreateResponseStatus = "accepted" | "pending";
-export const MembersCreateResponseStatus = /*@__PURE__*/ S.String;
+export const MembersCreateResponseStatus = S.String;
 
 export interface MembersCreateResponseUser {
   /** The contact email address of the user. */
@@ -874,12 +880,295 @@ export const CreateMemberResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateMemberResponse",
 }) as any as S.Schema<CreateMemberResponse>;
 
+export interface CreatePayBadDebtRequest {
+  /** Identifier */
+  accountId: string;
+  /** The payment method to use. If omitted, the default payment method is used. */
+  paymentMethodId?: string;
+}
+export const CreatePayBadDebtRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    paymentMethodId: S.optional(S.String.pipe(T.Body("payment_method_id"))),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/pay-bad-debt",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreatePayBadDebtRequest",
+}) as any as S.Schema<CreatePayBadDebtRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface CreatePayBadDebtResponse {
+  /** The Stripe client secret for frontend payment confirmation. */
+  clientSecret?: string | null;
+}
+export const CreatePayBadDebtResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientSecret: S.optional(S.NullOr(S.String).pipe(T.Body("client_secret"))),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreatePayBadDebtResponse",
+}) as any as S.Schema<CreatePayBadDebtResponse>;
+
+export interface CreatePayInvoiceRequest {
+  /** Identifier */
+  accountId: string;
+  /** The identifier of the invoice to pay. */
+  invoiceId?: string;
+  /** The payment method to use. If omitted, the default payment method is used. */
+  paymentMethodId?: string;
+  /** Whether to validate the payment method before processing. */
+  validatePaymentMethod?: boolean;
+}
+export const CreatePayInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    invoiceId: S.optional(S.String.pipe(T.Body("invoice_id"))),
+    paymentMethodId: S.optional(S.String.pipe(T.Body("payment_method_id"))),
+    validatePaymentMethod: S.optional(
+      S.Boolean.pipe(T.Body("validate_payment_method")),
+    ),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/pay-invoice",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreatePayInvoiceRequest",
+}) as any as S.Schema<CreatePayInvoiceRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface CreatePayInvoiceResponse {
+  /** The Stripe client secret for frontend payment confirmation. */
+  clientSecret?: string | null;
+}
+export const CreatePayInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientSecret: S.optional(S.NullOr(S.String).pipe(T.Body("client_secret"))),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreatePayInvoiceResponse",
+}) as any as S.Schema<CreatePayInvoiceResponse>;
+
+export type CreatePaymentMethodRequestType =
+  | "CREDIT_CARD"
+  | "PAYPAL"
+  | "CASHAPP"
+  | "SEPA_DEBIT"
+  | "LINK"
+  | "ACH_DIRECT_DEBIT";
+export const CreatePaymentMethodRequestType = S.String;
+
+export interface CreatePaymentMethodRequest {
+  /** Identifier */
+  accountId: string;
+  /** Billing address line 1. */
+  address?: string;
+  /** Billing address line 2. */
+  address2?: string;
+  /** Bank account type. */
+  bankAccountType?: string;
+  /** Bank code. */
+  bankCode?: string;
+  /** Bank country. */
+  bankCountry?: string;
+  /** Bank name for bank-based payment methods. */
+  bankName?: string;
+  /** Bank routing number. */
+  bankRoutingNumber?: string;
+  /** Cash App cash tag. */
+  cashappCashTag?: string;
+  /** Billing city. */
+  city?: string;
+  /** Billing country. */
+  country?: string;
+  /** Whether this is the default payment method. */
+  default?: boolean;
+  /** Device data for fraud prevention. */
+  deviceData?: string;
+  /** Billing first name. */
+  firstName?: string;
+  /** Billing last name. */
+  lastName?: string;
+  /** A nickname for the payment method. */
+  nickName?: string;
+  /** Email associated with the payment account. */
+  paymentAccountEmail?: string;
+  /** Payment email address. */
+  paymentEmail?: string;
+  /** The payment gateway used. */
+  paymentGateway?: string;
+  /** Payment nonce for tokenized payments. */
+  paymentNonce?: string;
+  /** Billing state. */
+  state?: string;
+  /** The payment method type. */
+  type?: CreatePaymentMethodRequestType | (string & {});
+  /** Billing zip code. */
+  zipcode?: string;
+}
+export const CreatePaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    address: S.optional(S.String),
+    address2: S.optional(S.String),
+    bankAccountType: S.optional(S.String.pipe(T.Body("bank_account_type"))),
+    bankCode: S.optional(S.String.pipe(T.Body("bank_code"))),
+    bankCountry: S.optional(S.String.pipe(T.Body("bank_country"))),
+    bankName: S.optional(S.String.pipe(T.Body("bank_name"))),
+    bankRoutingNumber: S.optional(S.String.pipe(T.Body("bank_routing_number"))),
+    cashappCashTag: S.optional(S.String.pipe(T.Body("cashapp_cash_tag"))),
+    city: S.optional(S.String),
+    country: S.optional(S.String),
+    default: S.optional(S.Boolean),
+    deviceData: S.optional(S.String.pipe(T.Body("device_data"))),
+    firstName: S.optional(S.String.pipe(T.Body("first_name"))),
+    lastName: S.optional(S.String.pipe(T.Body("last_name"))),
+    nickName: S.optional(S.String.pipe(T.Body("nick_name"))),
+    paymentAccountEmail: S.optional(
+      S.String.pipe(T.Body("payment_account_email")),
+    ),
+    paymentEmail: S.optional(S.String.pipe(T.Body("payment_email"))),
+    paymentGateway: S.optional(S.String.pipe(T.Body("payment_gateway"))),
+    paymentNonce: S.optional(S.String.pipe(T.Body("payment_nonce"))),
+    state: S.optional(S.String),
+    type: S.optional(CreatePaymentMethodRequestType),
+    zipcode: S.optional(S.String),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/payment-methods",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreatePaymentMethodRequest",
+}) as any as S.Schema<CreatePaymentMethodRequest>;
+
+export type CreatePaymentMethodResponseType =
+  | "CREDIT_CARD"
+  | "PAYPAL"
+  | "CASHAPP"
+  | "SEPA_DEBIT"
+  | "LINK"
+  | "ACH_DIRECT_DEBIT";
+export const CreatePaymentMethodResponseType = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface CreatePaymentMethodResponse {
+  /** Payment method identifier. */
+  id?: string | null;
+  /** Billing address line 1. */
+  address?: string | null;
+  /** Billing address line 2. */
+  address2?: string | null;
+  /** Bank account type. */
+  bankAccountType?: string | null;
+  /** Bank code. */
+  bankCode?: string | null;
+  /** Bank country. */
+  bankCountry?: string | null;
+  /** Bank name for bank-based payment methods. */
+  bankName?: string | null;
+  /** Bank routing number. */
+  bankRoutingNumber?: string | null;
+  /** Cash App cash tag. */
+  cashappCashTag?: string | null;
+  /** Billing city. */
+  city?: string | null;
+  /** Billing country. */
+  country?: string | null;
+  /** Whether this is the default payment method. */
+  default?: boolean | null;
+  /** Device data for fraud prevention. */
+  deviceData?: string | null;
+  /** Card expiration date. */
+  expirationDate?: string | null;
+  /** Billing first name. */
+  firstName?: string | null;
+  /** Last four digits of the card number. */
+  lastFour?: string | null;
+  /** Billing last name. */
+  lastName?: string | null;
+  /** A nickname for the payment method. */
+  nickName?: string | null;
+  /** Email associated with the payment account. */
+  paymentAccountEmail?: string | null;
+  /** Payment email address. */
+  paymentEmail?: string | null;
+  /** The payment gateway used. */
+  paymentGateway?: string | null;
+  /** Payment nonce for tokenized payments. */
+  paymentNonce?: string | null;
+  /** Billing state. */
+  state?: string | null;
+  /** The payment method type. */
+  type?: CreatePaymentMethodResponseType | null;
+  /** Billing zip code. */
+  zipcode?: string | null;
+}
+export const CreatePaymentMethodResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.NullOr(S.String)),
+    address: S.optional(S.NullOr(S.String)),
+    address2: S.optional(S.NullOr(S.String)),
+    bankAccountType: S.optional(
+      S.NullOr(S.String).pipe(T.Body("bank_account_type")),
+    ),
+    bankCode: S.optional(S.NullOr(S.String).pipe(T.Body("bank_code"))),
+    bankCountry: S.optional(S.NullOr(S.String).pipe(T.Body("bank_country"))),
+    bankName: S.optional(S.NullOr(S.String).pipe(T.Body("bank_name"))),
+    bankRoutingNumber: S.optional(
+      S.NullOr(S.String).pipe(T.Body("bank_routing_number")),
+    ),
+    cashappCashTag: S.optional(
+      S.NullOr(S.String).pipe(T.Body("cashapp_cash_tag")),
+    ),
+    city: S.optional(S.NullOr(S.String)),
+    country: S.optional(S.NullOr(S.String)),
+    default: S.optional(S.NullOr(S.Boolean)),
+    deviceData: S.optional(S.NullOr(S.String).pipe(T.Body("device_data"))),
+    expirationDate: S.optional(
+      S.NullOr(S.String).pipe(T.Body("expiration_date")),
+    ),
+    firstName: S.optional(S.NullOr(S.String).pipe(T.Body("first_name"))),
+    lastFour: S.optional(S.NullOr(S.String).pipe(T.Body("last_four"))),
+    lastName: S.optional(S.NullOr(S.String).pipe(T.Body("last_name"))),
+    nickName: S.optional(S.NullOr(S.String).pipe(T.Body("nick_name"))),
+    paymentAccountEmail: S.optional(
+      S.NullOr(S.String).pipe(T.Body("payment_account_email")),
+    ),
+    paymentEmail: S.optional(S.NullOr(S.String).pipe(T.Body("payment_email"))),
+    paymentGateway: S.optional(
+      S.NullOr(S.String).pipe(T.Body("payment_gateway")),
+    ),
+    paymentNonce: S.optional(S.NullOr(S.String).pipe(T.Body("payment_nonce"))),
+    state: S.optional(S.NullOr(S.String)),
+    type: S.optional(S.NullOr(CreatePaymentMethodResponseType)),
+    zipcode: S.optional(S.NullOr(S.String)),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreatePaymentMethodResponse",
+}) as any as S.Schema<CreatePaymentMethodResponse>;
+
 export type SubscriptionsCreateRequestFrequency =
   | "weekly"
   | "monthly"
   | "quarterly"
   | "yearly";
-export const SubscriptionsCreateRequestFrequency = /*@__PURE__*/ S.String;
+export const SubscriptionsCreateRequestFrequency = S.String;
 
 export type SubscriptionsCreateRequestRatePlanId =
   | "free"
@@ -892,7 +1181,7 @@ export type SubscriptionsCreateRequestRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
-export const SubscriptionsCreateRequestRatePlanId = /*@__PURE__*/ S.String;
+export const SubscriptionsCreateRequestRatePlanId = S.String;
 
 export type SubscriptionsCreateRequestRatePlanSetsList = Array<string>;
 export const SubscriptionsCreateRequestRatePlanSetsList = /*@__PURE__*/ S.Array(
@@ -930,7 +1219,7 @@ export const SubscriptionsCreateRequestRatePlan = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SubscriptionsCreateRequestRatePlan>;
 
 export interface CreateSubscriptionRequest {
-  /** Identifier */
+  /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
   /** How often the subscription is renewed automatically. */
   frequency?: SubscriptionsCreateRequestFrequency | (string & {});
@@ -962,7 +1251,7 @@ export type SubscriptionsCreateResponseFrequency =
   | "monthly"
   | "quarterly"
   | "yearly";
-export const SubscriptionsCreateResponseFrequency = /*@__PURE__*/ S.String;
+export const SubscriptionsCreateResponseFrequency = S.String;
 
 export type SubscriptionsCreateResponseRatePlanId =
   | "free"
@@ -975,7 +1264,7 @@ export type SubscriptionsCreateResponseRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
-export const SubscriptionsCreateResponseRatePlanId = /*@__PURE__*/ S.String;
+export const SubscriptionsCreateResponseRatePlanId = S.String;
 
 export type SubscriptionsCreateResponseRatePlanSetsList = Array<string>;
 export const SubscriptionsCreateResponseRatePlanSetsList =
@@ -1023,7 +1312,7 @@ export type SubscriptionsCreateResponseState =
   | "Cancelled"
   | "Failed"
   | "Expired";
-export const SubscriptionsCreateResponseState = /*@__PURE__*/ S.String;
+export const SubscriptionsCreateResponseState = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSubscriptionResponse {
@@ -1066,7 +1355,7 @@ export const CreateSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateSubscriptionResponse>;
 
 export type TokensCreateRequestPoliciesItemEffect = "allow" | "deny";
-export const TokensCreateRequestPoliciesItemEffect = /*@__PURE__*/ S.String;
+export const TokensCreateRequestPoliciesItemEffect = S.String;
 
 export interface TokensCreateRequestPoliciesItemPermissionGroupsItemMeta {
   key?: string;
@@ -1284,7 +1573,7 @@ export const TokensCreateResponseCondition = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TokensCreateResponseCondition>;
 
 export type TokensCreateResponsePoliciesItemEffect = "allow" | "deny";
-export const TokensCreateResponsePoliciesItemEffect = /*@__PURE__*/ S.String;
+export const TokensCreateResponsePoliciesItemEffect = S.String;
 
 export type TokensCreateResponsePoliciesItemPermissionGroupsItemMeta =
   MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
@@ -1356,7 +1645,7 @@ export const TokensCreateResponsePoliciesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<TokensCreateResponsePoliciesList>;
 
 export type TokensCreateResponseStatus = "active" | "disabled" | "expired";
-export const TokensCreateResponseStatus = /*@__PURE__*/ S.String;
+export const TokensCreateResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTokenResponse {
@@ -1465,6 +1754,36 @@ export const DeleteMemberResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMemberResponse",
 }) as any as S.Schema<DeleteMemberResponse>;
 
+export interface DeletePaymentMethodRequest {
+  /** Identifier */
+  accountId: string;
+  /** Identifier */
+  paymentMethodId: string;
+}
+export const DeletePaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    paymentMethodId: S.String.pipe(T.Label("payment_method_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/accounts/{account_id}/payment-methods/{payment_method_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeletePaymentMethodRequest",
+}) as any as S.Schema<DeletePaymentMethodRequest>;
+
+export type DeletePaymentMethodResponse = unknown;
+export const DeletePaymentMethodResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeletePaymentMethodResponse",
+}) as any as S.Schema<DeletePaymentMethodResponse>;
+
 export interface DeleteSubscriptionRequest {
   /** Identifier */
   accountId: string;
@@ -1539,6 +1858,36 @@ export const DeleteTokenResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTokenResponse",
 }) as any as S.Schema<DeleteTokenResponse>;
 
+export interface EditInvoiceRequest {
+  /** Identifier */
+  accountId: string;
+  /** Whether to enable or disable PDF invoice generation. */
+  toggle?: boolean;
+}
+export const EditInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    toggle: S.optional(S.Boolean),
+  })
+    .pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/accounts/{account_id}/invoices",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "EditInvoiceRequest",
+}) as any as S.Schema<EditInvoiceRequest>;
+
+export type EditInvoiceResponse = unknown;
+export const EditInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "EditInvoiceResponse",
+}) as any as S.Schema<EditInvoiceResponse>;
+
 export interface GetAccountRequest {
   /** Account identifier tag. */
   accountId: string;
@@ -1554,7 +1903,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAccountRequest>;
 
 export type GetResponseType = "standard" | "enterprise";
-export const GetResponseType = /*@__PURE__*/ S.String;
+export const GetResponseType = S.String;
 
 export type GetResponseManagedBy = CreateResponseManagedBy;
 export const GetResponseManagedBy = CreateResponseManagedBy;
@@ -1591,6 +1940,45 @@ export const GetAccountResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetAccountResponse",
 }) as any as S.Schema<GetAccountResponse>;
 
+export interface GetAccountProfileRequest {
+  accountId: string;
+}
+export const GetAccountProfileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/profile",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetAccountProfileRequest",
+}) as any as S.Schema<GetAccountProfileRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetAccountProfileResponse {
+  businessAddress: string;
+  businessEmail: string;
+  businessName: string;
+  businessPhone: string;
+  externalMetadata: string;
+}
+export const GetAccountProfileResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    businessAddress: S.String.pipe(T.Body("business_address")),
+    businessEmail: S.String.pipe(T.Body("business_email")),
+    businessName: S.String.pipe(T.Body("business_name")),
+    businessPhone: S.String.pipe(T.Body("business_phone")),
+    externalMetadata: S.String.pipe(T.Body("external_metadata")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetAccountProfileResponse",
+}) as any as S.Schema<GetAccountProfileResponse>;
+
 export interface GetMemberRequest {
   /** Account identifier tag. */
   accountId: string;
@@ -1615,7 +2003,7 @@ export const GetMemberRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetMemberRequest>;
 
 export type MembersGetResponsePoliciesItemAccess = "allow" | "deny";
-export const MembersGetResponsePoliciesItemAccess = /*@__PURE__*/ S.String;
+export const MembersGetResponsePoliciesItemAccess = S.String;
 
 export type MembersGetResponsePoliciesItemPermissionGroupsItemMeta =
   MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
@@ -1634,41 +2022,33 @@ export const MembersGetResponsePoliciesItemPermissionGroupsList =
     MembersCreateResponsePoliciesItemPermissionGroupsItem,
   ) as any as S.Schema<MembersGetResponsePoliciesItemPermissionGroupsList>;
 
-export type MembersGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
-  MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem;
-export const MembersGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
-  MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem;
+export type MembersGetResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
+  MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem;
+export const MembersGetResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
+  MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem;
 
-export type MembersGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
-  Array<MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem>;
-export const MembersGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
+export type MembersGetResponsePoliciesItemResourceGroupsItemScopeObjectsList =
+  Array<MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem>;
+export const MembersGetResponsePoliciesItemResourceGroupsItemScopeObjectsList =
   /*@__PURE__*/ S.Array(
-    MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem,
-  ) as any as S.Schema<MembersGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList>;
+    MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem,
+  ) as any as S.Schema<MembersGetResponsePoliciesItemResourceGroupsItemScopeObjectsList>;
 
-export interface MembersGetResponsePoliciesItemResourceGroupsItemScopeItem {
+export interface MembersGetResponsePoliciesItemResourceGroupsItemScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: MembersGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList;
+  objects: MembersGetResponsePoliciesItemResourceGroupsItemScopeObjectsList;
 }
-export const MembersGetResponsePoliciesItemResourceGroupsItemScopeItem =
+export const MembersGetResponsePoliciesItemResourceGroupsItemScope =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       key: S.String,
-      objects:
-        MembersGetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList,
+      objects: MembersGetResponsePoliciesItemResourceGroupsItemScopeObjectsList,
     }),
   ).annotate({
-    identifier: "MembersGetResponsePoliciesItemResourceGroupsItemScopeItem",
-  }) as any as S.Schema<MembersGetResponsePoliciesItemResourceGroupsItemScopeItem>;
-
-export type MembersGetResponsePoliciesItemResourceGroupsItemScopeList =
-  Array<MembersGetResponsePoliciesItemResourceGroupsItemScopeItem>;
-export const MembersGetResponsePoliciesItemResourceGroupsItemScopeList =
-  /*@__PURE__*/ S.Array(
-    MembersGetResponsePoliciesItemResourceGroupsItemScopeItem,
-  ) as any as S.Schema<MembersGetResponsePoliciesItemResourceGroupsItemScopeList>;
+    identifier: "MembersGetResponsePoliciesItemResourceGroupsItemScope",
+  }) as any as S.Schema<MembersGetResponsePoliciesItemResourceGroupsItemScope>;
 
 export type MembersGetResponsePoliciesItemResourceGroupsItemMeta =
   MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
@@ -1678,8 +2058,8 @@ export const MembersGetResponsePoliciesItemResourceGroupsItemMeta =
 export interface MembersGetResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: MembersGetResponsePoliciesItemResourceGroupsItemScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: MembersGetResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: MembersCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
   /** Name of the resource group. */
@@ -1689,7 +2069,7 @@ export const MembersGetResponsePoliciesItemResourceGroupsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.String,
-      scope: MembersGetResponsePoliciesItemResourceGroupsItemScopeList,
+      scope: MembersGetResponsePoliciesItemResourceGroupsItemScope,
       meta: S.optional(
         S.NullOr(MembersCreateResponsePoliciesItemPermissionGroupsItemMeta),
       ),
@@ -1746,6 +2126,61 @@ export type MembersGetResponseRolesItemPermissionsAnalytics =
 export const MembersGetResponseRolesItemPermissionsAnalytics =
   MembersCreateResponseRolesItemPermissionsAnalytics;
 
+export type MembersGetResponseRolesItemPermissionsBilling =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersGetResponseRolesItemPermissionsBilling =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersGetResponseRolesItemPermissionsCachePurge =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersGetResponseRolesItemPermissionsCachePurge =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersGetResponseRolesItemPermissionsDns =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersGetResponseRolesItemPermissionsDns =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersGetResponseRolesItemPermissionsDnsRecords =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersGetResponseRolesItemPermissionsDnsRecords =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersGetResponseRolesItemPermissionsLb =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersGetResponseRolesItemPermissionsLb =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersGetResponseRolesItemPermissionsLogs =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersGetResponseRolesItemPermissionsLogs =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersGetResponseRolesItemPermissionsOrganization =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersGetResponseRolesItemPermissionsOrganization =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersGetResponseRolesItemPermissionsSsl =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersGetResponseRolesItemPermissionsSsl =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersGetResponseRolesItemPermissionsWaf =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersGetResponseRolesItemPermissionsWaf =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersGetResponseRolesItemPermissionsZoneSettings =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersGetResponseRolesItemPermissionsZoneSettings =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersGetResponseRolesItemPermissionsZones =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersGetResponseRolesItemPermissionsZones =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
 export type MembersGetResponseRolesItemPermissions =
   MembersCreateResponseRolesItemPermissions;
 export const MembersGetResponseRolesItemPermissions =
@@ -1760,7 +2195,7 @@ export const MembersGetResponseRolesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MembersGetResponseRolesList>;
 
 export type MembersGetResponseStatus = "accepted" | "pending";
-export const MembersGetResponseStatus = /*@__PURE__*/ S.String;
+export const MembersGetResponseStatus = S.String;
 
 export type MembersGetResponseUser = MembersCreateResponseUser;
 export const MembersGetResponseUser = MembersCreateResponseUser;
@@ -1793,6 +2228,135 @@ export const GetMemberResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetMemberResponse",
 }) as any as S.Schema<GetMemberResponse>;
 
+export interface GetPaymentMethodRequest {
+  /** Identifier */
+  accountId: string;
+  /** Identifier */
+  paymentMethodId: string;
+}
+export const GetPaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    paymentMethodId: S.String.pipe(T.Label("payment_method_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/payment-methods/{payment_method_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetPaymentMethodRequest",
+}) as any as S.Schema<GetPaymentMethodRequest>;
+
+export type GetPaymentMethodResponseType =
+  | "CREDIT_CARD"
+  | "PAYPAL"
+  | "CASHAPP"
+  | "SEPA_DEBIT"
+  | "LINK"
+  | "ACH_DIRECT_DEBIT";
+export const GetPaymentMethodResponseType = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetPaymentMethodResponse {
+  /** Payment method identifier. */
+  id?: string | null;
+  /** Billing address line 1. */
+  address?: string | null;
+  /** Billing address line 2. */
+  address2?: string | null;
+  /** Bank account type. */
+  bankAccountType?: string | null;
+  /** Bank code. */
+  bankCode?: string | null;
+  /** Bank country. */
+  bankCountry?: string | null;
+  /** Bank name for bank-based payment methods. */
+  bankName?: string | null;
+  /** Bank routing number. */
+  bankRoutingNumber?: string | null;
+  /** Cash App cash tag. */
+  cashappCashTag?: string | null;
+  /** Billing city. */
+  city?: string | null;
+  /** Billing country. */
+  country?: string | null;
+  /** Whether this is the default payment method. */
+  default?: boolean | null;
+  /** Device data for fraud prevention. */
+  deviceData?: string | null;
+  /** Card expiration date. */
+  expirationDate?: string | null;
+  /** Billing first name. */
+  firstName?: string | null;
+  /** Last four digits of the card number. */
+  lastFour?: string | null;
+  /** Billing last name. */
+  lastName?: string | null;
+  /** A nickname for the payment method. */
+  nickName?: string | null;
+  /** Email associated with the payment account. */
+  paymentAccountEmail?: string | null;
+  /** Payment email address. */
+  paymentEmail?: string | null;
+  /** The payment gateway used. */
+  paymentGateway?: string | null;
+  /** Payment nonce for tokenized payments. */
+  paymentNonce?: string | null;
+  /** Billing state. */
+  state?: string | null;
+  /** The payment method type. */
+  type?: GetPaymentMethodResponseType | null;
+  /** Billing zip code. */
+  zipcode?: string | null;
+}
+export const GetPaymentMethodResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.NullOr(S.String)),
+    address: S.optional(S.NullOr(S.String)),
+    address2: S.optional(S.NullOr(S.String)),
+    bankAccountType: S.optional(
+      S.NullOr(S.String).pipe(T.Body("bank_account_type")),
+    ),
+    bankCode: S.optional(S.NullOr(S.String).pipe(T.Body("bank_code"))),
+    bankCountry: S.optional(S.NullOr(S.String).pipe(T.Body("bank_country"))),
+    bankName: S.optional(S.NullOr(S.String).pipe(T.Body("bank_name"))),
+    bankRoutingNumber: S.optional(
+      S.NullOr(S.String).pipe(T.Body("bank_routing_number")),
+    ),
+    cashappCashTag: S.optional(
+      S.NullOr(S.String).pipe(T.Body("cashapp_cash_tag")),
+    ),
+    city: S.optional(S.NullOr(S.String)),
+    country: S.optional(S.NullOr(S.String)),
+    default: S.optional(S.NullOr(S.Boolean)),
+    deviceData: S.optional(S.NullOr(S.String).pipe(T.Body("device_data"))),
+    expirationDate: S.optional(
+      S.NullOr(S.String).pipe(T.Body("expiration_date")),
+    ),
+    firstName: S.optional(S.NullOr(S.String).pipe(T.Body("first_name"))),
+    lastFour: S.optional(S.NullOr(S.String).pipe(T.Body("last_four"))),
+    lastName: S.optional(S.NullOr(S.String).pipe(T.Body("last_name"))),
+    nickName: S.optional(S.NullOr(S.String).pipe(T.Body("nick_name"))),
+    paymentAccountEmail: S.optional(
+      S.NullOr(S.String).pipe(T.Body("payment_account_email")),
+    ),
+    paymentEmail: S.optional(S.NullOr(S.String).pipe(T.Body("payment_email"))),
+    paymentGateway: S.optional(
+      S.NullOr(S.String).pipe(T.Body("payment_gateway")),
+    ),
+    paymentNonce: S.optional(S.NullOr(S.String).pipe(T.Body("payment_nonce"))),
+    state: S.optional(S.NullOr(S.String)),
+    type: S.optional(S.NullOr(GetPaymentMethodResponseType)),
+    zipcode: S.optional(S.NullOr(S.String)),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetPaymentMethodResponse",
+}) as any as S.Schema<GetPaymentMethodResponse>;
+
 export interface GetRoleRequest {
   /** Account identifier tag. */
   accountId: string;
@@ -1817,6 +2381,61 @@ export const GetRoleRequest = /*@__PURE__*/ S.suspend(() =>
 export type RolesGetResponsePermissionsAnalytics =
   MembersCreateResponseRolesItemPermissionsAnalytics;
 export const RolesGetResponsePermissionsAnalytics =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesGetResponsePermissionsBilling =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesGetResponsePermissionsBilling =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesGetResponsePermissionsCachePurge =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesGetResponsePermissionsCachePurge =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesGetResponsePermissionsDns =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesGetResponsePermissionsDns =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesGetResponsePermissionsDnsRecords =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesGetResponsePermissionsDnsRecords =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesGetResponsePermissionsLb =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesGetResponsePermissionsLb =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesGetResponsePermissionsLogs =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesGetResponsePermissionsLogs =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesGetResponsePermissionsOrganization =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesGetResponsePermissionsOrganization =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesGetResponsePermissionsSsl =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesGetResponsePermissionsSsl =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesGetResponsePermissionsWaf =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesGetResponsePermissionsWaf =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesGetResponsePermissionsZoneSettings =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesGetResponsePermissionsZoneSettings =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesGetResponsePermissionsZones =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesGetResponsePermissionsZones =
   MembersCreateResponseRolesItemPermissionsAnalytics;
 
 export type RolesGetResponsePermissions =
@@ -1845,8 +2464,72 @@ export const GetRoleResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetRoleResponse",
 }) as any as S.Schema<GetRoleResponse>;
 
+export interface GetSpeedSettingsTransformationRequest {
+  /** Identifier. */
+  accountId: string;
+}
+export const GetSpeedSettingsTransformationRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      accountId: S.String.pipe(T.Label("account_id")),
+    })
+      .pipe(
+        T.Http({
+          method: "GET",
+          uri: "/accounts/{account_id}/settings/transformations",
+          code: 200,
+        }),
+      )
+      .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetSpeedSettingsTransformationRequest",
+}) as any as S.Schema<GetSpeedSettingsTransformationRequest>;
+
+export interface GetSpeedSettingsTransformationResultItem {
+  /** Feature identifier. */
+  id?: string | null;
+  /** Zone tag identifier. */
+  cfZoneTag?: string | null;
+  /** Whether this setting can be modified. */
+  editable?: boolean | null;
+  /** When this setting was last modified. */
+  modifiedOn?: string | null;
+  /** Current value of the feature setting. */
+  value?: string | null;
+}
+export const GetSpeedSettingsTransformationResultItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      cfZoneTag: S.optional(S.NullOr(S.String).pipe(T.Body("cf_zone_tag"))),
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+      value: S.optional(S.NullOr(S.String)),
+    }),
+).annotate({
+  identifier: "GetSpeedSettingsTransformationResultItem",
+}) as any as S.Schema<GetSpeedSettingsTransformationResultItem>;
+
+export type GetSpeedSettingsTransformationResultList =
+  Array<GetSpeedSettingsTransformationResultItem>;
+export const GetSpeedSettingsTransformationResultList = /*@__PURE__*/ S.Array(
+  GetSpeedSettingsTransformationResultItem,
+) as any as S.Schema<GetSpeedSettingsTransformationResultList>;
+
+export type GetSpeedSettingsTransformationResponse =
+  GetSpeedSettingsTransformationResultList;
+export const GetSpeedSettingsTransformationResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    GetSpeedSettingsTransformationResultList.pipe(
+      T.EnvelopePayloadRoot(),
+      T.KeyDictionary(KEY_DICTIONARY),
+    ),
+).annotate({
+  identifier: "GetSpeedSettingsTransformationResponse",
+}) as any as S.Schema<GetSpeedSettingsTransformationResponse>;
+
 export interface GetSubscriptionRequest {
-  /** Identifier */
+  /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
 }
 export const GetSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1870,7 +2553,7 @@ export type SubscriptionsGetResultItemFrequency =
   | "monthly"
   | "quarterly"
   | "yearly";
-export const SubscriptionsGetResultItemFrequency = /*@__PURE__*/ S.String;
+export const SubscriptionsGetResultItemFrequency = S.String;
 
 export type SubscriptionsGetResultItemRatePlanId =
   | "free"
@@ -1883,7 +2566,7 @@ export type SubscriptionsGetResultItemRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
-export const SubscriptionsGetResultItemRatePlanId = /*@__PURE__*/ S.String;
+export const SubscriptionsGetResultItemRatePlanId = S.String;
 
 export type SubscriptionsGetResultItemRatePlanSetsList = Array<string>;
 export const SubscriptionsGetResultItemRatePlanSetsList = /*@__PURE__*/ S.Array(
@@ -1930,7 +2613,7 @@ export type SubscriptionsGetResultItemState =
   | "Cancelled"
   | "Failed"
   | "Expired";
-export const SubscriptionsGetResultItemState = /*@__PURE__*/ S.String;
+export const SubscriptionsGetResultItemState = S.String;
 
 export interface SubscriptionsGetResultItem {
   /** Subscription identifier tag. */
@@ -2059,7 +2742,7 @@ export const TokensGetResponseCondition = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TokensGetResponseCondition>;
 
 export type TokensGetResponsePoliciesItemEffect = "allow" | "deny";
-export const TokensGetResponsePoliciesItemEffect = /*@__PURE__*/ S.String;
+export const TokensGetResponsePoliciesItemEffect = S.String;
 
 export type TokensGetResponsePoliciesItemPermissionGroupsItemMeta =
   MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
@@ -2130,7 +2813,7 @@ export const TokensGetResponsePoliciesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<TokensGetResponsePoliciesList>;
 
 export type TokensGetResponseStatus = "active" | "disabled" | "expired";
-export const TokensGetResponseStatus = /*@__PURE__*/ S.String;
+export const TokensGetResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetTokenResponse {
@@ -2174,9 +2857,9 @@ export const GetTokenResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetTokenPermissionGroupRequest {
   /** Account identifier tag. */
   accountId: string;
-  /** Filter by the name of the permission group. */
+  /** Filter by the name of the permission group. The value must be URL-encoded. */
   name?: string;
-  /** Filter by the scope of the permission group. */
+  /** Filter by the scope of the permission group. The value must be URL-encoded. */
   scope?: string;
 }
 export const GetTokenPermissionGroupRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2211,16 +2894,14 @@ export type TokensPermissionGroupsGetResultItemCategory =
   | "cache_and_performance"
   | "account_and_billing"
   | "other";
-export const TokensPermissionGroupsGetResultItemCategory =
-  /*@__PURE__*/ S.String;
+export const TokensPermissionGroupsGetResultItemCategory = S.String;
 
 export type TokensPermissionGroupsGetResultItemScopesItem =
   | "com.cloudflare.api.account"
   | "com.cloudflare.api.account.zone"
   | "com.cloudflare.api.user"
   | "com.cloudflare.edge.r2.bucket";
-export const TokensPermissionGroupsGetResultItemScopesItem =
-  /*@__PURE__*/ S.String;
+export const TokensPermissionGroupsGetResultItemScopesItem = S.String;
 
 export type TokensPermissionGroupsGetResultItemScopesList =
   Array<TokensPermissionGroupsGetResultItemScopesItem>;
@@ -2268,7 +2949,7 @@ export const GetTokenPermissionGroupResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetTokenPermissionGroupResponse>;
 
 export type ListRequestDirection = "asc" | "desc";
-export const ListRequestDirection = /*@__PURE__*/ S.String;
+export const ListRequestDirection = S.String;
 
 export interface ListAccountsRequest {
   /** Direction to order results. */
@@ -2294,7 +2975,7 @@ export const ListAccountsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAccountsRequest>;
 
 export type ListResultItemType = "standard" | "enterprise";
-export const ListResultItemType = /*@__PURE__*/ S.String;
+export const ListResultItemType = S.String;
 
 export type ListResultItemManagedBy = CreateResponseManagedBy;
 export const ListResultItemManagedBy = CreateResponseManagedBy;
@@ -2383,7 +3064,7 @@ export const LogsAuditListRequestAccountName = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LogsAuditListRequestAccountName>;
 
 export type LogsAuditListRequestActionResultNotItem = "success" | "failure";
-export const LogsAuditListRequestActionResultNotItem = /*@__PURE__*/ S.String;
+export const LogsAuditListRequestActionResultNotItem = S.String;
 
 export type LogsAuditListRequestActionResultNotList = Array<
   LogsAuditListRequestActionResultNotItem | (string & {})
@@ -2409,7 +3090,7 @@ export type LogsAuditListRequestActionTypeNotItem =
   | "delete"
   | "view"
   | "update";
-export const LogsAuditListRequestActionTypeNotItem = /*@__PURE__*/ S.String;
+export const LogsAuditListRequestActionTypeNotItem = S.String;
 
 export type LogsAuditListRequestActionTypeNotList = Array<
   LogsAuditListRequestActionTypeNotItem | (string & {})
@@ -2431,12 +3112,13 @@ export const LogsAuditListRequestActionType = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LogsAuditListRequestActionType>;
 
 export type LogsAuditListRequestActorContextNotItem =
+  | "api"
   | "api_key"
   | "api_token"
   | "dash"
   | "oauth"
   | "origin_ca_key";
-export const LogsAuditListRequestActorContextNotItem = /*@__PURE__*/ S.String;
+export const LogsAuditListRequestActorContextNotItem = S.String;
 
 export type LogsAuditListRequestActorContextNotList = Array<
   LogsAuditListRequestActorContextNotItem | (string & {})
@@ -2545,9 +3227,10 @@ export const LogsAuditListRequestActorTokenName = /*@__PURE__*/ S.suspend(() =>
 export type LogsAuditListRequestActorTypeNotItem =
   | "account"
   | "cloudflare_admin"
+  | "delegated_service"
   | "system"
   | "user";
-export const LogsAuditListRequestActorTypeNotItem = /*@__PURE__*/ S.String;
+export const LogsAuditListRequestActorTypeNotItem = S.String;
 
 export type LogsAuditListRequestActorTypeNotList = Array<
   LogsAuditListRequestActorTypeNotItem | (string & {})
@@ -2586,7 +3269,7 @@ export const LogsAuditListRequestAuditLogId = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LogsAuditListRequestAuditLogId>;
 
 export type LogsAuditListRequestDirection = "desc" | "asc";
-export const LogsAuditListRequestDirection = /*@__PURE__*/ S.String;
+export const LogsAuditListRequestDirection = S.String;
 
 export type LogsAuditListRequestProductCategoryList = Array<string>;
 export const LogsAuditListRequestProductCategoryList = /*@__PURE__*/ S.Array(
@@ -2700,7 +3383,7 @@ export type LogsAuditListRequestResourceScopeNotItem =
   | "user"
   | "zones"
   | "memberships";
-export const LogsAuditListRequestResourceScopeNotItem = /*@__PURE__*/ S.String;
+export const LogsAuditListRequestResourceScopeNotItem = S.String;
 
 export type LogsAuditListRequestResourceScopeNotList = Array<
   LogsAuditListRequestResourceScopeNotItem | (string & {})
@@ -2998,23 +3681,26 @@ export const LogsAuditListResultItemAction = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LogsAuditListResultItemAction>;
 
 export type LogsAuditListResultItemActorContext =
+  | "api"
   | "api_key"
   | "api_token"
   | "dash"
   | "oauth"
   | "origin_ca_key";
-export const LogsAuditListResultItemActorContext = /*@__PURE__*/ S.String;
+export const LogsAuditListResultItemActorContext = S.String;
 
 export type LogsAuditListResultItemActorType =
   | "account"
   | "cloudflare_admin"
+  | "delegated_service"
   | "system"
   | "user";
-export const LogsAuditListResultItemActorType = /*@__PURE__*/ S.String;
+export const LogsAuditListResultItemActorType = S.String;
 
 export interface LogsAuditListResultItemActor {
   /** The ID of the actor who performed the action. If a user performed the action, this will be their User ID. */
   id?: string | null;
+  /** The context in which the action was initiated. */
   context?: LogsAuditListResultItemActorContext | null;
   /** The email of the actor who performed the action. */
   email?: string | null;
@@ -3156,17 +3842,17 @@ export const ListLogAuditsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListLogAuditsResponse>;
 
 export type MembersListRequestDirection = "asc" | "desc";
-export const MembersListRequestDirection = /*@__PURE__*/ S.String;
+export const MembersListRequestDirection = S.String;
 
 export type MembersListRequestOrder =
   | "user.first_name"
   | "user.last_name"
   | "user.email"
   | "status";
-export const MembersListRequestOrder = /*@__PURE__*/ S.String;
+export const MembersListRequestOrder = S.String;
 
 export type MembersListRequestStatus = "accepted" | "pending" | "rejected";
-export const MembersListRequestStatus = /*@__PURE__*/ S.String;
+export const MembersListRequestStatus = S.String;
 
 export interface ListMembersRequest {
   /** Account identifier tag. */
@@ -3204,7 +3890,7 @@ export const ListMembersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListMembersRequest>;
 
 export type MembersListResultItemPoliciesItemAccess = "allow" | "deny";
-export const MembersListResultItemPoliciesItemAccess = /*@__PURE__*/ S.String;
+export const MembersListResultItemPoliciesItemAccess = S.String;
 
 export type MembersListResultItemPoliciesItemPermissionGroupsItemMeta =
   MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
@@ -3223,41 +3909,34 @@ export const MembersListResultItemPoliciesItemPermissionGroupsList =
     MembersCreateResponsePoliciesItemPermissionGroupsItem,
   ) as any as S.Schema<MembersListResultItemPoliciesItemPermissionGroupsList>;
 
-export type MembersListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsItem =
-  MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem;
-export const MembersListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsItem =
-  MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem;
+export type MembersListResultItemPoliciesItemResourceGroupsItemScopeObjectsItem =
+  MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem;
+export const MembersListResultItemPoliciesItemResourceGroupsItemScopeObjectsItem =
+  MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem;
 
-export type MembersListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsList =
-  Array<MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem>;
-export const MembersListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsList =
+export type MembersListResultItemPoliciesItemResourceGroupsItemScopeObjectsList =
+  Array<MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem>;
+export const MembersListResultItemPoliciesItemResourceGroupsItemScopeObjectsList =
   /*@__PURE__*/ S.Array(
-    MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem,
-  ) as any as S.Schema<MembersListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsList>;
+    MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem,
+  ) as any as S.Schema<MembersListResultItemPoliciesItemResourceGroupsItemScopeObjectsList>;
 
-export interface MembersListResultItemPoliciesItemResourceGroupsItemScopeItem {
+export interface MembersListResultItemPoliciesItemResourceGroupsItemScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: MembersListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsList;
+  objects: MembersListResultItemPoliciesItemResourceGroupsItemScopeObjectsList;
 }
-export const MembersListResultItemPoliciesItemResourceGroupsItemScopeItem =
+export const MembersListResultItemPoliciesItemResourceGroupsItemScope =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       key: S.String,
       objects:
-        MembersListResultItemPoliciesItemResourceGroupsItemScopeItemObjectsList,
+        MembersListResultItemPoliciesItemResourceGroupsItemScopeObjectsList,
     }),
   ).annotate({
-    identifier: "MembersListResultItemPoliciesItemResourceGroupsItemScopeItem",
-  }) as any as S.Schema<MembersListResultItemPoliciesItemResourceGroupsItemScopeItem>;
-
-export type MembersListResultItemPoliciesItemResourceGroupsItemScopeList =
-  Array<MembersListResultItemPoliciesItemResourceGroupsItemScopeItem>;
-export const MembersListResultItemPoliciesItemResourceGroupsItemScopeList =
-  /*@__PURE__*/ S.Array(
-    MembersListResultItemPoliciesItemResourceGroupsItemScopeItem,
-  ) as any as S.Schema<MembersListResultItemPoliciesItemResourceGroupsItemScopeList>;
+    identifier: "MembersListResultItemPoliciesItemResourceGroupsItemScope",
+  }) as any as S.Schema<MembersListResultItemPoliciesItemResourceGroupsItemScope>;
 
 export type MembersListResultItemPoliciesItemResourceGroupsItemMeta =
   MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
@@ -3267,8 +3946,8 @@ export const MembersListResultItemPoliciesItemResourceGroupsItemMeta =
 export interface MembersListResultItemPoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: MembersListResultItemPoliciesItemResourceGroupsItemScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: MembersListResultItemPoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: MembersCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
   /** Name of the resource group. */
@@ -3278,7 +3957,7 @@ export const MembersListResultItemPoliciesItemResourceGroupsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.String,
-      scope: MembersListResultItemPoliciesItemResourceGroupsItemScopeList,
+      scope: MembersListResultItemPoliciesItemResourceGroupsItemScope,
       meta: S.optional(
         S.NullOr(MembersCreateResponsePoliciesItemPermissionGroupsItemMeta),
       ),
@@ -3335,6 +4014,61 @@ export type MembersListResultItemRolesItemPermissionsAnalytics =
 export const MembersListResultItemRolesItemPermissionsAnalytics =
   MembersCreateResponseRolesItemPermissionsAnalytics;
 
+export type MembersListResultItemRolesItemPermissionsBilling =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersListResultItemRolesItemPermissionsBilling =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersListResultItemRolesItemPermissionsCachePurge =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersListResultItemRolesItemPermissionsCachePurge =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersListResultItemRolesItemPermissionsDns =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersListResultItemRolesItemPermissionsDns =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersListResultItemRolesItemPermissionsDnsRecords =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersListResultItemRolesItemPermissionsDnsRecords =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersListResultItemRolesItemPermissionsLb =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersListResultItemRolesItemPermissionsLb =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersListResultItemRolesItemPermissionsLogs =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersListResultItemRolesItemPermissionsLogs =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersListResultItemRolesItemPermissionsOrganization =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersListResultItemRolesItemPermissionsOrganization =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersListResultItemRolesItemPermissionsSsl =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersListResultItemRolesItemPermissionsSsl =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersListResultItemRolesItemPermissionsWaf =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersListResultItemRolesItemPermissionsWaf =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersListResultItemRolesItemPermissionsZoneSettings =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersListResultItemRolesItemPermissionsZoneSettings =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersListResultItemRolesItemPermissionsZones =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersListResultItemRolesItemPermissionsZones =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
 export type MembersListResultItemRolesItemPermissions =
   MembersCreateResponseRolesItemPermissions;
 export const MembersListResultItemRolesItemPermissions =
@@ -3350,7 +4084,7 @@ export const MembersListResultItemRolesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MembersListResultItemRolesList>;
 
 export type MembersListResultItemStatus = "accepted" | "pending";
-export const MembersListResultItemStatus = /*@__PURE__*/ S.String;
+export const MembersListResultItemStatus = S.String;
 
 export type MembersListResultItemUser = MembersCreateResponseUser;
 export const MembersListResultItemUser = MembersCreateResponseUser;
@@ -3402,6 +4136,152 @@ export const ListMembersResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListMembersResponse",
 }) as any as S.Schema<ListMembersResponse>;
 
+export interface ListPaymentMethodsRequest {
+  /** Identifier */
+  accountId: string;
+  /** Page number of paginated results. */
+  page?: number;
+  /** Number of items per page. */
+  perPage?: number;
+}
+export const ListPaymentMethodsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    page: S.optional(S.Number.pipe(T.Query())),
+    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/payment-methods",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListPaymentMethodsRequest",
+}) as any as S.Schema<ListPaymentMethodsRequest>;
+
+export type ListPaymentMethodsResultItemType =
+  | "CREDIT_CARD"
+  | "PAYPAL"
+  | "CASHAPP"
+  | "SEPA_DEBIT"
+  | "LINK"
+  | "ACH_DIRECT_DEBIT";
+export const ListPaymentMethodsResultItemType = S.String;
+
+export interface ListPaymentMethodsResultItem {
+  /** Payment method identifier. */
+  id?: string | null;
+  /** Billing address line 1. */
+  address?: string | null;
+  /** Billing address line 2. */
+  address2?: string | null;
+  /** Bank account type. */
+  bankAccountType?: string | null;
+  /** Bank code. */
+  bankCode?: string | null;
+  /** Bank country. */
+  bankCountry?: string | null;
+  /** Bank name for bank-based payment methods. */
+  bankName?: string | null;
+  /** Bank routing number. */
+  bankRoutingNumber?: string | null;
+  /** Cash App cash tag. */
+  cashappCashTag?: string | null;
+  /** Billing city. */
+  city?: string | null;
+  /** Billing country. */
+  country?: string | null;
+  /** Whether this is the default payment method. */
+  default?: boolean | null;
+  /** Device data for fraud prevention. */
+  deviceData?: string | null;
+  /** Card expiration date. */
+  expirationDate?: string | null;
+  /** Billing first name. */
+  firstName?: string | null;
+  /** Last four digits of the card number. */
+  lastFour?: string | null;
+  /** Billing last name. */
+  lastName?: string | null;
+  /** A nickname for the payment method. */
+  nickName?: string | null;
+  /** Email associated with the payment account. */
+  paymentAccountEmail?: string | null;
+  /** Payment email address. */
+  paymentEmail?: string | null;
+  /** The payment gateway used. */
+  paymentGateway?: string | null;
+  /** Payment nonce for tokenized payments. */
+  paymentNonce?: string | null;
+  /** Billing state. */
+  state?: string | null;
+  /** The payment method type. */
+  type?: ListPaymentMethodsResultItemType | null;
+  /** Billing zip code. */
+  zipcode?: string | null;
+}
+export const ListPaymentMethodsResultItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.NullOr(S.String)),
+    address: S.optional(S.NullOr(S.String)),
+    address2: S.optional(S.NullOr(S.String)),
+    bankAccountType: S.optional(
+      S.NullOr(S.String).pipe(T.Body("bank_account_type")),
+    ),
+    bankCode: S.optional(S.NullOr(S.String).pipe(T.Body("bank_code"))),
+    bankCountry: S.optional(S.NullOr(S.String).pipe(T.Body("bank_country"))),
+    bankName: S.optional(S.NullOr(S.String).pipe(T.Body("bank_name"))),
+    bankRoutingNumber: S.optional(
+      S.NullOr(S.String).pipe(T.Body("bank_routing_number")),
+    ),
+    cashappCashTag: S.optional(
+      S.NullOr(S.String).pipe(T.Body("cashapp_cash_tag")),
+    ),
+    city: S.optional(S.NullOr(S.String)),
+    country: S.optional(S.NullOr(S.String)),
+    default: S.optional(S.NullOr(S.Boolean)),
+    deviceData: S.optional(S.NullOr(S.String).pipe(T.Body("device_data"))),
+    expirationDate: S.optional(
+      S.NullOr(S.String).pipe(T.Body("expiration_date")),
+    ),
+    firstName: S.optional(S.NullOr(S.String).pipe(T.Body("first_name"))),
+    lastFour: S.optional(S.NullOr(S.String).pipe(T.Body("last_four"))),
+    lastName: S.optional(S.NullOr(S.String).pipe(T.Body("last_name"))),
+    nickName: S.optional(S.NullOr(S.String).pipe(T.Body("nick_name"))),
+    paymentAccountEmail: S.optional(
+      S.NullOr(S.String).pipe(T.Body("payment_account_email")),
+    ),
+    paymentEmail: S.optional(S.NullOr(S.String).pipe(T.Body("payment_email"))),
+    paymentGateway: S.optional(
+      S.NullOr(S.String).pipe(T.Body("payment_gateway")),
+    ),
+    paymentNonce: S.optional(S.NullOr(S.String).pipe(T.Body("payment_nonce"))),
+    state: S.optional(S.NullOr(S.String)),
+    type: S.optional(S.NullOr(ListPaymentMethodsResultItemType)),
+    zipcode: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ListPaymentMethodsResultItem",
+}) as any as S.Schema<ListPaymentMethodsResultItem>;
+
+export type ListPaymentMethodsResultList = Array<ListPaymentMethodsResultItem>;
+export const ListPaymentMethodsResultList = /*@__PURE__*/ S.Array(
+  ListPaymentMethodsResultItem,
+) as any as S.Schema<ListPaymentMethodsResultList>;
+
+export type ListPaymentMethodsResponse = ListPaymentMethodsResultList;
+export const ListPaymentMethodsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListPaymentMethodsResultList.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
+).annotate({
+  identifier: "ListPaymentMethodsResponse",
+}) as any as S.Schema<ListPaymentMethodsResponse>;
+
 export interface ListRolesRequest {
   /** Account identifier tag. */
   accountId: string;
@@ -3427,6 +4307,61 @@ export const ListRolesRequest = /*@__PURE__*/ S.suspend(() =>
 export type RolesListResultItemPermissionsAnalytics =
   MembersCreateResponseRolesItemPermissionsAnalytics;
 export const RolesListResultItemPermissionsAnalytics =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesListResultItemPermissionsBilling =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesListResultItemPermissionsBilling =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesListResultItemPermissionsCachePurge =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesListResultItemPermissionsCachePurge =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesListResultItemPermissionsDns =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesListResultItemPermissionsDns =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesListResultItemPermissionsDnsRecords =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesListResultItemPermissionsDnsRecords =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesListResultItemPermissionsLb =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesListResultItemPermissionsLb =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesListResultItemPermissionsLogs =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesListResultItemPermissionsLogs =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesListResultItemPermissionsOrganization =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesListResultItemPermissionsOrganization =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesListResultItemPermissionsSsl =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesListResultItemPermissionsSsl =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesListResultItemPermissionsWaf =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesListResultItemPermissionsWaf =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesListResultItemPermissionsZoneSettings =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesListResultItemPermissionsZoneSettings =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type RolesListResultItemPermissionsZones =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const RolesListResultItemPermissionsZones =
   MembersCreateResponseRolesItemPermissionsAnalytics;
 
 export type RolesListResultItemPermissions =
@@ -3458,13 +4393,15 @@ export const ListRolesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListRolesResponse>;
 
 export type TokensListRequestDirection = "asc" | "desc";
-export const TokensListRequestDirection = /*@__PURE__*/ S.String;
+export const TokensListRequestDirection = S.String;
 
 export interface ListTokensRequest {
   /** Account identifier tag. */
   accountId: string;
   /** Direction to order results. */
   direction?: TokensListRequestDirection | (string & {});
+  /** When true, includes recently-expired tokens in the response. */
+  includeExpired?: boolean;
   /** Page number of paginated results. */
   page?: number;
   /** Maximum number of results per page. */
@@ -3474,6 +4411,7 @@ export const ListTokensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     direction: S.optional(TokensListRequestDirection.pipe(T.Query())),
+    includeExpired: S.optional(S.Boolean.pipe(T.Query("include_expired"))),
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
@@ -3538,7 +4476,7 @@ export const TokensListResultItemCondition = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TokensListResultItemCondition>;
 
 export type TokensListResultItemPoliciesItemEffect = "allow" | "deny";
-export const TokensListResultItemPoliciesItemEffect = /*@__PURE__*/ S.String;
+export const TokensListResultItemPoliciesItemEffect = S.String;
 
 export type TokensListResultItemPoliciesItemPermissionGroupsItemMeta =
   MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
@@ -3610,7 +4548,7 @@ export const TokensListResultItemPoliciesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<TokensListResultItemPoliciesList>;
 
 export type TokensListResultItemStatus = "active" | "disabled" | "expired";
-export const TokensListResultItemStatus = /*@__PURE__*/ S.String;
+export const TokensListResultItemStatus = S.String;
 
 export interface TokensListResultItem {
   /** Token identifier tag. */
@@ -3670,6 +4608,369 @@ export const ListTokensResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListTokensResponse",
 }) as any as S.Schema<ListTokensResponse>;
 
+export interface ListTokensPermissionGroupsRequest {
+  /** Account identifier tag. */
+  accountId: string;
+  /** Filter by the name of the permission group. The value must be URL-encoded. */
+  name?: string;
+  /** Filter by the scope of the permission group. The value must be URL-encoded. */
+  scope?: string;
+}
+export const ListTokensPermissionGroupsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    name: S.optional(S.String.pipe(T.Query())),
+    scope: S.optional(S.String.pipe(T.Query())),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/tokens/permission_groups",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListTokensPermissionGroupsRequest",
+}) as any as S.Schema<ListTokensPermissionGroupsRequest>;
+
+export type ListTokensPermissionGroupsResultItemCategory =
+  | "developer_platform"
+  | "ai_and_machine_learning"
+  | "dns_and_zones"
+  | "app_security"
+  | "rules_and_configuration"
+  | "cloudflare_one_and_zero_trust"
+  | "analytics_and_logs"
+  | "network_services"
+  | "media"
+  | "email_and_messaging"
+  | "cache_and_performance"
+  | "account_and_billing"
+  | "other";
+export const ListTokensPermissionGroupsResultItemCategory = S.String;
+
+export type ListTokensPermissionGroupsResultItemScopesItem =
+  | "com.cloudflare.api.account"
+  | "com.cloudflare.api.account.zone"
+  | "com.cloudflare.api.user"
+  | "com.cloudflare.edge.r2.bucket";
+export const ListTokensPermissionGroupsResultItemScopesItem = S.String;
+
+export type ListTokensPermissionGroupsResultItemScopesList =
+  Array<ListTokensPermissionGroupsResultItemScopesItem>;
+export const ListTokensPermissionGroupsResultItemScopesList =
+  /*@__PURE__*/ S.Array(
+    ListTokensPermissionGroupsResultItemScopesItem,
+  ) as any as S.Schema<ListTokensPermissionGroupsResultItemScopesList>;
+
+export interface ListTokensPermissionGroupsResultItem {
+  /** Public ID. */
+  id?: string | null;
+  /** Product category that this permission group belongs to. */
+  category?: ListTokensPermissionGroupsResultItemCategory | null;
+  /** Permission Group Name */
+  name?: string | null;
+  /** Resources to which the Permission Group is scoped */
+  scopes?: ListTokensPermissionGroupsResultItemScopesList | null;
+}
+export const ListTokensPermissionGroupsResultItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      category: S.optional(
+        S.NullOr(ListTokensPermissionGroupsResultItemCategory),
+      ),
+      name: S.optional(S.NullOr(S.String)),
+      scopes: S.optional(
+        S.NullOr(ListTokensPermissionGroupsResultItemScopesList),
+      ),
+    }),
+).annotate({
+  identifier: "ListTokensPermissionGroupsResultItem",
+}) as any as S.Schema<ListTokensPermissionGroupsResultItem>;
+
+export type ListTokensPermissionGroupsResultList =
+  Array<ListTokensPermissionGroupsResultItem>;
+export const ListTokensPermissionGroupsResultList = /*@__PURE__*/ S.Array(
+  ListTokensPermissionGroupsResultItem,
+) as any as S.Schema<ListTokensPermissionGroupsResultList>;
+
+export type ListTokensPermissionGroupsResponse =
+  ListTokensPermissionGroupsResultList;
+export const ListTokensPermissionGroupsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListTokensPermissionGroupsResultList.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
+).annotate({
+  identifier: "ListTokensPermissionGroupsResponse",
+}) as any as S.Schema<ListTokensPermissionGroupsResponse>;
+
+export type LogsAuditHistoryRequestDirection = "desc" | "asc";
+export const LogsAuditHistoryRequestDirection = S.String;
+
+export interface LogsAuditHistoryRequest {
+  /** The unique ID that identifies the account. */
+  accountId: string;
+  /** The ID of the audit log to fetch resource history for. */
+  id: string;
+  /** RFC3339 timestamp of the source audit log entry's action time. Used to narrow the source-entry lookup window. Provide the `action.time` value from the audit log identified by `id`. */
+  actionTime: string;
+  /** Limits the returned results to logs older than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339. */
+  before: string;
+  /** Limits the returned results to logs newer than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339. */
+  since: string;
+  /** The cursor is an opaque token used to paginate through large sets of records. It indicates the position from which to continue when requesting the next set of records. A valid cursor value can be obtained from the cursor object in the result_info structure of a previous response. */
+  cursor?: string;
+  /** Sets sorting order. */
+  direction?: LogsAuditHistoryRequestDirection | (string & {});
+  /** The number limits the objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit. */
+  limit?: number;
+}
+export const LogsAuditHistoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    id: S.String.pipe(T.Label()),
+    actionTime: S.String.pipe(T.Query("action_time")),
+    before: S.String.pipe(T.Query()),
+    since: S.String.pipe(T.Query()),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    direction: S.optional(LogsAuditHistoryRequestDirection.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/logs/audit/{id}/history",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "LogsAuditHistoryRequest",
+}) as any as S.Schema<LogsAuditHistoryRequest>;
+
+export type LogsAuditHistoryResultItemAccount = LogsAuditListResultItemAccount;
+export const LogsAuditHistoryResultItemAccount = LogsAuditListResultItemAccount;
+
+export type LogsAuditHistoryResultItemAction = LogsAuditListResultItemAction;
+export const LogsAuditHistoryResultItemAction = LogsAuditListResultItemAction;
+
+export type LogsAuditHistoryResultItemActorContext =
+  | "api"
+  | "api_key"
+  | "api_token"
+  | "dash"
+  | "oauth"
+  | "origin_ca_key";
+export const LogsAuditHistoryResultItemActorContext = S.String;
+
+export type LogsAuditHistoryResultItemActorType =
+  | "account"
+  | "cloudflare_admin"
+  | "delegated_service"
+  | "system"
+  | "user";
+export const LogsAuditHistoryResultItemActorType = S.String;
+
+export interface LogsAuditHistoryResultItemActor {
+  /** The ID of the actor who performed the action. If a user performed the action, this will be their User ID. */
+  id?: string | null;
+  /** The context in which the action was initiated. */
+  context?: LogsAuditHistoryResultItemActorContext | null;
+  /** The email of the actor who performed the action. */
+  email?: string | null;
+  /** The IP address of the request that performed the action. */
+  ipAddress?: string | null;
+  /** The API token ID when the actor context is an api_token or oauth. */
+  tokenId?: string | null;
+  /** The API token name when the actor context is an api_token or oauth. */
+  tokenName?: string | null;
+  /** The type of actor. */
+  type?: LogsAuditHistoryResultItemActorType | null;
+}
+export const LogsAuditHistoryResultItemActor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.NullOr(S.String)),
+    context: S.optional(S.NullOr(LogsAuditHistoryResultItemActorContext)),
+    email: S.optional(S.NullOr(S.String)),
+    ipAddress: S.optional(S.NullOr(S.String).pipe(T.Body("ip_address"))),
+    tokenId: S.optional(S.NullOr(S.String).pipe(T.Body("token_id"))),
+    tokenName: S.optional(S.NullOr(S.String).pipe(T.Body("token_name"))),
+    type: S.optional(S.NullOr(LogsAuditHistoryResultItemActorType)),
+  }),
+).annotate({
+  identifier: "LogsAuditHistoryResultItemActor",
+}) as any as S.Schema<LogsAuditHistoryResultItemActor>;
+
+export type LogsAuditHistoryResultItemRaw = LogsAuditListResultItemRaw;
+export const LogsAuditHistoryResultItemRaw = LogsAuditListResultItemRaw;
+
+export type LogsAuditHistoryResultItemResource =
+  LogsAuditListResultItemResource;
+export const LogsAuditHistoryResultItemResource =
+  LogsAuditListResultItemResource;
+
+export type LogsAuditHistoryResultItemZone = LogsAuditListResultItemZone;
+export const LogsAuditHistoryResultItemZone = LogsAuditListResultItemZone;
+
+export interface LogsAuditHistoryResultItem {
+  /** A unique identifier for the audit log entry. */
+  id?: string | null;
+  /** Contains account related information. */
+  account?: LogsAuditListResultItemAccount | null;
+  /** Provides information about the action performed. */
+  action?: LogsAuditListResultItemAction | null;
+  /** Provides details about the actor who performed the action. */
+  actor?: LogsAuditHistoryResultItemActor | null;
+  /** Provides raw information about the request and response. */
+  raw?: LogsAuditListResultItemRaw | null;
+  /** Provides details about the affected resource. */
+  resource?: LogsAuditListResultItemResource | null;
+  /** Provides details about the zone affected by the action. */
+  zone?: LogsAuditListResultItemZone | null;
+}
+export const LogsAuditHistoryResultItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.NullOr(S.String)),
+    account: S.optional(S.NullOr(LogsAuditListResultItemAccount)),
+    action: S.optional(S.NullOr(LogsAuditListResultItemAction)),
+    actor: S.optional(S.NullOr(LogsAuditHistoryResultItemActor)),
+    raw: S.optional(S.NullOr(LogsAuditListResultItemRaw)),
+    resource: S.optional(S.NullOr(LogsAuditListResultItemResource)),
+    zone: S.optional(S.NullOr(LogsAuditListResultItemZone)),
+  }),
+).annotate({
+  identifier: "LogsAuditHistoryResultItem",
+}) as any as S.Schema<LogsAuditHistoryResultItem>;
+
+export type LogsAuditHistoryResultList = Array<LogsAuditHistoryResultItem>;
+export const LogsAuditHistoryResultList = /*@__PURE__*/ S.Array(
+  LogsAuditHistoryResultItem,
+) as any as S.Schema<LogsAuditHistoryResultList>;
+
+export type LogsAuditHistoryResponse = LogsAuditHistoryResultList;
+export const LogsAuditHistoryResponse = /*@__PURE__*/ S.suspend(() =>
+  LogsAuditHistoryResultList.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
+).annotate({
+  identifier: "LogsAuditHistoryResponse",
+}) as any as S.Schema<LogsAuditHistoryResponse>;
+
+export interface LogsAuditProductCategoriesRequest {
+  /** The unique id that identifies the account. */
+  accountId: string;
+}
+export const LogsAuditProductCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/logs/audit/product_categories",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "LogsAuditProductCategoriesRequest",
+}) as any as S.Schema<LogsAuditProductCategoriesRequest>;
+
+export interface LogsAuditProductCategoriesResultItemProductsItem {
+  /** A human-readable label for the product. */
+  label?: string | null;
+  /** The resource_product value that the product category expands to. */
+  value?: string | null;
+}
+export const LogsAuditProductCategoriesResultItemProductsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      label: S.optional(S.NullOr(S.String)),
+      value: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "LogsAuditProductCategoriesResultItemProductsItem",
+  }) as any as S.Schema<LogsAuditProductCategoriesResultItemProductsItem>;
+
+export type LogsAuditProductCategoriesResultItemProductsList =
+  Array<LogsAuditProductCategoriesResultItemProductsItem>;
+export const LogsAuditProductCategoriesResultItemProductsList =
+  /*@__PURE__*/ S.Array(
+    LogsAuditProductCategoriesResultItemProductsItem,
+  ) as any as S.Schema<LogsAuditProductCategoriesResultItemProductsList>;
+
+export interface LogsAuditProductCategoriesResultItem {
+  /** A human-readable label for the product category. */
+  label?: string | null;
+  /** The resource products that the product category expands to. */
+  products?: LogsAuditProductCategoriesResultItemProductsList | null;
+  /** The product category identifier used with the product_category filter. */
+  value?: string | null;
+}
+export const LogsAuditProductCategoriesResultItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      label: S.optional(S.NullOr(S.String)),
+      products: S.optional(
+        S.NullOr(LogsAuditProductCategoriesResultItemProductsList),
+      ),
+      value: S.optional(S.NullOr(S.String)),
+    }),
+).annotate({
+  identifier: "LogsAuditProductCategoriesResultItem",
+}) as any as S.Schema<LogsAuditProductCategoriesResultItem>;
+
+export type LogsAuditProductCategoriesResultList =
+  Array<LogsAuditProductCategoriesResultItem>;
+export const LogsAuditProductCategoriesResultList = /*@__PURE__*/ S.Array(
+  LogsAuditProductCategoriesResultItem,
+) as any as S.Schema<LogsAuditProductCategoriesResultList>;
+
+export type LogsAuditProductCategoriesResponse =
+  LogsAuditProductCategoriesResultList;
+export const LogsAuditProductCategoriesResponse = /*@__PURE__*/ S.suspend(() =>
+  LogsAuditProductCategoriesResultList.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
+).annotate({
+  identifier: "LogsAuditProductCategoriesResponse",
+}) as any as S.Schema<LogsAuditProductCategoriesResponse>;
+
+export interface PaymentMethodsSetAsDefaultRequest {
+  /** Identifier */
+  accountId: string;
+  /** Identifier */
+  paymentMethodId: string;
+}
+export const PaymentMethodsSetAsDefaultRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    paymentMethodId: S.String.pipe(T.Label("payment_method_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/payment-methods/{payment_method_id}/set-as-default",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "PaymentMethodsSetAsDefaultRequest",
+}) as any as S.Schema<PaymentMethodsSetAsDefaultRequest>;
+
+export type PaymentMethodsSetAsDefaultResponse = unknown;
+export const PaymentMethodsSetAsDefaultResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "PaymentMethodsSetAsDefaultResponse",
+}) as any as S.Schema<PaymentMethodsSetAsDefaultResponse>;
+
 export interface PutTokenValueRequest {
   /** Account identifier tag. */
   accountId: string;
@@ -3700,109 +5001,741 @@ export const PutTokenValueResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutTokenValueResponse",
 }) as any as S.Schema<PutTokenValueResponse>;
 
-export interface TokensPermissionGroupsListRequest {
-  /** Account identifier tag. */
+export interface ReceiptsPdfRequest {
+  /** Identifier */
   accountId: string;
-  /** Filter by the name of the permission group. */
-  name?: string;
-  /** Filter by the scope of the permission group. */
-  scope?: string;
+  /** Identifier */
+  receiptId: string;
+  /** The document type to generate. */
+  doctype?: string;
 }
-export const TokensPermissionGroupsListRequest = /*@__PURE__*/ S.suspend(() =>
+export const ReceiptsPdfRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
-    name: S.optional(S.String.pipe(T.Query())),
-    scope: S.optional(S.String.pipe(T.Query())),
+    receiptId: S.String.pipe(T.Label("receipt_id")),
+    doctype: S.optional(S.String.pipe(T.Query())),
   })
     .pipe(
       T.Http({
         method: "GET",
-        uri: "/accounts/{account_id}/tokens/permission_groups",
+        uri: "/accounts/{account_id}/receipts/{receipt_id}/pdf",
         code: 200,
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
-  identifier: "TokensPermissionGroupsListRequest",
-}) as any as S.Schema<TokensPermissionGroupsListRequest>;
+  identifier: "ReceiptsPdfRequest",
+}) as any as S.Schema<ReceiptsPdfRequest>;
 
-export type TokensPermissionGroupsListResultItemCategory =
-  | "developer_platform"
-  | "ai_and_machine_learning"
-  | "dns_and_zones"
-  | "app_security"
-  | "rules_and_configuration"
-  | "cloudflare_one_and_zero_trust"
-  | "analytics_and_logs"
-  | "network_services"
-  | "media"
-  | "email_and_messaging"
-  | "cache_and_performance"
-  | "account_and_billing"
-  | "other";
-export const TokensPermissionGroupsListResultItemCategory =
-  /*@__PURE__*/ S.String;
+export interface ReceiptsPdfResponse {}
+export const ReceiptsPdfResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ReceiptsPdfResponse",
+}) as any as S.Schema<ReceiptsPdfResponse>;
 
-export type TokensPermissionGroupsListResultItemScopesItem =
-  | "com.cloudflare.api.account"
-  | "com.cloudflare.api.account.zone"
-  | "com.cloudflare.api.user"
-  | "com.cloudflare.edge.r2.bucket";
-export const TokensPermissionGroupsListResultItemScopesItem =
-  /*@__PURE__*/ S.String;
+export type SubscriptionsActionsAppendRequestFrequency =
+  | "weekly"
+  | "monthly"
+  | "quarterly"
+  | "yearly";
+export const SubscriptionsActionsAppendRequestFrequency = S.String;
 
-export type TokensPermissionGroupsListResultItemScopesList =
-  Array<TokensPermissionGroupsListResultItemScopesItem>;
-export const TokensPermissionGroupsListResultItemScopesList =
+export type SubscriptionsActionsAppendRequestRatePlanId =
+  | "free"
+  | "lite"
+  | "pro"
+  | "pro_plus"
+  | "business"
+  | "enterprise"
+  | "partners_free"
+  | "partners_pro"
+  | "partners_business"
+  | "partners_enterprise";
+export const SubscriptionsActionsAppendRequestRatePlanId = S.String;
+
+export type SubscriptionsActionsAppendRequestRatePlanSetsList = Array<string>;
+export const SubscriptionsActionsAppendRequestRatePlanSetsList =
   /*@__PURE__*/ S.Array(
-    TokensPermissionGroupsListResultItemScopesItem,
-  ) as any as S.Schema<TokensPermissionGroupsListResultItemScopesList>;
+    S.String,
+  ) as any as S.Schema<SubscriptionsActionsAppendRequestRatePlanSetsList>;
 
-export interface TokensPermissionGroupsListResultItem {
-  /** Public ID. */
-  id?: string | null;
-  /** Product category that this permission group belongs to. */
-  category?: TokensPermissionGroupsListResultItemCategory | null;
-  /** Permission Group Name */
-  name?: string | null;
-  /** Resources to which the Permission Group is scoped */
-  scopes?: TokensPermissionGroupsListResultItemScopesList | null;
+export interface SubscriptionsActionsAppendRequestRatePlan {
+  /** The ID of the rate plan. */
+  id?: SubscriptionsActionsAppendRequestRatePlanId | (string & {});
+  /** The currency applied to the rate plan subscription. */
+  currency?: string;
+  /** Whether this rate plan is managed externally from Cloudflare. */
+  externallyManaged?: boolean;
+  /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
+  isContract?: boolean;
+  /** The full name of the rate plan. */
+  publicName?: string;
+  /** The scope that this rate plan applies to. */
+  scope?: string;
+  /** The list of sets this rate plan applies to. Returns array of strings. */
+  sets?: SubscriptionsActionsAppendRequestRatePlanSetsList;
 }
-export const TokensPermissionGroupsListResultItem = /*@__PURE__*/ S.suspend(
-  () =>
+export const SubscriptionsActionsAppendRequestRatePlan =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: S.optional(S.NullOr(S.String)),
-      category: S.optional(
-        S.NullOr(TokensPermissionGroupsListResultItemCategory),
+      id: S.optional(SubscriptionsActionsAppendRequestRatePlanId),
+      currency: S.optional(S.String),
+      externallyManaged: S.optional(
+        S.Boolean.pipe(T.Body("externally_managed")),
       ),
-      name: S.optional(S.NullOr(S.String)),
-      scopes: S.optional(
-        S.NullOr(TokensPermissionGroupsListResultItemScopesList),
+      isContract: S.optional(S.Boolean.pipe(T.Body("is_contract"))),
+      publicName: S.optional(S.String.pipe(T.Body("public_name"))),
+      scope: S.optional(S.String),
+      sets: S.optional(SubscriptionsActionsAppendRequestRatePlanSetsList),
+    }),
+  ).annotate({
+    identifier: "SubscriptionsActionsAppendRequestRatePlan",
+  }) as any as S.Schema<SubscriptionsActionsAppendRequestRatePlan>;
+
+export interface SubscriptionsActionsAppendRequest {
+  /** Identifier */
+  accountId: string;
+  /** Subscription identifier tag. */
+  subscriptionIdentifier: string;
+  /** How often the subscription is renewed automatically. */
+  frequency?: SubscriptionsActionsAppendRequestFrequency | (string & {});
+  /** The rate plan applied to the subscription. */
+  ratePlan?: SubscriptionsActionsAppendRequestRatePlan;
+}
+export const SubscriptionsActionsAppendRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    subscriptionIdentifier: S.String.pipe(T.Label("subscription_identifier")),
+    frequency: S.optional(SubscriptionsActionsAppendRequestFrequency),
+    ratePlan: S.optional(
+      SubscriptionsActionsAppendRequestRatePlan.pipe(T.Body("rate_plan")),
+    ),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/subscriptions/{subscription_identifier}/action/append",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "SubscriptionsActionsAppendRequest",
+}) as any as S.Schema<SubscriptionsActionsAppendRequest>;
+
+export type SubscriptionsActionsAppendResponseFrequency =
+  | "weekly"
+  | "monthly"
+  | "quarterly"
+  | "yearly";
+export const SubscriptionsActionsAppendResponseFrequency = S.String;
+
+export type SubscriptionsActionsAppendResponseRatePlanId =
+  | "free"
+  | "lite"
+  | "pro"
+  | "pro_plus"
+  | "business"
+  | "enterprise"
+  | "partners_free"
+  | "partners_pro"
+  | "partners_business"
+  | "partners_enterprise";
+export const SubscriptionsActionsAppendResponseRatePlanId = S.String;
+
+export type SubscriptionsActionsAppendResponseRatePlanSetsList = Array<string>;
+export const SubscriptionsActionsAppendResponseRatePlanSetsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<SubscriptionsActionsAppendResponseRatePlanSetsList>;
+
+export interface SubscriptionsActionsAppendResponseRatePlan {
+  /** The ID of the rate plan. */
+  id?: SubscriptionsActionsAppendResponseRatePlanId | null;
+  /** The currency applied to the rate plan subscription. */
+  currency?: string | null;
+  /** Whether this rate plan is managed externally from Cloudflare. */
+  externallyManaged?: boolean | null;
+  /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
+  isContract?: boolean | null;
+  /** The full name of the rate plan. */
+  publicName?: string | null;
+  /** The scope that this rate plan applies to. */
+  scope?: string | null;
+  /** The list of sets this rate plan applies to. Returns array of strings. */
+  sets?: SubscriptionsActionsAppendResponseRatePlanSetsList | null;
+}
+export const SubscriptionsActionsAppendResponseRatePlan =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(SubscriptionsActionsAppendResponseRatePlanId)),
+      currency: S.optional(S.NullOr(S.String)),
+      externallyManaged: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("externally_managed")),
+      ),
+      isContract: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_contract"))),
+      publicName: S.optional(S.NullOr(S.String).pipe(T.Body("public_name"))),
+      scope: S.optional(S.NullOr(S.String)),
+      sets: S.optional(
+        S.NullOr(SubscriptionsActionsAppendResponseRatePlanSetsList),
       ),
     }),
+  ).annotate({
+    identifier: "SubscriptionsActionsAppendResponseRatePlan",
+  }) as any as S.Schema<SubscriptionsActionsAppendResponseRatePlan>;
+
+export type SubscriptionsActionsAppendResponseState =
+  | "Trial"
+  | "Provisioned"
+  | "Paid"
+  | "AwaitingPayment"
+  | "Cancelled"
+  | "Failed"
+  | "Expired";
+export const SubscriptionsActionsAppendResponseState = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface SubscriptionsActionsAppendResponse {
+  /** Subscription identifier tag. */
+  id?: string | null;
+  /** The monetary unit in which pricing information is displayed. */
+  currency?: string | null;
+  /** The end of the current period and also when the next billing is due. */
+  currentPeriodEnd?: string | null;
+  /** When the current billing period started. May match initial_period_start if this is the first period. */
+  currentPeriodStart?: string | null;
+  /** How often the subscription is renewed automatically. */
+  frequency?: SubscriptionsActionsAppendResponseFrequency | null;
+  /** The price of the subscription that will be billed, in US dollars. */
+  price?: number | null;
+  /** The rate plan applied to the subscription. */
+  ratePlan?: SubscriptionsActionsAppendResponseRatePlan | null;
+  /** The state that the subscription is in. */
+  state?: SubscriptionsActionsAppendResponseState | null;
+}
+export const SubscriptionsActionsAppendResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.NullOr(S.String)),
+    currency: S.optional(S.NullOr(S.String)),
+    currentPeriodEnd: S.optional(
+      S.NullOr(S.String).pipe(T.Body("current_period_end")),
+    ),
+    currentPeriodStart: S.optional(
+      S.NullOr(S.String).pipe(T.Body("current_period_start")),
+    ),
+    frequency: S.optional(
+      S.NullOr(SubscriptionsActionsAppendResponseFrequency),
+    ),
+    price: S.optional(S.NullOr(S.Number)),
+    ratePlan: S.optional(
+      S.NullOr(SubscriptionsActionsAppendResponseRatePlan).pipe(
+        T.Body("rate_plan"),
+      ),
+    ),
+    state: S.optional(S.NullOr(SubscriptionsActionsAppendResponseState)),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
-  identifier: "TokensPermissionGroupsListResultItem",
-}) as any as S.Schema<TokensPermissionGroupsListResultItem>;
+  identifier: "SubscriptionsActionsAppendResponse",
+}) as any as S.Schema<SubscriptionsActionsAppendResponse>;
 
-export type TokensPermissionGroupsListResultList =
-  Array<TokensPermissionGroupsListResultItem>;
-export const TokensPermissionGroupsListResultList = /*@__PURE__*/ S.Array(
-  TokensPermissionGroupsListResultItem,
-) as any as S.Schema<TokensPermissionGroupsListResultList>;
+export type SubscriptionsBulkCreateRequestSubscriptionsItemFrequency =
+  | "weekly"
+  | "monthly"
+  | "quarterly"
+  | "yearly";
+export const SubscriptionsBulkCreateRequestSubscriptionsItemFrequency =
+  S.String;
 
-export type TokensPermissionGroupsListResponse =
-  TokensPermissionGroupsListResultList;
-export const TokensPermissionGroupsListResponse = /*@__PURE__*/ S.suspend(() =>
-  TokensPermissionGroupsListResultList.pipe(
+export type SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanId =
+  | "free"
+  | "lite"
+  | "pro"
+  | "pro_plus"
+  | "business"
+  | "enterprise"
+  | "partners_free"
+  | "partners_pro"
+  | "partners_business"
+  | "partners_enterprise";
+export const SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanId =
+  S.String;
+
+export type SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanSetsList =
+  Array<string>;
+export const SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanSetsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanSetsList>;
+
+export interface SubscriptionsBulkCreateRequestSubscriptionsItemRatePlan {
+  /** The ID of the rate plan. */
+  id?:
+    | SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanId
+    | (string & {});
+  /** The currency applied to the rate plan subscription. */
+  currency?: string;
+  /** Whether this rate plan is managed externally from Cloudflare. */
+  externallyManaged?: boolean;
+  /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
+  isContract?: boolean;
+  /** The full name of the rate plan. */
+  publicName?: string;
+  /** The scope that this rate plan applies to. */
+  scope?: string;
+  /** The list of sets this rate plan applies to. Returns array of strings. */
+  sets?: SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanSetsList;
+}
+export const SubscriptionsBulkCreateRequestSubscriptionsItemRatePlan =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanId),
+      currency: S.optional(S.String),
+      externallyManaged: S.optional(
+        S.Boolean.pipe(T.Body("externally_managed")),
+      ),
+      isContract: S.optional(S.Boolean.pipe(T.Body("is_contract"))),
+      publicName: S.optional(S.String.pipe(T.Body("public_name"))),
+      scope: S.optional(S.String),
+      sets: S.optional(
+        SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanSetsList,
+      ),
+    }),
+  ).annotate({
+    identifier: "SubscriptionsBulkCreateRequestSubscriptionsItemRatePlan",
+  }) as any as S.Schema<SubscriptionsBulkCreateRequestSubscriptionsItemRatePlan>;
+
+export type SubscriptionsBulkCreateRequestSubscriptionsItemState =
+  | "Trial"
+  | "Provisioned"
+  | "Paid"
+  | "AwaitingPayment"
+  | "Cancelled"
+  | "Failed"
+  | "Expired";
+export const SubscriptionsBulkCreateRequestSubscriptionsItemState = S.String;
+
+export interface SubscriptionsBulkCreateRequestSubscriptionsItem {
+  /** Subscription identifier tag. */
+  id?: string;
+  /** The monetary unit in which pricing information is displayed. */
+  currency?: string;
+  /** The end of the current period and also when the next billing is due. */
+  currentPeriodEnd?: string;
+  /** When the current billing period started. May match initial_period_start if this is the first period. */
+  currentPeriodStart?: string;
+  /** How often the subscription is renewed automatically. */
+  frequency?:
+    | SubscriptionsBulkCreateRequestSubscriptionsItemFrequency
+    | (string & {});
+  /** The price of the subscription that will be billed, in US dollars. */
+  price?: number;
+  /** The rate plan applied to the subscription. */
+  ratePlan?: SubscriptionsBulkCreateRequestSubscriptionsItemRatePlan;
+  /** The state that the subscription is in. */
+  state?: SubscriptionsBulkCreateRequestSubscriptionsItemState | (string & {});
+}
+export const SubscriptionsBulkCreateRequestSubscriptionsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      currency: S.optional(S.String),
+      currentPeriodEnd: S.optional(S.String.pipe(T.Body("current_period_end"))),
+      currentPeriodStart: S.optional(
+        S.String.pipe(T.Body("current_period_start")),
+      ),
+      frequency: S.optional(
+        SubscriptionsBulkCreateRequestSubscriptionsItemFrequency,
+      ),
+      price: S.optional(S.Number),
+      ratePlan: S.optional(
+        SubscriptionsBulkCreateRequestSubscriptionsItemRatePlan.pipe(
+          T.Body("rate_plan"),
+        ),
+      ),
+      state: S.optional(SubscriptionsBulkCreateRequestSubscriptionsItemState),
+    }),
+  ).annotate({
+    identifier: "SubscriptionsBulkCreateRequestSubscriptionsItem",
+  }) as any as S.Schema<SubscriptionsBulkCreateRequestSubscriptionsItem>;
+
+export type SubscriptionsBulkCreateRequestSubscriptionsList =
+  Array<SubscriptionsBulkCreateRequestSubscriptionsItem>;
+export const SubscriptionsBulkCreateRequestSubscriptionsList =
+  /*@__PURE__*/ S.Array(
+    SubscriptionsBulkCreateRequestSubscriptionsItem,
+  ) as any as S.Schema<SubscriptionsBulkCreateRequestSubscriptionsList>;
+
+export interface SubscriptionsBulkCreateRequest {
+  /** Identifier */
+  accountId: string;
+  idempKey?: string;
+  couponCode?: string;
+  paymentHoldId?: number;
+  subscriptions?: SubscriptionsBulkCreateRequestSubscriptionsList;
+  userIsOnSession?: boolean;
+}
+export const SubscriptionsBulkCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    idempKey: S.optional(S.String.pipe(T.Query("idemp_key"))),
+    couponCode: S.optional(S.String.pipe(T.Body("coupon_code"))),
+    paymentHoldId: S.optional(S.Number.pipe(T.Body("payment_hold_id"))),
+    subscriptions: S.optional(SubscriptionsBulkCreateRequestSubscriptionsList),
+    userIsOnSession: S.optional(S.Boolean.pipe(T.Body("user_is_on_session"))),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/bulk/subscriptions",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "SubscriptionsBulkCreateRequest",
+}) as any as S.Schema<SubscriptionsBulkCreateRequest>;
+
+export type SubscriptionsBulkCreateResultList = Array<unknown>;
+export const SubscriptionsBulkCreateResultList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<SubscriptionsBulkCreateResultList>;
+
+export type SubscriptionsBulkCreateResponse = SubscriptionsBulkCreateResultList;
+export const SubscriptionsBulkCreateResponse = /*@__PURE__*/ S.suspend(() =>
+  SubscriptionsBulkCreateResultList.pipe(
     T.EnvelopePayloadRoot(),
     T.KeyDictionary(KEY_DICTIONARY),
   ),
 ).annotate({
-  identifier: "TokensPermissionGroupsListResponse",
-}) as any as S.Schema<TokensPermissionGroupsListResponse>;
+  identifier: "SubscriptionsBulkCreateResponse",
+}) as any as S.Schema<SubscriptionsBulkCreateResponse>;
+
+export type SubscriptionsCancelDowngradeRequestSubscriptionIdsList =
+  Array<string>;
+export const SubscriptionsCancelDowngradeRequestSubscriptionIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<SubscriptionsCancelDowngradeRequestSubscriptionIdsList>;
+
+export interface SubscriptionsCancelDowngradeRequest {
+  /** Identifier */
+  accountId: string;
+  /** List of subscription identifiers to cancel downgrades for. */
+  subscriptionIds?: SubscriptionsCancelDowngradeRequestSubscriptionIdsList;
+}
+export const SubscriptionsCancelDowngradeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    subscriptionIds: S.optional(
+      SubscriptionsCancelDowngradeRequestSubscriptionIdsList.pipe(
+        T.Body("subscription_ids"),
+      ),
+    ),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/subscriptions/cancel-downgrade",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "SubscriptionsCancelDowngradeRequest",
+}) as any as S.Schema<SubscriptionsCancelDowngradeRequest>;
+
+export type SubscriptionsCancelDowngradeResponse = unknown;
+export const SubscriptionsCancelDowngradeResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "SubscriptionsCancelDowngradeResponse",
+}) as any as S.Schema<SubscriptionsCancelDowngradeResponse>;
+
+export type SubscriptionsCancelReasonCreateRequestReasonCodeList =
+  Array<string>;
+export const SubscriptionsCancelReasonCreateRequestReasonCodeList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<SubscriptionsCancelReasonCreateRequestReasonCodeList>;
+
+export interface SubscriptionsCancelReasonCreateRequest {
+  /** Identifier */
+  accountId: string;
+  /** Subscription identifier tag. */
+  subscriptionIdentifier: string;
+  /** Additional cancellation details. */
+  other?: string;
+  /** The cancellation reason codes. */
+  reasonCode?: SubscriptionsCancelReasonCreateRequestReasonCodeList;
+}
+export const SubscriptionsCancelReasonCreateRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      accountId: S.String.pipe(T.Label("account_id")),
+      subscriptionIdentifier: S.String.pipe(T.Label("subscription_identifier")),
+      other: S.optional(S.String),
+      reasonCode: S.optional(
+        SubscriptionsCancelReasonCreateRequestReasonCodeList.pipe(
+          T.Body("reason_code"),
+        ),
+      ),
+    })
+      .pipe(
+        T.Http({
+          method: "POST",
+          uri: "/accounts/{account_id}/subscriptions/{subscription_identifier}/cancel-reason",
+          code: 200,
+        }),
+      )
+      .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "SubscriptionsCancelReasonCreateRequest",
+}) as any as S.Schema<SubscriptionsCancelReasonCreateRequest>;
+
+export type SubscriptionsCancelReasonCreateResponseReasonCodeList =
+  Array<string>;
+export const SubscriptionsCancelReasonCreateResponseReasonCodeList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<SubscriptionsCancelReasonCreateResponseReasonCodeList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface SubscriptionsCancelReasonCreateResponse {
+  /** The cancel reason identifier. */
+  id?: string | null;
+  /** Additional cancellation details. */
+  other?: string | null;
+  /** The cancellation reason codes. */
+  reasonCode?: SubscriptionsCancelReasonCreateResponseReasonCodeList | null;
+  /** When the cancel reason was submitted. */
+  submitted?: string | null;
+  /** The subscription identifier. */
+  subscriptionId?: string | null;
+}
+export const SubscriptionsCancelReasonCreateResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      other: S.optional(S.NullOr(S.String)),
+      reasonCode: S.optional(
+        S.NullOr(SubscriptionsCancelReasonCreateResponseReasonCodeList).pipe(
+          T.Body("reason_code"),
+        ),
+      ),
+      submitted: S.optional(S.NullOr(S.String)),
+      subscriptionId: S.optional(
+        S.NullOr(S.String).pipe(T.Body("subscription_id")),
+      ),
+    }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "SubscriptionsCancelReasonCreateResponse",
+}) as any as S.Schema<SubscriptionsCancelReasonCreateResponse>;
+
+export interface SubscriptionsCancelReasonGetRequest {
+  /** Identifier */
+  accountId: string;
+  /** Subscription identifier tag. */
+  subscriptionIdentifier: string;
+}
+export const SubscriptionsCancelReasonGetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    subscriptionIdentifier: S.String.pipe(T.Label("subscription_identifier")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/subscriptions/{subscription_identifier}/cancel-reason",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "SubscriptionsCancelReasonGetRequest",
+}) as any as S.Schema<SubscriptionsCancelReasonGetRequest>;
+
+export type SubscriptionsCancelReasonGetResponseReasonCodeList = Array<string>;
+export const SubscriptionsCancelReasonGetResponseReasonCodeList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<SubscriptionsCancelReasonGetResponseReasonCodeList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface SubscriptionsCancelReasonGetResponse {
+  /** The cancel reason identifier. */
+  id?: string | null;
+  /** Additional cancellation details. */
+  other?: string | null;
+  /** The cancellation reason codes. */
+  reasonCode?: SubscriptionsCancelReasonGetResponseReasonCodeList | null;
+  /** When the cancel reason was submitted. */
+  submitted?: string | null;
+  /** The subscription identifier. */
+  subscriptionId?: string | null;
+}
+export const SubscriptionsCancelReasonGetResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      other: S.optional(S.NullOr(S.String)),
+      reasonCode: S.optional(
+        S.NullOr(SubscriptionsCancelReasonGetResponseReasonCodeList).pipe(
+          T.Body("reason_code"),
+        ),
+      ),
+      submitted: S.optional(S.NullOr(S.String)),
+      subscriptionId: S.optional(
+        S.NullOr(S.String).pipe(T.Body("subscription_id")),
+      ),
+    }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "SubscriptionsCancelReasonGetResponse",
+}) as any as S.Schema<SubscriptionsCancelReasonGetResponse>;
+
+export interface SubscriptionsGetByIdentifierRequest {
+  /** Identifier */
+  accountId: string;
+  /** Subscription identifier tag. */
+  subscriptionIdentifier: string;
+}
+export const SubscriptionsGetByIdentifierRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    subscriptionIdentifier: S.String.pipe(T.Label("subscription_identifier")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/subscriptions/{subscription_identifier}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "SubscriptionsGetByIdentifierRequest",
+}) as any as S.Schema<SubscriptionsGetByIdentifierRequest>;
+
+export type SubscriptionsGetByIdentifierResponseFrequency =
+  | "weekly"
+  | "monthly"
+  | "quarterly"
+  | "yearly";
+export const SubscriptionsGetByIdentifierResponseFrequency = S.String;
+
+export type SubscriptionsGetByIdentifierResponseRatePlanId =
+  | "free"
+  | "lite"
+  | "pro"
+  | "pro_plus"
+  | "business"
+  | "enterprise"
+  | "partners_free"
+  | "partners_pro"
+  | "partners_business"
+  | "partners_enterprise";
+export const SubscriptionsGetByIdentifierResponseRatePlanId = S.String;
+
+export type SubscriptionsGetByIdentifierResponseRatePlanSetsList =
+  Array<string>;
+export const SubscriptionsGetByIdentifierResponseRatePlanSetsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<SubscriptionsGetByIdentifierResponseRatePlanSetsList>;
+
+export interface SubscriptionsGetByIdentifierResponseRatePlan {
+  /** The ID of the rate plan. */
+  id?: SubscriptionsGetByIdentifierResponseRatePlanId | null;
+  /** The currency applied to the rate plan subscription. */
+  currency?: string | null;
+  /** Whether this rate plan is managed externally from Cloudflare. */
+  externallyManaged?: boolean | null;
+  /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
+  isContract?: boolean | null;
+  /** The full name of the rate plan. */
+  publicName?: string | null;
+  /** The scope that this rate plan applies to. */
+  scope?: string | null;
+  /** The list of sets this rate plan applies to. Returns array of strings. */
+  sets?: SubscriptionsGetByIdentifierResponseRatePlanSetsList | null;
+}
+export const SubscriptionsGetByIdentifierResponseRatePlan =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(SubscriptionsGetByIdentifierResponseRatePlanId)),
+      currency: S.optional(S.NullOr(S.String)),
+      externallyManaged: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("externally_managed")),
+      ),
+      isContract: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_contract"))),
+      publicName: S.optional(S.NullOr(S.String).pipe(T.Body("public_name"))),
+      scope: S.optional(S.NullOr(S.String)),
+      sets: S.optional(
+        S.NullOr(SubscriptionsGetByIdentifierResponseRatePlanSetsList),
+      ),
+    }),
+  ).annotate({
+    identifier: "SubscriptionsGetByIdentifierResponseRatePlan",
+  }) as any as S.Schema<SubscriptionsGetByIdentifierResponseRatePlan>;
+
+export type SubscriptionsGetByIdentifierResponseState =
+  | "Trial"
+  | "Provisioned"
+  | "Paid"
+  | "AwaitingPayment"
+  | "Cancelled"
+  | "Failed"
+  | "Expired";
+export const SubscriptionsGetByIdentifierResponseState = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface SubscriptionsGetByIdentifierResponse {
+  /** Subscription identifier tag. */
+  id?: string | null;
+  /** The monetary unit in which pricing information is displayed. */
+  currency?: string | null;
+  /** The end of the current period and also when the next billing is due. */
+  currentPeriodEnd?: string | null;
+  /** When the current billing period started. May match initial_period_start if this is the first period. */
+  currentPeriodStart?: string | null;
+  /** How often the subscription is renewed automatically. */
+  frequency?: SubscriptionsGetByIdentifierResponseFrequency | null;
+  /** The price of the subscription that will be billed, in US dollars. */
+  price?: number | null;
+  /** The rate plan applied to the subscription. */
+  ratePlan?: SubscriptionsGetByIdentifierResponseRatePlan | null;
+  /** The state that the subscription is in. */
+  state?: SubscriptionsGetByIdentifierResponseState | null;
+}
+export const SubscriptionsGetByIdentifierResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      currency: S.optional(S.NullOr(S.String)),
+      currentPeriodEnd: S.optional(
+        S.NullOr(S.String).pipe(T.Body("current_period_end")),
+      ),
+      currentPeriodStart: S.optional(
+        S.NullOr(S.String).pipe(T.Body("current_period_start")),
+      ),
+      frequency: S.optional(
+        S.NullOr(SubscriptionsGetByIdentifierResponseFrequency),
+      ),
+      price: S.optional(S.NullOr(S.Number)),
+      ratePlan: S.optional(
+        S.NullOr(SubscriptionsGetByIdentifierResponseRatePlan).pipe(
+          T.Body("rate_plan"),
+        ),
+      ),
+      state: S.optional(S.NullOr(SubscriptionsGetByIdentifierResponseState)),
+    }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "SubscriptionsGetByIdentifierResponse",
+}) as any as S.Schema<SubscriptionsGetByIdentifierResponse>;
 
 export type UpdateRequestType = "standard" | "enterprise";
-export const UpdateRequestType = /*@__PURE__*/ S.String;
+export const UpdateRequestType = S.String;
 
 export interface UpdateRequestManagedBy {
   /** ID of the parent Organization, if one exists */
@@ -3822,7 +5755,7 @@ export const UpdateRequestManagedBy = /*@__PURE__*/ S.suspend(() =>
 export interface UpdateRequestSettings {
   /** Sets an abuse contact email to notify for abuse reports. */
   abuseContactEmail?: string;
-  /** Indicates whether membership in this account requires that */
+  /** Indicates whether membership in this account requires that Two-Factor Authentication is enabled */
   enforceTwofactor?: boolean;
 }
 export const UpdateRequestSettings = /*@__PURE__*/ S.suspend(() =>
@@ -3863,7 +5796,7 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAccountRequest>;
 
 export type UpdateResponseType = "standard" | "enterprise";
-export const UpdateResponseType = /*@__PURE__*/ S.String;
+export const UpdateResponseType = S.String;
 
 export type UpdateResponseManagedBy = CreateResponseManagedBy;
 export const UpdateResponseManagedBy = CreateResponseManagedBy;
@@ -3900,6 +5833,42 @@ export const UpdateAccountResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateAccountResponse",
 }) as any as S.Schema<UpdateAccountResponse>;
 
+export interface UpdateAccountProfileRequest {
+  accountId: string;
+  businessAddress: string;
+  businessEmail: string;
+  businessName: string;
+  businessPhone: string;
+  externalMetadata: string;
+}
+export const UpdateAccountProfileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    businessAddress: S.String.pipe(T.Body("business_address")),
+    businessEmail: S.String.pipe(T.Body("business_email")),
+    businessName: S.String.pipe(T.Body("business_name")),
+    businessPhone: S.String.pipe(T.Body("business_phone")),
+    externalMetadata: S.String.pipe(T.Body("external_metadata")),
+  })
+    .pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/accounts/{account_id}/profile",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdateAccountProfileRequest",
+}) as any as S.Schema<UpdateAccountProfileRequest>;
+
+export interface UpdateAccountProfileResponse {}
+export const UpdateAccountProfileResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdateAccountProfileResponse",
+}) as any as S.Schema<UpdateAccountProfileResponse>;
+
 export interface MembersUpdateRequestRolesItemPermissionsAnalytics {
   read?: boolean;
   write?: boolean;
@@ -3913,6 +5882,61 @@ export const MembersUpdateRequestRolesItemPermissionsAnalytics =
   ).annotate({
     identifier: "MembersUpdateRequestRolesItemPermissionsAnalytics",
   }) as any as S.Schema<MembersUpdateRequestRolesItemPermissionsAnalytics>;
+
+export type MembersUpdateRequestRolesItemPermissionsBilling =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+export const MembersUpdateRequestRolesItemPermissionsBilling =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+
+export type MembersUpdateRequestRolesItemPermissionsCachePurge =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+export const MembersUpdateRequestRolesItemPermissionsCachePurge =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+
+export type MembersUpdateRequestRolesItemPermissionsDns =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+export const MembersUpdateRequestRolesItemPermissionsDns =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+
+export type MembersUpdateRequestRolesItemPermissionsDnsRecords =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+export const MembersUpdateRequestRolesItemPermissionsDnsRecords =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+
+export type MembersUpdateRequestRolesItemPermissionsLb =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+export const MembersUpdateRequestRolesItemPermissionsLb =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+
+export type MembersUpdateRequestRolesItemPermissionsLogs =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+export const MembersUpdateRequestRolesItemPermissionsLogs =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+
+export type MembersUpdateRequestRolesItemPermissionsOrganization =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+export const MembersUpdateRequestRolesItemPermissionsOrganization =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+
+export type MembersUpdateRequestRolesItemPermissionsSsl =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+export const MembersUpdateRequestRolesItemPermissionsSsl =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+
+export type MembersUpdateRequestRolesItemPermissionsWaf =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+export const MembersUpdateRequestRolesItemPermissionsWaf =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+
+export type MembersUpdateRequestRolesItemPermissionsZoneSettings =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+export const MembersUpdateRequestRolesItemPermissionsZoneSettings =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+
+export type MembersUpdateRequestRolesItemPermissionsZones =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
+export const MembersUpdateRequestRolesItemPermissionsZones =
+  MembersUpdateRequestRolesItemPermissionsAnalytics;
 
 export interface MembersUpdateRequestRolesItemPermissions {
   analytics?: MembersUpdateRequestRolesItemPermissionsAnalytics;
@@ -3989,7 +6013,7 @@ export const MembersUpdateRequestRolesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MembersUpdateRequestRolesList>;
 
 export type MembersUpdateRequestStatus = "accepted" | "pending";
-export const MembersUpdateRequestStatus = /*@__PURE__*/ S.String;
+export const MembersUpdateRequestStatus = S.String;
 
 export interface MembersUpdateRequestUser {
   /** The contact email address of the user. */
@@ -4018,7 +6042,7 @@ export const MembersUpdateRequestUser = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MembersUpdateRequestUser>;
 
 export type MembersUpdateRequestPoliciesItemAccess = "allow" | "deny";
-export const MembersUpdateRequestPoliciesItemAccess = /*@__PURE__*/ S.String;
+export const MembersUpdateRequestPoliciesItemAccess = S.String;
 
 export type MembersUpdateRequestPoliciesItemPermissionGroupsItem =
   MembersCreateRequestPoliciesItemPermissionGroupsItem;
@@ -4114,7 +6138,7 @@ export const UpdateMemberRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateMemberRequest>;
 
 export type MembersUpdateResponsePoliciesItemAccess = "allow" | "deny";
-export const MembersUpdateResponsePoliciesItemAccess = /*@__PURE__*/ S.String;
+export const MembersUpdateResponsePoliciesItemAccess = S.String;
 
 export type MembersUpdateResponsePoliciesItemPermissionGroupsItemMeta =
   MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
@@ -4133,41 +6157,34 @@ export const MembersUpdateResponsePoliciesItemPermissionGroupsList =
     MembersCreateResponsePoliciesItemPermissionGroupsItem,
   ) as any as S.Schema<MembersUpdateResponsePoliciesItemPermissionGroupsList>;
 
-export type MembersUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
-  MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem;
-export const MembersUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
-  MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem;
+export type MembersUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
+  MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem;
+export const MembersUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
+  MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem;
 
-export type MembersUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
-  Array<MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem>;
-export const MembersUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
+export type MembersUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList =
+  Array<MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem>;
+export const MembersUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList =
   /*@__PURE__*/ S.Array(
-    MembersCreateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem,
-  ) as any as S.Schema<MembersUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList>;
+    MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsItem,
+  ) as any as S.Schema<MembersUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList>;
 
-export interface MembersUpdateResponsePoliciesItemResourceGroupsItemScopeItem {
+export interface MembersUpdateResponsePoliciesItemResourceGroupsItemScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: MembersUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList;
+  objects: MembersUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList;
 }
-export const MembersUpdateResponsePoliciesItemResourceGroupsItemScopeItem =
+export const MembersUpdateResponsePoliciesItemResourceGroupsItemScope =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       key: S.String,
       objects:
-        MembersUpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList,
+        MembersUpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList,
     }),
   ).annotate({
-    identifier: "MembersUpdateResponsePoliciesItemResourceGroupsItemScopeItem",
-  }) as any as S.Schema<MembersUpdateResponsePoliciesItemResourceGroupsItemScopeItem>;
-
-export type MembersUpdateResponsePoliciesItemResourceGroupsItemScopeList =
-  Array<MembersUpdateResponsePoliciesItemResourceGroupsItemScopeItem>;
-export const MembersUpdateResponsePoliciesItemResourceGroupsItemScopeList =
-  /*@__PURE__*/ S.Array(
-    MembersUpdateResponsePoliciesItemResourceGroupsItemScopeItem,
-  ) as any as S.Schema<MembersUpdateResponsePoliciesItemResourceGroupsItemScopeList>;
+    identifier: "MembersUpdateResponsePoliciesItemResourceGroupsItemScope",
+  }) as any as S.Schema<MembersUpdateResponsePoliciesItemResourceGroupsItemScope>;
 
 export type MembersUpdateResponsePoliciesItemResourceGroupsItemMeta =
   MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
@@ -4177,8 +6194,8 @@ export const MembersUpdateResponsePoliciesItemResourceGroupsItemMeta =
 export interface MembersUpdateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: MembersUpdateResponsePoliciesItemResourceGroupsItemScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: MembersUpdateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: MembersCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
   /** Name of the resource group. */
@@ -4188,7 +6205,7 @@ export const MembersUpdateResponsePoliciesItemResourceGroupsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.String,
-      scope: MembersUpdateResponsePoliciesItemResourceGroupsItemScopeList,
+      scope: MembersUpdateResponsePoliciesItemResourceGroupsItemScope,
       meta: S.optional(
         S.NullOr(MembersCreateResponsePoliciesItemPermissionGroupsItemMeta),
       ),
@@ -4245,6 +6262,61 @@ export type MembersUpdateResponseRolesItemPermissionsAnalytics =
 export const MembersUpdateResponseRolesItemPermissionsAnalytics =
   MembersCreateResponseRolesItemPermissionsAnalytics;
 
+export type MembersUpdateResponseRolesItemPermissionsBilling =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersUpdateResponseRolesItemPermissionsBilling =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersUpdateResponseRolesItemPermissionsCachePurge =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersUpdateResponseRolesItemPermissionsCachePurge =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersUpdateResponseRolesItemPermissionsDns =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersUpdateResponseRolesItemPermissionsDns =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersUpdateResponseRolesItemPermissionsDnsRecords =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersUpdateResponseRolesItemPermissionsDnsRecords =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersUpdateResponseRolesItemPermissionsLb =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersUpdateResponseRolesItemPermissionsLb =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersUpdateResponseRolesItemPermissionsLogs =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersUpdateResponseRolesItemPermissionsLogs =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersUpdateResponseRolesItemPermissionsOrganization =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersUpdateResponseRolesItemPermissionsOrganization =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersUpdateResponseRolesItemPermissionsSsl =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersUpdateResponseRolesItemPermissionsSsl =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersUpdateResponseRolesItemPermissionsWaf =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersUpdateResponseRolesItemPermissionsWaf =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersUpdateResponseRolesItemPermissionsZoneSettings =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersUpdateResponseRolesItemPermissionsZoneSettings =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
+export type MembersUpdateResponseRolesItemPermissionsZones =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+export const MembersUpdateResponseRolesItemPermissionsZones =
+  MembersCreateResponseRolesItemPermissionsAnalytics;
+
 export type MembersUpdateResponseRolesItemPermissions =
   MembersCreateResponseRolesItemPermissions;
 export const MembersUpdateResponseRolesItemPermissions =
@@ -4260,7 +6332,7 @@ export const MembersUpdateResponseRolesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MembersUpdateResponseRolesList>;
 
 export type MembersUpdateResponseStatus = "accepted" | "pending";
-export const MembersUpdateResponseStatus = /*@__PURE__*/ S.String;
+export const MembersUpdateResponseStatus = S.String;
 
 export type MembersUpdateResponseUser = MembersCreateResponseUser;
 export const MembersUpdateResponseUser = MembersCreateResponseUser;
@@ -4293,12 +6365,218 @@ export const UpdateMemberResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateMemberResponse",
 }) as any as S.Schema<UpdateMemberResponse>;
 
+export type UpdatePaymentMethodRequestType =
+  | "CREDIT_CARD"
+  | "PAYPAL"
+  | "CASHAPP"
+  | "SEPA_DEBIT"
+  | "LINK"
+  | "ACH_DIRECT_DEBIT";
+export const UpdatePaymentMethodRequestType = S.String;
+
+export interface UpdatePaymentMethodRequest {
+  /** Identifier */
+  accountId: string;
+  /** Identifier */
+  paymentMethodId: string;
+  /** Billing address line 1. */
+  address?: string;
+  /** Billing address line 2. */
+  address2?: string;
+  /** Bank account type. */
+  bankAccountType?: string;
+  /** Bank code. */
+  bankCode?: string;
+  /** Bank country. */
+  bankCountry?: string;
+  /** Bank name for bank-based payment methods. */
+  bankName?: string;
+  /** Bank routing number. */
+  bankRoutingNumber?: string;
+  /** Cash App cash tag. */
+  cashappCashTag?: string;
+  /** Billing city. */
+  city?: string;
+  /** Billing country. */
+  country?: string;
+  /** Whether this is the default payment method. */
+  default?: boolean;
+  /** Device data for fraud prevention. */
+  deviceData?: string;
+  /** Billing first name. */
+  firstName?: string;
+  /** Billing last name. */
+  lastName?: string;
+  /** A nickname for the payment method. */
+  nickName?: string;
+  /** Email associated with the payment account. */
+  paymentAccountEmail?: string;
+  /** Payment email address. */
+  paymentEmail?: string;
+  /** The payment gateway used. */
+  paymentGateway?: string;
+  /** Payment nonce for tokenized payments. */
+  paymentNonce?: string;
+  /** Billing state. */
+  state?: string;
+  /** The payment method type. */
+  type?: UpdatePaymentMethodRequestType | (string & {});
+  /** Billing zip code. */
+  zipcode?: string;
+}
+export const UpdatePaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    paymentMethodId: S.String.pipe(T.Label("payment_method_id")),
+    address: S.optional(S.String),
+    address2: S.optional(S.String),
+    bankAccountType: S.optional(S.String.pipe(T.Body("bank_account_type"))),
+    bankCode: S.optional(S.String.pipe(T.Body("bank_code"))),
+    bankCountry: S.optional(S.String.pipe(T.Body("bank_country"))),
+    bankName: S.optional(S.String.pipe(T.Body("bank_name"))),
+    bankRoutingNumber: S.optional(S.String.pipe(T.Body("bank_routing_number"))),
+    cashappCashTag: S.optional(S.String.pipe(T.Body("cashapp_cash_tag"))),
+    city: S.optional(S.String),
+    country: S.optional(S.String),
+    default: S.optional(S.Boolean),
+    deviceData: S.optional(S.String.pipe(T.Body("device_data"))),
+    firstName: S.optional(S.String.pipe(T.Body("first_name"))),
+    lastName: S.optional(S.String.pipe(T.Body("last_name"))),
+    nickName: S.optional(S.String.pipe(T.Body("nick_name"))),
+    paymentAccountEmail: S.optional(
+      S.String.pipe(T.Body("payment_account_email")),
+    ),
+    paymentEmail: S.optional(S.String.pipe(T.Body("payment_email"))),
+    paymentGateway: S.optional(S.String.pipe(T.Body("payment_gateway"))),
+    paymentNonce: S.optional(S.String.pipe(T.Body("payment_nonce"))),
+    state: S.optional(S.String),
+    type: S.optional(UpdatePaymentMethodRequestType),
+    zipcode: S.optional(S.String),
+  })
+    .pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/accounts/{account_id}/payment-methods/{payment_method_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdatePaymentMethodRequest",
+}) as any as S.Schema<UpdatePaymentMethodRequest>;
+
+export type UpdatePaymentMethodResponseType =
+  | "CREDIT_CARD"
+  | "PAYPAL"
+  | "CASHAPP"
+  | "SEPA_DEBIT"
+  | "LINK"
+  | "ACH_DIRECT_DEBIT";
+export const UpdatePaymentMethodResponseType = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface UpdatePaymentMethodResponse {
+  /** Payment method identifier. */
+  id?: string | null;
+  /** Billing address line 1. */
+  address?: string | null;
+  /** Billing address line 2. */
+  address2?: string | null;
+  /** Bank account type. */
+  bankAccountType?: string | null;
+  /** Bank code. */
+  bankCode?: string | null;
+  /** Bank country. */
+  bankCountry?: string | null;
+  /** Bank name for bank-based payment methods. */
+  bankName?: string | null;
+  /** Bank routing number. */
+  bankRoutingNumber?: string | null;
+  /** Cash App cash tag. */
+  cashappCashTag?: string | null;
+  /** Billing city. */
+  city?: string | null;
+  /** Billing country. */
+  country?: string | null;
+  /** Whether this is the default payment method. */
+  default?: boolean | null;
+  /** Device data for fraud prevention. */
+  deviceData?: string | null;
+  /** Card expiration date. */
+  expirationDate?: string | null;
+  /** Billing first name. */
+  firstName?: string | null;
+  /** Last four digits of the card number. */
+  lastFour?: string | null;
+  /** Billing last name. */
+  lastName?: string | null;
+  /** A nickname for the payment method. */
+  nickName?: string | null;
+  /** Email associated with the payment account. */
+  paymentAccountEmail?: string | null;
+  /** Payment email address. */
+  paymentEmail?: string | null;
+  /** The payment gateway used. */
+  paymentGateway?: string | null;
+  /** Payment nonce for tokenized payments. */
+  paymentNonce?: string | null;
+  /** Billing state. */
+  state?: string | null;
+  /** The payment method type. */
+  type?: UpdatePaymentMethodResponseType | null;
+  /** Billing zip code. */
+  zipcode?: string | null;
+}
+export const UpdatePaymentMethodResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.NullOr(S.String)),
+    address: S.optional(S.NullOr(S.String)),
+    address2: S.optional(S.NullOr(S.String)),
+    bankAccountType: S.optional(
+      S.NullOr(S.String).pipe(T.Body("bank_account_type")),
+    ),
+    bankCode: S.optional(S.NullOr(S.String).pipe(T.Body("bank_code"))),
+    bankCountry: S.optional(S.NullOr(S.String).pipe(T.Body("bank_country"))),
+    bankName: S.optional(S.NullOr(S.String).pipe(T.Body("bank_name"))),
+    bankRoutingNumber: S.optional(
+      S.NullOr(S.String).pipe(T.Body("bank_routing_number")),
+    ),
+    cashappCashTag: S.optional(
+      S.NullOr(S.String).pipe(T.Body("cashapp_cash_tag")),
+    ),
+    city: S.optional(S.NullOr(S.String)),
+    country: S.optional(S.NullOr(S.String)),
+    default: S.optional(S.NullOr(S.Boolean)),
+    deviceData: S.optional(S.NullOr(S.String).pipe(T.Body("device_data"))),
+    expirationDate: S.optional(
+      S.NullOr(S.String).pipe(T.Body("expiration_date")),
+    ),
+    firstName: S.optional(S.NullOr(S.String).pipe(T.Body("first_name"))),
+    lastFour: S.optional(S.NullOr(S.String).pipe(T.Body("last_four"))),
+    lastName: S.optional(S.NullOr(S.String).pipe(T.Body("last_name"))),
+    nickName: S.optional(S.NullOr(S.String).pipe(T.Body("nick_name"))),
+    paymentAccountEmail: S.optional(
+      S.NullOr(S.String).pipe(T.Body("payment_account_email")),
+    ),
+    paymentEmail: S.optional(S.NullOr(S.String).pipe(T.Body("payment_email"))),
+    paymentGateway: S.optional(
+      S.NullOr(S.String).pipe(T.Body("payment_gateway")),
+    ),
+    paymentNonce: S.optional(S.NullOr(S.String).pipe(T.Body("payment_nonce"))),
+    state: S.optional(S.NullOr(S.String)),
+    type: S.optional(S.NullOr(UpdatePaymentMethodResponseType)),
+    zipcode: S.optional(S.NullOr(S.String)),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdatePaymentMethodResponse",
+}) as any as S.Schema<UpdatePaymentMethodResponse>;
+
 export type SubscriptionsUpdateRequestFrequency =
   | "weekly"
   | "monthly"
   | "quarterly"
   | "yearly";
-export const SubscriptionsUpdateRequestFrequency = /*@__PURE__*/ S.String;
+export const SubscriptionsUpdateRequestFrequency = S.String;
 
 export type SubscriptionsUpdateRequestRatePlanId =
   | "free"
@@ -4311,7 +6589,7 @@ export type SubscriptionsUpdateRequestRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
-export const SubscriptionsUpdateRequestRatePlanId = /*@__PURE__*/ S.String;
+export const SubscriptionsUpdateRequestRatePlanId = S.String;
 
 export type SubscriptionsUpdateRequestRatePlanSetsList = Array<string>;
 export const SubscriptionsUpdateRequestRatePlanSetsList = /*@__PURE__*/ S.Array(
@@ -4384,7 +6662,7 @@ export type SubscriptionsUpdateResponseFrequency =
   | "monthly"
   | "quarterly"
   | "yearly";
-export const SubscriptionsUpdateResponseFrequency = /*@__PURE__*/ S.String;
+export const SubscriptionsUpdateResponseFrequency = S.String;
 
 export type SubscriptionsUpdateResponseRatePlanId =
   | "free"
@@ -4397,7 +6675,7 @@ export type SubscriptionsUpdateResponseRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
-export const SubscriptionsUpdateResponseRatePlanId = /*@__PURE__*/ S.String;
+export const SubscriptionsUpdateResponseRatePlanId = S.String;
 
 export type SubscriptionsUpdateResponseRatePlanSetsList = Array<string>;
 export const SubscriptionsUpdateResponseRatePlanSetsList =
@@ -4445,7 +6723,7 @@ export type SubscriptionsUpdateResponseState =
   | "Cancelled"
   | "Failed"
   | "Expired";
-export const SubscriptionsUpdateResponseState = /*@__PURE__*/ S.String;
+export const SubscriptionsUpdateResponseState = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateSubscriptionResponse {
@@ -4488,7 +6766,7 @@ export const UpdateSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSubscriptionResponse>;
 
 export type TokensUpdateRequestPoliciesItemEffect = "allow" | "deny";
-export const TokensUpdateRequestPoliciesItemEffect = /*@__PURE__*/ S.String;
+export const TokensUpdateRequestPoliciesItemEffect = S.String;
 
 export type TokensUpdateRequestPoliciesItemPermissionGroupsItemMeta =
   TokensCreateRequestPoliciesItemPermissionGroupsItemMeta;
@@ -4601,7 +6879,7 @@ export const TokensUpdateRequestCondition = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TokensUpdateRequestCondition>;
 
 export type TokensUpdateRequestStatus = "active" | "disabled" | "expired";
-export const TokensUpdateRequestStatus = /*@__PURE__*/ S.String;
+export const TokensUpdateRequestStatus = S.String;
 
 export interface UpdateTokenRequest {
   /** Account identifier tag. */
@@ -4692,7 +6970,7 @@ export const TokensUpdateResponseCondition = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TokensUpdateResponseCondition>;
 
 export type TokensUpdateResponsePoliciesItemEffect = "allow" | "deny";
-export const TokensUpdateResponsePoliciesItemEffect = /*@__PURE__*/ S.String;
+export const TokensUpdateResponsePoliciesItemEffect = S.String;
 
 export type TokensUpdateResponsePoliciesItemPermissionGroupsItemMeta =
   MembersCreateResponsePoliciesItemPermissionGroupsItemMeta;
@@ -4764,7 +7042,7 @@ export const TokensUpdateResponsePoliciesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<TokensUpdateResponsePoliciesList>;
 
 export type TokensUpdateResponseStatus = "active" | "disabled" | "expired";
-export const TokensUpdateResponseStatus = /*@__PURE__*/ S.String;
+export const TokensUpdateResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateTokenResponse {
@@ -4826,7 +7104,7 @@ export const VerifyTokenRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VerifyTokenRequest>;
 
 export type TokensVerifyResponseStatus = "active" | "disabled" | "expired";
-export const TokensVerifyResponseStatus = /*@__PURE__*/ S.String;
+export const TokensVerifyResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface VerifyTokenResponse {
@@ -4850,51 +7128,6 @@ export const VerifyTokenResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "VerifyTokenResponse",
 }) as any as S.Schema<VerifyTokenResponse>;
 
-export type AccountOrganizationsCreateError = CloudflareOpError;
-/** Move an account within an organization hierarchy or an account outside an organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/) */
-export const accountOrganizationsCreate: API.OperationMethod<
-  AccountOrganizationsCreateRequest,
-  AccountOrganizationsCreateResponse,
-  AccountOrganizationsCreateError,
-  CloudflareOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: AccountOrganizationsCreateRequest,
-  output: AccountOrganizationsCreateResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
-  protocol: CloudflareProtocol,
-  retry: Retry.Retry,
-}));
-
-export type AccountProfileGetError = CloudflareOpError;
-/** Retrieves the profile information for a specific Cloudflare account, including organization details, settings, and metadata. This endpoint is commonly used to verify account access and retrieve account-level configuration. */
-export const accountProfileGet: API.OperationMethod<
-  AccountProfileGetRequest,
-  AccountProfileGetResponse,
-  AccountProfileGetError,
-  CloudflareOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: AccountProfileGetRequest,
-  output: AccountProfileGetResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
-  protocol: CloudflareProtocol,
-  retry: Retry.Retry,
-}));
-
-export type AccountProfileUpdateError = CloudflareOpError;
-/** Updates the profile information for a Cloudflare account. Allows modification of account-level settings and organizational details. Requires Account Settings Write permission. */
-export const accountProfileUpdate: API.OperationMethod<
-  AccountProfileUpdateRequest,
-  AccountProfileUpdateResponse,
-  AccountProfileUpdateError,
-  CloudflareOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: AccountProfileUpdateRequest,
-  output: AccountProfileUpdateResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
-  protocol: CloudflareProtocol,
-  retry: Retry.Retry,
-}));
-
 export type CreateAccountError =
   | AccountCreationForbidden
   | MissingName
@@ -4914,6 +7147,36 @@ export const createAccount: API.OperationMethod<
     CloudflareRateLimited,
     CloudflareError,
   ],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateAccountOrganizationError = CloudflareOpError;
+/** Move an account within an organization hierarchy or an account outside an organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/) */
+export const createAccountOrganization: API.OperationMethod<
+  CreateAccountOrganizationRequest,
+  CreateAccountOrganizationResponse,
+  CreateAccountOrganizationError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateAccountOrganizationRequest,
+  output: CreateAccountOrganizationResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateClientSecretError = CloudflareOpError;
+/** Creates a Stripe setup intent for adding a payment method to an account. Returns a client secret for frontend payment method collection. */
+export const createClientSecret: API.OperationMethod<
+  CreateClientSecretRequest,
+  CreateClientSecretResponse,
+  CreateClientSecretError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateClientSecretRequest,
+  output: CreateClientSecretResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -4943,11 +7206,56 @@ export const createMember: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreatePayBadDebtError = CloudflareOpError;
+/** Pays outstanding bad debt for an account. Discovers all debt automatically and handles invoice deduplication. */
+export const createPayBadDebt: API.OperationMethod<
+  CreatePayBadDebtRequest,
+  CreatePayBadDebtResponse,
+  CreatePayBadDebtError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePayBadDebtRequest,
+  output: CreatePayBadDebtResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreatePayInvoiceError = CloudflareOpError;
+/** Pays an outstanding invoice for an account. Returns a Stripe client secret when Strong Customer Authentication (SCA) is required to complete the payment. */
+export const createPayInvoice: API.OperationMethod<
+  CreatePayInvoiceRequest,
+  CreatePayInvoiceResponse,
+  CreatePayInvoiceError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePayInvoiceRequest,
+  output: CreatePayInvoiceResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreatePaymentMethodError = CloudflareOpError;
+/** Creates a new payment method for an account. */
+export const createPaymentMethod: API.OperationMethod<
+  CreatePaymentMethodRequest,
+  CreatePaymentMethodResponse,
+  CreatePaymentMethodError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePaymentMethodRequest,
+  output: CreatePaymentMethodResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateSubscriptionError =
   | JsonDecodeFailure
   | InvalidRoute
   | CloudflareOpError;
-/** Creates an account subscription. */
+/** Creates an account or zone subscription. */
 export const createSubscription: API.OperationMethod<
   CreateSubscriptionRequest,
   CreateSubscriptionResponse,
@@ -5037,6 +7345,21 @@ export const deleteMember: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeletePaymentMethodError = CloudflareOpError;
+/** Deletes a payment method from an account. */
+export const deletePaymentMethod: API.OperationMethod<
+  DeletePaymentMethodRequest,
+  DeletePaymentMethodResponse,
+  DeletePaymentMethodError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeletePaymentMethodRequest,
+  output: DeletePaymentMethodResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteSubscriptionError =
   | InvalidRoute
   | EndpointNotFound
@@ -5087,6 +7410,21 @@ export const deleteToken: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type EditInvoiceError = CloudflareOpError;
+/** Toggles PDF invoice generation for an account. */
+export const editInvoice: API.OperationMethod<
+  EditInvoiceRequest,
+  EditInvoiceResponse,
+  EditInvoiceError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EditInvoiceRequest,
+  output: EditInvoiceResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetAccountError = InvalidRoute | CloudflareOpError;
 /** Get information about a specific account that you are a member of. */
 export const getAccount: API.OperationMethod<
@@ -5098,6 +7436,21 @@ export const getAccount: API.OperationMethod<
   input: GetAccountRequest,
   output: GetAccountResponse,
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAccountProfileError = CloudflareOpError;
+/** Retrieves the profile information for a specific Cloudflare account, including organization details, settings, and metadata. This endpoint is commonly used to verify account access and retrieve account-level configuration. */
+export const getAccountProfile: API.OperationMethod<
+  GetAccountProfileRequest,
+  GetAccountProfileResponse,
+  GetAccountProfileError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAccountProfileRequest,
+  output: GetAccountProfileResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -5122,6 +7475,21 @@ export const getMember: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetPaymentMethodError = CloudflareOpError;
+/** Gets a specific payment method for an account. */
+export const getPaymentMethod: API.OperationMethod<
+  GetPaymentMethodRequest,
+  GetPaymentMethodResponse,
+  GetPaymentMethodError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPaymentMethodRequest,
+  output: GetPaymentMethodResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetRoleError = InvalidRoute | CloudflareOpError;
 /** Get information about a specific role for an account. */
 export const getRole: API.OperationMethod<
@@ -5137,8 +7505,23 @@ export const getRole: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetSpeedSettingsTransformationError = CloudflareOpError;
+/** Returns a list of Image Resizing configurations across all zones for the account. This endpoint is useful for retrieving the transformations (image_resizing) state for all zones belonging to an account. */
+export const getSpeedSettingsTransformation: API.OperationMethod<
+  GetSpeedSettingsTransformationRequest,
+  GetSpeedSettingsTransformationResponse,
+  GetSpeedSettingsTransformationError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSpeedSettingsTransformationRequest,
+  output: GetSpeedSettingsTransformationResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetSubscriptionError = CloudflareOpError;
-/** Lists all of an account's subscriptions. */
+/** Lists all of an account or zone's subscriptions. */
 export const getSubscription: API.PaginatedOperationMethod<
   GetSubscriptionRequest,
   GetSubscriptionResponse,
@@ -5264,6 +7647,21 @@ export const listMembers: API.PaginatedOperationMethod<
   cloudflarePaginate,
 ) as any;
 
+export type ListPaymentMethodsError = CloudflareOpError;
+/** Lists all payment methods for an account. */
+export const listPaymentMethods: API.OperationMethod<
+  ListPaymentMethodsRequest,
+  ListPaymentMethodsResponse,
+  ListPaymentMethodsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListPaymentMethodsRequest,
+  output: ListPaymentMethodsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListRolesError = CloudflareOpError;
 /** Get all available roles for an account. */
 export const listRoles: API.PaginatedOperationMethod<
@@ -5291,7 +7689,7 @@ export const listRoles: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListTokensError = CloudflareOpError;
-/** List all Account Owned API tokens created for this account. */
+/** List all Account Owned API tokens created for this account. Results include active, disabled, and recently-expired tokens when include_expired is set to true. */
 export const listTokens: API.PaginatedOperationMethod<
   ListTokensRequest,
   ListTokensResponse,
@@ -5316,6 +7714,66 @@ export const listTokens: API.PaginatedOperationMethod<
   cloudflarePaginate,
 ) as any;
 
+export type ListTokensPermissionGroupsError = InvalidRoute | CloudflareOpError;
+/** Find all available permission groups for Account Owned API Tokens */
+export const listTokensPermissionGroups: API.OperationMethod<
+  ListTokensPermissionGroupsRequest,
+  ListTokensPermissionGroupsResponse,
+  ListTokensPermissionGroupsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListTokensPermissionGroupsRequest,
+  output: ListTokensPermissionGroupsResponse,
+  errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type LogsAuditHistoryError = CloudflareOpError;
+/** Returns the chronological change history for the resource identified by the given audit log entry. The endpoint first locates the source audit log entry by `id` (using `action_time` to narrow the lookup window), derives identifying filters from that entry, and then returns matching audit logs within the `since`/`before` window. The `result_info.history_status` field indicates the quality of the resource identification used: - `exact`: Resource was identified by the resource URI. - `approximate`: Resource was identified without the resource URI. - `unavailable`: The source audit log entry did not contain enough information to identify the resource; an empty result is returned. */
+export const logsAuditHistory: API.OperationMethod<
+  LogsAuditHistoryRequest,
+  LogsAuditHistoryResponse,
+  LogsAuditHistoryError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: LogsAuditHistoryRequest,
+  output: LogsAuditHistoryResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type LogsAuditProductCategoriesError = CloudflareOpError;
+/** Lists the available audit log product categories and the resource products each one expands to. Use these values with the product_category filter on the account audit logs endpoint. */
+export const logsAuditProductCategories: API.OperationMethod<
+  LogsAuditProductCategoriesRequest,
+  LogsAuditProductCategoriesResponse,
+  LogsAuditProductCategoriesError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: LogsAuditProductCategoriesRequest,
+  output: LogsAuditProductCategoriesResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PaymentMethodsSetAsDefaultError = CloudflareOpError;
+/** Sets a payment method as the default for an account. */
+export const paymentMethodsSetAsDefault: API.OperationMethod<
+  PaymentMethodsSetAsDefaultRequest,
+  PaymentMethodsSetAsDefaultResponse,
+  PaymentMethodsSetAsDefaultError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PaymentMethodsSetAsDefaultRequest,
+  output: PaymentMethodsSetAsDefaultResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PutTokenValueError =
   | InvalidRoute
   | TokenNotFound
@@ -5334,17 +7792,107 @@ export const putTokenValue: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type TokensPermissionGroupsListError = InvalidRoute | CloudflareOpError;
-/** Find all available permission groups for Account Owned API Tokens */
-export const tokensPermissionGroupsList: API.OperationMethod<
-  TokensPermissionGroupsListRequest,
-  TokensPermissionGroupsListResponse,
-  TokensPermissionGroupsListError,
+export type ReceiptsPdfError = CloudflareOpError;
+/** Downloads a receipt as a PDF document. */
+export const receiptsPdf: API.OperationMethod<
+  ReceiptsPdfRequest,
+  ReceiptsPdfResponse,
+  ReceiptsPdfError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: TokensPermissionGroupsListRequest,
-  output: TokensPermissionGroupsListResponse,
-  errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
+  input: ReceiptsPdfRequest,
+  output: ReceiptsPdfResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SubscriptionsActionsAppendError = CloudflareOpError;
+/** Smartly applies the incoming subscription into the lifecycle of the subscription. */
+export const subscriptionsActionsAppend: API.OperationMethod<
+  SubscriptionsActionsAppendRequest,
+  SubscriptionsActionsAppendResponse,
+  SubscriptionsActionsAppendError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SubscriptionsActionsAppendRequest,
+  output: SubscriptionsActionsAppendResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SubscriptionsBulkCreateError = CloudflareOpError;
+/** Creates multiple subscriptions for an account in a single request. */
+export const subscriptionsBulkCreate: API.OperationMethod<
+  SubscriptionsBulkCreateRequest,
+  SubscriptionsBulkCreateResponse,
+  SubscriptionsBulkCreateError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SubscriptionsBulkCreateRequest,
+  output: SubscriptionsBulkCreateResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SubscriptionsCancelDowngradeError = CloudflareOpError;
+/** Cancels pending delayed downgrades for the specified subscriptions. */
+export const subscriptionsCancelDowngrade: API.OperationMethod<
+  SubscriptionsCancelDowngradeRequest,
+  SubscriptionsCancelDowngradeResponse,
+  SubscriptionsCancelDowngradeError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SubscriptionsCancelDowngradeRequest,
+  output: SubscriptionsCancelDowngradeResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SubscriptionsCancelReasonCreateError = CloudflareOpError;
+/** Records a cancellation reason for an account subscription. */
+export const subscriptionsCancelReasonCreate: API.OperationMethod<
+  SubscriptionsCancelReasonCreateRequest,
+  SubscriptionsCancelReasonCreateResponse,
+  SubscriptionsCancelReasonCreateError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SubscriptionsCancelReasonCreateRequest,
+  output: SubscriptionsCancelReasonCreateResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SubscriptionsCancelReasonGetError = CloudflareOpError;
+/** Gets the cancellation reason for an account subscription. */
+export const subscriptionsCancelReasonGet: API.OperationMethod<
+  SubscriptionsCancelReasonGetRequest,
+  SubscriptionsCancelReasonGetResponse,
+  SubscriptionsCancelReasonGetError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SubscriptionsCancelReasonGetRequest,
+  output: SubscriptionsCancelReasonGetResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SubscriptionsGetByIdentifierError = CloudflareOpError;
+/** Gets an account subscription by identifier. */
+export const subscriptionsGetByIdentifier: API.OperationMethod<
+  SubscriptionsGetByIdentifierRequest,
+  SubscriptionsGetByIdentifierResponse,
+  SubscriptionsGetByIdentifierError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SubscriptionsGetByIdentifierRequest,
+  output: SubscriptionsGetByIdentifierResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -5378,6 +7926,21 @@ export const updateAccount: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateAccountProfileError = CloudflareOpError;
+/** Updates the profile information for a Cloudflare account. Allows modification of account-level settings and organizational details. Requires Account Settings Write permission. */
+export const updateAccountProfile: API.OperationMethod<
+  UpdateAccountProfileRequest,
+  UpdateAccountProfileResponse,
+  UpdateAccountProfileError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateAccountProfileRequest,
+  output: UpdateAccountProfileResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateMemberError =
   | MemberNotFound
   | InvalidRoute
@@ -5401,6 +7964,21 @@ export const updateMember: API.OperationMethod<
     CloudflareRateLimited,
     CloudflareError,
   ],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdatePaymentMethodError = CloudflareOpError;
+/** Updates a payment method for an account. */
+export const updatePaymentMethod: API.OperationMethod<
+  UpdatePaymentMethodRequest,
+  UpdatePaymentMethodResponse,
+  UpdatePaymentMethodError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdatePaymentMethodRequest,
+  output: UpdatePaymentMethodResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

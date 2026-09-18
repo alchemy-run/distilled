@@ -68,13 +68,13 @@ export class Credentials extends Context.Service<
 export const CredentialsFromEnv = Layer.succeed(
   Credentials,
   EffectConfig.all({
-    directoryUrl: EffectConfig.string("ACME_DIRECTORY_URL").pipe(
+    directoryUrl: EffectConfig.String("ACME_DIRECTORY_URL").pipe(
       EffectConfig.withDefault(Directories.LetsEncrypt),
     ),
-    accountKey: EffectConfig.redacted("ACME_ACCOUNT_KEY"),
-    accountUrl: EffectConfig.option(EffectConfig.string("ACME_ACCOUNT_URL")),
-    eabKid: EffectConfig.option(EffectConfig.string("ACME_EAB_KID")),
-    eabHmac: EffectConfig.option(EffectConfig.redacted("ACME_EAB_HMAC_KEY")),
+    accountKey: EffectConfig.Redacted("ACME_ACCOUNT_KEY"),
+    accountUrl: EffectConfig.option(EffectConfig.String("ACME_ACCOUNT_URL")),
+    eabKid: EffectConfig.option(EffectConfig.String("ACME_EAB_KID")),
+    eabHmac: EffectConfig.option(EffectConfig.Redacted("ACME_EAB_HMAC_KEY")),
   }).pipe(
     Effect.mapError(
       () =>

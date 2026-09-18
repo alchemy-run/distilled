@@ -1,0 +1,196 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.account_links#AccountLinkUseCases": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT_ONBOARDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_onboarding"
+          }
+        },
+        "PAYOUTS_PORTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payouts_portal"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The different use cases for generating an account link."
+      }
+    },
+    "com.whop.account_links#CreateAccountLinkRequest": {
+      "type": "structure",
+      "members": {
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to generate the link for, starting with 'biz_'. Must be a sub-merchant of the API key's company.",
+            "smithy.api#required": {}
+          }
+        },
+        "refresh_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL to redirect the user to if the session expires and needs to be re-authenticated, such as 'https://example.com/refresh'.",
+            "smithy.api#required": {}
+          }
+        },
+        "return_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL to redirect the user to when they want to return to your site, such as 'https://example.com/return'.",
+            "smithy.api#required": {}
+          }
+        },
+        "use_case": {
+          "target": "com.whop.account_links#AccountLinkUseCases",
+          "traits": {
+            "smithy.api#documentation": "The purpose of the account link, such as hosted payouts portal or hosted KYC onboarding.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.account_links#AccountLink": {
+      "type": "structure",
+      "members": {
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp after which this account link URL is no longer valid.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The temporary URL to redirect the user to for account access. Expires at the time specified by expires_at.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A temporary, time-limited URL that grants a user access to an external account management page."
+      }
+    },
+    "com.whop.account_links#CreateAccountLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.account_links#CreateAccountLinkRequest"
+      },
+      "output": {
+        "target": "com.whop.account_links#AccountLink"
+      },
+      "errors": [
+        {
+          "target": "com.whop.account_links#BadRequest"
+        },
+        {
+          "target": "com.whop.account_links#Forbidden"
+        },
+        {
+          "target": "com.whop.account_links#NotFound"
+        },
+        {
+          "target": "com.whop.account_links#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account_links",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create account link\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nGenerate a URL that directs a sub-merchant to their account portal, such as the hosted payouts dashboard or the KYC onboarding flow."
+      }
+    },
+    "com.whop.account_links#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.account_links#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.account_links#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.account_links#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.account_links#AccountLinks": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.account_links#CreateAccountLink"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

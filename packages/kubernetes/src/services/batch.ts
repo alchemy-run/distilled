@@ -209,7 +209,7 @@ export const IoK8sApimachineryPkgApisMetaV1ObjectMeta = /*@__PURE__*/ S.suspend(
   identifier: "IoK8sApimachineryPkgApisMetaV1ObjectMeta",
 }) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1ObjectMeta>;
 
-/** Specifies the set of values. Each returned container exit code (might be multiple in case of multiple containers) is checked against this set of values with respect to the operator. The list of values must be ordered and must not contain duplicates. Value '0' cannot be used for the In operator. At least one element is required. At most 255 elements are allowed. */
+/** values specifies the set of values. Each returned container exit code (might be multiple in case of multiple containers) is checked against this set of values with respect to the operator. The list of values must be ordered and must not contain duplicates. Value '0' cannot be used for the In operator. At least one element is required. At most 255 elements are allowed. */
 export type IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirementValuesList =
   Array<number>;
 export const IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirementValuesList =
@@ -219,11 +219,11 @@ export const IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirementValuesList =
 
 /** PodFailurePolicyOnExitCodesRequirement describes the requirement for handling a failed pod based on its container exit codes. In particular, it lookups the .state.terminated.exitCode for each app container and init container status, represented by the .status.containerStatuses and .status.initContainerStatuses fields in the Pod status, respectively. Containers completed with success (exit code 0) are excluded from the requirement check. */
 export interface IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirement {
-  /** Restricts the check for exit codes to the container with the specified name. When null, the rule applies to all containers. When specified, it should match one the container or initContainer names in the pod template. */
+  /** containerName restricts the check for exit codes to the container with the specified name. When null, the rule applies to all containers. When specified, it should match one the container or initContainer names in the pod template. */
   containerName?: string;
-  /** Represents the relationship between the container exit code(s) and the specified values. Containers completed with success (exit code 0) are excluded from the requirement check. Possible values are: - In: the requirement is satisfied if at least one container exit code (might be multiple if there are multiple containers not restricted by the 'containerName' field) is in the set of specified values. - NotIn: the requirement is satisfied if at least one container exit code (might be multiple if there are multiple containers not restricted by the 'containerName' field) is not in the set of specified values. Additional values are considered to be added in the future. Clients should react to an unknown operator by assuming the requirement is not satisfied. */
+  /** operator represents the relationship between the container exit code(s) and the specified values. Containers completed with success (exit code 0) are excluded from the requirement check. Possible values are: - In: the requirement is satisfied if at least one container exit code (might be multiple if there are multiple containers not restricted by the 'containerName' field) is in the set of specified values. - NotIn: the requirement is satisfied if at least one container exit code (might be multiple if there are multiple containers not restricted by the 'containerName' field) is not in the set of specified values. Additional values are considered to be added in the future. Clients should react to an unknown operator by assuming the requirement is not satisfied. */
   operator: string;
-  /** Specifies the set of values. Each returned container exit code (might be multiple in case of multiple containers) is checked against this set of values with respect to the operator. The list of values must be ordered and must not contain duplicates. Value '0' cannot be used for the In operator. At least one element is required. At most 255 elements are allowed. */
+  /** values specifies the set of values. Each returned container exit code (might be multiple in case of multiple containers) is checked against this set of values with respect to the operator. The list of values must be ordered and must not contain duplicates. Value '0' cannot be used for the In operator. At least one element is required. At most 255 elements are allowed. */
   values: IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirementValuesList;
 }
 export const IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirement =
@@ -239,9 +239,9 @@ export const IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirement =
 
 /** PodFailurePolicyOnPodConditionsPattern describes a pattern for matching an actual pod condition type. */
 export interface IoK8sApiBatchV1PodFailurePolicyOnPodConditionsPattern {
-  /** Specifies the required Pod condition status. To match a pod condition it is required that the specified status equals the pod condition status. Defaults to True. */
+  /** status specifies the required Pod condition status. To match a pod condition it is required that the specified status equals the pod condition status. Defaults to True. */
   status?: string;
-  /** Specifies the required Pod condition type. To match a pod condition it is required that specified type equals the pod condition type. */
+  /** type specifies the required Pod condition type. To match a pod condition it is required that specified type equals the pod condition type. */
   type: string;
 }
 export const IoK8sApiBatchV1PodFailurePolicyOnPodConditionsPattern =
@@ -254,7 +254,7 @@ export const IoK8sApiBatchV1PodFailurePolicyOnPodConditionsPattern =
     identifier: "IoK8sApiBatchV1PodFailurePolicyOnPodConditionsPattern",
   }) as any as S.Schema<IoK8sApiBatchV1PodFailurePolicyOnPodConditionsPattern>;
 
-/** Represents the requirement on the pod conditions. The requirement is represented as a list of pod condition patterns. The requirement is satisfied if at least one pattern matches an actual pod condition. At most 20 elements are allowed. */
+/** onPodConditions represents the requirement on the pod conditions. The requirement is represented as a list of pod condition patterns. The requirement is satisfied if at least one pattern matches an actual pod condition. At most 20 elements are allowed. */
 export type IoK8sApiBatchV1PodFailurePolicyRuleOnPodConditionsList =
   Array<IoK8sApiBatchV1PodFailurePolicyOnPodConditionsPattern>;
 export const IoK8sApiBatchV1PodFailurePolicyRuleOnPodConditionsList =
@@ -264,11 +264,11 @@ export const IoK8sApiBatchV1PodFailurePolicyRuleOnPodConditionsList =
 
 /** PodFailurePolicyRule describes how a pod failure is handled when the requirements are met. One of onExitCodes and onPodConditions, but not both, can be used in each rule. */
 export interface IoK8sApiBatchV1PodFailurePolicyRule {
-  /** Specifies the action taken on a pod failure when the requirements are satisfied. Possible values are: - FailJob: indicates that the pod's job is marked as Failed and all running pods are terminated. - FailIndex: indicates that the pod's index is marked as Failed and will not be restarted. - Ignore: indicates that the counter towards the .backoffLimit is not incremented and a replacement pod is created. - Count: indicates that the pod is handled in the default way - the counter towards the .backoffLimit is incremented. Additional values are considered to be added in the future. Clients should react to an unknown action by skipping the rule. */
+  /** action specifies the action taken on a pod failure when the requirements are satisfied. Possible values are: - FailJob: indicates that the pod's job is marked as Failed and all running pods are terminated. - FailIndex: indicates that the pod's index is marked as Failed and will not be restarted. - Ignore: indicates that the counter towards the .backoffLimit is not incremented and a replacement pod is created. - Count: indicates that the pod is handled in the default way - the counter towards the .backoffLimit is incremented. Additional values are considered to be added in the future. Clients should react to an unknown action by skipping the rule. */
   action: string;
-  /** Represents the requirement on the container exit codes. */
+  /** onExitCodes represents the requirement on the container exit codes. */
   onExitCodes?: IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirement;
-  /** Represents the requirement on the pod conditions. The requirement is represented as a list of pod condition patterns. The requirement is satisfied if at least one pattern matches an actual pod condition. At most 20 elements are allowed. */
+  /** onPodConditions represents the requirement on the pod conditions. The requirement is represented as a list of pod condition patterns. The requirement is satisfied if at least one pattern matches an actual pod condition. At most 20 elements are allowed. */
   onPodConditions?: IoK8sApiBatchV1PodFailurePolicyRuleOnPodConditionsList;
 }
 export const IoK8sApiBatchV1PodFailurePolicyRule = /*@__PURE__*/ S.suspend(() =>
@@ -285,7 +285,7 @@ export const IoK8sApiBatchV1PodFailurePolicyRule = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiBatchV1PodFailurePolicyRule",
 }) as any as S.Schema<IoK8sApiBatchV1PodFailurePolicyRule>;
 
-/** A list of pod failure policy rules. The rules are evaluated in order. Once a rule matches a Pod failure, the remaining of the rules are ignored. When no rule matches the Pod failure, the default handling applies - the counter of pod failures is incremented and it is checked against the backoffLimit. At most 20 elements are allowed. */
+/** rules is a list of pod failure policy rules. The rules are evaluated in order. Once a rule matches a Pod failure, the remaining of the rules are ignored. When no rule matches the Pod failure, the default handling applies - the counter of pod failures is incremented and it is checked against the backoffLimit. At most 20 elements are allowed. */
 export type IoK8sApiBatchV1PodFailurePolicyRulesList =
   Array<IoK8sApiBatchV1PodFailurePolicyRule>;
 export const IoK8sApiBatchV1PodFailurePolicyRulesList = /*@__PURE__*/ S.Array(
@@ -294,16 +294,165 @@ export const IoK8sApiBatchV1PodFailurePolicyRulesList = /*@__PURE__*/ S.Array(
 
 /** PodFailurePolicy describes how failed pods influence the backoffLimit. */
 export interface IoK8sApiBatchV1PodFailurePolicy {
-  /** A list of pod failure policy rules. The rules are evaluated in order. Once a rule matches a Pod failure, the remaining of the rules are ignored. When no rule matches the Pod failure, the default handling applies - the counter of pod failures is incremented and it is checked against the backoffLimit. At most 20 elements are allowed. */
-  rules: IoK8sApiBatchV1PodFailurePolicyRulesList;
+  /** rules is a list of pod failure policy rules. The rules are evaluated in order. Once a rule matches a Pod failure, the remaining of the rules are ignored. When no rule matches the Pod failure, the default handling applies - the counter of pod failures is incremented and it is checked against the backoffLimit. At most 20 elements are allowed. */
+  rules?: IoK8sApiBatchV1PodFailurePolicyRulesList;
 }
 export const IoK8sApiBatchV1PodFailurePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rules: IoK8sApiBatchV1PodFailurePolicyRulesList,
+    rules: S.optional(IoK8sApiBatchV1PodFailurePolicyRulesList),
   }),
 ).annotate({
   identifier: "IoK8sApiBatchV1PodFailurePolicy",
 }) as any as S.Schema<IoK8sApiBatchV1PodFailurePolicy>;
+
+/** WorkloadPodGroupDisruptionMode defines how individual pods within a group can be disrupted. Exactly one mode must be set. */
+export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode {
+  /** all specifies that all pods in the group must be disrupted together. */
+  all?: unknown;
+  /** single specifies that pods can be disrupted independently from each other. */
+  single?: unknown;
+}
+export const IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      all: S.optional(S.Unknown),
+      single: S.optional(S.Unknown),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode>;
+
+/** WorkloadPodGroupResourceClaim references a dynamic resource claim that is shared across pods in the group. */
+export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim {
+  /** name uniquely identifies this resource claim inside the group. This field is required. It must be a DNS_LABEL. */
+  name: string;
+  /** resourceClaimName is the name of a ResourceClaim object in the same namespace. This field is optional. If it is not specified, no resource claim is used. If set, it must be a DNS subdomain. */
+  resourceClaimName?: string;
+  /** resourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace. This field is optional. If it is not specified, no resource claim template is used. If set, it must be a DNS subdomain. */
+  resourceClaimTemplateName?: string;
+}
+export const IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      resourceClaimName: S.optional(S.String),
+      resourceClaimTemplateName: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim>;
+
+/** resourceClaims defines which ResourceClaims may be shared among Pods in the Job. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. At most 4 claims may be set, matching the limit on the resulting PodGroup. This list is immutable after creation: entries may neither be added, removed, nor modified. */
+export type IoK8sApiBatchV1JobSchedulingConfigurationResourceClaimsList =
+  Array<IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim>;
+export const IoK8sApiBatchV1JobSchedulingConfigurationResourceClaimsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim,
+  ) as any as S.Schema<IoK8sApiBatchV1JobSchedulingConfigurationResourceClaimsList>;
+
+/** TopologyConstraint defines a topology constraint for a PodGroup. */
+export interface IoK8sApiSchedulingV1alpha3TopologyConstraint {
+  /** key specifies the key of the node label representing the topology domain. All pods within the PodGroup must be colocated within the same domain instance. Different PodGroups can land on different domain instances even if they derive from the same PodGroupTemplate. Examples: "topology.kubernetes.io/rack" */
+  key: string;
+}
+export const IoK8sApiSchedulingV1alpha3TopologyConstraint =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      key: S.String,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3TopologyConstraint",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3TopologyConstraint>;
+
+/** topology specifies desired topological placements for all pods within the pod group. If unset, no topology placement is requested. */
+export type IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraintsTopologyList =
+  Array<IoK8sApiSchedulingV1alpha3TopologyConstraint>;
+export const IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraintsTopologyList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1alpha3TopologyConstraint,
+  ) as any as S.Schema<IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraintsTopologyList>;
+
+/** WorkloadPodGroupSchedulingConstraints defines leaf-level scheduling constraints, such as topology. */
+export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints {
+  /** topology specifies desired topological placements for all pods within the pod group. If unset, no topology placement is requested. */
+  topology?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraintsTopologyList;
+}
+export const IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      topology: S.optional(
+        IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraintsTopologyList,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints>;
+
+/** WorkloadPodGroupGangSchedulingPolicy defines the parameters for gang (all-or-nothing) scheduling. */
+export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy {
+  /** minCount is the minimum number of pods that must be scheduled at the same time for the scheduler to admit the entire group. This field is optional. If it is not specified, the controller should inject a context-specific sane default (e.g., parallelism for a Job). If set, it must be a positive integer. */
+  minCount?: number;
+}
+export const IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      minCount: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier:
+      "IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy>;
+
+/** WorkloadPodGroupSchedulingPolicy defines the scheduling policy for a group of pods managed by a workload controller. Exactly one policy must be set. */
+export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy {
+  /** basic specifies that standard, pod-by-pod Kubernetes scheduling behavior should be used. */
+  basic?: unknown;
+  /** gang specifies all-or-nothing scheduling semantics. */
+  gang?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy;
+}
+export const IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      basic: S.optional(S.Unknown),
+      gang: S.optional(
+        IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy,
+      ),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy>;
+
+/** JobSchedulingConfiguration composes the reusable workload-aware scheduling building blocks. */
+export interface IoK8sApiBatchV1JobSchedulingConfiguration {
+  /** disruptionMode defines the mode in which the Job's pods can be disrupted. One of Single, All. This field is immutable after creation: it may not be added or removed, and the selected mode may not be changed. */
+  disruptionMode?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode;
+  /** resourceClaims defines which ResourceClaims may be shared among Pods in the Job. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. At most 4 claims may be set, matching the limit on the resulting PodGroup. This list is immutable after creation: entries may neither be added, removed, nor modified. */
+  resourceClaims?: IoK8sApiBatchV1JobSchedulingConfigurationResourceClaimsList;
+  /** schedulingConstraints defines scheduling constraints (e.g. topology) for the Job's pods. This field is immutable after creation. */
+  schedulingConstraints?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints;
+  /** schedulingPolicy defines the scheduling policy for this Job. Exactly one of Basic or Gang must be set. This field is immutable after creation: the policy may not be added or removed. The policy variant (basic/gang) is frozen by hand-written validation; only schedulingPolicy.gang.minCount may be changed. */
+  schedulingPolicy?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy;
+}
+export const IoK8sApiBatchV1JobSchedulingConfiguration =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      disruptionMode: S.optional(
+        IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode,
+      ),
+      resourceClaims: S.optional(
+        IoK8sApiBatchV1JobSchedulingConfigurationResourceClaimsList,
+      ),
+      schedulingConstraints: S.optional(
+        IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints,
+      ),
+      schedulingPolicy: S.optional(
+        IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy,
+      ),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiBatchV1JobSchedulingConfiguration",
+  }) as any as S.Schema<IoK8sApiBatchV1JobSchedulingConfiguration>;
 
 /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch. */
 export type IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirementValuesList =
@@ -963,6 +1112,8 @@ export interface IoK8sApiCoreV1HTTPGetAction {
   path?: string;
   /** Name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
   port: string;
+  /** Protocol selects the wire protocol for the probe connection. Nil defaults to HTTP/1.1. */
+  protocol?: string;
   /** Scheme to use for connecting to the host. Defaults to HTTP. */
   scheme?: string;
 }
@@ -972,6 +1123,7 @@ export const IoK8sApiCoreV1HTTPGetAction = /*@__PURE__*/ S.suspend(() =>
     httpHeaders: S.optional(IoK8sApiCoreV1HTTPGetActionHttpHeadersList),
     path: S.optional(S.String),
     port: S.String,
+    protocol: S.optional(S.String),
     scheme: S.optional(S.String),
   }),
 ).annotate({
@@ -1050,6 +1202,8 @@ export const IoK8sApiCoreV1Lifecycle = /*@__PURE__*/ S.suspend(() =>
 
 /** GRPCAction specifies an action involving a GRPC service. */
 export interface IoK8sApiCoreV1GRPCAction {
+  /** mode specifies the connection mode for the gRPC health probe. Set to "TLS" to use TLS without certificate verification. Set to "Plaintext" to use a plaintext (insecure) connection explicitly. If not specified, the probe uses a plaintext (insecure) connection. */
+  mode?: string;
   /** Port number of the gRPC service. Number must be in the range 1 to 65535. */
   port: number;
   /** Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). If this is not specified, the default behavior is defined by gRPC. */
@@ -1057,6 +1211,7 @@ export interface IoK8sApiCoreV1GRPCAction {
 }
 export const IoK8sApiCoreV1GRPCAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    mode: S.optional(S.String),
     port: S.Number,
     service: S.optional(S.String),
   }),
@@ -1447,8 +1602,17 @@ export const IoK8sApiCoreV1ContainerVolumeDevicesList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1VolumeDevice,
 ) as any as S.Schema<IoK8sApiCoreV1ContainerVolumeDevicesList>;
 
+/** bindMountOptions is the list of additional bind mount options to apply when mounting this volume into the container. Allowed values are noexec, nodev, and nosuid. These are Linux mount options and have no effect on Windows nodes. This field is not supported with image volumes. This is an alpha field and requires enabling the VolumeBindMountOptions feature gate. */
+export type IoK8sApiCoreV1VolumeMountBindMountOptionsList = Array<string>;
+export const IoK8sApiCoreV1VolumeMountBindMountOptionsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiCoreV1VolumeMountBindMountOptionsList>;
+
 /** VolumeMount describes a mounting of a Volume within a container. */
 export interface IoK8sApiCoreV1VolumeMount {
+  /** bindMountOptions is the list of additional bind mount options to apply when mounting this volume into the container. Allowed values are noexec, nodev, and nosuid. These are Linux mount options and have no effect on Windows nodes. This field is not supported with image volumes. This is an alpha field and requires enabling the VolumeBindMountOptions feature gate. */
+  bindMountOptions?: IoK8sApiCoreV1VolumeMountBindMountOptionsList;
   /** Path within the container at which the volume should be mounted. */
   mountPath: string;
   /** mountPropagation determines how mounts are propagated from the host to container and the other way around. When not set, MountPropagationNone is used. This field is beta in 1.10. When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified (which defaults to None). */
@@ -1466,6 +1630,7 @@ export interface IoK8sApiCoreV1VolumeMount {
 }
 export const IoK8sApiCoreV1VolumeMount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    bindMountOptions: S.optional(IoK8sApiCoreV1VolumeMountBindMountOptionsList),
     mountPath: S.String,
     mountPropagation: S.optional(S.String),
     name: S.String,
@@ -1799,6 +1964,30 @@ export const IoK8sApiCoreV1PodSpecEphemeralContainersList =
   /*@__PURE__*/ S.Array(
     IoK8sApiCoreV1EphemeralContainer,
   ) as any as S.Schema<IoK8sApiCoreV1PodSpecEphemeralContainersList>;
+
+/** EvictionResponder allows you to specify the responder reacting to an Eviction. Responders should observe and communicate through the Eviction Resource API to help with the graceful eviction of a target (e.g. termination of a pod). */
+export interface IoK8sApiCoreV1EvictionResponder {
+  /** name allows you to identify the responder responding to the Eviction. It must be a valid domain-prefixed key (such as "acme.io/foo"). Domain names *.k8s.io and *.kubernetes.io are reserved. This field must be unique for each responder. This field is required. */
+  name: string;
+  /** priority for this responder. Higher priorities are selected first by the evictionrequest-controller. If there are responders with the same priority, the responder whose domain name comes first in the alphabetical higher domain order, will be picked. This means that the top domain labels are compared alphabetically first, followed by the lower domain labels. The key is compared last. The responder that is the managing controller of the pod should set the value of this field to 10000 to allow both for preemption or fallback registration by other responders. The minimum value is 0 and the maximum value is 100000. The interval 0-999 is reserved for responders with *.k8s.io suffix. This field is required. */
+  priority: number;
+}
+export const IoK8sApiCoreV1EvictionResponder = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    priority: S.Number,
+  }),
+).annotate({
+  identifier: "IoK8sApiCoreV1EvictionResponder",
+}) as any as S.Schema<IoK8sApiCoreV1EvictionResponder>;
+
+/** evictionResponders reference responders that react to Evictions based on EvictionRequests. Responders should observe and communicate through the Eviction Resource API to help with the graceful termination of a pod. The responders are selected sequentially, according to their specified priority. Responders should periodically report on an eviction progress by updating the .status.responders[].heartbeatTime field of the Eviction object. If this field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there is no other responder, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource). The maximum length of the responders list is 10. Responders are not supported when the pod is part of a PodGroup (.spec.schedulingGroup is set). This field can only be set on creation and is immutable afterwards. */
+export type IoK8sApiCoreV1PodSpecEvictionRespondersList =
+  Array<IoK8sApiCoreV1EvictionResponder>;
+export const IoK8sApiCoreV1PodSpecEvictionRespondersList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiCoreV1EvictionResponder,
+  ) as any as S.Schema<IoK8sApiCoreV1PodSpecEvictionRespondersList>;
 
 /** Hostnames for the above IP address. */
 export type IoK8sApiCoreV1HostAliasHostnamesList = Array<string>;
@@ -2269,12 +2458,15 @@ export interface IoK8sApiCoreV1KeyToPath {
   mode?: number;
   /** path is the relative path of the file to map the key to. May not be an absolute path. May not contain the path element '..'. May not start with the string '..'. */
   path: string;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
 }
 export const IoK8sApiCoreV1KeyToPath = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.String,
     mode: S.optional(S.Number),
     path: S.String,
+    user: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "IoK8sApiCoreV1KeyToPath",
@@ -2292,6 +2484,8 @@ export const IoK8sApiCoreV1ConfigMapVolumeSourceItemsList =
 export interface IoK8sApiCoreV1ConfigMapVolumeSource {
   /** defaultMode is optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number;
   /** items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
   items?: IoK8sApiCoreV1ConfigMapVolumeSourceItemsList;
   /** Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
@@ -2302,6 +2496,7 @@ export interface IoK8sApiCoreV1ConfigMapVolumeSource {
 export const IoK8sApiCoreV1ConfigMapVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultMode: S.optional(S.Number),
+    defaultUser: S.optional(S.Number),
     items: S.optional(IoK8sApiCoreV1ConfigMapVolumeSourceItemsList),
     name: S.optional(S.String),
     optional: S.optional(S.Boolean),
@@ -2357,6 +2552,8 @@ export interface IoK8sApiCoreV1DownwardAPIVolumeFile {
   path: string;
   /** Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported. */
   resourceFieldRef?: IoK8sApiCoreV1ResourceFieldSelector;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
 }
 export const IoK8sApiCoreV1DownwardAPIVolumeFile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2364,6 +2561,7 @@ export const IoK8sApiCoreV1DownwardAPIVolumeFile = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(S.Number),
     path: S.String,
     resourceFieldRef: S.optional(IoK8sApiCoreV1ResourceFieldSelector),
+    user: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "IoK8sApiCoreV1DownwardAPIVolumeFile",
@@ -2381,6 +2579,8 @@ export const IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList =
 export interface IoK8sApiCoreV1DownwardAPIVolumeSource {
   /** Optional: mode bits to use on created files by default. Must be a Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number;
   /** Items is a list of downward API volume file */
   items?: IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList;
 }
@@ -2388,6 +2588,7 @@ export const IoK8sApiCoreV1DownwardAPIVolumeSource = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       defaultMode: S.optional(S.Number),
+      defaultUser: S.optional(S.Number),
       items: S.optional(IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList),
     }),
 ).annotate({
@@ -2398,12 +2599,15 @@ export const IoK8sApiCoreV1DownwardAPIVolumeSource = /*@__PURE__*/ S.suspend(
 export interface IoK8sApiCoreV1EmptyDirVolumeSource {
   /** medium represents what type of storage medium should back this directory. The default is "" which means to use the node's default medium. Must be an empty string (default) or Memory. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir */
   medium?: string;
+  /** mode specifies the permission bits for the emptyDir directory, in numeric notation (e.g., 0755, 01777). Must be a value between 0000 and 01777. If not specified, defaults to 0777. This might be in conflict with other options that affect the file mode, like fsGroup. If fsGroup is specified, the fsGroup permissions will override the mode specified here. This field has no effect on Windows. This field is alpha and requires EmptyDirVolumeMode featuregate to be enabled. */
+  mode?: number;
   /** sizeLimit is the total amount of local storage required for this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir */
   sizeLimit?: string;
 }
 export const IoK8sApiCoreV1EmptyDirVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     medium: S.optional(S.String),
+    mode: S.optional(S.Number),
     sizeLimit: S.optional(S.String),
   }),
 ).annotate({
@@ -2882,6 +3086,8 @@ export interface IoK8sApiCoreV1ClusterTrustBundleProjection {
   path: string;
   /** Select all ClusterTrustBundles that match this signer name. Mutually-exclusive with name. The contents of all selected ClusterTrustBundles will be unified and deduplicated. */
   signerName?: string;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
 }
 export const IoK8sApiCoreV1ClusterTrustBundleProjection =
   /*@__PURE__*/ S.suspend(() =>
@@ -2891,6 +3097,7 @@ export const IoK8sApiCoreV1ClusterTrustBundleProjection =
       optional: S.optional(S.Boolean),
       path: S.String,
       signerName: S.optional(S.String),
+      user: S.optional(S.Number),
     }),
   ).annotate({
     identifier: "IoK8sApiCoreV1ClusterTrustBundleProjection",
@@ -2967,6 +3174,8 @@ export interface IoK8sApiCoreV1PodCertificateProjection {
   maxExpirationSeconds?: number;
   /** Kubelet's generated CSRs will be addressed to this signer. */
   signerName: string;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
   /** userAnnotations allow pod authors to pass additional information to the signer implementation. Kubernetes does not restrict or validate this metadata in any way. These values are copied verbatim into the `spec.unverifiedUserAnnotations` field of the PodCertificateRequest objects that Kubelet creates. Entries are subject to the same validation as object metadata annotations, with the addition that all keys must be domain-prefixed. No restrictions are placed on values, except an overall size limitation on the entire field. Signers should document the keys and values they support. Signers should deny requests that contain keys they do not recognize. */
   userAnnotations?: IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap;
 }
@@ -2979,6 +3188,7 @@ export const IoK8sApiCoreV1PodCertificateProjection = /*@__PURE__*/ S.suspend(
       keyType: S.String,
       maxExpirationSeconds: S.optional(S.Number),
       signerName: S.String,
+      user: S.optional(S.Number),
       userAnnotations: S.optional(
         IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap,
       ),
@@ -3021,6 +3231,8 @@ export interface IoK8sApiCoreV1ServiceAccountTokenProjection {
   expirationSeconds?: number;
   /** path is the path relative to the mount point of the file to project the token into. */
   path: string;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
 }
 export const IoK8sApiCoreV1ServiceAccountTokenProjection =
   /*@__PURE__*/ S.suspend(() =>
@@ -3028,6 +3240,7 @@ export const IoK8sApiCoreV1ServiceAccountTokenProjection =
       audience: S.optional(S.String),
       expirationSeconds: S.optional(S.Number),
       path: S.String,
+      user: S.optional(S.Number),
     }),
   ).annotate({
     identifier: "IoK8sApiCoreV1ServiceAccountTokenProjection",
@@ -3075,12 +3288,15 @@ export const IoK8sApiCoreV1ProjectedVolumeSourceSourcesList =
 export interface IoK8sApiCoreV1ProjectedVolumeSource {
   /** defaultMode are the mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number;
   /** sources is the list of volume projections. Each entry in this list handles one source. */
   sources?: IoK8sApiCoreV1ProjectedVolumeSourceSourcesList;
 }
 export const IoK8sApiCoreV1ProjectedVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultMode: S.optional(S.Number),
+    defaultUser: S.optional(S.Number),
     sources: S.optional(IoK8sApiCoreV1ProjectedVolumeSourceSourcesList),
   }),
 ).annotate({
@@ -3206,6 +3422,8 @@ export const IoK8sApiCoreV1SecretVolumeSourceItemsList = /*@__PURE__*/ S.Array(
 export interface IoK8sApiCoreV1SecretVolumeSource {
   /** defaultMode is Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number;
   /** items If unspecified, each key-value pair in the Data field of the referenced Secret will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the Secret, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
   items?: IoK8sApiCoreV1SecretVolumeSourceItemsList;
   /** optional field specify whether the Secret or its keys must be defined */
@@ -3216,6 +3434,7 @@ export interface IoK8sApiCoreV1SecretVolumeSource {
 export const IoK8sApiCoreV1SecretVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultMode: S.optional(S.Number),
+    defaultUser: S.optional(S.Number),
     items: S.optional(IoK8sApiCoreV1SecretVolumeSourceItemsList),
     optional: S.optional(S.Boolean),
     secretName: S.optional(S.String),
@@ -3405,6 +3624,8 @@ export interface IoK8sApiCoreV1PodSpec {
   enableServiceLinks?: boolean;
   /** List of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource. */
   ephemeralContainers?: IoK8sApiCoreV1PodSpecEphemeralContainersList;
+  /** evictionResponders reference responders that react to Evictions based on EvictionRequests. Responders should observe and communicate through the Eviction Resource API to help with the graceful termination of a pod. The responders are selected sequentially, according to their specified priority. Responders should periodically report on an eviction progress by updating the .status.responders[].heartbeatTime field of the Eviction object. If this field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there is no other responder, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource). The maximum length of the responders list is 10. Responders are not supported when the pod is part of a PodGroup (.spec.schedulingGroup is set). This field can only be set on creation and is immutable afterwards. */
+  evictionResponders?: IoK8sApiCoreV1PodSpecEvictionRespondersList;
   /** HostAliases is an optional list of hosts and IPs that will be injected into the pod's hosts file if specified. */
   hostAliases?: IoK8sApiCoreV1PodSpecHostAliasesList;
   /** Use the host's ipc namespace. Optional: Default to false. */
@@ -3417,7 +3638,7 @@ export interface IoK8sApiCoreV1PodSpec {
   hostUsers?: boolean;
   /** Specifies the hostname of the Pod If not specified, the pod's hostname will be set to a system-defined value. */
   hostname?: string;
-  /** HostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false. This field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters. Requires the HostnameOverride feature gate to be enabled. */
+  /** HostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false. This field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters. */
   hostnameOverride?: string;
   /** ImagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod */
   imagePullSecrets?: IoK8sApiCoreV1PodSpecImagePullSecretsList;
@@ -3486,6 +3707,7 @@ export const IoK8sApiCoreV1PodSpec = /*@__PURE__*/ S.suspend(() =>
     ephemeralContainers: S.optional(
       IoK8sApiCoreV1PodSpecEphemeralContainersList,
     ),
+    evictionResponders: S.optional(IoK8sApiCoreV1PodSpecEvictionRespondersList),
     hostAliases: S.optional(IoK8sApiCoreV1PodSpecHostAliasesList),
     hostIPC: S.optional(S.Boolean),
     hostNetwork: S.optional(S.Boolean),
@@ -3545,35 +3767,37 @@ export const IoK8sApiCoreV1PodTemplateSpec = /*@__PURE__*/ S.suspend(() =>
 
 /** JobSpec describes how the job execution will look like. */
 export interface IoK8sApiBatchV1JobSpec {
-  /** Specifies the duration in seconds relative to the startTime that the job may be continuously active before the system tries to terminate it; value must be positive integer. If a Job is suspended (at creation or through an update), this timer will effectively be stopped and reset when the Job is resumed again. */
+  /** activeDeadlineSeconds specifies the duration in seconds relative to the startTime that the job may be continuously active before the system tries to terminate it; value must be positive integer. If a Job is suspended (at creation or through an update), this timer will effectively be stopped and reset when the Job is resumed again. */
   activeDeadlineSeconds?: number;
-  /** Specifies the number of retries before marking this job failed. Defaults to 6, unless backoffLimitPerIndex (only Indexed Job) is specified. When backoffLimitPerIndex is specified, backoffLimit defaults to 2147483647. */
+  /** backoffLimit specifies the number of retries before marking this job failed. Defaults to 6, unless backoffLimitPerIndex (only Indexed Job) is specified. When backoffLimitPerIndex is specified, backoffLimit defaults to 2147483647. */
   backoffLimit?: number;
-  /** Specifies the limit for the number of retries within an index before marking this index as failed. When enabled the number of failures per index is kept in the pod's batch.kubernetes.io/job-index-failure-count annotation. It can only be set when Job's completionMode=Indexed, and the Pod's restart policy is Never. The field is immutable. */
+  /** backoffLimitPerIndex specifies the limit for the number of retries within an index before marking this index as failed. When enabled the number of failures per index is kept in the pod's batch.kubernetes.io/job-index-failure-count annotation. It can only be set when Job's completionMode=Indexed, and the Pod's restart policy is Never. The field is immutable. */
   backoffLimitPerIndex?: number;
   /** completionMode specifies how Pod completions are tracked. It can be `NonIndexed` (default) or `Indexed`. `NonIndexed` means that the Job is considered complete when there have been .spec.completions successfully completed Pods. Each Pod completion is homologous to each other. `Indexed` means that the Pods of a Job get an associated completion index from 0 to (.spec.completions - 1), available in the annotation batch.kubernetes.io/job-completion-index. The Job is considered complete when there is one successfully completed Pod for each index. When value is `Indexed`, .spec.completions must be specified and `.spec.parallelism` must be less than or equal to 10^5. In addition, The Pod name takes the form `$(job-name)-$(index)-$(random-string)`, the Pod hostname takes the form `$(job-name)-$(index)`. More completion modes can be added in the future. If the Job controller observes a mode that it doesn't recognize, which is possible during upgrades due to version skew, the controller skips updates for the Job. */
   completionMode?: string;
-  /** Specifies the desired number of successfully finished pods the job should be run with. Setting to null means that the success of any pod signals the success of all pods, and allows parallelism to have any positive value. Setting to 1 means that parallelism is limited to 1 and the success of that pod signals the success of the job. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/ */
+  /** completions specifies the desired number of successfully finished pods the job should be run with. Setting to null means that the success of any pod signals the success of all pods, and allows parallelism to have any positive value. Setting to 1 means that parallelism is limited to 1 and the success of that pod signals the success of the job. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/ */
   completions?: number;
-  /** ManagedBy field indicates the controller that manages a Job. The k8s Job controller reconciles jobs which don't have this field at all or the field value is the reserved string `kubernetes.io/job-controller`, but skips reconciling Jobs with a custom value for this field. The value must be a valid domain-prefixed path (e.g. acme.io/foo) - all characters before the first "/" must be a valid subdomain as defined by RFC 1123. All characters trailing the first "/" must be valid HTTP Path characters as defined by RFC 3986. The value cannot exceed 63 characters. This field is immutable. */
+  /** managedBy field indicates the controller that manages a Job. The k8s Job controller reconciles jobs which don't have this field at all or the field value is the reserved string `kubernetes.io/job-controller`, but skips reconciling Jobs with a custom value for this field. The value must be a valid domain-prefixed path (e.g. acme.io/foo) - all characters before the first "/" must be a valid subdomain as defined by RFC 1123. All characters trailing the first "/" must be valid HTTP Path characters as defined by RFC 3986. The value cannot exceed 63 characters. This field is immutable. */
   managedBy?: string;
   /** manualSelector controls generation of pod labels and pod selectors. Leave `manualSelector` unset unless you are certain what you are doing. When false or unset, the system pick labels unique to this job and appends those labels to the pod template. When true, the user is responsible for picking unique labels and specifying the selector. Failure to pick a unique label may cause this and other jobs to not function correctly. However, You may see `manualSelector=true` in jobs that were created with the old `extensions/v1beta1` API. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#specifying-your-own-pod-selector */
   manualSelector?: boolean;
-  /** Specifies the maximal number of failed indexes before marking the Job as failed, when backoffLimitPerIndex is set. Once the number of failed indexes exceeds this number the entire Job is marked as Failed and its execution is terminated. When left as null the job continues execution of all of its indexes and is marked with the `Complete` Job condition. It can only be specified when backoffLimitPerIndex is set. It can be null or up to completions. It is required and must be less than or equal to 10^4 when is completions greater than 10^5. */
+  /** maxFailedIndexes specifies the maximal number of failed indexes before marking the Job as failed, when backoffLimitPerIndex is set. Once the number of failed indexes exceeds this number the entire Job is marked as Failed and its execution is terminated. When left as null the job continues execution of all of its indexes and is marked with the `Complete` Job condition. It can only be specified when backoffLimitPerIndex is set. It can be null or up to completions. It is required and must be less than or equal to 10^4 when is completions greater than 10^5. */
   maxFailedIndexes?: number;
-  /** Specifies the maximum desired number of pods the job should run at any given time. The actual number of pods running in steady state will be less than this number when ((.spec.completions - .status.successful) < .spec.parallelism), i.e. when the work left to do is less than max parallelism. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/ */
+  /** parallelism specifies the maximum desired number of pods the job should run at any given time. The actual number of pods running in steady state will be less than this number when ((.spec.completions - .status.successful) < .spec.parallelism), i.e. when the work left to do is less than max parallelism. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/ */
   parallelism?: number;
-  /** Specifies the policy of handling failed pods. In particular, it allows to specify the set of actions and conditions which need to be satisfied to take the associated action. If empty, the default behaviour applies - the counter of failed pods, represented by the jobs's .status.failed field, is incremented and it is checked against the backoffLimit. This field cannot be used in combination with restartPolicy=OnFailure. */
+  /** podFailurePolicy specifies the policy of handling failed pods. In particular, it allows to specify the set of actions and conditions which need to be satisfied to take the associated action. If empty, the default behaviour applies - the counter of failed pods, represented by the jobs's .status.failed field, is incremented and it is checked against the backoffLimit. This field cannot be used in combination with restartPolicy=OnFailure. */
   podFailurePolicy?: IoK8sApiBatchV1PodFailurePolicy;
   /** podReplacementPolicy specifies when to create replacement Pods. Possible values are: - TerminatingOrFailed means that we recreate pods when they are terminating (has a metadata.deletionTimestamp) or failed. - Failed means to wait until a previously created Pod is fully terminated (has phase Failed or Succeeded) before creating a replacement Pod. When using podFailurePolicy, Failed is the the only allowed value. TerminatingOrFailed and Failed are allowed values when podFailurePolicy is not in use. */
   podReplacementPolicy?: string;
-  /** A label query over pods that should match the pod count. Normally, the system sets this field for you. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors */
+  /** scheduling defines the Workload-aware Scheduling configuration for this Job. When set, it specifies the scheduling policy (basic or gang), topology constraints, disruption mode, and shared resource claims. When omitted, the Job defaults to the basic scheduling policy, which behaves as standard pod-by-pod scheduling. This field is alpha-level and requires the WorkloadWithJob feature gate. This field is immutable, including whether it is set at all, only policy.gang.minCount may be changed after creation. */
+  scheduling?: IoK8sApiBatchV1JobSchedulingConfiguration;
+  /** selector is a label query over pods that should match the pod count. Normally, the system sets this field for you. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors */
   selector?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
   /** successPolicy specifies the policy when the Job can be declared as succeeded. If empty, the default behavior applies - the Job is declared as succeeded only when the number of succeeded pods equals to the completions. When the field is specified, it must be immutable and works only for the Indexed Jobs. Once the Job meets the SuccessPolicy, the lingering pods are terminated. */
   successPolicy?: IoK8sApiBatchV1SuccessPolicy;
   /** suspend specifies whether the Job controller should create Pods or not. If a Job is created with suspend set to true, no Pods are created by the Job controller. If a Job is suspended after creation (i.e. the flag goes from false to true), the Job controller will delete all active Pods associated with this Job. Users must design their workload to gracefully handle this. Suspending a Job will reset the StartTime field of the Job, effectively resetting the ActiveDeadlineSeconds timer too. Defaults to false. */
   suspend?: boolean;
-  /** Describes the pod that will be created when executing a job. The only allowed template.spec.restartPolicy values are "Never" or "OnFailure". More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/ */
+  /** template describes the pod that will be created when executing a job. The only allowed template.spec.restartPolicy values are "Never" or "OnFailure". More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/ */
   template: IoK8sApiCoreV1PodTemplateSpec;
   /** ttlSecondsAfterFinished limits the lifetime of a Job that has finished execution (either Complete or Failed). If this field is set, ttlSecondsAfterFinished after the Job finishes, it is eligible to be automatically deleted. When the Job is being deleted, its lifecycle guarantees (e.g. finalizers) will be honored. If this field is unset, the Job won't be automatically deleted. If this field is set to zero, the Job becomes eligible to be deleted immediately after it finishes. */
   ttlSecondsAfterFinished?: number;
@@ -3591,6 +3815,7 @@ export const IoK8sApiBatchV1JobSpec = /*@__PURE__*/ S.suspend(() =>
     parallelism: S.optional(S.Number),
     podFailurePolicy: S.optional(IoK8sApiBatchV1PodFailurePolicy),
     podReplacementPolicy: S.optional(S.String),
+    scheduling: S.optional(IoK8sApiBatchV1JobSchedulingConfiguration),
     selector: S.optional(IoK8sApimachineryPkgApisMetaV1LabelSelector),
     successPolicy: S.optional(IoK8sApiBatchV1SuccessPolicy),
     suspend: S.optional(S.Boolean),
@@ -3603,15 +3828,15 @@ export const IoK8sApiBatchV1JobSpec = /*@__PURE__*/ S.suspend(() =>
 
 /** JobTemplateSpec describes the data a Job should have when created from a template */
 export interface IoK8sApiBatchV1JobTemplateSpec {
-  /** Standard object's metadata of the jobs created from this template. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object's metadata of the jobs created from this template. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of the job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec?: IoK8sApiBatchV1JobSpec;
+  /** spec is the specification of the desired behavior of the job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec: IoK8sApiBatchV1JobSpec;
 }
 export const IoK8sApiBatchV1JobTemplateSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-    spec: S.optional(IoK8sApiBatchV1JobSpec),
+    spec: IoK8sApiBatchV1JobSpec,
   }),
 ).annotate({
   identifier: "IoK8sApiBatchV1JobTemplateSpec",
@@ -3619,21 +3844,21 @@ export const IoK8sApiBatchV1JobTemplateSpec = /*@__PURE__*/ S.suspend(() =>
 
 /** CronJobSpec describes how the job execution will look like and when it will actually run. */
 export interface IoK8sApiBatchV1CronJobSpec {
-  /** Specifies how to treat concurrent executions of a Job. Valid values are: - "Allow" (default): allows CronJobs to run concurrently; - "Forbid": forbids concurrent runs, skipping next run if previous run hasn't finished yet; - "Replace": cancels currently running job and replaces it with a new one */
+  /** concurrencyPolicy specifies how to treat concurrent executions of a Job. Valid values are: - "Allow" (default): allows CronJobs to run concurrently; - "Forbid": forbids concurrent runs, skipping next run if previous run hasn't finished yet; - "Replace": cancels currently running job and replaces it with a new one */
   concurrencyPolicy?: string;
-  /** The number of failed finished jobs to retain. Value must be non-negative integer. Defaults to 1. */
+  /** failedJobsHistoryLimit is the number of failed finished jobs to retain. Value must be non-negative integer. Defaults to 1. */
   failedJobsHistoryLimit?: number;
-  /** Specifies the job that will be created when executing a CronJob. */
+  /** jobTemplate specifies the job that will be created when executing a CronJob. */
   jobTemplate: IoK8sApiBatchV1JobTemplateSpec;
-  /** The schedule in Cron format, see https://en.wikipedia.org/wiki/Cron. */
+  /** schedule is the schedule in Cron format, see https://en.wikipedia.org/wiki/Cron. */
   schedule: string;
-  /** Optional deadline in seconds for starting the job if it misses scheduled time for any reason. Missed jobs executions will be counted as failed ones. */
+  /** startingDeadlineSeconds is the optional deadline in seconds for starting the job if it misses scheduled time for any reason. Missed jobs executions will be counted as failed ones. */
   startingDeadlineSeconds?: number;
-  /** The number of successful finished jobs to retain. Value must be non-negative integer. Defaults to 3. */
+  /** successfulJobsHistoryLimit is the number of successful finished jobs to retain. Value must be non-negative integer. Defaults to 3. */
   successfulJobsHistoryLimit?: number;
-  /** This flag tells the controller to suspend subsequent executions, it does not apply to already started executions. Defaults to false. */
+  /** suspend is a flag that tells the controller to suspend subsequent executions, it does not apply to already started executions. Defaults to false. */
   suspend?: boolean;
-  /** The time zone name for the given schedule, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. If not specified, this will default to the time zone of the kube-controller-manager process. The set of valid time zone names and the time zone offset is loaded from the system-wide time zone database by the API server during CronJob validation and the controller manager during execution. If no system-wide time zone database can be found a bundled version of the database is used instead. If the time zone name becomes invalid during the lifetime of a CronJob or due to a change in host configuration, the controller will stop creating new new Jobs and will create a system event with the reason UnknownTimeZone. More information can be found in https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#time-zones */
+  /** timeZone is the time zone name for the given schedule, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. If not specified, this will default to the time zone of the kube-controller-manager process. The set of valid time zone names and the time zone offset is loaded from the system-wide time zone database by the API server during CronJob validation and the controller manager during execution. If no system-wide time zone database can be found a bundled version of the database is used instead. If the time zone name becomes invalid during the lifetime of a CronJob or due to a change in host configuration, the controller will stop creating new new Jobs and will create a system event with the reason UnknownTimeZone. More information can be found in https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#time-zones */
   timeZone?: string;
 }
 export const IoK8sApiBatchV1CronJobSpec = /*@__PURE__*/ S.suspend(() =>
@@ -3723,11 +3948,11 @@ export interface CreateBatchV1NamespacedCronJobRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec is the specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiBatchV1CronJobSpec;
-  /** Current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** status is the current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiBatchV1CronJobStatus;
 }
 export const CreateBatchV1NamespacedCronJobRequest = /*@__PURE__*/ S.suspend(
@@ -3760,11 +3985,11 @@ export interface IoK8sApiBatchV1CronJob {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec is the specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiBatchV1CronJobSpec;
-  /** Current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** status is the current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiBatchV1CronJobStatus;
 }
 export const IoK8sApiBatchV1CronJob = /*@__PURE__*/ S.suspend(() =>
@@ -3781,18 +4006,18 @@ export const IoK8sApiBatchV1CronJob = /*@__PURE__*/ S.suspend(() =>
 
 /** JobCondition describes current state of a job. */
 export interface IoK8sApiBatchV1JobCondition {
-  /** Last time the condition was checked. */
+  /** lastProbeTime is the last time the condition was checked. */
   lastProbeTime?: string;
-  /** Last time the condition transit from one status to another. */
+  /** lastTransitionTime is the last time the condition transit from one status to another. */
   lastTransitionTime?: string;
-  /** Human readable message indicating details about last transition. */
+  /** message is human readable message indicating details about last transition. */
   message?: string;
-  /** (brief) reason for the condition's last transition. */
+  /** reason is the brief reason for the condition's last transition. */
   reason?: string;
-  /** Status of the condition, one of True, False, Unknown. */
-  status: string;
-  /** Type of job condition, Complete or Failed. */
-  type: string;
+  /** status is the status of the condition, one of True, False, Unknown. */
+  status?: string;
+  /** type is the type of job condition, Complete or Failed. */
+  type?: string;
 }
 export const IoK8sApiBatchV1JobCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3800,8 +4025,8 @@ export const IoK8sApiBatchV1JobCondition = /*@__PURE__*/ S.suspend(() =>
     lastTransitionTime: S.optional(S.String),
     message: S.optional(S.String),
     reason: S.optional(S.String),
-    status: S.String,
-    type: S.String,
+    status: S.optional(S.String),
+    type: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IoK8sApiBatchV1JobCondition",
@@ -3905,11 +4130,11 @@ export interface CreateBatchV1NamespacedJobRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec?: IoK8sApiBatchV1JobSpec;
-  /** Current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec is the specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec: IoK8sApiBatchV1JobSpec;
+  /** status is the current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiBatchV1JobStatus;
 }
 export const CreateBatchV1NamespacedJobRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3922,7 +4147,7 @@ export const CreateBatchV1NamespacedJobRequest = /*@__PURE__*/ S.suspend(() =>
     apiVersion: S.optional(S.String),
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-    spec: S.optional(IoK8sApiBatchV1JobSpec),
+    spec: IoK8sApiBatchV1JobSpec,
     status: S.optional(IoK8sApiBatchV1JobStatus),
   }).pipe(
     T.Http({
@@ -3941,11 +4166,11 @@ export interface IoK8sApiBatchV1Job {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec?: IoK8sApiBatchV1JobSpec;
-  /** Current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec is the specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec: IoK8sApiBatchV1JobSpec;
+  /** status is the current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiBatchV1JobStatus;
 }
 export const IoK8sApiBatchV1Job = /*@__PURE__*/ S.suspend(() =>
@@ -3953,7 +4178,7 @@ export const IoK8sApiBatchV1Job = /*@__PURE__*/ S.suspend(() =>
     apiVersion: S.optional(S.String),
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-    spec: S.optional(IoK8sApiBatchV1JobSpec),
+    spec: IoK8sApiBatchV1JobSpec,
     status: S.optional(IoK8sApiBatchV1JobStatus),
   }),
 ).annotate({
@@ -5078,11 +5303,11 @@ export interface ReplaceBatchV1NamespacedCronJobRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec is the specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiBatchV1CronJobSpec;
-  /** Current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** status is the current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiBatchV1CronJobStatus;
 }
 export const ReplaceBatchV1NamespacedCronJobRequest = /*@__PURE__*/ S.suspend(
@@ -5127,11 +5352,11 @@ export interface ReplaceBatchV1NamespacedCronJobStatusRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec is the specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiBatchV1CronJobSpec;
-  /** Current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** status is the current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiBatchV1CronJobStatus;
 }
 export const ReplaceBatchV1NamespacedCronJobStatusRequest =
@@ -5176,11 +5401,11 @@ export interface ReplaceBatchV1NamespacedJobRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec?: IoK8sApiBatchV1JobSpec;
-  /** Current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec is the specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec: IoK8sApiBatchV1JobSpec;
+  /** status is the current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiBatchV1JobStatus;
 }
 export const ReplaceBatchV1NamespacedJobRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5194,7 +5419,7 @@ export const ReplaceBatchV1NamespacedJobRequest = /*@__PURE__*/ S.suspend(() =>
     apiVersion: S.optional(S.String),
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-    spec: S.optional(IoK8sApiBatchV1JobSpec),
+    spec: IoK8sApiBatchV1JobSpec,
     status: S.optional(IoK8sApiBatchV1JobStatus),
   }).pipe(
     T.Http({
@@ -5224,11 +5449,11 @@ export interface ReplaceBatchV1NamespacedJobStatusRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec?: IoK8sApiBatchV1JobSpec;
-  /** Current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec is the specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec: IoK8sApiBatchV1JobSpec;
+  /** status is the current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiBatchV1JobStatus;
 }
 export const ReplaceBatchV1NamespacedJobStatusRequest = /*@__PURE__*/ S.suspend(
@@ -5243,7 +5468,7 @@ export const ReplaceBatchV1NamespacedJobStatusRequest = /*@__PURE__*/ S.suspend(
       apiVersion: S.optional(S.String),
       kind: S.optional(S.String),
       metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-      spec: S.optional(IoK8sApiBatchV1JobSpec),
+      spec: IoK8sApiBatchV1JobSpec,
       status: S.optional(IoK8sApiBatchV1JobStatus),
     }).pipe(
       T.Http({

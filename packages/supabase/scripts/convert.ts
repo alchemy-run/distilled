@@ -3,7 +3,7 @@
  * convert — turn the Supabase Management API OpenAPI spec into a Smithy 2.0
  * JSON model.
  *
- * Input:  specs/distilled-spec-supabase/specs/openapi.json  (spec submodule)
+ * Input:  specs/spec-mirror-supabase/specs/openapi.json  (spec submodule)
  *         patches/*.patch.json  (RFC-6902 patches to the OpenAPI document —
  *         ported verbatim from distilled v0; they add observed 400/404/403
  *         error responses that feed the per-op typed error unions)
@@ -22,7 +22,7 @@ await runOpenApiConvert({
   specs: [
     {
       name: "supabase",
-      specPath: "specs/distilled-spec-supabase/specs/openapi.json",
+      specPath: "specs/spec-mirror-supabase/specs/openapi.json",
     },
   ],
   // OpenAPI-document patches (v0 layout: flat patches/*.patch.json). The

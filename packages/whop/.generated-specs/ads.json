@@ -1,0 +1,3999 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.ads#ListAdsRequestAdCampaignIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#ListAdsRequestAdGroupIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#ListAdsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "IN_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_review"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#ListAdsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        },
+        "SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spend"
+          }
+        },
+        "IMPRESSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "impressions"
+          }
+        },
+        "REACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reach"
+          }
+        },
+        "CLICKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clicks"
+          }
+        },
+        "UNIQUE_CLICKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unique_clicks"
+          }
+        },
+        "FREQUENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frequency"
+          }
+        },
+        "CLICK_THROUGH_RATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "click_through_rate"
+          }
+        },
+        "RESULTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "results"
+          }
+        },
+        "COST_PER_MILLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cost_per_mille"
+          }
+        },
+        "COST_PER_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cost_per_click"
+          }
+        },
+        "COST_PER_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cost_per_result"
+          }
+        },
+        "RETURN_ON_AD_SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "return_on_ad_spend"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#ListAdsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#ListAdsRequestAttributionModel": {
+      "type": "enum",
+      "members": {
+        "LAST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_touch"
+          }
+        },
+        "FIRST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_touch"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#ListAdsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The account the ads belong to. Defaults to the account-scoped key's own account."
+          }
+        },
+        "ad_campaign_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "ad_campaign_id",
+            "smithy.api#documentation": "Only return ads in this ad campaign."
+          }
+        },
+        "ad_campaign_ids": {
+          "target": "com.whop.ads#ListAdsRequestAdCampaignIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "ad_campaign_ids",
+            "smithy.api#documentation": "Only return ads in these ad campaigns (max 100). Repeat the parameter for each id (ad_campaign_ids=a&ad_campaign_ids=b)."
+          }
+        },
+        "ad_group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "ad_group_id",
+            "smithy.api#documentation": "Only return ads in this ad group."
+          }
+        },
+        "ad_group_ids": {
+          "target": "com.whop.ads#ListAdsRequestAdGroupIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "ad_group_ids",
+            "smithy.api#documentation": "Only return ads in these ad groups (max 100). Repeat the parameter for each id (ad_group_ids=a&ad_group_ids=b)."
+          }
+        },
+        "status": {
+          "target": "com.whop.ads#ListAdsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only return ads with this status."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "Filter ads by a title or ID substring."
+          }
+        },
+        "order": {
+          "target": "com.whop.ads#ListAdsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort by. Defaults to created_at. Stat columns (spend, impressions, …) rank over the stats_from/stats_to window across the whole list, not just the current page. results, cost_per_result and return_on_ad_spend rank by the same Whop pixel-attributed values the response reports."
+          }
+        },
+        "direction": {
+          "target": "com.whop.ads#ListAdsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "The sort direction. Defaults to desc."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only return ads created before this timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return ads created after this timestamp."
+          }
+        },
+        "stats_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "stats_from",
+            "smithy.api#documentation": "Start of the stats window. Defaults to all-time."
+          }
+        },
+        "stats_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "stats_to",
+            "smithy.api#documentation": "End of the stats window. Defaults to now."
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "time_zone",
+            "smithy.api#documentation": "IANA timezone (e.g. America/New_York) the stats window is interpreted in. Bare stats_from/stats_to dates resolve to day boundaries on this clock. Defaults to UTC."
+          }
+        },
+        "attribution_model": {
+          "target": "com.whop.ads#ListAdsRequestAttributionModel",
+          "traits": {
+            "smithy.api#httpQuery": "attribution_model",
+            "smithy.api#documentation": "Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of ads to return."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of ads to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ads#Ad": {
+      "type": "structure",
+      "members": {
+        "ad_campaign": {
+          "target": "com.whop.ads#AdEntityReference",
+          "traits": {
+            "smithy.api#documentation": "The ad campaign this ad belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "ad_group": {
+          "target": "com.whop.ads#AdEntityReference",
+          "traits": {
+            "smithy.api#documentation": "The ad group this ad belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "added_to_cart_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to add-to-cart events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "added_to_carts": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed add-to-cart events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "call_to_action": {
+          "target": "com.whop.ads#AdCallToAction",
+          "traits": {
+            "smithy.api#documentation": "The call-to-action button shown on the ad.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "click_through_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Clicks divided by impressions, between 0 and 1.",
+            "smithy.api#required": {}
+          }
+        },
+        "clicks": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of clicks.",
+            "smithy.api#required": {}
+          }
+        },
+        "completed_registration_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to complete-registration events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "completed_registrations": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed complete-registration events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "contact_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to contact events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "contacts": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed contact events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_per_added_to_cart": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed add-to-cart events; null when they are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_click": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by clicks; 0 when there are no clicks.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_per_completed_registration": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed complete-registration events; null when they are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_contact": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed contact events; null when contacts are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_lead": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed leads; null when leads are not a goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_mille": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend per 1,000 impressions; 0 when there are no impressions.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_per_purchase": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed purchases; null when purchases are not a goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_result": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by Whop pixel-attributed results; null when nothing Whop-attributable is being optimized for.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_schedule": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed schedule events; null when schedules are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_submitted_application": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed submit-application events; null when they are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_unique_click": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by unique clicks; null when there are no unique clicks.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_viewed_content": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed view-content events; null when they are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the ad was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "creatives": {
+          "target": "com.whop.ads#AdCreativesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "custom_conversions": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed custom (merchant-defined) conversion events, last-click, across all custom event names.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_event_counts": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed custom conversions, keyed by your event name with its last-click count as the value. Empty when no named custom events are attributed. Custom events fired without a name are counted in custom_conversions but omitted here, so these values sum to at most custom_conversions.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_event_values": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Conversion value attributed to each custom event, keyed by event name like custom_event_counts. Sums the value passed to whop.track, normalized to USD; events fired without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "delivery_status": {
+          "target": "com.whop.ads#AdDeliveryStatus",
+          "traits": {
+            "smithy.api#documentation": "Whether the ad is delivering right now, and if not, why. When several states apply at once, the highest-precedence one is returned.",
+            "smithy.api#required": {}
+          }
+        },
+        "descriptions": {
+          "target": "com.whop.ads#AdDescriptionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "existing_post_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The post you pointed this ad at, when it promotes one you already published — a Facebook post, Instagram media, or TikTok video ID. `null` when the ad uses uploaded creatives.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frequency": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Platform-reported impressions divided by reach.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "headlines": {
+          "target": "com.whop.ads#AdHeadlinesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the ad, prefixed `ad_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "impressions": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of impressions.",
+            "smithy.api#required": {}
+          }
+        },
+        "issues": {
+          "target": "com.whop.ads#AdIssuesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "lead_form": {
+          "target": "com.whop.ads#AdLeadForm",
+          "traits": {
+            "smithy.api#documentation": "The instant lead form shown when someone taps this ad. `null` when the ad group's conversion_location is not an instant-form destination.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lead_form_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad platform's ID for the instant form the ad uses. Set when the ad references an existing form via `lead_form_id`, or once a form built from `lead_form` has been created on the platform.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lead_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to lead events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "leads": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed leads, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "messaging_config": {
+          "target": "com.whop.ads#AdMessagingConfig",
+          "traits": {
+            "smithy.api#documentation": "Welcome message for click-to-message ads, shown when the conversation opens. `null` when the ad has none.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "multi_advertiser_ads": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the ad can appear alongside other advertisers' ads in the same unit. Defaults to true."
+          }
+        },
+        "post_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The post the ad network serves for this ad, as `pageID_postID` on Meta — the post Meta created for an uploaded creative, or the post being promoted. Use it to open the live post, or to promote the same post from another ad. `null` until the network has created the post.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "post_source": {
+          "target": "com.whop.ads#AdPostSource",
+          "traits": {
+            "smithy.api#documentation": "Identifies the network that owns `existing_post_id`; `null` when the ad uses uploaded creatives.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "post_thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Preview image of the post named by `existing_post_id`. `null` for ads that use uploaded creatives, or until the post's media has been fetched from the network.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "primary_texts": {
+          "target": "com.whop.ads#AdPrimaryTextsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "purchase_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value of pixel-attributed purchases.",
+            "smithy.api#required": {}
+          }
+        },
+        "purchases": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed purchases, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "reach": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of unique people who saw this.",
+            "smithy.api#required": {}
+          }
+        },
+        "result_event": {
+          "target": "com.whop.ads#AdResultEvent",
+          "traits": {
+            "smithy.api#documentation": "The Whop pixel conversion event whose attributed count represents results — the optimization goal, or the highest-volume attributed event for campaigns that budget per ad group. Null when the goal isn't a Whop-attributed event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_event_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The merchant-defined event name when result_event is custom; null for the standard events.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The Whop pixel-attributed count behind result_event. When a campaign's ad groups optimize different goals there is no single result_event (it is null), and this is instead the sum of each ad group's own attributed results. Null when nothing Whop-attributable is being optimized for.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "return_on_ad_spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Purchase value divided by spend, both in USD (a currency-neutral ratio); 0 when there is no spend.",
+            "smithy.api#required": {}
+          }
+        },
+        "schedule_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to schedule events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "schedules": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed schedule events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "social_accounts": {
+          "target": "com.whop.ads#AdSocialAccountsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount charged, in spend_currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "spend_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 4217 currency code of all monetary metrics.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.ads#AdStatus",
+          "traits": {
+            "smithy.api#documentation": "Whether the ad is enabled. `active` and `paused` are set by you; `in_review` and `rejected` come from ad review.",
+            "smithy.api#required": {}
+          }
+        },
+        "submitted_application_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to submit-application events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "submitted_applications": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed submit-application events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display title of the ad.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unique_click_through_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Unique clicks divided by impressions, between 0 and 1.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unique_clicks": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "People who clicked, reported by the Whop pixel, counted once per person.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the ad was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL the ad links to, without its query string. Parameters belong in `url_parameters`; any you send on `url` are moved there.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url_parameters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Every query parameter appended to the URL, keyed by parameter name — including any you sent on `url` itself. Whop adds its own click-attribution parameters on top; those are reserved and rejected if you set them (utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid).",
+            "smithy.api#required": {}
+          }
+        },
+        "viewed_content_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to view-content events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "viewed_contents": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed view-content events, last-click.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdEntityReference": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The referenced entity's id.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdCallToAction": {
+      "type": "enum",
+      "members": {
+        "LEARN_MORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "learn_more"
+          }
+        },
+        "SHOP_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shop_now"
+          }
+        },
+        "SIGN_UP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sign_up"
+          }
+        },
+        "SUBSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscribe"
+          }
+        },
+        "GET_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_started"
+          }
+        },
+        "BOOK_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "book_now"
+          }
+        },
+        "APPLY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apply_now"
+          }
+        },
+        "CONTACT_US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contact_us"
+          }
+        },
+        "DOWNLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "download"
+          }
+        },
+        "ORDER_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "order_now"
+          }
+        },
+        "BUY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buy_now"
+          }
+        },
+        "GET_QUOTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_quote"
+          }
+        },
+        "MESSAGE_PAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "message_page"
+          }
+        },
+        "WHATSAPP_MESSAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whatsapp_message"
+          }
+        },
+        "INSTAGRAM_MESSAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram_message"
+          }
+        },
+        "CALL_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "call_now"
+          }
+        },
+        "GET_DIRECTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_directions"
+          }
+        },
+        "SEND_UPDATES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "send_updates"
+          }
+        },
+        "GET_OFFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_offer"
+          }
+        },
+        "WATCH_MORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "watch_more"
+          }
+        },
+        "LISTEN_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "listen_now"
+          }
+        },
+        "PLAY_GAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "play_game"
+          }
+        },
+        "OPEN_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open_link"
+          }
+        },
+        "NO_BUTTON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_button"
+          }
+        },
+        "GET_OFFER_VIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_offer_view"
+          }
+        },
+        "GET_EVENT_TICKETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_event_tickets"
+          }
+        },
+        "SEE_MENU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "see_menu"
+          }
+        },
+        "REQUEST_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "request_time"
+          }
+        },
+        "EVENT_RSVP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "event_rsvp"
+          }
+        },
+        "SEE_DETAILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "see_details"
+          }
+        },
+        "VIEW_INSTAGRAM_PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view_instagram_profile"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The call-to-action button shown on the ad."
+      }
+    },
+    "com.whop.ads#AdCreative": {
+      "type": "structure",
+      "members": {
+        "crop": {
+          "target": "com.whop.ads#AdCreativeCrop",
+          "traits": {
+            "smithy.api#documentation": "The saved crop window for this creative, in source image pixels. Null for the original asset or a format that has not been cropped.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "format": {
+          "target": "com.whop.ads#AdCreativeFormat",
+          "traits": {
+            "smithy.api#documentation": "The placement variant this asset covers, or null for the original asset.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creative attachment's file id.",
+            "smithy.api#required": {}
+          }
+        },
+        "media_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The kind of asset, image or video.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CDN url of the asset.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdCreativeCrop": {
+      "type": "structure",
+      "members": {
+        "height": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Height of the crop window in source pixels.",
+            "smithy.api#required": {}
+          }
+        },
+        "width": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Width of the crop window in source pixels.",
+            "smithy.api#required": {}
+          }
+        },
+        "x": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Left edge of the crop window in source pixels.",
+            "smithy.api#required": {}
+          }
+        },
+        "y": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Top edge of the crop window in source pixels.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdCreativeFormat": {
+      "type": "enum",
+      "members": {
+        "SQUARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "square"
+          }
+        },
+        "VERTICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vertical"
+          }
+        },
+        "HORIZONTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "horizontal"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The placement variant this asset covers, or null for the original asset."
+      }
+    },
+    "com.whop.ads#AdCreativesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#AdCreative"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdDeliveryStatus": {
+      "type": "enum",
+      "members": {
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "IN_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_review"
+          }
+        },
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "CAMPAIGN_PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "campaign_paused"
+          }
+        },
+        "AD_GROUP_PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_group_paused"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "ISSUES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "issues"
+          }
+        },
+        "SCHEDULED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scheduled"
+          }
+        },
+        "LEARNING_LIMITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "learning_limited"
+          }
+        },
+        "LEARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "learning"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the ad is delivering right now, and if not, why. When several states apply at once, the highest-precedence one is returned."
+      }
+    },
+    "com.whop.ads#AdDescriptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdHeadlinesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdPlatformIssue": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the issue.",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A description of what the issue is and how it can be resolved.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the campaign, ad group, or ad the issue is attached to.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resource_type": {
+          "target": "com.whop.ads#AdPlatformIssueResourceType",
+          "traits": {
+            "smithy.api#documentation": "The type of resource the issue is attached to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdPlatformIssueResourceType": {
+      "type": "enum",
+      "members": {
+        "AD_CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign"
+          }
+        },
+        "AD_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_group"
+          }
+        },
+        "AD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of resource the issue is attached to."
+      }
+    },
+    "com.whop.ads#AdIssuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#AdPlatformIssue"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdLeadForm": {
+      "type": "structure",
+      "members": {
+        "completion": {
+          "target": "com.whop.ads#AdLeadFormCompletion",
+          "traits": {
+            "smithy.api#documentation": "Screen shown after the form is submitted. `null` when the form uses the default.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "disclaimer": {
+          "target": "com.whop.ads#AdLeadFormDisclaimer",
+          "traits": {
+            "smithy.api#documentation": "Custom consent disclaimer shown before submission. `null` when the form has none.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "form_type": {
+          "target": "com.whop.ads#AdLeadFormFormType",
+          "traits": {
+            "smithy.api#documentation": "`more_volume` is quickest to submit; `higher_intent` adds a confirmation step before submission.",
+            "smithy.api#required": {}
+          }
+        },
+        "intro": {
+          "target": "com.whop.ads#AdLeadFormIntro",
+          "traits": {
+            "smithy.api#documentation": "Intro screen shown before the questions. `null` when the form has none.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Internal name of the form.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone_verification": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the phone number must be verified by SMS before submitting.",
+            "smithy.api#required": {}
+          }
+        },
+        "privacy_policy": {
+          "target": "com.whop.ads#AdLeadFormPrivacyPolicy",
+          "traits": {
+            "smithy.api#documentation": "Your privacy policy, linked from the form. `null` when unset.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "questions": {
+          "target": "com.whop.ads#AdLeadFormQuestionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdLeadFormCompletion": {
+      "type": "structure",
+      "members": {
+        "button_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text of the follow-up button.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Body text under the headline.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "headline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Headline of the completion screen.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Website the follow-up button opens. `null` when the screen has no button.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdLeadFormDisclaimer": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Disclaimer text.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "checkboxes": {
+          "target": "com.whop.ads#AdLeadFormDisclaimerCheckboxesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Disclaimer title.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdLeadFormDisclaimerCheckbox": {
+      "type": "structure",
+      "members": {
+        "checked_by_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the checkbox starts ticked.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable identifier consent responses are stored under.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the checkbox must be ticked to submit the form.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Consent text next to the checkbox.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdLeadFormDisclaimerCheckboxesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#AdLeadFormDisclaimerCheckbox"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdLeadFormFormType": {
+      "type": "enum",
+      "members": {
+        "MORE_VOLUME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "more_volume"
+          }
+        },
+        "HIGHER_INTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "higher_intent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`more_volume` is quickest to submit; `higher_intent` adds a confirmation step before submission."
+      }
+    },
+    "com.whop.ads#AdLeadFormIntro": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Body text under the headline.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "headline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Headline of the intro screen.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdLeadFormPrivacyPolicy": {
+      "type": "structure",
+      "members": {
+        "link_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Link text shown for the policy. `null` uses the platform default.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of your privacy policy.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdLeadFormQuestion": {
+      "type": "structure",
+      "members": {
+        "format": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Answer format for `custom` questions: `short_answer`, `multiple_choice`, or `appointment`. Absent otherwise."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Question text for `custom` questions. Absent for standard prefill questions."
+          }
+        },
+        "options": {
+          "target": "com.whop.ads#AdLeadFormQuestionOptionsList"
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Question type: a standard prefill type such as `email`, `phone`, or `full_name`, or `custom` for your own question.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdLeadFormQuestionOption": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable identifier the choice's answers are stored under. Absent for simple choices.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logic": {
+          "target": "com.whop.ads#AdLeadFormOptionLogic",
+          "traits": {
+            "smithy.api#documentation": "Where the form goes when this choice is selected. Absent when the form just continues to the next question."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Choice text shown to the person.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdLeadFormOptionLogic": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.whop.ads#AdLeadFormOptionLogicAction",
+          "traits": {
+            "smithy.api#documentation": "What happens when the choice is selected.",
+            "smithy.api#required": {}
+          }
+        },
+        "target_end_page_index": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Zero-based index of the ending screen to jump to."
+          }
+        },
+        "target_question_index": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Zero-based index of the question to jump to, for `go_to_question`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdLeadFormOptionLogicAction": {
+      "type": "enum",
+      "members": {
+        "GO_TO_QUESTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go_to_question"
+          }
+        },
+        "SUBMIT_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submit_form"
+          }
+        },
+        "CLOSE_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "close_form"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What happens when the choice is selected."
+      }
+    },
+    "com.whop.ads#AdLeadFormQuestionOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#AdLeadFormQuestionOption"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdLeadFormQuestionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#AdLeadFormQuestion"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdMessagingConfig": {
+      "type": "structure",
+      "members": {
+        "keyword": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Suggested reply the person can tap to start the conversation.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Greeting shown when the conversation opens.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdPostSource": {
+      "type": "enum",
+      "members": {
+        "FACEBOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "facebook"
+          }
+        },
+        "INSTAGRAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Identifies the network that owns `existing_post_id`; `null` when the ad uses uploaded creatives."
+      }
+    },
+    "com.whop.ads#AdPrimaryTextsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdResultEvent": {
+      "type": "enum",
+      "members": {
+        "PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purchase"
+          }
+        },
+        "LEAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead"
+          }
+        },
+        "SCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule"
+          }
+        },
+        "SUBMIT_APPLICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submit_application"
+          }
+        },
+        "CONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contact"
+          }
+        },
+        "COMPLETE_REGISTRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete_registration"
+          }
+        },
+        "VIEW_CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view_content"
+          }
+        },
+        "ADD_TO_CART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add_to_cart"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "MESSAGING_CONVERSATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messaging_conversation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Whop pixel conversion event whose attributed count represents results — the optimization goal, or the highest-volume attributed event for campaigns that budget per ad group. Null when the goal isn't a Whop-attributed event."
+      }
+    },
+    "com.whop.ads#AdSocialAccountsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#AdEntityReference"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#AdStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "IN_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_review"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the ad is enabled. `active` and `paused` are set by you; `in_review` and `rejected` come from ad review."
+      }
+    },
+    "com.whop.ads#ListAdsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#Ad"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#ListAdsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#ListAdsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.ads#ListAdsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.ads#ListAdsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ads#ListAds": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ads#ListAdsRequest"
+      },
+      "output": {
+        "target": "com.whop.ads#ListAdsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ads#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ads",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Ads\n\nLists the ads for an account, with stats over the requested window.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.ads#CreateAdRequestCallToAction": {
+      "type": "enum",
+      "members": {
+        "APPLY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apply_now"
+          }
+        },
+        "BOOK_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "book_now"
+          }
+        },
+        "CALL_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "call_now"
+          }
+        },
+        "CONTACT_US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contact_us"
+          }
+        },
+        "DOWNLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "download"
+          }
+        },
+        "GET_DIRECTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_directions"
+          }
+        },
+        "GET_OFFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_offer"
+          }
+        },
+        "GET_QUOTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_quote"
+          }
+        },
+        "LEARN_MORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "learn_more"
+          }
+        },
+        "LISTEN_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "listen_now"
+          }
+        },
+        "MESSAGE_PAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "message_page"
+          }
+        },
+        "NO_BUTTON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_button"
+          }
+        },
+        "OPEN_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open_link"
+          }
+        },
+        "ORDER_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "order_now"
+          }
+        },
+        "REQUEST_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "request_time"
+          }
+        },
+        "SEE_DETAILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "see_details"
+          }
+        },
+        "SEE_MENU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "see_menu"
+          }
+        },
+        "SEND_UPDATES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "send_updates"
+          }
+        },
+        "SHOP_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shop_now"
+          }
+        },
+        "SIGN_UP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sign_up"
+          }
+        },
+        "SUBSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscribe"
+          }
+        },
+        "WATCH_MORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "watch_more"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The call-to-action button shown on the ad."
+      }
+    },
+    "com.whop.ads#CreateAdRequestCreativesItemCrop": {
+      "type": "structure",
+      "members": {
+        "height": {
+          "target": "smithy.api#Double"
+        },
+        "width": {
+          "target": "smithy.api#Double"
+        },
+        "x": {
+          "target": "smithy.api#Double"
+        },
+        "y": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The saved crop window for this creative, in source image pixels. Omit it for the original asset or for a format that has not been cropped."
+      }
+    },
+    "com.whop.ads#CreateAdRequestCreativesItemFormat": {
+      "type": "enum",
+      "members": {
+        "SQUARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "square"
+          }
+        },
+        "VERTICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vertical"
+          }
+        },
+        "HORIZONTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "horizontal"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#CreateAdRequestCreativesItem": {
+      "type": "structure",
+      "members": {
+        "crop": {
+          "target": "com.whop.ads#CreateAdRequestCreativesItemCrop",
+          "traits": {
+            "smithy.api#documentation": "The saved crop window for this creative, in source image pixels. Omit it for the original asset or for a format that has not been cropped."
+          }
+        },
+        "format": {
+          "target": "com.whop.ads#CreateAdRequestCreativesItemFormat"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded file ID, prefixed `file_`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#CreateAdRequestCreativesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#CreateAdRequestCreativesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Two or more entries with no format become a carousel (2-10 attachments), in order, sharing the ad's copy."
+      }
+    },
+    "com.whop.ads#CreateAdRequestDescriptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The description variants shown on the ad."
+      }
+    },
+    "com.whop.ads#CreateAdRequestHeadlinesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The headline variants shown on the ad."
+      }
+    },
+    "com.whop.ads#CreateAdRequestLeadFormCompletion": {
+      "type": "structure",
+      "members": {
+        "button_text": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "headline": {
+          "target": "smithy.api#String"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional completion screen shown after submission; url sets the follow-up website button."
+      }
+    },
+    "com.whop.ads#CreateAdRequestLeadFormDisclaimerCheckboxesItem": {
+      "type": "structure",
+      "members": {
+        "checked_by_default": {
+          "target": "smithy.api#Boolean"
+        },
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "required": {
+          "target": "smithy.api#Boolean"
+        },
+        "text": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#CreateAdRequestLeadFormDisclaimerCheckboxesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#CreateAdRequestLeadFormDisclaimerCheckboxesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#CreateAdRequestLeadFormDisclaimer": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String"
+        },
+        "checkboxes": {
+          "target": "com.whop.ads#CreateAdRequestLeadFormDisclaimerCheckboxesList"
+        },
+        "title": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional custom consent disclaimer with checkboxes."
+      }
+    },
+    "com.whop.ads#CreateAdRequestLeadFormFormType": {
+      "type": "enum",
+      "members": {
+        "MORE_VOLUME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "more_volume"
+          }
+        },
+        "HIGHER_INTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "higher_intent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "more_volume (default) is quickest to submit; higher_intent adds a confirmation step."
+      }
+    },
+    "com.whop.ads#CreateAdRequestLeadFormIntro": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "headline": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional intro screen shown before the questions."
+      }
+    },
+    "com.whop.ads#CreateAdRequestLeadFormPrivacyPolicy": {
+      "type": "structure",
+      "members": {
+        "link_text": {
+          "target": "smithy.api#String"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Your privacy policy. url is required by the ad platform."
+      }
+    },
+    "com.whop.ads#CreateAdRequestLeadFormQuestionsItemFormat": {
+      "type": "enum",
+      "members": {
+        "SHORT_ANSWER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "short_answer"
+          }
+        },
+        "MULTIPLE_CHOICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple_choice"
+          }
+        },
+        "APPOINTMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "appointment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#CreateAdRequestLeadFormQuestionsItemOptionsItemLogicAction": {
+      "type": "enum",
+      "members": {
+        "GO_TO_QUESTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go_to_question"
+          }
+        },
+        "SUBMIT_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submit_form"
+          }
+        },
+        "CLOSE_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "close_form"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#CreateAdRequestLeadFormQuestionsItemOptionsItemLogic": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.whop.ads#CreateAdRequestLeadFormQuestionsItemOptionsItemLogicAction"
+        },
+        "target_end_page_index": {
+          "target": "smithy.api#Integer"
+        },
+        "target_question_index": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#CreateAdRequestLeadFormQuestionsItemOptionsItem": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "logic": {
+          "target": "com.whop.ads#CreateAdRequestLeadFormQuestionsItemOptionsItemLogic"
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#CreateAdRequestLeadFormQuestionsItemOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#CreateAdRequestLeadFormQuestionsItemOptionsItem"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#CreateAdRequestLeadFormQuestionsItemType": {
+      "type": "enum",
+      "members": {
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email"
+          }
+        },
+        "PHONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "phone"
+          }
+        },
+        "FULL_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full_name"
+          }
+        },
+        "FIRST_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_name"
+          }
+        },
+        "LAST_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_name"
+          }
+        },
+        "CITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "city"
+          }
+        },
+        "STATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "state"
+          }
+        },
+        "ZIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zip"
+          }
+        },
+        "COUNTRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "country"
+          }
+        },
+        "STREET_ADDRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "street_address"
+          }
+        },
+        "JOB_TITLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "job_title"
+          }
+        },
+        "COMPANY_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company_name"
+          }
+        },
+        "WORK_EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "work_email"
+          }
+        },
+        "WORK_PHONE_NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "work_phone_number"
+          }
+        },
+        "DOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dob"
+          }
+        },
+        "GENDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gender"
+          }
+        },
+        "MARITAL_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marital_status"
+          }
+        },
+        "RELATIONSHIP_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "relationship_status"
+          }
+        },
+        "MILITARY_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "military_status"
+          }
+        },
+        "DATE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_time"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#CreateAdRequestLeadFormQuestionsItem": {
+      "type": "structure",
+      "members": {
+        "format": {
+          "target": "com.whop.ads#CreateAdRequestLeadFormQuestionsItemFormat"
+        },
+        "label": {
+          "target": "smithy.api#String"
+        },
+        "options": {
+          "target": "com.whop.ads#CreateAdRequestLeadFormQuestionsItemOptionsList"
+        },
+        "type": {
+          "target": "com.whop.ads#CreateAdRequestLeadFormQuestionsItemType"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#CreateAdRequestLeadFormQuestionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#CreateAdRequestLeadFormQuestionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The questions on the form. Standard prefill types need only a type; a custom question needs a label and a format (plus options for multiple_choice). Options carry an optional key and answer-routing logic."
+      }
+    },
+    "com.whop.ads#CreateAdRequestLeadForm": {
+      "type": "structure",
+      "members": {
+        "completion": {
+          "target": "com.whop.ads#CreateAdRequestLeadFormCompletion",
+          "traits": {
+            "smithy.api#documentation": "Optional completion screen shown after submission; url sets the follow-up website button."
+          }
+        },
+        "disclaimer": {
+          "target": "com.whop.ads#CreateAdRequestLeadFormDisclaimer",
+          "traits": {
+            "smithy.api#documentation": "Optional custom consent disclaimer with checkboxes."
+          }
+        },
+        "form_type": {
+          "target": "com.whop.ads#CreateAdRequestLeadFormFormType",
+          "traits": {
+            "smithy.api#documentation": "more_volume (default) is quickest to submit; higher_intent adds a confirmation step."
+          }
+        },
+        "intro": {
+          "target": "com.whop.ads#CreateAdRequestLeadFormIntro",
+          "traits": {
+            "smithy.api#documentation": "Optional intro screen shown before the questions."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Internal name for the form. Auto-generated if omitted."
+          }
+        },
+        "phone_verification": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require SMS verification of the phone number (higher_intent forms)."
+          }
+        },
+        "privacy_policy": {
+          "target": "com.whop.ads#CreateAdRequestLeadFormPrivacyPolicy",
+          "traits": {
+            "smithy.api#documentation": "Your privacy policy. url is required by the ad platform."
+          }
+        },
+        "questions": {
+          "target": "com.whop.ads#CreateAdRequestLeadFormQuestionsList",
+          "traits": {
+            "smithy.api#documentation": "The questions on the form. Standard prefill types need only a type; a custom question needs a label and a format (plus options for multiple_choice). Options carry an optional key and answer-routing logic."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Instant lead form for the ad. Only allowed when the ad group's conversion_location is an instant-form destination (instant_forms, instant_forms_and_messenger, website_and_instant_forms). Mutually exclusive with lead_form_id."
+      }
+    },
+    "com.whop.ads#CreateAdRequestMessagingConfig": {
+      "type": "structure",
+      "members": {
+        "keyword": {
+          "target": "smithy.api#String"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Click-to-message welcome copy: the greeting (message) and the ice-breaker prompt (keyword)."
+      }
+    },
+    "com.whop.ads#CreateAdRequestPostSource": {
+      "type": "enum",
+      "members": {
+        "FACEBOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "facebook"
+          }
+        },
+        "INSTAGRAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Identifies the network that owns `existing_post_id`. The source is inferred from the ID shape when omitted."
+      }
+    },
+    "com.whop.ads#CreateAdRequestPrimaryTextsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The primary text variants shown in the ad body."
+      }
+    },
+    "com.whop.ads#CreateAdRequestSocialAccountsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Social account ID, prefixed `sacc_`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#CreateAdRequestSocialAccountsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#CreateAdRequestSocialAccountsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The social accounts the ad runs under — a connected Facebook page and, optionally, an Instagram profile."
+      }
+    },
+    "com.whop.ads#CreateAdRequest": {
+      "type": "structure",
+      "members": {
+        "ad_group": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "An inline ad group to create (same shape as POST /ad_groups, including ad_campaign_id). Creates the ad group and the ad together. Provide this OR ad_group_id."
+          }
+        },
+        "ad_group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The existing ad group to create the ad in. Provide this OR ad_group, not both."
+          }
+        },
+        "call_to_action": {
+          "target": "com.whop.ads#CreateAdRequestCallToAction",
+          "traits": {
+            "smithy.api#documentation": "The call-to-action button shown on the ad."
+          }
+        },
+        "creatives": {
+          "target": "com.whop.ads#CreateAdRequestCreativesList",
+          "traits": {
+            "smithy.api#documentation": "The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Two or more entries with no format become a carousel (2-10 attachments), in order, sharing the ad's copy."
+          }
+        },
+        "descriptions": {
+          "target": "com.whop.ads#CreateAdRequestDescriptionsList",
+          "traits": {
+            "smithy.api#documentation": "The description variants shown on the ad."
+          }
+        },
+        "existing_post_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Promote a post you already published instead of uploading creatives — a Facebook post or Instagram media id. Mutually exclusive with creatives. Pair with post_source."
+          }
+        },
+        "headlines": {
+          "target": "com.whop.ads#CreateAdRequestHeadlinesList",
+          "traits": {
+            "smithy.api#documentation": "The headline variants shown on the ad."
+          }
+        },
+        "lead_form": {
+          "target": "com.whop.ads#CreateAdRequestLeadForm",
+          "traits": {
+            "smithy.api#documentation": "Instant lead form for the ad. Only allowed when the ad group's conversion_location is an instant-form destination (instant_forms, instant_forms_and_messenger, website_and_instant_forms). Mutually exclusive with lead_form_id."
+          }
+        },
+        "lead_form_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Use an existing instant form instead of creating one — the form's platform ID, from a form already on the ad's Facebook page. Only allowed when the ad group's conversion_location is an instant-form destination. Mutually exclusive with lead_form."
+          }
+        },
+        "messaging_config": {
+          "target": "com.whop.ads#CreateAdRequestMessagingConfig",
+          "traits": {
+            "smithy.api#documentation": "Click-to-message welcome copy: the greeting (message) and the ice-breaker prompt (keyword)."
+          }
+        },
+        "multi_advertiser_ads": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the ad can appear alongside other advertisers' ads in the same unit. Defaults to true."
+          }
+        },
+        "post_source": {
+          "target": "com.whop.ads#CreateAdRequestPostSource",
+          "traits": {
+            "smithy.api#documentation": "Identifies the network that owns `existing_post_id`. The source is inferred from the ID shape when omitted."
+          }
+        },
+        "primary_texts": {
+          "target": "com.whop.ads#CreateAdRequestPrimaryTextsList",
+          "traits": {
+            "smithy.api#documentation": "The primary text variants shown in the ad body."
+          }
+        },
+        "social_accounts": {
+          "target": "com.whop.ads#CreateAdRequestSocialAccountsList",
+          "traits": {
+            "smithy.api#documentation": "The social accounts the ad runs under — a connected Facebook page and, optionally, an Instagram profile."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the ad."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL the ad links to. Query parameters are merged into url_parameters, so the stored URL is always bare."
+          }
+        },
+        "url_parameters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Query parameters to append to the destination URL, keyed by parameter name. Merged with any query string on `url`. Whop adds its own click-attribution parameters; those are reserved and rejected if you set them (utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid)."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ads#CreateAd": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ads#CreateAdRequest"
+      },
+      "output": {
+        "target": "com.whop.ads#Ad"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ads#BadRequest"
+        },
+        {
+          "target": "com.whop.ads#NotFound"
+        },
+        {
+          "target": "com.whop.ads#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ads",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an Ad\n\nCreates an ad in an ad group."
+      }
+    },
+    "com.whop.ads#GetAdRequestAttributionModel": {
+      "type": "enum",
+      "members": {
+        "LAST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_touch"
+          }
+        },
+        "FIRST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_touch"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#GetAdRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad ID."
+          }
+        },
+        "stats_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "stats_from",
+            "smithy.api#documentation": "Start of the stats window."
+          }
+        },
+        "stats_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "stats_to",
+            "smithy.api#documentation": "End of the stats window."
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "time_zone",
+            "smithy.api#documentation": "IANA timezone the stats window is interpreted in. Defaults to UTC."
+          }
+        },
+        "attribution_model": {
+          "target": "com.whop.ads#GetAdRequestAttributionModel",
+          "traits": {
+            "smithy.api#httpQuery": "attribution_model",
+            "smithy.api#documentation": "Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ads#GetAd": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ads#GetAdRequest"
+      },
+      "output": {
+        "target": "com.whop.ads#Ad"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ads#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ads/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve an Ad\n\nRetrieves a single ad with stats over the requested window."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestCallToAction": {
+      "type": "enum",
+      "members": {
+        "APPLY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apply_now"
+          }
+        },
+        "BOOK_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "book_now"
+          }
+        },
+        "CALL_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "call_now"
+          }
+        },
+        "CONTACT_US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contact_us"
+          }
+        },
+        "DOWNLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "download"
+          }
+        },
+        "GET_DIRECTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_directions"
+          }
+        },
+        "GET_OFFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_offer"
+          }
+        },
+        "GET_QUOTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_quote"
+          }
+        },
+        "LEARN_MORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "learn_more"
+          }
+        },
+        "LISTEN_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "listen_now"
+          }
+        },
+        "MESSAGE_PAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "message_page"
+          }
+        },
+        "NO_BUTTON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_button"
+          }
+        },
+        "OPEN_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open_link"
+          }
+        },
+        "ORDER_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "order_now"
+          }
+        },
+        "REQUEST_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "request_time"
+          }
+        },
+        "SEE_DETAILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "see_details"
+          }
+        },
+        "SEE_MENU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "see_menu"
+          }
+        },
+        "SEND_UPDATES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "send_updates"
+          }
+        },
+        "SHOP_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shop_now"
+          }
+        },
+        "SIGN_UP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sign_up"
+          }
+        },
+        "SUBSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscribe"
+          }
+        },
+        "WATCH_MORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "watch_more"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The call-to-action button shown on the ad."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestCreativesItemCrop": {
+      "type": "structure",
+      "members": {
+        "height": {
+          "target": "smithy.api#Double"
+        },
+        "width": {
+          "target": "smithy.api#Double"
+        },
+        "x": {
+          "target": "smithy.api#Double"
+        },
+        "y": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The saved crop window for this creative, in source image pixels. Omit it for the original asset or for a format that has not been cropped."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestCreativesItemFormat": {
+      "type": "enum",
+      "members": {
+        "SQUARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "square"
+          }
+        },
+        "VERTICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vertical"
+          }
+        },
+        "HORIZONTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "horizontal"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#UpdateAdRequestCreativesItem": {
+      "type": "structure",
+      "members": {
+        "crop": {
+          "target": "com.whop.ads#UpdateAdRequestCreativesItemCrop",
+          "traits": {
+            "smithy.api#documentation": "The saved crop window for this creative, in source image pixels. Omit it for the original asset or for a format that has not been cropped."
+          }
+        },
+        "format": {
+          "target": "com.whop.ads#UpdateAdRequestCreativesItemFormat"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded file ID, prefixed `file_`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#UpdateAdRequestCreativesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#UpdateAdRequestCreativesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Replaces a live ad's creative on the platform. Two or more entries with no format replace it with a carousel (2-10 attachments), in order, sharing the ad's copy."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestDescriptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The description variants shown on the ad."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestHeadlinesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The headline variants shown on the ad."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormCompletion": {
+      "type": "structure",
+      "members": {
+        "button_text": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "headline": {
+          "target": "smithy.api#String"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional completion screen shown after submission; url sets the follow-up website button."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormDisclaimerCheckboxesItem": {
+      "type": "structure",
+      "members": {
+        "checked_by_default": {
+          "target": "smithy.api#Boolean"
+        },
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "required": {
+          "target": "smithy.api#Boolean"
+        },
+        "text": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormDisclaimerCheckboxesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#UpdateAdRequestLeadFormDisclaimerCheckboxesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormDisclaimer": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String"
+        },
+        "checkboxes": {
+          "target": "com.whop.ads#UpdateAdRequestLeadFormDisclaimerCheckboxesList"
+        },
+        "title": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional custom consent disclaimer with checkboxes."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormFormType": {
+      "type": "enum",
+      "members": {
+        "MORE_VOLUME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "more_volume"
+          }
+        },
+        "HIGHER_INTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "higher_intent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "more_volume (default) is quickest to submit; higher_intent adds a confirmation step."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormIntro": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "headline": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional intro screen shown before the questions."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormPrivacyPolicy": {
+      "type": "structure",
+      "members": {
+        "link_text": {
+          "target": "smithy.api#String"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Your privacy policy. url is required by the ad platform."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormQuestionsItemFormat": {
+      "type": "enum",
+      "members": {
+        "SHORT_ANSWER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "short_answer"
+          }
+        },
+        "MULTIPLE_CHOICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple_choice"
+          }
+        },
+        "APPOINTMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "appointment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormQuestionsItemOptionsItemLogicAction": {
+      "type": "enum",
+      "members": {
+        "GO_TO_QUESTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go_to_question"
+          }
+        },
+        "SUBMIT_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submit_form"
+          }
+        },
+        "CLOSE_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "close_form"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormQuestionsItemOptionsItemLogic": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.whop.ads#UpdateAdRequestLeadFormQuestionsItemOptionsItemLogicAction"
+        },
+        "target_end_page_index": {
+          "target": "smithy.api#Integer"
+        },
+        "target_question_index": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormQuestionsItemOptionsItem": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "logic": {
+          "target": "com.whop.ads#UpdateAdRequestLeadFormQuestionsItemOptionsItemLogic"
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormQuestionsItemOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#UpdateAdRequestLeadFormQuestionsItemOptionsItem"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormQuestionsItemType": {
+      "type": "enum",
+      "members": {
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email"
+          }
+        },
+        "PHONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "phone"
+          }
+        },
+        "FULL_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full_name"
+          }
+        },
+        "FIRST_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_name"
+          }
+        },
+        "LAST_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_name"
+          }
+        },
+        "CITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "city"
+          }
+        },
+        "STATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "state"
+          }
+        },
+        "ZIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zip"
+          }
+        },
+        "COUNTRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "country"
+          }
+        },
+        "STREET_ADDRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "street_address"
+          }
+        },
+        "JOB_TITLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "job_title"
+          }
+        },
+        "COMPANY_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company_name"
+          }
+        },
+        "WORK_EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "work_email"
+          }
+        },
+        "WORK_PHONE_NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "work_phone_number"
+          }
+        },
+        "DOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dob"
+          }
+        },
+        "GENDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gender"
+          }
+        },
+        "MARITAL_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marital_status"
+          }
+        },
+        "RELATIONSHIP_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "relationship_status"
+          }
+        },
+        "MILITARY_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "military_status"
+          }
+        },
+        "DATE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_time"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormQuestionsItem": {
+      "type": "structure",
+      "members": {
+        "format": {
+          "target": "com.whop.ads#UpdateAdRequestLeadFormQuestionsItemFormat"
+        },
+        "label": {
+          "target": "smithy.api#String"
+        },
+        "options": {
+          "target": "com.whop.ads#UpdateAdRequestLeadFormQuestionsItemOptionsList"
+        },
+        "type": {
+          "target": "com.whop.ads#UpdateAdRequestLeadFormQuestionsItemType"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#UpdateAdRequestLeadFormQuestionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#UpdateAdRequestLeadFormQuestionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The questions on the form. Standard prefill types need only a type; a custom question needs a label and a format (plus options for multiple_choice). Options carry an optional key and answer-routing logic."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestLeadForm": {
+      "type": "structure",
+      "members": {
+        "completion": {
+          "target": "com.whop.ads#UpdateAdRequestLeadFormCompletion",
+          "traits": {
+            "smithy.api#documentation": "Optional completion screen shown after submission; url sets the follow-up website button."
+          }
+        },
+        "disclaimer": {
+          "target": "com.whop.ads#UpdateAdRequestLeadFormDisclaimer",
+          "traits": {
+            "smithy.api#documentation": "Optional custom consent disclaimer with checkboxes."
+          }
+        },
+        "form_type": {
+          "target": "com.whop.ads#UpdateAdRequestLeadFormFormType",
+          "traits": {
+            "smithy.api#documentation": "more_volume (default) is quickest to submit; higher_intent adds a confirmation step."
+          }
+        },
+        "intro": {
+          "target": "com.whop.ads#UpdateAdRequestLeadFormIntro",
+          "traits": {
+            "smithy.api#documentation": "Optional intro screen shown before the questions."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Internal name for the form. Auto-generated if omitted."
+          }
+        },
+        "phone_verification": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require SMS verification of the phone number (higher_intent forms)."
+          }
+        },
+        "privacy_policy": {
+          "target": "com.whop.ads#UpdateAdRequestLeadFormPrivacyPolicy",
+          "traits": {
+            "smithy.api#documentation": "Your privacy policy. url is required by the ad platform."
+          }
+        },
+        "questions": {
+          "target": "com.whop.ads#UpdateAdRequestLeadFormQuestionsList",
+          "traits": {
+            "smithy.api#documentation": "The questions on the form. Standard prefill types need only a type; a custom question needs a label and a format (plus options for multiple_choice). Options carry an optional key and answer-routing logic."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Instant lead form for the ad. Only allowed when the ad group's conversion_location is an instant-form destination (instant_forms, instant_forms_and_messenger, website_and_instant_forms). Mutually exclusive with lead_form_id."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestMessagingConfig": {
+      "type": "structure",
+      "members": {
+        "keyword": {
+          "target": "smithy.api#String"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Click-to-message welcome copy: the greeting (message) and the ice-breaker prompt (keyword)."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestPostSource": {
+      "type": "enum",
+      "members": {
+        "FACEBOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "facebook"
+          }
+        },
+        "INSTAGRAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Identifies the network that owns `existing_post_id`. The source is inferred from the ID shape when omitted."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestPrimaryTextsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The primary text variants shown in the ad body."
+      }
+    },
+    "com.whop.ads#UpdateAdRequestSocialAccountsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Social account ID, prefixed `sacc_`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ads#UpdateAdRequestSocialAccountsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#UpdateAdRequestSocialAccountsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The social accounts the ad runs under — a connected Facebook page and, optionally, an Instagram profile."
+      }
+    },
+    "com.whop.ads#UpdateAdRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad ID."
+          }
+        },
+        "call_to_action": {
+          "target": "com.whop.ads#UpdateAdRequestCallToAction",
+          "traits": {
+            "smithy.api#documentation": "The call-to-action button shown on the ad."
+          }
+        },
+        "creatives": {
+          "target": "com.whop.ads#UpdateAdRequestCreativesList",
+          "traits": {
+            "smithy.api#documentation": "The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Replaces a live ad's creative on the platform. Two or more entries with no format replace it with a carousel (2-10 attachments), in order, sharing the ad's copy."
+          }
+        },
+        "descriptions": {
+          "target": "com.whop.ads#UpdateAdRequestDescriptionsList",
+          "traits": {
+            "smithy.api#documentation": "The description variants shown on the ad."
+          }
+        },
+        "existing_post_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Promote a post you already published instead of uploading creatives — a Facebook post or Instagram media id. Mutually exclusive with creatives. Pair with post_source."
+          }
+        },
+        "headlines": {
+          "target": "com.whop.ads#UpdateAdRequestHeadlinesList",
+          "traits": {
+            "smithy.api#documentation": "The headline variants shown on the ad."
+          }
+        },
+        "lead_form": {
+          "target": "com.whop.ads#UpdateAdRequestLeadForm",
+          "traits": {
+            "smithy.api#documentation": "Instant lead form for the ad. Only allowed when the ad group's conversion_location is an instant-form destination (instant_forms, instant_forms_and_messenger, website_and_instant_forms). Mutually exclusive with lead_form_id."
+          }
+        },
+        "lead_form_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Use an existing instant form instead of creating one — the form's platform ID, from a form already on the ad's Facebook page. Only allowed when the ad group's conversion_location is an instant-form destination. Mutually exclusive with lead_form. Replaces a stored lead_form."
+          }
+        },
+        "messaging_config": {
+          "target": "com.whop.ads#UpdateAdRequestMessagingConfig",
+          "traits": {
+            "smithy.api#documentation": "Click-to-message welcome copy: the greeting (message) and the ice-breaker prompt (keyword)."
+          }
+        },
+        "multi_advertiser_ads": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the ad can appear alongside other advertisers' ads in the same unit. Defaults to true."
+          }
+        },
+        "post_source": {
+          "target": "com.whop.ads#UpdateAdRequestPostSource",
+          "traits": {
+            "smithy.api#documentation": "Identifies the network that owns `existing_post_id`. The source is inferred from the ID shape when omitted."
+          }
+        },
+        "primary_texts": {
+          "target": "com.whop.ads#UpdateAdRequestPrimaryTextsList",
+          "traits": {
+            "smithy.api#documentation": "The primary text variants shown in the ad body."
+          }
+        },
+        "social_accounts": {
+          "target": "com.whop.ads#UpdateAdRequestSocialAccountsList",
+          "traits": {
+            "smithy.api#documentation": "The social accounts the ad runs under — a connected Facebook page and, optionally, an Instagram profile."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the ad."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL the ad links to. Query parameters are merged into url_parameters, so the stored URL is always bare."
+          }
+        },
+        "url_parameters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Query parameters to append to the destination URL, keyed by parameter name. Merged with any query string on `url`. Whop adds its own click-attribution parameters; those are reserved and rejected if you set them (utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ads#UpdateAd": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ads#UpdateAdRequest"
+      },
+      "output": {
+        "target": "com.whop.ads#Ad"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/ads/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update an Ad\n\nUpdates an ad's editable fields."
+      }
+    },
+    "com.whop.ads#DeleteAdRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ads#DeleteAdResponse": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always true.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the deleted ad.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ads#DeleteAd": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ads#DeleteAdRequest"
+      },
+      "output": {
+        "target": "com.whop.ads#DeleteAdResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ads#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/ads/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete an Ad\n\nDeletes an ad."
+      }
+    },
+    "com.whop.ads#DuplicateAdRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad ID."
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of copies to create (1-10). Defaults to 1."
+          }
+        },
+        "preserve_engagement": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the copies keep the original post's engagement (likes, comments, shares). Defaults to false."
+          }
+        },
+        "target_ad_group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ad group to duplicate into. Defaults to the ad's own ad group."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ads#DuplicateAdResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ads#Ad"
+      },
+      "traits": {}
+    },
+    "com.whop.ads#DuplicateAdResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.ads#DuplicateAdResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ads#DuplicateAd": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ads#DuplicateAdRequest"
+      },
+      "output": {
+        "target": "com.whop.ads#DuplicateAdResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ads#BadRequest"
+        },
+        {
+          "target": "com.whop.ads#NotFound"
+        },
+        {
+          "target": "com.whop.ads#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ads/{id}/duplicate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Duplicate an Ad\n\nCopies the ad into its own ad group, or into target_ad_group_id (which must belong to the same account and be compatible with the ad). Copies keep the source ad's active/paused state."
+      }
+    },
+    "com.whop.ads#PauseAdRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad ID."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ads#PauseAd": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ads#PauseAdRequest"
+      },
+      "output": {
+        "target": "com.whop.ads#Ad"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ads#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ads/{id}/pause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Pause an Ad\n\nPauses an active ad."
+      }
+    },
+    "com.whop.ads#UnpauseAdRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad ID."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ads#UnpauseAd": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ads#UnpauseAdRequest"
+      },
+      "output": {
+        "target": "com.whop.ads#Ad"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ads#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ads/{id}/unpause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unpause an Ad\n\nResumes a paused ad."
+      }
+    },
+    "com.whop.ads#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.ads#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.ads#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.ads#Ads": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.ads#ListAds"
+        },
+        {
+          "target": "com.whop.ads#CreateAd"
+        },
+        {
+          "target": "com.whop.ads#GetAd"
+        },
+        {
+          "target": "com.whop.ads#UpdateAd"
+        },
+        {
+          "target": "com.whop.ads#DeleteAd"
+        },
+        {
+          "target": "com.whop.ads#DuplicateAd"
+        },
+        {
+          "target": "com.whop.ads#PauseAd"
+        },
+        {
+          "target": "com.whop.ads#UnpauseAd"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

@@ -20,6 +20,7 @@ const rules = T.EndpointResolver((p, _) => {
     Endpoint,
     Region,
     IsControlPlane,
+    IsOAuthEndpoint,
   } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -58,6 +59,25 @@ const rules = T.EndpointResolver((p, _) => {
         _p0(Region),
         {},
       );
+    }
+  }
+  if (IsOAuthEndpoint != null && IsOAuthEndpoint === true && UseFIPS === true) {
+    return err(
+      "FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation.",
+    );
+  }
+  {
+    const PartitionResult = _.partition(Region);
+    if (
+      IsOAuthEndpoint != null &&
+      IsOAuthEndpoint === true &&
+      Region != null &&
+      !(Endpoint != null) &&
+      PartitionResult != null &&
+      PartitionResult !== false &&
+      _.getAttr(PartitionResult, "name") === "aws"
+    ) {
+      return e(`https://${Region}.oauth.signin.aws`, _p0(Region), {});
     }
   }
   {
@@ -459,6 +479,54 @@ export const CreateOAuth2TokenResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateOAuth2TokenResponse",
 }) as any as S.Schema<CreateOAuth2TokenResponse>;
+export type ClientCredentialsGrantType = string;
+export interface CreateOAuth2TokenWithIAMRequest {
+  grantType: string;
+  resource: string;
+}
+export const CreateOAuth2TokenWithIAMRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ grantType: S.String, resource: S.String })
+    .pipe(S.encodeKeys({ grantType: "grant_type" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/v1/token?x-amz-client-auth-method=iam",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+        T.StaticContextParams({ IsOAuthEndpoint: { value: true } }),
+      ),
+    ),
+).annotate({
+  identifier: "CreateOAuth2TokenWithIAMRequest",
+}) as any as S.Schema<CreateOAuth2TokenWithIAMRequest>;
+export type OAuthAccessToken = string | redacted.Redacted<string>;
+export type BearerTokenType = string;
+export type TokenExpiresIn = number;
+export interface CreateOAuth2TokenWithIAMResponse {
+  accessToken: string | redacted.Redacted<string>;
+  tokenType: string;
+  expiresIn: number;
+}
+export const CreateOAuth2TokenWithIAMResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accessToken: SensitiveString,
+    tokenType: S.String,
+    expiresIn: S.Number,
+  }).pipe(
+    S.encodeKeys({
+      accessToken: "access_token",
+      tokenType: "token_type",
+      expiresIn: "expires_in",
+    }),
+  ),
+).annotate({
+  identifier: "CreateOAuth2TokenWithIAMResponse",
+}) as any as S.Schema<CreateOAuth2TokenWithIAMResponse>;
 export type TargetId = string;
 export interface DeleteConsoleAuthorizationConfigurationInput {
   targetId?: string;
@@ -656,6 +724,79 @@ export const GetResourcePolicyOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetResourcePolicyOutput",
 }) as any as S.Schema<GetResourcePolicyOutput>;
+export type IntrospectionToken = string | redacted.Redacted<string>;
+export type TokenTypeHint = string;
+export interface IntrospectOAuth2TokenWithIAMRequest {
+  token: string | redacted.Redacted<string>;
+  tokenTypeHint?: string;
+}
+export const IntrospectOAuth2TokenWithIAMRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ token: SensitiveString, tokenTypeHint: S.optional(S.String) })
+    .pipe(S.encodeKeys({ tokenTypeHint: "token_type_hint" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/v1/introspect?x-amz-client-auth-method=iam",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+        T.StaticContextParams({ IsOAuthEndpoint: { value: true } }),
+      ),
+    ),
+).annotate({
+  identifier: "IntrospectOAuth2TokenWithIAMRequest",
+}) as any as S.Schema<IntrospectOAuth2TokenWithIAMRequest>;
+export type IntrospectedTokenType = string;
+export type AccountId = string;
+export interface IntrospectOAuth2TokenWithIAMResponse {
+  active: boolean;
+  clientId?: string;
+  userId?: string;
+  tokenType?: string;
+  exp?: number;
+  iat?: number;
+  nbf?: number;
+  sub?: string;
+  aud?: string;
+  iss?: string;
+  jti?: string;
+  accountId?: string;
+  signinSession?: string;
+  resource?: string;
+}
+export const IntrospectOAuth2TokenWithIAMResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      active: S.Boolean,
+      clientId: S.optional(S.String),
+      userId: S.optional(S.String),
+      tokenType: S.optional(S.String),
+      exp: S.optional(S.Number),
+      iat: S.optional(S.Number),
+      nbf: S.optional(S.Number),
+      sub: S.optional(S.String),
+      aud: S.optional(S.String),
+      iss: S.optional(S.String),
+      jti: S.optional(S.String),
+      accountId: S.optional(S.String),
+      signinSession: S.optional(S.String),
+      resource: S.optional(S.String),
+    }).pipe(
+      S.encodeKeys({
+        clientId: "client_id",
+        userId: "user_id",
+        tokenType: "token_type",
+        accountId: "account_id",
+        signinSession: "signin_session",
+      }),
+    ),
+).annotate({
+  identifier: "IntrospectOAuth2TokenWithIAMResponse",
+}) as any as S.Schema<IntrospectOAuth2TokenWithIAMResponse>;
 export type ConsolePermissionMaxResults = number;
 export type NextToken = string;
 export interface ListResourcePermissionStatementsInput {
@@ -794,6 +935,34 @@ export const PutResourcePermissionStatementOutput = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "PutResourcePermissionStatementOutput",
 }) as any as S.Schema<PutResourcePermissionStatementOutput>;
+export type RevocationToken = string | redacted.Redacted<string>;
+export interface RevokeOAuth2TokenWithIAMRequest {
+  token: string | redacted.Redacted<string>;
+}
+export const RevokeOAuth2TokenWithIAMRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ token: SensitiveString }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v1/revoke?x-amz-client-auth-method=iam",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ IsOAuthEndpoint: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "RevokeOAuth2TokenWithIAMRequest",
+}) as any as S.Schema<RevokeOAuth2TokenWithIAMRequest>;
+export interface RevokeOAuth2TokenWithIAMResponse {}
+export const RevokeOAuth2TokenWithIAMResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "RevokeOAuth2TokenWithIAMResponse",
+}) as any as S.Schema<RevokeOAuth2TokenWithIAMResponse>;
 export type OAuth2ErrorCode =
   | "TOKEN_EXPIRED"
   | "USER_CREDENTIALS_CHANGED"
@@ -805,7 +974,7 @@ export type OAuth2ErrorCode =
   | "CONFLICT"
   | "SERVICE_QUOTA_EXCEEDED"
   | (string & {});
-export const OAuth2ErrorCode = /*@__PURE__*/ S.String;
+export const OAuth2ErrorCode = S.String;
 
 export type CreateOAuth2TokenError =
   | AccessDeniedException
@@ -860,6 +1029,35 @@ export const createOAuth2Token: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOAuth2Token",
+}));
+
+export type CreateOAuth2TokenWithIAMError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsError
+  | ValidationException
+  | CommonErrors;
+/**
+ * Grants permission to exchange client credentials for an OAuth 2.0 access token
+ * scoped to a resource that can be used to access AWS services from applications
+ */
+export const createOAuth2TokenWithIAM: API.OperationMethod<
+  CreateOAuth2TokenWithIAMRequest,
+  CreateOAuth2TokenWithIAMResponse,
+  CreateOAuth2TokenWithIAMError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateOAuth2TokenWithIAMRequest,
+  output: CreateOAuth2TokenWithIAMResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsError,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateOAuth2TokenWithIAM",
 }));
 
 export type DeleteConsoleAuthorizationConfigurationError =
@@ -980,6 +1178,44 @@ export const getResourcePolicy: API.OperationMethod<
   operationName: "GetResourcePolicy",
 }));
 
+export type IntrospectOAuth2TokenWithIAMError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsError
+  | ValidationException
+  | CommonErrors;
+/**
+ * Grants permission to inspect the metadata and state of an OAuth 2.0
+ * access token or refresh token
+ *
+ * Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authenticated
+ * endpoint. Inspects the metadata of an access_token or refresh_token issued
+ * by AWS Sign-In and returns the claims associated with it.
+ *
+ * Inactive token semantics (RFC 7662 §2.2): when the supplied token is
+ * unknown, expired, revoked, malformed, or owned by a different account,
+ * the response body is exactly { "active": false } with all other claims
+ * omitted.
+ */
+export const introspectOAuth2TokenWithIAM: API.OperationMethod<
+  IntrospectOAuth2TokenWithIAMRequest,
+  IntrospectOAuth2TokenWithIAMResponse,
+  IntrospectOAuth2TokenWithIAMError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: IntrospectOAuth2TokenWithIAMRequest,
+  output: IntrospectOAuth2TokenWithIAMResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsError,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "IntrospectOAuth2TokenWithIAM",
+}));
+
 export type ListResourcePermissionStatementsError =
   | AccessDeniedException
   | InternalServerException
@@ -1079,4 +1315,38 @@ export const putResourcePermissionStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePermissionStatement",
+}));
+
+export type RevokeOAuth2TokenWithIAMError =
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsError
+  | ValidationException
+  | CommonErrors;
+/**
+ * Grants permission to revoke an OAuth 2.0 refresh token and its associated refresh tokens
+ *
+ * Revokes a refresh_token issued by AWS Sign-In, invalidating the entire token
+ * chain so that the refresh_token can no longer be used to mint new access_tokens.
+ *
+ * Idempotency: revoking an already-revoked, expired, or otherwise invalid token
+ * still returns 200 OK with an empty body. Only the refresh_token type is accepted.
+ */
+export const revokeOAuth2TokenWithIAM: API.OperationMethod<
+  RevokeOAuth2TokenWithIAMRequest,
+  RevokeOAuth2TokenWithIAMResponse,
+  RevokeOAuth2TokenWithIAMError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: RevokeOAuth2TokenWithIAMRequest,
+  output: RevokeOAuth2TokenWithIAMResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    TooManyRequestsError,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "RevokeOAuth2TokenWithIAM",
 }));

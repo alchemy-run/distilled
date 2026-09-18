@@ -1,0 +1,414 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.account_relationship_definitions#ListAccountRelationshipDefinitionsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_relationship_definitions#PaginatedAccountRelationshipDefinitionList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.account_relationship_definitions#PaginatedAccountRelationshipDefinitionListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.account_relationship_definitions#AccountRelationshipDefinition": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Relationship definition UUID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the relationship. Unique within the team.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What this relationship means, e.g. 'The customer success manager responsible for this account'.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_single_holder": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A team-defined account relationship type (CSM, Onboarding manager, ...)."
+      }
+    },
+    "com.posthog.account_relationship_definitions#PaginatedAccountRelationshipDefinitionListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.account_relationship_definitions#AccountRelationshipDefinition"
+      },
+      "traits": {}
+    },
+    "com.posthog.account_relationship_definitions#ListAccountRelationshipDefinitions": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_relationship_definitions#ListAccountRelationshipDefinitionsRequest"
+      },
+      "output": {
+        "target": "com.posthog.account_relationship_definitions#PaginatedAccountRelationshipDefinitionList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/account_relationship_definitions/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.account_relationship_definitions#CreateAccountRelationshipDefinitionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the relationship. Unique within the team.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What this relationship means, e.g. 'The customer success manager responsible for this account'.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_single_holder": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_relationship_definitions#CreateAccountRelationshipDefinition": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_relationship_definitions#CreateAccountRelationshipDefinitionRequest"
+      },
+      "output": {
+        "target": "com.posthog.account_relationship_definitions#AccountRelationshipDefinition"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/account_relationship_definitions/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.account_relationship_definitions#GetAccountRelationshipDefinitionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_relationship_definitions#GetAccountRelationshipDefinition": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_relationship_definitions#GetAccountRelationshipDefinitionRequest"
+      },
+      "output": {
+        "target": "com.posthog.account_relationship_definitions#AccountRelationshipDefinition"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/account_relationship_definitions/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.account_relationship_definitions#UpdateAccountRelationshipDefinitionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the relationship. Unique within the team.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What this relationship means, e.g. 'The customer success manager responsible for this account'.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_single_holder": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_relationship_definitions#UpdateAccountRelationshipDefinition": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_relationship_definitions#UpdateAccountRelationshipDefinitionRequest"
+      },
+      "output": {
+        "target": "com.posthog.account_relationship_definitions#AccountRelationshipDefinition"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/account_relationship_definitions/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.account_relationship_definitions#UpdateAccountRelationshipDefinitionsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the relationship. Unique within the team."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What this relationship means, e.g. 'The customer success manager responsible for this account'.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_single_holder": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_relationship_definitions#UpdateAccountRelationshipDefinitionsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_relationship_definitions#UpdateAccountRelationshipDefinitionsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.account_relationship_definitions#AccountRelationshipDefinition"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/account_relationship_definitions/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.account_relationship_definitions#AccountRelationshipDefinitionsDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_relationship_definitions#AccountRelationshipDefinitionsDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_relationship_definitions#AccountRelationshipDefinitionsDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/account_relationship_definitions/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.account_relationship_definitions#AccountRelationshipDefinitions": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.account_relationship_definitions#ListAccountRelationshipDefinitions"
+        },
+        {
+          "target": "com.posthog.account_relationship_definitions#CreateAccountRelationshipDefinition"
+        },
+        {
+          "target": "com.posthog.account_relationship_definitions#GetAccountRelationshipDefinition"
+        },
+        {
+          "target": "com.posthog.account_relationship_definitions#UpdateAccountRelationshipDefinition"
+        },
+        {
+          "target": "com.posthog.account_relationship_definitions#UpdateAccountRelationshipDefinitionsPartial"
+        },
+        {
+          "target": "com.posthog.account_relationship_definitions#AccountRelationshipDefinitionsDestroy"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

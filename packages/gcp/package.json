@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/gcp",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
@@ -69,18 +69,18 @@
     "generate": "bun scripts/generate.ts && bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services",
     "typecheck": "tsc -p tsconfig.json",
     "typecheck:strict": "tsc -p tsconfig.strict.json",
-    "specs:fetch": "git submodule update --force --init --recursive --depth=1 specs/distilled-spec-gcp && git -C specs/distilled-spec-gcp checkout -- .",
-    "specs:update": "git -C specs/distilled-spec-gcp fetch && git -C specs/distilled-spec-gcp checkout main && git -C specs/distilled-spec-gcp pull"
+    "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-gcp",
+    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-gcp"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:tooling",
-    "@types/node": "catalog:tooling",
-    "@effect/platform-bun": "catalog:effect"
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "@effect/platform-bun": "catalog:"
   },
   "peerDependencies": {
-    "effect": "catalog:effect"
+    "effect": "catalog:"
   }
 }

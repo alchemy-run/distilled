@@ -1,0 +1,568 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.s2.streams#ListStreamsRequest": {
+      "type": "structure",
+      "members": {
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "prefix",
+            "smithy.api#documentation": "Filter to streams whose names begin with this prefix.\nIt must not contain NUL bytes."
+          }
+        },
+        "start_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_after",
+            "smithy.api#documentation": "Filter to streams whose names lexicographically start after this string.\nIt must not contain NUL bytes."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results, up to a maximum of 1000."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.streams#ListStreamsResponse": {
+      "type": "structure",
+      "members": {
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates that there are more results that match the criteria.",
+            "smithy.api#required": {}
+          }
+        },
+        "streams": {
+          "target": "com.s2.streams#ListStreamsResponseStreamsList",
+          "traits": {
+            "smithy.api#documentation": "Matching streams.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.streams#StreamInfo": {
+      "type": "structure",
+      "members": {
+        "cipher": {
+          "target": "com.s2.streams#EncryptionAlgorithm",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation time in RFC 3339 format.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deletion time in RFC 3339 format, if the stream is being deleted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stream name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.streams#EncryptionAlgorithm": {
+      "type": "enum",
+      "members": {
+        "AEGIS_256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aegis-256"
+          }
+        },
+        "AES_256_GCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes-256-gcm"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.streams#ListStreamsResponseStreamsList": {
+      "type": "list",
+      "member": {
+        "target": "com.s2.streams#StreamInfo"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matching streams."
+      }
+    },
+    "com.s2.streams#ListStreams": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.streams#ListStreamsRequest"
+      },
+      "output": {
+        "target": "com.s2.streams#ListStreamsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/streams",
+          "code": 200
+        },
+        "smithy.api#documentation": "List streams.",
+        "smithy.api#paginated": {
+          "inputToken": "start_after",
+          "outputToken": "name",
+          "items": "streams",
+          "pageSize": "limit",
+          "hasNextPage": "has_more"
+        }
+      }
+    },
+    "com.s2.streams#StreamConfig": {
+      "type": "structure",
+      "members": {
+        "delete_on_empty": {
+          "target": "com.s2.streams#DeleteOnEmptyConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "retention_policy": {
+          "target": "com.s2.streams#RetentionPolicy",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storage_class": {
+          "target": "com.s2.streams#StorageClass",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timestamping": {
+          "target": "com.s2.streams#TimestampingConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.streams#DeleteOnEmptyConfig": {
+      "type": "structure",
+      "members": {
+        "min_age_secs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum age in seconds before an empty stream can be deleted.\nSet to 0 (default) to disable delete-on-empty (don't delete automatically)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.streams#RetentionPolicy": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.s2.streams#RetentionPolicyCase0"
+        },
+        "Case1": {
+          "target": "com.s2.streams#RetentionPolicyCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.streams#RetentionPolicyCase0": {
+      "type": "structure",
+      "members": {
+        "age": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Age in seconds for automatic trimming of records older than this threshold.\nThis must be set to a value greater than 0 seconds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Age in seconds for automatic trimming of records older than this threshold.\nThis must be set to a value greater than 0 seconds."
+      }
+    },
+    "com.s2.streams#RetentionPolicyCase1": {
+      "type": "structure",
+      "members": {
+        "infinite": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Retain records unless explicitly trimmed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Retain records unless explicitly trimmed."
+      }
+    },
+    "com.s2.streams#StorageClass": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "EXPRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "express"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.streams#TimestampingConfig": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.s2.streams#TimestampingMode",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "uncapped": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow client-specified timestamps to exceed the arrival time.\nIf this is `false` or not set, client timestamps will be capped at the arrival time.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.streams#TimestampingMode": {
+      "type": "enum",
+      "members": {
+        "CLIENT_PREFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "client-prefer"
+          }
+        },
+        "CLIENT_REQUIRE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "client-require"
+          }
+        },
+        "ARRIVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "arrival"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.streams#CreateStreamRequest": {
+      "type": "structure",
+      "members": {
+        "s2RequestToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "s2-request-token",
+            "smithy.api#documentation": "Client-specified request token for idempotent retries."
+          }
+        },
+        "config": {
+          "target": "com.s2.streams#StreamConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stream": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stream name that is unique to the basin.\nIt can be between 1 and 512 bytes in length, and must not contain NUL bytes.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.streams#CreateStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.streams#CreateStreamRequest"
+      },
+      "output": {
+        "target": "com.s2.streams#StreamInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/streams",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a stream."
+      }
+    },
+    "com.s2.streams#GetStreamConfigRequest": {
+      "type": "structure",
+      "members": {
+        "stream": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stream name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.streams#GetStreamConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.streams#GetStreamConfigRequest"
+      },
+      "output": {
+        "target": "com.s2.streams#StreamConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/streams/{stream}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get stream configuration."
+      }
+    },
+    "com.s2.streams#EnsureStreamRequest": {
+      "type": "structure",
+      "members": {
+        "stream": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stream name."
+          }
+        },
+        "body": {
+          "target": "com.s2.streams#StreamConfig",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.streams#EnsureStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.streams#EnsureStreamRequest"
+      },
+      "output": {
+        "target": "com.s2.streams#StreamInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/streams/{stream}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Ensure a stream."
+      }
+    },
+    "com.s2.streams#DeleteOnEmptyReconfiguration": {
+      "type": "structure",
+      "members": {
+        "min_age_secs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum age in seconds before an empty stream can be deleted.\nSet to 0 to disable delete-on-empty (don't delete automatically).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.streams#TimestampingReconfiguration": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.s2.streams#TimestampingMode",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "uncapped": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow client-specified timestamps to exceed the arrival time.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.streams#ReconfigureStreamRequest": {
+      "type": "structure",
+      "members": {
+        "stream": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stream name."
+          }
+        },
+        "delete_on_empty": {
+          "target": "com.s2.streams#DeleteOnEmptyReconfiguration",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "retention_policy": {
+          "target": "com.s2.streams#RetentionPolicy",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storage_class": {
+          "target": "com.s2.streams#StorageClass",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timestamping": {
+          "target": "com.s2.streams#TimestampingReconfiguration",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.streams#ReconfigureStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.streams#ReconfigureStreamRequest"
+      },
+      "output": {
+        "target": "com.s2.streams#StreamConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/streams/{stream}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reconfigure a stream."
+      }
+    },
+    "com.s2.streams#DeleteStreamRequest": {
+      "type": "structure",
+      "members": {
+        "stream": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stream name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.streams#DeleteStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.streams#DeleteStreamRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/streams/{stream}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a stream."
+      }
+    },
+    "com.s2.streams#Streams": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.s2.streams#ListStreams"
+        },
+        {
+          "target": "com.s2.streams#CreateStream"
+        },
+        {
+          "target": "com.s2.streams#GetStreamConfig"
+        },
+        {
+          "target": "com.s2.streams#EnsureStream"
+        },
+        {
+          "target": "com.s2.streams#ReconfigureStream"
+        },
+        {
+          "target": "com.s2.streams#DeleteStream"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "S2, the durable streams API",
+        "smithy.api#documentation": "Streams as a cloud storage primitive."
+      }
+    }
+  }
+}

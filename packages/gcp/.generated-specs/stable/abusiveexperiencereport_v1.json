@@ -4,48 +4,17 @@
     "service": "abusiveexperiencereport",
     "version": "v1",
     "title": "Abusive Experience Report API",
-    "baseUrl": "https://abusiveexperiencereport.googleapis.com/"
+    "baseUrl": "https://abusiveexperiencereport.googleapis.com/",
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.abusiveexperiencereport_v1#ViolatingSitesResponse": {
-      "type": "structure",
-      "members": {
-        "violatingSites": {
-          "target": "com.gcp.abusiveexperiencereport_v1#SiteSummaryResponseList",
-          "traits": {
-            "smithy.api#documentation": "The list of violating sites."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response message for ListViolatingSites."
-      }
-    },
-    "com.gcp.abusiveexperiencereport_v1#SiteSummaryResponseList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.abusiveexperiencereport_v1#SiteSummaryResponse"
-      }
-    },
     "com.gcp.abusiveexperiencereport_v1#SiteSummaryResponse": {
       "type": "structure",
       "members": {
-        "enforcementTime": {
-          "target": "smithy.api#String",
+        "underReview": {
+          "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The time at which [enforcement](https://support.google.com/webtools/answer/7538608) against the site began or will begin. Not set when the filter_status is OFF."
-          }
-        },
-        "reportUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A link to the full Abusive Experience Report for the site. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report."
-          }
-        },
-        "filterStatus": {
-          "target": "com.gcp.abusiveexperiencereport_v1#SiteSummaryResponseFilterStatusEnum",
-          "traits": {
-            "smithy.api#documentation": "The site's [enforcement status](https://support.google.com/webtools/answer/7538608)."
+            "smithy.api#documentation": "Whether the site is currently under review."
           }
         },
         "reviewedSite": {
@@ -54,22 +23,34 @@
             "smithy.api#documentation": "The name of the reviewed site, e.g. `google.com`."
           }
         },
-        "abusiveStatus": {
-          "target": "com.gcp.abusiveexperiencereport_v1#SiteSummaryResponseAbusiveStatusEnum",
+        "reportUrl": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The site's Abusive Experience Report status."
-          }
-        },
-        "underReview": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether the site is currently under review."
+            "smithy.api#documentation": "A link to the full Abusive Experience Report for the site. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report."
           }
         },
         "lastChangeTime": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The time at which the site's status last changed."
+          }
+        },
+        "filterStatus": {
+          "target": "com.gcp.abusiveexperiencereport_v1#SiteSummaryResponseFilterStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "The site's [enforcement status](https://support.google.com/webtools/answer/7538608)."
+          }
+        },
+        "abusiveStatus": {
+          "target": "com.gcp.abusiveexperiencereport_v1#SiteSummaryResponseAbusiveStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "The site's Abusive Experience Report status."
+          }
+        },
+        "enforcementTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which [enforcement](https://support.google.com/webtools/answer/7538608) against the site began or will begin. Not set when the filter_status is OFF."
           }
         }
       },
@@ -133,6 +114,26 @@
             "smithy.api#enumValue": "FAILING"
           }
         }
+      }
+    },
+    "com.gcp.abusiveexperiencereport_v1#ViolatingSitesResponse": {
+      "type": "structure",
+      "members": {
+        "violatingSites": {
+          "target": "com.gcp.abusiveexperiencereport_v1#SiteSummaryResponseList",
+          "traits": {
+            "smithy.api#documentation": "The list of violating sites."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message for ListViolatingSites."
+      }
+    },
+    "com.gcp.abusiveexperiencereport_v1#SiteSummaryResponseList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.abusiveexperiencereport_v1#SiteSummaryResponse"
       }
     },
     "com.gcp.abusiveexperiencereport_v1#GetSitesRequest": {

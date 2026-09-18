@@ -149,10 +149,11 @@ export type Dimension =
   | "REGION"
   | "SERVICE"
   | (string & {});
-export const Dimension = /*@__PURE__*/ S.String;
+export const Dimension = S.String;
 
 export type DimensionList = Dimension[];
 export const DimensionList = /*@__PURE__*/ S.Array(Dimension);
+export type DimensionValue = string;
 export type DimensionValueList = string[];
 export const DimensionValueList = /*@__PURE__*/ S.Array(S.String);
 export type DimensionListMap = { [key in Dimension]?: string[] };
@@ -177,7 +178,7 @@ export type EmissionsType =
   | "TOTAL_SCOPE_3_LBM_CARBON_EMISSIONS"
   | "TOTAL_SCOPE_3_MBM_CARBON_EMISSIONS"
   | (string & {});
-export const EmissionsType = /*@__PURE__*/ S.String;
+export const EmissionsType = S.String;
 
 export type EmissionsTypeList = EmissionsType[];
 export const EmissionsTypeList = /*@__PURE__*/ S.Array(EmissionsType);
@@ -188,7 +189,7 @@ export type TimeGranularity =
   | "QUARTERLY_FISCAL"
   | "MONTHLY"
   | (string & {});
-export const TimeGranularity = /*@__PURE__*/ S.String;
+export const TimeGranularity = S.String;
 
 export type Month = number;
 export interface GranularityConfiguration {
@@ -241,7 +242,7 @@ export const DimensionsMap = /*@__PURE__*/ S.Record(
 );
 export type ModelVersion = string;
 export type EmissionsUnit = "MTCO2e" | (string & {});
-export const EmissionsUnit = /*@__PURE__*/ S.String;
+export const EmissionsUnit = S.String;
 
 export interface Emissions {
   Value: number;
@@ -338,6 +339,133 @@ export const GetEstimatedCarbonEmissionsDimensionValuesResponse =
   ).annotate({
     identifier: "GetEstimatedCarbonEmissionsDimensionValuesResponse",
   }) as any as S.Schema<GetEstimatedCarbonEmissionsDimensionValuesResponse>;
+export type WaterAllocationType = "TOTAL_WATER_WITHDRAWALS" | (string & {});
+export const WaterAllocationType = S.String;
+
+export type WaterAllocationTypeList = WaterAllocationType[];
+export const WaterAllocationTypeList =
+  /*@__PURE__*/ S.Array(WaterAllocationType);
+export interface GetEstimatedWaterAllocationRequest {
+  TimePeriod: TimePeriod;
+  GroupBy?: Dimension[];
+  FilterBy?: FilterExpression;
+  AllocationTypes?: WaterAllocationType[];
+  Granularity?: TimeGranularity;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetEstimatedWaterAllocationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TimePeriod: TimePeriod,
+    GroupBy: S.optional(DimensionList),
+    FilterBy: S.optional(FilterExpression),
+    AllocationTypes: S.optional(WaterAllocationTypeList),
+    Granularity: S.optional(TimeGranularity),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/estimated-water-allocation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetEstimatedWaterAllocationRequest",
+}) as any as S.Schema<GetEstimatedWaterAllocationRequest>;
+export type WaterAllocationUnit = "m3" | (string & {});
+export const WaterAllocationUnit = S.String;
+
+export interface WaterAllocation {
+  Value: number;
+  Unit: WaterAllocationUnit;
+}
+export const WaterAllocation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Value: S.Number, Unit: WaterAllocationUnit }),
+).annotate({
+  identifier: "WaterAllocation",
+}) as any as S.Schema<WaterAllocation>;
+export type WaterAllocationMap = {
+  [key in WaterAllocationType]?: WaterAllocation;
+};
+export const WaterAllocationMap = /*@__PURE__*/ S.Record(
+  WaterAllocationType,
+  WaterAllocation.pipe(S.optional),
+);
+export interface EstimatedWaterAllocation {
+  TimePeriod: TimePeriod;
+  DimensionsValues: { [key: string]: string | undefined };
+  ModelVersion: string;
+  AllocationValues: { [key: string]: WaterAllocation | undefined };
+}
+export const EstimatedWaterAllocation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TimePeriod: TimePeriod,
+    DimensionsValues: DimensionsMap,
+    ModelVersion: S.String,
+    AllocationValues: WaterAllocationMap,
+  }),
+).annotate({
+  identifier: "EstimatedWaterAllocation",
+}) as any as S.Schema<EstimatedWaterAllocation>;
+export type EstimatedWaterAllocationList = EstimatedWaterAllocation[];
+export const EstimatedWaterAllocationList = /*@__PURE__*/ S.Array(
+  EstimatedWaterAllocation,
+);
+export interface GetEstimatedWaterAllocationResponse {
+  Results: EstimatedWaterAllocation[];
+  NextToken?: string;
+}
+export const GetEstimatedWaterAllocationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Results: EstimatedWaterAllocationList,
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetEstimatedWaterAllocationResponse",
+}) as any as S.Schema<GetEstimatedWaterAllocationResponse>;
+export interface GetEstimatedWaterAllocationDimensionValuesRequest {
+  TimePeriod: TimePeriod;
+  Dimensions: Dimension[];
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetEstimatedWaterAllocationDimensionValuesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      TimePeriod: TimePeriod,
+      Dimensions: DimensionList,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/v1/estimated-water-allocation-dimension-values",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "GetEstimatedWaterAllocationDimensionValuesRequest",
+  }) as any as S.Schema<GetEstimatedWaterAllocationDimensionValuesRequest>;
+export interface GetEstimatedWaterAllocationDimensionValuesResponse {
+  Results: DimensionEntry[];
+  NextToken?: string;
+}
+export const GetEstimatedWaterAllocationDimensionValuesResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({ Results: DimensionEntryList, NextToken: S.optional(S.String) }),
+  ).annotate({
+    identifier: "GetEstimatedWaterAllocationDimensionValuesResponse",
+  }) as any as S.Schema<GetEstimatedWaterAllocationDimensionValuesResponse>;
 export type GetEstimatedCarbonEmissionsError =
   | AccessDeniedException
   | InternalServerException
@@ -400,6 +528,76 @@ export const getEstimatedCarbonEmissionsDimensionValues: API.PaginatedOperationM
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEstimatedCarbonEmissionsDimensionValues",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Results",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
+
+export type GetEstimatedWaterAllocationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns estimated water allocation values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully.
+ */
+export const getEstimatedWaterAllocation: API.PaginatedOperationMethod<
+  GetEstimatedWaterAllocationRequest,
+  GetEstimatedWaterAllocationResponse,
+  GetEstimatedWaterAllocationError,
+  Credentials | HttpClient.HttpClient,
+  EstimatedWaterAllocation
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: GetEstimatedWaterAllocationRequest,
+  output: GetEstimatedWaterAllocationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetEstimatedWaterAllocation",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Results",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
+
+export type GetEstimatedWaterAllocationDimensionValuesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns the possible dimension values available for a customer's account. We recommend using pagination to ensure that the operation returns quickly and successfully.
+ */
+export const getEstimatedWaterAllocationDimensionValues: API.PaginatedOperationMethod<
+  GetEstimatedWaterAllocationDimensionValuesRequest,
+  GetEstimatedWaterAllocationDimensionValuesResponse,
+  GetEstimatedWaterAllocationDimensionValuesError,
+  Credentials | HttpClient.HttpClient,
+  DimensionEntry
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: GetEstimatedWaterAllocationDimensionValuesRequest,
+  output: GetEstimatedWaterAllocationDimensionValuesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetEstimatedWaterAllocationDimensionValues",
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",

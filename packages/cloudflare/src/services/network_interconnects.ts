@@ -131,6 +131,11 @@ export const CnisCreateResponseBgp = /*@__PURE__*/ S.suspend(() =>
   identifier: "CnisCreateResponseBgp",
 }) as any as S.Schema<CnisCreateResponseBgp>;
 
+export type CnisCreateResponseBgpMode =
+  | "dynamic_route_exchange"
+  | "advertise_only";
+export const CnisCreateResponseBgpMode = S.String;
+
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateCniResponse {
   id: string;
@@ -144,6 +149,8 @@ export interface CreateCniResponse {
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
   bgp?: CnisCreateResponseBgp | null;
+  /** The BGP mode for a CNI. */
+  bgpMode?: CnisCreateResponseBgpMode | null;
 }
 export const CreateCniResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -154,6 +161,9 @@ export const CreateCniResponse = /*@__PURE__*/ S.suspend(() =>
     magic: CnisCreateRequestMagic,
     p2pIp: S.String.pipe(T.Body("p2p_ip")),
     bgp: S.optional(S.NullOr(CnisCreateResponseBgp)),
+    bgpMode: S.optional(
+      S.NullOr(CnisCreateResponseBgpMode).pipe(T.Body("bgp_mode")),
+    ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateCniResponse",
@@ -172,7 +182,7 @@ export type InterconnectsCreateRequestBandwidth =
   | "10G"
   | "20G"
   | "50G";
-export const InterconnectsCreateRequestBandwidth = /*@__PURE__*/ S.String;
+export const InterconnectsCreateRequestBandwidth = S.String;
 
 export interface CreateInterconnectRequest {
   /** Customer account tag */
@@ -322,6 +332,11 @@ export const CnisGetResponseBgp = /*@__PURE__*/ S.suspend(() =>
   identifier: "CnisGetResponseBgp",
 }) as any as S.Schema<CnisGetResponseBgp>;
 
+export type CnisGetResponseBgpMode =
+  | "dynamic_route_exchange"
+  | "advertise_only";
+export const CnisGetResponseBgpMode = S.String;
+
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetCniResponse {
   id: string;
@@ -335,6 +350,8 @@ export interface GetCniResponse {
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
   bgp?: CnisGetResponseBgp | null;
+  /** The BGP mode for a CNI. */
+  bgpMode?: CnisGetResponseBgpMode | null;
 }
 export const GetCniResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -345,6 +362,9 @@ export const GetCniResponse = /*@__PURE__*/ S.suspend(() =>
     magic: CnisCreateRequestMagic,
     p2pIp: S.String.pipe(T.Body("p2p_ip")),
     bgp: S.optional(S.NullOr(CnisGetResponseBgp)),
+    bgpMode: S.optional(
+      S.NullOr(CnisGetResponseBgpMode).pipe(T.Body("bgp_mode")),
+    ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetCniResponse" }) as any as S.Schema<GetCniResponse>;
 
@@ -458,6 +478,7 @@ export interface GetSlotResponse {
   speed: string;
   /** Customer account tag */
   account?: string | null;
+  ccrDeviceName?: string | null;
 }
 export const GetSlotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -467,6 +488,9 @@ export const GetSlotResponse = /*@__PURE__*/ S.suspend(() =>
     site: S.String,
     speed: S.String,
     account: S.optional(S.NullOr(S.String)),
+    ccrDeviceName: S.optional(
+      S.NullOr(S.String).pipe(T.Body("ccr_device_name")),
+    ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetSlotResponse",
@@ -531,6 +555,11 @@ export const CnisListResponseItemsItemBgp = /*@__PURE__*/ S.suspend(() =>
   identifier: "CnisListResponseItemsItemBgp",
 }) as any as S.Schema<CnisListResponseItemsItemBgp>;
 
+export type CnisListResponseItemsItemBgpMode =
+  | "dynamic_route_exchange"
+  | "advertise_only";
+export const CnisListResponseItemsItemBgpMode = S.String;
+
 export interface CnisListResponseItemsItem {
   id: string;
   /** Customer account tag */
@@ -543,6 +572,8 @@ export interface CnisListResponseItemsItem {
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
   bgp?: CnisListResponseItemsItemBgp | null;
+  /** The BGP mode for a CNI. */
+  bgpMode?: CnisListResponseItemsItemBgpMode | null;
 }
 export const CnisListResponseItemsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -553,6 +584,9 @@ export const CnisListResponseItemsItem = /*@__PURE__*/ S.suspend(() =>
     magic: CnisCreateRequestMagic,
     p2pIp: S.String.pipe(T.Body("p2p_ip")),
     bgp: S.optional(S.NullOr(CnisListResponseItemsItemBgp)),
+    bgpMode: S.optional(
+      S.NullOr(CnisListResponseItemsItemBgpMode).pipe(T.Body("bgp_mode")),
+    ),
   }),
 ).annotate({
   identifier: "CnisListResponseItemsItem",
@@ -639,6 +673,8 @@ export interface InterconnectsListResponseItemsItemNscInterconnectPhysicalBody {
   slotId: string;
   speed: string;
   type: string;
+  virtualPortReservationId: string;
+  ccrDeviceName?: string | null;
   owner?: string | null;
 }
 export const InterconnectsListResponseItemsItemNscInterconnectPhysicalBody =
@@ -652,6 +688,12 @@ export const InterconnectsListResponseItemsItemNscInterconnectPhysicalBody =
       slotId: S.String.pipe(T.Body("slot_id")),
       speed: S.String,
       type: S.String,
+      virtualPortReservationId: S.String.pipe(
+        T.Body("virtual_port_reservation_id"),
+      ),
+      ccrDeviceName: S.optional(
+        S.NullOr(S.String).pipe(T.Body("ccr_device_name")),
+      ),
       owner: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
@@ -659,26 +701,27 @@ export const InterconnectsListResponseItemsItemNscInterconnectPhysicalBody =
   }) as any as S.Schema<InterconnectsListResponseItemsItemNscInterconnectPhysicalBody>;
 
 export type InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBodySpeed =
-    | "50M"
-    | "100M"
-    | "200M"
-    | "300M"
-    | "400M"
-    | "500M"
-    | "1G"
-    | "2G"
-    | "5G"
-    | "10G"
-    | "20G"
-    | "50G";
+  | "50M"
+  | "100M"
+  | "200M"
+  | "300M"
+  | "400M"
+  | "500M"
+  | "1G"
+  | "2G"
+  | "5G"
+  | "10G"
+  | "20G"
+  | "50G";
 export const InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBodySpeed =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBody {
   account: string;
   name: string;
   region: string;
   type: string;
+  virtualPortReservationId: string;
   owner?: string | null;
   /** Bandwidth structure as visible through the customer-facing API. */
   speed?: InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBodySpeed | null;
@@ -690,6 +733,9 @@ export const InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBody =
       name: S.String,
       region: S.String,
       type: S.String,
+      virtualPortReservationId: S.String.pipe(
+        T.Body("virtual_port_reservation_id"),
+      ),
       owner: S.optional(S.NullOr(S.String)),
       speed: S.optional(
         S.NullOr(
@@ -707,8 +753,27 @@ export type InterconnectsListResponseItemsItem =
   | InterconnectsListResponseItemsItemNscInterconnectGcpPartnerBody;
 export const InterconnectsListResponseItemsItem = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
-    ["account", "facility", "name", "site", "slotId", "speed", "type", "owner"],
-    ["account", "name", "region", "type", "owner", "speed"],
+    [
+      "account",
+      "facility",
+      "name",
+      "site",
+      "slotId",
+      "speed",
+      "type",
+      "virtualPortReservationId",
+      "ccrDeviceName",
+      "owner",
+    ],
+    [
+      "account",
+      "name",
+      "region",
+      "type",
+      "virtualPortReservationId",
+      "owner",
+      "speed",
+    ],
   ]),
 );
 
@@ -797,6 +862,7 @@ export interface SlotsListResponseItemsItem {
   speed: string;
   /** Customer account tag */
   account?: string | null;
+  ccrDeviceName?: string | null;
 }
 export const SlotsListResponseItemsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -806,6 +872,9 @@ export const SlotsListResponseItemsItem = /*@__PURE__*/ S.suspend(() =>
     site: S.String,
     speed: S.String,
     account: S.optional(S.NullOr(S.String)),
+    ccrDeviceName: S.optional(
+      S.NullOr(S.String).pipe(T.Body("ccr_device_name")),
+    ),
   }),
 ).annotate({
   identifier: "SlotsListResponseItemsItem",
@@ -834,11 +903,14 @@ export interface LoaInterconnectRequest {
   /** Customer account tag */
   accountId: string;
   icon: string;
+  /** Custom name to use in the LOA instead of the account name (200 Character limit) */
+  name?: string;
 }
 export const LoaInterconnectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     icon: S.String.pipe(T.Label()),
+    name: S.optional(S.String.pipe(T.Query())),
   })
     .pipe(
       T.Http({
@@ -950,6 +1022,11 @@ export const CnisUpdateRequestBgp = /*@__PURE__*/ S.suspend(() =>
   identifier: "CnisUpdateRequestBgp",
 }) as any as S.Schema<CnisUpdateRequestBgp>;
 
+export type CnisUpdateRequestBgpMode =
+  | "dynamic_route_exchange"
+  | "advertise_only";
+export const CnisUpdateRequestBgpMode = S.String;
+
 export interface UpdateCniRequest {
   /** Customer account tag */
   accountId: string;
@@ -965,6 +1042,8 @@ export interface UpdateCniRequest {
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
   bgp?: CnisUpdateRequestBgp;
+  /** The BGP mode for a CNI. */
+  bgpMode?: CnisUpdateRequestBgpMode | (string & {});
 }
 export const UpdateCniRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -977,6 +1056,7 @@ export const UpdateCniRequest = /*@__PURE__*/ S.suspend(() =>
     magic: CnisCreateRequestMagic,
     p2pIp: S.String.pipe(T.Body("p2p_ip")),
     bgp: S.optional(CnisUpdateRequestBgp),
+    bgpMode: S.optional(CnisUpdateRequestBgpMode.pipe(T.Body("bgp_mode"))),
   })
     .pipe(
       T.Http({
@@ -1018,6 +1098,11 @@ export const CnisUpdateResponseBgp = /*@__PURE__*/ S.suspend(() =>
   identifier: "CnisUpdateResponseBgp",
 }) as any as S.Schema<CnisUpdateResponseBgp>;
 
+export type CnisUpdateResponseBgpMode =
+  | "dynamic_route_exchange"
+  | "advertise_only";
+export const CnisUpdateResponseBgpMode = S.String;
+
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface UpdateCniResponse {
   id: string;
@@ -1031,6 +1116,8 @@ export interface UpdateCniResponse {
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
   bgp?: CnisUpdateResponseBgp | null;
+  /** The BGP mode for a CNI. */
+  bgpMode?: CnisUpdateResponseBgpMode | null;
 }
 export const UpdateCniResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1041,13 +1128,16 @@ export const UpdateCniResponse = /*@__PURE__*/ S.suspend(() =>
     magic: CnisCreateRequestMagic,
     p2pIp: S.String.pipe(T.Body("p2p_ip")),
     bgp: S.optional(S.NullOr(CnisUpdateResponseBgp)),
+    bgpMode: S.optional(
+      S.NullOr(CnisUpdateResponseBgpMode).pipe(T.Body("bgp_mode")),
+    ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateCniResponse",
 }) as any as S.Schema<UpdateCniResponse>;
 
 export type CreateCniError = CloudflareOpError;
-/** Create a new CNI object */
+/** Creates a new Cloud Network Interconnect (CNI) for private network connectivity between Cloudflare and your infrastructure. CNIs enable dedicated, high-performance network links. */
 export const createCni: API.OperationMethod<
   CreateCniRequest,
   CreateCniResponse,
@@ -1062,7 +1152,7 @@ export const createCni: API.OperationMethod<
 }));
 
 export type CreateInterconnectError = CloudflareOpError;
-/** Create a new interconnect */
+/** Creates a new network interconnect for connecting Cloudflare's network to external networks. Interconnects provide dedicated bandwidth and reduced latency for traffic exchange. */
 export const createInterconnect: API.OperationMethod<
   CreateInterconnectRequest,
   CreateInterconnectResponse,
@@ -1077,7 +1167,7 @@ export const createInterconnect: API.OperationMethod<
 }));
 
 export type DeleteCniError = CloudflareOpError;
-/** Delete a specified CNI object */
+/** Permanently removes a Cloud Network Interconnect (CNI) configuration. The private network connection will be terminated. */
 export const deleteCni: API.OperationMethod<
   DeleteCniRequest,
   DeleteCniResponse,
@@ -1092,7 +1182,7 @@ export const deleteCni: API.OperationMethod<
 }));
 
 export type DeleteInterconnectError = CloudflareOpError;
-/** Delete an interconnect object */
+/** Permanently removes a network interconnect configuration. The physical or virtual connection will be terminated. */
 export const deleteInterconnect: API.OperationMethod<
   DeleteInterconnectRequest,
   DeleteInterconnectResponse,
@@ -1107,7 +1197,7 @@ export const deleteInterconnect: API.OperationMethod<
 }));
 
 export type GetCniError = CloudflareOpError;
-/** Get information about a CNI object */
+/** Retrieves configuration details for a specific Cloud Network Interconnect (CNI), including connection status and parameters. */
 export const getCni: API.OperationMethod<
   GetCniRequest,
   GetCniResponse,
@@ -1122,7 +1212,7 @@ export const getCni: API.OperationMethod<
 }));
 
 export type GetInterconnectError = CloudflareOpError;
-/** Get information about an interconnect object */
+/** Retrieves configuration and status details for a specific network interconnect. */
 export const getInterconnect: API.OperationMethod<
   GetInterconnectRequest,
   GetInterconnectResponse,
@@ -1137,7 +1227,7 @@ export const getInterconnect: API.OperationMethod<
 }));
 
 export type GetSettingError = Forbidden | CloudflareOpError;
-/** Get the current settings for the active account */
+/** Retrieves current settings configuration for the specified resource or service. */
 export const getSetting: API.OperationMethod<
   GetSettingRequest,
   GetSettingResponse,
@@ -1152,7 +1242,7 @@ export const getSetting: API.OperationMethod<
 }));
 
 export type GetSlotError = CloudflareOpError;
-/** Get information about the specified slot */
+/** Gets information about a specific infrastructure slot allocation. */
 export const getSlot: API.OperationMethod<
   GetSlotRequest,
   GetSlotResponse,
@@ -1167,7 +1257,7 @@ export const getSlot: API.OperationMethod<
 }));
 
 export type ListCnisError = CloudflareOpError;
-/** List existing CNI objects */
+/** Lists all Cloud Network Interconnects (CNIs) configured for the account, showing connection status and parameters. */
 export const listCnis: API.OperationMethod<
   ListCnisRequest,
   ListCnisResponse,
@@ -1182,7 +1272,7 @@ export const listCnis: API.OperationMethod<
 }));
 
 export type ListInterconnectsError = CloudflareOpError;
-/** List existing interconnects */
+/** Lists all network interconnects configured for the account, including physical and virtual connections. */
 export const listInterconnects: API.OperationMethod<
   ListInterconnectsRequest,
   ListInterconnectsResponse,
@@ -1197,7 +1287,7 @@ export const listInterconnects: API.OperationMethod<
 }));
 
 export type ListSlotsError = CloudflareOpError;
-/** Retrieve a list of all slots matching the specified parameters */
+/** Lists all available infrastructure slots for the account, showing allocation status and capacity. */
 export const listSlots: API.OperationMethod<
   ListSlotsRequest,
   ListSlotsResponse,
@@ -1212,7 +1302,7 @@ export const listSlots: API.OperationMethod<
 }));
 
 export type LoaInterconnectError = CloudflareOpError;
-/** Generate the Letter of Authorization (LOA) for a given interconnect */
+/** Downloads the Letter of Authorization (LOA) for a network interconnect, required for physical cross-connect provisioning. */
 export const loaInterconnect: API.OperationMethod<
   LoaInterconnectRequest,
   LoaInterconnectResponse,
@@ -1227,7 +1317,7 @@ export const loaInterconnect: API.OperationMethod<
 }));
 
 export type PutSettingError = Forbidden | CloudflareOpError;
-/** Update the current settings for the active account */
+/** Updates configuration settings for the specified resource or service. */
 export const putSetting: API.OperationMethod<
   PutSettingRequest,
   PutSettingResponse,
@@ -1242,7 +1332,7 @@ export const putSetting: API.OperationMethod<
 }));
 
 export type StatusInterconnectError = CloudflareOpError;
-/** Get the current status of an interconnect object */
+/** Gets the current operational status of a network interconnect, including link state and traffic metrics. */
 export const statusInterconnect: API.OperationMethod<
   StatusInterconnectRequest,
   StatusInterconnectResponse,
@@ -1257,7 +1347,7 @@ export const statusInterconnect: API.OperationMethod<
 }));
 
 export type UpdateCniError = CloudflareOpError;
-/** Modify stored information about a CNI object */
+/** Updates the configuration of an existing Cloud Network Interconnect (CNI), including connection parameters and routing settings. */
 export const updateCni: API.OperationMethod<
   UpdateCniRequest,
   UpdateCniResponse,

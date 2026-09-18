@@ -206,26 +206,25 @@ export type AsymmetricDecryptResponseProtectionLevelEnum =
   | "EXTERNAL"
   | "EXTERNAL_VPC"
   | "HSM_SINGLE_TENANT";
-export const AsymmetricDecryptResponseProtectionLevelEnum =
-  /*@__PURE__*/ S.String;
+export const AsymmetricDecryptResponseProtectionLevelEnum = S.String;
 
 /** Response message for KeyManagementService.AsymmetricDecrypt. */
 export interface AsymmetricDecryptResponse {
-  /** Integrity verification field. A flag indicating whether AsymmetricDecryptRequest.ciphertext_crc32c was received by KeyManagementService and used for the integrity verification of the ciphertext. A false value of this field indicates either that AsymmetricDecryptRequest.ciphertext_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set AsymmetricDecryptRequest.ciphertext_crc32c but this field is still false, discard the response and perform a limited number of retries. */
-  verifiedCiphertextCrc32c?: boolean;
-  /** The decrypted data originally encrypted with the matching public key. */
-  plaintext?: string;
-  /** Integrity verification field. A CRC32C checksum of the returned AsymmetricDecryptResponse.plaintext. An integrity check of AsymmetricDecryptResponse.plaintext can be performed by computing the CRC32C checksum of AsymmetricDecryptResponse.plaintext and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
-  plaintextCrc32c?: string;
   /** The ProtectionLevel of the CryptoKeyVersion used in decryption. */
   protectionLevel?: AsymmetricDecryptResponseProtectionLevelEnum;
+  /** Integrity verification field. A flag indicating whether AsymmetricDecryptRequest.ciphertext_crc32c was received by KeyManagementService and used for the integrity verification of the ciphertext. A false value of this field indicates either that AsymmetricDecryptRequest.ciphertext_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set AsymmetricDecryptRequest.ciphertext_crc32c but this field is still false, discard the response and perform a limited number of retries. */
+  verifiedCiphertextCrc32c?: boolean;
+  /** Integrity verification field. A CRC32C checksum of the returned AsymmetricDecryptResponse.plaintext. An integrity check of AsymmetricDecryptResponse.plaintext can be performed by computing the CRC32C checksum of AsymmetricDecryptResponse.plaintext and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
+  plaintextCrc32c?: string;
+  /** The decrypted data originally encrypted with the matching public key. */
+  plaintext?: string;
 }
 export const AsymmetricDecryptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    verifiedCiphertextCrc32c: S.optional(S.Boolean),
-    plaintext: S.optional(S.String),
-    plaintextCrc32c: S.optional(S.String),
     protectionLevel: S.optional(AsymmetricDecryptResponseProtectionLevelEnum),
+    verifiedCiphertextCrc32c: S.optional(S.Boolean),
+    plaintextCrc32c: S.optional(S.String),
+    plaintext: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AsymmetricDecryptResponse",
@@ -233,41 +232,41 @@ export const AsymmetricDecryptResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** A Digest holds a cryptographic message digest. */
 export interface Digest {
-  /** A message digest produced with the SHA-384 algorithm. */
-  sha384?: string;
-  /** A message digest produced with the SHA-512 algorithm. */
-  sha512?: string;
   /** A message digest produced with the SHA-256 algorithm. */
   sha256?: string;
   /** A message digest produced with SHAKE-256, to be used with ML-DSA external-μ algorithms only. See "message representative" note in section 6.2, algorithm 7 of the FIPS-204 standard: https://doi.org/10.6028/nist.fips.204 */
   externalMu?: string;
+  /** A message digest produced with the SHA-512 algorithm. */
+  sha512?: string;
+  /** A message digest produced with the SHA-384 algorithm. */
+  sha384?: string;
 }
 export const Digest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sha384: S.optional(S.String),
-    sha512: S.optional(S.String),
     sha256: S.optional(S.String),
     externalMu: S.optional(S.String),
+    sha512: S.optional(S.String),
+    sha384: S.optional(S.String),
   }),
 ).annotate({ identifier: "Digest" }) as any as S.Schema<Digest>;
 
 /** Request message for KeyManagementService.AsymmetricSign. */
 export interface AsymmetricSignRequest {
-  /** Optional. An optional CRC32C checksum of the AsymmetricSignRequest.data. If specified, KeyManagementService will verify the integrity of the received AsymmetricSignRequest.data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(AsymmetricSignRequest.data) is equal to AsymmetricSignRequest.data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
-  dataCrc32c?: string;
-  /** Optional. The digest of the data to sign. The digest must be produced with the same digest algorithm as specified by the key version's algorithm. This field may not be supplied if AsymmetricSignRequest.data is supplied. */
-  digest?: Digest;
   /** Optional. An optional CRC32C checksum of the AsymmetricSignRequest.digest. If specified, KeyManagementService will verify the integrity of the received AsymmetricSignRequest.digest using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(AsymmetricSignRequest.digest) is equal to AsymmetricSignRequest.digest_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   digestCrc32c?: string;
+  /** Optional. The digest of the data to sign. The digest must be produced with the same digest algorithm as specified by the key version's algorithm. This field may not be supplied if AsymmetricSignRequest.data is supplied. */
+  digest?: Digest;
   /** Optional. The data to sign. It can't be supplied if AsymmetricSignRequest.digest is supplied. */
   data?: string;
+  /** Optional. An optional CRC32C checksum of the AsymmetricSignRequest.data. If specified, KeyManagementService will verify the integrity of the received AsymmetricSignRequest.data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(AsymmetricSignRequest.data) is equal to AsymmetricSignRequest.data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
+  dataCrc32c?: string;
 }
 export const AsymmetricSignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataCrc32c: S.optional(S.String),
-    digest: S.optional(Digest),
     digestCrc32c: S.optional(S.String),
+    digest: S.optional(Digest),
     data: S.optional(S.String),
+    dataCrc32c: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AsymmetricSignRequest",
@@ -303,41 +302,35 @@ export type AsymmetricSignResponseProtectionLevelEnum =
   | "EXTERNAL"
   | "EXTERNAL_VPC"
   | "HSM_SINGLE_TENANT";
-export const AsymmetricSignResponseProtectionLevelEnum = /*@__PURE__*/ S.String;
+export const AsymmetricSignResponseProtectionLevelEnum = S.String;
 
 /** Response message for KeyManagementService.AsymmetricSign. */
 export interface AsymmetricSignResponse {
   /** Integrity verification field. A CRC32C checksum of the returned AsymmetricSignResponse.signature. An integrity check of AsymmetricSignResponse.signature can be performed by computing the CRC32C checksum of AsymmetricSignResponse.signature and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   signatureCrc32c?: string;
-  /** The resource name of the CryptoKeyVersion used for signing. Check this field to verify that the intended resource was used for signing. */
-  name?: string;
-  /** Integrity verification field. A flag indicating whether AsymmetricSignRequest.data_crc32c was received by KeyManagementService and used for the integrity verification of the data. A false value of this field indicates either that AsymmetricSignRequest.data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set AsymmetricSignRequest.data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
-  verifiedDataCrc32c?: boolean;
-  /** The created signature. */
-  signature?: string;
   /** The ProtectionLevel of the CryptoKeyVersion used for signing. */
   protectionLevel?: AsymmetricSignResponseProtectionLevelEnum;
+  /** The created signature. */
+  signature?: string;
+  /** The resource name of the CryptoKeyVersion used for signing. Check this field to verify that the intended resource was used for signing. */
+  name?: string;
   /** Integrity verification field. A flag indicating whether AsymmetricSignRequest.digest_crc32c was received by KeyManagementService and used for the integrity verification of the digest. A false value of this field indicates either that AsymmetricSignRequest.digest_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set AsymmetricSignRequest.digest_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedDigestCrc32c?: boolean;
+  /** Integrity verification field. A flag indicating whether AsymmetricSignRequest.data_crc32c was received by KeyManagementService and used for the integrity verification of the data. A false value of this field indicates either that AsymmetricSignRequest.data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set AsymmetricSignRequest.data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
+  verifiedDataCrc32c?: boolean;
 }
 export const AsymmetricSignResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     signatureCrc32c: S.optional(S.String),
-    name: S.optional(S.String),
-    verifiedDataCrc32c: S.optional(S.Boolean),
-    signature: S.optional(S.String),
     protectionLevel: S.optional(AsymmetricSignResponseProtectionLevelEnum),
+    signature: S.optional(S.String),
+    name: S.optional(S.String),
     verifiedDigestCrc32c: S.optional(S.Boolean),
+    verifiedDataCrc32c: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "AsymmetricSignResponse",
 }) as any as S.Schema<AsymmetricSignResponse>;
-
-export type EkmConnectionKeyManagementModeEnum =
-  | "KEY_MANAGEMENT_MODE_UNSPECIFIED"
-  | "MANUAL"
-  | "CLOUD_KMS";
-export const EkmConnectionKeyManagementModeEnum = /*@__PURE__*/ S.String;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
@@ -346,35 +339,35 @@ export const StringList = /*@__PURE__*/ S.Array(
 
 /** A Certificate represents an X.509 certificate used to authenticate HTTPS connections to EKM replicas. */
 export interface Certificate {
-  /** Output only. The certificate is not valid after this time. Only present if parsed is true. */
-  notAfterTime?: string;
   /** Output only. The subject distinguished name in RFC 2253 format. Only present if parsed is true. */
   subject?: string;
-  /** Output only. The certificate is not valid before this time. Only present if parsed is true. */
-  notBeforeTime?: string;
-  /** Output only. The subject Alternative DNS names. Only present if parsed is true. */
-  subjectAlternativeDnsNames?: StringList;
-  /** Output only. The certificate serial number as a hex string. Only present if parsed is true. */
-  serialNumber?: string;
-  /** Output only. True if the certificate was parsed successfully. */
-  parsed?: boolean;
-  /** Output only. The issuer distinguished name in RFC 2253 format. Only present if parsed is true. */
-  issuer?: string;
   /** Required. The raw certificate bytes in DER format. */
   rawDer?: string;
+  /** Output only. The certificate is not valid before this time. Only present if parsed is true. */
+  notBeforeTime?: string;
+  /** Output only. True if the certificate was parsed successfully. */
+  parsed?: boolean;
+  /** Output only. The certificate serial number as a hex string. Only present if parsed is true. */
+  serialNumber?: string;
+  /** Output only. The subject Alternative DNS names. Only present if parsed is true. */
+  subjectAlternativeDnsNames?: StringList;
+  /** Output only. The issuer distinguished name in RFC 2253 format. Only present if parsed is true. */
+  issuer?: string;
+  /** Output only. The certificate is not valid after this time. Only present if parsed is true. */
+  notAfterTime?: string;
   /** Output only. The SHA-256 certificate fingerprint as a hex string. Only present if parsed is true. */
   sha256Fingerprint?: string;
 }
 export const Certificate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    notAfterTime: S.optional(S.String),
     subject: S.optional(S.String),
-    notBeforeTime: S.optional(S.String),
-    subjectAlternativeDnsNames: S.optional(StringList),
-    serialNumber: S.optional(S.String),
-    parsed: S.optional(S.Boolean),
-    issuer: S.optional(S.String),
     rawDer: S.optional(S.String),
+    notBeforeTime: S.optional(S.String),
+    parsed: S.optional(S.Boolean),
+    serialNumber: S.optional(S.String),
+    subjectAlternativeDnsNames: S.optional(StringList),
+    issuer: S.optional(S.String),
+    notAfterTime: S.optional(S.String),
     sha256Fingerprint: S.optional(S.String),
   }),
 ).annotate({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
@@ -386,21 +379,21 @@ export const CertificateList = /*@__PURE__*/ S.Array(
 
 /** A ServiceResolver represents an EKM replica that can be reached within an EkmConnection. */
 export interface ServiceResolver {
-  /** Required. The resource name of the Service Directory service pointing to an EKM replica, in the format `projects/*\/locations/*\/namespaces/*\/services/*`. */
-  serviceDirectoryService?: string;
   /** Required. The hostname of the EKM replica used at TLS and HTTP layers. */
   hostname?: string;
-  /** Optional. The filter applied to the endpoints of the resolved service. If no filter is specified, all endpoints will be considered. An endpoint will be chosen arbitrarily from the filtered list for each request. For endpoint filter syntax and examples, see https://cloud.google.com/service-directory/docs/reference/rpc/google.cloud.servicedirectory.v1#resolveservicerequest. */
-  endpointFilter?: string;
   /** Required. A list of leaf server certificates used to authenticate HTTPS connections to the EKM replica. Currently, a maximum of 10 Certificate is supported. */
   serverCertificates?: CertificateList;
+  /** Optional. The filter applied to the endpoints of the resolved service. If no filter is specified, all endpoints will be considered. An endpoint will be chosen arbitrarily from the filtered list for each request. For endpoint filter syntax and examples, see https://cloud.google.com/service-directory/docs/reference/rpc/google.cloud.servicedirectory.v1#resolveservicerequest. */
+  endpointFilter?: string;
+  /** Required. The resource name of the Service Directory service pointing to an EKM replica, in the format `projects/*\/locations/*\/namespaces/*\/services/*`. */
+  serviceDirectoryService?: string;
 }
 export const ServiceResolver = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceDirectoryService: S.optional(S.String),
     hostname: S.optional(S.String),
-    endpointFilter: S.optional(S.String),
     serverCertificates: S.optional(CertificateList),
+    endpointFilter: S.optional(S.String),
+    serviceDirectoryService: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ServiceResolver",
@@ -411,29 +404,35 @@ export const ServiceResolverList = /*@__PURE__*/ S.Array(
   ServiceResolver,
 ) as any as S.Schema<ServiceResolverList>;
 
+export type EkmConnectionKeyManagementModeEnum =
+  | "KEY_MANAGEMENT_MODE_UNSPECIFIED"
+  | "MANUAL"
+  | "CLOUD_KMS";
+export const EkmConnectionKeyManagementModeEnum = S.String;
+
 /** An EkmConnection represents an individual EKM connection. It can be used for creating CryptoKeys and CryptoKeyVersions with a ProtectionLevel of EXTERNAL_VPC, as well as performing cryptographic operations using keys created within the EkmConnection. */
 export interface EkmConnection {
-  /** Optional. Identifies the EKM Crypto Space that this EkmConnection maps to. Note: This field is required if KeyManagementMode is CLOUD_KMS. */
-  cryptoSpacePath?: string;
+  /** Optional. A list of ServiceResolvers where the EKM can be reached. There should be one ServiceResolver per EKM replica. Currently, only a single ServiceResolver is supported. */
+  serviceResolvers?: ServiceResolverList;
   /** Optional. Describes who can perform control plane operations on the EKM. If unset, this defaults to MANUAL. */
   keyManagementMode?: EkmConnectionKeyManagementModeEnum | (string & {});
   /** Output only. The resource name for the EkmConnection in the format `projects/*\/locations/*\/ekmConnections/*`. */
   name?: string;
-  /** Optional. A list of ServiceResolvers where the EKM can be reached. There should be one ServiceResolver per EKM replica. Currently, only a single ServiceResolver is supported. */
-  serviceResolvers?: ServiceResolverList;
-  /** Optional. Etag of the currently stored EkmConnection. */
-  etag?: string;
   /** Output only. The time at which the EkmConnection was created. */
   createTime?: string;
+  /** Optional. Etag of the currently stored EkmConnection. */
+  etag?: string;
+  /** Optional. Identifies the EKM Crypto Space that this EkmConnection maps to. Note: This field is required if KeyManagementMode is CLOUD_KMS. */
+  cryptoSpacePath?: string;
 }
 export const EkmConnection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cryptoSpacePath: S.optional(S.String),
+    serviceResolvers: S.optional(ServiceResolverList),
     keyManagementMode: S.optional(EkmConnectionKeyManagementModeEnum),
     name: S.optional(S.String),
-    serviceResolvers: S.optional(ServiceResolverList),
-    etag: S.optional(S.String),
     createTime: S.optional(S.String),
+    etag: S.optional(S.String),
+    cryptoSpacePath: S.optional(S.String),
   }),
 ).annotate({ identifier: "EkmConnection" }) as any as S.Schema<EkmConnection>;
 
@@ -464,17 +463,17 @@ export const CreateProjectsLocationsEkmConnectionsRequest =
 
 /** Resource-oriented representation of a request to Cloud KMS Autokey and the resulting provisioning of a CryptoKey. */
 export interface KeyHandle {
-  /** Output only. Name of a CryptoKey that has been provisioned for Customer Managed Encryption Key (CMEK) use in the KeyHandle project and location for the requested resource type. The CryptoKey project will reflect the value configured in the AutokeyConfig on the resource project's ancestor folder at the time of the KeyHandle creation. If more than one ancestor folder has a configured AutokeyConfig, the nearest of these configurations is used. */
-  kmsKey?: string;
   /** Identifier. Name of the KeyHandle resource, e.g. `projects/{PROJECT_ID}/locations/{LOCATION}/keyHandles/{KEY_HANDLE_ID}`. */
   name?: string;
+  /** Output only. Name of a CryptoKey that has been provisioned for Customer Managed Encryption Key (CMEK) use in the KeyHandle project and location for the requested resource type. The CryptoKey project will reflect the value configured in the AutokeyConfig on the resource project's ancestor folder at the time of the KeyHandle creation. If more than one ancestor folder has a configured AutokeyConfig, the nearest of these configurations is used. */
+  kmsKey?: string;
   /** Required. Indicates the resource type that the resulting CryptoKey is meant to protect, e.g. `{SERVICE}.googleapis.com/{TYPE}`. See documentation for supported resource types. */
   resourceTypeSelector?: string;
 }
 export const KeyHandle = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kmsKey: S.optional(S.String),
     name: S.optional(S.String),
+    kmsKey: S.optional(S.String),
     resourceTypeSelector: S.optional(S.String),
   }),
 ).annotate({ identifier: "KeyHandle" }) as any as S.Schema<KeyHandle>;
@@ -534,54 +533,54 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     done: S.optional(S.Boolean),
-    response: S.optional(DocumentMap),
-    error: S.optional(Status),
     metadata: S.optional(DocumentMap),
+    error: S.optional(Status),
+    name: S.optional(S.String),
+    response: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
 /** A KeyRing is a toplevel logical grouping of CryptoKeys. */
 export interface KeyRing {
-  /** Output only. The resource name for the KeyRing in the format `projects/*\/locations/*\/keyRings/*`. */
-  name?: string;
   /** Output only. The time at which this KeyRing was created. */
   createTime?: string;
+  /** Output only. The resource name for the KeyRing in the format `projects/*\/locations/*\/keyRings/*`. */
+  name?: string;
 }
 export const KeyRing = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     createTime: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "KeyRing" }) as any as S.Schema<KeyRing>;
 
 export interface CreateProjectsLocationsKeyRingsRequest {
-  /** Required. The resource name of the location associated with the KeyRings, in the format `projects/*\/locations/*`. */
-  parent: string;
   /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
   keyRingId?: string;
+  /** Required. The resource name of the location associated with the KeyRings, in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Request body */
   body?: KeyRing;
 }
 export const CreateProjectsLocationsKeyRingsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       keyRingId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(KeyRing.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -594,98 +593,11 @@ export const CreateProjectsLocationsKeyRingsRequest = /*@__PURE__*/ S.suspend(
   identifier: "CreateProjectsLocationsKeyRingsRequest",
 }) as any as S.Schema<CreateProjectsLocationsKeyRingsRequest>;
 
-export type KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnum =
-  | "REASON_UNSPECIFIED"
-  | "CUSTOMER_INITIATED_SUPPORT"
-  | "GOOGLE_INITIATED_SERVICE"
-  | "THIRD_PARTY_DATA_REQUEST"
-  | "GOOGLE_INITIATED_REVIEW"
-  | "CUSTOMER_INITIATED_ACCESS"
-  | "GOOGLE_INITIATED_SYSTEM_OPERATION"
-  | "REASON_NOT_EXPECTED"
-  | "MODIFIED_CUSTOMER_INITIATED_ACCESS"
-  | "MODIFIED_GOOGLE_INITIATED_SYSTEM_OPERATION"
-  | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT"
-  | "CUSTOMER_AUTHORIZED_WORKFLOW_SERVICING";
-export const KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnum =
-  /*@__PURE__*/ S.String;
-
-export type KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnumList =
-  Array<
-    KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnum | (string & {})
-  >;
-export const KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnumList =
-  /*@__PURE__*/ S.Array(
-    KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnum,
-  ) as any as S.Schema<KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnumList>;
-
-/** A KeyAccessJustificationsPolicy specifies zero or more allowed AccessReason values for encrypt, decrypt, and sign operations on a CryptoKey or KeyAccessJustificationsPolicyConfig (the default Key Access Justifications policy). */
-export interface KeyAccessJustificationsPolicy {
-  /** The list of allowed reasons for access to a CryptoKey. Note that empty allowed_access_reasons has a different meaning depending on where this message appears. If this is under KeyAccessJustificationsPolicyConfig, it means allow-all. If this is under CryptoKey, it means deny-all. */
-  allowedAccessReasons?: KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnumList;
-}
-export const KeyAccessJustificationsPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    allowedAccessReasons: S.optional(
-      KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnumList,
-    ),
-  }),
-).annotate({
-  identifier: "KeyAccessJustificationsPolicy",
-}) as any as S.Schema<KeyAccessJustificationsPolicy>;
-
-/** Certificate chains needed to verify the attestation. Certificates in chains are PEM-encoded and are ordered based on https://tools.ietf.org/html/rfc5246#section-7.4.2. */
-export interface CertificateChains {
-  /** Cavium certificate chain corresponding to the attestation. */
-  caviumCerts?: StringList;
-  /** Google card certificate chain corresponding to the attestation. */
-  googleCardCerts?: StringList;
-  /** Google partition certificate chain corresponding to the attestation. */
-  googlePartitionCerts?: StringList;
-}
-export const CertificateChains = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    caviumCerts: S.optional(StringList),
-    googleCardCerts: S.optional(StringList),
-    googlePartitionCerts: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "CertificateChains",
-}) as any as S.Schema<CertificateChains>;
-
-export type KeyOperationAttestationFormatEnum =
-  | "ATTESTATION_FORMAT_UNSPECIFIED"
-  | "CAVIUM_V1_COMPRESSED"
-  | "CAVIUM_V2_COMPRESSED";
-export const KeyOperationAttestationFormatEnum = /*@__PURE__*/ S.String;
-
-/** Contains an HSM-generated attestation about a key operation. For more information, see [Verifying attestations] (https://cloud.google.com/kms/docs/attest-key). */
-export interface KeyOperationAttestation {
-  /** Output only. The certificate chains needed to validate the attestation */
-  certChains?: CertificateChains;
-  /** Output only. The format of the attestation data. */
-  format?: KeyOperationAttestationFormatEnum | (string & {});
-  /** Output only. The attestation data provided by the HSM when the key operation was performed. */
-  content?: string;
-}
-export const KeyOperationAttestation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    certChains: S.optional(CertificateChains),
-    format: S.optional(KeyOperationAttestationFormatEnum),
-    content: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "KeyOperationAttestation",
-}) as any as S.Schema<KeyOperationAttestation>;
-
-export type CryptoKeyVersionProtectionLevelEnum =
-  | "PROTECTION_LEVEL_UNSPECIFIED"
-  | "SOFTWARE"
-  | "HSM"
-  | "EXTERNAL"
-  | "EXTERNAL_VPC"
-  | "HSM_SINGLE_TENANT";
-export const CryptoKeyVersionProtectionLevelEnum = /*@__PURE__*/ S.String;
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StringMap>;
 
 export type CryptoKeyVersionStateEnum =
   | "CRYPTO_KEY_VERSION_STATE_UNSPECIFIED"
@@ -699,7 +611,80 @@ export type CryptoKeyVersionStateEnum =
   | "GENERATION_FAILED"
   | "PENDING_EXTERNAL_DESTRUCTION"
   | "EXTERNAL_DESTRUCTION_FAILED";
-export const CryptoKeyVersionStateEnum = /*@__PURE__*/ S.String;
+export const CryptoKeyVersionStateEnum = S.String;
+
+/** ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels. */
+export interface ExternalProtectionLevelOptions {
+  /** Optional. The path to the external key material on the EKM when using EkmConnection e.g., "v0/my/key". Set this field instead of external_key_uri when using an EkmConnection. */
+  ekmConnectionKeyPath?: string;
+  /** Optional. The URI for an external resource that this CryptoKeyVersion represents. */
+  externalKeyUri?: string;
+  /** Optional. The resource name of the backend environment where the key material of CryptoKeyVersions is associated with. Setting this field overrides the crypto_key_backend. This field may be set when CryptoKeyVersions is set to EXTERNAL_VPC. Format: `projects/*\/locations/*\/ekmConnections/*`. */
+  ekmConnectionBackendOverride?: string;
+}
+export const ExternalProtectionLevelOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ekmConnectionKeyPath: S.optional(S.String),
+    externalKeyUri: S.optional(S.String),
+    ekmConnectionBackendOverride: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ExternalProtectionLevelOptions",
+}) as any as S.Schema<ExternalProtectionLevelOptions>;
+
+/** Certificate chains needed to verify the attestation. Certificates in chains are PEM-encoded and are ordered based on https://tools.ietf.org/html/rfc5246#section-7.4.2. */
+export interface CertificateChains {
+  /** Google partition certificate chain corresponding to the attestation. */
+  googlePartitionCerts?: StringList;
+  /** Google card certificate chain corresponding to the attestation. */
+  googleCardCerts?: StringList;
+  /** Cavium certificate chain corresponding to the attestation. */
+  caviumCerts?: StringList;
+}
+export const CertificateChains = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    googlePartitionCerts: S.optional(StringList),
+    googleCardCerts: S.optional(StringList),
+    caviumCerts: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "CertificateChains",
+}) as any as S.Schema<CertificateChains>;
+
+export type KeyOperationAttestationFormatEnum =
+  | "ATTESTATION_FORMAT_UNSPECIFIED"
+  | "CAVIUM_V1_COMPRESSED"
+  | "CAVIUM_V2_COMPRESSED"
+  | "CAVIUM_V209";
+export const KeyOperationAttestationFormatEnum = S.String;
+
+/** Contains an HSM-generated attestation about a key operation. For more information, see [Verifying attestations] (https://cloud.google.com/kms/docs/attest-key). */
+export interface KeyOperationAttestation {
+  /** Output only. The attestation data provided by the HSM when the key operation was performed. */
+  content?: string;
+  /** Output only. The certificate chains needed to validate the attestation */
+  certChains?: CertificateChains;
+  /** Output only. The format of the attestation data. */
+  format?: KeyOperationAttestationFormatEnum | (string & {});
+}
+export const KeyOperationAttestation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    content: S.optional(S.String),
+    certChains: S.optional(CertificateChains),
+    format: S.optional(KeyOperationAttestationFormatEnum),
+  }),
+).annotate({
+  identifier: "KeyOperationAttestation",
+}) as any as S.Schema<KeyOperationAttestation>;
+
+export type CryptoKeyVersionProtectionLevelEnum =
+  | "PROTECTION_LEVEL_UNSPECIFIED"
+  | "SOFTWARE"
+  | "HSM"
+  | "EXTERNAL"
+  | "EXTERNAL_VPC"
+  | "HSM_SINGLE_TENANT";
+export const CryptoKeyVersionProtectionLevelEnum = S.String;
 
 export type CryptoKeyVersionAlgorithmEnum =
   | "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
@@ -748,98 +733,126 @@ export type CryptoKeyVersionAlgorithmEnum =
   | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256"
   | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU"
   | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU"
-  | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU";
-export const CryptoKeyVersionAlgorithmEnum = /*@__PURE__*/ S.String;
-
-/** ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels. */
-export interface ExternalProtectionLevelOptions {
-  /** The URI for an external resource that this CryptoKeyVersion represents. */
-  externalKeyUri?: string;
-  /** The path to the external key material on the EKM when using EkmConnection e.g., "v0/my/key". Set this field instead of external_key_uri when using an EkmConnection. */
-  ekmConnectionKeyPath?: string;
-}
-export const ExternalProtectionLevelOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    externalKeyUri: S.optional(S.String),
-    ekmConnectionKeyPath: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExternalProtectionLevelOptions",
-}) as any as S.Schema<ExternalProtectionLevelOptions>;
+  | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU"
+  | "KEM_ECDH_P256"
+  | "KEM_ECDH_P384"
+  | "AES_256_KWP";
+export const CryptoKeyVersionAlgorithmEnum = S.String;
 
 /** A CryptoKeyVersion represents an individual cryptographic key, and the associated key material. An ENABLED version can be used for cryptographic operations. For security reasons, the raw cryptographic key material represented by a CryptoKeyVersion can never be viewed or exported. It can only be used to encrypt, decrypt, or sign data when an authorized user or application invokes Cloud KMS. */
 export interface CryptoKeyVersion {
-  /** Output only. The root cause of the most recent external destruction failure. Only present if state is EXTERNAL_DESTRUCTION_FAILED. */
-  externalDestructionFailureReason?: string;
+  /** Optional. Immutable. Field indicating that the key may be wrapped by a trusted key. This field can be set for all key purposes except ENCRYPT_DECRYPT, and is only valid for keys with protection level HSM_SINGLE_TENANT. This field can only be set at creation or import time via CreateCryptoKeyVersion, or ImportCryptoKeyVersion. */
+  trustedWrappingEnabled?: boolean;
+  /** The current state of the CryptoKeyVersion. */
+  state?: CryptoKeyVersionStateEnum | (string & {});
+  /** Output only. The time this CryptoKeyVersion's key material was destroyed. Only present if state is DESTROYED. */
+  destroyEventTime?: string;
+  /** Output only. Whether or not this key version is eligible for reimport, by being specified as a target in ImportCryptoKeyVersionRequest.crypto_key_version. */
+  reimportEligible?: boolean;
+  /** ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels. */
+  externalProtectionLevelOptions?: ExternalProtectionLevelOptions;
+  /** Output only. Field indicating that the key wrapping key is trusted. This field is only valid for key purpose AES_256_WRAPPING, and protection level HSM_SINGLE_TENANT. */
+  hsmTrusted?: boolean;
   /** Output only. Statement that was generated and signed by the HSM at key creation time. Use this statement to verify attributes of the key as stored on the HSM, independently of Google. Only provided for key versions with protection_level HSM. */
   attestation?: KeyOperationAttestation;
-  /** Output only. The name of the ImportJob used in the most recent import of this CryptoKeyVersion. Only present if the underlying key material was imported. */
-  importJob?: string;
+  /** Output only. The root cause of the most recent import failure. Only present if state is IMPORT_FAILED. */
+  importFailureReason?: string;
   /** Output only. The resource name for this CryptoKeyVersion in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*\/cryptoKeyVersions/*`. */
   name?: string;
+  /** Output only. The time this CryptoKeyVersion's key material is scheduled for destruction. Only present if state is DESTROY_SCHEDULED. */
+  destroyTime?: string;
+  /** Output only. The root cause of the most recent generation failure. Only present if state is GENERATION_FAILED. */
+  generationFailureReason?: string;
+  /** Output only. The root cause of the most recent external destruction failure. Only present if state is EXTERNAL_DESTRUCTION_FAILED. */
+  externalDestructionFailureReason?: string;
   /** Output only. The ProtectionLevel describing how crypto operations are performed with this CryptoKeyVersion. */
   protectionLevel?: CryptoKeyVersionProtectionLevelEnum | (string & {});
   /** Output only. The time at which this CryptoKeyVersion was created. */
   createTime?: string;
-  /** The current state of the CryptoKeyVersion. */
-  state?: CryptoKeyVersionStateEnum | (string & {});
   /** Output only. The time this CryptoKeyVersion's key material was generated. */
   generateTime?: string;
-  /** Output only. The root cause of the most recent generation failure. Only present if state is GENERATION_FAILED. */
-  generationFailureReason?: string;
-  /** Output only. Whether or not this key version is eligible for reimport, by being specified as a target in ImportCryptoKeyVersionRequest.crypto_key_version. */
-  reimportEligible?: boolean;
-  /** Output only. The root cause of the most recent import failure. Only present if state is IMPORT_FAILED. */
-  importFailureReason?: string;
-  /** Output only. The time at which this CryptoKeyVersion's key material was most recently imported. */
-  importTime?: string;
   /** Output only. The CryptoKeyVersionAlgorithm that this CryptoKeyVersion supports. */
   algorithm?: CryptoKeyVersionAlgorithmEnum | (string & {});
-  /** ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels. */
-  externalProtectionLevelOptions?: ExternalProtectionLevelOptions;
-  /** Output only. The time this CryptoKeyVersion's key material was destroyed. Only present if state is DESTROYED. */
-  destroyEventTime?: string;
-  /** Output only. The time this CryptoKeyVersion's key material is scheduled for destruction. Only present if state is DESTROY_SCHEDULED. */
-  destroyTime?: string;
+  /** Output only. The time at which this CryptoKeyVersion's key material was most recently imported. */
+  importTime?: string;
+  /** Output only. The name of the ImportJob used in the most recent import of this CryptoKeyVersion. Only present if the underlying key material was imported. */
+  importJob?: string;
 }
 export const CryptoKeyVersion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    externalDestructionFailureReason: S.optional(S.String),
+    trustedWrappingEnabled: S.optional(S.Boolean),
+    state: S.optional(CryptoKeyVersionStateEnum),
+    destroyEventTime: S.optional(S.String),
+    reimportEligible: S.optional(S.Boolean),
+    externalProtectionLevelOptions: S.optional(ExternalProtectionLevelOptions),
+    hsmTrusted: S.optional(S.Boolean),
     attestation: S.optional(KeyOperationAttestation),
-    importJob: S.optional(S.String),
+    importFailureReason: S.optional(S.String),
     name: S.optional(S.String),
+    destroyTime: S.optional(S.String),
+    generationFailureReason: S.optional(S.String),
+    externalDestructionFailureReason: S.optional(S.String),
     protectionLevel: S.optional(CryptoKeyVersionProtectionLevelEnum),
     createTime: S.optional(S.String),
-    state: S.optional(CryptoKeyVersionStateEnum),
     generateTime: S.optional(S.String),
-    generationFailureReason: S.optional(S.String),
-    reimportEligible: S.optional(S.Boolean),
-    importFailureReason: S.optional(S.String),
-    importTime: S.optional(S.String),
     algorithm: S.optional(CryptoKeyVersionAlgorithmEnum),
-    externalProtectionLevelOptions: S.optional(ExternalProtectionLevelOptions),
-    destroyEventTime: S.optional(S.String),
-    destroyTime: S.optional(S.String),
+    importTime: S.optional(S.String),
+    importJob: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CryptoKeyVersion",
 }) as any as S.Schema<CryptoKeyVersion>;
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StringMap>;
+export type CryptoKeyPurposeEnum =
+  | "CRYPTO_KEY_PURPOSE_UNSPECIFIED"
+  | "ENCRYPT_DECRYPT"
+  | "ASYMMETRIC_SIGN"
+  | "ASYMMETRIC_DECRYPT"
+  | "RAW_ENCRYPT_DECRYPT"
+  | "MAC"
+  | "KEY_ENCAPSULATION"
+  | "AES_WRAPPING";
+export const CryptoKeyPurposeEnum = S.String;
 
-export type CryptoKeyVersionTemplateProtectionLevelEnum =
-  | "PROTECTION_LEVEL_UNSPECIFIED"
-  | "SOFTWARE"
-  | "HSM"
-  | "EXTERNAL"
-  | "EXTERNAL_VPC"
-  | "HSM_SINGLE_TENANT";
-export const CryptoKeyVersionTemplateProtectionLevelEnum =
-  /*@__PURE__*/ S.String;
+export type KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnum =
+  | "REASON_UNSPECIFIED"
+  | "CUSTOMER_INITIATED_SUPPORT"
+  | "GOOGLE_INITIATED_SERVICE"
+  | "THIRD_PARTY_DATA_REQUEST"
+  | "GOOGLE_INITIATED_REVIEW"
+  | "CUSTOMER_INITIATED_ACCESS"
+  | "GOOGLE_INITIATED_SYSTEM_OPERATION"
+  | "REASON_NOT_EXPECTED"
+  | "MODIFIED_CUSTOMER_INITIATED_ACCESS"
+  | "MODIFIED_GOOGLE_INITIATED_SYSTEM_OPERATION"
+  | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT"
+  | "CUSTOMER_AUTHORIZED_WORKFLOW_SERVICING";
+export const KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnum =
+  S.String;
+
+export type KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnumList =
+  Array<
+    KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnum | (string & {})
+  >;
+export const KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnumList =
+  /*@__PURE__*/ S.Array(
+    KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnum,
+  ) as any as S.Schema<KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnumList>;
+
+/** A KeyAccessJustificationsPolicy specifies zero or more allowed AccessReason values for encrypt, decrypt, and sign operations on a CryptoKey or KeyAccessJustificationsPolicyConfig (the default Key Access Justifications policy). */
+export interface KeyAccessJustificationsPolicy {
+  /** The list of allowed reasons for access to a CryptoKey. Note that empty allowed_access_reasons has a different meaning depending on where this message appears. If this is under KeyAccessJustificationsPolicyConfig, it means allow-all. If this is under CryptoKey, it means deny-all. */
+  allowedAccessReasons?: KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnumList;
+}
+export const KeyAccessJustificationsPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedAccessReasons: S.optional(
+      KeyAccessJustificationsPolicyAllowedAccessReasonsItemEnumList,
+    ),
+  }),
+).annotate({
+  identifier: "KeyAccessJustificationsPolicy",
+}) as any as S.Schema<KeyAccessJustificationsPolicy>;
 
 export type CryptoKeyVersionTemplateAlgorithmEnum =
   | "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
@@ -888,57 +901,59 @@ export type CryptoKeyVersionTemplateAlgorithmEnum =
   | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256"
   | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU"
   | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU"
-  | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU";
-export const CryptoKeyVersionTemplateAlgorithmEnum = /*@__PURE__*/ S.String;
+  | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU"
+  | "KEM_ECDH_P256"
+  | "KEM_ECDH_P384"
+  | "AES_256_KWP";
+export const CryptoKeyVersionTemplateAlgorithmEnum = S.String;
+
+export type CryptoKeyVersionTemplateProtectionLevelEnum =
+  | "PROTECTION_LEVEL_UNSPECIFIED"
+  | "SOFTWARE"
+  | "HSM"
+  | "EXTERNAL"
+  | "EXTERNAL_VPC"
+  | "HSM_SINGLE_TENANT";
+export const CryptoKeyVersionTemplateProtectionLevelEnum = S.String;
 
 /** A CryptoKeyVersionTemplate specifies the properties to use when creating a new CryptoKeyVersion, either manually with CreateCryptoKeyVersion or automatically as a result of auto-rotation. */
 export interface CryptoKeyVersionTemplate {
-  /** ProtectionLevel to use when creating a CryptoKeyVersion based on this template. Immutable. Defaults to SOFTWARE. */
-  protectionLevel?: CryptoKeyVersionTemplateProtectionLevelEnum | (string & {});
   /** Required. Algorithm to use when creating a CryptoKeyVersion based on this template. For backwards compatibility, GOOGLE_SYMMETRIC_ENCRYPTION is implied if both this field is omitted and CryptoKey.purpose is ENCRYPT_DECRYPT. */
   algorithm?: CryptoKeyVersionTemplateAlgorithmEnum | (string & {});
+  /** ProtectionLevel to use when creating a CryptoKeyVersion based on this template. Immutable. Defaults to SOFTWARE. */
+  protectionLevel?: CryptoKeyVersionTemplateProtectionLevelEnum | (string & {});
 }
 export const CryptoKeyVersionTemplate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    protectionLevel: S.optional(CryptoKeyVersionTemplateProtectionLevelEnum),
     algorithm: S.optional(CryptoKeyVersionTemplateAlgorithmEnum),
+    protectionLevel: S.optional(CryptoKeyVersionTemplateProtectionLevelEnum),
   }),
 ).annotate({
   identifier: "CryptoKeyVersionTemplate",
 }) as any as S.Schema<CryptoKeyVersionTemplate>;
 
-export type CryptoKeyPurposeEnum =
-  | "CRYPTO_KEY_PURPOSE_UNSPECIFIED"
-  | "ENCRYPT_DECRYPT"
-  | "ASYMMETRIC_SIGN"
-  | "ASYMMETRIC_DECRYPT"
-  | "RAW_ENCRYPT_DECRYPT"
-  | "MAC"
-  | "KEY_ENCAPSULATION";
-export const CryptoKeyPurposeEnum = /*@__PURE__*/ S.String;
-
 /** A CryptoKey represents a logical key that can be used for cryptographic operations. A CryptoKey is made up of zero or more versions, which represent the actual key material used in cryptographic operations. */
 export interface CryptoKey {
-  /** Optional. The policy used for Key Access Justifications Policy Enforcement. If this field is present and this key is enrolled in Key Access Justifications Policy Enforcement, the policy will be evaluated in encrypt, decrypt, and sign operations, and the operation will fail if rejected by the policy. The policy is defined by specifying zero or more allowed justification codes. https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes By default, this field is absent, and all justification codes are allowed. If the `key_access_justifications_policy.allowed_access_reasons` is empty (zero allowed justification code), all encrypt, decrypt, and sign operations will fail. */
-  keyAccessJustificationsPolicy?: KeyAccessJustificationsPolicy;
-  /** Immutable. The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED. If not specified at creation time, the default duration is 30 days. */
-  destroyScheduledDuration?: string;
+  /** Labels with user-defined metadata. For more information, see [Labeling Keys](https://cloud.google.com/kms/docs/labeling-keys). */
+  labels?: StringMap;
   /** Output only. A copy of the "primary" CryptoKeyVersion that will be used by Encrypt when this CryptoKey is given in EncryptRequest.name. The CryptoKey's primary version can be updated via UpdateCryptoKeyPrimaryVersion. Keys with purpose ENCRYPT_DECRYPT may have a primary. For other keys, this field will be omitted. */
   primary?: CryptoKeyVersion;
   /** next_rotation_time will be advanced by this period when the service automatically rotates a key. Must be at least 24 hours and at most 876,000 hours. If rotation_period is set, next_rotation_time must also be set. Keys with purpose ENCRYPT_DECRYPT support automatic rotation. For other keys, this field must be omitted. */
   rotationPeriod?: string;
-  /** Labels with user-defined metadata. For more information, see [Labeling Keys](https://cloud.google.com/kms/docs/labeling-keys). */
-  labels?: StringMap;
-  /** Output only. The resource name for this CryptoKey in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
-  name?: string;
-  /** A template describing settings for new CryptoKeyVersion instances. The properties of new CryptoKeyVersion instances created by either CreateCryptoKeyVersion or auto-rotation are controlled by this template. */
-  versionTemplate?: CryptoKeyVersionTemplate;
-  /** Immutable. The immutable purpose of this CryptoKey. */
-  purpose?: CryptoKeyPurposeEnum | (string & {});
   /** Output only. The time at which this CryptoKey was created. */
   createTime?: string;
+  /** Output only. The resource name for this CryptoKey in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  name?: string;
+  /** Immutable. The immutable purpose of this CryptoKey. */
+  purpose?: CryptoKeyPurposeEnum | (string & {});
   /** At next_rotation_time, the Key Management Service will automatically: 1. Create a new version of this CryptoKey. 2. Mark the new version as primary. Key rotations performed manually via CreateCryptoKeyVersion and UpdateCryptoKeyPrimaryVersion do not affect next_rotation_time. Keys with purpose ENCRYPT_DECRYPT support automatic rotation. For other keys, this field must be omitted. */
   nextRotationTime?: string;
+  /** Immutable. The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED. If not specified at creation time, the default duration is 30 days. */
+  destroyScheduledDuration?: string;
+  /** Optional. The policy used for Key Access Justifications Policy Enforcement. If this field is present and this key is enrolled in Key Access Justifications Policy Enforcement, the policy will be evaluated in encrypt, decrypt, and sign operations, and the operation will fail if rejected by the policy. The policy is defined by specifying zero or more allowed justification codes. https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes By default, this field is absent, and all justification codes are allowed. If the `key_access_justifications_policy.allowed_access_reasons` is empty (zero allowed justification code), all encrypt, decrypt, and sign operations will fail. */
+  keyAccessJustificationsPolicy?: KeyAccessJustificationsPolicy;
+  /** A template describing settings for new CryptoKeyVersion instances. The properties of new CryptoKeyVersion instances created by either CreateCryptoKeyVersion or auto-rotation are controlled by this template. */
+  versionTemplate?: CryptoKeyVersionTemplate;
   /** Immutable. Whether this key may contain imported versions only. */
   importOnly?: boolean;
   /** Immutable. The resource name of the backend environment where the key material for all CryptoKeyVersions associated with this CryptoKey reside and where all related cryptographic operations are performed. Only applicable if CryptoKeyVersions have a ProtectionLevel of EXTERNAL_VPC, with the resource name in the format `projects/*\/locations/*\/ekmConnections/*`. Only applicable if CryptoKeyVersions have a ProtectionLevel of HSM_SINGLE_TENANT, with the resource name in the format `projects/*\/locations/*\/singleTenantHsmInstances/*`. Note, this list is non-exhaustive and may apply to additional ProtectionLevels in the future. */
@@ -946,37 +961,40 @@ export interface CryptoKey {
 }
 export const CryptoKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    keyAccessJustificationsPolicy: S.optional(KeyAccessJustificationsPolicy),
-    destroyScheduledDuration: S.optional(S.String),
+    labels: S.optional(StringMap),
     primary: S.optional(CryptoKeyVersion),
     rotationPeriod: S.optional(S.String),
-    labels: S.optional(StringMap),
-    name: S.optional(S.String),
-    versionTemplate: S.optional(CryptoKeyVersionTemplate),
-    purpose: S.optional(CryptoKeyPurposeEnum),
     createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    purpose: S.optional(CryptoKeyPurposeEnum),
     nextRotationTime: S.optional(S.String),
+    destroyScheduledDuration: S.optional(S.String),
+    keyAccessJustificationsPolicy: S.optional(KeyAccessJustificationsPolicy),
+    versionTemplate: S.optional(CryptoKeyVersionTemplate),
     importOnly: S.optional(S.Boolean),
     cryptoKeyBackend: S.optional(S.String),
   }),
 ).annotate({ identifier: "CryptoKey" }) as any as S.Schema<CryptoKey>;
 
 export interface CreateProjectsLocationsKeyRingsCryptoKeysRequest {
-  /** Required. The name of the KeyRing associated with the CryptoKeys. */
-  parent: string;
   /** Required. It must be unique within a KeyRing and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
   cryptoKeyId?: string;
   /** If set to true, the request will create a CryptoKey without any CryptoKeyVersions. You must manually call CreateCryptoKeyVersion or ImportCryptoKeyVersion before you can use this CryptoKey. */
   skipInitialVersionCreation?: boolean;
+  /** Required. The name of the KeyRing associated with the CryptoKeys. */
+  parent: string;
+  /** Optional. Whether trusted wrapping will be enabled on the first CryptoKeyVersions created for this CryptoKey. This field is only supported for keys with CryptoKeyVersionTemplate.protection_level HSM_SINGLE_TENANT. This field is supported for all CryptoKeyPurposes except ENCRYPT_DECRYPT. */
+  trustedWrappingEnabled?: boolean;
   /** Request body */
   body?: CryptoKey;
 }
 export const CreateProjectsLocationsKeyRingsCryptoKeysRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       cryptoKeyId: S.optional(S.String.pipe(T.Query())),
       skipInitialVersionCreation: S.optional(S.Boolean.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      trustedWrappingEnabled: S.optional(S.Boolean.pipe(T.Query())),
       body: S.optional(CryptoKey.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1012,6 +1030,30 @@ export const CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
       "CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest",
   }) as any as S.Schema<CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
+export type ImportJobPublicKeyFormatEnum =
+  | "PUBLIC_KEY_FORMAT_UNSPECIFIED"
+  | "PEM"
+  | "DER"
+  | "NIST_PQC"
+  | "XWING_RAW_BYTES";
+export const ImportJobPublicKeyFormatEnum = S.String;
+
+export type ImportJobStateEnum =
+  | "IMPORT_JOB_STATE_UNSPECIFIED"
+  | "PENDING_GENERATION"
+  | "ACTIVE"
+  | "EXPIRED";
+export const ImportJobStateEnum = S.String;
+
+export type ImportJobProtectionLevelEnum =
+  | "PROTECTION_LEVEL_UNSPECIFIED"
+  | "SOFTWARE"
+  | "HSM"
+  | "EXTERNAL"
+  | "EXTERNAL_VPC"
+  | "HSM_SINGLE_TENANT";
+export const ImportJobProtectionLevelEnum = S.String;
+
 export type ImportJobImportMethodEnum =
   | "IMPORT_METHOD_UNSPECIFIED"
   | "RSA_OAEP_3072_SHA1_AES_256"
@@ -1023,15 +1065,7 @@ export type ImportJobImportMethodEnum =
   | "HPKE_KEM_ML_KEM_768_HKDF_SHA256_AES_256_GCM"
   | "HPKE_KEM_ML_KEM_1024_HKDF_SHA256_AES_256_GCM"
   | "HPKE_KEM_XWING_HKDF_SHA256_AES_256_GCM";
-export const ImportJobImportMethodEnum = /*@__PURE__*/ S.String;
-
-export type ImportJobPublicKeyFormatEnum =
-  | "PUBLIC_KEY_FORMAT_UNSPECIFIED"
-  | "PEM"
-  | "DER"
-  | "NIST_PQC"
-  | "XWING_RAW_BYTES";
-export const ImportJobPublicKeyFormatEnum = /*@__PURE__*/ S.String;
+export const ImportJobImportMethodEnum = S.String;
 
 /** The public key component of the wrapping key. For details of the type of key this public key corresponds to, see the ImportMethod. */
 export interface WrappingPublicKey {
@@ -1049,63 +1083,47 @@ export const WrappingPublicKey = /*@__PURE__*/ S.suspend(() =>
   identifier: "WrappingPublicKey",
 }) as any as S.Schema<WrappingPublicKey>;
 
-export type ImportJobStateEnum =
-  | "IMPORT_JOB_STATE_UNSPECIFIED"
-  | "PENDING_GENERATION"
-  | "ACTIVE"
-  | "EXPIRED";
-export const ImportJobStateEnum = /*@__PURE__*/ S.String;
-
-export type ImportJobProtectionLevelEnum =
-  | "PROTECTION_LEVEL_UNSPECIFIED"
-  | "SOFTWARE"
-  | "HSM"
-  | "EXTERNAL"
-  | "EXTERNAL_VPC"
-  | "HSM_SINGLE_TENANT";
-export const ImportJobProtectionLevelEnum = /*@__PURE__*/ S.String;
-
 /** An ImportJob can be used to create CryptoKeys and CryptoKeyVersions using pre-existing key material, generated outside of Cloud KMS. When an ImportJob is created, Cloud KMS will generate a "wrapping key", which is a public/private key pair. You use the wrapping key to encrypt (also known as wrap) the pre-existing key material to protect it during the import process. The nature of the wrapping key depends on the choice of import_method. When the wrapping key generation is complete, the state will be set to ACTIVE and the public_key can be fetched. The fetched public key can then be used to wrap your pre-existing key material. Once the key material is wrapped, it can be imported into a new CryptoKeyVersion in an existing CryptoKey by calling ImportCryptoKeyVersion. Multiple CryptoKeyVersions can be imported with a single ImportJob. Cloud KMS uses the private key portion of the wrapping key to unwrap the key material. Only Cloud KMS has access to the private key. An ImportJob expires 3 days after it is created. Once expired, Cloud KMS will no longer be able to import or unwrap any key material that was wrapped with the ImportJob's public key. For more information, see [Importing a key](https://cloud.google.com/kms/docs/importing-a-key). */
 export interface ImportJob {
-  /** Required. Immutable. The wrapping method to be used for incoming key material. */
-  importMethod?: ImportJobImportMethodEnum | (string & {});
-  /** Output only. Specifies the WrappingPublicKey format provided by the customer in the KeyManagementService.GetImportJob request. */
-  publicKeyFormat?: ImportJobPublicKeyFormatEnum | (string & {});
-  /** Output only. The time at which this ImportJob is scheduled for expiration and can no longer be used to import key material. */
-  expireTime?: string;
-  /** Output only. The public key with which to wrap key material prior to import. Only returned if state is ACTIVE. */
-  publicKey?: WrappingPublicKey;
-  /** Output only. The time this ImportJob expired. Only present if state is EXPIRED. */
-  expireEventTime?: string;
-  /** Output only. Statement that was generated and signed by the key creator (for example, an HSM) at key creation time. Use this statement to verify attributes of the key as stored on the HSM, independently of Google. Only present if the chosen ImportMethod is one with a protection level of HSM. */
-  attestation?: KeyOperationAttestation;
-  /** Output only. The resource name for this ImportJob in the format `projects/*\/locations/*\/keyRings/*\/importJobs/*`. */
-  name?: string;
-  /** Immutable. The resource name of the backend environment where the key material for the wrapping key resides and where all related cryptographic operations are performed. Currently, this field is only populated for keys stored in HSM_SINGLE_TENANT. Note, this list is non-exhaustive and may apply to additional ProtectionLevels in the future. Supported resources: * `"projects/*\/locations/*\/singleTenantHsmInstances/*"` */
-  cryptoKeyBackend?: string;
   /** Output only. The time this ImportJob's key material was generated. */
   generateTime?: string;
+  /** Immutable. The resource name of the backend environment where the key material for the wrapping key resides and where all related cryptographic operations are performed. Currently, this field is only populated for keys stored in HSM_SINGLE_TENANT. Note, this list is non-exhaustive and may apply to additional ProtectionLevels in the future. Supported resources: * `"projects/*\/locations/*\/singleTenantHsmInstances/*"` */
+  cryptoKeyBackend?: string;
+  /** Output only. The resource name for this ImportJob in the format `projects/*\/locations/*\/keyRings/*\/importJobs/*`. */
+  name?: string;
+  /** Output only. Statement that was generated and signed by the key creator (for example, an HSM) at key creation time. Use this statement to verify attributes of the key as stored on the HSM, independently of Google. Only present if the chosen ImportMethod is one with a protection level of HSM. */
+  attestation?: KeyOperationAttestation;
+  /** Output only. Specifies the WrappingPublicKey format provided by the customer in the KeyManagementService.GetImportJob request. */
+  publicKeyFormat?: ImportJobPublicKeyFormatEnum | (string & {});
   /** Output only. The current state of the ImportJob, indicating if it can be used. */
   state?: ImportJobStateEnum | (string & {});
-  /** Required. Immutable. The protection level of the ImportJob. This must match the protection_level of the version_template on the CryptoKey you attempt to import into. */
-  protectionLevel?: ImportJobProtectionLevelEnum | (string & {});
   /** Output only. The time at which this ImportJob was created. */
   createTime?: string;
+  /** Output only. The time this ImportJob expired. Only present if state is EXPIRED. */
+  expireEventTime?: string;
+  /** Required. Immutable. The protection level of the ImportJob. This must match the protection_level of the version_template on the CryptoKey you attempt to import into. */
+  protectionLevel?: ImportJobProtectionLevelEnum | (string & {});
+  /** Required. Immutable. The wrapping method to be used for incoming key material. */
+  importMethod?: ImportJobImportMethodEnum | (string & {});
+  /** Output only. The public key with which to wrap key material prior to import. Only returned if state is ACTIVE. */
+  publicKey?: WrappingPublicKey;
+  /** Output only. The time at which this ImportJob is scheduled for expiration and can no longer be used to import key material. */
+  expireTime?: string;
 }
 export const ImportJob = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    importMethod: S.optional(ImportJobImportMethodEnum),
-    publicKeyFormat: S.optional(ImportJobPublicKeyFormatEnum),
-    expireTime: S.optional(S.String),
-    publicKey: S.optional(WrappingPublicKey),
-    expireEventTime: S.optional(S.String),
-    attestation: S.optional(KeyOperationAttestation),
-    name: S.optional(S.String),
-    cryptoKeyBackend: S.optional(S.String),
     generateTime: S.optional(S.String),
+    cryptoKeyBackend: S.optional(S.String),
+    name: S.optional(S.String),
+    attestation: S.optional(KeyOperationAttestation),
+    publicKeyFormat: S.optional(ImportJobPublicKeyFormatEnum),
     state: S.optional(ImportJobStateEnum),
-    protectionLevel: S.optional(ImportJobProtectionLevelEnum),
     createTime: S.optional(S.String),
+    expireEventTime: S.optional(S.String),
+    protectionLevel: S.optional(ImportJobProtectionLevelEnum),
+    importMethod: S.optional(ImportJobImportMethodEnum),
+    publicKey: S.optional(WrappingPublicKey),
+    expireTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "ImportJob" }) as any as S.Schema<ImportJob>;
 
@@ -1134,18 +1152,6 @@ export const CreateProjectsLocationsKeyRingsImportJobsRequest =
     identifier: "CreateProjectsLocationsKeyRingsImportJobsRequest",
   }) as any as S.Schema<CreateProjectsLocationsKeyRingsImportJobsRequest>;
 
-export type SingleTenantHsmInstanceStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "PENDING_TWO_FACTOR_AUTH_REGISTRATION"
-  | "ACTIVE"
-  | "DISABLING"
-  | "DISABLED"
-  | "DELETING"
-  | "DELETED"
-  | "FAILED";
-export const SingleTenantHsmInstanceStateEnum = /*@__PURE__*/ S.String;
-
 /** Configuration for M of N quorum auth. */
 export interface QuorumAuth {
   /** Output only. The public keys associated with the 2FA keys for M of N quorum auth. */
@@ -1163,35 +1169,47 @@ export const QuorumAuth = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "QuorumAuth" }) as any as S.Schema<QuorumAuth>;
 
+export type SingleTenantHsmInstanceStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "PENDING_TWO_FACTOR_AUTH_REGISTRATION"
+  | "ACTIVE"
+  | "DISABLING"
+  | "DISABLED"
+  | "DELETING"
+  | "DELETED"
+  | "FAILED";
+export const SingleTenantHsmInstanceStateEnum = S.String;
+
 /** A SingleTenantHsmInstance represents a single-tenant HSM instance. It can be used for creating CryptoKeys with a ProtectionLevel of HSM_SINGLE_TENANT, as well as performing cryptographic operations using keys created within the SingleTenantHsmInstance. */
 export interface SingleTenantHsmInstance {
-  /** Identifier. The resource name for this SingleTenantHsmInstance in the format `projects/*\/locations/*\/singleTenantHsmInstances/*`. */
-  name?: string;
-  /** Optional. Immutable. Indicates whether key portability is enabled for the SingleTenantHsmInstance. This can only be set at creation time. Key portability features are disabled by default and not yet available in GA. */
-  keyPortabilityEnabled?: boolean;
-  /** Output only. The state of the SingleTenantHsmInstance. */
-  state?: SingleTenantHsmInstanceStateEnum | (string & {});
   /** Output only. The time at which the instance will be automatically disabled if not refreshed. This field is updated upon creation and after each successful refresh operation and enable. A RefreshSingleTenantHsmInstance operation must be made via a SingleTenantHsmInstanceProposal before this time otherwise the SingleTenantHsmInstance will become disabled. */
   disableTime?: string;
-  /** Output only. The time at which the SingleTenantHsmInstance was created. */
-  createTime?: string;
-  /** Output only. The time at which the SingleTenantHsmInstance was deleted. */
-  deleteTime?: string;
   /** Output only. The system-defined duration that an instance can remain unrefreshed until it is automatically disabled. This will have a value of 730 days. */
   unrefreshedDurationUntilDisable?: string;
+  /** Identifier. The resource name for this SingleTenantHsmInstance in the format `projects/*\/locations/*\/singleTenantHsmInstances/*`. */
+  name?: string;
   /** Required. The quorum auth configuration for the SingleTenantHsmInstance. */
   quorumAuth?: QuorumAuth;
+  /** Output only. The time at which the SingleTenantHsmInstance was created. */
+  createTime?: string;
+  /** Optional. Immutable. Indicates whether key portability is enabled for the SingleTenantHsmInstance. This can only be set at creation time. Key portability features are disabled by default. */
+  keyPortabilityEnabled?: boolean;
+  /** Output only. The time at which the SingleTenantHsmInstance was deleted. */
+  deleteTime?: string;
+  /** Output only. The state of the SingleTenantHsmInstance. */
+  state?: SingleTenantHsmInstanceStateEnum | (string & {});
 }
 export const SingleTenantHsmInstance = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    keyPortabilityEnabled: S.optional(S.Boolean),
-    state: S.optional(SingleTenantHsmInstanceStateEnum),
     disableTime: S.optional(S.String),
-    createTime: S.optional(S.String),
-    deleteTime: S.optional(S.String),
     unrefreshedDurationUntilDisable: S.optional(S.String),
+    name: S.optional(S.String),
     quorumAuth: S.optional(QuorumAuth),
+    createTime: S.optional(S.String),
+    keyPortabilityEnabled: S.optional(S.Boolean),
+    deleteTime: S.optional(S.String),
+    state: S.optional(SingleTenantHsmInstanceStateEnum),
   }),
 ).annotate({
   identifier: "SingleTenantHsmInstance",
@@ -1222,25 +1240,17 @@ export const CreateProjectsLocationsSingleTenantHsmInstancesRequest =
     identifier: "CreateProjectsLocationsSingleTenantHsmInstancesRequest",
   }) as any as S.Schema<CreateProjectsLocationsSingleTenantHsmInstancesRequest>;
 
-/** Delete the SingleTenantHsmInstance. Deleting a SingleTenantHsmInstance will make all CryptoKeys attached to the SingleTenantHsmInstance unusable. The SingleTenantHsmInstance must not be in the DELETING or DELETED state to perform this operation. */
-export interface DeleteSingleTenantHsmInstance {}
-export const DeleteSingleTenantHsmInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteSingleTenantHsmInstance",
-}) as any as S.Schema<DeleteSingleTenantHsmInstance>;
-
 /** A challenge to be signed by a 2FA key. */
 export interface Challenge {
-  /** Output only. The public key associated with the 2FA key that should sign the challenge. */
-  publicKeyPem?: string;
   /** Output only. The challenge to be signed by the 2FA key indicated by the public key. */
   challenge?: string;
+  /** Output only. The public key associated with the 2FA key that should sign the challenge. */
+  publicKeyPem?: string;
 }
 export const Challenge = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    publicKeyPem: S.optional(S.String),
     challenge: S.optional(S.String),
+    publicKeyPem: S.optional(S.String),
   }),
 ).annotate({ identifier: "Challenge" }) as any as S.Schema<Challenge>;
 
@@ -1251,30 +1261,77 @@ export const ChallengeList = /*@__PURE__*/ S.Array(
 
 /** Parameters of quorum approval for the SingleTenantHsmInstanceProposal. */
 export interface QuorumParameters {
+  /** Output only. The public keys associated with the 2FA keys that have already approved the SingleTenantHsmInstanceProposal by signing the challenge. */
+  approvedTwoFactorPublicKeyPems?: StringList;
   /** Output only. The required numbers of approvers. This is the M value used for M of N quorum auth. It is less than the number of public keys. */
   requiredApproverCount?: number;
   /** Output only. The challenges to be signed by 2FA keys for quorum auth. M of N of these challenges are required to be signed to approve the operation. */
   challenges?: ChallengeList;
-  /** Output only. The public keys associated with the 2FA keys that have already approved the SingleTenantHsmInstanceProposal by signing the challenge. */
-  approvedTwoFactorPublicKeyPems?: StringList;
 }
 export const QuorumParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    approvedTwoFactorPublicKeyPems: S.optional(StringList),
     requiredApproverCount: S.optional(S.Number),
     challenges: S.optional(ChallengeList),
-    approvedTwoFactorPublicKeyPems: S.optional(StringList),
   }),
 ).annotate({
   identifier: "QuorumParameters",
 }) as any as S.Schema<QuorumParameters>;
 
-/** Refreshes the SingleTenantHsmInstance. This operation must be performed periodically to keep the SingleTenantHsmInstance active. This operation must be performed before unrefreshed_duration_until_disable has passed. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
-export type RefreshSingleTenantHsmInstance = DeleteSingleTenantHsmInstance;
-export const RefreshSingleTenantHsmInstance = DeleteSingleTenantHsmInstance;
+/** Register 2FA keys for the SingleTenantHsmInstance. This operation requires all Challenges to be signed by 2FA keys. The SingleTenantHsmInstance must be in the PENDING_TWO_FACTOR_AUTH_REGISTRATION state to perform this operation. */
+export interface RegisterTwoFactorAuthKeys {
+  /** Required. The required numbers of approvers to set for the SingleTenantHsmInstance. This is the M value used for M of N quorum auth. Must be greater than or equal to 2 and less than or equal to total_approver_count - 1. */
+  requiredApproverCount?: number;
+  /** Required. The public keys associated with the 2FA keys for M of N quorum auth. Public keys must be associated with RSA 2048 keys. */
+  twoFactorPublicKeyPems?: StringList;
+}
+export const RegisterTwoFactorAuthKeys = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    requiredApproverCount: S.optional(S.Number),
+    twoFactorPublicKeyPems: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "RegisterTwoFactorAuthKeys",
+}) as any as S.Schema<RegisterTwoFactorAuthKeys>;
 
-/** Enable the SingleTenantHsmInstance. The SingleTenantHsmInstance must be in the DISABLED state to perform this operation. */
-export type EnableSingleTenantHsmInstance = DeleteSingleTenantHsmInstance;
-export const EnableSingleTenantHsmInstance = DeleteSingleTenantHsmInstance;
+export type SingleTenantHsmInstanceProposalStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "PENDING"
+  | "APPROVED"
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "DELETED";
+export const SingleTenantHsmInstanceProposalStateEnum = S.String;
+
+/** Refreshes the SingleTenantHsmInstance. This operation must be performed periodically to keep the SingleTenantHsmInstance active. This operation must be performed before unrefreshed_duration_until_disable has passed. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
+export interface RefreshSingleTenantHsmInstance {}
+export const RefreshSingleTenantHsmInstance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "RefreshSingleTenantHsmInstance",
+}) as any as S.Schema<RefreshSingleTenantHsmInstance>;
+
+/** Delete the SingleTenantHsmInstance. Deleting a SingleTenantHsmInstance will make all CryptoKeys attached to the SingleTenantHsmInstance unusable. The SingleTenantHsmInstance must not be in the DELETING or DELETED state to perform this operation. */
+export type DeleteSingleTenantHsmInstance = RefreshSingleTenantHsmInstance;
+export const DeleteSingleTenantHsmInstance = RefreshSingleTenantHsmInstance;
+
+/** Promotes a key with the AES_WRAPPING purpose to a trusted wrapping key. The key must be in the ACTIVE state to perform this operation. */
+export interface UpgradeKeyTrust {
+  /** Required. The name of the CryptoKeyVersion to promote. */
+  name?: string;
+  /** Required. The public key associated with the 2FA key that will sign the login nonce for this operation. */
+  twoFactorPublicKeyPem?: string;
+}
+export const UpgradeKeyTrust = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    twoFactorPublicKeyPem: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpgradeKeyTrust",
+}) as any as S.Schema<UpgradeKeyTrust>;
 
 /** Add a quorum member to the SingleTenantHsmInstance. This will increase the total_approver_count by 1. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
 export interface AddQuorumMember {
@@ -1289,16 +1346,35 @@ export const AddQuorumMember = /*@__PURE__*/ S.suspend(() =>
   identifier: "AddQuorumMember",
 }) as any as S.Schema<AddQuorumMember>;
 
-export type SingleTenantHsmInstanceProposalStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "PENDING"
-  | "APPROVED"
-  | "RUNNING"
-  | "SUCCEEDED"
-  | "FAILED"
-  | "DELETED";
-export const SingleTenantHsmInstanceProposalStateEnum = /*@__PURE__*/ S.String;
+/** Parameters for an approval that has both required challenges and a quorum. */
+export interface RequiredActionQuorumParameters {
+  /** Output only. A list of specific challenges that must be signed. For some operations, this will contain a single challenge. */
+  requiredChallenges?: ChallengeList;
+  /** Output only. The required number of quorum approvers. This is the M value used for M of N quorum auth. It is less than the number of public keys. */
+  requiredApproverCount?: number;
+  /** Output only. The public keys associated with the 2FA keys that have already approved the SingleTenantHsmInstanceProposal by signing the challenge. */
+  approvedTwoFactorPublicKeyPems?: StringList;
+  /** Output only. The challenges to be signed by 2FA keys for quorum auth. M of N of these challenges are required to be signed to approve the operation. */
+  quorumChallenges?: ChallengeList;
+}
+export const RequiredActionQuorumParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    requiredChallenges: S.optional(ChallengeList),
+    requiredApproverCount: S.optional(S.Number),
+    approvedTwoFactorPublicKeyPems: S.optional(StringList),
+    quorumChallenges: S.optional(ChallengeList),
+  }),
+).annotate({
+  identifier: "RequiredActionQuorumParameters",
+}) as any as S.Schema<RequiredActionQuorumParameters>;
+
+/** Disable the SingleTenantHsmInstance. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
+export type DisableSingleTenantHsmInstance = RefreshSingleTenantHsmInstance;
+export const DisableSingleTenantHsmInstance = RefreshSingleTenantHsmInstance;
+
+/** Enable the SingleTenantHsmInstance. The SingleTenantHsmInstance must be in the DISABLED state to perform this operation. */
+export type EnableSingleTenantHsmInstance = RefreshSingleTenantHsmInstance;
+export const EnableSingleTenantHsmInstance = RefreshSingleTenantHsmInstance;
 
 /** Remove a quorum member from the SingleTenantHsmInstance. This will reduce total_approver_count by 1. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
 export interface RemoveQuorumMember {
@@ -1313,104 +1389,65 @@ export const RemoveQuorumMember = /*@__PURE__*/ S.suspend(() =>
   identifier: "RemoveQuorumMember",
 }) as any as S.Schema<RemoveQuorumMember>;
 
-/** Register 2FA keys for the SingleTenantHsmInstance. This operation requires all Challenges to be signed by 2FA keys. The SingleTenantHsmInstance must be in the PENDING_TWO_FACTOR_AUTH_REGISTRATION state to perform this operation. */
-export interface RegisterTwoFactorAuthKeys {
-  /** Required. The public keys associated with the 2FA keys for M of N quorum auth. Public keys must be associated with RSA 2048 keys. */
-  twoFactorPublicKeyPems?: StringList;
-  /** Required. The required numbers of approvers to set for the SingleTenantHsmInstance. This is the M value used for M of N quorum auth. Must be greater than or equal to 2 and less than or equal to total_approver_count - 1. */
-  requiredApproverCount?: number;
-}
-export const RegisterTwoFactorAuthKeys = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    twoFactorPublicKeyPems: S.optional(StringList),
-    requiredApproverCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RegisterTwoFactorAuthKeys",
-}) as any as S.Schema<RegisterTwoFactorAuthKeys>;
-
-/** Disable the SingleTenantHsmInstance. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
-export type DisableSingleTenantHsmInstance = DeleteSingleTenantHsmInstance;
-export const DisableSingleTenantHsmInstance = DeleteSingleTenantHsmInstance;
-
-/** Parameters for an approval that has both required challenges and a quorum. */
-export interface RequiredActionQuorumParameters {
-  /** Output only. The required number of quorum approvers. This is the M value used for M of N quorum auth. It is less than the number of public keys. */
-  requiredApproverCount?: number;
-  /** Output only. The challenges to be signed by 2FA keys for quorum auth. M of N of these challenges are required to be signed to approve the operation. */
-  quorumChallenges?: ChallengeList;
-  /** Output only. A list of specific challenges that must be signed. For some operations, this will contain a single challenge. */
-  requiredChallenges?: ChallengeList;
-  /** Output only. The public keys associated with the 2FA keys that have already approved the SingleTenantHsmInstanceProposal by signing the challenge. */
-  approvedTwoFactorPublicKeyPems?: StringList;
-}
-export const RequiredActionQuorumParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requiredApproverCount: S.optional(S.Number),
-    quorumChallenges: S.optional(ChallengeList),
-    requiredChallenges: S.optional(ChallengeList),
-    approvedTwoFactorPublicKeyPems: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "RequiredActionQuorumParameters",
-}) as any as S.Schema<RequiredActionQuorumParameters>;
-
 /** A SingleTenantHsmInstanceProposal represents a proposal to perform an operation on a SingleTenantHsmInstance. */
 export interface SingleTenantHsmInstanceProposal {
-  /** Output only. The time at which the SingleTenantHsmInstanceProposal was deleted. */
-  deleteTime?: string;
-  /** Delete the SingleTenantHsmInstance. Deleting a SingleTenantHsmInstance will make all CryptoKeys attached to the SingleTenantHsmInstance unusable. The SingleTenantHsmInstance must be in the DISABLED or PENDING_TWO_FACTOR_AUTH_REGISTRATION state to perform this operation. */
-  deleteSingleTenantHsmInstance?: DeleteSingleTenantHsmInstance;
   /** Output only. The quorum approval parameters for the SingleTenantHsmInstanceProposal. */
   quorumParameters?: QuorumParameters;
-  /** Input only. The TTL for the SingleTenantHsmInstanceProposal. Proposals will expire after this duration. */
-  ttl?: string;
-  /** Refreshes the SingleTenantHsmInstance. This operation must be performed periodically to keep the SingleTenantHsmInstance active. This operation must be performed before unrefreshed_duration_until_disable has passed. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
-  refreshSingleTenantHsmInstance?: DeleteSingleTenantHsmInstance;
-  /** Enable the SingleTenantHsmInstance. The SingleTenantHsmInstance must be in the DISABLED state to perform this operation. */
-  enableSingleTenantHsmInstance?: DeleteSingleTenantHsmInstance;
-  /** Add a quorum member to the SingleTenantHsmInstance. This will increase the total_approver_count by 1. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
-  addQuorumMember?: AddQuorumMember;
-  /** Output only. The root cause of the most recent failure. Only present if state is FAILED. */
-  failureReason?: string;
-  /** Output only. The time at which the soft-deleted SingleTenantHsmInstanceProposal will be permanently purged. This field is only populated when the state is DELETED and will be set a time after expiration of the proposal, i.e. >= expire_time or (create_time + ttl). */
-  purgeTime?: string;
-  /** Output only. The state of the SingleTenantHsmInstanceProposal. */
-  state?: SingleTenantHsmInstanceProposalStateEnum | (string & {});
-  /** Output only. The time at which the SingleTenantHsmInstanceProposal was created. */
-  createTime?: string;
-  /** Remove a quorum member from the SingleTenantHsmInstance. This will reduce total_approver_count by 1. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
-  removeQuorumMember?: RemoveQuorumMember;
-  /** Identifier. The resource name for this SingleTenantHsmInstance in the format `projects/*\/locations/*\/singleTenantHsmInstances/*\/proposals/*`. */
-  name?: string;
   /** Register 2FA keys for the SingleTenantHsmInstance. This operation requires all N Challenges to be signed by 2FA keys. The SingleTenantHsmInstance must be in the PENDING_TWO_FACTOR_AUTH_REGISTRATION state to perform this operation. */
   registerTwoFactorAuthKeys?: RegisterTwoFactorAuthKeys;
-  /** The time at which the SingleTenantHsmInstanceProposal will expire if not approved and executed. */
-  expireTime?: string;
-  /** Disable the SingleTenantHsmInstance. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
-  disableSingleTenantHsmInstance?: DeleteSingleTenantHsmInstance;
+  /** Output only. The state of the SingleTenantHsmInstanceProposal. */
+  state?: SingleTenantHsmInstanceProposalStateEnum | (string & {});
+  /** Identifier. The resource name for this SingleTenantHsmInstance in the format `projects/*\/locations/*\/singleTenantHsmInstances/*\/proposals/*`. */
+  name?: string;
+  /** Output only. The time at which the soft-deleted SingleTenantHsmInstanceProposal will be permanently purged. This field is only populated when the state is DELETED and will be set a time after expiration of the proposal, i.e. >= expire_time or (create_time + ttl). */
+  purgeTime?: string;
+  /** Refreshes the SingleTenantHsmInstance. This operation must be performed periodically to keep the SingleTenantHsmInstance active. This operation must be performed before unrefreshed_duration_until_disable has passed. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
+  refreshSingleTenantHsmInstance?: RefreshSingleTenantHsmInstance;
+  /** Delete the SingleTenantHsmInstance. Deleting a SingleTenantHsmInstance will make all CryptoKeys attached to the SingleTenantHsmInstance unusable. The SingleTenantHsmInstance must be in the DISABLED or PENDING_TWO_FACTOR_AUTH_REGISTRATION state to perform this operation. */
+  deleteSingleTenantHsmInstance?: RefreshSingleTenantHsmInstance;
+  /** Promotes a key with the AES_WRAPPING purpose to a trusted wrapping key. The key must be in the ACTIVE state to perform this operation. */
+  upgradeKeyTrust?: UpgradeKeyTrust;
+  /** Output only. The time at which the SingleTenantHsmInstanceProposal was created. */
+  createTime?: string;
+  /** Add a quorum member to the SingleTenantHsmInstance. This will increase the total_approver_count by 1. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
+  addQuorumMember?: AddQuorumMember;
+  /** Output only. The time at which the SingleTenantHsmInstanceProposal was deleted. */
+  deleteTime?: string;
+  /** Output only. The root cause of the most recent failure. Only present if state is FAILED. */
+  failureReason?: string;
   /** Output only. Parameters for an approval of a SingleTenantHsmInstanceProposal that has both required challenges and a quorum. */
   requiredActionQuorumParameters?: RequiredActionQuorumParameters;
+  /** The time at which the SingleTenantHsmInstanceProposal will expire if not approved and executed. */
+  expireTime?: string;
+  /** Input only. The TTL for the SingleTenantHsmInstanceProposal. Proposals will expire after this duration. */
+  ttl?: string;
+  /** Disable the SingleTenantHsmInstance. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
+  disableSingleTenantHsmInstance?: RefreshSingleTenantHsmInstance;
+  /** Enable the SingleTenantHsmInstance. The SingleTenantHsmInstance must be in the DISABLED state to perform this operation. */
+  enableSingleTenantHsmInstance?: RefreshSingleTenantHsmInstance;
+  /** Remove a quorum member from the SingleTenantHsmInstance. This will reduce total_approver_count by 1. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
+  removeQuorumMember?: RemoveQuorumMember;
 }
 export const SingleTenantHsmInstanceProposal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deleteTime: S.optional(S.String),
-    deleteSingleTenantHsmInstance: S.optional(DeleteSingleTenantHsmInstance),
     quorumParameters: S.optional(QuorumParameters),
-    ttl: S.optional(S.String),
-    refreshSingleTenantHsmInstance: S.optional(DeleteSingleTenantHsmInstance),
-    enableSingleTenantHsmInstance: S.optional(DeleteSingleTenantHsmInstance),
-    addQuorumMember: S.optional(AddQuorumMember),
-    failureReason: S.optional(S.String),
-    purgeTime: S.optional(S.String),
-    state: S.optional(SingleTenantHsmInstanceProposalStateEnum),
-    createTime: S.optional(S.String),
-    removeQuorumMember: S.optional(RemoveQuorumMember),
-    name: S.optional(S.String),
     registerTwoFactorAuthKeys: S.optional(RegisterTwoFactorAuthKeys),
-    expireTime: S.optional(S.String),
-    disableSingleTenantHsmInstance: S.optional(DeleteSingleTenantHsmInstance),
+    state: S.optional(SingleTenantHsmInstanceProposalStateEnum),
+    name: S.optional(S.String),
+    purgeTime: S.optional(S.String),
+    refreshSingleTenantHsmInstance: S.optional(RefreshSingleTenantHsmInstance),
+    deleteSingleTenantHsmInstance: S.optional(RefreshSingleTenantHsmInstance),
+    upgradeKeyTrust: S.optional(UpgradeKeyTrust),
+    createTime: S.optional(S.String),
+    addQuorumMember: S.optional(AddQuorumMember),
+    deleteTime: S.optional(S.String),
+    failureReason: S.optional(S.String),
     requiredActionQuorumParameters: S.optional(RequiredActionQuorumParameters),
+    expireTime: S.optional(S.String),
+    ttl: S.optional(S.String),
+    disableSingleTenantHsmInstance: S.optional(RefreshSingleTenantHsmInstance),
+    enableSingleTenantHsmInstance: S.optional(RefreshSingleTenantHsmInstance),
+    removeQuorumMember: S.optional(RemoveQuorumMember),
   }),
 ).annotate({
   identifier: "SingleTenantHsmInstanceProposal",
@@ -1444,15 +1481,15 @@ export const CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest =
 
 /** Request message for KeyManagementService.Decapsulate. */
 export interface DecapsulateRequest {
-  /** Optional. A CRC32C checksum of the DecapsulateRequest.ciphertext. If specified, KeyManagementService will verify the integrity of the received DecapsulateRequest.ciphertext using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(DecapsulateRequest.ciphertext) is equal to DecapsulateRequest.ciphertext_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
-  ciphertextCrc32c?: string;
   /** Required. The ciphertext produced from encapsulation with the named CryptoKeyVersion public key(s). */
   ciphertext?: string;
+  /** Optional. A CRC32C checksum of the DecapsulateRequest.ciphertext. If specified, KeyManagementService will verify the integrity of the received DecapsulateRequest.ciphertext using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(DecapsulateRequest.ciphertext) is equal to DecapsulateRequest.ciphertext_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
+  ciphertextCrc32c?: string;
 }
 export const DecapsulateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ciphertextCrc32c: S.optional(S.String),
     ciphertext: S.optional(S.String),
+    ciphertextCrc32c: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DecapsulateRequest",
@@ -1488,28 +1525,28 @@ export type DecapsulateResponseProtectionLevelEnum =
   | "EXTERNAL"
   | "EXTERNAL_VPC"
   | "HSM_SINGLE_TENANT";
-export const DecapsulateResponseProtectionLevelEnum = /*@__PURE__*/ S.String;
+export const DecapsulateResponseProtectionLevelEnum = S.String;
 
 /** Response message for KeyManagementService.Decapsulate. */
 export interface DecapsulateResponse {
+  /** Integrity verification field. A flag indicating whether DecapsulateRequest.ciphertext_crc32c was received by KeyManagementService and used for the integrity verification of the ciphertext. A false value of this field indicates either that DecapsulateRequest.ciphertext_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set DecapsulateRequest.ciphertext_crc32c but this field is still false, discard the response and perform a limited number of retries. */
+  verifiedCiphertextCrc32c?: boolean;
   /** The resource name of the CryptoKeyVersion used for decapsulation. Check this field to verify that the intended resource was used for decapsulation. */
   name?: string;
-  /** The decapsulated shared_secret originally encapsulated with the matching public key. */
-  sharedSecret?: string;
   /** The ProtectionLevel of the CryptoKeyVersion used in decapsulation. */
   protectionLevel?: DecapsulateResponseProtectionLevelEnum;
   /** Integrity verification field. A CRC32C checksum of the returned DecapsulateResponse.shared_secret. An integrity check of DecapsulateResponse.shared_secret can be performed by computing the CRC32C checksum of DecapsulateResponse.shared_secret and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: receiving this response message indicates that KeyManagementService is able to successfully decrypt the ciphertext. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   sharedSecretCrc32c?: string;
-  /** Integrity verification field. A flag indicating whether DecapsulateRequest.ciphertext_crc32c was received by KeyManagementService and used for the integrity verification of the ciphertext. A false value of this field indicates either that DecapsulateRequest.ciphertext_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set DecapsulateRequest.ciphertext_crc32c but this field is still false, discard the response and perform a limited number of retries. */
-  verifiedCiphertextCrc32c?: boolean;
+  /** The decapsulated shared_secret originally encapsulated with the matching public key. */
+  sharedSecret?: string;
 }
 export const DecapsulateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    verifiedCiphertextCrc32c: S.optional(S.Boolean),
     name: S.optional(S.String),
-    sharedSecret: S.optional(S.String),
     protectionLevel: S.optional(DecapsulateResponseProtectionLevelEnum),
     sharedSecretCrc32c: S.optional(S.String),
-    verifiedCiphertextCrc32c: S.optional(S.Boolean),
+    sharedSecret: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DecapsulateResponse",
@@ -1519,19 +1556,19 @@ export const DecapsulateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DecryptRequest {
   /** Required. The encrypted data originally returned in EncryptResponse.ciphertext. */
   ciphertext?: string;
+  /** Optional. An optional CRC32C checksum of the DecryptRequest.additional_authenticated_data. If specified, KeyManagementService will verify the integrity of the received DecryptRequest.additional_authenticated_data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(DecryptRequest.additional_authenticated_data) is equal to DecryptRequest.additional_authenticated_data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
+  additionalAuthenticatedDataCrc32c?: string;
   /** Optional. Optional data that must match the data originally supplied in EncryptRequest.additional_authenticated_data. */
   additionalAuthenticatedData?: string;
   /** Optional. An optional CRC32C checksum of the DecryptRequest.ciphertext. If specified, KeyManagementService will verify the integrity of the received DecryptRequest.ciphertext using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(DecryptRequest.ciphertext) is equal to DecryptRequest.ciphertext_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   ciphertextCrc32c?: string;
-  /** Optional. An optional CRC32C checksum of the DecryptRequest.additional_authenticated_data. If specified, KeyManagementService will verify the integrity of the received DecryptRequest.additional_authenticated_data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(DecryptRequest.additional_authenticated_data) is equal to DecryptRequest.additional_authenticated_data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
-  additionalAuthenticatedDataCrc32c?: string;
 }
 export const DecryptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ciphertext: S.optional(S.String),
+    additionalAuthenticatedDataCrc32c: S.optional(S.String),
     additionalAuthenticatedData: S.optional(S.String),
     ciphertextCrc32c: S.optional(S.String),
-    additionalAuthenticatedDataCrc32c: S.optional(S.String),
   }),
 ).annotate({ identifier: "DecryptRequest" }) as any as S.Schema<DecryptRequest>;
 
@@ -1564,14 +1601,14 @@ export type DecryptResponseProtectionLevelEnum =
   | "EXTERNAL"
   | "EXTERNAL_VPC"
   | "HSM_SINGLE_TENANT";
-export const DecryptResponseProtectionLevelEnum = /*@__PURE__*/ S.String;
+export const DecryptResponseProtectionLevelEnum = S.String;
 
 /** Response message for KeyManagementService.Decrypt. */
 export interface DecryptResponse {
-  /** The decrypted data originally supplied in EncryptRequest.plaintext. */
-  plaintext?: string;
   /** Integrity verification field. A CRC32C checksum of the returned DecryptResponse.plaintext. An integrity check of DecryptResponse.plaintext can be performed by computing the CRC32C checksum of DecryptResponse.plaintext and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: receiving this response message indicates that KeyManagementService is able to successfully decrypt the ciphertext. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   plaintextCrc32c?: string;
+  /** The decrypted data originally supplied in EncryptRequest.plaintext. */
+  plaintext?: string;
   /** Whether the Decryption was performed using the primary key version. */
   usedPrimary?: boolean;
   /** The ProtectionLevel of the CryptoKeyVersion used in decryption. */
@@ -1579,14 +1616,33 @@ export interface DecryptResponse {
 }
 export const DecryptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    plaintext: S.optional(S.String),
     plaintextCrc32c: S.optional(S.String),
+    plaintext: S.optional(S.String),
     usedPrimary: S.optional(S.Boolean),
     protectionLevel: S.optional(DecryptResponseProtectionLevelEnum),
   }),
 ).annotate({
   identifier: "DecryptResponse",
 }) as any as S.Schema<DecryptResponse>;
+
+export interface DeleteProjectsLocationsKeyRingsRequest {
+  /** Required. The name of the KeyRing to delete. */
+  name: string;
+}
+export const DeleteProjectsLocationsKeyRingsRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "v1/{+name}",
+        baseUrl: "https://cloudkms.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "DeleteProjectsLocationsKeyRingsRequest",
+}) as any as S.Schema<DeleteProjectsLocationsKeyRingsRequest>;
 
 export interface DeleteProjectsLocationsKeyRingsCryptoKeysRequest {
   /** Required. The name of the CryptoKey to delete. */
@@ -1654,20 +1710,20 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 }) as any as S.Schema<Empty>;
 
 /** Request message for KeyManagementService.DestroyCryptoKeyVersion. */
-export type DestroyCryptoKeyVersionRequest = DeleteSingleTenantHsmInstance;
-export const DestroyCryptoKeyVersionRequest = DeleteSingleTenantHsmInstance;
+export type DestroyCryptoKeyVersionRequest = RefreshSingleTenantHsmInstance;
+export const DestroyCryptoKeyVersionRequest = RefreshSingleTenantHsmInstance;
 
 export interface DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The resource name of the CryptoKeyVersion to destroy. */
   name: string;
   /** Request body */
-  body?: DeleteSingleTenantHsmInstance;
+  body?: RefreshSingleTenantHsmInstance;
 }
 export const DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       name: S.String.pipe(T.Label()),
-      body: S.optional(DeleteSingleTenantHsmInstance.pipe(T.HttpBody())),
+      body: S.optional(RefreshSingleTenantHsmInstance.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
         method: "POST",
@@ -1682,21 +1738,21 @@ export const DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest 
 
 /** Request message for KeyManagementService.Encrypt. */
 export interface EncryptRequest {
-  /** Required. The data to encrypt. Must be no larger than 64KiB. The maximum size depends on the key version's protection_level. For SOFTWARE, EXTERNAL, and EXTERNAL_VPC keys, the plaintext must be no larger than 64KiB. For HSM keys, the combined length of the plaintext and additional_authenticated_data fields must be no larger than 8KiB. */
-  plaintext?: string;
-  /** Optional. An optional CRC32C checksum of the EncryptRequest.plaintext. If specified, KeyManagementService will verify the integrity of the received EncryptRequest.plaintext using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(EncryptRequest.plaintext) is equal to EncryptRequest.plaintext_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
-  plaintextCrc32c?: string;
-  /** Optional. Optional data that, if specified, must also be provided during decryption through DecryptRequest.additional_authenticated_data. The maximum size depends on the key version's protection_level. For SOFTWARE, EXTERNAL, and EXTERNAL_VPC keys the AAD must be no larger than 64KiB. For HSM keys, the combined length of the plaintext and additional_authenticated_data fields must be no larger than 8KiB. */
-  additionalAuthenticatedData?: string;
   /** Optional. An optional CRC32C checksum of the EncryptRequest.additional_authenticated_data. If specified, KeyManagementService will verify the integrity of the received EncryptRequest.additional_authenticated_data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(EncryptRequest.additional_authenticated_data) is equal to EncryptRequest.additional_authenticated_data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   additionalAuthenticatedDataCrc32c?: string;
+  /** Optional. An optional CRC32C checksum of the EncryptRequest.plaintext. If specified, KeyManagementService will verify the integrity of the received EncryptRequest.plaintext using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(EncryptRequest.plaintext) is equal to EncryptRequest.plaintext_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
+  plaintextCrc32c?: string;
+  /** Required. The data to encrypt. Must be no larger than 64KiB. The maximum size depends on the key version's protection_level. For SOFTWARE, EXTERNAL, and EXTERNAL_VPC keys, the plaintext must be no larger than 64KiB. For HSM keys, the combined length of the plaintext and additional_authenticated_data fields must be no larger than 8KiB. */
+  plaintext?: string;
+  /** Optional. Optional data that, if specified, must also be provided during decryption through DecryptRequest.additional_authenticated_data. The maximum size depends on the key version's protection_level. For SOFTWARE, EXTERNAL, and EXTERNAL_VPC keys the AAD must be no larger than 64KiB. For HSM keys, the combined length of the plaintext and additional_authenticated_data fields must be no larger than 8KiB. */
+  additionalAuthenticatedData?: string;
 }
 export const EncryptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    plaintext: S.optional(S.String),
-    plaintextCrc32c: S.optional(S.String),
-    additionalAuthenticatedData: S.optional(S.String),
     additionalAuthenticatedDataCrc32c: S.optional(S.String),
+    plaintextCrc32c: S.optional(S.String),
+    plaintext: S.optional(S.String),
+    additionalAuthenticatedData: S.optional(S.String),
   }),
 ).annotate({ identifier: "EncryptRequest" }) as any as S.Schema<EncryptRequest>;
 
@@ -1729,31 +1785,31 @@ export type EncryptResponseProtectionLevelEnum =
   | "EXTERNAL"
   | "EXTERNAL_VPC"
   | "HSM_SINGLE_TENANT";
-export const EncryptResponseProtectionLevelEnum = /*@__PURE__*/ S.String;
+export const EncryptResponseProtectionLevelEnum = S.String;
 
 /** Response message for KeyManagementService.Encrypt. */
 export interface EncryptResponse {
+  /** The resource name of the CryptoKeyVersion used in encryption. Check this field to verify that the intended resource was used for encryption. */
+  name?: string;
+  /** Integrity verification field. A flag indicating whether EncryptRequest.plaintext_crc32c was received by KeyManagementService and used for the integrity verification of the plaintext. A false value of this field indicates either that EncryptRequest.plaintext_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set EncryptRequest.plaintext_crc32c but this field is still false, discard the response and perform a limited number of retries. */
+  verifiedPlaintextCrc32c?: boolean;
+  /** The ProtectionLevel of the CryptoKeyVersion used in encryption. */
+  protectionLevel?: EncryptResponseProtectionLevelEnum;
   /** Integrity verification field. A CRC32C checksum of the returned EncryptResponse.ciphertext. An integrity check of EncryptResponse.ciphertext can be performed by computing the CRC32C checksum of EncryptResponse.ciphertext and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   ciphertextCrc32c?: string;
   /** Integrity verification field. A flag indicating whether EncryptRequest.additional_authenticated_data_crc32c was received by KeyManagementService and used for the integrity verification of the AAD. A false value of this field indicates either that EncryptRequest.additional_authenticated_data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set EncryptRequest.additional_authenticated_data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedAdditionalAuthenticatedDataCrc32c?: boolean;
   /** The encrypted data. */
   ciphertext?: string;
-  /** The ProtectionLevel of the CryptoKeyVersion used in encryption. */
-  protectionLevel?: EncryptResponseProtectionLevelEnum;
-  /** Integrity verification field. A flag indicating whether EncryptRequest.plaintext_crc32c was received by KeyManagementService and used for the integrity verification of the plaintext. A false value of this field indicates either that EncryptRequest.plaintext_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set EncryptRequest.plaintext_crc32c but this field is still false, discard the response and perform a limited number of retries. */
-  verifiedPlaintextCrc32c?: boolean;
-  /** The resource name of the CryptoKeyVersion used in encryption. Check this field to verify that the intended resource was used for encryption. */
-  name?: string;
 }
 export const EncryptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
+    verifiedPlaintextCrc32c: S.optional(S.Boolean),
+    protectionLevel: S.optional(EncryptResponseProtectionLevelEnum),
     ciphertextCrc32c: S.optional(S.String),
     verifiedAdditionalAuthenticatedDataCrc32c: S.optional(S.Boolean),
     ciphertext: S.optional(S.String),
-    protectionLevel: S.optional(EncryptResponseProtectionLevelEnum),
-    verifiedPlaintextCrc32c: S.optional(S.Boolean),
-    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EncryptResponse",
@@ -1761,21 +1817,21 @@ export const EncryptResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Request message for HsmManagement.ExecuteSingleTenantHsmInstanceProposal. */
 export type ExecuteSingleTenantHsmInstanceProposalRequest =
-  DeleteSingleTenantHsmInstance;
+  RefreshSingleTenantHsmInstance;
 export const ExecuteSingleTenantHsmInstanceProposalRequest =
-  DeleteSingleTenantHsmInstance;
+  RefreshSingleTenantHsmInstance;
 
 export interface ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
   /** Required. The name of the SingleTenantHsmInstanceProposal to execute. */
   name: string;
   /** Request body */
-  body?: DeleteSingleTenantHsmInstance;
+  body?: RefreshSingleTenantHsmInstance;
 }
 export const ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       name: S.String.pipe(T.Label()),
-      body: S.optional(DeleteSingleTenantHsmInstance.pipe(T.HttpBody())),
+      body: S.optional(RefreshSingleTenantHsmInstance.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
         method: "POST",
@@ -1788,6 +1844,46 @@ export const ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest =
       "ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest",
   }) as any as S.Schema<ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
 
+export interface ExportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
+  /** Required. The name of the CryptoKeyVersion to use as a wrapping key. The CryptoKeyVersion must have hsm_trusted set to true. */
+  wrappingKey?: string;
+  /** Required. The name of the CryptoKeyVersion to export. The CryptoKeyVersion must have trusted_wrapping_enabled set to true. */
+  name: string;
+}
+export const ExportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      wrappingKey: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+name}:exportTrustedKeyWrappedCryptoKeyVersion",
+        baseUrl: "https://cloudkms.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "ExportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest",
+  }) as any as S.Schema<ExportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+
+/** Response message for KeyManagementService.ExportTrustedKeyWrappedCryptoKeyVersion. */
+export interface ExportTrustedKeyWrappedCryptoKeyVersionResponse {
+  /** The wrapped key material. */
+  wrappedKey?: string;
+  /** Integrity verification field. A CRC32C checksum of the returned ExportTrustedKeyWrappedCryptoKeyVersionResponse.wrapped_key. An integrity check of ExportTrustedKeyWrappedCryptoKeyVersionResponse.wrapped_key can be performed by computing the CRC32C checksum of ExportTrustedKeyWrappedCryptoKeyVersionResponse.wrapped_key and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
+  wrappedKeyCrc32c?: string;
+}
+export const ExportTrustedKeyWrappedCryptoKeyVersionResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      wrappedKey: S.optional(S.String),
+      wrappedKeyCrc32c: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ExportTrustedKeyWrappedCryptoKeyVersionResponse",
+  }) as any as S.Schema<ExportTrustedKeyWrappedCryptoKeyVersionResponse>;
+
 export type GenerateRandomBytesRequestProtectionLevelEnum =
   | "PROTECTION_LEVEL_UNSPECIFIED"
   | "SOFTWARE"
@@ -1795,8 +1891,7 @@ export type GenerateRandomBytesRequestProtectionLevelEnum =
   | "EXTERNAL"
   | "EXTERNAL_VPC"
   | "HSM_SINGLE_TENANT";
-export const GenerateRandomBytesRequestProtectionLevelEnum =
-  /*@__PURE__*/ S.String;
+export const GenerateRandomBytesRequestProtectionLevelEnum = S.String;
 
 /** Request message for KeyManagementService.GenerateRandomBytes. */
 export interface GenerateRandomBytesRequest {
@@ -1840,15 +1935,15 @@ export const GenerateRandomBytesProjectsLocationsRequest =
 
 /** Response message for KeyManagementService.GenerateRandomBytes. */
 export interface GenerateRandomBytesResponse {
-  /** Integrity verification field. A CRC32C checksum of the returned GenerateRandomBytesResponse.data. An integrity check of GenerateRandomBytesResponse.data can be performed by computing the CRC32C checksum of GenerateRandomBytesResponse.data and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
-  dataCrc32c?: string;
   /** The generated data. */
   data?: string;
+  /** Integrity verification field. A CRC32C checksum of the returned GenerateRandomBytesResponse.data. An integrity check of GenerateRandomBytesResponse.data can be performed by computing the CRC32C checksum of GenerateRandomBytesResponse.data and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
+  dataCrc32c?: string;
 }
 export const GenerateRandomBytesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataCrc32c: S.optional(S.String),
     data: S.optional(S.String),
+    dataCrc32c: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GenerateRandomBytesResponse",
@@ -1877,7 +1972,7 @@ export type AutokeyConfigKeyProjectResolutionModeEnum =
   | "DEDICATED_KEY_PROJECT"
   | "RESOURCE_PROJECT"
   | "DISABLED";
-export const AutokeyConfigKeyProjectResolutionModeEnum = /*@__PURE__*/ S.String;
+export const AutokeyConfigKeyProjectResolutionModeEnum = S.String;
 
 export type AutokeyConfigStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1885,32 +1980,32 @@ export type AutokeyConfigStateEnum =
   | "KEY_PROJECT_DELETED"
   | "UNINITIALIZED"
   | "KEY_PROJECT_PERMISSION_DENIED";
-export const AutokeyConfigStateEnum = /*@__PURE__*/ S.String;
+export const AutokeyConfigStateEnum = S.String;
 
-/** Cloud KMS Autokey configuration for a folder. */
+/** Cloud KMS Autokey configuration for a project or folder. */
 export interface AutokeyConfig {
-  /** Optional. A checksum computed by the server based on the value of other fields. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The request will be rejected with an ABORTED error on a mismatched etag. */
-  etag?: string;
   /** Optional. KeyProjectResolutionMode for the AutokeyConfig. Valid values are `DEDICATED_KEY_PROJECT`, `RESOURCE_PROJECT`, or `DISABLED`. */
   keyProjectResolutionMode?:
     | AutokeyConfigKeyProjectResolutionModeEnum
     | (string & {});
-  /** Optional. Name of the key project, e.g. `projects/{PROJECT_ID}` or `projects/{PROJECT_NUMBER}`, where Cloud KMS Autokey will provision a new CryptoKey when a KeyHandle is created. On UpdateAutokeyConfig, the caller will require `cloudkms.cryptoKeys.setIamPolicy` permission on this key project. Once configured, for Cloud KMS Autokey to function properly, this key project must have the Cloud KMS API activated and the Cloud KMS Service Agent for this key project must be granted the `cloudkms.admin` role (or pertinent permissions). A request with an empty key project field will clear the configuration. */
-  keyProject?: string;
   /** Output only. The state for the AutokeyConfig. */
   state?: AutokeyConfigStateEnum | (string & {});
   /** Identifier. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig`, `projects/{PROJECT_NUMBER}/autokeyConfig`, or `projects/{PROJECT_ID}/autokeyConfig`. */
   name?: string;
+  /** Optional. A checksum computed by the server based on the value of other fields. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The request will be rejected with an ABORTED error on a mismatched etag. */
+  etag?: string;
+  /** Optional. Name of the key project, e.g. `projects/{PROJECT_ID}` or `projects/{PROJECT_NUMBER}`, where Cloud KMS Autokey will provision a new CryptoKey when a KeyHandle is created. On UpdateAutokeyConfig, the caller will require `cloudkms.cryptoKeys.setIamPolicy` permission on this key project. Once configured, for Cloud KMS Autokey to function properly, this key project must have the Cloud KMS API activated and the Cloud KMS Service Agent for this key project must be granted the `cloudkms.admin` role (or pertinent permissions). A request with an empty key project field will clear the configuration. */
+  keyProject?: string;
 }
 export const AutokeyConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
     keyProjectResolutionMode: S.optional(
       AutokeyConfigKeyProjectResolutionModeEnum,
     ),
-    keyProject: S.optional(S.String),
     state: S.optional(AutokeyConfigStateEnum),
     name: S.optional(S.String),
+    etag: S.optional(S.String),
+    keyProject: S.optional(S.String),
   }),
 ).annotate({ identifier: "AutokeyConfig" }) as any as S.Schema<AutokeyConfig>;
 
@@ -1931,6 +2026,196 @@ export const GetAutokeyConfigProjectsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetAutokeyConfigProjectsRequest",
 }) as any as S.Schema<GetAutokeyConfigProjectsRequest>;
+
+export interface GetEffectiveAutokeyConfigFoldersRequest {
+  /** Required. Name of the resource project or folder to show the effective Cloud KMS Autokey configuration for. This may be helpful for evaluating the effect of nested folder configurations on a given resource project. Format: * projects/{project} * folders/{folder} */
+  parent: string;
+}
+export const GetEffectiveAutokeyConfigFoldersRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+parent}:showEffectiveAutokeyConfig",
+        baseUrl: "https://cloudkms.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "GetEffectiveAutokeyConfigFoldersRequest",
+}) as any as S.Schema<GetEffectiveAutokeyConfigFoldersRequest>;
+
+export type ShowEffectiveAutokeyConfigResponseKeyProjectResolutionModeEnum =
+  | "KEY_PROJECT_RESOLUTION_MODE_UNSPECIFIED"
+  | "DEDICATED_KEY_PROJECT"
+  | "RESOURCE_PROJECT"
+  | "DISABLED";
+export const ShowEffectiveAutokeyConfigResponseKeyProjectResolutionModeEnum =
+  S.String;
+
+/** Source of the effective AutokeyConfig. */
+export interface Source {
+  /** Contains the resource name of the AutokeyConfig that is effective, for example, `folders/{FOLDER_NUMBER}` or `projects/{PROJECT_NUMBER}` or `organizations/{ORGANIZATION_NUMBER}`. */
+  name?: string;
+}
+export const Source = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "Source" }) as any as S.Schema<Source>;
+
+/** Response message for ShowEffectiveAutokeyConfig */
+export interface ShowEffectiveAutokeyConfigResponse {
+  /** Name of the key project configured in the ancestry of the project or folder. */
+  keyProject?: string;
+  /** The KeyProjectResolutionMode for the AutokeyConfig. */
+  keyProjectResolutionMode?: ShowEffectiveAutokeyConfigResponseKeyProjectResolutionModeEnum;
+  /** Source of the effective AutokeyConfig. */
+  source?: Source;
+}
+export const ShowEffectiveAutokeyConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    keyProject: S.optional(S.String),
+    keyProjectResolutionMode: S.optional(
+      ShowEffectiveAutokeyConfigResponseKeyProjectResolutionModeEnum,
+    ),
+    source: S.optional(Source),
+  }),
+).annotate({
+  identifier: "ShowEffectiveAutokeyConfigResponse",
+}) as any as S.Schema<ShowEffectiveAutokeyConfigResponse>;
+
+export interface GetEffectiveAutokeyConfigProjectsRequest {
+  /** Required. Name of the resource project or folder to show the effective Cloud KMS Autokey configuration for. This may be helpful for evaluating the effect of nested folder configurations on a given resource project. Format: * projects/{project} * folders/{folder} */
+  parent: string;
+}
+export const GetEffectiveAutokeyConfigProjectsRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+parent}:showEffectiveAutokeyConfig",
+        baseUrl: "https://cloudkms.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "GetEffectiveAutokeyConfigProjectsRequest",
+}) as any as S.Schema<GetEffectiveAutokeyConfigProjectsRequest>;
+
+export interface GetEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest {
+  /** Required. Specifies the number or id of the project to get the effective KeyAccessJustificationsEnrollmentConfig for. */
+  project: string;
+}
+export const GetEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      project: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+project}:showEffectiveKeyAccessJustificationsEnrollmentConfig",
+        baseUrl: "https://cloudkms.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "GetEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest",
+  }) as any as S.Schema<GetEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest>;
+
+/** Represents the configuration of a protection level for a project's Key Access Justifications enrollment. */
+export interface KeyAccessJustificationsEnrollmentConfig {
+  /** Indicates whether the project is enrolled in KAJ policy enforcement. */
+  policyEnforcement?: boolean;
+  /** Indicates whether the project has KAJ logging enabled. */
+  auditLogging?: boolean;
+}
+export const KeyAccessJustificationsEnrollmentConfig = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      policyEnforcement: S.optional(S.Boolean),
+      auditLogging: S.optional(S.Boolean),
+    }),
+).annotate({
+  identifier: "KeyAccessJustificationsEnrollmentConfig",
+}) as any as S.Schema<KeyAccessJustificationsEnrollmentConfig>;
+
+/** Represents a response message for KeyAccessJustificationsConfig.ShowEffectiveKeyAccessJustificationsEnrollmentConfig */
+export interface ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse {
+  /** Contains the effective KeyAccessJustificationsEnrollmentConfig for hardware keys. */
+  hardwareConfig?: KeyAccessJustificationsEnrollmentConfig;
+  /** Contains the effective KeyAccessJustificationsEnrollmentConfig for software keys. */
+  softwareConfig?: KeyAccessJustificationsEnrollmentConfig;
+  /** Contains the effective KeyAccessJustificationsEnrollmentConfig for external keys. */
+  externalConfig?: KeyAccessJustificationsEnrollmentConfig;
+}
+export const ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      hardwareConfig: S.optional(KeyAccessJustificationsEnrollmentConfig),
+      softwareConfig: S.optional(KeyAccessJustificationsEnrollmentConfig),
+      externalConfig: S.optional(KeyAccessJustificationsEnrollmentConfig),
+    }),
+  ).annotate({
+    identifier: "ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse",
+  }) as any as S.Schema<ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse>;
+
+export interface GetEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest {
+  /** Required. Specifies the number or id of the project to get the effective KeyAccessJustificationsPolicyConfig. In the format of "projects/{|}" */
+  project: string;
+}
+export const GetEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      project: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+project}:showEffectiveKeyAccessJustificationsPolicyConfig",
+        baseUrl: "https://cloudkms.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "GetEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest",
+  }) as any as S.Schema<GetEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest>;
+
+/** Represents a singleton configuration for Key Access Justifications policies. */
+export interface KeyAccessJustificationsPolicyConfig {
+  /** Identifier. Represents the resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/*\/kajPolicyConfig". */
+  name?: string;
+  /** Optional. Specifies the default key access justifications (KAJ) policy used when a CryptoKey is created in this folder. This is only used when a Key Access Justifications policy is not provided in the CreateCryptoKeyRequest. This overrides any default policies in its ancestry. If this field is unset, or is set but contains an empty allowed_access_reasons list, no default Key Access Justifications (KAJ) policy configuration is active. In this scenario, all newly created keys will default to an "allow-all" policy. */
+  defaultKeyAccessJustificationPolicy?: KeyAccessJustificationsPolicy;
+  /** Output only. Indicates whether this parent resource is available to default policy feature. Please consult [the prerequisite of default policy feature](https://cloud.google.com/assured-workloads/key-access-justifications/docs/set-default-policy#before) for more details. */
+  defaultPolicyAvailable?: boolean;
+}
+export const KeyAccessJustificationsPolicyConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    defaultKeyAccessJustificationPolicy: S.optional(
+      KeyAccessJustificationsPolicy,
+    ),
+    defaultPolicyAvailable: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "KeyAccessJustificationsPolicyConfig",
+}) as any as S.Schema<KeyAccessJustificationsPolicyConfig>;
+
+/** Represents a response message for KeyAccessJustificationsConfig.ShowEffectiveKeyAccessJustificationsPolicyConfig. */
+export interface ShowEffectiveKeyAccessJustificationsPolicyConfigResponse {
+  /** Contains the effective KeyAccessJustificationsPolicyConfig. */
+  effectiveKajPolicy?: KeyAccessJustificationsPolicyConfig;
+}
+export const ShowEffectiveKeyAccessJustificationsPolicyConfigResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      effectiveKajPolicy: S.optional(KeyAccessJustificationsPolicyConfig),
+    }),
+  ).annotate({
+    identifier: "ShowEffectiveKeyAccessJustificationsPolicyConfigResponse",
+  }) as any as S.Schema<ShowEffectiveKeyAccessJustificationsPolicyConfigResponse>;
 
 export interface GetEkmConfigProjectsLocationsRequest {
   /** Required. The name of the EkmConfig to get. */
@@ -1966,16 +2251,16 @@ export const EkmConfig = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "EkmConfig" }) as any as S.Schema<EkmConfig>;
 
 export interface GetIamPolicyProjectsLocationsEkmConfigRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
 }
 export const GetIamPolicyProjectsLocationsEkmConfigRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
       resource: S.String.pipe(T.Label()),
+      "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1993,34 +2278,34 @@ export interface Expr {
   expression?: string;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     expression: S.optional(S.String),
     location: S.optional(S.String),
-    title: S.optional(S.String),
     description: S.optional(S.String),
+    title: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
   members?: StringList;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   condition?: Expr;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
 }
 export const Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    role: S.optional(S.String),
     members: S.optional(StringList),
     condition: S.optional(Expr),
+    role: S.optional(S.String),
   }),
 ).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
 
@@ -2034,7 +2319,7 @@ export type AuditLogConfigLogTypeEnum =
   | "ADMIN_READ"
   | "DATA_WRITE"
   | "DATA_READ";
-export const AuditLogConfigLogTypeEnum = /*@__PURE__*/ S.String;
+export const AuditLogConfigLogTypeEnum = S.String;
 
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
@@ -2057,15 +2342,15 @@ export const AuditLogConfigList = /*@__PURE__*/ S.Array(
 
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
   service?: string;
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: AuditLogConfigList;
 }
 export const AuditConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    auditLogConfigs: S.optional(AuditLogConfigList),
     service: S.optional(S.String),
+    auditLogConfigs: S.optional(AuditLogConfigList),
   }),
 ).annotate({ identifier: "AuditConfig" }) as any as S.Schema<AuditConfig>;
 
@@ -2078,18 +2363,18 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
 export interface Policy {
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     etag: S.optional(S.String),
-    version: S.optional(S.Number),
     bindings: S.optional(BindingList),
+    version: S.optional(S.Number),
     auditConfigs: S.optional(AuditConfigList),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
@@ -2161,16 +2446,16 @@ export const GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest =
   }) as any as S.Schema<GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest>;
 
 export interface GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
 }
 export const GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
       resource: S.String.pipe(T.Label()),
+      "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2199,27 +2484,6 @@ export const GetKajPolicyConfigFoldersRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetKajPolicyConfigFoldersRequest",
 }) as any as S.Schema<GetKajPolicyConfigFoldersRequest>;
-
-/** Represents a singleton configuration for Key Access Justifications policies. */
-export interface KeyAccessJustificationsPolicyConfig {
-  /** Output only. Indicates whether this parent resource is available to default policy feature. Please consult [the prerequisite of default policy feature](https://cloud.google.com/assured-workloads/key-access-justifications/docs/set-default-policy#before) for more details. */
-  defaultPolicyAvailable?: boolean;
-  /** Identifier. Represents the resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/*\/kajPolicyConfig". */
-  name?: string;
-  /** Optional. Specifies the default key access justifications (KAJ) policy used when a CryptoKey is created in this folder. This is only used when a Key Access Justifications policy is not provided in the CreateCryptoKeyRequest. This overrides any default policies in its ancestry. If this field is unset, or is set but contains an empty allowed_access_reasons list, no default Key Access Justifications (KAJ) policy configuration is active. In this scenario, all newly created keys will default to an "allow-all" policy. */
-  defaultKeyAccessJustificationPolicy?: KeyAccessJustificationsPolicy;
-}
-export const KeyAccessJustificationsPolicyConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    defaultPolicyAvailable: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    defaultKeyAccessJustificationPolicy: S.optional(
-      KeyAccessJustificationsPolicy,
-    ),
-  }),
-).annotate({
-  identifier: "KeyAccessJustificationsPolicyConfig",
-}) as any as S.Schema<KeyAccessJustificationsPolicyConfig>;
 
 export interface GetKajPolicyConfigOrganizationsRequest {
   /** Required. Specifies the name of the KeyAccessJustificationsPolicyConfig to get. */
@@ -2278,24 +2542,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    displayName: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
     labels: S.optional(StringMap),
     name: S.optional(S.String),
-    displayName: S.optional(S.String),
     locationId: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -2401,25 +2665,25 @@ export type GetProjectsLocationsKeyRingsImportJobsPublicKeyFormatEnum =
   | "NIST_PQC"
   | "XWING_RAW_BYTES";
 export const GetProjectsLocationsKeyRingsImportJobsPublicKeyFormatEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GetProjectsLocationsKeyRingsImportJobsRequest {
-  /** Required. The name of the ImportJob to get. */
-  name: string;
   /** Optional. Specifies the WrappingPublicKey format. If not specified: * For RSA-based import methods, the wrapping key will be returned in PEM format * For pure ML-KEM-based import methods, the wrapping key will be returned in the raw bytes format specified in FIPS-203 * For X-Wing-based import methods, the wrapping key will be returned in the raw bytes format specified in https://datatracker.ietf.org/doc/draft-connolly-cfrg-xwing-kem. */
   publicKeyFormat?:
     | GetProjectsLocationsKeyRingsImportJobsPublicKeyFormatEnum
     | (string & {});
+  /** Required. The name of the ImportJob to get. */
+  name: string;
 }
 export const GetProjectsLocationsKeyRingsImportJobsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       publicKeyFormat: S.optional(
         GetProjectsLocationsKeyRingsImportJobsPublicKeyFormatEnum.pipe(
           T.Query(),
         ),
       ),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2471,21 +2735,21 @@ export const GetProjectsLocationsRetiredResourcesRequest =
 
 /** A RetiredResource resource represents the record of a deleted CryptoKey. Its purpose is to provide visibility into retained user data and to prevent reuse of these names for new CryptoKeys. */
 export interface RetiredResource {
-  /** Output only. The full resource name of the original CryptoKey that was deleted in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
-  originalResource?: string;
-  /** Output only. Identifier. The resource name for this RetiredResource in the format `projects/*\/locations/*\/retiredResources/*`. */
-  name?: string;
-  /** Output only. The resource type of the original deleted resource. */
-  resourceType?: string;
   /** Output only. The time at which the original resource was deleted and this RetiredResource record was created. */
   deleteTime?: string;
+  /** Output only. The resource type of the original deleted resource. */
+  resourceType?: string;
+  /** Output only. Identifier. The resource name for this RetiredResource in the format `projects/*\/locations/*\/retiredResources/*`. */
+  name?: string;
+  /** Output only. The full resource name of the original CryptoKey that was deleted in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  originalResource?: string;
 }
 export const RetiredResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    originalResource: S.optional(S.String),
-    name: S.optional(S.String),
-    resourceType: S.optional(S.String),
     deleteTime: S.optional(S.String),
+    resourceType: S.optional(S.String),
+    name: S.optional(S.String),
+    originalResource: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RetiredResource",
@@ -2530,31 +2794,31 @@ export const GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest =
   }) as any as S.Schema<GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest>;
 
 export type GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsPublicKeyFormatEnum =
-    | "PUBLIC_KEY_FORMAT_UNSPECIFIED"
-    | "PEM"
-    | "DER"
-    | "NIST_PQC"
-    | "XWING_RAW_BYTES";
+  | "PUBLIC_KEY_FORMAT_UNSPECIFIED"
+  | "PEM"
+  | "DER"
+  | "NIST_PQC"
+  | "XWING_RAW_BYTES";
 export const GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsPublicKeyFormatEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
-  /** Required. The name of the CryptoKeyVersion public key to get. */
-  name: string;
   /** Optional. The PublicKey format specified by the user. This field is required for PQC algorithms. If specified, the public key will be exported through the public_key field in the requested format. Otherwise, the pem field will be populated for non-PQC algorithms, and an error will be returned for PQC algorithms. */
   publicKeyFormat?:
     | GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsPublicKeyFormatEnum
     | (string & {});
+  /** Required. The name of the CryptoKeyVersion public key to get. */
+  name: string;
 }
 export const GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       publicKeyFormat: S.optional(
         GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsPublicKeyFormatEnum.pipe(
           T.Query(),
         ),
       ),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2567,25 +2831,34 @@ export const GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsReq
       "GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest",
   }) as any as S.Schema<GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
+export type PublicKeyProtectionLevelEnum =
+  | "PROTECTION_LEVEL_UNSPECIFIED"
+  | "SOFTWARE"
+  | "HSM"
+  | "EXTERNAL"
+  | "EXTERNAL_VPC"
+  | "HSM_SINGLE_TENANT";
+export const PublicKeyProtectionLevelEnum = S.String;
+
 export type PublicKeyPublicKeyFormatEnum =
   | "PUBLIC_KEY_FORMAT_UNSPECIFIED"
   | "PEM"
   | "DER"
   | "NIST_PQC"
   | "XWING_RAW_BYTES";
-export const PublicKeyPublicKeyFormatEnum = /*@__PURE__*/ S.String;
+export const PublicKeyPublicKeyFormatEnum = S.String;
 
 /** Data with integrity verification field. */
 export interface ChecksummedData {
-  /** Raw Data. */
-  data?: string;
   /** Integrity verification field. A CRC32C checksum of the returned ChecksummedData.data. An integrity check of ChecksummedData.data can be performed by computing the CRC32C checksum of ChecksummedData.data and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed `2^32-1`, and can be safely downconverted to uint32 in languages that support this type. */
   crc32cChecksum?: string;
+  /** Raw Data. */
+  data?: string;
 }
 export const ChecksummedData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: S.optional(S.String),
     crc32cChecksum: S.optional(S.String),
+    data: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ChecksummedData",
@@ -2638,44 +2911,38 @@ export type PublicKeyAlgorithmEnum =
   | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256"
   | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU"
   | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU"
-  | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU";
-export const PublicKeyAlgorithmEnum = /*@__PURE__*/ S.String;
-
-export type PublicKeyProtectionLevelEnum =
-  | "PROTECTION_LEVEL_UNSPECIFIED"
-  | "SOFTWARE"
-  | "HSM"
-  | "EXTERNAL"
-  | "EXTERNAL_VPC"
-  | "HSM_SINGLE_TENANT";
-export const PublicKeyProtectionLevelEnum = /*@__PURE__*/ S.String;
+  | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU"
+  | "KEM_ECDH_P256"
+  | "KEM_ECDH_P384"
+  | "AES_256_KWP";
+export const PublicKeyAlgorithmEnum = S.String;
 
 /** The public keys for a given CryptoKeyVersion. Obtained via GetPublicKey. */
 export interface PublicKey {
-  /** The PublicKey format specified by the customer through the public_key_format field. */
-  publicKeyFormat?: PublicKeyPublicKeyFormatEnum;
   /** Integrity verification field. A CRC32C checksum of the returned PublicKey.pem. An integrity check of PublicKey.pem can be performed by computing the CRC32C checksum of PublicKey.pem and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed `2^32-1`, and can be safely downconverted to uint32 in languages that support this type. NOTE: This field is in Beta. */
   pemCrc32c?: string;
-  /** The name of the CryptoKeyVersion public key. Provided here for verification. NOTE: This field is in Beta. */
-  name?: string;
   /** The public key, encoded in PEM format. For more information, see the [RFC 7468](https://tools.ietf.org/html/rfc7468) sections for [General Considerations](https://tools.ietf.org/html/rfc7468#section-2) and [Textual Encoding of Subject Public Key Info] (https://tools.ietf.org/html/rfc7468#section-13). */
   pem?: string;
+  /** The ProtectionLevel of the CryptoKeyVersion public key. */
+  protectionLevel?: PublicKeyProtectionLevelEnum;
+  /** The PublicKey format specified by the customer through the public_key_format field. */
+  publicKeyFormat?: PublicKeyPublicKeyFormatEnum;
   /** This field contains the public key (with integrity verification), formatted according to the public_key_format field. */
   publicKey?: ChecksummedData;
   /** The Algorithm associated with this key. */
   algorithm?: PublicKeyAlgorithmEnum;
-  /** The ProtectionLevel of the CryptoKeyVersion public key. */
-  protectionLevel?: PublicKeyProtectionLevelEnum;
+  /** The name of the CryptoKeyVersion public key. Provided here for verification. NOTE: This field is in Beta. */
+  name?: string;
 }
 export const PublicKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    publicKeyFormat: S.optional(PublicKeyPublicKeyFormatEnum),
     pemCrc32c: S.optional(S.String),
-    name: S.optional(S.String),
     pem: S.optional(S.String),
+    protectionLevel: S.optional(PublicKeyProtectionLevelEnum),
+    publicKeyFormat: S.optional(PublicKeyPublicKeyFormatEnum),
     publicKey: S.optional(ChecksummedData),
     algorithm: S.optional(PublicKeyAlgorithmEnum),
-    protectionLevel: S.optional(PublicKeyProtectionLevelEnum),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "PublicKey" }) as any as S.Schema<PublicKey>;
 
@@ -2726,30 +2993,35 @@ export type ImportCryptoKeyVersionRequestAlgorithmEnum =
   | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256"
   | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU"
   | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU"
-  | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU";
-export const ImportCryptoKeyVersionRequestAlgorithmEnum =
-  /*@__PURE__*/ S.String;
+  | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU"
+  | "KEM_ECDH_P256"
+  | "KEM_ECDH_P384"
+  | "AES_256_KWP";
+export const ImportCryptoKeyVersionRequestAlgorithmEnum = S.String;
 
 /** Request message for KeyManagementService.ImportCryptoKeyVersion. */
 export interface ImportCryptoKeyVersionRequest {
+  /** Optional. Whether trusted wrapping will be enabled on the imported [CryptoKeyVersion]. This field is only supported for keys with CryptoKeyVersionTemplate.protection_level HSM_SINGLE_TENANT. This field is supported for all CryptoKeyPurposes besides ENCRYPT_DECRYPT. */
+  trustedWrappingEnabled?: boolean;
+  /** Required. The algorithm of the key being imported. This does not need to match the version_template of the CryptoKey this version imports into. */
+  algorithm?: ImportCryptoKeyVersionRequestAlgorithmEnum | (string & {});
+  /** Optional. The wrapped key material to import. Before wrapping, key material must be formatted. If importing symmetric key material, the expected key material format is plain bytes. If importing asymmetric key material, the expected key material format is PKCS#8-encoded DER (the PrivateKeyInfo structure from RFC 5208). When wrapping with import methods (RSA_OAEP_3072_SHA1_AES_256 or RSA_OAEP_4096_SHA1_AES_256 or RSA_OAEP_3072_SHA256_AES_256 or RSA_OAEP_4096_SHA256_AES_256), this field must contain the concatenation of: 1. An ephemeral AES-256 wrapping key wrapped with the public_key using RSAES-OAEP with SHA-1/SHA-256, MGF1 with SHA-1/SHA-256, and an empty label. 2. The formatted key to be imported, wrapped with the ephemeral AES-256 key using AES-KWP (RFC 5649). This format is the same as the format produced by PKCS#11 mechanism CKM_RSA_AES_KEY_WRAP. When wrapping with import methods (RSA_OAEP_3072_SHA256 or RSA_OAEP_4096_SHA256), this field must contain the formatted key to be imported, wrapped with the public_key using RSAES-OAEP with SHA-256, MGF1 with SHA-256, and an empty label. */
+  wrappedKey?: string;
   /** Required. The name of the ImportJob that was used to wrap this key material. */
   importJob?: string;
   /** Optional. The optional name of an existing CryptoKeyVersion to target for an import operation. If this field is not present, a new CryptoKeyVersion containing the supplied key material is created. If this field is present, the supplied key material is imported into the existing CryptoKeyVersion. To import into an existing CryptoKeyVersion, the CryptoKeyVersion must be a child of ImportCryptoKeyVersionRequest.parent, have been previously created via ImportCryptoKeyVersion, and be in DESTROYED or IMPORT_FAILED state. The key material and algorithm must match the previous CryptoKeyVersion exactly if the CryptoKeyVersion has ever contained key material. */
   cryptoKeyVersion?: string;
   /** Optional. This field has the same meaning as wrapped_key. Prefer to use that field in new work. Either that field or this field (but not both) must be specified. */
   rsaAesWrappedKey?: string;
-  /** Required. The algorithm of the key being imported. This does not need to match the version_template of the CryptoKey this version imports into. */
-  algorithm?: ImportCryptoKeyVersionRequestAlgorithmEnum | (string & {});
-  /** Optional. The wrapped key material to import. Before wrapping, key material must be formatted. If importing symmetric key material, the expected key material format is plain bytes. If importing asymmetric key material, the expected key material format is PKCS#8-encoded DER (the PrivateKeyInfo structure from RFC 5208). When wrapping with import methods (RSA_OAEP_3072_SHA1_AES_256 or RSA_OAEP_4096_SHA1_AES_256 or RSA_OAEP_3072_SHA256_AES_256 or RSA_OAEP_4096_SHA256_AES_256), this field must contain the concatenation of: 1. An ephemeral AES-256 wrapping key wrapped with the public_key using RSAES-OAEP with SHA-1/SHA-256, MGF1 with SHA-1/SHA-256, and an empty label. 2. The formatted key to be imported, wrapped with the ephemeral AES-256 key using AES-KWP (RFC 5649). This format is the same as the format produced by PKCS#11 mechanism CKM_RSA_AES_KEY_WRAP. When wrapping with import methods (RSA_OAEP_3072_SHA256 or RSA_OAEP_4096_SHA256), this field must contain the formatted key to be imported, wrapped with the public_key using RSAES-OAEP with SHA-256, MGF1 with SHA-256, and an empty label. */
-  wrappedKey?: string;
 }
 export const ImportCryptoKeyVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    trustedWrappingEnabled: S.optional(S.Boolean),
+    algorithm: S.optional(ImportCryptoKeyVersionRequestAlgorithmEnum),
+    wrappedKey: S.optional(S.String),
     importJob: S.optional(S.String),
     cryptoKeyVersion: S.optional(S.String),
     rsaAesWrappedKey: S.optional(S.String),
-    algorithm: S.optional(ImportCryptoKeyVersionRequestAlgorithmEnum),
-    wrappedKey: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ImportCryptoKeyVersionRequest",
@@ -2778,25 +3050,131 @@ export const ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
       "ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest",
   }) as any as S.Schema<ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
 
+export type ImportTrustedKeyWrappedCryptoKeyVersionRequestAlgorithmEnum =
+  | "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
+  | "GOOGLE_SYMMETRIC_ENCRYPTION"
+  | "AES_128_GCM"
+  | "AES_256_GCM"
+  | "AES_128_CBC"
+  | "AES_256_CBC"
+  | "AES_128_CTR"
+  | "AES_256_CTR"
+  | "RSA_SIGN_PSS_2048_SHA256"
+  | "RSA_SIGN_PSS_3072_SHA256"
+  | "RSA_SIGN_PSS_4096_SHA256"
+  | "RSA_SIGN_PSS_4096_SHA512"
+  | "RSA_SIGN_PKCS1_2048_SHA256"
+  | "RSA_SIGN_PKCS1_3072_SHA256"
+  | "RSA_SIGN_PKCS1_4096_SHA256"
+  | "RSA_SIGN_PKCS1_4096_SHA512"
+  | "RSA_SIGN_RAW_PKCS1_2048"
+  | "RSA_SIGN_RAW_PKCS1_3072"
+  | "RSA_SIGN_RAW_PKCS1_4096"
+  | "RSA_DECRYPT_OAEP_2048_SHA256"
+  | "RSA_DECRYPT_OAEP_3072_SHA256"
+  | "RSA_DECRYPT_OAEP_4096_SHA256"
+  | "RSA_DECRYPT_OAEP_4096_SHA512"
+  | "RSA_DECRYPT_OAEP_2048_SHA1"
+  | "RSA_DECRYPT_OAEP_3072_SHA1"
+  | "RSA_DECRYPT_OAEP_4096_SHA1"
+  | "EC_SIGN_P256_SHA256"
+  | "EC_SIGN_P384_SHA384"
+  | "EC_SIGN_SECP256K1_SHA256"
+  | "EC_SIGN_ED25519"
+  | "HMAC_SHA256"
+  | "HMAC_SHA1"
+  | "HMAC_SHA384"
+  | "HMAC_SHA512"
+  | "HMAC_SHA224"
+  | "EXTERNAL_SYMMETRIC_ENCRYPTION"
+  | "ML_KEM_768"
+  | "ML_KEM_1024"
+  | "KEM_XWING"
+  | "PQ_SIGN_ML_DSA_44"
+  | "PQ_SIGN_ML_DSA_65"
+  | "PQ_SIGN_ML_DSA_87"
+  | "PQ_SIGN_SLH_DSA_SHA2_128S"
+  | "PQ_SIGN_HASH_SLH_DSA_SHA2_128S_SHA256"
+  | "PQ_SIGN_ML_DSA_44_EXTERNAL_MU"
+  | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU"
+  | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU"
+  | "KEM_ECDH_P256"
+  | "KEM_ECDH_P384"
+  | "AES_256_KWP";
+export const ImportTrustedKeyWrappedCryptoKeyVersionRequestAlgorithmEnum =
+  S.String;
+
+/** Request message for KeyManagementService.ImportTrustedKeyWrappedCryptoKeyVersion. */
+export interface ImportTrustedKeyWrappedCryptoKeyVersionRequest {
+  /** Optional. The optional name of an existing CryptoKeyVersion to target for an import operation. If this field is not present, a new CryptoKeyVersion containing the supplied key material is created. If this field is present, the supplied key material is imported into the existing CryptoKeyVersion. To import into an existing CryptoKeyVersion, the CryptoKeyVersion must be a child of ImportTrustedKeyWrappedCryptoKeyVersionRequest.parent, have been previously created via ImportTrustedKeyWrappedCryptoKeyVersion, and be in DESTROYED or IMPORT_FAILED state. The key material and algorithm must match the previous CryptoKeyVersion exactly if the CryptoKeyVersion has ever contained key material */
+  cryptoKeyVersion?: string;
+  /** Required. Required - the CKV of the trusted key used to import. This can be the name of a CryptoKeyVersion or a CryptoKey. */
+  importingKey?: string;
+  /** Required. Required - The algorithm of the key being imported. This does not need to match the version_template of the CryptoKey this version imports into. */
+  algorithm?:
+    | ImportTrustedKeyWrappedCryptoKeyVersionRequestAlgorithmEnum
+    | (string & {});
+  /** Required. The target key pre-wrapped on premises. */
+  wrappedKey?: string;
+}
+export const ImportTrustedKeyWrappedCryptoKeyVersionRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      cryptoKeyVersion: S.optional(S.String),
+      importingKey: S.optional(S.String),
+      algorithm: S.optional(
+        ImportTrustedKeyWrappedCryptoKeyVersionRequestAlgorithmEnum,
+      ),
+      wrappedKey: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ImportTrustedKeyWrappedCryptoKeyVersionRequest",
+  }) as any as S.Schema<ImportTrustedKeyWrappedCryptoKeyVersionRequest>;
+
+export interface ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
+  /** Required. The name of the CryptoKey to be imported into. */
+  parent: string;
+  /** Request body */
+  body?: ImportTrustedKeyWrappedCryptoKeyVersionRequest;
+}
+export const ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      body: S.optional(
+        ImportTrustedKeyWrappedCryptoKeyVersionRequest.pipe(T.HttpBody()),
+      ),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1/{+parent}/cryptoKeyVersions:importTrustedKeyWrappedCryptoKeyVersion",
+        baseUrl: "https://cloudkms.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest",
+  }) as any as S.Schema<ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>;
+
 export interface ListProjectsLocationsRequest {
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2830,25 +3208,25 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsEkmConnectionsRequest {
-  /** Optional. Only include resources that match the filter in the response. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
-  filter?: string;
-  /** Optional. Optional pagination token, returned earlier via ListEkmConnectionsResponse.next_page_token. */
-  pageToken?: string;
-  /** Optional. Specify how the results should be sorted. If not specified, the results will be sorted in the default order. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
-  orderBy?: string;
-  /** Required. The resource name of the location associated with the EkmConnections to list, in the format `projects/*\/locations/*`. */
-  parent: string;
   /** Optional. Optional limit on the number of EkmConnections to include in the response. Further EkmConnections can subsequently be obtained by including the ListEkmConnectionsResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default. */
   pageSize?: number;
+  /** Optional. Only include resources that match the filter in the response. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
+  filter?: string;
+  /** Required. The resource name of the location associated with the EkmConnections to list, in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Optional. Specify how the results should be sorted. If not specified, the results will be sorted in the default order. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
+  orderBy?: string;
+  /** Optional. Optional pagination token, returned earlier via ListEkmConnectionsResponse.next_page_token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsEkmConnectionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      orderBy: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2885,22 +3263,22 @@ export const ListEkmConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListEkmConnectionsResponse>;
 
 export interface ListProjectsLocationsKeyHandlesRequest {
-  /** Optional. Optional pagination token, returned earlier via ListKeyHandlesResponse.next_page_token. */
-  pageToken?: string;
   /** Optional. Optional limit on the number of KeyHandles to include in the response. The service may return fewer than this value. Further KeyHandles can subsequently be obtained by including the ListKeyHandlesResponse.next_page_token in a subsequent request. If unspecified, at most 100 KeyHandles will be returned. */
   pageSize?: number;
-  /** Optional. Filter to apply when listing KeyHandles, e.g. `resource_type_selector="{SERVICE}.googleapis.com/{TYPE}"`. */
-  filter?: string;
+  /** Optional. Optional pagination token, returned earlier via ListKeyHandlesResponse.next_page_token. */
+  pageToken?: string;
   /** Required. Name of the resource project and location from which to list KeyHandles, e.g. `projects/{PROJECT_ID}/locations/{LOCATION}`. */
   parent: string;
+  /** Optional. Filter to apply when listing KeyHandles, e.g. `resource_type_selector="{SERVICE}.googleapis.com/{TYPE}"`. */
+  filter?: string;
 }
 export const ListProjectsLocationsKeyHandlesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2936,23 +3314,23 @@ export const ListKeyHandlesResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsKeyRingsRequest {
   /** Optional. Optional limit on the number of KeyRings to include in the response. Further KeyRings can subsequently be obtained by including the ListKeyRingsResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default. */
   pageSize?: number;
-  /** Optional. Optional pagination token, returned earlier via ListKeyRingsResponse.next_page_token. */
-  pageToken?: string;
-  /** Optional. Specify how the results should be sorted. If not specified, the results will be sorted in the default order. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
-  orderBy?: string;
   /** Optional. Only include resources that match the filter in the response. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
   filter?: string;
+  /** Optional. Optional pagination token, returned earlier via ListKeyRingsResponse.next_page_token. */
+  pageToken?: string;
   /** Required. The resource name of the location associated with the KeyRings, in the format `projects/*\/locations/*`. */
   parent: string;
+  /** Optional. Specify how the results should be sorted. If not specified, the results will be sorted in the default order. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
+  orderBy?: string;
 }
 export const ListProjectsLocationsKeyRingsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      orderBy: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2971,18 +3349,18 @@ export const KeyRingList = /*@__PURE__*/ S.Array(
 
 /** Response message for KeyManagementService.ListKeyRings. */
 export interface ListKeyRingsResponse {
+  /** The list of KeyRings. */
+  keyRings?: KeyRingList;
   /** A token to retrieve next page of results. Pass this value in ListKeyRingsRequest.page_token to retrieve the next page of results. */
   nextPageToken?: string;
   /** The total number of KeyRings that matched the query. This field is not populated if ListKeyRingsRequest.filter is applied. */
   totalSize?: number;
-  /** The list of KeyRings. */
-  keyRings?: KeyRingList;
 }
 export const ListKeyRingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    keyRings: S.optional(KeyRingList),
     nextPageToken: S.optional(S.String),
     totalSize: S.optional(S.Number),
-    keyRings: S.optional(KeyRingList),
   }),
 ).annotate({
   identifier: "ListKeyRingsResponse",
@@ -2991,36 +3369,35 @@ export const ListKeyRingsResponse = /*@__PURE__*/ S.suspend(() =>
 export type ListProjectsLocationsKeyRingsCryptoKeysVersionViewEnum =
   | "CRYPTO_KEY_VERSION_VIEW_UNSPECIFIED"
   | "FULL";
-export const ListProjectsLocationsKeyRingsCryptoKeysVersionViewEnum =
-  /*@__PURE__*/ S.String;
+export const ListProjectsLocationsKeyRingsCryptoKeysVersionViewEnum = S.String;
 
 export interface ListProjectsLocationsKeyRingsCryptoKeysRequest {
-  /** Required. The resource name of the KeyRing to list, in the format `projects/*\/locations/*\/keyRings/*`. */
-  parent: string;
-  /** Optional. Only include resources that match the filter in the response. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
-  filter?: string;
   /** Optional. Optional pagination token, returned earlier via ListCryptoKeysResponse.next_page_token. */
   pageToken?: string;
-  /** Optional. Specify how the results should be sorted. If not specified, the results will be sorted in the default order. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
-  orderBy?: string;
+  /** Optional. Optional limit on the number of CryptoKeys to include in the response. Further CryptoKeys can subsequently be obtained by including the ListCryptoKeysResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Required. The resource name of the KeyRing to list, in the format `projects/*\/locations/*\/keyRings/*`. */
+  parent: string;
   /** The fields of the primary version to include in the response. */
   versionView?:
     | ListProjectsLocationsKeyRingsCryptoKeysVersionViewEnum
     | (string & {});
-  /** Optional. Optional limit on the number of CryptoKeys to include in the response. Further CryptoKeys can subsequently be obtained by including the ListCryptoKeysResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  /** Optional. Only include resources that match the filter in the response. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
+  filter?: string;
+  /** Optional. Specify how the results should be sorted. If not specified, the results will be sorted in the default order. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
+  orderBy?: string;
 }
 export const ListProjectsLocationsKeyRingsCryptoKeysRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      orderBy: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       versionView: S.optional(
         ListProjectsLocationsKeyRingsCryptoKeysVersionViewEnum.pipe(T.Query()),
       ),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3039,18 +3416,18 @@ export const CryptoKeyList = /*@__PURE__*/ S.Array(
 
 /** Response message for KeyManagementService.ListCryptoKeys. */
 export interface ListCryptoKeysResponse {
+  /** A token to retrieve next page of results. Pass this value in ListCryptoKeysRequest.page_token to retrieve the next page of results. */
+  nextPageToken?: string;
   /** The list of CryptoKeys. */
   cryptoKeys?: CryptoKeyList;
   /** The total number of CryptoKeys that matched the query. This field is not populated if ListCryptoKeysRequest.filter is applied. */
   totalSize?: number;
-  /** A token to retrieve next page of results. Pass this value in ListCryptoKeysRequest.page_token to retrieve the next page of results. */
-  nextPageToken?: string;
 }
 export const ListCryptoKeysResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     cryptoKeys: S.optional(CryptoKeyList),
     totalSize: S.optional(S.Number),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListCryptoKeysResponse",
@@ -3060,9 +3437,13 @@ export type ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsViewEnum =
   | "CRYPTO_KEY_VERSION_VIEW_UNSPECIFIED"
   | "FULL";
 export const ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
+  /** Optional. Optional limit on the number of CryptoKeyVersions to include in the response. Further CryptoKeyVersions can subsequently be obtained by including the ListCryptoKeyVersionsResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Optional pagination token, returned earlier via ListCryptoKeyVersionsResponse.next_page_token. */
+  pageToken?: string;
   /** Required. The resource name of the CryptoKey to list, in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
   parent: string;
   /** The fields to include in the response. */
@@ -3071,16 +3452,14 @@ export interface ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest
     | (string & {});
   /** Optional. Only include resources that match the filter in the response. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
   filter?: string;
-  /** Optional. Optional pagination token, returned earlier via ListCryptoKeyVersionsResponse.next_page_token. */
-  pageToken?: string;
   /** Optional. Specify how the results should be sorted. If not specified, the results will be sorted in the default order. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
   orderBy?: string;
-  /** Optional. Optional limit on the number of CryptoKeyVersions to include in the response. Further CryptoKeyVersions can subsequently be obtained by including the ListCryptoKeyVersionsResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       view: S.optional(
         ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsViewEnum.pipe(
@@ -3088,9 +3467,7 @@ export const ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
         ),
       ),
       filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3110,17 +3487,17 @@ export const CryptoKeyVersionList = /*@__PURE__*/ S.Array(
 
 /** Response message for KeyManagementService.ListCryptoKeyVersions. */
 export interface ListCryptoKeyVersionsResponse {
-  /** A token to retrieve next page of results. Pass this value in ListCryptoKeyVersionsRequest.page_token to retrieve the next page of results. */
-  nextPageToken?: string;
   /** The total number of CryptoKeyVersions that matched the query. This field is not populated if ListCryptoKeyVersionsRequest.filter is applied. */
   totalSize?: number;
+  /** A token to retrieve next page of results. Pass this value in ListCryptoKeyVersionsRequest.page_token to retrieve the next page of results. */
+  nextPageToken?: string;
   /** The list of CryptoKeyVersions. */
   cryptoKeyVersions?: CryptoKeyVersionList;
 }
 export const ListCryptoKeyVersionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     totalSize: S.optional(S.Number),
+    nextPageToken: S.optional(S.String),
     cryptoKeyVersions: S.optional(CryptoKeyVersionList),
   }),
 ).annotate({
@@ -3128,25 +3505,25 @@ export const ListCryptoKeyVersionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListCryptoKeyVersionsResponse>;
 
 export interface ListProjectsLocationsKeyRingsImportJobsRequest {
+  /** Optional. Specify how the results should be sorted. If not specified, the results will be sorted in the default order. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
+  orderBy?: string;
+  /** Optional. Optional pagination token, returned earlier via ListImportJobsResponse.next_page_token. */
+  pageToken?: string;
   /** Optional. Optional limit on the number of ImportJobs to include in the response. Further ImportJobs can subsequently be obtained by including the ListImportJobsResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default. */
   pageSize?: number;
   /** Required. The resource name of the KeyRing to list, in the format `projects/*\/locations/*\/keyRings/*`. */
   parent: string;
   /** Optional. Only include resources that match the filter in the response. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
   filter?: string;
-  /** Optional. Optional pagination token, returned earlier via ListImportJobsResponse.next_page_token. */
-  pageToken?: string;
-  /** Optional. Specify how the results should be sorted. If not specified, the results will be sorted in the default order. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
-  orderBy?: string;
 }
 export const ListProjectsLocationsKeyRingsImportJobsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3165,37 +3542,37 @@ export const ImportJobList = /*@__PURE__*/ S.Array(
 
 /** Response message for KeyManagementService.ListImportJobs. */
 export interface ListImportJobsResponse {
-  /** The list of ImportJobs. */
-  importJobs?: ImportJobList;
-  /** The total number of ImportJobs that matched the query. This field is not populated if ListImportJobsRequest.filter is applied. */
-  totalSize?: number;
   /** A token to retrieve next page of results. Pass this value in ListImportJobsRequest.page_token to retrieve the next page of results. */
   nextPageToken?: string;
+  /** The total number of ImportJobs that matched the query. This field is not populated if ListImportJobsRequest.filter is applied. */
+  totalSize?: number;
+  /** The list of ImportJobs. */
+  importJobs?: ImportJobList;
 }
 export const ListImportJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    importJobs: S.optional(ImportJobList),
-    totalSize: S.optional(S.Number),
     nextPageToken: S.optional(S.String),
+    totalSize: S.optional(S.Number),
+    importJobs: S.optional(ImportJobList),
   }),
 ).annotate({
   identifier: "ListImportJobsResponse",
 }) as any as S.Schema<ListImportJobsResponse>;
 
 export interface ListProjectsLocationsRetiredResourcesRequest {
+  /** Required. The project-specific location holding the RetiredResources, in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Optional. Optional limit on the number of RetiredResources to be included in the response. Further RetiredResources can subsequently be obtained by including the ListRetiredResourcesResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default. */
   pageSize?: number;
   /** Optional. Optional pagination token, returned earlier via ListRetiredResourcesResponse.next_page_token. */
   pageToken?: string;
-  /** Required. The project-specific location holding the RetiredResources, in the format `projects/*\/locations/*`. */
-  parent: string;
 }
 export const ListProjectsLocationsRetiredResourcesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3216,44 +3593,44 @@ export const RetiredResourceList = /*@__PURE__*/ S.Array(
 export interface ListRetiredResourcesResponse {
   /** The total number of RetiredResources that matched the query. */
   totalSize?: string;
-  /** The list of RetiredResources. */
-  retiredResources?: RetiredResourceList;
   /** A token to retrieve the next page of results. Pass this value in ListRetiredResourcesRequest.page_token to retrieve the next page of results. */
   nextPageToken?: string;
+  /** The list of RetiredResources. */
+  retiredResources?: RetiredResourceList;
 }
 export const ListRetiredResourcesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     totalSize: S.optional(S.String),
-    retiredResources: S.optional(RetiredResourceList),
     nextPageToken: S.optional(S.String),
+    retiredResources: S.optional(RetiredResourceList),
   }),
 ).annotate({
   identifier: "ListRetiredResourcesResponse",
 }) as any as S.Schema<ListRetiredResourcesResponse>;
 
 export interface ListProjectsLocationsSingleTenantHsmInstancesRequest {
-  /** Required. The resource name of the location associated with the SingleTenantHsmInstances to list, in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Optional. Optional pagination token, returned earlier via ListSingleTenantHsmInstancesResponse.next_page_token. */
-  pageToken?: string;
-  /** Optional. Specify how the results should be sorted. If not specified, the results will be sorted in the default order. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
-  orderBy?: string;
   /** Optional. Only include resources that match the filter in the response. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
   filter?: string;
-  /** Optional. If set to true, HsmManagement.ListSingleTenantHsmInstances will also return SingleTenantHsmInstances in DELETED state. */
-  showDeleted?: boolean;
+  /** Optional. Optional pagination token, returned earlier via ListSingleTenantHsmInstancesResponse.next_page_token. */
+  pageToken?: string;
   /** Optional. Optional limit on the number of SingleTenantHsmInstances to include in the response. Further SingleTenantHsmInstances can subsequently be obtained by including the ListSingleTenantHsmInstancesResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default. */
   pageSize?: number;
+  /** Optional. Specify how the results should be sorted. If not specified, the results will be sorted in the default order. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
+  orderBy?: string;
+  /** Optional. If set to true, HsmManagement.ListSingleTenantHsmInstances will also return SingleTenantHsmInstances in DELETED state. */
+  showDeleted?: boolean;
+  /** Required. The resource name of the location associated with the SingleTenantHsmInstances to list, in the format `projects/*\/locations/*`. */
+  parent: string;
 }
 export const ListProjectsLocationsSingleTenantHsmInstancesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      orderBy: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
-      showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3274,45 +3651,45 @@ export const SingleTenantHsmInstanceList = /*@__PURE__*/ S.Array(
 export interface ListSingleTenantHsmInstancesResponse {
   /** The total number of SingleTenantHsmInstances that matched the query. This field is not populated if ListSingleTenantHsmInstancesRequest.filter is applied. */
   totalSize?: number;
-  /** The list of SingleTenantHsmInstances. */
-  singleTenantHsmInstances?: SingleTenantHsmInstanceList;
   /** A token to retrieve next page of results. Pass this value in ListSingleTenantHsmInstancesRequest.page_token to retrieve the next page of results. */
   nextPageToken?: string;
+  /** The list of SingleTenantHsmInstances. */
+  singleTenantHsmInstances?: SingleTenantHsmInstanceList;
 }
 export const ListSingleTenantHsmInstancesResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       totalSize: S.optional(S.Number),
-      singleTenantHsmInstances: S.optional(SingleTenantHsmInstanceList),
       nextPageToken: S.optional(S.String),
+      singleTenantHsmInstances: S.optional(SingleTenantHsmInstanceList),
     }),
 ).annotate({
   identifier: "ListSingleTenantHsmInstancesResponse",
 }) as any as S.Schema<ListSingleTenantHsmInstancesResponse>;
 
 export interface ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
-  /** Required. The resource name of the single tenant HSM instance associated with the SingleTenantHsmInstanceProposals to list, in the format `projects/*\/locations/*\/singleTenantHsmInstances/*`. */
-  parent: string;
-  /** Optional. Only include resources that match the filter in the response. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
-  filter?: string;
-  /** Optional. If set to true, HsmManagement.ListSingleTenantHsmInstanceProposals will also return SingleTenantHsmInstanceProposals in DELETED state. */
-  showDeleted?: boolean;
-  /** Optional. Optional pagination token, returned earlier via ListSingleTenantHsmInstanceProposalsResponse.next_page_token. */
-  pageToken?: string;
   /** Optional. Specify how the results should be sorted. If not specified, the results will be sorted in the default order. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
   orderBy?: string;
+  /** Required. The resource name of the single tenant HSM instance associated with the SingleTenantHsmInstanceProposals to list, in the format `projects/*\/locations/*\/singleTenantHsmInstances/*`. */
+  parent: string;
   /** Optional. Optional limit on the number of SingleTenantHsmInstanceProposals to include in the response. Further SingleTenantHsmInstanceProposals can subsequently be obtained by including the ListSingleTenantHsmInstanceProposalsResponse.next_page_token in a subsequent request. If unspecified, the server will pick an appropriate default. */
   pageSize?: number;
+  /** Optional. Only include resources that match the filter in the response. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
+  filter?: string;
+  /** Optional. Optional pagination token, returned earlier via ListSingleTenantHsmInstanceProposalsResponse.next_page_token. */
+  pageToken?: string;
+  /** Optional. If set to true, HsmManagement.ListSingleTenantHsmInstanceProposals will also return SingleTenantHsmInstanceProposals in DELETED state. */
+  showDeleted?: boolean;
 }
 export const ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      filter: S.optional(S.String.pipe(T.Query())),
-      showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      showDeleted: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3332,21 +3709,21 @@ export const SingleTenantHsmInstanceProposalList = /*@__PURE__*/ S.Array(
 
 /** Response message for HsmManagement.ListSingleTenantHsmInstanceProposals. */
 export interface ListSingleTenantHsmInstanceProposalsResponse {
-  /** A token to retrieve next page of results. Pass this value in ListSingleTenantHsmInstanceProposalsRequest.page_token to retrieve the next page of results. */
-  nextPageToken?: string;
   /** The list of SingleTenantHsmInstanceProposals. */
   singleTenantHsmInstanceProposals?: SingleTenantHsmInstanceProposalList;
   /** The total number of SingleTenantHsmInstanceProposals that matched the query. This field is not populated if ListSingleTenantHsmInstanceProposalsRequest.filter is applied. */
   totalSize?: number;
+  /** A token to retrieve next page of results. Pass this value in ListSingleTenantHsmInstanceProposalsRequest.page_token to retrieve the next page of results. */
+  nextPageToken?: string;
 }
 export const ListSingleTenantHsmInstanceProposalsResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      nextPageToken: S.optional(S.String),
       singleTenantHsmInstanceProposals: S.optional(
         SingleTenantHsmInstanceProposalList,
       ),
       totalSize: S.optional(S.Number),
+      nextPageToken: S.optional(S.String),
     }),
   ).annotate({
     identifier: "ListSingleTenantHsmInstanceProposalsResponse",
@@ -3396,28 +3773,28 @@ export type MacSignResponseProtectionLevelEnum =
   | "EXTERNAL"
   | "EXTERNAL_VPC"
   | "HSM_SINGLE_TENANT";
-export const MacSignResponseProtectionLevelEnum = /*@__PURE__*/ S.String;
+export const MacSignResponseProtectionLevelEnum = S.String;
 
 /** Response message for KeyManagementService.MacSign. */
 export interface MacSignResponse {
   /** The ProtectionLevel of the CryptoKeyVersion used for signing. */
   protectionLevel?: MacSignResponseProtectionLevelEnum;
-  /** The created signature. */
-  mac?: string;
   /** The resource name of the CryptoKeyVersion used for signing. Check this field to verify that the intended resource was used for signing. */
   name?: string;
-  /** Integrity verification field. A flag indicating whether MacSignRequest.data_crc32c was received by KeyManagementService and used for the integrity verification of the data. A false value of this field indicates either that MacSignRequest.data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set MacSignRequest.data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
-  verifiedDataCrc32c?: boolean;
   /** Integrity verification field. A CRC32C checksum of the returned MacSignResponse.mac. An integrity check of MacSignResponse.mac can be performed by computing the CRC32C checksum of MacSignResponse.mac and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   macCrc32c?: string;
+  /** The created signature. */
+  mac?: string;
+  /** Integrity verification field. A flag indicating whether MacSignRequest.data_crc32c was received by KeyManagementService and used for the integrity verification of the data. A false value of this field indicates either that MacSignRequest.data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set MacSignRequest.data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
+  verifiedDataCrc32c?: boolean;
 }
 export const MacSignResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     protectionLevel: S.optional(MacSignResponseProtectionLevelEnum),
-    mac: S.optional(S.String),
     name: S.optional(S.String),
-    verifiedDataCrc32c: S.optional(S.Boolean),
     macCrc32c: S.optional(S.String),
+    mac: S.optional(S.String),
+    verifiedDataCrc32c: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "MacSignResponse",
@@ -3425,21 +3802,21 @@ export const MacSignResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Request message for KeyManagementService.MacVerify. */
 export interface MacVerifyRequest {
-  /** Required. The data used previously as a MacSignRequest.data to generate the MAC tag. */
-  data?: string;
-  /** Optional. An optional CRC32C checksum of the MacVerifyRequest.mac. If specified, KeyManagementService will verify the integrity of the received MacVerifyRequest.mac using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(MacVerifyRequest.mac) is equal to MacVerifyRequest.mac_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
-  macCrc32c?: string;
   /** Optional. An optional CRC32C checksum of the MacVerifyRequest.data. If specified, KeyManagementService will verify the integrity of the received MacVerifyRequest.data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(MacVerifyRequest.data) is equal to MacVerifyRequest.data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   dataCrc32c?: string;
   /** Required. The signature to verify. */
   mac?: string;
+  /** Optional. An optional CRC32C checksum of the MacVerifyRequest.mac. If specified, KeyManagementService will verify the integrity of the received MacVerifyRequest.mac using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(MacVerifyRequest.mac) is equal to MacVerifyRequest.mac_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
+  macCrc32c?: string;
+  /** Required. The data used previously as a MacSignRequest.data to generate the MAC tag. */
+  data?: string;
 }
 export const MacVerifyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: S.optional(S.String),
-    macCrc32c: S.optional(S.String),
     dataCrc32c: S.optional(S.String),
     mac: S.optional(S.String),
+    macCrc32c: S.optional(S.String),
+    data: S.optional(S.String),
   }),
 ).annotate({
   identifier: "MacVerifyRequest",
@@ -3475,49 +3852,49 @@ export type MacVerifyResponseProtectionLevelEnum =
   | "EXTERNAL"
   | "EXTERNAL_VPC"
   | "HSM_SINGLE_TENANT";
-export const MacVerifyResponseProtectionLevelEnum = /*@__PURE__*/ S.String;
+export const MacVerifyResponseProtectionLevelEnum = S.String;
 
 /** Response message for KeyManagementService.MacVerify. */
 export interface MacVerifyResponse {
+  /** Integrity verification field. A flag indicating whether MacVerifyRequest.mac_crc32c was received by KeyManagementService and used for the integrity verification of the data. A false value of this field indicates either that MacVerifyRequest.mac_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set MacVerifyRequest.mac_crc32c but this field is still false, discard the response and perform a limited number of retries. */
+  verifiedMacCrc32c?: boolean;
   /** This field indicates whether or not the verification operation for MacVerifyRequest.mac over MacVerifyRequest.data was successful. */
   success?: boolean;
   /** The ProtectionLevel of the CryptoKeyVersion used for verification. */
   protectionLevel?: MacVerifyResponseProtectionLevelEnum;
-  /** Integrity verification field. A flag indicating whether MacVerifyRequest.mac_crc32c was received by KeyManagementService and used for the integrity verification of the data. A false value of this field indicates either that MacVerifyRequest.mac_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set MacVerifyRequest.mac_crc32c but this field is still false, discard the response and perform a limited number of retries. */
-  verifiedMacCrc32c?: boolean;
+  /** Integrity verification field. A flag indicating whether MacVerifyRequest.data_crc32c was received by KeyManagementService and used for the integrity verification of the data. A false value of this field indicates either that MacVerifyRequest.data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set MacVerifyRequest.data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
+  verifiedDataCrc32c?: boolean;
   /** Integrity verification field. This value is used for the integrity verification of [MacVerifyResponse.success]. If the value of this field contradicts the value of [MacVerifyResponse.success], discard the response and perform a limited number of retries. */
   verifiedSuccessIntegrity?: boolean;
   /** The resource name of the CryptoKeyVersion used for verification. Check this field to verify that the intended resource was used for verification. */
   name?: string;
-  /** Integrity verification field. A flag indicating whether MacVerifyRequest.data_crc32c was received by KeyManagementService and used for the integrity verification of the data. A false value of this field indicates either that MacVerifyRequest.data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set MacVerifyRequest.data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
-  verifiedDataCrc32c?: boolean;
 }
 export const MacVerifyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    verifiedMacCrc32c: S.optional(S.Boolean),
     success: S.optional(S.Boolean),
     protectionLevel: S.optional(MacVerifyResponseProtectionLevelEnum),
-    verifiedMacCrc32c: S.optional(S.Boolean),
+    verifiedDataCrc32c: S.optional(S.Boolean),
     verifiedSuccessIntegrity: S.optional(S.Boolean),
     name: S.optional(S.String),
-    verifiedDataCrc32c: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "MacVerifyResponse",
 }) as any as S.Schema<MacVerifyResponse>;
 
 export interface PatchProjectsLocationsEkmConnectionsRequest {
-  /** Output only. The resource name for the EkmConnection in the format `projects/*\/locations/*\/ekmConnections/*`. */
-  name: string;
   /** Required. List of fields to be updated in this request. */
   updateMask?: string;
+  /** Output only. The resource name for the EkmConnection in the format `projects/*\/locations/*\/ekmConnections/*`. */
+  name: string;
   /** Request body */
   body?: EkmConnection;
 }
 export const PatchProjectsLocationsEkmConnectionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(EkmConnection.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3583,29 +3960,29 @@ export const PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
 
 /** Request message for KeyManagementService.RawDecrypt. */
 export interface RawDecryptRequest {
-  /** Optional. Optional data that must match the data originally supplied in RawEncryptRequest.additional_authenticated_data. */
-  additionalAuthenticatedData?: string;
-  /** Required. The initialization vector (IV) used during encryption, which must match the data originally provided in RawEncryptResponse.initialization_vector. */
-  initializationVector?: string;
-  /** Optional. An optional CRC32C checksum of the RawDecryptRequest.ciphertext. If specified, KeyManagementService will verify the integrity of the received ciphertext using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(ciphertext) is equal to ciphertext_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
-  ciphertextCrc32c?: string;
-  /** Required. The encrypted data originally returned in RawEncryptResponse.ciphertext. */
-  ciphertext?: string;
   /** Optional. An optional CRC32C checksum of the RawDecryptRequest.additional_authenticated_data. If specified, KeyManagementService will verify the integrity of the received additional_authenticated_data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(additional_authenticated_data) is equal to additional_authenticated_data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   additionalAuthenticatedDataCrc32c?: string;
+  /** Optional. An optional CRC32C checksum of the RawDecryptRequest.ciphertext. If specified, KeyManagementService will verify the integrity of the received ciphertext using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(ciphertext) is equal to ciphertext_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
+  ciphertextCrc32c?: string;
+  /** Optional. Optional data that must match the data originally supplied in RawEncryptRequest.additional_authenticated_data. */
+  additionalAuthenticatedData?: string;
   /** The length of the authentication tag that is appended to the end of the ciphertext. If unspecified (0), the default value for the key's algorithm will be used (for AES-GCM, the default value is 16). */
   tagLength?: number;
+  /** Required. The encrypted data originally returned in RawEncryptResponse.ciphertext. */
+  ciphertext?: string;
+  /** Required. The initialization vector (IV) used during encryption, which must match the data originally provided in RawEncryptResponse.initialization_vector. */
+  initializationVector?: string;
   /** Optional. An optional CRC32C checksum of the RawDecryptRequest.initialization_vector. If specified, KeyManagementService will verify the integrity of the received initialization_vector using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(initialization_vector) is equal to initialization_vector_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   initializationVectorCrc32c?: string;
 }
 export const RawDecryptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    additionalAuthenticatedData: S.optional(S.String),
-    initializationVector: S.optional(S.String),
-    ciphertextCrc32c: S.optional(S.String),
-    ciphertext: S.optional(S.String),
     additionalAuthenticatedDataCrc32c: S.optional(S.String),
+    ciphertextCrc32c: S.optional(S.String),
+    additionalAuthenticatedData: S.optional(S.String),
     tagLength: S.optional(S.Number),
+    ciphertext: S.optional(S.String),
+    initializationVector: S.optional(S.String),
     initializationVectorCrc32c: S.optional(S.String),
   }),
 ).annotate({
@@ -3642,31 +4019,31 @@ export type RawDecryptResponseProtectionLevelEnum =
   | "EXTERNAL"
   | "EXTERNAL_VPC"
   | "HSM_SINGLE_TENANT";
-export const RawDecryptResponseProtectionLevelEnum = /*@__PURE__*/ S.String;
+export const RawDecryptResponseProtectionLevelEnum = S.String;
 
 /** Response message for KeyManagementService.RawDecrypt. */
 export interface RawDecryptResponse {
-  /** The ProtectionLevel of the CryptoKeyVersion used in decryption. */
-  protectionLevel?: RawDecryptResponseProtectionLevelEnum;
   /** Integrity verification field. A flag indicating whether RawDecryptRequest.additional_authenticated_data_crc32c was received by KeyManagementService and used for the integrity verification of additional_authenticated_data. A false value of this field indicates either that // RawDecryptRequest.additional_authenticated_data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set RawDecryptRequest.additional_authenticated_data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedAdditionalAuthenticatedDataCrc32c?: boolean;
   /** The decrypted data. */
   plaintext?: string;
+  /** The ProtectionLevel of the CryptoKeyVersion used in decryption. */
+  protectionLevel?: RawDecryptResponseProtectionLevelEnum;
+  /** Integrity verification field. A flag indicating whether RawDecryptRequest.initialization_vector_crc32c was received by KeyManagementService and used for the integrity verification of initialization_vector. A false value of this field indicates either that RawDecryptRequest.initialization_vector_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set RawDecryptRequest.initialization_vector_crc32c but this field is still false, discard the response and perform a limited number of retries. */
+  verifiedInitializationVectorCrc32c?: boolean;
   /** Integrity verification field. A CRC32C checksum of the returned RawDecryptResponse.plaintext. An integrity check of plaintext can be performed by computing the CRC32C checksum of plaintext and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: receiving this response message indicates that KeyManagementService is able to successfully decrypt the ciphertext. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   plaintextCrc32c?: string;
   /** Integrity verification field. A flag indicating whether RawDecryptRequest.ciphertext_crc32c was received by KeyManagementService and used for the integrity verification of the ciphertext. A false value of this field indicates either that RawDecryptRequest.ciphertext_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set RawDecryptRequest.ciphertext_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedCiphertextCrc32c?: boolean;
-  /** Integrity verification field. A flag indicating whether RawDecryptRequest.initialization_vector_crc32c was received by KeyManagementService and used for the integrity verification of initialization_vector. A false value of this field indicates either that RawDecryptRequest.initialization_vector_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set RawDecryptRequest.initialization_vector_crc32c but this field is still false, discard the response and perform a limited number of retries. */
-  verifiedInitializationVectorCrc32c?: boolean;
 }
 export const RawDecryptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    protectionLevel: S.optional(RawDecryptResponseProtectionLevelEnum),
     verifiedAdditionalAuthenticatedDataCrc32c: S.optional(S.Boolean),
     plaintext: S.optional(S.String),
+    protectionLevel: S.optional(RawDecryptResponseProtectionLevelEnum),
+    verifiedInitializationVectorCrc32c: S.optional(S.Boolean),
     plaintextCrc32c: S.optional(S.String),
     verifiedCiphertextCrc32c: S.optional(S.Boolean),
-    verifiedInitializationVectorCrc32c: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "RawDecryptResponse",
@@ -3674,27 +4051,27 @@ export const RawDecryptResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Request message for KeyManagementService.RawEncrypt. */
 export interface RawEncryptRequest {
+  /** Optional. An optional CRC32C checksum of the RawEncryptRequest.additional_authenticated_data. If specified, KeyManagementService will verify the integrity of the received additional_authenticated_data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(additional_authenticated_data) is equal to additional_authenticated_data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
+  additionalAuthenticatedDataCrc32c?: string;
+  /** Optional. A customer-supplied initialization vector that will be used for encryption. If it is not provided for AES-CBC and AES-CTR, one will be generated. It will be returned in RawEncryptResponse.initialization_vector. */
+  initializationVector?: string;
   /** Required. The data to encrypt. Must be no larger than 64KiB. The maximum size depends on the key version's protection_level. For SOFTWARE keys, the plaintext must be no larger than 64KiB. For HSM keys, the combined length of the plaintext and additional_authenticated_data fields must be no larger than 8KiB. */
   plaintext?: string;
   /** Optional. An optional CRC32C checksum of the RawEncryptRequest.plaintext. If specified, KeyManagementService will verify the integrity of the received plaintext using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(plaintext) is equal to plaintext_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   plaintextCrc32c?: string;
   /** Optional. Optional data that, if specified, must also be provided during decryption through RawDecryptRequest.additional_authenticated_data. This field may only be used in conjunction with an algorithm that accepts additional authenticated data (for example, AES-GCM). The maximum size depends on the key version's protection_level. For SOFTWARE keys, the plaintext must be no larger than 64KiB. For HSM keys, the combined length of the plaintext and additional_authenticated_data fields must be no larger than 8KiB. */
   additionalAuthenticatedData?: string;
-  /** Optional. A customer-supplied initialization vector that will be used for encryption. If it is not provided for AES-CBC and AES-CTR, one will be generated. It will be returned in RawEncryptResponse.initialization_vector. */
-  initializationVector?: string;
   /** Optional. An optional CRC32C checksum of the RawEncryptRequest.initialization_vector. If specified, KeyManagementService will verify the integrity of the received initialization_vector using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(initialization_vector) is equal to initialization_vector_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   initializationVectorCrc32c?: string;
-  /** Optional. An optional CRC32C checksum of the RawEncryptRequest.additional_authenticated_data. If specified, KeyManagementService will verify the integrity of the received additional_authenticated_data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(additional_authenticated_data) is equal to additional_authenticated_data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
-  additionalAuthenticatedDataCrc32c?: string;
 }
 export const RawEncryptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    additionalAuthenticatedDataCrc32c: S.optional(S.String),
+    initializationVector: S.optional(S.String),
     plaintext: S.optional(S.String),
     plaintextCrc32c: S.optional(S.String),
     additionalAuthenticatedData: S.optional(S.String),
-    initializationVector: S.optional(S.String),
     initializationVectorCrc32c: S.optional(S.String),
-    additionalAuthenticatedDataCrc32c: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RawEncryptRequest",
@@ -3730,63 +4107,63 @@ export type RawEncryptResponseProtectionLevelEnum =
   | "EXTERNAL"
   | "EXTERNAL_VPC"
   | "HSM_SINGLE_TENANT";
-export const RawEncryptResponseProtectionLevelEnum = /*@__PURE__*/ S.String;
+export const RawEncryptResponseProtectionLevelEnum = S.String;
 
 /** Response message for KeyManagementService.RawEncrypt. */
 export interface RawEncryptResponse {
+  /** Integrity verification field. A CRC32C checksum of the returned RawEncryptResponse.ciphertext. An integrity check of ciphertext can be performed by computing the CRC32C checksum of ciphertext and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
+  ciphertextCrc32c?: string;
   /** The length of the authentication tag that is appended to the end of the ciphertext. */
   tagLength?: number;
   /** Integrity verification field. A CRC32C checksum of the returned RawEncryptResponse.initialization_vector. An integrity check of initialization_vector can be performed by computing the CRC32C checksum of initialization_vector and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   initializationVectorCrc32c?: string;
-  /** Integrity verification field. A flag indicating whether RawEncryptRequest.initialization_vector_crc32c was received by KeyManagementService and used for the integrity verification of initialization_vector. A false value of this field indicates either that RawEncryptRequest.initialization_vector_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set RawEncryptRequest.initialization_vector_crc32c but this field is still false, discard the response and perform a limited number of retries. */
-  verifiedInitializationVectorCrc32c?: boolean;
   /** The encrypted data. In the case of AES-GCM, the authentication tag is the tag_length bytes at the end of this field. */
   ciphertext?: string;
-  /** Integrity verification field. A CRC32C checksum of the returned RawEncryptResponse.ciphertext. An integrity check of ciphertext can be performed by computing the CRC32C checksum of ciphertext and comparing your results to this field. Discard the response in case of non-matching checksum values, and perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
-  ciphertextCrc32c?: string;
-  /** Integrity verification field. A flag indicating whether RawEncryptRequest.additional_authenticated_data_crc32c was received by KeyManagementService and used for the integrity verification of additional_authenticated_data. A false value of this field indicates either that // RawEncryptRequest.additional_authenticated_data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set RawEncryptRequest.additional_authenticated_data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
-  verifiedAdditionalAuthenticatedDataCrc32c?: boolean;
   /** The resource name of the CryptoKeyVersion used in encryption. Check this field to verify that the intended resource was used for encryption. */
   name?: string;
+  /** Integrity verification field. A flag indicating whether RawEncryptRequest.additional_authenticated_data_crc32c was received by KeyManagementService and used for the integrity verification of additional_authenticated_data. A false value of this field indicates either that // RawEncryptRequest.additional_authenticated_data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set RawEncryptRequest.additional_authenticated_data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
+  verifiedAdditionalAuthenticatedDataCrc32c?: boolean;
+  /** Integrity verification field. A flag indicating whether RawEncryptRequest.initialization_vector_crc32c was received by KeyManagementService and used for the integrity verification of initialization_vector. A false value of this field indicates either that RawEncryptRequest.initialization_vector_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set RawEncryptRequest.initialization_vector_crc32c but this field is still false, discard the response and perform a limited number of retries. */
+  verifiedInitializationVectorCrc32c?: boolean;
   /** Integrity verification field. A flag indicating whether RawEncryptRequest.plaintext_crc32c was received by KeyManagementService and used for the integrity verification of the plaintext. A false value of this field indicates either that RawEncryptRequest.plaintext_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set RawEncryptRequest.plaintext_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedPlaintextCrc32c?: boolean;
-  /** The ProtectionLevel of the CryptoKeyVersion used in encryption. */
-  protectionLevel?: RawEncryptResponseProtectionLevelEnum;
   /** The initialization vector (IV) generated by the service during encryption. This value must be stored and provided in RawDecryptRequest.initialization_vector at decryption time. */
   initializationVector?: string;
+  /** The ProtectionLevel of the CryptoKeyVersion used in encryption. */
+  protectionLevel?: RawEncryptResponseProtectionLevelEnum;
 }
 export const RawEncryptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    ciphertextCrc32c: S.optional(S.String),
     tagLength: S.optional(S.Number),
     initializationVectorCrc32c: S.optional(S.String),
-    verifiedInitializationVectorCrc32c: S.optional(S.Boolean),
     ciphertext: S.optional(S.String),
-    ciphertextCrc32c: S.optional(S.String),
-    verifiedAdditionalAuthenticatedDataCrc32c: S.optional(S.Boolean),
     name: S.optional(S.String),
+    verifiedAdditionalAuthenticatedDataCrc32c: S.optional(S.Boolean),
+    verifiedInitializationVectorCrc32c: S.optional(S.Boolean),
     verifiedPlaintextCrc32c: S.optional(S.Boolean),
-    protectionLevel: S.optional(RawEncryptResponseProtectionLevelEnum),
     initializationVector: S.optional(S.String),
+    protectionLevel: S.optional(RawEncryptResponseProtectionLevelEnum),
   }),
 ).annotate({
   identifier: "RawEncryptResponse",
 }) as any as S.Schema<RawEncryptResponse>;
 
 /** Request message for KeyManagementService.RestoreCryptoKeyVersion. */
-export type RestoreCryptoKeyVersionRequest = DeleteSingleTenantHsmInstance;
-export const RestoreCryptoKeyVersionRequest = DeleteSingleTenantHsmInstance;
+export type RestoreCryptoKeyVersionRequest = RefreshSingleTenantHsmInstance;
+export const RestoreCryptoKeyVersionRequest = RefreshSingleTenantHsmInstance;
 
 export interface RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The resource name of the CryptoKeyVersion to restore. */
   name: string;
   /** Request body */
-  body?: DeleteSingleTenantHsmInstance;
+  body?: RefreshSingleTenantHsmInstance;
 }
 export const RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       name: S.String.pipe(T.Label()),
-      body: S.optional(DeleteSingleTenantHsmInstance.pipe(T.HttpBody())),
+      body: S.optional(RefreshSingleTenantHsmInstance.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
         method: "POST",
@@ -3925,129 +4302,6 @@ export const SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest =
     identifier: "SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest",
   }) as any as S.Schema<SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest>;
 
-export interface ShowEffectiveAutokeyConfigProjectsRequest {
-  /** Required. Name of the resource project to the show effective Cloud KMS Autokey configuration for. This may be helpful for interrogating the effect of nested folder configurations on a given resource project. */
-  parent: string;
-}
-export const ShowEffectiveAutokeyConfigProjectsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      parent: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1/{+parent}:showEffectiveAutokeyConfig",
-        baseUrl: "https://cloudkms.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "ShowEffectiveAutokeyConfigProjectsRequest",
-  }) as any as S.Schema<ShowEffectiveAutokeyConfigProjectsRequest>;
-
-/** Response message for ShowEffectiveAutokeyConfig. */
-export interface ShowEffectiveAutokeyConfigResponse {
-  /** Name of the key project configured in the resource project's folder ancestry. */
-  keyProject?: string;
-}
-export const ShowEffectiveAutokeyConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    keyProject: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ShowEffectiveAutokeyConfigResponse",
-}) as any as S.Schema<ShowEffectiveAutokeyConfigResponse>;
-
-export interface ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest {
-  /** Required. Specifies the number or id of the project to get the effective KeyAccessJustificationsEnrollmentConfig for. */
-  project: string;
-}
-export const ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      project: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1/{+project}:showEffectiveKeyAccessJustificationsEnrollmentConfig",
-        baseUrl: "https://cloudkms.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier:
-      "ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest",
-  }) as any as S.Schema<ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest>;
-
-/** Represents the configuration of a protection level for a project's Key Access Justifications enrollment. */
-export interface KeyAccessJustificationsEnrollmentConfig {
-  /** Indicates whether the project has KAJ logging enabled. */
-  auditLogging?: boolean;
-  /** Indicates whether the project is enrolled in KAJ policy enforcement. */
-  policyEnforcement?: boolean;
-}
-export const KeyAccessJustificationsEnrollmentConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      auditLogging: S.optional(S.Boolean),
-      policyEnforcement: S.optional(S.Boolean),
-    }),
-).annotate({
-  identifier: "KeyAccessJustificationsEnrollmentConfig",
-}) as any as S.Schema<KeyAccessJustificationsEnrollmentConfig>;
-
-/** Represents a response message for KeyAccessJustificationsConfig.ShowEffectiveKeyAccessJustificationsEnrollmentConfig */
-export interface ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse {
-  /** Contains the effective KeyAccessJustificationsEnrollmentConfig for software keys. */
-  softwareConfig?: KeyAccessJustificationsEnrollmentConfig;
-  /** Contains the effective KeyAccessJustificationsEnrollmentConfig for hardware keys. */
-  hardwareConfig?: KeyAccessJustificationsEnrollmentConfig;
-  /** Contains the effective KeyAccessJustificationsEnrollmentConfig for external keys. */
-  externalConfig?: KeyAccessJustificationsEnrollmentConfig;
-}
-export const ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      softwareConfig: S.optional(KeyAccessJustificationsEnrollmentConfig),
-      hardwareConfig: S.optional(KeyAccessJustificationsEnrollmentConfig),
-      externalConfig: S.optional(KeyAccessJustificationsEnrollmentConfig),
-    }),
-  ).annotate({
-    identifier: "ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse",
-  }) as any as S.Schema<ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse>;
-
-export interface ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest {
-  /** Required. Specifies the number or id of the project to get the effective KeyAccessJustificationsPolicyConfig. In the format of "projects/{|}" */
-  project: string;
-}
-export const ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      project: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1/{+project}:showEffectiveKeyAccessJustificationsPolicyConfig",
-        baseUrl: "https://cloudkms.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier:
-      "ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest",
-  }) as any as S.Schema<ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest>;
-
-/** Represents a response message for KeyAccessJustificationsConfig.ShowEffectiveKeyAccessJustificationsPolicyConfig. */
-export interface ShowEffectiveKeyAccessJustificationsPolicyConfigResponse {
-  /** Contains the effective KeyAccessJustificationsPolicyConfig. */
-  effectiveKajPolicy?: KeyAccessJustificationsPolicyConfig;
-}
-export const ShowEffectiveKeyAccessJustificationsPolicyConfigResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      effectiveKajPolicy: S.optional(KeyAccessJustificationsPolicyConfig),
-    }),
-  ).annotate({
-    identifier: "ShowEffectiveKeyAccessJustificationsPolicyConfigResponse",
-  }) as any as S.Schema<ShowEffectiveKeyAccessJustificationsPolicyConfigResponse>;
-
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
@@ -4185,17 +4439,17 @@ export const TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest =
   }) as any as S.Schema<TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest>;
 
 export interface UpdateAutokeyConfigFoldersRequest {
-  /** Identifier. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig`, `projects/{PROJECT_NUMBER}/autokeyConfig`, or `projects/{PROJECT_ID}/autokeyConfig`. */
-  name: string;
   /** Required. Masks which fields of the AutokeyConfig to update, e.g. `keyProject`. */
   updateMask?: string;
+  /** Identifier. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig`, `projects/{PROJECT_NUMBER}/autokeyConfig`, or `projects/{PROJECT_ID}/autokeyConfig`. */
+  name: string;
   /** Request body */
   body?: AutokeyConfig;
 }
 export const UpdateAutokeyConfigFoldersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(AutokeyConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -4209,17 +4463,17 @@ export const UpdateAutokeyConfigFoldersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAutokeyConfigFoldersRequest>;
 
 export interface UpdateAutokeyConfigProjectsRequest {
-  /** Identifier. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig`, `projects/{PROJECT_NUMBER}/autokeyConfig`, or `projects/{PROJECT_ID}/autokeyConfig`. */
-  name: string;
   /** Required. Masks which fields of the AutokeyConfig to update, e.g. `keyProject`. */
   updateMask?: string;
+  /** Identifier. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig`, `projects/{PROJECT_NUMBER}/autokeyConfig`, or `projects/{PROJECT_ID}/autokeyConfig`. */
+  name: string;
   /** Request body */
   body?: AutokeyConfig;
 }
 export const UpdateAutokeyConfigProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(AutokeyConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -4282,18 +4536,18 @@ export const UpdateKajPolicyConfigFoldersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateKajPolicyConfigFoldersRequest>;
 
 export interface UpdateKajPolicyConfigOrganizationsRequest {
-  /** Identifier. Represents the resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/*\/kajPolicyConfig". */
-  name: string;
   /** Optional. Specifies the list of fields to update. */
   updateMask?: string;
+  /** Identifier. Represents the resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/*\/kajPolicyConfig". */
+  name: string;
   /** Request body */
   body?: KeyAccessJustificationsPolicyConfig;
 }
 export const UpdateKajPolicyConfigOrganizationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(KeyAccessJustificationsPolicyConfig.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -4307,18 +4561,18 @@ export const UpdateKajPolicyConfigOrganizationsRequest =
   }) as any as S.Schema<UpdateKajPolicyConfigOrganizationsRequest>;
 
 export interface UpdateKajPolicyConfigProjectsRequest {
-  /** Identifier. Represents the resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/*\/kajPolicyConfig". */
-  name: string;
   /** Optional. Specifies the list of fields to update. */
   updateMask?: string;
+  /** Identifier. Represents the resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/*\/kajPolicyConfig". */
+  name: string;
   /** Request body */
   body?: KeyAccessJustificationsPolicyConfig;
 }
 export const UpdateKajPolicyConfigProjectsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(KeyAccessJustificationsPolicyConfig.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -4416,7 +4670,11 @@ export const approveProjectsLocationsSingleTenantHsmInstancesProposals: API.Oper
 }));
 
 export type AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Decrypts data that was encrypted with a public key retrieved from GetPublicKey corresponding to a CryptoKeyVersion with CryptoKey.purpose ASYMMETRIC_DECRYPT. */
 export const asymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
   AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
@@ -4433,7 +4691,11 @@ export const asymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersio
 }));
 
 export type AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Signs data using a CryptoKeyVersion with CryptoKey.purpose ASYMMETRIC_SIGN, producing a signature that can be verified with the public key retrieved from GetPublicKey. */
 export const asymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
   AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
@@ -4610,7 +4872,11 @@ export const createProjectsLocationsSingleTenantHsmInstancesProposals: API.Opera
 }));
 
 export type DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Decapsulates data that was encapsulated with a public key retrieved from GetPublicKey corresponding to a CryptoKeyVersion with CryptoKey.purpose KEY_ENCAPSULATION. */
 export const decapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
   DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
@@ -4640,6 +4906,26 @@ export const decryptProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DecryptProjectsLocationsKeyRingsCryptoKeysRequest,
   output: DecryptResponse,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteProjectsLocationsKeyRingsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Permanently deletes the given KeyRing. All child resources of the KeyRing must have been previously deleted using their corresponding Delete operations. The specified key ring will be immediately and permanently deleted upon calling this method. This action cannot be undone. Note: the key ring and its metadata will be remembered by KeyManagementService to prevent re-use of the key ring's resource name. */
+export const deleteProjectsLocationsKeyRings: API.OperationMethod<
+  DeleteProjectsLocationsKeyRingsRequest,
+  Operation,
+  DeleteProjectsLocationsKeyRingsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsKeyRingsRequest,
+  output: Operation,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4765,6 +5051,25 @@ export const executeProjectsLocationsSingleTenantHsmInstancesProposals: API.Oper
   retry: Retry.Retry,
 }));
 
+export type ExportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Exports a CryptoKeyVersion with a trusted key. The CryptoKeyVersion must have trusted_wrapping_enabled set to true. The CryptoKeyVersion of the [wrapping_key] must have the AES_WRAPPING purpose. The [wrapping_key] must have the AES_256_KWP algorithm. */
+export const exportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  ExportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  ExportTrustedKeyWrappedCryptoKeyVersionResponse,
+  ExportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input:
+    ExportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  output: ExportTrustedKeyWrappedCryptoKeyVersionResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GenerateRandomBytesProjectsLocationsError =
   | NotFound
   | Forbidden
@@ -4810,6 +5115,78 @@ export const getAutokeyConfigProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAutokeyConfigProjectsRequest,
   output: AutokeyConfig,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEffectiveAutokeyConfigFoldersError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Returns the effective Cloud KMS Autokey configuration for a given project or folder. Note on permissions: - If called on a project (`projects/{project}`), requires `cloudkms.projects.showEffectiveAutokeyConfig`. - If called on a folder (`folders/{folder}`), requires `cloudkms.folders.showEffectiveAutokeyConfig`. */
+export const getEffectiveAutokeyConfigFolders: API.OperationMethod<
+  GetEffectiveAutokeyConfigFoldersRequest,
+  ShowEffectiveAutokeyConfigResponse,
+  GetEffectiveAutokeyConfigFoldersError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEffectiveAutokeyConfigFoldersRequest,
+  output: ShowEffectiveAutokeyConfigResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEffectiveAutokeyConfigProjectsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Returns the effective Cloud KMS Autokey configuration for a given project or folder. Note on permissions: - If called on a project (`projects/{project}`), requires `cloudkms.projects.showEffectiveAutokeyConfig`. - If called on a folder (`folders/{folder}`), requires `cloudkms.folders.showEffectiveAutokeyConfig`. */
+export const getEffectiveAutokeyConfigProjects: API.OperationMethod<
+  GetEffectiveAutokeyConfigProjectsRequest,
+  ShowEffectiveAutokeyConfigResponse,
+  GetEffectiveAutokeyConfigProjectsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEffectiveAutokeyConfigProjectsRequest,
+  output: ShowEffectiveAutokeyConfigResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEffectiveKeyAccessJustificationsEnrollmentConfigProjectsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Returns the KeyAccessJustificationsEnrollmentConfig of the resource closest to the given project in hierarchy. */
+export const getEffectiveKeyAccessJustificationsEnrollmentConfigProjects: API.OperationMethod<
+  GetEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest,
+  ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse,
+  GetEffectiveKeyAccessJustificationsEnrollmentConfigProjectsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest,
+  output: ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEffectiveKeyAccessJustificationsPolicyConfigProjectsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Returns the KeyAccessJustificationsPolicyConfig of the resource closest to the given project in hierarchy. */
+export const getEffectiveKeyAccessJustificationsPolicyConfigProjects: API.OperationMethod<
+  GetEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest,
+  ShowEffectiveKeyAccessJustificationsPolicyConfigResponse,
+  GetEffectiveKeyAccessJustificationsPolicyConfigProjectsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest,
+  output: ShowEffectiveKeyAccessJustificationsPolicyConfigResponse,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5167,7 +5544,9 @@ export const getProjectsLocationsSingleTenantHsmInstancesProposals: API.Operatio
 }));
 
 export type GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 /** Returns the public key for the given CryptoKeyVersion. The CryptoKey.purpose must be ASYMMETRIC_SIGN or ASYMMETRIC_DECRYPT. */
 export const getPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
   GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
@@ -5197,6 +5576,27 @@ export const importProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  output: CryptoKeyVersion,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Import wrapped key material into a CryptoKeyVersion with a trusted key. All requests must specify a CryptoKey. If a CryptoKeyVersion is additionally specified in the request, key material will be reimported into that version. Otherwise, a new version will be created, and will be assigned the next sequential id within the CryptoKey. The CryptoKeyVersion will have trusted_wrapping_enabled set to true. */
+export const importTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
+  ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
+  CryptoKeyVersion,
+  ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input:
+    ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: CryptoKeyVersion,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5451,7 +5851,11 @@ export const macSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Op
 }));
 
 export type MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Verifies MAC tag using a CryptoKeyVersion with CryptoKey.purpose MAC, and returns a response that indicates whether or not the verification was successful. */
 export const macVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
   MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
@@ -5527,7 +5931,11 @@ export const patchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Oper
 }));
 
 export type RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Decrypts data that was originally encrypted using a raw cryptographic mechanism. The CryptoKey.purpose must be RAW_ENCRYPT_DECRYPT. */
 export const rawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
   RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
@@ -5543,7 +5951,11 @@ export const rawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API
 }));
 
 export type RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Encrypts data using portable cryptographic primitives. Most users should choose Encrypt and Decrypt rather than their raw counterparts. The CryptoKey.purpose must be RAW_ENCRYPT_DECRYPT. */
 export const rawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<
   RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
@@ -5674,60 +6086,6 @@ export const setIamPolicyProjectsLocationsKeyRingsImportJobs: API.OperationMetho
   input: SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest,
   output: Policy,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ShowEffectiveAutokeyConfigProjectsError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** Returns the effective Cloud KMS Autokey configuration for a given project. */
-export const showEffectiveAutokeyConfigProjects: API.OperationMethod<
-  ShowEffectiveAutokeyConfigProjectsRequest,
-  ShowEffectiveAutokeyConfigResponse,
-  ShowEffectiveAutokeyConfigProjectsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ShowEffectiveAutokeyConfigProjectsRequest,
-  output: ShowEffectiveAutokeyConfigResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** Returns the KeyAccessJustificationsEnrollmentConfig of the resource closest to the given project in hierarchy. */
-export const showEffectiveKeyAccessJustificationsEnrollmentConfigProjects: API.OperationMethod<
-  ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest,
-  ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse,
-  ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest,
-  output: ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** Returns the KeyAccessJustificationsPolicyConfig of the resource closest to the given project in hierarchy. */
-export const showEffectiveKeyAccessJustificationsPolicyConfigProjects: API.OperationMethod<
-  ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest,
-  ShowEffectiveKeyAccessJustificationsPolicyConfigResponse,
-  ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest,
-  output: ShowEffectiveKeyAccessJustificationsPolicyConfigResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

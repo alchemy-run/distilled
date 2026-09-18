@@ -65,24 +65,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type TrustTrustTypeEnum =
-  | "TRUST_TYPE_UNSPECIFIED"
-  | "FOREST"
-  | "EXTERNAL";
-export const TrustTrustTypeEnum = /*@__PURE__*/ S.String;
-
-export type TrustTrustDirectionEnum =
-  | "TRUST_DIRECTION_UNSPECIFIED"
-  | "INBOUND"
-  | "OUTBOUND"
-  | "BIDIRECTIONAL";
-export const TrustTrustDirectionEnum = /*@__PURE__*/ S.String;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
-
 export type TrustStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -90,46 +72,64 @@ export type TrustStateEnum =
   | "DELETING"
   | "CONNECTED"
   | "DISCONNECTED";
-export const TrustStateEnum = /*@__PURE__*/ S.String;
+export const TrustStateEnum = S.String;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
+export type TrustTrustTypeEnum =
+  | "TRUST_TYPE_UNSPECIFIED"
+  | "FOREST"
+  | "EXTERNAL";
+export const TrustTrustTypeEnum = S.String;
+
+export type TrustTrustDirectionEnum =
+  | "TRUST_DIRECTION_UNSPECIFIED"
+  | "INBOUND"
+  | "OUTBOUND"
+  | "BIDIRECTIONAL";
+export const TrustTrustDirectionEnum = S.String;
 
 /** Represents a relationship between two domains. This allows a controller in one domain to authenticate a user in another domain. */
 export interface Trust {
-  /** The type of trust represented by the trust resource. */
-  trustType?: TrustTrustTypeEnum | (string & {});
-  /** The trust direction, which decides if the current domain is trusted, trusting, or both. */
-  trustDirection?: TrustTrustDirectionEnum | (string & {});
+  /** Output only. The current state of the trust. */
+  state?: TrustStateEnum | (string & {});
+  /** The trust authentication type, which decides whether the trusted side has forest/domain wide access or selective access to an approved set of resources. */
+  selectiveAuthentication?: boolean;
   /** The target DNS server IP addresses which can resolve the remote domain involved in the trust. */
   targetDnsIpAddresses?: StringList;
   /** Input only. The trust secret used for the handshake with the target domain. It will not be stored. */
   trustHandshakeSecret?: string;
-  /** The fully qualified target domain name which will be in trust with the current domain. */
-  targetDomainName?: string;
-  /** The trust authentication type, which decides whether the trusted side has forest/domain wide access or selective access to an approved set of resources. */
-  selectiveAuthentication?: boolean;
-  /** Output only. The current state of the trust. */
-  state?: TrustStateEnum | (string & {});
   /** Output only. The last update time. */
   updateTime?: string;
+  /** The fully qualified target domain name which will be in trust with the current domain. */
+  targetDomainName?: string;
   /** Output only. Additional information about the current state of the trust, if available. */
   stateDescription?: string;
-  /** Output only. The last heartbeat time when the trust was known to be connected. */
-  lastTrustHeartbeatTime?: string;
+  /** The type of trust represented by the trust resource. */
+  trustType?: TrustTrustTypeEnum | (string & {});
+  /** The trust direction, which decides if the current domain is trusted, trusting, or both. */
+  trustDirection?: TrustTrustDirectionEnum | (string & {});
   /** Output only. The time the instance was created. */
   createTime?: string;
+  /** Output only. The last heartbeat time when the trust was known to be connected. */
+  lastTrustHeartbeatTime?: string;
 }
 export const Trust = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    trustType: S.optional(TrustTrustTypeEnum),
-    trustDirection: S.optional(TrustTrustDirectionEnum),
+    state: S.optional(TrustStateEnum),
+    selectiveAuthentication: S.optional(S.Boolean),
     targetDnsIpAddresses: S.optional(StringList),
     trustHandshakeSecret: S.optional(S.String),
-    targetDomainName: S.optional(S.String),
-    selectiveAuthentication: S.optional(S.Boolean),
-    state: S.optional(TrustStateEnum),
     updateTime: S.optional(S.String),
+    targetDomainName: S.optional(S.String),
     stateDescription: S.optional(S.String),
-    lastTrustHeartbeatTime: S.optional(S.String),
+    trustType: S.optional(TrustTrustTypeEnum),
+    trustDirection: S.optional(TrustTrustDirectionEnum),
     createTime: S.optional(S.String),
+    lastTrustHeartbeatTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Trust" }) as any as S.Schema<Trust>;
 
@@ -181,18 +181,18 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(DocumentMapList),
     message: S.optional(S.String),
     code: S.optional(S.Number),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
@@ -200,22 +200,22 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
+    done: S.optional(S.Boolean),
+    response: S.optional(DocumentMap),
     error: S.optional(Status),
     metadata: S.optional(DocumentMap),
-    response: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -286,14 +286,13 @@ export type CheckMigrationPermissionResponseStateEnum =
   | "DISABLED"
   | "ENABLED"
   | "NEEDS_MAINTENANCE";
-export const CheckMigrationPermissionResponseStateEnum = /*@__PURE__*/ S.String;
+export const CheckMigrationPermissionResponseStateEnum = S.String;
 
 export type OnPremDomainSIDDetailsSidFilteringStateEnum =
   | "SID_FILTERING_STATE_UNSPECIFIED"
   | "ENABLED"
   | "DISABLED";
-export const OnPremDomainSIDDetailsSidFilteringStateEnum =
-  /*@__PURE__*/ S.String;
+export const OnPremDomainSIDDetailsSidFilteringStateEnum = S.String;
 
 /** OnPremDomainDetails is the message which contains details of on-prem domain which is trusted and needs to be migrated. */
 export interface OnPremDomainSIDDetails {
@@ -332,17 +331,6 @@ export const CheckMigrationPermissionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CheckMigrationPermissionResponse",
 }) as any as S.Schema<CheckMigrationPermissionResponse>;
 
-export type DomainStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "READY"
-  | "UPDATING"
-  | "DELETING"
-  | "REPAIRING"
-  | "PERFORMING_MAINTENANCE"
-  | "UNAVAILABLE";
-export const DomainStateEnum = /*@__PURE__*/ S.String;
-
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -354,50 +342,61 @@ export const TrustList = /*@__PURE__*/ S.Array(
   Trust,
 ) as any as S.Schema<TrustList>;
 
+export type DomainStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "READY"
+  | "UPDATING"
+  | "DELETING"
+  | "REPAIRING"
+  | "PERFORMING_MAINTENANCE"
+  | "UNAVAILABLE";
+export const DomainStateEnum = S.String;
+
 /** Represents a managed Microsoft Active Directory domain. If the domain is being changed, it will be placed into the UPDATING state, which indicates that the resource is being reconciled. At this point, Get will reflect an intermediate state. */
 export interface Domain {
-  /** Output only. The fully-qualified domain name of the exposed domain used by clients to connect to the service. Similar to what would be chosen for an Active Directory set up on an internal network. */
-  fqdn?: string;
-  /** Output only. Additional information about the current status of this domain, if available. */
-  statusMessage?: string;
-  /** Required. Locations where domain needs to be provisioned. regions e.g. us-west1 or us-east4 Service supports up to 4 locations at once. Each location will use a /26 block. */
-  locations?: StringList;
-  /** Output only. The current state of this domain. */
-  state?: DomainStateEnum | (string & {});
-  /** Output only. The last update time. */
-  updateTime?: string;
-  /** Output only. The time the instance was created. */
-  createTime?: string;
-  /** Optional. Configuration for audit logs. True if audit logs are enabled, else false. Default is audit logs disabled. */
-  auditLogsEnabled?: boolean;
-  /** Optional. The full names of the Google Compute Engine [networks](/compute/docs/networks-and-firewalls#networks) the domain instance is connected to. Networks can be added using UpdateDomain. The domain is only available on networks listed in `authorized_networks`. If CIDR subnets overlap between networks, domain creation will fail. */
-  authorizedNetworks?: StringList;
   /** Optional. Resource labels that can contain user-provided metadata. */
   labels?: StringMap;
-  /** Optional. The name of delegated administrator account used to perform Active Directory operations. If not specified, `setupadmin` will be used. */
-  admin?: string;
-  /** Required. The CIDR range of internal addresses that are reserved for this domain. Reserved networks must be /24 or larger. Ranges must be unique and non-overlapping with existing subnets in [Domain].[authorized_networks]. */
-  reservedIpRange?: string;
+  /** Output only. The time the instance was created. */
+  createTime?: string;
   /** Output only. The current trusts associated with the domain. */
   trusts?: TrustList;
+  /** Optional. The name of delegated administrator account used to perform Active Directory operations. If not specified, `setupadmin` will be used. */
+  admin?: string;
   /** Output only. The unique name of the domain using the form: `projects/{project_id}/locations/global/domains/{domain_name}`. */
   name?: string;
+  /** Output only. The last update time. */
+  updateTime?: string;
+  /** Optional. The full names of the Google Compute Engine [networks](/compute/docs/networks-and-firewalls#networks) the domain instance is connected to. Networks can be added using UpdateDomain. The domain is only available on networks listed in `authorized_networks`. If CIDR subnets overlap between networks, domain creation will fail. */
+  authorizedNetworks?: StringList;
+  /** Required. Locations where domain needs to be provisioned. regions e.g. us-west1 or us-east4 Service supports up to 4 locations at once. Each location will use a /26 block. */
+  locations?: StringList;
+  /** Output only. Additional information about the current status of this domain, if available. */
+  statusMessage?: string;
+  /** Required. The CIDR range of internal addresses that are reserved for this domain. Reserved networks must be /24 or larger. Ranges must be unique and non-overlapping with existing subnets in [Domain].[authorized_networks]. */
+  reservedIpRange?: string;
+  /** Optional. Configuration for audit logs. True if audit logs are enabled, else false. Default is audit logs disabled. */
+  auditLogsEnabled?: boolean;
+  /** Output only. The fully-qualified domain name of the exposed domain used by clients to connect to the service. Similar to what would be chosen for an Active Directory set up on an internal network. */
+  fqdn?: string;
+  /** Output only. The current state of this domain. */
+  state?: DomainStateEnum | (string & {});
 }
 export const Domain = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fqdn: S.optional(S.String),
-    statusMessage: S.optional(S.String),
-    locations: S.optional(StringList),
-    state: S.optional(DomainStateEnum),
-    updateTime: S.optional(S.String),
-    createTime: S.optional(S.String),
-    auditLogsEnabled: S.optional(S.Boolean),
-    authorizedNetworks: S.optional(StringList),
     labels: S.optional(StringMap),
-    admin: S.optional(S.String),
-    reservedIpRange: S.optional(S.String),
+    createTime: S.optional(S.String),
     trusts: S.optional(TrustList),
+    admin: S.optional(S.String),
     name: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    authorizedNetworks: S.optional(StringList),
+    locations: S.optional(StringList),
+    statusMessage: S.optional(S.String),
+    reservedIpRange: S.optional(S.String),
+    auditLogsEnabled: S.optional(S.Boolean),
+    fqdn: S.optional(S.String),
+    state: S.optional(DomainStateEnum),
   }),
 ).annotate({ identifier: "Domain" }) as any as S.Schema<Domain>;
 
@@ -432,44 +431,44 @@ export type BackupStateEnum =
   | "ACTIVE"
   | "FAILED"
   | "DELETING";
-export const BackupStateEnum = /*@__PURE__*/ S.String;
+export const BackupStateEnum = S.String;
 
 export type BackupTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "ON_DEMAND"
   | "SCHEDULED"
   | "SCHEMA_EXTENSION";
-export const BackupTypeEnum = /*@__PURE__*/ S.String;
+export const BackupTypeEnum = S.String;
 
 /** Represents a Managed Microsoft Identities backup. */
 export interface Backup {
+  /** Output only. The time the backups was created. */
+  createTime?: string;
+  /** Optional. A short description of the backup. */
+  description?: string;
+  /** Output only. Last update time. */
+  updateTime?: string;
   /** Output only. The current state of the backup. */
   state?: BackupStateEnum | (string & {});
   /** Optional. Resource labels to represent user provided metadata. */
   labels?: StringMap;
   /** Output only. Additional information about the current status of this backup, if available. */
   statusMessage?: string;
-  /** Optional. A short description of the backup. */
-  description?: string;
   /** Output only. The unique name of the Backup in the form of projects/{project_id}/locations/global/domains/{domain_name}/backups/{name} */
   name?: string;
-  /** Output only. The time the backups was created. */
-  createTime?: string;
   /** Output only. Indicates whether it’s an on-demand backup or scheduled. */
   type?: BackupTypeEnum | (string & {});
-  /** Output only. Last update time. */
-  updateTime?: string;
 }
 export const Backup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    createTime: S.optional(S.String),
+    description: S.optional(S.String),
+    updateTime: S.optional(S.String),
     state: S.optional(BackupStateEnum),
     labels: S.optional(StringMap),
     statusMessage: S.optional(S.String),
-    description: S.optional(S.String),
     name: S.optional(S.String),
-    createTime: S.optional(S.String),
     type: S.optional(BackupTypeEnum),
-    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Backup" }) as any as S.Schema<Backup>;
 
@@ -504,37 +503,37 @@ export type PeeringStateEnum =
   | "CONNECTED"
   | "DISCONNECTED"
   | "DELETING";
-export const PeeringStateEnum = /*@__PURE__*/ S.String;
+export const PeeringStateEnum = S.String;
 
 /** Represents a Managed Microsoft Identities Peering. */
 export interface Peering {
-  /** Output only. Last update time. */
-  updateTime?: string;
-  /** Output only. Unique name of the peering in this scope including projects and location using the form: `projects/{project_id}/locations/global/peerings/{peering_id}`. */
-  name?: string;
-  /** Output only. The time the instance was created. */
-  createTime?: string;
   /** Required. Full domain resource path for the Managed AD Domain involved in peering. The resource path should be in the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   domainResource?: string;
-  /** Optional. Resource labels to represent user provided metadata. */
-  labels?: StringMap;
-  /** Output only. Additional information about the current status of this peering, if available. */
-  statusMessage?: string;
-  /** Required. The full names of the Google Compute Engine [networks](/compute/docs/networks-and-firewalls#networks) to which the instance is connected. Caller needs to make sure that CIDR subnets do not overlap between networks, else peering creation will fail. */
-  authorizedNetwork?: string;
   /** Output only. The current state of this Peering. */
   state?: PeeringStateEnum | (string & {});
+  /** Output only. Additional information about the current status of this peering, if available. */
+  statusMessage?: string;
+  /** Optional. Resource labels to represent user provided metadata. */
+  labels?: StringMap;
+  /** Output only. Unique name of the peering in this scope including projects and location using the form: `projects/{project_id}/locations/global/peerings/{peering_id}`. */
+  name?: string;
+  /** Output only. Last update time. */
+  updateTime?: string;
+  /** Required. The full names of the Google Compute Engine [networks](/compute/docs/networks-and-firewalls#networks) to which the instance is connected. Caller needs to make sure that CIDR subnets do not overlap between networks, else peering creation will fail. */
+  authorizedNetwork?: string;
+  /** Output only. The time the instance was created. */
+  createTime?: string;
 }
 export const Peering = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateTime: S.optional(S.String),
-    name: S.optional(S.String),
-    createTime: S.optional(S.String),
     domainResource: S.optional(S.String),
-    labels: S.optional(StringMap),
-    statusMessage: S.optional(S.String),
-    authorizedNetwork: S.optional(S.String),
     state: S.optional(PeeringStateEnum),
+    statusMessage: S.optional(S.String),
+    labels: S.optional(StringMap),
+    name: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    authorizedNetwork: S.optional(S.String),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Peering" }) as any as S.Schema<Peering>;
 
@@ -702,18 +701,18 @@ export const DisableMigrationProjectsLocationsGlobalDomainsRequest =
 
 /** DomainJoinMachineRequest is the request message for DomainJoinMachine method */
 export interface DomainJoinMachineRequest {
-  /** Optional. OU name to which the VM needs to be domain joined. If the field is not provided, the VM is joined to the default OU which is created. The default OU for the domain join api is created as GCE Instances under the Cloud OU. Example - OU=GCE Instances,OU=Cloud,DC=ad,DC=test,DC=com If the field is provided, then the custom OU is searched for under GCE Instances OU. Example - if ou_name=test_ou then the VM is domain joined to the following OU: OU=test_ou,OU=GCE Instances,OU=Cloud,DC=ad,DC=test,DC=com if present. If OU is not present under GCE Instances, then error is returned. */
-  ouName?: string;
   /** Required. Full instance id token of compute engine VM to verify instance identity. More about this: https://cloud.google.com/compute/docs/instances/verifying-instance-identity#request_signature */
   vmIdToken?: string;
   /** Optional. force if True, forces domain join even if the computer account already exists. */
   force?: boolean;
+  /** Optional. OU name to which the VM needs to be domain joined. If the field is not provided, the VM is joined to the default OU which is created. The default OU for the domain join api is created as GCE Instances under the Cloud OU. Example - OU=GCE Instances,OU=Cloud,DC=ad,DC=test,DC=com If the field is provided, then the custom OU is searched for under GCE Instances OU. Example - if ou_name=test_ou then the VM is domain joined to the following OU: OU=test_ou,OU=GCE Instances,OU=Cloud,DC=ad,DC=test,DC=com if present. If OU is not present under GCE Instances, then error is returned. */
+  ouName?: string;
 }
 export const DomainJoinMachineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ouName: S.optional(S.String),
     vmIdToken: S.optional(S.String),
     force: S.optional(S.Boolean),
+    ouName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DomainJoinMachineRequest",
@@ -756,15 +755,15 @@ export const DomainJoinMachineResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** OnPremDomainDetails is the message which contains details of on-prem domain which is trusted and needs to be migrated. */
 export interface OnPremDomainDetails {
-  /** Required. FQDN of the on-prem domain being migrated. */
-  domainName?: string;
   /** Optional. Option to disable SID filtering. */
   disableSidFiltering?: boolean;
+  /** Required. FQDN of the on-prem domain being migrated. */
+  domainName?: string;
 }
 export const OnPremDomainDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domainName: S.optional(S.String),
     disableSidFiltering: S.optional(S.Boolean),
+    domainName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "OnPremDomainDetails",
@@ -815,17 +814,17 @@ export const EnableMigrationProjectsLocationsGlobalDomainsRequest =
 
 /** ExtendSchemaRequest is the request message for ExtendSchema method. */
 export interface ExtendSchemaRequest {
-  /** File stored in Cloud Storage bucket and represented in the form projects/{project_id}/buckets/{bucket_name}/objects/{object_name} File should be in the same project as the domain. */
-  gcsPath?: string;
   /** File uploaded as a byte stream input. */
   fileContents?: string;
+  /** File stored in Cloud Storage bucket and represented in the form projects/{project_id}/buckets/{bucket_name}/objects/{object_name} File should be in the same project as the domain. */
+  gcsPath?: string;
   /** Required. Description for Schema Change. */
   description?: string;
 }
 export const ExtendSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gcsPath: S.optional(S.String),
     fileContents: S.optional(S.String),
+    gcsPath: S.optional(S.String),
     description: S.optional(S.String),
   }),
 ).annotate({
@@ -855,16 +854,16 @@ export const ExtendSchemaProjectsLocationsGlobalDomainsRequest =
   }) as any as S.Schema<ExtendSchemaProjectsLocationsGlobalDomainsRequest>;
 
 export interface GetIamPolicyProjectsLocationsGlobalDomainsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsGlobalDomainsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      resource: S.String.pipe(T.Label()),
       "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -880,36 +879,36 @@ export const GetIamPolicyProjectsLocationsGlobalDomainsRequest =
 export interface Expr {
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     description: S.optional(S.String),
-    location: S.optional(S.String),
-    expression: S.optional(S.String),
     title: S.optional(S.String),
+    expression: S.optional(S.String),
+    location: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
   members?: StringList;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
 }
 export const Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    condition: S.optional(Expr),
-    role: S.optional(S.String),
     members: S.optional(StringList),
+    role: S.optional(S.String),
+    condition: S.optional(Expr),
   }),
 ).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
 
@@ -958,16 +957,16 @@ export const GetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest =
   }) as any as S.Schema<GetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest>;
 
 export interface GetIamPolicyProjectsLocationsGlobalPeeringsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsGlobalPeeringsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      resource: S.String.pipe(T.Label()),
       "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1000,24 +999,24 @@ export const GetLdapssettingsProjectsLocationsGlobalDomainsRequest =
 
 /** Certificate used to configure LDAPS. */
 export interface Certificate {
-  /** The certificate expire time. */
-  expireTime?: string;
-  /** The certificate subject. */
-  subject?: string;
   /** The additional hostnames for the domain. */
   subjectAlternativeName?: StringList;
   /** The certificate thumbprint which uniquely identifies the certificate. */
   thumbprint?: string;
+  /** The certificate expire time. */
+  expireTime?: string;
   /** The issuer of this certificate. */
   issuingCertificate?: Certificate;
+  /** The certificate subject. */
+  subject?: string;
 }
 export const Certificate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expireTime: S.optional(S.String),
-    subject: S.optional(S.String),
     subjectAlternativeName: S.optional(StringList),
     thumbprint: S.optional(S.String),
+    expireTime: S.optional(S.String),
     issuingCertificate: S.optional(Certificate),
+    subject: S.optional(S.String),
   }),
 ).annotate({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
 
@@ -1026,31 +1025,31 @@ export type LDAPSSettingsStateEnum =
   | "UPDATING"
   | "ACTIVE"
   | "FAILED";
-export const LDAPSSettingsStateEnum = /*@__PURE__*/ S.String;
+export const LDAPSSettingsStateEnum = S.String;
 
 /** LDAPSSettings represents the ldaps settings for domain resource. LDAP is the Lightweight Directory Access Protocol, defined in https://tools.ietf.org/html/rfc4511. The settings object configures LDAP over SSL/TLS, whether it is over port 636 or the StartTLS operation. If LDAPSSettings is being changed, it will be placed into the UPDATING state, which indicates that the resource is being reconciled. At this point, Get will reflect an intermediate state. */
 export interface LDAPSSettings {
+  /** Input only. The password used to encrypt the uploaded pfx certificate. */
+  certificatePassword?: string;
   /** Output only. The certificate used to configure LDAPS. Certificates can be chained with a maximum length of 15. */
   certificate?: Certificate;
   /** Output only. Last update time. */
   updateTime?: string;
-  /** Input only. The password used to encrypt the uploaded pfx certificate. */
-  certificatePassword?: string;
   /** The resource name of the LDAPS settings. Uses the form: `projects/{project}/locations/{location}/domains/{domain}`. */
   name?: string;
-  /** Input only. The uploaded PKCS12-formatted certificate to configure LDAPS with. It will enable the domain controllers in this domain to accept LDAPS connections (either LDAP over SSL/TLS or the StartTLS operation). A valid certificate chain must form a valid x.509 certificate chain (or be comprised of a single self-signed certificate. It must be encrypted with either: 1) PBES2 + PBKDF2 + AES256 encryption and SHA256 PRF; or 2) pbeWithSHA1And3-KeyTripleDES-CBC Private key must be included for the leaf / single self-signed certificate. Note: For a fqdn your-example-domain.com, the wildcard fqdn is *.your-example-domain.com. Specifically the leaf certificate must have: - Either a blank subject or a subject with CN matching the wildcard fqdn. - Exactly two SANs - the fqdn and wildcard fqdn. - Encipherment and digital key signature key usages. - Server authentication extended key usage (OID=1.3.6.1.5.5.7.3.1) - Private key must be in one of the following formats: RSA, ECDSA, ED25519. - Private key must have appropriate key length: 2048 for RSA, 256 for ECDSA - Signature algorithm of the leaf certificate cannot be MD2, MD5 or SHA1. */
-  certificatePfx?: string;
   /** Output only. The current state of this LDAPS settings. */
   state?: LDAPSSettingsStateEnum | (string & {});
+  /** Input only. The uploaded PKCS12-formatted certificate to configure LDAPS with. It will enable the domain controllers in this domain to accept LDAPS connections (either LDAP over SSL/TLS or the StartTLS operation). A valid certificate chain must form a valid x.509 certificate chain (or be comprised of a single self-signed certificate. It must be encrypted with either: 1) PBES2 + PBKDF2 + AES256 encryption and SHA256 PRF; or 2) pbeWithSHA1And3-KeyTripleDES-CBC Private key must be included for the leaf / single self-signed certificate. Note: For a fqdn your-example-domain.com, the wildcard fqdn is *.your-example-domain.com. Specifically the leaf certificate must have: - Either a blank subject or a subject with CN matching the wildcard fqdn. - Exactly two SANs - the fqdn and wildcard fqdn. - Encipherment and digital key signature key usages. - Server authentication extended key usage (OID=1.3.6.1.5.5.7.3.1) - Private key must be in one of the following formats: RSA, ECDSA, ED25519. - Private key must have appropriate key length: 2048 for RSA, 256 for ECDSA - Signature algorithm of the leaf certificate cannot be MD2, MD5 or SHA1. */
+  certificatePfx?: string;
 }
 export const LDAPSSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    certificatePassword: S.optional(S.String),
     certificate: S.optional(Certificate),
     updateTime: S.optional(S.String),
-    certificatePassword: S.optional(S.String),
     name: S.optional(S.String),
-    certificatePfx: S.optional(S.String),
     state: S.optional(LDAPSSettingsStateEnum),
+    certificatePfx: S.optional(S.String),
   }),
 ).annotate({ identifier: "LDAPSSettings" }) as any as S.Schema<LDAPSSettings>;
 
@@ -1074,23 +1073,23 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     locationId: S.optional(S.String),
     displayName: S.optional(S.String),
     labels: S.optional(StringMap),
+    name: S.optional(S.String),
     metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
@@ -1157,27 +1156,27 @@ export type SqlIntegrationStateEnum =
   | "CREATING"
   | "DELETING"
   | "READY";
-export const SqlIntegrationStateEnum = /*@__PURE__*/ S.String;
+export const SqlIntegrationStateEnum = S.String;
 
 /** Represents the Sql instance integrated with AD. */
 export interface SqlIntegration {
-  /** The full resource name of an integrated sql instance */
-  sqlInstance?: string;
-  /** Output only. The current state of the sql integration. */
-  state?: SqlIntegrationStateEnum;
-  /** Output only. The time sql integration was updated. */
-  updateTime?: string;
   /** The unique name of the sql integration in the form of `projects/{project_id}/locations/global/domains/{domain_name}/sqlIntegrations/{sql_integration}` */
   name?: string;
+  /** Output only. The current state of the sql integration. */
+  state?: SqlIntegrationStateEnum;
+  /** The full resource name of an integrated sql instance */
+  sqlInstance?: string;
+  /** Output only. The time sql integration was updated. */
+  updateTime?: string;
   /** Output only. The time sql integration was created. */
   createTime?: string;
 }
 export const SqlIntegration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sqlInstance: S.optional(S.String),
-    state: S.optional(SqlIntegrationStateEnum),
-    updateTime: S.optional(S.String),
     name: S.optional(S.String),
+    state: S.optional(SqlIntegrationStateEnum),
+    sqlInstance: S.optional(S.String),
+    updateTime: S.optional(S.String),
     createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "SqlIntegration" }) as any as S.Schema<SqlIntegration>;
@@ -1221,24 +1220,24 @@ export const GetProjectsLocationsGlobalPeeringsRequest =
   }) as any as S.Schema<GetProjectsLocationsGlobalPeeringsRequest>;
 
 export interface ListProjectsLocationsRequest {
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1272,25 +1271,25 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsGlobalDomainsRequest {
+  /** Optional. Specifies the ordering of results. See [Sorting order](https://cloud.google.com/apis/design/design_patterns#sorting_order) for more information. */
+  orderBy?: string;
+  /** Optional. A filter specifying constraints of a list operation. For example, `Domain.fqdn="mydomain.myorginization"`. */
+  filter?: string;
   /** Optional. The maximum number of items to return. If not specified, a default value of 1000 will be used. Regardless of the page_size value, the response may include a partial list. Callers should rely on a response's next_page_token to determine if there are additional results to list. */
   pageSize?: number;
   /** The `next_page_token` value returned from a previous ListDomainsRequest request, if any. */
   pageToken?: string;
-  /** Optional. A filter specifying constraints of a list operation. For example, `Domain.fqdn="mydomain.myorginization"`. */
-  filter?: string;
   /** Required. The resource name of the domain location using the form: `projects/{project_id}/locations/global` */
   parent: string;
-  /** Optional. Specifies the ordering of results. See [Sorting order](https://cloud.google.com/apis/design/design_patterns#sorting_order) for more information. */
-  orderBy?: string;
 }
 export const ListProjectsLocationsGlobalDomainsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1309,17 +1308,17 @@ export const DomainList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListDomains */
 export interface ListDomainsResponse {
-  /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
   /** A list of Managed Identities Service domains in the project. */
   domains?: DomainList;
+  /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string;
   /** A list of locations that could not be reached. */
   unreachable?: StringList;
 }
 export const ListDomainsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     domains: S.optional(DomainList),
+    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
   }),
 ).annotate({
@@ -1327,25 +1326,25 @@ export const ListDomainsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListDomainsResponse>;
 
 export interface ListProjectsLocationsGlobalDomainsBackupsRequest {
-  /** Optional. Filter specifying constraints of a list operation. */
-  filter?: string;
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   parent: string;
-  /** Optional. Specifies the ordering of results following syntax at https://cloud.google.com/apis/design/design_patterns#sorting_order. */
-  orderBy?: string;
   /** Optional. The maximum number of items to return. If not specified, a default value of 1000 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
   pageSize?: number;
   /** Optional. The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
+  /** Optional. Filter specifying constraints of a list operation. */
+  filter?: string;
+  /** Optional. Specifies the ordering of results following syntax at https://cloud.google.com/apis/design/design_patterns#sorting_order. */
+  orderBy?: string;
 }
 export const ListProjectsLocationsGlobalDomainsBackupsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      orderBy: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1364,30 +1363,30 @@ export const BackupList = /*@__PURE__*/ S.Array(
 
 /** ListBackupsResponse is the response message for ListBackups method. */
 export interface ListBackupsResponse {
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
-  /** A list of Cloud AD backups in the domain. */
-  backups?: BackupList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** A list of Cloud AD backups in the domain. */
+  backups?: BackupList;
+  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string;
 }
 export const ListBackupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    backups: S.optional(BackupList),
     unreachable: S.optional(StringList),
+    backups: S.optional(BackupList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListBackupsResponse",
 }) as any as S.Schema<ListBackupsResponse>;
 
 export interface ListProjectsLocationsGlobalDomainsSqlIntegrationsRequest {
-  /** Required. The resource name of the SqlIntegrations using the form: `projects/{project_id}/locations/global/domains/*` */
-  parent: string;
-  /** Optional. Specifies the ordering of results following syntax at https://cloud.google.com/apis/design/design_patterns#sorting_order. */
-  orderBy?: string;
   /** Optional. Filter specifying constraints of a list operation. For example, `SqlIntegration.name="sql"`. */
   filter?: string;
+  /** Optional. Specifies the ordering of results following syntax at https://cloud.google.com/apis/design/design_patterns#sorting_order. */
+  orderBy?: string;
+  /** Required. The resource name of the SqlIntegrations using the form: `projects/{project_id}/locations/global/domains/*` */
+  parent: string;
   /** Optional. The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
   /** Optional. The maximum number of items to return. If not specified, a default value of 1000 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response'ANIZATIONs next_page_token to determine if there are more instances left to be queried. */
@@ -1396,9 +1395,9 @@ export interface ListProjectsLocationsGlobalDomainsSqlIntegrationsRequest {
 export const ListProjectsLocationsGlobalDomainsSqlIntegrationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      orderBy: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
@@ -1419,43 +1418,43 @@ export const SqlIntegrationList = /*@__PURE__*/ S.Array(
 
 /** ListSqlIntegrationsResponse is the response message for ListSqlIntegrations method. */
 export interface ListSqlIntegrationsResponse {
+  /** A list of locations that could not be reached. */
+  unreachable?: StringList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
   /** A list of SqlIntegrations of a domain. */
   sqlIntegrations?: SqlIntegrationList;
-  /** A list of locations that could not be reached. */
-  unreachable?: StringList;
 }
 export const ListSqlIntegrationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
     sqlIntegrations: S.optional(SqlIntegrationList),
-    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListSqlIntegrationsResponse",
 }) as any as S.Schema<ListSqlIntegrationsResponse>;
 
 export interface ListProjectsLocationsGlobalOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The standard list page size. */
-  pageSize?: number;
   /** The standard list filter. */
   filter?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
+  /** The standard list page token. */
+  pageToken?: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list page size. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsGlobalOperationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1474,43 +1473,43 @@ export const OperationList = /*@__PURE__*/ S.Array(
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operations: S.optional(OperationList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
+    operations: S.optional(OperationList),
   }),
 ).annotate({
   identifier: "ListOperationsResponse",
 }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProjectsLocationsGlobalPeeringsRequest {
-  /** Optional. The maximum number of items to return. If not specified, a default value of 1000 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
-  pageSize?: number;
-  /** Optional. The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
   /** Required. The resource name of the domain location using the form: `projects/{project_id}/locations/global` */
   parent: string;
   /** Optional. Specifies the ordering of results following syntax at https://cloud.google.com/apis/design/design_patterns#sorting_order. */
   orderBy?: string;
+  /** Optional. The next_page_token value returned from a previous List request, if any. */
+  pageToken?: string;
   /** Optional. Filter specifying constraints of a list operation. For example, `peering.authoized_network ="/projects/myprojectid"`. */
   filter?: string;
+  /** Optional. The maximum number of items to return. If not specified, a default value of 1000 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsGlobalPeeringsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1529,36 +1528,36 @@ export const PeeringList = /*@__PURE__*/ S.Array(
 
 /** ListPeeringsResponse is the response message for ListPeerings method. */
 export interface ListPeeringsResponse {
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
   /** A list of Managed Identities Service Peerings in the project. */
   peerings?: PeeringList;
+  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string;
 }
 export const ListPeeringsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
     peerings: S.optional(PeeringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListPeeringsResponse",
 }) as any as S.Schema<ListPeeringsResponse>;
 
 export interface PatchProjectsLocationsGlobalDomainsRequest {
-  /** Output only. The unique name of the domain using the form: `projects/{project_id}/locations/global/domains/{domain_name}`. */
-  name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include fields from Domain: * `labels` * `locations` * `authorized_networks` * `audit_logs_enabled` */
   updateMask?: string;
+  /** Output only. The unique name of the domain using the form: `projects/{project_id}/locations/global/domains/{domain_name}`. */
+  name: string;
   /** Request body */
   body?: Domain;
 }
 export const PatchProjectsLocationsGlobalDomainsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(Domain.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1572,18 +1571,18 @@ export const PatchProjectsLocationsGlobalDomainsRequest =
   }) as any as S.Schema<PatchProjectsLocationsGlobalDomainsRequest>;
 
 export interface PatchProjectsLocationsGlobalDomainsBackupsRequest {
-  /** Output only. The unique name of the Backup in the form of projects/{project_id}/locations/global/domains/{domain_name}/backups/{name} */
-  name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Backup: * `labels` */
   updateMask?: string;
+  /** Output only. The unique name of the Backup in the form of projects/{project_id}/locations/global/domains/{domain_name}/backups/{name} */
+  name: string;
   /** Request body */
   body?: Backup;
 }
 export const PatchProjectsLocationsGlobalDomainsBackupsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(Backup.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1597,18 +1596,18 @@ export const PatchProjectsLocationsGlobalDomainsBackupsRequest =
   }) as any as S.Schema<PatchProjectsLocationsGlobalDomainsBackupsRequest>;
 
 export interface PatchProjectsLocationsGlobalPeeringsRequest {
-  /** Output only. Unique name of the peering in this scope including projects and location using the form: `projects/{project_id}/locations/global/peerings/{peering_id}`. */
-  name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Peering: * `labels` */
   updateMask?: string;
+  /** Output only. Unique name of the peering in this scope including projects and location using the form: `projects/{project_id}/locations/global/peerings/{peering_id}`. */
+  name: string;
   /** Request body */
   body?: Peering;
 }
 export const PatchProjectsLocationsGlobalPeeringsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(Peering.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1623,15 +1622,15 @@ export const PatchProjectsLocationsGlobalPeeringsRequest =
 
 /** Request message for ReconfigureTrust */
 export interface ReconfigureTrustRequest {
-  /** Required. The target DNS server IP addresses to resolve the remote domain involved in the trust. */
-  targetDnsIpAddresses?: StringList;
   /** Required. The fully-qualified target domain name which will be in trust with current domain. */
   targetDomainName?: string;
+  /** Required. The target DNS server IP addresses to resolve the remote domain involved in the trust. */
+  targetDnsIpAddresses?: StringList;
 }
 export const ReconfigureTrustRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    targetDnsIpAddresses: S.optional(StringList),
     targetDomainName: S.optional(S.String),
+    targetDnsIpAddresses: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ReconfigureTrustRequest",
@@ -1906,18 +1905,18 @@ export const TestIamPermissionsProjectsLocationsGlobalPeeringsRequest =
   }) as any as S.Schema<TestIamPermissionsProjectsLocationsGlobalPeeringsRequest>;
 
 export interface UpdateLdapssettingsProjectsLocationsGlobalDomainsRequest {
-  /** Required. Mask of fields to update. At least one path must be supplied in this field. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
   /** The resource name of the LDAPS settings. Uses the form: `projects/{project}/locations/{location}/domains/{domain}`. */
   name: string;
+  /** Required. Mask of fields to update. At least one path must be supplied in this field. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
+  updateMask?: string;
   /** Request body */
   body?: LDAPSSettings;
 }
 export const UpdateLdapssettingsProjectsLocationsGlobalDomainsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(LDAPSSettings.pipe(T.HttpBody())),
     }).pipe(
       T.Http({

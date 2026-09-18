@@ -12,6 +12,173 @@ import * as Retry from "../retry.ts";
 
 export type { AzureOpError, AzureOpContext };
 
+export interface DeleteGraphQueryRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Graph Query resource. */
+  resourceName: string;
+}
+export const DeleteGraphQueryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceGraph/queries/{resourceName}",
+      code: 200,
+      apiVersion: "2024-04-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteGraphQueryRequest",
+}) as any as S.Schema<DeleteGraphQueryRequest>;
+
+export interface DeleteGraphQueryResponse {}
+export const DeleteGraphQueryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteGraphQueryResponse",
+}) as any as S.Schema<DeleteGraphQueryResponse>;
+
+export interface GetGraphQueryRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Graph Query resource. */
+  resourceName: string;
+}
+export const GetGraphQueryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceGraph/queries/{resourceName}",
+      code: 200,
+      apiVersion: "2024-04-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetGraphQueryRequest",
+}) as any as S.Schema<GetGraphQueryRequest>;
+
+/** The type of identity that created the resource. */
+export type SystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const SystemDataCreatedByType = S.String;
+
+/** The type of identity that last modified the resource. */
+export type SystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const SystemDataLastModifiedByType = S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: SystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: SystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const SystemData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createdBy: S.optional(S.String),
+    createdByType: S.optional(SystemDataCreatedByType),
+    createdAt: S.optional(S.String),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedByType: S.optional(SystemDataLastModifiedByType),
+    lastModifiedAt: S.optional(S.String),
+  }),
+).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
+
+/** Enum indicating a type of graph query. */
+export type ResultKind = "basic";
+export const ResultKind = S.String;
+
+/** Properties that contain a graph query. */
+export interface GraphQueryProperties {
+  /** Date and time in UTC of the last modification that was made to this graph query definition. */
+  timeModified?: string;
+  /** The description of a graph query. */
+  description?: string;
+  /** KQL query that will be graph. */
+  query: string;
+  /** Enum indicating a type of graph query. */
+  resultKind?: ResultKind;
+}
+export const GraphQueryProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timeModified: S.optional(S.String),
+    description: S.optional(S.String),
+    query: S.String,
+    resultKind: S.optional(ResultKind),
+  }),
+).annotate({
+  identifier: "GraphQueryProperties",
+}) as any as S.Schema<GraphQueryProperties>;
+
+/** Resource tags. */
+export type GetGraphQueryResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const GetGraphQueryResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<GetGraphQueryResponseTagsMap>;
+
+export interface GetGraphQueryResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Metadata describing a graph query for an Azure resource. */
+  properties?: GraphQueryProperties;
+  /** Resource tags. */
+  tags?: GetGraphQueryResponseTagsMap;
+  /** The location of the resource */
+  location?: string;
+  /** This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict. */
+  etag?: string;
+}
+export const GetGraphQueryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: S.optional(GraphQueryProperties),
+    tags: S.optional(GetGraphQueryResponseTagsMap),
+    location: S.optional(S.String),
+    etag: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetGraphQueryResponse",
+}) as any as S.Schema<GetGraphQueryResponse>;
+
 /** Properties that contain a graph query. */
 export interface GraphQueryPropertiesInput {
   /** The description of a graph query. */
@@ -74,74 +241,6 @@ export const GraphQueryCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GraphQueryCreateOrUpdateRequest",
 }) as any as S.Schema<GraphQueryCreateOrUpdateRequest>;
 
-/** The type of identity that created the resource. */
-export type SystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const SystemDataCreatedByType = /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type SystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const SystemDataLastModifiedByType = /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const SystemData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    createdBy: S.optional(S.String),
-    createdByType: S.optional(SystemDataCreatedByType),
-    createdAt: S.optional(S.String),
-    lastModifiedBy: S.optional(S.String),
-    lastModifiedByType: S.optional(SystemDataLastModifiedByType),
-    lastModifiedAt: S.optional(S.String),
-  }),
-).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
-
-/** Enum indicating a type of graph query. */
-export type ResultKind = "basic";
-export const ResultKind = /*@__PURE__*/ S.String;
-
-/** Properties that contain a graph query. */
-export interface GraphQueryProperties {
-  /** Date and time in UTC of the last modification that was made to this graph query definition. */
-  timeModified?: string;
-  /** The description of a graph query. */
-  description?: string;
-  /** KQL query that will be graph. */
-  query: string;
-  /** Enum indicating a type of graph query. */
-  resultKind?: ResultKind;
-}
-export const GraphQueryProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timeModified: S.optional(S.String),
-    description: S.optional(S.String),
-    query: S.String,
-    resultKind: S.optional(ResultKind),
-  }),
-).annotate({
-  identifier: "GraphQueryProperties",
-}) as any as S.Schema<GraphQueryProperties>;
-
 /** Resource tags. */
 export type GraphQueryCreateOrUpdateResponseTagsMap = {
   [key: string]: string | undefined;
@@ -184,112 +283,13 @@ export const GraphQueryCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GraphQueryCreateOrUpdateResponse",
 }) as any as S.Schema<GraphQueryCreateOrUpdateResponse>;
 
-export interface GraphQueryDeleteRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Graph Query resource. */
-  resourceName: string;
-}
-export const GraphQueryDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceGraph/queries/{resourceName}",
-      code: 200,
-      apiVersion: "2024-04-01",
-    }),
-  ),
-).annotate({
-  identifier: "GraphQueryDeleteRequest",
-}) as any as S.Schema<GraphQueryDeleteRequest>;
-
-export interface GraphQueryDeleteResponse {}
-export const GraphQueryDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "GraphQueryDeleteResponse",
-}) as any as S.Schema<GraphQueryDeleteResponse>;
-
-export interface GraphQueryGetRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Graph Query resource. */
-  resourceName: string;
-}
-export const GraphQueryGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceGraph/queries/{resourceName}",
-      code: 200,
-      apiVersion: "2024-04-01",
-    }),
-  ),
-).annotate({
-  identifier: "GraphQueryGetRequest",
-}) as any as S.Schema<GraphQueryGetRequest>;
-
-/** Resource tags. */
-export type GraphQueryGetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const GraphQueryGetResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<GraphQueryGetResponseTagsMap>;
-
-export interface GraphQueryGetResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Metadata describing a graph query for an Azure resource. */
-  properties?: GraphQueryProperties;
-  /** Resource tags. */
-  tags?: GraphQueryGetResponseTagsMap;
-  /** The location of the resource */
-  location?: string;
-  /** This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict. */
-  etag?: string;
-}
-export const GraphQueryGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: S.optional(GraphQueryProperties),
-    tags: S.optional(GraphQueryGetResponseTagsMap),
-    location: S.optional(S.String),
-    etag: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GraphQueryGetResponse",
-}) as any as S.Schema<GraphQueryGetResponse>;
-
-export interface GraphQueryListRequest {
+export interface ListGraphQueryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
 }
-export const GraphQueryListRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListGraphQueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -302,8 +302,8 @@ export const GraphQueryListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "GraphQueryListRequest",
-}) as any as S.Schema<GraphQueryListRequest>;
+  identifier: "ListGraphQueryRequest",
+}) as any as S.Schema<ListGraphQueryRequest>;
 
 /** Resource tags. */
 export type GraphQueryResourceTagsMap = { [key: string]: string | undefined };
@@ -368,11 +368,11 @@ export const GraphQueryListResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "GraphQueryListResult",
 }) as any as S.Schema<GraphQueryListResult>;
 
-export interface GraphQueryListBySubscriptionRequest {
+export interface ListGraphQueryBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
 }
-export const GraphQueryListBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListGraphQueryBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
   }).pipe(
@@ -384,113 +384,11 @@ export const GraphQueryListBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "GraphQueryListBySubscriptionRequest",
-}) as any as S.Schema<GraphQueryListBySubscriptionRequest>;
+  identifier: "ListGraphQueryBySubscriptionRequest",
+}) as any as S.Schema<ListGraphQueryBySubscriptionRequest>;
 
-/** Resource tags */
-export type GraphQueryUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
-export const GraphQueryUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<GraphQueryUpdateRequestTagsMap>;
-
-/** Properties that contain a workbook for PATCH operation. */
-export interface GraphQueryPropertiesUpdateParameters {
-  /** The description of a graph query. */
-  description?: string;
-  /** KQL query that will be graph. */
-  query?: string;
-}
-export const GraphQueryPropertiesUpdateParameters = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      description: S.optional(S.String),
-      query: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GraphQueryPropertiesUpdateParameters",
-}) as any as S.Schema<GraphQueryPropertiesUpdateParameters>;
-
-export interface GraphQueryUpdateRequest {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Graph Query resource. */
-  resourceName: string;
-  /** Resource tags */
-  tags?: GraphQueryUpdateRequestTagsMap;
-  /** This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict. */
-  etag?: string;
-  /** Metadata describing a graph query for an Azure resource. */
-  properties?: GraphQueryPropertiesUpdateParameters;
-}
-export const GraphQueryUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    resourceName: S.String.pipe(T.Label()),
-    tags: S.optional(GraphQueryUpdateRequestTagsMap),
-    etag: S.optional(S.String),
-    properties: S.optional(GraphQueryPropertiesUpdateParameters),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceGraph/queries/{resourceName}",
-      code: 200,
-      apiVersion: "2024-04-01",
-    }),
-  ),
-).annotate({
-  identifier: "GraphQueryUpdateRequest",
-}) as any as S.Schema<GraphQueryUpdateRequest>;
-
-/** Resource tags. */
-export type GraphQueryUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const GraphQueryUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<GraphQueryUpdateResponseTagsMap>;
-
-export interface GraphQueryUpdateResponse {
-  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Metadata describing a graph query for an Azure resource. */
-  properties?: GraphQueryProperties;
-  /** Resource tags. */
-  tags?: GraphQueryUpdateResponseTagsMap;
-  /** The location of the resource */
-  location?: string;
-  /** This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict. */
-  etag?: string;
-}
-export const GraphQueryUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: S.optional(GraphQueryProperties),
-    tags: S.optional(GraphQueryUpdateResponseTagsMap),
-    location: S.optional(S.String),
-    etag: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GraphQueryUpdateResponse",
-}) as any as S.Schema<GraphQueryUpdateResponse>;
-
-export interface OperationsListRequest {}
-export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
+export interface ListOperationsRequest {}
+export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
     T.Http({
       method: "GET",
@@ -500,8 +398,8 @@ export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "OperationsListRequest",
-}) as any as S.Schema<OperationsListRequest>;
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
 
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
@@ -578,7 +476,7 @@ export const ResourcesRequestManagementGroupsList = /*@__PURE__*/ S.Array(
 
 /** Defines in which format query result returned. */
 export type QueryRequestOptionsResultFormat = "table" | "objectArray";
-export const QueryRequestOptionsResultFormat = /*@__PURE__*/ S.String;
+export const QueryRequestOptionsResultFormat = S.String;
 
 /** Defines what level of authorization resources should be returned based on the which subscriptions and management groups are passed as scopes. */
 export type QueryRequestOptionsAuthorizationScopeFilter =
@@ -586,8 +484,7 @@ export type QueryRequestOptionsAuthorizationScopeFilter =
   | "AtScopeAndAbove"
   | "AtScopeExact"
   | "AtScopeAboveAndBelow";
-export const QueryRequestOptionsAuthorizationScopeFilter =
-  /*@__PURE__*/ S.String;
+export const QueryRequestOptionsAuthorizationScopeFilter = S.String;
 
 /** The options for query evaluation */
 export interface QueryRequestOptions {
@@ -623,7 +520,7 @@ export const QueryRequestOptions = /*@__PURE__*/ S.suspend(() =>
 
 /** The sorting order by the selected column (count by default). */
 export type FacetRequestOptionsSortOrder = "asc" | "desc";
-export const FacetRequestOptionsSortOrder = /*@__PURE__*/ S.String;
+export const FacetRequestOptionsSortOrder = S.String;
 
 /** The options for facet evaluation */
 export interface FacetRequestOptions {
@@ -700,7 +597,7 @@ export const ResourcesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Indicates whether the query results are truncated. */
 export type ResultTruncated = "true" | "false";
-export const ResultTruncated = /*@__PURE__*/ S.String;
+export const ResultTruncated = S.String;
 
 /** A facet containing additional statistics on the response of a query. Can be either FacetResult or FacetError. */
 export interface Facet {
@@ -748,6 +645,138 @@ export const QueryResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "QueryResponse" }) as any as S.Schema<QueryResponse>;
 
+/** Resource tags */
+export type UpdateGraphQueryRequestTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateGraphQueryRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateGraphQueryRequestTagsMap>;
+
+/** Properties that contain a workbook for PATCH operation. */
+export interface GraphQueryPropertiesUpdateParameters {
+  /** The description of a graph query. */
+  description?: string;
+  /** KQL query that will be graph. */
+  query?: string;
+}
+export const GraphQueryPropertiesUpdateParameters = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      description: S.optional(S.String),
+      query: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GraphQueryPropertiesUpdateParameters",
+}) as any as S.Schema<GraphQueryPropertiesUpdateParameters>;
+
+export interface UpdateGraphQueryRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Graph Query resource. */
+  resourceName: string;
+  /** Resource tags */
+  tags?: UpdateGraphQueryRequestTagsMap;
+  /** This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict. */
+  etag?: string;
+  /** Metadata describing a graph query for an Azure resource. */
+  properties?: GraphQueryPropertiesUpdateParameters;
+}
+export const UpdateGraphQueryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceName: S.String.pipe(T.Label()),
+    tags: S.optional(UpdateGraphQueryRequestTagsMap),
+    etag: S.optional(S.String),
+    properties: S.optional(GraphQueryPropertiesUpdateParameters),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceGraph/queries/{resourceName}",
+      code: 200,
+      apiVersion: "2024-04-01",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateGraphQueryRequest",
+}) as any as S.Schema<UpdateGraphQueryRequest>;
+
+/** Resource tags. */
+export type UpdateGraphQueryResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateGraphQueryResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateGraphQueryResponseTagsMap>;
+
+export interface UpdateGraphQueryResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Metadata describing a graph query for an Azure resource. */
+  properties?: GraphQueryProperties;
+  /** Resource tags. */
+  tags?: UpdateGraphQueryResponseTagsMap;
+  /** The location of the resource */
+  location?: string;
+  /** This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict. */
+  etag?: string;
+}
+export const UpdateGraphQueryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: S.optional(GraphQueryProperties),
+    tags: S.optional(UpdateGraphQueryResponseTagsMap),
+    location: S.optional(S.String),
+    etag: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpdateGraphQueryResponse",
+}) as any as S.Schema<UpdateGraphQueryResponse>;
+
+export type DeleteGraphQueryError = AzureOpError;
+/** Delete a graph query. */
+export const DeleteGraphQuery: API.OperationMethod<
+  DeleteGraphQueryRequest,
+  DeleteGraphQueryResponse,
+  DeleteGraphQueryError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteGraphQueryRequest,
+  output: DeleteGraphQueryResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetGraphQueryError = AzureOpError;
+/** Get a single graph query by its resourceName. */
+export const GetGraphQuery: API.OperationMethod<
+  GetGraphQueryRequest,
+  GetGraphQueryResponse,
+  GetGraphQueryError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetGraphQueryRequest,
+  output: GetGraphQueryResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GraphQueryCreateOrUpdateError = AzureOpError;
 /** Create a new graph query. */
 export const GraphQueryCreateOrUpdate: API.OperationMethod<
@@ -763,90 +792,45 @@ export const GraphQueryCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GraphQueryDeleteError = AzureOpError;
-/** Delete a graph query. */
-export const GraphQueryDelete: API.OperationMethod<
-  GraphQueryDeleteRequest,
-  GraphQueryDeleteResponse,
-  GraphQueryDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GraphQueryDeleteRequest,
-  output: GraphQueryDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GraphQueryGetError = AzureOpError;
-/** Get a single graph query by its resourceName. */
-export const GraphQueryGet: API.OperationMethod<
-  GraphQueryGetRequest,
-  GraphQueryGetResponse,
-  GraphQueryGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GraphQueryGetRequest,
-  output: GraphQueryGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GraphQueryListError = AzureOpError;
+export type ListGraphQueryError = AzureOpError;
 /** Get all graph queries defined within a specified subscription and resource group. */
-export const GraphQueryList: API.OperationMethod<
-  GraphQueryListRequest,
+export const ListGraphQuery: API.OperationMethod<
+  ListGraphQueryRequest,
   GraphQueryListResult,
-  GraphQueryListError,
+  ListGraphQueryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: GraphQueryListRequest,
+  input: ListGraphQueryRequest,
   output: GraphQueryListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type GraphQueryListBySubscriptionError = AzureOpError;
+export type ListGraphQueryBySubscriptionError = AzureOpError;
 /** Get all graph queries defined within a specified subscription. */
-export const GraphQueryListBySubscription: API.OperationMethod<
-  GraphQueryListBySubscriptionRequest,
+export const ListGraphQueryBySubscription: API.OperationMethod<
+  ListGraphQueryBySubscriptionRequest,
   GraphQueryListResult,
-  GraphQueryListBySubscriptionError,
+  ListGraphQueryBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: GraphQueryListBySubscriptionRequest,
+  input: ListGraphQueryBySubscriptionRequest,
   output: GraphQueryListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type GraphQueryUpdateError = AzureOpError;
-/** Updates a graph query that has already been added. */
-export const GraphQueryUpdate: API.OperationMethod<
-  GraphQueryUpdateRequest,
-  GraphQueryUpdateResponse,
-  GraphQueryUpdateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GraphQueryUpdateRequest,
-  output: GraphQueryUpdateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type OperationsListError = AzureOpError;
+export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const OperationsList: API.OperationMethod<
-  OperationsListRequest,
+export const ListOperations: API.OperationMethod<
+  ListOperationsRequest,
   OperationListResult,
-  OperationsListError,
+  ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: OperationsListRequest,
+  input: ListOperationsRequest,
   output: OperationListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -863,6 +847,21 @@ export const Resources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResourcesRequest,
   output: QueryResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateGraphQueryError = AzureOpError;
+/** Updates a graph query that has already been added. */
+export const UpdateGraphQuery: API.OperationMethod<
+  UpdateGraphQueryRequest,
+  UpdateGraphQueryResponse,
+  UpdateGraphQueryError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateGraphQueryRequest,
+  output: UpdateGraphQueryResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

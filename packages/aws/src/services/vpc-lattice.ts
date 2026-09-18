@@ -488,12 +488,14 @@ export type ResourceConfigurationType =
   | "SINGLE"
   | "ARN"
   | (string & {});
-export const ResourceConfigurationType = /*@__PURE__*/ S.String;
+export const ResourceConfigurationType = S.String;
 
 export type PortRange = string;
 export type PortRangeList = string[];
 export const PortRangeList = /*@__PURE__*/ S.Array(S.String);
-export type ProtocolType = string;
+export type ProtocolType = "TCP" | (string & {});
+export const ProtocolType = S.String;
+
 export type ResourceGatewayIdentifier = string;
 export type ResourceConfigurationIdentifier = string;
 export type DomainName = string;
@@ -536,7 +538,7 @@ export interface CreateResourceConfigurationRequest {
   name: string;
   type: ResourceConfigurationType;
   portRanges?: string[];
-  protocol?: string;
+  protocol?: ProtocolType;
   resourceGatewayIdentifier?: string;
   resourceConfigurationGroupIdentifier?: string;
   resourceConfigurationDefinition?: ResourceConfigurationDefinition;
@@ -552,7 +554,7 @@ export const CreateResourceConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     type: ResourceConfigurationType,
     portRanges: S.optional(PortRangeList),
-    protocol: S.optional(S.String),
+    protocol: S.optional(ProtocolType),
     resourceGatewayIdentifier: S.optional(S.String),
     resourceConfigurationGroupIdentifier: S.optional(S.String),
     resourceConfigurationDefinition: S.optional(
@@ -591,7 +593,7 @@ export interface CreateResourceConfigurationResponse {
   resourceConfigurationGroupId?: string;
   type?: ResourceConfigurationType;
   portRanges?: string[];
-  protocol?: string;
+  protocol?: ProtocolType;
   status?: string;
   resourceConfigurationDefinition?: ResourceConfigurationDefinition;
   allowAssociationToShareableServiceNetwork?: boolean;
@@ -611,7 +613,7 @@ export const CreateResourceConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
     resourceConfigurationGroupId: S.optional(S.String),
     type: S.optional(ResourceConfigurationType),
     portRanges: S.optional(PortRangeList),
-    protocol: S.optional(S.String),
+    protocol: S.optional(ProtocolType),
     status: S.optional(S.String),
     resourceConfigurationDefinition: S.optional(
       ResourceConfigurationDefinition,
@@ -1992,7 +1994,7 @@ export interface GetResourceConfigurationResponse {
   type?: ResourceConfigurationType;
   allowAssociationToShareableServiceNetwork?: boolean;
   portRanges?: string[];
-  protocol?: string;
+  protocol?: ProtocolType;
   customDomainName?: string;
   status?: string;
   resourceConfigurationDefinition?: ResourceConfigurationDefinition;
@@ -2015,7 +2017,7 @@ export const GetResourceConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ResourceConfigurationType),
     allowAssociationToShareableServiceNetwork: S.optional(S.Boolean),
     portRanges: S.optional(PortRangeList),
-    protocol: S.optional(S.String),
+    protocol: S.optional(ProtocolType),
     customDomainName: S.optional(S.String),
     status: S.optional(S.String),
     resourceConfigurationDefinition: S.optional(
@@ -3983,7 +3985,7 @@ export interface UpdateResourceConfigurationResponse {
   type?: ResourceConfigurationType;
   portRanges?: string[];
   allowAssociationToShareableServiceNetwork?: boolean;
-  protocol?: string;
+  protocol?: ProtocolType;
   status?: string;
   resourceConfigurationDefinition?: ResourceConfigurationDefinition;
 }
@@ -3997,7 +3999,7 @@ export const UpdateResourceConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ResourceConfigurationType),
     portRanges: S.optional(PortRangeList),
     allowAssociationToShareableServiceNetwork: S.optional(S.Boolean),
-    protocol: S.optional(S.String),
+    protocol: S.optional(ProtocolType),
     status: S.optional(S.String),
     resourceConfigurationDefinition: S.optional(
       ResourceConfigurationDefinition,
@@ -4201,7 +4203,9 @@ export const UpdateServiceNetworkResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateServiceNetworkResponse>;
 export interface UpdateServiceNetworkVpcAssociationRequest {
   serviceNetworkVpcAssociationIdentifier: string;
-  securityGroupIds: string[];
+  securityGroupIds?: string[];
+  privateDnsEnabled?: boolean;
+  dnsOptions?: DnsOptions;
 }
 export const UpdateServiceNetworkVpcAssociationRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -4209,7 +4213,9 @@ export const UpdateServiceNetworkVpcAssociationRequest =
       serviceNetworkVpcAssociationIdentifier: S.String.pipe(
         T.HttpLabel("serviceNetworkVpcAssociationIdentifier"),
       ),
-      securityGroupIds: SecurityGroupList,
+      securityGroupIds: S.optional(SecurityGroupList),
+      privateDnsEnabled: S.optional(S.Boolean),
+      dnsOptions: S.optional(DnsOptions),
     }).pipe(
       T.all(
         T.Http({
@@ -4232,6 +4238,8 @@ export interface UpdateServiceNetworkVpcAssociationResponse {
   status?: string;
   createdBy?: string;
   securityGroupIds?: string[];
+  privateDnsEnabled?: boolean;
+  dnsOptions?: DnsOptions;
 }
 export const UpdateServiceNetworkVpcAssociationResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4241,6 +4249,8 @@ export const UpdateServiceNetworkVpcAssociationResponse =
       status: S.optional(S.String),
       createdBy: S.optional(S.String),
       securityGroupIds: S.optional(SecurityGroupList),
+      privateDnsEnabled: S.optional(S.Boolean),
+      dnsOptions: S.optional(DnsOptions),
     }),
   ).annotate({
     identifier: "UpdateServiceNetworkVpcAssociationResponse",

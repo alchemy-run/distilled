@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.kubernetes.coordination#IoK8sApimachineryPkgApisMetaV1APIGroup": {
@@ -445,7 +446,7 @@
         "metadata": {
           "target": "com.kubernetes.coordination#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -736,7 +737,7 @@
         "preferredHolder": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "PreferredHolder signals to a lease holder that the lease has a more optimal holder and should be given up. This field can only be set if Strategy is also set."
+            "smithy.api#documentation": "preferredHolder signals to a lease holder that the lease has a more optimal holder and should be given up. This field can only be set if Strategy is also set."
           }
         },
         "renewTime": {
@@ -748,7 +749,7 @@
         "strategy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Strategy indicates the strategy for picking the leader for coordinated leader election. If the field is not specified, there is no active coordination for this lease. (Alpha) Using this field requires the CoordinatedLeaderElection feature gate to be enabled."
+            "smithy.api#documentation": "strategy indicates the strategy for picking the leader for coordinated leader election. If the field is not specified, there is no active coordination for this lease. (Alpha) Using this field requires the CoordinatedLeaderElection feature gate to be enabled."
           }
         }
       },
@@ -1006,7 +1007,7 @@
         "metadata": {
           "target": "com.kubernetes.coordination#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -1480,7 +1481,7 @@
         "metadata": {
           "target": "com.kubernetes.coordination#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -2259,7 +2260,7 @@
         "metadata": {
           "target": "com.kubernetes.coordination#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -2280,39 +2281,39 @@
         "binaryVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "BinaryVersion is the binary version. It must be in a semver format without leading `v`. This field is required.",
+            "smithy.api#documentation": "binaryVersion is the binary version. It must be in a semver format without leading `v`. This field is required.",
             "smithy.api#required": {}
           }
         },
         "emulationVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "EmulationVersion is the emulation version. It must be in a semver format without leading `v`. EmulationVersion must be less than or equal to BinaryVersion. This field is required when strategy is \"OldestEmulationVersion\""
+            "smithy.api#documentation": "emulationVersion is the emulation version. It must be in a semver format without leading `v`. EmulationVersion must be less than or equal to BinaryVersion. This field is required when strategy is \"OldestEmulationVersion\""
           }
         },
         "leaseName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "LeaseName is the name of the lease for which this candidate is contending. This field is immutable.",
+            "smithy.api#documentation": "leaseName is the name of the lease for which this candidate is contending. This field is immutable.",
             "smithy.api#required": {}
           }
         },
         "pingTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "PingTime is the last time that the server has requested the LeaseCandidate to renew. It is only done during leader election to check if any LeaseCandidates have become ineligible. When PingTime is updated, the LeaseCandidate will respond by updating RenewTime."
+            "smithy.api#documentation": "pingTime is the last time that the server has requested the LeaseCandidate to renew. It is only done during leader election to check if any LeaseCandidates have become ineligible. When PingTime is updated, the LeaseCandidate will respond by updating RenewTime."
           }
         },
         "renewTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "RenewTime is the time that the LeaseCandidate was last updated. Any time a Lease needs to do leader election, the PingTime field is updated to signal to the LeaseCandidate that they should update the RenewTime. Old LeaseCandidate objects are also garbage collected if it has been hours since the last renew. The PingTime field is updated regularly to prevent garbage collection for still active LeaseCandidates."
+            "smithy.api#documentation": "renewTime is the time that the LeaseCandidate was last updated. Any time a Lease needs to do leader election, the PingTime field is updated to signal to the LeaseCandidate that they should update the RenewTime. Old LeaseCandidate objects are also garbage collected if it has been hours since the last renew. The PingTime field is updated regularly to prevent garbage collection for still active LeaseCandidates."
           }
         },
         "strategy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Strategy is the strategy that coordinated leader election will use for picking the leader. If multiple candidates for the same Lease return different strategies, the strategy provided by the candidate with the latest BinaryVersion will be used. If there is still conflict, this is a user error and coordinated leader election will not operate the Lease until resolved.",
+            "smithy.api#documentation": "strategy is the strategy that coordinated leader election will use for picking the leader. If multiple candidates for the same Lease return different strategies, the strategy provided by the candidate with the latest BinaryVersion will be used. If there is still conflict, this is a user error and coordinated leader election will not operate the Lease until resolved.",
             "smithy.api#required": {}
           }
         }
@@ -2518,7 +2519,7 @@
         "metadata": {
           "target": "com.kubernetes.coordination#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -2838,7 +2839,7 @@
         "metadata": {
           "target": "com.kubernetes.coordination#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -3597,7 +3598,7 @@
         "metadata": {
           "target": "com.kubernetes.coordination#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -3618,39 +3619,39 @@
         "binaryVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "BinaryVersion is the binary version. It must be in a semver format without leading `v`. This field is required.",
+            "smithy.api#documentation": "binaryVersion is the binary version. It must be in a semver format without leading `v`. This field is required.",
             "smithy.api#required": {}
           }
         },
         "emulationVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "EmulationVersion is the emulation version. It must be in a semver format without leading `v`. EmulationVersion must be less than or equal to BinaryVersion. This field is required when strategy is \"OldestEmulationVersion\""
+            "smithy.api#documentation": "emulationVersion is the emulation version. It must be in a semver format without leading `v`. EmulationVersion must be less than or equal to BinaryVersion. This field is required when strategy is \"OldestEmulationVersion\""
           }
         },
         "leaseName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "LeaseName is the name of the lease for which this candidate is contending. The limits on this field are the same as on Lease.name. Multiple lease candidates may reference the same Lease.name. This field is immutable.",
+            "smithy.api#documentation": "leaseName is the name of the lease for which this candidate is contending. The limits on this field are the same as on Lease.name. Multiple lease candidates may reference the same Lease.name. This field is immutable.",
             "smithy.api#required": {}
           }
         },
         "pingTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "PingTime is the last time that the server has requested the LeaseCandidate to renew. It is only done during leader election to check if any LeaseCandidates have become ineligible. When PingTime is updated, the LeaseCandidate will respond by updating RenewTime."
+            "smithy.api#documentation": "pingTime is the last time that the server has requested the LeaseCandidate to renew. It is only done during leader election to check if any LeaseCandidates have become ineligible. When PingTime is updated, the LeaseCandidate will respond by updating RenewTime."
           }
         },
         "renewTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "RenewTime is the time that the LeaseCandidate was last updated. Any time a Lease needs to do leader election, the PingTime field is updated to signal to the LeaseCandidate that they should update the RenewTime. Old LeaseCandidate objects are also garbage collected if it has been hours since the last renew. The PingTime field is updated regularly to prevent garbage collection for still active LeaseCandidates."
+            "smithy.api#documentation": "renewTime is the time that the LeaseCandidate was last updated. Any time a Lease needs to do leader election, the PingTime field is updated to signal to the LeaseCandidate that they should update the RenewTime. Old LeaseCandidate objects are also garbage collected if it has been hours since the last renew. The PingTime field is updated regularly to prevent garbage collection for still active LeaseCandidates."
           }
         },
         "strategy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Strategy is the strategy that coordinated leader election will use for picking the leader. If multiple candidates for the same Lease return different strategies, the strategy provided by the candidate with the latest BinaryVersion will be used. If there is still conflict, this is a user error and coordinated leader election will not operate the Lease until resolved.",
+            "smithy.api#documentation": "strategy is the strategy that coordinated leader election will use for picking the leader. If multiple candidates for the same Lease return different strategies, the strategy provided by the candidate with the latest BinaryVersion will be used. If there is still conflict, this is a user error and coordinated leader election will not operate the Lease until resolved.",
             "smithy.api#required": {}
           }
         }
@@ -3856,7 +3857,7 @@
         "metadata": {
           "target": "com.kubernetes.coordination#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -4176,7 +4177,7 @@
         "metadata": {
           "target": "com.kubernetes.coordination#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {

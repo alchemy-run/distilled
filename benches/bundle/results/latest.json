@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "generatedAt": "2026-09-09T17:56:30.307Z",
+  "commit": "adc438102",
+  "host": {
+    "platform": "linux-x64",
+    "cpu": "Intel(R) Core(TM) Ultra X7 358H",
+    "cores": 16,
+    "memoryGb": 31
+  },
+  "rolldown": "1.2.5",
+  "bun": "1.3.13",
+  "runs": 3,
+  "rows": [
+    {
+      "fixture": "aws-s3-deep",
+      "variant": "bun",
+      "description": "`@distilled.cloud/aws/s3` + `/Credentials`, one op (GetObject)",
+      "coldMs": 355,
+      "warmMs": 308,
+      "bytes": 420542,
+      "gzipBytes": 121287,
+      "moduleCount": 222,
+      "opsRetained": [
+        {
+          "service": "aws/s3",
+          "retained": 1,
+          "total": 112
+        }
+      ],
+      "leaks": 0
+    },
+    {
+      "fixture": "aws-s3-deep",
+      "variant": "bun+nopure",
+      "description": "`@distilled.cloud/aws/s3` + `/Credentials`, one op (GetObject)",
+      "coldMs": 191,
+      "warmMs": 166,
+      "bytes": 422208,
+      "gzipBytes": 121723,
+      "moduleCount": 222,
+      "opsRetained": [
+        {
+          "service": "aws/s3",
+          "retained": 1,
+          "total": 112
+        }
+      ],
+      "leaks": 0
+    },
+    {
+      "fixture": "aws-barrel",
+      "variant": "bun",
+      "description": "`@distilled.cloud/aws` root barrel (+ `/s3` deep) — same op",
+      "coldMs": 317,
+      "warmMs": 295,
+      "bytes": 420511,
+      "gzipBytes": 121592,
+      "moduleCount": 222,
+      "opsRetained": [
+        {
+          "service": "aws/s3",
+          "retained": 1,
+          "total": 112
+        }
+      ],
+      "leaks": 0
+    },
+    {
+      "fixture": "aws-services-index",
+      "variant": "bun",
+      "description": "`@distilled.cloud/aws/index` — all ~430 services as namespaces, only S3.getObject used",
+      "coldMs": 5420,
+      "warmMs": 4387,
+      "bytes": 420563,
+      "gzipBytes": 121290,
+      "moduleCount": 222,
+      "opsRetained": [
+        {
+          "service": "aws/s3",
+          "retained": 1,
+          "total": 112
+        }
+      ],
+      "leaks": 0
+    },
+    {
+      "fixture": "cf-workers-deep",
+      "variant": "bun",
+      "description": "`@distilled.cloud/cloudflare/workers` + `/Credentials`, one paginated op (listScripts)",
+      "coldMs": 322,
+      "warmMs": 259,
+      "bytes": 227513,
+      "gzipBytes": 63209,
+      "moduleCount": 106,
+      "opsRetained": [
+        {
+          "service": "cloudflare/workers",
+          "retained": 1,
+          "total": 74
+        }
+      ],
+      "leaks": 0
+    },
+    {
+      "fixture": "cf-workers-deep",
+      "variant": "bun+nopure",
+      "description": "`@distilled.cloud/cloudflare/workers` + `/Credentials`, one paginated op (listScripts)",
+      "coldMs": 116,
+      "warmMs": 109,
+      "bytes": 230580,
+      "gzipBytes": 64075,
+      "moduleCount": 106,
+      "opsRetained": [
+        {
+          "service": "cloudflare/workers",
+          "retained": 1,
+          "total": 74
+        }
+      ],
+      "leaks": 0
+    },
+    {
+      "fixture": "cf-barrel",
+      "variant": "bun",
+      "description": "`@distilled.cloud/cloudflare` root barrel (Services.* — ~120 services), same op",
+      "coldMs": 1560,
+      "warmMs": 1446,
+      "bytes": 227495,
+      "gzipBytes": 63203,
+      "moduleCount": 106,
+      "opsRetained": [
+        {
+          "service": "cloudflare/workers",
+          "retained": 1,
+          "total": 74
+        }
+      ],
+      "leaks": 0
+    },
+    {
+      "fixture": "combined-worker",
+      "variant": "bun",
+      "description": "alchemy-worker-shaped: s3.getObject + workers.listScripts (two deep imports)",
+      "coldMs": 416,
+      "warmMs": 378,
+      "bytes": 475917,
+      "gzipBytes": 132804,
+      "moduleCount": 234,
+      "opsRetained": [
+        {
+          "service": "aws/s3",
+          "retained": 1,
+          "total": 112
+        },
+        {
+          "service": "cloudflare/workers",
+          "retained": 1,
+          "total": 74
+        }
+      ],
+      "leaks": 0
+    }
+  ]
+}

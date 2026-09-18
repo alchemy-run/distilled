@@ -1,0 +1,312 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.data_quality_runs#ListDataQualityRunsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_quality_runs#PaginatedDataQualitySuiteRunList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.data_quality_runs#PaginatedDataQualitySuiteRunListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_quality_runs#DataQualitySuiteRun": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "trigger": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "manual, materialization, or source_sync.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "running, completed, failed, or empty (nothing matched the trigger).",
+            "smithy.api#required": {}
+          }
+        },
+        "subject_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "'table' or 'view' when the run targets exactly one subject, including a run of a single check on that subject; null for a run spanning several subjects.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subject_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set when the run targets exactly one subject.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "workflow_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "checks_passed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "checks_failed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "checks_errored": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "checks_skipped": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the suite itself failed, as opposed to an individual check.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_quality_runs#PaginatedDataQualitySuiteRunListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.data_quality_runs#DataQualitySuiteRun"
+      },
+      "traits": {}
+    },
+    "com.posthog.data_quality_runs#ListDataQualityRuns": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_quality_runs#ListDataQualityRunsRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_quality_runs#PaginatedDataQualitySuiteRunList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_quality_runs/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Project-wide check runs: start one over a selection, and read every run the project has had.\n\nThe per-subject surfaces only serve runs scoped to their own subject, so this is where a sweep\nacross several subjects -- a manual project-wide run, a materialization, a source sync -- is\nreadable. Scoped to `warehouse_objects` because it spans tables and views at once."
+      }
+    },
+    "com.posthog.data_quality_runs#CreateDataQualityRunRequestCheckIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of the checks to run. Omit to run every enabled check in the project."
+      }
+    },
+    "com.posthog.data_quality_runs#CreateDataQualityRunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "check_ids": {
+          "target": "com.posthog.data_quality_runs#CreateDataQualityRunRequestCheckIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of the checks to run. Omit to run every enabled check in the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_quality_runs#CreateDataQualityRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_quality_runs#CreateDataQualityRunRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_quality_runs#DataQualitySuiteRun"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_quality_runs/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Run the named checks now, or every enabled check in the project when none are named. Returns the suite run to poll for the report."
+      }
+    },
+    "com.posthog.data_quality_runs#GetDataQualityRunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this data quality suite run."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_quality_runs#GetDataQualityRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_quality_runs#GetDataQualityRunRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_quality_runs#DataQualitySuiteRun"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_quality_runs/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Project-wide check runs: start one over a selection, and read every run the project has had.\n\nThe per-subject surfaces only serve runs scoped to their own subject, so this is where a sweep\nacross several subjects -- a manual project-wide run, a materialization, a source sync -- is\nreadable. Scoped to `warehouse_objects` because it spans tables and views at once."
+      }
+    },
+    "com.posthog.data_quality_runs#DataQualityRuns": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.data_quality_runs#ListDataQualityRuns"
+        },
+        {
+          "target": "com.posthog.data_quality_runs#CreateDataQualityRun"
+        },
+        {
+          "target": "com.posthog.data_quality_runs#GetDataQualityRun"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

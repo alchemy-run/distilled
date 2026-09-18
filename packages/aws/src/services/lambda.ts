@@ -366,6 +366,18 @@ export class KMSNotFoundException
     },
     T.HttpError(502),
   ).pipe(C.withServerError) {}
+export class LambdaInternalKmsError
+  extends /*@__PURE__*/ S.TaggedError<LambdaInternalKmsError>()(
+    "LambdaInternalKmsError",
+    {
+      Type: S.optional(S.String),
+      message: S.optional(S.String).pipe(T.ErrorMessage()),
+    },
+    T.SyntheticError({
+      from: "InvalidParameterValueException",
+      message: "Internal KMS service error. Try again.",
+    }),
+  ).pipe(C.withRetryableError) {}
 export class ModeNotSupportedException
   extends /*@__PURE__*/ S.TaggedError<ModeNotSupportedException>()(
     "ModeNotSupportedException",
@@ -663,7 +675,7 @@ export type Action = string;
 export type Principal = string;
 export type Arn = string;
 export type FunctionUrlAuthType = "NONE" | "AWS_IAM" | (string & {});
-export const FunctionUrlAuthType = /*@__PURE__*/ S.String;
+export const FunctionUrlAuthType = S.String;
 
 export type InvokedViaFunctionUrl = boolean;
 export type SourceOwner = string;
@@ -734,7 +746,7 @@ export type OperationType =
   | "CALLBACK"
   | "CHAINED_INVOKE"
   | (string & {});
-export const OperationType = /*@__PURE__*/ S.String;
+export const OperationType = S.String;
 
 export type OperationSubType = string;
 export type OperationAction =
@@ -744,7 +756,7 @@ export type OperationAction =
   | "RETRY"
   | "CANCEL"
   | (string & {});
-export const OperationAction = /*@__PURE__*/ S.String;
+export const OperationAction = S.String;
 
 export type OperationPayload = string | redacted.Redacted<string>;
 export type ErrorMessage = string | redacted.Redacted<string>;
@@ -885,7 +897,7 @@ export type OperationStatus =
   | "TIMED_OUT"
   | "STOPPED"
   | (string & {});
-export const OperationStatus = /*@__PURE__*/ S.String;
+export const OperationStatus = S.String;
 
 export type InputPayload = string | redacted.Redacted<string>;
 export interface ExecutionDetails {
@@ -1122,7 +1134,7 @@ export const CapacityProviderPermissionsConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "CapacityProviderPermissionsConfig",
 }) as any as S.Schema<CapacityProviderPermissionsConfig>;
 export type Architecture = "x86_64" | "arm64" | (string & {});
-export const Architecture = /*@__PURE__*/ S.String;
+export const Architecture = S.String;
 
 export type ArchitecturesList = Architecture[];
 export const ArchitecturesList = /*@__PURE__*/ S.Array(Architecture);
@@ -1145,12 +1157,12 @@ export const InstanceRequirements = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<InstanceRequirements>;
 export type CapacityProviderMaxVCpuCount = number;
 export type CapacityProviderScalingMode = "Auto" | "Manual" | (string & {});
-export const CapacityProviderScalingMode = /*@__PURE__*/ S.String;
+export const CapacityProviderScalingMode = S.String;
 
 export type CapacityProviderPredefinedMetricType =
   | "LambdaCapacityProviderAverageCPUUtilization"
   | (string & {});
-export const CapacityProviderPredefinedMetricType = /*@__PURE__*/ S.String;
+export const CapacityProviderPredefinedMetricType = S.String;
 
 export type MetricTargetValue = number;
 export interface TargetTrackingScalingPolicy {
@@ -1189,7 +1201,7 @@ export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type PropagateTagsMode = "None" | "Explicit" | (string & {});
-export const PropagateTagsMode = /*@__PURE__*/ S.String;
+export const PropagateTagsMode = S.String;
 
 export interface PropagateTags {
   Mode?: PropagateTagsMode;
@@ -1201,6 +1213,30 @@ export const PropagateTags = /*@__PURE__*/ S.suspend(() =>
     ExplicitTags: S.optional(Tags),
   }),
 ).annotate({ identifier: "PropagateTags" }) as any as S.Schema<PropagateTags>;
+export type SystemLogLevel = "DEBUG" | "INFO" | "WARN" | (string & {});
+export const SystemLogLevel = S.String;
+
+export type LogGroup = string;
+export interface CapacityProviderLoggingConfig {
+  SystemLogLevel?: SystemLogLevel;
+  LogGroup?: string;
+}
+export const CapacityProviderLoggingConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SystemLogLevel: S.optional(SystemLogLevel),
+    LogGroup: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CapacityProviderLoggingConfig",
+}) as any as S.Schema<CapacityProviderLoggingConfig>;
+export interface CapacityProviderTelemetryConfig {
+  LoggingConfig?: CapacityProviderLoggingConfig;
+}
+export const CapacityProviderTelemetryConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ LoggingConfig: S.optional(CapacityProviderLoggingConfig) }),
+).annotate({
+  identifier: "CapacityProviderTelemetryConfig",
+}) as any as S.Schema<CapacityProviderTelemetryConfig>;
 export interface CreateCapacityProviderRequest {
   CapacityProviderName: string;
   VpcConfig: CapacityProviderVpcConfig;
@@ -1210,6 +1246,7 @@ export interface CreateCapacityProviderRequest {
   KmsKeyArn?: string;
   Tags?: { [key: string]: string | undefined };
   PropagateTags?: PropagateTags;
+  TelemetryConfig?: CapacityProviderTelemetryConfig;
 }
 export const CreateCapacityProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1221,6 +1258,7 @@ export const CreateCapacityProviderRequest = /*@__PURE__*/ S.suspend(() =>
     KmsKeyArn: S.optional(S.String),
     Tags: S.optional(Tags),
     PropagateTags: S.optional(PropagateTags),
+    TelemetryConfig: S.optional(CapacityProviderTelemetryConfig),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/2025-11-30/capacity-providers" }),
@@ -1241,7 +1279,7 @@ export type CapacityProviderState =
   | "Failed"
   | "Deleting"
   | (string & {});
-export const CapacityProviderState = /*@__PURE__*/ S.String;
+export const CapacityProviderState = S.String;
 
 export type KMSKeyArn = string;
 export interface CapacityProvider {
@@ -1254,6 +1292,7 @@ export interface CapacityProvider {
   KmsKeyArn?: string;
   LastModified?: string;
   PropagateTags?: PropagateTags;
+  TelemetryConfig?: CapacityProviderTelemetryConfig;
 }
 export const CapacityProvider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1266,6 +1305,7 @@ export const CapacityProvider = /*@__PURE__*/ S.suspend(() =>
     KmsKeyArn: S.optional(S.String),
     LastModified: S.optional(S.String),
     PropagateTags: S.optional(PropagateTags),
+    TelemetryConfig: S.optional(CapacityProviderTelemetryConfig),
   }),
 ).annotate({
   identifier: "CapacityProvider",
@@ -1289,7 +1329,7 @@ export const AllowedPublishers = /*@__PURE__*/ S.suspend(() =>
   identifier: "AllowedPublishers",
 }) as any as S.Schema<AllowedPublishers>;
 export type CodeSigningPolicy = "Warn" | "Enforce" | (string & {});
-export const CodeSigningPolicy = /*@__PURE__*/ S.String;
+export const CodeSigningPolicy = S.String;
 
 export interface CodeSigningPolicies {
   UntrustedArtifactOnDeployment?: CodeSigningPolicy;
@@ -1376,7 +1416,7 @@ export type EventSourceMappingMetric =
   | "ErrorCount"
   | "KafkaMetrics"
   | (string & {});
-export const EventSourceMappingMetric = /*@__PURE__*/ S.String;
+export const EventSourceMappingMetric = S.String;
 
 export type EventSourceMappingMetricList = EventSourceMappingMetric[];
 export const EventSourceMappingMetricList = /*@__PURE__*/ S.Array(
@@ -1395,7 +1435,7 @@ export type EventSourceMappingSystemLogLevel =
   | "INFO"
   | "WARN"
   | (string & {});
-export const EventSourceMappingSystemLogLevel = /*@__PURE__*/ S.String;
+export const EventSourceMappingSystemLogLevel = S.String;
 
 export interface EventSourceMappingLoggingConfig {
   SystemLogLevel?: EventSourceMappingSystemLogLevel;
@@ -1419,7 +1459,7 @@ export type EventSourcePosition =
   | "LATEST"
   | "AT_TIMESTAMP"
   | (string & {});
-export const EventSourcePosition = /*@__PURE__*/ S.String;
+export const EventSourcePosition = S.String;
 
 export type DestinationArn = string;
 export interface OnSuccess {
@@ -1466,7 +1506,7 @@ export type SourceAccessType =
   | "CLIENT_CERTIFICATE_TLS_AUTH"
   | "SERVER_ROOT_CA_CERTIFICATE"
   | (string & {});
-export const SourceAccessType = /*@__PURE__*/ S.String;
+export const SourceAccessType = S.String;
 
 export type URI = string;
 export interface SourceAccessConfiguration {
@@ -1483,7 +1523,7 @@ export const SourceAccessConfigurations = /*@__PURE__*/ S.Array(
   SourceAccessConfiguration,
 );
 export type EndPointType = "KAFKA_BOOTSTRAP_SERVERS" | (string & {});
-export const EndPointType = /*@__PURE__*/ S.String;
+export const EndPointType = S.String;
 
 export type Endpoint = string;
 export type EndpointLists = string[];
@@ -1502,21 +1542,21 @@ export const SelfManagedEventSource = /*@__PURE__*/ S.suspend(() =>
   identifier: "SelfManagedEventSource",
 }) as any as S.Schema<SelfManagedEventSource>;
 export type FunctionResponseType = "ReportBatchItemFailures" | (string & {});
-export const FunctionResponseType = /*@__PURE__*/ S.String;
+export const FunctionResponseType = S.String;
 
 export type FunctionResponseTypeList = FunctionResponseType[];
 export const FunctionResponseTypeList =
   /*@__PURE__*/ S.Array(FunctionResponseType);
 export type SchemaRegistryUri = string;
 export type SchemaRegistryEventRecordFormat = "JSON" | "SOURCE" | (string & {});
-export const SchemaRegistryEventRecordFormat = /*@__PURE__*/ S.String;
+export const SchemaRegistryEventRecordFormat = S.String;
 
 export type KafkaSchemaRegistryAuthType =
   | "BASIC_AUTH"
   | "CLIENT_CERTIFICATE_TLS_AUTH"
   | "SERVER_ROOT_CA_CERTIFICATE"
   | (string & {});
-export const KafkaSchemaRegistryAuthType = /*@__PURE__*/ S.String;
+export const KafkaSchemaRegistryAuthType = S.String;
 
 export interface KafkaSchemaRegistryAccessConfig {
   Type?: KafkaSchemaRegistryAuthType;
@@ -1536,7 +1576,7 @@ export const KafkaSchemaRegistryAccessConfigList = /*@__PURE__*/ S.Array(
   KafkaSchemaRegistryAccessConfig,
 );
 export type KafkaSchemaValidationAttribute = "KEY" | "VALUE" | (string & {});
-export const KafkaSchemaValidationAttribute = /*@__PURE__*/ S.String;
+export const KafkaSchemaValidationAttribute = S.String;
 
 export interface KafkaSchemaValidationConfig {
   Attribute?: KafkaSchemaValidationAttribute;
@@ -1593,7 +1633,7 @@ export const SelfManagedKafkaEventSourceConfig = /*@__PURE__*/ S.suspend(() =>
 export type DatabaseName = string;
 export type CollectionName = string;
 export type FullDocument = "UpdateLookup" | "Default" | (string & {});
-export const FullDocument = /*@__PURE__*/ S.String;
+export const FullDocument = S.String;
 
 export interface DocumentDBEventSourceConfig {
   DatabaseName?: string;
@@ -1845,15 +1885,20 @@ export type Runtime =
   | "provided"
   | "provided.al2"
   | "provided.al2023"
+  | "nodejs26.x"
+  | "python3.15"
+  | "java8.al2023"
+  | "java11.al2023"
+  | "java17.al2023"
   | (string & {});
-export const Runtime = /*@__PURE__*/ S.String;
+export const Runtime = S.String;
 
 export type Handler = string;
 export type S3Bucket = string;
 export type S3Key = string;
 export type S3ObjectVersion = string;
 export type S3ObjectStorageMode = "COPY" | "REFERENCE" | (string & {});
-export const S3ObjectStorageMode = /*@__PURE__*/ S.String;
+export const S3ObjectStorageMode = S.String;
 
 export interface FunctionCode {
   ZipFile?: Uint8Array | redacted.Redacted<Uint8Array>;
@@ -1878,7 +1923,7 @@ export const FunctionCode = /*@__PURE__*/ S.suspend(() =>
 export type Timeout = number;
 export type MemorySize = number;
 export type FunctionVersionLatestPublished = "LATEST_PUBLISHED" | (string & {});
-export const FunctionVersionLatestPublished = /*@__PURE__*/ S.String;
+export const FunctionVersionLatestPublished = S.String;
 
 export type SubnetIds = string[];
 export const SubnetIds = /*@__PURE__*/ S.Array(S.String);
@@ -1897,7 +1942,7 @@ export const VpcConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "VpcConfig" }) as any as S.Schema<VpcConfig>;
 export type PackageType = "Zip" | "Image" | (string & {});
-export const PackageType = /*@__PURE__*/ S.String;
+export const PackageType = S.String;
 
 export type ResourceArn = string;
 export interface DeadLetterConfig {
@@ -1924,7 +1969,7 @@ export const Environment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Variables: S.optional(EnvironmentVariables) }),
 ).annotate({ identifier: "Environment" }) as any as S.Schema<Environment>;
 export type TracingMode = "Active" | "PassThrough" | (string & {});
-export const TracingMode = /*@__PURE__*/ S.String;
+export const TracingMode = S.String;
 
 export interface TracingConfig {
   Mode?: TracingMode;
@@ -1973,7 +2018,7 @@ export const EphemeralStorage = /*@__PURE__*/ S.suspend(() =>
   identifier: "EphemeralStorage",
 }) as any as S.Schema<EphemeralStorage>;
 export type SnapStartApplyOn = "PublishedVersions" | "None" | (string & {});
-export const SnapStartApplyOn = /*@__PURE__*/ S.String;
+export const SnapStartApplyOn = S.String;
 
 export interface SnapStart {
   ApplyOn?: SnapStartApplyOn;
@@ -1982,7 +2027,7 @@ export const SnapStart = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplyOn: S.optional(SnapStartApplyOn) }),
 ).annotate({ identifier: "SnapStart" }) as any as S.Schema<SnapStart>;
 export type LogFormat = "JSON" | "Text" | (string & {});
-export const LogFormat = /*@__PURE__*/ S.String;
+export const LogFormat = S.String;
 
 export type ApplicationLogLevel =
   | "TRACE"
@@ -1992,12 +2037,8 @@ export type ApplicationLogLevel =
   | "ERROR"
   | "FATAL"
   | (string & {});
-export const ApplicationLogLevel = /*@__PURE__*/ S.String;
+export const ApplicationLogLevel = S.String;
 
-export type SystemLogLevel = "DEBUG" | "INFO" | "WARN" | (string & {});
-export const SystemLogLevel = /*@__PURE__*/ S.String;
-
-export type LogGroup = string;
 export interface LoggingConfig {
   LogFormat?: LogFormat;
   ApplicationLogLevel?: ApplicationLogLevel;
@@ -2013,7 +2054,7 @@ export const LoggingConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "LoggingConfig" }) as any as S.Schema<LoggingConfig>;
 export type TenantIsolationMode = "PER_TENANT" | (string & {});
-export const TenantIsolationMode = /*@__PURE__*/ S.String;
+export const TenantIsolationMode = S.String;
 
 export interface TenancyConfig {
   TenantIsolationMode: TenantIsolationMode;
@@ -2052,11 +2093,13 @@ export const CapacityProviderConfig = /*@__PURE__*/ S.suspend(() =>
 export type RetentionPeriodInDays = number;
 export type ExecutionTimeout = number;
 export interface DurableConfig {
+  KMSKeyArn?: string;
   RetentionPeriodInDays?: number;
   ExecutionTimeout?: number;
 }
 export const DurableConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    KMSKeyArn: S.optional(S.String),
     RetentionPeriodInDays: S.optional(S.Number),
     ExecutionTimeout: S.optional(S.Number),
   }),
@@ -2211,7 +2254,7 @@ export type State =
   | "ActiveNonInvocable"
   | "Deleting"
   | (string & {});
-export const State = /*@__PURE__*/ S.String;
+export const State = S.String;
 
 export type StateReason = string;
 export type StateReasonCode =
@@ -2254,16 +2297,16 @@ export type StateReasonCode =
   | "FunctionError.InitResourceExhausted"
   | "DisallowedByVpcEncryptionControl"
   | "DrainingDurableExecutions"
-  | "Creating"
+  | "DependencyError"
   | (string & {});
-export const StateReasonCode = /*@__PURE__*/ S.String;
+export const StateReasonCode = S.String;
 
 export type LastUpdateStatus =
   | "Successful"
   | "Failed"
   | "InProgress"
   | (string & {});
-export const LastUpdateStatus = /*@__PURE__*/ S.String;
+export const LastUpdateStatus = S.String;
 
 export type LastUpdateStatusReason = string;
 export type LastUpdateStatusReasonCode =
@@ -2302,9 +2345,10 @@ export type LastUpdateStatusReasonCode =
   | "FunctionError.TooManyExtensions"
   | "FunctionError.InitResourceExhausted"
   | "DisallowedByVpcEncryptionControl"
+  | "DependencyError"
   | "Creating"
   | (string & {});
-export const LastUpdateStatusReasonCode = /*@__PURE__*/ S.String;
+export const LastUpdateStatusReasonCode = S.String;
 
 export interface ImageConfigError {
   ErrorCode?: string;
@@ -2331,7 +2375,7 @@ export const ImageConfigResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ImageConfigResponse",
 }) as any as S.Schema<ImageConfigResponse>;
 export type SnapStartOptimizationStatus = "On" | "Off" | (string & {});
-export const SnapStartOptimizationStatus = /*@__PURE__*/ S.String;
+export const SnapStartOptimizationStatus = S.String;
 
 export interface SnapStartResponse {
   ApplyOn?: SnapStartApplyOn;
@@ -2490,7 +2534,7 @@ export const Cors = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Cors" }) as any as S.Schema<Cors>;
 export type InvokeMode = "BUFFERED" | "RESPONSE_STREAM" | (string & {});
-export const InvokeMode = /*@__PURE__*/ S.String;
+export const InvokeMode = S.String;
 
 export interface CreateFunctionUrlConfigRequest {
   FunctionName: string;
@@ -2855,6 +2899,38 @@ export const DeleteProvisionedConcurrencyConfigResponse =
   /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
     identifier: "DeleteProvisionedConcurrencyConfigResponse",
   }) as any as S.Schema<DeleteProvisionedConcurrencyConfigResponse>;
+export type PolicyResourceArn = string;
+export type RevisionId = string;
+export interface DeleteResourcePolicyRequest {
+  ResourceArn: string;
+  RevisionId?: string;
+}
+export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    RevisionId: S.optional(S.String).pipe(T.HttpQuery("RevisionId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/2026-07-09/resource-policy/{ResourceArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteResourcePolicyRequest",
+}) as any as S.Schema<DeleteResourcePolicyRequest>;
+export interface DeleteResourcePolicyResponse {}
+export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteResourcePolicyResponse",
+}) as any as S.Schema<DeleteResourcePolicyResponse>;
 export interface GetAccountSettingsRequest {}
 export const GetAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
@@ -2993,12 +3069,17 @@ export const GetCodeSigningConfigResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetCodeSigningConfigResponse",
 }) as any as S.Schema<GetCodeSigningConfigResponse>;
+export type IncludeExecutionData = boolean;
 export interface GetDurableExecutionRequest {
   DurableExecutionArn: string;
+  IncludeExecutionData?: boolean;
 }
 export const GetDurableExecutionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DurableExecutionArn: S.String.pipe(T.HttpLabel("DurableExecutionArn")),
+    IncludeExecutionData: S.optional(S.Boolean).pipe(
+      T.HttpQuery("IncludeExecutionData"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -3024,7 +3105,7 @@ export type ExecutionStatus =
   | "TIMED_OUT"
   | "STOPPED"
   | (string & {});
-export const ExecutionStatus = /*@__PURE__*/ S.String;
+export const ExecutionStatus = S.String;
 
 export type XAmznTraceId = string;
 export interface TraceHeader {
@@ -3033,6 +3114,7 @@ export interface TraceHeader {
 export const TraceHeader = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ XAmznTraceId: S.optional(S.String) }),
 ).annotate({ identifier: "TraceHeader" }) as any as S.Schema<TraceHeader>;
+export type ExecutionDataIncluded = boolean;
 export interface GetDurableExecutionResponse {
   DurableExecutionArn: string;
   DurableExecutionName: string;
@@ -3045,6 +3127,8 @@ export interface GetDurableExecutionResponse {
   EndTimestamp?: Date;
   Version?: string;
   TraceHeader?: TraceHeader;
+  ExecutionDataIncluded?: boolean;
+  DurableConfig?: DurableConfig;
 }
 export const GetDurableExecutionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3059,11 +3143,12 @@ export const GetDurableExecutionResponse = /*@__PURE__*/ S.suspend(() =>
     EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Version: S.optional(S.String),
     TraceHeader: S.optional(TraceHeader),
+    ExecutionDataIncluded: S.optional(S.Boolean),
+    DurableConfig: S.optional(DurableConfig),
   }),
 ).annotate({
   identifier: "GetDurableExecutionResponse",
 }) as any as S.Schema<GetDurableExecutionResponse>;
-export type IncludeExecutionData = boolean;
 export type ItemCount = number;
 export type ReverseOrder = boolean;
 export interface GetDurableExecutionHistoryRequest {
@@ -3124,7 +3209,7 @@ export type EventType =
   | "CallbackTimedOut"
   | "InvocationCompleted"
   | (string & {});
-export const EventType = /*@__PURE__*/ S.String;
+export const EventType = S.String;
 
 export type EventId = number;
 export type Truncated = boolean;
@@ -3774,7 +3859,7 @@ export const GetFunctionRecursionConfigRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetFunctionRecursionConfigRequest",
 }) as any as S.Schema<GetFunctionRecursionConfigRequest>;
 export type RecursiveLoop = "Allow" | "Terminate" | (string & {});
-export const RecursiveLoop = /*@__PURE__*/ S.String;
+export const RecursiveLoop = S.String;
 
 export interface GetFunctionRecursionConfigResponse {
   RecursiveLoop?: RecursiveLoop;
@@ -4073,7 +4158,7 @@ export type ProvisionedConcurrencyStatusEnum =
   | "READY"
   | "FAILED"
   | (string & {});
-export const ProvisionedConcurrencyStatusEnum = /*@__PURE__*/ S.String;
+export const ProvisionedConcurrencyStatusEnum = S.String;
 
 export interface GetProvisionedConcurrencyConfigResponse {
   RequestedProvisionedConcurrentExecutions?: number;
@@ -4096,6 +4181,36 @@ export const GetProvisionedConcurrencyConfigResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "GetProvisionedConcurrencyConfigResponse",
 }) as any as S.Schema<GetProvisionedConcurrencyConfigResponse>;
+export interface GetResourcePolicyRequest {
+  ResourceArn: string;
+}
+export const GetResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/2026-07-09/resource-policy/{ResourceArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetResourcePolicyRequest",
+}) as any as S.Schema<GetResourcePolicyRequest>;
+export type ResourcePolicy = string;
+export interface GetResourcePolicyResponse {
+  Policy?: string;
+  RevisionId?: string;
+}
+export const GetResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String), RevisionId: S.optional(S.String) }),
+).annotate({
+  identifier: "GetResourcePolicyResponse",
+}) as any as S.Schema<GetResourcePolicyResponse>;
 export interface GetRuntimeManagementConfigRequest {
   FunctionName: string;
   Qualifier?: string;
@@ -4125,7 +4240,7 @@ export type UpdateRuntimeOn =
   | "Manual"
   | "FunctionUpdate"
   | (string & {});
-export const UpdateRuntimeOn = /*@__PURE__*/ S.String;
+export const UpdateRuntimeOn = S.String;
 
 export interface GetRuntimeManagementConfigResponse {
   UpdateRuntimeOn?: UpdateRuntimeOn;
@@ -4146,10 +4261,10 @@ export type InvocationType =
   | "RequestResponse"
   | "DryRun"
   | (string & {});
-export const InvocationType = /*@__PURE__*/ S.String;
+export const InvocationType = S.String;
 
 export type LogType = "None" | "Tail" | (string & {});
-export const LogType = /*@__PURE__*/ S.String;
+export const LogType = S.String;
 
 export interface InvocationRequest {
   FunctionName: string;
@@ -4256,23 +4371,20 @@ export type ResponseStreamingInvocationType =
   | "RequestResponse"
   | "DryRun"
   | (string & {});
-export const ResponseStreamingInvocationType = /*@__PURE__*/ S.String;
+export const ResponseStreamingInvocationType = S.String;
 
 export interface InvokeWithResponseStreamRequest {
   FunctionName: string;
-  InvocationType?: ResponseStreamingInvocationType;
   LogType?: LogType;
   ClientContext?: string;
   Qualifier?: string;
   Payload?: T.StreamingInputBody;
   TenantId?: string;
+  InvocationType?: ResponseStreamingInvocationType;
 }
 export const InvokeWithResponseStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
-    InvocationType: S.optional(ResponseStreamingInvocationType).pipe(
-      T.HttpHeader("X-Amz-Invocation-Type"),
-    ),
     LogType: S.optional(LogType).pipe(T.HttpHeader("X-Amz-Log-Type")),
     ClientContext: S.optional(S.String).pipe(
       T.HttpHeader("X-Amz-Client-Context"),
@@ -4280,6 +4392,9 @@ export const InvokeWithResponseStreamRequest = /*@__PURE__*/ S.suspend(() =>
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
     Payload: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
     TenantId: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Tenant-Id")),
+    InvocationType: S.optional(ResponseStreamingInvocationType).pipe(
+      T.HttpHeader("X-Amz-Invocation-Type"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -4530,6 +4645,7 @@ export interface Execution {
   Status: ExecutionStatus;
   StartTimestamp: Date;
   EndTimestamp?: Date;
+  KMSKeyArn?: string;
 }
 export const Execution = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4539,6 +4655,7 @@ export const Execution = /*@__PURE__*/ S.suspend(() =>
     Status: ExecutionStatus,
     StartTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    KMSKeyArn: S.optional(S.String),
   }),
 ).annotate({ identifier: "Execution" }) as any as S.Schema<Execution>;
 export type DurableExecutions = Execution[];
@@ -4644,7 +4761,7 @@ export const ListFunctionEventInvokeConfigsResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ListFunctionEventInvokeConfigsResponse>;
 export type MasterRegion = string;
 export type FunctionVersion = "ALL" | (string & {});
-export const FunctionVersion = /*@__PURE__*/ S.String;
+export const FunctionVersion = S.String;
 
 export interface ListFunctionsRequest {
   MasterRegion?: string;
@@ -5414,6 +5531,41 @@ export const PutProvisionedConcurrencyConfigResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "PutProvisionedConcurrencyConfigResponse",
 }) as any as S.Schema<PutProvisionedConcurrencyConfigResponse>;
+export interface PutResourcePolicyRequest {
+  ResourceArn: string;
+  Policy: string;
+  RevisionId?: string;
+}
+export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Policy: S.String,
+    RevisionId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/2026-07-09/resource-policy/{ResourceArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutResourcePolicyRequest",
+}) as any as S.Schema<PutResourcePolicyRequest>;
+export interface PutResourcePolicyResponse {
+  Policy?: string;
+  RevisionId?: string;
+}
+export const PutResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String), RevisionId: S.optional(S.String) }),
+).annotate({
+  identifier: "PutResourcePolicyResponse",
+}) as any as S.Schema<PutResourcePolicyResponse>;
 export interface PutRuntimeManagementConfigRequest {
   FunctionName: string;
   Qualifier?: string;
@@ -5741,12 +5893,14 @@ export interface UpdateCapacityProviderRequest {
   CapacityProviderName: string;
   CapacityProviderScalingConfig?: CapacityProviderScalingConfig;
   PropagateTags?: PropagateTags;
+  TelemetryConfig?: CapacityProviderTelemetryConfig;
 }
 export const UpdateCapacityProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     CapacityProviderName: S.String.pipe(T.HttpLabel("CapacityProviderName")),
     CapacityProviderScalingConfig: S.optional(CapacityProviderScalingConfig),
     PropagateTags: S.optional(PropagateTags),
+    TelemetryConfig: S.optional(CapacityProviderTelemetryConfig),
   }).pipe(
     T.all(
       T.Http({
@@ -6074,7 +6228,7 @@ export type ThrottleReason =
   | "CallerRateLimitExceeded"
   | "ConcurrentSnapshotCreateLimitExceeded"
   | (string & {});
-export const ThrottleReason = /*@__PURE__*/ S.String;
+export const ThrottleReason = S.String;
 
 export type AddLayerVersionPermissionError =
   | InvalidParameterValueException
@@ -6162,6 +6316,10 @@ export const addPermission: API.OperationMethod<
 
 export type CheckpointDurableExecutionError =
   | InvalidParameterValueException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
   | ServiceException
   | TooManyRequestsException
   | CommonErrors;
@@ -6180,6 +6338,10 @@ export const checkpointDurableExecution: API.OperationMethod<
   output: CheckpointDurableExecutionResponse,
   errors: [
     InvalidParameterValueException,
+    KMSAccessDeniedException,
+    KMSDisabledException,
+    KMSInvalidStateException,
+    KMSNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
@@ -6368,6 +6530,7 @@ export type CreateFunctionError =
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
+  | LambdaInternalKmsError
   | CommonErrors;
 /**
  * Creates a Lambda function. To create a function, you need a deployment package and an execution role. The deployment package is a .zip file archive or container image that contains your function code. The execution role grants the function permission to use Amazon Web Services services, such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing.
@@ -6407,6 +6570,7 @@ export const createFunction: API.OperationMethod<
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
+    LambdaInternalKmsError,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6811,6 +6975,38 @@ export const deleteProvisionedConcurrencyConfig: API.OperationMethod<
   operationName: "DeleteProvisionedConcurrencyConfig",
 }));
 
+export type DeleteResourcePolicyError =
+  | InvalidParameterValueException
+  | PreconditionFailedException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Deletes a resource-based policy from a Lambda resource.
+ */
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyResponse,
+  DeleteResourcePolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteResourcePolicyRequest,
+  output: DeleteResourcePolicyResponse,
+  errors: [
+    InvalidParameterValueException,
+    PreconditionFailedException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteResourcePolicy",
+}));
+
 export type GetAccountSettingsError =
   | ServiceException
   | TooManyRequestsException
@@ -6920,6 +7116,10 @@ export const getCodeSigningConfig: API.OperationMethod<
 
 export type GetDurableExecutionError =
   | InvalidParameterValueException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
@@ -6937,6 +7137,10 @@ export const getDurableExecution: API.OperationMethod<
   output: GetDurableExecutionResponse,
   errors: [
     InvalidParameterValueException,
+    KMSAccessDeniedException,
+    KMSDisabledException,
+    KMSInvalidStateException,
+    KMSNotFoundException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
@@ -6948,6 +7152,10 @@ export const getDurableExecution: API.OperationMethod<
 
 export type GetDurableExecutionHistoryError =
   | InvalidParameterValueException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
@@ -6968,6 +7176,10 @@ export const getDurableExecutionHistory: API.PaginatedOperationMethod<
   output: GetDurableExecutionHistoryResponse,
   errors: [
     InvalidParameterValueException,
+    KMSAccessDeniedException,
+    KMSDisabledException,
+    KMSInvalidStateException,
+    KMSNotFoundException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
@@ -6985,6 +7197,10 @@ export const getDurableExecutionHistory: API.PaginatedOperationMethod<
 
 export type GetDurableExecutionStateError =
   | InvalidParameterValueException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
   | ServiceException
   | TooManyRequestsException
   | CommonErrors;
@@ -7004,6 +7220,10 @@ export const getDurableExecutionState: API.PaginatedOperationMethod<
   output: GetDurableExecutionStateResponse,
   errors: [
     InvalidParameterValueException,
+    KMSAccessDeniedException,
+    KMSDisabledException,
+    KMSInvalidStateException,
+    KMSNotFoundException,
     ServiceException,
     TooManyRequestsException,
   ],
@@ -7440,6 +7660,34 @@ export const getProvisionedConcurrencyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProvisionedConcurrencyConfig",
+}));
+
+export type GetResourcePolicyError =
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Retrieves the resource-based policy attached to a Lambda resource.
+ */
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
+  GetResourcePolicyResponse,
+  GetResourcePolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetResourcePolicyRequest,
+  output: GetResourcePolicyResponse,
+  errors: [
+    InvalidParameterValueException,
+    ResourceNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetResourcePolicy",
 }));
 
 export type GetRuntimeManagementConfigError =
@@ -8595,6 +8843,44 @@ export const putProvisionedConcurrencyConfig: API.OperationMethod<
   operationName: "PutProvisionedConcurrencyConfig",
 }));
 
+export type PutResourcePolicyError =
+  | InvalidParameterValueException
+  | PolicyLengthExceededException
+  | PreconditionFailedException
+  | PublicPolicyException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Adds a resource-based policy to a Lambda resource. Resource-based policies grant access to other Amazon Web Services accounts, organizations, or services. Resource-based policies apply to a single Lambda resource (for example, a function, function version, or function alias).
+ *
+ * This operation replaces any existing policy on the Lambda resource. If you previously added permissions using the AddPermission operation, the new policy overwrites those permissions.
+ */
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
+  PutResourcePolicyResponse,
+  PutResourcePolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutResourcePolicyRequest,
+  output: PutResourcePolicyResponse,
+  errors: [
+    InvalidParameterValueException,
+    PolicyLengthExceededException,
+    PreconditionFailedException,
+    PublicPolicyException,
+    ResourceConflictException,
+    ResourceNotFoundException,
+    ServiceException,
+    TooManyRequestsException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutResourcePolicy",
+}));
+
 export type PutRuntimeManagementConfigError =
   | InvalidParameterValueException
   | ResourceConflictException
@@ -8694,6 +8980,10 @@ export const removePermission: API.OperationMethod<
 export type SendDurableExecutionCallbackFailureError =
   | CallbackTimeoutException
   | InvalidParameterValueException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
@@ -8712,6 +9002,10 @@ export const sendDurableExecutionCallbackFailure: API.OperationMethod<
   errors: [
     CallbackTimeoutException,
     InvalidParameterValueException,
+    KMSAccessDeniedException,
+    KMSDisabledException,
+    KMSInvalidStateException,
+    KMSNotFoundException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
@@ -8754,6 +9048,10 @@ export const sendDurableExecutionCallbackHeartbeat: API.OperationMethod<
 export type SendDurableExecutionCallbackSuccessError =
   | CallbackTimeoutException
   | InvalidParameterValueException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
@@ -8772,6 +9070,10 @@ export const sendDurableExecutionCallbackSuccess: API.OperationMethod<
   errors: [
     CallbackTimeoutException,
     InvalidParameterValueException,
+    KMSAccessDeniedException,
+    KMSDisabledException,
+    KMSInvalidStateException,
+    KMSNotFoundException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
@@ -8783,6 +9085,10 @@ export const sendDurableExecutionCallbackSuccess: API.OperationMethod<
 
 export type StopDurableExecutionError =
   | InvalidParameterValueException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
@@ -8800,6 +9106,10 @@ export const stopDurableExecution: API.OperationMethod<
   output: StopDurableExecutionResponse,
   errors: [
     InvalidParameterValueException,
+    KMSAccessDeniedException,
+    KMSDisabledException,
+    KMSInvalidStateException,
+    KMSNotFoundException,
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,

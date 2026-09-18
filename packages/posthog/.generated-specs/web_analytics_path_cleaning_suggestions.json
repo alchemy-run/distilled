@@ -1,0 +1,342 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.web_analytics_path_cleaning_suggestions#ApplyWebAnalyticsPathCleaningSuggestionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#ApplyPathCleaningSuggestionResponse": {
+      "type": "structure",
+      "members": {
+        "applied": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of rules merged into the team's path_cleaning_filters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#ApplyWebAnalyticsPathCleaningSuggestion": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics_path_cleaning_suggestions#ApplyWebAnalyticsPathCleaningSuggestionRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics_path_cleaning_suggestions#ApplyPathCleaningSuggestionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_path_cleaning_suggestions/{id}/apply/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Apply a path-cleaning suggestion\n\nMerges the suggestion's rules into the team's path_cleaning_filters (never overwrites existing rules) and resolves the underlying health issue. Requires project admin, matching the team API's gate on path_cleaning_filters."
+      }
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#PreviewWebAnalyticsPathCleaningSuggestionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#PreviewPathCleaningSuggestionResponse": {
+      "type": "structure",
+      "members": {
+        "examples": {
+          "target": "com.posthog.web_analytics_path_cleaning_suggestions#PreviewPathCleaningSuggestionResponseExamplesList",
+          "traits": {
+            "smithy.api#documentation": "Up to 20 before/after pairs for sampled paths the suggested rules would rewrite.",
+            "smithy.api#required": {}
+          }
+        },
+        "changed_path_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many of the sampled paths the suggested rules rewrite in total.",
+            "smithy.api#required": {}
+          }
+        },
+        "sampled_path_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many top paths were sampled for this preview.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#PathCleaningPreviewExample": {
+      "type": "structure",
+      "members": {
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A real sampled path before the suggested rules are applied.",
+            "smithy.api#required": {}
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The same path after all suggested rules run in order.",
+            "smithy.api#required": {}
+          }
+        },
+        "views": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Pageviews this path received in the sampling window.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#PreviewPathCleaningSuggestionResponseExamplesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics_path_cleaning_suggestions#PathCleaningPreviewExample"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 20 before/after pairs for sampled paths the suggested rules would rewrite."
+      }
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#PreviewWebAnalyticsPathCleaningSuggestion": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics_path_cleaning_suggestions#PreviewWebAnalyticsPathCleaningSuggestionRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics_path_cleaning_suggestions#PreviewPathCleaningSuggestionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/web_analytics_path_cleaning_suggestions/{id}/preview/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Preview a path-cleaning suggestion on real paths\n\nApplies the suggestion's rules (in order) to a fresh sample of the team's top paths and returns before/after pairs for the paths that would change. Computed on demand; path samples are never stored. Nothing is modified."
+      }
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#GenerateWebAnalyticsPathCleaningSuggestionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#GeneratePathCleaningSuggestionResponse": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "generated, skipped_low_cardinality, skipped_no_paths, skipped_configured, or error.",
+            "smithy.api#required": {}
+          }
+        },
+        "suggestion": {
+          "target": "com.posthog.web_analytics_path_cleaning_suggestions#PathCleaningSuggestionIssue",
+          "traits": {
+            "smithy.api#documentation": "The stored suggestion when status is generated, else null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#PathCleaningSuggestionIssue": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Health-issue id; pass it to the apply endpoint or the health-issues API.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the suggestion was generated (ISO 8601).",
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.posthog.web_analytics_path_cleaning_suggestions#PathCleaningSuggestionIssueRulesList",
+          "traits": {
+            "smithy.api#documentation": "Validated path-cleaning rules proposed for this team, most specific first.",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "LLM that generated the rules.",
+            "smithy.api#required": {}
+          }
+        },
+        "sampled_path_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many real paths were sampled for generation.",
+            "smithy.api#required": {}
+          }
+        },
+        "distinct_path_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Distinct pathnames seen in the sampling window.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A path-cleaning suggestion, stored as a `path_cleaning_suggestions` health issue."
+      }
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#SuggestedRule": {
+      "type": "structure",
+      "members": {
+        "regex": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "re2 pattern matching the dynamic path segment.",
+            "smithy.api#required": {}
+          }
+        },
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Replacement with angle-bracket placeholders, e.g. /users/<id>.",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Apply order; rules run sequentially, output feeds the next.",
+            "smithy.api#required": {}
+          }
+        },
+        "match_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many of the sampled paths this rule rewrites — evidence the rule was validated on real traffic.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#PathCleaningSuggestionIssueRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics_path_cleaning_suggestions#SuggestedRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Validated path-cleaning rules proposed for this team, most specific first."
+      }
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#GenerateWebAnalyticsPathCleaningSuggestion": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics_path_cleaning_suggestions#GenerateWebAnalyticsPathCleaningSuggestionRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics_path_cleaning_suggestions#GeneratePathCleaningSuggestionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_path_cleaning_suggestions/generate/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Generate path-cleaning suggestions on demand\n\nSamples the team's recent paths, asks the LLM for cleaning rules, validates them against the real paths, and stores the result as a `path_cleaning_suggestions` health issue (replacing any previous active one). Runs even if the team already has rules. Returns the suggestion (or a skip status when there aren't enough paths to suggest from)."
+      }
+    },
+    "com.posthog.web_analytics_path_cleaning_suggestions#WebAnalyticsPathCleaningSuggestions": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.web_analytics_path_cleaning_suggestions#ApplyWebAnalyticsPathCleaningSuggestion"
+        },
+        {
+          "target": "com.posthog.web_analytics_path_cleaning_suggestions#PreviewWebAnalyticsPathCleaningSuggestion"
+        },
+        {
+          "target": "com.posthog.web_analytics_path_cleaning_suggestions#GenerateWebAnalyticsPathCleaningSuggestion"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

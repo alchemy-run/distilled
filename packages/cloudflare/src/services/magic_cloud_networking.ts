@@ -196,10 +196,10 @@ export const ApplyOnRampResponse = /*@__PURE__*/ S.suspend(() =>
 export type CatalogSyncsCreateRequestDestinationType =
   | "NONE"
   | "ZERO_TRUST_LIST";
-export const CatalogSyncsCreateRequestDestinationType = /*@__PURE__*/ S.String;
+export const CatalogSyncsCreateRequestDestinationType = S.String;
 
 export type CatalogSyncsCreateRequestUpdateMode = "AUTO" | "MANUAL";
-export const CatalogSyncsCreateRequestUpdateMode = /*@__PURE__*/ S.String;
+export const CatalogSyncsCreateRequestUpdateMode = S.String;
 
 export interface CreateCatalogSyncRequest {
   accountId: string;
@@ -237,10 +237,10 @@ export const CreateCatalogSyncRequest = /*@__PURE__*/ S.suspend(() =>
 export type CatalogSyncsCreateResponseDestinationType =
   | "NONE"
   | "ZERO_TRUST_LIST";
-export const CatalogSyncsCreateResponseDestinationType = /*@__PURE__*/ S.String;
+export const CatalogSyncsCreateResponseDestinationType = S.String;
 
 export type CatalogSyncsCreateResponseUpdateMode = "AUTO" | "MANUAL";
-export const CatalogSyncsCreateResponseUpdateMode = /*@__PURE__*/ S.String;
+export const CatalogSyncsCreateResponseUpdateMode = S.String;
 
 export type CatalogSyncsCreateResponseErrorsValueCode =
   | 1001
@@ -398,7 +398,7 @@ export type CatalogSyncsCreateResponseErrorsValueCode =
   | 103006
   | 103007
   | 103008;
-export const CatalogSyncsCreateResponseErrorsValueCode = /*@__PURE__*/ S.Number;
+export const CatalogSyncsCreateResponseErrorsValueCode = S.Number;
 
 export interface CatalogSyncsCreateResponseErrorsValueMeta {
   l10nKey?: string | null;
@@ -519,7 +519,7 @@ export type CloudIntegrationsCreateRequestCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const CloudIntegrationsCreateRequestCloudType = /*@__PURE__*/ S.String;
+export const CloudIntegrationsCreateRequestCloudType = S.String;
 
 export interface CreateCloudIntegrationRequest {
   accountId: string;
@@ -555,14 +555,13 @@ export type CloudIntegrationsCreateResponseCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const CloudIntegrationsCreateResponseCloudType = /*@__PURE__*/ S.String;
+export const CloudIntegrationsCreateResponseCloudType = S.String;
 
 export type CloudIntegrationsCreateResponseLifecycleState =
   | "ACTIVE"
   | "PENDING_SETUP"
   | "RETIRED";
-export const CloudIntegrationsCreateResponseLifecycleState =
-  /*@__PURE__*/ S.String;
+export const CloudIntegrationsCreateResponseLifecycleState = S.String;
 
 export type CloudIntegrationsCreateResponseState =
   | "UNSPECIFIED"
@@ -570,7 +569,7 @@ export type CloudIntegrationsCreateResponseState =
   | "DISCOVERING"
   | "FAILED"
   | "SUCCEEDED";
-export const CloudIntegrationsCreateResponseState = /*@__PURE__*/ S.String;
+export const CloudIntegrationsCreateResponseState = S.String;
 
 export type CloudIntegrationsCreateResponseStateV2 =
   | "UNSPECIFIED"
@@ -578,7 +577,7 @@ export type CloudIntegrationsCreateResponseStateV2 =
   | "DISCOVERING"
   | "FAILED"
   | "SUCCEEDED";
-export const CloudIntegrationsCreateResponseStateV2 = /*@__PURE__*/ S.String;
+export const CloudIntegrationsCreateResponseStateV2 = S.String;
 
 export interface CloudIntegrationsCreateResponseStatusDiscoveryProgress {
   done: number;
@@ -608,7 +607,7 @@ export type CloudIntegrationsCreateResponseStatusLastDiscoveryStatus =
   | "FAILED"
   | "SUCCEEDED";
 export const CloudIntegrationsCreateResponseStatusLastDiscoveryStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type CloudIntegrationsCreateResponseStatusLastDiscoveryStatusV2 =
   | "UNSPECIFIED"
@@ -617,7 +616,7 @@ export type CloudIntegrationsCreateResponseStatusLastDiscoveryStatusV2 =
   | "FAILED"
   | "SUCCEEDED";
 export const CloudIntegrationsCreateResponseStatusLastDiscoveryStatusV2 =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type CloudIntegrationsCreateResponseStatusRegionsList = Array<string>;
 export const CloudIntegrationsCreateResponseStatusRegionsList =
@@ -628,7 +627,7 @@ export const CloudIntegrationsCreateResponseStatusRegionsList =
 export type CloudIntegrationsCreateResponseStatusInUseByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
 export const CloudIntegrationsCreateResponseStatusInUseByItemClientType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface CloudIntegrationsCreateResponseStatusInUseByItem {
   id: string;
@@ -781,10 +780,10 @@ export const CreateCloudIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateCloudIntegrationResponse>;
 
 export type OnRampsCreateRequestCloudType = "AWS" | "AZURE" | "GOOGLE";
-export const OnRampsCreateRequestCloudType = /*@__PURE__*/ S.String;
+export const OnRampsCreateRequestCloudType = S.String;
 
 export type OnRampsCreateRequestType = "OnrampTypeSingle" | "OnrampTypeHub";
-export const OnRampsCreateRequestType = /*@__PURE__*/ S.String;
+export const OnRampsCreateRequestType = S.String;
 
 export type OnRampsCreateRequestAttachedHubsList = Array<string>;
 export const OnRampsCreateRequestAttachedHubsList = /*@__PURE__*/ S.Array(
@@ -862,10 +861,10 @@ export const CreateOnRampRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateOnRampRequest>;
 
 export type OnRampsCreateResponseCloudType = "AWS" | "AZURE" | "GOOGLE";
-export const OnRampsCreateResponseCloudType = /*@__PURE__*/ S.String;
+export const OnRampsCreateResponseCloudType = S.String;
 
 export type OnRampsCreateResponseType = "OnrampTypeSingle" | "OnrampTypeHub";
-export const OnRampsCreateResponseType = /*@__PURE__*/ S.String;
+export const OnRampsCreateResponseType = S.String;
 
 export type OnRampsCreateResponseAttachedHubsList = Array<string>;
 export const OnRampsCreateResponseAttachedHubsList = /*@__PURE__*/ S.Array(
@@ -933,8 +932,7 @@ export type OnRampsCreateResponsePlannedResourcesItemPlannedAction =
   | "update"
   | "replace"
   | "destroy";
-export const OnRampsCreateResponsePlannedResourcesItemPlannedAction =
-  /*@__PURE__*/ S.String;
+export const OnRampsCreateResponsePlannedResourcesItemPlannedAction = S.String;
 
 export type OnRampsCreateResponsePlannedResourcesItemResourceCloudType =
   | "AWS"
@@ -942,7 +940,7 @@ export type OnRampsCreateResponsePlannedResourcesItemResourceCloudType =
   | "GOOGLE"
   | "CLOUDFLARE";
 export const OnRampsCreateResponsePlannedResourcesItemResourceCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsCreateResponsePlannedResourcesItemResourceResourceType =
   | "aws_customer_gateway"
@@ -1003,7 +1001,7 @@ export type OnRampsCreateResponsePlannedResourcesItemResourceResourceType =
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
 export const OnRampsCreateResponsePlannedResourcesItemResourceResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsCreateResponsePlannedResourcesItemResource {
   id: string;
@@ -1087,8 +1085,7 @@ export type OnRampsCreateResponsePostApplyResourcesValueCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const OnRampsCreateResponsePostApplyResourcesValueCloudType =
-  /*@__PURE__*/ S.String;
+export const OnRampsCreateResponsePostApplyResourcesValueCloudType = S.String;
 
 export type OnRampsCreateResponsePostApplyResourcesValueConfigMap = {
   [key: string]: unknown | undefined;
@@ -1208,7 +1205,7 @@ export type OnRampsCreateResponsePostApplyResourcesValueResourceType =
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
 export const OnRampsCreateResponsePostApplyResourcesValueResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem {
   itemType: string;
@@ -1263,70 +1260,73 @@ export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItems
   }) as any as S.Schema<OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem>;
 
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -1381,70 +1381,73 @@ export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItems
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -1494,8 +1497,8 @@ export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItems
   }) as any as S.Schema<OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -1527,11 +1530,11 @@ export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItems
   }) as any as S.Schema<OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem>;
 
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
 export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -1592,70 +1595,73 @@ export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItem
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -1710,70 +1716,73 @@ export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItem
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -1823,8 +1832,8 @@ export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItem
   }) as any as S.Schema<OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -1856,11 +1865,11 @@ export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItem
   }) as any as S.Schema<OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem>;
 
 export type OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
 export const OnRampsCreateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -1952,7 +1961,7 @@ export const OnRampsCreateResponsePostApplyResourcesValueTagsMap =
 export type OnRampsCreateResponsePostApplyResourcesValueManagedByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
 export const OnRampsCreateResponsePostApplyResourcesValueManagedByItemClientType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsCreateResponsePostApplyResourcesValueManagedByItem {
   id: string;
@@ -2086,7 +2095,7 @@ export type OnRampsCreateResponseStatusLifecycleState =
   | "OnrampPendingDestroy"
   | "OnrampDestroying"
   | "OnrampDestroyFailed";
-export const OnRampsCreateResponseStatusLifecycleState = /*@__PURE__*/ S.String;
+export const OnRampsCreateResponseStatusLifecycleState = S.String;
 
 export type OnRampsCreateResponseStatusPlanProgress =
   OnRampsCreateResponseStatusApplyProgress;
@@ -2259,8 +2268,7 @@ export type OnRampsCreateResponseStatusLifecycleErrorsValueCode =
   | 103006
   | 103007
   | 103008;
-export const OnRampsCreateResponseStatusLifecycleErrorsValueCode =
-  /*@__PURE__*/ S.Number;
+export const OnRampsCreateResponseStatusLifecycleErrorsValueCode = S.Number;
 
 export type OnRampsCreateResponseStatusLifecycleErrorsValueMeta =
   CatalogSyncsCreateResponseErrorsValueMeta;
@@ -2339,8 +2347,7 @@ export type OnRampsCreateResponseVpcsByIdValueCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const OnRampsCreateResponseVpcsByIdValueCloudType =
-  /*@__PURE__*/ S.String;
+export const OnRampsCreateResponseVpcsByIdValueCloudType = S.String;
 
 export type OnRampsCreateResponseVpcsByIdValueConfigMap = {
   [key: string]: unknown | undefined;
@@ -2445,8 +2452,7 @@ export type OnRampsCreateResponseVpcsByIdValueResourceType =
   | "google_compute_network_firewall_policy_rule"
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
-export const OnRampsCreateResponseVpcsByIdValueResourceType =
-  /*@__PURE__*/ S.String;
+export const OnRampsCreateResponseVpcsByIdValueResourceType = S.String;
 
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnStringItem =
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
@@ -2469,70 +2475,73 @@ export const OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueM
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -2587,70 +2596,73 @@ export const OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueM
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -2700,8 +2712,8 @@ export const OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueM
   }) as any as S.Schema<OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -2733,11 +2745,11 @@ export const OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueM
   }) as any as S.Schema<OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem>;
 
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
-    | OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
+  | OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem;
 export const OnRampsCreateResponseVpcsByIdValueSectionsItemHiddenItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -2797,70 +2809,73 @@ export const OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -2915,70 +2930,73 @@ export const OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -3028,8 +3046,8 @@ export const OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue
   }) as any as S.Schema<OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -3061,11 +3079,11 @@ export const OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue
   }) as any as S.Schema<OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem>;
 
 export type OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
-    | OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
+  | OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem;
 export const OnRampsCreateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -3156,7 +3174,7 @@ export const OnRampsCreateResponseVpcsByIdValueTagsMap = /*@__PURE__*/ S.Record(
 export type OnRampsCreateResponseVpcsByIdValueManagedByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
 export const OnRampsCreateResponseVpcsByIdValueManagedByItemClientType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsCreateResponseVpcsByIdValueManagedByItem {
   id: string;
@@ -3633,7 +3651,7 @@ export type ResourcesExportRequestResourceType =
   | "google_compute_network_firewall_policy_rule"
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
-export const ResourcesExportRequestResourceType = /*@__PURE__*/ S.String;
+export const ResourcesExportRequestResourceType = S.String;
 
 export type ResourcesExportRequestResourceTypeList = Array<
   ResourcesExportRequestResourceType | (string & {})
@@ -3718,10 +3736,10 @@ export const GetCatalogSyncRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCatalogSyncRequest>;
 
 export type CatalogSyncsGetResponseDestinationType = "NONE" | "ZERO_TRUST_LIST";
-export const CatalogSyncsGetResponseDestinationType = /*@__PURE__*/ S.String;
+export const CatalogSyncsGetResponseDestinationType = S.String;
 
 export type CatalogSyncsGetResponseUpdateMode = "AUTO" | "MANUAL";
-export const CatalogSyncsGetResponseUpdateMode = /*@__PURE__*/ S.String;
+export const CatalogSyncsGetResponseUpdateMode = S.String;
 
 export type CatalogSyncsGetResponseErrorsValueCode =
   | 1001
@@ -3879,7 +3897,7 @@ export type CatalogSyncsGetResponseErrorsValueCode =
   | 103006
   | 103007
   | 103008;
-export const CatalogSyncsGetResponseErrorsValueCode = /*@__PURE__*/ S.Number;
+export const CatalogSyncsGetResponseErrorsValueCode = S.Number;
 
 export type CatalogSyncsGetResponseErrorsValueMeta =
   CatalogSyncsCreateResponseErrorsValueMeta;
@@ -3990,14 +4008,13 @@ export type CloudIntegrationsGetResponseCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const CloudIntegrationsGetResponseCloudType = /*@__PURE__*/ S.String;
+export const CloudIntegrationsGetResponseCloudType = S.String;
 
 export type CloudIntegrationsGetResponseLifecycleState =
   | "ACTIVE"
   | "PENDING_SETUP"
   | "RETIRED";
-export const CloudIntegrationsGetResponseLifecycleState =
-  /*@__PURE__*/ S.String;
+export const CloudIntegrationsGetResponseLifecycleState = S.String;
 
 export type CloudIntegrationsGetResponseState =
   | "UNSPECIFIED"
@@ -4005,7 +4022,7 @@ export type CloudIntegrationsGetResponseState =
   | "DISCOVERING"
   | "FAILED"
   | "SUCCEEDED";
-export const CloudIntegrationsGetResponseState = /*@__PURE__*/ S.String;
+export const CloudIntegrationsGetResponseState = S.String;
 
 export type CloudIntegrationsGetResponseStateV2 =
   | "UNSPECIFIED"
@@ -4013,7 +4030,7 @@ export type CloudIntegrationsGetResponseStateV2 =
   | "DISCOVERING"
   | "FAILED"
   | "SUCCEEDED";
-export const CloudIntegrationsGetResponseStateV2 = /*@__PURE__*/ S.String;
+export const CloudIntegrationsGetResponseStateV2 = S.String;
 
 export type CloudIntegrationsGetResponseStatusDiscoveryProgress =
   CloudIntegrationsCreateResponseStatusDiscoveryProgress;
@@ -4031,8 +4048,7 @@ export type CloudIntegrationsGetResponseStatusLastDiscoveryStatus =
   | "DISCOVERING"
   | "FAILED"
   | "SUCCEEDED";
-export const CloudIntegrationsGetResponseStatusLastDiscoveryStatus =
-  /*@__PURE__*/ S.String;
+export const CloudIntegrationsGetResponseStatusLastDiscoveryStatus = S.String;
 
 export type CloudIntegrationsGetResponseStatusLastDiscoveryStatusV2 =
   | "UNSPECIFIED"
@@ -4040,8 +4056,7 @@ export type CloudIntegrationsGetResponseStatusLastDiscoveryStatusV2 =
   | "DISCOVERING"
   | "FAILED"
   | "SUCCEEDED";
-export const CloudIntegrationsGetResponseStatusLastDiscoveryStatusV2 =
-  /*@__PURE__*/ S.String;
+export const CloudIntegrationsGetResponseStatusLastDiscoveryStatusV2 = S.String;
 
 export type CloudIntegrationsGetResponseStatusRegionsList = Array<string>;
 export const CloudIntegrationsGetResponseStatusRegionsList =
@@ -4051,8 +4066,7 @@ export const CloudIntegrationsGetResponseStatusRegionsList =
 
 export type CloudIntegrationsGetResponseStatusInUseByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
-export const CloudIntegrationsGetResponseStatusInUseByItemClientType =
-  /*@__PURE__*/ S.String;
+export const CloudIntegrationsGetResponseStatusInUseByItemClientType = S.String;
 
 export interface CloudIntegrationsGetResponseStatusInUseByItem {
   id: string;
@@ -4232,10 +4246,10 @@ export const GetOnRampRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetOnRampRequest>;
 
 export type OnRampsGetResponseCloudType = "AWS" | "AZURE" | "GOOGLE";
-export const OnRampsGetResponseCloudType = /*@__PURE__*/ S.String;
+export const OnRampsGetResponseCloudType = S.String;
 
 export type OnRampsGetResponseType = "OnrampTypeSingle" | "OnrampTypeHub";
-export const OnRampsGetResponseType = /*@__PURE__*/ S.String;
+export const OnRampsGetResponseType = S.String;
 
 export type OnRampsGetResponseAttachedHubsList = Array<string>;
 export const OnRampsGetResponseAttachedHubsList = /*@__PURE__*/ S.Array(
@@ -4275,16 +4289,14 @@ export type OnRampsGetResponsePlannedResourcesItemPlannedAction =
   | "update"
   | "replace"
   | "destroy";
-export const OnRampsGetResponsePlannedResourcesItemPlannedAction =
-  /*@__PURE__*/ S.String;
+export const OnRampsGetResponsePlannedResourcesItemPlannedAction = S.String;
 
 export type OnRampsGetResponsePlannedResourcesItemResourceCloudType =
   | "AWS"
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const OnRampsGetResponsePlannedResourcesItemResourceCloudType =
-  /*@__PURE__*/ S.String;
+export const OnRampsGetResponsePlannedResourcesItemResourceCloudType = S.String;
 
 export type OnRampsGetResponsePlannedResourcesItemResourceResourceType =
   | "aws_customer_gateway"
@@ -4345,7 +4357,7 @@ export type OnRampsGetResponsePlannedResourcesItemResourceResourceType =
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
 export const OnRampsGetResponsePlannedResourcesItemResourceResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsGetResponsePlannedResourcesItemResource {
   id: string;
@@ -4418,8 +4430,7 @@ export type OnRampsGetResponsePostApplyResourcesValueCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const OnRampsGetResponsePostApplyResourcesValueCloudType =
-  /*@__PURE__*/ S.String;
+export const OnRampsGetResponsePostApplyResourcesValueCloudType = S.String;
 
 export type OnRampsGetResponsePostApplyResourcesValueConfigMap = {
   [key: string]: unknown | undefined;
@@ -4525,8 +4536,7 @@ export type OnRampsGetResponsePostApplyResourcesValueResourceType =
   | "google_compute_network_firewall_policy_rule"
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
-export const OnRampsGetResponsePostApplyResourcesValueResourceType =
-  /*@__PURE__*/ S.String;
+export const OnRampsGetResponsePostApplyResourcesValueResourceType = S.String;
 
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem =
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
@@ -4549,70 +4559,73 @@ export const OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsIte
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -4667,70 +4680,73 @@ export const OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsIte
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -4780,8 +4796,8 @@ export const OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsIte
   }) as any as S.Schema<OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -4813,11 +4829,11 @@ export const OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsIte
   }) as any as S.Schema<OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem>;
 
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
-    | OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
+  | OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
 export const OnRampsGetResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -4878,70 +4894,73 @@ export const OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsIt
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -4996,70 +5015,73 @@ export const OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsIt
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -5109,8 +5131,8 @@ export const OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsIt
   }) as any as S.Schema<OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -5142,11 +5164,11 @@ export const OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsIt
   }) as any as S.Schema<OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem>;
 
 export type OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
-    | OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
+  | OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
 export const OnRampsGetResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -5238,7 +5260,7 @@ export const OnRampsGetResponsePostApplyResourcesValueTagsMap =
 export type OnRampsGetResponsePostApplyResourcesValueManagedByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
 export const OnRampsGetResponsePostApplyResourcesValueManagedByItemClientType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsGetResponsePostApplyResourcesValueManagedByItem {
   id: string;
@@ -5361,7 +5383,7 @@ export type OnRampsGetResponseStatusLifecycleState =
   | "OnrampPendingDestroy"
   | "OnrampDestroying"
   | "OnrampDestroyFailed";
-export const OnRampsGetResponseStatusLifecycleState = /*@__PURE__*/ S.String;
+export const OnRampsGetResponseStatusLifecycleState = S.String;
 
 export type OnRampsGetResponseStatusPlanProgress =
   OnRampsCreateResponseStatusApplyProgress;
@@ -5534,8 +5556,7 @@ export type OnRampsGetResponseStatusLifecycleErrorsValueCode =
   | 103006
   | 103007
   | 103008;
-export const OnRampsGetResponseStatusLifecycleErrorsValueCode =
-  /*@__PURE__*/ S.Number;
+export const OnRampsGetResponseStatusLifecycleErrorsValueCode = S.Number;
 
 export type OnRampsGetResponseStatusLifecycleErrorsValueMeta =
   CatalogSyncsCreateResponseErrorsValueMeta;
@@ -5614,7 +5635,7 @@ export type OnRampsGetResponseVpcsByIdValueCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const OnRampsGetResponseVpcsByIdValueCloudType = /*@__PURE__*/ S.String;
+export const OnRampsGetResponseVpcsByIdValueCloudType = S.String;
 
 export type OnRampsGetResponseVpcsByIdValueConfigMap = {
   [key: string]: unknown | undefined;
@@ -5718,8 +5739,7 @@ export type OnRampsGetResponseVpcsByIdValueResourceType =
   | "google_compute_network_firewall_policy_rule"
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
-export const OnRampsGetResponseVpcsByIdValueResourceType =
-  /*@__PURE__*/ S.String;
+export const OnRampsGetResponseVpcsByIdValueResourceType = S.String;
 
 export type OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnStringItem =
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
@@ -5742,70 +5762,73 @@ export const OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnY
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -5860,70 +5883,73 @@ export const OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnL
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -5973,8 +5999,8 @@ export const OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnL
   }) as any as S.Schema<OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsGetResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -6070,70 +6096,73 @@ export const OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcn
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -6188,70 +6217,73 @@ export const OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcn
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -6301,8 +6333,8 @@ export const OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcn
   }) as any as S.Schema<OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsGetResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -6426,8 +6458,7 @@ export const OnRampsGetResponseVpcsByIdValueTagsMap = /*@__PURE__*/ S.Record(
 
 export type OnRampsGetResponseVpcsByIdValueManagedByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
-export const OnRampsGetResponseVpcsByIdValueManagedByItemClientType =
-  /*@__PURE__*/ S.String;
+export const OnRampsGetResponseVpcsByIdValueManagedByItemClientType = S.String;
 
 export interface OnRampsGetResponseVpcsByIdValueManagedByItem {
   id: string;
@@ -6675,7 +6706,7 @@ export type ResourcesGetResponseCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const ResourcesGetResponseCloudType = /*@__PURE__*/ S.String;
+export const ResourcesGetResponseCloudType = S.String;
 
 export type ResourcesGetResponseConfigMap = {
   [key: string]: unknown | undefined;
@@ -6776,7 +6807,7 @@ export type ResourcesGetResponseResourceType =
   | "google_compute_network_firewall_policy_rule"
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
-export const ResourcesGetResponseResourceType = /*@__PURE__*/ S.String;
+export const ResourcesGetResponseResourceType = S.String;
 
 export type ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnStringItem =
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
@@ -6799,70 +6830,73 @@ export const ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnYamlDiffItem
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -6917,70 +6951,73 @@ export const ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnListItemList
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -7030,8 +7067,8 @@ export const ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnListItemList
   }) as any as S.Schema<ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const ResourcesGetResponseSectionsItemHiddenItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -7125,70 +7162,73 @@ export const ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnYamlDiffIte
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -7243,70 +7283,73 @@ export const ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnListItemLis
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -7356,8 +7399,8 @@ export const ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnListItemLis
   }) as any as S.Schema<ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const ResourcesGetResponseSectionsItemVisibleItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -7473,8 +7516,7 @@ export const ResourcesGetResponseTagsMap = /*@__PURE__*/ S.Record(
 
 export type ResourcesGetResponseManagedByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
-export const ResourcesGetResponseManagedByItemClientType =
-  /*@__PURE__*/ S.String;
+export const ResourcesGetResponseManagedByItemClientType = S.String;
 
 export interface ResourcesGetResponseManagedByItem {
   id: string;
@@ -7657,8 +7699,7 @@ export const InitialSetupCloudIntegrationResponse = /*@__PURE__*/ S.suspend(
 export type CatalogSyncsPrebuiltPoliciesListRequestDestinationType =
   | "NONE"
   | "ZERO_TRUST_LIST";
-export const CatalogSyncsPrebuiltPoliciesListRequestDestinationType =
-  /*@__PURE__*/ S.String;
+export const CatalogSyncsPrebuiltPoliciesListRequestDestinationType = S.String;
 
 export interface ListCatalogSyncPrebuiltPoliciesRequest {
   accountId: string;
@@ -7690,9 +7731,10 @@ export const ListCatalogSyncPrebuiltPoliciesRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ListCatalogSyncPrebuiltPoliciesRequest>;
 
 export type CatalogSyncsPrebuiltPoliciesListResultItemApplicableDestinationsItem =
-  "NONE" | "ZERO_TRUST_LIST";
+  | "NONE"
+  | "ZERO_TRUST_LIST";
 export const CatalogSyncsPrebuiltPoliciesListResultItemApplicableDestinationsItem =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type CatalogSyncsPrebuiltPoliciesListResultItemApplicableDestinationsList =
   Array<CatalogSyncsPrebuiltPoliciesListResultItemApplicableDestinationsItem>;
@@ -7768,10 +7810,10 @@ export const ListCatalogSyncsRequest = /*@__PURE__*/ S.suspend(() =>
 export type CatalogSyncsListResultItemDestinationType =
   | "NONE"
   | "ZERO_TRUST_LIST";
-export const CatalogSyncsListResultItemDestinationType = /*@__PURE__*/ S.String;
+export const CatalogSyncsListResultItemDestinationType = S.String;
 
 export type CatalogSyncsListResultItemUpdateMode = "AUTO" | "MANUAL";
-export const CatalogSyncsListResultItemUpdateMode = /*@__PURE__*/ S.String;
+export const CatalogSyncsListResultItemUpdateMode = S.String;
 
 export type CatalogSyncsListResultItemErrorsValueCode =
   | 1001
@@ -7929,7 +7971,7 @@ export type CatalogSyncsListResultItemErrorsValueCode =
   | 103006
   | 103007
   | 103008;
-export const CatalogSyncsListResultItemErrorsValueCode = /*@__PURE__*/ S.Number;
+export const CatalogSyncsListResultItemErrorsValueCode = S.Number;
 
 export type CatalogSyncsListResultItemErrorsValueMeta =
   CatalogSyncsCreateResponseErrorsValueMeta;
@@ -8067,14 +8109,13 @@ export type CloudIntegrationsListResultItemCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const CloudIntegrationsListResultItemCloudType = /*@__PURE__*/ S.String;
+export const CloudIntegrationsListResultItemCloudType = S.String;
 
 export type CloudIntegrationsListResultItemLifecycleState =
   | "ACTIVE"
   | "PENDING_SETUP"
   | "RETIRED";
-export const CloudIntegrationsListResultItemLifecycleState =
-  /*@__PURE__*/ S.String;
+export const CloudIntegrationsListResultItemLifecycleState = S.String;
 
 export type CloudIntegrationsListResultItemState =
   | "UNSPECIFIED"
@@ -8082,7 +8123,7 @@ export type CloudIntegrationsListResultItemState =
   | "DISCOVERING"
   | "FAILED"
   | "SUCCEEDED";
-export const CloudIntegrationsListResultItemState = /*@__PURE__*/ S.String;
+export const CloudIntegrationsListResultItemState = S.String;
 
 export type CloudIntegrationsListResultItemStateV2 =
   | "UNSPECIFIED"
@@ -8090,7 +8131,7 @@ export type CloudIntegrationsListResultItemStateV2 =
   | "DISCOVERING"
   | "FAILED"
   | "SUCCEEDED";
-export const CloudIntegrationsListResultItemStateV2 = /*@__PURE__*/ S.String;
+export const CloudIntegrationsListResultItemStateV2 = S.String;
 
 export type CloudIntegrationsListResultItemStatusDiscoveryProgress =
   CloudIntegrationsCreateResponseStatusDiscoveryProgress;
@@ -8109,7 +8150,7 @@ export type CloudIntegrationsListResultItemStatusLastDiscoveryStatus =
   | "FAILED"
   | "SUCCEEDED";
 export const CloudIntegrationsListResultItemStatusLastDiscoveryStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type CloudIntegrationsListResultItemStatusLastDiscoveryStatusV2 =
   | "UNSPECIFIED"
@@ -8118,7 +8159,7 @@ export type CloudIntegrationsListResultItemStatusLastDiscoveryStatusV2 =
   | "FAILED"
   | "SUCCEEDED";
 export const CloudIntegrationsListResultItemStatusLastDiscoveryStatusV2 =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type CloudIntegrationsListResultItemStatusRegionsList = Array<string>;
 export const CloudIntegrationsListResultItemStatusRegionsList =
@@ -8129,7 +8170,7 @@ export const CloudIntegrationsListResultItemStatusRegionsList =
 export type CloudIntegrationsListResultItemStatusInUseByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
 export const CloudIntegrationsListResultItemStatusInUseByItemClientType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface CloudIntegrationsListResultItemStatusInUseByItem {
   id: string;
@@ -8367,10 +8408,10 @@ export const ListOnRampsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOnRampsRequest>;
 
 export type OnRampsListResultItemCloudType = "AWS" | "AZURE" | "GOOGLE";
-export const OnRampsListResultItemCloudType = /*@__PURE__*/ S.String;
+export const OnRampsListResultItemCloudType = S.String;
 
 export type OnRampsListResultItemType = "OnrampTypeSingle" | "OnrampTypeHub";
-export const OnRampsListResultItemType = /*@__PURE__*/ S.String;
+export const OnRampsListResultItemType = S.String;
 
 export type OnRampsListResultItemAttachedHubsList = Array<string>;
 export const OnRampsListResultItemAttachedHubsList = /*@__PURE__*/ S.Array(
@@ -8410,8 +8451,7 @@ export type OnRampsListResultItemPlannedResourcesItemPlannedAction =
   | "update"
   | "replace"
   | "destroy";
-export const OnRampsListResultItemPlannedResourcesItemPlannedAction =
-  /*@__PURE__*/ S.String;
+export const OnRampsListResultItemPlannedResourcesItemPlannedAction = S.String;
 
 export type OnRampsListResultItemPlannedResourcesItemResourceCloudType =
   | "AWS"
@@ -8419,7 +8459,7 @@ export type OnRampsListResultItemPlannedResourcesItemResourceCloudType =
   | "GOOGLE"
   | "CLOUDFLARE";
 export const OnRampsListResultItemPlannedResourcesItemResourceCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsListResultItemPlannedResourcesItemResourceResourceType =
   | "aws_customer_gateway"
@@ -8480,7 +8520,7 @@ export type OnRampsListResultItemPlannedResourcesItemResourceResourceType =
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
 export const OnRampsListResultItemPlannedResourcesItemResourceResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsListResultItemPlannedResourcesItemResource {
   id: string;
@@ -8555,8 +8595,7 @@ export type OnRampsListResultItemPostApplyResourcesValueCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const OnRampsListResultItemPostApplyResourcesValueCloudType =
-  /*@__PURE__*/ S.String;
+export const OnRampsListResultItemPostApplyResourcesValueCloudType = S.String;
 
 export type OnRampsListResultItemPostApplyResourcesValueConfigMap = {
   [key: string]: unknown | undefined;
@@ -8663,7 +8702,7 @@ export type OnRampsListResultItemPostApplyResourcesValueResourceType =
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
 export const OnRampsListResultItemPostApplyResourcesValueResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem =
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
@@ -8686,70 +8725,73 @@ export const OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItems
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -8804,70 +8846,73 @@ export const OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItems
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -8917,8 +8962,8 @@ export const OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItems
   }) as any as S.Schema<OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -8950,11 +8995,11 @@ export const OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItems
   }) as any as S.Schema<OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem>;
 
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
-    | OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
+  | OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
 export const OnRampsListResultItemPostApplyResourcesValueSectionsItemHiddenItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -9015,70 +9060,73 @@ export const OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItem
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -9133,70 +9181,73 @@ export const OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItem
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -9246,8 +9297,8 @@ export const OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItem
   }) as any as S.Schema<OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -9279,11 +9330,11 @@ export const OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItem
   }) as any as S.Schema<OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem>;
 
 export type OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
-    | OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
+  | OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
 export const OnRampsListResultItemPostApplyResourcesValueSectionsItemVisibleItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -9375,7 +9426,7 @@ export const OnRampsListResultItemPostApplyResourcesValueTagsMap =
 export type OnRampsListResultItemPostApplyResourcesValueManagedByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
 export const OnRampsListResultItemPostApplyResourcesValueManagedByItemClientType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsListResultItemPostApplyResourcesValueManagedByItem {
   id: string;
@@ -9500,7 +9551,7 @@ export type OnRampsListResultItemStatusLifecycleState =
   | "OnrampPendingDestroy"
   | "OnrampDestroying"
   | "OnrampDestroyFailed";
-export const OnRampsListResultItemStatusLifecycleState = /*@__PURE__*/ S.String;
+export const OnRampsListResultItemStatusLifecycleState = S.String;
 
 export type OnRampsListResultItemStatusPlanProgress =
   OnRampsCreateResponseStatusApplyProgress;
@@ -9673,8 +9724,7 @@ export type OnRampsListResultItemStatusLifecycleErrorsValueCode =
   | 103006
   | 103007
   | 103008;
-export const OnRampsListResultItemStatusLifecycleErrorsValueCode =
-  /*@__PURE__*/ S.Number;
+export const OnRampsListResultItemStatusLifecycleErrorsValueCode = S.Number;
 
 export type OnRampsListResultItemStatusLifecycleErrorsValueMeta =
   CatalogSyncsCreateResponseErrorsValueMeta;
@@ -9753,8 +9803,7 @@ export type OnRampsListResultItemVpcsByIdValueCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const OnRampsListResultItemVpcsByIdValueCloudType =
-  /*@__PURE__*/ S.String;
+export const OnRampsListResultItemVpcsByIdValueCloudType = S.String;
 
 export type OnRampsListResultItemVpcsByIdValueConfigMap = {
   [key: string]: unknown | undefined;
@@ -9859,8 +9908,7 @@ export type OnRampsListResultItemVpcsByIdValueResourceType =
   | "google_compute_network_firewall_policy_rule"
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
-export const OnRampsListResultItemVpcsByIdValueResourceType =
-  /*@__PURE__*/ S.String;
+export const OnRampsListResultItemVpcsByIdValueResourceType = S.String;
 
 export type OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnStringItem =
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
@@ -9883,70 +9931,73 @@ export const OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueM
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -10001,70 +10052,73 @@ export const OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueM
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -10114,8 +10168,8 @@ export const OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueM
   }) as any as S.Schema<OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -10147,11 +10201,11 @@ export const OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueM
   }) as any as S.Schema<OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem>;
 
 export type OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
-    | OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
+  | OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem;
 export const OnRampsListResultItemVpcsByIdValueSectionsItemHiddenItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -10211,70 +10265,73 @@ export const OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValue
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -10329,70 +10386,73 @@ export const OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValue
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -10442,8 +10502,8 @@ export const OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValue
   }) as any as S.Schema<OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -10475,11 +10535,11 @@ export const OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValue
   }) as any as S.Schema<OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem>;
 
 export type OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
-    | OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
+  | OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem;
 export const OnRampsListResultItemVpcsByIdValueSectionsItemVisibleItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -10570,7 +10630,7 @@ export const OnRampsListResultItemVpcsByIdValueTagsMap = /*@__PURE__*/ S.Record(
 export type OnRampsListResultItemVpcsByIdValueManagedByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
 export const OnRampsListResultItemVpcsByIdValueManagedByItemClientType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsListResultItemVpcsByIdValueManagedByItem {
   id: string;
@@ -10875,7 +10935,7 @@ export type ResourcesListRequestResourceType =
   | "google_compute_network_firewall_policy_rule"
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
-export const ResourcesListRequestResourceType = /*@__PURE__*/ S.String;
+export const ResourcesListRequestResourceType = S.String;
 
 export type ResourcesListRequestResourceTypeList = Array<
   ResourcesListRequestResourceType | (string & {})
@@ -10944,7 +11004,7 @@ export type ResourcesListResultItemCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const ResourcesListResultItemCloudType = /*@__PURE__*/ S.String;
+export const ResourcesListResultItemCloudType = S.String;
 
 export type ResourcesListResultItemConfigMap = {
   [key: string]: unknown | undefined;
@@ -11046,7 +11106,7 @@ export type ResourcesListResultItemResourceType =
   | "google_compute_network_firewall_policy_rule"
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
-export const ResourcesListResultItemResourceType = /*@__PURE__*/ S.String;
+export const ResourcesListResultItemResourceType = S.String;
 
 export type ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnStringItem =
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
@@ -11069,70 +11129,73 @@ export const ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnYamlDiffI
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -11187,70 +11250,73 @@ export const ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnListItemL
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -11300,8 +11366,8 @@ export const ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnListItemL
   }) as any as S.Schema<ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const ResourcesListResultItemSectionsItemHiddenItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -11395,70 +11461,73 @@ export const ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnYamlDiff
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -11513,70 +11582,73 @@ export const ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnListItem
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -11626,8 +11698,8 @@ export const ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnListItem
   }) as any as S.Schema<ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const ResourcesListResultItemSectionsItemVisibleItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -11745,8 +11817,7 @@ export const ResourcesListResultItemTagsMap = /*@__PURE__*/ S.Record(
 
 export type ResourcesListResultItemManagedByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
-export const ResourcesListResultItemManagedByItemClientType =
-  /*@__PURE__*/ S.String;
+export const ResourcesListResultItemManagedByItemClientType = S.String;
 
 export interface ResourcesListResultItemManagedByItem {
   id: string;
@@ -11854,7 +11925,7 @@ export const ListResourcesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListResourcesResponse>;
 
 export type CatalogSyncsEditRequestUpdateMode = "AUTO" | "MANUAL";
-export const CatalogSyncsEditRequestUpdateMode = /*@__PURE__*/ S.String;
+export const CatalogSyncsEditRequestUpdateMode = S.String;
 
 export interface PatchCatalogSyncRequest {
   accountId: string;
@@ -11890,10 +11961,10 @@ export const PatchCatalogSyncRequest = /*@__PURE__*/ S.suspend(() =>
 export type CatalogSyncsEditResponseDestinationType =
   | "NONE"
   | "ZERO_TRUST_LIST";
-export const CatalogSyncsEditResponseDestinationType = /*@__PURE__*/ S.String;
+export const CatalogSyncsEditResponseDestinationType = S.String;
 
 export type CatalogSyncsEditResponseUpdateMode = "AUTO" | "MANUAL";
-export const CatalogSyncsEditResponseUpdateMode = /*@__PURE__*/ S.String;
+export const CatalogSyncsEditResponseUpdateMode = S.String;
 
 export type CatalogSyncsEditResponseErrorsValueCode =
   | 1001
@@ -12051,7 +12122,7 @@ export type CatalogSyncsEditResponseErrorsValueCode =
   | 103006
   | 103007
   | 103008;
-export const CatalogSyncsEditResponseErrorsValueCode = /*@__PURE__*/ S.Number;
+export const CatalogSyncsEditResponseErrorsValueCode = S.Number;
 
 export type CatalogSyncsEditResponseErrorsValueMeta =
   CatalogSyncsCreateResponseErrorsValueMeta;
@@ -12178,14 +12249,13 @@ export type CloudIntegrationsEditResponseCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const CloudIntegrationsEditResponseCloudType = /*@__PURE__*/ S.String;
+export const CloudIntegrationsEditResponseCloudType = S.String;
 
 export type CloudIntegrationsEditResponseLifecycleState =
   | "ACTIVE"
   | "PENDING_SETUP"
   | "RETIRED";
-export const CloudIntegrationsEditResponseLifecycleState =
-  /*@__PURE__*/ S.String;
+export const CloudIntegrationsEditResponseLifecycleState = S.String;
 
 export type CloudIntegrationsEditResponseState =
   | "UNSPECIFIED"
@@ -12193,7 +12263,7 @@ export type CloudIntegrationsEditResponseState =
   | "DISCOVERING"
   | "FAILED"
   | "SUCCEEDED";
-export const CloudIntegrationsEditResponseState = /*@__PURE__*/ S.String;
+export const CloudIntegrationsEditResponseState = S.String;
 
 export type CloudIntegrationsEditResponseStateV2 =
   | "UNSPECIFIED"
@@ -12201,7 +12271,7 @@ export type CloudIntegrationsEditResponseStateV2 =
   | "DISCOVERING"
   | "FAILED"
   | "SUCCEEDED";
-export const CloudIntegrationsEditResponseStateV2 = /*@__PURE__*/ S.String;
+export const CloudIntegrationsEditResponseStateV2 = S.String;
 
 export type CloudIntegrationsEditResponseStatusDiscoveryProgress =
   CloudIntegrationsCreateResponseStatusDiscoveryProgress;
@@ -12219,8 +12289,7 @@ export type CloudIntegrationsEditResponseStatusLastDiscoveryStatus =
   | "DISCOVERING"
   | "FAILED"
   | "SUCCEEDED";
-export const CloudIntegrationsEditResponseStatusLastDiscoveryStatus =
-  /*@__PURE__*/ S.String;
+export const CloudIntegrationsEditResponseStatusLastDiscoveryStatus = S.String;
 
 export type CloudIntegrationsEditResponseStatusLastDiscoveryStatusV2 =
   | "UNSPECIFIED"
@@ -12229,7 +12298,7 @@ export type CloudIntegrationsEditResponseStatusLastDiscoveryStatusV2 =
   | "FAILED"
   | "SUCCEEDED";
 export const CloudIntegrationsEditResponseStatusLastDiscoveryStatusV2 =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type CloudIntegrationsEditResponseStatusRegionsList = Array<string>;
 export const CloudIntegrationsEditResponseStatusRegionsList =
@@ -12240,7 +12309,7 @@ export const CloudIntegrationsEditResponseStatusRegionsList =
 export type CloudIntegrationsEditResponseStatusInUseByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
 export const CloudIntegrationsEditResponseStatusInUseByItemClientType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface CloudIntegrationsEditResponseStatusInUseByItem {
   id: string;
@@ -12452,10 +12521,10 @@ export const PatchOnRampRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchOnRampRequest>;
 
 export type OnRampsEditResponseCloudType = "AWS" | "AZURE" | "GOOGLE";
-export const OnRampsEditResponseCloudType = /*@__PURE__*/ S.String;
+export const OnRampsEditResponseCloudType = S.String;
 
 export type OnRampsEditResponseType = "OnrampTypeSingle" | "OnrampTypeHub";
-export const OnRampsEditResponseType = /*@__PURE__*/ S.String;
+export const OnRampsEditResponseType = S.String;
 
 export type OnRampsEditResponseAttachedHubsList = Array<string>;
 export const OnRampsEditResponseAttachedHubsList = /*@__PURE__*/ S.Array(
@@ -12495,8 +12564,7 @@ export type OnRampsEditResponsePlannedResourcesItemPlannedAction =
   | "update"
   | "replace"
   | "destroy";
-export const OnRampsEditResponsePlannedResourcesItemPlannedAction =
-  /*@__PURE__*/ S.String;
+export const OnRampsEditResponsePlannedResourcesItemPlannedAction = S.String;
 
 export type OnRampsEditResponsePlannedResourcesItemResourceCloudType =
   | "AWS"
@@ -12504,7 +12572,7 @@ export type OnRampsEditResponsePlannedResourcesItemResourceCloudType =
   | "GOOGLE"
   | "CLOUDFLARE";
 export const OnRampsEditResponsePlannedResourcesItemResourceCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsEditResponsePlannedResourcesItemResourceResourceType =
   | "aws_customer_gateway"
@@ -12565,7 +12633,7 @@ export type OnRampsEditResponsePlannedResourcesItemResourceResourceType =
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
 export const OnRampsEditResponsePlannedResourcesItemResourceResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsEditResponsePlannedResourcesItemResource {
   id: string;
@@ -12638,8 +12706,7 @@ export type OnRampsEditResponsePostApplyResourcesValueCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const OnRampsEditResponsePostApplyResourcesValueCloudType =
-  /*@__PURE__*/ S.String;
+export const OnRampsEditResponsePostApplyResourcesValueCloudType = S.String;
 
 export type OnRampsEditResponsePostApplyResourcesValueConfigMap = {
   [key: string]: unknown | undefined;
@@ -12745,8 +12812,7 @@ export type OnRampsEditResponsePostApplyResourcesValueResourceType =
   | "google_compute_network_firewall_policy_rule"
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
-export const OnRampsEditResponsePostApplyResourcesValueResourceType =
-  /*@__PURE__*/ S.String;
+export const OnRampsEditResponsePostApplyResourcesValueResourceType = S.String;
 
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem =
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
@@ -12769,70 +12835,73 @@ export const OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsIt
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -12887,70 +12956,73 @@ export const OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsIt
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -13000,8 +13072,8 @@ export const OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsIt
   }) as any as S.Schema<OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -13033,11 +13105,11 @@ export const OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsIt
   }) as any as S.Schema<OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem>;
 
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
-    | OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
+  | OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
 export const OnRampsEditResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -13098,70 +13170,73 @@ export const OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsI
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -13216,70 +13291,73 @@ export const OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsI
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -13329,8 +13407,8 @@ export const OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsI
   }) as any as S.Schema<OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -13362,11 +13440,11 @@ export const OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsI
   }) as any as S.Schema<OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem>;
 
 export type OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
-    | OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
+  | OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
 export const OnRampsEditResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -13458,7 +13536,7 @@ export const OnRampsEditResponsePostApplyResourcesValueTagsMap =
 export type OnRampsEditResponsePostApplyResourcesValueManagedByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
 export const OnRampsEditResponsePostApplyResourcesValueManagedByItemClientType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsEditResponsePostApplyResourcesValueManagedByItem {
   id: string;
@@ -13581,7 +13659,7 @@ export type OnRampsEditResponseStatusLifecycleState =
   | "OnrampPendingDestroy"
   | "OnrampDestroying"
   | "OnrampDestroyFailed";
-export const OnRampsEditResponseStatusLifecycleState = /*@__PURE__*/ S.String;
+export const OnRampsEditResponseStatusLifecycleState = S.String;
 
 export type OnRampsEditResponseStatusPlanProgress =
   OnRampsCreateResponseStatusApplyProgress;
@@ -13754,8 +13832,7 @@ export type OnRampsEditResponseStatusLifecycleErrorsValueCode =
   | 103006
   | 103007
   | 103008;
-export const OnRampsEditResponseStatusLifecycleErrorsValueCode =
-  /*@__PURE__*/ S.Number;
+export const OnRampsEditResponseStatusLifecycleErrorsValueCode = S.Number;
 
 export type OnRampsEditResponseStatusLifecycleErrorsValueMeta =
   CatalogSyncsCreateResponseErrorsValueMeta;
@@ -13834,7 +13911,7 @@ export type OnRampsEditResponseVpcsByIdValueCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const OnRampsEditResponseVpcsByIdValueCloudType = /*@__PURE__*/ S.String;
+export const OnRampsEditResponseVpcsByIdValueCloudType = S.String;
 
 export type OnRampsEditResponseVpcsByIdValueConfigMap = {
   [key: string]: unknown | undefined;
@@ -13938,8 +14015,7 @@ export type OnRampsEditResponseVpcsByIdValueResourceType =
   | "google_compute_network_firewall_policy_rule"
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
-export const OnRampsEditResponseVpcsByIdValueResourceType =
-  /*@__PURE__*/ S.String;
+export const OnRampsEditResponseVpcsByIdValueResourceType = S.String;
 
 export type OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnStringItem =
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
@@ -13962,70 +14038,73 @@ export const OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcn
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -14080,70 +14159,73 @@ export const OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcn
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -14193,8 +14275,8 @@ export const OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcn
   }) as any as S.Schema<OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsEditResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -14290,70 +14372,73 @@ export const OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMc
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -14408,70 +14493,73 @@ export const OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMc
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -14521,8 +14609,8 @@ export const OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMc
   }) as any as S.Schema<OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsEditResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -14646,8 +14734,7 @@ export const OnRampsEditResponseVpcsByIdValueTagsMap = /*@__PURE__*/ S.Record(
 
 export type OnRampsEditResponseVpcsByIdValueManagedByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
-export const OnRampsEditResponseVpcsByIdValueManagedByItemClientType =
-  /*@__PURE__*/ S.String;
+export const OnRampsEditResponseVpcsByIdValueManagedByItemClientType = S.String;
 
 export interface OnRampsEditResponseVpcsByIdValueManagedByItem {
   id: string;
@@ -15043,7 +15130,7 @@ export const RefreshCatalogSyncResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RefreshCatalogSyncResponse>;
 
 export type CatalogSyncsUpdateRequestUpdateMode = "AUTO" | "MANUAL";
-export const CatalogSyncsUpdateRequestUpdateMode = /*@__PURE__*/ S.String;
+export const CatalogSyncsUpdateRequestUpdateMode = S.String;
 
 export interface UpdateCatalogSyncRequest {
   accountId: string;
@@ -15079,10 +15166,10 @@ export const UpdateCatalogSyncRequest = /*@__PURE__*/ S.suspend(() =>
 export type CatalogSyncsUpdateResponseDestinationType =
   | "NONE"
   | "ZERO_TRUST_LIST";
-export const CatalogSyncsUpdateResponseDestinationType = /*@__PURE__*/ S.String;
+export const CatalogSyncsUpdateResponseDestinationType = S.String;
 
 export type CatalogSyncsUpdateResponseUpdateMode = "AUTO" | "MANUAL";
-export const CatalogSyncsUpdateResponseUpdateMode = /*@__PURE__*/ S.String;
+export const CatalogSyncsUpdateResponseUpdateMode = S.String;
 
 export type CatalogSyncsUpdateResponseErrorsValueCode =
   | 1001
@@ -15240,7 +15327,7 @@ export type CatalogSyncsUpdateResponseErrorsValueCode =
   | 103006
   | 103007
   | 103008;
-export const CatalogSyncsUpdateResponseErrorsValueCode = /*@__PURE__*/ S.Number;
+export const CatalogSyncsUpdateResponseErrorsValueCode = S.Number;
 
 export type CatalogSyncsUpdateResponseErrorsValueMeta =
   CatalogSyncsCreateResponseErrorsValueMeta;
@@ -15370,14 +15457,13 @@ export type CloudIntegrationsUpdateResponseCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const CloudIntegrationsUpdateResponseCloudType = /*@__PURE__*/ S.String;
+export const CloudIntegrationsUpdateResponseCloudType = S.String;
 
 export type CloudIntegrationsUpdateResponseLifecycleState =
   | "ACTIVE"
   | "PENDING_SETUP"
   | "RETIRED";
-export const CloudIntegrationsUpdateResponseLifecycleState =
-  /*@__PURE__*/ S.String;
+export const CloudIntegrationsUpdateResponseLifecycleState = S.String;
 
 export type CloudIntegrationsUpdateResponseState =
   | "UNSPECIFIED"
@@ -15385,7 +15471,7 @@ export type CloudIntegrationsUpdateResponseState =
   | "DISCOVERING"
   | "FAILED"
   | "SUCCEEDED";
-export const CloudIntegrationsUpdateResponseState = /*@__PURE__*/ S.String;
+export const CloudIntegrationsUpdateResponseState = S.String;
 
 export type CloudIntegrationsUpdateResponseStateV2 =
   | "UNSPECIFIED"
@@ -15393,7 +15479,7 @@ export type CloudIntegrationsUpdateResponseStateV2 =
   | "DISCOVERING"
   | "FAILED"
   | "SUCCEEDED";
-export const CloudIntegrationsUpdateResponseStateV2 = /*@__PURE__*/ S.String;
+export const CloudIntegrationsUpdateResponseStateV2 = S.String;
 
 export type CloudIntegrationsUpdateResponseStatusDiscoveryProgress =
   CloudIntegrationsCreateResponseStatusDiscoveryProgress;
@@ -15412,7 +15498,7 @@ export type CloudIntegrationsUpdateResponseStatusLastDiscoveryStatus =
   | "FAILED"
   | "SUCCEEDED";
 export const CloudIntegrationsUpdateResponseStatusLastDiscoveryStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type CloudIntegrationsUpdateResponseStatusLastDiscoveryStatusV2 =
   | "UNSPECIFIED"
@@ -15421,7 +15507,7 @@ export type CloudIntegrationsUpdateResponseStatusLastDiscoveryStatusV2 =
   | "FAILED"
   | "SUCCEEDED";
 export const CloudIntegrationsUpdateResponseStatusLastDiscoveryStatusV2 =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type CloudIntegrationsUpdateResponseStatusRegionsList = Array<string>;
 export const CloudIntegrationsUpdateResponseStatusRegionsList =
@@ -15432,7 +15518,7 @@ export const CloudIntegrationsUpdateResponseStatusRegionsList =
 export type CloudIntegrationsUpdateResponseStatusInUseByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
 export const CloudIntegrationsUpdateResponseStatusInUseByItemClientType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface CloudIntegrationsUpdateResponseStatusInUseByItem {
   id: string;
@@ -15646,10 +15732,10 @@ export const UpdateOnRampRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateOnRampRequest>;
 
 export type OnRampsUpdateResponseCloudType = "AWS" | "AZURE" | "GOOGLE";
-export const OnRampsUpdateResponseCloudType = /*@__PURE__*/ S.String;
+export const OnRampsUpdateResponseCloudType = S.String;
 
 export type OnRampsUpdateResponseType = "OnrampTypeSingle" | "OnrampTypeHub";
-export const OnRampsUpdateResponseType = /*@__PURE__*/ S.String;
+export const OnRampsUpdateResponseType = S.String;
 
 export type OnRampsUpdateResponseAttachedHubsList = Array<string>;
 export const OnRampsUpdateResponseAttachedHubsList = /*@__PURE__*/ S.Array(
@@ -15689,8 +15775,7 @@ export type OnRampsUpdateResponsePlannedResourcesItemPlannedAction =
   | "update"
   | "replace"
   | "destroy";
-export const OnRampsUpdateResponsePlannedResourcesItemPlannedAction =
-  /*@__PURE__*/ S.String;
+export const OnRampsUpdateResponsePlannedResourcesItemPlannedAction = S.String;
 
 export type OnRampsUpdateResponsePlannedResourcesItemResourceCloudType =
   | "AWS"
@@ -15698,7 +15783,7 @@ export type OnRampsUpdateResponsePlannedResourcesItemResourceCloudType =
   | "GOOGLE"
   | "CLOUDFLARE";
 export const OnRampsUpdateResponsePlannedResourcesItemResourceCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsUpdateResponsePlannedResourcesItemResourceResourceType =
   | "aws_customer_gateway"
@@ -15759,7 +15844,7 @@ export type OnRampsUpdateResponsePlannedResourcesItemResourceResourceType =
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
 export const OnRampsUpdateResponsePlannedResourcesItemResourceResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsUpdateResponsePlannedResourcesItemResource {
   id: string;
@@ -15834,8 +15919,7 @@ export type OnRampsUpdateResponsePostApplyResourcesValueCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const OnRampsUpdateResponsePostApplyResourcesValueCloudType =
-  /*@__PURE__*/ S.String;
+export const OnRampsUpdateResponsePostApplyResourcesValueCloudType = S.String;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueConfigMap = {
   [key: string]: unknown | undefined;
@@ -15942,7 +16026,7 @@ export type OnRampsUpdateResponsePostApplyResourcesValueResourceType =
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
 export const OnRampsUpdateResponsePostApplyResourcesValueResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem =
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
@@ -15965,70 +16049,73 @@ export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItems
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -16083,70 +16170,73 @@ export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItems
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -16196,8 +16286,8 @@ export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItems
   }) as any as S.Schema<OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -16229,11 +16319,11 @@ export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItems
   }) as any as S.Schema<OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem>;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
-    | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
+  | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnListItem;
 export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -16294,70 +16384,73 @@ export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItem
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -16412,70 +16505,73 @@ export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItem
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -16525,8 +16621,8 @@ export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItem
   }) as any as S.Schema<OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -16558,11 +16654,11 @@ export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItem
   }) as any as S.Schema<OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem>;
 
 export type OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
-    | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
+  | OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValueMcnListItem;
 export const OnRampsUpdateResponsePostApplyResourcesValueSectionsItemVisibleItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -16654,7 +16750,7 @@ export const OnRampsUpdateResponsePostApplyResourcesValueTagsMap =
 export type OnRampsUpdateResponsePostApplyResourcesValueManagedByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
 export const OnRampsUpdateResponsePostApplyResourcesValueManagedByItemClientType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsUpdateResponsePostApplyResourcesValueManagedByItem {
   id: string;
@@ -16779,7 +16875,7 @@ export type OnRampsUpdateResponseStatusLifecycleState =
   | "OnrampPendingDestroy"
   | "OnrampDestroying"
   | "OnrampDestroyFailed";
-export const OnRampsUpdateResponseStatusLifecycleState = /*@__PURE__*/ S.String;
+export const OnRampsUpdateResponseStatusLifecycleState = S.String;
 
 export type OnRampsUpdateResponseStatusPlanProgress =
   OnRampsCreateResponseStatusApplyProgress;
@@ -16952,8 +17048,7 @@ export type OnRampsUpdateResponseStatusLifecycleErrorsValueCode =
   | 103006
   | 103007
   | 103008;
-export const OnRampsUpdateResponseStatusLifecycleErrorsValueCode =
-  /*@__PURE__*/ S.Number;
+export const OnRampsUpdateResponseStatusLifecycleErrorsValueCode = S.Number;
 
 export type OnRampsUpdateResponseStatusLifecycleErrorsValueMeta =
   CatalogSyncsCreateResponseErrorsValueMeta;
@@ -17032,8 +17127,7 @@ export type OnRampsUpdateResponseVpcsByIdValueCloudType =
   | "AZURE"
   | "GOOGLE"
   | "CLOUDFLARE";
-export const OnRampsUpdateResponseVpcsByIdValueCloudType =
-  /*@__PURE__*/ S.String;
+export const OnRampsUpdateResponseVpcsByIdValueCloudType = S.String;
 
 export type OnRampsUpdateResponseVpcsByIdValueConfigMap = {
   [key: string]: unknown | undefined;
@@ -17138,8 +17232,7 @@ export type OnRampsUpdateResponseVpcsByIdValueResourceType =
   | "google_compute_network_firewall_policy_rule"
   | "cloudflare_static_route"
   | "cloudflare_ipsec_tunnel";
-export const OnRampsUpdateResponseVpcsByIdValueResourceType =
-  /*@__PURE__*/ S.String;
+export const OnRampsUpdateResponseVpcsByIdValueResourceType = S.String;
 
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnStringItem =
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
@@ -17162,70 +17255,73 @@ export const OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueM
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -17280,70 +17376,73 @@ export const OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueM
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -17393,8 +17492,8 @@ export const OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueM
   }) as any as S.Schema<OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -17426,11 +17525,11 @@ export const OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueM
   }) as any as S.Schema<OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem>;
 
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
-    | OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnResourcePreviewItem
+  | OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValueMcnListItem;
 export const OnRampsUpdateResponseVpcsByIdValueSectionsItemHiddenItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -17490,70 +17589,73 @@ export const OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem;
 
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -17608,70 +17710,73 @@ export const OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue
   OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem;
 
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
+  | "AWS"
+  | "AZURE"
+  | "GOOGLE"
+  | "CLOUDFLARE";
 export const OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewCloudType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-    | "aws_customer_gateway"
-    | "aws_egress_only_internet_gateway"
-    | "aws_internet_gateway"
-    | "aws_instance"
-    | "aws_network_interface"
-    | "aws_route"
-    | "aws_route_table"
-    | "aws_route_table_association"
-    | "aws_subnet"
-    | "aws_vpc"
-    | "aws_vpc_ipv4_cidr_block_association"
-    | "aws_vpn_connection"
-    | "aws_vpn_connection_route"
-    | "aws_vpn_gateway"
-    | "aws_security_group"
-    | "aws_vpc_security_group_ingress_rule"
-    | "aws_vpc_security_group_egress_rule"
-    | "aws_ec2_managed_prefix_list"
-    | "aws_ec2_transit_gateway"
-    | "aws_ec2_transit_gateway_prefix_list_reference"
-    | "aws_ec2_transit_gateway_vpc_attachment"
-    | "azurerm_application_security_group"
-    | "azurerm_lb"
-    | "azurerm_lb_backend_address_pool"
-    | "azurerm_lb_nat_pool"
-    | "azurerm_lb_nat_rule"
-    | "azurerm_lb_rule"
-    | "azurerm_local_network_gateway"
-    | "azurerm_network_interface"
-    | "azurerm_network_interface_application_security_group_association"
-    | "azurerm_network_interface_backend_address_pool_association"
-    | "azurerm_network_interface_security_group_association"
-    | "azurerm_network_security_group"
-    | "azurerm_public_ip"
-    | "azurerm_route"
-    | "azurerm_route_table"
-    | "azurerm_subnet"
-    | "azurerm_subnet_route_table_association"
-    | "azurerm_virtual_machine"
-    | "azurerm_virtual_network_gateway_connection"
-    | "azurerm_virtual_network"
-    | "azurerm_virtual_network_gateway"
-    | "google_compute_network"
-    | "google_compute_subnetwork"
-    | "google_compute_vpn_gateway"
-    | "google_compute_vpn_tunnel"
-    | "google_compute_route"
-    | "google_compute_address"
-    | "google_compute_global_address"
-    | "google_compute_router"
-    | "google_compute_interconnect_attachment"
-    | "google_compute_ha_vpn_gateway"
-    | "google_compute_forwarding_rule"
-    | "google_compute_network_firewall_policy"
-    | "google_compute_network_firewall_policy_rule"
-    | "cloudflare_static_route"
-    | "cloudflare_ipsec_tunnel";
+  | "aws_customer_gateway"
+  | "aws_egress_only_internet_gateway"
+  | "aws_internet_gateway"
+  | "aws_instance"
+  | "aws_network_interface"
+  | "aws_route"
+  | "aws_route_table"
+  | "aws_route_table_association"
+  | "aws_subnet"
+  | "aws_vpc"
+  | "aws_vpc_ipv4_cidr_block_association"
+  | "aws_vpn_connection"
+  | "aws_vpn_connection_route"
+  | "aws_vpn_gateway"
+  | "aws_security_group"
+  | "aws_vpc_security_group_ingress_rule"
+  | "aws_vpc_security_group_egress_rule"
+  | "aws_ec2_managed_prefix_list"
+  | "aws_ec2_transit_gateway"
+  | "aws_ec2_transit_gateway_prefix_list_reference"
+  | "aws_ec2_transit_gateway_vpc_attachment"
+  | "azurerm_application_security_group"
+  | "azurerm_lb"
+  | "azurerm_lb_backend_address_pool"
+  | "azurerm_lb_nat_pool"
+  | "azurerm_lb_nat_rule"
+  | "azurerm_lb_rule"
+  | "azurerm_local_network_gateway"
+  | "azurerm_network_interface"
+  | "azurerm_network_interface_application_security_group_association"
+  | "azurerm_network_interface_backend_address_pool_association"
+  | "azurerm_network_interface_security_group_association"
+  | "azurerm_network_security_group"
+  | "azurerm_public_ip"
+  | "azurerm_route"
+  | "azurerm_route_table"
+  | "azurerm_subnet"
+  | "azurerm_subnet_route_table_association"
+  | "azurerm_virtual_machine"
+  | "azurerm_virtual_network_gateway_connection"
+  | "azurerm_virtual_network"
+  | "azurerm_virtual_network_gateway"
+  | "google_compute_network"
+  | "google_compute_subnetwork"
+  | "google_compute_vpn_gateway"
+  | "google_compute_vpn_tunnel"
+  | "google_compute_route"
+  | "google_compute_address"
+  | "google_compute_global_address"
+  | "google_compute_router"
+  | "google_compute_interconnect_attachment"
+  | "google_compute_ha_vpn_gateway"
+  | "google_compute_forwarding_rule"
+  | "google_compute_network_firewall_policy"
+  | "google_compute_network_firewall_policy_rule"
+  | "cloudflare_static_route"
+  | "cloudflare_ipsec_tunnel";
 export const OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreviewResourceType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItemResourcePreview {
   id: string;
@@ -17721,8 +17826,8 @@ export const OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue
   }) as any as S.Schema<OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem>;
 
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItemMcnResourcePreviewItem;
 export const OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItemListItem =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -17754,11 +17859,11 @@ export const OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue
   }) as any as S.Schema<OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem>;
 
 export type OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue =
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
-    | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
-    | OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
-    | OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem;
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnStringItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlItem
+  | OnRampsCreateResponsePostApplyResourcesValueSectionsItemHiddenItemsItemValueMcnYamlDiffItem
+  | OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnResourcePreviewItem
+  | OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValueMcnListItem;
 export const OnRampsUpdateResponseVpcsByIdValueSectionsItemVisibleItemsItemValue =
   /*@__PURE__*/ S.Unknown.pipe(
     T.UnionCases([
@@ -17849,7 +17954,7 @@ export const OnRampsUpdateResponseVpcsByIdValueTagsMap = /*@__PURE__*/ S.Record(
 export type OnRampsUpdateResponseVpcsByIdValueManagedByItemClientType =
   "MAGIC_WAN_CLOUD_ONRAMP";
 export const OnRampsUpdateResponseVpcsByIdValueManagedByItemClientType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OnRampsUpdateResponseVpcsByIdValueManagedByItem {
   id: string;

@@ -280,13 +280,13 @@ export const ConfiguredAudienceModelOutputConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConfiguredAudienceModelOutputConfig",
 }) as any as S.Schema<ConfiguredAudienceModelOutputConfig>;
 export type SharedAudienceMetrics = "ALL" | "NONE" | (string & {});
-export const SharedAudienceMetrics = /*@__PURE__*/ S.String;
+export const SharedAudienceMetrics = S.String;
 
 export type MetricsList = SharedAudienceMetrics[];
 export const MetricsList = /*@__PURE__*/ S.Array(SharedAudienceMetrics);
 export type MinMatchingSeedSize = number;
 export type AudienceSizeType = "ABSOLUTE" | "PERCENTAGE" | (string & {});
-export const AudienceSizeType = /*@__PURE__*/ S.String;
+export const AudienceSizeType = S.String;
 
 export type AudienceSizeValue = number;
 export type AudienceSizeBins = number[];
@@ -304,7 +304,7 @@ export const AudienceSizeConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "AudienceSizeConfig",
 }) as any as S.Schema<AudienceSizeConfig>;
 export type TagOnCreatePolicy = "FROM_PARENT_RESOURCE" | "NONE" | (string & {});
-export const TagOnCreatePolicy = /*@__PURE__*/ S.String;
+export const TagOnCreatePolicy = S.String;
 
 export interface CreateConfiguredAudienceModelRequest {
   name: string;
@@ -439,14 +439,14 @@ export const CreateConfiguredModelAlgorithmResponse = /*@__PURE__*/ S.suspend(
 export type AccountIdList = string[];
 export const AccountIdList = /*@__PURE__*/ S.Array(S.String);
 export type LogType = "ALL" | "ERROR_SUMMARY" | (string & {});
-export const LogType = /*@__PURE__*/ S.String;
+export const LogType = S.String;
 
 export type EntityType =
   | "ALL_PERSONALLY_IDENTIFIABLE_INFORMATION"
   | "NUMBERS"
   | "CUSTOM"
   | (string & {});
-export const EntityType = /*@__PURE__*/ S.String;
+export const EntityType = S.String;
 
 export type EntityTypeList = EntityType[];
 export const EntityTypeList = /*@__PURE__*/ S.Array(EntityType);
@@ -494,7 +494,7 @@ export const LogsConfigurationPolicyList = /*@__PURE__*/ S.Array(
   LogsConfigurationPolicy,
 );
 export type NoiseLevelType = "HIGH" | "MEDIUM" | "LOW" | "NONE" | (string & {});
-export const NoiseLevelType = /*@__PURE__*/ S.String;
+export const NoiseLevelType = S.String;
 
 export interface MetricsConfigurationPolicy {
   noiseLevel: NoiseLevelType;
@@ -505,7 +505,7 @@ export const MetricsConfigurationPolicy = /*@__PURE__*/ S.suspend(() =>
   identifier: "MetricsConfigurationPolicy",
 }) as any as S.Schema<MetricsConfigurationPolicy>;
 export type TrainedModelArtifactMaxSizeUnitType = "GB" | (string & {});
-export const TrainedModelArtifactMaxSizeUnitType = /*@__PURE__*/ S.String;
+export const TrainedModelArtifactMaxSizeUnitType = S.String;
 
 export type TrainedModelArtifactMaxSizeValue = number;
 export interface TrainedModelArtifactMaxSize {
@@ -532,7 +532,7 @@ export const TrainedModelsConfigurationPolicy = /*@__PURE__*/ S.suspend(() =>
   identifier: "TrainedModelsConfigurationPolicy",
 }) as any as S.Schema<TrainedModelsConfigurationPolicy>;
 export type TrainedModelExportsMaxSizeUnitType = "GB" | (string & {});
-export const TrainedModelExportsMaxSizeUnitType = /*@__PURE__*/ S.String;
+export const TrainedModelExportsMaxSizeUnitType = S.String;
 
 export type TrainedModelExportsMaxSizeValue = number;
 export interface TrainedModelExportsMaxSize {
@@ -545,7 +545,7 @@ export const TrainedModelExportsMaxSize = /*@__PURE__*/ S.suspend(() =>
   identifier: "TrainedModelExportsMaxSize",
 }) as any as S.Schema<TrainedModelExportsMaxSize>;
 export type TrainedModelExportFileType = "MODEL" | "OUTPUT" | (string & {});
-export const TrainedModelExportFileType = /*@__PURE__*/ S.String;
+export const TrainedModelExportFileType = S.String;
 
 export type TrainedModelExportFileTypeList = TrainedModelExportFileType[];
 export const TrainedModelExportFileTypeList = /*@__PURE__*/ S.Array(
@@ -565,8 +565,7 @@ export const TrainedModelExportsConfigurationPolicy = /*@__PURE__*/ S.suspend(
   identifier: "TrainedModelExportsConfigurationPolicy",
 }) as any as S.Schema<TrainedModelExportsConfigurationPolicy>;
 export type TrainedModelInferenceMaxOutputSizeUnitType = "GB" | (string & {});
-export const TrainedModelInferenceMaxOutputSizeUnitType =
-  /*@__PURE__*/ S.String;
+export const TrainedModelInferenceMaxOutputSizeUnitType = S.String;
 
 export type TrainedModelInferenceMaxOutputSizeValue = number;
 export interface TrainedModelInferenceMaxOutputSize {
@@ -687,8 +686,8 @@ export const ProtectedQuerySQLParameters = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ProtectedQuerySQLParameters",
 }) as any as S.Schema<ProtectedQuerySQLParameters>;
-export type WorkerComputeType = "CR.1X" | "CR.4X" | (string & {});
-export const WorkerComputeType = /*@__PURE__*/ S.String;
+export type WorkerComputeType = "CR.1X" | "CR.4X" | "CR.8X" | (string & {});
+export const WorkerComputeType = S.String;
 
 export type SparkPropertyKey = string;
 export type SparkPropertyValue = string;
@@ -722,7 +721,7 @@ export const ComputeConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ worker: WorkerComputeConfiguration }),
 ]);
 export type ResultFormat = "CSV" | "PARQUET" | (string & {});
-export const ResultFormat = /*@__PURE__*/ S.String;
+export const ResultFormat = S.String;
 
 export interface ProtectedQueryInputParameters {
   sqlParameters: ProtectedQuerySQLParameters;
@@ -957,7 +956,7 @@ export type InstanceType =
   | "ml.p3.16xlarge"
   | "ml.p3dn.24xlarge"
   | (string & {});
-export const InstanceType = /*@__PURE__*/ S.String;
+export const InstanceType = S.String;
 
 export interface ResourceConfig {
   instanceCount?: number;
@@ -1002,7 +1001,7 @@ export type S3DataDistributionType =
   | "FullyReplicated"
   | "ShardedByS3Key"
   | (string & {});
-export const S3DataDistributionType = /*@__PURE__*/ S.String;
+export const S3DataDistributionType = S.String;
 
 export interface ModelTrainingDataChannel {
   mlInputChannelArn: string;
@@ -1023,7 +1022,7 @@ export const ModelTrainingDataChannels = /*@__PURE__*/ S.Array(
   ModelTrainingDataChannel,
 );
 export type TrainingInputMode = "File" | "FastFile" | "Pipe" | (string & {});
-export const TrainingInputMode = /*@__PURE__*/ S.String;
+export const TrainingInputMode = S.String;
 
 export interface CreateTrainedModelRequest {
   membershipIdentifier: string;
@@ -1088,7 +1087,7 @@ export const CreateTrainedModelResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateTrainedModelResponse",
 }) as any as S.Schema<CreateTrainedModelResponse>;
 export type DatasetType = "INTERACTIONS" | (string & {});
-export const DatasetType = /*@__PURE__*/ S.String;
+export const DatasetType = S.String;
 
 export type ColumnName = string;
 export type ColumnType =
@@ -1098,7 +1097,7 @@ export type ColumnType =
   | "CATEGORICAL_FEATURE"
   | "NUMERICAL_FEATURE"
   | (string & {});
-export const ColumnType = /*@__PURE__*/ S.String;
+export const ColumnType = S.String;
 
 export type ColumnTypeList = ColumnType[];
 export const ColumnTypeList = /*@__PURE__*/ S.Array(ColumnType);
@@ -1517,7 +1516,7 @@ export type AudienceGenerationJobStatus =
   | "DELETE_IN_PROGRESS"
   | "DELETE_FAILED"
   | (string & {});
-export const AudienceGenerationJobStatus = /*@__PURE__*/ S.String;
+export const AudienceGenerationJobStatus = S.String;
 
 export interface StatusDetails {
   statusCode?: string;
@@ -1638,7 +1637,7 @@ export type AudienceModelStatus =
   | "DELETE_IN_PROGRESS"
   | "DELETE_FAILED"
   | (string & {});
-export const AudienceModelStatus = /*@__PURE__*/ S.String;
+export const AudienceModelStatus = S.String;
 
 export interface GetAudienceModelResponse {
   createTime: Date;
@@ -1771,7 +1770,7 @@ export type MLInputChannelStatus =
   | "DELETE_FAILED"
   | "INACTIVE"
   | (string & {});
-export const MLInputChannelStatus = /*@__PURE__*/ S.String;
+export const MLInputChannelStatus = S.String;
 
 export type BudgetedResourceArn = string;
 export type Budget = number;
@@ -1781,10 +1780,10 @@ export type AccessBudgetType =
   | "CALENDAR_WEEK"
   | "LIFETIME"
   | (string & {});
-export const AccessBudgetType = /*@__PURE__*/ S.String;
+export const AccessBudgetType = S.String;
 
 export type AutoRefreshMode = "ENABLED" | "DISABLED" | (string & {});
-export const AutoRefreshMode = /*@__PURE__*/ S.String;
+export const AutoRefreshMode = S.String;
 
 export interface AccessBudgetDetails {
   startTime: Date;
@@ -1832,7 +1831,7 @@ export type SyntheticDataColumnType =
   | "CATEGORICAL"
   | "NUMERICAL"
   | (string & {});
-export const SyntheticDataColumnType = /*@__PURE__*/ S.String;
+export const SyntheticDataColumnType = S.String;
 
 export interface SyntheticDataColumnProperties {
   columnName: string;
@@ -1877,7 +1876,7 @@ export const MLSyntheticDataParameters = /*@__PURE__*/ S.suspend(() =>
 export type MembershipInferenceAttackVersion =
   | "DISTANCE_TO_CLOSEST_RECORD_V1"
   | (string & {});
-export const MembershipInferenceAttackVersion = /*@__PURE__*/ S.String;
+export const MembershipInferenceAttackVersion = S.String;
 
 export interface MembershipInferenceAttackScore {
   attackVersion: MembershipInferenceAttackVersion;
@@ -2031,16 +2030,16 @@ export type TrainedModelStatus =
   | "CANCEL_IN_PROGRESS"
   | "CANCEL_FAILED"
   | (string & {});
-export const TrainedModelStatus = /*@__PURE__*/ S.String;
+export const TrainedModelStatus = S.String;
 
 export type MetricsStatus =
   | "PUBLISH_SUCCEEDED"
   | "PUBLISH_FAILED"
   | (string & {});
-export const MetricsStatus = /*@__PURE__*/ S.String;
+export const MetricsStatus = S.String;
 
 export type LogsStatus = "PUBLISH_SUCCEEDED" | "PUBLISH_FAILED" | (string & {});
-export const LogsStatus = /*@__PURE__*/ S.String;
+export const LogsStatus = S.String;
 
 export interface GetCollaborationTrainedModelResponse {
   membershipIdentifier: string;
@@ -2122,7 +2121,7 @@ export const GetConfiguredAudienceModelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetConfiguredAudienceModelRequest",
 }) as any as S.Schema<GetConfiguredAudienceModelRequest>;
 export type ConfiguredAudienceModelStatus = "ACTIVE" | (string & {});
-export const ConfiguredAudienceModelStatus = /*@__PURE__*/ S.String;
+export const ConfiguredAudienceModelStatus = S.String;
 
 export interface GetConfiguredAudienceModelResponse {
   createTime: Date;
@@ -2562,7 +2561,7 @@ export type TrainedModelInferenceJobStatus =
   | "CANCEL_FAILED"
   | "INACTIVE"
   | (string & {});
-export const TrainedModelInferenceJobStatus = /*@__PURE__*/ S.String;
+export const TrainedModelInferenceJobStatus = S.String;
 
 export type InferenceInstanceType =
   | "ml.r7i.48xlarge"
@@ -2660,7 +2659,7 @@ export type InferenceInstanceType =
   | "ml.p3.2xlarge"
   | "ml.p3.8xlarge"
   | (string & {});
-export const InferenceInstanceType = /*@__PURE__*/ S.String;
+export const InferenceInstanceType = S.String;
 
 export interface InferenceResourceConfig {
   instanceType: InferenceInstanceType;
@@ -2794,7 +2793,7 @@ export const GetTrainingDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetTrainingDatasetRequest",
 }) as any as S.Schema<GetTrainingDatasetRequest>;
 export type TrainingDatasetStatus = "ACTIVE" | (string & {});
-export const TrainingDatasetStatus = /*@__PURE__*/ S.String;
+export const TrainingDatasetStatus = S.String;
 
 export interface GetTrainingDatasetResponse {
   createTime: Date;
@@ -2855,7 +2854,7 @@ export type AudienceExportJobStatus =
   | "CREATE_FAILED"
   | "ACTIVE"
   | (string & {});
-export const AudienceExportJobStatus = /*@__PURE__*/ S.String;
+export const AudienceExportJobStatus = S.String;
 
 export interface AudienceExportJobSummary {
   createTime: Date;
@@ -3241,7 +3240,7 @@ export type TrainedModelExportJobStatus =
   | "CREATE_FAILED"
   | "ACTIVE"
   | (string & {});
-export const TrainedModelExportJobStatus = /*@__PURE__*/ S.String;
+export const TrainedModelExportJobStatus = S.String;
 
 export interface CollaborationTrainedModelExportJobSummary {
   createTime: Date;
@@ -4036,7 +4035,7 @@ export type PolicyExistenceCondition =
   | "POLICY_MUST_EXIST"
   | "POLICY_MUST_NOT_EXIST"
   | (string & {});
-export const PolicyExistenceCondition = /*@__PURE__*/ S.String;
+export const PolicyExistenceCondition = S.String;
 
 export interface PutConfiguredAudienceModelPolicyRequest {
   configuredAudienceModelArn: string;
@@ -4442,6 +4441,7 @@ export type CreateAudienceModelError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4460,6 +4460,7 @@ export const createAudienceModel: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -4472,6 +4473,7 @@ export type CreateConfiguredAudienceModelError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4490,6 +4492,7 @@ export const createConfiguredAudienceModel: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -4501,6 +4504,7 @@ export type CreateConfiguredModelAlgorithmError =
   | AccessDeniedException
   | ConflictException
   | ServiceQuotaExceededException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4518,6 +4522,7 @@ export const createConfiguredModelAlgorithm: API.OperationMethod<
     AccessDeniedException,
     ConflictException,
     ServiceQuotaExceededException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -4626,6 +4631,7 @@ export const createTrainedModel: API.OperationMethod<
 export type CreateTrainingDatasetError =
   | AccessDeniedException
   | ConflictException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4639,7 +4645,12 @@ export const createTrainingDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateTrainingDatasetRequest,
   output: CreateTrainingDatasetResponse,
-  errors: [AccessDeniedException, ConflictException, ValidationException],
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrainingDataset",
@@ -4649,6 +4660,7 @@ export type DeleteAudienceGenerationJobError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4666,6 +4678,7 @@ export const deleteAudienceGenerationJob: API.OperationMethod<
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -4677,6 +4690,7 @@ export type DeleteAudienceModelError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4694,6 +4708,7 @@ export const deleteAudienceModel: API.OperationMethod<
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -4705,6 +4720,7 @@ export type DeleteConfiguredAudienceModelError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4722,6 +4738,7 @@ export const deleteConfiguredAudienceModel: API.OperationMethod<
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -4732,6 +4749,7 @@ export const deleteConfiguredAudienceModel: API.OperationMethod<
 export type DeleteConfiguredAudienceModelPolicyError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4748,6 +4766,7 @@ export const deleteConfiguredAudienceModelPolicy: API.OperationMethod<
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -4759,6 +4778,7 @@ export type DeleteConfiguredModelAlgorithmError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4776,6 +4796,7 @@ export const deleteConfiguredModelAlgorithm: API.OperationMethod<
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -4905,6 +4926,7 @@ export type DeleteTrainingDatasetError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4922,6 +4944,7 @@ export const deleteTrainingDataset: API.OperationMethod<
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -4932,6 +4955,7 @@ export const deleteTrainingDataset: API.OperationMethod<
 export type GetAudienceGenerationJobError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4948,6 +4972,7 @@ export const getAudienceGenerationJob: API.OperationMethod<
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -4958,6 +4983,7 @@ export const getAudienceGenerationJob: API.OperationMethod<
 export type GetAudienceModelError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4974,6 +5000,7 @@ export const getAudienceModel: API.OperationMethod<
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -5068,6 +5095,7 @@ export const getCollaborationTrainedModel: API.OperationMethod<
 export type GetConfiguredAudienceModelError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -5084,6 +5112,7 @@ export const getConfiguredAudienceModel: API.OperationMethod<
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -5094,6 +5123,7 @@ export const getConfiguredAudienceModel: API.OperationMethod<
 export type GetConfiguredAudienceModelPolicyError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -5110,6 +5140,7 @@ export const getConfiguredAudienceModelPolicy: API.OperationMethod<
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -5120,6 +5151,7 @@ export const getConfiguredAudienceModelPolicy: API.OperationMethod<
 export type GetConfiguredModelAlgorithmError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -5136,6 +5168,7 @@ export const getConfiguredModelAlgorithm: API.OperationMethod<
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -5286,6 +5319,7 @@ export const getTrainedModelInferenceJob: API.OperationMethod<
 export type GetTrainingDatasetError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -5302,6 +5336,7 @@ export const getTrainingDataset: API.OperationMethod<
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -5311,6 +5346,7 @@ export const getTrainingDataset: API.OperationMethod<
 
 export type ListAudienceExportJobsError =
   | AccessDeniedException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -5325,7 +5361,7 @@ export const listAudienceExportJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAudienceExportJobsRequest,
   output: ListAudienceExportJobsResponse,
-  errors: [AccessDeniedException, ValidationException],
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAudienceExportJobs",
@@ -5339,6 +5375,7 @@ export const listAudienceExportJobs: API.PaginatedOperationMethod<
 
 export type ListAudienceGenerationJobsError =
   | AccessDeniedException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -5353,7 +5390,7 @@ export const listAudienceGenerationJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAudienceGenerationJobsRequest,
   output: ListAudienceGenerationJobsResponse,
-  errors: [AccessDeniedException, ValidationException],
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAudienceGenerationJobs",
@@ -5367,6 +5404,7 @@ export const listAudienceGenerationJobs: API.PaginatedOperationMethod<
 
 export type ListAudienceModelsError =
   | AccessDeniedException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -5381,7 +5419,7 @@ export const listAudienceModels: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAudienceModelsRequest,
   output: ListAudienceModelsResponse,
-  errors: [AccessDeniedException, ValidationException],
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAudienceModels",
@@ -5540,6 +5578,7 @@ export const listCollaborationTrainedModels: API.PaginatedOperationMethod<
 
 export type ListConfiguredAudienceModelsError =
   | AccessDeniedException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -5554,7 +5593,7 @@ export const listConfiguredAudienceModels: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListConfiguredAudienceModelsRequest,
   output: ListConfiguredAudienceModelsResponse,
-  errors: [AccessDeniedException, ValidationException],
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfiguredAudienceModels",
@@ -5597,6 +5636,7 @@ export const listConfiguredModelAlgorithmAssociations: API.PaginatedOperationMet
 
 export type ListConfiguredModelAlgorithmsError =
   | AccessDeniedException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -5611,7 +5651,7 @@ export const listConfiguredModelAlgorithms: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListConfiguredModelAlgorithmsRequest,
   output: ListConfiguredModelAlgorithmsResponse,
-  errors: [AccessDeniedException, ValidationException],
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfiguredModelAlgorithms",
@@ -5773,6 +5813,7 @@ export const listTrainedModelVersions: API.PaginatedOperationMethod<
 
 export type ListTrainingDatasetsError =
   | AccessDeniedException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -5787,7 +5828,7 @@ export const listTrainingDatasets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListTrainingDatasetsRequest,
   output: ListTrainingDatasetsResponse,
-  errors: [AccessDeniedException, ValidationException],
+  errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrainingDatasets",
@@ -5802,6 +5843,7 @@ export const listTrainingDatasets: API.PaginatedOperationMethod<
 export type PutConfiguredAudienceModelPolicyError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -5818,6 +5860,7 @@ export const putConfiguredAudienceModelPolicy: API.OperationMethod<
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -5852,6 +5895,7 @@ export type StartAudienceExportJobError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -5870,6 +5914,7 @@ export const startAudienceExportJob: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -6027,6 +6072,7 @@ export type UpdateConfiguredAudienceModelError =
   | AccessDeniedException
   | ConflictException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -6044,6 +6090,7 @@ export const updateConfiguredAudienceModel: API.OperationMethod<
     AccessDeniedException,
     ConflictException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,

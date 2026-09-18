@@ -21,6 +21,15 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+export class Conflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409 }],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -39,165 +48,13 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** * `waiting` - Waiting * `queued` - Queued * `active` - Active * `completed` - Completed * `cancelled` - Cancelled * `failed` - Failed */
-export type HogFlowBatchJobStatusEnum =
-  | "waiting"
-  | "queued"
-  | "active"
-  | "completed"
-  | "cancelled"
-  | "failed";
-export const HogFlowBatchJobStatusEnum = /*@__PURE__*/ S.String;
-
-export interface HogFlowsBatchJobsCreateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this hog flow. */
-  id: string;
-  /** Not currently tracked — stays at its initial value. Use the workflow logs/metrics endpoints for run outcome. * `waiting` - Waiting * `queued` - Queued * `active` - Active * `completed` - Completed * `cancelled` - Cancelled * `failed` - Failed */
-  status?: HogFlowBatchJobStatusEnum | (string & {});
-  /** ID of the workflow this batch run belongs to. */
-  hog_flow: string;
-  /** Audience snapshot the run fanned out to, taken from the workflow's batch trigger filters. */
-  filters?: unknown;
-  /** Variable value overrides applied to this run. */
-  variables?: unknown;
-}
-export const HogFlowsBatchJobsCreateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-    status: S.optional(HogFlowBatchJobStatusEnum),
-    hog_flow: S.String,
-    filters: S.optional(S.Unknown),
-    variables: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/batch_jobs/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "HogFlowsBatchJobsCreateRequest",
-}) as any as S.Schema<HogFlowsBatchJobsCreateRequest>;
-
-export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
-export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<UserBasicHedgehogConfigMap>;
-
-/** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `other` - Other */
-export type RoleAtOrganizationEnum =
-  | "engineering"
-  | "data"
-  | "product"
-  | "founder"
-  | "leadership"
-  | "marketing"
-  | "sales"
-  | "other";
-export const RoleAtOrganizationEnum = /*@__PURE__*/ S.String;
-
-export type BlankEnum = "";
-export const BlankEnum = /*@__PURE__*/ S.String;
-
-export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
-export const UserBasicRoleAtOrganization =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<UserBasicRoleAtOrganization>;
-
-export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
-}
-export const UserBasic = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.Number),
-    uuid: S.optional(S.String),
-    distinct_id: S.optional(S.NullOr(S.String)),
-    first_name: S.optional(S.String),
-    last_name: S.optional(S.String),
-    email: S.optional(S.String),
-    is_email_verified: S.optional(S.NullOr(S.Boolean)),
-    hedgehog_config: S.optional(S.NullOr(UserBasicHedgehogConfigMap)),
-    role_at_organization: S.optional(S.NullOr(UserBasicRoleAtOrganization)),
-  }),
-).annotate({ identifier: "UserBasic" }) as any as S.Schema<UserBasic>;
-
-export interface HogFlowBatchJob {
-  id: string;
-  /** Not currently tracked — stays at its initial value. Use the workflow logs/metrics endpoints for run outcome. * `waiting` - Waiting * `queued` - Queued * `active` - Active * `completed` - Completed * `cancelled` - Cancelled * `failed` - Failed */
-  status?: HogFlowBatchJobStatusEnum;
-  /** ID of the workflow this batch run belongs to. */
-  hog_flow: string;
-  /** Audience snapshot the run fanned out to, taken from the workflow's batch trigger filters. */
-  filters?: unknown;
-  /** Variable value overrides applied to this run. */
-  variables?: unknown;
-  created_at: string;
-  created_by: UserBasic;
-  updated_at: string;
-}
-export const HogFlowBatchJob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    status: S.optional(HogFlowBatchJobStatusEnum),
-    hog_flow: S.String,
-    filters: S.optional(S.Unknown),
-    variables: S.optional(S.Unknown),
-    created_at: S.String,
-    created_by: UserBasic,
-    updated_at: S.String,
-  }),
-).annotate({
-  identifier: "HogFlowBatchJob",
-}) as any as S.Schema<HogFlowBatchJob>;
-
-export interface HogFlowsBatchJobsListRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this hog flow. */
-  id: string;
-}
-export const HogFlowsBatchJobsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/batch_jobs/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "HogFlowsBatchJobsListRequest",
-}) as any as S.Schema<HogFlowsBatchJobsListRequest>;
-
-export type HogFlowsBatchJobsListResponseBodyList = Array<HogFlowBatchJob>;
-export const HogFlowsBatchJobsListResponseBodyList = /*@__PURE__*/ S.Array(
-  HogFlowBatchJob,
-) as any as S.Schema<HogFlowsBatchJobsListResponseBodyList>;
-
-export type HogFlowsBatchJobsListResponse =
-  HogFlowsBatchJobsListResponseBodyList;
-export const HogFlowsBatchJobsListResponse = /*@__PURE__*/ S.suspend(() =>
-  HogFlowsBatchJobsListResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "HogFlowsBatchJobsListResponse",
-}) as any as S.Schema<HogFlowsBatchJobsListResponse>;
-
 /** * `draft` - Draft * `active` - Active * `archived` - Archived */
-export type HogFlowStatusEnum = "draft" | "active" | "archived";
-export const HogFlowStatusEnum = /*@__PURE__*/ S.String;
+export type HogFlowStateEnum = "draft" | "active" | "archived";
+export const HogFlowStateEnum = S.String;
+
+/** * `loops` - Loops */
+export type HogFlowOriginProductEnum = "loops";
+export const HogFlowOriginProductEnum = S.String;
 
 export interface HogFlowMasking {
   /** Seconds (60 to ~94M / 3y) to suppress repeat firings of the same hash. */
@@ -233,12 +90,14 @@ export const HogFlowConversionFiltersList = /*@__PURE__*/ S.Array(
   HogFlowConversionFiltersItemMap,
 ) as any as S.Schema<HogFlowConversionFiltersList>;
 
-/** * `events` - events * `person-updates` - person-updates * `data-warehouse-table` - data-warehouse-table */
+/** * `events` - events * `internal-events` - internal-events * `person-updates` - person-updates * `data-warehouse-table` - data-warehouse-table * `data-warehouse-view` - data-warehouse-view */
 export type HogFunctionFiltersSourceEnum =
   | "events"
+  | "internal-events"
   | "person-updates"
-  | "data-warehouse-table";
-export const HogFunctionFiltersSourceEnum = /*@__PURE__*/ S.String;
+  | "data-warehouse-table"
+  | "data-warehouse-view";
+export const HogFunctionFiltersSourceEnum = S.String;
 
 export type HogFunctionFiltersActionsItemMap = {
   [key: string]: unknown | undefined;
@@ -368,18 +227,37 @@ export type ExitConditionEnum =
   | "exit_on_trigger_not_matched"
   | "exit_on_trigger_not_matched_or_conversion"
   | "exit_only_at_end";
-export const ExitConditionEnum = /*@__PURE__*/ S.String;
+export const ExitConditionEnum = S.String;
+
+/** * `minute` - minute * `hour` - hour */
+export type PeriodEnum = "minute" | "hour";
+export const PeriodEnum = S.String;
+
+export interface HogFlowEmailSendingRateLimit {
+  /** Maximum number of emails this workflow sends per period. */
+  count: number;
+  /** Window the count applies to. Sends over the limit are delayed until capacity frees up, not dropped. * `minute` - minute * `hour` - hour */
+  period: PeriodEnum | (string & {});
+}
+export const HogFlowEmailSendingRateLimit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    period: PeriodEnum,
+  }),
+).annotate({
+  identifier: "HogFlowEmailSendingRateLimit",
+}) as any as S.Schema<HogFlowEmailSendingRateLimit>;
 
 /** * `continue` - continue * `branch` - branch */
 export type HogFlowEdgeTypeEnum = "continue" | "branch";
-export const HogFlowEdgeTypeEnum = /*@__PURE__*/ S.String;
+export const HogFlowEdgeTypeEnum = S.String;
 
 export interface HogFlowEdge {
   /** Target action id. */
   to: string;
   /** continue: fall-through (sequential or the no-match path of conditional_branch). branch: requires 'index' matching config.conditions[index]. * `continue` - continue * `branch` - branch */
   type: HogFlowEdgeTypeEnum | (string & {});
-  /** Required for type='branch'. conditional_branch: index into config.conditions[index]. wait_until_condition: use index:0 — it advances via the index:0 branch edge when it resolves (a condition match or an events entry firing). */
+  /** Required for type='branch'. conditional_branch: index into config.conditions[index]. random_cohort_branch: index into config.cohorts[index]. wait_until_condition: use index:0 — it advances via the index:0 branch edge when it resolves (a condition match or an events entry firing). */
   index?: number;
   /** Source action id. */
   from: string;
@@ -394,14 +272,29 @@ export const HogFlowEdge = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "HogFlowEdge" }) as any as S.Schema<HogFlowEdge>;
 
 /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-export type HogFlowsBulkDeleteCreateRequestEdgesList = Array<HogFlowEdge>;
-export const HogFlowsBulkDeleteCreateRequestEdgesList = /*@__PURE__*/ S.Array(
+export type CreateHogFlowRequestEdgesList = Array<HogFlowEdge>;
+export const CreateHogFlowRequestEdgesList = /*@__PURE__*/ S.Array(
   HogFlowEdge,
-) as any as S.Schema<HogFlowsBulkDeleteCreateRequestEdgesList>;
+) as any as S.Schema<CreateHogFlowRequestEdgesList>;
 
 /** * `continue` - continue * `abort` - abort */
 export type OnErrorEnum = "continue" | "abort";
-export const OnErrorEnum = /*@__PURE__*/ S.String;
+export const OnErrorEnum = S.String;
+
+/** * `trigger` - trigger * `function` - function * `function_email` - function_email * `function_sms` - function_sms * `function_push` - function_push * `delay` - delay * `wait_until_condition` - wait_until_condition * `wait_until_time_window` - wait_until_time_window * `conditional_branch` - conditional_branch * `random_cohort_branch` - random_cohort_branch * `exit` - exit */
+export type HogFlowActionTypeEnum =
+  | "trigger"
+  | "function"
+  | "function_email"
+  | "function_sms"
+  | "function_push"
+  | "delay"
+  | "wait_until_condition"
+  | "wait_until_time_window"
+  | "conditional_branch"
+  | "random_cohort_branch"
+  | "exit";
+export const HogFlowActionTypeEnum = S.String;
 
 /** Config for every action type except wait_until_condition — see the field description for per-type shapes. */
 export type HogFlowActionConfigCase0Map = {
@@ -456,7 +349,7 @@ export interface HogFlowActionConfigCase1 {
   condition?: HogFlowActionConfigCase1Condition;
   /** Events to wait for: continues when ANY entry fires (OR'd with 'condition'). Each entry: {filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}. */
   events?: HogFlowActionConfigCase1EventsList;
-  /** '<number><unit>' with unit m|h|d, e.g. '30m' (same rules as delay). */
+  /** '<number><unit>' with unit s|m|h|d, e.g. '30m' (same rules as delay). */
   max_wait_duration: string;
 }
 export const HogFlowActionConfigCase1 = /*@__PURE__*/ S.suspend(() =>
@@ -469,12 +362,12 @@ export const HogFlowActionConfigCase1 = /*@__PURE__*/ S.suspend(() =>
   identifier: "HogFlowActionConfigCase1",
 }) as any as S.Schema<HogFlowActionConfigCase1>;
 
-/** Type-specific config keyed by action type. trigger: {type: event|webhook|manual|batch|schedule|tracking_pixel, filters?}. filters shape: {events: [{id, name, type:'events', properties:[<cond>]}], properties:[<cond>], actions:[...], filter_test_accounts:<bool>}. <cond>: {key, value, operator, type: event|person|group}. function*: {template_id, inputs: {<key>: {value: <str>}}}. Wrap values in {value:...} to enable hog templating ({person.x}, {event.x}); flat strings won't interpolate. Dictionary input values are template strings too — write booleans/numbers as single-expression templates ('{true}', '{42}'), which evaluate to the typed value. delay: {delay_duration: '<number><unit>'} where unit is m|h|d. Fractions OK ('0.5m'=30s; seconds unsupported). Per-unit max m<=60, h<=24, d<=30; values above are SILENTLY CLAMPED. Max 30d. conditional_branch: {conditions: [{filters}, ...]}. Index N matches the 'branch' edge with index:N. wait_until_condition: {condition: {filters}, events?: [{filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}], max_wait_duration: <duration>} (same rules as delay). Continues when condition.filters match OR any events entry fires; each events entry must target at least one event or action. On resolution (a condition match or any events entry firing) it advances via the 'branch' edge with index:0; the max_wait_duration timeout falls through the 'continue' edge. exit: {reason}. */
+/** Type-specific config keyed by action type. trigger: {type: event|webhook|manual|batch|schedule|tracking_pixel|internal-event, filters?}. internal-event requires filters.events naming one or more allowed event ids, and runs once for each matching event on the internal-events stream. Runs are person-less, so person-dependent steps are rejected. $slack_message_received takes filters: {properties: [<cond>]} over the message properties (channel, user, bot_id, text, subtype, is_thread_reply), and requires an exact-match channel filter; without one it runs on every message in every connected channel. $github_event_received takes filters: {properties: [<cond>]} over the delivery properties (repository, event_type, action, sender, bot_sender, own_app, author_association, actor_access, title, body, review_state, branch, repository_visibility), and requires exact-match repository and event_type filters; without them it runs on every delivery from every connected repository. webhook and manual triggers also require template_id: 'template-source-webhook', and tracking_pixel requires template_id: 'template-source-webhook-pixel'. filters shape: {events: [{id, name, type:'events', properties:[<cond>]}], properties:[<cond>], actions:[...], filter_test_accounts:<bool>}. <cond>: {key, value, operator, type: event|person|group}, or {key: 'id', type: 'cohort', value: <cohort_id>, operator: 'in'} to reference a cohort. batch triggers may set filters.audience_type: 'persons' (default) or 'accounts'. An accounts audience fans out one run per customer analytics account and takes account filters instead: properties entries of type 'account_custom_property' (key = definition id), plus tag_names: [<str>], assigned_to_user_ids: [<int>], all_roles_unassigned: <bool>. function*: {template_id, inputs: {<key>: {value: <str>}}}. Wrap values in {value:...} to enable hog templating ({person.x}, {event.x}); flat strings won't interpolate. function_email also accepts tracking_enabled?: <bool> (default true) - when false, no open pixel is injected, links are not rewritten, and the send skips ESP-level open/click tracking, so opens and clicks are not recorded for that step (delivery/bounce/unsubscribe still are). Dictionary input values are template strings too — write booleans/numbers as single-expression templates ('{true}', '{42}'), which evaluate to the typed value. delay: waits a fixed span or until a per-person/-event date — set EXACTLY ONE of delay_duration or delay_until. {delay_duration: '<number><unit>'} where unit is s|m|h|d. Fractions OK ('1.5d'=36h). Per-unit max s<=60, m<=60, h<=24, d<=30; values above are SILENTLY CLAMPED. Max 30d. delay_until: {expression: '<SQL>', offset?: '<±number><unit>'} waits until the date expression evaluates to (an ISO string, unix seconds, or a date value all resolve to the same instant); offset is a signed duration shifting it ('-1d' a day before, '2h' two hours after). expression is compiled server-side, so any bytecode sent with it is discarded. A person property is person.properties.<key>; an event property is properties.<key>, as the 'event.' prefix resolves to nothing and aborts the run. Optional timezone (IANA name), use_person_timezone (read $geoip_time_zone) and fallback_timezone decide which zone a date with no offset of its own is read in; a date that states an offset, and unix seconds, ignore them. Default UTC. Optional sibling max_delay_duration (default 30d, same '<number><unit>' format) caps how far past the step's start the wait may run. conditional_branch: {conditions: [{filters}, ...]}. Index N matches the 'branch' edge with index:N. random_cohort_branch: {cohorts: [{percentage: <number>, name?}, ...]}. Index N matches the 'branch' edge with index:N; percentages are relative weights, so they should sum to 100 but a total above or below that still splits traffic in the given proportions. wait_until_condition: {condition: {filters}, events?: [{filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}], max_wait_duration: <duration>} (same rules as delay). Continues when condition.filters match OR any events entry fires; each events entry must target at least one event or action. On resolution (a condition match or any events entry firing) it advances via the 'branch' edge with index:0; the max_wait_duration timeout falls through the 'continue' edge. exit: {reason}. */
 export type HogFlowActionConfig =
   | HogFlowActionConfigCase0Map
   | HogFlowActionConfigCase1;
 export const HogFlowActionConfig =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<HogFlowActionConfig>;
+  S.Unknown as any as S.Schema<HogFlowActionConfig>;
 
 export interface HogFlowAction {
   /** Unique node ID within the workflow. */
@@ -491,11 +384,11 @@ export interface HogFlowAction {
   updated_at?: number;
   /** Property filters gating this action. */
   filters?: HogFunctionFilters | null;
-  /** trigger | function | function_email | function_sms | delay | conditional_branch | wait_until_condition | wait_until_time_window | random_cohort_branch | exit. */
-  type?: string;
-  /** Type-specific config keyed by action type. trigger: {type: event|webhook|manual|batch|schedule|tracking_pixel, filters?}. filters shape: {events: [{id, name, type:'events', properties:[<cond>]}], properties:[<cond>], actions:[...], filter_test_accounts:<bool>}. <cond>: {key, value, operator, type: event|person|group}. function*: {template_id, inputs: {<key>: {value: <str>}}}. Wrap values in {value:...} to enable hog templating ({person.x}, {event.x}); flat strings won't interpolate. Dictionary input values are template strings too — write booleans/numbers as single-expression templates ('{true}', '{42}'), which evaluate to the typed value. delay: {delay_duration: '<number><unit>'} where unit is m|h|d. Fractions OK ('0.5m'=30s; seconds unsupported). Per-unit max m<=60, h<=24, d<=30; values above are SILENTLY CLAMPED. Max 30d. conditional_branch: {conditions: [{filters}, ...]}. Index N matches the 'branch' edge with index:N. wait_until_condition: {condition: {filters}, events?: [{filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}], max_wait_duration: <duration>} (same rules as delay). Continues when condition.filters match OR any events entry fires; each events entry must target at least one event or action. On resolution (a condition match or any events entry firing) it advances via the 'branch' edge with index:0; the max_wait_duration timeout falls through the 'continue' edge. exit: {reason}. */
+  /** One of: trigger | function | function_email | function_sms | function_push | delay | wait_until_condition | wait_until_time_window | conditional_branch | random_cohort_branch | exit. * `trigger` - trigger * `function` - function * `function_email` - function_email * `function_sms` - function_sms * `function_push` - function_push * `delay` - delay * `wait_until_condition` - wait_until_condition * `wait_until_time_window` - wait_until_time_window * `conditional_branch` - conditional_branch * `random_cohort_branch` - random_cohort_branch * `exit` - exit */
+  type?: HogFlowActionTypeEnum | (string & {});
+  /** Type-specific config keyed by action type. trigger: {type: event|webhook|manual|batch|schedule|tracking_pixel|internal-event, filters?}. internal-event requires filters.events naming one or more allowed event ids, and runs once for each matching event on the internal-events stream. Runs are person-less, so person-dependent steps are rejected. $slack_message_received takes filters: {properties: [<cond>]} over the message properties (channel, user, bot_id, text, subtype, is_thread_reply), and requires an exact-match channel filter; without one it runs on every message in every connected channel. $github_event_received takes filters: {properties: [<cond>]} over the delivery properties (repository, event_type, action, sender, bot_sender, own_app, author_association, actor_access, title, body, review_state, branch, repository_visibility), and requires exact-match repository and event_type filters; without them it runs on every delivery from every connected repository. webhook and manual triggers also require template_id: 'template-source-webhook', and tracking_pixel requires template_id: 'template-source-webhook-pixel'. filters shape: {events: [{id, name, type:'events', properties:[<cond>]}], properties:[<cond>], actions:[...], filter_test_accounts:<bool>}. <cond>: {key, value, operator, type: event|person|group}, or {key: 'id', type: 'cohort', value: <cohort_id>, operator: 'in'} to reference a cohort. batch triggers may set filters.audience_type: 'persons' (default) or 'accounts'. An accounts audience fans out one run per customer analytics account and takes account filters instead: properties entries of type 'account_custom_property' (key = definition id), plus tag_names: [<str>], assigned_to_user_ids: [<int>], all_roles_unassigned: <bool>. function*: {template_id, inputs: {<key>: {value: <str>}}}. Wrap values in {value:...} to enable hog templating ({person.x}, {event.x}); flat strings won't interpolate. function_email also accepts tracking_enabled?: <bool> (default true) - when false, no open pixel is injected, links are not rewritten, and the send skips ESP-level open/click tracking, so opens and clicks are not recorded for that step (delivery/bounce/unsubscribe still are). Dictionary input values are template strings too — write booleans/numbers as single-expression templates ('{true}', '{42}'), which evaluate to the typed value. delay: waits a fixed span or until a per-person/-event date — set EXACTLY ONE of delay_duration or delay_until. {delay_duration: '<number><unit>'} where unit is s|m|h|d. Fractions OK ('1.5d'=36h). Per-unit max s<=60, m<=60, h<=24, d<=30; values above are SILENTLY CLAMPED. Max 30d. delay_until: {expression: '<SQL>', offset?: '<±number><unit>'} waits until the date expression evaluates to (an ISO string, unix seconds, or a date value all resolve to the same instant); offset is a signed duration shifting it ('-1d' a day before, '2h' two hours after). expression is compiled server-side, so any bytecode sent with it is discarded. A person property is person.properties.<key>; an event property is properties.<key>, as the 'event.' prefix resolves to nothing and aborts the run. Optional timezone (IANA name), use_person_timezone (read $geoip_time_zone) and fallback_timezone decide which zone a date with no offset of its own is read in; a date that states an offset, and unix seconds, ignore them. Default UTC. Optional sibling max_delay_duration (default 30d, same '<number><unit>' format) caps how far past the step's start the wait may run. conditional_branch: {conditions: [{filters}, ...]}. Index N matches the 'branch' edge with index:N. random_cohort_branch: {cohorts: [{percentage: <number>, name?}, ...]}. Index N matches the 'branch' edge with index:N; percentages are relative weights, so they should sum to 100 but a total above or below that still splits traffic in the given proportions. wait_until_condition: {condition: {filters}, events?: [{filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}], max_wait_duration: <duration>} (same rules as delay). Continues when condition.filters match OR any events entry fires; each events entry must target at least one event or action. On resolution (a condition match or any events entry firing) it advances via the 'branch' edge with index:0; the max_wait_duration timeout falls through the 'continue' edge. exit: {reason}. */
   config?: HogFlowActionConfig;
-  /** Output variable definition for downstream actions. */
+  /** Output variable for downstream actions: {key, result_path?, spread?, label?} or a list of those. */
   output_variable?: unknown;
 }
 export const HogFlowAction = /*@__PURE__*/ S.suspend(() =>
@@ -507,37 +400,35 @@ export const HogFlowAction = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.Number),
     updated_at: S.optional(S.Number),
     filters: S.optional(S.NullOr(HogFunctionFilters)),
-    type: S.optional(S.String),
+    type: S.optional(HogFlowActionTypeEnum),
     config: S.optional(HogFlowActionConfig),
     output_variable: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "HogFlowAction" }) as any as S.Schema<HogFlowAction>;
 
 /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-export type HogFlowsBulkDeleteCreateRequestActionsList = Array<HogFlowAction>;
-export const HogFlowsBulkDeleteCreateRequestActionsList = /*@__PURE__*/ S.Array(
+export type CreateHogFlowRequestActionsList = Array<HogFlowAction>;
+export const CreateHogFlowRequestActionsList = /*@__PURE__*/ S.Array(
   HogFlowAction,
-) as any as S.Schema<HogFlowsBulkDeleteCreateRequestActionsList>;
+) as any as S.Schema<CreateHogFlowRequestActionsList>;
 
 /** Variable: {key, type: string|number|boolean, default}. */
-export type HogFlowsBulkDeleteCreateRequestVariablesItemMap = {
+export type CreateHogFlowRequestVariablesItemMap = {
   [key: string]: string | undefined;
 };
-export const HogFlowsBulkDeleteCreateRequestVariablesItemMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.String,
-  ) as any as S.Schema<HogFlowsBulkDeleteCreateRequestVariablesItemMap>;
+export const CreateHogFlowRequestVariablesItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<CreateHogFlowRequestVariablesItemMap>;
 
 /** Workflow vars (key, type, default). Total <5KB. */
-export type HogFlowsBulkDeleteCreateRequestVariablesList =
-  Array<HogFlowsBulkDeleteCreateRequestVariablesItemMap>;
-export const HogFlowsBulkDeleteCreateRequestVariablesList =
-  /*@__PURE__*/ S.Array(
-    HogFlowsBulkDeleteCreateRequestVariablesItemMap,
-  ) as any as S.Schema<HogFlowsBulkDeleteCreateRequestVariablesList>;
+export type CreateHogFlowRequestVariablesList =
+  Array<CreateHogFlowRequestVariablesItemMap>;
+export const CreateHogFlowRequestVariablesList = /*@__PURE__*/ S.Array(
+  CreateHogFlowRequestVariablesItemMap,
+) as any as S.Schema<CreateHogFlowRequestVariablesList>;
 
-export interface HogFlowsBulkDeleteCreateRequest {
+export interface CreateHogFlowRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Workflow name. */
@@ -545,42 +436,101 @@ export interface HogFlowsBulkDeleteCreateRequest {
   /** Optional description. */
   description?: string;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowStatusEnum | (string & {});
+  status?: HogFlowStateEnum | (string & {});
+  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow. Filter the list with `?origin_product=`. * `loops` - Loops */
+  origin_product?: HogFlowOriginProductEnum | (string & {}) | null;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
   trigger_masking?: HogFlowMasking | null;
   /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
   conversion?: HogFlowConversion | null;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
   exit_condition?: ExitConditionEnum | (string & {});
+  /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
   /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-  edges?: HogFlowsBulkDeleteCreateRequestEdgesList;
+  edges?: CreateHogFlowRequestEdgesList;
   /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-  actions?: HogFlowsBulkDeleteCreateRequestActionsList;
+  actions?: CreateHogFlowRequestActionsList;
   /** Workflow vars (key, type, default). Total <5KB. */
-  variables?: HogFlowsBulkDeleteCreateRequestVariablesList;
+  variables?: CreateHogFlowRequestVariablesList;
 }
-export const HogFlowsBulkDeleteCreateRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateHogFlowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     name: S.optional(S.NullOr(S.String)),
     description: S.optional(S.String),
-    status: S.optional(HogFlowStatusEnum),
+    status: S.optional(HogFlowStateEnum),
+    origin_product: S.optional(S.NullOr(HogFlowOriginProductEnum)),
     trigger_masking: S.optional(S.NullOr(HogFlowMasking)),
     conversion: S.optional(S.NullOr(HogFlowConversion)),
     exit_condition: S.optional(ExitConditionEnum),
-    edges: S.optional(HogFlowsBulkDeleteCreateRequestEdgesList),
-    actions: S.optional(HogFlowsBulkDeleteCreateRequestActionsList),
-    variables: S.optional(HogFlowsBulkDeleteCreateRequestVariablesList),
+    email_sending_rate_limit: S.optional(
+      S.NullOr(HogFlowEmailSendingRateLimit),
+    ),
+    edges: S.optional(CreateHogFlowRequestEdgesList),
+    actions: S.optional(CreateHogFlowRequestActionsList),
+    variables: S.optional(CreateHogFlowRequestVariablesList),
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/api/projects/{project_id}/hog_flows/bulk_delete/",
+      uri: "/api/projects/{project_id}/hog_flows/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "HogFlowsBulkDeleteCreateRequest",
-}) as any as S.Schema<HogFlowsBulkDeleteCreateRequest>;
+  identifier: "CreateHogFlowRequest",
+}) as any as S.Schema<CreateHogFlowRequest>;
+
+export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
+export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<UserBasicHedgehogConfigMap>;
+
+/** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
+export type RoleAtOrganizationEnum =
+  | "engineering"
+  | "data"
+  | "product"
+  | "founder"
+  | "leadership"
+  | "marketing"
+  | "sales"
+  | "student"
+  | "other";
+export const RoleAtOrganizationEnum = S.String;
+
+export type BlankEnum = "";
+export const BlankEnum = S.String;
+
+export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
+export const UserBasicRoleAtOrganization =
+  S.Unknown as any as S.Schema<UserBasicRoleAtOrganization>;
+
+export interface UserBasic {
+  id?: number;
+  uuid?: string;
+  distinct_id?: string | null;
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  is_email_verified?: boolean | null;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null;
+  role_at_organization?: UserBasicRoleAtOrganization | null;
+}
+export const UserBasic = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.Number),
+    uuid: S.optional(S.String),
+    distinct_id: S.optional(S.NullOr(S.String)),
+    first_name: S.optional(S.String),
+    last_name: S.optional(S.String),
+    email: S.optional(S.String),
+    is_email_verified: S.optional(S.NullOr(S.Boolean)),
+    hedgehog_config: S.optional(S.NullOr(UserBasicHedgehogConfigMap)),
+    role_at_organization: S.optional(S.NullOr(UserBasicRoleAtOrganization)),
+  }),
+).annotate({ identifier: "UserBasic" }) as any as S.Schema<UserBasic>;
 
 /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
 export type HogFlowEdgesList = Array<HogFlowEdge>;
@@ -609,7 +559,7 @@ export const HogFlowVariablesList = /*@__PURE__*/ S.Array(
 
 /** * `active` - Active * `paused` - Paused * `completed` - Completed */
 export type HogFlowScheduleStatusEnum = "active" | "paused" | "completed";
-export const HogFlowScheduleStatusEnum = /*@__PURE__*/ S.String;
+export const HogFlowScheduleStatusEnum = S.String;
 
 export interface HogFlowSchedule {
   id?: string;
@@ -650,6 +600,14 @@ export const HogFlowSchedulesList = /*@__PURE__*/ S.Array(
   HogFlowSchedule,
 ) as any as S.Schema<HogFlowSchedulesList>;
 
+/** Skip-forward map for deleted steps: {deleted_action_id: next surviving action_id}. Maintained automatically when a live graph edit deletes actions, so in-flight runs parked on a deleted step continue at its surviving successor instead of exiting. Null when no live deletions have occurred. */
+export type HogFlowActionRedirectsMap = { [key: string]: string | undefined };
+export const HogFlowActionRedirectsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<HogFlowActionRedirectsMap>;
+
+/** Mixin for serializers to add user access control fields */
 export interface HogFlow {
   id?: string;
   /** Workflow name. */
@@ -658,7 +616,9 @@ export interface HogFlow {
   description?: string;
   version?: number;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowStatusEnum;
+  status?: HogFlowStateEnum;
+  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow. Filter the list with `?origin_product=`. * `loops` - Loops */
+  origin_product?: HogFlowOriginProductEnum | null;
   created_at?: string;
   created_by?: UserBasic | null;
   updated_at?: string;
@@ -669,6 +629,8 @@ export interface HogFlow {
   conversion?: HogFlowConversion | null;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
   exit_condition?: ExitConditionEnum;
+  /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
   /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
   edges?: HogFlowEdgesList;
   /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
@@ -679,6 +641,14 @@ export interface HogFlow {
   billable_action_types?: unknown;
   /** Recurring schedules attached to this workflow (read-only here; manage via the schedules sub-resource). A batch/schedule workflow only fires when it's active AND has an active schedule. Empty for non-scheduled workflows. */
   schedules?: HogFlowSchedulesList;
+  /** The effective access level the user has for this object */
+  user_access_level?: string | null;
+  /** Staged content changes awaiting publish — a full snapshot of the workflow's actions, edges and settings. Null when there's nothing staged. Test it with a use_draft test run, then promote it with the publish endpoint or throw it away with discard_draft. */
+  draft?: unknown;
+  /** When the draft was last written; null when there's no staged draft. Pass this to publish (and as base_updated_at on further draft edits) so a concurrent editor's changes aren't clobbered — a mismatch returns 409. */
+  draft_updated_at?: string | null;
+  /** Skip-forward map for deleted steps: {deleted_action_id: next surviving action_id}. Maintained automatically when a live graph edit deletes actions, so in-flight runs parked on a deleted step continue at its surviving successor instead of exiting. Null when no live deletions have occurred. */
+  action_redirects?: HogFlowActionRedirectsMap | null;
 }
 export const HogFlow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -686,7 +656,8 @@ export const HogFlow = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     description: S.optional(S.String),
     version: S.optional(S.Number),
-    status: S.optional(HogFlowStatusEnum),
+    status: S.optional(HogFlowStateEnum),
+    origin_product: S.optional(S.NullOr(HogFlowOriginProductEnum)),
     created_at: S.optional(S.String),
     created_by: S.optional(S.NullOr(UserBasic)),
     updated_at: S.optional(S.String),
@@ -694,214 +665,792 @@ export const HogFlow = /*@__PURE__*/ S.suspend(() =>
     trigger_masking: S.optional(S.NullOr(HogFlowMasking)),
     conversion: S.optional(S.NullOr(HogFlowConversion)),
     exit_condition: S.optional(ExitConditionEnum),
+    email_sending_rate_limit: S.optional(
+      S.NullOr(HogFlowEmailSendingRateLimit),
+    ),
     edges: S.optional(HogFlowEdgesList),
     actions: S.optional(HogFlowActionsList),
     abort_action: S.optional(S.NullOr(S.String)),
     variables: S.optional(HogFlowVariablesList),
     billable_action_types: S.optional(S.Unknown),
     schedules: S.optional(HogFlowSchedulesList),
+    user_access_level: S.optional(S.NullOr(S.String)),
+    draft: S.optional(S.Unknown),
+    draft_updated_at: S.optional(S.NullOr(S.String)),
+    action_redirects: S.optional(S.NullOr(HogFlowActionRedirectsMap)),
   }),
 ).annotate({ identifier: "HogFlow" }) as any as S.Schema<HogFlow>;
 
-/** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-export type HogFlowsCreateRequestEdgesList = Array<HogFlowEdge>;
-export const HogFlowsCreateRequestEdgesList = /*@__PURE__*/ S.Array(
-  HogFlowEdge,
-) as any as S.Schema<HogFlowsCreateRequestEdgesList>;
+/** * `waiting` - Waiting * `queued` - Queued * `active` - Active * `completed` - Completed * `cancelled` - Cancelled * `failed` - Failed */
+export type HogFlowBatchJobStateEnum =
+  | "waiting"
+  | "queued"
+  | "active"
+  | "completed"
+  | "cancelled"
+  | "failed";
+export const HogFlowBatchJobStateEnum = S.String;
 
-/** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-export type HogFlowsCreateRequestActionsList = Array<HogFlowAction>;
-export const HogFlowsCreateRequestActionsList = /*@__PURE__*/ S.Array(
-  HogFlowAction,
-) as any as S.Schema<HogFlowsCreateRequestActionsList>;
-
-/** Variable: {key, type: string|number|boolean, default}. */
-export type HogFlowsCreateRequestVariablesItemMap = {
-  [key: string]: string | undefined;
-};
-export const HogFlowsCreateRequestVariablesItemMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<HogFlowsCreateRequestVariablesItemMap>;
-
-/** Workflow vars (key, type, default). Total <5KB. */
-export type HogFlowsCreateRequestVariablesList =
-  Array<HogFlowsCreateRequestVariablesItemMap>;
-export const HogFlowsCreateRequestVariablesList = /*@__PURE__*/ S.Array(
-  HogFlowsCreateRequestVariablesItemMap,
-) as any as S.Schema<HogFlowsCreateRequestVariablesList>;
-
-export interface HogFlowsCreateRequest {
+export interface CreateHogFlowsBatchJobRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Not currently tracked — stays at its initial value. Use the workflow logs/metrics endpoints for run outcome. * `waiting` - Waiting * `queued` - Queued * `active` - Active * `completed` - Completed * `cancelled` - Cancelled * `failed` - Failed */
+  status?: HogFlowBatchJobStateEnum | (string & {});
+  /** ID of the workflow this batch run belongs to. */
+  hog_flow: string;
+  /** Variable value overrides applied to this run. */
+  variables?: unknown;
+}
+export const CreateHogFlowsBatchJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    status: S.optional(HogFlowBatchJobStateEnum),
+    hog_flow: S.String,
+    variables: S.optional(S.Unknown),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/batch_jobs/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateHogFlowsBatchJobRequest",
+}) as any as S.Schema<CreateHogFlowsBatchJobRequest>;
+
+export interface HogFlowBatchJob {
+  id: string;
+  /** Not currently tracked — stays at its initial value. Use the workflow logs/metrics endpoints for run outcome. * `waiting` - Waiting * `queued` - Queued * `active` - Active * `completed` - Completed * `cancelled` - Cancelled * `failed` - Failed */
+  status?: HogFlowBatchJobStateEnum;
+  /** ID of the workflow this batch run belongs to. */
+  hog_flow: string;
+  /** Audience snapshot the run fanned out to, taken from the workflow's batch trigger filters. */
+  filters: unknown;
+  /** Variable value overrides applied to this run. */
+  variables?: unknown;
+  created_at: string;
+  created_by: UserBasic;
+  updated_at: string;
+}
+export const HogFlowBatchJob = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    status: S.optional(HogFlowBatchJobStateEnum),
+    hog_flow: S.String,
+    filters: S.Unknown,
+    variables: S.optional(S.Unknown),
+    created_at: S.String,
+    created_by: UserBasic,
+    updated_at: S.String,
+  }),
+).annotate({
+  identifier: "HogFlowBatchJob",
+}) as any as S.Schema<HogFlowBatchJob>;
+
+export interface CreateHogFlowsDiscardDraftRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+}
+export const CreateHogFlowsDiscardDraftRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/discard_draft/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateHogFlowsDiscardDraftRequest",
+}) as any as S.Schema<CreateHogFlowsDiscardDraftRequest>;
+
+/** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
+export type HogFlowInputEdgesList = Array<HogFlowEdge>;
+export const HogFlowInputEdgesList = /*@__PURE__*/ S.Array(
+  HogFlowEdge,
+) as any as S.Schema<HogFlowInputEdgesList>;
+
+/** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
+export type HogFlowInputActionsList = Array<HogFlowAction>;
+export const HogFlowInputActionsList = /*@__PURE__*/ S.Array(
+  HogFlowAction,
+) as any as S.Schema<HogFlowInputActionsList>;
+
+/** Variable: {key, type: string|number|boolean, default}. */
+export type HogFlowInputVariablesItemMap = {
+  [key: string]: string | undefined;
+};
+export const HogFlowInputVariablesItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<HogFlowInputVariablesItemMap>;
+
+/** Workflow vars (key, type, default). Total <5KB. */
+export type HogFlowInputVariablesList = Array<HogFlowInputVariablesItemMap>;
+export const HogFlowInputVariablesList = /*@__PURE__*/ S.Array(
+  HogFlowInputVariablesItemMap,
+) as any as S.Schema<HogFlowInputVariablesList>;
+
+/** Mixin for serializers to add user access control fields */
+export interface HogFlowInput {
   /** Workflow name. */
   name?: string | null;
   /** Optional description. */
   description?: string;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowStatusEnum | (string & {});
+  status?: HogFlowStateEnum | (string & {});
+  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow. Filter the list with `?origin_product=`. * `loops` - Loops */
+  origin_product?: HogFlowOriginProductEnum | (string & {}) | null;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
   trigger_masking?: HogFlowMasking | null;
   /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
   conversion?: HogFlowConversion | null;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
   exit_condition?: ExitConditionEnum | (string & {});
+  /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
   /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-  edges?: HogFlowsCreateRequestEdgesList;
+  edges?: HogFlowInputEdgesList;
   /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-  actions?: HogFlowsCreateRequestActionsList;
+  actions?: HogFlowInputActionsList;
   /** Workflow vars (key, type, default). Total <5KB. */
-  variables?: HogFlowsCreateRequestVariablesList;
+  variables?: HogFlowInputVariablesList;
 }
-export const HogFlowsCreateRequest = /*@__PURE__*/ S.suspend(() =>
+export const HogFlowInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project_id: S.String.pipe(T.Label()),
     name: S.optional(S.NullOr(S.String)),
     description: S.optional(S.String),
-    status: S.optional(HogFlowStatusEnum),
+    status: S.optional(HogFlowStateEnum),
+    origin_product: S.optional(S.NullOr(HogFlowOriginProductEnum)),
     trigger_masking: S.optional(S.NullOr(HogFlowMasking)),
     conversion: S.optional(S.NullOr(HogFlowConversion)),
     exit_condition: S.optional(ExitConditionEnum),
-    edges: S.optional(HogFlowsCreateRequestEdgesList),
-    actions: S.optional(HogFlowsCreateRequestActionsList),
-    variables: S.optional(HogFlowsCreateRequestVariablesList),
+    email_sending_rate_limit: S.optional(
+      S.NullOr(HogFlowEmailSendingRateLimit),
+    ),
+    edges: S.optional(HogFlowInputEdgesList),
+    actions: S.optional(HogFlowInputActionsList),
+    variables: S.optional(HogFlowInputVariablesList),
+  }),
+).annotate({ identifier: "HogFlowInput" }) as any as S.Schema<HogFlowInput>;
+
+/** Test trigger payload, typically {event, person, groups}. Shape it like the trigger's real payload: an event matching the trigger filters for event triggers, or for an internal-event trigger an event named in its filters.events (e.g. $slack_message_received with Slack properties like channel, user, text, ts) and no person. */
+export type CreateHogFlowsInvocationRequestGlobalsMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateHogFlowsInvocationRequestGlobalsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateHogFlowsInvocationRequestGlobalsMap>;
+
+export interface CreateHogFlowsInvocationRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Optional override; omit to use saved definition. */
+  configuration?: HogFlowInput;
+  /** Test trigger payload, typically {event, person, groups}. Shape it like the trigger's real payload: an event matching the trigger filters for event triggers, or for an internal-event trigger an event named in its filters.events (e.g. $slack_message_received with Slack properties like channel, user, text, ts) and no person. */
+  globals?: CreateHogFlowsInvocationRequestGlobalsMap;
+  /** True (default) mocks HTTP/email/SMS. False fires real side effects. */
+  mock_async_functions?: boolean;
+  /** Start execution from this action ID instead of the trigger. Each test run executes a single node and returns the next action id. */
+  current_action_id?: string;
+  /** Test the workflow's staged draft instead of its live config. Set this only when workflows-get returns a non-null 'draft'; it can't be combined with an explicit configuration override. */
+  use_draft?: boolean;
+}
+export const CreateHogFlowsInvocationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    configuration: S.optional(HogFlowInput),
+    globals: S.optional(CreateHogFlowsInvocationRequestGlobalsMap),
+    mock_async_functions: S.optional(S.Boolean),
+    current_action_id: S.optional(S.String),
+    use_draft: S.optional(S.Boolean),
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/api/projects/{project_id}/hog_flows/",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/invocations/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "HogFlowsCreateRequest",
-}) as any as S.Schema<HogFlowsCreateRequest>;
+  identifier: "CreateHogFlowsInvocationRequest",
+}) as any as S.Schema<CreateHogFlowsInvocationRequest>;
 
-export interface HogFlowsDestroyRequest {
+export interface CreateHogFlowsInvocationResponse {}
+export const CreateHogFlowsInvocationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateHogFlowsInvocationResponse",
+}) as any as S.Schema<CreateHogFlowsInvocationResponse>;
+
+/** * `running` - running * `succeeded` - succeeded * `failed` - failed * `canceled` - canceled */
+export type HogInvocationRerunFilterStatusEnum =
+  | "running"
+  | "succeeded"
+  | "failed"
+  | "canceled";
+export const HogInvocationRerunFilterStatusEnum = S.String;
+
+/** Restrict to invocations whose latest status is one of these. Defaults to ['failed']. */
+export type HogInvocationRerunFilterStatusList = Array<
+  HogInvocationRerunFilterStatusEnum | (string & {})
+>;
+export const HogInvocationRerunFilterStatusList = /*@__PURE__*/ S.Array(
+  HogInvocationRerunFilterStatusEnum,
+) as any as S.Schema<HogInvocationRerunFilterStatusList>;
+
+/** Restrict to invocations whose error_kind matches one of these (e.g. 'http_5xx', 'timeout'). */
+export type HogInvocationRerunFilterErrorKindList = Array<string>;
+export const HogInvocationRerunFilterErrorKindList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<HogInvocationRerunFilterErrorKindList>;
+
+/** Optional restriction to specific invocation IDs within the window. Capped at 10000 per request. Always combined with `window_start`/`window_end` so the ClickHouse query can be partition-pruned. */
+export type HogInvocationRerunFilterInvocationIdsList = Array<string>;
+export const HogInvocationRerunFilterInvocationIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<HogInvocationRerunFilterInvocationIdsList>;
+
+/** Filter shape for the rerun endpoint. `window_start`/`window_end` are required. */
+export interface HogInvocationRerunFilter {
+  /** Inclusive lower bound on `scheduled_at` (UTC). */
+  window_start: string;
+  /** Exclusive upper bound on `scheduled_at` (UTC). */
+  window_end: string;
+  /** Restrict to invocations whose latest status is one of these. Defaults to ['failed']. */
+  status?: HogInvocationRerunFilterStatusList;
+  /** Restrict to invocations whose error_kind matches one of these (e.g. 'http_5xx', 'timeout'). */
+  error_kind?: HogInvocationRerunFilterErrorKindList;
+  /** Restrict to invocations whose error_message contains this substring (case-insensitive). Use to isolate one failure mode when error_kind is too coarse (most app-level errors share the 'hog_error' kind). */
+  error_message_contains?: string;
+  /** Skip invocations that have already been attempted this many times or more. */
+  max_attempts?: number;
+  /** Maximum number of invocations to rerun in this request. Server-side cap is 10000. */
+  max_count?: number;
+  /** Optional restriction to specific invocation IDs within the window. Capped at 10000 per request. Always combined with `window_start`/`window_end` so the ClickHouse query can be partition-pruned. */
+  invocation_ids?: HogInvocationRerunFilterInvocationIdsList;
+}
+export const HogInvocationRerunFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    window_start: S.String,
+    window_end: S.String,
+    status: S.optional(HogInvocationRerunFilterStatusList),
+    error_kind: S.optional(HogInvocationRerunFilterErrorKindList),
+    error_message_contains: S.optional(S.String),
+    max_attempts: S.optional(S.Number),
+    max_count: S.optional(S.Number),
+    invocation_ids: S.optional(HogInvocationRerunFilterInvocationIdsList),
+  }),
+).annotate({
+  identifier: "HogInvocationRerunFilter",
+}) as any as S.Schema<HogInvocationRerunFilter>;
+
+export interface CreateHogFlowsRerunRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Required. `window_start` / `window_end` pin the query to a small set of date partitions on the `hog_invocation_results` table. Optional `invocation_ids` restricts to specific invocations within that window. */
+  filter: HogInvocationRerunFilter;
+}
+export const CreateHogFlowsRerunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    filter: HogInvocationRerunFilter,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/rerun/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateHogFlowsRerunRequest",
+}) as any as S.Schema<CreateHogFlowsRerunRequest>;
+
+/** Response from the rerun endpoint. The endpoint only enqueues a wrapper job onto the cyclotron `rerun` queue — the actual ClickHouse paging and re-enqueue work happens asynchronously in the `cdp-rerun-worker` service. Use `rerun_job_id` to look up progress on the wrapper job later. */
+export interface HogInvocationRerunResponse {
+  /** ID of the cyclotron wrapper job that will run the rerun. Use this to poll status. */
+  rerun_job_id: string;
+  /** Always 0 — rerun runs asynchronously. Kept for response shape stability. */
+  queued_count: number;
+  /** Always 0 — rerun runs asynchronously. Kept for response shape stability. */
+  skipped_count: number;
+}
+export const HogInvocationRerunResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rerun_job_id: S.String,
+    queued_count: S.Number,
+    skipped_count: S.Number,
+  }),
+).annotate({
+  identifier: "HogInvocationRerunResponse",
+}) as any as S.Schema<HogInvocationRerunResponse>;
+
+/** Variable value overrides, merged with the workflow's own variable defaults for this run only. */
+export type CreateHogFlowsRunRequestVariablesMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateHogFlowsRunRequestVariablesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateHogFlowsRunRequestVariablesMap>;
+
+export interface CreateHogFlowsRunRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Variable value overrides, merged with the workflow's own variable defaults for this run only. */
+  variables?: CreateHogFlowsRunRequestVariablesMap;
+}
+export const CreateHogFlowsRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    variables: S.optional(CreateHogFlowsRunRequestVariablesMap),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/run/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateHogFlowsRunRequest",
+}) as any as S.Schema<CreateHogFlowsRunRequest>;
+
+export interface HogFlowRunResponse {
+  /** 'queued' once the invocation has been queued for execution. */
+  status: string;
+  /** ID of the queued hog flow invocation. */
+  invocation_id: string;
+}
+export const HogFlowRunResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.String,
+    invocation_id: S.String,
+  }),
+).annotate({
+  identifier: "HogFlowRunResponse",
+}) as any as S.Schema<HogFlowRunResponse>;
+
+export interface CreateHogFlowsScheduleRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** iCalendar RRULE string (e.g. 'FREQ=DAILY;INTERVAL=1'). Must produce occurrences at most once per hour. */
+  rrule?: string;
+  /** ISO 8601 datetime the schedule starts from. */
+  starts_at?: string;
+  /** IANA timezone for interpreting the RRULE (default 'UTC'). */
+  timezone?: string;
+  /** Variable value overrides merged with the workflow defaults on each run. */
+  variables?: unknown;
+}
+export const CreateHogFlowsScheduleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    rrule: S.optional(S.String),
+    starts_at: S.optional(S.String),
+    timezone: S.optional(S.String),
+    variables: S.optional(S.Unknown),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/schedules/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateHogFlowsScheduleRequest",
+}) as any as S.Schema<CreateHogFlowsScheduleRequest>;
+
+/** Property filters to apply */
+export type CreateHogFlowsUserBlastRadiusRequestFiltersMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateHogFlowsUserBlastRadiusRequestFiltersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<CreateHogFlowsUserBlastRadiusRequestFiltersMap>;
+
+/** * `email` - email */
+export type DedupeKeyEnum = "email";
+export const DedupeKeyEnum = S.String;
+
+export interface CreateHogFlowsUserBlastRadiusRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Property filters to apply */
+  filters?: CreateHogFlowsUserBlastRadiusRequestFiltersMap;
+  /** Group type index for group-based targeting */
+  group_type_index?: number | null;
+  /** When 'email', count unique email addresses instead of persons, matching how batch email sends deduplicate recipients. * `email` - email */
+  dedupe_key?: DedupeKeyEnum | (string & {}) | null;
+  /** Whether the workflow contains an email step. The tiered audience limit only applies to email sends; SMS, push, and webhook batches keep the flat limit. Defaults to true. */
+  sends_email?: boolean;
+}
+export const CreateHogFlowsUserBlastRadiusRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      filters: S.optional(CreateHogFlowsUserBlastRadiusRequestFiltersMap),
+      group_type_index: S.optional(S.NullOr(S.Number)),
+      dedupe_key: S.optional(S.NullOr(DedupeKeyEnum)),
+      sends_email: S.optional(S.Boolean),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/api/projects/{project_id}/hog_flows/user_blast_radius/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "CreateHogFlowsUserBlastRadiusRequest",
+}) as any as S.Schema<CreateHogFlowsUserBlastRadiusRequest>;
+
+export interface BlastRadius {
+  /** Number of users matching the filters */
+  affected?: number;
+  /** Total number of users */
+  total?: number;
+  /** Maximum allowed audience size for batch triggers for this team. */
+  limit?: number;
+  /** The dedupe key that was actually applied to 'affected'. 'email' means it counts unique email addresses; null means it counts persons. * `email` - email */
+  dedupe_key?: DedupeKeyEnum | null;
+  /** Proof this audience was previewed: pass it to the batch dispatch (confirm_token) after echoing 'affected' to the user. Signs these exact filters; expires in 15 minutes. */
+  confirm_token?: string;
+}
+export const BlastRadius = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    affected: S.optional(S.Number),
+    total: S.optional(S.Number),
+    limit: S.optional(S.Number),
+    dedupe_key: S.optional(S.NullOr(DedupeKeyEnum)),
+    confirm_token: S.optional(S.String),
+  }),
+).annotate({ identifier: "BlastRadius" }) as any as S.Schema<BlastRadius>;
+
+export interface GetHogFlowRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this hog flow. */
   id: string;
 }
-export const HogFlowsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetHogFlowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
-      method: "DELETE",
+      method: "GET",
       uri: "/api/projects/{project_id}/hog_flows/{id}/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "HogFlowsDestroyRequest",
-}) as any as S.Schema<HogFlowsDestroyRequest>;
+  identifier: "GetHogFlowRequest",
+}) as any as S.Schema<GetHogFlowRequest>;
 
-export interface HogFlowsDestroyResponse {}
-export const HogFlowsDestroyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "HogFlowsDestroyResponse",
-}) as any as S.Schema<HogFlowsDestroyResponse>;
-
-/** * `update_action` - update_action * `add_action` - add_action * `remove_action` - remove_action * `add_edge` - add_edge * `remove_edge` - remove_edge * `replace_action_edges` - replace_action_edges */
-export type HogFlowGraphOperationOpEnum =
-  | "update_action"
-  | "add_action"
-  | "remove_action"
-  | "add_edge"
-  | "remove_edge"
-  | "replace_action_edges";
-export const HogFlowGraphOperationOpEnum = /*@__PURE__*/ S.String;
-
-/** replace_action_edges only. The complete set of the action's outgoing edges; incoming edges are preserved. */
-export type HogFlowGraphOperationEdgesList = Array<HogFlowEdge>;
-export const HogFlowGraphOperationEdgesList = /*@__PURE__*/ S.Array(
-  HogFlowEdge,
-) as any as S.Schema<HogFlowGraphOperationEdgesList>;
-
-export interface HogFlowGraphOperation {
-  /** Graph edit. update_action {id, patch}: deep-merge patch into the action's fields (a null leaf deletes that key) — the surgical path for tweaking one config value. add_action {action}: append a full action node. remove_action {id}: delete a node and reconnect its incoming edges to its first outgoer. add_edge {edge} / remove_edge {edge}: add or delete one edge. replace_action_edges {id, edges}: replace this action's outgoing edges with the given set (use when adding/removing branch conditions); incoming edges are left intact. * `update_action` - update_action * `add_action` - add_action * `remove_action` - remove_action * `add_edge` - add_edge * `remove_edge` - remove_edge * `replace_action_edges` - replace_action_edges */
-  op: HogFlowGraphOperationOpEnum | (string & {});
-  /** Action id. Required for update_action, remove_action, replace_action_edges. */
-  id?: string;
-  /** update_action only. Partial action fields, deep-merged into the existing action; a null leaf deletes that key. e.g. {config: {inputs: {subject: {value: 'Hi'}}}} changes only that input. */
-  patch?: unknown;
-  /** add_action only. A full action node {id, name, type, config, ...}; same shape as in actions. */
-  action?: unknown;
-  /** add_edge / remove_edge only. The edge {from, to, type, index?}. */
-  edge?: HogFlowEdge;
-  /** replace_action_edges only. The complete set of the action's outgoing edges; incoming edges are preserved. */
-  edges?: HogFlowGraphOperationEdgesList;
-}
-export const HogFlowGraphOperation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    op: HogFlowGraphOperationOpEnum,
-    id: S.optional(S.String),
-    patch: S.optional(S.Unknown),
-    action: S.optional(S.Unknown),
-    edge: S.optional(HogFlowEdge),
-    edges: S.optional(HogFlowGraphOperationEdgesList),
-  }),
-).annotate({
-  identifier: "HogFlowGraphOperation",
-}) as any as S.Schema<HogFlowGraphOperation>;
-
-/** Ordered graph edits applied atomically to a draft workflow: the stored graph is read, the ops are applied in order, the result is fully validated, and it's saved only if valid — otherwise the workflow is unchanged. Reference nodes/edges by id so you never resend the whole graph. The full updated workflow is returned. */
-export type HogFlowsGraphPartialUpdateRequestOperationsList =
-  Array<HogFlowGraphOperation>;
-export const HogFlowsGraphPartialUpdateRequestOperationsList =
-  /*@__PURE__*/ S.Array(
-    HogFlowGraphOperation,
-  ) as any as S.Schema<HogFlowsGraphPartialUpdateRequestOperationsList>;
-
-export interface HogFlowsGraphPartialUpdateRequest {
+export interface GetHogFlowsAssetRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this hog flow. */
   id: string;
-  /** Ordered graph edits applied atomically to a draft workflow: the stored graph is read, the ops are applied in order, the result is fully validated, and it's saved only if valid — otherwise the workflow is unchanged. Reference nodes/edges by id so you never resend the whole graph. The full updated workflow is returned. */
-  operations?: HogFlowsGraphPartialUpdateRequestOperationsList;
+  /** Only return assets sent by this email step (action node id) — used to drill in from a step's metric. */
+  action_id?: string;
+  /** Start of the time range, matched on sent time. Relative ('-30d', '-24h') or ISO 8601. Defaults to -30d (the retention window) — bounds the ClickHouse partition scan. */
+  after?: string;
+  /** End of the time range, matched on sent time. Same format as 'after'. Defaults to now. */
+  before?: string;
+  /** Only return assets sent to this distinct_id. */
+  distinct_id?: string;
+  /** Only return the asset for this specific workflow run — used to deep-link from a single log entry to the email it sent. Returns 0 rows when the send had no captured asset (text-only, kill-switch off, or standalone email). */
+  invocation_id?: string;
+  /** Maximum number of assets to return (1-500, default 50). */
+  limit?: number;
+  /** Number of assets to skip, for pagination. */
+  offset?: number;
+  /** Only return assets for this batch run (HogFlowBatchJob id). Pass an empty string to return only event-triggered (non-batch) assets; omit to return all. */
+  parent_run_id?: string;
+  /** Case-insensitive substring match on recipient email or subject. */
+  search?: string;
 }
-export const HogFlowsGraphPartialUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetHogFlowsAssetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-    operations: S.optional(HogFlowsGraphPartialUpdateRequestOperationsList),
+    action_id: S.optional(S.String.pipe(T.Query())),
+    after: S.optional(S.String.pipe(T.Query())),
+    before: S.optional(S.String.pipe(T.Query())),
+    distinct_id: S.optional(S.String.pipe(T.Query())),
+    invocation_id: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
+    parent_run_id: S.optional(S.String.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/graph/",
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/assets/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "HogFlowsGraphPartialUpdateRequest",
-}) as any as S.Schema<HogFlowsGraphPartialUpdateRequest>;
+  identifier: "GetHogFlowsAssetRequest",
+}) as any as S.Schema<GetHogFlowsAssetRequest>;
 
-export interface HogFlowsInvocationResultRetrieveRequest {
+export interface MessageAsset {
+  /** The workflow run this email was sent in. */
+  invocation_id: string;
+  /** The email step (action node) within the workflow that sent this email. */
+  action_id: string;
+  /** The workflow id that sent this email — used to navigate from a person's Emails tab back into the originating workflow. */
+  function_id: string;
+  /** Human-readable workflow name for display. Empty when the workflow has been deleted; clients should fall back to function_id in that case. */
+  function_name: string;
+  /** The batch run this email belongs to, for batch-triggered workflows. Empty for event-triggered runs. */
+  parent_run_id: string;
+  /** Message channel this asset was sent on: 'email' or 'push'. The per-person endpoints return one channel each. */
+  kind: string;
+  /** The recipient's distinct_id. */
+  distinct_id: string;
+  /** The recipient's person UUID, if resolved. */
+  person_id: string;
+  /** Who the message went to: the email address for 'email', or the recipient's distinct ID for 'push'. */
+  recipient: string;
+  /** The email subject line, or the push notification title. */
+  subject: string;
+  /** Delivery status at capture time. Currently always 'sent' - only delivered messages are captured. */
+  status: string;
+  /** When the message was sent. */
+  sent_at: string;
+}
+export const MessageAsset = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    invocation_id: S.String,
+    action_id: S.String,
+    function_id: S.String,
+    function_name: S.String,
+    parent_run_id: S.String,
+    kind: S.String,
+    distinct_id: S.String,
+    person_id: S.String,
+    recipient: S.String,
+    subject: S.String,
+    status: S.String,
+    sent_at: S.String,
+  }),
+).annotate({ identifier: "MessageAsset" }) as any as S.Schema<MessageAsset>;
+
+export type GetHogFlowsAssetResponseBodyList = Array<MessageAsset>;
+export const GetHogFlowsAssetResponseBodyList = /*@__PURE__*/ S.Array(
+  MessageAsset,
+) as any as S.Schema<GetHogFlowsAssetResponseBodyList>;
+
+export type GetHogFlowsAssetResponse = GetHogFlowsAssetResponseBodyList;
+export const GetHogFlowsAssetResponse = /*@__PURE__*/ S.suspend(() =>
+  GetHogFlowsAssetResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetHogFlowsAssetResponse",
+}) as any as S.Schema<GetHogFlowsAssetResponse>;
+
+export interface GetHogFlowsAssetContentRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** The email step (action node) that sent the email. Defaults to empty for standalone email sends. */
+  action_id?: string;
+  /** The workflow run the email was sent in. */
+  invocation_id: string;
+}
+export const GetHogFlowsAssetContentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    action_id: S.optional(S.String.pipe(T.Query())),
+    invocation_id: S.String.pipe(T.Query()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/assets/content/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetHogFlowsAssetContentRequest",
+}) as any as S.Schema<GetHogFlowsAssetContentRequest>;
+
+export interface GetHogFlowsAssetContentResponse {}
+export const GetHogFlowsAssetContentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "GetHogFlowsAssetContentResponse",
+}) as any as S.Schema<GetHogFlowsAssetContentResponse>;
+
+export interface GetHogFlowsEmailSendingSuspensionRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export const GetHogFlowsEmailSendingSuspensionRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/api/projects/{project_id}/hog_flows/email_sending_suspension/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetHogFlowsEmailSendingSuspensionRequest",
+}) as any as S.Schema<GetHogFlowsEmailSendingSuspensionRequest>;
+
+/** Cheap suspension-only read for the persistent scene-wide banner — no reputation computation. */
+export interface EmailSendingSuspensionStatus {
+  /** True while workflow email sending is suspended for this project to protect deliverability. */
+  email_sending_suspended: boolean;
+  /** When email sending was suspended; null while sending is enabled. */
+  email_sending_suspended_at: string | null;
+  /** Staff-authored reason shown to customers alongside the suspension notice; empty when not suspended. */
+  email_sending_suspension_reason: string;
+}
+export const EmailSendingSuspensionStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    email_sending_suspended: S.Boolean,
+    email_sending_suspended_at: S.NullOr(S.String),
+    email_sending_suspension_reason: S.String,
+  }),
+).annotate({
+  identifier: "EmailSendingSuspensionStatus",
+}) as any as S.Schema<EmailSendingSuspensionStatus>;
+
+export interface GetHogFlowsInvocationResultRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Start of the time range, matched on scheduled time. Relative ('-7d', '-24h') or ISO 8601. Defaults to -7d — bounds the ClickHouse partition scan, so widen it explicitly for older runs. */
+  after?: string;
+  /** End of the time range, matched on scheduled time. Same format as 'after'. Defaults to now. */
+  before?: string;
+  /** Only return invocations triggered for this distinct_id (the person the run executed for). */
+  distinct_id?: string;
+  /** Only return invocations whose latest error_message contains this substring (case-insensitive). Matches the rerun endpoint's filter of the same name, so callers can check what a rerun would target. */
+  error_message_contains?: string;
+  /** Maximum number of invocations to return (1-500, default 50). */
+  limit?: number;
+  /** Comma-separated invocation statuses to include, e.g. 'failed' or 'success,failed'. */
+  status?: string;
+}
+export const GetHogFlowsInvocationResultRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    after: S.optional(S.String.pipe(T.Query())),
+    before: S.optional(S.String.pipe(T.Query())),
+    distinct_id: S.optional(S.String.pipe(T.Query())),
+    error_message_contains: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    status: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/invocation_results/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetHogFlowsInvocationResultRequest",
+}) as any as S.Schema<GetHogFlowsInvocationResultRequest>;
+
+export interface HogInvocationResult {
+  invocation_id: string;
+  status: string;
+  error_kind: string;
+  error_message: string;
+  distinct_id: string;
+  person_id: string;
+  scheduled_at: string;
+  started_at: string | null;
+  finished_at: string | null;
+  duration_ms: number | null;
+  attempts: number;
+  is_retry: boolean;
+}
+export const HogInvocationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    invocation_id: S.String,
+    status: S.String,
+    error_kind: S.String,
+    error_message: S.String,
+    distinct_id: S.String,
+    person_id: S.String,
+    scheduled_at: S.String,
+    started_at: S.NullOr(S.String),
+    finished_at: S.NullOr(S.String),
+    duration_ms: S.NullOr(S.Number),
+    attempts: S.Number,
+    is_retry: S.Boolean,
+  }),
+).annotate({
+  identifier: "HogInvocationResult",
+}) as any as S.Schema<HogInvocationResult>;
+
+export type GetHogFlowsInvocationResultResponseBodyList =
+  Array<HogInvocationResult>;
+export const GetHogFlowsInvocationResultResponseBodyList =
+  /*@__PURE__*/ S.Array(
+    HogInvocationResult,
+  ) as any as S.Schema<GetHogFlowsInvocationResultResponseBodyList>;
+
+export type GetHogFlowsInvocationResultResponse =
+  GetHogFlowsInvocationResultResponseBodyList;
+export const GetHogFlowsInvocationResultResponse = /*@__PURE__*/ S.suspend(() =>
+  GetHogFlowsInvocationResultResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetHogFlowsInvocationResultResponse",
+}) as any as S.Schema<GetHogFlowsInvocationResultResponse>;
+
+export interface GetHogFlowsInvocationResultRequest2 {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this hog flow. */
   id: string;
   invocation_id: string;
 }
-export const HogFlowsInvocationResultRetrieveRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      project_id: S.String.pipe(T.Label()),
-      id: S.String.pipe(T.Label()),
-      invocation_id: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/api/projects/{project_id}/hog_flows/{id}/invocation_results/{invocation_id}/",
-        code: 200,
-      }),
-    ),
+export const GetHogFlowsInvocationResultRequest2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    invocation_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/invocation_results/{invocation_id}/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "HogFlowsInvocationResultRetrieveRequest",
-}) as any as S.Schema<HogFlowsInvocationResultRetrieveRequest>;
+  identifier: "GetHogFlowsInvocationResultRequest2",
+}) as any as S.Schema<GetHogFlowsInvocationResultRequest2>;
 
 /** The triggering payload (event/person/groups) the run executed against, as a JSON object. */
 export type HogInvocationResultDetailInvocationGlobalsMap = {
@@ -949,7 +1498,7 @@ export const HogInvocationResultDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "HogInvocationResultDetail",
 }) as any as S.Schema<HogInvocationResultDetail>;
 
-export interface HogFlowsInvocationResultsRetrieveRequest {
+export interface GetHogFlowsInvocationResultsCountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this hog flow. */
@@ -960,12 +1509,12 @@ export interface HogFlowsInvocationResultsRetrieveRequest {
   before?: string;
   /** Only return invocations triggered for this distinct_id (the person the run executed for). */
   distinct_id?: string;
-  /** Maximum number of invocations to return (1-500, default 50). */
-  limit?: number;
+  /** Only return invocations whose latest error_message contains this substring (case-insensitive). Matches the rerun endpoint's filter of the same name, so callers can check what a rerun would target. */
+  error_message_contains?: string;
   /** Comma-separated invocation statuses to include, e.g. 'failed' or 'success,failed'. */
   status?: string;
 }
-export const HogFlowsInvocationResultsRetrieveRequest = /*@__PURE__*/ S.suspend(
+export const GetHogFlowsInvocationResultsCountRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       project_id: S.String.pipe(T.Label()),
@@ -973,286 +1522,37 @@ export const HogFlowsInvocationResultsRetrieveRequest = /*@__PURE__*/ S.suspend(
       after: S.optional(S.String.pipe(T.Query())),
       before: S.optional(S.String.pipe(T.Query())),
       distinct_id: S.optional(S.String.pipe(T.Query())),
-      limit: S.optional(S.Number.pipe(T.Query())),
+      error_message_contains: S.optional(S.String.pipe(T.Query())),
       status: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/api/projects/{project_id}/hog_flows/{id}/invocation_results/",
+        uri: "/api/projects/{project_id}/hog_flows/{id}/invocation_results_count/",
         code: 200,
       }),
     ),
 ).annotate({
-  identifier: "HogFlowsInvocationResultsRetrieveRequest",
-}) as any as S.Schema<HogFlowsInvocationResultsRetrieveRequest>;
+  identifier: "GetHogFlowsInvocationResultsCountRequest",
+}) as any as S.Schema<GetHogFlowsInvocationResultsCountRequest>;
 
-export interface HogInvocationResult {
-  invocation_id: string;
-  status: string;
-  error_kind: string;
-  error_message: string;
-  distinct_id: string;
-  person_id: string;
-  scheduled_at: string;
-  started_at: string | null;
-  finished_at: string | null;
-  duration_ms: number | null;
-  attempts: number;
-  is_retry: boolean;
+export interface HogInvocationResultsCount {
+  /** Number of invocations matching the filters, without the list endpoint's 500-row cap. */
+  count: number;
 }
-export const HogInvocationResult = /*@__PURE__*/ S.suspend(() =>
+export const HogInvocationResultsCount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    invocation_id: S.String,
-    status: S.String,
-    error_kind: S.String,
-    error_message: S.String,
-    distinct_id: S.String,
-    person_id: S.String,
-    scheduled_at: S.String,
-    started_at: S.NullOr(S.String),
-    finished_at: S.NullOr(S.String),
-    duration_ms: S.NullOr(S.Number),
-    attempts: S.Number,
-    is_retry: S.Boolean,
+    count: S.Number,
   }),
 ).annotate({
-  identifier: "HogInvocationResult",
-}) as any as S.Schema<HogInvocationResult>;
+  identifier: "HogInvocationResultsCount",
+}) as any as S.Schema<HogInvocationResultsCount>;
 
-export type HogFlowsInvocationResultsRetrieveResponseBodyList =
-  Array<HogInvocationResult>;
-export const HogFlowsInvocationResultsRetrieveResponseBodyList =
-  /*@__PURE__*/ S.Array(
-    HogInvocationResult,
-  ) as any as S.Schema<HogFlowsInvocationResultsRetrieveResponseBodyList>;
-
-export type HogFlowsInvocationResultsRetrieveResponse =
-  HogFlowsInvocationResultsRetrieveResponseBodyList;
-export const HogFlowsInvocationResultsRetrieveResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    HogFlowsInvocationResultsRetrieveResponseBodyList.pipe(T.RawResponseRoot()),
-  ).annotate({
-    identifier: "HogFlowsInvocationResultsRetrieveResponse",
-  }) as any as S.Schema<HogFlowsInvocationResultsRetrieveResponse>;
-
-/** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-export type HogFlowInputEdgesList = Array<HogFlowEdge>;
-export const HogFlowInputEdgesList = /*@__PURE__*/ S.Array(
-  HogFlowEdge,
-) as any as S.Schema<HogFlowInputEdgesList>;
-
-/** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-export type HogFlowInputActionsList = Array<HogFlowAction>;
-export const HogFlowInputActionsList = /*@__PURE__*/ S.Array(
-  HogFlowAction,
-) as any as S.Schema<HogFlowInputActionsList>;
-
-/** Variable: {key, type: string|number|boolean, default}. */
-export type HogFlowInputVariablesItemMap = {
-  [key: string]: string | undefined;
-};
-export const HogFlowInputVariablesItemMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<HogFlowInputVariablesItemMap>;
-
-/** Workflow vars (key, type, default). Total <5KB. */
-export type HogFlowInputVariablesList = Array<HogFlowInputVariablesItemMap>;
-export const HogFlowInputVariablesList = /*@__PURE__*/ S.Array(
-  HogFlowInputVariablesItemMap,
-) as any as S.Schema<HogFlowInputVariablesList>;
-
-export interface HogFlowInput {
-  /** Workflow name. */
-  name?: string | null;
-  /** Optional description. */
-  description?: string;
-  /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowStatusEnum | (string & {});
-  /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
-  trigger_masking?: HogFlowMasking | null;
-  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
-  conversion?: HogFlowConversion | null;
-  /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
-  exit_condition?: ExitConditionEnum | (string & {});
-  /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-  edges?: HogFlowInputEdgesList;
-  /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-  actions?: HogFlowInputActionsList;
-  /** Workflow vars (key, type, default). Total <5KB. */
-  variables?: HogFlowInputVariablesList;
-}
-export const HogFlowInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.NullOr(S.String)),
-    description: S.optional(S.String),
-    status: S.optional(HogFlowStatusEnum),
-    trigger_masking: S.optional(S.NullOr(HogFlowMasking)),
-    conversion: S.optional(S.NullOr(HogFlowConversion)),
-    exit_condition: S.optional(ExitConditionEnum),
-    edges: S.optional(HogFlowInputEdgesList),
-    actions: S.optional(HogFlowInputActionsList),
-    variables: S.optional(HogFlowInputVariablesList),
-  }),
-).annotate({ identifier: "HogFlowInput" }) as any as S.Schema<HogFlowInput>;
-
-/** Test trigger payload, typically {event, person, groups}. */
-export type HogFlowsInvocationsCreateRequestGlobalsMap = {
-  [key: string]: unknown | undefined;
-};
-export const HogFlowsInvocationsCreateRequestGlobalsMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.Unknown,
-  ) as any as S.Schema<HogFlowsInvocationsCreateRequestGlobalsMap>;
-
-export interface HogFlowsInvocationsCreateRequest {
+export interface GetHogFlowsLogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this hog flow. */
   id: string;
-  /** Optional override; omit to use saved definition. */
-  configuration?: HogFlowInput;
-  /** Test trigger payload, typically {event, person, groups}. */
-  globals?: HogFlowsInvocationsCreateRequestGlobalsMap;
-  /** True (default) mocks HTTP/email/SMS. False fires real side effects. */
-  mock_async_functions?: boolean;
-  /** Start execution from this action ID instead of the trigger. Each test run executes a single node and returns the next action id. */
-  current_action_id?: string;
-}
-export const HogFlowsInvocationsCreateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-    configuration: S.optional(HogFlowInput),
-    globals: S.optional(HogFlowsInvocationsCreateRequestGlobalsMap),
-    mock_async_functions: S.optional(S.Boolean),
-    current_action_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/invocations/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "HogFlowsInvocationsCreateRequest",
-}) as any as S.Schema<HogFlowsInvocationsCreateRequest>;
-
-export interface HogFlowsInvocationsCreateResponse {}
-export const HogFlowsInvocationsCreateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "HogFlowsInvocationsCreateResponse",
-}) as any as S.Schema<HogFlowsInvocationsCreateResponse>;
-
-export type HogFlowsListRequestStatus = "active" | "archived" | "draft";
-export const HogFlowsListRequestStatus = /*@__PURE__*/ S.String;
-
-export interface HogFlowsListRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  created_at?: string;
-  created_by?: number;
-  id?: string;
-  /** Number of results to return per page. */
-  limit?: number;
-  /** The initial index from which to return the results. */
-  offset?: number;
-  /** * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowsListRequestStatus | (string & {});
-  updated_at?: string;
-}
-export const HogFlowsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    created_at: S.optional(S.String.pipe(T.Query())),
-    created_by: S.optional(S.Number.pipe(T.Query())),
-    id: S.optional(S.String.pipe(T.Query())),
-    limit: S.optional(S.Number.pipe(T.Query())),
-    offset: S.optional(S.Number.pipe(T.Query())),
-    status: S.optional(HogFlowsListRequestStatus.pipe(T.Query())),
-    updated_at: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_flows/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "HogFlowsListRequest",
-}) as any as S.Schema<HogFlowsListRequest>;
-
-export interface HogFlowMinimal {
-  id?: string;
-  name?: string | null;
-  description?: string;
-  version?: number;
-  status?: HogFlowStatusEnum;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  updated_at?: string;
-  trigger?: unknown;
-  trigger_masking?: unknown;
-  conversion?: unknown;
-  exit_condition?: ExitConditionEnum;
-  edges?: unknown;
-  actions?: unknown;
-  abort_action?: string | null;
-  variables?: unknown;
-  billable_action_types?: unknown;
-}
-export const HogFlowMinimal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.NullOr(S.String)),
-    description: S.optional(S.String),
-    version: S.optional(S.Number),
-    status: S.optional(HogFlowStatusEnum),
-    created_at: S.optional(S.String),
-    created_by: S.optional(S.NullOr(UserBasic)),
-    updated_at: S.optional(S.String),
-    trigger: S.optional(S.Unknown),
-    trigger_masking: S.optional(S.Unknown),
-    conversion: S.optional(S.Unknown),
-    exit_condition: S.optional(ExitConditionEnum),
-    edges: S.optional(S.Unknown),
-    actions: S.optional(S.Unknown),
-    abort_action: S.optional(S.NullOr(S.String)),
-    variables: S.optional(S.Unknown),
-    billable_action_types: S.optional(S.Unknown),
-  }),
-).annotate({ identifier: "HogFlowMinimal" }) as any as S.Schema<HogFlowMinimal>;
-
-export type PaginatedHogFlowMinimalListResultsList = Array<HogFlowMinimal>;
-export const PaginatedHogFlowMinimalListResultsList = /*@__PURE__*/ S.Array(
-  HogFlowMinimal,
-) as any as S.Schema<PaginatedHogFlowMinimalListResultsList>;
-
-export interface PaginatedHogFlowMinimalList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedHogFlowMinimalListResultsList;
-}
-export const PaginatedHogFlowMinimalList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    count: S.optional(S.Number),
-    next: S.optional(S.NullOr(S.String)),
-    previous: S.optional(S.NullOr(S.String)),
-    results: S.optional(PaginatedHogFlowMinimalListResultsList),
-  }),
-).annotate({
-  identifier: "PaginatedHogFlowMinimalList",
-}) as any as S.Schema<PaginatedHogFlowMinimalList>;
-
-export interface HogFlowsLogsRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this hog flow. */
-  id: string;
-  /** Only return entries after this ISO 8601 timestamp. */
+  /** Only return entries after this ISO 8601 timestamp. Defaults to 7 days ago; pass an explicit value to read further back. */
   after?: string;
   /** Only return entries before this ISO 8601 timestamp. */
   before?: string;
@@ -1265,7 +1565,7 @@ export interface HogFlowsLogsRetrieveRequest {
   /** Case-insensitive substring search across log messages. */
   search?: string;
 }
-export const HogFlowsLogsRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetHogFlowsLogRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
@@ -1283,81 +1583,23 @@ export const HogFlowsLogsRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "HogFlowsLogsRetrieveRequest",
-}) as any as S.Schema<HogFlowsLogsRetrieveRequest>;
+  identifier: "GetHogFlowsLogRequest",
+}) as any as S.Schema<GetHogFlowsLogRequest>;
 
-export interface HogFlowsLogsRetrieveResponse {}
-export const HogFlowsLogsRetrieveResponse = /*@__PURE__*/ S.suspend(() =>
+export interface GetHogFlowsLogResponse {}
+export const GetHogFlowsLogResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}),
 ).annotate({
-  identifier: "HogFlowsLogsRetrieveResponse",
-}) as any as S.Schema<HogFlowsLogsRetrieveResponse>;
+  identifier: "GetHogFlowsLogResponse",
+}) as any as S.Schema<GetHogFlowsLogResponse>;
 
-export interface HogFlowsMetricsGlobalRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** Start of the window, matched on metric time. Relative ('-7d', '-24h') or ISO 8601. Defaults to -7d. */
-  after?: string;
-  /** End of the window. Same format as 'after'. Defaults to now. */
-  before?: string;
-}
-export const HogFlowsMetricsGlobalRetrieveRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      project_id: S.String.pipe(T.Label()),
-      after: S.optional(S.String.pipe(T.Query())),
-      before: S.optional(S.String.pipe(T.Query())),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/api/projects/{project_id}/hog_flows/metrics/global/",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "HogFlowsMetricsGlobalRetrieveRequest",
-}) as any as S.Schema<HogFlowsMetricsGlobalRetrieveRequest>;
+export type GetHogFlowsMetricsRequestBreakdownBy = "name" | "kind";
+export const GetHogFlowsMetricsRequestBreakdownBy = S.String;
 
-export interface WorkflowStatsRow {
-  /** The workflow these counts are for. */
-  workflow_id: string;
-  /** Successful invocations in the window. */
-  succeeded: number;
-  /** Failed invocations in the window. */
-  failed: number;
-}
-export const WorkflowStatsRow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    workflow_id: S.String,
-    succeeded: S.Number,
-    failed: S.Number,
-  }),
-).annotate({
-  identifier: "WorkflowStatsRow",
-}) as any as S.Schema<WorkflowStatsRow>;
+export type GetHogFlowsMetricsRequestInterval = "hour" | "day" | "week";
+export const GetHogFlowsMetricsRequestInterval = S.String;
 
-export type HogFlowsMetricsGlobalRetrieveResponseBodyList =
-  Array<WorkflowStatsRow>;
-export const HogFlowsMetricsGlobalRetrieveResponseBodyList =
-  /*@__PURE__*/ S.Array(
-    WorkflowStatsRow,
-  ) as any as S.Schema<HogFlowsMetricsGlobalRetrieveResponseBodyList>;
-
-export type HogFlowsMetricsGlobalRetrieveResponse =
-  HogFlowsMetricsGlobalRetrieveResponseBodyList;
-export const HogFlowsMetricsGlobalRetrieveResponse = /*@__PURE__*/ S.suspend(
-  () => HogFlowsMetricsGlobalRetrieveResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "HogFlowsMetricsGlobalRetrieveResponse",
-}) as any as S.Schema<HogFlowsMetricsGlobalRetrieveResponse>;
-
-export type HogFlowsMetricsRetrieveRequestBreakdownBy = "name" | "kind";
-export const HogFlowsMetricsRetrieveRequestBreakdownBy = /*@__PURE__*/ S.String;
-
-export type HogFlowsMetricsRetrieveRequestInterval = "hour" | "day" | "week";
-export const HogFlowsMetricsRetrieveRequestInterval = /*@__PURE__*/ S.String;
-
-export interface HogFlowsMetricsRetrieveRequest {
+export interface GetHogFlowsMetricsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this hog flow. */
@@ -1367,29 +1609,27 @@ export interface HogFlowsMetricsRetrieveRequest {
   /** End of the time range. Same format as 'after'. Defaults to now. */
   before?: string;
   /** Group the series by metric 'name' or 'kind'. Defaults to 'kind'. * `name` - name * `kind` - kind */
-  breakdown_by?: HogFlowsMetricsRetrieveRequestBreakdownBy | (string & {});
+  breakdown_by?: GetHogFlowsMetricsRequestBreakdownBy | (string & {});
   /** Filter metrics to a specific execution instance. */
   instance_id?: string;
   /** Time bucket size for the series. One of: hour, day, week. Defaults to 'day'. * `hour` - hour * `day` - day * `week` - week */
-  interval?: HogFlowsMetricsRetrieveRequestInterval | (string & {});
+  interval?: GetHogFlowsMetricsRequestInterval | (string & {});
   /** Comma-separated metric kinds to filter by, e.g. 'success,failure'. */
   kind?: string;
   /** Comma-separated metric names to filter by. */
   name?: string;
 }
-export const HogFlowsMetricsRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetHogFlowsMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
     after: S.optional(S.String.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
     breakdown_by: S.optional(
-      HogFlowsMetricsRetrieveRequestBreakdownBy.pipe(T.Query()),
+      GetHogFlowsMetricsRequestBreakdownBy.pipe(T.Query()),
     ),
     instance_id: S.optional(S.String.pipe(T.Query())),
-    interval: S.optional(
-      HogFlowsMetricsRetrieveRequestInterval.pipe(T.Query()),
-    ),
+    interval: S.optional(GetHogFlowsMetricsRequestInterval.pipe(T.Query())),
     kind: S.optional(S.String.pipe(T.Query())),
     name: S.optional(S.String.pipe(T.Query())),
   }).pipe(
@@ -1400,8 +1640,8 @@ export const HogFlowsMetricsRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "HogFlowsMetricsRetrieveRequest",
-}) as any as S.Schema<HogFlowsMetricsRetrieveRequest>;
+  identifier: "GetHogFlowsMetricsRequest",
+}) as any as S.Schema<GetHogFlowsMetricsRequest>;
 
 export type AppMetricsResponseLabelsList = Array<string>;
 export const AppMetricsResponseLabelsList = /*@__PURE__*/ S.Array(
@@ -1444,18 +1684,68 @@ export const AppMetricsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "AppMetricsResponse",
 }) as any as S.Schema<AppMetricsResponse>;
 
-export type HogFlowsMetricsTotalsRetrieveRequestBreakdownBy = "name" | "kind";
-export const HogFlowsMetricsTotalsRetrieveRequestBreakdownBy =
-  /*@__PURE__*/ S.String;
+export interface GetHogFlowsMetricsGlobalRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Start of the window, matched on metric time. Relative ('-7d', '-24h') or ISO 8601. Defaults to -7d. */
+  after?: string;
+  /** End of the window. Same format as 'after'. Defaults to now. */
+  before?: string;
+}
+export const GetHogFlowsMetricsGlobalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    after: S.optional(S.String.pipe(T.Query())),
+    before: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/metrics/global/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetHogFlowsMetricsGlobalRequest",
+}) as any as S.Schema<GetHogFlowsMetricsGlobalRequest>;
 
-export type HogFlowsMetricsTotalsRetrieveRequestInterval =
-  | "hour"
-  | "day"
-  | "week";
-export const HogFlowsMetricsTotalsRetrieveRequestInterval =
-  /*@__PURE__*/ S.String;
+export interface WorkflowStatsRow {
+  /** The workflow these counts are for. */
+  workflow_id: string;
+  /** Successful invocations in the window. */
+  succeeded: number;
+  /** Failed invocations in the window. */
+  failed: number;
+}
+export const WorkflowStatsRow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workflow_id: S.String,
+    succeeded: S.Number,
+    failed: S.Number,
+  }),
+).annotate({
+  identifier: "WorkflowStatsRow",
+}) as any as S.Schema<WorkflowStatsRow>;
 
-export interface HogFlowsMetricsTotalsRetrieveRequest {
+export type GetHogFlowsMetricsGlobalResponseBodyList = Array<WorkflowStatsRow>;
+export const GetHogFlowsMetricsGlobalResponseBodyList = /*@__PURE__*/ S.Array(
+  WorkflowStatsRow,
+) as any as S.Schema<GetHogFlowsMetricsGlobalResponseBodyList>;
+
+export type GetHogFlowsMetricsGlobalResponse =
+  GetHogFlowsMetricsGlobalResponseBodyList;
+export const GetHogFlowsMetricsGlobalResponse = /*@__PURE__*/ S.suspend(() =>
+  GetHogFlowsMetricsGlobalResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetHogFlowsMetricsGlobalResponse",
+}) as any as S.Schema<GetHogFlowsMetricsGlobalResponse>;
+
+export type GetHogFlowsMetricsTotalRequestBreakdownBy = "name" | "kind";
+export const GetHogFlowsMetricsTotalRequestBreakdownBy = S.String;
+
+export type GetHogFlowsMetricsTotalRequestInterval = "hour" | "day" | "week";
+export const GetHogFlowsMetricsTotalRequestInterval = S.String;
+
+export interface GetHogFlowsMetricsTotalRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this hog flow. */
@@ -1465,44 +1755,41 @@ export interface HogFlowsMetricsTotalsRetrieveRequest {
   /** End of the time range. Same format as 'after'. Defaults to now. */
   before?: string;
   /** Group the series by metric 'name' or 'kind'. Defaults to 'kind'. * `name` - name * `kind` - kind */
-  breakdown_by?:
-    | HogFlowsMetricsTotalsRetrieveRequestBreakdownBy
-    | (string & {});
+  breakdown_by?: GetHogFlowsMetricsTotalRequestBreakdownBy | (string & {});
   /** Filter metrics to a specific execution instance. */
   instance_id?: string;
   /** Time bucket size for the series. One of: hour, day, week. Defaults to 'day'. * `hour` - hour * `day` - day * `week` - week */
-  interval?: HogFlowsMetricsTotalsRetrieveRequestInterval | (string & {});
+  interval?: GetHogFlowsMetricsTotalRequestInterval | (string & {});
   /** Comma-separated metric kinds to filter by, e.g. 'success,failure'. */
   kind?: string;
   /** Comma-separated metric names to filter by. */
   name?: string;
 }
-export const HogFlowsMetricsTotalsRetrieveRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      project_id: S.String.pipe(T.Label()),
-      id: S.String.pipe(T.Label()),
-      after: S.optional(S.String.pipe(T.Query())),
-      before: S.optional(S.String.pipe(T.Query())),
-      breakdown_by: S.optional(
-        HogFlowsMetricsTotalsRetrieveRequestBreakdownBy.pipe(T.Query()),
-      ),
-      instance_id: S.optional(S.String.pipe(T.Query())),
-      interval: S.optional(
-        HogFlowsMetricsTotalsRetrieveRequestInterval.pipe(T.Query()),
-      ),
-      kind: S.optional(S.String.pipe(T.Query())),
-      name: S.optional(S.String.pipe(T.Query())),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/api/projects/{project_id}/hog_flows/{id}/metrics/totals/",
-        code: 200,
-      }),
+export const GetHogFlowsMetricsTotalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    after: S.optional(S.String.pipe(T.Query())),
+    before: S.optional(S.String.pipe(T.Query())),
+    breakdown_by: S.optional(
+      GetHogFlowsMetricsTotalRequestBreakdownBy.pipe(T.Query()),
     ),
+    instance_id: S.optional(S.String.pipe(T.Query())),
+    interval: S.optional(
+      GetHogFlowsMetricsTotalRequestInterval.pipe(T.Query()),
+    ),
+    kind: S.optional(S.String.pipe(T.Query())),
+    name: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/metrics/totals/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "HogFlowsMetricsTotalsRetrieveRequest",
-}) as any as S.Schema<HogFlowsMetricsTotalsRetrieveRequest>;
+  identifier: "GetHogFlowsMetricsTotalRequest",
+}) as any as S.Schema<GetHogFlowsMetricsTotalRequest>;
 
 export type AppMetricsTotalsResponseTotalsMap = {
   [key: string]: number | undefined;
@@ -1523,136 +1810,780 @@ export const AppMetricsTotalsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "AppMetricsTotalsResponse",
 }) as any as S.Schema<AppMetricsTotalsResponse>;
 
-/** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-export type HogFlowsPartialUpdateRequestEdgesList = Array<HogFlowEdge>;
-export const HogFlowsPartialUpdateRequestEdgesList = /*@__PURE__*/ S.Array(
-  HogFlowEdge,
-) as any as S.Schema<HogFlowsPartialUpdateRequestEdgesList>;
+export interface GetHogFlowsReputationRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Case-insensitive workflow name filter. Applied before the worst-50 cap, so it finds workflows the unfiltered response cuts off. */
+  search?: string;
+}
+export const GetHogFlowsReputationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    search: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/reputation/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetHogFlowsReputationRequest",
+}) as any as S.Schema<GetHogFlowsReputationRequest>;
 
-/** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-export type HogFlowsPartialUpdateRequestActionsList = Array<HogFlowAction>;
-export const HogFlowsPartialUpdateRequestActionsList = /*@__PURE__*/ S.Array(
-  HogFlowAction,
-) as any as S.Schema<HogFlowsPartialUpdateRequestActionsList>;
+/** * `healthy` - healthy * `warning` - warning * `critical` - critical * `suspended` - suspended */
+export type AwsTenantReputationHealthEnum =
+  | "healthy"
+  | "warning"
+  | "critical"
+  | "suspended";
+export const AwsTenantReputationHealthEnum = S.String;
 
-/** Variable: {key, type: string|number|boolean, default}. */
-export type HogFlowsPartialUpdateRequestVariablesItemMap = {
-  [key: string]: string | undefined;
-};
-export const HogFlowsPartialUpdateRequestVariablesItemMap =
-  /*@__PURE__*/ S.Record(
+/** * `ENABLED` - ENABLED * `REINSTATED` - REINSTATED * `DISABLED` - DISABLED */
+export type SendingStatusEnum = "ENABLED" | "REINSTATED" | "DISABLED";
+export const SendingStatusEnum = S.String;
+
+/** * `DKIM` - DKIM * `DMARC` - DMARC * `SPF` - SPF * `BIMI` - BIMI * `COMPLAINT` - COMPLAINT * `BOUNCE` - BOUNCE * `FEEDBACK_3P` - FEEDBACK_3P * `IP_LISTING` - IP_LISTING */
+export type FindingTypeEnum =
+  | "DKIM"
+  | "DMARC"
+  | "SPF"
+  | "BIMI"
+  | "COMPLAINT"
+  | "BOUNCE"
+  | "FEEDBACK_3P"
+  | "IP_LISTING";
+export const FindingTypeEnum = S.String;
+
+/** * `LOW` - LOW * `HIGH` - HIGH */
+export type ImpactEnum = "LOW" | "HIGH";
+export const ImpactEnum = S.String;
+
+/** An open reputation finding AWS SES raised for this project's email sending. */
+export interface AwsTenantFinding {
+  /** What the finding is about: authentication setup (DKIM/DMARC/SPF/BIMI), recipient signals (COMPLAINT/BOUNCE/FEEDBACK_3P), or a blocklist listing (IP_LISTING). * `DKIM` - DKIM * `DMARC` - DMARC * `SPF` - SPF * `BIMI` - BIMI * `COMPLAINT` - COMPLAINT * `BOUNCE` - BOUNCE * `FEEDBACK_3P` - FEEDBACK_3P * `IP_LISTING` - IP_LISTING */
+  finding_type: FindingTypeEnum;
+  /** AWS's impact rating. HIGH-impact findings can pause the project's sending automatically. * `LOW` - LOW * `HIGH` - HIGH */
+  impact: ImpactEnum;
+  /** AWS's short description of the finding. Often a terse disambiguator (e.g. DKIM1) rather than full remediation prose — finding_type carries the remediation category. */
+  description: string;
+  /** When AWS last updated this finding. */
+  last_updated_at: string | null;
+}
+export const AwsTenantFinding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    finding_type: FindingTypeEnum,
+    impact: ImpactEnum,
+    description: S.String,
+    last_updated_at: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "AwsTenantFinding",
+}) as any as S.Schema<AwsTenantFinding>;
+
+/** Open findings, if any, with AWS's remediation guidance. */
+export type AwsTenantReputationFindingsList = Array<AwsTenantFinding>;
+export const AwsTenantReputationFindingsList = /*@__PURE__*/ S.Array(
+  AwsTenantFinding,
+) as any as S.Schema<AwsTenantReputationFindingsList>;
+
+/** Authoritative reputation for this project's SES tenant, as judged and enforced by AWS. */
+export interface AwsTenantReputation {
+  /** Overall health derived from AWS's verdicts: healthy (no findings), warning (low-impact findings), critical (high-impact findings — sending may be paused), suspended (the SES tenant's sending is paused). Reflects AWS state only; PostHog-initiated suspensions are reported separately via email_sending_suspended. * `healthy` - healthy * `warning` - warning * `critical` - critical * `suspended` - suspended */
+  health: AwsTenantReputationHealthEnum;
+  /** The tenant's aggregate sending status. REINSTATED means sending was re-enabled after a pause and AWS is re-monitoring it. * `ENABLED` - ENABLED * `REINSTATED` - REINSTATED * `DISABLED` - DISABLED */
+  sending_status: SendingStatusEnum;
+  /** Open findings, if any, with AWS's remediation guidance. */
+  findings: AwsTenantReputationFindingsList;
+}
+export const AwsTenantReputation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    health: AwsTenantReputationHealthEnum,
+    sending_status: SendingStatusEnum,
+    findings: AwsTenantReputationFindingsList,
+  }),
+).annotate({
+  identifier: "AwsTenantReputation",
+}) as any as S.Schema<AwsTenantReputation>;
+
+/** Bounce/complaint rates over the last 30 days of workflow email, computed on the fly from app metrics. */
+export interface EmailSendingRates {
+  /** Hard (permanent) bounces / emails sent over the last 30 days (0-1), matching how AWS counts its bounce rate — transient bounces (greylisting, mailbox full) are excluded. Bounces are counted when the feedback arrives, so the ratio is approximate at the window boundary and capped at 1. */
+  bounce_rate: number;
+  /** Spam complaints / emails sent over the last 30 days (0-1). Complaints are counted when the feedback arrives, so the ratio is approximate at the window boundary and capped at 1. */
+  complaint_rate: number;
+  /** Emails sent in the last 30 days. */
+  emails_sent: number;
+}
+export const EmailSendingRates = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bounce_rate: S.Number,
+    complaint_rate: S.Number,
+    emails_sent: S.Number,
+  }),
+).annotate({
+  identifier: "EmailSendingRates",
+}) as any as S.Schema<EmailSendingRates>;
+
+/** Bounce/complaint rates over the last 30 days of workflow email, computed on the fly from app metrics. */
+export interface WorkflowEmailSendingRates {
+  /** Hard (permanent) bounces / emails sent over the last 30 days (0-1), matching how AWS counts its bounce rate — transient bounces (greylisting, mailbox full) are excluded. Bounces are counted when the feedback arrives, so the ratio is approximate at the window boundary and capped at 1. */
+  bounce_rate: number;
+  /** Spam complaints / emails sent over the last 30 days (0-1). Complaints are counted when the feedback arrives, so the ratio is approximate at the window boundary and capped at 1. */
+  complaint_rate: number;
+  /** Emails sent in the last 30 days. */
+  emails_sent: number;
+  /** The workflow these rates are for. */
+  hog_flow_id: string;
+  /** Display name of the workflow; empty for unnamed workflows. */
+  hog_flow_name: string;
+}
+export const WorkflowEmailSendingRates = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bounce_rate: S.Number,
+    complaint_rate: S.Number,
+    emails_sent: S.Number,
+    hog_flow_id: S.String,
+    hog_flow_name: S.String,
+  }),
+).annotate({
+  identifier: "WorkflowEmailSendingRates",
+}) as any as S.Schema<WorkflowEmailSendingRates>;
+
+/** Rates per workflow, worst first (complaint rate, then bounce rate), capped at the worst 50. */
+export type TeamEmailReputationResponseWorkflowsList =
+  Array<WorkflowEmailSendingRates>;
+export const TeamEmailReputationResponseWorkflowsList = /*@__PURE__*/ S.Array(
+  WorkflowEmailSendingRates,
+) as any as S.Schema<TeamEmailReputationResponseWorkflowsList>;
+
+/** Rates AWS did not return for this provider, from `delivery`, `bounce` and `complaint`. A rate named here is missing, not zero, and the UI says so rather than showing a number. */
+export type IspSendingHealthUnavailableList = Array<string>;
+export const IspSendingHealthUnavailableList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<IspSendingHealthUnavailableList>;
+
+/** One bucket of a provider's sending history. */
+export interface IspDailyPoint {
+  /** Bucket date, as an ISO 8601 calendar date. */
+  date: string;
+  /** Emails sent to this provider on this date. */
+  emails_sent: number;
+  /** Emails this provider accepted on this date, divided by emails sent to it (0-1). */
+  delivery_rate: number;
+  /** Hard bounces at this provider on this date, divided by emails sent to it (0-1). */
+  bounce_rate: number;
+}
+export const IspDailyPoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    date: S.String,
+    emails_sent: S.Number,
+    delivery_rate: S.Number,
+    bounce_rate: S.Number,
+  }),
+).annotate({ identifier: "IspDailyPoint" }) as any as S.Schema<IspDailyPoint>;
+
+/** Sending history for this provider, oldest first, so a drop can be dated rather than averaged into the window. Dates this provider received nothing are omitted. */
+export type IspSendingHealthDailyList = Array<IspDailyPoint>;
+export const IspSendingHealthDailyList = /*@__PURE__*/ S.Array(
+  IspDailyPoint,
+) as any as S.Schema<IspSendingHealthDailyList>;
+
+/** How one mailbox provider treated this project's email, from AWS SES's own delivery data. */
+export interface IspSendingHealth {
+  /** The recipient mailbox provider, as AWS names it — for example Gmail or Yahoo. */
+  isp: string;
+  /** Emails sent to this provider during the window. */
+  emails_sent: number;
+  /** Emails this provider accepted, divided by emails sent to it (0-1). Acceptance is not inbox placement: a provider can accept a message and still file it as spam. Null when the underlying metric could not be loaded from AWS, which is not the same as zero. */
+  delivery_rate: number | null;
+  /** Hard (permanent) bounces at this provider, divided by emails sent to it (0-1). Null when the underlying metric could not be loaded from AWS. */
+  bounce_rate: number | null;
+  /** Spam complaints from this provider, divided by the deliveries it reports complaints for (0-1). Null when there is no rate to state — the provider runs no feedback loop, or nothing was delivered — and also when the metric could not be loaded from AWS. */
+  complaint_rate: number | null;
+  /** Rates AWS did not return for this provider, from `delivery`, `bounce` and `complaint`. A rate named here is missing, not zero, and the UI says so rather than showing a number. */
+  unavailable: IspSendingHealthUnavailableList;
+  /** Sending history for this provider, oldest first, so a drop can be dated rather than averaged into the window. Dates this provider received nothing are omitted. */
+  daily: IspSendingHealthDailyList;
+}
+export const IspSendingHealth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isp: S.String,
+    emails_sent: S.Number,
+    delivery_rate: S.NullOr(S.Number),
+    bounce_rate: S.NullOr(S.Number),
+    complaint_rate: S.NullOr(S.Number),
+    unavailable: IspSendingHealthUnavailableList,
+    daily: IspSendingHealthDailyList,
+  }),
+).annotate({
+  identifier: "IspSendingHealth",
+}) as any as S.Schema<IspSendingHealth>;
+
+/** Sending health per mailbox provider, busiest first. Empty when the caller lacks project-wide workflow access, no sending domain is verified, or AWS has no data yet. */
+export type TeamEmailReputationResponseIspsList = Array<IspSendingHealth>;
+export const TeamEmailReputationResponseIspsList = /*@__PURE__*/ S.Array(
+  IspSendingHealth,
+) as any as S.Schema<TeamEmailReputationResponseIspsList>;
+
+/** Sending domains behind the breakdown that another project also sends from, so its counts include that project's email. Empty when every domain is this project's alone. */
+export type TeamEmailReputationResponseIspSharedDomainsList = Array<string>;
+export const TeamEmailReputationResponseIspSharedDomainsList =
+  /*@__PURE__*/ S.Array(
     S.String,
+  ) as any as S.Schema<TeamEmailReputationResponseIspSharedDomainsList>;
+
+/** Sending domains left out of the breakdown because another project sends from them and the caller cannot access that project. Empty when nothing is withheld. */
+export type TeamEmailReputationResponseIspWithheldDomainsList = Array<string>;
+export const TeamEmailReputationResponseIspWithheldDomainsList =
+  /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<HogFlowsPartialUpdateRequestVariablesItemMap>;
+  ) as any as S.Schema<TeamEmailReputationResponseIspWithheldDomainsList>;
 
-/** Workflow vars (key, type, default). Total <5KB. */
-export type HogFlowsPartialUpdateRequestVariablesList =
-  Array<HogFlowsPartialUpdateRequestVariablesItemMap>;
-export const HogFlowsPartialUpdateRequestVariablesList = /*@__PURE__*/ S.Array(
-  HogFlowsPartialUpdateRequestVariablesItemMap,
-) as any as S.Schema<HogFlowsPartialUpdateRequestVariablesList>;
+/** How much workflow email this project may send, and how much of that it has used. */
+export interface EmailSendingAllowance {
+  /** The project's current sending tier. Projects start at 0 and move up as they build a clean sending history. */
+  tier: number;
+  /** The highest tier there is, so the current tier can be shown as progress. */
+  max_tier: number;
+  /** How many emails this tier allows per hour. */
+  emails_per_hour: number;
+  /** How many emails this tier allows per day. */
+  emails_per_day: number;
+  /** The largest audience this tier allows for a single batch send. */
+  max_batch_audience: number;
+  /** Emails sent by this project's workflows in the last hour. */
+  emails_sent_last_hour: number;
+  /** Emails sent by this project's workflows in the last 24 hours. */
+  emails_sent_last_day: number;
+  /** True when these allowances are applied to sends. False while they are only being measured. */
+  enforced: boolean;
+}
+export const EmailSendingAllowance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tier: S.Number,
+    max_tier: S.Number,
+    emails_per_hour: S.Number,
+    emails_per_day: S.Number,
+    max_batch_audience: S.Number,
+    emails_sent_last_hour: S.Number,
+    emails_sent_last_day: S.Number,
+    enforced: S.Boolean,
+  }),
+).annotate({
+  identifier: "EmailSendingAllowance",
+}) as any as S.Schema<EmailSendingAllowance>;
 
-export interface HogFlowsPartialUpdateRequest {
+export interface TeamEmailReputationResponse {
+  /** Sending health as judged and enforced by AWS SES for this project's tenant; null when the caller lacks project-wide workflow access, no tenant is provisioned, or AWS is unreachable. */
+  aws: AwsTenantReputation | null;
+  /** Project-wide rates across all workflow email in the last 30 days (including sends from since-deleted workflows); null when nothing was sent. */
+  reputation: EmailSendingRates | null;
+  /** Rates per workflow, worst first (complaint rate, then bounce rate), capped at the worst 50. */
+  workflows: TeamEmailReputationResponseWorkflowsList;
+  /** Sending health per mailbox provider, busiest first. Empty when the caller lacks project-wide workflow access, no sending domain is verified, or AWS has no data yet. */
+  isps: TeamEmailReputationResponseIspsList;
+  /** Sending domains behind the breakdown that another project also sends from, so its counts include that project's email. Empty when every domain is this project's alone. */
+  isp_shared_domains: TeamEmailReputationResponseIspSharedDomainsList;
+  /** Sending domains left out of the breakdown because another project sends from them and the caller cannot access that project. Empty when nothing is withheld. */
+  isp_withheld_domains: TeamEmailReputationResponseIspWithheldDomainsList;
+  /** True while workflow email sending is suspended for this project to protect deliverability. */
+  email_sending_suspended: boolean;
+  /** When email sending was suspended; null while sending is enabled. */
+  email_sending_suspended_at: string | null;
+  /** Staff-authored reason shown to customers alongside the suspension notice; empty when not suspended. */
+  email_sending_suspension_reason: string;
+  /** The project's sending tier, what it allows, and how much of it has been used; null when the caller lacks project-wide workflow access. */
+  sending_allowance: EmailSendingAllowance | null;
+}
+export const TeamEmailReputationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    aws: S.NullOr(AwsTenantReputation),
+    reputation: S.NullOr(EmailSendingRates),
+    workflows: TeamEmailReputationResponseWorkflowsList,
+    isps: TeamEmailReputationResponseIspsList,
+    isp_shared_domains: TeamEmailReputationResponseIspSharedDomainsList,
+    isp_withheld_domains: TeamEmailReputationResponseIspWithheldDomainsList,
+    email_sending_suspended: S.Boolean,
+    email_sending_suspended_at: S.NullOr(S.String),
+    email_sending_suspension_reason: S.String,
+    sending_allowance: S.NullOr(EmailSendingAllowance),
+  }),
+).annotate({
+  identifier: "TeamEmailReputationResponse",
+}) as any as S.Schema<TeamEmailReputationResponse>;
+
+export interface GetHogFlowsRevisionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this hog flow. */
   id: string;
+  /** Workflow version to fetch. */
+  version: number;
+}
+export const GetHogFlowsRevisionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    version: S.Number.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/revisions/{version}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetHogFlowsRevisionRequest",
+}) as any as S.Schema<GetHogFlowsRevisionRequest>;
+
+export interface HogFlowRevision {
+  /** Workflow version this snapshot was published as. */
+  version: number;
+  created_at: string;
+  created_by: UserBasic | null;
+  /** Full snapshot of the workflow's content fields (actions, edges, trigger, etc.) at this version. */
+  content: unknown;
+}
+export const HogFlowRevision = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    version: S.Number,
+    created_at: S.String,
+    created_by: S.NullOr(UserBasic),
+    content: S.Unknown,
+  }),
+).annotate({
+  identifier: "HogFlowRevision",
+}) as any as S.Schema<HogFlowRevision>;
+
+export interface HogFlowsBatchJobsCancelCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** ID of the batch run to stop. */
+  batch_job_id: string;
+}
+export const HogFlowsBatchJobsCancelCreateRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+      batch_job_id: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/api/projects/{project_id}/hog_flows/{id}/batch_jobs/{batch_job_id}/cancel/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "HogFlowsBatchJobsCancelCreateRequest",
+}) as any as S.Schema<HogFlowsBatchJobsCancelCreateRequest>;
+
+/** Response from the batch job cancel endpoint. Stopping is asynchronous: this call flags the run's audience fan-out and its in-flight child runs, and the workflow workers terminate them shortly after. Messages already sent are not recalled. */
+export interface HogFlowBatchJobCancelResponse {
+  /** The batch run's status after this request. 'cancelled' once every in-flight run is flagged; a completion that raced the stop wins and is reported instead. * `waiting` - Waiting * `queued` - Queued * `active` - Active * `completed` - Completed * `cancelled` - Cancelled * `failed` - Failed */
+  status: HogFlowBatchJobStateEnum;
+  /** In-flight runs newly flagged for cancellation by this request. */
+  marked: number;
+  /** In-flight runs of this batch not yet flagged. Non-zero on very large runs; call again. */
+  remaining: number;
+  /** True when no in-flight runs of this batch remain unflagged. */
+  done: boolean;
+}
+export const HogFlowBatchJobCancelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: HogFlowBatchJobStateEnum,
+    marked: S.Number,
+    remaining: S.Number,
+    done: S.Boolean,
+  }),
+).annotate({
+  identifier: "HogFlowBatchJobCancelResponse",
+}) as any as S.Schema<HogFlowBatchJobCancelResponse>;
+
+/** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
+export type HogFlowsBulkDeleteCreateRequestEdgesList = Array<HogFlowEdge>;
+export const HogFlowsBulkDeleteCreateRequestEdgesList = /*@__PURE__*/ S.Array(
+  HogFlowEdge,
+) as any as S.Schema<HogFlowsBulkDeleteCreateRequestEdgesList>;
+
+/** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
+export type HogFlowsBulkDeleteCreateRequestActionsList = Array<HogFlowAction>;
+export const HogFlowsBulkDeleteCreateRequestActionsList = /*@__PURE__*/ S.Array(
+  HogFlowAction,
+) as any as S.Schema<HogFlowsBulkDeleteCreateRequestActionsList>;
+
+/** Variable: {key, type: string|number|boolean, default}. */
+export type HogFlowsBulkDeleteCreateRequestVariablesItemMap = {
+  [key: string]: string | undefined;
+};
+export const HogFlowsBulkDeleteCreateRequestVariablesItemMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<HogFlowsBulkDeleteCreateRequestVariablesItemMap>;
+
+/** Workflow vars (key, type, default). Total <5KB. */
+export type HogFlowsBulkDeleteCreateRequestVariablesList =
+  Array<HogFlowsBulkDeleteCreateRequestVariablesItemMap>;
+export const HogFlowsBulkDeleteCreateRequestVariablesList =
+  /*@__PURE__*/ S.Array(
+    HogFlowsBulkDeleteCreateRequestVariablesItemMap,
+  ) as any as S.Schema<HogFlowsBulkDeleteCreateRequestVariablesList>;
+
+export interface HogFlowsBulkDeleteCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
   /** Workflow name. */
   name?: string | null;
   /** Optional description. */
   description?: string;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowStatusEnum | (string & {});
+  status?: HogFlowStateEnum | (string & {});
+  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow. Filter the list with `?origin_product=`. * `loops` - Loops */
+  origin_product?: HogFlowOriginProductEnum | (string & {}) | null;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
   trigger_masking?: HogFlowMasking | null;
   /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
   conversion?: HogFlowConversion | null;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
   exit_condition?: ExitConditionEnum | (string & {});
+  /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
   /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-  edges?: HogFlowsPartialUpdateRequestEdgesList;
+  edges?: HogFlowsBulkDeleteCreateRequestEdgesList;
   /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-  actions?: HogFlowsPartialUpdateRequestActionsList;
+  actions?: HogFlowsBulkDeleteCreateRequestActionsList;
   /** Workflow vars (key, type, default). Total <5KB. */
-  variables?: HogFlowsPartialUpdateRequestVariablesList;
+  variables?: HogFlowsBulkDeleteCreateRequestVariablesList;
 }
-export const HogFlowsPartialUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+export const HogFlowsBulkDeleteCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
     name: S.optional(S.NullOr(S.String)),
     description: S.optional(S.String),
-    status: S.optional(HogFlowStatusEnum),
+    status: S.optional(HogFlowStateEnum),
+    origin_product: S.optional(S.NullOr(HogFlowOriginProductEnum)),
     trigger_masking: S.optional(S.NullOr(HogFlowMasking)),
     conversion: S.optional(S.NullOr(HogFlowConversion)),
     exit_condition: S.optional(ExitConditionEnum),
-    edges: S.optional(HogFlowsPartialUpdateRequestEdgesList),
-    actions: S.optional(HogFlowsPartialUpdateRequestActionsList),
-    variables: S.optional(HogFlowsPartialUpdateRequestVariablesList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "HogFlowsPartialUpdateRequest",
-}) as any as S.Schema<HogFlowsPartialUpdateRequest>;
-
-export interface HogFlowsRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this hog flow. */
-  id: string;
-}
-export const HogFlowsRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "HogFlowsRetrieveRequest",
-}) as any as S.Schema<HogFlowsRetrieveRequest>;
-
-export interface HogFlowsSchedulesCreateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this hog flow. */
-  id: string;
-  /** iCalendar RRULE string (e.g. 'FREQ=DAILY;INTERVAL=1'). Must produce occurrences at most once per hour. */
-  rrule?: string;
-  /** ISO 8601 datetime the schedule starts from. */
-  starts_at?: string;
-  /** IANA timezone for interpreting the RRULE (default 'UTC'). */
-  timezone?: string;
-  /** Variable value overrides merged with the workflow defaults on each run. */
-  variables?: unknown;
-}
-export const HogFlowsSchedulesCreateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-    rrule: S.optional(S.String),
-    starts_at: S.optional(S.String),
-    timezone: S.optional(S.String),
-    variables: S.optional(S.Unknown),
+    email_sending_rate_limit: S.optional(
+      S.NullOr(HogFlowEmailSendingRateLimit),
+    ),
+    edges: S.optional(HogFlowsBulkDeleteCreateRequestEdgesList),
+    actions: S.optional(HogFlowsBulkDeleteCreateRequestActionsList),
+    variables: S.optional(HogFlowsBulkDeleteCreateRequestVariablesList),
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/schedules/",
+      uri: "/api/projects/{project_id}/hog_flows/bulk_delete/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "HogFlowsSchedulesCreateRequest",
-}) as any as S.Schema<HogFlowsSchedulesCreateRequest>;
+  identifier: "HogFlowsBulkDeleteCreateRequest",
+}) as any as S.Schema<HogFlowsBulkDeleteCreateRequest>;
+
+export interface HogFlowsDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+}
+export const HogFlowsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "HogFlowsDestroyRequest",
+}) as any as S.Schema<HogFlowsDestroyRequest>;
+
+export interface HogFlowsDestroyResponse {}
+export const HogFlowsDestroyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "HogFlowsDestroyResponse",
+}) as any as S.Schema<HogFlowsDestroyResponse>;
+
+/** Cancel these specific invocations. Capped at 10000 per request. Invocations that already finished are skipped rather than failing the request. */
+export type HogFlowsInvocationsCancelCreateRequestInvocationIdsList =
+  Array<string>;
+export const HogFlowsInvocationsCancelCreateRequestInvocationIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<HogFlowsInvocationsCancelCreateRequestInvocationIdsList>;
+
+export interface HogFlowsInvocationsCancelCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Cancel these specific invocations. Capped at 10000 per request. Invocations that already finished are skipped rather than failing the request. */
+  invocation_ids?: HogFlowsInvocationsCancelCreateRequestInvocationIdsList;
+  /** Cancel every in-flight invocation of this workflow, including parked delays and waits. */
+  all?: boolean;
+}
+export const HogFlowsInvocationsCancelCreateRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+      invocation_ids: S.optional(
+        HogFlowsInvocationsCancelCreateRequestInvocationIdsList,
+      ),
+      all: S.optional(S.Boolean),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/api/projects/{project_id}/hog_flows/{id}/invocations/cancel/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "HogFlowsInvocationsCancelCreateRequest",
+}) as any as S.Schema<HogFlowsInvocationsCancelCreateRequest>;
+
+/** Response from the cancel endpoint. Cancellation is asynchronous: this call flags runs, and the workflow workers terminate them shortly after (immediately for parked runs, at the next step boundary for runs mid-execution). A run stays 'running' in listings until that happens. */
+export interface HogInvocationCancelResponse {
+  /** In-flight runs newly flagged for cancellation by this request. */
+  marked: number;
+  /** Matching in-flight runs not yet flagged. Non-zero on very large workflows; call again. */
+  remaining: number;
+  /** True when no matching in-flight runs remain unflagged. */
+  done: boolean;
+}
+export const HogInvocationCancelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    marked: S.Number,
+    remaining: S.Number,
+    done: S.Boolean,
+  }),
+).annotate({
+  identifier: "HogInvocationCancelResponse",
+}) as any as S.Schema<HogInvocationCancelResponse>;
+
+export interface HogFlowsPublishCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** False (default) previews the publish: returns the impact on people in-flight without changing anything. True applies the staged draft to the live workflow. */
+  confirm?: boolean;
+  /** From the preview response — required when confirm=true. Expires after 15 minutes, and any draft edit invalidates it (409), so you always publish the exact draft you previewed. */
+  confirm_token?: string;
+}
+export const HogFlowsPublishCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    confirm: S.optional(S.Boolean),
+    confirm_token: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/publish/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "HogFlowsPublishCreateRequest",
+}) as any as S.Schema<HogFlowsPublishCreateRequest>;
+
+export interface HogFlowPublishImpactMoveTarget {
+  /** Id of the surviving step runs will continue at. */
+  action_id: string;
+  /** Name of the surviving step. */
+  name: string;
+}
+export const HogFlowPublishImpactMoveTarget = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action_id: S.String,
+    name: S.String,
+  }),
+).annotate({
+  identifier: "HogFlowPublishImpactMoveTarget",
+}) as any as S.Schema<HogFlowPublishImpactMoveTarget>;
+
+export interface HogFlowPublishImpactDeletedStep {
+  /** Id of the step this publish deletes. */
+  action_id: string;
+  /** Name of the deleted step. */
+  name: string;
+  /** About how many in-flight runs are parked on this step. Null when the count is unavailable. */
+  runs: number | null;
+  /** Where those runs continue (skip-forward). Null when nothing downstream survives. */
+  moves_to: HogFlowPublishImpactMoveTarget | null;
+  /** True when runs parked here exit the workflow instead of moving forward. */
+  exits: boolean;
+}
+export const HogFlowPublishImpactDeletedStep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action_id: S.String,
+    name: S.String,
+    runs: S.NullOr(S.Number),
+    moves_to: S.NullOr(HogFlowPublishImpactMoveTarget),
+    exits: S.Boolean,
+  }),
+).annotate({
+  identifier: "HogFlowPublishImpactDeletedStep",
+}) as any as S.Schema<HogFlowPublishImpactDeletedStep>;
+
+/** Per deleted step: how many runs are parked there and where they go. Empty for content-only edits. */
+export type HogFlowPublishImpactDeletedStepsList =
+  Array<HogFlowPublishImpactDeletedStep>;
+export const HogFlowPublishImpactDeletedStepsList = /*@__PURE__*/ S.Array(
+  HogFlowPublishImpactDeletedStep,
+) as any as S.Schema<HogFlowPublishImpactDeletedStepsList>;
+
+/** Ids of steps whose content references the variable. */
+export type HogFlowPublishImpactEmptyVariableReferencedByList = Array<string>;
+export const HogFlowPublishImpactEmptyVariableReferencedByList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<HogFlowPublishImpactEmptyVariableReferencedByList>;
+
+export interface HogFlowPublishImpactEmptyVariable {
+  /** Variable that renders empty for runs already past its producer. */
+  variable: string;
+  /** Id of the new action that sets it; null when the draft newly declares it as a workflow variable. */
+  set_by: string | null;
+  /** Ids of steps whose content references the variable. */
+  referenced_by: HogFlowPublishImpactEmptyVariableReferencedByList;
+}
+export const HogFlowPublishImpactEmptyVariable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    variable: S.String,
+    set_by: S.NullOr(S.String),
+    referenced_by: HogFlowPublishImpactEmptyVariableReferencedByList,
+  }),
+).annotate({
+  identifier: "HogFlowPublishImpactEmptyVariable",
+}) as any as S.Schema<HogFlowPublishImpactEmptyVariable>;
+
+/** Variables that render empty for runs predating their producer. */
+export type HogFlowPublishImpactEmptyVariablesList =
+  Array<HogFlowPublishImpactEmptyVariable>;
+export const HogFlowPublishImpactEmptyVariablesList = /*@__PURE__*/ S.Array(
+  HogFlowPublishImpactEmptyVariable,
+) as any as S.Schema<HogFlowPublishImpactEmptyVariablesList>;
+
+/** Override keys the draft no longer declares as workflow variables. */
+export type HogFlowPublishImpactScheduleConflictVariablesList = Array<string>;
+export const HogFlowPublishImpactScheduleConflictVariablesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<HogFlowPublishImpactScheduleConflictVariablesList>;
+
+export interface HogFlowPublishImpactScheduleConflict {
+  /** Schedule whose variable overrides reference removed variables. */
+  schedule_id: string;
+  /** Override keys the draft no longer declares as workflow variables. */
+  variables: HogFlowPublishImpactScheduleConflictVariablesList;
+}
+export const HogFlowPublishImpactScheduleConflict = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      schedule_id: S.String,
+      variables: HogFlowPublishImpactScheduleConflictVariablesList,
+    }),
+).annotate({
+  identifier: "HogFlowPublishImpactScheduleConflict",
+}) as any as S.Schema<HogFlowPublishImpactScheduleConflict>;
+
+/** Schedules overriding variables the draft removes. */
+export type HogFlowPublishImpactScheduleConflictsList =
+  Array<HogFlowPublishImpactScheduleConflict>;
+export const HogFlowPublishImpactScheduleConflictsList = /*@__PURE__*/ S.Array(
+  HogFlowPublishImpactScheduleConflict,
+) as any as S.Schema<HogFlowPublishImpactScheduleConflictsList>;
+
+export interface HogFlowPublishImpact {
+  /** Per deleted step: how many runs are parked there and where they go. Empty for content-only edits. */
+  deleted_steps: HogFlowPublishImpactDeletedStepsList;
+  /** In-flight runs whose current step is unknown. Null when the count is unavailable. */
+  position_unknown: number | null;
+  /** Variables that render empty for runs predating their producer. */
+  empty_variables: HogFlowPublishImpactEmptyVariablesList;
+  /** Schedules overriding variables the draft removes. */
+  schedule_conflicts: HogFlowPublishImpactScheduleConflictsList;
+}
+export const HogFlowPublishImpact = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deleted_steps: HogFlowPublishImpactDeletedStepsList,
+    position_unknown: S.NullOr(S.Number),
+    empty_variables: HogFlowPublishImpactEmptyVariablesList,
+    schedule_conflicts: HogFlowPublishImpactScheduleConflictsList,
+  }),
+).annotate({
+  identifier: "HogFlowPublishImpact",
+}) as any as S.Schema<HogFlowPublishImpact>;
+
+export interface HogFlowPublishResponse {
+  /** Whether the draft was applied to the live workflow. */
+  published: boolean;
+  /** Runs currently in flight (parked on waits/delays or executing) that will follow the new config once published. Null when the count is unavailable. */
+  in_flight_runs: number | null;
+  /** The staged draft's timestamp, for reference; publishing is confirmed via confirm_token. */
+  draft_updated_at: string | null;
+  /** Echo this back with confirm=true to publish the previewed draft. Only set on previews. */
+  confirm_token: string | null;
+  /** What publishing does to people in-flight. Only set on previews; counts are approximate. */
+  impact: HogFlowPublishImpact | null;
+  /** The workflow after publishing (only set when published=true). */
+  workflow?: HogFlow | null;
+}
+export const HogFlowPublishResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    published: S.Boolean,
+    in_flight_runs: S.NullOr(S.Number),
+    draft_updated_at: S.NullOr(S.String),
+    confirm_token: S.NullOr(S.String),
+    impact: S.NullOr(HogFlowPublishImpact),
+    workflow: S.optional(S.NullOr(HogFlow)),
+  }),
+).annotate({
+  identifier: "HogFlowPublishResponse",
+}) as any as S.Schema<HogFlowPublishResponse>;
+
+export interface HogFlowsRevisionsRestoreCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Workflow version to restore. */
+  version: number;
+  /** Replace the open staged draft with this revision's content. Without it, restoring while a draft is open returns 409. */
+  overwrite?: boolean;
+  /** The draft_updated_at of the staged draft this overwrite was confirmed against. If a draft exists with a different stamp (it was staged or edited since the confirmation was shown), the restore returns 409 instead of overwriting it. Omit to overwrite unconditionally. */
+  expected_draft_updated_at?: string | null;
+}
+export const HogFlowsRevisionsRestoreCreateRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+      version: S.Number.pipe(T.Label()),
+      overwrite: S.optional(S.Boolean),
+      expected_draft_updated_at: S.optional(S.NullOr(S.String)),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/api/projects/{project_id}/hog_flows/{id}/revisions/{version}/restore/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "HogFlowsRevisionsRestoreCreateRequest",
+}) as any as S.Schema<HogFlowsRevisionsRestoreCreateRequest>;
 
 export interface HogFlowsSchedulesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1684,13 +2615,244 @@ export const HogFlowsSchedulesDestroyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "HogFlowsSchedulesDestroyResponse",
 }) as any as S.Schema<HogFlowsSchedulesDestroyResponse>;
 
-export interface HogFlowsSchedulesListRequest {
+export type ListHogFlowsRequestOriginProduct = "loops";
+export const ListHogFlowsRequestOriginProduct = S.String;
+
+export type ListHogFlowsRequestStatus = "active" | "archived" | "draft";
+export const ListHogFlowsRequestStatus = S.String;
+
+export type ListHogFlowsRequestType = "automation" | "messaging";
+export const ListHogFlowsRequestType = S.String;
+
+export interface ListHogFlowsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  created_at?: string;
+  /** Filter to workflows created by the user with this uuid. */
+  created_by?: string;
+  id?: string;
+  /** Number of results to return per page. */
+  limit?: number;
+  /** The initial index from which to return the results. */
+  offset?: number;
+  /** Filter to workflows owned by a product surface, e.g. `loops` for Desktop loops. */
+  origin_product?: ListHogFlowsRequestOriginProduct | (string & {});
+  /** Case-insensitive search across workflow name and description. */
+  search?: string;
+  /** * `draft` - Draft * `active` - Active * `archived` - Archived */
+  status?: ListHogFlowsRequestStatus | (string & {});
+  /** Filter by trigger config as a JSON object. Returns workflows whose trigger contains the given object, e.g. {"type": "event"}. */
+  trigger?: string;
+  /** Filter by workflow type. `messaging` returns workflows with an email, SMS, or push action; `automation` returns the rest. */
+  type?: ListHogFlowsRequestType | (string & {});
+  updated_at?: string;
+}
+export const ListHogFlowsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    created_at: S.optional(S.String.pipe(T.Query())),
+    created_by: S.optional(S.String.pipe(T.Query())),
+    id: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
+    origin_product: S.optional(
+      ListHogFlowsRequestOriginProduct.pipe(T.Query()),
+    ),
+    search: S.optional(S.String.pipe(T.Query())),
+    status: S.optional(ListHogFlowsRequestStatus.pipe(T.Query())),
+    trigger: S.optional(S.String.pipe(T.Query())),
+    type: S.optional(ListHogFlowsRequestType.pipe(T.Query())),
+    updated_at: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListHogFlowsRequest",
+}) as any as S.Schema<ListHogFlowsRequest>;
+
+/** Mixin for serializers to add user access control fields */
+export interface HogFlowMinimal {
+  id?: string;
+  name?: string | null;
+  description?: string;
+  version?: number;
+  status?: HogFlowStateEnum;
+  origin_product?: HogFlowOriginProductEnum | null;
+  created_at?: string;
+  created_by?: UserBasic | null;
+  updated_at?: string;
+  trigger?: unknown;
+  trigger_masking?: unknown;
+  conversion?: unknown;
+  exit_condition?: ExitConditionEnum;
+  email_sending_rate_limit?: unknown;
+  edges?: unknown;
+  actions?: unknown;
+  abort_action?: string | null;
+  variables?: unknown;
+  billable_action_types?: unknown;
+  /** The effective access level the user has for this object */
+  user_access_level?: string | null;
+}
+export const HogFlowMinimal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.String),
+    version: S.optional(S.Number),
+    status: S.optional(HogFlowStateEnum),
+    origin_product: S.optional(S.NullOr(HogFlowOriginProductEnum)),
+    created_at: S.optional(S.String),
+    created_by: S.optional(S.NullOr(UserBasic)),
+    updated_at: S.optional(S.String),
+    trigger: S.optional(S.Unknown),
+    trigger_masking: S.optional(S.Unknown),
+    conversion: S.optional(S.Unknown),
+    exit_condition: S.optional(ExitConditionEnum),
+    email_sending_rate_limit: S.optional(S.Unknown),
+    edges: S.optional(S.Unknown),
+    actions: S.optional(S.Unknown),
+    abort_action: S.optional(S.NullOr(S.String)),
+    variables: S.optional(S.Unknown),
+    billable_action_types: S.optional(S.Unknown),
+    user_access_level: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "HogFlowMinimal" }) as any as S.Schema<HogFlowMinimal>;
+
+export type PaginatedHogFlowMinimalListResultsList = Array<HogFlowMinimal>;
+export const PaginatedHogFlowMinimalListResultsList = /*@__PURE__*/ S.Array(
+  HogFlowMinimal,
+) as any as S.Schema<PaginatedHogFlowMinimalListResultsList>;
+
+export interface PaginatedHogFlowMinimalList {
+  count?: number;
+  next?: string | null;
+  previous?: string | null;
+  results?: PaginatedHogFlowMinimalListResultsList;
+}
+export const PaginatedHogFlowMinimalList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.optional(S.Number),
+    next: S.optional(S.NullOr(S.String)),
+    previous: S.optional(S.NullOr(S.String)),
+    results: S.optional(PaginatedHogFlowMinimalListResultsList),
+  }),
+).annotate({
+  identifier: "PaginatedHogFlowMinimalList",
+}) as any as S.Schema<PaginatedHogFlowMinimalList>;
+
+export interface ListHogFlowsBatchJobsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this hog flow. */
   id: string;
 }
-export const HogFlowsSchedulesListRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListHogFlowsBatchJobsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/batch_jobs/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListHogFlowsBatchJobsRequest",
+}) as any as S.Schema<ListHogFlowsBatchJobsRequest>;
+
+export type ListHogFlowsBatchJobsResponseBodyList = Array<HogFlowBatchJob>;
+export const ListHogFlowsBatchJobsResponseBodyList = /*@__PURE__*/ S.Array(
+  HogFlowBatchJob,
+) as any as S.Schema<ListHogFlowsBatchJobsResponseBodyList>;
+
+export type ListHogFlowsBatchJobsResponse =
+  ListHogFlowsBatchJobsResponseBodyList;
+export const ListHogFlowsBatchJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListHogFlowsBatchJobsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListHogFlowsBatchJobsResponse",
+}) as any as S.Schema<ListHogFlowsBatchJobsResponse>;
+
+export interface ListHogFlowsRevisionsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Number of results to return per page. */
+  limit?: number;
+  /** The initial index from which to return the results. */
+  offset?: number;
+}
+export const ListHogFlowsRevisionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/revisions/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListHogFlowsRevisionsRequest",
+}) as any as S.Schema<ListHogFlowsRevisionsRequest>;
+
+export interface HogFlowRevisionBasic {
+  /** Workflow version this snapshot was published as. */
+  version: number;
+  created_at: string;
+  created_by: UserBasic | null;
+}
+export const HogFlowRevisionBasic = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    version: S.Number,
+    created_at: S.String,
+    created_by: S.NullOr(UserBasic),
+  }),
+).annotate({
+  identifier: "HogFlowRevisionBasic",
+}) as any as S.Schema<HogFlowRevisionBasic>;
+
+export type PaginatedHogFlowRevisionBasicListResultsList =
+  Array<HogFlowRevisionBasic>;
+export const PaginatedHogFlowRevisionBasicListResultsList =
+  /*@__PURE__*/ S.Array(
+    HogFlowRevisionBasic,
+  ) as any as S.Schema<PaginatedHogFlowRevisionBasicListResultsList>;
+
+export interface PaginatedHogFlowRevisionBasicList {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: PaginatedHogFlowRevisionBasicListResultsList;
+}
+export const PaginatedHogFlowRevisionBasicList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    next: S.optional(S.NullOr(S.String)),
+    previous: S.optional(S.NullOr(S.String)),
+    results: PaginatedHogFlowRevisionBasicListResultsList,
+  }),
+).annotate({
+  identifier: "PaginatedHogFlowRevisionBasicList",
+}) as any as S.Schema<PaginatedHogFlowRevisionBasicList>;
+
+export interface ListHogFlowsSchedulesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+}
+export const ListHogFlowsSchedulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
@@ -1702,23 +2864,467 @@ export const HogFlowsSchedulesListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "HogFlowsSchedulesListRequest",
-}) as any as S.Schema<HogFlowsSchedulesListRequest>;
+  identifier: "ListHogFlowsSchedulesRequest",
+}) as any as S.Schema<ListHogFlowsSchedulesRequest>;
 
-export type HogFlowsSchedulesListResponseBodyList = Array<HogFlowSchedule>;
-export const HogFlowsSchedulesListResponseBodyList = /*@__PURE__*/ S.Array(
+export type ListHogFlowsSchedulesResponseBodyList = Array<HogFlowSchedule>;
+export const ListHogFlowsSchedulesResponseBodyList = /*@__PURE__*/ S.Array(
   HogFlowSchedule,
-) as any as S.Schema<HogFlowsSchedulesListResponseBodyList>;
+) as any as S.Schema<ListHogFlowsSchedulesResponseBodyList>;
 
-export type HogFlowsSchedulesListResponse =
-  HogFlowsSchedulesListResponseBodyList;
-export const HogFlowsSchedulesListResponse = /*@__PURE__*/ S.suspend(() =>
-  HogFlowsSchedulesListResponseBodyList.pipe(T.RawResponseRoot()),
+export type ListHogFlowsSchedulesResponse =
+  ListHogFlowsSchedulesResponseBodyList;
+export const ListHogFlowsSchedulesResponse = /*@__PURE__*/ S.suspend(() =>
+  ListHogFlowsSchedulesResponseBodyList.pipe(T.RawResponseRoot()),
 ).annotate({
-  identifier: "HogFlowsSchedulesListResponse",
-}) as any as S.Schema<HogFlowsSchedulesListResponse>;
+  identifier: "ListHogFlowsSchedulesResponse",
+}) as any as S.Schema<ListHogFlowsSchedulesResponse>;
 
-export interface HogFlowsSchedulesPartialUpdateRequest {
+/** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
+export type UpdateHogFlowRequestEdgesList = Array<HogFlowEdge>;
+export const UpdateHogFlowRequestEdgesList = /*@__PURE__*/ S.Array(
+  HogFlowEdge,
+) as any as S.Schema<UpdateHogFlowRequestEdgesList>;
+
+/** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
+export type UpdateHogFlowRequestActionsList = Array<HogFlowAction>;
+export const UpdateHogFlowRequestActionsList = /*@__PURE__*/ S.Array(
+  HogFlowAction,
+) as any as S.Schema<UpdateHogFlowRequestActionsList>;
+
+/** Variable: {key, type: string|number|boolean, default}. */
+export type UpdateHogFlowRequestVariablesItemMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateHogFlowRequestVariablesItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateHogFlowRequestVariablesItemMap>;
+
+/** Workflow vars (key, type, default). Total <5KB. */
+export type UpdateHogFlowRequestVariablesList =
+  Array<UpdateHogFlowRequestVariablesItemMap>;
+export const UpdateHogFlowRequestVariablesList = /*@__PURE__*/ S.Array(
+  UpdateHogFlowRequestVariablesItemMap,
+) as any as S.Schema<UpdateHogFlowRequestVariablesList>;
+
+export interface UpdateHogFlowRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Workflow name. */
+  name?: string | null;
+  /** Optional description. */
+  description?: string;
+  /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
+  status?: HogFlowStateEnum | (string & {});
+  /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
+  trigger_masking?: HogFlowMasking | null;
+  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
+  conversion?: HogFlowConversion | null;
+  /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
+  exit_condition?: ExitConditionEnum | (string & {});
+  /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
+  /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
+  edges?: UpdateHogFlowRequestEdgesList;
+  /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
+  actions: UpdateHogFlowRequestActionsList;
+  /** Workflow vars (key, type, default). Total <5KB. */
+  variables?: UpdateHogFlowRequestVariablesList;
+}
+export const UpdateHogFlowRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    name: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.String),
+    status: S.optional(HogFlowStateEnum),
+    trigger_masking: S.optional(S.NullOr(HogFlowMasking)),
+    conversion: S.optional(S.NullOr(HogFlowConversion)),
+    exit_condition: S.optional(ExitConditionEnum),
+    email_sending_rate_limit: S.optional(
+      S.NullOr(HogFlowEmailSendingRateLimit),
+    ),
+    edges: S.optional(UpdateHogFlowRequestEdgesList),
+    actions: UpdateHogFlowRequestActionsList,
+    variables: S.optional(UpdateHogFlowRequestVariablesList),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateHogFlowRequest",
+}) as any as S.Schema<UpdateHogFlowRequest>;
+
+/** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
+export type HogFlowUpdateEdgesList = Array<HogFlowEdge>;
+export const HogFlowUpdateEdgesList = /*@__PURE__*/ S.Array(
+  HogFlowEdge,
+) as any as S.Schema<HogFlowUpdateEdgesList>;
+
+/** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
+export type HogFlowUpdateActionsList = Array<HogFlowAction>;
+export const HogFlowUpdateActionsList = /*@__PURE__*/ S.Array(
+  HogFlowAction,
+) as any as S.Schema<HogFlowUpdateActionsList>;
+
+/** Variable: {key, type: string|number|boolean, default}. */
+export type HogFlowUpdateVariablesItemMap = {
+  [key: string]: string | undefined;
+};
+export const HogFlowUpdateVariablesItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<HogFlowUpdateVariablesItemMap>;
+
+/** Workflow vars (key, type, default). Total <5KB. */
+export type HogFlowUpdateVariablesList = Array<HogFlowUpdateVariablesItemMap>;
+export const HogFlowUpdateVariablesList = /*@__PURE__*/ S.Array(
+  HogFlowUpdateVariablesItemMap,
+) as any as S.Schema<HogFlowUpdateVariablesList>;
+
+/** Recurring schedules attached to this workflow (read-only here; manage via the schedules sub-resource). A batch/schedule workflow only fires when it's active AND has an active schedule. Empty for non-scheduled workflows. */
+export type HogFlowUpdateSchedulesList = Array<HogFlowSchedule>;
+export const HogFlowUpdateSchedulesList = /*@__PURE__*/ S.Array(
+  HogFlowSchedule,
+) as any as S.Schema<HogFlowUpdateSchedulesList>;
+
+/** Skip-forward map for deleted steps: {deleted_action_id: next surviving action_id}. Maintained automatically when a live graph edit deletes actions, so in-flight runs parked on a deleted step continue at its surviving successor instead of exiting. Null when no live deletions have occurred. */
+export type HogFlowUpdateActionRedirectsMap = {
+  [key: string]: string | undefined;
+};
+export const HogFlowUpdateActionRedirectsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<HogFlowUpdateActionRedirectsMap>;
+
+/** Mixin for serializers to add user access control fields */
+export interface HogFlowUpdate {
+  id: string;
+  /** Workflow name. */
+  name?: string | null;
+  /** Optional description. */
+  description?: string;
+  version: number;
+  /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
+  status?: HogFlowStateEnum;
+  /** Product surface that owns this workflow. This value cannot change after creation. * `loops` - Loops */
+  origin_product: HogFlowOriginProductEnum | null;
+  created_at: string;
+  created_by: UserBasic;
+  updated_at: string;
+  trigger: unknown;
+  /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
+  trigger_masking?: HogFlowMasking | null;
+  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
+  conversion?: HogFlowConversion | null;
+  /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
+  exit_condition?: ExitConditionEnum;
+  /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
+  /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
+  edges?: HogFlowUpdateEdgesList;
+  /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
+  actions: HogFlowUpdateActionsList;
+  abort_action: string | null;
+  /** Workflow vars (key, type, default). Total <5KB. */
+  variables?: HogFlowUpdateVariablesList;
+  billable_action_types: unknown;
+  /** Recurring schedules attached to this workflow (read-only here; manage via the schedules sub-resource). A batch/schedule workflow only fires when it's active AND has an active schedule. Empty for non-scheduled workflows. */
+  schedules: HogFlowUpdateSchedulesList;
+  /** The effective access level the user has for this object */
+  user_access_level: string | null;
+  /** Staged content changes awaiting publish — a full snapshot of the workflow's actions, edges and settings. Null when there's nothing staged. Test it with a use_draft test run, then promote it with the publish endpoint or throw it away with discard_draft. */
+  draft: unknown;
+  /** When the draft was last written; null when there's no staged draft. Pass this to publish (and as base_updated_at on further draft edits) so a concurrent editor's changes aren't clobbered — a mismatch returns 409. */
+  draft_updated_at: string | null;
+  /** Skip-forward map for deleted steps: {deleted_action_id: next surviving action_id}. Maintained automatically when a live graph edit deletes actions, so in-flight runs parked on a deleted step continue at its surviving successor instead of exiting. Null when no live deletions have occurred. */
+  action_redirects: HogFlowUpdateActionRedirectsMap | null;
+}
+export const HogFlowUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.String),
+    version: S.Number,
+    status: S.optional(HogFlowStateEnum),
+    origin_product: S.NullOr(HogFlowOriginProductEnum),
+    created_at: S.String,
+    created_by: UserBasic,
+    updated_at: S.String,
+    trigger: S.Unknown,
+    trigger_masking: S.optional(S.NullOr(HogFlowMasking)),
+    conversion: S.optional(S.NullOr(HogFlowConversion)),
+    exit_condition: S.optional(ExitConditionEnum),
+    email_sending_rate_limit: S.optional(
+      S.NullOr(HogFlowEmailSendingRateLimit),
+    ),
+    edges: S.optional(HogFlowUpdateEdgesList),
+    actions: HogFlowUpdateActionsList,
+    abort_action: S.NullOr(S.String),
+    variables: S.optional(HogFlowUpdateVariablesList),
+    billable_action_types: S.Unknown,
+    schedules: HogFlowUpdateSchedulesList,
+    user_access_level: S.NullOr(S.String),
+    draft: S.Unknown,
+    draft_updated_at: S.NullOr(S.String),
+    action_redirects: S.NullOr(HogFlowUpdateActionRedirectsMap),
+  }),
+).annotate({ identifier: "HogFlowUpdate" }) as any as S.Schema<HogFlowUpdate>;
+
+/** * `update_content` - update_content * `update_column` - update_column * `update_row` - update_row * `update_body` - update_body * `add_content` - add_content * `remove_content` - remove_content * `move_content` - move_content * `add_row` - add_row * `remove_row` - remove_row */
+export type EmailTemplateDesignOperationEnum =
+  | "update_content"
+  | "update_column"
+  | "update_row"
+  | "update_body"
+  | "add_content"
+  | "remove_content"
+  | "move_content"
+  | "add_row"
+  | "remove_row";
+export const EmailTemplateDesignOperationEnum = S.String;
+
+export interface DesignOperation {
+  /** Design edit. update_content {id, patch}: deep-merge patch into the content block's fields (a null leaf deletes that key) — the surgical path, e.g. change just values.text. update_row / update_column {id, patch} and update_body {patch}: same deep-merge for row/column/body-level settings. add_content {column_id, content, index?}: insert a content block into a column (id and Unlayer numbering are filled in for you). remove_content {id} / move_content {id, column_id, index?}: delete or relocate a block. add_row {row, index?} / remove_row {id}: add or delete a row. * `update_content` - update_content * `update_column` - update_column * `update_row` - update_row * `update_body` - update_body * `add_content` - add_content * `remove_content` - remove_content * `move_content` - move_content * `add_row` - add_row * `remove_row` - remove_row */
+  op: EmailTemplateDesignOperationEnum | (string & {});
+  /** Target node id. Required for update_content/column/row, remove_content, remove_row, move_content. */
+  id?: string;
+  /** Target column id. Required for add_content and move_content. */
+  column_id?: string;
+  /** update_* only. Partial fields deep-merged into the existing node; a null leaf deletes that key. e.g. {values: {text: '<p>Hi</p>'}} changes only the block's text. */
+  patch?: unknown;
+  /** add_content only. A content block {type, values: {...}}; omit id and values._meta — they're assigned server-side. type is one of text, heading, button, image, divider, html, etc. */
+  content?: unknown;
+  /** add_row only. A full row {cells, columns: [{contents: [...], values}], values}; ids and Unlayer numbering are assigned server-side for the row and everything nested in it. */
+  row?: unknown;
+  /** add_*\/move_content only. 0-based insert position; omit to append to the end. */
+  index?: number;
+}
+export const DesignOperation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    op: EmailTemplateDesignOperationEnum,
+    id: S.optional(S.String),
+    column_id: S.optional(S.String),
+    patch: S.optional(S.Unknown),
+    content: S.optional(S.Unknown),
+    row: S.optional(S.Unknown),
+    index: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "DesignOperation",
+}) as any as S.Schema<DesignOperation>;
+
+/** Ordered design edits applied atomically to this step's email design - the same operations as the email template patch. The result is re-rendered to HTML server-side, so the sent email always matches the patched design. */
+export type UpdateHogFlowsActionsEmailPartialRequestOperationsList =
+  Array<DesignOperation>;
+export const UpdateHogFlowsActionsEmailPartialRequestOperationsList =
+  /*@__PURE__*/ S.Array(
+    DesignOperation,
+  ) as any as S.Schema<UpdateHogFlowsActionsEmailPartialRequestOperationsList>;
+
+export interface UpdateHogFlowsActionsEmailPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Id of the function_email step to edit. */
+  action_id: string;
+  /** Optimistic concurrency: the updated_at (or draft_updated_at) last loaded. If the stored workflow is newer, the patch is rejected with 409 instead of clobbering a concurrent edit. */
+  base_updated_at?: string;
+  /** Ordered design edits applied atomically to this step's email design - the same operations as the email template patch. The result is re-rendered to HTML server-side, so the sent email always matches the patched design. */
+  operations?: UpdateHogFlowsActionsEmailPartialRequestOperationsList;
+  /** Partial email fields deep-merged into the step's email (a null leaf deletes the key): subject, preheader, text, to, from, replyTo, cc, bcc. The sender is from: {integrationId, email?, name?}, where email and name are optional templated overrides resolved per invocation; the address must resolve to the selected sender's verified domain or the send fails. The design is edited via operations, and html is always re-rendered from it. */
+  email_patch?: unknown;
+}
+export const UpdateHogFlowsActionsEmailPartialRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+      action_id: S.String.pipe(T.Label()),
+      base_updated_at: S.optional(S.String),
+      operations: S.optional(
+        UpdateHogFlowsActionsEmailPartialRequestOperationsList,
+      ),
+      email_patch: S.optional(S.Unknown),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/api/projects/{project_id}/hog_flows/{id}/actions/{action_id}/email/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "UpdateHogFlowsActionsEmailPartialRequest",
+}) as any as S.Schema<UpdateHogFlowsActionsEmailPartialRequest>;
+
+/** * `update_action` - update_action * `add_action` - add_action * `remove_action` - remove_action * `add_edge` - add_edge * `remove_edge` - remove_edge * `replace_action_edges` - replace_action_edges */
+export type HogFlowGraphOperationOpEnum =
+  | "update_action"
+  | "add_action"
+  | "remove_action"
+  | "add_edge"
+  | "remove_edge"
+  | "replace_action_edges";
+export const HogFlowGraphOperationOpEnum = S.String;
+
+/** replace_action_edges: the complete set of the action's outgoing edges (incoming edges are preserved). add_action: optional edges to wire the new node in the same op. */
+export type HogFlowGraphOperationEdgesList = Array<HogFlowEdge>;
+export const HogFlowGraphOperationEdgesList = /*@__PURE__*/ S.Array(
+  HogFlowEdge,
+) as any as S.Schema<HogFlowGraphOperationEdgesList>;
+
+export interface HogFlowGraphOperation {
+  /** Graph edit. update_action {id, patch}: deep-merge patch into the action's fields (a null leaf deletes that key) — the surgical path for tweaking one config value. add_action {action, edges?}: append a full action node, optionally wiring its edges in the same op. remove_action {id}: delete a node and reconnect its incoming edges to its first outgoer. add_edge {edge} / remove_edge {edge}: add or delete one edge. replace_action_edges {id, edges}: replace this action's outgoing edges with the given set (use when adding/removing branch conditions); incoming edges are left intact. * `update_action` - update_action * `add_action` - add_action * `remove_action` - remove_action * `add_edge` - add_edge * `remove_edge` - remove_edge * `replace_action_edges` - replace_action_edges */
+  op: HogFlowGraphOperationOpEnum | (string & {});
+  /** Action id. Required for update_action, remove_action, replace_action_edges. */
+  id?: string;
+  /** update_action only. Partial action fields, deep-merged into the existing action; a null leaf deletes that key. e.g. {config: {inputs: {subject: {value: 'Hi'}}}} changes only that input. */
+  patch?: unknown;
+  /** add_action only. A full action node {id, name, type, config, ...}; same shape as in actions. */
+  action?: unknown;
+  /** add_edge / remove_edge only. The edge {from, to, type, index?}. */
+  edge?: HogFlowEdge;
+  /** replace_action_edges: the complete set of the action's outgoing edges (incoming edges are preserved). add_action: optional edges to wire the new node in the same op. */
+  edges?: HogFlowGraphOperationEdgesList;
+}
+export const HogFlowGraphOperation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    op: HogFlowGraphOperationOpEnum,
+    id: S.optional(S.String),
+    patch: S.optional(S.Unknown),
+    action: S.optional(S.Unknown),
+    edge: S.optional(HogFlowEdge),
+    edges: S.optional(HogFlowGraphOperationEdgesList),
+  }),
+).annotate({
+  identifier: "HogFlowGraphOperation",
+}) as any as S.Schema<HogFlowGraphOperation>;
+
+/** Ordered graph edits applied atomically to a draft workflow: the stored graph is read, the ops are applied in order, the result is fully validated, and it's saved only if valid — otherwise the workflow is unchanged. Reference nodes/edges by id so you never resend the whole graph. The full updated workflow is returned. */
+export type UpdateHogFlowsGraphPartialRequestOperationsList =
+  Array<HogFlowGraphOperation>;
+export const UpdateHogFlowsGraphPartialRequestOperationsList =
+  /*@__PURE__*/ S.Array(
+    HogFlowGraphOperation,
+  ) as any as S.Schema<UpdateHogFlowsGraphPartialRequestOperationsList>;
+
+export interface UpdateHogFlowsGraphPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Optimistic concurrency: the updated_at (or draft_updated_at) last loaded. If the stored graph is newer, the patch is rejected with 409 instead of clobbering a concurrent edit. */
+  base_updated_at?: string;
+  /** Ordered graph edits applied atomically to a draft workflow: the stored graph is read, the ops are applied in order, the result is fully validated, and it's saved only if valid — otherwise the workflow is unchanged. Reference nodes/edges by id so you never resend the whole graph. The full updated workflow is returned. */
+  operations?: UpdateHogFlowsGraphPartialRequestOperationsList;
+}
+export const UpdateHogFlowsGraphPartialRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    base_updated_at: S.optional(S.String),
+    operations: S.optional(UpdateHogFlowsGraphPartialRequestOperationsList),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/graph/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateHogFlowsGraphPartialRequest",
+}) as any as S.Schema<UpdateHogFlowsGraphPartialRequest>;
+
+/** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
+export type UpdateHogFlowsPartialRequestEdgesList = Array<HogFlowEdge>;
+export const UpdateHogFlowsPartialRequestEdgesList = /*@__PURE__*/ S.Array(
+  HogFlowEdge,
+) as any as S.Schema<UpdateHogFlowsPartialRequestEdgesList>;
+
+/** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
+export type UpdateHogFlowsPartialRequestActionsList = Array<HogFlowAction>;
+export const UpdateHogFlowsPartialRequestActionsList = /*@__PURE__*/ S.Array(
+  HogFlowAction,
+) as any as S.Schema<UpdateHogFlowsPartialRequestActionsList>;
+
+/** Variable: {key, type: string|number|boolean, default}. */
+export type UpdateHogFlowsPartialRequestVariablesItemMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateHogFlowsPartialRequestVariablesItemMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<UpdateHogFlowsPartialRequestVariablesItemMap>;
+
+/** Workflow vars (key, type, default). Total <5KB. */
+export type UpdateHogFlowsPartialRequestVariablesList =
+  Array<UpdateHogFlowsPartialRequestVariablesItemMap>;
+export const UpdateHogFlowsPartialRequestVariablesList = /*@__PURE__*/ S.Array(
+  UpdateHogFlowsPartialRequestVariablesItemMap,
+) as any as S.Schema<UpdateHogFlowsPartialRequestVariablesList>;
+
+export interface UpdateHogFlowsPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Workflow name. */
+  name?: string | null;
+  /** Optional description. */
+  description?: string;
+  /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
+  status?: HogFlowStateEnum | (string & {});
+  /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
+  trigger_masking?: HogFlowMasking | null;
+  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
+  conversion?: HogFlowConversion | null;
+  /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
+  exit_condition?: ExitConditionEnum | (string & {});
+  /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
+  /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
+  edges?: UpdateHogFlowsPartialRequestEdgesList;
+  /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
+  actions?: UpdateHogFlowsPartialRequestActionsList;
+  /** Workflow vars (key, type, default). Total <5KB. */
+  variables?: UpdateHogFlowsPartialRequestVariablesList;
+}
+export const UpdateHogFlowsPartialRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    name: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.String),
+    status: S.optional(HogFlowStateEnum),
+    trigger_masking: S.optional(S.NullOr(HogFlowMasking)),
+    conversion: S.optional(S.NullOr(HogFlowConversion)),
+    exit_condition: S.optional(ExitConditionEnum),
+    email_sending_rate_limit: S.optional(
+      S.NullOr(HogFlowEmailSendingRateLimit),
+    ),
+    edges: S.optional(UpdateHogFlowsPartialRequestEdgesList),
+    actions: S.optional(UpdateHogFlowsPartialRequestActionsList),
+    variables: S.optional(UpdateHogFlowsPartialRequestVariablesList),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateHogFlowsPartialRequest",
+}) as any as S.Schema<UpdateHogFlowsPartialRequest>;
+
+export interface UpdateHogFlowsSchedulesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this hog flow. */
@@ -1733,7 +3339,7 @@ export interface HogFlowsSchedulesPartialUpdateRequest {
   /** Variable value overrides merged with the workflow defaults on each run. */
   variables?: unknown;
 }
-export const HogFlowsSchedulesPartialUpdateRequest = /*@__PURE__*/ S.suspend(
+export const UpdateHogFlowsSchedulesPartialRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       project_id: S.String.pipe(T.Label()),
@@ -1751,164 +3357,351 @@ export const HogFlowsSchedulesPartialUpdateRequest = /*@__PURE__*/ S.suspend(
       }),
     ),
 ).annotate({
-  identifier: "HogFlowsSchedulesPartialUpdateRequest",
-}) as any as S.Schema<HogFlowsSchedulesPartialUpdateRequest>;
+  identifier: "UpdateHogFlowsSchedulesPartialRequest",
+}) as any as S.Schema<UpdateHogFlowsSchedulesPartialRequest>;
 
-/** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-export type HogFlowsUpdateRequestEdgesList = Array<HogFlowEdge>;
-export const HogFlowsUpdateRequestEdgesList = /*@__PURE__*/ S.Array(
-  HogFlowEdge,
-) as any as S.Schema<HogFlowsUpdateRequestEdgesList>;
-
-/** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-export type HogFlowsUpdateRequestActionsList = Array<HogFlowAction>;
-export const HogFlowsUpdateRequestActionsList = /*@__PURE__*/ S.Array(
-  HogFlowAction,
-) as any as S.Schema<HogFlowsUpdateRequestActionsList>;
-
-/** Variable: {key, type: string|number|boolean, default}. */
-export type HogFlowsUpdateRequestVariablesItemMap = {
-  [key: string]: string | undefined;
-};
-export const HogFlowsUpdateRequestVariablesItemMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<HogFlowsUpdateRequestVariablesItemMap>;
-
-/** Workflow vars (key, type, default). Total <5KB. */
-export type HogFlowsUpdateRequestVariablesList =
-  Array<HogFlowsUpdateRequestVariablesItemMap>;
-export const HogFlowsUpdateRequestVariablesList = /*@__PURE__*/ S.Array(
-  HogFlowsUpdateRequestVariablesItemMap,
-) as any as S.Schema<HogFlowsUpdateRequestVariablesList>;
-
-export interface HogFlowsUpdateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this hog flow. */
-  id: string;
-  /** Workflow name. */
-  name?: string | null;
-  /** Optional description. */
-  description?: string;
-  /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowStatusEnum | (string & {});
-  /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
-  trigger_masking?: HogFlowMasking | null;
-  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
-  conversion?: HogFlowConversion | null;
-  /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
-  exit_condition?: ExitConditionEnum | (string & {});
-  /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-  edges?: HogFlowsUpdateRequestEdgesList;
-  /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-  actions?: HogFlowsUpdateRequestActionsList;
-  /** Workflow vars (key, type, default). Total <5KB. */
-  variables?: HogFlowsUpdateRequestVariablesList;
-}
-export const HogFlowsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-    name: S.optional(S.NullOr(S.String)),
-    description: S.optional(S.String),
-    status: S.optional(HogFlowStatusEnum),
-    trigger_masking: S.optional(S.NullOr(HogFlowMasking)),
-    conversion: S.optional(S.NullOr(HogFlowConversion)),
-    exit_condition: S.optional(ExitConditionEnum),
-    edges: S.optional(HogFlowsUpdateRequestEdgesList),
-    actions: S.optional(HogFlowsUpdateRequestActionsList),
-    variables: S.optional(HogFlowsUpdateRequestVariablesList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "HogFlowsUpdateRequest",
-}) as any as S.Schema<HogFlowsUpdateRequest>;
-
-/** Property filters to apply */
-export type HogFlowsUserBlastRadiusCreateRequestFiltersMap = {
-  [key: string]: unknown | undefined;
-};
-export const HogFlowsUserBlastRadiusCreateRequestFiltersMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.Unknown,
-  ) as any as S.Schema<HogFlowsUserBlastRadiusCreateRequestFiltersMap>;
-
-export interface HogFlowsUserBlastRadiusCreateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** Property filters to apply */
-  filters?: HogFlowsUserBlastRadiusCreateRequestFiltersMap;
-  /** Group type index for group-based targeting */
-  group_type_index?: number | null;
-}
-export const HogFlowsUserBlastRadiusCreateRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      project_id: S.String.pipe(T.Label()),
-      filters: S.optional(HogFlowsUserBlastRadiusCreateRequestFiltersMap),
-      group_type_index: S.optional(S.NullOr(S.Number)),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/api/projects/{project_id}/hog_flows/user_blast_radius/",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "HogFlowsUserBlastRadiusCreateRequest",
-}) as any as S.Schema<HogFlowsUserBlastRadiusCreateRequest>;
-
-export interface BlastRadius {
-  /** Number of users matching the filters */
-  affected?: number;
-  /** Total number of users */
-  total?: number;
-  /** Maximum allowed audience size for batch triggers for this team. */
-  limit?: number;
-}
-export const BlastRadius = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    affected: S.optional(S.Number),
-    total: S.optional(S.Number),
-    limit: S.optional(S.Number),
-  }),
-).annotate({ identifier: "BlastRadius" }) as any as S.Schema<BlastRadius>;
-
-export type HogFlowsBatchJobsCreateError =
+export type CreateHogFlowError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const hogFlowsBatchJobsCreate: API.OperationMethod<
-  HogFlowsBatchJobsCreateRequest,
-  HogFlowBatchJob,
-  HogFlowsBatchJobsCreateError,
+export const createHogFlow: API.OperationMethod<
+  CreateHogFlowRequest,
+  HogFlow,
+  CreateHogFlowError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsBatchJobsCreateRequest,
+  input: CreateHogFlowRequest,
+  output: HogFlow,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateHogFlowsBatchJobError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const createHogFlowsBatchJob: API.OperationMethod<
+  CreateHogFlowsBatchJobRequest,
+  HogFlowBatchJob,
+  CreateHogFlowsBatchJobError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateHogFlowsBatchJobRequest,
   output: HogFlowBatchJob,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type HogFlowsBatchJobsListError = Forbidden | NotFound | PosthogOpError;
-export const hogFlowsBatchJobsList: API.OperationMethod<
-  HogFlowsBatchJobsListRequest,
-  HogFlowsBatchJobsListResponse,
-  HogFlowsBatchJobsListError,
+export type CreateHogFlowsDiscardDraftError = PosthogOpError;
+export const createHogFlowsDiscardDraft: API.OperationMethod<
+  CreateHogFlowsDiscardDraftRequest,
+  HogFlow,
+  CreateHogFlowsDiscardDraftError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsBatchJobsListRequest,
-  output: HogFlowsBatchJobsListResponse,
+  input: CreateHogFlowsDiscardDraftRequest,
+  output: HogFlow,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateHogFlowsInvocationError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const createHogFlowsInvocation: API.OperationMethod<
+  CreateHogFlowsInvocationRequest,
+  CreateHogFlowsInvocationResponse,
+  CreateHogFlowsInvocationError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateHogFlowsInvocationRequest,
+  output: CreateHogFlowsInvocationResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateHogFlowsRerunError = BadRequest | PosthogOpError;
+/** Rerun past invocations of this hog flow from their stored payloads. Same shape and semantics as the hog function rerun endpoint — proxies through to the CDP worker, which reads matching rows from ClickHouse, rehydrates from `invocation_globals`, and re-enqueues onto cyclotron with `is_retry=1`. Because rerun replays historical event/person/group data, it requires `person:read` and `group:read` on top of `hog_flow:write`. */
+export const createHogFlowsRerun: API.OperationMethod<
+  CreateHogFlowsRerunRequest,
+  HogInvocationRerunResponse,
+  CreateHogFlowsRerunError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateHogFlowsRerunRequest,
+  output: HogInvocationRerunResponse,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateHogFlowsRunError = Conflict | PosthogOpError;
+/** Fire a schedule-triggered workflow immediately, outside its regular schedule. Restricted to the `schedule` trigger type: `batch`/`webhook`/etc. triggers have their own dedicated entry points (`batch_jobs`, the public webhook URL) with trigger-specific guardrails this endpoint doesn't replicate. Requires the workflow to be active, same gate the scheduler itself applies in `internal_process_due_schedules`. Send an `Idempotency-Key` header to dedupe retries (a double-click, or a client retry after a timed-out request): a repeat with the same key returns the first call's result instead of firing a second AI task. Without the header, every call fires a new run. */
+export const createHogFlowsRun: API.OperationMethod<
+  CreateHogFlowsRunRequest,
+  HogFlowRunResponse,
+  CreateHogFlowsRunError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateHogFlowsRunRequest,
+  output: HogFlowRunResponse,
+  errors: [Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateHogFlowsScheduleError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const createHogFlowsSchedule: API.OperationMethod<
+  CreateHogFlowsScheduleRequest,
+  HogFlowSchedule,
+  CreateHogFlowsScheduleError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateHogFlowsScheduleRequest,
+  output: HogFlowSchedule,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateHogFlowsUserBlastRadiusError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const createHogFlowsUserBlastRadius: API.OperationMethod<
+  CreateHogFlowsUserBlastRadiusRequest,
+  BlastRadius,
+  CreateHogFlowsUserBlastRadiusError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateHogFlowsUserBlastRadiusRequest,
+  output: BlastRadius,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowError = Forbidden | NotFound | PosthogOpError;
+export const getHogFlow: API.OperationMethod<
+  GetHogFlowRequest,
+  HogFlow,
+  GetHogFlowError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowRequest,
+  output: HogFlow,
   errors: [Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsAssetError = PosthogOpError;
+export const getHogFlowsAsset: API.OperationMethod<
+  GetHogFlowsAssetRequest,
+  GetHogFlowsAssetResponse,
+  GetHogFlowsAssetError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsAssetRequest,
+  output: GetHogFlowsAssetResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsAssetContentError = PosthogOpError;
+export const getHogFlowsAssetContent: API.OperationMethod<
+  GetHogFlowsAssetContentRequest,
+  GetHogFlowsAssetContentResponse,
+  GetHogFlowsAssetContentError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsAssetContentRequest,
+  output: GetHogFlowsAssetContentResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsEmailSendingSuspensionError = PosthogOpError;
+/** Cheap read for the scene-wide suspension banner: single-row `TeamWorkflowsConfig` lookup with no reputation computation. Every project member sees this — a suspension stops everyone's email, so hiding it would leave silent send failures unexplained. */
+export const getHogFlowsEmailSendingSuspension: API.OperationMethod<
+  GetHogFlowsEmailSendingSuspensionRequest,
+  EmailSendingSuspensionStatus,
+  GetHogFlowsEmailSendingSuspensionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsEmailSendingSuspensionRequest,
+  output: EmailSendingSuspensionStatus,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsInvocationResultError = PosthogOpError;
+export const getHogFlowsInvocationResult: API.OperationMethod<
+  GetHogFlowsInvocationResultRequest,
+  GetHogFlowsInvocationResultResponse,
+  GetHogFlowsInvocationResultError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsInvocationResultRequest,
+  output: GetHogFlowsInvocationResultResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsInvocationResult2Error = PosthogOpError;
+export const getHogFlowsInvocationResult2: API.OperationMethod<
+  GetHogFlowsInvocationResultRequest2,
+  HogInvocationResultDetail,
+  GetHogFlowsInvocationResult2Error,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsInvocationResultRequest2,
+  output: HogInvocationResultDetail,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsInvocationResultsCountError = PosthogOpError;
+/** Count invocations matching the same filters as the list endpoint, without its 500-row cap. */
+export const getHogFlowsInvocationResultsCount: API.OperationMethod<
+  GetHogFlowsInvocationResultsCountRequest,
+  HogInvocationResultsCount,
+  GetHogFlowsInvocationResultsCountError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsInvocationResultsCountRequest,
+  output: HogInvocationResultsCount,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsLogError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const getHogFlowsLog: API.OperationMethod<
+  GetHogFlowsLogRequest,
+  GetHogFlowsLogResponse,
+  GetHogFlowsLogError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsLogRequest,
+  output: GetHogFlowsLogResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsMetricsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const getHogFlowsMetrics: API.OperationMethod<
+  GetHogFlowsMetricsRequest,
+  AppMetricsResponse,
+  GetHogFlowsMetricsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsMetricsRequest,
+  output: AppMetricsResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsMetricsGlobalError = PosthogOpError;
+export const getHogFlowsMetricsGlobal: API.OperationMethod<
+  GetHogFlowsMetricsGlobalRequest,
+  GetHogFlowsMetricsGlobalResponse,
+  GetHogFlowsMetricsGlobalError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsMetricsGlobalRequest,
+  output: GetHogFlowsMetricsGlobalResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsMetricsTotalError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const getHogFlowsMetricsTotal: API.OperationMethod<
+  GetHogFlowsMetricsTotalRequest,
+  AppMetricsTotalsResponse,
+  GetHogFlowsMetricsTotalError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsMetricsTotalRequest,
+  output: AppMetricsTotalsResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsReputationError = PosthogOpError;
+/** Bounce/complaint rates for this project's workflow email over the last 30 days, computed on the fly from app metrics (a project-wide aggregate plus per-workflow rows, worst first, capped), together with the authoritative AWS SES tenant verdict — sending status and open reputation findings. Our rates are the per-workflow diagnosis; AWS judges and enforces. */
+export const getHogFlowsReputation: API.OperationMethod<
+  GetHogFlowsReputationRequest,
+  TeamEmailReputationResponse,
+  GetHogFlowsReputationError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsReputationRequest,
+  output: TeamEmailReputationResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsRevisionError = PosthogOpError;
+export const getHogFlowsRevision: API.OperationMethod<
+  GetHogFlowsRevisionRequest,
+  HogFlowRevision,
+  GetHogFlowsRevisionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsRevisionRequest,
+  output: HogFlowRevision,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type HogFlowsBatchJobsCancelCreateError = PosthogOpError;
+/** Stop a batch run: no more of its audience is enrolled, and every run of it still in flight is canceled. Stopping is asynchronous: runs are flagged here, then terminated by the workflow workers. Steps that already executed, like sent messages, are not undone. Already-finished batch runs are left untouched. */
+export const hogFlowsBatchJobsCancelCreate: API.OperationMethod<
+  HogFlowsBatchJobsCancelCreateRequest,
+  HogFlowBatchJobCancelResponse,
+  HogFlowsBatchJobsCancelCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: HogFlowsBatchJobsCancelCreateRequest,
+  output: HogFlowBatchJobCancelResponse,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -1931,24 +3724,6 @@ export const hogFlowsBulkDeleteCreate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type HogFlowsCreateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const hogFlowsCreate: API.OperationMethod<
-  HogFlowsCreateRequest,
-  HogFlow,
-  HogFlowsCreateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsCreateRequest,
-  output: HogFlow,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
 export type HogFlowsDestroyError = Forbidden | NotFound | PosthogOpError;
 export const hogFlowsDestroy: API.OperationMethod<
   HogFlowsDestroyRequest,
@@ -1963,198 +3738,45 @@ export const hogFlowsDestroy: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type HogFlowsGraphPartialUpdateError = PosthogOpError;
-export const hogFlowsGraphPartialUpdate: API.OperationMethod<
-  HogFlowsGraphPartialUpdateRequest,
-  HogFlow,
-  HogFlowsGraphPartialUpdateError,
+export type HogFlowsInvocationsCancelCreateError = PosthogOpError;
+/** Cancel in-flight invocations of this workflow, by id or all at once. Cancellation is asynchronous: runs are flagged here, then terminated by the workflow workers, promptly for parked runs (delays and waits) and at the next step boundary for runs mid-execution. Steps that already executed are not undone. Canceled runs can be re-run later via `rerun`. */
+export const hogFlowsInvocationsCancelCreate: API.OperationMethod<
+  HogFlowsInvocationsCancelCreateRequest,
+  HogInvocationCancelResponse,
+  HogFlowsInvocationsCancelCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsGraphPartialUpdateRequest,
+  input: HogFlowsInvocationsCancelCreateRequest,
+  output: HogInvocationCancelResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type HogFlowsPublishCreateError = PosthogOpError;
+export const hogFlowsPublishCreate: API.OperationMethod<
+  HogFlowsPublishCreateRequest,
+  HogFlowPublishResponse,
+  HogFlowsPublishCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: HogFlowsPublishCreateRequest,
+  output: HogFlowPublishResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type HogFlowsRevisionsRestoreCreateError = PosthogOpError;
+export const hogFlowsRevisionsRestoreCreate: API.OperationMethod<
+  HogFlowsRevisionsRestoreCreateRequest,
+  HogFlow,
+  HogFlowsRevisionsRestoreCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: HogFlowsRevisionsRestoreCreateRequest,
   output: HogFlow,
   errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type HogFlowsInvocationResultRetrieveError = PosthogOpError;
-export const hogFlowsInvocationResultRetrieve: API.OperationMethod<
-  HogFlowsInvocationResultRetrieveRequest,
-  HogInvocationResultDetail,
-  HogFlowsInvocationResultRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsInvocationResultRetrieveRequest,
-  output: HogInvocationResultDetail,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type HogFlowsInvocationResultsRetrieveError = PosthogOpError;
-export const hogFlowsInvocationResultsRetrieve: API.OperationMethod<
-  HogFlowsInvocationResultsRetrieveRequest,
-  HogFlowsInvocationResultsRetrieveResponse,
-  HogFlowsInvocationResultsRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsInvocationResultsRetrieveRequest,
-  output: HogFlowsInvocationResultsRetrieveResponse,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type HogFlowsInvocationsCreateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const hogFlowsInvocationsCreate: API.OperationMethod<
-  HogFlowsInvocationsCreateRequest,
-  HogFlowsInvocationsCreateResponse,
-  HogFlowsInvocationsCreateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsInvocationsCreateRequest,
-  output: HogFlowsInvocationsCreateResponse,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type HogFlowsListError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const hogFlowsList: API.OperationMethod<
-  HogFlowsListRequest,
-  PaginatedHogFlowMinimalList,
-  HogFlowsListError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsListRequest,
-  output: PaginatedHogFlowMinimalList,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type HogFlowsLogsRetrieveError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const hogFlowsLogsRetrieve: API.OperationMethod<
-  HogFlowsLogsRetrieveRequest,
-  HogFlowsLogsRetrieveResponse,
-  HogFlowsLogsRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsLogsRetrieveRequest,
-  output: HogFlowsLogsRetrieveResponse,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type HogFlowsMetricsGlobalRetrieveError = PosthogOpError;
-export const hogFlowsMetricsGlobalRetrieve: API.OperationMethod<
-  HogFlowsMetricsGlobalRetrieveRequest,
-  HogFlowsMetricsGlobalRetrieveResponse,
-  HogFlowsMetricsGlobalRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsMetricsGlobalRetrieveRequest,
-  output: HogFlowsMetricsGlobalRetrieveResponse,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type HogFlowsMetricsRetrieveError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const hogFlowsMetricsRetrieve: API.OperationMethod<
-  HogFlowsMetricsRetrieveRequest,
-  AppMetricsResponse,
-  HogFlowsMetricsRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsMetricsRetrieveRequest,
-  output: AppMetricsResponse,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type HogFlowsMetricsTotalsRetrieveError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const hogFlowsMetricsTotalsRetrieve: API.OperationMethod<
-  HogFlowsMetricsTotalsRetrieveRequest,
-  AppMetricsTotalsResponse,
-  HogFlowsMetricsTotalsRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsMetricsTotalsRetrieveRequest,
-  output: AppMetricsTotalsResponse,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type HogFlowsPartialUpdateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const hogFlowsPartialUpdate: API.OperationMethod<
-  HogFlowsPartialUpdateRequest,
-  HogFlow,
-  HogFlowsPartialUpdateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsPartialUpdateRequest,
-  output: HogFlow,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type HogFlowsRetrieveError = Forbidden | NotFound | PosthogOpError;
-export const hogFlowsRetrieve: API.OperationMethod<
-  HogFlowsRetrieveRequest,
-  HogFlow,
-  HogFlowsRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsRetrieveRequest,
-  output: HogFlow,
-  errors: [Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type HogFlowsSchedulesCreateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const hogFlowsSchedulesCreate: API.OperationMethod<
-  HogFlowsSchedulesCreateRequest,
-  HogFlowSchedule,
-  HogFlowsSchedulesCreateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsSchedulesCreateRequest,
-  output: HogFlowSchedule,
-  errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -2176,73 +3798,147 @@ export const hogFlowsSchedulesDestroy: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type HogFlowsSchedulesListError =
+export type ListHogFlowsError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const hogFlowsSchedulesList: API.OperationMethod<
-  HogFlowsSchedulesListRequest,
-  HogFlowsSchedulesListResponse,
-  HogFlowsSchedulesListError,
+export const listHogFlows: API.OperationMethod<
+  ListHogFlowsRequest,
+  PaginatedHogFlowMinimalList,
+  ListHogFlowsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsSchedulesListRequest,
-  output: HogFlowsSchedulesListResponse,
+  input: ListHogFlowsRequest,
+  output: PaginatedHogFlowMinimalList,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type HogFlowsSchedulesPartialUpdateError =
+export type ListHogFlowsBatchJobsError = Forbidden | NotFound | PosthogOpError;
+export const listHogFlowsBatchJobs: API.OperationMethod<
+  ListHogFlowsBatchJobsRequest,
+  ListHogFlowsBatchJobsResponse,
+  ListHogFlowsBatchJobsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListHogFlowsBatchJobsRequest,
+  output: ListHogFlowsBatchJobsResponse,
+  errors: [Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListHogFlowsRevisionsError = PosthogOpError;
+export const listHogFlowsRevisions: API.OperationMethod<
+  ListHogFlowsRevisionsRequest,
+  PaginatedHogFlowRevisionBasicList,
+  ListHogFlowsRevisionsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListHogFlowsRevisionsRequest,
+  output: PaginatedHogFlowRevisionBasicList,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListHogFlowsSchedulesError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const hogFlowsSchedulesPartialUpdate: API.OperationMethod<
-  HogFlowsSchedulesPartialUpdateRequest,
-  HogFlowSchedule,
-  HogFlowsSchedulesPartialUpdateError,
+export const listHogFlowsSchedules: API.OperationMethod<
+  ListHogFlowsSchedulesRequest,
+  ListHogFlowsSchedulesResponse,
+  ListHogFlowsSchedulesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsSchedulesPartialUpdateRequest,
-  output: HogFlowSchedule,
+  input: ListHogFlowsSchedulesRequest,
+  output: ListHogFlowsSchedulesResponse,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type HogFlowsUpdateError =
+export type UpdateHogFlowError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const hogFlowsUpdate: API.OperationMethod<
-  HogFlowsUpdateRequest,
+export const updateHogFlow: API.OperationMethod<
+  UpdateHogFlowRequest,
+  HogFlowUpdate,
+  UpdateHogFlowError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateHogFlowRequest,
+  output: HogFlowUpdate,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateHogFlowsActionsEmailPartialError = PosthogOpError;
+export const updateHogFlowsActionsEmailPartial: API.OperationMethod<
+  UpdateHogFlowsActionsEmailPartialRequest,
   HogFlow,
-  HogFlowsUpdateError,
+  UpdateHogFlowsActionsEmailPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsUpdateRequest,
+  input: UpdateHogFlowsActionsEmailPartialRequest,
   output: HogFlow,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateHogFlowsGraphPartialError = PosthogOpError;
+export const updateHogFlowsGraphPartial: API.OperationMethod<
+  UpdateHogFlowsGraphPartialRequest,
+  HogFlow,
+  UpdateHogFlowsGraphPartialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateHogFlowsGraphPartialRequest,
+  output: HogFlow,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateHogFlowsPartialError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const updateHogFlowsPartial: API.OperationMethod<
+  UpdateHogFlowsPartialRequest,
+  HogFlowUpdate,
+  UpdateHogFlowsPartialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateHogFlowsPartialRequest,
+  output: HogFlowUpdate,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type HogFlowsUserBlastRadiusCreateError =
+export type UpdateHogFlowsSchedulesPartialError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const hogFlowsUserBlastRadiusCreate: API.OperationMethod<
-  HogFlowsUserBlastRadiusCreateRequest,
-  BlastRadius,
-  HogFlowsUserBlastRadiusCreateError,
+export const updateHogFlowsSchedulesPartial: API.OperationMethod<
+  UpdateHogFlowsSchedulesPartialRequest,
+  HogFlowSchedule,
+  UpdateHogFlowsSchedulesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: HogFlowsUserBlastRadiusCreateRequest,
-  output: BlastRadius,
+  input: UpdateHogFlowsSchedulesPartialRequest,
+  output: HogFlowSchedule,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

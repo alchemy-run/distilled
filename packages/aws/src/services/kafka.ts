@@ -409,8 +409,398 @@ export const BatchDisassociateScramSecretResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "BatchDisassociateScramSecretResponse",
 }) as any as S.Schema<BatchDisassociateScramSecretResponse>;
+export interface EncryptionConfiguration {
+  KmsKeyArn?: string;
+}
+export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ KmsKeyArn: S.optional(S.String) }).pipe(
+    S.encodeKeys({ KmsKeyArn: "kmsKeyArn" }),
+  ),
+).annotate({
+  identifier: "EncryptionConfiguration",
+}) as any as S.Schema<EncryptionConfiguration>;
+export interface Catalog {
+  CatalogArn?: string;
+  WarehouseLocation?: string;
+}
+export const Catalog = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CatalogArn: S.optional(S.String),
+    WarehouseLocation: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CatalogArn: "catalogArn",
+      WarehouseLocation: "warehouseLocation",
+    }),
+  ),
+).annotate({ identifier: "Catalog" }) as any as S.Schema<Catalog>;
+export interface DeadLetterQueueS3 {
+  BucketArn?: string;
+  ErrorOutputPrefix?: string;
+  ExpectedBucketOwner?: string;
+}
+export const DeadLetterQueueS3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BucketArn: S.optional(S.String),
+    ErrorOutputPrefix: S.optional(S.String),
+    ExpectedBucketOwner: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      BucketArn: "bucketArn",
+      ErrorOutputPrefix: "errorOutputPrefix",
+      ExpectedBucketOwner: "expectedBucketOwner",
+    }),
+  ),
+).annotate({
+  identifier: "DeadLetterQueueS3",
+}) as any as S.Schema<DeadLetterQueueS3>;
+export type PartitionStrategy = "TIME_HOUR" | (string & {});
+export const PartitionStrategy = S.String;
+
+export interface PartitionSource {
+  SourceName?: string;
+}
+export const PartitionSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ SourceName: S.optional(S.String) }).pipe(
+    S.encodeKeys({ SourceName: "sourceName" }),
+  ),
+).annotate({
+  identifier: "PartitionSource",
+}) as any as S.Schema<PartitionSource>;
+export type __listOfPartitionSource = PartitionSource[];
+export const __listOfPartitionSource = /*@__PURE__*/ S.Array(PartitionSource);
+export interface PartitionSpec {
+  PartitionStrategy?: PartitionStrategy;
+  SourceList?: PartitionSource[];
+}
+export const PartitionSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PartitionStrategy: S.optional(PartitionStrategy),
+    SourceList: S.optional(__listOfPartitionSource),
+  }).pipe(
+    S.encodeKeys({
+      PartitionStrategy: "partitionStrategy",
+      SourceList: "sourceList",
+    }),
+  ),
+).annotate({ identifier: "PartitionSpec" }) as any as S.Schema<PartitionSpec>;
+export interface DestinationTable {
+  DestinationDatabaseName?: string;
+  DestinationTableName?: string;
+  PartitionSpec?: PartitionSpec;
+}
+export const DestinationTable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DestinationDatabaseName: S.optional(S.String),
+    DestinationTableName: S.optional(S.String),
+    PartitionSpec: S.optional(PartitionSpec),
+  }).pipe(
+    S.encodeKeys({
+      DestinationDatabaseName: "destinationDatabaseName",
+      DestinationTableName: "destinationTableName",
+      PartitionSpec: "partitionSpec",
+    }),
+  ),
+).annotate({
+  identifier: "DestinationTable",
+}) as any as S.Schema<DestinationTable>;
+export type __listOfDestinationTable = DestinationTable[];
+export const __listOfDestinationTable = /*@__PURE__*/ S.Array(DestinationTable);
+export interface SchemaEvolution {
+  EnableSchemaEvolution?: boolean;
+}
+export const SchemaEvolution = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ EnableSchemaEvolution: S.optional(S.Boolean) }).pipe(
+    S.encodeKeys({ EnableSchemaEvolution: "enableSchemaEvolution" }),
+  ),
+).annotate({
+  identifier: "SchemaEvolution",
+}) as any as S.Schema<SchemaEvolution>;
+export interface TableCreation {
+  EnableTableCreation?: boolean;
+}
+export const TableCreation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ EnableTableCreation: S.optional(S.Boolean) }).pipe(
+    S.encodeKeys({ EnableTableCreation: "enableTableCreation" }),
+  ),
+).annotate({ identifier: "TableCreation" }) as any as S.Schema<TableCreation>;
+export type IcebergCompressionType = "ZSTD" | "SNAPPY" | (string & {});
+export const IcebergCompressionType = S.String;
+
+export interface IcebergDestinationConfiguration {
+  AppendOnly?: boolean;
+  Catalog?: Catalog;
+  DataFreshnessInSeconds?: number;
+  DeadLetterQueueS3?: DeadLetterQueueS3;
+  DestinationTableList?: DestinationTable[];
+  SchemaEvolution?: SchemaEvolution;
+  ServiceExecutionRoleArn?: string;
+  TableCreation?: TableCreation;
+  CompressionType?: IcebergCompressionType;
+}
+export const IcebergDestinationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AppendOnly: S.optional(S.Boolean),
+    Catalog: S.optional(Catalog),
+    DataFreshnessInSeconds: S.optional(S.Number),
+    DeadLetterQueueS3: S.optional(DeadLetterQueueS3),
+    DestinationTableList: S.optional(__listOfDestinationTable),
+    SchemaEvolution: S.optional(SchemaEvolution),
+    ServiceExecutionRoleArn: S.optional(S.String),
+    TableCreation: S.optional(TableCreation),
+    CompressionType: S.optional(IcebergCompressionType),
+  }).pipe(
+    S.encodeKeys({
+      AppendOnly: "appendOnly",
+      Catalog: "catalog",
+      DataFreshnessInSeconds: "dataFreshnessInSeconds",
+      DeadLetterQueueS3: "deadLetterQueueS3",
+      DestinationTableList: "destinationTableList",
+      SchemaEvolution: "schemaEvolution",
+      ServiceExecutionRoleArn: "serviceExecutionRoleArn",
+      TableCreation: "tableCreation",
+      CompressionType: "compressionType",
+    }),
+  ),
+).annotate({
+  identifier: "IcebergDestinationConfiguration",
+}) as any as S.Schema<IcebergDestinationConfiguration>;
+export type S3CompressionType = "NONE" | "GZIP" | "ZSTD" | (string & {});
+export const S3CompressionType = S.String;
+
+export type S3StorageClass =
+  | "STANDARD"
+  | "INTELLIGENT_TIERING"
+  | "GLACIER_IR"
+  | (string & {});
+export const S3StorageClass = S.String;
+
+export interface S3Storage {
+  BucketArn?: string;
+  CompressionType?: S3CompressionType;
+  OutputPrefix?: string;
+  OutputKeyTemplate?: string;
+  StorageClass?: S3StorageClass;
+  ExpectedBucketOwner?: string;
+}
+export const S3Storage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BucketArn: S.optional(S.String),
+    CompressionType: S.optional(S3CompressionType),
+    OutputPrefix: S.optional(S.String),
+    OutputKeyTemplate: S.optional(S.String),
+    StorageClass: S.optional(S3StorageClass),
+    ExpectedBucketOwner: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      BucketArn: "bucketArn",
+      CompressionType: "compressionType",
+      OutputPrefix: "outputPrefix",
+      OutputKeyTemplate: "outputKeyTemplate",
+      StorageClass: "storageClass",
+      ExpectedBucketOwner: "expectedBucketOwner",
+    }),
+  ),
+).annotate({ identifier: "S3Storage" }) as any as S.Schema<S3Storage>;
+export interface S3DestinationConfiguration {
+  DataFreshnessInSeconds?: number;
+  DeadLetterQueueS3?: DeadLetterQueueS3;
+  ServiceExecutionRoleArn?: string;
+  Storage?: S3Storage;
+}
+export const S3DestinationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DataFreshnessInSeconds: S.optional(S.Number),
+    DeadLetterQueueS3: S.optional(DeadLetterQueueS3),
+    ServiceExecutionRoleArn: S.optional(S.String),
+    Storage: S.optional(S3Storage),
+  }).pipe(
+    S.encodeKeys({
+      DataFreshnessInSeconds: "dataFreshnessInSeconds",
+      DeadLetterQueueS3: "deadLetterQueueS3",
+      ServiceExecutionRoleArn: "serviceExecutionRoleArn",
+      Storage: "storage",
+    }),
+  ),
+).annotate({
+  identifier: "S3DestinationConfiguration",
+}) as any as S.Schema<S3DestinationConfiguration>;
+export type __mapOf__string = { [key: string]: string | undefined };
+export const __mapOf__string = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export type ValueConverter =
+  | "BYTE_ARRAY"
+  | "JSON"
+  | "JSON_SCHEMA_GSR"
+  | "STRING"
+  | (string & {});
+export const ValueConverter = S.String;
+
+export interface RecordConverter {
+  ValueConverter?: ValueConverter;
+}
+export const RecordConverter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ValueConverter: S.optional(ValueConverter) }).pipe(
+    S.encodeKeys({ ValueConverter: "valueConverter" }),
+  ),
+).annotate({
+  identifier: "RecordConverter",
+}) as any as S.Schema<RecordConverter>;
+export interface RecordSchema {
+  GsrArn?: string;
+}
+export const RecordSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ GsrArn: S.optional(S.String) }).pipe(
+    S.encodeKeys({ GsrArn: "gsrArn" }),
+  ),
+).annotate({ identifier: "RecordSchema" }) as any as S.Schema<RecordSchema>;
+export interface TopicConfiguration {
+  RecordConverter?: RecordConverter;
+  RecordSchema?: RecordSchema;
+  TopicArn?: string;
+}
+export const TopicConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RecordConverter: S.optional(RecordConverter),
+    RecordSchema: S.optional(RecordSchema),
+    TopicArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      RecordConverter: "recordConverter",
+      RecordSchema: "recordSchema",
+      TopicArn: "topicArn",
+    }),
+  ),
+).annotate({
+  identifier: "TopicConfiguration",
+}) as any as S.Schema<TopicConfiguration>;
+export type __listOfTopicConfiguration = TopicConfiguration[];
+export const __listOfTopicConfiguration =
+  /*@__PURE__*/ S.Array(TopicConfiguration);
+export interface CloudWatchLogs {
+  Enabled?: boolean;
+  LogGroup?: string;
+}
+export const CloudWatchLogs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Enabled: S.optional(S.Boolean),
+    LogGroup: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Enabled: "enabled", LogGroup: "logGroup" })),
+).annotate({ identifier: "CloudWatchLogs" }) as any as S.Schema<CloudWatchLogs>;
+export interface Firehose {
+  DeliveryStream?: string;
+  Enabled?: boolean;
+}
+export const Firehose = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DeliveryStream: S.optional(S.String),
+    Enabled: S.optional(S.Boolean),
+  }).pipe(
+    S.encodeKeys({ DeliveryStream: "deliveryStream", Enabled: "enabled" }),
+  ),
+).annotate({ identifier: "Firehose" }) as any as S.Schema<Firehose>;
+export interface S3 {
+  Bucket?: string;
+  Enabled?: boolean;
+  Prefix?: string;
+}
+export const S3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Bucket: S.optional(S.String),
+    Enabled: S.optional(S.Boolean),
+    Prefix: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ Bucket: "bucket", Enabled: "enabled", Prefix: "prefix" }),
+  ),
+).annotate({ identifier: "S3" }) as any as S.Schema<S3>;
+export interface ChannelLoggingInfo {
+  CloudWatchLogs?: CloudWatchLogs;
+  Firehose?: Firehose;
+  S3?: S3;
+}
+export const ChannelLoggingInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CloudWatchLogs: S.optional(CloudWatchLogs),
+    Firehose: S.optional(Firehose),
+    S3: S.optional(S3),
+  }).pipe(
+    S.encodeKeys({
+      CloudWatchLogs: "cloudWatchLogs",
+      Firehose: "firehose",
+      S3: "s3",
+    }),
+  ),
+).annotate({
+  identifier: "ChannelLoggingInfo",
+}) as any as S.Schema<ChannelLoggingInfo>;
+export interface CreateChannelRequest {
+  ChannelName?: string;
+  ClusterArn: string;
+  EncryptionConfiguration?: EncryptionConfiguration;
+  IcebergDestinationConfiguration?: IcebergDestinationConfiguration;
+  S3DestinationConfiguration?: S3DestinationConfiguration;
+  Tags?: { [key: string]: string | undefined };
+  TopicConfigurationList?: TopicConfiguration[];
+  LoggingInfo?: ChannelLoggingInfo;
+}
+export const CreateChannelRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChannelName: S.optional(S.String),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
+    EncryptionConfiguration: S.optional(EncryptionConfiguration),
+    IcebergDestinationConfiguration: S.optional(
+      IcebergDestinationConfiguration,
+    ),
+    S3DestinationConfiguration: S.optional(S3DestinationConfiguration),
+    Tags: S.optional(__mapOf__string),
+    TopicConfigurationList: S.optional(__listOfTopicConfiguration),
+    LoggingInfo: S.optional(ChannelLoggingInfo),
+  })
+    .pipe(
+      S.encodeKeys({
+        ChannelName: "channelName",
+        EncryptionConfiguration: "encryptionConfiguration",
+        IcebergDestinationConfiguration: "icebergDestinationConfiguration",
+        S3DestinationConfiguration: "s3DestinationConfiguration",
+        Tags: "tags",
+        TopicConfigurationList: "topicConfigurationList",
+        LoggingInfo: "loggingInfo",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/clusters/{ClusterArn}/channels" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "CreateChannelRequest",
+}) as any as S.Schema<CreateChannelRequest>;
+export interface CreateChannelResponse {
+  ChannelArn: string;
+  ClusterOperationArn?: string;
+}
+export const CreateChannelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChannelArn: S.optional(S.String),
+    ClusterOperationArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ChannelArn: "channelArn",
+      ClusterOperationArn: "clusterOperationArn",
+    }),
+  ),
+).annotate({
+  identifier: "CreateChannelResponse",
+}) as any as S.Schema<CreateChannelResponse>;
 export type BrokerAZDistribution = "DEFAULT" | (string & {});
-export const BrokerAZDistribution = /*@__PURE__*/ S.String;
+export const BrokerAZDistribution = S.String;
 
 export type __stringMin5Max32 = string;
 export interface ProvisionedThroughput {
@@ -522,7 +912,7 @@ export const VpcConnectivity = /*@__PURE__*/ S.suspend(() =>
   identifier: "VpcConnectivity",
 }) as any as S.Schema<VpcConnectivity>;
 export type NetworkType = "IPV4" | "DUAL" | (string & {});
-export const NetworkType = /*@__PURE__*/ S.String;
+export const NetworkType = S.String;
 
 export interface ConnectivityInfo {
   PublicAccess?: PublicAccess;
@@ -577,7 +967,7 @@ export const BrokerNodeGroupInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "BrokerNodeGroupInfo",
 }) as any as S.Schema<BrokerNodeGroupInfo>;
 export type RebalancingStatus = "PAUSED" | "ACTIVE" | (string & {});
-export const RebalancingStatus = /*@__PURE__*/ S.String;
+export const RebalancingStatus = S.String;
 
 export interface Rebalancing {
   Status?: RebalancingStatus;
@@ -684,7 +1074,7 @@ export type ClientBroker =
   | "TLS_PLAINTEXT"
   | "PLAINTEXT"
   | (string & {});
-export const ClientBroker = /*@__PURE__*/ S.String;
+export const ClientBroker = S.String;
 
 export interface EncryptionInTransit {
   ClientBroker?: ClientBroker;
@@ -721,7 +1111,7 @@ export type EnhancedMonitoring =
   | "PER_TOPIC_PER_BROKER"
   | "PER_TOPIC_PER_PARTITION"
   | (string & {});
-export const EnhancedMonitoring = /*@__PURE__*/ S.String;
+export const EnhancedMonitoring = S.String;
 
 export interface JmxExporterInfo {
   EnabledInBroker?: boolean;
@@ -766,42 +1156,24 @@ export const OpenMonitoringInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "OpenMonitoringInfo",
 }) as any as S.Schema<OpenMonitoringInfo>;
 export type __stringMin1Max128 = string;
-export interface CloudWatchLogs {
-  Enabled?: boolean;
-  LogGroup?: string;
+export interface AuthorizerLogs {
+  CloudWatchLogs?: CloudWatchLogs;
+  Firehose?: Firehose;
+  S3?: S3;
 }
-export const CloudWatchLogs = /*@__PURE__*/ S.suspend(() =>
+export const AuthorizerLogs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    Enabled: S.optional(S.Boolean),
-    LogGroup: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Enabled: "enabled", LogGroup: "logGroup" })),
-).annotate({ identifier: "CloudWatchLogs" }) as any as S.Schema<CloudWatchLogs>;
-export interface Firehose {
-  DeliveryStream?: string;
-  Enabled?: boolean;
-}
-export const Firehose = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeliveryStream: S.optional(S.String),
-    Enabled: S.optional(S.Boolean),
+    CloudWatchLogs: S.optional(CloudWatchLogs),
+    Firehose: S.optional(Firehose),
+    S3: S.optional(S3),
   }).pipe(
-    S.encodeKeys({ DeliveryStream: "deliveryStream", Enabled: "enabled" }),
+    S.encodeKeys({
+      CloudWatchLogs: "cloudWatchLogs",
+      Firehose: "firehose",
+      S3: "s3",
+    }),
   ),
-).annotate({ identifier: "Firehose" }) as any as S.Schema<Firehose>;
-export interface S3 {
-  Bucket?: string;
-  Enabled?: boolean;
-  Prefix?: string;
-}
-export const S3 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.optional(S.String),
-    Enabled: S.optional(S.Boolean),
-    Prefix: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({ Bucket: "bucket", Enabled: "enabled", Prefix: "prefix" }),
-  ),
-).annotate({ identifier: "S3" }) as any as S.Schema<S3>;
+).annotate({ identifier: "AuthorizerLogs" }) as any as S.Schema<AuthorizerLogs>;
 export interface BrokerLogs {
   CloudWatchLogs?: CloudWatchLogs;
   Firehose?: Firehose;
@@ -821,21 +1193,23 @@ export const BrokerLogs = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "BrokerLogs" }) as any as S.Schema<BrokerLogs>;
 export interface LoggingInfo {
+  AuthorizerLogs?: AuthorizerLogs;
   BrokerLogs?: BrokerLogs;
 }
 export const LoggingInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BrokerLogs: S.optional(BrokerLogs) }).pipe(
-    S.encodeKeys({ BrokerLogs: "brokerLogs" }),
+  S.Struct({
+    AuthorizerLogs: S.optional(AuthorizerLogs),
+    BrokerLogs: S.optional(BrokerLogs),
+  }).pipe(
+    S.encodeKeys({
+      AuthorizerLogs: "authorizerLogs",
+      BrokerLogs: "brokerLogs",
+    }),
   ),
 ).annotate({ identifier: "LoggingInfo" }) as any as S.Schema<LoggingInfo>;
 export type __integerMin1Max15 = number;
-export type __mapOf__string = { [key: string]: string | undefined };
-export const __mapOf__string = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type StorageMode = "LOCAL" | "TIERED" | (string & {});
-export const StorageMode = /*@__PURE__*/ S.String;
+export const StorageMode = S.String;
 
 export interface CreateClusterRequest {
   BrokerNodeGroupInfo?: BrokerNodeGroupInfo;
@@ -908,7 +1282,7 @@ export type ClusterState =
   | "REBOOTING_BROKER"
   | "UPDATING"
   | (string & {});
-export const ClusterState = /*@__PURE__*/ S.String;
+export const ClusterState = S.String;
 
 export interface CreateClusterResponse {
   ClusterArn?: string;
@@ -1059,7 +1433,7 @@ export const CreateClusterV2Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateClusterV2Request",
 }) as any as S.Schema<CreateClusterV2Request>;
 export type ClusterType = "PROVISIONED" | "SERVERLESS" | (string & {});
-export const ClusterType = /*@__PURE__*/ S.String;
+export const ClusterType = S.String;
 
 export interface CreateClusterV2Response {
   ClusterArn?: string;
@@ -1147,7 +1521,7 @@ export type ConfigurationState =
   | "DELETING"
   | "DELETE_FAILED"
   | (string & {});
-export const ConfigurationState = /*@__PURE__*/ S.String;
+export const ConfigurationState = S.String;
 
 export interface CreateConfigurationResponse {
   Arn?: string;
@@ -1229,7 +1603,7 @@ export type KafkaClusterSaslScramMechanism =
   | "SHA256"
   | "SHA512"
   | (string & {});
-export const KafkaClusterSaslScramMechanism = /*@__PURE__*/ S.String;
+export const KafkaClusterSaslScramMechanism = S.String;
 
 export interface KafkaClusterSaslScramAuthentication {
   Mechanism?: KafkaClusterSaslScramMechanism;
@@ -1253,20 +1627,126 @@ export const KafkaClusterMTLSAuthentication = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "KafkaClusterMTLSAuthentication",
 }) as any as S.Schema<KafkaClusterMTLSAuthentication>;
+export interface KafkaClusterOAuthClientCredentials {
+  TokenRequestSecretArn?: string;
+}
+export const KafkaClusterOAuthClientCredentials = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ TokenRequestSecretArn: S.optional(S.String) }).pipe(
+    S.encodeKeys({ TokenRequestSecretArn: "tokenRequestSecretArn" }),
+  ),
+).annotate({
+  identifier: "KafkaClusterOAuthClientCredentials",
+}) as any as S.Schema<KafkaClusterOAuthClientCredentials>;
+export type JwtSigningAlgorithm = "RS256" | "ES384" | (string & {});
+export const JwtSigningAlgorithm = S.String;
+
+export interface KafkaClusterOAuthIamJwtBearer {
+  Audience?: string;
+  SigningAlgorithm?: JwtSigningAlgorithm;
+  TokenRequestSecretArn?: string;
+}
+export const KafkaClusterOAuthIamJwtBearer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Audience: S.optional(S.String),
+    SigningAlgorithm: S.optional(JwtSigningAlgorithm),
+    TokenRequestSecretArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Audience: "audience",
+      SigningAlgorithm: "signingAlgorithm",
+      TokenRequestSecretArn: "tokenRequestSecretArn",
+    }),
+  ),
+).annotate({
+  identifier: "KafkaClusterOAuthIamJwtBearer",
+}) as any as S.Schema<KafkaClusterOAuthIamJwtBearer>;
+export interface KafkaClusterOAuthClientCredentialsAssertion {
+  Audience?: string;
+  SigningAlgorithm?: JwtSigningAlgorithm;
+  TokenRequestSecretArn?: string;
+}
+export const KafkaClusterOAuthClientCredentialsAssertion =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Audience: S.optional(S.String),
+      SigningAlgorithm: S.optional(JwtSigningAlgorithm),
+      TokenRequestSecretArn: S.optional(S.String),
+    }).pipe(
+      S.encodeKeys({
+        Audience: "audience",
+        SigningAlgorithm: "signingAlgorithm",
+        TokenRequestSecretArn: "tokenRequestSecretArn",
+      }),
+    ),
+  ).annotate({
+    identifier: "KafkaClusterOAuthClientCredentialsAssertion",
+  }) as any as S.Schema<KafkaClusterOAuthClientCredentialsAssertion>;
+export type TokenEndpointAuthenticationMethod =
+  | "POST"
+  | "BASIC"
+  | "NONE"
+  | (string & {});
+export const TokenEndpointAuthenticationMethod = S.String;
+
+export interface KafkaClusterSaslOAuthBearerAuthentication {
+  TokenEndpointUrl?: string;
+  ClientCredentials?: KafkaClusterOAuthClientCredentials;
+  IamJwtBearer?: KafkaClusterOAuthIamJwtBearer;
+  ClientCredentialsAssertion?: KafkaClusterOAuthClientCredentialsAssertion;
+  TokenEndpointAuthenticationMethod?: TokenEndpointAuthenticationMethod;
+  Scope?: string;
+  TokenEndpointTlsCertificateArn?: string;
+}
+export const KafkaClusterSaslOAuthBearerAuthentication =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      TokenEndpointUrl: S.optional(S.String),
+      ClientCredentials: S.optional(KafkaClusterOAuthClientCredentials),
+      IamJwtBearer: S.optional(KafkaClusterOAuthIamJwtBearer),
+      ClientCredentialsAssertion: S.optional(
+        KafkaClusterOAuthClientCredentialsAssertion,
+      ),
+      TokenEndpointAuthenticationMethod: S.optional(
+        TokenEndpointAuthenticationMethod,
+      ),
+      Scope: S.optional(S.String),
+      TokenEndpointTlsCertificateArn: S.optional(S.String),
+    }).pipe(
+      S.encodeKeys({
+        TokenEndpointUrl: "tokenEndpointUrl",
+        ClientCredentials: "clientCredentials",
+        IamJwtBearer: "iamJwtBearer",
+        ClientCredentialsAssertion: "clientCredentialsAssertion",
+        TokenEndpointAuthenticationMethod: "tokenEndpointAuthenticationMethod",
+        Scope: "scope",
+        TokenEndpointTlsCertificateArn: "tokenEndpointTlsCertificateArn",
+      }),
+    ),
+  ).annotate({
+    identifier: "KafkaClusterSaslOAuthBearerAuthentication",
+  }) as any as S.Schema<KafkaClusterSaslOAuthBearerAuthentication>;
 export interface KafkaClusterClientAuthentication {
   SaslScram?: KafkaClusterSaslScramAuthentication;
   MTLS?: KafkaClusterMTLSAuthentication;
+  SaslOAuthBearer?: KafkaClusterSaslOAuthBearerAuthentication;
 }
 export const KafkaClusterClientAuthentication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SaslScram: S.optional(KafkaClusterSaslScramAuthentication),
     MTLS: S.optional(KafkaClusterMTLSAuthentication),
-  }).pipe(S.encodeKeys({ SaslScram: "saslScram", MTLS: "mTLS" })),
+    SaslOAuthBearer: S.optional(KafkaClusterSaslOAuthBearerAuthentication),
+  }).pipe(
+    S.encodeKeys({
+      SaslScram: "saslScram",
+      MTLS: "mTLS",
+      SaslOAuthBearer: "saslOAuthBearer",
+    }),
+  ),
 ).annotate({
   identifier: "KafkaClusterClientAuthentication",
 }) as any as S.Schema<KafkaClusterClientAuthentication>;
 export type KafkaClusterEncryptionInTransitType = "TLS" | (string & {});
-export const KafkaClusterEncryptionInTransitType = /*@__PURE__*/ S.String;
+export const KafkaClusterEncryptionInTransitType = S.String;
 
 export interface KafkaClusterEncryptionInTransit {
   EncryptionType?: KafkaClusterEncryptionInTransitType;
@@ -1315,7 +1795,7 @@ export type __stringMax256 = string;
 export type __listOf__stringMax256 = string[];
 export const __listOf__stringMax256 = /*@__PURE__*/ S.Array(S.String);
 export type ConsumerGroupOffsetSyncMode = "LEGACY" | "ENHANCED" | (string & {});
-export const ConsumerGroupOffsetSyncMode = /*@__PURE__*/ S.String;
+export const ConsumerGroupOffsetSyncMode = S.String;
 
 export interface ConsumerGroupReplication {
   ConsumerGroupsToExclude?: string[];
@@ -1350,13 +1830,13 @@ export type TargetCompressionType =
   | "LZ4"
   | "ZSTD"
   | (string & {});
-export const TargetCompressionType = /*@__PURE__*/ S.String;
+export const TargetCompressionType = S.String;
 
 export type ReplicationStartingPositionType =
   | "LATEST"
   | "EARLIEST"
   | (string & {});
-export const ReplicationStartingPositionType = /*@__PURE__*/ S.String;
+export const ReplicationStartingPositionType = S.String;
 
 export interface ReplicationStartingPosition {
   Type?: ReplicationStartingPositionType;
@@ -1372,7 +1852,7 @@ export type ReplicationTopicNameConfigurationType =
   | "PREFIXED_WITH_SOURCE_CLUSTER_ALIAS"
   | "IDENTICAL"
   | (string & {});
-export const ReplicationTopicNameConfigurationType = /*@__PURE__*/ S.String;
+export const ReplicationTopicNameConfigurationType = S.String;
 
 export interface ReplicationTopicNameConfiguration {
   Type?: ReplicationTopicNameConfigurationType;
@@ -1572,7 +2052,7 @@ export type ReplicatorState =
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const ReplicatorState = /*@__PURE__*/ S.String;
+export const ReplicatorState = S.String;
 
 export interface CreateReplicatorResponse {
   ReplicatorArn?: string;
@@ -1637,7 +2117,7 @@ export type TopicState =
   | "DELETING"
   | "ACTIVE"
   | (string & {});
-export const TopicState = /*@__PURE__*/ S.String;
+export const TopicState = S.String;
 
 export interface CreateTopicResponse {
   TopicArn?: string;
@@ -1709,7 +2189,7 @@ export type VpcConnectionState =
   | "REJECTED"
   | "REJECTING"
   | (string & {});
-export const VpcConnectionState = /*@__PURE__*/ S.String;
+export const VpcConnectionState = S.String;
 
 export interface CreateVpcConnectionResponse {
   VpcConnectionArn?: string;
@@ -1748,6 +2228,47 @@ export const CreateVpcConnectionResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateVpcConnectionResponse",
 }) as any as S.Schema<CreateVpcConnectionResponse>;
+export interface DeleteChannelRequest {
+  ChannelArn: string;
+  ClusterArn: string;
+}
+export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/clusters/{ClusterArn}/channels/{ChannelArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteChannelRequest",
+}) as any as S.Schema<DeleteChannelRequest>;
+export interface DeleteChannelResponse {
+  ChannelArn: string;
+  ClusterOperationArn?: string;
+}
+export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChannelArn: S.optional(S.String),
+    ClusterOperationArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ChannelArn: "channelArn",
+      ClusterOperationArn: "clusterOperationArn",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteChannelResponse",
+}) as any as S.Schema<DeleteChannelResponse>;
 export interface DeleteClusterRequest {
   ClusterArn: string;
   CurrentVersion?: string;
@@ -1949,6 +2470,134 @@ export const DeleteVpcConnectionResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteVpcConnectionResponse",
 }) as any as S.Schema<DeleteVpcConnectionResponse>;
+export interface DescribeChannelRequest {
+  ChannelArn: string;
+  ClusterArn: string;
+}
+export const DescribeChannelRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v1/clusters/{ClusterArn}/channels/{ChannelArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeChannelRequest",
+}) as any as S.Schema<DescribeChannelRequest>;
+export type ChannelStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "FAILED"
+  | "SUSPENDING"
+  | "SUSPENDED"
+  | (string & {});
+export const ChannelStatus = S.String;
+
+export type ChannelDestinationType = "ICEBERG" | "S3" | (string & {});
+export const ChannelDestinationType = S.String;
+
+export interface ChannelStateInfo {
+  Code?: string;
+  Message?: string;
+}
+export const ChannelStateInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Code: "code", Message: "message" }),
+  ),
+).annotate({
+  identifier: "ChannelStateInfo",
+}) as any as S.Schema<ChannelStateInfo>;
+export interface DescribeChannelResponse {
+  ChannelArn: string;
+  ChannelName: string;
+  EncryptionConfiguration?: EncryptionConfiguration & { KmsKeyArn: string };
+  IcebergDestinationConfiguration?: IcebergDestinationConfiguration & {
+    AppendOnly: boolean;
+    DeadLetterQueueS3: DeadLetterQueueS3 & { BucketArn: string };
+    DestinationTableList: (DestinationTable & {
+      PartitionSpec: PartitionSpec & { PartitionStrategy: PartitionStrategy };
+    })[];
+    SchemaEvolution: SchemaEvolution;
+    ServiceExecutionRoleArn: string;
+    TableCreation: TableCreation;
+  };
+  S3DestinationConfiguration?: S3DestinationConfiguration & {
+    DeadLetterQueueS3: DeadLetterQueueS3 & { BucketArn: string };
+    ServiceExecutionRoleArn: string;
+    Storage: S3Storage & {
+      BucketArn: string;
+      CompressionType: S3CompressionType;
+      StorageClass: S3StorageClass;
+    };
+  };
+  Status: ChannelStatus;
+  DestinationType: ChannelDestinationType;
+  CreationTime: Date;
+  TopicConfigurationList: (TopicConfiguration & {
+    RecordConverter: RecordConverter & { ValueConverter: ValueConverter };
+    TopicArn: string;
+    RecordSchema: RecordSchema & { GsrArn: string };
+  })[];
+  LoggingInfo?: ChannelLoggingInfo & {
+    CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+    Firehose: Firehose & { Enabled: boolean };
+    S3: S3 & { Enabled: boolean };
+  };
+  StateInfo?: ChannelStateInfo;
+  ClusterOperationArn?: string;
+  Tags?: { [key: string]: string | undefined };
+}
+export const DescribeChannelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChannelArn: S.optional(S.String),
+    ChannelName: S.optional(S.String),
+    EncryptionConfiguration: S.optional(EncryptionConfiguration),
+    IcebergDestinationConfiguration: S.optional(
+      IcebergDestinationConfiguration,
+    ),
+    S3DestinationConfiguration: S.optional(S3DestinationConfiguration),
+    Status: S.optional(ChannelStatus),
+    DestinationType: S.optional(ChannelDestinationType),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    TopicConfigurationList: S.optional(__listOfTopicConfiguration),
+    LoggingInfo: S.optional(ChannelLoggingInfo),
+    StateInfo: S.optional(ChannelStateInfo),
+    ClusterOperationArn: S.optional(S.String),
+    Tags: S.optional(__mapOf__string),
+  }).pipe(
+    S.encodeKeys({
+      ChannelArn: "channelArn",
+      ChannelName: "channelName",
+      EncryptionConfiguration: "encryptionConfiguration",
+      IcebergDestinationConfiguration: "icebergDestinationConfiguration",
+      S3DestinationConfiguration: "s3DestinationConfiguration",
+      Status: "status",
+      DestinationType: "destinationType",
+      CreationTime: "creationTime",
+      TopicConfigurationList: "topicConfigurationList",
+      LoggingInfo: "loggingInfo",
+      StateInfo: "stateInfo",
+      ClusterOperationArn: "clusterOperationArn",
+      Tags: "tags",
+    }),
+  ),
+).annotate({
+  identifier: "DescribeChannelResponse",
+}) as any as S.Schema<DescribeChannelResponse>;
 export interface DescribeClusterRequest {
   ClusterArn: string;
 }
@@ -2036,7 +2685,7 @@ export type CustomerActionStatus =
   | "ACTION_RECOMMENDED"
   | "NONE"
   | (string & {});
-export const CustomerActionStatus = /*@__PURE__*/ S.String;
+export const CustomerActionStatus = S.String;
 
 export interface ClusterInfo {
   ActiveOperationArn?: string;
@@ -2129,6 +2778,11 @@ export interface DescribeClusterResponse {
     };
     LoggingInfo: LoggingInfo & {
       BrokerLogs: BrokerLogs & {
+        CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+        Firehose: Firehose & { Enabled: boolean };
+        S3: S3 & { Enabled: boolean };
+      };
+      AuthorizerLogs: AuthorizerLogs & {
         CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
         Firehose: Firehose & { Enabled: boolean };
         S3: S3 & { Enabled: boolean };
@@ -2306,7 +2960,7 @@ export const MutableClusterInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "MutableClusterInfo",
 }) as any as S.Schema<MutableClusterInfo>;
 export type UserIdentityType = "AWSACCOUNT" | "AWSSERVICE" | (string & {});
-export const UserIdentityType = /*@__PURE__*/ S.String;
+export const UserIdentityType = S.String;
 
 export interface UserIdentity {
   Type?: UserIdentityType;
@@ -2411,6 +3065,11 @@ export interface DescribeClusterOperationResponse {
           Firehose: Firehose & { Enabled: boolean };
           S3: S3 & { Enabled: boolean };
         };
+        AuthorizerLogs: AuthorizerLogs & {
+          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+          Firehose: Firehose & { Enabled: boolean };
+          S3: S3 & { Enabled: boolean };
+        };
       };
       EncryptionInfo: EncryptionInfo & {
         EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
@@ -2429,6 +3088,11 @@ export interface DescribeClusterOperationResponse {
       };
       LoggingInfo: LoggingInfo & {
         BrokerLogs: BrokerLogs & {
+          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+          Firehose: Firehose & { Enabled: boolean };
+          S3: S3 & { Enabled: boolean };
+        };
+        AuthorizerLogs: AuthorizerLogs & {
           CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
           Firehose: Firehose & { Enabled: boolean };
           S3: S3 & { Enabled: boolean };
@@ -2613,6 +3277,11 @@ export interface DescribeClusterOperationV2Response {
             Firehose: Firehose & { Enabled: boolean };
             S3: S3 & { Enabled: boolean };
           };
+          AuthorizerLogs: AuthorizerLogs & {
+            CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+            Firehose: Firehose & { Enabled: boolean };
+            S3: S3 & { Enabled: boolean };
+          };
         };
         EncryptionInfo: EncryptionInfo & {
           EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
@@ -2634,6 +3303,11 @@ export interface DescribeClusterOperationV2Response {
         };
         LoggingInfo: LoggingInfo & {
           BrokerLogs: BrokerLogs & {
+            CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+            Firehose: Firehose & { Enabled: boolean };
+            S3: S3 & { Enabled: boolean };
+          };
+          AuthorizerLogs: AuthorizerLogs & {
             CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
             Firehose: Firehose & { Enabled: boolean };
             S3: S3 & { Enabled: boolean };
@@ -2799,6 +3473,11 @@ export interface DescribeClusterV2Response {
       };
       LoggingInfo: LoggingInfo & {
         BrokerLogs: BrokerLogs & {
+          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+          Firehose: Firehose & { Enabled: boolean };
+          S3: S3 & { Enabled: boolean };
+        };
+        AuthorizerLogs: AuthorizerLogs & {
           CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
           Firehose: Firehose & { Enabled: boolean };
           S3: S3 & { Enabled: boolean };
@@ -3036,6 +3715,21 @@ export interface DescribeReplicatorResponse {
         SecretArn: string;
       };
       MTLS: KafkaClusterMTLSAuthentication & { SecretArn: string };
+      SaslOAuthBearer: KafkaClusterSaslOAuthBearerAuthentication & {
+        TokenEndpointUrl: string;
+        TokenEndpointAuthenticationMethod: TokenEndpointAuthenticationMethod;
+        ClientCredentials: KafkaClusterOAuthClientCredentials & {
+          TokenRequestSecretArn: string;
+        };
+        IamJwtBearer: KafkaClusterOAuthIamJwtBearer & {
+          Audience: string;
+          SigningAlgorithm: JwtSigningAlgorithm;
+        };
+        ClientCredentialsAssertion: KafkaClusterOAuthClientCredentialsAssertion & {
+          Audience: string;
+          SigningAlgorithm: JwtSigningAlgorithm;
+        };
+      };
     };
     EncryptionInTransit: KafkaClusterEncryptionInTransit & {
       EncryptionType: KafkaClusterEncryptionInTransitType;
@@ -3439,6 +4133,80 @@ export const GetCompatibleKafkaVersionsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetCompatibleKafkaVersionsResponse",
 }) as any as S.Schema<GetCompatibleKafkaVersionsResponse>;
+export interface ListChannelsRequest {
+  ClusterArn: string;
+  MaxResults?: number;
+  NextToken?: string;
+  TopicNameFilter?: string;
+}
+export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    TopicNameFilter: S.optional(S.String).pipe(T.HttpQuery("topicNameFilter")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/clusters/{ClusterArn}/channels" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListChannelsRequest",
+}) as any as S.Schema<ListChannelsRequest>;
+export interface ChannelInfo {
+  ChannelArn?: string;
+  ChannelName?: string;
+  Status?: ChannelStatus;
+  CreationTime?: Date;
+  DestinationType?: ChannelDestinationType;
+  ClusterOperationArn?: string;
+}
+export const ChannelInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChannelArn: S.optional(S.String),
+    ChannelName: S.optional(S.String),
+    Status: S.optional(ChannelStatus),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    DestinationType: S.optional(ChannelDestinationType),
+    ClusterOperationArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ChannelArn: "channelArn",
+      ChannelName: "channelName",
+      Status: "status",
+      CreationTime: "creationTime",
+      DestinationType: "destinationType",
+      ClusterOperationArn: "clusterOperationArn",
+    }),
+  ),
+).annotate({ identifier: "ChannelInfo" }) as any as S.Schema<ChannelInfo>;
+export type __listOfChannelInfo = ChannelInfo[];
+export const __listOfChannelInfo = /*@__PURE__*/ S.Array(ChannelInfo);
+export interface ListChannelsResponse {
+  Channels?: (ChannelInfo & {
+    ChannelArn: string;
+    ChannelName: string;
+    Status: ChannelStatus;
+    CreationTime: __timestampIso8601;
+    DestinationType: ChannelDestinationType;
+  })[];
+  NextToken?: string;
+}
+export const ListChannelsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Channels: S.optional(__listOfChannelInfo),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Channels: "channels", NextToken: "nextToken" })),
+).annotate({
+  identifier: "ListChannelsResponse",
+}) as any as S.Schema<ListChannelsResponse>;
 export interface ListClientVpcConnectionsRequest {
   ClusterArn: string;
   MaxResults?: number;
@@ -3558,6 +4326,11 @@ export interface ListClusterOperationsResponse {
           Firehose: Firehose & { Enabled: boolean };
           S3: S3 & { Enabled: boolean };
         };
+        AuthorizerLogs: AuthorizerLogs & {
+          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+          Firehose: Firehose & { Enabled: boolean };
+          S3: S3 & { Enabled: boolean };
+        };
       };
       EncryptionInfo: EncryptionInfo & {
         EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
@@ -3576,6 +4349,11 @@ export interface ListClusterOperationsResponse {
       };
       LoggingInfo: LoggingInfo & {
         BrokerLogs: BrokerLogs & {
+          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+          Firehose: Firehose & { Enabled: boolean };
+          S3: S3 & { Enabled: boolean };
+        };
+        AuthorizerLogs: AuthorizerLogs & {
           CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
           Firehose: Firehose & { Enabled: boolean };
           S3: S3 & { Enabled: boolean };
@@ -3730,6 +4508,11 @@ export interface ListClustersResponse {
         Firehose: Firehose & { Enabled: boolean };
         S3: S3 & { Enabled: boolean };
       };
+      AuthorizerLogs: AuthorizerLogs & {
+        CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+        Firehose: Firehose & { Enabled: boolean };
+        S3: S3 & { Enabled: boolean };
+      };
     };
   })[];
   NextToken?: string;
@@ -3797,6 +4580,11 @@ export interface ListClustersV2Response {
       };
       LoggingInfo: LoggingInfo & {
         BrokerLogs: BrokerLogs & {
+          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+          Firehose: Firehose & { Enabled: boolean };
+          S3: S3 & { Enabled: boolean };
+        };
+        AuthorizerLogs: AuthorizerLogs & {
           CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
           Firehose: Firehose & { Enabled: boolean };
           S3: S3 & { Enabled: boolean };
@@ -3966,7 +4754,7 @@ export const ListKafkaVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListKafkaVersionsRequest",
 }) as any as S.Schema<ListKafkaVersionsRequest>;
 export type KafkaVersionStatus = "ACTIVE" | "DEPRECATED" | (string & {});
-export const KafkaVersionStatus = /*@__PURE__*/ S.String;
+export const KafkaVersionStatus = S.String;
 
 export interface KafkaVersion {
   Version?: string;
@@ -4055,7 +4843,7 @@ export const ControllerNodeInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "ControllerNodeInfo",
 }) as any as S.Schema<ControllerNodeInfo>;
 export type NodeType = "BROKER" | (string & {});
-export const NodeType = /*@__PURE__*/ S.String;
+export const NodeType = S.String;
 
 export interface ZookeeperNodeInfo {
   AttachedENIId?: string;
@@ -4767,6 +5555,78 @@ export const UpdateBrokerTypeResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateBrokerTypeResponse",
 }) as any as S.Schema<UpdateBrokerTypeResponse>;
+export interface IcebergDestinationUpdate {
+  DataFreshnessInSeconds?: number;
+}
+export const IcebergDestinationUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DataFreshnessInSeconds: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ DataFreshnessInSeconds: "dataFreshnessInSeconds" }),
+  ),
+).annotate({
+  identifier: "IcebergDestinationUpdate",
+}) as any as S.Schema<IcebergDestinationUpdate>;
+export interface S3DestinationUpdate {
+  DataFreshnessInSeconds?: number;
+}
+export const S3DestinationUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DataFreshnessInSeconds: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ DataFreshnessInSeconds: "dataFreshnessInSeconds" }),
+  ),
+).annotate({
+  identifier: "S3DestinationUpdate",
+}) as any as S.Schema<S3DestinationUpdate>;
+export interface UpdateChannelRequest {
+  ChannelArn: string;
+  ClusterArn: string;
+  IcebergDestinationUpdate?: IcebergDestinationUpdate;
+  S3DestinationUpdate?: S3DestinationUpdate;
+}
+export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
+    IcebergDestinationUpdate: S.optional(IcebergDestinationUpdate),
+    S3DestinationUpdate: S.optional(S3DestinationUpdate),
+  })
+    .pipe(
+      S.encodeKeys({
+        IcebergDestinationUpdate: "icebergDestinationUpdate",
+        S3DestinationUpdate: "s3DestinationUpdate",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v1/clusters/{ClusterArn}/channels/{ChannelArn}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "UpdateChannelRequest",
+}) as any as S.Schema<UpdateChannelRequest>;
+export interface UpdateChannelResponse {
+  ChannelArn: string;
+  ClusterOperationArn?: string;
+}
+export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChannelArn: S.optional(S.String),
+    ClusterOperationArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ChannelArn: "channelArn",
+      ClusterOperationArn: "clusterOperationArn",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateChannelResponse",
+}) as any as S.Schema<UpdateChannelResponse>;
 export interface UpdateClusterConfigurationRequest {
   ClusterArn: string;
   ConfigurationInfo?: ConfigurationInfo;
@@ -5405,6 +6265,42 @@ export const batchDisassociateScramSecret: API.OperationMethod<
   operationName: "BatchDisassociateScramSecret",
 }));
 
+export type CreateChannelError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
+/**
+ * Creates a Channel that streams records from an Amazon MSK Express cluster topic to Amazon S3 or Apache Iceberg.
+ */
+export const createChannel: API.OperationMethod<
+  CreateChannelRequest,
+  CreateChannelResponse,
+  CreateChannelError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateChannelRequest,
+  output: CreateChannelResponse,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateChannel",
+}));
+
 export type CreateClusterError =
   | BadRequestException
   | ConflictException
@@ -5627,6 +6523,40 @@ export const createVpcConnection: API.OperationMethod<
   operationName: "CreateVpcConnection",
 }));
 
+export type DeleteChannelError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
+/**
+ * Deletes the channel specified by channelArn from the cluster specified by clusterArn. The channel transitions through DELETING and is removed when the asynchronous delete completes.
+ */
+export const deleteChannel: API.OperationMethod<
+  DeleteChannelRequest,
+  DeleteChannelResponse,
+  DeleteChannelError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteChannelRequest,
+  output: DeleteChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteChannel",
+}));
+
 export type DeleteClusterError =
   | BadRequestException
   | ForbiddenException
@@ -5815,6 +6745,40 @@ export const deleteVpcConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcConnection",
+}));
+
+export type DescribeChannelError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
+/**
+ * Returns the current configuration and state of a channel.
+ */
+export const describeChannel: API.OperationMethod<
+  DescribeChannelRequest,
+  DescribeChannelResponse,
+  DescribeChannelError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribeChannelRequest,
+  output: DescribeChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeChannel",
 }));
 
 export type DescribeClusterError =
@@ -6230,6 +7194,40 @@ export const getCompatibleKafkaVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCompatibleKafkaVersions",
+}));
+
+export type ListChannelsError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
+/**
+ * Returns the list of channels in a cluster.
+ */
+export const listChannels: API.OperationMethod<
+  ListChannelsRequest,
+  ListChannelsResponse,
+  ListChannelsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListChannelsRequest,
+  output: ListChannelsResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListChannels",
 }));
 
 export type ListClientVpcConnectionsError =
@@ -6979,6 +7977,40 @@ export const updateBrokerType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrokerType",
+}));
+
+export type UpdateChannelError =
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
+/**
+ * Updates the destination configuration of an existing channel. Exactly one of icebergDestinationUpdate or s3DestinationUpdate must be supplied.
+ */
+export const updateChannel: API.OperationMethod<
+  UpdateChannelRequest,
+  UpdateChannelResponse,
+  UpdateChannelError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateChannelRequest,
+  output: UpdateChannelResponse,
+  errors: [
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateChannel",
 }));
 
 export type UpdateClusterConfigurationError =

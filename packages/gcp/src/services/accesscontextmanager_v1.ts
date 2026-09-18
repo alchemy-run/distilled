@@ -148,41 +148,41 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    details: S.optional(DocumentMapList),
     code: S.optional(S.Number),
     message: S.optional(S.String),
-    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
+    response: S.optional(DocumentMap),
+    error: S.optional(Status),
     done: S.optional(S.Boolean),
     name: S.optional(S.String),
-    error: S.optional(Status),
-    response: S.optional(DocumentMap),
+    metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -193,24 +193,24 @@ export const StringList = /*@__PURE__*/ S.Array(
 
 /** `AccessPolicy` is a container for `AccessLevels` (which define the necessary attributes to use Google Cloud services) and `ServicePerimeters` (which define regions of services able to freely pass data within a perimeter). An access policy is globally visible within an organization, and the restrictions it specifies apply to all projects within an organization. */
 export interface AccessPolicy {
-  /** Required. Human readable title. Does not affect behavior. */
-  title?: string;
-  /** The scopes of the AccessPolicy. Scopes define which resources a policy can restrict and where its resources can be referenced. For example, policy A with `scopes=["folders/123"]` has the following behavior: - ServicePerimeter can only restrict projects within `folders/123`. - ServicePerimeter within policy A can only reference access levels defined within policy A. - Only one policy can include a given scope; thus, attempting to create a second policy which includes `folders/123` will result in an error. If no scopes are provided, then any resource within the organization can be restricted. Scopes cannot be modified after a policy is created. Policies can only have a single scope. Format: list of `folders/{folder_number}` or `projects/{project_number}` */
-  scopes?: StringList;
+  /** Required. The parent of this `AccessPolicy` in the Cloud Resource Hierarchy. Currently immutable once created. Format: `organizations/{organization_id}` */
+  parent?: string;
   /** Output only. Identifier. Resource name of the `AccessPolicy`. Format: `accessPolicies/{access_policy}` */
   name?: string;
   /** Output only. An opaque identifier for the current version of the `AccessPolicy`. This will always be a strongly validated etag, meaning that two Access Policies will be identical if and only if their etags are identical. Clients should not expect this to be in any specific format. */
   etag?: string;
-  /** Required. The parent of this `AccessPolicy` in the Cloud Resource Hierarchy. Currently immutable once created. Format: `organizations/{organization_id}` */
-  parent?: string;
+  /** Required. Human readable title. Does not affect behavior. */
+  title?: string;
+  /** The scopes of the AccessPolicy. Scopes define which resources a policy can restrict and where its resources can be referenced. For example, policy A with `scopes=["folders/123"]` has the following behavior: - ServicePerimeter can only restrict projects within `folders/123`. - ServicePerimeter within policy A can only reference access levels defined within policy A. - Only one policy can include a given scope; thus, attempting to create a second policy which includes `folders/123` will result in an error. If no scopes are provided, then any resource within the organization can be restricted. Scopes cannot be modified after a policy is created. Policies can only have a single scope. Format: list of `folders/{folder_number}` or `projects/{project_number}` */
+  scopes?: StringList;
 }
 export const AccessPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    title: S.optional(S.String),
-    scopes: S.optional(StringList),
+    parent: S.optional(S.String),
     name: S.optional(S.String),
     etag: S.optional(S.String),
-    parent: S.optional(S.String),
+    title: S.optional(S.String),
+    scopes: S.optional(StringList),
   }),
 ).annotate({ identifier: "AccessPolicy" }) as any as S.Schema<AccessPolicy>;
 
@@ -234,21 +234,21 @@ export const CreateAccessPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expression: S.optional(S.String),
     location: S.optional(S.String),
-    title: S.optional(S.String),
+    expression: S.optional(S.String),
     description: S.optional(S.String),
+    title: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
@@ -262,6 +262,9 @@ export const CustomLevel = /*@__PURE__*/ S.suspend(() =>
     expr: S.optional(Expr),
   }),
 ).annotate({ identifier: "CustomLevel" }) as any as S.Schema<CustomLevel>;
+
+export type BasicLevelCombiningFunctionEnum = "AND" | "OR";
+export const BasicLevelCombiningFunctionEnum = S.String;
 
 /** Sub-segment ranges inside of a VPC Network. */
 export interface VpcSubNetwork {
@@ -295,29 +298,12 @@ export const VpcNetworkSourceList = /*@__PURE__*/ S.Array(
   VpcNetworkSource,
 ) as any as S.Schema<VpcNetworkSourceList>;
 
-export type DevicePolicyAllowedDeviceManagementLevelsItemEnum =
-  | "MANAGEMENT_UNSPECIFIED"
-  | "NONE"
-  | "BASIC"
-  | "COMPLETE";
-export const DevicePolicyAllowedDeviceManagementLevelsItemEnum =
-  /*@__PURE__*/ S.String;
-
-export type DevicePolicyAllowedDeviceManagementLevelsItemEnumList = Array<
-  DevicePolicyAllowedDeviceManagementLevelsItemEnum | (string & {})
->;
-export const DevicePolicyAllowedDeviceManagementLevelsItemEnumList =
-  /*@__PURE__*/ S.Array(
-    DevicePolicyAllowedDeviceManagementLevelsItemEnum,
-  ) as any as S.Schema<DevicePolicyAllowedDeviceManagementLevelsItemEnumList>;
-
 export type DevicePolicyAllowedEncryptionStatusesItemEnum =
   | "ENCRYPTION_UNSPECIFIED"
   | "ENCRYPTION_UNSUPPORTED"
   | "UNENCRYPTED"
   | "ENCRYPTED";
-export const DevicePolicyAllowedEncryptionStatusesItemEnum =
-  /*@__PURE__*/ S.String;
+export const DevicePolicyAllowedEncryptionStatusesItemEnum = S.String;
 
 export type DevicePolicyAllowedEncryptionStatusesItemEnumList = Array<
   DevicePolicyAllowedEncryptionStatusesItemEnum | (string & {})
@@ -335,22 +321,22 @@ export type OsConstraintOsTypeEnum =
   | "DESKTOP_CHROME_OS"
   | "ANDROID"
   | "IOS";
-export const OsConstraintOsTypeEnum = /*@__PURE__*/ S.String;
+export const OsConstraintOsTypeEnum = S.String;
 
 /** A restriction on the OS type and version of devices making requests. */
 export interface OsConstraint {
-  /** Only allows requests from devices with a verified Chrome OS. Verifications includes requirements that the device is enterprise-managed, conformant to domain policies, and the caller has permission to call the API targeted by the request. */
-  requireVerifiedChromeOs?: boolean;
-  /** Required. The allowed OS type. */
-  osType?: OsConstraintOsTypeEnum | (string & {});
   /** The minimum allowed OS version. If not set, any version of this OS satisfies the constraint. Format: `"major.minor.patch"`. Examples: `"10.5.301"`, `"9.2.1"`. */
   minimumVersion?: string;
+  /** Required. The allowed OS type. */
+  osType?: OsConstraintOsTypeEnum | (string & {});
+  /** Only allows requests from devices with a verified Chrome OS. Verifications includes requirements that the device is enterprise-managed, conformant to domain policies, and the caller has permission to call the API targeted by the request. */
+  requireVerifiedChromeOs?: boolean;
 }
 export const OsConstraint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requireVerifiedChromeOs: S.optional(S.Boolean),
-    osType: S.optional(OsConstraintOsTypeEnum),
     minimumVersion: S.optional(S.String),
+    osType: S.optional(OsConstraintOsTypeEnum),
+    requireVerifiedChromeOs: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "OsConstraint" }) as any as S.Schema<OsConstraint>;
 
@@ -359,62 +345,77 @@ export const OsConstraintList = /*@__PURE__*/ S.Array(
   OsConstraint,
 ) as any as S.Schema<OsConstraintList>;
 
+export type DevicePolicyAllowedDeviceManagementLevelsItemEnum =
+  | "MANAGEMENT_UNSPECIFIED"
+  | "NONE"
+  | "BASIC"
+  | "COMPLETE";
+export const DevicePolicyAllowedDeviceManagementLevelsItemEnum = S.String;
+
+export type DevicePolicyAllowedDeviceManagementLevelsItemEnumList = Array<
+  DevicePolicyAllowedDeviceManagementLevelsItemEnum | (string & {})
+>;
+export const DevicePolicyAllowedDeviceManagementLevelsItemEnumList =
+  /*@__PURE__*/ S.Array(
+    DevicePolicyAllowedDeviceManagementLevelsItemEnum,
+  ) as any as S.Schema<DevicePolicyAllowedDeviceManagementLevelsItemEnumList>;
+
 /** `DevicePolicy` specifies device specific restrictions necessary to acquire a given access level. A `DevicePolicy` specifies requirements for requests from devices to be granted access levels, it does not do any enforcement on the device. `DevicePolicy` acts as an AND over all specified fields, and each repeated field is an OR over its elements. Any unset fields are ignored. For example, if the proto is { os_type : DESKTOP_WINDOWS, os_type : DESKTOP_LINUX, encryption_status: ENCRYPTED}, then the DevicePolicy will be true for requests originating from encrypted Linux desktops and encrypted Windows desktops. */
 export interface DevicePolicy {
-  /** Allowed device management levels, an empty list allows all management levels. */
-  allowedDeviceManagementLevels?: DevicePolicyAllowedDeviceManagementLevelsItemEnumList;
   /** Whether or not screenlock is required for the DevicePolicy to be true. Defaults to `false`. */
   requireScreenlock?: boolean;
   /** Whether the device needs to be approved by the customer admin. */
   requireAdminApproval?: boolean;
-  /** Whether the device needs to be corp owned. */
-  requireCorpOwned?: boolean;
   /** Allowed encryptions statuses, an empty list allows all statuses. */
   allowedEncryptionStatuses?: DevicePolicyAllowedEncryptionStatusesItemEnumList;
   /** Allowed OS versions, an empty list allows all types and all versions. */
   osConstraints?: OsConstraintList;
+  /** Whether the device needs to be corp owned. */
+  requireCorpOwned?: boolean;
+  /** Allowed device management levels, an empty list allows all management levels. */
+  allowedDeviceManagementLevels?: DevicePolicyAllowedDeviceManagementLevelsItemEnumList;
 }
 export const DevicePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    allowedDeviceManagementLevels: S.optional(
-      DevicePolicyAllowedDeviceManagementLevelsItemEnumList,
-    ),
     requireScreenlock: S.optional(S.Boolean),
     requireAdminApproval: S.optional(S.Boolean),
-    requireCorpOwned: S.optional(S.Boolean),
     allowedEncryptionStatuses: S.optional(
       DevicePolicyAllowedEncryptionStatusesItemEnumList,
     ),
     osConstraints: S.optional(OsConstraintList),
+    requireCorpOwned: S.optional(S.Boolean),
+    allowedDeviceManagementLevels: S.optional(
+      DevicePolicyAllowedDeviceManagementLevelsItemEnumList,
+    ),
   }),
 ).annotate({ identifier: "DevicePolicy" }) as any as S.Schema<DevicePolicy>;
 
 /** A condition necessary for an `AccessLevel` to be granted. The Condition is an AND over its fields. So a Condition is true if: 1) the request IP is from one of the listed subnetworks AND 2) the originating device complies with the listed device policy AND 3) all listed access levels are granted AND 4) the request was sent at a time allowed by the DateTimeRestriction. */
 export interface Condition {
-  /** The request must originate from one of the provided VPC networks in Google Cloud. Cannot specify this field together with `ip_subnetworks`. */
-  vpcNetworkSources?: VpcNetworkSourceList;
-  /** Whether to negate the Condition. If true, the Condition becomes a NAND over its non-empty fields. Any non-empty field criteria evaluating to false will result in the Condition to be satisfied. Defaults to false. */
-  negate?: boolean;
   /** The request must be made by one of the provided user or service accounts. Groups are not supported. Syntax: `user:{emailid}` `serviceAccount:{emailid}` If not specified, a request may come from any user. */
   members?: StringList;
+  /** The request must originate from one of the provided countries/regions. Must be valid ISO 3166-1 alpha-2 codes. */
+  regions?: StringList;
+  /** The request must originate from one of the provided VPC networks in Google Cloud. Cannot specify this field together with `ip_subnetworks`. */
+  vpcNetworkSources?: VpcNetworkSourceList;
+  /** CIDR block IP subnetwork specification. May be IPv4 or IPv6. Note that for a CIDR IP address block, the specified IP address portion must be properly truncated (i.e. all the host bits must be zero) or the input is considered malformed. For example, "192.0.2.0/24" is accepted but "192.0.2.1/24" is not. Similarly, for IPv6, "2001:db8::/32" is accepted whereas "2001:db8::1/32" is not. The originating IP of a request must be in one of the listed subnets in order for this Condition to be true. If empty, all IP addresses are allowed. */
+  ipSubnetworks?: StringList;
+  /** Whether to negate the Condition. If true, the Condition becomes a NAND over its non-empty fields. Any non-empty field criteria evaluating to false will result in the Condition to be satisfied. Defaults to false. */
+  negate?: boolean;
   /** Device specific restrictions, all restrictions must hold for the Condition to be true. If not specified, all devices are allowed. */
   devicePolicy?: DevicePolicy;
   /** A list of other access levels defined in the same `Policy`, referenced by resource name. Referencing an `AccessLevel` which does not exist is an error. All access levels listed must be granted for the Condition to be true. Example: "`accessPolicies/MY_POLICY/accessLevels/LEVEL_NAME"` */
   requiredAccessLevels?: StringList;
-  /** CIDR block IP subnetwork specification. May be IPv4 or IPv6. Note that for a CIDR IP address block, the specified IP address portion must be properly truncated (i.e. all the host bits must be zero) or the input is considered malformed. For example, "192.0.2.0/24" is accepted but "192.0.2.1/24" is not. Similarly, for IPv6, "2001:db8::/32" is accepted whereas "2001:db8::1/32" is not. The originating IP of a request must be in one of the listed subnets in order for this Condition to be true. If empty, all IP addresses are allowed. */
-  ipSubnetworks?: StringList;
-  /** The request must originate from one of the provided countries/regions. Must be valid ISO 3166-1 alpha-2 codes. */
-  regions?: StringList;
 }
 export const Condition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    vpcNetworkSources: S.optional(VpcNetworkSourceList),
-    negate: S.optional(S.Boolean),
     members: S.optional(StringList),
+    regions: S.optional(StringList),
+    vpcNetworkSources: S.optional(VpcNetworkSourceList),
+    ipSubnetworks: S.optional(StringList),
+    negate: S.optional(S.Boolean),
     devicePolicy: S.optional(DevicePolicy),
     requiredAccessLevels: S.optional(StringList),
-    ipSubnetworks: S.optional(StringList),
-    regions: S.optional(StringList),
   }),
 ).annotate({ identifier: "Condition" }) as any as S.Schema<Condition>;
 
@@ -423,42 +424,39 @@ export const ConditionList = /*@__PURE__*/ S.Array(
   Condition,
 ) as any as S.Schema<ConditionList>;
 
-export type BasicLevelCombiningFunctionEnum = "AND" | "OR";
-export const BasicLevelCombiningFunctionEnum = /*@__PURE__*/ S.String;
-
 /** `BasicLevel` is an `AccessLevel` using a set of recommended features. */
 export interface BasicLevel {
-  /** Required. A list of requirements for the `AccessLevel` to be granted. */
-  conditions?: ConditionList;
   /** How the `conditions` list should be combined to determine if a request is granted this `AccessLevel`. If AND is used, each `Condition` in `conditions` must be satisfied for the `AccessLevel` to be applied. If OR is used, at least one `Condition` in `conditions` must be satisfied for the `AccessLevel` to be applied. Default behavior is AND. */
   combiningFunction?: BasicLevelCombiningFunctionEnum | (string & {});
+  /** Required. A list of requirements for the `AccessLevel` to be granted. */
+  conditions?: ConditionList;
 }
 export const BasicLevel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    conditions: S.optional(ConditionList),
     combiningFunction: S.optional(BasicLevelCombiningFunctionEnum),
+    conditions: S.optional(ConditionList),
   }),
 ).annotate({ identifier: "BasicLevel" }) as any as S.Schema<BasicLevel>;
 
 /** An `AccessLevel` is a label that can be applied to requests to Google Cloud services, along with a list of requirements necessary for the label to be applied. */
 export interface AccessLevel {
-  /** Human readable title. Must be unique within the Policy. */
-  title?: string;
-  /** Identifier. Resource name for the `AccessLevel`. Format: `accessPolicies/{access_policy}/accessLevels/{access_level}`. The `access_level` component must begin with a letter, followed by alphanumeric characters or `_`. Its maximum length is 50 characters. After you create an `AccessLevel`, you cannot change its `name`. */
-  name?: string;
   /** A `CustomLevel` written in the Common Expression Language. */
   custom?: CustomLevel;
+  /** Human readable title. Must be unique within the Policy. */
+  title?: string;
   /** Description of the `AccessLevel` and its use. Does not affect behavior. */
   description?: string;
+  /** Identifier. Resource name for the `AccessLevel`. Format: `accessPolicies/{access_policy}/accessLevels/{access_level}`. The `access_level` component must begin with a letter, followed by alphanumeric characters or `_`. Its maximum length is 50 characters. After you create an `AccessLevel`, you cannot change its `name`. */
+  name?: string;
   /** A `BasicLevel` composed of `Conditions`. */
   basic?: BasicLevel;
 }
 export const AccessLevel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    title: S.optional(S.String),
-    name: S.optional(S.String),
     custom: S.optional(CustomLevel),
+    title: S.optional(S.String),
     description: S.optional(S.String),
+    name: S.optional(S.String),
     basic: S.optional(BasicLevel),
   }),
 ).annotate({ identifier: "AccessLevel" }) as any as S.Schema<AccessLevel>;
@@ -489,44 +487,43 @@ export type AuthorizedOrgsDescAuthorizationDirectionEnum =
   | "AUTHORIZATION_DIRECTION_UNSPECIFIED"
   | "AUTHORIZATION_DIRECTION_TO"
   | "AUTHORIZATION_DIRECTION_FROM";
-export const AuthorizedOrgsDescAuthorizationDirectionEnum =
-  /*@__PURE__*/ S.String;
+export const AuthorizedOrgsDescAuthorizationDirectionEnum = S.String;
+
+export type AuthorizedOrgsDescAuthorizationTypeEnum =
+  | "AUTHORIZATION_TYPE_UNSPECIFIED"
+  | "AUTHORIZATION_TYPE_TRUST";
+export const AuthorizedOrgsDescAuthorizationTypeEnum = S.String;
 
 export type AuthorizedOrgsDescAssetTypeEnum =
   | "ASSET_TYPE_UNSPECIFIED"
   | "ASSET_TYPE_DEVICE"
   | "ASSET_TYPE_CREDENTIAL_STRENGTH";
-export const AuthorizedOrgsDescAssetTypeEnum = /*@__PURE__*/ S.String;
-
-export type AuthorizedOrgsDescAuthorizationTypeEnum =
-  | "AUTHORIZATION_TYPE_UNSPECIFIED"
-  | "AUTHORIZATION_TYPE_TRUST";
-export const AuthorizedOrgsDescAuthorizationTypeEnum = /*@__PURE__*/ S.String;
+export const AuthorizedOrgsDescAssetTypeEnum = S.String;
 
 /** `AuthorizedOrgsDesc` contains data for an organization's authorization policy. */
 export interface AuthorizedOrgsDesc {
+  /** Identifier. Resource name for the `AuthorizedOrgsDesc`. Format: `accessPolicies/{access_policy}/authorizedOrgsDescs/{authorized_orgs_desc}`. The `authorized_orgs_desc` component must begin with a letter, followed by alphanumeric characters or `_`. After you create an `AuthorizedOrgsDesc`, you cannot change its `name`. */
+  name?: string;
+  /** The list of organization ids in this AuthorizedOrgsDesc. Format: `organizations/` Example: `organizations/123456` */
+  orgs?: StringList;
   /** The direction of the authorization relationship between this organization and the organizations listed in the `orgs` field. The valid values for this field include the following: `AUTHORIZATION_DIRECTION_FROM`: Allows this organization to evaluate traffic in the organizations listed in the `orgs` field. `AUTHORIZATION_DIRECTION_TO`: Allows the organizations listed in the `orgs` field to evaluate the traffic in this organization. For the authorization relationship to take effect, all of the organizations must authorize and specify the appropriate relationship direction. For example, if organization A authorized organization B and C to evaluate its traffic, by specifying `AUTHORIZATION_DIRECTION_TO` as the authorization direction, organizations B and C must specify `AUTHORIZATION_DIRECTION_FROM` as the authorization direction in their `AuthorizedOrgsDesc` resource. */
   authorizationDirection?:
     | AuthorizedOrgsDescAuthorizationDirectionEnum
     | (string & {});
-  /** The list of organization ids in this AuthorizedOrgsDesc. Format: `organizations/` Example: `organizations/123456` */
-  orgs?: StringList;
-  /** The asset type of this authorized orgs desc. Valid values are `ASSET_TYPE_DEVICE`, and `ASSET_TYPE_CREDENTIAL_STRENGTH`. */
-  assetType?: AuthorizedOrgsDescAssetTypeEnum | (string & {});
-  /** Identifier. Resource name for the `AuthorizedOrgsDesc`. Format: `accessPolicies/{access_policy}/authorizedOrgsDescs/{authorized_orgs_desc}`. The `authorized_orgs_desc` component must begin with a letter, followed by alphanumeric characters or `_`. After you create an `AuthorizedOrgsDesc`, you cannot change its `name`. */
-  name?: string;
   /** A granular control type for authorization levels. Valid value is `AUTHORIZATION_TYPE_TRUST`. */
   authorizationType?: AuthorizedOrgsDescAuthorizationTypeEnum | (string & {});
+  /** The asset type of this authorized orgs desc. Valid values are `ASSET_TYPE_DEVICE`, and `ASSET_TYPE_CREDENTIAL_STRENGTH`. */
+  assetType?: AuthorizedOrgsDescAssetTypeEnum | (string & {});
 }
 export const AuthorizedOrgsDesc = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
+    orgs: S.optional(StringList),
     authorizationDirection: S.optional(
       AuthorizedOrgsDescAuthorizationDirectionEnum,
     ),
-    orgs: S.optional(StringList),
-    assetType: S.optional(AuthorizedOrgsDescAssetTypeEnum),
-    name: S.optional(S.String),
     authorizationType: S.optional(AuthorizedOrgsDescAuthorizationTypeEnum),
+    assetType: S.optional(AuthorizedOrgsDescAssetTypeEnum),
   }),
 ).annotate({
   identifier: "AuthorizedOrgsDesc",
@@ -557,19 +554,87 @@ export const CreateAccessPoliciesAuthorizedOrgsDescsRequest =
 export type ServicePerimeterPerimeterTypeEnum =
   | "PERIMETER_TYPE_REGULAR"
   | "PERIMETER_TYPE_BRIDGE";
-export const ServicePerimeterPerimeterTypeEnum = /*@__PURE__*/ S.String;
+export const ServicePerimeterPerimeterTypeEnum = S.String;
+
+export type EgressFromSourceRestrictionEnum =
+  | "SOURCE_RESTRICTION_UNSPECIFIED"
+  | "SOURCE_RESTRICTION_ENABLED"
+  | "SOURCE_RESTRICTION_DISABLED";
+export const EgressFromSourceRestrictionEnum = S.String;
+
+export type EgressFromIdentityTypeEnum =
+  | "IDENTITY_TYPE_UNSPECIFIED"
+  | "ANY_IDENTITY"
+  | "ANY_USER_ACCOUNT"
+  | "ANY_SERVICE_ACCOUNT";
+export const EgressFromIdentityTypeEnum = S.String;
+
+/** Specifies the Private Service Connect endpoint that an API call refers to. */
+export interface PrivateServiceConnectEndpoint {
+  /** The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint. Forwarding rule format: `//compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}`. */
+  forwardingRule?: string;
+}
+export const PrivateServiceConnectEndpoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    forwardingRule: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PrivateServiceConnectEndpoint",
+}) as any as S.Schema<PrivateServiceConnectEndpoint>;
+
+/** The source that EgressPolicy authorizes access from inside the ServicePerimeter to somewhere outside the ServicePerimeter boundaries. */
+export interface EgressSource {
+  /** A Google Cloud resource from the service perimeter that you want to allow to access data outside the perimeter. This field supports only projects. The project format is `projects/{project_number}`. You can't use `*` in this field to allow all Google Cloud resources. */
+  resource?: string;
+  /** An AccessLevel resource name that allows protected resources inside the ServicePerimeters to access outside the ServicePerimeter boundaries. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel will cause an error. If an AccessLevel name is not specified, only resources within the perimeter can be accessed through Google Cloud calls with request origins within the perimeter. Example: `accessPolicies/MY_POLICY/accessLevels/MY_LEVEL`. If a single `*` is specified for `access_level`, then all EgressSources will be allowed. */
+  accessLevel?: string;
+  /** A PrivateServiceConnectEndpoint that is allowed to access data outside the perimeter. The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in. */
+  pscEndpoint?: PrivateServiceConnectEndpoint;
+}
+export const EgressSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resource: S.optional(S.String),
+    accessLevel: S.optional(S.String),
+    pscEndpoint: S.optional(PrivateServiceConnectEndpoint),
+  }),
+).annotate({ identifier: "EgressSource" }) as any as S.Schema<EgressSource>;
+
+export type EgressSourceList = Array<EgressSource>;
+export const EgressSourceList = /*@__PURE__*/ S.Array(
+  EgressSource,
+) as any as S.Schema<EgressSourceList>;
+
+/** Defines the conditions under which an EgressPolicy matches a request. Conditions based on information about the source of the request. Note that if the destination of the request is also protected by a ServicePerimeter, then that ServicePerimeter must have an IngressPolicy which allows access in order for this request to succeed. */
+export interface EgressFrom {
+  /** A list of identities that are allowed access through [EgressPolicy]. Identities can be an individual user, service account, Google group, third-party identity, or agent identity. For the list of supported identity types, see https://docs.cloud.google.com/vpc-service-controls/docs/supported-identities. */
+  identities?: StringList;
+  /** Whether to enforce traffic restrictions based on `sources` field. If the `sources` fields is non-empty, then this field must be set to `SOURCE_RESTRICTION_ENABLED`. */
+  sourceRestriction?: EgressFromSourceRestrictionEnum | (string & {});
+  /** Specifies the type of identities that are allowed access to outside the perimeter. If left unspecified, then members of `identities` field will be allowed access. */
+  identityType?: EgressFromIdentityTypeEnum | (string & {});
+  /** Sources that this EgressPolicy authorizes access from. If this field is not empty, then `source_restriction` must be set to `SOURCE_RESTRICTION_ENABLED`. */
+  sources?: EgressSourceList;
+}
+export const EgressFrom = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    identities: S.optional(StringList),
+    sourceRestriction: S.optional(EgressFromSourceRestrictionEnum),
+    identityType: S.optional(EgressFromIdentityTypeEnum),
+    sources: S.optional(EgressSourceList),
+  }),
+).annotate({ identifier: "EgressFrom" }) as any as S.Schema<EgressFrom>;
 
 /** An allowed method or permission of a service specified in ApiOperation. */
 export interface MethodSelector {
-  /** A valid method name for the corresponding `service_name` in ApiOperation. If `*` is used as the value for the `method`, then ALL methods and permissions are allowed. */
-  method?: string;
   /** A valid Cloud IAM permission for the corresponding `service_name` in ApiOperation. */
   permission?: string;
+  /** A valid method name for the corresponding `service_name` in ApiOperation. If `*` is used as the value for the `method`, then ALL methods and permissions are allowed. */
+  method?: string;
 }
 export const MethodSelector = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    method: S.optional(S.String),
     permission: S.optional(S.String),
+    method: S.optional(S.String),
   }),
 ).annotate({ identifier: "MethodSelector" }) as any as S.Schema<MethodSelector>;
 
@@ -599,90 +664,38 @@ export const ApiOperationList = /*@__PURE__*/ S.Array(
 
 /** Defines the conditions under which an EgressPolicy matches a request. Conditions are based on information about the ApiOperation intended to be performed on the `resources` specified. Note that if the destination of the request is also protected by a ServicePerimeter, then that ServicePerimeter must have an IngressPolicy which allows access in order for this request to succeed. The request must match `operations` AND `resources` fields in order to be allowed egress out of the perimeter. */
 export interface EgressTo {
-  /** IAM roles that represent the set of operations that the sources specified in the corresponding EgressFrom. are allowed to perform in this ServicePerimeter. */
-  roles?: StringList;
   /** A list of resources, currently only projects in the form `projects/`, that are allowed to be accessed by sources defined in the corresponding EgressFrom. A request matches if it contains a resource in this list. If `*` is specified for `resources`, then this EgressTo rule will authorize access to all resources outside the perimeter. */
   resources?: StringList;
-  /** A list of ApiOperations allowed to be performed by the sources specified in the corresponding EgressFrom. A request matches if it uses an operation/service in this list. */
-  operations?: ApiOperationList;
   /** A list of external resources that are allowed to be accessed. Only AWS and Azure resources are supported. For Amazon S3, the supported formats are s3://BUCKET_NAME, s3a://BUCKET_NAME, and s3n://BUCKET_NAME. For Azure Storage, the supported format is azure://myaccount.blob.core.windows.net/CONTAINER_NAME. A request matches if it contains an external resource in this list (Example: s3://bucket/path). Currently '*' is not allowed. */
   externalResources?: StringList;
+  /** IAM roles that represent the set of operations that the sources specified in the corresponding EgressFrom. are allowed to perform in this ServicePerimeter. */
+  roles?: StringList;
+  /** A list of ApiOperations allowed to be performed by the sources specified in the corresponding EgressFrom. A request matches if it uses an operation/service in this list. */
+  operations?: ApiOperationList;
 }
 export const EgressTo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    roles: S.optional(StringList),
     resources: S.optional(StringList),
-    operations: S.optional(ApiOperationList),
     externalResources: S.optional(StringList),
+    roles: S.optional(StringList),
+    operations: S.optional(ApiOperationList),
   }),
 ).annotate({ identifier: "EgressTo" }) as any as S.Schema<EgressTo>;
 
-/** The source that EgressPolicy authorizes access from inside the ServicePerimeter to somewhere outside the ServicePerimeter boundaries. */
-export interface EgressSource {
-  /** A Google Cloud resource from the service perimeter that you want to allow to access data outside the perimeter. This field supports only projects. The project format is `projects/{project_number}`. You can't use `*` in this field to allow all Google Cloud resources. */
-  resource?: string;
-  /** An AccessLevel resource name that allows protected resources inside the ServicePerimeters to access outside the ServicePerimeter boundaries. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel will cause an error. If an AccessLevel name is not specified, only resources within the perimeter can be accessed through Google Cloud calls with request origins within the perimeter. Example: `accessPolicies/MY_POLICY/accessLevels/MY_LEVEL`. If a single `*` is specified for `access_level`, then all EgressSources will be allowed. */
-  accessLevel?: string;
-}
-export const EgressSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resource: S.optional(S.String),
-    accessLevel: S.optional(S.String),
-  }),
-).annotate({ identifier: "EgressSource" }) as any as S.Schema<EgressSource>;
-
-export type EgressSourceList = Array<EgressSource>;
-export const EgressSourceList = /*@__PURE__*/ S.Array(
-  EgressSource,
-) as any as S.Schema<EgressSourceList>;
-
-export type EgressFromSourceRestrictionEnum =
-  | "SOURCE_RESTRICTION_UNSPECIFIED"
-  | "SOURCE_RESTRICTION_ENABLED"
-  | "SOURCE_RESTRICTION_DISABLED";
-export const EgressFromSourceRestrictionEnum = /*@__PURE__*/ S.String;
-
-export type EgressFromIdentityTypeEnum =
-  | "IDENTITY_TYPE_UNSPECIFIED"
-  | "ANY_IDENTITY"
-  | "ANY_USER_ACCOUNT"
-  | "ANY_SERVICE_ACCOUNT";
-export const EgressFromIdentityTypeEnum = /*@__PURE__*/ S.String;
-
-/** Defines the conditions under which an EgressPolicy matches a request. Conditions based on information about the source of the request. Note that if the destination of the request is also protected by a ServicePerimeter, then that ServicePerimeter must have an IngressPolicy which allows access in order for this request to succeed. */
-export interface EgressFrom {
-  /** Sources that this EgressPolicy authorizes access from. If this field is not empty, then `source_restriction` must be set to `SOURCE_RESTRICTION_ENABLED`. */
-  sources?: EgressSourceList;
-  /** Whether to enforce traffic restrictions based on `sources` field. If the `sources` fields is non-empty, then this field must be set to `SOURCE_RESTRICTION_ENABLED`. */
-  sourceRestriction?: EgressFromSourceRestrictionEnum | (string & {});
-  /** A list of identities that are allowed access through [EgressPolicy]. Identities can be an individual user, service account, Google group, third-party identity, or agent identity. For the list of supported identity types, see https://docs.cloud.google.com/vpc-service-controls/docs/supported-identities. */
-  identities?: StringList;
-  /** Specifies the type of identities that are allowed access to outside the perimeter. If left unspecified, then members of `identities` field will be allowed access. */
-  identityType?: EgressFromIdentityTypeEnum | (string & {});
-}
-export const EgressFrom = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sources: S.optional(EgressSourceList),
-    sourceRestriction: S.optional(EgressFromSourceRestrictionEnum),
-    identities: S.optional(StringList),
-    identityType: S.optional(EgressFromIdentityTypeEnum),
-  }),
-).annotate({ identifier: "EgressFrom" }) as any as S.Schema<EgressFrom>;
-
 /** Policy for egress from perimeter. EgressPolicies match requests based on `egress_from` and `egress_to` stanzas. For an EgressPolicy to match, both `egress_from` and `egress_to` stanzas must be matched. If an EgressPolicy matches a request, the request is allowed to span the ServicePerimeter boundary. For example, an EgressPolicy can be used to allow VMs on networks within the ServicePerimeter to access a defined set of projects outside the perimeter in certain contexts (e.g. to read data from a Cloud Storage bucket or query against a BigQuery dataset). EgressPolicies are concerned with the *resources* that a request relates as well as the API services and API actions being used. They do not related to the direction of data movement. More detailed documentation for this concept can be found in the descriptions of EgressFrom and EgressTo. */
 export interface EgressPolicy {
-  /** Defines the conditions on the ApiOperation and destination resources that cause this EgressPolicy to apply. */
-  egressTo?: EgressTo;
-  /** Defines conditions on the source of a request causing this EgressPolicy to apply. */
-  egressFrom?: EgressFrom;
   /** Optional. Human-readable title for the egress rule. The title must be unique within the perimeter and can not exceed 100 characters. Within the access policy, the combined length of all rule titles must not exceed 240,000 characters. */
   title?: string;
+  /** Defines conditions on the source of a request causing this EgressPolicy to apply. */
+  egressFrom?: EgressFrom;
+  /** Defines the conditions on the ApiOperation and destination resources that cause this EgressPolicy to apply. */
+  egressTo?: EgressTo;
 }
 export const EgressPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    egressTo: S.optional(EgressTo),
-    egressFrom: S.optional(EgressFrom),
     title: S.optional(S.String),
+    egressFrom: S.optional(EgressFrom),
+    egressTo: S.optional(EgressTo),
   }),
 ).annotate({ identifier: "EgressPolicy" }) as any as S.Schema<EgressPolicy>;
 
@@ -691,33 +704,37 @@ export const EgressPolicyList = /*@__PURE__*/ S.Array(
   EgressPolicy,
 ) as any as S.Schema<EgressPolicyList>;
 
-/** Specifies how APIs are allowed to communicate within the Service Perimeter. */
-export interface VpcAccessibleServices {
-  /** The list of APIs usable within the Service Perimeter. Must be empty unless 'enable_restriction' is True. You can specify a list of individual services, as well as include the 'RESTRICTED-SERVICES' value, which automatically includes all of the services protected by the perimeter. */
-  allowedServices?: StringList;
-  /** Whether to restrict API calls within the Service Perimeter to the list of APIs specified in 'allowed_services'. */
-  enableRestriction?: boolean;
+/** Defines the conditions under which an IngressPolicy matches a request. Conditions are based on information about the ApiOperation intended to be performed on the target resource of the request. The request must satisfy what is defined in `operations` AND `resources` in order to match. */
+export interface IngressTo {
+  /** A list of resources, currently only projects in the form `projects/`, protected by this ServicePerimeter that are allowed to be accessed by sources defined in the corresponding IngressFrom. If a single `*` is specified, then access to all resources inside the perimeter are allowed. */
+  resources?: StringList;
+  /** A list of ApiOperations allowed to be performed by the sources specified in corresponding IngressFrom in this ServicePerimeter. */
+  operations?: ApiOperationList;
+  /** IAM roles that represent the set of operations that the sources specified in the corresponding IngressFrom are allowed to perform in this ServicePerimeter. */
+  roles?: StringList;
 }
-export const VpcAccessibleServices = /*@__PURE__*/ S.suspend(() =>
+export const IngressTo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    allowedServices: S.optional(StringList),
-    enableRestriction: S.optional(S.Boolean),
+    resources: S.optional(StringList),
+    operations: S.optional(ApiOperationList),
+    roles: S.optional(StringList),
   }),
-).annotate({
-  identifier: "VpcAccessibleServices",
-}) as any as S.Schema<VpcAccessibleServices>;
+).annotate({ identifier: "IngressTo" }) as any as S.Schema<IngressTo>;
 
 /** The source that IngressPolicy authorizes access from. */
 export interface IngressSource {
-  /** An AccessLevel resource name that allow resources within the ServicePerimeters to be accessed from the internet. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel will cause an error. If no AccessLevel names are listed, resources within the perimeter can only be accessed via Google Cloud calls with request origins within the perimeter. Example: `accessPolicies/MY_POLICY/accessLevels/MY_LEVEL`. If a single `*` is specified for `access_level`, then all IngressSources will be allowed. */
-  accessLevel?: string;
   /** A Google Cloud resource that is allowed to ingress the perimeter. Requests from these resources will be allowed to access perimeter data. Currently only projects and VPCs are allowed. Project format: `projects/{project_number}` VPC network format: `//compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}`. The project may be in any Google Cloud organization, not just the organization that the perimeter is defined in. `*` is not allowed, the case of allowing all Google Cloud resources only is not supported. */
   resource?: string;
+  /** An AccessLevel resource name that allow resources within the ServicePerimeters to be accessed from the internet. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel will cause an error. If no AccessLevel names are listed, resources within the perimeter can only be accessed via Google Cloud calls with request origins within the perimeter. Example: `accessPolicies/MY_POLICY/accessLevels/MY_LEVEL`. If a single `*` is specified for `access_level`, then all IngressSources will be allowed. */
+  accessLevel?: string;
+  /** A PrivateServiceConnectEndpoint that is allowed to access the perimeter. The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in. */
+  pscEndpoint?: PrivateServiceConnectEndpoint;
 }
 export const IngressSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accessLevel: S.optional(S.String),
     resource: S.optional(S.String),
+    accessLevel: S.optional(S.String),
+    pscEndpoint: S.optional(PrivateServiceConnectEndpoint),
   }),
 ).annotate({ identifier: "IngressSource" }) as any as S.Schema<IngressSource>;
 
@@ -731,56 +748,39 @@ export type IngressFromIdentityTypeEnum =
   | "ANY_IDENTITY"
   | "ANY_USER_ACCOUNT"
   | "ANY_SERVICE_ACCOUNT";
-export const IngressFromIdentityTypeEnum = /*@__PURE__*/ S.String;
+export const IngressFromIdentityTypeEnum = S.String;
 
 /** Defines the conditions under which an IngressPolicy matches a request. Conditions are based on information about the source of the request. The request must satisfy what is defined in `sources` AND identity related fields in order to match. */
 export interface IngressFrom {
-  /** Sources that this IngressPolicy authorizes access from. */
-  sources?: IngressSourceList;
   /** A list of identities that are allowed access through [IngressPolicy]. Identities can be an individual user, service account, Google group, third-party identity, or agent identity. For the list of supported identity types, see https://docs.cloud.google.com/vpc-service-controls/docs/supported-identities. */
   identities?: StringList;
+  /** Sources that this IngressPolicy authorizes access from. */
+  sources?: IngressSourceList;
   /** Specifies the type of identities that are allowed access from outside the perimeter. If left unspecified, then members of `identities` field will be allowed access. */
   identityType?: IngressFromIdentityTypeEnum | (string & {});
 }
 export const IngressFrom = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sources: S.optional(IngressSourceList),
     identities: S.optional(StringList),
+    sources: S.optional(IngressSourceList),
     identityType: S.optional(IngressFromIdentityTypeEnum),
   }),
 ).annotate({ identifier: "IngressFrom" }) as any as S.Schema<IngressFrom>;
 
-/** Defines the conditions under which an IngressPolicy matches a request. Conditions are based on information about the ApiOperation intended to be performed on the target resource of the request. The request must satisfy what is defined in `operations` AND `resources` in order to match. */
-export interface IngressTo {
-  /** IAM roles that represent the set of operations that the sources specified in the corresponding IngressFrom are allowed to perform in this ServicePerimeter. */
-  roles?: StringList;
-  /** A list of resources, currently only projects in the form `projects/`, protected by this ServicePerimeter that are allowed to be accessed by sources defined in the corresponding IngressFrom. If a single `*` is specified, then access to all resources inside the perimeter are allowed. */
-  resources?: StringList;
-  /** A list of ApiOperations allowed to be performed by the sources specified in corresponding IngressFrom in this ServicePerimeter. */
-  operations?: ApiOperationList;
-}
-export const IngressTo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    roles: S.optional(StringList),
-    resources: S.optional(StringList),
-    operations: S.optional(ApiOperationList),
-  }),
-).annotate({ identifier: "IngressTo" }) as any as S.Schema<IngressTo>;
-
 /** Policy for ingress into ServicePerimeter. IngressPolicies match requests based on `ingress_from` and `ingress_to` stanzas. For an ingress policy to match, both the `ingress_from` and `ingress_to` stanzas must be matched. If an IngressPolicy matches a request, the request is allowed through the perimeter boundary from outside the perimeter. For example, access from the internet can be allowed either based on an AccessLevel or, for traffic hosted on Google Cloud, the project of the source network. For access from private networks, using the project of the hosting network is required. Individual ingress policies can be limited by restricting which services and/or actions they match using the `ingress_to` field. */
 export interface IngressPolicy {
-  /** Optional. Human-readable title for the ingress rule. The title must be unique within the perimeter and can not exceed 100 characters. Within the access policy, the combined length of all rule titles must not exceed 240,000 characters. */
-  title?: string;
-  /** Defines the conditions on the source of a request causing this IngressPolicy to apply. */
-  ingressFrom?: IngressFrom;
   /** Defines the conditions on the ApiOperation and request destination that cause this IngressPolicy to apply. */
   ingressTo?: IngressTo;
+  /** Defines the conditions on the source of a request causing this IngressPolicy to apply. */
+  ingressFrom?: IngressFrom;
+  /** Optional. Human-readable title for the ingress rule. The title must be unique within the perimeter and can not exceed 100 characters. Within the access policy, the combined length of all rule titles must not exceed 240,000 characters. */
+  title?: string;
 }
 export const IngressPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    title: S.optional(S.String),
-    ingressFrom: S.optional(IngressFrom),
     ingressTo: S.optional(IngressTo),
+    ingressFrom: S.optional(IngressFrom),
+    title: S.optional(S.String),
   }),
 ).annotate({ identifier: "IngressPolicy" }) as any as S.Schema<IngressPolicy>;
 
@@ -789,29 +789,123 @@ export const IngressPolicyList = /*@__PURE__*/ S.Array(
   IngressPolicy,
 ) as any as S.Schema<IngressPolicyList>;
 
+/** Adds a request header to the API. */
+export interface AddRequestHeader {
+  /** HTTP header value. */
+  value?: string;
+  /** HTTP header key. */
+  key?: string;
+}
+export const AddRequestHeader = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    key: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AddRequestHeader",
+}) as any as S.Schema<AddRequestHeader>;
+
+/** Modifier to apply to the API requests. */
+export interface Modifier {
+  /** Adds an additional HTTP request header. */
+  addRequestHeader?: AddRequestHeader;
+}
+export const Modifier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    addRequestHeader: S.optional(AddRequestHeader),
+  }),
+).annotate({ identifier: "Modifier" }) as any as S.Schema<Modifier>;
+
+export type ModifierList = Array<Modifier>;
+export const ModifierList = /*@__PURE__*/ S.Array(
+  Modifier,
+) as any as S.Schema<ModifierList>;
+
+/** Service patterns used to allow access. */
+export interface ServicePattern {
+  /** URL pattern to allow. Only patterns of ".googleapis.com/*", "www.googleapis.com//*" and "*.appspot.com/* forms are supported, where should be an alphanumeric name. */
+  pattern?: string;
+  /** Supported service to allow. */
+  service?: string;
+  /** Modifiers to apply to the requests that match the URL pattern. */
+  modifiers?: ModifierList;
+}
+export const ServicePattern = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pattern: S.optional(S.String),
+    service: S.optional(S.String),
+    modifiers: S.optional(ModifierList),
+  }),
+).annotate({ identifier: "ServicePattern" }) as any as S.Schema<ServicePattern>;
+
+export type ServicePatternList = Array<ServicePattern>;
+export const ServicePatternList = /*@__PURE__*/ S.Array(
+  ServicePattern,
+) as any as S.Schema<ServicePatternList>;
+
+export type VpcAccessibleServicesServicePatternsEnforcementScopesItemEnum =
+  | "SERVICE_PATTERNS_ENFORCEMENT_SCOPE_UNSPECIFIED"
+  | "GOOGLE_APIS_VIA_PRIVATE_PATH";
+export const VpcAccessibleServicesServicePatternsEnforcementScopesItemEnum =
+  S.String;
+
+export type VpcAccessibleServicesServicePatternsEnforcementScopesItemEnumList =
+  Array<
+    | VpcAccessibleServicesServicePatternsEnforcementScopesItemEnum
+    | (string & {})
+  >;
+export const VpcAccessibleServicesServicePatternsEnforcementScopesItemEnumList =
+  /*@__PURE__*/ S.Array(
+    VpcAccessibleServicesServicePatternsEnforcementScopesItemEnum,
+  ) as any as S.Schema<VpcAccessibleServicesServicePatternsEnforcementScopesItemEnumList>;
+
+/** Specifies how APIs are allowed to communicate within the Service Perimeter. */
+export interface VpcAccessibleServices {
+  /** Specifies which Google services are allowed to be accessed from VPC networks in the service perimeter. */
+  allowedServicePatterns?: ServicePatternList;
+  /** Whether to restrict API calls within the Service Perimeter to the list of APIs specified in 'allowed_services'. */
+  enableRestriction?: boolean;
+  /** The list of APIs usable within the Service Perimeter. Must be empty unless 'enable_restriction' is True. You can specify a list of individual services, as well as include the 'RESTRICTED-SERVICES' value, which automatically includes all of the services protected by the perimeter. */
+  allowedServices?: StringList;
+  /** Defines the enforcement scopes of service patterns. */
+  servicePatternsEnforcementScopes?: VpcAccessibleServicesServicePatternsEnforcementScopesItemEnumList;
+}
+export const VpcAccessibleServices = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedServicePatterns: S.optional(ServicePatternList),
+    enableRestriction: S.optional(S.Boolean),
+    allowedServices: S.optional(StringList),
+    servicePatternsEnforcementScopes: S.optional(
+      VpcAccessibleServicesServicePatternsEnforcementScopesItemEnumList,
+    ),
+  }),
+).annotate({
+  identifier: "VpcAccessibleServices",
+}) as any as S.Schema<VpcAccessibleServices>;
+
 /** `ServicePerimeterConfig` specifies a set of Google Cloud resources that describe specific Service Perimeter configuration. */
 export interface ServicePerimeterConfig {
   /** List of EgressPolicies to apply to the perimeter. A perimeter may have multiple EgressPolicies, each of which is evaluated separately. Access is granted if any EgressPolicy grants it. Must be empty for a perimeter bridge. */
   egressPolicies?: EgressPolicyList;
-  /** Configuration for APIs allowed within Perimeter. */
-  vpcAccessibleServices?: VpcAccessibleServices;
-  /** A list of `AccessLevel` resource names that allow resources within the `ServicePerimeter` to be accessed from the internet. `AccessLevels` listed must be in the same policy as this `ServicePerimeter`. Referencing a nonexistent `AccessLevel` is a syntax error. If no `AccessLevel` names are listed, resources within the perimeter can only be accessed via Google Cloud calls with request origins within the perimeter. Example: `"accessPolicies/MY_POLICY/accessLevels/MY_LEVEL"`. For Service Perimeter Bridge, must be empty. */
-  accessLevels?: StringList;
   /** A list of Google Cloud resources that are inside of the service perimeter. Currently only projects and VPCs are allowed. Project format: `projects/{project_number}` VPC network format: `//compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}`. */
   resources?: StringList;
-  /** List of IngressPolicies to apply to the perimeter. A perimeter may have multiple IngressPolicies, each of which is evaluated separately. Access is granted if any Ingress Policy grants it. Must be empty for a perimeter bridge. */
-  ingressPolicies?: IngressPolicyList;
   /** Google Cloud services that are subject to the Service Perimeter restrictions. For example, if `storage.googleapis.com` is specified, access to the storage buckets inside the perimeter must meet the perimeter's access restrictions. */
   restrictedServices?: StringList;
+  /** List of IngressPolicies to apply to the perimeter. A perimeter may have multiple IngressPolicies, each of which is evaluated separately. Access is granted if any Ingress Policy grants it. Must be empty for a perimeter bridge. */
+  ingressPolicies?: IngressPolicyList;
+  /** A list of `AccessLevel` resource names that allow resources within the `ServicePerimeter` to be accessed from the internet. `AccessLevels` listed must be in the same policy as this `ServicePerimeter`. Referencing a nonexistent `AccessLevel` is a syntax error. If no `AccessLevel` names are listed, resources within the perimeter can only be accessed via Google Cloud calls with request origins within the perimeter. Example: `"accessPolicies/MY_POLICY/accessLevels/MY_LEVEL"`. For Service Perimeter Bridge, must be empty. */
+  accessLevels?: StringList;
+  /** Configuration for APIs allowed within Perimeter. */
+  vpcAccessibleServices?: VpcAccessibleServices;
 }
 export const ServicePerimeterConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     egressPolicies: S.optional(EgressPolicyList),
-    vpcAccessibleServices: S.optional(VpcAccessibleServices),
-    accessLevels: S.optional(StringList),
     resources: S.optional(StringList),
-    ingressPolicies: S.optional(IngressPolicyList),
     restrictedServices: S.optional(StringList),
+    ingressPolicies: S.optional(IngressPolicyList),
+    accessLevels: S.optional(StringList),
+    vpcAccessibleServices: S.optional(VpcAccessibleServices),
   }),
 ).annotate({
   identifier: "ServicePerimeterConfig",
@@ -819,33 +913,33 @@ export const ServicePerimeterConfig = /*@__PURE__*/ S.suspend(() =>
 
 /** `ServicePerimeter` describes a set of Google Cloud resources which can freely import and export data amongst themselves, but not export outside of the `ServicePerimeter`. If a request with a source within this `ServicePerimeter` has a target outside of the `ServicePerimeter`, the request will be blocked. Otherwise the request is allowed. There are two types of Service Perimeter - Regular and Bridge. Regular Service Perimeters cannot overlap, a single Google Cloud project or VPC network can only belong to a single regular Service Perimeter. Service Perimeter Bridges can contain only Google Cloud projects as members, a single Google Cloud project may belong to multiple Service Perimeter Bridges. */
 export interface ServicePerimeter {
-  /** Human readable title. Must be unique within the Policy. */
-  title?: string;
+  /** Perimeter type indicator. A single project or VPC network is allowed to be a member of single regular perimeter, but multiple service perimeter bridges. A project cannot be a included in a perimeter bridge without being included in regular perimeter. For perimeter bridges, the restricted service list as well as access level lists must be empty. */
+  perimeterType?: ServicePerimeterPerimeterTypeEnum | (string & {});
+  /** Description of the `ServicePerimeter` and its use. Does not affect behavior. */
+  description?: string;
+  /** Proposed (or dry run) ServicePerimeter configuration. This configuration allows to specify and test ServicePerimeter configuration without enforcing actual access restrictions. Only allowed to be set when the "use_explicit_dry_run_spec" flag is set. */
+  spec?: ServicePerimeterConfig;
   /** Identifier. Resource name for the `ServicePerimeter`. Format: `accessPolicies/{access_policy}/servicePerimeters/{service_perimeter}`. The `service_perimeter` component must begin with a letter, followed by alphanumeric characters or `_`. After you create a `ServicePerimeter`, you cannot change its `name`. */
   name?: string;
   /** Optional. An opaque identifier for the current version of the `ServicePerimeter`. This identifier does not follow any specific format. If an etag is not provided, the operation will be performed as if a valid etag is provided. */
   etag?: string;
-  /** Perimeter type indicator. A single project or VPC network is allowed to be a member of single regular perimeter, but multiple service perimeter bridges. A project cannot be a included in a perimeter bridge without being included in regular perimeter. For perimeter bridges, the restricted service list as well as access level lists must be empty. */
-  perimeterType?: ServicePerimeterPerimeterTypeEnum | (string & {});
   /** Use explicit dry run spec flag. Ordinarily, a dry-run spec implicitly exists for all Service Perimeters, and that spec is identical to the status for those Service Perimeters. When this flag is set, it inhibits the generation of the implicit spec, thereby allowing the user to explicitly provide a configuration ("spec") to use in a dry-run version of the Service Perimeter. This allows the user to test changes to the enforced config ("status") without actually enforcing them. This testing is done through analyzing the differences between currently enforced and suggested restrictions. use_explicit_dry_run_spec must bet set to True if any of the fields in the spec are set to non-default values. */
   useExplicitDryRunSpec?: boolean;
-  /** Description of the `ServicePerimeter` and its use. Does not affect behavior. */
-  description?: string;
   /** Current ServicePerimeter configuration. Specifies sets of resources, restricted services and access levels that determine perimeter content and boundaries. */
   status?: ServicePerimeterConfig;
-  /** Proposed (or dry run) ServicePerimeter configuration. This configuration allows to specify and test ServicePerimeter configuration without enforcing actual access restrictions. Only allowed to be set when the "use_explicit_dry_run_spec" flag is set. */
-  spec?: ServicePerimeterConfig;
+  /** Human readable title. Must be unique within the Policy. */
+  title?: string;
 }
 export const ServicePerimeter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    title: S.optional(S.String),
+    perimeterType: S.optional(ServicePerimeterPerimeterTypeEnum),
+    description: S.optional(S.String),
+    spec: S.optional(ServicePerimeterConfig),
     name: S.optional(S.String),
     etag: S.optional(S.String),
-    perimeterType: S.optional(ServicePerimeterPerimeterTypeEnum),
     useExplicitDryRunSpec: S.optional(S.Boolean),
-    description: S.optional(S.String),
     status: S.optional(ServicePerimeterConfig),
-    spec: S.optional(ServicePerimeterConfig),
+    title: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ServicePerimeter",
@@ -873,6 +967,23 @@ export const CreateAccessPoliciesServicePerimetersRequest =
     identifier: "CreateAccessPoliciesServicePerimetersRequest",
   }) as any as S.Schema<CreateAccessPoliciesServicePerimetersRequest>;
 
+/** The comprehensive identity container supporting identities including groups, service accounts, and federated identities. Only one of them can be set to create an access binding. */
+export interface Principal {
+  /** Immutable. The IAM principal identifier of the federated workforce or workload to assign the policy to. Examples include the following: * Single principal: `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}` * All workloads in a workload identity pool: `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*` * All Workforce Pools in a Google Cloud organization: `principalSet://cloudresourcemanager.googleapis.com/organizations/{organization_id}/type/WorkforcePool` Bindings created for all Workforce Pools in a Google Cloud organization support only `scoped_access_settings` with the `restricted_project` client scope and active `session_settings`. No other configurations are allowed. */
+  federatedPrincipal?: string;
+  /** Immutable. Cloud project number used to assign policies to all service accounts owned by the project. */
+  serviceAccountProjectNumber?: string;
+  /** Immutable. Service account email used to assign policies to a specific service account. If a service account is subject to multiple policies (e.g., if there is a policy for all service accounts in a project and a policy for the service account), the closest (i.e. the most specific) dry-run policy will be used for the dry-run functionality and the closest enforcement policy will be used for the enforcement. */
+  serviceAccount?: string;
+}
+export const Principal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    federatedPrincipal: S.optional(S.String),
+    serviceAccountProjectNumber: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
+  }),
+).annotate({ identifier: "Principal" }) as any as S.Schema<Principal>;
+
 /** An application that accesses Google Cloud APIs. */
 export interface Application {
   /** The name of the application. Example: "Cloud Console" */
@@ -887,38 +998,69 @@ export const Application = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
 
-export type ApplicationList = Array<Application>;
-export const ApplicationList = /*@__PURE__*/ S.Array(
-  Application,
-) as any as S.Schema<ApplicationList>;
+/** A Google Cloud project which contains applications and resources that users can access. */
+export interface Project {
+  /** The Google Cloud project resource name. Format: `projects/{project_number}`. Only the project number is supported. Example: `projects/1234567890` */
+  name?: string;
+}
+export const Project = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "Project" }) as any as S.Schema<Project>;
+
+/** Client scope represents the application, etc. subject to this binding's restrictions. */
+export interface ClientScope {
+  /** Optional. The application that is subject to this binding's scope. */
+  restrictedClientApplication?: Application;
+  /** Optional. The Google Cloud project that is subject to this binding's scope. */
+  restrictedProject?: Project;
+}
+export const ClientScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    restrictedClientApplication: S.optional(Application),
+    restrictedProject: S.optional(Project),
+  }),
+).annotate({ identifier: "ClientScope" }) as any as S.Schema<ClientScope>;
+
+/** Access scope represents the client scope, etc. to which the settings will be applied to. */
+export interface AccessScope {
+  /** Optional. Client scope for this access scope. */
+  clientScope?: ClientScope;
+}
+export const AccessScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientScope: S.optional(ClientScope),
+  }),
+).annotate({ identifier: "AccessScope" }) as any as S.Schema<AccessScope>;
 
 export type SessionSettingsSessionReauthMethodEnum =
   | "SESSION_REAUTH_METHOD_UNSPECIFIED"
   | "LOGIN"
   | "SECURITY_KEY"
   | "PASSWORD";
-export const SessionSettingsSessionReauthMethodEnum = /*@__PURE__*/ S.String;
+export const SessionSettingsSessionReauthMethodEnum = S.String;
 
 /** Stores settings related to Google Cloud Session Length including session duration, the type of challenge (i.e. method) they should face when their session expires, and other related settings. */
 export interface SessionSettings {
+  /** Optional. The session length. Setting this field to zero allows for sessions that are active indefinitely. Also, setting `session_length_enabled` to `false` disregards session limits, which means that sessions never expire. If `use_oidc_max_age` is `true`, for OIDC apps, the session length will be the minimum of this field and the OIDC `max_age` param. If this field is set to zero, `session_length_enabled` must be set to `false` or left unset. */
+  sessionLength?: string;
+  /** Optional. Only useful for OIDC apps. When false, the OIDC max_age param, if passed in the authentication request will be ignored. When true, the re-auth period will be the minimum of the session_length field and the max_age OIDC param. */
+  useOidcMaxAge?: boolean;
   /** Optional. Session method when user's Google Cloud session is up. */
   sessionReauthMethod?: SessionSettingsSessionReauthMethodEnum | (string & {});
   /** Optional. How long a user is allowed to take between actions before a new access token must be issued. Only set for Google Cloud apps. */
   maxInactivity?: string;
-  /** Optional. This field enables or disables Google Cloud session length. When false, all fields set above will be disregarded and the session length is basically infinite. */
+  /** Optional. This field enables or disables Google Cloud session length. When false, all fields set above will be disregarded and the session length is basically infinite. If `session_length` is set to zero, this field must be set to false. */
   sessionLengthEnabled?: boolean;
-  /** Optional. Only useful for OIDC apps. When false, the OIDC max_age param, if passed in the authentication request will be ignored. When true, the re-auth period will be the minimum of the session_length field and the max_age OIDC param. */
-  useOidcMaxAge?: boolean;
-  /** Optional. The session length. Setting this field to zero is equal to disabling session. Also can set infinite session by flipping the enabled bit to false below. If use_oidc_max_age is true, for OIDC apps, the session length will be the minimum of this field and OIDC max_age param. */
-  sessionLength?: string;
 }
 export const SessionSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    sessionLength: S.optional(S.String),
+    useOidcMaxAge: S.optional(S.Boolean),
     sessionReauthMethod: S.optional(SessionSettingsSessionReauthMethodEnum),
     maxInactivity: S.optional(S.String),
     sessionLengthEnabled: S.optional(S.Boolean),
-    useOidcMaxAge: S.optional(S.Boolean),
-    sessionLength: S.optional(S.String),
   }),
 ).annotate({
   identifier: "SessionSettings",
@@ -938,42 +1080,20 @@ export const AccessSettings = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AccessSettings" }) as any as S.Schema<AccessSettings>;
 
-/** Client scope represents the application, etc. subject to this binding's restrictions. */
-export interface ClientScope {
-  /** Optional. The application that is subject to this binding's scope. */
-  restrictedClientApplication?: Application;
-}
-export const ClientScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    restrictedClientApplication: S.optional(Application),
-  }),
-).annotate({ identifier: "ClientScope" }) as any as S.Schema<ClientScope>;
-
-/** Access scope represents the client scope, etc. to which the settings will be applied to. */
-export interface AccessScope {
-  /** Optional. Client scope for this access scope. */
-  clientScope?: ClientScope;
-}
-export const AccessScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientScope: S.optional(ClientScope),
-  }),
-).annotate({ identifier: "AccessScope" }) as any as S.Schema<AccessScope>;
-
 /** A relationship between access settings and its scope. */
 export interface ScopedAccessSettings {
+  /** Optional. Application, etc. to which the access settings will be applied to. Implicitly, this is the scoped access settings key; as such, it must be unique and non-empty. */
+  scope?: AccessScope;
   /** Optional. Access settings for this scoped access settings. This field may be empty if dry_run_settings is set. */
   activeSettings?: AccessSettings;
   /** Optional. Dry-run access settings for this scoped access settings. This field may be empty if active_settings is set. */
   dryRunSettings?: AccessSettings;
-  /** Optional. Application, etc. to which the access settings will be applied to. Implicitly, this is the scoped access settings key; as such, it must be unique and non-empty. */
-  scope?: AccessScope;
 }
 export const ScopedAccessSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    scope: S.optional(AccessScope),
     activeSettings: S.optional(AccessSettings),
     dryRunSettings: S.optional(AccessSettings),
-    scope: S.optional(AccessScope),
   }),
 ).annotate({
   identifier: "ScopedAccessSettings",
@@ -984,32 +1104,40 @@ export const ScopedAccessSettingsList = /*@__PURE__*/ S.Array(
   ScopedAccessSettings,
 ) as any as S.Schema<ScopedAccessSettingsList>;
 
+export type ApplicationList = Array<Application>;
+export const ApplicationList = /*@__PURE__*/ S.Array(
+  Application,
+) as any as S.Schema<ApplicationList>;
+
 /** Restricts access to Cloud Console and Google Cloud APIs for a set of users using Context-Aware Access. */
 export interface GcpUserAccessBinding {
   /** Immutable. Assigned by the server during creation. The last segment has an arbitrary length and has only URI unreserved characters (as defined by [RFC 3986 Section 2.3](https://tools.ietf.org/html/rfc3986#section-2.3)). Should not be specified by the client during creation. Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N" */
   name?: string;
-  /** Optional. A list of applications that are subject to this binding's restrictions. If the list is empty, the binding restrictions will universally apply to all applications. */
-  restrictedClientApplications?: ApplicationList;
-  /** Optional. The Google Cloud session length (GCSL) policy for the group key. */
-  sessionSettings?: SessionSettings;
-  /** Optional. Immutable. Google Group id whose users are subject to this binding's restrictions. See "id" in the [Google Workspace Directory API's Group Resource] (https://developers.google.com/admin-sdk/directory/v1/reference/groups#resource). If a group's email address/alias is changed, this resource will continue to point at the changed group. This field does not accept group email addresses or aliases. Example: "01d520gv4vjcrht" */
-  groupKey?: string;
-  /** Optional. Access level that a user must have to be granted access. Only one access level is supported, not multiple. This repeated field must have exactly one element. Example: "accessPolicies/9522/accessLevels/device_trusted" */
-  accessLevels?: StringList;
   /** Optional. Dry run access level that will be evaluated but will not be enforced. The access denial based on dry run policy will be logged. Only one access level is supported, not multiple. This list must have exactly one element. Example: "accessPolicies/9522/accessLevels/device_trusted" */
   dryRunAccessLevels?: StringList;
+  /** Optional. Immutable. Google Group id whose users are subject to this binding's restrictions. See "id" in the [Google Workspace Directory API's Group Resource] (https://developers.google.com/admin-sdk/directory/v1/reference/groups#resource). If a group's email address/alias is changed, this resource will continue to point at the changed group. This field does not accept group email addresses or aliases. Example: "01d520gv4vjcrht" */
+  groupKey?: string;
+  /** Optional. Immutable. The principal that is subject to the access policies in this policy binding. */
+  principal?: Principal;
   /** Optional. A list of scoped access settings that set this binding's restrictions on a subset of applications. This field cannot be set if restricted_client_applications is set. */
   scopedAccessSettings?: ScopedAccessSettingsList;
+  /** Optional. Access level that a user must have to be granted access. Only one access level is supported, not multiple. This repeated field must have exactly one element. Example: "accessPolicies/9522/accessLevels/device_trusted" */
+  accessLevels?: StringList;
+  /** Optional. The Google Cloud session length (GCSL) policy for the group key. */
+  sessionSettings?: SessionSettings;
+  /** Optional. Deprecated: Use `scoped_access_settings` instead. A list of applications that are subject to this binding's restrictions. If the list is empty, the binding restrictions will universally apply to all applications. */
+  restrictedClientApplications?: ApplicationList;
 }
 export const GcpUserAccessBinding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    restrictedClientApplications: S.optional(ApplicationList),
-    sessionSettings: S.optional(SessionSettings),
-    groupKey: S.optional(S.String),
-    accessLevels: S.optional(StringList),
     dryRunAccessLevels: S.optional(StringList),
+    groupKey: S.optional(S.String),
+    principal: S.optional(Principal),
     scopedAccessSettings: S.optional(ScopedAccessSettingsList),
+    accessLevels: S.optional(StringList),
+    sessionSettings: S.optional(SessionSettings),
+    restrictedClientApplications: S.optional(ApplicationList),
   }),
 ).annotate({
   identifier: "GcpUserAccessBinding",
@@ -1171,24 +1299,23 @@ export type GetAccessPoliciesAccessLevelsAccessLevelFormatEnum =
   | "LEVEL_FORMAT_UNSPECIFIED"
   | "AS_DEFINED"
   | "CEL";
-export const GetAccessPoliciesAccessLevelsAccessLevelFormatEnum =
-  /*@__PURE__*/ S.String;
+export const GetAccessPoliciesAccessLevelsAccessLevelFormatEnum = S.String;
 
 export interface GetAccessPoliciesAccessLevelsRequest {
-  /** Required. Resource name for the Access Level. Format: `accessPolicies/{policy_id}/accessLevels/{access_level_id}` */
-  name: string;
   /** Whether to return `BasicLevels` in the Cloud Common Expression Language rather than as `BasicLevels`. Defaults to AS_DEFINED, where Access Levels are returned as `BasicLevels` or `CustomLevels` based on how they were created. If set to CEL, all Access Levels are returned as `CustomLevels`. In the CEL case, `BasicLevels` are translated to equivalent `CustomLevels`. */
   accessLevelFormat?:
     | GetAccessPoliciesAccessLevelsAccessLevelFormatEnum
     | (string & {});
+  /** Required. Resource name for the Access Level. Format: `accessPolicies/{policy_id}/accessLevels/{access_level_id}` */
+  name: string;
 }
 export const GetAccessPoliciesAccessLevelsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       accessLevelFormat: S.optional(
         GetAccessPoliciesAccessLevelsAccessLevelFormatEnum.pipe(T.Query()),
       ),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1219,13 +1346,29 @@ export const GetAccessPoliciesAuthorizedOrgsDescsRequest =
     identifier: "GetAccessPoliciesAuthorizedOrgsDescsRequest",
   }) as any as S.Schema<GetAccessPoliciesAuthorizedOrgsDescsRequest>;
 
+export type GetAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum =
+  | "DELETED_PRINCIPAL_SYNTAX_SUPPORT_UNSPECIFIED"
+  | "DELETED_PRINCIPAL_SYNTAX_SUPPORT_DISABLED"
+  | "DELETED_PRINCIPAL_SYNTAX_SUPPORT_ENABLED";
+export const GetAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum =
+  S.String;
+
 export interface GetAccessPoliciesServicePerimetersRequest {
+  /** Optional. If true, the response will contain the deleted principal syntax for identities that support it. */
+  deletedPrincipalSyntax?:
+    | GetAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum
+    | (string & {});
   /** Required. Resource name for the Service Perimeter. Format: `accessPolicies/{policy_id}/servicePerimeters/{service_perimeters_id}` */
   name: string;
 }
 export const GetAccessPoliciesServicePerimetersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      deletedPrincipalSyntax: S.optional(
+        GetAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum.pipe(
+          T.Query(),
+        ),
+      ),
       name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
@@ -1287,18 +1430,18 @@ export const GetIamPolicyAccessPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
   members?: StringList;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
 }
 export const Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    condition: S.optional(Expr),
-    role: S.optional(S.String),
     members: S.optional(StringList),
+    role: S.optional(S.String),
+    condition: S.optional(Expr),
   }),
 ).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
 
@@ -1312,19 +1455,19 @@ export type AuditLogConfigLogTypeEnum =
   | "ADMIN_READ"
   | "DATA_WRITE"
   | "DATA_READ";
-export const AuditLogConfigLogTypeEnum = /*@__PURE__*/ S.String;
+export const AuditLogConfigLogTypeEnum = S.String;
 
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
   /** The log type that this config enables. */
   logType?: AuditLogConfigLogTypeEnum | (string & {});
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList;
 }
 export const AuditLogConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exemptedMembers: S.optional(StringList),
     logType: S.optional(AuditLogConfigLogTypeEnum),
+    exemptedMembers: S.optional(StringList),
   }),
 ).annotate({ identifier: "AuditLogConfig" }) as any as S.Schema<AuditLogConfig>;
 
@@ -1335,15 +1478,15 @@ export const AuditLogConfigList = /*@__PURE__*/ S.Array(
 
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
   service?: string;
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: AuditLogConfigList;
 }
 export const AuditConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    auditLogConfigs: S.optional(AuditLogConfigList),
     service: S.optional(S.String),
+    auditLogConfigs: S.optional(AuditLogConfigList),
   }),
 ).annotate({ identifier: "AuditConfig" }) as any as S.Schema<AuditConfig>;
 
@@ -1354,20 +1497,20 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
 
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    bindings: S.optional(BindingList),
     version: S.optional(S.Number),
     etag: S.optional(S.String),
-    bindings: S.optional(BindingList),
     auditConfigs: S.optional(AuditConfigList),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
@@ -1432,7 +1575,7 @@ export type SupportedServiceServiceSupportStageEnum =
   | "GA"
   | "PREVIEW"
   | "DEPRECATED";
-export const SupportedServiceServiceSupportStageEnum = /*@__PURE__*/ S.String;
+export const SupportedServiceServiceSupportStageEnum = S.String;
 
 export type SupportedServiceSupportStageEnum =
   | "LAUNCH_STAGE_UNSPECIFIED"
@@ -1443,51 +1586,51 @@ export type SupportedServiceSupportStageEnum =
   | "BETA"
   | "GA"
   | "DEPRECATED";
-export const SupportedServiceSupportStageEnum = /*@__PURE__*/ S.String;
+export const SupportedServiceSupportStageEnum = S.String;
 
 /** `SupportedService` specifies the VPC Service Controls and its properties. */
 export interface SupportedService {
   /** The service name or address of the supported service, such as `service.googleapis.com`. */
   name?: string;
-  /** True if the service is available on the restricted VIP. Services on the restricted VIP typically either support VPC Service Controls or are core infrastructure services required for the functioning of Google Cloud. */
-  availableOnRestrictedVip?: boolean;
-  /** The list of the supported methods. This field exists only in response to GetSupportedService */
-  supportedMethods?: MethodSelectorList;
+  /** The support stage of the service. */
+  serviceSupportStage?: SupportedServiceServiceSupportStageEnum;
   /** True if the service is supported with some limitations. Check [documentation](https://cloud.google.com/vpc-service-controls/docs/supported-products) for details. */
   knownLimitations?: boolean;
   /** The support stage of the service. */
-  serviceSupportStage?: SupportedServiceServiceSupportStageEnum;
+  supportStage?: SupportedServiceSupportStageEnum;
+  /** True if the service is available on the restricted VIP. Services on the restricted VIP typically either support VPC Service Controls or are core infrastructure services required for the functioning of Google Cloud. */
+  availableOnRestrictedVip?: boolean;
   /** The name of the supported product, such as 'Cloud Product API'. */
   title?: string;
-  /** The support stage of the service. */
-  supportStage?: SupportedServiceSupportStageEnum;
+  /** The list of the supported methods. This field exists only in response to GetSupportedService */
+  supportedMethods?: MethodSelectorList;
 }
 export const SupportedService = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    availableOnRestrictedVip: S.optional(S.Boolean),
-    supportedMethods: S.optional(MethodSelectorList),
-    knownLimitations: S.optional(S.Boolean),
     serviceSupportStage: S.optional(SupportedServiceServiceSupportStageEnum),
-    title: S.optional(S.String),
+    knownLimitations: S.optional(S.Boolean),
     supportStage: S.optional(SupportedServiceSupportStageEnum),
+    availableOnRestrictedVip: S.optional(S.Boolean),
+    title: S.optional(S.String),
+    supportedMethods: S.optional(MethodSelectorList),
   }),
 ).annotate({
   identifier: "SupportedService",
 }) as any as S.Schema<SupportedService>;
 
 export interface ListAccessPoliciesRequest {
-  /** Number of AccessPolicy instances to include in the list. Default 100. */
-  pageSize?: number;
   /** Required. Resource name for the container to list AccessPolicy instances from. Format: `organizations/{org_id}` */
   parent?: string;
+  /** Number of AccessPolicy instances to include in the list. Default 100. */
+  pageSize?: number;
   /** Next page token for the next batch of AccessPolicy instances. Defaults to the first page of results. */
   pageToken?: string;
 }
 export const ListAccessPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1507,15 +1650,15 @@ export const AccessPolicyList = /*@__PURE__*/ S.Array(
 
 /** A response to `ListAccessPoliciesRequest`. */
 export interface ListAccessPoliciesResponse {
-  /** List of the AccessPolicy instances. */
-  accessPolicies?: AccessPolicyList;
   /** The pagination token to retrieve the next page of results. If the value is empty, no further results remain. */
   nextPageToken?: string;
+  /** List of the AccessPolicy instances. */
+  accessPolicies?: AccessPolicyList;
 }
 export const ListAccessPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accessPolicies: S.optional(AccessPolicyList),
     nextPageToken: S.optional(S.String),
+    accessPolicies: S.optional(AccessPolicyList),
   }),
 ).annotate({
   identifier: "ListAccessPoliciesResponse",
@@ -1525,30 +1668,29 @@ export type ListAccessPoliciesAccessLevelsAccessLevelFormatEnum =
   | "LEVEL_FORMAT_UNSPECIFIED"
   | "AS_DEFINED"
   | "CEL";
-export const ListAccessPoliciesAccessLevelsAccessLevelFormatEnum =
-  /*@__PURE__*/ S.String;
+export const ListAccessPoliciesAccessLevelsAccessLevelFormatEnum = S.String;
 
 export interface ListAccessPoliciesAccessLevelsRequest {
+  /** Number of Access Levels to include in the list. Default 100. */
+  pageSize?: number;
   /** Required. Resource name for the access policy to list Access Levels from. Format: `accessPolicies/{policy_id}` */
   parent: string;
-  /** Next page token for the next batch of Access Level instances. Defaults to the first page of results. */
-  pageToken?: string;
   /** Whether to return `BasicLevels` in the Cloud Common Expression language, as `CustomLevels`, rather than as `BasicLevels`. Defaults to returning `AccessLevels` in the format they were defined. */
   accessLevelFormat?:
     | ListAccessPoliciesAccessLevelsAccessLevelFormatEnum
     | (string & {});
-  /** Number of Access Levels to include in the list. Default 100. */
-  pageSize?: number;
+  /** Next page token for the next batch of Access Level instances. Defaults to the first page of results. */
+  pageToken?: string;
 }
 export const ListAccessPoliciesAccessLevelsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       accessLevelFormat: S.optional(
         ListAccessPoliciesAccessLevelsAccessLevelFormatEnum.pipe(T.Query()),
       ),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1567,34 +1709,34 @@ export const AccessLevelList = /*@__PURE__*/ S.Array(
 
 /** A response to `ListAccessLevelsRequest`. */
 export interface ListAccessLevelsResponse {
-  /** List of the Access Level instances. */
-  accessLevels?: AccessLevelList;
   /** The pagination token to retrieve the next page of results. If the value is empty, no further results remain. */
   nextPageToken?: string;
+  /** List of the Access Level instances. */
+  accessLevels?: AccessLevelList;
 }
 export const ListAccessLevelsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accessLevels: S.optional(AccessLevelList),
     nextPageToken: S.optional(S.String),
+    accessLevels: S.optional(AccessLevelList),
   }),
 ).annotate({
   identifier: "ListAccessLevelsResponse",
 }) as any as S.Schema<ListAccessLevelsResponse>;
 
 export interface ListAccessPoliciesAuthorizedOrgsDescsRequest {
+  /** Number of Authorized Orgs Descs to include in the list. Default 100. */
+  pageSize?: number;
   /** Required. Resource name for the access policy to list Authorized Orgs Desc from. Format: `accessPolicies/{policy_id}` */
   parent: string;
   /** Next page token for the next batch of Authorized Orgs Desc instances. Defaults to the first page of results. */
   pageToken?: string;
-  /** Number of Authorized Orgs Descs to include in the list. Default 100. */
-  pageSize?: number;
 }
 export const ListAccessPoliciesAuthorizedOrgsDescsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1627,20 +1769,36 @@ export const ListAuthorizedOrgsDescsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListAuthorizedOrgsDescsResponse",
 }) as any as S.Schema<ListAuthorizedOrgsDescsResponse>;
 
+export type ListAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum =
+  | "DELETED_PRINCIPAL_SYNTAX_SUPPORT_UNSPECIFIED"
+  | "DELETED_PRINCIPAL_SYNTAX_SUPPORT_DISABLED"
+  | "DELETED_PRINCIPAL_SYNTAX_SUPPORT_ENABLED";
+export const ListAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum =
+  S.String;
+
 export interface ListAccessPoliciesServicePerimetersRequest {
+  /** Optional. If true, the response will contain the deleted principal syntax for identities that support it. */
+  deletedPrincipalSyntax?:
+    | ListAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum
+    | (string & {});
   /** Required. Resource name for the access policy to list Service Perimeters from. Format: `accessPolicies/{policy_id}` */
   parent: string;
-  /** Next page token for the next batch of Service Perimeter instances. Defaults to the first page of results. */
-  pageToken?: string;
   /** Number of Service Perimeters to include in the list. Default 100. */
   pageSize?: number;
+  /** Next page token for the next batch of Service Perimeter instances. Defaults to the first page of results. */
+  pageToken?: string;
 }
 export const ListAccessPoliciesServicePerimetersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      deletedPrincipalSyntax: S.optional(
+        ListAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum.pipe(
+          T.Query(),
+        ),
+      ),
       parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1678,20 +1836,20 @@ export interface ListOperationsRequest {
   returnPartialSuccess?: boolean;
   /** The standard list filter. */
   filter?: string;
-  /** The standard list page size. */
-  pageSize?: number;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
   pageToken?: string;
+  /** The standard list page size. */
+  pageSize?: number;
 }
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1712,16 +1870,16 @@ export const OperationList = /*@__PURE__*/ S.Array(
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operations: S.optional(OperationList),
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListOperationsResponse",
@@ -1734,6 +1892,8 @@ export interface ListOrganizationsGcpUserAccessBindingsRequest {
   parent: string;
   /** Optional. If left blank, returns the first page. To enumerate all items, use the next_page_token from your previous list operation. */
   pageToken?: string;
+  /** Optional. The literal filter to apply to the results returned. See https://google.aip.dev/160 for more details. Accepts values: * `principal:group_key` * `principal:service_account` OR `principal:service_account_project_number`. If this field is empty or not one of the above, the default value is `"principal:group_key"`. */
+  filter?: string;
 }
 export const ListOrganizationsGcpUserAccessBindingsRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -1741,6 +1901,7 @@ export const ListOrganizationsGcpUserAccessBindingsRequest =
       pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1774,15 +1935,15 @@ export const ListGcpUserAccessBindingsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListGcpUserAccessBindingsResponse>;
 
 export interface ListPermissionsRequest {
-  /** Optional. Use this token to retrieve a specific page of results. Default is the first page. */
-  pageToken?: string;
   /** Optional. This flag specifies the maximum number of services to return per page. Default value is 100. */
   pageSize?: number;
+  /** Optional. Use this token to retrieve a specific page of results. Default is the first page. */
+  pageToken?: string;
 }
 export const ListPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1796,30 +1957,30 @@ export const ListPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A response to `ListSupportedPermissionsRequest`. */
 export interface ListSupportedPermissionsResponse {
-  /** Use this pagination token to retrieve the next page of results. An empty value indicates that no further results are available. */
-  nextPageToken?: string;
   /** List of VPC Service Controls supported permissions. */
   supportedPermissions?: StringList;
+  /** Use this pagination token to retrieve the next page of results. An empty value indicates that no further results are available. */
+  nextPageToken?: string;
 }
 export const ListSupportedPermissionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     supportedPermissions: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListSupportedPermissionsResponse",
 }) as any as S.Schema<ListSupportedPermissionsResponse>;
 
 export interface ListServicesRequest {
-  /** Use this token to retrieve a specific page of results. Default is the first page. */
-  pageToken?: string;
   /** This flag specifies the maximum number of services to return per page. Default value is 100. */
   pageSize?: number;
+  /** Use this token to retrieve a specific page of results. Default is the first page. */
+  pageToken?: string;
 }
 export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1851,6 +2012,67 @@ export const ListSupportedServicesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListSupportedServicesResponse",
 }) as any as S.Schema<ListSupportedServicesResponse>;
+
+export interface LookupConfiguredServicePerimeterFoldersRequest {
+  /** Required. The Resource to resolve (e.g. "projects/123", "folders/456"). */
+  resource: string;
+}
+export const LookupConfiguredServicePerimeterFoldersRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      resource: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+resource}:lookupConfiguredServicePerimeter",
+        baseUrl: "https://accesscontextmanager.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "LookupConfiguredServicePerimeterFoldersRequest",
+  }) as any as S.Schema<LookupConfiguredServicePerimeterFoldersRequest>;
+
+/** A configured service perimeter returned by Access Context Manager. */
+export interface LookupConfiguredServicePerimeterResponse {
+  /** The resource (e.g. "projects/123", "folders/456") that directly owns/is restricted by the enforced perimeter. */
+  restrictedResource?: string;
+  /** Fully qualified name of the configured enforced perimeter. Format: `accessPolicies/{policy_id}/servicePerimeters/{perimeter_name}` This field is empty if no enforced perimeter applies. */
+  servicePerimeter?: string;
+  /** The resource (e.g. "projects/123", "folders/456") that directly owns/is restricted by the dry-run perimeter. */
+  restrictedResourceDryRun?: string;
+  /** Fully qualified name of the configured dry-run perimeter. Format: `accessPolicies/{policy_id}/servicePerimeters/{perimeter_name}` This field is empty if no dry-run perimeter configuration applies. */
+  servicePerimeterDryRun?: string;
+}
+export const LookupConfiguredServicePerimeterResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restrictedResource: S.optional(S.String),
+      servicePerimeter: S.optional(S.String),
+      restrictedResourceDryRun: S.optional(S.String),
+      servicePerimeterDryRun: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "LookupConfiguredServicePerimeterResponse",
+}) as any as S.Schema<LookupConfiguredServicePerimeterResponse>;
+
+export interface LookupConfiguredServicePerimeterProjectsRequest {
+  /** Required. The Resource to resolve (e.g. "projects/123", "folders/456"). */
+  resource: string;
+}
+export const LookupConfiguredServicePerimeterProjectsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      resource: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+resource}:lookupConfiguredServicePerimeter",
+        baseUrl: "https://accesscontextmanager.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "LookupConfiguredServicePerimeterProjectsRequest",
+  }) as any as S.Schema<LookupConfiguredServicePerimeterProjectsRequest>;
 
 export interface PatchAccessPoliciesRequest {
   /** Output only. Identifier. Resource name of the `AccessPolicy`. Format: `accessPolicies/{access_policy}` */
@@ -1902,18 +2124,18 @@ export const PatchAccessPoliciesAccessLevelsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PatchAccessPoliciesAccessLevelsRequest>;
 
 export interface PatchAccessPoliciesAuthorizedOrgsDescsRequest {
-  /** Identifier. Resource name for the `AuthorizedOrgsDesc`. Format: `accessPolicies/{access_policy}/authorizedOrgsDescs/{authorized_orgs_desc}`. The `authorized_orgs_desc` component must begin with a letter, followed by alphanumeric characters or `_`. After you create an `AuthorizedOrgsDesc`, you cannot change its `name`. */
-  name: string;
   /** Required. Mask to control which fields get updated. Must be non-empty. */
   updateMask?: string;
+  /** Identifier. Resource name for the `AuthorizedOrgsDesc`. Format: `accessPolicies/{access_policy}/authorizedOrgsDescs/{authorized_orgs_desc}`. The `authorized_orgs_desc` component must begin with a letter, followed by alphanumeric characters or `_`. After you create an `AuthorizedOrgsDesc`, you cannot change its `name`. */
+  name: string;
   /** Request body */
   body?: AuthorizedOrgsDesc;
 }
 export const PatchAccessPoliciesAuthorizedOrgsDescsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(AuthorizedOrgsDesc.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1926,9 +2148,20 @@ export const PatchAccessPoliciesAuthorizedOrgsDescsRequest =
     identifier: "PatchAccessPoliciesAuthorizedOrgsDescsRequest",
   }) as any as S.Schema<PatchAccessPoliciesAuthorizedOrgsDescsRequest>;
 
+export type PatchAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum =
+  | "DELETED_PRINCIPAL_SYNTAX_SUPPORT_UNSPECIFIED"
+  | "DELETED_PRINCIPAL_SYNTAX_SUPPORT_DISABLED"
+  | "DELETED_PRINCIPAL_SYNTAX_SUPPORT_ENABLED";
+export const PatchAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum =
+  S.String;
+
 export interface PatchAccessPoliciesServicePerimetersRequest {
   /** Identifier. Resource name for the `ServicePerimeter`. Format: `accessPolicies/{access_policy}/servicePerimeters/{service_perimeter}`. The `service_perimeter` component must begin with a letter, followed by alphanumeric characters or `_`. After you create a `ServicePerimeter`, you cannot change its `name`. */
   name: string;
+  /** Optional. If true, the response will contain the deleted principal syntax for identities that support it and the request can contain identities with deleted principal syntax. */
+  deletedPrincipalSyntax?:
+    | PatchAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum
+    | (string & {});
   /** Required. Mask to control which fields get updated. Must be non-empty. */
   updateMask?: string;
   /** Request body */
@@ -1938,6 +2171,11 @@ export const PatchAccessPoliciesServicePerimetersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       name: S.String.pipe(T.Label()),
+      deletedPrincipalSyntax: S.optional(
+        PatchAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum.pipe(
+          T.Query(),
+        ),
+      ),
       updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(ServicePerimeter.pipe(T.HttpBody())),
     }).pipe(
@@ -1952,21 +2190,21 @@ export const PatchAccessPoliciesServicePerimetersRequest =
   }) as any as S.Schema<PatchAccessPoliciesServicePerimetersRequest>;
 
 export interface PatchOrganizationsGcpUserAccessBindingsRequest {
-  /** Optional. This field controls whether or not certain repeated settings in the update request overwrite or append to existing settings on the binding. If true, then append. Otherwise overwrite. So far, only scoped_access_settings with session_settings supports appending. Global access_levels, access_levels in scoped_access_settings, dry_run_access_levels, and session_settings are not compatible with append functionality, and the request will return an error if append=true when these settings are in the update_mask. The request will also return an error if append=true when "scoped_access_settings" is not set in the update_mask. */
-  append?: boolean;
-  /** Immutable. Assigned by the server during creation. The last segment has an arbitrary length and has only URI unreserved characters (as defined by [RFC 3986 Section 2.3](https://tools.ietf.org/html/rfc3986#section-2.3)). Should not be specified by the client during creation. Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N" */
-  name: string;
   /** Required. Only the fields specified in this mask are updated. Because name and group_key cannot be changed, update_mask is required and may only contain the following fields: `access_levels`, `dry_run_access_levels`, `session_settings`, `scoped_access_settings`. update_mask { paths: "access_levels" } */
   updateMask?: string;
+  /** Immutable. Assigned by the server during creation. The last segment has an arbitrary length and has only URI unreserved characters (as defined by [RFC 3986 Section 2.3](https://tools.ietf.org/html/rfc3986#section-2.3)). Should not be specified by the client during creation. Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N" */
+  name: string;
+  /** Optional. This field controls whether or not certain repeated settings in the update request overwrite or append to existing settings on the binding. If true, then append. Otherwise overwrite. So far, only scoped_access_settings with session_settings supports appending. Global access_levels, access_levels in scoped_access_settings, dry_run_access_levels, and session_settings are not compatible with append functionality, and the request will return an error if append=true when these settings are in the update_mask. The request will also return an error if append=true when "scoped_access_settings" is not set in the update_mask. */
+  append?: boolean;
   /** Request body */
   body?: GcpUserAccessBinding;
 }
 export const PatchOrganizationsGcpUserAccessBindingsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      append: S.optional(S.Boolean.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      append: S.optional(S.Boolean.pipe(T.Query())),
       body: S.optional(GcpUserAccessBinding.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1981,15 +2219,15 @@ export const PatchOrganizationsGcpUserAccessBindingsRequest =
 
 /** A request to replace all existing Access Levels in an Access Policy with the Access Levels provided. This is done atomically. */
 export interface ReplaceAccessLevelsRequest {
-  /** Required. The desired Access Levels that should replace all existing Access Levels in the Access Policy. */
-  accessLevels?: AccessLevelList;
   /** Optional. The etag for the version of the Access Policy that this replace operation is to be performed on. If, at the time of replace, the etag for the Access Policy stored in Access Context Manager is different from the specified etag, then the replace operation will not be performed and the call will fail. This field is not required. If etag is not provided, the operation will be performed as if a valid etag is provided. */
   etag?: string;
+  /** Required. The desired Access Levels that should replace all existing Access Levels in the Access Policy. */
+  accessLevels?: AccessLevelList;
 }
 export const ReplaceAccessLevelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accessLevels: S.optional(AccessLevelList),
     etag: S.optional(S.String),
+    accessLevels: S.optional(AccessLevelList),
   }),
 ).annotate({
   identifier: "ReplaceAccessLevelsRequest",
@@ -2057,15 +2295,15 @@ export const ReplaceAllAccessPoliciesServicePerimetersRequest =
 
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string;
 }
 export const SetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String),
     policy: S.optional(Policy),
+    updateMask: S.optional(S.String),
   }),
 ).annotate({
   identifier: "SetIamPolicyRequest",
@@ -2752,6 +2990,42 @@ export const listServices: API.PaginatedOperationMethod<
     outputToken: "nextPageToken",
   } as const,
 })) as any;
+
+export type LookupConfiguredServicePerimeterFoldersError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Looks up the configured service perimeter for a given resource Format: ['projects/{projectNumber}', 'folders/{folderNumber}']. */
+export const lookupConfiguredServicePerimeterFolders: API.OperationMethod<
+  LookupConfiguredServicePerimeterFoldersRequest,
+  LookupConfiguredServicePerimeterResponse,
+  LookupConfiguredServicePerimeterFoldersError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: LookupConfiguredServicePerimeterFoldersRequest,
+  output: LookupConfiguredServicePerimeterResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type LookupConfiguredServicePerimeterProjectsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Looks up the configured service perimeter for a given resource Format: ['projects/{projectNumber}', 'folders/{folderNumber}']. */
+export const lookupConfiguredServicePerimeterProjects: API.OperationMethod<
+  LookupConfiguredServicePerimeterProjectsRequest,
+  LookupConfiguredServicePerimeterResponse,
+  LookupConfiguredServicePerimeterProjectsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: LookupConfiguredServicePerimeterProjectsRequest,
+  output: LookupConfiguredServicePerimeterResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
 
 export type PatchAccessPoliciesError =
   | NotFound

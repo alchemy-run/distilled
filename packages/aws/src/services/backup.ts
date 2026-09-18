@@ -257,12 +257,77 @@ export const CancelLegalHoldOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CancelLegalHoldOutput",
 }) as any as S.Schema<CancelLegalHoldOutput>;
+export type AccessPointMetadataMapKeyString = string;
+export type AccessPointMetadataMapValueString = string;
+export type AccessPointMetadataMap = { [key: string]: string | undefined };
+export const AccessPointMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export type AccessPointPolicy = string;
+export type AccessPointName = string;
+export type RecoveryPointArn = string;
+export type TagMapKeyString = string;
+export type TagMapValueString = string;
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface CreateBackupAccessPointRequest {
+  AccessPointMetadata?: { [key: string]: string | undefined };
+  AccessPointPolicy?: string;
+  Name: string;
+  RecoveryPointArn: string;
+  Tags?: { [key: string]: string | undefined };
+}
+export const CreateBackupAccessPointRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccessPointMetadata: S.optional(AccessPointMetadataMap),
+    AccessPointPolicy: S.optional(S.String),
+    Name: S.String,
+    RecoveryPointArn: S.String,
+    Tags: S.optional(TagMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/backup-access-point/create" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateBackupAccessPointRequest",
+}) as any as S.Schema<CreateBackupAccessPointRequest>;
+export type AccessPointArn = string;
+export type AccessPointStatus =
+  | "AVAILABLE"
+  | "CREATING"
+  | "DELETING"
+  | "DISASSOCIATED"
+  | "DISASSOCIATING"
+  | "EXPIRED"
+  | "FAILED"
+  | (string & {});
+export const AccessPointStatus = S.String;
+
+export interface CreateBackupAccessPointResponse {
+  AccessPointArn: string;
+  Status: AccessPointStatus;
+}
+export const CreateBackupAccessPointResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AccessPointArn: S.String, Status: AccessPointStatus }),
+).annotate({
+  identifier: "CreateBackupAccessPointResponse",
+}) as any as S.Schema<CreateBackupAccessPointResponse>;
 export type BackupPlanName = string;
 export type BackupRuleName = string;
 export type CronExpression = string;
 export type WindowMinutes = number;
 export type LifecycleDeleteAfterEvent = "DELETE_AFTER_COPY" | (string & {});
-export const LifecycleDeleteAfterEvent = /*@__PURE__*/ S.String;
+export const LifecycleDeleteAfterEvent = S.String;
 
 export interface Lifecycle {
   MoveToColdStorageAfterDays?: number;
@@ -307,10 +372,10 @@ export const IndexAction = /*@__PURE__*/ S.suspend(() =>
 export type IndexActions = IndexAction[];
 export const IndexActions = /*@__PURE__*/ S.Array(IndexAction);
 export type MalwareScanner = "GUARDDUTY" | (string & {});
-export const MalwareScanner = /*@__PURE__*/ S.String;
+export const MalwareScanner = S.String;
 
 export type ScanMode = "FULL_SCAN" | "INCREMENTAL_SCAN" | (string & {});
-export const ScanMode = /*@__PURE__*/ S.String;
+export const ScanMode = S.String;
 
 export interface ScanAction {
   MalwareScanner?: MalwareScanner;
@@ -459,7 +524,7 @@ export type BackupSelectionName = string;
 export type ResourceArns = string[];
 export const ResourceArns = /*@__PURE__*/ S.Array(S.String);
 export type ConditionType = "STRINGEQUALS" | (string & {});
-export const ConditionType = /*@__PURE__*/ S.String;
+export const ConditionType = S.String;
 
 export type ConditionKey = string;
 export type ConditionValue = string;
@@ -759,7 +824,7 @@ export type LegalHoldStatus =
   | "CANCELING"
   | "CANCELED"
   | (string & {});
-export const LegalHoldStatus = /*@__PURE__*/ S.String;
+export const LegalHoldStatus = S.String;
 
 export interface CreateLegalHoldOutput {
   Title?: string;
@@ -817,7 +882,7 @@ export const CreateLogicallyAirGappedBackupVaultInput = /*@__PURE__*/ S.suspend(
   identifier: "CreateLogicallyAirGappedBackupVaultInput",
 }) as any as S.Schema<CreateLogicallyAirGappedBackupVaultInput>;
 export type VaultState = "CREATING" | "AVAILABLE" | "FAILED" | (string & {});
-export const VaultState = /*@__PURE__*/ S.String;
+export const VaultState = S.String;
 
 export interface CreateLogicallyAirGappedBackupVaultOutput {
   BackupVaultName?: string;
@@ -965,14 +1030,13 @@ export type RestoreTestingRecoveryPointSelectionAlgorithm =
   | "LATEST_WITHIN_WINDOW"
   | "RANDOM_WITHIN_WINDOW"
   | (string & {});
-export const RestoreTestingRecoveryPointSelectionAlgorithm =
-  /*@__PURE__*/ S.String;
+export const RestoreTestingRecoveryPointSelectionAlgorithm = S.String;
 
 export type RestoreTestingRecoveryPointType =
   | "CONTINUOUS"
   | "SNAPSHOT"
   | (string & {});
-export const RestoreTestingRecoveryPointType = /*@__PURE__*/ S.String;
+export const RestoreTestingRecoveryPointType = S.String;
 
 export type RestoreTestingRecoveryPointTypeList =
   RestoreTestingRecoveryPointType[];
@@ -1216,6 +1280,34 @@ export const CreateTieringConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateTieringConfigurationOutput",
 }) as any as S.Schema<CreateTieringConfigurationOutput>;
+export interface DeleteBackupAccessPointInput {
+  AccessPointArn: string;
+}
+export const DeleteBackupAccessPointInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccessPointArn: S.String.pipe(T.HttpLabel("AccessPointArn")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/backup-access-point/delete/{AccessPointArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteBackupAccessPointInput",
+}) as any as S.Schema<DeleteBackupAccessPointInput>;
+export interface DeleteBackupAccessPointResponse {}
+export const DeleteBackupAccessPointResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteBackupAccessPointResponse",
+}) as any as S.Schema<DeleteBackupAccessPointResponse>;
 export interface DeleteBackupPlanInput {
   BackupPlanId: string;
 }
@@ -1560,6 +1652,57 @@ export const DeleteTieringConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteTieringConfigurationOutput",
 }) as any as S.Schema<DeleteTieringConfigurationOutput>;
+export interface DescribeBackupAccessPointInput {
+  AccessPointArn: string;
+}
+export const DescribeBackupAccessPointInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccessPointArn: S.String.pipe(T.HttpLabel("AccessPointArn")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/backup-access-point/{AccessPointArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeBackupAccessPointInput",
+}) as any as S.Schema<DescribeBackupAccessPointInput>;
+export type BackupVaultArn = string;
+export type ResourceArn = string;
+export interface DescribeBackupAccessPointResponse {
+  AccessPointArn: string;
+  AccessPointMetadata?: { [key: string]: string | undefined };
+  BackupVaultArn?: string;
+  BackupVaultName: string;
+  CreationTime: Date;
+  Name: string;
+  RecoveryPointArn: string;
+  ResourceArn: string;
+  ResourceType: string;
+  Status: AccessPointStatus;
+  StatusMessage?: string;
+}
+export const DescribeBackupAccessPointResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccessPointArn: S.String,
+    AccessPointMetadata: S.optional(AccessPointMetadataMap),
+    BackupVaultArn: S.optional(S.String),
+    BackupVaultName: S.String,
+    CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Name: S.String,
+    RecoveryPointArn: S.String,
+    ResourceArn: S.String,
+    ResourceType: S.String,
+    Status: AccessPointStatus,
+    StatusMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeBackupAccessPointResponse",
+}) as any as S.Schema<DescribeBackupAccessPointResponse>;
 export interface DescribeBackupJobInput {
   BackupJobId: string;
 }
@@ -1589,7 +1732,7 @@ export type BackupJobState =
   | "EXPIRED"
   | "PARTIAL"
   | (string & {});
-export const BackupJobState = /*@__PURE__*/ S.String;
+export const BackupJobState = S.String;
 
 export interface RecoveryPointCreator {
   BackupPlanId?: string;
@@ -1722,7 +1865,7 @@ export type VaultType =
   | "LOGICALLY_AIR_GAPPED_BACKUP_VAULT"
   | "RESTORE_ACCESS_BACKUP_VAULT"
   | (string & {});
-export const VaultType = /*@__PURE__*/ S.String;
+export const VaultType = S.String;
 
 export type Long2 = number;
 export type MpaSessionStatus =
@@ -1730,7 +1873,7 @@ export type MpaSessionStatus =
   | "APPROVED"
   | "FAILED"
   | (string & {});
-export const MpaSessionStatus = /*@__PURE__*/ S.String;
+export const MpaSessionStatus = S.String;
 
 export interface LatestMpaApprovalTeamUpdate {
   MpaSessionArn?: string;
@@ -1754,7 +1897,7 @@ export type EncryptionKeyType =
   | "AWS_OWNED_KMS_KEY"
   | "CUSTOMER_MANAGED_KMS_KEY"
   | (string & {});
-export const EncryptionKeyType = /*@__PURE__*/ S.String;
+export const EncryptionKeyType = S.String;
 
 export interface DescribeBackupVaultOutput {
   BackupVaultName?: string;
@@ -1822,7 +1965,7 @@ export type CopyJobState =
   | "FAILED"
   | "PARTIAL"
   | (string & {});
-export const CopyJobState = /*@__PURE__*/ S.String;
+export const CopyJobState = S.String;
 
 export type CopyJobChildJobsInState = { [key in CopyJobState]?: number };
 export const CopyJobChildJobsInState = /*@__PURE__*/ S.Record(
@@ -2056,7 +2199,7 @@ export type RecoveryPointStatus =
   | "STOPPED"
   | "CREATING"
   | (string & {});
-export const RecoveryPointStatus = /*@__PURE__*/ S.String;
+export const RecoveryPointStatus = S.String;
 
 export interface CalculatedLifecycle {
   MoveToColdStorageAt?: Date;
@@ -2073,7 +2216,7 @@ export const CalculatedLifecycle = /*@__PURE__*/ S.suspend(() =>
   identifier: "CalculatedLifecycle",
 }) as any as S.Schema<CalculatedLifecycle>;
 export type StorageClass = "WARM" | "COLD" | "DELETED" | (string & {});
-export const StorageClass = /*@__PURE__*/ S.String;
+export const StorageClass = S.String;
 
 export type IndexStatus =
   | "PENDING"
@@ -2081,7 +2224,7 @@ export type IndexStatus =
   | "FAILED"
   | "DELETING"
   | (string & {});
-export const IndexStatus = /*@__PURE__*/ S.String;
+export const IndexStatus = S.String;
 
 export type ScanJobState =
   | "COMPLETED"
@@ -2089,10 +2232,10 @@ export type ScanJobState =
   | "FAILED"
   | "CANCELED"
   | (string & {});
-export const ScanJobState = /*@__PURE__*/ S.String;
+export const ScanJobState = S.String;
 
 export type ScanFinding = "MALWARE" | (string & {});
-export const ScanFinding = /*@__PURE__*/ S.String;
+export const ScanFinding = S.String;
 
 export type ScanFindings = ScanFinding[];
 export const ScanFindings = /*@__PURE__*/ S.Array(ScanFinding);
@@ -2366,7 +2509,7 @@ export type RestoreJobStatus =
   | "ABORTED"
   | "FAILED"
   | (string & {});
-export const RestoreJobStatus = /*@__PURE__*/ S.String;
+export const RestoreJobStatus = S.String;
 
 export interface RestoreJobCreator {
   RestoreTestingPlanArn?: string;
@@ -2382,14 +2525,14 @@ export type RestoreValidationStatus =
   | "TIMED_OUT"
   | "VALIDATING"
   | (string & {});
-export const RestoreValidationStatus = /*@__PURE__*/ S.String;
+export const RestoreValidationStatus = S.String;
 
 export type RestoreDeletionStatus =
   | "DELETING"
   | "FAILED"
   | "SUCCESSFUL"
   | (string & {});
-export const RestoreDeletionStatus = /*@__PURE__*/ S.String;
+export const RestoreDeletionStatus = S.String;
 
 export interface DescribeRestoreJobOutput {
   AccountId?: string;
@@ -2479,14 +2622,14 @@ export const ScanJobCreator = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ScanJobCreator" }) as any as S.Schema<ScanJobCreator>;
 export type ScanResourceType = "EBS" | "EC2" | "S3" | (string & {});
-export const ScanResourceType = /*@__PURE__*/ S.String;
+export const ScanResourceType = S.String;
 
 export type ScanResultStatus =
   | "NO_THREATS_FOUND"
   | "THREATS_FOUND"
   | "UNKNOWN"
   | (string & {});
-export const ScanResultStatus = /*@__PURE__*/ S.String;
+export const ScanResultStatus = S.String;
 
 export interface ScanResultInfo {
   ScanResultStatus: ScanResultStatus;
@@ -2502,7 +2645,7 @@ export type ScanState =
   | "FAILED"
   | "RUNNING"
   | (string & {});
-export const ScanState = /*@__PURE__*/ S.String;
+export const ScanState = S.String;
 
 export interface DescribeScanJobOutput {
   AccountId: string;
@@ -2756,7 +2899,7 @@ export type RuleExecutionType =
   | "SNAPSHOTS"
   | "CONTINUOUS_AND_SNAPSHOTS"
   | (string & {});
-export const RuleExecutionType = /*@__PURE__*/ S.String;
+export const RuleExecutionType = S.String;
 
 export interface ScheduledPlanExecutionMember {
   ExecutionTime?: Date;
@@ -2987,8 +3130,14 @@ export type BackupVaultEvent =
   | "EKS_RESTORE_OBJECT_FAILED"
   | "EKS_RESTORE_OBJECT_SKIPPED"
   | "EKS_BACKUP_OBJECT_FAILED"
+  | "ACCESS_POINT_AVAILABLE"
+  | "ACCESS_POINT_CREATION_FAILED"
+  | "ACCESS_POINT_DELETED"
+  | "ACCESS_POINT_DELETION_FAILED"
+  | "ACCESS_POINT_EXPIRED"
+  | "ACCESS_POINT_DISASSOCIATED"
   | (string & {});
-export const BackupVaultEvent = /*@__PURE__*/ S.String;
+export const BackupVaultEvent = S.String;
 
 export type BackupVaultEvents = BackupVaultEvent[];
 export const BackupVaultEvents = /*@__PURE__*/ S.Array(BackupVaultEvent);
@@ -3481,6 +3630,155 @@ export const GetTieringConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetTieringConfigurationOutput",
 }) as any as S.Schema<GetTieringConfigurationOutput>;
+export type ListBackupAccessPointsRequestMaxResultsInteger = number;
+export interface ListBackupAccessPointsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListBackupAccessPointsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/backup-access-point" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListBackupAccessPointsRequest",
+}) as any as S.Schema<ListBackupAccessPointsRequest>;
+export interface ListAccessPointsMember {
+  AccessPointArn: string;
+  AccessPointMetadata: { [key: string]: string | undefined };
+  BackupVaultArn?: string;
+  BackupVaultName: string;
+  CreationTime: Date;
+  Name: string;
+  RecoveryPointArn: string;
+  ResourceArn: string;
+  ResourceType: string;
+  Status: AccessPointStatus;
+  StatusMessage?: string;
+}
+export const ListAccessPointsMember = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccessPointArn: S.String,
+    AccessPointMetadata: AccessPointMetadataMap,
+    BackupVaultArn: S.optional(S.String),
+    BackupVaultName: S.String,
+    CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Name: S.String,
+    RecoveryPointArn: S.String,
+    ResourceArn: S.String,
+    ResourceType: S.String,
+    Status: AccessPointStatus,
+    StatusMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAccessPointsMember",
+}) as any as S.Schema<ListAccessPointsMember>;
+export type BackupAccessPoints = ListAccessPointsMember[];
+export const BackupAccessPoints = /*@__PURE__*/ S.Array(ListAccessPointsMember);
+export interface ListBackupAccessPointsResponse {
+  BackupAccessPoints: ListAccessPointsMember[];
+  NextToken?: string;
+}
+export const ListBackupAccessPointsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BackupAccessPoints: BackupAccessPoints,
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListBackupAccessPointsResponse",
+}) as any as S.Schema<ListBackupAccessPointsResponse>;
+export type ListBackupAccessPointsByRecoveryPointRequestMaxResultsInteger =
+  number;
+export interface ListBackupAccessPointsByRecoveryPointRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  RecoveryPointArn: string;
+}
+export const ListBackupAccessPointsByRecoveryPointRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+      RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/backup-access-point/recovery-point/{RecoveryPointArn}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "ListBackupAccessPointsByRecoveryPointRequest",
+  }) as any as S.Schema<ListBackupAccessPointsByRecoveryPointRequest>;
+export interface ListBackupAccessPointsByRecoveryPointResponse {
+  BackupAccessPoints: ListAccessPointsMember[];
+  NextToken?: string;
+}
+export const ListBackupAccessPointsByRecoveryPointResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BackupAccessPoints: BackupAccessPoints,
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListBackupAccessPointsByRecoveryPointResponse",
+  }) as any as S.Schema<ListBackupAccessPointsByRecoveryPointResponse>;
+export type ListBackupAccessPointsByResourceRequestMaxResultsInteger = number;
+export interface ListBackupAccessPointsByResourceRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  ResourceArn: string;
+}
+export const ListBackupAccessPointsByResourceRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+      ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/backup-access-point/resource/{ResourceArn}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "ListBackupAccessPointsByResourceRequest",
+}) as any as S.Schema<ListBackupAccessPointsByResourceRequest>;
+export interface ListBackupAccessPointsByResourceResponse {
+  BackupAccessPoints: ListAccessPointsMember[];
+  NextToken?: string;
+}
+export const ListBackupAccessPointsByResourceResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      BackupAccessPoints: BackupAccessPoints,
+      NextToken: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "ListBackupAccessPointsByResourceResponse",
+}) as any as S.Schema<ListBackupAccessPointsByResourceResponse>;
 export type MaxResults = number;
 export interface ListBackupJobsInput {
   NextToken?: string;
@@ -3632,7 +3930,7 @@ export type BackupJobStatus =
   | "AGGREGATE_ALL"
   | "ANY"
   | (string & {});
-export const BackupJobStatus = /*@__PURE__*/ S.String;
+export const BackupJobStatus = S.String;
 
 export type MessageCategory = string;
 export type AggregationPeriod =
@@ -3640,7 +3938,7 @@ export type AggregationPeriod =
   | "SEVEN_DAYS"
   | "FOURTEEN_DAYS"
   | (string & {});
-export const AggregationPeriod = /*@__PURE__*/ S.String;
+export const AggregationPeriod = S.String;
 
 export interface ListBackupJobSummariesInput {
   AccountId?: string;
@@ -4087,7 +4385,7 @@ export type CopyJobStatus =
   | "AGGREGATE_ALL"
   | "ANY"
   | (string & {});
-export const CopyJobStatus = /*@__PURE__*/ S.String;
+export const CopyJobStatus = S.String;
 
 export interface ListCopyJobSummariesInput {
   AccountId?: string;
@@ -4847,7 +5145,7 @@ export const ListRestoreAccessBackupVaultsInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListRestoreAccessBackupVaultsInput",
 }) as any as S.Schema<ListRestoreAccessBackupVaultsInput>;
 export type MpaRevokeSessionStatus = "PENDING" | "FAILED" | (string & {});
-export const MpaRevokeSessionStatus = /*@__PURE__*/ S.String;
+export const MpaRevokeSessionStatus = S.String;
 
 export interface LatestRevokeRequest {
   MpaSessionArn?: string;
@@ -5077,7 +5375,7 @@ export type RestoreJobState =
   | "AGGREGATE_ALL"
   | "ANY"
   | (string & {});
-export const RestoreJobState = /*@__PURE__*/ S.String;
+export const RestoreJobState = S.String;
 
 export interface ListRestoreJobSummariesInput {
   AccountId?: string;
@@ -5408,7 +5706,7 @@ export type ScanJobStatus =
   | "AGGREGATE_ALL"
   | "ANY"
   | (string & {});
-export const ScanJobStatus = /*@__PURE__*/ S.String;
+export const ScanJobStatus = S.String;
 
 export interface ListScanJobSummariesInput {
   AccountId?: string;
@@ -5740,7 +6038,7 @@ export const RevokeRestoreAccessBackupVaultResponse = /*@__PURE__*/ S.suspend(
   identifier: "RevokeRestoreAccessBackupVaultResponse",
 }) as any as S.Schema<RevokeRestoreAccessBackupVaultResponse>;
 export type Index = "ENABLED" | "DISABLED" | (string & {});
-export const Index = /*@__PURE__*/ S.String;
+export const Index = S.String;
 
 export interface StartBackupJobInput {
   BackupVaultName: string;
@@ -6536,6 +6834,47 @@ export const cancelLegalHold: API.OperationMethod<
   operationName: "CancelLegalHold",
 }));
 
+export type CreateBackupAccessPointError =
+  | AlreadyExistsException
+  | ConflictException
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | LimitExceededException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
+/**
+ * Creates a backup access point for an Amazon S3 recovery point. A backup access point provides
+ * on-demand, read-only access to the backup data in a recovery point through an Amazon S3 access point,
+ * without initiating a restore.
+ *
+ * While a backup access point is active for a recovery point, Backup pauses lifecycle transitions
+ * and blocks deletion of that recovery point.
+ */
+export const createBackupAccessPoint: API.OperationMethod<
+  CreateBackupAccessPointRequest,
+  CreateBackupAccessPointResponse,
+  CreateBackupAccessPointError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateBackupAccessPointRequest,
+  output: CreateBackupAccessPointResponse,
+  errors: [
+    AlreadyExistsException,
+    ConflictException,
+    InvalidParameterValueException,
+    InvalidRequestException,
+    LimitExceededException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateBackupAccessPoint",
+}));
+
 export type CreateBackupPlanError =
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -6931,6 +7270,40 @@ export const createTieringConfiguration: API.OperationMethod<
   operationName: "CreateTieringConfiguration",
 }));
 
+export type DeleteBackupAccessPointError =
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
+/**
+ * Deletes a backup access point. This deletes the underlying Amazon S3 access point and, if no other
+ * backup access points remain for the recovery point, resumes lifecycle transitions for that recovery point.
+ *
+ * Always delete backup access points using this operation rather than deleting the underlying Amazon S3
+ * access point directly.
+ */
+export const deleteBackupAccessPoint: API.OperationMethod<
+  DeleteBackupAccessPointInput,
+  DeleteBackupAccessPointResponse,
+  DeleteBackupAccessPointError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteBackupAccessPointInput,
+  output: DeleteBackupAccessPointResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteBackupAccessPoint",
+}));
+
 export type DeleteBackupPlanError =
   | InvalidParameterValueException
   | InvalidRequestException
@@ -7297,6 +7670,40 @@ export const deleteTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTieringConfiguration",
+}));
+
+export type DescribeBackupAccessPointError =
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
+/**
+ * Returns metadata about a backup access point, including its status and the details of the underlying
+ * Amazon S3 access point.
+ *
+ * After a backup access point reaches the `AVAILABLE` status, use this operation to retrieve the
+ * Amazon S3 access point ARN and alias that you need to read the backup data.
+ */
+export const describeBackupAccessPoint: API.OperationMethod<
+  DescribeBackupAccessPointInput,
+  DescribeBackupAccessPointResponse,
+  DescribeBackupAccessPointError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribeBackupAccessPointInput,
+  output: DescribeBackupAccessPointResponse,
+  errors: [
+    InvalidParameterValueException,
+    InvalidRequestException,
+    MissingParameterValueException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeBackupAccessPoint",
 }));
 
 export type DescribeBackupJobError =
@@ -8196,6 +8603,94 @@ export const getTieringConfiguration: API.OperationMethod<
   operationName: "GetTieringConfiguration",
 }));
 
+export type ListBackupAccessPointsError =
+  | InvalidParameterValueException
+  | ServiceUnavailableException
+  | CommonErrors;
+/**
+ * Returns a list of the backup access points in your account and Region.
+ */
+export const listBackupAccessPoints: API.PaginatedOperationMethod<
+  ListBackupAccessPointsRequest,
+  ListBackupAccessPointsResponse,
+  ListBackupAccessPointsError,
+  Credentials | HttpClient.HttpClient,
+  ListAccessPointsMember
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListBackupAccessPointsRequest,
+  output: ListBackupAccessPointsResponse,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListBackupAccessPoints",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BackupAccessPoints",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
+
+export type ListBackupAccessPointsByRecoveryPointError =
+  | InvalidParameterValueException
+  | ServiceUnavailableException
+  | CommonErrors;
+/**
+ * Returns the backup access points associated with the specified recovery point.
+ *
+ * If you own the recovery point and have shared it with other accounts, the response includes backup access
+ * points created by those accounts.
+ */
+export const listBackupAccessPointsByRecoveryPoint: API.PaginatedOperationMethod<
+  ListBackupAccessPointsByRecoveryPointRequest,
+  ListBackupAccessPointsByRecoveryPointResponse,
+  ListBackupAccessPointsByRecoveryPointError,
+  Credentials | HttpClient.HttpClient,
+  ListAccessPointsMember
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListBackupAccessPointsByRecoveryPointRequest,
+  output: ListBackupAccessPointsByRecoveryPointResponse,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListBackupAccessPointsByRecoveryPoint",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BackupAccessPoints",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
+
+export type ListBackupAccessPointsByResourceError =
+  | InvalidParameterValueException
+  | ServiceUnavailableException
+  | CommonErrors;
+/**
+ * Returns the backup access points associated with the specified resource, such as an Amazon S3
+ * bucket.
+ */
+export const listBackupAccessPointsByResource: API.PaginatedOperationMethod<
+  ListBackupAccessPointsByResourceRequest,
+  ListBackupAccessPointsByResourceResponse,
+  ListBackupAccessPointsByResourceError,
+  Credentials | HttpClient.HttpClient,
+  ListAccessPointsMember
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListBackupAccessPointsByResourceRequest,
+  output: ListBackupAccessPointsByResourceResponse,
+  errors: [InvalidParameterValueException, ServiceUnavailableException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListBackupAccessPointsByResource",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "BackupAccessPoints",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
+
 export type ListBackupJobsError =
   | InvalidParameterValueException
   | ServiceUnavailableException
@@ -8231,7 +8726,7 @@ export type ListBackupJobSummariesError =
   | CommonErrors;
 /**
  * This is a request for a summary of backup jobs created
- * or running within the most recent 30 days. You can
+ * or running within the most recent 14 days. You can
  * include parameters AccountID, State, ResourceType, MessageCategory,
  * AggregationPeriod, MaxResults, or NextToken to filter
  * results.
@@ -8472,7 +8967,7 @@ export type ListCopyJobSummariesError =
   | CommonErrors;
 /**
  * This request obtains a list of copy jobs created
- * or running within the the most recent 30 days. You can
+ * or running within the the most recent 14 days. You can
  * include parameters AccountID, State, ResourceType, MessageCategory,
  * AggregationPeriod, MaxResults, or NextToken to filter
  * results.
@@ -8599,9 +9094,10 @@ export type ListProtectedResourcesError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * Returns an array of resources successfully backed up by Backup, including
- * the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a
- * resource type.
+ * Returns an array of resources with recovery points created by Backup
+ * (regardless of the recovery point's status),
+ * including the time the resource was saved, an Amazon Resource Name (ARN) of the resource,
+ * and a resource type.
  */
 export const listProtectedResources: API.PaginatedOperationMethod<
   ListProtectedResourcesInput,
@@ -8942,7 +9438,7 @@ export type ListRestoreJobSummariesError =
   | CommonErrors;
 /**
  * This request obtains a summary of restore jobs created
- * or running within the the most recent 30 days. You can
+ * or running within the the most recent 14 days. You can
  * include parameters AccountID, State, ResourceType,
  * AggregationPeriod, MaxResults, or NextToken to filter
  * results.
@@ -9066,7 +9562,7 @@ export type ListScanJobSummariesError =
   | ServiceUnavailableException
   | CommonErrors;
 /**
- * This is a request for a summary of scan jobs created or running within the most recent 30 days.
+ * This is a request for a summary of scan jobs created or running within the most recent 14 days.
  */
 export const listScanJobSummaries: API.PaginatedOperationMethod<
   ListScanJobSummariesInput,

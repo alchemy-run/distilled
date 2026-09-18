@@ -180,7 +180,9 @@ export class ValidationException
     "ValidationException",
     {
       message: S.String.pipe(T.ErrorMessage()),
-      Reason: S.String,
+      Reason: S.suspend(() => ValidationExceptionReason).annotate({
+        identifier: "ValidationExceptionReason",
+      }),
       FieldList: S.suspend(() => ValidationExceptionFieldList).annotate({
         identifier: "ValidationExceptionFieldList",
       }),
@@ -203,14 +205,27 @@ export const FilterCircle = /*@__PURE__*/ S.suspend(() =>
 export type CountryCode = string | redacted.Redacted<string>;
 export type CountryCodeList = (string | redacted.Redacted<string>)[];
 export const CountryCodeList = /*@__PURE__*/ S.Array(SensitiveString);
-export type AutocompleteFilterPlaceType = string;
-export type AutocompleteFilterPlaceTypeList = string[];
-export const AutocompleteFilterPlaceTypeList = /*@__PURE__*/ S.Array(S.String);
+export type AutocompleteFilterPlaceType =
+  | "Locality"
+  | "PostalCode"
+  | "Street"
+  | "Intersection"
+  | "PointAddress"
+  | "InterpolatedAddress"
+  | "Country"
+  | "Region"
+  | (string & {});
+export const AutocompleteFilterPlaceType = S.String;
+
+export type AutocompleteFilterPlaceTypeList = AutocompleteFilterPlaceType[];
+export const AutocompleteFilterPlaceTypeList = /*@__PURE__*/ S.Array(
+  AutocompleteFilterPlaceType,
+);
 export interface AutocompleteFilter {
   BoundingBox?: number[];
   Circle?: FilterCircle;
   IncludeCountries?: (string | redacted.Redacted<string>)[];
-  IncludePlaceTypes?: string[];
+  IncludePlaceTypes?: AutocompleteFilterPlaceType[];
 }
 export const AutocompleteFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -222,25 +237,35 @@ export const AutocompleteFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AutocompleteFilter",
 }) as any as S.Schema<AutocompleteFilter>;
-export type PostalCodeMode = string;
-export type AutocompleteAdditionalFeature = string;
-export type AutocompleteAdditionalFeatureList = string[];
+export type PostalCodeMode =
+  | "MergeAllSpannedLocalities"
+  | "EnumerateSpannedLocalities"
+  | "EnumerateSpannedDistricts"
+  | (string & {});
+export const PostalCodeMode = S.String;
+
+export type AutocompleteAdditionalFeature = "Core" | (string & {});
+export const AutocompleteAdditionalFeature = S.String;
+
+export type AutocompleteAdditionalFeatureList = AutocompleteAdditionalFeature[];
 export const AutocompleteAdditionalFeatureList = /*@__PURE__*/ S.Array(
-  S.String,
+  AutocompleteAdditionalFeature,
 );
 export type LanguageTag = string;
-export type AutocompleteIntendedUse = string;
+export type AutocompleteIntendedUse = "SingleUse" | (string & {});
+export const AutocompleteIntendedUse = S.String;
+
 export type ApiKey = string | redacted.Redacted<string>;
 export interface AutocompleteRequest {
   QueryText: string | redacted.Redacted<string>;
   MaxResults?: number;
   BiasPosition?: number[];
   Filter?: AutocompleteFilter;
-  PostalCodeMode?: string;
-  AdditionalFeatures?: string[];
+  PostalCodeMode?: PostalCodeMode;
+  AdditionalFeatures?: AutocompleteAdditionalFeature[];
   Language?: string;
   PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: string;
+  IntendedUse?: AutocompleteIntendedUse;
   Key?: string | redacted.Redacted<string>;
 }
 export const AutocompleteRequest = /*@__PURE__*/ S.suspend(() =>
@@ -249,11 +274,11 @@ export const AutocompleteRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     BiasPosition: S.optional(Position),
     Filter: S.optional(AutocompleteFilter),
-    PostalCodeMode: S.optional(S.String),
+    PostalCodeMode: S.optional(PostalCodeMode),
     AdditionalFeatures: S.optional(AutocompleteAdditionalFeatureList),
     Language: S.optional(S.String),
     PoliticalView: S.optional(SensitiveString),
-    IntendedUse: S.optional(S.String),
+    IntendedUse: S.optional(AutocompleteIntendedUse),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
@@ -268,7 +293,26 @@ export const AutocompleteRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AutocompleteRequest",
 }) as any as S.Schema<AutocompleteRequest>;
-export type PlaceType = string | redacted.Redacted<string>;
+export type PlaceType =
+  | "Country"
+  | "Region"
+  | "SubRegion"
+  | "Locality"
+  | "District"
+  | "SubDistrict"
+  | "PostalCode"
+  | "Block"
+  | "SubBlock"
+  | "Intersection"
+  | "Street"
+  | "PointOfInterest"
+  | "PointAddress"
+  | "InterpolatedAddress"
+  | "SecondaryAddress"
+  | "InferredSecondaryAddress"
+  | (string & {});
+export const PlaceType = S.String;
+
 export type CountryCode2 = string | redacted.Redacted<string>;
 export type CountryCode3 = string | redacted.Redacted<string>;
 export interface Country {
@@ -306,12 +350,14 @@ export const SubRegion = /*@__PURE__*/ S.suspend(() =>
 export type IntersectionStreet = string;
 export type IntersectionStreetList = string[];
 export const IntersectionStreetList = /*@__PURE__*/ S.Array(S.String);
-export type TypePlacement = string;
+export type TypePlacement = "BeforeBaseName" | "AfterBaseName" | (string & {});
+export const TypePlacement = S.String;
+
 export type TypeSeparator = string;
 export interface StreetComponents {
   BaseName?: string | redacted.Redacted<string>;
   Type?: string | redacted.Redacted<string>;
-  TypePlacement?: string;
+  TypePlacement?: TypePlacement;
   TypeSeparator?: string;
   Prefix?: string | redacted.Redacted<string>;
   Suffix?: string | redacted.Redacted<string>;
@@ -322,7 +368,7 @@ export const StreetComponents = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     BaseName: S.optional(SensitiveString),
     Type: S.optional(SensitiveString),
-    TypePlacement: S.optional(S.String),
+    TypePlacement: S.optional(TypePlacement),
     TypeSeparator: S.optional(S.String),
     Prefix: S.optional(SensitiveString),
     Suffix: S.optional(SensitiveString),
@@ -488,26 +534,29 @@ export const AutocompleteHighlights = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AutocompleteHighlights",
 }) as any as S.Schema<AutocompleteHighlights>;
+export type SensitiveBoolean = boolean;
 export interface AutocompleteResultItem {
   PlaceId: string | redacted.Redacted<string>;
-  PlaceType: string | redacted.Redacted<string>;
+  PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
   Address?: Address;
   Distance?: number;
   Language?: string;
   PoliticalView?: string | redacted.Redacted<string>;
   Highlights?: AutocompleteHighlights;
+  EstimatedPointAddress?: boolean;
 }
 export const AutocompleteResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PlaceId: SensitiveString,
-    PlaceType: SensitiveString,
+    PlaceType: PlaceType,
     Title: SensitiveString,
     Address: S.optional(Address),
     Distance: S.optional(S.Number),
     Language: S.optional(S.String),
     PoliticalView: S.optional(SensitiveString),
     Highlights: S.optional(AutocompleteHighlights),
+    EstimatedPointAddress: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "AutocompleteResultItem",
@@ -552,13 +601,27 @@ export const GeocodeQueryComponents = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GeocodeQueryComponents",
 }) as any as S.Schema<GeocodeQueryComponents>;
-export type GeocodeFilterPlaceType = string | redacted.Redacted<string>;
-export type GeocodeFilterPlaceTypeList = (string | redacted.Redacted<string>)[];
-export const GeocodeFilterPlaceTypeList =
-  /*@__PURE__*/ S.Array(SensitiveString);
+export type GeocodeFilterPlaceType =
+  | "Locality"
+  | "PostalCode"
+  | "Intersection"
+  | "Street"
+  | "PointAddress"
+  | "InterpolatedAddress"
+  | "SecondaryAddress"
+  | "PointOfInterest"
+  | "Country"
+  | "Region"
+  | (string & {});
+export const GeocodeFilterPlaceType = S.String;
+
+export type GeocodeFilterPlaceTypeList = GeocodeFilterPlaceType[];
+export const GeocodeFilterPlaceTypeList = /*@__PURE__*/ S.Array(
+  GeocodeFilterPlaceType,
+);
 export interface GeocodeFilter {
   IncludeCountries?: (string | redacted.Redacted<string>)[];
-  IncludePlaceTypes?: (string | redacted.Redacted<string>)[];
+  IncludePlaceTypes?: GeocodeFilterPlaceType[];
 }
 export const GeocodeFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -566,21 +629,53 @@ export const GeocodeFilter = /*@__PURE__*/ S.suspend(() =>
     IncludePlaceTypes: S.optional(GeocodeFilterPlaceTypeList),
   }),
 ).annotate({ identifier: "GeocodeFilter" }) as any as S.Schema<GeocodeFilter>;
-export type GeocodeAdditionalFeature = string;
-export type GeocodeAdditionalFeatureList = string[];
-export const GeocodeAdditionalFeatureList = /*@__PURE__*/ S.Array(S.String);
-export type GeocodeIntendedUse = string;
+export type GeocodeAdditionalFeature =
+  | "TimeZone"
+  | "Access"
+  | "SecondaryAddresses"
+  | "Intersections"
+  | (string & {});
+export const GeocodeAdditionalFeature = S.String;
+
+export type GeocodeAdditionalFeatureList = GeocodeAdditionalFeature[];
+export const GeocodeAdditionalFeatureList = /*@__PURE__*/ S.Array(
+  GeocodeAdditionalFeature,
+);
+export type GeocodeIntendedUse = "SingleUse" | "Storage" | (string & {});
+export const GeocodeIntendedUse = S.String;
+
+export type AddressTranslationComponent =
+  | "District"
+  | "Locality"
+  | "Region"
+  | "SubRegion"
+  | (string & {});
+export const AddressTranslationComponent = S.String;
+
+export type AddressTranslationComponentList = AddressTranslationComponent[];
+export const AddressTranslationComponentList = /*@__PURE__*/ S.Array(
+  AddressTranslationComponent,
+);
+export type GeocodeAddressNamesMode =
+  | "Matched"
+  | "Administrative"
+  | (string & {});
+export const GeocodeAddressNamesMode = S.String;
+
 export interface GeocodeRequest {
   QueryText?: string | redacted.Redacted<string>;
   QueryComponents?: GeocodeQueryComponents;
   MaxResults?: number;
   BiasPosition?: number[];
   Filter?: GeocodeFilter;
-  AdditionalFeatures?: string[];
+  AdditionalFeatures?: GeocodeAdditionalFeature[];
   Language?: string;
   PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: string;
+  IntendedUse?: GeocodeIntendedUse;
   Key?: string | redacted.Redacted<string>;
+  PostalCodeMode?: PostalCodeMode;
+  AddressTranslations?: AddressTranslationComponent[];
+  AddressNamesMode?: GeocodeAddressNamesMode;
 }
 export const GeocodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -592,8 +687,11 @@ export const GeocodeRequest = /*@__PURE__*/ S.suspend(() =>
     AdditionalFeatures: S.optional(GeocodeAdditionalFeatureList),
     Language: S.optional(S.String),
     PoliticalView: S.optional(SensitiveString),
-    IntendedUse: S.optional(S.String),
+    IntendedUse: S.optional(GeocodeIntendedUse),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
+    PostalCodeMode: S.optional(PostalCodeMode),
+    AddressTranslations: S.optional(AddressTranslationComponentList),
+    AddressNamesMode: S.optional(GeocodeAddressNamesMode),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v2/geocode" }),
@@ -605,35 +703,53 @@ export const GeocodeRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({ identifier: "GeocodeRequest" }) as any as S.Schema<GeocodeRequest>;
-export type SensitiveBoolean = boolean;
-export type PostalAuthority = string | redacted.Redacted<string>;
-export type PostalCodeType = string | redacted.Redacted<string>;
-export type ZipClassificationCode = string | redacted.Redacted<string>;
+export type PostalAuthority = "Usps" | (string & {});
+export const PostalAuthority = S.String;
+
+export type PostalCodeType = "UspsZip" | "UspsZipPlus4" | (string & {});
+export const PostalCodeType = S.String;
+
+export type ZipClassificationCode =
+  | "Military"
+  | "PostOfficeBoxes"
+  | "Unique"
+  | (string & {});
+export const ZipClassificationCode = S.String;
+
 export interface UspsZip {
-  ZipClassificationCode?: string | redacted.Redacted<string>;
+  ZipClassificationCode?: ZipClassificationCode;
 }
 export const UspsZip = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ZipClassificationCode: S.optional(SensitiveString) }),
+  S.Struct({ ZipClassificationCode: S.optional(ZipClassificationCode) }),
 ).annotate({ identifier: "UspsZip" }) as any as S.Schema<UspsZip>;
-export type RecordTypeCode = string | redacted.Redacted<string>;
+export type RecordTypeCode =
+  | "Firm"
+  | "General"
+  | "HighRise"
+  | "PostOfficeBox"
+  | "Rural"
+  | "Street"
+  | (string & {});
+export const RecordTypeCode = S.String;
+
 export interface UspsZipPlus4 {
-  RecordTypeCode?: string | redacted.Redacted<string>;
+  RecordTypeCode?: RecordTypeCode;
 }
 export const UspsZipPlus4 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RecordTypeCode: S.optional(SensitiveString) }),
+  S.Struct({ RecordTypeCode: S.optional(RecordTypeCode) }),
 ).annotate({ identifier: "UspsZipPlus4" }) as any as S.Schema<UspsZipPlus4>;
 export interface PostalCodeDetails {
   PostalCode?: string | redacted.Redacted<string>;
-  PostalAuthority?: string | redacted.Redacted<string>;
-  PostalCodeType?: string | redacted.Redacted<string>;
+  PostalAuthority?: PostalAuthority;
+  PostalCodeType?: PostalCodeType;
   UspsZip?: UspsZip;
   UspsZipPlus4?: UspsZipPlus4;
 }
 export const PostalCodeDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PostalCode: S.optional(SensitiveString),
-    PostalAuthority: S.optional(SensitiveString),
-    PostalCodeType: S.optional(SensitiveString),
+    PostalAuthority: S.optional(PostalAuthority),
+    PostalCodeType: S.optional(PostalCodeType),
     UspsZip: S.optional(UspsZip),
     UspsZipPlus4: S.optional(UspsZipPlus4),
   }),
@@ -672,11 +788,30 @@ export const FoodType = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "FoodType" }) as any as S.Schema<FoodType>;
 export type FoodTypeList = FoodType[];
 export const FoodTypeList = /*@__PURE__*/ S.Array(FoodType);
+export type AccessPointType =
+  | "Delivery"
+  | "Emergency"
+  | "Entrance"
+  | "Loading"
+  | "Other"
+  | "Parking"
+  | "Taxi"
+  | (string & {});
+export const AccessPointType = S.String;
+
 export interface AccessPoint {
   Position?: number[];
+  Type?: AccessPointType;
+  Primary?: boolean;
+  Label?: string | redacted.Redacted<string>;
 }
 export const AccessPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Position: S.optional(Position) }),
+  S.Struct({
+    Position: S.optional(Position),
+    Type: S.optional(AccessPointType),
+    Primary: S.optional(S.Boolean),
+    Label: S.optional(SensitiveString),
+  }),
 ).annotate({ identifier: "AccessPoint" }) as any as S.Schema<AccessPoint>;
 export type AccessPointList = AccessPoint[];
 export const AccessPointList = /*@__PURE__*/ S.Array(AccessPoint);
@@ -826,6 +961,7 @@ export interface GeocodeParsedQueryAddressComponents {
   AddressNumber?: ParsedQueryComponent[];
   Building?: ParsedQueryComponent[];
   SecondaryAddressComponents?: ParsedQuerySecondaryAddressComponent[];
+  OtherComponents?: ParsedQueryComponent[];
 }
 export const GeocodeParsedQueryAddressComponents = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -844,6 +980,7 @@ export const GeocodeParsedQueryAddressComponents = /*@__PURE__*/ S.suspend(() =>
     SecondaryAddressComponents: S.optional(
       ParsedQuerySecondaryAddressComponentList,
     ),
+    OtherComponents: S.optional(ParsedQueryComponentList),
   }),
 ).annotate({
   identifier: "GeocodeParsedQueryAddressComponents",
@@ -886,7 +1023,7 @@ export type IntersectionList = Intersection[];
 export const IntersectionList = /*@__PURE__*/ S.Array(Intersection);
 export interface RelatedPlace {
   PlaceId: string | redacted.Redacted<string>;
-  PlaceType: string | redacted.Redacted<string>;
+  PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
   Address?: Address;
   Position?: number[];
@@ -895,7 +1032,7 @@ export interface RelatedPlace {
 export const RelatedPlace = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PlaceId: SensitiveString,
-    PlaceType: SensitiveString,
+    PlaceType: PlaceType,
     Title: SensitiveString,
     Address: S.optional(Address),
     Position: S.optional(Position),
@@ -904,9 +1041,70 @@ export const RelatedPlace = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "RelatedPlace" }) as any as S.Schema<RelatedPlace>;
 export type RelatedPlaceList = RelatedPlace[];
 export const RelatedPlaceList = /*@__PURE__*/ S.Array(RelatedPlace);
+export type TranslationNameType =
+  | "Abbreviation"
+  | "AreaCode"
+  | "BaseName"
+  | "Exonym"
+  | "Shortened"
+  | "Synonym"
+  | (string & {});
+export const TranslationNameType = S.String;
+
+export interface TranslationName {
+  Value: string | redacted.Redacted<string>;
+  Language?: string;
+  Type: TranslationNameType;
+  Primary?: boolean;
+  Transliterated?: boolean;
+}
+export const TranslationName = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Value: SensitiveString,
+    Language: S.optional(S.String),
+    Type: TranslationNameType,
+    Primary: S.optional(S.Boolean),
+    Transliterated: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "TranslationName",
+}) as any as S.Schema<TranslationName>;
+export type TranslationNameList = TranslationName[];
+export const TranslationNameList = /*@__PURE__*/ S.Array(TranslationName);
+export type AdminNamesPreference = "Alternative" | "Primary" | (string & {});
+export const AdminNamesPreference = S.String;
+
+export interface AdminNames {
+  Names: TranslationName[];
+  Preference?: AdminNamesPreference;
+}
+export const AdminNames = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Names: TranslationNameList,
+    Preference: S.optional(AdminNamesPreference),
+  }),
+).annotate({ identifier: "AdminNames" }) as any as S.Schema<AdminNames>;
+export type AdminNamesList = AdminNames[];
+export const AdminNamesList = /*@__PURE__*/ S.Array(AdminNames);
+export interface TranslationDetails {
+  Locality?: AdminNames[];
+  Region?: AdminNames[];
+  District?: AdminNames[];
+  SubRegion?: AdminNames[];
+}
+export const TranslationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Locality: S.optional(AdminNamesList),
+    Region: S.optional(AdminNamesList),
+    District: S.optional(AdminNamesList),
+    SubRegion: S.optional(AdminNamesList),
+  }),
+).annotate({
+  identifier: "TranslationDetails",
+}) as any as S.Schema<TranslationDetails>;
 export interface GeocodeResultItem {
   PlaceId: string | redacted.Redacted<string>;
-  PlaceType: string | redacted.Redacted<string>;
+  PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
   Address?: Address;
   AddressNumberCorrected?: boolean;
@@ -924,11 +1122,13 @@ export interface GeocodeResultItem {
   Intersections?: Intersection[];
   MainAddress?: RelatedPlace;
   SecondaryAddresses?: RelatedPlace[];
+  Translations?: TranslationDetails;
+  EstimatedPointAddress?: boolean;
 }
 export const GeocodeResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PlaceId: SensitiveString,
-    PlaceType: SensitiveString,
+    PlaceType: PlaceType,
     Title: SensitiveString,
     Address: S.optional(Address),
     AddressNumberCorrected: S.optional(S.Boolean),
@@ -946,6 +1146,8 @@ export const GeocodeResultItem = /*@__PURE__*/ S.suspend(() =>
     Intersections: S.optional(IntersectionList),
     MainAddress: S.optional(RelatedPlace),
     SecondaryAddresses: S.optional(RelatedPlaceList),
+    Translations: S.optional(TranslationDetails),
+    EstimatedPointAddress: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GeocodeResultItem",
@@ -964,17 +1166,34 @@ export const GeocodeResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GeocodeResponse",
 }) as any as S.Schema<GeocodeResponse>;
-export type GetPlaceAdditionalFeature = string;
-export type GetPlaceAdditionalFeatureList = string[];
-export const GetPlaceAdditionalFeatureList = /*@__PURE__*/ S.Array(S.String);
-export type GetPlaceIntendedUse = string;
+export type GetPlaceAdditionalFeature =
+  | "TimeZone"
+  | "Phonemes"
+  | "Access"
+  | "Contact"
+  | "SecondaryAddresses"
+  | "CrossReferences"
+  | (string & {});
+export const GetPlaceAdditionalFeature = S.String;
+
+export type GetPlaceAdditionalFeatureList = GetPlaceAdditionalFeature[];
+export const GetPlaceAdditionalFeatureList = /*@__PURE__*/ S.Array(
+  GetPlaceAdditionalFeature,
+);
+export type GetPlaceIntendedUse = "SingleUse" | "Storage" | (string & {});
+export const GetPlaceIntendedUse = S.String;
+
+export type GetPlaceAddressNamesMode = "Administrative" | (string & {});
+export const GetPlaceAddressNamesMode = S.String;
+
 export interface GetPlaceRequest {
   PlaceId: string | redacted.Redacted<string>;
-  AdditionalFeatures?: string[];
+  AdditionalFeatures?: GetPlaceAdditionalFeature[];
   Language?: string;
   PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: string;
+  IntendedUse?: GetPlaceIntendedUse;
   Key?: string | redacted.Redacted<string>;
+  AddressNamesMode?: GetPlaceAddressNamesMode;
 }
 export const GetPlaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -986,8 +1205,13 @@ export const GetPlaceRequest = /*@__PURE__*/ S.suspend(() =>
     PoliticalView: S.optional(SensitiveString).pipe(
       T.HttpQuery("political-view"),
     ),
-    IntendedUse: S.optional(S.String).pipe(T.HttpQuery("intended-use")),
+    IntendedUse: S.optional(GetPlaceIntendedUse).pipe(
+      T.HttpQuery("intended-use"),
+    ),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
+    AddressNamesMode: S.optional(GetPlaceAddressNamesMode).pipe(
+      T.HttpQuery("address-names-mode"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/v2/place/{PlaceId}" }),
@@ -1145,9 +1369,28 @@ export const PhonemeDetails = /*@__PURE__*/ S.suspend(() =>
     Address: S.optional(AddressComponentPhonemes),
   }),
 ).annotate({ identifier: "PhonemeDetails" }) as any as S.Schema<PhonemeDetails>;
+export type PlaceAttribute = "DriveThrough" | (string & {});
+export const PlaceAttribute = S.String;
+
+export type PlaceAttributeList = PlaceAttribute[];
+export const PlaceAttributeList = /*@__PURE__*/ S.Array(PlaceAttribute);
+export interface CrossReference {
+  Source: string | redacted.Redacted<string>;
+  SourcePlaceId: string | redacted.Redacted<string>;
+  SourceCategories?: Category[];
+}
+export const CrossReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Source: SensitiveString,
+    SourcePlaceId: SensitiveString,
+    SourceCategories: S.optional(CategoryList),
+  }),
+).annotate({ identifier: "CrossReference" }) as any as S.Schema<CrossReference>;
+export type CrossReferenceList = CrossReference[];
+export const CrossReferenceList = /*@__PURE__*/ S.Array(CrossReference);
 export interface GetPlaceResponse {
   PlaceId: string | redacted.Redacted<string>;
-  PlaceType: string | redacted.Redacted<string>;
+  PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
   PricingBucket: string;
   Address?: Address;
@@ -1167,11 +1410,14 @@ export interface GetPlaceResponse {
   Phonemes?: PhonemeDetails;
   MainAddress?: RelatedPlace;
   SecondaryAddresses?: RelatedPlace[];
+  PlaceAttributes?: PlaceAttribute[];
+  EstimatedPointAddress?: boolean;
+  CrossReferences?: CrossReference[];
 }
 export const GetPlaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PlaceId: SensitiveString,
-    PlaceType: SensitiveString,
+    PlaceType: PlaceType,
     Title: SensitiveString,
     PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
     Address: S.optional(Address),
@@ -1191,17 +1437,30 @@ export const GetPlaceResponse = /*@__PURE__*/ S.suspend(() =>
     Phonemes: S.optional(PhonemeDetails),
     MainAddress: S.optional(RelatedPlace),
     SecondaryAddresses: S.optional(RelatedPlaceList),
+    PlaceAttributes: S.optional(PlaceAttributeList),
+    EstimatedPointAddress: S.optional(S.Boolean),
+    CrossReferences: S.optional(CrossReferenceList),
   }),
 ).annotate({
   identifier: "GetPlaceResponse",
 }) as any as S.Schema<GetPlaceResponse>;
-export type ReverseGeocodeFilterPlaceType = string;
-export type ReverseGeocodeFilterPlaceTypeList = string[];
+export type ReverseGeocodeFilterPlaceType =
+  | "Locality"
+  | "Intersection"
+  | "Street"
+  | "PointAddress"
+  | "InterpolatedAddress"
+  | "SecondaryAddress"
+  | "PointOfInterest"
+  | (string & {});
+export const ReverseGeocodeFilterPlaceType = S.String;
+
+export type ReverseGeocodeFilterPlaceTypeList = ReverseGeocodeFilterPlaceType[];
 export const ReverseGeocodeFilterPlaceTypeList = /*@__PURE__*/ S.Array(
-  S.String,
+  ReverseGeocodeFilterPlaceType,
 );
 export interface ReverseGeocodeFilter {
-  IncludePlaceTypes?: string[];
+  IncludePlaceTypes?: ReverseGeocodeFilterPlaceType[];
 }
 export const ReverseGeocodeFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1210,24 +1469,37 @@ export const ReverseGeocodeFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ReverseGeocodeFilter",
 }) as any as S.Schema<ReverseGeocodeFilter>;
-export type ReverseGeocodeAdditionalFeature = string;
-export type ReverseGeocodeAdditionalFeatureList = string[];
+export type ReverseGeocodeAdditionalFeature =
+  | "TimeZone"
+  | "Access"
+  | "Intersections"
+  | (string & {});
+export const ReverseGeocodeAdditionalFeature = S.String;
+
+export type ReverseGeocodeAdditionalFeatureList =
+  ReverseGeocodeAdditionalFeature[];
 export const ReverseGeocodeAdditionalFeatureList = /*@__PURE__*/ S.Array(
-  S.String,
+  ReverseGeocodeAdditionalFeature,
 );
-export type ReverseGeocodeIntendedUse = string;
+export type ReverseGeocodeIntendedUse = "SingleUse" | "Storage" | (string & {});
+export const ReverseGeocodeIntendedUse = S.String;
+
 export type Heading = number;
+export type ReverseGeocodeAddressNamesMode = "Administrative" | (string & {});
+export const ReverseGeocodeAddressNamesMode = S.String;
+
 export interface ReverseGeocodeRequest {
   QueryPosition: number[];
   QueryRadius?: number;
   MaxResults?: number;
   Filter?: ReverseGeocodeFilter;
-  AdditionalFeatures?: string[];
+  AdditionalFeatures?: ReverseGeocodeAdditionalFeature[];
   Language?: string;
   PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: string;
+  IntendedUse?: ReverseGeocodeIntendedUse;
   Key?: string | redacted.Redacted<string>;
   Heading?: number;
+  AddressNamesMode?: ReverseGeocodeAddressNamesMode;
 }
 export const ReverseGeocodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1238,9 +1510,10 @@ export const ReverseGeocodeRequest = /*@__PURE__*/ S.suspend(() =>
     AdditionalFeatures: S.optional(ReverseGeocodeAdditionalFeatureList),
     Language: S.optional(S.String),
     PoliticalView: S.optional(SensitiveString),
-    IntendedUse: S.optional(S.String),
+    IntendedUse: S.optional(ReverseGeocodeIntendedUse),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
     Heading: S.optional(S.Number),
+    AddressNamesMode: S.optional(ReverseGeocodeAddressNamesMode),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v2/reverse-geocode" }),
@@ -1256,7 +1529,7 @@ export const ReverseGeocodeRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ReverseGeocodeRequest>;
 export interface ReverseGeocodeResultItem {
   PlaceId: string | redacted.Redacted<string>;
-  PlaceType: string | redacted.Redacted<string>;
+  PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
   Address?: Address;
   AddressNumberCorrected?: boolean;
@@ -1270,11 +1543,13 @@ export interface ReverseGeocodeResultItem {
   TimeZone?: TimeZone;
   PoliticalView?: string | redacted.Redacted<string>;
   Intersections?: Intersection[];
+  MainAddress?: RelatedPlace;
+  EstimatedPointAddress?: boolean;
 }
 export const ReverseGeocodeResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PlaceId: SensitiveString,
-    PlaceType: SensitiveString,
+    PlaceType: PlaceType,
     Title: SensitiveString,
     Address: S.optional(Address),
     AddressNumberCorrected: S.optional(S.Boolean),
@@ -1288,6 +1563,8 @@ export const ReverseGeocodeResultItem = /*@__PURE__*/ S.suspend(() =>
     TimeZone: S.optional(TimeZone),
     PoliticalView: S.optional(SensitiveString),
     Intersections: S.optional(IntersectionList),
+    MainAddress: S.optional(RelatedPlace),
+    EstimatedPointAddress: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ReverseGeocodeResultItem",
@@ -1338,22 +1615,32 @@ export const SearchNearbyFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SearchNearbyFilter",
 }) as any as S.Schema<SearchNearbyFilter>;
-export type SearchNearbyAdditionalFeature = string;
-export type SearchNearbyAdditionalFeatureList = string[];
+export type SearchNearbyAdditionalFeature =
+  | "TimeZone"
+  | "Phonemes"
+  | "Access"
+  | "Contact"
+  | "CrossReferences"
+  | (string & {});
+export const SearchNearbyAdditionalFeature = S.String;
+
+export type SearchNearbyAdditionalFeatureList = SearchNearbyAdditionalFeature[];
 export const SearchNearbyAdditionalFeatureList = /*@__PURE__*/ S.Array(
-  S.String,
+  SearchNearbyAdditionalFeature,
 );
-export type SearchNearbyIntendedUse = string;
+export type SearchNearbyIntendedUse = "SingleUse" | "Storage" | (string & {});
+export const SearchNearbyIntendedUse = S.String;
+
 export type Token = string;
 export interface SearchNearbyRequest {
   QueryPosition: number[];
   QueryRadius?: number;
   MaxResults?: number;
   Filter?: SearchNearbyFilter;
-  AdditionalFeatures?: string[];
+  AdditionalFeatures?: SearchNearbyAdditionalFeature[];
   Language?: string;
   PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: string;
+  IntendedUse?: SearchNearbyIntendedUse;
   NextToken?: string;
   Key?: string | redacted.Redacted<string>;
 }
@@ -1366,7 +1653,7 @@ export const SearchNearbyRequest = /*@__PURE__*/ S.suspend(() =>
     AdditionalFeatures: S.optional(SearchNearbyAdditionalFeatureList),
     Language: S.optional(S.String),
     PoliticalView: S.optional(SensitiveString),
-    IntendedUse: S.optional(S.String),
+    IntendedUse: S.optional(SearchNearbyIntendedUse),
     NextToken: S.optional(S.String),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
@@ -1384,7 +1671,7 @@ export const SearchNearbyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SearchNearbyRequest>;
 export interface SearchNearbyResultItem {
   PlaceId: string | redacted.Redacted<string>;
-  PlaceType: string | redacted.Redacted<string>;
+  PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
   Address?: Address;
   AddressNumberCorrected?: boolean;
@@ -1401,11 +1688,13 @@ export interface SearchNearbyResultItem {
   TimeZone?: TimeZone;
   PoliticalView?: string | redacted.Redacted<string>;
   Phonemes?: PhonemeDetails;
+  PlaceAttributes?: PlaceAttribute[];
+  CrossReferences?: CrossReference[];
 }
 export const SearchNearbyResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PlaceId: SensitiveString,
-    PlaceType: SensitiveString,
+    PlaceType: PlaceType,
     Title: SensitiveString,
     Address: S.optional(Address),
     AddressNumberCorrected: S.optional(S.Boolean),
@@ -1422,6 +1711,8 @@ export const SearchNearbyResultItem = /*@__PURE__*/ S.suspend(() =>
     TimeZone: S.optional(TimeZone),
     PoliticalView: S.optional(SensitiveString),
     Phonemes: S.optional(PhonemeDetails),
+    PlaceAttributes: S.optional(PlaceAttributeList),
+    CrossReferences: S.optional(CrossReferenceList),
   }),
 ).annotate({
   identifier: "SearchNearbyResultItem",
@@ -1458,21 +1749,37 @@ export const SearchTextFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SearchTextFilter",
 }) as any as S.Schema<SearchTextFilter>;
-export type SearchTextAdditionalFeature = string;
-export type SearchTextAdditionalFeatureList = string[];
-export const SearchTextAdditionalFeatureList = /*@__PURE__*/ S.Array(S.String);
-export type SearchTextIntendedUse = string;
+export type SearchTextAdditionalFeature =
+  | "TimeZone"
+  | "Phonemes"
+  | "Access"
+  | "Contact"
+  | "CrossReferences"
+  | (string & {});
+export const SearchTextAdditionalFeature = S.String;
+
+export type SearchTextAdditionalFeatureList = SearchTextAdditionalFeature[];
+export const SearchTextAdditionalFeatureList = /*@__PURE__*/ S.Array(
+  SearchTextAdditionalFeature,
+);
+export type SearchTextIntendedUse = "SingleUse" | "Storage" | (string & {});
+export const SearchTextIntendedUse = S.String;
+
+export type SearchTextTravelMode = "Car" | "Scooter" | "Truck" | (string & {});
+export const SearchTextTravelMode = S.String;
+
 export interface SearchTextRequest {
   QueryText?: string | redacted.Redacted<string>;
   QueryId?: string | redacted.Redacted<string>;
   MaxResults?: number;
   BiasPosition?: number[];
   Filter?: SearchTextFilter;
-  AdditionalFeatures?: string[];
+  AdditionalFeatures?: SearchTextAdditionalFeature[];
   Language?: string;
   PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: string;
+  IntendedUse?: SearchTextIntendedUse;
   NextToken?: string;
+  TravelMode?: SearchTextTravelMode;
   Key?: string | redacted.Redacted<string>;
 }
 export const SearchTextRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1485,8 +1792,9 @@ export const SearchTextRequest = /*@__PURE__*/ S.suspend(() =>
     AdditionalFeatures: S.optional(SearchTextAdditionalFeatureList),
     Language: S.optional(S.String),
     PoliticalView: S.optional(SensitiveString),
-    IntendedUse: S.optional(S.String),
+    IntendedUse: S.optional(SearchTextIntendedUse),
     NextToken: S.optional(S.String),
+    TravelMode: S.optional(SearchTextTravelMode),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
@@ -1503,7 +1811,7 @@ export const SearchTextRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SearchTextRequest>;
 export interface SearchTextResultItem {
   PlaceId: string | redacted.Redacted<string>;
-  PlaceType: string | redacted.Redacted<string>;
+  PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
   Address?: Address;
   AddressNumberCorrected?: boolean;
@@ -1520,11 +1828,13 @@ export interface SearchTextResultItem {
   TimeZone?: TimeZone;
   PoliticalView?: string | redacted.Redacted<string>;
   Phonemes?: PhonemeDetails;
+  PlaceAttributes?: PlaceAttribute[];
+  CrossReferences?: CrossReference[];
 }
 export const SearchTextResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PlaceId: SensitiveString,
-    PlaceType: SensitiveString,
+    PlaceType: PlaceType,
     Title: SensitiveString,
     Address: S.optional(Address),
     AddressNumberCorrected: S.optional(S.Boolean),
@@ -1541,6 +1851,8 @@ export const SearchTextResultItem = /*@__PURE__*/ S.suspend(() =>
     TimeZone: S.optional(TimeZone),
     PoliticalView: S.optional(SensitiveString),
     Phonemes: S.optional(PhonemeDetails),
+    PlaceAttributes: S.optional(PlaceAttributeList),
+    CrossReferences: S.optional(CrossReferenceList),
   }),
 ).annotate({
   identifier: "SearchTextResultItem",
@@ -1574,20 +1886,36 @@ export const SuggestFilter = /*@__PURE__*/ S.suspend(() =>
     IncludeCountries: S.optional(CountryCodeList),
   }),
 ).annotate({ identifier: "SuggestFilter" }) as any as S.Schema<SuggestFilter>;
-export type SuggestAdditionalFeature = string;
-export type SuggestAdditionalFeatureList = string[];
-export const SuggestAdditionalFeatureList = /*@__PURE__*/ S.Array(S.String);
-export type SuggestIntendedUse = string;
+export type SuggestAdditionalFeature =
+  | "Core"
+  | "TimeZone"
+  | "Phonemes"
+  | "Access"
+  | "CrossReferences"
+  | (string & {});
+export const SuggestAdditionalFeature = S.String;
+
+export type SuggestAdditionalFeatureList = SuggestAdditionalFeature[];
+export const SuggestAdditionalFeatureList = /*@__PURE__*/ S.Array(
+  SuggestAdditionalFeature,
+);
+export type SuggestIntendedUse = "SingleUse" | (string & {});
+export const SuggestIntendedUse = S.String;
+
+export type SuggestTravelMode = "Car" | "Scooter" | "Truck" | (string & {});
+export const SuggestTravelMode = S.String;
+
 export interface SuggestRequest {
   QueryText: string | redacted.Redacted<string>;
   MaxResults?: number;
   MaxQueryRefinements?: number;
   BiasPosition?: number[];
   Filter?: SuggestFilter;
-  AdditionalFeatures?: string[];
+  AdditionalFeatures?: SuggestAdditionalFeature[];
   Language?: string;
   PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: string;
+  IntendedUse?: SuggestIntendedUse;
+  TravelMode?: SuggestTravelMode;
   Key?: string | redacted.Redacted<string>;
 }
 export const SuggestRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1600,7 +1928,8 @@ export const SuggestRequest = /*@__PURE__*/ S.suspend(() =>
     AdditionalFeatures: S.optional(SuggestAdditionalFeatureList),
     Language: S.optional(S.String),
     PoliticalView: S.optional(SensitiveString),
-    IntendedUse: S.optional(S.String),
+    IntendedUse: S.optional(SuggestIntendedUse),
+    TravelMode: S.optional(SuggestTravelMode),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
@@ -1613,10 +1942,12 @@ export const SuggestRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({ identifier: "SuggestRequest" }) as any as S.Schema<SuggestRequest>;
-export type SuggestResultItemType = string;
+export type SuggestResultItemType = "Place" | "Query" | (string & {});
+export const SuggestResultItemType = S.String;
+
 export interface SuggestPlaceResult {
   PlaceId?: string | redacted.Redacted<string>;
-  PlaceType?: string | redacted.Redacted<string>;
+  PlaceType?: PlaceType;
   Address?: Address;
   Position?: number[];
   Distance?: number;
@@ -1629,11 +1960,13 @@ export interface SuggestPlaceResult {
   TimeZone?: TimeZone;
   PoliticalView?: string | redacted.Redacted<string>;
   Phonemes?: PhonemeDetails;
+  PlaceAttributes?: PlaceAttribute[];
+  CrossReferences?: CrossReference[];
 }
 export const SuggestPlaceResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PlaceId: S.optional(SensitiveString),
-    PlaceType: S.optional(SensitiveString),
+    PlaceType: S.optional(PlaceType),
     Address: S.optional(Address),
     Position: S.optional(Position),
     Distance: S.optional(S.Number),
@@ -1646,19 +1979,23 @@ export const SuggestPlaceResult = /*@__PURE__*/ S.suspend(() =>
     TimeZone: S.optional(TimeZone),
     PoliticalView: S.optional(SensitiveString),
     Phonemes: S.optional(PhonemeDetails),
+    PlaceAttributes: S.optional(PlaceAttributeList),
+    CrossReferences: S.optional(CrossReferenceList),
   }),
 ).annotate({
   identifier: "SuggestPlaceResult",
 }) as any as S.Schema<SuggestPlaceResult>;
-export type QueryType = string;
+export type QueryType = "Category" | "BusinessChain" | (string & {});
+export const QueryType = S.String;
+
 export interface SuggestQueryResult {
   QueryId?: string | redacted.Redacted<string>;
-  QueryType?: string;
+  QueryType?: QueryType;
 }
 export const SuggestQueryResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     QueryId: S.optional(SensitiveString),
-    QueryType: S.optional(S.String),
+    QueryType: S.optional(QueryType),
   }),
 ).annotate({
   identifier: "SuggestQueryResult",
@@ -1685,7 +2022,7 @@ export const SuggestHighlights = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SuggestHighlights>;
 export interface SuggestResultItem {
   Title: string | redacted.Redacted<string>;
-  SuggestResultItemType: string;
+  SuggestResultItemType: SuggestResultItemType;
   Place?: SuggestPlaceResult;
   Query?: SuggestQueryResult;
   Highlights?: SuggestHighlights;
@@ -1693,7 +2030,7 @@ export interface SuggestResultItem {
 export const SuggestResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Title: SensitiveString,
-    SuggestResultItemType: S.String,
+    SuggestResultItemType: SuggestResultItemType,
     Place: S.optional(SuggestPlaceResult),
     Query: S.optional(SuggestQueryResult),
     Highlights: S.optional(SuggestHighlights),
@@ -1735,7 +2072,16 @@ export const SuggestResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SuggestResponse",
 }) as any as S.Schema<SuggestResponse>;
-export type ValidationExceptionReason = string;
+export type ValidationExceptionReason =
+  | "UnknownOperation"
+  | "Missing"
+  | "CannotParse"
+  | "FieldValidationFailed"
+  | "Other"
+  | "UnknownField"
+  | (string & {});
+export const ValidationExceptionReason = S.String;
+
 export interface ValidationExceptionField {
   Name: string;
   Message: string;
@@ -1758,7 +2104,7 @@ export type AutocompleteError =
   | ValidationException
   | CommonErrors;
 /**
- * `Autocomplete` completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and political views.
+ * `Autocomplete` completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and political views. Not supported in `ap-southeast-1` and `ap-southeast-5` regions for GrabMaps customers.
  *
  * For more information, see Autocomplete in the *Amazon Location Service Developer Guide*.
  */
@@ -1788,7 +2134,7 @@ export type GeocodeError =
   | ValidationException
   | CommonErrors;
 /**
- * `Geocode` converts a textual address or place into geographic coordinates. You can obtain geographic coordinates, address component, and other related information. It supports flexible queries, including free-form text or structured queries with components like street names, postal codes, and regions. The Geocode API can also provide additional features such as time zone information and the inclusion of political views.
+ * `Geocode` converts a textual address or place into geographic coordinates. You can obtain geographic coordinates, address component, and other related information. It supports flexible queries, including free-form text or structured queries with components like street names, postal codes, and regions. The Geocode API can also provide additional features such as time zone information and the inclusion of political views. Not supported in `ap-southeast-1` and `ap-southeast-5` regions for GrabMaps customers.
  *
  * For more information, see Geocode in the *Amazon Location Service Developer Guide*.
  */
@@ -1878,7 +2224,7 @@ export type SearchNearbyError =
   | ValidationException
   | CommonErrors;
 /**
- * `SearchNearby` queries for points of interest within a radius from a central coordinates, returning place results with optional filters such as categories, business chains, food types and more. The API returns details such as a place name, address, phone, category, food type, contact, opening hours. Also, the API can return phonemes, time zones and more based on requested parameters.
+ * `SearchNearby` queries for points of interest within a radius from a central coordinates, returning place results with optional filters such as categories, business chains, food types and more. The API returns details such as a place name, address, phone, category, food type, contact, opening hours. Also, the API can return phonemes, time zones and more based on requested parameters. Not supported in `ap-southeast-1` and `ap-southeast-5` regions for GrabMaps customers.
  *
  * For more information, see Search Nearby in the *Amazon Location Service Developer Guide*.
  */

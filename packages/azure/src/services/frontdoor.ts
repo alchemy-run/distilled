@@ -12,47 +12,402 @@ import * as Retry from "../retry.ts";
 
 export type { AzureOpError, AzureOpContext };
 
-/** The path to the content to be purged. Can describe a file path or a wild card directory. */
-export type EndpointsPurgeContentRequestContentPathsList = Array<string>;
-export const EndpointsPurgeContentRequestContentPathsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<EndpointsPurgeContentRequestContentPathsList>;
+/** Type of Front Door resource used in CheckNameAvailability. */
+export type ResourceType =
+  | "Microsoft.Network/frontDoors"
+  | "Microsoft.Network/frontDoors/frontendEndpoints";
+export const ResourceType = S.String;
 
-export interface EndpointsPurgeContentRequest {
+export interface CheckFrontDoorNameAvailabilityRequest {
+  /** The resource name to validate. */
+  name: string;
+  /** The type of the resource whose name is to be validated. */
+  type: ResourceType | (string & {});
+}
+export const CheckFrontDoorNameAvailabilityRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      type: ResourceType,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/providers/Microsoft.Network/checkFrontDoorNameAvailability",
+        code: 200,
+        apiVersion: "2025-11-01",
+      }),
+    ),
+).annotate({
+  identifier: "CheckFrontDoorNameAvailabilityRequest",
+}) as any as S.Schema<CheckFrontDoorNameAvailabilityRequest>;
+
+/** Indicates whether the name is available. */
+export type Availability = "Available" | "Unavailable";
+export const Availability = S.String;
+
+/** Output of check name availability API. */
+export interface CheckNameAvailabilityOutput {
+  /** Indicates whether the name is available. */
+  nameAvailability?: Availability;
+  /** The reason why the name is not available. */
+  reason?: string;
+  /** The detailed error message describing why the name is not available. */
+  message?: string;
+}
+export const CheckNameAvailabilityOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nameAvailability: S.optional(Availability),
+    reason: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CheckNameAvailabilityOutput",
+}) as any as S.Schema<CheckNameAvailabilityOutput>;
+
+export interface CheckFrontDoorNameAvailabilityWithSubscriptionRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The resource name to validate. */
+  name: string;
+  /** The type of the resource whose name is to be validated. */
+  type: ResourceType | (string & {});
+}
+export const CheckFrontDoorNameAvailabilityWithSubscriptionRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      name: S.String,
+      type: ResourceType,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkFrontDoorNameAvailability",
+        code: 200,
+        apiVersion: "2025-11-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "CheckFrontDoorNameAvailabilityWithSubscriptionRequest",
+  }) as any as S.Schema<CheckFrontDoorNameAvailabilityWithSubscriptionRequest>;
+
+export interface DeleteExperimentRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The Profile identifier associated with the Tenant and Partner */
+  profileName: string;
+  /** The Experiment identifier associated with the Experiment */
+  experimentName: string;
+}
+export const DeleteExperimentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    profileName: S.String.pipe(T.Label()),
+    experimentName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteExperimentRequest",
+}) as any as S.Schema<DeleteExperimentRequest>;
+
+export interface DeleteExperimentResponse {}
+export const DeleteExperimentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteExperimentResponse",
+}) as any as S.Schema<DeleteExperimentResponse>;
+
+export interface DeleteFrontDoorRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Name of the Front Door which is globally unique. */
   frontDoorName: string;
-  /** The path to the content to be purged. Can describe a file path or a wild card directory. */
-  contentPaths: EndpointsPurgeContentRequestContentPathsList;
 }
-export const EndpointsPurgeContentRequest = /*@__PURE__*/ S.suspend(() =>
+export const DeleteFrontDoorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     frontDoorName: S.String.pipe(T.Label()),
-    contentPaths: EndpointsPurgeContentRequestContentPathsList,
   }).pipe(
     T.Http({
-      method: "POST",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/purge",
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
       code: 200,
       apiVersion: "2025-11-01",
     }),
   ),
 ).annotate({
-  identifier: "EndpointsPurgeContentRequest",
-}) as any as S.Schema<EndpointsPurgeContentRequest>;
+  identifier: "DeleteFrontDoorRequest",
+}) as any as S.Schema<DeleteFrontDoorRequest>;
 
-export interface EndpointsPurgeContentResponse {}
-export const EndpointsPurgeContentResponse = /*@__PURE__*/ S.suspend(() =>
+export interface DeleteFrontDoorResponse {}
+export const DeleteFrontDoorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}),
 ).annotate({
-  identifier: "EndpointsPurgeContentResponse",
-}) as any as S.Schema<EndpointsPurgeContentResponse>;
+  identifier: "DeleteFrontDoorResponse",
+}) as any as S.Schema<DeleteFrontDoorResponse>;
+
+export interface DeleteNetworkExperimentProfileRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The Profile identifier associated with the Tenant and Partner */
+  profileName: string;
+}
+export const DeleteNetworkExperimentProfileRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      profileName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
+        code: 200,
+        apiVersion: "2025-11-01",
+      }),
+    ),
+).annotate({
+  identifier: "DeleteNetworkExperimentProfileRequest",
+}) as any as S.Schema<DeleteNetworkExperimentProfileRequest>;
+
+export interface DeleteNetworkExperimentProfileResponse {}
+export const DeleteNetworkExperimentProfileResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "DeleteNetworkExperimentProfileResponse",
+}) as any as S.Schema<DeleteNetworkExperimentProfileResponse>;
+
+export interface DeletePolicyRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Web Application Firewall Policy. */
+  policyName: string;
+}
+export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    policyName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeletePolicyRequest",
+}) as any as S.Schema<DeletePolicyRequest>;
+
+export interface DeletePolicyResponse {}
+export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeletePolicyResponse",
+}) as any as S.Schema<DeletePolicyResponse>;
+
+export interface DeleteRulesEngineRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the Front Door which is globally unique. */
+  frontDoorName: string;
+  /** Name of the Rules Engine which is unique within the Front Door. */
+  rulesEngineName: string;
+}
+export const DeleteRulesEngineRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    frontDoorName: S.String.pipe(T.Label()),
+    rulesEngineName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteRulesEngineRequest",
+}) as any as S.Schema<DeleteRulesEngineRequest>;
+
+export interface DeleteRulesEngineResponse {}
+export const DeleteRulesEngineResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteRulesEngineResponse",
+}) as any as S.Schema<DeleteRulesEngineResponse>;
+
+export interface DisableFrontendEndpointHttpsRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the Front Door which is globally unique. */
+  frontDoorName: string;
+  /** Name of the Frontend endpoint which is unique within the Front Door. */
+  frontendEndpointName: string;
+}
+export const DisableFrontendEndpointHttpsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    frontDoorName: S.String.pipe(T.Label()),
+    frontendEndpointName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/disableHttps",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "DisableFrontendEndpointHttpsRequest",
+}) as any as S.Schema<DisableFrontendEndpointHttpsRequest>;
+
+export interface DisableFrontendEndpointHttpsResponse {}
+export const DisableFrontendEndpointHttpsResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "DisableFrontendEndpointHttpsResponse",
+}) as any as S.Schema<DisableFrontendEndpointHttpsResponse>;
+
+/** Defines the source of the SSL certificate */
+export type FrontDoorCertificateSource = "AzureKeyVault" | "FrontDoor";
+export const FrontDoorCertificateSource = S.String;
+
+/** Defines the TLS extension protocol that is used for secure delivery */
+export type FrontDoorTlsProtocolType = "ServerNameIndication";
+export const FrontDoorTlsProtocolType = S.String;
+
+/** The minimum TLS version required from the clients to establish an SSL handshake with Front Door. */
+export type MinimumTLSVersion = "1.0" | "1.2";
+export const MinimumTLSVersion = S.String;
+
+/** The Key Vault containing the SSL certificate */
+export interface KeyVaultCertificateSourceParametersVault {
+  /** Resource ID. */
+  id?: string;
+}
+export const KeyVaultCertificateSourceParametersVault = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "KeyVaultCertificateSourceParametersVault",
+}) as any as S.Schema<KeyVaultCertificateSourceParametersVault>;
+
+/** Parameters required for bring-your-own-certification via Key Vault */
+export interface KeyVaultCertificateSourceParameters {
+  /** The Key Vault containing the SSL certificate */
+  vault?: KeyVaultCertificateSourceParametersVault;
+  /** The name of the Key Vault secret representing the full certificate PFX */
+  secretName?: string;
+  /** The version of the Key Vault secret representing the full certificate PFX */
+  secretVersion?: string;
+}
+export const KeyVaultCertificateSourceParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vault: S.optional(KeyVaultCertificateSourceParametersVault),
+    secretName: S.optional(S.String),
+    secretVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "KeyVaultCertificateSourceParameters",
+}) as any as S.Schema<KeyVaultCertificateSourceParameters>;
+
+/** Defines the type of the certificate used for secure connections to a frontendEndpoint */
+export type FrontDoorCertificateType = "Dedicated";
+export const FrontDoorCertificateType = S.String;
+
+/** Parameters required for enabling SSL with Front Door-managed certificates */
+export interface FrontDoorCertificateSourceParameters {
+  /** Defines the type of the certificate used for secure connections to a frontendEndpoint */
+  certificateType?: FrontDoorCertificateType | (string & {});
+}
+export const FrontDoorCertificateSourceParameters = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      certificateType: S.optional(FrontDoorCertificateType),
+    }),
+).annotate({
+  identifier: "FrontDoorCertificateSourceParameters",
+}) as any as S.Schema<FrontDoorCertificateSourceParameters>;
+
+export interface EnableFrontendEndpointHttpsRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the Front Door which is globally unique. */
+  frontDoorName: string;
+  /** Name of the Frontend endpoint which is unique within the Front Door. */
+  frontendEndpointName: string;
+  /** Defines the source of the SSL certificate */
+  certificateSource: FrontDoorCertificateSource | (string & {});
+  /** Defines the TLS extension protocol that is used for secure delivery */
+  protocolType: FrontDoorTlsProtocolType | (string & {});
+  /** The minimum TLS version required from the clients to establish an SSL handshake with Front Door. */
+  minimumTlsVersion: MinimumTLSVersion | (string & {});
+  /** KeyVault certificate source parameters (if certificateSource=AzureKeyVault) */
+  keyVaultCertificateSourceParameters?: KeyVaultCertificateSourceParameters;
+  /** Parameters required for enabling SSL with Front Door-managed certificates (if certificateSource=FrontDoor) */
+  frontDoorCertificateSourceParameters?: FrontDoorCertificateSourceParameters;
+}
+export const EnableFrontendEndpointHttpsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    frontDoorName: S.String.pipe(T.Label()),
+    frontendEndpointName: S.String.pipe(T.Label()),
+    certificateSource: FrontDoorCertificateSource,
+    protocolType: FrontDoorTlsProtocolType,
+    minimumTlsVersion: MinimumTLSVersion,
+    keyVaultCertificateSourceParameters: S.optional(
+      KeyVaultCertificateSourceParameters,
+    ),
+    frontDoorCertificateSourceParameters: S.optional(
+      FrontDoorCertificateSourceParameters,
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/enableHttps",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "EnableFrontendEndpointHttpsRequest",
+}) as any as S.Schema<EnableFrontendEndpointHttpsRequest>;
+
+export interface EnableFrontendEndpointHttpsResponse {}
+export const EnableFrontendEndpointHttpsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "EnableFrontendEndpointHttpsResponse",
+}) as any as S.Schema<EnableFrontendEndpointHttpsResponse>;
 
 /** Resource tags. */
 export type ExperimentsCreateOrUpdateRequestTagsMap = {
@@ -79,7 +434,7 @@ export const Endpoint = /*@__PURE__*/ S.suspend(() =>
 
 /** The state of the Experiment */
 export type State = "Enabled" | "Disabled";
-export const State = /*@__PURE__*/ S.String;
+export const State = S.String;
 
 /** Defines the properties of an experiment */
 export interface ExperimentPropertiesInput {
@@ -157,7 +512,7 @@ export type NetworkExperimentResourceState =
   | "Disabling"
   | "Disabled"
   | "Deleting";
-export const NetworkExperimentResourceState = /*@__PURE__*/ S.String;
+export const NetworkExperimentResourceState = S.String;
 
 /** Defines the properties of an experiment */
 export interface ExperimentProperties {
@@ -217,356 +572,6 @@ export const ExperimentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExperimentsCreateOrUpdateResponse",
 }) as any as S.Schema<ExperimentsCreateOrUpdateResponse>;
 
-export interface ExperimentsDeleteRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The Profile identifier associated with the Tenant and Partner */
-  profileName: string;
-  /** The Experiment identifier associated with the Experiment */
-  experimentName: string;
-}
-export const ExperimentsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    profileName: S.String.pipe(T.Label()),
-    experimentName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "ExperimentsDeleteRequest",
-}) as any as S.Schema<ExperimentsDeleteRequest>;
-
-export interface ExperimentsDeleteResponse {}
-export const ExperimentsDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ExperimentsDeleteResponse",
-}) as any as S.Schema<ExperimentsDeleteResponse>;
-
-export interface ExperimentsGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The Profile identifier associated with the Tenant and Partner */
-  profileName: string;
-  /** The Experiment identifier associated with the Experiment */
-  experimentName: string;
-}
-export const ExperimentsGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    profileName: S.String.pipe(T.Label()),
-    experimentName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "ExperimentsGetRequest",
-}) as any as S.Schema<ExperimentsGetRequest>;
-
-/** Resource tags. */
-export type ExperimentsGetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const ExperimentsGetResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<ExperimentsGetResponseTagsMap>;
-
-export interface ExperimentsGetResponse {
-  /** Resource ID. */
-  id?: string;
-  /** Resource name. */
-  name?: string;
-  /** Resource type. */
-  type?: string;
-  /** Resource location. */
-  location?: string;
-  /** Resource tags. */
-  tags?: ExperimentsGetResponseTagsMap;
-  /** The properties of an Experiment */
-  properties?: ExperimentProperties;
-}
-export const ExperimentsGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    location: S.optional(S.String),
-    tags: S.optional(ExperimentsGetResponseTagsMap),
-    properties: S.optional(ExperimentProperties),
-  }),
-).annotate({
-  identifier: "ExperimentsGetResponse",
-}) as any as S.Schema<ExperimentsGetResponse>;
-
-export interface ExperimentsListByProfileRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The Profile identifier associated with the Tenant and Partner */
-  profileName: string;
-}
-export const ExperimentsListByProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    profileName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "ExperimentsListByProfileRequest",
-}) as any as S.Schema<ExperimentsListByProfileRequest>;
-
-/** Resource tags. */
-export type ExperimentTagsMap = { [key: string]: string | undefined };
-export const ExperimentTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<ExperimentTagsMap>;
-
-/** Defines the properties of an Experiment */
-export interface Experiment {
-  /** Resource ID. */
-  id?: string;
-  /** Resource name. */
-  name?: string;
-  /** Resource type. */
-  type?: string;
-  /** Resource location. */
-  location?: string;
-  /** Resource tags. */
-  tags?: ExperimentTagsMap;
-  /** The properties of an Experiment */
-  properties?: ExperimentProperties;
-}
-export const Experiment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    location: S.optional(S.String),
-    tags: S.optional(ExperimentTagsMap),
-    properties: S.optional(ExperimentProperties),
-  }),
-).annotate({ identifier: "Experiment" }) as any as S.Schema<Experiment>;
-
-/** The Experiment items on this page */
-export type ExperimentListValueList = Array<Experiment>;
-export const ExperimentListValueList = /*@__PURE__*/ S.Array(
-  Experiment,
-) as any as S.Schema<ExperimentListValueList>;
-
-/** Defines a list of Experiments. It contains a list of Experiment objects and a URL link to get the next set of results. */
-export interface ExperimentList {
-  /** The Experiment items on this page */
-  value: ExperimentListValueList;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-export const ExperimentList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: ExperimentListValueList,
-    nextLink: S.optional(S.String),
-  }),
-).annotate({ identifier: "ExperimentList" }) as any as S.Schema<ExperimentList>;
-
-/** Resource tags. */
-export type ExperimentsUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
-export const ExperimentsUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<ExperimentsUpdateRequestTagsMap>;
-
-/** Defines the properties of an experiment */
-export interface ExperimentUpdateProperties {
-  /** The description of the intent or details of the Experiment */
-  description?: string;
-  /** The state of the Experiment */
-  enabledState?: State | (string & {});
-}
-export const ExperimentUpdateProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    enabledState: S.optional(State),
-  }),
-).annotate({
-  identifier: "ExperimentUpdateProperties",
-}) as any as S.Schema<ExperimentUpdateProperties>;
-
-export interface ExperimentsUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The Profile identifier associated with the Tenant and Partner */
-  profileName: string;
-  /** The Experiment identifier associated with the Experiment */
-  experimentName: string;
-  /** Resource tags. */
-  tags?: ExperimentsUpdateRequestTagsMap;
-  /** The properties of a Profile */
-  properties?: ExperimentUpdateProperties;
-}
-export const ExperimentsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    profileName: S.String.pipe(T.Label()),
-    experimentName: S.String.pipe(T.Label()),
-    tags: S.optional(ExperimentsUpdateRequestTagsMap),
-    properties: S.optional(ExperimentUpdateProperties),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "ExperimentsUpdateRequest",
-}) as any as S.Schema<ExperimentsUpdateRequest>;
-
-/** Resource tags. */
-export type ExperimentsUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const ExperimentsUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<ExperimentsUpdateResponseTagsMap>;
-
-export interface ExperimentsUpdateResponse {
-  /** Resource ID. */
-  id?: string;
-  /** Resource name. */
-  name?: string;
-  /** Resource type. */
-  type?: string;
-  /** Resource location. */
-  location?: string;
-  /** Resource tags. */
-  tags?: ExperimentsUpdateResponseTagsMap;
-  /** The properties of an Experiment */
-  properties?: ExperimentProperties;
-}
-export const ExperimentsUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    location: S.optional(S.String),
-    tags: S.optional(ExperimentsUpdateResponseTagsMap),
-    properties: S.optional(ExperimentProperties),
-  }),
-).annotate({
-  identifier: "ExperimentsUpdateResponse",
-}) as any as S.Schema<ExperimentsUpdateResponse>;
-
-/** Type of Front Door resource used in CheckNameAvailability. */
-export type ResourceType =
-  | "Microsoft.Network/frontDoors"
-  | "Microsoft.Network/frontDoors/frontendEndpoints";
-export const ResourceType = /*@__PURE__*/ S.String;
-
-export interface FrontDoorNameAvailabilityCheckRequest {
-  /** The resource name to validate. */
-  name: string;
-  /** The type of the resource whose name is to be validated. */
-  type: ResourceType | (string & {});
-}
-export const FrontDoorNameAvailabilityCheckRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      type: ResourceType,
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/providers/Microsoft.Network/checkFrontDoorNameAvailability",
-        code: 200,
-        apiVersion: "2025-11-01",
-      }),
-    ),
-).annotate({
-  identifier: "FrontDoorNameAvailabilityCheckRequest",
-}) as any as S.Schema<FrontDoorNameAvailabilityCheckRequest>;
-
-/** Indicates whether the name is available. */
-export type Availability = "Available" | "Unavailable";
-export const Availability = /*@__PURE__*/ S.String;
-
-/** Output of check name availability API. */
-export interface CheckNameAvailabilityOutput {
-  /** Indicates whether the name is available. */
-  nameAvailability?: Availability;
-  /** The reason why the name is not available. */
-  reason?: string;
-  /** The detailed error message describing why the name is not available. */
-  message?: string;
-}
-export const CheckNameAvailabilityOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nameAvailability: S.optional(Availability),
-    reason: S.optional(S.String),
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CheckNameAvailabilityOutput",
-}) as any as S.Schema<CheckNameAvailabilityOutput>;
-
-export interface FrontDoorNameAvailabilityWithSubscriptionCheckRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The resource name to validate. */
-  name: string;
-  /** The type of the resource whose name is to be validated. */
-  type: ResourceType | (string & {});
-}
-export const FrontDoorNameAvailabilityWithSubscriptionCheckRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      name: S.String,
-      type: ResourceType,
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkFrontDoorNameAvailability",
-        code: 200,
-        apiVersion: "2025-11-01",
-      }),
-    ),
-  ).annotate({
-    identifier: "FrontDoorNameAvailabilityWithSubscriptionCheckRequest",
-  }) as any as S.Schema<FrontDoorNameAvailabilityWithSubscriptionCheckRequest>;
-
 /** Resource tags. */
 export type FrontDoorsCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
@@ -577,25 +582,19 @@ export const FrontDoorsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<FrontDoorsCreateOrUpdateRequestTagsMap>;
 
 /** Reference to another subresource. */
-export interface SubResource {
-  /** Resource ID. */
-  id?: string;
-}
-export const SubResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-  }),
-).annotate({ identifier: "SubResource" }) as any as S.Schema<SubResource>;
+export type SubResource = KeyVaultCertificateSourceParametersVault;
+export const SubResource = KeyVaultCertificateSourceParametersVault;
 
 /** Frontend endpoints associated with this rule */
-export type RoutingRulePropertiesFrontendEndpointsList = Array<SubResource>;
+export type RoutingRulePropertiesFrontendEndpointsList =
+  Array<KeyVaultCertificateSourceParametersVault>;
 export const RoutingRulePropertiesFrontendEndpointsList = /*@__PURE__*/ S.Array(
-  SubResource,
+  KeyVaultCertificateSourceParametersVault,
 ) as any as S.Schema<RoutingRulePropertiesFrontendEndpointsList>;
 
 /** Accepted protocol schemes. */
 export type FrontDoorProtocol = "Http" | "Https";
-export const FrontDoorProtocol = /*@__PURE__*/ S.String;
+export const FrontDoorProtocol = S.String;
 
 /** Protocol schemes to match for this rule */
 export type RoutingRulePropertiesAcceptedProtocolsList = Array<
@@ -613,7 +612,7 @@ export const RoutingRulePropertiesPatternsToMatchList = /*@__PURE__*/ S.Array(
 
 /** Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled' */
 export type RoutingRuleEnabledState = "Enabled" | "Disabled";
-export const RoutingRuleEnabledState = /*@__PURE__*/ S.String;
+export const RoutingRuleEnabledState = S.String;
 
 /** Base class for all types of Route. */
 export interface RouteConfiguration {
@@ -629,9 +628,9 @@ export const RouteConfiguration = /*@__PURE__*/ S.suspend(() =>
 
 /** Defines the Web Application Firewall policy for each routing rule (if applicable) */
 export type RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink =
-  SubResource;
+  KeyVaultCertificateSourceParametersVault;
 export const RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink =
-  SubResource;
+  KeyVaultCertificateSourceParametersVault;
 
 /** Resource status of the Front Door or Front Door SubResource. */
 export type FrontDoorResourceState =
@@ -643,7 +642,7 @@ export type FrontDoorResourceState =
   | "Deleting"
   | "Migrating"
   | "Migrated";
-export const FrontDoorResourceState = /*@__PURE__*/ S.String;
+export const FrontDoorResourceState = S.String;
 
 /** The JSON object that contains the properties required to create a routing rule. */
 export interface RoutingRuleProperties {
@@ -658,9 +657,9 @@ export interface RoutingRuleProperties {
   /** A reference to the routing configuration. */
   routeConfiguration?: RouteConfiguration;
   /** A reference to a specific Rules Engine Configuration to apply to this route. */
-  rulesEngine?: SubResource;
+  rulesEngine?: KeyVaultCertificateSourceParametersVault;
   /** Defines the Web Application Firewall policy for each routing rule (if applicable) */
-  webApplicationFirewallPolicyLink?: SubResource;
+  webApplicationFirewallPolicyLink?: KeyVaultCertificateSourceParametersVault;
   /** Resource status. */
   resourceState?: FrontDoorResourceState | (string & {});
 }
@@ -671,8 +670,10 @@ export const RoutingRuleProperties = /*@__PURE__*/ S.suspend(() =>
     patternsToMatch: S.optional(RoutingRulePropertiesPatternsToMatchList),
     enabledState: S.optional(RoutingRuleEnabledState),
     routeConfiguration: S.optional(RouteConfiguration),
-    rulesEngine: S.optional(SubResource),
-    webApplicationFirewallPolicyLink: S.optional(SubResource),
+    rulesEngine: S.optional(KeyVaultCertificateSourceParametersVault),
+    webApplicationFirewallPolicyLink: S.optional(
+      KeyVaultCertificateSourceParametersVault,
+    ),
     resourceState: S.optional(FrontDoorResourceState),
   }),
 ).annotate({
@@ -755,12 +756,11 @@ export const FrontDoorPropertiesInputLoadBalancingSettingsList =
 
 /** Configures which HTTP method to use to probe the backends defined under backendPools. */
 export type HealthProbeSettingsPropertiesHealthProbeMethod = "GET" | "HEAD";
-export const HealthProbeSettingsPropertiesHealthProbeMethod =
-  /*@__PURE__*/ S.String;
+export const HealthProbeSettingsPropertiesHealthProbeMethod = S.String;
 
 /** Whether to enable health probes to be made against backends defined under backendPools. Health probes can only be disabled if there is a single enabled backend in single enabled backend pool. */
 export type HealthProbeEnabled = "Enabled" | "Disabled";
-export const HealthProbeEnabled = /*@__PURE__*/ S.String;
+export const HealthProbeEnabled = S.String;
 
 /** The JSON object that contains the properties required to create a health probe settings. */
 export interface HealthProbeSettingsProperties {
@@ -828,11 +828,11 @@ export type PrivateEndpointStatus =
   | "Rejected"
   | "Disconnected"
   | "Timeout";
-export const PrivateEndpointStatus = /*@__PURE__*/ S.String;
+export const PrivateEndpointStatus = S.String;
 
 /** Whether to enable use of this backend. Permitted values are 'Enabled' or 'Disabled' */
 export type BackendEnabledState = "Enabled" | "Disabled";
-export const BackendEnabledState = /*@__PURE__*/ S.String;
+export const BackendEnabledState = S.String;
 
 /** Backend address of a frontDoor load balancer. */
 export interface Backend {
@@ -889,17 +889,17 @@ export interface BackendPoolProperties {
   /** The set of backends for this pool */
   backends?: BackendPoolPropertiesBackendsList;
   /** Load balancing settings for a backend pool */
-  loadBalancingSettings?: SubResource;
+  loadBalancingSettings?: KeyVaultCertificateSourceParametersVault;
   /** L7 health probe settings for a backend pool */
-  healthProbeSettings?: SubResource;
+  healthProbeSettings?: KeyVaultCertificateSourceParametersVault;
   /** Resource status. */
   resourceState?: FrontDoorResourceState | (string & {});
 }
 export const BackendPoolProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     backends: S.optional(BackendPoolPropertiesBackendsList),
-    loadBalancingSettings: S.optional(SubResource),
-    healthProbeSettings: S.optional(SubResource),
+    loadBalancingSettings: S.optional(KeyVaultCertificateSourceParametersVault),
+    healthProbeSettings: S.optional(KeyVaultCertificateSourceParametersVault),
     resourceState: S.optional(FrontDoorResourceState),
   }),
 ).annotate({
@@ -933,13 +933,13 @@ export const FrontDoorPropertiesInputBackendPoolsList = /*@__PURE__*/ S.Array(
 
 /** Whether to allow session affinity on this host. Valid options are 'Enabled' or 'Disabled' */
 export type SessionAffinityEnabledState = "Enabled" | "Disabled";
-export const SessionAffinityEnabledState = /*@__PURE__*/ S.String;
+export const SessionAffinityEnabledState = S.String;
 
 /** Defines the Web Application Firewall policy for each host (if applicable) */
 export type FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink =
-  SubResource;
+  KeyVaultCertificateSourceParametersVault;
 export const FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink =
-  SubResource;
+  KeyVaultCertificateSourceParametersVault;
 
 /** Provisioning status of Custom Https of the frontendEndpoint. */
 export type CustomHttpsProvisioningState =
@@ -948,7 +948,7 @@ export type CustomHttpsProvisioningState =
   | "Disabling"
   | "Disabled"
   | "Failed";
-export const CustomHttpsProvisioningState = /*@__PURE__*/ S.String;
+export const CustomHttpsProvisioningState = S.String;
 
 /** Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. */
 export type CustomHttpsProvisioningSubstate =
@@ -962,60 +962,7 @@ export type CustomHttpsProvisioningSubstate =
   | "CertificateDeployed"
   | "DeletingCertificate"
   | "CertificateDeleted";
-export const CustomHttpsProvisioningSubstate = /*@__PURE__*/ S.String;
-
-/** Defines the source of the SSL certificate */
-export type FrontDoorCertificateSource = "AzureKeyVault" | "FrontDoor";
-export const FrontDoorCertificateSource = /*@__PURE__*/ S.String;
-
-/** Defines the TLS extension protocol that is used for secure delivery */
-export type FrontDoorTlsProtocolType = "ServerNameIndication";
-export const FrontDoorTlsProtocolType = /*@__PURE__*/ S.String;
-
-/** The minimum TLS version required from the clients to establish an SSL handshake with Front Door. */
-export type MinimumTLSVersion = "1.0" | "1.2";
-export const MinimumTLSVersion = /*@__PURE__*/ S.String;
-
-/** The Key Vault containing the SSL certificate */
-export type KeyVaultCertificateSourceParametersVault = SubResource;
-export const KeyVaultCertificateSourceParametersVault = SubResource;
-
-/** Parameters required for bring-your-own-certification via Key Vault */
-export interface KeyVaultCertificateSourceParameters {
-  /** The Key Vault containing the SSL certificate */
-  vault?: SubResource;
-  /** The name of the Key Vault secret representing the full certificate PFX */
-  secretName?: string;
-  /** The version of the Key Vault secret representing the full certificate PFX */
-  secretVersion?: string;
-}
-export const KeyVaultCertificateSourceParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vault: S.optional(SubResource),
-    secretName: S.optional(S.String),
-    secretVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "KeyVaultCertificateSourceParameters",
-}) as any as S.Schema<KeyVaultCertificateSourceParameters>;
-
-/** Defines the type of the certificate used for secure connections to a frontendEndpoint */
-export type FrontDoorCertificateType = "Dedicated";
-export const FrontDoorCertificateType = /*@__PURE__*/ S.String;
-
-/** Parameters required for enabling SSL with Front Door-managed certificates */
-export interface FrontDoorCertificateSourceParameters {
-  /** Defines the type of the certificate used for secure connections to a frontendEndpoint */
-  certificateType?: FrontDoorCertificateType | (string & {});
-}
-export const FrontDoorCertificateSourceParameters = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      certificateType: S.optional(FrontDoorCertificateType),
-    }),
-).annotate({
-  identifier: "FrontDoorCertificateSourceParameters",
-}) as any as S.Schema<FrontDoorCertificateSourceParameters>;
+export const CustomHttpsProvisioningSubstate = S.String;
 
 /** Https settings for a domain */
 export interface CustomHttpsConfiguration {
@@ -1055,7 +1002,7 @@ export interface FrontendEndpointProperties {
   /** UNUSED. This field will be ignored. The TTL to use in seconds for session affinity, if applicable. */
   sessionAffinityTtlSeconds?: number;
   /** Defines the Web Application Firewall policy for each host (if applicable) */
-  webApplicationFirewallPolicyLink?: SubResource;
+  webApplicationFirewallPolicyLink?: KeyVaultCertificateSourceParametersVault;
   /** Resource status. */
   resourceState?: FrontDoorResourceState | (string & {});
   /** Provisioning status of Custom Https of the frontendEndpoint. */
@@ -1072,7 +1019,9 @@ export const FrontendEndpointProperties = /*@__PURE__*/ S.suspend(() =>
     hostName: S.optional(S.String),
     sessionAffinityEnabledState: S.optional(SessionAffinityEnabledState),
     sessionAffinityTtlSeconds: S.optional(S.Number),
-    webApplicationFirewallPolicyLink: S.optional(SubResource),
+    webApplicationFirewallPolicyLink: S.optional(
+      KeyVaultCertificateSourceParametersVault,
+    ),
     resourceState: S.optional(FrontDoorResourceState),
     customHttpsProvisioningState: S.optional(CustomHttpsProvisioningState),
     customHttpsProvisioningSubstate: S.optional(
@@ -1115,8 +1064,7 @@ export const FrontDoorPropertiesInputFrontendEndpointsList =
 export type BackendPoolsSettingsEnforceCertificateNameCheck =
   | "Enabled"
   | "Disabled";
-export const BackendPoolsSettingsEnforceCertificateNameCheck =
-  /*@__PURE__*/ S.String;
+export const BackendPoolsSettingsEnforceCertificateNameCheck = S.String;
 
 /** Settings that apply to all backend pools. */
 export interface BackendPoolsSettings {
@@ -1140,7 +1088,7 @@ export const BackendPoolsSettings = /*@__PURE__*/ S.suspend(() =>
 
 /** Operational status of the Front Door load balancer. Permitted values are 'Enabled' or 'Disabled' */
 export type FrontDoorEnabledState = "Enabled" | "Disabled";
-export const FrontDoorEnabledState = /*@__PURE__*/ S.String;
+export const FrontDoorEnabledState = S.String;
 
 /** The JSON object that contains the properties required to create an endpoint. */
 export interface FrontDoorPropertiesInput {
@@ -1366,7 +1314,7 @@ export const FrontDoorPropertiesFrontendEndpointsList = /*@__PURE__*/ S.Array(
 
 /** Which type of manipulation to apply to the header. */
 export type HeaderActionType = "Append" | "Delete" | "Overwrite";
-export const HeaderActionType = /*@__PURE__*/ S.String;
+export const HeaderActionType = S.String;
 
 /** An action that can manipulate an http header. */
 export interface HeaderAction {
@@ -1432,7 +1380,7 @@ export type RulesEngineMatchVariable =
   | "RequestHeader"
   | "RequestBody"
   | "RequestScheme";
-export const RulesEngineMatchVariable = /*@__PURE__*/ S.String;
+export const RulesEngineMatchVariable = S.String;
 
 /** Describes operator to apply to the match condition. */
 export type RulesEngineOperator =
@@ -1447,7 +1395,7 @@ export type RulesEngineOperator =
   | "GreaterThanOrEqual"
   | "BeginsWith"
   | "EndsWith";
-export const RulesEngineOperator = /*@__PURE__*/ S.String;
+export const RulesEngineOperator = S.String;
 
 /** Match values to match against. The operator will apply to each value in here with OR semantics. If any of them match the variable with the given operator this match condition is considered a match. */
 export type RulesEngineMatchConditionRulesEngineMatchValueList = Array<string>;
@@ -1464,7 +1412,7 @@ export type Transform =
   | "UrlDecode"
   | "UrlEncode"
   | "RemoveNulls";
-export const Transform = /*@__PURE__*/ S.String;
+export const Transform = S.String;
 
 /** List of transforms */
 export type RulesEngineMatchConditionTransformsList = Array<
@@ -1511,7 +1459,7 @@ export const RulesEngineRuleMatchConditionsList = /*@__PURE__*/ S.Array(
 
 /** If this rule is a match should the rules engine continue running the remaining rules or stop. If not present, defaults to Continue. */
 export type MatchProcessingBehavior = "Continue" | "Stop";
-export const MatchProcessingBehavior = /*@__PURE__*/ S.String;
+export const MatchProcessingBehavior = S.String;
 
 /** Contains a list of match conditions, and an action on how to modify the request/response. If multiple rules match, the actions from one rule that conflict with a previous rule overwrite for a singular action, or append in the case of headers manipulation. */
 export interface RulesEngineRule {
@@ -1676,73 +1624,44 @@ export const FrontDoorsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "FrontDoorsCreateOrUpdateResponse",
 }) as any as S.Schema<FrontDoorsCreateOrUpdateResponse>;
 
-export interface FrontDoorsDeleteRequest {
+export interface GetExperimentRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** Name of the Front Door which is globally unique. */
-  frontDoorName: string;
+  /** The Profile identifier associated with the Tenant and Partner */
+  profileName: string;
+  /** The Experiment identifier associated with the Experiment */
+  experimentName: string;
 }
-export const FrontDoorsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetExperimentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
-    frontDoorName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "FrontDoorsDeleteRequest",
-}) as any as S.Schema<FrontDoorsDeleteRequest>;
-
-export interface FrontDoorsDeleteResponse {}
-export const FrontDoorsDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "FrontDoorsDeleteResponse",
-}) as any as S.Schema<FrontDoorsDeleteResponse>;
-
-export interface FrontDoorsGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of the Front Door which is globally unique. */
-  frontDoorName: string;
-}
-export const FrontDoorsGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    frontDoorName: S.String.pipe(T.Label()),
+    profileName: S.String.pipe(T.Label()),
+    experimentName: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
       code: 200,
       apiVersion: "2025-11-01",
     }),
   ),
 ).annotate({
-  identifier: "FrontDoorsGetRequest",
-}) as any as S.Schema<FrontDoorsGetRequest>;
+  identifier: "GetExperimentRequest",
+}) as any as S.Schema<GetExperimentRequest>;
 
 /** Resource tags. */
-export type FrontDoorsGetResponseTagsMap = {
+export type GetExperimentResponseTagsMap = {
   [key: string]: string | undefined;
 };
-export const FrontDoorsGetResponseTagsMap = /*@__PURE__*/ S.Record(
+export const GetExperimentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<FrontDoorsGetResponseTagsMap>;
+) as any as S.Schema<GetExperimentResponseTagsMap>;
 
-export interface FrontDoorsGetResponse {
+export interface GetExperimentResponse {
   /** Resource ID. */
   id?: string;
   /** Resource name. */
@@ -1752,41 +1671,1462 @@ export interface FrontDoorsGetResponse {
   /** Resource location. */
   location?: string;
   /** Resource tags. */
-  tags?: FrontDoorsGetResponseTagsMap;
-  /** Properties of the Front Door Load Balancer */
-  properties?: FrontDoorProperties;
+  tags?: GetExperimentResponseTagsMap;
+  /** The properties of an Experiment */
+  properties?: ExperimentProperties;
 }
-export const FrontDoorsGetResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetExperimentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
     location: S.optional(S.String),
-    tags: S.optional(FrontDoorsGetResponseTagsMap),
-    properties: S.optional(FrontDoorProperties),
+    tags: S.optional(GetExperimentResponseTagsMap),
+    properties: S.optional(ExperimentProperties),
   }),
 ).annotate({
-  identifier: "FrontDoorsGetResponse",
-}) as any as S.Schema<FrontDoorsGetResponse>;
+  identifier: "GetExperimentResponse",
+}) as any as S.Schema<GetExperimentResponse>;
 
-export interface FrontDoorsListRequest {
+export interface GetFrontDoorRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the Front Door which is globally unique. */
+  frontDoorName: string;
 }
-export const FrontDoorsListRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetFrontDoorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    frontDoorName: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoors",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
       code: 200,
       apiVersion: "2025-11-01",
     }),
   ),
 ).annotate({
-  identifier: "FrontDoorsListRequest",
-}) as any as S.Schema<FrontDoorsListRequest>;
+  identifier: "GetFrontDoorRequest",
+}) as any as S.Schema<GetFrontDoorRequest>;
+
+/** Resource tags. */
+export type GetFrontDoorResponseTagsMap = { [key: string]: string | undefined };
+export const GetFrontDoorResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<GetFrontDoorResponseTagsMap>;
+
+export interface GetFrontDoorResponse {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: GetFrontDoorResponseTagsMap;
+  /** Properties of the Front Door Load Balancer */
+  properties?: FrontDoorProperties;
+}
+export const GetFrontDoorResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(GetFrontDoorResponseTagsMap),
+    properties: S.optional(FrontDoorProperties),
+  }),
+).annotate({
+  identifier: "GetFrontDoorResponse",
+}) as any as S.Schema<GetFrontDoorResponse>;
+
+export interface GetFrontendEndpointRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the Front Door which is globally unique. */
+  frontDoorName: string;
+  /** Name of the Frontend endpoint which is unique within the Front Door. */
+  frontendEndpointName: string;
+}
+export const GetFrontendEndpointRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    frontDoorName: S.String.pipe(T.Label()),
+    frontendEndpointName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetFrontendEndpointRequest",
+}) as any as S.Schema<GetFrontendEndpointRequest>;
+
+export interface GetFrontendEndpointResponse {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Properties of the Frontend endpoint */
+  properties?: FrontendEndpointProperties;
+}
+export const GetFrontendEndpointResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    properties: S.optional(FrontendEndpointProperties),
+  }),
+).annotate({
+  identifier: "GetFrontendEndpointResponse",
+}) as any as S.Schema<GetFrontendEndpointResponse>;
+
+export interface GetNetworkExperimentProfileRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The Profile identifier associated with the Tenant and Partner */
+  profileName: string;
+}
+export const GetNetworkExperimentProfileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    profileName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetNetworkExperimentProfileRequest",
+}) as any as S.Schema<GetNetworkExperimentProfileRequest>;
+
+/** Resource tags. */
+export type GetNetworkExperimentProfileResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const GetNetworkExperimentProfileResponseTagsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<GetNetworkExperimentProfileResponseTagsMap>;
+
+/** Defines the properties of an experiment */
+export interface ProfileProperties {
+  /** Resource status. */
+  resourceState?: NetworkExperimentResourceState | (string & {});
+  /** The state of the Experiment */
+  enabledState?: State | (string & {});
+}
+export const ProfileProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceState: S.optional(NetworkExperimentResourceState),
+    enabledState: S.optional(State),
+  }),
+).annotate({
+  identifier: "ProfileProperties",
+}) as any as S.Schema<ProfileProperties>;
+
+export interface GetNetworkExperimentProfileResponse {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: GetNetworkExperimentProfileResponseTagsMap;
+  /** The properties of a Profile */
+  properties?: ProfileProperties;
+  /** Gets a unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+}
+export const GetNetworkExperimentProfileResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(GetNetworkExperimentProfileResponseTagsMap),
+    properties: S.optional(ProfileProperties),
+    etag: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetNetworkExperimentProfileResponse",
+}) as any as S.Schema<GetNetworkExperimentProfileResponse>;
+
+export interface GetPolicyRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Web Application Firewall Policy. */
+  policyName: string;
+}
+export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    policyName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetPolicyRequest",
+}) as any as S.Schema<GetPolicyRequest>;
+
+/** Resource tags. */
+export type GetPolicyResponseTagsMap = { [key: string]: string | undefined };
+export const GetPolicyResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<GetPolicyResponseTagsMap>;
+
+/** Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified. */
+export type PolicyEnabledState = "Disabled" | "Enabled";
+export const PolicyEnabledState = S.String;
+
+/** Describes if it is in detection mode or prevention mode at policy level. */
+export type PolicyMode = "Prevention" | "Detection";
+export const PolicyMode = S.String;
+
+/** Describes if policy managed rules will inspect the request body content. */
+export type PolicyRequestBodyCheck = "Disabled" | "Enabled";
+export const PolicyRequestBodyCheck = S.String;
+
+/** State of the log scrubbing config. Default value is Enabled. */
+export type WebApplicationFirewallScrubbingState = "Enabled" | "Disabled";
+export const WebApplicationFirewallScrubbingState = S.String;
+
+/** The variable to be scrubbed from the logs. */
+export type ScrubbingRuleEntryMatchVariable =
+  | "RequestIPAddress"
+  | "RequestUri"
+  | "QueryStringArgNames"
+  | "RequestHeaderNames"
+  | "RequestCookieNames"
+  | "RequestBodyPostArgNames"
+  | "RequestBodyJsonArgNames";
+export const ScrubbingRuleEntryMatchVariable = S.String;
+
+/** When matchVariable is a collection, operate on the selector to specify which elements in the collection this rule applies to. */
+export type ScrubbingRuleEntryMatchOperator = "EqualsAny" | "Equals";
+export const ScrubbingRuleEntryMatchOperator = S.String;
+
+/** Defines the state of a log scrubbing rule. Default value is enabled. */
+export type ScrubbingRuleEntryState = "Enabled" | "Disabled";
+export const ScrubbingRuleEntryState = S.String;
+
+/** Defines the contents of the log scrubbing rules. */
+export interface WebApplicationFirewallScrubbingRules {
+  /** The variable to be scrubbed from the logs. */
+  matchVariable: ScrubbingRuleEntryMatchVariable | (string & {});
+  /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this rule applies to. */
+  selectorMatchOperator: ScrubbingRuleEntryMatchOperator | (string & {});
+  /** When matchVariable is a collection, operator used to specify which elements in the collection this rule applies to. */
+  selector?: string;
+  /** Defines the state of a log scrubbing rule. Default value is enabled. */
+  state?: ScrubbingRuleEntryState | (string & {});
+}
+export const WebApplicationFirewallScrubbingRules = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      matchVariable: ScrubbingRuleEntryMatchVariable,
+      selectorMatchOperator: ScrubbingRuleEntryMatchOperator,
+      selector: S.optional(S.String),
+      state: S.optional(ScrubbingRuleEntryState),
+    }),
+).annotate({
+  identifier: "WebApplicationFirewallScrubbingRules",
+}) as any as S.Schema<WebApplicationFirewallScrubbingRules>;
+
+/** List of log scrubbing rules applied to the Web Application Firewall logs. */
+export type PolicySettingsLogScrubbingScrubbingRulesList =
+  Array<WebApplicationFirewallScrubbingRules>;
+export const PolicySettingsLogScrubbingScrubbingRulesList =
+  /*@__PURE__*/ S.Array(
+    WebApplicationFirewallScrubbingRules,
+  ) as any as S.Schema<PolicySettingsLogScrubbingScrubbingRulesList>;
+
+/** Defines rules that scrub sensitive fields in the Web Application Firewall logs. */
+export interface PolicySettingsLogScrubbing {
+  /** State of the log scrubbing config. Default value is Enabled. */
+  state?: WebApplicationFirewallScrubbingState | (string & {});
+  /** List of log scrubbing rules applied to the Web Application Firewall logs. */
+  scrubbingRules?: PolicySettingsLogScrubbingScrubbingRulesList;
+}
+export const PolicySettingsLogScrubbing = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.optional(WebApplicationFirewallScrubbingState),
+    scrubbingRules: S.optional(PolicySettingsLogScrubbingScrubbingRulesList),
+  }),
+).annotate({
+  identifier: "PolicySettingsLogScrubbing",
+}) as any as S.Schema<PolicySettingsLogScrubbing>;
+
+/** Defines top-level WebApplicationFirewallPolicy configuration settings. */
+export interface PolicySettings {
+  /** Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified. */
+  enabledState?: PolicyEnabledState | (string & {});
+  /** Describes if it is in detection mode or prevention mode at policy level. */
+  mode?: PolicyMode | (string & {});
+  /** If action type is redirect, this field represents redirect URL for the client. */
+  redirectUrl?: string;
+  /** If the action type is block, customer can override the response status code. */
+  customBlockResponseStatusCode?: number;
+  /** If the action type is block, customer can override the response body. The body must be specified in base64 encoding. */
+  customBlockResponseBody?: string;
+  /** Describes if policy managed rules will inspect the request body content. */
+  requestBodyCheck?: PolicyRequestBodyCheck | (string & {});
+  /** Defines the JavaScript challenge cookie validity lifetime in minutes. This setting is only applicable to Premium_AzureFrontDoor. Value must be an integer between 5 and 1440 with the default value being 30. */
+  javascriptChallengeExpirationInMinutes?: number;
+  /** Defines the Captcha cookie validity lifetime in minutes. This setting is only applicable to Premium_AzureFrontDoor. Value must be an integer between 5 and 1440 with the default value being 30. */
+  captchaExpirationInMinutes?: number;
+  /** Defines rules that scrub sensitive fields in the Web Application Firewall logs. */
+  logScrubbing?: PolicySettingsLogScrubbing;
+}
+export const PolicySettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabledState: S.optional(PolicyEnabledState),
+    mode: S.optional(PolicyMode),
+    redirectUrl: S.optional(S.String),
+    customBlockResponseStatusCode: S.optional(S.Number),
+    customBlockResponseBody: S.optional(S.String),
+    requestBodyCheck: S.optional(PolicyRequestBodyCheck),
+    javascriptChallengeExpirationInMinutes: S.optional(S.Number),
+    captchaExpirationInMinutes: S.optional(S.Number),
+    logScrubbing: S.optional(PolicySettingsLogScrubbing),
+  }),
+).annotate({ identifier: "PolicySettings" }) as any as S.Schema<PolicySettings>;
+
+/** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
+export type CustomRuleEnabledState = "Disabled" | "Enabled";
+export const CustomRuleEnabledState = S.String;
+
+/** Describes type of rule. */
+export type RuleType = "MatchRule" | "RateLimitRule";
+export const RuleType = S.String;
+
+/** Describes the supported variable for group by */
+export type VariableName = "SocketAddr" | "GeoLocation" | "None";
+export const VariableName = S.String;
+
+/** Describes the variables available to group the rate limit requests */
+export interface GroupByVariable {
+  /** Describes the supported variable for group by */
+  variableName: VariableName | (string & {});
+}
+export const GroupByVariable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    variableName: VariableName,
+  }),
+).annotate({
+  identifier: "GroupByVariable",
+}) as any as S.Schema<GroupByVariable>;
+
+/** Describes the list of variables to group the rate limit requests */
+export type CustomRuleGroupByList = Array<GroupByVariable>;
+export const CustomRuleGroupByList = /*@__PURE__*/ S.Array(
+  GroupByVariable,
+) as any as S.Schema<CustomRuleGroupByList>;
+
+/** Request variable to compare with. */
+export type MatchVariable =
+  | "RemoteAddr"
+  | "RequestMethod"
+  | "QueryString"
+  | "PostArgs"
+  | "RequestUri"
+  | "RequestHeader"
+  | "RequestBody"
+  | "Cookies"
+  | "SocketAddr"
+  | "JA4";
+export const MatchVariable = S.String;
+
+/** Comparison type to use for matching with the variable value. */
+export type Operator =
+  | "Any"
+  | "IPMatch"
+  | "GeoMatch"
+  | "Equal"
+  | "Contains"
+  | "LessThan"
+  | "GreaterThan"
+  | "LessThanOrEqual"
+  | "GreaterThanOrEqual"
+  | "BeginsWith"
+  | "EndsWith"
+  | "RegEx"
+  | "ServiceTagMatch"
+  | "AsnMatch"
+  | "ClientFingerprint";
+export const Operator = S.String;
+
+/** List of possible match values. */
+export type MatchConditionMatchValueList = Array<string>;
+export const MatchConditionMatchValueList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<MatchConditionMatchValueList>;
+
+/** Describes what transforms applied before matching. */
+export type TransformType =
+  | "Lowercase"
+  | "Uppercase"
+  | "Trim"
+  | "UrlDecode"
+  | "UrlEncode"
+  | "RemoveNulls";
+export const TransformType = S.String;
+
+/** List of transforms. */
+export type MatchConditionTransformsList = Array<TransformType | (string & {})>;
+export const MatchConditionTransformsList = /*@__PURE__*/ S.Array(
+  TransformType,
+) as any as S.Schema<MatchConditionTransformsList>;
+
+/** Define a match condition. */
+export interface MatchCondition {
+  /** Request variable to compare with. */
+  matchVariable: MatchVariable | (string & {});
+  /** Match against a specific key from the QueryString, PostArgs, RequestHeader or Cookies variables. Default is null. */
+  selector?: string;
+  /** Comparison type to use for matching with the variable value. */
+  operator: Operator | (string & {});
+  /** Describes if the result of this condition should be negated. */
+  negateCondition?: boolean;
+  /** List of possible match values. */
+  matchValue: MatchConditionMatchValueList;
+  /** List of transforms. */
+  transforms?: MatchConditionTransformsList;
+}
+export const MatchCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    matchVariable: MatchVariable,
+    selector: S.optional(S.String),
+    operator: Operator,
+    negateCondition: S.optional(S.Boolean),
+    matchValue: MatchConditionMatchValueList,
+    transforms: S.optional(MatchConditionTransformsList),
+  }),
+).annotate({ identifier: "MatchCondition" }) as any as S.Schema<MatchCondition>;
+
+/** List of match conditions. */
+export type CustomRuleMatchConditionsList = Array<MatchCondition>;
+export const CustomRuleMatchConditionsList = /*@__PURE__*/ S.Array(
+  MatchCondition,
+) as any as S.Schema<CustomRuleMatchConditionsList>;
+
+/** Defines the action to take on rule match. */
+export type ActionType =
+  | "Allow"
+  | "Block"
+  | "Log"
+  | "Redirect"
+  | "AnomalyScoring"
+  | "JSChallenge"
+  | "CAPTCHA";
+export const ActionType = S.String;
+
+/** Defines contents of a web application rule */
+export interface CustomRule {
+  /** Describes the name of the rule. */
+  name?: string;
+  /** Describes priority of the rule. Rules with a lower value will be evaluated before rules with a higher value. */
+  priority: number;
+  /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
+  enabledState?: CustomRuleEnabledState | (string & {});
+  /** Describes type of rule. */
+  ruleType: RuleType | (string & {});
+  /** Time window for resetting the rate limit count. Default is 1 minute. */
+  rateLimitDurationInMinutes?: number;
+  /** Number of allowed requests per client within the time window. */
+  rateLimitThreshold?: number;
+  /** Describes the list of variables to group the rate limit requests */
+  groupBy?: CustomRuleGroupByList;
+  /** List of match conditions. */
+  matchConditions: CustomRuleMatchConditionsList;
+  /** Describes what action to be applied when rule matches. */
+  action: ActionType | (string & {});
+}
+export const CustomRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    priority: S.Number,
+    enabledState: S.optional(CustomRuleEnabledState),
+    ruleType: RuleType,
+    rateLimitDurationInMinutes: S.optional(S.Number),
+    rateLimitThreshold: S.optional(S.Number),
+    groupBy: S.optional(CustomRuleGroupByList),
+    matchConditions: CustomRuleMatchConditionsList,
+    action: ActionType,
+  }),
+).annotate({ identifier: "CustomRule" }) as any as S.Schema<CustomRule>;
+
+/** List of rules */
+export type CustomRuleListRulesList = Array<CustomRule>;
+export const CustomRuleListRulesList = /*@__PURE__*/ S.Array(
+  CustomRule,
+) as any as S.Schema<CustomRuleListRulesList>;
+
+/** Defines contents of custom rules */
+export interface CustomRuleList {
+  /** List of rules */
+  rules?: CustomRuleListRulesList;
+}
+export const CustomRuleList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rules: S.optional(CustomRuleListRulesList),
+  }),
+).annotate({ identifier: "CustomRuleList" }) as any as S.Schema<CustomRuleList>;
+
+/** Defines the action to take when a managed rule set score threshold is met. */
+export type ManagedRuleSetActionType = "Block" | "Log" | "Redirect";
+export const ManagedRuleSetActionType = S.String;
+
+/** The variable type to be excluded. */
+export type ManagedRuleExclusionMatchVariable =
+  | "RequestHeaderNames"
+  | "RequestCookieNames"
+  | "QueryStringArgNames"
+  | "RequestBodyPostArgNames"
+  | "RequestBodyJsonArgNames";
+export const ManagedRuleExclusionMatchVariable = S.String;
+
+/** Comparison operator to apply to the selector when specifying which elements in the collection this exclusion applies to. */
+export type ManagedRuleExclusionSelectorMatchOperator =
+  | "Equals"
+  | "Contains"
+  | "StartsWith"
+  | "EndsWith"
+  | "EqualsAny";
+export const ManagedRuleExclusionSelectorMatchOperator = S.String;
+
+/** Exclude variables from managed rule evaluation. */
+export interface ManagedRuleExclusion {
+  /** The variable type to be excluded. */
+  matchVariable: ManagedRuleExclusionMatchVariable | (string & {});
+  /** Comparison operator to apply to the selector when specifying which elements in the collection this exclusion applies to. */
+  selectorMatchOperator:
+    | ManagedRuleExclusionSelectorMatchOperator
+    | (string & {});
+  /** Selector value for which elements in the collection this exclusion applies to. */
+  selector: string;
+}
+export const ManagedRuleExclusion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    matchVariable: ManagedRuleExclusionMatchVariable,
+    selectorMatchOperator: ManagedRuleExclusionSelectorMatchOperator,
+    selector: S.String,
+  }),
+).annotate({
+  identifier: "ManagedRuleExclusion",
+}) as any as S.Schema<ManagedRuleExclusion>;
+
+/** Describes the exclusions that are applied to all rules in the set. */
+export type ManagedRuleSetExclusionsList = Array<ManagedRuleExclusion>;
+export const ManagedRuleSetExclusionsList = /*@__PURE__*/ S.Array(
+  ManagedRuleExclusion,
+) as any as S.Schema<ManagedRuleSetExclusionsList>;
+
+/** Describes the exclusions that are applied to all rules in the group. */
+export type ManagedRuleGroupOverrideExclusionsList =
+  Array<ManagedRuleExclusion>;
+export const ManagedRuleGroupOverrideExclusionsList = /*@__PURE__*/ S.Array(
+  ManagedRuleExclusion,
+) as any as S.Schema<ManagedRuleGroupOverrideExclusionsList>;
+
+/** Describes if the managed rule is in enabled or disabled state. */
+export type ManagedRuleEnabledState = "Disabled" | "Enabled";
+export const ManagedRuleEnabledState = S.String;
+
+/** Defines the sensitivity for the rule. */
+export type SensitivityType = "Low" | "Medium" | "High";
+export const SensitivityType = S.String;
+
+/** Describes the exclusions that are applied to this specific rule. */
+export type ManagedRuleOverrideExclusionsList = Array<ManagedRuleExclusion>;
+export const ManagedRuleOverrideExclusionsList = /*@__PURE__*/ S.Array(
+  ManagedRuleExclusion,
+) as any as S.Schema<ManagedRuleOverrideExclusionsList>;
+
+/** Defines a managed rule group override setting. */
+export interface ManagedRuleOverride {
+  /** Identifier for the managed rule. */
+  ruleId: string;
+  /** Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified. */
+  enabledState?: ManagedRuleEnabledState | (string & {});
+  /** Describes the override action to be applied when rule matches. */
+  action?: ActionType | (string & {});
+  /** Describes the override sensitivity to be applied when rule matches. */
+  sensitivity?: SensitivityType | (string & {});
+  /** Describes the exclusions that are applied to this specific rule. */
+  exclusions?: ManagedRuleOverrideExclusionsList;
+}
+export const ManagedRuleOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ruleId: S.String,
+    enabledState: S.optional(ManagedRuleEnabledState),
+    action: S.optional(ActionType),
+    sensitivity: S.optional(SensitivityType),
+    exclusions: S.optional(ManagedRuleOverrideExclusionsList),
+  }),
+).annotate({
+  identifier: "ManagedRuleOverride",
+}) as any as S.Schema<ManagedRuleOverride>;
+
+/** List of rules that will be disabled. If none specified, all rules in the group will be disabled. */
+export type ManagedRuleGroupOverrideRulesList = Array<ManagedRuleOverride>;
+export const ManagedRuleGroupOverrideRulesList = /*@__PURE__*/ S.Array(
+  ManagedRuleOverride,
+) as any as S.Schema<ManagedRuleGroupOverrideRulesList>;
+
+/** Defines a managed rule group override setting. */
+export interface ManagedRuleGroupOverride {
+  /** Describes the managed rule group to override. */
+  ruleGroupName: string;
+  /** Describes the exclusions that are applied to all rules in the group. */
+  exclusions?: ManagedRuleGroupOverrideExclusionsList;
+  /** List of rules that will be disabled. If none specified, all rules in the group will be disabled. */
+  rules?: ManagedRuleGroupOverrideRulesList;
+}
+export const ManagedRuleGroupOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ruleGroupName: S.String,
+    exclusions: S.optional(ManagedRuleGroupOverrideExclusionsList),
+    rules: S.optional(ManagedRuleGroupOverrideRulesList),
+  }),
+).annotate({
+  identifier: "ManagedRuleGroupOverride",
+}) as any as S.Schema<ManagedRuleGroupOverride>;
+
+/** Defines the rule group overrides to apply to the rule set. */
+export type ManagedRuleSetRuleGroupOverridesList =
+  Array<ManagedRuleGroupOverride>;
+export const ManagedRuleSetRuleGroupOverridesList = /*@__PURE__*/ S.Array(
+  ManagedRuleGroupOverride,
+) as any as S.Schema<ManagedRuleSetRuleGroupOverridesList>;
+
+/** Defines a managed rule set. */
+export interface ManagedRuleSet {
+  /** Defines the rule set type to use. */
+  ruleSetType: string;
+  /** Defines the version of the rule set to use. */
+  ruleSetVersion: string;
+  /** Defines the rule set action. */
+  ruleSetAction?: ManagedRuleSetActionType | (string & {});
+  /** Describes the exclusions that are applied to all rules in the set. */
+  exclusions?: ManagedRuleSetExclusionsList;
+  /** Defines the rule group overrides to apply to the rule set. */
+  ruleGroupOverrides?: ManagedRuleSetRuleGroupOverridesList;
+}
+export const ManagedRuleSet = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ruleSetType: S.String,
+    ruleSetVersion: S.String,
+    ruleSetAction: S.optional(ManagedRuleSetActionType),
+    exclusions: S.optional(ManagedRuleSetExclusionsList),
+    ruleGroupOverrides: S.optional(ManagedRuleSetRuleGroupOverridesList),
+  }),
+).annotate({ identifier: "ManagedRuleSet" }) as any as S.Schema<ManagedRuleSet>;
+
+/** List of rule sets. */
+export type ManagedRuleSetListManagedRuleSetsList = Array<ManagedRuleSet>;
+export const ManagedRuleSetListManagedRuleSetsList = /*@__PURE__*/ S.Array(
+  ManagedRuleSet,
+) as any as S.Schema<ManagedRuleSetListManagedRuleSetsList>;
+
+/** The variable to be evaluated for excluding the request. */
+export type ExceptionMatchVariable =
+  | "RequestUri"
+  | "SocketAddr"
+  | "RequestHeaderNames";
+export const ExceptionMatchVariable = S.String;
+
+/** Comparison operator to apply to the selector when specifying which elements in the collection this exception applies to.. */
+export type ExceptionSelectorMatchOperator = "Equals";
+export const ExceptionSelectorMatchOperator = S.String;
+
+/** Comparison operator to apply to the value to be matched.. */
+export type ExceptionValueMatchOperator =
+  | "Equals"
+  | "Contains"
+  | "StartsWith"
+  | "EndsWith"
+  | "EqualsAny"
+  | "IPMatch";
+export const ExceptionValueMatchOperator = S.String;
+
+/** List of values to be matched with. */
+export type ManagedRuleSetExceptionMatchValuesList = Array<string>;
+export const ManagedRuleSetExceptionMatchValuesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ManagedRuleSetExceptionMatchValuesList>;
+
+/** Defines the scope of the rule. */
+export interface RuleScope {
+  /** Defines the rule id. */
+  ruleId: string;
+}
+export const RuleScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ruleId: S.String,
+  }),
+).annotate({ identifier: "RuleScope" }) as any as S.Schema<RuleScope>;
+
+/** List of rule scopes. */
+export type RuleGroupScopeRuleScopesList = Array<RuleScope>;
+export const RuleGroupScopeRuleScopesList = /*@__PURE__*/ S.Array(
+  RuleScope,
+) as any as S.Schema<RuleGroupScopeRuleScopesList>;
+
+/** Defines the scope of the rule group. */
+export interface RuleGroupScope {
+  /** Defines the rule group name. */
+  ruleGroupName: string;
+  /** List of rule scopes. */
+  ruleScopes?: RuleGroupScopeRuleScopesList;
+}
+export const RuleGroupScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ruleGroupName: S.String,
+    ruleScopes: S.optional(RuleGroupScopeRuleScopesList),
+  }),
+).annotate({ identifier: "RuleGroupScope" }) as any as S.Schema<RuleGroupScope>;
+
+/** List of rule group scopes. */
+export type ManagedRuleSetScopeRuleGroupScopesList = Array<RuleGroupScope>;
+export const ManagedRuleSetScopeRuleGroupScopesList = /*@__PURE__*/ S.Array(
+  RuleGroupScope,
+) as any as S.Schema<ManagedRuleSetScopeRuleGroupScopesList>;
+
+/** Defines the scope of the managed rules. */
+export interface ManagedRuleSetScope {
+  /** Defines the rule set type. Examples: DefaultRuleSet, Microsoft_DefaultRuleSet, Microsoft_BotManagerRuleSet, Microsoft_HTTPDDoSRuleSet, BotProtection */
+  ruleSetType: string;
+  /** Defines the version of the rule set. */
+  ruleSetVersion: string;
+  /** List of rule group scopes. */
+  ruleGroupScopes?: ManagedRuleSetScopeRuleGroupScopesList;
+}
+export const ManagedRuleSetScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ruleSetType: S.String,
+    ruleSetVersion: S.String,
+    ruleGroupScopes: S.optional(ManagedRuleSetScopeRuleGroupScopesList),
+  }),
+).annotate({
+  identifier: "ManagedRuleSetScope",
+}) as any as S.Schema<ManagedRuleSetScope>;
+
+/** Scope(s) of the exception. */
+export type ManagedRuleSetExceptionScopesList = Array<ManagedRuleSetScope>;
+export const ManagedRuleSetExceptionScopesList = /*@__PURE__*/ S.Array(
+  ManagedRuleSetScope,
+) as any as S.Schema<ManagedRuleSetExceptionScopesList>;
+
+/** Excludes whole requests from managed rule evaluation according to match conditions. */
+export interface ManagedRuleSetException {
+  /** The variable to be evaluated for excluding the request. */
+  matchVariable: ExceptionMatchVariable | (string & {});
+  /** Comparison operator to apply to the selector when specifying which elements in the collection this exception applies to. */
+  selectorMatchOperator?: ExceptionSelectorMatchOperator | (string & {});
+  /** When matchVariable is a collection, operator used to specify which elements in the collection this exception applies to. Currently supported only for RequestHeaderNames. */
+  selector?: string;
+  /** Comparison operator to apply to the value to be matched. */
+  valueMatchOperator: ExceptionValueMatchOperator | (string & {});
+  /** List of values to be matched with. */
+  matchValues: ManagedRuleSetExceptionMatchValuesList;
+  /** Scope(s) of the exception. */
+  scopes: ManagedRuleSetExceptionScopesList;
+}
+export const ManagedRuleSetException = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    matchVariable: ExceptionMatchVariable,
+    selectorMatchOperator: S.optional(ExceptionSelectorMatchOperator),
+    selector: S.optional(S.String),
+    valueMatchOperator: ExceptionValueMatchOperator,
+    matchValues: ManagedRuleSetExceptionMatchValuesList,
+    scopes: ManagedRuleSetExceptionScopesList,
+  }),
+).annotate({
+  identifier: "ManagedRuleSetException",
+}) as any as S.Schema<ManagedRuleSetException>;
+
+/** List of exceptions. */
+export type ManagedRuleSetExceptionListExceptionsList =
+  Array<ManagedRuleSetException>;
+export const ManagedRuleSetExceptionListExceptionsList = /*@__PURE__*/ S.Array(
+  ManagedRuleSetException,
+) as any as S.Schema<ManagedRuleSetExceptionListExceptionsList>;
+
+/** Defines the list of exceptions for the managed rule sets. */
+export interface ManagedRuleSetExceptionList {
+  /** List of exceptions. */
+  exceptions?: ManagedRuleSetExceptionListExceptionsList;
+}
+export const ManagedRuleSetExceptionList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exceptions: S.optional(ManagedRuleSetExceptionListExceptionsList),
+  }),
+).annotate({
+  identifier: "ManagedRuleSetExceptionList",
+}) as any as S.Schema<ManagedRuleSetExceptionList>;
+
+/** Defines the list of managed rule sets for the policy. */
+export interface ManagedRuleSetList {
+  /** List of rule sets. */
+  managedRuleSets?: ManagedRuleSetListManagedRuleSetsList;
+  /** List of exceptions applied on the managed rule sets. */
+  exceptionsList?: ManagedRuleSetExceptionList;
+}
+export const ManagedRuleSetList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    managedRuleSets: S.optional(ManagedRuleSetListManagedRuleSetsList),
+    exceptionsList: S.optional(ManagedRuleSetExceptionList),
+  }),
+).annotate({
+  identifier: "ManagedRuleSetList",
+}) as any as S.Schema<ManagedRuleSetList>;
+
+/** Defines the Resource ID for a Frontend Endpoint. */
+export type FrontendEndpointLink = KeyVaultCertificateSourceParametersVault;
+export const FrontendEndpointLink = KeyVaultCertificateSourceParametersVault;
+
+/** Describes Frontend Endpoints associated with this Web Application Firewall policy. */
+export type WebApplicationFirewallPolicyPropertiesFrontendEndpointLinksList =
+  Array<KeyVaultCertificateSourceParametersVault>;
+export const WebApplicationFirewallPolicyPropertiesFrontendEndpointLinksList =
+  /*@__PURE__*/ S.Array(
+    KeyVaultCertificateSourceParametersVault,
+  ) as any as S.Schema<WebApplicationFirewallPolicyPropertiesFrontendEndpointLinksList>;
+
+/** Defines the Resource ID for a Routing Rule. */
+export type RoutingRuleLink = KeyVaultCertificateSourceParametersVault;
+export const RoutingRuleLink = KeyVaultCertificateSourceParametersVault;
+
+/** Describes Routing Rules associated with this Web Application Firewall policy. */
+export type WebApplicationFirewallPolicyPropertiesRoutingRuleLinksList =
+  Array<KeyVaultCertificateSourceParametersVault>;
+export const WebApplicationFirewallPolicyPropertiesRoutingRuleLinksList =
+  /*@__PURE__*/ S.Array(
+    KeyVaultCertificateSourceParametersVault,
+  ) as any as S.Schema<WebApplicationFirewallPolicyPropertiesRoutingRuleLinksList>;
+
+/** Defines the Resource ID for a Security Policy. */
+export type SecurityPolicyLink = KeyVaultCertificateSourceParametersVault;
+export const SecurityPolicyLink = KeyVaultCertificateSourceParametersVault;
+
+/** Describes Security Policy associated with this Web Application Firewall policy. */
+export type WebApplicationFirewallPolicyPropertiesSecurityPolicyLinksList =
+  Array<KeyVaultCertificateSourceParametersVault>;
+export const WebApplicationFirewallPolicyPropertiesSecurityPolicyLinksList =
+  /*@__PURE__*/ S.Array(
+    KeyVaultCertificateSourceParametersVault,
+  ) as any as S.Schema<WebApplicationFirewallPolicyPropertiesSecurityPolicyLinksList>;
+
+/** Resource status of the policy. */
+export type PolicyResourceState =
+  | "Creating"
+  | "Enabling"
+  | "Enabled"
+  | "Disabling"
+  | "Disabled"
+  | "Deleting";
+export const PolicyResourceState = S.String;
+
+/** Defines web application firewall policy properties. */
+export interface WebApplicationFirewallPolicyProperties {
+  /** Describes settings for the policy. */
+  policySettings?: PolicySettings;
+  /** Describes custom rules inside the policy. */
+  customRules?: CustomRuleList;
+  /** Describes managed rules inside the policy. */
+  managedRules?: ManagedRuleSetList;
+  /** Describes Frontend Endpoints associated with this Web Application Firewall policy. */
+  frontendEndpointLinks?: WebApplicationFirewallPolicyPropertiesFrontendEndpointLinksList;
+  /** Describes Routing Rules associated with this Web Application Firewall policy. */
+  routingRuleLinks?: WebApplicationFirewallPolicyPropertiesRoutingRuleLinksList;
+  /** Describes Security Policy associated with this Web Application Firewall policy. */
+  securityPolicyLinks?: WebApplicationFirewallPolicyPropertiesSecurityPolicyLinksList;
+  /** Provisioning state of the policy. */
+  provisioningState?: string;
+  /** Resource status of the policy. */
+  resourceState?: PolicyResourceState;
+}
+export const WebApplicationFirewallPolicyProperties = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      policySettings: S.optional(PolicySettings),
+      customRules: S.optional(CustomRuleList),
+      managedRules: S.optional(ManagedRuleSetList),
+      frontendEndpointLinks: S.optional(
+        WebApplicationFirewallPolicyPropertiesFrontendEndpointLinksList,
+      ),
+      routingRuleLinks: S.optional(
+        WebApplicationFirewallPolicyPropertiesRoutingRuleLinksList,
+      ),
+      securityPolicyLinks: S.optional(
+        WebApplicationFirewallPolicyPropertiesSecurityPolicyLinksList,
+      ),
+      provisioningState: S.optional(S.String),
+      resourceState: S.optional(PolicyResourceState),
+    }),
+).annotate({
+  identifier: "WebApplicationFirewallPolicyProperties",
+}) as any as S.Schema<WebApplicationFirewallPolicyProperties>;
+
+/** Name of the pricing tier. */
+export type SkuName =
+  | "Classic_AzureFrontDoor"
+  | "Standard_AzureFrontDoor"
+  | "Premium_AzureFrontDoor";
+export const SkuName = S.String;
+
+/** The pricing tier of the web application firewall policy. */
+export interface Sku {
+  /** Name of the pricing tier. */
+  name?: SkuName | (string & {});
+}
+export const Sku = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(SkuName),
+  }),
+).annotate({ identifier: "Sku" }) as any as S.Schema<Sku>;
+
+export interface GetPolicyResponse {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: GetPolicyResponseTagsMap;
+  /** Properties of the web application firewall policy. */
+  properties?: WebApplicationFirewallPolicyProperties;
+  /** Gets a unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+  /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
+  sku?: Sku;
+}
+export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(GetPolicyResponseTagsMap),
+    properties: S.optional(WebApplicationFirewallPolicyProperties),
+    etag: S.optional(S.String),
+    sku: S.optional(Sku),
+  }),
+).annotate({
+  identifier: "GetPolicyResponse",
+}) as any as S.Schema<GetPolicyResponse>;
+
+export type GetReportLatencyScorecardsRequestAggregationInterval =
+  | "Daily"
+  | "Weekly"
+  | "Monthly";
+export const GetReportLatencyScorecardsRequestAggregationInterval = S.String;
+
+export interface GetReportLatencyScorecardsRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The Profile identifier associated with the Tenant and Partner */
+  profileName: string;
+  /** The Experiment identifier associated with the Experiment */
+  experimentName: string;
+  /** The end DateTime of the Latency Scorecard in UTC */
+  endDateTimeUTC?: string;
+  /** The country associated with the Latency Scorecard. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
+  country?: string;
+  /** The aggregation interval of the Latency Scorecard */
+  aggregationInterval:
+    | GetReportLatencyScorecardsRequestAggregationInterval
+    | (string & {});
+}
+export const GetReportLatencyScorecardsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    profileName: S.String.pipe(T.Label()),
+    experimentName: S.String.pipe(T.Label()),
+    endDateTimeUTC: S.optional(S.String.pipe(T.Query())),
+    country: S.optional(S.String.pipe(T.Query())),
+    aggregationInterval:
+      GetReportLatencyScorecardsRequestAggregationInterval.pipe(T.Query()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/latencyScorecard",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetReportLatencyScorecardsRequest",
+}) as any as S.Schema<GetReportLatencyScorecardsRequest>;
+
+/** Resource tags. */
+export type GetReportLatencyScorecardsResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const GetReportLatencyScorecardsResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<GetReportLatencyScorecardsResponseTagsMap>;
+
+/** Defines the properties of a latency metric used in the latency scorecard */
+export interface LatencyMetric {
+  /** The name of the Latency Metric */
+  name?: string;
+  /** The end time of the Latency Scorecard in UTC */
+  endDateTimeUTC?: string;
+  /** The metric value of the A endpoint */
+  aValue?: number;
+  /** The metric value of the B endpoint */
+  bValue?: number;
+  /** The difference in value between endpoint A and B */
+  delta?: number;
+  /** The percent difference between endpoint A and B */
+  deltaPercent?: number;
+  /** The lower end of the 95% confidence interval for endpoint A */
+  aCLower95CI?: number;
+  /** The upper end of the 95% confidence interval for endpoint A */
+  aHUpper95CI?: number;
+  /** The lower end of the 95% confidence interval for endpoint B */
+  bCLower95CI?: number;
+  /** The upper end of the 95% confidence interval for endpoint B */
+  bUpper95CI?: number;
+}
+export const LatencyMetric = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    endDateTimeUTC: S.optional(S.String),
+    aValue: S.optional(S.Number),
+    bValue: S.optional(S.Number),
+    delta: S.optional(S.Number),
+    deltaPercent: S.optional(S.Number),
+    aCLower95CI: S.optional(S.Number),
+    aHUpper95CI: S.optional(S.Number),
+    bCLower95CI: S.optional(S.Number),
+    bUpper95CI: S.optional(S.Number),
+  }),
+).annotate({ identifier: "LatencyMetric" }) as any as S.Schema<LatencyMetric>;
+
+/** The latency metrics of the Latency Scorecard */
+export type LatencyScorecardPropertiesLatencyMetricsList = Array<LatencyMetric>;
+export const LatencyScorecardPropertiesLatencyMetricsList =
+  /*@__PURE__*/ S.Array(
+    LatencyMetric,
+  ) as any as S.Schema<LatencyScorecardPropertiesLatencyMetricsList>;
+
+/** Defines a the properties of a Latency Scorecard */
+export interface LatencyScorecardProperties {
+  /** The unique identifier of the Latency Scorecard */
+  id?: string;
+  /** The name of the Latency Scorecard */
+  name?: string;
+  /** The description of the Latency Scorecard */
+  description?: string;
+  /** The A endpoint in the scorecard */
+  endpointA?: string;
+  /** The B endpoint in the scorecard */
+  endpointB?: string;
+  /** The start time of the Latency Scorecard in UTC */
+  startDateTimeUTC?: string;
+  /** The end time of the Latency Scorecard in UTC */
+  endDateTimeUTC?: string;
+  /** The country associated with the Latency Scorecard. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
+  country?: string;
+  /** The latency metrics of the Latency Scorecard */
+  latencyMetrics?: LatencyScorecardPropertiesLatencyMetricsList;
+}
+export const LatencyScorecardProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    endpointA: S.optional(S.String),
+    endpointB: S.optional(S.String),
+    startDateTimeUTC: S.optional(S.String),
+    endDateTimeUTC: S.optional(S.String),
+    country: S.optional(S.String),
+    latencyMetrics: S.optional(LatencyScorecardPropertiesLatencyMetricsList),
+  }),
+).annotate({
+  identifier: "LatencyScorecardProperties",
+}) as any as S.Schema<LatencyScorecardProperties>;
+
+export interface GetReportLatencyScorecardsResponse {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: GetReportLatencyScorecardsResponseTagsMap;
+  /** The properties of a latency scorecard */
+  properties?: LatencyScorecardProperties;
+}
+export const GetReportLatencyScorecardsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(GetReportLatencyScorecardsResponseTagsMap),
+    properties: S.optional(LatencyScorecardProperties),
+  }),
+).annotate({
+  identifier: "GetReportLatencyScorecardsResponse",
+}) as any as S.Schema<GetReportLatencyScorecardsResponse>;
+
+export type GetReportTimeseriesRequestAggregationInterval = "Hourly" | "Daily";
+export const GetReportTimeseriesRequestAggregationInterval = S.String;
+
+export type GetReportTimeseriesRequestTimeseriesType =
+  | "MeasurementCounts"
+  | "LatencyP50"
+  | "LatencyP75"
+  | "LatencyP95";
+export const GetReportTimeseriesRequestTimeseriesType = S.String;
+
+export interface GetReportTimeseriesRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The Profile identifier associated with the Tenant and Partner */
+  profileName: string;
+  /** The Experiment identifier associated with the Experiment */
+  experimentName: string;
+  /** The start DateTime of the Timeseries in UTC */
+  startDateTimeUTC: string;
+  /** The end DateTime of the Timeseries in UTC */
+  endDateTimeUTC: string;
+  /** The aggregation interval of the Timeseries */
+  aggregationInterval:
+    | GetReportTimeseriesRequestAggregationInterval
+    | (string & {});
+  /** The type of Timeseries */
+  timeseriesType: GetReportTimeseriesRequestTimeseriesType | (string & {});
+  /** The specific endpoint */
+  endpoint?: string;
+  /** The country associated with the Timeseries. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
+  country?: string;
+}
+export const GetReportTimeseriesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    profileName: S.String.pipe(T.Label()),
+    experimentName: S.String.pipe(T.Label()),
+    startDateTimeUTC: S.String.pipe(T.Query()),
+    endDateTimeUTC: S.String.pipe(T.Query()),
+    aggregationInterval: GetReportTimeseriesRequestAggregationInterval.pipe(
+      T.Query(),
+    ),
+    timeseriesType: GetReportTimeseriesRequestTimeseriesType.pipe(T.Query()),
+    endpoint: S.optional(S.String.pipe(T.Query())),
+    country: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/timeseries",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetReportTimeseriesRequest",
+}) as any as S.Schema<GetReportTimeseriesRequest>;
+
+/** Resource tags. */
+export type GetReportTimeseriesResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const GetReportTimeseriesResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<GetReportTimeseriesResponseTagsMap>;
+
+/** The aggregation interval of the Timeseries */
+export type AggregationInterval = "Hourly" | "Daily";
+export const AggregationInterval = S.String;
+
+/** The type of Timeseries */
+export type TimeseriesType =
+  | "MeasurementCounts"
+  | "LatencyP50"
+  | "LatencyP75"
+  | "LatencyP95";
+export const TimeseriesType = S.String;
+
+/** Defines a timeseries datapoint used in a timeseries */
+export interface TimeseriesDataPoint {
+  /** The DateTime of the Timeseries data point in UTC */
+  dateTimeUTC?: string;
+  /** The Value of the Timeseries data point */
+  value?: number;
+}
+export const TimeseriesDataPoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dateTimeUTC: S.optional(S.String),
+    value: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "TimeseriesDataPoint",
+}) as any as S.Schema<TimeseriesDataPoint>;
+
+/** The set of data points for the timeseries */
+export type TimeseriesPropertiesTimeseriesDataList = Array<TimeseriesDataPoint>;
+export const TimeseriesPropertiesTimeseriesDataList = /*@__PURE__*/ S.Array(
+  TimeseriesDataPoint,
+) as any as S.Schema<TimeseriesPropertiesTimeseriesDataList>;
+
+/** Defines the properties of a timeseries */
+export interface TimeseriesProperties {
+  /** The endpoint associated with the Timeseries data point */
+  endpoint?: string;
+  /** The start DateTime of the Timeseries in UTC */
+  startDateTimeUTC?: string;
+  /** The end DateTime of the Timeseries in UTC */
+  endDateTimeUTC?: string;
+  /** The aggregation interval of the Timeseries */
+  aggregationInterval?: AggregationInterval;
+  /** The type of Timeseries */
+  timeseriesType?: TimeseriesType;
+  /** The country associated with the Timeseries. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
+  country?: string;
+  /** The set of data points for the timeseries */
+  timeseriesData?: TimeseriesPropertiesTimeseriesDataList;
+}
+export const TimeseriesProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endpoint: S.optional(S.String),
+    startDateTimeUTC: S.optional(S.String),
+    endDateTimeUTC: S.optional(S.String),
+    aggregationInterval: S.optional(AggregationInterval),
+    timeseriesType: S.optional(TimeseriesType),
+    country: S.optional(S.String),
+    timeseriesData: S.optional(TimeseriesPropertiesTimeseriesDataList),
+  }),
+).annotate({
+  identifier: "TimeseriesProperties",
+}) as any as S.Schema<TimeseriesProperties>;
+
+export interface GetReportTimeseriesResponse {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: GetReportTimeseriesResponseTagsMap;
+  /** The properties of a Timeseries */
+  properties?: TimeseriesProperties;
+}
+export const GetReportTimeseriesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(GetReportTimeseriesResponseTagsMap),
+    properties: S.optional(TimeseriesProperties),
+  }),
+).annotate({
+  identifier: "GetReportTimeseriesResponse",
+}) as any as S.Schema<GetReportTimeseriesResponse>;
+
+export interface GetRulesEngineRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the Front Door which is globally unique. */
+  frontDoorName: string;
+  /** Name of the Rules Engine which is unique within the Front Door. */
+  rulesEngineName: string;
+}
+export const GetRulesEngineRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    frontDoorName: S.String.pipe(T.Label()),
+    rulesEngineName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetRulesEngineRequest",
+}) as any as S.Schema<GetRulesEngineRequest>;
+
+export interface GetRulesEngineResponse {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Properties of the Rules Engine Configuration. */
+  properties?: RulesEngineProperties;
+}
+export const GetRulesEngineResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    properties: S.optional(RulesEngineProperties),
+  }),
+).annotate({
+  identifier: "GetRulesEngineResponse",
+}) as any as S.Schema<GetRulesEngineResponse>;
+
+export interface ListExperimentByProfileRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The Profile identifier associated with the Tenant and Partner */
+  profileName: string;
+}
+export const ListExperimentByProfileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    profileName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListExperimentByProfileRequest",
+}) as any as S.Schema<ListExperimentByProfileRequest>;
+
+/** Resource tags. */
+export type ExperimentTagsMap = { [key: string]: string | undefined };
+export const ExperimentTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<ExperimentTagsMap>;
+
+/** Defines the properties of an Experiment */
+export interface Experiment {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: ExperimentTagsMap;
+  /** The properties of an Experiment */
+  properties?: ExperimentProperties;
+}
+export const Experiment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(ExperimentTagsMap),
+    properties: S.optional(ExperimentProperties),
+  }),
+).annotate({ identifier: "Experiment" }) as any as S.Schema<Experiment>;
+
+/** The Experiment items on this page */
+export type ExperimentListValueList = Array<Experiment>;
+export const ExperimentListValueList = /*@__PURE__*/ S.Array(
+  Experiment,
+) as any as S.Schema<ExperimentListValueList>;
+
+/** Defines a list of Experiments. It contains a list of Experiment objects and a URL link to get the next set of results. */
+export interface ExperimentList {
+  /** The Experiment items on this page */
+  value: ExperimentListValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const ExperimentList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: ExperimentListValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({ identifier: "ExperimentList" }) as any as S.Schema<ExperimentList>;
+
+export interface ListFrontDoorByResourceGroupRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+}
+export const ListFrontDoorByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListFrontDoorByResourceGroupRequest",
+}) as any as S.Schema<ListFrontDoorByResourceGroupRequest>;
 
 /** Resource tags. */
 export type FrontDoorTagsMap = { [key: string]: string | undefined };
@@ -1843,217 +3183,26 @@ export const FrontDoorListResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "FrontDoorListResult",
 }) as any as S.Schema<FrontDoorListResult>;
 
-export interface FrontDoorsListByResourceGroupRequest {
+export interface ListFrontDoorsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
 }
-export const FrontDoorsListByResourceGroupRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors",
-        code: 200,
-        apiVersion: "2025-11-01",
-      }),
-    ),
-).annotate({
-  identifier: "FrontDoorsListByResourceGroupRequest",
-}) as any as S.Schema<FrontDoorsListByResourceGroupRequest>;
-
-export interface FrontDoorsValidateCustomDomainRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of the Front Door which is globally unique. */
-  frontDoorName: string;
-  /** The host name of the custom domain. Must be a domain name. */
-  hostName: string;
-}
-export const FrontDoorsValidateCustomDomainRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      frontDoorName: S.String.pipe(T.Label()),
-      hostName: S.String,
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/validateCustomDomain",
-        code: 200,
-        apiVersion: "2025-11-01",
-      }),
-    ),
-).annotate({
-  identifier: "FrontDoorsValidateCustomDomainRequest",
-}) as any as S.Schema<FrontDoorsValidateCustomDomainRequest>;
-
-/** Output of custom domain validation. */
-export interface ValidateCustomDomainOutput {
-  /** Indicates whether the custom domain is valid or not. */
-  customDomainValidated?: boolean;
-  /** The reason why the custom domain is not valid. */
-  reason?: string;
-  /** Error message describing why the custom domain is not valid. */
-  message?: string;
-}
-export const ValidateCustomDomainOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    customDomainValidated: S.optional(S.Boolean),
-    reason: S.optional(S.String),
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ValidateCustomDomainOutput",
-}) as any as S.Schema<ValidateCustomDomainOutput>;
-
-export interface FrontendEndpointsDisableHttpsRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of the Front Door which is globally unique. */
-  frontDoorName: string;
-  /** Name of the Frontend endpoint which is unique within the Front Door. */
-  frontendEndpointName: string;
-}
-export const FrontendEndpointsDisableHttpsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      frontDoorName: S.String.pipe(T.Label()),
-      frontendEndpointName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/disableHttps",
-        code: 200,
-        apiVersion: "2025-11-01",
-      }),
-    ),
-).annotate({
-  identifier: "FrontendEndpointsDisableHttpsRequest",
-}) as any as S.Schema<FrontendEndpointsDisableHttpsRequest>;
-
-export interface FrontendEndpointsDisableHttpsResponse {}
-export const FrontendEndpointsDisableHttpsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "FrontendEndpointsDisableHttpsResponse",
-}) as any as S.Schema<FrontendEndpointsDisableHttpsResponse>;
-
-export interface FrontendEndpointsEnableHttpsRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of the Front Door which is globally unique. */
-  frontDoorName: string;
-  /** Name of the Frontend endpoint which is unique within the Front Door. */
-  frontendEndpointName: string;
-  /** Defines the source of the SSL certificate */
-  certificateSource: FrontDoorCertificateSource | (string & {});
-  /** Defines the TLS extension protocol that is used for secure delivery */
-  protocolType: FrontDoorTlsProtocolType | (string & {});
-  /** The minimum TLS version required from the clients to establish an SSL handshake with Front Door. */
-  minimumTlsVersion: MinimumTLSVersion | (string & {});
-  /** KeyVault certificate source parameters (if certificateSource=AzureKeyVault) */
-  keyVaultCertificateSourceParameters?: KeyVaultCertificateSourceParameters;
-  /** Parameters required for enabling SSL with Front Door-managed certificates (if certificateSource=FrontDoor) */
-  frontDoorCertificateSourceParameters?: FrontDoorCertificateSourceParameters;
-}
-export const FrontendEndpointsEnableHttpsRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListFrontDoorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    frontDoorName: S.String.pipe(T.Label()),
-    frontendEndpointName: S.String.pipe(T.Label()),
-    certificateSource: FrontDoorCertificateSource,
-    protocolType: FrontDoorTlsProtocolType,
-    minimumTlsVersion: MinimumTLSVersion,
-    keyVaultCertificateSourceParameters: S.optional(
-      KeyVaultCertificateSourceParameters,
-    ),
-    frontDoorCertificateSourceParameters: S.optional(
-      FrontDoorCertificateSourceParameters,
-    ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/enableHttps",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "FrontendEndpointsEnableHttpsRequest",
-}) as any as S.Schema<FrontendEndpointsEnableHttpsRequest>;
-
-export interface FrontendEndpointsEnableHttpsResponse {}
-export const FrontendEndpointsEnableHttpsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "FrontendEndpointsEnableHttpsResponse",
-}) as any as S.Schema<FrontendEndpointsEnableHttpsResponse>;
-
-export interface FrontendEndpointsGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of the Front Door which is globally unique. */
-  frontDoorName: string;
-  /** Name of the Frontend endpoint which is unique within the Front Door. */
-  frontendEndpointName: string;
-}
-export const FrontendEndpointsGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    frontDoorName: S.String.pipe(T.Label()),
-    frontendEndpointName: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}",
+      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoors",
       code: 200,
       apiVersion: "2025-11-01",
     }),
   ),
 ).annotate({
-  identifier: "FrontendEndpointsGetRequest",
-}) as any as S.Schema<FrontendEndpointsGetRequest>;
+  identifier: "ListFrontDoorsRequest",
+}) as any as S.Schema<ListFrontDoorsRequest>;
 
-export interface FrontendEndpointsGetResponse {
-  /** Resource ID. */
-  id?: string;
-  /** Resource name. */
-  name?: string;
-  /** Resource type. */
-  type?: string;
-  /** Properties of the Frontend endpoint */
-  properties?: FrontendEndpointProperties;
-}
-export const FrontendEndpointsGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    properties: S.optional(FrontendEndpointProperties),
-  }),
-).annotate({
-  identifier: "FrontendEndpointsGetResponse",
-}) as any as S.Schema<FrontendEndpointsGetResponse>;
-
-export interface FrontendEndpointsListByFrontDoorRequest {
+export interface ListFrontendEndpointByFrontDoorRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -2061,7 +3210,7 @@ export interface FrontendEndpointsListByFrontDoorRequest {
   /** Name of the Front Door which is globally unique. */
   frontDoorName: string;
 }
-export const FrontendEndpointsListByFrontDoorRequest = /*@__PURE__*/ S.suspend(
+export const ListFrontendEndpointByFrontDoorRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -2076,8 +3225,8 @@ export const FrontendEndpointsListByFrontDoorRequest = /*@__PURE__*/ S.suspend(
       }),
     ),
 ).annotate({
-  identifier: "FrontendEndpointsListByFrontDoorRequest",
-}) as any as S.Schema<FrontendEndpointsListByFrontDoorRequest>;
+  identifier: "ListFrontendEndpointByFrontDoorRequest",
+}) as any as S.Schema<ListFrontendEndpointByFrontDoorRequest>;
 
 /** The FrontendEndpoint items on this page */
 export type FrontendEndpointsListResultValueList = Array<FrontendEndpoint>;
@@ -2101,11 +3250,11 @@ export const FrontendEndpointsListResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "FrontendEndpointsListResult",
 }) as any as S.Schema<FrontendEndpointsListResult>;
 
-export interface ManagedRuleSetsListRequest {
+export interface ListManagedRuleSetsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
 }
-export const ManagedRuleSetsListRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListManagedRuleSetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
   }).pipe(
@@ -2117,8 +3266,8 @@ export const ManagedRuleSetsListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "ManagedRuleSetsListRequest",
-}) as any as S.Schema<ManagedRuleSetsListRequest>;
+  identifier: "ListManagedRuleSetsRequest",
+}) as any as S.Schema<ListManagedRuleSetsRequest>;
 
 /** Resource tags. */
 export type ManagedRuleSetDefinitionTagsMap = {
@@ -2128,25 +3277,6 @@ export const ManagedRuleSetDefinitionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ManagedRuleSetDefinitionTagsMap>;
-
-/** Describes if the managed rule is in enabled or disabled state. */
-export type ManagedRuleEnabledState = "Disabled" | "Enabled";
-export const ManagedRuleEnabledState = /*@__PURE__*/ S.String;
-
-/** Defines the action to take on rule match. */
-export type ActionType =
-  | "Allow"
-  | "Block"
-  | "Log"
-  | "Redirect"
-  | "AnomalyScoring"
-  | "JSChallenge"
-  | "CAPTCHA";
-export const ActionType = /*@__PURE__*/ S.String;
-
-/** Defines the sensitivity for the rule. */
-export type SensitivityType = "Low" | "Medium" | "High";
-export const SensitivityType = /*@__PURE__*/ S.String;
 
 /** Describes a managed rule definition. */
 export interface ManagedRuleDefinition {
@@ -2282,6 +3412,369 @@ export const ManagedRuleSetDefinitionList = /*@__PURE__*/ S.suspend(() =>
   identifier: "ManagedRuleSetDefinitionList",
 }) as any as S.Schema<ManagedRuleSetDefinitionList>;
 
+export interface ListNetworkExperimentProfileByResourceGroupRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+}
+export const ListNetworkExperimentProfileByResourceGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles",
+        code: 200,
+        apiVersion: "2025-11-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "ListNetworkExperimentProfileByResourceGroupRequest",
+  }) as any as S.Schema<ListNetworkExperimentProfileByResourceGroupRequest>;
+
+/** Resource tags. */
+export type ProfileTagsMap = { [key: string]: string | undefined };
+export const ProfileTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<ProfileTagsMap>;
+
+/** Defines an Network Experiment Profile and lists of Experiments */
+export interface Profile {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: ProfileTagsMap;
+  /** The properties of a Profile */
+  properties?: ProfileProperties;
+  /** Gets a unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+}
+export const Profile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(ProfileTagsMap),
+    properties: S.optional(ProfileProperties),
+    etag: S.optional(S.String),
+  }),
+).annotate({ identifier: "Profile" }) as any as S.Schema<Profile>;
+
+/** The Profile items on this page */
+export type ProfileListValueList = Array<Profile>;
+export const ProfileListValueList = /*@__PURE__*/ S.Array(
+  Profile,
+) as any as S.Schema<ProfileListValueList>;
+
+/** Defines a list of Profiles. It contains a list of Profile objects and a URL link to get the next set of results. */
+export interface ProfileList {
+  /** The Profile items on this page */
+  value: ProfileListValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const ProfileList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: ProfileListValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({ identifier: "ProfileList" }) as any as S.Schema<ProfileList>;
+
+export interface ListNetworkExperimentProfilesRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+}
+export const ListNetworkExperimentProfilesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/NetworkExperimentProfiles",
+        code: 200,
+        apiVersion: "2025-11-01",
+      }),
+    ),
+).annotate({
+  identifier: "ListNetworkExperimentProfilesRequest",
+}) as any as S.Schema<ListNetworkExperimentProfilesRequest>;
+
+export interface ListPoliciesRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+}
+export const ListPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListPoliciesRequest",
+}) as any as S.Schema<ListPoliciesRequest>;
+
+/** Resource tags. */
+export type WebApplicationFirewallPolicyTagsMap = {
+  [key: string]: string | undefined;
+};
+export const WebApplicationFirewallPolicyTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<WebApplicationFirewallPolicyTagsMap>;
+
+/** Defines web application firewall policy. */
+export interface WebApplicationFirewallPolicy {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: WebApplicationFirewallPolicyTagsMap;
+  /** Properties of the web application firewall policy. */
+  properties?: WebApplicationFirewallPolicyProperties;
+  /** Gets a unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+  /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
+  sku?: Sku;
+}
+export const WebApplicationFirewallPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(WebApplicationFirewallPolicyTagsMap),
+    properties: S.optional(WebApplicationFirewallPolicyProperties),
+    etag: S.optional(S.String),
+    sku: S.optional(Sku),
+  }),
+).annotate({
+  identifier: "WebApplicationFirewallPolicy",
+}) as any as S.Schema<WebApplicationFirewallPolicy>;
+
+/** The WebApplicationFirewallPolicy items on this page */
+export type WebApplicationFirewallPolicyListValueList =
+  Array<WebApplicationFirewallPolicy>;
+export const WebApplicationFirewallPolicyListValueList = /*@__PURE__*/ S.Array(
+  WebApplicationFirewallPolicy,
+) as any as S.Schema<WebApplicationFirewallPolicyListValueList>;
+
+/** Defines a list of WebApplicationFirewallPolicies. It contains a list of WebApplicationFirewallPolicy objects and a URL link to get the next set of results. */
+export interface WebApplicationFirewallPolicyList {
+  /** The WebApplicationFirewallPolicy items on this page */
+  value: WebApplicationFirewallPolicyListValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const WebApplicationFirewallPolicyList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: WebApplicationFirewallPolicyListValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WebApplicationFirewallPolicyList",
+}) as any as S.Schema<WebApplicationFirewallPolicyList>;
+
+export interface ListPolicyBySubscriptionRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+}
+export const ListPolicyBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListPolicyBySubscriptionRequest",
+}) as any as S.Schema<ListPolicyBySubscriptionRequest>;
+
+export interface ListPreconfiguredEndpointsRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The Profile identifier associated with the Tenant and Partner */
+  profileName: string;
+}
+export const ListPreconfiguredEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    profileName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/preconfiguredEndpoints",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListPreconfiguredEndpointsRequest",
+}) as any as S.Schema<ListPreconfiguredEndpointsRequest>;
+
+/** Resource tags. */
+export type PreconfiguredEndpointTagsMap = {
+  [key: string]: string | undefined;
+};
+export const PreconfiguredEndpointTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<PreconfiguredEndpointTagsMap>;
+
+/** The type of endpoint */
+export type EndpointType = "AFD" | "AzureRegion" | "CDN" | "ATM";
+export const EndpointType = S.String;
+
+/** Defines the properties of a preconfigured endpoint */
+export interface PreconfiguredEndpointProperties {
+  /** The description of the endpoint */
+  description?: string;
+  /** The endpoint that is preconfigured */
+  endpoint?: string;
+  /** The type of endpoint */
+  endpointType?: EndpointType;
+  /** The preconfigured endpoint backend */
+  backend?: string;
+}
+export const PreconfiguredEndpointProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    endpoint: S.optional(S.String),
+    endpointType: S.optional(EndpointType),
+    backend: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PreconfiguredEndpointProperties",
+}) as any as S.Schema<PreconfiguredEndpointProperties>;
+
+/** Defines the properties of a preconfigured endpoint */
+export interface PreconfiguredEndpoint {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: PreconfiguredEndpointTagsMap;
+  /** The properties of a preconfiguredEndpoint */
+  properties?: PreconfiguredEndpointProperties;
+}
+export const PreconfiguredEndpoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(PreconfiguredEndpointTagsMap),
+    properties: S.optional(PreconfiguredEndpointProperties),
+  }),
+).annotate({
+  identifier: "PreconfiguredEndpoint",
+}) as any as S.Schema<PreconfiguredEndpoint>;
+
+/** The PreconfiguredEndpoint items on this page */
+export type PreconfiguredEndpointListValueList = Array<PreconfiguredEndpoint>;
+export const PreconfiguredEndpointListValueList = /*@__PURE__*/ S.Array(
+  PreconfiguredEndpoint,
+) as any as S.Schema<PreconfiguredEndpointListValueList>;
+
+/** Defines a list of preconfigured endpoints. */
+export interface PreconfiguredEndpointList {
+  /** The PreconfiguredEndpoint items on this page */
+  value: PreconfiguredEndpointListValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const PreconfiguredEndpointList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: PreconfiguredEndpointListValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PreconfiguredEndpointList",
+}) as any as S.Schema<PreconfiguredEndpointList>;
+
+export interface ListRulesEngineByFrontDoorRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the Front Door which is globally unique. */
+  frontDoorName: string;
+}
+export const ListRulesEngineByFrontDoorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    frontDoorName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListRulesEngineByFrontDoorRequest",
+}) as any as S.Schema<ListRulesEngineByFrontDoorRequest>;
+
+/** The RulesEngine items on this page */
+export type RulesEngineListResultValueList = Array<RulesEngine>;
+export const RulesEngineListResultValueList = /*@__PURE__*/ S.Array(
+  RulesEngine,
+) as any as S.Schema<RulesEngineListResultValueList>;
+
+/** Paged collection of RulesEngine items */
+export interface RulesEngineListResult {
+  /** The RulesEngine items on this page */
+  value: RulesEngineListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const RulesEngineListResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: RulesEngineListResultValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RulesEngineListResult",
+}) as any as S.Schema<RulesEngineListResult>;
+
 /** Resource tags. */
 export type NetworkExperimentProfilesCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
@@ -2291,22 +3784,6 @@ export const NetworkExperimentProfilesCreateOrUpdateRequestTagsMap =
     S.String,
     S.String,
   ) as any as S.Schema<NetworkExperimentProfilesCreateOrUpdateRequestTagsMap>;
-
-/** Defines the properties of an experiment */
-export interface ProfileProperties {
-  /** Resource status. */
-  resourceState?: NetworkExperimentResourceState | (string & {});
-  /** The state of the Experiment */
-  enabledState?: State | (string & {});
-}
-export const ProfileProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceState: S.optional(NetworkExperimentResourceState),
-    enabledState: S.optional(State),
-  }),
-).annotate({
-  identifier: "ProfileProperties",
-}) as any as S.Schema<ProfileProperties>;
 
 export interface NetworkExperimentProfilesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2387,300 +3864,6 @@ export const NetworkExperimentProfilesCreateOrUpdateResponse =
     identifier: "NetworkExperimentProfilesCreateOrUpdateResponse",
   }) as any as S.Schema<NetworkExperimentProfilesCreateOrUpdateResponse>;
 
-export interface NetworkExperimentProfilesDeleteRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The Profile identifier associated with the Tenant and Partner */
-  profileName: string;
-}
-export const NetworkExperimentProfilesDeleteRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      profileName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
-        code: 200,
-        apiVersion: "2025-11-01",
-      }),
-    ),
-).annotate({
-  identifier: "NetworkExperimentProfilesDeleteRequest",
-}) as any as S.Schema<NetworkExperimentProfilesDeleteRequest>;
-
-export interface NetworkExperimentProfilesDeleteResponse {}
-export const NetworkExperimentProfilesDeleteResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "NetworkExperimentProfilesDeleteResponse",
-}) as any as S.Schema<NetworkExperimentProfilesDeleteResponse>;
-
-export interface NetworkExperimentProfilesGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The Profile identifier associated with the Tenant and Partner */
-  profileName: string;
-}
-export const NetworkExperimentProfilesGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    profileName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "NetworkExperimentProfilesGetRequest",
-}) as any as S.Schema<NetworkExperimentProfilesGetRequest>;
-
-/** Resource tags. */
-export type NetworkExperimentProfilesGetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const NetworkExperimentProfilesGetResponseTagsMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.String,
-  ) as any as S.Schema<NetworkExperimentProfilesGetResponseTagsMap>;
-
-export interface NetworkExperimentProfilesGetResponse {
-  /** Resource ID. */
-  id?: string;
-  /** Resource name. */
-  name?: string;
-  /** Resource type. */
-  type?: string;
-  /** Resource location. */
-  location?: string;
-  /** Resource tags. */
-  tags?: NetworkExperimentProfilesGetResponseTagsMap;
-  /** The properties of a Profile */
-  properties?: ProfileProperties;
-  /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
-}
-export const NetworkExperimentProfilesGetResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      location: S.optional(S.String),
-      tags: S.optional(NetworkExperimentProfilesGetResponseTagsMap),
-      properties: S.optional(ProfileProperties),
-      etag: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "NetworkExperimentProfilesGetResponse",
-}) as any as S.Schema<NetworkExperimentProfilesGetResponse>;
-
-export interface NetworkExperimentProfilesListRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-}
-export const NetworkExperimentProfilesListRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/NetworkExperimentProfiles",
-        code: 200,
-        apiVersion: "2025-11-01",
-      }),
-    ),
-).annotate({
-  identifier: "NetworkExperimentProfilesListRequest",
-}) as any as S.Schema<NetworkExperimentProfilesListRequest>;
-
-/** Resource tags. */
-export type ProfileTagsMap = { [key: string]: string | undefined };
-export const ProfileTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<ProfileTagsMap>;
-
-/** Defines an Network Experiment Profile and lists of Experiments */
-export interface Profile {
-  /** Resource ID. */
-  id?: string;
-  /** Resource name. */
-  name?: string;
-  /** Resource type. */
-  type?: string;
-  /** Resource location. */
-  location?: string;
-  /** Resource tags. */
-  tags?: ProfileTagsMap;
-  /** The properties of a Profile */
-  properties?: ProfileProperties;
-  /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
-}
-export const Profile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    location: S.optional(S.String),
-    tags: S.optional(ProfileTagsMap),
-    properties: S.optional(ProfileProperties),
-    etag: S.optional(S.String),
-  }),
-).annotate({ identifier: "Profile" }) as any as S.Schema<Profile>;
-
-/** The Profile items on this page */
-export type ProfileListValueList = Array<Profile>;
-export const ProfileListValueList = /*@__PURE__*/ S.Array(
-  Profile,
-) as any as S.Schema<ProfileListValueList>;
-
-/** Defines a list of Profiles. It contains a list of Profile objects and a URL link to get the next set of results. */
-export interface ProfileList {
-  /** The Profile items on this page */
-  value: ProfileListValueList;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-export const ProfileList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: ProfileListValueList,
-    nextLink: S.optional(S.String),
-  }),
-).annotate({ identifier: "ProfileList" }) as any as S.Schema<ProfileList>;
-
-export interface NetworkExperimentProfilesListByResourceGroupRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-}
-export const NetworkExperimentProfilesListByResourceGroupRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles",
-        code: 200,
-        apiVersion: "2025-11-01",
-      }),
-    ),
-  ).annotate({
-    identifier: "NetworkExperimentProfilesListByResourceGroupRequest",
-  }) as any as S.Schema<NetworkExperimentProfilesListByResourceGroupRequest>;
-
-/** Defines the properties of an experiment */
-export interface ProfileUpdateProperties {
-  /** The enabled state of the Profile */
-  enabledState?: State | (string & {});
-}
-export const ProfileUpdateProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabledState: S.optional(State),
-  }),
-).annotate({
-  identifier: "ProfileUpdateProperties",
-}) as any as S.Schema<ProfileUpdateProperties>;
-
-/** Resource tags. */
-export type NetworkExperimentProfilesUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
-export const NetworkExperimentProfilesUpdateRequestTagsMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.String,
-  ) as any as S.Schema<NetworkExperimentProfilesUpdateRequestTagsMap>;
-
-export interface NetworkExperimentProfilesUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The Profile identifier associated with the Tenant and Partner */
-  profileName: string;
-  /** The properties of a Profile */
-  properties?: ProfileUpdateProperties;
-  /** Resource tags. */
-  tags?: NetworkExperimentProfilesUpdateRequestTagsMap;
-}
-export const NetworkExperimentProfilesUpdateRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      profileName: S.String.pipe(T.Label()),
-      properties: S.optional(ProfileUpdateProperties),
-      tags: S.optional(NetworkExperimentProfilesUpdateRequestTagsMap),
-    }).pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
-        code: 200,
-        apiVersion: "2025-11-01",
-      }),
-    ),
-).annotate({
-  identifier: "NetworkExperimentProfilesUpdateRequest",
-}) as any as S.Schema<NetworkExperimentProfilesUpdateRequest>;
-
-/** Resource tags. */
-export type NetworkExperimentProfilesUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const NetworkExperimentProfilesUpdateResponseTagsMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.String,
-  ) as any as S.Schema<NetworkExperimentProfilesUpdateResponseTagsMap>;
-
-export interface NetworkExperimentProfilesUpdateResponse {
-  /** Resource ID. */
-  id?: string;
-  /** Resource name. */
-  name?: string;
-  /** Resource type. */
-  type?: string;
-  /** Resource location. */
-  location?: string;
-  /** Resource tags. */
-  tags?: NetworkExperimentProfilesUpdateResponseTagsMap;
-  /** The properties of a Profile */
-  properties?: ProfileProperties;
-  /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
-}
-export const NetworkExperimentProfilesUpdateResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      location: S.optional(S.String),
-      tags: S.optional(NetworkExperimentProfilesUpdateResponseTagsMap),
-      properties: S.optional(ProfileProperties),
-      etag: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "NetworkExperimentProfilesUpdateResponse",
-}) as any as S.Schema<NetworkExperimentProfilesUpdateResponse>;
-
 /** Resource tags. */
 export type PoliciesCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
@@ -2689,594 +3872,6 @@ export const PoliciesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<PoliciesCreateOrUpdateRequestTagsMap>;
-
-/** Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified. */
-export type PolicyEnabledState = "Disabled" | "Enabled";
-export const PolicyEnabledState = /*@__PURE__*/ S.String;
-
-/** Describes if it is in detection mode or prevention mode at policy level. */
-export type PolicyMode = "Prevention" | "Detection";
-export const PolicyMode = /*@__PURE__*/ S.String;
-
-/** Describes if policy managed rules will inspect the request body content. */
-export type PolicyRequestBodyCheck = "Disabled" | "Enabled";
-export const PolicyRequestBodyCheck = /*@__PURE__*/ S.String;
-
-/** State of the log scrubbing config. Default value is Enabled. */
-export type WebApplicationFirewallScrubbingState = "Enabled" | "Disabled";
-export const WebApplicationFirewallScrubbingState = /*@__PURE__*/ S.String;
-
-/** The variable to be scrubbed from the logs. */
-export type ScrubbingRuleEntryMatchVariable =
-  | "RequestIPAddress"
-  | "RequestUri"
-  | "QueryStringArgNames"
-  | "RequestHeaderNames"
-  | "RequestCookieNames"
-  | "RequestBodyPostArgNames"
-  | "RequestBodyJsonArgNames";
-export const ScrubbingRuleEntryMatchVariable = /*@__PURE__*/ S.String;
-
-/** When matchVariable is a collection, operate on the selector to specify which elements in the collection this rule applies to. */
-export type ScrubbingRuleEntryMatchOperator = "EqualsAny" | "Equals";
-export const ScrubbingRuleEntryMatchOperator = /*@__PURE__*/ S.String;
-
-/** Defines the state of a log scrubbing rule. Default value is enabled. */
-export type ScrubbingRuleEntryState = "Enabled" | "Disabled";
-export const ScrubbingRuleEntryState = /*@__PURE__*/ S.String;
-
-/** Defines the contents of the log scrubbing rules. */
-export interface WebApplicationFirewallScrubbingRules {
-  /** The variable to be scrubbed from the logs. */
-  matchVariable: ScrubbingRuleEntryMatchVariable | (string & {});
-  /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this rule applies to. */
-  selectorMatchOperator: ScrubbingRuleEntryMatchOperator | (string & {});
-  /** When matchVariable is a collection, operator used to specify which elements in the collection this rule applies to. */
-  selector?: string;
-  /** Defines the state of a log scrubbing rule. Default value is enabled. */
-  state?: ScrubbingRuleEntryState | (string & {});
-}
-export const WebApplicationFirewallScrubbingRules = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      matchVariable: ScrubbingRuleEntryMatchVariable,
-      selectorMatchOperator: ScrubbingRuleEntryMatchOperator,
-      selector: S.optional(S.String),
-      state: S.optional(ScrubbingRuleEntryState),
-    }),
-).annotate({
-  identifier: "WebApplicationFirewallScrubbingRules",
-}) as any as S.Schema<WebApplicationFirewallScrubbingRules>;
-
-/** List of log scrubbing rules applied to the Web Application Firewall logs. */
-export type PolicySettingsLogScrubbingScrubbingRulesList =
-  Array<WebApplicationFirewallScrubbingRules>;
-export const PolicySettingsLogScrubbingScrubbingRulesList =
-  /*@__PURE__*/ S.Array(
-    WebApplicationFirewallScrubbingRules,
-  ) as any as S.Schema<PolicySettingsLogScrubbingScrubbingRulesList>;
-
-/** Defines rules that scrub sensitive fields in the Web Application Firewall logs. */
-export interface PolicySettingsLogScrubbing {
-  /** State of the log scrubbing config. Default value is Enabled. */
-  state?: WebApplicationFirewallScrubbingState | (string & {});
-  /** List of log scrubbing rules applied to the Web Application Firewall logs. */
-  scrubbingRules?: PolicySettingsLogScrubbingScrubbingRulesList;
-}
-export const PolicySettingsLogScrubbing = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: S.optional(WebApplicationFirewallScrubbingState),
-    scrubbingRules: S.optional(PolicySettingsLogScrubbingScrubbingRulesList),
-  }),
-).annotate({
-  identifier: "PolicySettingsLogScrubbing",
-}) as any as S.Schema<PolicySettingsLogScrubbing>;
-
-/** Defines top-level WebApplicationFirewallPolicy configuration settings. */
-export interface PolicySettings {
-  /** Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified. */
-  enabledState?: PolicyEnabledState | (string & {});
-  /** Describes if it is in detection mode or prevention mode at policy level. */
-  mode?: PolicyMode | (string & {});
-  /** If action type is redirect, this field represents redirect URL for the client. */
-  redirectUrl?: string;
-  /** If the action type is block, customer can override the response status code. */
-  customBlockResponseStatusCode?: number;
-  /** If the action type is block, customer can override the response body. The body must be specified in base64 encoding. */
-  customBlockResponseBody?: string;
-  /** Describes if policy managed rules will inspect the request body content. */
-  requestBodyCheck?: PolicyRequestBodyCheck | (string & {});
-  /** Defines the JavaScript challenge cookie validity lifetime in minutes. This setting is only applicable to Premium_AzureFrontDoor. Value must be an integer between 5 and 1440 with the default value being 30. */
-  javascriptChallengeExpirationInMinutes?: number;
-  /** Defines the Captcha cookie validity lifetime in minutes. This setting is only applicable to Premium_AzureFrontDoor. Value must be an integer between 5 and 1440 with the default value being 30. */
-  captchaExpirationInMinutes?: number;
-  /** Defines rules that scrub sensitive fields in the Web Application Firewall logs. */
-  logScrubbing?: PolicySettingsLogScrubbing;
-}
-export const PolicySettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabledState: S.optional(PolicyEnabledState),
-    mode: S.optional(PolicyMode),
-    redirectUrl: S.optional(S.String),
-    customBlockResponseStatusCode: S.optional(S.Number),
-    customBlockResponseBody: S.optional(S.String),
-    requestBodyCheck: S.optional(PolicyRequestBodyCheck),
-    javascriptChallengeExpirationInMinutes: S.optional(S.Number),
-    captchaExpirationInMinutes: S.optional(S.Number),
-    logScrubbing: S.optional(PolicySettingsLogScrubbing),
-  }),
-).annotate({ identifier: "PolicySettings" }) as any as S.Schema<PolicySettings>;
-
-/** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
-export type CustomRuleEnabledState = "Disabled" | "Enabled";
-export const CustomRuleEnabledState = /*@__PURE__*/ S.String;
-
-/** Describes type of rule. */
-export type RuleType = "MatchRule" | "RateLimitRule";
-export const RuleType = /*@__PURE__*/ S.String;
-
-/** Describes the supported variable for group by */
-export type VariableName = "SocketAddr" | "GeoLocation" | "None";
-export const VariableName = /*@__PURE__*/ S.String;
-
-/** Describes the variables available to group the rate limit requests */
-export interface GroupByVariable {
-  /** Describes the supported variable for group by */
-  variableName: VariableName | (string & {});
-}
-export const GroupByVariable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    variableName: VariableName,
-  }),
-).annotate({
-  identifier: "GroupByVariable",
-}) as any as S.Schema<GroupByVariable>;
-
-/** Describes the list of variables to group the rate limit requests */
-export type CustomRuleGroupByList = Array<GroupByVariable>;
-export const CustomRuleGroupByList = /*@__PURE__*/ S.Array(
-  GroupByVariable,
-) as any as S.Schema<CustomRuleGroupByList>;
-
-/** Request variable to compare with. */
-export type MatchVariable =
-  | "RemoteAddr"
-  | "RequestMethod"
-  | "QueryString"
-  | "PostArgs"
-  | "RequestUri"
-  | "RequestHeader"
-  | "RequestBody"
-  | "Cookies"
-  | "SocketAddr"
-  | "JA4";
-export const MatchVariable = /*@__PURE__*/ S.String;
-
-/** Comparison type to use for matching with the variable value. */
-export type Operator =
-  | "Any"
-  | "IPMatch"
-  | "GeoMatch"
-  | "Equal"
-  | "Contains"
-  | "LessThan"
-  | "GreaterThan"
-  | "LessThanOrEqual"
-  | "GreaterThanOrEqual"
-  | "BeginsWith"
-  | "EndsWith"
-  | "RegEx"
-  | "ServiceTagMatch"
-  | "AsnMatch"
-  | "ClientFingerprint";
-export const Operator = /*@__PURE__*/ S.String;
-
-/** List of possible match values. */
-export type MatchConditionMatchValueList = Array<string>;
-export const MatchConditionMatchValueList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<MatchConditionMatchValueList>;
-
-/** Describes what transforms applied before matching. */
-export type TransformType =
-  | "Lowercase"
-  | "Uppercase"
-  | "Trim"
-  | "UrlDecode"
-  | "UrlEncode"
-  | "RemoveNulls";
-export const TransformType = /*@__PURE__*/ S.String;
-
-/** List of transforms. */
-export type MatchConditionTransformsList = Array<TransformType | (string & {})>;
-export const MatchConditionTransformsList = /*@__PURE__*/ S.Array(
-  TransformType,
-) as any as S.Schema<MatchConditionTransformsList>;
-
-/** Define a match condition. */
-export interface MatchCondition {
-  /** Request variable to compare with. */
-  matchVariable: MatchVariable | (string & {});
-  /** Match against a specific key from the QueryString, PostArgs, RequestHeader or Cookies variables. Default is null. */
-  selector?: string;
-  /** Comparison type to use for matching with the variable value. */
-  operator: Operator | (string & {});
-  /** Describes if the result of this condition should be negated. */
-  negateCondition?: boolean;
-  /** List of possible match values. */
-  matchValue: MatchConditionMatchValueList;
-  /** List of transforms. */
-  transforms?: MatchConditionTransformsList;
-}
-export const MatchCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    matchVariable: MatchVariable,
-    selector: S.optional(S.String),
-    operator: Operator,
-    negateCondition: S.optional(S.Boolean),
-    matchValue: MatchConditionMatchValueList,
-    transforms: S.optional(MatchConditionTransformsList),
-  }),
-).annotate({ identifier: "MatchCondition" }) as any as S.Schema<MatchCondition>;
-
-/** List of match conditions. */
-export type CustomRuleMatchConditionsList = Array<MatchCondition>;
-export const CustomRuleMatchConditionsList = /*@__PURE__*/ S.Array(
-  MatchCondition,
-) as any as S.Schema<CustomRuleMatchConditionsList>;
-
-/** Defines contents of a web application rule */
-export interface CustomRule {
-  /** Describes the name of the rule. */
-  name?: string;
-  /** Describes priority of the rule. Rules with a lower value will be evaluated before rules with a higher value. */
-  priority: number;
-  /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
-  enabledState?: CustomRuleEnabledState | (string & {});
-  /** Describes type of rule. */
-  ruleType: RuleType | (string & {});
-  /** Time window for resetting the rate limit count. Default is 1 minute. */
-  rateLimitDurationInMinutes?: number;
-  /** Number of allowed requests per client within the time window. */
-  rateLimitThreshold?: number;
-  /** Describes the list of variables to group the rate limit requests */
-  groupBy?: CustomRuleGroupByList;
-  /** List of match conditions. */
-  matchConditions: CustomRuleMatchConditionsList;
-  /** Describes what action to be applied when rule matches. */
-  action: ActionType | (string & {});
-}
-export const CustomRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    priority: S.Number,
-    enabledState: S.optional(CustomRuleEnabledState),
-    ruleType: RuleType,
-    rateLimitDurationInMinutes: S.optional(S.Number),
-    rateLimitThreshold: S.optional(S.Number),
-    groupBy: S.optional(CustomRuleGroupByList),
-    matchConditions: CustomRuleMatchConditionsList,
-    action: ActionType,
-  }),
-).annotate({ identifier: "CustomRule" }) as any as S.Schema<CustomRule>;
-
-/** List of rules */
-export type CustomRuleListRulesList = Array<CustomRule>;
-export const CustomRuleListRulesList = /*@__PURE__*/ S.Array(
-  CustomRule,
-) as any as S.Schema<CustomRuleListRulesList>;
-
-/** Defines contents of custom rules */
-export interface CustomRuleList {
-  /** List of rules */
-  rules?: CustomRuleListRulesList;
-}
-export const CustomRuleList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    rules: S.optional(CustomRuleListRulesList),
-  }),
-).annotate({ identifier: "CustomRuleList" }) as any as S.Schema<CustomRuleList>;
-
-/** Defines the action to take when a managed rule set score threshold is met. */
-export type ManagedRuleSetActionType = "Block" | "Log" | "Redirect";
-export const ManagedRuleSetActionType = /*@__PURE__*/ S.String;
-
-/** The variable type to be excluded. */
-export type ManagedRuleExclusionMatchVariable =
-  | "RequestHeaderNames"
-  | "RequestCookieNames"
-  | "QueryStringArgNames"
-  | "RequestBodyPostArgNames"
-  | "RequestBodyJsonArgNames";
-export const ManagedRuleExclusionMatchVariable = /*@__PURE__*/ S.String;
-
-/** Comparison operator to apply to the selector when specifying which elements in the collection this exclusion applies to. */
-export type ManagedRuleExclusionSelectorMatchOperator =
-  | "Equals"
-  | "Contains"
-  | "StartsWith"
-  | "EndsWith"
-  | "EqualsAny";
-export const ManagedRuleExclusionSelectorMatchOperator = /*@__PURE__*/ S.String;
-
-/** Exclude variables from managed rule evaluation. */
-export interface ManagedRuleExclusion {
-  /** The variable type to be excluded. */
-  matchVariable: ManagedRuleExclusionMatchVariable | (string & {});
-  /** Comparison operator to apply to the selector when specifying which elements in the collection this exclusion applies to. */
-  selectorMatchOperator:
-    | ManagedRuleExclusionSelectorMatchOperator
-    | (string & {});
-  /** Selector value for which elements in the collection this exclusion applies to. */
-  selector: string;
-}
-export const ManagedRuleExclusion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    matchVariable: ManagedRuleExclusionMatchVariable,
-    selectorMatchOperator: ManagedRuleExclusionSelectorMatchOperator,
-    selector: S.String,
-  }),
-).annotate({
-  identifier: "ManagedRuleExclusion",
-}) as any as S.Schema<ManagedRuleExclusion>;
-
-/** Describes the exclusions that are applied to all rules in the set. */
-export type ManagedRuleSetExclusionsList = Array<ManagedRuleExclusion>;
-export const ManagedRuleSetExclusionsList = /*@__PURE__*/ S.Array(
-  ManagedRuleExclusion,
-) as any as S.Schema<ManagedRuleSetExclusionsList>;
-
-/** Describes the exclusions that are applied to all rules in the group. */
-export type ManagedRuleGroupOverrideExclusionsList =
-  Array<ManagedRuleExclusion>;
-export const ManagedRuleGroupOverrideExclusionsList = /*@__PURE__*/ S.Array(
-  ManagedRuleExclusion,
-) as any as S.Schema<ManagedRuleGroupOverrideExclusionsList>;
-
-/** Describes the exclusions that are applied to this specific rule. */
-export type ManagedRuleOverrideExclusionsList = Array<ManagedRuleExclusion>;
-export const ManagedRuleOverrideExclusionsList = /*@__PURE__*/ S.Array(
-  ManagedRuleExclusion,
-) as any as S.Schema<ManagedRuleOverrideExclusionsList>;
-
-/** Defines a managed rule group override setting. */
-export interface ManagedRuleOverride {
-  /** Identifier for the managed rule. */
-  ruleId: string;
-  /** Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified. */
-  enabledState?: ManagedRuleEnabledState | (string & {});
-  /** Describes the override action to be applied when rule matches. */
-  action?: ActionType | (string & {});
-  /** Describes the override sensitivity to be applied when rule matches. */
-  sensitivity?: SensitivityType | (string & {});
-  /** Describes the exclusions that are applied to this specific rule. */
-  exclusions?: ManagedRuleOverrideExclusionsList;
-}
-export const ManagedRuleOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleId: S.String,
-    enabledState: S.optional(ManagedRuleEnabledState),
-    action: S.optional(ActionType),
-    sensitivity: S.optional(SensitivityType),
-    exclusions: S.optional(ManagedRuleOverrideExclusionsList),
-  }),
-).annotate({
-  identifier: "ManagedRuleOverride",
-}) as any as S.Schema<ManagedRuleOverride>;
-
-/** List of rules that will be disabled. If none specified, all rules in the group will be disabled. */
-export type ManagedRuleGroupOverrideRulesList = Array<ManagedRuleOverride>;
-export const ManagedRuleGroupOverrideRulesList = /*@__PURE__*/ S.Array(
-  ManagedRuleOverride,
-) as any as S.Schema<ManagedRuleGroupOverrideRulesList>;
-
-/** Defines a managed rule group override setting. */
-export interface ManagedRuleGroupOverride {
-  /** Describes the managed rule group to override. */
-  ruleGroupName: string;
-  /** Describes the exclusions that are applied to all rules in the group. */
-  exclusions?: ManagedRuleGroupOverrideExclusionsList;
-  /** List of rules that will be disabled. If none specified, all rules in the group will be disabled. */
-  rules?: ManagedRuleGroupOverrideRulesList;
-}
-export const ManagedRuleGroupOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleGroupName: S.String,
-    exclusions: S.optional(ManagedRuleGroupOverrideExclusionsList),
-    rules: S.optional(ManagedRuleGroupOverrideRulesList),
-  }),
-).annotate({
-  identifier: "ManagedRuleGroupOverride",
-}) as any as S.Schema<ManagedRuleGroupOverride>;
-
-/** Defines the rule group overrides to apply to the rule set. */
-export type ManagedRuleSetRuleGroupOverridesList =
-  Array<ManagedRuleGroupOverride>;
-export const ManagedRuleSetRuleGroupOverridesList = /*@__PURE__*/ S.Array(
-  ManagedRuleGroupOverride,
-) as any as S.Schema<ManagedRuleSetRuleGroupOverridesList>;
-
-/** Defines a managed rule set. */
-export interface ManagedRuleSet {
-  /** Defines the rule set type to use. */
-  ruleSetType: string;
-  /** Defines the version of the rule set to use. */
-  ruleSetVersion: string;
-  /** Defines the rule set action. */
-  ruleSetAction?: ManagedRuleSetActionType | (string & {});
-  /** Describes the exclusions that are applied to all rules in the set. */
-  exclusions?: ManagedRuleSetExclusionsList;
-  /** Defines the rule group overrides to apply to the rule set. */
-  ruleGroupOverrides?: ManagedRuleSetRuleGroupOverridesList;
-}
-export const ManagedRuleSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleSetType: S.String,
-    ruleSetVersion: S.String,
-    ruleSetAction: S.optional(ManagedRuleSetActionType),
-    exclusions: S.optional(ManagedRuleSetExclusionsList),
-    ruleGroupOverrides: S.optional(ManagedRuleSetRuleGroupOverridesList),
-  }),
-).annotate({ identifier: "ManagedRuleSet" }) as any as S.Schema<ManagedRuleSet>;
-
-/** List of rule sets. */
-export type ManagedRuleSetListManagedRuleSetsList = Array<ManagedRuleSet>;
-export const ManagedRuleSetListManagedRuleSetsList = /*@__PURE__*/ S.Array(
-  ManagedRuleSet,
-) as any as S.Schema<ManagedRuleSetListManagedRuleSetsList>;
-
-/** The variable to be evaluated for excluding the request. */
-export type ExceptionMatchVariable =
-  | "RequestUri"
-  | "SocketAddr"
-  | "RequestHeaderNames";
-export const ExceptionMatchVariable = /*@__PURE__*/ S.String;
-
-/** Comparison operator to apply to the selector when specifying which elements in the collection this exception applies to.. */
-export type ExceptionSelectorMatchOperator = "Equals";
-export const ExceptionSelectorMatchOperator = /*@__PURE__*/ S.String;
-
-/** Comparison operator to apply to the value to be matched.. */
-export type ExceptionValueMatchOperator =
-  | "Equals"
-  | "Contains"
-  | "StartsWith"
-  | "EndsWith"
-  | "EqualsAny"
-  | "IPMatch";
-export const ExceptionValueMatchOperator = /*@__PURE__*/ S.String;
-
-/** List of values to be matched with. */
-export type ManagedRuleSetExceptionMatchValuesList = Array<string>;
-export const ManagedRuleSetExceptionMatchValuesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ManagedRuleSetExceptionMatchValuesList>;
-
-/** Defines the scope of the rule. */
-export interface RuleScope {
-  /** Defines the rule id. */
-  ruleId: string;
-}
-export const RuleScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleId: S.String,
-  }),
-).annotate({ identifier: "RuleScope" }) as any as S.Schema<RuleScope>;
-
-/** List of rule scopes. */
-export type RuleGroupScopeRuleScopesList = Array<RuleScope>;
-export const RuleGroupScopeRuleScopesList = /*@__PURE__*/ S.Array(
-  RuleScope,
-) as any as S.Schema<RuleGroupScopeRuleScopesList>;
-
-/** Defines the scope of the rule group. */
-export interface RuleGroupScope {
-  /** Defines the rule group name. */
-  ruleGroupName: string;
-  /** List of rule scopes. */
-  ruleScopes?: RuleGroupScopeRuleScopesList;
-}
-export const RuleGroupScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleGroupName: S.String,
-    ruleScopes: S.optional(RuleGroupScopeRuleScopesList),
-  }),
-).annotate({ identifier: "RuleGroupScope" }) as any as S.Schema<RuleGroupScope>;
-
-/** List of rule group scopes. */
-export type ManagedRuleSetScopeRuleGroupScopesList = Array<RuleGroupScope>;
-export const ManagedRuleSetScopeRuleGroupScopesList = /*@__PURE__*/ S.Array(
-  RuleGroupScope,
-) as any as S.Schema<ManagedRuleSetScopeRuleGroupScopesList>;
-
-/** Defines the scope of the managed rules. */
-export interface ManagedRuleSetScope {
-  /** Defines the rule set type. Examples: DefaultRuleSet, Microsoft_DefaultRuleSet, Microsoft_BotManagerRuleSet, Microsoft_HTTPDDoSRuleSet, BotProtection */
-  ruleSetType: string;
-  /** Defines the version of the rule set. */
-  ruleSetVersion: string;
-  /** List of rule group scopes. */
-  ruleGroupScopes?: ManagedRuleSetScopeRuleGroupScopesList;
-}
-export const ManagedRuleSetScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleSetType: S.String,
-    ruleSetVersion: S.String,
-    ruleGroupScopes: S.optional(ManagedRuleSetScopeRuleGroupScopesList),
-  }),
-).annotate({
-  identifier: "ManagedRuleSetScope",
-}) as any as S.Schema<ManagedRuleSetScope>;
-
-/** Scope(s) of the exception. */
-export type ManagedRuleSetExceptionScopesList = Array<ManagedRuleSetScope>;
-export const ManagedRuleSetExceptionScopesList = /*@__PURE__*/ S.Array(
-  ManagedRuleSetScope,
-) as any as S.Schema<ManagedRuleSetExceptionScopesList>;
-
-/** Excludes whole requests from managed rule evaluation according to match conditions. */
-export interface ManagedRuleSetException {
-  /** The variable to be evaluated for excluding the request. */
-  matchVariable: ExceptionMatchVariable | (string & {});
-  /** Comparison operator to apply to the selector when specifying which elements in the collection this exception applies to. */
-  selectorMatchOperator?: ExceptionSelectorMatchOperator | (string & {});
-  /** When matchVariable is a collection, operator used to specify which elements in the collection this exception applies to. Currently supported only for RequestHeaderNames. */
-  selector?: string;
-  /** Comparison operator to apply to the value to be matched. */
-  valueMatchOperator: ExceptionValueMatchOperator | (string & {});
-  /** List of values to be matched with. */
-  matchValues: ManagedRuleSetExceptionMatchValuesList;
-  /** Scope(s) of the exception. */
-  scopes: ManagedRuleSetExceptionScopesList;
-}
-export const ManagedRuleSetException = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    matchVariable: ExceptionMatchVariable,
-    selectorMatchOperator: S.optional(ExceptionSelectorMatchOperator),
-    selector: S.optional(S.String),
-    valueMatchOperator: ExceptionValueMatchOperator,
-    matchValues: ManagedRuleSetExceptionMatchValuesList,
-    scopes: ManagedRuleSetExceptionScopesList,
-  }),
-).annotate({
-  identifier: "ManagedRuleSetException",
-}) as any as S.Schema<ManagedRuleSetException>;
-
-/** List of exceptions. */
-export type ManagedRuleSetExceptionListExceptionsList =
-  Array<ManagedRuleSetException>;
-export const ManagedRuleSetExceptionListExceptionsList = /*@__PURE__*/ S.Array(
-  ManagedRuleSetException,
-) as any as S.Schema<ManagedRuleSetExceptionListExceptionsList>;
-
-/** Defines the list of exceptions for the managed rule sets. */
-export interface ManagedRuleSetExceptionList {
-  /** List of exceptions. */
-  exceptions?: ManagedRuleSetExceptionListExceptionsList;
-}
-export const ManagedRuleSetExceptionList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    exceptions: S.optional(ManagedRuleSetExceptionListExceptionsList),
-  }),
-).annotate({
-  identifier: "ManagedRuleSetExceptionList",
-}) as any as S.Schema<ManagedRuleSetExceptionList>;
-
-/** Defines the list of managed rule sets for the policy. */
-export interface ManagedRuleSetList {
-  /** List of rule sets. */
-  managedRuleSets?: ManagedRuleSetListManagedRuleSetsList;
-  /** List of exceptions applied on the managed rule sets. */
-  exceptionsList?: ManagedRuleSetExceptionList;
-}
-export const ManagedRuleSetList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    managedRuleSets: S.optional(ManagedRuleSetListManagedRuleSetsList),
-    exceptionsList: S.optional(ManagedRuleSetExceptionList),
-  }),
-).annotate({
-  identifier: "ManagedRuleSetList",
-}) as any as S.Schema<ManagedRuleSetList>;
 
 /** Defines web application firewall policy properties. */
 export interface WebApplicationFirewallPolicyPropertiesInput {
@@ -3297,24 +3892,6 @@ export const WebApplicationFirewallPolicyPropertiesInput =
   ).annotate({
     identifier: "WebApplicationFirewallPolicyPropertiesInput",
   }) as any as S.Schema<WebApplicationFirewallPolicyPropertiesInput>;
-
-/** Name of the pricing tier. */
-export type SkuName =
-  | "Classic_AzureFrontDoor"
-  | "Standard_AzureFrontDoor"
-  | "Premium_AzureFrontDoor";
-export const SkuName = /*@__PURE__*/ S.String;
-
-/** The pricing tier of the web application firewall policy. */
-export interface Sku {
-  /** Name of the pricing tier. */
-  name?: SkuName | (string & {});
-}
-export const Sku = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(SkuName),
-  }),
-).annotate({ identifier: "Sku" }) as any as S.Schema<Sku>;
 
 export interface PoliciesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -3365,93 +3942,6 @@ export const PoliciesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<PoliciesCreateOrUpdateResponseTagsMap>;
 
-/** Defines the Resource ID for a Frontend Endpoint. */
-export type FrontendEndpointLink = SubResource;
-export const FrontendEndpointLink = SubResource;
-
-/** Describes Frontend Endpoints associated with this Web Application Firewall policy. */
-export type WebApplicationFirewallPolicyPropertiesFrontendEndpointLinksList =
-  Array<SubResource>;
-export const WebApplicationFirewallPolicyPropertiesFrontendEndpointLinksList =
-  /*@__PURE__*/ S.Array(
-    SubResource,
-  ) as any as S.Schema<WebApplicationFirewallPolicyPropertiesFrontendEndpointLinksList>;
-
-/** Defines the Resource ID for a Routing Rule. */
-export type RoutingRuleLink = SubResource;
-export const RoutingRuleLink = SubResource;
-
-/** Describes Routing Rules associated with this Web Application Firewall policy. */
-export type WebApplicationFirewallPolicyPropertiesRoutingRuleLinksList =
-  Array<SubResource>;
-export const WebApplicationFirewallPolicyPropertiesRoutingRuleLinksList =
-  /*@__PURE__*/ S.Array(
-    SubResource,
-  ) as any as S.Schema<WebApplicationFirewallPolicyPropertiesRoutingRuleLinksList>;
-
-/** Defines the Resource ID for a Security Policy. */
-export type SecurityPolicyLink = SubResource;
-export const SecurityPolicyLink = SubResource;
-
-/** Describes Security Policy associated with this Web Application Firewall policy. */
-export type WebApplicationFirewallPolicyPropertiesSecurityPolicyLinksList =
-  Array<SubResource>;
-export const WebApplicationFirewallPolicyPropertiesSecurityPolicyLinksList =
-  /*@__PURE__*/ S.Array(
-    SubResource,
-  ) as any as S.Schema<WebApplicationFirewallPolicyPropertiesSecurityPolicyLinksList>;
-
-/** Resource status of the policy. */
-export type PolicyResourceState =
-  | "Creating"
-  | "Enabling"
-  | "Enabled"
-  | "Disabling"
-  | "Disabled"
-  | "Deleting";
-export const PolicyResourceState = /*@__PURE__*/ S.String;
-
-/** Defines web application firewall policy properties. */
-export interface WebApplicationFirewallPolicyProperties {
-  /** Describes settings for the policy. */
-  policySettings?: PolicySettings;
-  /** Describes custom rules inside the policy. */
-  customRules?: CustomRuleList;
-  /** Describes managed rules inside the policy. */
-  managedRules?: ManagedRuleSetList;
-  /** Describes Frontend Endpoints associated with this Web Application Firewall policy. */
-  frontendEndpointLinks?: WebApplicationFirewallPolicyPropertiesFrontendEndpointLinksList;
-  /** Describes Routing Rules associated with this Web Application Firewall policy. */
-  routingRuleLinks?: WebApplicationFirewallPolicyPropertiesRoutingRuleLinksList;
-  /** Describes Security Policy associated with this Web Application Firewall policy. */
-  securityPolicyLinks?: WebApplicationFirewallPolicyPropertiesSecurityPolicyLinksList;
-  /** Provisioning state of the policy. */
-  provisioningState?: string;
-  /** Resource status of the policy. */
-  resourceState?: PolicyResourceState;
-}
-export const WebApplicationFirewallPolicyProperties = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      policySettings: S.optional(PolicySettings),
-      customRules: S.optional(CustomRuleList),
-      managedRules: S.optional(ManagedRuleSetList),
-      frontendEndpointLinks: S.optional(
-        WebApplicationFirewallPolicyPropertiesFrontendEndpointLinksList,
-      ),
-      routingRuleLinks: S.optional(
-        WebApplicationFirewallPolicyPropertiesRoutingRuleLinksList,
-      ),
-      securityPolicyLinks: S.optional(
-        WebApplicationFirewallPolicyPropertiesSecurityPolicyLinksList,
-      ),
-      provisioningState: S.optional(S.String),
-      resourceState: S.optional(PolicyResourceState),
-    }),
-).annotate({
-  identifier: "WebApplicationFirewallPolicyProperties",
-}) as any as S.Schema<WebApplicationFirewallPolicyProperties>;
-
 export interface PoliciesCreateOrUpdateResponse {
   /** Resource ID. */
   id?: string;
@@ -3485,726 +3975,47 @@ export const PoliciesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PoliciesCreateOrUpdateResponse",
 }) as any as S.Schema<PoliciesCreateOrUpdateResponse>;
 
-export interface PoliciesDeleteRequest {
+/** The path to the content to be purged. Can describe a file path or a wild card directory. */
+export type PurgeEndpointContentRequestContentPathsList = Array<string>;
+export const PurgeEndpointContentRequestContentPathsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PurgeEndpointContentRequestContentPathsList>;
+
+export interface PurgeEndpointContentRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the Web Application Firewall Policy. */
-  policyName: string;
+  /** Name of the Front Door which is globally unique. */
+  frontDoorName: string;
+  /** The path to the content to be purged. Can describe a file path or a wild card directory. */
+  contentPaths: PurgeEndpointContentRequestContentPathsList;
 }
-export const PoliciesDeleteRequest = /*@__PURE__*/ S.suspend(() =>
+export const PurgeEndpointContentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
-    policyName: S.String.pipe(T.Label()),
+    frontDoorName: S.String.pipe(T.Label()),
+    contentPaths: PurgeEndpointContentRequestContentPathsList,
   }).pipe(
     T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/purge",
       code: 200,
       apiVersion: "2025-11-01",
     }),
   ),
 ).annotate({
-  identifier: "PoliciesDeleteRequest",
-}) as any as S.Schema<PoliciesDeleteRequest>;
+  identifier: "PurgeEndpointContentRequest",
+}) as any as S.Schema<PurgeEndpointContentRequest>;
 
-export interface PoliciesDeleteResponse {}
-export const PoliciesDeleteResponse = /*@__PURE__*/ S.suspend(() =>
+export interface PurgeEndpointContentResponse {}
+export const PurgeEndpointContentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}),
 ).annotate({
-  identifier: "PoliciesDeleteResponse",
-}) as any as S.Schema<PoliciesDeleteResponse>;
-
-export interface PoliciesGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Web Application Firewall Policy. */
-  policyName: string;
-}
-export const PoliciesGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    policyName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "PoliciesGetRequest",
-}) as any as S.Schema<PoliciesGetRequest>;
-
-/** Resource tags. */
-export type PoliciesGetResponseTagsMap = { [key: string]: string | undefined };
-export const PoliciesGetResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<PoliciesGetResponseTagsMap>;
-
-export interface PoliciesGetResponse {
-  /** Resource ID. */
-  id?: string;
-  /** Resource name. */
-  name?: string;
-  /** Resource type. */
-  type?: string;
-  /** Resource location. */
-  location?: string;
-  /** Resource tags. */
-  tags?: PoliciesGetResponseTagsMap;
-  /** Properties of the web application firewall policy. */
-  properties?: WebApplicationFirewallPolicyProperties;
-  /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
-  /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
-  sku?: Sku;
-}
-export const PoliciesGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    location: S.optional(S.String),
-    tags: S.optional(PoliciesGetResponseTagsMap),
-    properties: S.optional(WebApplicationFirewallPolicyProperties),
-    etag: S.optional(S.String),
-    sku: S.optional(Sku),
-  }),
-).annotate({
-  identifier: "PoliciesGetResponse",
-}) as any as S.Schema<PoliciesGetResponse>;
-
-export interface PoliciesListRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-}
-export const PoliciesListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "PoliciesListRequest",
-}) as any as S.Schema<PoliciesListRequest>;
-
-/** Resource tags. */
-export type WebApplicationFirewallPolicyTagsMap = {
-  [key: string]: string | undefined;
-};
-export const WebApplicationFirewallPolicyTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<WebApplicationFirewallPolicyTagsMap>;
-
-/** Defines web application firewall policy. */
-export interface WebApplicationFirewallPolicy {
-  /** Resource ID. */
-  id?: string;
-  /** Resource name. */
-  name?: string;
-  /** Resource type. */
-  type?: string;
-  /** Resource location. */
-  location?: string;
-  /** Resource tags. */
-  tags?: WebApplicationFirewallPolicyTagsMap;
-  /** Properties of the web application firewall policy. */
-  properties?: WebApplicationFirewallPolicyProperties;
-  /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
-  /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
-  sku?: Sku;
-}
-export const WebApplicationFirewallPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    location: S.optional(S.String),
-    tags: S.optional(WebApplicationFirewallPolicyTagsMap),
-    properties: S.optional(WebApplicationFirewallPolicyProperties),
-    etag: S.optional(S.String),
-    sku: S.optional(Sku),
-  }),
-).annotate({
-  identifier: "WebApplicationFirewallPolicy",
-}) as any as S.Schema<WebApplicationFirewallPolicy>;
-
-/** The WebApplicationFirewallPolicy items on this page */
-export type WebApplicationFirewallPolicyListValueList =
-  Array<WebApplicationFirewallPolicy>;
-export const WebApplicationFirewallPolicyListValueList = /*@__PURE__*/ S.Array(
-  WebApplicationFirewallPolicy,
-) as any as S.Schema<WebApplicationFirewallPolicyListValueList>;
-
-/** Defines a list of WebApplicationFirewallPolicies. It contains a list of WebApplicationFirewallPolicy objects and a URL link to get the next set of results. */
-export interface WebApplicationFirewallPolicyList {
-  /** The WebApplicationFirewallPolicy items on this page */
-  value: WebApplicationFirewallPolicyListValueList;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-export const WebApplicationFirewallPolicyList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: WebApplicationFirewallPolicyListValueList,
-    nextLink: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "WebApplicationFirewallPolicyList",
-}) as any as S.Schema<WebApplicationFirewallPolicyList>;
-
-export interface PoliciesListBySubscriptionRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-}
-export const PoliciesListBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "PoliciesListBySubscriptionRequest",
-}) as any as S.Schema<PoliciesListBySubscriptionRequest>;
-
-/** Resource tags. */
-export type PoliciesUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
-export const PoliciesUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<PoliciesUpdateRequestTagsMap>;
-
-export interface PoliciesUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The name of the Web Application Firewall Policy. */
-  policyName: string;
-  /** Resource tags. */
-  tags?: PoliciesUpdateRequestTagsMap;
-}
-export const PoliciesUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    policyName: S.String.pipe(T.Label()),
-    tags: S.optional(PoliciesUpdateRequestTagsMap),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "PoliciesUpdateRequest",
-}) as any as S.Schema<PoliciesUpdateRequest>;
-
-/** Resource tags. */
-export type PoliciesUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const PoliciesUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<PoliciesUpdateResponseTagsMap>;
-
-export interface PoliciesUpdateResponse {
-  /** Resource ID. */
-  id?: string;
-  /** Resource name. */
-  name?: string;
-  /** Resource type. */
-  type?: string;
-  /** Resource location. */
-  location?: string;
-  /** Resource tags. */
-  tags?: PoliciesUpdateResponseTagsMap;
-  /** Properties of the web application firewall policy. */
-  properties?: WebApplicationFirewallPolicyProperties;
-  /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
-  /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
-  sku?: Sku;
-}
-export const PoliciesUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    location: S.optional(S.String),
-    tags: S.optional(PoliciesUpdateResponseTagsMap),
-    properties: S.optional(WebApplicationFirewallPolicyProperties),
-    etag: S.optional(S.String),
-    sku: S.optional(Sku),
-  }),
-).annotate({
-  identifier: "PoliciesUpdateResponse",
-}) as any as S.Schema<PoliciesUpdateResponse>;
-
-export interface PreconfiguredEndpointsListRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The Profile identifier associated with the Tenant and Partner */
-  profileName: string;
-}
-export const PreconfiguredEndpointsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    profileName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/preconfiguredEndpoints",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "PreconfiguredEndpointsListRequest",
-}) as any as S.Schema<PreconfiguredEndpointsListRequest>;
-
-/** Resource tags. */
-export type PreconfiguredEndpointTagsMap = {
-  [key: string]: string | undefined;
-};
-export const PreconfiguredEndpointTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<PreconfiguredEndpointTagsMap>;
-
-/** The type of endpoint */
-export type EndpointType = "AFD" | "AzureRegion" | "CDN" | "ATM";
-export const EndpointType = /*@__PURE__*/ S.String;
-
-/** Defines the properties of a preconfigured endpoint */
-export interface PreconfiguredEndpointProperties {
-  /** The description of the endpoint */
-  description?: string;
-  /** The endpoint that is preconfigured */
-  endpoint?: string;
-  /** The type of endpoint */
-  endpointType?: EndpointType;
-  /** The preconfigured endpoint backend */
-  backend?: string;
-}
-export const PreconfiguredEndpointProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    endpoint: S.optional(S.String),
-    endpointType: S.optional(EndpointType),
-    backend: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PreconfiguredEndpointProperties",
-}) as any as S.Schema<PreconfiguredEndpointProperties>;
-
-/** Defines the properties of a preconfigured endpoint */
-export interface PreconfiguredEndpoint {
-  /** Resource ID. */
-  id?: string;
-  /** Resource name. */
-  name?: string;
-  /** Resource type. */
-  type?: string;
-  /** Resource location. */
-  location?: string;
-  /** Resource tags. */
-  tags?: PreconfiguredEndpointTagsMap;
-  /** The properties of a preconfiguredEndpoint */
-  properties?: PreconfiguredEndpointProperties;
-}
-export const PreconfiguredEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    location: S.optional(S.String),
-    tags: S.optional(PreconfiguredEndpointTagsMap),
-    properties: S.optional(PreconfiguredEndpointProperties),
-  }),
-).annotate({
-  identifier: "PreconfiguredEndpoint",
-}) as any as S.Schema<PreconfiguredEndpoint>;
-
-/** The PreconfiguredEndpoint items on this page */
-export type PreconfiguredEndpointListValueList = Array<PreconfiguredEndpoint>;
-export const PreconfiguredEndpointListValueList = /*@__PURE__*/ S.Array(
-  PreconfiguredEndpoint,
-) as any as S.Schema<PreconfiguredEndpointListValueList>;
-
-/** Defines a list of preconfigured endpoints. */
-export interface PreconfiguredEndpointList {
-  /** The PreconfiguredEndpoint items on this page */
-  value: PreconfiguredEndpointListValueList;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-export const PreconfiguredEndpointList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: PreconfiguredEndpointListValueList,
-    nextLink: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PreconfiguredEndpointList",
-}) as any as S.Schema<PreconfiguredEndpointList>;
-
-export type ReportsGetLatencyScorecardsRequestAggregationInterval =
-  | "Daily"
-  | "Weekly"
-  | "Monthly";
-export const ReportsGetLatencyScorecardsRequestAggregationInterval =
-  /*@__PURE__*/ S.String;
-
-export interface ReportsGetLatencyScorecardsRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The Profile identifier associated with the Tenant and Partner */
-  profileName: string;
-  /** The Experiment identifier associated with the Experiment */
-  experimentName: string;
-  /** The end DateTime of the Latency Scorecard in UTC */
-  endDateTimeUTC?: string;
-  /** The country associated with the Latency Scorecard. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
-  country?: string;
-  /** The aggregation interval of the Latency Scorecard */
-  aggregationInterval:
-    | ReportsGetLatencyScorecardsRequestAggregationInterval
-    | (string & {});
-}
-export const ReportsGetLatencyScorecardsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    profileName: S.String.pipe(T.Label()),
-    experimentName: S.String.pipe(T.Label()),
-    endDateTimeUTC: S.optional(S.String.pipe(T.Query())),
-    country: S.optional(S.String.pipe(T.Query())),
-    aggregationInterval:
-      ReportsGetLatencyScorecardsRequestAggregationInterval.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/latencyScorecard",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "ReportsGetLatencyScorecardsRequest",
-}) as any as S.Schema<ReportsGetLatencyScorecardsRequest>;
-
-/** Resource tags. */
-export type ReportsGetLatencyScorecardsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const ReportsGetLatencyScorecardsResponseTagsMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.String,
-  ) as any as S.Schema<ReportsGetLatencyScorecardsResponseTagsMap>;
-
-/** Defines the properties of a latency metric used in the latency scorecard */
-export interface LatencyMetric {
-  /** The name of the Latency Metric */
-  name?: string;
-  /** The end time of the Latency Scorecard in UTC */
-  endDateTimeUTC?: string;
-  /** The metric value of the A endpoint */
-  aValue?: number;
-  /** The metric value of the B endpoint */
-  bValue?: number;
-  /** The difference in value between endpoint A and B */
-  delta?: number;
-  /** The percent difference between endpoint A and B */
-  deltaPercent?: number;
-  /** The lower end of the 95% confidence interval for endpoint A */
-  aCLower95CI?: number;
-  /** The upper end of the 95% confidence interval for endpoint A */
-  aHUpper95CI?: number;
-  /** The lower end of the 95% confidence interval for endpoint B */
-  bCLower95CI?: number;
-  /** The upper end of the 95% confidence interval for endpoint B */
-  bUpper95CI?: number;
-}
-export const LatencyMetric = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    endDateTimeUTC: S.optional(S.String),
-    aValue: S.optional(S.Number),
-    bValue: S.optional(S.Number),
-    delta: S.optional(S.Number),
-    deltaPercent: S.optional(S.Number),
-    aCLower95CI: S.optional(S.Number),
-    aHUpper95CI: S.optional(S.Number),
-    bCLower95CI: S.optional(S.Number),
-    bUpper95CI: S.optional(S.Number),
-  }),
-).annotate({ identifier: "LatencyMetric" }) as any as S.Schema<LatencyMetric>;
-
-/** The latency metrics of the Latency Scorecard */
-export type LatencyScorecardPropertiesLatencyMetricsList = Array<LatencyMetric>;
-export const LatencyScorecardPropertiesLatencyMetricsList =
-  /*@__PURE__*/ S.Array(
-    LatencyMetric,
-  ) as any as S.Schema<LatencyScorecardPropertiesLatencyMetricsList>;
-
-/** Defines a the properties of a Latency Scorecard */
-export interface LatencyScorecardProperties {
-  /** The unique identifier of the Latency Scorecard */
-  id?: string;
-  /** The name of the Latency Scorecard */
-  name?: string;
-  /** The description of the Latency Scorecard */
-  description?: string;
-  /** The A endpoint in the scorecard */
-  endpointA?: string;
-  /** The B endpoint in the scorecard */
-  endpointB?: string;
-  /** The start time of the Latency Scorecard in UTC */
-  startDateTimeUTC?: string;
-  /** The end time of the Latency Scorecard in UTC */
-  endDateTimeUTC?: string;
-  /** The country associated with the Latency Scorecard. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
-  country?: string;
-  /** The latency metrics of the Latency Scorecard */
-  latencyMetrics?: LatencyScorecardPropertiesLatencyMetricsList;
-}
-export const LatencyScorecardProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    endpointA: S.optional(S.String),
-    endpointB: S.optional(S.String),
-    startDateTimeUTC: S.optional(S.String),
-    endDateTimeUTC: S.optional(S.String),
-    country: S.optional(S.String),
-    latencyMetrics: S.optional(LatencyScorecardPropertiesLatencyMetricsList),
-  }),
-).annotate({
-  identifier: "LatencyScorecardProperties",
-}) as any as S.Schema<LatencyScorecardProperties>;
-
-export interface ReportsGetLatencyScorecardsResponse {
-  /** Resource ID. */
-  id?: string;
-  /** Resource name. */
-  name?: string;
-  /** Resource type. */
-  type?: string;
-  /** Resource location. */
-  location?: string;
-  /** Resource tags. */
-  tags?: ReportsGetLatencyScorecardsResponseTagsMap;
-  /** The properties of a latency scorecard */
-  properties?: LatencyScorecardProperties;
-}
-export const ReportsGetLatencyScorecardsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    location: S.optional(S.String),
-    tags: S.optional(ReportsGetLatencyScorecardsResponseTagsMap),
-    properties: S.optional(LatencyScorecardProperties),
-  }),
-).annotate({
-  identifier: "ReportsGetLatencyScorecardsResponse",
-}) as any as S.Schema<ReportsGetLatencyScorecardsResponse>;
-
-export type ReportsGetTimeseriesRequestAggregationInterval = "Hourly" | "Daily";
-export const ReportsGetTimeseriesRequestAggregationInterval =
-  /*@__PURE__*/ S.String;
-
-export type ReportsGetTimeseriesRequestTimeseriesType =
-  | "MeasurementCounts"
-  | "LatencyP50"
-  | "LatencyP75"
-  | "LatencyP95";
-export const ReportsGetTimeseriesRequestTimeseriesType = /*@__PURE__*/ S.String;
-
-export interface ReportsGetTimeseriesRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** The Profile identifier associated with the Tenant and Partner */
-  profileName: string;
-  /** The Experiment identifier associated with the Experiment */
-  experimentName: string;
-  /** The start DateTime of the Timeseries in UTC */
-  startDateTimeUTC: string;
-  /** The end DateTime of the Timeseries in UTC */
-  endDateTimeUTC: string;
-  /** The aggregation interval of the Timeseries */
-  aggregationInterval:
-    | ReportsGetTimeseriesRequestAggregationInterval
-    | (string & {});
-  /** The type of Timeseries */
-  timeseriesType: ReportsGetTimeseriesRequestTimeseriesType | (string & {});
-  /** The specific endpoint */
-  endpoint?: string;
-  /** The country associated with the Timeseries. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
-  country?: string;
-}
-export const ReportsGetTimeseriesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    profileName: S.String.pipe(T.Label()),
-    experimentName: S.String.pipe(T.Label()),
-    startDateTimeUTC: S.String.pipe(T.Query()),
-    endDateTimeUTC: S.String.pipe(T.Query()),
-    aggregationInterval: ReportsGetTimeseriesRequestAggregationInterval.pipe(
-      T.Query(),
-    ),
-    timeseriesType: ReportsGetTimeseriesRequestTimeseriesType.pipe(T.Query()),
-    endpoint: S.optional(S.String.pipe(T.Query())),
-    country: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/timeseries",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "ReportsGetTimeseriesRequest",
-}) as any as S.Schema<ReportsGetTimeseriesRequest>;
-
-/** Resource tags. */
-export type ReportsGetTimeseriesResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const ReportsGetTimeseriesResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<ReportsGetTimeseriesResponseTagsMap>;
-
-/** The aggregation interval of the Timeseries */
-export type AggregationInterval = "Hourly" | "Daily";
-export const AggregationInterval = /*@__PURE__*/ S.String;
-
-/** The type of Timeseries */
-export type TimeseriesType =
-  | "MeasurementCounts"
-  | "LatencyP50"
-  | "LatencyP75"
-  | "LatencyP95";
-export const TimeseriesType = /*@__PURE__*/ S.String;
-
-/** Defines a timeseries datapoint used in a timeseries */
-export interface TimeseriesDataPoint {
-  /** The DateTime of the Timeseries data point in UTC */
-  dateTimeUTC?: string;
-  /** The Value of the Timeseries data point */
-  value?: number;
-}
-export const TimeseriesDataPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dateTimeUTC: S.optional(S.String),
-    value: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "TimeseriesDataPoint",
-}) as any as S.Schema<TimeseriesDataPoint>;
-
-/** The set of data points for the timeseries */
-export type TimeseriesPropertiesTimeseriesDataList = Array<TimeseriesDataPoint>;
-export const TimeseriesPropertiesTimeseriesDataList = /*@__PURE__*/ S.Array(
-  TimeseriesDataPoint,
-) as any as S.Schema<TimeseriesPropertiesTimeseriesDataList>;
-
-/** Defines the properties of a timeseries */
-export interface TimeseriesProperties {
-  /** The endpoint associated with the Timeseries data point */
-  endpoint?: string;
-  /** The start DateTime of the Timeseries in UTC */
-  startDateTimeUTC?: string;
-  /** The end DateTime of the Timeseries in UTC */
-  endDateTimeUTC?: string;
-  /** The aggregation interval of the Timeseries */
-  aggregationInterval?: AggregationInterval;
-  /** The type of Timeseries */
-  timeseriesType?: TimeseriesType;
-  /** The country associated with the Timeseries. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
-  country?: string;
-  /** The set of data points for the timeseries */
-  timeseriesData?: TimeseriesPropertiesTimeseriesDataList;
-}
-export const TimeseriesProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endpoint: S.optional(S.String),
-    startDateTimeUTC: S.optional(S.String),
-    endDateTimeUTC: S.optional(S.String),
-    aggregationInterval: S.optional(AggregationInterval),
-    timeseriesType: S.optional(TimeseriesType),
-    country: S.optional(S.String),
-    timeseriesData: S.optional(TimeseriesPropertiesTimeseriesDataList),
-  }),
-).annotate({
-  identifier: "TimeseriesProperties",
-}) as any as S.Schema<TimeseriesProperties>;
-
-export interface ReportsGetTimeseriesResponse {
-  /** Resource ID. */
-  id?: string;
-  /** Resource name. */
-  name?: string;
-  /** Resource type. */
-  type?: string;
-  /** Resource location. */
-  location?: string;
-  /** Resource tags. */
-  tags?: ReportsGetTimeseriesResponseTagsMap;
-  /** The properties of a Timeseries */
-  properties?: TimeseriesProperties;
-}
-export const ReportsGetTimeseriesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    location: S.optional(S.String),
-    tags: S.optional(ReportsGetTimeseriesResponseTagsMap),
-    properties: S.optional(TimeseriesProperties),
-  }),
-).annotate({
-  identifier: "ReportsGetTimeseriesResponse",
-}) as any as S.Schema<ReportsGetTimeseriesResponse>;
+  identifier: "PurgeEndpointContentResponse",
+}) as any as S.Schema<PurgeEndpointContentResponse>;
 
 export interface RulesEnginesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -4258,147 +4069,450 @@ export const RulesEnginesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "RulesEnginesCreateOrUpdateResponse",
 }) as any as S.Schema<RulesEnginesCreateOrUpdateResponse>;
 
-export interface RulesEnginesDeleteRequest {
+/** Resource tags. */
+export type UpdateExperimentRequestTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateExperimentRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateExperimentRequestTagsMap>;
+
+/** Defines the properties of an experiment */
+export interface ExperimentUpdateProperties {
+  /** The description of the intent or details of the Experiment */
+  description?: string;
+  /** The state of the Experiment */
+  enabledState?: State | (string & {});
+}
+export const ExperimentUpdateProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    enabledState: S.optional(State),
+  }),
+).annotate({
+  identifier: "ExperimentUpdateProperties",
+}) as any as S.Schema<ExperimentUpdateProperties>;
+
+export interface UpdateExperimentRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** Name of the Front Door which is globally unique. */
-  frontDoorName: string;
-  /** Name of the Rules Engine which is unique within the Front Door. */
-  rulesEngineName: string;
+  /** The Profile identifier associated with the Tenant and Partner */
+  profileName: string;
+  /** The Experiment identifier associated with the Experiment */
+  experimentName: string;
+  /** Resource tags. */
+  tags?: UpdateExperimentRequestTagsMap;
+  /** The properties of a Profile */
+  properties?: ExperimentUpdateProperties;
 }
-export const RulesEnginesDeleteRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateExperimentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
-    frontDoorName: S.String.pipe(T.Label()),
-    rulesEngineName: S.String.pipe(T.Label()),
+    profileName: S.String.pipe(T.Label()),
+    experimentName: S.String.pipe(T.Label()),
+    tags: S.optional(UpdateExperimentRequestTagsMap),
+    properties: S.optional(ExperimentUpdateProperties),
   }).pipe(
     T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
       code: 200,
       apiVersion: "2025-11-01",
     }),
   ),
 ).annotate({
-  identifier: "RulesEnginesDeleteRequest",
-}) as any as S.Schema<RulesEnginesDeleteRequest>;
+  identifier: "UpdateExperimentRequest",
+}) as any as S.Schema<UpdateExperimentRequest>;
 
-export interface RulesEnginesDeleteResponse {}
-export const RulesEnginesDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RulesEnginesDeleteResponse",
-}) as any as S.Schema<RulesEnginesDeleteResponse>;
+/** Resource tags. */
+export type UpdateExperimentResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateExperimentResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateExperimentResponseTagsMap>;
 
-export interface RulesEnginesGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of the Front Door which is globally unique. */
-  frontDoorName: string;
-  /** Name of the Rules Engine which is unique within the Front Door. */
-  rulesEngineName: string;
-}
-export const RulesEnginesGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    frontDoorName: S.String.pipe(T.Label()),
-    rulesEngineName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
-).annotate({
-  identifier: "RulesEnginesGetRequest",
-}) as any as S.Schema<RulesEnginesGetRequest>;
-
-export interface RulesEnginesGetResponse {
+export interface UpdateExperimentResponse {
   /** Resource ID. */
   id?: string;
   /** Resource name. */
   name?: string;
   /** Resource type. */
   type?: string;
-  /** Properties of the Rules Engine Configuration. */
-  properties?: RulesEngineProperties;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: UpdateExperimentResponseTagsMap;
+  /** The properties of an Experiment */
+  properties?: ExperimentProperties;
 }
-export const RulesEnginesGetResponse = /*@__PURE__*/ S.suspend(() =>
+export const UpdateExperimentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
-    properties: S.optional(RulesEngineProperties),
+    location: S.optional(S.String),
+    tags: S.optional(UpdateExperimentResponseTagsMap),
+    properties: S.optional(ExperimentProperties),
   }),
 ).annotate({
-  identifier: "RulesEnginesGetResponse",
-}) as any as S.Schema<RulesEnginesGetResponse>;
+  identifier: "UpdateExperimentResponse",
+}) as any as S.Schema<UpdateExperimentResponse>;
 
-export interface RulesEnginesListByFrontDoorRequest {
+/** Defines the properties of an experiment */
+export interface ProfileUpdateProperties {
+  /** The enabled state of the Profile */
+  enabledState?: State | (string & {});
+}
+export const ProfileUpdateProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabledState: S.optional(State),
+  }),
+).annotate({
+  identifier: "ProfileUpdateProperties",
+}) as any as S.Schema<ProfileUpdateProperties>;
+
+/** Resource tags. */
+export type UpdateNetworkExperimentProfileRequestTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateNetworkExperimentProfileRequestTagsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<UpdateNetworkExperimentProfileRequestTagsMap>;
+
+export interface UpdateNetworkExperimentProfileRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The Profile identifier associated with the Tenant and Partner */
+  profileName: string;
+  /** The properties of a Profile */
+  properties?: ProfileUpdateProperties;
+  /** Resource tags. */
+  tags?: UpdateNetworkExperimentProfileRequestTagsMap;
+}
+export const UpdateNetworkExperimentProfileRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      profileName: S.String.pipe(T.Label()),
+      properties: S.optional(ProfileUpdateProperties),
+      tags: S.optional(UpdateNetworkExperimentProfileRequestTagsMap),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
+        code: 200,
+        apiVersion: "2025-11-01",
+      }),
+    ),
+).annotate({
+  identifier: "UpdateNetworkExperimentProfileRequest",
+}) as any as S.Schema<UpdateNetworkExperimentProfileRequest>;
+
+/** Resource tags. */
+export type UpdateNetworkExperimentProfileResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateNetworkExperimentProfileResponseTagsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<UpdateNetworkExperimentProfileResponseTagsMap>;
+
+export interface UpdateNetworkExperimentProfileResponse {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: UpdateNetworkExperimentProfileResponseTagsMap;
+  /** The properties of a Profile */
+  properties?: ProfileProperties;
+  /** Gets a unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+}
+export const UpdateNetworkExperimentProfileResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      location: S.optional(S.String),
+      tags: S.optional(UpdateNetworkExperimentProfileResponseTagsMap),
+      properties: S.optional(ProfileProperties),
+      etag: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "UpdateNetworkExperimentProfileResponse",
+}) as any as S.Schema<UpdateNetworkExperimentProfileResponse>;
+
+/** Resource tags. */
+export type UpdatePolicyRequestTagsMap = { [key: string]: string | undefined };
+export const UpdatePolicyRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdatePolicyRequestTagsMap>;
+
+export interface UpdatePolicyRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the Web Application Firewall Policy. */
+  policyName: string;
+  /** Resource tags. */
+  tags?: UpdatePolicyRequestTagsMap;
+}
+export const UpdatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    policyName: S.String.pipe(T.Label()),
+    tags: S.optional(UpdatePolicyRequestTagsMap),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
+      code: 200,
+      apiVersion: "2025-11-01",
+    }),
+  ),
+).annotate({
+  identifier: "UpdatePolicyRequest",
+}) as any as S.Schema<UpdatePolicyRequest>;
+
+/** Resource tags. */
+export type UpdatePolicyResponseTagsMap = { [key: string]: string | undefined };
+export const UpdatePolicyResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdatePolicyResponseTagsMap>;
+
+export interface UpdatePolicyResponse {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: UpdatePolicyResponseTagsMap;
+  /** Properties of the web application firewall policy. */
+  properties?: WebApplicationFirewallPolicyProperties;
+  /** Gets a unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+  /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
+  sku?: Sku;
+}
+export const UpdatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(UpdatePolicyResponseTagsMap),
+    properties: S.optional(WebApplicationFirewallPolicyProperties),
+    etag: S.optional(S.String),
+    sku: S.optional(Sku),
+  }),
+).annotate({
+  identifier: "UpdatePolicyResponse",
+}) as any as S.Schema<UpdatePolicyResponse>;
+
+export interface ValidateFrontDoorCustomDomainRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Name of the Front Door which is globally unique. */
   frontDoorName: string;
+  /** The host name of the custom domain. Must be a domain name. */
+  hostName: string;
 }
-export const RulesEnginesListByFrontDoorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    frontDoorName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines",
-      code: 200,
-      apiVersion: "2025-11-01",
-    }),
-  ),
+export const ValidateFrontDoorCustomDomainRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      frontDoorName: S.String.pipe(T.Label()),
+      hostName: S.String,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/validateCustomDomain",
+        code: 200,
+        apiVersion: "2025-11-01",
+      }),
+    ),
 ).annotate({
-  identifier: "RulesEnginesListByFrontDoorRequest",
-}) as any as S.Schema<RulesEnginesListByFrontDoorRequest>;
+  identifier: "ValidateFrontDoorCustomDomainRequest",
+}) as any as S.Schema<ValidateFrontDoorCustomDomainRequest>;
 
-/** The RulesEngine items on this page */
-export type RulesEngineListResultValueList = Array<RulesEngine>;
-export const RulesEngineListResultValueList = /*@__PURE__*/ S.Array(
-  RulesEngine,
-) as any as S.Schema<RulesEngineListResultValueList>;
-
-/** Paged collection of RulesEngine items */
-export interface RulesEngineListResult {
-  /** The RulesEngine items on this page */
-  value: RulesEngineListResultValueList;
-  /** The link to the next page of items */
-  nextLink?: string;
+/** Output of custom domain validation. */
+export interface ValidateCustomDomainOutput {
+  /** Indicates whether the custom domain is valid or not. */
+  customDomainValidated?: boolean;
+  /** The reason why the custom domain is not valid. */
+  reason?: string;
+  /** Error message describing why the custom domain is not valid. */
+  message?: string;
 }
-export const RulesEngineListResult = /*@__PURE__*/ S.suspend(() =>
+export const ValidateCustomDomainOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: RulesEngineListResultValueList,
-    nextLink: S.optional(S.String),
+    customDomainValidated: S.optional(S.Boolean),
+    reason: S.optional(S.String),
+    message: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "RulesEngineListResult",
-}) as any as S.Schema<RulesEngineListResult>;
+  identifier: "ValidateCustomDomainOutput",
+}) as any as S.Schema<ValidateCustomDomainOutput>;
 
-export type EndpointsPurgeContentError = AzureOpError;
-/** Removes a content from Front Door. */
-export const EndpointsPurgeContent: API.OperationMethod<
-  EndpointsPurgeContentRequest,
-  EndpointsPurgeContentResponse,
-  EndpointsPurgeContentError,
+export type CheckFrontDoorNameAvailabilityError = AzureOpError;
+/** Check the availability of a Front Door resource name. */
+export const CheckFrontDoorNameAvailability: API.OperationMethod<
+  CheckFrontDoorNameAvailabilityRequest,
+  CheckNameAvailabilityOutput,
+  CheckFrontDoorNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: EndpointsPurgeContentRequest,
-  output: EndpointsPurgeContentResponse,
+  input: CheckFrontDoorNameAvailabilityRequest,
+  output: CheckNameAvailabilityOutput,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CheckFrontDoorNameAvailabilityWithSubscriptionError = AzureOpError;
+/** Check the availability of a Front Door subdomain. */
+export const CheckFrontDoorNameAvailabilityWithSubscription: API.OperationMethod<
+  CheckFrontDoorNameAvailabilityWithSubscriptionRequest,
+  CheckNameAvailabilityOutput,
+  CheckFrontDoorNameAvailabilityWithSubscriptionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CheckFrontDoorNameAvailabilityWithSubscriptionRequest,
+  output: CheckNameAvailabilityOutput,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteExperimentError = AzureOpError;
+/** Deletes an Experiment Deletes an Experiment */
+export const DeleteExperiment: API.OperationMethod<
+  DeleteExperimentRequest,
+  DeleteExperimentResponse,
+  DeleteExperimentError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteExperimentRequest,
+  output: DeleteExperimentResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteFrontDoorError = AzureOpError;
+/** Deletes an existing Front Door with the specified parameters. */
+export const DeleteFrontDoor: API.OperationMethod<
+  DeleteFrontDoorRequest,
+  DeleteFrontDoorResponse,
+  DeleteFrontDoorError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteFrontDoorRequest,
+  output: DeleteFrontDoorResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteNetworkExperimentProfileError = AzureOpError;
+/** Deletes an NetworkExperiment Profile by ProfileName Deletes an NetworkExperiment Profile by ProfileName */
+export const DeleteNetworkExperimentProfile: API.OperationMethod<
+  DeleteNetworkExperimentProfileRequest,
+  DeleteNetworkExperimentProfileResponse,
+  DeleteNetworkExperimentProfileError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteNetworkExperimentProfileRequest,
+  output: DeleteNetworkExperimentProfileResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeletePolicyError = AzureOpError;
+/** Deletes Policy */
+export const DeletePolicy: API.OperationMethod<
+  DeletePolicyRequest,
+  DeletePolicyResponse,
+  DeletePolicyError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeletePolicyRequest,
+  output: DeletePolicyResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteRulesEngineError = AzureOpError;
+/** Deletes an existing Rules Engine Configuration with the specified parameters. */
+export const DeleteRulesEngine: API.OperationMethod<
+  DeleteRulesEngineRequest,
+  DeleteRulesEngineResponse,
+  DeleteRulesEngineError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteRulesEngineRequest,
+  output: DeleteRulesEngineResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DisableFrontendEndpointHttpsError = AzureOpError;
+/** Disables a frontendEndpoint for HTTPS traffic */
+export const DisableFrontendEndpointHttps: API.OperationMethod<
+  DisableFrontendEndpointHttpsRequest,
+  DisableFrontendEndpointHttpsResponse,
+  DisableFrontendEndpointHttpsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DisableFrontendEndpointHttpsRequest,
+  output: DisableFrontendEndpointHttpsResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EnableFrontendEndpointHttpsError = AzureOpError;
+/** Enables a frontendEndpoint for HTTPS traffic */
+export const EnableFrontendEndpointHttps: API.OperationMethod<
+  EnableFrontendEndpointHttpsRequest,
+  EnableFrontendEndpointHttpsResponse,
+  EnableFrontendEndpointHttpsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EnableFrontendEndpointHttpsRequest,
+  output: EnableFrontendEndpointHttpsResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4419,96 +4533,6 @@ export const ExperimentsCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ExperimentsDeleteError = AzureOpError;
-/** Deletes an Experiment Deletes an Experiment */
-export const ExperimentsDelete: API.OperationMethod<
-  ExperimentsDeleteRequest,
-  ExperimentsDeleteResponse,
-  ExperimentsDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExperimentsDeleteRequest,
-  output: ExperimentsDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ExperimentsGetError = AzureOpError;
-/** Gets an Experiment by ExperimentName Gets an Experiment by ExperimentName */
-export const ExperimentsGet: API.OperationMethod<
-  ExperimentsGetRequest,
-  ExperimentsGetResponse,
-  ExperimentsGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExperimentsGetRequest,
-  output: ExperimentsGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ExperimentsListByProfileError = AzureOpError;
-/** Gets a list of Experiments Gets a list of Experiments */
-export const ExperimentsListByProfile: API.OperationMethod<
-  ExperimentsListByProfileRequest,
-  ExperimentList,
-  ExperimentsListByProfileError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExperimentsListByProfileRequest,
-  output: ExperimentList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ExperimentsUpdateError = AzureOpError;
-/** Updates an Experiment by Experiment id Updates an Experiment */
-export const ExperimentsUpdate: API.OperationMethod<
-  ExperimentsUpdateRequest,
-  ExperimentsUpdateResponse,
-  ExperimentsUpdateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExperimentsUpdateRequest,
-  output: ExperimentsUpdateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type FrontDoorNameAvailabilityCheckError = AzureOpError;
-/** Check the availability of a Front Door resource name. */
-export const FrontDoorNameAvailabilityCheck: API.OperationMethod<
-  FrontDoorNameAvailabilityCheckRequest,
-  CheckNameAvailabilityOutput,
-  FrontDoorNameAvailabilityCheckError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: FrontDoorNameAvailabilityCheckRequest,
-  output: CheckNameAvailabilityOutput,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type FrontDoorNameAvailabilityWithSubscriptionCheckError = AzureOpError;
-/** Check the availability of a Front Door subdomain. */
-export const FrontDoorNameAvailabilityWithSubscriptionCheck: API.OperationMethod<
-  FrontDoorNameAvailabilityWithSubscriptionCheckRequest,
-  CheckNameAvailabilityOutput,
-  FrontDoorNameAvailabilityWithSubscriptionCheckError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: FrontDoorNameAvailabilityWithSubscriptionCheckRequest,
-  output: CheckNameAvailabilityOutput,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
 export type FrontDoorsCreateOrUpdateError = AzureOpError;
 /** Creates a new Front Door with a Front Door name under the specified subscription and resource group. */
 export const FrontDoorsCreateOrUpdate: API.OperationMethod<
@@ -4524,151 +4548,286 @@ export const FrontDoorsCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type FrontDoorsDeleteError = AzureOpError;
-/** Deletes an existing Front Door with the specified parameters. */
-export const FrontDoorsDelete: API.OperationMethod<
-  FrontDoorsDeleteRequest,
-  FrontDoorsDeleteResponse,
-  FrontDoorsDeleteError,
+export type GetExperimentError = AzureOpError;
+/** Gets an Experiment by ExperimentName Gets an Experiment by ExperimentName */
+export const GetExperiment: API.OperationMethod<
+  GetExperimentRequest,
+  GetExperimentResponse,
+  GetExperimentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: FrontDoorsDeleteRequest,
-  output: FrontDoorsDeleteResponse,
+  input: GetExperimentRequest,
+  output: GetExperimentResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type FrontDoorsGetError = AzureOpError;
+export type GetFrontDoorError = AzureOpError;
 /** Gets a Front Door with the specified Front Door name under the specified subscription and resource group. */
-export const FrontDoorsGet: API.OperationMethod<
-  FrontDoorsGetRequest,
-  FrontDoorsGetResponse,
-  FrontDoorsGetError,
+export const GetFrontDoor: API.OperationMethod<
+  GetFrontDoorRequest,
+  GetFrontDoorResponse,
+  GetFrontDoorError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: FrontDoorsGetRequest,
-  output: FrontDoorsGetResponse,
+  input: GetFrontDoorRequest,
+  output: GetFrontDoorResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type FrontDoorsListError = AzureOpError;
-/** Lists all of the Front Doors within an Azure subscription. */
-export const FrontDoorsList: API.OperationMethod<
-  FrontDoorsListRequest,
-  FrontDoorListResult,
-  FrontDoorsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: FrontDoorsListRequest,
-  output: FrontDoorListResult,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type FrontDoorsListByResourceGroupError = AzureOpError;
-/** Lists all of the Front Doors within a resource group under a subscription. */
-export const FrontDoorsListByResourceGroup: API.OperationMethod<
-  FrontDoorsListByResourceGroupRequest,
-  FrontDoorListResult,
-  FrontDoorsListByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: FrontDoorsListByResourceGroupRequest,
-  output: FrontDoorListResult,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type FrontDoorsValidateCustomDomainError = AzureOpError;
-/** Validates the custom domain mapping to ensure it maps to the correct Front Door endpoint in DNS. */
-export const FrontDoorsValidateCustomDomain: API.OperationMethod<
-  FrontDoorsValidateCustomDomainRequest,
-  ValidateCustomDomainOutput,
-  FrontDoorsValidateCustomDomainError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: FrontDoorsValidateCustomDomainRequest,
-  output: ValidateCustomDomainOutput,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type FrontendEndpointsDisableHttpsError = AzureOpError;
-/** Disables a frontendEndpoint for HTTPS traffic */
-export const FrontendEndpointsDisableHttps: API.OperationMethod<
-  FrontendEndpointsDisableHttpsRequest,
-  FrontendEndpointsDisableHttpsResponse,
-  FrontendEndpointsDisableHttpsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: FrontendEndpointsDisableHttpsRequest,
-  output: FrontendEndpointsDisableHttpsResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type FrontendEndpointsEnableHttpsError = AzureOpError;
-/** Enables a frontendEndpoint for HTTPS traffic */
-export const FrontendEndpointsEnableHttps: API.OperationMethod<
-  FrontendEndpointsEnableHttpsRequest,
-  FrontendEndpointsEnableHttpsResponse,
-  FrontendEndpointsEnableHttpsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: FrontendEndpointsEnableHttpsRequest,
-  output: FrontendEndpointsEnableHttpsResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type FrontendEndpointsGetError = AzureOpError;
+export type GetFrontendEndpointError = AzureOpError;
 /** Gets a Frontend endpoint with the specified name within the specified Front Door. */
-export const FrontendEndpointsGet: API.OperationMethod<
-  FrontendEndpointsGetRequest,
-  FrontendEndpointsGetResponse,
-  FrontendEndpointsGetError,
+export const GetFrontendEndpoint: API.OperationMethod<
+  GetFrontendEndpointRequest,
+  GetFrontendEndpointResponse,
+  GetFrontendEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: FrontendEndpointsGetRequest,
-  output: FrontendEndpointsGetResponse,
+  input: GetFrontendEndpointRequest,
+  output: GetFrontendEndpointResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type FrontendEndpointsListByFrontDoorError = AzureOpError;
-/** Lists all of the frontend endpoints within a Front Door. */
-export const FrontendEndpointsListByFrontDoor: API.OperationMethod<
-  FrontendEndpointsListByFrontDoorRequest,
-  FrontendEndpointsListResult,
-  FrontendEndpointsListByFrontDoorError,
+export type GetNetworkExperimentProfileError = AzureOpError;
+/** Gets an NetworkExperiment Profile by ProfileName Gets an NetworkExperiment Profile by ProfileName */
+export const GetNetworkExperimentProfile: API.OperationMethod<
+  GetNetworkExperimentProfileRequest,
+  GetNetworkExperimentProfileResponse,
+  GetNetworkExperimentProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: FrontendEndpointsListByFrontDoorRequest,
+  input: GetNetworkExperimentProfileRequest,
+  output: GetNetworkExperimentProfileResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPolicyError = AzureOpError;
+/** Retrieve protection policy with specified name within a resource group. */
+export const GetPolicy: API.OperationMethod<
+  GetPolicyRequest,
+  GetPolicyResponse,
+  GetPolicyError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPolicyRequest,
+  output: GetPolicyResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetReportLatencyScorecardsError = AzureOpError;
+/** Gets a Latency Scorecard for a given Experiment Gets a Latency Scorecard for a given Experiment */
+export const GetReportLatencyScorecards: API.OperationMethod<
+  GetReportLatencyScorecardsRequest,
+  GetReportLatencyScorecardsResponse,
+  GetReportLatencyScorecardsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetReportLatencyScorecardsRequest,
+  output: GetReportLatencyScorecardsResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetReportTimeseriesError = AzureOpError;
+/** Gets a Timeseries for a given Experiment Gets a Timeseries for a given Experiment */
+export const GetReportTimeseries: API.OperationMethod<
+  GetReportTimeseriesRequest,
+  GetReportTimeseriesResponse,
+  GetReportTimeseriesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetReportTimeseriesRequest,
+  output: GetReportTimeseriesResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetRulesEngineError = AzureOpError;
+/** Gets a Rules Engine Configuration with the specified name within the specified Front Door. */
+export const GetRulesEngine: API.OperationMethod<
+  GetRulesEngineRequest,
+  GetRulesEngineResponse,
+  GetRulesEngineError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRulesEngineRequest,
+  output: GetRulesEngineResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListExperimentByProfileError = AzureOpError;
+/** Gets a list of Experiments Gets a list of Experiments */
+export const ListExperimentByProfile: API.OperationMethod<
+  ListExperimentByProfileRequest,
+  ExperimentList,
+  ListExperimentByProfileError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListExperimentByProfileRequest,
+  output: ExperimentList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListFrontDoorByResourceGroupError = AzureOpError;
+/** Lists all of the Front Doors within a resource group under a subscription. */
+export const ListFrontDoorByResourceGroup: API.OperationMethod<
+  ListFrontDoorByResourceGroupRequest,
+  FrontDoorListResult,
+  ListFrontDoorByResourceGroupError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListFrontDoorByResourceGroupRequest,
+  output: FrontDoorListResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListFrontDoorsError = AzureOpError;
+/** Lists all of the Front Doors within an Azure subscription. */
+export const ListFrontDoors: API.OperationMethod<
+  ListFrontDoorsRequest,
+  FrontDoorListResult,
+  ListFrontDoorsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListFrontDoorsRequest,
+  output: FrontDoorListResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListFrontendEndpointByFrontDoorError = AzureOpError;
+/** Lists all of the frontend endpoints within a Front Door. */
+export const ListFrontendEndpointByFrontDoor: API.OperationMethod<
+  ListFrontendEndpointByFrontDoorRequest,
+  FrontendEndpointsListResult,
+  ListFrontendEndpointByFrontDoorError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListFrontendEndpointByFrontDoorRequest,
   output: FrontendEndpointsListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type ManagedRuleSetsListError = AzureOpError;
+export type ListManagedRuleSetsError = AzureOpError;
 /** Lists all available managed rule sets. */
-export const ManagedRuleSetsList: API.OperationMethod<
-  ManagedRuleSetsListRequest,
+export const ListManagedRuleSets: API.OperationMethod<
+  ListManagedRuleSetsRequest,
   ManagedRuleSetDefinitionList,
-  ManagedRuleSetsListError,
+  ListManagedRuleSetsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ManagedRuleSetsListRequest,
+  input: ListManagedRuleSetsRequest,
   output: ManagedRuleSetDefinitionList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListNetworkExperimentProfileByResourceGroupError = AzureOpError;
+/** Gets a list of Network Experiment Profiles within a resource group under a subscription Gets a list of Network Experiment Profiles within a resource group under a subscription */
+export const ListNetworkExperimentProfileByResourceGroup: API.OperationMethod<
+  ListNetworkExperimentProfileByResourceGroupRequest,
+  ProfileList,
+  ListNetworkExperimentProfileByResourceGroupError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListNetworkExperimentProfileByResourceGroupRequest,
+  output: ProfileList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListNetworkExperimentProfilesError = AzureOpError;
+/** Gets a list of Network Experiment Profiles under a subscription Gets a list of Network Experiment Profiles under a subscription */
+export const ListNetworkExperimentProfiles: API.OperationMethod<
+  ListNetworkExperimentProfilesRequest,
+  ProfileList,
+  ListNetworkExperimentProfilesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListNetworkExperimentProfilesRequest,
+  output: ProfileList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListPoliciesError = AzureOpError;
+/** Lists all of the protection policies within a resource group. */
+export const ListPolicies: API.OperationMethod<
+  ListPoliciesRequest,
+  WebApplicationFirewallPolicyList,
+  ListPoliciesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListPoliciesRequest,
+  output: WebApplicationFirewallPolicyList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListPolicyBySubscriptionError = AzureOpError;
+/** Lists all of the protection policies within a subscription. */
+export const ListPolicyBySubscription: API.OperationMethod<
+  ListPolicyBySubscriptionRequest,
+  WebApplicationFirewallPolicyList,
+  ListPolicyBySubscriptionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListPolicyBySubscriptionRequest,
+  output: WebApplicationFirewallPolicyList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListPreconfiguredEndpointsError = AzureOpError;
+/** Gets a list of Preconfigured Endpoints Gets a list of Preconfigured Endpoints */
+export const ListPreconfiguredEndpoints: API.OperationMethod<
+  ListPreconfiguredEndpointsRequest,
+  PreconfiguredEndpointList,
+  ListPreconfiguredEndpointsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListPreconfiguredEndpointsRequest,
+  output: PreconfiguredEndpointList,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListRulesEngineByFrontDoorError = AzureOpError;
+/** Lists all of the Rules Engine Configurations within a Front Door. */
+export const ListRulesEngineByFrontDoor: API.OperationMethod<
+  ListRulesEngineByFrontDoorRequest,
+  RulesEngineListResult,
+  ListRulesEngineByFrontDoorError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListRulesEngineByFrontDoorRequest,
+  output: RulesEngineListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4689,81 +4848,6 @@ export const NetworkExperimentProfilesCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type NetworkExperimentProfilesDeleteError = AzureOpError;
-/** Deletes an NetworkExperiment Profile by ProfileName Deletes an NetworkExperiment Profile by ProfileName */
-export const NetworkExperimentProfilesDelete: API.OperationMethod<
-  NetworkExperimentProfilesDeleteRequest,
-  NetworkExperimentProfilesDeleteResponse,
-  NetworkExperimentProfilesDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: NetworkExperimentProfilesDeleteRequest,
-  output: NetworkExperimentProfilesDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type NetworkExperimentProfilesGetError = AzureOpError;
-/** Gets an NetworkExperiment Profile by ProfileName Gets an NetworkExperiment Profile by ProfileName */
-export const NetworkExperimentProfilesGet: API.OperationMethod<
-  NetworkExperimentProfilesGetRequest,
-  NetworkExperimentProfilesGetResponse,
-  NetworkExperimentProfilesGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: NetworkExperimentProfilesGetRequest,
-  output: NetworkExperimentProfilesGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type NetworkExperimentProfilesListError = AzureOpError;
-/** Gets a list of Network Experiment Profiles under a subscription Gets a list of Network Experiment Profiles under a subscription */
-export const NetworkExperimentProfilesList: API.OperationMethod<
-  NetworkExperimentProfilesListRequest,
-  ProfileList,
-  NetworkExperimentProfilesListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: NetworkExperimentProfilesListRequest,
-  output: ProfileList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type NetworkExperimentProfilesListByResourceGroupError = AzureOpError;
-/** Gets a list of Network Experiment Profiles within a resource group under a subscription Gets a list of Network Experiment Profiles within a resource group under a subscription */
-export const NetworkExperimentProfilesListByResourceGroup: API.OperationMethod<
-  NetworkExperimentProfilesListByResourceGroupRequest,
-  ProfileList,
-  NetworkExperimentProfilesListByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: NetworkExperimentProfilesListByResourceGroupRequest,
-  output: ProfileList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type NetworkExperimentProfilesUpdateError = AzureOpError;
-/** Updates an NetworkExperimentProfiles by NetworkExperimentProfile name Updates an NetworkExperimentProfiles */
-export const NetworkExperimentProfilesUpdate: API.OperationMethod<
-  NetworkExperimentProfilesUpdateRequest,
-  NetworkExperimentProfilesUpdateResponse,
-  NetworkExperimentProfilesUpdateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: NetworkExperimentProfilesUpdateRequest,
-  output: NetworkExperimentProfilesUpdateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
 export type PoliciesCreateOrUpdateError = AzureOpError;
 /** Create or update policy with specified rule set name within a resource group. */
 export const PoliciesCreateOrUpdate: API.OperationMethod<
@@ -4779,121 +4863,16 @@ export const PoliciesCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type PoliciesDeleteError = AzureOpError;
-/** Deletes Policy */
-export const PoliciesDelete: API.OperationMethod<
-  PoliciesDeleteRequest,
-  PoliciesDeleteResponse,
-  PoliciesDeleteError,
+export type PurgeEndpointContentError = AzureOpError;
+/** Removes a content from Front Door. */
+export const PurgeEndpointContent: API.OperationMethod<
+  PurgeEndpointContentRequest,
+  PurgeEndpointContentResponse,
+  PurgeEndpointContentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: PoliciesDeleteRequest,
-  output: PoliciesDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PoliciesGetError = AzureOpError;
-/** Retrieve protection policy with specified name within a resource group. */
-export const PoliciesGet: API.OperationMethod<
-  PoliciesGetRequest,
-  PoliciesGetResponse,
-  PoliciesGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PoliciesGetRequest,
-  output: PoliciesGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PoliciesListError = AzureOpError;
-/** Lists all of the protection policies within a resource group. */
-export const PoliciesList: API.OperationMethod<
-  PoliciesListRequest,
-  WebApplicationFirewallPolicyList,
-  PoliciesListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PoliciesListRequest,
-  output: WebApplicationFirewallPolicyList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PoliciesListBySubscriptionError = AzureOpError;
-/** Lists all of the protection policies within a subscription. */
-export const PoliciesListBySubscription: API.OperationMethod<
-  PoliciesListBySubscriptionRequest,
-  WebApplicationFirewallPolicyList,
-  PoliciesListBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PoliciesListBySubscriptionRequest,
-  output: WebApplicationFirewallPolicyList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PoliciesUpdateError = AzureOpError;
-/** Patch a specific frontdoor webApplicationFirewall policy for tags update under the specified subscription and resource group. */
-export const PoliciesUpdate: API.OperationMethod<
-  PoliciesUpdateRequest,
-  PoliciesUpdateResponse,
-  PoliciesUpdateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PoliciesUpdateRequest,
-  output: PoliciesUpdateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PreconfiguredEndpointsListError = AzureOpError;
-/** Gets a list of Preconfigured Endpoints Gets a list of Preconfigured Endpoints */
-export const PreconfiguredEndpointsList: API.OperationMethod<
-  PreconfiguredEndpointsListRequest,
-  PreconfiguredEndpointList,
-  PreconfiguredEndpointsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PreconfiguredEndpointsListRequest,
-  output: PreconfiguredEndpointList,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ReportsGetLatencyScorecardsError = AzureOpError;
-/** Gets a Latency Scorecard for a given Experiment Gets a Latency Scorecard for a given Experiment */
-export const ReportsGetLatencyScorecards: API.OperationMethod<
-  ReportsGetLatencyScorecardsRequest,
-  ReportsGetLatencyScorecardsResponse,
-  ReportsGetLatencyScorecardsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ReportsGetLatencyScorecardsRequest,
-  output: ReportsGetLatencyScorecardsResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ReportsGetTimeseriesError = AzureOpError;
-/** Gets a Timeseries for a given Experiment Gets a Timeseries for a given Experiment */
-export const ReportsGetTimeseries: API.OperationMethod<
-  ReportsGetTimeseriesRequest,
-  ReportsGetTimeseriesResponse,
-  ReportsGetTimeseriesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ReportsGetTimeseriesRequest,
-  output: ReportsGetTimeseriesResponse,
+  input: PurgeEndpointContentRequest,
+  output: PurgeEndpointContentResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4914,46 +4893,61 @@ export const RulesEnginesCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type RulesEnginesDeleteError = AzureOpError;
-/** Deletes an existing Rules Engine Configuration with the specified parameters. */
-export const RulesEnginesDelete: API.OperationMethod<
-  RulesEnginesDeleteRequest,
-  RulesEnginesDeleteResponse,
-  RulesEnginesDeleteError,
+export type UpdateExperimentError = AzureOpError;
+/** Updates an Experiment by Experiment id Updates an Experiment */
+export const UpdateExperiment: API.OperationMethod<
+  UpdateExperimentRequest,
+  UpdateExperimentResponse,
+  UpdateExperimentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: RulesEnginesDeleteRequest,
-  output: RulesEnginesDeleteResponse,
+  input: UpdateExperimentRequest,
+  output: UpdateExperimentResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type RulesEnginesGetError = AzureOpError;
-/** Gets a Rules Engine Configuration with the specified name within the specified Front Door. */
-export const RulesEnginesGet: API.OperationMethod<
-  RulesEnginesGetRequest,
-  RulesEnginesGetResponse,
-  RulesEnginesGetError,
+export type UpdateNetworkExperimentProfileError = AzureOpError;
+/** Updates an NetworkExperimentProfiles by NetworkExperimentProfile name Updates an NetworkExperimentProfiles */
+export const UpdateNetworkExperimentProfile: API.OperationMethod<
+  UpdateNetworkExperimentProfileRequest,
+  UpdateNetworkExperimentProfileResponse,
+  UpdateNetworkExperimentProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: RulesEnginesGetRequest,
-  output: RulesEnginesGetResponse,
+  input: UpdateNetworkExperimentProfileRequest,
+  output: UpdateNetworkExperimentProfileResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type RulesEnginesListByFrontDoorError = AzureOpError;
-/** Lists all of the Rules Engine Configurations within a Front Door. */
-export const RulesEnginesListByFrontDoor: API.OperationMethod<
-  RulesEnginesListByFrontDoorRequest,
-  RulesEngineListResult,
-  RulesEnginesListByFrontDoorError,
+export type UpdatePolicyError = AzureOpError;
+/** Patch a specific frontdoor webApplicationFirewall policy for tags update under the specified subscription and resource group. */
+export const UpdatePolicy: API.OperationMethod<
+  UpdatePolicyRequest,
+  UpdatePolicyResponse,
+  UpdatePolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: RulesEnginesListByFrontDoorRequest,
-  output: RulesEngineListResult,
+  input: UpdatePolicyRequest,
+  output: UpdatePolicyResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ValidateFrontDoorCustomDomainError = AzureOpError;
+/** Validates the custom domain mapping to ensure it maps to the correct Front Door endpoint in DNS. */
+export const ValidateFrontDoorCustomDomain: API.OperationMethod<
+  ValidateFrontDoorCustomDomainRequest,
+  ValidateCustomDomainOutput,
+  ValidateFrontDoorCustomDomainError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ValidateFrontDoorCustomDomainRequest,
+  output: ValidateCustomDomainOutput,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

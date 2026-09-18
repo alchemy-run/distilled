@@ -106,7 +106,7 @@ export type IndexesCreateRequestConfigIndexDimensionConfigurationMetric =
   | "euclidean"
   | "dot-product";
 export const IndexesCreateRequestConfigIndexDimensionConfigurationMetric =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface IndexesCreateRequestConfigIndexDimensionConfiguration {
   /** Specifies the number of dimensions for the index */
@@ -133,7 +133,7 @@ export type IndexesCreateRequestConfigVectorizeIndexPresetConfigurationPreset =
   | "openai/text-embedding-ada-002"
   | "cohere/embed-multilingual-v2.0";
 export const IndexesCreateRequestConfigVectorizeIndexPresetConfigurationPreset =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface IndexesCreateRequestConfigVectorizeIndexPresetConfiguration {
   /** Specifies the preset to use for the index. */
@@ -189,7 +189,7 @@ export type IndexesCreateResponseConfigMetric =
   | "cosine"
   | "euclidean"
   | "dot-product";
-export const IndexesCreateResponseConfigMetric = /*@__PURE__*/ S.String;
+export const IndexesCreateResponseConfigMetric = S.String;
 
 export interface IndexesCreateResponseConfig {
   /** Specifies the number of dimensions for the index */
@@ -233,8 +233,7 @@ export type IndexesMetadataIndexCreateRequestIndexType =
   | "string"
   | "number"
   | "boolean";
-export const IndexesMetadataIndexCreateRequestIndexType =
-  /*@__PURE__*/ S.String;
+export const IndexesMetadataIndexCreateRequestIndexType = S.String;
 
 export interface CreateIndexMetadataIndexRequest {
   /** Identifier */
@@ -450,7 +449,7 @@ export type IndexesGetResponseConfigMetric =
   | "cosine"
   | "euclidean"
   | "dot-product";
-export const IndexesGetResponseConfigMetric = /*@__PURE__*/ S.String;
+export const IndexesGetResponseConfigMetric = S.String;
 
 export interface IndexesGetResponseConfig {
   /** Specifies the number of dimensions for the index */
@@ -490,12 +489,12 @@ export const GetIndexResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetIndexResponse",
 }) as any as S.Schema<GetIndexResponse>;
 
-export interface InfoIndexRequest {
+export interface GetIndexInfoRequest {
   /** Identifier */
   accountId: string;
   indexName: string;
 }
-export const InfoIndexRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetIndexInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     indexName: S.String.pipe(T.Label("index_name")),
@@ -509,11 +508,11 @@ export const InfoIndexRequest = /*@__PURE__*/ S.suspend(() =>
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
-  identifier: "InfoIndexRequest",
-}) as any as S.Schema<InfoIndexRequest>;
+  identifier: "GetIndexInfoRequest",
+}) as any as S.Schema<GetIndexInfoRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface InfoIndexResponse {
+export interface GetIndexInfoResponse {
   /** Specifies the number of dimensions for the index */
   dimensions?: number | null;
   /** Specifies the timestamp the last mutation batch was processed as an ISO8601 string. */
@@ -523,7 +522,7 @@ export interface InfoIndexResponse {
   /** Specifies the number of vectors present in the index */
   vectorCount?: number | null;
 }
-export const InfoIndexResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetIndexInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dimensions: S.optional(S.NullOr(S.Number)),
     processedUpToDatetime: S.optional(S.NullOr(S.String)),
@@ -531,11 +530,11 @@ export const InfoIndexResponse = /*@__PURE__*/ S.suspend(() =>
     vectorCount: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
-  identifier: "InfoIndexResponse",
-}) as any as S.Schema<InfoIndexResponse>;
+  identifier: "GetIndexInfoResponse",
+}) as any as S.Schema<GetIndexInfoResponse>;
 
 export type IndexesInsertRequestUnparsableBehavior = "error" | "discard";
-export const IndexesInsertRequestUnparsableBehavior = /*@__PURE__*/ S.String;
+export const IndexesInsertRequestUnparsableBehavior = S.String;
 
 export interface InsertIndexRequest {
   /** Identifier */
@@ -607,7 +606,7 @@ export type IndexesListResultItemConfigMetric =
   | "cosine"
   | "euclidean"
   | "dot-product";
-export const IndexesListResultItemConfigMetric = /*@__PURE__*/ S.String;
+export const IndexesListResultItemConfigMetric = S.String;
 
 export interface IndexesListResultItemConfig {
   /** Specifies the number of dimensions for the index */
@@ -693,7 +692,7 @@ export type IndexesMetadataIndexListResponseMetadataIndexesItemIndexType =
   | "number"
   | "boolean";
 export const IndexesMetadataIndexListResponseMetadataIndexesItemIndexType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface IndexesMetadataIndexListResponseMetadataIndexesItem {
   /** Specifies the type of indexed metadata property. */
@@ -816,7 +815,7 @@ export const IndexesQueryRequestVectorList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<IndexesQueryRequestVectorList>;
 
 export type IndexesQueryRequestReturnMetadata = "none" | "indexed" | "all";
-export const IndexesQueryRequestReturnMetadata = /*@__PURE__*/ S.String;
+export const IndexesQueryRequestReturnMetadata = S.String;
 
 export interface QueryIndexRequest {
   /** Identifier */
@@ -904,7 +903,7 @@ export const QueryIndexResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<QueryIndexResponse>;
 
 export type IndexesUpsertRequestUnparsableBehavior = "error" | "discard";
-export const IndexesUpsertRequestUnparsableBehavior = /*@__PURE__*/ S.String;
+export const IndexesUpsertRequestUnparsableBehavior = S.String;
 
 export interface UpsertIndexRequest {
   /** Identifier */
@@ -1087,16 +1086,16 @@ export const getIndex: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type InfoIndexError = CloudflareOpError;
+export type GetIndexInfoError = CloudflareOpError;
 /** Get information about a vectorize index. */
-export const infoIndex: API.OperationMethod<
-  InfoIndexRequest,
-  InfoIndexResponse,
-  InfoIndexError,
+export const getIndexInfo: API.OperationMethod<
+  GetIndexInfoRequest,
+  GetIndexInfoResponse,
+  GetIndexInfoError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: InfoIndexRequest,
-  output: InfoIndexResponse,
+  input: GetIndexInfoRequest,
+  output: GetIndexInfoResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,

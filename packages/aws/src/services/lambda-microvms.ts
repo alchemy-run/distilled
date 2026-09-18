@@ -101,6 +101,12 @@ export class ConflictException
     },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
+export class InsufficientCapacityException
+  extends /*@__PURE__*/ S.TaggedError<InsufficientCapacityException>()(
+    "InsufficientCapacityException",
+    { message: S.String.pipe(T.ErrorMessage()) },
+    T.HttpError(500),
+  ).pipe(C.withServerError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
@@ -282,7 +288,7 @@ export type NetworkConnector = string;
 export type NetworkConnectorList = string[];
 export const NetworkConnectorList = /*@__PURE__*/ S.Array(S.String);
 export type Architecture = "ARM_64" | (string & {});
-export const Architecture = /*@__PURE__*/ S.String;
+export const Architecture = S.String;
 
 export interface CpuConfiguration {
   architecture: Architecture;
@@ -303,12 +309,12 @@ export const Resources = /*@__PURE__*/ S.suspend(() =>
 export type ResourcesList = Resources[];
 export const ResourcesList = /*@__PURE__*/ S.Array(Resources);
 export type Capability = "ALL" | (string & {});
-export const Capability = /*@__PURE__*/ S.String;
+export const Capability = S.String;
 
 export type CapabilityList = Capability[];
 export const CapabilityList = /*@__PURE__*/ S.Array(Capability);
 export type HookState = "DISABLED" | "ENABLED" | (string & {});
-export const HookState = /*@__PURE__*/ S.String;
+export const HookState = S.String;
 
 export interface MicrovmHooks {
   run?: HookState;
@@ -361,11 +367,13 @@ export const Hooks = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Hooks" }) as any as S.Schema<Hooks>;
 export type EnvironmentVariableKey = string;
-export type EnvironmentVariableValue = string;
-export type EnvironmentVariableMap = { [key: string]: string | undefined };
+export type EnvironmentVariableValue = string | redacted.Redacted<string>;
+export type EnvironmentVariableMap = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
 export const EnvironmentVariableMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String.pipe(S.optional),
+  SensitiveString.pipe(S.optional),
 );
 export type ImageName = string;
 export type TagKey = string;
@@ -384,7 +392,9 @@ export interface CreateMicrovmImageRequest {
   resources?: Resources[];
   additionalOsCapabilities?: Capability[];
   hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | undefined };
+  environmentVariables?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   name: string;
   tags?: { [key: string]: string | undefined };
   clientToken?: string;
@@ -430,7 +440,7 @@ export type MicrovmImageState =
   | "DELETE_FAILED"
   | "DELETED"
   | (string & {});
-export const MicrovmImageState = /*@__PURE__*/ S.String;
+export const MicrovmImageState = S.String;
 
 export interface CreateMicrovmImageResponse {
   imageArn: string;
@@ -450,7 +460,9 @@ export interface CreateMicrovmImageResponse {
   resources?: Resources[];
   additionalOsCapabilities?: Capability[];
   hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | undefined };
+  environmentVariables?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   tags?: { [key: string]: string | undefined };
   updatedAt?: Date;
   imageVersion: string;
@@ -579,7 +591,7 @@ export type MicrovmImageVersionState =
   | "DELETED"
   | "DELETE_FAILED"
   | (string & {});
-export const MicrovmImageVersionState = /*@__PURE__*/ S.String;
+export const MicrovmImageVersionState = S.String;
 
 export interface DeleteMicrovmImageVersionOutput {
   imageIdentifier: string;
@@ -625,7 +637,7 @@ export type MicrovmState =
   | "TERMINATING"
   | "TERMINATED"
   | (string & {});
-export const MicrovmState = /*@__PURE__*/ S.String;
+export const MicrovmState = S.String;
 
 export type MicrovmImageArn = string;
 export interface IdlePolicy {
@@ -752,10 +764,10 @@ export type BuildState =
   | "SUCCESSFUL"
   | "FAILED"
   | (string & {});
-export const BuildState = /*@__PURE__*/ S.String;
+export const BuildState = S.String;
 
 export type Chipset = "GRAVITON" | (string & {});
-export const Chipset = /*@__PURE__*/ S.String;
+export const Chipset = S.String;
 
 export interface SnapshotBuild {
   memorySnapshotSizeInBytes?: number;
@@ -822,7 +834,7 @@ export const GetMicrovmImageVersionInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetMicrovmImageVersionInput",
 }) as any as S.Schema<GetMicrovmImageVersionInput>;
 export type MicrovmImageVersionStatus = "ACTIVE" | "INACTIVE" | (string & {});
-export const MicrovmImageVersionStatus = /*@__PURE__*/ S.String;
+export const MicrovmImageVersionStatus = S.String;
 
 export interface GetMicrovmImageVersionOutput {
   baseImageArn: string;
@@ -836,7 +848,9 @@ export interface GetMicrovmImageVersionOutput {
   resources?: Resources[];
   additionalOsCapabilities?: Capability[];
   hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | undefined };
+  environmentVariables?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   imageArn: string;
   imageVersion: string;
   state: MicrovmImageVersionState;
@@ -950,9 +964,16 @@ export const ListManagedMicrovmImageVersionsInput = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "ListManagedMicrovmImageVersionsInput",
 }) as any as S.Schema<ListManagedMicrovmImageVersionsInput>;
+export type ManagedMicrovmImageVersionStatus =
+  | "AVAILABLE"
+  | "DEPRECATED"
+  | (string & {});
+export const ManagedMicrovmImageVersionStatus = S.String;
+
 export interface ManagedMicrovmImageVersion {
   imageArn: string;
   imageVersion: string;
+  status?: ManagedMicrovmImageVersionStatus;
   createdAt: Date;
   updatedAt?: Date;
 }
@@ -960,6 +981,7 @@ export const ManagedMicrovmImageVersion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     imageArn: S.String,
     imageVersion: S.String,
+    status: S.optional(ManagedMicrovmImageVersionStatus),
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1153,7 +1175,9 @@ export interface MicrovmImageVersionSummary {
   resources?: Resources[];
   additionalOsCapabilities?: Capability[];
   hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | undefined };
+  environmentVariables?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   imageArn: string;
   imageVersion: string;
   state: MicrovmImageVersionState;
@@ -1311,6 +1335,7 @@ export const ResumeMicrovmResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ResumeMicrovmResponse",
 }) as any as S.Schema<ResumeMicrovmResponse>;
+export type RunHookPayload = string | redacted.Redacted<string>;
 export interface RunMicrovmRequest {
   ingressNetworkConnectors?: string[];
   egressNetworkConnectors?: string[];
@@ -1319,7 +1344,7 @@ export interface RunMicrovmRequest {
   executionRoleArn?: string;
   idlePolicy?: IdlePolicy;
   logging?: Logging;
-  runHookPayload?: string;
+  runHookPayload?: string | redacted.Redacted<string>;
   maximumDurationInSeconds?: number;
   clientToken?: string;
 }
@@ -1332,7 +1357,7 @@ export const RunMicrovmRequest = /*@__PURE__*/ S.suspend(() =>
     executionRoleArn: S.optional(S.String),
     idlePolicy: S.optional(IdlePolicy),
     logging: S.optional(Logging),
-    runHookPayload: S.optional(S.String),
+    runHookPayload: S.optional(SensitiveString),
     maximumDurationInSeconds: S.optional(S.Number),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
@@ -1508,7 +1533,9 @@ export interface UpdateMicrovmImageRequest {
   resources?: Resources[];
   additionalOsCapabilities?: Capability[];
   hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | undefined };
+  environmentVariables?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   imageIdentifier: string;
   clientToken?: string;
 }
@@ -1562,7 +1589,9 @@ export interface UpdateMicrovmImageResponse {
   resources?: Resources[];
   additionalOsCapabilities?: Capability[];
   hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | undefined };
+  environmentVariables?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   updatedAt: Date;
   imageVersion: string;
 }
@@ -1630,7 +1659,9 @@ export interface UpdateMicrovmImageVersionResponse {
   resources?: Resources[];
   additionalOsCapabilities?: Capability[];
   hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | undefined };
+  environmentVariables?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   imageArn: string;
   imageVersion: string;
   state: MicrovmImageVersionState;
@@ -1668,6 +1699,7 @@ export const UpdateMicrovmImageVersionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateMicrovmImageVersionResponse>;
 export type CreateMicrovmAuthTokenError =
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
@@ -1686,6 +1718,7 @@ export const createMicrovmAuthToken: API.OperationMethod<
   output: CreateMicrovmAuthTokenResponse,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -1732,6 +1765,7 @@ export const createMicrovmImage: API.OperationMethod<
 
 export type CreateMicrovmShellAuthTokenError =
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
@@ -1750,6 +1784,7 @@ export const createMicrovmShellAuthToken: API.OperationMethod<
   output: CreateMicrovmShellAuthTokenResponse,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -2225,6 +2260,7 @@ export const resumeMicrovm: API.OperationMethod<
 export type RunMicrovmError =
   | AccessDeniedException
   | ConflictException
+  | InsufficientCapacityException
   | InternalServerException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -2245,6 +2281,7 @@ export const runMicrovm: API.OperationMethod<
   errors: [
     AccessDeniedException,
     ConflictException,
+    InsufficientCapacityException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,

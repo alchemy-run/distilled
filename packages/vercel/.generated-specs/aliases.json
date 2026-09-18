@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.vercel.aliases#ListDeploymentAliasesRequest": {
@@ -580,15 +581,13 @@
         "email": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email of the user who created the alias",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Email of the user who created the alias"
           }
         },
         "username": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Username of the user who created the alias",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Username of the user who created the alias"
           }
         }
       },
@@ -609,8 +608,7 @@
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The deployment unique URL",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The deployment unique URL"
           }
         },
         "meta": {
@@ -1301,15 +1299,13 @@
         "email": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email of the user who created the alias",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Email of the user who created the alias"
           }
         },
         "username": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Username of the user who created the alias",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Username of the user who created the alias"
           }
         }
       },
@@ -1330,8 +1326,7 @@
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The deployment unique URL",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The deployment unique URL"
           }
         },
         "meta": {

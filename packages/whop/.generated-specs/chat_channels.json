@@ -1,0 +1,623 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.chat_channels#ListChatChannelRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id",
+            "smithy.api#required": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "product_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.chat_channels#ChatChannelListItem": {
+      "type": "structure",
+      "members": {
+        "ban_media": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether media uploads such as images and videos are blocked in this chat.",
+            "smithy.api#required": {}
+          }
+        },
+        "ban_urls": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether URL links are blocked from being posted in this chat.",
+            "smithy.api#required": {}
+          }
+        },
+        "banned_words": {
+          "target": "com.whop.chat_channels#ChatChannelListItemBannedWordsList",
+          "traits": {
+            "smithy.api#documentation": "A list of words that are automatically filtered from messages in this chat.",
+            "smithy.api#required": {}
+          }
+        },
+        "experience": {
+          "target": "com.whop.chat_channels#ChatChannelListItemExperience",
+          "traits": {
+            "smithy.api#documentation": "The experience this chat feed is attached to.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the entity",
+            "smithy.api#required": {}
+          }
+        },
+        "user_posts_cooldown_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum number of seconds a user must wait between consecutive messages. Null if no cooldown is enforced.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "who_can_post": {
+          "target": "com.whop.chat_channels#WhoCanPostTypes",
+          "traits": {
+            "smithy.api#documentation": "The permission level controlling which users can send messages in this chat.",
+            "smithy.api#required": {}
+          }
+        },
+        "who_can_react": {
+          "target": "com.whop.chat_channels#WhoCanReactTypes",
+          "traits": {
+            "smithy.api#documentation": "The permission level controlling which users can add reactions in this chat.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A real-time chat feed attached to an experience, with configurable moderation and posting permissions."
+      }
+    },
+    "com.whop.chat_channels#ChatChannelListItemBannedWordsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of words that are automatically filtered from messages in this chat."
+      }
+    },
+    "com.whop.chat_channels#ChatChannelListItemExperience": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the experience.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of this experience shown to users in the product navigation. Maximum 255 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The experience this chat feed is attached to."
+      }
+    },
+    "com.whop.chat_channels#WhoCanPostTypes": {
+      "type": "enum",
+      "members": {
+        "EVERYONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "everyone"
+          }
+        },
+        "ADMINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admins"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Who can post on a chat feed"
+      }
+    },
+    "com.whop.chat_channels#WhoCanReactTypes": {
+      "type": "enum",
+      "members": {
+        "EVERYONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "everyone"
+          }
+        },
+        "NO_ONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_one"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Who can react on a chat feed"
+      }
+    },
+    "com.whop.chat_channels#ListChatChannelResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.chat_channels#ChatChannelListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.chat_channels#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.chat_channels#ListChatChannelResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.chat_channels#ListChatChannelResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.chat_channels#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.chat_channels#ListChatChannel": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.chat_channels#ListChatChannelRequest"
+      },
+      "output": {
+        "target": "com.whop.chat_channels#ListChatChannelResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.chat_channels#BadRequest"
+        },
+        {
+          "target": "com.whop.chat_channels#Forbidden"
+        },
+        {
+          "target": "com.whop.chat_channels#NotFound"
+        },
+        {
+          "target": "com.whop.chat_channels#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/chat_channels",
+          "code": 200
+        },
+        "smithy.api#documentation": "List chat channels\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of chat channels within a specific company, with optional filtering by product.\n\nRequired permissions:\n - `chat:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.chat_channels#GetChatChannelRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the chat channel or experience to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.chat_channels#ChatChannel": {
+      "type": "structure",
+      "members": {
+        "ban_media": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether media uploads such as images and videos are blocked in this chat.",
+            "smithy.api#required": {}
+          }
+        },
+        "ban_urls": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether URL links are blocked from being posted in this chat.",
+            "smithy.api#required": {}
+          }
+        },
+        "banned_words": {
+          "target": "com.whop.chat_channels#ChatChannelBannedWordsList",
+          "traits": {
+            "smithy.api#documentation": "A list of words that are automatically filtered from messages in this chat.",
+            "smithy.api#required": {}
+          }
+        },
+        "experience": {
+          "target": "com.whop.chat_channels#ChatChannelExperience",
+          "traits": {
+            "smithy.api#documentation": "The experience this chat feed is attached to.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the entity",
+            "smithy.api#required": {}
+          }
+        },
+        "user_posts_cooldown_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum number of seconds a user must wait between consecutive messages. Null if no cooldown is enforced.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "who_can_post": {
+          "target": "com.whop.chat_channels#WhoCanPostTypes",
+          "traits": {
+            "smithy.api#documentation": "The permission level controlling which users can send messages in this chat.",
+            "smithy.api#required": {}
+          }
+        },
+        "who_can_react": {
+          "target": "com.whop.chat_channels#WhoCanReactTypes",
+          "traits": {
+            "smithy.api#documentation": "The permission level controlling which users can add reactions in this chat.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A real-time chat feed attached to an experience, with configurable moderation and posting permissions."
+      }
+    },
+    "com.whop.chat_channels#ChatChannelBannedWordsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of words that are automatically filtered from messages in this chat."
+      }
+    },
+    "com.whop.chat_channels#ChatChannelExperience": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the experience.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of this experience shown to users in the product navigation. Maximum 255 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The experience this chat feed is attached to."
+      }
+    },
+    "com.whop.chat_channels#GetChatChannel": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.chat_channels#GetChatChannelRequest"
+      },
+      "output": {
+        "target": "com.whop.chat_channels#ChatChannel"
+      },
+      "errors": [
+        {
+          "target": "com.whop.chat_channels#BadRequest"
+        },
+        {
+          "target": "com.whop.chat_channels#Forbidden"
+        },
+        {
+          "target": "com.whop.chat_channels#NotFound"
+        },
+        {
+          "target": "com.whop.chat_channels#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/chat_channels/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve chat channel\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing chat channel.\n\nRequired permissions:\n - `chat:read`"
+      }
+    },
+    "com.whop.chat_channels#UpdateChatChannelRequestBannedWordsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of words that are automatically blocked from messages in this chat channel. For example, ['spam', 'scam']."
+      }
+    },
+    "com.whop.chat_channels#UpdateChatChannelRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the chat channel to update. Accepts either an experience ID (e.g. 'exp_xxxxx') or a chat channel ID."
+          }
+        },
+        "ban_media": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether media uploads such as images and videos are banned in this chat channel.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ban_urls": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether URLs and links are banned from being posted in this chat channel.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "banned_words": {
+          "target": "com.whop.chat_channels#UpdateChatChannelRequestBannedWordsList",
+          "traits": {
+            "smithy.api#documentation": "A list of words that are automatically blocked from messages in this chat channel. For example, ['spam', 'scam'].",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_posts_cooldown_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum number of seconds a user must wait between sending messages in this chat channel.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "who_can_post": {
+          "target": "com.whop.chat_channels#WhoCanPostTypes",
+          "traits": {
+            "smithy.api#documentation": "Controls which roles are allowed to send messages in this chat channel.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "who_can_react": {
+          "target": "com.whop.chat_channels#WhoCanReactTypes",
+          "traits": {
+            "smithy.api#documentation": "Controls which roles are allowed to add reactions to messages in this chat channel.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.chat_channels#UpdateChatChannel": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.chat_channels#UpdateChatChannelRequest"
+      },
+      "output": {
+        "target": "com.whop.chat_channels#ChatChannel"
+      },
+      "errors": [
+        {
+          "target": "com.whop.chat_channels#BadRequest"
+        },
+        {
+          "target": "com.whop.chat_channels#Forbidden"
+        },
+        {
+          "target": "com.whop.chat_channels#NotFound"
+        },
+        {
+          "target": "com.whop.chat_channels#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/chat_channels/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update chat channel\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUpdate moderation settings for a chat channel, such as who can post, banned words, and media restrictions.\n\nRequired permissions:\n - `chat:moderate`"
+      }
+    },
+    "com.whop.chat_channels#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.chat_channels#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.chat_channels#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.chat_channels#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.chat_channels#ChatChannels": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.chat_channels#ListChatChannel"
+        },
+        {
+          "target": "com.whop.chat_channels#GetChatChannel"
+        },
+        {
+          "target": "com.whop.chat_channels#UpdateChatChannel"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

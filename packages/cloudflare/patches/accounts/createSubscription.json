@@ -1,14 +1,14 @@
 {
-  "description": "Align accounts#SubscriptionsCreate with distilled cloudflare/accounts createSubscription",
+  "description": "Align accounts#SubscriptionsCreate with distilled cloudflare/accounts createSubscription: the docs now offer this endpoint under both /accounts and /zones; keep the account-scope operation the SDK already ships and drop the zone twin (its per-scope copies fold back into the shared shapes).",
   "patches": [
     {
       "op": "move",
-      "from": "/shapes/com.cloudflare.accounts#SubscriptionsCreate",
+      "from": "/shapes/com.cloudflare.accounts#SubscriptionsCreateForAccount",
       "path": "/shapes/com.cloudflare.accounts#CreateSubscription"
     },
     {
       "op": "move",
-      "from": "/shapes/com.cloudflare.accounts#SubscriptionsCreateRequest",
+      "from": "/shapes/com.cloudflare.accounts#SubscriptionsCreateForAccountRequest",
       "path": "/shapes/com.cloudflare.accounts#CreateSubscriptionRequest"
     },
     {
@@ -18,7 +18,7 @@
     },
     {
       "op": "move",
-      "from": "/shapes/com.cloudflare.accounts#SubscriptionsCreateResponse",
+      "from": "/shapes/com.cloudflare.accounts#SubscriptionsCreateForAccountResponse",
       "path": "/shapes/com.cloudflare.accounts#CreateSubscriptionResponse"
     },
     {
@@ -37,6 +37,18 @@
           "target": "com.cloudflare.accounts#InvalidRoute"
         }
       ]
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.accounts#SubscriptionsCreateForZone"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.accounts#SubscriptionsCreateForZoneRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.accounts#SubscriptionsCreateForZoneResponse"
     }
   ]
 }

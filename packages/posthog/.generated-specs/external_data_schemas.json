@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.external_data_schemas#ExternalDataSchemasListRequest": {
+    "com.posthog.external_data_schemas#ListExternalDataSchemasRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -125,7 +126,7 @@
           }
         },
         "sync_type": {
-          "target": "com.posthog.external_data_schemas#SyncTypeEnum",
+          "target": "com.posthog.external_data_schemas#ExternalDataSchemaSyncTypeEnum",
           "traits": {
             "smithy.api#documentation": "Sync strategy: incremental, full_refresh, append, cdc, or xmin.\n\n* `full_refresh` - full_refresh\n* `incremental` - incremental\n* `append` - append\n* `webhook` - webhook\n* `cdc` - cdc\n* `xmin` - xmin",
             "com.distilled.openapi#nullable": {}
@@ -153,9 +154,9 @@
           }
         },
         "sync_frequency": {
-          "target": "com.posthog.external_data_schemas#SyncFrequencyEnum",
+          "target": "com.posthog.external_data_schemas#ExternalDataSchemaSyncFrequencyEnum",
           "traits": {
-            "smithy.api#documentation": "How often to sync.\n\n* `never` - never\n* `1min` - 1min\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day",
+            "smithy.api#documentation": "How often to sync. The fastest sync frequency is 5 minutes.\n\n* `never` - never\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -206,15 +207,44 @@
             "smithy.api#documentation": "Column metadata (name, data type, nullable) for this schema. For SQL sources this is the source-side schema discovered via `refresh_schemas`; for other sources (and once synced) it falls back to the synced table's columns. Empty only before the first successful sync/refresh."
           }
         },
+        "source_column_metadata_available": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether exact source-side column metadata is available for safe source-query projection."
+          }
+        },
         "source": {
           "target": "com.posthog.external_data_schemas#ExternalDataSchemaSource",
           "traits": {
-            "smithy.api#documentation": "Lightweight parent-source summary (id, source_type, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint — `null` elsewhere — so read-only views can render without fetching the full source and all its schemas.",
+            "smithy.api#documentation": "Lightweight parent-source summary (id, source_type, access_method, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint — `null` elsewhere — so read-only views can render without fetching the full source and all its schemas.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_version_deprecation": {
+          "target": "com.posthog.external_data_schemas#ExternalDataSourceApiVersionDeprecation",
+          "traits": {
+            "smithy.api#documentation": "Set when this schema's version override is deprecated by the vendor; null when there is no override or it is not deprecated. The source-level field covers the source pin.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_access_level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The effective access level the user has for this object",
             "com.distilled.openapi#nullable": {}
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "A schema of an external data source: its sync configuration and the warehouse table it syncs into."
+      }
     },
     "com.posthog.external_data_schemas#ExternalDataSchemaTableMap": {
       "type": "map",
@@ -226,7 +256,7 @@
       },
       "traits": {}
     },
-    "com.posthog.external_data_schemas#SyncTypeEnum": {
+    "com.posthog.external_data_schemas#ExternalDataSchemaSyncTypeEnum": {
       "type": "enum",
       "members": {
         "FULL_REFRESH": {
@@ -320,19 +350,13 @@
         "smithy.api#documentation": "* `integer` - integer\n* `numeric` - numeric\n* `datetime` - datetime\n* `date` - date\n* `timestamp` - timestamp\n* `objectid` - objectid\n* `xid` - xid"
       }
     },
-    "com.posthog.external_data_schemas#SyncFrequencyEnum": {
+    "com.posthog.external_data_schemas#ExternalDataSchemaSyncFrequencyEnum": {
       "type": "enum",
       "members": {
         "NEVER": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "never"
-          }
-        },
-        "_1MIN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "1min"
           }
         },
         "_5MIN": {
@@ -391,7 +415,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `never` - never\n* `1min` - 1min\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day"
+        "smithy.api#documentation": "* `never` - never\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day"
       }
     },
     "com.posthog.external_data_schemas#ExternalDataSchemaPrimaryKeyColumnsList": {
@@ -500,6 +524,13 @@
         "smithy.api#documentation": "Column metadata (name, data type, nullable) for this schema. For SQL sources this is the source-side schema discovered via `refresh_schemas`; for other sources (and once synced) it falls back to the synced table's columns. Empty only before the first successful sync/refresh."
       }
     },
+    "com.posthog.external_data_schemas#ExternalDataSchemaSourceSupportedApiVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.posthog.external_data_schemas#ExternalDataSchemaSource": {
       "type": "structure",
       "members": {
@@ -509,7 +540,16 @@
         "source_type": {
           "target": "smithy.api#String"
         },
+        "access_method": {
+          "target": "smithy.api#String"
+        },
         "supports_column_selection": {
+          "target": "smithy.api#Boolean"
+        },
+        "supports_row_filters": {
+          "target": "smithy.api#Boolean"
+        },
+        "requires_exact_column_metadata": {
           "target": "smithy.api#Boolean"
         },
         "user_access_level": {
@@ -517,11 +557,48 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "api_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supported_api_versions": {
+          "target": "com.posthog.external_data_schemas#ExternalDataSchemaSourceSupportedApiVersionsList"
         }
       },
       "traits": {
-        "smithy.api#documentation": "Lightweight parent-source summary (id, source_type, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint — `null` elsewhere — so read-only views can render without fetching the full source and all its schemas."
+        "smithy.api#documentation": "Lightweight parent-source summary (id, source_type, access_method, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint — `null` elsewhere — so read-only views can render without fetching the full source and all its schemas."
       }
+    },
+    "com.posthog.external_data_schemas#ExternalDataSourceApiVersionDeprecation": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deprecated vendor API version this source is pinned to.",
+            "smithy.api#required": {}
+          }
+        },
+        "sunset_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date the vendor stops serving this version; null if not announced.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "default_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source's current default vendor API version — the migration target.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
     },
     "com.posthog.external_data_schemas#PaginatedExternalDataSchemaListResultsList": {
       "type": "list",
@@ -530,10 +607,10 @@
       },
       "traits": {}
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasList": {
+    "com.posthog.external_data_schemas#ListExternalDataSchemas": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasListRequest"
+        "target": "com.posthog.external_data_schemas#ListExternalDataSchemasRequest"
       },
       "output": {
         "target": "com.posthog.external_data_schemas#PaginatedExternalDataSchemaList"
@@ -557,176 +634,7 @@
         }
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasCreateRequestPrimaryKeyColumnsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Column names for primary key deduplication."
-      }
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasCreateRequestEnabledColumnsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here."
-      }
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasCreateRequestRowFiltersItem": {
-      "type": "structure",
-      "members": {
-        "column": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "operator": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "One of: > >= < <= = != IN \"NOT IN\".",
-            "smithy.api#required": {}
-          }
-        },
-        "value": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Comparison value; must match the column's type. For `IN` / `NOT IN`, a comma-separated list (e.g. `1, 2, 3` or `'a','b'`).",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasCreateRequestRowFiltersList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasCreateRequestRowFiltersItem"
-      },
-      "traits": {
-        "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows."
-      }
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasCreateRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "should_sync": {
-          "target": "smithy.api#Boolean"
-        },
-        "sync_type": {
-          "target": "com.posthog.external_data_schemas#SyncTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Sync strategy: incremental, full_refresh, append, cdc, or xmin.\n\n* `full_refresh` - full_refresh\n* `incremental` - incremental\n* `append` - append\n* `webhook` - webhook\n* `cdc` - cdc\n* `xmin` - xmin",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Column name used to track sync progress.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field_type": {
-          "target": "com.posthog.external_data_schemas#IncrementalFieldTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Data type of the incremental field.\n\n* `integer` - integer\n* `numeric` - numeric\n* `datetime` - datetime\n* `date` - date\n* `timestamp` - timestamp\n* `objectid` - objectid\n* `xid` - xid",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field_lookback_seconds": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "sync_frequency": {
-          "target": "com.posthog.external_data_schemas#SyncFrequencyEnum",
-          "traits": {
-            "smithy.api#documentation": "How often to sync.\n\n* `never` - never\n* `1min` - 1min\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "sync_time_of_day": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "UTC time of day to run the sync (HH:MM:SS).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "primary_key_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasCreateRequestPrimaryKeyColumnsList",
-          "traits": {
-            "smithy.api#documentation": "Column names for primary key deduplication.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "cdc_table_mode": {
-          "target": "com.posthog.external_data_schemas#CdcTableModeEnum",
-          "traits": {
-            "smithy.api#documentation": "For CDC syncs: consolidated, cdc_only, or both.\n\n* `consolidated` - consolidated\n* `cdc_only` - cdc_only\n* `both` - both",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "enabled_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasCreateRequestEnabledColumnsList",
-          "traits": {
-            "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "row_filters": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasCreateRequestRowFiltersList",
-          "traits": {
-            "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows.",
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasCreate": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasCreateRequest"
-      },
-      "output": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchema"
-      },
-      "errors": [
-        {
-          "target": "com.posthog.external_data_schemas#BadRequest"
-        },
-        {
-          "target": "com.posthog.external_data_schemas#Forbidden"
-        },
-        {
-          "target": "com.posthog.external_data_schemas#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/external_data_schemas/",
-          "code": 200
-        }
-      }
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasRetrieveRequest": {
+    "com.posthog.external_data_schemas#GetExternalDataSchemaRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -750,10 +658,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasRetrieve": {
+    "com.posthog.external_data_schemas#GetExternalDataSchema": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasRetrieveRequest"
+        "target": "com.posthog.external_data_schemas#GetExternalDataSchemaRequest"
       },
       "output": {
         "target": "com.posthog.external_data_schemas#ExternalDataSchema"
@@ -774,7 +682,7 @@
         }
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasUpdateRequestPrimaryKeyColumnsList": {
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemaRequestPrimaryKeyColumnsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -783,7 +691,7 @@
         "smithy.api#documentation": "Column names for primary key deduplication."
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasUpdateRequestEnabledColumnsList": {
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemaRequestEnabledColumnsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -792,7 +700,7 @@
         "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here."
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasUpdateRequestRowFiltersItem": {
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemaRequestRowFiltersItem": {
       "type": "structure",
       "members": {
         "column": {
@@ -818,16 +726,16 @@
       },
       "traits": {}
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasUpdateRequestRowFiltersList": {
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemaRequestRowFiltersList": {
       "type": "list",
       "member": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasUpdateRequestRowFiltersItem"
+        "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemaRequestRowFiltersItem"
       },
       "traits": {
         "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows."
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasUpdateRequest": {
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemaRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -850,7 +758,7 @@
           "target": "smithy.api#Boolean"
         },
         "sync_type": {
-          "target": "com.posthog.external_data_schemas#SyncTypeEnum",
+          "target": "com.posthog.external_data_schemas#ExternalDataSchemaSyncTypeEnum",
           "traits": {
             "smithy.api#documentation": "Sync strategy: incremental, full_refresh, append, cdc, or xmin.\n\n* `full_refresh` - full_refresh\n* `incremental` - incremental\n* `append` - append\n* `webhook` - webhook\n* `cdc` - cdc\n* `xmin` - xmin",
             "com.distilled.openapi#nullable": {}
@@ -878,9 +786,9 @@
           }
         },
         "sync_frequency": {
-          "target": "com.posthog.external_data_schemas#SyncFrequencyEnum",
+          "target": "com.posthog.external_data_schemas#ExternalDataSchemaSyncFrequencyEnum",
           "traits": {
-            "smithy.api#documentation": "How often to sync.\n\n* `never` - never\n* `1min` - 1min\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day",
+            "smithy.api#documentation": "How often to sync. The fastest sync frequency is 5 minutes.\n\n* `never` - never\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -892,7 +800,7 @@
           }
         },
         "primary_key_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasUpdateRequestPrimaryKeyColumnsList",
+          "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemaRequestPrimaryKeyColumnsList",
           "traits": {
             "smithy.api#documentation": "Column names for primary key deduplication.",
             "com.distilled.openapi#nullable": {}
@@ -906,16 +814,23 @@
           }
         },
         "enabled_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasUpdateRequestEnabledColumnsList",
+          "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemaRequestEnabledColumnsList",
           "traits": {
             "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "row_filters": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasUpdateRequestRowFiltersList",
+          "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemaRequestRowFiltersList",
           "traits": {
             "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -924,10 +839,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasUpdate": {
+    "com.posthog.external_data_schemas#UpdateExternalDataSchema": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasUpdateRequest"
+        "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemaRequest"
       },
       "output": {
         "target": "com.posthog.external_data_schemas#ExternalDataSchema"
@@ -951,7 +866,7 @@
         }
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdateRequestPrimaryKeyColumnsList": {
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -960,7 +875,7 @@
         "smithy.api#documentation": "Column names for primary key deduplication."
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdateRequestEnabledColumnsList": {
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemasPartialRequestEnabledColumnsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -969,7 +884,7 @@
         "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here."
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdateRequestRowFiltersItem": {
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemasPartialRequestRowFiltersItem": {
       "type": "structure",
       "members": {
         "column": {
@@ -995,16 +910,16 @@
       },
       "traits": {}
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdateRequestRowFiltersList": {
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemasPartialRequestRowFiltersList": {
       "type": "list",
       "member": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdateRequestRowFiltersItem"
+        "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemasPartialRequestRowFiltersItem"
       },
       "traits": {
         "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows."
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdateRequest": {
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemasPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1027,7 +942,7 @@
           "target": "smithy.api#Boolean"
         },
         "sync_type": {
-          "target": "com.posthog.external_data_schemas#SyncTypeEnum",
+          "target": "com.posthog.external_data_schemas#ExternalDataSchemaSyncTypeEnum",
           "traits": {
             "smithy.api#documentation": "Sync strategy: incremental, full_refresh, append, cdc, or xmin.\n\n* `full_refresh` - full_refresh\n* `incremental` - incremental\n* `append` - append\n* `webhook` - webhook\n* `cdc` - cdc\n* `xmin` - xmin",
             "com.distilled.openapi#nullable": {}
@@ -1055,9 +970,9 @@
           }
         },
         "sync_frequency": {
-          "target": "com.posthog.external_data_schemas#SyncFrequencyEnum",
+          "target": "com.posthog.external_data_schemas#ExternalDataSchemaSyncFrequencyEnum",
           "traits": {
-            "smithy.api#documentation": "How often to sync.\n\n* `never` - never\n* `1min` - 1min\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day",
+            "smithy.api#documentation": "How often to sync. The fastest sync frequency is 5 minutes.\n\n* `never` - never\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1069,7 +984,7 @@
           }
         },
         "primary_key_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdateRequestPrimaryKeyColumnsList",
+          "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList",
           "traits": {
             "smithy.api#documentation": "Column names for primary key deduplication.",
             "com.distilled.openapi#nullable": {}
@@ -1083,16 +998,23 @@
           }
         },
         "enabled_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdateRequestEnabledColumnsList",
+          "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemasPartialRequestEnabledColumnsList",
           "traits": {
             "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "row_filters": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdateRequestRowFiltersList",
+          "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemasPartialRequestRowFiltersList",
           "traits": {
             "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -1101,10 +1023,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdate": {
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemasPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdateRequest"
+        "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemasPartialRequest"
       },
       "output": {
         "target": "com.posthog.external_data_schemas#ExternalDataSchema"
@@ -1176,59 +1098,6 @@
         }
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreateRequestPrimaryKeyColumnsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Column names for primary key deduplication."
-      }
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreateRequestEnabledColumnsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here."
-      }
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreateRequestRowFiltersItem": {
-      "type": "structure",
-      "members": {
-        "column": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "operator": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "One of: > >= < <= = != IN \"NOT IN\".",
-            "smithy.api#required": {}
-          }
-        },
-        "value": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Comparison value; must match the column's type. For `IN` / `NOT IN`, a comma-separated list (e.g. `1, 2, 3` or `'a','b'`).",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreateRequestRowFiltersList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreateRequestRowFiltersItem"
-      },
-      "traits": {
-        "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows."
-      }
-    },
     "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreateRequest": {
       "type": "structure",
       "members": {
@@ -1247,83 +1116,21 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "A UUID string identifying this external data schema."
           }
-        },
-        "should_sync": {
-          "target": "smithy.api#Boolean"
-        },
-        "sync_type": {
-          "target": "com.posthog.external_data_schemas#SyncTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Sync strategy: incremental, full_refresh, append, cdc, or xmin.\n\n* `full_refresh` - full_refresh\n* `incremental` - incremental\n* `append` - append\n* `webhook` - webhook\n* `cdc` - cdc\n* `xmin` - xmin",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Column name used to track sync progress.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field_type": {
-          "target": "com.posthog.external_data_schemas#IncrementalFieldTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Data type of the incremental field.\n\n* `integer` - integer\n* `numeric` - numeric\n* `datetime` - datetime\n* `date` - date\n* `timestamp` - timestamp\n* `objectid` - objectid\n* `xid` - xid",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field_lookback_seconds": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "sync_frequency": {
-          "target": "com.posthog.external_data_schemas#SyncFrequencyEnum",
-          "traits": {
-            "smithy.api#documentation": "How often to sync.\n\n* `never` - never\n* `1min` - 1min\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "sync_time_of_day": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "UTC time of day to run the sync (HH:MM:SS).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "primary_key_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreateRequestPrimaryKeyColumnsList",
-          "traits": {
-            "smithy.api#documentation": "Column names for primary key deduplication.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "cdc_table_mode": {
-          "target": "com.posthog.external_data_schemas#CdcTableModeEnum",
-          "traits": {
-            "smithy.api#documentation": "For CDC syncs: consolidated, cdc_only, or both.\n\n* `consolidated` - consolidated\n* `cdc_only` - cdc_only\n* `both` - both",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "enabled_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreateRequestEnabledColumnsList",
-          "traits": {
-            "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "row_filters": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreateRequestRowFiltersList",
-          "traits": {
-            "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows.",
-            "com.distilled.openapi#nullable": {}
-          }
         }
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreateResponse": {
+      "type": "structure",
+      "members": {
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreate": {
@@ -1332,7 +1139,7 @@
         "target": "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreateRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreateResponse"
       },
       "errors": [
         {
@@ -1353,7 +1160,7 @@
         }
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasDeleteDataDestroyRequest": {
+    "com.posthog.external_data_schemas#DeleteExternalDataSchemaDataDestroyRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1377,10 +1184,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasDeleteDataDestroy": {
+    "com.posthog.external_data_schemas#DeleteExternalDataSchemaDataDestroy": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasDeleteDataDestroyRequest"
+        "target": "com.posthog.external_data_schemas#DeleteExternalDataSchemaDataDestroyRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -1401,7 +1208,152 @@
         }
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreateRequestPrimaryKeyColumnsList": {
+    "com.posthog.external_data_schemas#GetExternalDataSchemasDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this external data schema."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.external_data_schemas#SchemaDestinations": {
+      "type": "structure",
+      "members": {
+        "destination_ids": {
+          "target": "com.posthog.external_data_schemas#SchemaDestinationsDestinationIdsList",
+          "traits": {
+            "smithy.api#documentation": "The table's own destinations, or null when it follows its source.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "inherits_from_source": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this table follows its source rather than having its own destinations.",
+            "smithy.api#required": {}
+          }
+        },
+        "effective_destination_ids": {
+          "target": "com.posthog.external_data_schemas#SchemaDestinationsEffectiveDestinationIdsList",
+          "traits": {
+            "smithy.api#documentation": "Where the table actually syncs, after inheritance is resolved."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response shape for a table's destination override."
+      }
+    },
+    "com.posthog.external_data_schemas#SchemaDestinationsDestinationIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The table's own destinations, or null when it follows its source."
+      }
+    },
+    "com.posthog.external_data_schemas#SchemaDestinationsEffectiveDestinationIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Where the table actually syncs, after inheritance is resolved."
+      }
+    },
+    "com.posthog.external_data_schemas#GetExternalDataSchemasDestination": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.external_data_schemas#GetExternalDataSchemasDestinationRequest"
+      },
+      "output": {
+        "target": "com.posthog.external_data_schemas#SchemaDestinations"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/destinations/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Read or replace this table's destination override.\n\nSend `destination_ids: null` to clear the override so the table follows its source again."
+      }
+    },
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemasDestinationsPartialRequestDestinationIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Destinations to sync to. On a table, null clears the override so the table follows its source again."
+      }
+    },
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemasDestinationsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this external data schema."
+          }
+        },
+        "destination_ids": {
+          "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemasDestinationsPartialRequestDestinationIdsList",
+          "traits": {
+            "smithy.api#documentation": "Destinations to sync to. On a table, null clears the override so the table follows its source again.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.external_data_schemas#UpdateExternalDataSchemasDestinationsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemasDestinationsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.external_data_schemas#SchemaDestinations"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/external_data_schemas/{id}/destinations/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Read or replace this table's destination override.\n\nSend `destination_ids: null` to clear the override so the table follows its source again."
+      }
+    },
+    "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -1410,7 +1362,7 @@
         "smithy.api#documentation": "Column names for primary key deduplication."
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreateRequestEnabledColumnsList": {
+    "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -1419,7 +1371,7 @@
         "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here."
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreateRequestRowFiltersItem": {
+    "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem": {
       "type": "structure",
       "members": {
         "column": {
@@ -1445,16 +1397,16 @@
       },
       "traits": {}
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreateRequestRowFiltersList": {
+    "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList": {
       "type": "list",
       "member": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreateRequestRowFiltersItem"
+        "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem"
       },
       "traits": {
         "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows."
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreateRequest": {
+    "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1477,7 +1429,7 @@
           "target": "smithy.api#Boolean"
         },
         "sync_type": {
-          "target": "com.posthog.external_data_schemas#SyncTypeEnum",
+          "target": "com.posthog.external_data_schemas#ExternalDataSchemaSyncTypeEnum",
           "traits": {
             "smithy.api#documentation": "Sync strategy: incremental, full_refresh, append, cdc, or xmin.\n\n* `full_refresh` - full_refresh\n* `incremental` - incremental\n* `append` - append\n* `webhook` - webhook\n* `cdc` - cdc\n* `xmin` - xmin",
             "com.distilled.openapi#nullable": {}
@@ -1505,9 +1457,9 @@
           }
         },
         "sync_frequency": {
-          "target": "com.posthog.external_data_schemas#SyncFrequencyEnum",
+          "target": "com.posthog.external_data_schemas#ExternalDataSchemaSyncFrequencyEnum",
           "traits": {
-            "smithy.api#documentation": "How often to sync.\n\n* `never` - never\n* `1min` - 1min\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day",
+            "smithy.api#documentation": "How often to sync. The fastest sync frequency is 5 minutes.\n\n* `never` - never\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1519,7 +1471,7 @@
           }
         },
         "primary_key_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreateRequestPrimaryKeyColumnsList",
+          "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList",
           "traits": {
             "smithy.api#documentation": "Column names for primary key deduplication.",
             "com.distilled.openapi#nullable": {}
@@ -1533,16 +1485,23 @@
           }
         },
         "enabled_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreateRequestEnabledColumnsList",
+          "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList",
           "traits": {
             "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "row_filters": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreateRequestRowFiltersList",
+          "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList",
           "traits": {
             "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -1551,10 +1510,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreate": {
+    "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalField": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreateRequest"
+        "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -1578,7 +1537,7 @@
         }
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasLogsRetrieveRequest": {
+    "com.posthog.external_data_schemas#GetExternalDataSchemasLogRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1601,7 +1560,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "Only return entries after this ISO 8601 timestamp."
+            "smithy.api#documentation": "Only return entries after this ISO 8601 timestamp. Defaults to 7 days ago; pass an explicit value to read further back."
           }
         },
         "before": {
@@ -1644,10 +1603,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasLogsRetrieve": {
+    "com.posthog.external_data_schemas#GetExternalDataSchemasLog": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasLogsRetrieveRequest"
+        "target": "com.posthog.external_data_schemas#GetExternalDataSchemasLogRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -1660,60 +1619,7 @@
         }
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasReloadCreateRequestPrimaryKeyColumnsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Column names for primary key deduplication."
-      }
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasReloadCreateRequestEnabledColumnsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here."
-      }
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasReloadCreateRequestRowFiltersItem": {
-      "type": "structure",
-      "members": {
-        "column": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "operator": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "One of: > >= < <= = != IN \"NOT IN\".",
-            "smithy.api#required": {}
-          }
-        },
-        "value": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Comparison value; must match the column's type. For `IN` / `NOT IN`, a comma-separated list (e.g. `1, 2, 3` or `'a','b'`).",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasReloadCreateRequestRowFiltersList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasReloadCreateRequestRowFiltersItem"
-      },
-      "traits": {
-        "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows."
-      }
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasReloadCreateRequest": {
+    "com.posthog.external_data_schemas#CreateExternalDataSchemasReloadRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1731,89 +1637,16 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "A UUID string identifying this external data schema."
           }
-        },
-        "should_sync": {
-          "target": "smithy.api#Boolean"
-        },
-        "sync_type": {
-          "target": "com.posthog.external_data_schemas#SyncTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Sync strategy: incremental, full_refresh, append, cdc, or xmin.\n\n* `full_refresh` - full_refresh\n* `incremental` - incremental\n* `append` - append\n* `webhook` - webhook\n* `cdc` - cdc\n* `xmin` - xmin",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Column name used to track sync progress.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field_type": {
-          "target": "com.posthog.external_data_schemas#IncrementalFieldTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Data type of the incremental field.\n\n* `integer` - integer\n* `numeric` - numeric\n* `datetime` - datetime\n* `date` - date\n* `timestamp` - timestamp\n* `objectid` - objectid\n* `xid` - xid",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field_lookback_seconds": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "sync_frequency": {
-          "target": "com.posthog.external_data_schemas#SyncFrequencyEnum",
-          "traits": {
-            "smithy.api#documentation": "How often to sync.\n\n* `never` - never\n* `1min` - 1min\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "sync_time_of_day": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "UTC time of day to run the sync (HH:MM:SS).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "primary_key_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasReloadCreateRequestPrimaryKeyColumnsList",
-          "traits": {
-            "smithy.api#documentation": "Column names for primary key deduplication.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "cdc_table_mode": {
-          "target": "com.posthog.external_data_schemas#CdcTableModeEnum",
-          "traits": {
-            "smithy.api#documentation": "For CDC syncs: consolidated, cdc_only, or both.\n\n* `consolidated` - consolidated\n* `cdc_only` - cdc_only\n* `both` - both",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "enabled_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasReloadCreateRequestEnabledColumnsList",
-          "traits": {
-            "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "row_filters": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasReloadCreateRequestRowFiltersList",
-          "traits": {
-            "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows.",
-            "com.distilled.openapi#nullable": {}
-          }
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasReloadCreate": {
+    "com.posthog.external_data_schemas#CreateExternalDataSchemasReload": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasReloadCreateRequest"
+        "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasReloadRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -1837,60 +1670,7 @@
         }
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasResyncCreateRequestPrimaryKeyColumnsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Column names for primary key deduplication."
-      }
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasResyncCreateRequestEnabledColumnsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here."
-      }
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasResyncCreateRequestRowFiltersItem": {
-      "type": "structure",
-      "members": {
-        "column": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "operator": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "One of: > >= < <= = != IN \"NOT IN\".",
-            "smithy.api#required": {}
-          }
-        },
-        "value": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Comparison value; must match the column's type. For `IN` / `NOT IN`, a comma-separated list (e.g. `1, 2, 3` or `'a','b'`).",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasResyncCreateRequestRowFiltersList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasResyncCreateRequestRowFiltersItem"
-      },
-      "traits": {
-        "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows."
-      }
-    },
-    "com.posthog.external_data_schemas#ExternalDataSchemasResyncCreateRequest": {
+    "com.posthog.external_data_schemas#CreateExternalDataSchemasResyncRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1908,89 +1688,16 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "A UUID string identifying this external data schema."
           }
-        },
-        "should_sync": {
-          "target": "smithy.api#Boolean"
-        },
-        "sync_type": {
-          "target": "com.posthog.external_data_schemas#SyncTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Sync strategy: incremental, full_refresh, append, cdc, or xmin.\n\n* `full_refresh` - full_refresh\n* `incremental` - incremental\n* `append` - append\n* `webhook` - webhook\n* `cdc` - cdc\n* `xmin` - xmin",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Column name used to track sync progress.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field_type": {
-          "target": "com.posthog.external_data_schemas#IncrementalFieldTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Data type of the incremental field.\n\n* `integer` - integer\n* `numeric` - numeric\n* `datetime` - datetime\n* `date` - date\n* `timestamp` - timestamp\n* `objectid` - objectid\n* `xid` - xid",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field_lookback_seconds": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "sync_frequency": {
-          "target": "com.posthog.external_data_schemas#SyncFrequencyEnum",
-          "traits": {
-            "smithy.api#documentation": "How often to sync.\n\n* `never` - never\n* `1min` - 1min\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "sync_time_of_day": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "UTC time of day to run the sync (HH:MM:SS).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "primary_key_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasResyncCreateRequestPrimaryKeyColumnsList",
-          "traits": {
-            "smithy.api#documentation": "Column names for primary key deduplication.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "cdc_table_mode": {
-          "target": "com.posthog.external_data_schemas#CdcTableModeEnum",
-          "traits": {
-            "smithy.api#documentation": "For CDC syncs: consolidated, cdc_only, or both.\n\n* `consolidated` - consolidated\n* `cdc_only` - cdc_only\n* `both` - both",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "enabled_columns": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasResyncCreateRequestEnabledColumnsList",
-          "traits": {
-            "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "row_filters": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasResyncCreateRequestRowFiltersList",
-          "traits": {
-            "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows.",
-            "com.distilled.openapi#nullable": {}
-          }
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.external_data_schemas#ExternalDataSchemasResyncCreate": {
+    "com.posthog.external_data_schemas#CreateExternalDataSchemasResync": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.external_data_schemas#ExternalDataSchemasResyncCreateRequest"
+        "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasResyncRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -2058,19 +1765,16 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasList"
+          "target": "com.posthog.external_data_schemas#ListExternalDataSchemas"
         },
         {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasCreate"
+          "target": "com.posthog.external_data_schemas#GetExternalDataSchema"
         },
         {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasRetrieve"
+          "target": "com.posthog.external_data_schemas#UpdateExternalDataSchema"
         },
         {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasUpdate"
-        },
-        {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdate"
+          "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemasPartial"
         },
         {
           "target": "com.posthog.external_data_schemas#ExternalDataSchemasDestroy"
@@ -2079,19 +1783,25 @@
           "target": "com.posthog.external_data_schemas#ExternalDataSchemasCancelCreate"
         },
         {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasDeleteDataDestroy"
+          "target": "com.posthog.external_data_schemas#DeleteExternalDataSchemaDataDestroy"
         },
         {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreate"
+          "target": "com.posthog.external_data_schemas#GetExternalDataSchemasDestination"
         },
         {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasLogsRetrieve"
+          "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemasDestinationsPartial"
         },
         {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasReloadCreate"
+          "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalField"
         },
         {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemasResyncCreate"
+          "target": "com.posthog.external_data_schemas#GetExternalDataSchemasLog"
+        },
+        {
+          "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasReload"
+        },
+        {
+          "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasResync"
         }
       ],
       "traits": {

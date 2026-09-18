@@ -161,23 +161,23 @@ export interface Lien {
   name?: string;
   /** A stable, user-visible/meaningful string identifying the origin of the Lien, intended to be inspected programmatically. Maximum length of 200 characters. Example: 'compute.googleapis.com' */
   origin?: string;
-  /** A reference to the resource this Lien is attached to. The server will validate the parent against those for which Liens are supported. Example: `projects/1234` */
-  parent?: string;
-  /** The types of operations which should be blocked as a result of this Lien. Each value should correspond to an IAM permission. The server will validate the permissions against those for which Liens are supported. An empty list is meaningless and will be rejected. Example: ['resourcemanager.projects.delete'] */
-  restrictions?: StringList;
   /** The creation time of this Lien. */
   createTime?: string;
+  /** A reference to the resource this Lien is attached to. The server will validate the parent against those for which Liens are supported. Example: `projects/1234` */
+  parent?: string;
   /** Concise user-visible strings indicating why an action cannot be performed on a resource. Maximum length of 200 characters. Example: 'Holds production API key' */
   reason?: string;
+  /** The types of operations which should be blocked as a result of this Lien. Each value should correspond to an IAM permission. The server will validate the permissions against those for which Liens are supported. An empty list is meaningless and will be rejected. Example: ['resourcemanager.projects.delete'] */
+  restrictions?: StringList;
 }
 export const Lien = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     origin: S.optional(S.String),
-    parent: S.optional(S.String),
-    restrictions: S.optional(StringList),
     createTime: S.optional(S.String),
+    parent: S.optional(S.String),
     reason: S.optional(S.String),
+    restrictions: S.optional(StringList),
   }),
 ).annotate({ identifier: "Lien" }) as any as S.Schema<Lien>;
 
@@ -199,6 +199,12 @@ export const CreateLiensRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateLiensRequest",
 }) as any as S.Schema<CreateLiensRequest>;
 
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StringMap>;
+
 /** A container to reference an id for any resource type. A `resource` in Google Cloud Platform is a generic term for something you (a developer) may want to interact with through one of our API's. Some examples are an App Engine app, a Compute Engine instance, a Cloud SQL database, and so on. */
 export interface ResourceId {
   /** The resource type this id is for. At present, the valid types are: "organization", "folder", and "project". */
@@ -213,50 +219,44 @@ export const ResourceId = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ResourceId" }) as any as S.Schema<ResourceId>;
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StringMap>;
-
 export type ProjectLifecycleStateEnum =
   | "LIFECYCLE_STATE_UNSPECIFIED"
   | "ACTIVE"
   | "DELETE_REQUESTED"
   | "DELETE_IN_PROGRESS";
-export const ProjectLifecycleStateEnum = /*@__PURE__*/ S.String;
+export const ProjectLifecycleStateEnum = S.String;
 
 /** A Project is a high-level Google Cloud Platform entity. It is a container for ACLs, APIs, App Engine Apps, VMs, and other Google Cloud Platform resources. */
 export interface Project {
-  /** The unique, user-assigned ID of the Project. It must be 6 to 30 lowercase letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `tokyo-rain-123` Read-only after creation. */
-  projectId?: string;
-  /** An optional reference to a parent Resource. Supported parent types include "organization" and "folder". Once set, the parent cannot be cleared. The `parent` can be set on creation or using the `UpdateProject` method; the end user must have the `resourcemanager.projects.create` permission on the parent. */
-  parent?: ResourceId;
-  /** Output only. If this project is a Management Project, list of capabilities configured on the parent folder. Note, presence of any capability implies that this is a Management Project. Example: `folders/123/capabilities/app-management`. OUTPUT ONLY. */
-  configuredCapabilities?: StringList;
-  /** The number uniquely identifying the project. Example: `415104041262` Read-only. */
-  projectNumber?: string;
   /** The labels associated with this Project. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: a-z{0,62}. Label values must be between 0 and 63 characters long and must conform to the regular expression [a-z0-9_-]{0,63}. A label value can be empty. No more than 256 labels can be associated with a given resource. Clients should store labels in a representation such as JSON that does not depend on specific characters being disallowed. Example: "environment" : "dev" Read-write. */
   labels?: StringMap;
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this project. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
   tags?: StringMap;
-  /** Creation time. Read-only. */
-  createTime?: string;
+  /** Output only. If this project is a Management Project, list of capabilities configured on the parent folder. Note, presence of any capability implies that this is a Management Project. Example: `folders/123/capabilities/app-management`. OUTPUT ONLY. */
+  configuredCapabilities?: StringList;
   /** The optional user-assigned display name of the Project. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My Project` Read-write. */
   name?: string;
+  /** An optional reference to a parent Resource. Supported parent types include "organization" and "folder". Once set, the parent cannot be cleared. The `parent` can be set on creation or using the `UpdateProject` method; the end user must have the `resourcemanager.projects.create` permission on the parent. */
+  parent?: ResourceId;
+  /** Creation time. Read-only. */
+  createTime?: string;
+  /** The number uniquely identifying the project. Example: `415104041262` Read-only. */
+  projectNumber?: string;
+  /** The unique, user-assigned ID of the Project. It must be 6 to 30 lowercase letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `tokyo-rain-123` Read-only after creation. */
+  projectId?: string;
   /** The Project lifecycle state. Read-only. */
   lifecycleState?: ProjectLifecycleStateEnum | (string & {});
 }
 export const Project = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    projectId: S.optional(S.String),
-    parent: S.optional(ResourceId),
-    configuredCapabilities: S.optional(StringList),
-    projectNumber: S.optional(S.String),
     labels: S.optional(StringMap),
     tags: S.optional(StringMap),
-    createTime: S.optional(S.String),
+    configuredCapabilities: S.optional(StringList),
     name: S.optional(S.String),
+    parent: S.optional(ResourceId),
+    createTime: S.optional(S.String),
+    projectNumber: S.optional(S.String),
+    projectId: S.optional(S.String),
     lifecycleState: S.optional(ProjectLifecycleStateEnum),
   }),
 ).annotate({ identifier: "Project" }) as any as S.Schema<Project>;
@@ -294,39 +294,39 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
-    code: S.optional(S.Number),
     details: S.optional(DocumentMapList),
+    code: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    done: S.optional(S.Boolean),
     error: S.optional(Status),
+    response: S.optional(DocumentMap),
     name: S.optional(S.String),
     metadata: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
-    response: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -458,32 +458,36 @@ export const GetEffectiveOrgPolicyFoldersRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetEffectiveOrgPolicyFoldersRequest",
 }) as any as S.Schema<GetEffectiveOrgPolicyFoldersRequest>;
 
+/** Ignores policies set above this resource and restores the `constraint_default` enforcement behavior of the specific `Constraint` at this resource. Suppose that `constraint_default` is set to `ALLOW` for the `Constraint` `constraints/serviceuser.services`. Suppose that organization foo.com sets a `Policy` at their Organization resource node that restricts the allowed service activations to deny all service activations. They could then set a `Policy` with the `policy_type` `restore_default` on several experimental projects, restoring the `constraint_default` enforcement of the `Constraint` for only those projects, allowing those projects to have all services activated. */
+export type RestoreDefault = GetAncestryRequest;
+export const RestoreDefault = GetAncestryRequest;
+
 export type ListPolicyAllValuesEnum =
   | "ALL_VALUES_UNSPECIFIED"
   | "ALLOW"
   | "DENY";
-export const ListPolicyAllValuesEnum = /*@__PURE__*/ S.String;
+export const ListPolicyAllValuesEnum = S.String;
 
 /** Used in `policy_type` to specify how `list_policy` behaves at this resource. `ListPolicy` can define specific values and subtrees of Cloud Resource Manager resource hierarchy (`Organizations`, `Folders`, `Projects`) that are allowed or denied by setting the `allowed_values` and `denied_values` fields. This is achieved by using the `under:` and optional `is:` prefixes. The `under:` prefix is used to denote resource subtree values. The `is:` prefix is used to denote specific values, and is required only if the value contains a ":". Values prefixed with "is:" are treated the same as values with no prefix. Ancestry subtrees must be in one of the following formats: - "projects/", e.g. "projects/tokyo-rain-123" - "folders/", e.g. "folders/1234" - "organizations/", e.g. "organizations/1234" The `supports_under` field of the associated `Constraint` defines whether ancestry prefixes can be used. You can set `allowed_values` and `denied_values` in the same `Policy` if `all_values` is `ALL_VALUES_UNSPECIFIED`. `ALLOW` or `DENY` are used to allow or deny all values. If `all_values` is set to either `ALLOW` or `DENY`, `allowed_values` and `denied_values` must be unset. */
 export interface ListPolicy {
-  /** The policy all_values state. */
-  allValues?: ListPolicyAllValuesEnum | (string & {});
-  /** List of values allowed at this resource. Can only be set if `all_values` is set to `ALL_VALUES_UNSPECIFIED`. */
-  allowedValues?: StringList;
-  /** List of values denied at this resource. Can only be set if `all_values` is set to `ALL_VALUES_UNSPECIFIED`. */
-  deniedValues?: StringList;
-  /** Optional. The Google Cloud Console will try to default to a configuration that matches the value specified in this `Policy`. If `suggested_value` is not set, it will inherit the value specified higher in the hierarchy, unless `inherit_from_parent` is `false`. */
-  suggestedValue?: string;
   /** Determines the inheritance behavior for this `Policy`. By default, a `ListPolicy` set at a resource supersedes any `Policy` set anywhere up the resource hierarchy. However, if `inherit_from_parent` is set to `true`, then the values from the effective `Policy` of the parent resource are inherited, meaning the values set in this `Policy` are added to the values inherited up the hierarchy. Setting `Policy` hierarchies that inherit both allowed values and denied values isn't recommended in most circumstances to keep the configuration simple and understandable. However, it is possible to set a `Policy` with `allowed_values` set that inherits a `Policy` with `denied_values` set. In this case, the values that are allowed must be in `allowed_values` and not present in `denied_values`. For example, suppose you have a `Constraint` `constraints/serviceuser.services`, which has a `constraint_type` of `list_constraint`, and with `constraint_default` set to `ALLOW`. Suppose that at the Organization level, a `Policy` is applied that restricts the allowed API activations to {`E1`, `E2`}. Then, if a `Policy` is applied to a project below the Organization that has `inherit_from_parent` set to `false` and field all_values set to DENY, then an attempt to activate any API will be denied. The following examples demonstrate different possible layerings for `projects/bar` parented by `organizations/foo`: Example 1 (no inherited values): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values:"E2"} `projects/bar` has `inherit_from_parent` `false` and values: {allowed_values: "E3" allowed_values: "E4"} The accepted values at `organizations/foo` are `E1`, `E2`. The accepted values at `projects/bar` are `E3`, and `E4`. Example 2 (inherited values): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values:"E2"} `projects/bar` has a `Policy` with values: {value: "E3" value: "E4" inherit_from_parent: true} The accepted values at `organizations/foo` are `E1`, `E2`. The accepted values at `projects/bar` are `E1`, `E2`, `E3`, and `E4`. Example 3 (inheriting both allowed and denied values): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values: "E2"} `projects/bar` has a `Policy` with: {denied_values: "E1"} The accepted values at `organizations/foo` are `E1`, `E2`. The value accepted at `projects/bar` is `E2`. Example 4 (RestoreDefault): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values:"E2"} `projects/bar` has a `Policy` with values: {RestoreDefault: {}} The accepted values at `organizations/foo` are `E1`, `E2`. The accepted values at `projects/bar` are either all or none depending on the value of `constraint_default` (if `ALLOW`, all; if `DENY`, none). Example 5 (no policy inherits parent policy): `organizations/foo` has no `Policy` set. `projects/bar` has no `Policy` set. The accepted values at both levels are either all or none depending on the value of `constraint_default` (if `ALLOW`, all; if `DENY`, none). Example 6 (ListConstraint allowing all): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values: "E2"} `projects/bar` has a `Policy` with: {all: ALLOW} The accepted values at `organizations/foo` are `E1`, E2`. Any value is accepted at `projects/bar`. Example 7 (ListConstraint allowing none): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values: "E2"} `projects/bar` has a `Policy` with: {all: DENY} The accepted values at `organizations/foo` are `E1`, E2`. No value is accepted at `projects/bar`. Example 10 (allowed and denied subtrees of Resource Manager hierarchy): Given the following resource hierarchy O1->{F1, F2}; F1->{P1}; F2->{P2, P3}, `organizations/foo` has a `Policy` with values: {allowed_values: "under:organizations/O1"} `projects/bar` has a `Policy` with: {allowed_values: "under:projects/P3"} {denied_values: "under:folders/F2"} The accepted values at `organizations/foo` are `organizations/O1`, `folders/F1`, `folders/F2`, `projects/P1`, `projects/P2`, `projects/P3`. The accepted values at `projects/bar` are `organizations/O1`, `folders/F1`, `projects/P1`. */
   inheritFromParent?: boolean;
+  /** Optional. The Google Cloud Console will try to default to a configuration that matches the value specified in this `Policy`. If `suggested_value` is not set, it will inherit the value specified higher in the hierarchy, unless `inherit_from_parent` is `false`. */
+  suggestedValue?: string;
+  /** List of values denied at this resource. Can only be set if `all_values` is set to `ALL_VALUES_UNSPECIFIED`. */
+  deniedValues?: StringList;
+  /** List of values allowed at this resource. Can only be set if `all_values` is set to `ALL_VALUES_UNSPECIFIED`. */
+  allowedValues?: StringList;
+  /** The policy all_values state. */
+  allValues?: ListPolicyAllValuesEnum | (string & {});
 }
 export const ListPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    allValues: S.optional(ListPolicyAllValuesEnum),
-    allowedValues: S.optional(StringList),
-    deniedValues: S.optional(StringList),
-    suggestedValue: S.optional(S.String),
     inheritFromParent: S.optional(S.Boolean),
+    suggestedValue: S.optional(S.String),
+    deniedValues: S.optional(StringList),
+    allowedValues: S.optional(StringList),
+    allValues: S.optional(ListPolicyAllValuesEnum),
   }),
 ).annotate({ identifier: "ListPolicy" }) as any as S.Schema<ListPolicy>;
 
@@ -498,36 +502,32 @@ export const BooleanPolicy = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "BooleanPolicy" }) as any as S.Schema<BooleanPolicy>;
 
-/** Ignores policies set above this resource and restores the `constraint_default` enforcement behavior of the specific `Constraint` at this resource. Suppose that `constraint_default` is set to `ALLOW` for the `Constraint` `constraints/serviceuser.services`. Suppose that organization foo.com sets a `Policy` at their Organization resource node that restricts the allowed service activations to deny all service activations. They could then set a `Policy` with the `policy_type` `restore_default` on several experimental projects, restoring the `constraint_default` enforcement of the `Constraint` for only those projects, allowing those projects to have all services activated. */
-export type RestoreDefault = GetAncestryRequest;
-export const RestoreDefault = GetAncestryRequest;
-
 /** Defines a Cloud Organization `Policy` which is used to specify `Constraints` for configurations of Cloud Platform resources. */
 export interface OrgPolicy {
   /** An opaque tag indicating the current version of the `Policy`, used for concurrency control. When the `Policy` is returned from either a `GetPolicy` or a `ListOrgPolicy` request, this `etag` indicates the version of the current `Policy` to use when executing a read-modify-write loop. When the `Policy` is returned from a `GetEffectivePolicy` request, the `etag` will be unset. When the `Policy` is used in a `SetOrgPolicy` method, use the `etag` value that was returned from a `GetOrgPolicy` request as part of a read-modify-write loop for concurrency control. Not setting the `etag`in a `SetOrgPolicy` request will result in an unconditional write of the `Policy`. */
   etag?: string;
-  /** The name of the `Constraint` the `Policy` is configuring, for example, `constraints/serviceuser.services`. A [list of available constraints](/resource-manager/docs/organization-policy/org-policy-constraints) is available. Immutable after creation. */
-  constraint?: string;
+  /** The time stamp the `Policy` was previously updated. This is set by the server, not specified by the caller, and represents the last time a call to `SetOrgPolicy` was made for that `Policy`. Any value set by the client will be ignored. */
+  updateTime?: string;
+  /** Restores the default behavior of the constraint; independent of `Constraint` type. */
+  restoreDefault?: GetAncestryRequest;
   /** List of values either allowed or disallowed. */
   listPolicy?: ListPolicy;
   /** For boolean `Constraints`, whether to enforce the `Constraint` or not. */
   booleanPolicy?: BooleanPolicy;
-  /** Restores the default behavior of the constraint; independent of `Constraint` type. */
-  restoreDefault?: GetAncestryRequest;
+  /** The name of the `Constraint` the `Policy` is configuring, for example, `constraints/serviceuser.services`. A [list of available constraints](/resource-manager/docs/organization-policy/org-policy-constraints) is available. Immutable after creation. */
+  constraint?: string;
   /** Version of the `Policy`. Default version is 0; */
   version?: number;
-  /** The time stamp the `Policy` was previously updated. This is set by the server, not specified by the caller, and represents the last time a call to `SetOrgPolicy` was made for that `Policy`. Any value set by the client will be ignored. */
-  updateTime?: string;
 }
 export const OrgPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     etag: S.optional(S.String),
-    constraint: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    restoreDefault: S.optional(GetAncestryRequest),
     listPolicy: S.optional(ListPolicy),
     booleanPolicy: S.optional(BooleanPolicy),
-    restoreDefault: S.optional(GetAncestryRequest),
+    constraint: S.optional(S.String),
     version: S.optional(S.Number),
-    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "OrgPolicy" }) as any as S.Schema<OrgPolicy>;
 
@@ -624,37 +624,37 @@ export const GetIamPolicyOrganizationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expression: S.optional(S.String),
-    location: S.optional(S.String),
     description: S.optional(S.String),
+    location: S.optional(S.String),
+    expression: S.optional(S.String),
     title: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   condition?: Expr;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
   members?: StringList;
 }
 export const Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    role: S.optional(S.String),
     condition: S.optional(Expr),
+    role: S.optional(S.String),
     members: S.optional(StringList),
   }),
 ).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
@@ -669,7 +669,7 @@ export type AuditLogConfigLogTypeEnum =
   | "ADMIN_READ"
   | "DATA_WRITE"
   | "DATA_READ";
-export const AuditLogConfigLogTypeEnum = /*@__PURE__*/ S.String;
+export const AuditLogConfigLogTypeEnum = S.String;
 
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
@@ -715,17 +715,17 @@ export interface Policy {
   version?: number;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     version: S.optional(S.Number),
     bindings: S.optional(BindingList),
-    etag: S.optional(S.String),
     auditConfigs: S.optional(AuditConfigList),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
@@ -821,7 +821,7 @@ export type OrganizationLifecycleStateEnum =
   | "LIFECYCLE_STATE_UNSPECIFIED"
   | "ACTIVE"
   | "DELETE_REQUESTED";
-export const OrganizationLifecycleStateEnum = /*@__PURE__*/ S.String;
+export const OrganizationLifecycleStateEnum = S.String;
 
 /** The root node in the resource hierarchy to which a particular entity's (e.g., company) resources belong. */
 export interface Organization {
@@ -829,20 +829,20 @@ export interface Organization {
   name?: string;
   /** The owner of this Organization. The owner should be specified on creation. Once set, it cannot be changed. This field is required. */
   owner?: OrganizationOwner;
-  /** A human-readable string that refers to the Organization in the Google Cloud console. This string is set by the server and cannot be changed. The string will be set to the primary domain (for example, "google.com") of the G Suite customer that owns the organization. */
-  displayName?: string;
   /** Timestamp when the Organization was created. Assigned by the server. */
   creationTime?: string;
   /** The organization's current lifecycle state. Assigned by the server. */
   lifecycleState?: OrganizationLifecycleStateEnum;
+  /** A human-readable string that refers to the Organization in the Google Cloud console. This string is set by the server and cannot be changed. The string will be set to the primary domain (for example, "google.com") of the G Suite customer that owns the organization. */
+  displayName?: string;
 }
 export const Organization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     owner: S.optional(OrganizationOwner),
-    displayName: S.optional(S.String),
     creationTime: S.optional(S.String),
     lifecycleState: S.optional(OrganizationLifecycleStateEnum),
+    displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Organization" }) as any as S.Schema<Organization>;
 
@@ -942,16 +942,16 @@ export const GetProjectsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The request sent to the `ListAvailableOrgPolicyConstraints` method on the project, folder, or organization. */
 export interface ListAvailableOrgPolicyConstraintsRequest {
-  /** Size of the pages to be returned. This is currently unsupported and will be ignored. The server may at any point start using this field to limit page size. */
-  pageSize?: number;
   /** Page token used to retrieve the next page. This is currently unsupported and will be ignored. The server may at any point start using this field. */
   pageToken?: string;
+  /** Size of the pages to be returned. This is currently unsupported and will be ignored. The server may at any point start using this field to limit page size. */
+  pageSize?: number;
 }
 export const ListAvailableOrgPolicyConstraintsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageSize: S.optional(S.Number),
       pageToken: S.optional(S.String),
+      pageSize: S.optional(S.Number),
     }),
 ).annotate({
   identifier: "ListAvailableOrgPolicyConstraintsRequest",
@@ -981,56 +981,56 @@ export const ListAvailableOrgPolicyConstraintsFoldersRequest =
     identifier: "ListAvailableOrgPolicyConstraintsFoldersRequest",
   }) as any as S.Schema<ListAvailableOrgPolicyConstraintsFoldersRequest>;
 
-export type ConstraintConstraintDefaultEnum =
-  | "CONSTRAINT_DEFAULT_UNSPECIFIED"
-  | "ALLOW"
-  | "DENY";
-export const ConstraintConstraintDefaultEnum = /*@__PURE__*/ S.String;
-
-/** A `Constraint` that allows or disallows a list of string values, which are configured by an Organization's policy administrator with a `Policy`. */
-export interface ListConstraint {
-  /** Optional. The Google Cloud Console will try to default to a configuration that matches the value specified in this `Constraint`. */
-  suggestedValue?: string;
-  /** Indicates whether subtrees of Cloud Resource Manager resource hierarchy can be used in `Policy.allowed_values` and `Policy.denied_values`. For example, `"under:folders/123"` would match any resource under the 'folders/123' folder. */
-  supportsUnder?: boolean;
-}
-export const ListConstraint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suggestedValue: S.optional(S.String),
-    supportsUnder: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ListConstraint" }) as any as S.Schema<ListConstraint>;
-
 /** A `Constraint` that is either enforced or not. For example a constraint `constraints/compute.disableSerialPortAccess`. If it is enforced on a VM instance, serial port connections will not be opened to that instance. */
 export type BooleanConstraint = GetAncestryRequest;
 export const BooleanConstraint = GetAncestryRequest;
 
+export type ConstraintConstraintDefaultEnum =
+  | "CONSTRAINT_DEFAULT_UNSPECIFIED"
+  | "ALLOW"
+  | "DENY";
+export const ConstraintConstraintDefaultEnum = S.String;
+
+/** A `Constraint` that allows or disallows a list of string values, which are configured by an Organization's policy administrator with a `Policy`. */
+export interface ListConstraint {
+  /** Indicates whether subtrees of Cloud Resource Manager resource hierarchy can be used in `Policy.allowed_values` and `Policy.denied_values`. For example, `"under:folders/123"` would match any resource under the 'folders/123' folder. */
+  supportsUnder?: boolean;
+  /** Optional. The Google Cloud Console will try to default to a configuration that matches the value specified in this `Constraint`. */
+  suggestedValue?: string;
+}
+export const ListConstraint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    supportsUnder: S.optional(S.Boolean),
+    suggestedValue: S.optional(S.String),
+  }),
+).annotate({ identifier: "ListConstraint" }) as any as S.Schema<ListConstraint>;
+
 /** A `Constraint` describes a way in which a resource's configuration can be restricted. For example, it controls which cloud services can be activated across an organization, or whether a Compute Engine instance can have serial port connections established. `Constraints` can be configured by the organization's policy administrator to fit the needs of the organzation by setting Policies for `Constraints` at different locations in the organization's resource hierarchy. Policies are inherited down the resource hierarchy from higher levels, but can also be overridden. For details about the inheritance rules please read about [Policies](/resource-manager/reference/rest/v1/Policy). `Constraints` have a default behavior determined by the `constraint_default` field, which is the enforcement behavior that is used in the absence of a `Policy` being defined or inherited for the resource in question. */
 export interface Constraint {
-  /** The human readable name. Mutable. */
-  displayName?: string;
-  /** The evaluation behavior of this constraint in the absence of 'Policy'. */
-  constraintDefault?: ConstraintConstraintDefaultEnum;
-  /** Defines this constraint as being a ListConstraint. */
-  listConstraint?: ListConstraint;
-  /** Detailed description of what this `Constraint` controls as well as how and where it is enforced. Mutable. */
-  description?: string;
-  /** Defines this constraint as being a BooleanConstraint. */
-  booleanConstraint?: GetAncestryRequest;
-  /** Version of the `Constraint`. Default version is 0; */
-  version?: number;
   /** Immutable value, required to globally be unique. For example, `constraints/serviceuser.services` */
   name?: string;
+  /** Defines this constraint as being a BooleanConstraint. */
+  booleanConstraint?: GetAncestryRequest;
+  /** The evaluation behavior of this constraint in the absence of 'Policy'. */
+  constraintDefault?: ConstraintConstraintDefaultEnum;
+  /** Version of the `Constraint`. Default version is 0; */
+  version?: number;
+  /** Detailed description of what this `Constraint` controls as well as how and where it is enforced. Mutable. */
+  description?: string;
+  /** Defines this constraint as being a ListConstraint. */
+  listConstraint?: ListConstraint;
+  /** The human readable name. Mutable. */
+  displayName?: string;
 }
 export const Constraint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    constraintDefault: S.optional(ConstraintConstraintDefaultEnum),
-    listConstraint: S.optional(ListConstraint),
-    description: S.optional(S.String),
-    booleanConstraint: S.optional(GetAncestryRequest),
-    version: S.optional(S.Number),
     name: S.optional(S.String),
+    booleanConstraint: S.optional(GetAncestryRequest),
+    constraintDefault: S.optional(ConstraintConstraintDefaultEnum),
+    version: S.optional(S.Number),
+    description: S.optional(S.String),
+    listConstraint: S.optional(ListConstraint),
+    displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Constraint" }) as any as S.Schema<Constraint>;
 
@@ -1135,15 +1135,15 @@ export const LienList = /*@__PURE__*/ S.Array(
 
 /** The response message for Liens.ListLiens. */
 export interface ListLiensResponse {
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
   /** A list of Liens. */
   liens?: LienList;
+  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string;
 }
 export const ListLiensResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     liens: S.optional(LienList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListLiensResponse",
@@ -1183,15 +1183,15 @@ export const OrgPolicyList = /*@__PURE__*/ S.Array(
 
 /** The response returned from the `ListOrgPolicies` method. It will be empty if no `Policies` are set on the resource. */
 export interface ListOrgPoliciesResponse {
-  /** Page token used to retrieve the next page. This is currently not used, but the server may at any point start supplying a valid token. */
-  nextPageToken?: string;
   /** The `Policies` that are set on the resource. It will be empty if no `Policies` are set. */
   policies?: OrgPolicyList;
+  /** Page token used to retrieve the next page. This is currently not used, but the server may at any point start supplying a valid token. */
+  nextPageToken?: string;
 }
 export const ListOrgPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     policies: S.optional(OrgPolicyList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListOrgPoliciesResponse",
@@ -1244,18 +1244,18 @@ export const ListOrgPoliciesProjectsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOrgPoliciesProjectsRequest>;
 
 export interface ListProjectsRequest {
-  /** Optional. The maximum number of Projects to return in the response. The server can return fewer Projects than requested. If unspecified, server picks an appropriate default. */
-  pageSize?: number;
-  /** Optional. A pagination token returned from a previous call to ListProjects that indicates from where listing should continue. */
-  pageToken?: string;
   /** Optional. An expression for filtering the results of the request. Filter rules are case insensitive. If multiple fields are included in a filter query, the query will return results that match any of the fields. Some eligible fields for filtering are: + `name` + `id` + `labels.` (where *key* is the name of a label) + `parent.type` + `parent.id` + `lifecycleState` Some examples of filter queries: | Query | Description | |------------------|-----------------------------------------------------| | name:how* | The project's name starts with "how". | | name:Howl | The project's name is `Howl` or `howl`. | | name:HOWL | Equivalent to above. | | NAME:howl | Equivalent to above. | | labels.color:* | The project has the label `color`. | | labels.color:red | The project's label `color` has the value `red`. | | labels.color:red labels.size:big | The project's label `color` has the value `red` or its label `size` has the value `big`. | | lifecycleState:DELETE_REQUESTED | Only show projects that are pending deletion.| If no filter is specified, the call will return projects for which the user has the `resourcemanager.projects.get` permission. NOTE: To perform a by-parent query (eg., what projects are directly in a Folder), the caller must have the `resourcemanager.projects.list` permission on the parent and the filter must contain both a `parent.type` and a `parent.id` restriction (example: "parent.type:folder parent.id:123"). In this case an alternate search index is used which provides more consistent results. */
   filter?: string;
+  /** Optional. A pagination token returned from a previous call to ListProjects that indicates from where listing should continue. */
+  pageToken?: string;
+  /** Optional. The maximum number of Projects to return in the response. The server can return fewer Projects than requested. If unspecified, server picks an appropriate default. */
+  pageSize?: number;
 }
 export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1274,15 +1274,15 @@ export const ProjectList = /*@__PURE__*/ S.Array(
 
 /** A page of the response received from the ListProjects method. A paginated response where more pages are available has `next_page_token` set. This token can be used in a subsequent request to retrieve the next request page. */
 export interface ListProjectsResponse {
-  /** The list of Projects that matched the list filter. This list can be paginated. */
-  projects?: ProjectList;
   /** Pagination token. If the result set is too large to fit in a single response, this token is returned. It encodes the position of the current result cursor. Feeding this value into a new list request with the `page_token` parameter gives the next page of the results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. Pagination tokens have a limited lifetime. */
   nextPageToken?: string;
+  /** The list of Projects that matched the list filter. This list can be paginated. */
+  projects?: ProjectList;
 }
 export const ListProjectsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    projects: S.optional(ProjectList),
     nextPageToken: S.optional(S.String),
+    projects: S.optional(ProjectList),
   }),
 ).annotate({
   identifier: "ListProjectsResponse",
@@ -1332,15 +1332,15 @@ export const OrganizationList = /*@__PURE__*/ S.Array(
 
 /** The response returned from the `SearchOrganizations` method. */
 export interface SearchOrganizationsResponse {
-  /** The list of Organizations that matched the search query, possibly paginated. */
-  organizations?: OrganizationList;
   /** A pagination token to be used to retrieve the next page of results. If the result is too large to fit within the page size specified in the request, this field will be set with a token that can be used to fetch the next page of results. If this field is empty, it indicates that this response contains the last page of results. */
   nextPageToken?: string;
+  /** The list of Organizations that matched the search query, possibly paginated. */
+  organizations?: OrganizationList;
 }
 export const SearchOrganizationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    organizations: S.optional(OrganizationList),
     nextPageToken: S.optional(S.String),
+    organizations: S.optional(OrganizationList),
   }),
 ).annotate({
   identifier: "SearchOrganizationsResponse",
@@ -1348,15 +1348,15 @@ export const SearchOrganizationsResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy;
 }
 export const SetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    policy: S.optional(Policy),
     updateMask: S.optional(S.String),
+    policy: S.optional(Policy),
   }),
 ).annotate({
   identifier: "SetIamPolicyRequest",

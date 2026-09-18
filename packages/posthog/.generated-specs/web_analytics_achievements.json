@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.web_analytics_achievements#WebAnalyticsAchievementsAcknowledgeCelebrationRequest": {
+    "com.posthog.web_analytics_achievements#AcknowledgeWebAnalyticsAchievementCelebrationRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -60,10 +61,10 @@
       },
       "traits": {}
     },
-    "com.posthog.web_analytics_achievements#WebAnalyticsAchievementsAcknowledgeCelebration": {
+    "com.posthog.web_analytics_achievements#AcknowledgeWebAnalyticsAchievementCelebration": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.web_analytics_achievements#WebAnalyticsAchievementsAcknowledgeCelebrationRequest"
+        "target": "com.posthog.web_analytics_achievements#AcknowledgeWebAnalyticsAchievementCelebrationRequest"
       },
       "output": {
         "target": "com.posthog.web_analytics_achievements#AcknowledgeCelebrationResponse"
@@ -365,6 +366,92 @@
         "smithy.api#documentation": "Get Web analytics achievements overview\n\nReturns the achievement track definitions (thresholds resolved for the requesting user's streak-cadence arm), the user's and team's progress, and any newly unlocked stages awaiting an in-session celebration."
       }
     },
+    "com.posthog.web_analytics_achievements#WebAnalyticsAchievementsPreferencesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics_achievements#WebAnalyticsUserPreferences": {
+      "type": "structure",
+      "members": {
+        "achievements_opt_out": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the requesting user has hidden the Web analytics achievements gamification UI and suppressed achievement-unlocked notifications for this project. Scoped per (project, user).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics_achievements#WebAnalyticsAchievementsPreferences": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics_achievements#WebAnalyticsAchievementsPreferencesRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics_achievements#WebAnalyticsUserPreferences"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/web_analytics_achievements/preferences/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Web analytics achievements preferences\n\nReturns the requesting user's per-project Web analytics achievements preferences."
+      }
+    },
+    "com.posthog.web_analytics_achievements#UpdateWebAnalyticsAchievementPreferencesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "achievements_opt_out": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the requesting user has hidden the Web analytics achievements gamification UI and suppressed achievement-unlocked notifications for this project. Scoped per (project, user).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics_achievements#UpdateWebAnalyticsAchievementPreferences": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics_achievements#UpdateWebAnalyticsAchievementPreferencesRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics_achievements#WebAnalyticsUserPreferences"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_achievements/preferences/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Web analytics achievements preferences\n\nSets the requesting user's per-project Web analytics achievements preferences."
+      }
+    },
     "com.posthog.web_analytics_achievements#InteractionKindEnum": {
       "type": "enum",
       "members": {
@@ -489,10 +576,16 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.web_analytics_achievements#WebAnalyticsAchievementsAcknowledgeCelebration"
+          "target": "com.posthog.web_analytics_achievements#AcknowledgeWebAnalyticsAchievementCelebration"
         },
         {
           "target": "com.posthog.web_analytics_achievements#WebAnalyticsAchievementsOverview"
+        },
+        {
+          "target": "com.posthog.web_analytics_achievements#WebAnalyticsAchievementsPreferences"
+        },
+        {
+          "target": "com.posthog.web_analytics_achievements#UpdateWebAnalyticsAchievementPreferences"
         },
         {
           "target": "com.posthog.web_analytics_achievements#WebAnalyticsAchievementsRecordInteraction"

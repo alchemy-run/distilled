@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.cohorts#CohortsListRequest": {
+    "com.posthog.cohorts#ListCohortsRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -32,7 +33,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "basic",
-            "smithy.api#documentation": "Return a basic payload that omits the heavy `filters`, `query`, and `groups` fields. Useful for pickers that only need id/name/count."
+            "smithy.api#documentation": "Return a basic payload that omits the `query`, `groups`, `last_error_message`, and `experiment_set` fields (`filters` is kept). Useful for pickers that only need id/name/count."
           }
         },
         "hide_behavioral_cohorts": {
@@ -54,6 +55,13 @@
           "traits": {
             "smithy.api#httpQuery": "offset",
             "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Optional. Match against cohort `name`. Returns exact (case-insensitive substring) matches only; if no exact match exists, returns similar (fuzzy trigram — typos, transpositions, prefix-as-you-type) matches instead. Each result's `search_match_type` is `exact` or `similar`. Results are ordered by relevance. When omitted, cohorts are ordered newest-first. Capped at 200 characters; longer queries return a 400 error."
           }
         }
       },
@@ -169,6 +177,20 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "last_import_total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of IDs supplied by the most recent static cohort import. Null if the cohort was never populated from a list of IDs.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_import_unmatched_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many of the IDs in the most recent static cohort import matched no person, and so were not added to the cohort.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "is_static": {
           "target": "smithy.api#Boolean"
         },
@@ -179,8 +201,22 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "condition_type": {
+          "target": "com.posthog.cohorts#CohortConditionTypeFlags",
+          "traits": {
+            "smithy.api#documentation": "Flags describing which kinds of conditions the cohort's filters contain. Null when the cohort has no filters to classify.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "experiment_set": {
           "target": "com.posthog.cohorts#CohortOutputExperimentSetList"
+        },
+        "search_match_type": {
+          "target": "com.posthog.cohorts#SearchMatchTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -190,6 +226,12 @@
       "members": {
         "properties": {
           "target": "com.posthog.cohorts#CohortFilterGroup"
+        },
+        "filterTestAccounts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -198,7 +240,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.posthog.cohorts#PropertyGroupOperator"
+          "target": "com.posthog.cohorts#PropertyGroupOperatorEnum"
         },
         "values": {
           "target": "com.posthog.cohorts#CohortFilterGroupValuesList"
@@ -208,7 +250,7 @@
         "smithy.api#documentation": "AND/OR group containing cohort filters. Named to avoid collision with analytics Group model."
       }
     },
-    "com.posthog.cohorts#PropertyGroupOperator": {
+    "com.posthog.cohorts#PropertyGroupOperatorEnum": {
       "type": "enum",
       "members": {
         "AND": {
@@ -493,6 +535,15 @@
     "com.posthog.cohorts#PersonFilter": {
       "type": "structure",
       "members": {
+        "operator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
         "bytecode": {
           "target": "com.posthog.cohorts#PersonFilterBytecodeList",
           "traits": {
@@ -517,6 +568,22 @@
         "key": {
           "target": "smithy.api#String"
         },
+        "negation": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.cohorts#PersonFilterBytecodeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.cohorts#PersonMetadataFilter": {
+      "type": "structure",
+      "members": {
         "operator": {
           "target": "smithy.api#String",
           "traits": {
@@ -526,13 +593,45 @@
         "value": {
           "target": "smithy.api#Document"
         },
+        "bytecode": {
+          "target": "com.posthog.cohorts#PersonMetadataFilterBytecodeList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bytecode_error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "conditionHash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "negation": {
           "target": "smithy.api#Boolean"
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Filter on a top-level persons-table column (e.g. created_at) rather than the\nproperties JSON. The matching key must be one of PERSON_METADATA_FIELDS."
+      }
     },
-    "com.posthog.cohorts#PersonFilterBytecodeList": {
+    "com.posthog.cohorts#PersonMetadataFilterBytecodeList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Document"
@@ -550,6 +649,9 @@
         },
         "PersonFilter": {
           "target": "com.posthog.cohorts#PersonFilter"
+        },
+        "PersonMetadataFilter": {
+          "target": "com.posthog.cohorts#PersonMetadataFilter"
         },
         "CohortFilterGroup": {
           "target": "com.posthog.cohorts#CohortFilterGroup"
@@ -664,6 +766,12 @@
             "smithy.api#enumValue": "sales"
           }
         },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
         "OTHER": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -672,7 +780,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `other` - Other"
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
       }
     },
     "com.posthog.cohorts#BlankEnum": {
@@ -751,10 +859,62 @@
         "smithy.api#documentation": "Type of cohort based on filter complexity\n\n* `static` - static\n* `person_property` - person_property\n* `behavioral` - behavioral\n* `realtime` - realtime\n* `analytical` - analytical"
       }
     },
+    "com.posthog.cohorts#CohortConditionTypeFlags": {
+      "type": "structure",
+      "members": {
+        "person_properties": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The filters include a person property or person_metadata condition.",
+            "smithy.api#required": {}
+          }
+        },
+        "behavioral": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The filters include a behavioral condition that is not lifecycle-style (e.g. performed_event, performed_event_multiple, performed_event_sequence, or their negations).",
+            "smithy.api#required": {}
+          }
+        },
+        "lifecycle": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The filters include a lifecycle-style behavioral condition (first-seen/regularly/stopped/restarted performing an event).",
+            "smithy.api#required": {}
+          }
+        },
+        "cohorts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The filters include a nested reference to another cohort.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.posthog.cohorts#CohortOutputExperimentSetList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
+      },
+      "traits": {}
+    },
+    "com.posthog.cohorts#SearchMatchTypeEnum": {
+      "type": "enum",
+      "members": {
+        "EXACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exact"
+          }
+        },
+        "SIMILAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "similar"
+          }
+        }
       },
       "traits": {}
     },
@@ -765,10 +925,10 @@
       },
       "traits": {}
     },
-    "com.posthog.cohorts#CohortsList": {
+    "com.posthog.cohorts#ListCohorts": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.cohorts#CohortsListRequest"
+        "target": "com.posthog.cohorts#ListCohortsRequest"
       },
       "output": {
         "target": "com.posthog.cohorts#PaginatedCohortListOutput"
@@ -792,7 +952,7 @@
         }
       }
     },
-    "com.posthog.cohorts#CohortsCreateRequestCohortType": {
+    "com.posthog.cohorts#CreateCohortRequestCohortType": {
       "type": "union",
       "members": {
         "CohortTypeEnum": {
@@ -806,14 +966,14 @@
         "smithy.api#documentation": "Type of cohort based on filter complexity\n\n* `static` - static\n* `person_property` - person_property\n* `behavioral` - behavioral\n* `realtime` - realtime\n* `analytical` - analytical"
       }
     },
-    "com.posthog.cohorts#CohortsCreateRequestCreateStaticPersonIdsList": {
+    "com.posthog.cohorts#CreateCohortRequestCreateStaticPersonIdsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.cohorts#CohortsCreateRequest": {
+    "com.posthog.cohorts#CreateCohortRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -852,7 +1012,7 @@
           "target": "smithy.api#Boolean"
         },
         "cohort_type": {
-          "target": "com.posthog.cohorts#CohortsCreateRequestCohortType",
+          "target": "com.posthog.cohorts#CreateCohortRequestCohortType",
           "traits": {
             "smithy.api#documentation": "Type of cohort based on filter complexity\n\n* `static` - static\n* `person_property` - person_property\n* `behavioral` - behavioral\n* `realtime` - realtime\n* `analytical` - analytical",
             "com.distilled.openapi#nullable": {}
@@ -862,17 +1022,17 @@
           "target": "smithy.api#String"
         },
         "_create_static_person_ids": {
-          "target": "com.posthog.cohorts#CohortsCreateRequestCreateStaticPersonIdsList"
+          "target": "com.posthog.cohorts#CreateCohortRequestCreateStaticPersonIdsList"
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.cohorts#CohortsCreate": {
+    "com.posthog.cohorts#CreateCohort": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.cohorts#CohortsCreateRequest"
+        "target": "com.posthog.cohorts#CreateCohortRequest"
       },
       "output": {
         "target": "com.posthog.cohorts#CohortOutput"
@@ -896,7 +1056,7 @@
         }
       }
     },
-    "com.posthog.cohorts#CohortsRetrieveRequest": {
+    "com.posthog.cohorts#GetCohortRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -920,10 +1080,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.cohorts#CohortsRetrieve": {
+    "com.posthog.cohorts#GetCohort": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.cohorts#CohortsRetrieveRequest"
+        "target": "com.posthog.cohorts#GetCohortRequest"
       },
       "output": {
         "target": "com.posthog.cohorts#CohortOutput"
@@ -944,7 +1104,7 @@
         }
       }
     },
-    "com.posthog.cohorts#CohortsUpdateRequestCohortType": {
+    "com.posthog.cohorts#UpdateCohortRequestCohortType": {
       "type": "union",
       "members": {
         "CohortTypeEnum": {
@@ -958,14 +1118,14 @@
         "smithy.api#documentation": "Type of cohort based on filter complexity\n\n* `static` - static\n* `person_property` - person_property\n* `behavioral` - behavioral\n* `realtime` - realtime\n* `analytical` - analytical"
       }
     },
-    "com.posthog.cohorts#CohortsUpdateRequestCreateStaticPersonIdsList": {
+    "com.posthog.cohorts#UpdateCohortRequestCreateStaticPersonIdsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.cohorts#CohortsUpdateRequest": {
+    "com.posthog.cohorts#UpdateCohortRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1012,7 +1172,7 @@
           "target": "smithy.api#Boolean"
         },
         "cohort_type": {
-          "target": "com.posthog.cohorts#CohortsUpdateRequestCohortType",
+          "target": "com.posthog.cohorts#UpdateCohortRequestCohortType",
           "traits": {
             "smithy.api#documentation": "Type of cohort based on filter complexity\n\n* `static` - static\n* `person_property` - person_property\n* `behavioral` - behavioral\n* `realtime` - realtime\n* `analytical` - analytical",
             "com.distilled.openapi#nullable": {}
@@ -1022,17 +1182,17 @@
           "target": "smithy.api#String"
         },
         "_create_static_person_ids": {
-          "target": "com.posthog.cohorts#CohortsUpdateRequestCreateStaticPersonIdsList"
+          "target": "com.posthog.cohorts#UpdateCohortRequestCreateStaticPersonIdsList"
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.cohorts#CohortsUpdate": {
+    "com.posthog.cohorts#UpdateCohort": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.cohorts#CohortsUpdateRequest"
+        "target": "com.posthog.cohorts#UpdateCohortRequest"
       },
       "output": {
         "target": "com.posthog.cohorts#CohortOutput"
@@ -1056,7 +1216,7 @@
         }
       }
     },
-    "com.posthog.cohorts#CohortsPartialUpdateRequestCohortType": {
+    "com.posthog.cohorts#UpdateCohortsPartialRequestCohortType": {
       "type": "union",
       "members": {
         "CohortTypeEnum": {
@@ -1070,14 +1230,14 @@
         "smithy.api#documentation": "Type of cohort based on filter complexity\n\n* `static` - static\n* `person_property` - person_property\n* `behavioral` - behavioral\n* `realtime` - realtime\n* `analytical` - analytical"
       }
     },
-    "com.posthog.cohorts#CohortsPartialUpdateRequestCreateStaticPersonIdsList": {
+    "com.posthog.cohorts#UpdateCohortsPartialRequestCreateStaticPersonIdsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.cohorts#CohortsPartialUpdateRequest": {
+    "com.posthog.cohorts#UpdateCohortsPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1124,7 +1284,7 @@
           "target": "smithy.api#Boolean"
         },
         "cohort_type": {
-          "target": "com.posthog.cohorts#CohortsPartialUpdateRequestCohortType",
+          "target": "com.posthog.cohorts#UpdateCohortsPartialRequestCohortType",
           "traits": {
             "smithy.api#documentation": "Type of cohort based on filter complexity\n\n* `static` - static\n* `person_property` - person_property\n* `behavioral` - behavioral\n* `realtime` - realtime\n* `analytical` - analytical",
             "com.distilled.openapi#nullable": {}
@@ -1134,17 +1294,17 @@
           "target": "smithy.api#String"
         },
         "_create_static_person_ids": {
-          "target": "com.posthog.cohorts#CohortsPartialUpdateRequestCreateStaticPersonIdsList"
+          "target": "com.posthog.cohorts#UpdateCohortsPartialRequestCreateStaticPersonIdsList"
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.cohorts#CohortsPartialUpdate": {
+    "com.posthog.cohorts#UpdateCohortsPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.cohorts#CohortsPartialUpdateRequest"
+        "target": "com.posthog.cohorts#UpdateCohortsPartialRequest"
       },
       "output": {
         "target": "com.posthog.cohorts#CohortOutput"
@@ -1217,7 +1377,7 @@
         "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
       }
     },
-    "com.posthog.cohorts#CohortsActivityRetrieveRequest": {
+    "com.posthog.cohorts#GetCohortsActivityRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1241,10 +1401,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.cohorts#CohortsActivityRetrieve": {
+    "com.posthog.cohorts#GetCohortsActivity": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.cohorts#CohortsActivityRetrieveRequest"
+        "target": "com.posthog.cohorts#GetCohortsActivityRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -1331,7 +1491,7 @@
         }
       }
     },
-    "com.posthog.cohorts#CohortsCalculationHistoryRetrieveRequest": {
+    "com.posthog.cohorts#GetCohortsCalculationHistoryRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1355,10 +1515,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.cohorts#CohortsCalculationHistoryRetrieve": {
+    "com.posthog.cohorts#GetCohortsCalculationHistory": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.cohorts#CohortsCalculationHistoryRetrieveRequest"
+        "target": "com.posthog.cohorts#GetCohortsCalculationHistoryRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -1379,7 +1539,7 @@
         }
       }
     },
-    "com.posthog.cohorts#CohortsPersonsRetrieveRequestFormat": {
+    "com.posthog.cohorts#GetCohortsPersonRequestFormat": {
       "type": "enum",
       "members": {
         "CSV": {
@@ -1397,7 +1557,7 @@
       },
       "traits": {}
     },
-    "com.posthog.cohorts#CohortsPersonsRetrieveRequest": {
+    "com.posthog.cohorts#GetCohortsPersonRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1417,7 +1577,7 @@
           }
         },
         "format": {
-          "target": "com.posthog.cohorts#CohortsPersonsRetrieveRequestFormat",
+          "target": "com.posthog.cohorts#GetCohortsPersonRequestFormat",
           "traits": {
             "smithy.api#httpQuery": "format"
           }
@@ -1598,10 +1758,10 @@
       },
       "traits": {}
     },
-    "com.posthog.cohorts#CohortsPersonsRetrieve": {
+    "com.posthog.cohorts#GetCohortsPerson": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.cohorts#CohortsPersonsRetrieveRequest"
+        "target": "com.posthog.cohorts#GetCohortsPersonRequest"
       },
       "output": {
         "target": "com.posthog.cohorts#CohortPersonsResponse"
@@ -1682,7 +1842,7 @@
         }
       }
     },
-    "com.posthog.cohorts#CohortsUsedInRetrieveRequest": {
+    "com.posthog.cohorts#GetCohortsUsedInRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1916,10 +2076,10 @@
         "smithy.api#documentation": "Cohorts that include this cohort as a criterion, capped at 100 results"
       }
     },
-    "com.posthog.cohorts#CohortsUsedInRetrieve": {
+    "com.posthog.cohorts#GetCohortsUsedIn": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.cohorts#CohortsUsedInRetrieveRequest"
+        "target": "com.posthog.cohorts#GetCohortsUsedInRequest"
       },
       "output": {
         "target": "com.posthog.cohorts#CohortUsedInResponse"
@@ -1932,7 +2092,7 @@
         }
       }
     },
-    "com.posthog.cohorts#CohortsAllActivityRetrieveRequest": {
+    "com.posthog.cohorts#GetCohortsAllActivityRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1948,10 +2108,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.cohorts#CohortsAllActivityRetrieve": {
+    "com.posthog.cohorts#GetCohortsAllActivity": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.cohorts#CohortsAllActivityRetrieveRequest"
+        "target": "com.posthog.cohorts#GetCohortsAllActivityRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -2016,43 +2176,43 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.cohorts#CohortsList"
+          "target": "com.posthog.cohorts#ListCohorts"
         },
         {
-          "target": "com.posthog.cohorts#CohortsCreate"
+          "target": "com.posthog.cohorts#CreateCohort"
         },
         {
-          "target": "com.posthog.cohorts#CohortsRetrieve"
+          "target": "com.posthog.cohorts#GetCohort"
         },
         {
-          "target": "com.posthog.cohorts#CohortsUpdate"
+          "target": "com.posthog.cohorts#UpdateCohort"
         },
         {
-          "target": "com.posthog.cohorts#CohortsPartialUpdate"
+          "target": "com.posthog.cohorts#UpdateCohortsPartial"
         },
         {
           "target": "com.posthog.cohorts#CohortsDestroy"
         },
         {
-          "target": "com.posthog.cohorts#CohortsActivityRetrieve"
+          "target": "com.posthog.cohorts#GetCohortsActivity"
         },
         {
           "target": "com.posthog.cohorts#CohortsAddPersonsToStaticCohortPartialUpdate"
         },
         {
-          "target": "com.posthog.cohorts#CohortsCalculationHistoryRetrieve"
+          "target": "com.posthog.cohorts#GetCohortsCalculationHistory"
         },
         {
-          "target": "com.posthog.cohorts#CohortsPersonsRetrieve"
+          "target": "com.posthog.cohorts#GetCohortsPerson"
         },
         {
           "target": "com.posthog.cohorts#CohortsRemovePersonFromStaticCohortPartialUpdate"
         },
         {
-          "target": "com.posthog.cohorts#CohortsUsedInRetrieve"
+          "target": "com.posthog.cohorts#GetCohortsUsedIn"
         },
         {
-          "target": "com.posthog.cohorts#CohortsAllActivityRetrieve"
+          "target": "com.posthog.cohorts#GetCohortsAllActivity"
         }
       ],
       "traits": {

@@ -74,31 +74,31 @@ export const StringList = /*@__PURE__*/ S.Array(
 export interface AddSubnetworkRequest {
   /** An optional description of the subnet. */
   description?: string;
+  /** Required. A resource that represents the service consumer, such as `projects/123456`. The project number can be different from the value in the consumer network parameter. For example, the network might be part of a Shared VPC network. In those cases, Service Networking validates that this resource belongs to that Shared VPC. */
+  consumer?: string;
+  /** A list of members that are granted the `compute.networkUser` role on the subnet. */
+  subnetworkUsers?: StringList;
+  /** Required. The name of a [region](/compute/docs/regions-zones) for the subnet, such `europe-west1`. */
+  region?: string;
+  /** Required. The prefix length of the subnet's IP address range. Use CIDR range notation, such as `30` to provision a subnet with an `x.x.x.x/30` CIDR range. The IP address range is drawn from a pool of available ranges in the service consumer's allocated range. */
+  ipPrefixLength?: number;
+  /** Required. A name for the new subnet. For information about the naming requirements, see [subnetwork](/compute/docs/reference/rest/v1/subnetworks) in the Compute API documentation. */
+  subnetwork?: string;
   /** Optional. The starting address of a range. The address must be a valid IPv4 address in the x.x.x.x format. This value combined with the IP prefix range is the CIDR range for the subnet. The range must be within the allocated range that is assigned to the private connection. If the CIDR range isn't available, the call fails. */
   requestedAddress?: string;
   /** Required. The name of the service consumer's VPC network. The network must have an existing private connection that was provisioned through the connections.create method. The name must be in the following format: `projects/{project}/global/networks/{network}`, where {project} is a project number, such as `12345`. {network} is the name of a VPC network in the project. */
   consumerNetwork?: string;
-  /** Required. The prefix length of the subnet's IP address range. Use CIDR range notation, such as `30` to provision a subnet with an `x.x.x.x/30` CIDR range. The IP address range is drawn from a pool of available ranges in the service consumer's allocated range. */
-  ipPrefixLength?: number;
-  /** A list of members that are granted the `compute.networkUser` role on the subnet. */
-  subnetworkUsers?: StringList;
-  /** Required. A resource that represents the service consumer, such as `projects/123456`. The project number can be different from the value in the consumer network parameter. For example, the network might be part of a Shared VPC network. In those cases, Service Networking validates that this resource belongs to that Shared VPC. */
-  consumer?: string;
-  /** Required. A name for the new subnet. For information about the naming requirements, see [subnetwork](/compute/docs/reference/rest/v1/subnetworks) in the Compute API documentation. */
-  subnetwork?: string;
-  /** Required. The name of a [region](/compute/docs/regions-zones) for the subnet, such `europe-west1`. */
-  region?: string;
 }
 export const AddSubnetworkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     description: S.optional(S.String),
+    consumer: S.optional(S.String),
+    subnetworkUsers: S.optional(StringList),
+    region: S.optional(S.String),
+    ipPrefixLength: S.optional(S.Number),
+    subnetwork: S.optional(S.String),
     requestedAddress: S.optional(S.String),
     consumerNetwork: S.optional(S.String),
-    ipPrefixLength: S.optional(S.Number),
-    subnetworkUsers: S.optional(StringList),
-    consumer: S.optional(S.String),
-    subnetwork: S.optional(S.String),
-    region: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AddSubnetworkRequest",
@@ -138,18 +138,18 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(DocumentMapList),
     code: S.optional(S.Number),
     message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
@@ -157,43 +157,43 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    done: S.optional(S.Boolean),
-    response: S.optional(DocumentMap),
     error: S.optional(Status),
     metadata: S.optional(DocumentMap),
+    response: S.optional(DocumentMap),
+    done: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
 /** Represents a private connection resource. A private connection is implemented as a VPC Network Peering connection between a service producer's VPC network and a service consumer's VPC network. */
 export interface GoogleCloudServicenetworkingV1betaConnection {
-  /** The name of service consumer's VPC network that's connected with service producer network, in the following format: `projects/{project}/global/networks/{network}`. `{project}` is a project number, such as in `12345` that includes the VPC service consumer's VPC network. `{network}` is the name of the service consumer's VPC network. */
-  network?: string;
-  /** Output only. The name of the peering service that's associated with this connection, in the following format: `services/{service name}`. */
-  service?: string;
   /** Output only. The name of the VPC Network Peering connection that was created by the service producer. */
   peering?: string;
   /** The name of one or more allocated IP address ranges for this service producer of type `PEERING`. Note that invoking this method with a different range when connection is already established will not modify already provisioned service producer subnetworks. */
   reservedPeeringRanges?: StringList;
+  /** The name of service consumer's VPC network that's connected with service producer network, in the following format: `projects/{project}/global/networks/{network}`. `{project}` is a project number, such as in `12345` that includes the VPC service consumer's VPC network. `{network}` is the name of the service consumer's VPC network. */
+  network?: string;
+  /** Output only. The name of the peering service that's associated with this connection, in the following format: `services/{service name}`. */
+  service?: string;
 }
 export const GoogleCloudServicenetworkingV1betaConnection =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      network: S.optional(S.String),
-      service: S.optional(S.String),
       peering: S.optional(S.String),
       reservedPeeringRanges: S.optional(StringList),
+      network: S.optional(S.String),
+      service: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudServicenetworkingV1betaConnection",
@@ -321,18 +321,18 @@ export const SearchRangeServicesRequest = /*@__PURE__*/ S.suspend(() =>
 export interface UpdateConnectionsServicesRequest {
   /** The update mask. If this is omitted, it defaults to "*". You can only update the listed peering ranges. */
   updateMask?: string;
-  /** The service producer peering service that is managing peering connectivity for a service producer organization. For Google services that support this functionality, this is `services/servicenetworking.googleapis.com`. */
-  name: string;
   /** If a previously defined allocated range is removed, force flag must be set to true. */
   force?: boolean;
+  /** The service producer peering service that is managing peering connectivity for a service producer organization. For Google services that support this functionality, this is `services/servicenetworking.googleapis.com`. */
+  name: string;
   /** Request body */
   body?: GoogleCloudServicenetworkingV1betaConnection;
 }
 export const UpdateConnectionsServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(
       GoogleCloudServicenetworkingV1betaConnection.pipe(T.HttpBody()),
     ),

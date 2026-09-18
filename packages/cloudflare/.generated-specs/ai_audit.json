@@ -1,0 +1,469 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.cloudflare.ai_audit#RobotsBulkGetRequestBodyList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGetRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.cloudflare.ai_audit#RobotsBulkGetRequestBodyList",
+          "traits": {
+            "smithy.api#documentation": "Array of domain hostnames to fetch robots.txt for. Each domain must end with the zone name. Maximum 25 domains per request.",
+            "smithy.api#required": {},
+            "smithy.api#httpPayload": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValueAllowList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValueDisallowList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValueContentSignalsAiInput": {
+      "type": "enum",
+      "members": {
+        "YES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes"
+          }
+        },
+        "NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValueContentSignalsAiTrain": {
+      "type": "enum",
+      "members": {
+        "YES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes"
+          }
+        },
+        "NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValueContentSignalsSearch": {
+      "type": "enum",
+      "members": {
+        "YES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes"
+          }
+        },
+        "NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValueContentSignals": {
+      "type": "structure",
+      "members": {
+        "ai_input": {
+          "target": "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValueContentSignalsAiInput",
+          "traits": {
+            "smithy.api#documentation": "Whether AI input usage is permitted.",
+            "smithy.api#jsonName": "ai-input"
+          }
+        },
+        "ai_train": {
+          "target": "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValueContentSignalsAiTrain",
+          "traits": {
+            "smithy.api#documentation": "Whether AI training is permitted.",
+            "smithy.api#jsonName": "ai-train"
+          }
+        },
+        "search": {
+          "target": "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValueContentSignalsSearch",
+          "traits": {
+            "smithy.api#documentation": "Whether search indexing is permitted."
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValue": {
+      "type": "structure",
+      "members": {
+        "allow": {
+          "target": "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValueAllowList",
+          "traits": {
+            "smithy.api#documentation": "List of allowed path patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "disallow": {
+          "target": "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValueDisallowList",
+          "traits": {
+            "smithy.api#documentation": "List of disallowed path patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "contentSignals": {
+          "target": "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValueContentSignals",
+          "traits": {
+            "smithy.api#documentation": "Content signal directives from robots.txt."
+          }
+        },
+        "crawlDelay": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Crawl delay in seconds."
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsValue"
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGetResultValueSitemapsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGetResultValue": {
+      "type": "structure",
+      "members": {
+        "userAgents": {
+          "target": "com.cloudflare.ai_audit#RobotsBulkGetResultValueUserAgentsMap",
+          "traits": {
+            "smithy.api#documentation": "Map of user-agent string to its parsed rules.",
+            "smithy.api#required": {}
+          }
+        },
+        "sitemaps": {
+          "target": "com.cloudflare.ai_audit#RobotsBulkGetResultValueSitemapsList",
+          "traits": {
+            "smithy.api#documentation": "List of sitemap URLs found in robots.txt."
+          }
+        },
+        "status": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "HTTP status code from fetching the robots.txt file."
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGetResultMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_audit#RobotsBulkGetResultValue"
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGetResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.ai_audit#RobotsBulkGetResultMap",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.ai_audit#RobotsBulkGet": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.ai_audit#RobotsBulkGetRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.ai_audit#RobotsBulkGetResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/zones/{zone_id}/ai-audit/robots/bulk",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetches and parses robots.txt files for multiple domains within a zone in a single request. Each domain must belong to the specified zone. Results are keyed by hostname."
+      }
+    },
+    "com.cloudflare.ai_audit#GetRobotRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subdomain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional subdomain to fetch robots.txt for. If omitted, fetches robots.txt for the zone apex domain.",
+            "smithy.api#httpQuery": "subdomain"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValueAllowList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValueDisallowList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValueContentSignalsAiInput": {
+      "type": "enum",
+      "members": {
+        "YES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes"
+          }
+        },
+        "NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValueContentSignalsAiTrain": {
+      "type": "enum",
+      "members": {
+        "YES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes"
+          }
+        },
+        "NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValueContentSignalsSearch": {
+      "type": "enum",
+      "members": {
+        "YES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yes"
+          }
+        },
+        "NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValueContentSignals": {
+      "type": "structure",
+      "members": {
+        "ai_input": {
+          "target": "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValueContentSignalsAiInput",
+          "traits": {
+            "smithy.api#documentation": "Whether AI input usage is permitted.",
+            "smithy.api#jsonName": "ai-input"
+          }
+        },
+        "ai_train": {
+          "target": "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValueContentSignalsAiTrain",
+          "traits": {
+            "smithy.api#documentation": "Whether AI training is permitted.",
+            "smithy.api#jsonName": "ai-train"
+          }
+        },
+        "search": {
+          "target": "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValueContentSignalsSearch",
+          "traits": {
+            "smithy.api#documentation": "Whether search indexing is permitted."
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValue": {
+      "type": "structure",
+      "members": {
+        "allow": {
+          "target": "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValueAllowList",
+          "traits": {
+            "smithy.api#documentation": "List of allowed path patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "disallow": {
+          "target": "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValueDisallowList",
+          "traits": {
+            "smithy.api#documentation": "List of disallowed path patterns.",
+            "smithy.api#required": {}
+          }
+        },
+        "contentSignals": {
+          "target": "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValueContentSignals",
+          "traits": {
+            "smithy.api#documentation": "Content signal directives from robots.txt."
+          }
+        },
+        "crawlDelay": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Crawl delay in seconds."
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_audit#GetRobotResponseUserAgentsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_audit#GetRobotResponseUserAgentsValue"
+      }
+    },
+    "com.cloudflare.ai_audit#GetRobotResponseSitemapsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai_audit#GetRobotResponse": {
+      "type": "structure",
+      "members": {
+        "userAgents": {
+          "target": "com.cloudflare.ai_audit#GetRobotResponseUserAgentsMap",
+          "traits": {
+            "smithy.api#documentation": "Map of user-agent string to its parsed rules.",
+            "smithy.api#required": {}
+          }
+        },
+        "sitemaps": {
+          "target": "com.cloudflare.ai_audit#GetRobotResponseSitemapsList",
+          "traits": {
+            "smithy.api#documentation": "List of sitemap URLs found in robots.txt."
+          }
+        },
+        "status": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "HTTP status code from fetching the robots.txt file."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.ai_audit#GetRobot": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.ai_audit#GetRobotRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.ai_audit#GetRobotResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/zones/{zone_id}/ai-audit/robots",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetches and parses the robots.txt file for a zone or a specific subdomain within the zone. Returns parsed user-agent rules, content signals, and sitemaps.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.ai_audit#AiAudit": {
+      "type": "service",
+      "version": "4.0",
+      "operations": [
+        {
+          "target": "com.cloudflare.ai_audit#RobotsBulkGet"
+        },
+        {
+          "target": "com.cloudflare.ai_audit#GetRobot"
+        }
+      ],
+      "traits": {
+        "com.cloudflare.protocols#v4Json": {},
+        "smithy.api#title": "Cloudflare AiAudit",
+        "smithy.api#documentation": "Cloudflare API — ai_audit resource. Speaks the v4 JSON envelope protocol; operation outputs describe the unwrapped `result` payload."
+      }
+    }
+  }
+}

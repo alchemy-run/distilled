@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.sandbox_environments#SandboxListRequest": {
+    "com.posthog.sandbox_environments#ListSandboxRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -101,8 +102,26 @@
         "allowed_domains": {
           "target": "com.posthog.sandbox_environments#SandboxEnvironmentDTOAllowedDomainsList"
         },
+        "include_default_domains": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "repositories": {
           "target": "com.posthog.sandbox_environments#SandboxEnvironmentDTORepositoriesList"
+        },
+        "has_environment_variables": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether any environment variables are set on this environment."
+          }
+        },
+        "environment_variable_keys": {
+          "target": "com.posthog.sandbox_environments#SandboxEnvironmentDTOEnvironmentVariableKeysList",
+          "traits": {
+            "smithy.api#documentation": "Names of the environment variables that are set, sorted. Values are write-only and never returned."
+          }
         },
         "private": {
           "target": "smithy.api#Boolean",
@@ -115,6 +134,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "effective_domains": {
+          "target": "com.posthog.sandbox_environments#SandboxEnvironmentDTOEffectiveDomainsList"
         },
         "created_by": {
           "target": "com.posthog.sandbox_environments#TaskUserBasicInfo",
@@ -133,10 +155,28 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "custom_image_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_image_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_image_status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "List response for sandbox environments (subset of fields)."
+        "smithy.api#documentation": "A sandbox environment, as returned by list, detail, create and update."
       }
     },
     "com.posthog.sandbox_environments#SandboxEnvironmentDTOAllowedDomainsList": {
@@ -147,6 +187,22 @@
       "traits": {}
     },
     "com.posthog.sandbox_environments#SandboxEnvironmentDTORepositoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.sandbox_environments#SandboxEnvironmentDTOEnvironmentVariableKeysList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the environment variables that are set, sorted. Values are write-only and never returned."
+      }
+    },
+    "com.posthog.sandbox_environments#SandboxEnvironmentDTOEffectiveDomainsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -232,10 +288,10 @@
       },
       "traits": {}
     },
-    "com.posthog.sandbox_environments#SandboxList": {
+    "com.posthog.sandbox_environments#ListSandbox": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.sandbox_environments#SandboxListRequest"
+        "target": "com.posthog.sandbox_environments#ListSandboxRequest"
       },
       "output": {
         "target": "com.posthog.sandbox_environments#PaginatedSandboxEnvironmentDTOList"
@@ -260,7 +316,7 @@
         "smithy.api#documentation": "API for managing sandbox environments that control network access for task runs."
       }
     },
-    "com.posthog.sandbox_environments#NetworkAccessLevelEnum": {
+    "com.posthog.sandbox_environments#SandboxEnvironmentNetworkAccessLevelEnum": {
       "type": "enum",
       "members": {
         "TRUSTED": {
@@ -286,7 +342,7 @@
         "smithy.api#documentation": "* `trusted` - Trusted\n* `full` - Full\n* `custom` - Custom"
       }
     },
-    "com.posthog.sandbox_environments#SandboxCreateRequestAllowedDomainsList": {
+    "com.posthog.sandbox_environments#CreateSandboxRequestAllowedDomainsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -295,7 +351,7 @@
         "smithy.api#documentation": "Allowed domains for custom network access."
       }
     },
-    "com.posthog.sandbox_environments#SandboxCreateRequestRepositoriesList": {
+    "com.posthog.sandbox_environments#CreateSandboxRequestRepositoriesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -304,7 +360,7 @@
         "smithy.api#documentation": "Repositories this environment applies to (format: org/repo)."
       }
     },
-    "com.posthog.sandbox_environments#SandboxCreateRequest": {
+    "com.posthog.sandbox_environments#CreateSandboxRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -323,13 +379,13 @@
           }
         },
         "network_access_level": {
-          "target": "com.posthog.sandbox_environments#NetworkAccessLevelEnum",
+          "target": "com.posthog.sandbox_environments#SandboxEnvironmentNetworkAccessLevelEnum",
           "traits": {
             "smithy.api#documentation": "Network access policy: trusted (default allowlist), full (unrestricted), or custom.\n\n* `trusted` - Trusted\n* `full` - Full\n* `custom` - Custom"
           }
         },
         "allowed_domains": {
-          "target": "com.posthog.sandbox_environments#SandboxCreateRequestAllowedDomainsList",
+          "target": "com.posthog.sandbox_environments#CreateSandboxRequestAllowedDomainsList",
           "traits": {
             "smithy.api#documentation": "Allowed domains for custom network access."
           }
@@ -341,7 +397,7 @@
           }
         },
         "repositories": {
-          "target": "com.posthog.sandbox_environments#SandboxCreateRequestRepositoriesList",
+          "target": "com.posthog.sandbox_environments#CreateSandboxRequestRepositoriesList",
           "traits": {
             "smithy.api#documentation": "Repositories this environment applies to (format: org/repo)."
           }
@@ -357,16 +413,23 @@
           "traits": {
             "smithy.api#documentation": "If true, only the creator can see this environment; otherwise the whole team can."
           }
+        },
+        "custom_image_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom base image for this environment's sandboxes (Modal VM runtime only); null uses the default base.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.sandbox_environments#SandboxCreate": {
+    "com.posthog.sandbox_environments#CreateSandbox": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.sandbox_environments#SandboxCreateRequest"
+        "target": "com.posthog.sandbox_environments#CreateSandboxRequest"
       },
       "output": {
         "target": "com.posthog.sandbox_environments#SandboxEnvironmentDTO"
@@ -391,7 +454,7 @@
         "smithy.api#documentation": "API for managing sandbox environments that control network access for task runs."
       }
     },
-    "com.posthog.sandbox_environments#SandboxRetrieveRequest": {
+    "com.posthog.sandbox_environments#GetSandboxRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -414,10 +477,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.sandbox_environments#SandboxRetrieve": {
+    "com.posthog.sandbox_environments#GetSandbox": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.sandbox_environments#SandboxRetrieveRequest"
+        "target": "com.posthog.sandbox_environments#GetSandboxRequest"
       },
       "output": {
         "target": "com.posthog.sandbox_environments#SandboxEnvironmentDTO"
@@ -439,7 +502,7 @@
         "smithy.api#documentation": "API for managing sandbox environments that control network access for task runs."
       }
     },
-    "com.posthog.sandbox_environments#SandboxPartialUpdateRequestAllowedDomainsList": {
+    "com.posthog.sandbox_environments#UpdateSandboxPartialRequestAllowedDomainsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -448,7 +511,7 @@
         "smithy.api#documentation": "Allowed domains for custom network access."
       }
     },
-    "com.posthog.sandbox_environments#SandboxPartialUpdateRequestRepositoriesList": {
+    "com.posthog.sandbox_environments#UpdateSandboxPartialRequestRepositoriesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -457,7 +520,7 @@
         "smithy.api#documentation": "Repositories this environment applies to (format: org/repo)."
       }
     },
-    "com.posthog.sandbox_environments#SandboxPartialUpdateRequest": {
+    "com.posthog.sandbox_environments#UpdateSandboxPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -482,13 +545,13 @@
           }
         },
         "network_access_level": {
-          "target": "com.posthog.sandbox_environments#NetworkAccessLevelEnum",
+          "target": "com.posthog.sandbox_environments#SandboxEnvironmentNetworkAccessLevelEnum",
           "traits": {
             "smithy.api#documentation": "Network access policy: trusted (default allowlist), full (unrestricted), or custom.\n\n* `trusted` - Trusted\n* `full` - Full\n* `custom` - Custom"
           }
         },
         "allowed_domains": {
-          "target": "com.posthog.sandbox_environments#SandboxPartialUpdateRequestAllowedDomainsList",
+          "target": "com.posthog.sandbox_environments#UpdateSandboxPartialRequestAllowedDomainsList",
           "traits": {
             "smithy.api#documentation": "Allowed domains for custom network access."
           }
@@ -500,7 +563,7 @@
           }
         },
         "repositories": {
-          "target": "com.posthog.sandbox_environments#SandboxPartialUpdateRequestRepositoriesList",
+          "target": "com.posthog.sandbox_environments#UpdateSandboxPartialRequestRepositoriesList",
           "traits": {
             "smithy.api#documentation": "Repositories this environment applies to (format: org/repo)."
           }
@@ -516,16 +579,23 @@
           "traits": {
             "smithy.api#documentation": "If true, only the creator can see this environment; otherwise the whole team can."
           }
+        },
+        "custom_image_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom base image for this environment's sandboxes (Modal VM runtime only); null uses the default base.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.sandbox_environments#SandboxPartialUpdate": {
+    "com.posthog.sandbox_environments#UpdateSandboxPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.sandbox_environments#SandboxPartialUpdateRequest"
+        "target": "com.posthog.sandbox_environments#UpdateSandboxPartialRequest"
       },
       "output": {
         "target": "com.posthog.sandbox_environments#SandboxEnvironmentDTO"
@@ -642,16 +712,16 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.sandbox_environments#SandboxList"
+          "target": "com.posthog.sandbox_environments#ListSandbox"
         },
         {
-          "target": "com.posthog.sandbox_environments#SandboxCreate"
+          "target": "com.posthog.sandbox_environments#CreateSandbox"
         },
         {
-          "target": "com.posthog.sandbox_environments#SandboxRetrieve"
+          "target": "com.posthog.sandbox_environments#GetSandbox"
         },
         {
-          "target": "com.posthog.sandbox_environments#SandboxPartialUpdate"
+          "target": "com.posthog.sandbox_environments#UpdateSandboxPartial"
         },
         {
           "target": "com.posthog.sandbox_environments#SandboxDestroy"

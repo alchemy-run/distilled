@@ -8,6 +8,9 @@ name: CI
 # CI is where that cost is worth paying: `typecheck:ci` re-enables
 # checking (`tsc -b --noCheck false`) across every package, so a
 # generator or patch bug can't reach npm.
+#
+# `stacks/*` are workspace members but are NOT in the root tsconfig's project
+# references, so `tsc -b` never sees them. They get their own job.
 
 on:
   push:
@@ -32,20 +35,47 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup pnpm & Bun
-        uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
+      - name: Setup pnpm, Node.js, Bun and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true
-          install: false
-
-      - name: Install Node 24
-        run: pnpm runtime set node 24 -g
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+          install: true
+          require-lockfile: true
 
       - name: Run Typecheck
         run: pnpm typecheck:ci
+
+  typecheck-stacks:
+    name: Typecheck (deployment stacks)
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm, Node.js, Bun and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      # A recursive filter rather than a matrix, so a new stack is covered the
+      # day it is added. Each stack's own `typecheck` script decides what that
+      # means — distilled-submodules also checks the mirror fetch scripts.
+      - name: Run Typecheck
+        run: pnpm --filter "./stacks/*" run typecheck
+
+      # The mirror manifest, the fetch scripts, `.gitmodules` and packages/
+      # have to agree, and the same rule runs at deploy time inside the stack
+      # — but a deploy only happens after merge. Checking it here means a PR
+      # that adds a provider fails on the PR. It also fails a package that
+      # reads its specs from the gitignored `.local` working copy, which is
+      # for local iteration only.
+      - name: Check spec mirrors
+        run: pnpm specs:check
+
+      - name: Test Prisma credentials and spec mirror identities
+        run: bun test packages/prisma/test/credentials.test.ts stacks/distilled-submodules/SpecRepos.test.ts
 
   format:
     name: Check formatting
@@ -54,17 +84,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup pnpm & Bun
-        uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
+      - name: Setup pnpm, Node.js, Bun and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true
-          install: false
-
-      - name: Install Node 24
-        run: pnpm runtime set node 24 -g
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+          install: true
+          require-lockfile: true
 
       - name: Check formatting
         run: pnpm format:check

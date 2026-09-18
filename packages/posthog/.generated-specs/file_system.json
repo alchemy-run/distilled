@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.file_system#FileSystemListRequest": {
+    "com.posthog.file_system#ListFileSystemRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -120,11 +121,165 @@
         "created_at": {
           "target": "smithy.api#String"
         },
+        "created_by": {
+          "target": "com.posthog.file_system#UserBasic",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "last_viewed_at": {
           "target": "smithy.api#String",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "user_access_level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resolved access level the user has for the object this entry references ('none' means the user can't open it). Null when access controls don't apply to the entry type.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.file_system#UserBasic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "uuid": {
+          "target": "smithy.api#String"
+        },
+        "distinct_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String"
+        },
+        "last_name": {
+          "target": "smithy.api#String"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "is_email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hedgehog_config": {
+          "target": "com.posthog.file_system#UserBasicHedgehogConfigMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role_at_organization": {
+          "target": "com.posthog.file_system#UserBasicRoleAtOrganization",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.file_system#UserBasicHedgehogConfigMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.file_system#RoleAtOrganizationEnum": {
+      "type": "enum",
+      "members": {
+        "ENGINEERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engineering"
+          }
+        },
+        "DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data"
+          }
+        },
+        "PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product"
+          }
+        },
+        "FOUNDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "founder"
+          }
+        },
+        "LEADERSHIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leadership"
+          }
+        },
+        "MARKETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marketing"
+          }
+        },
+        "SALES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales"
+          }
+        },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
+      }
+    },
+    "com.posthog.file_system#BlankEnum": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": ""
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.file_system#UserBasicRoleAtOrganization": {
+      "type": "union",
+      "members": {
+        "RoleAtOrganizationEnum": {
+          "target": "com.posthog.file_system#RoleAtOrganizationEnum"
+        },
+        "BlankEnum": {
+          "target": "com.posthog.file_system#BlankEnum"
         }
       },
       "traits": {}
@@ -136,10 +291,10 @@
       },
       "traits": {}
     },
-    "com.posthog.file_system#FileSystemList": {
+    "com.posthog.file_system#ListFileSystem": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.file_system#FileSystemListRequest"
+        "target": "com.posthog.file_system#ListFileSystemRequest"
       },
       "output": {
         "target": "com.posthog.file_system#PaginatedFileSystemList"
@@ -163,7 +318,7 @@
         }
       }
     },
-    "com.posthog.file_system#FileSystemCreateRequest": {
+    "com.posthog.file_system#CreateFileSystemRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -206,10 +361,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.file_system#FileSystemCreate": {
+    "com.posthog.file_system#CreateFileSystem": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.file_system#FileSystemCreateRequest"
+        "target": "com.posthog.file_system#CreateFileSystemRequest"
       },
       "output": {
         "target": "com.posthog.file_system#FileSystem2"
@@ -233,7 +388,7 @@
         }
       }
     },
-    "com.posthog.file_system#FileSystemRetrieveRequest": {
+    "com.posthog.file_system#GetFileSystemRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -257,10 +412,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.file_system#FileSystemRetrieve": {
+    "com.posthog.file_system#GetFileSystem": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.file_system#FileSystemRetrieveRequest"
+        "target": "com.posthog.file_system#GetFileSystemRequest"
       },
       "output": {
         "target": "com.posthog.file_system#FileSystem2"
@@ -281,7 +436,7 @@
         }
       }
     },
-    "com.posthog.file_system#FileSystemUpdateRequest": {
+    "com.posthog.file_system#UpdateFileSystemRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -332,10 +487,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.file_system#FileSystemUpdate": {
+    "com.posthog.file_system#UpdateFileSystem": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.file_system#FileSystemUpdateRequest"
+        "target": "com.posthog.file_system#UpdateFileSystemRequest"
       },
       "output": {
         "target": "com.posthog.file_system#FileSystem2"
@@ -359,7 +514,7 @@
         }
       }
     },
-    "com.posthog.file_system#FileSystemPartialUpdateRequest": {
+    "com.posthog.file_system#UpdateFileSystemPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -410,10 +565,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.file_system#FileSystemPartialUpdate": {
+    "com.posthog.file_system#UpdateFileSystemPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.file_system#FileSystemPartialUpdateRequest"
+        "target": "com.posthog.file_system#UpdateFileSystemPartialRequest"
       },
       "output": {
         "target": "com.posthog.file_system#FileSystem2"
@@ -599,19 +754,19 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.file_system#FileSystemList"
+          "target": "com.posthog.file_system#ListFileSystem"
         },
         {
-          "target": "com.posthog.file_system#FileSystemCreate"
+          "target": "com.posthog.file_system#CreateFileSystem"
         },
         {
-          "target": "com.posthog.file_system#FileSystemRetrieve"
+          "target": "com.posthog.file_system#GetFileSystem"
         },
         {
-          "target": "com.posthog.file_system#FileSystemUpdate"
+          "target": "com.posthog.file_system#UpdateFileSystem"
         },
         {
-          "target": "com.posthog.file_system#FileSystemPartialUpdate"
+          "target": "com.posthog.file_system#UpdateFileSystemPartial"
         },
         {
           "target": "com.posthog.file_system#FileSystemDestroy"

@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/typesense",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
@@ -49,6 +49,18 @@
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
       "default": "./lib/services/*.js"
+    },
+    "./Protocol": {
+      "types": "./lib/protocol.d.ts",
+      "bun": "./src/protocol.ts",
+      "worker": "./src/protocol.ts",
+      "default": "./lib/protocol.js"
+    },
+    "./Retry": {
+      "types": "./lib/retry.d.ts",
+      "bun": "./src/retry.ts",
+      "worker": "./src/retry.ts",
+      "default": "./lib/retry.js"
     }
   },
   "scripts": {
@@ -56,17 +68,19 @@
     "convert": "bun scripts/convert.ts",
     "generate": "bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "typecheck:strict": "tsc -p tsconfig.strict.json"
+    "typecheck:strict": "tsc -p tsconfig.strict.json",
+    "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-typesense",
+    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-typesense"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:tooling",
-    "@types/node": "catalog:tooling",
-    "@effect/platform-bun": "catalog:effect"
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "@effect/platform-bun": "catalog:"
   },
   "peerDependencies": {
-    "effect": "catalog:effect"
+    "effect": "catalog:"
   }
 }

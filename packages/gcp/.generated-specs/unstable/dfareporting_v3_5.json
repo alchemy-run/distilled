@@ -4,7 +4,8 @@
     "service": "dfareporting",
     "version": "v3.5",
     "title": "Campaign Manager 360 API",
-    "baseUrl": "https://dfareporting.googleapis.com/dfareporting/v3.5/"
+    "baseUrl": "https://dfareporting.googleapis.com/dfareporting/v3.5/",
+    "distilled.finalized": true
   },
   "shapes": {
     "com.gcp.dfareporting_v3_5#Size": {
@@ -14,12 +15,6 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "IAB standard size. This is a read-only, auto-generated field."
-          }
-        },
-        "kind": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifies what kind of resource this is. Value: the fixed string \"dfareporting#size\"."
           }
         },
         "id": {
@@ -39,71 +34,31 @@
           "traits": {
             "smithy.api#documentation": "Height of this size. Acceptable values are 0 to 32767, inclusive."
           }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies what kind of resource this is. Value: the fixed string \"dfareporting#size\"."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Represents the dimensions of ads, placements, creatives, or creative assets."
       }
     },
-    "com.gcp.dfareporting_v3_5#OffsetPosition": {
-      "type": "structure",
-      "members": {
-        "top": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Offset distance from top side of an asset or a window."
-          }
-        },
-        "left": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Offset distance from left side of an asset or a window."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Offset Position."
-      }
-    },
-    "com.gcp.dfareporting_v3_5#ClickTag": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Parameter name for the specified click tag. For DISPLAY_IMAGE_GALLERY creative assets, this field must match the value of the creative asset's creativeAssetId.name field."
-          }
-        },
-        "eventName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Advertiser event name associated with the click tag. This field is used by DISPLAY_IMAGE_GALLERY and HTML5_BANNER creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE."
-          }
-        },
-        "clickThroughUrl": {
-          "target": "com.gcp.dfareporting_v3_5#CreativeClickThroughUrl",
-          "traits": {
-            "smithy.api#documentation": "Parameter value for the specified click tag. This field contains a click-through url."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Creative Click Tag."
-      }
-    },
     "com.gcp.dfareporting_v3_5#CreativeClickThroughUrl": {
       "type": "structure",
       "members": {
-        "computedClickThroughUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Read-only convenience field representing the actual URL that will be used for this click-through. The URL is computed as follows: - If landingPageId is specified then that landing page's URL is assigned to this field. - Otherwise, the customClickThroughUrl is assigned to this field. "
-          }
-        },
         "landingPageId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "ID of the landing page for the click-through URL."
+          }
+        },
+        "computedClickThroughUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Read-only convenience field representing the actual URL that will be used for this click-through. The URL is computed as follows: - If landingPageId is specified then that landing page's URL is assigned to this field. - Otherwise, the customClickThroughUrl is assigned to this field. "
           }
         },
         "customClickThroughUrl": {
@@ -117,98 +72,45 @@
         "smithy.api#documentation": "Click-through URL"
       }
     },
-    "com.gcp.dfareporting_v3_5#DimensionValue": {
+    "com.gcp.dfareporting_v3_5#ClickTag": {
       "type": "structure",
       "members": {
-        "id": {
+        "eventName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID associated with the value if available."
+            "smithy.api#documentation": "Advertiser event name associated with the click tag. This field is used by DISPLAY_IMAGE_GALLERY and HTML5_BANNER creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE."
           }
         },
-        "dimensionName": {
+        "clickThroughUrl": {
+          "target": "com.gcp.dfareporting_v3_5#CreativeClickThroughUrl",
+          "traits": {
+            "smithy.api#documentation": "Parameter value for the specified click tag. This field contains a click-through url."
+          }
+        },
+        "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The name of the dimension."
-          }
-        },
-        "matchType": {
-          "target": "com.gcp.dfareporting_v3_5#DimensionValueMatchTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Determines how the 'value' field is matched when filtering. If not specified, defaults to EXACT. If set to WILDCARD_EXPRESSION, '*' is allowed as a placeholder for variable length character sequences, and it can be escaped with a backslash. Note, only paid search dimensions ('dfa:paidSearch*') allow a matchType other than EXACT."
-          }
-        },
-        "value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The value of the dimension."
-          }
-        },
-        "kind": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The kind of resource this is, in this case dfareporting#dimensionValue."
-          }
-        },
-        "etag": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The eTag of this response for caching purposes."
+            "smithy.api#documentation": "Parameter name for the specified click tag. For DISPLAY_IMAGE_GALLERY creative assets, this field must match the value of the creative asset's creativeAssetId.name field."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Represents a DimensionValue resource."
-      }
-    },
-    "com.gcp.dfareporting_v3_5#DimensionValueMatchTypeEnum": {
-      "type": "enum",
-      "members": {
-        "EXACT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EXACT"
-          }
-        },
-        "BEGINS_WITH": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "BEGINS_WITH"
-          }
-        },
-        "CONTAINS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CONTAINS"
-          }
-        },
-        "WILDCARD_EXPRESSION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "WILDCARD_EXPRESSION"
-          }
-        }
+        "smithy.api#documentation": "Creative Click Tag."
       }
     },
     "com.gcp.dfareporting_v3_5#PopupWindowProperties": {
       "type": "structure",
       "members": {
-        "showAddressBar": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to display the browser address bar."
-          }
-        },
         "positionType": {
           "target": "com.gcp.dfareporting_v3_5#PopupWindowPropertiesPositionTypeEnum",
           "traits": {
             "smithy.api#documentation": "Popup window position either centered or at specific coordinate."
           }
         },
-        "title": {
-          "target": "smithy.api#String",
+        "showAddressBar": {
+          "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Title of popup window."
+            "smithy.api#documentation": "Whether to display the browser address bar."
           }
         },
         "showScrollBar": {
@@ -217,10 +119,28 @@
             "smithy.api#documentation": "Whether to display the browser scroll bar."
           }
         },
+        "showStatusBar": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to display the browser status bar."
+          }
+        },
+        "offset": {
+          "target": "com.gcp.dfareporting_v3_5#OffsetPosition",
+          "traits": {
+            "smithy.api#documentation": "Upper-left corner coordinates of the popup window. Applicable if positionType is COORDINATES."
+          }
+        },
         "dimension": {
           "target": "com.gcp.dfareporting_v3_5#Size",
           "traits": {
             "smithy.api#documentation": "Popup dimension for a creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID"
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Title of popup window."
           }
         },
         "showToolBar": {
@@ -233,18 +153,6 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether to display the browser menu bar."
-          }
-        },
-        "offset": {
-          "target": "com.gcp.dfareporting_v3_5#OffsetPosition",
-          "traits": {
-            "smithy.api#documentation": "Upper-left corner coordinates of the popup window. Applicable if positionType is COORDINATES."
-          }
-        },
-        "showStatusBar": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to display the browser status bar."
           }
         }
       },
@@ -272,28 +180,10 @@
     "com.gcp.dfareporting_v3_5#CreativeCustomEvent": {
       "type": "structure",
       "members": {
-        "popupWindowProperties": {
-          "target": "com.gcp.dfareporting_v3_5#PopupWindowProperties",
-          "traits": {
-            "smithy.api#documentation": "Properties for rich media popup windows. This field is used only for exit events."
-          }
-        },
         "videoReportingId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Video reporting ID, used to differentiate multiple videos in a single creative. This is a read-only field."
-          }
-        },
-        "artworkType": {
-          "target": "com.gcp.dfareporting_v3_5#CreativeCustomEventArtworkTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Artwork type used by the creative.This is a read-only field."
-          }
-        },
-        "advertiserCustomEventName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "User-entered name for the event."
           }
         },
         "artworkLabel": {
@@ -302,16 +192,10 @@
             "smithy.api#documentation": "Artwork label column, used to link events in Campaign Manager back to events in Studio. This is a required field and should not be modified after insertion."
           }
         },
-        "targetType": {
-          "target": "com.gcp.dfareporting_v3_5#CreativeCustomEventTargetTypeEnum",
+        "popupWindowProperties": {
+          "target": "com.gcp.dfareporting_v3_5#PopupWindowProperties",
           "traits": {
-            "smithy.api#documentation": "Target type used by the event."
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "ID of this event. This is a required field and should not be modified after insertion."
+            "smithy.api#documentation": "Properties for rich media popup windows. This field is used only for exit events."
           }
         },
         "advertiserCustomEventId": {
@@ -331,10 +215,57 @@
           "traits": {
             "smithy.api#documentation": "Type of the event. This is a read-only field."
           }
+        },
+        "artworkType": {
+          "target": "com.gcp.dfareporting_v3_5#CreativeCustomEventArtworkTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Artwork type used by the creative.This is a read-only field."
+          }
+        },
+        "targetType": {
+          "target": "com.gcp.dfareporting_v3_5#CreativeCustomEventTargetTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Target type used by the event."
+          }
+        },
+        "advertiserCustomEventName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-entered name for the event."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of this event. This is a required field and should not be modified after insertion."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Creative Custom Event."
+      }
+    },
+    "com.gcp.dfareporting_v3_5#CreativeCustomEventAdvertiserCustomEventTypeEnum": {
+      "type": "enum",
+      "members": {
+        "ADVERTISER_EVENT_TIMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ADVERTISER_EVENT_TIMER"
+          }
+        },
+        "ADVERTISER_EVENT_EXIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ADVERTISER_EVENT_EXIT"
+          }
+        },
+        "ADVERTISER_EVENT_COUNTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ADVERTISER_EVENT_COUNTER"
+          }
+        }
       }
     },
     "com.gcp.dfareporting_v3_5#CreativeCustomEventArtworkTypeEnum": {
@@ -401,42 +332,106 @@
         }
       }
     },
-    "com.gcp.dfareporting_v3_5#CreativeCustomEventAdvertiserCustomEventTypeEnum": {
-      "type": "enum",
+    "com.gcp.dfareporting_v3_5#CreativeAssetId": {
+      "type": "structure",
       "members": {
-        "ADVERTISER_EVENT_TIMER": {
-          "target": "smithy.api#Unit",
+        "name": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#enumValue": "ADVERTISER_EVENT_TIMER"
+            "smithy.api#documentation": "Name of the creative asset. This is a required field while inserting an asset. After insertion, this assetIdentifier is used to identify the uploaded asset. Characters in the name must be alphanumeric or one of the following: \".-_ \". Spaces are allowed."
           }
         },
-        "ADVERTISER_EVENT_EXIT": {
-          "target": "smithy.api#Unit",
+        "type": {
+          "target": "com.gcp.dfareporting_v3_5#CreativeAssetIdTypeEnum",
           "traits": {
-            "smithy.api#enumValue": "ADVERTISER_EVENT_EXIT"
-          }
-        },
-        "ADVERTISER_EVENT_COUNTER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ADVERTISER_EVENT_COUNTER"
+            "smithy.api#documentation": "Type of asset to upload. This is a required field. FLASH and IMAGE are no longer supported for new uploads. All image assets should use HTML_IMAGE."
           }
         }
+      },
+      "traits": {
+        "smithy.api#documentation": "Creative Asset ID."
+      }
+    },
+    "com.gcp.dfareporting_v3_5#CreativeAssetIdTypeEnum": {
+      "type": "enum",
+      "members": {
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IMAGE"
+          }
+        },
+        "FLASH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLASH"
+          }
+        },
+        "VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VIDEO"
+          }
+        },
+        "HTML": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HTML"
+          }
+        },
+        "HTML_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HTML_IMAGE"
+          }
+        },
+        "AUDIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUDIO"
+          }
+        }
+      }
+    },
+    "com.gcp.dfareporting_v3_5#OffsetPosition": {
+      "type": "structure",
+      "members": {
+        "left": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Offset distance from left side of an asset or a window."
+          }
+        },
+        "top": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Offset distance from top side of an asset or a window."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Offset Position."
       }
     },
     "com.gcp.dfareporting_v3_5#CreativeAssetMetadata": {
       "type": "structure",
       "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Numeric ID of the asset. This is a read-only, auto-generated field."
+          }
+        },
         "clickTags": {
           "target": "com.gcp.dfareporting_v3_5#ClickTagList",
           "traits": {
             "smithy.api#documentation": "List of detected click tags for assets. This is a read-only, auto-generated field. This field is empty for a rich media asset."
           }
         },
-        "detectedFeatures": {
-          "target": "com.gcp.dfareporting_v3_5#CreativeAssetMetadataDetectedFeaturesItemEnumList",
+        "idDimensionValue": {
+          "target": "com.gcp.dfareporting_v3_5#DimensionValue",
           "traits": {
-            "smithy.api#documentation": "List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field."
+            "smithy.api#documentation": "Dimension value for the numeric ID of the asset. This is a read-only, auto-generated field."
           }
         },
         "timerCustomEvents": {
@@ -445,16 +440,10 @@
             "smithy.api#documentation": "List of timer events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset."
           }
         },
-        "warnedValidationRules": {
-          "target": "com.gcp.dfareporting_v3_5#CreativeAssetMetadataWarnedValidationRulesItemEnumList",
+        "richMedia": {
+          "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Rules validated during code generation that generated a warning. This is a read-only, auto-generated field. Possible values are: - \"ADMOB_REFERENCED\" - \"ASSET_FORMAT_UNSUPPORTED_DCM\" - \"ASSET_INVALID\" - \"CLICK_TAG_HARD_CODED\" - \"CLICK_TAG_INVALID\" - \"CLICK_TAG_IN_GWD\" - \"CLICK_TAG_MISSING\" - \"CLICK_TAG_MORE_THAN_ONE\" - \"CLICK_TAG_NON_TOP_LEVEL\" - \"COMPONENT_UNSUPPORTED_DCM\" - \"ENABLER_UNSUPPORTED_METHOD_DCM\" - \"EXTERNAL_FILE_REFERENCED\" - \"FILE_DETAIL_EMPTY\" - \"FILE_TYPE_INVALID\" - \"GWD_PROPERTIES_INVALID\" - \"HTML5_FEATURE_UNSUPPORTED\" - \"LINKED_FILE_NOT_FOUND\" - \"MAX_FLASH_VERSION_11\" - \"MRAID_REFERENCED\" - \"NOT_SSL_COMPLIANT\" - \"ORPHANED_ASSET\" - \"PRIMARY_HTML_MISSING\" - \"SVG_INVALID\" - \"ZIP_INVALID\" "
-          }
-        },
-        "idDimensionValue": {
-          "target": "com.gcp.dfareporting_v3_5#DimensionValue",
-          "traits": {
-            "smithy.api#documentation": "Dimension value for the numeric ID of the asset. This is a read-only, auto-generated field."
+            "smithy.api#documentation": "True if the uploaded asset is a rich media asset. This is a read-only, auto-generated field."
           }
         },
         "assetIdentifier": {
@@ -469,28 +458,28 @@
             "smithy.api#documentation": "List of counter events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset."
           }
         },
+        "warnedValidationRules": {
+          "target": "com.gcp.dfareporting_v3_5#CreativeAssetMetadataWarnedValidationRulesItemEnumList",
+          "traits": {
+            "smithy.api#documentation": "Rules validated during code generation that generated a warning. This is a read-only, auto-generated field. Possible values are: - \"ADMOB_REFERENCED\" - \"ASSET_FORMAT_UNSUPPORTED_DCM\" - \"ASSET_INVALID\" - \"CLICK_TAG_HARD_CODED\" - \"CLICK_TAG_INVALID\" - \"CLICK_TAG_IN_GWD\" - \"CLICK_TAG_MISSING\" - \"CLICK_TAG_MORE_THAN_ONE\" - \"CLICK_TAG_NON_TOP_LEVEL\" - \"COMPONENT_UNSUPPORTED_DCM\" - \"ENABLER_UNSUPPORTED_METHOD_DCM\" - \"EXTERNAL_FILE_REFERENCED\" - \"FILE_DETAIL_EMPTY\" - \"FILE_TYPE_INVALID\" - \"GWD_PROPERTIES_INVALID\" - \"HTML5_FEATURE_UNSUPPORTED\" - \"LINKED_FILE_NOT_FOUND\" - \"MAX_FLASH_VERSION_11\" - \"MRAID_REFERENCED\" - \"NOT_SSL_COMPLIANT\" - \"ORPHANED_ASSET\" - \"PRIMARY_HTML_MISSING\" - \"SVG_INVALID\" - \"ZIP_INVALID\" "
+          }
+        },
+        "detectedFeatures": {
+          "target": "com.gcp.dfareporting_v3_5#CreativeAssetMetadataDetectedFeaturesItemEnumList",
+          "traits": {
+            "smithy.api#documentation": "List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field."
+          }
+        },
         "exitCustomEvents": {
           "target": "com.gcp.dfareporting_v3_5#CreativeCustomEventList",
           "traits": {
             "smithy.api#documentation": "List of exit events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset."
           }
         },
-        "richMedia": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True if the uploaded asset is a rich media asset. This is a read-only, auto-generated field."
-          }
-        },
         "kind": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Identifies what kind of resource this is. Value: the fixed string \"dfareporting#creativeAssetMetadata\"."
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Numeric ID of the asset. This is a read-only, auto-generated field."
           }
         }
       },
@@ -502,6 +491,179 @@
       "type": "list",
       "member": {
         "target": "com.gcp.dfareporting_v3_5#ClickTag"
+      }
+    },
+    "com.gcp.dfareporting_v3_5#CreativeCustomEventList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.dfareporting_v3_5#CreativeCustomEvent"
+      }
+    },
+    "com.gcp.dfareporting_v3_5#CreativeAssetMetadataWarnedValidationRulesItemEnum": {
+      "type": "enum",
+      "members": {
+        "CLICK_TAG_NON_TOP_LEVEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLICK_TAG_NON_TOP_LEVEL"
+          }
+        },
+        "CLICK_TAG_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLICK_TAG_MISSING"
+          }
+        },
+        "CLICK_TAG_MORE_THAN_ONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLICK_TAG_MORE_THAN_ONE"
+          }
+        },
+        "CLICK_TAG_INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLICK_TAG_INVALID"
+          }
+        },
+        "ORPHANED_ASSET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ORPHANED_ASSET"
+          }
+        },
+        "PRIMARY_HTML_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PRIMARY_HTML_MISSING"
+          }
+        },
+        "EXTERNAL_FILE_REFERENCED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXTERNAL_FILE_REFERENCED"
+          }
+        },
+        "MRAID_REFERENCED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MRAID_REFERENCED"
+          }
+        },
+        "ADMOB_REFERENCED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ADMOB_REFERENCED"
+          }
+        },
+        "FILE_TYPE_INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_TYPE_INVALID"
+          }
+        },
+        "ZIP_INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ZIP_INVALID"
+          }
+        },
+        "LINKED_FILE_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LINKED_FILE_NOT_FOUND"
+          }
+        },
+        "MAX_FLASH_VERSION_11": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MAX_FLASH_VERSION_11"
+          }
+        },
+        "NOT_SSL_COMPLIANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NOT_SSL_COMPLIANT"
+          }
+        },
+        "FILE_DETAIL_EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_DETAIL_EMPTY"
+          }
+        },
+        "ASSET_INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASSET_INVALID"
+          }
+        },
+        "GWD_PROPERTIES_INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GWD_PROPERTIES_INVALID"
+          }
+        },
+        "ENABLER_UNSUPPORTED_METHOD_DCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENABLER_UNSUPPORTED_METHOD_DCM"
+          }
+        },
+        "ASSET_FORMAT_UNSUPPORTED_DCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASSET_FORMAT_UNSUPPORTED_DCM"
+          }
+        },
+        "COMPONENT_UNSUPPORTED_DCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPONENT_UNSUPPORTED_DCM"
+          }
+        },
+        "HTML5_FEATURE_UNSUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HTML5_FEATURE_UNSUPPORTED"
+          }
+        },
+        "CLICK_TAG_IN_GWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLICK_TAG_IN_GWD"
+          }
+        },
+        "CLICK_TAG_HARD_CODED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLICK_TAG_HARD_CODED"
+          }
+        },
+        "SVG_INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SVG_INVALID"
+          }
+        },
+        "CLICK_TAG_IN_RICH_MEDIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLICK_TAG_IN_RICH_MEDIA"
+          }
+        },
+        "MISSING_ENABLER_REFERENCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MISSING_ENABLER_REFERENCE"
+          }
+        }
+      }
+    },
+    "com.gcp.dfareporting_v3_5#CreativeAssetMetadataWarnedValidationRulesItemEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.dfareporting_v3_5#CreativeAssetMetadataWarnedValidationRulesItemEnum"
       }
     },
     "com.gcp.dfareporting_v3_5#CreativeAssetMetadataDetectedFeaturesItemEnum": {
@@ -911,236 +1073,75 @@
         "target": "com.gcp.dfareporting_v3_5#CreativeAssetMetadataDetectedFeaturesItemEnum"
       }
     },
-    "com.gcp.dfareporting_v3_5#CreativeCustomEventList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.dfareporting_v3_5#CreativeCustomEvent"
-      }
-    },
-    "com.gcp.dfareporting_v3_5#CreativeAssetMetadataWarnedValidationRulesItemEnum": {
-      "type": "enum",
-      "members": {
-        "CLICK_TAG_NON_TOP_LEVEL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CLICK_TAG_NON_TOP_LEVEL"
-          }
-        },
-        "CLICK_TAG_MISSING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CLICK_TAG_MISSING"
-          }
-        },
-        "CLICK_TAG_MORE_THAN_ONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CLICK_TAG_MORE_THAN_ONE"
-          }
-        },
-        "CLICK_TAG_INVALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CLICK_TAG_INVALID"
-          }
-        },
-        "ORPHANED_ASSET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ORPHANED_ASSET"
-          }
-        },
-        "PRIMARY_HTML_MISSING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "PRIMARY_HTML_MISSING"
-          }
-        },
-        "EXTERNAL_FILE_REFERENCED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EXTERNAL_FILE_REFERENCED"
-          }
-        },
-        "MRAID_REFERENCED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "MRAID_REFERENCED"
-          }
-        },
-        "ADMOB_REFERENCED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ADMOB_REFERENCED"
-          }
-        },
-        "FILE_TYPE_INVALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FILE_TYPE_INVALID"
-          }
-        },
-        "ZIP_INVALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ZIP_INVALID"
-          }
-        },
-        "LINKED_FILE_NOT_FOUND": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "LINKED_FILE_NOT_FOUND"
-          }
-        },
-        "MAX_FLASH_VERSION_11": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "MAX_FLASH_VERSION_11"
-          }
-        },
-        "NOT_SSL_COMPLIANT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "NOT_SSL_COMPLIANT"
-          }
-        },
-        "FILE_DETAIL_EMPTY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FILE_DETAIL_EMPTY"
-          }
-        },
-        "ASSET_INVALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ASSET_INVALID"
-          }
-        },
-        "GWD_PROPERTIES_INVALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "GWD_PROPERTIES_INVALID"
-          }
-        },
-        "ENABLER_UNSUPPORTED_METHOD_DCM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ENABLER_UNSUPPORTED_METHOD_DCM"
-          }
-        },
-        "ASSET_FORMAT_UNSUPPORTED_DCM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ASSET_FORMAT_UNSUPPORTED_DCM"
-          }
-        },
-        "COMPONENT_UNSUPPORTED_DCM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "COMPONENT_UNSUPPORTED_DCM"
-          }
-        },
-        "HTML5_FEATURE_UNSUPPORTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "HTML5_FEATURE_UNSUPPORTED"
-          }
-        },
-        "CLICK_TAG_IN_GWD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CLICK_TAG_IN_GWD"
-          }
-        },
-        "CLICK_TAG_HARD_CODED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CLICK_TAG_HARD_CODED"
-          }
-        },
-        "SVG_INVALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SVG_INVALID"
-          }
-        },
-        "CLICK_TAG_IN_RICH_MEDIA": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CLICK_TAG_IN_RICH_MEDIA"
-          }
-        },
-        "MISSING_ENABLER_REFERENCE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "MISSING_ENABLER_REFERENCE"
-          }
-        }
-      }
-    },
-    "com.gcp.dfareporting_v3_5#CreativeAssetMetadataWarnedValidationRulesItemEnumList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.dfareporting_v3_5#CreativeAssetMetadataWarnedValidationRulesItemEnum"
-      }
-    },
-    "com.gcp.dfareporting_v3_5#CreativeAssetId": {
+    "com.gcp.dfareporting_v3_5#DimensionValue": {
       "type": "structure",
       "members": {
-        "name": {
-          "target": "smithy.api#String",
+        "matchType": {
+          "target": "com.gcp.dfareporting_v3_5#DimensionValueMatchTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Name of the creative asset. This is a required field while inserting an asset. After insertion, this assetIdentifier is used to identify the uploaded asset. Characters in the name must be alphanumeric or one of the following: \".-_ \". Spaces are allowed."
+            "smithy.api#documentation": "Determines how the 'value' field is matched when filtering. If not specified, defaults to EXACT. If set to WILDCARD_EXPRESSION, '*' is allowed as a placeholder for variable length character sequences, and it can be escaped with a backslash. Note, only paid search dimensions ('dfa:paidSearch*') allow a matchType other than EXACT."
           }
         },
-        "type": {
-          "target": "com.gcp.dfareporting_v3_5#CreativeAssetIdTypeEnum",
+        "id": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Type of asset to upload. This is a required field. FLASH and IMAGE are no longer supported for new uploads. All image assets should use HTML_IMAGE."
+            "smithy.api#documentation": "The ID associated with the value if available."
+          }
+        },
+        "dimensionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the dimension."
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The kind of resource this is, in this case dfareporting#dimensionValue."
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The eTag of this response for caching purposes."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value of the dimension."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Creative Asset ID."
+        "smithy.api#documentation": "Represents a DimensionValue resource."
       }
     },
-    "com.gcp.dfareporting_v3_5#CreativeAssetIdTypeEnum": {
+    "com.gcp.dfareporting_v3_5#DimensionValueMatchTypeEnum": {
       "type": "enum",
       "members": {
-        "IMAGE": {
+        "EXACT": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "IMAGE"
+            "smithy.api#enumValue": "EXACT"
           }
         },
-        "FLASH": {
+        "BEGINS_WITH": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "FLASH"
+            "smithy.api#enumValue": "BEGINS_WITH"
           }
         },
-        "VIDEO": {
+        "CONTAINS": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "VIDEO"
+            "smithy.api#enumValue": "CONTAINS"
           }
         },
-        "HTML": {
+        "WILDCARD_EXPRESSION": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "HTML"
-          }
-        },
-        "HTML_IMAGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "HTML_IMAGE"
-          }
-        },
-        "AUDIO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "AUDIO"
+            "smithy.api#enumValue": "WILDCARD_EXPRESSION"
           }
         }
       }

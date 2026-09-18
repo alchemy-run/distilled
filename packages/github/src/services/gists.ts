@@ -80,11 +80,11 @@ export const CreateRequestFilesMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<CreateRequestFilesMap>;
 
 export type CreateRequestPublicCase1 = "true" | "false";
-export const CreateRequestPublicCase1 = /*@__PURE__*/ S.String;
+export const CreateRequestPublicCase1 = S.String;
 
 export type CreateRequestPublic = boolean | CreateRequestPublicCase1;
 export const CreateRequestPublic =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<CreateRequestPublic>;
+  S.Unknown as any as S.Schema<CreateRequestPublic>;
 
 export interface CreateRequest {
   /** Description of the gist */
@@ -436,11 +436,11 @@ export const GistSimpleFilesValue = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GistSimpleFilesValue>;
 
 export type GistSimpleFilesMap = {
-  [key: string]: GistSimpleFilesValue | undefined;
+  [key: string]: GistSimpleFilesValue | null | undefined;
 };
 export const GistSimpleFilesMap = /*@__PURE__*/ S.Record(
   S.String,
-  GistSimpleFilesValue,
+  S.NullOr(GistSimpleFilesValue),
 ) as any as S.Schema<GistSimpleFilesMap>;
 
 /** A GitHub user. */
@@ -527,7 +527,7 @@ export type AuthorAssociation =
   | "MEMBER"
   | "NONE"
   | "OWNER";
-export const AuthorAssociation = /*@__PURE__*/ S.String;
+export const AuthorAssociation = S.String;
 
 /** A comment made to a gist. */
 export interface GistComment {
@@ -1025,11 +1025,11 @@ export const UpdateRequestFilesValue = /*@__PURE__*/ S.suspend(() =>
 
 /** The gist files to be updated, renamed, or deleted. Each `key` must match the current filename (including extension) of the targeted gist file. For example: `hello.py`. To delete a file, set the whole file to null. For example: `hello.py : null`. The file will also be deleted if the specified object does not contain at least one of `content` or `filename`. */
 export type UpdateRequestFilesMap = {
-  [key: string]: UpdateRequestFilesValue | undefined;
+  [key: string]: UpdateRequestFilesValue | null | undefined;
 };
 export const UpdateRequestFilesMap = /*@__PURE__*/ S.Record(
   S.String,
-  UpdateRequestFilesValue,
+  S.NullOr(UpdateRequestFilesValue),
 ) as any as S.Schema<UpdateRequestFilesMap>;
 
 export interface UpdateRequest {

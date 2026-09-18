@@ -19,3 +19,9 @@ lib/
 *.tgz
 .scripts-types/
 **/.turbo/
+
+# Local spec-mirror working copies — `pnpm specs:local <pkg>` materialises the
+# mirror repository here when its real one does not exist yet (or when you are
+# iterating on a fetch script). Never referenced by committed source; opt in
+# per command with DISTILLED_SPECS_LOCAL=1.
+packages/*/specs/.local/

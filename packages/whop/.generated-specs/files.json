@@ -1,0 +1,669 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.files#ListFilesRequestFileIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.files#ListFilesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.files#ListFilesRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.files#ListFilesRequest": {
+      "type": "structure",
+      "members": {
+        "file_ids": {
+          "target": "com.whop.files#ListFilesRequestFileIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "file_ids",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The files to return, each prefixed `file_`. Repeat the parameter to pass several, up to 250 per request. Batches of up to 100 answer in one page by default; larger batches page at up to 100 per response."
+          }
+        },
+        "order": {
+          "target": "com.whop.files#ListFilesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort by."
+          }
+        },
+        "direction": {
+          "target": "com.whop.files#ListFilesRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "The sort direction."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of files to return."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor; returns files after this position."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of files to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor; returns files before this position."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.files#File": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file's MIME type, e.g. `application/pdf`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the file was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original filename, including its extension.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file's ID, prefixed `file_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "multipart_chunk_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The byte size each part (except the last) must be. Present only on create, and only for multipart uploads.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "multipart_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the multipart upload, passed back to `complete`. Present only on create, and only for multipart uploads.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "multipart_upload_urls": {
+          "target": "com.whop.files#FileMultipartUploadUrlsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of this object, always `file`.",
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The file size in bytes. `null` until the upload has finished.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "upload_headers": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Headers to send with the upload PUT. Present only on create."
+          }
+        },
+        "upload_status": {
+          "target": "com.whop.files#FileUploadStatus",
+          "traits": {
+            "smithy.api#documentation": "Where the file is in its upload lifecycle.",
+            "smithy.api#required": {}
+          }
+        },
+        "upload_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Presigned URL to PUT the file's bytes to. Present only on create, and only for single-part uploads.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL to download the file: a permanent CDN URL for public files, a signed expiring URL for private ones. `null` until the upload has finished.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.files#FileVisibility",
+          "traits": {
+            "smithy.api#documentation": "`public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.files#FileMultipartUrl": {
+      "type": "structure",
+      "members": {
+        "part_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The 1-based index of this part within the multipart upload.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The presigned URL to PUT this part's bytes to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.files#FileMultipartUploadUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.files#FileMultipartUrl"
+      },
+      "traits": {}
+    },
+    "com.whop.files#FileUploadStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where the file is in its upload lifecycle."
+      }
+    },
+    "com.whop.files#FileVisibility": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL."
+      }
+    },
+    "com.whop.files#ListFilesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.files#File"
+      },
+      "traits": {}
+    },
+    "com.whop.files#ListFilesResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.files#ListFilesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.files#ListFilesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.files#ListFilesResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.files#ListFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.files#ListFilesRequest"
+      },
+      "output": {
+        "target": "com.whop.files#ListFilesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.files#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/files",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Files\n\nReturns the files with the given IDs, newest first — fetch a batch in one request instead of retrieving each file individually. Only files you created are returned; IDs that do not exist, or that another credential created, are omitted. A request for up to 100 IDs answers in a single page by default; a larger batch pages at up to 100 files per response — follow `page_info` with the same `file_ids` to walk the rest.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.files#CreateFileRequestVisibility": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`public` files are served via an unsigned CDN URL — use for assets anyone may see. `private` files are served via a signed, expiring URL — use for sensitive documents. Defaults to `private`."
+      }
+    },
+    "com.whop.files#CreateFileRequest": {
+      "type": "structure",
+      "members": {
+        "byte_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The file's size in bytes. Required when `multipart` is `true`. Multipart uploads support at most 10,000 parts of 5MB each (about 50 GB)."
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the file including its extension, e.g. `terms.pdf`.",
+            "smithy.api#required": {}
+          }
+        },
+        "multipart": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Upload the file in 5MB parts. Required for files larger than 5GB; useful above ~100MB. The file must be larger than 5MB."
+          }
+        },
+        "visibility": {
+          "target": "com.whop.files#CreateFileRequestVisibility",
+          "traits": {
+            "smithy.api#documentation": "`public` files are served via an unsigned CDN URL — use for assets anyone may see. `private` files are served via a signed, expiring URL — use for sensitive documents. Defaults to `private`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.files#CreateFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.files#CreateFileRequest"
+      },
+      "output": {
+        "target": "com.whop.files#File"
+      },
+      "errors": [
+        {
+          "target": "com.whop.files#BadRequest"
+        },
+        {
+          "target": "com.whop.files#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/files",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create File\n\nCreates a file and returns a presigned destination to upload its bytes to. PUT the bytes to `upload_url` (single-part), or to each of `multipart_upload_urls` and then call Complete File Multipart Upload. Once the bytes land the file becomes `ready`, and its ID can be attached wherever a file is accepted — account legal documents, dispute evidence documents."
+      }
+    },
+    "com.whop.files#GetFileRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the file, prefixed `file_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.files#GetFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.files#GetFileRequest"
+      },
+      "output": {
+        "target": "com.whop.files#File"
+      },
+      "errors": [
+        {
+          "target": "com.whop.files#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/files/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve File\n\nRetrieves a file you uploaded — poll it after uploading the bytes to see `upload_status` become `ready`. Only the creator can retrieve a file this way; a file attached to another resource is read through that resource."
+      }
+    },
+    "com.whop.files#CompleteFileRequestMultipartPartsItem": {
+      "type": "structure",
+      "members": {
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The `ETag` response header from the part's upload.",
+            "smithy.api#required": {}
+          }
+        },
+        "part_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The 1-based index of the part.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.files#CompleteFileRequestMultipartPartsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.files#CompleteFileRequestMultipartPartsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every uploaded part, in order."
+      }
+    },
+    "com.whop.files#CompleteFileRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the file, prefixed `file_`."
+          }
+        },
+        "multipart_parts": {
+          "target": "com.whop.files#CompleteFileRequestMultipartPartsList",
+          "traits": {
+            "smithy.api#documentation": "Every uploaded part, in order.",
+            "smithy.api#required": {}
+          }
+        },
+        "multipart_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the multipart upload, returned by Create File.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.files#CompleteFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.files#CompleteFileRequest"
+      },
+      "output": {
+        "target": "com.whop.files#File"
+      },
+      "errors": [
+        {
+          "target": "com.whop.files#BadRequest"
+        },
+        {
+          "target": "com.whop.files#NotFound"
+        },
+        {
+          "target": "com.whop.files#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/files/{id}/complete",
+          "code": 200
+        },
+        "smithy.api#documentation": "Complete File Multipart Upload\n\nAssembles the parts of a multipart upload after every part has been PUT to its presigned URL. Pass the `multipart_upload_id` from Create File and each part's `ETag` response header."
+      }
+    },
+    "com.whop.files#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.files#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.files#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.files#Files": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.files#ListFiles"
+        },
+        {
+          "target": "com.whop.files#CreateFile"
+        },
+        {
+          "target": "com.whop.files#GetFile"
+        },
+        {
+          "target": "com.whop.files#CompleteFile"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

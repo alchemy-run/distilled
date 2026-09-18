@@ -65,98 +65,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Configuration of the Spark History Server. */
-export interface SparkHistoryServerConfig {
-  /** Optional. Resource name of an existing Dataproc Cluster to act as a Spark History Server for the connection. Example: * `projects/[project_id]/regions/[region]/clusters/[cluster_name]` */
-  dataprocCluster?: string;
-}
-export const SparkHistoryServerConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataprocCluster: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SparkHistoryServerConfig",
-}) as any as S.Schema<SparkHistoryServerConfig>;
-
-/** Configuration of the Dataproc Metastore Service. */
-export interface MetastoreServiceConfig {
-  /** Optional. Resource name of an existing Dataproc Metastore service. Example: * `projects/[project_id]/locations/[region]/services/[service_id]` */
-  metastoreService?: string;
-}
-export const MetastoreServiceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    metastoreService: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MetastoreServiceConfig",
-}) as any as S.Schema<MetastoreServiceConfig>;
-
-/** Container for connection properties to execute stored procedures for Apache Spark. */
-export interface SparkProperties {
-  /** Optional. Spark History Server configuration for the connection. */
-  sparkHistoryServerConfig?: SparkHistoryServerConfig;
-  /** Optional. Dataproc Metastore Service configuration for the connection. */
-  metastoreServiceConfig?: MetastoreServiceConfig;
-  /** Output only. The account ID of the service created for the purpose of this connection. The service account does not have any permissions associated with it when it is created. After creation, customers delegate permissions to the service account. When the connection is used in the context of a stored procedure for Apache Spark in BigQuery, the service account is used to connect to the desired resources in Google Cloud. The account ID is in the form of: bqcx--@gcp-sa-bigquery-consp.iam.gserviceaccount.com */
-  serviceAccountId?: string;
-}
-export const SparkProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sparkHistoryServerConfig: S.optional(SparkHistoryServerConfig),
-    metastoreServiceConfig: S.optional(MetastoreServiceConfig),
-    serviceAccountId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SparkProperties",
-}) as any as S.Schema<SparkProperties>;
-
-export type CloudSqlPropertiesTypeEnum =
-  | "DATABASE_TYPE_UNSPECIFIED"
-  | "POSTGRES"
-  | "MYSQL";
-export const CloudSqlPropertiesTypeEnum = /*@__PURE__*/ S.String;
-
-/** Credential info for the Cloud SQL. */
-export interface CloudSqlCredential {
-  /** The username for the credential. */
-  username?: string;
-  /** The password for the credential. */
-  password?: string;
-}
-export const CloudSqlCredential = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    username: S.optional(S.String),
-    password: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CloudSqlCredential",
-}) as any as S.Schema<CloudSqlCredential>;
-
-/** Connection properties specific to the Cloud SQL. */
-export interface CloudSqlProperties {
-  /** Cloud SQL instance ID in the form `project:location:instance`. */
-  instanceId?: string;
-  /** Type of the Cloud SQL database. */
-  type?: CloudSqlPropertiesTypeEnum | (string & {});
-  /** Database name. */
-  database?: string;
-  /** Output only. The account ID of the service used for the purpose of this connection. When the connection is used in the context of an operation in BigQuery, this service account will serve as the identity being used for connecting to the CloudSQL instance specified in this connection. */
-  serviceAccountId?: string;
-  /** Input only. Cloud SQL credential. */
-  credential?: CloudSqlCredential;
-}
-export const CloudSqlProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceId: S.optional(S.String),
-    type: S.optional(CloudSqlPropertiesTypeEnum),
-    database: S.optional(S.String),
-    serviceAccountId: S.optional(S.String),
-    credential: S.optional(CloudSqlCredential),
-  }),
-).annotate({
-  identifier: "CloudSqlProperties",
-}) as any as S.Schema<CloudSqlProperties>;
-
 /** Container for connection properties for delegation of access to GCP resources. */
 export interface CloudResourceProperties {
   /** Output only. The account ID of the service created for the purpose of this connection. The service account does not have any permissions associated with it when it is created. After creation, customers delegate permissions to the service account. When the connection is used in the context of an operation in BigQuery, the service account will be used to connect to the desired resources in GCP. The account ID is in the form of: @gcp-sa-bigquery-cloudresource.iam.gserviceaccount.com */
@@ -170,17 +78,45 @@ export const CloudResourceProperties = /*@__PURE__*/ S.suspend(() =>
   identifier: "CloudResourceProperties",
 }) as any as S.Schema<CloudResourceProperties>;
 
+/** Connection properties specific to Cloud Spanner. */
+export interface CloudSpannerProperties {
+  /** Optional. Cloud Spanner database role for fine-grained access control. The Cloud Spanner admin should have provisioned the database role with appropriate permissions, such as `SELECT` and `INSERT`. Other users should only use roles provided by their Cloud Spanner admins. For more details, see [About fine-grained access control] (https://cloud.google.com/spanner/docs/fgac-about). REQUIRES: The database role name must start with a letter, and can only contain letters, numbers, and underscores. */
+  databaseRole?: string;
+  /** If parallelism should be used when reading from Cloud Spanner */
+  useParallelism?: boolean;
+  /** If set, the request will be executed via Spanner independent compute resources. REQUIRES: `use_parallelism` must be set. */
+  useDataBoost?: boolean;
+  /** Cloud Spanner database in the form `project/instance/database' */
+  database?: string;
+  /** Allows setting max parallelism per query when executing on Spanner independent compute resources. If unspecified, default values of parallelism are chosen that are dependent on the Cloud Spanner instance configuration. REQUIRES: `use_parallelism` must be set. REQUIRES: `use_data_boost` must be set. */
+  maxParallelism?: number;
+  /** Deprecated: prefer use_data_boost instead. If the serverless analytics service should be used to read data from Cloud Spanner. Note: `use_parallelism` must be set when using serverless analytics. */
+  useServerlessAnalytics?: boolean;
+}
+export const CloudSpannerProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    databaseRole: S.optional(S.String),
+    useParallelism: S.optional(S.Boolean),
+    useDataBoost: S.optional(S.Boolean),
+    database: S.optional(S.String),
+    maxParallelism: S.optional(S.Number),
+    useServerlessAnalytics: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "CloudSpannerProperties",
+}) as any as S.Schema<CloudSpannerProperties>;
+
 /** Authentication method for Amazon Web Services (AWS) that uses Google owned Google service account to assume into customer's AWS IAM Role. */
 export interface AwsAccessRole {
-  /** The user’s AWS IAM Role that trusts the Google-owned AWS IAM user Connection. */
-  iamRoleId?: string;
   /** A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's AWS IAM Role. */
   identity?: string;
+  /** The user’s AWS IAM Role that trusts the Google-owned AWS IAM user Connection. */
+  iamRoleId?: string;
 }
 export const AwsAccessRole = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    iamRoleId: S.optional(S.String),
     identity: S.optional(S.String),
+    iamRoleId: S.optional(S.String),
   }),
 ).annotate({ identifier: "AwsAccessRole" }) as any as S.Schema<AwsAccessRole>;
 
@@ -195,58 +131,168 @@ export const AwsProperties = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AwsProperties" }) as any as S.Schema<AwsProperties>;
 
-/** Connection properties specific to Cloud Spanner. */
-export interface CloudSpannerProperties {
-  /** If parallelism should be used when reading from Cloud Spanner */
-  useParallelism?: boolean;
-  /** Optional. Cloud Spanner database role for fine-grained access control. The Cloud Spanner admin should have provisioned the database role with appropriate permissions, such as `SELECT` and `INSERT`. Other users should only use roles provided by their Cloud Spanner admins. For more details, see [About fine-grained access control] (https://cloud.google.com/spanner/docs/fgac-about). REQUIRES: The database role name must start with a letter, and can only contain letters, numbers, and underscores. */
-  databaseRole?: string;
-  /** Deprecated: prefer use_data_boost instead. If the serverless analytics service should be used to read data from Cloud Spanner. Note: `use_parallelism` must be set when using serverless analytics. */
-  useServerlessAnalytics?: boolean;
-  /** Allows setting max parallelism per query when executing on Spanner independent compute resources. If unspecified, default values of parallelism are chosen that are dependent on the Cloud Spanner instance configuration. REQUIRES: `use_parallelism` must be set. REQUIRES: `use_data_boost` must be set. */
-  maxParallelism?: number;
-  /** Cloud Spanner database in the form `project/instance/database' */
-  database?: string;
-  /** If set, the request will be executed via Spanner independent compute resources. REQUIRES: `use_parallelism` must be set. */
-  useDataBoost?: boolean;
+/** Container for connection properties specific to Azure. */
+export interface AzureProperties {
+  /** Output only. The name of the Azure Active Directory Application. */
+  application?: string;
+  /** Output only. The object id of the Azure Active Directory Application. */
+  objectId?: string;
+  /** Output only. A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's Azure Active Directory Application. */
+  identity?: string;
+  /** The client ID of the user's Azure Active Directory Application used for a federated connection. */
+  federatedApplicationClientId?: string;
+  /** The id of customer's directory that host the data. */
+  customerTenantId?: string;
+  /** Output only. The client id of the Azure Active Directory Application. */
+  clientId?: string;
+  /** The URL user will be redirected to after granting consent during connection setup. */
+  redirectUri?: string;
 }
-export const CloudSpannerProperties = /*@__PURE__*/ S.suspend(() =>
+export const AzureProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    useParallelism: S.optional(S.Boolean),
-    databaseRole: S.optional(S.String),
-    useServerlessAnalytics: S.optional(S.Boolean),
-    maxParallelism: S.optional(S.Number),
-    database: S.optional(S.String),
-    useDataBoost: S.optional(S.Boolean),
+    application: S.optional(S.String),
+    objectId: S.optional(S.String),
+    identity: S.optional(S.String),
+    federatedApplicationClientId: S.optional(S.String),
+    customerTenantId: S.optional(S.String),
+    clientId: S.optional(S.String),
+    redirectUri: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "CloudSpannerProperties",
-}) as any as S.Schema<CloudSpannerProperties>;
+  identifier: "AzureProperties",
+}) as any as S.Schema<AzureProperties>;
 
 /** Connection properties specific to Salesforce DataCloud. This is intended for use only by Salesforce partner projects. */
 export interface SalesforceDataCloudProperties {
-  /** The URL to the user's Salesforce DataCloud instance. */
-  instanceUri?: string;
   /** Output only. A unique Google-owned and Google-generated service account identity for the connection. */
   identity?: string;
   /** The ID of the user's Salesforce tenant. */
   tenantId?: string;
+  /** The URL to the user's Salesforce DataCloud instance. */
+  instanceUri?: string;
 }
 export const SalesforceDataCloudProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    instanceUri: S.optional(S.String),
     identity: S.optional(S.String),
     tenantId: S.optional(S.String),
+    instanceUri: S.optional(S.String),
   }),
 ).annotate({
   identifier: "SalesforceDataCloudProperties",
 }) as any as S.Schema<SalesforceDataCloudProperties>;
 
+/** Configuration of the Dataproc Metastore Service. */
+export interface MetastoreServiceConfig {
+  /** Optional. Resource name of an existing Dataproc Metastore service. Example: * `projects/[project_id]/locations/[region]/services/[service_id]` */
+  metastoreService?: string;
+}
+export const MetastoreServiceConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metastoreService: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "MetastoreServiceConfig",
+}) as any as S.Schema<MetastoreServiceConfig>;
+
+/** Configuration of the Spark History Server. */
+export interface SparkHistoryServerConfig {
+  /** Optional. Resource name of an existing Dataproc Cluster to act as a Spark History Server for the connection. Example: * `projects/[project_id]/regions/[region]/clusters/[cluster_name]` */
+  dataprocCluster?: string;
+}
+export const SparkHistoryServerConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dataprocCluster: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SparkHistoryServerConfig",
+}) as any as S.Schema<SparkHistoryServerConfig>;
+
+/** Container for connection properties to execute stored procedures for Apache Spark. */
+export interface SparkProperties {
+  /** Output only. The account ID of the service created for the purpose of this connection. The service account does not have any permissions associated with it when it is created. After creation, customers delegate permissions to the service account. When the connection is used in the context of a stored procedure for Apache Spark in BigQuery, the service account is used to connect to the desired resources in Google Cloud. The account ID is in the form of: bqcx--@gcp-sa-bigquery-consp.iam.gserviceaccount.com */
+  serviceAccountId?: string;
+  /** Optional. Dataproc Metastore Service configuration for the connection. */
+  metastoreServiceConfig?: MetastoreServiceConfig;
+  /** Optional. Spark History Server configuration for the connection. */
+  sparkHistoryServerConfig?: SparkHistoryServerConfig;
+}
+export const SparkProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceAccountId: S.optional(S.String),
+    metastoreServiceConfig: S.optional(MetastoreServiceConfig),
+    sparkHistoryServerConfig: S.optional(SparkHistoryServerConfig),
+  }),
+).annotate({
+  identifier: "SparkProperties",
+}) as any as S.Schema<SparkProperties>;
+
+export type CloudSqlPropertiesTypeEnum =
+  | "DATABASE_TYPE_UNSPECIFIED"
+  | "POSTGRES"
+  | "MYSQL";
+export const CloudSqlPropertiesTypeEnum = S.String;
+
+/** Credential info for the Cloud SQL. */
+export interface CloudSqlCredential {
+  /** The password for the credential. */
+  password?: string;
+  /** The username for the credential. */
+  username?: string;
+}
+export const CloudSqlCredential = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    password: S.optional(S.String),
+    username: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CloudSqlCredential",
+}) as any as S.Schema<CloudSqlCredential>;
+
+/** Connection properties specific to the Cloud SQL. */
+export interface CloudSqlProperties {
+  /** Type of the Cloud SQL database. */
+  type?: CloudSqlPropertiesTypeEnum | (string & {});
+  /** Input only. Cloud SQL credential. */
+  credential?: CloudSqlCredential;
+  /** Cloud SQL instance ID in the form `project:location:instance`. */
+  instanceId?: string;
+  /** Output only. The account ID of the service used for the purpose of this connection. When the connection is used in the context of an operation in BigQuery, this service account will serve as the identity being used for connecting to the CloudSQL instance specified in this connection. */
+  serviceAccountId?: string;
+  /** Database name. */
+  database?: string;
+}
+export const CloudSqlProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(CloudSqlPropertiesTypeEnum),
+    credential: S.optional(CloudSqlCredential),
+    instanceId: S.optional(S.String),
+    serviceAccountId: S.optional(S.String),
+    database: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CloudSqlProperties",
+}) as any as S.Schema<CloudSqlProperties>;
+
+/** Data Asset - a resource within instance of the system, reachable under specified endpoint. For example a database name in a SQL DB. */
+export interface ConnectorConfigurationAsset {
+  /** Name of the database. */
+  database?: string;
+  /** Full Google Cloud resource name - https://cloud.google.com/apis/design/resource_names#full_resource_name. Example: `//library.googleapis.com/shelves/shelf1/books/book2` */
+  googleCloudResource?: string;
+}
+export const ConnectorConfigurationAsset = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    database: S.optional(S.String),
+    googleCloudResource: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ConnectorConfigurationAsset",
+}) as any as S.Schema<ConnectorConfigurationAsset>;
+
 export type ConnectorConfigurationSecretSecretTypeEnum =
   | "SECRET_TYPE_UNSPECIFIED"
   | "PLAINTEXT";
-export const ConnectorConfigurationSecretSecretTypeEnum =
-  /*@__PURE__*/ S.String;
+export const ConnectorConfigurationSecretSecretTypeEnum = S.String;
 
 /** Secret value parameter. */
 export interface ConnectorConfigurationSecret {
@@ -283,24 +329,24 @@ export const ConnectorConfigurationUsernamePassword = /*@__PURE__*/ S.suspend(
 
 /** Represents a value for a connector parameter. */
 export interface ConnectorConfigurationParameterValue {
+  /** A double parameter value. */
+  doubleValue?: number;
+  /** A boolean parameter value. */
+  boolValue?: boolean;
   /** An int32 parameter value. */
   int32Value?: number;
   /** A string parameter value. */
   stringValue?: string;
-  /** A boolean parameter value. */
-  boolValue?: boolean;
-  /** A double parameter value. */
-  doubleValue?: number;
   /** A secret parameter value. Allowed only for Authentication parameters. */
   secretValue?: ConnectorConfigurationSecret;
 }
 export const ConnectorConfigurationParameterValue = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      doubleValue: S.optional(S.Number),
+      boolValue: S.optional(S.Boolean),
       int32Value: S.optional(S.Number),
       stringValue: S.optional(S.String),
-      boolValue: S.optional(S.Boolean),
-      doubleValue: S.optional(S.Number),
       secretValue: S.optional(ConnectorConfigurationSecret),
     }),
 ).annotate({
@@ -321,7 +367,7 @@ export interface ConnectorConfigurationAuthentication {
   serviceAccount?: string;
   /** Username/password authentication. */
   usernamePassword?: ConnectorConfigurationUsernamePassword;
-  /** Optional. A map of name-value pairs for authentication-specific parameters. Extra configuration parameters, that are not standardized in authentication. To update a single parameter value call ConnectionService.UpdateConnection with `update_mask` set to `configuration.authentication.parameters.parameter_id`. If parameter id does not fit `[a-zA-Z0-9_]+` pattern, it should be escaped with backticks - for example ``configuration.authentication.parameters.`parameter id` ``. */
+  /** Optional. A map of name-value pairs for connector-specific parameters. These extra configuration parameters aren't standardized in the configuration sections. To update a single parameter value, call ConnectionService.UpdateConnection with `update_mask` set to `configuration.parameters.parameter_id`. If ``parameter_id`` doesn't fit the `[a-zA-Z0-9_]+` pattern, ``parameter_id`` should be escaped with backticks—for example, ``configuration.parameters.`parameter id` ``. */
   parameters?: ConnectorConfigurationParameterValueMap;
 }
 export const ConnectorConfigurationAuthentication = /*@__PURE__*/ S.suspend(
@@ -334,6 +380,19 @@ export const ConnectorConfigurationAuthentication = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "ConnectorConfigurationAuthentication",
 }) as any as S.Schema<ConnectorConfigurationAuthentication>;
+
+/** Remote endpoint specification. */
+export interface ConnectorConfigurationEndpoint {
+  /** Host and port in a format of `hostname:port` as defined in https://www.ietf.org/rfc/rfc3986.html#section-3.2.2 and https://www.ietf.org/rfc/rfc3986.html#section-3.2.3. */
+  hostPort?: string;
+}
+export const ConnectorConfigurationEndpoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hostPort: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ConnectorConfigurationEndpoint",
+}) as any as S.Schema<ConnectorConfigurationEndpoint>;
 
 /** Private Service Connect configuration. */
 export interface ConnectorConfigurationPrivateServiceConnect {
@@ -364,144 +423,135 @@ export const ConnectorConfigurationNetwork = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConnectorConfigurationNetwork",
 }) as any as S.Schema<ConnectorConfigurationNetwork>;
 
-/** Data Asset - a resource within instance of the system, reachable under specified endpoint. For example a database name in a SQL DB. */
-export interface ConnectorConfigurationAsset {
-  /** Name of the database. */
-  database?: string;
-  /** Full Google Cloud resource name - https://cloud.google.com/apis/design/resource_names#full_resource_name. Example: `//library.googleapis.com/shelves/shelf1/books/book2` */
-  googleCloudResource?: string;
-}
-export const ConnectorConfigurationAsset = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    database: S.optional(S.String),
-    googleCloudResource: S.optional(S.String),
-  }),
+/** Web PKI. */
+export interface ConnectorConfigurationTlsWebPki {}
+export const ConnectorConfigurationTlsWebPki = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
-  identifier: "ConnectorConfigurationAsset",
-}) as any as S.Schema<ConnectorConfigurationAsset>;
+  identifier: "ConnectorConfigurationTlsWebPki",
+}) as any as S.Schema<ConnectorConfigurationTlsWebPki>;
 
-/** Remote endpoint specification. */
-export interface ConnectorConfigurationEndpoint {
-  /** Host and port in a format of `hostname:port` as defined in https://www.ietf.org/rfc/rfc3986.html#section-3.2.2 and https://www.ietf.org/rfc/rfc3986.html#section-3.2.3. */
-  hostPort?: string;
+export type ConnectorConfigurationTlsModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "DISABLE"
+  | "ENCRYPT_VERIFY_NONE"
+  | "ENCRYPT_VERIFY_CA"
+  | "ENCRYPT_VERIFY_CA_AND_HOST";
+export const ConnectorConfigurationTlsModeEnum = S.String;
+
+/** Private PKI. */
+export interface ConnectorConfigurationTlsPrivatePki {
+  /** Optional. a PEM-encoded list of certificates to trust */
+  trustedCertificatesPem?: string;
 }
-export const ConnectorConfigurationEndpoint = /*@__PURE__*/ S.suspend(() =>
+export const ConnectorConfigurationTlsPrivatePki = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    hostPort: S.optional(S.String),
+    trustedCertificatesPem: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "ConnectorConfigurationEndpoint",
-}) as any as S.Schema<ConnectorConfigurationEndpoint>;
+  identifier: "ConnectorConfigurationTlsPrivatePki",
+}) as any as S.Schema<ConnectorConfigurationTlsPrivatePki>;
+
+/** TLS configuration options. */
+export interface ConnectorConfigurationTls {
+  /** Optional. Web PKI. */
+  webPki?: ConnectorConfigurationTlsWebPki;
+  /** Optional. The mode of TLS configuration. */
+  mode?: ConnectorConfigurationTlsModeEnum | (string & {});
+  /** Optional. Private PKI. */
+  privatePki?: ConnectorConfigurationTlsPrivatePki;
+}
+export const ConnectorConfigurationTls = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    webPki: S.optional(ConnectorConfigurationTlsWebPki),
+    mode: S.optional(ConnectorConfigurationTlsModeEnum),
+    privatePki: S.optional(ConnectorConfigurationTlsPrivatePki),
+  }),
+).annotate({
+  identifier: "ConnectorConfigurationTls",
+}) as any as S.Schema<ConnectorConfigurationTls>;
 
 /** Represents concrete parameter values for Connector Configuration. */
 export interface ConnectorConfiguration {
-  /** Client authentication. */
-  authentication?: ConnectorConfigurationAuthentication;
-  /** Networking configuration. */
-  network?: ConnectorConfigurationNetwork;
-  /** Required. Immutable. The ID of the Connector these parameters are configured for. */
-  connectorId?: string;
-  /** Optional. A map of name-value pairs for connector-specific parameters. Extra configuration parameters, that are not standardized in configuration sections. To update a single parameter value call ConnectionService.UpdateConnection with `update_mask` set to `configuration.parameters.parameter_id`. If parameter id does not fit `[a-zA-Z0-9_]+` pattern, it should be escaped with backticks - for example ``configuration.parameters.`parameter id` ``. */
-  parameters?: ConnectorConfigurationParameterValueMap;
   /** Data asset. */
   asset?: ConnectorConfigurationAsset;
+  /** Client authentication. */
+  authentication?: ConnectorConfigurationAuthentication;
+  /** Required. Immutable. The ID of the Connector these parameters are configured for. */
+  connectorId?: string;
   /** Specifies how to reach the remote system this connection is pointing to. */
   endpoint?: ConnectorConfigurationEndpoint;
+  /** Networking configuration. */
+  network?: ConnectorConfigurationNetwork;
+  /** Optional. TLS configuration options. */
+  tls?: ConnectorConfigurationTls;
+  /** Optional. A map of name-value pairs for connector-specific parameters. These extra configuration parameters aren't standardized in the configuration sections. To update a single parameter value, call ConnectionService.UpdateConnection with `update_mask` set to `configuration.parameters.parameter_id`. If ``parameter_id`` doesn't fit the `[a-zA-Z0-9_]+` pattern, ``parameter_id`` should be escaped with backticks—for example, ``configuration.parameters.`parameter id` ``. */
+  parameters?: ConnectorConfigurationParameterValueMap;
 }
 export const ConnectorConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    authentication: S.optional(ConnectorConfigurationAuthentication),
-    network: S.optional(ConnectorConfigurationNetwork),
-    connectorId: S.optional(S.String),
-    parameters: S.optional(ConnectorConfigurationParameterValueMap),
     asset: S.optional(ConnectorConfigurationAsset),
+    authentication: S.optional(ConnectorConfigurationAuthentication),
+    connectorId: S.optional(S.String),
     endpoint: S.optional(ConnectorConfigurationEndpoint),
+    network: S.optional(ConnectorConfigurationNetwork),
+    tls: S.optional(ConnectorConfigurationTls),
+    parameters: S.optional(ConnectorConfigurationParameterValueMap),
   }),
 ).annotate({
   identifier: "ConnectorConfiguration",
 }) as any as S.Schema<ConnectorConfiguration>;
 
-/** Container for connection properties specific to Azure. */
-export interface AzureProperties {
-  /** Output only. The name of the Azure Active Directory Application. */
-  application?: string;
-  /** Output only. The client id of the Azure Active Directory Application. */
-  clientId?: string;
-  /** The id of customer's directory that host the data. */
-  customerTenantId?: string;
-  /** Output only. A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's Azure Active Directory Application. */
-  identity?: string;
-  /** Output only. The object id of the Azure Active Directory Application. */
-  objectId?: string;
-  /** The URL user will be redirected to after granting consent during connection setup. */
-  redirectUri?: string;
-  /** The client ID of the user's Azure Active Directory Application used for a federated connection. */
-  federatedApplicationClientId?: string;
-}
-export const AzureProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    application: S.optional(S.String),
-    clientId: S.optional(S.String),
-    customerTenantId: S.optional(S.String),
-    identity: S.optional(S.String),
-    objectId: S.optional(S.String),
-    redirectUri: S.optional(S.String),
-    federatedApplicationClientId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AzureProperties",
-}) as any as S.Schema<AzureProperties>;
-
 /** Configuration parameters to establish connection with an external data source, except the credential attributes. */
 export interface Connection {
-  /** Spark properties. */
-  spark?: SparkProperties;
-  /** Output only. The resource name of the connection in the form of: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
-  name?: string;
   /** User provided display name for the connection. */
   friendlyName?: string;
-  /** Output only. The last update timestamp of the connection. */
-  lastModifiedTime?: string;
-  /** Cloud SQL properties. */
-  cloudSql?: CloudSqlProperties;
+  /** Output only. The resource name of the connection in the form of: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
+  name?: string;
   /** Cloud Resource properties. */
   cloudResource?: CloudResourceProperties;
-  /** Output only. True, if credential is configured for this connection. */
-  hasCredential?: boolean;
-  /** Amazon Web Services (AWS) properties. */
-  aws?: AwsProperties;
-  /** Output only. The creation timestamp of the connection. */
-  creationTime?: string;
   /** Cloud Spanner properties. */
   cloudSpanner?: CloudSpannerProperties;
-  /** Optional. Salesforce DataCloud properties. This field is intended for use only by Salesforce partner projects. This field contains properties for your Salesforce DataCloud connection. */
-  salesforceDataCloud?: SalesforceDataCloudProperties;
-  /** Optional. Connector configuration. */
-  configuration?: ConnectorConfiguration;
   /** Optional. The Cloud KMS key that is used for credentials encryption. If omitted, internal Google owned encryption keys are used. Example: `projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]` */
   kmsKeyName?: string;
-  /** User provided description. */
-  description?: string;
+  /** Output only. The creation timestamp of the connection. */
+  creationTime?: string;
+  /** Amazon Web Services (AWS) properties. */
+  aws?: AwsProperties;
   /** Azure properties. */
   azure?: AzureProperties;
+  /** Optional. Salesforce DataCloud properties. This field is intended for use only by Salesforce partner projects. This field contains properties for your Salesforce DataCloud connection. */
+  salesforceDataCloud?: SalesforceDataCloudProperties;
+  /** Output only. The last update timestamp of the connection. */
+  lastModifiedTime?: string;
+  /** Spark properties. */
+  spark?: SparkProperties;
+  /** Cloud SQL properties. */
+  cloudSql?: CloudSqlProperties;
+  /** Output only. True, if credential is configured for this connection. */
+  hasCredential?: boolean;
+  /** User provided description. */
+  description?: string;
+  /** Optional. Connector configuration. */
+  configuration?: ConnectorConfiguration;
 }
 export const Connection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    spark: S.optional(SparkProperties),
-    name: S.optional(S.String),
     friendlyName: S.optional(S.String),
-    lastModifiedTime: S.optional(S.String),
-    cloudSql: S.optional(CloudSqlProperties),
+    name: S.optional(S.String),
     cloudResource: S.optional(CloudResourceProperties),
-    hasCredential: S.optional(S.Boolean),
-    aws: S.optional(AwsProperties),
-    creationTime: S.optional(S.String),
     cloudSpanner: S.optional(CloudSpannerProperties),
-    salesforceDataCloud: S.optional(SalesforceDataCloudProperties),
-    configuration: S.optional(ConnectorConfiguration),
     kmsKeyName: S.optional(S.String),
-    description: S.optional(S.String),
+    creationTime: S.optional(S.String),
+    aws: S.optional(AwsProperties),
     azure: S.optional(AzureProperties),
+    salesforceDataCloud: S.optional(SalesforceDataCloudProperties),
+    lastModifiedTime: S.optional(S.String),
+    spark: S.optional(SparkProperties),
+    cloudSql: S.optional(CloudSqlProperties),
+    hasCredential: S.optional(S.Boolean),
+    description: S.optional(S.String),
+    configuration: S.optional(ConnectorConfiguration),
   }),
 ).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
 
@@ -608,7 +658,7 @@ export type AuditLogConfigLogTypeEnum =
   | "ADMIN_READ"
   | "DATA_WRITE"
   | "DATA_READ";
-export const AuditLogConfigLogTypeEnum = /*@__PURE__*/ S.String;
+export const AuditLogConfigLogTypeEnum = S.String;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
@@ -655,21 +705,21 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
 
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    title: S.optional(S.String),
-    expression: S.optional(S.String),
-    description: S.optional(S.String),
     location: S.optional(S.String),
+    title: S.optional(S.String),
+    description: S.optional(S.String),
+    expression: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
@@ -735,18 +785,18 @@ export const GetProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GetProjectsLocationsConnectionsRequest>;
 
 export interface ListProjectsLocationsConnectionsRequest {
-  /** Required. Page size. */
-  pageSize?: number;
   /** Required. Parent resource name. Must be in the form: `projects/{project_id}/locations/{location_id}` */
   parent: string;
+  /** Required. Page size. */
+  pageSize?: number;
   /** Page token. */
   pageToken?: string;
 }
 export const ListProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -766,33 +816,33 @@ export const ConnectionList = /*@__PURE__*/ S.Array(
 
 /** The response for ConnectionService.ListConnections. */
 export interface ListConnectionsResponse {
-  /** List of connections. */
-  connections?: ConnectionList;
   /** Next page token. */
   nextPageToken?: string;
+  /** List of connections. */
+  connections?: ConnectionList;
 }
 export const ListConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    connections: S.optional(ConnectionList),
     nextPageToken: S.optional(S.String),
+    connections: S.optional(ConnectionList),
   }),
 ).annotate({
   identifier: "ListConnectionsResponse",
 }) as any as S.Schema<ListConnectionsResponse>;
 
 export interface PatchProjectsLocationsConnectionsRequest {
-  /** Required. Name of the connection to update, for example: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
-  name: string;
   /** Required. Update mask for the connection fields to be updated. */
   updateMask?: string;
+  /** Required. Name of the connection to update, for example: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
+  name: string;
   /** Request body */
   body?: Connection;
 }
 export const PatchProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(Connection.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -807,15 +857,15 @@ export const PatchProjectsLocationsConnectionsRequest = /*@__PURE__*/ S.suspend(
 
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy;
 }
 export const SetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    policy: S.optional(Policy),
     updateMask: S.optional(S.String),
+    policy: S.optional(Policy),
   }),
 ).annotate({
   identifier: "SetIamPolicyRequest",

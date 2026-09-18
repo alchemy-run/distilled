@@ -2,7 +2,7 @@
 /**
  * convert — turn the Neon OpenAPI spec into a Smithy 2.0 JSON model.
  *
- * Input:  specs/distilled-spec-neon/specs/openapi.json  (spec submodule)
+ * Input:  specs/spec-mirror-neon/specs/openapi.json  (spec submodule)
  *         patches/*.patch.json  (RFC-6902 patches to the OpenAPI document —
  *         ported verbatim from distilled v0; they add observed error
  *         responses that feed the per-op typed error unions)
@@ -20,7 +20,7 @@ await runOpenApiConvert({
   specs: [
     {
       name: "neon",
-      specPath: "specs/distilled-spec-neon/specs/openapi.json",
+      specPath: "specs/spec-mirror-neon/specs/openapi.json",
     },
   ],
   // OpenAPI-document patches (v0 layout: flat patches/*.patch.json). The

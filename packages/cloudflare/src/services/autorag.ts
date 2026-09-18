@@ -12,265 +12,8 @@ import * as Retry from "../retry.ts";
 
 export type { CloudflareOpError, CloudflareOpContext };
 
-export type AiSearchRequestFiltersCase0Type =
-  | "eq"
-  | "ne"
-  | "gt"
-  | "gte"
-  | "lt"
-  | "lte";
-export const AiSearchRequestFiltersCase0Type = /*@__PURE__*/ S.String;
-
-export type AiSearchRequestFiltersCase0Value = string | number | boolean;
-export const AiSearchRequestFiltersCase0Value = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([[], [], []]),
-);
-
-export interface AiSearchRequestFiltersCase0 {
-  key: string;
-  type: AiSearchRequestFiltersCase0Type | (string & {});
-  value: AiSearchRequestFiltersCase0Value;
-}
-export const AiSearchRequestFiltersCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.String,
-    type: AiSearchRequestFiltersCase0Type,
-    value: AiSearchRequestFiltersCase0Value,
-  }),
-).annotate({
-  identifier: "AiSearchRequestFiltersCase0",
-}) as any as S.Schema<AiSearchRequestFiltersCase0>;
-
-export type AiSearchRequestFiltersCase1FiltersItemType =
-  | "eq"
-  | "ne"
-  | "gt"
-  | "gte"
-  | "lt"
-  | "lte";
-export const AiSearchRequestFiltersCase1FiltersItemType =
-  /*@__PURE__*/ S.String;
-
-export type AiSearchRequestFiltersCase1FiltersItemValue =
-  | string
-  | number
-  | boolean;
-export const AiSearchRequestFiltersCase1FiltersItemValue =
-  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
-
-export interface AiSearchRequestFiltersCase1FiltersItem {
-  key: string;
-  type: AiSearchRequestFiltersCase1FiltersItemType | (string & {});
-  value: AiSearchRequestFiltersCase1FiltersItemValue;
-}
-export const AiSearchRequestFiltersCase1FiltersItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      key: S.String,
-      type: AiSearchRequestFiltersCase1FiltersItemType,
-      value: AiSearchRequestFiltersCase1FiltersItemValue,
-    }),
-).annotate({
-  identifier: "AiSearchRequestFiltersCase1FiltersItem",
-}) as any as S.Schema<AiSearchRequestFiltersCase1FiltersItem>;
-
-export type AiSearchRequestFiltersCase1FiltersList =
-  Array<AiSearchRequestFiltersCase1FiltersItem>;
-export const AiSearchRequestFiltersCase1FiltersList = /*@__PURE__*/ S.Array(
-  AiSearchRequestFiltersCase1FiltersItem,
-) as any as S.Schema<AiSearchRequestFiltersCase1FiltersList>;
-
-export type AiSearchRequestFiltersCase1Type = "and" | "or";
-export const AiSearchRequestFiltersCase1Type = /*@__PURE__*/ S.String;
-
-export interface AiSearchRequestFiltersCase1 {
-  filters: AiSearchRequestFiltersCase1FiltersList;
-  type: AiSearchRequestFiltersCase1Type | (string & {});
-}
-export const AiSearchRequestFiltersCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filters: AiSearchRequestFiltersCase1FiltersList,
-    type: AiSearchRequestFiltersCase1Type,
-  }),
-).annotate({
-  identifier: "AiSearchRequestFiltersCase1",
-}) as any as S.Schema<AiSearchRequestFiltersCase1>;
-
-export type AiSearchRequestFilters =
-  | AiSearchRequestFiltersCase0
-  | AiSearchRequestFiltersCase1;
-export const AiSearchRequestFilters = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["key", "type", "value"],
-    ["filters", "type"],
-  ]),
-);
-
-export type AiSearchRequestModel =
-  | "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
-  | "@cf/meta/llama-3.1-8b-instruct-fast"
-  | "@cf/meta/llama-3.1-8b-instruct-fp8"
-  | "@cf/meta/llama-4-scout-17b-16e-instruct"
-  | "@cf/qwen/qwen3-30b-a3b-fp8"
-  | "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b"
-  | "@cf/moonshotai/kimi-k2-instruct"
-  | "anthropic/claude-3-7-sonnet"
-  | "anthropic/claude-sonnet-4"
-  | "anthropic/claude-opus-4"
-  | "anthropic/claude-3-5-haiku"
-  | "cerebras/qwen-3-235b-a22b-instruct"
-  | "cerebras/qwen-3-235b-a22b-thinking"
-  | "cerebras/llama-3.3-70b"
-  | "cerebras/llama-4-maverick-17b-128e-instruct"
-  | "cerebras/llama-4-scout-17b-16e-instruct"
-  | "cerebras/gpt-oss-120b"
-  | "google-ai-studio/gemini-2.5-flash"
-  | "google-ai-studio/gemini-2.5-pro"
-  | "grok/grok-4"
-  | "groq/llama-3.3-70b-versatile"
-  | "groq/llama-3.1-8b-instant"
-  | "openai/gpt-5"
-  | "openai/gpt-5-mini"
-  | "openai/gpt-5-nano"
-  | "";
-export const AiSearchRequestModel = /*@__PURE__*/ S.String;
-
-export interface AiSearchRequestRankingOptions {
-  ranker?: string;
-  scoreThreshold?: number;
-}
-export const AiSearchRequestRankingOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ranker: S.optional(S.String),
-    scoreThreshold: S.optional(S.Number.pipe(T.Body("score_threshold"))),
-  }),
-).annotate({
-  identifier: "AiSearchRequestRankingOptions",
-}) as any as S.Schema<AiSearchRequestRankingOptions>;
-
-export type AiSearchRequestRerankingModel = "@cf/baai/bge-reranker-base" | "";
-export const AiSearchRequestRerankingModel = /*@__PURE__*/ S.String;
-
-export interface AiSearchRequestReranking {
-  enabled?: boolean;
-  model?: AiSearchRequestRerankingModel | (string & {});
-}
-export const AiSearchRequestReranking = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-    model: S.optional(AiSearchRequestRerankingModel),
-  }),
-).annotate({
-  identifier: "AiSearchRequestReranking",
-}) as any as S.Schema<AiSearchRequestReranking>;
-
-export interface AiSearchRequest {
-  accountId: string;
-  /** rag id */
-  id: string;
-  query: string;
-  filters?: AiSearchRequestFilters;
-  maxNumResults?: number;
-  model?: AiSearchRequestModel | (string & {});
-  rankingOptions?: AiSearchRequestRankingOptions;
-  reranking?: AiSearchRequestReranking;
-  rewriteQuery?: boolean;
-  stream?: boolean;
-  systemPrompt?: string;
-}
-export const AiSearchRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.Label("account_id")),
-    id: S.String.pipe(T.Label()),
-    query: S.String,
-    filters: S.optional(AiSearchRequestFilters),
-    maxNumResults: S.optional(S.Number.pipe(T.Body("max_num_results"))),
-    model: S.optional(AiSearchRequestModel),
-    rankingOptions: S.optional(
-      AiSearchRequestRankingOptions.pipe(T.Body("ranking_options")),
-    ),
-    reranking: S.optional(AiSearchRequestReranking),
-    rewriteQuery: S.optional(S.Boolean.pipe(T.Body("rewrite_query"))),
-    stream: S.optional(S.Boolean),
-    systemPrompt: S.optional(S.String.pipe(T.Body("system_prompt"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{account_id}/autorag/rags/{id}/ai-search",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AiSearchRequest",
-}) as any as S.Schema<AiSearchRequest>;
-
-export interface AiSearchResponseDataItemContentItem {
-  text?: string | null;
-  type?: string | null;
-}
-export const AiSearchResponseDataItemContentItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    text: S.optional(S.NullOr(S.String)),
-    type: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "AiSearchResponseDataItemContentItem",
-}) as any as S.Schema<AiSearchResponseDataItemContentItem>;
-
-export type AiSearchResponseDataItemContentList =
-  Array<AiSearchResponseDataItemContentItem>;
-export const AiSearchResponseDataItemContentList = /*@__PURE__*/ S.Array(
-  AiSearchResponseDataItemContentItem,
-) as any as S.Schema<AiSearchResponseDataItemContentList>;
-
-export interface AiSearchResponseDataItem {
-  score: number;
-  attributes?: unknown | null;
-  content?: AiSearchResponseDataItemContentList | null;
-  fileId?: string | null;
-  filename?: string | null;
-}
-export const AiSearchResponseDataItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    score: S.Number,
-    attributes: S.optional(S.NullOr(S.Unknown)),
-    content: S.optional(S.NullOr(AiSearchResponseDataItemContentList)),
-    fileId: S.optional(S.NullOr(S.String).pipe(T.Body("file_id"))),
-    filename: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "AiSearchResponseDataItem",
-}) as any as S.Schema<AiSearchResponseDataItem>;
-
-export type AiSearchResponseDataList = Array<AiSearchResponseDataItem>;
-export const AiSearchResponseDataList = /*@__PURE__*/ S.Array(
-  AiSearchResponseDataItem,
-) as any as S.Schema<AiSearchResponseDataList>;
-
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface AiSearchResponse {
-  response: string;
-  searchQuery: string;
-  data?: AiSearchResponseDataList | null;
-  hasMore?: boolean | null;
-  nextPage?: string | null;
-  object?: string | null;
-}
-export const AiSearchResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    response: S.String,
-    searchQuery: S.String.pipe(T.Body("search_query")),
-    data: S.optional(S.NullOr(AiSearchResponseDataList)),
-    hasMore: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_more"))),
-    nextPage: S.optional(S.NullOr(S.String).pipe(T.Body("next_page"))),
-    object: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "AiSearchResponse",
-}) as any as S.Schema<AiSearchResponse>;
-
 export type FilesRequestStatus = "completed" | "queued" | "running" | "error";
-export const FilesRequestStatus = /*@__PURE__*/ S.String;
+export const FilesRequestStatus = S.String;
 
 export interface FilesRequest {
   accountId: string;
@@ -321,13 +64,13 @@ export const FilesResponse = /*@__PURE__*/ S.suspend(() =>
   FilesResultList.pipe(T.EnvelopePayloadRoot()),
 ).annotate({ identifier: "FilesResponse" }) as any as S.Schema<FilesResponse>;
 
-export interface JobsGetRequest {
+export interface GetJobRequest {
   accountId: string;
   /** rag id */
   id: string;
   jobId: string;
 }
-export const JobsGetRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     id: S.String.pipe(T.Label()),
@@ -339,92 +82,30 @@ export const JobsGetRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({ identifier: "JobsGetRequest" }) as any as S.Schema<JobsGetRequest>;
+).annotate({ identifier: "GetJobRequest" }) as any as S.Schema<GetJobRequest>;
 
-export type JobsGetResponseSource = "user" | "schedule";
-export const JobsGetResponseSource = /*@__PURE__*/ S.String;
+export type GetJobResponseSource = "user" | "schedule";
+export const GetJobResponseSource = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface JobsGetResponse {
+export interface GetJobResponse {
   id: string;
-  source: JobsGetResponseSource;
+  source: GetJobResponseSource;
   endReason?: string | null;
   endedAt?: string | null;
   lastSeenAt?: string | null;
   startedAt?: string | null;
 }
-export const JobsGetResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    source: JobsGetResponseSource,
+    source: GetJobResponseSource,
     endReason: S.optional(S.NullOr(S.String).pipe(T.Body("end_reason"))),
     endedAt: S.optional(S.NullOr(S.String).pipe(T.Body("ended_at"))),
     lastSeenAt: S.optional(S.NullOr(S.String).pipe(T.Body("last_seen_at"))),
     startedAt: S.optional(S.NullOr(S.String).pipe(T.Body("started_at"))),
   }),
-).annotate({
-  identifier: "JobsGetResponse",
-}) as any as S.Schema<JobsGetResponse>;
-
-export interface JobsListRequest {
-  accountId: string;
-  /** rag id */
-  id: string;
-  page?: number;
-  perPage?: number;
-}
-export const JobsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.Label("account_id")),
-    id: S.String.pipe(T.Label()),
-    page: S.optional(S.Number.pipe(T.Query())),
-    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{account_id}/autorag/rags/{id}/jobs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "JobsListRequest",
-}) as any as S.Schema<JobsListRequest>;
-
-export type JobsListResultItemSource = "user" | "schedule";
-export const JobsListResultItemSource = /*@__PURE__*/ S.String;
-
-export interface JobsListResultItem {
-  id: string;
-  source: JobsListResultItemSource;
-  endReason?: string | null;
-  endedAt?: string | null;
-  lastSeenAt?: string | null;
-  startedAt?: string | null;
-}
-export const JobsListResultItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    source: JobsListResultItemSource,
-    endReason: S.optional(S.NullOr(S.String).pipe(T.Body("end_reason"))),
-    endedAt: S.optional(S.NullOr(S.String).pipe(T.Body("ended_at"))),
-    lastSeenAt: S.optional(S.NullOr(S.String).pipe(T.Body("last_seen_at"))),
-    startedAt: S.optional(S.NullOr(S.String).pipe(T.Body("started_at"))),
-  }),
-).annotate({
-  identifier: "JobsListResultItem",
-}) as any as S.Schema<JobsListResultItem>;
-
-export type JobsListResultList = Array<JobsListResultItem>;
-export const JobsListResultList = /*@__PURE__*/ S.Array(
-  JobsListResultItem,
-) as any as S.Schema<JobsListResultList>;
-
-export type JobsListResponse = JobsListResultList;
-export const JobsListResponse = /*@__PURE__*/ S.suspend(() =>
-  JobsListResultList.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "JobsListResponse",
-}) as any as S.Schema<JobsListResponse>;
+).annotate({ identifier: "GetJobResponse" }) as any as S.Schema<GetJobResponse>;
 
 export interface JobsLogsRequest {
   accountId: string;
@@ -481,6 +162,66 @@ export const JobsLogsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "JobsLogsResponse",
 }) as any as S.Schema<JobsLogsResponse>;
 
+export interface ListJobsRequest {
+  accountId: string;
+  /** rag id */
+  id: string;
+  page?: number;
+  perPage?: number;
+}
+export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    id: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/accounts/{account_id}/autorag/rags/{id}/jobs",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListJobsRequest",
+}) as any as S.Schema<ListJobsRequest>;
+
+export type ListJobsResultItemSource = "user" | "schedule";
+export const ListJobsResultItemSource = S.String;
+
+export interface ListJobsResultItem {
+  id: string;
+  source: ListJobsResultItemSource;
+  endReason?: string | null;
+  endedAt?: string | null;
+  lastSeenAt?: string | null;
+  startedAt?: string | null;
+}
+export const ListJobsResultItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    source: ListJobsResultItemSource,
+    endReason: S.optional(S.NullOr(S.String).pipe(T.Body("end_reason"))),
+    endedAt: S.optional(S.NullOr(S.String).pipe(T.Body("ended_at"))),
+    lastSeenAt: S.optional(S.NullOr(S.String).pipe(T.Body("last_seen_at"))),
+    startedAt: S.optional(S.NullOr(S.String).pipe(T.Body("started_at"))),
+  }),
+).annotate({
+  identifier: "ListJobsResultItem",
+}) as any as S.Schema<ListJobsResultItem>;
+
+export type ListJobsResultList = Array<ListJobsResultItem>;
+export const ListJobsResultList = /*@__PURE__*/ S.Array(
+  ListJobsResultItem,
+) as any as S.Schema<ListJobsResultList>;
+
+export type ListJobsResponse = ListJobsResultList;
+export const ListJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListJobsResultList.pipe(T.EnvelopePayloadRoot()),
+).annotate({
+  identifier: "ListJobsResponse",
+}) as any as S.Schema<ListJobsResponse>;
+
 export type SearchRequestFiltersCase0Type =
   | "eq"
   | "ne"
@@ -488,7 +229,7 @@ export type SearchRequestFiltersCase0Type =
   | "gte"
   | "lt"
   | "lte";
-export const SearchRequestFiltersCase0Type = /*@__PURE__*/ S.String;
+export const SearchRequestFiltersCase0Type = S.String;
 
 export type SearchRequestFiltersCase0Value = string | number | boolean;
 export const SearchRequestFiltersCase0Value = /*@__PURE__*/ S.Unknown.pipe(
@@ -517,7 +258,7 @@ export type SearchRequestFiltersCase1FiltersItemType =
   | "gte"
   | "lt"
   | "lte";
-export const SearchRequestFiltersCase1FiltersItemType = /*@__PURE__*/ S.String;
+export const SearchRequestFiltersCase1FiltersItemType = S.String;
 
 export type SearchRequestFiltersCase1FiltersItemValue =
   | string
@@ -549,7 +290,7 @@ export const SearchRequestFiltersCase1FiltersList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<SearchRequestFiltersCase1FiltersList>;
 
 export type SearchRequestFiltersCase1Type = "and" | "or";
-export const SearchRequestFiltersCase1Type = /*@__PURE__*/ S.String;
+export const SearchRequestFiltersCase1Type = S.String;
 
 export interface SearchRequestFiltersCase1 {
   filters: SearchRequestFiltersCase1FiltersList;
@@ -574,11 +315,21 @@ export const SearchRequestFilters = /*@__PURE__*/ S.Unknown.pipe(
   ]),
 );
 
-export type SearchRequestRankingOptions = AiSearchRequestRankingOptions;
-export const SearchRequestRankingOptions = AiSearchRequestRankingOptions;
+export interface SearchRequestRankingOptions {
+  ranker?: string;
+  scoreThreshold?: number;
+}
+export const SearchRequestRankingOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ranker: S.optional(S.String),
+    scoreThreshold: S.optional(S.Number.pipe(T.Body("score_threshold"))),
+  }),
+).annotate({
+  identifier: "SearchRequestRankingOptions",
+}) as any as S.Schema<SearchRequestRankingOptions>;
 
 export type SearchRequestRerankingModel = "@cf/baai/bge-reranker-base" | "";
-export const SearchRequestRerankingModel = /*@__PURE__*/ S.String;
+export const SearchRequestRerankingModel = S.String;
 
 export interface SearchRequestReranking {
   enabled?: boolean;
@@ -600,7 +351,7 @@ export interface SearchRequest {
   query: string;
   filters?: SearchRequestFilters;
   maxNumResults?: number;
-  rankingOptions?: AiSearchRequestRankingOptions;
+  rankingOptions?: SearchRequestRankingOptions;
   reranking?: SearchRequestReranking;
   rewriteQuery?: boolean;
 }
@@ -612,7 +363,7 @@ export const SearchRequest = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(SearchRequestFilters),
     maxNumResults: S.optional(S.Number.pipe(T.Body("max_num_results"))),
     rankingOptions: S.optional(
-      AiSearchRequestRankingOptions.pipe(T.Body("ranking_options")),
+      SearchRequestRankingOptions.pipe(T.Body("ranking_options")),
     ),
     reranking: S.optional(SearchRequestReranking),
     rewriteQuery: S.optional(S.Boolean.pipe(T.Body("rewrite_query"))),
@@ -625,15 +376,23 @@ export const SearchRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "SearchRequest" }) as any as S.Schema<SearchRequest>;
 
-export type SearchResponseDataItemContentItem =
-  AiSearchResponseDataItemContentItem;
-export const SearchResponseDataItemContentItem =
-  AiSearchResponseDataItemContentItem;
+export interface SearchResponseDataItemContentItem {
+  text?: string | null;
+  type?: string | null;
+}
+export const SearchResponseDataItemContentItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    text: S.optional(S.NullOr(S.String)),
+    type: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "SearchResponseDataItemContentItem",
+}) as any as S.Schema<SearchResponseDataItemContentItem>;
 
 export type SearchResponseDataItemContentList =
-  Array<AiSearchResponseDataItemContentItem>;
+  Array<SearchResponseDataItemContentItem>;
 export const SearchResponseDataItemContentList = /*@__PURE__*/ S.Array(
-  AiSearchResponseDataItemContentItem,
+  SearchResponseDataItemContentItem,
 ) as any as S.Schema<SearchResponseDataItemContentList>;
 
 export interface SearchResponseDataItem {
@@ -678,6 +437,244 @@ export const SearchResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "SearchResponse" }) as any as S.Schema<SearchResponse>;
 
+export type SearchAiRequestFiltersCase0Type =
+  | "eq"
+  | "ne"
+  | "gt"
+  | "gte"
+  | "lt"
+  | "lte";
+export const SearchAiRequestFiltersCase0Type = S.String;
+
+export type SearchAiRequestFiltersCase0Value = string | number | boolean;
+export const SearchAiRequestFiltersCase0Value = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([[], [], []]),
+);
+
+export interface SearchAiRequestFiltersCase0 {
+  key: string;
+  type: SearchAiRequestFiltersCase0Type | (string & {});
+  value: SearchAiRequestFiltersCase0Value;
+}
+export const SearchAiRequestFiltersCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    type: SearchAiRequestFiltersCase0Type,
+    value: SearchAiRequestFiltersCase0Value,
+  }),
+).annotate({
+  identifier: "SearchAiRequestFiltersCase0",
+}) as any as S.Schema<SearchAiRequestFiltersCase0>;
+
+export type SearchAiRequestFiltersCase1FiltersItemType =
+  | "eq"
+  | "ne"
+  | "gt"
+  | "gte"
+  | "lt"
+  | "lte";
+export const SearchAiRequestFiltersCase1FiltersItemType = S.String;
+
+export type SearchAiRequestFiltersCase1FiltersItemValue =
+  | string
+  | number
+  | boolean;
+export const SearchAiRequestFiltersCase1FiltersItemValue =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
+
+export interface SearchAiRequestFiltersCase1FiltersItem {
+  key: string;
+  type: SearchAiRequestFiltersCase1FiltersItemType | (string & {});
+  value: SearchAiRequestFiltersCase1FiltersItemValue;
+}
+export const SearchAiRequestFiltersCase1FiltersItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      key: S.String,
+      type: SearchAiRequestFiltersCase1FiltersItemType,
+      value: SearchAiRequestFiltersCase1FiltersItemValue,
+    }),
+).annotate({
+  identifier: "SearchAiRequestFiltersCase1FiltersItem",
+}) as any as S.Schema<SearchAiRequestFiltersCase1FiltersItem>;
+
+export type SearchAiRequestFiltersCase1FiltersList =
+  Array<SearchAiRequestFiltersCase1FiltersItem>;
+export const SearchAiRequestFiltersCase1FiltersList = /*@__PURE__*/ S.Array(
+  SearchAiRequestFiltersCase1FiltersItem,
+) as any as S.Schema<SearchAiRequestFiltersCase1FiltersList>;
+
+export type SearchAiRequestFiltersCase1Type = "and" | "or";
+export const SearchAiRequestFiltersCase1Type = S.String;
+
+export interface SearchAiRequestFiltersCase1 {
+  filters: SearchAiRequestFiltersCase1FiltersList;
+  type: SearchAiRequestFiltersCase1Type | (string & {});
+}
+export const SearchAiRequestFiltersCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    filters: SearchAiRequestFiltersCase1FiltersList,
+    type: SearchAiRequestFiltersCase1Type,
+  }),
+).annotate({
+  identifier: "SearchAiRequestFiltersCase1",
+}) as any as S.Schema<SearchAiRequestFiltersCase1>;
+
+export type SearchAiRequestFilters =
+  | SearchAiRequestFiltersCase0
+  | SearchAiRequestFiltersCase1;
+export const SearchAiRequestFilters = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    ["key", "type", "value"],
+    ["filters", "type"],
+  ]),
+);
+
+export type SearchAiRequestModel =
+  | "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+  | "@cf/meta/llama-3.1-8b-instruct-fast"
+  | "@cf/meta/llama-3.1-8b-instruct-fp8"
+  | "@cf/meta/llama-4-scout-17b-16e-instruct"
+  | "@cf/qwen/qwen3-30b-a3b-fp8"
+  | "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b"
+  | "@cf/moonshotai/kimi-k2-instruct"
+  | "anthropic/claude-3-7-sonnet"
+  | "anthropic/claude-sonnet-4"
+  | "anthropic/claude-opus-4"
+  | "anthropic/claude-3-5-haiku"
+  | "cerebras/qwen-3-235b-a22b-instruct"
+  | "cerebras/qwen-3-235b-a22b-thinking"
+  | "cerebras/llama-3.3-70b"
+  | "cerebras/llama-4-maverick-17b-128e-instruct"
+  | "cerebras/llama-4-scout-17b-16e-instruct"
+  | "cerebras/gpt-oss-120b"
+  | "google-ai-studio/gemini-2.5-flash"
+  | "google-ai-studio/gemini-2.5-pro"
+  | "grok/grok-4"
+  | "groq/llama-3.3-70b-versatile"
+  | "groq/llama-3.1-8b-instant"
+  | "openai/gpt-5"
+  | "openai/gpt-5-mini"
+  | "openai/gpt-5-nano"
+  | "";
+export const SearchAiRequestModel = S.String;
+
+export type SearchAiRequestRankingOptions = SearchRequestRankingOptions;
+export const SearchAiRequestRankingOptions = SearchRequestRankingOptions;
+
+export type SearchAiRequestRerankingModel = "@cf/baai/bge-reranker-base" | "";
+export const SearchAiRequestRerankingModel = S.String;
+
+export interface SearchAiRequestReranking {
+  enabled?: boolean;
+  model?: SearchAiRequestRerankingModel | (string & {});
+}
+export const SearchAiRequestReranking = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    model: S.optional(SearchAiRequestRerankingModel),
+  }),
+).annotate({
+  identifier: "SearchAiRequestReranking",
+}) as any as S.Schema<SearchAiRequestReranking>;
+
+export interface SearchAiRequest {
+  accountId: string;
+  /** rag id */
+  id: string;
+  query: string;
+  filters?: SearchAiRequestFilters;
+  maxNumResults?: number;
+  model?: SearchAiRequestModel | (string & {});
+  rankingOptions?: SearchRequestRankingOptions;
+  reranking?: SearchAiRequestReranking;
+  rewriteQuery?: boolean;
+  stream?: boolean;
+  systemPrompt?: string;
+}
+export const SearchAiRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    id: S.String.pipe(T.Label()),
+    query: S.String,
+    filters: S.optional(SearchAiRequestFilters),
+    maxNumResults: S.optional(S.Number.pipe(T.Body("max_num_results"))),
+    model: S.optional(SearchAiRequestModel),
+    rankingOptions: S.optional(
+      SearchRequestRankingOptions.pipe(T.Body("ranking_options")),
+    ),
+    reranking: S.optional(SearchAiRequestReranking),
+    rewriteQuery: S.optional(S.Boolean.pipe(T.Body("rewrite_query"))),
+    stream: S.optional(S.Boolean),
+    systemPrompt: S.optional(S.String.pipe(T.Body("system_prompt"))),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/accounts/{account_id}/autorag/rags/{id}/ai-search",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "SearchAiRequest",
+}) as any as S.Schema<SearchAiRequest>;
+
+export type SearchAiResponseDataItemContentItem =
+  SearchResponseDataItemContentItem;
+export const SearchAiResponseDataItemContentItem =
+  SearchResponseDataItemContentItem;
+
+export type SearchAiResponseDataItemContentList =
+  Array<SearchResponseDataItemContentItem>;
+export const SearchAiResponseDataItemContentList = /*@__PURE__*/ S.Array(
+  SearchResponseDataItemContentItem,
+) as any as S.Schema<SearchAiResponseDataItemContentList>;
+
+export interface SearchAiResponseDataItem {
+  score: number;
+  attributes?: unknown | null;
+  content?: SearchAiResponseDataItemContentList | null;
+  fileId?: string | null;
+  filename?: string | null;
+}
+export const SearchAiResponseDataItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    score: S.Number,
+    attributes: S.optional(S.NullOr(S.Unknown)),
+    content: S.optional(S.NullOr(SearchAiResponseDataItemContentList)),
+    fileId: S.optional(S.NullOr(S.String).pipe(T.Body("file_id"))),
+    filename: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "SearchAiResponseDataItem",
+}) as any as S.Schema<SearchAiResponseDataItem>;
+
+export type SearchAiResponseDataList = Array<SearchAiResponseDataItem>;
+export const SearchAiResponseDataList = /*@__PURE__*/ S.Array(
+  SearchAiResponseDataItem,
+) as any as S.Schema<SearchAiResponseDataList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface SearchAiResponse {
+  response: string;
+  searchQuery: string;
+  data?: SearchAiResponseDataList | null;
+  hasMore?: boolean | null;
+  nextPage?: string | null;
+  object?: string | null;
+}
+export const SearchAiResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    response: S.String,
+    searchQuery: S.String.pipe(T.Body("search_query")),
+    data: S.optional(S.NullOr(SearchAiResponseDataList)),
+    hasMore: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_more"))),
+    nextPage: S.optional(S.NullOr(S.String).pipe(T.Body("next_page"))),
+    object: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "SearchAiResponse",
+}) as any as S.Schema<SearchAiResponse>;
+
 export interface SyncRequest {
   accountId: string;
   /** rag id */
@@ -706,23 +703,8 @@ export const SyncResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "SyncResponse" }) as any as S.Schema<SyncResponse>;
 
-export type AiSearchError = CloudflareOpError;
-/** AI Search */
-export const aiSearch: API.OperationMethod<
-  AiSearchRequest,
-  AiSearchResponse,
-  AiSearchError,
-  CloudflareOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: AiSearchRequest,
-  output: AiSearchResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
-  protocol: CloudflareProtocol,
-  retry: Retry.Retry,
-}));
-
 export type FilesError = CloudflareOpError;
-/** Files */
+/** Lists files indexed by an AutoRAG. */
 export const files: API.OperationMethod<
   FilesRequest,
   FilesResponse,
@@ -736,38 +718,23 @@ export const files: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type JobsGetError = CloudflareOpError;
-/** Get a Job Details */
-export const jobsGet: API.OperationMethod<
-  JobsGetRequest,
-  JobsGetResponse,
-  JobsGetError,
+export type GetJobError = CloudflareOpError;
+/** Returns details for an AutoRAG job. */
+export const getJob: API.OperationMethod<
+  GetJobRequest,
+  GetJobResponse,
+  GetJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: JobsGetRequest,
-  output: JobsGetResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
-  protocol: CloudflareProtocol,
-  retry: Retry.Retry,
-}));
-
-export type JobsListError = CloudflareOpError;
-/** List Jobs */
-export const jobsList: API.OperationMethod<
-  JobsListRequest,
-  JobsListResponse,
-  JobsListError,
-  CloudflareOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: JobsListRequest,
-  output: JobsListResponse,
+  input: GetJobRequest,
+  output: GetJobResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
 
 export type JobsLogsError = CloudflareOpError;
-/** List Job Logs */
+/** Lists logs for an AutoRAG job. */
 export const jobsLogs: API.OperationMethod<
   JobsLogsRequest,
   JobsLogsResponse,
@@ -781,8 +748,23 @@ export const jobsLogs: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListJobsError = CloudflareOpError;
+/** Lists jobs for an AutoRAG. */
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
+  ListJobsResponse,
+  ListJobsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListJobsRequest,
+  output: ListJobsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type SearchError = CloudflareOpError;
-/** Search */
+/** Searches an AutoRAG. */
 export const search: API.OperationMethod<
   SearchRequest,
   SearchResponse,
@@ -796,8 +778,23 @@ export const search: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type SearchAiError = CloudflareOpError;
+/** Runs an AI Search query against an AutoRAG. */
+export const searchAi: API.OperationMethod<
+  SearchAiRequest,
+  SearchAiResponse,
+  SearchAiError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SearchAiRequest,
+  output: SearchAiResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type SyncError = CloudflareOpError;
-/** Sync */
+/** Starts synchronization for an AutoRAG. */
 export const sync: API.OperationMethod<
   SyncRequest,
   SyncResponse,

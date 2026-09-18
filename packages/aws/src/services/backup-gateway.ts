@@ -915,8 +915,7 @@ export const UpdateHypervisorOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateHypervisorOutput>;
 export type AssociateGatewayToServerError = ConflictException | CommonErrors;
 /**
- * Associates a backup gateway with your server. After you complete the association process,
- * you can back up and restore your VMs through the gateway.
+ * Associates a backup gateway with your server. After you complete the association process, you can back up and restore your VMs through the gateway.
  */
 export const associateGatewayToServer: API.OperationMethod<
   AssociateGatewayToServerInput,
@@ -934,8 +933,7 @@ export const associateGatewayToServer: API.OperationMethod<
 
 export type CreateGatewayError = CommonErrors;
 /**
- * Creates a backup gateway. After you create a gateway, you can associate it with a server
- * using the `AssociateGatewayToServer` operation.
+ * Creates a backup gateway. After you create a gateway, you can associate it with a server using the `AssociateGatewayToServer` operation.
  */
 export const createGateway: API.OperationMethod<
   CreateGatewayInput,
@@ -996,8 +994,7 @@ export type DisassociateGatewayFromServerError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Disassociates a backup gateway from the specified server. After the disassociation process
- * finishes, the gateway can no longer access the virtual machines on the server.
+ * Disassociates a backup gateway from the specified server. After the disassociation process finishes, the gateway can no longer access the virtual machines on the server.
  */
 export const disassociateGatewayFromServer: API.OperationMethod<
   DisassociateGatewayFromServerInput,
@@ -1017,10 +1014,7 @@ export type GetBandwidthRateLimitScheduleError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Retrieves the bandwidth rate limit schedule for a specified gateway.
- * By default, gateways do not have bandwidth rate limit schedules, which means
- * no bandwidth rate limiting is in effect. Use this to get a gateway's
- * bandwidth rate limit schedule.
+ * Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule.
  */
 export const getBandwidthRateLimitSchedule: API.OperationMethod<
   GetBandwidthRateLimitScheduleInput,
@@ -1038,8 +1032,7 @@ export const getBandwidthRateLimitSchedule: API.OperationMethod<
 
 export type GetGatewayError = ResourceNotFoundException | CommonErrors;
 /**
- * By providing the ARN (Amazon Resource Name), this
- * API returns the gateway.
+ * By providing the ARN (Amazon Resource Name), this API returns the gateway.
  */
 export const getGateway: API.OperationMethod<
   GetGatewayInput,
@@ -1057,9 +1050,7 @@ export const getGateway: API.OperationMethod<
 
 export type GetHypervisorError = ResourceNotFoundException | CommonErrors;
 /**
- * This action requests information about the specified hypervisor to which the gateway will connect.
- * A hypervisor is hardware, software, or firmware that creates and manages virtual machines,
- * and allocates resources to them.
+ * This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
  */
 export const getHypervisor: API.OperationMethod<
   GetHypervisorInput,
@@ -1079,9 +1070,7 @@ export type GetHypervisorPropertyMappingsError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * This action retrieves the property mappings for the specified hypervisor.
- * A hypervisor property mapping displays the relationship of entity properties
- * available from the hypervisor to the properties available in Amazon Web Services.
+ * This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
  */
 export const getHypervisorPropertyMappings: API.OperationMethod<
   GetHypervisorPropertyMappingsInput,
@@ -1188,8 +1177,7 @@ export const listHypervisors: API.PaginatedOperationMethod<
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
 /**
- * Lists the tags applied to the resource identified by its Amazon Resource Name
- * (ARN).
+ * Lists the tags applied to the resource identified by its Amazon Resource Name (ARN).
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceInput,
@@ -1234,10 +1222,7 @@ export type PutBandwidthRateLimitScheduleError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * This action sets the bandwidth rate limit schedule for a specified gateway.
- * By default, gateways do not have a bandwidth rate limit schedule, which means
- * no bandwidth rate limiting is in effect. Use this to initiate a
- * gateway's bandwidth rate limit schedule.
+ * This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
  */
 export const putBandwidthRateLimitSchedule: API.OperationMethod<
   PutBandwidthRateLimitScheduleInput,
@@ -1259,9 +1244,7 @@ export type PutHypervisorPropertyMappingsError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * This action sets the property mappings for the specified hypervisor.
- * A hypervisor property mapping displays the relationship of entity properties
- * available from the hypervisor to the properties available in Amazon Web Services.
+ * This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
  */
 export const putHypervisorPropertyMappings: API.OperationMethod<
   PutHypervisorPropertyMappingsInput,
@@ -1342,8 +1325,7 @@ export type TestHypervisorConfigurationError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Tests your hypervisor configuration to validate that backup gateway can connect with the
- * hypervisor and its resources.
+ * Tests your hypervisor configuration to validate that backup gateway can connect with the hypervisor and its resources.
  */
 export const testHypervisorConfiguration: API.OperationMethod<
   TestHypervisorConfigurationInput,
@@ -1382,8 +1364,7 @@ export type UpdateGatewayInformationError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name
- * (ARN) of the gateway in your request.
+ * Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name (ARN) of the gateway in your request.
  */
 export const updateGatewayInformation: API.OperationMethod<
   UpdateGatewayInformationInput,
@@ -1403,12 +1384,9 @@ export type UpdateGatewaySoftwareNowError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Updates the gateway virtual machine (VM) software.
- * The request immediately triggers the software update.
+ * Updates the gateway virtual machine (VM) software. The request immediately triggers the software update.
  *
- * When you make this request, you get a `200 OK`
- * success response immediately. However, it might take some
- * time for the update to complete.
+ * When you make this request, you get a `200 OK` success response immediately. However, it might take some time for the update to complete.
  */
 export const updateGatewaySoftwareNow: API.OperationMethod<
   UpdateGatewaySoftwareNowInput,
@@ -1430,9 +1408,7 @@ export type UpdateHypervisorError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Updates a hypervisor metadata, including its host, username, and password. Specify which
- * hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your
- * request.
+ * Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request.
  */
 export const updateHypervisor: API.OperationMethod<
   UpdateHypervisorInput,

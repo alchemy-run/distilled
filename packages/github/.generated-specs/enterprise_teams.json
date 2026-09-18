@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.github.enterprise_teams#ListRequest": {
@@ -361,13 +362,128 @@
         "smithy.api#input": {}
       }
     },
+    "com.github.enterprise_teams#EnterpriseTeamWithMemberCount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sync_to_organizations": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Retired: this field will not be returned with GHEC enterprise teams."
+          }
+        },
+        "organization_selection_type": {
+          "target": "smithy.api#String"
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "group_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Retired: this field will not be returned with GHEC enterprise teams.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "html_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "members_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "members_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of members in the enterprise team.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "notification_setting": {
+          "target": "com.github.enterprise_teams#EnterpriseTeamWithMemberCountNotificationSetting",
+          "traits": {
+            "smithy.api#documentation": "Whether team members will receive notifications when the team is mentioned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Group of enterprise owners and/or members"
+      }
+    },
+    "com.github.enterprise_teams#EnterpriseTeamWithMemberCountNotificationSetting": {
+      "type": "enum",
+      "members": {
+        "NOTIFICATIONS_ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notifications_enabled"
+          }
+        },
+        "NOTIFICATIONS_DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notifications_disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether team members will receive notifications when the team is mentioned."
+      }
+    },
     "com.github.enterprise_teams#Get": {
       "type": "operation",
       "input": {
         "target": "com.github.enterprise_teams#GetRequest"
       },
       "output": {
-        "target": "com.github.enterprise_teams#EnterpriseTeam"
+        "target": "com.github.enterprise_teams#EnterpriseTeamWithMemberCount"
       },
       "errors": [
         {

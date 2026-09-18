@@ -111,32 +111,51 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
 
+/** Configuration specific to compiled Protocol Buffer schemas. */
+export interface CompiledProtoSchema {
+  /** Required. The compiled FileDescriptorSet binary. */
+  compiledBytes?: string;
+  /** Required. The name of the root message type in the schema. */
+  rootMessage?: string;
+}
+export const CompiledProtoSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    compiledBytes: S.optional(S.String),
+    rootMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CompiledProtoSchema",
+}) as any as S.Schema<CompiledProtoSchema>;
+
 export type Pubsub_SchemaTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "PROTOCOL_BUFFER"
   | "AVRO";
-export const Pubsub_SchemaTypeEnum = /*@__PURE__*/ S.String;
+export const Pubsub_SchemaTypeEnum = S.String;
 
 /** A schema resource. */
 export interface Pubsub_Schema {
-  /** Required. Name of the schema. Format is `projects/{project}/schemas/{schema}`. */
-  name?: string;
   /** Output only. Immutable. The revision ID of the schema. */
   revisionId?: string;
+  /** The definition of the schema. This should contain a string representing the full definition of the schema that is a valid schema definition of the type specified in `type`. */
+  definition?: string;
+  /** Optional. Configuration for a schema provided as a pre-compiled Protocol Buffer FileDescriptorSet. The `type` field above must be set to PROTOCOL_BUFFER. */
+  compiledProtoSchema?: CompiledProtoSchema;
+  /** Required. Name of the schema. Format is `projects/{project}/schemas/{schema}`. */
+  name?: string;
   /** Output only. The timestamp that the revision was created. */
   revisionCreateTime?: string;
   /** The type of the schema definition. */
   type?: Pubsub_SchemaTypeEnum | (string & {});
-  /** The definition of the schema. This should contain a string representing the full definition of the schema that is a valid schema definition of the type specified in `type`. */
-  definition?: string;
 }
 export const Pubsub_Schema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     revisionId: S.optional(S.String),
+    definition: S.optional(S.String),
+    compiledProtoSchema: S.optional(CompiledProtoSchema),
+    name: S.optional(S.String),
     revisionCreateTime: S.optional(S.String),
     type: S.optional(Pubsub_SchemaTypeEnum),
-    definition: S.optional(S.String),
   }),
 ).annotate({ identifier: "Pubsub_Schema" }) as any as S.Schema<Pubsub_Schema>;
 
@@ -208,16 +227,16 @@ export const StringMap = /*@__PURE__*/ S.Record(
 export interface CreateSnapshotRequest {
   /** Required. The subscription whose backlog the snapshot retains. Specifically, the created snapshot is guaranteed to retain: (a) The existing backlog on the subscription. More precisely, this is defined as the messages in the subscription's backlog that are unacknowledged upon the successful completion of the `CreateSnapshot` request; as well as: (b) Any messages published to the subscription's topic following the successful completion of the CreateSnapshot request. Format is `projects/{project}/subscriptions/{sub}`. */
   subscription?: string;
-  /** Optional. See [Creating and managing labels](https://cloud.google.com/pubsub/docs/labels). */
-  labels?: StringMap;
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" See https://{$universe.dns_names.final_documentation_domain}/pubsub/docs/tags for more information on using tags with Pub/Sub resources. */
   tags?: StringMap;
+  /** Optional. See [Creating and managing labels](https://cloud.google.com/pubsub/docs/labels). */
+  labels?: StringMap;
 }
 export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscription: S.optional(S.String),
-    labels: S.optional(StringMap),
     tags: S.optional(StringMap),
+    labels: S.optional(StringMap),
   }),
 ).annotate({
   identifier: "CreateSnapshotRequest",
@@ -246,23 +265,33 @@ export const CreateProjectsSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A snapshot resource. Snapshots are used in [Seek](https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. */
 export interface Snapshot {
-  /** Optional. See [Creating and managing labels] (https://cloud.google.com/pubsub/docs/labels). */
-  labels?: StringMap;
+  /** Optional. The name of the topic from which this snapshot is retaining messages. */
+  topic?: string;
   /** Optional. The snapshot is guaranteed to exist up until this time. A newly-created snapshot expires no later than 7 days from the time of its creation. Its exact lifetime is determined at creation by the existing backlog in the source subscription. Specifically, the lifetime of the snapshot is `7 days - (age of oldest unacked message in the subscription)`. For example, consider a subscription whose oldest unacked message is 3 days old. If a snapshot is created from this subscription, the snapshot -- which will always capture this 3-day-old backlog as long as the snapshot exists -- will expire in 4 days. The service will refuse to create a snapshot that would expire in less than 1 hour after creation. */
   expireTime?: string;
   /** Optional. The name of the snapshot. */
   name?: string;
-  /** Optional. The name of the topic from which this snapshot is retaining messages. */
-  topic?: string;
+  /** Optional. See [Creating and managing labels] (https://cloud.google.com/pubsub/docs/labels). */
+  labels?: StringMap;
 }
 export const Snapshot = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
+    topic: S.optional(S.String),
     expireTime: S.optional(S.String),
     name: S.optional(S.String),
-    topic: S.optional(S.String),
+    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "Snapshot" }) as any as S.Schema<Snapshot>;
+
+export type CloudStorageConfigStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "PERMISSION_DENIED"
+  | "NOT_FOUND"
+  | "IN_TRANSIT_LOCATION_RESTRICTION"
+  | "SCHEMA_MISMATCH"
+  | "VERTEX_AI_LOCATION_RESTRICTION";
+export const CloudStorageConfigStateEnum = S.String;
 
 /** Configuration for writing message data in Avro format. Message payloads and metadata will be written to files as an Avro binary. */
 export interface AvroConfig {
@@ -278,16 +307,6 @@ export const AvroConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AvroConfig" }) as any as S.Schema<AvroConfig>;
 
-export type CloudStorageConfigStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "PERMISSION_DENIED"
-  | "NOT_FOUND"
-  | "IN_TRANSIT_LOCATION_RESTRICTION"
-  | "SCHEMA_MISMATCH"
-  | "VERTEX_AI_LOCATION_RESTRICTION";
-export const CloudStorageConfigStateEnum = /*@__PURE__*/ S.String;
-
 /** Configuration for writing message data in text format. Message payloads will be written to files as raw text, separated by a newline. */
 export interface TextConfig {}
 export const TextConfig = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -298,74 +317,44 @@ export const TextConfig = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 export interface CloudStorageConfig {
   /** Optional. The maximum number of messages that can be written to a Cloud Storage file before a new file is created. Min 1000 messages. */
   maxMessages?: string;
+  /** Output only. An output-only field that indicates whether or not the subscription can receive messages. */
+  state?: CloudStorageConfigStateEnum | (string & {});
+  /** Required. User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://". See the [bucket naming requirements] (https://cloud.google.com/storage/docs/buckets#naming). */
+  bucket?: string;
+  /** Optional. The service account to use to write to Cloud Storage. The subscription creator or updater that specifies this field must have `iam.serviceAccounts.actAs` permission on the service account. If not specified, the Pub/Sub [service agent](https://cloud.google.com/iam/docs/service-agents), service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used. */
+  serviceAccountEmail?: string;
+  /** Optional. If set, message data will be written to Cloud Storage in Avro format. */
+  avroConfig?: AvroConfig;
+  /** Optional. The maximum duration that can elapse before a new Cloud Storage file is created. Min 1 minute, max 10 minutes, default 5 minutes. May not exceed the subscription's acknowledgment deadline. */
+  maxDuration?: string;
+  /** Optional. User-provided suffix for Cloud Storage filename. See the [object naming requirements](https://cloud.google.com/storage/docs/objects#naming). Must not end in "/". */
+  filenameSuffix?: string;
+  /** Optional. The maximum bytes that can be written to a Cloud Storage file before a new file is created. Min 1 KB, max 10 GiB. The max_bytes limit may be exceeded in cases where messages are larger than the limit. */
+  maxBytes?: string;
+  /** Optional. If set, message data will be written to Cloud Storage in text format. */
+  textConfig?: TextConfig;
   /** Optional. User-provided prefix for Cloud Storage filename. See the [object naming requirements](https://cloud.google.com/storage/docs/objects#naming). */
   filenamePrefix?: string;
   /** Optional. User-provided format string specifying how to represent datetimes in Cloud Storage filenames. See the [datetime format guidance](https://cloud.google.com/pubsub/docs/create-cloudstorage-subscription#file_names). */
   filenameDatetimeFormat?: string;
-  /** Required. User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://". See the [bucket naming requirements] (https://cloud.google.com/storage/docs/buckets#naming). */
-  bucket?: string;
-  /** Optional. The maximum duration that can elapse before a new Cloud Storage file is created. Min 1 minute, max 10 minutes, default 5 minutes. May not exceed the subscription's acknowledgment deadline. */
-  maxDuration?: string;
-  /** Optional. The service account to use to write to Cloud Storage. The subscription creator or updater that specifies this field must have `iam.serviceAccounts.actAs` permission on the service account. If not specified, the Pub/Sub [service agent](https://cloud.google.com/iam/docs/service-agents), service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used. */
-  serviceAccountEmail?: string;
-  /** Optional. User-provided suffix for Cloud Storage filename. See the [object naming requirements](https://cloud.google.com/storage/docs/objects#naming). Must not end in "/". */
-  filenameSuffix?: string;
-  /** Optional. If set, message data will be written to Cloud Storage in Avro format. */
-  avroConfig?: AvroConfig;
-  /** Output only. An output-only field that indicates whether or not the subscription can receive messages. */
-  state?: CloudStorageConfigStateEnum | (string & {});
-  /** Optional. If set, message data will be written to Cloud Storage in text format. */
-  textConfig?: TextConfig;
-  /** Optional. The maximum bytes that can be written to a Cloud Storage file before a new file is created. Min 1 KB, max 10 GiB. The max_bytes limit may be exceeded in cases where messages are larger than the limit. */
-  maxBytes?: string;
 }
 export const CloudStorageConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxMessages: S.optional(S.String),
+    state: S.optional(CloudStorageConfigStateEnum),
+    bucket: S.optional(S.String),
+    serviceAccountEmail: S.optional(S.String),
+    avroConfig: S.optional(AvroConfig),
+    maxDuration: S.optional(S.String),
+    filenameSuffix: S.optional(S.String),
+    maxBytes: S.optional(S.String),
+    textConfig: S.optional(TextConfig),
     filenamePrefix: S.optional(S.String),
     filenameDatetimeFormat: S.optional(S.String),
-    bucket: S.optional(S.String),
-    maxDuration: S.optional(S.String),
-    serviceAccountEmail: S.optional(S.String),
-    filenameSuffix: S.optional(S.String),
-    avroConfig: S.optional(AvroConfig),
-    state: S.optional(CloudStorageConfigStateEnum),
-    textConfig: S.optional(TextConfig),
-    maxBytes: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CloudStorageConfig",
 }) as any as S.Schema<CloudStorageConfig>;
-
-/** A policy that specifies how Pub/Sub retries message delivery. Retry delay will be exponential based on provided minimum and maximum backoffs. https://en.wikipedia.org/wiki/Exponential_backoff. RetryPolicy will be triggered on NACKs or acknowledgment deadline exceeded events for a given message. Retry Policy is implemented on a best effort basis. At times, the delay between consecutive deliveries may not match the configuration. That is, delay can be more or less than configured backoff. */
-export interface RetryPolicy {
-  /** Optional. The minimum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 10 seconds. */
-  minimumBackoff?: string;
-  /** Optional. The maximum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 600 seconds. */
-  maximumBackoff?: string;
-}
-export const RetryPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    minimumBackoff: S.optional(S.String),
-    maximumBackoff: S.optional(S.String),
-  }),
-).annotate({ identifier: "RetryPolicy" }) as any as S.Schema<RetryPolicy>;
-
-/** Dead lettering is done on a best effort basis. The same message might be dead lettered multiple times. If validation on any of the fields fails at subscription creation/updation, the create/update subscription request will fail. */
-export interface DeadLetterPolicy {
-  /** Optional. The name of the topic to which dead letter messages should be published. Format is `projects/{project}/topics/{topic}`.The Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to Publish() to this topic. The operation will fail if the topic does not exist. Users should ensure that there is a subscription attached to this topic since messages published to a topic with no subscriptions are lost. */
-  deadLetterTopic?: string;
-  /** Optional. The maximum number of delivery attempts for any message. The value must be between 5 and 100. The number of delivery attempts is defined as 1 + (the sum of number of NACKs and number of times the acknowledgment deadline has been exceeded for the message). A NACK is any call to ModifyAckDeadline with a 0 deadline. Note that client libraries may automatically extend ack_deadlines. This field will be honored on a best effort basis. If this parameter is 0, a default value of 5 is used. */
-  maxDeliveryAttempts?: number;
-}
-export const DeadLetterPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deadLetterTopic: S.optional(S.String),
-    maxDeliveryAttempts: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DeadLetterPolicy",
-}) as any as S.Schema<DeadLetterPolicy>;
 
 /** Information about an associated [Analytics Hub subscription](https://cloud.google.com/bigquery/docs/analytics-hub-manage-subscriptions). */
 export interface AnalyticsHubSubscriptionInfo {
@@ -382,6 +371,167 @@ export const AnalyticsHubSubscriptionInfo = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AnalyticsHubSubscriptionInfo",
 }) as any as S.Schema<AnalyticsHubSubscriptionInfo>;
+
+export type BigQueryConfigStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "PERMISSION_DENIED"
+  | "NOT_FOUND"
+  | "SCHEMA_MISMATCH"
+  | "IN_TRANSIT_LOCATION_RESTRICTION"
+  | "VERTEX_AI_LOCATION_RESTRICTION";
+export const BigQueryConfigStateEnum = S.String;
+
+/** Configuration for a BigQuery subscription. */
+export interface BigQueryConfig {
+  /** Optional. The service account to use to write to BigQuery. The subscription creator or updater that specifies this field must have `iam.serviceAccounts.actAs` permission on the service account. If not specified, the Pub/Sub [service agent](https://cloud.google.com/iam/docs/service-agents), service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used. */
+  serviceAccountEmail?: string;
+  /** Optional. When true, use the BigQuery table's schema as the columns to write to in BigQuery. `use_table_schema` and `use_topic_schema` cannot be enabled at the same time. */
+  useTableSchema?: boolean;
+  /** Optional. When true, write the subscription name, message_id, publish_time, attributes, and ordering_key to additional columns in the table. The subscription name, message_id, and publish_time fields are put in their own columns while all other message properties (other than data) are written to a JSON object in the attributes column. */
+  writeMetadata?: boolean;
+  /** Optional. The name of the table to which to write data, of the form {projectId}.{datasetId}.{tableId} */
+  table?: string;
+  /** Optional. When true, use the topic's schema as the columns to write to in BigQuery, if it exists. `use_topic_schema` and `use_table_schema` cannot be enabled at the same time. */
+  useTopicSchema?: boolean;
+  /** Optional. If true and `use_topic_schema` is true, drops any fields that are part of the topic schema that are not part of the BigQuery table schema when writing to BigQuery. Otherwise, the schemas must be kept in sync and any messages with extra fields are not written and remain in the subscription's backlog. If true and `use_table_schema` is true, drops any fields in the message that are not part of the BigQuery table schema when writing to BigQuery. Otherwise, the write to BigQuery will fail. */
+  dropUnknownFields?: boolean;
+  /** Output only. An output-only field that indicates whether or not the subscription can receive messages. */
+  state?: BigQueryConfigStateEnum | (string & {});
+}
+export const BigQueryConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceAccountEmail: S.optional(S.String),
+    useTableSchema: S.optional(S.Boolean),
+    writeMetadata: S.optional(S.Boolean),
+    table: S.optional(S.String),
+    useTopicSchema: S.optional(S.Boolean),
+    dropUnknownFields: S.optional(S.Boolean),
+    state: S.optional(BigQueryConfigStateEnum),
+  }),
+).annotate({ identifier: "BigQueryConfig" }) as any as S.Schema<BigQueryConfig>;
+
+/** A policy that specifies how Pub/Sub retries message delivery. Retry delay will be exponential based on provided minimum and maximum backoffs. https://en.wikipedia.org/wiki/Exponential_backoff. RetryPolicy will be triggered on NACKs or acknowledgment deadline exceeded events for a given message. Retry Policy is implemented on a best effort basis. At times, the delay between consecutive deliveries may not match the configuration. That is, delay can be more or less than configured backoff. */
+export interface RetryPolicy {
+  /** Optional. The minimum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 10 seconds. */
+  minimumBackoff?: string;
+  /** Optional. The maximum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 600 seconds. */
+  maximumBackoff?: string;
+}
+export const RetryPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minimumBackoff: S.optional(S.String),
+    maximumBackoff: S.optional(S.String),
+  }),
+).annotate({ identifier: "RetryPolicy" }) as any as S.Schema<RetryPolicy>;
+
+/** Contains information needed for generating an [OpenID Connect token](https://developers.google.com/identity/protocols/OpenIDConnect). */
+export interface OidcToken {
+  /** Optional. Audience to be used when generating OIDC token. The audience claim identifies the recipients that the JWT is intended for. The audience value is a single case-sensitive string. Having multiple values (array) for the audience field is not supported. More info about the OIDC JWT token audience here: https://tools.ietf.org/html/rfc7519#section-4.1.3 Note: if not specified, the Push endpoint URL will be used. */
+  audience?: string;
+  /** Optional. [Service account email](https://cloud.google.com/iam/docs/service-accounts) used for generating the OIDC token. For more information on setting up authentication, see [Push subscriptions](https://cloud.google.com/pubsub/docs/push). */
+  serviceAccountEmail?: string;
+}
+export const OidcToken = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    audience: S.optional(S.String),
+    serviceAccountEmail: S.optional(S.String),
+  }),
+).annotate({ identifier: "OidcToken" }) as any as S.Schema<OidcToken>;
+
+/** The payload to the push endpoint is in the form of the JSON representation of a PubsubMessage (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#pubsubmessage). */
+export type PubsubWrapper = TextConfig;
+export const PubsubWrapper = TextConfig;
+
+/** Sets the `data` field as the HTTP body for delivery. */
+export interface NoWrapper {
+  /** Optional. When true, writes the Pub/Sub message metadata to `x-goog-pubsub-:` headers of the HTTP request. Writes the Pub/Sub message attributes to `:` headers of the HTTP request. */
+  writeMetadata?: boolean;
+}
+export const NoWrapper = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    writeMetadata: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "NoWrapper" }) as any as S.Schema<NoWrapper>;
+
+/** Configuration for a push delivery endpoint. */
+export interface PushConfig {
+  /** Optional. If specified, Pub/Sub will generate and attach an OIDC JWT token as an `Authorization` header in the HTTP request for every pushed message. */
+  oidcToken?: OidcToken;
+  /** Optional. Endpoint configuration attributes that can be used to control different aspects of the message delivery. The only currently supported attribute is `x-goog-version`, which you can use to change the format of the pushed message. This attribute indicates the version of the data expected by the endpoint. This controls the shape of the pushed message (i.e., its fields and metadata). If not present during the `CreateSubscription` call, it will default to the version of the Pub/Sub API used to make such call. If not present in a `ModifyPushConfig` call, its value will not be changed. `GetSubscription` calls will always return a valid version, even if the subscription was created without this attribute. The only supported values for the `x-goog-version` attribute are: * `v1beta1`: uses the push format defined in the v1beta1 Pub/Sub API. * `v1` or `v1beta2`: uses the push format defined in the v1 Pub/Sub API. For example: `attributes { "x-goog-version": "v1" }` */
+  attributes?: StringMap;
+  /** Optional. A URL locating the endpoint to which messages should be pushed. For example, a Webhook endpoint might use `https://example.com/push`. */
+  pushEndpoint?: string;
+  /** Optional. When set, the payload to the push endpoint is in the form of the JSON representation of a PubsubMessage (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#pubsubmessage). */
+  pubsubWrapper?: TextConfig;
+  /** Optional. When set, the payload to the push endpoint is not wrapped. */
+  noWrapper?: NoWrapper;
+}
+export const PushConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    oidcToken: S.optional(OidcToken),
+    attributes: S.optional(StringMap),
+    pushEndpoint: S.optional(S.String),
+    pubsubWrapper: S.optional(TextConfig),
+    noWrapper: S.optional(NoWrapper),
+  }),
+).annotate({ identifier: "PushConfig" }) as any as S.Schema<PushConfig>;
+
+export type SubscriptionStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "RESOURCE_ERROR";
+export const SubscriptionStateEnum = S.String;
+
+export type BigtableConfigStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "NOT_FOUND"
+  | "APP_PROFILE_MISCONFIGURED"
+  | "PERMISSION_DENIED"
+  | "SCHEMA_MISMATCH"
+  | "IN_TRANSIT_LOCATION_RESTRICTION"
+  | "VERTEX_AI_LOCATION_RESTRICTION";
+export const BigtableConfigStateEnum = S.String;
+
+/** Configuration for a Bigtable subscription. The Pub/Sub message will be written to a Bigtable row as follows: - row key: subscription name, message ID hash, and message ID delimited by `#`. - columns: message bytes written to a single column family `data` with an empty-string column qualifier. - cell timestamp: the message publish timestamp. */
+export interface BigtableConfig {
+  /** Optional. The unique name of the table to write messages to. Values are of the form `projects//instances//tables/`. */
+  table?: string;
+  /** Optional. The app profile to use for the Bigtable writes. If not specified, the "default" application profile will be used. The app profile must use single-cluster routing. */
+  appProfileId?: string;
+  /** Optional. The service account to use to write to Bigtable. The subscription creator or updater that specifies this field must have `iam.serviceAccounts.actAs` permission on the service account. If not specified, the Pub/Sub [service agent](https://cloud.google.com/iam/docs/service-agents), service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used. */
+  serviceAccountEmail?: string;
+  /** Optional. When true, write the subscription name, message_id, publish_time, attributes, and ordering_key to additional columns in the table under the pubsub_metadata column family. The subscription name, message_id, and publish_time fields are put in their own columns while all other message properties (other than data) are written to a JSON object in the attributes column. */
+  writeMetadata?: boolean;
+  /** Output only. An output-only field that indicates whether or not the subscription can receive messages. */
+  state?: BigtableConfigStateEnum | (string & {});
+}
+export const BigtableConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    table: S.optional(S.String),
+    appProfileId: S.optional(S.String),
+    serviceAccountEmail: S.optional(S.String),
+    writeMetadata: S.optional(S.Boolean),
+    state: S.optional(BigtableConfigStateEnum),
+  }),
+).annotate({ identifier: "BigtableConfig" }) as any as S.Schema<BigtableConfig>;
+
+/** Dead lettering is done on a best effort basis. The same message might be dead lettered multiple times. If validation on any of the fields fails at subscription creation/updation, the create/update subscription request will fail. */
+export interface DeadLetterPolicy {
+  /** Optional. The maximum number of delivery attempts for any message. The value must be between 5 and 100. The number of delivery attempts is defined as 1 + (the sum of number of NACKs and number of times the acknowledgment deadline has been exceeded for the message). A NACK is any call to ModifyAckDeadline with a 0 deadline. Note that client libraries may automatically extend ack_deadlines. This field will be honored on a best effort basis. If this parameter is 0, a default value of 5 is used. */
+  maxDeliveryAttempts?: number;
+  /** Optional. The name of the topic to which dead letter messages should be published. Format is `projects/{project}/topics/{topic}`.The Pub/Sub service account associated with the enclosing subscription's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to Publish() to this topic. The operation will fail if the topic does not exist. Users should ensure that there is a subscription attached to this topic since messages published to a topic with no subscriptions are lost. */
+  deadLetterTopic?: string;
+}
+export const DeadLetterPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxDeliveryAttempts: S.optional(S.Number),
+    deadLetterTopic: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeadLetterPolicy",
+}) as any as S.Schema<DeadLetterPolicy>;
 
 export type DocumentMap = { [key: string]: unknown | undefined };
 export const DocumentMap = /*@__PURE__*/ S.Record(
@@ -419,16 +569,30 @@ export const AIInference = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AIInference" }) as any as S.Schema<AIInference>;
 
+/** User-defined JavaScript function that can transform or filter a Pub/Sub message. */
+export interface JavaScriptUDF {
+  /** Required. Name of the JavasScript function that should applied to Pub/Sub messages. */
+  functionName?: string;
+  /** Required. JavaScript code that contains a function `function_name` with the below signature: ``` /** * Transforms a Pub/Sub message. * @return {(Object)>|null)} - To * filter a message, return `null`. To transform a message return a map * with the following keys: * - (required) 'data' : {string} * - (optional) 'attributes' : {Object} * Returning empty `attributes` will remove all attributes from the * message. * * @param {(Object)>} Pub/Sub * message. Keys: * - (required) 'data' : {string} * - (required) 'attributes' : {Object} * * @param {Object} metadata - Pub/Sub message metadata. * Keys: * - (optional) 'message_id' : {string} * - (optional) 'publish_time': {string} YYYY-MM-DDTHH:MM:SSZ format * - (optional) 'ordering_key': {string} *\/ function (message, metadata) { } ``` */
+  code?: string;
+}
+export const JavaScriptUDF = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    functionName: S.optional(S.String),
+    code: S.optional(S.String),
+  }),
+).annotate({ identifier: "JavaScriptUDF" }) as any as S.Schema<JavaScriptUDF>;
+
 export type CompressionCompressionAlgorithmEnum =
   | "COMPRESSION_ALGORITHM_UNSPECIFIED"
   | "ZLIB";
-export const CompressionCompressionAlgorithmEnum = /*@__PURE__*/ S.String;
+export const CompressionCompressionAlgorithmEnum = S.String;
 
 export type CompressionCompressionModeEnum =
   | "COMPRESSION_MODE_UNSPECIFIED"
   | "COMPRESS"
   | "DECOMPRESS";
-export const CompressionCompressionModeEnum = /*@__PURE__*/ S.String;
+export const CompressionCompressionModeEnum = S.String;
 
 /** Configuration for compressing/decompressing message data using a user-specified compression algorithm. */
 export interface Compression {
@@ -444,40 +608,26 @@ export const Compression = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Compression" }) as any as S.Schema<Compression>;
 
-/** User-defined JavaScript function that can transform or filter a Pub/Sub message. */
-export interface JavaScriptUDF {
-  /** Required. Name of the JavasScript function that should applied to Pub/Sub messages. */
-  functionName?: string;
-  /** Required. JavaScript code that contains a function `function_name` with the below signature: ``` /** * Transforms a Pub/Sub message. * @return {(Object)>|null)} - To * filter a message, return `null`. To transform a message return a map * with the following keys: * - (required) 'data' : {string} * - (optional) 'attributes' : {Object} * Returning empty `attributes` will remove all attributes from the * message. * * @param {(Object)>} Pub/Sub * message. Keys: * - (required) 'data' : {string} * - (required) 'attributes' : {Object} * * @param {Object} metadata - Pub/Sub message metadata. * Keys: * - (optional) 'message_id' : {string} * - (optional) 'publish_time': {string} YYYY-MM-DDTHH:MM:SSZ format * - (optional) 'ordering_key': {string} *\/ function (message, metadata) { } ``` */
-  code?: string;
-}
-export const JavaScriptUDF = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.optional(S.String),
-    code: S.optional(S.String),
-  }),
-).annotate({ identifier: "JavaScriptUDF" }) as any as S.Schema<JavaScriptUDF>;
-
 /** All supported message transforms types. */
 export interface MessageTransform {
   /** Optional. AI Inference. Specifies the Vertex AI endpoint that inference requests built from the Pub/Sub message data and provided parameters will be sent to. */
   aiInference?: AIInference;
+  /** Optional. JavaScript User Defined Function. If multiple JavaScriptUDF's are specified on a resource, each must have a unique `function_name`. */
+  javascriptUdf?: JavaScriptUDF;
   /** Optional. If true, the transform is disabled and will not be applied to messages. Defaults to `false`. */
   disabled?: boolean;
   /** Optional. This field is deprecated, use the `disabled` field to disable transforms. */
   enabled?: boolean;
   /** Optional. Compression/Decompression. */
   compression?: Compression;
-  /** Optional. JavaScript User Defined Function. If multiple JavaScriptUDF's are specified on a resource, each must have a unique `function_name`. */
-  javascriptUdf?: JavaScriptUDF;
 }
 export const MessageTransform = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     aiInference: S.optional(AIInference),
+    javascriptUdf: S.optional(JavaScriptUDF),
     disabled: S.optional(S.Boolean),
     enabled: S.optional(S.Boolean),
     compression: S.optional(Compression),
-    javascriptUdf: S.optional(JavaScriptUDF),
   }),
 ).annotate({
   identifier: "MessageTransform",
@@ -487,137 +637,6 @@ export type MessageTransformList = Array<MessageTransform>;
 export const MessageTransformList = /*@__PURE__*/ S.Array(
   MessageTransform,
 ) as any as S.Schema<MessageTransformList>;
-
-export type SubscriptionStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "RESOURCE_ERROR";
-export const SubscriptionStateEnum = /*@__PURE__*/ S.String;
-
-/** Contains information needed for generating an [OpenID Connect token](https://developers.google.com/identity/protocols/OpenIDConnect). */
-export interface OidcToken {
-  /** Optional. [Service account email](https://cloud.google.com/iam/docs/service-accounts) used for generating the OIDC token. For more information on setting up authentication, see [Push subscriptions](https://cloud.google.com/pubsub/docs/push). */
-  serviceAccountEmail?: string;
-  /** Optional. Audience to be used when generating OIDC token. The audience claim identifies the recipients that the JWT is intended for. The audience value is a single case-sensitive string. Having multiple values (array) for the audience field is not supported. More info about the OIDC JWT token audience here: https://tools.ietf.org/html/rfc7519#section-4.1.3 Note: if not specified, the Push endpoint URL will be used. */
-  audience?: string;
-}
-export const OidcToken = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceAccountEmail: S.optional(S.String),
-    audience: S.optional(S.String),
-  }),
-).annotate({ identifier: "OidcToken" }) as any as S.Schema<OidcToken>;
-
-/** Sets the `data` field as the HTTP body for delivery. */
-export interface NoWrapper {
-  /** Optional. When true, writes the Pub/Sub message metadata to `x-goog-pubsub-:` headers of the HTTP request. Writes the Pub/Sub message attributes to `:` headers of the HTTP request. */
-  writeMetadata?: boolean;
-}
-export const NoWrapper = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    writeMetadata: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "NoWrapper" }) as any as S.Schema<NoWrapper>;
-
-/** The payload to the push endpoint is in the form of the JSON representation of a PubsubMessage (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#pubsubmessage). */
-export type PubsubWrapper = TextConfig;
-export const PubsubWrapper = TextConfig;
-
-/** Configuration for a push delivery endpoint. */
-export interface PushConfig {
-  /** Optional. A URL locating the endpoint to which messages should be pushed. For example, a Webhook endpoint might use `https://example.com/push`. */
-  pushEndpoint?: string;
-  /** Optional. If specified, Pub/Sub will generate and attach an OIDC JWT token as an `Authorization` header in the HTTP request for every pushed message. */
-  oidcToken?: OidcToken;
-  /** Optional. When set, the payload to the push endpoint is not wrapped. */
-  noWrapper?: NoWrapper;
-  /** Optional. Endpoint configuration attributes that can be used to control different aspects of the message delivery. The only currently supported attribute is `x-goog-version`, which you can use to change the format of the pushed message. This attribute indicates the version of the data expected by the endpoint. This controls the shape of the pushed message (i.e., its fields and metadata). If not present during the `CreateSubscription` call, it will default to the version of the Pub/Sub API used to make such call. If not present in a `ModifyPushConfig` call, its value will not be changed. `GetSubscription` calls will always return a valid version, even if the subscription was created without this attribute. The only supported values for the `x-goog-version` attribute are: * `v1beta1`: uses the push format defined in the v1beta1 Pub/Sub API. * `v1` or `v1beta2`: uses the push format defined in the v1 Pub/Sub API. For example: `attributes { "x-goog-version": "v1" }` */
-  attributes?: StringMap;
-  /** Optional. When set, the payload to the push endpoint is in the form of the JSON representation of a PubsubMessage (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#pubsubmessage). */
-  pubsubWrapper?: TextConfig;
-}
-export const PushConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pushEndpoint: S.optional(S.String),
-    oidcToken: S.optional(OidcToken),
-    noWrapper: S.optional(NoWrapper),
-    attributes: S.optional(StringMap),
-    pubsubWrapper: S.optional(TextConfig),
-  }),
-).annotate({ identifier: "PushConfig" }) as any as S.Schema<PushConfig>;
-
-export type BigtableConfigStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "NOT_FOUND"
-  | "APP_PROFILE_MISCONFIGURED"
-  | "PERMISSION_DENIED"
-  | "SCHEMA_MISMATCH"
-  | "IN_TRANSIT_LOCATION_RESTRICTION"
-  | "VERTEX_AI_LOCATION_RESTRICTION";
-export const BigtableConfigStateEnum = /*@__PURE__*/ S.String;
-
-/** Configuration for a Bigtable subscription. The Pub/Sub message will be written to a Bigtable row as follows: - row key: subscription name, message ID hash, and message ID delimited by `#`. - columns: message bytes written to a single column family `data` with an empty-string column qualifier. - cell timestamp: the message publish timestamp. */
-export interface BigtableConfig {
-  /** Optional. The unique name of the table to write messages to. Values are of the form `projects//instances//tables/`. */
-  table?: string;
-  /** Optional. When true, write the subscription name, message_id, publish_time, attributes, and ordering_key to additional columns in the table under the pubsub_metadata column family. The subscription name, message_id, and publish_time fields are put in their own columns while all other message properties (other than data) are written to a JSON object in the attributes column. */
-  writeMetadata?: boolean;
-  /** Output only. An output-only field that indicates whether or not the subscription can receive messages. */
-  state?: BigtableConfigStateEnum | (string & {});
-  /** Optional. The app profile to use for the Bigtable writes. If not specified, the "default" application profile will be used. The app profile must use single-cluster routing. */
-  appProfileId?: string;
-  /** Optional. The service account to use to write to Bigtable. The subscription creator or updater that specifies this field must have `iam.serviceAccounts.actAs` permission on the service account. If not specified, the Pub/Sub [service agent](https://cloud.google.com/iam/docs/service-agents), service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used. */
-  serviceAccountEmail?: string;
-}
-export const BigtableConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    table: S.optional(S.String),
-    writeMetadata: S.optional(S.Boolean),
-    state: S.optional(BigtableConfigStateEnum),
-    appProfileId: S.optional(S.String),
-    serviceAccountEmail: S.optional(S.String),
-  }),
-).annotate({ identifier: "BigtableConfig" }) as any as S.Schema<BigtableConfig>;
-
-export type BigQueryConfigStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "PERMISSION_DENIED"
-  | "NOT_FOUND"
-  | "SCHEMA_MISMATCH"
-  | "IN_TRANSIT_LOCATION_RESTRICTION"
-  | "VERTEX_AI_LOCATION_RESTRICTION";
-export const BigQueryConfigStateEnum = /*@__PURE__*/ S.String;
-
-/** Configuration for a BigQuery subscription. */
-export interface BigQueryConfig {
-  /** Optional. When true, use the topic's schema as the columns to write to in BigQuery, if it exists. `use_topic_schema` and `use_table_schema` cannot be enabled at the same time. */
-  useTopicSchema?: boolean;
-  /** Output only. An output-only field that indicates whether or not the subscription can receive messages. */
-  state?: BigQueryConfigStateEnum | (string & {});
-  /** Optional. When true and use_topic_schema is true, any fields that are a part of the topic schema that are not part of the BigQuery table schema are dropped when writing to BigQuery. Otherwise, the schemas must be kept in sync and any messages with extra fields are not written and remain in the subscription's backlog. */
-  dropUnknownFields?: boolean;
-  /** Optional. The service account to use to write to BigQuery. The subscription creator or updater that specifies this field must have `iam.serviceAccounts.actAs` permission on the service account. If not specified, the Pub/Sub [service agent](https://cloud.google.com/iam/docs/service-agents), service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used. */
-  serviceAccountEmail?: string;
-  /** Optional. The name of the table to which to write data, of the form {projectId}.{datasetId}.{tableId} */
-  table?: string;
-  /** Optional. When true, write the subscription name, message_id, publish_time, attributes, and ordering_key to additional columns in the table. The subscription name, message_id, and publish_time fields are put in their own columns while all other message properties (other than data) are written to a JSON object in the attributes column. */
-  writeMetadata?: boolean;
-  /** Optional. When true, use the BigQuery table's schema as the columns to write to in BigQuery. `use_table_schema` and `use_topic_schema` cannot be enabled at the same time. */
-  useTableSchema?: boolean;
-}
-export const BigQueryConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    useTopicSchema: S.optional(S.Boolean),
-    state: S.optional(BigQueryConfigStateEnum),
-    dropUnknownFields: S.optional(S.Boolean),
-    serviceAccountEmail: S.optional(S.String),
-    table: S.optional(S.String),
-    writeMetadata: S.optional(S.Boolean),
-    useTableSchema: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "BigQueryConfig" }) as any as S.Schema<BigQueryConfig>;
 
 /** A policy that specifies the conditions for resource expiration (i.e., automatic resource deletion). */
 export interface ExpirationPolicy {
@@ -634,75 +653,75 @@ export const ExpirationPolicy = /*@__PURE__*/ S.suspend(() =>
 
 /** A subscription resource. If none of `push_config`, `bigquery_config`, `cloud_storage_config`, or `bigtable_config` is set, then the subscriber will pull and ack messages using API methods. At most one of these fields may be set. */
 export interface Subscription {
-  /** Optional. If delivery to Google Cloud Storage is used with this subscription, this field is used to configure it. */
-  cloudStorageConfig?: CloudStorageConfig;
-  /** Optional. How long to retain unacknowledged messages in the subscription's backlog, from the moment a message is published. If `retain_acked_messages` is true, then this also configures the retention of acknowledged messages, and thus configures how far back in time a `Seek` can be done. Defaults to 7 days. Cannot be more than 31 days or less than 10 minutes. */
-  messageRetentionDuration?: string;
-  /** Optional. A policy that specifies how Pub/Sub retries message delivery for this subscription. If not set, the default retry policy is applied. This generally implies that messages will be retried as soon as possible for healthy subscribers. RetryPolicy will be triggered on NACKs or acknowledgment deadline exceeded events for a given message. */
-  retryPolicy?: RetryPolicy;
-  /** Optional. An expression written in the Pub/Sub [filter language](https://cloud.google.com/pubsub/docs/filtering). If non-empty, then only `PubsubMessage`s whose `attributes` field matches the filter are delivered on this subscription. If empty, then no messages are filtered out. */
-  filter?: string;
+  /** Required. Identifier. The name of the subscription. It must have the format `"projects/{project}/subscriptions/{subscription}"`. `{subscription}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
+  name?: string;
   /** Optional. Indicates whether to retain acknowledged messages. If true, then messages are not expunged from the subscription's backlog, even if they are acknowledged, until they fall out of the `message_retention_duration` window. This must be true if you would like to [`Seek` to a timestamp] (https://cloud.google.com/pubsub/docs/replay-overview#seek_to_a_time) in the past to replay previously-acknowledged messages. */
   retainAckedMessages?: boolean;
-  /** Optional. A policy that specifies the conditions for dead lettering messages in this subscription. If dead_letter_policy is not set, dead lettering is disabled. The Pub/Sub service account associated with this subscriptions's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to Acknowledge() messages on this subscription. */
-  deadLetterPolicy?: DeadLetterPolicy;
+  /** Optional. If true, Pub/Sub provides the following guarantees for the delivery of a message with a given value of `message_id` on this subscription: * The message sent to a subscriber is guaranteed not to be resent before the message's acknowledgment deadline expires. * An acknowledged message will not be resent to a subscriber. Note that subscribers may still receive multiple copies of a message when `enable_exactly_once_delivery` is true if the message was published multiple times by a publisher client. These copies are considered distinct by Pub/Sub and have distinct `message_id` values. */
+  enableExactlyOnceDelivery?: boolean;
+  /** Optional. If delivery to Google Cloud Storage is used with this subscription, this field is used to configure it. */
+  cloudStorageConfig?: CloudStorageConfig;
   /** Optional. If true, messages published with the same `ordering_key` in `PubsubMessage` will be delivered to the subscribers in the order in which they are received by the Pub/Sub system. Otherwise, they may be delivered in any order. */
   enableMessageOrdering?: boolean;
+  /** Optional. See [Creating and managing labels](https://cloud.google.com/pubsub/docs/labels). */
+  labels?: StringMap;
   /** Output only. Indicates the minimum duration for which a message is retained after it is published to the subscription's topic. If this field is set, messages published to the subscription's topic in the last `topic_message_retention_duration` are always available to subscribers. See the `message_retention_duration` field in `Topic`. This field is set only in responses from the server; it is ignored if it is set in any requests. */
   topicMessageRetentionDuration?: string;
   /** Output only. Information about the associated Analytics Hub subscription. Only set if the subscription is created by Analytics Hub. */
   analyticsHubSubscriptionInfo?: AnalyticsHubSubscriptionInfo;
-  /** Optional. Transforms to be applied to messages before they are delivered to subscribers. Transforms are applied in the order specified. */
-  messageTransforms?: MessageTransformList;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" See https://{$universe.dns_names.final_documentation_domain}/pubsub/docs/tags for more information on using tags with Pub/Sub resources. */
-  tags?: StringMap;
-  /** Output only. An output-only field indicating whether or not the subscription can receive messages. */
-  state?: SubscriptionStateEnum | (string & {});
-  /** Optional. If true, Pub/Sub provides the following guarantees for the delivery of a message with a given value of `message_id` on this subscription: * The message sent to a subscriber is guaranteed not to be resent before the message's acknowledgment deadline expires. * An acknowledged message will not be resent to a subscriber. Note that subscribers may still receive multiple copies of a message when `enable_exactly_once_delivery` is true if the message was published multiple times by a publisher client. These copies are considered distinct by Pub/Sub and have distinct `message_id` values. */
-  enableExactlyOnceDelivery?: boolean;
-  /** Optional. If push delivery is used with this subscription, this field is used to configure it. */
-  pushConfig?: PushConfig;
-  /** Optional. Indicates whether the subscription is detached from its topic. Detached subscriptions don't receive messages from their topic and don't retain any backlog. `Pull` and `StreamingPull` requests will return FAILED_PRECONDITION. If the subscription is a push subscription, pushes to the endpoint will not be made. */
-  detached?: boolean;
-  /** Optional. See [Creating and managing labels](https://cloud.google.com/pubsub/docs/labels). */
-  labels?: StringMap;
-  /** Optional. If delivery to Bigtable is used with this subscription, this field is used to configure it. */
-  bigtableConfig?: BigtableConfig;
   /** Optional. If delivery to BigQuery is used with this subscription, this field is used to configure it. */
   bigqueryConfig?: BigQueryConfig;
-  /** Optional. A policy that specifies the conditions for this subscription's expiration. A subscription is considered active as long as any connected subscriber is successfully consuming messages from the subscription or is issuing operations on the subscription. If `expiration_policy` is not set, a *default policy* with `ttl` of 31 days will be used. The minimum allowed value for `expiration_policy.ttl` is 1 day. If `expiration_policy` is set, but `expiration_policy.ttl` is not set, the subscription never expires. */
-  expirationPolicy?: ExpirationPolicy;
-  /** Required. Identifier. The name of the subscription. It must have the format `"projects/{project}/subscriptions/{subscription}"`. `{subscription}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
-  name?: string;
-  /** Required. The name of the topic from which this subscription is receiving messages. Format is `projects/{project}/topics/{topic}`. The value of this field will be `_deleted-topic_` if the topic has been deleted. */
-  topic?: string;
+  /** Optional. Indicates whether the subscription is detached from its topic. Detached subscriptions don't receive messages from their topic and don't retain any backlog. `Pull` and `StreamingPull` requests will return FAILED_PRECONDITION. If the subscription is a push subscription, pushes to the endpoint will not be made. */
+  detached?: boolean;
+  /** Optional. A policy that specifies how Pub/Sub retries message delivery for this subscription. If not set, the default retry policy is applied. This generally implies that messages will be retried as soon as possible for healthy subscribers. RetryPolicy will be triggered on NACKs or acknowledgment deadline exceeded events for a given message. */
+  retryPolicy?: RetryPolicy;
+  /** Optional. If push delivery is used with this subscription, this field is used to configure it. */
+  pushConfig?: PushConfig;
   /** Optional. The approximate amount of time (on a best-effort basis) Pub/Sub waits for the subscriber to acknowledge receipt before resending the message. In the interval after the message is delivered and before it is acknowledged, it is considered to be _outstanding_. During that time period, the message will not be redelivered (on a best-effort basis). For pull subscriptions, this value is used as the initial value for the ack deadline. To override this value for a given message, call `ModifyAckDeadline` with the corresponding `ack_id` if using non-streaming pull or send the `ack_id` in a `StreamingModifyAckDeadlineRequest` if using streaming pull. The minimum custom deadline you can specify is 10 seconds. The maximum custom deadline you can specify is 600 seconds (10 minutes). If this parameter is 0, a default value of 10 seconds is used. For push delivery, this value is also used to set the request timeout for the call to the push endpoint. If the subscriber never acknowledges the message, the Pub/Sub system will eventually redeliver the message. */
   ackDeadlineSeconds?: number;
+  /** Optional. How long to retain unacknowledged messages in the subscription's backlog, from the moment a message is published. If `retain_acked_messages` is true, then this also configures the retention of acknowledged messages, and thus configures how far back in time a `Seek` can be done. Defaults to 7 days. Cannot be more than 31 days or less than 10 minutes. */
+  messageRetentionDuration?: string;
+  /** Output only. An output-only field indicating whether or not the subscription can receive messages. */
+  state?: SubscriptionStateEnum | (string & {});
+  /** Optional. If delivery to Bigtable is used with this subscription, this field is used to configure it. */
+  bigtableConfig?: BigtableConfig;
+  /** Required. The name of the topic from which this subscription is receiving messages. Format is `projects/{project}/topics/{topic}`. The value of this field will be `_deleted-topic_` if the topic has been deleted. */
+  topic?: string;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" See https://{$universe.dns_names.final_documentation_domain}/pubsub/docs/tags for more information on using tags with Pub/Sub resources. */
+  tags?: StringMap;
+  /** Optional. A policy that specifies the conditions for dead lettering messages in this subscription. If dead_letter_policy is not set, dead lettering is disabled. The Pub/Sub service account associated with this subscriptions's parent project (i.e., service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have permission to Acknowledge() messages on this subscription. */
+  deadLetterPolicy?: DeadLetterPolicy;
+  /** Optional. An expression written in the Pub/Sub [filter language](https://cloud.google.com/pubsub/docs/filtering). If non-empty, then only `PubsubMessage`s whose `attributes` field matches the filter are delivered on this subscription. If empty, then no messages are filtered out. */
+  filter?: string;
+  /** Optional. Transforms to be applied to messages before they are delivered to subscribers. Transforms are applied in the order specified. */
+  messageTransforms?: MessageTransformList;
+  /** Optional. A policy that specifies the conditions for this subscription's expiration. A subscription is considered active as long as any connected subscriber is successfully consuming messages from the subscription or is issuing operations on the subscription. If `expiration_policy` is not set, a *default policy* with `ttl` of 31 days will be used. The minimum allowed value for `expiration_policy.ttl` is 1 day. If `expiration_policy` is set, but `expiration_policy.ttl` is not set, the subscription never expires. */
+  expirationPolicy?: ExpirationPolicy;
 }
 export const Subscription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cloudStorageConfig: S.optional(CloudStorageConfig),
-    messageRetentionDuration: S.optional(S.String),
-    retryPolicy: S.optional(RetryPolicy),
-    filter: S.optional(S.String),
+    name: S.optional(S.String),
     retainAckedMessages: S.optional(S.Boolean),
-    deadLetterPolicy: S.optional(DeadLetterPolicy),
+    enableExactlyOnceDelivery: S.optional(S.Boolean),
+    cloudStorageConfig: S.optional(CloudStorageConfig),
     enableMessageOrdering: S.optional(S.Boolean),
+    labels: S.optional(StringMap),
     topicMessageRetentionDuration: S.optional(S.String),
     analyticsHubSubscriptionInfo: S.optional(AnalyticsHubSubscriptionInfo),
-    messageTransforms: S.optional(MessageTransformList),
-    tags: S.optional(StringMap),
-    state: S.optional(SubscriptionStateEnum),
-    enableExactlyOnceDelivery: S.optional(S.Boolean),
-    pushConfig: S.optional(PushConfig),
-    detached: S.optional(S.Boolean),
-    labels: S.optional(StringMap),
-    bigtableConfig: S.optional(BigtableConfig),
     bigqueryConfig: S.optional(BigQueryConfig),
-    expirationPolicy: S.optional(ExpirationPolicy),
-    name: S.optional(S.String),
-    topic: S.optional(S.String),
+    detached: S.optional(S.Boolean),
+    retryPolicy: S.optional(RetryPolicy),
+    pushConfig: S.optional(PushConfig),
     ackDeadlineSeconds: S.optional(S.Number),
+    messageRetentionDuration: S.optional(S.String),
+    state: S.optional(SubscriptionStateEnum),
+    bigtableConfig: S.optional(BigtableConfig),
+    topic: S.optional(S.String),
+    tags: S.optional(StringMap),
+    deadLetterPolicy: S.optional(DeadLetterPolicy),
+    filter: S.optional(S.String),
+    messageTransforms: S.optional(MessageTransformList),
+    expirationPolicy: S.optional(ExpirationPolicy),
   }),
 ).annotate({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
 
@@ -743,6 +762,115 @@ export const MessageStoragePolicy = /*@__PURE__*/ S.suspend(() =>
   identifier: "MessageStoragePolicy",
 }) as any as S.Schema<MessageStoragePolicy>;
 
+export type TopicStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "INGESTION_RESOURCE_ERROR";
+export const TopicStateEnum = S.String;
+
+export type SchemaSettingsEncodingEnum =
+  | "ENCODING_UNSPECIFIED"
+  | "JSON"
+  | "BINARY";
+export const SchemaSettingsEncodingEnum = S.String;
+
+/** Settings for validating messages published against a schema. */
+export interface SchemaSettings {
+  /** Optional. The encoding of messages validated against `schema`. */
+  encoding?: SchemaSettingsEncodingEnum | (string & {});
+  /** Optional. The maximum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against first_revision or any revision created after. */
+  lastRevisionId?: string;
+  /** Optional. The minimum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against last_revision or any revision created before. */
+  firstRevisionId?: string;
+  /** Required. The name of the schema that messages published should be validated against. Format is `projects/{project}/schemas/{schema}`. The value of this field will be `_deleted-schema_` if the schema has been deleted. */
+  schema?: string;
+}
+export const SchemaSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    encoding: S.optional(SchemaSettingsEncodingEnum),
+    lastRevisionId: S.optional(S.String),
+    firstRevisionId: S.optional(S.String),
+    schema: S.optional(S.String),
+  }),
+).annotate({ identifier: "SchemaSettings" }) as any as S.Schema<SchemaSettings>;
+
+export type AzureEventHubsStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "EVENT_HUBS_PERMISSION_DENIED"
+  | "PUBLISH_PERMISSION_DENIED"
+  | "NAMESPACE_NOT_FOUND"
+  | "EVENT_HUB_NOT_FOUND"
+  | "SUBSCRIPTION_NOT_FOUND"
+  | "RESOURCE_GROUP_NOT_FOUND"
+  | "CONFLICTING_REGION_CONSTRAINTS";
+export const AzureEventHubsStateEnum = S.String;
+
+/** Ingestion settings for Azure Event Hubs. */
+export interface AzureEventHubs {
+  /** Optional. The name of the Event Hub. */
+  eventHub?: string;
+  /** Optional. The Azure subscription id. */
+  subscriptionId?: string;
+  /** Optional. The client id of the Azure application that is being used to authenticate Pub/Sub. */
+  clientId?: string;
+  /** Optional. Name of the resource group within the azure subscription. */
+  resourceGroup?: string;
+  /** Optional. The tenant id of the Azure application that is being used to authenticate Pub/Sub. */
+  tenantId?: string;
+  /** Output only. An output-only field that indicates the state of the Event Hubs ingestion source. */
+  state?: AzureEventHubsStateEnum | (string & {});
+  /** Optional. The GCP service account to be used for Federated Identity authentication. */
+  gcpServiceAccount?: string;
+  /** Optional. The name of the Event Hubs namespace. */
+  namespace?: string;
+}
+export const AzureEventHubs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventHub: S.optional(S.String),
+    subscriptionId: S.optional(S.String),
+    clientId: S.optional(S.String),
+    resourceGroup: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    state: S.optional(AzureEventHubsStateEnum),
+    gcpServiceAccount: S.optional(S.String),
+    namespace: S.optional(S.String),
+  }),
+).annotate({ identifier: "AzureEventHubs" }) as any as S.Schema<AzureEventHubs>;
+
+export type AwsMskStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "MSK_PERMISSION_DENIED"
+  | "PUBLISH_PERMISSION_DENIED"
+  | "CLUSTER_NOT_FOUND"
+  | "TOPIC_NOT_FOUND"
+  | "CONFLICTING_REGION_CONSTRAINTS";
+export const AwsMskStateEnum = S.String;
+
+/** Ingestion settings for Amazon MSK. */
+export interface AwsMsk {
+  /** Required. AWS role ARN to be used for Federated Identity authentication with Amazon MSK. Check the Pub/Sub docs for how to set up this role and the required permissions that need to be attached to it. */
+  awsRoleArn?: string;
+  /** Required. The GCP service account to be used for Federated Identity authentication with Amazon MSK (via a `AssumeRoleWithWebIdentity` call for the provided role). The `aws_role_arn` must be set up with `accounts.google.com:sub` equals to this service account number. */
+  gcpServiceAccount?: string;
+  /** Output only. An output-only field that indicates the state of the Amazon MSK ingestion source. */
+  state?: AwsMskStateEnum | (string & {});
+  /** Required. The Amazon Resource Name (ARN) that uniquely identifies the cluster. */
+  clusterArn?: string;
+  /** Required. The name of the topic in the Amazon MSK cluster that Pub/Sub will import from. */
+  topic?: string;
+}
+export const AwsMsk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    awsRoleArn: S.optional(S.String),
+    gcpServiceAccount: S.optional(S.String),
+    state: S.optional(AwsMskStateEnum),
+    clusterArn: S.optional(S.String),
+    topic: S.optional(S.String),
+  }),
+).annotate({ identifier: "AwsMsk" }) as any as S.Schema<AwsMsk>;
+
 export type PlatformLogsSettingsSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
   | "DISABLED"
@@ -750,7 +878,7 @@ export type PlatformLogsSettingsSeverityEnum =
   | "INFO"
   | "WARNING"
   | "ERROR";
-export const PlatformLogsSettingsSeverityEnum = /*@__PURE__*/ S.String;
+export const PlatformLogsSettingsSeverityEnum = S.String;
 
 /** Settings for Platform Logs produced by Pub/Sub. */
 export interface PlatformLogsSettings {
@@ -774,77 +902,37 @@ export type ConfluentCloudStateEnum =
   | "CLUSTER_NOT_FOUND"
   | "TOPIC_NOT_FOUND"
   | "CONFLICTING_REGION_CONSTRAINTS";
-export const ConfluentCloudStateEnum = /*@__PURE__*/ S.String;
+export const ConfluentCloudStateEnum = S.String;
 
 /** Ingestion settings for Confluent Cloud. */
 export interface ConfluentCloud {
-  /** Required. The address of the bootstrap server. The format is url:port. */
-  bootstrapServer?: string;
   /** Required. The id of the cluster. */
   clusterId?: string;
-  /** Output only. An output-only field that indicates the state of the Confluent Cloud ingestion source. */
-  state?: ConfluentCloudStateEnum | (string & {});
-  /** Required. The id of the identity pool to be used for Federated Identity authentication with Confluent Cloud. See https://docs.confluent.io/cloud/current/security/authenticate/workload-identities/identity-providers/oauth/identity-pools.html#add-oauth-identity-pools. */
-  identityPoolId?: string;
   /** Required. The GCP service account to be used for Federated Identity authentication with `identity_pool_id`. */
   gcpServiceAccount?: string;
   /** Required. The name of the topic in the Confluent Cloud cluster that Pub/Sub will import from. */
   topic?: string;
+  /** Required. The address of the bootstrap server. The format is url:port. */
+  bootstrapServer?: string;
+  /** Output only. An output-only field that indicates the state of the Confluent Cloud ingestion source. */
+  state?: ConfluentCloudStateEnum | (string & {});
+  /** Required. The id of the identity pool to be used for Federated Identity authentication with Confluent Cloud. See https://docs.confluent.io/cloud/current/security/authenticate/workload-identities/identity-providers/oauth/identity-pools.html#add-oauth-identity-pools. */
+  identityPoolId?: string;
 }
 export const ConfluentCloud = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bootstrapServer: S.optional(S.String),
     clusterId: S.optional(S.String),
-    state: S.optional(ConfluentCloudStateEnum),
-    identityPoolId: S.optional(S.String),
     gcpServiceAccount: S.optional(S.String),
     topic: S.optional(S.String),
+    bootstrapServer: S.optional(S.String),
+    state: S.optional(ConfluentCloudStateEnum),
+    identityPoolId: S.optional(S.String),
   }),
 ).annotate({ identifier: "ConfluentCloud" }) as any as S.Schema<ConfluentCloud>;
 
-export type AzureEventHubsStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "EVENT_HUBS_PERMISSION_DENIED"
-  | "PUBLISH_PERMISSION_DENIED"
-  | "NAMESPACE_NOT_FOUND"
-  | "EVENT_HUB_NOT_FOUND"
-  | "SUBSCRIPTION_NOT_FOUND"
-  | "RESOURCE_GROUP_NOT_FOUND"
-  | "CONFLICTING_REGION_CONSTRAINTS";
-export const AzureEventHubsStateEnum = /*@__PURE__*/ S.String;
-
-/** Ingestion settings for Azure Event Hubs. */
-export interface AzureEventHubs {
-  /** Optional. The name of the Event Hubs namespace. */
-  namespace?: string;
-  /** Optional. The tenant id of the Azure application that is being used to authenticate Pub/Sub. */
-  tenantId?: string;
-  /** Optional. Name of the resource group within the azure subscription. */
-  resourceGroup?: string;
-  /** Optional. The Azure subscription id. */
-  subscriptionId?: string;
-  /** Optional. The GCP service account to be used for Federated Identity authentication. */
-  gcpServiceAccount?: string;
-  /** Output only. An output-only field that indicates the state of the Event Hubs ingestion source. */
-  state?: AzureEventHubsStateEnum | (string & {});
-  /** Optional. The name of the Event Hub. */
-  eventHub?: string;
-  /** Optional. The client id of the Azure application that is being used to authenticate Pub/Sub. */
-  clientId?: string;
-}
-export const AzureEventHubs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    namespace: S.optional(S.String),
-    tenantId: S.optional(S.String),
-    resourceGroup: S.optional(S.String),
-    subscriptionId: S.optional(S.String),
-    gcpServiceAccount: S.optional(S.String),
-    state: S.optional(AzureEventHubsStateEnum),
-    eventHub: S.optional(S.String),
-    clientId: S.optional(S.String),
-  }),
-).annotate({ identifier: "AzureEventHubs" }) as any as S.Schema<AzureEventHubs>;
+/** Configuration for reading Cloud Storage data in Avro binary format. The bytes of each object will be set to the `data` field of a Pub/Sub message. */
+export type AvroFormat = TextConfig;
+export const AvroFormat = TextConfig;
 
 /** Configuration for reading Cloud Storage data written via [Cloud Storage subscriptions](https://cloud.google.com/pubsub/docs/cloudstorage). The data and attributes fields of the originally exported Pub/Sub message will be restored when publishing. */
 export type PubSubAvroFormat = TextConfig;
@@ -858,7 +946,7 @@ export type CloudStorageStateEnum =
   | "BUCKET_NOT_FOUND"
   | "TOO_MANY_OBJECTS"
   | "CONFLICTING_REGION_CONSTRAINTS";
-export const CloudStorageStateEnum = /*@__PURE__*/ S.String;
+export const CloudStorageStateEnum = S.String;
 
 /** Configuration for reading Cloud Storage data in text format. Each line of text as specified by the delimiter will be set to the `data` field of a Pub/Sub message. */
 export interface TextFormat {
@@ -871,71 +959,34 @@ export const TextFormat = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "TextFormat" }) as any as S.Schema<TextFormat>;
 
-/** Configuration for reading Cloud Storage data in Avro binary format. The bytes of each object will be set to the `data` field of a Pub/Sub message. */
-export type AvroFormat = TextConfig;
-export const AvroFormat = TextConfig;
-
 /** Ingestion settings for Cloud Storage. */
 export interface CloudStorage {
+  /** Optional. Only objects with a larger or equal creation timestamp will be ingested. */
+  minimumObjectCreateTime?: string;
+  /** Optional. Data from Cloud Storage will be interpreted in Avro format. */
+  avroFormat?: TextConfig;
   /** Optional. It will be assumed data from Cloud Storage was written via [Cloud Storage subscriptions](https://cloud.google.com/pubsub/docs/cloudstorage). */
   pubsubAvroFormat?: TextConfig;
-  /** Optional. Cloud Storage bucket. The bucket name must be without any prefix like "gs://". See the [bucket naming requirements] (https://cloud.google.com/storage/docs/buckets#naming). */
-  bucket?: string;
   /** Output only. An output-only field that indicates the state of the Cloud Storage ingestion source. */
   state?: CloudStorageStateEnum | (string & {});
   /** Optional. Glob pattern used to match objects that will be ingested. If unset, all objects will be ingested. See the [supported patterns](https://cloud.google.com/storage/docs/json_api/v1/objects/list#list-objects-and-prefixes-using-glob). */
   matchGlob?: string;
   /** Optional. Data from Cloud Storage will be interpreted as text. */
   textFormat?: TextFormat;
-  /** Optional. Data from Cloud Storage will be interpreted in Avro format. */
-  avroFormat?: TextConfig;
-  /** Optional. Only objects with a larger or equal creation timestamp will be ingested. */
-  minimumObjectCreateTime?: string;
+  /** Optional. Cloud Storage bucket. The bucket name must be without any prefix like "gs://". See the [bucket naming requirements] (https://cloud.google.com/storage/docs/buckets#naming). */
+  bucket?: string;
 }
 export const CloudStorage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    minimumObjectCreateTime: S.optional(S.String),
+    avroFormat: S.optional(TextConfig),
     pubsubAvroFormat: S.optional(TextConfig),
-    bucket: S.optional(S.String),
     state: S.optional(CloudStorageStateEnum),
     matchGlob: S.optional(S.String),
     textFormat: S.optional(TextFormat),
-    avroFormat: S.optional(TextConfig),
-    minimumObjectCreateTime: S.optional(S.String),
+    bucket: S.optional(S.String),
   }),
 ).annotate({ identifier: "CloudStorage" }) as any as S.Schema<CloudStorage>;
-
-export type AwsMskStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "MSK_PERMISSION_DENIED"
-  | "PUBLISH_PERMISSION_DENIED"
-  | "CLUSTER_NOT_FOUND"
-  | "TOPIC_NOT_FOUND"
-  | "CONFLICTING_REGION_CONSTRAINTS";
-export const AwsMskStateEnum = /*@__PURE__*/ S.String;
-
-/** Ingestion settings for Amazon MSK. */
-export interface AwsMsk {
-  /** Required. The GCP service account to be used for Federated Identity authentication with Amazon MSK (via a `AssumeRoleWithWebIdentity` call for the provided role). The `aws_role_arn` must be set up with `accounts.google.com:sub` equals to this service account number. */
-  gcpServiceAccount?: string;
-  /** Output only. An output-only field that indicates the state of the Amazon MSK ingestion source. */
-  state?: AwsMskStateEnum | (string & {});
-  /** Required. The Amazon Resource Name (ARN) that uniquely identifies the cluster. */
-  clusterArn?: string;
-  /** Required. The name of the topic in the Amazon MSK cluster that Pub/Sub will import from. */
-  topic?: string;
-  /** Required. AWS role ARN to be used for Federated Identity authentication with Amazon MSK. Check the Pub/Sub docs for how to set up this role and the required permissions that need to be attached to it. */
-  awsRoleArn?: string;
-}
-export const AwsMsk = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gcpServiceAccount: S.optional(S.String),
-    state: S.optional(AwsMskStateEnum),
-    clusterArn: S.optional(S.String),
-    topic: S.optional(S.String),
-    awsRoleArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "AwsMsk" }) as any as S.Schema<AwsMsk>;
 
 export type AwsKinesisStateEnum =
   | "STATE_UNSPECIFIED"
@@ -945,129 +996,97 @@ export type AwsKinesisStateEnum =
   | "STREAM_NOT_FOUND"
   | "CONSUMER_NOT_FOUND"
   | "CONFLICTING_REGION_CONSTRAINTS";
-export const AwsKinesisStateEnum = /*@__PURE__*/ S.String;
+export const AwsKinesisStateEnum = S.String;
 
 /** Ingestion settings for Amazon Kinesis Data Streams. */
 export interface AwsKinesis {
+  /** Output only. An output-only field that indicates the state of the Kinesis ingestion source. */
+  state?: AwsKinesisStateEnum | (string & {});
+  /** Required. The GCP service account to be used for Federated Identity authentication with Kinesis (via a `AssumeRoleWithWebIdentity` call for the provided role). The `aws_role_arn` must be set up with `accounts.google.com:sub` equals to this service account number. */
+  gcpServiceAccount?: string;
+  /** Required. The Kinesis consumer ARN to used for ingestion in Enhanced Fan-Out mode. The consumer must be already created and ready to be used. */
+  consumerArn?: string;
   /** Required. AWS role ARN to be used for Federated Identity authentication with Kinesis. Check the Pub/Sub docs for how to set up this role and the required permissions that need to be attached to it. */
   awsRoleArn?: string;
   /** Required. The Kinesis stream ARN to ingest data from. */
   streamArn?: string;
-  /** Required. The Kinesis consumer ARN to used for ingestion in Enhanced Fan-Out mode. The consumer must be already created and ready to be used. */
-  consumerArn?: string;
-  /** Required. The GCP service account to be used for Federated Identity authentication with Kinesis (via a `AssumeRoleWithWebIdentity` call for the provided role). The `aws_role_arn` must be set up with `accounts.google.com:sub` equals to this service account number. */
-  gcpServiceAccount?: string;
-  /** Output only. An output-only field that indicates the state of the Kinesis ingestion source. */
-  state?: AwsKinesisStateEnum | (string & {});
 }
 export const AwsKinesis = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    state: S.optional(AwsKinesisStateEnum),
+    gcpServiceAccount: S.optional(S.String),
+    consumerArn: S.optional(S.String),
     awsRoleArn: S.optional(S.String),
     streamArn: S.optional(S.String),
-    consumerArn: S.optional(S.String),
-    gcpServiceAccount: S.optional(S.String),
-    state: S.optional(AwsKinesisStateEnum),
   }),
 ).annotate({ identifier: "AwsKinesis" }) as any as S.Schema<AwsKinesis>;
 
 /** Settings for an ingestion data source on a topic. */
 export interface IngestionDataSourceSettings {
+  /** Optional. Azure Event Hubs. */
+  azureEventHubs?: AzureEventHubs;
+  /** Optional. Amazon MSK. */
+  awsMsk?: AwsMsk;
   /** Optional. Platform Logs settings. If unset, no Platform Logs will be generated. */
   platformLogsSettings?: PlatformLogsSettings;
   /** Optional. Confluent Cloud. */
   confluentCloud?: ConfluentCloud;
-  /** Optional. Azure Event Hubs. */
-  azureEventHubs?: AzureEventHubs;
   /** Optional. Cloud Storage. */
   cloudStorage?: CloudStorage;
-  /** Optional. Amazon MSK. */
-  awsMsk?: AwsMsk;
   /** Optional. Amazon Kinesis Data Streams. */
   awsKinesis?: AwsKinesis;
 }
 export const IngestionDataSourceSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    azureEventHubs: S.optional(AzureEventHubs),
+    awsMsk: S.optional(AwsMsk),
     platformLogsSettings: S.optional(PlatformLogsSettings),
     confluentCloud: S.optional(ConfluentCloud),
-    azureEventHubs: S.optional(AzureEventHubs),
     cloudStorage: S.optional(CloudStorage),
-    awsMsk: S.optional(AwsMsk),
     awsKinesis: S.optional(AwsKinesis),
   }),
 ).annotate({
   identifier: "IngestionDataSourceSettings",
 }) as any as S.Schema<IngestionDataSourceSettings>;
 
-export type TopicStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "INGESTION_RESOURCE_ERROR";
-export const TopicStateEnum = /*@__PURE__*/ S.String;
-
-export type SchemaSettingsEncodingEnum =
-  | "ENCODING_UNSPECIFIED"
-  | "JSON"
-  | "BINARY";
-export const SchemaSettingsEncodingEnum = /*@__PURE__*/ S.String;
-
-/** Settings for validating messages published against a schema. */
-export interface SchemaSettings {
-  /** Optional. The maximum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against first_revision or any revision created after. */
-  lastRevisionId?: string;
-  /** Optional. The minimum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against last_revision or any revision created before. */
-  firstRevisionId?: string;
-  /** Optional. The encoding of messages validated against `schema`. */
-  encoding?: SchemaSettingsEncodingEnum | (string & {});
-  /** Required. The name of the schema that messages published should be validated against. Format is `projects/{project}/schemas/{schema}`. The value of this field will be `_deleted-schema_` if the schema has been deleted. */
-  schema?: string;
-}
-export const SchemaSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lastRevisionId: S.optional(S.String),
-    firstRevisionId: S.optional(S.String),
-    encoding: S.optional(SchemaSettingsEncodingEnum),
-    schema: S.optional(S.String),
-  }),
-).annotate({ identifier: "SchemaSettings" }) as any as S.Schema<SchemaSettings>;
-
 /** A topic resource. */
 export interface Topic {
-  /** Optional. Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
-  satisfiesPzs?: boolean;
-  /** Required. Identifier. The name of the topic. It must have the format `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
-  name?: string;
-  /** Optional. Policy constraining the set of Google Cloud Platform regions where messages published to the topic may be stored. If not present, then no constraints are in effect. */
-  messageStoragePolicy?: MessageStoragePolicy;
   /** Optional. See [Creating and managing labels] (https://cloud.google.com/pubsub/docs/labels). */
   labels?: StringMap;
-  /** Optional. Settings for ingestion from a data source into this topic. */
-  ingestionDataSourceSettings?: IngestionDataSourceSettings;
-  /** Output only. An output-only field indicating the state of the topic. */
-  state?: TopicStateEnum | (string & {});
+  /** Required. Identifier. The name of the topic. It must have the format `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
+  name?: string;
   /** Optional. The resource name of the Cloud KMS CryptoKey to be used to protect access to messages published on this topic. The expected format is `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
   kmsKeyName?: string;
   /** Optional. Transforms to be applied to messages published to the topic. Transforms are applied in the order specified. */
   messageTransforms?: MessageTransformList;
+  /** Optional. Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
+  satisfiesPzs?: boolean;
+  /** Optional. Policy constraining the set of Google Cloud Platform regions where messages published to the topic may be stored. If not present, then no constraints are in effect. */
+  messageStoragePolicy?: MessageStoragePolicy;
+  /** Output only. An output-only field indicating the state of the topic. */
+  state?: TopicStateEnum | (string & {});
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" See https://{$universe.dns_names.final_documentation_domain}/pubsub/docs/tags for more information on using tags with Pub/Sub resources. */
   tags?: StringMap;
-  /** Optional. Settings for validating messages published against a schema. */
-  schemaSettings?: SchemaSettings;
   /** Optional. Indicates the minimum duration to retain a message after it is published to the topic. If this field is set, messages published to the topic in the last `message_retention_duration` are always available to subscribers. For instance, it allows any attached subscription to [seek to a timestamp](https://cloud.google.com/pubsub/docs/replay-overview#seek_to_a_time) that is up to `message_retention_duration` in the past. If this field is not set, message retention is controlled by settings on individual subscriptions. Cannot be more than 31 days or less than 10 minutes. */
   messageRetentionDuration?: string;
+  /** Optional. Settings for validating messages published against a schema. */
+  schemaSettings?: SchemaSettings;
+  /** Optional. Settings for ingestion from a data source into this topic. */
+  ingestionDataSourceSettings?: IngestionDataSourceSettings;
 }
 export const Topic = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    satisfiesPzs: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    messageStoragePolicy: S.optional(MessageStoragePolicy),
     labels: S.optional(StringMap),
-    ingestionDataSourceSettings: S.optional(IngestionDataSourceSettings),
-    state: S.optional(TopicStateEnum),
+    name: S.optional(S.String),
     kmsKeyName: S.optional(S.String),
     messageTransforms: S.optional(MessageTransformList),
+    satisfiesPzs: S.optional(S.Boolean),
+    messageStoragePolicy: S.optional(MessageStoragePolicy),
+    state: S.optional(TopicStateEnum),
     tags: S.optional(StringMap),
-    schemaSettings: S.optional(SchemaSettings),
     messageRetentionDuration: S.optional(S.String),
+    schemaSettings: S.optional(SchemaSettings),
+    ingestionDataSourceSettings: S.optional(IngestionDataSourceSettings),
   }),
 ).annotate({ identifier: "Topic" }) as any as S.Schema<Topic>;
 
@@ -1235,21 +1254,21 @@ export const GetIamPolicyProjectsSchemasRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expression: S.optional(S.String),
+    location: S.optional(S.String),
     title: S.optional(S.String),
     description: S.optional(S.String),
-    location: S.optional(S.String),
+    expression: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
@@ -1257,16 +1276,16 @@ export const Expr = /*@__PURE__*/ S.suspend(() =>
 export interface Binding {
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
   members?: StringList;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
   role?: string;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
 }
 export const Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     members: S.optional(StringList),
-    condition: S.optional(Expr),
     role: S.optional(S.String),
+    condition: S.optional(Expr),
   }),
 ).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
 
@@ -1277,32 +1296,32 @@ export const BindingList = /*@__PURE__*/ S.Array(
 
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.optional(S.Number),
     bindings: S.optional(BindingList),
     etag: S.optional(S.String),
+    version: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
 export interface GetIamPolicyProjectsSnapshotsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsSnapshotsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      resource: S.String.pipe(T.Label()),
       "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1315,16 +1334,16 @@ export const GetIamPolicyProjectsSnapshotsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GetIamPolicyProjectsSnapshotsRequest>;
 
 export interface GetIamPolicyProjectsSubscriptionsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsSubscriptionsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      resource: S.String.pipe(T.Label()),
       "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1361,18 +1380,18 @@ export type GetProjectsSchemasViewEnum =
   | "SCHEMA_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const GetProjectsSchemasViewEnum = /*@__PURE__*/ S.String;
+export const GetProjectsSchemasViewEnum = S.String;
 
 export interface GetProjectsSchemasRequest {
-  /** Required. The name of the schema to get. Format is `projects/{project}/schemas/{schema}`. */
-  name: string;
   /** The set of fields to return in the response. If not set, returns a Schema with all fields filled out. Set to `BASIC` to omit the `definition`. */
   view?: GetProjectsSchemasViewEnum | (string & {});
+  /** Required. The name of the schema to get. Format is `projects/{project}/schemas/{schema}`. */
+  name: string;
 }
 export const GetProjectsSchemasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     view: S.optional(GetProjectsSchemasViewEnum.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1442,24 +1461,24 @@ export type ListProjectsSchemasViewEnum =
   | "SCHEMA_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const ListProjectsSchemasViewEnum = /*@__PURE__*/ S.String;
+export const ListProjectsSchemasViewEnum = S.String;
 
 export interface ListProjectsSchemasRequest {
+  /** Maximum number of schemas to return. */
+  pageSize?: number;
+  /** The set of Schema fields to return in the response. If not set, returns Schemas with `name` and `type`, but not `definition`. Set to `FULL` to retrieve all fields. */
+  view?: ListProjectsSchemasViewEnum | (string & {});
   /** Required. The name of the project in which to list schemas. Format is `projects/{project-id}`. */
   parent: string;
   /** The value returned by the last `ListSchemasResponse`; indicates that this is a continuation of a prior `ListSchemas` call, and that the system should return the next page of data. */
   pageToken?: string;
-  /** The set of Schema fields to return in the response. If not set, returns Schemas with `name` and `type`, but not `definition`. Set to `FULL` to retrieve all fields. */
-  view?: ListProjectsSchemasViewEnum | (string & {});
-  /** Maximum number of schemas to return. */
-  pageSize?: number;
 }
 export const ListProjectsSchemasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    view: S.optional(ListProjectsSchemasViewEnum.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    view: S.optional(ListProjectsSchemasViewEnum.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1495,16 +1514,16 @@ export const ListSchemasResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsSnapshotsRequest {
   /** Optional. The value returned by the last `ListSnapshotsResponse`; indicates that this is a continuation of a prior `ListSnapshots` call, and that the system should return the next page of data. */
   pageToken?: string;
-  /** Optional. Maximum number of snapshots to return. */
-  pageSize?: number;
   /** Required. The name of the project in which to list snapshots. Format is `projects/{project-id}`. */
   project: string;
+  /** Optional. Maximum number of snapshots to return. */
+  pageSize?: number;
 }
 export const ListProjectsSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     project: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1523,15 +1542,15 @@ export const SnapshotList = /*@__PURE__*/ S.Array(
 
 /** Response for the `ListSnapshots` method. */
 export interface ListSnapshotsResponse {
-  /** Optional. The resulting snapshots. */
-  snapshots?: SnapshotList;
   /** Optional. If not empty, indicates that there may be more snapshot that match the request; this value should be passed in a new `ListSnapshotsRequest`. */
   nextPageToken?: string;
+  /** Optional. The resulting snapshots. */
+  snapshots?: SnapshotList;
 }
 export const ListSnapshotsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshots: S.optional(SnapshotList),
     nextPageToken: S.optional(S.String),
+    snapshots: S.optional(SnapshotList),
   }),
 ).annotate({
   identifier: "ListSnapshotsResponse",
@@ -1540,16 +1559,16 @@ export const ListSnapshotsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsSubscriptionsRequest {
   /** Required. The name of the project in which to list subscriptions. Format is `projects/{project-id}`. */
   project: string;
-  /** Optional. Maximum number of subscriptions to return. */
-  pageSize?: number;
   /** Optional. The value returned by the last `ListSubscriptionsResponse`; indicates that this is a continuation of a prior `ListSubscriptions` call, and that the system should return the next page of data. */
   pageToken?: string;
+  /** Optional. Maximum number of subscriptions to return. */
+  pageSize?: number;
 }
 export const ListProjectsSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1583,18 +1602,18 @@ export const ListSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListSubscriptionsResponse>;
 
 export interface ListProjectsTopicsRequest {
-  /** Required. The name of the project in which to list topics. Format is `projects/{project-id}`. */
-  project: string;
   /** Optional. The value returned by the last `ListTopicsResponse`; indicates that this is a continuation of a prior `ListTopics` call, and that the system should return the next page of data. */
   pageToken?: string;
   /** Optional. Maximum number of topics to return. */
   pageSize?: number;
+  /** Required. The name of the project in which to list topics. Format is `projects/{project-id}`. */
+  project: string;
 }
 export const ListProjectsTopicsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    project: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1628,17 +1647,17 @@ export const ListTopicsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListTopicsResponse>;
 
 export interface ListProjectsTopicsSnapshotsRequest {
-  /** Required. The name of the topic that snapshots are attached to. Format is `projects/{project}/topics/{topic}`. */
-  topic: string;
   /** Optional. Maximum number of snapshot names to return. */
   pageSize?: number;
+  /** Required. The name of the topic that snapshots are attached to. Format is `projects/{project}/topics/{topic}`. */
+  topic: string;
   /** Optional. The value returned by the last `ListTopicSnapshotsResponse`; indicates that this is a continuation of a prior `ListTopicSnapshots` call, and that the system should return the next page of data. */
   pageToken?: string;
 }
 export const ListProjectsTopicsSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    topic: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    topic: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1712,23 +1731,23 @@ export type ListRevisionsProjectsSchemasViewEnum =
   | "SCHEMA_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const ListRevisionsProjectsSchemasViewEnum = /*@__PURE__*/ S.String;
+export const ListRevisionsProjectsSchemasViewEnum = S.String;
 
 export interface ListRevisionsProjectsSchemasRequest {
+  /** The page token, received from a previous ListSchemaRevisions call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
   /** The set of Schema fields to return in the response. If not set, returns Schemas with `name` and `type`, but not `definition`. Set to `FULL` to retrieve all fields. */
   view?: ListRevisionsProjectsSchemasViewEnum | (string & {});
   /** The maximum number of revisions to return per page. */
   pageSize?: number;
-  /** The page token, received from a previous ListSchemaRevisions call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
   /** Required. The name of the schema to list revisions for. */
   name: string;
 }
 export const ListRevisionsProjectsSchemasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
     view: S.optional(ListRevisionsProjectsSchemasViewEnum.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -1943,24 +1962,24 @@ export const PatchProjectsTopicsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A message that is published by publishers and consumed by subscribers. The message must contain either a non-empty data field or at least one attribute. Note that client libraries represent this object differently depending on the language. See the corresponding [client library documentation](https://cloud.google.com/pubsub/docs/reference/libraries) for more information. See [quotas and limits] (https://cloud.google.com/pubsub/quotas) for more information about message limits. */
 export interface PubsubMessage {
-  /** Optional. Attributes for this message. If this field is empty, the message must contain non-empty data. This can be used to filter messages on the subscription. */
-  attributes?: StringMap;
   /** ID of this message, assigned by the server when the message is published. Guaranteed to be unique within the topic. This value may be read by a subscriber that receives a `PubsubMessage` via a `Pull` call or a push delivery. It must not be populated by the publisher in a `Publish` call. */
   messageId?: string;
-  /** Optional. The message data field. If this field is empty, the message must contain at least one attribute. */
-  data?: string;
   /** The time at which the message was published, populated by the server when it receives the `Publish` call. It must not be populated by the publisher in a `Publish` call. */
   publishTime?: string;
   /** Optional. If non-empty, identifies related messages for which publish order should be respected. If a `Subscription` has `enable_message_ordering` set to `true`, messages published with the same non-empty `ordering_key` value will be delivered to subscribers in the order in which they are received by the Pub/Sub system. All `PubsubMessage`s published in a given `PublishRequest` must specify the same `ordering_key` value. For more information, see [ordering messages](https://cloud.google.com/pubsub/docs/ordering). */
   orderingKey?: string;
+  /** Optional. Attributes for this message. If this field is empty, the message must contain non-empty data. This can be used to filter messages on the subscription. */
+  attributes?: StringMap;
+  /** Optional. The message data field. If this field is empty, the message must contain at least one attribute. */
+  data?: string;
 }
 export const PubsubMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    attributes: S.optional(StringMap),
     messageId: S.optional(S.String),
-    data: S.optional(S.String),
     publishTime: S.optional(S.String),
     orderingKey: S.optional(S.String),
+    attributes: S.optional(StringMap),
+    data: S.optional(S.String),
   }),
 ).annotate({ identifier: "PubsubMessage" }) as any as S.Schema<PubsubMessage>;
 
@@ -2053,16 +2072,16 @@ export const PullProjectsSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ReceivedMessage {
   /** Optional. This ID can be used to acknowledge the received message. */
   ackId?: string;
-  /** Optional. The approximate number of times that Pub/Sub has attempted to deliver the associated message to a subscriber. More precisely, this is 1 + (number of NACKs) + (number of ack_deadline exceeds) for this message. A NACK is any call to ModifyAckDeadline with a 0 deadline. An ack_deadline exceeds event is whenever a message is not acknowledged within ack_deadline. Note that ack_deadline is initially Subscription.ackDeadlineSeconds, but may get extended automatically by the client library. Upon the first delivery of a given message, `delivery_attempt` will have a value of 1. The value is calculated at best effort and is approximate. If a DeadLetterPolicy is not set on the subscription, this will be 0. */
-  deliveryAttempt?: number;
   /** Optional. The message. */
   message?: PubsubMessage;
+  /** Optional. The approximate number of times that Pub/Sub has attempted to deliver the associated message to a subscriber. More precisely, this is 1 + (number of NACKs) + (number of ack_deadline exceeds) for this message. A NACK is any call to ModifyAckDeadline with a 0 deadline. An ack_deadline exceeds event is whenever a message is not acknowledged within ack_deadline. Note that ack_deadline is initially Subscription.ackDeadlineSeconds, but may get extended automatically by the client library. Upon the first delivery of a given message, `delivery_attempt` will have a value of 1. The value is calculated at best effort and is approximate. If a DeadLetterPolicy is not set on the subscription, this will be 0. */
+  deliveryAttempt?: number;
 }
 export const ReceivedMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ackId: S.optional(S.String),
-    deliveryAttempt: S.optional(S.Number),
     message: S.optional(PubsubMessage),
+    deliveryAttempt: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "ReceivedMessage",
@@ -2376,25 +2395,25 @@ export type ValidateMessageRequestEncodingEnum =
   | "ENCODING_UNSPECIFIED"
   | "JSON"
   | "BINARY";
-export const ValidateMessageRequestEncodingEnum = /*@__PURE__*/ S.String;
+export const ValidateMessageRequestEncodingEnum = S.String;
 
 /** Request for the `ValidateMessage` method. */
 export interface ValidateMessageRequest {
+  /** Message to validate against the provided `schema_spec`. */
+  message?: string;
   /** Ad-hoc schema against which to validate */
   schema?: Pubsub_Schema;
   /** Name of the schema against which to validate. Format is `projects/{project}/schemas/{schema}`. */
   name?: string;
   /** The encoding expected for messages */
   encoding?: ValidateMessageRequestEncodingEnum | (string & {});
-  /** Message to validate against the provided `schema_spec`. */
-  message?: string;
 }
 export const ValidateMessageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    message: S.optional(S.String),
     schema: S.optional(Pubsub_Schema),
     name: S.optional(S.String),
     encoding: S.optional(ValidateMessageRequestEncodingEnum),
-    message: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ValidateMessageRequest",

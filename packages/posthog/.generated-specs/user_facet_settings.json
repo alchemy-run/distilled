@@ -1,0 +1,230 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.user_facet_settings#GetUserFacetSettingsRequestProduct": {
+      "type": "enum",
+      "members": {
+        "LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "logs"
+          }
+        },
+        "TRACING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracing"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.user_facet_settings#GetUserFacetSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "product": {
+          "target": "com.posthog.user_facet_settings#GetUserFacetSettingsRequestProduct",
+          "traits": {
+            "smithy.api#httpQuery": "product",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Which product's custom facets to read or update."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.user_facet_settings#UserFacetSettings2": {
+      "type": "structure",
+      "members": {
+        "custom_facets": {
+          "target": "com.posthog.user_facet_settings#UserFacetSettingsCustomFacetsList",
+          "traits": {
+            "smithy.api#documentation": "Ordered list of custom facets the user has pinned for this product, within the current team. Send the full list to replace the existing set.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.user_facet_settings#UserFacetSettingsEntry": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The log or span attribute key this facet is based on — for example `http.status_code` or `k8s.pod.name`.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_type": {
+          "target": "com.posthog.user_facet_settings#UserFacetSettingsEntrySourceTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Where the key lives: `attribute` for a plain log/span attribute, `resourceAttribute` for an OpenTelemetry resource attribute.\n\n* `attribute` - attribute\n* `resourceAttribute` - resourceAttribute",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.user_facet_settings#UserFacetSettingsEntrySourceTypeEnum": {
+      "type": "enum",
+      "members": {
+        "ATTRIBUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "attribute"
+          }
+        },
+        "RESOURCEATTRIBUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resourceAttribute"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `attribute` - attribute\n* `resourceAttribute` - resourceAttribute"
+      }
+    },
+    "com.posthog.user_facet_settings#UserFacetSettingsCustomFacetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.user_facet_settings#UserFacetSettingsEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ordered list of custom facets the user has pinned for this product, within the current team. Send the full list to replace the existing set."
+      }
+    },
+    "com.posthog.user_facet_settings#GetUserFacetSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.user_facet_settings#GetUserFacetSettingsRequest"
+      },
+      "output": {
+        "target": "com.posthog.user_facet_settings#UserFacetSettings2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/user_facet_settings/{uuid}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the authenticated user's custom facets for a product, within the current team. Pass `@me` as the UUID."
+      }
+    },
+    "com.posthog.user_facet_settings#UpdateUserFacetSettingsPartialRequestProduct": {
+      "type": "enum",
+      "members": {
+        "LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "logs"
+          }
+        },
+        "TRACING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracing"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.user_facet_settings#UpdateUserFacetSettingsPartialRequestCustomFacetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.user_facet_settings#UserFacetSettingsEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ordered list of custom facets the user has pinned for this product, within the current team. Send the full list to replace the existing set."
+      }
+    },
+    "com.posthog.user_facet_settings#UpdateUserFacetSettingsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "product": {
+          "target": "com.posthog.user_facet_settings#UpdateUserFacetSettingsPartialRequestProduct",
+          "traits": {
+            "smithy.api#httpQuery": "product",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Which product's custom facets to read or update."
+          }
+        },
+        "custom_facets": {
+          "target": "com.posthog.user_facet_settings#UpdateUserFacetSettingsPartialRequestCustomFacetsList",
+          "traits": {
+            "smithy.api#documentation": "Ordered list of custom facets the user has pinned for this product, within the current team. Send the full list to replace the existing set."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.user_facet_settings#UpdateUserFacetSettingsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.user_facet_settings#UpdateUserFacetSettingsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.user_facet_settings#UserFacetSettings2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/user_facet_settings/{uuid}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace the authenticated user's custom facets for a product, within the current team. Pass `@me` as the UUID."
+      }
+    },
+    "com.posthog.user_facet_settings#UserFacetSettings": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.user_facet_settings#GetUserFacetSettings"
+        },
+        {
+          "target": "com.posthog.user_facet_settings#UpdateUserFacetSettingsPartial"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

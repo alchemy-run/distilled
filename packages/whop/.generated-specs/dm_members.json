@@ -1,0 +1,628 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.dm_members#ListDmMemberRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "channel_id",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.dm_members#DmMemberListItem": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the messaging channel this membership belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the entity",
+            "smithy.api#required": {}
+          }
+        },
+        "last_viewed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp when this member last viewed the channel, as a Unix timestamp in milliseconds. Null if the member has never viewed the channel.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.dm_members#DmsFeedMemberStatuses",
+          "traits": {
+            "smithy.api#documentation": "The current state of this membership: requested, accepted, hidden, closed, or archived.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user who holds this channel membership.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A user's membership record in a messaging channel, including notification preferences and read state."
+      }
+    },
+    "com.whop.dm_members#DmsFeedMemberStatuses": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": " The statuses of a DMs feed member"
+      }
+    },
+    "com.whop.dm_members#ListDmMemberResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.dm_members#DmMemberListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.dm_members#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.dm_members#ListDmMemberResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.dm_members#ListDmMemberResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.dm_members#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.dm_members#ListDmMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.dm_members#ListDmMemberRequest"
+      },
+      "output": {
+        "target": "com.whop.dm_members#ListDmMemberResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.dm_members#BadRequest"
+        },
+        {
+          "target": "com.whop.dm_members#Forbidden"
+        },
+        {
+          "target": "com.whop.dm_members#NotFound"
+        },
+        {
+          "target": "com.whop.dm_members#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dm_members",
+          "code": 200
+        },
+        "smithy.api#documentation": "List dm members\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of members in a specific DM channel, sorted by the date they were added.\n\nRequired permissions (one of):\n - `dms:read`\n - `support_chat:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.dm_members#CreateDmMemberRequest": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the DM channel to add the new member to.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user to add to the DM channel. For example, 'user_xxxxx'.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.dm_members#DmMember": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the messaging channel this membership belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the entity",
+            "smithy.api#required": {}
+          }
+        },
+        "last_viewed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp when this member last viewed the channel, as a Unix timestamp in milliseconds. Null if the member has never viewed the channel.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notification_preference": {
+          "target": "com.whop.dm_members#DmsFeedMemberNotificationPreferences",
+          "traits": {
+            "smithy.api#documentation": "The notification level for this channel: all, mentions, or none.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.dm_members#DmsFeedMemberStatuses",
+          "traits": {
+            "smithy.api#documentation": "The current state of this membership: requested, accepted, hidden, closed, or archived.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user who holds this channel membership.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A user's membership record in a messaging channel, including notification preferences and read state."
+      }
+    },
+    "com.whop.dm_members#DmsFeedMemberNotificationPreferences": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "MENTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mentions"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The notification preferences for a DMs feed member"
+      }
+    },
+    "com.whop.dm_members#CreateDmMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.dm_members#CreateDmMemberRequest"
+      },
+      "output": {
+        "target": "com.whop.dm_members#DmMember"
+      },
+      "errors": [
+        {
+          "target": "com.whop.dm_members#BadRequest"
+        },
+        {
+          "target": "com.whop.dm_members#Forbidden"
+        },
+        {
+          "target": "com.whop.dm_members#NotFound"
+        },
+        {
+          "target": "com.whop.dm_members#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/dm_members",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create dm member\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nAdd a new user to an existing DM channel. Only an admin of the channel can add members.\n\nRequired permissions (one of):\n - `dms:message:manage`\n - `support_chat:message:create`"
+      }
+    },
+    "com.whop.dm_members#GetDmMemberRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the DM channel member to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.dm_members#GetDmMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.dm_members#GetDmMemberRequest"
+      },
+      "output": {
+        "target": "com.whop.dm_members#DmMember"
+      },
+      "errors": [
+        {
+          "target": "com.whop.dm_members#BadRequest"
+        },
+        {
+          "target": "com.whop.dm_members#Forbidden"
+        },
+        {
+          "target": "com.whop.dm_members#NotFound"
+        },
+        {
+          "target": "com.whop.dm_members#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dm_members/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve dm member\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing DM member.\n\nRequired permissions (one of):\n - `dms:read`\n - `support_chat:read`"
+      }
+    },
+    "com.whop.dm_members#UpdateDmMemberRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the DM channel member to update."
+          }
+        },
+        "notification_preference": {
+          "target": "com.whop.dm_members#DmsFeedMemberNotificationPreferences",
+          "traits": {
+            "smithy.api#documentation": "The notification setting for this member, controlling how they receive alerts for new messages in this channel.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.dm_members#DmsFeedMemberStatuses",
+          "traits": {
+            "smithy.api#documentation": "The membership status for this member in the DM channel.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.dm_members#UpdateDmMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.dm_members#UpdateDmMemberRequest"
+      },
+      "output": {
+        "target": "com.whop.dm_members#DmMember"
+      },
+      "errors": [
+        {
+          "target": "com.whop.dm_members#BadRequest"
+        },
+        {
+          "target": "com.whop.dm_members#Forbidden"
+        },
+        {
+          "target": "com.whop.dm_members#NotFound"
+        },
+        {
+          "target": "com.whop.dm_members#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/dm_members/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update dm member\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUpdate a DM channel member's settings, such as their notification preferences or membership status.\n\nRequired permissions (one of):\n - `dms:read`\n - `support_chat:read`"
+      }
+    },
+    "com.whop.dm_members#DeleteDmMemberRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the DM channel member to remove."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.dm_members#DeleteDmMemberResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.dm_members#DeleteDmMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.dm_members#DeleteDmMemberRequest"
+      },
+      "output": {
+        "target": "com.whop.dm_members#DeleteDmMemberResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.dm_members#BadRequest"
+        },
+        {
+          "target": "com.whop.dm_members#Forbidden"
+        },
+        {
+          "target": "com.whop.dm_members#NotFound"
+        },
+        {
+          "target": "com.whop.dm_members#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/dm_members/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete dm member\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRemove a user from a DM channel. An admin can remove any member, and a member can remove themselves.\n\nRequired permissions (one of):\n - `dms:read`\n - `support_chat:read`"
+      }
+    },
+    "com.whop.dm_members#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.dm_members#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.dm_members#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.dm_members#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.dm_members#DmMembers": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.dm_members#ListDmMember"
+        },
+        {
+          "target": "com.whop.dm_members#CreateDmMember"
+        },
+        {
+          "target": "com.whop.dm_members#GetDmMember"
+        },
+        {
+          "target": "com.whop.dm_members#UpdateDmMember"
+        },
+        {
+          "target": "com.whop.dm_members#DeleteDmMember"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

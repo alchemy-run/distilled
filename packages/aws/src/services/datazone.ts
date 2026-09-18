@@ -118,7 +118,7 @@ export type DomainId = string;
 export type AssetIdentifier = string;
 export type Revision = string;
 export type AcceptRuleBehavior = "ALL" | "NONE" | (string & {});
-export const AcceptRuleBehavior = /*@__PURE__*/ S.String;
+export const AcceptRuleBehavior = S.String;
 
 export interface AcceptRule {
   rule?: AcceptRuleBehavior;
@@ -206,7 +206,7 @@ export const AcceptedAssetScope = /*@__PURE__*/ S.suspend(() =>
 export type AcceptedAssetScopes = AcceptedAssetScope[];
 export const AcceptedAssetScopes = /*@__PURE__*/ S.Array(AcceptedAssetScope);
 export type S3Permission = "READ" | "WRITE" | (string & {});
-export const S3Permission = /*@__PURE__*/ S.String;
+export const S3Permission = S.String;
 
 export type S3Permissions = S3Permission[];
 export const S3Permissions = /*@__PURE__*/ S.Array(S3Permission);
@@ -262,7 +262,7 @@ export type SubscriptionRequestStatus =
   | "ACCEPTED"
   | "REJECTED"
   | (string & {});
-export const SubscriptionRequestStatus = /*@__PURE__*/ S.String;
+export const SubscriptionRequestStatus = S.String;
 
 export type CreatedAt = Date;
 export type UpdatedAt = Date;
@@ -393,6 +393,7 @@ export interface AssetScope {
   assetId: string;
   filterIds: string[];
   status: string;
+  scopeName?: string;
   errorMessage?: string;
 }
 export const AssetScope = /*@__PURE__*/ S.suspend(() =>
@@ -400,6 +401,7 @@ export const AssetScope = /*@__PURE__*/ S.suspend(() =>
     assetId: S.String,
     filterIds: FilterIds,
     status: S.String,
+    scopeName: S.optional(S.String),
     errorMessage: S.optional(S.String),
   }),
 ).annotate({ identifier: "AssetScope" }) as any as S.Schema<AssetScope>;
@@ -550,7 +552,7 @@ export const AcceptSubscriptionRequestOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "AcceptSubscriptionRequestOutput",
 }) as any as S.Schema<AcceptSubscriptionRequestOutput>;
 export type DataZoneEntityType = "DOMAIN_UNIT" | (string & {});
-export const DataZoneEntityType = /*@__PURE__*/ S.String;
+export const DataZoneEntityType = S.String;
 
 export type UserIdentifier = string;
 export interface OwnerUserProperties {
@@ -619,7 +621,7 @@ export type TargetEntityType =
   | "ENVIRONMENT_PROFILE"
   | "ASSET_TYPE"
   | (string & {});
-export const TargetEntityType = /*@__PURE__*/ S.String;
+export const TargetEntityType = S.String;
 
 export type ManagedPolicyType =
   | "CREATE_DOMAIN_UNIT"
@@ -637,7 +639,7 @@ export type ManagedPolicyType =
   | "CREATE_PROJECT_FROM_PROJECT_PROFILE"
   | "USE_ASSET_TYPE"
   | (string & {});
-export const ManagedPolicyType = /*@__PURE__*/ S.String;
+export const ManagedPolicyType = S.String;
 
 export interface AllUsersGrantFilter {}
 export const AllUsersGrantFilter = /*@__PURE__*/ S.suspend(() =>
@@ -661,7 +663,7 @@ export type ProjectDesignation =
   | "CONTRIBUTOR"
   | "PROJECT_CATALOG_STEWARD"
   | (string & {});
-export const ProjectDesignation = /*@__PURE__*/ S.String;
+export const ProjectDesignation = S.String;
 
 export type DomainUnitId = string;
 export interface DomainUnitFilterForProject {
@@ -697,7 +699,7 @@ export const ProjectPolicyGrantPrincipal = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProjectPolicyGrantPrincipal",
 }) as any as S.Schema<ProjectPolicyGrantPrincipal>;
 export type DomainUnitDesignation = "OWNER" | (string & {});
-export const DomainUnitDesignation = /*@__PURE__*/ S.String;
+export const DomainUnitDesignation = S.String;
 
 export interface AllDomainUnitsGrantFilter {}
 export const AllDomainUnitsGrantFilter = /*@__PURE__*/ S.suspend(() =>
@@ -1183,7 +1185,7 @@ export const AssociateEnvironmentRoleOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AssociateEnvironmentRoleOutput>;
 export type EntityIdentifier = string;
 export type GovernedEntityType = "ASSET" | (string & {});
-export const GovernedEntityType = /*@__PURE__*/ S.String;
+export const GovernedEntityType = S.String;
 
 export type GlossaryTermId = string;
 export type GovernedGlossaryTerms = string[];
@@ -1223,7 +1225,7 @@ export const AssociateGovernedTermsOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssociateGovernedTermsOutput",
 }) as any as S.Schema<AssociateGovernedTermsOutput>;
 export type AttributeEntityType = "ASSET" | "LISTING" | (string & {});
-export const AttributeEntityType = /*@__PURE__*/ S.String;
+export const AttributeEntityType = S.String;
 
 export type EntityId = string;
 export type AttributeIdentifier = string;
@@ -1446,7 +1448,7 @@ export type SubscriptionStatus =
   | "REVOKED"
   | "CANCELLED"
   | (string & {});
-export const SubscriptionStatus = /*@__PURE__*/ S.String;
+export const SubscriptionStatus = S.String;
 
 export interface CancelSubscriptionOutput {
   id: string;
@@ -1480,7 +1482,7 @@ export const CancelSubscriptionOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CancelSubscriptionOutput>;
 export type AccountPoolName = string | redacted.Redacted<string>;
 export type ResolutionStrategy = "MANUAL" | (string & {});
-export const ResolutionStrategy = /*@__PURE__*/ S.String;
+export const ResolutionStrategy = S.String;
 
 export type AwsAccountId = string;
 export type AwsRegion = string;
@@ -1650,7 +1652,7 @@ export const CreateAssetInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAssetInput",
 }) as any as S.Schema<CreateAssetInput>;
 export type ListingStatus = "CREATING" | "ACTIVE" | "INACTIVE" | (string & {});
-export const ListingStatus = /*@__PURE__*/ S.String;
+export const ListingStatus = S.String;
 
 export interface AssetListingDetails {
   listingId: string;
@@ -2109,7 +2111,7 @@ export const CreateAssetFilterInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAssetFilterInput",
 }) as any as S.Schema<CreateAssetFilterInput>;
 export type FilterStatus = "VALID" | "INVALID" | (string & {});
-export const FilterStatus = /*@__PURE__*/ S.String;
+export const FilterStatus = S.String;
 
 export interface CreateAssetFilterOutput {
   id: string;
@@ -2411,23 +2413,23 @@ export type GlueConnectionType =
   | "TERADATA"
   | "VERTICA"
   | (string & {});
-export const GlueConnectionType = /*@__PURE__*/ S.String;
+export const GlueConnectionType = S.String;
 
 export type ComputeEnvironments = "SPARK" | "ATHENA" | "PYTHON" | (string & {});
-export const ComputeEnvironments = /*@__PURE__*/ S.String;
+export const ComputeEnvironments = S.String;
 
 export type ComputeEnvironmentsList = ComputeEnvironments[];
 export const ComputeEnvironmentsList =
   /*@__PURE__*/ S.Array(ComputeEnvironments);
 export type AuthenticationType = "BASIC" | "OAUTH2" | "CUSTOM" | (string & {});
-export const AuthenticationType = /*@__PURE__*/ S.String;
+export const AuthenticationType = S.String;
 
 export type OAuth2GrantType =
   | "AUTHORIZATION_CODE"
   | "CLIENT_CREDENTIALS"
   | "JWT_BEARER"
   | (string & {});
-export const OAuth2GrantType = /*@__PURE__*/ S.String;
+export const OAuth2GrantType = S.String;
 
 export interface OAuth2ClientApplication {
   userManagedClientApplicationClientId?: string;
@@ -2725,6 +2727,143 @@ export const S3PropertiesInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "S3PropertiesInput",
 }) as any as S.Schema<S3PropertiesInput>;
+export interface ConnectivityProperties {
+  connectionProperties?: { [key: string]: string | undefined };
+  physicalConnectionRequirements?: PhysicalConnectionRequirements;
+  name?: string;
+  description?: string;
+  validateCredentials?: boolean;
+  validateForComputeEnvironments?: ComputeEnvironments[];
+  sparkProperties?: { [key: string]: string | undefined };
+  athenaProperties?: { [key: string]: string | undefined };
+  pythonProperties?: { [key: string]: string | undefined };
+  authenticationConfiguration?: AuthenticationConfigurationInput;
+}
+export const ConnectivityProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connectionProperties: S.optional(ConnectionProperties),
+    physicalConnectionRequirements: S.optional(PhysicalConnectionRequirements),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    validateCredentials: S.optional(S.Boolean),
+    validateForComputeEnvironments: S.optional(ComputeEnvironmentsList),
+    sparkProperties: S.optional(PropertyMap),
+    athenaProperties: S.optional(PropertyMap),
+    pythonProperties: S.optional(PropertyMap),
+    authenticationConfiguration: S.optional(AuthenticationConfigurationInput),
+  }),
+).annotate({
+  identifier: "ConnectivityProperties",
+}) as any as S.Schema<ConnectivityProperties>;
+export type SnowflakeRole = string;
+export interface IdentityMapping {
+  usernameAttribute: string;
+  prefix?: string;
+}
+export const IdentityMapping = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ usernameAttribute: S.String, prefix: S.optional(S.String) }),
+).annotate({
+  identifier: "IdentityMapping",
+}) as any as S.Schema<IdentityMapping>;
+export type Timezone =
+  | "UTC"
+  | "AFRICA_JOHANNESBURG"
+  | "AMERICA_MONTREAL"
+  | "AMERICA_SAO_PAULO"
+  | "ASIA_BAHRAIN"
+  | "ASIA_BANGKOK"
+  | "ASIA_CALCUTTA"
+  | "ASIA_DUBAI"
+  | "ASIA_HONG_KONG"
+  | "ASIA_JAKARTA"
+  | "ASIA_KUALA_LUMPUR"
+  | "ASIA_SEOUL"
+  | "ASIA_SHANGHAI"
+  | "ASIA_SINGAPORE"
+  | "ASIA_TAIPEI"
+  | "ASIA_TOKYO"
+  | "AUSTRALIA_MELBOURNE"
+  | "AUSTRALIA_SYDNEY"
+  | "CANADA_CENTRAL"
+  | "CET"
+  | "CST6CDT"
+  | "ETC_GMT"
+  | "ETC_GMT0"
+  | "ETC_GMT_ADD_0"
+  | "ETC_GMT_ADD_1"
+  | "ETC_GMT_ADD_10"
+  | "ETC_GMT_ADD_11"
+  | "ETC_GMT_ADD_12"
+  | "ETC_GMT_ADD_2"
+  | "ETC_GMT_ADD_3"
+  | "ETC_GMT_ADD_4"
+  | "ETC_GMT_ADD_5"
+  | "ETC_GMT_ADD_6"
+  | "ETC_GMT_ADD_7"
+  | "ETC_GMT_ADD_8"
+  | "ETC_GMT_ADD_9"
+  | "ETC_GMT_NEG_0"
+  | "ETC_GMT_NEG_1"
+  | "ETC_GMT_NEG_10"
+  | "ETC_GMT_NEG_11"
+  | "ETC_GMT_NEG_12"
+  | "ETC_GMT_NEG_13"
+  | "ETC_GMT_NEG_14"
+  | "ETC_GMT_NEG_2"
+  | "ETC_GMT_NEG_3"
+  | "ETC_GMT_NEG_4"
+  | "ETC_GMT_NEG_5"
+  | "ETC_GMT_NEG_6"
+  | "ETC_GMT_NEG_7"
+  | "ETC_GMT_NEG_8"
+  | "ETC_GMT_NEG_9"
+  | "EUROPE_DUBLIN"
+  | "EUROPE_LONDON"
+  | "EUROPE_PARIS"
+  | "EUROPE_STOCKHOLM"
+  | "EUROPE_ZURICH"
+  | "ISRAEL"
+  | "MEXICO_GENERAL"
+  | "MST7MDT"
+  | "PACIFIC_AUCKLAND"
+  | "US_CENTRAL"
+  | "US_EASTERN"
+  | "US_MOUNTAIN"
+  | "US_PACIFIC"
+  | (string & {});
+export const Timezone = S.String;
+
+export type LineageSyncScheduleCronString = string;
+export interface LineageSyncInput {
+  timezone?: Timezone;
+  enabled: boolean;
+  schedule?: string;
+}
+export const LineageSyncInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timezone: S.optional(Timezone),
+    enabled: S.Boolean,
+    schedule: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LineageSyncInput",
+}) as any as S.Schema<LineageSyncInput>;
+export interface SnowflakePropertiesInput {
+  connectivityProperties?: ConnectivityProperties;
+  snowflakeRole: string;
+  identityMapping: IdentityMapping;
+  lineageSync?: LineageSyncInput;
+}
+export const SnowflakePropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connectivityProperties: S.optional(ConnectivityProperties),
+    snowflakeRole: S.String,
+    identityMapping: IdentityMapping,
+    lineageSync: S.optional(LineageSyncInput),
+  }),
+).annotate({
+  identifier: "SnowflakePropertiesInput",
+}) as any as S.Schema<SnowflakePropertiesInput>;
 export interface AmazonQPropertiesInput {
   isEnabled: boolean;
   profileArn?: string;
@@ -2787,6 +2926,20 @@ export const VpcPropertiesInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "VpcPropertiesInput",
 }) as any as S.Schema<VpcPropertiesInput>;
+export interface GitPropertiesInput {
+  codeConnectionArn: string;
+  repositoryId: string;
+  defaultBranch: string;
+}
+export const GitPropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    codeConnectionArn: S.String,
+    repositoryId: S.String,
+    defaultBranch: S.String,
+  }),
+).annotate({
+  identifier: "GitPropertiesInput",
+}) as any as S.Schema<GitPropertiesInput>;
 export type ConnectionPropertiesInput =
   | {
       athenaProperties: AthenaPropertiesInput;
@@ -2797,12 +2950,14 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2813,12 +2968,14 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2829,12 +2986,14 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2845,12 +3004,14 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2861,12 +3022,14 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2877,12 +3040,14 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties: SparkEmrPropertiesInput;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2893,12 +3058,14 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties?: never;
       sparkGlueProperties: SparkGluePropertiesInput;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2909,12 +3076,14 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties: S3PropertiesInput;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2925,12 +3094,32 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties: SnowflakePropertiesInput;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
+      lakehouseProperties?: never;
+      vpcProperties?: never;
+      gitProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties: AmazonQPropertiesInput;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2941,12 +3130,14 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties: MlflowPropertiesInput;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2957,12 +3148,14 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties: WorkflowsMwaaPropertiesInput;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2973,12 +3166,14 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties: WorkflowsServerlessPropertiesInput;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2989,12 +3184,14 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties: LakehousePropertiesInput;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3005,12 +3202,32 @@ export type ConnectionPropertiesInput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties: VpcPropertiesInput;
+      gitProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      snowflakeProperties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
+      lakehouseProperties?: never;
+      vpcProperties?: never;
+      gitProperties: GitPropertiesInput;
     };
 export const ConnectionPropertiesInput = /*@__PURE__*/ S.Union([
   S.Struct({ athenaProperties: AthenaPropertiesInput }),
@@ -3021,6 +3238,7 @@ export const ConnectionPropertiesInput = /*@__PURE__*/ S.Union([
   S.Struct({ sparkEmrProperties: SparkEmrPropertiesInput }),
   S.Struct({ sparkGlueProperties: SparkGluePropertiesInput }),
   S.Struct({ s3Properties: S3PropertiesInput }),
+  S.Struct({ snowflakeProperties: SnowflakePropertiesInput }),
   S.Struct({ amazonQProperties: AmazonQPropertiesInput }),
   S.Struct({ mlflowProperties: MlflowPropertiesInput }),
   S.Struct({ workflowsMwaaProperties: WorkflowsMwaaPropertiesInput }),
@@ -3029,9 +3247,10 @@ export const ConnectionPropertiesInput = /*@__PURE__*/ S.Union([
   }),
   S.Struct({ lakehouseProperties: LakehousePropertiesInput }),
   S.Struct({ vpcProperties: VpcPropertiesInput }),
+  S.Struct({ gitProperties: GitPropertiesInput }),
 ]);
 export type ConnectionScope = "DOMAIN" | "PROJECT" | (string & {});
-export const ConnectionScope = /*@__PURE__*/ S.String;
+export const ConnectionScope = S.String;
 
 export interface CreateConnectionInput {
   awsLocation?: AwsLocation;
@@ -3097,8 +3316,9 @@ export type ConnectionType =
   | "AMAZON_Q"
   | "MLFLOW"
   | "VPC"
+  | "GIT"
   | (string & {});
-export const ConnectionType = /*@__PURE__*/ S.String;
+export const ConnectionType = S.String;
 
 export type MatchCriteria = string[];
 export const MatchCriteria = /*@__PURE__*/ S.Array(S.String);
@@ -3112,7 +3332,7 @@ export type ConnectionStatus =
   | "UPDATE_FAILED"
   | "DELETED"
   | (string & {});
-export const ConnectionStatus = /*@__PURE__*/ S.String;
+export const ConnectionStatus = S.String;
 
 export interface AuthenticationConfiguration {
   authenticationType?: AuthenticationType;
@@ -3183,7 +3403,7 @@ export type Protocol =
   | "ODBC"
   | "PRISM"
   | (string & {});
-export const Protocol = /*@__PURE__*/ S.String;
+export const Protocol = S.String;
 
 export interface PhysicalEndpoint {
   awsLocation?: AwsLocation;
@@ -3234,7 +3454,7 @@ export const GluePropertiesOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GluePropertiesOutput",
 }) as any as S.Schema<GluePropertiesOutput>;
 export type HyperPodOrchestrator = "EKS" | "SLURM" | (string & {});
-export const HyperPodOrchestrator = /*@__PURE__*/ S.String;
+export const HyperPodOrchestrator = S.String;
 
 export interface HyperPodPropertiesOutput {
   clusterName: string;
@@ -3304,7 +3524,7 @@ export const RedshiftPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "RedshiftPropertiesOutput",
 }) as any as S.Schema<RedshiftPropertiesOutput>;
 export type GovernanceType = "AWS_MANAGED" | "USER_MANAGED" | (string & {});
-export const GovernanceType = /*@__PURE__*/ S.String;
+export const GovernanceType = S.String;
 
 export interface ManagedEndpointCredentials {
   id?: string;
@@ -3397,6 +3617,40 @@ export const S3PropertiesOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "S3PropertiesOutput",
 }) as any as S.Schema<S3PropertiesOutput>;
+export interface LineageSyncOutput {
+  lineageJobId?: string;
+  timezone?: Timezone;
+  enabled?: boolean;
+  schedule?: string;
+}
+export const LineageSyncOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    lineageJobId: S.optional(S.String),
+    timezone: S.optional(Timezone),
+    enabled: S.optional(S.Boolean),
+    schedule: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LineageSyncOutput",
+}) as any as S.Schema<LineageSyncOutput>;
+export interface SnowflakePropertiesOutput {
+  snowflakeRole: string;
+  identityMapping: IdentityMapping;
+  lineageSync: LineageSyncOutput;
+  status: ConnectionStatus;
+  errorMessage?: string;
+}
+export const SnowflakePropertiesOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    snowflakeRole: S.String,
+    identityMapping: IdentityMapping,
+    lineageSync: LineageSyncOutput,
+    status: ConnectionStatus,
+    errorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SnowflakePropertiesOutput",
+}) as any as S.Schema<SnowflakePropertiesOutput>;
 export interface AmazonQPropertiesOutput {
   isEnabled: boolean;
   profileArn?: string;
@@ -3459,6 +3713,24 @@ export const VpcPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "VpcPropertiesOutput",
 }) as any as S.Schema<VpcPropertiesOutput>;
+export interface GitPropertiesOutput {
+  codeConnectionArn: string;
+  repositoryId: string;
+  defaultBranch: string;
+  status?: ConnectionStatus;
+  errorMessage?: string;
+}
+export const GitPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    codeConnectionArn: S.String,
+    repositoryId: S.String,
+    defaultBranch: S.String,
+    status: S.optional(ConnectionStatus),
+    errorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GitPropertiesOutput",
+}) as any as S.Schema<GitPropertiesOutput>;
 export type ConnectionPropertiesOutput =
   | {
       athenaProperties: AthenaPropertiesOutput;
@@ -3469,12 +3741,14 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3485,12 +3759,14 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3501,12 +3777,14 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3517,12 +3795,14 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3533,12 +3813,14 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3549,12 +3831,14 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties: SparkEmrPropertiesOutput;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3565,12 +3849,14 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties?: never;
       sparkGlueProperties: SparkGluePropertiesOutput;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3581,12 +3867,14 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties: S3PropertiesOutput;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3597,12 +3885,32 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties: SnowflakePropertiesOutput;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
+      lakehouseProperties?: never;
+      vpcProperties?: never;
+      gitProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties: AmazonQPropertiesOutput;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3613,12 +3921,14 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties: MlflowPropertiesOutput;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3629,12 +3939,14 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties: WorkflowsMwaaPropertiesOutput;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3645,12 +3957,14 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties: WorkflowsServerlessPropertiesOutput;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3661,12 +3975,14 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties: LakehousePropertiesOutput;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -3677,12 +3993,32 @@ export type ConnectionPropertiesOutput =
       sparkEmrProperties?: never;
       sparkGlueProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       workflowsMwaaProperties?: never;
       workflowsServerlessProperties?: never;
       lakehouseProperties?: never;
       vpcProperties: VpcPropertiesOutput;
+      gitProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      snowflakeProperties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
+      lakehouseProperties?: never;
+      vpcProperties?: never;
+      gitProperties: GitPropertiesOutput;
     };
 export const ConnectionPropertiesOutput = /*@__PURE__*/ S.Union([
   S.Struct({ athenaProperties: AthenaPropertiesOutput }),
@@ -3693,6 +4029,7 @@ export const ConnectionPropertiesOutput = /*@__PURE__*/ S.Union([
   S.Struct({ sparkEmrProperties: SparkEmrPropertiesOutput }),
   S.Struct({ sparkGlueProperties: SparkGluePropertiesOutput }),
   S.Struct({ s3Properties: S3PropertiesOutput }),
+  S.Struct({ snowflakeProperties: SnowflakePropertiesOutput }),
   S.Struct({ amazonQProperties: AmazonQPropertiesOutput }),
   S.Struct({ mlflowProperties: MlflowPropertiesOutput }),
   S.Struct({ workflowsMwaaProperties: WorkflowsMwaaPropertiesOutput }),
@@ -3701,6 +4038,7 @@ export const ConnectionPropertiesOutput = /*@__PURE__*/ S.Union([
   }),
   S.Struct({ lakehouseProperties: LakehousePropertiesOutput }),
   S.Struct({ vpcProperties: VpcPropertiesOutput }),
+  S.Struct({ gitProperties: GitPropertiesOutput }),
 ]);
 export interface CreateConnectionOutput {
   connectionId: string;
@@ -3737,7 +4075,7 @@ export const CreateConnectionOutput = /*@__PURE__*/ S.suspend(() =>
 export type DataProductName = string | redacted.Redacted<string>;
 export type DataProductDescription = string | redacted.Redacted<string>;
 export type DataProductItemType = "ASSET" | (string & {});
-export const DataProductItemType = /*@__PURE__*/ S.String;
+export const DataProductItemType = S.String;
 
 export type ItemGlossaryTerms = string[];
 export const ItemGlossaryTerms = /*@__PURE__*/ S.Array(S.String);
@@ -3801,7 +4139,7 @@ export type DataProductStatus =
   | "CREATING"
   | "CREATE_FAILED"
   | (string & {});
-export const DataProductStatus = /*@__PURE__*/ S.String;
+export const DataProductStatus = S.String;
 
 export interface CreateDataProductOutput {
   domainId: string;
@@ -3918,7 +4256,7 @@ export const CreateDataProductRevisionOutput = /*@__PURE__*/ S.suspend(() =>
 export type Name = string | redacted.Redacted<string>;
 export type DataSourceType = string;
 export type FilterExpressionType = "INCLUDE" | "EXCLUDE" | (string & {});
-export const FilterExpressionType = /*@__PURE__*/ S.String;
+export const FilterExpressionType = S.String;
 
 export interface FilterExpression {
   type: FilterExpressionType;
@@ -4067,75 +4405,7 @@ export const RecommendationConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "RecommendationConfiguration",
 }) as any as S.Schema<RecommendationConfiguration>;
 export type EnableSetting = "ENABLED" | "DISABLED" | (string & {});
-export const EnableSetting = /*@__PURE__*/ S.String;
-
-export type Timezone =
-  | "UTC"
-  | "AFRICA_JOHANNESBURG"
-  | "AMERICA_MONTREAL"
-  | "AMERICA_SAO_PAULO"
-  | "ASIA_BAHRAIN"
-  | "ASIA_BANGKOK"
-  | "ASIA_CALCUTTA"
-  | "ASIA_DUBAI"
-  | "ASIA_HONG_KONG"
-  | "ASIA_JAKARTA"
-  | "ASIA_KUALA_LUMPUR"
-  | "ASIA_SEOUL"
-  | "ASIA_SHANGHAI"
-  | "ASIA_SINGAPORE"
-  | "ASIA_TAIPEI"
-  | "ASIA_TOKYO"
-  | "AUSTRALIA_MELBOURNE"
-  | "AUSTRALIA_SYDNEY"
-  | "CANADA_CENTRAL"
-  | "CET"
-  | "CST6CDT"
-  | "ETC_GMT"
-  | "ETC_GMT0"
-  | "ETC_GMT_ADD_0"
-  | "ETC_GMT_ADD_1"
-  | "ETC_GMT_ADD_10"
-  | "ETC_GMT_ADD_11"
-  | "ETC_GMT_ADD_12"
-  | "ETC_GMT_ADD_2"
-  | "ETC_GMT_ADD_3"
-  | "ETC_GMT_ADD_4"
-  | "ETC_GMT_ADD_5"
-  | "ETC_GMT_ADD_6"
-  | "ETC_GMT_ADD_7"
-  | "ETC_GMT_ADD_8"
-  | "ETC_GMT_ADD_9"
-  | "ETC_GMT_NEG_0"
-  | "ETC_GMT_NEG_1"
-  | "ETC_GMT_NEG_10"
-  | "ETC_GMT_NEG_11"
-  | "ETC_GMT_NEG_12"
-  | "ETC_GMT_NEG_13"
-  | "ETC_GMT_NEG_14"
-  | "ETC_GMT_NEG_2"
-  | "ETC_GMT_NEG_3"
-  | "ETC_GMT_NEG_4"
-  | "ETC_GMT_NEG_5"
-  | "ETC_GMT_NEG_6"
-  | "ETC_GMT_NEG_7"
-  | "ETC_GMT_NEG_8"
-  | "ETC_GMT_NEG_9"
-  | "EUROPE_DUBLIN"
-  | "EUROPE_LONDON"
-  | "EUROPE_PARIS"
-  | "EUROPE_STOCKHOLM"
-  | "EUROPE_ZURICH"
-  | "ISRAEL"
-  | "MEXICO_GENERAL"
-  | "MST7MDT"
-  | "PACIFIC_AUCKLAND"
-  | "US_CENTRAL"
-  | "US_EASTERN"
-  | "US_MOUNTAIN"
-  | "US_PACIFIC"
-  | (string & {});
-export const Timezone = /*@__PURE__*/ S.String;
+export const EnableSetting = S.String;
 
 export type CronString = string;
 export interface ScheduleConfiguration {
@@ -4206,7 +4476,7 @@ export type DataSourceStatus =
   | "DELETING"
   | "FAILED_DELETION"
   | (string & {});
-export const DataSourceStatus = /*@__PURE__*/ S.String;
+export const DataSourceStatus = S.String;
 
 export interface GlueRunConfigurationOutput {
   accountId?: string;
@@ -4292,7 +4562,7 @@ export type DataSourceRunStatus =
   | "PARTIALLY_SUCCEEDED"
   | "SUCCESS"
   | (string & {});
-export const DataSourceRunStatus = /*@__PURE__*/ S.String;
+export const DataSourceRunStatus = S.String;
 
 export type DataSourceErrorType =
   | "ACCESS_DENIED_EXCEPTION"
@@ -4303,7 +4573,7 @@ export type DataSourceErrorType =
   | "THROTTLING_EXCEPTION"
   | "VALIDATION_EXCEPTION"
   | (string & {});
-export const DataSourceErrorType = /*@__PURE__*/ S.String;
+export const DataSourceErrorType = S.String;
 
 export interface DataSourceErrorMessage {
   errorType: DataSourceErrorType;
@@ -4374,10 +4644,10 @@ export const CreateDataSourceOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateDataSourceOutput",
 }) as any as S.Schema<CreateDataSourceOutput>;
 export type AuthType = "IAM_IDC" | "DISABLED" | (string & {});
-export const AuthType = /*@__PURE__*/ S.String;
+export const AuthType = S.String;
 
 export type UserAssignment = "AUTOMATIC" | "MANUAL" | (string & {});
-export const UserAssignment = /*@__PURE__*/ S.String;
+export const UserAssignment = S.String;
 
 export interface SingleSignOn {
   type?: AuthType;
@@ -4398,7 +4668,7 @@ export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type DomainVersion = "V1" | "V2" | (string & {});
-export const DomainVersion = /*@__PURE__*/ S.String;
+export const DomainVersion = S.String;
 
 export interface CreateDomainInput {
   name: string;
@@ -4443,7 +4713,7 @@ export type DomainStatus =
   | "DELETED"
   | "DELETION_FAILED"
   | (string & {});
-export const DomainStatus = /*@__PURE__*/ S.String;
+export const DomainStatus = S.String;
 
 export interface CreateDomainOutput {
   id: string;
@@ -4658,13 +4928,13 @@ export type EnvironmentStatus =
   | "DELETED"
   | "INACCESSIBLE"
   | (string & {});
-export const EnvironmentStatus = /*@__PURE__*/ S.String;
+export const EnvironmentStatus = S.String;
 
 export type ConfigurableActionTypeAuthorization =
   | "IAM"
   | "HTTPS"
   | (string & {});
-export const ConfigurableActionTypeAuthorization = /*@__PURE__*/ S.String;
+export const ConfigurableActionTypeAuthorization = S.String;
 
 export interface ConfigurableActionParameter {
   key?: string;
@@ -4722,7 +4992,7 @@ export const CustomParameter = /*@__PURE__*/ S.suspend(() =>
 export type CustomParameterList = CustomParameter[];
 export const CustomParameterList = /*@__PURE__*/ S.Array(CustomParameter);
 export type DeploymentType = "CREATE" | "UPDATE" | "DELETE" | (string & {});
-export const DeploymentType = /*@__PURE__*/ S.String;
+export const DeploymentType = S.String;
 
 export type DeploymentStatus =
   | "IN_PROGRESS"
@@ -4730,7 +5000,7 @@ export type DeploymentStatus =
   | "FAILED"
   | "PENDING_DEPLOYMENT"
   | (string & {});
-export const DeploymentStatus = /*@__PURE__*/ S.String;
+export const DeploymentStatus = S.String;
 
 export interface EnvironmentError {
   code?: string;
@@ -5052,7 +5322,7 @@ export type Smithy = string;
 export type Model = { smithy: string };
 export const Model = /*@__PURE__*/ S.Union([S.Struct({ smithy: S.String })]);
 export type FormTypeStatus = "ENABLED" | "DISABLED" | (string & {});
-export const FormTypeStatus = /*@__PURE__*/ S.String;
+export const FormTypeStatus = S.String;
 
 export interface CreateFormTypeInput {
   domainIdentifier: string;
@@ -5111,10 +5381,10 @@ export const CreateFormTypeOutput = /*@__PURE__*/ S.suspend(() =>
 export type GlossaryName = string | redacted.Redacted<string>;
 export type GlossaryDescription = string | redacted.Redacted<string>;
 export type GlossaryStatus = "DISABLED" | "ENABLED" | (string & {});
-export const GlossaryStatus = /*@__PURE__*/ S.String;
+export const GlossaryStatus = S.String;
 
 export type GlossaryUsageRestriction = "ASSET_GOVERNED_TERMS" | (string & {});
-export const GlossaryUsageRestriction = /*@__PURE__*/ S.String;
+export const GlossaryUsageRestriction = S.String;
 
 export type GlossaryUsageRestrictions = GlossaryUsageRestriction[];
 export const GlossaryUsageRestrictions = /*@__PURE__*/ S.Array(
@@ -5178,7 +5448,7 @@ export const CreateGlossaryOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateGlossaryOutput",
 }) as any as S.Schema<CreateGlossaryOutput>;
 export type GlossaryTermStatus = "ENABLED" | "DISABLED" | (string & {});
-export const GlossaryTermStatus = /*@__PURE__*/ S.String;
+export const GlossaryTermStatus = S.String;
 
 export type LongDescription = string | redacted.Redacted<string>;
 export interface TermRelations {
@@ -5282,7 +5552,7 @@ export const CreateGroupProfileInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateGroupProfileInput",
 }) as any as S.Schema<CreateGroupProfileInput>;
 export type GroupProfileStatus = "ASSIGNED" | "NOT_ASSIGNED" | (string & {});
-export const GroupProfileStatus = /*@__PURE__*/ S.String;
+export const GroupProfileStatus = S.String;
 
 export interface CreateGroupProfileOutput {
   domainId?: string;
@@ -5305,10 +5575,10 @@ export const CreateGroupProfileOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateGroupProfileOutput",
 }) as any as S.Schema<CreateGroupProfileOutput>;
 export type EntityType = "ASSET" | "DATA_PRODUCT" | (string & {});
-export const EntityType = /*@__PURE__*/ S.String;
+export const EntityType = S.String;
 
 export type ChangeAction = "PUBLISH" | "UNPUBLISH" | (string & {});
-export const ChangeAction = /*@__PURE__*/ S.String;
+export const ChangeAction = S.String;
 
 export interface CreateListingChangeSetInput {
   domainIdentifier: string;
@@ -5416,12 +5686,17 @@ export const CellInformation = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CellInformation>;
 export type CellOrder = CellInformation[];
 export const CellOrder = /*@__PURE__*/ S.Array(CellInformation);
-export type NotebookStatus = "ACTIVE" | "ARCHIVED" | (string & {});
-export const NotebookStatus = /*@__PURE__*/ S.String;
+export type NotebookStatus =
+  | "ACTIVE"
+  | "ARCHIVED"
+  | "SYNC_IN_PROGRESS"
+  | "SYNC_FAILED"
+  | (string & {});
+export const NotebookStatus = S.String;
 
 export type ComputeId = string;
 export type PackageManager = "UV" | (string & {});
-export const PackageManager = /*@__PURE__*/ S.String;
+export const PackageManager = S.String;
 
 export interface PackageConfig {
   packageManager: PackageManager;
@@ -5451,6 +5726,32 @@ export interface NotebookError {
 export const NotebookError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ message: S.String }),
 ).annotate({ identifier: "NotebookError" }) as any as S.Schema<NotebookError>;
+export type GitConnectionId = string;
+export type GitRepository = string | redacted.Redacted<string>;
+export type GitBranch = string | redacted.Redacted<string>;
+export type CommitHash = string;
+export type FileName = string;
+export type CommitMessage = string | redacted.Redacted<string>;
+export interface GitMetadata {
+  connectionId: string;
+  repository: string | redacted.Redacted<string>;
+  branch: string | redacted.Redacted<string>;
+  commitHash: string;
+  fileName?: string;
+  committedAt?: Date;
+  commitMessage?: string | redacted.Redacted<string>;
+}
+export const GitMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connectionId: S.String,
+    repository: SensitiveString,
+    branch: SensitiveString,
+    commitHash: S.String,
+    fileName: S.optional(S.String),
+    committedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    commitMessage: S.optional(SensitiveString),
+  }),
+).annotate({ identifier: "GitMetadata" }) as any as S.Schema<GitMetadata>;
 export interface CreateNotebookOutput {
   id: string;
   name: string | redacted.Redacted<string>;
@@ -5471,6 +5772,7 @@ export interface CreateNotebookOutput {
   parameters?: { [key: string]: string | undefined };
   environmentConfiguration?: EnvironmentConfig;
   error?: NotebookError;
+  gitMetadata?: GitMetadata;
 }
 export const CreateNotebookOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5493,6 +5795,7 @@ export const CreateNotebookOutput = /*@__PURE__*/ S.suspend(() =>
     parameters: S.optional(Parameters),
     environmentConfiguration: S.optional(EnvironmentConfig),
     error: S.optional(NotebookError),
+    gitMetadata: S.optional(GitMetadata),
   }),
 ).annotate({
   identifier: "CreateNotebookOutput",
@@ -5548,7 +5851,7 @@ export type UserDesignation =
   | "PROJECT_CATALOG_CONSUMER"
   | "PROJECT_CATALOG_STEWARD"
   | (string & {});
-export const UserDesignation = /*@__PURE__*/ S.String;
+export const UserDesignation = S.String;
 
 export interface ProjectMembershipAssignment {
   member: Member;
@@ -5613,7 +5916,7 @@ export type ProjectStatus =
   | "UPDATE_FAILED"
   | "MOVING"
   | (string & {});
-export const ProjectStatus = /*@__PURE__*/ S.String;
+export const ProjectStatus = S.String;
 
 export interface ProjectDeletionError {
   code?: string;
@@ -5627,7 +5930,7 @@ export const ProjectDeletionError = /*@__PURE__*/ S.suspend(() =>
 export type FailureReasons = ProjectDeletionError[];
 export const FailureReasons = /*@__PURE__*/ S.Array(ProjectDeletionError);
 export type ResourceTagSource = "PROJECT" | "PROJECT_PROFILE" | (string & {});
-export const ResourceTagSource = /*@__PURE__*/ S.String;
+export const ResourceTagSource = S.String;
 
 export interface ResourceTag {
   key: string;
@@ -5646,7 +5949,7 @@ export type OverallDeploymentStatus =
   | "FAILED_VALIDATION"
   | "FAILED_DEPLOYMENT"
   | (string & {});
-export const OverallDeploymentStatus = /*@__PURE__*/ S.String;
+export const OverallDeploymentStatus = S.String;
 
 export type EnvironmentFailureReasonsList = EnvironmentError[];
 export const EnvironmentFailureReasonsList =
@@ -5750,7 +6053,7 @@ export const CreateProjectMembershipOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateProjectMembershipOutput>;
 export type ProjectProfileName = string | redacted.Redacted<string>;
 export type Status = "ENABLED" | "DISABLED" | (string & {});
-export const Status = /*@__PURE__*/ S.String;
+export const Status = S.String;
 
 export interface ResourceTagParameter {
   key: string;
@@ -5766,7 +6069,7 @@ export type ProjectResourceTagParameters = ResourceTagParameter[];
 export const ProjectResourceTagParameters =
   /*@__PURE__*/ S.Array(ResourceTagParameter);
 export type DeploymentMode = "ON_CREATE" | "ON_DEMAND" | (string & {});
-export const DeploymentMode = /*@__PURE__*/ S.String;
+export const DeploymentMode = S.String;
 
 export type ParameterStorePath = string;
 export type EnvironmentConfigurationParameterName = string;
@@ -5953,10 +6256,10 @@ export type RuleAction =
   | "CREATE_LISTING_CHANGE_SET"
   | "CREATE_SUBSCRIPTION_REQUEST"
   | (string & {});
-export const RuleAction = /*@__PURE__*/ S.String;
+export const RuleAction = S.String;
 
 export type RuleScopeSelectionMode = "ALL" | "SPECIFIC" | (string & {});
-export const RuleScopeSelectionMode = /*@__PURE__*/ S.String;
+export const RuleScopeSelectionMode = S.String;
 
 export type RuleAssetTypeList = string[];
 export const RuleAssetTypeList = /*@__PURE__*/ S.Array(S.String);
@@ -6080,10 +6383,10 @@ export type RuleType =
   | "METADATA_FORM_ENFORCEMENT"
   | "GLOSSARY_TERM_ENFORCEMENT"
   | (string & {});
-export const RuleType = /*@__PURE__*/ S.String;
+export const RuleType = S.String;
 
 export type RuleTargetType = "DOMAIN_UNIT" | (string & {});
-export const RuleTargetType = /*@__PURE__*/ S.String;
+export const RuleTargetType = S.String;
 
 export interface CreateRuleOutput {
   identifier: string;
@@ -6195,7 +6498,7 @@ export type SubscriptionGrantOverallStatus =
   | "COMPLETED"
   | "INACCESSIBLE"
   | (string & {});
-export const SubscriptionGrantOverallStatus = /*@__PURE__*/ S.String;
+export const SubscriptionGrantOverallStatus = S.String;
 
 export type SubscriptionGrantStatus =
   | "GRANT_PENDING"
@@ -6207,7 +6510,7 @@ export type SubscriptionGrantStatus =
   | "GRANT_FAILED"
   | "REVOKE_FAILED"
   | (string & {});
-export const SubscriptionGrantStatus = /*@__PURE__*/ S.String;
+export const SubscriptionGrantStatus = S.String;
 
 export interface FailureCause {
   message?: string;
@@ -6446,7 +6749,7 @@ export type SubscriptionGrantCreationMode =
   | "AUTOMATIC"
   | "MANUAL"
   | (string & {});
-export const SubscriptionGrantCreationMode = /*@__PURE__*/ S.String;
+export const SubscriptionGrantCreationMode = S.String;
 
 export interface CreateSubscriptionTargetInput {
   domainIdentifier: string;
@@ -6536,7 +6839,7 @@ export type UserType =
   | "SSO_USER"
   | "IAM_ROLE_SESSION"
   | (string & {});
-export const UserType = /*@__PURE__*/ S.String;
+export const UserType = S.String;
 
 export interface CreateUserProfileInput {
   domainIdentifier: string;
@@ -6569,7 +6872,7 @@ export const CreateUserProfileInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateUserProfileInput",
 }) as any as S.Schema<CreateUserProfileInput>;
 export type UserProfileType = "IAM" | "SSO" | (string & {});
-export const UserProfileType = /*@__PURE__*/ S.String;
+export const UserProfileType = S.String;
 
 export type UserProfileStatus =
   | "ASSIGNED"
@@ -6577,7 +6880,7 @@ export type UserProfileStatus =
   | "ACTIVATED"
   | "DEACTIVATED"
   | (string & {});
-export const UserProfileStatus = /*@__PURE__*/ S.String;
+export const UserProfileStatus = S.String;
 
 export interface CreateUserProfileOutput {
   domainId?: string;
@@ -6851,7 +7154,7 @@ export type SelfGrantStatus =
   | "GRANT_FAILED"
   | "REVOKE_FAILED"
   | (string & {});
-export const SelfGrantStatus = /*@__PURE__*/ S.String;
+export const SelfGrantStatus = S.String;
 
 export interface SelfGrantStatusDetail {
   databaseName: string;
@@ -6964,6 +7267,7 @@ export interface DeleteDomainInput {
   identifier: string;
   clientToken?: string;
   skipDeletionCheck?: boolean;
+  cascadeDelete?: boolean;
 }
 export const DeleteDomainInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6975,6 +7279,7 @@ export const DeleteDomainInput = /*@__PURE__*/ S.suspend(() =>
     skipDeletionCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipDeletionCheck"),
     ),
+    cascadeDelete: S.optional(S.Boolean).pipe(T.HttpQuery("cascadeDelete")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/v2/domains/{identifier}" }),
@@ -7301,7 +7606,7 @@ export type LineageEventProcessingStatus =
   | "SUCCESS"
   | "FAILED"
   | (string & {});
-export const LineageEventProcessingStatus = /*@__PURE__*/ S.String;
+export const LineageEventProcessingStatus = S.String;
 
 export interface DeleteLineageEventOutput {
   id?: string;
@@ -7622,7 +7927,7 @@ export const DeleteSubscriptionTargetResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSubscriptionTargetResponse",
 }) as any as S.Schema<DeleteSubscriptionTargetResponse>;
 export type TimeSeriesEntityType = "ASSET" | "LISTING" | (string & {});
-export const TimeSeriesEntityType = /*@__PURE__*/ S.String;
+export const TimeSeriesEntityType = S.String;
 
 export interface DeleteTimeSeriesDataPointsInput {
   domainIdentifier: string;
@@ -8076,7 +8381,7 @@ export const GetDataExportConfigurationInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDataExportConfigurationInput",
 }) as any as S.Schema<GetDataExportConfigurationInput>;
 export type ConfigurationStatus = "COMPLETED" | "FAILED" | (string & {});
-export const ConfigurationStatus = /*@__PURE__*/ S.String;
+export const ConfigurationStatus = S.String;
 
 export interface EncryptionConfiguration {
   kmsKeyArn?: string;
@@ -8284,7 +8589,7 @@ export const GetDataSourceRunInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDataSourceRunInput",
 }) as any as S.Schema<GetDataSourceRunInput>;
 export type DataSourceRunType = "PRIORITIZED" | "SCHEDULED" | (string & {});
-export const DataSourceRunType = /*@__PURE__*/ S.String;
+export const DataSourceRunType = S.String;
 
 export interface RunStatisticsForAssets {
   added?: number;
@@ -8310,7 +8615,7 @@ export type LineageImportStatus =
   | "FAILED"
   | "PARTIALLY_SUCCEEDED"
   | (string & {});
-export const LineageImportStatus = /*@__PURE__*/ S.String;
+export const LineageImportStatus = S.String;
 
 export interface DataSourceRunLineageSummary {
   importStatus?: LineageImportStatus;
@@ -8375,6 +8680,21 @@ export const GetDomainInput = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({ identifier: "GetDomainInput" }) as any as S.Schema<GetDomainInput>;
+export interface FailureReason {
+  id?: string;
+  message?: string;
+}
+export const FailureReason = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.optional(S.String), message: S.optional(S.String) }),
+).annotate({ identifier: "FailureReason" }) as any as S.Schema<FailureReason>;
+export type FailureReasonsList = FailureReason[];
+export const FailureReasonsList = /*@__PURE__*/ S.Array(FailureReason);
+export interface DeleteProgress {
+  successfullyDeletedProjectCount?: number;
+}
+export const DeleteProgress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ successfullyDeletedProjectCount: S.optional(S.Number) }),
+).annotate({ identifier: "DeleteProgress" }) as any as S.Schema<DeleteProgress>;
 export interface GetDomainOutput {
   id: string;
   rootDomainUnitId?: string;
@@ -8391,6 +8711,8 @@ export interface GetDomainOutput {
   tags?: { [key: string]: string | undefined };
   domainVersion?: DomainVersion;
   serviceRole?: string;
+  failureReasons?: FailureReason[];
+  deleteProgress?: DeleteProgress;
 }
 export const GetDomainOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8409,6 +8731,8 @@ export const GetDomainOutput = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
     domainVersion: S.optional(DomainVersion),
     serviceRole: S.optional(S.String),
+    failureReasons: S.optional(FailureReasonsList),
+    deleteProgress: S.optional(DeleteProgress),
   }),
 ).annotate({
   identifier: "GetDomainOutput",
@@ -9164,10 +9488,10 @@ export const GetJobRunInput = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetJobRunInput" }) as any as S.Schema<GetJobRunInput>;
 export type JobType = "LINEAGE" | (string & {});
-export const JobType = /*@__PURE__*/ S.String;
+export const JobType = S.String;
 
 export type JobRunMode = "SCHEDULED" | "ON_DEMAND" | (string & {});
-export const JobRunMode = /*@__PURE__*/ S.String;
+export const JobRunMode = S.String;
 
 export type FailedQueryProcessingErrorMessages = string[];
 export const FailedQueryProcessingErrorMessages = /*@__PURE__*/ S.Array(
@@ -9213,7 +9537,7 @@ export type JobRunStatus =
   | "TIMED_OUT"
   | "CANCELED"
   | (string & {});
-export const JobRunStatus = /*@__PURE__*/ S.String;
+export const JobRunStatus = S.String;
 
 export interface JobRunError {
   message: string;
@@ -9518,7 +9842,7 @@ export type MetadataGenerationRunType =
   | "BUSINESS_NAMES"
   | "BUSINESS_GLOSSARY_ASSOCIATIONS"
   | (string & {});
-export const MetadataGenerationRunType = /*@__PURE__*/ S.String;
+export const MetadataGenerationRunType = S.String;
 
 export interface GetMetadataGenerationRunInput {
   domainIdentifier: string;
@@ -9547,7 +9871,7 @@ export const GetMetadataGenerationRunInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetMetadataGenerationRunInput",
 }) as any as S.Schema<GetMetadataGenerationRunInput>;
 export type MetadataGenerationTargetType = "ASSET" | (string & {});
-export const MetadataGenerationTargetType = /*@__PURE__*/ S.String;
+export const MetadataGenerationTargetType = S.String;
 
 export interface MetadataGenerationRunTarget {
   type: MetadataGenerationTargetType;
@@ -9571,7 +9895,7 @@ export type MetadataGenerationRunStatus =
   | "FAILED"
   | "PARTIALLY_SUCCEEDED"
   | (string & {});
-export const MetadataGenerationRunStatus = /*@__PURE__*/ S.String;
+export const MetadataGenerationRunStatus = S.String;
 
 export type MetadataGenerationRunTypes = MetadataGenerationRunType[];
 export const MetadataGenerationRunTypes = /*@__PURE__*/ S.Array(
@@ -9667,6 +9991,7 @@ export interface GetNotebookOutput {
   parameters?: { [key: string]: string | undefined };
   environmentConfiguration?: EnvironmentConfig;
   error?: NotebookError;
+  gitMetadata?: GitMetadata;
 }
 export const GetNotebookOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9689,6 +10014,7 @@ export const GetNotebookOutput = /*@__PURE__*/ S.suspend(() =>
     parameters: S.optional(Parameters),
     environmentConfiguration: S.optional(EnvironmentConfig),
     error: S.optional(NotebookError),
+    gitMetadata: S.optional(GitMetadata),
   }),
 ).annotate({
   identifier: "GetNotebookOutput",
@@ -9719,14 +10045,14 @@ export const GetNotebookExportInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetNotebookExportInput",
 }) as any as S.Schema<GetNotebookExportInput>;
 export type FileFormat = "PDF" | "IPYNB" | (string & {});
-export const FileFormat = /*@__PURE__*/ S.String;
+export const FileFormat = S.String;
 
 export type NotebookExportStatus =
   | "IN_PROGRESS"
   | "SUCCEEDED"
   | "FAILED"
   | (string & {});
-export const NotebookExportStatus = /*@__PURE__*/ S.String;
+export const NotebookExportStatus = S.String;
 
 export type NotebookS3Uri = string | redacted.Redacted<string>;
 export interface S3Destination {
@@ -9813,7 +10139,7 @@ export type NotebookRunStatus =
   | "SUCCEEDED"
   | "FAILED"
   | (string & {});
-export const NotebookRunStatus = /*@__PURE__*/ S.String;
+export const NotebookRunStatus = S.String;
 
 export type InstanceType = string;
 export interface ComputeConfig {
@@ -9830,7 +10156,7 @@ export type NetworkAccessType =
   | "PUBLIC_INTERNET_ONLY"
   | "VPC_ONLY"
   | (string & {});
-export const NetworkAccessType = /*@__PURE__*/ S.String;
+export const NetworkAccessType = S.String;
 
 export type SubnetIds = string[];
 export const SubnetIds = /*@__PURE__*/ S.Array(S.String);
@@ -9872,7 +10198,7 @@ export type TriggerSourceType =
   | "SCHEDULED"
   | "WORKFLOW"
   | (string & {});
-export const TriggerSourceType = /*@__PURE__*/ S.String;
+export const TriggerSourceType = S.String;
 
 export interface TriggerSource {
   type?: TriggerSourceType;
@@ -10481,10 +10807,10 @@ export const GetUserProfileOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetUserProfileOutput",
 }) as any as S.Schema<GetUserProfileOutput>;
 export type SortFieldAccountPool = "NAME" | (string & {});
-export const SortFieldAccountPool = /*@__PURE__*/ S.String;
+export const SortFieldAccountPool = S.String;
 
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
-export const SortOrder = /*@__PURE__*/ S.String;
+export const SortOrder = S.String;
 
 export type PaginationToken = string;
 export type MaxResults = number;
@@ -10724,7 +11050,7 @@ export const ListAssetRevisionsOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListAssetRevisionsOutput",
 }) as any as S.Schema<ListAssetRevisionsOutput>;
 export type SortFieldConnection = "NAME" | (string & {});
-export const SortFieldConnection = /*@__PURE__*/ S.String;
+export const SortFieldConnection = S.String;
 
 export interface ListConnectionsInput {
   domainIdentifier: string;
@@ -10878,7 +11204,7 @@ export type DataAssetActivityStatus =
   | "SKIPPED_NO_ACCESS"
   | "UNCHANGED"
   | (string & {});
-export const DataAssetActivityStatus = /*@__PURE__*/ S.String;
+export const DataAssetActivityStatus = S.String;
 
 export interface ListDataSourceRunActivitiesInput {
   domainIdentifier: string;
@@ -11855,7 +12181,7 @@ export type OpenLineageRunState =
   | "FAIL"
   | "OTHER"
   | (string & {});
-export const OpenLineageRunState = /*@__PURE__*/ S.String;
+export const OpenLineageRunState = S.String;
 
 export interface NameIdentifier {
   name?: string;
@@ -11927,7 +12253,7 @@ export const ListLineageEventsOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListLineageEventsOutput",
 }) as any as S.Schema<ListLineageEventsOutput>;
 export type EdgeDirection = "UPSTREAM" | "DOWNSTREAM" | (string & {});
-export const EdgeDirection = /*@__PURE__*/ S.String;
+export const EdgeDirection = S.String;
 
 export interface ListLineageNodeHistoryInput {
   domainIdentifier: string;
@@ -12182,7 +12508,7 @@ export const ListNotebookRunsOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListNotebookRunsOutput",
 }) as any as S.Schema<ListNotebookRunsOutput>;
 export type SortKey = "CREATED_AT" | "UPDATED_AT" | (string & {});
-export const SortKey = /*@__PURE__*/ S.String;
+export const SortKey = S.String;
 
 export interface ListNotebooksInput {
   domainIdentifier: string;
@@ -12263,12 +12589,12 @@ export const ListNotebooksOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListNotebooksOutput",
 }) as any as S.Schema<ListNotebooksOutput>;
 export type NotificationType = "TASK" | "EVENT" | (string & {});
-export const NotificationType = /*@__PURE__*/ S.String;
+export const NotificationType = S.String;
 
 export type NotificationSubjects = string[];
 export const NotificationSubjects = /*@__PURE__*/ S.Array(S.String);
 export type TaskStatus = "ACTIVE" | "INACTIVE" | (string & {});
-export const TaskStatus = /*@__PURE__*/ S.String;
+export const TaskStatus = S.String;
 
 export interface ListNotificationsInput {
   domainIdentifier: string;
@@ -12312,7 +12638,7 @@ export const ListNotificationsInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListNotificationsInput>;
 export type TaskId = string;
 export type NotificationResourceType = "PROJECT" | (string & {});
-export const NotificationResourceType = /*@__PURE__*/ S.String;
+export const NotificationResourceType = S.String;
 
 export interface NotificationResource {
   type: NotificationResourceType;
@@ -12335,7 +12661,7 @@ export type NotificationRole =
   | "DOMAIN_OWNER"
   | "PROJECT_SUBSCRIBER"
   | (string & {});
-export const NotificationRole = /*@__PURE__*/ S.String;
+export const NotificationRole = S.String;
 
 export interface Topic {
   subject: string;
@@ -12463,7 +12789,7 @@ export const ListPolicyGrantsOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListPolicyGrantsOutput",
 }) as any as S.Schema<ListPolicyGrantsOutput>;
 export type SortFieldProject = "NAME" | (string & {});
-export const SortFieldProject = /*@__PURE__*/ S.String;
+export const SortFieldProject = S.String;
 
 export interface ListProjectMembershipsInput {
   domainIdentifier: string;
@@ -13497,10 +13823,10 @@ export const PutEnvironmentBlueprintConfigurationOutput =
     identifier: "PutEnvironmentBlueprintConfigurationOutput",
   }) as any as S.Schema<PutEnvironmentBlueprintConfigurationOutput>;
 export type RelationType = "LINEAGE" | (string & {});
-export const RelationType = /*@__PURE__*/ S.String;
+export const RelationType = S.String;
 
 export type RelationDirection = "IN" | "OUT" | (string & {});
-export const RelationDirection = /*@__PURE__*/ S.String;
+export const RelationDirection = S.String;
 
 export interface RelationPattern {
   relationType: RelationType;
@@ -13517,7 +13843,7 @@ export const RelationPattern = /*@__PURE__*/ S.suspend(() =>
   identifier: "RelationPattern",
 }) as any as S.Schema<RelationPattern>;
 export type GraphEntityType = "LINEAGE_NODE" | (string & {});
-export const GraphEntityType = /*@__PURE__*/ S.String;
+export const GraphEntityType = S.String;
 
 export type Attribute = string;
 export type FilterOperator =
@@ -13528,7 +13854,7 @@ export type FilterOperator =
   | "GT"
   | "TEXT_SEARCH"
   | (string & {});
-export const FilterOperator = /*@__PURE__*/ S.String;
+export const FilterOperator = S.String;
 
 export interface Filter {
   attribute: string;
@@ -13681,7 +14007,7 @@ export const QueryGraphOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "QueryGraphOutput",
 }) as any as S.Schema<QueryGraphOutput>;
 export type RejectRuleBehavior = "ALL" | "NONE" | (string & {});
-export const RejectRuleBehavior = /*@__PURE__*/ S.String;
+export const RejectRuleBehavior = S.String;
 
 export interface RejectRule {
   rule?: RejectRuleBehavior;
@@ -13949,7 +14275,7 @@ export type InventorySearchScope =
   | "GLOSSARY_TERM"
   | "DATA_PRODUCT"
   | (string & {});
-export const InventorySearchScope = /*@__PURE__*/ S.String;
+export const InventorySearchScope = S.String;
 
 export type SearchText = string;
 export interface SearchInItem {
@@ -13972,7 +14298,7 @@ export type SearchOutputAdditionalAttribute =
   | "TIME_SERIES_DATA_POINT_FORMS"
   | "TEXT_MATCH_RATIONALE"
   | (string & {});
-export const SearchOutputAdditionalAttribute = /*@__PURE__*/ S.String;
+export const SearchOutputAdditionalAttribute = S.String;
 
 export type SearchOutputAdditionalAttributes =
   SearchOutputAdditionalAttribute[];
@@ -14276,7 +14602,7 @@ export type GroupSearchType =
   | "DATAZONE_SSO_GROUP"
   | "IAM_ROLE_SESSION_GROUP"
   | (string & {});
-export const GroupSearchType = /*@__PURE__*/ S.String;
+export const GroupSearchType = S.String;
 
 export type GroupSearchText = string | redacted.Redacted<string>;
 export interface SearchGroupProfilesInput {
@@ -14577,7 +14903,7 @@ export type TypesSearchScope =
   | "FORM_TYPE"
   | "LINEAGE_NODE_TYPE"
   | (string & {});
-export const TypesSearchScope = /*@__PURE__*/ S.String;
+export const TypesSearchScope = S.String;
 
 export interface SearchTypesInput {
   domainIdentifier: string;
@@ -14748,7 +15074,7 @@ export type UserSearchType =
   | "DATAZONE_SSO_USER"
   | "DATAZONE_IAM_USER"
   | (string & {});
-export const UserSearchType = /*@__PURE__*/ S.String;
+export const UserSearchType = S.String;
 
 export type UserSearchText = string | redacted.Redacted<string>;
 export interface SearchUserProfilesInput {
@@ -15144,6 +15470,70 @@ export const StartNotebookRunOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "StartNotebookRunOutput",
 }) as any as S.Schema<StartNotebookRunOutput>;
+export interface StartNotebookSyncInput {
+  domainIdentifier: string;
+  owningProjectIdentifier: string;
+  sourceLocation: SourceLocation;
+  gitMetadata?: GitMetadata;
+  notebookId?: string;
+  name?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  clientToken?: string;
+}
+export const StartNotebookSyncInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    owningProjectIdentifier: S.String,
+    sourceLocation: SourceLocation,
+    gitMetadata: S.optional(GitMetadata),
+    notebookId: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v2/domains/{domainIdentifier}/notebook-syncs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartNotebookSyncInput",
+}) as any as S.Schema<StartNotebookSyncInput>;
+export interface StartNotebookSyncOutput {
+  notebookId?: string;
+  status?: NotebookStatus;
+  domainId?: string;
+  owningProjectId?: string;
+  sourceLocation?: SourceLocation;
+  gitMetadata?: GitMetadata;
+  name?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  createdAt?: Date;
+  createdBy?: string;
+}
+export const StartNotebookSyncOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    notebookId: S.optional(S.String),
+    status: S.optional(NotebookStatus),
+    domainId: S.optional(S.String),
+    owningProjectId: S.optional(S.String),
+    sourceLocation: S.optional(SourceLocation),
+    gitMetadata: S.optional(GitMetadata),
+    name: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    createdBy: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "StartNotebookSyncOutput",
+}) as any as S.Schema<StartNotebookSyncOutput>;
 export interface StopNotebookRunInput {
   domainIdentifier: string;
   identifier: string;
@@ -15478,6 +15868,34 @@ export const S3PropertiesPatch = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "S3PropertiesPatch",
 }) as any as S.Schema<S3PropertiesPatch>;
+export interface ConnectivityPropertiesPatch {
+  description?: string;
+  connectionProperties?: { [key: string]: string | undefined };
+  authenticationConfiguration?: AuthenticationConfigurationPatch;
+}
+export const ConnectivityPropertiesPatch = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    connectionProperties: S.optional(ConnectionProperties),
+    authenticationConfiguration: S.optional(AuthenticationConfigurationPatch),
+  }),
+).annotate({
+  identifier: "ConnectivityPropertiesPatch",
+}) as any as S.Schema<ConnectivityPropertiesPatch>;
+export interface SnowflakePropertiesPatch {
+  connectivityPropertiesPatch?: ConnectivityPropertiesPatch;
+  snowflakeRole?: string;
+  lineageSync?: LineageSyncInput;
+}
+export const SnowflakePropertiesPatch = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connectivityPropertiesPatch: S.optional(ConnectivityPropertiesPatch),
+    snowflakeRole: S.optional(S.String),
+    lineageSync: S.optional(LineageSyncInput),
+  }),
+).annotate({
+  identifier: "SnowflakePropertiesPatch",
+}) as any as S.Schema<SnowflakePropertiesPatch>;
 export interface AmazonQPropertiesPatch {
   isEnabled: boolean;
   profileArn?: string;
@@ -15522,6 +15940,18 @@ export const VpcPropertiesPatch = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "VpcPropertiesPatch",
 }) as any as S.Schema<VpcPropertiesPatch>;
+export interface GitPropertiesPatch {
+  codeConnectionArn?: string;
+  defaultBranch?: string;
+}
+export const GitPropertiesPatch = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    codeConnectionArn: S.optional(S.String),
+    defaultBranch: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GitPropertiesPatch",
+}) as any as S.Schema<GitPropertiesPatch>;
 export type ConnectionPropertiesPatch =
   | {
       athenaProperties: AthenaPropertiesPatch;
@@ -15530,10 +15960,12 @@ export type ConnectionPropertiesPatch =
       redshiftProperties?: never;
       sparkEmrProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -15542,10 +15974,12 @@ export type ConnectionPropertiesPatch =
       redshiftProperties?: never;
       sparkEmrProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -15554,10 +15988,12 @@ export type ConnectionPropertiesPatch =
       redshiftProperties?: never;
       sparkEmrProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -15566,10 +16002,12 @@ export type ConnectionPropertiesPatch =
       redshiftProperties: RedshiftPropertiesPatch;
       sparkEmrProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -15578,10 +16016,12 @@ export type ConnectionPropertiesPatch =
       redshiftProperties?: never;
       sparkEmrProperties: SparkEmrPropertiesPatch;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -15590,10 +16030,12 @@ export type ConnectionPropertiesPatch =
       redshiftProperties?: never;
       sparkEmrProperties?: never;
       s3Properties: S3PropertiesPatch;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -15602,10 +16044,26 @@ export type ConnectionPropertiesPatch =
       redshiftProperties?: never;
       sparkEmrProperties?: never;
       s3Properties?: never;
+      snowflakeProperties: SnowflakePropertiesPatch;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+      lakehouseProperties?: never;
+      vpcProperties?: never;
+      gitProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties: AmazonQPropertiesPatch;
       mlflowProperties?: never;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -15614,10 +16072,12 @@ export type ConnectionPropertiesPatch =
       redshiftProperties?: never;
       sparkEmrProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties: MlflowPropertiesPatch;
       lakehouseProperties?: never;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -15626,10 +16086,12 @@ export type ConnectionPropertiesPatch =
       redshiftProperties?: never;
       sparkEmrProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       lakehouseProperties: LakehousePropertiesPatch;
       vpcProperties?: never;
+      gitProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -15638,10 +16100,26 @@ export type ConnectionPropertiesPatch =
       redshiftProperties?: never;
       sparkEmrProperties?: never;
       s3Properties?: never;
+      snowflakeProperties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
       lakehouseProperties?: never;
       vpcProperties: VpcPropertiesPatch;
+      gitProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      s3Properties?: never;
+      snowflakeProperties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+      lakehouseProperties?: never;
+      vpcProperties?: never;
+      gitProperties: GitPropertiesPatch;
     };
 export const ConnectionPropertiesPatch = /*@__PURE__*/ S.Union([
   S.Struct({ athenaProperties: AthenaPropertiesPatch }),
@@ -15650,10 +16128,12 @@ export const ConnectionPropertiesPatch = /*@__PURE__*/ S.Union([
   S.Struct({ redshiftProperties: RedshiftPropertiesPatch }),
   S.Struct({ sparkEmrProperties: SparkEmrPropertiesPatch }),
   S.Struct({ s3Properties: S3PropertiesPatch }),
+  S.Struct({ snowflakeProperties: SnowflakePropertiesPatch }),
   S.Struct({ amazonQProperties: AmazonQPropertiesPatch }),
   S.Struct({ mlflowProperties: MlflowPropertiesPatch }),
   S.Struct({ lakehouseProperties: LakehousePropertiesPatch }),
   S.Struct({ vpcProperties: VpcPropertiesPatch }),
+  S.Struct({ gitProperties: GitPropertiesPatch }),
 ]);
 export interface UpdateConnectionInput {
   configurations?: Configuration[];
@@ -16435,6 +16915,7 @@ export interface UpdateNotebookOutput {
   parameters?: { [key: string]: string | undefined };
   environmentConfiguration?: EnvironmentConfig;
   error?: NotebookError;
+  gitMetadata?: GitMetadata;
 }
 export const UpdateNotebookOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16457,6 +16938,7 @@ export const UpdateNotebookOutput = /*@__PURE__*/ S.suspend(() =>
     parameters: S.optional(Parameters),
     environmentConfiguration: S.optional(EnvironmentConfig),
     error: S.optional(NotebookError),
+    gitMetadata: S.optional(GitMetadata),
   }),
 ).annotate({
   identifier: "UpdateNotebookOutput",
@@ -22710,6 +23192,40 @@ export const startNotebookRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookRun",
+}));
+
+export type StartNotebookSyncError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts a notebook sync in Amazon SageMaker Unified Studio. This operation syncs a notebook from a Git repository into a project.
+ */
+export const startNotebookSync: API.OperationMethod<
+  StartNotebookSyncInput,
+  StartNotebookSyncOutput,
+  StartNotebookSyncError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: StartNotebookSyncInput,
+  output: StartNotebookSyncOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartNotebookSync",
 }));
 
 export type StopNotebookRunError =

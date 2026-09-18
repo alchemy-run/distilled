@@ -304,7 +304,7 @@ export type AnomalyDetectorStatusCode =
   | "UPDATE_FAILED"
   | "DELETION_FAILED"
   | (string & {});
-export const AnomalyDetectorStatusCode = /*@__PURE__*/ S.String;
+export const AnomalyDetectorStatusCode = S.String;
 
 export interface AnomalyDetectorStatus {
   statusCode: AnomalyDetectorStatusCode;
@@ -559,9 +559,24 @@ export const AmpConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AmpConfiguration",
 }) as any as S.Schema<AmpConfiguration>;
-export type Destination = { ampConfiguration: AmpConfiguration };
+export type CloudWatchDatasetArn = string;
+export interface CloudWatchConfiguration {
+  datasetArn: string;
+}
+export const CloudWatchConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ datasetArn: S.String }),
+).annotate({
+  identifier: "CloudWatchConfiguration",
+}) as any as S.Schema<CloudWatchConfiguration>;
+export type Destination =
+  | { ampConfiguration: AmpConfiguration; cloudWatchConfiguration?: never }
+  | {
+      ampConfiguration?: never;
+      cloudWatchConfiguration: CloudWatchConfiguration;
+    };
 export const Destination = /*@__PURE__*/ S.Union([
   S.Struct({ ampConfiguration: AmpConfiguration }),
+  S.Struct({ cloudWatchConfiguration: CloudWatchConfiguration }),
 ]);
 export type IamRoleArn = string;
 export interface RoleConfiguration {
@@ -576,6 +591,23 @@ export const RoleConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RoleConfiguration",
 }) as any as S.Schema<RoleConfiguration>;
+export type OpenSearchDomainArn = string;
+export interface OpenSearchExporterConfiguration {
+  domainArn: string;
+}
+export const OpenSearchExporterConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ domainArn: S.String }),
+).annotate({
+  identifier: "OpenSearchExporterConfiguration",
+}) as any as S.Schema<OpenSearchExporterConfiguration>;
+export type ExporterConfiguration = {
+  openSearchConfiguration: OpenSearchExporterConfiguration;
+};
+export const ExporterConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ openSearchConfiguration: OpenSearchExporterConfiguration }),
+]);
+export type ExporterList = ExporterConfiguration[];
+export const ExporterList = /*@__PURE__*/ S.Array(ExporterConfiguration);
 export interface CreateScraperRequest {
   alias?: string;
   scrapeConfiguration: ScrapeConfiguration;
@@ -584,6 +616,7 @@ export interface CreateScraperRequest {
   roleConfiguration?: RoleConfiguration;
   clientToken?: string;
   tags?: { [key: string]: string | undefined };
+  exporters?: ExporterConfiguration[];
 }
 export const CreateScraperRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -594,6 +627,7 @@ export const CreateScraperRequest = /*@__PURE__*/ S.suspend(() =>
     roleConfiguration: S.optional(RoleConfiguration),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagMap),
+    exporters: S.optional(ExporterList),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/scrapers" }),
@@ -1297,6 +1331,7 @@ export interface ScraperDescription {
   source: Source;
   destination: Destination;
   roleConfiguration?: RoleConfiguration;
+  exporters?: ExporterConfiguration[];
 }
 export const ScraperDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1313,6 +1348,7 @@ export const ScraperDescription = /*@__PURE__*/ S.suspend(() =>
     source: Source,
     destination: Destination,
     roleConfiguration: S.optional(RoleConfiguration),
+    exporters: S.optional(ExporterList),
   }),
 ).annotate({
   identifier: "ScraperDescription",
@@ -1739,6 +1775,7 @@ export interface ScraperSummary {
   source: Source;
   destination: Destination;
   roleConfiguration?: RoleConfiguration;
+  exporters?: ExporterConfiguration[];
 }
 export const ScraperSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1754,6 +1791,7 @@ export const ScraperSummary = /*@__PURE__*/ S.suspend(() =>
     source: Source,
     destination: Destination,
     roleConfiguration: S.optional(RoleConfiguration),
+    exporters: S.optional(ExporterList),
   }),
 ).annotate({ identifier: "ScraperSummary" }) as any as S.Schema<ScraperSummary>;
 export type ScraperSummaryList = ScraperSummary[];
@@ -2142,6 +2180,7 @@ export interface UpdateScraperRequest {
   destination?: Destination;
   roleConfiguration?: RoleConfiguration;
   clientToken?: string;
+  exporters?: ExporterConfiguration[];
 }
 export const UpdateScraperRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2151,6 +2190,7 @@ export const UpdateScraperRequest = /*@__PURE__*/ S.suspend(() =>
     destination: S.optional(Destination),
     roleConfiguration: S.optional(RoleConfiguration),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    exporters: S.optional(ExporterList),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/scrapers/{scraperId}" }),
@@ -2475,7 +2515,7 @@ export type CreateScraperError =
   | ValidationException
   | CommonErrors;
 /**
- * The `CreateScraper` operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources and sends them to your Amazon Managed Service for Prometheus workspace. You can configure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service discovery. Scrapers are flexible, and can be configured to control what metrics are collected, the frequency of collection, what transformations are applied to the metrics, and more.
+ * Creates a scraper to collect metrics from Prometheus-compatible sources. The scraper sends the collected metrics to Amazon Managed Service for Prometheus workspaces or CloudWatch datasets. You can configure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service discovery. Scrapers are flexible. You can configure a scraper to control which metrics to collect, the frequency of collection, which transformations to apply to the metrics, and more.
  *
  * An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your source. You must configure this role with a policy that allows it to scrape metrics from your source. For Amazon EKS sources, see Configuring your Amazon EKS cluster in the *Amazon Managed Service for Prometheus User Guide*.
  *

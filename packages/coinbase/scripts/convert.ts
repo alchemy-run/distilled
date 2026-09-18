@@ -2,7 +2,7 @@
 /**
  * convert — turn the Coinbase CDP OpenAPI spec into a Smithy 2.0 JSON model.
  *
- * Input:  specs/cdp-sdk/openapi.yaml  (spec submodule — YAML, parsed with
+ * Input:  specs/spec-mirror-coinbase/specs/openapi.yaml  (spec submodule — YAML, parsed with
  *         Bun.YAML; distilled v0 dumped a temporary openapi.json instead)
  * Output: .generated-specs/cdp.json
  *
@@ -25,7 +25,7 @@ await runOpenApiConvert({
   specs: [
     {
       name: "cdp",
-      specPath: "specs/cdp-sdk/openapi.yaml",
+      specPath: "specs/spec-mirror-coinbase/specs/openapi.yaml",
     },
   ],
   patchesDir: false,

@@ -61,30 +61,29 @@ export type CivicinfoSchemaV2ElectionShapeLookupBehaviorEnum =
   | "shapeLookupDefault"
   | "shapeLookupDisabled"
   | "shapeLookupEnabled";
-export const CivicinfoSchemaV2ElectionShapeLookupBehaviorEnum =
-  /*@__PURE__*/ S.String;
+export const CivicinfoSchemaV2ElectionShapeLookupBehaviorEnum = S.String;
 
 /** Information about the election that was queried. */
 export interface CivicinfoSchemaV2Election {
   /** The unique ID of this election. */
   id?: string;
-  /** The political division of the election. Represented as an OCD Division ID. Voters within these political jurisdictions are covered by this election. This is typically a state such as ocd-division/country:us/state:ca or for the midterms or general election the entire US (i.e. ocd-division/country:us). */
-  ocdDivisionId?: string;
-  /** Day of the election in YYYY-MM-DD format. */
-  electionDay?: string;
-  shapeLookupBehavior?: CivicinfoSchemaV2ElectionShapeLookupBehaviorEnum;
   /** A displayable name for the election. */
   name?: string;
+  /** Day of the election in YYYY-MM-DD format. */
+  electionDay?: string;
+  /** The political division of the election. Represented as an OCD Division ID. Voters within these political jurisdictions are covered by this election. This is typically a state such as ocd-division/country:us/state:ca or for the midterms or general election the entire US (i.e. ocd-division/country:us). */
+  ocdDivisionId?: string;
+  shapeLookupBehavior?: CivicinfoSchemaV2ElectionShapeLookupBehaviorEnum;
 }
 export const CivicinfoSchemaV2Election = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
-    ocdDivisionId: S.optional(S.String),
+    name: S.optional(S.String),
     electionDay: S.optional(S.String),
+    ocdDivisionId: S.optional(S.String),
     shapeLookupBehavior: S.optional(
       CivicinfoSchemaV2ElectionShapeLookupBehaviorEnum,
     ),
-    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CivicinfoSchemaV2Election",
@@ -97,16 +96,16 @@ export const CivicinfoSchemaV2ElectionList = /*@__PURE__*/ S.Array(
 
 /** The list of elections available for this version of the API. */
 export interface CivicinfoApiprotosV2ElectionsQueryResponse {
-  /** A list of available elections */
-  elections?: CivicinfoSchemaV2ElectionList;
   /** Identifies what kind of resource this is. Value: the fixed string "civicinfo#electionsQueryResponse". */
   kind?: string;
+  /** A list of available elections */
+  elections?: CivicinfoSchemaV2ElectionList;
 }
 export const CivicinfoApiprotosV2ElectionsQueryResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      elections: S.optional(CivicinfoSchemaV2ElectionList),
       kind: S.optional(S.String),
+      elections: S.optional(CivicinfoSchemaV2ElectionList),
     }),
   ).annotate({
     identifier: "CivicinfoApiprotosV2ElectionsQueryResponse",
@@ -139,30 +138,30 @@ export const StringList = /*@__PURE__*/ S.Array(
 export interface CivicinfoSchemaV2SimpleAddressType {
   /** The street name and number of this address. */
   line1?: string;
+  /** The city or town for the address. */
+  city?: string;
   /** The second line the address, if needed. */
   line2?: string;
+  /** The name of the location. */
+  locationName?: string;
   /** The third line of the address, if needed. */
   line3?: string;
   /** The US two letter state abbreviation of the address. */
   state?: string;
+  addressLine?: StringList;
   /** The US Postal Zip Code of the address. */
   zip?: string;
-  addressLine?: StringList;
-  /** The city or town for the address. */
-  city?: string;
-  /** The name of the location. */
-  locationName?: string;
 }
 export const CivicinfoSchemaV2SimpleAddressType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     line1: S.optional(S.String),
+    city: S.optional(S.String),
     line2: S.optional(S.String),
+    locationName: S.optional(S.String),
     line3: S.optional(S.String),
     state: S.optional(S.String),
-    zip: S.optional(S.String),
     addressLine: S.optional(StringList),
-    city: S.optional(S.String),
-    locationName: S.optional(S.String),
+    zip: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CivicinfoSchemaV2SimpleAddressType",
@@ -175,17 +174,17 @@ export const IntegerList = /*@__PURE__*/ S.Array(
 
 /** Describes a political geography. */
 export interface CivicinfoSchemaV2GeographicDivision {
-  /** List of indices in the offices array, one for each office elected from this division. Will only be present if includeOffices was true (or absent) in the request. */
-  officeIndices?: IntegerList;
   /** The name of the division. */
   name?: string;
+  /** List of indices in the offices array, one for each office elected from this division. Will only be present if includeOffices was true (or absent) in the request. */
+  officeIndices?: IntegerList;
   /** Any other valid OCD IDs that refer to the same division.\n\nBecause OCD IDs are meant to be human-readable and at least somewhat predictable, there are occasionally several identifiers for a single division. These identifiers are defined to be equivalent to one another, and one is always indicated as the primary identifier. The primary identifier will be returned in ocd_id above, and any other equivalent valid identifiers will be returned in this list.\n\nFor example, if this division's OCD ID is ocd-division/country:us/district:dc, this will contain ocd-division/country:us/state:dc. */
   alsoKnownAs?: StringList;
 }
 export const CivicinfoSchemaV2GeographicDivision = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    officeIndices: S.optional(IntegerList),
     name: S.optional(S.String),
+    officeIndices: S.optional(IntegerList),
     alsoKnownAs: S.optional(StringList),
   }),
 ).annotate({
@@ -235,19 +234,19 @@ export const SearchDivisionsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents a political geographic division that matches the requested query. */
 export interface CivicinfoApiprotosV2DivisionSearchResult {
+  /** The unique Open Civic Data identifier for this division */
+  ocdId?: string;
   /** The name of the division. */
   name?: string;
   /** Other Open Civic Data identifiers that refer to the same division -- for example, those that refer to other political divisions whose boundaries are defined to be coterminous with this one. For example, ocd-division/country:us/state:wy will include an alias of ocd-division/country:us/state:wy/cd:1, since Wyoming has only one Congressional district. */
   aliases?: StringList;
-  /** The unique Open Civic Data identifier for this division */
-  ocdId?: string;
 }
 export const CivicinfoApiprotosV2DivisionSearchResult = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      ocdId: S.optional(S.String),
       name: S.optional(S.String),
       aliases: S.optional(StringList),
-      ocdId: S.optional(S.String),
     }),
 ).annotate({
   identifier: "CivicinfoApiprotosV2DivisionSearchResult",
@@ -262,38 +261,38 @@ export const CivicinfoApiprotosV2DivisionSearchResultList =
 
 /** The result of a division search query. */
 export interface CivicinfoApiprotosV2DivisionSearchResponse {
+  results?: CivicinfoApiprotosV2DivisionSearchResultList;
   /** Identifies what kind of resource this is. Value: the fixed string "civicinfo#divisionSearchResponse". */
   kind?: string;
-  results?: CivicinfoApiprotosV2DivisionSearchResultList;
 }
 export const CivicinfoApiprotosV2DivisionSearchResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      kind: S.optional(S.String),
       results: S.optional(CivicinfoApiprotosV2DivisionSearchResultList),
+      kind: S.optional(S.String),
     }),
   ).annotate({
     identifier: "CivicinfoApiprotosV2DivisionSearchResponse",
   }) as any as S.Schema<CivicinfoApiprotosV2DivisionSearchResponse>;
 
 export interface VoterInfoQueryElectionsRequest {
-  /** Whether to include data that has not been vetted yet. Should only be made available to internal IPs or trusted partners. This is a non-discoverable parameter in the One Platform API config. */
-  productionDataOnly?: boolean;
-  /** The unique ID of the election to look up. A list of election IDs can be obtained at https://www.googleapis.com/civicinfo/{version}/elections. If no election ID is specified in the query and there is more than one election with data for the given voter, the additional elections are provided in the otherElections response field. */
-  electionId?: string;
-  /** The registered address of the voter to look up. */
-  address?: string;
   /** If set to true, the query will return the success code and include any partial information when it is unable to determine a matching address or unable to determine the election for electionId=0 queries. */
   returnAllAvailableData?: boolean;
+  /** The unique ID of the election to look up. A list of election IDs can be obtained at https://www.googleapis.com/civicinfo/{version}/elections. If no election ID is specified in the query and there is more than one election with data for the given voter, the additional elections are provided in the otherElections response field. */
+  electionId?: string;
+  /** Whether to include data that has not been vetted yet. Should only be made available to internal IPs or trusted partners. This is a non-discoverable parameter in the One Platform API config. */
+  productionDataOnly?: boolean;
+  /** The registered address of the voter to look up. */
+  address?: string;
   /** If set to true, only data from official state sources will be returned. */
   officialOnly?: boolean;
 }
 export const VoterInfoQueryElectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    productionDataOnly: S.optional(S.Boolean.pipe(T.Query())),
-    electionId: S.optional(S.String.pipe(T.Query())),
-    address: S.optional(S.String.pipe(T.Query())),
     returnAllAvailableData: S.optional(S.Boolean.pipe(T.Query())),
+    electionId: S.optional(S.String.pipe(T.Query())),
+    productionDataOnly: S.optional(S.Boolean.pipe(T.Query())),
+    address: S.optional(S.String.pipe(T.Query())),
     officialOnly: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -306,61 +305,80 @@ export const VoterInfoQueryElectionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "VoterInfoQueryElectionsRequest",
 }) as any as S.Schema<VoterInfoQueryElectionsRequest>;
 
-export interface CivicinfoSchemaV2Precinct {
-  /** ID of the AdministrationRegion message for this precinct. Corresponds to LocalityId xml tag. */
-  administrationRegionId?: string;
-  /** Specifies if the precinct runs mail-only elections. */
-  mailOnly?: boolean;
-  /** ID(s) of the Contest message(s) for this precinct. */
-  contestId?: StringList;
-  /** Required. Dataset ID. What datasets our Precincts come from. */
-  datasetId?: string;
-  /** Required. The name of the precinct. */
-  name?: string;
-  /** ID(s) of the SpatialBoundary message(s) for this precinct. Used to specify a geometrical boundary of the precinct. */
-  spatialBoundaryId?: StringList;
-  /** ID(s) of the ElectoralDistrict message(s) for this precinct. */
-  electoralDistrictId?: StringList;
-  /** ID(s) of the PollingLocation message(s) for this precinct. */
-  pollingLocationId?: StringList;
-  /** If present, this proto corresponds to one portion of split precinct. Other portions of this precinct are guaranteed to have the same `name`. If not present, this proto represents a full precicnt. */
-  splitName?: string;
-  /** Required. A unique identifier for this precinct. */
+export type CivicinfoSchemaV2ElectoralDistrictScopeEnum =
+  | "statewide"
+  | "congressional"
+  | "stateUpper"
+  | "stateLower"
+  | "countywide"
+  | "judicial"
+  | "schoolBoard"
+  | "citywide"
+  | "special"
+  | "countyCouncil"
+  | "township"
+  | "ward"
+  | "cityCouncil"
+  | "national";
+export const CivicinfoSchemaV2ElectoralDistrictScopeEnum = S.String;
+
+/** Describes the geographic scope of a contest. */
+export interface CivicinfoSchemaV2ElectoralDistrict {
+  /** The geographic scope of this district. If unspecified the district's geography is not known. One of: national, statewide, congressional, stateUpper, stateLower, countywide, judicial, schoolBoard, cityWide, township, countyCouncil, cityCouncil, ward, special */
+  scope?: CivicinfoSchemaV2ElectoralDistrictScopeEnum;
+  /** An identifier for this district, relative to its scope. For example, the 34th State Senate district would have id "34" and a scope of stateUpper. */
   id?: string;
-  /** The number of the precinct. */
-  number?: string;
-  /** Encouraged. The OCD ID of the precinct */
-  ocdId?: StringList;
-  /** Specifies the ward the precinct is contained within. */
-  ward?: string;
-  /** ID(s) of the PollingLocation message(s) for this precinct. */
-  earlyVoteSiteId?: StringList;
+  /** The name of the district. */
+  name?: string;
 }
-export const CivicinfoSchemaV2Precinct = /*@__PURE__*/ S.suspend(() =>
+export const CivicinfoSchemaV2ElectoralDistrict = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    administrationRegionId: S.optional(S.String),
-    mailOnly: S.optional(S.Boolean),
-    contestId: S.optional(StringList),
-    datasetId: S.optional(S.String),
-    name: S.optional(S.String),
-    spatialBoundaryId: S.optional(StringList),
-    electoralDistrictId: S.optional(StringList),
-    pollingLocationId: S.optional(StringList),
-    splitName: S.optional(S.String),
+    scope: S.optional(CivicinfoSchemaV2ElectoralDistrictScopeEnum),
     id: S.optional(S.String),
-    number: S.optional(S.String),
-    ocdId: S.optional(StringList),
-    ward: S.optional(S.String),
-    earlyVoteSiteId: S.optional(StringList),
+    name: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "CivicinfoSchemaV2Precinct",
-}) as any as S.Schema<CivicinfoSchemaV2Precinct>;
+  identifier: "CivicinfoSchemaV2ElectoralDistrict",
+}) as any as S.Schema<CivicinfoSchemaV2ElectoralDistrict>;
 
-export type CivicinfoSchemaV2PrecinctList = Array<CivicinfoSchemaV2Precinct>;
-export const CivicinfoSchemaV2PrecinctList = /*@__PURE__*/ S.Array(
-  CivicinfoSchemaV2Precinct,
-) as any as S.Schema<CivicinfoSchemaV2PrecinctList>;
+export type CivicinfoSchemaV2ContestLevelItemEnum =
+  | "international"
+  | "country"
+  | "administrativeArea1"
+  | "regional"
+  | "administrativeArea2"
+  | "locality"
+  | "subLocality1"
+  | "subLocality2"
+  | "special";
+export const CivicinfoSchemaV2ContestLevelItemEnum = S.String;
+
+export type CivicinfoSchemaV2ContestLevelItemEnumList =
+  Array<CivicinfoSchemaV2ContestLevelItemEnum>;
+export const CivicinfoSchemaV2ContestLevelItemEnumList = /*@__PURE__*/ S.Array(
+  CivicinfoSchemaV2ContestLevelItemEnum,
+) as any as S.Schema<CivicinfoSchemaV2ContestLevelItemEnumList>;
+
+export type CivicinfoSchemaV2ContestRolesItemEnum =
+  | "headOfState"
+  | "headOfGovernment"
+  | "deputyHeadOfGovernment"
+  | "governmentOfficer"
+  | "executiveCouncil"
+  | "legislatorUpperBody"
+  | "legislatorLowerBody"
+  | "highestCourtJudge"
+  | "judge"
+  | "schoolBoard"
+  | "specialPurposeOfficer"
+  | "otherRole";
+export const CivicinfoSchemaV2ContestRolesItemEnum = S.String;
+
+export type CivicinfoSchemaV2ContestRolesItemEnumList =
+  Array<CivicinfoSchemaV2ContestRolesItemEnum>;
+export const CivicinfoSchemaV2ContestRolesItemEnumList = /*@__PURE__*/ S.Array(
+  CivicinfoSchemaV2ContestRolesItemEnum,
+) as any as S.Schema<CivicinfoSchemaV2ContestRolesItemEnumList>;
 
 /** Contains information about the data source for the element containing it. */
 export interface CivicinfoSchemaV2Source {
@@ -383,139 +401,17 @@ export const CivicinfoSchemaV2SourceList = /*@__PURE__*/ S.Array(
   CivicinfoSchemaV2Source,
 ) as any as S.Schema<CivicinfoSchemaV2SourceList>;
 
-/** A location where a voter can vote. This may be an early vote site, an election day voting location, or a drop off location for a completed ballot. */
-export interface CivicinfoSchemaV2PollingLocation {
-  /** Longitude of the location, in degrees east of the Prime Meridian. Note this field may not be available for some locations. */
-  longitude?: number;
-  /** The name of the early vote site or drop off location. This field is not populated for polling locations. */
-  name?: string;
-  /** The last date that this early vote site or drop off location may be used. This field is not populated for polling locations. */
-  endDate?: string;
-  /** The services provided by this early vote site or drop off location. This field is not populated for polling locations. */
-  voterServices?: string;
-  /** The first date that this early vote site or drop off location may be used. This field is not populated for polling locations. */
-  startDate?: string;
-  /** Notes about this location (e.g. accessibility ramp or entrance to use). */
-  notes?: string;
-  /** A description of when this location is open. */
-  pollingHours?: string;
-  /** The address of the location. */
-  address?: CivicinfoSchemaV2SimpleAddressType;
-  /** A list of sources for this location. If multiple sources are listed the data has been aggregated from those sources. */
-  sources?: CivicinfoSchemaV2SourceList;
-  /** Latitude of the location, in degrees north of the equator. Note this field may not be available for some locations. */
-  latitude?: number;
-}
-export const CivicinfoSchemaV2PollingLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    longitude: S.optional(S.Number),
-    name: S.optional(S.String),
-    endDate: S.optional(S.String),
-    voterServices: S.optional(S.String),
-    startDate: S.optional(S.String),
-    notes: S.optional(S.String),
-    pollingHours: S.optional(S.String),
-    address: S.optional(CivicinfoSchemaV2SimpleAddressType),
-    sources: S.optional(CivicinfoSchemaV2SourceList),
-    latitude: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CivicinfoSchemaV2PollingLocation",
-}) as any as S.Schema<CivicinfoSchemaV2PollingLocation>;
-
-export type CivicinfoSchemaV2PollingLocationList =
-  Array<CivicinfoSchemaV2PollingLocation>;
-export const CivicinfoSchemaV2PollingLocationList = /*@__PURE__*/ S.Array(
-  CivicinfoSchemaV2PollingLocation,
-) as any as S.Schema<CivicinfoSchemaV2PollingLocationList>;
-
-export type CivicinfoSchemaV2ElectoralDistrictScopeEnum =
-  | "statewide"
-  | "congressional"
-  | "stateUpper"
-  | "stateLower"
-  | "countywide"
-  | "judicial"
-  | "schoolBoard"
-  | "citywide"
-  | "special"
-  | "countyCouncil"
-  | "township"
-  | "ward"
-  | "cityCouncil"
-  | "national";
-export const CivicinfoSchemaV2ElectoralDistrictScopeEnum =
-  /*@__PURE__*/ S.String;
-
-/** Describes the geographic scope of a contest. */
-export interface CivicinfoSchemaV2ElectoralDistrict {
-  /** The name of the district. */
-  name?: string;
-  /** The geographic scope of this district. If unspecified the district's geography is not known. One of: national, statewide, congressional, stateUpper, stateLower, countywide, judicial, schoolBoard, cityWide, township, countyCouncil, cityCouncil, ward, special */
-  scope?: CivicinfoSchemaV2ElectoralDistrictScopeEnum;
-  /** An identifier for this district, relative to its scope. For example, the 34th State Senate district would have id "34" and a scope of stateUpper. */
-  id?: string;
-}
-export const CivicinfoSchemaV2ElectoralDistrict = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    scope: S.optional(CivicinfoSchemaV2ElectoralDistrictScopeEnum),
-    id: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CivicinfoSchemaV2ElectoralDistrict",
-}) as any as S.Schema<CivicinfoSchemaV2ElectoralDistrict>;
-
-export type CivicinfoSchemaV2ContestRolesItemEnum =
-  | "headOfState"
-  | "headOfGovernment"
-  | "deputyHeadOfGovernment"
-  | "governmentOfficer"
-  | "executiveCouncil"
-  | "legislatorUpperBody"
-  | "legislatorLowerBody"
-  | "highestCourtJudge"
-  | "judge"
-  | "schoolBoard"
-  | "specialPurposeOfficer"
-  | "otherRole";
-export const CivicinfoSchemaV2ContestRolesItemEnum = /*@__PURE__*/ S.String;
-
-export type CivicinfoSchemaV2ContestRolesItemEnumList =
-  Array<CivicinfoSchemaV2ContestRolesItemEnum>;
-export const CivicinfoSchemaV2ContestRolesItemEnumList = /*@__PURE__*/ S.Array(
-  CivicinfoSchemaV2ContestRolesItemEnum,
-) as any as S.Schema<CivicinfoSchemaV2ContestRolesItemEnumList>;
-
-export type CivicinfoSchemaV2ContestLevelItemEnum =
-  | "international"
-  | "country"
-  | "administrativeArea1"
-  | "regional"
-  | "administrativeArea2"
-  | "locality"
-  | "subLocality1"
-  | "subLocality2"
-  | "special";
-export const CivicinfoSchemaV2ContestLevelItemEnum = /*@__PURE__*/ S.String;
-
-export type CivicinfoSchemaV2ContestLevelItemEnumList =
-  Array<CivicinfoSchemaV2ContestLevelItemEnum>;
-export const CivicinfoSchemaV2ContestLevelItemEnumList = /*@__PURE__*/ S.Array(
-  CivicinfoSchemaV2ContestLevelItemEnum,
-) as any as S.Schema<CivicinfoSchemaV2ContestLevelItemEnumList>;
-
 /** A social media or web channel for a candidate. */
 export interface CivicinfoSchemaV2Channel {
-  /** The unique public identifier for the candidate's channel. */
-  id?: string;
   /** The type of channel. The following is a list of types of channels, but is not exhaustive. More channel types may be added at a later time. One of: GooglePlus, YouTube, Facebook, Twitter */
   type?: string;
+  /** The unique public identifier for the candidate's channel. */
+  id?: string;
 }
 export const CivicinfoSchemaV2Channel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
     type: S.optional(S.String),
+    id: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CivicinfoSchemaV2Channel",
@@ -528,33 +424,33 @@ export const CivicinfoSchemaV2ChannelList = /*@__PURE__*/ S.Array(
 
 /** Information about a candidate running for elected office. */
 export interface CivicinfoSchemaV2Candidate {
-  /** The full name of the party the candidate is a member of. */
-  party?: string;
-  /** A list of known (social) media channels for this candidate. */
-  channels?: CivicinfoSchemaV2ChannelList;
   /** The candidate's name. If this is a joint ticket it will indicate the name of the candidate at the top of a ticket followed by a / and that name of candidate at the bottom of the ticket. e.g. "Mitt Romney / Paul Ryan" */
   name?: string;
-  /** The URL for the candidate's campaign web site. */
-  candidateUrl?: string;
-  /** The voice phone number for the candidate's campaign office. */
-  phone?: string;
   /** The email address for the candidate's campaign. */
   email?: string;
   /** The order the candidate appears on the ballot for this contest. */
   orderOnBallot?: string;
+  /** The URL for the candidate's campaign web site. */
+  candidateUrl?: string;
+  /** The full name of the party the candidate is a member of. */
+  party?: string;
+  /** The voice phone number for the candidate's campaign office. */
+  phone?: string;
   /** A URL for a photo of the candidate. */
   photoUrl?: string;
+  /** A list of known (social) media channels for this candidate. */
+  channels?: CivicinfoSchemaV2ChannelList;
 }
 export const CivicinfoSchemaV2Candidate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    party: S.optional(S.String),
-    channels: S.optional(CivicinfoSchemaV2ChannelList),
     name: S.optional(S.String),
-    candidateUrl: S.optional(S.String),
-    phone: S.optional(S.String),
     email: S.optional(S.String),
     orderOnBallot: S.optional(S.String),
+    candidateUrl: S.optional(S.String),
+    party: S.optional(S.String),
+    phone: S.optional(S.String),
     photoUrl: S.optional(S.String),
+    channels: S.optional(CivicinfoSchemaV2ChannelList),
   }),
 ).annotate({
   identifier: "CivicinfoSchemaV2Candidate",
@@ -567,81 +463,81 @@ export const CivicinfoSchemaV2CandidateList = /*@__PURE__*/ S.Array(
 
 /** Information about a contest that appears on a voter's ballot. */
 export interface CivicinfoSchemaV2Contest {
-  /** "Yes" or "No" depending on whether this a contest being held outside the normal election cycle. */
-  special?: string;
   /** The title of the referendum (e.g. 'Proposition 42'). This field is only populated for contests of type 'Referendum'. */
   referendumTitle?: string;
-  /** Information about the electoral district that this contest is in. */
-  district?: CivicinfoSchemaV2ElectoralDistrict;
+  /** A description of any additional eligibility requirements for voting in this contest. */
+  electorateSpecifications?: string;
+  /** The threshold of votes that the referendum needs in order to pass, e.g. "two-thirds". This field is only populated for contests of type 'Referendum'. */
+  referendumPassageThreshold?: string;
   /** Specifies a short summary of the referendum that is typically on the ballot below the title but above the text. This field is only populated for contests of type 'Referendum'. */
   referendumBrief?: string;
-  /** A brief description of the referendum. This field is only populated for contests of type 'Referendum'. */
-  referendumSubtitle?: string;
-  /** The set of ballot responses for the referendum. A ballot response represents a line on the ballot. Common examples might include "yes" or "no" for referenda. This field is only populated for contests of type 'Referendum'. */
-  referendumBallotResponses?: StringList;
-  /** The roles which this office fulfills. */
-  roles?: CivicinfoSchemaV2ContestRolesItemEnumList;
-  /** If this is a partisan election, the name of the party/parties it is for. */
-  primaryParties?: StringList;
-  /** The number of candidates that will be elected to office in this contest. */
-  numberElected?: string;
-  /** Specifies what effect abstaining (not voting) on the proposition will have (i.e. whether abstaining is considered a vote against it). This field is only populated for contests of type 'Referendum'. */
-  referendumEffectOfAbstain?: string;
+  /** A statement in opposition to the referendum. It does not necessarily appear on the ballot. This field is only populated for contests of type 'Referendum'. */
+  referendumConStatement?: string;
+  /** "Yes" or "No" depending on whether this a contest being held outside the normal election cycle. */
+  special?: string;
+  /** Information about the electoral district that this contest is in. */
+  district?: CivicinfoSchemaV2ElectoralDistrict;
+  /** The full text of the referendum. This field is only populated for contests of type 'Referendum'. */
+  referendumText?: string;
   /** A link to the referendum. This field is only populated for contests of type 'Referendum'. */
   referendumUrl?: string;
-  /** The official title on the ballot for this contest, only where available. */
-  ballotTitle?: string;
+  /** The levels of government of the office for this contest. There may be more than one in cases where a jurisdiction effectively acts at two different levels of government; for example, the mayor of the District of Columbia acts at "locality" level, but also effectively at both "administrative-area-2" and "administrative-area-1". */
+  level?: CivicinfoSchemaV2ContestLevelItemEnumList;
+  /** The type of contest. Usually this will be 'General', 'Primary', or 'Run-off' for contests with candidates. For referenda this will be 'Referendum'. For Retention contests this will typically be 'Retention'. */
+  type?: string;
+  /** The name of the office for this contest. */
+  office?: string;
+  /** The roles which this office fulfills. */
+  roles?: CivicinfoSchemaV2ContestRolesItemEnumList;
+  /** The number of candidates that a voter may vote for in this contest. */
+  numberVotingFor?: string;
   /** A statement in favor of the referendum. It does not necessarily appear on the ballot. This field is only populated for contests of type 'Referendum'. */
   referendumProStatement?: string;
   /** A list of sources for this contest. If multiple sources are listed, the data has been aggregated from those sources. */
   sources?: CivicinfoSchemaV2SourceList;
-  /** The type of contest. Usually this will be 'General', 'Primary', or 'Run-off' for contests with candidates. For referenda this will be 'Referendum'. For Retention contests this will typically be 'Retention'. */
-  type?: string;
-  /** The levels of government of the office for this contest. There may be more than one in cases where a jurisdiction effectively acts at two different levels of government; for example, the mayor of the District of Columbia acts at "locality" level, but also effectively at both "administrative-area-2" and "administrative-area-1". */
-  level?: CivicinfoSchemaV2ContestLevelItemEnumList;
   /** A number specifying the position of this contest on the voter's ballot. */
   ballotPlacement?: string;
-  /** The number of candidates that a voter may vote for in this contest. */
-  numberVotingFor?: string;
-  /** The threshold of votes that the referendum needs in order to pass, e.g. "two-thirds". This field is only populated for contests of type 'Referendum'. */
-  referendumPassageThreshold?: string;
-  /** The name of the office for this contest. */
-  office?: string;
+  /** A brief description of the referendum. This field is only populated for contests of type 'Referendum'. */
+  referendumSubtitle?: string;
+  /** If this is a partisan election, the name of the party/parties it is for. */
+  primaryParties?: StringList;
+  /** The official title on the ballot for this contest, only where available. */
+  ballotTitle?: string;
+  /** The set of ballot responses for the referendum. A ballot response represents a line on the ballot. Common examples might include "yes" or "no" for referenda. This field is only populated for contests of type 'Referendum'. */
+  referendumBallotResponses?: StringList;
+  /** The number of candidates that will be elected to office in this contest. */
+  numberElected?: string;
   /** The candidate choices for this contest. */
   candidates?: CivicinfoSchemaV2CandidateList;
-  /** A description of any additional eligibility requirements for voting in this contest. */
-  electorateSpecifications?: string;
-  /** The full text of the referendum. This field is only populated for contests of type 'Referendum'. */
-  referendumText?: string;
-  /** A statement in opposition to the referendum. It does not necessarily appear on the ballot. This field is only populated for contests of type 'Referendum'. */
-  referendumConStatement?: string;
+  /** Specifies what effect abstaining (not voting) on the proposition will have (i.e. whether abstaining is considered a vote against it). This field is only populated for contests of type 'Referendum'. */
+  referendumEffectOfAbstain?: string;
 }
 export const CivicinfoSchemaV2Contest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    special: S.optional(S.String),
     referendumTitle: S.optional(S.String),
-    district: S.optional(CivicinfoSchemaV2ElectoralDistrict),
+    electorateSpecifications: S.optional(S.String),
+    referendumPassageThreshold: S.optional(S.String),
     referendumBrief: S.optional(S.String),
-    referendumSubtitle: S.optional(S.String),
-    referendumBallotResponses: S.optional(StringList),
-    roles: S.optional(CivicinfoSchemaV2ContestRolesItemEnumList),
-    primaryParties: S.optional(StringList),
-    numberElected: S.optional(S.String),
-    referendumEffectOfAbstain: S.optional(S.String),
+    referendumConStatement: S.optional(S.String),
+    special: S.optional(S.String),
+    district: S.optional(CivicinfoSchemaV2ElectoralDistrict),
+    referendumText: S.optional(S.String),
     referendumUrl: S.optional(S.String),
-    ballotTitle: S.optional(S.String),
+    level: S.optional(CivicinfoSchemaV2ContestLevelItemEnumList),
+    type: S.optional(S.String),
+    office: S.optional(S.String),
+    roles: S.optional(CivicinfoSchemaV2ContestRolesItemEnumList),
+    numberVotingFor: S.optional(S.String),
     referendumProStatement: S.optional(S.String),
     sources: S.optional(CivicinfoSchemaV2SourceList),
-    type: S.optional(S.String),
-    level: S.optional(CivicinfoSchemaV2ContestLevelItemEnumList),
     ballotPlacement: S.optional(S.String),
-    numberVotingFor: S.optional(S.String),
-    referendumPassageThreshold: S.optional(S.String),
-    office: S.optional(S.String),
+    referendumSubtitle: S.optional(S.String),
+    primaryParties: S.optional(StringList),
+    ballotTitle: S.optional(S.String),
+    referendumBallotResponses: S.optional(StringList),
+    numberElected: S.optional(S.String),
     candidates: S.optional(CivicinfoSchemaV2CandidateList),
-    electorateSpecifications: S.optional(S.String),
-    referendumText: S.optional(S.String),
-    referendumConStatement: S.optional(S.String),
+    referendumEffectOfAbstain: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CivicinfoSchemaV2Contest",
@@ -652,26 +548,128 @@ export const CivicinfoSchemaV2ContestList = /*@__PURE__*/ S.Array(
   CivicinfoSchemaV2Contest,
 ) as any as S.Schema<CivicinfoSchemaV2ContestList>;
 
+/** A location where a voter can vote. This may be an early vote site, an election day voting location, or a drop off location for a completed ballot. */
+export interface CivicinfoSchemaV2PollingLocation {
+  /** Longitude of the location, in degrees east of the Prime Meridian. Note this field may not be available for some locations. */
+  longitude?: number;
+  /** The first date that this early vote site or drop off location may be used. This field is not populated for polling locations. */
+  startDate?: string;
+  /** The name of the early vote site or drop off location. This field is not populated for polling locations. */
+  name?: string;
+  /** The last date that this early vote site or drop off location may be used. This field is not populated for polling locations. */
+  endDate?: string;
+  /** Latitude of the location, in degrees north of the equator. Note this field may not be available for some locations. */
+  latitude?: number;
+  /** A description of when this location is open. */
+  pollingHours?: string;
+  /** Notes about this location (e.g. accessibility ramp or entrance to use). */
+  notes?: string;
+  /** The address of the location. */
+  address?: CivicinfoSchemaV2SimpleAddressType;
+  /** A list of sources for this location. If multiple sources are listed the data has been aggregated from those sources. */
+  sources?: CivicinfoSchemaV2SourceList;
+  /** The services provided by this early vote site or drop off location. This field is not populated for polling locations. */
+  voterServices?: string;
+}
+export const CivicinfoSchemaV2PollingLocation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    longitude: S.optional(S.Number),
+    startDate: S.optional(S.String),
+    name: S.optional(S.String),
+    endDate: S.optional(S.String),
+    latitude: S.optional(S.Number),
+    pollingHours: S.optional(S.String),
+    notes: S.optional(S.String),
+    address: S.optional(CivicinfoSchemaV2SimpleAddressType),
+    sources: S.optional(CivicinfoSchemaV2SourceList),
+    voterServices: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CivicinfoSchemaV2PollingLocation",
+}) as any as S.Schema<CivicinfoSchemaV2PollingLocation>;
+
+export type CivicinfoSchemaV2PollingLocationList =
+  Array<CivicinfoSchemaV2PollingLocation>;
+export const CivicinfoSchemaV2PollingLocationList = /*@__PURE__*/ S.Array(
+  CivicinfoSchemaV2PollingLocation,
+) as any as S.Schema<CivicinfoSchemaV2PollingLocationList>;
+
+export interface CivicinfoSchemaV2Precinct {
+  /** ID(s) of the PollingLocation message(s) for this precinct. */
+  earlyVoteSiteId?: StringList;
+  /** The number of the precinct. */
+  number?: string;
+  /** If present, this proto corresponds to one portion of split precinct. Other portions of this precinct are guaranteed to have the same `name`. If not present, this proto represents a full precicnt. */
+  splitName?: string;
+  /** Specifies if the precinct runs mail-only elections. */
+  mailOnly?: boolean;
+  /** ID(s) of the SpatialBoundary message(s) for this precinct. Used to specify a geometrical boundary of the precinct. */
+  spatialBoundaryId?: StringList;
+  /** ID(s) of the ElectoralDistrict message(s) for this precinct. */
+  electoralDistrictId?: StringList;
+  /** Required. A unique identifier for this precinct. */
+  id?: string;
+  /** ID(s) of the Contest message(s) for this precinct. */
+  contestId?: StringList;
+  /** Specifies the ward the precinct is contained within. */
+  ward?: string;
+  /** Encouraged. The OCD ID of the precinct */
+  ocdId?: StringList;
+  /** Required. Dataset ID. What datasets our Precincts come from. */
+  datasetId?: string;
+  /** Required. The name of the precinct. */
+  name?: string;
+  /** ID(s) of the PollingLocation message(s) for this precinct. */
+  pollingLocationId?: StringList;
+  /** ID of the AdministrationRegion message for this precinct. Corresponds to LocalityId xml tag. */
+  administrationRegionId?: string;
+}
+export const CivicinfoSchemaV2Precinct = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    earlyVoteSiteId: S.optional(StringList),
+    number: S.optional(S.String),
+    splitName: S.optional(S.String),
+    mailOnly: S.optional(S.Boolean),
+    spatialBoundaryId: S.optional(StringList),
+    electoralDistrictId: S.optional(StringList),
+    id: S.optional(S.String),
+    contestId: S.optional(StringList),
+    ward: S.optional(S.String),
+    ocdId: S.optional(StringList),
+    datasetId: S.optional(S.String),
+    name: S.optional(S.String),
+    pollingLocationId: S.optional(StringList),
+    administrationRegionId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CivicinfoSchemaV2Precinct",
+}) as any as S.Schema<CivicinfoSchemaV2Precinct>;
+
+export type CivicinfoSchemaV2PrecinctList = Array<CivicinfoSchemaV2Precinct>;
+export const CivicinfoSchemaV2PrecinctList = /*@__PURE__*/ S.Array(
+  CivicinfoSchemaV2Precinct,
+) as any as S.Schema<CivicinfoSchemaV2PrecinctList>;
+
 /** Information about individual election officials. */
 export interface CivicinfoSchemaV2ElectionOfficial {
-  /** The office phone number of the election official. */
-  officePhoneNumber?: string;
+  /** The full name of the election official. */
+  name?: string;
+  /** The title of the election official. */
+  title?: string;
   /** The fax number of the election official. */
   faxNumber?: string;
   /** The email address of the election official. */
   emailAddress?: string;
-  /** The title of the election official. */
-  title?: string;
-  /** The full name of the election official. */
-  name?: string;
+  /** The office phone number of the election official. */
+  officePhoneNumber?: string;
 }
 export const CivicinfoSchemaV2ElectionOfficial = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    officePhoneNumber: S.optional(S.String),
+    name: S.optional(S.String),
+    title: S.optional(S.String),
     faxNumber: S.optional(S.String),
     emailAddress: S.optional(S.String),
-    title: S.optional(S.String),
-    name: S.optional(S.String),
+    officePhoneNumber: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CivicinfoSchemaV2ElectionOfficial",
@@ -685,54 +683,54 @@ export const CivicinfoSchemaV2ElectionOfficialList = /*@__PURE__*/ S.Array(
 
 /** Information about an election administrative body (e.g. County Board of Elections). */
 export interface CivicinfoSchemaV2AdministrativeBody {
-  /** The election officials for this election administrative body. */
-  electionOfficials?: CivicinfoSchemaV2ElectionOfficialList;
-  /** A URL provided by this administrative body for looking up where to vote. */
-  votingLocationFinderUrl?: string;
-  /** A description of the services this administrative body may provide. */
-  voter_services?: StringList;
-  /** A URL provided by this administrative body for additional information related to the last minute or emergency notification. */
-  electionNoticeUrl?: string;
-  /** A URL provided by this administrative body to give contest information to the voter. */
-  ballotInfoUrl?: string;
-  /** A URL provided by this administrative body for confirming that the voter is registered to vote. */
-  electionRegistrationConfirmationUrl?: string;
-  /** A last minute or emergency notification text provided by this administrative body. */
-  electionNoticeText?: string;
-  /** A URL provided by this administrative body describing election rules to the voter. */
-  electionRulesUrl?: string;
-  /** The name of this election administrative body. */
-  name?: string;
-  /** A URL provided by this administrative body for looking up how to register to vote. */
-  electionRegistrationUrl?: string;
   /** The mailing address of this administrative body. */
   correspondenceAddress?: CivicinfoSchemaV2SimpleAddressType;
+  /** A last minute or emergency notification text provided by this administrative body. */
+  electionNoticeText?: string;
   /** A URL provided by this administrative body for information on absentee voting. */
   absenteeVotingInfoUrl?: string;
+  /** The name of this election administrative body. */
+  name?: string;
+  /** A URL provided by this administrative body for looking up where to vote. */
+  votingLocationFinderUrl?: string;
+  /** A URL provided by this administrative body describing election rules to the voter. */
+  electionRulesUrl?: string;
+  /** A URL provided by this administrative body for additional information related to the last minute or emergency notification. */
+  electionNoticeUrl?: string;
+  /** A description of the services this administrative body may provide. */
+  voter_services?: StringList;
   /** A description of the hours of operation for this administrative body. */
   hoursOfOperation?: string;
-  /** The physical address of this administrative body. */
-  physicalAddress?: CivicinfoSchemaV2SimpleAddressType;
+  /** A URL provided by this administrative body for looking up how to register to vote. */
+  electionRegistrationUrl?: string;
   /** A URL provided by this administrative body for looking up general election information. */
   electionInfoUrl?: string;
+  /** A URL provided by this administrative body to give contest information to the voter. */
+  ballotInfoUrl?: string;
+  /** The physical address of this administrative body. */
+  physicalAddress?: CivicinfoSchemaV2SimpleAddressType;
+  /** A URL provided by this administrative body for confirming that the voter is registered to vote. */
+  electionRegistrationConfirmationUrl?: string;
+  /** The election officials for this election administrative body. */
+  electionOfficials?: CivicinfoSchemaV2ElectionOfficialList;
 }
 export const CivicinfoSchemaV2AdministrativeBody = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    electionOfficials: S.optional(CivicinfoSchemaV2ElectionOfficialList),
-    votingLocationFinderUrl: S.optional(S.String),
-    voter_services: S.optional(StringList),
-    electionNoticeUrl: S.optional(S.String),
-    ballotInfoUrl: S.optional(S.String),
-    electionRegistrationConfirmationUrl: S.optional(S.String),
-    electionNoticeText: S.optional(S.String),
-    electionRulesUrl: S.optional(S.String),
-    name: S.optional(S.String),
-    electionRegistrationUrl: S.optional(S.String),
     correspondenceAddress: S.optional(CivicinfoSchemaV2SimpleAddressType),
+    electionNoticeText: S.optional(S.String),
     absenteeVotingInfoUrl: S.optional(S.String),
+    name: S.optional(S.String),
+    votingLocationFinderUrl: S.optional(S.String),
+    electionRulesUrl: S.optional(S.String),
+    electionNoticeUrl: S.optional(S.String),
+    voter_services: S.optional(StringList),
     hoursOfOperation: S.optional(S.String),
-    physicalAddress: S.optional(CivicinfoSchemaV2SimpleAddressType),
+    electionRegistrationUrl: S.optional(S.String),
     electionInfoUrl: S.optional(S.String),
+    ballotInfoUrl: S.optional(S.String),
+    physicalAddress: S.optional(CivicinfoSchemaV2SimpleAddressType),
+    electionRegistrationConfirmationUrl: S.optional(S.String),
+    electionOfficials: S.optional(CivicinfoSchemaV2ElectionOfficialList),
   }),
 ).annotate({
   identifier: "CivicinfoSchemaV2AdministrativeBody",
@@ -740,24 +738,24 @@ export const CivicinfoSchemaV2AdministrativeBody = /*@__PURE__*/ S.suspend(() =>
 
 /** Describes information about a regional election administrative area. */
 export interface CivicinfoSchemaV2AdministrationRegion {
+  /** The name of the jurisdiction. */
+  name?: string;
   /** The city or county that provides election information for this voter. This object can have the same elements as state. */
   local_jurisdiction?: CivicinfoSchemaV2AdministrationRegion;
   /** A list of sources for this area. If multiple sources are listed the data has been aggregated from those sources. */
   sources?: CivicinfoSchemaV2SourceList;
   /** The election administration body for this area. */
   electionAdministrationBody?: CivicinfoSchemaV2AdministrativeBody;
-  /** The name of the jurisdiction. */
-  name?: string;
 }
 export const CivicinfoSchemaV2AdministrationRegion = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      name: S.optional(S.String),
       local_jurisdiction: S.optional(CivicinfoSchemaV2AdministrationRegion),
       sources: S.optional(CivicinfoSchemaV2SourceList),
       electionAdministrationBody: S.optional(
         CivicinfoSchemaV2AdministrativeBody,
       ),
-      name: S.optional(S.String),
     }),
 ).annotate({
   identifier: "CivicinfoSchemaV2AdministrationRegion",
@@ -771,45 +769,45 @@ export const CivicinfoSchemaV2AdministrationRegionList = /*@__PURE__*/ S.Array(
 
 /** The result of a voter info lookup query. */
 export interface CivicinfoApiprotosV2VoterInfoResponse {
-  precinctId?: string;
-  /** When there are multiple elections for a voter address, the otherElections field is populated in the API response and there are two possibilities: 1. If the earliest election is not the intended election, specify the election ID of the desired election in a second API request using the electionId field. 2. If these elections occur on the same day, the API doesn?t return any polling location, contest, or election official information to ensure that an additional query is made. For user-facing applications, we recommend displaying these elections to the user to disambiguate. A second API request using the electionId field should be made for the election that is relevant to the user. */
-  otherElections?: CivicinfoSchemaV2ElectionList;
-  /** The precincts that match this voter's address. Will only be returned for project IDs which have been allowlisted as "partner projects". */
-  precincts?: CivicinfoSchemaV2PrecinctList;
-  /** Locations where a voter is eligible to drop off a completed ballot. The voter must have received and completed a ballot prior to arriving at the location. The location may not have ballots available on the premises. These locations could be open on or before election day as indicated in the pollingHours field. */
-  dropOffLocations?: CivicinfoSchemaV2PollingLocationList;
-  /** Contests that will appear on the voter's ballot. */
-  contests?: CivicinfoSchemaV2ContestList;
+  /** The election that was queried. */
+  election?: CivicinfoSchemaV2Election;
   /** Identifies what kind of resource this is. Value: the fixed string "civicinfo#voterInfoResponse". */
   kind?: string;
+  /** Contests that will appear on the voter's ballot. */
+  contests?: CivicinfoSchemaV2ContestList;
+  /** Locations where a voter is eligible to drop off a completed ballot. The voter must have received and completed a ballot prior to arriving at the location. The location may not have ballots available on the premises. These locations could be open on or before election day as indicated in the pollingHours field. */
+  dropOffLocations?: CivicinfoSchemaV2PollingLocationList;
   /** Locations where the voter is eligible to vote early, prior to election day. */
   earlyVoteSites?: CivicinfoSchemaV2PollingLocationList;
   /** The normalized version of the requested address */
   normalizedInput?: CivicinfoSchemaV2SimpleAddressType;
-  /** Locations where the voter is eligible to vote on election day. */
-  pollingLocations?: CivicinfoSchemaV2PollingLocationList;
-  /** Specifies whether voters in the precinct vote only by mailing their ballots (with the possible option of dropping off their ballots as well). */
-  mailOnly?: boolean;
-  /** The election that was queried. */
-  election?: CivicinfoSchemaV2Election;
+  /** The precincts that match this voter's address. Will only be returned for project IDs which have been allowlisted as "partner projects". */
+  precincts?: CivicinfoSchemaV2PrecinctList;
   /** Local Election Information for the state that the voter votes in. For the US, there will only be one element in this array. */
   state?: CivicinfoSchemaV2AdministrationRegionList;
+  precinctId?: string;
+  /** Specifies whether voters in the precinct vote only by mailing their ballots (with the possible option of dropping off their ballots as well). */
+  mailOnly?: boolean;
+  /** When there are multiple elections for a voter address, the otherElections field is populated in the API response and there are two possibilities: 1. If the earliest election is not the intended election, specify the election ID of the desired election in a second API request using the electionId field. 2. If these elections occur on the same day, the API doesn?t return any polling location, contest, or election official information to ensure that an additional query is made. For user-facing applications, we recommend displaying these elections to the user to disambiguate. A second API request using the electionId field should be made for the election that is relevant to the user. */
+  otherElections?: CivicinfoSchemaV2ElectionList;
+  /** Locations where the voter is eligible to vote on election day. */
+  pollingLocations?: CivicinfoSchemaV2PollingLocationList;
 }
 export const CivicinfoApiprotosV2VoterInfoResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      precinctId: S.optional(S.String),
-      otherElections: S.optional(CivicinfoSchemaV2ElectionList),
-      precincts: S.optional(CivicinfoSchemaV2PrecinctList),
-      dropOffLocations: S.optional(CivicinfoSchemaV2PollingLocationList),
-      contests: S.optional(CivicinfoSchemaV2ContestList),
+      election: S.optional(CivicinfoSchemaV2Election),
       kind: S.optional(S.String),
+      contests: S.optional(CivicinfoSchemaV2ContestList),
+      dropOffLocations: S.optional(CivicinfoSchemaV2PollingLocationList),
       earlyVoteSites: S.optional(CivicinfoSchemaV2PollingLocationList),
       normalizedInput: S.optional(CivicinfoSchemaV2SimpleAddressType),
-      pollingLocations: S.optional(CivicinfoSchemaV2PollingLocationList),
-      mailOnly: S.optional(S.Boolean),
-      election: S.optional(CivicinfoSchemaV2Election),
+      precincts: S.optional(CivicinfoSchemaV2PrecinctList),
       state: S.optional(CivicinfoSchemaV2AdministrationRegionList),
+      precinctId: S.optional(S.String),
+      mailOnly: S.optional(S.Boolean),
+      otherElections: S.optional(CivicinfoSchemaV2ElectionList),
+      pollingLocations: S.optional(CivicinfoSchemaV2PollingLocationList),
     }),
 ).annotate({
   identifier: "CivicinfoApiprotosV2VoterInfoResponse",

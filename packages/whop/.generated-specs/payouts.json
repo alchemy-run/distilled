@@ -1,0 +1,4930 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.payouts#ListPayoutsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "IN_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_review"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "REVERSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reversed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListPayoutsRequestSource": {
+      "type": "enum",
+      "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "AUTOMATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "automatic"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListPayoutsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The owning account ID (a biz_ identifier). Provide this or user_id."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "The owning user ID (a user_ identifier). Provide this or account_id."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "currency",
+            "smithy.api#documentation": "Optional currency code filter, for example `usd`."
+          }
+        },
+        "status": {
+          "target": "com.whop.payouts#ListPayoutsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter to payouts whose `status` reads this word, matching exactly what this version displays — `reversed` finds settled payouts the bank later returned. Requires Api-Version-Date 2026-08-21 or later."
+          }
+        },
+        "source": {
+          "target": "com.whop.payouts#ListPayoutsRequestSource",
+          "traits": {
+            "smithy.api#httpQuery": "source",
+            "smithy.api#documentation": "Filter by how the payout was created. Payouts created before source tracking or through internal tooling carry no source and never match."
+          }
+        },
+        "payout_method_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "payout_method_id",
+            "smithy.api#documentation": "Filter to payouts sent to one saved payout method (a pytk_ identifier). An unknown id matches nothing."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only payouts created before this ISO 8601 time (exclusive)."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only payouts created at or after this ISO 8601 time (inclusive)."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of payouts to return from the start of the window."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of payouts to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payouts#ListPayoutsResponseDataItemFailure": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Classified failure code from the maintained error catalog.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "funds_returned_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The effective time of the reversal that put the funds back in the balance — `null` if they never left it or have not returned yet. Set only once the return is confirmed in the ledger; the ledger posting itself can land moments after this time.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable explanation of the failure. Callers holding `payout:destination:read` may receive text personalized to the destination; other callers get the generic catalog message.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise."
+      }
+    },
+    "com.whop.payouts#ListPayoutsResponseDataItemFeePaidBy": {
+      "type": "enum",
+      "members": {
+        "SELF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "self"
+          }
+        },
+        "PLATFORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Who bore the payout fee: the account itself, or its parent platform."
+      }
+    },
+    "com.whop.payouts#ListPayoutsResponseDataItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value data attached at creation and echoed on every read. At most 50 keys, key names up to 40 characters, string values up to 500 characters."
+      }
+    },
+    "com.whop.payouts#ListPayoutsResponseDataItemObject": {
+      "type": "enum",
+      "members": {
+        "PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListPayoutsResponseDataItemPayoutMethodSupportedPayoutMethodDeliveryType": {
+      "type": "enum",
+      "members": {
+        "CASH_PICKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cash_pickup"
+          }
+        },
+        "BANK_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_deposit"
+          }
+        },
+        "HOME_DELIVERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "home_delivery"
+          }
+        },
+        "MOBILE_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobile_wallet"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "check"
+          }
+        },
+        "BILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bill"
+          }
+        },
+        "CRYPTOCURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cryptocurrency"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the funds are delivered to the recipient."
+      }
+    },
+    "com.whop.payouts#ListPayoutsResponseDataItemPayoutMethodSupportedPayoutMethod": {
+      "type": "structure",
+      "members": {
+        "delivery_type": {
+          "target": "com.whop.payouts#ListPayoutsResponseDataItemPayoutMethodSupportedPayoutMethodDeliveryType",
+          "traits": {
+            "smithy.api#documentation": "How the funds are delivered to the recipient.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method icon URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Supported payout method display details."
+      }
+    },
+    "com.whop.payouts#ListPayoutsResponseDataItemPayoutMethod": {
+      "type": "structure",
+      "members": {
+        "nickname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Saved payout method nickname.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supported_payout_method": {
+          "target": "com.whop.payouts#ListPayoutsResponseDataItemPayoutMethodSupportedPayoutMethod",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method display details.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The saved payout method used. Requires payout:destination:read; null without it."
+      }
+    },
+    "com.whop.payouts#ListPayoutsResponseDataItemSource": {
+      "type": "enum",
+      "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "AUTOMATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "automatic"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the payout was created. `automatic` means a scheduled auto-payout; `null` on payouts created before source tracking or through internal tooling."
+      }
+    },
+    "com.whop.payouts#ListPayoutsResponseDataItemSpeed": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "INSTANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instant"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Payout delivery speed."
+      }
+    },
+    "com.whop.payouts#ListPayoutsResponseDataItemStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "IN_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_review"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "REVERSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reversed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current payout status."
+      }
+    },
+    "com.whop.payouts#ListPayoutsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payout amount in whole currency units, as a decimal string.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the payout was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount delivered in the destination currency, as a decimal string. Assigned when the payout is processed, so it is `null` before then and on payouts without a recorded conversion.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency the funds are delivered in, taken from the payout method when the payout is created. On a stablecoin payout it follows the settlement payout minted alongside it — the `GET /payouts` row carrying this payout's id as `payout_request_id` — and is `null` only when no settlement payout exists.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "estimated_arrival": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Estimated time the funds become available in the destination account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exchange_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Exchange rate from the payout currency to the destination currency. Assigned when the payout is processed, so it is `null` before then and on payouts without a recorded rate.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failure": {
+          "target": "com.whop.payouts#ListPayoutsResponseDataItemFailure",
+          "traits": {
+            "smithy.api#documentation": "Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fee_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The fee charged for the payout, in the payout currency, as a decimal string.",
+            "smithy.api#required": {}
+          }
+        },
+        "fee_paid_by": {
+          "target": "com.whop.payouts#ListPayoutsResponseDataItemFeePaidBy",
+          "traits": {
+            "smithy.api#documentation": "Who bore the payout fee: the account itself, or its parent platform.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout ID, prefixed `wdrl_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "markup_fee": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whop's markup on the provider fee, in the payout currency, as a decimal string. `\"0.0\"` when none applies.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.payouts#ListPayoutsResponseDataItemMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Key-value data attached at creation and echoed on every read. At most 50 keys, key names up to 40 characters, string values up to 500 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "net_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned net for the destination, in the payout currency: amount minus fee_amount minus markup_fee when fee_paid_by is `self`; equal to amount when the platform covers the fees. A payout that ends denied, canceled, or failed delivered nothing — most keep the planned figure and `failure` says where the funds are, but a canceled stablecoin payout can report the settled outcome instead: `amount` carries what stayed in the balance, fees are zero because none were charged, and `net_amount` is 0 because nothing was delivered.",
+            "smithy.api#required": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-form notes attached by the payout creator, or `null` when none were provided. Maximum 255 characters.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.payouts#ListPayoutsResponseDataItemObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "payer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the entity processing the payout.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payout_method": {
+          "target": "com.whop.payouts#ListPayoutsResponseDataItemPayoutMethod",
+          "traits": {
+            "smithy.api#documentation": "The saved payout method used. Requires payout:destination:read; null without it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payout_request_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout request ID, prefixed `cofr_`, returned by `POST /payouts`. Match it to the settled payout in `GET /payouts`. Returns `null` for payouts not created by `POST /payouts`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.whop.payouts#ListPayoutsResponseDataItemSource",
+          "traits": {
+            "smithy.api#documentation": "How the payout was created. `automatic` means a scheduled auto-payout; `null` on payouts created before source tracking or through internal tooling.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "speed": {
+          "target": "com.whop.payouts#ListPayoutsResponseDataItemSpeed",
+          "traits": {
+            "smithy.api#documentation": "Payout delivery speed.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.payouts#ListPayoutsResponseDataItemStatus",
+          "traits": {
+            "smithy.api#documentation": "Current payout status.",
+            "smithy.api#required": {}
+          }
+        },
+        "status_detail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The finest machine phase under `status` — for example `awaiting_provider_acceptance` vs `in_transit` under `processing`, or the stablecoin conversion phase under `requested`. Informational vocabulary: values can be added without a version bump; `status` is the versioned contract.",
+            "smithy.api#required": {}
+          }
+        },
+        "trace_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ACH trace number the recipient's bank can use to locate this payout. Assigned when the payout is submitted to the bank, so it is `null` before then and on payouts not sent over ACH.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListPayoutsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payouts#ListPayoutsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListPayoutsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListPayoutsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.payouts#ListPayoutsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.payouts#ListPayoutsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payouts#ListPayouts": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payouts#ListPayoutsRequest"
+      },
+      "output": {
+        "target": "com.whop.payouts#ListPayoutsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payouts#BadRequest"
+        },
+        {
+          "target": "com.whop.payouts#Forbidden"
+        },
+        {
+          "target": "com.whop.payouts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payouts",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Payouts\n\nLists an account's or user's payouts, newest first.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.payouts#CreatePayoutRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value data to attach to the payout, echoed on every read and in webhook payloads. At most 50 keys, key names up to 40 characters, string values up to 500 characters. Never store secrets or regulated personal data here — webhook bodies are retained for delivery inspection."
+      }
+    },
+    "com.whop.payouts#CreatePayoutRequestSpeed": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "INSTANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instant"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How fast the funds should arrive. `instant` is only accepted when the account and payout method are eligible; otherwise the payout is rejected."
+      }
+    },
+    "com.whop.payouts#CreatePayoutRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account to pay out from, prefixed `biz_`. Provide exactly one of `account_id` or `user_id`."
+          }
+        },
+        "acknowledge_bank_warning": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set to `true` to continue when the destination bank could not confirm the payout method account holder's name, or `false` to have the payout refused in that case so the account holder can correct the name or link their bank first. Omitting the field skips the warning gate — a client that cannot show the warning keeps its pre-gate behavior."
+          }
+        },
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount to pay out in the specified currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The currency to pay out. Balances are held per currency and the payout draws only from the balance in this currency, so match the currency the funds arrived in — for example `cad` for an account funded by CAD transfers. Defaults to `usd`."
+          }
+        },
+        "metadata": {
+          "target": "com.whop.payouts#CreatePayoutRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Key-value data to attach to the payout, echoed on every read and in webhook payloads. At most 50 keys, key names up to 40 characters, string values up to 500 characters. Never store secrets or regulated personal data here — webhook bodies are retained for delivery inspection."
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-form notes to attach to the payout, with a maximum of 255 characters. Omit or pass `null` for no notes.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payout_method_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The saved payout method to deliver to (a potk_ identifier).",
+            "smithy.api#required": {}
+          }
+        },
+        "platform_covers_fees": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the parent platform covers the payout fee instead of the account being paid out. Omit to use the platform's configured fee coverage policy; pass `false` to opt out of it. `true` is only accepted for accounts that belong to a platform, and requires the platform's policy to cover this payout method's category or a caller authorized to manage the platform's child account fees."
+          }
+        },
+        "speed": {
+          "target": "com.whop.payouts#CreatePayoutRequestSpeed",
+          "traits": {
+            "smithy.api#documentation": "How fast the funds should arrive. `instant` is only accepted when the account and payout method are eligible; otherwise the payout is rejected."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User to pay out from, prefixed `user_`. Provide exactly one of `account_id` or `user_id`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payouts#CreatePayoutResponseFailure": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Classified failure code from the maintained error catalog.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "funds_returned_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The effective time of the reversal that put the funds back in the balance — `null` if they never left it or have not returned yet. Set only once the return is confirmed in the ledger; the ledger posting itself can land moments after this time.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable explanation of the failure. Callers holding `payout:destination:read` may receive text personalized to the destination; other callers get the generic catalog message.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise."
+      }
+    },
+    "com.whop.payouts#CreatePayoutResponseFeePaidBy": {
+      "type": "enum",
+      "members": {
+        "SELF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "self"
+          }
+        },
+        "PLATFORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Who bore the payout fee: the account itself, or its parent platform."
+      }
+    },
+    "com.whop.payouts#CreatePayoutResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value data attached at creation and echoed on every read. At most 50 keys, key names up to 40 characters, string values up to 500 characters."
+      }
+    },
+    "com.whop.payouts#CreatePayoutResponseObject": {
+      "type": "enum",
+      "members": {
+        "PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#CreatePayoutResponsePayoutMethodSupportedPayoutMethodDeliveryType": {
+      "type": "enum",
+      "members": {
+        "CASH_PICKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cash_pickup"
+          }
+        },
+        "BANK_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_deposit"
+          }
+        },
+        "HOME_DELIVERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "home_delivery"
+          }
+        },
+        "MOBILE_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobile_wallet"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "check"
+          }
+        },
+        "BILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bill"
+          }
+        },
+        "CRYPTOCURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cryptocurrency"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the funds are delivered to the recipient."
+      }
+    },
+    "com.whop.payouts#CreatePayoutResponsePayoutMethodSupportedPayoutMethod": {
+      "type": "structure",
+      "members": {
+        "delivery_type": {
+          "target": "com.whop.payouts#CreatePayoutResponsePayoutMethodSupportedPayoutMethodDeliveryType",
+          "traits": {
+            "smithy.api#documentation": "How the funds are delivered to the recipient.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method icon URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Supported payout method display details."
+      }
+    },
+    "com.whop.payouts#CreatePayoutResponsePayoutMethod": {
+      "type": "structure",
+      "members": {
+        "nickname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Saved payout method nickname.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supported_payout_method": {
+          "target": "com.whop.payouts#CreatePayoutResponsePayoutMethodSupportedPayoutMethod",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method display details.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The saved payout method used. Requires payout:destination:read; null without it."
+      }
+    },
+    "com.whop.payouts#CreatePayoutResponseSource": {
+      "type": "enum",
+      "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "AUTOMATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "automatic"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the payout was created. `automatic` means a scheduled auto-payout; `null` on payouts created before source tracking or through internal tooling."
+      }
+    },
+    "com.whop.payouts#CreatePayoutResponseSpeed": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "INSTANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instant"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Payout delivery speed."
+      }
+    },
+    "com.whop.payouts#CreatePayoutResponseStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "IN_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_review"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "REVERSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reversed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current payout status, in the same vocabulary as GET /payouts."
+      }
+    },
+    "com.whop.payouts#CreatePayoutResponse": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payout amount in whole currency units, as a decimal string.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the payout was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount delivered in the destination currency, as a decimal string. Null until the payout settles; appears on the payout in GET /payouts once assigned.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency the funds are delivered in, taken from the payout method. On a stablecoin payout it follows the settlement payout minted alongside it — the `GET /payouts` row carrying this payout's id as `payout_request_id` — and is `null` only when no settlement payout exists.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "estimated_arrival": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Estimated time the funds become available in the destination account. Null until the payout settles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exchange_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Exchange rate from the payout currency to the destination currency. Null until the payout settles; appears on the payout in GET /payouts once assigned.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failure": {
+          "target": "com.whop.payouts#CreatePayoutResponseFailure",
+          "traits": {
+            "smithy.api#documentation": "Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fee_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The fee charged for the payout, in the payout currency, as a decimal string.",
+            "smithy.api#required": {}
+          }
+        },
+        "fee_paid_by": {
+          "target": "com.whop.payouts#CreatePayoutResponseFeePaidBy",
+          "traits": {
+            "smithy.api#documentation": "Who bore the payout fee: the account itself, or its parent platform.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout ID, prefixed `wdrl_` — the id POST returns is the id GET /payouts lists. Conversion requests created before this version keep answering under their `cofr_` id.",
+            "smithy.api#required": {}
+          }
+        },
+        "markup_fee": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whop's markup on the provider fee, in the payout currency, as a decimal string. `\"0.0\"` when none applies.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.payouts#CreatePayoutResponseMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Key-value data attached at creation and echoed on every read. At most 50 keys, key names up to 40 characters, string values up to 500 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "net_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned net for the destination, in the payout currency: amount minus fee_amount minus markup_fee when fee_paid_by is `self`; equal to amount when the platform covers the fees. A payout that ends denied, canceled, or failed delivered nothing — most keep the planned figure and `failure` says where the funds are, but a canceled stablecoin payout can report the settled outcome instead: `amount` carries what stayed in the balance, fees are zero because none were charged, and `net_amount` is 0 because nothing was delivered.",
+            "smithy.api#required": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-form notes attached by the payout creator, or `null` when none were provided. Maximum 255 characters.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.payouts#CreatePayoutResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "payer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the entity processing the payout. Null until the payout settles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payout_method": {
+          "target": "com.whop.payouts#CreatePayoutResponsePayoutMethod",
+          "traits": {
+            "smithy.api#documentation": "The saved payout method used. Requires payout:destination:read; null without it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payout_request_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For a stablecoin payout, the id of the conversion request that funds it, prefixed `cofr_`; `null` on fiat payouts.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.whop.payouts#CreatePayoutResponseSource",
+          "traits": {
+            "smithy.api#documentation": "How the payout was created. `automatic` means a scheduled auto-payout; `null` on payouts created before source tracking or through internal tooling.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "speed": {
+          "target": "com.whop.payouts#CreatePayoutResponseSpeed",
+          "traits": {
+            "smithy.api#documentation": "Payout delivery speed.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.payouts#CreatePayoutResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Current payout status, in the same vocabulary as GET /payouts.",
+            "smithy.api#required": {}
+          }
+        },
+        "status_detail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The finest machine phase under `status` — for example `awaiting_provider_acceptance` vs `in_transit` under `processing`, or the stablecoin conversion phase under `requested`. Informational vocabulary: values can be added without a version bump; `status` is the versioned contract.",
+            "smithy.api#required": {}
+          }
+        },
+        "trace_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ACH trace number the recipient's bank can use to locate this payout. Always `null` here — it is assigned when the payout is submitted to the bank, and appears on the payout in GET /payouts once it has been sent; payouts not sent over ACH never get one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payouts#CreatePayout": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payouts#CreatePayoutRequest"
+      },
+      "output": {
+        "target": "com.whop.payouts#CreatePayoutResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payouts#BadRequest"
+        },
+        {
+          "target": "com.whop.payouts#Forbidden"
+        },
+        {
+          "target": "com.whop.payouts#NotFound"
+        },
+        {
+          "target": "com.whop.payouts#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/payouts",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Payout\n\nSends money from an account or user balance to a saved payout method for that owner."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "BROKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "broken"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListPayoutMethodsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The owning account ID (a biz_ identifier). Provide this or user_id."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "The owning user ID (a user_ identifier). Provide this or account_id."
+          }
+        },
+        "status": {
+          "target": "com.whop.payouts#ListPayoutMethodsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Optional status filter. `created` means saved but unused, `active` means a payout through it succeeded, `broken` means the last payout failed and the method needs fixing."
+          }
+        },
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "amount",
+            "smithy.api#documentation": "Optional payout amount in whole currency units, for example `250.00`. When provided, each method includes a quote with the estimated fee, amount received, and delivery date for that amount."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "currency",
+            "smithy.api#documentation": "Currency code of the amount, for example `usd`. Only meaningful with amount or include_limits."
+          }
+        },
+        "include_limits": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_limits",
+            "smithy.api#documentation": "When true, the response also carries limits — the live per-speed payout caps the account's payout requests are validated against, in the requested currency. Requires the payout:withdrawal:read scope."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of payout methods to return from the start of the window."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of payout methods to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataItemBankVerificationState": {
+      "type": "enum",
+      "members": {
+        "CHECKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checking"
+          }
+        },
+        "VERIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verified"
+          }
+        },
+        "NO_DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_data"
+          }
+        },
+        "WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning"
+          }
+        },
+        "BROKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "broken"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked)."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataItemEstimatedArrival": {
+      "type": "structure",
+      "members": {
+        "instant": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Estimated instant-delivery arrival, or null when unavailable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "standard": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Estimated standard-delivery arrival, or null when unavailable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Estimated arrival times before an amount-specific quote is requested. Null when the method is not currently eligible."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataItemFeeStructure": {
+      "type": "structure",
+      "members": {
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency code of fixed_amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "fixed_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Fixed fee charged, denominated in `currency`.",
+            "smithy.api#required": {}
+          }
+        },
+        "percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Percentage of the payout amount charged as a fee.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configured fee terms for this payout method. Null when the method is not currently eligible. An amount-specific quote remains authoritative."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataItemObject": {
+      "type": "enum",
+      "members": {
+        "PAYOUT_METHOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout_method"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataItemQuoteInstant": {
+      "type": "structure",
+      "members": {
+        "fee": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total fee charged, in the payout currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_received": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Amount delivered after fees, in the payout currency.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Instant-delivery estimate. Null if the method does not support instant delivery, instant delivery is unavailable for the account, or the amount does not cover the fee."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataItemQuoteStandard": {
+      "type": "structure",
+      "members": {
+        "fee": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total fee charged, in the payout currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_received": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Amount delivered after fees, in the payout currency.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Standard-delivery estimate. Null if the method does not support standard delivery, or the amount does not cover the fee."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataItemQuote": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The payout amount the quote is for.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency of the quoted amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "exchange_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Exchange rate from the payout currency to the destination currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "instant": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseDataItemQuoteInstant",
+          "traits": {
+            "smithy.api#documentation": "Instant-delivery estimate. Null if the method does not support instant delivery, instant delivery is unavailable for the account, or the amount does not cover the fee.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum payout amount for this method, in the payout currency.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "min_limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum payout amount for this method, in the payout currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "standard": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseDataItemQuoteStandard",
+          "traits": {
+            "smithy.api#documentation": "Standard-delivery estimate. Null if the method does not support standard delivery, or the amount does not cover the fee.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Fee and delivery estimate for paying out the requested amount through this method. Null unless an amount was provided, or when the estimate is unavailable."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataItemStatus": {
+      "type": "enum",
+      "members": {
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "BROKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "broken"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Lifecycle status: `created` means saved but unused, `active` means a payout succeeded through it, `broken` means a payout failure disabled it; a later successful payout returns it to `active`."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataItemSupportedPayoutMethodDeliveryType": {
+      "type": "enum",
+      "members": {
+        "CASH_PICKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cash_pickup"
+          }
+        },
+        "BANK_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_deposit"
+          }
+        },
+        "HOME_DELIVERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "home_delivery"
+          }
+        },
+        "MOBILE_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobile_wallet"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "check"
+          }
+        },
+        "BILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bill"
+          }
+        },
+        "CRYPTOCURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cryptocurrency"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How funds are delivered."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataItemSupportedPayoutMethod": {
+      "type": "structure",
+      "members": {
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 3166-1 alpha-3 country the destination pays out to.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "delivery_type": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseDataItemSupportedPayoutMethodDeliveryType",
+          "traits": {
+            "smithy.api#documentation": "How funds are delivered.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method icon URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supports_instant_delivery": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "supports_plaid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the payer can link this method by signing in to their bank instead of typing account details.",
+            "smithy.api#required": {}
+          }
+        },
+        "supports_standard_delivery": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The supported payout method this saved method was created from."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataItemUnavailableReason": {
+      "type": "enum",
+      "members": {
+        "DESTINATION_RETIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "destination_retired"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why this method is unavailable: `destination_retired` means the payout provider stopped offering the destination. Whop may automatically remap an eligible method that was not linked through Plaid to a compatible replacement; otherwise, the account owner must re-add it. `null` means no unavailability reason is known."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "account_reference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Masked identifier for the destination, such as the last four digits of a bank account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bank_verification_state": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseDataItemBankVerificationState",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the payout method was added.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency payouts are delivered in for this method.",
+            "smithy.api#required": {}
+          }
+        },
+        "estimated_arrival": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseDataItemEstimatedArrival",
+          "traits": {
+            "smithy.api#documentation": "Estimated arrival times before an amount-specific quote is requested. Null when the method is not currently eligible.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fee_structure": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseDataItemFeeStructure",
+          "traits": {
+            "smithy.api#documentation": "Configured fee terms for this payout method. Null when the method is not currently eligible. An amount-specific quote remains authoritative.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout method ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "institution_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the bank or institution receiving payouts.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_clone": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this method is a copy of one saved on another of the payer's accounts.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this is the default payout method for the account.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_paid_out_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the most recent completed payout was delivered to this method, as an ISO 8601 timestamp. `null` when nothing has been paid out to it yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "linked_via_plaid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the payer added this method by signing in to their bank rather than typing account details.",
+            "smithy.api#required": {}
+          }
+        },
+        "needs_plaid_reconnect": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the bank sign-in behind this method has expired and must be redone before it counts as linked.",
+            "smithy.api#required": {}
+          }
+        },
+        "nickname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-defined label for the payout method.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseDataItemObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "payer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the payout rail, such as `ACH Bank Deposit`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "quote": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseDataItemQuote",
+          "traits": {
+            "smithy.api#documentation": "Fee and delivery estimate for paying out the requested amount through this method. Null unless an amount was provided, or when the estimate is unavailable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseDataItemStatus",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle status: `created` means saved but unused, `active` means a payout succeeded through it, `broken` means a payout failure disabled it; a later successful payout returns it to `active`.",
+            "smithy.api#required": {}
+          }
+        },
+        "status_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Machine-readable code for why the method is `broken` — the newest disabling failure recorded through it, whether a payout error or a pre-payout rejection. `null` unless the method is broken, or when it was disabled without a recorded failure.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supported_payout_method": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseDataItemSupportedPayoutMethod",
+          "traits": {
+            "smithy.api#documentation": "The supported payout method this saved method was created from.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unavailable_reason": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseDataItemUnavailableReason",
+          "traits": {
+            "smithy.api#documentation": "Why this method is unavailable: `destination_retired` means the payout provider stopped offering the destination. Whop may automatically remap an eligible method that was not linked through Plaid to a compatible replacement; otherwise, the account owner must re-add it. `null` means no unavailability reason is known.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payouts#ListPayoutMethodsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseLimitsInstantErrorCode": {
+      "type": "enum",
+      "members": {
+        "AMOUNT_TOO_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amount_too_high"
+          }
+        },
+        "ACCOUNT_DAILY_LIMIT_REACHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_daily_limit_reached"
+          }
+        },
+        "RESTRICTED_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restricted_account"
+          }
+        },
+        "FEATURE_DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "feature_disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why instant payouts are unavailable for this account, or null when they are available."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseLimitsInstant": {
+      "type": "structure",
+      "members": {
+        "daily_amount_remaining": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "How much of the account's daily instant allowance is left, in the requested currency. Null when the account is exempt from the daily cap, which is not the same as 0.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_code": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseLimitsInstantErrorCode",
+          "traits": {
+            "smithy.api#documentation": "Why instant payouts are unavailable for this account, or null when they are available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable form of error_code, or null when instant payouts are available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The maximum amount an instant payout can move right now, in whole currency units. Already bounded by the remaining daily instant allowance; 0 while an eligibility error blocks instant payouts.",
+            "smithy.api#required": {}
+          }
+        },
+        "resets_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the daily instant allowance resets, or null when the account is exempt from the daily cap.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Caps for instant-speed payouts, which additionally draw on pending funds."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseLimitsObject": {
+      "type": "enum",
+      "members": {
+        "PAYOUT_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout_limit"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseLimitsStandard": {
+      "type": "structure",
+      "members": {
+        "max_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The maximum amount a standard payout can move right now, in whole currency units.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Caps for standard-speed payouts, which draw on settled funds only."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponseLimits": {
+      "type": "structure",
+      "members": {
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The currency the caps are denominated in.",
+            "smithy.api#required": {}
+          }
+        },
+        "instant": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseLimitsInstant",
+          "traits": {
+            "smithy.api#documentation": "Caps for instant-speed payouts, which additionally draw on pending funds.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseLimitsObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "standard": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseLimitsStandard",
+          "traits": {
+            "smithy.api#documentation": "Caps for standard-speed payouts, which draw on settled funds only.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The live per-speed payout caps for the account in the requested currency — the numbers a payout request is validated against at submit time, so clients can cap an amount input at a value the request will accept. Only present when include_limits is true."
+      }
+    },
+    "com.whop.payouts#ListPayoutMethodsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListPayoutMethodsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "limits": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponseLimits",
+          "traits": {
+            "smithy.api#documentation": "The live per-speed payout caps for the account in the requested currency — the numbers a payout request is validated against at submit time, so clients can cap an amount input at a value the request will accept. Only present when include_limits is true."
+          }
+        },
+        "page_info": {
+          "target": "com.whop.payouts#ListPayoutMethodsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payouts#ListPayoutMethods": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payouts#ListPayoutMethodsRequest"
+      },
+      "output": {
+        "target": "com.whop.payouts#ListPayoutMethodsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payouts#BadRequest"
+        },
+        {
+          "target": "com.whop.payouts#Forbidden"
+        },
+        {
+          "target": "com.whop.payouts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payouts/methods",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Saved Payout Methods\n\nLists the bank accounts, wallets, and crypto addresses an account or user can pay out to, newest first.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.payouts#CreatePayoutMethodRequestFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The supported payout method's required field values, keyed by field id — list them with `GET /payouts/supported_methods?supported_payout_method_id=...`. Field ids are stable `fld_` identifiers you may hardcode; they never change for a given field. A Basis Theory token id may be passed in place of a raw value. For a U.S. bank routing-number field, a raw nine-digit value must also pass the ABA checksum. A validation failure returns the method's full required_fields schema alongside the error. Required whenever the account details are supplied directly."
+      }
+    },
+    "com.whop.payouts#CreatePayoutMethodRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account to add the payout method for, prefixed `biz_`. Provide this or `user_id`."
+          }
+        },
+        "destination_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency the supported payout method delivers payouts in."
+          }
+        },
+        "fields": {
+          "target": "com.whop.payouts#CreatePayoutMethodRequestFieldsMap",
+          "traits": {
+            "smithy.api#documentation": "The supported payout method's required field values, keyed by field id — list them with `GET /payouts/supported_methods?supported_payout_method_id=...`. Field ids are stable `fld_` identifiers you may hardcode; they never change for a given field. A Basis Theory token id may be passed in place of a raw value. For a U.S. bank routing-number field, a raw nine-digit value must also pass the ABA checksum. A validation failure returns the method's full required_fields schema alongside the error. Required whenever the account details are supplied directly."
+          }
+        },
+        "is_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to make this the account's default payout method."
+          }
+        },
+        "nickname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A label for the payout method, unique per destination."
+          }
+        },
+        "supported_payout_method_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The supported payout method to save (a podst_ identifier from a previous listing).",
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user to add the payout method for, prefixed `user_`. Provide this or `account_id`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payouts#CreatePayoutMethodResponseBankVerificationState": {
+      "type": "enum",
+      "members": {
+        "CHECKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checking"
+          }
+        },
+        "VERIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verified"
+          }
+        },
+        "NO_DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_data"
+          }
+        },
+        "WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning"
+          }
+        },
+        "BROKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "broken"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked)."
+      }
+    },
+    "com.whop.payouts#CreatePayoutMethodResponseObject": {
+      "type": "enum",
+      "members": {
+        "PAYOUT_METHOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout_method"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#CreatePayoutMethodResponseStatus": {
+      "type": "enum",
+      "members": {
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "BROKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "broken"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `created` on create — no payout has used the method yet."
+      }
+    },
+    "com.whop.payouts#CreatePayoutMethodResponseSupportedPayoutMethodDeliveryType": {
+      "type": "enum",
+      "members": {
+        "CASH_PICKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cash_pickup"
+          }
+        },
+        "BANK_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_deposit"
+          }
+        },
+        "HOME_DELIVERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "home_delivery"
+          }
+        },
+        "MOBILE_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobile_wallet"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "check"
+          }
+        },
+        "BILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bill"
+          }
+        },
+        "CRYPTOCURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cryptocurrency"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How funds are delivered."
+      }
+    },
+    "com.whop.payouts#CreatePayoutMethodResponseSupportedPayoutMethod": {
+      "type": "structure",
+      "members": {
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 3166-1 alpha-3 country the destination pays out to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "delivery_type": {
+          "target": "com.whop.payouts#CreatePayoutMethodResponseSupportedPayoutMethodDeliveryType",
+          "traits": {
+            "smithy.api#documentation": "How funds are delivered.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supports_instant_delivery": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "supports_plaid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the payer can link this method by signing in to their bank instead of typing account details."
+          }
+        },
+        "supports_standard_delivery": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#CreatePayoutMethodResponseUnavailableReason": {
+      "type": "enum",
+      "members": {
+        "DESTINATION_RETIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "destination_retired"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why this method is unavailable: `destination_retired` means the payout provider stopped offering the destination. Whop may automatically remap an eligible method that was not linked through Plaid to a compatible replacement; otherwise, the account owner must re-add it. `null` means no unavailability reason is known."
+      }
+    },
+    "com.whop.payouts#CreatePayoutMethodResponse": {
+      "type": "structure",
+      "members": {
+        "account_reference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Masked identifier for the destination.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bank_verification_state": {
+          "target": "com.whop.payouts#CreatePayoutMethodResponseBankVerificationState",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "destination_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "estimated_arrival": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Null on create. List payout methods to retrieve arrival estimates.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fee_structure": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Null on create. List payout methods to retrieve the configured fee terms.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout method ID, usable as payout_method_id on POST /payouts.",
+            "smithy.api#required": {}
+          }
+        },
+        "institution_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_clone": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this method is a copy of one saved on another of the payer's accounts."
+          }
+        },
+        "is_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_paid_out_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the most recent completed payout was delivered to this method, as an ISO 8601 timestamp. `null` when nothing has been paid out to it yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "linked_via_plaid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the payer added this method by signing in to their bank rather than typing account details."
+          }
+        },
+        "needs_plaid_reconnect": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the bank sign-in behind this method has expired and must be redone before it counts as linked."
+          }
+        },
+        "nickname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-defined label for the payout method.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.payouts#CreatePayoutMethodResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "payer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "quote": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Always null on create.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.payouts#CreatePayoutMethodResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Always `created` on create — no payout has used the method yet.",
+            "smithy.api#required": {}
+          }
+        },
+        "status_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `null` on create.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supported_payout_method": {
+          "target": "com.whop.payouts#CreatePayoutMethodResponseSupportedPayoutMethod",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unavailable_reason": {
+          "target": "com.whop.payouts#CreatePayoutMethodResponseUnavailableReason",
+          "traits": {
+            "smithy.api#documentation": "Why this method is unavailable: `destination_retired` means the payout provider stopped offering the destination. Whop may automatically remap an eligible method that was not linked through Plaid to a compatible replacement; otherwise, the account owner must re-add it. `null` means no unavailability reason is known.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payouts#CreatePayoutMethod": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payouts#CreatePayoutMethodRequest"
+      },
+      "output": {
+        "target": "com.whop.payouts#CreatePayoutMethodResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payouts#BadRequest"
+        },
+        {
+          "target": "com.whop.payouts#Forbidden"
+        },
+        {
+          "target": "com.whop.payouts#NotFound"
+        },
+        {
+          "target": "com.whop.payouts#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/payouts/methods",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Saved Payout Method\n\nSaves a new place an account or user can pay out to. Sensitive details are vaulted in transit and never stored raw."
+      }
+    },
+    "com.whop.payouts#UpdatePayoutMethodRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Payout method ID, prefixed `potk_`."
+          }
+        },
+        "nickname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New label for the payout method, with at least one non-whitespace character and a maximum of 100 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payouts#UpdatePayoutMethodResponseBankVerificationState": {
+      "type": "enum",
+      "members": {
+        "CHECKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checking"
+          }
+        },
+        "VERIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verified"
+          }
+        },
+        "NO_DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_data"
+          }
+        },
+        "WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning"
+          }
+        },
+        "BROKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "broken"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked)."
+      }
+    },
+    "com.whop.payouts#UpdatePayoutMethodResponseObject": {
+      "type": "enum",
+      "members": {
+        "PAYOUT_METHOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout_method"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#UpdatePayoutMethodResponseStatus": {
+      "type": "enum",
+      "members": {
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "BROKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "broken"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`created` — saved, no payout has completed through it yet. `active` — a payout through it completed. `broken` — a payout through it failed with an error attributable to the method, and it no longer accepts payouts; a later successful payout returns it to `active`."
+      }
+    },
+    "com.whop.payouts#UpdatePayoutMethodResponseSupportedPayoutMethodDeliveryType": {
+      "type": "enum",
+      "members": {
+        "CASH_PICKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cash_pickup"
+          }
+        },
+        "BANK_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_deposit"
+          }
+        },
+        "HOME_DELIVERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "home_delivery"
+          }
+        },
+        "MOBILE_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobile_wallet"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "check"
+          }
+        },
+        "BILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bill"
+          }
+        },
+        "CRYPTOCURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cryptocurrency"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How funds are delivered."
+      }
+    },
+    "com.whop.payouts#UpdatePayoutMethodResponseSupportedPayoutMethod": {
+      "type": "structure",
+      "members": {
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 3166-1 alpha-3 country the destination pays out to.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "delivery_type": {
+          "target": "com.whop.payouts#UpdatePayoutMethodResponseSupportedPayoutMethodDeliveryType",
+          "traits": {
+            "smithy.api#documentation": "How funds are delivered.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supports_instant_delivery": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "supports_plaid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the payer can link this method by signing in to their bank instead of typing account details.",
+            "smithy.api#required": {}
+          }
+        },
+        "supports_standard_delivery": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#UpdatePayoutMethodResponseUnavailableReason": {
+      "type": "enum",
+      "members": {
+        "DESTINATION_RETIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "destination_retired"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why this method is unavailable: `destination_retired` means the payout provider stopped offering the destination. Whop may automatically remap an eligible method that was not linked through Plaid to a compatible replacement; otherwise, the account owner must re-add it. `null` means no unavailability reason is known."
+      }
+    },
+    "com.whop.payouts#UpdatePayoutMethodResponse": {
+      "type": "structure",
+      "members": {
+        "account_reference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Masked identifier for the destination.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bank_verification_state": {
+          "target": "com.whop.payouts#UpdatePayoutMethodResponseBankVerificationState",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "destination_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "estimated_arrival": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "`null` after an update. List payout methods to retrieve arrival estimates.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fee_structure": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "`null` after an update. List payout methods to retrieve the configured fee terms.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout method ID, prefixed `potk_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "institution_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_clone": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this method is a copy of one saved on another of the payer's accounts.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_paid_out_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the most recent completed payout was delivered to this method, as an ISO 8601 timestamp. `null` when nothing has been paid out to it yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "linked_via_plaid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the payer added this method by signing in to their bank rather than typing account details.",
+            "smithy.api#required": {}
+          }
+        },
+        "needs_plaid_reconnect": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the bank sign-in behind this method has expired and must be redone before it counts as linked.",
+            "smithy.api#required": {}
+          }
+        },
+        "nickname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-defined label for the payout method.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.payouts#UpdatePayoutMethodResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "payer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "quote": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Always `null` after an update.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.payouts#UpdatePayoutMethodResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "`created` — saved, no payout has completed through it yet. `active` — a payout through it completed. `broken` — a payout through it failed with an error attributable to the method, and it no longer accepts payouts; a later successful payout returns it to `active`.",
+            "smithy.api#required": {}
+          }
+        },
+        "status_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Machine-readable code for why the method is `broken` — the newest failure recorded through it, whether a payout error or a pre-payout rejection. `null` unless the method is broken, or when it was disabled without a recorded failure.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supported_payout_method": {
+          "target": "com.whop.payouts#UpdatePayoutMethodResponseSupportedPayoutMethod",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unavailable_reason": {
+          "target": "com.whop.payouts#UpdatePayoutMethodResponseUnavailableReason",
+          "traits": {
+            "smithy.api#documentation": "Why this method is unavailable: `destination_retired` means the payout provider stopped offering the destination. Whop may automatically remap an eligible method that was not linked through Plaid to a compatible replacement; otherwise, the account owner must re-add it. `null` means no unavailability reason is known.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payouts#UpdatePayoutMethod": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payouts#UpdatePayoutMethodRequest"
+      },
+      "output": {
+        "target": "com.whop.payouts#UpdatePayoutMethodResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payouts#BadRequest"
+        },
+        {
+          "target": "com.whop.payouts#Forbidden"
+        },
+        {
+          "target": "com.whop.payouts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/payouts/methods/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rename Saved Payout Method\n\nChanges the label used to identify a saved payout method."
+      }
+    },
+    "com.whop.payouts#DeletePayoutMethodRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Payout method ID, prefixed `potk_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payouts#DeletePayoutMethodResponse": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the deleted payout method, prefixed `potk_`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payouts#DeletePayoutMethod": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payouts#DeletePayoutMethodRequest"
+      },
+      "output": {
+        "target": "com.whop.payouts#DeletePayoutMethodResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payouts#Forbidden"
+        },
+        {
+          "target": "com.whop.payouts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/payouts/methods/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete Saved Payout Method\n\nDeletes a saved payout method so it can no longer receive payouts."
+      }
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The owning account ID (a biz_ identifier). Provide this or user_id."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "The owning user ID (a user_ identifier). Provide this or account_id."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "country",
+            "smithy.api#documentation": "ISO 3166-1 alpha-2 country code for the bank account or wallet, such as `US`. Defaults to the country of supported_payout_method_id when one is given, otherwise the payout account's country."
+          }
+        },
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "amount",
+            "smithy.api#documentation": "Optional payout amount in whole currency units, for example `250.00`. When provided, each destination includes per-currency fee and delivery quotes."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "currency",
+            "smithy.api#documentation": "Currency code of the amount, for example `usd`. Only meaningful with amount."
+          }
+        },
+        "supported_payout_method_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "supported_payout_method_id",
+            "smithy.api#documentation": "Narrows the list to one supported payout method (a podst_ identifier) and includes the required_fields needed to save it as a payout method."
+          }
+        },
+        "destination_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "destination_currency",
+            "smithy.api#documentation": "Currency the supported payout method would deliver payouts in. Only meaningful with supported_payout_method_id; required fields vary by destination currency."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of supported payout methods to return from the start of the window."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of supported payout methods to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemDeliveryType": {
+      "type": "enum",
+      "members": {
+        "CASH_PICKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cash_pickup"
+          }
+        },
+        "BANK_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_deposit"
+          }
+        },
+        "HOME_DELIVERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "home_delivery"
+          }
+        },
+        "MOBILE_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobile_wallet"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "check"
+          }
+        },
+        "BILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bill"
+          }
+        },
+        "CRYPTOCURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cryptocurrency"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How funds are delivered, for example `bank_deposit`."
+      }
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemObject": {
+      "type": "enum",
+      "members": {
+        "SUPPORTED_PAYOUT_METHOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "supported_payout_method"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemQuotesItemInstant": {
+      "type": "structure",
+      "members": {
+        "estimated_arrival": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fee": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total_received": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Instant-delivery estimate. Null if unsupported, unavailable for the account, or the amount does not cover the fee."
+      }
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemQuotesItemStandard": {
+      "type": "structure",
+      "members": {
+        "estimated_arrival": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fee": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total_received": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Standard-delivery estimate. Null if unsupported or the amount does not cover the fee."
+      }
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemQuotesItem": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The payout amount the quote is for.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency of the quoted amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency the funds are delivered in.",
+            "smithy.api#required": {}
+          }
+        },
+        "exchange_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Exchange rate from the payout currency to the destination currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "instant": {
+          "target": "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemQuotesItemInstant",
+          "traits": {
+            "smithy.api#documentation": "Instant-delivery estimate. Null if unsupported, unavailable for the account, or the amount does not cover the fee.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum payout amount, in the payout currency.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "min_limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum payout amount, in the payout currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "standard": {
+          "target": "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemQuotesItemStandard",
+          "traits": {
+            "smithy.api#documentation": "Standard-delivery estimate. Null if unsupported or the amount does not cover the fee.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemQuotesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemQuotesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Fee and delivery estimates for the requested amount, one per destination currency. Null unless an amount was provided."
+      }
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemRequiredFieldsItemObject": {
+      "type": "enum",
+      "members": {
+        "REQUIRED_FIELD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "required_field"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemRequiredFieldsItemOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Allowed values for options fields."
+      }
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemRequiredFieldsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable field ID (`fld_` + the semantic type), used as the field key when creating the payout method. Safe to hardcode — it never changes for a given field.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How to collect the value: `text`, `options`, or `date`.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable field name.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemRequiredFieldsItemObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "options": {
+          "target": "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemRequiredFieldsItemOptionsList",
+          "traits": {
+            "smithy.api#documentation": "Allowed values for options fields.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "placeholder": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Example value.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the field must be provided.",
+            "smithy.api#required": {}
+          }
+        },
+        "sensitive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the value is vaulted in transit and never stored raw.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Semantic field type, for example `bank_account_number` or `swift`.",
+            "smithy.api#required": {}
+          }
+        },
+        "validation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regex the value must match. Null for options fields.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemRequiredFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemRequiredFieldsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Fields to collect before saving this supported payout method. Present only when supported_payout_method_id narrows the request to one method."
+      }
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "delivery_type": {
+          "target": "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemDeliveryType",
+          "traits": {
+            "smithy.api#documentation": "How funds are delivered, for example `bank_deposit`.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method icon URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "quotes": {
+          "target": "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemQuotesList",
+          "traits": {
+            "smithy.api#documentation": "Fee and delivery estimates for the requested amount, one per destination currency. Null unless an amount was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "required_fields": {
+          "target": "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItemRequiredFieldsList",
+          "traits": {
+            "smithy.api#documentation": "Fields to collect before saving this supported payout method. Present only when supported_payout_method_id narrows the request to one method.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supports_instant_delivery": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "supports_standard_delivery": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payouts#ListSupportedPayoutMethodsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#ListSupportedPayoutMethodsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.payouts#ListSupportedPayoutMethodsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.payouts#ListSupportedPayoutMethodsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payouts#ListSupportedPayoutMethods": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payouts#ListSupportedPayoutMethodsRequest"
+      },
+      "output": {
+        "target": "com.whop.payouts#ListSupportedPayoutMethodsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payouts#BadRequest"
+        },
+        {
+          "target": "com.whop.payouts#Forbidden"
+        },
+        {
+          "target": "com.whop.payouts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payouts/supported_methods",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Supported Payout Methods\n\nLists the payout methods an account or user is eligible to add.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.payouts#GetPayoutRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Payout ID, prefixed `wdrl_` for a payout returned by `GET /payouts` or `cofr_` for the payout request returned by `POST /payouts`."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Owning account ID, prefixed `biz_`. Provide exactly one of `account_id` or `user_id`."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "Owning user ID, prefixed `user_`. Provide exactly one of `account_id` or `user_id`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payouts#GetPayoutResponseFailure": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Classified failure code from the maintained error catalog.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "funds_returned_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The effective time of the reversal that put the funds back in the balance — `null` if they never left it or have not returned yet. Set only once the return is confirmed in the ledger; the ledger posting itself can land moments after this time.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable explanation of the failure. Callers holding `payout:destination:read` may receive text personalized to the destination; other callers get the generic catalog message.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise."
+      }
+    },
+    "com.whop.payouts#GetPayoutResponseFeePaidBy": {
+      "type": "enum",
+      "members": {
+        "SELF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "self"
+          }
+        },
+        "PLATFORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Who bore the payout fee: the account itself, or its parent platform."
+      }
+    },
+    "com.whop.payouts#GetPayoutResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value data attached at creation and echoed on every read. At most 50 keys, key names up to 40 characters, string values up to 500 characters."
+      }
+    },
+    "com.whop.payouts#GetPayoutResponseObject": {
+      "type": "enum",
+      "members": {
+        "PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#GetPayoutResponsePayoutMethodSupportedPayoutMethodDeliveryType": {
+      "type": "enum",
+      "members": {
+        "CASH_PICKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cash_pickup"
+          }
+        },
+        "BANK_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_deposit"
+          }
+        },
+        "HOME_DELIVERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "home_delivery"
+          }
+        },
+        "MOBILE_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobile_wallet"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "check"
+          }
+        },
+        "BILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bill"
+          }
+        },
+        "CRYPTOCURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cryptocurrency"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the funds are delivered to the recipient."
+      }
+    },
+    "com.whop.payouts#GetPayoutResponsePayoutMethodSupportedPayoutMethod": {
+      "type": "structure",
+      "members": {
+        "delivery_type": {
+          "target": "com.whop.payouts#GetPayoutResponsePayoutMethodSupportedPayoutMethodDeliveryType",
+          "traits": {
+            "smithy.api#documentation": "How the funds are delivered to the recipient.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method icon URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Supported payout method display details."
+      }
+    },
+    "com.whop.payouts#GetPayoutResponsePayoutMethod": {
+      "type": "structure",
+      "members": {
+        "nickname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Saved payout method nickname.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supported_payout_method": {
+          "target": "com.whop.payouts#GetPayoutResponsePayoutMethodSupportedPayoutMethod",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method display details.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The saved payout method used. Requires payout:destination:read; null without it."
+      }
+    },
+    "com.whop.payouts#GetPayoutResponseSource": {
+      "type": "enum",
+      "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "AUTOMATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "automatic"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the payout was created. `automatic` means a scheduled auto-payout; `null` on payouts created before source tracking or through internal tooling."
+      }
+    },
+    "com.whop.payouts#GetPayoutResponseSpeed": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "INSTANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instant"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Payout delivery speed."
+      }
+    },
+    "com.whop.payouts#GetPayoutResponseStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "IN_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_review"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "REVERSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reversed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current payout status."
+      }
+    },
+    "com.whop.payouts#GetPayoutResponse": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payout amount in whole currency units, as a decimal string.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the payout was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount delivered in the destination currency, as a decimal string. Assigned when the payout is processed, so it is `null` before then and on payouts without a recorded conversion.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency the funds are delivered in, taken from the payout method when the payout is created. On a stablecoin payout it follows the settlement payout minted alongside it — the `GET /payouts` row carrying this payout's id as `payout_request_id` — and is `null` only when no settlement payout exists.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "estimated_arrival": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Estimated time the funds become available in the destination account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exchange_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Exchange rate from the payout currency to the destination currency. Assigned when the payout is processed, so it is `null` before then and on payouts without a recorded rate.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failure": {
+          "target": "com.whop.payouts#GetPayoutResponseFailure",
+          "traits": {
+            "smithy.api#documentation": "Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fee_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The fee charged for the payout, in the payout currency, as a decimal string.",
+            "smithy.api#required": {}
+          }
+        },
+        "fee_paid_by": {
+          "target": "com.whop.payouts#GetPayoutResponseFeePaidBy",
+          "traits": {
+            "smithy.api#documentation": "Who bore the payout fee: the account itself, or its parent platform.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout ID, prefixed `wdrl_` for a payout returned by `GET /payouts` or `cofr_` for a payout request returned by `POST /payouts`.",
+            "smithy.api#required": {}
+          }
+        },
+        "markup_fee": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whop's markup on the provider fee, in the payout currency, as a decimal string. `\"0.0\"` when none applies.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.payouts#GetPayoutResponseMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Key-value data attached at creation and echoed on every read. At most 50 keys, key names up to 40 characters, string values up to 500 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "net_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned net for the destination, in the payout currency: amount minus fee_amount minus markup_fee when fee_paid_by is `self`; equal to amount when the platform covers the fees. A payout that ends denied, canceled, or failed delivered nothing — most keep the planned figure and `failure` says where the funds are, but a canceled stablecoin payout can report the settled outcome instead: `amount` carries what stayed in the balance, fees are zero because none were charged, and `net_amount` is 0 because nothing was delivered.",
+            "smithy.api#required": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-form notes attached by the payout creator, or `null` when none were provided. Maximum 255 characters.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.payouts#GetPayoutResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "payer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the entity processing the payout.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payout_method": {
+          "target": "com.whop.payouts#GetPayoutResponsePayoutMethod",
+          "traits": {
+            "smithy.api#documentation": "The saved payout method used. Requires payout:destination:read; null without it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payout_request_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout request ID, prefixed `cofr_`, returned by `POST /payouts`. For a request retrieved by its own `cofr_` ID, this equals `id`. Returns `null` for payouts not created by `POST /payouts`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.whop.payouts#GetPayoutResponseSource",
+          "traits": {
+            "smithy.api#documentation": "How the payout was created. `automatic` means a scheduled auto-payout; `null` on payouts created before source tracking or through internal tooling.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "speed": {
+          "target": "com.whop.payouts#GetPayoutResponseSpeed",
+          "traits": {
+            "smithy.api#documentation": "Payout delivery speed.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.payouts#GetPayoutResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Current payout status.",
+            "smithy.api#required": {}
+          }
+        },
+        "status_detail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The finest machine phase under `status` — for example `awaiting_provider_acceptance` vs `in_transit` under `processing`, or the stablecoin conversion phase under `requested`. Informational vocabulary: values can be added without a version bump; `status` is the versioned contract.",
+            "smithy.api#required": {}
+          }
+        },
+        "trace_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ACH trace number the recipient's bank can use to locate this payout. Assigned when the payout is submitted to the bank, so it is `null` before then and on payouts not sent over ACH.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payouts#GetPayout": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payouts#GetPayoutRequest"
+      },
+      "output": {
+        "target": "com.whop.payouts#GetPayoutResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payouts#BadRequest"
+        },
+        {
+          "target": "com.whop.payouts#Forbidden"
+        },
+        {
+          "target": "com.whop.payouts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payouts/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Payout\n\nFetches one payout by its `wdrl_` ID, or by the `cofr_` conversion request ID a stablecoin payout carries as `payout_request_id` — both ids answer with the same payout object."
+      }
+    },
+    "com.whop.payouts#CancelPayoutRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Payout ID, prefixed `wdrl_`, or the `cofr_` payout request ID returned by `POST /payouts` — both cancel the same payout."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Owning account ID, prefixed `biz_`. Provide exactly one of `account_id` or `user_id`."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "Owning user ID, prefixed `user_`. Provide exactly one of `account_id` or `user_id`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payouts#CancelPayoutResponseFailure": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Classified failure code from the maintained error catalog.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "funds_returned_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The effective time of the reversal that put the funds back in the balance — `null` if they never left it or have not returned yet. Set only once the return is confirmed in the ledger; the ledger posting itself can land moments after this time.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable explanation of the failure. Callers holding `payout:destination:read` may receive text personalized to the destination; other callers get the generic catalog message.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise."
+      }
+    },
+    "com.whop.payouts#CancelPayoutResponseFeePaidBy": {
+      "type": "enum",
+      "members": {
+        "SELF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "self"
+          }
+        },
+        "PLATFORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Who bore the payout fee: the account itself, or its parent platform."
+      }
+    },
+    "com.whop.payouts#CancelPayoutResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value data attached at creation and echoed on every read. At most 50 keys, key names up to 40 characters, string values up to 500 characters."
+      }
+    },
+    "com.whop.payouts#CancelPayoutResponseObject": {
+      "type": "enum",
+      "members": {
+        "PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payouts#CancelPayoutResponsePayoutMethodSupportedPayoutMethodDeliveryType": {
+      "type": "enum",
+      "members": {
+        "CASH_PICKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cash_pickup"
+          }
+        },
+        "BANK_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_deposit"
+          }
+        },
+        "HOME_DELIVERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "home_delivery"
+          }
+        },
+        "MOBILE_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobile_wallet"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "check"
+          }
+        },
+        "BILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bill"
+          }
+        },
+        "CRYPTOCURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cryptocurrency"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the funds are delivered to the recipient."
+      }
+    },
+    "com.whop.payouts#CancelPayoutResponsePayoutMethodSupportedPayoutMethod": {
+      "type": "structure",
+      "members": {
+        "delivery_type": {
+          "target": "com.whop.payouts#CancelPayoutResponsePayoutMethodSupportedPayoutMethodDeliveryType",
+          "traits": {
+            "smithy.api#documentation": "How the funds are delivered to the recipient.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method icon URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Supported payout method display details."
+      }
+    },
+    "com.whop.payouts#CancelPayoutResponsePayoutMethod": {
+      "type": "structure",
+      "members": {
+        "nickname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Saved payout method nickname.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supported_payout_method": {
+          "target": "com.whop.payouts#CancelPayoutResponsePayoutMethodSupportedPayoutMethod",
+          "traits": {
+            "smithy.api#documentation": "Supported payout method display details.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The saved payout method used. Requires payout:destination:read; null without it."
+      }
+    },
+    "com.whop.payouts#CancelPayoutResponseSource": {
+      "type": "enum",
+      "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "AUTOMATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "automatic"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the payout was created. `automatic` means a scheduled auto-payout; `null` on payouts created before source tracking or through internal tooling."
+      }
+    },
+    "com.whop.payouts#CancelPayoutResponseSpeed": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "INSTANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instant"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Payout delivery speed."
+      }
+    },
+    "com.whop.payouts#CancelPayoutResponseStatus": {
+      "type": "enum",
+      "members": {
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "IN_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_review"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "REVERSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reversed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current payout status."
+      }
+    },
+    "com.whop.payouts#CancelPayoutResponse": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payout amount in whole currency units, as a decimal string.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the payout was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount delivered in the destination currency, as a decimal string. Assigned when the payout is processed, so it is `null` before then and on payouts without a recorded conversion.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency the funds are delivered in, taken from the payout method when the payout is created. On a stablecoin payout it follows the settlement payout minted alongside it — the `GET /payouts` row carrying this payout's id as `payout_request_id` — and is `null` only when no settlement payout exists.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "estimated_arrival": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Estimated time the funds become available in the destination account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exchange_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Exchange rate from the payout currency to the destination currency. Assigned when the payout is processed, so it is `null` before then and on payouts without a recorded rate.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failure": {
+          "target": "com.whop.payouts#CancelPayoutResponseFailure",
+          "traits": {
+            "smithy.api#documentation": "Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fee_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The fee charged for the payout, in the payout currency, as a decimal string.",
+            "smithy.api#required": {}
+          }
+        },
+        "fee_paid_by": {
+          "target": "com.whop.payouts#CancelPayoutResponseFeePaidBy",
+          "traits": {
+            "smithy.api#documentation": "Who bore the payout fee: the account itself, or its parent platform.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout ID, prefixed `wdrl_` for a payout returned by `GET /payouts` or `cofr_` for a payout request returned by `POST /payouts`.",
+            "smithy.api#required": {}
+          }
+        },
+        "markup_fee": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whop's markup on the provider fee, in the payout currency, as a decimal string. `\"0.0\"` when none applies.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.payouts#CancelPayoutResponseMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Key-value data attached at creation and echoed on every read. At most 50 keys, key names up to 40 characters, string values up to 500 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "net_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned net for the destination, in the payout currency: amount minus fee_amount minus markup_fee when fee_paid_by is `self`; equal to amount when the platform covers the fees. A payout that ends denied, canceled, or failed delivered nothing — most keep the planned figure and `failure` says where the funds are, but a canceled stablecoin payout can report the settled outcome instead: `amount` carries what stayed in the balance, fees are zero because none were charged, and `net_amount` is 0 because nothing was delivered.",
+            "smithy.api#required": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-form notes attached by the payout creator, or `null` when none were provided. Maximum 255 characters.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.payouts#CancelPayoutResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "payer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the entity processing the payout.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payout_method": {
+          "target": "com.whop.payouts#CancelPayoutResponsePayoutMethod",
+          "traits": {
+            "smithy.api#documentation": "The saved payout method used. Requires payout:destination:read; null without it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payout_request_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payout request ID, prefixed `cofr_`, returned by `POST /payouts`. For a request retrieved by its own `cofr_` ID, this equals `id`. Returns `null` for payouts not created by `POST /payouts`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.whop.payouts#CancelPayoutResponseSource",
+          "traits": {
+            "smithy.api#documentation": "How the payout was created. `automatic` means a scheduled auto-payout; `null` on payouts created before source tracking or through internal tooling.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "speed": {
+          "target": "com.whop.payouts#CancelPayoutResponseSpeed",
+          "traits": {
+            "smithy.api#documentation": "Payout delivery speed.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.payouts#CancelPayoutResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Current payout status.",
+            "smithy.api#required": {}
+          }
+        },
+        "status_detail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The finest machine phase under `status` — for example `awaiting_provider_acceptance` vs `in_transit` under `processing`, or the stablecoin conversion phase under `requested`. Informational vocabulary: values can be added without a version bump; `status` is the versioned contract.",
+            "smithy.api#required": {}
+          }
+        },
+        "trace_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ACH trace number the recipient's bank can use to locate this payout. Assigned when the payout is submitted to the bank, so it is `null` before then and on payouts not sent over ACH.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payouts#CancelPayout": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payouts#CancelPayoutRequest"
+      },
+      "output": {
+        "target": "com.whop.payouts#CancelPayoutResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payouts#Forbidden"
+        },
+        {
+          "target": "com.whop.payouts#NotFound"
+        },
+        {
+          "target": "com.whop.payouts#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/payouts/{id}/cancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel Payout\n\nCancels a payout that is still in review and returns the funds, fees included, to the balance. A payout can be canceled while its status is `in_review`. A `requested` payout is still being prepared (its funds may be converting) and answers 409 until it reaches review; from `processing` on, the money is on its way and the answer is 409 with error type `not_cancelable`. Canceling a payout that is already canceled succeeds and returns it unchanged."
+      }
+    },
+    "com.whop.payouts#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.payouts#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.payouts#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.payouts#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.payouts#Payouts": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.payouts#ListPayouts"
+        },
+        {
+          "target": "com.whop.payouts#CreatePayout"
+        },
+        {
+          "target": "com.whop.payouts#ListPayoutMethods"
+        },
+        {
+          "target": "com.whop.payouts#CreatePayoutMethod"
+        },
+        {
+          "target": "com.whop.payouts#UpdatePayoutMethod"
+        },
+        {
+          "target": "com.whop.payouts#DeletePayoutMethod"
+        },
+        {
+          "target": "com.whop.payouts#ListSupportedPayoutMethods"
+        },
+        {
+          "target": "com.whop.payouts#GetPayout"
+        },
+        {
+          "target": "com.whop.payouts#CancelPayout"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

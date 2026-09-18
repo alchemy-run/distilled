@@ -661,7 +661,7 @@ export type MigrationTypeValue =
   | "cdc"
   | "full-load-and-cdc"
   | (string & {});
-export const MigrationTypeValue = /*@__PURE__*/ S.String;
+export const MigrationTypeValue = S.String;
 
 export type Iso8601DateTime = Date;
 export interface SourceDataSetting {
@@ -691,7 +691,7 @@ export type TablePreparationMode =
   | "truncate"
   | "drop-tables-on-target"
   | (string & {});
-export const TablePreparationMode = /*@__PURE__*/ S.String;
+export const TablePreparationMode = S.String;
 
 export interface TargetDataSetting {
   TablePreparationMode?: TablePreparationMode;
@@ -866,7 +866,7 @@ export type DmsSslModeValue =
   | "verify-ca"
   | "verify-full"
   | (string & {});
-export const DmsSslModeValue = /*@__PURE__*/ S.String;
+export const DmsSslModeValue = S.String;
 
 export interface PostgreSqlDataProviderSettings {
   ServerName?: string;
@@ -1072,14 +1072,14 @@ export const IbmDb2zOsDataProviderSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "IbmDb2zOsDataProviderSettings",
 }) as any as S.Schema<IbmDb2zOsDataProviderSettings>;
 export type AuthTypeValue = "no" | "password" | (string & {});
-export const AuthTypeValue = /*@__PURE__*/ S.String;
+export const AuthTypeValue = S.String;
 
 export type AuthMechanismValue =
   | "default"
   | "mongodb_cr"
   | "scram_sha_1"
   | (string & {});
-export const AuthMechanismValue = /*@__PURE__*/ S.String;
+export const AuthMechanismValue = S.String;
 
 export interface MongoDbDataProviderSettings {
   ServerName?: string;
@@ -1325,7 +1325,7 @@ export const CreateDataProviderResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateDataProviderResponse",
 }) as any as S.Schema<CreateDataProviderResponse>;
 export type ReplicationEndpointTypeValue = "source" | "target" | (string & {});
-export const ReplicationEndpointTypeValue = /*@__PURE__*/ S.String;
+export const ReplicationEndpointTypeValue = S.String;
 
 export interface DynamoDbSettings {
   ServiceAccessRoleArn: string;
@@ -1336,23 +1336,23 @@ export const DynamoDbSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "DynamoDbSettings",
 }) as any as S.Schema<DynamoDbSettings>;
 export type CompressionTypeValue = "none" | "gzip" | (string & {});
-export const CompressionTypeValue = /*@__PURE__*/ S.String;
+export const CompressionTypeValue = S.String;
 
 export type EncryptionModeValue = "sse-s3" | "sse-kms" | (string & {});
-export const EncryptionModeValue = /*@__PURE__*/ S.String;
+export const EncryptionModeValue = S.String;
 
 export type DataFormatValue = "csv" | "parquet" | (string & {});
-export const DataFormatValue = /*@__PURE__*/ S.String;
+export const DataFormatValue = S.String;
 
 export type EncodingTypeValue =
   | "plain"
   | "plain-dictionary"
   | "rle-dictionary"
   | (string & {});
-export const EncodingTypeValue = /*@__PURE__*/ S.String;
+export const EncodingTypeValue = S.String;
 
 export type ParquetVersionValue = "parquet-1-0" | "parquet-2-0" | (string & {});
-export const ParquetVersionValue = /*@__PURE__*/ S.String;
+export const ParquetVersionValue = S.String;
 
 export type DatePartitionSequenceValue =
   | "YYYYMMDD"
@@ -1361,7 +1361,7 @@ export type DatePartitionSequenceValue =
   | "MMYYYYDD"
   | "DDMMYYYY"
   | (string & {});
-export const DatePartitionSequenceValue = /*@__PURE__*/ S.String;
+export const DatePartitionSequenceValue = S.String;
 
 export type DatePartitionDelimiterValue =
   | "SLASH"
@@ -1369,7 +1369,7 @@ export type DatePartitionDelimiterValue =
   | "DASH"
   | "NONE"
   | (string & {});
-export const DatePartitionDelimiterValue = /*@__PURE__*/ S.String;
+export const DatePartitionDelimiterValue = S.String;
 
 export type CannedAclForObjectsValue =
   | "none"
@@ -1381,7 +1381,7 @@ export type CannedAclForObjectsValue =
   | "bucket-owner-read"
   | "bucket-owner-full-control"
   | (string & {});
-export const CannedAclForObjectsValue = /*@__PURE__*/ S.String;
+export const CannedAclForObjectsValue = S.String;
 
 export interface S3Settings {
   ServiceAccessRoleArn?: string;
@@ -1484,7 +1484,7 @@ export const DmsTransferSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "DmsTransferSettings",
 }) as any as S.Schema<DmsTransferSettings>;
 export type NestingLevelValue = "none" | "one" | (string & {});
-export const NestingLevelValue = /*@__PURE__*/ S.String;
+export const NestingLevelValue = S.String;
 
 export interface MongoDbSettings {
   Username?: string;
@@ -1527,7 +1527,7 @@ export const MongoDbSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "MongoDbSettings",
 }) as any as S.Schema<MongoDbSettings>;
 export type MessageFormatValue = "json" | "json-unformatted" | (string & {});
-export const MessageFormatValue = /*@__PURE__*/ S.String;
+export const MessageFormatValue = S.String;
 
 export interface KinesisSettings {
   StreamArn?: string;
@@ -1565,16 +1565,16 @@ export type KafkaSecurityProtocol =
   | "ssl-encryption"
   | "sasl-ssl"
   | (string & {});
-export const KafkaSecurityProtocol = /*@__PURE__*/ S.String;
+export const KafkaSecurityProtocol = S.String;
 
 export type KafkaSaslMechanism = "scram-sha-512" | "plain" | (string & {});
-export const KafkaSaslMechanism = /*@__PURE__*/ S.String;
+export const KafkaSaslMechanism = S.String;
 
 export type KafkaSslEndpointIdentificationAlgorithm =
   | "none"
   | "https"
   | (string & {});
-export const KafkaSslEndpointIdentificationAlgorithm = /*@__PURE__*/ S.String;
+export const KafkaSslEndpointIdentificationAlgorithm = S.String;
 
 export interface KafkaSettings {
   Broker?: string;
@@ -1741,20 +1741,20 @@ export type PluginNameValue =
   | "test-decoding"
   | "pglogical"
   | (string & {});
-export const PluginNameValue = /*@__PURE__*/ S.String;
+export const PluginNameValue = S.String;
 
 export type LongVarcharMappingType =
   | "wstring"
   | "clob"
   | "nclob"
   | (string & {});
-export const LongVarcharMappingType = /*@__PURE__*/ S.String;
+export const LongVarcharMappingType = S.String;
 
 export type DatabaseMode = "default" | "babelfish" | (string & {});
-export const DatabaseMode = /*@__PURE__*/ S.String;
+export const DatabaseMode = S.String;
 
 export type PostgreSQLAuthenticationMethod = "password" | "iam" | (string & {});
-export const PostgreSQLAuthenticationMethod = /*@__PURE__*/ S.String;
+export const PostgreSQLAuthenticationMethod = S.String;
 
 export interface PostgreSQLSettings {
   AfterConnectScript?: string;
@@ -1822,10 +1822,10 @@ export type TargetDbType =
   | "specific-database"
   | "multiple-databases"
   | (string & {});
-export const TargetDbType = /*@__PURE__*/ S.String;
+export const TargetDbType = S.String;
 
 export type MySQLAuthenticationMethod = "password" | "iam" | (string & {});
-export const MySQLAuthenticationMethod = /*@__PURE__*/ S.String;
+export const MySQLAuthenticationMethod = S.String;
 
 export interface MySQLSettings {
   AfterConnectScript?: string;
@@ -1870,13 +1870,13 @@ export const MySQLSettings = /*@__PURE__*/ S.suspend(() =>
 export type IntegerList = number[];
 export const IntegerList = /*@__PURE__*/ S.Array(S.Number);
 export type CharLengthSemantics = "default" | "char" | "byte" | (string & {});
-export const CharLengthSemantics = /*@__PURE__*/ S.String;
+export const CharLengthSemantics = S.String;
 
 export type OracleAuthenticationMethod =
   | "password"
   | "kerberos"
   | (string & {});
-export const OracleAuthenticationMethod = /*@__PURE__*/ S.String;
+export const OracleAuthenticationMethod = S.String;
 
 export interface OracleSettings {
   AddSupplementalLogging?: boolean;
@@ -1997,7 +1997,7 @@ export type SafeguardPolicy =
   | "exclusive-automatic-truncation"
   | "shared-automatic-truncation"
   | (string & {});
-export const SafeguardPolicy = /*@__PURE__*/ S.String;
+export const SafeguardPolicy = S.String;
 
 export type TlogAccessMode =
   | "BackupOnly"
@@ -2005,13 +2005,13 @@ export type TlogAccessMode =
   | "PreferTlog"
   | "TlogOnly"
   | (string & {});
-export const TlogAccessMode = /*@__PURE__*/ S.String;
+export const TlogAccessMode = S.String;
 
 export type SqlServerAuthenticationMethod =
   | "password"
   | "kerberos"
   | (string & {});
-export const SqlServerAuthenticationMethod = /*@__PURE__*/ S.String;
+export const SqlServerAuthenticationMethod = S.String;
 
 export interface MicrosoftSQLServerSettings {
   Port?: number;
@@ -2127,14 +2127,14 @@ export type SslSecurityProtocolValue =
   | "plaintext"
   | "ssl-encryption"
   | (string & {});
-export const SslSecurityProtocolValue = /*@__PURE__*/ S.String;
+export const SslSecurityProtocolValue = S.String;
 
 export type RedisAuthTypeValue =
   | "none"
   | "auth-role"
   | "auth-token"
   | (string & {});
-export const RedisAuthTypeValue = /*@__PURE__*/ S.String;
+export const RedisAuthTypeValue = S.String;
 
 export interface RedisSettings {
   ServerName: string;
@@ -4059,7 +4059,7 @@ export type EndpointSettingTypeValue =
   | "integer"
   | "enum"
   | (string & {});
-export const EndpointSettingTypeValue = /*@__PURE__*/ S.String;
+export const EndpointSettingTypeValue = S.String;
 
 export type EndpointSettingEnumValues = string[];
 export const EndpointSettingEnumValues = /*@__PURE__*/ S.Array(S.String);
@@ -4186,7 +4186,7 @@ export const DescribeEngineVersionsMessage = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeEngineVersionsMessage",
 }) as any as S.Schema<DescribeEngineVersionsMessage>;
 export type ReleaseStatusValues = "beta" | "prod" | (string & {});
-export const ReleaseStatusValues = /*@__PURE__*/ S.String;
+export const ReleaseStatusValues = S.String;
 
 export type AvailableUpgradesList = string[];
 export const AvailableUpgradesList = /*@__PURE__*/ S.Array(S.String);
@@ -4287,7 +4287,7 @@ export const DescribeEventCategoriesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeEventCategoriesResponse",
 }) as any as S.Schema<DescribeEventCategoriesResponse>;
 export type SourceType = "replication-instance" | (string & {});
-export const SourceType = /*@__PURE__*/ S.String;
+export const SourceType = S.String;
 
 export interface DescribeEventsMessage {
   SourceIdentifier?: string;
@@ -4475,10 +4475,10 @@ export type VersionStatus =
   | "OUTDATED"
   | "UNSUPPORTED"
   | (string & {});
-export const VersionStatus = /*@__PURE__*/ S.String;
+export const VersionStatus = S.String;
 
 export type CollectorStatus = "UNREGISTERED" | "ACTIVE" | (string & {});
-export const CollectorStatus = /*@__PURE__*/ S.String;
+export const CollectorStatus = S.String;
 
 export interface CollectorHealthCheck {
   CollectorStatus?: CollectorStatus;
@@ -4920,7 +4920,7 @@ export const DescribeInstanceProfilesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeInstanceProfilesResponse",
 }) as any as S.Schema<DescribeInstanceProfilesResponse>;
 export type OriginTypeValue = "SOURCE" | "TARGET" | (string & {});
-export const OriginTypeValue = /*@__PURE__*/ S.String;
+export const OriginTypeValue = S.String;
 
 export interface DescribeMetadataModelMessage {
   SelectionRules: string;
@@ -5626,7 +5626,7 @@ export type RefreshSchemasStatusTypeValue =
   | "failed"
   | "refreshing"
   | (string & {});
-export const RefreshSchemasStatusTypeValue = /*@__PURE__*/ S.String;
+export const RefreshSchemasStatusTypeValue = S.String;
 
 export interface RefreshSchemasStatus {
   EndpointArn?: string;
@@ -6458,7 +6458,7 @@ export const DescribeTableStatisticsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeTableStatisticsResponse",
 }) as any as S.Schema<DescribeTableStatisticsResponse>;
 export type AssessmentReportType = "pdf" | "csv" | (string & {});
-export const AssessmentReportType = /*@__PURE__*/ S.String;
+export const AssessmentReportType = S.String;
 
 export type AssessmentReportTypesList = AssessmentReportType[];
 export const AssessmentReportTypesList =
@@ -7223,7 +7223,7 @@ export const TableToReload = /*@__PURE__*/ S.suspend(() =>
 export type TableListToReload = TableToReload[];
 export const TableListToReload = /*@__PURE__*/ S.Array(TableToReload);
 export type ReloadOptionValue = "data-reload" | "validate-only" | (string & {});
-export const ReloadOptionValue = /*@__PURE__*/ S.String;
+export const ReloadOptionValue = S.String;
 
 export interface ReloadReplicationTablesMessage {
   ReplicationConfigArn: string;
@@ -7349,7 +7349,7 @@ export type StartReplicationMigrationTypeValue =
   | "resume-processing"
   | "start-replication"
   | (string & {});
-export const StartReplicationMigrationTypeValue = /*@__PURE__*/ S.String;
+export const StartReplicationMigrationTypeValue = S.String;
 
 export interface StartDataMigrationMessage {
   DataMigrationIdentifier: string;
@@ -7686,7 +7686,7 @@ export type StartReplicationTaskTypeValue =
   | "resume-processing"
   | "reload-target"
   | (string & {});
-export const StartReplicationTaskTypeValue = /*@__PURE__*/ S.String;
+export const StartReplicationTaskTypeValue = S.String;
 
 export interface StartReplicationTaskMessage {
   ReplicationTaskArn: string;
@@ -8024,6 +8024,10 @@ export type CancelMetadataModelConversionError =
   | CommonErrors;
 /**
  * Cancels a single metadata model conversion operation that was started with `StartMetadataModelConversion`.
+ *
+ * **Required permissions:**
+ * `dms:CancelMetadataModelConversion`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const cancelMetadataModelConversion: API.OperationMethod<
   CancelMetadataModelConversionMessage,
@@ -8046,6 +8050,10 @@ export type CancelMetadataModelCreationError =
   | CommonErrors;
 /**
  * Cancels a single metadata model creation operation that was started with `StartMetadataModelCreation`.
+ *
+ * **Required permissions:**
+ * `dms:CancelMetadataModelCreation`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const cancelMetadataModelCreation: API.OperationMethod<
   CancelMetadataModelCreationMessage,
@@ -8126,6 +8134,10 @@ export type CreateDataProviderError =
 /**
  * Creates a data provider using the provided settings. A data provider stores a data store
  * type and location information about your database.
+ *
+ * **Required permissions:**
+ * `dms:CreateDataProvider`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const createDataProvider: API.OperationMethod<
   CreateDataProviderMessage,
@@ -8287,6 +8299,10 @@ export type CreateInstanceProfileError =
   | CommonErrors;
 /**
  * Creates the instance profile using the specified parameters.
+ *
+ * **Required permissions:**
+ * `dms:CreateInstanceProfile`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const createInstanceProfile: API.OperationMethod<
   CreateInstanceProfileMessage,
@@ -8326,6 +8342,10 @@ export type CreateMigrationProjectError =
  *
  * You can run this action only after you create an instance profile and data providers
  * using CreateInstanceProfile and CreateDataProvider.
+ *
+ * **Required permissions:**
+ * `dms:CreateMigrationProject`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const createMigrationProject: API.OperationMethod<
   CreateMigrationProjectMessage,
@@ -8588,6 +8608,10 @@ export type DeleteDataProviderError =
 /**
  * Deletes the specified data provider.
  *
+ * **Required permissions:**
+ * `dms:DeleteDataProvider`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
+ *
  * All migration projects associated with the data provider must be deleted or modified
  * before you can delete the data provider.
  */
@@ -8717,6 +8741,10 @@ export type DeleteInstanceProfileError =
 /**
  * Deletes the specified instance profile.
  *
+ * **Required permissions:**
+ * `dms:DeleteInstanceProfile`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
+ *
  * All migration projects associated with the instance profile must be deleted or
  * modified before you can delete the instance profile.
  */
@@ -8747,6 +8775,10 @@ export type DeleteMigrationProjectError =
   | CommonErrors;
 /**
  * Deletes the specified migration project.
+ *
+ * **Required permissions:**
+ * `dms:DeleteMigrationProject`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  *
  * The migration project must be closed before you can delete it.
  */
@@ -9012,6 +9044,10 @@ export type DescribeConversionConfigurationError =
   | CommonErrors;
 /**
  * Returns configuration parameters for a schema conversion project.
+ *
+ * **Required permissions:**
+ * `dms:DescribeConversionConfiguration`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeConversionConfiguration: API.OperationMethod<
   DescribeConversionConfigurationMessage,
@@ -9068,6 +9104,10 @@ export type DescribeDataProvidersError =
 /**
  * Returns a paginated list of data providers for your account in the current
  * region.
+ *
+ * **Required permissions:**
+ * `dms:ListDataProviders`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeDataProviders: API.PaginatedOperationMethod<
   DescribeDataProvidersMessage,
@@ -9266,9 +9306,13 @@ export const describeEventSubscriptions: API.PaginatedOperationMethod<
 
 export type DescribeExtensionPackAssociationsError = CommonErrors;
 /**
- * Returns a paginated list of extension pack associations for the specified migration
- * project. An extension pack is an add-on module that emulates functions present in a source
- * database that are required when converting objects to the target database.
+ * Returns a paginated list of extension pack installation requests for a migration
+ * project, initiated by
+ * StartExtensionPackAssociation.
+ *
+ * **Required permissions:**
+ * `dms:ListExtensionPacks`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeExtensionPackAssociations: API.PaginatedOperationMethod<
   DescribeExtensionPackAssociationsMessage,
@@ -9440,6 +9484,10 @@ export type DescribeInstanceProfilesError =
 /**
  * Returns a paginated list of instance profiles for your account in the current
  * region.
+ *
+ * **Required permissions:**
+ * `dms:ListInstanceProfiles`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeInstanceProfiles: API.PaginatedOperationMethod<
   DescribeInstanceProfilesMessage,
@@ -9467,6 +9515,10 @@ export type DescribeMetadataModelError =
   | CommonErrors;
 /**
  * Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable.
+ *
+ * **Required permissions:**
+ * `dms:DescribeMetadataModel`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModel: API.OperationMethod<
   DescribeMetadataModelMessage,
@@ -9486,8 +9538,13 @@ export type DescribeMetadataModelAssessmentsError =
   | ResourceNotFoundFault
   | CommonErrors;
 /**
- * Returns a paginated list of metadata model assessments for your account in the current
- * region.
+ * Returns a paginated list of metadata model assessment requests for a migration
+ * project, initiated by
+ * StartMetadataModelAssessment.
+ *
+ * **Required permissions:**
+ * `dms:ListMetadataModelAssessments`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelAssessments: API.PaginatedOperationMethod<
   DescribeMetadataModelAssessmentsMessage,
@@ -9515,6 +9572,10 @@ export type DescribeMetadataModelChildrenError =
   | CommonErrors;
 /**
  * Gets a list of child metadata models for the specified metadata model in the database hierarchy.
+ *
+ * **Required permissions:**
+ * `dms:DescribeMetadataModelChildren`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelChildren: API.PaginatedOperationMethod<
   DescribeMetadataModelChildrenMessage,
@@ -9541,7 +9602,16 @@ export type DescribeMetadataModelConversionsError =
   | ResourceNotFoundFault
   | CommonErrors;
 /**
- * Returns a paginated list of metadata model conversions for a migration project.
+ * Returns a paginated list of metadata model conversion requests for a migration
+ * project, initiated by
+ * StartMetadataModelConversion.
+ *
+ * To cancel a queued or in-progress request, call
+ * CancelMetadataModelConversion.
+ *
+ * **Required permissions:**
+ * `dms:ListMetadataModelConversions`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelConversions: API.PaginatedOperationMethod<
   DescribeMetadataModelConversionsMessage,
@@ -9568,7 +9638,16 @@ export type DescribeMetadataModelCreationsError =
   | ResourceNotFoundFault
   | CommonErrors;
 /**
- * Returns a paginated list of metadata model creation requests for a migration project.
+ * Returns a paginated list of metadata model creation requests for a migration
+ * project, initiated by
+ * StartMetadataModelCreation.
+ *
+ * To cancel a queued or in-progress request, call
+ * CancelMetadataModelCreation.
+ *
+ * **Required permissions:**
+ * `dms:DescribeMetadataModelCreations`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelCreations: API.PaginatedOperationMethod<
   DescribeMetadataModelCreationsMessage,
@@ -9595,7 +9674,13 @@ export type DescribeMetadataModelExportsAsScriptError =
   | ResourceNotFoundFault
   | CommonErrors;
 /**
- * Returns a paginated list of metadata model exports.
+ * Returns a paginated list of metadata model export requests for a migration
+ * project, initiated by
+ * StartMetadataModelExportAsScript.
+ *
+ * **Required permissions:**
+ * `dms:ListMetadataModelExports`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelExportsAsScript: API.PaginatedOperationMethod<
   DescribeMetadataModelExportsAsScriptMessage,
@@ -9621,7 +9706,13 @@ export type DescribeMetadataModelExportsToTargetError =
   | ResourceNotFoundFault
   | CommonErrors;
 /**
- * Returns a paginated list of metadata model exports.
+ * Returns a paginated list of metadata model export requests for a migration
+ * project, initiated by
+ * StartMetadataModelExportToTarget.
+ *
+ * **Required permissions:**
+ * `dms:ListMetadataModelExports`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelExportsToTarget: API.PaginatedOperationMethod<
   DescribeMetadataModelExportsToTargetMessage,
@@ -9647,7 +9738,13 @@ export type DescribeMetadataModelImportsError =
   | ResourceNotFoundFault
   | CommonErrors;
 /**
- * Returns a paginated list of metadata model imports.
+ * Returns a paginated list of metadata model import requests for a migration
+ * project, initiated by
+ * StartMetadataModelImport.
+ *
+ * **Required permissions:**
+ * `dms:DescribeMetadataModelImports`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMetadataModelImports: API.PaginatedOperationMethod<
   DescribeMetadataModelImportsMessage,
@@ -9677,6 +9774,10 @@ export type DescribeMigrationProjectsError =
 /**
  * Returns a paginated list of migration projects for your account in the current
  * region.
+ *
+ * **Required permissions:**
+ * `dms:ListMigrationProjects`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const describeMigrationProjects: API.PaginatedOperationMethod<
   DescribeMigrationProjectsMessage,
@@ -10177,6 +10278,10 @@ export type ExportMetadataModelAssessmentError =
 /**
  * Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can
  * save your assessment report as a comma-separated value (CSV) or a PDF file.
+ *
+ * **Required permissions:**
+ * `dms:ExportMetadataModelAssessment`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const exportMetadataModelAssessment: API.OperationMethod<
   ExportMetadataModelAssessmentMessage,
@@ -10199,6 +10304,10 @@ export type GetTargetSelectionRulesError =
   | CommonErrors;
 /**
  * Converts source selection rules into their target counterparts for schema conversion operations.
+ *
+ * **Required permissions:**
+ * `dms:GetTargetSelectionRules`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const getTargetSelectionRules: API.OperationMethod<
   GetTargetSelectionRulesMessage,
@@ -10273,6 +10382,10 @@ export type ModifyConversionConfigurationError =
   | CommonErrors;
 /**
  * Modifies the specified schema conversion configuration using the provided parameters.
+ *
+ * **Required permissions:**
+ * `dms:UpdateConversionConfiguration`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const modifyConversionConfiguration: API.OperationMethod<
   ModifyConversionConfigurationMessage,
@@ -10322,6 +10435,10 @@ export type ModifyDataProviderError =
   | CommonErrors;
 /**
  * Modifies the specified data provider using the provided settings.
+ *
+ * **Required permissions:**
+ * `dms:UpdateDataProvider`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  *
  * You must remove the data provider from all migration projects before you can modify
  * it.
@@ -10434,6 +10551,10 @@ export type ModifyInstanceProfileError =
 /**
  * Modifies the specified instance profile using the provided parameters.
  *
+ * **Required permissions:**
+ * `dms:UpdateInstanceProfile`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
+ *
  * All migration projects associated with the instance profile must be deleted or
  * modified before you can modify the instance profile.
  */
@@ -10469,6 +10590,10 @@ export type ModifyMigrationProjectError =
   | CommonErrors;
 /**
  * Modifies the specified migration project using the provided parameters.
+ *
+ * **Required permissions:**
+ * `dms:UpdateMigrationProject`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  *
  * The migration project must be closed before you can modify it.
  */
@@ -10857,9 +10982,23 @@ export type StartExtensionPackAssociationError =
   | S3ResourceNotFoundFault
   | CommonErrors;
 /**
- * Applies the extension pack to your target database. An extension pack is an add-on
- * module that emulates functions present in a source database that are required when
- * converting objects to the target database.
+ * Queues the installation of the extension pack on your target database. If other
+ * requests created by `Start*` operations are already in the migration project's
+ * queue, the installation begins after they complete.
+ *
+ * This operation requires a non-virtual target data provider.
+ *
+ * If the extension pack already exists, the operation reinstalls it. To ensure
+ * compatibility, reconvert your database objects if the version has changed since your last
+ * conversion. For more information, see Using extension packs in DMS Schema Conversion.
+ *
+ * To check the status of the request, call
+ * DescribeExtensionPackAssociations using the returned
+ * `RequestIdentifier` as a filter.
+ *
+ * **Required permissions:**
+ * `dms:AssociateExtensionPack`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startExtensionPackAssociation: API.OperationMethod<
   StartExtensionPackAssociationMessage,
@@ -10895,10 +11034,26 @@ export type StartMetadataModelAssessmentError =
   | S3ResourceNotFoundFault
   | CommonErrors;
 /**
- * Creates a database migration assessment report by assessing the migration complexity for
- * your source database. A database migration assessment report summarizes all of the schema
- * conversion tasks. It also details the action items for database objects that can't be
- * converted to the database engine of your target database instance.
+ * Queues an assessment of the selected source metadata models (database objects such as
+ * tables, views, and procedures) to evaluate conversion complexity to the target database
+ * format. If other requests created by `Start*` operations are already in the
+ * migration project's queue, the assessment begins after they complete.
+ *
+ * The assessment request loads metadata models that are not yet in the metadata tree, but
+ * does not reload metadata models that are already present. If your source database has
+ * changed since the metadata was loaded, refresh the affected metadata models with
+ * StartMetadataModelImport before calling this operation.
+ *
+ * To check the status of the assessment request, call
+ * DescribeMetadataModelAssessments using the returned
+ * `RequestIdentifier` as a filter.
+ *
+ * To export the conversion assessment report after the request completes successfully,
+ * call ExportMetadataModelAssessment.
+ *
+ * **Required permissions:**
+ * `dms:StartMetadataModelAssessment`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startMetadataModelAssessment: API.OperationMethod<
   StartMetadataModelAssessmentMessage,
@@ -10934,7 +11089,48 @@ export type StartMetadataModelConversionError =
   | S3ResourceNotFoundFault
   | CommonErrors;
 /**
- * Converts your source database objects to a format compatible with the target database.
+ * Queues a conversion of the selected source metadata models (database objects such as
+ * tables, views, and procedures) to the target database format. If other requests created
+ * by `Start*` operations are already in the migration project's queue, the
+ * conversion begins after they complete.
+ *
+ * The conversion request loads metadata models that are not yet in the metadata tree, but
+ * does not reload metadata models that are already present. If your source database has
+ * changed since the metadata was loaded, refresh the affected metadata models with
+ * StartMetadataModelImport before calling this operation.
+ *
+ * If converted objects already exist in the target metadata tree, the conversion
+ * overwrites them, including any manual edits.
+ *
+ * To check the status of the conversion request, call
+ * DescribeMetadataModelConversions using the returned
+ * `RequestIdentifier` as a filter.
+ *
+ * To cancel a queued or in-progress request, call
+ * CancelMetadataModelConversion with the returned
+ * `RequestIdentifier`.
+ *
+ * After the conversion completes successfully:
+ *
+ * - To export a post-conversion assessment report, call
+ * ExportMetadataModelAssessment.
+ *
+ * - To retrieve converted code, use any of the following
+ * options:
+ *
+ * - DescribeMetadataModel and
+ * DescribeMetadataModelChildren – navigate the target metadata
+ * tree and retrieve converted definitions.
+ *
+ * - StartMetadataModelExportAsScript – export as data definition
+ * language (DDL) scripts to your Amazon S3 bucket.
+ *
+ * - StartMetadataModelExportToTarget – apply directly to your
+ * target database.
+ *
+ * **Required permissions:**
+ * `dms:StartMetadataModelConversion`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startMetadataModelConversion: API.OperationMethod<
   StartMetadataModelConversionMessage,
@@ -10966,9 +11162,36 @@ export type StartMetadataModelCreationError =
   | ResourceQuotaExceededFault
   | CommonErrors;
 /**
- * Creates source metadata model of the given type with the specified properties for schema conversion operations.
+ * Queues the creation of a metadata model in the source metadata tree. If other requests
+ * created by `Start*` operations are already in the migration project's queue, the
+ * creation begins after they complete.
  *
- * This action supports only these directions: from SQL Server to Aurora PostgreSQL, or from SQL Server to RDS for PostgreSQL.
+ * This operation supports only Microsoft SQL Server to Aurora PostgreSQL and
+ * Microsoft SQL Server to Amazon RDS for PostgreSQL conversion paths.
+ *
+ * To check the status of the creation request, call
+ * DescribeMetadataModelCreations using the returned
+ * `RequestIdentifier` as a filter.
+ *
+ * To cancel a queued or in-progress request, call
+ * CancelMetadataModelCreation with the returned
+ * `RequestIdentifier`.
+ *
+ * Calling
+ * StartMetadataModelImport with `Refresh` deletes metadata models
+ * created by this operation.
+ *
+ * After the creation completes successfully:
+ *
+ * - To evaluate conversion complexity, call
+ * StartMetadataModelAssessment.
+ *
+ * - To convert to the target database format, call
+ * StartMetadataModelConversion.
+ *
+ * **Required permissions:**
+ * `dms:StartMetadataModelCreation`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startMetadataModelCreation: API.OperationMethod<
   StartMetadataModelCreationMessage,
@@ -11000,8 +11223,23 @@ export type StartMetadataModelExportAsScriptError =
   | S3ResourceNotFoundFault
   | CommonErrors;
 /**
- * Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3
- * bucket.
+ * Queues an export of metadata models (database objects such as tables, views, and
+ * procedures) as a data definition language (DDL) script. The script is stored as a ZIP
+ * archive in the Amazon S3 bucket associated with the migration project. If other requests
+ * created by `Start*` operations are already in the migration project's queue,
+ * the export begins after they complete.
+ *
+ * When exporting from the target metadata tree, the export applies only to metadata
+ * models created by conversion. Metadata models imported from the database are
+ * skipped.
+ *
+ * To check the status of the export request, call
+ * DescribeMetadataModelExportsAsScript using the returned
+ * `RequestIdentifier` as a filter.
+ *
+ * **Required permissions:**
+ * `dms:StartMetadataModelExportAsScripts`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startMetadataModelExportAsScript: API.OperationMethod<
   StartMetadataModelExportAsScriptMessage,
@@ -11037,7 +11275,29 @@ export type StartMetadataModelExportToTargetError =
   | S3ResourceNotFoundFault
   | CommonErrors;
 /**
- * Applies converted database objects to your target database.
+ * Queues an export of the selected converted metadata models (database objects such as
+ * tables, views, and procedures) to your target database. If other requests created by
+ * `Start*` operations are already in the migration project's queue, the export
+ * begins after they complete.
+ *
+ * This operation requires a non-virtual target data provider.
+ *
+ * The export applies only metadata models created by conversion. Metadata models
+ * imported from the database are skipped.
+ *
+ * If objects with the same name already exist on the target database, the export
+ * overwrites them.
+ *
+ * The operation installs the extension pack on the target database. For more
+ * information, see Using extension packs in DMS Schema Conversion.
+ *
+ * To check the status of the export request, call
+ * DescribeMetadataModelExportsToTarget using the returned
+ * `RequestIdentifier` as a filter.
+ *
+ * **Required permissions:**
+ * `dms:StartMetadataModelExportToTarget`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startMetadataModelExportToTarget: API.OperationMethod<
   StartMetadataModelExportToTargetMessage,
@@ -11073,10 +11333,18 @@ export type StartMetadataModelImportError =
   | S3ResourceNotFoundFault
   | CommonErrors;
 /**
- * Loads the metadata for all the dependent database objects of the parent object.
+ * Queues an import of metadata models (database objects such as tables, views, and
+ * procedures) from your data provider into the metadata tree. If other requests created
+ * by `Start*` operations are already in the migration project's queue, the
+ * import begins after they complete.
  *
- * This operation uses your project's Amazon S3 bucket as a metadata cache to improve
- * performance.
+ * To check the status of the import request, call
+ * DescribeMetadataModelImports using the returned
+ * `RequestIdentifier` as a filter.
+ *
+ * **Required permissions:**
+ * `dms:StartMetadataModelImport`. For more information, see
+ * Actions, resources, and condition keys for Database Migration Service.
  */
 export const startMetadataModelImport: API.OperationMethod<
   StartMetadataModelImportMessage,

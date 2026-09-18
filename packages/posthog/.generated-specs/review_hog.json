@@ -1,0 +1,1972 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.review_hog#ListReviewHogBlindSpotsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.review_hog#ReviewBlindSpotsConfig": {
+      "type": "structure",
+      "members": {
+        "skill_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the `review-hog-blind-spots-*` skill this row represents (the sweep's identity).",
+            "smithy.api#required": {}
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this blind-spots skill runs the sweep on the requesting user's PR reviews on this project.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The blind-spots skill's description, for display in the config UI.",
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The blind-spots skill's SKILL.md body, for the read-only skill viewer.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ListReviewHogBlindSpotsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.review_hog#ReviewBlindSpotsConfig"
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ListReviewHogBlindSpotsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.review_hog#ListReviewHogBlindSpotsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.review_hog#ListReviewHogBlindSpots": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.review_hog#ListReviewHogBlindSpotsRequest"
+      },
+      "output": {
+        "target": "com.posthog.review_hog#ListReviewHogBlindSpotsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/review_hog/blind_spots/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List blind-spots skills and which one is active\n\nList the `review-hog-blind-spots-*` skills visible to the requesting user — the canonical skill plus the customs they authored — flagging the one active for them. The canonical skill is auto-seeded active on the first read; a custom skill the user has not selected shows as inactive."
+      }
+    },
+    "com.posthog.review_hog#UpdateReviewHogBlindSpotsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "skill_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set true to make this the single blind-spots skill that runs on the user's PR reviews. Only true is accepted — the blind-spot check is single-active, so you switch by selecting a different skill, not by deactivating the current one."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.review_hog#UpdateReviewHogBlindSpotsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.review_hog#UpdateReviewHogBlindSpotsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.review_hog#ReviewBlindSpotsConfig"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.review_hog#BadRequest"
+        },
+        {
+          "target": "com.posthog.review_hog#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/review_hog/blind_spots/{skill_name}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Select the active blind-spots skill\n\nMake a `review-hog-blind-spots-*` skill the single sweep that runs on the requesting user's PR reviews, switching the user's other blind-spots skills off in the same call. Only skills visible to the user — the canonical plus the customs they authored — can be selected; anything else 404s. Upserts the per-user config row, so selecting a freshly authored custom skill works in one call."
+      }
+    },
+    "com.posthog.review_hog#ListReviewHogPerspectivesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.review_hog#ReviewPerspectiveConfig": {
+      "type": "structure",
+      "members": {
+        "skill_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the `review-hog-perspective-*` skill this row toggles (the perspective's identity).",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this perspective runs on the acting user's PR reviews on this project.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The perspective skill's description, for display in the config UI.",
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The perspective skill's SKILL.md body, for the read-only skill viewer.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ListReviewHogPerspectivesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.review_hog#ReviewPerspectiveConfig"
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ListReviewHogPerspectivesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.review_hog#ListReviewHogPerspectivesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.review_hog#ListReviewHogPerspectives": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.review_hog#ListReviewHogPerspectivesRequest"
+      },
+      "output": {
+        "target": "com.posthog.review_hog#ListReviewHogPerspectivesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/review_hog/perspectives/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List review perspectives and their enablement\n\nList the `review-hog-perspective-*` skills visible to the requesting user — the canonical perspectives plus the customs they authored — joined with their enable state. The 3 canonical perspectives are auto-seeded enabled on the first read; a custom perspective the user has not switched on shows as disabled."
+      }
+    },
+    "com.posthog.review_hog#UpdateReviewHogPerspectivesPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "skill_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set true to run this perspective on the user's PR reviews, false to stop running it."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.review_hog#UpdateReviewHogPerspectivesPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.review_hog#UpdateReviewHogPerspectivesPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.review_hog#ReviewPerspectiveConfig"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.review_hog#BadRequest"
+        },
+        {
+          "target": "com.posthog.review_hog#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/review_hog/perspectives/{skill_name}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Enable or disable a review perspective\n\nToggle whether a `review-hog-perspective-*` skill runs on the requesting user's PR reviews. Only skills visible to the user — the canonicals plus the customs they authored — can be toggled; anything else 404s. Upserts the per-user config row, so enabling a freshly authored custom perspective works in one call. Rejected if it would leave the user with no enabled perspective."
+      }
+    },
+    "com.posthog.review_hog#ListReviewHogResolutionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.review_hog#ReviewResolutionConfig": {
+      "type": "structure",
+      "members": {
+        "skill_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the `review-hog-resolution-*` skill this row represents (the criteria's identity).",
+            "smithy.api#required": {}
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether these criteria drive the resolution stage on the requesting user's PRs on this project.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resolution skill's description, for display in the config UI.",
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resolution skill's SKILL.md body, for the read-only skill viewer.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ListReviewHogResolutionResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.review_hog#ReviewResolutionConfig"
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ListReviewHogResolutionResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.review_hog#ListReviewHogResolutionResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.review_hog#ListReviewHogResolution": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.review_hog#ListReviewHogResolutionRequest"
+      },
+      "output": {
+        "target": "com.posthog.review_hog#ListReviewHogResolutionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/review_hog/resolution/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List resolution criteria and which one is active\n\nList the `review-hog-resolution-*` skills visible to the requesting user — the canonical criteria plus the customs they authored — flagging the one active for them. The canonical skill is auto-seeded active on the first read; a custom skill the user has not selected shows as inactive."
+      }
+    },
+    "com.posthog.review_hog#UpdateReviewHogResolutionPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "skill_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set true to make these the single resolution criteria applied on the user's PRs. Only true is accepted — resolution criteria are single-active, so you switch by selecting a different skill, not by deactivating the current one."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.review_hog#UpdateReviewHogResolutionPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.review_hog#UpdateReviewHogResolutionPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.review_hog#ReviewResolutionConfig"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.review_hog#BadRequest"
+        },
+        {
+          "target": "com.posthog.review_hog#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/review_hog/resolution/{skill_name}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Select the active resolution criteria\n\nMake a `review-hog-resolution-*` skill the single criteria the resolution stage applies on the requesting user's PRs, switching the user's other resolution skills off in the same call. Only skills visible to the user — the canonical plus the customs they authored — can be selected; anything else 404s. Upserts the per-user config row, so selecting a freshly authored custom skill works in one call."
+      }
+    },
+    "com.posthog.review_hog#ListReviewHogReviewsRequestScope": {
+      "type": "enum",
+      "members": {
+        "MINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mine"
+          }
+        },
+        "EVERYONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "everyone"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ListReviewHogReviewsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum rows to return. The list grows this instead of paging by offset — in-progress rows reorder the list between refreshes, so offset pages would shift under the reader."
+          }
+        },
+        "scope": {
+          "target": "com.posthog.review_hog#ListReviewHogReviewsRequestScope",
+          "traits": {
+            "smithy.api#httpQuery": "scope",
+            "smithy.api#documentation": "Whose reviews to list: `mine` (the default) for reviews the requesting user ran plus reviews of pull requests they authored (matched via their linked GitHub login), `everyone` for every review on this project.\n\n* `mine` - mine\n* `everyone` - everyone"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.review_hog#ReviewRecentReviewsPage": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.review_hog#ReviewRecentReviewsPageResultsList",
+          "traits": {
+            "smithy.api#documentation": "The scoped reviews: in-progress runs first, then completed newest first.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether reviews exist beyond this page — drives the list's \"Show more\" button.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ReviewRecentReview": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The review report's id, for fetching the review's detail.",
+            "smithy.api#required": {}
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reviewed repository, as `owner/repo`.",
+            "smithy.api#required": {}
+          }
+        },
+        "pr_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The reviewed pull request's number; null for a branch target with no PR yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pr_title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The pull request's title, from the latest reviewed snapshot; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pr_author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The pull request author's GitHub login; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "additions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lines added by the PR; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deletions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lines deleted by the PR; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "changed_files": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Files the PR changes; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "head_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The pull request's head branch.",
+            "smithy.api#required": {}
+          }
+        },
+        "github_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where to see the review on GitHub: the pull request when its URL is known, otherwise the head branch.",
+            "smithy.api#required": {}
+          }
+        },
+        "run_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many review turns have completed on this report.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_run_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the latest review turn completed; null while the first is in flight.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "published": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a review has been published back to GitHub.",
+            "smithy.api#required": {}
+          }
+        },
+        "in_progress": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a run is on this report right now: a review turn or a resolution run (activity within the last 30 minutes).",
+            "smithy.api#required": {}
+          }
+        },
+        "progress": {
+          "target": "com.posthog.review_hog#ReviewProgress",
+          "traits": {
+            "smithy.api#documentation": "The in-flight review turn's stage and counters; null unless a review turn is running (a resolving report carries `resolution` instead).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resolution": {
+          "target": "com.posthog.review_hog#ReviewResolutionStatus",
+          "traits": {
+            "smithy.api#documentation": "The report's latest resolution run (settling the PR's review threads): live progress while it runs, or where it stopped when it died partway. Null when there is none, it completed, or a newer review turn superseded it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "must_fix_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The latest turn's valid findings at must_fix effective priority.",
+            "smithy.api#required": {}
+          }
+        },
+        "should_fix_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The latest turn's valid findings at should_fix effective priority.",
+            "smithy.api#required": {}
+          }
+        },
+        "consider_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The latest turn's valid findings at consider effective priority.",
+            "smithy.api#required": {}
+          }
+        },
+        "candidate_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "All findings the latest turn raised after dedupe, before validation.",
+            "smithy.api#required": {}
+          }
+        },
+        "dismissed_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The latest turn's findings the validator dismissed as not worth publishing.",
+            "smithy.api#required": {}
+          }
+        },
+        "files_reviewed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Meaningful files the latest turn actually read, after skipping generated/lock/snapshot files; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "chunk_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Reviewable chunks the latest turn split the PR into; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "perspective_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Review perspectives that read each chunk in the latest turn; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "perspective_issue_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Raw issues the perspectives raised in the latest turn, before dedupe; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "blind_spot_issue_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Raw issues the blind-spot sweep added in the latest turn, before dedupe; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ReviewProgress": {
+      "type": "structure",
+      "members": {
+        "review_stage": {
+          "target": "com.posthog.review_hog#ReviewStageEnum",
+          "traits": {
+            "smithy.api#documentation": "How far the in-flight review turn has come: fetching the diff, chunking, picking each chunk's perspectives, reviewing chunks, merging overlapping findings, validating them, or finalizing (building and publishing the review).\n\n* `fetching` - fetching\n* `chunking` - chunking\n* `selecting` - selecting\n* `reviewing` - reviewing\n* `deduplicating` - deduplicating\n* `validating` - validating\n* `finalizing` - finalizing",
+            "smithy.api#required": {}
+          }
+        },
+        "done": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Work units finished within the stage; null when the stage has no counter.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Work units the stage expects in total; null when unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ReviewStageEnum": {
+      "type": "enum",
+      "members": {
+        "FETCHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fetching"
+          }
+        },
+        "CHUNKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chunking"
+          }
+        },
+        "SELECTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selecting"
+          }
+        },
+        "REVIEWING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reviewing"
+          }
+        },
+        "DEDUPLICATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deduplicating"
+          }
+        },
+        "VALIDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validating"
+          }
+        },
+        "FINALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "finalizing"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `fetching` - fetching\n* `chunking` - chunking\n* `selecting` - selecting\n* `reviewing` - reviewing\n* `deduplicating` - deduplicating\n* `validating` - validating\n* `finalizing` - finalizing"
+      }
+    },
+    "com.posthog.review_hog#ReviewResolutionStatus": {
+      "type": "structure",
+      "members": {
+        "resolution_status": {
+          "target": "com.posthog.review_hog#ResolutionStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Where the run stands: `resolving` while threads are being settled, `stopped` when the run died partway (went quiet with no closing summary).\n\n* `resolving` - resolving\n* `stopped` - stopped",
+            "smithy.api#required": {}
+          }
+        },
+        "done": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Queued threads settled so far this run.",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Threads queued for this run.",
+            "smithy.api#required": {}
+          }
+        },
+        "fixed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Settled threads that were fixed with a commit to the branch.",
+            "smithy.api#required": {}
+          }
+        },
+        "needs_attention": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Settled threads left for the author: judged worth doing but not safe to fix unattended.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ResolutionStatusEnum": {
+      "type": "enum",
+      "members": {
+        "RESOLVING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resolving"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `resolving` - resolving\n* `stopped` - stopped"
+      }
+    },
+    "com.posthog.review_hog#ReviewRecentReviewsPageResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.review_hog#ReviewRecentReview"
+      },
+      "traits": {
+        "smithy.api#documentation": "The scoped reviews: in-progress runs first, then completed newest first."
+      }
+    },
+    "com.posthog.review_hog#ListReviewHogReviews": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.review_hog#ListReviewHogReviewsRequest"
+      },
+      "output": {
+        "target": "com.posthog.review_hog#ReviewRecentReviewsPage"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/review_hog/reviews/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List recent reviews\n\nRecent ReviewHog reviews on this project: actively running reviews first (with the in-flight turn's stage), then the most recent completed ones — at most `limit` rows (default 5), plus `has_more` for whether a larger `limit` would reveal more. By default only the requesting user's reviews; `scope=everyone` lists every review on the project."
+      }
+    },
+    "com.posthog.review_hog#GetReviewHogReviewRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this review report."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.review_hog#ReviewDetail": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The review report's id, for fetching the review's detail.",
+            "smithy.api#required": {}
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reviewed repository, as `owner/repo`.",
+            "smithy.api#required": {}
+          }
+        },
+        "pr_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The reviewed pull request's number; null for a branch target with no PR yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pr_title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The pull request's title, from the latest reviewed snapshot; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pr_author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The pull request author's GitHub login; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "additions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lines added by the PR; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deletions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lines deleted by the PR; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "changed_files": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Files the PR changes; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "head_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The pull request's head branch.",
+            "smithy.api#required": {}
+          }
+        },
+        "github_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where to see the review on GitHub: the pull request when its URL is known, otherwise the head branch.",
+            "smithy.api#required": {}
+          }
+        },
+        "run_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many review turns have completed on this report.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_run_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the latest review turn completed; null while the first is in flight.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "published": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a review has been published back to GitHub.",
+            "smithy.api#required": {}
+          }
+        },
+        "in_progress": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a run is on this report right now: a review turn or a resolution run (activity within the last 30 minutes).",
+            "smithy.api#required": {}
+          }
+        },
+        "progress": {
+          "target": "com.posthog.review_hog#ReviewProgress",
+          "traits": {
+            "smithy.api#documentation": "The in-flight review turn's stage and counters; null unless a review turn is running (a resolving report carries `resolution` instead).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resolution": {
+          "target": "com.posthog.review_hog#ReviewResolutionStatus",
+          "traits": {
+            "smithy.api#documentation": "The report's latest resolution run (settling the PR's review threads): live progress while it runs, or where it stopped when it died partway. Null when there is none, it completed, or a newer review turn superseded it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "must_fix_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The latest turn's valid findings at must_fix effective priority.",
+            "smithy.api#required": {}
+          }
+        },
+        "should_fix_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The latest turn's valid findings at should_fix effective priority.",
+            "smithy.api#required": {}
+          }
+        },
+        "consider_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The latest turn's valid findings at consider effective priority.",
+            "smithy.api#required": {}
+          }
+        },
+        "candidate_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "All findings the latest turn raised after dedupe, before validation.",
+            "smithy.api#required": {}
+          }
+        },
+        "dismissed_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The latest turn's findings the validator dismissed as not worth publishing.",
+            "smithy.api#required": {}
+          }
+        },
+        "files_reviewed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Meaningful files the latest turn actually read, after skipping generated/lock/snapshot files; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "chunk_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Reviewable chunks the latest turn split the PR into; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "perspective_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Review perspectives that read each chunk in the latest turn; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "perspective_issue_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Raw issues the perspectives raised in the latest turn, before dedupe; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "blind_spot_issue_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Raw issues the blind-spot sweep added in the latest turn, before dedupe; null if unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "head_sha": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The PR head commit the latest turn reviewed — anchors GitHub links to the exact code.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "perspective_selection": {
+          "target": "com.posthog.review_hog#ReviewPerspectiveSelection",
+          "traits": {
+            "smithy.api#documentation": "The selector's per-chunk perspective plan for the latest turn; null when the turn ran without a selection (selector unavailable, failed, or the run predates it).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "report_markdown": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The rendered review body published to GitHub, as markdown.",
+            "smithy.api#required": {}
+          }
+        },
+        "run_urgency_threshold": {
+          "target": "com.posthog.review_hog#ReviewIssuePriorityEnum",
+          "traits": {
+            "smithy.api#documentation": "The urgency threshold the completed turn's publishing gated on (stamped at finalize from the run's own resolve snapshot); null for turns that predate its recording — readers fall back to the viewer's current setting as an approximation.\n\n* `must_fix` - must_fix\n* `should_fix` - should_fix\n* `consider` - consider",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "findings": {
+          "target": "com.posthog.review_hog#ReviewDetailFindingsList",
+          "traits": {
+            "smithy.api#documentation": "The latest turn's validated findings, most urgent first.",
+            "smithy.api#required": {}
+          }
+        },
+        "dismissed_findings": {
+          "target": "com.posthog.review_hog#ReviewDetailDismissedFindingsList",
+          "traits": {
+            "smithy.api#documentation": "The latest turn's findings the validator dismissed, with its reasoning.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ReviewPerspectiveSelection": {
+      "type": "structure",
+      "members": {
+        "roster": {
+          "target": "com.posthog.review_hog#ReviewPerspectiveSelectionRosterList",
+          "traits": {
+            "smithy.api#documentation": "Every enabled perspective the selector chose from, in pass order.",
+            "smithy.api#required": {}
+          }
+        },
+        "chunks": {
+          "target": "com.posthog.review_hog#ReviewPerspectiveSelectionChunksList",
+          "traits": {
+            "smithy.api#documentation": "Per-chunk picks with reasons, in chunk order.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ReviewPerspectiveSelectionRosterList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every enabled perspective the selector chose from, in pass order."
+      }
+    },
+    "com.posthog.review_hog#ReviewSelectionChunk": {
+      "type": "structure",
+      "members": {
+        "chunk_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The chunk this row describes, as numbered by the chunker.",
+            "smithy.api#required": {}
+          }
+        },
+        "chunk_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The chunker's category for the chunk; null on the deterministic single-chunk path.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "files": {
+          "target": "com.posthog.review_hog#ReviewSelectionChunkFilesList",
+          "traits": {
+            "smithy.api#documentation": "The chunk's files, from the turn's chunk set.",
+            "smithy.api#required": {}
+          }
+        },
+        "perspectives": {
+          "target": "com.posthog.review_hog#ReviewSelectionChunkPerspectivesList",
+          "traits": {
+            "smithy.api#documentation": "Perspectives the selector ran on this chunk, in pass order.",
+            "smithy.api#required": {}
+          }
+        },
+        "skipped": {
+          "target": "com.posthog.review_hog#ReviewSelectionChunkSkippedList",
+          "traits": {
+            "smithy.api#documentation": "Roster perspectives the selector skipped on this chunk, in pass order.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The selector's one-line reasoning for this chunk's picks.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ReviewSelectionChunkFilesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The chunk's files, from the turn's chunk set."
+      }
+    },
+    "com.posthog.review_hog#ReviewSelectionChunkPerspectivesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Perspectives the selector ran on this chunk, in pass order."
+      }
+    },
+    "com.posthog.review_hog#ReviewSelectionChunkSkippedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roster perspectives the selector skipped on this chunk, in pass order."
+      }
+    },
+    "com.posthog.review_hog#ReviewPerspectiveSelectionChunksList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.review_hog#ReviewSelectionChunk"
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-chunk picks with reasons, in chunk order."
+      }
+    },
+    "com.posthog.review_hog#ReviewIssuePriorityEnum": {
+      "type": "enum",
+      "members": {
+        "MUST_FIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "must_fix"
+          }
+        },
+        "SHOULD_FIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "should_fix"
+          }
+        },
+        "CONSIDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "consider"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `must_fix` - must_fix\n* `should_fix` - should_fix\n* `consider` - consider"
+      }
+    },
+    "com.posthog.review_hog#ReviewFinding": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "One-line summary of the finding.",
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository-relative path of the affected file.",
+            "smithy.api#required": {}
+          }
+        },
+        "lines": {
+          "target": "com.posthog.review_hog#ReviewFindingLinesList",
+          "traits": {
+            "smithy.api#documentation": "Affected line ranges within the file.",
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the problem.",
+            "smithy.api#required": {}
+          }
+        },
+        "suggestion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The specific fix or improvement the reviewer proposes.",
+            "smithy.api#required": {}
+          }
+        },
+        "effective_priority": {
+          "target": "com.posthog.review_hog#ReviewIssuePriorityEnum",
+          "traits": {
+            "smithy.api#documentation": "The priority that gates publishing: the validator's override when set, else the reviewer's.\n\n* `must_fix` - must_fix\n* `should_fix` - should_fix\n* `consider` - consider",
+            "smithy.api#required": {}
+          }
+        },
+        "reviewer_priority": {
+          "target": "com.posthog.review_hog#ReviewIssuePriorityEnum",
+          "traits": {
+            "smithy.api#documentation": "The reviewer's original priority, before any validator override.\n\n* `must_fix` - must_fix\n* `should_fix` - should_fix\n* `consider` - consider",
+            "smithy.api#required": {}
+          }
+        },
+        "source_perspective": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The review skill that produced the finding (perspective or blind-spot sweep).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "validator_category": {
+          "target": "com.posthog.review_hog#ValidatorCategoryEnum",
+          "traits": {
+            "smithy.api#documentation": "The validator's category for the finding; null when it didn't set one.\n\n* `bug` - bug\n* `security` - security\n* `performance` - performance\n* `code_quality` - code_quality\n* `best_practice` - best_practice\n* `documentation` - documentation\n* `testing` - testing\n* `accessibility` - accessibility\n* `compatibility` - compatibility",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "validator_note": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The validator's argumentation for keeping or dismissing the finding.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ReviewFindingLineRange": {
+      "type": "structure",
+      "members": {
+        "start": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "First affected line.",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Last affected line; null for a single line.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ReviewFindingLinesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.review_hog#ReviewFindingLineRange"
+      },
+      "traits": {
+        "smithy.api#documentation": "Affected line ranges within the file."
+      }
+    },
+    "com.posthog.review_hog#ValidatorCategoryEnum": {
+      "type": "enum",
+      "members": {
+        "BUG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bug"
+          }
+        },
+        "SECURITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "security"
+          }
+        },
+        "PERFORMANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "performance"
+          }
+        },
+        "CODE_QUALITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "code_quality"
+          }
+        },
+        "BEST_PRACTICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "best_practice"
+          }
+        },
+        "DOCUMENTATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "documentation"
+          }
+        },
+        "TESTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "testing"
+          }
+        },
+        "ACCESSIBILITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accessibility"
+          }
+        },
+        "COMPATIBILITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "compatibility"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `bug` - bug\n* `security` - security\n* `performance` - performance\n* `code_quality` - code_quality\n* `best_practice` - best_practice\n* `documentation` - documentation\n* `testing` - testing\n* `accessibility` - accessibility\n* `compatibility` - compatibility"
+      }
+    },
+    "com.posthog.review_hog#ReviewDetailFindingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.review_hog#ReviewFinding"
+      },
+      "traits": {
+        "smithy.api#documentation": "The latest turn's validated findings, most urgent first."
+      }
+    },
+    "com.posthog.review_hog#ReviewDetailDismissedFindingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.review_hog#ReviewFinding"
+      },
+      "traits": {
+        "smithy.api#documentation": "The latest turn's findings the validator dismissed, with its reasoning."
+      }
+    },
+    "com.posthog.review_hog#GetReviewHogReview": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.review_hog#GetReviewHogReviewRequest"
+      },
+      "output": {
+        "target": "com.posthog.review_hog#ReviewDetail"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.review_hog#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/review_hog/reviews/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve one review's detail\n\nOne completed ReviewHog review on this project, with the latest turn's validated findings, the findings the validator dismissed (and why), and the review body published to GitHub. Project-wide, so reviews listed under `scope=everyone` can be opened too."
+      }
+    },
+    "com.posthog.review_hog#GetReviewHogReviewsPerspectiveStatRequestScope": {
+      "type": "enum",
+      "members": {
+        "MINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mine"
+          }
+        },
+        "EVERYONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "everyone"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#GetReviewHogReviewsPerspectiveStatRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "scope": {
+          "target": "com.posthog.review_hog#GetReviewHogReviewsPerspectiveStatRequestScope",
+          "traits": {
+            "smithy.api#httpQuery": "scope",
+            "smithy.api#documentation": "Whose reviews to aggregate: `mine` (the default) for reviews the requesting user ran plus reviews of pull requests they authored (matched via their linked GitHub login), `everyone` for every review on this project.\n\n* `mine` - mine\n* `everyone` - everyone"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.review_hog#ReviewPerspectiveStats": {
+      "type": "structure",
+      "members": {
+        "report_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many recent completed reviews the stats aggregate over.",
+            "smithy.api#required": {}
+          }
+        },
+        "perspectives": {
+          "target": "com.posthog.review_hog#ReviewPerspectiveStatsPerspectivesList",
+          "traits": {
+            "smithy.api#documentation": "Per-skill effectiveness across those reviews, most kept findings first.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ReviewPerspectiveStatItem": {
+      "type": "structure",
+      "members": {
+        "skill_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The review skill (perspective or blind-spot sweep) that raised the findings.",
+            "smithy.api#required": {}
+          }
+        },
+        "raised": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Findings this skill raised across the aggregated reviews (post-dedupe candidates).",
+            "smithy.api#required": {}
+          }
+        },
+        "kept": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Of those, findings the validator kept.",
+            "smithy.api#required": {}
+          }
+        },
+        "dismissed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Of those, findings the validator dismissed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ReviewPerspectiveStatsPerspectivesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.review_hog#ReviewPerspectiveStatItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-skill effectiveness across those reviews, most kept findings first."
+      }
+    },
+    "com.posthog.review_hog#GetReviewHogReviewsPerspectiveStat": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.review_hog#GetReviewHogReviewsPerspectiveStatRequest"
+      },
+      "output": {
+        "target": "com.posthog.review_hog#ReviewPerspectiveStats"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/review_hog/reviews/perspective_stats/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Perspective effectiveness stats\n\nHow many findings each review skill (perspective or blind-spot sweep) raised across the recent completed reviews in scope — the requesting user's by default, every review on this project with `scope=everyone` — and how many of those the validator kept vs dismissed."
+      }
+    },
+    "com.posthog.review_hog#ReviewTriggerRequestRunModeEnum": {
+      "type": "enum",
+      "members": {
+        "REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "review"
+          }
+        },
+        "REVIEW_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "review_only"
+          }
+        },
+        "RESOLVE_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resolve_only"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `review` - review\n* `review_only` - review_only\n* `resolve_only` - resolve_only"
+      }
+    },
+    "com.posthog.review_hog#ReviewHogReviewsTriggerCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "pr_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "GitHub pull request URL to review, e.g. 'https://github.com/PostHog/posthog.com/pull/123'. The repository must be accessible to the project's GitHub App installation.",
+            "smithy.api#required": {}
+          }
+        },
+        "run_mode": {
+          "target": "com.posthog.review_hog#ReviewTriggerRequestRunModeEnum",
+          "traits": {
+            "smithy.api#documentation": "What to run on the pull request. 'review' (default) reviews it and, when the requesting user's resolve_comments setting is on, chains the resolution stage; 'review_only' reviews without resolving regardless of that setting; 'resolve_only' skips the review and only runs the resolution stage on the PR's existing unresolved review threads.\n\n* `review` - review\n* `review_only` - review_only\n* `resolve_only` - resolve_only"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.review_hog#ReviewTriggerResponse": {
+      "type": "structure",
+      "members": {
+        "workflow_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporal workflow id for the started review run; empty when no run was started.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Run lifecycle marker: 'started' when the review was queued, 'already_reviewed' when the pull request's current commit already has a published review (no new run starts), 'joined_running_review' when a review was already in flight (no new run starts; a report in a cheaper tier is lifted to human strength for the rest of that review and every later one).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ReviewHogReviewsTriggerCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.review_hog#ReviewHogReviewsTriggerCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.review_hog#ReviewTriggerResponse"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.review_hog#BadRequest"
+        },
+        {
+          "target": "com.posthog.review_hog#Forbidden"
+        },
+        {
+          "target": "com.posthog.review_hog#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/review_hog/reviews/trigger/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Start a review of a pull request\n\nStart a ReviewHog review of any pull request the project's GitHub App installation can access, and publish it back to the PR. The requesting user is the review's acting user: their enabled perspectives, blind-spot check, validator, urgency threshold, and resolution criteria drive the run, and it appears under their recent reviews. `run_mode` picks the variant: a review (which chains the resolution stage per the user's resolve_comments setting), a review without resolving, or resolution only. Nonexistent, closed, and fork PRs are rejected synchronously; a PR whose current commit already has a published review returns 'already_reviewed' without starting a run (resolve_only skips that check — settling threads on a reviewed head is its whole point), and triggering a PR whose run is currently in flight joins that run. Otherwise non-blocking: returns the Temporal workflow id immediately while the run executes in the worker."
+      }
+    },
+    "com.posthog.review_hog#ListReviewHogValidatorsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.review_hog#ReviewValidatorConfig": {
+      "type": "structure",
+      "members": {
+        "skill_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the `review-hog-validation-*` skill this row represents (the validator's identity).",
+            "smithy.api#required": {}
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this validator is the one that validates the requesting user's PR reviews on this project.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The validator skill's description, for display in the config UI.",
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The validator skill's SKILL.md body, for the read-only skill viewer.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ListReviewHogValidatorsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.review_hog#ReviewValidatorConfig"
+      },
+      "traits": {}
+    },
+    "com.posthog.review_hog#ListReviewHogValidatorsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.review_hog#ListReviewHogValidatorsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.review_hog#ListReviewHogValidators": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.review_hog#ListReviewHogValidatorsRequest"
+      },
+      "output": {
+        "target": "com.posthog.review_hog#ListReviewHogValidatorsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/review_hog/validators/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List review validators and which one is active\n\nList the `review-hog-validation-*` skills visible to the requesting user — the canonical validator plus the customs they authored — flagging the one active for them. The canonical validator is auto-seeded active on the first read; a custom validator the user has not selected shows as inactive."
+      }
+    },
+    "com.posthog.review_hog#UpdateReviewHogValidatorsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "skill_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set true to make this the single validator that runs on the user's PR reviews. Only true is accepted — validators are single-active, so you switch by selecting a different one, not by deactivating the current one."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.review_hog#UpdateReviewHogValidatorsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.review_hog#UpdateReviewHogValidatorsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.review_hog#ReviewValidatorConfig"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.review_hog#BadRequest"
+        },
+        {
+          "target": "com.posthog.review_hog#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/review_hog/validators/{skill_name}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Select the active review validator\n\nMake a `review-hog-validation-*` skill the single validator that runs on the requesting user's PR reviews, switching the user's other validators off in the same call. Only skills visible to the user — the canonical plus the customs they authored — can be selected; anything else 404s. Upserts the per-user config row, so selecting a freshly authored custom validator works in one call."
+      }
+    },
+    "com.posthog.review_hog#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.review_hog#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.posthog.review_hog#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.review_hog#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.posthog.review_hog#ReviewHog": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.review_hog#ListReviewHogBlindSpots"
+        },
+        {
+          "target": "com.posthog.review_hog#UpdateReviewHogBlindSpotsPartial"
+        },
+        {
+          "target": "com.posthog.review_hog#ListReviewHogPerspectives"
+        },
+        {
+          "target": "com.posthog.review_hog#UpdateReviewHogPerspectivesPartial"
+        },
+        {
+          "target": "com.posthog.review_hog#ListReviewHogResolution"
+        },
+        {
+          "target": "com.posthog.review_hog#UpdateReviewHogResolutionPartial"
+        },
+        {
+          "target": "com.posthog.review_hog#ListReviewHogReviews"
+        },
+        {
+          "target": "com.posthog.review_hog#GetReviewHogReview"
+        },
+        {
+          "target": "com.posthog.review_hog#GetReviewHogReviewsPerspectiveStat"
+        },
+        {
+          "target": "com.posthog.review_hog#ReviewHogReviewsTriggerCreate"
+        },
+        {
+          "target": "com.posthog.review_hog#ListReviewHogValidators"
+        },
+        {
+          "target": "com.posthog.review_hog#UpdateReviewHogValidatorsPartial"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

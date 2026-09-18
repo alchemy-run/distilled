@@ -1,0 +1,1040 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.volume#CommitVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NOTE(staffan): Mounting a volume in multiple locations is not supported, so volume_id alone uniquely identifies a volume mount."
+          }
+        },
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set by the runtime when committing a volume mounted in a sandbox sidecar container (used for runtime-driven commit-on-exit). Unset targets the task's main container."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#CommitVolumeResponse": {
+      "type": "structure",
+      "members": {
+        "skipReload": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.volume#CommitVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#CommitVolumeRequest"
+      },
+      "output": {
+        "target": "com.modal.volume#CommitVolumeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeCommit",
+          "code": 200
+        },
+        "smithy.api#documentation": "Volumes"
+      }
+    },
+    "com.modal.volume#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.volume#VolumeCopyFilesRequest": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        },
+        "srcPaths": {
+          "target": "com.modal.volume#StringList"
+        },
+        "dstPath": {
+          "target": "smithy.api#String"
+        },
+        "recursive": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumeCopyFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumeCopyFilesRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeCopyFiles",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#VolumeCopyFiles2Request": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        },
+        "srcPaths": {
+          "target": "com.modal.volume#StringList"
+        },
+        "dstPath": {
+          "target": "smithy.api#String"
+        },
+        "recursive": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumeCopyFiles2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumeCopyFiles2Request"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeCopyFiles2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#DeleteVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#deprecated": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#DeleteVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#DeleteVolumeRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeDelete",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#VolumeGetByIdRequest": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumeMetadata": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "com.modal.volume#VolumeFsVersion"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "creationInfo": {
+          "target": "com.modal.volume#CreationInfo"
+        }
+      }
+    },
+    "com.modal.volume#VolumeFsVersion": {
+      "type": "enum",
+      "members": {
+        "VOLUME_FS_VERSION_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VOLUME_FS_VERSION_UNSPECIFIED"
+          }
+        },
+        "VOLUME_FS_VERSION_V1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VOLUME_FS_VERSION_V1"
+          }
+        },
+        "VOLUME_FS_VERSION_V2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VOLUME_FS_VERSION_V2"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "HTTP/2 tunnel"
+      }
+    },
+    "com.modal.volume#CreationInfo": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "This message is used in metadata for resource objects like Dict, Queue, Volume, etc."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of resource creation"
+          }
+        }
+      }
+    },
+    "com.modal.volume#VolumeGetByIdResponse": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.volume#VolumeMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.volume#VolumeGetById": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumeGetByIdRequest"
+      },
+      "output": {
+        "target": "com.modal.volume#VolumeGetByIdResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeGetById",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#VolumeGetFileRequest": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        },
+        "path": {
+          "target": "smithy.api#String"
+        },
+        "start": {
+          "target": "smithy.api#String"
+        },
+        "len": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumeGetFileResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#Blob"
+        },
+        "dataBlobId": {
+          "target": "smithy.api#String"
+        },
+        "size": {
+          "target": "smithy.api#String"
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "total file size"
+          }
+        },
+        "len": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "file position of first byte returned"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.volume#VolumeGetFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumeGetFileRequest"
+      },
+      "output": {
+        "target": "com.modal.volume#VolumeGetFileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeGetFile",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#VolumeGetFile2Request": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        },
+        "path": {
+          "target": "smithy.api#String"
+        },
+        "start": {
+          "target": "smithy.api#String"
+        },
+        "len": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumeGetFile2Response": {
+      "type": "structure",
+      "members": {
+        "getUrls": {
+          "target": "com.modal.volume#StringList"
+        },
+        "size": {
+          "target": "smithy.api#String"
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "total file size"
+          }
+        },
+        "len": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "file position of first byte returned"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.volume#VolumeGetFile2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumeGetFile2Request"
+      },
+      "output": {
+        "target": "com.modal.volume#VolumeGetFile2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeGetFile2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#ObjectCreationType": {
+      "type": "enum",
+      "members": {
+        "OBJECT_CREATION_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_UNSPECIFIED"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_IF_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_IF_MISSING",
+            "smithy.api#documentation": "just lookup"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
+          }
+        },
+        "OBJECT_CREATION_TYPE_EPHEMERAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_EPHEMERAL",
+            "smithy.api#documentation": "deprecate at some point"
+          }
+        }
+      }
+    },
+    "com.modal.volume#VolumeCreateOptions": {
+      "type": "structure",
+      "members": {
+        "experimentalOptions": {
+          "target": "com.modal.volume#StringMap"
+        }
+      }
+    },
+    "com.modal.volume#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.volume#VolumeGetOrCreateRequest": {
+      "type": "structure",
+      "members": {
+        "deploymentName": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "removed namespace"
+          }
+        },
+        "objectCreationType": {
+          "target": "com.modal.volume#ObjectCreationType"
+        },
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "version": {
+          "target": "com.modal.volume#VolumeFsVersion",
+          "traits": {
+            "smithy.api#documentation": "only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
+          }
+        },
+        "createOptions": {
+          "target": "com.modal.volume#VolumeCreateOptions"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumeGetOrCreateResponse": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        },
+        "version": {
+          "target": "com.modal.volume#VolumeFsVersion"
+        },
+        "metadata": {
+          "target": "com.modal.volume#VolumeMetadata",
+          "traits": {
+            "smithy.api#documentation": "Not used directly; version is part of the metadata"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.volume#VolumeGetOrCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumeGetOrCreateRequest"
+      },
+      "output": {
+        "target": "com.modal.volume#VolumeGetOrCreateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeGetOrCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#VolumeHeartbeatRequest": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumeHeartbeat": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumeHeartbeatRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeHeartbeat",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#ListPagination": {
+      "type": "structure",
+      "members": {
+        "maxObjects": {
+          "target": "smithy.api#Integer"
+        },
+        "createdBefore": {
+          "target": "smithy.api#Double"
+        }
+      }
+    },
+    "com.modal.volume#ListVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "pagination": {
+          "target": "com.modal.volume#ListPagination"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumeListItem": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "smithy.api#String"
+        },
+        "volumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "app name of object entity app"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "metadata": {
+          "target": "com.modal.volume#VolumeMetadata",
+          "traits": {
+            "smithy.api#documentation": "Superseded by metadata, used by clients up to 1.1.2"
+          }
+        }
+      }
+    },
+    "com.modal.volume#VolumeListItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.volume#VolumeListItem"
+      }
+    },
+    "com.modal.volume#ListVolumeResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.modal.volume#VolumeListItemList"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.volume#ListVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#ListVolumeRequest"
+      },
+      "output": {
+        "target": "com.modal.volume#ListVolumeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeList",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#MountFile": {
+      "type": "structure",
+      "members": {
+        "filename": {
+          "target": "smithy.api#String"
+        },
+        "sha256Hex": {
+          "target": "smithy.api#String"
+        },
+        "size": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SHA-256 checksum of the file."
+          }
+        },
+        "mode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size of the file in bytes — ignored in MountBuild()."
+          }
+        }
+      }
+    },
+    "com.modal.volume#MountFileList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.volume#MountFile"
+      }
+    },
+    "com.modal.volume#VolumePutFilesRequest": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        },
+        "files": {
+          "target": "com.modal.volume#MountFileList",
+          "traits": {
+            "smithy.api#documentation": "TODO(staffan): This is obviously unfortunately named, but provides what we need - consider renaming."
+          }
+        },
+        "disallowOverwriteExistingFiles": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If set to true, prevent overwriting existing files. (Note that we don't allow overwriting existing directories with uploaded files regardless.)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumePutFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumePutFilesRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumePutFiles",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#VolumePutFiles2RequestFile": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination path of the file to be uploaded, including any parent dirs etc.; for example \"foo/bar/baz.txt\""
+          }
+        },
+        "size": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total size of the file, in bytes."
+          }
+        },
+        "blocks": {
+          "target": "com.modal.volume#VolumePutFiles2RequestBlockList",
+          "traits": {
+            "smithy.api#documentation": "The blocks, in units of 8MiB, that this file consists of."
+          }
+        },
+        "mode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix file permission bits `st_mode`."
+          }
+        }
+      }
+    },
+    "com.modal.volume#VolumePutFiles2RequestBlock": {
+      "type": "structure",
+      "members": {
+        "contentsSha256": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "The SHA256 digest of the contents of this block, in raw (ie. 32 bytes) form for compactness."
+          }
+        },
+        "putResponse": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "From a previous call to `VolumePutFiles2`, we might have gotten a response indicating that this block was missing. For such a block, this field contains the raw bytes of the body that was returned from the HTTP PUT request when the client made a request for the `put_url` returned in the previous `VolumePutFiles2Response`."
+          }
+        }
+      }
+    },
+    "com.modal.volume#VolumePutFiles2RequestBlockList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.volume#VolumePutFiles2RequestBlock"
+      }
+    },
+    "com.modal.volume#VolumePutFiles2RequestFileList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.volume#VolumePutFiles2RequestFile"
+      }
+    },
+    "com.modal.volume#VolumePutFiles2Request": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the volume to put/upload files into."
+          }
+        },
+        "files": {
+          "target": "com.modal.volume#VolumePutFiles2RequestFileList",
+          "traits": {
+            "smithy.api#documentation": "List of files to put/upload."
+          }
+        },
+        "disallowOverwriteExistingFiles": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If set to true, prevent overwriting existing files. (Note that we don't allow overwriting existing directories with uploaded files regardless.)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumePutFiles2ResponseMissingBlock": {
+      "type": "structure",
+      "members": {
+        "fileIndex": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Index of the file in the original `files` field of the request."
+          }
+        },
+        "blockIndex": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The index of the block in the original `files[file_index].blocks` of the request."
+          }
+        },
+        "putUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Make a HTTP PUT request to this endpoint with the blocks' contents as the body."
+          }
+        }
+      }
+    },
+    "com.modal.volume#VolumePutFiles2ResponseMissingBlockList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.volume#VolumePutFiles2ResponseMissingBlock"
+      }
+    },
+    "com.modal.volume#VolumePutFiles2Response": {
+      "type": "structure",
+      "members": {
+        "missingBlocks": {
+          "target": "com.modal.volume#VolumePutFiles2ResponseMissingBlockList",
+          "traits": {
+            "smithy.api#documentation": "Blocks that are currently missing in the volume, because the file did not exist, or because the block checksum from `blocks_sha256` in the request did not match the current contents of the file. Values will be returned sorted by `(file_index, block_index)`. If this field is empty, it means that the files were uploaded successfully and/or that the request was an idempotent no-op."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.volume#VolumePutFiles2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumePutFiles2Request"
+      },
+      "output": {
+        "target": "com.modal.volume#VolumePutFiles2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumePutFiles2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#VolumeReloadRequest": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NOTE(staffan): Mounting a volume in multiple locations is not supported, so volume_id alone uniquely identifies a volume mount."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumeReload": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumeReloadRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeReload",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#VolumeRemoveFileRequest": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        },
+        "path": {
+          "target": "smithy.api#String"
+        },
+        "recursive": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumeRemoveFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumeRemoveFileRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeRemoveFile",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#VolumeRemoveFile2Request": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        },
+        "path": {
+          "target": "smithy.api#String"
+        },
+        "recursive": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumeRemoveFile2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumeRemoveFile2Request"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeRemoveFile2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#RenameVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#RenameVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#RenameVolumeRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeRename",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.volume#VolumeService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.volume#CommitVolume"
+        },
+        {
+          "target": "com.modal.volume#VolumeCopyFiles"
+        },
+        {
+          "target": "com.modal.volume#VolumeCopyFiles2"
+        },
+        {
+          "target": "com.modal.volume#DeleteVolume"
+        },
+        {
+          "target": "com.modal.volume#VolumeGetById"
+        },
+        {
+          "target": "com.modal.volume#VolumeGetFile"
+        },
+        {
+          "target": "com.modal.volume#VolumeGetFile2"
+        },
+        {
+          "target": "com.modal.volume#VolumeGetOrCreate"
+        },
+        {
+          "target": "com.modal.volume#VolumeHeartbeat"
+        },
+        {
+          "target": "com.modal.volume#ListVolume"
+        },
+        {
+          "target": "com.modal.volume#VolumePutFiles"
+        },
+        {
+          "target": "com.modal.volume#VolumePutFiles2"
+        },
+        {
+          "target": "com.modal.volume#VolumeReload"
+        },
+        {
+          "target": "com.modal.volume#VolumeRemoveFile"
+        },
+        {
+          "target": "com.modal.volume#VolumeRemoveFile2"
+        },
+        {
+          "target": "com.modal.volume#RenameVolume"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Volume",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Volume`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

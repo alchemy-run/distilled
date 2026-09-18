@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.huggingface.datasets#GetFolderSizeRequest": {
@@ -92,6 +93,42 @@
         "smithy.api#documentation": "Get folder size\n\nGet the total size of a repository at a given revision, optionally under a specific subpath. Returns the total size in bytes of all files under the specified path (recursively). If a file is stored via Xet/LFS, the LFS file size is used."
       }
     },
+    "com.huggingface.datasets#ListLargeFilesRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.datasets#ListLargeFilesRequestSort": {
+      "type": "enum",
+      "members": {
+        "SIZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "size"
+          }
+        },
+        "PUSHEDAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pushedAt"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.huggingface.datasets#ListLargeFilesRequest": {
       "type": "structure",
       "members": {
@@ -115,10 +152,22 @@
             "smithy.api#httpQuery": "cursor"
           }
         },
+        "direction": {
+          "target": "com.huggingface.datasets#ListLargeFilesRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction"
+          }
+        },
         "limit": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "limit"
+          }
+        },
+        "sort": {
+          "target": "com.huggingface.datasets#ListLargeFilesRequestSort",
+          "traits": {
+            "smithy.api#httpQuery": "sort"
           }
         },
         "xet": {
@@ -5286,6 +5335,12 @@
             "smithy.api#httpQuery": "expiration"
           }
         },
+        "expires_in": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "expires_in"
+          }
+        },
         "encrypted": {
           "target": "smithy.api#Document",
           "traits": {
@@ -6127,6 +6182,12 @@
           "traits": {
             "smithy.api#httpQuery": "before"
           }
+        },
+        "q": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "q"
+          }
         }
       },
       "traits": {
@@ -6169,6 +6230,35 @@
         "target": "com.huggingface.datasets#ListAccessRequestsResponseBodyItemUserOrgsItem"
       },
       "traits": {}
+    },
+    "com.huggingface.datasets#ListAccessRequestsResponseBodyItemUserServiceAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgAvatarUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set when the user is a service account"
+      }
     },
     "com.huggingface.datasets#ListAccessRequestsResponseBodyItemUserVerifiedOrgNamesList": {
       "type": "list",
@@ -6261,6 +6351,12 @@
         "primaryOrgAvatarUrl": {
           "target": "smithy.api#String"
         },
+        "serviceAccount": {
+          "target": "com.huggingface.datasets#ListAccessRequestsResponseBodyItemUserServiceAccount",
+          "traits": {
+            "smithy.api#documentation": "Set when the user is a service account"
+          }
+        },
         "type": {
           "target": "smithy.api#Document",
           "traits": {
@@ -6315,6 +6411,35 @@
         "target": "com.huggingface.datasets#ListAccessRequestsResponseBodyItemGrantedByCase0OrgsItem"
       },
       "traits": {}
+    },
+    "com.huggingface.datasets#ListAccessRequestsResponseBodyItemGrantedByCase0ServiceAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgAvatarUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set when the user is a service account"
+      }
     },
     "com.huggingface.datasets#ListAccessRequestsResponseBodyItemGrantedByCase0": {
       "type": "structure",
@@ -6399,6 +6524,12 @@
         },
         "primaryOrgAvatarUrl": {
           "target": "smithy.api#String"
+        },
+        "serviceAccount": {
+          "target": "com.huggingface.datasets#ListAccessRequestsResponseBodyItemGrantedByCase0ServiceAccount",
+          "traits": {
+            "smithy.api#documentation": "Set when the user is a service account"
+          }
         },
         "type": {
           "target": "smithy.api#Document",

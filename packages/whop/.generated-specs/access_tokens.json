@@ -1,0 +1,185 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.access_tokens#CreateAccessTokenRequestScopedActionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of permission scopes to grant to the access token. If empty or omitted, all permissions from the authenticating credential are inherited. Must be a subset of the credential's permissions."
+      }
+    },
+    "com.whop.access_tokens#CreateAccessTokenRequest": {
+      "type": "structure",
+      "members": {
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to generate the token for, starting with 'biz_'. The API key must have permission to access this company.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The expiration timestamp for the access token. Defaults to 1 hour from now, with a maximum of 3 hours.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scoped_actions": {
+          "target": "com.whop.access_tokens#CreateAccessTokenRequestScopedActionsList",
+          "traits": {
+            "smithy.api#documentation": "An array of permission scopes to grant to the access token. If empty or omitted, all permissions from the authenticating credential are inherited. Must be a subset of the credential's permissions.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user to generate the token for, starting with 'user_'. The API key must have permission to access this user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.access_tokens#AccessToken": {
+      "type": "structure",
+      "members": {
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp after which this access token is no longer valid and must be refreshed.",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed JWT access token string to include in API request Authorization headers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A short-lived access token used to authenticate API requests on behalf of a user."
+      }
+    },
+    "com.whop.access_tokens#CreateAccessToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.access_tokens#CreateAccessTokenRequest"
+      },
+      "output": {
+        "target": "com.whop.access_tokens#AccessToken"
+      },
+      "errors": [
+        {
+          "target": "com.whop.access_tokens#BadRequest"
+        },
+        {
+          "target": "com.whop.access_tokens#Forbidden"
+        },
+        {
+          "target": "com.whop.access_tokens#NotFound"
+        },
+        {
+          "target": "com.whop.access_tokens#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/access_tokens",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create access token\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreate a short-lived access token for authenticating API requests. When using API key authentication, provide company_id or user_id. When using OAuth, the user is derived from the token. Use this token with Whop's web and mobile embedded components."
+      }
+    },
+    "com.whop.access_tokens#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.access_tokens#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.access_tokens#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.access_tokens#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.access_tokens#AccessTokens": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.access_tokens#CreateAccessToken"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

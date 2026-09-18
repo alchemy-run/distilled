@@ -1,0 +1,118 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.clients#Warning": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.modal.clients#WarningWarningType"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.clients#WarningWarningType": {
+      "type": "enum",
+      "members": {
+        "WARNING_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WARNING_TYPE_UNSPECIFIED"
+          }
+        },
+        "WARNING_TYPE_CLIENT_DEPRECATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WARNING_TYPE_CLIENT_DEPRECATION"
+          }
+        },
+        "WARNING_TYPE_RESOURCE_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WARNING_TYPE_RESOURCE_LIMIT"
+          }
+        },
+        "WARNING_TYPE_FUNCTION_CONFIGURATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WARNING_TYPE_FUNCTION_CONFIGURATION"
+          }
+        }
+      }
+    },
+    "com.modal.clients#WarningList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.clients#Warning"
+      }
+    },
+    "com.modal.clients#ClientHelloResponse": {
+      "type": "structure",
+      "members": {
+        "warning": {
+          "target": "smithy.api#String"
+        },
+        "imageBuilderVersion": {
+          "target": "smithy.api#String"
+        },
+        "serverWarnings": {
+          "target": "com.modal.clients#WarningList",
+          "traits": {
+            "smithy.api#documentation": "Deprecated, no longer used in client"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.clients#ClientHello": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.modal.clients#ClientHelloResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ClientHello",
+          "code": 200
+        },
+        "smithy.api#documentation": "Clients"
+      }
+    },
+    "com.modal.clients#ClientService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.clients#ClientHello"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Client",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Client`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

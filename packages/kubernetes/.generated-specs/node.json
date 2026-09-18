@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.kubernetes.node#IoK8sApimachineryPkgApisMetaV1APIGroup": {
@@ -452,7 +453,7 @@
         "metadata": {
           "target": "com.kubernetes.node#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "overhead": {
@@ -956,7 +957,7 @@
         "metadata": {
           "target": "com.kubernetes.node#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "overhead": {
@@ -1419,7 +1420,7 @@
         "metadata": {
           "target": "com.kubernetes.node#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "overhead": {

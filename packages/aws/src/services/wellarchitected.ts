@@ -1,4 +1,5 @@
 import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as redacted from "effect/Redacted";
 import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
 import { AwsProtocol } from "../protocol.ts";
@@ -7,6 +8,7 @@ import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "WellArchitected",
   serviceShapeName: "WellArchitectedApiServiceLambda",
@@ -222,6 +224,333 @@ export const AssociateProfilesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AssociateProfilesResponse",
 }) as any as S.Schema<AssociateProfilesResponse>;
+export type AgentProfileArn = string;
+export type SensitiveString = string | redacted.Redacted<string>;
+export type ContextType = "APPLICATION" | (string & {});
+export const ContextType = S.String;
+
+export type ContextAccountIdList = string[];
+export const ContextAccountIdList = /*@__PURE__*/ S.Array(S.String);
+export type ContextRegionList = string[];
+export const ContextRegionList = /*@__PURE__*/ S.Array(S.String);
+export type ContextAwsServiceList = string[];
+export const ContextAwsServiceList = /*@__PURE__*/ S.Array(S.String);
+export type ContextResourceTypeList = string[];
+export const ContextResourceTypeList = /*@__PURE__*/ S.Array(S.String);
+export interface ContextResourceTag {
+  key: string;
+  value: string;
+}
+export const ContextResourceTag = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotate({
+  identifier: "ContextResourceTag",
+}) as any as S.Schema<ContextResourceTag>;
+export type ContextResourceTagList = ContextResourceTag[];
+export const ContextResourceTagList = /*@__PURE__*/ S.Array(ContextResourceTag);
+export type ApplicationType =
+  | "SAS"
+  | "DESKTOP_APPLICATION"
+  | "OTHER"
+  | (string & {});
+export const ApplicationType = S.String;
+
+export type Criticality =
+  | "MISSION_CRITICAL"
+  | "BUSINESS_CRITICAL"
+  | "NON_CRITICAL"
+  | "TEST_DEVELOPMENT"
+  | (string & {});
+export const Criticality = S.String;
+
+export interface ContextContent {
+  accountIds?: string[];
+  regions?: string[];
+  awsServices?: string[];
+  resourceTypes?: string[];
+  resourceTags?: ContextResourceTag[];
+  applicationOverview?: string | redacted.Redacted<string>;
+  industry?: string | redacted.Redacted<string>;
+  applicationType?: ApplicationType;
+  criticality?: Criticality;
+  architectureOverview?: string | redacted.Redacted<string>;
+  additionalContext?: string | redacted.Redacted<string>;
+}
+export const ContextContent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountIds: S.optional(ContextAccountIdList),
+    regions: S.optional(ContextRegionList),
+    awsServices: S.optional(ContextAwsServiceList),
+    resourceTypes: S.optional(ContextResourceTypeList),
+    resourceTags: S.optional(ContextResourceTagList),
+    applicationOverview: S.optional(SensitiveString),
+    industry: S.optional(SensitiveString),
+    applicationType: S.optional(ApplicationType),
+    criticality: S.optional(Criticality),
+    architectureOverview: S.optional(SensitiveString),
+    additionalContext: S.optional(SensitiveString),
+  }),
+).annotate({ identifier: "ContextContent" }) as any as S.Schema<ContextContent>;
+export interface CreateAgentContextRequest {
+  clientToken?: string;
+  profileArn: string;
+  title: string | redacted.Redacted<string>;
+  contextType: ContextType;
+  content: ContextContent;
+}
+export const CreateAgentContextRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+    title: SensitiveString,
+    contextType: ContextType,
+    content: ContextContent,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/api/v1/agent-profiles/{profileArn}/contexts",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateAgentContextRequest",
+}) as any as S.Schema<CreateAgentContextRequest>;
+export type UUID = string;
+export interface ContextSummary {
+  id: string;
+  profileArn: string;
+  title: string | redacted.Redacted<string>;
+  contextType: ContextType;
+  content: ContextContent;
+  applicationType?: ApplicationType;
+  criticality?: Criticality;
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+}
+export const ContextSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    profileArn: S.String,
+    title: SensitiveString,
+    contextType: ContextType,
+    content: ContextContent,
+    applicationType: S.optional(ApplicationType),
+    criticality: S.optional(Criticality),
+    createdBy: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({ identifier: "ContextSummary" }) as any as S.Schema<ContextSummary>;
+export interface CreateAgentContextResponse {
+  context: ContextSummary;
+}
+export const CreateAgentContextResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ context: ContextSummary }),
+).annotate({
+  identifier: "CreateAgentContextResponse",
+}) as any as S.Schema<CreateAgentContextResponse>;
+export type Pillar =
+  | "COST_OPTIMIZATION"
+  | "SECURITY"
+  | "RESILIENCE"
+  | "PERFORMANCE"
+  | "OPERATIONAL_EXCELLENCE"
+  | (string & {});
+export const Pillar = S.String;
+
+export type Pillars = Pillar[];
+export const Pillars = /*@__PURE__*/ S.Array(Pillar);
+export interface CreateAgentGoalRequest {
+  clientToken?: string;
+  profileArn: string;
+  pillars: Pillar[];
+  title: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+}
+export const CreateAgentGoalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+    pillars: Pillars,
+    title: SensitiveString,
+    description: S.optional(SensitiveString),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/api/v1/agent-profiles/{profileArn}/goals",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateAgentGoalRequest",
+}) as any as S.Schema<CreateAgentGoalRequest>;
+export interface GoalSummary {
+  id: string;
+  profileArn: string;
+  pillars: Pillar[];
+  title: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+}
+export const GoalSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    profileArn: S.String,
+    pillars: Pillars,
+    title: SensitiveString,
+    description: S.optional(SensitiveString),
+    createdBy: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({ identifier: "GoalSummary" }) as any as S.Schema<GoalSummary>;
+export interface CreateAgentGoalResponse {
+  goal: GoalSummary;
+}
+export const CreateAgentGoalResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ goal: GoalSummary }),
+).annotate({
+  identifier: "CreateAgentGoalResponse",
+}) as any as S.Schema<CreateAgentGoalResponse>;
+export type RoleArn = string;
+export type AccountId = string;
+export type Region = string;
+export type Regions = string[];
+export const Regions = /*@__PURE__*/ S.Array(S.String);
+export interface AggregationConfiguration {
+  accountId: string;
+  regions: string[];
+  accessRoleArn: string;
+}
+export const AggregationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ accountId: S.String, regions: Regions, accessRoleArn: S.String }),
+).annotate({
+  identifier: "AggregationConfiguration",
+}) as any as S.Schema<AggregationConfiguration>;
+export type AggregationConfigurations = AggregationConfiguration[];
+export const AggregationConfigurations = /*@__PURE__*/ S.Array(
+  AggregationConfiguration,
+);
+export interface Tag {
+  key: string;
+  value: string;
+}
+export const Tag = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ key: S.String, value: S.String }),
+).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
+export type Tags = Tag[];
+export const Tags = /*@__PURE__*/ S.Array(Tag);
+export interface CreateAgentProfileRequest {
+  name: string;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  businessOverview?: string | redacted.Redacted<string>;
+  pillars: Pillar[];
+  deletionProtection?: boolean;
+  executionRoleArn: string;
+  aggregationConfiguration: AggregationConfiguration[];
+  clientToken?: string;
+  tags?: Tag[];
+}
+export const CreateAgentProfileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
+    businessOverview: S.optional(SensitiveString),
+    pillars: Pillars,
+    deletionProtection: S.optional(S.Boolean),
+    executionRoleArn: S.String,
+    aggregationConfiguration: AggregationConfigurations,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    tags: S.optional(Tags),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/api/v1/agent-profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateAgentProfileRequest",
+}) as any as S.Schema<CreateAgentProfileRequest>;
+export type FieldErrorPath = string;
+export type FieldErrorMessage = string;
+export type FieldErrors = { [key: string]: string | undefined };
+export const FieldErrors = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface CreateAgentProfileResponse {
+  name: string;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  businessOverview?: string | redacted.Redacted<string>;
+  pillars: Pillar[];
+  deletionProtection?: boolean;
+  executionRoleArn: string;
+  aggregationConfiguration: AggregationConfiguration[];
+  arn: string;
+  eligibleForScheduledGeneration?: boolean;
+  eligibleForArchitectureGeneration?: boolean;
+  fieldErrors?: { [key: string]: string | undefined };
+  tags?: Tag[];
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+}
+export const CreateAgentProfileResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
+    businessOverview: S.optional(SensitiveString),
+    pillars: Pillars,
+    deletionProtection: S.optional(S.Boolean),
+    executionRoleArn: S.String,
+    aggregationConfiguration: AggregationConfigurations,
+    arn: S.String,
+    eligibleForScheduledGeneration: S.optional(S.Boolean),
+    eligibleForArchitectureGeneration: S.optional(S.Boolean),
+    fieldErrors: S.optional(FieldErrors),
+    tags: S.optional(Tags),
+    createdBy: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "CreateAgentProfileResponse",
+}) as any as S.Schema<CreateAgentProfileResponse>;
 export type SharedWith = string;
 export type ClientRequestToken = string;
 export interface CreateLensShareInput {
@@ -518,7 +847,7 @@ export type WorkloadEnvironment =
   | "PRODUCTION"
   | "PREPRODUCTION"
   | (string & {});
-export const WorkloadEnvironment = /*@__PURE__*/ S.String;
+export const WorkloadEnvironment = S.String;
 
 export type AwsAccountId = string;
 export type WorkloadAccountIds = string[];
@@ -542,13 +871,13 @@ export type TrustedAdvisorIntegrationStatus =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const TrustedAdvisorIntegrationStatus = /*@__PURE__*/ S.String;
+export const TrustedAdvisorIntegrationStatus = S.String;
 
 export type DefinitionType =
   | "WORKLOAD_METADATA"
   | "APP_REGISTRY"
   | (string & {});
-export const DefinitionType = /*@__PURE__*/ S.String;
+export const DefinitionType = S.String;
 
 export type WorkloadResourceDefinition = DefinitionType[];
 export const WorkloadResourceDefinition = /*@__PURE__*/ S.Array(DefinitionType);
@@ -578,10 +907,10 @@ export type WorkloadIssueManagementStatus =
   | "DISABLED"
   | "INHERIT"
   | (string & {});
-export const WorkloadIssueManagementStatus = /*@__PURE__*/ S.String;
+export const WorkloadIssueManagementStatus = S.String;
 
 export type IssueManagementType = "AUTO" | "MANUAL" | (string & {});
-export const IssueManagementType = /*@__PURE__*/ S.String;
+export const IssueManagementType = S.String;
 
 export type JiraProjectKey = string;
 export interface WorkloadJiraConfigurationInput {
@@ -669,7 +998,7 @@ export const CreateWorkloadOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateWorkloadOutput",
 }) as any as S.Schema<CreateWorkloadOutput>;
 export type PermissionType = "READONLY" | "CONTRIBUTOR" | (string & {});
-export const PermissionType = /*@__PURE__*/ S.String;
+export const PermissionType = S.String;
 
 export interface CreateWorkloadShareInput {
   WorkloadId: string;
@@ -705,8 +1034,91 @@ export const CreateWorkloadShareOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateWorkloadShareOutput",
 }) as any as S.Schema<CreateWorkloadShareOutput>;
+export interface DeleteAgentContextRequest {
+  profileArn: string;
+  id: string;
+}
+export const DeleteAgentContextRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+    id: S.String.pipe(T.HttpLabel("id")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/api/v1/agent-profiles/{profileArn}/contexts/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteAgentContextRequest",
+}) as any as S.Schema<DeleteAgentContextRequest>;
+export interface DeleteAgentContextResponse {}
+export const DeleteAgentContextResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteAgentContextResponse",
+}) as any as S.Schema<DeleteAgentContextResponse>;
+export interface DeleteAgentGoalRequest {
+  profileArn: string;
+  id: string;
+}
+export const DeleteAgentGoalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+    id: S.String.pipe(T.HttpLabel("id")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/api/v1/agent-profiles/{profileArn}/goals/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteAgentGoalRequest",
+}) as any as S.Schema<DeleteAgentGoalRequest>;
+export interface DeleteAgentGoalResponse {}
+export const DeleteAgentGoalResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteAgentGoalResponse",
+}) as any as S.Schema<DeleteAgentGoalResponse>;
+export interface DeleteAgentProfileRequest {
+  profileArn: string;
+}
+export const DeleteAgentProfileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ profileArn: S.String.pipe(T.HttpLabel("profileArn")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/api/v1/agent-profiles/{profileArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteAgentProfileRequest",
+}) as any as S.Schema<DeleteAgentProfileRequest>;
+export interface DeleteAgentProfileResponse {}
+export const DeleteAgentProfileResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteAgentProfileResponse",
+}) as any as S.Schema<DeleteAgentProfileResponse>;
 export type LensStatusType = "ALL" | "DRAFT" | "PUBLISHED" | (string & {});
-export const LensStatusType = /*@__PURE__*/ S.String;
+export const LensStatusType = S.String;
 
 export interface DeleteLensInput {
   LensAlias: string;
@@ -1057,6 +1469,542 @@ export const ExportLensOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ExportLensOutput",
 }) as any as S.Schema<ExportLensOutput>;
+export interface GetAgentContextRequest {
+  profileArn: string;
+  id: string;
+}
+export const GetAgentContextRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+    id: S.String.pipe(T.HttpLabel("id")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/v1/agent-profiles/{profileArn}/contexts/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAgentContextRequest",
+}) as any as S.Schema<GetAgentContextRequest>;
+export interface GetAgentContextResponse {
+  context: ContextSummary;
+}
+export const GetAgentContextResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ context: ContextSummary }),
+).annotate({
+  identifier: "GetAgentContextResponse",
+}) as any as S.Schema<GetAgentContextResponse>;
+export interface GetAgentGoalRequest {
+  profileArn: string;
+  id: string;
+}
+export const GetAgentGoalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+    id: S.String.pipe(T.HttpLabel("id")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/v1/agent-profiles/{profileArn}/goals/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAgentGoalRequest",
+}) as any as S.Schema<GetAgentGoalRequest>;
+export interface GetAgentGoalResponse {
+  goal: GoalSummary;
+}
+export const GetAgentGoalResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ goal: GoalSummary }),
+).annotate({
+  identifier: "GetAgentGoalResponse",
+}) as any as S.Schema<GetAgentGoalResponse>;
+export interface GetAgentProfileRequest {
+  profileArn: string;
+}
+export const GetAgentProfileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ profileArn: S.String.pipe(T.HttpLabel("profileArn")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/api/v1/agent-profiles/{profileArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAgentProfileRequest",
+}) as any as S.Schema<GetAgentProfileRequest>;
+export interface GetAgentProfileResponse {
+  name: string;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  businessOverview?: string | redacted.Redacted<string>;
+  pillars: Pillar[];
+  deletionProtection?: boolean;
+  executionRoleArn: string;
+  aggregationConfiguration: AggregationConfiguration[];
+  arn: string;
+  eligibleForScheduledGeneration?: boolean;
+  eligibleForArchitectureGeneration?: boolean;
+  fieldErrors?: { [key: string]: string | undefined };
+  tags?: Tag[];
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+}
+export const GetAgentProfileResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
+    businessOverview: S.optional(SensitiveString),
+    pillars: Pillars,
+    deletionProtection: S.optional(S.Boolean),
+    executionRoleArn: S.String,
+    aggregationConfiguration: AggregationConfigurations,
+    arn: S.String,
+    eligibleForScheduledGeneration: S.optional(S.Boolean),
+    eligibleForArchitectureGeneration: S.optional(S.Boolean),
+    fieldErrors: S.optional(FieldErrors),
+    tags: S.optional(Tags),
+    createdBy: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "GetAgentProfileResponse",
+}) as any as S.Schema<GetAgentProfileResponse>;
+export type AgentRecommendationArn = string;
+export type RemediationType =
+  | "AUTO_REMEDIATION"
+  | "CONSOLE"
+  | "CLI"
+  | "SDK"
+  | "IAC"
+  | "MCP"
+  | (string & {});
+export const RemediationType = S.String;
+
+export interface GetAgentRecommendationRequest {
+  recommendationArn: string;
+  remediationType?: RemediationType;
+}
+export const GetAgentRecommendationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recommendationArn: S.String.pipe(T.HttpLabel("recommendationArn")),
+    remediationType: S.optional(RemediationType).pipe(
+      T.HttpQuery("remediationType"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/v1/agent-recommendations/{recommendationArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAgentRecommendationRequest",
+}) as any as S.Schema<GetAgentRecommendationRequest>;
+export type RecommendationArn = string;
+export type RecommendationType =
+  | "RESOURCE"
+  | "ARCHITECTURE"
+  | "APPLICATION"
+  | (string & {});
+export const RecommendationType = S.String;
+
+export type Priority = "HIGH" | "MEDIUM" | "LOW" | (string & {});
+export const Priority = S.String;
+
+export type Effort = "LARGE" | "MEDIUM" | "SMALL" | (string & {});
+export const Effort = S.String;
+
+export type RecommendationStatus =
+  | "ACTIVE"
+  | "SUPPRESSED"
+  | "COMPLETED"
+  | (string & {});
+export const RecommendationStatus = S.String;
+
+export type RecommendationState = "OPEN" | "CLOSED" | (string & {});
+export const RecommendationState = S.String;
+
+export type ImpactCategory = "HIGH" | "MEDIUM" | "LOW" | (string & {});
+export const ImpactCategory = S.String;
+
+export interface Roi {
+  estimate?: string;
+  detail: string;
+}
+export const Roi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ estimate: S.optional(S.String), detail: S.String }),
+).annotate({ identifier: "Roi" }) as any as S.Schema<Roi>;
+export type StringList = string[];
+export const StringList = /*@__PURE__*/ S.Array(S.String);
+export type ImpactDetail = string;
+export type ImpactDetails = string[];
+export const ImpactDetails = /*@__PURE__*/ S.Array(S.String);
+export interface Insight {
+  usagePattern: string;
+  signalsDetected?: string;
+}
+export const Insight = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ usagePattern: S.String, signalsDetected: S.optional(S.String) }),
+).annotate({ identifier: "Insight" }) as any as S.Schema<Insight>;
+export type InsightList = Insight[];
+export const InsightList = /*@__PURE__*/ S.Array(Insight);
+export type Highlight = string;
+export type Highlights = string[];
+export const Highlights = /*@__PURE__*/ S.Array(S.String);
+export type RecommendedFixStep = string;
+export type RecommendedFixSteps = string[];
+export const RecommendedFixSteps = /*@__PURE__*/ S.Array(S.String);
+export interface RemediationSummary {
+  recommendation: string;
+  steps: string[];
+}
+export const RemediationSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recommendation: S.String, steps: RecommendedFixSteps }),
+).annotate({
+  identifier: "RemediationSummary",
+}) as any as S.Schema<RemediationSummary>;
+export interface CrossPillarBenefit {
+  pillar: Pillar;
+  title: string;
+  description: string;
+  impact: ImpactCategory;
+}
+export const CrossPillarBenefit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pillar: Pillar,
+    title: S.String,
+    description: S.String,
+    impact: ImpactCategory,
+  }),
+).annotate({
+  identifier: "CrossPillarBenefit",
+}) as any as S.Schema<CrossPillarBenefit>;
+export type CrossPillarBenefits = CrossPillarBenefit[];
+export const CrossPillarBenefits = /*@__PURE__*/ S.Array(CrossPillarBenefit);
+export type RiskRating = "LOW" | "MEDIUM" | "HIGH" | (string & {});
+export const RiskRating = S.String;
+
+export interface TradeOff {
+  pillar: Pillar;
+  title: string;
+  description: string;
+  risk: RiskRating;
+  mitigation: string;
+  riskExplanation?: string;
+}
+export const TradeOff = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pillar: Pillar,
+    title: S.String,
+    description: S.String,
+    risk: RiskRating,
+    mitigation: S.String,
+    riskExplanation: S.optional(S.String),
+  }),
+).annotate({ identifier: "TradeOff" }) as any as S.Schema<TradeOff>;
+export type TradeOffs = TradeOff[];
+export const TradeOffs = /*@__PURE__*/ S.Array(TradeOff);
+export type RecommendationSource =
+  | "TRUSTED_ADVISOR"
+  | "COST_EXPLORER"
+  | "CLOUDWATCH"
+  | "WELL_ARCHITECTED_TOOL"
+  | "WELL_ARCHITECTED_AGENT"
+  | "CUSTOMER_IAC"
+  | (string & {});
+export const RecommendationSource = S.String;
+
+export type RecommendationSourceList = RecommendationSource[];
+export const RecommendationSourceList =
+  /*@__PURE__*/ S.Array(RecommendationSource);
+export interface RecommendationGoal {
+  title: string;
+}
+export const RecommendationGoal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ title: S.String }),
+).annotate({
+  identifier: "RecommendationGoal",
+}) as any as S.Schema<RecommendationGoal>;
+export type RecommendationGoals = RecommendationGoal[];
+export const RecommendationGoals = /*@__PURE__*/ S.Array(RecommendationGoal);
+export interface RemediationStep {
+  title?: string | redacted.Redacted<string>;
+  content: string | redacted.Redacted<string>;
+}
+export const RemediationStep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ title: S.optional(SensitiveString), content: SensitiveString }),
+).annotate({
+  identifier: "RemediationStep",
+}) as any as S.Schema<RemediationStep>;
+export type RemediationSteps = RemediationStep[];
+export const RemediationSteps = /*@__PURE__*/ S.Array(RemediationStep);
+export interface ResourceLink {
+  url: string;
+  title?: string;
+}
+export const ResourceLink = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ url: S.String, title: S.optional(S.String) }),
+).annotate({ identifier: "ResourceLink" }) as any as S.Schema<ResourceLink>;
+export type ResourceLinks = ResourceLink[];
+export const ResourceLinks = /*@__PURE__*/ S.Array(ResourceLink);
+export interface AgentRecommendationRemediation {
+  recommendationArn: string;
+  type: RemediationType;
+  steps: RemediationStep[];
+  resourceLinks?: ResourceLink[];
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+}
+export const AgentRecommendationRemediation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recommendationArn: S.String,
+    type: RemediationType,
+    steps: RemediationSteps,
+    resourceLinks: S.optional(ResourceLinks),
+    createdBy: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "AgentRecommendationRemediation",
+}) as any as S.Schema<AgentRecommendationRemediation>;
+export type AgentRecommendationRemediations = AgentRecommendationRemediation[];
+export const AgentRecommendationRemediations = /*@__PURE__*/ S.Array(
+  AgentRecommendationRemediation,
+);
+export interface GetAgentRecommendationResponse {
+  recommendationArn: string;
+  profileArn: string;
+  title: string | redacted.Redacted<string>;
+  description: string | redacted.Redacted<string>;
+  type: RecommendationType;
+  pillar: Pillar;
+  priority: Priority;
+  effort: Effort;
+  status: RecommendationStatus;
+  state: RecommendationState;
+  updateReason?: string | redacted.Redacted<string>;
+  impact: ImpactCategory;
+  roi: Roi;
+  numberOfResources?: number;
+  awsServices?: string[];
+  businessUnits?: string[];
+  applications?: string[];
+  impactDetails: string[];
+  insights: Insight[];
+  highlights: string[];
+  remediationSummary: RemediationSummary;
+  crossPillarBenefits?: CrossPillarBenefit[];
+  tradeOffs?: TradeOff[];
+  sources?: RecommendationSource[];
+  goals?: RecommendationGoal[];
+  tags?: Tag[];
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+  remediations?: AgentRecommendationRemediation[];
+}
+export const GetAgentRecommendationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recommendationArn: S.String,
+    profileArn: S.String,
+    title: SensitiveString,
+    description: SensitiveString,
+    type: RecommendationType,
+    pillar: Pillar,
+    priority: Priority,
+    effort: Effort,
+    status: RecommendationStatus,
+    state: RecommendationState,
+    updateReason: S.optional(SensitiveString),
+    impact: ImpactCategory,
+    roi: Roi,
+    numberOfResources: S.optional(S.Number),
+    awsServices: S.optional(StringList),
+    businessUnits: S.optional(StringList),
+    applications: S.optional(StringList),
+    impactDetails: ImpactDetails,
+    insights: InsightList,
+    highlights: Highlights,
+    remediationSummary: RemediationSummary,
+    crossPillarBenefits: S.optional(CrossPillarBenefits),
+    tradeOffs: S.optional(TradeOffs),
+    sources: S.optional(RecommendationSourceList),
+    goals: S.optional(RecommendationGoals),
+    tags: S.optional(Tags),
+    createdBy: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    remediations: S.optional(AgentRecommendationRemediations),
+  }),
+).annotate({
+  identifier: "GetAgentRecommendationResponse",
+}) as any as S.Schema<GetAgentRecommendationResponse>;
+export interface GetAgentRecommendationGenerationRequest {
+  profileArn: string;
+  generationId: string;
+}
+export const GetAgentRecommendationGenerationRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+      generationId: S.String.pipe(T.HttpLabel("generationId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/api/v1/agent-profiles/{profileArn}/generations/{generationId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "GetAgentRecommendationGenerationRequest",
+}) as any as S.Schema<GetAgentRecommendationGenerationRequest>;
+export type GenerationStatus =
+  | "QUEUED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "ERROR"
+  | (string & {});
+export const GenerationStatus = S.String;
+
+export type GoalIdList = string[];
+export const GoalIdList = /*@__PURE__*/ S.Array(S.String);
+export type ItemId = string;
+export type ItemIds = string[];
+export const ItemIds = /*@__PURE__*/ S.Array(S.String);
+export interface PillarItem {
+  pillar: Pillar;
+  ids: string[];
+}
+export const PillarItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ pillar: Pillar, ids: ItemIds }),
+).annotate({ identifier: "PillarItem" }) as any as S.Schema<PillarItem>;
+export type PillarItems = PillarItem[];
+export const PillarItems = /*@__PURE__*/ S.Array(PillarItem);
+export interface Scope {
+  pillars: Pillar[];
+  goalIds?: string[];
+  items?: PillarItem[];
+}
+export const Scope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pillars: Pillars,
+    goalIds: S.optional(GoalIdList),
+    items: S.optional(PillarItems),
+  }),
+).annotate({ identifier: "Scope" }) as any as S.Schema<Scope>;
+export interface Progress {
+  stepsCompleted: number;
+  totalSteps: number;
+  completionPercentage: number;
+}
+export const Progress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    stepsCompleted: S.Number,
+    totalSteps: S.Number,
+    completionPercentage: S.Number,
+  }),
+).annotate({ identifier: "Progress" }) as any as S.Schema<Progress>;
+export interface ErrorDetails {
+  code: string;
+  message: string;
+}
+export const ErrorDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ code: S.String, message: S.String }),
+).annotate({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
+export interface GetAgentRecommendationGenerationResponse {
+  id: string;
+  profileArn: string;
+  name?: string;
+  status: GenerationStatus;
+  estimatedCompletionTime?: Date;
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+  additionalContext?: any;
+  scope?: Scope;
+  startedAt?: Date;
+  endedAt?: Date;
+  progress?: Progress;
+  errorDetails?: ErrorDetails;
+}
+export const GetAgentRecommendationGenerationResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.String,
+      profileArn: S.String,
+      name: S.optional(S.String),
+      status: GenerationStatus,
+      estimatedCompletionTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      createdBy: S.String,
+      createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      lastModifiedBy: S.optional(S.String),
+      lastModifiedAt: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      additionalContext: S.optional(S.Any),
+      scope: S.optional(Scope),
+      startedAt: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      endedAt: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      progress: S.optional(Progress),
+      errorDetails: S.optional(ErrorDetails),
+    }),
+).annotate({
+  identifier: "GetAgentRecommendationGenerationResponse",
+}) as any as S.Schema<GetAgentRecommendationGenerationResponse>;
 export interface GetAnswerInput {
   WorkloadId: string;
   LensAlias: string;
@@ -1103,7 +2051,7 @@ export type AdditionalResourceType =
   | "HELPFUL_RESOURCE"
   | "IMPROVEMENT_PLAN"
   | (string & {});
-export const AdditionalResourceType = /*@__PURE__*/ S.String;
+export const AdditionalResourceType = S.String;
 
 export type Urls = ChoiceContent[];
 export const Urls = /*@__PURE__*/ S.Array(ChoiceContent);
@@ -1149,7 +2097,7 @@ export type ChoiceStatus =
   | "NOT_APPLICABLE"
   | "UNSELECTED"
   | (string & {});
-export const ChoiceStatus = /*@__PURE__*/ S.String;
+export const ChoiceStatus = S.String;
 
 export type ChoiceReason =
   | "OUT_OF_SCOPE"
@@ -1158,7 +2106,7 @@ export type ChoiceReason =
   | "OTHER"
   | "NONE"
   | (string & {});
-export const ChoiceReason = /*@__PURE__*/ S.String;
+export const ChoiceReason = S.String;
 
 export type ChoiceNotes = string;
 export interface ChoiceAnswer {
@@ -1185,7 +2133,7 @@ export type Risk =
   | "NONE"
   | "NOT_APPLICABLE"
   | (string & {});
-export const Risk = /*@__PURE__*/ S.String;
+export const Risk = S.String;
 
 export type AnswerReason =
   | "OUT_OF_SCOPE"
@@ -1194,7 +2142,7 @@ export type AnswerReason =
   | "OTHER"
   | "NONE"
   | (string & {});
-export const AnswerReason = /*@__PURE__*/ S.String;
+export const AnswerReason = S.String;
 
 export type JiraIssueUrl = string;
 export interface JiraConfiguration {
@@ -1264,11 +2212,11 @@ export const GetAnswerOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetAnswerOutput",
 }) as any as S.Schema<GetAnswerOutput>;
 export type ReportFormat = "PDF" | "JSON" | (string & {});
-export const ReportFormat = /*@__PURE__*/ S.String;
+export const ReportFormat = S.String;
 
 export type IncludeSharedResources = boolean;
 export type NextToken = string;
-export type GetConsolidatedReportMaxResults = number;
+export type MaxResults = number;
 export interface GetConsolidatedReportInput {
   Format?: ReportFormat;
   IncludeSharedResources?: boolean;
@@ -1297,7 +2245,7 @@ export const GetConsolidatedReportInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetConsolidatedReportInput",
 }) as any as S.Schema<GetConsolidatedReportInput>;
 export type MetricType = "WORKLOAD" | (string & {});
-export const MetricType = /*@__PURE__*/ S.String;
+export const MetricType = S.String;
 
 export type Count = number;
 export type RiskCounts = { [key in Risk]?: number };
@@ -1419,19 +2367,19 @@ export const GetGlobalSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetGlobalSettingsRequest",
 }) as any as S.Schema<GetGlobalSettingsRequest>;
 export type OrganizationSharingStatus = "ENABLED" | "DISABLED" | (string & {});
-export const OrganizationSharingStatus = /*@__PURE__*/ S.String;
+export const OrganizationSharingStatus = S.String;
 
 export type DiscoveryIntegrationStatus = "ENABLED" | "DISABLED" | (string & {});
-export const DiscoveryIntegrationStatus = /*@__PURE__*/ S.String;
+export const DiscoveryIntegrationStatus = S.String;
 
 export type IntegrationStatus = "CONFIGURED" | "NOT_CONFIGURED" | (string & {});
-export const IntegrationStatus = /*@__PURE__*/ S.String;
+export const IntegrationStatus = S.String;
 
 export type AccountJiraIssueManagementStatus =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const AccountJiraIssueManagementStatus = /*@__PURE__*/ S.String;
+export const AccountJiraIssueManagementStatus = S.String;
 
 export type Subdomain = string;
 export type StatusMessage = string;
@@ -1551,7 +2499,7 @@ export type LensStatus =
   | "DELETED"
   | "UNSHARED"
   | (string & {});
-export const LensStatus = /*@__PURE__*/ S.String;
+export const LensStatus = S.String;
 
 export type PillarName = string;
 export interface PillarReviewSummary {
@@ -1737,7 +2685,7 @@ export const GetLensVersionDifferenceInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetLensVersionDifferenceInput",
 }) as any as S.Schema<GetLensVersionDifferenceInput>;
 export type DifferenceStatus = "UPDATED" | "NEW" | "DELETED" | (string & {});
-export const DifferenceStatus = /*@__PURE__*/ S.String;
+export const DifferenceStatus = S.String;
 
 export interface QuestionDifference {
   QuestionId?: string;
@@ -1833,7 +2781,7 @@ export type WorkloadImprovementStatus =
   | "COMPLETE"
   | "RISK_ACKNOWLEDGED"
   | (string & {});
-export const WorkloadImprovementStatus = /*@__PURE__*/ S.String;
+export const WorkloadImprovementStatus = S.String;
 
 export interface WorkloadJiraConfigurationOutput {
   IssueManagementStatus?: WorkloadIssueManagementStatus;
@@ -2135,7 +3083,7 @@ export const GetReviewTemplateInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetReviewTemplateInput",
 }) as any as S.Schema<GetReviewTemplateInput>;
 export type Question = "UNANSWERED" | "ANSWERED" | (string & {});
-export const Question = /*@__PURE__*/ S.String;
+export const Question = S.String;
 
 export type QuestionCounts = { [key in Question]?: number };
 export const QuestionCounts = /*@__PURE__*/ S.Record(
@@ -2146,7 +3094,7 @@ export type ReviewTemplateUpdateStatus =
   | "CURRENT"
   | "LENS_NOT_CURRENT"
   | (string & {});
-export const ReviewTemplateUpdateStatus = /*@__PURE__*/ S.String;
+export const ReviewTemplateUpdateStatus = S.String;
 
 export interface ReviewTemplate {
   Description?: string;
@@ -2214,7 +3162,7 @@ export type ReviewTemplateAnswerStatus =
   | "UNANSWERED"
   | "ANSWERED"
   | (string & {});
-export const ReviewTemplateAnswerStatus = /*@__PURE__*/ S.String;
+export const ReviewTemplateAnswerStatus = S.String;
 
 export interface ReviewTemplateAnswer {
   QuestionId?: string;
@@ -2406,7 +3354,7 @@ export type ImportLensStatus =
   | "COMPLETE"
   | "ERROR"
   | (string & {});
-export const ImportLensStatus = /*@__PURE__*/ S.String;
+export const ImportLensStatus = S.String;
 
 export interface ImportLensOutput {
   LensArn?: string;
@@ -2420,9 +3368,413 @@ export const ImportLensOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ImportLensOutput",
 }) as any as S.Schema<ImportLensOutput>;
-export type ListAnswersMaxResults = number;
+export interface ListAgentContextsRequest {
+  profileArn: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAgentContextsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/v1/agent-profiles/{profileArn}/contexts",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAgentContextsRequest",
+}) as any as S.Schema<ListAgentContextsRequest>;
+export type ContextSummaries = ContextSummary[];
+export const ContextSummaries = /*@__PURE__*/ S.Array(ContextSummary);
+export interface ListAgentContextsResponse {
+  items: ContextSummary[];
+  nextToken?: string;
+}
+export const ListAgentContextsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ items: ContextSummaries, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListAgentContextsResponse",
+}) as any as S.Schema<ListAgentContextsResponse>;
+export interface ListAgentGoalsRequest {
+  profileArn: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAgentGoalsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/v1/agent-profiles/{profileArn}/goals",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAgentGoalsRequest",
+}) as any as S.Schema<ListAgentGoalsRequest>;
+export type GoalSummaries = GoalSummary[];
+export const GoalSummaries = /*@__PURE__*/ S.Array(GoalSummary);
+export interface ListAgentGoalsResponse {
+  items: GoalSummary[];
+  nextToken?: string;
+}
+export const ListAgentGoalsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ items: GoalSummaries, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListAgentGoalsResponse",
+}) as any as S.Schema<ListAgentGoalsResponse>;
+export interface ListAgentProfilesRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAgentProfilesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/api/v1/agent-profiles" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAgentProfilesRequest",
+}) as any as S.Schema<ListAgentProfilesRequest>;
+export interface AgentProfileSummary {
+  name: string;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  businessOverview?: string | redacted.Redacted<string>;
+  pillars: Pillar[];
+  deletionProtection?: boolean;
+  executionRoleArn: string;
+  aggregationConfiguration: AggregationConfiguration[];
+  arn: string;
+  eligibleForScheduledGeneration?: boolean;
+  eligibleForArchitectureGeneration?: boolean;
+  fieldErrors?: { [key: string]: string | undefined };
+  tags?: Tag[];
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+}
+export const AgentProfileSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
+    businessOverview: S.optional(SensitiveString),
+    pillars: Pillars,
+    deletionProtection: S.optional(S.Boolean),
+    executionRoleArn: S.String,
+    aggregationConfiguration: AggregationConfigurations,
+    arn: S.String,
+    eligibleForScheduledGeneration: S.optional(S.Boolean),
+    eligibleForArchitectureGeneration: S.optional(S.Boolean),
+    fieldErrors: S.optional(FieldErrors),
+    tags: S.optional(Tags),
+    createdBy: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "AgentProfileSummary",
+}) as any as S.Schema<AgentProfileSummary>;
+export type AgentProfileSummaries = AgentProfileSummary[];
+export const AgentProfileSummaries = /*@__PURE__*/ S.Array(AgentProfileSummary);
+export interface ListAgentProfilesResponse {
+  items: AgentProfileSummary[];
+  nextToken?: string;
+}
+export const ListAgentProfilesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ items: AgentProfileSummaries, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListAgentProfilesResponse",
+}) as any as S.Schema<ListAgentProfilesResponse>;
+export interface ListAgentRecommendationGenerationsRequest {
+  profileArn: string;
+  recommendationType?: RecommendationType;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAgentRecommendationGenerationsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+      recommendationType: S.optional(RecommendationType).pipe(
+        T.HttpQuery("RecommendationType"),
+      ),
+      maxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/api/v1/agent-profiles/{profileArn}/generations",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "ListAgentRecommendationGenerationsRequest",
+  }) as any as S.Schema<ListAgentRecommendationGenerationsRequest>;
+export interface AgentRecommendationGenerationSummary {
+  id: string;
+  profileArn: string;
+  name?: string;
+  status: GenerationStatus;
+  estimatedCompletionTime?: Date;
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+}
+export const AgentRecommendationGenerationSummary = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.String,
+      profileArn: S.String,
+      name: S.optional(S.String),
+      status: GenerationStatus,
+      estimatedCompletionTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      createdBy: S.String,
+      createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      lastModifiedBy: S.optional(S.String),
+      lastModifiedAt: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+    }),
+).annotate({
+  identifier: "AgentRecommendationGenerationSummary",
+}) as any as S.Schema<AgentRecommendationGenerationSummary>;
+export type AgentRecommendationGenerationSummaries =
+  AgentRecommendationGenerationSummary[];
+export const AgentRecommendationGenerationSummaries = /*@__PURE__*/ S.Array(
+  AgentRecommendationGenerationSummary,
+);
+export interface ListAgentRecommendationGenerationsResponse {
+  items: AgentRecommendationGenerationSummary[];
+  nextToken?: string;
+}
+export const ListAgentRecommendationGenerationsResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      items: AgentRecommendationGenerationSummaries,
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListAgentRecommendationGenerationsResponse",
+  }) as any as S.Schema<ListAgentRecommendationGenerationsResponse>;
+export type RecommendationItemType =
+  | "AWS_RESOURCE"
+  | "RECOMMENDATION"
+  | (string & {});
+export const RecommendationItemType = S.String;
+
+export interface ListAgentRecommendationItemsRequest {
+  recommendationArn: string;
+  type?: RecommendationItemType;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListAgentRecommendationItemsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recommendationArn: S.String.pipe(T.HttpLabel("recommendationArn")),
+    type: S.optional(RecommendationItemType).pipe(T.HttpQuery("type")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/v1/agent-recommendations/{recommendationArn}/items",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAgentRecommendationItemsRequest",
+}) as any as S.Schema<ListAgentRecommendationItemsRequest>;
+export interface AgentRecommendationItemSummary {
+  id: string;
+  recommendationArn: string;
+  type: RecommendationItemType;
+  metadata: any;
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+}
+export const AgentRecommendationItemSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    recommendationArn: S.String,
+    type: RecommendationItemType,
+    metadata: S.Any,
+    createdBy: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "AgentRecommendationItemSummary",
+}) as any as S.Schema<AgentRecommendationItemSummary>;
+export type AgentRecommendationItemSummaries = AgentRecommendationItemSummary[];
+export const AgentRecommendationItemSummaries = /*@__PURE__*/ S.Array(
+  AgentRecommendationItemSummary,
+);
+export interface ListAgentRecommendationItemsResponse {
+  items: AgentRecommendationItemSummary[];
+  nextToken?: string;
+}
+export const ListAgentRecommendationItemsResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      items: AgentRecommendationItemSummaries,
+      nextToken: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "ListAgentRecommendationItemsResponse",
+}) as any as S.Schema<ListAgentRecommendationItemsResponse>;
+export interface ListAgentRecommendationsRequest {
+  profileArn: string;
+  maxResults?: number;
+  nextToken?: string;
+  state?: RecommendationState;
+  pillar?: Pillar;
+}
+export const ListAgentRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    state: S.optional(RecommendationState).pipe(T.HttpQuery("state")),
+    pillar: S.optional(Pillar).pipe(T.HttpQuery("pillar")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/api/v1/agent-profiles/{profileArn}/recommendations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAgentRecommendationsRequest",
+}) as any as S.Schema<ListAgentRecommendationsRequest>;
+export interface AgentRecommendationSummary {
+  recommendationArn: string;
+  profileArn: string;
+  title: string | redacted.Redacted<string>;
+  description: string | redacted.Redacted<string>;
+  type: RecommendationType;
+  pillar: Pillar;
+  priority: Priority;
+  effort: Effort;
+  status: RecommendationStatus;
+  state: RecommendationState;
+  updateReason?: string | redacted.Redacted<string>;
+  impact: ImpactCategory;
+  roi: Roi;
+  numberOfResources?: number;
+  awsServices?: string[];
+  businessUnits?: string[];
+  applications?: string[];
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+}
+export const AgentRecommendationSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recommendationArn: S.String,
+    profileArn: S.String,
+    title: SensitiveString,
+    description: SensitiveString,
+    type: RecommendationType,
+    pillar: Pillar,
+    priority: Priority,
+    effort: Effort,
+    status: RecommendationStatus,
+    state: RecommendationState,
+    updateReason: S.optional(SensitiveString),
+    impact: ImpactCategory,
+    roi: Roi,
+    numberOfResources: S.optional(S.Number),
+    awsServices: S.optional(StringList),
+    businessUnits: S.optional(StringList),
+    applications: S.optional(StringList),
+    createdBy: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "AgentRecommendationSummary",
+}) as any as S.Schema<AgentRecommendationSummary>;
+export type AgentRecommendationSummaries = AgentRecommendationSummary[];
+export const AgentRecommendationSummaries = /*@__PURE__*/ S.Array(
+  AgentRecommendationSummary,
+);
+export interface ListAgentRecommendationsResponse {
+  items: AgentRecommendationSummary[];
+  nextToken?: string;
+}
+export const ListAgentRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: AgentRecommendationSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAgentRecommendationsResponse",
+}) as any as S.Schema<ListAgentRecommendationsResponse>;
 export type QuestionPriority = "PRIORITIZED" | "NONE" | (string & {});
-export const QuestionPriority = /*@__PURE__*/ S.String;
+export const QuestionPriority = S.String;
 
 export interface ListAnswersInput {
   WorkloadId: string;
@@ -2477,7 +3829,7 @@ export const ChoiceAnswerSummary = /*@__PURE__*/ S.suspend(() =>
 export type ChoiceAnswerSummaries = ChoiceAnswerSummary[];
 export const ChoiceAnswerSummaries = /*@__PURE__*/ S.Array(ChoiceAnswerSummary);
 export type QuestionType = "PRIORITIZED" | "NON_PRIORITIZED" | (string & {});
-export const QuestionType = /*@__PURE__*/ S.String;
+export const QuestionType = S.String;
 
 export interface AnswerSummary {
   QuestionId?: string;
@@ -2529,7 +3881,6 @@ export const ListAnswersOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListAnswersOutput",
 }) as any as S.Schema<ListAnswersOutput>;
-export type MaxResults = number;
 export interface ListCheckDetailsInput {
   WorkloadId: string;
   NextToken?: string;
@@ -2565,7 +3916,7 @@ export type CheckId = string;
 export type CheckName = string;
 export type CheckDescription = string;
 export type CheckProvider = "TRUSTED_ADVISOR" | (string & {});
-export const CheckProvider = /*@__PURE__*/ S.String;
+export const CheckProvider = S.String;
 
 export type CheckStatus =
   | "OKAY"
@@ -2574,7 +3925,7 @@ export type CheckStatus =
   | "NOT_AVAILABLE"
   | "FETCH_FAILED"
   | (string & {});
-export const CheckStatus = /*@__PURE__*/ S.String;
+export const CheckStatus = S.String;
 
 export type FlaggedResources = number;
 export type CheckFailureReason =
@@ -2583,7 +3934,7 @@ export type CheckFailureReason =
   | "UNKNOWN_ERROR"
   | "PREMIUM_SUPPORT_REQUIRED"
   | (string & {});
-export const CheckFailureReason = /*@__PURE__*/ S.String;
+export const CheckFailureReason = S.String;
 
 export interface CheckDetail {
   Id?: string;
@@ -2715,7 +4066,7 @@ export type LensType =
   | "CUSTOM_SHARED"
   | "CUSTOM_SELF"
   | (string & {});
-export const LensType = /*@__PURE__*/ S.String;
+export const LensType = S.String;
 
 export interface ListLensesInput {
   NextToken?: string;
@@ -2784,7 +4135,6 @@ export const ListLensesOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListLensesOutput",
 }) as any as S.Schema<ListLensesOutput>;
-export type ListLensReviewImprovementsMaxResults = number;
 export interface ListLensReviewImprovementsInput {
   WorkloadId: string;
   LensAlias: string;
@@ -2953,7 +4303,6 @@ export const ListLensReviewsOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListLensReviewsOutput",
 }) as any as S.Schema<ListLensReviewsOutput>;
 export type SharedWithPrefix = string;
-export type ListWorkloadSharesMaxResults = number;
 export type ShareStatus =
   | "ACCEPTED"
   | "REJECTED"
@@ -2964,7 +4313,7 @@ export type ShareStatus =
   | "ASSOCIATED"
   | "FAILED"
   | (string & {});
-export const ShareStatus = /*@__PURE__*/ S.String;
+export const ShareStatus = S.String;
 
 export interface ListLensSharesInput {
   LensAlias: string;
@@ -3111,7 +4460,6 @@ export const ListMilestonesOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListMilestonesOutput",
 }) as any as S.Schema<ListMilestonesOutput>;
-export type ListNotificationsMaxResults = number;
 export type ResourceArn = string;
 export interface ListNotificationsInput {
   WorkloadId?: string;
@@ -3142,7 +4490,7 @@ export type NotificationType =
   | "LENS_VERSION_UPGRADED"
   | "LENS_VERSION_DEPRECATED"
   | (string & {});
-export const NotificationType = /*@__PURE__*/ S.String;
+export const NotificationType = S.String;
 
 export interface LensUpgradeSummary {
   WorkloadId?: string;
@@ -3221,7 +4569,7 @@ export type ProfileNotificationType =
   | "PROFILE_ANSWERS_UPDATED"
   | "PROFILE_DELETED"
   | (string & {});
-export const ProfileNotificationType = /*@__PURE__*/ S.String;
+export const ProfileNotificationType = S.String;
 
 export interface ProfileNotificationSummary {
   CurrentProfileVersion?: string;
@@ -3263,7 +4611,7 @@ export const ListProfileNotificationsOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListProfileNotificationsOutput>;
 export type ProfileNamePrefix = string;
 export type ProfileOwnerType = "SELF" | "SHARED" | (string & {});
-export const ProfileOwnerType = /*@__PURE__*/ S.String;
+export const ProfileOwnerType = S.String;
 
 export interface ListProfilesInput {
   ProfileNamePrefix?: string;
@@ -3328,7 +4676,6 @@ export const ListProfilesOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListProfilesOutput",
 }) as any as S.Schema<ListProfilesOutput>;
-export type ListProfileSharesMaxResults = number;
 export interface ListProfileSharesInput {
   ProfileArn: string;
   SharedWithPrefix?: string;
@@ -3388,7 +4735,6 @@ export const ListProfileSharesOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListProfileSharesOutput",
 }) as any as S.Schema<ListProfileSharesOutput>;
-export type ListReviewTemplateAnswersMaxResults = number;
 export interface ListReviewTemplateAnswersInput {
   TemplateArn: string;
   LensAlias: string;
@@ -3532,9 +4878,8 @@ export type ShareResourceType =
   | "PROFILE"
   | "TEMPLATE"
   | (string & {});
-export const ShareResourceType = /*@__PURE__*/ S.String;
+export const ShareResourceType = S.String;
 
-export type ListShareInvitationsMaxResults = number;
 export type TemplateNamePrefix = string;
 export interface ListShareInvitationsInput {
   WorkloadNamePrefix?: string;
@@ -3650,7 +4995,6 @@ export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
-export type ListTemplateSharesMaxResults = number;
 export interface ListTemplateSharesInput {
   TemplateArn: string;
   SharedWithPrefix?: string;
@@ -3713,7 +5057,6 @@ export const ListTemplateSharesOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListTemplateSharesOutput",
 }) as any as S.Schema<ListTemplateSharesOutput>;
-export type ListWorkloadsMaxResults = number;
 export interface ListWorkloadsInput {
   WorkloadNamePrefix?: string;
   NextToken?: string;
@@ -3815,6 +5158,120 @@ export const ListWorkloadSharesOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListWorkloadSharesOutput",
 }) as any as S.Schema<ListWorkloadSharesOutput>;
+export type RecommendationFeedbackType =
+  | "USEFUL"
+  | "NOT_USEFUL"
+  | (string & {});
+export const RecommendationFeedbackType = S.String;
+
+export type FeedbackCategory =
+  | "OTHER"
+  | "RECOMMENDATION_NOT_RELEVANT"
+  | "RESOURCE_NOT_IMPORTANT"
+  | "RESOURCE_TYPE_NOT_IMPORTANT"
+  | "RECOMMENDATION_INCORRECT"
+  | (string & {});
+export const FeedbackCategory = S.String;
+
+export interface PutAgentRecommendationFeedbackRequest {
+  recommendationArn: string;
+  type: RecommendationFeedbackType;
+  feedbackCategory?: FeedbackCategory;
+  comments?: string;
+}
+export const PutAgentRecommendationFeedbackRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      recommendationArn: S.String.pipe(T.HttpLabel("recommendationArn")),
+      type: RecommendationFeedbackType,
+      feedbackCategory: S.optional(FeedbackCategory),
+      comments: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/api/v1/agent-recommendations/{recommendationArn}/feedback",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "PutAgentRecommendationFeedbackRequest",
+}) as any as S.Schema<PutAgentRecommendationFeedbackRequest>;
+export interface PutAgentRecommendationFeedbackResponse {}
+export const PutAgentRecommendationFeedbackResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "PutAgentRecommendationFeedbackResponse",
+}) as any as S.Schema<PutAgentRecommendationFeedbackResponse>;
+export type RecommendationTypes = RecommendationType[];
+export const RecommendationTypes = /*@__PURE__*/ S.Array(RecommendationType);
+export interface StartAgentRecommendationGenerationRequest {
+  profileArn: string;
+  types: RecommendationType[];
+  name?: string;
+  additionalContext?: any;
+  scope: Scope;
+}
+export const StartAgentRecommendationGenerationRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+      types: RecommendationTypes,
+      name: S.optional(S.String),
+      additionalContext: S.optional(S.Any),
+      scope: Scope,
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/api/v1/agent-profiles/{profileArn}/generations",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "StartAgentRecommendationGenerationRequest",
+  }) as any as S.Schema<StartAgentRecommendationGenerationRequest>;
+export interface StartAgentRecommendationGenerationResponse {
+  id: string;
+  profileArn: string;
+  name?: string;
+  status: GenerationStatus;
+  estimatedCompletionTime?: Date;
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+}
+export const StartAgentRecommendationGenerationResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.String,
+      profileArn: S.String,
+      name: S.optional(S.String),
+      status: GenerationStatus,
+      estimatedCompletionTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      createdBy: S.String,
+      createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      lastModifiedBy: S.optional(S.String),
+      lastModifiedAt: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+    }),
+  ).annotate({
+    identifier: "StartAgentRecommendationGenerationResponse",
+  }) as any as S.Schema<StartAgentRecommendationGenerationResponse>;
 export interface TagResourceInput {
   WorkloadArn: string;
   Tags?: { [key: string]: string | undefined };
@@ -3871,6 +5328,196 @@ export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
+export interface UpdateAgentContextRequest {
+  clientToken?: string;
+  profileArn: string;
+  id: string;
+  title?: string | redacted.Redacted<string>;
+  content?: ContextContent;
+}
+export const UpdateAgentContextRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+    id: S.String.pipe(T.HttpLabel("id")),
+    title: S.optional(SensitiveString),
+    content: S.optional(ContextContent),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/api/v1/agent-profiles/{profileArn}/contexts/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateAgentContextRequest",
+}) as any as S.Schema<UpdateAgentContextRequest>;
+export interface UpdateAgentContextResponse {
+  context: ContextSummary;
+}
+export const UpdateAgentContextResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ context: ContextSummary }),
+).annotate({
+  identifier: "UpdateAgentContextResponse",
+}) as any as S.Schema<UpdateAgentContextResponse>;
+export interface UpdateAgentGoalRequest {
+  clientToken?: string;
+  profileArn: string;
+  id: string;
+  pillars?: Pillar[];
+  title?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+}
+export const UpdateAgentGoalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+    id: S.String.pipe(T.HttpLabel("id")),
+    pillars: S.optional(Pillars),
+    title: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/api/v1/agent-profiles/{profileArn}/goals/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateAgentGoalRequest",
+}) as any as S.Schema<UpdateAgentGoalRequest>;
+export interface UpdateAgentGoalResponse {
+  goal: GoalSummary;
+}
+export const UpdateAgentGoalResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ goal: GoalSummary }),
+).annotate({
+  identifier: "UpdateAgentGoalResponse",
+}) as any as S.Schema<UpdateAgentGoalResponse>;
+export interface UpdateAgentProfileRequest {
+  clientToken?: string;
+  profileArn: string;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  executionRoleArn?: string;
+  aggregationConfiguration?: AggregationConfiguration[];
+  businessOverview?: string | redacted.Redacted<string>;
+  pillars?: Pillar[];
+  deletionProtection?: boolean;
+}
+export const UpdateAgentProfileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    profileArn: S.String.pipe(T.HttpLabel("profileArn")),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
+    executionRoleArn: S.optional(S.String),
+    aggregationConfiguration: S.optional(AggregationConfigurations),
+    businessOverview: S.optional(SensitiveString),
+    pillars: S.optional(Pillars),
+    deletionProtection: S.optional(S.Boolean),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/api/v1/agent-profiles/{profileArn}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateAgentProfileRequest",
+}) as any as S.Schema<UpdateAgentProfileRequest>;
+export interface UpdateAgentProfileResponse {
+  name: string;
+  displayName?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string>;
+  businessOverview?: string | redacted.Redacted<string>;
+  pillars: Pillar[];
+  deletionProtection?: boolean;
+  executionRoleArn: string;
+  aggregationConfiguration: AggregationConfiguration[];
+  arn: string;
+  eligibleForScheduledGeneration?: boolean;
+  eligibleForArchitectureGeneration?: boolean;
+  fieldErrors?: { [key: string]: string | undefined };
+  tags?: Tag[];
+  createdBy: string;
+  createdAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+}
+export const UpdateAgentProfileResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
+    businessOverview: S.optional(SensitiveString),
+    pillars: Pillars,
+    deletionProtection: S.optional(S.Boolean),
+    executionRoleArn: S.String,
+    aggregationConfiguration: AggregationConfigurations,
+    arn: S.String,
+    eligibleForScheduledGeneration: S.optional(S.Boolean),
+    eligibleForArchitectureGeneration: S.optional(S.Boolean),
+    fieldErrors: S.optional(FieldErrors),
+    tags: S.optional(Tags),
+    createdBy: S.String,
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "UpdateAgentProfileResponse",
+}) as any as S.Schema<UpdateAgentProfileResponse>;
+export interface UpdateAgentRecommendationStatusRequest {
+  recommendationArn: string;
+  status: RecommendationStatus;
+  updateReason?: string | redacted.Redacted<string>;
+}
+export const UpdateAgentRecommendationStatusRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      recommendationArn: S.String.pipe(T.HttpLabel("recommendationArn")),
+      status: RecommendationStatus,
+      updateReason: S.optional(SensitiveString),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/api/v1/agent-recommendations/{recommendationArn}/status",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "UpdateAgentRecommendationStatusRequest",
+}) as any as S.Schema<UpdateAgentRecommendationStatusRequest>;
+export interface UpdateAgentRecommendationStatusResponse {}
+export const UpdateAgentRecommendationStatusResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "UpdateAgentRecommendationStatusResponse",
+}) as any as S.Schema<UpdateAgentRecommendationStatusResponse>;
 export interface ChoiceUpdate {
   Status?: ChoiceStatus;
   Reason?: ChoiceReason;
@@ -3941,7 +5588,7 @@ export const UpdateAnswerOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateAnswerOutput",
 }) as any as S.Schema<UpdateAnswerOutput>;
 export type IntegrationStatusInput = "NOT_CONFIGURED" | (string & {});
-export const IntegrationStatusInput = /*@__PURE__*/ S.String;
+export const IntegrationStatusInput = S.String;
 
 export interface AccountJiraConfigurationInput {
   IssueManagementStatus?: AccountJiraIssueManagementStatus;
@@ -3989,7 +5636,7 @@ export const UpdateGlobalSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateGlobalSettingsResponse",
 }) as any as S.Schema<UpdateGlobalSettingsResponse>;
 export type IntegratingService = "JIRA" | (string & {});
-export const IntegratingService = /*@__PURE__*/ S.String;
+export const IntegratingService = S.String;
 
 export interface UpdateIntegrationInput {
   WorkloadId: string;
@@ -4232,7 +5879,7 @@ export const UpdateReviewTemplateLensReviewOutput = /*@__PURE__*/ S.suspend(
   identifier: "UpdateReviewTemplateLensReviewOutput",
 }) as any as S.Schema<UpdateReviewTemplateLensReviewOutput>;
 export type ShareInvitationAction = "ACCEPT" | "REJECT" | (string & {});
-export const ShareInvitationAction = /*@__PURE__*/ S.String;
+export const ShareInvitationAction = S.String;
 
 export interface UpdateShareInvitationInput {
   ShareInvitationId: string;
@@ -4516,7 +6163,7 @@ export type ValidationExceptionReason =
   | "FIELD_VALIDATION_FAILED"
   | "OTHER"
   | (string & {});
-export const ValidationExceptionReason = /*@__PURE__*/ S.String;
+export const ValidationExceptionReason = S.String;
 
 export type ValidationExceptionFieldName = string;
 export interface ValidationExceptionField {
@@ -4543,14 +6190,11 @@ export type AssociateLensesError =
 /**
  * Associate a lens to a workload.
  *
- * Up to 10 lenses can be associated with a workload in a single API operation. A
- * maximum of 20 lenses can be associated with a workload.
+ * Up to 10 lenses can be associated with a workload in a single API operation. A maximum of 20 lenses can be associated with a workload.
  *
  * **Disclaimer**
  *
- * By accessing and/or applying custom lenses created by another Amazon Web Services user or account,
- * you acknowledge that custom lenses created by other users and shared with you are
- * Third Party Content as defined in the Amazon Web Services Customer Agreement.
+ * By accessing and/or applying custom lenses created by another Amazon Web Services user or account, you acknowledge that custom lenses created by other users and shared with you are Third Party Content as defined in the Amazon Web Services Customer Agreement.
  */
 export const associateLenses: API.OperationMethod<
   AssociateLensesInput,
@@ -4605,6 +6249,106 @@ export const associateProfiles: API.OperationMethod<
   operationName: "AssociateProfiles",
 }));
 
+export type CreateAgentContextError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a context associated with an optimization profile. Contexts provide application and environment information used during recommendation generation.
+ */
+export const createAgentContext: API.OperationMethod<
+  CreateAgentContextRequest,
+  CreateAgentContextResponse,
+  CreateAgentContextError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateAgentContextRequest,
+  output: CreateAgentContextResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateAgentContext",
+}));
+
+export type CreateAgentGoalError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an optimization goal associated with a profile. Goals define specific targets and objectives for the optimization process.
+ */
+export const createAgentGoal: API.OperationMethod<
+  CreateAgentGoalRequest,
+  CreateAgentGoalResponse,
+  CreateAgentGoalError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateAgentGoalRequest,
+  output: CreateAgentGoalResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateAgentGoal",
+}));
+
+export type CreateAgentProfileError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an optimization profile that defines the scope and configuration for generating recommendations. A profile specifies the execution role, target pillars, and aggregation settings for analyzing your Amazon Web Services resources.
+ */
+export const createAgentProfile: API.OperationMethod<
+  CreateAgentProfileRequest,
+  CreateAgentProfileResponse,
+  CreateAgentProfileError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateAgentProfileRequest,
+  output: CreateAgentProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateAgentProfile",
+}));
+
 export type CreateLensShareError =
   | AccessDeniedException
   | ConflictException
@@ -4617,26 +6361,17 @@ export type CreateLensShareError =
 /**
  * Create a lens share.
  *
- * The owner of a lens can share it with other Amazon Web Services accounts, users, an organization,
- * and organizational units (OUs) in the same Amazon Web Services Region.
- * Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared.
+ * The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared.
  *
  * Shared access to a lens is not removed until the lens invitation is deleted.
  *
- * If you share a lens with an organization or OU, all accounts in the organization or OU
- * are granted access to the lens.
+ * If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens.
  *
- * For more information, see Sharing a custom lens in the
- * *Well-Architected Tool User Guide*.
+ * For more information, see Sharing a custom lens in the *Well-Architected Tool User Guide*.
  *
  * **Disclaimer**
  *
- * By sharing your custom lenses with other Amazon Web Services accounts,
- * you acknowledge that Amazon Web Services will make your custom lenses available to those
- * other accounts. Those other accounts may continue to access and use your
- * shared custom lenses even if you delete the custom lenses
- * from your own Amazon Web Services account or terminate
- * your Amazon Web Services account.
+ * By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
  */
 export const createLensShare: API.OperationMethod<
   CreateLensShareInput,
@@ -4674,10 +6409,7 @@ export type CreateLensVersionError =
  *
  * A lens can have up to 100 versions.
  *
- * Use this operation to publish a new lens version after you have imported a lens. The `LensAlias`
- * is used to identify the lens to be published.
- * The owner of a lens can share the lens with other
- * Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
+ * Use this operation to publish a new lens version after you have imported a lens. The `LensAlias` is used to identify the lens to be published. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
  */
 export const createLensVersion: API.OperationMethod<
   CreateLensVersionInput,
@@ -4815,12 +6547,7 @@ export type CreateReviewTemplateError =
  *
  * **Disclaimer**
  *
- * Do not include or gather personal identifiable information (PII) of end users or
- * other identifiable individuals in or via your review templates. If your review
- * template or those shared with you and used in your account do include or collect PII
- * you are responsible for: ensuring that the included PII is processed in accordance
- * with applicable law, providing adequate privacy notices, and obtaining necessary
- * consents for processing such data.
+ * Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
  */
 export const createReviewTemplate: API.OperationMethod<
   CreateReviewTemplateInput,
@@ -4856,20 +6583,15 @@ export type CreateTemplateShareError =
 /**
  * Create a review template share.
  *
- * The owner of a review template can share it with other Amazon Web Services accounts,
- * users, an organization, and organizational units (OUs) in the same Amazon Web Services Region.
+ * The owner of a review template can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region.
  *
- * Shared access to a review template is not removed until the review template share
- * invitation is deleted.
+ * Shared access to a review template is not removed until the review template share invitation is deleted.
  *
- * If you share a review template with an organization or OU, all accounts in the
- * organization or OU are granted access to the review template.
+ * If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template.
  *
  * **Disclaimer**
  *
- * By sharing your review template with other Amazon Web Services accounts, you
- * acknowledge that Amazon Web Services will make your review template available to
- * those other accounts.
+ * By sharing your review template with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your review template available to those other accounts.
  */
 export const createTemplateShare: API.OperationMethod<
   CreateTemplateShareInput,
@@ -4905,18 +6627,13 @@ export type CreateWorkloadError =
 /**
  * Create a new workload.
  *
- * The owner of a workload can share the workload with other Amazon Web Services accounts, users,
- * an organization, and organizational units (OUs)
- * in the same Amazon Web Services Region. Only the owner of a workload can delete it.
+ * The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a workload can delete it.
  *
- * For more information, see Defining a Workload in the
- * *Well-Architected Tool User Guide*.
+ * For more information, see Defining a Workload in the *Well-Architected Tool User Guide*.
  *
- * Either `AwsRegions`, `NonAwsRegions`, or both must be specified when
- * creating a workload.
+ * Either `AwsRegions`, `NonAwsRegions`, or both must be specified when creating a workload.
  *
- * You also must specify `ReviewOwner`, even though the
- * parameter is listed as not being required in the following section.
+ * You also must specify `ReviewOwner`, even though the parameter is listed as not being required in the following section.
  *
  * When creating a workload using a review template, you must have the following IAM permissions:
  *
@@ -4962,15 +6679,11 @@ export type CreateWorkloadShareError =
 /**
  * Create a workload share.
  *
- * The owner of a workload can share it with other Amazon Web Services accounts and users in the same
- * Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is
- * deleted.
+ * The owner of a workload can share it with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted.
  *
- * If you share a workload with an organization or OU, all accounts in the organization or OU
- * are granted access to the workload.
+ * If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload.
  *
- * For more information, see Sharing a workload in the
- * *Well-Architected Tool User Guide*.
+ * For more information, see Sharing a workload in the *Well-Architected Tool User Guide*.
  */
 export const createWorkloadShare: API.OperationMethod<
   CreateWorkloadShareInput,
@@ -4994,6 +6707,98 @@ export const createWorkloadShare: API.OperationMethod<
   operationName: "CreateWorkloadShare",
 }));
 
+export type DeleteAgentContextError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a context associated with a profile.
+ */
+export const deleteAgentContext: API.OperationMethod<
+  DeleteAgentContextRequest,
+  DeleteAgentContextResponse,
+  DeleteAgentContextError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteAgentContextRequest,
+  output: DeleteAgentContextResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteAgentContext",
+}));
+
+export type DeleteAgentGoalError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes an optimization goal from a profile.
+ */
+export const deleteAgentGoal: API.OperationMethod<
+  DeleteAgentGoalRequest,
+  DeleteAgentGoalResponse,
+  DeleteAgentGoalError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteAgentGoalRequest,
+  output: DeleteAgentGoalResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteAgentGoal",
+}));
+
+export type DeleteAgentProfileError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes an optimization profile and its associated configuration. This action cannot be undone.
+ */
+export const deleteAgentProfile: API.OperationMethod<
+  DeleteAgentProfileRequest,
+  DeleteAgentProfileResponse,
+  DeleteAgentProfileError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteAgentProfileRequest,
+  output: DeleteAgentProfileResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteAgentProfile",
+}));
+
 export type DeleteLensError =
   | AccessDeniedException
   | ConflictException
@@ -5005,17 +6810,11 @@ export type DeleteLensError =
 /**
  * Delete an existing lens.
  *
- * Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and users
- * that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.
+ * Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.
  *
  * **Disclaimer**
  *
- * By sharing your custom lenses with other Amazon Web Services accounts,
- * you acknowledge that Amazon Web Services will make your custom lenses available to those
- * other accounts. Those other accounts may continue to access and use your
- * shared custom lenses even if you delete the custom lenses
- * from your own Amazon Web Services account or terminate
- * your Amazon Web Services account.
+ * By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
  */
 export const deleteLens: API.OperationMethod<
   DeleteLensInput,
@@ -5049,18 +6848,11 @@ export type DeleteLensShareError =
 /**
  * Delete a lens share.
  *
- * After the lens share is deleted, Amazon Web Services accounts, users, organizations,
- * and organizational units (OUs)
- * that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.
+ * After the lens share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.
  *
  * **Disclaimer**
  *
- * By sharing your custom lenses with other Amazon Web Services accounts,
- * you acknowledge that Amazon Web Services will make your custom lenses available to those
- * other accounts. Those other accounts may continue to access and use your
- * shared custom lenses even if you delete the custom lenses
- * from your own Amazon Web Services account or terminate
- * your Amazon Web Services account.
+ * By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
  */
 export const deleteLensShare: API.OperationMethod<
   DeleteLensShareInput,
@@ -5096,12 +6888,7 @@ export type DeleteProfileError =
  *
  * **Disclaimer**
  *
- * By sharing your profile with other Amazon Web Services accounts,
- * you acknowledge that Amazon Web Services will make your profile available to those
- * other accounts. Those other accounts may continue to access and use your
- * shared profile even if you delete the profile
- * from your own Amazon Web Services account or terminate
- * your Amazon Web Services account.
+ * By sharing your profile with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your profile available to those other accounts. Those other accounts may continue to access and use your shared profile even if you delete the profile from your own Amazon Web Services account or terminate your Amazon Web Services account.
  */
 export const deleteProfile: API.OperationMethod<
   DeleteProfileInput,
@@ -5169,9 +6956,7 @@ export type DeleteReviewTemplateError =
  *
  * Only the owner of a review template can delete it.
  *
- * After the review template is deleted, Amazon Web Services accounts, users,
- * organizations, and organizational units (OUs) that you shared the review template with
- * will no longer be able to apply it to new workloads.
+ * After the review template is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
  */
 export const deleteReviewTemplate: API.OperationMethod<
   DeleteReviewTemplateInput,
@@ -5205,9 +6990,7 @@ export type DeleteTemplateShareError =
 /**
  * Delete a review template share.
  *
- * After the review template share is deleted, Amazon Web Services accounts, users,
- * organizations, and organizational units (OUs) that you shared the review template with
- * will no longer be able to apply it to new workloads.
+ * After the review template share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
  */
 export const deleteTemplateShare: API.OperationMethod<
   DeleteTemplateShareInput,
@@ -5307,8 +7090,7 @@ export type DisassociateLensesError =
  *
  * Up to 10 lenses can be disassociated from a workload in a single API operation.
  *
- * The Amazon Web Services Well-Architected Framework lens (`wellarchitected`) cannot be
- * removed from a workload.
+ * The Amazon Web Services Well-Architected Framework lens (`wellarchitected`) cannot be removed from a workload.
  */
 export const disassociateLenses: API.OperationMethod<
   DisassociateLensesInput,
@@ -5373,20 +7155,13 @@ export type ExportLensError =
 /**
  * Export an existing lens.
  *
- * Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content)
- * cannot be exported.
+ * Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be exported.
  *
- * Lenses are defined in JSON. For more information, see JSON format specification
- * in the *Well-Architected Tool User Guide*.
+ * Lenses are defined in JSON. For more information, see JSON format specification in the *Well-Architected Tool User Guide*.
  *
  * **Disclaimer**
  *
- * Do not include or gather personal identifiable information (PII) of end users or
- * other identifiable individuals in or via your custom lenses. If your custom
- * lens or those shared with you and used in your account do include or collect
- * PII you are responsible for: ensuring that the included PII is processed in accordance
- * with applicable law, providing adequate privacy notices, and obtaining necessary
- * consents for processing such data.
+ * Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
  */
 export const exportLens: API.OperationMethod<
   ExportLensInput,
@@ -5406,6 +7181,156 @@ export const exportLens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportLens",
+}));
+
+export type GetAgentContextError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves detailed information about a specific context associated with a profile.
+ */
+export const getAgentContext: API.OperationMethod<
+  GetAgentContextRequest,
+  GetAgentContextResponse,
+  GetAgentContextError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAgentContextRequest,
+  output: GetAgentContextResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAgentContext",
+}));
+
+export type GetAgentGoalError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves detailed information about a specific optimization goal.
+ */
+export const getAgentGoal: API.OperationMethod<
+  GetAgentGoalRequest,
+  GetAgentGoalResponse,
+  GetAgentGoalError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAgentGoalRequest,
+  output: GetAgentGoalResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAgentGoal",
+}));
+
+export type GetAgentProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves detailed information about an optimization profile, including its configuration and metadata.
+ */
+export const getAgentProfile: API.OperationMethod<
+  GetAgentProfileRequest,
+  GetAgentProfileResponse,
+  GetAgentProfileError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAgentProfileRequest,
+  output: GetAgentProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAgentProfile",
+}));
+
+export type GetAgentRecommendationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves detailed information about a specific optimization recommendation, including its impact analysis, content, and implementation guidance.
+ */
+export const getAgentRecommendation: API.OperationMethod<
+  GetAgentRecommendationRequest,
+  GetAgentRecommendationResponse,
+  GetAgentRecommendationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAgentRecommendationRequest,
+  output: GetAgentRecommendationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAgentRecommendation",
+}));
+
+export type GetAgentRecommendationGenerationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves information about a recommendation generation process, including its status, progress, and results. Recommendation generation is asynchronous: poll this operation until status reaches a terminal value of COMPLETED (results are ready) or ERROR (see errorDetails). Intermediate values are QUEUED and IN_PROGRESS.
+ */
+export const getAgentRecommendationGeneration: API.OperationMethod<
+  GetAgentRecommendationGenerationRequest,
+  GetAgentRecommendationGenerationResponse,
+  GetAgentRecommendationGenerationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAgentRecommendationGenerationRequest,
+  output: GetAgentRecommendationGenerationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAgentRecommendationGeneration",
 }));
 
 export type GetAnswerError =
@@ -5846,26 +7771,17 @@ export type ImportLensError =
 /**
  * Import a new custom lens or update an existing custom lens.
  *
- * To update an existing custom lens, specify its ARN as the `LensAlias`. If
- * no ARN is specified, a new custom lens is created.
+ * To update an existing custom lens, specify its ARN as the `LensAlias`. If no ARN is specified, a new custom lens is created.
  *
- * The new or updated lens will have a status of `DRAFT`. The lens cannot be
- * applied to workloads or shared with other Amazon Web Services accounts until it's
- * published with CreateLensVersion.
+ * The new or updated lens will have a status of `DRAFT`. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with CreateLensVersion.
  *
- * Lenses are defined in JSON. For more information, see JSON format specification
- * in the *Well-Architected Tool User Guide*.
+ * Lenses are defined in JSON. For more information, see JSON format specification in the *Well-Architected Tool User Guide*.
  *
  * A custom lens cannot exceed 500 KB in size.
  *
  * **Disclaimer**
  *
- * Do not include or gather personal identifiable information (PII) of end users or
- * other identifiable individuals in or via your custom lenses. If your custom
- * lens or those shared with you and used in your account do include or collect
- * PII you are responsible for: ensuring that the included PII is processed in accordance
- * with applicable law, providing adequate privacy notices, and obtaining necessary
- * consents for processing such data.
+ * Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
  */
 export const importLens: API.OperationMethod<
   ImportLensInput,
@@ -5888,6 +7804,222 @@ export const importLens: API.OperationMethod<
   retry: Retry,
   operationName: "ImportLens",
 }));
+
+export type ListAgentContextsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists contexts associated with a profile.
+ */
+export const listAgentContexts: API.PaginatedOperationMethod<
+  ListAgentContextsRequest,
+  ListAgentContextsResponse,
+  ListAgentContextsError,
+  Credentials | HttpClient.HttpClient,
+  ContextSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListAgentContextsRequest,
+  output: ListAgentContextsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAgentContexts",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListAgentGoalsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists optimization goals associated with a specified profile. Goals define specific targets and objectives for the optimization process.
+ */
+export const listAgentGoals: API.PaginatedOperationMethod<
+  ListAgentGoalsRequest,
+  ListAgentGoalsResponse,
+  ListAgentGoalsError,
+  Credentials | HttpClient.HttpClient,
+  GoalSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListAgentGoalsRequest,
+  output: ListAgentGoalsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAgentGoals",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListAgentProfilesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists optimization profiles in your account. Profiles define the scope and configuration for generating optimization recommendations.
+ */
+export const listAgentProfiles: API.PaginatedOperationMethod<
+  ListAgentProfilesRequest,
+  ListAgentProfilesResponse,
+  ListAgentProfilesError,
+  Credentials | HttpClient.HttpClient,
+  AgentProfileSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListAgentProfilesRequest,
+  output: ListAgentProfilesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAgentProfiles",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListAgentRecommendationGenerationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists recommendation generation processes for a specified profile.
+ */
+export const listAgentRecommendationGenerations: API.PaginatedOperationMethod<
+  ListAgentRecommendationGenerationsRequest,
+  ListAgentRecommendationGenerationsResponse,
+  ListAgentRecommendationGenerationsError,
+  Credentials | HttpClient.HttpClient,
+  AgentRecommendationGenerationSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListAgentRecommendationGenerationsRequest,
+  output: ListAgentRecommendationGenerationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAgentRecommendationGenerations",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListAgentRecommendationItemsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists recommendation items for a specific recommendation. Recommendation items provide detailed information about individual optimization opportunities.
+ */
+export const listAgentRecommendationItems: API.PaginatedOperationMethod<
+  ListAgentRecommendationItemsRequest,
+  ListAgentRecommendationItemsResponse,
+  ListAgentRecommendationItemsError,
+  Credentials | HttpClient.HttpClient,
+  AgentRecommendationItemSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListAgentRecommendationItemsRequest,
+  output: ListAgentRecommendationItemsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAgentRecommendationItems",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListAgentRecommendationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists active optimization recommendations for a specified profile with optional filtering by state.
+ */
+export const listAgentRecommendations: API.PaginatedOperationMethod<
+  ListAgentRecommendationsRequest,
+  ListAgentRecommendationsResponse,
+  ListAgentRecommendationsError,
+  Credentials | HttpClient.HttpClient,
+  AgentRecommendationSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListAgentRecommendationsRequest,
+  output: ListAgentRecommendationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAgentRecommendations",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
 
 export type ListAnswersError =
   | AccessDeniedException
@@ -6392,9 +8524,7 @@ export type ListShareInvitationsError =
 /**
  * List the share invitations.
  *
- * `WorkloadNamePrefix`, `LensNamePrefix`,
- * `ProfileNamePrefix`, and `TemplateNamePrefix` are mutually
- * exclusive. Use the parameter that matches your `ShareResourceType`.
+ * `WorkloadNamePrefix`, `LensNamePrefix`, `ProfileNamePrefix`, and `TemplateNamePrefix` are mutually exclusive. Use the parameter that matches your `ShareResourceType`.
  */
 export const listShareInvitations: API.PaginatedOperationMethod<
   ListShareInvitationsInput,
@@ -6550,6 +8680,68 @@ export const listWorkloadShares: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type PutAgentRecommendationFeedbackError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Submits user feedback on a recommendation to help improve future optimization suggestions and track implementation outcomes.
+ */
+export const putAgentRecommendationFeedback: API.OperationMethod<
+  PutAgentRecommendationFeedbackRequest,
+  PutAgentRecommendationFeedbackResponse,
+  PutAgentRecommendationFeedbackError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutAgentRecommendationFeedbackRequest,
+  output: PutAgentRecommendationFeedbackResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutAgentRecommendationFeedback",
+}));
+
+export type StartAgentRecommendationGenerationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Initiates a new recommendation generation process for the specified optimization profile. This asynchronous operation analyzes your Amazon Web Services resources and generates optimization recommendations based on the configured pillars and scope. Use GetAgentRecommendationGeneration to check status.
+ */
+export const startAgentRecommendationGeneration: API.OperationMethod<
+  StartAgentRecommendationGenerationRequest,
+  StartAgentRecommendationGenerationResponse,
+  StartAgentRecommendationGenerationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: StartAgentRecommendationGenerationRequest,
+  output: StartAgentRecommendationGenerationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartAgentRecommendationGeneration",
+}));
+
 export type TagResourceError =
   | InternalServerException
   | ResourceNotFoundException
@@ -6598,6 +8790,126 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+}));
+
+export type UpdateAgentContextError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates an existing context associated with a profile.
+ */
+export const updateAgentContext: API.OperationMethod<
+  UpdateAgentContextRequest,
+  UpdateAgentContextResponse,
+  UpdateAgentContextError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateAgentContextRequest,
+  output: UpdateAgentContextResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateAgentContext",
+}));
+
+export type UpdateAgentGoalError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the pillars and title of an existing goal associated with a profile.
+ */
+export const updateAgentGoal: API.OperationMethod<
+  UpdateAgentGoalRequest,
+  UpdateAgentGoalResponse,
+  UpdateAgentGoalError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateAgentGoalRequest,
+  output: UpdateAgentGoalResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateAgentGoal",
+}));
+
+export type UpdateAgentProfileError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates an existing optimization profile's configuration, including its pillars, execution role, and aggregation settings.
+ */
+export const updateAgentProfile: API.OperationMethod<
+  UpdateAgentProfileRequest,
+  UpdateAgentProfileResponse,
+  UpdateAgentProfileError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateAgentProfileRequest,
+  output: UpdateAgentProfileResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateAgentProfile",
+}));
+
+export type UpdateAgentRecommendationStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the status of a recommendation to track its progress through the implementation lifecycle.
+ */
+export const updateAgentRecommendationStatus: API.OperationMethod<
+  UpdateAgentRecommendationStatusRequest,
+  UpdateAgentRecommendationStatusResponse,
+  UpdateAgentRecommendationStatusError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateAgentRecommendationStatusRequest,
+  output: UpdateAgentRecommendationStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateAgentRecommendationStatus",
 }));
 
 export type UpdateAnswerError =

@@ -14,13 +14,14 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.azure.containerinstance#SubnetServiceAssociationLinkDelete": {
+    "com.azure.containerinstance#DeleteSubnetServiceAssociationLink": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#SubnetServiceAssociationLinkDeleteRequest"
+        "target": "com.azure.containerinstance#DeleteSubnetServiceAssociationLinkRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -30,13 +31,13 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/providers/Microsoft.ContainerInstance/serviceAssociationLinks/default",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Delete container group virtual network association links.\n\nDelete container group virtual network association links. The operation does not delete other resources provided by the user.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#SubnetServiceAssociationLinkDeleteRequest": {
+    "com.azure.containerinstance#DeleteSubnetServiceAssociationLinkRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -76,10 +77,1144 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#NGroupsStop": {
+    "com.azure.containerinstance#ConnectSandboxGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#NGroupsStopRequest"
+        "target": "com.azure.containerinstance#ConnectSandboxGroupRequest"
+      },
+      "output": {
+        "target": "com.azure.containerinstance#SandboxGroupAccessToken"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups/{sandboxGroupName}/connect",
+          "code": 200,
+          "apiVersion": "2026-07-01"
+        },
+        "smithy.api#documentation": "Get an access token and endpoint for connecting to the SandboxGroup.\n\nGet an access token and endpoint for connecting to the SandboxGroup.",
+        "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupAccessToken": {
+      "type": "structure",
+      "members": {
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The endpoint URL to use with the access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "accessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The access token used to authenticate against the endpoint.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "notAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The UTC date and time at which the access token expires.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The result of getting an access token for a SandboxGroup."
+      }
+    },
+    "com.azure.containerinstance#ConnectSandboxGroupRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "sandboxGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the SandboxGroup."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.containerinstance#DeleteSandboxGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.containerinstance#DeleteSandboxGroupRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups/{sandboxGroupName}",
+          "code": 200,
+          "apiVersion": "2026-07-01"
+        },
+        "smithy.api#documentation": "Delete a SandboxGroup\n\nDelete a SandboxGroup",
+        "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#DeleteSandboxGroupRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "sandboxGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the SandboxGroup."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.containerinstance#UpdateSandboxGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.containerinstance#UpdateSandboxGroupRequest"
+      },
+      "output": {
+        "target": "com.azure.containerinstance#UpdateSandboxGroupResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups/{sandboxGroupName}",
+          "code": 200,
+          "apiVersion": "2026-07-01"
+        },
+        "smithy.api#documentation": "Update a SandboxGroup\n\nUpdate a SandboxGroup",
+        "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#UpdateSandboxGroupResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.containerinstance#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.containerinstance#UpdateSandboxGroupResponseTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.containerinstance#SandboxGroupProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "identity": {
+          "target": "com.azure.containerinstance#UpdateSandboxGroupResponseIdentity",
+          "traits": {
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.containerinstance#UpdateSandboxGroupResponseIdentity": {
+      "type": "structure",
+      "members": {
+        "principalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity."
+          }
+        },
+        "tenantId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity."
+          }
+        },
+        "type": {
+          "target": "com.azure.containerinstance#ManagedServiceIdentityType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.containerinstance#UserAssignedIdentities"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+      }
+    },
+    "com.azure.containerinstance#UserAssignedIdentities": {
+      "type": "structure",
+      "members": {
+        "principalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The principal id of user assigned identity."
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The client id of user assigned identity."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of user identities associated with the container group. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+      }
+    },
+    "com.azure.containerinstance#ManagedServiceIdentityType": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "None"
+          }
+        },
+        "SYSTEMASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SystemAssigned"
+          }
+        },
+        "USERASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UserAssigned"
+          }
+        },
+        "SYSTEMASSIGNED_USERASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SystemAssigned,UserAssigned"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed)."
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupProperties": {
+      "type": "structure",
+      "members": {
+        "provisioningState": {
+          "target": "com.azure.containerinstance#SandboxGroupProvisioningState",
+          "traits": {
+            "smithy.api#documentation": "The status of the last operation."
+          }
+        },
+        "networkProfile": {
+          "target": "com.azure.containerinstance#SandboxGroupNetworkProfile",
+          "traits": {
+            "smithy.api#documentation": "The network profile of the SandboxGroup."
+          }
+        },
+        "managementResourceGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ARM resource ID of the management resource group associated with this SandboxGroup."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Properties of a SandboxGroup."
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupNetworkProfile": {
+      "type": "structure",
+      "members": {
+        "subnets": {
+          "target": "com.azure.containerinstance#SandboxGroupNetworkProfileSubnetsList",
+          "traits": {
+            "smithy.api#documentation": "The list of subnets associated with the SandboxGroup."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The network profile for a SandboxGroup."
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupNetworkProfileSubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.containerinstance#SubnetReference"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of subnets associated with the SandboxGroup."
+      }
+    },
+    "com.azure.containerinstance#SubnetReference": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ARM resource ID of the subnet. The caller must have `Microsoft.Network/virtualNetworks/subnets/join/action` permission on this subnet (enforced via a linked access check at create/update time).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A reference to a subnet resource."
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupProvisioningState": {
+      "type": "enum",
+      "members": {
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Failed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Canceled"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Updating"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Deleting"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Accepted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The provisioning state of a SandboxGroup resource."
+      }
+    },
+    "com.azure.containerinstance#UpdateSandboxGroupResponseTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.containerinstance#SystemData": {
+      "type": "structure",
+      "members": {
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identity that created the resource."
+          }
+        },
+        "createdByType": {
+          "target": "com.azure.containerinstance#SystemDataCreatedByType",
+          "traits": {
+            "smithy.api#documentation": "The type of identity that created the resource."
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of resource creation (UTC)."
+          }
+        },
+        "lastModifiedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identity that last modified the resource."
+          }
+        },
+        "lastModifiedByType": {
+          "target": "com.azure.containerinstance#SystemDataLastModifiedByType",
+          "traits": {
+            "smithy.api#documentation": "The type of identity that last modified the resource."
+          }
+        },
+        "lastModifiedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of resource last modification (UTC)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
+      }
+    },
+    "com.azure.containerinstance#SystemDataLastModifiedByType": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "User"
+          }
+        },
+        "APPLICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Application"
+          }
+        },
+        "MANAGEDIDENTITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ManagedIdentity"
+          }
+        },
+        "KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Key"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of identity that last modified the resource."
+      }
+    },
+    "com.azure.containerinstance#SystemDataCreatedByType": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "User"
+          }
+        },
+        "APPLICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Application"
+          }
+        },
+        "MANAGEDIDENTITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ManagedIdentity"
+          }
+        },
+        "KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Key"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of identity that created the resource."
+      }
+    },
+    "com.azure.containerinstance#UpdateSandboxGroupRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "sandboxGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the SandboxGroup."
+          }
+        },
+        "tags": {
+          "target": "com.azure.containerinstance#UpdateSandboxGroupRequestTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "identity": {
+          "target": "com.azure.containerinstance#UpdateSandboxGroupRequestIdentity",
+          "traits": {
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.containerinstance#UpdateSandboxGroupRequestIdentity": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.azure.containerinstance#ManagedServiceIdentityType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.containerinstance#UserAssignedIdentitiesInput"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+      }
+    },
+    "com.azure.containerinstance#UserAssignedIdentitiesInput": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "The list of user identities associated with the container group. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+      }
+    },
+    "com.azure.containerinstance#UpdateSandboxGroupRequestTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupsCreateOrUpdate": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.containerinstance#SandboxGroupsCreateOrUpdateRequest"
+      },
+      "output": {
+        "target": "com.azure.containerinstance#SandboxGroupsCreateOrUpdateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups/{sandboxGroupName}",
+          "code": 200,
+          "apiVersion": "2026-07-01"
+        },
+        "smithy.api#documentation": "Create a SandboxGroup\n\nCreate a SandboxGroup",
+        "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupsCreateOrUpdateResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.containerinstance#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.containerinstance#SandboxGroupsCreateOrUpdateResponseTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.containerinstance#SandboxGroupProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "identity": {
+          "target": "com.azure.containerinstance#SandboxGroupsCreateOrUpdateResponseIdentity",
+          "traits": {
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupsCreateOrUpdateResponseIdentity": {
+      "type": "structure",
+      "members": {
+        "principalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity."
+          }
+        },
+        "tenantId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity."
+          }
+        },
+        "type": {
+          "target": "com.azure.containerinstance#ManagedServiceIdentityType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.containerinstance#UserAssignedIdentities"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupsCreateOrUpdateResponseTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupsCreateOrUpdateRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "sandboxGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the SandboxGroup."
+          }
+        },
+        "tags": {
+          "target": "com.azure.containerinstance#SandboxGroupsCreateOrUpdateRequestTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.containerinstance#SandboxGroupPropertiesInput",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "identity": {
+          "target": "com.azure.containerinstance#SandboxGroupsCreateOrUpdateRequestIdentity",
+          "traits": {
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupsCreateOrUpdateRequestIdentity": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.azure.containerinstance#ManagedServiceIdentityType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.containerinstance#UserAssignedIdentitiesInput"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupPropertiesInput": {
+      "type": "structure",
+      "members": {
+        "networkProfile": {
+          "target": "com.azure.containerinstance#SandboxGroupNetworkProfile",
+          "traits": {
+            "smithy.api#documentation": "The network profile of the SandboxGroup."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Properties of a SandboxGroup."
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupsCreateOrUpdateRequestTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.containerinstance#GetSandboxGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.containerinstance#GetSandboxGroupRequest"
+      },
+      "output": {
+        "target": "com.azure.containerinstance#GetSandboxGroupResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups/{sandboxGroupName}",
+          "code": 200,
+          "apiVersion": "2026-07-01"
+        },
+        "smithy.api#documentation": "Get a SandboxGroup\n\nGet a SandboxGroup",
+        "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#GetSandboxGroupResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.containerinstance#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.containerinstance#GetSandboxGroupResponseTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.containerinstance#SandboxGroupProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "identity": {
+          "target": "com.azure.containerinstance#GetSandboxGroupResponseIdentity",
+          "traits": {
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.containerinstance#GetSandboxGroupResponseIdentity": {
+      "type": "structure",
+      "members": {
+        "principalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity."
+          }
+        },
+        "tenantId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity."
+          }
+        },
+        "type": {
+          "target": "com.azure.containerinstance#ManagedServiceIdentityType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.containerinstance#UserAssignedIdentities"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+      }
+    },
+    "com.azure.containerinstance#GetSandboxGroupResponseTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.containerinstance#GetSandboxGroupRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "sandboxGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the SandboxGroup."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.containerinstance#ListSandboxGroupByResourceGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.containerinstance#ListSandboxGroupByResourceGroupRequest"
+      },
+      "output": {
+        "target": "com.azure.containerinstance#SandboxGroupListResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/sandboxGroups",
+          "code": 200,
+          "apiVersion": "2026-07-01"
+        },
+        "smithy.api#documentation": "List SandboxGroup resources by resource group\n\nList SandboxGroup resources by resource group",
+        "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupListResult": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.containerinstance#SandboxGroupListResultValueList",
+          "traits": {
+            "smithy.api#documentation": "The SandboxGroup items on this page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response of a SandboxGroup list operation."
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupListResultValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.containerinstance#SandboxGroup"
+      },
+      "traits": {
+        "smithy.api#documentation": "The SandboxGroup items on this page"
+      }
+    },
+    "com.azure.containerinstance#SandboxGroup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.containerinstance#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "tags": {
+          "target": "com.azure.containerinstance#SandboxGroupTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The geo-location where the resource lives",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.containerinstance#SandboxGroupProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "identity": {
+          "target": "com.azure.containerinstance#SandboxGroupIdentity",
+          "traits": {
+            "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A SandboxGroup tracked resource."
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupIdentity": {
+      "type": "structure",
+      "members": {
+        "principalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity."
+          }
+        },
+        "tenantId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity."
+          }
+        },
+        "type": {
+          "target": "com.azure.containerinstance#ManagedServiceIdentityType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "userAssignedIdentities": {
+          "target": "com.azure.containerinstance#UserAssignedIdentities"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+      }
+    },
+    "com.azure.containerinstance#SandboxGroupTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource tags."
+      }
+    },
+    "com.azure.containerinstance#ListSandboxGroupByResourceGroupRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.containerinstance#StopNGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.containerinstance#StopNGroupRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -89,13 +1224,13 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/stop",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Stops all container groups in the specified NGroups resource.\n\nStops all container groups in the specified NGroups resource. Compute resources will be deallocated and billing will stop.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#NGroupsStopRequest": {
+    "com.azure.containerinstance#StopNGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -127,10 +1262,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#NGroupsStart": {
+    "com.azure.containerinstance#StartNGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#NGroupsStartRequest"
+        "target": "com.azure.containerinstance#StartNGroupRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -140,13 +1275,13 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/start",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Starts all container groups in the specified NGroups resource.\n\nStarts all container groups in the specified NGroups resource. Compute resources will be allocated and billing will start.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#NGroupsStartRequest": {
+    "com.azure.containerinstance#StartNGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -178,10 +1313,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#NGroupsRestart": {
+    "com.azure.containerinstance#RestartNGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#NGroupsRestartRequest"
+        "target": "com.azure.containerinstance#RestartNGroupRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -191,13 +1326,13 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/restart",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Restarts all container groups in the specified NGroups resource.\n\nRestarts all container groups in the specified NGroups resource in place. If container image has updates, new image will be downloaded.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#NGroupsRestartRequest": {
+    "com.azure.containerinstance#RestartNGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -229,10 +1364,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#NGroupsDelete": {
+    "com.azure.containerinstance#DeleteNGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#NGroupsDeleteRequest"
+        "target": "com.azure.containerinstance#DeleteNGroupRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -242,13 +1377,13 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "NGroups Delete REST API\n\nDeletes the NGroups resource.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#NGroupsDeleteRequest": {
+    "com.azure.containerinstance#DeleteNGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -280,26 +1415,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#NGroupsUpdate": {
+    "com.azure.containerinstance#UpdateNGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#NGroupsUpdateRequest"
+        "target": "com.azure.containerinstance#UpdateNGroupRequest"
       },
       "output": {
-        "target": "com.azure.containerinstance#NGroupsUpdateResponse"
+        "target": "com.azure.containerinstance#UpdateNGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "NGroups PATCH REST API\n\nUpdate a specified NGroups resource.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#NGroupsUpdateResponse": {
+    "com.azure.containerinstance#UpdateNGroupResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -333,7 +1468,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.containerinstance#NGroupsUpdateResponseTagsMap",
+          "target": "com.azure.containerinstance#UpdateNGroupResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -345,7 +1480,7 @@
           }
         },
         "zones": {
-          "target": "com.azure.containerinstance#NGroupsUpdateResponseZonesList",
+          "target": "com.azure.containerinstance#UpdateNGroupResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
           }
@@ -405,26 +1540,6 @@
         "smithy.api#documentation": "The list of user identities associated with the NGroup."
       }
     },
-    "com.azure.containerinstance#UserAssignedIdentities": {
-      "type": "structure",
-      "members": {
-        "principalId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The principal id of user assigned identity."
-          }
-        },
-        "clientId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The client id of user assigned identity."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The list of user identities associated with the container group. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
-      }
-    },
     "com.azure.containerinstance#ResourceIdentityType": {
       "type": "enum",
       "members": {
@@ -457,7 +1572,7 @@
         "smithy.api#documentation": "The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the container group."
       }
     },
-    "com.azure.containerinstance#NGroupsUpdateResponseZonesList": {
+    "com.azure.containerinstance#UpdateNGroupResponseZonesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -466,7 +1581,7 @@
         "smithy.api#documentation": "The availability zones."
       }
     },
-    "com.azure.containerinstance#NGroupsUpdateResponseTagsMap": {
+    "com.azure.containerinstance#UpdateNGroupResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -845,6 +1960,12 @@
           "traits": {
             "smithy.api#documentation": "The reference to the storage account access key used to access the Azure File share."
           }
+        },
+        "userAssignedIdentityClientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The client id of the user-assigned managed identity that has access to the Azure File share."
+          }
         }
       },
       "traits": {
@@ -1163,115 +2284,7 @@
       },
       "traits": {}
     },
-    "com.azure.containerinstance#SystemData": {
-      "type": "structure",
-      "members": {
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that created the resource."
-          }
-        },
-        "createdByType": {
-          "target": "com.azure.containerinstance#SystemDataCreatedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that created the resource."
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource creation (UTC)."
-          }
-        },
-        "lastModifiedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that last modified the resource."
-          }
-        },
-        "lastModifiedByType": {
-          "target": "com.azure.containerinstance#SystemDataLastModifiedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that last modified the resource."
-          }
-        },
-        "lastModifiedAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource last modification (UTC)"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
-      }
-    },
-    "com.azure.containerinstance#SystemDataLastModifiedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that last modified the resource."
-      }
-    },
-    "com.azure.containerinstance#SystemDataCreatedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that created the resource."
-      }
-    },
-    "com.azure.containerinstance#NGroupsUpdateRequest": {
+    "com.azure.containerinstance#UpdateNGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1311,13 +2324,13 @@
           }
         },
         "tags": {
-          "target": "com.azure.containerinstance#NGroupsUpdateRequestTagsMap",
+          "target": "com.azure.containerinstance#UpdateNGroupRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "The resource tags."
           }
         },
         "zones": {
-          "target": "com.azure.containerinstance#NGroupsUpdateRequestZonesList",
+          "target": "com.azure.containerinstance#UpdateNGroupRequestZonesList",
           "traits": {
             "smithy.api#documentation": "The zones for the NGroup."
           }
@@ -1327,7 +2340,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#NGroupsUpdateRequestZonesList": {
+    "com.azure.containerinstance#UpdateNGroupRequestZonesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -1336,7 +2349,7 @@
         "smithy.api#documentation": "The zones for the NGroup."
       }
     },
-    "com.azure.containerinstance#NGroupsUpdateRequestTagsMap": {
+    "com.azure.containerinstance#UpdateNGroupRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1380,13 +2393,6 @@
         "smithy.api#documentation": "The list of user identities associated with the NGroup."
       }
     },
-    "com.azure.containerinstance#UserAssignedIdentitiesInput": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "The list of user identities associated with the container group. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
-      }
-    },
     "com.azure.containerinstance#NGroupsCreateOrUpdate": {
       "type": "operation",
       "input": {
@@ -1400,10 +2406,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "NGroup PUT REST API\n\nCreate or update a NGroups resource.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.containerinstance#NGroupsCreateOrUpdateResponse": {
@@ -1572,26 +2578,26 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.containerinstance#NGroupsGet": {
+    "com.azure.containerinstance#GetNGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#NGroupsGetRequest"
+        "target": "com.azure.containerinstance#GetNGroupRequest"
       },
       "output": {
-        "target": "com.azure.containerinstance#NGroupsGetResponse"
+        "target": "com.azure.containerinstance#GetNGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "NGroups GET REST API\n\nGet the properties of the specified NGroups resource.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#NGroupsGetResponse": {
+    "com.azure.containerinstance#GetNGroupResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -1625,7 +2631,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.containerinstance#NGroupsGetResponseTagsMap",
+          "target": "com.azure.containerinstance#GetNGroupResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -1637,7 +2643,7 @@
           }
         },
         "zones": {
-          "target": "com.azure.containerinstance#NGroupsGetResponseZonesList",
+          "target": "com.azure.containerinstance#GetNGroupResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
           }
@@ -1653,7 +2659,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.containerinstance#NGroupsGetResponseZonesList": {
+    "com.azure.containerinstance#GetNGroupResponseZonesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -1662,7 +2668,7 @@
         "smithy.api#documentation": "The availability zones."
       }
     },
-    "com.azure.containerinstance#NGroupsGetResponseTagsMap": {
+    "com.azure.containerinstance#GetNGroupResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1674,7 +2680,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.containerinstance#NGroupsGetRequest": {
+    "com.azure.containerinstance#GetNGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1706,10 +2712,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#NGroupsListByResourceGroup": {
+    "com.azure.containerinstance#ListNGroupByResourceGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#NGroupsListByResourceGroupRequest"
+        "target": "com.azure.containerinstance#ListNGroupByResourceGroupRequest"
       },
       "output": {
         "target": "com.azure.containerinstance#NGroupsListResult"
@@ -1719,10 +2725,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "GET NGroups under a resource group REST API.\n\nGets a list of all NGroups resources under a resource group.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.containerinstance#NGroupsListResult": {
@@ -1838,7 +2844,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.containerinstance#NGroupsListByResourceGroupRequest": {
+    "com.azure.containerinstance#ListNGroupByResourceGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1862,10 +2868,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#ContainerGroupsStop": {
+    "com.azure.containerinstance#StopContainerGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#ContainerGroupsStopRequest"
+        "target": "com.azure.containerinstance#StopContainerGroupRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -1875,13 +2881,13 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/stop",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Stops all containers in a container group.\n\nStops all containers in a container group. Compute resources will be deallocated and billing will stop.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#ContainerGroupsStopRequest": {
+    "com.azure.containerinstance#StopContainerGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1913,10 +2919,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#ContainerGroupsStart": {
+    "com.azure.containerinstance#StartContainerGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#ContainerGroupsStartRequest"
+        "target": "com.azure.containerinstance#StartContainerGroupRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -1926,13 +2932,13 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/start",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Starts all containers in a container group.\n\nStarts all containers in a container group. Compute resources will be allocated and billing will start.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#ContainerGroupsStartRequest": {
+    "com.azure.containerinstance#StartContainerGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1964,10 +2970,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#ContainerGroupsRestart": {
+    "com.azure.containerinstance#RestartContainerGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#ContainerGroupsRestartRequest"
+        "target": "com.azure.containerinstance#RestartContainerGroupRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -1977,13 +2983,13 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/restart",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Restarts all containers in a container group.\n\nRestarts all containers in a container group in place. If container image has updates, new image will be downloaded.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#ContainerGroupsRestartRequest": {
+    "com.azure.containerinstance#RestartContainerGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2015,26 +3021,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#ContainerGroupsGetOutboundNetworkDependenciesEndpoints": {
+    "com.azure.containerinstance#GetContainerGroupOutboundNetworkDependenciesEndpoints": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#ContainerGroupsGetOutboundNetworkDependenciesEndpointsRequest"
+        "target": "com.azure.containerinstance#GetContainerGroupOutboundNetworkDependenciesEndpointsRequest"
       },
       "output": {
-        "target": "com.azure.containerinstance#ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse"
+        "target": "com.azure.containerinstance#GetContainerGroupOutboundNetworkDependenciesEndpointsResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/outboundNetworkDependenciesEndpoints",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get all network dependencies for container group.\n\nGets all the network dependencies for this container group to allow complete control of network setting and configuration. For container groups, this will always be an empty list.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse": {
+    "com.azure.containerinstance#GetContainerGroupOutboundNetworkDependenciesEndpointsResponse": {
       "type": "structure",
       "members": {
         "body": {
@@ -2058,7 +3064,7 @@
         "smithy.api#documentation": "Response for network dependencies, always empty list."
       }
     },
-    "com.azure.containerinstance#ContainerGroupsGetOutboundNetworkDependenciesEndpointsRequest": {
+    "com.azure.containerinstance#GetContainerGroupOutboundNetworkDependenciesEndpointsRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2090,10 +3096,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#ContainersListLogs": {
+    "com.azure.containerinstance#ListContainerLogs": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#ContainersListLogsRequest"
+        "target": "com.azure.containerinstance#ListContainerLogsRequest"
       },
       "output": {
         "target": "com.azure.containerinstance#Logs"
@@ -2103,10 +3109,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/logs",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get the logs for a specified container instance.\n\nGet the logs for a specified container instance in a specified resource group and container group.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.containerinstance#Logs": {
@@ -2123,7 +3129,7 @@
         "smithy.api#documentation": "The logs."
       }
     },
-    "com.azure.containerinstance#ContainersListLogsRequest": {
+    "com.azure.containerinstance#ListContainerLogsRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2177,10 +3183,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#ContainersExecuteCommand": {
+    "com.azure.containerinstance#ExecuteContainerCommand": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#ContainersExecuteCommandRequest"
+        "target": "com.azure.containerinstance#ExecuteContainerCommandRequest"
       },
       "output": {
         "target": "com.azure.containerinstance#ContainerExecResponse"
@@ -2190,10 +3196,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/exec",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Executes a command in a specific container instance.\n\nExecutes a command for a specific container instance in a specified resource group and container group.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.containerinstance#ContainerExecResponse": {
@@ -2217,7 +3223,7 @@
         "smithy.api#documentation": "The information for the container exec command."
       }
     },
-    "com.azure.containerinstance#ContainersExecuteCommandRequest": {
+    "com.azure.containerinstance#ExecuteContainerCommandRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2289,10 +3295,10 @@
         "smithy.api#documentation": "The size of the terminal."
       }
     },
-    "com.azure.containerinstance#ContainersAttach": {
+    "com.azure.containerinstance#AttachContainer": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#ContainersAttachRequest"
+        "target": "com.azure.containerinstance#AttachContainerRequest"
       },
       "output": {
         "target": "com.azure.containerinstance#ContainerAttachResponse"
@@ -2302,10 +3308,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/attach",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Attach to the output of a specific container instance.\n\nAttach to the output stream of a specific container instance in a specified resource group and container group.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.containerinstance#ContainerAttachResponse": {
@@ -2329,7 +3335,7 @@
         "smithy.api#documentation": "The information for the output stream from container attach."
       }
     },
-    "com.azure.containerinstance#ContainersAttachRequest": {
+    "com.azure.containerinstance#AttachContainerRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2369,26 +3375,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#ContainerGroupsDelete": {
+    "com.azure.containerinstance#DeleteContainerGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#ContainerGroupsDeleteRequest"
+        "target": "com.azure.containerinstance#DeleteContainerGroupRequest"
       },
       "output": {
-        "target": "com.azure.containerinstance#ContainerGroupsDeleteResponse"
+        "target": "com.azure.containerinstance#DeleteContainerGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Delete the specified container group.\n\nDelete the specified container group in the specified subscription and resource group. The operation does not delete other resources provided by the user, such as volumes.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#ContainerGroupsDeleteResponse": {
+    "com.azure.containerinstance#DeleteContainerGroupResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -2422,13 +3428,13 @@
           }
         },
         "tags": {
-          "target": "com.azure.containerinstance#ContainerGroupsDeleteResponseTagsMap",
+          "target": "com.azure.containerinstance#DeleteContainerGroupResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "The resource tags."
           }
         },
         "zones": {
-          "target": "com.azure.containerinstance#ContainerGroupsDeleteResponseZonesList",
+          "target": "com.azure.containerinstance#DeleteContainerGroupResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
           }
@@ -3406,13 +4412,13 @@
         "secret": {
           "target": "com.azure.containerinstance#VolumeSecretMap",
           "traits": {
-            "smithy.api#documentation": "The secret volume."
+            "smithy.api#documentation": "Defines files for a secret volume. Dictionary keys are file names and values are Base64-encoded secret data used as file contents. The values are sensitive, and the service does not return the contents of this property in GET responses."
           }
         },
         "secretReference": {
           "target": "com.azure.containerinstance#VolumeSecretReferenceMap",
           "traits": {
-            "smithy.api#documentation": "The secret reference volume."
+            "smithy.api#documentation": "Defines files for a secret reference volume. Dictionary keys are file names and values identify entries in the container group's secretReferences collection. This property contains reference names rather than secret values."
           }
         },
         "gitRepo": {
@@ -3462,7 +4468,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "The secret reference volume."
+        "smithy.api#documentation": "Defines files for a secret reference volume. Dictionary keys are file names and values identify entries in the container group's secretReferences collection. This property contains reference names rather than secret values."
       }
     },
     "com.azure.containerinstance#VolumeSecretMap": {
@@ -3474,7 +4480,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "The secret volume."
+        "smithy.api#documentation": "Defines files for a secret volume. Dictionary keys are file names and values are Base64-encoded secret data used as file contents. The values are sensitive, and the service does not return the contents of this property in GET responses."
       }
     },
     "com.azure.containerinstance#OperatingSystemTypes": {
@@ -4342,7 +5348,7 @@
         "smithy.api#documentation": "The list of user identities associated with the container group."
       }
     },
-    "com.azure.containerinstance#ContainerGroupsDeleteResponseZonesList": {
+    "com.azure.containerinstance#DeleteContainerGroupResponseZonesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -4351,7 +5357,7 @@
         "smithy.api#documentation": "The availability zones."
       }
     },
-    "com.azure.containerinstance#ContainerGroupsDeleteResponseTagsMap": {
+    "com.azure.containerinstance#DeleteContainerGroupResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -4363,7 +5369,7 @@
         "smithy.api#documentation": "The resource tags."
       }
     },
-    "com.azure.containerinstance#ContainerGroupsDeleteRequest": {
+    "com.azure.containerinstance#DeleteContainerGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -4395,26 +5401,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#ContainerGroupsUpdate": {
+    "com.azure.containerinstance#UpdateContainerGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#ContainerGroupsUpdateRequest"
+        "target": "com.azure.containerinstance#UpdateContainerGroupRequest"
       },
       "output": {
-        "target": "com.azure.containerinstance#ContainerGroupsUpdateResponse"
+        "target": "com.azure.containerinstance#UpdateContainerGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Update container groups.\n\nUpdates container group tags with specified values.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#ContainerGroupsUpdateResponse": {
+    "com.azure.containerinstance#UpdateContainerGroupResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -4448,13 +5454,13 @@
           }
         },
         "tags": {
-          "target": "com.azure.containerinstance#ContainerGroupsUpdateResponseTagsMap",
+          "target": "com.azure.containerinstance#UpdateContainerGroupResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "The resource tags."
           }
         },
         "zones": {
-          "target": "com.azure.containerinstance#ContainerGroupsUpdateResponseZonesList",
+          "target": "com.azure.containerinstance#UpdateContainerGroupResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
           }
@@ -4477,7 +5483,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.containerinstance#ContainerGroupsUpdateResponseZonesList": {
+    "com.azure.containerinstance#UpdateContainerGroupResponseZonesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -4486,7 +5492,7 @@
         "smithy.api#documentation": "The availability zones."
       }
     },
-    "com.azure.containerinstance#ContainerGroupsUpdateResponseTagsMap": {
+    "com.azure.containerinstance#UpdateContainerGroupResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -4498,7 +5504,7 @@
         "smithy.api#documentation": "The resource tags."
       }
     },
-    "com.azure.containerinstance#ContainerGroupsUpdateRequest": {
+    "com.azure.containerinstance#UpdateContainerGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -4532,13 +5538,13 @@
           }
         },
         "tags": {
-          "target": "com.azure.containerinstance#ContainerGroupsUpdateRequestTagsMap",
+          "target": "com.azure.containerinstance#UpdateContainerGroupRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "The resource tags."
           }
         },
         "zones": {
-          "target": "com.azure.containerinstance#ContainerGroupsUpdateRequestZonesList",
+          "target": "com.azure.containerinstance#UpdateContainerGroupRequestZonesList",
           "traits": {
             "smithy.api#documentation": "The zones for the container group."
           }
@@ -4548,7 +5554,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#ContainerGroupsUpdateRequestZonesList": {
+    "com.azure.containerinstance#UpdateContainerGroupRequestZonesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -4557,7 +5563,7 @@
         "smithy.api#documentation": "The zones for the container group."
       }
     },
-    "com.azure.containerinstance#ContainerGroupsUpdateRequestTagsMap": {
+    "com.azure.containerinstance#UpdateContainerGroupRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -4582,10 +5588,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Create or update container groups.\n\nCreate or update container groups with specified configurations.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.containerinstance#ContainerGroupsCreateOrUpdateResponse": {
@@ -5274,26 +6280,26 @@
         "smithy.api#documentation": "The resource tags."
       }
     },
-    "com.azure.containerinstance#ContainerGroupsGet": {
+    "com.azure.containerinstance#GetContainerGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#ContainerGroupsGetRequest"
+        "target": "com.azure.containerinstance#GetContainerGroupRequest"
       },
       "output": {
-        "target": "com.azure.containerinstance#ContainerGroupsGetResponse"
+        "target": "com.azure.containerinstance#GetContainerGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get the properties of the specified container group.\n\nGets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#ContainerGroupsGetResponse": {
+    "com.azure.containerinstance#GetContainerGroupResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -5327,13 +6333,13 @@
           }
         },
         "tags": {
-          "target": "com.azure.containerinstance#ContainerGroupsGetResponseTagsMap",
+          "target": "com.azure.containerinstance#GetContainerGroupResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "The resource tags."
           }
         },
         "zones": {
-          "target": "com.azure.containerinstance#ContainerGroupsGetResponseZonesList",
+          "target": "com.azure.containerinstance#GetContainerGroupResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
           }
@@ -5356,7 +6362,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.containerinstance#ContainerGroupsGetResponseZonesList": {
+    "com.azure.containerinstance#GetContainerGroupResponseZonesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -5365,7 +6371,7 @@
         "smithy.api#documentation": "The availability zones."
       }
     },
-    "com.azure.containerinstance#ContainerGroupsGetResponseTagsMap": {
+    "com.azure.containerinstance#GetContainerGroupResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -5377,7 +6383,7 @@
         "smithy.api#documentation": "The resource tags."
       }
     },
-    "com.azure.containerinstance#ContainerGroupsGetRequest": {
+    "com.azure.containerinstance#GetContainerGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -5409,10 +6415,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#ContainerGroupsListByResourceGroup": {
+    "com.azure.containerinstance#ListContainerGroupByResourceGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#ContainerGroupsListByResourceGroupRequest"
+        "target": "com.azure.containerinstance#ListContainerGroupByResourceGroupRequest"
       },
       "output": {
         "target": "com.azure.containerinstance#ContainerGroupListResult"
@@ -5422,10 +6428,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get a list of container groups in the specified subscription and resource group.\n\nGet a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.containerinstance#ContainerGroupListResult": {
@@ -5821,7 +6827,7 @@
         "smithy.api#documentation": "The resource tags."
       }
     },
-    "com.azure.containerinstance#ContainerGroupsListByResourceGroupRequest": {
+    "com.azure.containerinstance#ListContainerGroupByResourceGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -5845,26 +6851,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#CGProfileGetByRevisionNumber": {
+    "com.azure.containerinstance#GetCGProfileByRevisionNumber": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#CGProfileGetByRevisionNumberRequest"
+        "target": "com.azure.containerinstance#GetCGProfileByRevisionNumberRequest"
       },
       "output": {
-        "target": "com.azure.containerinstance#CGProfileGetByRevisionNumberResponse"
+        "target": "com.azure.containerinstance#GetCGProfileByRevisionNumberResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles/{containerGroupProfileName}/revisions/{revisionNumber}",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get the properties of the specified revision of the container group profile.\n\nGets the properties of the specified revision of the container group profile in the given subscription and resource group. The operation returns the properties of container group profile including containers, image registry credentials, restart policy, IP address type, OS type, volumes, current revision number, etc.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#CGProfileGetByRevisionNumberResponse": {
+    "com.azure.containerinstance#GetCGProfileByRevisionNumberResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -5898,7 +6904,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.containerinstance#CGProfileGetByRevisionNumberResponseTagsMap",
+          "target": "com.azure.containerinstance#GetCGProfileByRevisionNumberResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -5910,7 +6916,7 @@
           }
         },
         "zones": {
-          "target": "com.azure.containerinstance#CGProfileGetByRevisionNumberResponseZonesList",
+          "target": "com.azure.containerinstance#GetCGProfileByRevisionNumberResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
           }
@@ -5920,7 +6926,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.containerinstance#CGProfileGetByRevisionNumberResponseZonesList": {
+    "com.azure.containerinstance#GetCGProfileByRevisionNumberResponseZonesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -5929,7 +6935,7 @@
         "smithy.api#documentation": "The availability zones."
       }
     },
-    "com.azure.containerinstance#CGProfileGetByRevisionNumberResponseTagsMap": {
+    "com.azure.containerinstance#GetCGProfileByRevisionNumberResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -6119,7 +7125,7 @@
         "smithy.api#documentation": "The containers within the container group."
       }
     },
-    "com.azure.containerinstance#CGProfileGetByRevisionNumberRequest": {
+    "com.azure.containerinstance#GetCGProfileByRevisionNumberRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -6159,10 +7165,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#CGProfileListAllRevisions": {
+    "com.azure.containerinstance#ListCGProfileAllRevisions": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#CGProfileListAllRevisionsRequest"
+        "target": "com.azure.containerinstance#ListCGProfileAllRevisionsRequest"
       },
       "output": {
         "target": "com.azure.containerinstance#ContainerGroupProfileListResult"
@@ -6172,10 +7178,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles/{containerGroupProfileName}/revisions",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get a list of all the revisions of the specified container group profile in the given subscription and resource group.\n\nGet a list of all the revisions of the specified container group profile in the given subscription and resource group. This operation returns properties of each revision of the specified container group profile including containers, image registry credentials, restart policy, IP address type, OS type volumes, revision number, etc.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.containerinstance#ContainerGroupProfileListResult": {
@@ -6285,7 +7291,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.containerinstance#CGProfileListAllRevisionsRequest": {
+    "com.azure.containerinstance#ListCGProfileAllRevisionsRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -6317,10 +7323,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#CGProfileDelete": {
+    "com.azure.containerinstance#DeleteCGProfile": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#CGProfileDeleteRequest"
+        "target": "com.azure.containerinstance#DeleteCGProfileRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -6330,13 +7336,13 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles/{containerGroupProfileName}",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Container group profile DELETE REST API.\n\nDeletes a container group profile.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#CGProfileDeleteRequest": {
+    "com.azure.containerinstance#DeleteCGProfileRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -6368,26 +7374,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#CGProfileUpdate": {
+    "com.azure.containerinstance#UpdateCGProfile": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#CGProfileUpdateRequest"
+        "target": "com.azure.containerinstance#UpdateCGProfileRequest"
       },
       "output": {
-        "target": "com.azure.containerinstance#CGProfileUpdateResponse"
+        "target": "com.azure.containerinstance#UpdateCGProfileResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles/{containerGroupProfileName}",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Container group profile PATCH REST API.\n\nUpdate a specified container group profile.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#CGProfileUpdateResponse": {
+    "com.azure.containerinstance#UpdateCGProfileResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -6421,7 +7427,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.containerinstance#CGProfileUpdateResponseTagsMap",
+          "target": "com.azure.containerinstance#UpdateCGProfileResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -6433,7 +7439,7 @@
           }
         },
         "zones": {
-          "target": "com.azure.containerinstance#CGProfileUpdateResponseZonesList",
+          "target": "com.azure.containerinstance#UpdateCGProfileResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
           }
@@ -6443,7 +7449,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.containerinstance#CGProfileUpdateResponseZonesList": {
+    "com.azure.containerinstance#UpdateCGProfileResponseZonesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -6452,7 +7458,7 @@
         "smithy.api#documentation": "The availability zones."
       }
     },
-    "com.azure.containerinstance#CGProfileUpdateResponseTagsMap": {
+    "com.azure.containerinstance#UpdateCGProfileResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -6464,7 +7470,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.containerinstance#CGProfileUpdateRequest": {
+    "com.azure.containerinstance#UpdateCGProfileRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -6492,7 +7498,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.containerinstance#CGProfileUpdateRequestTagsMap",
+          "target": "com.azure.containerinstance#UpdateCGProfileRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -6502,7 +7508,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#CGProfileUpdateRequestTagsMap": {
+    "com.azure.containerinstance#UpdateCGProfileRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -6527,10 +7533,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles/{containerGroupProfileName}",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Create or Update a ContainerGroupProfile\n\nCreate a CGProfile if it doesn't exist or update an existing CGProfile.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.containerinstance#CGProfileCreateOrUpdateResponse": {
@@ -6844,26 +7850,26 @@
         "smithy.api#documentation": "The containers within the container group."
       }
     },
-    "com.azure.containerinstance#CGProfileGet": {
+    "com.azure.containerinstance#GetCGProfile": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#CGProfileGetRequest"
+        "target": "com.azure.containerinstance#GetCGProfileRequest"
       },
       "output": {
-        "target": "com.azure.containerinstance#CGProfileGetResponse"
+        "target": "com.azure.containerinstance#GetCGProfileResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles/{containerGroupProfileName}",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Display information about a specified ContainerGroupProfile.\n\nGet the properties of the specified container group profile.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#CGProfileGetResponse": {
+    "com.azure.containerinstance#GetCGProfileResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -6897,7 +7903,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.containerinstance#CGProfileGetResponseTagsMap",
+          "target": "com.azure.containerinstance#GetCGProfileResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -6909,7 +7915,7 @@
           }
         },
         "zones": {
-          "target": "com.azure.containerinstance#CGProfileGetResponseZonesList",
+          "target": "com.azure.containerinstance#GetCGProfileResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
           }
@@ -6919,7 +7925,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.containerinstance#CGProfileGetResponseZonesList": {
+    "com.azure.containerinstance#GetCGProfileResponseZonesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -6928,7 +7934,7 @@
         "smithy.api#documentation": "The availability zones."
       }
     },
-    "com.azure.containerinstance#CGProfileGetResponseTagsMap": {
+    "com.azure.containerinstance#GetCGProfileResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -6940,7 +7946,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.containerinstance#CGProfileGetRequest": {
+    "com.azure.containerinstance#GetCGProfileRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -6972,10 +7978,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#CGProfilesListByResourceGroup": {
+    "com.azure.containerinstance#ListCGProfileByResourceGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#CGProfilesListByResourceGroupRequest"
+        "target": "com.azure.containerinstance#ListCGProfileByResourceGroupRequest"
       },
       "output": {
         "target": "com.azure.containerinstance#ContainerGroupProfileListResult"
@@ -6985,13 +7991,13 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "List container group profiles in a resource group.\n\nGets a list of all container group profiles under a resource group.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#CGProfilesListByResourceGroupRequest": {
+    "com.azure.containerinstance#ListCGProfileByResourceGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -7015,26 +8021,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#NGroupsList": {
+    "com.azure.containerinstance#ListSandboxGroupBySubscription": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#NGroupsListRequest"
+        "target": "com.azure.containerinstance#ListSandboxGroupBySubscriptionRequest"
       },
       "output": {
-        "target": "com.azure.containerinstance#NGroupsListResult"
+        "target": "com.azure.containerinstance#SandboxGroupListResult"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/ngroups",
+          "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/sandboxGroups",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
-        "smithy.api#documentation": "List NGroups in a subscription.\n\nGets a list of all NGroups resources under a subscription.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "smithy.api#documentation": "List SandboxGroup resources by subscription ID\n\nList SandboxGroup resources by subscription ID",
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#NGroupsListRequest": {
+    "com.azure.containerinstance#ListSandboxGroupBySubscriptionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -7050,10 +8056,45 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#LocationListUsage": {
+    "com.azure.containerinstance#ListNGroups": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#LocationListUsageRequest"
+        "target": "com.azure.containerinstance#ListNGroupsRequest"
+      },
+      "output": {
+        "target": "com.azure.containerinstance#NGroupsListResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/ngroups",
+          "code": 200,
+          "apiVersion": "2026-07-01"
+        },
+        "smithy.api#documentation": "List NGroups in a subscription.\n\nGets a list of all NGroups resources under a subscription.",
+        "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#ListNGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.containerinstance#ListLocationUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.containerinstance#ListLocationUsageRequest"
       },
       "output": {
         "target": "com.azure.containerinstance#UsageListResult"
@@ -7063,10 +8104,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/usages",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get the usage for a subscription",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.containerinstance#UsageListResult": {
@@ -7156,7 +8197,7 @@
         "smithy.api#documentation": "The name object of the resource"
       }
     },
-    "com.azure.containerinstance#LocationListUsageRequest": {
+    "com.azure.containerinstance#ListLocationUsageRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -7180,10 +8221,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#LocationListCapabilities": {
+    "com.azure.containerinstance#ListLocationCapabilities": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#LocationListCapabilitiesRequest"
+        "target": "com.azure.containerinstance#ListLocationCapabilitiesRequest"
       },
       "output": {
         "target": "com.azure.containerinstance#CapabilitiesListResult"
@@ -7193,10 +8234,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/capabilities",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get the list of capabilities of the location.\n\nGet the list of CPU/memory/GPU capabilities of a region.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.containerinstance#CapabilitiesListResult": {
@@ -7298,7 +8339,7 @@
         "smithy.api#documentation": "The supported capabilities."
       }
     },
-    "com.azure.containerinstance#LocationListCapabilitiesRequest": {
+    "com.azure.containerinstance#ListLocationCapabilitiesRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -7322,10 +8363,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#LocationListCachedImages": {
+    "com.azure.containerinstance#ListLocationCachedImages": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#LocationListCachedImagesRequest"
+        "target": "com.azure.containerinstance#ListLocationCachedImagesRequest"
       },
       "output": {
         "target": "com.azure.containerinstance#CachedImagesListResult"
@@ -7335,10 +8376,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/cachedImages",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get the list of cached images.\n\nGet the list of cached images on specific OS type for a subscription in a region.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.containerinstance#CachedImagesListResult": {
@@ -7392,7 +8433,7 @@
         "smithy.api#documentation": "The cached image and OS type."
       }
     },
-    "com.azure.containerinstance#LocationListCachedImagesRequest": {
+    "com.azure.containerinstance#ListLocationCachedImagesRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -7416,10 +8457,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#ContainerGroupsList": {
+    "com.azure.containerinstance#ListContainerGroups": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#ContainerGroupsListRequest"
+        "target": "com.azure.containerinstance#ListContainerGroupsRequest"
       },
       "output": {
         "target": "com.azure.containerinstance#ContainerGroupListResult"
@@ -7429,13 +8470,13 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/containerGroups",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get a list of container groups in the specified subscription.\n\nGet a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#ContainerGroupsListRequest": {
+    "com.azure.containerinstance#ListContainerGroupsRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -7451,10 +8492,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#CGProfilesListBySubscription": {
+    "com.azure.containerinstance#ListCGProfileBySubscription": {
       "type": "operation",
       "input": {
-        "target": "com.azure.containerinstance#CGProfilesListBySubscriptionRequest"
+        "target": "com.azure.containerinstance#ListCGProfileBySubscriptionRequest"
       },
       "output": {
         "target": "com.azure.containerinstance#ContainerGroupProfileListResult"
@@ -7464,13 +8505,13 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/containerGroupProfiles",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "List container group profiles in a subscription.\n\nGets a list of all container group profiles under a subscription.",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.containerinstance#CGProfilesListBySubscriptionRequest": {
+    "com.azure.containerinstance#ListCGProfileBySubscriptionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -7486,7 +8527,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.containerinstance#OperationsList": {
+    "com.azure.containerinstance#ListOperations": {
       "type": "operation",
       "input": {
         "target": "smithy.api#Unit"
@@ -7499,10 +8540,10 @@
           "method": "GET",
           "uri": "/providers/Microsoft.ContainerInstance/operations",
           "code": 200,
-          "apiVersion": "2025-09-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "List the operations for the provider",
-        "com.distilled.openapi#apiVersion": "2025-09-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.containerinstance#OperationListResult": {
@@ -7626,109 +8667,130 @@
       "version": "1.0",
       "operations": [
         {
-          "target": "com.azure.containerinstance#SubnetServiceAssociationLinkDelete"
+          "target": "com.azure.containerinstance#DeleteSubnetServiceAssociationLink"
         },
         {
-          "target": "com.azure.containerinstance#NGroupsStop"
+          "target": "com.azure.containerinstance#ConnectSandboxGroup"
         },
         {
-          "target": "com.azure.containerinstance#NGroupsStart"
+          "target": "com.azure.containerinstance#DeleteSandboxGroup"
         },
         {
-          "target": "com.azure.containerinstance#NGroupsRestart"
+          "target": "com.azure.containerinstance#UpdateSandboxGroup"
         },
         {
-          "target": "com.azure.containerinstance#NGroupsDelete"
+          "target": "com.azure.containerinstance#SandboxGroupsCreateOrUpdate"
         },
         {
-          "target": "com.azure.containerinstance#NGroupsUpdate"
+          "target": "com.azure.containerinstance#GetSandboxGroup"
+        },
+        {
+          "target": "com.azure.containerinstance#ListSandboxGroupByResourceGroup"
+        },
+        {
+          "target": "com.azure.containerinstance#StopNGroup"
+        },
+        {
+          "target": "com.azure.containerinstance#StartNGroup"
+        },
+        {
+          "target": "com.azure.containerinstance#RestartNGroup"
+        },
+        {
+          "target": "com.azure.containerinstance#DeleteNGroup"
+        },
+        {
+          "target": "com.azure.containerinstance#UpdateNGroup"
         },
         {
           "target": "com.azure.containerinstance#NGroupsCreateOrUpdate"
         },
         {
-          "target": "com.azure.containerinstance#NGroupsGet"
+          "target": "com.azure.containerinstance#GetNGroup"
         },
         {
-          "target": "com.azure.containerinstance#NGroupsListByResourceGroup"
+          "target": "com.azure.containerinstance#ListNGroupByResourceGroup"
         },
         {
-          "target": "com.azure.containerinstance#ContainerGroupsStop"
+          "target": "com.azure.containerinstance#StopContainerGroup"
         },
         {
-          "target": "com.azure.containerinstance#ContainerGroupsStart"
+          "target": "com.azure.containerinstance#StartContainerGroup"
         },
         {
-          "target": "com.azure.containerinstance#ContainerGroupsRestart"
+          "target": "com.azure.containerinstance#RestartContainerGroup"
         },
         {
-          "target": "com.azure.containerinstance#ContainerGroupsGetOutboundNetworkDependenciesEndpoints"
+          "target": "com.azure.containerinstance#GetContainerGroupOutboundNetworkDependenciesEndpoints"
         },
         {
-          "target": "com.azure.containerinstance#ContainersListLogs"
+          "target": "com.azure.containerinstance#ListContainerLogs"
         },
         {
-          "target": "com.azure.containerinstance#ContainersExecuteCommand"
+          "target": "com.azure.containerinstance#ExecuteContainerCommand"
         },
         {
-          "target": "com.azure.containerinstance#ContainersAttach"
+          "target": "com.azure.containerinstance#AttachContainer"
         },
         {
-          "target": "com.azure.containerinstance#ContainerGroupsDelete"
+          "target": "com.azure.containerinstance#DeleteContainerGroup"
         },
         {
-          "target": "com.azure.containerinstance#ContainerGroupsUpdate"
+          "target": "com.azure.containerinstance#UpdateContainerGroup"
         },
         {
           "target": "com.azure.containerinstance#ContainerGroupsCreateOrUpdate"
         },
         {
-          "target": "com.azure.containerinstance#ContainerGroupsGet"
+          "target": "com.azure.containerinstance#GetContainerGroup"
         },
         {
-          "target": "com.azure.containerinstance#ContainerGroupsListByResourceGroup"
+          "target": "com.azure.containerinstance#ListContainerGroupByResourceGroup"
         },
         {
-          "target": "com.azure.containerinstance#CGProfileGetByRevisionNumber"
+          "target": "com.azure.containerinstance#GetCGProfileByRevisionNumber"
         },
         {
-          "target": "com.azure.containerinstance#CGProfileListAllRevisions"
+          "target": "com.azure.containerinstance#ListCGProfileAllRevisions"
         },
         {
-          "target": "com.azure.containerinstance#CGProfileDelete"
+          "target": "com.azure.containerinstance#DeleteCGProfile"
         },
         {
-          "target": "com.azure.containerinstance#CGProfileUpdate"
+          "target": "com.azure.containerinstance#UpdateCGProfile"
         },
         {
           "target": "com.azure.containerinstance#CGProfileCreateOrUpdate"
         },
         {
-          "target": "com.azure.containerinstance#CGProfileGet"
+          "target": "com.azure.containerinstance#GetCGProfile"
         },
         {
-          "target": "com.azure.containerinstance#CGProfilesListByResourceGroup"
+          "target": "com.azure.containerinstance#ListCGProfileByResourceGroup"
         },
         {
-          "target": "com.azure.containerinstance#NGroupsList"
+          "target": "com.azure.containerinstance#ListSandboxGroupBySubscription"
         },
         {
-          "target": "com.azure.containerinstance#LocationListUsage"
+          "target": "com.azure.containerinstance#ListNGroups"
         },
         {
-          "target": "com.azure.containerinstance#LocationListCapabilities"
+          "target": "com.azure.containerinstance#ListLocationUsage"
         },
         {
-          "target": "com.azure.containerinstance#LocationListCachedImages"
+          "target": "com.azure.containerinstance#ListLocationCapabilities"
         },
         {
-          "target": "com.azure.containerinstance#ContainerGroupsList"
+          "target": "com.azure.containerinstance#ListLocationCachedImages"
         },
         {
-          "target": "com.azure.containerinstance#CGProfilesListBySubscription"
+          "target": "com.azure.containerinstance#ListContainerGroups"
         },
         {
-          "target": "com.azure.containerinstance#OperationsList"
+          "target": "com.azure.containerinstance#ListCGProfileBySubscription"
+        },
+        {
+          "target": "com.azure.containerinstance#ListOperations"
         }
       ],
       "traits": {

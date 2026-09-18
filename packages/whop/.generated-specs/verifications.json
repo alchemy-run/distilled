@@ -1,0 +1,2881 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.verifications#ListVerificationsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        },
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#ListVerificationsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#ListVerificationsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Account or user ID whose verifications you want to list. Use a `biz_` account ID, or the caller's `user_` ID for personal verifications."
+          }
+        },
+        "order": {
+          "target": "com.whop.verifications#ListVerificationsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Field used to sort returned verifications."
+          }
+        },
+        "direction": {
+          "target": "com.whop.verifications#ListVerificationsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction for returned verifications."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First line of the street address."
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Second line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region code, for example `CA`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Address on the verification profile. `null` when no address is set."
+      }
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemKind": {
+      "type": "enum",
+      "members": {
+        "INDIVIDUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "individual"
+          }
+        },
+        "BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "business"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemErrorsItem": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable error code."
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why it was rejected."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemErrorsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Present after a rejected submission."
+      }
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make."
+      }
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItem": {
+      "type": "structure",
+      "members": {
+        "errors": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemErrorsList",
+          "traits": {
+            "smithy.api#documentation": "Present after a rejected submission."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Requested information item ID, prefixed `inrqi_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Instruction to show the user. Carries the reviewer's note verbatim when there is one.",
+            "smithy.api#required": {}
+          }
+        },
+        "optional": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "`true` when the item can be skipped."
+          }
+        },
+        "options": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItemOptionsList",
+          "traits": {
+            "smithy.api#documentation": "The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make."
+          }
+        },
+        "requirement": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What is needed: a document name such as `bank_statement`, or a field key such as `ssn` or `identity_document`. Handle unrecognized values by `type`.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), or `address` (send `address`).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "What Whop still needs before review can continue — one requirement per entry. Answer with Update Verification; nothing from the response is echoed back. Keys that don't apply are omitted."
+      }
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemRequiredDocumentsItemStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING_UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_upload"
+          }
+        },
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`pending_upload` until the document has been relayed for review; `submitted` afterwards."
+      }
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemRequiredDocumentsItem": {
+      "type": "structure",
+      "members": {
+        "document": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Document slot key, such as `id_card_front`, `id_card_back`, or `selfie`."
+          }
+        },
+        "rejection_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the previous submission was rejected, when the provider requested new documents or declined the verification.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataItemRequiredDocumentsItemStatus",
+          "traits": {
+            "smithy.api#documentation": "`pending_upload` until the document has been relayed for review; `submitted` afterwards."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemRequiredDocumentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#ListVerificationsResponseDataItemRequiredDocumentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet — send the full set again with another Create Verification call."
+      }
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItemStatus": {
+      "type": "enum",
+      "members": {
+        "NOT_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_started"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "MANUAL_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual_review"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "ACTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "action_required"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current verification state. `not_started` before any session exists; `pending` while a session needs the user's input; `processing` while the provider's automated checks run on a fresh submission; `action_required` when `requested_information` needs answers; `manual_review` while information already sent is under review — an audit answer, or a document the payout provider holds — nothing to submit, usually done within 3 business days; `approved` on success; `rejected` on failure. Call Create Verification again to start a new session."
+      }
+    },
+    "com.whop.verifications#ListVerificationsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataItemAddress",
+          "traits": {
+            "smithy.api#documentation": "Address on the verification profile. `null` when no address is set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal business name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_structure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal entity structure of the business, such as `private_corporation` or `sole_proprietorship`. Supported values vary by country of incorporation — see [Business structures](/developer/verification/business-structures).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the verification profile was created, as an ISO 8601 timestamp."
+          }
+        },
+        "date_of_birth": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Formatted as `YYYY-MM-DD`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address on the verification profile.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Verification profile ID, prefixed `idpf_`."
+          }
+        },
+        "kind": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataItemKind"
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Phone number on the verification profile.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "requested_information": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataItemRequestedInformationList",
+          "traits": {
+            "smithy.api#documentation": "What Whop still needs before review can continue — one requirement per entry. Answer with Update Verification; nothing from the response is echoed back. Keys that don't apply are omitted."
+          }
+        },
+        "required_documents": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataItemRequiredDocumentsList",
+          "traits": {
+            "smithy.api#documentation": "Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet — send the full set again with another Create Verification call."
+          }
+        },
+        "session_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hosted verification session URL for the user to complete identity checks. Expires 7 days after creation.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataItemStatus",
+          "traits": {
+            "smithy.api#documentation": "Current verification state. `not_started` before any session exists; `pending` while a session needs the user's input; `processing` while the provider's automated checks run on a fresh submission; `action_required` when `requested_information` needs answers; `manual_review` while information already sent is under review — an audit answer, or a document the payout provider holds — nothing to submit, usually done within 3 business days; `approved` on success; `rejected` on failure. Call Create Verification again to start a new session."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the verification profile was last updated, as an ISO 8601 timestamp."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#ListVerificationsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#ListVerificationsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#ListVerificationsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.verifications#ListVerificationsResponseDataList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.verifications#ListVerifications": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.verifications#ListVerificationsRequest"
+      },
+      "output": {
+        "target": "com.whop.verifications#ListVerificationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.verifications#BadRequest"
+        },
+        {
+          "target": "com.whop.verifications#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/verifications",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Verifications\n\nReturns verifications for an account, including their status and any required actions."
+      }
+    },
+    "com.whop.verifications#CreateVerificationRequestBodyCase0Address": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Second line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region code, for example `CA`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every value accepts `null`, so a form seeded from a previous response can round-trip unset fields unchanged."
+      }
+    },
+    "com.whop.verifications#CreateVerificationRequestBodyCase0DocumentType": {
+      "type": "enum",
+      "members": {
+        "ID_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ID_CARD"
+          }
+        },
+        "DRIVERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DRIVERS"
+          }
+        },
+        "RESIDENCE_PERMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESIDENCE_PERMIT"
+          }
+        },
+        "PASSPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PASSPORT"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Identity document being sent, when verifying with `documents`. Decides exactly which file slots to send: `ID_CARD` → `id_card_front` + `id_card_back` + `selfie`; `DRIVERS` → `drivers_front` + `drivers_back` + `selfie`; `RESIDENCE_PERMIT` → `residence_permit_front` + `residence_permit_back` + `selfie`; `PASSPORT` → `passport_front` + `selfie`. See [Identity documents](/developer/verification/identity-documents)."
+      }
+    },
+    "com.whop.verifications#CreateVerificationRequestBodyCase0Documents": {
+      "type": "structure",
+      "members": {
+        "drivers_back": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Back of the driver's license, base64-encoded. Required when `document_type` is `DRIVERS`."
+          }
+        },
+        "drivers_front": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Front of the driver's license, base64-encoded. Required when `document_type` is `DRIVERS`."
+          }
+        },
+        "id_card_back": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Back of the ID card, base64-encoded. Required when `document_type` is `ID_CARD`."
+          }
+        },
+        "id_card_front": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Front of the ID card, base64-encoded. Required when `document_type` is `ID_CARD`."
+          }
+        },
+        "passport_front": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Photo page of the passport, base64-encoded. Required when `document_type` is `PASSPORT`."
+          }
+        },
+        "residence_permit_back": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Back of the residence permit, base64-encoded. Required when `document_type` is `RESIDENCE_PERMIT`."
+          }
+        },
+        "residence_permit_front": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Front of the residence permit, base64-encoded. Required when `document_type` is `RESIDENCE_PERMIT`."
+          }
+        },
+        "selfie": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Photo of the person's face, base64-encoded. Always required, with every document type. Must be JPEG or PNG."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Identity document files, each value the file's raw bytes base64-encoded (JPEG, PNG, or PDF, up to 5MB per file before encoding). Sending this object verifies the person from the files in this request instead of a hosted session — individual verifications only, and the request must also carry `document_type`, `first_name`, `last_name`, `date_of_birth`, `country`, `phone`, `tax_identification_number`, and an `address` with `line1`, `city`, `state`, and `postal_code`. Send every slot for your `document_type` — a missing or rejected file fails the whole request and nothing is submitted; review starts automatically once every document is accepted. See [Identity documents](/developer/verification/identity-documents) for a full walkthrough."
+      }
+    },
+    "com.whop.verifications#CreateVerificationRequestBodyCase0Kind": {
+      "type": "enum",
+      "members": {
+        "INDIVIDUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "individual"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Verification type. Defaults to `individual`."
+      }
+    },
+    "com.whop.verifications#CreateVerificationRequestBodyCase0": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "com.whop.verifications#CreateVerificationRequestBodyCase0Address",
+          "traits": {
+            "smithy.api#documentation": "Every value accepts `null`, so a form seeded from a previous response can round-trip unset fields unchanged."
+          }
+        },
+        "business_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal business name for a sole proprietor or single-member LLC."
+          }
+        },
+        "business_structure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Entity type for sole proprietors, such as `single_member_llc`. Supported values vary by country of incorporation — see [Business structures](/developer/verification/business-structures)."
+          }
+        },
+        "business_tax_identification_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The business ID number of the company, as appropriate for the company's country. Examples are an Employer Identification Number (EIN) in the US, a Business Number in Canada, or a Company Number in the UK."
+          }
+        },
+        "business_website": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Business website URL. Whop store pages are not accepted."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`."
+          }
+        },
+        "date_of_birth": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Formatted as `YYYY-MM-DD`."
+          }
+        },
+        "document_type": {
+          "target": "com.whop.verifications#CreateVerificationRequestBodyCase0DocumentType",
+          "traits": {
+            "smithy.api#documentation": "Identity document being sent, when verifying with `documents`. Decides exactly which file slots to send: `ID_CARD` → `id_card_front` + `id_card_back` + `selfie`; `DRIVERS` → `drivers_front` + `drivers_back` + `selfie`; `RESIDENCE_PERMIT` → `residence_permit_front` + `residence_permit_back` + `selfie`; `PASSPORT` → `passport_front` + `selfie`. See [Identity documents](/developer/verification/identity-documents)."
+          }
+        },
+        "documents": {
+          "target": "com.whop.verifications#CreateVerificationRequestBodyCase0Documents",
+          "traits": {
+            "smithy.api#documentation": "Identity document files, each value the file's raw bytes base64-encoded (JPEG, PNG, or PDF, up to 5MB per file before encoding). Sending this object verifies the person from the files in this request instead of a hosted session — individual verifications only, and the request must also carry `document_type`, `first_name`, `last_name`, `date_of_birth`, `country`, `phone`, `tax_identification_number`, and an `address` with `line1`, `city`, `state`, and `postal_code`. Send every slot for your `document_type` — a missing or rejected file fails the whole request and nothing is submitted; review starts automatically once every document is accepted. See [Identity documents](/developer/verification/identity-documents) for a full walkthrough."
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String"
+        },
+        "kind": {
+          "target": "com.whop.verifications#CreateVerificationRequestBodyCase0Kind",
+          "traits": {
+            "smithy.api#documentation": "Verification type. Defaults to `individual`."
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String"
+        },
+        "phone": {
+          "target": "smithy.api#String"
+        },
+        "share_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sumsub share token for a person a partner has already verified, generated by their Sumsub account for Whop's client ID. Reuses that verification instead of collecting anything: Whop imports the shared identity, rechecks it against its own requirements, and returns `approved` when it satisfies them, or `pending` with a `session_url` covering only what is still missing. Requires a Reusable KYC agreement between the partner's Sumsub account and Whop's. Each token works once, and cannot be combined with `documents` or `document_type`."
+          }
+        },
+        "tax_identification_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The government-issued ID number of the person being verified — the individual for a KYC verification, or the business representative for a KYB verification — as appropriate for their country. Examples are a Social Security Number (SSN) in the US, or a Social Insurance Number in Canada."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request body for an individual (KYC) verification. Omit `kind` or set it to `individual`. KYC is required to pay out funds and is a prerequisite for Whop Card access. Accepting payments does not require verification until a business reaches $5000 in payments.\n\nAdd `business_name` and `business_structure` if the individual operates under a business entity — this enables payouts to be received by a business bank account. `country` is always the individual's own country, and the supported `business_structure` values vary by it — see [Business structures](/developer/verification/business-structures)."
+      }
+    },
+    "com.whop.verifications#CreateVerificationRequestBodyCase1Address": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Second line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region code, for example `CA`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Every value accepts `null`, so a form seeded from a previous response can round-trip unset fields unchanged."
+      }
+    },
+    "com.whop.verifications#CreateVerificationRequestBodyCase1Kind": {
+      "type": "enum",
+      "members": {
+        "BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "business"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Must be `business` to start a KYB verification."
+      }
+    },
+    "com.whop.verifications#CreateVerificationRequestBodyCase1": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "com.whop.verifications#CreateVerificationRequestBodyCase1Address",
+          "traits": {
+            "smithy.api#documentation": "Every value accepts `null`, so a form seeded from a previous response can round-trip unset fields unchanged."
+          }
+        },
+        "business_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal business name."
+          }
+        },
+        "business_structure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal entity structure of the business, such as `private_corporation` or `sole_proprietorship`. Supported values vary by country of incorporation — see [Business structures](/developer/verification/business-structures)."
+          }
+        },
+        "business_tax_identification_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The business ID number of the company, as appropriate for the company's country. Examples are an Employer Identification Number (EIN) in the US, a Business Number in Canada, or a Company Number in the UK."
+          }
+        },
+        "business_website": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Business website URL. Whop store pages are not accepted."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Country of incorporation as a two-letter ISO 3166-1 country code."
+          }
+        },
+        "date_of_birth": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Business representative's date of birth, formatted as `YYYY-MM-DD`."
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First name of the business representative, used to prefill the verification session."
+          }
+        },
+        "kind": {
+          "target": "com.whop.verifications#CreateVerificationRequestBodyCase1Kind",
+          "traits": {
+            "smithy.api#documentation": "Must be `business` to start a KYB verification."
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last name of the business representative, used to prefill the verification session."
+          }
+        },
+        "place_of_incorporation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State or region where the business is incorporated."
+          }
+        },
+        "share_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sumsub share token for a person a partner has already verified, generated by their Sumsub account for Whop's client ID. Reuses that verification instead of collecting anything: Whop imports the shared identity, rechecks it against its own requirements, and returns `approved` when it satisfies them, or `pending` with a `session_url` covering only what is still missing. Requires a Reusable KYC agreement between the partner's Sumsub account and Whop's. Each token works once, and cannot be combined with `documents` or `document_type`."
+          }
+        },
+        "tax_identification_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The government-issued ID number of the person being verified — the individual for a KYC verification, or the business representative for a KYB verification — as appropriate for their country. Examples are a Social Security Number (SSN) in the US, or a Social Insurance Number in Canada."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request body for a business entity (KYB) verification. Set `kind` to `business`. KYB includes everything KYC provides and additionally unlocks financing options for payments and business Whop Cards."
+      }
+    },
+    "com.whop.verifications#CreateVerificationRequestBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.verifications#CreateVerificationRequestBodyCase0"
+        },
+        "Case1": {
+          "target": "com.whop.verifications#CreateVerificationRequestBodyCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#CreateVerificationRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Account or user ID whose identity you want to verify. Use a `biz_` account ID for account verifications, or the caller's `user_` ID for personal verification."
+          }
+        },
+        "body": {
+          "target": "com.whop.verifications#CreateVerificationRequestBody",
+          "traits": {
+            "smithy.api#httpPayload": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.verifications#CreateVerificationResponseAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First line of the street address."
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Second line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region code, for example `CA`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Address on the verification profile. `null` when no address is set."
+      }
+    },
+    "com.whop.verifications#CreateVerificationResponseKind": {
+      "type": "enum",
+      "members": {
+        "INDIVIDUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "individual"
+          }
+        },
+        "BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "business"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#CreateVerificationResponseRequestedInformationItemErrorsItem": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable error code."
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why it was rejected."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#CreateVerificationResponseRequestedInformationItemErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#CreateVerificationResponseRequestedInformationItemErrorsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Present after a rejected submission."
+      }
+    },
+    "com.whop.verifications#CreateVerificationResponseRequestedInformationItemOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make."
+      }
+    },
+    "com.whop.verifications#CreateVerificationResponseRequestedInformationItem": {
+      "type": "structure",
+      "members": {
+        "errors": {
+          "target": "com.whop.verifications#CreateVerificationResponseRequestedInformationItemErrorsList",
+          "traits": {
+            "smithy.api#documentation": "Present after a rejected submission."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Requested information item ID, prefixed `inrqi_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Instruction to show the user. Carries the reviewer's note verbatim when there is one.",
+            "smithy.api#required": {}
+          }
+        },
+        "optional": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "`true` when the item can be skipped."
+          }
+        },
+        "options": {
+          "target": "com.whop.verifications#CreateVerificationResponseRequestedInformationItemOptionsList",
+          "traits": {
+            "smithy.api#documentation": "The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make."
+          }
+        },
+        "requirement": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What is needed: a document name such as `bank_statement`, or a field key such as `ssn` or `identity_document`. Handle unrecognized values by `type`.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), or `address` (send `address`).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#CreateVerificationResponseRequestedInformationList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#CreateVerificationResponseRequestedInformationItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "What Whop still needs before review can continue — one requirement per entry. Answer with Update Verification; nothing from the response is echoed back. Keys that don't apply are omitted."
+      }
+    },
+    "com.whop.verifications#CreateVerificationResponseRequiredDocumentsItemStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING_UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_upload"
+          }
+        },
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`pending_upload` until the document has been relayed for review; `submitted` afterwards."
+      }
+    },
+    "com.whop.verifications#CreateVerificationResponseRequiredDocumentsItem": {
+      "type": "structure",
+      "members": {
+        "document": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Document slot key, such as `id_card_front`, `id_card_back`, or `selfie`."
+          }
+        },
+        "rejection_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the previous submission was rejected, when the provider requested new documents or declined the verification.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.verifications#CreateVerificationResponseRequiredDocumentsItemStatus",
+          "traits": {
+            "smithy.api#documentation": "`pending_upload` until the document has been relayed for review; `submitted` afterwards."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#CreateVerificationResponseRequiredDocumentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#CreateVerificationResponseRequiredDocumentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet — send the full set again with another Create Verification call."
+      }
+    },
+    "com.whop.verifications#CreateVerificationResponseStatus": {
+      "type": "enum",
+      "members": {
+        "NOT_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_started"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "MANUAL_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual_review"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "ACTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "action_required"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current verification state. `not_started` before any session exists; `pending` while a session needs the user's input; `processing` while the provider's automated checks run on a fresh submission; `action_required` when `requested_information` needs answers; `manual_review` while information already sent is under review — an audit answer, or a document the payout provider holds — nothing to submit, usually done within 3 business days; `approved` on success; `rejected` on failure. Call Create Verification again to start a new session."
+      }
+    },
+    "com.whop.verifications#CreateVerificationResponse": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "com.whop.verifications#CreateVerificationResponseAddress",
+          "traits": {
+            "smithy.api#documentation": "Address on the verification profile. `null` when no address is set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal business name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_structure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal entity structure of the business, such as `private_corporation` or `sole_proprietorship`. Supported values vary by country of incorporation — see [Business structures](/developer/verification/business-structures).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the verification profile was created, as an ISO 8601 timestamp."
+          }
+        },
+        "date_of_birth": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Formatted as `YYYY-MM-DD`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address on the verification profile.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Verification profile ID, prefixed `idpf_`."
+          }
+        },
+        "kind": {
+          "target": "com.whop.verifications#CreateVerificationResponseKind"
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Phone number on the verification profile.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "requested_information": {
+          "target": "com.whop.verifications#CreateVerificationResponseRequestedInformationList",
+          "traits": {
+            "smithy.api#documentation": "What Whop still needs before review can continue — one requirement per entry. Answer with Update Verification; nothing from the response is echoed back. Keys that don't apply are omitted."
+          }
+        },
+        "required_documents": {
+          "target": "com.whop.verifications#CreateVerificationResponseRequiredDocumentsList",
+          "traits": {
+            "smithy.api#documentation": "Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet — send the full set again with another Create Verification call."
+          }
+        },
+        "session_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hosted verification session URL for the user to complete identity checks. Expires 7 days after creation.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.verifications#CreateVerificationResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Current verification state. `not_started` before any session exists; `pending` while a session needs the user's input; `processing` while the provider's automated checks run on a fresh submission; `action_required` when `requested_information` needs answers; `manual_review` while information already sent is under review — an audit answer, or a document the payout provider holds — nothing to submit, usually done within 3 business days; `approved` on success; `rejected` on failure. Call Create Verification again to start a new session."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the verification profile was last updated, as an ISO 8601 timestamp."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.verifications#CreateVerification": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.verifications#CreateVerificationRequest"
+      },
+      "output": {
+        "target": "com.whop.verifications#CreateVerificationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.verifications#BadRequest"
+        },
+        {
+          "target": "com.whop.verifications#Forbidden"
+        },
+        {
+          "target": "com.whop.verifications#NotFound"
+        },
+        {
+          "target": "com.whop.verifications#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/verifications",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Verification\n\nStarts a hosted verification session for an account or user, or returns the active session when one already exists. Any fields you include in the request body are used to prefill the session. Send `documents` (with `document_type`) to instead verify the person from identity documents included in this request — no hosted session involved. Send `share_token` to reuse a verification another Sumsub account has already completed for this person, instead of verifying them again. If the account already has an `approved` verification the request is rejected; unlink it first to start a new one."
+      }
+    },
+    "com.whop.verifications#GetVerificationRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Verification profile ID, prefixed `idpf_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.verifications#GetVerificationResponseAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First line of the street address."
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Second line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region code, for example `CA`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Address on the verification profile. `null` when no address is set."
+      }
+    },
+    "com.whop.verifications#GetVerificationResponseKind": {
+      "type": "enum",
+      "members": {
+        "INDIVIDUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "individual"
+          }
+        },
+        "BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "business"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#GetVerificationResponseRequestedInformationItemErrorsItem": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable error code."
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why it was rejected."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#GetVerificationResponseRequestedInformationItemErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#GetVerificationResponseRequestedInformationItemErrorsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Present after a rejected submission."
+      }
+    },
+    "com.whop.verifications#GetVerificationResponseRequestedInformationItemOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make."
+      }
+    },
+    "com.whop.verifications#GetVerificationResponseRequestedInformationItem": {
+      "type": "structure",
+      "members": {
+        "errors": {
+          "target": "com.whop.verifications#GetVerificationResponseRequestedInformationItemErrorsList",
+          "traits": {
+            "smithy.api#documentation": "Present after a rejected submission."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Requested information item ID, prefixed `inrqi_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Instruction to show the user. Carries the reviewer's note verbatim when there is one.",
+            "smithy.api#required": {}
+          }
+        },
+        "optional": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "`true` when the item can be skipped."
+          }
+        },
+        "options": {
+          "target": "com.whop.verifications#GetVerificationResponseRequestedInformationItemOptionsList",
+          "traits": {
+            "smithy.api#documentation": "The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make."
+          }
+        },
+        "requirement": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What is needed: a document name such as `bank_statement`, or a field key such as `ssn` or `identity_document`. Handle unrecognized values by `type`.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), or `address` (send `address`).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#GetVerificationResponseRequestedInformationList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#GetVerificationResponseRequestedInformationItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "What Whop still needs before review can continue — one requirement per entry. Answer with Update Verification; nothing from the response is echoed back. Keys that don't apply are omitted."
+      }
+    },
+    "com.whop.verifications#GetVerificationResponseRequiredDocumentsItemStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING_UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_upload"
+          }
+        },
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`pending_upload` until the document has been relayed for review; `submitted` afterwards."
+      }
+    },
+    "com.whop.verifications#GetVerificationResponseRequiredDocumentsItem": {
+      "type": "structure",
+      "members": {
+        "document": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Document slot key, such as `id_card_front`, `id_card_back`, or `selfie`."
+          }
+        },
+        "rejection_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the previous submission was rejected, when the provider requested new documents or declined the verification.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.verifications#GetVerificationResponseRequiredDocumentsItemStatus",
+          "traits": {
+            "smithy.api#documentation": "`pending_upload` until the document has been relayed for review; `submitted` afterwards."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#GetVerificationResponseRequiredDocumentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#GetVerificationResponseRequiredDocumentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet — send the full set again with another Create Verification call."
+      }
+    },
+    "com.whop.verifications#GetVerificationResponseStatus": {
+      "type": "enum",
+      "members": {
+        "NOT_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_started"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "MANUAL_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual_review"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "ACTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "action_required"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current verification state. `not_started` before any session exists; `pending` while a session needs the user's input; `processing` while the provider's automated checks run on a fresh submission; `action_required` when `requested_information` needs answers; `manual_review` while information already sent is under review — an audit answer, or a document the payout provider holds — nothing to submit, usually done within 3 business days; `approved` on success; `rejected` on failure. Call Create Verification again to start a new session."
+      }
+    },
+    "com.whop.verifications#GetVerificationResponse": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "com.whop.verifications#GetVerificationResponseAddress",
+          "traits": {
+            "smithy.api#documentation": "Address on the verification profile. `null` when no address is set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal business name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_structure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal entity structure of the business, such as `private_corporation` or `sole_proprietorship`. Supported values vary by country of incorporation — see [Business structures](/developer/verification/business-structures).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the verification profile was created, as an ISO 8601 timestamp."
+          }
+        },
+        "date_of_birth": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Formatted as `YYYY-MM-DD`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address on the verification profile.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Verification profile ID, prefixed `idpf_`."
+          }
+        },
+        "kind": {
+          "target": "com.whop.verifications#GetVerificationResponseKind"
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Phone number on the verification profile.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "requested_information": {
+          "target": "com.whop.verifications#GetVerificationResponseRequestedInformationList",
+          "traits": {
+            "smithy.api#documentation": "What Whop still needs before review can continue — one requirement per entry. Answer with Update Verification; nothing from the response is echoed back. Keys that don't apply are omitted."
+          }
+        },
+        "required_documents": {
+          "target": "com.whop.verifications#GetVerificationResponseRequiredDocumentsList",
+          "traits": {
+            "smithy.api#documentation": "Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet — send the full set again with another Create Verification call."
+          }
+        },
+        "session_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hosted verification session URL for the user to complete identity checks. Expires 7 days after creation.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.verifications#GetVerificationResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Current verification state. `not_started` before any session exists; `pending` while a session needs the user's input; `processing` while the provider's automated checks run on a fresh submission; `action_required` when `requested_information` needs answers; `manual_review` while information already sent is under review — an audit answer, or a document the payout provider holds — nothing to submit, usually done within 3 business days; `approved` on success; `rejected` on failure. Call Create Verification again to start a new session."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the verification profile was last updated, as an ISO 8601 timestamp."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.verifications#GetVerification": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.verifications#GetVerificationRequest"
+      },
+      "output": {
+        "target": "com.whop.verifications#GetVerificationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.verifications#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/verifications/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Verification\n\nReturns verifications for an account, including their status and any required actions."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase0PersonalAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Second line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region code, for example `CA`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Personal address for the individual."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Second line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region code, for example `CA`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Answer for `address` items."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments": {
+      "type": "structure",
+      "members": {
+        "drivers_back": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Back of the driver's license."
+          }
+        },
+        "drivers_front": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Front of the driver's license."
+          }
+        },
+        "id_card_back": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Back of the ID card."
+          }
+        },
+        "id_card_front": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Front of the ID card."
+          }
+        },
+        "passport_front": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Photo page of the passport."
+          }
+        },
+        "residence_permit_back": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Back of the residence permit."
+          }
+        },
+        "residence_permit_front": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Front of the residence permit."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Answer for an `id_document` item: the same slot keys Create Verification takes, so the key names both the document and the side. Send every slot for the ID you are uploading — `PASSPORT` is `passport_front`; `ID_CARD`, `DRIVERS` and `RESIDENCE_PERMIT` take a front and a back. Each value is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemFilesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Answer for a `files` item — one document, as a list of its pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemValueType": {
+      "type": "enum",
+      "members": {
+        "RAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "raw"
+          }
+        },
+        "VAULT_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vault_token"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether `value` is raw input or a vault token."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItem": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemAddress",
+          "traits": {
+            "smithy.api#documentation": "Answer for `address` items."
+          }
+        },
+        "documents": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments",
+          "traits": {
+            "smithy.api#documentation": "Answer for an `id_document` item: the same slot keys Create Verification takes, so the key names both the document and the side. Send every slot for the ID you are uploading — `PASSPORT` is `passport_front`; `ID_CARD`, `DRIVERS` and `RESIDENCE_PERMIT` take a front and a back. Each value is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
+          }
+        },
+        "files": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemFilesList",
+          "traits": {
+            "smithy.api#documentation": "Answer for a `files` item — one document, as a list of its pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Item ID from `requested_information`.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Answer for `text`, `date`, `phone`, and `select` items, and the chosen document type for a `file` item that lists `options`."
+          }
+        },
+        "value_type": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItemValueType",
+          "traits": {
+            "smithy.api#documentation": "Whether `value` is raw input or a vault token."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Answers to items in `requested_information`. Each entry pairs the item `id` with one answer payload matching its `type`."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase0": {
+      "type": "structure",
+      "members": {
+        "business_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal business name for a sole proprietor or single-member LLC."
+          }
+        },
+        "business_structure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Entity type for sole proprietors, such as `single_member_llc`. Supported values vary by country of incorporation — see [Business structures](/developer/verification/business-structures)."
+          }
+        },
+        "business_tax_identification_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The business ID number of the company, as appropriate for the company's country. Examples are an Employer Identification Number (EIN) in the US, a Business Number in Canada, or a Company Number in the UK."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`."
+          }
+        },
+        "date_of_birth": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Formatted as `YYYY-MM-DD`."
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String"
+        },
+        "last_name": {
+          "target": "smithy.api#String"
+        },
+        "personal_address": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase0PersonalAddress",
+          "traits": {
+            "smithy.api#documentation": "Personal address for the individual."
+          }
+        },
+        "requested_information": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase0RequestedInformationList",
+          "traits": {
+            "smithy.api#documentation": "Answers to items in `requested_information`. Each entry pairs the item `id` with one answer payload matching its `type`."
+          }
+        },
+        "tax_identification_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The government-issued ID number of the person being verified — the individual for a KYC verification, or the business representative for a KYB verification — as appropriate for their country. Examples are a Social Security Number (SSN) in the US, or a Social Insurance Number in Canada."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Fields that can be updated on an individual (KYC) verification. At least one field is required."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase1BusinessAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Second line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region code, for example `CA`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Business address."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Second line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region code, for example `CA`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Answer for `address` items."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemDocuments": {
+      "type": "structure",
+      "members": {
+        "drivers_back": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Back of the driver's license."
+          }
+        },
+        "drivers_front": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Front of the driver's license."
+          }
+        },
+        "id_card_back": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Back of the ID card."
+          }
+        },
+        "id_card_front": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Front of the ID card."
+          }
+        },
+        "passport_front": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Photo page of the passport."
+          }
+        },
+        "residence_permit_back": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Back of the residence permit."
+          }
+        },
+        "residence_permit_front": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Front of the residence permit."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Answer for an `id_document` item: the same slot keys Create Verification takes, so the key names both the document and the side. Send every slot for the ID you are uploading — `PASSPORT` is `passport_front`; `ID_CARD`, `DRIVERS` and `RESIDENCE_PERMIT` take a front and a back. Each value is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemFilesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Answer for a `files` item — one document, as a list of its pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemValueType": {
+      "type": "enum",
+      "members": {
+        "RAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "raw"
+          }
+        },
+        "VAULT_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vault_token"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether `value` is raw input or a vault token."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItem": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemAddress",
+          "traits": {
+            "smithy.api#documentation": "Answer for `address` items."
+          }
+        },
+        "documents": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemDocuments",
+          "traits": {
+            "smithy.api#documentation": "Answer for an `id_document` item: the same slot keys Create Verification takes, so the key names both the document and the side. Send every slot for the ID you are uploading — `PASSPORT` is `passport_front`; `ID_CARD`, `DRIVERS` and `RESIDENCE_PERMIT` take a front and a back. Each value is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
+          }
+        },
+        "files": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemFilesList",
+          "traits": {
+            "smithy.api#documentation": "Answer for a `files` item — one document, as a list of its pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Item ID from `requested_information`.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Answer for `text`, `date`, `phone`, and `select` items, and the chosen document type for a `file` item that lists `options`."
+          }
+        },
+        "value_type": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItemValueType",
+          "traits": {
+            "smithy.api#documentation": "Whether `value` is raw input or a vault token."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Answers to items in `requested_information`. Each entry pairs the item `id` with one answer payload matching its `type`."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBodyCase1": {
+      "type": "structure",
+      "members": {
+        "business_address": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase1BusinessAddress",
+          "traits": {
+            "smithy.api#documentation": "Business address."
+          }
+        },
+        "business_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal business name."
+          }
+        },
+        "business_structure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal entity structure of the business, such as `private_corporation` or `sole_proprietorship`. Supported values vary by country of incorporation — see [Business structures](/developer/verification/business-structures)."
+          }
+        },
+        "business_tax_identification_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The business ID number of the company, as appropriate for the company's country. Examples are an Employer Identification Number (EIN) in the US, a Business Number in Canada, or a Company Number in the UK."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`."
+          }
+        },
+        "date_of_birth": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Business representative's date of birth, formatted as `YYYY-MM-DD`."
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First name of the business representative."
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last name of the business representative."
+          }
+        },
+        "requested_information": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase1RequestedInformationList",
+          "traits": {
+            "smithy.api#documentation": "Answers to items in `requested_information`. Each entry pairs the item `id` with one answer payload matching its `type`."
+          }
+        },
+        "tax_identification_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The government-issued ID number of the person being verified — the individual for a KYC verification, or the business representative for a KYB verification — as appropriate for their country. Examples are a Social Security Number (SSN) in the US, or a Social Insurance Number in Canada."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Fields that can be updated on a business entity (KYB) verification. At least one field is required."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationRequestBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase0"
+        },
+        "Case1": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBodyCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#UpdateVerificationRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Verification profile ID, prefixed `idpf_`."
+          }
+        },
+        "body": {
+          "target": "com.whop.verifications#UpdateVerificationRequestBody",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.verifications#UpdateVerificationResponseAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First line of the street address."
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Second line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region code, for example `CA`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Address on the verification profile. `null` when no address is set."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationResponseKind": {
+      "type": "enum",
+      "members": {
+        "INDIVIDUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "individual"
+          }
+        },
+        "BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "business"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemErrorsItem": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable error code."
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why it was rejected."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemErrorsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Present after a rejected submission."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationResponseRequestedInformationItem": {
+      "type": "structure",
+      "members": {
+        "errors": {
+          "target": "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemErrorsList",
+          "traits": {
+            "smithy.api#documentation": "Present after a rejected submission."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Requested information item ID, prefixed `inrqi_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Instruction to show the user. Carries the reviewer's note verbatim when there is one.",
+            "smithy.api#required": {}
+          }
+        },
+        "optional": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "`true` when the item can be skipped."
+          }
+        },
+        "options": {
+          "target": "com.whop.verifications#UpdateVerificationResponseRequestedInformationItemOptionsList",
+          "traits": {
+            "smithy.api#documentation": "The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make."
+          }
+        },
+        "requirement": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What is needed: a document name such as `bank_statement`, or a field key such as `ssn` or `identity_document`. Handle unrecognized values by `type`.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), or `address` (send `address`).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#UpdateVerificationResponseRequestedInformationList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#UpdateVerificationResponseRequestedInformationItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "What Whop still needs before review can continue — one requirement per entry. Answer with Update Verification; nothing from the response is echoed back. Keys that don't apply are omitted."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationResponseRequiredDocumentsItemStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING_UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_upload"
+          }
+        },
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`pending_upload` until the document has been relayed for review; `submitted` afterwards."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationResponseRequiredDocumentsItem": {
+      "type": "structure",
+      "members": {
+        "document": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Document slot key, such as `id_card_front`, `id_card_back`, or `selfie`."
+          }
+        },
+        "rejection_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the previous submission was rejected, when the provider requested new documents or declined the verification.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.verifications#UpdateVerificationResponseRequiredDocumentsItemStatus",
+          "traits": {
+            "smithy.api#documentation": "`pending_upload` until the document has been relayed for review; `submitted` afterwards."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.verifications#UpdateVerificationResponseRequiredDocumentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.verifications#UpdateVerificationResponseRequiredDocumentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet — send the full set again with another Create Verification call."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationResponseStatus": {
+      "type": "enum",
+      "members": {
+        "NOT_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_started"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "MANUAL_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual_review"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "ACTION_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "action_required"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current verification state. `not_started` before any session exists; `pending` while a session needs the user's input; `processing` while the provider's automated checks run on a fresh submission; `action_required` when `requested_information` needs answers; `manual_review` while information already sent is under review — an audit answer, or a document the payout provider holds — nothing to submit, usually done within 3 business days; `approved` on success; `rejected` on failure. Call Create Verification again to start a new session."
+      }
+    },
+    "com.whop.verifications#UpdateVerificationResponse": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "com.whop.verifications#UpdateVerificationResponseAddress",
+          "traits": {
+            "smithy.api#documentation": "Address on the verification profile. `null` when no address is set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal business name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_structure": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal entity structure of the business, such as `private_corporation` or `sole_proprietorship`. Supported values vary by country of incorporation — see [Business structures](/developer/verification/business-structures).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the verification profile was created, as an ISO 8601 timestamp."
+          }
+        },
+        "date_of_birth": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Formatted as `YYYY-MM-DD`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address on the verification profile.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Verification profile ID, prefixed `idpf_`."
+          }
+        },
+        "kind": {
+          "target": "com.whop.verifications#UpdateVerificationResponseKind"
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Phone number on the verification profile.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "requested_information": {
+          "target": "com.whop.verifications#UpdateVerificationResponseRequestedInformationList",
+          "traits": {
+            "smithy.api#documentation": "What Whop still needs before review can continue — one requirement per entry. Answer with Update Verification; nothing from the response is echoed back. Keys that don't apply are omitted."
+          }
+        },
+        "required_documents": {
+          "target": "com.whop.verifications#UpdateVerificationResponseRequiredDocumentsList",
+          "traits": {
+            "smithy.api#documentation": "Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet — send the full set again with another Create Verification call."
+          }
+        },
+        "session_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hosted verification session URL for the user to complete identity checks. Expires 7 days after creation.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.verifications#UpdateVerificationResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Current verification state. `not_started` before any session exists; `pending` while a session needs the user's input; `processing` while the provider's automated checks run on a fresh submission; `action_required` when `requested_information` needs answers; `manual_review` while information already sent is under review — an audit answer, or a document the payout provider holds — nothing to submit, usually done within 3 business days; `approved` on success; `rejected` on failure. Call Create Verification again to start a new session."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the verification profile was last updated, as an ISO 8601 timestamp."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.verifications#UpdateVerification": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.verifications#UpdateVerificationRequest"
+      },
+      "output": {
+        "target": "com.whop.verifications#UpdateVerificationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.verifications#BadRequest"
+        },
+        {
+          "target": "com.whop.verifications#Forbidden"
+        },
+        {
+          "target": "com.whop.verifications#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/verifications/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Verification\n\nUpdates editable profile details or submits answers for items returned in `requested_information`. Once a verification is `approved` its profile details are locked and can no longer be edited."
+      }
+    },
+    "com.whop.verifications#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.verifications#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.verifications#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.verifications#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.verifications#Verifications": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.verifications#ListVerifications"
+        },
+        {
+          "target": "com.whop.verifications#CreateVerification"
+        },
+        {
+          "target": "com.whop.verifications#GetVerification"
+        },
+        {
+          "target": "com.whop.verifications#UpdateVerification"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

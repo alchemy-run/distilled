@@ -65,89 +65,19 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type DocumentMap = { [key: string]: unknown | undefined };
-export const DocumentMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<DocumentMap>;
-
-export type GoogleCloudDialogflowV2beta1SuggestionInputActionEnum =
-  | "ACTION_UNSPECIFIED"
-  | "CANCEL"
-  | "REVISE"
-  | "CONFIRM";
-export const GoogleCloudDialogflowV2beta1SuggestionInputActionEnum =
-  /*@__PURE__*/ S.String;
-
 export interface GoogleCloudDialogflowV2beta1TextInput {
-  languageCode?: string;
   text?: string;
+  languageCode?: string;
 }
 export const GoogleCloudDialogflowV2beta1TextInput = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      languageCode: S.optional(S.String),
       text: S.optional(S.String),
+      languageCode: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1TextInput",
 }) as any as S.Schema<GoogleCloudDialogflowV2beta1TextInput>;
-
-export interface GoogleCloudDialogflowV2beta1IntentInput {
-  languageCode?: string;
-  intent?: string;
-}
-export const GoogleCloudDialogflowV2beta1IntentInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      languageCode: S.optional(S.String),
-      intent: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleCloudDialogflowV2beta1IntentInput",
-}) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentInput>;
-
-export interface GoogleCloudDialogflowV2beta1SuggestionInput {
-  parameters?: DocumentMap;
-  action?:
-    | GoogleCloudDialogflowV2beta1SuggestionInputActionEnum
-    | (string & {});
-  sendTime?: string;
-  textOverride?: GoogleCloudDialogflowV2beta1TextInput;
-  answerRecord?: string;
-  intentInput?: GoogleCloudDialogflowV2beta1IntentInput;
-}
-export const GoogleCloudDialogflowV2beta1SuggestionInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      parameters: S.optional(DocumentMap),
-      action: S.optional(GoogleCloudDialogflowV2beta1SuggestionInputActionEnum),
-      sendTime: S.optional(S.String),
-      textOverride: S.optional(GoogleCloudDialogflowV2beta1TextInput),
-      answerRecord: S.optional(S.String),
-      intentInput: S.optional(GoogleCloudDialogflowV2beta1IntentInput),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1SuggestionInput",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestionInput>;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StringMap>;
-
-export interface GoogleCloudDialogflowV2beta1AssistQueryParameters {
-  documentsMetadataFilters?: StringMap;
-}
-export const GoogleCloudDialogflowV2beta1AssistQueryParameters =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      documentsMetadataFilters: S.optional(StringMap),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1AssistQueryParameters",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AssistQueryParameters>;
 
 export type GoogleCloudDialogflowV2beta1OutputAudioConfigAudioEncodingEnum =
   | "OUTPUT_AUDIO_ENCODING_UNSPECIFIED"
@@ -158,7 +88,7 @@ export type GoogleCloudDialogflowV2beta1OutputAudioConfigAudioEncodingEnum =
   | "OUTPUT_AUDIO_ENCODING_MULAW"
   | "OUTPUT_AUDIO_ENCODING_ALAW";
 export const GoogleCloudDialogflowV2beta1OutputAudioConfigAudioEncodingEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleCloudDialogflowV2beta1VoiceSelectionParamsSsmlGenderEnum =
   | "SSML_VOICE_GENDER_UNSPECIFIED"
@@ -166,7 +96,7 @@ export type GoogleCloudDialogflowV2beta1VoiceSelectionParamsSsmlGenderEnum =
   | "SSML_VOICE_GENDER_FEMALE"
   | "SSML_VOICE_GENDER_NEUTRAL";
 export const GoogleCloudDialogflowV2beta1VoiceSelectionParamsSsmlGenderEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1VoiceSelectionParams {
   name?: string;
@@ -187,27 +117,27 @@ export const GoogleCloudDialogflowV2beta1VoiceSelectionParams =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1VoiceSelectionParams>;
 
 export type GoogleCloudDialogflowV2beta1CustomPronunciationParamsPhoneticEncodingEnum =
-    | "PHONETIC_ENCODING_UNSPECIFIED"
-    | "PHONETIC_ENCODING_IPA"
-    | "PHONETIC_ENCODING_X_SAMPA";
+  | "PHONETIC_ENCODING_UNSPECIFIED"
+  | "PHONETIC_ENCODING_IPA"
+  | "PHONETIC_ENCODING_X_SAMPA";
 export const GoogleCloudDialogflowV2beta1CustomPronunciationParamsPhoneticEncodingEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1CustomPronunciationParams {
-  pronunciation?: string;
+  phrase?: string;
   phoneticEncoding?:
     | GoogleCloudDialogflowV2beta1CustomPronunciationParamsPhoneticEncodingEnum
     | (string & {});
-  phrase?: string;
+  pronunciation?: string;
 }
 export const GoogleCloudDialogflowV2beta1CustomPronunciationParams =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pronunciation: S.optional(S.String),
+      phrase: S.optional(S.String),
       phoneticEncoding: S.optional(
         GoogleCloudDialogflowV2beta1CustomPronunciationParamsPhoneticEncodingEnum,
       ),
-      phrase: S.optional(S.String),
+      pronunciation: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1CustomPronunciationParams",
@@ -227,23 +157,23 @@ export const StringList = /*@__PURE__*/ S.Array(
 
 export interface GoogleCloudDialogflowV2beta1SynthesizeSpeechConfig {
   voice?: GoogleCloudDialogflowV2beta1VoiceSelectionParams;
-  volumeGainDb?: number;
-  speakingRate?: number;
   pronunciations?: GoogleCloudDialogflowV2beta1CustomPronunciationParamsList;
   pitch?: number;
+  volumeGainDb?: number;
   effectsProfileId?: StringList;
+  speakingRate?: number;
 }
 export const GoogleCloudDialogflowV2beta1SynthesizeSpeechConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       voice: S.optional(GoogleCloudDialogflowV2beta1VoiceSelectionParams),
-      volumeGainDb: S.optional(S.Number),
-      speakingRate: S.optional(S.Number),
       pronunciations: S.optional(
         GoogleCloudDialogflowV2beta1CustomPronunciationParamsList,
       ),
       pitch: S.optional(S.Number),
+      volumeGainDb: S.optional(S.Number),
       effectsProfileId: S.optional(StringList),
+      speakingRate: S.optional(S.Number),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1SynthesizeSpeechConfig",
@@ -271,6 +201,259 @@ export const GoogleCloudDialogflowV2beta1OutputAudioConfig =
     identifier: "GoogleCloudDialogflowV2beta1OutputAudioConfig",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1OutputAudioConfig>;
 
+export type GoogleCloudDialogflowV2beta1SuggestionInputActionEnum =
+  | "ACTION_UNSPECIFIED"
+  | "CANCEL"
+  | "REVISE"
+  | "CONFIRM";
+export const GoogleCloudDialogflowV2beta1SuggestionInputActionEnum = S.String;
+
+export interface GoogleCloudDialogflowV2beta1IntentInput {
+  intent?: string;
+  languageCode?: string;
+}
+export const GoogleCloudDialogflowV2beta1IntentInput = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      intent: S.optional(S.String),
+      languageCode: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDialogflowV2beta1IntentInput",
+}) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentInput>;
+
+export type DocumentMap = { [key: string]: unknown | undefined };
+export const DocumentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DocumentMap>;
+
+export interface GoogleCloudDialogflowV2beta1SuggestionInput {
+  sendTime?: string;
+  action?:
+    | GoogleCloudDialogflowV2beta1SuggestionInputActionEnum
+    | (string & {});
+  intentInput?: GoogleCloudDialogflowV2beta1IntentInput;
+  textOverride?: GoogleCloudDialogflowV2beta1TextInput;
+  parameters?: DocumentMap;
+  answerRecord?: string;
+}
+export const GoogleCloudDialogflowV2beta1SuggestionInput =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sendTime: S.optional(S.String),
+      action: S.optional(GoogleCloudDialogflowV2beta1SuggestionInputActionEnum),
+      intentInput: S.optional(GoogleCloudDialogflowV2beta1IntentInput),
+      textOverride: S.optional(GoogleCloudDialogflowV2beta1TextInput),
+      parameters: S.optional(DocumentMap),
+      answerRecord: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SuggestionInput",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestionInput>;
+
+export interface GoogleCloudDialogflowV2beta1EventInput {
+  parameters?: DocumentMap;
+  languageCode?: string;
+  name?: string;
+}
+export const GoogleCloudDialogflowV2beta1EventInput = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      parameters: S.optional(DocumentMap),
+      languageCode: S.optional(S.String),
+      name: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDialogflowV2beta1EventInput",
+}) as any as S.Schema<GoogleCloudDialogflowV2beta1EventInput>;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StringMap>;
+
+export interface GoogleCloudDialogflowV2beta1AssistQueryParameters {
+  documentsMetadataFilters?: StringMap;
+}
+export const GoogleCloudDialogflowV2beta1AssistQueryParameters =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      documentsMetadataFilters: S.optional(StringMap),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1AssistQueryParameters",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AssistQueryParameters>;
+
+export interface GoogleCloudDialogflowV2beta1SpeechContext {
+  phrases?: StringList;
+  boost?: number;
+}
+export const GoogleCloudDialogflowV2beta1SpeechContext =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      phrases: S.optional(StringList),
+      boost: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SpeechContext",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SpeechContext>;
+
+export type GoogleCloudDialogflowV2beta1SpeechContextList =
+  Array<GoogleCloudDialogflowV2beta1SpeechContext>;
+export const GoogleCloudDialogflowV2beta1SpeechContextList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1SpeechContext,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1SpeechContextList>;
+
+export interface GoogleCloudDialogflowV2beta1BargeInConfig {
+  noBargeInDuration?: string;
+  totalDuration?: string;
+}
+export const GoogleCloudDialogflowV2beta1BargeInConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      noBargeInDuration: S.optional(S.String),
+      totalDuration: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1BargeInConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1BargeInConfig>;
+
+export type GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfigStartOfSpeechSensitivityEnum =
+  | "START_SENSITIVITY_UNSPECIFIED"
+  | "START_SENSITIVITY_HIGH"
+  | "START_SENSITIVITY_LOW";
+export const GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfigStartOfSpeechSensitivityEnum =
+  S.String;
+
+export type GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfigEndOfSpeechSensitivityEnum =
+  | "END_SENSITIVITY_UNSPECIFIED"
+  | "END_SENSITIVITY_HIGH"
+  | "END_SENSITIVITY_LOW";
+export const GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfigEndOfSpeechSensitivityEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfig {
+  modelId?: string;
+  startOfSpeechSensitivity?:
+    | GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfigStartOfSpeechSensitivityEnum
+    | (string & {});
+  endOfSpeechSensitivity?:
+    | GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfigEndOfSpeechSensitivityEnum
+    | (string & {});
+  silenceDurationMs?: number;
+  prefixPaddingMs?: number;
+}
+export const GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      modelId: S.optional(S.String),
+      startOfSpeechSensitivity: S.optional(
+        GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfigStartOfSpeechSensitivityEnum,
+      ),
+      endOfSpeechSensitivity: S.optional(
+        GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfigEndOfSpeechSensitivityEnum,
+      ),
+      silenceDurationMs: S.optional(S.Number),
+      prefixPaddingMs: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfig>;
+
+export type GoogleCloudDialogflowV2beta1InputAudioConfigModelVariantEnum =
+  | "SPEECH_MODEL_VARIANT_UNSPECIFIED"
+  | "USE_BEST_AVAILABLE"
+  | "USE_STANDARD"
+  | "USE_ENHANCED";
+export const GoogleCloudDialogflowV2beta1InputAudioConfigModelVariantEnum =
+  S.String;
+
+export type GoogleCloudDialogflowV2beta1InputAudioConfigAudioEncodingEnum =
+  | "AUDIO_ENCODING_UNSPECIFIED"
+  | "AUDIO_ENCODING_LINEAR_16"
+  | "AUDIO_ENCODING_FLAC"
+  | "AUDIO_ENCODING_MULAW"
+  | "AUDIO_ENCODING_AMR"
+  | "AUDIO_ENCODING_AMR_WB"
+  | "AUDIO_ENCODING_OGG_OPUS"
+  | "AUDIO_ENCODING_SPEEX_WITH_HEADER_BYTE"
+  | "AUDIO_ENCODING_ALAW";
+export const GoogleCloudDialogflowV2beta1InputAudioConfigAudioEncodingEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1InputAudioConfig {
+  sampleRateHertz?: number;
+  speechContexts?: GoogleCloudDialogflowV2beta1SpeechContextList;
+  enableWordInfo?: boolean;
+  phraseSets?: StringList;
+  bargeInConfig?: GoogleCloudDialogflowV2beta1BargeInConfig;
+  model?: string;
+  geminiAsrConfig?: GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfig;
+  phraseHints?: StringList;
+  disableNoSpeechRecognizedEvent?: boolean;
+  singleUtterance?: boolean;
+  defaultNoSpeechTimeout?: string;
+  enableAutomaticPunctuation?: boolean;
+  optOutConformerModelMigration?: boolean;
+  modelVariant?:
+    | GoogleCloudDialogflowV2beta1InputAudioConfigModelVariantEnum
+    | (string & {});
+  audioEncoding?:
+    | GoogleCloudDialogflowV2beta1InputAudioConfigAudioEncodingEnum
+    | (string & {});
+  useGeminiAsr?: boolean;
+  languageCode?: string;
+  enableVoiceActivityEvents?: boolean;
+}
+export const GoogleCloudDialogflowV2beta1InputAudioConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sampleRateHertz: S.optional(S.Number),
+      speechContexts: S.optional(GoogleCloudDialogflowV2beta1SpeechContextList),
+      enableWordInfo: S.optional(S.Boolean),
+      phraseSets: S.optional(StringList),
+      bargeInConfig: S.optional(GoogleCloudDialogflowV2beta1BargeInConfig),
+      model: S.optional(S.String),
+      geminiAsrConfig: S.optional(
+        GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfig,
+      ),
+      phraseHints: S.optional(StringList),
+      disableNoSpeechRecognizedEvent: S.optional(S.Boolean),
+      singleUtterance: S.optional(S.Boolean),
+      defaultNoSpeechTimeout: S.optional(S.String),
+      enableAutomaticPunctuation: S.optional(S.Boolean),
+      optOutConformerModelMigration: S.optional(S.Boolean),
+      modelVariant: S.optional(
+        GoogleCloudDialogflowV2beta1InputAudioConfigModelVariantEnum,
+      ),
+      audioEncoding: S.optional(
+        GoogleCloudDialogflowV2beta1InputAudioConfigAudioEncodingEnum,
+      ),
+      useGeminiAsr: S.optional(S.Boolean),
+      languageCode: S.optional(S.String),
+      enableVoiceActivityEvents: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1InputAudioConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1InputAudioConfig>;
+
+export interface GoogleCloudDialogflowV2beta1AudioInput {
+  config?: GoogleCloudDialogflowV2beta1InputAudioConfig;
+  audio?: string;
+}
+export const GoogleCloudDialogflowV2beta1AudioInput = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      config: S.optional(GoogleCloudDialogflowV2beta1InputAudioConfig),
+      audio: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDialogflowV2beta1AudioInput",
+}) as any as S.Schema<GoogleCloudDialogflowV2beta1AudioInput>;
+
 export interface GoogleTypeLatLng {
   latitude?: number;
   longitude?: number;
@@ -284,33 +467,44 @@ export const GoogleTypeLatLng = /*@__PURE__*/ S.suspend(() =>
   identifier: "GoogleTypeLatLng",
 }) as any as S.Schema<GoogleTypeLatLng>;
 
-export interface GoogleCloudDialogflowV2beta1Context {
-  parameters?: DocumentMap;
-  lifespanCount?: number;
-  name?: string;
+export interface GoogleCloudDialogflowV2beta1SentimentAnalysisRequestConfig {
+  analyzeQueryTextSentiment?: boolean;
 }
-export const GoogleCloudDialogflowV2beta1Context = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parameters: S.optional(DocumentMap),
-    lifespanCount: S.optional(S.Number),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDialogflowV2beta1Context",
-}) as any as S.Schema<GoogleCloudDialogflowV2beta1Context>;
+export const GoogleCloudDialogflowV2beta1SentimentAnalysisRequestConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      analyzeQueryTextSentiment: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SentimentAnalysisRequestConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SentimentAnalysisRequestConfig>;
 
-export type GoogleCloudDialogflowV2beta1ContextList =
-  Array<GoogleCloudDialogflowV2beta1Context>;
-export const GoogleCloudDialogflowV2beta1ContextList = /*@__PURE__*/ S.Array(
-  GoogleCloudDialogflowV2beta1Context,
-) as any as S.Schema<GoogleCloudDialogflowV2beta1ContextList>;
+export interface GoogleCloudDialogflowV2beta1SubAgent {
+  environment?: string;
+  project?: string;
+}
+export const GoogleCloudDialogflowV2beta1SubAgent = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      environment: S.optional(S.String),
+      project: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDialogflowV2beta1SubAgent",
+}) as any as S.Schema<GoogleCloudDialogflowV2beta1SubAgent>;
+
+export type GoogleCloudDialogflowV2beta1SubAgentList =
+  Array<GoogleCloudDialogflowV2beta1SubAgent>;
+export const GoogleCloudDialogflowV2beta1SubAgentList = /*@__PURE__*/ S.Array(
+  GoogleCloudDialogflowV2beta1SubAgent,
+) as any as S.Schema<GoogleCloudDialogflowV2beta1SubAgentList>;
 
 export type GoogleCloudDialogflowV2beta1SessionEntityTypeEntityOverrideModeEnum =
-    | "ENTITY_OVERRIDE_MODE_UNSPECIFIED"
-    | "ENTITY_OVERRIDE_MODE_OVERRIDE"
-    | "ENTITY_OVERRIDE_MODE_SUPPLEMENT";
+  | "ENTITY_OVERRIDE_MODE_UNSPECIFIED"
+  | "ENTITY_OVERRIDE_MODE_OVERRIDE"
+  | "ENTITY_OVERRIDE_MODE_SUPPLEMENT";
 export const GoogleCloudDialogflowV2beta1SessionEntityTypeEntityOverrideModeEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1EntityTypeEntity {
   value?: string;
@@ -334,20 +528,20 @@ export const GoogleCloudDialogflowV2beta1EntityTypeEntityList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1EntityTypeEntityList>;
 
 export interface GoogleCloudDialogflowV2beta1SessionEntityType {
+  name?: string;
   entityOverrideMode?:
     | GoogleCloudDialogflowV2beta1SessionEntityTypeEntityOverrideModeEnum
     | (string & {});
   entities?: GoogleCloudDialogflowV2beta1EntityTypeEntityList;
-  name?: string;
 }
 export const GoogleCloudDialogflowV2beta1SessionEntityType =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      name: S.optional(S.String),
       entityOverrideMode: S.optional(
         GoogleCloudDialogflowV2beta1SessionEntityTypeEntityOverrideModeEnum,
       ),
       entities: S.optional(GoogleCloudDialogflowV2beta1EntityTypeEntityList),
-      name: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1SessionEntityType",
@@ -360,240 +554,95 @@ export const GoogleCloudDialogflowV2beta1SessionEntityTypeList =
     GoogleCloudDialogflowV2beta1SessionEntityType,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1SessionEntityTypeList>;
 
-export interface GoogleCloudDialogflowV2beta1SubAgent {
-  environment?: string;
-  project?: string;
+export interface GoogleCloudDialogflowV2beta1Context {
+  parameters?: DocumentMap;
+  lifespanCount?: number;
+  name?: string;
 }
-export const GoogleCloudDialogflowV2beta1SubAgent = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      environment: S.optional(S.String),
-      project: S.optional(S.String),
-    }),
+export const GoogleCloudDialogflowV2beta1Context = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    parameters: S.optional(DocumentMap),
+    lifespanCount: S.optional(S.Number),
+    name: S.optional(S.String),
+  }),
 ).annotate({
-  identifier: "GoogleCloudDialogflowV2beta1SubAgent",
-}) as any as S.Schema<GoogleCloudDialogflowV2beta1SubAgent>;
+  identifier: "GoogleCloudDialogflowV2beta1Context",
+}) as any as S.Schema<GoogleCloudDialogflowV2beta1Context>;
 
-export type GoogleCloudDialogflowV2beta1SubAgentList =
-  Array<GoogleCloudDialogflowV2beta1SubAgent>;
-export const GoogleCloudDialogflowV2beta1SubAgentList = /*@__PURE__*/ S.Array(
-  GoogleCloudDialogflowV2beta1SubAgent,
-) as any as S.Schema<GoogleCloudDialogflowV2beta1SubAgentList>;
-
-export interface GoogleCloudDialogflowV2beta1SentimentAnalysisRequestConfig {
-  analyzeQueryTextSentiment?: boolean;
-}
-export const GoogleCloudDialogflowV2beta1SentimentAnalysisRequestConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      analyzeQueryTextSentiment: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1SentimentAnalysisRequestConfig",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SentimentAnalysisRequestConfig>;
+export type GoogleCloudDialogflowV2beta1ContextList =
+  Array<GoogleCloudDialogflowV2beta1Context>;
+export const GoogleCloudDialogflowV2beta1ContextList = /*@__PURE__*/ S.Array(
+  GoogleCloudDialogflowV2beta1Context,
+) as any as S.Schema<GoogleCloudDialogflowV2beta1ContextList>;
 
 export interface GoogleCloudDialogflowV2beta1QueryParameters {
-  geoLocation?: GoogleTypeLatLng;
-  payload?: DocumentMap;
-  contexts?: GoogleCloudDialogflowV2beta1ContextList;
-  timeZone?: string;
-  sessionEntityTypes?: GoogleCloudDialogflowV2beta1SessionEntityTypeList;
-  knowledgeBaseNames?: StringList;
-  platform?: string;
-  subAgents?: GoogleCloudDialogflowV2beta1SubAgentList;
-  resetContexts?: boolean;
   webhookHeaders?: StringMap;
+  geoLocation?: GoogleTypeLatLng;
+  timeZone?: string;
   sentimentAnalysisRequestConfig?: GoogleCloudDialogflowV2beta1SentimentAnalysisRequestConfig;
+  knowledgeBaseNames?: StringList;
+  resetContexts?: boolean;
+  subAgents?: GoogleCloudDialogflowV2beta1SubAgentList;
+  sessionEntityTypes?: GoogleCloudDialogflowV2beta1SessionEntityTypeList;
+  platform?: string;
+  contexts?: GoogleCloudDialogflowV2beta1ContextList;
+  payload?: DocumentMap;
 }
 export const GoogleCloudDialogflowV2beta1QueryParameters =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      geoLocation: S.optional(GoogleTypeLatLng),
-      payload: S.optional(DocumentMap),
-      contexts: S.optional(GoogleCloudDialogflowV2beta1ContextList),
-      timeZone: S.optional(S.String),
-      sessionEntityTypes: S.optional(
-        GoogleCloudDialogflowV2beta1SessionEntityTypeList,
-      ),
-      knowledgeBaseNames: S.optional(StringList),
-      platform: S.optional(S.String),
-      subAgents: S.optional(GoogleCloudDialogflowV2beta1SubAgentList),
-      resetContexts: S.optional(S.Boolean),
       webhookHeaders: S.optional(StringMap),
+      geoLocation: S.optional(GoogleTypeLatLng),
+      timeZone: S.optional(S.String),
       sentimentAnalysisRequestConfig: S.optional(
         GoogleCloudDialogflowV2beta1SentimentAnalysisRequestConfig,
       ),
+      knowledgeBaseNames: S.optional(StringList),
+      resetContexts: S.optional(S.Boolean),
+      subAgents: S.optional(GoogleCloudDialogflowV2beta1SubAgentList),
+      sessionEntityTypes: S.optional(
+        GoogleCloudDialogflowV2beta1SessionEntityTypeList,
+      ),
+      platform: S.optional(S.String),
+      contexts: S.optional(GoogleCloudDialogflowV2beta1ContextList),
+      payload: S.optional(DocumentMap),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1QueryParameters",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1QueryParameters>;
 
-export interface GoogleCloudDialogflowV2beta1BargeInConfig {
-  noBargeInDuration?: string;
-  totalDuration?: string;
-}
-export const GoogleCloudDialogflowV2beta1BargeInConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      noBargeInDuration: S.optional(S.String),
-      totalDuration: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1BargeInConfig",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1BargeInConfig>;
-
-export interface GoogleCloudDialogflowV2beta1SpeechContext {
-  phrases?: StringList;
-  boost?: number;
-}
-export const GoogleCloudDialogflowV2beta1SpeechContext =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      phrases: S.optional(StringList),
-      boost: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1SpeechContext",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SpeechContext>;
-
-export type GoogleCloudDialogflowV2beta1SpeechContextList =
-  Array<GoogleCloudDialogflowV2beta1SpeechContext>;
-export const GoogleCloudDialogflowV2beta1SpeechContextList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1SpeechContext,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1SpeechContextList>;
-
-export type GoogleCloudDialogflowV2beta1InputAudioConfigAudioEncodingEnum =
-  | "AUDIO_ENCODING_UNSPECIFIED"
-  | "AUDIO_ENCODING_LINEAR_16"
-  | "AUDIO_ENCODING_FLAC"
-  | "AUDIO_ENCODING_MULAW"
-  | "AUDIO_ENCODING_AMR"
-  | "AUDIO_ENCODING_AMR_WB"
-  | "AUDIO_ENCODING_OGG_OPUS"
-  | "AUDIO_ENCODING_SPEEX_WITH_HEADER_BYTE"
-  | "AUDIO_ENCODING_ALAW";
-export const GoogleCloudDialogflowV2beta1InputAudioConfigAudioEncodingEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleCloudDialogflowV2beta1InputAudioConfigModelVariantEnum =
-  | "SPEECH_MODEL_VARIANT_UNSPECIFIED"
-  | "USE_BEST_AVAILABLE"
-  | "USE_STANDARD"
-  | "USE_ENHANCED";
-export const GoogleCloudDialogflowV2beta1InputAudioConfigModelVariantEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1InputAudioConfig {
-  phraseSets?: StringList;
-  phraseHints?: StringList;
-  bargeInConfig?: GoogleCloudDialogflowV2beta1BargeInConfig;
-  speechContexts?: GoogleCloudDialogflowV2beta1SpeechContextList;
-  model?: string;
-  audioEncoding?:
-    | GoogleCloudDialogflowV2beta1InputAudioConfigAudioEncodingEnum
-    | (string & {});
-  enableWordInfo?: boolean;
-  enableAutomaticPunctuation?: boolean;
-  sampleRateHertz?: number;
-  disableNoSpeechRecognizedEvent?: boolean;
-  defaultNoSpeechTimeout?: string;
-  languageCode?: string;
-  optOutConformerModelMigration?: boolean;
-  singleUtterance?: boolean;
-  modelVariant?:
-    | GoogleCloudDialogflowV2beta1InputAudioConfigModelVariantEnum
-    | (string & {});
-}
-export const GoogleCloudDialogflowV2beta1InputAudioConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      phraseSets: S.optional(StringList),
-      phraseHints: S.optional(StringList),
-      bargeInConfig: S.optional(GoogleCloudDialogflowV2beta1BargeInConfig),
-      speechContexts: S.optional(GoogleCloudDialogflowV2beta1SpeechContextList),
-      model: S.optional(S.String),
-      audioEncoding: S.optional(
-        GoogleCloudDialogflowV2beta1InputAudioConfigAudioEncodingEnum,
-      ),
-      enableWordInfo: S.optional(S.Boolean),
-      enableAutomaticPunctuation: S.optional(S.Boolean),
-      sampleRateHertz: S.optional(S.Number),
-      disableNoSpeechRecognizedEvent: S.optional(S.Boolean),
-      defaultNoSpeechTimeout: S.optional(S.String),
-      languageCode: S.optional(S.String),
-      optOutConformerModelMigration: S.optional(S.Boolean),
-      singleUtterance: S.optional(S.Boolean),
-      modelVariant: S.optional(
-        GoogleCloudDialogflowV2beta1InputAudioConfigModelVariantEnum,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1InputAudioConfig",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1InputAudioConfig>;
-
-export interface GoogleCloudDialogflowV2beta1AudioInput {
-  audio?: string;
-  config?: GoogleCloudDialogflowV2beta1InputAudioConfig;
-}
-export const GoogleCloudDialogflowV2beta1AudioInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      audio: S.optional(S.String),
-      config: S.optional(GoogleCloudDialogflowV2beta1InputAudioConfig),
-    }),
-).annotate({
-  identifier: "GoogleCloudDialogflowV2beta1AudioInput",
-}) as any as S.Schema<GoogleCloudDialogflowV2beta1AudioInput>;
-
-export interface GoogleCloudDialogflowV2beta1EventInput {
-  name?: string;
-  languageCode?: string;
-  parameters?: DocumentMap;
-}
-export const GoogleCloudDialogflowV2beta1EventInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.optional(S.String),
-      languageCode: S.optional(S.String),
-      parameters: S.optional(DocumentMap),
-    }),
-).annotate({
-  identifier: "GoogleCloudDialogflowV2beta1EventInput",
-}) as any as S.Schema<GoogleCloudDialogflowV2beta1EventInput>;
-
 export interface GoogleCloudDialogflowV2beta1AnalyzeContentRequest {
-  suggestionInput?: GoogleCloudDialogflowV2beta1SuggestionInput;
-  assistQueryParams?: GoogleCloudDialogflowV2beta1AssistQueryParameters;
+  textInput?: GoogleCloudDialogflowV2beta1TextInput;
   replyAudioConfig?: GoogleCloudDialogflowV2beta1OutputAudioConfig;
   cxCurrentPage?: string;
+  suggestionInput?: GoogleCloudDialogflowV2beta1SuggestionInput;
   cxParameters?: DocumentMap;
-  queryParams?: GoogleCloudDialogflowV2beta1QueryParameters;
-  textInput?: GoogleCloudDialogflowV2beta1TextInput;
-  requestId?: string;
-  audioInput?: GoogleCloudDialogflowV2beta1AudioInput;
-  intentInput?: GoogleCloudDialogflowV2beta1IntentInput;
   eventInput?: GoogleCloudDialogflowV2beta1EventInput;
+  assistQueryParams?: GoogleCloudDialogflowV2beta1AssistQueryParameters;
+  intentInput?: GoogleCloudDialogflowV2beta1IntentInput;
+  audioInput?: GoogleCloudDialogflowV2beta1AudioInput;
+  requestId?: string;
+  queryParams?: GoogleCloudDialogflowV2beta1QueryParameters;
   messageSendTime?: string;
 }
 export const GoogleCloudDialogflowV2beta1AnalyzeContentRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      suggestionInput: S.optional(GoogleCloudDialogflowV2beta1SuggestionInput),
-      assistQueryParams: S.optional(
-        GoogleCloudDialogflowV2beta1AssistQueryParameters,
-      ),
+      textInput: S.optional(GoogleCloudDialogflowV2beta1TextInput),
       replyAudioConfig: S.optional(
         GoogleCloudDialogflowV2beta1OutputAudioConfig,
       ),
       cxCurrentPage: S.optional(S.String),
+      suggestionInput: S.optional(GoogleCloudDialogflowV2beta1SuggestionInput),
       cxParameters: S.optional(DocumentMap),
-      queryParams: S.optional(GoogleCloudDialogflowV2beta1QueryParameters),
-      textInput: S.optional(GoogleCloudDialogflowV2beta1TextInput),
-      requestId: S.optional(S.String),
-      audioInput: S.optional(GoogleCloudDialogflowV2beta1AudioInput),
-      intentInput: S.optional(GoogleCloudDialogflowV2beta1IntentInput),
       eventInput: S.optional(GoogleCloudDialogflowV2beta1EventInput),
+      assistQueryParams: S.optional(
+        GoogleCloudDialogflowV2beta1AssistQueryParameters,
+      ),
+      intentInput: S.optional(GoogleCloudDialogflowV2beta1IntentInput),
+      audioInput: S.optional(GoogleCloudDialogflowV2beta1AudioInput),
+      requestId: S.optional(S.String),
+      queryParams: S.optional(GoogleCloudDialogflowV2beta1QueryParameters),
       messageSendTime: S.optional(S.String),
     }),
   ).annotate({
@@ -623,72 +672,72 @@ export const AnalyzeContentProjectsConversationsParticipantsRequest =
     identifier: "AnalyzeContentProjectsConversationsParticipantsRequest",
   }) as any as S.Schema<AnalyzeContentProjectsConversationsParticipantsRequest>;
 
-export interface GoogleCloudDialogflowV2beta1ArticleAnswer {
-  title?: string;
-  snippets?: StringList;
-  metadata?: StringMap;
-  answerRecord?: string;
-  uri?: string;
+export interface GoogleCloudDialogflowV2beta1OutputAudio {
+  audio?: string;
+  config?: GoogleCloudDialogflowV2beta1OutputAudioConfig;
 }
-export const GoogleCloudDialogflowV2beta1ArticleAnswer =
+export const GoogleCloudDialogflowV2beta1OutputAudio = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      audio: S.optional(S.String),
+      config: S.optional(GoogleCloudDialogflowV2beta1OutputAudioConfig),
+    }),
+).annotate({
+  identifier: "GoogleCloudDialogflowV2beta1OutputAudio",
+}) as any as S.Schema<GoogleCloudDialogflowV2beta1OutputAudio>;
+
+export interface GoogleCloudDialogflowV2beta1Sentiment {
+  magnitude?: number;
+  score?: number;
+}
+export const GoogleCloudDialogflowV2beta1Sentiment = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      magnitude: S.optional(S.Number),
+      score: S.optional(S.Number),
+    }),
+).annotate({
+  identifier: "GoogleCloudDialogflowV2beta1Sentiment",
+}) as any as S.Schema<GoogleCloudDialogflowV2beta1Sentiment>;
+
+export interface GoogleCloudDialogflowV2beta1SentimentAnalysisResult {
+  queryTextSentiment?: GoogleCloudDialogflowV2beta1Sentiment;
+}
+export const GoogleCloudDialogflowV2beta1SentimentAnalysisResult =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      title: S.optional(S.String),
-      snippets: S.optional(StringList),
-      metadata: S.optional(StringMap),
-      answerRecord: S.optional(S.String),
-      uri: S.optional(S.String),
+      queryTextSentiment: S.optional(GoogleCloudDialogflowV2beta1Sentiment),
     }),
   ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1ArticleAnswer",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ArticleAnswer>;
-
-export type GoogleCloudDialogflowV2beta1ArticleAnswerList =
-  Array<GoogleCloudDialogflowV2beta1ArticleAnswer>;
-export const GoogleCloudDialogflowV2beta1ArticleAnswerList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1ArticleAnswer,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1ArticleAnswerList>;
-
-export interface GoogleCloudDialogflowV2beta1SuggestArticlesResponse {
-  articleAnswers?: GoogleCloudDialogflowV2beta1ArticleAnswerList;
-  latestMessage?: string;
-  contextSize?: number;
-}
-export const GoogleCloudDialogflowV2beta1SuggestArticlesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      articleAnswers: S.optional(GoogleCloudDialogflowV2beta1ArticleAnswerList),
-      latestMessage: S.optional(S.String),
-      contextSize: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1SuggestArticlesResponse",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestArticlesResponse>;
+    identifier: "GoogleCloudDialogflowV2beta1SentimentAnalysisResult",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SentimentAnalysisResult>;
 
 export type GoogleCloudDialogflowV2beta1KnowledgeAnswersAnswerMatchConfidenceLevelEnum =
-  "MATCH_CONFIDENCE_LEVEL_UNSPECIFIED" | "LOW" | "MEDIUM" | "HIGH";
+  | "MATCH_CONFIDENCE_LEVEL_UNSPECIFIED"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH";
 export const GoogleCloudDialogflowV2beta1KnowledgeAnswersAnswerMatchConfidenceLevelEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1KnowledgeAnswersAnswer {
+  faqQuestion?: string;
+  answer?: string;
   matchConfidenceLevel?:
     | GoogleCloudDialogflowV2beta1KnowledgeAnswersAnswerMatchConfidenceLevelEnum
     | (string & {});
   matchConfidence?: number;
-  faqQuestion?: string;
-  answer?: string;
   source?: string;
 }
 export const GoogleCloudDialogflowV2beta1KnowledgeAnswersAnswer =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      faqQuestion: S.optional(S.String),
+      answer: S.optional(S.String),
       matchConfidenceLevel: S.optional(
         GoogleCloudDialogflowV2beta1KnowledgeAnswersAnswerMatchConfidenceLevelEnum,
       ),
       matchConfidence: S.optional(S.Number),
-      faqQuestion: S.optional(S.String),
-      answer: S.optional(S.String),
       source: S.optional(S.String),
     }),
   ).annotate({
@@ -716,184 +765,17 @@ export const GoogleCloudDialogflowV2beta1KnowledgeAnswers =
     identifier: "GoogleCloudDialogflowV2beta1KnowledgeAnswers",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAnswers>;
 
-export interface GoogleCloudDialogflowV2beta1Sentiment {
-  score?: number;
-  magnitude?: number;
+export interface GoogleCloudDialogflowV2beta1IntentMessageTelephonyPlayAudio {
+  audioUri?: string;
 }
-export const GoogleCloudDialogflowV2beta1Sentiment = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      score: S.optional(S.Number),
-      magnitude: S.optional(S.Number),
-    }),
-).annotate({
-  identifier: "GoogleCloudDialogflowV2beta1Sentiment",
-}) as any as S.Schema<GoogleCloudDialogflowV2beta1Sentiment>;
-
-export interface GoogleCloudDialogflowV2beta1SentimentAnalysisResult {
-  queryTextSentiment?: GoogleCloudDialogflowV2beta1Sentiment;
-}
-export const GoogleCloudDialogflowV2beta1SentimentAnalysisResult =
+export const GoogleCloudDialogflowV2beta1IntentMessageTelephonyPlayAudio =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      queryTextSentiment: S.optional(GoogleCloudDialogflowV2beta1Sentiment),
+      audioUri: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1SentimentAnalysisResult",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SentimentAnalysisResult>;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo {
-  key?: string;
-  synonyms?: StringList;
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      key: S.optional(S.String),
-      synonyms: S.optional(StringList),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo>;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageImage {
-  imageUri?: string;
-  accessibilityText?: string;
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageImage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      imageUri: S.optional(S.String),
-      accessibilityText: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageImage",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageImage>;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageListSelectItem {
-  info?: GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo;
-  title?: string;
-  description?: string;
-  image?: GoogleCloudDialogflowV2beta1IntentMessageImage;
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageListSelectItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      info: S.optional(GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo),
-      title: S.optional(S.String),
-      description: S.optional(S.String),
-      image: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageListSelectItem",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageListSelectItem>;
-
-export type GoogleCloudDialogflowV2beta1IntentMessageListSelectItemList =
-  Array<GoogleCloudDialogflowV2beta1IntentMessageListSelectItem>;
-export const GoogleCloudDialogflowV2beta1IntentMessageListSelectItemList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1IntentMessageListSelectItem,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageListSelectItemList>;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageListSelect {
-  items?: GoogleCloudDialogflowV2beta1IntentMessageListSelectItemList;
-  title?: string;
-  subtitle?: string;
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageListSelect =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      items: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageListSelectItemList,
-      ),
-      title: S.optional(S.String),
-      subtitle: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageListSelect",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageListSelect>;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItem {
-  title?: string;
-  description?: string;
-  image?: GoogleCloudDialogflowV2beta1IntentMessageImage;
-  info?: GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo;
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      title: S.optional(S.String),
-      description: S.optional(S.String),
-      image: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
-      info: S.optional(GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItem",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItem>;
-
-export type GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItemList =
-  Array<GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItem>;
-export const GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItemList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItem,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItemList>;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageCarouselSelect {
-  items?: GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItemList;
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageCarouselSelect =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      items: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItemList,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageCarouselSelect",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageCarouselSelect>;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageTelephonyTransferCall {
-  phoneNumber?: string;
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageTelephonyTransferCall =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      phoneNumber: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1IntentMessageTelephonyTransferCall",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageTelephonyTransferCall>;
-
-export type GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesHorizontalAlignmentEnum =
-  "HORIZONTAL_ALIGNMENT_UNSPECIFIED" | "LEADING" | "CENTER" | "TRAILING";
-export const GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesHorizontalAlignmentEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageColumnProperties {
-  header?: string;
-  horizontalAlignment?:
-    | GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesHorizontalAlignmentEnum
-    | (string & {});
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageColumnProperties =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      header: S.optional(S.String),
-      horizontalAlignment: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesHorizontalAlignmentEnum,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageColumnProperties",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageColumnProperties>;
-
-export type GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesList =
-  Array<GoogleCloudDialogflowV2beta1IntentMessageColumnProperties>;
-export const GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1IntentMessageColumnProperties,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesList>;
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageTelephonyPlayAudio",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageTelephonyPlayAudio>;
 
 export interface GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonOpenUriAction {
   uri?: string;
@@ -909,16 +791,16 @@ export const GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonOpenUriActi
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonOpenUriAction>;
 
 export interface GoogleCloudDialogflowV2beta1IntentMessageBasicCardButton {
-  title?: string;
   openUriAction?: GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonOpenUriAction;
+  title?: string;
 }
 export const GoogleCloudDialogflowV2beta1IntentMessageBasicCardButton =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      title: S.optional(S.String),
       openUriAction: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonOpenUriAction,
       ),
+      title: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1IntentMessageBasicCardButton",
@@ -930,6 +812,39 @@ export const GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonList =
   /*@__PURE__*/ S.Array(
     GoogleCloudDialogflowV2beta1IntentMessageBasicCardButton,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonList>;
+
+export type GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesHorizontalAlignmentEnum =
+  | "HORIZONTAL_ALIGNMENT_UNSPECIFIED"
+  | "LEADING"
+  | "CENTER"
+  | "TRAILING";
+export const GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesHorizontalAlignmentEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1IntentMessageColumnProperties {
+  horizontalAlignment?:
+    | GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesHorizontalAlignmentEnum
+    | (string & {});
+  header?: string;
+}
+export const GoogleCloudDialogflowV2beta1IntentMessageColumnProperties =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      horizontalAlignment: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesHorizontalAlignmentEnum,
+      ),
+      header: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageColumnProperties",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageColumnProperties>;
+
+export type GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesList =
+  Array<GoogleCloudDialogflowV2beta1IntentMessageColumnProperties>;
+export const GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1IntentMessageColumnProperties,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesList>;
 
 export interface GoogleCloudDialogflowV2beta1IntentMessageTableCardCell {
   text?: string;
@@ -973,45 +888,59 @@ export const GoogleCloudDialogflowV2beta1IntentMessageTableCardRowList =
     GoogleCloudDialogflowV2beta1IntentMessageTableCardRow,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageTableCardRowList>;
 
+export interface GoogleCloudDialogflowV2beta1IntentMessageImage {
+  imageUri?: string;
+  accessibilityText?: string;
+}
+export const GoogleCloudDialogflowV2beta1IntentMessageImage =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      imageUri: S.optional(S.String),
+      accessibilityText: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageImage",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageImage>;
+
 export interface GoogleCloudDialogflowV2beta1IntentMessageTableCard {
+  buttons?: GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonList;
   title?: string;
+  columnProperties?: GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesList;
+  rows?: GoogleCloudDialogflowV2beta1IntentMessageTableCardRowList;
   subtitle?: string;
   image?: GoogleCloudDialogflowV2beta1IntentMessageImage;
-  columnProperties?: GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesList;
-  buttons?: GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonList;
-  rows?: GoogleCloudDialogflowV2beta1IntentMessageTableCardRowList;
 }
 export const GoogleCloudDialogflowV2beta1IntentMessageTableCard =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      title: S.optional(S.String),
-      subtitle: S.optional(S.String),
-      image: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
-      columnProperties: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesList,
-      ),
       buttons: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonList,
+      ),
+      title: S.optional(S.String),
+      columnProperties: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageColumnPropertiesList,
       ),
       rows: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageTableCardRowList,
       ),
+      subtitle: S.optional(S.String),
+      image: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1IntentMessageTableCard",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageTableCard>;
 
 export interface GoogleCloudDialogflowV2beta1IntentMessageSimpleResponse {
+  ssml?: string;
   textToSpeech?: string;
   displayText?: string;
-  ssml?: string;
 }
 export const GoogleCloudDialogflowV2beta1IntentMessageSimpleResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      ssml: S.optional(S.String),
       textToSpeech: S.optional(S.String),
       displayText: S.optional(S.String),
-      ssml: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1IntentMessageSimpleResponse",
@@ -1038,6 +967,20 @@ export const GoogleCloudDialogflowV2beta1IntentMessageSimpleResponses =
     identifier: "GoogleCloudDialogflowV2beta1IntentMessageSimpleResponses",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageSimpleResponses>;
 
+export interface GoogleCloudDialogflowV2beta1IntentMessageLinkOutSuggestion {
+  destinationName?: string;
+  uri?: string;
+}
+export const GoogleCloudDialogflowV2beta1IntentMessageLinkOutSuggestion =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      destinationName: S.optional(S.String),
+      uri: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageLinkOutSuggestion",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageLinkOutSuggestion>;
+
 export interface GoogleCloudDialogflowV2beta1IntentMessageText {
   text?: StringList;
 }
@@ -1050,10 +993,27 @@ export const GoogleCloudDialogflowV2beta1IntentMessageText =
     identifier: "GoogleCloudDialogflowV2beta1IntentMessageText",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageText>;
 
+export type GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardCardOrientationEnum =
+  | "CARD_ORIENTATION_UNSPECIFIED"
+  | "HORIZONTAL"
+  | "VERTICAL";
+export const GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardCardOrientationEnum =
+  S.String;
+
+export type GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardThumbnailImageAlignmentEnum =
+  | "THUMBNAIL_IMAGE_ALIGNMENT_UNSPECIFIED"
+  | "LEFT"
+  | "RIGHT";
+export const GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardThumbnailImageAlignmentEnum =
+  S.String;
+
 export type GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentRbmMediaHeightEnum =
-  "HEIGHT_UNSPECIFIED" | "SHORT" | "MEDIUM" | "TALL";
+  | "HEIGHT_UNSPECIFIED"
+  | "SHORT"
+  | "MEDIUM"
+  | "TALL";
 export const GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentRbmMediaHeightEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentRbmMedia {
   fileUri?: string;
@@ -1097,10 +1057,18 @@ export const GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSugge
       "GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation>;
 
-export type GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionDial =
-  GoogleCloudDialogflowV2beta1IntentMessageTelephonyTransferCall;
+export interface GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionDial {
+  phoneNumber?: string;
+}
 export const GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionDial =
-  GoogleCloudDialogflowV2beta1IntentMessageTelephonyTransferCall;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      phoneNumber: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionDial",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionDial>;
 
 export type GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionOpenUri =
   GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonOpenUriAction;
@@ -1108,26 +1076,26 @@ export const GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSugge
   GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonOpenUriAction;
 
 export interface GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedAction {
-  shareLocation?: GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation;
-  dial?: GoogleCloudDialogflowV2beta1IntentMessageTelephonyTransferCall;
-  postbackData?: string;
   text?: string;
+  shareLocation?: GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation;
+  dial?: GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionDial;
   openUrl?: GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonOpenUriAction;
+  postbackData?: string;
 }
 export const GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedAction =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      text: S.optional(S.String),
       shareLocation: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation,
       ),
       dial: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageTelephonyTransferCall,
+        GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionDial,
       ),
-      postbackData: S.optional(S.String),
-      text: S.optional(S.String),
       openUrl: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonOpenUriAction,
       ),
+      postbackData: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedAction",
@@ -1159,72 +1127,52 @@ export const GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestionList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestionList>;
 
 export interface GoogleCloudDialogflowV2beta1IntentMessageRbmCardContent {
-  media?: GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentRbmMedia;
-  suggestions?: GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestionList;
   title?: string;
+  media?: GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentRbmMedia;
   description?: string;
+  suggestions?: GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestionList;
 }
 export const GoogleCloudDialogflowV2beta1IntentMessageRbmCardContent =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      title: S.optional(S.String),
       media: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentRbmMedia,
       ),
+      description: S.optional(S.String),
       suggestions: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestionList,
       ),
-      title: S.optional(S.String),
-      description: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1IntentMessageRbmCardContent",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageRbmCardContent>;
 
-export type GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentList =
-  Array<GoogleCloudDialogflowV2beta1IntentMessageRbmCardContent>;
-export const GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1IntentMessageRbmCardContent,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentList>;
-
-export type GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCardCardWidthEnum =
-  "CARD_WIDTH_UNSPECIFIED" | "SMALL" | "MEDIUM";
-export const GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCardCardWidthEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard {
-  cardContents?: GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentList;
-  cardWidth?:
-    | GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCardCardWidthEnum
+export interface GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCard {
+  cardOrientation?:
+    | GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardCardOrientationEnum
     | (string & {});
+  thumbnailImageAlignment?:
+    | GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardThumbnailImageAlignmentEnum
+    | (string & {});
+  cardContent?: GoogleCloudDialogflowV2beta1IntentMessageRbmCardContent;
 }
-export const GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard =
+export const GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCard =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      cardContents: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentList,
+      cardOrientation: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardCardOrientationEnum,
       ),
-      cardWidth: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCardCardWidthEnum,
+      thumbnailImageAlignment: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardThumbnailImageAlignmentEnum,
+      ),
+      cardContent: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageRbmCardContent,
       ),
     }),
   ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard>;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageLinkOutSuggestion {
-  destinationName?: string;
-  uri?: string;
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageLinkOutSuggestion =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      destinationName: S.optional(S.String),
-      uri: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageLinkOutSuggestion",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageLinkOutSuggestion>;
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCard",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCard>;
 
 export interface GoogleCloudDialogflowV2beta1IntentMessageRbmText {
   rbmSuggestion?: GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestionList;
@@ -1242,195 +1190,62 @@ export const GoogleCloudDialogflowV2beta1IntentMessageRbmText =
     identifier: "GoogleCloudDialogflowV2beta1IntentMessageRbmText",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageRbmText>;
 
-export type GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardImageDisplayOptionsEnum =
-    | "IMAGE_DISPLAY_OPTIONS_UNSPECIFIED"
-    | "GRAY"
-    | "WHITE"
-    | "CROPPED"
-    | "BLURRED_BACKGROUND";
-export const GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardImageDisplayOptionsEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlActionUrlTypeHintEnum =
-  "URL_TYPE_HINT_UNSPECIFIED" | "AMP_ACTION" | "AMP_CONTENT";
-export const GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlActionUrlTypeHintEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction {
-  url?: string;
-  urlTypeHint?:
-    | GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlActionUrlTypeHintEnum
-    | (string & {});
+export interface GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo {
+  key?: string;
+  synonyms?: StringList;
 }
-export const GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction =
+export const GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      url: S.optional(S.String),
-      urlTypeHint: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlActionUrlTypeHintEnum,
-      ),
+      key: S.optional(S.String),
+      synonyms: S.optional(StringList),
     }),
   ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction>;
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo>;
 
-export interface GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItem {
-  description?: string;
+export interface GoogleCloudDialogflowV2beta1IntentMessageListSelectItem {
+  title?: string;
   image?: GoogleCloudDialogflowV2beta1IntentMessageImage;
-  footer?: string;
-  openUriAction?: GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction;
-  title?: string;
+  info?: GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo;
+  description?: string;
 }
-export const GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItem =
+export const GoogleCloudDialogflowV2beta1IntentMessageListSelectItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      description: S.optional(S.String),
-      image: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
-      footer: S.optional(S.String),
-      openUriAction: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction,
-      ),
       title: S.optional(S.String),
+      image: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
+      info: S.optional(GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo),
+      description: S.optional(S.String),
     }),
   ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItem",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItem>;
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageListSelectItem",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageListSelectItem>;
 
-export type GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemList =
-  Array<GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItem>;
-export const GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemList =
+export type GoogleCloudDialogflowV2beta1IntentMessageListSelectItemList =
+  Array<GoogleCloudDialogflowV2beta1IntentMessageListSelectItem>;
+export const GoogleCloudDialogflowV2beta1IntentMessageListSelectItemList =
   /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItem,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemList>;
+    GoogleCloudDialogflowV2beta1IntentMessageListSelectItem,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageListSelectItemList>;
 
-export interface GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCard {
-  imageDisplayOptions?:
-    | GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardImageDisplayOptionsEnum
-    | (string & {});
-  items?: GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemList;
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCard =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      imageDisplayOptions: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardImageDisplayOptionsEnum,
-      ),
-      items: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemList,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCard",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCard>;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageTelephonySynthesizeSpeech {
-  text?: string;
-  ssml?: string;
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageTelephonySynthesizeSpeech =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      text: S.optional(S.String),
-      ssml: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1IntentMessageTelephonySynthesizeSpeech",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageTelephonySynthesizeSpeech>;
-
-export type GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardCardOrientationEnum =
-  "CARD_ORIENTATION_UNSPECIFIED" | "HORIZONTAL" | "VERTICAL";
-export const GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardCardOrientationEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardThumbnailImageAlignmentEnum =
-  "THUMBNAIL_IMAGE_ALIGNMENT_UNSPECIFIED" | "LEFT" | "RIGHT";
-export const GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardThumbnailImageAlignmentEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCard {
-  cardContent?: GoogleCloudDialogflowV2beta1IntentMessageRbmCardContent;
-  cardOrientation?:
-    | GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardCardOrientationEnum
-    | (string & {});
-  thumbnailImageAlignment?:
-    | GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardThumbnailImageAlignmentEnum
-    | (string & {});
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCard =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      cardContent: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageRbmCardContent,
-      ),
-      cardOrientation: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardCardOrientationEnum,
-      ),
-      thumbnailImageAlignment: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCardThumbnailImageAlignmentEnum,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCard",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCard>;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageCardButton {
-  postback?: string;
-  text?: string;
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageCardButton =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      postback: S.optional(S.String),
-      text: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageCardButton",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageCardButton>;
-
-export type GoogleCloudDialogflowV2beta1IntentMessageCardButtonList =
-  Array<GoogleCloudDialogflowV2beta1IntentMessageCardButton>;
-export const GoogleCloudDialogflowV2beta1IntentMessageCardButtonList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1IntentMessageCardButton,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageCardButtonList>;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageCard {
+export interface GoogleCloudDialogflowV2beta1IntentMessageListSelect {
   title?: string;
-  imageUri?: string;
-  buttons?: GoogleCloudDialogflowV2beta1IntentMessageCardButtonList;
+  items?: GoogleCloudDialogflowV2beta1IntentMessageListSelectItemList;
   subtitle?: string;
 }
-export const GoogleCloudDialogflowV2beta1IntentMessageCard =
+export const GoogleCloudDialogflowV2beta1IntentMessageListSelect =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       title: S.optional(S.String),
-      imageUri: S.optional(S.String),
-      buttons: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageCardButtonList,
+      items: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageListSelectItemList,
       ),
       subtitle: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageCard",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageCard>;
-
-export type GoogleCloudDialogflowV2beta1IntentMessagePlatformEnum =
-  | "PLATFORM_UNSPECIFIED"
-  | "FACEBOOK"
-  | "SLACK"
-  | "TELEGRAM"
-  | "KIK"
-  | "SKYPE"
-  | "LINE"
-  | "VIBER"
-  | "ACTIONS_ON_GOOGLE"
-  | "TELEPHONY"
-  | "GOOGLE_HANGOUTS";
-export const GoogleCloudDialogflowV2beta1IntentMessagePlatformEnum =
-  /*@__PURE__*/ S.String;
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageListSelect",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageListSelect>;
 
 export interface GoogleCloudDialogflowV2beta1IntentMessageSuggestion {
   title?: string;
@@ -1465,26 +1280,56 @@ export const GoogleCloudDialogflowV2beta1IntentMessageSuggestions =
     identifier: "GoogleCloudDialogflowV2beta1IntentMessageSuggestions",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageSuggestions>;
 
+export interface GoogleCloudDialogflowV2beta1IntentMessageTelephonySynthesizeSpeech {
+  ssml?: string;
+  text?: string;
+}
+export const GoogleCloudDialogflowV2beta1IntentMessageTelephonySynthesizeSpeech =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ssml: S.optional(S.String),
+      text: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1IntentMessageTelephonySynthesizeSpeech",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageTelephonySynthesizeSpeech>;
+
+export type GoogleCloudDialogflowV2beta1IntentMessagePlatformEnum =
+  | "PLATFORM_UNSPECIFIED"
+  | "FACEBOOK"
+  | "SLACK"
+  | "TELEGRAM"
+  | "KIK"
+  | "SKYPE"
+  | "LINE"
+  | "VIBER"
+  | "ACTIONS_ON_GOOGLE"
+  | "TELEPHONY"
+  | "GOOGLE_HANGOUTS";
+export const GoogleCloudDialogflowV2beta1IntentMessagePlatformEnum = S.String;
+
 export type GoogleCloudDialogflowV2beta1IntentMessageMediaContentMediaTypeEnum =
-  "RESPONSE_MEDIA_TYPE_UNSPECIFIED" | "AUDIO";
+  | "RESPONSE_MEDIA_TYPE_UNSPECIFIED"
+  | "AUDIO";
 export const GoogleCloudDialogflowV2beta1IntentMessageMediaContentMediaTypeEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1IntentMessageMediaContentResponseMediaObject {
-  icon?: GoogleCloudDialogflowV2beta1IntentMessageImage;
-  contentUrl?: string;
   name?: string;
+  contentUrl?: string;
   description?: string;
   largeImage?: GoogleCloudDialogflowV2beta1IntentMessageImage;
+  icon?: GoogleCloudDialogflowV2beta1IntentMessageImage;
 }
 export const GoogleCloudDialogflowV2beta1IntentMessageMediaContentResponseMediaObject =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      icon: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
-      contentUrl: S.optional(S.String),
       name: S.optional(S.String),
+      contentUrl: S.optional(S.String),
       description: S.optional(S.String),
       largeImage: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
+      icon: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
     }),
   ).annotate({
     identifier:
@@ -1518,6 +1363,214 @@ export const GoogleCloudDialogflowV2beta1IntentMessageMediaContent =
     identifier: "GoogleCloudDialogflowV2beta1IntentMessageMediaContent",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageMediaContent>;
 
+export type GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCardCardWidthEnum =
+  | "CARD_WIDTH_UNSPECIFIED"
+  | "SMALL"
+  | "MEDIUM";
+export const GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCardCardWidthEnum =
+  S.String;
+
+export type GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentList =
+  Array<GoogleCloudDialogflowV2beta1IntentMessageRbmCardContent>;
+export const GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1IntentMessageRbmCardContent,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentList>;
+
+export interface GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard {
+  cardWidth?:
+    | GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCardCardWidthEnum
+    | (string & {});
+  cardContents?: GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentList;
+}
+export const GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      cardWidth: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCardCardWidthEnum,
+      ),
+      cardContents: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageRbmCardContentList,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard>;
+
+export interface GoogleCloudDialogflowV2beta1IntentMessageBasicCard {
+  subtitle?: string;
+  formattedText?: string;
+  image?: GoogleCloudDialogflowV2beta1IntentMessageImage;
+  buttons?: GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonList;
+  title?: string;
+}
+export const GoogleCloudDialogflowV2beta1IntentMessageBasicCard =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subtitle: S.optional(S.String),
+      formattedText: S.optional(S.String),
+      image: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
+      buttons: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonList,
+      ),
+      title: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageBasicCard",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageBasicCard>;
+
+export interface GoogleCloudDialogflowV2beta1IntentMessageCardButton {
+  text?: string;
+  postback?: string;
+}
+export const GoogleCloudDialogflowV2beta1IntentMessageCardButton =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      text: S.optional(S.String),
+      postback: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageCardButton",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageCardButton>;
+
+export type GoogleCloudDialogflowV2beta1IntentMessageCardButtonList =
+  Array<GoogleCloudDialogflowV2beta1IntentMessageCardButton>;
+export const GoogleCloudDialogflowV2beta1IntentMessageCardButtonList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1IntentMessageCardButton,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageCardButtonList>;
+
+export interface GoogleCloudDialogflowV2beta1IntentMessageCard {
+  imageUri?: string;
+  title?: string;
+  buttons?: GoogleCloudDialogflowV2beta1IntentMessageCardButtonList;
+  subtitle?: string;
+}
+export const GoogleCloudDialogflowV2beta1IntentMessageCard =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      imageUri: S.optional(S.String),
+      title: S.optional(S.String),
+      buttons: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageCardButtonList,
+      ),
+      subtitle: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageCard",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageCard>;
+
+export type GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItem =
+  GoogleCloudDialogflowV2beta1IntentMessageListSelectItem;
+export const GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItem =
+  GoogleCloudDialogflowV2beta1IntentMessageListSelectItem;
+
+export type GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItemList =
+  Array<GoogleCloudDialogflowV2beta1IntentMessageListSelectItem>;
+export const GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItemList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1IntentMessageListSelectItem,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItemList>;
+
+export interface GoogleCloudDialogflowV2beta1IntentMessageCarouselSelect {
+  items?: GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItemList;
+}
+export const GoogleCloudDialogflowV2beta1IntentMessageCarouselSelect =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      items: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItemList,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageCarouselSelect",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageCarouselSelect>;
+
+export type GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlActionUrlTypeHintEnum =
+  | "URL_TYPE_HINT_UNSPECIFIED"
+  | "AMP_ACTION"
+  | "AMP_CONTENT";
+export const GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlActionUrlTypeHintEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction {
+  url?: string;
+  urlTypeHint?:
+    | GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlActionUrlTypeHintEnum
+    | (string & {});
+}
+export const GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      url: S.optional(S.String),
+      urlTypeHint: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlActionUrlTypeHintEnum,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction>;
+
+export interface GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItem {
+  openUriAction?: GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction;
+  title?: string;
+  footer?: string;
+  description?: string;
+  image?: GoogleCloudDialogflowV2beta1IntentMessageImage;
+}
+export const GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      openUriAction: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction,
+      ),
+      title: S.optional(S.String),
+      footer: S.optional(S.String),
+      description: S.optional(S.String),
+      image: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItem",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItem>;
+
+export type GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemList =
+  Array<GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItem>;
+export const GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItem,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemList>;
+
+export type GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardImageDisplayOptionsEnum =
+  | "IMAGE_DISPLAY_OPTIONS_UNSPECIFIED"
+  | "GRAY"
+  | "WHITE"
+  | "CROPPED"
+  | "BLURRED_BACKGROUND";
+export const GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardImageDisplayOptionsEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCard {
+  items?: GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemList;
+  imageDisplayOptions?:
+    | GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardImageDisplayOptionsEnum
+    | (string & {});
+}
+export const GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCard =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      items: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardBrowseCarouselCardItemList,
+      ),
+      imageDisplayOptions: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCardImageDisplayOptionsEnum,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCard",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCard>;
+
 export interface GoogleCloudDialogflowV2beta1IntentMessageQuickReplies {
   title?: string;
   quickReplies?: StringList;
@@ -1532,116 +1585,87 @@ export const GoogleCloudDialogflowV2beta1IntentMessageQuickReplies =
     identifier: "GoogleCloudDialogflowV2beta1IntentMessageQuickReplies",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageQuickReplies>;
 
-export interface GoogleCloudDialogflowV2beta1IntentMessageBasicCard {
-  image?: GoogleCloudDialogflowV2beta1IntentMessageImage;
-  buttons?: GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonList;
-  subtitle?: string;
-  title?: string;
-  formattedText?: string;
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageBasicCard =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      image: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
-      buttons: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageBasicCardButtonList,
-      ),
-      subtitle: S.optional(S.String),
-      title: S.optional(S.String),
-      formattedText: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageBasicCard",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageBasicCard>;
-
-export interface GoogleCloudDialogflowV2beta1IntentMessageTelephonyPlayAudio {
-  audioUri?: string;
-}
-export const GoogleCloudDialogflowV2beta1IntentMessageTelephonyPlayAudio =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      audioUri: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IntentMessageTelephonyPlayAudio",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageTelephonyPlayAudio>;
+export type GoogleCloudDialogflowV2beta1IntentMessageTelephonyTransferCall =
+  GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionDial;
+export const GoogleCloudDialogflowV2beta1IntentMessageTelephonyTransferCall =
+  GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionDial;
 
 export interface GoogleCloudDialogflowV2beta1IntentMessage {
-  listSelect?: GoogleCloudDialogflowV2beta1IntentMessageListSelect;
-  payload?: DocumentMap;
-  carouselSelect?: GoogleCloudDialogflowV2beta1IntentMessageCarouselSelect;
-  telephonyTransferCall?: GoogleCloudDialogflowV2beta1IntentMessageTelephonyTransferCall;
+  telephonyPlayAudio?: GoogleCloudDialogflowV2beta1IntentMessageTelephonyPlayAudio;
   tableCard?: GoogleCloudDialogflowV2beta1IntentMessageTableCard;
   simpleResponses?: GoogleCloudDialogflowV2beta1IntentMessageSimpleResponses;
-  text?: GoogleCloudDialogflowV2beta1IntentMessageText;
-  rbmCarouselRichCard?: GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard;
   linkOutSuggestion?: GoogleCloudDialogflowV2beta1IntentMessageLinkOutSuggestion;
-  rbmText?: GoogleCloudDialogflowV2beta1IntentMessageRbmText;
-  browseCarouselCard?: GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCard;
-  telephonySynthesizeSpeech?: GoogleCloudDialogflowV2beta1IntentMessageTelephonySynthesizeSpeech;
+  payload?: DocumentMap;
+  text?: GoogleCloudDialogflowV2beta1IntentMessageText;
   rbmStandaloneRichCard?: GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCard;
-  card?: GoogleCloudDialogflowV2beta1IntentMessageCard;
+  rbmText?: GoogleCloudDialogflowV2beta1IntentMessageRbmText;
+  listSelect?: GoogleCloudDialogflowV2beta1IntentMessageListSelect;
+  suggestions?: GoogleCloudDialogflowV2beta1IntentMessageSuggestions;
+  telephonySynthesizeSpeech?: GoogleCloudDialogflowV2beta1IntentMessageTelephonySynthesizeSpeech;
   platform?:
     | GoogleCloudDialogflowV2beta1IntentMessagePlatformEnum
     | (string & {});
-  suggestions?: GoogleCloudDialogflowV2beta1IntentMessageSuggestions;
-  image?: GoogleCloudDialogflowV2beta1IntentMessageImage;
   mediaContent?: GoogleCloudDialogflowV2beta1IntentMessageMediaContent;
-  quickReplies?: GoogleCloudDialogflowV2beta1IntentMessageQuickReplies;
+  rbmCarouselRichCard?: GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard;
   basicCard?: GoogleCloudDialogflowV2beta1IntentMessageBasicCard;
-  telephonyPlayAudio?: GoogleCloudDialogflowV2beta1IntentMessageTelephonyPlayAudio;
+  card?: GoogleCloudDialogflowV2beta1IntentMessageCard;
+  image?: GoogleCloudDialogflowV2beta1IntentMessageImage;
+  carouselSelect?: GoogleCloudDialogflowV2beta1IntentMessageCarouselSelect;
+  browseCarouselCard?: GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCard;
+  quickReplies?: GoogleCloudDialogflowV2beta1IntentMessageQuickReplies;
+  telephonyTransferCall?: GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionDial;
 }
 export const GoogleCloudDialogflowV2beta1IntentMessage =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      listSelect: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageListSelect,
-      ),
-      payload: S.optional(DocumentMap),
-      carouselSelect: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageCarouselSelect,
-      ),
-      telephonyTransferCall: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageTelephonyTransferCall,
+      telephonyPlayAudio: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageTelephonyPlayAudio,
       ),
       tableCard: S.optional(GoogleCloudDialogflowV2beta1IntentMessageTableCard),
       simpleResponses: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageSimpleResponses,
       ),
-      text: S.optional(GoogleCloudDialogflowV2beta1IntentMessageText),
-      rbmCarouselRichCard: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard,
-      ),
       linkOutSuggestion: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageLinkOutSuggestion,
       ),
-      rbmText: S.optional(GoogleCloudDialogflowV2beta1IntentMessageRbmText),
-      browseCarouselCard: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCard,
-      ),
-      telephonySynthesizeSpeech: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageTelephonySynthesizeSpeech,
-      ),
+      payload: S.optional(DocumentMap),
+      text: S.optional(GoogleCloudDialogflowV2beta1IntentMessageText),
       rbmStandaloneRichCard: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCard,
       ),
-      card: S.optional(GoogleCloudDialogflowV2beta1IntentMessageCard),
-      platform: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessagePlatformEnum,
+      rbmText: S.optional(GoogleCloudDialogflowV2beta1IntentMessageRbmText),
+      listSelect: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageListSelect,
       ),
       suggestions: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageSuggestions,
       ),
-      image: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
+      telephonySynthesizeSpeech: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageTelephonySynthesizeSpeech,
+      ),
+      platform: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessagePlatformEnum,
+      ),
       mediaContent: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageMediaContent,
+      ),
+      rbmCarouselRichCard: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard,
+      ),
+      basicCard: S.optional(GoogleCloudDialogflowV2beta1IntentMessageBasicCard),
+      card: S.optional(GoogleCloudDialogflowV2beta1IntentMessageCard),
+      image: S.optional(GoogleCloudDialogflowV2beta1IntentMessageImage),
+      carouselSelect: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageCarouselSelect,
+      ),
+      browseCarouselCard: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCard,
       ),
       quickReplies: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageQuickReplies,
       ),
-      basicCard: S.optional(GoogleCloudDialogflowV2beta1IntentMessageBasicCard),
-      telephonyPlayAudio: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageTelephonyPlayAudio,
+      telephonyTransferCall: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionDial,
       ),
     }),
   ).annotate({
@@ -1654,38 +1678,6 @@ export const GoogleCloudDialogflowV2beta1IntentMessageList =
   /*@__PURE__*/ S.Array(
     GoogleCloudDialogflowV2beta1IntentMessage,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentMessageList>;
-
-export type GoogleCloudDialogflowV2beta1IntentWebhookStateEnum =
-  | "WEBHOOK_STATE_UNSPECIFIED"
-  | "WEBHOOK_STATE_ENABLED"
-  | "WEBHOOK_STATE_ENABLED_FOR_SLOT_FILLING";
-export const GoogleCloudDialogflowV2beta1IntentWebhookStateEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnum =
-    | "PLATFORM_UNSPECIFIED"
-    | "FACEBOOK"
-    | "SLACK"
-    | "TELEGRAM"
-    | "KIK"
-    | "SKYPE"
-    | "LINE"
-    | "VIBER"
-    | "ACTIONS_ON_GOOGLE"
-    | "TELEPHONY"
-    | "GOOGLE_HANGOUTS";
-export const GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnumList =
-  Array<
-    | GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnum
-    | (string & {})
-  >;
-export const GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnumList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnum,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnumList>;
 
 export interface GoogleCloudDialogflowV2beta1IntentFollowupIntentInfo {
   followupIntentName?: string;
@@ -1708,26 +1700,19 @@ export const GoogleCloudDialogflowV2beta1IntentFollowupIntentInfoList =
     GoogleCloudDialogflowV2beta1IntentFollowupIntentInfo,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentFollowupIntentInfoList>;
 
-export type GoogleCloudDialogflowV2beta1IntentTrainingPhraseTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "EXAMPLE"
-  | "TEMPLATE";
-export const GoogleCloudDialogflowV2beta1IntentTrainingPhraseTypeEnum =
-  /*@__PURE__*/ S.String;
-
 export interface GoogleCloudDialogflowV2beta1IntentTrainingPhrasePart {
-  userDefined?: boolean;
-  entityType?: string;
-  text?: string;
   alias?: string;
+  userDefined?: boolean;
+  text?: string;
+  entityType?: string;
 }
 export const GoogleCloudDialogflowV2beta1IntentTrainingPhrasePart =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      userDefined: S.optional(S.Boolean),
-      entityType: S.optional(S.String),
-      text: S.optional(S.String),
       alias: S.optional(S.String),
+      userDefined: S.optional(S.Boolean),
+      text: S.optional(S.String),
+      entityType: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1IntentTrainingPhrasePart",
@@ -1740,23 +1725,30 @@ export const GoogleCloudDialogflowV2beta1IntentTrainingPhrasePartList =
     GoogleCloudDialogflowV2beta1IntentTrainingPhrasePart,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentTrainingPhrasePartList>;
 
+export type GoogleCloudDialogflowV2beta1IntentTrainingPhraseTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "EXAMPLE"
+  | "TEMPLATE";
+export const GoogleCloudDialogflowV2beta1IntentTrainingPhraseTypeEnum =
+  S.String;
+
 export interface GoogleCloudDialogflowV2beta1IntentTrainingPhrase {
+  parts?: GoogleCloudDialogflowV2beta1IntentTrainingPhrasePartList;
   timesAddedCount?: number;
   type?:
     | GoogleCloudDialogflowV2beta1IntentTrainingPhraseTypeEnum
     | (string & {});
-  parts?: GoogleCloudDialogflowV2beta1IntentTrainingPhrasePartList;
   name?: string;
 }
 export const GoogleCloudDialogflowV2beta1IntentTrainingPhrase =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      parts: S.optional(
+        GoogleCloudDialogflowV2beta1IntentTrainingPhrasePartList,
+      ),
       timesAddedCount: S.optional(S.Number),
       type: S.optional(
         GoogleCloudDialogflowV2beta1IntentTrainingPhraseTypeEnum,
-      ),
-      parts: S.optional(
-        GoogleCloudDialogflowV2beta1IntentTrainingPhrasePartList,
       ),
       name: S.optional(S.String),
     }),
@@ -1771,27 +1763,58 @@ export const GoogleCloudDialogflowV2beta1IntentTrainingPhraseList =
     GoogleCloudDialogflowV2beta1IntentTrainingPhrase,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentTrainingPhraseList>;
 
+export type GoogleCloudDialogflowV2beta1IntentWebhookStateEnum =
+  | "WEBHOOK_STATE_UNSPECIFIED"
+  | "WEBHOOK_STATE_ENABLED"
+  | "WEBHOOK_STATE_ENABLED_FOR_SLOT_FILLING";
+export const GoogleCloudDialogflowV2beta1IntentWebhookStateEnum = S.String;
+
+export type GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnum =
+  | "PLATFORM_UNSPECIFIED"
+  | "FACEBOOK"
+  | "SLACK"
+  | "TELEGRAM"
+  | "KIK"
+  | "SKYPE"
+  | "LINE"
+  | "VIBER"
+  | "ACTIONS_ON_GOOGLE"
+  | "TELEPHONY"
+  | "GOOGLE_HANGOUTS";
+export const GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnum =
+  S.String;
+
+export type GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnumList =
+  Array<
+    | GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnum
+    | (string & {})
+  >;
+export const GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnumList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnum,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnumList>;
+
 export interface GoogleCloudDialogflowV2beta1IntentParameter {
+  prompts?: StringList;
+  defaultValue?: string;
   isList?: boolean;
-  value?: string;
-  entityTypeDisplayName?: string;
   displayName?: string;
   name?: string;
+  entityTypeDisplayName?: string;
   mandatory?: boolean;
-  defaultValue?: string;
-  prompts?: StringList;
+  value?: string;
 }
 export const GoogleCloudDialogflowV2beta1IntentParameter =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      prompts: S.optional(StringList),
+      defaultValue: S.optional(S.String),
       isList: S.optional(S.Boolean),
-      value: S.optional(S.String),
-      entityTypeDisplayName: S.optional(S.String),
       displayName: S.optional(S.String),
       name: S.optional(S.String),
+      entityTypeDisplayName: S.optional(S.String),
       mandatory: S.optional(S.Boolean),
-      defaultValue: S.optional(S.String),
-      prompts: S.optional(StringList),
+      value: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1IntentParameter",
@@ -1805,142 +1828,142 @@ export const GoogleCloudDialogflowV2beta1IntentParameterList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentParameterList>;
 
 export interface GoogleCloudDialogflowV2beta1Intent {
-  isFallback?: boolean;
-  inputContextNames?: StringList;
+  outputContexts?: GoogleCloudDialogflowV2beta1ContextList;
+  events?: StringList;
+  action?: string;
+  followupIntentInfo?: GoogleCloudDialogflowV2beta1IntentFollowupIntentInfoList;
   resetContexts?: boolean;
+  parentFollowupIntentName?: string;
+  inputContextNames?: StringList;
+  trainingPhrases?: GoogleCloudDialogflowV2beta1IntentTrainingPhraseList;
+  mlDisabled?: boolean;
+  endInteraction?: boolean;
+  liveAgentHandoff?: boolean;
   webhookState?:
     | GoogleCloudDialogflowV2beta1IntentWebhookStateEnum
     | (string & {});
-  parentFollowupIntentName?: string;
-  displayName?: string;
-  outputContexts?: GoogleCloudDialogflowV2beta1ContextList;
   defaultResponsePlatforms?: GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnumList;
-  action?: string;
-  messages?: GoogleCloudDialogflowV2beta1IntentMessageList;
-  mlDisabled?: boolean;
-  followupIntentInfo?: GoogleCloudDialogflowV2beta1IntentFollowupIntentInfoList;
-  rootFollowupIntentName?: string;
-  trainingPhrases?: GoogleCloudDialogflowV2beta1IntentTrainingPhraseList;
   parameters?: GoogleCloudDialogflowV2beta1IntentParameterList;
-  endInteraction?: boolean;
   name?: string;
-  events?: StringList;
-  priority?: number;
+  displayName?: string;
+  messages?: GoogleCloudDialogflowV2beta1IntentMessageList;
+  isFallback?: boolean;
+  rootFollowupIntentName?: string;
   mlEnabled?: boolean;
-  liveAgentHandoff?: boolean;
+  priority?: number;
 }
 export const GoogleCloudDialogflowV2beta1Intent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    isFallback: S.optional(S.Boolean),
-    inputContextNames: S.optional(StringList),
-    resetContexts: S.optional(S.Boolean),
-    webhookState: S.optional(
-      GoogleCloudDialogflowV2beta1IntentWebhookStateEnum,
-    ),
-    parentFollowupIntentName: S.optional(S.String),
-    displayName: S.optional(S.String),
     outputContexts: S.optional(GoogleCloudDialogflowV2beta1ContextList),
-    defaultResponsePlatforms: S.optional(
-      GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnumList,
-    ),
+    events: S.optional(StringList),
     action: S.optional(S.String),
-    messages: S.optional(GoogleCloudDialogflowV2beta1IntentMessageList),
-    mlDisabled: S.optional(S.Boolean),
     followupIntentInfo: S.optional(
       GoogleCloudDialogflowV2beta1IntentFollowupIntentInfoList,
     ),
-    rootFollowupIntentName: S.optional(S.String),
+    resetContexts: S.optional(S.Boolean),
+    parentFollowupIntentName: S.optional(S.String),
+    inputContextNames: S.optional(StringList),
     trainingPhrases: S.optional(
       GoogleCloudDialogflowV2beta1IntentTrainingPhraseList,
     ),
-    parameters: S.optional(GoogleCloudDialogflowV2beta1IntentParameterList),
+    mlDisabled: S.optional(S.Boolean),
     endInteraction: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    events: S.optional(StringList),
-    priority: S.optional(S.Number),
-    mlEnabled: S.optional(S.Boolean),
     liveAgentHandoff: S.optional(S.Boolean),
+    webhookState: S.optional(
+      GoogleCloudDialogflowV2beta1IntentWebhookStateEnum,
+    ),
+    defaultResponsePlatforms: S.optional(
+      GoogleCloudDialogflowV2beta1IntentDefaultResponsePlatformsItemEnumList,
+    ),
+    parameters: S.optional(GoogleCloudDialogflowV2beta1IntentParameterList),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
+    messages: S.optional(GoogleCloudDialogflowV2beta1IntentMessageList),
+    isFallback: S.optional(S.Boolean),
+    rootFollowupIntentName: S.optional(S.String),
+    mlEnabled: S.optional(S.Boolean),
+    priority: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1Intent",
 }) as any as S.Schema<GoogleCloudDialogflowV2beta1Intent>;
 
 export interface GoogleCloudDialogflowV2beta1QueryResult {
-  parameters?: DocumentMap;
-  knowledgeAnswers?: GoogleCloudDialogflowV2beta1KnowledgeAnswers;
-  speechRecognitionConfidence?: number;
+  webhookPayload?: DocumentMap;
   diagnosticInfo?: DocumentMap;
-  allRequiredParamsPresent?: boolean;
+  webhookSource?: string;
+  speechRecognitionConfidence?: number;
+  languageCode?: string;
   sentimentAnalysisResult?: GoogleCloudDialogflowV2beta1SentimentAnalysisResult;
+  allRequiredParamsPresent?: boolean;
+  action?: string;
+  outputContexts?: GoogleCloudDialogflowV2beta1ContextList;
+  knowledgeAnswers?: GoogleCloudDialogflowV2beta1KnowledgeAnswers;
+  fulfillmentMessages?: GoogleCloudDialogflowV2beta1IntentMessageList;
+  fulfillmentText?: string;
   intentDetectionConfidence?: number;
   cancelsSlotFilling?: boolean;
-  fulfillmentMessages?: GoogleCloudDialogflowV2beta1IntentMessageList;
-  languageCode?: string;
-  webhookSource?: string;
-  intent?: GoogleCloudDialogflowV2beta1Intent;
-  action?: string;
-  fulfillmentText?: string;
-  outputContexts?: GoogleCloudDialogflowV2beta1ContextList;
+  parameters?: DocumentMap;
   queryText?: string;
-  webhookPayload?: DocumentMap;
+  intent?: GoogleCloudDialogflowV2beta1Intent;
 }
 export const GoogleCloudDialogflowV2beta1QueryResult = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parameters: S.optional(DocumentMap),
-      knowledgeAnswers: S.optional(
-        GoogleCloudDialogflowV2beta1KnowledgeAnswers,
-      ),
-      speechRecognitionConfidence: S.optional(S.Number),
+      webhookPayload: S.optional(DocumentMap),
       diagnosticInfo: S.optional(DocumentMap),
-      allRequiredParamsPresent: S.optional(S.Boolean),
+      webhookSource: S.optional(S.String),
+      speechRecognitionConfidence: S.optional(S.Number),
+      languageCode: S.optional(S.String),
       sentimentAnalysisResult: S.optional(
         GoogleCloudDialogflowV2beta1SentimentAnalysisResult,
       ),
-      intentDetectionConfidence: S.optional(S.Number),
-      cancelsSlotFilling: S.optional(S.Boolean),
+      allRequiredParamsPresent: S.optional(S.Boolean),
+      action: S.optional(S.String),
+      outputContexts: S.optional(GoogleCloudDialogflowV2beta1ContextList),
+      knowledgeAnswers: S.optional(
+        GoogleCloudDialogflowV2beta1KnowledgeAnswers,
+      ),
       fulfillmentMessages: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageList,
       ),
-      languageCode: S.optional(S.String),
-      webhookSource: S.optional(S.String),
-      intent: S.optional(GoogleCloudDialogflowV2beta1Intent),
-      action: S.optional(S.String),
       fulfillmentText: S.optional(S.String),
-      outputContexts: S.optional(GoogleCloudDialogflowV2beta1ContextList),
+      intentDetectionConfidence: S.optional(S.Number),
+      cancelsSlotFilling: S.optional(S.Boolean),
+      parameters: S.optional(DocumentMap),
       queryText: S.optional(S.String),
-      webhookPayload: S.optional(DocumentMap),
+      intent: S.optional(GoogleCloudDialogflowV2beta1Intent),
     }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1QueryResult",
 }) as any as S.Schema<GoogleCloudDialogflowV2beta1QueryResult>;
 
 export interface GoogleCloudDialogflowV2beta1IntentSuggestion {
+  description?: string;
   intentV2?: string;
   displayName?: string;
-  description?: string;
 }
 export const GoogleCloudDialogflowV2beta1IntentSuggestion =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      description: S.optional(S.String),
       intentV2: S.optional(S.String),
       displayName: S.optional(S.String),
-      description: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1IntentSuggestion",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1IntentSuggestion>;
 
 export interface GoogleCloudDialogflowV2beta1DialogflowAssistAnswer {
-  answerRecord?: string;
   queryResult?: GoogleCloudDialogflowV2beta1QueryResult;
+  answerRecord?: string;
   intentSuggestion?: GoogleCloudDialogflowV2beta1IntentSuggestion;
 }
 export const GoogleCloudDialogflowV2beta1DialogflowAssistAnswer =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      answerRecord: S.optional(S.String),
       queryResult: S.optional(GoogleCloudDialogflowV2beta1QueryResult),
+      answerRecord: S.optional(S.String),
       intentSuggestion: S.optional(
         GoogleCloudDialogflowV2beta1IntentSuggestion,
       ),
@@ -1957,56 +1980,160 @@ export const GoogleCloudDialogflowV2beta1DialogflowAssistAnswerList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1DialogflowAssistAnswerList>;
 
 export interface GoogleCloudDialogflowV2beta1SuggestDialogflowAssistsResponse {
+  contextSize?: number;
   dialogflowAssistAnswers?: GoogleCloudDialogflowV2beta1DialogflowAssistAnswerList;
   latestMessage?: string;
-  contextSize?: number;
 }
 export const GoogleCloudDialogflowV2beta1SuggestDialogflowAssistsResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      contextSize: S.optional(S.Number),
       dialogflowAssistAnswers: S.optional(
         GoogleCloudDialogflowV2beta1DialogflowAssistAnswerList,
       ),
       latestMessage: S.optional(S.String),
-      contextSize: S.optional(S.Number),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1SuggestDialogflowAssistsResponse",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestDialogflowAssistsResponse>;
 
-export interface GoogleCloudDialogflowV2beta1FreeFormSuggestion {
-  response?: string;
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<IntegerList>;
+
+export interface GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources {
+  instructionIndexes?: IntegerList;
 }
-export const GoogleCloudDialogflowV2beta1FreeFormSuggestion =
+export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      response: S.optional(S.String),
+      instructionIndexes: S.optional(IntegerList),
     }),
   ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1FreeFormSuggestion",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1FreeFormSuggestion>;
+    identifier: "GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources>;
+
+export interface GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestion {
+  answerRecord?: string;
+  similarityScore?: number;
+  suggestionIndex?: number;
+  sources?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources;
+}
+export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestion =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      answerRecord: S.optional(S.String),
+      similarityScore: S.optional(S.Number),
+      suggestionIndex: S.optional(S.Number),
+      sources: S.optional(
+        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestion",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestion>;
+
+export type GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestionList =
+  Array<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestion>;
+export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestionList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestion,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestionList>;
+
+export interface GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult {
+  duplicateSuggestions?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestionList;
+}
+export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      duplicateSuggestions: S.optional(
+        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestionList,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult>;
+
+export interface GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponse {
+  responseText?: string;
+  duplicateCheckResult?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult;
+  sources?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources;
+}
+export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      responseText: S.optional(S.String),
+      duplicateCheckResult: S.optional(
+        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult,
+      ),
+      sources: S.optional(
+        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponse",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponse>;
+
+export type GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponseList =
+  Array<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponse>;
+export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponseList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponse,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponseList>;
+
+export interface GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestion {
+  sources?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources;
+  agentAction?: string;
+  duplicateCheckResult?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult;
+}
+export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestion =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sources: S.optional(
+        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources,
+      ),
+      agentAction: S.optional(S.String),
+      duplicateCheckResult: S.optional(
+        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestion",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestion>;
+
+export type GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestionList =
+  Array<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestion>;
+export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestionList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestion,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestionList>;
 
 export type GoogleCloudDialogflowV2beta1AgentCoachingInstructionTriggeringEventEnum =
-    | "TRIGGER_EVENT_UNSPECIFIED"
-    | "END_OF_UTTERANCE"
-    | "MANUAL_CALL"
-    | "CUSTOMER_MESSAGE"
-    | "AGENT_MESSAGE"
-    | "TOOL_CALL_COMPLETION";
+  | "TRIGGER_EVENT_UNSPECIFIED"
+  | "END_OF_UTTERANCE"
+  | "MANUAL_CALL"
+  | "CUSTOMER_MESSAGE"
+  | "AGENT_MESSAGE"
+  | "TOOL_CALL_COMPLETION";
 export const GoogleCloudDialogflowV2beta1AgentCoachingInstructionTriggeringEventEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1AgentCoachingInstructionDuplicateCheckResultDuplicateSuggestion {
-  similarityScore?: number;
-  answerRecord?: string;
   suggestionIndex?: number;
+  answerRecord?: string;
+  similarityScore?: number;
 }
 export const GoogleCloudDialogflowV2beta1AgentCoachingInstructionDuplicateCheckResultDuplicateSuggestion =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      similarityScore: S.optional(S.Number),
-      answerRecord: S.optional(S.String),
       suggestionIndex: S.optional(S.Number),
+      answerRecord: S.optional(S.String),
+      similarityScore: S.optional(S.Number),
     }),
   ).annotate({
     identifier:
@@ -2039,12 +2166,12 @@ export interface GoogleCloudDialogflowV2beta1AgentCoachingInstruction {
   triggeringEvent?:
     | GoogleCloudDialogflowV2beta1AgentCoachingInstructionTriggeringEventEnum
     | (string & {});
-  agentAction?: string;
   displayName?: string;
-  duplicateCheckResult?: GoogleCloudDialogflowV2beta1AgentCoachingInstructionDuplicateCheckResult;
-  systemAction?: string;
-  condition?: string;
   displayDetails?: string;
+  systemAction?: string;
+  agentAction?: string;
+  duplicateCheckResult?: GoogleCloudDialogflowV2beta1AgentCoachingInstructionDuplicateCheckResult;
+  condition?: string;
 }
 export const GoogleCloudDialogflowV2beta1AgentCoachingInstruction =
   /*@__PURE__*/ S.suspend(() =>
@@ -2052,14 +2179,14 @@ export const GoogleCloudDialogflowV2beta1AgentCoachingInstruction =
       triggeringEvent: S.optional(
         GoogleCloudDialogflowV2beta1AgentCoachingInstructionTriggeringEventEnum,
       ),
-      agentAction: S.optional(S.String),
       displayName: S.optional(S.String),
+      displayDetails: S.optional(S.String),
+      systemAction: S.optional(S.String),
+      agentAction: S.optional(S.String),
       duplicateCheckResult: S.optional(
         GoogleCloudDialogflowV2beta1AgentCoachingInstructionDuplicateCheckResult,
       ),
-      systemAction: S.optional(S.String),
       condition: S.optional(S.String),
-      displayDetails: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1AgentCoachingInstruction",
@@ -2072,143 +2199,130 @@ export const GoogleCloudDialogflowV2beta1AgentCoachingInstructionList =
     GoogleCloudDialogflowV2beta1AgentCoachingInstruction,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingInstructionList>;
 
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(
-  S.Number,
-) as any as S.Schema<IntegerList>;
-
-export interface GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources {
-  instructionIndexes?: IntegerList;
-}
-export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      instructionIndexes: S.optional(IntegerList),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources>;
-
-export interface GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestion {
-  answerRecord?: string;
-  sources?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources;
-  suggestionIndex?: number;
-  similarityScore?: number;
-}
-export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestion =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      answerRecord: S.optional(S.String),
-      sources: S.optional(
-        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources,
-      ),
-      suggestionIndex: S.optional(S.Number),
-      similarityScore: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestion",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestion>;
-
-export type GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestionList =
-  Array<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestion>;
-export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestionList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestion,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestionList>;
-
-export interface GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult {
-  duplicateSuggestions?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestionList;
-}
-export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      duplicateSuggestions: S.optional(
-        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResultDuplicateSuggestionList,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult>;
-
-export interface GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestion {
-  agentAction?: string;
-  sources?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources;
-  duplicateCheckResult?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult;
-}
-export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestion =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      agentAction: S.optional(S.String),
-      sources: S.optional(
-        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources,
-      ),
-      duplicateCheckResult: S.optional(
-        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestion",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestion>;
-
-export type GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestionList =
-  Array<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestion>;
-export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestionList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestion,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestionList>;
-
-export interface GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponse {
-  sources?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources;
-  duplicateCheckResult?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult;
-  responseText?: string;
-}
-export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      sources: S.optional(
-        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSources,
-      ),
-      duplicateCheckResult: S.optional(
-        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionDuplicateCheckResult,
-      ),
-      responseText: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponse",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponse>;
-
-export type GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponseList =
-  Array<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponse>;
-export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponseList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponse,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponseList>;
-
 export interface GoogleCloudDialogflowV2beta1AgentCoachingSuggestion {
-  applicableInstructions?: GoogleCloudDialogflowV2beta1AgentCoachingInstructionList;
-  agentActionSuggestions?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestionList;
   sampleResponses?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponseList;
+  agentActionSuggestions?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestionList;
+  applicableInstructions?: GoogleCloudDialogflowV2beta1AgentCoachingInstructionList;
 }
 export const GoogleCloudDialogflowV2beta1AgentCoachingSuggestion =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      applicableInstructions: S.optional(
-        GoogleCloudDialogflowV2beta1AgentCoachingInstructionList,
+      sampleResponses: S.optional(
+        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponseList,
       ),
       agentActionSuggestions: S.optional(
         GoogleCloudDialogflowV2beta1AgentCoachingSuggestionAgentActionSuggestionList,
       ),
-      sampleResponses: S.optional(
-        GoogleCloudDialogflowV2beta1AgentCoachingSuggestionSampleResponseList,
+      applicableInstructions: S.optional(
+        GoogleCloudDialogflowV2beta1AgentCoachingInstructionList,
       ),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1AgentCoachingSuggestion",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingSuggestion>;
+
+export interface GoogleCloudDialogflowV2beta1ToolCallResultError {
+  retryable?: boolean;
+  message?: string;
+}
+export const GoogleCloudDialogflowV2beta1ToolCallResultError =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      retryable: S.optional(S.Boolean),
+      message: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1ToolCallResultError",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolCallResultError>;
+
+export interface GoogleCloudDialogflowV2beta1ToolCallResult {
+  error?: GoogleCloudDialogflowV2beta1ToolCallResultError;
+  createTime?: string;
+  cesTool?: string;
+  content?: string;
+  tool?: string;
+  answerRecord?: string;
+  action?: string;
+  cesToolset?: string;
+  rawContent?: string;
+  cesApp?: string;
+}
+export const GoogleCloudDialogflowV2beta1ToolCallResult =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      error: S.optional(GoogleCloudDialogflowV2beta1ToolCallResultError),
+      createTime: S.optional(S.String),
+      cesTool: S.optional(S.String),
+      content: S.optional(S.String),
+      tool: S.optional(S.String),
+      answerRecord: S.optional(S.String),
+      action: S.optional(S.String),
+      cesToolset: S.optional(S.String),
+      rawContent: S.optional(S.String),
+      cesApp: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1ToolCallResult",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolCallResult>;
+
+export type GoogleCloudDialogflowV2beta1ToolCallStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "TRIGGERED"
+  | "NEEDS_CONFIRMATION";
+export const GoogleCloudDialogflowV2beta1ToolCallStateEnum = S.String;
+
+export interface GoogleCloudDialogflowV2beta1ToolCall {
+  toolDisplayDetails?: string;
+  toolDisplayName?: string;
+  cesTool?: string;
+  answerRecord?: string;
+  cesApp?: string;
+  inputParameters?: DocumentMap;
+  createTime?: string;
+  action?: string;
+  state?: GoogleCloudDialogflowV2beta1ToolCallStateEnum | (string & {});
+  tool?: string;
+  cesToolset?: string;
+}
+export const GoogleCloudDialogflowV2beta1ToolCall = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      toolDisplayDetails: S.optional(S.String),
+      toolDisplayName: S.optional(S.String),
+      cesTool: S.optional(S.String),
+      answerRecord: S.optional(S.String),
+      cesApp: S.optional(S.String),
+      inputParameters: S.optional(DocumentMap),
+      createTime: S.optional(S.String),
+      action: S.optional(S.String),
+      state: S.optional(GoogleCloudDialogflowV2beta1ToolCallStateEnum),
+      tool: S.optional(S.String),
+      cesToolset: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDialogflowV2beta1ToolCall",
+}) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolCall>;
+
+export interface GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfo {
+  toolCallResult?: GoogleCloudDialogflowV2beta1ToolCallResult;
+  toolCall?: GoogleCloudDialogflowV2beta1ToolCall;
+}
+export const GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfo =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      toolCallResult: S.optional(GoogleCloudDialogflowV2beta1ToolCallResult),
+      toolCall: S.optional(GoogleCloudDialogflowV2beta1ToolCall),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfo",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfo>;
+
+export type GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfoList =
+  Array<GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfo>;
+export const GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfoList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfo,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfoList>;
 
 export interface GoogleCloudDialogflowV2beta1SummarySuggestionSummarySection {
   section?: string;
@@ -2245,128 +2359,38 @@ export const GoogleCloudDialogflowV2beta1SummarySuggestion =
     identifier: "GoogleCloudDialogflowV2beta1SummarySuggestion",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarySuggestion>;
 
-export interface GoogleCloudDialogflowV2beta1ToolCallResultError {
-  message?: string;
+export interface GoogleCloudDialogflowV2beta1FreeFormSuggestion {
+  response?: string;
 }
-export const GoogleCloudDialogflowV2beta1ToolCallResultError =
+export const GoogleCloudDialogflowV2beta1FreeFormSuggestion =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      message: S.optional(S.String),
+      response: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1ToolCallResultError",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolCallResultError>;
-
-export interface GoogleCloudDialogflowV2beta1ToolCallResult {
-  cesApp?: string;
-  cesToolset?: string;
-  content?: string;
-  error?: GoogleCloudDialogflowV2beta1ToolCallResultError;
-  rawContent?: string;
-  cesTool?: string;
-  action?: string;
-  createTime?: string;
-  answerRecord?: string;
-  tool?: string;
-}
-export const GoogleCloudDialogflowV2beta1ToolCallResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      cesApp: S.optional(S.String),
-      cesToolset: S.optional(S.String),
-      content: S.optional(S.String),
-      error: S.optional(GoogleCloudDialogflowV2beta1ToolCallResultError),
-      rawContent: S.optional(S.String),
-      cesTool: S.optional(S.String),
-      action: S.optional(S.String),
-      createTime: S.optional(S.String),
-      answerRecord: S.optional(S.String),
-      tool: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1ToolCallResult",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolCallResult>;
-
-export type GoogleCloudDialogflowV2beta1ToolCallStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "TRIGGERED"
-  | "NEEDS_CONFIRMATION";
-export const GoogleCloudDialogflowV2beta1ToolCallStateEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1ToolCall {
-  cesApp?: string;
-  cesToolset?: string;
-  state?: GoogleCloudDialogflowV2beta1ToolCallStateEnum | (string & {});
-  toolDisplayName?: string;
-  toolDisplayDetails?: string;
-  action?: string;
-  cesTool?: string;
-  inputParameters?: DocumentMap;
-  createTime?: string;
-  answerRecord?: string;
-  tool?: string;
-}
-export const GoogleCloudDialogflowV2beta1ToolCall = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      cesApp: S.optional(S.String),
-      cesToolset: S.optional(S.String),
-      state: S.optional(GoogleCloudDialogflowV2beta1ToolCallStateEnum),
-      toolDisplayName: S.optional(S.String),
-      toolDisplayDetails: S.optional(S.String),
-      action: S.optional(S.String),
-      cesTool: S.optional(S.String),
-      inputParameters: S.optional(DocumentMap),
-      createTime: S.optional(S.String),
-      answerRecord: S.optional(S.String),
-      tool: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleCloudDialogflowV2beta1ToolCall",
-}) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolCall>;
-
-export interface GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfo {
-  toolCallResult?: GoogleCloudDialogflowV2beta1ToolCallResult;
-  toolCall?: GoogleCloudDialogflowV2beta1ToolCall;
-}
-export const GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfo =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      toolCallResult: S.optional(GoogleCloudDialogflowV2beta1ToolCallResult),
-      toolCall: S.optional(GoogleCloudDialogflowV2beta1ToolCall),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfo",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfo>;
-
-export type GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfoList =
-  Array<GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfo>;
-export const GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfoList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfo,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfoList>;
+    identifier: "GoogleCloudDialogflowV2beta1FreeFormSuggestion",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1FreeFormSuggestion>;
 
 export interface GoogleCloudDialogflowV2beta1GeneratorSuggestion {
-  freeFormSuggestion?: GoogleCloudDialogflowV2beta1FreeFormSuggestion;
   agentCoachingSuggestion?: GoogleCloudDialogflowV2beta1AgentCoachingSuggestion;
-  summarySuggestion?: GoogleCloudDialogflowV2beta1SummarySuggestion;
   toolCallInfo?: GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfoList;
+  summarySuggestion?: GoogleCloudDialogflowV2beta1SummarySuggestion;
+  freeFormSuggestion?: GoogleCloudDialogflowV2beta1FreeFormSuggestion;
 }
 export const GoogleCloudDialogflowV2beta1GeneratorSuggestion =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      freeFormSuggestion: S.optional(
-        GoogleCloudDialogflowV2beta1FreeFormSuggestion,
-      ),
       agentCoachingSuggestion: S.optional(
         GoogleCloudDialogflowV2beta1AgentCoachingSuggestion,
+      ),
+      toolCallInfo: S.optional(
+        GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfoList,
       ),
       summarySuggestion: S.optional(
         GoogleCloudDialogflowV2beta1SummarySuggestion,
       ),
-      toolCallInfo: S.optional(
-        GoogleCloudDialogflowV2beta1GeneratorSuggestionToolCallInfoList,
+      freeFormSuggestion: S.optional(
+        GoogleCloudDialogflowV2beta1FreeFormSuggestion,
       ),
     }),
   ).annotate({
@@ -2374,18 +2398,18 @@ export const GoogleCloudDialogflowV2beta1GeneratorSuggestion =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1GeneratorSuggestion>;
 
 export interface GoogleCloudDialogflowV2beta1GenerateSuggestionsResponseGeneratorSuggestionAnswer {
-  answerRecord?: string;
   generatorSuggestion?: GoogleCloudDialogflowV2beta1GeneratorSuggestion;
   sourceGenerator?: string;
+  answerRecord?: string;
 }
 export const GoogleCloudDialogflowV2beta1GenerateSuggestionsResponseGeneratorSuggestionAnswer =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      answerRecord: S.optional(S.String),
       generatorSuggestion: S.optional(
         GoogleCloudDialogflowV2beta1GeneratorSuggestion,
       ),
       sourceGenerator: S.optional(S.String),
+      answerRecord: S.optional(S.String),
     }),
   ).annotate({
     identifier:
@@ -2414,67 +2438,6 @@ export const GoogleCloudDialogflowV2beta1GenerateSuggestionsResponse =
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1GenerateSuggestionsResponse",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1GenerateSuggestionsResponse>;
-
-export interface GoogleCloudDialogflowV2beta1SmartReplyAnswer {
-  confidence?: number;
-  reply?: string;
-  answerRecord?: string;
-}
-export const GoogleCloudDialogflowV2beta1SmartReplyAnswer =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      confidence: S.optional(S.Number),
-      reply: S.optional(S.String),
-      answerRecord: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1SmartReplyAnswer",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SmartReplyAnswer>;
-
-export type GoogleCloudDialogflowV2beta1SmartReplyAnswerList =
-  Array<GoogleCloudDialogflowV2beta1SmartReplyAnswer>;
-export const GoogleCloudDialogflowV2beta1SmartReplyAnswerList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1SmartReplyAnswer,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1SmartReplyAnswerList>;
-
-export interface GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse {
-  latestMessage?: string;
-  contextSize?: number;
-  smartReplyAnswers?: GoogleCloudDialogflowV2beta1SmartReplyAnswerList;
-}
-export const GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      latestMessage: S.optional(S.String),
-      contextSize: S.optional(S.Number),
-      smartReplyAnswers: S.optional(
-        GoogleCloudDialogflowV2beta1SmartReplyAnswerList,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse>;
-
-export type DocumentMapList = Array<DocumentMap>;
-export const DocumentMapList = /*@__PURE__*/ S.Array(
-  DocumentMap,
-) as any as S.Schema<DocumentMapList>;
-
-export interface GoogleRpcStatus {
-  code?: number;
-  details?: DocumentMapList;
-  message?: string;
-}
-export const GoogleRpcStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    code: S.optional(S.Number),
-    details: S.optional(DocumentMapList),
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as S.Schema<GoogleRpcStatus>;
 
 export interface GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerSuggestedQuerySearchContext {
   key?: string;
@@ -2515,164 +2478,72 @@ export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerSuggestedQuery =
       "GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerSuggestedQuery",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerSuggestedQuery>;
 
-export interface GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippet {
-  title?: string;
-  metadata?: DocumentMap;
-  uri?: string;
-  text?: string;
+export type GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoIngestionStatusEnum =
+  | "INGESTION_STATUS_UNSPECIFIED"
+  | "INGESTION_STATUS_SUCCEEDED"
+  | "INGESTION_STATUS_CONTEXT_NOT_AVAILABLE"
+  | "INGESTION_STATUS_PARSE_FAILED"
+  | "INGESTION_STATUS_INVALID_ENTRY"
+  | "INGESTION_STATUS_INVALID_FORMAT"
+  | "INGESTION_STATUS_LANGUAGE_MISMATCH";
+export const GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoIngestionStatusEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfo {
+  ingestionStatus?: GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoIngestionStatusEnum;
+  parameter?: string;
 }
-export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippet =
+export const GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfo =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      title: S.optional(S.String),
-      metadata: S.optional(DocumentMap),
-      uri: S.optional(S.String),
-      text: S.optional(S.String),
+      ingestionStatus: S.optional(
+        GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoIngestionStatusEnum,
+      ),
+      parameter: S.optional(S.String),
     }),
   ).annotate({
     identifier:
-      "GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippet",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippet>;
+      "GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfo",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfo>;
 
-export type GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippetList =
-  Array<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippet>;
-export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippetList =
+export type GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoList =
+  Array<GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfo>;
+export const GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoList =
   /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippet,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippetList>;
+    GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfo,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoList>;
 
-export interface GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource {
-  snippets?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippetList;
+export interface GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo {
+  projectNotAllowlisted?: boolean;
+  contextReferenceRetrieved?: boolean;
+  ingestedParametersDebugInfo?: GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoList;
 }
-export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource =
+export const GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      snippets: S.optional(
-        GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippetList,
+      projectNotAllowlisted: S.optional(S.Boolean),
+      contextReferenceRetrieved: S.optional(S.Boolean),
+      ingestedParametersDebugInfo: S.optional(
+        GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoList,
       ),
     }),
   ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource>;
-
-export interface GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerFaqSource {
-  question?: string;
-}
-export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerFaqSource =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      question: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerFaqSource",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerFaqSource>;
-
-export interface GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerEventSource {
-  event?: string;
-  snippets?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource;
-}
-export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerEventSource =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      event: S.optional(S.String),
-      snippets: S.optional(
-        GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerEventSource",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerEventSource>;
-
-export interface GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswer {
-  playbookSource?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource;
-  answerText?: string;
-  generativeSource?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource;
-  faqSource?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerFaqSource;
-  eventSource?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerEventSource;
-}
-export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswer =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      playbookSource: S.optional(
-        GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource,
-      ),
-      answerText: S.optional(S.String),
-      generativeSource: S.optional(
-        GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource,
-      ),
-      faqSource: S.optional(
-        GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerFaqSource,
-      ),
-      eventSource: S.optional(
-        GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerEventSource,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswer",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswer>;
-
-export interface GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoKnowledgeAssistBehavior {
-  queryContainedSearchContext?: boolean;
-  useTranslatedMessage?: boolean;
-  conversationTranscriptHasMixedLanguages?: boolean;
-  multipleQueriesGenerated?: boolean;
-  appendedSearchContextCount?: number;
-  usePubsubDelivery?: boolean;
-  endUserMetadataIncluded?: boolean;
-  answerGenerationRewriterOn?: boolean;
-  thirdPartyConnectorAllowed?: boolean;
-  disableSyncDelivery?: boolean;
-  useCustomSafetyFilterLevel?: boolean;
-  queryGenerationEndUserLanguageMismatch?: boolean;
-  primaryQueryRedactedAndReplaced?: boolean;
-  previousQueriesIncluded?: boolean;
-  invalidItemsQuerySuggestionSkipped?: boolean;
-  returnQueryOnly?: boolean;
-  queryGenerationAgentLanguageMismatch?: boolean;
-}
-export const GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoKnowledgeAssistBehavior =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      queryContainedSearchContext: S.optional(S.Boolean),
-      useTranslatedMessage: S.optional(S.Boolean),
-      conversationTranscriptHasMixedLanguages: S.optional(S.Boolean),
-      multipleQueriesGenerated: S.optional(S.Boolean),
-      appendedSearchContextCount: S.optional(S.Number),
-      usePubsubDelivery: S.optional(S.Boolean),
-      endUserMetadataIncluded: S.optional(S.Boolean),
-      answerGenerationRewriterOn: S.optional(S.Boolean),
-      thirdPartyConnectorAllowed: S.optional(S.Boolean),
-      disableSyncDelivery: S.optional(S.Boolean),
-      useCustomSafetyFilterLevel: S.optional(S.Boolean),
-      queryGenerationEndUserLanguageMismatch: S.optional(S.Boolean),
-      primaryQueryRedactedAndReplaced: S.optional(S.Boolean),
-      previousQueriesIncluded: S.optional(S.Boolean),
-      invalidItemsQuerySuggestionSkipped: S.optional(S.Boolean),
-      returnQueryOnly: S.optional(S.Boolean),
-      queryGenerationAgentLanguageMismatch: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoKnowledgeAssistBehavior",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoKnowledgeAssistBehavior>;
+    identifier: "GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo>;
 
 export interface GoogleCloudDialogflowV2beta1ServiceLatencyInternalServiceLatency {
-  startTime?: string;
-  step?: string;
   completeTime?: string;
   latencyMs?: number;
+  step?: string;
+  startTime?: string;
 }
 export const GoogleCloudDialogflowV2beta1ServiceLatencyInternalServiceLatency =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      startTime: S.optional(S.String),
-      step: S.optional(S.String),
       completeTime: S.optional(S.String),
       latencyMs: S.optional(S.Number),
+      step: S.optional(S.String),
+      startTime: S.optional(S.String),
     }),
   ).annotate({
     identifier:
@@ -2701,31 +2572,47 @@ export const GoogleCloudDialogflowV2beta1ServiceLatency =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ServiceLatency>;
 
 export type GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryGenerationFailureReasonEnum =
-    | "QUERY_GENERATION_FAILURE_REASON_UNSPECIFIED"
-    | "QUERY_GENERATION_OUT_OF_QUOTA"
-    | "QUERY_GENERATION_FAILED"
-    | "QUERY_GENERATION_NO_QUERY_GENERATED"
-    | "QUERY_GENERATION_RAI_FAILED"
-    | "NOT_IN_ALLOWLIST"
-    | "QUERY_GENERATION_QUERY_REDACTED"
-    | "QUERY_GENERATION_LLM_RESPONSE_PARSE_FAILED"
-    | "QUERY_GENERATION_EMPTY_CONVERSATION"
-    | "QUERY_GENERATION_EMPTY_LAST_MESSAGE"
-    | "QUERY_GENERATION_TRIGGERING_EVENT_CONDITION_NOT_MET";
+  | "QUERY_GENERATION_FAILURE_REASON_UNSPECIFIED"
+  | "QUERY_GENERATION_OUT_OF_QUOTA"
+  | "QUERY_GENERATION_FAILED"
+  | "QUERY_GENERATION_NO_QUERY_GENERATED"
+  | "QUERY_GENERATION_RAI_FAILED"
+  | "NOT_IN_ALLOWLIST"
+  | "QUERY_GENERATION_QUERY_REDACTED"
+  | "QUERY_GENERATION_LLM_RESPONSE_PARSE_FAILED"
+  | "QUERY_GENERATION_EMPTY_CONVERSATION"
+  | "QUERY_GENERATION_EMPTY_LAST_MESSAGE"
+  | "QUERY_GENERATION_TRIGGERING_EVENT_CONDITION_NOT_MET";
 export const GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryGenerationFailureReasonEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
+
+export type GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryCategorizationFailureReasonEnum =
+  | "QUERY_CATEGORIZATION_FAILURE_REASON_UNSPECIFIED"
+  | "QUERY_CATEGORIZATION_INVALID_CONFIG"
+  | "QUERY_CATEGORIZATION_RESULT_NOT_FOUND"
+  | "QUERY_CATEGORIZATION_FAILED";
+export const GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryCategorizationFailureReasonEnum =
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryGenerationDebugInfo {
-  promptTokenCount?: number;
-  candidatesTokenCount?: number;
   totalTokenCount?: number;
+  candidatesTokenCount?: number;
+  thinkingBudgetTokens?: number;
+  promptTokenCount?: number;
+  similarityToLastQuery?: number;
+  similarityToLastQueryThreshold?: number;
+  thinkingLevel?: string;
 }
 export const GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryGenerationDebugInfo =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      promptTokenCount: S.optional(S.Number),
-      candidatesTokenCount: S.optional(S.Number),
       totalTokenCount: S.optional(S.Number),
+      candidatesTokenCount: S.optional(S.Number),
+      thinkingBudgetTokens: S.optional(S.Number),
+      promptTokenCount: S.optional(S.Number),
+      similarityToLastQuery: S.optional(S.Number),
+      similarityToLastQueryThreshold: S.optional(S.Number),
+      thinkingLevel: S.optional(S.String),
     }),
   ).annotate({
     identifier:
@@ -2733,99 +2620,87 @@ export const GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryGeneration
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryGenerationDebugInfo>;
 
 export type GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoDatastoreResponseReasonEnum =
-    | "DATASTORE_RESPONSE_REASON_UNSPECIFIED"
-    | "NONE"
-    | "SEARCH_OUT_OF_QUOTA"
-    | "SEARCH_EMPTY_RESULTS"
-    | "ANSWER_GENERATION_GEN_AI_DISABLED"
-    | "ANSWER_GENERATION_OUT_OF_QUOTA"
-    | "ANSWER_GENERATION_ERROR"
-    | "ANSWER_GENERATION_NOT_ENOUGH_INFO"
-    | "ANSWER_GENERATION_RAI_FAILED"
-    | "ANSWER_GENERATION_NOT_GROUNDED";
+  | "DATASTORE_RESPONSE_REASON_UNSPECIFIED"
+  | "NONE"
+  | "SEARCH_OUT_OF_QUOTA"
+  | "SEARCH_EMPTY_RESULTS"
+  | "ANSWER_GENERATION_GEN_AI_DISABLED"
+  | "ANSWER_GENERATION_OUT_OF_QUOTA"
+  | "ANSWER_GENERATION_ERROR"
+  | "ANSWER_GENERATION_NOT_ENOUGH_INFO"
+  | "ANSWER_GENERATION_RAI_FAILED"
+  | "ANSWER_GENERATION_NOT_GROUNDED";
 export const GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoDatastoreResponseReasonEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
-export type GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoIngestionStatusEnum =
-    | "INGESTION_STATUS_UNSPECIFIED"
-    | "INGESTION_STATUS_SUCCEEDED"
-    | "INGESTION_STATUS_CONTEXT_NOT_AVAILABLE"
-    | "INGESTION_STATUS_PARSE_FAILED"
-    | "INGESTION_STATUS_INVALID_ENTRY"
-    | "INGESTION_STATUS_INVALID_FORMAT"
-    | "INGESTION_STATUS_LANGUAGE_MISMATCH";
-export const GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoIngestionStatusEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfo {
-  parameter?: string;
-  ingestionStatus?: GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoIngestionStatusEnum;
+export interface GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoKnowledgeAssistBehavior {
+  queryContainedSearchContext?: boolean;
+  previousQueriesIncluded?: boolean;
+  multipleQueriesGenerated?: boolean;
+  usePubsubDelivery?: boolean;
+  appendedSearchContextCount?: number;
+  conversationTranscriptHasMixedLanguages?: boolean;
+  queryGenerationAgentLanguageMismatch?: boolean;
+  disableSyncDelivery?: boolean;
+  useCustomSafetyFilterLevel?: boolean;
+  endUserMetadataIncluded?: boolean;
+  primaryQueryRedactedAndReplaced?: boolean;
+  useTranslatedMessage?: boolean;
+  thirdPartyConnectorAllowed?: boolean;
+  answerGenerationRewriterOn?: boolean;
+  queryGenerationEndUserLanguageMismatch?: boolean;
+  returnQueryOnly?: boolean;
+  invalidItemsQuerySuggestionSkipped?: boolean;
 }
-export const GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfo =
+export const GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoKnowledgeAssistBehavior =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parameter: S.optional(S.String),
-      ingestionStatus: S.optional(
-        GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoIngestionStatusEnum,
-      ),
+      queryContainedSearchContext: S.optional(S.Boolean),
+      previousQueriesIncluded: S.optional(S.Boolean),
+      multipleQueriesGenerated: S.optional(S.Boolean),
+      usePubsubDelivery: S.optional(S.Boolean),
+      appendedSearchContextCount: S.optional(S.Number),
+      conversationTranscriptHasMixedLanguages: S.optional(S.Boolean),
+      queryGenerationAgentLanguageMismatch: S.optional(S.Boolean),
+      disableSyncDelivery: S.optional(S.Boolean),
+      useCustomSafetyFilterLevel: S.optional(S.Boolean),
+      endUserMetadataIncluded: S.optional(S.Boolean),
+      primaryQueryRedactedAndReplaced: S.optional(S.Boolean),
+      useTranslatedMessage: S.optional(S.Boolean),
+      thirdPartyConnectorAllowed: S.optional(S.Boolean),
+      answerGenerationRewriterOn: S.optional(S.Boolean),
+      queryGenerationEndUserLanguageMismatch: S.optional(S.Boolean),
+      returnQueryOnly: S.optional(S.Boolean),
+      invalidItemsQuerySuggestionSkipped: S.optional(S.Boolean),
     }),
   ).annotate({
     identifier:
-      "GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfo",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfo>;
-
-export type GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoList =
-  Array<GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfo>;
-export const GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfo,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoList>;
-
-export interface GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo {
-  contextReferenceRetrieved?: boolean;
-  ingestedParametersDebugInfo?: GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoList;
-  projectNotAllowlisted?: boolean;
-}
-export const GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      contextReferenceRetrieved: S.optional(S.Boolean),
-      ingestedParametersDebugInfo: S.optional(
-        GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfoIngestedParameterDebugInfoList,
-      ),
-      projectNotAllowlisted: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo>;
-
-export type GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryCategorizationFailureReasonEnum =
-    | "QUERY_CATEGORIZATION_FAILURE_REASON_UNSPECIFIED"
-    | "QUERY_CATEGORIZATION_INVALID_CONFIG"
-    | "QUERY_CATEGORIZATION_RESULT_NOT_FOUND"
-    | "QUERY_CATEGORIZATION_FAILED";
-export const GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryCategorizationFailureReasonEnum =
-  /*@__PURE__*/ S.String;
+      "GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoKnowledgeAssistBehavior",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoKnowledgeAssistBehavior>;
 
 export interface GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfo {
-  knowledgeAssistBehavior?: GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoKnowledgeAssistBehavior;
+  ingestedContextReferenceDebugInfo?: GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo;
   serviceLatency?: GoogleCloudDialogflowV2beta1ServiceLatency;
   queryGenerationFailureReason?: GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryGenerationFailureReasonEnum;
+  cesDebugInfo?: DocumentMap;
+  queryCategorizationFailureReason?: GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryCategorizationFailureReasonEnum;
   queryGenerationDebugInfo?: GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryGenerationDebugInfo;
   datastoreResponseReason?: GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoDatastoreResponseReasonEnum;
-  ingestedContextReferenceDebugInfo?: GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo;
-  queryCategorizationFailureReason?: GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryCategorizationFailureReasonEnum;
-  cesDebugInfo?: DocumentMap;
+  knowledgeAssistBehavior?: GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoKnowledgeAssistBehavior;
 }
 export const GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfo =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      knowledgeAssistBehavior: S.optional(
-        GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoKnowledgeAssistBehavior,
+      ingestedContextReferenceDebugInfo: S.optional(
+        GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo,
       ),
       serviceLatency: S.optional(GoogleCloudDialogflowV2beta1ServiceLatency),
       queryGenerationFailureReason: S.optional(
         GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryGenerationFailureReasonEnum,
+      ),
+      cesDebugInfo: S.optional(DocumentMap),
+      queryCategorizationFailureReason: S.optional(
+        GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryCategorizationFailureReasonEnum,
       ),
       queryGenerationDebugInfo: S.optional(
         GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryGenerationDebugInfo,
@@ -2833,23 +2708,119 @@ export const GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfo =
       datastoreResponseReason: S.optional(
         GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoDatastoreResponseReasonEnum,
       ),
-      ingestedContextReferenceDebugInfo: S.optional(
-        GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo,
+      knowledgeAssistBehavior: S.optional(
+        GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoKnowledgeAssistBehavior,
       ),
-      queryCategorizationFailureReason: S.optional(
-        GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfoQueryCategorizationFailureReasonEnum,
-      ),
-      cesDebugInfo: S.optional(DocumentMap),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfo",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfo>;
 
+export interface GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippet {
+  uri?: string;
+  text?: string;
+  title?: string;
+  metadata?: DocumentMap;
+}
+export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippet =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      uri: S.optional(S.String),
+      text: S.optional(S.String),
+      title: S.optional(S.String),
+      metadata: S.optional(DocumentMap),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippet",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippet>;
+
+export type GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippetList =
+  Array<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippet>;
+export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippetList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippet,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippetList>;
+
+export interface GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource {
+  snippets?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippetList;
+}
+export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      snippets: S.optional(
+        GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSourceSnippetList,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource>;
+
+export interface GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerEventSource {
+  snippets?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource;
+  event?: string;
+}
+export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerEventSource =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      snippets: S.optional(
+        GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource,
+      ),
+      event: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerEventSource",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerEventSource>;
+
+export interface GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerFaqSource {
+  question?: string;
+}
+export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerFaqSource =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      question: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerFaqSource",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerFaqSource>;
+
+export interface GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswer {
+  answerText?: string;
+  playbookSource?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource;
+  generativeSource?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource;
+  eventSource?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerEventSource;
+  faqSource?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerFaqSource;
+}
+export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswer =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      answerText: S.optional(S.String),
+      playbookSource: S.optional(
+        GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource,
+      ),
+      generativeSource: S.optional(
+        GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerGenerativeSource,
+      ),
+      eventSource: S.optional(
+        GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerEventSource,
+      ),
+      faqSource: S.optional(
+        GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswerFaqSource,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswer",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswer>;
+
 export interface GoogleCloudDialogflowV2beta1KnowledgeAssistAnswer {
   suggestedQuery?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerSuggestedQuery;
+  knowledgeAssistDebugInfo?: GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfo;
   suggestedQueryAnswer?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswer;
   answerRecord?: string;
-  knowledgeAssistDebugInfo?: GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfo;
 }
 export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswer =
   /*@__PURE__*/ S.suspend(() =>
@@ -2857,29 +2828,29 @@ export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswer =
       suggestedQuery: S.optional(
         GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerSuggestedQuery,
       ),
+      knowledgeAssistDebugInfo: S.optional(
+        GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfo,
+      ),
       suggestedQueryAnswer: S.optional(
         GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerKnowledgeAnswer,
       ),
       answerRecord: S.optional(S.String),
-      knowledgeAssistDebugInfo: S.optional(
-        GoogleCloudDialogflowV2beta1KnowledgeAssistDebugInfo,
-      ),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1KnowledgeAssistAnswer",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeAssistAnswer>;
 
 export interface GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerAdditionalSuggestedQueryResult {
-  suggestedQuery?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerSuggestedQuery;
   answerRecord?: string;
+  suggestedQuery?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerSuggestedQuery;
 }
 export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerAdditionalSuggestedQueryResult =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      answerRecord: S.optional(S.String),
       suggestedQuery: S.optional(
         GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerSuggestedQuery,
       ),
-      answerRecord: S.optional(S.String),
     }),
   ).annotate({
     identifier:
@@ -2895,8 +2866,8 @@ export const GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerAdditionalSuggeste
 
 export interface GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse {
   knowledgeAssistAnswer?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswer;
-  latestMessage?: string;
   contextSize?: number;
+  latestMessage?: string;
   additionalSuggestedQueryResults?: GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerAdditionalSuggestedQueryResultList;
 }
 export const GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse =
@@ -2905,8 +2876,8 @@ export const GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse =
       knowledgeAssistAnswer: S.optional(
         GoogleCloudDialogflowV2beta1KnowledgeAssistAnswer,
       ),
-      latestMessage: S.optional(S.String),
       contextSize: S.optional(S.Number),
+      latestMessage: S.optional(S.String),
       additionalSuggestedQueryResults: S.optional(
         GoogleCloudDialogflowV2beta1KnowledgeAssistAnswerAdditionalSuggestedQueryResultList,
       ),
@@ -2915,23 +2886,86 @@ export const GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse =
     identifier: "GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse>;
 
-export interface GoogleCloudDialogflowV2beta1FaqAnswer {
-  confidence?: number;
-  source?: string;
-  metadata?: StringMap;
+export type DocumentMapList = Array<DocumentMap>;
+export const DocumentMapList = /*@__PURE__*/ S.Array(
+  DocumentMap,
+) as any as S.Schema<DocumentMapList>;
+
+export interface GoogleRpcStatus {
+  message?: string;
+  details?: DocumentMapList;
+  code?: number;
+}
+export const GoogleRpcStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
+    code: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleRpcStatus",
+}) as any as S.Schema<GoogleRpcStatus>;
+
+export interface GoogleCloudDialogflowV2beta1ArticleAnswer {
+  title?: string;
+  uri?: string;
   answerRecord?: string;
-  answer?: string;
+  snippets?: StringList;
+  metadata?: StringMap;
+}
+export const GoogleCloudDialogflowV2beta1ArticleAnswer =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      title: S.optional(S.String),
+      uri: S.optional(S.String),
+      answerRecord: S.optional(S.String),
+      snippets: S.optional(StringList),
+      metadata: S.optional(StringMap),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1ArticleAnswer",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ArticleAnswer>;
+
+export type GoogleCloudDialogflowV2beta1ArticleAnswerList =
+  Array<GoogleCloudDialogflowV2beta1ArticleAnswer>;
+export const GoogleCloudDialogflowV2beta1ArticleAnswerList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1ArticleAnswer,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1ArticleAnswerList>;
+
+export interface GoogleCloudDialogflowV2beta1SuggestArticlesResponse {
+  latestMessage?: string;
+  articleAnswers?: GoogleCloudDialogflowV2beta1ArticleAnswerList;
+  contextSize?: number;
+}
+export const GoogleCloudDialogflowV2beta1SuggestArticlesResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      latestMessage: S.optional(S.String),
+      articleAnswers: S.optional(GoogleCloudDialogflowV2beta1ArticleAnswerList),
+      contextSize: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SuggestArticlesResponse",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestArticlesResponse>;
+
+export interface GoogleCloudDialogflowV2beta1FaqAnswer {
+  source?: string;
+  answerRecord?: string;
   question?: string;
+  confidence?: number;
+  metadata?: StringMap;
+  answer?: string;
 }
 export const GoogleCloudDialogflowV2beta1FaqAnswer = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      confidence: S.optional(S.Number),
       source: S.optional(S.String),
-      metadata: S.optional(StringMap),
       answerRecord: S.optional(S.String),
-      answer: S.optional(S.String),
       question: S.optional(S.String),
+      confidence: S.optional(S.Number),
+      metadata: S.optional(StringMap),
+      answer: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1FaqAnswer",
@@ -2959,40 +2993,81 @@ export const GoogleCloudDialogflowV2beta1SuggestFaqAnswersResponse =
     identifier: "GoogleCloudDialogflowV2beta1SuggestFaqAnswersResponse",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestFaqAnswersResponse>;
 
+export interface GoogleCloudDialogflowV2beta1SmartReplyAnswer {
+  confidence?: number;
+  reply?: string;
+  answerRecord?: string;
+}
+export const GoogleCloudDialogflowV2beta1SmartReplyAnswer =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      confidence: S.optional(S.Number),
+      reply: S.optional(S.String),
+      answerRecord: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SmartReplyAnswer",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SmartReplyAnswer>;
+
+export type GoogleCloudDialogflowV2beta1SmartReplyAnswerList =
+  Array<GoogleCloudDialogflowV2beta1SmartReplyAnswer>;
+export const GoogleCloudDialogflowV2beta1SmartReplyAnswerList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1SmartReplyAnswer,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1SmartReplyAnswerList>;
+
+export interface GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse {
+  smartReplyAnswers?: GoogleCloudDialogflowV2beta1SmartReplyAnswerList;
+  contextSize?: number;
+  latestMessage?: string;
+}
+export const GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      smartReplyAnswers: S.optional(
+        GoogleCloudDialogflowV2beta1SmartReplyAnswerList,
+      ),
+      contextSize: S.optional(S.Number),
+      latestMessage: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse>;
+
 export interface GoogleCloudDialogflowV2beta1SuggestionResult {
+  suggestDialogflowAssistsResponse?: GoogleCloudDialogflowV2beta1SuggestDialogflowAssistsResponse;
+  generateSuggestionsResponse?: GoogleCloudDialogflowV2beta1GenerateSuggestionsResponse;
+  suggestKnowledgeAssistResponse?: GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse;
+  error?: GoogleRpcStatus;
   suggestArticlesResponse?: GoogleCloudDialogflowV2beta1SuggestArticlesResponse;
   suggestEntityExtractionResponse?: GoogleCloudDialogflowV2beta1SuggestDialogflowAssistsResponse;
-  generateSuggestionsResponse?: GoogleCloudDialogflowV2beta1GenerateSuggestionsResponse;
-  suggestSmartRepliesResponse?: GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse;
-  error?: GoogleRpcStatus;
-  suggestKnowledgeAssistResponse?: GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse;
   suggestFaqAnswersResponse?: GoogleCloudDialogflowV2beta1SuggestFaqAnswersResponse;
-  suggestDialogflowAssistsResponse?: GoogleCloudDialogflowV2beta1SuggestDialogflowAssistsResponse;
+  suggestSmartRepliesResponse?: GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse;
 }
 export const GoogleCloudDialogflowV2beta1SuggestionResult =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      suggestDialogflowAssistsResponse: S.optional(
+        GoogleCloudDialogflowV2beta1SuggestDialogflowAssistsResponse,
+      ),
+      generateSuggestionsResponse: S.optional(
+        GoogleCloudDialogflowV2beta1GenerateSuggestionsResponse,
+      ),
+      suggestKnowledgeAssistResponse: S.optional(
+        GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse,
+      ),
+      error: S.optional(GoogleRpcStatus),
       suggestArticlesResponse: S.optional(
         GoogleCloudDialogflowV2beta1SuggestArticlesResponse,
       ),
       suggestEntityExtractionResponse: S.optional(
         GoogleCloudDialogflowV2beta1SuggestDialogflowAssistsResponse,
       ),
-      generateSuggestionsResponse: S.optional(
-        GoogleCloudDialogflowV2beta1GenerateSuggestionsResponse,
-      ),
-      suggestSmartRepliesResponse: S.optional(
-        GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse,
-      ),
-      error: S.optional(GoogleRpcStatus),
-      suggestKnowledgeAssistResponse: S.optional(
-        GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse,
-      ),
       suggestFaqAnswersResponse: S.optional(
         GoogleCloudDialogflowV2beta1SuggestFaqAnswersResponse,
       ),
-      suggestDialogflowAssistsResponse: S.optional(
-        GoogleCloudDialogflowV2beta1SuggestDialogflowAssistsResponse,
+      suggestSmartRepliesResponse: S.optional(
+        GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse,
       ),
     }),
   ).annotate({
@@ -3006,36 +3081,61 @@ export const GoogleCloudDialogflowV2beta1SuggestionResultList =
     GoogleCloudDialogflowV2beta1SuggestionResult,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestionResultList>;
 
-export interface GoogleCloudDialogflowV2beta1OutputAudio {
-  audio?: string;
-  config?: GoogleCloudDialogflowV2beta1OutputAudioConfig;
+export interface GoogleCloudDialogflowV2beta1DtmfParameters {
+  acceptsDtmfInput?: boolean;
 }
-export const GoogleCloudDialogflowV2beta1OutputAudio = /*@__PURE__*/ S.suspend(
-  () =>
+export const GoogleCloudDialogflowV2beta1DtmfParameters =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      audio: S.optional(S.String),
-      config: S.optional(GoogleCloudDialogflowV2beta1OutputAudioConfig),
+      acceptsDtmfInput: S.optional(S.Boolean),
     }),
-).annotate({
-  identifier: "GoogleCloudDialogflowV2beta1OutputAudio",
-}) as any as S.Schema<GoogleCloudDialogflowV2beta1OutputAudio>;
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1DtmfParameters",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1DtmfParameters>;
 
 export type GoogleCloudDialogflowV2beta1AutomatedAgentReplyAutomatedAgentReplyTypeEnum =
-  "AUTOMATED_AGENT_REPLY_TYPE_UNSPECIFIED" | "PARTIAL" | "FINAL";
+  | "AUTOMATED_AGENT_REPLY_TYPE_UNSPECIFIED"
+  | "PARTIAL"
+  | "FINAL";
 export const GoogleCloudDialogflowV2beta1AutomatedAgentReplyAutomatedAgentReplyTypeEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
+
+export type GoogleCloudDialogflowV2beta1ResponseMessageEndInteraction =
+  GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation;
+export const GoogleCloudDialogflowV2beta1ResponseMessageEndInteraction =
+  GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation;
+
+export interface GoogleCloudDialogflowV2beta1ResponseMessageTelephonyTransferCall {
+  sipUri?: string;
+  phoneNumber?: string;
+}
+export const GoogleCloudDialogflowV2beta1ResponseMessageTelephonyTransferCall =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sipUri: S.optional(S.String),
+      phoneNumber: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1ResponseMessageTelephonyTransferCall",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ResponseMessageTelephonyTransferCall>;
+
+export type GoogleCloudDialogflowV2beta1ResponseMessageText =
+  GoogleCloudDialogflowV2beta1IntentMessageText;
+export const GoogleCloudDialogflowV2beta1ResponseMessageText =
+  GoogleCloudDialogflowV2beta1IntentMessageText;
 
 export interface GoogleCloudDialogflowV2beta1ResponseMessageMixedAudioSegment {
+  audio?: string;
   uri?: string;
   allowPlaybackInterruption?: boolean;
-  audio?: string;
 }
 export const GoogleCloudDialogflowV2beta1ResponseMessageMixedAudioSegment =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      audio: S.optional(S.String),
       uri: S.optional(S.String),
       allowPlaybackInterruption: S.optional(S.Boolean),
-      audio: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ResponseMessageMixedAudioSegment",
@@ -3074,56 +3174,31 @@ export const GoogleCloudDialogflowV2beta1ResponseMessageLiveAgentHandoff =
     identifier: "GoogleCloudDialogflowV2beta1ResponseMessageLiveAgentHandoff",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ResponseMessageLiveAgentHandoff>;
 
-export type GoogleCloudDialogflowV2beta1ResponseMessageEndInteraction =
-  GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation;
-export const GoogleCloudDialogflowV2beta1ResponseMessageEndInteraction =
-  GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation;
-
-export type GoogleCloudDialogflowV2beta1ResponseMessageText =
-  GoogleCloudDialogflowV2beta1IntentMessageText;
-export const GoogleCloudDialogflowV2beta1ResponseMessageText =
-  GoogleCloudDialogflowV2beta1IntentMessageText;
-
-export interface GoogleCloudDialogflowV2beta1ResponseMessageTelephonyTransferCall {
-  sipUri?: string;
-  phoneNumber?: string;
-}
-export const GoogleCloudDialogflowV2beta1ResponseMessageTelephonyTransferCall =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      sipUri: S.optional(S.String),
-      phoneNumber: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1ResponseMessageTelephonyTransferCall",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ResponseMessageTelephonyTransferCall>;
-
 export interface GoogleCloudDialogflowV2beta1ResponseMessage {
+  endInteraction?: GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation;
+  telephonyTransferCall?: GoogleCloudDialogflowV2beta1ResponseMessageTelephonyTransferCall;
+  text?: GoogleCloudDialogflowV2beta1IntentMessageText;
   mixedAudio?: GoogleCloudDialogflowV2beta1ResponseMessageMixedAudio;
   liveAgentHandoff?: GoogleCloudDialogflowV2beta1ResponseMessageLiveAgentHandoff;
-  endInteraction?: GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation;
-  text?: GoogleCloudDialogflowV2beta1IntentMessageText;
   payload?: DocumentMap;
-  telephonyTransferCall?: GoogleCloudDialogflowV2beta1ResponseMessageTelephonyTransferCall;
 }
 export const GoogleCloudDialogflowV2beta1ResponseMessage =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      endInteraction: S.optional(
+        GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation,
+      ),
+      telephonyTransferCall: S.optional(
+        GoogleCloudDialogflowV2beta1ResponseMessageTelephonyTransferCall,
+      ),
+      text: S.optional(GoogleCloudDialogflowV2beta1IntentMessageText),
       mixedAudio: S.optional(
         GoogleCloudDialogflowV2beta1ResponseMessageMixedAudio,
       ),
       liveAgentHandoff: S.optional(
         GoogleCloudDialogflowV2beta1ResponseMessageLiveAgentHandoff,
       ),
-      endInteraction: S.optional(
-        GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation,
-      ),
-      text: S.optional(GoogleCloudDialogflowV2beta1IntentMessageText),
       payload: S.optional(DocumentMap),
-      telephonyTransferCall: S.optional(
-        GoogleCloudDialogflowV2beta1ResponseMessageTelephonyTransferCall,
-      ),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ResponseMessage",
@@ -3144,23 +3219,23 @@ export const GoogleCloudDialogflowV2beta1QueryResultList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1QueryResultList>;
 
 export interface GoogleCloudDialogflowV2beta1DetectIntentResponse {
-  queryResult?: GoogleCloudDialogflowV2beta1QueryResult;
   responseId?: string;
-  outputAudio?: string;
   alternativeQueryResults?: GoogleCloudDialogflowV2beta1QueryResultList;
+  queryResult?: GoogleCloudDialogflowV2beta1QueryResult;
   webhookStatus?: GoogleRpcStatus;
+  outputAudio?: string;
   outputAudioConfig?: GoogleCloudDialogflowV2beta1OutputAudioConfig;
 }
 export const GoogleCloudDialogflowV2beta1DetectIntentResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      queryResult: S.optional(GoogleCloudDialogflowV2beta1QueryResult),
       responseId: S.optional(S.String),
-      outputAudio: S.optional(S.String),
       alternativeQueryResults: S.optional(
         GoogleCloudDialogflowV2beta1QueryResultList,
       ),
+      queryResult: S.optional(GoogleCloudDialogflowV2beta1QueryResult),
       webhookStatus: S.optional(GoogleRpcStatus),
+      outputAudio: S.optional(S.String),
       outputAudioConfig: S.optional(
         GoogleCloudDialogflowV2beta1OutputAudioConfig,
       ),
@@ -3170,53 +3245,60 @@ export const GoogleCloudDialogflowV2beta1DetectIntentResponse =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1DetectIntentResponse>;
 
 export interface GoogleCloudDialogflowV2beta1AutomatedAgentReply {
-  parameters?: DocumentMap;
-  automatedAgentReplyType?: GoogleCloudDialogflowV2beta1AutomatedAgentReplyAutomatedAgentReplyTypeEnum;
-  cxCurrentPage?: string;
-  event?: string;
-  allowCancellation?: boolean;
-  responseMessages?: GoogleCloudDialogflowV2beta1ResponseMessageList;
-  detectIntentResponse?: GoogleCloudDialogflowV2beta1DetectIntentResponse;
-  matchConfidence?: number;
+  callCompanionAuthCode?: string;
   cxSessionParameters?: DocumentMap;
   intent?: string;
-  callCompanionAuthCode?: string;
+  automatedAgentReplyType?: GoogleCloudDialogflowV2beta1AutomatedAgentReplyAutomatedAgentReplyTypeEnum;
+  cxCurrentPage?: string;
+  matchConfidence?: number;
+  event?: string;
+  responseMessages?: GoogleCloudDialogflowV2beta1ResponseMessageList;
+  detectIntentResponse?: GoogleCloudDialogflowV2beta1DetectIntentResponse;
+  allowCancellation?: boolean;
+  parameters?: DocumentMap;
 }
 export const GoogleCloudDialogflowV2beta1AutomatedAgentReply =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parameters: S.optional(DocumentMap),
+      callCompanionAuthCode: S.optional(S.String),
+      cxSessionParameters: S.optional(DocumentMap),
+      intent: S.optional(S.String),
       automatedAgentReplyType: S.optional(
         GoogleCloudDialogflowV2beta1AutomatedAgentReplyAutomatedAgentReplyTypeEnum,
       ),
       cxCurrentPage: S.optional(S.String),
+      matchConfidence: S.optional(S.Number),
       event: S.optional(S.String),
-      allowCancellation: S.optional(S.Boolean),
       responseMessages: S.optional(
         GoogleCloudDialogflowV2beta1ResponseMessageList,
       ),
       detectIntentResponse: S.optional(
         GoogleCloudDialogflowV2beta1DetectIntentResponse,
       ),
-      matchConfidence: S.optional(S.Number),
-      cxSessionParameters: S.optional(DocumentMap),
-      intent: S.optional(S.String),
-      callCompanionAuthCode: S.optional(S.String),
+      allowCancellation: S.optional(S.Boolean),
+      parameters: S.optional(DocumentMap),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1AutomatedAgentReply",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1AutomatedAgentReply>;
 
+export type GoogleCloudDialogflowV2beta1MessageParticipantRoleEnum =
+  | "ROLE_UNSPECIFIED"
+  | "HUMAN_AGENT"
+  | "AUTOMATED_AGENT"
+  | "END_USER";
+export const GoogleCloudDialogflowV2beta1MessageParticipantRoleEnum = S.String;
+
 export interface GoogleCloudDialogflowV2beta1AnnotatedMessagePart {
-  entityType?: string;
   formattedValue?: unknown;
+  entityType?: string;
   text?: string;
 }
 export const GoogleCloudDialogflowV2beta1AnnotatedMessagePart =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      entityType: S.optional(S.String),
       formattedValue: S.optional(S.Unknown),
+      entityType: S.optional(S.String),
       text: S.optional(S.String),
     }),
   ).annotate({
@@ -3244,90 +3326,70 @@ export const GoogleCloudDialogflowV2beta1MessageAnnotation =
     identifier: "GoogleCloudDialogflowV2beta1MessageAnnotation",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1MessageAnnotation>;
 
-export type GoogleCloudDialogflowV2beta1MessageParticipantRoleEnum =
-  | "ROLE_UNSPECIFIED"
-  | "HUMAN_AGENT"
-  | "AUTOMATED_AGENT"
-  | "END_USER";
-export const GoogleCloudDialogflowV2beta1MessageParticipantRoleEnum =
-  /*@__PURE__*/ S.String;
-
 export interface GoogleCloudDialogflowV2beta1Message {
-  messageAnnotation?: GoogleCloudDialogflowV2beta1MessageAnnotation;
+  content?: string;
+  sentimentAnalysis?: GoogleCloudDialogflowV2beta1SentimentAnalysisResult;
+  responseMessages?: GoogleCloudDialogflowV2beta1ResponseMessageList;
   createTime?: string;
-  name?: string;
   participantRole?:
     | GoogleCloudDialogflowV2beta1MessageParticipantRoleEnum
     | (string & {});
+  name?: string;
   sendTime?: string;
+  messageAnnotation?: GoogleCloudDialogflowV2beta1MessageAnnotation;
   languageCode?: string;
-  responseMessages?: GoogleCloudDialogflowV2beta1ResponseMessageList;
-  content?: string;
   participant?: string;
-  sentimentAnalysis?: GoogleCloudDialogflowV2beta1SentimentAnalysisResult;
 }
 export const GoogleCloudDialogflowV2beta1Message = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    messageAnnotation: S.optional(
-      GoogleCloudDialogflowV2beta1MessageAnnotation,
-    ),
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
-    participantRole: S.optional(
-      GoogleCloudDialogflowV2beta1MessageParticipantRoleEnum,
-    ),
-    sendTime: S.optional(S.String),
-    languageCode: S.optional(S.String),
-    responseMessages: S.optional(
-      GoogleCloudDialogflowV2beta1ResponseMessageList,
-    ),
     content: S.optional(S.String),
-    participant: S.optional(S.String),
     sentimentAnalysis: S.optional(
       GoogleCloudDialogflowV2beta1SentimentAnalysisResult,
     ),
+    responseMessages: S.optional(
+      GoogleCloudDialogflowV2beta1ResponseMessageList,
+    ),
+    createTime: S.optional(S.String),
+    participantRole: S.optional(
+      GoogleCloudDialogflowV2beta1MessageParticipantRoleEnum,
+    ),
+    name: S.optional(S.String),
+    sendTime: S.optional(S.String),
+    messageAnnotation: S.optional(
+      GoogleCloudDialogflowV2beta1MessageAnnotation,
+    ),
+    languageCode: S.optional(S.String),
+    participant: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1Message",
 }) as any as S.Schema<GoogleCloudDialogflowV2beta1Message>;
 
-export interface GoogleCloudDialogflowV2beta1DtmfParameters {
-  acceptsDtmfInput?: boolean;
-}
-export const GoogleCloudDialogflowV2beta1DtmfParameters =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      acceptsDtmfInput: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1DtmfParameters",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1DtmfParameters>;
-
 export interface GoogleCloudDialogflowV2beta1AnalyzeContentResponse {
+  replyAudio?: GoogleCloudDialogflowV2beta1OutputAudio;
   humanAgentSuggestionResults?: GoogleCloudDialogflowV2beta1SuggestionResultList;
   endUserSuggestionResults?: GoogleCloudDialogflowV2beta1SuggestionResultList;
-  replyAudio?: GoogleCloudDialogflowV2beta1OutputAudio;
-  automatedAgentReply?: GoogleCloudDialogflowV2beta1AutomatedAgentReply;
-  replyText?: string;
-  message?: GoogleCloudDialogflowV2beta1Message;
   dtmfParameters?: GoogleCloudDialogflowV2beta1DtmfParameters;
+  replyText?: string;
+  automatedAgentReply?: GoogleCloudDialogflowV2beta1AutomatedAgentReply;
+  message?: GoogleCloudDialogflowV2beta1Message;
 }
 export const GoogleCloudDialogflowV2beta1AnalyzeContentResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      replyAudio: S.optional(GoogleCloudDialogflowV2beta1OutputAudio),
       humanAgentSuggestionResults: S.optional(
         GoogleCloudDialogflowV2beta1SuggestionResultList,
       ),
       endUserSuggestionResults: S.optional(
         GoogleCloudDialogflowV2beta1SuggestionResultList,
       ),
-      replyAudio: S.optional(GoogleCloudDialogflowV2beta1OutputAudio),
+      dtmfParameters: S.optional(GoogleCloudDialogflowV2beta1DtmfParameters),
+      replyText: S.optional(S.String),
       automatedAgentReply: S.optional(
         GoogleCloudDialogflowV2beta1AutomatedAgentReply,
       ),
-      replyText: S.optional(S.String),
       message: S.optional(GoogleCloudDialogflowV2beta1Message),
-      dtmfParameters: S.optional(GoogleCloudDialogflowV2beta1DtmfParameters),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1AnalyzeContentResponse",
@@ -3398,16 +3460,16 @@ export const BatchCreateProjectsAgentEntityTypesEntitiesRequest =
 
 export interface GoogleLongrunningOperation {
   error?: GoogleRpcStatus;
-  metadata?: DocumentMap;
   name?: string;
+  metadata?: DocumentMap;
   done?: boolean;
   response?: DocumentMap;
 }
 export const GoogleLongrunningOperation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     error: S.optional(GoogleRpcStatus),
-    metadata: S.optional(DocumentMap),
     name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
     response: S.optional(DocumentMap),
   }),
@@ -3416,14 +3478,14 @@ export const GoogleLongrunningOperation = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GoogleLongrunningOperation>;
 
 export interface GoogleCloudDialogflowV2beta1CreateMessageRequest {
-  message?: GoogleCloudDialogflowV2beta1Message;
   parent?: string;
+  message?: GoogleCloudDialogflowV2beta1Message;
 }
 export const GoogleCloudDialogflowV2beta1CreateMessageRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      message: S.optional(GoogleCloudDialogflowV2beta1Message),
       parent: S.optional(S.String),
+      message: S.optional(GoogleCloudDialogflowV2beta1Message),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1CreateMessageRequest",
@@ -3581,14 +3643,14 @@ export const BatchDeleteProjectsAgentEntityTypesRequest =
   }) as any as S.Schema<BatchDeleteProjectsAgentEntityTypesRequest>;
 
 export interface GoogleCloudDialogflowV2beta1BatchDeleteEntitiesRequest {
-  entityValues?: StringList;
   languageCode?: string;
+  entityValues?: StringList;
 }
 export const GoogleCloudDialogflowV2beta1BatchDeleteEntitiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      entityValues: S.optional(StringList),
       languageCode: S.optional(S.String),
+      entityValues: S.optional(StringList),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1BatchDeleteEntitiesRequest",
@@ -3737,41 +3799,40 @@ export const BatchDeleteProjectsLocationsAgentIntentsRequest =
     identifier: "BatchDeleteProjectsLocationsAgentIntentsRequest",
   }) as any as S.Schema<BatchDeleteProjectsLocationsAgentIntentsRequest>;
 
-export type GoogleCloudDialogflowV2beta1EntityTypeAutoExpansionModeEnum =
-  | "AUTO_EXPANSION_MODE_UNSPECIFIED"
-  | "AUTO_EXPANSION_MODE_DEFAULT";
-export const GoogleCloudDialogflowV2beta1EntityTypeAutoExpansionModeEnum =
-  /*@__PURE__*/ S.String;
-
 export type GoogleCloudDialogflowV2beta1EntityTypeKindEnum =
   | "KIND_UNSPECIFIED"
   | "KIND_MAP"
   | "KIND_LIST"
   | "KIND_REGEXP";
-export const GoogleCloudDialogflowV2beta1EntityTypeKindEnum =
-  /*@__PURE__*/ S.String;
+export const GoogleCloudDialogflowV2beta1EntityTypeKindEnum = S.String;
+
+export type GoogleCloudDialogflowV2beta1EntityTypeAutoExpansionModeEnum =
+  | "AUTO_EXPANSION_MODE_UNSPECIFIED"
+  | "AUTO_EXPANSION_MODE_DEFAULT";
+export const GoogleCloudDialogflowV2beta1EntityTypeAutoExpansionModeEnum =
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1EntityType {
   displayName?: string;
-  name?: string;
-  autoExpansionMode?:
-    | GoogleCloudDialogflowV2beta1EntityTypeAutoExpansionModeEnum
-    | (string & {});
   kind?: GoogleCloudDialogflowV2beta1EntityTypeKindEnum | (string & {});
   entities?: GoogleCloudDialogflowV2beta1EntityTypeEntityList;
   enableFuzzyExtraction?: boolean;
+  autoExpansionMode?:
+    | GoogleCloudDialogflowV2beta1EntityTypeAutoExpansionModeEnum
+    | (string & {});
+  name?: string;
 }
 export const GoogleCloudDialogflowV2beta1EntityType = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       displayName: S.optional(S.String),
-      name: S.optional(S.String),
-      autoExpansionMode: S.optional(
-        GoogleCloudDialogflowV2beta1EntityTypeAutoExpansionModeEnum,
-      ),
       kind: S.optional(GoogleCloudDialogflowV2beta1EntityTypeKindEnum),
       entities: S.optional(GoogleCloudDialogflowV2beta1EntityTypeEntityList),
       enableFuzzyExtraction: S.optional(S.Boolean),
+      autoExpansionMode: S.optional(
+        GoogleCloudDialogflowV2beta1EntityTypeAutoExpansionModeEnum,
+      ),
+      name: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1EntityType",
@@ -3798,8 +3859,8 @@ export const GoogleCloudDialogflowV2beta1EntityTypeBatch =
 export interface GoogleCloudDialogflowV2beta1BatchUpdateEntityTypesRequest {
   updateMask?: string;
   entityTypeBatchInline?: GoogleCloudDialogflowV2beta1EntityTypeBatch;
-  entityTypeBatchUri?: string;
   languageCode?: string;
+  entityTypeBatchUri?: string;
 }
 export const GoogleCloudDialogflowV2beta1BatchUpdateEntityTypesRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -3808,8 +3869,8 @@ export const GoogleCloudDialogflowV2beta1BatchUpdateEntityTypesRequest =
       entityTypeBatchInline: S.optional(
         GoogleCloudDialogflowV2beta1EntityTypeBatch,
       ),
-      entityTypeBatchUri: S.optional(S.String),
       languageCode: S.optional(S.String),
+      entityTypeBatchUri: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1BatchUpdateEntityTypesRequest",
@@ -3841,16 +3902,16 @@ export const BatchUpdateProjectsAgentEntityTypesRequest =
   }) as any as S.Schema<BatchUpdateProjectsAgentEntityTypesRequest>;
 
 export interface GoogleCloudDialogflowV2beta1BatchUpdateEntitiesRequest {
-  languageCode?: string;
-  updateMask?: string;
   entities?: GoogleCloudDialogflowV2beta1EntityTypeEntityList;
+  updateMask?: string;
+  languageCode?: string;
 }
 export const GoogleCloudDialogflowV2beta1BatchUpdateEntitiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      languageCode: S.optional(S.String),
-      updateMask: S.optional(S.String),
       entities: S.optional(GoogleCloudDialogflowV2beta1EntityTypeEntityList),
+      updateMask: S.optional(S.String),
+      languageCode: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1BatchUpdateEntitiesRequest",
@@ -3887,31 +3948,32 @@ export const GoogleCloudDialogflowV2beta1IntentBatch =
   GoogleCloudDialogflowV2beta1BatchDeleteIntentsRequest;
 
 export type GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequestIntentViewEnum =
-  "INTENT_VIEW_UNSPECIFIED" | "INTENT_VIEW_FULL";
+  | "INTENT_VIEW_UNSPECIFIED"
+  | "INTENT_VIEW_FULL";
 export const GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequestIntentViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequest {
-  intentBatchInline?: GoogleCloudDialogflowV2beta1BatchDeleteIntentsRequest;
   languageCode?: string;
-  intentBatchUri?: string;
   updateMask?: string;
+  intentBatchInline?: GoogleCloudDialogflowV2beta1BatchDeleteIntentsRequest;
   intentView?:
     | GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequestIntentViewEnum
     | (string & {});
+  intentBatchUri?: string;
 }
 export const GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      languageCode: S.optional(S.String),
+      updateMask: S.optional(S.String),
       intentBatchInline: S.optional(
         GoogleCloudDialogflowV2beta1BatchDeleteIntentsRequest,
       ),
-      languageCode: S.optional(S.String),
-      intentBatchUri: S.optional(S.String),
-      updateMask: S.optional(S.String),
       intentView: S.optional(
         GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequestIntentViewEnum,
       ),
+      intentBatchUri: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1BatchUpdateIntentsRequest",
@@ -4060,21 +4122,24 @@ export const CancelProjectsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CancelProjectsOperationsRequest>;
 
 export type GoogleCloudDialogflowV2beta1ClearSuggestionFeatureConfigRequestParticipantRoleEnum =
-  "ROLE_UNSPECIFIED" | "HUMAN_AGENT" | "AUTOMATED_AGENT" | "END_USER";
+  | "ROLE_UNSPECIFIED"
+  | "HUMAN_AGENT"
+  | "AUTOMATED_AGENT"
+  | "END_USER";
 export const GoogleCloudDialogflowV2beta1ClearSuggestionFeatureConfigRequestParticipantRoleEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleCloudDialogflowV2beta1ClearSuggestionFeatureConfigRequestSuggestionFeatureTypeEnum =
-    | "TYPE_UNSPECIFIED"
-    | "ARTICLE_SUGGESTION"
-    | "FAQ"
-    | "SMART_REPLY"
-    | "DIALOGFLOW_ASSIST"
-    | "CONVERSATION_SUMMARIZATION"
-    | "KNOWLEDGE_SEARCH"
-    | "KNOWLEDGE_ASSIST";
+  | "TYPE_UNSPECIFIED"
+  | "ARTICLE_SUGGESTION"
+  | "FAQ"
+  | "SMART_REPLY"
+  | "DIALOGFLOW_ASSIST"
+  | "CONVERSATION_SUMMARIZATION"
+  | "KNOWLEDGE_SEARCH"
+  | "KNOWLEDGE_ASSIST";
 export const GoogleCloudDialogflowV2beta1ClearSuggestionFeatureConfigRequestSuggestionFeatureTypeEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1ClearSuggestionFeatureConfigRequest {
   participantRole?:
@@ -4189,22 +4254,22 @@ export const CompileProjectsConversationsParticipantsSuggestionsRequest =
   }) as any as S.Schema<CompileProjectsConversationsParticipantsSuggestionsRequest>;
 
 export interface GoogleCloudDialogflowV2beta1SuggestionFaqAnswer {
-  answer?: string;
-  question?: string;
-  metadata?: StringMap;
-  answerRecord?: string;
-  source?: string;
   confidence?: number;
+  question?: string;
+  answer?: string;
+  answerRecord?: string;
+  metadata?: StringMap;
+  source?: string;
 }
 export const GoogleCloudDialogflowV2beta1SuggestionFaqAnswer =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      answer: S.optional(S.String),
-      question: S.optional(S.String),
-      metadata: S.optional(StringMap),
-      answerRecord: S.optional(S.String),
-      source: S.optional(S.String),
       confidence: S.optional(S.Number),
+      question: S.optional(S.String),
+      answer: S.optional(S.String),
+      answerRecord: S.optional(S.String),
+      metadata: S.optional(StringMap),
+      source: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1SuggestionFaqAnswer",
@@ -4218,20 +4283,20 @@ export const GoogleCloudDialogflowV2beta1SuggestionFaqAnswerList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestionFaqAnswerList>;
 
 export interface GoogleCloudDialogflowV2beta1SuggestionArticle {
-  metadata?: StringMap;
   answerRecord?: string;
-  uri?: string;
-  title?: string;
   snippets?: StringList;
+  title?: string;
+  uri?: string;
+  metadata?: StringMap;
 }
 export const GoogleCloudDialogflowV2beta1SuggestionArticle =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      metadata: S.optional(StringMap),
       answerRecord: S.optional(S.String),
-      uri: S.optional(S.String),
-      title: S.optional(S.String),
       snippets: S.optional(StringList),
+      title: S.optional(S.String),
+      uri: S.optional(S.String),
+      metadata: S.optional(StringMap),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1SuggestionArticle",
@@ -4245,38 +4310,38 @@ export const GoogleCloudDialogflowV2beta1SuggestionArticleList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestionArticleList>;
 
 export interface GoogleCloudDialogflowV2beta1Suggestion {
-  createTime?: string;
   name?: string;
+  createTime?: string;
+  latestMessage?: string;
   faqAnswers?: GoogleCloudDialogflowV2beta1SuggestionFaqAnswerList;
   articles?: GoogleCloudDialogflowV2beta1SuggestionArticleList;
-  latestMessage?: string;
 }
 export const GoogleCloudDialogflowV2beta1Suggestion = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      createTime: S.optional(S.String),
       name: S.optional(S.String),
+      createTime: S.optional(S.String),
+      latestMessage: S.optional(S.String),
       faqAnswers: S.optional(
         GoogleCloudDialogflowV2beta1SuggestionFaqAnswerList,
       ),
       articles: S.optional(GoogleCloudDialogflowV2beta1SuggestionArticleList),
-      latestMessage: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1Suggestion",
 }) as any as S.Schema<GoogleCloudDialogflowV2beta1Suggestion>;
 
 export interface GoogleCloudDialogflowV2beta1CompileSuggestionResponse {
-  suggestion?: GoogleCloudDialogflowV2beta1Suggestion;
-  latestMessage?: string;
   contextSize?: number;
+  latestMessage?: string;
+  suggestion?: GoogleCloudDialogflowV2beta1Suggestion;
 }
 export const GoogleCloudDialogflowV2beta1CompileSuggestionResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      suggestion: S.optional(GoogleCloudDialogflowV2beta1Suggestion),
-      latestMessage: S.optional(S.String),
       contextSize: S.optional(S.Number),
+      latestMessage: S.optional(S.String),
+      suggestion: S.optional(GoogleCloudDialogflowV2beta1Suggestion),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1CompileSuggestionResponse",
@@ -4312,111 +4377,52 @@ export const CompleteProjectsConversationsRequest = /*@__PURE__*/ S.suspend(
   identifier: "CompleteProjectsConversationsRequest",
 }) as any as S.Schema<CompleteProjectsConversationsRequest>;
 
-export type GoogleCloudDialogflowV2beta1NotificationConfigMessageFormatEnum =
-  | "MESSAGE_FORMAT_UNSPECIFIED"
-  | "PROTO"
-  | "JSON";
-export const GoogleCloudDialogflowV2beta1NotificationConfigMessageFormatEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1NotificationConfig {
-  topic?: string;
-  messageFormat?:
-    | GoogleCloudDialogflowV2beta1NotificationConfigMessageFormatEnum
-    | (string & {});
+export interface GoogleCloudDialogflowV2beta1SipConfig {
+  createConversationOnTheFly?: boolean;
+  inactiveStart?: boolean;
+  ignoreReinviteMediaDirection?: boolean;
+  allowVirtualAgentInteraction?: boolean;
+  maxAudioRecordingDuration?: string;
+  keepConversationRunning?: boolean;
+  copyInboundCallLegHeaders?: StringList;
 }
-export const GoogleCloudDialogflowV2beta1NotificationConfig =
+export const GoogleCloudDialogflowV2beta1SipConfig = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      createConversationOnTheFly: S.optional(S.Boolean),
+      inactiveStart: S.optional(S.Boolean),
+      ignoreReinviteMediaDirection: S.optional(S.Boolean),
+      allowVirtualAgentInteraction: S.optional(S.Boolean),
+      maxAudioRecordingDuration: S.optional(S.String),
+      keepConversationRunning: S.optional(S.Boolean),
+      copyInboundCallLegHeaders: S.optional(StringList),
+    }),
+).annotate({
+  identifier: "GoogleCloudDialogflowV2beta1SipConfig",
+}) as any as S.Schema<GoogleCloudDialogflowV2beta1SipConfig>;
+
+export type GoogleCloudDialogflowV2beta1SuggestionFeatureTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "ARTICLE_SUGGESTION"
+  | "FAQ"
+  | "SMART_REPLY"
+  | "DIALOGFLOW_ASSIST"
+  | "CONVERSATION_SUMMARIZATION"
+  | "KNOWLEDGE_SEARCH"
+  | "KNOWLEDGE_ASSIST";
+export const GoogleCloudDialogflowV2beta1SuggestionFeatureTypeEnum = S.String;
+
+export interface GoogleCloudDialogflowV2beta1SuggestionFeature {
+  type?: GoogleCloudDialogflowV2beta1SuggestionFeatureTypeEnum | (string & {});
+}
+export const GoogleCloudDialogflowV2beta1SuggestionFeature =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      topic: S.optional(S.String),
-      messageFormat: S.optional(
-        GoogleCloudDialogflowV2beta1NotificationConfigMessageFormatEnum,
-      ),
+      type: S.optional(GoogleCloudDialogflowV2beta1SuggestionFeatureTypeEnum),
     }),
   ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1NotificationConfig",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1NotificationConfig>;
-
-export type GoogleCloudDialogflowV2beta1SpeechToTextConfigAudioEncodingEnum =
-  | "AUDIO_ENCODING_UNSPECIFIED"
-  | "AUDIO_ENCODING_LINEAR_16"
-  | "AUDIO_ENCODING_FLAC"
-  | "AUDIO_ENCODING_MULAW"
-  | "AUDIO_ENCODING_AMR"
-  | "AUDIO_ENCODING_AMR_WB"
-  | "AUDIO_ENCODING_OGG_OPUS"
-  | "AUDIO_ENCODING_SPEEX_WITH_HEADER_BYTE"
-  | "AUDIO_ENCODING_ALAW";
-export const GoogleCloudDialogflowV2beta1SpeechToTextConfigAudioEncodingEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleCloudDialogflowV2beta1SpeechToTextConfigSpeechModelVariantEnum =
-    | "SPEECH_MODEL_VARIANT_UNSPECIFIED"
-    | "USE_BEST_AVAILABLE"
-    | "USE_STANDARD"
-    | "USE_ENHANCED";
-export const GoogleCloudDialogflowV2beta1SpeechToTextConfigSpeechModelVariantEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1SpeechToTextConfig {
-  audioEncoding?:
-    | GoogleCloudDialogflowV2beta1SpeechToTextConfigAudioEncodingEnum
-    | (string & {});
-  enableWordInfo?: boolean;
-  sampleRateHertz?: number;
-  speechModelVariant?:
-    | GoogleCloudDialogflowV2beta1SpeechToTextConfigSpeechModelVariantEnum
-    | (string & {});
-  model?: string;
-  useTimeoutBasedEndpointing?: boolean;
-  phraseSets?: StringList;
-  languageCode?: string;
-}
-export const GoogleCloudDialogflowV2beta1SpeechToTextConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      audioEncoding: S.optional(
-        GoogleCloudDialogflowV2beta1SpeechToTextConfigAudioEncodingEnum,
-      ),
-      enableWordInfo: S.optional(S.Boolean),
-      sampleRateHertz: S.optional(S.Number),
-      speechModelVariant: S.optional(
-        GoogleCloudDialogflowV2beta1SpeechToTextConfigSpeechModelVariantEnum,
-      ),
-      model: S.optional(S.String),
-      useTimeoutBasedEndpointing: S.optional(S.Boolean),
-      phraseSets: S.optional(StringList),
-      languageCode: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1SpeechToTextConfig",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SpeechToTextConfig>;
-
-export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigConversationProcessConfig {
-  recentSentencesCount?: number;
-}
-export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigConversationProcessConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      recentSentencesCount: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigConversationProcessConfig",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigConversationProcessConfig>;
-
-export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDocumentQuerySource {
-  documents?: StringList;
-}
-export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDocumentQuerySource =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      documents: S.optional(StringList),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDocumentQuerySource",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDocumentQuerySource>;
+    identifier: "GoogleCloudDialogflowV2beta1SuggestionFeature",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestionFeature>;
 
 export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDialogflowQuerySourceHumanAgentSideConfig {
   agent?: string;
@@ -4448,23 +4454,6 @@ export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQuer
       "GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDialogflowQuerySource",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDialogflowQuerySource>;
 
-export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigContextFilterSettings {
-  dropVirtualAgentMessages?: boolean;
-  dropIvrMessages?: boolean;
-  dropHandoffMessages?: boolean;
-}
-export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigContextFilterSettings =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      dropVirtualAgentMessages: S.optional(S.Boolean),
-      dropIvrMessages: S.optional(S.Boolean),
-      dropHandoffMessages: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigContextFilterSettings",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigContextFilterSettings>;
-
 export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigKnowledgeBaseQuerySource {
   knowledgeBases?: StringList;
 }
@@ -4478,16 +4467,46 @@ export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQuer
       "GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigKnowledgeBaseQuerySource",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigKnowledgeBaseQuerySource>;
 
+export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDocumentQuerySource {
+  documents?: StringList;
+}
+export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDocumentQuerySource =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      documents: S.optional(StringList),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDocumentQuerySource",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDocumentQuerySource>;
+
+export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigContextFilterSettings {
+  dropIvrMessages?: boolean;
+  dropHandoffMessages?: boolean;
+  dropVirtualAgentMessages?: boolean;
+}
+export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigContextFilterSettings =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      dropIvrMessages: S.optional(S.Boolean),
+      dropHandoffMessages: S.optional(S.Boolean),
+      dropVirtualAgentMessages: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigContextFilterSettings",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigContextFilterSettings>;
+
 export type GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigSectionsSectionTypesItemEnum =
-    | "SECTION_TYPE_UNSPECIFIED"
-    | "SITUATION"
-    | "ACTION"
-    | "RESOLUTION"
-    | "REASON_FOR_CANCELLATION"
-    | "CUSTOMER_SATISFACTION"
-    | "ENTITIES";
+  | "SECTION_TYPE_UNSPECIFIED"
+  | "SITUATION"
+  | "ACTION"
+  | "RESOLUTION"
+  | "REASON_FOR_CANCELLATION"
+  | "CUSTOMER_SATISFACTION"
+  | "ENTITIES";
 export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigSectionsSectionTypesItemEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigSectionsSectionTypesItemEnumList =
   Array<
@@ -4515,33 +4534,33 @@ export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQuer
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigSections>;
 
 export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfig {
-  contextSize?: number;
-  documentQuerySource?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDocumentQuerySource;
-  confidenceThreshold?: number;
   dialogflowQuerySource?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDialogflowQuerySource;
   maxResults?: number;
-  contextFilterSettings?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigContextFilterSettings;
   knowledgeBaseQuerySource?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigKnowledgeBaseQuerySource;
+  documentQuerySource?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDocumentQuerySource;
+  contextFilterSettings?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigContextFilterSettings;
+  confidenceThreshold?: number;
+  contextSize?: number;
   sections?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigSections;
 }
 export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      contextSize: S.optional(S.Number),
-      documentQuerySource: S.optional(
-        GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDocumentQuerySource,
-      ),
-      confidenceThreshold: S.optional(S.Number),
       dialogflowQuerySource: S.optional(
         GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDialogflowQuerySource,
       ),
       maxResults: S.optional(S.Number),
-      contextFilterSettings: S.optional(
-        GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigContextFilterSettings,
-      ),
       knowledgeBaseQuerySource: S.optional(
         GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigKnowledgeBaseQuerySource,
       ),
+      documentQuerySource: S.optional(
+        GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigDocumentQuerySource,
+      ),
+      contextFilterSettings: S.optional(
+        GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigContextFilterSettings,
+      ),
+      confidenceThreshold: S.optional(S.Number),
+      contextSize: S.optional(S.Number),
       sections: S.optional(
         GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfigSections,
       ),
@@ -4552,31 +4571,59 @@ export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQuer
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfig>;
 
 export type GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeatureConfigSuggestionTriggerEventEnum =
-    | "TRIGGER_EVENT_UNSPECIFIED"
-    | "END_OF_UTTERANCE"
-    | "MANUAL_CALL"
-    | "CUSTOMER_MESSAGE"
-    | "AGENT_MESSAGE";
+  | "TRIGGER_EVENT_UNSPECIFIED"
+  | "END_OF_UTTERANCE"
+  | "MANUAL_CALL"
+  | "CUSTOMER_MESSAGE"
+  | "AGENT_MESSAGE";
 export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeatureConfigSuggestionTriggerEventEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigConversationProcessConfig {
+  recentSentencesCount?: number;
+}
+export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigConversationProcessConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      recentSentencesCount: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigConversationProcessConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigConversationProcessConfig>;
+
+export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionTriggerSettings {
+  noSmallTalk?: boolean;
+  onlyEndUser?: boolean;
+}
+export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionTriggerSettings =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      noSmallTalk: S.optional(S.Boolean),
+      onlyEndUser: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionTriggerSettings",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionTriggerSettings>;
 
 export type GoogleCloudDialogflowV2beta1RaiSettingsRaiCategoryConfigCategoryEnum =
-    | "RAI_CATEGORY_UNSPECIFIED"
-    | "DANGEROUS_CONTENT"
-    | "SEXUALLY_EXPLICIT"
-    | "HARASSMENT"
-    | "HATE_SPEECH";
+  | "RAI_CATEGORY_UNSPECIFIED"
+  | "DANGEROUS_CONTENT"
+  | "SEXUALLY_EXPLICIT"
+  | "HARASSMENT"
+  | "HATE_SPEECH";
 export const GoogleCloudDialogflowV2beta1RaiSettingsRaiCategoryConfigCategoryEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleCloudDialogflowV2beta1RaiSettingsRaiCategoryConfigSensitivityLevelEnum =
-    | "SENSITIVITY_LEVEL_UNSPECIFIED"
-    | "BLOCK_MOST"
-    | "BLOCK_SOME"
-    | "BLOCK_FEW"
-    | "BLOCK_NONE";
+  | "SENSITIVITY_LEVEL_UNSPECIFIED"
+  | "BLOCK_MOST"
+  | "BLOCK_SOME"
+  | "BLOCK_FEW"
+  | "BLOCK_NONE";
 export const GoogleCloudDialogflowV2beta1RaiSettingsRaiCategoryConfigSensitivityLevelEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1RaiSettingsRaiCategoryConfig {
   category?:
@@ -4621,88 +4668,49 @@ export const GoogleCloudDialogflowV2beta1RaiSettings = /*@__PURE__*/ S.suspend(
   identifier: "GoogleCloudDialogflowV2beta1RaiSettings",
 }) as any as S.Schema<GoogleCloudDialogflowV2beta1RaiSettings>;
 
-export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionTriggerSettings {
-  onlyEndUser?: boolean;
-  noSmallTalk?: boolean;
-}
-export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionTriggerSettings =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      onlyEndUser: S.optional(S.Boolean),
-      noSmallTalk: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionTriggerSettings",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionTriggerSettings>;
-
-export type GoogleCloudDialogflowV2beta1SuggestionFeatureTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "ARTICLE_SUGGESTION"
-  | "FAQ"
-  | "SMART_REPLY"
-  | "DIALOGFLOW_ASSIST"
-  | "CONVERSATION_SUMMARIZATION"
-  | "KNOWLEDGE_SEARCH"
-  | "KNOWLEDGE_ASSIST";
-export const GoogleCloudDialogflowV2beta1SuggestionFeatureTypeEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1SuggestionFeature {
-  type?: GoogleCloudDialogflowV2beta1SuggestionFeatureTypeEnum | (string & {});
-}
-export const GoogleCloudDialogflowV2beta1SuggestionFeature =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      type: S.optional(GoogleCloudDialogflowV2beta1SuggestionFeatureTypeEnum),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1SuggestionFeature",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestionFeature>;
-
 export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeatureConfig {
-  conversationProcessConfig?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigConversationProcessConfig;
+  suggestionFeature?: GoogleCloudDialogflowV2beta1SuggestionFeature;
+  enableConversationAugmentedQuery?: boolean;
   disableAgentQueryLogging?: boolean;
   queryConfig?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfig;
+  enableEventBasedSuggestion?: boolean;
+  enableQuerySuggestionOnly?: boolean;
+  enableResponseDebugInfo?: boolean;
+  disableQuerySearchContext?: boolean;
   suggestionTriggerEvent?:
     | GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeatureConfigSuggestionTriggerEventEnum
     | (string & {});
-  enableConversationAugmentedQuery?: boolean;
-  enableResponseDebugInfo?: boolean;
-  disableQuerySearchContext?: boolean;
-  enableQuerySuggestionOnly?: boolean;
-  enableEventBasedSuggestion?: boolean;
+  conversationProcessConfig?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigConversationProcessConfig;
   enableQuerySuggestionWhenNoAnswer?: boolean;
-  raiSettings?: GoogleCloudDialogflowV2beta1RaiSettings;
   suggestionTriggerSettings?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionTriggerSettings;
-  suggestionFeature?: GoogleCloudDialogflowV2beta1SuggestionFeature;
+  raiSettings?: GoogleCloudDialogflowV2beta1RaiSettings;
 }
 export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeatureConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      conversationProcessConfig: S.optional(
-        GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigConversationProcessConfig,
+      suggestionFeature: S.optional(
+        GoogleCloudDialogflowV2beta1SuggestionFeature,
       ),
+      enableConversationAugmentedQuery: S.optional(S.Boolean),
       disableAgentQueryLogging: S.optional(S.Boolean),
       queryConfig: S.optional(
         GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionQueryConfig,
       ),
+      enableEventBasedSuggestion: S.optional(S.Boolean),
+      enableQuerySuggestionOnly: S.optional(S.Boolean),
+      enableResponseDebugInfo: S.optional(S.Boolean),
+      disableQuerySearchContext: S.optional(S.Boolean),
       suggestionTriggerEvent: S.optional(
         GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeatureConfigSuggestionTriggerEventEnum,
       ),
-      enableConversationAugmentedQuery: S.optional(S.Boolean),
-      enableResponseDebugInfo: S.optional(S.Boolean),
-      disableQuerySearchContext: S.optional(S.Boolean),
-      enableQuerySuggestionOnly: S.optional(S.Boolean),
-      enableEventBasedSuggestion: S.optional(S.Boolean),
+      conversationProcessConfig: S.optional(
+        GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigConversationProcessConfig,
+      ),
       enableQuerySuggestionWhenNoAnswer: S.optional(S.Boolean),
-      raiSettings: S.optional(GoogleCloudDialogflowV2beta1RaiSettings),
       suggestionTriggerSettings: S.optional(
         GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionTriggerSettings,
       ),
-      suggestionFeature: S.optional(
-        GoogleCloudDialogflowV2beta1SuggestionFeature,
-      ),
+      raiSettings: S.optional(GoogleCloudDialogflowV2beta1RaiSettings),
     }),
   ).annotate({
     identifier:
@@ -4717,26 +4725,26 @@ export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeat
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeatureConfigList>;
 
 export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionConfig {
-  groupSuggestionResponses?: boolean;
-  enableAsyncToolCall?: boolean;
   generators?: StringList;
-  disableHighLatencyFeaturesSyncDelivery?: boolean;
-  featureConfigs?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeatureConfigList;
-  skipEmptyEventBasedSuggestion?: boolean;
   useUnredactedConversationData?: boolean;
+  groupSuggestionResponses?: boolean;
+  disableHighLatencyFeaturesSyncDelivery?: boolean;
+  skipEmptyEventBasedSuggestion?: boolean;
+  featureConfigs?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeatureConfigList;
+  enableAsyncToolCall?: boolean;
 }
 export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      groupSuggestionResponses: S.optional(S.Boolean),
-      enableAsyncToolCall: S.optional(S.Boolean),
       generators: S.optional(StringList),
+      useUnredactedConversationData: S.optional(S.Boolean),
+      groupSuggestionResponses: S.optional(S.Boolean),
       disableHighLatencyFeaturesSyncDelivery: S.optional(S.Boolean),
+      skipEmptyEventBasedSuggestion: S.optional(S.Boolean),
       featureConfigs: S.optional(
         GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeatureConfigList,
       ),
-      skipEmptyEventBasedSuggestion: S.optional(S.Boolean),
-      useUnredactedConversationData: S.optional(S.Boolean),
+      enableAsyncToolCall: S.optional(S.Boolean),
     }),
   ).annotate({
     identifier:
@@ -4744,15 +4752,15 @@ export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionConf
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionConfig>;
 
 export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigMessageAnalysisConfig {
-  enableEntityExtraction?: boolean;
   enableSentimentAnalysis?: boolean;
+  enableEntityExtraction?: boolean;
   enableSentimentAnalysisV3?: boolean;
 }
 export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigMessageAnalysisConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      enableEntityExtraction: S.optional(S.Boolean),
       enableSentimentAnalysis: S.optional(S.Boolean),
+      enableEntityExtraction: S.optional(S.Boolean),
       enableSentimentAnalysisV3: S.optional(S.Boolean),
     }),
   ).annotate({
@@ -4760,23 +4768,48 @@ export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigMessageAnalysi
       "GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigMessageAnalysisConfig",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigMessageAnalysisConfig>;
 
+export type GoogleCloudDialogflowV2beta1NotificationConfigMessageFormatEnum =
+  | "MESSAGE_FORMAT_UNSPECIFIED"
+  | "PROTO"
+  | "JSON";
+export const GoogleCloudDialogflowV2beta1NotificationConfigMessageFormatEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1NotificationConfig {
+  topic?: string;
+  messageFormat?:
+    | GoogleCloudDialogflowV2beta1NotificationConfigMessageFormatEnum
+    | (string & {});
+}
+export const GoogleCloudDialogflowV2beta1NotificationConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      topic: S.optional(S.String),
+      messageFormat: S.optional(
+        GoogleCloudDialogflowV2beta1NotificationConfigMessageFormatEnum,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1NotificationConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1NotificationConfig>;
+
 export interface GoogleCloudDialogflowV2beta1HumanAgentAssistantConfig {
-  endUserSuggestionConfig?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionConfig;
   humanAgentSuggestionConfig?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionConfig;
   messageAnalysisConfig?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigMessageAnalysisConfig;
+  endUserSuggestionConfig?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionConfig;
   notificationConfig?: GoogleCloudDialogflowV2beta1NotificationConfig;
 }
 export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      endUserSuggestionConfig: S.optional(
-        GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionConfig,
-      ),
       humanAgentSuggestionConfig: S.optional(
         GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionConfig,
       ),
       messageAnalysisConfig: S.optional(
         GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigMessageAnalysisConfig,
+      ),
+      endUserSuggestionConfig: S.optional(
+        GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionConfig,
       ),
       notificationConfig: S.optional(
         GoogleCloudDialogflowV2beta1NotificationConfig,
@@ -4786,31 +4819,24 @@ export const GoogleCloudDialogflowV2beta1HumanAgentAssistantConfig =
     identifier: "GoogleCloudDialogflowV2beta1HumanAgentAssistantConfig",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentAssistantConfig>;
 
-export interface GoogleCloudDialogflowV2beta1LoggingConfig {
-  enableStackdriverLogging?: boolean;
+export interface GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigSalesforceLiveAgentConfig {
+  buttonId?: string;
+  deploymentId?: string;
+  endpointDomain?: string;
+  organizationId?: string;
 }
-export const GoogleCloudDialogflowV2beta1LoggingConfig =
+export const GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigSalesforceLiveAgentConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      enableStackdriverLogging: S.optional(S.Boolean),
+      buttonId: S.optional(S.String),
+      deploymentId: S.optional(S.String),
+      endpointDomain: S.optional(S.String),
+      organizationId: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1LoggingConfig",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1LoggingConfig>;
-
-export interface GoogleCloudDialogflowV2beta1AutomatedAgentConfig {
-  agent?: string;
-  sessionTtl?: string;
-}
-export const GoogleCloudDialogflowV2beta1AutomatedAgentConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      agent: S.optional(S.String),
-      sessionTtl: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1AutomatedAgentConfig",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AutomatedAgentConfig>;
+    identifier:
+      "GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigSalesforceLiveAgentConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigSalesforceLiveAgentConfig>;
 
 export interface GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigLivePersonConfig {
   accountNumber?: string;
@@ -4825,160 +4851,199 @@ export const GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigLivePersonConfig
       "GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigLivePersonConfig",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigLivePersonConfig>;
 
-export interface GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigSalesforceLiveAgentConfig {
-  endpointDomain?: string;
-  organizationId?: string;
-  buttonId?: string;
-  deploymentId?: string;
-}
-export const GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigSalesforceLiveAgentConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      endpointDomain: S.optional(S.String),
-      organizationId: S.optional(S.String),
-      buttonId: S.optional(S.String),
-      deploymentId: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigSalesforceLiveAgentConfig",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigSalesforceLiveAgentConfig>;
-
 export interface GoogleCloudDialogflowV2beta1HumanAgentHandoffConfig {
-  livePersonConfig?: GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigLivePersonConfig;
   salesforceLiveAgentConfig?: GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigSalesforceLiveAgentConfig;
+  livePersonConfig?: GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigLivePersonConfig;
 }
 export const GoogleCloudDialogflowV2beta1HumanAgentHandoffConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      livePersonConfig: S.optional(
-        GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigLivePersonConfig,
-      ),
       salesforceLiveAgentConfig: S.optional(
         GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigSalesforceLiveAgentConfig,
+      ),
+      livePersonConfig: S.optional(
+        GoogleCloudDialogflowV2beta1HumanAgentHandoffConfigLivePersonConfig,
       ),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1HumanAgentHandoffConfig",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1HumanAgentHandoffConfig>;
 
-export interface GoogleCloudDialogflowV2beta1SipConfig {
-  allowVirtualAgentInteraction?: boolean;
-  inactiveStart?: boolean;
-  copyInboundCallLegHeaders?: StringList;
-  createConversationOnTheFly?: boolean;
-  keepConversationRunning?: boolean;
-  ignoreReinviteMediaDirection?: boolean;
-  maxAudioRecordingDuration?: string;
+export type GoogleCloudDialogflowV2beta1SpeechToTextConfigSpeechModelVariantEnum =
+  | "SPEECH_MODEL_VARIANT_UNSPECIFIED"
+  | "USE_BEST_AVAILABLE"
+  | "USE_STANDARD"
+  | "USE_ENHANCED";
+export const GoogleCloudDialogflowV2beta1SpeechToTextConfigSpeechModelVariantEnum =
+  S.String;
+
+export type GoogleCloudDialogflowV2beta1SpeechToTextConfigAudioEncodingEnum =
+  | "AUDIO_ENCODING_UNSPECIFIED"
+  | "AUDIO_ENCODING_LINEAR_16"
+  | "AUDIO_ENCODING_FLAC"
+  | "AUDIO_ENCODING_MULAW"
+  | "AUDIO_ENCODING_AMR"
+  | "AUDIO_ENCODING_AMR_WB"
+  | "AUDIO_ENCODING_OGG_OPUS"
+  | "AUDIO_ENCODING_SPEEX_WITH_HEADER_BYTE"
+  | "AUDIO_ENCODING_ALAW";
+export const GoogleCloudDialogflowV2beta1SpeechToTextConfigAudioEncodingEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1SpeechToTextConfig {
+  useTimeoutBasedEndpointing?: boolean;
+  speechModelVariant?:
+    | GoogleCloudDialogflowV2beta1SpeechToTextConfigSpeechModelVariantEnum
+    | (string & {});
+  enableWordInfo?: boolean;
+  model?: string;
+  audioEncoding?:
+    | GoogleCloudDialogflowV2beta1SpeechToTextConfigAudioEncodingEnum
+    | (string & {});
+  geminiAsrConfig?: GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfig;
+  languageCode?: string;
+  useGeminiAsr?: boolean;
+  phraseSets?: StringList;
+  sampleRateHertz?: number;
 }
-export const GoogleCloudDialogflowV2beta1SipConfig = /*@__PURE__*/ S.suspend(
-  () =>
+export const GoogleCloudDialogflowV2beta1SpeechToTextConfig =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      allowVirtualAgentInteraction: S.optional(S.Boolean),
-      inactiveStart: S.optional(S.Boolean),
-      copyInboundCallLegHeaders: S.optional(StringList),
-      createConversationOnTheFly: S.optional(S.Boolean),
-      keepConversationRunning: S.optional(S.Boolean),
-      ignoreReinviteMediaDirection: S.optional(S.Boolean),
-      maxAudioRecordingDuration: S.optional(S.String),
+      useTimeoutBasedEndpointing: S.optional(S.Boolean),
+      speechModelVariant: S.optional(
+        GoogleCloudDialogflowV2beta1SpeechToTextConfigSpeechModelVariantEnum,
+      ),
+      enableWordInfo: S.optional(S.Boolean),
+      model: S.optional(S.String),
+      audioEncoding: S.optional(
+        GoogleCloudDialogflowV2beta1SpeechToTextConfigAudioEncodingEnum,
+      ),
+      geminiAsrConfig: S.optional(
+        GoogleCloudDialogflowV2beta1SpeechToTextConfigGeminiAsrConfig,
+      ),
+      languageCode: S.optional(S.String),
+      useGeminiAsr: S.optional(S.Boolean),
+      phraseSets: S.optional(StringList),
+      sampleRateHertz: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "GoogleCloudDialogflowV2beta1SipConfig",
-}) as any as S.Schema<GoogleCloudDialogflowV2beta1SipConfig>;
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SpeechToTextConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SpeechToTextConfig>;
+
+export interface GoogleCloudDialogflowV2beta1LoggingConfig {
+  enableStackdriverLogging?: boolean;
+}
+export const GoogleCloudDialogflowV2beta1LoggingConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      enableStackdriverLogging: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1LoggingConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1LoggingConfig>;
+
+export interface GoogleCloudDialogflowV2beta1AutomatedAgentConfig {
+  sessionTtl?: string;
+  agent?: string;
+}
+export const GoogleCloudDialogflowV2beta1AutomatedAgentConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sessionTtl: S.optional(S.String),
+      agent: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1AutomatedAgentConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AutomatedAgentConfig>;
 
 export interface GoogleCloudDialogflowV2beta1ConversationProfile {
+  securitySettings?: string;
   displayName?: string;
+  sipConfig?: GoogleCloudDialogflowV2beta1SipConfig;
   createTime?: string;
+  humanAgentAssistantConfig?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfig;
+  newRecognitionResultNotificationConfig?: GoogleCloudDialogflowV2beta1NotificationConfig;
+  humanAgentHandoffConfig?: GoogleCloudDialogflowV2beta1HumanAgentHandoffConfig;
+  useBidiStreaming?: boolean;
+  updateTime?: string;
+  timeZone?: string;
+  sttConfig?: GoogleCloudDialogflowV2beta1SpeechToTextConfig;
+  ttsConfig?: GoogleCloudDialogflowV2beta1SynthesizeSpeechConfig;
+  loggingConfig?: GoogleCloudDialogflowV2beta1LoggingConfig;
   newMessageEventNotificationConfig?: GoogleCloudDialogflowV2beta1NotificationConfig;
   languageCode?: string;
-  newRecognitionResultNotificationConfig?: GoogleCloudDialogflowV2beta1NotificationConfig;
-  ttsConfig?: GoogleCloudDialogflowV2beta1SynthesizeSpeechConfig;
-  useBidiStreaming?: boolean;
-  sttConfig?: GoogleCloudDialogflowV2beta1SpeechToTextConfig;
-  name?: string;
-  timeZone?: string;
-  humanAgentAssistantConfig?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfig;
-  updateTime?: string;
-  securitySettings?: string;
-  loggingConfig?: GoogleCloudDialogflowV2beta1LoggingConfig;
-  automatedAgentConfig?: GoogleCloudDialogflowV2beta1AutomatedAgentConfig;
-  humanAgentHandoffConfig?: GoogleCloudDialogflowV2beta1HumanAgentHandoffConfig;
-  sipConfig?: GoogleCloudDialogflowV2beta1SipConfig;
   notificationConfig?: GoogleCloudDialogflowV2beta1NotificationConfig;
+  name?: string;
+  automatedAgentConfig?: GoogleCloudDialogflowV2beta1AutomatedAgentConfig;
 }
 export const GoogleCloudDialogflowV2beta1ConversationProfile =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      securitySettings: S.optional(S.String),
       displayName: S.optional(S.String),
+      sipConfig: S.optional(GoogleCloudDialogflowV2beta1SipConfig),
       createTime: S.optional(S.String),
-      newMessageEventNotificationConfig: S.optional(
-        GoogleCloudDialogflowV2beta1NotificationConfig,
-      ),
-      languageCode: S.optional(S.String),
-      newRecognitionResultNotificationConfig: S.optional(
-        GoogleCloudDialogflowV2beta1NotificationConfig,
-      ),
-      ttsConfig: S.optional(GoogleCloudDialogflowV2beta1SynthesizeSpeechConfig),
-      useBidiStreaming: S.optional(S.Boolean),
-      sttConfig: S.optional(GoogleCloudDialogflowV2beta1SpeechToTextConfig),
-      name: S.optional(S.String),
-      timeZone: S.optional(S.String),
       humanAgentAssistantConfig: S.optional(
         GoogleCloudDialogflowV2beta1HumanAgentAssistantConfig,
       ),
-      updateTime: S.optional(S.String),
-      securitySettings: S.optional(S.String),
-      loggingConfig: S.optional(GoogleCloudDialogflowV2beta1LoggingConfig),
-      automatedAgentConfig: S.optional(
-        GoogleCloudDialogflowV2beta1AutomatedAgentConfig,
+      newRecognitionResultNotificationConfig: S.optional(
+        GoogleCloudDialogflowV2beta1NotificationConfig,
       ),
       humanAgentHandoffConfig: S.optional(
         GoogleCloudDialogflowV2beta1HumanAgentHandoffConfig,
       ),
-      sipConfig: S.optional(GoogleCloudDialogflowV2beta1SipConfig),
+      useBidiStreaming: S.optional(S.Boolean),
+      updateTime: S.optional(S.String),
+      timeZone: S.optional(S.String),
+      sttConfig: S.optional(GoogleCloudDialogflowV2beta1SpeechToTextConfig),
+      ttsConfig: S.optional(GoogleCloudDialogflowV2beta1SynthesizeSpeechConfig),
+      loggingConfig: S.optional(GoogleCloudDialogflowV2beta1LoggingConfig),
+      newMessageEventNotificationConfig: S.optional(
+        GoogleCloudDialogflowV2beta1NotificationConfig,
+      ),
+      languageCode: S.optional(S.String),
       notificationConfig: S.optional(
         GoogleCloudDialogflowV2beta1NotificationConfig,
+      ),
+      name: S.optional(S.String),
+      automatedAgentConfig: S.optional(
+        GoogleCloudDialogflowV2beta1AutomatedAgentConfig,
       ),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ConversationProfile",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationProfile>;
 
-export interface GoogleCloudDialogflowV2beta1ConversationPhoneNumber {
-  countryCode?: number;
-  phoneNumber?: string;
-}
-export const GoogleCloudDialogflowV2beta1ConversationPhoneNumber =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      countryCode: S.optional(S.Number),
-      phoneNumber: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1ConversationPhoneNumber",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationPhoneNumber>;
+export type GoogleCloudDialogflowV2beta1ConversationContextReferenceUpdateModeEnum =
+  | "UPDATE_MODE_UNSPECIFIED"
+  | "APPEND"
+  | "OVERWRITE";
+export const GoogleCloudDialogflowV2beta1ConversationContextReferenceUpdateModeEnum =
+  S.String;
 
 export type GoogleCloudDialogflowV2beta1ConversationContextReferenceContextContentContentFormatEnum =
-  "CONTENT_FORMAT_UNSPECIFIED" | "JSON" | "PLAIN_TEXT";
+  | "CONTENT_FORMAT_UNSPECIFIED"
+  | "JSON"
+  | "PLAIN_TEXT";
 export const GoogleCloudDialogflowV2beta1ConversationContextReferenceContextContentContentFormatEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1ConversationContextReferenceContextContent {
-  content?: string;
   contentFormat?:
     | GoogleCloudDialogflowV2beta1ConversationContextReferenceContextContentContentFormatEnum
     | (string & {});
   ingestionTime?: string;
+  content?: string;
   answerRecord?: string;
 }
 export const GoogleCloudDialogflowV2beta1ConversationContextReferenceContextContent =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      content: S.optional(S.String),
       contentFormat: S.optional(
         GoogleCloudDialogflowV2beta1ConversationContextReferenceContextContentContentFormatEnum,
       ),
       ingestionTime: S.optional(S.String),
+      content: S.optional(S.String),
       answerRecord: S.optional(S.String),
     }),
   ).annotate({
@@ -4993,29 +5058,24 @@ export const GoogleCloudDialogflowV2beta1ConversationContextReferenceContextCont
     GoogleCloudDialogflowV2beta1ConversationContextReferenceContextContent,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationContextReferenceContextContentList>;
 
-export type GoogleCloudDialogflowV2beta1ConversationContextReferenceUpdateModeEnum =
-  "UPDATE_MODE_UNSPECIFIED" | "APPEND" | "OVERWRITE";
-export const GoogleCloudDialogflowV2beta1ConversationContextReferenceUpdateModeEnum =
-  /*@__PURE__*/ S.String;
-
 export interface GoogleCloudDialogflowV2beta1ConversationContextReference {
-  createTime?: string;
-  contextContents?: GoogleCloudDialogflowV2beta1ConversationContextReferenceContextContentList;
   languageCode?: string;
   updateMode?:
     | GoogleCloudDialogflowV2beta1ConversationContextReferenceUpdateModeEnum
     | (string & {});
+  createTime?: string;
+  contextContents?: GoogleCloudDialogflowV2beta1ConversationContextReferenceContextContentList;
 }
 export const GoogleCloudDialogflowV2beta1ConversationContextReference =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      createTime: S.optional(S.String),
-      contextContents: S.optional(
-        GoogleCloudDialogflowV2beta1ConversationContextReferenceContextContentList,
-      ),
       languageCode: S.optional(S.String),
       updateMode: S.optional(
         GoogleCloudDialogflowV2beta1ConversationContextReferenceUpdateModeEnum,
+      ),
+      createTime: S.optional(S.String),
+      contextContents: S.optional(
+        GoogleCloudDialogflowV2beta1ConversationContextReferenceContextContentList,
       ),
     }),
   ).annotate({
@@ -5033,16 +5093,97 @@ export const GoogleCloudDialogflowV2beta1ConversationContextReferenceMap =
     GoogleCloudDialogflowV2beta1ConversationContextReference,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationContextReferenceMap>;
 
+export type GoogleCloudDialogflowV2beta1ConversationLifecycleStateEnum =
+  | "LIFECYCLE_STATE_UNSPECIFIED"
+  | "IN_PROGRESS"
+  | "COMPLETED";
+export const GoogleCloudDialogflowV2beta1ConversationLifecycleStateEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeader {
+  name?: string;
+  value?: string;
+}
+export const GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeader =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.optional(S.String),
+      value: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeader",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeader>;
+
+export type GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeaderList =
+  Array<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeader>;
+export const GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeaderList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeader,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeaderList>;
+
+export interface GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContent {
+  mimeType?: string;
+  content?: string;
+}
+export const GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContent =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      mimeType: S.optional(S.String),
+      content: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContent",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContent>;
+
+export type GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContentList =
+  Array<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContent>;
+export const GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContentList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContent,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContentList>;
+
+export interface GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfo {
+  dialedNumber?: string;
+  sipHeaders?: GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeaderList;
+  extraMimeContents?: GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContentList;
+  sdp?: string;
+}
+export const GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfo =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      dialedNumber: S.optional(S.String),
+      sipHeaders: S.optional(
+        GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeaderList,
+      ),
+      extraMimeContents: S.optional(
+        GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContentList,
+      ),
+      sdp: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfo",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfo>;
+
+export type GoogleCloudDialogflowV2beta1ConversationConversationStageEnum =
+  | "CONVERSATION_STAGE_UNSPECIFIED"
+  | "VIRTUAL_AGENT_STAGE"
+  | "HUMAN_ASSIST_STAGE";
+export const GoogleCloudDialogflowV2beta1ConversationConversationStageEnum =
+  S.String;
+
 export type GoogleCloudDialogflowV2beta1ConversationGeneratorContextGeneratorTypeEnum =
-    | "GENERATOR_TYPE_UNSPECIFIED"
-    | "FREE_FORM"
-    | "AGENT_COACHING"
-    | "SUMMARIZATION"
-    | "TRANSLATION"
-    | "AGENT_FEEDBACK"
-    | "CUSTOMER_MESSAGE_GENERATION";
+  | "GENERATOR_TYPE_UNSPECIFIED"
+  | "FREE_FORM"
+  | "AGENT_COACHING"
+  | "SUMMARIZATION"
+  | "TRANSLATION"
+  | "AGENT_FEEDBACK"
+  | "CUSTOMER_MESSAGE_GENERATION";
 export const GoogleCloudDialogflowV2beta1ConversationGeneratorContextGeneratorTypeEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1ConversationGeneratorContext {
   generatorType?:
@@ -5071,132 +5212,65 @@ export const GoogleCloudDialogflowV2beta1ConversationGeneratorContextMap =
     GoogleCloudDialogflowV2beta1ConversationGeneratorContext,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationGeneratorContextMap>;
 
-export interface GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContent {
-  mimeType?: string;
-  content?: string;
+export interface GoogleCloudDialogflowV2beta1ConversationPhoneNumber {
+  countryCode?: number;
+  phoneNumber?: string;
 }
-export const GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContent =
+export const GoogleCloudDialogflowV2beta1ConversationPhoneNumber =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      mimeType: S.optional(S.String),
-      content: S.optional(S.String),
+      countryCode: S.optional(S.Number),
+      phoneNumber: S.optional(S.String),
     }),
   ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContent",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContent>;
-
-export type GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContentList =
-  Array<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContent>;
-export const GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContentList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContent,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContentList>;
-
-export interface GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeader {
-  name?: string;
-  value?: string;
-}
-export const GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeader =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.optional(S.String),
-      value: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeader",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeader>;
-
-export type GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeaderList =
-  Array<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeader>;
-export const GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeaderList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeader,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeaderList>;
-
-export interface GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfo {
-  dialedNumber?: string;
-  extraMimeContents?: GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContentList;
-  sdp?: string;
-  sipHeaders?: GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeaderList;
-}
-export const GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfo =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      dialedNumber: S.optional(S.String),
-      extraMimeContents: S.optional(
-        GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoMimeContentList,
-      ),
-      sdp: S.optional(S.String),
-      sipHeaders: S.optional(
-        GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfoSipHeaderList,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfo",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfo>;
-
-export type GoogleCloudDialogflowV2beta1ConversationLifecycleStateEnum =
-  | "LIFECYCLE_STATE_UNSPECIFIED"
-  | "IN_PROGRESS"
-  | "COMPLETED";
-export const GoogleCloudDialogflowV2beta1ConversationLifecycleStateEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleCloudDialogflowV2beta1ConversationConversationStageEnum =
-  | "CONVERSATION_STAGE_UNSPECIFIED"
-  | "VIRTUAL_AGENT_STAGE"
-  | "HUMAN_ASSIST_STAGE";
-export const GoogleCloudDialogflowV2beta1ConversationConversationStageEnum =
-  /*@__PURE__*/ S.String;
+    identifier: "GoogleCloudDialogflowV2beta1ConversationPhoneNumber",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationPhoneNumber>;
 
 export interface GoogleCloudDialogflowV2beta1Conversation {
-  initialConversationProfile?: GoogleCloudDialogflowV2beta1ConversationProfile;
-  startTime?: string;
-  endTime?: string;
-  phoneNumber?: GoogleCloudDialogflowV2beta1ConversationPhoneNumber;
   name?: string;
-  conversationProfile?: string;
+  initialConversationProfile?: GoogleCloudDialogflowV2beta1ConversationProfile;
   ingestedContextReferences?: GoogleCloudDialogflowV2beta1ConversationContextReferenceMap;
-  initialGeneratorContexts?: GoogleCloudDialogflowV2beta1ConversationGeneratorContextMap;
-  telephonyConnectionInfo?: GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfo;
+  endTime?: string;
   lifecycleState?:
     | GoogleCloudDialogflowV2beta1ConversationLifecycleStateEnum
     | (string & {});
+  telephonyConnectionInfo?: GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfo;
   conversationStage?:
     | GoogleCloudDialogflowV2beta1ConversationConversationStageEnum
     | (string & {});
+  initialGeneratorContexts?: GoogleCloudDialogflowV2beta1ConversationGeneratorContextMap;
+  phoneNumber?: GoogleCloudDialogflowV2beta1ConversationPhoneNumber;
+  conversationProfile?: string;
+  startTime?: string;
 }
 export const GoogleCloudDialogflowV2beta1Conversation = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      name: S.optional(S.String),
       initialConversationProfile: S.optional(
         GoogleCloudDialogflowV2beta1ConversationProfile,
       ),
-      startTime: S.optional(S.String),
-      endTime: S.optional(S.String),
-      phoneNumber: S.optional(
-        GoogleCloudDialogflowV2beta1ConversationPhoneNumber,
-      ),
-      name: S.optional(S.String),
-      conversationProfile: S.optional(S.String),
       ingestedContextReferences: S.optional(
         GoogleCloudDialogflowV2beta1ConversationContextReferenceMap,
       ),
-      initialGeneratorContexts: S.optional(
-        GoogleCloudDialogflowV2beta1ConversationGeneratorContextMap,
+      endTime: S.optional(S.String),
+      lifecycleState: S.optional(
+        GoogleCloudDialogflowV2beta1ConversationLifecycleStateEnum,
       ),
       telephonyConnectionInfo: S.optional(
         GoogleCloudDialogflowV2beta1ConversationTelephonyConnectionInfo,
       ),
-      lifecycleState: S.optional(
-        GoogleCloudDialogflowV2beta1ConversationLifecycleStateEnum,
-      ),
       conversationStage: S.optional(
         GoogleCloudDialogflowV2beta1ConversationConversationStageEnum,
       ),
+      initialGeneratorContexts: S.optional(
+        GoogleCloudDialogflowV2beta1ConversationGeneratorContextMap,
+      ),
+      phoneNumber: S.optional(
+        GoogleCloudDialogflowV2beta1ConversationPhoneNumber,
+      ),
+      conversationProfile: S.optional(S.String),
+      startTime: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1Conversation",
@@ -5228,16 +5302,16 @@ export const CompleteProjectsLocationsConversationsRequest =
   }) as any as S.Schema<CompleteProjectsLocationsConversationsRequest>;
 
 export interface CreateProjectsAgentEntityTypesRequest {
-  parent: string;
   languageCode?: string;
+  parent: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1EntityType;
 }
 export const CreateProjectsAgentEntityTypesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       languageCode: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(
         GoogleCloudDialogflowV2beta1EntityType.pipe(T.HttpBody()),
       ),
@@ -5252,65 +5326,28 @@ export const CreateProjectsAgentEntityTypesRequest = /*@__PURE__*/ S.suspend(
   identifier: "CreateProjectsAgentEntityTypesRequest",
 }) as any as S.Schema<CreateProjectsAgentEntityTypesRequest>;
 
-export type GoogleCloudDialogflowV2beta1TextToSpeechSettingsOutputAudioEncodingEnum =
-    | "OUTPUT_AUDIO_ENCODING_UNSPECIFIED"
-    | "OUTPUT_AUDIO_ENCODING_LINEAR_16"
-    | "OUTPUT_AUDIO_ENCODING_MP3"
-    | "OUTPUT_AUDIO_ENCODING_MP3_64_KBPS"
-    | "OUTPUT_AUDIO_ENCODING_OGG_OPUS"
-    | "OUTPUT_AUDIO_ENCODING_MULAW"
-    | "OUTPUT_AUDIO_ENCODING_ALAW";
-export const GoogleCloudDialogflowV2beta1TextToSpeechSettingsOutputAudioEncodingEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleCloudDialogflowV2beta1SynthesizeSpeechConfigMap = {
-  [key: string]: GoogleCloudDialogflowV2beta1SynthesizeSpeechConfig | undefined;
-};
-export const GoogleCloudDialogflowV2beta1SynthesizeSpeechConfigMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    GoogleCloudDialogflowV2beta1SynthesizeSpeechConfig,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1SynthesizeSpeechConfigMap>;
-
-export interface GoogleCloudDialogflowV2beta1TextToSpeechSettings {
-  outputAudioEncoding?:
-    | GoogleCloudDialogflowV2beta1TextToSpeechSettingsOutputAudioEncodingEnum
-    | (string & {});
-  synthesizeSpeechConfigs?: GoogleCloudDialogflowV2beta1SynthesizeSpeechConfigMap;
-  enableTextToSpeech?: boolean;
-  sampleRateHertz?: number;
-}
-export const GoogleCloudDialogflowV2beta1TextToSpeechSettings =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      outputAudioEncoding: S.optional(
-        GoogleCloudDialogflowV2beta1TextToSpeechSettingsOutputAudioEncodingEnum,
-      ),
-      synthesizeSpeechConfigs: S.optional(
-        GoogleCloudDialogflowV2beta1SynthesizeSpeechConfigMap,
-      ),
-      enableTextToSpeech: S.optional(S.Boolean),
-      sampleRateHertz: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1TextToSpeechSettings",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1TextToSpeechSettings>;
+export type GoogleCloudDialogflowV2beta1EnvironmentStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "STOPPED"
+  | "LOADING"
+  | "RUNNING";
+export const GoogleCloudDialogflowV2beta1EnvironmentStateEnum = S.String;
 
 export interface GoogleCloudDialogflowV2beta1FulfillmentGenericWebService {
   password?: string;
   requestHeaders?: StringMap;
+  uri?: string;
   username?: string;
   isCloudFunction?: boolean;
-  uri?: string;
 }
 export const GoogleCloudDialogflowV2beta1FulfillmentGenericWebService =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       password: S.optional(S.String),
       requestHeaders: S.optional(StringMap),
+      uri: S.optional(S.String),
       username: S.optional(S.String),
       isCloudFunction: S.optional(S.Boolean),
-      uri: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1FulfillmentGenericWebService",
@@ -5319,8 +5356,7 @@ export const GoogleCloudDialogflowV2beta1FulfillmentGenericWebService =
 export type GoogleCloudDialogflowV2beta1FulfillmentFeatureTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "SMALLTALK";
-export const GoogleCloudDialogflowV2beta1FulfillmentFeatureTypeEnum =
-  /*@__PURE__*/ S.String;
+export const GoogleCloudDialogflowV2beta1FulfillmentFeatureTypeEnum = S.String;
 
 export interface GoogleCloudDialogflowV2beta1FulfillmentFeature {
   type?: GoogleCloudDialogflowV2beta1FulfillmentFeatureTypeEnum | (string & {});
@@ -5342,56 +5378,92 @@ export const GoogleCloudDialogflowV2beta1FulfillmentFeatureList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1FulfillmentFeatureList>;
 
 export interface GoogleCloudDialogflowV2beta1Fulfillment {
-  displayName?: string;
+  genericWebService?: GoogleCloudDialogflowV2beta1FulfillmentGenericWebService;
   enabled?: boolean;
   name?: string;
-  genericWebService?: GoogleCloudDialogflowV2beta1FulfillmentGenericWebService;
+  displayName?: string;
   features?: GoogleCloudDialogflowV2beta1FulfillmentFeatureList;
 }
 export const GoogleCloudDialogflowV2beta1Fulfillment = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      displayName: S.optional(S.String),
-      enabled: S.optional(S.Boolean),
-      name: S.optional(S.String),
       genericWebService: S.optional(
         GoogleCloudDialogflowV2beta1FulfillmentGenericWebService,
       ),
+      enabled: S.optional(S.Boolean),
+      name: S.optional(S.String),
+      displayName: S.optional(S.String),
       features: S.optional(GoogleCloudDialogflowV2beta1FulfillmentFeatureList),
     }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1Fulfillment",
 }) as any as S.Schema<GoogleCloudDialogflowV2beta1Fulfillment>;
 
-export type GoogleCloudDialogflowV2beta1EnvironmentStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "STOPPED"
-  | "LOADING"
-  | "RUNNING";
-export const GoogleCloudDialogflowV2beta1EnvironmentStateEnum =
-  /*@__PURE__*/ S.String;
+export type GoogleCloudDialogflowV2beta1TextToSpeechSettingsOutputAudioEncodingEnum =
+  | "OUTPUT_AUDIO_ENCODING_UNSPECIFIED"
+  | "OUTPUT_AUDIO_ENCODING_LINEAR_16"
+  | "OUTPUT_AUDIO_ENCODING_MP3"
+  | "OUTPUT_AUDIO_ENCODING_MP3_64_KBPS"
+  | "OUTPUT_AUDIO_ENCODING_OGG_OPUS"
+  | "OUTPUT_AUDIO_ENCODING_MULAW"
+  | "OUTPUT_AUDIO_ENCODING_ALAW";
+export const GoogleCloudDialogflowV2beta1TextToSpeechSettingsOutputAudioEncodingEnum =
+  S.String;
+
+export type GoogleCloudDialogflowV2beta1SynthesizeSpeechConfigMap = {
+  [key: string]: GoogleCloudDialogflowV2beta1SynthesizeSpeechConfig | undefined;
+};
+export const GoogleCloudDialogflowV2beta1SynthesizeSpeechConfigMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    GoogleCloudDialogflowV2beta1SynthesizeSpeechConfig,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1SynthesizeSpeechConfigMap>;
+
+export interface GoogleCloudDialogflowV2beta1TextToSpeechSettings {
+  outputAudioEncoding?:
+    | GoogleCloudDialogflowV2beta1TextToSpeechSettingsOutputAudioEncodingEnum
+    | (string & {});
+  enableTextToSpeech?: boolean;
+  synthesizeSpeechConfigs?: GoogleCloudDialogflowV2beta1SynthesizeSpeechConfigMap;
+  sampleRateHertz?: number;
+}
+export const GoogleCloudDialogflowV2beta1TextToSpeechSettings =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      outputAudioEncoding: S.optional(
+        GoogleCloudDialogflowV2beta1TextToSpeechSettingsOutputAudioEncodingEnum,
+      ),
+      enableTextToSpeech: S.optional(S.Boolean),
+      synthesizeSpeechConfigs: S.optional(
+        GoogleCloudDialogflowV2beta1SynthesizeSpeechConfigMap,
+      ),
+      sampleRateHertz: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1TextToSpeechSettings",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1TextToSpeechSettings>;
 
 export interface GoogleCloudDialogflowV2beta1Environment {
-  name?: string;
-  description?: string;
-  textToSpeechSettings?: GoogleCloudDialogflowV2beta1TextToSpeechSettings;
-  fulfillment?: GoogleCloudDialogflowV2beta1Fulfillment;
-  agentVersion?: string;
   state?: GoogleCloudDialogflowV2beta1EnvironmentStateEnum | (string & {});
   updateTime?: string;
+  description?: string;
+  fulfillment?: GoogleCloudDialogflowV2beta1Fulfillment;
+  agentVersion?: string;
+  name?: string;
+  textToSpeechSettings?: GoogleCloudDialogflowV2beta1TextToSpeechSettings;
 }
 export const GoogleCloudDialogflowV2beta1Environment = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.optional(S.String),
+      state: S.optional(GoogleCloudDialogflowV2beta1EnvironmentStateEnum),
+      updateTime: S.optional(S.String),
       description: S.optional(S.String),
+      fulfillment: S.optional(GoogleCloudDialogflowV2beta1Fulfillment),
+      agentVersion: S.optional(S.String),
+      name: S.optional(S.String),
       textToSpeechSettings: S.optional(
         GoogleCloudDialogflowV2beta1TextToSpeechSettings,
       ),
-      fulfillment: S.optional(GoogleCloudDialogflowV2beta1Fulfillment),
-      agentVersion: S.optional(S.String),
-      state: S.optional(GoogleCloudDialogflowV2beta1EnvironmentStateEnum),
-      updateTime: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1Environment",
@@ -5470,22 +5542,22 @@ export const CreateProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest =
 export type CreateProjectsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
-export const CreateProjectsAgentIntentsIntentViewEnum = /*@__PURE__*/ S.String;
+export const CreateProjectsAgentIntentsIntentViewEnum = S.String;
 
 export interface CreateProjectsAgentIntentsRequest {
-  parent: string;
   intentView?: CreateProjectsAgentIntentsIntentViewEnum | (string & {});
   languageCode?: string;
+  parent: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Intent;
 }
 export const CreateProjectsAgentIntentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     intentView: S.optional(
       CreateProjectsAgentIntentsIntentViewEnum.pipe(T.Query()),
     ),
     languageCode: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDialogflowV2beta1Intent.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5537,6 +5609,20 @@ export const CreateProjectsAgentKnowledgeBasesRequest = /*@__PURE__*/ S.suspend(
   identifier: "CreateProjectsAgentKnowledgeBasesRequest",
 }) as any as S.Schema<CreateProjectsAgentKnowledgeBasesRequest>;
 
+export interface GoogleCloudDialogflowV2beta1DocumentReloadStatus {
+  status?: GoogleRpcStatus;
+  time?: string;
+}
+export const GoogleCloudDialogflowV2beta1DocumentReloadStatus =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      status: S.optional(GoogleRpcStatus),
+      time: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1DocumentReloadStatus",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1DocumentReloadStatus>;
+
 export type GoogleCloudDialogflowV2beta1DocumentStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -5544,8 +5630,7 @@ export type GoogleCloudDialogflowV2beta1DocumentStateEnum =
   | "UPDATING"
   | "RELOADING"
   | "DELETING";
-export const GoogleCloudDialogflowV2beta1DocumentStateEnum =
-  /*@__PURE__*/ S.String;
+export const GoogleCloudDialogflowV2beta1DocumentStateEnum = S.String;
 
 export type GoogleCloudDialogflowV2beta1DocumentKnowledgeTypesItemEnum =
   | "KNOWLEDGE_TYPE_UNSPECIFIED"
@@ -5555,7 +5640,7 @@ export type GoogleCloudDialogflowV2beta1DocumentKnowledgeTypesItemEnum =
   | "AGENT_FACING_SMART_REPLY"
   | "SMART_REPLY";
 export const GoogleCloudDialogflowV2beta1DocumentKnowledgeTypesItemEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleCloudDialogflowV2beta1DocumentKnowledgeTypesItemEnumList =
   Array<
@@ -5566,50 +5651,36 @@ export const GoogleCloudDialogflowV2beta1DocumentKnowledgeTypesItemEnumList =
     GoogleCloudDialogflowV2beta1DocumentKnowledgeTypesItemEnum,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1DocumentKnowledgeTypesItemEnumList>;
 
-export interface GoogleCloudDialogflowV2beta1DocumentReloadStatus {
-  time?: string;
-  status?: GoogleRpcStatus;
-}
-export const GoogleCloudDialogflowV2beta1DocumentReloadStatus =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      time: S.optional(S.String),
-      status: S.optional(GoogleRpcStatus),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1DocumentReloadStatus",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1DocumentReloadStatus>;
-
 export interface GoogleCloudDialogflowV2beta1Document {
+  latestReloadStatus?: GoogleCloudDialogflowV2beta1DocumentReloadStatus;
+  state?: GoogleCloudDialogflowV2beta1DocumentStateEnum | (string & {});
   name?: string;
-  displayName?: string;
+  contentUri?: string;
   rawContent?: string;
   content?: string;
-  metadata?: StringMap;
-  contentUri?: string;
   mimeType?: string;
-  state?: GoogleCloudDialogflowV2beta1DocumentStateEnum | (string & {});
-  knowledgeTypes?: GoogleCloudDialogflowV2beta1DocumentKnowledgeTypesItemEnumList;
+  metadata?: StringMap;
   enableAutoReload?: boolean;
-  latestReloadStatus?: GoogleCloudDialogflowV2beta1DocumentReloadStatus;
+  displayName?: string;
+  knowledgeTypes?: GoogleCloudDialogflowV2beta1DocumentKnowledgeTypesItemEnumList;
 }
 export const GoogleCloudDialogflowV2beta1Document = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.optional(S.String),
-      displayName: S.optional(S.String),
-      rawContent: S.optional(S.String),
-      content: S.optional(S.String),
-      metadata: S.optional(StringMap),
-      contentUri: S.optional(S.String),
-      mimeType: S.optional(S.String),
-      state: S.optional(GoogleCloudDialogflowV2beta1DocumentStateEnum),
-      knowledgeTypes: S.optional(
-        GoogleCloudDialogflowV2beta1DocumentKnowledgeTypesItemEnumList,
-      ),
-      enableAutoReload: S.optional(S.Boolean),
       latestReloadStatus: S.optional(
         GoogleCloudDialogflowV2beta1DocumentReloadStatus,
+      ),
+      state: S.optional(GoogleCloudDialogflowV2beta1DocumentStateEnum),
+      name: S.optional(S.String),
+      contentUri: S.optional(S.String),
+      rawContent: S.optional(S.String),
+      content: S.optional(S.String),
+      mimeType: S.optional(S.String),
+      metadata: S.optional(StringMap),
+      enableAutoReload: S.optional(S.Boolean),
+      displayName: S.optional(S.String),
+      knowledgeTypes: S.optional(
+        GoogleCloudDialogflowV2beta1DocumentKnowledgeTypesItemEnumList,
       ),
     }),
 ).annotate({
@@ -5688,23 +5759,22 @@ export type GoogleCloudDialogflowV2beta1VersionStatusEnum =
   | "IN_PROGRESS"
   | "READY"
   | "FAILED";
-export const GoogleCloudDialogflowV2beta1VersionStatusEnum =
-  /*@__PURE__*/ S.String;
+export const GoogleCloudDialogflowV2beta1VersionStatusEnum = S.String;
 
 export interface GoogleCloudDialogflowV2beta1Version {
-  versionNumber?: number;
   status?: GoogleCloudDialogflowV2beta1VersionStatusEnum | (string & {});
   description?: string;
-  createTime?: string;
   name?: string;
+  createTime?: string;
+  versionNumber?: number;
 }
 export const GoogleCloudDialogflowV2beta1Version = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    versionNumber: S.optional(S.Number),
     status: S.optional(GoogleCloudDialogflowV2beta1VersionStatusEnum),
     description: S.optional(S.String),
-    createTime: S.optional(S.String),
     name: S.optional(S.String),
+    createTime: S.optional(S.String),
+    versionNumber: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1Version",
@@ -5754,15 +5824,15 @@ export const CreateProjectsConversationProfilesRequest =
   }) as any as S.Schema<CreateProjectsConversationProfilesRequest>;
 
 export interface CreateProjectsConversationsRequest {
-  parent: string;
   conversationId?: string;
+  parent: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Conversation;
 }
 export const CreateProjectsConversationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     conversationId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(
       GoogleCloudDialogflowV2beta1Conversation.pipe(T.HttpBody()),
     ),
@@ -5777,14 +5847,6 @@ export const CreateProjectsConversationsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateProjectsConversationsRequest",
 }) as any as S.Schema<CreateProjectsConversationsRequest>;
 
-export type GoogleCloudDialogflowV2beta1ParticipantRoleEnum =
-  | "ROLE_UNSPECIFIED"
-  | "HUMAN_AGENT"
-  | "AUTOMATED_AGENT"
-  | "END_USER";
-export const GoogleCloudDialogflowV2beta1ParticipantRoleEnum =
-  /*@__PURE__*/ S.String;
-
 export type GoogleCloudDialogflowV2beta1ParticipantAgentDesktopSourceEnum =
   | "AGENT_DESKTOP_SOURCE_UNSPECIFIED"
   | "LIVE_PERSON"
@@ -5793,27 +5855,34 @@ export type GoogleCloudDialogflowV2beta1ParticipantAgentDesktopSourceEnum =
   | "SALESFORCE"
   | "OTHER";
 export const GoogleCloudDialogflowV2beta1ParticipantAgentDesktopSourceEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
+
+export type GoogleCloudDialogflowV2beta1ParticipantRoleEnum =
+  | "ROLE_UNSPECIFIED"
+  | "HUMAN_AGENT"
+  | "AUTOMATED_AGENT"
+  | "END_USER";
+export const GoogleCloudDialogflowV2beta1ParticipantRoleEnum = S.String;
 
 export interface GoogleCloudDialogflowV2beta1Participant {
+  name?: string;
   obfuscatedExternalUserId?: string;
-  role?: GoogleCloudDialogflowV2beta1ParticipantRoleEnum | (string & {});
-  documentsMetadataFilters?: StringMap;
   agentDesktopSource?:
     | GoogleCloudDialogflowV2beta1ParticipantAgentDesktopSourceEnum
     | (string & {});
-  name?: string;
+  role?: GoogleCloudDialogflowV2beta1ParticipantRoleEnum | (string & {});
+  documentsMetadataFilters?: StringMap;
 }
 export const GoogleCloudDialogflowV2beta1Participant = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      name: S.optional(S.String),
       obfuscatedExternalUserId: S.optional(S.String),
-      role: S.optional(GoogleCloudDialogflowV2beta1ParticipantRoleEnum),
-      documentsMetadataFilters: S.optional(StringMap),
       agentDesktopSource: S.optional(
         GoogleCloudDialogflowV2beta1ParticipantAgentDesktopSourceEnum,
       ),
-      name: S.optional(S.String),
+      role: S.optional(GoogleCloudDialogflowV2beta1ParticipantRoleEnum),
+      documentsMetadataFilters: S.optional(StringMap),
     }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1Participant",
@@ -5843,9 +5912,11 @@ export const CreateProjectsConversationsParticipantsRequest =
   }) as any as S.Schema<CreateProjectsConversationsParticipantsRequest>;
 
 export type GoogleCloudDialogflowV2beta1CesToolSpecConfirmationRequirementEnum =
-  "CONFIRMATION_REQUIREMENT_UNSPECIFIED" | "REQUIRED" | "NOT_REQUIRED";
+  | "CONFIRMATION_REQUIREMENT_UNSPECIFIED"
+  | "REQUIRED"
+  | "NOT_REQUIRED";
 export const GoogleCloudDialogflowV2beta1CesToolSpecConfirmationRequirementEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1CesToolSpec {
   cesTool?: string;
@@ -5872,28 +5943,262 @@ export const GoogleCloudDialogflowV2beta1CesToolSpecList =
     GoogleCloudDialogflowV2beta1CesToolSpec,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1CesToolSpecList>;
 
+export type GoogleCloudDialogflowV2beta1CesAppSpecConfirmationRequirementEnum =
+  | "CONFIRMATION_REQUIREMENT_UNSPECIFIED"
+  | "REQUIRED"
+  | "NOT_REQUIRED";
+export const GoogleCloudDialogflowV2beta1CesAppSpecConfirmationRequirementEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1CesAppSpec {
+  confirmationRequirement?:
+    | GoogleCloudDialogflowV2beta1CesAppSpecConfirmationRequirementEnum
+    | (string & {});
+  cesApp?: string;
+  proactiveEnabled?: boolean;
+  reactiveEnabled?: boolean;
+}
+export const GoogleCloudDialogflowV2beta1CesAppSpec = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      confirmationRequirement: S.optional(
+        GoogleCloudDialogflowV2beta1CesAppSpecConfirmationRequirementEnum,
+      ),
+      cesApp: S.optional(S.String),
+      proactiveEnabled: S.optional(S.Boolean),
+      reactiveEnabled: S.optional(S.Boolean),
+    }),
+).annotate({
+  identifier: "GoogleCloudDialogflowV2beta1CesAppSpec",
+}) as any as S.Schema<GoogleCloudDialogflowV2beta1CesAppSpec>;
+
+export type GoogleCloudDialogflowV2beta1CesAppSpecList =
+  Array<GoogleCloudDialogflowV2beta1CesAppSpec>;
+export const GoogleCloudDialogflowV2beta1CesAppSpecList = /*@__PURE__*/ S.Array(
+  GoogleCloudDialogflowV2beta1CesAppSpec,
+) as any as S.Schema<GoogleCloudDialogflowV2beta1CesAppSpecList>;
+
+export type GoogleCloudDialogflowV2beta1GeneratorTriggerEventEnum =
+  | "TRIGGER_EVENT_UNSPECIFIED"
+  | "END_OF_UTTERANCE"
+  | "MANUAL_CALL"
+  | "CUSTOMER_MESSAGE"
+  | "AGENT_MESSAGE";
+export const GoogleCloudDialogflowV2beta1GeneratorTriggerEventEnum = S.String;
+
 export interface GoogleCloudDialogflowV2beta1InferenceParameter {
   topP?: number;
+  temperature?: number;
   topK?: number;
   maxOutputTokens?: number;
-  temperature?: number;
 }
 export const GoogleCloudDialogflowV2beta1InferenceParameter =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       topP: S.optional(S.Number),
+      temperature: S.optional(S.Number),
       topK: S.optional(S.Number),
       maxOutputTokens: S.optional(S.Number),
-      temperature: S.optional(S.Number),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1InferenceParameter",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1InferenceParameter>;
 
+export type GoogleCloudDialogflowV2beta1FreeFormContext =
+  GoogleCloudDialogflowV2beta1IntentMessageTableCardCell;
+export const GoogleCloudDialogflowV2beta1FreeFormContext =
+  GoogleCloudDialogflowV2beta1IntentMessageTableCardCell;
+
+export interface GoogleCloudDialogflowV2beta1SuggestionDedupingConfig {
+  enableDeduping?: boolean;
+  similarityThreshold?: number;
+}
+export const GoogleCloudDialogflowV2beta1SuggestionDedupingConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      enableDeduping: S.optional(S.Boolean),
+      similarityThreshold: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SuggestionDedupingConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestionDedupingConfig>;
+
+export interface GoogleCloudDialogflowV2beta1AgentCoachingContext {
+  instructions?: GoogleCloudDialogflowV2beta1AgentCoachingInstructionList;
+  outputLanguageCode?: string;
+  version?: string;
+  overarchingGuidance?: string;
+}
+export const GoogleCloudDialogflowV2beta1AgentCoachingContext =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      instructions: S.optional(
+        GoogleCloudDialogflowV2beta1AgentCoachingInstructionList,
+      ),
+      outputLanguageCode: S.optional(S.String),
+      version: S.optional(S.String),
+      overarchingGuidance: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1AgentCoachingContext",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingContext>;
+
+export type GoogleCloudDialogflowV2beta1SummarizationSectionTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "SITUATION"
+  | "ACTION"
+  | "RESOLUTION"
+  | "REASON_FOR_CANCELLATION"
+  | "CUSTOMER_SATISFACTION"
+  | "ENTITIES"
+  | "CUSTOMER_DEFINED"
+  | "SITUATION_CONCISE"
+  | "ACTION_CONCISE";
+export const GoogleCloudDialogflowV2beta1SummarizationSectionTypeEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1SummarizationSection {
+  key?: string;
+  type?:
+    | GoogleCloudDialogflowV2beta1SummarizationSectionTypeEnum
+    | (string & {});
+  definition?: string;
+}
+export const GoogleCloudDialogflowV2beta1SummarizationSection =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      key: S.optional(S.String),
+      type: S.optional(
+        GoogleCloudDialogflowV2beta1SummarizationSectionTypeEnum,
+      ),
+      definition: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SummarizationSection",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationSection>;
+
+export type GoogleCloudDialogflowV2beta1SummarizationSectionList_ =
+  Array<GoogleCloudDialogflowV2beta1SummarizationSection>;
+export const GoogleCloudDialogflowV2beta1SummarizationSectionList_ =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1SummarizationSection,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationSectionList_>;
+
+export interface GoogleCloudDialogflowV2beta1SummarizationSectionList {
+  summarizationSections?: GoogleCloudDialogflowV2beta1SummarizationSectionList_;
+}
+export const GoogleCloudDialogflowV2beta1SummarizationSectionList =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      summarizationSections: S.optional(
+        GoogleCloudDialogflowV2beta1SummarizationSectionList_,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SummarizationSectionList",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationSectionList>;
+
+export type GoogleCloudDialogflowV2beta1MessageEntryRoleEnum =
+  | "ROLE_UNSPECIFIED"
+  | "HUMAN_AGENT"
+  | "AUTOMATED_AGENT"
+  | "END_USER";
+export const GoogleCloudDialogflowV2beta1MessageEntryRoleEnum = S.String;
+
+export interface GoogleCloudDialogflowV2beta1MessageEntry {
+  createTime?: string;
+  role?: GoogleCloudDialogflowV2beta1MessageEntryRoleEnum | (string & {});
+  text?: string;
+  languageCode?: string;
+}
+export const GoogleCloudDialogflowV2beta1MessageEntry = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      createTime: S.optional(S.String),
+      role: S.optional(GoogleCloudDialogflowV2beta1MessageEntryRoleEnum),
+      text: S.optional(S.String),
+      languageCode: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDialogflowV2beta1MessageEntry",
+}) as any as S.Schema<GoogleCloudDialogflowV2beta1MessageEntry>;
+
+export type GoogleCloudDialogflowV2beta1MessageEntryList =
+  Array<GoogleCloudDialogflowV2beta1MessageEntry>;
+export const GoogleCloudDialogflowV2beta1MessageEntryList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1MessageEntry,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1MessageEntryList>;
+
+export interface GoogleCloudDialogflowV2beta1ConversationContext {
+  messageEntries?: GoogleCloudDialogflowV2beta1MessageEntryList;
+}
+export const GoogleCloudDialogflowV2beta1ConversationContext =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      messageEntries: S.optional(GoogleCloudDialogflowV2beta1MessageEntryList),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1ConversationContext",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationContext>;
+
+export interface GoogleCloudDialogflowV2beta1FewShotExample {
+  extraInfo?: StringMap;
+  summarizationSectionList?: GoogleCloudDialogflowV2beta1SummarizationSectionList;
+  output?: GoogleCloudDialogflowV2beta1GeneratorSuggestion;
+  conversationContext?: GoogleCloudDialogflowV2beta1ConversationContext;
+}
+export const GoogleCloudDialogflowV2beta1FewShotExample =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      extraInfo: S.optional(StringMap),
+      summarizationSectionList: S.optional(
+        GoogleCloudDialogflowV2beta1SummarizationSectionList,
+      ),
+      output: S.optional(GoogleCloudDialogflowV2beta1GeneratorSuggestion),
+      conversationContext: S.optional(
+        GoogleCloudDialogflowV2beta1ConversationContext,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1FewShotExample",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1FewShotExample>;
+
+export type GoogleCloudDialogflowV2beta1FewShotExampleList =
+  Array<GoogleCloudDialogflowV2beta1FewShotExample>;
+export const GoogleCloudDialogflowV2beta1FewShotExampleList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1FewShotExample,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1FewShotExampleList>;
+
+export interface GoogleCloudDialogflowV2beta1SummarizationContext {
+  outputLanguageCode?: string;
+  version?: string;
+  fewShotExamples?: GoogleCloudDialogflowV2beta1FewShotExampleList;
+  summarizationSections?: GoogleCloudDialogflowV2beta1SummarizationSectionList_;
+}
+export const GoogleCloudDialogflowV2beta1SummarizationContext =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      outputLanguageCode: S.optional(S.String),
+      version: S.optional(S.String),
+      fewShotExamples: S.optional(
+        GoogleCloudDialogflowV2beta1FewShotExampleList,
+      ),
+      summarizationSections: S.optional(
+        GoogleCloudDialogflowV2beta1SummarizationSectionList_,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SummarizationContext",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationContext>;
+
 export type GoogleCloudDialogflowV2beta1ToolsetToolConfirmationRequirementEnum =
-  "CONFIRMATION_REQUIREMENT_UNSPECIFIED" | "REQUIRED" | "NOT_REQUIRED";
+  | "CONFIRMATION_REQUIREMENT_UNSPECIFIED"
+  | "REQUIRED"
+  | "NOT_REQUIRED";
 export const GoogleCloudDialogflowV2beta1ToolsetToolConfirmationRequirementEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1ToolsetTool {
   toolset?: string;
@@ -5922,289 +6227,55 @@ export const GoogleCloudDialogflowV2beta1ToolsetToolList =
     GoogleCloudDialogflowV2beta1ToolsetTool,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolsetToolList>;
 
-export interface GoogleCloudDialogflowV2beta1SuggestionDedupingConfig {
-  enableDeduping?: boolean;
-  similarityThreshold?: number;
-}
-export const GoogleCloudDialogflowV2beta1SuggestionDedupingConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      enableDeduping: S.optional(S.Boolean),
-      similarityThreshold: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1SuggestionDedupingConfig",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestionDedupingConfig>;
-
-export type GoogleCloudDialogflowV2beta1CesAppSpecConfirmationRequirementEnum =
-  | "CONFIRMATION_REQUIREMENT_UNSPECIFIED"
-  | "REQUIRED"
-  | "NOT_REQUIRED";
-export const GoogleCloudDialogflowV2beta1CesAppSpecConfirmationRequirementEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1CesAppSpec {
-  confirmationRequirement?:
-    | GoogleCloudDialogflowV2beta1CesAppSpecConfirmationRequirementEnum
-    | (string & {});
-  proactiveEnabled?: boolean;
-  reactiveEnabled?: boolean;
-  cesApp?: string;
-}
-export const GoogleCloudDialogflowV2beta1CesAppSpec = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      confirmationRequirement: S.optional(
-        GoogleCloudDialogflowV2beta1CesAppSpecConfirmationRequirementEnum,
-      ),
-      proactiveEnabled: S.optional(S.Boolean),
-      reactiveEnabled: S.optional(S.Boolean),
-      cesApp: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleCloudDialogflowV2beta1CesAppSpec",
-}) as any as S.Schema<GoogleCloudDialogflowV2beta1CesAppSpec>;
-
-export type GoogleCloudDialogflowV2beta1CesAppSpecList =
-  Array<GoogleCloudDialogflowV2beta1CesAppSpec>;
-export const GoogleCloudDialogflowV2beta1CesAppSpecList = /*@__PURE__*/ S.Array(
-  GoogleCloudDialogflowV2beta1CesAppSpec,
-) as any as S.Schema<GoogleCloudDialogflowV2beta1CesAppSpecList>;
-
-export type GoogleCloudDialogflowV2beta1FreeFormContext =
-  GoogleCloudDialogflowV2beta1IntentMessageTableCardCell;
-export const GoogleCloudDialogflowV2beta1FreeFormContext =
-  GoogleCloudDialogflowV2beta1IntentMessageTableCardCell;
-
-export interface GoogleCloudDialogflowV2beta1AgentCoachingContext {
-  instructions?: GoogleCloudDialogflowV2beta1AgentCoachingInstructionList;
-  overarchingGuidance?: string;
-  version?: string;
-  outputLanguageCode?: string;
-}
-export const GoogleCloudDialogflowV2beta1AgentCoachingContext =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      instructions: S.optional(
-        GoogleCloudDialogflowV2beta1AgentCoachingInstructionList,
-      ),
-      overarchingGuidance: S.optional(S.String),
-      version: S.optional(S.String),
-      outputLanguageCode: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1AgentCoachingContext",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentCoachingContext>;
-
-export type GoogleCloudDialogflowV2beta1MessageEntryRoleEnum =
-  | "ROLE_UNSPECIFIED"
-  | "HUMAN_AGENT"
-  | "AUTOMATED_AGENT"
-  | "END_USER";
-export const GoogleCloudDialogflowV2beta1MessageEntryRoleEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1MessageEntry {
-  createTime?: string;
-  text?: string;
-  role?: GoogleCloudDialogflowV2beta1MessageEntryRoleEnum | (string & {});
-  languageCode?: string;
-}
-export const GoogleCloudDialogflowV2beta1MessageEntry = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      createTime: S.optional(S.String),
-      text: S.optional(S.String),
-      role: S.optional(GoogleCloudDialogflowV2beta1MessageEntryRoleEnum),
-      languageCode: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleCloudDialogflowV2beta1MessageEntry",
-}) as any as S.Schema<GoogleCloudDialogflowV2beta1MessageEntry>;
-
-export type GoogleCloudDialogflowV2beta1MessageEntryList =
-  Array<GoogleCloudDialogflowV2beta1MessageEntry>;
-export const GoogleCloudDialogflowV2beta1MessageEntryList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1MessageEntry,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1MessageEntryList>;
-
-export interface GoogleCloudDialogflowV2beta1ConversationContext {
-  messageEntries?: GoogleCloudDialogflowV2beta1MessageEntryList;
-}
-export const GoogleCloudDialogflowV2beta1ConversationContext =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      messageEntries: S.optional(GoogleCloudDialogflowV2beta1MessageEntryList),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1ConversationContext",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationContext>;
-
-export type GoogleCloudDialogflowV2beta1SummarizationSectionTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "SITUATION"
-  | "ACTION"
-  | "RESOLUTION"
-  | "REASON_FOR_CANCELLATION"
-  | "CUSTOMER_SATISFACTION"
-  | "ENTITIES"
-  | "CUSTOMER_DEFINED"
-  | "SITUATION_CONCISE"
-  | "ACTION_CONCISE";
-export const GoogleCloudDialogflowV2beta1SummarizationSectionTypeEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1SummarizationSection {
-  definition?: string;
-  key?: string;
-  type?:
-    | GoogleCloudDialogflowV2beta1SummarizationSectionTypeEnum
-    | (string & {});
-}
-export const GoogleCloudDialogflowV2beta1SummarizationSection =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      definition: S.optional(S.String),
-      key: S.optional(S.String),
-      type: S.optional(
-        GoogleCloudDialogflowV2beta1SummarizationSectionTypeEnum,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1SummarizationSection",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationSection>;
-
-export type GoogleCloudDialogflowV2beta1SummarizationSectionList_ =
-  Array<GoogleCloudDialogflowV2beta1SummarizationSection>;
-export const GoogleCloudDialogflowV2beta1SummarizationSectionList_ =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1SummarizationSection,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationSectionList_>;
-
-export interface GoogleCloudDialogflowV2beta1SummarizationSectionList {
-  summarizationSections?: GoogleCloudDialogflowV2beta1SummarizationSectionList_;
-}
-export const GoogleCloudDialogflowV2beta1SummarizationSectionList =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      summarizationSections: S.optional(
-        GoogleCloudDialogflowV2beta1SummarizationSectionList_,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1SummarizationSectionList",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationSectionList>;
-
-export interface GoogleCloudDialogflowV2beta1FewShotExample {
-  conversationContext?: GoogleCloudDialogflowV2beta1ConversationContext;
-  summarizationSectionList?: GoogleCloudDialogflowV2beta1SummarizationSectionList;
-  extraInfo?: StringMap;
-  output?: GoogleCloudDialogflowV2beta1GeneratorSuggestion;
-}
-export const GoogleCloudDialogflowV2beta1FewShotExample =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      conversationContext: S.optional(
-        GoogleCloudDialogflowV2beta1ConversationContext,
-      ),
-      summarizationSectionList: S.optional(
-        GoogleCloudDialogflowV2beta1SummarizationSectionList,
-      ),
-      extraInfo: S.optional(StringMap),
-      output: S.optional(GoogleCloudDialogflowV2beta1GeneratorSuggestion),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1FewShotExample",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1FewShotExample>;
-
-export type GoogleCloudDialogflowV2beta1FewShotExampleList =
-  Array<GoogleCloudDialogflowV2beta1FewShotExample>;
-export const GoogleCloudDialogflowV2beta1FewShotExampleList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1FewShotExample,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1FewShotExampleList>;
-
-export interface GoogleCloudDialogflowV2beta1SummarizationContext {
-  fewShotExamples?: GoogleCloudDialogflowV2beta1FewShotExampleList;
-  summarizationSections?: GoogleCloudDialogflowV2beta1SummarizationSectionList_;
-  version?: string;
-  outputLanguageCode?: string;
-}
-export const GoogleCloudDialogflowV2beta1SummarizationContext =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      fewShotExamples: S.optional(
-        GoogleCloudDialogflowV2beta1FewShotExampleList,
-      ),
-      summarizationSections: S.optional(
-        GoogleCloudDialogflowV2beta1SummarizationSectionList_,
-      ),
-      version: S.optional(S.String),
-      outputLanguageCode: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1SummarizationContext",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationContext>;
-
-export type GoogleCloudDialogflowV2beta1GeneratorTriggerEventEnum =
-  | "TRIGGER_EVENT_UNSPECIFIED"
-  | "END_OF_UTTERANCE"
-  | "MANUAL_CALL"
-  | "CUSTOMER_MESSAGE"
-  | "AGENT_MESSAGE";
-export const GoogleCloudDialogflowV2beta1GeneratorTriggerEventEnum =
-  /*@__PURE__*/ S.String;
-
 export interface GoogleCloudDialogflowV2beta1Generator {
   cesToolSpecs?: GoogleCloudDialogflowV2beta1CesToolSpecList;
-  description?: string;
-  inferenceParameter?: GoogleCloudDialogflowV2beta1InferenceParameter;
-  toolsetTools?: GoogleCloudDialogflowV2beta1ToolsetToolList;
-  suggestionDedupingConfig?: GoogleCloudDialogflowV2beta1SuggestionDedupingConfig;
-  name?: string;
   cesAppSpecs?: GoogleCloudDialogflowV2beta1CesAppSpecList;
-  updateTime?: string;
-  publishedModel?: string;
-  tools?: StringList;
-  freeFormContext?: GoogleCloudDialogflowV2beta1IntentMessageTableCardCell;
-  agentCoachingContext?: GoogleCloudDialogflowV2beta1AgentCoachingContext;
-  summarizationContext?: GoogleCloudDialogflowV2beta1SummarizationContext;
   createTime?: string;
+  name?: string;
   triggerEvent?:
     | GoogleCloudDialogflowV2beta1GeneratorTriggerEventEnum
     | (string & {});
+  description?: string;
+  publishedModel?: string;
+  inferenceParameter?: GoogleCloudDialogflowV2beta1InferenceParameter;
+  freeFormContext?: GoogleCloudDialogflowV2beta1IntentMessageTableCardCell;
+  tools?: StringList;
+  suggestionDedupingConfig?: GoogleCloudDialogflowV2beta1SuggestionDedupingConfig;
+  updateTime?: string;
+  agentCoachingContext?: GoogleCloudDialogflowV2beta1AgentCoachingContext;
+  summarizationContext?: GoogleCloudDialogflowV2beta1SummarizationContext;
+  toolsetTools?: GoogleCloudDialogflowV2beta1ToolsetToolList;
 }
 export const GoogleCloudDialogflowV2beta1Generator = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       cesToolSpecs: S.optional(GoogleCloudDialogflowV2beta1CesToolSpecList),
+      cesAppSpecs: S.optional(GoogleCloudDialogflowV2beta1CesAppSpecList),
+      createTime: S.optional(S.String),
+      name: S.optional(S.String),
+      triggerEvent: S.optional(
+        GoogleCloudDialogflowV2beta1GeneratorTriggerEventEnum,
+      ),
       description: S.optional(S.String),
+      publishedModel: S.optional(S.String),
       inferenceParameter: S.optional(
         GoogleCloudDialogflowV2beta1InferenceParameter,
       ),
-      toolsetTools: S.optional(GoogleCloudDialogflowV2beta1ToolsetToolList),
-      suggestionDedupingConfig: S.optional(
-        GoogleCloudDialogflowV2beta1SuggestionDedupingConfig,
-      ),
-      name: S.optional(S.String),
-      cesAppSpecs: S.optional(GoogleCloudDialogflowV2beta1CesAppSpecList),
-      updateTime: S.optional(S.String),
-      publishedModel: S.optional(S.String),
-      tools: S.optional(StringList),
       freeFormContext: S.optional(
         GoogleCloudDialogflowV2beta1IntentMessageTableCardCell,
       ),
+      tools: S.optional(StringList),
+      suggestionDedupingConfig: S.optional(
+        GoogleCloudDialogflowV2beta1SuggestionDedupingConfig,
+      ),
+      updateTime: S.optional(S.String),
       agentCoachingContext: S.optional(
         GoogleCloudDialogflowV2beta1AgentCoachingContext,
       ),
       summarizationContext: S.optional(
         GoogleCloudDialogflowV2beta1SummarizationContext,
       ),
-      createTime: S.optional(S.String),
-      triggerEvent: S.optional(
-        GoogleCloudDialogflowV2beta1GeneratorTriggerEventEnum,
-      ),
+      toolsetTools: S.optional(GoogleCloudDialogflowV2beta1ToolsetToolList),
     }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1Generator",
@@ -6278,16 +6349,16 @@ export const CreateProjectsKnowledgeBasesDocumentsRequest =
   }) as any as S.Schema<CreateProjectsKnowledgeBasesDocumentsRequest>;
 
 export interface CreateProjectsLocationsAgentEntityTypesRequest {
-  languageCode?: string;
   parent: string;
+  languageCode?: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1EntityType;
 }
 export const CreateProjectsLocationsAgentEntityTypesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      languageCode: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      languageCode: S.optional(S.String.pipe(T.Query())),
       body: S.optional(
         GoogleCloudDialogflowV2beta1EntityType.pipe(T.HttpBody()),
       ),
@@ -6376,26 +6447,25 @@ export const CreateProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesReq
 export type CreateProjectsLocationsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
-export const CreateProjectsLocationsAgentIntentsIntentViewEnum =
-  /*@__PURE__*/ S.String;
+export const CreateProjectsLocationsAgentIntentsIntentViewEnum = S.String;
 
 export interface CreateProjectsLocationsAgentIntentsRequest {
+  languageCode?: string;
   parent: string;
   intentView?:
     | CreateProjectsLocationsAgentIntentsIntentViewEnum
     | (string & {});
-  languageCode?: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Intent;
 }
 export const CreateProjectsLocationsAgentIntentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      languageCode: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       intentView: S.optional(
         CreateProjectsLocationsAgentIntentsIntentViewEnum.pipe(T.Query()),
       ),
-      languageCode: S.optional(S.String.pipe(T.Query())),
       body: S.optional(GoogleCloudDialogflowV2beta1Intent.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -6569,13 +6639,12 @@ export const CreateProjectsLocationsGeneratorsRequest = /*@__PURE__*/ S.suspend(
   identifier: "CreateProjectsLocationsGeneratorsRequest",
 }) as any as S.Schema<CreateProjectsLocationsGeneratorsRequest>;
 
-export type GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigSummaryGenerationOptionEnum =
-    | "SUMMARY_GENERATION_OPTION_UNSPECIFIED"
-    | "ALWAYS_GENERATE"
-    | "GENERATE_IF_MISSING"
-    | "DO_NOT_GENERATE";
-export const GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigSummaryGenerationOptionEnum =
-  /*@__PURE__*/ S.String;
+export type GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigInputDataSourceTypeEnum =
+  | "INPUT_DATA_SOURCE_TYPE_UNSPECIFIED"
+  | "AGENT_ASSIST_CONVERSATIONS"
+  | "INSIGHTS_CONVERSATIONS";
+export const GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigInputDataSourceTypeEnum =
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigDatasetInputDataConfig {
   dataset?: string;
@@ -6590,22 +6659,23 @@ export const GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigDatasetInputDa
       "GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigDatasetInputDataConfig",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigDatasetInputDataConfig>;
 
-export type GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigInputDataSourceTypeEnum =
-    | "INPUT_DATA_SOURCE_TYPE_UNSPECIFIED"
-    | "AGENT_ASSIST_CONVERSATIONS"
-    | "INSIGHTS_CONVERSATIONS";
-export const GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigInputDataSourceTypeEnum =
-  /*@__PURE__*/ S.String;
+export type GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigSummaryGenerationOptionEnum =
+  | "SUMMARY_GENERATION_OPTION_UNSPECIFIED"
+  | "ALWAYS_GENERATE"
+  | "GENERATE_IF_MISSING"
+  | "DO_NOT_GENERATE";
+export const GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigSummaryGenerationOptionEnum =
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigAgentAssistInputDataConfig {
-  startTime?: string;
   endTime?: string;
+  startTime?: string;
 }
 export const GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigAgentAssistInputDataConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      startTime: S.optional(S.String),
       endTime: S.optional(S.String),
+      startTime: S.optional(S.String),
     }),
   ).annotate({
     identifier:
@@ -6614,37 +6684,37 @@ export const GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigAgentAssistInp
 
 export interface GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfig {
   sampleSize?: number;
-  summaryGenerationOption?:
-    | GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigSummaryGenerationOptionEnum
-    | (string & {});
-  datasetInputDataConfig?: GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigDatasetInputDataConfig;
   inputDataSourceType?:
     | GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigInputDataSourceTypeEnum
     | (string & {});
-  startTime?: string;
+  datasetInputDataConfig?: GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigDatasetInputDataConfig;
+  summaryGenerationOption?:
+    | GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigSummaryGenerationOptionEnum
+    | (string & {});
   endTime?: string;
-  agentAssistInputDataConfig?: GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigAgentAssistInputDataConfig;
+  startTime?: string;
   isSummaryGenerationAllowed?: boolean;
+  agentAssistInputDataConfig?: GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigAgentAssistInputDataConfig;
 }
 export const GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       sampleSize: S.optional(S.Number),
-      summaryGenerationOption: S.optional(
-        GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigSummaryGenerationOptionEnum,
+      inputDataSourceType: S.optional(
+        GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigInputDataSourceTypeEnum,
       ),
       datasetInputDataConfig: S.optional(
         GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigDatasetInputDataConfig,
       ),
-      inputDataSourceType: S.optional(
-        GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigInputDataSourceTypeEnum,
+      summaryGenerationOption: S.optional(
+        GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfigSummaryGenerationOptionEnum,
       ),
-      startTime: S.optional(S.String),
       endTime: S.optional(S.String),
+      startTime: S.optional(S.String),
+      isSummaryGenerationAllowed: S.optional(S.Boolean),
       agentAssistInputDataConfig: S.optional(
         GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigAgentAssistInputDataConfig,
       ),
-      isSummaryGenerationAllowed: S.optional(S.Boolean),
     }),
   ).annotate({
     identifier:
@@ -6652,20 +6722,20 @@ export const GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfi
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfig>;
 
 export interface GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigSummarizationConfig {
-  accuracyEvaluationVersion?: string;
-  enableCompletenessEvaluation?: boolean;
   evaluatorVersion?: string;
-  enableAccuracyEvaluation?: boolean;
   completenessEvaluationVersion?: string;
+  accuracyEvaluationVersion?: string;
+  enableAccuracyEvaluation?: boolean;
+  enableCompletenessEvaluation?: boolean;
 }
 export const GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigSummarizationConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      accuracyEvaluationVersion: S.optional(S.String),
-      enableCompletenessEvaluation: S.optional(S.Boolean),
       evaluatorVersion: S.optional(S.String),
-      enableAccuracyEvaluation: S.optional(S.Boolean),
       completenessEvaluationVersion: S.optional(S.String),
+      accuracyEvaluationVersion: S.optional(S.String),
+      enableAccuracyEvaluation: S.optional(S.Boolean),
+      enableCompletenessEvaluation: S.optional(S.Boolean),
     }),
   ).annotate({
     identifier:
@@ -6673,17 +6743,17 @@ export const GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigSummarizationC
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigSummarizationConfig>;
 
 export interface GoogleCloudDialogflowV2beta1GeneratorEvaluationConfig {
-  outputGcsBucketPath?: string;
   inputDataConfig?: GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfig;
+  outputGcsBucketPath?: string;
   summarizationConfig?: GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigSummarizationConfig;
 }
 export const GoogleCloudDialogflowV2beta1GeneratorEvaluationConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      outputGcsBucketPath: S.optional(S.String),
       inputDataConfig: S.optional(
         GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigInputDataConfig,
       ),
+      outputGcsBucketPath: S.optional(S.String),
       summarizationConfig: S.optional(
         GoogleCloudDialogflowV2beta1GeneratorEvaluationConfigSummarizationConfig,
       ),
@@ -6692,84 +6762,19 @@ export const GoogleCloudDialogflowV2beta1GeneratorEvaluationConfig =
     identifier: "GoogleCloudDialogflowV2beta1GeneratorEvaluationConfig",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1GeneratorEvaluationConfig>;
 
-export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceRubric {
-  reasoning?: string;
-  question?: string;
-  isAddressed?: boolean;
+export interface GoogleCloudDialogflowV2beta1EvaluationStatus {
+  done?: boolean;
+  pipelineStatus?: GoogleRpcStatus;
 }
-export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceRubric =
+export const GoogleCloudDialogflowV2beta1EvaluationStatus =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      reasoning: S.optional(S.String),
-      question: S.optional(S.String),
-      isAddressed: S.optional(S.Boolean),
+      done: S.optional(S.Boolean),
+      pipelineStatus: S.optional(GoogleRpcStatus),
     }),
   ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceRubric",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceRubric>;
-
-export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition {
-  accuracyReasoning?: string;
-  isAccurate?: boolean;
-  point?: string;
-}
-export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      accuracyReasoning: S.optional(S.String),
-      isAccurate: S.optional(S.Boolean),
-      point: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition>;
-
-export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsCompletenessRubric {
-  isAddressed?: boolean;
-  question?: string;
-}
-export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsCompletenessRubric =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      isAddressed: S.optional(S.Boolean),
-      question: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsCompletenessRubric",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsCompletenessRubric>;
-
-export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResult {
-  adherenceRubric?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceRubric;
-  accuracyDecomposition?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition;
-  completenessRubric?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsCompletenessRubric;
-}
-export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      adherenceRubric: S.optional(
-        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceRubric,
-      ),
-      accuracyDecomposition: S.optional(
-        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition,
-      ),
-      completenessRubric: S.optional(
-        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsCompletenessRubric,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResult",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResult>;
-
-export type GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResultList =
-  Array<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResult>;
-export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResultList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResult,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResultList>;
+    identifier: "GoogleCloudDialogflowV2beta1EvaluationStatus",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1EvaluationStatus>;
 
 export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceDecomposition {
   point?: string;
@@ -6788,18 +6793,35 @@ export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherence
       "GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceDecomposition",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceDecomposition>;
 
+export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition {
+  isAccurate?: boolean;
+  point?: string;
+  accuracyReasoning?: string;
+}
+export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isAccurate: S.optional(S.Boolean),
+      point: S.optional(S.String),
+      accuracyReasoning: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition>;
+
 export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsDecomposition {
-  accuracyDecomposition?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition;
   adherenceDecomposition?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceDecomposition;
+  accuracyDecomposition?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition;
 }
 export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsDecomposition =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      accuracyDecomposition: S.optional(
-        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition,
-      ),
       adherenceDecomposition: S.optional(
         GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceDecomposition,
+      ),
+      accuracyDecomposition: S.optional(
+        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition,
       ),
     }),
   ).annotate({
@@ -6814,29 +6836,91 @@ export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsDecomposi
     GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsDecomposition,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsDecompositionList>;
 
+export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsCompletenessRubric {
+  isAddressed?: boolean;
+  question?: string;
+}
+export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsCompletenessRubric =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      isAddressed: S.optional(S.Boolean),
+      question: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsCompletenessRubric",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsCompletenessRubric>;
+
+export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceRubric {
+  reasoning?: string;
+  question?: string;
+  isAddressed?: boolean;
+}
+export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceRubric =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      reasoning: S.optional(S.String),
+      question: S.optional(S.String),
+      isAddressed: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceRubric",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceRubric>;
+
+export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResult {
+  accuracyDecomposition?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition;
+  completenessRubric?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsCompletenessRubric;
+  adherenceRubric?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceRubric;
+}
+export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResult =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accuracyDecomposition: S.optional(
+        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAccuracyDecomposition,
+      ),
+      completenessRubric: S.optional(
+        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsCompletenessRubric,
+      ),
+      adherenceRubric: S.optional(
+        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsAdherenceRubric,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResult",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResult>;
+
+export type GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResultList =
+  Array<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResult>;
+export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResultList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResult,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResultList>;
+
 export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSummarizationEvaluationResult {
-  evaluationResults?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResultList;
-  sessionId?: string;
-  section?: string;
   sectionSummary?: string;
-  decompositions?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsDecompositionList;
   score?: number;
+  section?: string;
+  sessionId?: string;
   metric?: string;
+  decompositions?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsDecompositionList;
+  evaluationResults?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResultList;
 }
 export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSummarizationEvaluationResult =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      evaluationResults: S.optional(
-        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResultList,
-      ),
-      sessionId: S.optional(S.String),
-      section: S.optional(S.String),
       sectionSummary: S.optional(S.String),
+      score: S.optional(S.Number),
+      section: S.optional(S.String),
+      sessionId: S.optional(S.String),
+      metric: S.optional(S.String),
       decompositions: S.optional(
         GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsDecompositionList,
       ),
-      score: S.optional(S.Number),
-      metric: S.optional(S.String),
+      evaluationResults: S.optional(
+        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResultList,
+      ),
     }),
   ).annotate({
     identifier:
@@ -6870,21 +6954,43 @@ export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsOverallSc
     GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsOverallScoresByMetric,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsOverallScoresByMetricList>;
 
-export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailMetricDetailSectionDetail {
-  evaluationResults?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResultList;
-  score?: number;
+export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionToken {
+  tokenCount?: string;
   section?: string;
+}
+export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionToken =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      tokenCount: S.optional(S.String),
+      section: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionToken",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionToken>;
+
+export type GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionTokenList =
+  Array<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionToken>;
+export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionTokenList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionToken,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionTokenList>;
+
+export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailMetricDetailSectionDetail {
+  section?: string;
+  evaluationResults?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResultList;
   sectionSummary?: string;
+  score?: number;
 }
 export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailMetricDetailSectionDetail =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      section: S.optional(S.String),
       evaluationResults: S.optional(
         GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsEvaluationResultList,
       ),
-      score: S.optional(S.Number),
-      section: S.optional(S.String),
       sectionSummary: S.optional(S.String),
+      score: S.optional(S.Number),
     }),
   ).annotate({
     identifier:
@@ -6900,17 +7006,17 @@ export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversat
 
 export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailMetricDetail {
   metric?: string;
-  score?: number;
   sectionDetails?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailMetricDetailSectionDetailList;
+  score?: number;
 }
 export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailMetricDetail =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       metric: S.optional(S.String),
-      score: S.optional(S.Number),
       sectionDetails: S.optional(
         GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailMetricDetailSectionDetailList,
       ),
+      score: S.optional(S.Number),
     }),
   ).annotate({
     identifier:
@@ -6924,46 +7030,24 @@ export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversat
     GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailMetricDetail,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailMetricDetailList>;
 
-export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionToken {
-  section?: string;
-  tokenCount?: string;
-}
-export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionToken =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      section: S.optional(S.String),
-      tokenCount: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionToken",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionToken>;
-
-export type GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionTokenList =
-  Array<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionToken>;
-export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionTokenList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionToken,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionTokenList>;
-
 export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetail {
-  messageEntries?: GoogleCloudDialogflowV2beta1MessageEntryList;
-  metricDetails?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailMetricDetailList;
-  summarySections?: GoogleCloudDialogflowV2beta1SummarySuggestionSummarySectionList;
   sectionTokens?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionTokenList;
+  metricDetails?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailMetricDetailList;
+  messageEntries?: GoogleCloudDialogflowV2beta1MessageEntryList;
+  summarySections?: GoogleCloudDialogflowV2beta1SummarySuggestionSummarySectionList;
 }
 export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetail =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      messageEntries: S.optional(GoogleCloudDialogflowV2beta1MessageEntryList),
+      sectionTokens: S.optional(
+        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionTokenList,
+      ),
       metricDetails: S.optional(
         GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailMetricDetailList,
       ),
+      messageEntries: S.optional(GoogleCloudDialogflowV2beta1MessageEntryList),
       summarySections: S.optional(
         GoogleCloudDialogflowV2beta1SummarySuggestionSummarySectionList,
-      ),
-      sectionTokens: S.optional(
-        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionTokenList,
       ),
     }),
   ).annotate({
@@ -6979,8 +7063,8 @@ export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversat
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailList>;
 
 export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetrics {
-  summarizationEvaluationMergedResultsUri?: string;
   summarizationEvaluationResults?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSummarizationEvaluationResultList;
+  summarizationEvaluationMergedResultsUri?: string;
   overallMetrics?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsOverallScoresByMetricList;
   conversationDetails?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsConversationDetailList;
   overallSectionTokens?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSectionTokenList;
@@ -6988,10 +7072,10 @@ export interface GoogleCloudDialogflowV2beta1SummarizationEvaluationMetrics {
 export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetrics =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      summarizationEvaluationMergedResultsUri: S.optional(S.String),
       summarizationEvaluationResults: S.optional(
         GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsSummarizationEvaluationResultList,
       ),
+      summarizationEvaluationMergedResultsUri: S.optional(S.String),
       overallMetrics: S.optional(
         GoogleCloudDialogflowV2beta1SummarizationEvaluationMetricsOverallScoresByMetricList,
       ),
@@ -7006,51 +7090,37 @@ export const GoogleCloudDialogflowV2beta1SummarizationEvaluationMetrics =
     identifier: "GoogleCloudDialogflowV2beta1SummarizationEvaluationMetrics",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1SummarizationEvaluationMetrics>;
 
-export interface GoogleCloudDialogflowV2beta1EvaluationStatus {
-  done?: boolean;
-  pipelineStatus?: GoogleRpcStatus;
-}
-export const GoogleCloudDialogflowV2beta1EvaluationStatus =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      done: S.optional(S.Boolean),
-      pipelineStatus: S.optional(GoogleRpcStatus),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1EvaluationStatus",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1EvaluationStatus>;
-
 export interface GoogleCloudDialogflowV2beta1GeneratorEvaluation {
-  completeTime?: string;
-  displayName?: string;
-  createTime?: string;
-  name?: string;
-  generatorEvaluationConfig?: GoogleCloudDialogflowV2beta1GeneratorEvaluationConfig;
   satisfiesPzs?: boolean;
-  satisfiesPzi?: boolean;
+  createTime?: string;
+  displayName?: string;
+  generatorEvaluationConfig?: GoogleCloudDialogflowV2beta1GeneratorEvaluationConfig;
   initialGenerator?: GoogleCloudDialogflowV2beta1Generator;
-  summarizationMetrics?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetrics;
   evaluationStatus?: GoogleCloudDialogflowV2beta1EvaluationStatus;
+  summarizationMetrics?: GoogleCloudDialogflowV2beta1SummarizationEvaluationMetrics;
+  satisfiesPzi?: boolean;
+  name?: string;
+  completeTime?: string;
 }
 export const GoogleCloudDialogflowV2beta1GeneratorEvaluation =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      completeTime: S.optional(S.String),
-      displayName: S.optional(S.String),
+      satisfiesPzs: S.optional(S.Boolean),
       createTime: S.optional(S.String),
-      name: S.optional(S.String),
+      displayName: S.optional(S.String),
       generatorEvaluationConfig: S.optional(
         GoogleCloudDialogflowV2beta1GeneratorEvaluationConfig,
       ),
-      satisfiesPzs: S.optional(S.Boolean),
-      satisfiesPzi: S.optional(S.Boolean),
       initialGenerator: S.optional(GoogleCloudDialogflowV2beta1Generator),
-      summarizationMetrics: S.optional(
-        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetrics,
-      ),
       evaluationStatus: S.optional(
         GoogleCloudDialogflowV2beta1EvaluationStatus,
       ),
+      summarizationMetrics: S.optional(
+        GoogleCloudDialogflowV2beta1SummarizationEvaluationMetrics,
+      ),
+      satisfiesPzi: S.optional(S.Boolean),
+      name: S.optional(S.String),
+      completeTime: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1GeneratorEvaluation",
@@ -7103,16 +7173,16 @@ export const CreateProjectsLocationsKnowledgeBasesRequest =
   }) as any as S.Schema<CreateProjectsLocationsKnowledgeBasesRequest>;
 
 export interface CreateProjectsLocationsKnowledgeBasesDocumentsRequest {
-  parent: string;
   importGcsCustomMetadata?: boolean;
+  parent: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Document;
 }
 export const CreateProjectsLocationsKnowledgeBasesDocumentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       importGcsCustomMetadata: S.optional(S.Boolean.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(GoogleCloudDialogflowV2beta1Document.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -7125,27 +7195,135 @@ export const CreateProjectsLocationsKnowledgeBasesDocumentsRequest =
     identifier: "CreateProjectsLocationsKnowledgeBasesDocumentsRequest",
   }) as any as S.Schema<CreateProjectsLocationsKnowledgeBasesDocumentsRequest>;
 
+export type GoogleCloudDialogflowV2beta1ProbeDetailsProbeStatusEnum =
+  | "PROBE_STATUS_UNSPECIFIED"
+  | "PROBE_STATUS_SUCCESS"
+  | "PROBE_STATUS_FAILED";
+export const GoogleCloudDialogflowV2beta1ProbeDetailsProbeStatusEnum = S.String;
+
+export interface GoogleCloudDialogflowV2beta1ProbeDetails {
+  probeStatus?:
+    | GoogleCloudDialogflowV2beta1ProbeDetailsProbeStatusEnum
+    | (string & {});
+  initTime?: string;
+  optionsLatency?: string;
+}
+export const GoogleCloudDialogflowV2beta1ProbeDetails = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      probeStatus: S.optional(
+        GoogleCloudDialogflowV2beta1ProbeDetailsProbeStatusEnum,
+      ),
+      initTime: S.optional(S.String),
+      optionsLatency: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDialogflowV2beta1ProbeDetails",
+}) as any as S.Schema<GoogleCloudDialogflowV2beta1ProbeDetails>;
+
+export type GoogleCloudDialogflowV2beta1SipHostnameHostnameErrorDetailsCertificateStateEnum =
+  | "HOSTNAME_CERTIFICATE_STATE_UNSPECIFIED"
+  | "VALID"
+  | "INVALID"
+  | "EXPIRED"
+  | "HOSTNAME_NOT_FOUND"
+  | "UNAUTHENTICATED"
+  | "TRUST_STORE_NOT_FOUND"
+  | "HOSTNAME_INVALID_FORMAT"
+  | "QUOTA_EXCEEDED";
+export const GoogleCloudDialogflowV2beta1SipHostnameHostnameErrorDetailsCertificateStateEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1SipHostnameHostnameErrorDetails {
+  errorMessage?: string;
+  certificateState?:
+    | GoogleCloudDialogflowV2beta1SipHostnameHostnameErrorDetailsCertificateStateEnum
+    | (string & {});
+}
+export const GoogleCloudDialogflowV2beta1SipHostnameHostnameErrorDetails =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      errorMessage: S.optional(S.String),
+      certificateState: S.optional(
+        GoogleCloudDialogflowV2beta1SipHostnameHostnameErrorDetailsCertificateStateEnum,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SipHostnameHostnameErrorDetails",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SipHostnameHostnameErrorDetails>;
+
+export type GoogleCloudDialogflowV2beta1SipHostnameConnectionStateEnum =
+  | "CONNECTION_STATE_UNSPECIFIED"
+  | "CONNECTED"
+  | "DISCONNECTED"
+  | "AUTHENTICATION_FAILED"
+  | "KEEPALIVE";
+export const GoogleCloudDialogflowV2beta1SipHostnameConnectionStateEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1SipHostname {
+  probeDetails?: GoogleCloudDialogflowV2beta1ProbeDetails;
+  enabledSipPing?: boolean;
+  peerSocketAddress?: string;
+  peerHostname?: string;
+  errorDetails?: GoogleCloudDialogflowV2beta1SipHostnameHostnameErrorDetails;
+  pingInterval?: string;
+  connectionState?:
+    | GoogleCloudDialogflowV2beta1SipHostnameConnectionStateEnum
+    | (string & {});
+}
+export const GoogleCloudDialogflowV2beta1SipHostname = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      probeDetails: S.optional(GoogleCloudDialogflowV2beta1ProbeDetails),
+      enabledSipPing: S.optional(S.Boolean),
+      peerSocketAddress: S.optional(S.String),
+      peerHostname: S.optional(S.String),
+      errorDetails: S.optional(
+        GoogleCloudDialogflowV2beta1SipHostnameHostnameErrorDetails,
+      ),
+      pingInterval: S.optional(S.String),
+      connectionState: S.optional(
+        GoogleCloudDialogflowV2beta1SipHostnameConnectionStateEnum,
+      ),
+    }),
+).annotate({
+  identifier: "GoogleCloudDialogflowV2beta1SipHostname",
+}) as any as S.Schema<GoogleCloudDialogflowV2beta1SipHostname>;
+
+export type GoogleCloudDialogflowV2beta1SipHostnameList =
+  Array<GoogleCloudDialogflowV2beta1SipHostname>;
+export const GoogleCloudDialogflowV2beta1SipHostnameList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDialogflowV2beta1SipHostname,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1SipHostnameList>;
+
+export type GoogleCloudDialogflowV2beta1SipTrunkGoogleRootCertFileEnum =
+  | "CERT_FILE_UNSPECIFIED"
+  | "EXTERNAL_PRIVATE_CA";
+export const GoogleCloudDialogflowV2beta1SipTrunkGoogleRootCertFileEnum =
+  S.String;
+
 export type GoogleCloudDialogflowV2beta1ConnectionStateEnum =
   | "STATE_UNSPECIFIED"
   | "CONNECTED"
   | "DISCONNECTED"
   | "AUTHENTICATION_FAILED"
   | "KEEPALIVE";
-export const GoogleCloudDialogflowV2beta1ConnectionStateEnum =
-  /*@__PURE__*/ S.String;
+export const GoogleCloudDialogflowV2beta1ConnectionStateEnum = S.String;
 
 export type GoogleCloudDialogflowV2beta1ConnectionErrorDetailsCertificateStateEnum =
-    | "CERTIFICATE_STATE_UNSPECIFIED"
-    | "CERTIFICATE_VALID"
-    | "CERTIFICATE_INVALID"
-    | "CERTIFICATE_EXPIRED"
-    | "CERTIFICATE_HOSTNAME_NOT_FOUND"
-    | "CERTIFICATE_UNAUTHENTICATED"
-    | "CERTIFICATE_TRUST_STORE_NOT_FOUND"
-    | "CERTIFICATE_HOSTNAME_INVALID_FORMAT"
-    | "CERTIFICATE_QUOTA_EXCEEDED";
+  | "CERTIFICATE_STATE_UNSPECIFIED"
+  | "CERTIFICATE_VALID"
+  | "CERTIFICATE_INVALID"
+  | "CERTIFICATE_EXPIRED"
+  | "CERTIFICATE_HOSTNAME_NOT_FOUND"
+  | "CERTIFICATE_UNAUTHENTICATED"
+  | "CERTIFICATE_TRUST_STORE_NOT_FOUND"
+  | "CERTIFICATE_HOSTNAME_INVALID_FORMAT"
+  | "CERTIFICATE_QUOTA_EXCEEDED";
 export const GoogleCloudDialogflowV2beta1ConnectionErrorDetailsCertificateStateEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1ConnectionErrorDetails {
   certificateState?:
@@ -7166,20 +7344,20 @@ export const GoogleCloudDialogflowV2beta1ConnectionErrorDetails =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ConnectionErrorDetails>;
 
 export interface GoogleCloudDialogflowV2beta1Connection {
-  connectionId?: string;
-  state?: GoogleCloudDialogflowV2beta1ConnectionStateEnum | (string & {});
   updateTime?: string;
+  state?: GoogleCloudDialogflowV2beta1ConnectionStateEnum | (string & {});
   errorDetails?: GoogleCloudDialogflowV2beta1ConnectionErrorDetails;
+  connectionId?: string;
 }
 export const GoogleCloudDialogflowV2beta1Connection = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      connectionId: S.optional(S.String),
-      state: S.optional(GoogleCloudDialogflowV2beta1ConnectionStateEnum),
       updateTime: S.optional(S.String),
+      state: S.optional(GoogleCloudDialogflowV2beta1ConnectionStateEnum),
       errorDetails: S.optional(
         GoogleCloudDialogflowV2beta1ConnectionErrorDetails,
       ),
+      connectionId: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1Connection",
@@ -7192,18 +7370,26 @@ export const GoogleCloudDialogflowV2beta1ConnectionList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GoogleCloudDialogflowV2beta1ConnectionList>;
 
 export interface GoogleCloudDialogflowV2beta1SipTrunk {
+  peerHostnames?: GoogleCloudDialogflowV2beta1SipHostnameList;
+  displayName?: string;
+  googleRootCertFile?:
+    | GoogleCloudDialogflowV2beta1SipTrunkGoogleRootCertFileEnum
+    | (string & {});
+  connections?: GoogleCloudDialogflowV2beta1ConnectionList;
   name?: string;
   expectedHostname?: StringList;
-  displayName?: string;
-  connections?: GoogleCloudDialogflowV2beta1ConnectionList;
 }
 export const GoogleCloudDialogflowV2beta1SipTrunk = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      peerHostnames: S.optional(GoogleCloudDialogflowV2beta1SipHostnameList),
+      displayName: S.optional(S.String),
+      googleRootCertFile: S.optional(
+        GoogleCloudDialogflowV2beta1SipTrunkGoogleRootCertFileEnum,
+      ),
+      connections: S.optional(GoogleCloudDialogflowV2beta1ConnectionList),
       name: S.optional(S.String),
       expectedHostname: S.optional(StringList),
-      displayName: S.optional(S.String),
-      connections: S.optional(GoogleCloudDialogflowV2beta1ConnectionList),
     }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1SipTrunk",
@@ -7230,75 +7416,27 @@ export const CreateProjectsLocationsSipTrunksRequest = /*@__PURE__*/ S.suspend(
   identifier: "CreateProjectsLocationsSipTrunksRequest",
 }) as any as S.Schema<CreateProjectsLocationsSipTrunksRequest>;
 
-export type GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnum =
-  "CONFIRMATION_REQUIREMENT_UNSPECIFIED" | "REQUIRED" | "NOT_REQUIRED";
-export const GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnumMap =
-  {
-    [key: string]:
-      | GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnum
-      | (string & {})
-      | undefined;
-  };
-export const GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnumMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnum,
-  ) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnumMap>;
-
-export type GoogleCloudDialogflowV2beta1ToolFunctionToolMethodTypeEnum =
-  | "METHOD_TYPE_UNSPECIFIED"
-  | "GET"
-  | "POST"
-  | "PUT"
-  | "DELETE"
-  | "PATCH";
-export const GoogleCloudDialogflowV2beta1ToolFunctionToolMethodTypeEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1ToolFunctionTool {
-  inputSchema?: DocumentMap;
-  outputSchema?: DocumentMap;
-  methodType?:
-    | GoogleCloudDialogflowV2beta1ToolFunctionToolMethodTypeEnum
-    | (string & {});
+export interface GoogleCloudDialogflowV2beta1ToolServiceDirectoryConfig {
+  service?: string;
 }
-export const GoogleCloudDialogflowV2beta1ToolFunctionTool =
+export const GoogleCloudDialogflowV2beta1ToolServiceDirectoryConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      inputSchema: S.optional(DocumentMap),
-      outputSchema: S.optional(DocumentMap),
-      methodType: S.optional(
-        GoogleCloudDialogflowV2beta1ToolFunctionToolMethodTypeEnum,
-      ),
+      service: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1ToolFunctionTool",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolFunctionTool>;
-
-export interface GoogleCloudDialogflowV2beta1ToolExtensionTool {
-  name?: string;
-}
-export const GoogleCloudDialogflowV2beta1ToolExtensionTool =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1ToolExtensionTool",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolExtensionTool>;
+    identifier: "GoogleCloudDialogflowV2beta1ToolServiceDirectoryConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolServiceDirectoryConfig>;
 
 export interface GoogleCloudDialogflowV2beta1ToolTLSConfigCACert {
-  cert?: string;
   displayName?: string;
+  cert?: string;
 }
 export const GoogleCloudDialogflowV2beta1ToolTLSConfigCACert =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      cert: S.optional(S.String),
       displayName: S.optional(S.String),
+      cert: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ToolTLSConfigCACert",
@@ -7323,80 +7461,12 @@ export const GoogleCloudDialogflowV2beta1ToolTLSConfig =
     identifier: "GoogleCloudDialogflowV2beta1ToolTLSConfig",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolTLSConfig>;
 
-export interface GoogleCloudDialogflowV2beta1ToolServiceDirectoryConfig {
-  service?: string;
-}
-export const GoogleCloudDialogflowV2beta1ToolServiceDirectoryConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      service: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1ToolServiceDirectoryConfig",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolServiceDirectoryConfig>;
-
-export type GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfigOauthGrantTypeEnum =
-  "OAUTH_GRANT_TYPE_UNSPECIFIED" | "CLIENT_CREDENTIAL";
-export const GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfigOauthGrantTypeEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfig {
-  scopes?: StringList;
-  oauthGrantType?:
-    | GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfigOauthGrantTypeEnum
-    | (string & {});
-  secretVersionForClientSecret?: string;
-  clientId?: string;
-  tokenEndpoint?: string;
-  clientSecret?: string;
-}
-export const GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      scopes: S.optional(StringList),
-      oauthGrantType: S.optional(
-        GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfigOauthGrantTypeEnum,
-      ),
-      secretVersionForClientSecret: S.optional(S.String),
-      clientId: S.optional(S.String),
-      tokenEndpoint: S.optional(S.String),
-      clientSecret: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfig",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfig>;
-
-export type GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfigRequestLocationEnum =
-  "REQUEST_LOCATION_UNSPECIFIED" | "HEADER" | "QUERY_STRING";
-export const GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfigRequestLocationEnum =
-  /*@__PURE__*/ S.String;
-
-export interface GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfig {
-  keyName?: string;
-  apiKey?: string;
-  secretVersionForApiKey?: string;
-  requestLocation?:
-    | GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfigRequestLocationEnum
-    | (string & {});
-}
-export const GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      keyName: S.optional(S.String),
-      apiKey: S.optional(S.String),
-      secretVersionForApiKey: S.optional(S.String),
-      requestLocation: S.optional(
-        GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfigRequestLocationEnum,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfig",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfig>;
-
 export type GoogleCloudDialogflowV2beta1ToolAuthenticationServiceAgentAuthConfigServiceAgentAuthEnum =
-  "SERVICE_AGENT_AUTH_UNSPECIFIED" | "ID_TOKEN" | "ACCESS_TOKEN";
+  | "SERVICE_AGENT_AUTH_UNSPECIFIED"
+  | "ID_TOKEN"
+  | "ACCESS_TOKEN";
 export const GoogleCloudDialogflowV2beta1ToolAuthenticationServiceAgentAuthConfigServiceAgentAuthEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1ToolAuthenticationServiceAgentAuthConfig {
   serviceAgentAuth?:
@@ -7415,6 +7485,67 @@ export const GoogleCloudDialogflowV2beta1ToolAuthenticationServiceAgentAuthConfi
       "GoogleCloudDialogflowV2beta1ToolAuthenticationServiceAgentAuthConfig",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolAuthenticationServiceAgentAuthConfig>;
 
+export type GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfigOauthGrantTypeEnum =
+  | "OAUTH_GRANT_TYPE_UNSPECIFIED"
+  | "CLIENT_CREDENTIAL";
+export const GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfigOauthGrantTypeEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfig {
+  clientId?: string;
+  tokenEndpoint?: string;
+  secretVersionForClientSecret?: string;
+  oauthGrantType?:
+    | GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfigOauthGrantTypeEnum
+    | (string & {});
+  scopes?: StringList;
+  clientSecret?: string;
+}
+export const GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      clientId: S.optional(S.String),
+      tokenEndpoint: S.optional(S.String),
+      secretVersionForClientSecret: S.optional(S.String),
+      oauthGrantType: S.optional(
+        GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfigOauthGrantTypeEnum,
+      ),
+      scopes: S.optional(StringList),
+      clientSecret: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfig>;
+
+export type GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfigRequestLocationEnum =
+  | "REQUEST_LOCATION_UNSPECIFIED"
+  | "HEADER"
+  | "QUERY_STRING";
+export const GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfigRequestLocationEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfig {
+  keyName?: string;
+  secretVersionForApiKey?: string;
+  requestLocation?:
+    | GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfigRequestLocationEnum
+    | (string & {});
+  apiKey?: string;
+}
+export const GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      keyName: S.optional(S.String),
+      secretVersionForApiKey: S.optional(S.String),
+      requestLocation: S.optional(
+        GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfigRequestLocationEnum,
+      ),
+      apiKey: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfig",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfig>;
+
 export interface GoogleCloudDialogflowV2beta1ToolAuthenticationBearerTokenConfig {
   token?: string;
   secretVersionForToken?: string;
@@ -7431,22 +7562,22 @@ export const GoogleCloudDialogflowV2beta1ToolAuthenticationBearerTokenConfig =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolAuthenticationBearerTokenConfig>;
 
 export interface GoogleCloudDialogflowV2beta1ToolAuthentication {
+  serviceAgentAuthConfig?: GoogleCloudDialogflowV2beta1ToolAuthenticationServiceAgentAuthConfig;
   oauthConfig?: GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfig;
   apiKeyConfig?: GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfig;
-  serviceAgentAuthConfig?: GoogleCloudDialogflowV2beta1ToolAuthenticationServiceAgentAuthConfig;
   bearerTokenConfig?: GoogleCloudDialogflowV2beta1ToolAuthenticationBearerTokenConfig;
 }
 export const GoogleCloudDialogflowV2beta1ToolAuthentication =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      serviceAgentAuthConfig: S.optional(
+        GoogleCloudDialogflowV2beta1ToolAuthenticationServiceAgentAuthConfig,
+      ),
       oauthConfig: S.optional(
         GoogleCloudDialogflowV2beta1ToolAuthenticationOAuthConfig,
       ),
       apiKeyConfig: S.optional(
         GoogleCloudDialogflowV2beta1ToolAuthenticationApiKeyConfig,
-      ),
-      serviceAgentAuthConfig: S.optional(
-        GoogleCloudDialogflowV2beta1ToolAuthenticationServiceAgentAuthConfig,
       ),
       bearerTokenConfig: S.optional(
         GoogleCloudDialogflowV2beta1ToolAuthenticationBearerTokenConfig,
@@ -7457,19 +7588,19 @@ export const GoogleCloudDialogflowV2beta1ToolAuthentication =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolAuthentication>;
 
 export interface GoogleCloudDialogflowV2beta1ToolOpenApiTool {
-  textSchema?: string;
-  tlsConfig?: GoogleCloudDialogflowV2beta1ToolTLSConfig;
   serviceDirectoryConfig?: GoogleCloudDialogflowV2beta1ToolServiceDirectoryConfig;
+  tlsConfig?: GoogleCloudDialogflowV2beta1ToolTLSConfig;
+  textSchema?: string;
   authentication?: GoogleCloudDialogflowV2beta1ToolAuthentication;
 }
 export const GoogleCloudDialogflowV2beta1ToolOpenApiTool =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      textSchema: S.optional(S.String),
-      tlsConfig: S.optional(GoogleCloudDialogflowV2beta1ToolTLSConfig),
       serviceDirectoryConfig: S.optional(
         GoogleCloudDialogflowV2beta1ToolServiceDirectoryConfig,
       ),
+      tlsConfig: S.optional(GoogleCloudDialogflowV2beta1ToolTLSConfig),
+      textSchema: S.optional(S.String),
       authentication: S.optional(
         GoogleCloudDialogflowV2beta1ToolAuthentication,
       ),
@@ -7478,29 +7609,71 @@ export const GoogleCloudDialogflowV2beta1ToolOpenApiTool =
     identifier: "GoogleCloudDialogflowV2beta1ToolOpenApiTool",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolOpenApiTool>;
 
+export interface GoogleCloudDialogflowV2beta1ToolExtensionTool {
+  name?: string;
+}
+export const GoogleCloudDialogflowV2beta1ToolExtensionTool =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1ToolExtensionTool",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolExtensionTool>;
+
+export type GoogleCloudDialogflowV2beta1ToolFunctionToolMethodTypeEnum =
+  | "METHOD_TYPE_UNSPECIFIED"
+  | "GET"
+  | "POST"
+  | "PUT"
+  | "DELETE"
+  | "PATCH";
+export const GoogleCloudDialogflowV2beta1ToolFunctionToolMethodTypeEnum =
+  S.String;
+
+export interface GoogleCloudDialogflowV2beta1ToolFunctionTool {
+  inputSchema?: DocumentMap;
+  outputSchema?: DocumentMap;
+  methodType?:
+    | GoogleCloudDialogflowV2beta1ToolFunctionToolMethodTypeEnum
+    | (string & {});
+}
+export const GoogleCloudDialogflowV2beta1ToolFunctionTool =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      inputSchema: S.optional(DocumentMap),
+      outputSchema: S.optional(DocumentMap),
+      methodType: S.optional(
+        GoogleCloudDialogflowV2beta1ToolFunctionToolMethodTypeEnum,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1ToolFunctionTool",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolFunctionTool>;
+
 export type GoogleCloudDialogflowV2beta1ToolConnectorToolActionEntityOperationOperationEnum =
-    | "OPERATION_TYPE_UNSPECIFIED"
-    | "LIST"
-    | "GET"
-    | "CREATE"
-    | "UPDATE"
-    | "DELETE";
+  | "OPERATION_TYPE_UNSPECIFIED"
+  | "LIST"
+  | "GET"
+  | "CREATE"
+  | "UPDATE"
+  | "DELETE";
 export const GoogleCloudDialogflowV2beta1ToolConnectorToolActionEntityOperationOperationEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1ToolConnectorToolActionEntityOperation {
+  entityId?: string;
   operation?:
     | GoogleCloudDialogflowV2beta1ToolConnectorToolActionEntityOperationOperationEnum
     | (string & {});
-  entityId?: string;
 }
 export const GoogleCloudDialogflowV2beta1ToolConnectorToolActionEntityOperation =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      entityId: S.optional(S.String),
       operation: S.optional(
         GoogleCloudDialogflowV2beta1ToolConnectorToolActionEntityOperationOperationEnum,
       ),
-      entityId: S.optional(S.String),
     }),
   ).annotate({
     identifier:
@@ -7508,20 +7681,20 @@ export const GoogleCloudDialogflowV2beta1ToolConnectorToolActionEntityOperation 
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolConnectorToolActionEntityOperation>;
 
 export interface GoogleCloudDialogflowV2beta1ToolConnectorToolAction {
+  entityOperation?: GoogleCloudDialogflowV2beta1ToolConnectorToolActionEntityOperation;
+  inputFields?: StringList;
   connectionActionId?: string;
   outputFields?: StringList;
-  inputFields?: StringList;
-  entityOperation?: GoogleCloudDialogflowV2beta1ToolConnectorToolActionEntityOperation;
 }
 export const GoogleCloudDialogflowV2beta1ToolConnectorToolAction =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      connectionActionId: S.optional(S.String),
-      outputFields: S.optional(StringList),
-      inputFields: S.optional(StringList),
       entityOperation: S.optional(
         GoogleCloudDialogflowV2beta1ToolConnectorToolActionEntityOperation,
       ),
+      inputFields: S.optional(StringList),
+      connectionActionId: S.optional(S.String),
+      outputFields: S.optional(StringList),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ToolConnectorToolAction",
@@ -7550,53 +7723,73 @@ export const GoogleCloudDialogflowV2beta1ToolConnectorTool =
     identifier: "GoogleCloudDialogflowV2beta1ToolConnectorTool",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolConnectorTool>;
 
+export type GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnum =
+  | "CONFIRMATION_REQUIREMENT_UNSPECIFIED"
+  | "REQUIRED"
+  | "NOT_REQUIRED";
+export const GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnum =
+  S.String;
+
+export type GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnumMap =
+  {
+    [key: string]:
+      | GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnum
+      | (string & {})
+      | undefined;
+  };
+export const GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnumMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnum,
+  ) as any as S.Schema<GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnumMap>;
+
 export interface GoogleCloudDialogflowV2beta1Tool {
   toolKey?: string;
-  actionConfirmationRequirement?: GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnumMap;
-  functionSpec?: GoogleCloudDialogflowV2beta1ToolFunctionTool;
-  displayName?: string;
-  createTime?: string;
-  extensionSpec?: GoogleCloudDialogflowV2beta1ToolExtensionTool;
-  description?: string;
-  satisfiesPzi?: boolean;
-  satisfiesPzs?: boolean;
-  name?: string;
   openApiSpec?: GoogleCloudDialogflowV2beta1ToolOpenApiTool;
   updateTime?: string;
+  satisfiesPzs?: boolean;
+  createTime?: string;
+  name?: string;
+  extensionSpec?: GoogleCloudDialogflowV2beta1ToolExtensionTool;
+  satisfiesPzi?: boolean;
+  functionSpec?: GoogleCloudDialogflowV2beta1ToolFunctionTool;
   connectorSpec?: GoogleCloudDialogflowV2beta1ToolConnectorTool;
+  actionConfirmationRequirement?: GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnumMap;
+  description?: string;
+  displayName?: string;
 }
 export const GoogleCloudDialogflowV2beta1Tool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     toolKey: S.optional(S.String),
+    openApiSpec: S.optional(GoogleCloudDialogflowV2beta1ToolOpenApiTool),
+    updateTime: S.optional(S.String),
+    satisfiesPzs: S.optional(S.Boolean),
+    createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    extensionSpec: S.optional(GoogleCloudDialogflowV2beta1ToolExtensionTool),
+    satisfiesPzi: S.optional(S.Boolean),
+    functionSpec: S.optional(GoogleCloudDialogflowV2beta1ToolFunctionTool),
+    connectorSpec: S.optional(GoogleCloudDialogflowV2beta1ToolConnectorTool),
     actionConfirmationRequirement: S.optional(
       GoogleCloudDialogflowV2beta1ToolActionConfirmationRequirementValueEnumMap,
     ),
-    functionSpec: S.optional(GoogleCloudDialogflowV2beta1ToolFunctionTool),
-    displayName: S.optional(S.String),
-    createTime: S.optional(S.String),
-    extensionSpec: S.optional(GoogleCloudDialogflowV2beta1ToolExtensionTool),
     description: S.optional(S.String),
-    satisfiesPzi: S.optional(S.Boolean),
-    satisfiesPzs: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    openApiSpec: S.optional(GoogleCloudDialogflowV2beta1ToolOpenApiTool),
-    updateTime: S.optional(S.String),
-    connectorSpec: S.optional(GoogleCloudDialogflowV2beta1ToolConnectorTool),
+    displayName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1Tool",
 }) as any as S.Schema<GoogleCloudDialogflowV2beta1Tool>;
 
 export interface CreateProjectsLocationsToolsRequest {
-  parent: string;
   toolId?: string;
+  parent: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Tool;
 }
 export const CreateProjectsLocationsToolsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     toolId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDialogflowV2beta1Tool.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -7916,13 +8109,13 @@ export const DeleteProjectsConversationProfilesRequest =
   }) as any as S.Schema<DeleteProjectsConversationProfilesRequest>;
 
 export interface DeleteProjectsKnowledgeBasesRequest {
-  name: string;
   force?: boolean;
+  name: string;
 }
 export const DeleteProjectsKnowledgeBasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -8153,14 +8346,14 @@ export const DeleteProjectsLocationsGeneratorsEvaluationsRequest =
   }) as any as S.Schema<DeleteProjectsLocationsGeneratorsEvaluationsRequest>;
 
 export interface DeleteProjectsLocationsKnowledgeBasesRequest {
-  force?: boolean;
   name: string;
+  force?: boolean;
 }
 export const DeleteProjectsLocationsKnowledgeBasesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      force: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      force: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -8213,7 +8406,7 @@ export type GoogleCloudDialogflowV2beta1PhoneNumberLifecycleStateEnum =
   | "ACTIVE"
   | "DELETE_REQUESTED";
 export const GoogleCloudDialogflowV2beta1PhoneNumberLifecycleStateEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1PhoneNumberAllowedSipTrunks {
   sipTrunks?: StringList;
@@ -8230,25 +8423,25 @@ export const GoogleCloudDialogflowV2beta1PhoneNumberAllowedSipTrunks =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1PhoneNumberAllowedSipTrunks>;
 
 export interface GoogleCloudDialogflowV2beta1PhoneNumber {
-  conversationProfile?: string;
+  phoneNumber?: string;
   lifecycleState?:
     | GoogleCloudDialogflowV2beta1PhoneNumberLifecycleStateEnum
     | (string & {});
   name?: string;
-  phoneNumber?: string;
   purgeTime?: string;
+  conversationProfile?: string;
   allowedSipTrunks?: GoogleCloudDialogflowV2beta1PhoneNumberAllowedSipTrunks;
 }
 export const GoogleCloudDialogflowV2beta1PhoneNumber = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      conversationProfile: S.optional(S.String),
+      phoneNumber: S.optional(S.String),
       lifecycleState: S.optional(
         GoogleCloudDialogflowV2beta1PhoneNumberLifecycleStateEnum,
       ),
       name: S.optional(S.String),
-      phoneNumber: S.optional(S.String),
       purgeTime: S.optional(S.String),
+      conversationProfile: S.optional(S.String),
       allowedSipTrunks: S.optional(
         GoogleCloudDialogflowV2beta1PhoneNumberAllowedSipTrunks,
       ),
@@ -8328,7 +8521,7 @@ export type GoogleCloudDialogflowV2beta1TelephonyDtmfEventsDtmfEventsItemEnum =
   | "DTMF_STAR"
   | "DTMF_POUND";
 export const GoogleCloudDialogflowV2beta1TelephonyDtmfEventsDtmfEventsItemEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleCloudDialogflowV2beta1TelephonyDtmfEventsDtmfEventsItemEnumList =
   Array<
@@ -8355,16 +8548,16 @@ export const GoogleCloudDialogflowV2beta1TelephonyDtmfEvents =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1TelephonyDtmfEvents>;
 
 export interface GoogleCloudDialogflowV2beta1QueryInput {
-  text?: GoogleCloudDialogflowV2beta1TextInput;
   dtmf?: GoogleCloudDialogflowV2beta1TelephonyDtmfEvents;
+  text?: GoogleCloudDialogflowV2beta1TextInput;
   audioConfig?: GoogleCloudDialogflowV2beta1InputAudioConfig;
   event?: GoogleCloudDialogflowV2beta1EventInput;
 }
 export const GoogleCloudDialogflowV2beta1QueryInput = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      text: S.optional(GoogleCloudDialogflowV2beta1TextInput),
       dtmf: S.optional(GoogleCloudDialogflowV2beta1TelephonyDtmfEvents),
+      text: S.optional(GoogleCloudDialogflowV2beta1TextInput),
       audioConfig: S.optional(GoogleCloudDialogflowV2beta1InputAudioConfig),
       event: S.optional(GoogleCloudDialogflowV2beta1EventInput),
     }),
@@ -8373,22 +8566,22 @@ export const GoogleCloudDialogflowV2beta1QueryInput = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GoogleCloudDialogflowV2beta1QueryInput>;
 
 export interface GoogleCloudDialogflowV2beta1DetectIntentRequest {
-  queryInput?: GoogleCloudDialogflowV2beta1QueryInput;
-  outputAudioConfig?: GoogleCloudDialogflowV2beta1OutputAudioConfig;
   outputAudioConfigMask?: string;
-  queryParams?: GoogleCloudDialogflowV2beta1QueryParameters;
+  queryInput?: GoogleCloudDialogflowV2beta1QueryInput;
   inputAudio?: string;
+  queryParams?: GoogleCloudDialogflowV2beta1QueryParameters;
+  outputAudioConfig?: GoogleCloudDialogflowV2beta1OutputAudioConfig;
 }
 export const GoogleCloudDialogflowV2beta1DetectIntentRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      outputAudioConfigMask: S.optional(S.String),
       queryInput: S.optional(GoogleCloudDialogflowV2beta1QueryInput),
+      inputAudio: S.optional(S.String),
+      queryParams: S.optional(GoogleCloudDialogflowV2beta1QueryParameters),
       outputAudioConfig: S.optional(
         GoogleCloudDialogflowV2beta1OutputAudioConfig,
       ),
-      outputAudioConfigMask: S.optional(S.String),
-      queryParams: S.optional(GoogleCloudDialogflowV2beta1QueryParameters),
-      inputAudio: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1DetectIntentRequest",
@@ -8544,13 +8737,13 @@ export const ExportProjectsLocationsAgentRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ExportProjectsLocationsAgentRequest>;
 
 export type GoogleCloudDialogflowV2beta1GenerateSuggestionsRequestTriggerEventsItemEnum =
-    | "TRIGGER_EVENT_UNSPECIFIED"
-    | "END_OF_UTTERANCE"
-    | "MANUAL_CALL"
-    | "CUSTOMER_MESSAGE"
-    | "AGENT_MESSAGE";
+  | "TRIGGER_EVENT_UNSPECIFIED"
+  | "END_OF_UTTERANCE"
+  | "MANUAL_CALL"
+  | "CUSTOMER_MESSAGE"
+  | "AGENT_MESSAGE";
 export const GoogleCloudDialogflowV2beta1GenerateSuggestionsRequestTriggerEventsItemEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleCloudDialogflowV2beta1GenerateSuggestionsRequestTriggerEventsItemEnumList =
   Array<
@@ -8563,16 +8756,16 @@ export const GoogleCloudDialogflowV2beta1GenerateSuggestionsRequestTriggerEvents
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1GenerateSuggestionsRequestTriggerEventsItemEnumList>;
 
 export interface GoogleCloudDialogflowV2beta1GenerateSuggestionsRequest {
-  triggerEvents?: GoogleCloudDialogflowV2beta1GenerateSuggestionsRequestTriggerEventsItemEnumList;
   latestMessage?: string;
+  triggerEvents?: GoogleCloudDialogflowV2beta1GenerateSuggestionsRequestTriggerEventsItemEnumList;
 }
 export const GoogleCloudDialogflowV2beta1GenerateSuggestionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      latestMessage: S.optional(S.String),
       triggerEvents: S.optional(
         GoogleCloudDialogflowV2beta1GenerateSuggestionsRequestTriggerEventsItemEnumList,
       ),
-      latestMessage: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1GenerateSuggestionsRequest",
@@ -8629,13 +8822,13 @@ export const GenerateProjectsLocationsConversationsSuggestionsRequest =
   }) as any as S.Schema<GenerateProjectsLocationsConversationsSuggestionsRequest>;
 
 export type GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequestTriggerEventsItemEnum =
-    | "TRIGGER_EVENT_UNSPECIFIED"
-    | "END_OF_UTTERANCE"
-    | "MANUAL_CALL"
-    | "CUSTOMER_MESSAGE"
-    | "AGENT_MESSAGE";
+  | "TRIGGER_EVENT_UNSPECIFIED"
+  | "END_OF_UTTERANCE"
+  | "MANUAL_CALL"
+  | "CUSTOMER_MESSAGE"
+  | "AGENT_MESSAGE";
 export const GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequestTriggerEventsItemEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequestTriggerEventsItemEnumList =
   Array<
@@ -8648,25 +8841,25 @@ export const GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequestTrigg
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequestTriggerEventsItemEnumList>;
 
 export interface GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequest {
-  conversationContext?: GoogleCloudDialogflowV2beta1ConversationContext;
-  generator?: GoogleCloudDialogflowV2beta1Generator;
   contextReferences?: GoogleCloudDialogflowV2beta1ConversationContextReferenceMap;
   generatorName?: string;
   securitySettings?: string;
+  conversationContext?: GoogleCloudDialogflowV2beta1ConversationContext;
+  generator?: GoogleCloudDialogflowV2beta1Generator;
   triggerEvents?: GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequestTriggerEventsItemEnumList;
 }
 export const GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      conversationContext: S.optional(
-        GoogleCloudDialogflowV2beta1ConversationContext,
-      ),
-      generator: S.optional(GoogleCloudDialogflowV2beta1Generator),
       contextReferences: S.optional(
         GoogleCloudDialogflowV2beta1ConversationContextReferenceMap,
       ),
       generatorName: S.optional(S.String),
       securitySettings: S.optional(S.String),
+      conversationContext: S.optional(
+        GoogleCloudDialogflowV2beta1ConversationContext,
+      ),
+      generator: S.optional(GoogleCloudDialogflowV2beta1Generator),
       triggerEvents: S.optional(
         GoogleCloudDialogflowV2beta1GenerateStatelessSuggestionRequestTriggerEventsItemEnumList,
       ),
@@ -8731,21 +8924,21 @@ export const GoogleCloudDialogflowV2beta1GenerateStatelessSummaryRequestMinimalC
 
 export interface GoogleCloudDialogflowV2beta1GenerateStatelessSummaryRequest {
   latestMessage?: string;
-  statelessConversation?: GoogleCloudDialogflowV2beta1GenerateStatelessSummaryRequestMinimalConversation;
   conversationProfile?: GoogleCloudDialogflowV2beta1ConversationProfile;
   maxContextSize?: number;
+  statelessConversation?: GoogleCloudDialogflowV2beta1GenerateStatelessSummaryRequestMinimalConversation;
 }
 export const GoogleCloudDialogflowV2beta1GenerateStatelessSummaryRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       latestMessage: S.optional(S.String),
-      statelessConversation: S.optional(
-        GoogleCloudDialogflowV2beta1GenerateStatelessSummaryRequestMinimalConversation,
-      ),
       conversationProfile: S.optional(
         GoogleCloudDialogflowV2beta1ConversationProfile,
       ),
       maxContextSize: S.optional(S.Number),
+      statelessConversation: S.optional(
+        GoogleCloudDialogflowV2beta1GenerateStatelessSummaryRequestMinimalConversation,
+      ),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1GenerateStatelessSummaryRequest",
@@ -8777,15 +8970,15 @@ export const GenerateStatelessSummaryProjectsLocationsSuggestionsRequest =
   }) as any as S.Schema<GenerateStatelessSummaryProjectsLocationsSuggestionsRequest>;
 
 export interface GoogleCloudDialogflowV2beta1GenerateStatelessSummaryResponseSummary {
-  text?: string;
   textSections?: StringMap;
+  text?: string;
   baselineModelVersion?: string;
 }
 export const GoogleCloudDialogflowV2beta1GenerateStatelessSummaryResponseSummary =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      text: S.optional(S.String),
       textSections: S.optional(StringMap),
+      text: S.optional(S.String),
       baselineModelVersion: S.optional(S.String),
     }),
   ).annotate({
@@ -8794,18 +8987,18 @@ export const GoogleCloudDialogflowV2beta1GenerateStatelessSummaryResponseSummary
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1GenerateStatelessSummaryResponseSummary>;
 
 export interface GoogleCloudDialogflowV2beta1GenerateStatelessSummaryResponse {
-  latestMessage?: string;
-  contextSize?: number;
   summary?: GoogleCloudDialogflowV2beta1GenerateStatelessSummaryResponseSummary;
+  contextSize?: number;
+  latestMessage?: string;
 }
 export const GoogleCloudDialogflowV2beta1GenerateStatelessSummaryResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      latestMessage: S.optional(S.String),
-      contextSize: S.optional(S.Number),
       summary: S.optional(
         GoogleCloudDialogflowV2beta1GenerateStatelessSummaryResponseSummary,
       ),
+      contextSize: S.optional(S.Number),
+      latestMessage: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1GenerateStatelessSummaryResponse",
@@ -8858,51 +9051,49 @@ export type GoogleCloudDialogflowV2beta1AgentTierEnum =
   | "TIER_STANDARD"
   | "TIER_ENTERPRISE"
   | "TIER_ENTERPRISE_PLUS";
-export const GoogleCloudDialogflowV2beta1AgentTierEnum = /*@__PURE__*/ S.String;
-
-export type GoogleCloudDialogflowV2beta1AgentMatchModeEnum =
-  | "MATCH_MODE_UNSPECIFIED"
-  | "MATCH_MODE_HYBRID"
-  | "MATCH_MODE_ML_ONLY";
-export const GoogleCloudDialogflowV2beta1AgentMatchModeEnum =
-  /*@__PURE__*/ S.String;
+export const GoogleCloudDialogflowV2beta1AgentTierEnum = S.String;
 
 export type GoogleCloudDialogflowV2beta1AgentApiVersionEnum =
   | "API_VERSION_UNSPECIFIED"
   | "API_VERSION_V1"
   | "API_VERSION_V2"
   | "API_VERSION_V2_BETA_1";
-export const GoogleCloudDialogflowV2beta1AgentApiVersionEnum =
-  /*@__PURE__*/ S.String;
+export const GoogleCloudDialogflowV2beta1AgentApiVersionEnum = S.String;
+
+export type GoogleCloudDialogflowV2beta1AgentMatchModeEnum =
+  | "MATCH_MODE_UNSPECIFIED"
+  | "MATCH_MODE_HYBRID"
+  | "MATCH_MODE_ML_ONLY";
+export const GoogleCloudDialogflowV2beta1AgentMatchModeEnum = S.String;
 
 export interface GoogleCloudDialogflowV2beta1Agent {
   timeZone?: string;
   supportedLanguageCodes?: StringList;
-  displayName?: string;
-  classificationThreshold?: number;
   tier?: GoogleCloudDialogflowV2beta1AgentTierEnum | (string & {});
-  matchMode?: GoogleCloudDialogflowV2beta1AgentMatchModeEnum | (string & {});
-  parent?: string;
-  enableLogging?: boolean;
-  defaultLanguageCode?: string;
-  description?: string;
   apiVersion?: GoogleCloudDialogflowV2beta1AgentApiVersionEnum | (string & {});
+  description?: string;
+  displayName?: string;
+  parent?: string;
+  classificationThreshold?: number;
+  defaultLanguageCode?: string;
   avatarUri?: string;
+  matchMode?: GoogleCloudDialogflowV2beta1AgentMatchModeEnum | (string & {});
+  enableLogging?: boolean;
 }
 export const GoogleCloudDialogflowV2beta1Agent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     timeZone: S.optional(S.String),
     supportedLanguageCodes: S.optional(StringList),
-    displayName: S.optional(S.String),
-    classificationThreshold: S.optional(S.Number),
     tier: S.optional(GoogleCloudDialogflowV2beta1AgentTierEnum),
-    matchMode: S.optional(GoogleCloudDialogflowV2beta1AgentMatchModeEnum),
-    parent: S.optional(S.String),
-    enableLogging: S.optional(S.Boolean),
-    defaultLanguageCode: S.optional(S.String),
-    description: S.optional(S.String),
     apiVersion: S.optional(GoogleCloudDialogflowV2beta1AgentApiVersionEnum),
+    description: S.optional(S.String),
+    displayName: S.optional(S.String),
+    parent: S.optional(S.String),
+    classificationThreshold: S.optional(S.Number),
+    defaultLanguageCode: S.optional(S.String),
     avatarUri: S.optional(S.String),
+    matchMode: S.optional(GoogleCloudDialogflowV2beta1AgentMatchModeEnum),
+    enableLogging: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1Agent",
@@ -8944,14 +9135,14 @@ export const GetEncryptionSpecProjectsLocationsRequest =
   }) as any as S.Schema<GetEncryptionSpecProjectsLocationsRequest>;
 
 export interface GoogleCloudDialogflowV2beta1EncryptionSpec {
-  kmsKey?: string;
   name?: string;
+  kmsKey?: string;
 }
 export const GoogleCloudDialogflowV2beta1EncryptionSpec =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      kmsKey: S.optional(S.String),
       name: S.optional(S.String),
+      kmsKey: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1EncryptionSpec",
@@ -9016,15 +9207,15 @@ export const GetHistoryProjectsAgentEnvironmentsRequest =
 
 export interface GoogleCloudDialogflowV2beta1EnvironmentHistoryEntry {
   agentVersion?: string;
-  description?: string;
   createTime?: string;
+  description?: string;
 }
 export const GoogleCloudDialogflowV2beta1EnvironmentHistoryEntry =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       agentVersion: S.optional(S.String),
-      description: S.optional(S.String),
       createTime: S.optional(S.String),
+      description: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1EnvironmentHistoryEntry",
@@ -9038,17 +9229,17 @@ export const GoogleCloudDialogflowV2beta1EnvironmentHistoryEntryList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1EnvironmentHistoryEntryList>;
 
 export interface GoogleCloudDialogflowV2beta1EnvironmentHistory {
-  parent?: string;
   entries?: GoogleCloudDialogflowV2beta1EnvironmentHistoryEntryList;
+  parent?: string;
   nextPageToken?: string;
 }
 export const GoogleCloudDialogflowV2beta1EnvironmentHistory =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.optional(S.String),
       entries: S.optional(
         GoogleCloudDialogflowV2beta1EnvironmentHistoryEntryList,
       ),
+      parent: S.optional(S.String),
       nextPageToken: S.optional(S.String),
     }),
   ).annotate({
@@ -9056,15 +9247,15 @@ export const GoogleCloudDialogflowV2beta1EnvironmentHistory =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1EnvironmentHistory>;
 
 export interface GetHistoryProjectsLocationsAgentEnvironmentsRequest {
-  pageToken?: string;
   parent: string;
+  pageToken?: string;
   pageSize?: number;
 }
 export const GetHistoryProjectsLocationsAgentEnvironmentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -9152,20 +9343,20 @@ export const GetProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest =
 export type GetProjectsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
-export const GetProjectsAgentIntentsIntentViewEnum = /*@__PURE__*/ S.String;
+export const GetProjectsAgentIntentsIntentViewEnum = S.String;
 
 export interface GetProjectsAgentIntentsRequest {
   languageCode?: string;
-  name: string;
   intentView?: GetProjectsAgentIntentsIntentViewEnum | (string & {});
+  name: string;
 }
 export const GetProjectsAgentIntentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     languageCode: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     intentView: S.optional(
       GetProjectsAgentIntentsIntentViewEnum.pipe(T.Query()),
     ),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9283,48 +9474,18 @@ export const GetProjectsAnswerRecordsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetProjectsAnswerRecordsRequest",
 }) as any as S.Schema<GetProjectsAnswerRecordsRequest>;
 
-export interface GoogleCloudDialogflowV2beta1AgentAssistantRecord {
-  dialogflowAssistAnswer?: GoogleCloudDialogflowV2beta1DialogflowAssistAnswer;
-  generatorSuggestion?: GoogleCloudDialogflowV2beta1GeneratorSuggestion;
-  articleSuggestionAnswer?: GoogleCloudDialogflowV2beta1ArticleAnswer;
-  faqAnswer?: GoogleCloudDialogflowV2beta1FaqAnswer;
-}
-export const GoogleCloudDialogflowV2beta1AgentAssistantRecord =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      dialogflowAssistAnswer: S.optional(
-        GoogleCloudDialogflowV2beta1DialogflowAssistAnswer,
-      ),
-      generatorSuggestion: S.optional(
-        GoogleCloudDialogflowV2beta1GeneratorSuggestion,
-      ),
-      articleSuggestionAnswer: S.optional(
-        GoogleCloudDialogflowV2beta1ArticleAnswer,
-      ),
-      faqAnswer: S.optional(GoogleCloudDialogflowV2beta1FaqAnswer),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDialogflowV2beta1AgentAssistantRecord",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentAssistantRecord>;
-
-export type GoogleCloudDialogflowV2beta1AnswerFeedbackCorrectnessLevelEnum =
-  | "CORRECTNESS_LEVEL_UNSPECIFIED"
-  | "NOT_CORRECT"
-  | "PARTIALLY_CORRECT"
-  | "FULLY_CORRECT";
-export const GoogleCloudDialogflowV2beta1AnswerFeedbackCorrectnessLevelEnum =
-  /*@__PURE__*/ S.String;
-
 export type GoogleCloudDialogflowV2beta1AgentAssistantFeedbackDocumentEfficiencyEnum =
-  "DOCUMENT_EFFICIENCY_UNSPECIFIED" | "INEFFICIENT" | "EFFICIENT";
+  | "DOCUMENT_EFFICIENCY_UNSPECIFIED"
+  | "INEFFICIENT"
+  | "EFFICIENT";
 export const GoogleCloudDialogflowV2beta1AgentAssistantFeedbackDocumentEfficiencyEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
-export interface GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback {
+export interface GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeAssistFeedback {
   answerCopied?: boolean;
   clickedUris?: StringList;
 }
-export const GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback =
+export const GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeAssistFeedback =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       answerCopied: S.optional(S.Boolean),
@@ -9332,56 +9493,70 @@ export const GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFe
     }),
   ).annotate({
     identifier:
-      "GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback",
-  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback>;
-
-export type GoogleCloudDialogflowV2beta1AgentAssistantFeedbackAnswerRelevanceEnum =
-  "ANSWER_RELEVANCE_UNSPECIFIED" | "IRRELEVANT" | "RELEVANT";
-export const GoogleCloudDialogflowV2beta1AgentAssistantFeedbackAnswerRelevanceEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleCloudDialogflowV2beta1AgentAssistantFeedbackDocumentCorrectnessEnum =
-  "DOCUMENT_CORRECTNESS_UNSPECIFIED" | "INCORRECT" | "CORRECT";
-export const GoogleCloudDialogflowV2beta1AgentAssistantFeedbackDocumentCorrectnessEnum =
-  /*@__PURE__*/ S.String;
+      "GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeAssistFeedback",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeAssistFeedback>;
 
 export interface GoogleCloudDialogflowV2beta1AgentAssistantFeedbackSummarizationFeedback {
-  submitTimestamp?: string;
-  startTimestamp?: string;
   textSections?: StringMap;
   summaryText?: string;
+  submitTimestamp?: string;
+  startTimestamp?: string;
 }
 export const GoogleCloudDialogflowV2beta1AgentAssistantFeedbackSummarizationFeedback =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      submitTimestamp: S.optional(S.String),
-      startTimestamp: S.optional(S.String),
       textSections: S.optional(StringMap),
       summaryText: S.optional(S.String),
+      submitTimestamp: S.optional(S.String),
+      startTimestamp: S.optional(S.String),
     }),
   ).annotate({
     identifier:
       "GoogleCloudDialogflowV2beta1AgentAssistantFeedbackSummarizationFeedback",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentAssistantFeedbackSummarizationFeedback>;
 
-export type GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeAssistFeedback =
-  GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback;
-export const GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeAssistFeedback =
-  GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback;
+export interface GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback {
+  clickedUris?: StringList;
+  answerCopied?: boolean;
+}
+export const GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      clickedUris: S.optional(StringList),
+      answerCopied: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback>;
+
+export type GoogleCloudDialogflowV2beta1AgentAssistantFeedbackDocumentCorrectnessEnum =
+  | "DOCUMENT_CORRECTNESS_UNSPECIFIED"
+  | "INCORRECT"
+  | "CORRECT";
+export const GoogleCloudDialogflowV2beta1AgentAssistantFeedbackDocumentCorrectnessEnum =
+  S.String;
+
+export type GoogleCloudDialogflowV2beta1AgentAssistantFeedbackAnswerRelevanceEnum =
+  | "ANSWER_RELEVANCE_UNSPECIFIED"
+  | "IRRELEVANT"
+  | "RELEVANT";
+export const GoogleCloudDialogflowV2beta1AgentAssistantFeedbackAnswerRelevanceEnum =
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1AgentAssistantFeedback {
   documentEfficiency?:
     | GoogleCloudDialogflowV2beta1AgentAssistantFeedbackDocumentEfficiencyEnum
     | (string & {});
+  knowledgeAssistFeedback?: GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeAssistFeedback;
+  summarizationFeedback?: GoogleCloudDialogflowV2beta1AgentAssistantFeedbackSummarizationFeedback;
   knowledgeSearchFeedback?: GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback;
-  answerRelevance?:
-    | GoogleCloudDialogflowV2beta1AgentAssistantFeedbackAnswerRelevanceEnum
-    | (string & {});
   documentCorrectness?:
     | GoogleCloudDialogflowV2beta1AgentAssistantFeedbackDocumentCorrectnessEnum
     | (string & {});
-  summarizationFeedback?: GoogleCloudDialogflowV2beta1AgentAssistantFeedbackSummarizationFeedback;
-  knowledgeAssistFeedback?: GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback;
+  answerRelevance?:
+    | GoogleCloudDialogflowV2beta1AgentAssistantFeedbackAnswerRelevanceEnum
+    | (string & {});
 }
 export const GoogleCloudDialogflowV2beta1AgentAssistantFeedback =
   /*@__PURE__*/ S.suspend(() =>
@@ -9389,67 +9564,99 @@ export const GoogleCloudDialogflowV2beta1AgentAssistantFeedback =
       documentEfficiency: S.optional(
         GoogleCloudDialogflowV2beta1AgentAssistantFeedbackDocumentEfficiencyEnum,
       ),
-      knowledgeSearchFeedback: S.optional(
-        GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback,
-      ),
-      answerRelevance: S.optional(
-        GoogleCloudDialogflowV2beta1AgentAssistantFeedbackAnswerRelevanceEnum,
-      ),
-      documentCorrectness: S.optional(
-        GoogleCloudDialogflowV2beta1AgentAssistantFeedbackDocumentCorrectnessEnum,
+      knowledgeAssistFeedback: S.optional(
+        GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeAssistFeedback,
       ),
       summarizationFeedback: S.optional(
         GoogleCloudDialogflowV2beta1AgentAssistantFeedbackSummarizationFeedback,
       ),
-      knowledgeAssistFeedback: S.optional(
+      knowledgeSearchFeedback: S.optional(
         GoogleCloudDialogflowV2beta1AgentAssistantFeedbackKnowledgeSearchFeedback,
+      ),
+      documentCorrectness: S.optional(
+        GoogleCloudDialogflowV2beta1AgentAssistantFeedbackDocumentCorrectnessEnum,
+      ),
+      answerRelevance: S.optional(
+        GoogleCloudDialogflowV2beta1AgentAssistantFeedbackAnswerRelevanceEnum,
       ),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1AgentAssistantFeedback",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentAssistantFeedback>;
 
+export type GoogleCloudDialogflowV2beta1AnswerFeedbackCorrectnessLevelEnum =
+  | "CORRECTNESS_LEVEL_UNSPECIFIED"
+  | "NOT_CORRECT"
+  | "PARTIALLY_CORRECT"
+  | "FULLY_CORRECT";
+export const GoogleCloudDialogflowV2beta1AnswerFeedbackCorrectnessLevelEnum =
+  S.String;
+
 export interface GoogleCloudDialogflowV2beta1AnswerFeedback {
+  clickTime?: string;
+  agentAssistantDetailFeedback?: GoogleCloudDialogflowV2beta1AgentAssistantFeedback;
   correctnessLevel?:
     | GoogleCloudDialogflowV2beta1AnswerFeedbackCorrectnessLevelEnum
     | (string & {});
-  displayTime?: string;
-  clicked?: boolean;
-  clickTime?: string;
-  agentAssistantDetailFeedback?: GoogleCloudDialogflowV2beta1AgentAssistantFeedback;
   displayed?: boolean;
+  clicked?: boolean;
+  displayTime?: string;
 }
 export const GoogleCloudDialogflowV2beta1AnswerFeedback =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      correctnessLevel: S.optional(
-        GoogleCloudDialogflowV2beta1AnswerFeedbackCorrectnessLevelEnum,
-      ),
-      displayTime: S.optional(S.String),
-      clicked: S.optional(S.Boolean),
       clickTime: S.optional(S.String),
       agentAssistantDetailFeedback: S.optional(
         GoogleCloudDialogflowV2beta1AgentAssistantFeedback,
       ),
+      correctnessLevel: S.optional(
+        GoogleCloudDialogflowV2beta1AnswerFeedbackCorrectnessLevelEnum,
+      ),
       displayed: S.optional(S.Boolean),
+      clicked: S.optional(S.Boolean),
+      displayTime: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1AnswerFeedback",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1AnswerFeedback>;
 
+export interface GoogleCloudDialogflowV2beta1AgentAssistantRecord {
+  articleSuggestionAnswer?: GoogleCloudDialogflowV2beta1ArticleAnswer;
+  dialogflowAssistAnswer?: GoogleCloudDialogflowV2beta1DialogflowAssistAnswer;
+  faqAnswer?: GoogleCloudDialogflowV2beta1FaqAnswer;
+  generatorSuggestion?: GoogleCloudDialogflowV2beta1GeneratorSuggestion;
+}
+export const GoogleCloudDialogflowV2beta1AgentAssistantRecord =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      articleSuggestionAnswer: S.optional(
+        GoogleCloudDialogflowV2beta1ArticleAnswer,
+      ),
+      dialogflowAssistAnswer: S.optional(
+        GoogleCloudDialogflowV2beta1DialogflowAssistAnswer,
+      ),
+      faqAnswer: S.optional(GoogleCloudDialogflowV2beta1FaqAnswer),
+      generatorSuggestion: S.optional(
+        GoogleCloudDialogflowV2beta1GeneratorSuggestion,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1AgentAssistantRecord",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentAssistantRecord>;
+
 export interface GoogleCloudDialogflowV2beta1AnswerRecord {
-  agentAssistantRecord?: GoogleCloudDialogflowV2beta1AgentAssistantRecord;
-  answerFeedback?: GoogleCloudDialogflowV2beta1AnswerFeedback;
   name?: string;
+  answerFeedback?: GoogleCloudDialogflowV2beta1AnswerFeedback;
+  agentAssistantRecord?: GoogleCloudDialogflowV2beta1AgentAssistantRecord;
 }
 export const GoogleCloudDialogflowV2beta1AnswerRecord = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      name: S.optional(S.String),
+      answerFeedback: S.optional(GoogleCloudDialogflowV2beta1AnswerFeedback),
       agentAssistantRecord: S.optional(
         GoogleCloudDialogflowV2beta1AgentAssistantRecord,
       ),
-      answerFeedback: S.optional(GoogleCloudDialogflowV2beta1AnswerFeedback),
-      name: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleCloudDialogflowV2beta1AnswerRecord",
@@ -9561,33 +9768,33 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProjectsLocationsRequest>;
 
 export interface GoogleCloudLocationLocation {
-  locationId?: string;
-  displayName?: string;
-  labels?: StringMap;
-  metadata?: DocumentMap;
   name?: string;
+  metadata?: DocumentMap;
+  displayName?: string;
+  locationId?: string;
+  labels?: StringMap;
 }
 export const GoogleCloudLocationLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locationId: S.optional(S.String),
-    displayName: S.optional(S.String),
-    labels: S.optional(StringMap),
-    metadata: S.optional(DocumentMap),
     name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    displayName: S.optional(S.String),
+    locationId: S.optional(S.String),
+    labels: S.optional(StringMap),
   }),
 ).annotate({
   identifier: "GoogleCloudLocationLocation",
 }) as any as S.Schema<GoogleCloudLocationLocation>;
 
 export interface GetProjectsLocationsAgentEntityTypesRequest {
-  name: string;
   languageCode?: string;
+  name: string;
 }
 export const GetProjectsLocationsAgentEntityTypesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       languageCode: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -9658,8 +9865,7 @@ export const GetProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesReques
 export type GetProjectsLocationsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
-export const GetProjectsLocationsAgentIntentsIntentViewEnum =
-  /*@__PURE__*/ S.String;
+export const GetProjectsLocationsAgentIntentsIntentViewEnum = S.String;
 
 export interface GetProjectsLocationsAgentIntentsRequest {
   name: string;
@@ -9954,14 +10160,14 @@ export const GetProjectsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProjectsOperationsRequest>;
 
 export interface GetValidationResultProjectsAgentRequest {
-  languageCode?: string;
   parent: string;
+  languageCode?: string;
 }
 export const GetValidationResultProjectsAgentRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      languageCode: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      languageCode: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -9979,19 +10185,18 @@ export type GoogleCloudDialogflowV2beta1ValidationErrorSeverityEnum =
   | "WARNING"
   | "ERROR"
   | "CRITICAL";
-export const GoogleCloudDialogflowV2beta1ValidationErrorSeverityEnum =
-  /*@__PURE__*/ S.String;
+export const GoogleCloudDialogflowV2beta1ValidationErrorSeverityEnum = S.String;
 
 export interface GoogleCloudDialogflowV2beta1ValidationError {
-  entries?: StringList;
   errorMessage?: string;
+  entries?: StringList;
   severity?: GoogleCloudDialogflowV2beta1ValidationErrorSeverityEnum;
 }
 export const GoogleCloudDialogflowV2beta1ValidationError =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      entries: S.optional(StringList),
       errorMessage: S.optional(S.String),
+      entries: S.optional(StringList),
       severity: S.optional(
         GoogleCloudDialogflowV2beta1ValidationErrorSeverityEnum,
       ),
@@ -10022,14 +10227,14 @@ export const GoogleCloudDialogflowV2beta1ValidationResult =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ValidationResult>;
 
 export interface GetValidationResultProjectsLocationsAgentRequest {
-  parent: string;
   languageCode?: string;
+  parent: string;
 }
 export const GetValidationResultProjectsLocationsAgentRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       languageCode: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -10042,14 +10247,14 @@ export const GetValidationResultProjectsLocationsAgentRequest =
   }) as any as S.Schema<GetValidationResultProjectsLocationsAgentRequest>;
 
 export interface GoogleCloudDialogflowV2beta1ImportAgentRequest {
-  agentUri?: string;
   agentContent?: string;
+  agentUri?: string;
 }
 export const GoogleCloudDialogflowV2beta1ImportAgentRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      agentUri: S.optional(S.String),
       agentContent: S.optional(S.String),
+      agentUri: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ImportAgentRequest",
@@ -10078,14 +10283,14 @@ export const ImportProjectsAgentRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ImportProjectsAgentRequest>;
 
 export type GoogleCloudDialogflowV2beta1ImportDocumentTemplateKnowledgeTypesItemEnum =
-    | "KNOWLEDGE_TYPE_UNSPECIFIED"
-    | "FAQ"
-    | "EXTRACTIVE_QA"
-    | "ARTICLE_SUGGESTION"
-    | "AGENT_FACING_SMART_REPLY"
-    | "SMART_REPLY";
+  | "KNOWLEDGE_TYPE_UNSPECIFIED"
+  | "FAQ"
+  | "EXTRACTIVE_QA"
+  | "ARTICLE_SUGGESTION"
+  | "AGENT_FACING_SMART_REPLY"
+  | "SMART_REPLY";
 export const GoogleCloudDialogflowV2beta1ImportDocumentTemplateKnowledgeTypesItemEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleCloudDialogflowV2beta1ImportDocumentTemplateKnowledgeTypesItemEnumList =
   Array<
@@ -10098,18 +10303,18 @@ export const GoogleCloudDialogflowV2beta1ImportDocumentTemplateKnowledgeTypesIte
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1ImportDocumentTemplateKnowledgeTypesItemEnumList>;
 
 export interface GoogleCloudDialogflowV2beta1ImportDocumentTemplate {
-  metadata?: StringMap;
   knowledgeTypes?: GoogleCloudDialogflowV2beta1ImportDocumentTemplateKnowledgeTypesItemEnumList;
   mimeType?: string;
+  metadata?: StringMap;
 }
 export const GoogleCloudDialogflowV2beta1ImportDocumentTemplate =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      metadata: S.optional(StringMap),
       knowledgeTypes: S.optional(
         GoogleCloudDialogflowV2beta1ImportDocumentTemplateKnowledgeTypesItemEnumList,
       ),
       mimeType: S.optional(S.String),
+      metadata: S.optional(StringMap),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ImportDocumentTemplate",
@@ -10129,8 +10334,8 @@ export const GoogleCloudDialogflowV2beta1GcsSources = /*@__PURE__*/ S.suspend(
 
 export interface GoogleCloudDialogflowV2beta1ImportDocumentsRequest {
   documentTemplate?: GoogleCloudDialogflowV2beta1ImportDocumentTemplate;
-  importGcsCustomMetadata?: boolean;
   gcsSource?: GoogleCloudDialogflowV2beta1GcsSources;
+  importGcsCustomMetadata?: boolean;
 }
 export const GoogleCloudDialogflowV2beta1ImportDocumentsRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -10138,8 +10343,8 @@ export const GoogleCloudDialogflowV2beta1ImportDocumentsRequest =
       documentTemplate: S.optional(
         GoogleCloudDialogflowV2beta1ImportDocumentTemplate,
       ),
-      importGcsCustomMetadata: S.optional(S.Boolean),
       gcsSource: S.optional(GoogleCloudDialogflowV2beta1GcsSources),
+      importGcsCustomMetadata: S.optional(S.Boolean),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ImportDocumentsRequest",
@@ -10305,16 +10510,16 @@ export const InitializeProjectsLocationsEncryptionSpecRequest =
 
 export interface ListProjectsAgentEntityTypesRequest {
   parent: string;
-  pageSize?: number;
   languageCode?: string;
   pageToken?: string;
+  pageSize?: number;
 }
 export const ListProjectsAgentEntityTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     languageCode: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10342,15 +10547,15 @@ export const GoogleCloudDialogflowV2beta1ListEntityTypesResponse =
 
 export interface ListProjectsAgentEnvironmentsRequest {
   pageToken?: string;
-  parent: string;
   pageSize?: number;
+  parent: string;
 }
 export const ListProjectsAgentEnvironmentsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -10386,28 +10591,27 @@ export const GoogleCloudDialogflowV2beta1ListEnvironmentsResponse =
 export type ListProjectsAgentEnvironmentsIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
-export const ListProjectsAgentEnvironmentsIntentsIntentViewEnum =
-  /*@__PURE__*/ S.String;
+export const ListProjectsAgentEnvironmentsIntentsIntentViewEnum = S.String;
 
 export interface ListProjectsAgentEnvironmentsIntentsRequest {
   pageToken?: string;
-  pageSize?: number;
   languageCode?: string;
-  parent: string;
   intentView?:
     | ListProjectsAgentEnvironmentsIntentsIntentViewEnum
     | (string & {});
+  pageSize?: number;
+  parent: string;
 }
 export const ListProjectsAgentEnvironmentsIntentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageToken: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       languageCode: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       intentView: S.optional(
         ListProjectsAgentEnvironmentsIntentsIntentViewEnum.pipe(T.Query()),
       ),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -10434,16 +10638,16 @@ export const GoogleCloudDialogflowV2beta1ListIntentsResponse =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ListIntentsResponse>;
 
 export interface ListProjectsAgentEnvironmentsUsersSessionsContextsRequest {
-  pageToken?: string;
-  parent: string;
   pageSize?: number;
+  parent: string;
+  pageToken?: string;
 }
 export const ListProjectsAgentEnvironmentsUsersSessionsContextsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -10471,15 +10675,15 @@ export const GoogleCloudDialogflowV2beta1ListContextsResponse =
 
 export interface ListProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest {
   parent: string;
-  pageSize?: number;
   pageToken?: string;
+  pageSize?: number;
 }
 export const ListProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -10492,16 +10696,16 @@ export const ListProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest =
   }) as any as S.Schema<ListProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest>;
 
 export interface GoogleCloudDialogflowV2beta1ListSessionEntityTypesResponse {
-  nextPageToken?: string;
   sessionEntityTypes?: GoogleCloudDialogflowV2beta1SessionEntityTypeList;
+  nextPageToken?: string;
 }
 export const GoogleCloudDialogflowV2beta1ListSessionEntityTypesResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      nextPageToken: S.optional(S.String),
       sessionEntityTypes: S.optional(
         GoogleCloudDialogflowV2beta1SessionEntityTypeList,
       ),
+      nextPageToken: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ListSessionEntityTypesResponse",
@@ -10510,24 +10714,24 @@ export const GoogleCloudDialogflowV2beta1ListSessionEntityTypesResponse =
 export type ListProjectsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
-export const ListProjectsAgentIntentsIntentViewEnum = /*@__PURE__*/ S.String;
+export const ListProjectsAgentIntentsIntentViewEnum = S.String;
 
 export interface ListProjectsAgentIntentsRequest {
   languageCode?: string;
-  parent: string;
   intentView?: ListProjectsAgentIntentsIntentViewEnum | (string & {});
-  pageToken?: string;
+  parent: string;
   pageSize?: number;
+  pageToken?: string;
 }
 export const ListProjectsAgentIntentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     languageCode: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     intentView: S.optional(
       ListProjectsAgentIntentsIntentViewEnum.pipe(T.Query()),
     ),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10540,16 +10744,16 @@ export const ListProjectsAgentIntentsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListProjectsAgentIntentsRequest>;
 
 export interface ListProjectsAgentKnowledgeBasesRequest {
-  pageToken?: string;
   filter?: string;
+  pageToken?: string;
   parent: string;
   pageSize?: number;
 }
 export const ListProjectsAgentKnowledgeBasesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
@@ -10571,32 +10775,32 @@ export const GoogleCloudDialogflowV2beta1KnowledgeBaseList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1KnowledgeBaseList>;
 
 export interface GoogleCloudDialogflowV2beta1ListKnowledgeBasesResponse {
-  nextPageToken?: string;
   knowledgeBases?: GoogleCloudDialogflowV2beta1KnowledgeBaseList;
+  nextPageToken?: string;
 }
 export const GoogleCloudDialogflowV2beta1ListKnowledgeBasesResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      nextPageToken: S.optional(S.String),
       knowledgeBases: S.optional(GoogleCloudDialogflowV2beta1KnowledgeBaseList),
+      nextPageToken: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ListKnowledgeBasesResponse",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ListKnowledgeBasesResponse>;
 
 export interface ListProjectsAgentKnowledgeBasesDocumentsRequest {
+  pageSize?: number;
+  parent: string;
   pageToken?: string;
   filter?: string;
-  parent: string;
-  pageSize?: number;
 }
 export const ListProjectsAgentKnowledgeBasesDocumentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -10615,14 +10819,14 @@ export const GoogleCloudDialogflowV2beta1DocumentList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GoogleCloudDialogflowV2beta1DocumentList>;
 
 export interface GoogleCloudDialogflowV2beta1ListDocumentsResponse {
-  documents?: GoogleCloudDialogflowV2beta1DocumentList;
   nextPageToken?: string;
+  documents?: GoogleCloudDialogflowV2beta1DocumentList;
 }
 export const GoogleCloudDialogflowV2beta1ListDocumentsResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      documents: S.optional(GoogleCloudDialogflowV2beta1DocumentList),
       nextPageToken: S.optional(S.String),
+      documents: S.optional(GoogleCloudDialogflowV2beta1DocumentList),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ListDocumentsResponse",
@@ -10673,14 +10877,14 @@ export const ListProjectsAgentSessionsEntityTypesRequest =
   }) as any as S.Schema<ListProjectsAgentSessionsEntityTypesRequest>;
 
 export interface ListProjectsAgentVersionsRequest {
-  parent: string;
   pageSize?: number;
+  parent: string;
   pageToken?: string;
 }
 export const ListProjectsAgentVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -10714,17 +10918,17 @@ export const GoogleCloudDialogflowV2beta1ListVersionsResponse =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ListVersionsResponse>;
 
 export interface ListProjectsAnswerRecordsRequest {
-  parent: string;
-  pageSize?: number;
-  filter?: string;
   pageToken?: string;
+  parent: string;
+  filter?: string;
+  pageSize?: number;
 }
 export const ListProjectsAnswerRecordsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10744,14 +10948,14 @@ export const GoogleCloudDialogflowV2beta1AnswerRecordList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1AnswerRecordList>;
 
 export interface GoogleCloudDialogflowV2beta1ListAnswerRecordsResponse {
-  answerRecords?: GoogleCloudDialogflowV2beta1AnswerRecordList;
   nextPageToken?: string;
+  answerRecords?: GoogleCloudDialogflowV2beta1AnswerRecordList;
 }
 export const GoogleCloudDialogflowV2beta1ListAnswerRecordsResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      answerRecords: S.optional(GoogleCloudDialogflowV2beta1AnswerRecordList),
       nextPageToken: S.optional(S.String),
+      answerRecords: S.optional(GoogleCloudDialogflowV2beta1AnswerRecordList),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ListAnswerRecordsResponse",
@@ -10759,15 +10963,15 @@ export const GoogleCloudDialogflowV2beta1ListAnswerRecordsResponse =
 
 export interface ListProjectsConversationProfilesRequest {
   parent: string;
-  pageSize?: number;
   pageToken?: string;
+  pageSize?: number;
 }
 export const ListProjectsConversationProfilesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -10787,16 +10991,16 @@ export const GoogleCloudDialogflowV2beta1ConversationProfileList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1ConversationProfileList>;
 
 export interface GoogleCloudDialogflowV2beta1ListConversationProfilesResponse {
-  conversationProfiles?: GoogleCloudDialogflowV2beta1ConversationProfileList;
   nextPageToken?: string;
+  conversationProfiles?: GoogleCloudDialogflowV2beta1ConversationProfileList;
 }
 export const GoogleCloudDialogflowV2beta1ListConversationProfilesResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      nextPageToken: S.optional(S.String),
       conversationProfiles: S.optional(
         GoogleCloudDialogflowV2beta1ConversationProfileList,
       ),
-      nextPageToken: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ListConversationProfilesResponse",
@@ -10804,15 +11008,15 @@ export const GoogleCloudDialogflowV2beta1ListConversationProfilesResponse =
 
 export interface ListProjectsConversationsRequest {
   parent: string;
-  pageSize?: number;
   pageToken?: string;
+  pageSize?: number;
   filter?: string;
 }
 export const ListProjectsConversationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -10848,16 +11052,16 @@ export const GoogleCloudDialogflowV2beta1ListConversationsResponse =
 
 export interface ListProjectsConversationsMessagesRequest {
   filter?: string;
-  pageToken?: string;
   parent: string;
+  pageToken?: string;
   pageSize?: number;
 }
 export const ListProjectsConversationsMessagesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -10886,15 +11090,15 @@ export const GoogleCloudDialogflowV2beta1ListMessagesResponse =
 
 export interface ListProjectsConversationsParticipantsRequest {
   pageToken?: string;
-  parent: string;
   pageSize?: number;
+  parent: string;
 }
 export const ListProjectsConversationsParticipantsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -10928,18 +11132,18 @@ export const GoogleCloudDialogflowV2beta1ListParticipantsResponse =
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ListParticipantsResponse>;
 
 export interface ListProjectsConversationsParticipantsSuggestionsRequest {
-  pageToken?: string;
-  filter?: string;
-  parent: string;
   pageSize?: number;
+  filter?: string;
+  pageToken?: string;
+  parent: string;
 }
 export const ListProjectsConversationsParticipantsSuggestionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -10958,28 +11162,28 @@ export const GoogleCloudDialogflowV2beta1SuggestionList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestionList>;
 
 export interface GoogleCloudDialogflowV2beta1ListSuggestionsResponse {
-  suggestions?: GoogleCloudDialogflowV2beta1SuggestionList;
   nextPageToken?: string;
+  suggestions?: GoogleCloudDialogflowV2beta1SuggestionList;
 }
 export const GoogleCloudDialogflowV2beta1ListSuggestionsResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      suggestions: S.optional(GoogleCloudDialogflowV2beta1SuggestionList),
       nextPageToken: S.optional(S.String),
+      suggestions: S.optional(GoogleCloudDialogflowV2beta1SuggestionList),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ListSuggestionsResponse",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ListSuggestionsResponse>;
 
 export interface ListProjectsGeneratorsRequest {
-  parent: string;
   pageSize?: number;
+  parent: string;
   pageToken?: string;
 }
 export const ListProjectsGeneratorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -10999,31 +11203,31 @@ export const GoogleCloudDialogflowV2beta1GeneratorList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GoogleCloudDialogflowV2beta1GeneratorList>;
 
 export interface GoogleCloudDialogflowV2beta1ListGeneratorsResponse {
-  generators?: GoogleCloudDialogflowV2beta1GeneratorList;
   nextPageToken?: string;
+  generators?: GoogleCloudDialogflowV2beta1GeneratorList;
 }
 export const GoogleCloudDialogflowV2beta1ListGeneratorsResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      generators: S.optional(GoogleCloudDialogflowV2beta1GeneratorList),
       nextPageToken: S.optional(S.String),
+      generators: S.optional(GoogleCloudDialogflowV2beta1GeneratorList),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ListGeneratorsResponse",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ListGeneratorsResponse>;
 
 export interface ListProjectsKnowledgeBasesRequest {
+  filter?: string;
+  pageToken?: string;
   parent: string;
   pageSize?: number;
-  pageToken?: string;
-  filter?: string;
 }
 export const ListProjectsKnowledgeBasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11038,16 +11242,16 @@ export const ListProjectsKnowledgeBasesRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsKnowledgeBasesDocumentsRequest {
   parent: string;
   pageSize?: number;
-  pageToken?: string;
   filter?: string;
+  pageToken?: string;
 }
 export const ListProjectsKnowledgeBasesDocumentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11060,19 +11264,19 @@ export const ListProjectsKnowledgeBasesDocumentsRequest =
   }) as any as S.Schema<ListProjectsKnowledgeBasesDocumentsRequest>;
 
 export interface ListProjectsLocationsRequest {
-  extraLocationTypes?: StringList;
-  filter?: string;
-  name: string;
-  pageToken?: string;
   pageSize?: number;
+  pageToken?: string;
+  filter?: string;
+  extraLocationTypes?: StringList;
+  name: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11105,18 +11309,18 @@ export const GoogleCloudLocationListLocationsResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GoogleCloudLocationListLocationsResponse>;
 
 export interface ListProjectsLocationsAgentEntityTypesRequest {
-  parent: string;
-  pageSize?: number;
-  pageToken?: string;
   languageCode?: string;
+  pageSize?: number;
+  parent: string;
+  pageToken?: string;
 }
 export const ListProjectsLocationsAgentEntityTypesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       languageCode: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11129,15 +11333,15 @@ export const ListProjectsLocationsAgentEntityTypesRequest =
   }) as any as S.Schema<ListProjectsLocationsAgentEntityTypesRequest>;
 
 export interface ListProjectsLocationsAgentEnvironmentsRequest {
-  parent: string;
   pageSize?: number;
+  parent: string;
   pageToken?: string;
 }
 export const ListProjectsLocationsAgentEnvironmentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -11154,29 +11358,29 @@ export type ListProjectsLocationsAgentEnvironmentsIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
 export const ListProjectsLocationsAgentEnvironmentsIntentsIntentViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ListProjectsLocationsAgentEnvironmentsIntentsRequest {
+  pageToken?: string;
+  pageSize?: number;
   languageCode?: string;
-  parent: string;
   intentView?:
     | ListProjectsLocationsAgentEnvironmentsIntentsIntentViewEnum
     | (string & {});
-  pageToken?: string;
-  pageSize?: number;
+  parent: string;
 }
 export const ListProjectsLocationsAgentEnvironmentsIntentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       languageCode: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       intentView: S.optional(
         ListProjectsLocationsAgentEnvironmentsIntentsIntentViewEnum.pipe(
           T.Query(),
         ),
       ),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11189,16 +11393,16 @@ export const ListProjectsLocationsAgentEnvironmentsIntentsRequest =
   }) as any as S.Schema<ListProjectsLocationsAgentEnvironmentsIntentsRequest>;
 
 export interface ListProjectsLocationsAgentEnvironmentsUsersSessionsContextsRequest {
+  pageSize?: number;
   pageToken?: string;
   parent: string;
-  pageSize?: number;
 }
 export const ListProjectsLocationsAgentEnvironmentsUsersSessionsContextsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11212,15 +11416,15 @@ export const ListProjectsLocationsAgentEnvironmentsUsersSessionsContextsRequest 
   }) as any as S.Schema<ListProjectsLocationsAgentEnvironmentsUsersSessionsContextsRequest>;
 
 export interface ListProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest {
-  pageToken?: string;
   parent: string;
+  pageToken?: string;
   pageSize?: number;
 }
 export const ListProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -11237,26 +11441,25 @@ export const ListProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesReque
 export type ListProjectsLocationsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
-export const ListProjectsLocationsAgentIntentsIntentViewEnum =
-  /*@__PURE__*/ S.String;
+export const ListProjectsLocationsAgentIntentsIntentViewEnum = S.String;
 
 export interface ListProjectsLocationsAgentIntentsRequest {
-  pageToken?: string;
-  pageSize?: number;
-  languageCode?: string;
   parent: string;
   intentView?: ListProjectsLocationsAgentIntentsIntentViewEnum | (string & {});
+  pageSize?: number;
+  languageCode?: string;
+  pageToken?: string;
 }
 export const ListProjectsLocationsAgentIntentsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      languageCode: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       intentView: S.optional(
         ListProjectsLocationsAgentIntentsIntentViewEnum.pipe(T.Query()),
       ),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      languageCode: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11270,15 +11473,15 @@ export const ListProjectsLocationsAgentIntentsRequest = /*@__PURE__*/ S.suspend(
 
 export interface ListProjectsLocationsAgentSessionsContextsRequest {
   parent: string;
-  pageSize?: number;
   pageToken?: string;
+  pageSize?: number;
 }
 export const ListProjectsLocationsAgentSessionsContextsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11292,15 +11495,15 @@ export const ListProjectsLocationsAgentSessionsContextsRequest =
 
 export interface ListProjectsLocationsAgentSessionsEntityTypesRequest {
   pageToken?: string;
-  parent: string;
   pageSize?: number;
+  parent: string;
 }
 export const ListProjectsLocationsAgentSessionsEntityTypesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11313,15 +11516,15 @@ export const ListProjectsLocationsAgentSessionsEntityTypesRequest =
   }) as any as S.Schema<ListProjectsLocationsAgentSessionsEntityTypesRequest>;
 
 export interface ListProjectsLocationsAgentVersionsRequest {
-  pageToken?: string;
   parent: string;
+  pageToken?: string;
   pageSize?: number;
 }
 export const ListProjectsLocationsAgentVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -11335,18 +11538,18 @@ export const ListProjectsLocationsAgentVersionsRequest =
   }) as any as S.Schema<ListProjectsLocationsAgentVersionsRequest>;
 
 export interface ListProjectsLocationsAnswerRecordsRequest {
-  filter?: string;
-  pageToken?: string;
   parent: string;
+  pageToken?: string;
   pageSize?: number;
+  filter?: string;
 }
 export const ListProjectsLocationsAnswerRecordsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11359,16 +11562,16 @@ export const ListProjectsLocationsAnswerRecordsRequest =
   }) as any as S.Schema<ListProjectsLocationsAnswerRecordsRequest>;
 
 export interface ListProjectsLocationsConversationProfilesRequest {
+  pageToken?: string;
   parent: string;
   pageSize?: number;
-  pageToken?: string;
 }
 export const ListProjectsLocationsConversationProfilesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11381,16 +11584,16 @@ export const ListProjectsLocationsConversationProfilesRequest =
   }) as any as S.Schema<ListProjectsLocationsConversationProfilesRequest>;
 
 export interface ListProjectsLocationsConversationsRequest {
-  pageToken?: string;
   filter?: string;
+  pageToken?: string;
   parent: string;
   pageSize?: number;
 }
 export const ListProjectsLocationsConversationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
@@ -11405,18 +11608,18 @@ export const ListProjectsLocationsConversationsRequest =
   }) as any as S.Schema<ListProjectsLocationsConversationsRequest>;
 
 export interface ListProjectsLocationsConversationsMessagesRequest {
-  filter?: string;
+  pageSize?: number;
   pageToken?: string;
   parent: string;
-  pageSize?: number;
+  filter?: string;
 }
 export const ListProjectsLocationsConversationsMessagesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11429,16 +11632,16 @@ export const ListProjectsLocationsConversationsMessagesRequest =
   }) as any as S.Schema<ListProjectsLocationsConversationsMessagesRequest>;
 
 export interface ListProjectsLocationsConversationsParticipantsRequest {
+  pageToken?: string;
   parent: string;
   pageSize?: number;
-  pageToken?: string;
 }
 export const ListProjectsLocationsConversationsParticipantsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11452,15 +11655,15 @@ export const ListProjectsLocationsConversationsParticipantsRequest =
 
 export interface ListProjectsLocationsGeneratorsRequest {
   pageToken?: string;
-  parent: string;
   pageSize?: number;
+  parent: string;
 }
 export const ListProjectsLocationsGeneratorsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11474,15 +11677,15 @@ export const ListProjectsLocationsGeneratorsRequest = /*@__PURE__*/ S.suspend(
 
 export interface ListProjectsLocationsGeneratorsEvaluationsRequest {
   parent: string;
-  pageSize?: number;
   pageToken?: string;
+  pageSize?: number;
 }
 export const ListProjectsLocationsGeneratorsEvaluationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11502,34 +11705,34 @@ export const GoogleCloudDialogflowV2beta1GeneratorEvaluationList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1GeneratorEvaluationList>;
 
 export interface GoogleCloudDialogflowV2beta1ListGeneratorEvaluationsResponse {
-  generatorEvaluations?: GoogleCloudDialogflowV2beta1GeneratorEvaluationList;
   nextPageToken?: string;
+  generatorEvaluations?: GoogleCloudDialogflowV2beta1GeneratorEvaluationList;
 }
 export const GoogleCloudDialogflowV2beta1ListGeneratorEvaluationsResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      nextPageToken: S.optional(S.String),
       generatorEvaluations: S.optional(
         GoogleCloudDialogflowV2beta1GeneratorEvaluationList,
       ),
-      nextPageToken: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ListGeneratorEvaluationsResponse",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ListGeneratorEvaluationsResponse>;
 
 export interface ListProjectsLocationsKnowledgeBasesRequest {
-  pageToken?: string;
-  filter?: string;
   parent: string;
   pageSize?: number;
+  pageToken?: string;
+  filter?: string;
 }
 export const ListProjectsLocationsKnowledgeBasesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11567,8 +11770,8 @@ export const ListProjectsLocationsKnowledgeBasesDocumentsRequest =
 
 export interface ListProjectsLocationsOperationsRequest {
   filter?: string;
-  name: string;
   returnPartialSuccess?: boolean;
+  name: string;
   pageToken?: string;
   pageSize?: number;
 }
@@ -11576,8 +11779,8 @@ export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       filter: S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
@@ -11597,16 +11800,16 @@ export const GoogleLongrunningOperationList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GoogleLongrunningOperationList>;
 
 export interface GoogleLongrunningListOperationsResponse {
-  operations?: GoogleLongrunningOperationList;
   unreachable?: StringList;
   nextPageToken?: string;
+  operations?: GoogleLongrunningOperationList;
 }
 export const GoogleLongrunningListOperationsResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      operations: S.optional(GoogleLongrunningOperationList),
       unreachable: S.optional(StringList),
       nextPageToken: S.optional(S.String),
+      operations: S.optional(GoogleLongrunningOperationList),
     }),
 ).annotate({
   identifier: "GoogleLongrunningListOperationsResponse",
@@ -11615,16 +11818,16 @@ export const GoogleLongrunningListOperationsResponse = /*@__PURE__*/ S.suspend(
 export interface ListProjectsLocationsPhoneNumbersRequest {
   pageToken?: string;
   parent: string;
-  pageSize?: number;
   showDeleted?: boolean;
+  pageSize?: number;
 }
 export const ListProjectsLocationsPhoneNumbersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11644,30 +11847,30 @@ export const GoogleCloudDialogflowV2beta1PhoneNumberList =
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1PhoneNumberList>;
 
 export interface GoogleCloudDialogflowV2beta1ListPhoneNumbersResponse {
-  phoneNumbers?: GoogleCloudDialogflowV2beta1PhoneNumberList;
   nextPageToken?: string;
+  phoneNumbers?: GoogleCloudDialogflowV2beta1PhoneNumberList;
 }
 export const GoogleCloudDialogflowV2beta1ListPhoneNumbersResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      phoneNumbers: S.optional(GoogleCloudDialogflowV2beta1PhoneNumberList),
       nextPageToken: S.optional(S.String),
+      phoneNumbers: S.optional(GoogleCloudDialogflowV2beta1PhoneNumberList),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ListPhoneNumbersResponse",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1ListPhoneNumbersResponse>;
 
 export interface ListProjectsLocationsSipTrunksRequest {
+  pageToken?: string;
   parent: string;
   pageSize?: number;
-  pageToken?: string;
 }
 export const ListProjectsLocationsSipTrunksRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -11686,14 +11889,14 @@ export const GoogleCloudDialogflowV2beta1SipTrunkList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GoogleCloudDialogflowV2beta1SipTrunkList>;
 
 export interface GoogleCloudDialogflowV2beta1ListSipTrunksResponse {
-  nextPageToken?: string;
   sipTrunks?: GoogleCloudDialogflowV2beta1SipTrunkList;
+  nextPageToken?: string;
 }
 export const GoogleCloudDialogflowV2beta1ListSipTrunksResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      nextPageToken: S.optional(S.String),
       sipTrunks: S.optional(GoogleCloudDialogflowV2beta1SipTrunkList),
+      nextPageToken: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1ListSipTrunksResponse",
@@ -11742,18 +11945,18 @@ export const GoogleCloudDialogflowV2beta1ListToolsResponse =
 
 export interface ListProjectsOperationsRequest {
   pageSize?: number;
-  returnPartialSuccess?: boolean;
-  pageToken?: string;
   name: string;
+  pageToken?: string;
   filter?: string;
+  returnPartialSuccess?: boolean;
 }
 export const ListProjectsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11766,17 +11969,17 @@ export const ListProjectsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListProjectsOperationsRequest>;
 
 export interface ListProjectsPhoneNumbersRequest {
-  parent: string;
-  pageSize?: number;
-  showDeleted?: boolean;
   pageToken?: string;
+  showDeleted?: boolean;
+  pageSize?: number;
+  parent: string;
 }
 export const ListProjectsPhoneNumbersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11790,8 +11993,8 @@ export const ListProjectsPhoneNumbersRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface PatchProjectsAgentEntityTypesRequest {
   name: string;
-  updateMask?: string;
   languageCode?: string;
+  updateMask?: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1EntityType;
 }
@@ -11799,8 +12002,8 @@ export const PatchProjectsAgentEntityTypesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       name: S.String.pipe(T.Label()),
-      updateMask: S.optional(S.String.pipe(T.Query())),
       languageCode: S.optional(S.String.pipe(T.Query())),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(
         GoogleCloudDialogflowV2beta1EntityType.pipe(T.HttpBody()),
       ),
@@ -11843,16 +12046,16 @@ export const PatchProjectsAgentEnvironmentsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PatchProjectsAgentEnvironmentsRequest>;
 
 export interface PatchProjectsAgentEnvironmentsUsersSessionsContextsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Context;
 }
 export const PatchProjectsAgentEnvironmentsUsersSessionsContextsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(GoogleCloudDialogflowV2beta1Context.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -11866,16 +12069,16 @@ export const PatchProjectsAgentEnvironmentsUsersSessionsContextsRequest =
   }) as any as S.Schema<PatchProjectsAgentEnvironmentsUsersSessionsContextsRequest>;
 
 export interface PatchProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1SessionEntityType;
 }
 export const PatchProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(
         GoogleCloudDialogflowV2beta1SessionEntityType.pipe(T.HttpBody()),
       ),
@@ -11893,24 +12096,24 @@ export const PatchProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest =
 export type PatchProjectsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
-export const PatchProjectsAgentIntentsIntentViewEnum = /*@__PURE__*/ S.String;
+export const PatchProjectsAgentIntentsIntentViewEnum = S.String;
 
 export interface PatchProjectsAgentIntentsRequest {
+  intentView?: PatchProjectsAgentIntentsIntentViewEnum | (string & {});
   languageCode?: string;
   name: string;
   updateMask?: string;
-  intentView?: PatchProjectsAgentIntentsIntentViewEnum | (string & {});
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Intent;
 }
 export const PatchProjectsAgentIntentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    languageCode: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     intentView: S.optional(
       PatchProjectsAgentIntentsIntentViewEnum.pipe(T.Query()),
     ),
+    languageCode: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudDialogflowV2beta1Intent.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -11924,16 +12127,16 @@ export const PatchProjectsAgentIntentsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchProjectsAgentIntentsRequest>;
 
 export interface PatchProjectsAgentKnowledgeBasesRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1KnowledgeBase;
 }
 export const PatchProjectsAgentKnowledgeBasesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(
         GoogleCloudDialogflowV2beta1KnowledgeBase.pipe(T.HttpBody()),
       ),
@@ -12020,15 +12223,15 @@ export const PatchProjectsAgentSessionsEntityTypesRequest =
   }) as any as S.Schema<PatchProjectsAgentSessionsEntityTypesRequest>;
 
 export interface PatchProjectsAgentVersionsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Version;
 }
 export const PatchProjectsAgentVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDialogflowV2beta1Version.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -12091,16 +12294,16 @@ export const PatchProjectsConversationProfilesRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PatchProjectsConversationProfilesRequest>;
 
 export interface PatchProjectsConversationsParticipantsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Participant;
 }
 export const PatchProjectsConversationsParticipantsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(
         GoogleCloudDialogflowV2beta1Participant.pipe(T.HttpBody()),
       ),
@@ -12116,15 +12319,15 @@ export const PatchProjectsConversationsParticipantsRequest =
   }) as any as S.Schema<PatchProjectsConversationsParticipantsRequest>;
 
 export interface PatchProjectsKnowledgeBasesRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1KnowledgeBase;
 }
 export const PatchProjectsKnowledgeBasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(
       GoogleCloudDialogflowV2beta1KnowledgeBase.pipe(T.HttpBody()),
     ),
@@ -12163,18 +12366,18 @@ export const PatchProjectsKnowledgeBasesDocumentsRequest =
   }) as any as S.Schema<PatchProjectsKnowledgeBasesDocumentsRequest>;
 
 export interface PatchProjectsLocationsAgentEntityTypesRequest {
+  updateMask?: string;
   languageCode?: string;
   name: string;
-  updateMask?: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1EntityType;
 }
 export const PatchProjectsLocationsAgentEntityTypesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      updateMask: S.optional(S.String.pipe(T.Query())),
       languageCode: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
-      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(
         GoogleCloudDialogflowV2beta1EntityType.pipe(T.HttpBody()),
       ),
@@ -12191,8 +12394,8 @@ export const PatchProjectsLocationsAgentEntityTypesRequest =
 
 export interface PatchProjectsLocationsAgentEnvironmentsRequest {
   allowLoadToDraftAndDiscardChanges?: boolean;
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Environment;
 }
@@ -12200,8 +12403,8 @@ export const PatchProjectsLocationsAgentEnvironmentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       allowLoadToDraftAndDiscardChanges: S.optional(S.Boolean.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(
         GoogleCloudDialogflowV2beta1Environment.pipe(T.HttpBody()),
       ),
@@ -12269,26 +12472,25 @@ export const PatchProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequ
 export type PatchProjectsLocationsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
   | "INTENT_VIEW_FULL";
-export const PatchProjectsLocationsAgentIntentsIntentViewEnum =
-  /*@__PURE__*/ S.String;
+export const PatchProjectsLocationsAgentIntentsIntentViewEnum = S.String;
 
 export interface PatchProjectsLocationsAgentIntentsRequest {
-  name: string;
-  updateMask?: string;
-  intentView?: PatchProjectsLocationsAgentIntentsIntentViewEnum | (string & {});
   languageCode?: string;
+  updateMask?: string;
+  name: string;
+  intentView?: PatchProjectsLocationsAgentIntentsIntentViewEnum | (string & {});
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Intent;
 }
 export const PatchProjectsLocationsAgentIntentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
+      languageCode: S.optional(S.String.pipe(T.Query())),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       intentView: S.optional(
         PatchProjectsLocationsAgentIntentsIntentViewEnum.pipe(T.Query()),
       ),
-      languageCode: S.optional(S.String.pipe(T.Query())),
       body: S.optional(GoogleCloudDialogflowV2beta1Intent.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -12448,16 +12650,16 @@ export const PatchProjectsLocationsConversationsParticipantsRequest =
   }) as any as S.Schema<PatchProjectsLocationsConversationsParticipantsRequest>;
 
 export interface PatchProjectsLocationsGeneratorsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Generator;
 }
 export const PatchProjectsLocationsGeneratorsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(
         GoogleCloudDialogflowV2beta1Generator.pipe(T.HttpBody()),
       ),
@@ -12473,16 +12675,16 @@ export const PatchProjectsLocationsGeneratorsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PatchProjectsLocationsGeneratorsRequest>;
 
 export interface PatchProjectsLocationsKnowledgeBasesRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1KnowledgeBase;
 }
 export const PatchProjectsLocationsKnowledgeBasesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(
         GoogleCloudDialogflowV2beta1KnowledgeBase.pipe(T.HttpBody()),
       ),
@@ -12521,16 +12723,16 @@ export const PatchProjectsLocationsKnowledgeBasesDocumentsRequest =
   }) as any as S.Schema<PatchProjectsLocationsKnowledgeBasesDocumentsRequest>;
 
 export interface PatchProjectsLocationsPhoneNumbersRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1PhoneNumber;
 }
 export const PatchProjectsLocationsPhoneNumbersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(
         GoogleCloudDialogflowV2beta1PhoneNumber.pipe(T.HttpBody()),
       ),
@@ -12546,16 +12748,16 @@ export const PatchProjectsLocationsPhoneNumbersRequest =
   }) as any as S.Schema<PatchProjectsLocationsPhoneNumbersRequest>;
 
 export interface PatchProjectsLocationsSipTrunksRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1SipTrunk;
 }
 export const PatchProjectsLocationsSipTrunksRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(GoogleCloudDialogflowV2beta1SipTrunk.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -12569,15 +12771,15 @@ export const PatchProjectsLocationsSipTrunksRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PatchProjectsLocationsSipTrunksRequest>;
 
 export interface PatchProjectsLocationsToolsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Tool;
 }
 export const PatchProjectsLocationsToolsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDialogflowV2beta1Tool.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -12777,14 +12979,11 @@ export const GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigFilte
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigFilterSpecsList>;
 
 export type GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum =
-  "ATTRIBUTE_TYPE_UNSPECIFIED" | "NUMERICAL" | "FRESHNESS";
+  | "ATTRIBUTE_TYPE_UNSPECIFIED"
+  | "NUMERICAL"
+  | "FRESHNESS";
 export const GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum =
-  "INTERPOLATION_TYPE_UNSPECIFIED" | "LINEAR";
-export const GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecControlPoint {
   attributeValue?: string;
@@ -12808,28 +13007,34 @@ export const GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoost
     GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecControlPoint,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecControlPointList>;
 
+export type GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum =
+  | "INTERPOLATION_TYPE_UNSPECIFIED"
+  | "LINEAR";
+export const GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum =
+  S.String;
+
 export interface GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpec {
-  fieldName?: string;
   attributeType?:
     | GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum
     | (string & {});
+  controlPoints?: GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecControlPointList;
+  fieldName?: string;
   interpolationType?:
     | GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum
     | (string & {});
-  controlPoints?: GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecControlPointList;
 }
 export const GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpec =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      fieldName: S.optional(S.String),
       attributeType: S.optional(
         GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum,
       ),
-      interpolationType: S.optional(
-        GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum,
-      ),
       controlPoints: S.optional(
         GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecControlPointList,
+      ),
+      fieldName: S.optional(S.String),
+      interpolationType: S.optional(
+        GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfigBoostSpecsBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum,
       ),
     }),
   ).annotate({
@@ -12933,39 +13138,39 @@ export type GoogleCloudDialogflowV2beta1SearchKnowledgeRequestQuerySourceEnum =
   | "AGENT_QUERY"
   | "SUGGESTED_QUERY";
 export const GoogleCloudDialogflowV2beta1SearchKnowledgeRequestQuerySourceEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1SearchKnowledgeRequest {
-  conversationProfile?: string;
-  latestMessage?: string;
-  query?: GoogleCloudDialogflowV2beta1TextInput;
-  endUserMetadata?: DocumentMap;
   searchConfig?: GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfig;
   sessionId?: string;
-  conversation?: string;
-  exactSearch?: boolean;
-  parent?: string;
+  query?: GoogleCloudDialogflowV2beta1TextInput;
+  endUserMetadata?: DocumentMap;
   querySource?:
     | GoogleCloudDialogflowV2beta1SearchKnowledgeRequestQuerySourceEnum
     | (string & {});
+  exactSearch?: boolean;
+  conversationProfile?: string;
+  conversation?: string;
+  latestMessage?: string;
+  parent?: string;
 }
 export const GoogleCloudDialogflowV2beta1SearchKnowledgeRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      conversationProfile: S.optional(S.String),
-      latestMessage: S.optional(S.String),
-      query: S.optional(GoogleCloudDialogflowV2beta1TextInput),
-      endUserMetadata: S.optional(DocumentMap),
       searchConfig: S.optional(
         GoogleCloudDialogflowV2beta1SearchKnowledgeRequestSearchConfig,
       ),
       sessionId: S.optional(S.String),
-      conversation: S.optional(S.String),
-      exactSearch: S.optional(S.Boolean),
-      parent: S.optional(S.String),
+      query: S.optional(GoogleCloudDialogflowV2beta1TextInput),
+      endUserMetadata: S.optional(DocumentMap),
       querySource: S.optional(
         GoogleCloudDialogflowV2beta1SearchKnowledgeRequestQuerySourceEnum,
       ),
+      exactSearch: S.optional(S.Boolean),
+      conversationProfile: S.optional(S.String),
+      conversation: S.optional(S.String),
+      latestMessage: S.optional(S.String),
+      parent: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1SearchKnowledgeRequest",
@@ -12995,18 +13200,18 @@ export const SearchKnowledgeProjectsConversationsSuggestionsRequest =
   }) as any as S.Schema<SearchKnowledgeProjectsConversationsSuggestionsRequest>;
 
 export interface GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerAnswerSource {
-  title?: string;
   snippet?: string;
-  metadata?: DocumentMap;
   uri?: string;
+  metadata?: DocumentMap;
+  title?: string;
 }
 export const GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerAnswerSource =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      title: S.optional(S.String),
       snippet: S.optional(S.String),
-      metadata: S.optional(DocumentMap),
       uri: S.optional(S.String),
+      metadata: S.optional(DocumentMap),
+      title: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerAnswerSource",
@@ -13027,25 +13232,25 @@ export type GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerAnswerTypeEnum =
   | "PLAYBOOK"
   | "EVENT";
 export const GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerAnswerTypeEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1SearchKnowledgeAnswer {
-  answerSources?: GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerAnswerSourceList;
-  answerRecord?: string;
   answer?: string;
+  answerSources?: GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerAnswerSourceList;
   answerType?: GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerAnswerTypeEnum;
+  answerRecord?: string;
 }
 export const GoogleCloudDialogflowV2beta1SearchKnowledgeAnswer =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      answer: S.optional(S.String),
       answerSources: S.optional(
         GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerAnswerSourceList,
       ),
-      answerRecord: S.optional(S.String),
-      answer: S.optional(S.String),
       answerType: S.optional(
         GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerAnswerTypeEnum,
       ),
+      answerRecord: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1SearchKnowledgeAnswer",
@@ -13058,73 +13263,75 @@ export const GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerList =
     GoogleCloudDialogflowV2beta1SearchKnowledgeAnswer,
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerList>;
 
-export type GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoDatastoreResponseReasonEnum =
-    | "DATASTORE_RESPONSE_REASON_UNSPECIFIED"
-    | "NONE"
-    | "SEARCH_OUT_OF_QUOTA"
-    | "SEARCH_EMPTY_RESULTS"
-    | "ANSWER_GENERATION_GEN_AI_DISABLED"
-    | "ANSWER_GENERATION_OUT_OF_QUOTA"
-    | "ANSWER_GENERATION_ERROR"
-    | "ANSWER_GENERATION_NOT_ENOUGH_INFO"
-    | "ANSWER_GENERATION_RAI_FAILED"
-    | "ANSWER_GENERATION_NOT_GROUNDED";
-export const GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoDatastoreResponseReasonEnum =
-  /*@__PURE__*/ S.String;
-
 export interface GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoSearchKnowledgeBehavior {
-  thirdPartyConnectorAllowed?: boolean;
-  answerGenerationRewriterOn?: boolean;
   endUserMetadataIncluded?: boolean;
+  answerGenerationRewriterOn?: boolean;
+  thirdPartyConnectorAllowed?: boolean;
 }
 export const GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoSearchKnowledgeBehavior =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      thirdPartyConnectorAllowed: S.optional(S.Boolean),
-      answerGenerationRewriterOn: S.optional(S.Boolean),
       endUserMetadataIncluded: S.optional(S.Boolean),
+      answerGenerationRewriterOn: S.optional(S.Boolean),
+      thirdPartyConnectorAllowed: S.optional(S.Boolean),
     }),
   ).annotate({
     identifier:
       "GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoSearchKnowledgeBehavior",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoSearchKnowledgeBehavior>;
 
+export type GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoDatastoreResponseReasonEnum =
+  | "DATASTORE_RESPONSE_REASON_UNSPECIFIED"
+  | "NONE"
+  | "SEARCH_OUT_OF_QUOTA"
+  | "SEARCH_EMPTY_RESULTS"
+  | "ANSWER_GENERATION_GEN_AI_DISABLED"
+  | "ANSWER_GENERATION_OUT_OF_QUOTA"
+  | "ANSWER_GENERATION_ERROR"
+  | "ANSWER_GENERATION_NOT_ENOUGH_INFO"
+  | "ANSWER_GENERATION_RAI_FAILED"
+  | "ANSWER_GENERATION_NOT_GROUNDED";
+export const GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoDatastoreResponseReasonEnum =
+  S.String;
+
 export interface GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfo {
-  datastoreResponseReason?: GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoDatastoreResponseReasonEnum;
-  ingestedContextReferenceDebugInfo?: GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo;
-  searchKnowledgeBehavior?: GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoSearchKnowledgeBehavior;
   serviceLatency?: GoogleCloudDialogflowV2beta1ServiceLatency;
+  searchKnowledgeBehavior?: GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoSearchKnowledgeBehavior;
+  datastoreResponseReason?: GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoDatastoreResponseReasonEnum;
+  cesDebugInfo?: DocumentMap;
+  ingestedContextReferenceDebugInfo?: GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo;
 }
 export const GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfo =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      datastoreResponseReason: S.optional(
-        GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoDatastoreResponseReasonEnum,
-      ),
-      ingestedContextReferenceDebugInfo: S.optional(
-        GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo,
-      ),
+      serviceLatency: S.optional(GoogleCloudDialogflowV2beta1ServiceLatency),
       searchKnowledgeBehavior: S.optional(
         GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoSearchKnowledgeBehavior,
       ),
-      serviceLatency: S.optional(GoogleCloudDialogflowV2beta1ServiceLatency),
+      datastoreResponseReason: S.optional(
+        GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoDatastoreResponseReasonEnum,
+      ),
+      cesDebugInfo: S.optional(DocumentMap),
+      ingestedContextReferenceDebugInfo: S.optional(
+        GoogleCloudDialogflowV2beta1IngestedContextReferenceDebugInfo,
+      ),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfo",
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfo>;
 
 export interface GoogleCloudDialogflowV2beta1SearchKnowledgeResponse {
-  answers?: GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerList;
   rewrittenQuery?: string;
+  answers?: GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerList;
   searchKnowledgeDebugInfo?: GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfo;
 }
 export const GoogleCloudDialogflowV2beta1SearchKnowledgeResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      rewrittenQuery: S.optional(S.String),
       answers: S.optional(
         GoogleCloudDialogflowV2beta1SearchKnowledgeAnswerList,
       ),
-      rewrittenQuery: S.optional(S.String),
       searchKnowledgeDebugInfo: S.optional(
         GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfo,
       ),
@@ -13204,14 +13411,14 @@ export const SearchKnowledgeProjectsSuggestionsRequest =
   }) as any as S.Schema<SearchKnowledgeProjectsSuggestionsRequest>;
 
 export interface SearchProjectsAgentRequest {
-  pageToken?: string;
   parent: string;
+  pageToken?: string;
   pageSize?: number;
 }
 export const SearchProjectsAgentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -13231,14 +13438,14 @@ export const GoogleCloudDialogflowV2beta1AgentList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GoogleCloudDialogflowV2beta1AgentList>;
 
 export interface GoogleCloudDialogflowV2beta1SearchAgentsResponse {
-  agents?: GoogleCloudDialogflowV2beta1AgentList;
   nextPageToken?: string;
+  agents?: GoogleCloudDialogflowV2beta1AgentList;
 }
 export const GoogleCloudDialogflowV2beta1SearchAgentsResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      agents: S.optional(GoogleCloudDialogflowV2beta1AgentList),
       nextPageToken: S.optional(S.String),
+      agents: S.optional(GoogleCloudDialogflowV2beta1AgentList),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1SearchAgentsResponse",
@@ -13246,14 +13453,14 @@ export const GoogleCloudDialogflowV2beta1SearchAgentsResponse =
 
 export interface SearchProjectsLocationsAgentRequest {
   parent: string;
-  pageSize?: number;
   pageToken?: string;
+  pageSize?: number;
 }
 export const SearchProjectsLocationsAgentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -13310,24 +13517,27 @@ export const SetAgentProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SetAgentProjectsLocationsRequest>;
 
 export type GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequestParticipantRoleEnum =
-  "ROLE_UNSPECIFIED" | "HUMAN_AGENT" | "AUTOMATED_AGENT" | "END_USER";
+  | "ROLE_UNSPECIFIED"
+  | "HUMAN_AGENT"
+  | "AUTOMATED_AGENT"
+  | "END_USER";
 export const GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequestParticipantRoleEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequest {
+  suggestionFeatureConfig?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeatureConfig;
   participantRole?:
     | GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequestParticipantRoleEnum
     | (string & {});
-  suggestionFeatureConfig?: GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeatureConfig;
 }
 export const GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      participantRole: S.optional(
-        GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequestParticipantRoleEnum,
-      ),
       suggestionFeatureConfig: S.optional(
         GoogleCloudDialogflowV2beta1HumanAgentAssistantConfigSuggestionFeatureConfig,
+      ),
+      participantRole: S.optional(
+        GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequestParticipantRoleEnum,
       ),
     }),
   ).annotate({
@@ -13387,17 +13597,17 @@ export const SetSuggestionFeatureConfigProjectsLocationsConversationProfilesRequ
 
 export interface GoogleCloudDialogflowV2beta1SuggestArticlesRequest {
   latestMessage?: string;
-  contextSize?: number;
   assistQueryParams?: GoogleCloudDialogflowV2beta1AssistQueryParameters;
+  contextSize?: number;
 }
 export const GoogleCloudDialogflowV2beta1SuggestArticlesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       latestMessage: S.optional(S.String),
-      contextSize: S.optional(S.Number),
       assistQueryParams: S.optional(
         GoogleCloudDialogflowV2beta1AssistQueryParameters,
       ),
+      contextSize: S.optional(S.Number),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1SuggestArticlesRequest",
@@ -13451,22 +13661,37 @@ export const SuggestArticlesProjectsLocationsConversationsParticipantsSuggestion
       "SuggestArticlesProjectsLocationsConversationsParticipantsSuggestionsRequest",
   }) as any as S.Schema<SuggestArticlesProjectsLocationsConversationsParticipantsSuggestionsRequest>;
 
-export type GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest =
-  GoogleCloudDialogflowV2beta1SuggestArticlesRequest;
+export interface GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest {
+  assistQueryParams?: GoogleCloudDialogflowV2beta1AssistQueryParameters;
+  contextSize?: number;
+  latestMessage?: string;
+}
 export const GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest =
-  GoogleCloudDialogflowV2beta1SuggestArticlesRequest;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      assistQueryParams: S.optional(
+        GoogleCloudDialogflowV2beta1AssistQueryParameters,
+      ),
+      contextSize: S.optional(S.Number),
+      latestMessage: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest",
+  }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest>;
 
 export interface SuggestConversationSummaryProjectsConversationsSuggestionsRequest {
   conversation: string;
   /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestArticlesRequest;
+  body?: GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest;
 }
 export const SuggestConversationSummaryProjectsConversationsSuggestionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       conversation: S.String.pipe(T.Label()),
       body: S.optional(
-        GoogleCloudDialogflowV2beta1SuggestArticlesRequest.pipe(T.HttpBody()),
+        GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest.pipe(
+          T.HttpBody(),
+        ),
       ),
     }).pipe(
       T.Http({
@@ -13493,22 +13718,22 @@ export const GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSumma
   ) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSummarySummarySectionList>;
 
 export interface GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSummary {
-  text?: string;
-  sortedTextSections?: GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSummarySummarySectionList;
-  textSections?: StringMap;
   baselineModelVersion?: string;
+  text?: string;
+  textSections?: StringMap;
   answerRecord?: string;
+  sortedTextSections?: GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSummarySummarySectionList;
 }
 export const GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSummary =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      baselineModelVersion: S.optional(S.String),
       text: S.optional(S.String),
+      textSections: S.optional(StringMap),
+      answerRecord: S.optional(S.String),
       sortedTextSections: S.optional(
         GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSummarySummarySectionList,
       ),
-      textSections: S.optional(StringMap),
-      baselineModelVersion: S.optional(S.String),
-      answerRecord: S.optional(S.String),
     }),
   ).annotate({
     identifier:
@@ -13516,18 +13741,18 @@ export const GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSumma
   }) as any as S.Schema<GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSummary>;
 
 export interface GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponse {
-  summary?: GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSummary;
   latestMessage?: string;
   contextSize?: number;
+  summary?: GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSummary;
 }
 export const GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      latestMessage: S.optional(S.String),
+      contextSize: S.optional(S.Number),
       summary: S.optional(
         GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponseSummary,
       ),
-      latestMessage: S.optional(S.String),
-      contextSize: S.optional(S.Number),
     }),
   ).annotate({
     identifier:
@@ -13537,14 +13762,16 @@ export const GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponse =
 export interface SuggestConversationSummaryProjectsLocationsConversationsSuggestionsRequest {
   conversation: string;
   /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestArticlesRequest;
+  body?: GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest;
 }
 export const SuggestConversationSummaryProjectsLocationsConversationsSuggestionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       conversation: S.String.pipe(T.Label()),
       body: S.optional(
-        GoogleCloudDialogflowV2beta1SuggestArticlesRequest.pipe(T.HttpBody()),
+        GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest.pipe(
+          T.HttpBody(),
+        ),
       ),
     }).pipe(
       T.Http({
@@ -13559,21 +13786,23 @@ export const SuggestConversationSummaryProjectsLocationsConversationsSuggestions
   }) as any as S.Schema<SuggestConversationSummaryProjectsLocationsConversationsSuggestionsRequest>;
 
 export type GoogleCloudDialogflowV2beta1SuggestFaqAnswersRequest =
-  GoogleCloudDialogflowV2beta1SuggestArticlesRequest;
+  GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest;
 export const GoogleCloudDialogflowV2beta1SuggestFaqAnswersRequest =
-  GoogleCloudDialogflowV2beta1SuggestArticlesRequest;
+  GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest;
 
 export interface SuggestFaqAnswersProjectsConversationsParticipantsSuggestionsRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestArticlesRequest;
+  body?: GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest;
 }
 export const SuggestFaqAnswersProjectsConversationsParticipantsSuggestionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
       body: S.optional(
-        GoogleCloudDialogflowV2beta1SuggestArticlesRequest.pipe(T.HttpBody()),
+        GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest.pipe(
+          T.HttpBody(),
+        ),
       ),
     }).pipe(
       T.Http({
@@ -13590,14 +13819,16 @@ export const SuggestFaqAnswersProjectsConversationsParticipantsSuggestionsReques
 export interface SuggestFaqAnswersProjectsLocationsConversationsParticipantsSuggestionsRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudDialogflowV2beta1SuggestArticlesRequest;
+  body?: GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest;
 }
 export const SuggestFaqAnswersProjectsLocationsConversationsParticipantsSuggestionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
       body: S.optional(
-        GoogleCloudDialogflowV2beta1SuggestArticlesRequest.pipe(T.HttpBody()),
+        GoogleCloudDialogflowV2beta1SuggestConversationSummaryRequest.pipe(
+          T.HttpBody(),
+        ),
       ),
     }).pipe(
       T.Http({
@@ -13680,16 +13911,16 @@ export const SuggestKnowledgeAssistProjectsLocationsConversationsParticipantsSug
   }) as any as S.Schema<SuggestKnowledgeAssistProjectsLocationsConversationsParticipantsSuggestionsRequest>;
 
 export interface GoogleCloudDialogflowV2beta1SuggestSmartRepliesRequest {
-  currentTextInput?: GoogleCloudDialogflowV2beta1TextInput;
   latestMessage?: string;
   contextSize?: number;
+  currentTextInput?: GoogleCloudDialogflowV2beta1TextInput;
 }
 export const GoogleCloudDialogflowV2beta1SuggestSmartRepliesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      currentTextInput: S.optional(GoogleCloudDialogflowV2beta1TextInput),
       latestMessage: S.optional(S.String),
       contextSize: S.optional(S.Number),
+      currentTextInput: S.optional(GoogleCloudDialogflowV2beta1TextInput),
     }),
   ).annotate({
     identifier: "GoogleCloudDialogflowV2beta1SuggestSmartRepliesRequest",
@@ -13880,16 +14111,16 @@ export const UpdateFulfillmentProjectsAgentRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<UpdateFulfillmentProjectsAgentRequest>;
 
 export interface UpdateFulfillmentProjectsLocationsAgentRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudDialogflowV2beta1Fulfillment;
 }
 export const UpdateFulfillmentProjectsLocationsAgentRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(
         GoogleCloudDialogflowV2beta1Fulfillment.pipe(T.HttpBody()),
       ),
@@ -14304,7 +14535,11 @@ export const clearSuggestionFeatureConfigProjectsConversationProfiles: API.Opera
 }));
 
 export type ClearSuggestionFeatureConfigProjectsLocationsConversationProfilesError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const clearSuggestionFeatureConfigProjectsLocationsConversationProfiles: API.OperationMethod<
   ClearSuggestionFeatureConfigProjectsLocationsConversationProfilesRequest,
   GoogleLongrunningOperation,
@@ -14719,7 +14954,11 @@ export const createProjectsLocationsAgentEnvironments: API.OperationMethod<
 }));
 
 export type CreateProjectsLocationsAgentEnvironmentsUsersSessionsContextsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const createProjectsLocationsAgentEnvironmentsUsersSessionsContexts: API.OperationMethod<
   CreateProjectsLocationsAgentEnvironmentsUsersSessionsContextsRequest,
   GoogleCloudDialogflowV2beta1Context,
@@ -14734,7 +14973,11 @@ export const createProjectsLocationsAgentEnvironmentsUsersSessionsContexts: API.
 }));
 
 export type CreateProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const createProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypes: API.OperationMethod<
   CreateProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest,
   GoogleCloudDialogflowV2beta1SessionEntityType,
@@ -15073,7 +15316,11 @@ export const deleteContextsProjectsAgentSessions: API.OperationMethod<
 }));
 
 export type DeleteContextsProjectsLocationsAgentEnvironmentsUsersSessionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const deleteContextsProjectsLocationsAgentEnvironmentsUsersSessions: API.OperationMethod<
   DeleteContextsProjectsLocationsAgentEnvironmentsUsersSessionsRequest,
   GoogleProtobufEmpty,
@@ -15392,7 +15639,11 @@ export const deleteProjectsLocationsAgentEnvironments: API.OperationMethod<
 }));
 
 export type DeleteProjectsLocationsAgentEnvironmentsUsersSessionsContextsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const deleteProjectsLocationsAgentEnvironmentsUsersSessionsContexts: API.OperationMethod<
   DeleteProjectsLocationsAgentEnvironmentsUsersSessionsContextsRequest,
   GoogleProtobufEmpty,
@@ -15407,7 +15658,11 @@ export const deleteProjectsLocationsAgentEnvironmentsUsersSessionsContexts: API.
 }));
 
 export type DeleteProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const deleteProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypes: API.OperationMethod<
   DeleteProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest,
   GoogleProtobufEmpty,
@@ -16324,7 +16579,9 @@ export const getProjectsLocationsAgentEnvironmentsUsersSessionsContexts: API.Ope
 }));
 
 export type GetProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 export const getProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypes: API.OperationMethod<
   GetProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest,
   GoogleCloudDialogflowV2beta1SessionEntityType,
@@ -17282,7 +17539,9 @@ export const listProjectsLocationsAgentEnvironmentsUsersSessionsContexts: API.Pa
 })) as any;
 
 export type ListProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 export const listProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypes: API.PaginatedOperationMethod<
   ListProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest,
   GoogleCloudDialogflowV2beta1ListSessionEntityTypesResponse,
@@ -18053,7 +18312,11 @@ export const patchProjectsLocationsAgentEnvironmentsUsersSessionsContexts: API.O
 }));
 
 export type PatchProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const patchProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypes: API.OperationMethod<
   PatchProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest,
   GoogleCloudDialogflowV2beta1SessionEntityType,
@@ -18603,7 +18866,11 @@ export const setSuggestionFeatureConfigProjectsConversationProfiles: API.Operati
 }));
 
 export type SetSuggestionFeatureConfigProjectsLocationsConversationProfilesError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const setSuggestionFeatureConfigProjectsLocationsConversationProfiles: API.OperationMethod<
   SetSuggestionFeatureConfigProjectsLocationsConversationProfilesRequest,
   GoogleLongrunningOperation,
@@ -18637,7 +18904,11 @@ export const suggestArticlesProjectsConversationsParticipantsSuggestions: API.Op
 }));
 
 export type SuggestArticlesProjectsLocationsConversationsParticipantsSuggestionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const suggestArticlesProjectsLocationsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestArticlesProjectsLocationsConversationsParticipantsSuggestionsRequest,
   GoogleCloudDialogflowV2beta1SuggestArticlesResponse,
@@ -18672,7 +18943,11 @@ export const suggestConversationSummaryProjectsConversationsSuggestions: API.Ope
 }));
 
 export type SuggestConversationSummaryProjectsLocationsConversationsSuggestionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const suggestConversationSummaryProjectsLocationsConversationsSuggestions: API.OperationMethod<
   SuggestConversationSummaryProjectsLocationsConversationsSuggestionsRequest,
   GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponse,
@@ -18688,7 +18963,11 @@ export const suggestConversationSummaryProjectsLocationsConversationsSuggestions
 }));
 
 export type SuggestFaqAnswersProjectsConversationsParticipantsSuggestionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const suggestFaqAnswersProjectsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestFaqAnswersProjectsConversationsParticipantsSuggestionsRequest,
   GoogleCloudDialogflowV2beta1SuggestFaqAnswersResponse,
@@ -18703,7 +18982,11 @@ export const suggestFaqAnswersProjectsConversationsParticipantsSuggestions: API.
 }));
 
 export type SuggestFaqAnswersProjectsLocationsConversationsParticipantsSuggestionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const suggestFaqAnswersProjectsLocationsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestFaqAnswersProjectsLocationsConversationsParticipantsSuggestionsRequest,
   GoogleCloudDialogflowV2beta1SuggestFaqAnswersResponse,
@@ -18719,7 +19002,11 @@ export const suggestFaqAnswersProjectsLocationsConversationsParticipantsSuggesti
 }));
 
 export type SuggestKnowledgeAssistProjectsConversationsParticipantsSuggestionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const suggestKnowledgeAssistProjectsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestKnowledgeAssistProjectsConversationsParticipantsSuggestionsRequest,
   GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse,
@@ -18735,7 +19022,11 @@ export const suggestKnowledgeAssistProjectsConversationsParticipantsSuggestions:
 }));
 
 export type SuggestKnowledgeAssistProjectsLocationsConversationsParticipantsSuggestionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const suggestKnowledgeAssistProjectsLocationsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestKnowledgeAssistProjectsLocationsConversationsParticipantsSuggestionsRequest,
   GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse,
@@ -18751,7 +19042,11 @@ export const suggestKnowledgeAssistProjectsLocationsConversationsParticipantsSug
 }));
 
 export type SuggestSmartRepliesProjectsConversationsParticipantsSuggestionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const suggestSmartRepliesProjectsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestSmartRepliesProjectsConversationsParticipantsSuggestionsRequest,
   GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse,
@@ -18766,7 +19061,11 @@ export const suggestSmartRepliesProjectsConversationsParticipantsSuggestions: AP
 }));
 
 export type SuggestSmartRepliesProjectsLocationsConversationsParticipantsSuggestionsError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 export const suggestSmartRepliesProjectsLocationsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestSmartRepliesProjectsLocationsConversationsParticipantsSuggestionsRequest,
   GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse,

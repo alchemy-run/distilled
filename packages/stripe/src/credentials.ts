@@ -25,7 +25,7 @@ export class Credentials extends Context.Service<
 >()("StripeCredentials") {}
 
 const envConfig = EffectConfig.all({
-  apiKey: EffectConfig.string("STRIPE_API_KEY"),
+  apiKey: EffectConfig.String("STRIPE_API_KEY"),
 });
 
 export const CredentialsFromEnv = Layer.succeed(

@@ -1,0 +1,1126 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.image#GetImageBuildChainRequest": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.image#ImageBuildStep": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        },
+        "startedAt": {
+          "target": "smithy.api#Timestamp"
+        },
+        "finishedAt": {
+          "target": "smithy.api#Timestamp"
+        },
+        "builderAppId": {
+          "target": "smithy.api#String"
+        },
+        "builderTaskId": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.image#ImageBuildStepList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.image#ImageBuildStep"
+      }
+    },
+    "com.modal.image#GetImageBuildChainResponse": {
+      "type": "structure",
+      "members": {
+        "buildSteps": {
+          "target": "com.modal.image#ImageBuildStepList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.image#GetImageBuildChain": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.image#GetImageBuildChainRequest"
+      },
+      "output": {
+        "target": "com.modal.image#GetImageBuildChainResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ImageBuildChainGet",
+          "code": 200
+        },
+        "smithy.api#documentation": "Images"
+      }
+    },
+    "com.modal.image#DeleteImageRequest": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.image#DeleteImage": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.image#DeleteImageRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ImageDelete",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.image#ImageFromIdRequest": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.image#ImageMetadata": {
+      "type": "structure",
+      "members": {
+        "pythonVersionInfo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The output of `python -VV. Not set if missing"
+          }
+        },
+        "pythonPackages": {
+          "target": "com.modal.image#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Installed python packages, as listed by by `pip list`. package name -> version. Empty if missing"
+          }
+        },
+        "workdir": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The working directory of the image, as an absolute file path. For most images, this is not set, which means to use the default workdir: - On function runners, the default is `/root` (home directory). - For image builds and sandbox environments, it is `/`."
+          }
+        },
+        "libcVersionInfo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The version of glibc in this image, if any."
+          }
+        },
+        "imageBuilderVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The builder version for/with which the image was created."
+          }
+        }
+      }
+    },
+    "com.modal.image#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.image#ImageFromIdResponse": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.image#ImageMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.image#ImageFromId": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.image#ImageFromIdRequest"
+      },
+      "output": {
+        "target": "com.modal.image#ImageFromIdResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ImageFromId",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.image#ImageGetByTagRequest": {
+      "type": "structure",
+      "members": {
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Named image reference: \"[[workspace/]environment/]name[:tag]\". The tag suffix defaults to \"latest\" when omitted."
+          }
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New clients should send environment name as a /-separated prefix of the `tag` field. environment_name only accepted when tag has no environment or workspace prefix."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.image#ImageGetByTagResponse": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.image#ImageGetByTag": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.image#ImageGetByTagRequest"
+      },
+      "output": {
+        "target": "com.modal.image#ImageGetByTagResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ImageGetByTag",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.image#Image": {
+      "type": "structure",
+      "members": {
+        "baseImages": {
+          "target": "com.modal.image#BaseImageList"
+        },
+        "dockerfileCommands": {
+          "target": "com.modal.image#StringList"
+        },
+        "contextFiles": {
+          "target": "com.modal.image#ImageContextFileList"
+        },
+        "version": {
+          "target": "smithy.api#String"
+        },
+        "secretIds": {
+          "target": "com.modal.image#StringList"
+        },
+        "contextMountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Part of Image definition, because presence of GPU drivers affects the image that's built."
+          }
+        },
+        "gpuConfig": {
+          "target": "com.modal.image#GPUConfig"
+        },
+        "imageRegistryConfig": {
+          "target": "com.modal.image#ImageRegistryConfig"
+        },
+        "buildFunctionDef": {
+          "target": "smithy.api#String"
+        },
+        "buildFunctionGlobals": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "deprecated after 0.58.96"
+          }
+        },
+        "runtime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "deprecated after 0.58.96 If set, overrides the runtime used by the function. Specify either \"runc\" or \"gvisor\"."
+          }
+        },
+        "runtimeDebug": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Not included in image definition checksum as debug features do not affect built image."
+          }
+        },
+        "buildFunction": {
+          "target": "com.modal.image#BuildFunction"
+        },
+        "buildArgs": {
+          "target": "com.modal.image#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Build arguments for the image (--build-arg) for ARG substitution in Dockerfile."
+          }
+        },
+        "volumeMounts": {
+          "target": "com.modal.image#VolumeMountList",
+          "traits": {
+            "smithy.api#documentation": "Volume mount for RUN commands"
+          }
+        },
+        "arch": {
+          "target": "com.modal.image#Arch",
+          "traits": {
+            "smithy.api#documentation": "CPU architecture the image is built for. Images with an unspecified arch predate this field and are treated as x86_64."
+          }
+        }
+      }
+    },
+    "com.modal.image#BaseImage": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        },
+        "dockerTag": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.image#BaseImageList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.image#BaseImage"
+      }
+    },
+    "com.modal.image#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.image#ImageContextFile": {
+      "type": "structure",
+      "members": {
+        "filename": {
+          "target": "smithy.api#String"
+        },
+        "data": {
+          "target": "smithy.api#Blob"
+        }
+      }
+    },
+    "com.modal.image#ImageContextFileList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.image#ImageContextFile"
+      }
+    },
+    "com.modal.image#GPUConfig": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.modal.image#GPUType"
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Deprecated, at some point"
+          }
+        },
+        "gpuType": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.image#GPUType": {
+      "type": "enum",
+      "members": {
+        "GPU_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_UNSPECIFIED",
+            "smithy.api#documentation": "Note: this enum is no longer used by current clients - don't add new types Old clients still send it, so we use it server-side for compatibility"
+          }
+        },
+        "GPU_TYPE_T4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_T4"
+          }
+        },
+        "GPU_TYPE_A100": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_A100"
+          }
+        },
+        "GPU_TYPE_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_A10G"
+          }
+        },
+        "GPU_TYPE_ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_ANY"
+          }
+        },
+        "GPU_TYPE_A100_80GB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_A100_80GB"
+          }
+        },
+        "GPU_TYPE_L4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_L4"
+          }
+        },
+        "GPU_TYPE_H100": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_H100"
+          }
+        },
+        "GPU_TYPE_L40S": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_L40S"
+          }
+        },
+        "GPU_TYPE_H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_H200"
+          }
+        }
+      }
+    },
+    "com.modal.image#ImageRegistryConfig": {
+      "type": "structure",
+      "members": {
+        "registryAuthType": {
+          "target": "com.modal.image#RegistryAuthType"
+        },
+        "secretId": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.image#RegistryAuthType": {
+      "type": "enum",
+      "members": {
+        "REGISTRY_AUTH_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REGISTRY_AUTH_TYPE_UNSPECIFIED"
+          }
+        },
+        "REGISTRY_AUTH_TYPE_AWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REGISTRY_AUTH_TYPE_AWS",
+            "smithy.api#documentation": "Older clients send this instead of \"public\"."
+          }
+        },
+        "REGISTRY_AUTH_TYPE_GCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REGISTRY_AUTH_TYPE_GCP"
+          }
+        },
+        "REGISTRY_AUTH_TYPE_PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REGISTRY_AUTH_TYPE_PUBLIC"
+          }
+        },
+        "REGISTRY_AUTH_TYPE_STATIC_CREDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REGISTRY_AUTH_TYPE_STATIC_CREDS"
+          }
+        }
+      }
+    },
+    "com.modal.image#BuildFunction": {
+      "type": "structure",
+      "members": {
+        "definition": {
+          "target": "smithy.api#String"
+        },
+        "globals": {
+          "target": "smithy.api#Blob"
+        },
+        "input": {
+          "target": "com.modal.image#FunctionInput"
+        }
+      }
+    },
+    "com.modal.image#FunctionInput": {
+      "type": "structure",
+      "members": {
+        "args": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "serialized (args, kwargs)."
+          }
+        },
+        "argsBlobId": {
+          "target": "smithy.api#String"
+        },
+        "finalInput": {
+          "target": "smithy.api#Boolean"
+        },
+        "dataFormat": {
+          "target": "com.modal.image#DataFormat"
+        },
+        "methodName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For args_oneof."
+          }
+        }
+      }
+    },
+    "com.modal.image#DataFormat": {
+      "type": "enum",
+      "members": {
+        "DATA_FORMAT_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_UNSPECIFIED"
+          }
+        },
+        "DATA_FORMAT_PICKLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_PICKLE"
+          }
+        },
+        "DATA_FORMAT_ASGI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_ASGI",
+            "smithy.api#documentation": "Cloudpickle"
+          }
+        },
+        "DATA_FORMAT_GENERATOR_DONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_GENERATOR_DONE",
+            "smithy.api#documentation": "\"Asgi\" protobuf message"
+          }
+        },
+        "DATA_FORMAT_CBOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_CBOR",
+            "smithy.api#documentation": "\"GeneratorDone\" protobuf message"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which data format a binary message is encoded with."
+      }
+    },
+    "com.modal.image#VolumeMount": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        },
+        "mountPath": {
+          "target": "smithy.api#String"
+        },
+        "allowBackgroundCommits": {
+          "target": "smithy.api#Boolean"
+        },
+        "readOnly": {
+          "target": "smithy.api#Boolean"
+        },
+        "subPath": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.image#VolumeMountList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.image#VolumeMount"
+      }
+    },
+    "com.modal.image#Arch": {
+      "type": "enum",
+      "members": {
+        "ARCH_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ARCH_UNSPECIFIED"
+          }
+        },
+        "ARCH_X86_64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ARCH_X86_64"
+          }
+        },
+        "ARCH_AARCH64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ARCH_AARCH64"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "CPU architecture an image is built for and must run on."
+      }
+    },
+    "com.modal.image#DeploymentNamespace": {
+      "type": "enum",
+      "members": {
+        "DEPLOYMENT_NAMESPACE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEPLOYMENT_NAMESPACE_UNSPECIFIED"
+          }
+        },
+        "DEPLOYMENT_NAMESPACE_WORKSPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEPLOYMENT_NAMESPACE_WORKSPACE"
+          }
+        },
+        "DEPLOYMENT_NAMESPACE_GLOBAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEPLOYMENT_NAMESPACE_GLOBAL"
+          }
+        }
+      }
+    },
+    "com.modal.image#ImageGetOrCreateRequest": {
+      "type": "structure",
+      "members": {
+        "image": {
+          "target": "com.modal.image#Image"
+        },
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "existingImageId": {
+          "target": "smithy.api#String"
+        },
+        "buildFunctionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ignored"
+          }
+        },
+        "forceBuild": {
+          "target": "smithy.api#Boolean"
+        },
+        "namespace": {
+          "target": "com.modal.image#DeploymentNamespace"
+        },
+        "builderVersion": {
+          "target": "smithy.api#String"
+        },
+        "allowGlobalDeployment": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Only admins can publish global images, but this provides an extra failsafe"
+          }
+        },
+        "ignoreCache": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Force the Image to build but don't clobber any Images with the same recipe in the cache"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.image#GenericResult": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.modal.image#GenericResultGenericStatus"
+        },
+        "exception": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status of the task or function output."
+          }
+        },
+        "exitcode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Exception message for failures, if available."
+          }
+        },
+        "traceback": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly."
+          }
+        },
+        "serializedTb": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "String value of the Python traceback."
+          }
+        },
+        "tbLineCache": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "Pickled traceback object."
+          }
+        },
+        "data": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "Pickled line cache for traceback object."
+          }
+        },
+        "dataBlobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inline data of the result."
+          }
+        },
+        "propagationReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Blob ID for large data."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "sub-type for generic types like lists"
+      }
+    },
+    "com.modal.image#GenericResultGenericStatus": {
+      "type": "enum",
+      "members": {
+        "GENERIC_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_UNSPECIFIED"
+          }
+        },
+        "GENERIC_STATUS_SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_SUCCESS"
+          }
+        },
+        "GENERIC_STATUS_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_FAILURE"
+          }
+        },
+        "GENERIC_STATUS_TERMINATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_TERMINATED",
+            "smithy.api#documentation": "Used when a task was killed using an external signal."
+          }
+        },
+        "GENERIC_STATUS_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_TIMEOUT"
+          }
+        },
+        "GENERIC_STATUS_INIT_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_INIT_FAILURE",
+            "smithy.api#documentation": "Used when the user's function fails to initialize (ex. S3 mount failed due to invalid credentials). Terminates the function and all remaining inputs."
+          }
+        },
+        "GENERIC_STATUS_INTERNAL_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_INTERNAL_FAILURE"
+          }
+        },
+        "GENERIC_STATUS_IDLE_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_IDLE_TIMEOUT",
+            "smithy.api#documentation": "Used when sandboxes are terminated due to idle_timeout"
+          }
+        },
+        "GENERIC_STATUS_MEMORY_MANAGER_EVICTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_MEMORY_MANAGER_EVICTION",
+            "smithy.api#documentation": "Used when a task was killed because it was evicted by the memory manager when the worker was under memory pressure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Used for both tasks and function outputs"
+      }
+    },
+    "com.modal.image#ImageGetOrCreateResponse": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "image_id is set regardless if the image is built (use ImageJoinStreaming to wait for build)"
+          }
+        },
+        "result": {
+          "target": "com.modal.image#GenericResult",
+          "traits": {
+            "smithy.api#documentation": "result of build - only set if the image has finished building (regardless if success or not)"
+          }
+        },
+        "metadata": {
+          "target": "com.modal.image#ImageMetadata",
+          "traits": {
+            "smithy.api#documentation": "image metadata - only set if the image has built successfully"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.image#ImageGetOrCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.image#ImageGetOrCreateRequest"
+      },
+      "output": {
+        "target": "com.modal.image#ImageGetOrCreateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ImageGetOrCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.image#ImageListTagsRequest": {
+      "type": "structure",
+      "members": {
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "tagPrefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix search over full \"name:tag\" strings."
+          }
+        },
+        "maxObjects": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Defaults to 100. Values above 100 are rejected by the server."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.image#ImageListTagsItem": {
+      "type": "structure",
+      "members": {
+        "tag": {
+          "target": "smithy.api#String"
+        },
+        "imageId": {
+          "target": "smithy.api#String"
+        },
+        "revisionId": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "set on success"
+      }
+    },
+    "com.modal.image#ImageListTagsItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.image#ImageListTagsItem"
+      }
+    },
+    "com.modal.image#ImageListTagsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.modal.image#ImageListTagsItemList"
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.image#ImageListTags": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.image#ImageListTagsRequest"
+      },
+      "output": {
+        "target": "com.modal.image#ImageListTagsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ImageListTags",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.image#PublishImageRequest": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Named image reference: \"[[workspace/]environment/]name[:tag]\". The tag suffix defaults to \"latest\" when omitted."
+          }
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New clients should send environment name as a /-separated prefix of the `tag` field. environment_name only accepted when tag has no environment or workspace prefix."
+          }
+        },
+        "allowPublic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Explicit opt-in required when publishing to a public environment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.image#PublishImageResponse": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        },
+        "revisionId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.image#PublishImage": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.image#PublishImageRequest"
+      },
+      "output": {
+        "target": "com.modal.image#PublishImageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ImagePublish",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.image#ImageTagRevisionsRequest": {
+      "type": "structure",
+      "members": {
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Named image reference: \"[[workspace/]environment/]name[:tag]\". The tag suffix defaults to \"latest\" when omitted."
+          }
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New clients should send environment name as a /-separated prefix of the `tag` field. environment_name only accepted when tag has no environment or workspace prefix."
+          }
+        },
+        "maxObjects": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Defaults to 100. Values above 100 are rejected by the server."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.image#ImageTagRevisionsItem": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        },
+        "revisionId": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "publishedBy": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.image#ImageTagRevisionsItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.image#ImageTagRevisionsItem"
+      }
+    },
+    "com.modal.image#ImageTagRevisionsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.modal.image#ImageTagRevisionsItemList"
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String"
+        },
+        "tag": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.image#ImageTagRevisions": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.image#ImageTagRevisionsRequest"
+      },
+      "output": {
+        "target": "com.modal.image#ImageTagRevisionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ImageTagRevisions",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.image#ImageService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.image#GetImageBuildChain"
+        },
+        {
+          "target": "com.modal.image#DeleteImage"
+        },
+        {
+          "target": "com.modal.image#ImageFromId"
+        },
+        {
+          "target": "com.modal.image#ImageGetByTag"
+        },
+        {
+          "target": "com.modal.image#ImageGetOrCreate"
+        },
+        {
+          "target": "com.modal.image#ImageListTags"
+        },
+        {
+          "target": "com.modal.image#PublishImage"
+        },
+        {
+          "target": "com.modal.image#ImageTagRevisions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Image",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Image`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

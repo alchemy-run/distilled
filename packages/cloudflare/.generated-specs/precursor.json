@@ -1,0 +1,410 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.cloudflare.precursor#GetRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.precursor#GetResponseDefaultMode": {
+      "type": "enum",
+      "members": {
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        },
+        "MIN_FRICTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "min-friction"
+          }
+        },
+        "MAX_SECURITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max-security"
+          }
+        }
+      }
+    },
+    "com.cloudflare.precursor#GetResponseEnforcementRulesItemMode": {
+      "type": "enum",
+      "members": {
+        "MIN_FRICTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "min-friction"
+          }
+        },
+        "MAX_SECURITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max-security"
+          }
+        }
+      }
+    },
+    "com.cloudflare.precursor#GetResponseEnforcementRulesItem": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The filter expression that determines which requests the rule matches.",
+            "smithy.api#required": {}
+          }
+        },
+        "mode": {
+          "target": "com.cloudflare.precursor#GetResponseEnforcementRulesItemMode",
+          "traits": {
+            "smithy.api#documentation": "The override mode Precursor applies to requests matching an enforcement rule. Unlike `default_mode`, this cannot be `off`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The read-only identifier that Cloudflare assigns to the rule."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An informative description of the rule."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the rule is active."
+          }
+        }
+      }
+    },
+    "com.cloudflare.precursor#GetResponseEnforcementRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.precursor#GetResponseEnforcementRulesItem"
+      }
+    },
+    "com.cloudflare.precursor#GetResponse": {
+      "type": "structure",
+      "members": {
+        "default_mode": {
+          "target": "com.cloudflare.precursor#GetResponseDefaultMode",
+          "traits": {
+            "smithy.api#documentation": "The zone-level Precursor enforcement mode applied to requests that do not match a more specific enforcement rule."
+          }
+        },
+        "enforcement_rules": {
+          "target": "com.cloudflare.precursor#GetResponseEnforcementRulesList",
+          "traits": {
+            "smithy.api#documentation": "The ordered list of enforcement rules for the zone."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.precursor#Get": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.precursor#GetRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.precursor#GetResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/zones/{zone_id}/precursor",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a zone's Precursor configuration: the zone-level `default_mode` and the ordered list of `enforcement_rules`.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.precursor#UpdateRequestDefaultMode": {
+      "type": "enum",
+      "members": {
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        },
+        "MIN_FRICTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "min-friction"
+          }
+        },
+        "MAX_SECURITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max-security"
+          }
+        }
+      }
+    },
+    "com.cloudflare.precursor#UpdateRequestEnforcementRulesItemMode": {
+      "type": "enum",
+      "members": {
+        "MIN_FRICTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "min-friction"
+          }
+        },
+        "MAX_SECURITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max-security"
+          }
+        }
+      }
+    },
+    "com.cloudflare.precursor#UpdateRequestEnforcementRulesItem": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The filter expression that determines which requests the rule matches.",
+            "smithy.api#required": {}
+          }
+        },
+        "mode": {
+          "target": "com.cloudflare.precursor#UpdateRequestEnforcementRulesItemMode",
+          "traits": {
+            "smithy.api#documentation": "The override mode Precursor applies to requests matching an enforcement rule. Unlike `default_mode`, this cannot be `off`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The read-only identifier that Cloudflare assigns to the rule."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An informative description of the rule."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the rule is active."
+          }
+        }
+      }
+    },
+    "com.cloudflare.precursor#UpdateRequestEnforcementRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.precursor#UpdateRequestEnforcementRulesItem"
+      }
+    },
+    "com.cloudflare.precursor#UpdateRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "default_mode": {
+          "target": "com.cloudflare.precursor#UpdateRequestDefaultMode",
+          "traits": {
+            "smithy.api#documentation": "The zone-level Precursor enforcement mode applied to requests that do not match a more specific enforcement rule."
+          }
+        },
+        "enforcement_rules": {
+          "target": "com.cloudflare.precursor#UpdateRequestEnforcementRulesList",
+          "traits": {
+            "smithy.api#documentation": "The ordered list of enforcement rules for the zone."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.precursor#UpdateResponseDefaultMode": {
+      "type": "enum",
+      "members": {
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        },
+        "MIN_FRICTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "min-friction"
+          }
+        },
+        "MAX_SECURITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max-security"
+          }
+        }
+      }
+    },
+    "com.cloudflare.precursor#UpdateResponseEnforcementRulesItemMode": {
+      "type": "enum",
+      "members": {
+        "MIN_FRICTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "min-friction"
+          }
+        },
+        "MAX_SECURITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max-security"
+          }
+        }
+      }
+    },
+    "com.cloudflare.precursor#UpdateResponseEnforcementRulesItem": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The filter expression that determines which requests the rule matches.",
+            "smithy.api#required": {}
+          }
+        },
+        "mode": {
+          "target": "com.cloudflare.precursor#UpdateResponseEnforcementRulesItemMode",
+          "traits": {
+            "smithy.api#documentation": "The override mode Precursor applies to requests matching an enforcement rule. Unlike `default_mode`, this cannot be `off`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The read-only identifier that Cloudflare assigns to the rule."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An informative description of the rule."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the rule is active."
+          }
+        }
+      }
+    },
+    "com.cloudflare.precursor#UpdateResponseEnforcementRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.precursor#UpdateResponseEnforcementRulesItem"
+      }
+    },
+    "com.cloudflare.precursor#UpdateResponse": {
+      "type": "structure",
+      "members": {
+        "default_mode": {
+          "target": "com.cloudflare.precursor#UpdateResponseDefaultMode",
+          "traits": {
+            "smithy.api#documentation": "The zone-level Precursor enforcement mode applied to requests that do not match a more specific enforcement rule."
+          }
+        },
+        "enforcement_rules": {
+          "target": "com.cloudflare.precursor#UpdateResponseEnforcementRulesList",
+          "traits": {
+            "smithy.api#documentation": "The ordered list of enforcement rules for the zone."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.precursor#Update": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.precursor#UpdateRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.precursor#UpdateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/zones/{zone_id}/precursor",
+          "code": 200
+        },
+        "smithy.api#documentation": "Updates the Precursor configuration for a zone. `default_mode` sets the zone-level enforcement mode. `enforcement_rules` is the ordered list of rules that override enforcement for matching requests. This is a partial update: only the fields present in the request body are changed. - Sending an empty array ( `[]`) clears all enforcement rules. - At least one of `default_mode` or `enforcement_rules` must be present; an empty body ( `{}`) is rejected with `400`. - Rule `id` is read-only (assigned by Cloudflare) and ignored on input. - Rule `mode` must be `min-friction` or `max-security` ( `off` is not a valid rule mode; use `default_mode` to disable enforcement). - Rule `expression` is limited to 4000 characters. The limit applies to each rule individually, not to the combined size of all rules.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.precursor#Precursor": {
+      "type": "service",
+      "version": "4.0",
+      "operations": [
+        {
+          "target": "com.cloudflare.precursor#Get"
+        },
+        {
+          "target": "com.cloudflare.precursor#Update"
+        }
+      ],
+      "traits": {
+        "com.cloudflare.protocols#v4Json": {},
+        "smithy.api#title": "Cloudflare Precursor",
+        "smithy.api#documentation": "Cloudflare API — precursor resource. Speaks the v4 JSON envelope protocol; operation outputs describe the unwrapped `result` payload."
+      }
+    }
+  }
+}

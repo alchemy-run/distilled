@@ -1,0 +1,137 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "service": "androiddeveloperidstatus",
+    "version": "v1",
+    "title": "Android Developer ID Status API",
+    "baseUrl": "https://androiddeveloperidstatus.googleapis.com/",
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.gcp.androiddeveloperidstatus_v1#PackageRegistrationStatus": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. The name of the package registration status resource. Format: packages/{package}/packageRegistrationStatus `{package}` must follow the specific format: The fully-qualified Android package name with dots ('.') replaced by hyphens ('-') (e.g., `com-example-app` instead of `com.example.app`)."
+          }
+        },
+        "state": {
+          "target": "com.gcp.androiddeveloperidstatus_v1#PackageRegistrationStatusStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. Registration state of the package, or pair."
+          }
+        },
+        "certificateFingerprint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The SHA-256 fingerprint of the public certificate represented as a 64-character lowercase hexadecimal string without any colons or separators (e.g., `d6ac89ed1d0a805aad4b087d06d5f41645b814480b133fbc867ef7498d069e06`)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource message PackageRegistrationStatus."
+      }
+    },
+    "com.gcp.androiddeveloperidstatus_v1#PackageRegistrationStatusStateEnum": {
+      "type": "enum",
+      "members": {
+        "REGISTRATION_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REGISTRATION_STATE_UNSPECIFIED"
+          }
+        },
+        "REGISTERED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REGISTERED"
+          }
+        },
+        "NOT_REGISTERED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NOT_REGISTERED"
+          }
+        },
+        "REGISTERED_WITH_ANOTHER_CERTIFICATE_FINGERPRINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REGISTERED_WITH_ANOTHER_CERTIFICATE_FINGERPRINT"
+          }
+        }
+      }
+    },
+    "com.gcp.androiddeveloperidstatus_v1#CheckPackagesPackageRegistrationStatusRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The name of the package registration status resource. Format: packages/{package}/packageRegistrationStatus `{package}` must follow the specific format: The fully-qualified Android package name with dots ('.') replaced by hyphens ('-') (e.g., `com-example-app` instead of `com.example.app`).",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "certificateFingerprint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The SHA-256 fingerprint of the public certificate represented as a 64-character lowercase hexadecimal string without any colons or separators (e.g., `d6ac89ed1d0a805aad4b087d06d5f41645b814480b133fbc867ef7498d069e06`).",
+            "smithy.api#httpQuery": "certificateFingerprint"
+          }
+        }
+      }
+    },
+    "com.gcp.androiddeveloperidstatus_v1#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.gcp.androiddeveloperidstatus_v1#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.gcp.androiddeveloperidstatus_v1#CheckPackagesPackageRegistrationStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.androiddeveloperidstatus_v1#CheckPackagesPackageRegistrationStatusRequest"
+      },
+      "output": {
+        "target": "com.gcp.androiddeveloperidstatus_v1#PackageRegistrationStatus"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.androiddeveloperidstatus_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.androiddeveloperidstatus_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}:check"
+        },
+        "smithy.api#documentation": "Retrieves the Android Developer ID registration status for a given package."
+      }
+    }
+  }
+}

@@ -1,0 +1,1840 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.api_keys#ListApiKeysRequestResourceType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ListApiKeysRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ListApiKeysRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ListApiKeysRequest": {
+      "type": "structure",
+      "members": {
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resource_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account (`biz_`) or app (`app_`) tag to list API keys for."
+          }
+        },
+        "resource_type": {
+          "target": "com.whop.api_keys#ListApiKeysRequestResourceType",
+          "traits": {
+            "smithy.api#httpQuery": "resource_type",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The type of resource that owns the API keys."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only return API keys created before this ISO 8601 timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return API keys created after this ISO 8601 timestamp."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of API keys to return (default 20, max 100)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor; returns API keys after this position."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of API keys to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor; returns API keys before this position."
+          }
+        },
+        "order": {
+          "target": "com.whop.api_keys#ListApiKeysRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort API keys by."
+          }
+        },
+        "direction": {
+          "target": "com.whop.api_keys#ListApiKeysRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.api_keys#ApiKey": {
+      "type": "structure",
+      "members": {
+        "api_version_date": {
+          "target": "com.whop.api_keys#ApiKeyApiVersionDate",
+          "traits": {
+            "smithy.api#documentation": "Dated API version used when requests authenticated with this key omit the `Api-Version-Date` header.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the API key was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the API key stops working, as an ISO 8601 timestamp. `null` means it never expires.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "grants": {
+          "target": "com.whop.api_keys#ApiKeyGrantsList"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "API key ID, prefixed `apik_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "ip_allowlist": {
+          "target": "com.whop.api_keys#ApiKeyIpAllowlistList",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_default_for_resource": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this is the resource's default API key. Default keys cannot be updated or deleted, only rotated.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name identifying the API key, or `null` when none was set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "obfuscated_secret_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Masked version of the secret key, so the key can be recognized without revealing the full secret.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "secret_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full secret used to authenticate requests. Returned only once, on create and rotate responses — store it immediately.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "system_role": {
+          "target": "com.whop.api_keys#ApiKeySystemRole",
+          "traits": {
+            "smithy.api#documentation": "System role the key inherits its permissions from, or `null` when it uses an explicit permissions policy. Only account API keys can use a system role.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the API key was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ApiKeyApiVersionDate": {
+      "type": "enum",
+      "members": {
+        "_2025_01_01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2025-01-01"
+          }
+        },
+        "_2026_06_08": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-06-08"
+          }
+        },
+        "_2026_06_09": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-06-09"
+          }
+        },
+        "_2026_06_20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-06-20"
+          }
+        },
+        "_2026_07_01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-01"
+          }
+        },
+        "_2026_07_08": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-08"
+          }
+        },
+        "_2026_07_08_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-08-1"
+          }
+        },
+        "_2026_07_18": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-18"
+          }
+        },
+        "_2026_07_20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-20"
+          }
+        },
+        "_2026_07_22": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-22"
+          }
+        },
+        "_2026_07_23": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-23"
+          }
+        },
+        "_2026_07_25": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-25"
+          }
+        },
+        "_2026_07_26": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-26"
+          }
+        },
+        "_2026_07_27": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-27"
+          }
+        },
+        "_2026_07_29": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-29"
+          }
+        },
+        "_2026_07_29_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-29-1"
+          }
+        },
+        "_2026_07_31": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-31"
+          }
+        },
+        "_2026_08_03": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-03"
+          }
+        },
+        "_2026_08_05": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-05"
+          }
+        },
+        "_2026_08_05_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-05-1"
+          }
+        },
+        "_2026_08_10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-10"
+          }
+        },
+        "_2026_08_12": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-12"
+          }
+        },
+        "_2026_08_13": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-13"
+          }
+        },
+        "_2026_08_14": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-14"
+          }
+        },
+        "_2026_08_21": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-21"
+          }
+        },
+        "_2026_08_21_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-21-1"
+          }
+        },
+        "_2026_08_25": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-25"
+          }
+        },
+        "_2026_08_25_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-25-1"
+          }
+        },
+        "_2026_08_25_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-25-2"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Dated API version used when requests authenticated with this key omit the `Api-Version-Date` header."
+      }
+    },
+    "com.whop.api_keys#ApiKeyGrant": {
+      "type": "structure",
+      "members": {
+        "actions": {
+          "target": "com.whop.api_keys#ApiKeyGrantActionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the resource the actions apply to.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of resource the actions apply to, such as `account`, `product`, or `app`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ApiKeyGrantAction": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The permission action's identifier, for example `company:basic:read`.",
+            "smithy.api#required": {}
+          }
+        },
+        "granted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the key holds the action on the grant's resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ApiKeyGrantActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.api_keys#ApiKeyGrantAction"
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ApiKeyGrantsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.api_keys#ApiKeyGrant"
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ApiKeyIpAllowlistList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ApiKeySystemRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "MODERATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "moderator"
+          }
+        },
+        "SALES_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales_manager"
+          }
+        },
+        "ADVERTISER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertiser"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "System role the key inherits its permissions from, or `null` when it uses an explicit permissions policy. Only account API keys can use a system role."
+      }
+    },
+    "com.whop.api_keys#ListApiKeysResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.api_keys#ApiKey"
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ListApiKeysResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ListApiKeysResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.api_keys#ListApiKeysResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.api_keys#ListApiKeysResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.api_keys#ListApiKeys": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.api_keys#ListApiKeysRequest"
+      },
+      "output": {
+        "target": "com.whop.api_keys#ListApiKeysResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.api_keys#BadRequest"
+        },
+        {
+          "target": "com.whop.api_keys#Forbidden"
+        },
+        {
+          "target": "com.whop.api_keys#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api_keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "List API Keys\n\nLists the API keys of an account or app, newest first. Responses never include the full secret — only its obfuscated form.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.api_keys#CreateApiKeyRequestApiVersionDate": {
+      "type": "enum",
+      "members": {
+        "_2025_01_01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2025-01-01"
+          }
+        },
+        "_2026_06_08": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-06-08"
+          }
+        },
+        "_2026_06_09": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-06-09"
+          }
+        },
+        "_2026_06_20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-06-20"
+          }
+        },
+        "_2026_07_01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-01"
+          }
+        },
+        "_2026_07_08": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-08"
+          }
+        },
+        "_2026_07_08_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-08-1"
+          }
+        },
+        "_2026_07_18": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-18"
+          }
+        },
+        "_2026_07_20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-20"
+          }
+        },
+        "_2026_07_22": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-22"
+          }
+        },
+        "_2026_07_23": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-23"
+          }
+        },
+        "_2026_07_25": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-25"
+          }
+        },
+        "_2026_07_26": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-26"
+          }
+        },
+        "_2026_07_27": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-27"
+          }
+        },
+        "_2026_07_29": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-29"
+          }
+        },
+        "_2026_07_29_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-29-1"
+          }
+        },
+        "_2026_07_31": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-31"
+          }
+        },
+        "_2026_08_03": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-03"
+          }
+        },
+        "_2026_08_05": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-05"
+          }
+        },
+        "_2026_08_05_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-05-1"
+          }
+        },
+        "_2026_08_10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-10"
+          }
+        },
+        "_2026_08_12": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-12"
+          }
+        },
+        "_2026_08_13": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-13"
+          }
+        },
+        "_2026_08_14": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-14"
+          }
+        },
+        "_2026_08_21": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-21"
+          }
+        },
+        "_2026_08_21_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-21-1"
+          }
+        },
+        "_2026_08_25": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-25"
+          }
+        },
+        "_2026_08_25_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-25-1"
+          }
+        },
+        "_2026_08_25_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-25-2"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Dated API version used when requests authenticated with this key omit the `Api-Version-Date` header. New keys default to the latest version."
+      }
+    },
+    "com.whop.api_keys#CreateApiKeyRequestIpAllowlistList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IPv4/IPv6 CIDR ranges allowed to use this key, for example `[\"203.0.113.0/24\"]`. Empty or `null` allows any IP."
+      }
+    },
+    "com.whop.api_keys#CreateApiKeyRequestPermissionsStatementsItemActionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Permission actions covered by this statement, for example `company:basic:read`."
+      }
+    },
+    "com.whop.api_keys#CreateApiKeyRequestPermissionsStatementsItemResourcesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource identifiers the statement applies to, for example `biz_xxx` or `biz_xxx|pass_*`. Defaults to the key's owning resource when omitted."
+      }
+    },
+    "com.whop.api_keys#CreateApiKeyRequestPermissionsStatementsItem": {
+      "type": "structure",
+      "members": {
+        "actions": {
+          "target": "com.whop.api_keys#CreateApiKeyRequestPermissionsStatementsItemActionsList",
+          "traits": {
+            "smithy.api#documentation": "Permission actions covered by this statement, for example `company:basic:read`.",
+            "smithy.api#required": {}
+          }
+        },
+        "grant": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the actions are granted (`true`) or denied (`false`).",
+            "smithy.api#required": {}
+          }
+        },
+        "resources": {
+          "target": "com.whop.api_keys#CreateApiKeyRequestPermissionsStatementsItemResourcesList",
+          "traits": {
+            "smithy.api#documentation": "Resource identifiers the statement applies to, for example `biz_xxx` or `biz_xxx|pass_*`. Defaults to the key's owning resource when omitted."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#CreateApiKeyRequestPermissionsStatementsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.api_keys#CreateApiKeyRequestPermissionsStatementsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Explicit permission statements. Required unless `system_role` is set."
+      }
+    },
+    "com.whop.api_keys#CreateApiKeyRequestPermissionsSystemRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "MODERATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "moderator"
+          }
+        },
+        "SALES_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales_manager"
+          }
+        },
+        "ADVERTISER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertiser"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A system role to inherit permissions from. Only Account API keys can use a system role."
+      }
+    },
+    "com.whop.api_keys#CreateApiKeyRequestPermissions": {
+      "type": "structure",
+      "members": {
+        "statements": {
+          "target": "com.whop.api_keys#CreateApiKeyRequestPermissionsStatementsList",
+          "traits": {
+            "smithy.api#documentation": "Explicit permission statements. Required unless `system_role` is set."
+          }
+        },
+        "system_role": {
+          "target": "com.whop.api_keys#CreateApiKeyRequestPermissionsSystemRole",
+          "traits": {
+            "smithy.api#documentation": "A system role to inherit permissions from. Only Account API keys can use a system role.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The permissions policy for the API key: explicit permission statements, or a system role to inherit from. Statements without a `resources` array default to the owning account (Account API keys) or every key-addressable resource (App API keys)."
+      }
+    },
+    "com.whop.api_keys#CreateApiKeyRequestResourceType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of resource that will own this API key."
+      }
+    },
+    "com.whop.api_keys#CreateApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "api_version_date": {
+          "target": "com.whop.api_keys#CreateApiKeyRequestApiVersionDate",
+          "traits": {
+            "smithy.api#documentation": "Dated API version used when requests authenticated with this key omit the `Api-Version-Date` header. New keys default to the latest version."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the API key should stop working, as an ISO 8601 timestamp. Omit (or pass `null` on update) for a key that never expires.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ip_allowlist": {
+          "target": "com.whop.api_keys#CreateApiKeyRequestIpAllowlistList",
+          "traits": {
+            "smithy.api#documentation": "IPv4/IPv6 CIDR ranges allowed to use this key, for example `[\"203.0.113.0/24\"]`. Empty or `null` allows any IP.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable name for the API key, such as 'Production API Key'.",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.whop.api_keys#CreateApiKeyRequestPermissions",
+          "traits": {
+            "smithy.api#documentation": "The permissions policy for the API key: explicit permission statements, or a system role to inherit from. Statements without a `resources` array default to the owning account (Account API keys) or every key-addressable resource (App API keys).",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account (`biz_`) or app (`app_`) tag to create the API key for.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_type": {
+          "target": "com.whop.api_keys#CreateApiKeyRequestResourceType",
+          "traits": {
+            "smithy.api#documentation": "The type of resource that will own this API key.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.api_keys#CreateApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.api_keys#CreateApiKeyRequest"
+      },
+      "output": {
+        "target": "com.whop.api_keys#ApiKey"
+      },
+      "errors": [
+        {
+          "target": "com.whop.api_keys#BadRequest"
+        },
+        {
+          "target": "com.whop.api_keys#Forbidden"
+        },
+        {
+          "target": "com.whop.api_keys#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api_keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create API Key\n\nCreates an API key for an account or app. The response is the only place the full `secret_key` is returned — store it immediately. Requires a user session; API keys cannot manage API keys."
+      }
+    },
+    "com.whop.api_keys#Permission": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The permission action's identifier, for example `company:basic:read`.",
+            "smithy.api#required": {}
+          }
+        },
+        "allowed_on_api_key": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether an API key can be granted the permission.",
+            "smithy.api#required": {}
+          }
+        },
+        "allowed_on_app": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether an app can request and be granted the permission.",
+            "smithy.api#required": {}
+          }
+        },
+        "allowed_on_user": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the permission can be granted to user tokens.",
+            "smithy.api#required": {}
+          }
+        },
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The category the action is grouped under, or `null` when uncategorized.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What granting the action allows.",
+            "smithy.api#required": {}
+          }
+        },
+        "granted_to_system_roles": {
+          "target": "com.whop.api_keys#PermissionGrantedToSystemRolesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the action.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#PermissionGrantedToSystemRolesItem": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "MODERATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "moderator"
+          }
+        },
+        "SALES_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales_manager"
+          }
+        },
+        "ADVERTISER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertiser"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "System roles that include the permission."
+      }
+    },
+    "com.whop.api_keys#PermissionGrantedToSystemRolesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.api_keys#PermissionGrantedToSystemRolesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ListApiKeyPermissionsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.api_keys#Permission"
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ListApiKeyPermissionsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#ListApiKeyPermissionsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.api_keys#ListApiKeyPermissionsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.api_keys#ListApiKeyPermissionsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.api_keys#ListApiKeyPermissions": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.whop.api_keys#ListApiKeyPermissionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api_keys/permissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the Permission Catalog\n\nLists the catalog of permission actions that can be granted to users, apps, and API keys — the source for the dashboard's permission pickers. Small and returned in full on one page."
+      }
+    },
+    "com.whop.api_keys#GetApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "API key ID, prefixed `apik_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.api_keys#GetApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.api_keys#GetApiKeyRequest"
+      },
+      "output": {
+        "target": "com.whop.api_keys#ApiKey"
+      },
+      "errors": [
+        {
+          "target": "com.whop.api_keys#Forbidden"
+        },
+        {
+          "target": "com.whop.api_keys#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api_keys/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve API Key\n\nRetrieves an API key with its effective permission grants. The full secret is never returned — rotate the key if it was lost."
+      }
+    },
+    "com.whop.api_keys#UpdateApiKeyRequestApiVersionDate": {
+      "type": "enum",
+      "members": {
+        "_2025_01_01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2025-01-01"
+          }
+        },
+        "_2026_06_08": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-06-08"
+          }
+        },
+        "_2026_06_09": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-06-09"
+          }
+        },
+        "_2026_06_20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-06-20"
+          }
+        },
+        "_2026_07_01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-01"
+          }
+        },
+        "_2026_07_08": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-08"
+          }
+        },
+        "_2026_07_08_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-08-1"
+          }
+        },
+        "_2026_07_18": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-18"
+          }
+        },
+        "_2026_07_20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-20"
+          }
+        },
+        "_2026_07_22": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-22"
+          }
+        },
+        "_2026_07_23": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-23"
+          }
+        },
+        "_2026_07_25": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-25"
+          }
+        },
+        "_2026_07_26": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-26"
+          }
+        },
+        "_2026_07_27": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-27"
+          }
+        },
+        "_2026_07_29": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-29"
+          }
+        },
+        "_2026_07_29_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-29-1"
+          }
+        },
+        "_2026_07_31": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-07-31"
+          }
+        },
+        "_2026_08_03": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-03"
+          }
+        },
+        "_2026_08_05": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-05"
+          }
+        },
+        "_2026_08_05_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-05-1"
+          }
+        },
+        "_2026_08_10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-10"
+          }
+        },
+        "_2026_08_12": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-12"
+          }
+        },
+        "_2026_08_13": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-13"
+          }
+        },
+        "_2026_08_14": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-14"
+          }
+        },
+        "_2026_08_21": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-21"
+          }
+        },
+        "_2026_08_21_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-21-1"
+          }
+        },
+        "_2026_08_25": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-25"
+          }
+        },
+        "_2026_08_25_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-25-1"
+          }
+        },
+        "_2026_08_25_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-08-25-2"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Dated API version used when requests authenticated with this key omit the `Api-Version-Date` header. New keys default to the latest version."
+      }
+    },
+    "com.whop.api_keys#UpdateApiKeyRequestIpAllowlistList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IPv4/IPv6 CIDR ranges allowed to use this key, for example `[\"203.0.113.0/24\"]`. Empty or `null` allows any IP."
+      }
+    },
+    "com.whop.api_keys#UpdateApiKeyRequestPermissionsStatementsItemActionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Permission actions covered by this statement, for example `company:basic:read`."
+      }
+    },
+    "com.whop.api_keys#UpdateApiKeyRequestPermissionsStatementsItemResourcesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource identifiers the statement applies to, for example `biz_xxx` or `biz_xxx|pass_*`. Defaults to the key's owning resource when omitted."
+      }
+    },
+    "com.whop.api_keys#UpdateApiKeyRequestPermissionsStatementsItem": {
+      "type": "structure",
+      "members": {
+        "actions": {
+          "target": "com.whop.api_keys#UpdateApiKeyRequestPermissionsStatementsItemActionsList",
+          "traits": {
+            "smithy.api#documentation": "Permission actions covered by this statement, for example `company:basic:read`.",
+            "smithy.api#required": {}
+          }
+        },
+        "grant": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the actions are granted (`true`) or denied (`false`).",
+            "smithy.api#required": {}
+          }
+        },
+        "resources": {
+          "target": "com.whop.api_keys#UpdateApiKeyRequestPermissionsStatementsItemResourcesList",
+          "traits": {
+            "smithy.api#documentation": "Resource identifiers the statement applies to, for example `biz_xxx` or `biz_xxx|pass_*`. Defaults to the key's owning resource when omitted."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.api_keys#UpdateApiKeyRequestPermissionsStatementsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.api_keys#UpdateApiKeyRequestPermissionsStatementsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Explicit permission statements. Required unless `system_role` is set."
+      }
+    },
+    "com.whop.api_keys#UpdateApiKeyRequestPermissionsSystemRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "MODERATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "moderator"
+          }
+        },
+        "SALES_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales_manager"
+          }
+        },
+        "ADVERTISER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertiser"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A system role to inherit permissions from. Only Account API keys can use a system role."
+      }
+    },
+    "com.whop.api_keys#UpdateApiKeyRequestPermissions": {
+      "type": "structure",
+      "members": {
+        "statements": {
+          "target": "com.whop.api_keys#UpdateApiKeyRequestPermissionsStatementsList",
+          "traits": {
+            "smithy.api#documentation": "Explicit permission statements. Required unless `system_role` is set."
+          }
+        },
+        "system_role": {
+          "target": "com.whop.api_keys#UpdateApiKeyRequestPermissionsSystemRole",
+          "traits": {
+            "smithy.api#documentation": "A system role to inherit permissions from. Only Account API keys can use a system role.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The permissions policy for the API key: explicit permission statements, or a system role to inherit from. Statements without a `resources` array default to the owning account (Account API keys) or every key-addressable resource (App API keys)."
+      }
+    },
+    "com.whop.api_keys#UpdateApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "API key ID, prefixed `apik_`."
+          }
+        },
+        "api_version_date": {
+          "target": "com.whop.api_keys#UpdateApiKeyRequestApiVersionDate",
+          "traits": {
+            "smithy.api#documentation": "Dated API version used when requests authenticated with this key omit the `Api-Version-Date` header. New keys default to the latest version."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the API key should stop working, as an ISO 8601 timestamp. Omit (or pass `null` on update) for a key that never expires.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ip_allowlist": {
+          "target": "com.whop.api_keys#UpdateApiKeyRequestIpAllowlistList",
+          "traits": {
+            "smithy.api#documentation": "IPv4/IPv6 CIDR ranges allowed to use this key, for example `[\"203.0.113.0/24\"]`. Empty or `null` allows any IP.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A new human-readable name for the API key.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "permissions": {
+          "target": "com.whop.api_keys#UpdateApiKeyRequestPermissions",
+          "traits": {
+            "smithy.api#documentation": "The permissions policy for the API key: explicit permission statements, or a system role to inherit from. Statements without a `resources` array default to the owning account (Account API keys) or every key-addressable resource (App API keys)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.api_keys#UpdateApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.api_keys#UpdateApiKeyRequest"
+      },
+      "output": {
+        "target": "com.whop.api_keys#ApiKey"
+      },
+      "errors": [
+        {
+          "target": "com.whop.api_keys#BadRequest"
+        },
+        {
+          "target": "com.whop.api_keys#Forbidden"
+        },
+        {
+          "target": "com.whop.api_keys#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api_keys/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update API Key\n\nUpdates an API key's name, permissions, API version, expiration, or IP allowlist. Fields that are omitted keep their current value; default keys cannot be modified."
+      }
+    },
+    "com.whop.api_keys#DeleteApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "API key ID, prefixed `apik_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.api_keys#DeleteApiKeyResponse": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true`: the key was revoked.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the revoked key.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.api_keys#DeleteApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.api_keys#DeleteApiKeyRequest"
+      },
+      "output": {
+        "target": "com.whop.api_keys#DeleteApiKeyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.api_keys#BadRequest"
+        },
+        {
+          "target": "com.whop.api_keys#Forbidden"
+        },
+        {
+          "target": "com.whop.api_keys#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api_keys/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete API Key\n\nPermanently revokes an API key; requests using its secret stop authenticating immediately. Default and agent-backend keys cannot be deleted."
+      }
+    },
+    "com.whop.api_keys#RotateApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "API key ID, prefixed `apik_`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.api_keys#RotateApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.api_keys#RotateApiKeyRequest"
+      },
+      "output": {
+        "target": "com.whop.api_keys#ApiKey"
+      },
+      "errors": [
+        {
+          "target": "com.whop.api_keys#Forbidden"
+        },
+        {
+          "target": "com.whop.api_keys#NotFound"
+        },
+        {
+          "target": "com.whop.api_keys#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api_keys/{id}/rotate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rotate API Key\n\nRotates the API key's secret, invalidating the previous secret immediately. The response is the only place the new `secret_key` is returned."
+      }
+    },
+    "com.whop.api_keys#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.api_keys#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.api_keys#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.api_keys#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.api_keys#ApiKeys": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.api_keys#ListApiKeys"
+        },
+        {
+          "target": "com.whop.api_keys#CreateApiKey"
+        },
+        {
+          "target": "com.whop.api_keys#ListApiKeyPermissions"
+        },
+        {
+          "target": "com.whop.api_keys#GetApiKey"
+        },
+        {
+          "target": "com.whop.api_keys#UpdateApiKey"
+        },
+        {
+          "target": "com.whop.api_keys#DeleteApiKey"
+        },
+        {
+          "target": "com.whop.api_keys#RotateApiKey"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

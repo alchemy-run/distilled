@@ -1,0 +1,552 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.reactions#ListReactionRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resource_id",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.reactions#ReactionListItem": {
+      "type": "structure",
+      "members": {
+        "emoji": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The emoji used for this reaction in shortcode format. Null if the reaction type is not emoji.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the entity",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the post this reaction was left on.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.reactions#ReactionListItemUser",
+          "traits": {
+            "smithy.api#documentation": "The user who left this reaction on the post.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single reaction left by a user on a feed post, such as a like or emoji."
+      }
+    },
+    "com.whop.reactions#ReactionListItemUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who left this reaction on the post."
+      }
+    },
+    "com.whop.reactions#ListReactionResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.reactions#ReactionListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.reactions#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.reactions#ListReactionResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.reactions#ListReactionResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.reactions#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.reactions#ListReaction": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.reactions#ListReactionRequest"
+      },
+      "output": {
+        "target": "com.whop.reactions#ListReactionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.reactions#BadRequest"
+        },
+        {
+          "target": "com.whop.reactions#Forbidden"
+        },
+        {
+          "target": "com.whop.reactions#NotFound"
+        },
+        {
+          "target": "com.whop.reactions#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/reactions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List reactions\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of emoji reactions on a specific message or forum post, sorted by most recent.\n\nRequired permissions (one of):\n - `chat:read`\n - `dms:read`\n - `forum:read`\n - `livestream:chat:read`\n - `support_chat:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.reactions#CreateReactionRequest": {
+      "type": "structure",
+      "members": {
+        "emoji": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The emoji to react with, in shortcode or unicode format. For example, ':heart:' or a unicode emoji. Ignored in forums where reactions are always likes.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "poll_option_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of a poll option to vote for. Only valid when the target message or post contains a poll.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the message or forum post to react to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.reactions#Reaction": {
+      "type": "structure",
+      "members": {
+        "emoji": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The emoji used for this reaction in shortcode format. Null if the reaction type is not emoji.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the entity",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the post this reaction was left on.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.reactions#ReactionUser",
+          "traits": {
+            "smithy.api#documentation": "The user who left this reaction on the post.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single reaction left by a user on a feed post, such as a like or emoji."
+      }
+    },
+    "com.whop.reactions#ReactionUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who left this reaction on the post."
+      }
+    },
+    "com.whop.reactions#CreateReaction": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.reactions#CreateReactionRequest"
+      },
+      "output": {
+        "target": "com.whop.reactions#Reaction"
+      },
+      "errors": [
+        {
+          "target": "com.whop.reactions#BadRequest"
+        },
+        {
+          "target": "com.whop.reactions#Forbidden"
+        },
+        {
+          "target": "com.whop.reactions#NotFound"
+        },
+        {
+          "target": "com.whop.reactions#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/reactions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create reaction\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nAdd an emoji reaction or poll vote to a message or forum post. In forums, the reaction is always a like.\n\nRequired permissions (one of):\n - `chat:read`\n - `dms:read`\n - `forum:read`\n - `livestream:chat:read`\n - `support_chat:read`"
+      }
+    },
+    "com.whop.reactions#GetReactionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the reaction to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.reactions#GetReaction": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.reactions#GetReactionRequest"
+      },
+      "output": {
+        "target": "com.whop.reactions#Reaction"
+      },
+      "errors": [
+        {
+          "target": "com.whop.reactions#BadRequest"
+        },
+        {
+          "target": "com.whop.reactions#Forbidden"
+        },
+        {
+          "target": "com.whop.reactions#NotFound"
+        },
+        {
+          "target": "com.whop.reactions#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/reactions/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve reaction\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing reaction.\n\nRequired permissions (one of):\n - `chat:read`\n - `dms:read`\n - `forum:read`\n - `livestream:chat:read`\n - `support_chat:read`"
+      }
+    },
+    "com.whop.reactions#DeleteReactionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the reaction to remove, or the identifier of the message or forum post to remove a reaction from. When passing a message or post ID, you must also provide the emoji argument."
+          }
+        },
+        "emoji": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "emoji"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.reactions#DeleteReactionResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.reactions#DeleteReaction": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.reactions#DeleteReactionRequest"
+      },
+      "output": {
+        "target": "com.whop.reactions#DeleteReactionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.reactions#BadRequest"
+        },
+        {
+          "target": "com.whop.reactions#Forbidden"
+        },
+        {
+          "target": "com.whop.reactions#NotFound"
+        },
+        {
+          "target": "com.whop.reactions#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/reactions/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete reaction\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRemove an emoji reaction from a message or forum post. Only the reaction author or a channel admin can remove a reaction.\n\nRequired permissions (one of):\n - `chat:read`\n - `dms:read`\n - `forum:read`\n - `livestream:chat:read`\n - `support_chat:read`"
+      }
+    },
+    "com.whop.reactions#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.reactions#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.reactions#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.reactions#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.reactions#Reactions": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.reactions#ListReaction"
+        },
+        {
+          "target": "com.whop.reactions#CreateReaction"
+        },
+        {
+          "target": "com.whop.reactions#GetReaction"
+        },
+        {
+          "target": "com.whop.reactions#DeleteReaction"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+# Deploys stacks/distilled-submodules — the Alchemy stack that manages one
+# distilled-mirror/spec-mirror-<name> repository per spec-consuming packages/*
+# SDK, and the exact file set inside each of them.
+#
+# Runs on every push to main. Usually a no-op: GitHub.Repository converges
+# settings against the live repositories, and the SyncScaffold action skips
+# when the scaffold digest is unchanged.
+#
+# Every credential below is provisioned as code by stacks/distilled-monorepo,
+# which is deployed by hand with an admin profile and never from CI.
+#
+# Auth: the built-in GITHUB_TOKEN cannot create repositories, so the deploy
+# uses the ALCHEMY_GITHUB_TOKEN secret — a PAT that can create repositories in
+# the distilled-mirror org and push to them. Alchemy reads it from
+# GITHUB_ACCESS_TOKEN (env auth method, auto-selected because CI=true).
+
+name: Deploy submodules stack
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Never run two deploys concurrently; queue instead of cancelling so the
+# latest main always ends up deployed.
+concurrency:
+  group: deploy-submodules-stack
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy the spec-mirror repositories
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm, Node.js, Bun and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      - name: Deploy the spec-mirror repositories
+        working-directory: stacks/distilled-submodules
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.ALCHEMY_GITHUB_TOKEN }}
+          # Remote state lives in the Cloudflare state store. These are the
+          # narrowly-scoped credentials minted by stacks/distilled-monorepo —
+          # NOT the repository's broadly-scoped CLOUDFLARE_* secrets, which
+          # belong to other tooling.
+          CLOUDFLARE_API_TOKEN: ${{ secrets.STACKS_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.STACKS_CLOUDFLARE_ACCOUNT_ID }}
+          # The dedicated org the spec-mirror repositories live in.
+          DISTILLED_REPOS_OWNER: ${{ vars.DISTILLED_REPOS_OWNER }}
+        # --yes auto-accepts prompts (e.g. a state-store version upgrade),
+        # which would otherwise hang a non-interactive CI run.
+        run: pnpm exec alchemy deploy --stage prod --yes

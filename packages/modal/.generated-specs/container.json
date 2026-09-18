@@ -1,0 +1,989 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.container#ContainerCheckpointRequest": {
+      "type": "structure",
+      "members": {
+        "checkpointId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.container#ContainerCheckpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.container#ContainerCheckpointRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ContainerCheckpoint",
+          "code": 200
+        },
+        "smithy.api#documentation": "Container"
+      }
+    },
+    "com.modal.container#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.container#PTYInfo": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "winszRows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Soon deprecated"
+          }
+        },
+        "winszCols": {
+          "target": "smithy.api#Integer"
+        },
+        "envTerm": {
+          "target": "smithy.api#String"
+        },
+        "envColorterm": {
+          "target": "smithy.api#String"
+        },
+        "envTermProgram": {
+          "target": "smithy.api#String"
+        },
+        "ptyType": {
+          "target": "com.modal.container#PTYInfoPTYType",
+          "traits": {
+            "smithy.api#documentation": "Replace function with shell"
+          }
+        },
+        "noTerminateOnIdleStdin": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.modal.container#PTYInfoPTYType": {
+      "type": "enum",
+      "members": {
+        "PTY_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PTY_TYPE_UNSPECIFIED"
+          }
+        },
+        "PTY_TYPE_FUNCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PTY_TYPE_FUNCTION",
+            "smithy.api#documentation": "Nothing"
+          }
+        },
+        "PTY_TYPE_SHELL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PTY_TYPE_SHELL",
+            "smithy.api#documentation": "Run function in PTY"
+          }
+        }
+      }
+    },
+    "com.modal.container#ExecOutputOption": {
+      "type": "enum",
+      "members": {
+        "EXEC_OUTPUT_OPTION_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXEC_OUTPUT_OPTION_UNSPECIFIED"
+          }
+        },
+        "EXEC_OUTPUT_OPTION_DEVNULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXEC_OUTPUT_OPTION_DEVNULL"
+          }
+        },
+        "EXEC_OUTPUT_OPTION_PIPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXEC_OUTPUT_OPTION_PIPE"
+          }
+        },
+        "EXEC_OUTPUT_OPTION_STDOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXEC_OUTPUT_OPTION_STDOUT"
+          }
+        }
+      }
+    },
+    "com.modal.container#ExecContainerRequest": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String"
+        },
+        "command": {
+          "target": "com.modal.container#StringList"
+        },
+        "ptyInfo": {
+          "target": "com.modal.container#PTYInfo",
+          "traits": {
+            "smithy.api#documentation": "If pty_info is provided, open a PTY, but also this container exec is treated an \"interactive shell\" request, and it will be terminated if messages are not periodically sent on the stdin stream on some interval (currently 40 seconds)."
+          }
+        },
+        "terminateContainerOnExit": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Send SIGTERM to running container on exit of exec command.",
+            "smithy.api#deprecated": {}
+          }
+        },
+        "runtimeDebug": {
+          "target": "smithy.api#Boolean"
+        },
+        "stdoutOutput": {
+          "target": "com.modal.container#ExecOutputOption",
+          "traits": {
+            "smithy.api#documentation": "For internal debugging use only."
+          }
+        },
+        "stderrOutput": {
+          "target": "com.modal.container#ExecOutputOption"
+        },
+        "timeoutSecs": {
+          "target": "smithy.api#Integer"
+        },
+        "workdir": {
+          "target": "smithy.api#String"
+        },
+        "secretIds": {
+          "target": "com.modal.container#StringList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.container#ExecContainerResponse": {
+      "type": "structure",
+      "members": {
+        "execId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.container#ExecContainer": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.container#ExecContainerRequest"
+      },
+      "output": {
+        "target": "com.modal.container#ExecContainerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ContainerExec",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.container#RuntimeInputMessage": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#Blob"
+        },
+        "messageIndex": {
+          "target": "smithy.api#String"
+        },
+        "eof": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether to use RDMA interfaces"
+      }
+    },
+    "com.modal.container#ContainerExecPutInputRequest": {
+      "type": "structure",
+      "members": {
+        "execId": {
+          "target": "smithy.api#String"
+        },
+        "input": {
+          "target": "com.modal.container#RuntimeInputMessage"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.container#ContainerExecPutInput": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.container#ContainerExecPutInputRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ContainerExecPutInput",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.container#ContainerExecWaitRequest": {
+      "type": "structure",
+      "members": {
+        "execId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.container#ContainerExecWaitResponse": {
+      "type": "structure",
+      "members": {
+        "exitCode": {
+          "target": "smithy.api#Integer"
+        },
+        "completed": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.container#ContainerExecWait": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.container#ContainerExecWaitRequest"
+      },
+      "output": {
+        "target": "com.modal.container#ContainerExecWaitResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ContainerExecWait",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.container#ContainerFileOpenRequest": {
+      "type": "structure",
+      "members": {
+        "fileDescriptor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "file descriptor is hydrated when sent from server -> worker"
+          }
+        },
+        "path": {
+          "target": "smithy.api#String"
+        },
+        "mode": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.container#ContainerFileWriteRequest": {
+      "type": "structure",
+      "members": {
+        "fileDescriptor": {
+          "target": "smithy.api#String"
+        },
+        "data": {
+          "target": "smithy.api#Blob"
+        }
+      }
+    },
+    "com.modal.container#ContainerFileReadRequest": {
+      "type": "structure",
+      "members": {
+        "fileDescriptor": {
+          "target": "smithy.api#String"
+        },
+        "n": {
+          "target": "smithy.api#Integer"
+        }
+      }
+    },
+    "com.modal.container#ContainerFileFlushRequest": {
+      "type": "structure",
+      "members": {
+        "fileDescriptor": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.container#ContainerFileReadLineRequest": {
+      "type": "structure",
+      "members": {
+        "fileDescriptor": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.container#ContainerFileSeekRequest": {
+      "type": "structure",
+      "members": {
+        "fileDescriptor": {
+          "target": "smithy.api#String"
+        },
+        "offset": {
+          "target": "smithy.api#Integer"
+        },
+        "whence": {
+          "target": "com.modal.container#SeekWhence"
+        }
+      }
+    },
+    "com.modal.container#SeekWhence": {
+      "type": "enum",
+      "members": {
+        "SEEK_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEEK_SET"
+          }
+        },
+        "SEEK_CUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEEK_CUR"
+          }
+        },
+        "SEEK_END": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEEK_END"
+          }
+        }
+      }
+    },
+    "com.modal.container#ContainerFileDeleteBytesRequest": {
+      "type": "structure",
+      "members": {
+        "fileDescriptor": {
+          "target": "smithy.api#String"
+        },
+        "startInclusive": {
+          "target": "smithy.api#Integer"
+        },
+        "endExclusive": {
+          "target": "smithy.api#Integer"
+        }
+      }
+    },
+    "com.modal.container#ContainerFileWriteReplaceBytesRequest": {
+      "type": "structure",
+      "members": {
+        "fileDescriptor": {
+          "target": "smithy.api#String"
+        },
+        "data": {
+          "target": "smithy.api#Blob"
+        },
+        "startInclusive": {
+          "target": "smithy.api#Integer"
+        },
+        "endExclusive": {
+          "target": "smithy.api#Integer"
+        }
+      }
+    },
+    "com.modal.container#ContainerFileCloseRequest": {
+      "type": "structure",
+      "members": {
+        "fileDescriptor": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.container#ContainerFileLsRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.container#ContainerFileMkdirRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String"
+        },
+        "makeParents": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.modal.container#ContainerFileRmRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String"
+        },
+        "recursive": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.modal.container#ContainerFileWatchRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String"
+        },
+        "recursive": {
+          "target": "smithy.api#Boolean"
+        },
+        "timeoutSecs": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.container#ExecContainerFilesystemRequest": {
+      "type": "structure",
+      "members": {
+        "fileOpenRequest": {
+          "target": "com.modal.container#ContainerFileOpenRequest"
+        },
+        "fileWriteRequest": {
+          "target": "com.modal.container#ContainerFileWriteRequest"
+        },
+        "fileReadRequest": {
+          "target": "com.modal.container#ContainerFileReadRequest"
+        },
+        "fileFlushRequest": {
+          "target": "com.modal.container#ContainerFileFlushRequest"
+        },
+        "fileReadLineRequest": {
+          "target": "com.modal.container#ContainerFileReadLineRequest"
+        },
+        "fileSeekRequest": {
+          "target": "com.modal.container#ContainerFileSeekRequest"
+        },
+        "fileDeleteBytesRequest": {
+          "target": "com.modal.container#ContainerFileDeleteBytesRequest"
+        },
+        "fileWriteReplaceBytesRequest": {
+          "target": "com.modal.container#ContainerFileWriteReplaceBytesRequest"
+        },
+        "fileCloseRequest": {
+          "target": "com.modal.container#ContainerFileCloseRequest"
+        },
+        "fileLsRequest": {
+          "target": "com.modal.container#ContainerFileLsRequest"
+        },
+        "fileMkdirRequest": {
+          "target": "com.modal.container#ContainerFileMkdirRequest"
+        },
+        "fileRmRequest": {
+          "target": "com.modal.container#ContainerFileRmRequest"
+        },
+        "fileWatchRequest": {
+          "target": "com.modal.container#ContainerFileWatchRequest"
+        },
+        "taskId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.container#ExecContainerFilesystemResponse": {
+      "type": "structure",
+      "members": {
+        "execId": {
+          "target": "smithy.api#String"
+        },
+        "fileDescriptor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "only set when the request opens a new file, i.e., ContainerFileOpenRequest"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.container#ExecContainerFilesystem": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.container#ExecContainerFilesystemRequest"
+      },
+      "output": {
+        "target": "com.modal.container#ExecContainerFilesystemResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ContainerFilesystemExec",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.container#ContainerHeartbeatRequest": {
+      "type": "structure",
+      "members": {
+        "canceledInputsReturnOutputs": {
+          "target": "smithy.api#Boolean"
+        },
+        "canceledInputsReturnOutputsV2": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Bad client version."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.container#CancelInputEvent": {
+      "type": "structure",
+      "members": {
+        "inputIds": {
+          "target": "com.modal.container#StringList"
+        },
+        "terminateContainers": {
+          "target": "smithy.api#Boolean"
+        },
+        "cancellationReason": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.container#ContainerHeartbeatResponse": {
+      "type": "structure",
+      "members": {
+        "cancelInputEvent": {
+          "target": "com.modal.container#CancelInputEvent"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.container#ContainerHeartbeat": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.container#ContainerHeartbeatRequest"
+      },
+      "output": {
+        "target": "com.modal.container#ContainerHeartbeatResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ContainerHeartbeat",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.container#ContainerHello": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ContainerHello",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.container#TaskLogs": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#String"
+        },
+        "taskState": {
+          "target": "com.modal.container#TaskState"
+        },
+        "timestamp": {
+          "target": "smithy.api#Double"
+        },
+        "fileDescriptor": {
+          "target": "com.modal.container#FileDescriptor"
+        },
+        "taskProgress": {
+          "target": "com.modal.container#TaskProgress"
+        },
+        "functionCallId": {
+          "target": "smithy.api#String"
+        },
+        "inputId": {
+          "target": "smithy.api#String"
+        },
+        "timestampNs": {
+          "target": "smithy.api#String"
+        },
+        "containerId": {
+          "target": "smithy.api#String"
+        },
+        "containerName": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.container#TaskState": {
+      "type": "enum",
+      "members": {
+        "TASK_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_UNSPECIFIED"
+          }
+        },
+        "TASK_STATE_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_CREATED"
+          }
+        },
+        "TASK_STATE_QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_QUEUED"
+          }
+        },
+        "TASK_STATE_WORKER_ASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_WORKER_ASSIGNED"
+          }
+        },
+        "TASK_STATE_LOADING_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_LOADING_IMAGE"
+          }
+        },
+        "TASK_STATE_ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_ACTIVE"
+          }
+        },
+        "TASK_STATE_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_COMPLETED"
+          }
+        },
+        "TASK_STATE_CREATING_CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_CREATING_CONTAINER"
+          }
+        },
+        "TASK_STATE_IDLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_IDLE"
+          }
+        },
+        "TASK_STATE_PREEMPTIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_PREEMPTIBLE"
+          }
+        },
+        "TASK_STATE_PREEMPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_PREEMPTED"
+          }
+        },
+        "TASK_STATE_LOADING_CHECKPOINT_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_STATE_LOADING_CHECKPOINT_IMAGE"
+          }
+        }
+      }
+    },
+    "com.modal.container#FileDescriptor": {
+      "type": "enum",
+      "members": {
+        "FILE_DESCRIPTOR_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_DESCRIPTOR_UNSPECIFIED"
+          }
+        },
+        "FILE_DESCRIPTOR_STDOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_DESCRIPTOR_STDOUT"
+          }
+        },
+        "FILE_DESCRIPTOR_STDERR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_DESCRIPTOR_STDERR"
+          }
+        },
+        "FILE_DESCRIPTOR_INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_DESCRIPTOR_INFO"
+          }
+        }
+      }
+    },
+    "com.modal.container#TaskProgress": {
+      "type": "structure",
+      "members": {
+        "len": {
+          "target": "smithy.api#String"
+        },
+        "pos": {
+          "target": "smithy.api#String"
+        },
+        "progressType": {
+          "target": "com.modal.container#ProgressType"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.container#ProgressType": {
+      "type": "enum",
+      "members": {
+        "IMAGE_SNAPSHOT_UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IMAGE_SNAPSHOT_UPLOAD"
+          }
+        },
+        "FUNCTION_QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_QUEUED",
+            "smithy.api#documentation": "TODO(erikbern): shouldn't be zero, and needs prefix"
+          }
+        }
+      }
+    },
+    "com.modal.container#TaskLogsList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.container#TaskLogs"
+      }
+    },
+    "com.modal.container#ContainerLogRequest": {
+      "type": "structure",
+      "members": {
+        "logs": {
+          "target": "com.modal.container#TaskLogsList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.container#ContainerLog": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.container#ContainerLogRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ContainerLog",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.container#ContainerReloadVolumesRequest": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.container#ContainerReloadVolumesResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.container#ContainerReloadVolumes": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.container#ContainerReloadVolumesRequest"
+      },
+      "output": {
+        "target": "com.modal.container#ContainerReloadVolumesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ContainerReloadVolumes",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.container#ContainerServerLifecycleReadyRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.container#ContainerServerLifecycleReady": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.container#ContainerServerLifecycleReadyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ContainerServerLifecycleReady",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.container#StopContainerRequest": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String"
+        },
+        "graceful": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.container#StopContainerResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.container#StopContainer": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.container#StopContainerRequest"
+      },
+      "output": {
+        "target": "com.modal.container#StopContainerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ContainerStop",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.container#ContainerService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.container#ContainerCheckpoint"
+        },
+        {
+          "target": "com.modal.container#ExecContainer"
+        },
+        {
+          "target": "com.modal.container#ContainerExecPutInput"
+        },
+        {
+          "target": "com.modal.container#ContainerExecWait"
+        },
+        {
+          "target": "com.modal.container#ExecContainerFilesystem"
+        },
+        {
+          "target": "com.modal.container#ContainerHeartbeat"
+        },
+        {
+          "target": "com.modal.container#ContainerHello"
+        },
+        {
+          "target": "com.modal.container#ContainerLog"
+        },
+        {
+          "target": "com.modal.container#ContainerReloadVolumes"
+        },
+        {
+          "target": "com.modal.container#ContainerServerLifecycleReady"
+        },
+        {
+          "target": "com.modal.container#StopContainer"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Container",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Container`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

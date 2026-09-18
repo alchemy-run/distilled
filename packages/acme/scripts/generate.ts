@@ -2,7 +2,7 @@
 /**
  * generate — turn the hand-authored Smithy model into the Effect ACME SDK.
  *
- * Input:  specs/acme.json — written by hand from RFC 8555 (no vendor spec
+ * Input:  manual-specs/acme.json — written by hand from RFC 8555 (no vendor spec
  *         exists for a protocol), typed errors included, so there is no
  *         conversion step and no patch chain.
  * Output: src/services/acme.ts  +  src/services/index.ts
@@ -29,7 +29,17 @@ const spec: SdkSpec = {
   memberTraitPipes: {
     "smithy.api#sensitive": "T.SensitiveValue",
   },
-  sourceNote: "specs/acme.json (hand-authored Smithy, RFC 8555)",
+  errors: {
+    field: (name, target) =>
+      `${JSON.stringify(name)}: ${
+        name === "retryAfter"
+          ? "S.optional(S.Duration)"
+          : target === "smithy.api#Integer"
+            ? "S.Number"
+            : "S.String"
+      },`,
+  },
+  sourceNote: "manual-specs/acme.json (hand-authored Smithy, RFC 8555)",
   operationDecl: {
     contextType: "AcmeOpContext",
     commonErrorType: "AcmeOpError",
@@ -44,7 +54,7 @@ const spec: SdkSpec = {
 runGeneratorCli({
   description: "Generate the ACME Effect SDK from the Smithy model",
   root: `${import.meta.dir}/..`,
-  smithyDir: "specs",
+  smithyDir: "manual-specs",
   patchesDir: false,
   spec: () => spec,
 });

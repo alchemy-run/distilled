@@ -356,20 +356,21 @@ export type StandardsStatus =
   | "DELETING"
   | "INCOMPLETE"
   | (string & {});
-export const StandardsStatus = /*@__PURE__*/ S.String;
+export const StandardsStatus = S.String;
 
 export type StandardsControlsUpdatable =
   | "READY_FOR_UPDATES"
   | "NOT_READY_FOR_UPDATES"
   | (string & {});
-export const StandardsControlsUpdatable = /*@__PURE__*/ S.String;
+export const StandardsControlsUpdatable = S.String;
 
 export type StatusReasonCode =
   | "NO_AVAILABLE_CONFIGURATION_RECORDER"
   | "MAXIMUM_NUMBER_OF_CONFIG_RULES_EXCEEDED"
+  | "NO_AVAILABLE_MULTICLOUD_CONNECTOR"
   | "INTERNAL_ERROR"
   | (string & {});
-export const StatusReasonCode = /*@__PURE__*/ S.String;
+export const StatusReasonCode = S.String;
 
 export interface StandardsStatusReason {
   StatusReasonCode?: StatusReasonCode;
@@ -379,6 +380,9 @@ export const StandardsStatusReason = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "StandardsStatusReason",
 }) as any as S.Schema<StandardsStatusReason>;
+export type StandardsProvider = "AWS" | "Azure" | (string & {});
+export const StandardsProvider = S.String;
+
 export interface StandardsSubscription {
   StandardsSubscriptionArn?: string;
   StandardsArn?: string;
@@ -386,6 +390,7 @@ export interface StandardsSubscription {
   StandardsStatus?: StandardsStatus;
   StandardsControlsUpdatable?: StandardsControlsUpdatable;
   StandardsStatusReason?: StandardsStatusReason;
+  Provider?: StandardsProvider;
 }
 export const StandardsSubscription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -395,6 +400,7 @@ export const StandardsSubscription = /*@__PURE__*/ S.suspend(() =>
     StandardsStatus: S.optional(StandardsStatus),
     StandardsControlsUpdatable: S.optional(StandardsControlsUpdatable),
     StandardsStatusReason: S.optional(StandardsStatusReason),
+    Provider: S.optional(StandardsProvider),
   }),
 ).annotate({
   identifier: "StandardsSubscription",
@@ -488,7 +494,7 @@ export const BatchGetAutomationRulesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchGetAutomationRulesRequest",
 }) as any as S.Schema<BatchGetAutomationRulesRequest>;
 export type RuleStatus = "ENABLED" | "DISABLED" | (string & {});
-export const RuleStatus = /*@__PURE__*/ S.String;
+export const RuleStatus = S.String;
 
 export type RuleOrderValue = number;
 export type StringFilterComparison =
@@ -500,7 +506,7 @@ export type StringFilterComparison =
   | "NOT_CONTAINS"
   | "CONTAINS_WORD"
   | (string & {});
-export const StringFilterComparison = /*@__PURE__*/ S.String;
+export const StringFilterComparison = S.String;
 
 export interface StringFilter {
   Value?: string;
@@ -515,10 +521,10 @@ export const StringFilter = /*@__PURE__*/ S.suspend(() =>
 export type StringFilterList = StringFilter[];
 export const StringFilterList = /*@__PURE__*/ S.Array(StringFilter);
 export type DateRangeUnit = "DAYS" | (string & {});
-export const DateRangeUnit = /*@__PURE__*/ S.String;
+export const DateRangeUnit = S.String;
 
 export type DateRangeComparison = "WITHIN" | "OLDER_THAN" | (string & {});
-export const DateRangeComparison = /*@__PURE__*/ S.String;
+export const DateRangeComparison = S.String;
 
 export interface DateRange {
   Value?: number;
@@ -570,7 +576,7 @@ export type MapFilterComparison =
   | "CONTAINS"
   | "NOT_CONTAINS"
   | (string & {});
-export const MapFilterComparison = /*@__PURE__*/ S.String;
+export const MapFilterComparison = S.String;
 
 export interface MapFilter {
   Key?: string;
@@ -625,6 +631,9 @@ export interface AutomationRulesFindingFilters {
   ResourceApplicationArn?: StringFilter[];
   ResourceApplicationName?: StringFilter[];
   AwsAccountName?: StringFilter[];
+  ResourceProvider?: StringFilter[];
+  ResourceOwnerAccountId?: StringFilter[];
+  ResourceOwnerOrgId?: StringFilter[];
 }
 export const AutomationRulesFindingFilters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -666,12 +675,15 @@ export const AutomationRulesFindingFilters = /*@__PURE__*/ S.suspend(() =>
     ResourceApplicationArn: S.optional(StringFilterList),
     ResourceApplicationName: S.optional(StringFilterList),
     AwsAccountName: S.optional(StringFilterList),
+    ResourceProvider: S.optional(StringFilterList),
+    ResourceOwnerAccountId: S.optional(StringFilterList),
+    ResourceOwnerOrgId: S.optional(StringFilterList),
   }),
 ).annotate({
   identifier: "AutomationRulesFindingFilters",
 }) as any as S.Schema<AutomationRulesFindingFilters>;
 export type AutomationRulesActionType = "FINDING_FIELDS_UPDATE" | (string & {});
-export const AutomationRulesActionType = /*@__PURE__*/ S.String;
+export const AutomationRulesActionType = S.String;
 
 export interface NoteUpdate {
   Text?: string;
@@ -688,7 +700,7 @@ export type SeverityLabel =
   | "HIGH"
   | "CRITICAL"
   | (string & {});
-export const SeverityLabel = /*@__PURE__*/ S.String;
+export const SeverityLabel = S.String;
 
 export interface SeverityUpdate {
   Normalized?: number;
@@ -708,7 +720,7 @@ export type VerificationState =
   | "FALSE_POSITIVE"
   | "BENIGN_POSITIVE"
   | (string & {});
-export const VerificationState = /*@__PURE__*/ S.String;
+export const VerificationState = S.String;
 
 export type TypeList = string[];
 export const TypeList = /*@__PURE__*/ S.Array(S.String);
@@ -723,7 +735,7 @@ export type WorkflowStatus =
   | "RESOLVED"
   | "SUPPRESSED"
   | (string & {});
-export const WorkflowStatus = /*@__PURE__*/ S.String;
+export const WorkflowStatus = S.String;
 
 export interface WorkflowUpdate {
   Status?: WorkflowStatus;
@@ -892,17 +904,17 @@ export type TargetType =
   | "ORGANIZATIONAL_UNIT"
   | "ROOT"
   | (string & {});
-export const TargetType = /*@__PURE__*/ S.String;
+export const TargetType = S.String;
 
 export type AssociationType = "INHERITED" | "APPLIED" | (string & {});
-export const AssociationType = /*@__PURE__*/ S.String;
+export const AssociationType = S.String;
 
 export type ConfigurationPolicyAssociationStatus =
   | "PENDING"
   | "SUCCESS"
   | "FAILED"
   | (string & {});
-export const ConfigurationPolicyAssociationStatus = /*@__PURE__*/ S.String;
+export const ConfigurationPolicyAssociationStatus = S.String;
 
 export interface ConfigurationPolicyAssociationSummary {
   ConfigurationPolicyId?: string;
@@ -997,16 +1009,16 @@ export type SeverityRating =
   | "HIGH"
   | "CRITICAL"
   | (string & {});
-export const SeverityRating = /*@__PURE__*/ S.String;
+export const SeverityRating = S.String;
 
 export type ControlStatus = "ENABLED" | "DISABLED" | (string & {});
-export const ControlStatus = /*@__PURE__*/ S.String;
+export const ControlStatus = S.String;
 
 export type UpdateStatus = "READY" | "UPDATING" | (string & {});
-export const UpdateStatus = /*@__PURE__*/ S.String;
+export const UpdateStatus = S.String;
 
 export type ParameterValueType = "DEFAULT" | "CUSTOM" | (string & {});
-export const ParameterValueType = /*@__PURE__*/ S.String;
+export const ParameterValueType = S.String;
 
 export type IntegerList = number[];
 export const IntegerList = /*@__PURE__*/ S.Array(S.Number);
@@ -1119,6 +1131,9 @@ export const Parameters = /*@__PURE__*/ S.Record(
   ParameterConfiguration.pipe(S.optional),
 );
 export type AlphaNumericNonEmptyString = string;
+export type SecurityControlsProvider = "AWS" | "Azure" | (string & {});
+export const SecurityControlsProvider = S.String;
+
 export interface SecurityControl {
   SecurityControlId?: string;
   SecurityControlArn?: string;
@@ -1130,6 +1145,7 @@ export interface SecurityControl {
   UpdateStatus?: UpdateStatus;
   Parameters?: { [key: string]: ParameterConfiguration | undefined };
   LastUpdateReason?: string;
+  Provider?: SecurityControlsProvider;
 }
 export const SecurityControl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1143,6 +1159,7 @@ export const SecurityControl = /*@__PURE__*/ S.suspend(() =>
     UpdateStatus: S.optional(UpdateStatus),
     Parameters: S.optional(Parameters),
     LastUpdateReason: S.optional(S.String),
+    Provider: S.optional(SecurityControlsProvider),
   }),
 ).annotate({
   identifier: "SecurityControl",
@@ -1156,7 +1173,7 @@ export type UnprocessedErrorCode =
   | "RESOURCE_NOT_FOUND"
   | "LIMIT_EXCEEDED"
   | (string & {});
-export const UnprocessedErrorCode = /*@__PURE__*/ S.String;
+export const UnprocessedErrorCode = S.String;
 
 export interface UnprocessedSecurityControl {
   SecurityControlId?: string;
@@ -1243,7 +1260,7 @@ export const BatchGetStandardsControlAssociationsRequest =
     identifier: "BatchGetStandardsControlAssociationsRequest",
   }) as any as S.Schema<BatchGetStandardsControlAssociationsRequest>;
 export type AssociationStatus = "ENABLED" | "DISABLED" | (string & {});
-export const AssociationStatus = /*@__PURE__*/ S.String;
+export const AssociationStatus = S.String;
 
 export type RelatedRequirementsList = string[];
 export const RelatedRequirementsList = /*@__PURE__*/ S.Array(S.String);
@@ -1376,14 +1393,14 @@ export type MalwareType =
   | "VIRUS"
   | "WORM"
   | (string & {});
-export const MalwareType = /*@__PURE__*/ S.String;
+export const MalwareType = S.String;
 
 export type MalwareState =
   | "OBSERVED"
   | "REMOVAL_FAILED"
   | "REMOVED"
   | (string & {});
-export const MalwareState = /*@__PURE__*/ S.String;
+export const MalwareState = S.String;
 
 export interface Malware {
   Name?: string;
@@ -1402,7 +1419,7 @@ export const Malware = /*@__PURE__*/ S.suspend(() =>
 export type MalwareList = Malware[];
 export const MalwareList = /*@__PURE__*/ S.Array(Malware);
 export type NetworkDirection = "IN" | "OUT" | (string & {});
-export const NetworkDirection = /*@__PURE__*/ S.String;
+export const NetworkDirection = S.String;
 
 export interface PortRange {
   Begin?: number;
@@ -1548,7 +1565,7 @@ export type ThreatIntelIndicatorType =
   | "PROCESS"
   | "URL"
   | (string & {});
-export const ThreatIntelIndicatorType = /*@__PURE__*/ S.String;
+export const ThreatIntelIndicatorType = S.String;
 
 export type ThreatIntelIndicatorCategory =
   | "BACKDOOR"
@@ -1558,7 +1575,7 @@ export type ThreatIntelIndicatorCategory =
   | "EXPLOIT_SITE"
   | "KEYLOGGER"
   | (string & {});
-export const ThreatIntelIndicatorCategory = /*@__PURE__*/ S.String;
+export const ThreatIntelIndicatorCategory = S.String;
 
 export interface ThreatIntelIndicator {
   Type?: ThreatIntelIndicatorType;
@@ -1583,9 +1600,45 @@ export const ThreatIntelIndicator = /*@__PURE__*/ S.suspend(() =>
 export type ThreatIntelIndicatorList = ThreatIntelIndicator[];
 export const ThreatIntelIndicatorList =
   /*@__PURE__*/ S.Array(ThreatIntelIndicator);
-export type Partition = "aws" | "aws-cn" | "aws-us-gov" | (string & {});
-export const Partition = /*@__PURE__*/ S.String;
+export type Partition =
+  | "aws"
+  | "aws-cn"
+  | "aws-us-gov"
+  | "aws-us-iso"
+  | "aws-us-iso-b"
+  | "AzureCloud"
+  | (string & {});
+export const Partition = S.String;
 
+export type CloudProviderName = "Azure" | "AWS" | (string & {});
+export const CloudProviderName = S.String;
+
+export interface ResourceOwnerAccount {
+  Id?: string;
+}
+export const ResourceOwnerAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String) }),
+).annotate({
+  identifier: "ResourceOwnerAccount",
+}) as any as S.Schema<ResourceOwnerAccount>;
+export interface ResourceOwnerOrg {
+  Id?: string;
+}
+export const ResourceOwnerOrg = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String) }),
+).annotate({
+  identifier: "ResourceOwnerOrg",
+}) as any as S.Schema<ResourceOwnerOrg>;
+export interface ResourceOwner {
+  Account?: ResourceOwnerAccount;
+  Org?: ResourceOwnerOrg;
+}
+export const ResourceOwner = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Account: S.optional(ResourceOwnerAccount),
+    Org: S.optional(ResourceOwnerOrg),
+  }),
+).annotate({ identifier: "ResourceOwner" }) as any as S.Schema<ResourceOwner>;
 export interface ClassificationStatus {
   Code?: string;
   Reason?: string;
@@ -3571,8 +3624,7 @@ export type AwsS3BucketNotificationConfigurationS3KeyFilterRuleName =
   | "Prefix"
   | "Suffix"
   | (string & {});
-export const AwsS3BucketNotificationConfigurationS3KeyFilterRuleName =
-  /*@__PURE__*/ S.String;
+export const AwsS3BucketNotificationConfigurationS3KeyFilterRuleName = S.String;
 
 export interface AwsS3BucketNotificationConfigurationS3KeyFilterRule {
   Name?: AwsS3BucketNotificationConfigurationS3KeyFilterRuleName;
@@ -3799,7 +3851,7 @@ export const AwsSecretsManagerSecretDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "AwsSecretsManagerSecretDetails",
 }) as any as S.Schema<AwsSecretsManagerSecretDetails>;
 export type AwsIamAccessKeyStatus = "Active" | "Inactive" | (string & {});
-export const AwsIamAccessKeyStatus = /*@__PURE__*/ S.String;
+export const AwsIamAccessKeyStatus = S.String;
 
 export interface AwsIamAccessKeySessionContextAttributes {
   MfaAuthenticated?: boolean;
@@ -11963,6 +12015,7 @@ export const CodeRepositoryDetails = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CodeRepositoryDetails",
 }) as any as S.Schema<CodeRepositoryDetails>;
+export type AzureResourceDetails = unknown;
 export interface ResourceDetails {
   AwsAutoScalingAutoScalingGroup?: AwsAutoScalingAutoScalingGroupDetails;
   AwsCodeBuildProject?: AwsCodeBuildProjectDetails;
@@ -12064,6 +12117,7 @@ export interface ResourceDetails {
   AwsS3AccessPoint?: AwsS3AccessPointDetails;
   AwsEc2ClientVpnEndpoint?: AwsEc2ClientVpnEndpointDetails;
   CodeRepository?: CodeRepositoryDetails;
+  AzureResource?: any;
 }
 export const ResourceDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12181,6 +12235,7 @@ export const ResourceDetails = /*@__PURE__*/ S.suspend(() =>
     AwsS3AccessPoint: S.optional(AwsS3AccessPointDetails),
     AwsEc2ClientVpnEndpoint: S.optional(AwsEc2ClientVpnEndpointDetails),
     CodeRepository: S.optional(CodeRepositoryDetails),
+    AzureResource: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "ResourceDetails",
@@ -12190,6 +12245,8 @@ export interface Resource {
   Id?: string;
   Partition?: Partition;
   Region?: string;
+  Provider?: CloudProviderName;
+  Owner?: ResourceOwner;
   ResourceRole?: string;
   Tags?: { [key: string]: string | undefined };
   DataClassification?: DataClassificationDetails;
@@ -12203,6 +12260,8 @@ export const Resource = /*@__PURE__*/ S.suspend(() =>
     Id: S.optional(S.String),
     Partition: S.optional(Partition),
     Region: S.optional(S.String),
+    Provider: S.optional(CloudProviderName),
+    Owner: S.optional(ResourceOwner),
     ResourceRole: S.optional(S.String),
     Tags: S.optional(FieldMap),
     DataClassification: S.optional(DataClassificationDetails),
@@ -12219,7 +12278,7 @@ export type ComplianceStatus =
   | "FAILED"
   | "NOT_AVAILABLE"
   | (string & {});
-export const ComplianceStatus = /*@__PURE__*/ S.String;
+export const ComplianceStatus = S.String;
 
 export interface StatusReason {
   ReasonCode?: string;
@@ -12282,7 +12341,7 @@ export type WorkflowState =
   | "DEFERRED"
   | "RESOLVED"
   | (string & {});
-export const WorkflowState = /*@__PURE__*/ S.String;
+export const WorkflowState = S.String;
 
 export interface Workflow {
   Status?: WorkflowStatus;
@@ -12291,7 +12350,7 @@ export const Workflow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: S.optional(WorkflowStatus) }),
 ).annotate({ identifier: "Workflow" }) as any as S.Schema<Workflow>;
 export type RecordState = "ACTIVE" | "ARCHIVED" | (string & {});
-export const RecordState = /*@__PURE__*/ S.String;
+export const RecordState = S.String;
 
 export interface Note {
   Text?: string;
@@ -12387,10 +12446,10 @@ export type VulnerabilityFixAvailable =
   | "NO"
   | "PARTIAL"
   | (string & {});
-export const VulnerabilityFixAvailable = /*@__PURE__*/ S.String;
+export const VulnerabilityFixAvailable = S.String;
 
 export type VulnerabilityExploitAvailable = "YES" | "NO" | (string & {});
-export const VulnerabilityExploitAvailable = /*@__PURE__*/ S.String;
+export const VulnerabilityExploitAvailable = S.String;
 
 export interface CodeVulnerabilitiesFilePath {
   EndLine?: number;
@@ -12746,7 +12805,7 @@ export const ActorUser = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ActorUser" }) as any as S.Schema<ActorUser>;
 export type ActorSessionMfaStatus = "ENABLED" | "DISABLED" | (string & {});
-export const ActorSessionMfaStatus = /*@__PURE__*/ S.String;
+export const ActorSessionMfaStatus = S.String;
 
 export interface ActorSession {
   Uid?: string;
@@ -12802,7 +12861,7 @@ export const NetworkAutonomousSystem = /*@__PURE__*/ S.suspend(() =>
   identifier: "NetworkAutonomousSystem",
 }) as any as S.Schema<NetworkAutonomousSystem>;
 export type ConnectionDirection = "INBOUND" | "OUTBOUND" | (string & {});
-export const ConnectionDirection = /*@__PURE__*/ S.String;
+export const ConnectionDirection = S.String;
 
 export interface NetworkConnection {
   Direction?: ConnectionDirection;
@@ -13292,8 +13351,7 @@ export type BatchUpdateFindingsV2UnprocessedFindingErrorCode =
   | "InternalServerException"
   | "ConflictException"
   | (string & {});
-export const BatchUpdateFindingsV2UnprocessedFindingErrorCode =
-  /*@__PURE__*/ S.String;
+export const BatchUpdateFindingsV2UnprocessedFindingErrorCode = S.String;
 
 export interface BatchUpdateFindingsV2UnprocessedFinding {
   FindingIdentifier?: OcsfFindingIdentifier;
@@ -13548,7 +13606,7 @@ export const CreateAutomationRuleResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAutomationRuleResponse",
 }) as any as S.Schema<CreateAutomationRuleResponse>;
 export type RuleStatusV2 = "ENABLED" | "DISABLED" | (string & {});
-export const RuleStatusV2 = /*@__PURE__*/ S.String;
+export const RuleStatusV2 = S.String;
 
 export type RuleOrderValueV2 = number;
 export type OcsfStringField =
@@ -13577,6 +13635,11 @@ export type OcsfStringField =
   | "remediation.desc"
   | "remediation.references"
   | "resources.cloud_partition"
+  | "resources.name"
+  | "resources.owner.account.uid"
+  | "resources.owner.org.uid"
+  | "resources.owner.account.name"
+  | "resources.provider"
   | "resources.region"
   | "resources.type"
   | "resources.uid"
@@ -13624,7 +13687,7 @@ export type OcsfStringField =
   | "cloud.account.name"
   | "vendor_attributes.severity"
   | (string & {});
-export const OcsfStringField = /*@__PURE__*/ S.String;
+export const OcsfStringField = S.String;
 
 export interface OcsfStringFilter {
   FieldName?: OcsfStringField;
@@ -13649,7 +13712,7 @@ export type OcsfDateField =
   | "resources.image.last_used_time_dt"
   | "resources.modified_time_dt"
   | (string & {});
-export const OcsfDateField = /*@__PURE__*/ S.String;
+export const OcsfDateField = S.String;
 
 export interface OcsfDateFilter {
   FieldName?: OcsfDateField;
@@ -13668,7 +13731,7 @@ export type OcsfBooleanField =
   | "vulnerabilities.is_exploit_available"
   | "vulnerabilities.is_fix_available"
   | (string & {});
-export const OcsfBooleanField = /*@__PURE__*/ S.String;
+export const OcsfBooleanField = S.String;
 
 export interface BooleanFilter {
   Value?: boolean;
@@ -13706,7 +13769,7 @@ export type OcsfNumberField =
   | "vulnerabilities.cve.cvss.base_score"
   | "vendor_attributes.severity_id"
   | (string & {});
-export const OcsfNumberField = /*@__PURE__*/ S.String;
+export const OcsfNumberField = S.String;
 
 export interface OcsfNumberFilter {
   FieldName?: OcsfNumberField;
@@ -13728,7 +13791,7 @@ export type OcsfMapField =
   | "databucket.tags"
   | "finding_info.tags"
   | (string & {});
-export const OcsfMapField = /*@__PURE__*/ S.String;
+export const OcsfMapField = S.String;
 
 export interface OcsfMapFilter {
   FieldName?: OcsfMapField;
@@ -13746,7 +13809,7 @@ export type OcsfIpField =
   | "evidences.dst_endpoint.ip"
   | "evidences.src_endpoint.ip"
   | (string & {});
-export const OcsfIpField = /*@__PURE__*/ S.String;
+export const OcsfIpField = S.String;
 
 export interface IpFilter {
   Cidr?: string;
@@ -13767,7 +13830,7 @@ export const OcsfIpFilter = /*@__PURE__*/ S.suspend(() =>
 export type OcsfIpFilterList = OcsfIpFilter[];
 export const OcsfIpFilterList = /*@__PURE__*/ S.Array(OcsfIpFilter);
 export type AllowedOperators = "AND" | "OR" | (string & {});
-export const AllowedOperators = /*@__PURE__*/ S.String;
+export const AllowedOperators = S.String;
 
 export interface CompositeFilter {
   StringFilters?: OcsfStringFilter[];
@@ -13823,7 +13886,7 @@ export type AutomationRulesActionTypeV2 =
   | "FINDING_FIELDS_UPDATE"
   | "EXTERNAL_INTEGRATION"
   | (string & {});
-export const AutomationRulesActionTypeV2 = /*@__PURE__*/ S.String;
+export const AutomationRulesActionTypeV2 = S.String;
 
 export interface AutomationRulesFindingFieldsUpdateV2 {
   SeverityId?: number;
@@ -14026,6 +14089,102 @@ export const CreateConfigurationPolicyResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateConfigurationPolicyResponse",
 }) as any as S.Schema<CreateConfigurationPolicyResponse>;
+export type ScopeType = "TENANT" | "SUBSCRIPTION" | (string & {});
+export const ScopeType = S.String;
+
+export type ScopeValueList = string[];
+export const ScopeValueList = /*@__PURE__*/ S.Array(S.String);
+export interface AzureScopeConfiguration {
+  ScopeType?: ScopeType;
+  ScopeValues?: string[];
+}
+export const AzureScopeConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ScopeType: S.optional(ScopeType),
+    ScopeValues: S.optional(ScopeValueList),
+  }),
+).annotate({
+  identifier: "AzureScopeConfiguration",
+}) as any as S.Schema<AzureScopeConfiguration>;
+export type AzureRegionList = string[];
+export const AzureRegionList = /*@__PURE__*/ S.Array(S.String);
+export interface AzureProviderConfiguration {
+  AWSConfigConnectorArn?: string;
+  ScopeConfiguration?: AzureScopeConfiguration;
+  AzureRegions?: string[];
+}
+export const AzureProviderConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AWSConfigConnectorArn: S.optional(S.String),
+    ScopeConfiguration: S.optional(AzureScopeConfiguration),
+    AzureRegions: S.optional(AzureRegionList),
+  }),
+).annotate({
+  identifier: "AzureProviderConfiguration",
+}) as any as S.Schema<AzureProviderConfiguration>;
+export type CspmProviderConfiguration = { Azure: AzureProviderConfiguration };
+export const CspmProviderConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ Azure: AzureProviderConfiguration }),
+]);
+export interface CreateConnectorRequest {
+  Name?: string;
+  Description?: string;
+  Provider?: CspmProviderConfiguration;
+  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string;
+}
+export const CreateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Provider: S.optional(CspmProviderConfiguration),
+    Tags: S.optional(TagMap),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/connectors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateConnectorRequest",
+}) as any as S.Schema<CreateConnectorRequest>;
+export type CspmConnectorStatus =
+  | "CONNECTED"
+  | "DEGRADED"
+  | "FAILED_TO_CONNECT"
+  | "UNKNOWN"
+  | (string & {});
+export const CspmConnectorStatus = S.String;
+
+export type CspmEnablementStatus =
+  | "ENABLED"
+  | "PENDING_ENABLEMENT"
+  | "PENDING_UPDATE"
+  | "PENDING_DELETION"
+  | (string & {});
+export const CspmEnablementStatus = S.String;
+
+export interface CreateConnectorResponse {
+  ConnectorArn: string;
+  ConnectorId: string;
+  ConnectorStatus?: CspmConnectorStatus;
+  EnablementStatus?: CspmEnablementStatus;
+}
+export const CreateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConnectorArn: S.optional(S.String),
+    ConnectorId: S.optional(S.String),
+    ConnectorStatus: S.optional(CspmConnectorStatus),
+    EnablementStatus: S.optional(CspmEnablementStatus),
+  }),
+).annotate({
+  identifier: "CreateConnectorResponse",
+}) as any as S.Schema<CreateConnectorResponse>;
 export interface JiraCloudProviderConfiguration {
   ProjectKey?: string;
 }
@@ -14047,11 +14206,25 @@ export const ServiceNowProviderConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "ServiceNowProviderConfiguration",
 }) as any as S.Schema<ServiceNowProviderConfiguration>;
 export type ProviderConfiguration =
-  | { JiraCloud: JiraCloudProviderConfiguration; ServiceNow?: never }
-  | { JiraCloud?: never; ServiceNow: ServiceNowProviderConfiguration };
+  | {
+      JiraCloud: JiraCloudProviderConfiguration;
+      ServiceNow?: never;
+      Azure?: never;
+    }
+  | {
+      JiraCloud?: never;
+      ServiceNow: ServiceNowProviderConfiguration;
+      Azure?: never;
+    }
+  | {
+      JiraCloud?: never;
+      ServiceNow?: never;
+      Azure: AzureProviderConfiguration;
+    };
 export const ProviderConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ JiraCloud: JiraCloudProviderConfiguration }),
   S.Struct({ ServiceNow: ServiceNowProviderConfiguration }),
+  S.Struct({ Azure: AzureProviderConfiguration }),
 ]);
 export interface CreateConnectorV2Request {
   Name?: string;
@@ -14084,17 +14257,31 @@ export const CreateConnectorV2Request = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateConnectorV2Request>;
 export type ConnectorStatus =
   | "CONNECTED"
+  | "DEGRADED"
   | "FAILED_TO_CONNECT"
-  | "PENDING_CONFIGURATION"
   | "PENDING_AUTHORIZATION"
+  | "PENDING_CONFIGURATION"
+  | "UNKNOWN"
   | (string & {});
-export const ConnectorStatus = /*@__PURE__*/ S.String;
+export const ConnectorStatus = S.String;
+
+export type EnablementStatus =
+  | "ENABLED"
+  | "PENDING_ENABLEMENT"
+  | "FAILED_TO_ENABLE"
+  | "PENDING_UPDATE"
+  | "FAILED_TO_UPDATE"
+  | "PENDING_DELETION"
+  | "FAILED_TO_DELETE"
+  | (string & {});
+export const EnablementStatus = S.String;
 
 export interface CreateConnectorV2Response {
   ConnectorArn: string;
   ConnectorId: string;
   AuthUrl?: string;
   ConnectorStatus?: ConnectorStatus;
+  EnablementStatus?: EnablementStatus;
 }
 export const CreateConnectorV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14102,6 +14289,7 @@ export const CreateConnectorV2Response = /*@__PURE__*/ S.suspend(() =>
     ConnectorId: S.optional(S.String),
     AuthUrl: S.optional(S.String),
     ConnectorStatus: S.optional(ConnectorStatus),
+    EnablementStatus: S.optional(EnablementStatus),
   }),
 ).annotate({
   identifier: "CreateConnectorV2Response",
@@ -14260,6 +14448,9 @@ export interface AwsSecurityFindingFilters {
   AwsAccountName?: StringFilter[];
   ResourceApplicationName?: StringFilter[];
   ResourceApplicationArn?: StringFilter[];
+  ResourceOwnerAccountId?: StringFilter[];
+  ResourceOwnerOrgId?: StringFilter[];
+  ResourceProvider?: StringFilter[];
 }
 export const AwsSecurityFindingFilters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14368,6 +14559,9 @@ export const AwsSecurityFindingFilters = /*@__PURE__*/ S.suspend(() =>
     AwsAccountName: S.optional(StringFilterList),
     ResourceApplicationName: S.optional(StringFilterList),
     ResourceApplicationArn: S.optional(StringFilterList),
+    ResourceOwnerAccountId: S.optional(StringFilterList),
+    ResourceOwnerOrgId: S.optional(StringFilterList),
+    ResourceProvider: S.optional(StringFilterList),
   }),
 ).annotate({
   identifier: "AwsSecurityFindingFilters",
@@ -14451,7 +14645,7 @@ export const CreateMembersResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateMembersResponse",
 }) as any as S.Schema<CreateMembersResponse>;
 export type TicketCreationMode = "DRYRUN" | (string & {});
-export const TicketCreationMode = /*@__PURE__*/ S.String;
+export const TicketCreationMode = S.String;
 
 export interface CreateTicketV2Request {
   ConnectorId?: string;
@@ -14618,6 +14812,31 @@ export const DeleteConfigurationPolicyResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteConfigurationPolicyResponse",
 }) as any as S.Schema<DeleteConfigurationPolicyResponse>;
+export interface DeleteConnectorRequest {
+  ConnectorId: string;
+}
+export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ConnectorId: S.String.pipe(T.HttpLabel("ConnectorId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/connectors/{ConnectorId+}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteConnectorRequest",
+}) as any as S.Schema<DeleteConnectorRequest>;
+export interface DeleteConnectorResponse {
+  EnablementStatus?: CspmEnablementStatus;
+}
+export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ EnablementStatus: S.optional(CspmEnablementStatus) }),
+).annotate({
+  identifier: "DeleteConnectorResponse",
+}) as any as S.Schema<DeleteConnectorResponse>;
 export interface DeleteConnectorV2Request {
   ConnectorId: string;
 }
@@ -14635,9 +14854,11 @@ export const DeleteConnectorV2Request = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteConnectorV2Request",
 }) as any as S.Schema<DeleteConnectorV2Request>;
-export interface DeleteConnectorV2Response {}
+export interface DeleteConnectorV2Response {
+  EnablementStatus?: EnablementStatus;
+}
 export const DeleteConnectorV2Response = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({ EnablementStatus: S.optional(EnablementStatus) }),
 ).annotate({
   identifier: "DeleteConnectorV2Response",
 }) as any as S.Schema<DeleteConnectorV2Response>;
@@ -14822,7 +15043,7 @@ export type ControlFindingGenerator =
   | "STANDARD_CONTROL"
   | "SECURITY_CONTROL"
   | (string & {});
-export const ControlFindingGenerator = /*@__PURE__*/ S.String;
+export const ControlFindingGenerator = S.String;
 
 export interface DescribeHubResponse {
   HubArn?: string;
@@ -14857,21 +15078,20 @@ export const DescribeOrganizationConfigurationRequest = /*@__PURE__*/ S.suspend(
   identifier: "DescribeOrganizationConfigurationRequest",
 }) as any as S.Schema<DescribeOrganizationConfigurationRequest>;
 export type AutoEnableStandards = "NONE" | "DEFAULT" | (string & {});
-export const AutoEnableStandards = /*@__PURE__*/ S.String;
+export const AutoEnableStandards = S.String;
 
 export type OrganizationConfigurationConfigurationType =
   | "CENTRAL"
   | "LOCAL"
   | (string & {});
-export const OrganizationConfigurationConfigurationType =
-  /*@__PURE__*/ S.String;
+export const OrganizationConfigurationConfigurationType = S.String;
 
 export type OrganizationConfigurationStatus =
   | "PENDING"
   | "ENABLED"
   | "FAILED"
   | (string & {});
-export const OrganizationConfigurationStatus = /*@__PURE__*/ S.String;
+export const OrganizationConfigurationStatus = S.String;
 
 export interface OrganizationConfiguration {
   ConfigurationType?: OrganizationConfigurationConfigurationType;
@@ -14934,7 +15154,7 @@ export type IntegrationType =
   | "RECEIVE_FINDINGS_FROM_SECURITY_HUB"
   | "UPDATE_FINDINGS_IN_SECURITY_HUB"
   | (string & {});
-export const IntegrationType = /*@__PURE__*/ S.String;
+export const IntegrationType = S.String;
 
 export type IntegrationTypeList = IntegrationType[];
 export const IntegrationTypeList = /*@__PURE__*/ S.Array(IntegrationType);
@@ -15003,7 +15223,7 @@ export type IntegrationV2Type =
   | "UPDATE_FINDINGS_IN_SECURITY_HUB"
   | "EXTENDED_PLAN"
   | (string & {});
-export const IntegrationV2Type = /*@__PURE__*/ S.String;
+export const IntegrationV2Type = S.String;
 
 export type IntegrationV2TypeList = IntegrationV2Type[];
 export const IntegrationV2TypeList = /*@__PURE__*/ S.Array(IntegrationV2Type);
@@ -15058,26 +15278,54 @@ export const DescribeSecurityHubV2Request = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeSecurityHubV2Request",
 }) as any as S.Schema<DescribeSecurityHubV2Request>;
+export type IsoString = string;
+export type FeatureNameKey = string;
+export type FeatureStatus = "ENABLED" | "DISABLED" | (string & {});
+export const FeatureStatus = S.String;
+
+export interface FeatureDetail {
+  FeatureStatus?: FeatureStatus;
+  UpdatedAt?: Date;
+}
+export const FeatureDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    FeatureStatus: S.optional(FeatureStatus),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({ identifier: "FeatureDetail" }) as any as S.Schema<FeatureDetail>;
+export type Features = { [key: string]: FeatureDetail | undefined };
+export const Features = /*@__PURE__*/ S.Record(
+  S.String,
+  FeatureDetail.pipe(S.optional),
+);
 export interface DescribeSecurityHubV2Response {
   HubV2Arn?: string;
   SubscribedAt?: string;
+  Features?: { [key: string]: FeatureDetail | undefined };
 }
 export const DescribeSecurityHubV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     HubV2Arn: S.optional(S.String),
     SubscribedAt: S.optional(S.String),
+    Features: S.optional(Features),
   }),
 ).annotate({
   identifier: "DescribeSecurityHubV2Response",
 }) as any as S.Schema<DescribeSecurityHubV2Response>;
+export type StandardsProviders = StandardsProvider[];
+export const StandardsProviders = /*@__PURE__*/ S.Array(StandardsProvider);
 export interface DescribeStandardsRequest {
   NextToken?: string;
   MaxResults?: number;
+  Providers?: StandardsProvider[];
 }
 export const DescribeStandardsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+    Providers: S.optional(StandardsProviders).pipe(T.HttpQuery("Providers")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/standards" }),
@@ -15105,6 +15353,7 @@ export interface Standard {
   Name?: string;
   Description?: string;
   EnabledByDefault?: boolean;
+  Provider?: StandardsProvider;
   StandardsManagedBy?: StandardsManagedBy;
 }
 export const Standard = /*@__PURE__*/ S.suspend(() =>
@@ -15113,6 +15362,7 @@ export const Standard = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     EnabledByDefault: S.optional(S.Boolean),
+    Provider: S.optional(StandardsProvider),
     StandardsManagedBy: S.optional(StandardsManagedBy),
   }),
 ).annotate({ identifier: "Standard" }) as any as S.Schema<Standard>;
@@ -15237,7 +15487,7 @@ export type SecurityHubFeature =
   | "SecurityHub"
   | "SecurityHubV2"
   | (string & {});
-export const SecurityHubFeature = /*@__PURE__*/ S.String;
+export const SecurityHubFeature = S.String;
 
 export interface DisableOrganizationAdminAccountRequest {
   AdminAccountId?: string;
@@ -15288,6 +15538,32 @@ export const DisableSecurityHubResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DisableSecurityHubResponse",
 }) as any as S.Schema<DisableSecurityHubResponse>;
+export type FeatureName = "NETWORK_SCANNING" | (string & {});
+export const FeatureName = S.String;
+
+export interface DisableSecurityHubFeatureV2Request {
+  FeatureName: FeatureName;
+}
+export const DisableSecurityHubFeatureV2Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ FeatureName: FeatureName.pipe(T.HttpLabel("FeatureName")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/hubv2/feature/{FeatureName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisableSecurityHubFeatureV2Request",
+}) as any as S.Schema<DisableSecurityHubFeatureV2Request>;
+export interface DisableSecurityHubFeatureV2Response {}
+export const DisableSecurityHubFeatureV2Response = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisableSecurityHubFeatureV2Response",
+}) as any as S.Schema<DisableSecurityHubFeatureV2Response>;
 export interface DisableSecurityHubV2Request {}
 export const DisableSecurityHubV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
@@ -15465,6 +15741,29 @@ export const EnableSecurityHubResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "EnableSecurityHubResponse",
 }) as any as S.Schema<EnableSecurityHubResponse>;
+export interface EnableSecurityHubFeatureV2Request {
+  FeatureName: FeatureName;
+}
+export const EnableSecurityHubFeatureV2Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ FeatureName: FeatureName.pipe(T.HttpLabel("FeatureName")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/hubv2/feature/{FeatureName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "EnableSecurityHubFeatureV2Request",
+}) as any as S.Schema<EnableSecurityHubFeatureV2Request>;
+export interface EnableSecurityHubFeatureV2Response {}
+export const EnableSecurityHubFeatureV2Response = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "EnableSecurityHubFeatureV2Response",
+}) as any as S.Schema<EnableSecurityHubFeatureV2Response>;
 export interface EnableSecurityHubV2Request {
   Tags?: { [key: string]: string | undefined };
 }
@@ -15722,6 +16021,119 @@ export const GetConfigurationPolicyAssociationResponse =
   ).annotate({
     identifier: "GetConfigurationPolicyAssociationResponse",
   }) as any as S.Schema<GetConfigurationPolicyAssociationResponse>;
+export interface GetConnectorRequest {
+  ConnectorId: string;
+}
+export const GetConnectorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ConnectorId: S.String.pipe(T.HttpLabel("ConnectorId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/connectors/{ConnectorId+}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetConnectorRequest",
+}) as any as S.Schema<GetConnectorRequest>;
+export type HealthIssueCode =
+  | "AUTHENTICATION_FAILURE"
+  | "STREAM_AUTHORIZATION_FAILURE"
+  | "DISCOVERY_FAILURE"
+  | "STREAM_LIMIT_EXCEEDED"
+  | "STREAM_DISCONNECTED"
+  | "RECORDING_FAILURE"
+  | "NO_HEALTH_DATA"
+  | (string & {});
+export const HealthIssueCode = S.String;
+
+export interface HealthIssue {
+  Code?: HealthIssueCode;
+  Message?: string;
+}
+export const HealthIssue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Code: S.optional(HealthIssueCode),
+    Message: S.optional(S.String),
+  }),
+).annotate({ identifier: "HealthIssue" }) as any as S.Schema<HealthIssue>;
+export type HealthIssueList = HealthIssue[];
+export const HealthIssueList = /*@__PURE__*/ S.Array(HealthIssue);
+export interface CspmHealthCheck {
+  ConnectorStatus?: CspmConnectorStatus;
+  Message?: string;
+  LastCheckedAt?: Date;
+  Issues?: HealthIssue[];
+}
+export const CspmHealthCheck = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConnectorStatus: S.optional(CspmConnectorStatus),
+    Message: S.optional(S.String),
+    LastCheckedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    Issues: S.optional(HealthIssueList),
+  }),
+).annotate({
+  identifier: "CspmHealthCheck",
+}) as any as S.Schema<CspmHealthCheck>;
+export interface AzureDetail {
+  AWSConfigConnectorArn?: string;
+  ScopeConfiguration?: AzureScopeConfiguration;
+  AzureRegions?: string[];
+}
+export const AzureDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AWSConfigConnectorArn: S.optional(S.String),
+    ScopeConfiguration: S.optional(AzureScopeConfiguration),
+    AzureRegions: S.optional(AzureRegionList),
+  }),
+).annotate({ identifier: "AzureDetail" }) as any as S.Schema<AzureDetail>;
+export type CspmProviderDetail = { Azure: AzureDetail };
+export const CspmProviderDetail = /*@__PURE__*/ S.Union([
+  S.Struct({ Azure: AzureDetail }),
+]);
+export interface GetConnectorResponse {
+  ConnectorArn?: string;
+  ConnectorId: string;
+  Name: string;
+  Description?: string;
+  CreatedAt: Date;
+  LastUpdatedAt: Date;
+  Health: CspmHealthCheck & {
+    ConnectorStatus: CspmConnectorStatus;
+    LastCheckedAt: Date;
+    Issues: (HealthIssue & {
+      Code: HealthIssueCode;
+      Message: NonEmptyString;
+    })[];
+  };
+  ProviderDetail: CspmProviderDetail;
+  CreatedBy?: string;
+  EnablementStatus?: CspmEnablementStatus;
+}
+export const GetConnectorResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConnectorArn: S.optional(S.String),
+    ConnectorId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    Health: S.optional(CspmHealthCheck),
+    ProviderDetail: S.optional(CspmProviderDetail),
+    CreatedBy: S.optional(S.String),
+    EnablementStatus: S.optional(CspmEnablementStatus),
+  }),
+).annotate({
+  identifier: "GetConnectorResponse",
+}) as any as S.Schema<GetConnectorResponse>;
 export interface GetConnectorV2Request {
   ConnectorId: string;
 }
@@ -15743,6 +16155,7 @@ export interface HealthCheck {
   ConnectorStatus?: ConnectorStatus;
   Message?: string;
   LastCheckedAt?: Date;
+  Issues?: HealthIssue[];
 }
 export const HealthCheck = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15751,10 +16164,11 @@ export const HealthCheck = /*@__PURE__*/ S.suspend(() =>
     LastCheckedAt: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
+    Issues: S.optional(HealthIssueList),
   }),
 ).annotate({ identifier: "HealthCheck" }) as any as S.Schema<HealthCheck>;
 export type ConnectorAuthStatus = "ACTIVE" | "FAILED" | (string & {});
-export const ConnectorAuthStatus = /*@__PURE__*/ S.String;
+export const ConnectorAuthStatus = S.String;
 
 export interface JiraCloudDetail {
   CloudId?: string;
@@ -15789,11 +16203,13 @@ export const ServiceNowDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "ServiceNowDetail",
 }) as any as S.Schema<ServiceNowDetail>;
 export type ProviderDetail =
-  | { JiraCloud: JiraCloudDetail; ServiceNow?: never }
-  | { JiraCloud?: never; ServiceNow: ServiceNowDetail };
+  | { JiraCloud: JiraCloudDetail; ServiceNow?: never; Azure?: never }
+  | { JiraCloud?: never; ServiceNow: ServiceNowDetail; Azure?: never }
+  | { JiraCloud?: never; ServiceNow?: never; Azure: AzureDetail };
 export const ProviderDetail = /*@__PURE__*/ S.Union([
   S.Struct({ JiraCloud: JiraCloudDetail }),
   S.Struct({ ServiceNow: ServiceNowDetail }),
+  S.Struct({ Azure: AzureDetail }),
 ]);
 export interface GetConnectorV2Response {
   ConnectorArn?: string;
@@ -15806,8 +16222,14 @@ export interface GetConnectorV2Response {
   Health: HealthCheck & {
     ConnectorStatus: ConnectorStatus;
     LastCheckedAt: Date;
+    Issues: (HealthIssue & {
+      Code: HealthIssueCode;
+      Message: NonEmptyString;
+    })[];
   };
   ProviderDetail: ProviderDetail;
+  EnablementStatus?: EnablementStatus;
+  EnablementStatusReason?: string;
 }
 export const GetConnectorV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15824,6 +16246,8 @@ export const GetConnectorV2Response = /*@__PURE__*/ S.suspend(() =>
     ),
     Health: S.optional(HealthCheck),
     ProviderDetail: S.optional(ProviderDetail),
+    EnablementStatus: S.optional(EnablementStatus),
+    EnablementStatusReason: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetConnectorV2Response",
@@ -15832,12 +16256,14 @@ export interface GetEnabledStandardsRequest {
   StandardsSubscriptionArns?: string[];
   NextToken?: string;
   MaxResults?: number;
+  Providers?: StandardsProvider[];
 }
 export const GetEnabledStandardsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StandardsSubscriptionArns: S.optional(StandardsSubscriptionArns),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
+    Providers: S.optional(StandardsProviders),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/standards/get" }),
@@ -15942,7 +16368,7 @@ export type FindingHistoryUpdateSourceType =
   | "BATCH_UPDATE_FINDINGS"
   | "BATCH_IMPORT_FINDINGS"
   | (string & {});
-export const FindingHistoryUpdateSourceType = /*@__PURE__*/ S.String;
+export const FindingHistoryUpdateSourceType = S.String;
 
 export interface FindingHistoryUpdateSource {
   Type?: FindingHistoryUpdateSourceType;
@@ -16016,7 +16442,7 @@ export const GetFindingHistoryResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetFindingHistoryResponse",
 }) as any as S.Schema<GetFindingHistoryResponse>;
 export type SortOrder = "asc" | "desc" | (string & {});
-export const SortOrder = /*@__PURE__*/ S.String;
+export const SortOrder = S.String;
 
 export interface SortCriterion {
   Field?: string;
@@ -16115,6 +16541,13 @@ export type GroupByField =
   | "metadata.product.name"
   | "metadata.product.uid"
   | "resources.type"
+  | "resources.cloud_partition"
+  | "resources.name"
+  | "resources.owner.account.uid"
+  | "resources.owner.org.uid"
+  | "resources.owner.account.name"
+  | "resources.provider"
+  | "resources.region"
   | "resources.uid"
   | "severity"
   | "status"
@@ -16127,7 +16560,7 @@ export type GroupByField =
   | "vendor_attributes.severity"
   | "metadata.product.vendor_name"
   | (string & {});
-export const GroupByField = /*@__PURE__*/ S.String;
+export const GroupByField = S.String;
 
 export interface GroupByRule {
   Filters?: OcsfFindingFilters;
@@ -16228,8 +16661,12 @@ export type FindingsTrendsStringField =
   | "finding_class_name"
   | "finding_provider"
   | "finding_activity_name"
+  | "resource_cloud_providers"
+  | "resource_regions"
+  | "resource_owner_ids"
+  | "resource_owner_organization_ids"
   | (string & {});
-export const FindingsTrendsStringField = /*@__PURE__*/ S.String;
+export const FindingsTrendsStringField = S.String;
 
 export interface FindingsTrendsStringFilter {
   FieldName?: FindingsTrendsStringField;
@@ -16314,7 +16751,7 @@ export const GetFindingsTrendsV2Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetFindingsTrendsV2Request",
 }) as any as S.Schema<GetFindingsTrendsV2Request>;
 export type GranularityField = "Daily" | "Weekly" | "Monthly" | (string & {});
-export const GranularityField = /*@__PURE__*/ S.String;
+export const GranularityField = S.String;
 
 export type TrendsValueCount = number;
 export interface SeverityTrendsCount {
@@ -16674,7 +17111,7 @@ export const GetRecommendedPolicyV2Request = /*@__PURE__*/ S.suspend(() =>
 export type RecommendationType =
   | "UNUSED_PERMISSION_RECOMMENDATION"
   | (string & {});
-export const RecommendationType = /*@__PURE__*/ S.String;
+export const RecommendationType = S.String;
 
 export interface UnusedPermissionsRecommendationStep {
   RecommendedAction?: string;
@@ -16718,7 +17155,7 @@ export type RecommendationStatus =
   | "SUCCEEDED"
   | "FAILED"
   | (string & {});
-export const RecommendationStatus = /*@__PURE__*/ S.String;
+export const RecommendationStatus = S.String;
 
 export interface GetRecommendedPolicyV2Response {
   NextToken?: string;
@@ -16742,26 +17179,47 @@ export const GetRecommendedPolicyV2Response = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetRecommendedPolicyV2Response>;
 export type ResourceGroupByField =
   | "AccountId"
+  | "AccountName"
   | "Region"
+  | "ResourceProvider"
+  | "ResourceOwnerAccountId"
+  | "ResourceOwnerOrgId"
+  | "ResourceCloudPartition"
+  | "ResourceRegion"
   | "ResourceCategory"
   | "ResourceType"
   | "ResourceName"
   | "FindingsSummary.FindingType"
+  | "ResourceSubCategory"
+  | "DiscoveryType"
+  | "ResourceInfo.AIDetails.HostResourceType"
+  | "ResourceInfo.AIDetails.CanonicalId"
   | (string & {});
-export const ResourceGroupByField = /*@__PURE__*/ S.String;
+export const ResourceGroupByField = S.String;
 
 export type ResourcesStringField =
   | "ResourceGuid"
   | "ResourceId"
   | "AccountId"
+  | "AccountName"
   | "Region"
+  | "ResourceProvider"
+  | "ResourceOwnerAccountId"
+  | "ResourceOwnerOrgId"
+  | "ResourceCloudPartition"
+  | "ResourceRegion"
   | "ResourceCategory"
   | "ResourceType"
   | "ResourceName"
   | "FindingsSummary.FindingType"
   | "FindingsSummary.ProductName"
+  | "ResourceSubCategory"
+  | "DiscoveryType"
+  | "ResourceInfo.AIDetails.HostResourceGuid"
+  | "ResourceInfo.AIDetails.HostResourceType"
+  | "ResourceInfo.AIDetails.CanonicalId"
   | (string & {});
-export const ResourcesStringField = /*@__PURE__*/ S.String;
+export const ResourcesStringField = S.String;
 
 export interface ResourcesStringFilter {
   FieldName?: ResourcesStringField;
@@ -16783,7 +17241,7 @@ export type ResourcesDateField =
   | "ResourceDetailCaptureTime"
   | "ResourceCreationTime"
   | (string & {});
-export const ResourcesDateField = /*@__PURE__*/ S.String;
+export const ResourcesDateField = S.String;
 
 export interface ResourcesDateFilter {
   FieldName?: ResourcesDateField;
@@ -16810,8 +17268,16 @@ export type ResourcesNumberField =
   | "FindingsSummary.Severities.Low"
   | "FindingsSummary.Severities.Informational"
   | "FindingsSummary.Severities.Unknown"
+  | "ResourceInfo.AIDetails.SelfHostedAIModelResourceCount"
+  | "ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount"
+  | "ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount"
+  | "ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount"
+  | "ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount"
+  | "ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount"
+  | "ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount"
+  | "ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount"
   | (string & {});
-export const ResourcesNumberField = /*@__PURE__*/ S.String;
+export const ResourcesNumberField = S.String;
 
 export interface ResourcesNumberFilter {
   FieldName?: ResourcesNumberField;
@@ -16830,7 +17296,7 @@ export const ResourcesNumberFilterList = /*@__PURE__*/ S.Array(
   ResourcesNumberFilter,
 );
 export type ResourcesMapField = "ResourceTags" | (string & {});
-export const ResourcesMapField = /*@__PURE__*/ S.String;
+export const ResourcesMapField = S.String;
 
 export interface ResourcesMapFilter {
   FieldName?: ResourcesMapField;
@@ -16946,8 +17412,12 @@ export type ResourcesTrendsStringField =
   | "region"
   | "resource_type"
   | "resource_category"
+  | "resource_cloud_provider"
+  | "resource_region"
+  | "resource_owner_id"
+  | "resource_owner_organization_id"
   | (string & {});
-export const ResourcesTrendsStringField = /*@__PURE__*/ S.String;
+export const ResourcesTrendsStringField = S.String;
 
 export interface ResourcesTrendsStringFilter {
   FieldName?: ResourcesTrendsStringField;
@@ -17118,9 +17588,10 @@ export type ResourceCategory =
   | "AI/ML"
   | "Identity"
   | "Network"
+  | "Messaging"
   | "Other"
   | (string & {});
-export const ResourceCategory = /*@__PURE__*/ S.String;
+export const ResourceCategory = S.String;
 
 export interface ResourceSeverityBreakdown {
   Other?: number;
@@ -17176,11 +17647,69 @@ export const ResourceTag = /*@__PURE__*/ S.suspend(() =>
 export type ResourceTagList = ResourceTag[];
 export const ResourceTagList = /*@__PURE__*/ S.Array(ResourceTag);
 export type ResourceConfig = unknown;
+export type ResourceSubCategory =
+  | "Model"
+  | "ModelServing"
+  | "Agent"
+  | "AgentFramework"
+  | "AgentToolsAndIdentity"
+  | "SafetyAndGuardrail"
+  | "KnowledgeAndData"
+  | "OrchestrationAndPipeline"
+  | "ExternalEndpoint"
+  | "Development"
+  | "Other"
+  | (string & {});
+export const ResourceSubCategory = S.String;
+
+export type DiscoveryType = "Managed" | "SelfHosted" | (string & {});
+export const DiscoveryType = S.String;
+
+export interface AIDetails {
+  HostResourceGuid?: string;
+  HostResourceType?: string;
+  CanonicalId?: string;
+  SelfHostedAIModelResourceCount?: number;
+  SelfHostedAIAgentResourceCount?: number;
+  SelfHostedAIModelServingResourceCount?: number;
+  SelfHostedAIExternalEndpointResourceCount?: number;
+  SelfHostedAIDevelopmentResourceCount?: number;
+  SelfHostedAIAgentFrameworkResourceCount?: number;
+  SelfHostedAIAgentToolsAndIdentityResourceCount?: number;
+  SelfHostedTotalAIResourceCount?: number;
+}
+export const AIDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    HostResourceGuid: S.optional(S.String),
+    HostResourceType: S.optional(S.String),
+    CanonicalId: S.optional(S.String),
+    SelfHostedAIModelResourceCount: S.optional(S.Number),
+    SelfHostedAIAgentResourceCount: S.optional(S.Number),
+    SelfHostedAIModelServingResourceCount: S.optional(S.Number),
+    SelfHostedAIExternalEndpointResourceCount: S.optional(S.Number),
+    SelfHostedAIDevelopmentResourceCount: S.optional(S.Number),
+    SelfHostedAIAgentFrameworkResourceCount: S.optional(S.Number),
+    SelfHostedAIAgentToolsAndIdentityResourceCount: S.optional(S.Number),
+    SelfHostedTotalAIResourceCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "AIDetails" }) as any as S.Schema<AIDetails>;
+export interface ResourceInfo {
+  AIDetails?: AIDetails;
+}
+export const ResourceInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AIDetails: S.optional(AIDetails) }),
+).annotate({ identifier: "ResourceInfo" }) as any as S.Schema<ResourceInfo>;
 export interface ResourceResult {
   ResourceGuid?: string;
   ResourceId?: string;
   AccountId?: string;
+  AccountName?: string;
   Region?: string;
+  ResourceProvider?: string;
+  ResourceOwnerAccountId?: string;
+  ResourceOwnerOrgId?: string;
+  ResourceCloudPartition?: string;
+  ResourceRegion?: string;
   ResourceCategory?: ResourceCategory;
   ResourceType?: string;
   ResourceName?: string;
@@ -17189,13 +17718,22 @@ export interface ResourceResult {
   FindingsSummary?: ResourceFindingsSummary[];
   ResourceTags?: ResourceTag[];
   ResourceConfig?: any;
+  ResourceSubCategory?: ResourceSubCategory;
+  DiscoveryType?: DiscoveryType;
+  ResourceInfo?: ResourceInfo;
 }
 export const ResourceResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceGuid: S.optional(S.String),
     ResourceId: S.optional(S.String),
     AccountId: S.optional(S.String),
+    AccountName: S.optional(S.String),
     Region: S.optional(S.String),
+    ResourceProvider: S.optional(S.String),
+    ResourceOwnerAccountId: S.optional(S.String),
+    ResourceOwnerOrgId: S.optional(S.String),
+    ResourceCloudPartition: S.optional(S.String),
+    ResourceRegion: S.optional(S.String),
     ResourceCategory: S.optional(ResourceCategory),
     ResourceType: S.optional(S.String),
     ResourceName: S.optional(S.String),
@@ -17204,6 +17742,9 @@ export const ResourceResult = /*@__PURE__*/ S.suspend(() =>
     FindingsSummary: S.optional(ResourceFindingsSummaryList),
     ResourceTags: S.optional(ResourceTagList),
     ResourceConfig: S.optional(S.Any),
+    ResourceSubCategory: S.optional(ResourceSubCategory),
+    DiscoveryType: S.optional(DiscoveryType),
+    ResourceInfo: S.optional(ResourceInfo),
   }),
 ).annotate({ identifier: "ResourceResult" }) as any as S.Schema<ResourceResult>;
 export type Resources = ResourceResult[];
@@ -17213,6 +17754,7 @@ export interface GetResourcesV2Response {
     ResourceId: NonEmptyString;
     AccountId: NonEmptyString;
     Region: NonEmptyString;
+    ResourceType: NonEmptyString;
     ResourceDetailCaptureTimeDt: NonEmptyString;
     ResourceConfig: ResourceConfig;
     FindingsSummary: (ResourceFindingsSummary & {
@@ -17260,10 +17802,10 @@ export type RegionAvailabilityStatus =
   | "AVAILABLE"
   | "UNAVAILABLE"
   | (string & {});
-export const RegionAvailabilityStatus = /*@__PURE__*/ S.String;
+export const RegionAvailabilityStatus = S.String;
 
 export type SecurityControlProperty = "Parameters" | (string & {});
-export const SecurityControlProperty = /*@__PURE__*/ S.String;
+export const SecurityControlProperty = S.String;
 
 export type CustomizableProperties = SecurityControlProperty[];
 export const CustomizableProperties = /*@__PURE__*/ S.Array(
@@ -17496,6 +18038,7 @@ export interface SecurityControlDefinition {
   CurrentRegionAvailability?: RegionAvailabilityStatus;
   CustomizableProperties?: SecurityControlProperty[];
   ParameterDefinitions?: { [key: string]: ParameterDefinition | undefined };
+  Provider?: SecurityControlsProvider;
 }
 export const SecurityControlDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -17507,6 +18050,7 @@ export const SecurityControlDefinition = /*@__PURE__*/ S.suspend(() =>
     CurrentRegionAvailability: S.optional(RegionAvailabilityStatus),
     CustomizableProperties: S.optional(CustomizableProperties),
     ParameterDefinitions: S.optional(ParameterDefinitions),
+    Provider: S.optional(SecurityControlsProvider),
   }),
 ).annotate({
   identifier: "SecurityControlDefinition",
@@ -17867,14 +18411,110 @@ export const ListConfigurationPolicyAssociationsResponse =
   ).annotate({
     identifier: "ListConfigurationPolicyAssociationsResponse",
   }) as any as S.Schema<ListConfigurationPolicyAssociationsResponse>;
-export type ConnectorProviderName = "JIRA_CLOUD" | "SERVICENOW" | (string & {});
-export const ConnectorProviderName = /*@__PURE__*/ S.String;
+export type CspmConnectorProviderName = "AZURE" | (string & {});
+export const CspmConnectorProviderName = S.String;
+
+export interface ListConnectorsRequest {
+  NextToken?: string;
+  MaxResults?: number;
+  ProviderName?: CspmConnectorProviderName;
+  ConnectorStatus?: CspmConnectorStatus;
+  EnablementStatus?: CspmEnablementStatus;
+}
+export const ListConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+    ProviderName: S.optional(CspmConnectorProviderName).pipe(
+      T.HttpQuery("ProviderName"),
+    ),
+    ConnectorStatus: S.optional(CspmConnectorStatus).pipe(
+      T.HttpQuery("ConnectorStatus"),
+    ),
+    EnablementStatus: S.optional(CspmEnablementStatus).pipe(
+      T.HttpQuery("EnablementStatus"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/connectors" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListConnectorsRequest",
+}) as any as S.Schema<ListConnectorsRequest>;
+export interface CspmProviderSummary {
+  ProviderName?: CspmConnectorProviderName;
+  ConnectorStatus?: CspmConnectorStatus;
+  ProviderConfiguration?: CspmProviderDetail;
+}
+export const CspmProviderSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProviderName: S.optional(CspmConnectorProviderName),
+    ConnectorStatus: S.optional(CspmConnectorStatus),
+    ProviderConfiguration: S.optional(CspmProviderDetail),
+  }),
+).annotate({
+  identifier: "CspmProviderSummary",
+}) as any as S.Schema<CspmProviderSummary>;
+export interface CspmConnectorSummary {
+  ConnectorArn?: string;
+  ConnectorId?: string;
+  Name?: string;
+  Description?: string;
+  ProviderSummary?: CspmProviderSummary;
+  CreatedAt?: Date;
+  CreatedBy?: string;
+  EnablementStatus?: CspmEnablementStatus;
+}
+export const CspmConnectorSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConnectorArn: S.optional(S.String),
+    ConnectorId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    ProviderSummary: S.optional(CspmProviderSummary),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CreatedBy: S.optional(S.String),
+    EnablementStatus: S.optional(CspmEnablementStatus),
+  }),
+).annotate({
+  identifier: "CspmConnectorSummary",
+}) as any as S.Schema<CspmConnectorSummary>;
+export type CspmConnectorSummaryList = CspmConnectorSummary[];
+export const CspmConnectorSummaryList =
+  /*@__PURE__*/ S.Array(CspmConnectorSummary);
+export interface ListConnectorsResponse {
+  NextToken?: string;
+  Connectors: CspmConnectorSummary[];
+}
+export const ListConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    Connectors: S.optional(CspmConnectorSummaryList),
+  }),
+).annotate({
+  identifier: "ListConnectorsResponse",
+}) as any as S.Schema<ListConnectorsResponse>;
+export type ConnectorProviderName =
+  | "JIRA_CLOUD"
+  | "SERVICENOW"
+  | "AZURE"
+  | (string & {});
+export const ConnectorProviderName = S.String;
 
 export interface ListConnectorsV2Request {
   NextToken?: string;
   MaxResults?: number;
   ProviderName?: ConnectorProviderName;
   ConnectorStatus?: ConnectorStatus;
+  EnablementStatus?: EnablementStatus;
 }
 export const ListConnectorsV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -17885,6 +18525,9 @@ export const ListConnectorsV2Request = /*@__PURE__*/ S.suspend(() =>
     ),
     ConnectorStatus: S.optional(ConnectorStatus).pipe(
       T.HttpQuery("ConnectorStatus"),
+    ),
+    EnablementStatus: S.optional(EnablementStatus).pipe(
+      T.HttpQuery("EnablementStatus"),
     ),
   }).pipe(
     T.all(
@@ -17902,11 +18545,13 @@ export const ListConnectorsV2Request = /*@__PURE__*/ S.suspend(() =>
 export interface ProviderSummary {
   ProviderName?: ConnectorProviderName;
   ConnectorStatus?: ConnectorStatus;
+  ProviderConfiguration?: ProviderDetail;
 }
 export const ProviderSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ProviderName: S.optional(ConnectorProviderName),
     ConnectorStatus: S.optional(ConnectorStatus),
+    ProviderConfiguration: S.optional(ProviderDetail),
   }),
 ).annotate({
   identifier: "ProviderSummary",
@@ -17918,6 +18563,8 @@ export interface ConnectorSummary {
   Description?: string;
   ProviderSummary?: ProviderSummary;
   CreatedAt?: Date;
+  EnablementStatus?: EnablementStatus;
+  EnablementStatusReason?: string;
 }
 export const ConnectorSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -17929,6 +18576,8 @@ export const ConnectorSummary = /*@__PURE__*/ S.suspend(() =>
     CreatedAt: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
+    EnablementStatus: S.optional(EnablementStatus),
+    EnablementStatusReason: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ConnectorSummary",
@@ -18031,6 +18680,109 @@ export const ListFindingAggregatorsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListFindingAggregatorsResponse",
 }) as any as S.Schema<ListFindingAggregatorsResponse>;
+export type FreeTrialAccountId = string;
+export type FreeTrialAccountIdList = string[];
+export const FreeTrialAccountIdList = /*@__PURE__*/ S.Array(S.String);
+export type FreeTrialStatusValue = "ACTIVE" | "INACTIVE" | (string & {});
+export const FreeTrialStatusValue = S.String;
+
+export type FreeTrialStatusValueList = FreeTrialStatusValue[];
+export const FreeTrialStatusValueList =
+  /*@__PURE__*/ S.Array(FreeTrialStatusValue);
+export interface ListFreeTrialStatusesV2Request {
+  AccountIds?: string[];
+  Statuses?: FreeTrialStatusValue[];
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListFreeTrialStatusesV2Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountIds: S.optional(FreeTrialAccountIdList),
+    Statuses: S.optional(FreeTrialStatusValueList),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/freetrial/statusv2/list" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListFreeTrialStatusesV2Request",
+}) as any as S.Schema<ListFreeTrialStatusesV2Request>;
+export type FreeTrialType =
+  | "SECURITY_HUB_V2"
+  | "SECURITY_HUB_V2_MULTI_CLOUD_AZURE"
+  | (string & {});
+export const FreeTrialType = S.String;
+
+export interface FreeTrialStatus {
+  FeatureType?: FreeTrialType;
+  Status?: FreeTrialStatusValue;
+  StartedAt?: Date;
+  ExpiresAt?: Date;
+}
+export const FreeTrialStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    FeatureType: S.optional(FreeTrialType),
+    Status: S.optional(FreeTrialStatusValue),
+    StartedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ExpiresAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
+).annotate({
+  identifier: "FreeTrialStatus",
+}) as any as S.Schema<FreeTrialStatus>;
+export type FreeTrialStatusList = FreeTrialStatus[];
+export const FreeTrialStatusList = /*@__PURE__*/ S.Array(FreeTrialStatus);
+export interface AccountFreeTrialStatus {
+  AccountId?: string;
+  EvaluatedAt?: Date;
+  FreeTrialStatuses?: FreeTrialStatus[];
+}
+export const AccountFreeTrialStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    EvaluatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    FreeTrialStatuses: S.optional(FreeTrialStatusList),
+  }),
+).annotate({
+  identifier: "AccountFreeTrialStatus",
+}) as any as S.Schema<AccountFreeTrialStatus>;
+export type AccountFreeTrialStatusList = AccountFreeTrialStatus[];
+export const AccountFreeTrialStatusList = /*@__PURE__*/ S.Array(
+  AccountFreeTrialStatus,
+);
+export interface ListFreeTrialStatusesV2Response {
+  AccountFreeTrialStatuses: (AccountFreeTrialStatus & {
+    AccountId: FreeTrialAccountId;
+    EvaluatedAt: Date;
+    FreeTrialStatuses: (FreeTrialStatus & {
+      FeatureType: FreeTrialType;
+      Status: FreeTrialStatusValue;
+      StartedAt: Date;
+      ExpiresAt: Date;
+    })[];
+  })[];
+  NextToken?: string;
+}
+export const ListFreeTrialStatusesV2Response = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountFreeTrialStatuses: S.optional(AccountFreeTrialStatusList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListFreeTrialStatusesV2Response",
+}) as any as S.Schema<ListFreeTrialStatusesV2Response>;
 export type CrossAccountMaxResults = number;
 export interface ListInvitationsRequest {
   MaxResults?: number;
@@ -18128,7 +18880,7 @@ export const ListOrganizationAdminAccountsRequest = /*@__PURE__*/ S.suspend(
   identifier: "ListOrganizationAdminAccountsRequest",
 }) as any as S.Schema<ListOrganizationAdminAccountsRequest>;
 export type AdminStatus = "ENABLED" | "DISABLE_IN_PROGRESS" | (string & {});
-export const AdminStatus = /*@__PURE__*/ S.String;
+export const AdminStatus = S.String;
 
 export interface AdminAccount {
   AccountId?: string;
@@ -18157,10 +18909,15 @@ export const ListOrganizationAdminAccountsResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "ListOrganizationAdminAccountsResponse",
 }) as any as S.Schema<ListOrganizationAdminAccountsResponse>;
+export type SecurityControlsProviders = SecurityControlsProvider[];
+export const SecurityControlsProviders = /*@__PURE__*/ S.Array(
+  SecurityControlsProvider,
+);
 export interface ListSecurityControlDefinitionsRequest {
   StandardsArn?: string;
   NextToken?: string;
   MaxResults?: number;
+  Providers?: SecurityControlsProvider[];
 }
 export const ListSecurityControlDefinitionsRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -18168,6 +18925,9 @@ export const ListSecurityControlDefinitionsRequest = /*@__PURE__*/ S.suspend(
       StandardsArn: S.optional(S.String).pipe(T.HttpQuery("StandardsArn")),
       NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
       MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+      Providers: S.optional(SecurityControlsProviders).pipe(
+        T.HttpQuery("Providers"),
+      ),
     }).pipe(
       T.all(
         T.Http({ method: "GET", uri: "/securityControls/definitions" }),
@@ -18648,6 +19408,59 @@ export const UpdateConfigurationPolicyResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateConfigurationPolicyResponse",
 }) as any as S.Schema<UpdateConfigurationPolicyResponse>;
+export interface AzureUpdateConfiguration {
+  ScopeConfiguration?: AzureScopeConfiguration;
+  AzureRegions?: string[];
+}
+export const AzureUpdateConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ScopeConfiguration: S.optional(AzureScopeConfiguration),
+    AzureRegions: S.optional(AzureRegionList),
+  }),
+).annotate({
+  identifier: "AzureUpdateConfiguration",
+}) as any as S.Schema<AzureUpdateConfiguration>;
+export type CspmProviderUpdateConfiguration = {
+  Azure: AzureUpdateConfiguration;
+};
+export const CspmProviderUpdateConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ Azure: AzureUpdateConfiguration }),
+]);
+export interface UpdateConnectorRequest {
+  ConnectorId: string;
+  Description?: string;
+  Provider?: CspmProviderUpdateConfiguration;
+}
+export const UpdateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConnectorId: S.String.pipe(T.HttpLabel("ConnectorId")),
+    Description: S.optional(S.String),
+    Provider: S.optional(CspmProviderUpdateConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/connectors/{ConnectorId+}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateConnectorRequest",
+}) as any as S.Schema<UpdateConnectorRequest>;
+export interface UpdateConnectorResponse {
+  ConnectorStatus?: CspmConnectorStatus;
+  EnablementStatus?: CspmEnablementStatus;
+}
+export const UpdateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConnectorStatus: S.optional(CspmConnectorStatus),
+    EnablementStatus: S.optional(CspmEnablementStatus),
+  }),
+).annotate({
+  identifier: "UpdateConnectorResponse",
+}) as any as S.Schema<UpdateConnectorResponse>;
 export interface JiraCloudUpdateConfiguration {
   ProjectKey?: string;
 }
@@ -18665,11 +19478,21 @@ export const ServiceNowUpdateConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "ServiceNowUpdateConfiguration",
 }) as any as S.Schema<ServiceNowUpdateConfiguration>;
 export type ProviderUpdateConfiguration =
-  | { JiraCloud: JiraCloudUpdateConfiguration; ServiceNow?: never }
-  | { JiraCloud?: never; ServiceNow: ServiceNowUpdateConfiguration };
+  | {
+      JiraCloud: JiraCloudUpdateConfiguration;
+      ServiceNow?: never;
+      Azure?: never;
+    }
+  | {
+      JiraCloud?: never;
+      ServiceNow: ServiceNowUpdateConfiguration;
+      Azure?: never;
+    }
+  | { JiraCloud?: never; ServiceNow?: never; Azure: AzureUpdateConfiguration };
 export const ProviderUpdateConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ JiraCloud: JiraCloudUpdateConfiguration }),
   S.Struct({ ServiceNow: ServiceNowUpdateConfiguration }),
+  S.Struct({ Azure: AzureUpdateConfiguration }),
 ]);
 export interface UpdateConnectorV2Request {
   ConnectorId: string;
@@ -18694,9 +19517,15 @@ export const UpdateConnectorV2Request = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateConnectorV2Request",
 }) as any as S.Schema<UpdateConnectorV2Request>;
-export interface UpdateConnectorV2Response {}
+export interface UpdateConnectorV2Response {
+  ConnectorStatus?: ConnectorStatus;
+  EnablementStatus?: EnablementStatus;
+}
 export const UpdateConnectorV2Response = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    ConnectorStatus: S.optional(ConnectorStatus),
+    EnablementStatus: S.optional(EnablementStatus),
+  }),
 ).annotate({
   identifier: "UpdateConnectorV2Response",
 }) as any as S.Schema<UpdateConnectorV2Response>;
@@ -19614,6 +20443,42 @@ export const createConfigurationPolicy: API.OperationMethod<
   operationName: "CreateConfigurationPolicy",
 }));
 
+export type CreateConnectorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidAccessException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a connector to a third-party cloud provider in Security Hub CSPM. A connector establishes a connection between Security Hub CSPM and a third-party cloud provider, enabling Security Hub CSPM to ingest security findings and resource data from the connected environment.
+ */
+export const createConnector: API.OperationMethod<
+  CreateConnectorRequest,
+  CreateConnectorResponse,
+  CreateConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateConnectorRequest,
+  output: CreateConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidAccessException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateConnector",
+}));
+
 export type CreateConnectorV2Error =
   | AccessDeniedException
   | ConflictException
@@ -19978,6 +20843,40 @@ export const deleteConfigurationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationPolicy",
+}));
+
+export type DeleteConnectorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidAccessException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a CSPM connector. When you delete a connector, Security Hub CSPM stops ingesting findings and resource data from the connected cloud provider environment.
+ */
+export const deleteConnector: API.OperationMethod<
+  DeleteConnectorRequest,
+  DeleteConnectorResponse,
+  DeleteConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteConnectorRequest,
+  output: DeleteConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidAccessException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteConnector",
 }));
 
 export type DeleteConnectorV2Error =
@@ -20526,6 +21425,36 @@ export const disableSecurityHub: API.OperationMethod<
   operationName: "DisableSecurityHub",
 }));
 
+export type DisableSecurityHubFeatureV2Error =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Disables an opt-in feature for the calling account in the current Amazon Web Services Region. The operation is idempotent. If the feature is already disabled, no changes are made. You cannot disable a feature that is managed by an organization policy.
+ */
+export const disableSecurityHubFeatureV2: API.OperationMethod<
+  DisableSecurityHubFeatureV2Request,
+  DisableSecurityHubFeatureV2Response,
+  DisableSecurityHubFeatureV2Error,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DisableSecurityHubFeatureV2Request,
+  output: DisableSecurityHubFeatureV2Response,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DisableSecurityHubFeatureV2",
+}));
+
 export type DisableSecurityHubV2Error =
   | AccessDeniedException
   | InternalServerException
@@ -20533,7 +21462,7 @@ export type DisableSecurityHubV2Error =
   | ValidationException
   | CommonErrors;
 /**
- * Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region.
+ * Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region. Disabling the service also disables all opt-in features that are currently enabled in that Region.
  */
 export const disableSecurityHubV2: API.OperationMethod<
   DisableSecurityHubV2Request,
@@ -20779,6 +21708,36 @@ export const enableSecurityHub: API.OperationMethod<
   operationName: "EnableSecurityHub",
 }));
 
+export type EnableSecurityHubFeatureV2Error =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Enables an opt-in feature for the calling account in the current Amazon Web Services Region. The service must be enabled before you can enable a feature. The operation is idempotent. If the feature is already enabled, no changes are made. You cannot enable a feature that is managed by an organization policy.
+ */
+export const enableSecurityHubFeatureV2: API.OperationMethod<
+  EnableSecurityHubFeatureV2Request,
+  EnableSecurityHubFeatureV2Response,
+  EnableSecurityHubFeatureV2Error,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: EnableSecurityHubFeatureV2Request,
+  output: EnableSecurityHubFeatureV2Response,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "EnableSecurityHubFeatureV2",
+}));
+
 export type EnableSecurityHubV2Error =
   | AccessDeniedException
   | InternalServerException
@@ -21002,6 +21961,40 @@ export const getConfigurationPolicyAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationPolicyAssociation",
+}));
+
+export type GetConnectorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidAccessException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves details for a CSPM connector based on the connector ID.
+ */
+export const getConnector: API.OperationMethod<
+  GetConnectorRequest,
+  GetConnectorResponse,
+  GetConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetConnectorRequest,
+  output: GetConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidAccessException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetConnector",
 }));
 
 export type GetConnectorV2Error =
@@ -21535,6 +22528,8 @@ export type GetResourcesStatisticsV2Error =
  * Retrieves statistical information about Amazon Web Services resources and their associated security findings.
  *
  * You can use the `Scopes` parameter to define the data boundary for the query. Currently, `Scopes` supports `AwsOrganizations`, which lets you aggregate resources from your entire organization or from specific organizational units. Only the delegated administrator account can use `Scopes`.
+ *
+ * If you set `GroupByField` to `ResourceSubCategory`, `ResourceInfo.AIDetails.HostResourceType`, or `ResourceInfo.AIDetails.CanonicalId`, you must include a `ResourceCategory` string filter with comparison set to `EQUALS` and value `AI/ML` in the corresponding `ResourceGroupByRule`.
  */
 export const getResourcesStatisticsV2: API.OperationMethod<
   GetResourcesStatisticsV2Request,
@@ -21610,6 +22605,10 @@ export type GetResourcesV2Error =
  * You can use the `Scopes` parameter to define the data boundary for the query. Currently, `Scopes` supports `AwsOrganizations`, which lets you retrieve resources from your entire organization or from specific organizational units. Only the delegated administrator account can use `Scopes`.
  *
  * You can use the `Filters` parameter to refine results based on resource attributes. You can use `Scopes` and `Filters` independently or together. When both are provided, `Scopes` narrows the data set first, and then `Filters` refines results within that scoped data set.
+ *
+ * For AI/ML resources, the response includes the `ResourceSubCategory` field. For self-hosted AI resources and their host resources, the response also includes `ResourceInfo` with AI-specific details. Self-hosted AI resources use a `ResourceType` with the `SelfHosted::AI::` prefix, such as `SelfHosted::AI::Model`, `SelfHosted::AI::Agent`, `SelfHosted::AI::InferenceEndpoint`, and `SelfHosted::AI::ExternalEndpoint`.
+ *
+ * If you filter by `ResourceSubCategory`, you must also include a `ResourceCategory` string filter with comparison set to `EQUALS` and value `AI/ML` in the same request.
  */
 export const getResourcesV2: API.PaginatedOperationMethod<
   GetResourcesV2Request,
@@ -21889,6 +22888,40 @@ export const listConfigurationPolicyAssociations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type ListConnectorsError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidAccessException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the CSPM connectors and their metadata for the calling account.
+ */
+export const listConnectors: API.OperationMethod<
+  ListConnectorsRequest,
+  ListConnectorsResponse,
+  ListConnectorsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListConnectorsRequest,
+  output: ListConnectorsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidAccessException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListConnectors",
+}));
+
 export type ListConnectorsV2Error =
   | AccessDeniedException
   | ConflictException
@@ -21985,6 +23018,43 @@ export const listFindingAggregators: API.PaginatedOperationMethod<
     inputToken: "NextToken",
     outputToken: "NextToken",
     items: "FindingAggregators",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
+
+export type ListFreeTrialStatusesV2Error =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the free trial status of Security Hub features. A delegated Security Hub administrator can list the status for accounts in its organization. Any other account can list the status only for itself. Free trial status remains available after a feature is disabled.
+ */
+export const listFreeTrialStatusesV2: API.PaginatedOperationMethod<
+  ListFreeTrialStatusesV2Request,
+  ListFreeTrialStatusesV2Response,
+  ListFreeTrialStatusesV2Error,
+  Credentials | HttpClient.HttpClient,
+  AccountFreeTrialStatus
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListFreeTrialStatusesV2Request,
+  output: ListFreeTrialStatusesV2Response,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListFreeTrialStatusesV2",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AccountFreeTrialStatuses",
     pageSize: "MaxResults",
   } as const,
 })) as any;
@@ -22471,6 +23541,40 @@ export const updateConfigurationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationPolicy",
+}));
+
+export type UpdateConnectorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidAccessException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates a CSPM connector's configuration, such as the scope or regions for the connected cloud provider.
+ */
+export const updateConnector: API.OperationMethod<
+  UpdateConnectorRequest,
+  UpdateConnectorResponse,
+  UpdateConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateConnectorRequest,
+  output: UpdateConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    InvalidAccessException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateConnector",
 }));
 
 export type UpdateConnectorV2Error =

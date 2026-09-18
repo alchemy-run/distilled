@@ -30,9 +30,10 @@ import type * as AST from "effect/SchemaAST";
 import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
 import * as API from "./api.ts";
-import { makeAnnotation } from "./trait.ts";
+import { httpSymbol, makeAnnotation, type HttpTrait } from "./trait.ts";
 import {
   buildRequest,
+  getAnn,
   getPropAnn,
   getProps,
   isOpaqueValue,
@@ -185,8 +186,18 @@ export interface RestProtocolOptions<C> {
    * `<Sdk>OpContext` annotations.
    */
   readonly credentials: Effect.Effect<C, any, any>;
-  /** API base URL from the resolved credentials. */
-  readonly baseUrl: (credentials: C) => string;
+  /**
+   * API base URL from the resolved credentials. Receives the operation's
+   * route so APIs with more than one endpoint (e.g. S2's account vs
+   * per-basin hosts, chosen by path) can route per request; single-endpoint
+   * providers ignore the argument. A THROWN error (e.g. a required scope
+   * missing from the credentials) is caught and surfaced on the calling
+   * effect's error channel rather than dying as a defect.
+   */
+  readonly baseUrl: (
+    credentials: C,
+    target: { readonly uri: string; readonly method: string },
+  ) => string;
   /** Auth (and any fixed) headers from the resolved credentials. */
   readonly headers: (credentials: C) => Record<string, string>;
   /**
@@ -257,10 +268,23 @@ export const makeRestProtocol = <C>(
   }) =>
     Effect.gen(function* () {
       const creds = yield* options.credentials as Effect.Effect<C>;
+      const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
+      let baseUrl: string;
+      try {
+        baseUrl = options.baseUrl(creds, {
+          uri: http?.uri ?? "",
+          method: http?.method ?? "",
+        });
+      } catch (e) {
+        // A baseUrl that refuses the route (missing scope in the
+        // credentials) fails the call with that error, typed for callers by
+        // the operation's declared error channel.
+        return yield* Effect.fail(e);
+      }
       return buildRequest({
         input: unwrapRedactedDeep(input),
         inputAst,
-        baseUrl: options.baseUrl(creds),
+        baseUrl,
         headers: options.headers(creds),
         mapMemberHeader: options.mapMemberHeader,
         unknownKeyToWire: options.unknownKeyToWire,

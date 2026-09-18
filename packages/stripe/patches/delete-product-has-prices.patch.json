@@ -1,0 +1,32 @@
+{
+  "description": "Type DeleteProduct's InvalidRequestError when the product still has user-created prices. Stripe documents that deleting a product is only possible if it has no prices associated with it; the wire message is 'cannot be deleted because it has one or more user-created prices'. A dedicated ProductHasPrices tag lets callers branch without matching on InvalidRequestError message text.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#ProductHasPrices",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The product cannot be deleted because it has one or more user-created prices (Stripe `invalid_request_error`, HTTP 400).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": { "includes": "user-created prices" }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#DeleteProduct/errors",
+      "value": [{ "target": "com.stripe.api#ProductHasPrices" }]
+    }
+  ]
+}

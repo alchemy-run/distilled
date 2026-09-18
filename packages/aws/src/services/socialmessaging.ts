@@ -243,7 +243,7 @@ export const AssociateWhatsAppBusinessAccountInput = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<AssociateWhatsAppBusinessAccountInput>;
 export type WhatsAppBusinessAccountName = string;
 export type RegistrationStatus = "COMPLETE" | "INCOMPLETE" | (string & {});
-export const RegistrationStatus = /*@__PURE__*/ S.String;
+export const RegistrationStatus = S.String;
 
 export type LinkedWhatsAppPhoneNumberArn = string;
 export type PhoneNumber = string;
@@ -336,6 +336,32 @@ export const AssociateWhatsAppBusinessAccountOutput = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "AssociateWhatsAppBusinessAccountOutput",
 }) as any as S.Schema<AssociateWhatsAppBusinessAccountOutput>;
+export interface CreateWhatsAppDatasetInput {
+  id: string;
+}
+export const CreateWhatsAppDatasetInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/whatsapp/waba/dataset" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateWhatsAppDatasetInput",
+}) as any as S.Schema<CreateWhatsAppDatasetInput>;
+export type WhatsAppDatasetId = string;
+export interface CreateWhatsAppDatasetOutput {
+  datasetId: string;
+}
+export const CreateWhatsAppDatasetOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ datasetId: S.String }),
+).annotate({
+  identifier: "CreateWhatsAppDatasetOutput",
+}) as any as S.Schema<CreateWhatsAppDatasetOutput>;
 export type MetaFlowName = string;
 export type MetaFlowCategory =
   | "SIGN_UP"
@@ -348,7 +374,7 @@ export type MetaFlowCategory =
   | "SURVEY"
   | "OTHER"
   | (string & {});
-export const MetaFlowCategory = /*@__PURE__*/ S.String;
+export const MetaFlowCategory = S.String;
 
 export type MetaFlowCategoryList = MetaFlowCategory[];
 export const MetaFlowCategoryList = /*@__PURE__*/ S.Array(MetaFlowCategory);
@@ -783,6 +809,7 @@ export interface LinkedWhatsAppBusinessAccount {
   wabaName: string;
   eventDestinations: WhatsAppBusinessAccountEventDestination[];
   marketingMessagesOnboardingStatus?: string;
+  datasetId?: string;
   phoneNumbers: WhatsAppPhoneNumberSummary[];
 }
 export const LinkedWhatsAppBusinessAccount = /*@__PURE__*/ S.suspend(() =>
@@ -795,6 +822,7 @@ export const LinkedWhatsAppBusinessAccount = /*@__PURE__*/ S.suspend(() =>
     wabaName: S.String,
     eventDestinations: WhatsAppBusinessAccountEventDestinations,
     marketingMessagesOnboardingStatus: S.optional(S.String),
+    datasetId: S.optional(S.String),
     phoneNumbers: WhatsAppPhoneNumberSummaryList,
   }),
 ).annotate({
@@ -1117,6 +1145,7 @@ export interface LinkedWhatsAppBusinessAccountSummary {
   wabaName: string;
   eventDestinations: WhatsAppBusinessAccountEventDestination[];
   marketingMessagesOnboardingStatus?: string;
+  datasetId?: string;
 }
 export const LinkedWhatsAppBusinessAccountSummary = /*@__PURE__*/ S.suspend(
   () =>
@@ -1129,6 +1158,7 @@ export const LinkedWhatsAppBusinessAccountSummary = /*@__PURE__*/ S.suspend(
       wabaName: S.String,
       eventDestinations: WhatsAppBusinessAccountEventDestinations,
       marketingMessagesOnboardingStatus: S.optional(S.String),
+      datasetId: S.optional(S.String),
     }),
 ).annotate({
   identifier: "LinkedWhatsAppBusinessAccountSummary",
@@ -1531,6 +1561,40 @@ export const PutWhatsAppBusinessAccountEventDestinationsOutput =
   /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
     identifier: "PutWhatsAppBusinessAccountEventDestinationsOutput",
   }) as any as S.Schema<PutWhatsAppBusinessAccountEventDestinationsOutput>;
+export type WhatsAppConversionEventBlob =
+  | Uint8Array
+  | redacted.Redacted<Uint8Array>;
+export interface SendWhatsAppConversionEventInput {
+  id: string;
+  datasetId: string;
+  eventData: Uint8Array | redacted.Redacted<Uint8Array>;
+}
+export const SendWhatsAppConversionEventInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    datasetId: S.String,
+    eventData: SensitiveBlob,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/whatsapp/waba/dataset/events" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SendWhatsAppConversionEventInput",
+}) as any as S.Schema<SendWhatsAppConversionEventInput>;
+export interface SendWhatsAppConversionEventOutput {
+  requestId: string;
+}
+export const SendWhatsAppConversionEventOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ requestId: S.String }),
+).annotate({
+  identifier: "SendWhatsAppConversionEventOutput",
+}) as any as S.Schema<SendWhatsAppConversionEventOutput>;
 export type WhatsAppMessageBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface SendWhatsAppMessageInput {
   originationPhoneNumberId: string;
@@ -1744,6 +1808,38 @@ export const associateWhatsAppBusinessAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWhatsAppBusinessAccount",
+}));
+
+export type CreateWhatsAppDatasetError =
+  | AccessDeniedByMetaException
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
+/**
+ * Creates a Meta Conversions API dataset for a WhatsApp Business Account.
+ */
+export const createWhatsAppDataset: API.OperationMethod<
+  CreateWhatsAppDatasetInput,
+  CreateWhatsAppDatasetOutput,
+  CreateWhatsAppDatasetError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateWhatsAppDatasetInput,
+  output: CreateWhatsAppDatasetOutput,
+  errors: [
+    AccessDeniedByMetaException,
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateWhatsAppDataset",
 }));
 
 export type CreateWhatsAppFlowError =
@@ -2535,6 +2631,38 @@ export const putWhatsAppBusinessAccountEventDestinations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWhatsAppBusinessAccountEventDestinations",
+}));
+
+export type SendWhatsAppConversionEventError =
+  | AccessDeniedByMetaException
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors;
+/**
+ * Sends a conversion event to Meta's Conversions API for the specified WhatsApp Business Account dataset.
+ */
+export const sendWhatsAppConversionEvent: API.OperationMethod<
+  SendWhatsAppConversionEventInput,
+  SendWhatsAppConversionEventOutput,
+  SendWhatsAppConversionEventError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: SendWhatsAppConversionEventInput,
+  output: SendWhatsAppConversionEventOutput,
+  errors: [
+    AccessDeniedByMetaException,
+    DependencyException,
+    InternalServiceException,
+    InvalidParametersException,
+    ResourceNotFoundException,
+    ThrottledRequestException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "SendWhatsAppConversionEvent",
 }));
 
 export type SendWhatsAppMessageError =

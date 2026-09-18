@@ -39,20 +39,54 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type ActionsCreateRequestFormat = "csv" | "json";
-export const ActionsCreateRequestFormat = /*@__PURE__*/ S.String;
+export type ActionsDestroyRequestFormat = "csv" | "json";
+export const ActionsDestroyRequestFormat = S.String;
 
-export type ActionsCreateRequestTagsList = Array<unknown>;
-export const ActionsCreateRequestTagsList = /*@__PURE__*/ S.Array(
+export interface ActionsDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this action. */
+  id: number;
+  format?: ActionsDestroyRequestFormat | (string & {});
+}
+export const ActionsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.Number.pipe(T.Label()),
+    format: S.optional(ActionsDestroyRequestFormat.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/api/projects/{project_id}/actions/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ActionsDestroyRequest",
+}) as any as S.Schema<ActionsDestroyRequest>;
+
+export interface ActionsDestroyResponse {}
+export const ActionsDestroyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "ActionsDestroyResponse",
+}) as any as S.Schema<ActionsDestroyResponse>;
+
+export type CreateActionRequestFormat = "csv" | "json";
+export const CreateActionRequestFormat = S.String;
+
+export type CreateActionRequestTagsList = Array<unknown>;
+export const CreateActionRequestTagsList = /*@__PURE__*/ S.Array(
   S.Unknown,
-) as any as S.Schema<ActionsCreateRequestTagsList>;
+) as any as S.Schema<CreateActionRequestTagsList>;
 
-/** * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `flag` - flag * `workflow_variable` - workflow_variable */
+/** * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `person_metadata` - person_metadata * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `metric_attribute` - metric_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `account_custom_property` - account_custom_property * `flag` - flag * `workflow_variable` - workflow_variable */
 export type PropertyFilterTypeEnum =
   | "event"
   | "event_metadata"
   | "feature"
   | "person"
+  | "person_metadata"
   | "cohort"
   | "element"
   | "static-cohort"
@@ -70,33 +104,39 @@ export type PropertyFilterTypeEnum =
   | "log"
   | "log_attribute"
   | "log_resource_attribute"
+  | "metric_attribute"
   | "span"
   | "span_attribute"
   | "span_resource_attribute"
   | "revenue_analytics"
+  | "account_custom_property"
   | "flag"
   | "workflow_variable";
-export const PropertyFilterTypeEnum = /*@__PURE__*/ S.String;
+export const PropertyFilterTypeEnum = S.String;
 
-/** * `exact` - exact * `is_not` - is_not * `icontains` - icontains * `not_icontains` - not_icontains * `regex` - regex * `not_regex` - not_regex */
+/** * `exact` - exact * `is_not` - is_not * `icontains` - icontains * `not_icontains` - not_icontains * `starts_with` - starts_with * `not_starts_with` - not_starts_with * `ends_with` - ends_with * `not_ends_with` - not_ends_with * `regex` - regex * `not_regex` - not_regex */
 export type StringMatchOperatorEnum =
   | "exact"
   | "is_not"
   | "icontains"
   | "not_icontains"
+  | "starts_with"
+  | "not_starts_with"
+  | "ends_with"
+  | "not_ends_with"
   | "regex"
   | "not_regex";
-export const StringMatchOperatorEnum = /*@__PURE__*/ S.String;
+export const StringMatchOperatorEnum = S.String;
 
 /** Matches string values with text-oriented operators. */
 export interface StringPropertyFilter {
   /** Key of the property you're filtering on. For example `email` or `$current_url`. */
   key?: string;
-  /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `flag` - flag * `workflow_variable` - workflow_variable */
+  /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `person_metadata` - person_metadata * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `metric_attribute` - metric_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `account_custom_property` - account_custom_property * `flag` - flag * `workflow_variable` - workflow_variable */
   type?: PropertyFilterTypeEnum | (string & {});
   /** String value to match against. */
   value?: string;
-  /** String comparison operator. * `exact` - exact * `is_not` - is_not * `icontains` - icontains * `not_icontains` - not_icontains * `regex` - regex * `not_regex` - not_regex */
+  /** String comparison operator. * `exact` - exact * `is_not` - is_not * `icontains` - icontains * `not_icontains` - not_icontains * `starts_with` - starts_with * `not_starts_with` - not_starts_with * `ends_with` - ends_with * `not_ends_with` - not_ends_with * `regex` - regex * `not_regex` - not_regex */
   operator?: StringMatchOperatorEnum | (string & {});
 }
 export const StringPropertyFilter = /*@__PURE__*/ S.suspend(() =>
@@ -118,13 +158,13 @@ export type NumericPropertyFilterOperatorEnum =
   | "lt"
   | "gte"
   | "lte";
-export const NumericPropertyFilterOperatorEnum = /*@__PURE__*/ S.String;
+export const NumericPropertyFilterOperatorEnum = S.String;
 
 /** Matches numeric values with comparison operators. */
 export interface NumericPropertyFilter {
   /** Key of the property you're filtering on. For example `email` or `$current_url`. */
   key?: string;
-  /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `flag` - flag * `workflow_variable` - workflow_variable */
+  /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `person_metadata` - person_metadata * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `metric_attribute` - metric_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `account_custom_property` - account_custom_property * `flag` - flag * `workflow_variable` - workflow_variable */
   type?: PropertyFilterTypeEnum | (string & {});
   /** Numeric value to compare against. */
   value?: number;
@@ -154,13 +194,13 @@ export type ArrayPropertyFilterOperatorEnum =
   | "is_not"
   | "in"
   | "not_in";
-export const ArrayPropertyFilterOperatorEnum = /*@__PURE__*/ S.String;
+export const ArrayPropertyFilterOperatorEnum = S.String;
 
 /** Matches against a list of values (OR semantics for exact/is_not, set membership for in/not_in). */
 export interface ArrayPropertyFilter {
   /** Key of the property you're filtering on. For example `email` or `$current_url`. */
   key?: string;
-  /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `flag` - flag * `workflow_variable` - workflow_variable */
+  /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `person_metadata` - person_metadata * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `metric_attribute` - metric_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `account_custom_property` - account_custom_property * `flag` - flag * `workflow_variable` - workflow_variable */
   type?: PropertyFilterTypeEnum | (string & {});
   /** List of values to match. For example `["test@example.com", "ok@example.com"]`. */
   value?: ArrayPropertyFilterValueList;
@@ -183,13 +223,13 @@ export type DateOperatorEnum =
   | "is_date_exact"
   | "is_date_before"
   | "is_date_after";
-export const DateOperatorEnum = /*@__PURE__*/ S.String;
+export const DateOperatorEnum = S.String;
 
 /** Matches date/datetime values with date-specific operators. */
 export interface DatePropertyFilter {
   /** Key of the property you're filtering on. For example `email` or `$current_url`. */
   key?: string;
-  /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `flag` - flag * `workflow_variable` - workflow_variable */
+  /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `person_metadata` - person_metadata * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `metric_attribute` - metric_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `account_custom_property` - account_custom_property * `flag` - flag * `workflow_variable` - workflow_variable */
   type?: PropertyFilterTypeEnum | (string & {});
   /** Date or datetime string in ISO 8601 format (e.g. '2024-01-15' or '2024-01-15T10:30:00Z'). */
   value?: string;
@@ -209,13 +249,13 @@ export const DatePropertyFilter = /*@__PURE__*/ S.suspend(() =>
 
 /** * `is_set` - is_set * `is_not_set` - is_not_set */
 export type ExistenceOperatorEnum = "is_set" | "is_not_set";
-export const ExistenceOperatorEnum = /*@__PURE__*/ S.String;
+export const ExistenceOperatorEnum = S.String;
 
 /** Checks whether a property is set or not, without comparing values. */
 export interface ExistencePropertyFilter {
   /** Key of the property you're filtering on. For example `email` or `$current_url`. */
   key?: string;
-  /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `flag` - flag * `workflow_variable` - workflow_variable */
+  /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `person_metadata` - person_metadata * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `metric_attribute` - metric_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `account_custom_property` - account_custom_property * `flag` - flag * `workflow_variable` - workflow_variable */
   type?: PropertyFilterTypeEnum | (string & {});
   /** Existence check operator. * `is_set` - is_set * `is_not_set` - is_not_set */
   operator?: ExistenceOperatorEnum | (string & {});
@@ -237,7 +277,7 @@ export type ActionStepPropertyFilter =
   | DatePropertyFilter
   | ExistencePropertyFilter;
 export const ActionStepPropertyFilter =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<ActionStepPropertyFilter>;
+  S.Unknown as any as S.Schema<ActionStepPropertyFilter>;
 
 /** Event or person property filters. Each item should have 'key' (string), 'value' (string, number, boolean, or array), optional 'operator' (exact, is_not, is_set, is_not_set, icontains, not_icontains, regex, not_regex, gt, gte, lt, lte), and optional 'type' (event, person). */
 export type ActionStepJSONInputPropertiesList = Array<ActionStepPropertyFilter>;
@@ -247,7 +287,7 @@ export const ActionStepJSONInputPropertiesList = /*@__PURE__*/ S.Array(
 
 /** * `contains` - contains * `regex` - regex * `exact` - exact */
 export type ActionStepMatchingEnum = "contains" | "regex" | "exact";
-export const ActionStepMatchingEnum = /*@__PURE__*/ S.String;
+export const ActionStepMatchingEnum = S.String;
 
 export interface ActionStepJSONInput {
   /** Event name to match (e.g. '$pageview', '$autocapture', or a custom event name). */
@@ -289,42 +329,42 @@ export const ActionStepJSONInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ActionStepJSONInput>;
 
 /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
-export type ActionsCreateRequestStepsList = Array<ActionStepJSONInput>;
-export const ActionsCreateRequestStepsList = /*@__PURE__*/ S.Array(
+export type CreateActionRequestStepsList = Array<ActionStepJSONInput>;
+export const CreateActionRequestStepsList = /*@__PURE__*/ S.Array(
   ActionStepJSONInput,
-) as any as S.Schema<ActionsCreateRequestStepsList>;
+) as any as S.Schema<CreateActionRequestStepsList>;
 
-export interface ActionsCreateRequest {
+export interface CreateActionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  format?: ActionsCreateRequestFormat | (string & {});
+  format?: CreateActionRequestFormat | (string & {});
   /** Name of the action (must be unique within the project). */
   name?: string | null;
   /** Human-readable description of what this action represents. */
   description?: string;
-  tags?: ActionsCreateRequestTagsList;
+  tags?: CreateActionRequestTagsList;
   /** Whether to post a notification to Slack when this action is triggered. */
   post_to_slack?: boolean;
   /** Custom Slack message format. Supports templates with event properties. */
   slack_message_format?: string;
   /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
-  steps?: ActionsCreateRequestStepsList;
+  steps?: CreateActionRequestStepsList;
   deleted?: boolean;
   last_calculated_at?: string;
   /** ISO 8601 timestamp when the action was pinned, or null if not pinned. Set any value to pin, null to unpin. */
   pinned_at?: string | null;
   _create_in_folder?: string;
 }
-export const ActionsCreateRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-    format: S.optional(ActionsCreateRequestFormat.pipe(T.Query())),
+    format: S.optional(CreateActionRequestFormat.pipe(T.Query())),
     name: S.optional(S.NullOr(S.String)),
     description: S.optional(S.String),
-    tags: S.optional(ActionsCreateRequestTagsList),
+    tags: S.optional(CreateActionRequestTagsList),
     post_to_slack: S.optional(S.Boolean),
     slack_message_format: S.optional(S.String),
-    steps: S.optional(ActionsCreateRequestStepsList),
+    steps: S.optional(CreateActionRequestStepsList),
     deleted: S.optional(S.Boolean),
     last_calculated_at: S.optional(S.String),
     pinned_at: S.optional(S.NullOr(S.String)),
@@ -337,8 +377,8 @@ export const ActionsCreateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "ActionsCreateRequest",
-}) as any as S.Schema<ActionsCreateRequest>;
+  identifier: "CreateActionRequest",
+}) as any as S.Schema<CreateActionRequest>;
 
 export type ActionOutputTagsList = Array<unknown>;
 export const ActionOutputTagsList = /*@__PURE__*/ S.Array(
@@ -402,7 +442,7 @@ export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<UserBasicHedgehogConfigMap>;
 
-/** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `other` - Other */
+/** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
 export type RoleAtOrganizationEnum =
   | "engineering"
   | "data"
@@ -411,15 +451,16 @@ export type RoleAtOrganizationEnum =
   | "leadership"
   | "marketing"
   | "sales"
+  | "student"
   | "other";
-export const RoleAtOrganizationEnum = /*@__PURE__*/ S.String;
+export const RoleAtOrganizationEnum = S.String;
 
 export type BlankEnum = "";
-export const BlankEnum = /*@__PURE__*/ S.String;
+export const BlankEnum = S.String;
 
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export const UserBasicRoleAtOrganization =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<UserBasicRoleAtOrganization>;
+  S.Unknown as any as S.Schema<UserBasicRoleAtOrganization>;
 
 export interface UserBasic {
   id?: number;
@@ -497,60 +538,62 @@ export const ActionOutput = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ActionOutput" }) as any as S.Schema<ActionOutput>;
 
-export type ActionsDestroyRequestFormat = "csv" | "json";
-export const ActionsDestroyRequestFormat = /*@__PURE__*/ S.String;
+export type GetActionRequestFormat = "csv" | "json";
+export const GetActionRequestFormat = S.String;
 
-export interface ActionsDestroyRequest {
+export interface GetActionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this action. */
   id: number;
-  format?: ActionsDestroyRequestFormat | (string & {});
+  format?: GetActionRequestFormat | (string & {});
 }
-export const ActionsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-    format: S.optional(ActionsDestroyRequestFormat.pipe(T.Query())),
+    format: S.optional(GetActionRequestFormat.pipe(T.Query())),
   }).pipe(
     T.Http({
-      method: "DELETE",
+      method: "GET",
       uri: "/api/projects/{project_id}/actions/{id}/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "ActionsDestroyRequest",
-}) as any as S.Schema<ActionsDestroyRequest>;
+  identifier: "GetActionRequest",
+}) as any as S.Schema<GetActionRequest>;
 
-export interface ActionsDestroyResponse {}
-export const ActionsDestroyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ActionsDestroyResponse",
-}) as any as S.Schema<ActionsDestroyResponse>;
+export type ListActionsRequestFormat = "csv" | "json";
+export const ListActionsRequestFormat = S.String;
 
-export type ActionsListRequestFormat = "csv" | "json";
-export const ActionsListRequestFormat = /*@__PURE__*/ S.String;
-
-export interface ActionsListRequest {
+export interface ListActionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  format?: ActionsListRequestFormat | (string & {});
+  /** Comma-separated list of creator user ids. Returns only actions created by these users. */
+  created_by?: string;
+  format?: ListActionsRequestFormat | (string & {});
   /** Maximum number of actions to return. Omit to return all. */
   limit?: number;
   /** Number of actions to skip before returning results. */
   offset?: number;
+  /** Field to order by (name, created_at, pinned_at, created_by). Prefix with '-' for descending. */
+  ordering?: string;
   /** Case-insensitive substring match on the action name. */
   search?: string;
+  /** JSON-encoded array of tag names, e.g. ["billing","beta"]. Returns actions having any of these tags. */
+  tags?: string;
 }
-export const ActionsListRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListActionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-    format: S.optional(ActionsListRequestFormat.pipe(T.Query())),
+    created_by: S.optional(S.String.pipe(T.Query())),
+    format: S.optional(ListActionsRequestFormat.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
+    ordering: S.optional(S.String.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
+    tags: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -559,8 +602,8 @@ export const ActionsListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "ActionsListRequest",
-}) as any as S.Schema<ActionsListRequest>;
+  identifier: "ListActionsRequest",
+}) as any as S.Schema<ListActionsRequest>;
 
 export type PaginatedActionListOutputResultsList = Array<ActionOutput>;
 export const PaginatedActionListOutputResultsList = /*@__PURE__*/ S.Array(
@@ -584,84 +627,21 @@ export const PaginatedActionListOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedActionListOutput",
 }) as any as S.Schema<PaginatedActionListOutput>;
 
-export type ActionsPartialUpdateRequestFormat = "csv" | "json";
-export const ActionsPartialUpdateRequestFormat = /*@__PURE__*/ S.String;
+export type ListActionsReferencesRequestFormat = "csv" | "json";
+export const ListActionsReferencesRequestFormat = S.String;
 
-export type ActionsPartialUpdateRequestTagsList = Array<unknown>;
-export const ActionsPartialUpdateRequestTagsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<ActionsPartialUpdateRequestTagsList>;
-
-/** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
-export type ActionsPartialUpdateRequestStepsList = Array<ActionStepJSONInput>;
-export const ActionsPartialUpdateRequestStepsList = /*@__PURE__*/ S.Array(
-  ActionStepJSONInput,
-) as any as S.Schema<ActionsPartialUpdateRequestStepsList>;
-
-export interface ActionsPartialUpdateRequest {
+export interface ListActionsReferencesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this action. */
   id: number;
-  format?: ActionsPartialUpdateRequestFormat | (string & {});
-  /** Name of the action (must be unique within the project). */
-  name?: string | null;
-  /** Human-readable description of what this action represents. */
-  description?: string;
-  tags?: ActionsPartialUpdateRequestTagsList;
-  /** Whether to post a notification to Slack when this action is triggered. */
-  post_to_slack?: boolean;
-  /** Custom Slack message format. Supports templates with event properties. */
-  slack_message_format?: string;
-  /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
-  steps?: ActionsPartialUpdateRequestStepsList;
-  deleted?: boolean;
-  last_calculated_at?: string;
-  /** ISO 8601 timestamp when the action was pinned, or null if not pinned. Set any value to pin, null to unpin. */
-  pinned_at?: string | null;
-  _create_in_folder?: string;
+  format?: ListActionsReferencesRequestFormat | (string & {});
 }
-export const ActionsPartialUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListActionsReferencesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-    format: S.optional(ActionsPartialUpdateRequestFormat.pipe(T.Query())),
-    name: S.optional(S.NullOr(S.String)),
-    description: S.optional(S.String),
-    tags: S.optional(ActionsPartialUpdateRequestTagsList),
-    post_to_slack: S.optional(S.Boolean),
-    slack_message_format: S.optional(S.String),
-    steps: S.optional(ActionsPartialUpdateRequestStepsList),
-    deleted: S.optional(S.Boolean),
-    last_calculated_at: S.optional(S.String),
-    pinned_at: S.optional(S.NullOr(S.String)),
-    _create_in_folder: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/actions/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ActionsPartialUpdateRequest",
-}) as any as S.Schema<ActionsPartialUpdateRequest>;
-
-export type ActionsReferencesListRequestFormat = "csv" | "json";
-export const ActionsReferencesListRequestFormat = /*@__PURE__*/ S.String;
-
-export interface ActionsReferencesListRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A unique integer value identifying this action. */
-  id: number;
-  format?: ActionsReferencesListRequestFormat | (string & {});
-}
-export const ActionsReferencesListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.Number.pipe(T.Label()),
-    format: S.optional(ActionsReferencesListRequestFormat.pipe(T.Query())),
+    format: S.optional(ListActionsReferencesRequestFormat.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -670,8 +650,8 @@ export const ActionsReferencesListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "ActionsReferencesListRequest",
-}) as any as S.Schema<ActionsReferencesListRequest>;
+  identifier: "ListActionsReferencesRequest",
+}) as any as S.Schema<ListActionsReferencesRequest>;
 
 export interface ActionReference {
   /** Resource type: insight, experiment, cohort, or hog_function */
@@ -700,93 +680,67 @@ export const ActionReference = /*@__PURE__*/ S.suspend(() =>
   identifier: "ActionReference",
 }) as any as S.Schema<ActionReference>;
 
-export type ActionsReferencesListResponseBodyList = Array<ActionReference>;
-export const ActionsReferencesListResponseBodyList = /*@__PURE__*/ S.Array(
+export type ListActionsReferencesResponseBodyList = Array<ActionReference>;
+export const ListActionsReferencesResponseBodyList = /*@__PURE__*/ S.Array(
   ActionReference,
-) as any as S.Schema<ActionsReferencesListResponseBodyList>;
+) as any as S.Schema<ListActionsReferencesResponseBodyList>;
 
-export type ActionsReferencesListResponse =
-  ActionsReferencesListResponseBodyList;
-export const ActionsReferencesListResponse = /*@__PURE__*/ S.suspend(() =>
-  ActionsReferencesListResponseBodyList.pipe(T.RawResponseRoot()),
+export type ListActionsReferencesResponse =
+  ListActionsReferencesResponseBodyList;
+export const ListActionsReferencesResponse = /*@__PURE__*/ S.suspend(() =>
+  ListActionsReferencesResponseBodyList.pipe(T.RawResponseRoot()),
 ).annotate({
-  identifier: "ActionsReferencesListResponse",
-}) as any as S.Schema<ActionsReferencesListResponse>;
+  identifier: "ListActionsReferencesResponse",
+}) as any as S.Schema<ListActionsReferencesResponse>;
 
-export type ActionsRetrieveRequestFormat = "csv" | "json";
-export const ActionsRetrieveRequestFormat = /*@__PURE__*/ S.String;
+export type UpdateActionRequestFormat = "csv" | "json";
+export const UpdateActionRequestFormat = S.String;
 
-export interface ActionsRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A unique integer value identifying this action. */
-  id: number;
-  format?: ActionsRetrieveRequestFormat | (string & {});
-}
-export const ActionsRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.Number.pipe(T.Label()),
-    format: S.optional(ActionsRetrieveRequestFormat.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/actions/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ActionsRetrieveRequest",
-}) as any as S.Schema<ActionsRetrieveRequest>;
-
-export type ActionsUpdateRequestFormat = "csv" | "json";
-export const ActionsUpdateRequestFormat = /*@__PURE__*/ S.String;
-
-export type ActionsUpdateRequestTagsList = Array<unknown>;
-export const ActionsUpdateRequestTagsList = /*@__PURE__*/ S.Array(
+export type UpdateActionRequestTagsList = Array<unknown>;
+export const UpdateActionRequestTagsList = /*@__PURE__*/ S.Array(
   S.Unknown,
-) as any as S.Schema<ActionsUpdateRequestTagsList>;
+) as any as S.Schema<UpdateActionRequestTagsList>;
 
 /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
-export type ActionsUpdateRequestStepsList = Array<ActionStepJSONInput>;
-export const ActionsUpdateRequestStepsList = /*@__PURE__*/ S.Array(
+export type UpdateActionRequestStepsList = Array<ActionStepJSONInput>;
+export const UpdateActionRequestStepsList = /*@__PURE__*/ S.Array(
   ActionStepJSONInput,
-) as any as S.Schema<ActionsUpdateRequestStepsList>;
+) as any as S.Schema<UpdateActionRequestStepsList>;
 
-export interface ActionsUpdateRequest {
+export interface UpdateActionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this action. */
   id: number;
-  format?: ActionsUpdateRequestFormat | (string & {});
+  format?: UpdateActionRequestFormat | (string & {});
   /** Name of the action (must be unique within the project). */
   name?: string | null;
   /** Human-readable description of what this action represents. */
   description?: string;
-  tags?: ActionsUpdateRequestTagsList;
+  tags?: UpdateActionRequestTagsList;
   /** Whether to post a notification to Slack when this action is triggered. */
   post_to_slack?: boolean;
   /** Custom Slack message format. Supports templates with event properties. */
   slack_message_format?: string;
   /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
-  steps?: ActionsUpdateRequestStepsList;
+  steps?: UpdateActionRequestStepsList;
   deleted?: boolean;
   last_calculated_at?: string;
   /** ISO 8601 timestamp when the action was pinned, or null if not pinned. Set any value to pin, null to unpin. */
   pinned_at?: string | null;
   _create_in_folder?: string;
 }
-export const ActionsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-    format: S.optional(ActionsUpdateRequestFormat.pipe(T.Query())),
+    format: S.optional(UpdateActionRequestFormat.pipe(T.Query())),
     name: S.optional(S.NullOr(S.String)),
     description: S.optional(S.String),
-    tags: S.optional(ActionsUpdateRequestTagsList),
+    tags: S.optional(UpdateActionRequestTagsList),
     post_to_slack: S.optional(S.Boolean),
     slack_message_format: S.optional(S.String),
-    steps: S.optional(ActionsUpdateRequestStepsList),
+    steps: S.optional(UpdateActionRequestStepsList),
     deleted: S.optional(S.Boolean),
     last_calculated_at: S.optional(S.String),
     pinned_at: S.optional(S.NullOr(S.String)),
@@ -799,26 +753,71 @@ export const ActionsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "ActionsUpdateRequest",
-}) as any as S.Schema<ActionsUpdateRequest>;
+  identifier: "UpdateActionRequest",
+}) as any as S.Schema<UpdateActionRequest>;
 
-export type ActionsCreateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const actionsCreate: API.OperationMethod<
-  ActionsCreateRequest,
-  ActionOutput,
-  ActionsCreateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ActionsCreateRequest,
-  output: ActionOutput,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
+export type UpdateActionsPartialRequestFormat = "csv" | "json";
+export const UpdateActionsPartialRequestFormat = S.String;
+
+export type UpdateActionsPartialRequestTagsList = Array<unknown>;
+export const UpdateActionsPartialRequestTagsList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<UpdateActionsPartialRequestTagsList>;
+
+/** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
+export type UpdateActionsPartialRequestStepsList = Array<ActionStepJSONInput>;
+export const UpdateActionsPartialRequestStepsList = /*@__PURE__*/ S.Array(
+  ActionStepJSONInput,
+) as any as S.Schema<UpdateActionsPartialRequestStepsList>;
+
+export interface UpdateActionsPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this action. */
+  id: number;
+  format?: UpdateActionsPartialRequestFormat | (string & {});
+  /** Name of the action (must be unique within the project). */
+  name?: string | null;
+  /** Human-readable description of what this action represents. */
+  description?: string;
+  tags?: UpdateActionsPartialRequestTagsList;
+  /** Whether to post a notification to Slack when this action is triggered. */
+  post_to_slack?: boolean;
+  /** Custom Slack message format. Supports templates with event properties. */
+  slack_message_format?: string;
+  /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
+  steps?: UpdateActionsPartialRequestStepsList;
+  deleted?: boolean;
+  last_calculated_at?: string;
+  /** ISO 8601 timestamp when the action was pinned, or null if not pinned. Set any value to pin, null to unpin. */
+  pinned_at?: string | null;
+  _create_in_folder?: string;
+}
+export const UpdateActionsPartialRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.Number.pipe(T.Label()),
+    format: S.optional(UpdateActionsPartialRequestFormat.pipe(T.Query())),
+    name: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.String),
+    tags: S.optional(UpdateActionsPartialRequestTagsList),
+    post_to_slack: S.optional(S.Boolean),
+    slack_message_format: S.optional(S.String),
+    steps: S.optional(UpdateActionsPartialRequestStepsList),
+    deleted: S.optional(S.Boolean),
+    last_calculated_at: S.optional(S.String),
+    pinned_at: S.optional(S.NullOr(S.String)),
+    _create_in_folder: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/api/projects/{project_id}/actions/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateActionsPartialRequest",
+}) as any as S.Schema<UpdateActionsPartialRequest>;
 
 export type ActionsDestroyError =
   | BadRequest
@@ -839,90 +838,104 @@ export const actionsDestroy: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ActionsListError =
+export type CreateActionError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const actionsList: API.OperationMethod<
-  ActionsListRequest,
-  PaginatedActionListOutput,
-  ActionsListError,
+export const createAction: API.OperationMethod<
+  CreateActionRequest,
+  ActionOutput,
+  CreateActionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ActionsListRequest,
+  input: CreateActionRequest,
+  output: ActionOutput,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetActionError = BadRequest | Forbidden | NotFound | PosthogOpError;
+export const getAction: API.OperationMethod<
+  GetActionRequest,
+  ActionOutput,
+  GetActionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetActionRequest,
+  output: ActionOutput,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListActionsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const listActions: API.OperationMethod<
+  ListActionsRequest,
+  PaginatedActionListOutput,
+  ListActionsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListActionsRequest,
   output: PaginatedActionListOutput,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type ActionsPartialUpdateError =
+export type ListActionsReferencesError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const actionsPartialUpdate: API.OperationMethod<
-  ActionsPartialUpdateRequest,
-  ActionOutput,
-  ActionsPartialUpdateError,
+export const listActionsReferences: API.OperationMethod<
+  ListActionsReferencesRequest,
+  ListActionsReferencesResponse,
+  ListActionsReferencesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ActionsPartialUpdateRequest,
+  input: ListActionsReferencesRequest,
+  output: ListActionsReferencesResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateActionError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const updateAction: API.OperationMethod<
+  UpdateActionRequest,
+  ActionOutput,
+  UpdateActionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateActionRequest,
   output: ActionOutput,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type ActionsReferencesListError =
+export type UpdateActionsPartialError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const actionsReferencesList: API.OperationMethod<
-  ActionsReferencesListRequest,
-  ActionsReferencesListResponse,
-  ActionsReferencesListError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ActionsReferencesListRequest,
-  output: ActionsReferencesListResponse,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ActionsRetrieveError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const actionsRetrieve: API.OperationMethod<
-  ActionsRetrieveRequest,
+export const updateActionsPartial: API.OperationMethod<
+  UpdateActionsPartialRequest,
   ActionOutput,
-  ActionsRetrieveError,
+  UpdateActionsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ActionsRetrieveRequest,
-  output: ActionOutput,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ActionsUpdateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const actionsUpdate: API.OperationMethod<
-  ActionsUpdateRequest,
-  ActionOutput,
-  ActionsUpdateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ActionsUpdateRequest,
+  input: UpdateActionsPartialRequest,
   output: ActionOutput,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,

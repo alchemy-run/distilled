@@ -1,0 +1,123 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.code#SandboxComputePricing": {
+      "type": "structure",
+      "members": {
+        "current": {
+          "target": "com.posthog.code#ComputeRateCard",
+          "traits": {
+            "smithy.api#documentation": "Currently effective sandbox compute rate card, or null before pricing is published.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "history": {
+          "target": "com.posthog.code#SandboxComputePricingHistoryList",
+          "traits": {
+            "smithy.api#documentation": "Expired sandbox compute rate cards, newest first.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.code#ComputeRateCard": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable identifier for this rate card.",
+            "smithy.api#required": {}
+          }
+        },
+        "effective_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when this rate card became effective.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when this rate card stopped applying, or null while it remains current.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpu_core_second_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "USD charged per CPU core-second as an exact decimal string.",
+            "smithy.api#required": {}
+          }
+        },
+        "memory_gib_second_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "USD charged per GiB-second of memory as an exact decimal string.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.code#SandboxComputePricingHistoryList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.code#ComputeRateCard"
+      },
+      "traits": {
+        "smithy.api#documentation": "Expired sandbox compute rate cards, newest first."
+      }
+    },
+    "com.posthog.code#ListCodeSandboxPricing": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.posthog.code#SandboxComputePricing"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/code/sandbox-pricing/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox compute pricing\n\nGet the current sandbox compute rate card and expired rate-card history."
+      }
+    },
+    "com.posthog.code#Code": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.code#ListCodeSandboxPricing"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

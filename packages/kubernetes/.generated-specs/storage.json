@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1APIGroup": {
@@ -445,7 +446,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -737,7 +738,7 @@
         "preventPodSchedulingIfMissing": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "PreventPodSchedulingIfMissing indicates that the CSI driver wants to prevent pod scheduling if the CSI driver on the node is missing.\n\nEnabling this option will prevent the scheduler (or any other component which embeds default scheduler such as cluster-autoscaler) from scheduling pods to nodes where CSI driver is not installed.\n\nFor components(such as cluster-autoscaler) that embed the scheduler and run pod placement simulations using scheduler plugins, they MUST be aware of CSI driver registration information via CSINode object. They must create simulated CSINode objects in addition to Node objects during scheduling simulation, otherwise if PreventPodSchedulingIfMissing is enabled globally for CSIDriver object, any newly created node may be rejected by the scheduler because of missing CSI driver information from the node.\n\nThis is an alpha feature and requires the VolumeLimitScaling feature gate to be enabled. Default is \"false\"."
+            "smithy.api#documentation": "preventPodSchedulingIfMissing indicates that the CSI driver wants to prevent pod scheduling if the CSI driver on the node is missing.\n\nEnabling this option will prevent the scheduler (or any other component which embeds default scheduler such as cluster-autoscaler) from scheduling pods to nodes where CSI driver is not installed.\n\nFor components(such as cluster-autoscaler) that embed the scheduler and run pod placement simulations using scheduler plugins, they MUST be aware of CSI driver registration information via CSINode object. They must create simulated CSINode objects in addition to Node objects during scheduling simulation, otherwise if PreventPodSchedulingIfMissing is enabled globally for CSIDriver object, any newly created node may be rejected by the scheduler because of missing CSI driver information from the node.\n\nThis is a beta feature and requires the VolumeLimitScaling feature gate to be enabled. Default is \"false\"."
           }
         },
         "requiresRepublish": {
@@ -945,7 +946,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -1396,7 +1397,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -1771,7 +1772,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. metadata.name must be the Kubernetes node name."
+            "smithy.api#documentation": "metadata is the standard object metadata. metadata.name must be the Kubernetes node name."
           }
         },
         "spec": {
@@ -1779,6 +1780,12 @@
           "traits": {
             "smithy.api#documentation": "spec is the specification of CSINode",
             "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINodeStatus",
+          "traits": {
+            "smithy.api#documentation": "status contains health and status information for the node's storage."
           }
         }
       },
@@ -1867,6 +1874,105 @@
         "smithy.api#documentation": "drivers is a list of information of all CSI Drivers existing on a node. If all drivers in the list are uninstalled, this can become empty."
       }
     },
+    "com.kubernetes.storage#IoK8sApiStorageV1CSINodeStatus": {
+      "type": "structure",
+      "members": {
+        "storageHealth": {
+          "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINodeStatusStorageHealthList",
+          "traits": {
+            "smithy.api#documentation": "storageHealth contains backend health reports for CSI drivers registered on the node."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "CSINodeStatus contains health and status information for storage on a node."
+      }
+    },
+    "com.kubernetes.storage#IoK8sApiStorageV1StorageHealth": {
+      "type": "structure",
+      "members": {
+        "healthConditions": {
+          "target": "com.kubernetes.storage#IoK8sApiStorageV1StorageHealthHealthConditionsList",
+          "traits": {
+            "smithy.api#documentation": "healthConditions are the adverse storage backend conditions reported by the CSI driver. At most 16 conditions may be reported."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "name is the CSI driver name, matching CSINodeDriver.name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "StorageHealth contains storage backend health reported by a CSI driver on a node."
+      }
+    },
+    "com.kubernetes.storage#IoK8sApiStorageV1StorageHealthCondition": {
+      "type": "structure",
+      "members": {
+        "accessMode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "accessMode is the access mode affected. Nil means all access modes are affected."
+          }
+        },
+        "lastTransitionTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "lastTransitionTime is when this condition first appeared at its current state."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "message is a human-readable description. Maximum permitted length of a message is 1024 characters."
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "reason is a brief CamelCase machine-parseable reason. Maximum permitted length of a reason is 256 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "status is the health status category. One of \"StorageUnreachable\", \"StorageDegraded\".",
+            "smithy.api#required": {}
+          }
+        },
+        "volumeMode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "volumeMode is the volume mode affected. Nil means both are affected."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "StorageHealthCondition represents an adverse health condition reported by a CSI driver for its storage backend on a node."
+      }
+    },
+    "com.kubernetes.storage#IoK8sApiStorageV1StorageHealthHealthConditionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.kubernetes.storage#IoK8sApiStorageV1StorageHealthCondition"
+      },
+      "traits": {
+        "smithy.api#documentation": "healthConditions are the adverse storage backend conditions reported by the CSI driver. At most 16 conditions may be reported."
+      }
+    },
+    "com.kubernetes.storage#IoK8sApiStorageV1CSINodeStatusStorageHealthList": {
+      "type": "list",
+      "member": {
+        "target": "com.kubernetes.storage#IoK8sApiStorageV1StorageHealth"
+      },
+      "traits": {
+        "smithy.api#documentation": "storageHealth contains backend health reports for CSI drivers registered on the node."
+      }
+    },
     "com.kubernetes.storage#IoK8sApiStorageV1CSINodeListItemsList": {
       "type": "list",
       "member": {
@@ -1939,7 +2045,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. metadata.name must be the Kubernetes node name."
+            "smithy.api#documentation": "metadata is the standard object metadata. metadata.name must be the Kubernetes node name."
           }
         },
         "spec": {
@@ -1947,6 +2053,12 @@
           "traits": {
             "smithy.api#documentation": "spec is the specification of CSINode",
             "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINodeStatus",
+          "traits": {
+            "smithy.api#documentation": "status contains health and status information for the node's storage."
           }
         }
       },
@@ -2235,7 +2347,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. metadata.name must be the Kubernetes node name."
+            "smithy.api#documentation": "metadata is the standard object metadata. metadata.name must be the Kubernetes node name."
           }
         },
         "spec": {
@@ -2243,6 +2355,12 @@
           "traits": {
             "smithy.api#documentation": "spec is the specification of CSINode",
             "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINodeStatus",
+          "traits": {
+            "smithy.api#documentation": "status contains health and status information for the node's storage."
           }
         }
       },
@@ -2467,6 +2585,206 @@
         "smithy.api#documentation": "delete a CSINode"
       }
     },
+    "com.kubernetes.storage#ReadStorageV1CSINodeStatusRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "name of the CSINode"
+          }
+        },
+        "pretty": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pretty",
+            "smithy.api#documentation": "If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.kubernetes.storage#ReadStorageV1CSINodeStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.kubernetes.storage#ReadStorageV1CSINodeStatusRequest"
+      },
+      "output": {
+        "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINode"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/apis/storage.k8s.io/v1/csinodes/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "read status of the specified CSINode"
+      }
+    },
+    "com.kubernetes.storage#ReplaceStorageV1CSINodeStatusRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "name of the CSINode"
+          }
+        },
+        "pretty": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pretty",
+            "smithy.api#documentation": "If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget)."
+          }
+        },
+        "dryRun": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "dryRun",
+            "smithy.api#documentation": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed"
+          }
+        },
+        "fieldManager": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "fieldManager",
+            "smithy.api#documentation": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint."
+          }
+        },
+        "fieldValidation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "fieldValidation",
+            "smithy.api#documentation": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered."
+          }
+        },
+        "apiVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources"
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"
+          }
+        },
+        "metadata": {
+          "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
+          "traits": {
+            "smithy.api#documentation": "metadata is the standard object metadata. metadata.name must be the Kubernetes node name."
+          }
+        },
+        "spec": {
+          "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINodeSpec",
+          "traits": {
+            "smithy.api#documentation": "spec is the specification of CSINode",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINodeStatus",
+          "traits": {
+            "smithy.api#documentation": "status contains health and status information for the node's storage."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.kubernetes.storage#ReplaceStorageV1CSINodeStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.kubernetes.storage#ReplaceStorageV1CSINodeStatusRequest"
+      },
+      "output": {
+        "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINode"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/storage.k8s.io/v1/csinodes/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified CSINode"
+      }
+    },
+    "com.kubernetes.storage#PatchStorageV1CSINodeStatusRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "name of the CSINode"
+          }
+        },
+        "pretty": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pretty",
+            "smithy.api#documentation": "If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget)."
+          }
+        },
+        "dryRun": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "dryRun",
+            "smithy.api#documentation": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed"
+          }
+        },
+        "fieldManager": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "fieldManager",
+            "smithy.api#documentation": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch)."
+          }
+        },
+        "fieldValidation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "fieldValidation",
+            "smithy.api#documentation": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered."
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#documentation": "Force is going to \"force\" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.kubernetes.storage#PatchStorageV1CSINodeStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.kubernetes.storage#PatchStorageV1CSINodeStatusRequest"
+      },
+      "output": {
+        "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINode"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/storage.k8s.io/v1/csinodes/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified CSINode"
+      }
+    },
     "com.kubernetes.storage#ListStorageV1CSIStorageCapacityForAllNamespacesRequest": {
       "type": "structure",
       "members": {
@@ -2622,7 +2940,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. The name has no particular meaning. It must be a DNS subdomain (dots allowed, 253 characters). To ensure that there are no conflicts with other CSI drivers on the cluster, the recommendation is to use csisc-<uuid>, a generated name, or a reverse-domain name which ends with the unique CSI driver name.\n\nObjects are namespaced.\n\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. The name has no particular meaning. It must be a DNS subdomain (dots allowed, 253 characters). To ensure that there are no conflicts with other CSI drivers on the cluster, the recommendation is to use csisc-<uuid>, a generated name, or a reverse-domain name which ends with the unique CSI driver name.\n\nObjects are namespaced.\n\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "nodeTopology": {
@@ -2930,7 +3248,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. The name has no particular meaning. It must be a DNS subdomain (dots allowed, 253 characters). To ensure that there are no conflicts with other CSI drivers on the cluster, the recommendation is to use csisc-<uuid>, a generated name, or a reverse-domain name which ends with the unique CSI driver name.\n\nObjects are namespaced.\n\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. The name has no particular meaning. It must be a DNS subdomain (dots allowed, 253 characters). To ensure that there are no conflicts with other CSI drivers on the cluster, the recommendation is to use csisc-<uuid>, a generated name, or a reverse-domain name which ends with the unique CSI driver name.\n\nObjects are namespaced.\n\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "nodeTopology": {
@@ -3268,7 +3586,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. The name has no particular meaning. It must be a DNS subdomain (dots allowed, 253 characters). To ensure that there are no conflicts with other CSI drivers on the cluster, the recommendation is to use csisc-<uuid>, a generated name, or a reverse-domain name which ends with the unique CSI driver name.\n\nObjects are namespaced.\n\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. The name has no particular meaning. It must be a DNS subdomain (dots allowed, 253 characters). To ensure that there are no conflicts with other CSI drivers on the cluster, the recommendation is to use csisc-<uuid>, a generated name, or a reverse-domain name which ends with the unique CSI driver name.\n\nObjects are namespaced.\n\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "nodeTopology": {
@@ -3677,7 +3995,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "mountOptions": {
@@ -3914,7 +4232,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "mountOptions": {
@@ -4276,7 +4594,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "mountOptions": {
@@ -4675,7 +4993,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -6230,7 +6548,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -6532,7 +6850,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -6869,7 +7187,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -7134,7 +7452,7 @@
         "driverName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the CSI driver This field is immutable.",
+            "smithy.api#documentation": "driverName is the name of the CSI driver This field is immutable.",
             "smithy.api#required": {}
           }
         },
@@ -7147,7 +7465,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "parameters": {
@@ -7251,7 +7569,7 @@
         "driverName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the CSI driver This field is immutable.",
+            "smithy.api#documentation": "driverName is the name of the CSI driver This field is immutable.",
             "smithy.api#required": {}
           }
         },
@@ -7264,7 +7582,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "parameters": {
@@ -7565,7 +7883,7 @@
         "driverName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the CSI driver This field is immutable.",
+            "smithy.api#documentation": "driverName is the name of the CSI driver This field is immutable.",
             "smithy.api#required": {}
           }
         },
@@ -7578,7 +7896,7 @@
         "metadata": {
           "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "parameters": {
@@ -9401,6 +9719,15 @@
         },
         {
           "target": "com.kubernetes.storage#DeleteStorageV1CSINode"
+        },
+        {
+          "target": "com.kubernetes.storage#ReadStorageV1CSINodeStatus"
+        },
+        {
+          "target": "com.kubernetes.storage#ReplaceStorageV1CSINodeStatus"
+        },
+        {
+          "target": "com.kubernetes.storage#PatchStorageV1CSINodeStatus"
         },
         {
           "target": "com.kubernetes.storage#ListStorageV1CSIStorageCapacityForAllNamespaces"

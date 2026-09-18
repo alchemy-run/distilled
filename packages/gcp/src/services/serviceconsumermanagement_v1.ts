@@ -65,23 +65,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StringMap>;
-
-/** Describes the billing configuration for a new tenant project. */
-export interface BillingConfig {
-  /** Name of the billing account. For example `billingAccounts/012345-567890-ABCDEF`. */
-  billingAccount?: string;
-}
-export const BillingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    billingAccount: S.optional(S.String),
-  }),
-).annotate({ identifier: "BillingConfig" }) as any as S.Schema<BillingConfig>;
-
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
   S.String,
@@ -135,29 +118,46 @@ export const ServiceAccountConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "ServiceAccountConfig",
 }) as any as S.Schema<ServiceAccountConfig>;
 
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StringMap>;
+
+/** Describes the billing configuration for a new tenant project. */
+export interface BillingConfig {
+  /** Name of the billing account. For example `billingAccounts/012345-567890-ABCDEF`. */
+  billingAccount?: string;
+}
+export const BillingConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billingAccount: S.optional(S.String),
+  }),
+).annotate({ identifier: "BillingConfig" }) as any as S.Schema<BillingConfig>;
+
 /** This structure defines a tenant project to be added to the specified tenancy unit and its initial configuration and properties. A project lien is created for the tenant project to prevent the tenant project from being deleted accidentally. The lien is deleted as part of tenant project removal. */
 export interface TenantProjectConfig {
+  /** Google Cloud API names of services that are activated on this project during provisioning. If any of these services can't be activated, the request fails. For example: 'compute.googleapis.com','cloudfunctions.googleapis.com' */
+  services?: StringList;
+  /** Describes ownership and policies for the new tenant project. */
+  tenantProjectPolicy?: TenantProjectPolicy;
+  /** Configuration for the IAM service account on the tenant project. */
+  serviceAccountConfig?: ServiceAccountConfig;
   /** Labels that are applied to this project. */
   labels?: StringMap;
   /** Billing account properties. The billing account must be specified. */
   billingConfig?: BillingConfig;
   /** Folder where project in this tenancy unit must be located This folder must have been previously created with the required permissions for the caller to create and configure a project in it. Valid folder resource names have the format `folders/{folder_number}` (for example, `folders/123456`). */
   folder?: string;
-  /** Describes ownership and policies for the new tenant project. */
-  tenantProjectPolicy?: TenantProjectPolicy;
-  /** Google Cloud API names of services that are activated on this project during provisioning. If any of these services can't be activated, the request fails. For example: 'compute.googleapis.com','cloudfunctions.googleapis.com' */
-  services?: StringList;
-  /** Configuration for the IAM service account on the tenant project. */
-  serviceAccountConfig?: ServiceAccountConfig;
 }
 export const TenantProjectConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    services: S.optional(StringList),
+    tenantProjectPolicy: S.optional(TenantProjectPolicy),
+    serviceAccountConfig: S.optional(ServiceAccountConfig),
     labels: S.optional(StringMap),
     billingConfig: S.optional(BillingConfig),
     folder: S.optional(S.String),
-    tenantProjectPolicy: S.optional(TenantProjectPolicy),
-    services: S.optional(StringList),
-    serviceAccountConfig: S.optional(ServiceAccountConfig),
   }),
 ).annotate({
   identifier: "TenantProjectConfig",
@@ -165,15 +165,15 @@ export const TenantProjectConfig = /*@__PURE__*/ S.suspend(() =>
 
 /** Request to add a newly created and configured tenant project to a tenancy unit. */
 export interface AddTenantProjectRequest {
-  /** Required. Tag of the added project. Must be less than 128 characters. Required. */
-  tag?: string;
   /** Configuration of the new tenant project to be added to tenancy unit resources. */
   projectConfig?: TenantProjectConfig;
+  /** Required. Tag of the added project. Must be less than 128 characters. Required. */
+  tag?: string;
 }
 export const AddTenantProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tag: S.optional(S.String),
     projectConfig: S.optional(TenantProjectConfig),
+    tag: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AddTenantProjectRequest",
@@ -214,40 +214,40 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
     details: S.optional(DocumentMapList),
     code: S.optional(S.Number),
+    message: S.optional(S.String),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    done: S.optional(S.Boolean),
     metadata: S.optional(DocumentMap),
     response: S.optional(DocumentMap),
+    name: S.optional(S.String),
+    done: S.optional(S.Boolean),
     error: S.optional(Status),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
@@ -407,24 +407,27 @@ export type TenantResourceStatusEnum =
   | "PENDING_DELETE"
   | "FAILED"
   | "DELETED";
-export const TenantResourceStatusEnum = /*@__PURE__*/ S.String;
+export const TenantResourceStatusEnum = S.String;
 
 /** Resource constituting the TenancyUnit. */
 export interface TenantResource {
-  /** Unique per single tenancy unit. */
-  tag?: string;
   /** Output only. @OutputOnly Identifier of the tenant resource. For cloud projects, it is in the form 'projects/{number}'. For example 'projects/123456'. */
   resource?: string;
+  /** Output only. The resource name of the tenant project from which this active regional tenant project was migrated. This field is only set for active regional migrated mapping tenant projects. Format: `services//{collection_id}/{RESOURCE_ID}/locations/{LOCATION}/tenantProjects/{TENANT_ID}`. */
+  sourceTenantProject?: string;
   /** Status of tenant resource. */
   status?: TenantResourceStatusEnum;
+  /** Unique per single tenancy unit. */
+  tag?: string;
   /** Output only. The newly created regional resource name of the tenant project that has been migrated from a global service. This field is only set for migrated tenant projects. Format: `services//{collection_id}/{RESOURCE_ID}/locations/{LOCATION}/tenantProjects/{TENANT_ID}`. */
   migratedTenantProject?: string;
 }
 export const TenantResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tag: S.optional(S.String),
     resource: S.optional(S.String),
+    sourceTenantProject: S.optional(S.String),
     status: S.optional(TenantResourceStatusEnum),
+    tag: S.optional(S.String),
     migratedTenantProject: S.optional(S.String),
   }),
 ).annotate({ identifier: "TenantResource" }) as any as S.Schema<TenantResource>;
@@ -436,24 +439,24 @@ export const TenantResourceList = /*@__PURE__*/ S.Array(
 
 /** Representation of a tenancy unit. */
 export interface TenancyUnit {
-  /** Output only. @OutputOnly Cloud resource name of the consumer of this service. For example 'projects/123456'. */
-  consumer?: string;
-  /** Globally unique identifier of this tenancy unit "services/{service}/{collection id}/{resource id}/tenancyUnits/{unit}" */
-  name?: string;
-  /** Output only. Google Cloud API name of the managed service owning this tenancy unit. For example 'serviceconsumermanagement.googleapis.com'. */
-  service?: string;
   /** Output only. @OutputOnly The time this tenancy unit was created. */
   createTime?: string;
   /** Resources constituting the tenancy unit. There can be at most 512 tenant resources in a tenancy unit. */
   tenantResources?: TenantResourceList;
+  /** Globally unique identifier of this tenancy unit "services/{service}/{collection id}/{resource id}/tenancyUnits/{unit}" */
+  name?: string;
+  /** Output only. @OutputOnly Cloud resource name of the consumer of this service. For example 'projects/123456'. */
+  consumer?: string;
+  /** Output only. Google Cloud API name of the managed service owning this tenancy unit. For example 'serviceconsumermanagement.googleapis.com'. */
+  service?: string;
 }
 export const TenancyUnit = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    consumer: S.optional(S.String),
-    name: S.optional(S.String),
-    service: S.optional(S.String),
     createTime: S.optional(S.String),
     tenantResources: S.optional(TenantResourceList),
+    name: S.optional(S.String),
+    consumer: S.optional(S.String),
+    service: S.optional(S.String),
   }),
 ).annotate({ identifier: "TenancyUnit" }) as any as S.Schema<TenancyUnit>;
 
@@ -547,24 +550,24 @@ export const GetOperationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetOperationsRequest>;
 
 export interface ListOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The standard list page size. */
-  pageSize?: number;
   /** The standard list filter. */
   filter?: string;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list page token. */
+  pageToken?: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
+  /** The standard list page size. */
+  pageSize?: number;
 }
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -583,17 +586,17 @@ export const OperationList = /*@__PURE__*/ S.Array(
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operations: S.optional(OperationList),
     unreachable: S.optional(StringList),
+    operations: S.optional(OperationList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({
@@ -601,21 +604,21 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListServicesTenancyUnitsRequest {
-  /** Optional. Filter expression over tenancy resources field. Optional. */
-  filter?: string;
-  /** Required. Managed service and service consumer. Required. services/{service}/{collection id}/{resource id} {collection id} is the cloud resource collection type representing the service consumer, for example 'projects', or 'organizations'. {resource id} is the consumer numeric id, such as project number: '123456'. {service} the name of a service, such as 'service.googleapis.com'. */
-  parent: string;
   /** Optional. The continuation token, which is used to page through large result sets. To get the next page of results, set this parameter to the value of `nextPageToken` from the previous response. */
   pageToken?: string;
   /** Optional. The maximum number of results returned by this request. */
   pageSize?: number;
+  /** Required. Managed service and service consumer. Required. services/{service}/{collection id}/{resource id} {collection id} is the cloud resource collection type representing the service consumer, for example 'projects', or 'organizations'. {resource id} is the consumer numeric id, such as project number: '123456'. {service} the name of a service, such as 'service.googleapis.com'. */
+  parent: string;
+  /** Optional. Filter expression over tenancy resources field. Optional. */
+  filter?: string;
 }
 export const ListServicesTenancyUnitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -679,17 +682,17 @@ export interface SearchServicesRequest {
   parent: string;
   /** Optional. The continuation token, which is used to page through large result sets. To get the next page of results, set this parameter to the value of `nextPageToken` from the previous response. */
   pageToken?: string;
-  /** Optional. The maximum number of results returned by this request. Currently, the default maximum is set to 256. If `page_size` <= 256, the request proceeds. Else, the request fails with an `TU_INVALID_PAGE_SIZE` error. */
-  pageSize?: number;
   /** Optional. Set a query `{expression}` for querying tenancy units. Your `{expression}` must be in the format: `field_name=literal_string`. The `field_name` is the name of the field you want to compare. Supported fields are `tenant_resources.tag` and `tenant_resources.resource`. For example, to search tenancy units that contain at least one tenant resource with a given tag 'xyz', use the query `tenant_resources.tag=xyz`. To search tenancy units that contain at least one tenant resource with a given resource name 'projects/123456', use the query `tenant_resources.resource=projects/123456`. Multiple expressions can be joined with `AND`s. Tenancy units must match all expressions to be included in the result set. For example, `tenant_resources.tag=xyz AND tenant_resources.resource=projects/123456` */
   query?: string;
+  /** Optional. The maximum number of results returned by this request. Currently, the default maximum is set to 256. If `page_size` <= 256, the request proceeds. Else, the request fails with an `TU_INVALID_PAGE_SIZE` error. */
+  pageSize?: number;
 }
 export const SearchServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -703,15 +706,15 @@ export const SearchServicesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Response for the search query. */
 export interface SearchTenancyUnitsResponse {
-  /** Tenancy Units matching the request. */
-  tenancyUnits?: TenancyUnitList;
   /** Pagination token for large results. */
   nextPageToken?: string;
+  /** Tenancy Units matching the request. */
+  tenancyUnits?: TenancyUnitList;
 }
 export const SearchTenancyUnitsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tenancyUnits: S.optional(TenancyUnitList),
     nextPageToken: S.optional(S.String),
+    tenancyUnits: S.optional(TenancyUnitList),
   }),
 ).annotate({
   identifier: "SearchTenancyUnitsResponse",

@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.vercel.vcr#ListRepositoriesRequest": {
@@ -483,14 +484,6 @@
     "com.vercel.vcr#VcrImageListItem": {
       "type": "structure",
       "members": {
-        "status": {
-          "target": "com.vercel.vcr#VcrImageListItemStatus",
-          "traits": {
-            "smithy.api#documentation": "VHS-readiness status, or `null` for a multi-platform index.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "tags": {
           "target": "com.vercel.vcr#VcrImageListItemTagsList",
           "traits": {
@@ -551,10 +544,12 @@
             "smithy.api#required": {}
           }
         },
-        "vhs": {
-          "target": "com.vercel.vcr#VcrImageListItemVhs",
+        "status": {
+          "target": "com.vercel.vcr#VcrImageListItemStatus",
           "traits": {
-            "smithy.api#documentation": "Converted VHS drive data, present once an image has been optimized for sandbox launch."
+            "smithy.api#documentation": "VHS-readiness status, or `null` for a multi-platform index.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "createdAt": {
@@ -567,32 +562,6 @@
       },
       "traits": {
         "smithy.api#documentation": "An image enriched with its tags and VHS-readiness status, as returned when listing a repository's images."
-      }
-    },
-    "com.vercel.vcr#VcrImageListItemStatus": {
-      "type": "enum",
-      "members": {
-        "PREPARING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preparing"
-          }
-        },
-        "READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ready"
-          }
-        },
-        "UNOPTIMIZED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "unoptimized"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "VHS-readiness status, or `null` for a multi-platform index."
       }
     },
     "com.vercel.vcr#VcrImageListItemTagsList": {
@@ -630,61 +599,30 @@
         "smithy.api#documentation": "Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation."
       }
     },
-    "com.vercel.vcr#VcrImageListItemVhsConfigCommandList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.vcr#VcrImageListItemVhsConfigEntrypointList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.vcr#VcrImageListItemVhsConfig": {
-      "type": "structure",
+    "com.vercel.vcr#VcrImageListItemStatus": {
+      "type": "enum",
       "members": {
-        "command": {
-          "target": "com.vercel.vcr#VcrImageListItemVhsConfigCommandList"
-        },
-        "entrypoint": {
-          "target": "com.vercel.vcr#VcrImageListItemVhsConfigEntrypointList"
-        },
-        "workingDir": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Optional VHS drive configuration captured for an optimized image."
-      }
-    },
-    "com.vercel.vcr#VcrImageListItemVhs": {
-      "type": "structure",
-      "members": {
-        "path": {
-          "target": "smithy.api#String",
+        "PREPARING": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "preparing"
           }
         },
-        "digest": {
-          "target": "smithy.api#String",
+        "READY": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "ready"
           }
         },
-        "config": {
-          "target": "com.vercel.vcr#VcrImageListItemVhsConfig",
+        "UNOPTIMIZED": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Optional VHS drive configuration captured for an optimized image."
+            "smithy.api#enumValue": "unoptimized"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Converted VHS drive data, present once an image has been optimized for sandbox launch."
+        "smithy.api#documentation": "VHS-readiness status, or `null` for a multi-platform index."
       }
     },
     "com.vercel.vcr#VcrImageListImagesList": {
@@ -1651,14 +1589,6 @@
             "smithy.api#required": {}
           }
         },
-        "status": {
-          "target": "com.vercel.vcr#VcrImageDetailStatus",
-          "traits": {
-            "smithy.api#documentation": "VHS-readiness status, or `null` for a multi-platform index.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "tags": {
           "target": "com.vercel.vcr#VcrImageDetailTagsList",
           "traits": {
@@ -1719,10 +1649,12 @@
             "smithy.api#required": {}
           }
         },
-        "vhs": {
-          "target": "com.vercel.vcr#VcrImageDetailVhs",
+        "status": {
+          "target": "com.vercel.vcr#VcrImageDetailStatus",
           "traits": {
-            "smithy.api#documentation": "Converted VHS drive data, present once an image has been optimized for sandbox launch."
+            "smithy.api#documentation": "VHS-readiness status, or `null` for a multi-platform index.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "createdAt": {
@@ -2565,32 +2497,6 @@
       },
       "traits": {}
     },
-    "com.vercel.vcr#VcrImageDetailStatus": {
-      "type": "enum",
-      "members": {
-        "PREPARING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preparing"
-          }
-        },
-        "READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ready"
-          }
-        },
-        "UNOPTIMIZED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "unoptimized"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "VHS-readiness status, or `null` for a multi-platform index."
-      }
-    },
     "com.vercel.vcr#VcrImageDetailTagsList": {
       "type": "list",
       "member": {
@@ -2626,61 +2532,30 @@
         "smithy.api#documentation": "Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation."
       }
     },
-    "com.vercel.vcr#VcrImageDetailVhsConfigCommandList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.vcr#VcrImageDetailVhsConfigEntrypointList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.vcr#VcrImageDetailVhsConfig": {
-      "type": "structure",
+    "com.vercel.vcr#VcrImageDetailStatus": {
+      "type": "enum",
       "members": {
-        "command": {
-          "target": "com.vercel.vcr#VcrImageDetailVhsConfigCommandList"
-        },
-        "entrypoint": {
-          "target": "com.vercel.vcr#VcrImageDetailVhsConfigEntrypointList"
-        },
-        "workingDir": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Optional VHS drive configuration captured for an optimized image."
-      }
-    },
-    "com.vercel.vcr#VcrImageDetailVhs": {
-      "type": "structure",
-      "members": {
-        "path": {
-          "target": "smithy.api#String",
+        "PREPARING": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "preparing"
           }
         },
-        "digest": {
-          "target": "smithy.api#String",
+        "READY": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "ready"
           }
         },
-        "config": {
-          "target": "com.vercel.vcr#VcrImageDetailVhsConfig",
+        "UNOPTIMIZED": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Optional VHS drive configuration captured for an optimized image."
+            "smithy.api#enumValue": "unoptimized"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Converted VHS drive data, present once an image has been optimized for sandbox launch."
+        "smithy.api#documentation": "VHS-readiness status, or `null` for a multi-platform index."
       }
     },
     "com.vercel.vcr#GetRepositoryImageResponse": {
@@ -2858,7 +2733,7 @@
         "smithy.api#documentation": "Check registry API version support\n\nGET /v2/ Docker Registry v2 version check. Returns a 401 challenge when no credentials are provided, prompting the Docker client to send auth. With valid credentials, returns 200 so the client can proceed."
       }
     },
-    "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameBlobsByDigestRequest": {
+    "com.vercel.vcr#GetBlobRequest": {
       "type": "structure",
       "members": {
         "teamSlug": {
@@ -2898,10 +2773,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameBlobsByDigest": {
+    "com.vercel.vcr#GetBlob": {
       "type": "operation",
       "input": {
-        "target": "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameBlobsByDigestRequest"
+        "target": "com.vercel.vcr#GetBlobRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -2929,7 +2804,7 @@
         "smithy.api#documentation": "Download a blob\n\nGET /v2/:teamSlug/:projectSlug/:repositoryName/blobs/:digest Fetch a blob by digest."
       }
     },
-    "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameBlobsByDigestRequest": {
+    "com.vercel.vcr#DeleteBlobRequest": {
       "type": "structure",
       "members": {
         "teamSlug": {
@@ -2969,10 +2844,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameBlobsByDigest": {
+    "com.vercel.vcr#DeleteBlob": {
       "type": "operation",
       "input": {
-        "target": "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameBlobsByDigestRequest"
+        "target": "com.vercel.vcr#DeleteBlobRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -3000,7 +2875,7 @@
         "smithy.api#documentation": "Delete a blob\n\nDELETE /v2/:teamSlug/:projectSlug/:repositoryName/blobs/:digest Blob deletion is intentionally not supported. Matches the behaviour of most public registries."
       }
     },
-    "com.vercel.vcr#HeadByTeamSlugByProjectSlugByRepositoryNameBlobsByDigestRequest": {
+    "com.vercel.vcr#HeadBlobRequest": {
       "type": "structure",
       "members": {
         "teamSlug": {
@@ -3040,10 +2915,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.vcr#HeadByTeamSlugByProjectSlugByRepositoryNameBlobsByDigest": {
+    "com.vercel.vcr#HeadBlob": {
       "type": "operation",
       "input": {
-        "target": "com.vercel.vcr#HeadByTeamSlugByProjectSlugByRepositoryNameBlobsByDigestRequest"
+        "target": "com.vercel.vcr#HeadBlobRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -3071,7 +2946,7 @@
         "smithy.api#documentation": "Check if a blob exists\n\nHEAD /v2/:teamSlug/:projectSlug/:repositoryName/blobs/:digest Check whether a blob exists. Used by the Docker client before pushing a layer to avoid re-uploading content that already exists."
       }
     },
-    "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidRequest": {
+    "com.vercel.vcr#GetBlobsUploadRequest": {
       "type": "structure",
       "members": {
         "teamSlug": {
@@ -3111,7 +2986,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidResponse": {
+    "com.vercel.vcr#GetBlobsUploadResponse": {
       "type": "structure",
       "members": {
         "body": {
@@ -3127,13 +3002,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuid": {
+    "com.vercel.vcr#GetBlobsUpload": {
       "type": "operation",
       "input": {
-        "target": "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidRequest"
+        "target": "com.vercel.vcr#GetBlobsUploadRequest"
       },
       "output": {
-        "target": "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidResponse"
+        "target": "com.vercel.vcr#GetBlobsUploadResponse"
       },
       "errors": [
         {
@@ -3340,7 +3215,7 @@
         "smithy.api#documentation": "Upload a blob chunk\n\nPATCH /v2/:teamSlug/:projectSlug/:repositoryName/blobs/uploads/:uuid Upload a chunk of blob data. The request body is streamed directly to S3 as a multipart upload part while hashing incrementally. The client may call this multiple times for chunked uploads."
       }
     },
-    "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidRequest": {
+    "com.vercel.vcr#DeleteBlobsUploadRequest": {
       "type": "structure",
       "members": {
         "teamSlug": {
@@ -3380,7 +3255,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidResponse": {
+    "com.vercel.vcr#DeleteBlobsUploadResponse": {
       "type": "structure",
       "members": {
         "body": {
@@ -3396,13 +3271,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuid": {
+    "com.vercel.vcr#DeleteBlobsUpload": {
       "type": "operation",
       "input": {
-        "target": "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidRequest"
+        "target": "com.vercel.vcr#DeleteBlobsUploadRequest"
       },
       "output": {
-        "target": "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidResponse"
+        "target": "com.vercel.vcr#DeleteBlobsUploadResponse"
       },
       "errors": [
         {
@@ -3520,7 +3395,7 @@
         "smithy.api#documentation": "Start a blob upload\n\nPOST /v2/:teamSlug/:projectSlug/:repositoryName/blobs/uploads/[?mount=<digest>&from=<repo>] Initiate a blob upload. Returns a UUID in the Location header that the client uses for subsequent PATCH (chunk) and PUT (complete) requests."
       }
     },
-    "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameManifestsByReferenceRequest": {
+    "com.vercel.vcr#GetManifestRequest": {
       "type": "structure",
       "members": {
         "teamSlug": {
@@ -3560,10 +3435,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameManifestsByReference": {
+    "com.vercel.vcr#GetManifest": {
       "type": "operation",
       "input": {
-        "target": "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameManifestsByReferenceRequest"
+        "target": "com.vercel.vcr#GetManifestRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -3678,7 +3553,7 @@
         "smithy.api#documentation": "Push an image manifest\n\nPUT /v2/:teamSlug/:projectSlug/:repositoryName/manifests/:reference Upload an image manifest. The digest is computed from the body and returned in the Docker-Content-Digest header."
       }
     },
-    "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameManifestsByReferenceRequest": {
+    "com.vercel.vcr#DeleteManifestRequest": {
       "type": "structure",
       "members": {
         "teamSlug": {
@@ -3718,7 +3593,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameManifestsByReferenceResponse": {
+    "com.vercel.vcr#DeleteManifestResponse": {
       "type": "structure",
       "members": {
         "body": {
@@ -3734,13 +3609,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameManifestsByReference": {
+    "com.vercel.vcr#DeleteManifest": {
       "type": "operation",
       "input": {
-        "target": "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameManifestsByReferenceRequest"
+        "target": "com.vercel.vcr#DeleteManifestRequest"
       },
       "output": {
-        "target": "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameManifestsByReferenceResponse"
+        "target": "com.vercel.vcr#DeleteManifestResponse"
       },
       "errors": [
         {
@@ -3765,7 +3640,7 @@
         "smithy.api#documentation": "Delete an image manifest\n\nDELETE /v2/:teamSlug/:projectSlug/:repositoryName/manifests/:reference Reference must be a digest."
       }
     },
-    "com.vercel.vcr#HeadByTeamSlugByProjectSlugByRepositoryNameManifestsByReferenceRequest": {
+    "com.vercel.vcr#HeadManifestRequest": {
       "type": "structure",
       "members": {
         "teamSlug": {
@@ -3805,10 +3680,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.vcr#HeadByTeamSlugByProjectSlugByRepositoryNameManifestsByReference": {
+    "com.vercel.vcr#HeadManifest": {
       "type": "operation",
       "input": {
-        "target": "com.vercel.vcr#HeadByTeamSlugByProjectSlugByRepositoryNameManifestsByReferenceRequest"
+        "target": "com.vercel.vcr#HeadManifestRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -3836,7 +3711,7 @@
         "smithy.api#documentation": "Check if a manifest exists\n\nHEAD /v2/:teamSlug/:projectSlug/:repositoryName/manifests/:reference Check whether a manifest exists. Used by Docker client during push to determine if a manifest (or config blob referenced by digest) is already present."
       }
     },
-    "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameTagsListRequest": {
+    "com.vercel.vcr#GetTagsListRequest": {
       "type": "structure",
       "members": {
         "teamSlug": {
@@ -3881,14 +3756,14 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameTagsListResponseTagsList": {
+    "com.vercel.vcr#GetTagsListResponseTagsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameTagsListResponse": {
+    "com.vercel.vcr#GetTagsListResponse": {
       "type": "structure",
       "members": {
         "name": {
@@ -3898,7 +3773,7 @@
           }
         },
         "tags": {
-          "target": "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameTagsListResponseTagsList",
+          "target": "com.vercel.vcr#GetTagsListResponseTagsList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3908,13 +3783,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameTagsList": {
+    "com.vercel.vcr#GetTagsList": {
       "type": "operation",
       "input": {
-        "target": "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameTagsListRequest"
+        "target": "com.vercel.vcr#GetTagsListRequest"
       },
       "output": {
-        "target": "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameTagsListResponse"
+        "target": "com.vercel.vcr#GetTagsListResponse"
       },
       "errors": [
         {
@@ -4051,16 +3926,16 @@
           "target": "com.vercel.vcr#GetRoot"
         },
         {
-          "target": "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameBlobsByDigest"
+          "target": "com.vercel.vcr#GetBlob"
         },
         {
-          "target": "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameBlobsByDigest"
+          "target": "com.vercel.vcr#DeleteBlob"
         },
         {
-          "target": "com.vercel.vcr#HeadByTeamSlugByProjectSlugByRepositoryNameBlobsByDigest"
+          "target": "com.vercel.vcr#HeadBlob"
         },
         {
-          "target": "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuid"
+          "target": "com.vercel.vcr#GetBlobsUpload"
         },
         {
           "target": "com.vercel.vcr#ReplaceByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuid"
@@ -4069,25 +3944,25 @@
           "target": "com.vercel.vcr#UpdateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuid"
         },
         {
-          "target": "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuid"
+          "target": "com.vercel.vcr#DeleteBlobsUpload"
         },
         {
           "target": "com.vercel.vcr#CreateByTeamSlugByProjectSlugByRepositoryNameBlobsUploads"
         },
         {
-          "target": "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameManifestsByReference"
+          "target": "com.vercel.vcr#GetManifest"
         },
         {
           "target": "com.vercel.vcr#ReplaceByTeamSlugByProjectSlugByRepositoryNameManifestsByReference"
         },
         {
-          "target": "com.vercel.vcr#DeleteByTeamSlugByProjectSlugByRepositoryNameManifestsByReference"
+          "target": "com.vercel.vcr#DeleteManifest"
         },
         {
-          "target": "com.vercel.vcr#HeadByTeamSlugByProjectSlugByRepositoryNameManifestsByReference"
+          "target": "com.vercel.vcr#HeadManifest"
         },
         {
-          "target": "com.vercel.vcr#GetByTeamSlugByProjectSlugByRepositoryNameTagsList"
+          "target": "com.vercel.vcr#GetTagsList"
         }
       ],
       "traits": {

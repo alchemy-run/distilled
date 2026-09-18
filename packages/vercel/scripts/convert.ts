@@ -4,7 +4,7 @@
  * .generated-specs.
  *
  * Vercel publishes ONE ~10 MB OpenAPI 3.0.3 document (downloaded to
- * `specs/openapi.json` by `scripts/download-spec.ts`) covering ~378
+ * `specs/spec-mirror-vercel/specs/openapi.json` by `scripts/download-spec.ts`) covering ~378
  * operations across 40 tags; the v1 layout wants one Smithy model — one
  * service module — per tag. Following the GitHub/PostHog pipeline, the
  * ordering is load-bearing:
@@ -37,9 +37,14 @@ import {
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dir, "..");
-const specPath = path.join(rootDir, "specs/openapi.json");
+const specPath = resolveSpecPath(
+  rootDir,
+  "specs/spec-mirror-vercel/specs/openapi.json",
+);
 const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
 
@@ -337,3 +342,5 @@ for (const slug of [...tagBuckets.keys()].sort()) {
 }
 
 console.log(`✅ ${written} Smithy models (${totalOps} operations) → ${outDir}`);
+
+await finalizeConvert({ root: rootDir });

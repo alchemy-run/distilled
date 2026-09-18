@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.vercel.rolling_release#GetRollingReleaseBillingStatusRequest": {
@@ -402,7 +403,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Request paths to ignore entirely — dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted."
+        "smithy.api#documentation": "Request paths to ignore entirely — dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted."
       }
     },
     "com.vercel.rolling_release#GetRollingReleaseConfigResponseRollingReleaseGateChecksItem": {
@@ -430,7 +431,7 @@
         "excludePaths": {
           "target": "com.vercel.rolling_release#GetRollingReleaseConfigResponseRollingReleaseGateChecksItemExcludePathsList",
           "traits": {
-            "smithy.api#documentation": "Request paths to ignore entirely — dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted."
+            "smithy.api#documentation": "Request paths to ignore entirely — dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted."
           }
         },
         "ingestWatermarkSeconds": {

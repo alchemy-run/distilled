@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.github.projects#ListForOrgRequest": {
@@ -4560,13 +4561,15 @@
         "start_date": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The start date of the first iteration."
+            "smithy.api#documentation": "The start date of the first iteration.",
+            "smithy.api#required": {}
           }
         },
         "duration": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The default duration for iterations in days. Individual iterations can override this value."
+            "smithy.api#documentation": "The default duration for iterations in days. Individual iterations can override this value.",
+            "smithy.api#required": {}
           }
         },
         "iterations": {
@@ -4586,19 +4589,22 @@
         "title": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The title of the iteration."
+            "smithy.api#documentation": "The title of the iteration.",
+            "smithy.api#required": {}
           }
         },
         "start_date": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The start date of the iteration."
+            "smithy.api#documentation": "The start date of the iteration.",
+            "smithy.api#required": {}
           }
         },
         "duration": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The duration of the iteration in days."
+            "smithy.api#documentation": "The duration of the iteration in days.",
+            "smithy.api#required": {}
           }
         }
       },

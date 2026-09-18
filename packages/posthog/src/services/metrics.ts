@@ -11,24 +11,26 @@ import * as Retry from "../retry.ts";
 
 export type { PosthogOpError, PosthogOpContext };
 
-/** * `sum` - sum * `avg` - avg * `count` - count * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
+/** * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
 export type AggregationEnum =
   | "sum"
   | "avg"
   | "count"
+  | "min"
+  | "max"
   | "p95"
   | "rate"
   | "increase"
   | "histogram_quantile";
-export const AggregationEnum = /*@__PURE__*/ S.String;
+export const AggregationEnum = S.String;
 
 /** * `eq` - eq * `neq` - neq * `regex` - regex * `not_regex` - not_regex */
 export type OpEnum = "eq" | "neq" | "regex" | "not_regex";
-export const OpEnum = /*@__PURE__*/ S.String;
+export const OpEnum = S.String;
 
 /** * `resource` - resource * `attribute` - attribute * `auto` - auto */
 export type MetricAttributeScopeEnum = "resource" | "attribute" | "auto";
-export const MetricAttributeScopeEnum = /*@__PURE__*/ S.String;
+export const MetricAttributeScopeEnum = S.String;
 
 export interface MetricFilter {
   /** Attribute name to filter on, without any type-tag suffix (e.g. 'k8s.pod.name', 'env'). */
@@ -72,7 +74,7 @@ export interface MetricAnomalyBody {
   baselineFrom?: string;
   /** End of the healthy comparison window. Defaults to anomalyFrom. Must not extend past anomalyFrom. */
   baselineTo?: string;
-  /** Aggregation to characterize. Omit to auto-pick from the metric's OTel type (counter -> rate, gauge -> avg, histogram -> histogram_quantile 0.95). * `sum` - sum * `avg` - avg * `count` - count * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
+  /** Aggregation to characterize. Omit to auto-pick from the metric's OTel type (counter -> rate, gauge -> avg, histogram -> histogram_quantile 0.95). * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
   aggregation?: AggregationEnum | (string & {}) | null;
   /** Quantile for histogram_quantile. Defaults to 0.95. */
   quantile?: number | null;
@@ -97,13 +99,13 @@ export const MetricAnomalyBody = /*@__PURE__*/ S.suspend(() =>
   identifier: "MetricAnomalyBody",
 }) as any as S.Schema<MetricAnomalyBody>;
 
-export interface MetricsCharacterizeCreateRequest {
+export interface CreateMetricsCharacterizeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The anomaly characterization to run. */
   query: MetricAnomalyBody;
 }
-export const MetricsCharacterizeCreateRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateMetricsCharacterizeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     query: MetricAnomalyBody,
@@ -115,12 +117,12 @@ export const MetricsCharacterizeCreateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "MetricsCharacterizeCreateRequest",
-}) as any as S.Schema<MetricsCharacterizeCreateRequest>;
+  identifier: "CreateMetricsCharacterizeRequest",
+}) as any as S.Schema<CreateMetricsCharacterizeRequest>;
 
 /** * `up` - up * `down` - down * `flat` - flat */
 export type MetricAnomalyDirectionEnum = "up" | "down" | "flat";
-export const MetricAnomalyDirectionEnum = /*@__PURE__*/ S.String;
+export const MetricAnomalyDirectionEnum = S.String;
 
 export interface MetricAnomalyDimension {
   /** Label key that was drilled into. */
@@ -162,13 +164,13 @@ export const MetricSeriesLabelsMap = /*@__PURE__*/ S.Record(
 export interface MetricQueryPoint {
   /** Bucket start as ISO 8601 timestamp. */
   time: string;
-  /** Aggregated value for the bucket. */
-  value: number;
+  /** Aggregated value for the bucket. Null when the aggregate isn't representable (e.g. float overflow) — render as a gap. */
+  value: number | null;
 }
 export const MetricQueryPoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     time: S.String,
-    value: S.Number,
+    value: S.NullOr(S.Number),
   }),
 ).annotate({
   identifier: "MetricQueryPoint",
@@ -256,39 +258,247 @@ export const MetricAnomalyReport = /*@__PURE__*/ S.suspend(() =>
   identifier: "MetricAnomalyReport",
 }) as any as S.Schema<MetricAnomalyReport>;
 
-export interface MetricsHasMetricsRetrieveRequest {
+/** * `gauge` - gauge * `sum` - sum * `histogram` - histogram * `exponential_histogram` - exponential_histogram * `summary` - summary */
+export type OtelMetricTypeEnum =
+  | "gauge"
+  | "sum"
+  | "histogram"
+  | "exponential_histogram"
+  | "summary";
+export const OtelMetricTypeEnum = S.String;
+
+/** Label predicates ANDed together, matching the chart the point came from. */
+export type MetricExplainBodyFiltersList = Array<MetricFilter>;
+export const MetricExplainBodyFiltersList = /*@__PURE__*/ S.Array(
+  MetricFilter,
+) as any as S.Schema<MetricExplainBodyFiltersList>;
+
+/** * `second` - second * `minute` - minute * `minute_5` - minute_5 * `minute_15` - minute_15 * `hour` - hour * `hour_6` - hour_6 * `day` - day * `week` - week */
+export type MetricQueryIntervalEnum =
+  | "second"
+  | "minute"
+  | "minute_5"
+  | "minute_15"
+  | "hour"
+  | "hour_6"
+  | "day"
+  | "week";
+export const MetricQueryIntervalEnum = S.String;
+
+export interface MetricExplainBody {
+  /** Exact metric name whose bucket should be taken apart. */
+  metricName: string;
+  /** Constrain the bucket to one metric type. A name can exist as several types; without this, rows of every type sharing the name are decomposed together. * `gauge` - gauge * `sum` - sum * `histogram` - histogram * `exponential_histogram` - exponential_histogram * `summary` - summary */
+  metricType?: OtelMetricTypeEnum | (string & {}) | null;
+  /** The aggregation whose result should be explained. 'histogram_quantile' is rejected: it reduces bucket-count arrays rather than scalar samples, so there is no per-series value to lay out. * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
+  aggregation?: AggregationEnum | (string & {});
+  /** Quantile in (0, 1) applied across series. Defaults to 0.95 for the 'p95' aggregation. */
+  quantile?: number | null;
+  /** Label predicates ANDed together, matching the chart the point came from. */
+  filters?: MetricExplainBodyFiltersList;
+  /** Start of the bucket to explain, as returned in a query result's 'time'. ISO 8601. */
+  bucketStart: string;
+  /** Bucket size the point was plotted at. Must match the query that produced it, or the decomposition explains a different span. * `second` - second * `minute` - minute * `minute_5` - minute_5 * `minute_15` - minute_15 * `hour` - hour * `hour_6` - hour_6 * `day` - day * `week` - week */
+  interval: MetricQueryIntervalEnum | (string & {});
+}
+export const MetricExplainBody = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metricName: S.String,
+    metricType: S.optional(S.NullOr(OtelMetricTypeEnum)),
+    aggregation: S.optional(AggregationEnum),
+    quantile: S.optional(S.NullOr(S.Number)),
+    filters: S.optional(MetricExplainBodyFiltersList),
+    bucketStart: S.String,
+    interval: MetricQueryIntervalEnum,
+  }),
+).annotate({
+  identifier: "MetricExplainBody",
+}) as any as S.Schema<MetricExplainBody>;
+
+export interface CreateMetricsExplainRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** The chart point to take apart. */
+  query: MetricExplainBody;
 }
-export const MetricsHasMetricsRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateMetricsExplainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    query: MetricExplainBody,
   }).pipe(
     T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/metrics/has_metrics/",
+      method: "POST",
+      uri: "/api/projects/{project_id}/metrics/explain/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "MetricsHasMetricsRetrieveRequest",
-}) as any as S.Schema<MetricsHasMetricsRetrieveRequest>;
+  identifier: "CreateMetricsExplainRequest",
+}) as any as S.Schema<CreateMetricsExplainRequest>;
 
-export type MetricsHasMetricsRetrieveResponseBodyMap = {
-  [key: string]: unknown | undefined;
+/** * `none` - none * `last` - last * `avg_over_time` - avg_over_time * `sum_over_time` - sum_over_time * `increase` - increase * `pooled_samples` - pooled_samples */
+export type TemporalReducerEnum =
+  | "none"
+  | "last"
+  | "avg_over_time"
+  | "sum_over_time"
+  | "increase"
+  | "pooled_samples";
+export const TemporalReducerEnum = S.String;
+
+/** * `sum` - sum * `avg` - avg * `min` - min * `max` - max * `quantile` - quantile * `count_series` - count_series */
+export type SpatialReducerEnum =
+  | "sum"
+  | "avg"
+  | "min"
+  | "max"
+  | "quantile"
+  | "count_series";
+export const SpatialReducerEnum = S.String;
+
+/** Per-data-point attributes identifying the series. */
+export type MetricSeriesBreakdownLabelsMap = {
+  [key: string]: string | undefined;
 };
-export const MetricsHasMetricsRetrieveResponseBodyMap = /*@__PURE__*/ S.Record(
+export const MetricSeriesBreakdownLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.Unknown,
-) as any as S.Schema<MetricsHasMetricsRetrieveResponseBodyMap>;
+  S.String,
+) as any as S.Schema<MetricSeriesBreakdownLabelsMap>;
 
-export type MetricsHasMetricsRetrieveResponse =
-  MetricsHasMetricsRetrieveResponseBodyMap;
-export const MetricsHasMetricsRetrieveResponse = /*@__PURE__*/ S.suspend(() =>
-  MetricsHasMetricsRetrieveResponseBodyMap.pipe(T.RawResponseRoot()),
+/** Resource attributes identifying the scrape target. */
+export type MetricSeriesBreakdownResourceLabelsMap = {
+  [key: string]: string | undefined;
+};
+export const MetricSeriesBreakdownResourceLabelsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<MetricSeriesBreakdownResourceLabelsMap>;
+
+export interface MetricSampleView {
+  /** Sample timestamp, ISO 8601. */
+  time: string;
+  /** Raw stored reading, before any reduction. */
+  value: number;
+}
+export const MetricSampleView = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    time: S.String,
+    value: S.Number,
+  }),
 ).annotate({
-  identifier: "MetricsHasMetricsRetrieveResponse",
-}) as any as S.Schema<MetricsHasMetricsRetrieveResponse>;
+  identifier: "MetricSampleView",
+}) as any as S.Schema<MetricSampleView>;
+
+/** The series' raw samples in this bucket, oldest first, trimmed for display. */
+export type MetricSeriesBreakdownSamplesList = Array<MetricSampleView>;
+export const MetricSeriesBreakdownSamplesList = /*@__PURE__*/ S.Array(
+  MetricSampleView,
+) as any as S.Schema<MetricSeriesBreakdownSamplesList>;
+
+export interface MetricSeriesBreakdown {
+  /** Service that reported this series. */
+  service_name: string;
+  /** Per-data-point attributes identifying the series. */
+  labels: MetricSeriesBreakdownLabelsMap;
+  /** Resource attributes identifying the scrape target. */
+  resource_labels: MetricSeriesBreakdownResourceLabelsMap;
+  /** The series' raw samples in this bucket, oldest first, trimmed for display. */
+  samples: MetricSeriesBreakdownSamplesList;
+  /** How many samples the series actually sent, even when 'samples' was trimmed. */
+  sample_count: number;
+  /** Whether 'samples' lists fewer samples than arrived. */
+  samples_truncated: boolean;
+  /** What this series contributed after the per-series reduction. Null for percentiles, which read the pooled readings and so have no single per-series contribution. */
+  value: number | null;
+}
+export const MetricSeriesBreakdown = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    service_name: S.String,
+    labels: MetricSeriesBreakdownLabelsMap,
+    resource_labels: MetricSeriesBreakdownResourceLabelsMap,
+    samples: MetricSeriesBreakdownSamplesList,
+    sample_count: S.Number,
+    samples_truncated: S.Boolean,
+    value: S.NullOr(S.Number),
+  }),
+).annotate({
+  identifier: "MetricSeriesBreakdown",
+}) as any as S.Schema<MetricSeriesBreakdown>;
+
+/** The series behind the point, largest contributors first, trimmed for display. */
+export type MetricBucketDecompositionSeriesList = Array<MetricSeriesBreakdown>;
+export const MetricBucketDecompositionSeriesList = /*@__PURE__*/ S.Array(
+  MetricSeriesBreakdown,
+) as any as S.Schema<MetricBucketDecompositionSeriesList>;
+
+export interface MetricBucketDecomposition {
+  /** Metric that was decomposed. */
+  metric_name: string;
+  /** OTel metric type observed in the bucket. */
+  metric_type: string;
+  /** OTel aggregation temporality observed in the bucket ('cumulative', 'delta', or empty for gauges). */
+  temporality: string;
+  /** Aggregation that was explained. */
+  aggregation: string;
+  /** Start of the explained bucket, ISO 8601. */
+  bucket_start: string;
+  /** Bucket size the point was plotted at. */
+  interval: string;
+  /** How each series' samples were collapsed to one value: 'last' for an instant gauge reading, 'avg_over_time' for an average, 'sum_over_time' for delta counters, 'increase' for cumulative counters, and 'pooled_samples' for percentiles, which skip the per-series step entirely. * `none` - none * `last` - last * `avg_over_time` - avg_over_time * `sum_over_time` - sum_over_time * `increase` - increase * `pooled_samples` - pooled_samples */
+  temporal_reducer: TemporalReducerEnum;
+  /** How the per-series values were combined into the bucket's number. * `sum` - sum * `avg` - avg * `min` - min * `max` - max * `quantile` - quantile * `count_series` - count_series */
+  spatial_reducer: SpatialReducerEnum;
+  /** The series behind the point, largest contributors first, trimmed for display. */
+  series: MetricBucketDecompositionSeriesList;
+  /** How many series reported in the bucket. */
+  series_count: number;
+  /** How many raw samples the bucket held across all series. */
+  sample_count: number;
+  /** Whether 'series' lists fewer series than reported. */
+  series_truncated: boolean;
+  /** Whether the bucket held more raw rows than the decomposition reads. Totals are computed only over the rows that were read. */
+  rows_truncated: boolean;
+  /** The bucket's value recomputed from the raw samples, independently of the query builders. Null when no series reported. */
+  reference_value: number | null;
+  /** The value the product would plot for this point. Null when the query returned no row. */
+  actual_value: number | null;
+  /** Whether the two values match. False means one of the reductions is wrong, and the series breakdown shows where they parted. Null when the raw read was truncated, so the two are not comparable. */
+  agrees: boolean | null;
+}
+export const MetricBucketDecomposition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metric_name: S.String,
+    metric_type: S.String,
+    temporality: S.String,
+    aggregation: S.String,
+    bucket_start: S.String,
+    interval: S.String,
+    temporal_reducer: TemporalReducerEnum,
+    spatial_reducer: SpatialReducerEnum,
+    series: MetricBucketDecompositionSeriesList,
+    series_count: S.Number,
+    sample_count: S.Number,
+    series_truncated: S.Boolean,
+    rows_truncated: S.Boolean,
+    reference_value: S.NullOr(S.Number),
+    actual_value: S.NullOr(S.Number),
+    agrees: S.NullOr(S.Boolean),
+  }),
+).annotate({
+  identifier: "MetricBucketDecomposition",
+}) as any as S.Schema<MetricBucketDecomposition>;
+
+export interface MetricExplainResponse {
+  /** The bucket taken apart. */
+  decomposition: MetricBucketDecomposition;
+}
+export const MetricExplainResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    decomposition: MetricBucketDecomposition,
+  }),
+).annotate({
+  identifier: "MetricExplainResponse",
+}) as any as S.Schema<MetricExplainResponse>;
 
 /** Label predicates ANDed together. Rows must satisfy every filter. */
 export type MetricQueryBodyFiltersList = Array<MetricFilter>;
@@ -315,18 +525,6 @@ export const MetricQueryBodyGroupByList = /*@__PURE__*/ S.Array(
   MetricGroupBy,
 ) as any as S.Schema<MetricQueryBodyGroupByList>;
 
-/** * `second` - second * `minute` - minute * `minute_5` - minute_5 * `minute_15` - minute_15 * `hour` - hour * `hour_6` - hour_6 * `day` - day * `week` - week */
-export type MetricQueryIntervalEnum =
-  | "second"
-  | "minute"
-  | "minute_5"
-  | "minute_15"
-  | "hour"
-  | "hour_6"
-  | "day"
-  | "week";
-export const MetricQueryIntervalEnum = /*@__PURE__*/ S.String;
-
 /** Label predicates ANDed together for this clause. */
 export type MetricClauseFiltersList = Array<MetricFilter>;
 export const MetricClauseFiltersList = /*@__PURE__*/ S.Array(
@@ -344,7 +542,9 @@ export interface MetricClause {
   name: string;
   /** Exact metric name this clause queries. */
   metricName: string;
-  /** Aggregation applied per time bucket; same semantics as the top-level aggregation. * `sum` - sum * `avg` - avg * `count` - count * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
+  /** Constrain the query to one metric type. A name can exist as several types (e.g. a counter and a gauge); without this, rows of every type sharing the name are blended into one aggregate. Get the type from 'metric-names-list'. * `gauge` - gauge * `sum` - sum * `histogram` - histogram * `exponential_histogram` - exponential_histogram * `summary` - summary */
+  metricType?: OtelMetricTypeEnum | (string & {}) | null;
+  /** Aggregation applied per time bucket; same semantics as the top-level aggregation. * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
   aggregation?: AggregationEnum | (string & {});
   /** Quantile in (0, 1) for 'histogram_quantile'. */
   quantile?: number | null;
@@ -357,6 +557,7 @@ export const MetricClause = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     metricName: S.String,
+    metricType: S.optional(S.NullOr(OtelMetricTypeEnum)),
     aggregation: S.optional(AggregationEnum),
     quantile: S.optional(S.NullOr(S.Number)),
     filters: S.optional(MetricClauseFiltersList),
@@ -373,7 +574,9 @@ export const MetricQueryBodyClausesList = /*@__PURE__*/ S.Array(
 export interface MetricQueryBody {
   /** Exact metric name to query (e.g. 'http.server.duration'). Single-clause shorthand — mutually exclusive with 'clauses'. */
   metricName?: string;
-  /** Aggregation applied per time bucket. 'rate' (per-second) and 'increase' are counter-aware: per-series deltas with Prometheus counter-reset handling, temporality-aware (delta-temporality samples count as-is). 'histogram_quantile' interpolates from OTel histogram buckets and requires 'quantile'. * `sum` - sum * `avg` - avg * `count` - count * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
+  /** Constrain the query to one metric type. A name can exist as several types (e.g. a counter and a gauge); without this, rows of every type sharing the name are blended into one aggregate. Get the type from 'metric-names-list'. * `gauge` - gauge * `sum` - sum * `histogram` - histogram * `exponential_histogram` - exponential_histogram * `summary` - summary */
+  metricType?: OtelMetricTypeEnum | (string & {}) | null;
+  /** Aggregation applied per time bucket, always across series rather than across raw samples. 'sum', 'avg', 'min', 'max' and 'p95' reduce each series to its last sample in the bucket and then combine those, so the result does not scale with the scrape rate; 'count' is the number of series that reported. 'rate' (per-second) and 'increase' are counter-aware: per-series deltas with Prometheus counter-reset handling, temporality-aware (delta-temporality samples count as-is). 'histogram_quantile' interpolates from OTel histogram buckets and requires 'quantile'. * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
   aggregation?: AggregationEnum | (string & {});
   /** Quantile in (0, 1) for 'histogram_quantile' (e.g. 0.95). Ignored for other aggregations. */
   quantile?: number | null;
@@ -395,6 +598,7 @@ export interface MetricQueryBody {
 export const MetricQueryBody = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metricName: S.optional(S.String),
+    metricType: S.optional(S.NullOr(OtelMetricTypeEnum)),
     aggregation: S.optional(AggregationEnum),
     quantile: S.optional(S.NullOr(S.Number)),
     filters: S.optional(MetricQueryBodyFiltersList),
@@ -409,13 +613,13 @@ export const MetricQueryBody = /*@__PURE__*/ S.suspend(() =>
   identifier: "MetricQueryBody",
 }) as any as S.Schema<MetricQueryBody>;
 
-export interface MetricsQueryCreateRequest {
+export interface CreateMetricsQueryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The metric query to execute. */
   query: MetricQueryBody;
 }
-export const MetricsQueryCreateRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateMetricsQueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     query: MetricQueryBody,
@@ -427,8 +631,8 @@ export const MetricsQueryCreateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "MetricsQueryCreateRequest",
-}) as any as S.Schema<MetricsQueryCreateRequest>;
+  identifier: "CreateMetricsQueryRequest",
+}) as any as S.Schema<CreateMetricsQueryRequest>;
 
 /** One series per (clause, label-set). A single ungrouped query returns exactly one series with empty labels. */
 export type MetricQueryResponseResultsList = Array<MetricSeries>;
@@ -448,18 +652,457 @@ export const MetricQueryResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "MetricQueryResponse",
 }) as any as S.Schema<MetricQueryResponse>;
 
-export interface MetricsValuesRetrieveRequest {
+/** Label predicates ANDed together, matched against each emission's series. Pass the same filters used for the chart so the emissions listed are the ones behind it. */
+export type MetricSamplesBodyFiltersList = Array<MetricFilter>;
+export const MetricSamplesBodyFiltersList = /*@__PURE__*/ S.Array(
+  MetricFilter,
+) as any as S.Schema<MetricSamplesBodyFiltersList>;
+
+export interface MetricSamplesBody {
+  /** Exact metric name to list raw emissions for (e.g. 'http.server.duration'). Omit to list emissions across all metric names — allowed only with traceId (the trace->metrics pivot). */
+  metricName?: string;
+  /** Lower bound (inclusive) for the sample window. ISO 8601. */
+  dateFrom: string;
+  /** Upper bound (exclusive) for the sample window. Defaults to now if omitted. */
+  dateTo?: string;
+  /** Restrict to emissions on this trace (hex trace id, as the tracing product uses) — the reverse metric->trace pivot. Omit for all traces. */
+  traceId?: string;
+  /** Restrict to emissions recorded on this span (hex span id). Requires traceId, since a span id is only unique within its trace. */
+  spanId?: string;
+  /** Constrain the emissions to one metric type. A name can exist as several types (e.g. a counter and a gauge); without this, emissions of every type sharing the name are listed together. Pass the same value used for the chart so both describe the same series. * `gauge` - gauge * `sum` - sum * `histogram` - histogram * `exponential_histogram` - exponential_histogram * `summary` - summary */
+  metricType?: OtelMetricTypeEnum | (string & {}) | null;
+  /** Label predicates ANDed together, matched against each emission's series. Pass the same filters used for the chart so the emissions listed are the ones behind it. */
+  filters?: MetricSamplesBodyFiltersList;
+  /** Max emissions to return, newest first. Defaults to 100, capped at 1000. */
+  limit?: number;
+}
+export const MetricSamplesBody = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metricName: S.optional(S.String),
+    dateFrom: S.String,
+    dateTo: S.optional(S.String),
+    traceId: S.optional(S.String),
+    spanId: S.optional(S.String),
+    metricType: S.optional(S.NullOr(OtelMetricTypeEnum)),
+    filters: S.optional(MetricSamplesBodyFiltersList),
+    limit: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "MetricSamplesBody",
+}) as any as S.Schema<MetricSamplesBody>;
+
+export interface CreateMetricsSampleRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The raw-emissions query to execute. */
+  query: MetricSamplesBody;
+}
+export const CreateMetricsSampleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    query: MetricSamplesBody,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/metrics/samples/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateMetricsSampleRequest",
+}) as any as S.Schema<CreateMetricsSampleRequest>;
+
+/** Per-emission attributes (high-cardinality labels on the data point). */
+export type MetricEventSampleAttributesMap = {
+  [key: string]: string | undefined;
+};
+export const MetricEventSampleAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<MetricEventSampleAttributesMap>;
+
+/** Attributes of the resource (host, pod, service version) that emitted the metric. */
+export type MetricEventSampleResourceAttributesMap = {
+  [key: string]: string | undefined;
+};
+export const MetricEventSampleResourceAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<MetricEventSampleResourceAttributesMap>;
+
+export interface MetricEventSample {
+  /** When the metric was emitted, ISO 8601. */
+  timestamp: string;
+  /** Metric this emission belongs to. */
+  metric_name: string;
+  /** OTel metric type: gauge, sum, histogram, summary, or exponential_histogram. */
+  metric_type: string;
+  /** The emitted value. For histogram/summary points this is the distribution sum; pair with count. */
+  value: number;
+  /** Observations behind this point: 1 for gauges/counters, the distribution count for histograms/summaries. */
+  count: number;
+  /** Unit of the value, if any. */
+  unit: string;
+  /** For counters: 'delta' or 'cumulative' (decides whether rate() must diff). Empty for gauges. */
+  aggregation_temporality: string;
+  /** True for monotonically increasing counters. */
+  is_monotonic: boolean;
+  /** Service that emitted the metric. */
+  service_name: string;
+  /** Trace this emission belongs to (hex, same form the tracing product uses); empty if none. Use it to pivot to the trace. */
+  trace_id: string;
+  /** Span this emission belongs to (hex); empty if none. */
+  span_id: string;
+  /** Per-emission attributes (high-cardinality labels on the data point). */
+  attributes: MetricEventSampleAttributesMap;
+  /** Attributes of the resource (host, pod, service version) that emitted the metric. */
+  resource_attributes: MetricEventSampleResourceAttributesMap;
+}
+export const MetricEventSample = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.String,
+    metric_name: S.String,
+    metric_type: S.String,
+    value: S.Number,
+    count: S.Number,
+    unit: S.String,
+    aggregation_temporality: S.String,
+    is_monotonic: S.Boolean,
+    service_name: S.String,
+    trace_id: S.String,
+    span_id: S.String,
+    attributes: MetricEventSampleAttributesMap,
+    resource_attributes: MetricEventSampleResourceAttributesMap,
+  }),
+).annotate({
+  identifier: "MetricEventSample",
+}) as any as S.Schema<MetricEventSample>;
+
+/** Raw emissions ordered by timestamp descending. */
+export type MetricSamplesResponseResultsList = Array<MetricEventSample>;
+export const MetricSamplesResponseResultsList = /*@__PURE__*/ S.Array(
+  MetricEventSample,
+) as any as S.Schema<MetricSamplesResponseResultsList>;
+
+export interface MetricSamplesResponse {
+  /** Raw emissions ordered by timestamp descending. */
+  results: MetricSamplesResponseResultsList;
+}
+export const MetricSamplesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: MetricSamplesResponseResultsList,
+  }),
+).annotate({
+  identifier: "MetricSamplesResponse",
+}) as any as S.Schema<MetricSamplesResponse>;
+
+export interface GetMetricsAttributeRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Lower bound (inclusive) of the window keys are suggested from. ISO 8601. Defaults to 7 days ago. */
+  dateFrom?: string;
+  /** Upper bound (exclusive) of the window. ISO 8601. Defaults to now. */
+  dateTo?: string;
+  /** Max number of keys to return. Defaults to 100; maximum 1000. */
+  limit?: number;
+  /** Substring filter (case-insensitive) applied to attribute keys. */
+  search?: string;
+}
+export const GetMetricsAttributeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    dateFrom: S.optional(S.String.pipe(T.Query())),
+    dateTo: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/metrics/attributes/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetMetricsAttributeRequest",
+}) as any as S.Schema<GetMetricsAttributeRequest>;
+
+export interface MetricAttributeKey {
+  /** Attribute key as it appears on the team's metrics (e.g. 'env', 'k8s.pod.name'). */
+  name: string;
+}
+export const MetricAttributeKey = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+  }),
+).annotate({
+  identifier: "MetricAttributeKey",
+}) as any as S.Schema<MetricAttributeKey>;
+
+/** Distinct attribute keys (datapoint and resource attributes merged), most frequent first. */
+export type MetricAttributeKeysResponseResultsList = Array<MetricAttributeKey>;
+export const MetricAttributeKeysResponseResultsList = /*@__PURE__*/ S.Array(
+  MetricAttributeKey,
+) as any as S.Schema<MetricAttributeKeysResponseResultsList>;
+
+export interface MetricAttributeKeysResponse {
+  /** Distinct attribute keys (datapoint and resource attributes merged), most frequent first. */
+  results: MetricAttributeKeysResponseResultsList;
+  /** Number of keys returned. */
+  count: number;
+}
+export const MetricAttributeKeysResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: MetricAttributeKeysResponseResultsList,
+    count: S.Number,
+  }),
+).annotate({
+  identifier: "MetricAttributeKeysResponse",
+}) as any as S.Schema<MetricAttributeKeysResponse>;
+
+export interface GetMetricsAttributeValueRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Lower bound (inclusive) of the window values are suggested from. ISO 8601. Defaults to 7 days ago. */
+  dateFrom?: string;
+  /** Upper bound (exclusive) of the window. ISO 8601. Defaults to now. */
+  dateTo?: string;
+  /** Attribute key to list values for (e.g. 'env'). 'service_name'/'service.name' list service names. */
+  key: string;
+  /** Max number of values to return. Defaults to 100; maximum 1000. */
+  limit?: number;
+  /** Substring filter (case-insensitive) applied to values. Named 'value' to match the property-values autocomplete convention. */
+  value?: string;
+}
+export const GetMetricsAttributeValueRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    dateFrom: S.optional(S.String.pipe(T.Query())),
+    dateTo: S.optional(S.String.pipe(T.Query())),
+    key: S.String.pipe(T.Query()),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    value: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/metrics/attribute_values/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetMetricsAttributeValueRequest",
+}) as any as S.Schema<GetMetricsAttributeValueRequest>;
+
+export interface MetricAttributeValue {
+  /** The attribute value (same as name; kept for picker compatibility). */
+  id: string;
+  /** The attribute value. */
+  name: string;
+  /** Number of data points observed with this value in the window. */
+  count: number;
+}
+export const MetricAttributeValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    count: S.Number,
+  }),
+).annotate({
+  identifier: "MetricAttributeValue",
+}) as any as S.Schema<MetricAttributeValue>;
+
+/** Observed values for the requested key, most frequent first. */
+export type MetricAttributeValuesResponseResultsList =
+  Array<MetricAttributeValue>;
+export const MetricAttributeValuesResponseResultsList = /*@__PURE__*/ S.Array(
+  MetricAttributeValue,
+) as any as S.Schema<MetricAttributeValuesResponseResultsList>;
+
+export interface MetricAttributeValuesResponse {
+  /** Observed values for the requested key, most frequent first. */
+  results: MetricAttributeValuesResponseResultsList;
+}
+export const MetricAttributeValuesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: MetricAttributeValuesResponseResultsList,
+  }),
+).annotate({
+  identifier: "MetricAttributeValuesResponse",
+}) as any as S.Schema<MetricAttributeValuesResponse>;
+
+export interface GetMetricsErrorSpikeRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Lower bound (inclusive) for the spike window. ISO 8601. */
+  dateFrom: string;
+  /** Upper bound (exclusive) for the spike window. Defaults to now if omitted. */
+  dateTo?: string;
+}
+export const GetMetricsErrorSpikeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    dateFrom: S.String.pipe(T.Query()),
+    dateTo: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/metrics/error_spikes/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetMetricsErrorSpikeRequest",
+}) as any as S.Schema<GetMetricsErrorSpikeRequest>;
+
+export interface MetricErrorSpike {
+  /** When the error spike was detected, ISO 8601. */
+  detected_at: string;
+  /** Error Tracking issue that spiked. */
+  issue_id: string;
+  /** Issue name, if one is set. */
+  issue_name: string | null;
+}
+export const MetricErrorSpike = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    detected_at: S.String,
+    issue_id: S.String,
+    issue_name: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "MetricErrorSpike",
+}) as any as S.Schema<MetricErrorSpike>;
+
+/** Error Tracking issue spikes detected in the window, newest first. Team-wide: not yet scoped to a specific metric's service. */
+export type MetricErrorSpikesResponseResultsList = Array<MetricErrorSpike>;
+export const MetricErrorSpikesResponseResultsList = /*@__PURE__*/ S.Array(
+  MetricErrorSpike,
+) as any as S.Schema<MetricErrorSpikesResponseResultsList>;
+
+export interface MetricErrorSpikesResponse {
+  /** Error Tracking issue spikes detected in the window, newest first. Team-wide: not yet scoped to a specific metric's service. */
+  results: MetricErrorSpikesResponseResultsList;
+}
+export const MetricErrorSpikesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: MetricErrorSpikesResponseResultsList,
+  }),
+).annotate({
+  identifier: "MetricErrorSpikesResponse",
+}) as any as S.Schema<MetricErrorSpikesResponse>;
+
+export interface GetMetricsHasMetricsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export const GetMetricsHasMetricsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/metrics/has_metrics/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetMetricsHasMetricsRequest",
+}) as any as S.Schema<GetMetricsHasMetricsRequest>;
+
+export interface HasMetricsResponse {
+  /** Whether the team has ingested any metrics. */
+  hasMetrics: boolean;
+}
+export const HasMetricsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hasMetrics: S.Boolean,
+  }),
+).annotate({
+  identifier: "HasMetricsResponse",
+}) as any as S.Schema<HasMetricsResponse>;
+
+export interface GetMetricsOverviewRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export const GetMetricsOverviewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/metrics/overview/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetMetricsOverviewRequest",
+}) as any as S.Schema<GetMetricsOverviewRequest>;
+
+export interface MetricsOverviewService {
+  /** Service that reported metrics inside the window. */
+  service_name: string;
+  /** Distinct metric names this service reported in the window. */
+  metric_names: number;
+  /** Distinct series (metric + label-set combinations) this service reported in the window. */
+  series: number;
+  /** When this service's newest datapoint arrived, ISO 8601. */
+  last_seen: string;
+}
+export const MetricsOverviewService = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    service_name: S.String,
+    metric_names: S.Number,
+    series: S.Number,
+    last_seen: S.String,
+  }),
+).annotate({
+  identifier: "MetricsOverviewService",
+}) as any as S.Schema<MetricsOverviewService>;
+
+/** Per-service rollup for the window, largest series count first. Capped at the 500 largest. */
+export type MetricsOverviewResponseServicesList = Array<MetricsOverviewService>;
+export const MetricsOverviewResponseServicesList = /*@__PURE__*/ S.Array(
+  MetricsOverviewService,
+) as any as S.Schema<MetricsOverviewResponseServicesList>;
+
+export interface MetricsOverviewResponse {
+  /** When the newest datapoint arrived across all series, ISO 8601. Unlike the counts this ignores the window, so it still answers 'when did ingestion stop'. Null when nothing was ever ingested. */
+  last_seen: string | null;
+  /** Distinct metric names reported inside the window. */
+  metric_names: number;
+  /** Distinct series (metric + label-set combinations) reported inside the window. */
+  series: number;
+  /** Length of the rollup window in seconds, so consumers can label the counts. */
+  lookback_seconds: number;
+  /** Per-service rollup for the window, largest series count first. Capped at the 500 largest. */
+  services: MetricsOverviewResponseServicesList;
+}
+export const MetricsOverviewResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    last_seen: S.NullOr(S.String),
+    metric_names: S.Number,
+    series: S.Number,
+    lookback_seconds: S.Number,
+    services: MetricsOverviewResponseServicesList,
+  }),
+).annotate({
+  identifier: "MetricsOverviewResponse",
+}) as any as S.Schema<MetricsOverviewResponse>;
+
+export interface GetMetricsValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Max number of names to return. Defaults to 100; maximum 1000. */
   limit?: number;
+  /** Comma-separated services to narrow the list to, e.g. `service=web,worker`. Omit for every service. Send it empty to select only series whose sender did not set `service.name`. A service name containing a comma cannot be selected. */
+  service?: string;
   /** Substring filter (case-insensitive) applied to metric names. */
   value?: string;
 }
-export const MetricsValuesRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetMetricsValueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
+    service: S.optional(S.String.pipe(T.Query())),
     value: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -469,8 +1112,8 @@ export const MetricsValuesRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "MetricsValuesRetrieveRequest",
-}) as any as S.Schema<MetricsValuesRetrieveRequest>;
+  identifier: "GetMetricsValueRequest",
+}) as any as S.Schema<GetMetricsValueRequest>;
 
 export interface MetricName {
   /** Metric name as it appears in the team's data. */
@@ -503,58 +1146,148 @@ export const MetricNamesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "MetricNamesResponse",
 }) as any as S.Schema<MetricNamesResponse>;
 
-export type MetricsCharacterizeCreateError = PosthogOpError;
+export type CreateMetricsCharacterizeError = PosthogOpError;
 /** Characterize a metric anomaly: compare an anomaly window against a baseline, find the onset, and rank which label values moved. */
-export const metricsCharacterizeCreate: API.OperationMethod<
-  MetricsCharacterizeCreateRequest,
+export const createMetricsCharacterize: API.OperationMethod<
+  CreateMetricsCharacterizeRequest,
   MetricAnomalyReport,
-  MetricsCharacterizeCreateError,
+  CreateMetricsCharacterizeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: MetricsCharacterizeCreateRequest,
+  input: CreateMetricsCharacterizeRequest,
   output: MetricAnomalyReport,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type MetricsHasMetricsRetrieveError = PosthogOpError;
-export const metricsHasMetricsRetrieve: API.OperationMethod<
-  MetricsHasMetricsRetrieveRequest,
-  MetricsHasMetricsRetrieveResponse,
-  MetricsHasMetricsRetrieveError,
+export type CreateMetricsExplainError = PosthogOpError;
+/** Take one chart point apart into the series and samples behind it, and recompute it independently so the plotted number can be checked rather than trusted. */
+export const createMetricsExplain: API.OperationMethod<
+  CreateMetricsExplainRequest,
+  MetricExplainResponse,
+  CreateMetricsExplainError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: MetricsHasMetricsRetrieveRequest,
-  output: MetricsHasMetricsRetrieveResponse,
+  input: CreateMetricsExplainRequest,
+  output: MetricExplainResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type MetricsQueryCreateError = PosthogOpError;
-export const metricsQueryCreate: API.OperationMethod<
-  MetricsQueryCreateRequest,
+export type CreateMetricsQueryError = PosthogOpError;
+export const createMetricsQuery: API.OperationMethod<
+  CreateMetricsQueryRequest,
   MetricQueryResponse,
-  MetricsQueryCreateError,
+  CreateMetricsQueryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: MetricsQueryCreateRequest,
+  input: CreateMetricsQueryRequest,
   output: MetricQueryResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type MetricsValuesRetrieveError = PosthogOpError;
-/** Distinct metric names for the team. Backs the picker UI. */
-export const metricsValuesRetrieve: API.OperationMethod<
-  MetricsValuesRetrieveRequest,
-  MetricNamesResponse,
-  MetricsValuesRetrieveError,
+export type CreateMetricsSampleError = PosthogOpError;
+/** Raw individual emissions for a metric (the events model), newest first — backs the Samples view and the metric->trace pivot. */
+export const createMetricsSample: API.OperationMethod<
+  CreateMetricsSampleRequest,
+  MetricSamplesResponse,
+  CreateMetricsSampleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: MetricsValuesRetrieveRequest,
+  input: CreateMetricsSampleRequest,
+  output: MetricSamplesResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetMetricsAttributeError = PosthogOpError;
+/** Distinct attribute keys seen on the team's metrics (datapoint and resource attributes merged), most frequent first. Backs the filter bar's key autocomplete. */
+export const getMetricsAttribute: API.OperationMethod<
+  GetMetricsAttributeRequest,
+  MetricAttributeKeysResponse,
+  GetMetricsAttributeError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMetricsAttributeRequest,
+  output: MetricAttributeKeysResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetMetricsAttributeValueError = PosthogOpError;
+/** Observed values for one metric attribute key, most frequent first. Backs the filter bar's value autocomplete. */
+export const getMetricsAttributeValue: API.OperationMethod<
+  GetMetricsAttributeValueRequest,
+  MetricAttributeValuesResponse,
+  GetMetricsAttributeValueError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMetricsAttributeValueRequest,
+  output: MetricAttributeValuesResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetMetricsErrorSpikeError = PosthogOpError;
+/** Error Tracking issue spikes detected in a time window — backs the metrics chart's error-spike overlay (PoC). Team-wide: not yet scoped to the metric's own service. */
+export const getMetricsErrorSpike: API.OperationMethod<
+  GetMetricsErrorSpikeRequest,
+  MetricErrorSpikesResponse,
+  GetMetricsErrorSpikeError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMetricsErrorSpikeRequest,
+  output: MetricErrorSpikesResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetMetricsHasMetricsError = PosthogOpError;
+export const getMetricsHasMetrics: API.OperationMethod<
+  GetMetricsHasMetricsRequest,
+  HasMetricsResponse,
+  GetMetricsHasMetricsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMetricsHasMetricsRequest,
+  output: HasMetricsResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetMetricsOverviewError = PosthogOpError;
+/** Ingestion rollup for the overview page: freshness of the newest datapoint plus per-service metric/series counts over the last day. */
+export const getMetricsOverview: API.OperationMethod<
+  GetMetricsOverviewRequest,
+  MetricsOverviewResponse,
+  GetMetricsOverviewError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMetricsOverviewRequest,
+  output: MetricsOverviewResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetMetricsValueError = PosthogOpError;
+/** Distinct metric names for the team. Backs the picker UI. */
+export const getMetricsValue: API.OperationMethod<
+  GetMetricsValueRequest,
+  MetricNamesResponse,
+  GetMetricsValueError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMetricsValueRequest,
   output: MetricNamesResponse,
   errors: [],
   protocol: PosthogProtocol,

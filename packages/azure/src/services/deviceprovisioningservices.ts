@@ -13,6 +13,316 @@ import * as Retry from "../retry.ts";
 
 export type { AzureOpError, AzureOpContext };
 
+export interface CheckIotDpsResourceProvisioningServiceNameAvailabilityRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the Provisioning Service to check. */
+  name: string;
+}
+export const CheckIotDpsResourceProvisioningServiceNameAvailabilityRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      name: S.String,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/checkProvisioningServiceNameAvailability",
+        code: 200,
+        apiVersion: "2026-08-31",
+      }),
+    ),
+  ).annotate({
+    identifier: "CheckIotDpsResourceProvisioningServiceNameAvailabilityRequest",
+  }) as any as S.Schema<CheckIotDpsResourceProvisioningServiceNameAvailabilityRequest>;
+
+/** specifies the reason a name is unavailable */
+export type NameUnavailabilityReason = "Invalid" | "AlreadyExists";
+export const NameUnavailabilityReason = S.String;
+
+/** Description of name availability. */
+export interface NameAvailabilityInfo {
+  /** specifies if a name is available or not */
+  nameAvailable?: boolean;
+  /** specifies the reason a name is unavailable */
+  reason?: NameUnavailabilityReason;
+  /** message containing a detailed reason name is unavailable */
+  message?: string;
+}
+export const NameAvailabilityInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nameAvailable: S.optional(S.Boolean),
+    reason: S.optional(NameUnavailabilityReason),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "NameAvailabilityInfo",
+}) as any as S.Schema<NameAvailabilityInfo>;
+
+export type DeleteDpsCertificateRequestCertificatePurpose =
+  | "clientAuthentication"
+  | "serverAuthentication";
+export const DeleteDpsCertificateRequestCertificatePurpose = S.String;
+
+export interface DeleteDpsCertificateRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the provisioning service to retrieve. */
+  provisioningServiceName: string;
+  /** Name of the certificate to retrieve. */
+  certificateName: string;
+  /** This is optional, and it is the Common Name of the certificate. */
+  certificate_name?: string;
+  /** Raw data within the certificate. */
+  certificate_rawBytes?: string;
+  /** Indicates if certificate has been verified by owner of the private key. */
+  certificate_isVerified?: boolean;
+  /** A description that mentions the purpose of the certificate. */
+  certificate_purpose?:
+    | DeleteDpsCertificateRequestCertificatePurpose
+    | (string & {});
+  /** Time the certificate is created. */
+  certificate_created?: string;
+  /** Certificate last updated time. */
+  certificate_lastUpdated?: string;
+  /** Indicates if the certificate contains a private key. */
+  certificate_hasPrivateKey?: boolean;
+  /** Random number generated to indicate Proof of Possession. */
+  certificate_nonce?: string;
+}
+export const DeleteDpsCertificateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    provisioningServiceName: S.String.pipe(T.Label()),
+    certificateName: S.String.pipe(T.Label()),
+    certificate_name: S.optional(S.String.pipe(T.Query("certificate.name"))),
+    certificate_rawBytes: S.optional(
+      S.String.pipe(T.Query("certificate.rawBytes")),
+    ),
+    certificate_isVerified: S.optional(
+      S.Boolean.pipe(T.Query("certificate.isVerified")),
+    ),
+    certificate_purpose: S.optional(
+      DeleteDpsCertificateRequestCertificatePurpose.pipe(
+        T.Query("certificate.purpose"),
+      ),
+    ),
+    certificate_created: S.optional(
+      S.String.pipe(T.Query("certificate.created")),
+    ),
+    certificate_lastUpdated: S.optional(
+      S.String.pipe(T.Query("certificate.lastUpdated")),
+    ),
+    certificate_hasPrivateKey: S.optional(
+      S.Boolean.pipe(T.Query("certificate.hasPrivateKey")),
+    ),
+    certificate_nonce: S.optional(S.String.pipe(T.Query("certificate.nonce"))),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}",
+      code: 200,
+      apiVersion: "2026-08-31",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteDpsCertificateRequest",
+}) as any as S.Schema<DeleteDpsCertificateRequest>;
+
+export interface DeleteDpsCertificateResponse {}
+export const DeleteDpsCertificateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteDpsCertificateResponse",
+}) as any as S.Schema<DeleteDpsCertificateResponse>;
+
+export interface DeleteIotDpsResourceRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the provisioning service to retrieve. */
+  provisioningServiceName: string;
+}
+export const DeleteIotDpsResourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    provisioningServiceName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
+      code: 200,
+      apiVersion: "2026-08-31",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteIotDpsResourceRequest",
+}) as any as S.Schema<DeleteIotDpsResourceRequest>;
+
+export interface DeleteIotDpsResourceResponse {}
+export const DeleteIotDpsResourceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteIotDpsResourceResponse",
+}) as any as S.Schema<DeleteIotDpsResourceResponse>;
+
+export interface DeleteIotDpsResourcePrivateEndpointConnectionRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the provisioning service to retrieve. */
+  resourceName: string;
+  /** The name of the private endpoint connection */
+  privateEndpointConnectionName: string;
+}
+export const DeleteIotDpsResourcePrivateEndpointConnectionRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+      privateEndpointConnectionName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+        code: 200,
+        apiVersion: "2026-08-31",
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteIotDpsResourcePrivateEndpointConnectionRequest",
+  }) as any as S.Schema<DeleteIotDpsResourcePrivateEndpointConnectionRequest>;
+
+/** The type of identity that created the resource. */
+export type SystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const SystemDataCreatedByType = S.String;
+
+/** The type of identity that last modified the resource. */
+export type SystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const SystemDataLastModifiedByType = S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: SystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: SystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const SystemData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createdBy: S.optional(S.String),
+    createdByType: S.optional(SystemDataCreatedByType),
+    createdAt: S.optional(S.String),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedByType: S.optional(SystemDataLastModifiedByType),
+    lastModifiedAt: S.optional(S.String),
+  }),
+).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
+
+/** The private endpoint property of a private endpoint connection */
+export interface PrivateEndpoint {
+  /** The resource identifier. */
+  id?: string;
+}
+export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PrivateEndpoint",
+}) as any as S.Schema<PrivateEndpoint>;
+
+/** The status of a private endpoint connection */
+export type PrivateLinkServiceConnectionStatus =
+  | "Pending"
+  | "Approved"
+  | "Rejected"
+  | "Disconnected";
+export const PrivateLinkServiceConnectionStatus = S.String;
+
+/** The current state of a private endpoint connection */
+export interface PrivateLinkServiceConnectionState {
+  /** The status of a private endpoint connection */
+  status: PrivateLinkServiceConnectionStatus | (string & {});
+  /** The description for the current state of a private endpoint connection */
+  description: string;
+  /** Actions required for a private endpoint connection */
+  actionsRequired?: string;
+}
+export const PrivateLinkServiceConnectionState = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: PrivateLinkServiceConnectionStatus,
+    description: S.String,
+    actionsRequired: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PrivateLinkServiceConnectionState",
+}) as any as S.Schema<PrivateLinkServiceConnectionState>;
+
+/** The properties of a private endpoint connection */
+export interface PrivateEndpointConnectionProperties {
+  /** The private endpoint property of a private endpoint connection */
+  privateEndpoint?: PrivateEndpoint;
+  /** The current state of a private endpoint connection */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+}
+export const PrivateEndpointConnectionProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    privateEndpoint: S.optional(PrivateEndpoint),
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState,
+  }),
+).annotate({
+  identifier: "PrivateEndpointConnectionProperties",
+}) as any as S.Schema<PrivateEndpointConnectionProperties>;
+
+export interface DeleteIotDpsResourcePrivateEndpointConnectionResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The properties of a private endpoint connection */
+  properties: PrivateEndpointConnectionProperties;
+}
+export const DeleteIotDpsResourcePrivateEndpointConnectionResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: PrivateEndpointConnectionProperties,
+    }),
+  ).annotate({
+    identifier: "DeleteIotDpsResourcePrivateEndpointConnectionResponse",
+  }) as any as S.Schema<DeleteIotDpsResourcePrivateEndpointConnectionResponse>;
+
 /** The description of an X509 CA Certificate. */
 export interface CertificatePropertiesInput {
   /** Determines whether certificate has been verified. */
@@ -30,13 +340,13 @@ export const CertificatePropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CertificatePropertiesInput>;
 
 export interface DpsCertificateCreateOrUpdateRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. */
   subscriptionId: string;
-  /** Resource group identifier. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the provisioning service. */
+  /** Name of the provisioning service to retrieve. */
   provisioningServiceName: string;
-  /** The name of the certificate create or update. */
+  /** Name of the certificate to retrieve. */
   certificateName: string;
   /** properties of a certificate */
   properties?: CertificatePropertiesInput;
@@ -53,7 +363,7 @@ export const DpsCertificateCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}",
       code: 200,
-      apiVersion: "2022-12-12",
+      apiVersion: "2026-08-31",
     }),
   ),
 ).annotate({
@@ -91,177 +401,48 @@ export const CertificateProperties = /*@__PURE__*/ S.suspend(() =>
   identifier: "CertificateProperties",
 }) as any as S.Schema<CertificateProperties>;
 
-/** The type of identity that created the resource. */
-export type CertificateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const CertificateResponseSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type CertificateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const CertificateResponseSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface CertificateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CertificateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CertificateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const CertificateResponseSystemData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    createdBy: S.optional(S.String),
-    createdByType: S.optional(CertificateResponseSystemDataCreatedByType),
-    createdAt: S.optional(S.String),
-    lastModifiedBy: S.optional(S.String),
-    lastModifiedByType: S.optional(
-      CertificateResponseSystemDataLastModifiedByType,
-    ),
-    lastModifiedAt: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CertificateResponseSystemData",
-}) as any as S.Schema<CertificateResponseSystemData>;
-
-/** The X509 Certificate. */
-export interface CertificateResponse {
+export interface DpsCertificateCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** properties of a certificate */
   properties?: CertificateProperties;
-  /** The resource identifier. */
-  id?: string;
-  /** The name of the certificate. */
-  name?: string;
   /** The entity tag. */
   etag?: string;
-  /** The resource type. */
-  type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CertificateResponseSystemData;
 }
-export const CertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    properties: S.optional(CertificateProperties),
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    etag: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(CertificateResponseSystemData),
-  }),
-).annotate({
-  identifier: "CertificateResponse",
-}) as any as S.Schema<CertificateResponse>;
-
-export type DpsCertificateDeleteRequestCertificatePurpose =
-  | "clientAuthentication"
-  | "serverAuthentication";
-export const DpsCertificateDeleteRequestCertificatePurpose =
-  /*@__PURE__*/ S.String;
-
-export interface DpsCertificateDeleteRequest {
-  /** The subscription identifier. */
-  subscriptionId: string;
-  /** Resource group identifier. */
-  resourceGroupName: string;
-  /** The name of the provisioning service. */
-  provisioningServiceName: string;
-  /** This is a mandatory field, and is the logical name of the certificate that the provisioning service will access by. */
-  certificateName: string;
-  /** This is optional, and it is the Common Name of the certificate. */
-  certificate_name?: string;
-  /** Raw data within the certificate. */
-  certificate_rawBytes?: string;
-  /** Indicates if certificate has been verified by owner of the private key. */
-  certificate_isVerified?: boolean;
-  /** A description that mentions the purpose of the certificate. */
-  certificate_purpose?:
-    | DpsCertificateDeleteRequestCertificatePurpose
-    | (string & {});
-  /** Time the certificate is created. */
-  certificate_created?: string;
-  /** Time the certificate is last updated. */
-  certificate_lastUpdated?: string;
-  /** Indicates if the certificate contains a private key. */
-  certificate_hasPrivateKey?: boolean;
-  /** Random number generated to indicate Proof of Possession. */
-  certificate_nonce?: string;
-}
-export const DpsCertificateDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    provisioningServiceName: S.String.pipe(T.Label()),
-    certificateName: S.String.pipe(T.Label()),
-    certificate_name: S.optional(S.String.pipe(T.Query("certificate.name"))),
-    certificate_rawBytes: S.optional(
-      S.String.pipe(T.Query("certificate.rawBytes")),
-    ),
-    certificate_isVerified: S.optional(
-      S.Boolean.pipe(T.Query("certificate.isVerified")),
-    ),
-    certificate_purpose: S.optional(
-      DpsCertificateDeleteRequestCertificatePurpose.pipe(
-        T.Query("certificate.purpose"),
-      ),
-    ),
-    certificate_created: S.optional(
-      S.String.pipe(T.Query("certificate.created")),
-    ),
-    certificate_lastUpdated: S.optional(
-      S.String.pipe(T.Query("certificate.lastUpdated")),
-    ),
-    certificate_hasPrivateKey: S.optional(
-      S.Boolean.pipe(T.Query("certificate.hasPrivateKey")),
-    ),
-    certificate_nonce: S.optional(S.String.pipe(T.Query("certificate.nonce"))),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}",
-      code: 200,
-      apiVersion: "2022-12-12",
+export const DpsCertificateCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: S.optional(CertificateProperties),
+      etag: S.optional(S.String),
     }),
-  ),
 ).annotate({
-  identifier: "DpsCertificateDeleteRequest",
-}) as any as S.Schema<DpsCertificateDeleteRequest>;
+  identifier: "DpsCertificateCreateOrUpdateResponse",
+}) as any as S.Schema<DpsCertificateCreateOrUpdateResponse>;
 
-export interface DpsCertificateDeleteResponse {}
-export const DpsCertificateDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DpsCertificateDeleteResponse",
-}) as any as S.Schema<DpsCertificateDeleteResponse>;
-
-export type DpsCertificateGenerateVerificationCodeRequestCertificatePurpose =
+export type GenerateDpsCertificateVerificationCodeRequestCertificatePurpose =
   | "clientAuthentication"
   | "serverAuthentication";
-export const DpsCertificateGenerateVerificationCodeRequestCertificatePurpose =
-  /*@__PURE__*/ S.String;
+export const GenerateDpsCertificateVerificationCodeRequestCertificatePurpose =
+  S.String;
 
-export interface DpsCertificateGenerateVerificationCodeRequest {
-  /** The subscription identifier. */
+export interface GenerateDpsCertificateVerificationCodeRequest {
+  /** The ID of the target subscription. */
   subscriptionId: string;
-  /** name of resource group. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** Name of provisioning service. */
+  /** Name of the provisioning service to retrieve. */
   provisioningServiceName: string;
-  /** The mandatory logical name of the certificate, that the provisioning service uses to access. */
+  /** Name of the certificate to retrieve. */
   certificateName: string;
   /** Common Name for the certificate. */
   certificate_name?: string;
@@ -271,9 +452,9 @@ export interface DpsCertificateGenerateVerificationCodeRequest {
   certificate_isVerified?: boolean;
   /** Description mentioning the purpose of the certificate. */
   certificate_purpose?:
-    | DpsCertificateGenerateVerificationCodeRequestCertificatePurpose
+    | GenerateDpsCertificateVerificationCodeRequestCertificatePurpose
     | (string & {});
-  /** Certificate creation time. */
+  /** Time the certificate is created. */
   certificate_created?: string;
   /** Certificate last updated time. */
   certificate_lastUpdated?: string;
@@ -282,7 +463,7 @@ export interface DpsCertificateGenerateVerificationCodeRequest {
   /** Random number generated to indicate Proof of Possession. */
   certificate_nonce?: string;
 }
-export const DpsCertificateGenerateVerificationCodeRequest =
+export const GenerateDpsCertificateVerificationCodeRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -297,7 +478,7 @@ export const DpsCertificateGenerateVerificationCodeRequest =
         S.Boolean.pipe(T.Query("certificate.isVerified")),
       ),
       certificate_purpose: S.optional(
-        DpsCertificateGenerateVerificationCodeRequestCertificatePurpose.pipe(
+        GenerateDpsCertificateVerificationCodeRequestCertificatePurpose.pipe(
           T.Query("certificate.purpose"),
         ),
       ),
@@ -318,12 +499,12 @@ export const DpsCertificateGenerateVerificationCodeRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/generateVerificationCode",
         code: 200,
-        apiVersion: "2022-12-12",
+        apiVersion: "2026-08-31",
       }),
     ),
   ).annotate({
-    identifier: "DpsCertificateGenerateVerificationCodeRequest",
-  }) as any as S.Schema<DpsCertificateGenerateVerificationCodeRequest>;
+    identifier: "GenerateDpsCertificateVerificationCodeRequest",
+  }) as any as S.Schema<GenerateDpsCertificateVerificationCodeRequest>;
 
 export interface VerificationCodeResponseProperties {
   /** Verification code. */
@@ -382,17 +563,17 @@ export const VerificationCodeResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "VerificationCodeResponse",
 }) as any as S.Schema<VerificationCodeResponse>;
 
-export interface DpsCertificateGetRequest {
-  /** The subscription identifier. */
+export interface GetDpsCertificateRequest {
+  /** The ID of the target subscription. */
   subscriptionId: string;
-  /** Resource group identifier. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** Name of the provisioning service the certificate is associated with. */
+  /** Name of the provisioning service to retrieve. */
   provisioningServiceName: string;
   /** Name of the certificate to retrieve. */
   certificateName: string;
 }
-export const DpsCertificateGetRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetDpsCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -403,22 +584,49 @@ export const DpsCertificateGetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}",
       code: 200,
-      apiVersion: "2022-12-12",
+      apiVersion: "2026-08-31",
     }),
   ),
 ).annotate({
-  identifier: "DpsCertificateGetRequest",
-}) as any as S.Schema<DpsCertificateGetRequest>;
+  identifier: "GetDpsCertificateRequest",
+}) as any as S.Schema<GetDpsCertificateRequest>;
 
-export interface DpsCertificateListRequest {
-  /** The subscription identifier. */
+export interface GetDpsCertificateResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** properties of a certificate */
+  properties?: CertificateProperties;
+  /** The entity tag. */
+  etag?: string;
+}
+export const GetDpsCertificateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: S.optional(CertificateProperties),
+    etag: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetDpsCertificateResponse",
+}) as any as S.Schema<GetDpsCertificateResponse>;
+
+export interface GetIotDpsResourceRequest {
+  /** The ID of the target subscription. */
   subscriptionId: string;
-  /** Name of resource group. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** Name of provisioning service to retrieve certificates for. */
+  /** Name of the provisioning service to retrieve. */
   provisioningServiceName: string;
 }
-export const DpsCertificateListRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetIotDpsResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -426,172 +634,26 @@ export const DpsCertificateListRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
       code: 200,
-      apiVersion: "2022-12-12",
+      apiVersion: "2026-08-31",
     }),
   ),
 ).annotate({
-  identifier: "DpsCertificateListRequest",
-}) as any as S.Schema<DpsCertificateListRequest>;
+  identifier: "GetIotDpsResourceRequest",
+}) as any as S.Schema<GetIotDpsResourceRequest>;
 
-/** The array of Certificate objects. */
-export type CertificateListDescriptionValueList = Array<CertificateResponse>;
-export const CertificateListDescriptionValueList = /*@__PURE__*/ S.Array(
-  CertificateResponse,
-) as any as S.Schema<CertificateListDescriptionValueList>;
-
-/** The JSON-serialized array of Certificate objects. */
-export interface CertificateListDescription {
-  /** The array of Certificate objects. */
-  value?: CertificateListDescriptionValueList;
-}
-export const CertificateListDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(CertificateListDescriptionValueList),
-  }),
-).annotate({
-  identifier: "CertificateListDescription",
-}) as any as S.Schema<CertificateListDescription>;
-
-export type DpsCertificateVerifyCertificateRequestCertificatePurpose =
-  | "clientAuthentication"
-  | "serverAuthentication";
-export const DpsCertificateVerifyCertificateRequestCertificatePurpose =
-  /*@__PURE__*/ S.String;
-
-export interface DpsCertificateVerifyCertificateRequest {
-  /** The subscription identifier. */
-  subscriptionId: string;
-  /** Resource group name. */
-  resourceGroupName: string;
-  /** Provisioning service name. */
-  provisioningServiceName: string;
-  /** The mandatory logical name of the certificate, that the provisioning service uses to access. */
-  certificateName: string;
-  /** Common Name for the certificate. */
-  certificate_name?: string;
-  /** Raw data of certificate. */
-  certificate_rawBytes?: string;
-  /** Indicates if the certificate has been verified by owner of the private key. */
-  certificate_isVerified?: boolean;
-  /** Describe the purpose of the certificate. */
-  certificate_purpose?:
-    | DpsCertificateVerifyCertificateRequestCertificatePurpose
-    | (string & {});
-  /** Certificate creation time. */
-  certificate_created?: string;
-  /** Certificate last updated time. */
-  certificate_lastUpdated?: string;
-  /** Indicates if the certificate contains private key. */
-  certificate_hasPrivateKey?: boolean;
-  /** Random number generated to indicate Proof of Possession. */
-  certificate_nonce?: string;
-  /** base-64 representation of X509 certificate .cer file or just .pem file content. */
-  certificate?: string;
-}
-export const DpsCertificateVerifyCertificateRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      provisioningServiceName: S.String.pipe(T.Label()),
-      certificateName: S.String.pipe(T.Label()),
-      certificate_name: S.optional(S.String.pipe(T.Query("certificate.name"))),
-      certificate_rawBytes: S.optional(
-        S.String.pipe(T.Query("certificate.rawBytes")),
-      ),
-      certificate_isVerified: S.optional(
-        S.Boolean.pipe(T.Query("certificate.isVerified")),
-      ),
-      certificate_purpose: S.optional(
-        DpsCertificateVerifyCertificateRequestCertificatePurpose.pipe(
-          T.Query("certificate.purpose"),
-        ),
-      ),
-      certificate_created: S.optional(
-        S.String.pipe(T.Query("certificate.created")),
-      ),
-      certificate_lastUpdated: S.optional(
-        S.String.pipe(T.Query("certificate.lastUpdated")),
-      ),
-      certificate_hasPrivateKey: S.optional(
-        S.Boolean.pipe(T.Query("certificate.hasPrivateKey")),
-      ),
-      certificate_nonce: S.optional(
-        S.String.pipe(T.Query("certificate.nonce")),
-      ),
-      certificate: S.optional(S.String),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/verify",
-        code: 200,
-        apiVersion: "2022-12-12",
-      }),
-    ),
-).annotate({
-  identifier: "DpsCertificateVerifyCertificateRequest",
-}) as any as S.Schema<DpsCertificateVerifyCertificateRequest>;
-
-export interface IotDpsResourceCheckProvisioningServiceNameAvailabilityRequest {
-  /** The subscription identifier. */
-  subscriptionId: string;
-  /** The name of the Provisioning Service to check. */
-  name: string;
-}
-export const IotDpsResourceCheckProvisioningServiceNameAvailabilityRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      name: S.String,
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/checkProvisioningServiceNameAvailability",
-        code: 200,
-        apiVersion: "2022-12-12",
-      }),
-    ),
-  ).annotate({
-    identifier: "IotDpsResourceCheckProvisioningServiceNameAvailabilityRequest",
-  }) as any as S.Schema<IotDpsResourceCheckProvisioningServiceNameAvailabilityRequest>;
-
-/** specifies the reason a name is unavailable */
-export type NameAvailabilityInfoReason = "Invalid" | "AlreadyExists";
-export const NameAvailabilityInfoReason = /*@__PURE__*/ S.String;
-
-/** Description of name availability. */
-export interface NameAvailabilityInfo {
-  /** specifies if a name is available or not */
-  nameAvailable?: boolean;
-  /** specifies the reason a name is unavailable */
-  reason?: NameAvailabilityInfoReason;
-  /** message containing a detailed reason name is unavailable */
-  message?: string;
-}
-export const NameAvailabilityInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nameAvailable: S.optional(S.Boolean),
-    reason: S.optional(NameAvailabilityInfoReason),
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NameAvailabilityInfo",
-}) as any as S.Schema<NameAvailabilityInfo>;
-
-/** The resource tags. */
-export type IotDpsResourceCreateOrUpdateRequestTagsMap = {
+/** Resource tags. */
+export type GetIotDpsResourceResponseTagsMap = {
   [key: string]: string | undefined;
 };
-export const IotDpsResourceCreateOrUpdateRequestTagsMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.String,
-  ) as any as S.Schema<IotDpsResourceCreateOrUpdateRequestTagsMap>;
+export const GetIotDpsResourceResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<GetIotDpsResourceResponseTagsMap>;
 
 /** Current state of the provisioning service. */
-export type IotDpsPropertiesDescriptionInputState =
+export type State =
   | "Activating"
   | "Active"
   | "Deleting"
@@ -604,42 +666,567 @@ export type IotDpsPropertiesDescriptionInputState =
   | "Resuming"
   | "FailingOver"
   | "FailoverFailed";
-export const IotDpsPropertiesDescriptionInputState = /*@__PURE__*/ S.String;
+export const State = S.String;
 
 /** Whether requests from Public Network are allowed */
-export type IotDpsPropertiesDescriptionInputPublicNetworkAccess =
-  | "Enabled"
-  | "Disabled";
-export const IotDpsPropertiesDescriptionInputPublicNetworkAccess =
-  /*@__PURE__*/ S.String;
+export type PublicNetworkAccess = "Enabled" | "Disabled";
+export const PublicNetworkAccess = S.String;
 
 /** The desired action for requests captured by this rule. */
-export type IpFilterRuleAction = "Accept" | "Reject";
-export const IpFilterRuleAction = /*@__PURE__*/ S.String;
+export type IpFilterActionType = "Accept" | "Reject";
+export const IpFilterActionType = S.String;
 
 /** Target for requests captured by this rule. */
-export type IpFilterRuleTarget = "all" | "serviceApi" | "deviceApi";
-export const IpFilterRuleTarget = /*@__PURE__*/ S.String;
+export type IpFilterTargetType = "all" | "serviceApi" | "deviceApi";
+export const IpFilterTargetType = S.String;
 
 /** The IP filter rules for a provisioning Service. */
 export interface IpFilterRule {
   /** The name of the IP filter rule. */
   filterName: string;
   /** The desired action for requests captured by this rule. */
-  action: IpFilterRuleAction | (string & {});
+  action: IpFilterActionType | (string & {});
   /** A string that contains the IP address range in CIDR notation for the rule. */
   ipMask: string;
   /** Target for requests captured by this rule. */
-  target?: IpFilterRuleTarget | (string & {});
+  target?: IpFilterTargetType | (string & {});
 }
 export const IpFilterRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filterName: S.String,
-    action: IpFilterRuleAction,
+    action: IpFilterActionType,
     ipMask: S.String,
-    target: S.optional(IpFilterRuleTarget),
+    target: S.optional(IpFilterTargetType),
   }),
 ).annotate({ identifier: "IpFilterRule" }) as any as S.Schema<IpFilterRule>;
+
+/** The IP filter rules. */
+export type IotDpsPropertiesDescriptionIpFilterRulesList = Array<IpFilterRule>;
+export const IotDpsPropertiesDescriptionIpFilterRulesList =
+  /*@__PURE__*/ S.Array(
+    IpFilterRule,
+  ) as any as S.Schema<IotDpsPropertiesDescriptionIpFilterRulesList>;
+
+/** The private endpoint connection of a provisioning service */
+export interface PrivateEndpointConnection {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The properties of a private endpoint connection */
+  properties: PrivateEndpointConnectionProperties;
+}
+export const PrivateEndpointConnection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: PrivateEndpointConnectionProperties,
+  }),
+).annotate({
+  identifier: "PrivateEndpointConnection",
+}) as any as S.Schema<PrivateEndpointConnection>;
+
+/** Private endpoint connections created on this IotHub */
+export type IotDpsPropertiesDescriptionPrivateEndpointConnectionsList =
+  Array<PrivateEndpointConnection>;
+export const IotDpsPropertiesDescriptionPrivateEndpointConnectionsList =
+  /*@__PURE__*/ S.Array(
+    PrivateEndpointConnection,
+  ) as any as S.Schema<IotDpsPropertiesDescriptionPrivateEndpointConnectionsList>;
+
+/** IotHub MI authentication type: KeyBased, UserAssigned, SystemAssigned. */
+export type IotHubAuthenticationType =
+  | "KeyBased"
+  | "UserAssigned"
+  | "SystemAssigned";
+export const IotHubAuthenticationType = S.String;
+
+/** Description of the IoT hub. */
+export interface IotHubDefinitionDescription {
+  /** flag for applying allocationPolicy or not for a given iot hub. */
+  applyAllocationPolicy?: boolean;
+  /** weight to apply for a given iot h. */
+  allocationWeight?: number;
+  /** Host name of the IoT hub. */
+  name?: string;
+  /** Host name of the IoT hub. This is required when connectionString is not provided. */
+  hostName?: string;
+  /** IotHub MI authentication type: KeyBased, UserAssigned, SystemAssigned. */
+  authenticationType?: IotHubAuthenticationType;
+  /** The selected user-assigned identity resource Id associated with IoT hub. This is required when authenticationType is UserAssigned. */
+  selectedUserAssignedIdentityResourceId?: string;
+  /** Connection string of the IoT hub. This is required when authenticationType is KeyBased. */
+  connectionString?: string | Redacted.Redacted<string>;
+  /** ARM region of the IoT hub. */
+  location: string;
+}
+export const IotHubDefinitionDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applyAllocationPolicy: S.optional(S.Boolean),
+    allocationWeight: S.optional(S.Number),
+    name: S.optional(S.String),
+    hostName: S.optional(S.String),
+    authenticationType: S.optional(IotHubAuthenticationType),
+    selectedUserAssignedIdentityResourceId: S.optional(S.String),
+    connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    location: S.String,
+  }),
+).annotate({
+  identifier: "IotHubDefinitionDescription",
+}) as any as S.Schema<IotHubDefinitionDescription>;
+
+/** List of IoT hubs associated with this provisioning service. */
+export type IotDpsPropertiesDescriptionIotHubsList =
+  Array<IotHubDefinitionDescription>;
+export const IotDpsPropertiesDescriptionIotHubsList = /*@__PURE__*/ S.Array(
+  IotHubDefinitionDescription,
+) as any as S.Schema<IotDpsPropertiesDescriptionIotHubsList>;
+
+/** Allocation policy to be used by this provisioning service. */
+export type AllocationPolicy = "Hashed" | "GeoLatency" | "Static";
+export const AllocationPolicy = S.String;
+
+/** Rights that this key has. */
+export type AccessRightsDescription =
+  | "ServiceConfig"
+  | "EnrollmentRead"
+  | "EnrollmentWrite"
+  | "DeviceConnect"
+  | "RegistrationStatusRead"
+  | "RegistrationStatusWrite";
+export const AccessRightsDescription = S.String;
+
+/** Description of the shared access key. */
+export interface SharedAccessSignatureAuthorizationRuleAccessRightsDescription {
+  /** Name of the key. */
+  keyName: string;
+  /** Primary SAS key value. */
+  primaryKey?: string;
+  /** Secondary SAS key value. */
+  secondaryKey?: string;
+  /** Rights that this key has. */
+  rights: AccessRightsDescription | (string & {});
+}
+export const SharedAccessSignatureAuthorizationRuleAccessRightsDescription =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      keyName: S.String,
+      primaryKey: S.optional(S.String),
+      secondaryKey: S.optional(S.String),
+      rights: AccessRightsDescription,
+    }),
+  ).annotate({
+    identifier: "SharedAccessSignatureAuthorizationRuleAccessRightsDescription",
+  }) as any as S.Schema<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
+
+/** List of authorization keys for a provisioning service. */
+export type IotDpsPropertiesDescriptionAuthorizationPoliciesList =
+  Array<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
+export const IotDpsPropertiesDescriptionAuthorizationPoliciesList =
+  /*@__PURE__*/ S.Array(
+    SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
+  ) as any as S.Schema<IotDpsPropertiesDescriptionAuthorizationPoliciesList>;
+
+/** the service specific properties of a provisioning service, including keys, linked iot hubs, current state, and system generated properties such as hostname and idScope */
+export interface IotDpsPropertiesDescription {
+  /** Current state of the provisioning service. */
+  state?: State;
+  /** Whether requests from Public Network are allowed */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** The IP filter rules. */
+  ipFilterRules?: IotDpsPropertiesDescriptionIpFilterRulesList;
+  /** Private endpoint connections created on this IotHub */
+  privateEndpointConnections?: IotDpsPropertiesDescriptionPrivateEndpointConnectionsList;
+  /** The ARM provisioning state of the provisioning service. */
+  provisioningState?: string;
+  /** List of IoT hubs associated with this provisioning service. */
+  iotHubs?: IotDpsPropertiesDescriptionIotHubsList;
+  /** Allocation policy to be used by this provisioning service. */
+  allocationPolicy?: AllocationPolicy;
+  /** Service endpoint for provisioning service. */
+  serviceOperationsHostName?: string;
+  /** Device endpoint for this provisioning service. */
+  deviceProvisioningHostName?: string;
+  /** Unique identifier of this provisioning service. */
+  idScope?: string;
+  /** List of authorization keys for a provisioning service. */
+  authorizationPolicies?: IotDpsPropertiesDescriptionAuthorizationPoliciesList;
+  /** Optional. Indicates if the DPS instance has Data Residency enabled, removing the cross geo-pair disaster recovery. */
+  enableDataResidency?: boolean;
+  /** Portal endpoint to enable CORS for this provisioning service. */
+  portalOperationsHostName?: string;
+  /** Disables all authentication methods other than Azure RBAC. */
+  disableLocalAuth?: boolean;
+}
+export const IotDpsPropertiesDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.optional(State),
+    publicNetworkAccess: S.optional(PublicNetworkAccess),
+    ipFilterRules: S.optional(IotDpsPropertiesDescriptionIpFilterRulesList),
+    privateEndpointConnections: S.optional(
+      IotDpsPropertiesDescriptionPrivateEndpointConnectionsList,
+    ),
+    provisioningState: S.optional(S.String),
+    iotHubs: S.optional(IotDpsPropertiesDescriptionIotHubsList),
+    allocationPolicy: S.optional(AllocationPolicy),
+    serviceOperationsHostName: S.optional(S.String),
+    deviceProvisioningHostName: S.optional(S.String),
+    idScope: S.optional(S.String),
+    authorizationPolicies: S.optional(
+      IotDpsPropertiesDescriptionAuthorizationPoliciesList,
+    ),
+    enableDataResidency: S.optional(S.Boolean),
+    portalOperationsHostName: S.optional(S.String),
+    disableLocalAuth: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "IotDpsPropertiesDescription",
+}) as any as S.Schema<IotDpsPropertiesDescription>;
+
+/** Sku name. */
+export type IotDpsSku = "S1";
+export const IotDpsSku = S.String;
+
+/** List of possible provisioning service SKUs. */
+export interface IotDpsSkuInfo {
+  /** Sku name. */
+  name?: IotDpsSku;
+  /** Pricing tier name of the provisioning service. */
+  tier?: string;
+  /** The number of units to provision */
+  capacity?: number;
+}
+export const IotDpsSkuInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(IotDpsSku),
+    tier: S.optional(S.String),
+    capacity: S.optional(S.Number),
+  }),
+).annotate({ identifier: "IotDpsSkuInfo" }) as any as S.Schema<IotDpsSkuInfo>;
+
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export type ManagedServiceIdentityType =
+  | "None"
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned,UserAssigned";
+export const ManagedServiceIdentityType = S.String;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  principalId?: string;
+  /** The client ID of the assigned identity. */
+  clientId?: string;
+}
+export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    clientId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UserAssignedIdentity",
+}) as any as S.Schema<UserAssignedIdentity>;
+
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type UserAssignedIdentities = {
+  [key: string]: UserAssignedIdentity | undefined;
+};
+export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
+  S.String,
+  UserAssignedIdentity,
+) as any as S.Schema<UserAssignedIdentities>;
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface GetIotDpsResourceResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  type: ManagedServiceIdentityType;
+  userAssignedIdentities?: UserAssignedIdentities | null;
+}
+export const GetIotDpsResourceResponseIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    type: ManagedServiceIdentityType,
+    userAssignedIdentities: S.optional(S.NullOr(UserAssignedIdentities)),
+  }),
+).annotate({
+  identifier: "GetIotDpsResourceResponseIdentity",
+}) as any as S.Schema<GetIotDpsResourceResponseIdentity>;
+
+export interface GetIotDpsResourceResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: GetIotDpsResourceResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
+  etag?: string;
+  /** The resource group of the resource. */
+  resourcegroup?: string;
+  /** The subscription id of the resource. */
+  subscriptionid?: string;
+  /** Service specific properties for a provisioning service */
+  properties: IotDpsPropertiesDescription;
+  /** Sku info for a provisioning Service. */
+  sku: IotDpsSkuInfo;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: GetIotDpsResourceResponseIdentity;
+}
+export const GetIotDpsResourceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(GetIotDpsResourceResponseTagsMap),
+    location: S.String,
+    etag: S.optional(S.String),
+    resourcegroup: S.optional(S.String),
+    subscriptionid: S.optional(S.String),
+    properties: IotDpsPropertiesDescription,
+    sku: IotDpsSkuInfo,
+    identity: S.optional(GetIotDpsResourceResponseIdentity),
+  }),
+).annotate({
+  identifier: "GetIotDpsResourceResponse",
+}) as any as S.Schema<GetIotDpsResourceResponse>;
+
+export interface GetIotDpsResourceOperationResultRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the provisioning service to retrieve. */
+  provisioningServiceName: string;
+  /** Operation id corresponding to long running operation. Use this to poll for the status. */
+  operationId: string;
+  /** Async header used to poll on the status of the operation, obtained while creating the long running operation. */
+  asyncinfo: string;
+}
+export const GetIotDpsResourceOperationResultRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      provisioningServiceName: S.String.pipe(T.Label()),
+      operationId: S.String.pipe(T.Label()),
+      asyncinfo: S.String.pipe(T.Query()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/operationresults/{operationId}",
+        code: 200,
+        apiVersion: "2026-08-31",
+      }),
+    ),
+).annotate({
+  identifier: "GetIotDpsResourceOperationResultRequest",
+}) as any as S.Schema<GetIotDpsResourceOperationResultRequest>;
+
+/** Error response containing message and code. */
+export interface ErrorMessage {
+  /** standard error code */
+  code?: string;
+  /** standard error description */
+  message?: string;
+  /** detailed summary of error */
+  details?: string;
+}
+export const ErrorMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+    details: S.optional(S.String),
+  }),
+).annotate({ identifier: "ErrorMessage" }) as any as S.Schema<ErrorMessage>;
+
+/** Result of a long running operation. */
+export interface AsyncOperationResult {
+  /** current status of a long running operation. */
+  status?: string;
+  /** Error message containing code, description and details */
+  error?: ErrorMessage;
+}
+export const AsyncOperationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    error: S.optional(ErrorMessage),
+  }),
+).annotate({
+  identifier: "AsyncOperationResult",
+}) as any as S.Schema<AsyncOperationResult>;
+
+export interface GetIotDpsResourcePrivateEndpointConnectionRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the provisioning service to retrieve. */
+  resourceName: string;
+  /** The name of the private endpoint connection */
+  privateEndpointConnectionName: string;
+}
+export const GetIotDpsResourcePrivateEndpointConnectionRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+      privateEndpointConnectionName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+        code: 200,
+        apiVersion: "2026-08-31",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetIotDpsResourcePrivateEndpointConnectionRequest",
+  }) as any as S.Schema<GetIotDpsResourcePrivateEndpointConnectionRequest>;
+
+export interface GetIotDpsResourcePrivateEndpointConnectionResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The properties of a private endpoint connection */
+  properties: PrivateEndpointConnectionProperties;
+}
+export const GetIotDpsResourcePrivateEndpointConnectionResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: PrivateEndpointConnectionProperties,
+    }),
+  ).annotate({
+    identifier: "GetIotDpsResourcePrivateEndpointConnectionResponse",
+  }) as any as S.Schema<GetIotDpsResourcePrivateEndpointConnectionResponse>;
+
+export interface GetIotDpsResourcePrivateLinkResourcesRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the provisioning service to retrieve. */
+  resourceName: string;
+  /** The name of the private link resource */
+  groupId: string;
+}
+export const GetIotDpsResourcePrivateLinkResourcesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      resourceName: S.String.pipe(T.Label()),
+      groupId: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateLinkResources/{groupId}",
+        code: 200,
+        apiVersion: "2026-08-31",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetIotDpsResourcePrivateLinkResourcesRequest",
+  }) as any as S.Schema<GetIotDpsResourcePrivateLinkResourcesRequest>;
+
+/** The required members for a specific group id */
+export type GroupIdInformationPropertiesRequiredMembersList = Array<string>;
+export const GroupIdInformationPropertiesRequiredMembersList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GroupIdInformationPropertiesRequiredMembersList>;
+
+/** The required DNS zones for a specific group id */
+export type GroupIdInformationPropertiesRequiredZoneNamesList = Array<string>;
+export const GroupIdInformationPropertiesRequiredZoneNamesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GroupIdInformationPropertiesRequiredZoneNamesList>;
+
+/** The properties for a group information object */
+export interface GroupIdInformationProperties {
+  /** The group id */
+  groupId?: string;
+  /** The required members for a specific group id */
+  requiredMembers?: GroupIdInformationPropertiesRequiredMembersList;
+  /** The required DNS zones for a specific group id */
+  requiredZoneNames?: GroupIdInformationPropertiesRequiredZoneNamesList;
+}
+export const GroupIdInformationProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groupId: S.optional(S.String),
+    requiredMembers: S.optional(
+      GroupIdInformationPropertiesRequiredMembersList,
+    ),
+    requiredZoneNames: S.optional(
+      GroupIdInformationPropertiesRequiredZoneNamesList,
+    ),
+  }),
+).annotate({
+  identifier: "GroupIdInformationProperties",
+}) as any as S.Schema<GroupIdInformationProperties>;
+
+export interface GetIotDpsResourcePrivateLinkResourcesResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The properties for a group information object */
+  properties: GroupIdInformationProperties;
+}
+export const GetIotDpsResourcePrivateLinkResourcesResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: GroupIdInformationProperties,
+    }),
+  ).annotate({
+    identifier: "GetIotDpsResourcePrivateLinkResourcesResponse",
+  }) as any as S.Schema<GetIotDpsResourcePrivateLinkResourcesResponse>;
+
+/** Resource tags. */
+export type IotDpsResourceCreateOrUpdateRequestTagsMap = {
+  [key: string]: string | undefined;
+};
+export const IotDpsResourceCreateOrUpdateRequestTagsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<IotDpsResourceCreateOrUpdateRequestTagsMap>;
 
 /** The IP filter rules. */
 export type IotDpsPropertiesDescriptionInputIpFilterRulesList =
@@ -656,33 +1243,6 @@ export const PrivateEndpointInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PrivateEndpointInput",
 }) as any as S.Schema<PrivateEndpointInput>;
-
-/** The status of a private endpoint connection */
-export type PrivateLinkServiceConnectionStateStatus =
-  | "Pending"
-  | "Approved"
-  | "Rejected"
-  | "Disconnected";
-export const PrivateLinkServiceConnectionStateStatus = /*@__PURE__*/ S.String;
-
-/** The current state of a private endpoint connection */
-export interface PrivateLinkServiceConnectionState {
-  /** The status of a private endpoint connection */
-  status: PrivateLinkServiceConnectionStateStatus | (string & {});
-  /** The description for the current state of a private endpoint connection */
-  description: string;
-  /** Actions required for a private endpoint connection */
-  actionsRequired?: string;
-}
-export const PrivateLinkServiceConnectionState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: PrivateLinkServiceConnectionStateStatus,
-    description: S.String,
-    actionsRequired: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PrivateLinkServiceConnectionState",
-}) as any as S.Schema<PrivateLinkServiceConnectionState>;
 
 /** The properties of a private endpoint connection */
 export interface PrivateEndpointConnectionPropertiesInput {
@@ -728,8 +1288,14 @@ export interface IotHubDefinitionDescriptionInput {
   applyAllocationPolicy?: boolean;
   /** weight to apply for a given iot h. */
   allocationWeight?: number;
-  /** Connection string of the IoT hub. */
-  connectionString: string | Redacted.Redacted<string>;
+  /** Host name of the IoT hub. This is required when connectionString is not provided. */
+  hostName?: string;
+  /** IotHub MI authentication type: KeyBased, UserAssigned, SystemAssigned. */
+  authenticationType?: IotHubAuthenticationType | (string & {});
+  /** The selected user-assigned identity resource Id associated with IoT hub. This is required when authenticationType is UserAssigned. */
+  selectedUserAssignedIdentityResourceId?: string;
+  /** Connection string of the IoT hub. This is required when authenticationType is KeyBased. */
+  connectionString?: string | Redacted.Redacted<string>;
   /** ARM region of the IoT hub. */
   location: string;
 }
@@ -737,7 +1303,10 @@ export const IotHubDefinitionDescriptionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applyAllocationPolicy: S.optional(S.Boolean),
     allocationWeight: S.optional(S.Number),
-    connectionString: S.String.pipe(T.SensitiveValue({})),
+    hostName: S.optional(S.String),
+    authenticationType: S.optional(IotHubAuthenticationType),
+    selectedUserAssignedIdentityResourceId: S.optional(S.String),
+    connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
     location: S.String,
   }),
 ).annotate({
@@ -752,51 +1321,6 @@ export const IotDpsPropertiesDescriptionInputIotHubsList =
     IotHubDefinitionDescriptionInput,
   ) as any as S.Schema<IotDpsPropertiesDescriptionInputIotHubsList>;
 
-/** Allocation policy to be used by this provisioning service. */
-export type IotDpsPropertiesDescriptionInputAllocationPolicy =
-  | "Hashed"
-  | "GeoLatency"
-  | "Static";
-export const IotDpsPropertiesDescriptionInputAllocationPolicy =
-  /*@__PURE__*/ S.String;
-
-/** Rights that this key has. */
-export type SharedAccessSignatureAuthorizationRuleAccessRightsDescriptionRights =
-    | "ServiceConfig"
-    | "EnrollmentRead"
-    | "EnrollmentWrite"
-    | "DeviceConnect"
-    | "RegistrationStatusRead"
-    | "RegistrationStatusWrite";
-export const SharedAccessSignatureAuthorizationRuleAccessRightsDescriptionRights =
-  /*@__PURE__*/ S.String;
-
-/** Description of the shared access key. */
-export interface SharedAccessSignatureAuthorizationRuleAccessRightsDescription {
-  /** Name of the key. */
-  keyName: string;
-  /** Primary SAS key value. */
-  primaryKey?: string;
-  /** Secondary SAS key value. */
-  secondaryKey?: string;
-  /** Rights that this key has. */
-  rights:
-    | SharedAccessSignatureAuthorizationRuleAccessRightsDescriptionRights
-    | (string & {});
-}
-export const SharedAccessSignatureAuthorizationRuleAccessRightsDescription =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      keyName: S.String,
-      primaryKey: S.optional(S.String),
-      secondaryKey: S.optional(S.String),
-      rights:
-        SharedAccessSignatureAuthorizationRuleAccessRightsDescriptionRights,
-    }),
-  ).annotate({
-    identifier: "SharedAccessSignatureAuthorizationRuleAccessRightsDescription",
-  }) as any as S.Schema<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
-
 /** List of authorization keys for a provisioning service. */
 export type IotDpsPropertiesDescriptionInputAuthorizationPoliciesList =
   Array<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
@@ -808,11 +1332,9 @@ export const IotDpsPropertiesDescriptionInputAuthorizationPoliciesList =
 /** the service specific properties of a provisioning service, including keys, linked iot hubs, current state, and system generated properties such as hostname and idScope */
 export interface IotDpsPropertiesDescriptionInput {
   /** Current state of the provisioning service. */
-  state?: IotDpsPropertiesDescriptionInputState | (string & {});
+  state?: State | (string & {});
   /** Whether requests from Public Network are allowed */
-  publicNetworkAccess?:
-    | IotDpsPropertiesDescriptionInputPublicNetworkAccess
-    | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {});
   /** The IP filter rules. */
   ipFilterRules?: IotDpsPropertiesDescriptionInputIpFilterRulesList;
   /** Private endpoint connections created on this IotHub */
@@ -822,22 +1344,20 @@ export interface IotDpsPropertiesDescriptionInput {
   /** List of IoT hubs associated with this provisioning service. */
   iotHubs?: IotDpsPropertiesDescriptionInputIotHubsList;
   /** Allocation policy to be used by this provisioning service. */
-  allocationPolicy?:
-    | IotDpsPropertiesDescriptionInputAllocationPolicy
-    | (string & {});
+  allocationPolicy?: AllocationPolicy | (string & {});
   /** List of authorization keys for a provisioning service. */
   authorizationPolicies?: IotDpsPropertiesDescriptionInputAuthorizationPoliciesList;
   /** Optional. Indicates if the DPS instance has Data Residency enabled, removing the cross geo-pair disaster recovery. */
   enableDataResidency?: boolean;
   /** Portal endpoint to enable CORS for this provisioning service. */
   portalOperationsHostName?: string;
+  /** Disables all authentication methods other than Azure RBAC. */
+  disableLocalAuth?: boolean;
 }
 export const IotDpsPropertiesDescriptionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(IotDpsPropertiesDescriptionInputState),
-    publicNetworkAccess: S.optional(
-      IotDpsPropertiesDescriptionInputPublicNetworkAccess,
-    ),
+    state: S.optional(State),
+    publicNetworkAccess: S.optional(PublicNetworkAccess),
     ipFilterRules: S.optional(
       IotDpsPropertiesDescriptionInputIpFilterRulesList,
     ),
@@ -846,86 +1366,112 @@ export const IotDpsPropertiesDescriptionInput = /*@__PURE__*/ S.suspend(() =>
     ),
     provisioningState: S.optional(S.String),
     iotHubs: S.optional(IotDpsPropertiesDescriptionInputIotHubsList),
-    allocationPolicy: S.optional(
-      IotDpsPropertiesDescriptionInputAllocationPolicy,
-    ),
+    allocationPolicy: S.optional(AllocationPolicy),
     authorizationPolicies: S.optional(
       IotDpsPropertiesDescriptionInputAuthorizationPoliciesList,
     ),
     enableDataResidency: S.optional(S.Boolean),
     portalOperationsHostName: S.optional(S.String),
+    disableLocalAuth: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "IotDpsPropertiesDescriptionInput",
 }) as any as S.Schema<IotDpsPropertiesDescriptionInput>;
 
-/** Sku name. */
-export type IotDpsSkuInfoInputName = "S1";
-export const IotDpsSkuInfoInputName = /*@__PURE__*/ S.String;
-
 /** List of possible provisioning service SKUs. */
 export interface IotDpsSkuInfoInput {
   /** Sku name. */
-  name?: IotDpsSkuInfoInputName | (string & {});
+  name?: IotDpsSku | (string & {});
   /** The number of units to provision */
   capacity?: number;
 }
 export const IotDpsSkuInfoInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(IotDpsSkuInfoInputName),
+    name: S.optional(IotDpsSku),
     capacity: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "IotDpsSkuInfoInput",
 }) as any as S.Schema<IotDpsSkuInfoInput>;
 
+/** User assigned identity properties */
+export type UserAssignedIdentityInput = PrivateEndpointInput;
+export const UserAssignedIdentityInput = PrivateEndpointInput;
+
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type UserAssignedIdentitiesInput = {
+  [key: string]: PrivateEndpointInput | undefined;
+};
+export const UserAssignedIdentitiesInput = /*@__PURE__*/ S.Record(
+  S.String,
+  PrivateEndpointInput,
+) as any as S.Schema<UserAssignedIdentitiesInput>;
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface IotDpsResourceCreateOrUpdateRequestIdentity {
+  type: ManagedServiceIdentityType | (string & {});
+  userAssignedIdentities?: UserAssignedIdentitiesInput | null;
+}
+export const IotDpsResourceCreateOrUpdateRequestIdentity =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ManagedServiceIdentityType,
+      userAssignedIdentities: S.optional(S.NullOr(UserAssignedIdentitiesInput)),
+    }),
+  ).annotate({
+    identifier: "IotDpsResourceCreateOrUpdateRequestIdentity",
+  }) as any as S.Schema<IotDpsResourceCreateOrUpdateRequestIdentity>;
+
 export interface IotDpsResourceCreateOrUpdateRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. */
   subscriptionId: string;
-  /** Resource group identifier. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** Name of provisioning service to create or update. */
+  /** Name of the provisioning service to retrieve. */
   provisioningServiceName: string;
-  /** The resource location. */
+  /** Resource tags. */
+  tags?: IotDpsResourceCreateOrUpdateRequestTagsMap;
+  /** The geo-location where the resource lives */
   location: string;
+  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
+  etag?: string;
   /** The resource group of the resource. */
   resourcegroup?: string;
   /** The subscription id of the resource. */
   subscriptionid?: string;
-  /** The resource tags. */
-  tags?: IotDpsResourceCreateOrUpdateRequestTagsMap;
-  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
   /** Service specific properties for a provisioning service */
   properties: IotDpsPropertiesDescriptionInput;
   /** Sku info for a provisioning Service. */
   sku: IotDpsSkuInfoInput;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: IotDpsResourceCreateOrUpdateRequestIdentity;
 }
 export const IotDpsResourceCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     provisioningServiceName: S.String.pipe(T.Label()),
+    tags: S.optional(IotDpsResourceCreateOrUpdateRequestTagsMap),
     location: S.String,
+    etag: S.optional(S.String),
     resourcegroup: S.optional(S.String),
     subscriptionid: S.optional(S.String),
-    tags: S.optional(IotDpsResourceCreateOrUpdateRequestTagsMap),
-    etag: S.optional(S.String),
     properties: IotDpsPropertiesDescriptionInput,
     sku: IotDpsSkuInfoInput,
+    identity: S.optional(IotDpsResourceCreateOrUpdateRequestIdentity),
   }).pipe(
     T.Http({
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
       code: 200,
-      apiVersion: "2022-12-12",
+      apiVersion: "2026-08-31",
     }),
   ),
 ).annotate({
   identifier: "IotDpsResourceCreateOrUpdateRequest",
 }) as any as S.Schema<IotDpsResourceCreateOrUpdateRequest>;
 
-/** The resource tags. */
+/** Resource tags. */
 export type IotDpsResourceCreateOrUpdateResponseTagsMap = {
   [key: string]: string | undefined;
 };
@@ -935,344 +1481,37 @@ export const IotDpsResourceCreateOrUpdateResponseTagsMap =
     S.String,
   ) as any as S.Schema<IotDpsResourceCreateOrUpdateResponseTagsMap>;
 
-/** Current state of the provisioning service. */
-export type IotDpsPropertiesDescriptionState =
-  | "Activating"
-  | "Active"
-  | "Deleting"
-  | "Deleted"
-  | "ActivationFailed"
-  | "DeletionFailed"
-  | "Transitioning"
-  | "Suspending"
-  | "Suspended"
-  | "Resuming"
-  | "FailingOver"
-  | "FailoverFailed";
-export const IotDpsPropertiesDescriptionState = /*@__PURE__*/ S.String;
-
-/** Whether requests from Public Network are allowed */
-export type IotDpsPropertiesDescriptionPublicNetworkAccess =
-  | "Enabled"
-  | "Disabled";
-export const IotDpsPropertiesDescriptionPublicNetworkAccess =
-  /*@__PURE__*/ S.String;
-
-/** The IP filter rules. */
-export type IotDpsPropertiesDescriptionIpFilterRulesList = Array<IpFilterRule>;
-export const IotDpsPropertiesDescriptionIpFilterRulesList =
-  /*@__PURE__*/ S.Array(
-    IpFilterRule,
-  ) as any as S.Schema<IotDpsPropertiesDescriptionIpFilterRulesList>;
-
-/** The private endpoint property of a private endpoint connection */
-export interface PrivateEndpoint {
-  /** The resource identifier. */
-  id?: string;
-}
-export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
-
-/** The properties of a private endpoint connection */
-export interface PrivateEndpointConnectionProperties {
-  /** The private endpoint property of a private endpoint connection */
-  privateEndpoint?: PrivateEndpoint;
-  /** The current state of a private endpoint connection */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-}
-export const PrivateEndpointConnectionProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    privateEndpoint: S.optional(PrivateEndpoint),
-    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState,
-  }),
-).annotate({
-  identifier: "PrivateEndpointConnectionProperties",
-}) as any as S.Schema<PrivateEndpointConnectionProperties>;
-
-/** The type of identity that created the resource. */
-export type PrivateEndpointConnectionSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const PrivateEndpointConnectionSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type PrivateEndpointConnectionSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const PrivateEndpointConnectionSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface PrivateEndpointConnectionSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: PrivateEndpointConnectionSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateEndpointConnectionSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const PrivateEndpointConnectionSystemData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    createdBy: S.optional(S.String),
-    createdByType: S.optional(PrivateEndpointConnectionSystemDataCreatedByType),
-    createdAt: S.optional(S.String),
-    lastModifiedBy: S.optional(S.String),
-    lastModifiedByType: S.optional(
-      PrivateEndpointConnectionSystemDataLastModifiedByType,
-    ),
-    lastModifiedAt: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PrivateEndpointConnectionSystemData",
-}) as any as S.Schema<PrivateEndpointConnectionSystemData>;
-
-/** The private endpoint connection of a provisioning service */
-export interface PrivateEndpointConnection {
-  /** The resource identifier. */
-  id?: string;
-  /** The resource name. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-  /** The properties of a private endpoint connection */
-  properties: PrivateEndpointConnectionProperties;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateEndpointConnectionSystemData;
-}
-export const PrivateEndpointConnection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    properties: PrivateEndpointConnectionProperties,
-    systemData: S.optional(PrivateEndpointConnectionSystemData),
-  }),
-).annotate({
-  identifier: "PrivateEndpointConnection",
-}) as any as S.Schema<PrivateEndpointConnection>;
-
-/** Private endpoint connections created on this IotHub */
-export type IotDpsPropertiesDescriptionPrivateEndpointConnectionsList =
-  Array<PrivateEndpointConnection>;
-export const IotDpsPropertiesDescriptionPrivateEndpointConnectionsList =
-  /*@__PURE__*/ S.Array(
-    PrivateEndpointConnection,
-  ) as any as S.Schema<IotDpsPropertiesDescriptionPrivateEndpointConnectionsList>;
-
-/** Description of the IoT hub. */
-export interface IotHubDefinitionDescription {
-  /** flag for applying allocationPolicy or not for a given iot hub. */
-  applyAllocationPolicy?: boolean;
-  /** weight to apply for a given iot h. */
-  allocationWeight?: number;
-  /** Host name of the IoT hub. */
-  name?: string;
-  /** Connection string of the IoT hub. */
-  connectionString: string | Redacted.Redacted<string>;
-  /** ARM region of the IoT hub. */
-  location: string;
-}
-export const IotHubDefinitionDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applyAllocationPolicy: S.optional(S.Boolean),
-    allocationWeight: S.optional(S.Number),
-    name: S.optional(S.String),
-    connectionString: S.String.pipe(T.SensitiveValue({})),
-    location: S.String,
-  }),
-).annotate({
-  identifier: "IotHubDefinitionDescription",
-}) as any as S.Schema<IotHubDefinitionDescription>;
-
-/** List of IoT hubs associated with this provisioning service. */
-export type IotDpsPropertiesDescriptionIotHubsList =
-  Array<IotHubDefinitionDescription>;
-export const IotDpsPropertiesDescriptionIotHubsList = /*@__PURE__*/ S.Array(
-  IotHubDefinitionDescription,
-) as any as S.Schema<IotDpsPropertiesDescriptionIotHubsList>;
-
-/** Allocation policy to be used by this provisioning service. */
-export type IotDpsPropertiesDescriptionAllocationPolicy =
-  | "Hashed"
-  | "GeoLatency"
-  | "Static";
-export const IotDpsPropertiesDescriptionAllocationPolicy =
-  /*@__PURE__*/ S.String;
-
-/** List of authorization keys for a provisioning service. */
-export type IotDpsPropertiesDescriptionAuthorizationPoliciesList =
-  Array<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
-export const IotDpsPropertiesDescriptionAuthorizationPoliciesList =
-  /*@__PURE__*/ S.Array(
-    SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
-  ) as any as S.Schema<IotDpsPropertiesDescriptionAuthorizationPoliciesList>;
-
-/** the service specific properties of a provisioning service, including keys, linked iot hubs, current state, and system generated properties such as hostname and idScope */
-export interface IotDpsPropertiesDescription {
-  /** Current state of the provisioning service. */
-  state?: IotDpsPropertiesDescriptionState;
-  /** Whether requests from Public Network are allowed */
-  publicNetworkAccess?: IotDpsPropertiesDescriptionPublicNetworkAccess;
-  /** The IP filter rules. */
-  ipFilterRules?: IotDpsPropertiesDescriptionIpFilterRulesList;
-  /** Private endpoint connections created on this IotHub */
-  privateEndpointConnections?: IotDpsPropertiesDescriptionPrivateEndpointConnectionsList;
-  /** The ARM provisioning state of the provisioning service. */
-  provisioningState?: string;
-  /** List of IoT hubs associated with this provisioning service. */
-  iotHubs?: IotDpsPropertiesDescriptionIotHubsList;
-  /** Allocation policy to be used by this provisioning service. */
-  allocationPolicy?: IotDpsPropertiesDescriptionAllocationPolicy;
-  /** Service endpoint for provisioning service. */
-  serviceOperationsHostName?: string;
-  /** Device endpoint for this provisioning service. */
-  deviceProvisioningHostName?: string;
-  /** Unique identifier of this provisioning service. */
-  idScope?: string;
-  /** List of authorization keys for a provisioning service. */
-  authorizationPolicies?: IotDpsPropertiesDescriptionAuthorizationPoliciesList;
-  /** Optional. Indicates if the DPS instance has Data Residency enabled, removing the cross geo-pair disaster recovery. */
-  enableDataResidency?: boolean;
-  /** Portal endpoint to enable CORS for this provisioning service. */
-  portalOperationsHostName?: string;
-}
-export const IotDpsPropertiesDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: S.optional(IotDpsPropertiesDescriptionState),
-    publicNetworkAccess: S.optional(
-      IotDpsPropertiesDescriptionPublicNetworkAccess,
-    ),
-    ipFilterRules: S.optional(IotDpsPropertiesDescriptionIpFilterRulesList),
-    privateEndpointConnections: S.optional(
-      IotDpsPropertiesDescriptionPrivateEndpointConnectionsList,
-    ),
-    provisioningState: S.optional(S.String),
-    iotHubs: S.optional(IotDpsPropertiesDescriptionIotHubsList),
-    allocationPolicy: S.optional(IotDpsPropertiesDescriptionAllocationPolicy),
-    serviceOperationsHostName: S.optional(S.String),
-    deviceProvisioningHostName: S.optional(S.String),
-    idScope: S.optional(S.String),
-    authorizationPolicies: S.optional(
-      IotDpsPropertiesDescriptionAuthorizationPoliciesList,
-    ),
-    enableDataResidency: S.optional(S.Boolean),
-    portalOperationsHostName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IotDpsPropertiesDescription",
-}) as any as S.Schema<IotDpsPropertiesDescription>;
-
-/** Sku name. */
-export type IotDpsSkuInfoName = "S1";
-export const IotDpsSkuInfoName = /*@__PURE__*/ S.String;
-
-/** List of possible provisioning service SKUs. */
-export interface IotDpsSkuInfo {
-  /** Sku name. */
-  name?: IotDpsSkuInfoName;
-  /** Pricing tier name of the provisioning service. */
-  tier?: string;
-  /** The number of units to provision */
-  capacity?: number;
-}
-export const IotDpsSkuInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(IotDpsSkuInfoName),
-    tier: S.optional(S.String),
-    capacity: S.optional(S.Number),
-  }),
-).annotate({ identifier: "IotDpsSkuInfo" }) as any as S.Schema<IotDpsSkuInfo>;
-
-/** The type of identity that created the resource. */
-export type IotDpsResourceCreateOrUpdateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const IotDpsResourceCreateOrUpdateResponseSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type IotDpsResourceCreateOrUpdateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const IotDpsResourceCreateOrUpdateResponseSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface IotDpsResourceCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: IotDpsResourceCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: IotDpsResourceCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const IotDpsResourceCreateOrUpdateResponseSystemData =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      createdBy: S.optional(S.String),
-      createdByType: S.optional(
-        IotDpsResourceCreateOrUpdateResponseSystemDataCreatedByType,
-      ),
-      createdAt: S.optional(S.String),
-      lastModifiedBy: S.optional(S.String),
-      lastModifiedByType: S.optional(
-        IotDpsResourceCreateOrUpdateResponseSystemDataLastModifiedByType,
-      ),
-      lastModifiedAt: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "IotDpsResourceCreateOrUpdateResponseSystemData",
-  }) as any as S.Schema<IotDpsResourceCreateOrUpdateResponseSystemData>;
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type IotDpsResourceCreateOrUpdateResponseIdentity =
+  GetIotDpsResourceResponseIdentity;
+export const IotDpsResourceCreateOrUpdateResponseIdentity =
+  GetIotDpsResourceResponseIdentity;
 
 export interface IotDpsResourceCreateOrUpdateResponse {
-  /** The resource identifier. */
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
-  /** The resource name. */
+  /** The name of the resource */
   name?: string;
-  /** The resource type. */
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** The resource location. */
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: IotDpsResourceCreateOrUpdateResponseTagsMap;
+  /** The geo-location where the resource lives */
   location: string;
+  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
+  etag?: string;
   /** The resource group of the resource. */
   resourcegroup?: string;
   /** The subscription id of the resource. */
   subscriptionid?: string;
-  /** The resource tags. */
-  tags?: IotDpsResourceCreateOrUpdateResponseTagsMap;
-  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
   /** Service specific properties for a provisioning service */
   properties: IotDpsPropertiesDescription;
   /** Sku info for a provisioning Service. */
   sku: IotDpsSkuInfo;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: IotDpsResourceCreateOrUpdateResponseSystemData;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: GetIotDpsResourceResponseIdentity;
 }
 export const IotDpsResourceCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1280,25 +1519,26 @@ export const IotDpsResourceCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       id: S.optional(S.String),
       name: S.optional(S.String),
       type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      tags: S.optional(IotDpsResourceCreateOrUpdateResponseTagsMap),
       location: S.String,
+      etag: S.optional(S.String),
       resourcegroup: S.optional(S.String),
       subscriptionid: S.optional(S.String),
-      tags: S.optional(IotDpsResourceCreateOrUpdateResponseTagsMap),
-      etag: S.optional(S.String),
       properties: IotDpsPropertiesDescription,
       sku: IotDpsSkuInfo,
-      systemData: S.optional(IotDpsResourceCreateOrUpdateResponseSystemData),
+      identity: S.optional(GetIotDpsResourceResponseIdentity),
     }),
 ).annotate({
   identifier: "IotDpsResourceCreateOrUpdateResponse",
 }) as any as S.Schema<IotDpsResourceCreateOrUpdateResponse>;
 
 export interface IotDpsResourceCreateOrUpdatePrivateEndpointConnectionRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. */
   subscriptionId: string;
-  /** The name of the resource group that contains the provisioning service. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the provisioning service. */
+  /** Name of the provisioning service to retrieve. */
   resourceName: string;
   /** The name of the private endpoint connection */
   privateEndpointConnectionName: string;
@@ -1318,83 +1558,47 @@ export const IotDpsResourceCreateOrUpdatePrivateEndpointConnectionRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
         code: 200,
-        apiVersion: "2022-12-12",
+        apiVersion: "2026-08-31",
       }),
     ),
   ).annotate({
     identifier: "IotDpsResourceCreateOrUpdatePrivateEndpointConnectionRequest",
   }) as any as S.Schema<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionRequest>;
 
-export interface IotDpsResourceDeleteRequest {
-  /** The subscription identifier. */
-  subscriptionId: string;
-  /** Resource group identifier. */
-  resourceGroupName: string;
-  /** Name of provisioning service to delete. */
-  provisioningServiceName: string;
+export interface IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The properties of a private endpoint connection */
+  properties: PrivateEndpointConnectionProperties;
 }
-export const IotDpsResourceDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    provisioningServiceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
-      code: 200,
-      apiVersion: "2022-12-12",
-    }),
-  ),
-).annotate({
-  identifier: "IotDpsResourceDeleteRequest",
-}) as any as S.Schema<IotDpsResourceDeleteRequest>;
-
-export interface IotDpsResourceDeleteResponse {}
-export const IotDpsResourceDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "IotDpsResourceDeleteResponse",
-}) as any as S.Schema<IotDpsResourceDeleteResponse>;
-
-export interface IotDpsResourceDeletePrivateEndpointConnectionRequest {
-  /** The subscription identifier. */
-  subscriptionId: string;
-  /** The name of the resource group that contains the provisioning service. */
-  resourceGroupName: string;
-  /** The name of the provisioning service. */
-  resourceName: string;
-  /** The name of the private endpoint connection */
-  privateEndpointConnectionName: string;
-}
-export const IotDpsResourceDeletePrivateEndpointConnectionRequest =
+export const IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-      privateEndpointConnectionName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-        code: 200,
-        apiVersion: "2022-12-12",
-      }),
-    ),
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: PrivateEndpointConnectionProperties,
+    }),
   ).annotate({
-    identifier: "IotDpsResourceDeletePrivateEndpointConnectionRequest",
-  }) as any as S.Schema<IotDpsResourceDeletePrivateEndpointConnectionRequest>;
+    identifier: "IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse",
+  }) as any as S.Schema<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>;
 
-export interface IotDpsResourceGetRequest {
-  /** The subscription identifier. */
+export interface ListDpsCertificateRequest {
+  /** The ID of the target subscription. */
   subscriptionId: string;
-  /** Resource group name. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Name of the provisioning service to retrieve. */
   provisioningServiceName: string;
 }
-export const IotDpsResourceGetRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListDpsCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -1402,303 +1606,69 @@ export const IotDpsResourceGetRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates",
       code: 200,
-      apiVersion: "2022-12-12",
+      apiVersion: "2026-08-31",
     }),
   ),
 ).annotate({
-  identifier: "IotDpsResourceGetRequest",
-}) as any as S.Schema<IotDpsResourceGetRequest>;
+  identifier: "ListDpsCertificateRequest",
+}) as any as S.Schema<ListDpsCertificateRequest>;
 
-/** The resource tags. */
-export type IotDpsResourceGetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const IotDpsResourceGetResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<IotDpsResourceGetResponseTagsMap>;
-
-/** The type of identity that created the resource. */
-export type IotDpsResourceGetResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const IotDpsResourceGetResponseSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type IotDpsResourceGetResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const IotDpsResourceGetResponseSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface IotDpsResourceGetResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: IotDpsResourceGetResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: IotDpsResourceGetResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const IotDpsResourceGetResponseSystemData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    createdBy: S.optional(S.String),
-    createdByType: S.optional(IotDpsResourceGetResponseSystemDataCreatedByType),
-    createdAt: S.optional(S.String),
-    lastModifiedBy: S.optional(S.String),
-    lastModifiedByType: S.optional(
-      IotDpsResourceGetResponseSystemDataLastModifiedByType,
-    ),
-    lastModifiedAt: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IotDpsResourceGetResponseSystemData",
-}) as any as S.Schema<IotDpsResourceGetResponseSystemData>;
-
-export interface IotDpsResourceGetResponse {
-  /** The resource identifier. */
+/** The X509 Certificate. */
+export interface CertificateResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
-  /** The resource name. */
+  /** The name of the resource */
   name?: string;
-  /** The resource type. */
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** The resource location. */
-  location: string;
-  /** The resource group of the resource. */
-  resourcegroup?: string;
-  /** The subscription id of the resource. */
-  subscriptionid?: string;
-  /** The resource tags. */
-  tags?: IotDpsResourceGetResponseTagsMap;
-  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** properties of a certificate */
+  properties?: CertificateProperties;
+  /** The entity tag. */
   etag?: string;
-  /** Service specific properties for a provisioning service */
-  properties: IotDpsPropertiesDescription;
-  /** Sku info for a provisioning Service. */
-  sku: IotDpsSkuInfo;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: IotDpsResourceGetResponseSystemData;
 }
-export const IotDpsResourceGetResponse = /*@__PURE__*/ S.suspend(() =>
+export const CertificateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
-    location: S.String,
-    resourcegroup: S.optional(S.String),
-    subscriptionid: S.optional(S.String),
-    tags: S.optional(IotDpsResourceGetResponseTagsMap),
+    systemData: S.optional(SystemData),
+    properties: S.optional(CertificateProperties),
     etag: S.optional(S.String),
-    properties: IotDpsPropertiesDescription,
-    sku: IotDpsSkuInfo,
-    systemData: S.optional(IotDpsResourceGetResponseSystemData),
   }),
 ).annotate({
-  identifier: "IotDpsResourceGetResponse",
-}) as any as S.Schema<IotDpsResourceGetResponse>;
+  identifier: "CertificateResponse",
+}) as any as S.Schema<CertificateResponse>;
 
-export interface IotDpsResourceGetOperationResultRequest {
-  /** The subscription identifier. */
-  subscriptionId: string;
-  /** Resource group identifier. */
-  resourceGroupName: string;
-  /** Name of provisioning service that the operation is running on. */
-  provisioningServiceName: string;
-  /** Operation id corresponding to long running operation. Use this to poll for the status. */
-  operationId: string;
-  /** Async header used to poll on the status of the operation, obtained while creating the long running operation. */
-  asyncinfo: string;
-}
-export const IotDpsResourceGetOperationResultRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      provisioningServiceName: S.String.pipe(T.Label()),
-      operationId: S.String.pipe(T.Label()),
-      asyncinfo: S.String.pipe(T.Query()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/operationresults/{operationId}",
-        code: 200,
-        apiVersion: "2022-12-12",
-      }),
-    ),
-).annotate({
-  identifier: "IotDpsResourceGetOperationResultRequest",
-}) as any as S.Schema<IotDpsResourceGetOperationResultRequest>;
+/** The array of Certificate objects. */
+export type CertificateListDescriptionValueList = Array<CertificateResponse>;
+export const CertificateListDescriptionValueList = /*@__PURE__*/ S.Array(
+  CertificateResponse,
+) as any as S.Schema<CertificateListDescriptionValueList>;
 
-/** Error response containing message and code. */
-export interface ErrorMessage {
-  /** standard error code */
-  code?: string;
-  /** standard error description */
-  message?: string;
-  /** detailed summary of error */
-  details?: string;
+/** The JSON-serialized array of Certificate objects. */
+export interface CertificateListDescription {
+  /** The array of Certificate objects. */
+  value?: CertificateListDescriptionValueList;
 }
-export const ErrorMessage = /*@__PURE__*/ S.suspend(() =>
+export const CertificateListDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    code: S.optional(S.String),
-    message: S.optional(S.String),
-    details: S.optional(S.String),
-  }),
-).annotate({ identifier: "ErrorMessage" }) as any as S.Schema<ErrorMessage>;
-
-/** Result of a long running operation. */
-export interface AsyncOperationResult {
-  /** current status of a long running operation. */
-  status?: string;
-  /** Error message containing code, description and details */
-  error?: ErrorMessage;
-}
-export const AsyncOperationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(S.String),
-    error: S.optional(ErrorMessage),
+    value: S.optional(CertificateListDescriptionValueList),
   }),
 ).annotate({
-  identifier: "AsyncOperationResult",
-}) as any as S.Schema<AsyncOperationResult>;
+  identifier: "CertificateListDescription",
+}) as any as S.Schema<CertificateListDescription>;
 
-export interface IotDpsResourceGetPrivateEndpointConnectionRequest {
-  /** The subscription identifier. */
+export interface ListIotDpsResourceByResourceGroupRequest {
+  /** The ID of the target subscription. */
   subscriptionId: string;
-  /** The name of the resource group that contains the provisioning service. */
-  resourceGroupName: string;
-  /** The name of the provisioning service. */
-  resourceName: string;
-  /** The name of the private endpoint connection */
-  privateEndpointConnectionName: string;
-}
-export const IotDpsResourceGetPrivateEndpointConnectionRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-      privateEndpointConnectionName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-        code: 200,
-        apiVersion: "2022-12-12",
-      }),
-    ),
-  ).annotate({
-    identifier: "IotDpsResourceGetPrivateEndpointConnectionRequest",
-  }) as any as S.Schema<IotDpsResourceGetPrivateEndpointConnectionRequest>;
-
-export interface IotDpsResourceGetPrivateLinkResourcesRequest {
-  /** The subscription identifier. */
-  subscriptionId: string;
-  /** The name of the resource group that contains the provisioning service. */
-  resourceGroupName: string;
-  /** The name of the provisioning service. */
-  resourceName: string;
-  /** The name of the private link resource */
-  groupId: string;
-}
-export const IotDpsResourceGetPrivateLinkResourcesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      resourceName: S.String.pipe(T.Label()),
-      groupId: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateLinkResources/{groupId}",
-        code: 200,
-        apiVersion: "2022-12-12",
-      }),
-    ),
-  ).annotate({
-    identifier: "IotDpsResourceGetPrivateLinkResourcesRequest",
-  }) as any as S.Schema<IotDpsResourceGetPrivateLinkResourcesRequest>;
-
-/** The required members for a specific group id */
-export type GroupIdInformationPropertiesRequiredMembersList = Array<string>;
-export const GroupIdInformationPropertiesRequiredMembersList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GroupIdInformationPropertiesRequiredMembersList>;
-
-/** The required DNS zones for a specific group id */
-export type GroupIdInformationPropertiesRequiredZoneNamesList = Array<string>;
-export const GroupIdInformationPropertiesRequiredZoneNamesList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GroupIdInformationPropertiesRequiredZoneNamesList>;
-
-/** The properties for a group information object */
-export interface GroupIdInformationProperties {
-  /** The group id */
-  groupId?: string;
-  /** The required members for a specific group id */
-  requiredMembers?: GroupIdInformationPropertiesRequiredMembersList;
-  /** The required DNS zones for a specific group id */
-  requiredZoneNames?: GroupIdInformationPropertiesRequiredZoneNamesList;
-}
-export const GroupIdInformationProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    groupId: S.optional(S.String),
-    requiredMembers: S.optional(
-      GroupIdInformationPropertiesRequiredMembersList,
-    ),
-    requiredZoneNames: S.optional(
-      GroupIdInformationPropertiesRequiredZoneNamesList,
-    ),
-  }),
-).annotate({
-  identifier: "GroupIdInformationProperties",
-}) as any as S.Schema<GroupIdInformationProperties>;
-
-/** The group information for creating a private endpoint on a provisioning service */
-export interface GroupIdInformation {
-  /** The resource identifier. */
-  id?: string;
-  /** The resource name. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-  /** The properties for a group information object */
-  properties: GroupIdInformationProperties;
-}
-export const GroupIdInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    properties: GroupIdInformationProperties,
-  }),
-).annotate({
-  identifier: "GroupIdInformation",
-}) as any as S.Schema<GroupIdInformation>;
-
-export interface IotDpsResourceListByResourceGroupRequest {
-  /** The subscription identifier. */
-  subscriptionId: string;
-  /** Resource group identifier. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
 }
-export const IotDpsResourceListByResourceGroupRequest = /*@__PURE__*/ S.suspend(
+export const ListIotDpsResourceByResourceGroupRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -1708,14 +1678,14 @@ export const IotDpsResourceListByResourceGroupRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices",
         code: 200,
-        apiVersion: "2022-12-12",
+        apiVersion: "2026-08-31",
       }),
     ),
 ).annotate({
-  identifier: "IotDpsResourceListByResourceGroupRequest",
-}) as any as S.Schema<IotDpsResourceListByResourceGroupRequest>;
+  identifier: "ListIotDpsResourceByResourceGroupRequest",
+}) as any as S.Schema<ListIotDpsResourceByResourceGroupRequest>;
 
-/** The resource tags. */
+/** Resource tags. */
 export type ProvisioningServiceDescriptionTagsMap = {
   [key: string]: string | undefined;
 };
@@ -1724,101 +1694,59 @@ export const ProvisioningServiceDescriptionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<ProvisioningServiceDescriptionTagsMap>;
 
-/** The type of identity that created the resource. */
-export type ProvisioningServiceDescriptionSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const ProvisioningServiceDescriptionSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type ProvisioningServiceDescriptionSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const ProvisioningServiceDescriptionSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ProvisioningServiceDescriptionSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ProvisioningServiceDescriptionSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ProvisioningServiceDescriptionSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const ProvisioningServiceDescriptionSystemData = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      createdBy: S.optional(S.String),
-      createdByType: S.optional(
-        ProvisioningServiceDescriptionSystemDataCreatedByType,
-      ),
-      createdAt: S.optional(S.String),
-      lastModifiedBy: S.optional(S.String),
-      lastModifiedByType: S.optional(
-        ProvisioningServiceDescriptionSystemDataLastModifiedByType,
-      ),
-      lastModifiedAt: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "ProvisioningServiceDescriptionSystemData",
-}) as any as S.Schema<ProvisioningServiceDescriptionSystemData>;
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type ProvisioningServiceDescriptionIdentity =
+  GetIotDpsResourceResponseIdentity;
+export const ProvisioningServiceDescriptionIdentity =
+  GetIotDpsResourceResponseIdentity;
 
 /** The description of the provisioning service. */
 export interface ProvisioningServiceDescription {
-  /** The resource identifier. */
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
-  /** The resource name. */
+  /** The name of the resource */
   name?: string;
-  /** The resource type. */
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** The resource location. */
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: ProvisioningServiceDescriptionTagsMap;
+  /** The geo-location where the resource lives */
   location: string;
+  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
+  etag?: string;
   /** The resource group of the resource. */
   resourcegroup?: string;
   /** The subscription id of the resource. */
   subscriptionid?: string;
-  /** The resource tags. */
-  tags?: ProvisioningServiceDescriptionTagsMap;
-  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
   /** Service specific properties for a provisioning service */
   properties: IotDpsPropertiesDescription;
   /** Sku info for a provisioning Service. */
   sku: IotDpsSkuInfo;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ProvisioningServiceDescriptionSystemData;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: GetIotDpsResourceResponseIdentity;
 }
 export const ProvisioningServiceDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(ProvisioningServiceDescriptionTagsMap),
     location: S.String,
+    etag: S.optional(S.String),
     resourcegroup: S.optional(S.String),
     subscriptionid: S.optional(S.String),
-    tags: S.optional(ProvisioningServiceDescriptionTagsMap),
-    etag: S.optional(S.String),
     properties: IotDpsPropertiesDescription,
     sku: IotDpsSkuInfo,
-    systemData: S.optional(ProvisioningServiceDescriptionSystemData),
+    identity: S.optional(GetIotDpsResourceResponseIdentity),
   }),
 ).annotate({
   identifier: "ProvisioningServiceDescription",
 }) as any as S.Schema<ProvisioningServiceDescription>;
 
-/** List of provisioning service descriptions. */
+/** The ProvisioningServiceDescription items on this page */
 export type ProvisioningServiceDescriptionListResultValueList =
   Array<ProvisioningServiceDescription>;
 export const ProvisioningServiceDescriptionListResultValueList =
@@ -1826,28 +1754,28 @@ export const ProvisioningServiceDescriptionListResultValueList =
     ProvisioningServiceDescription,
   ) as any as S.Schema<ProvisioningServiceDescriptionListResultValueList>;
 
-/** List of provisioning service descriptions. */
+/** The response of a ProvisioningServiceDescription list operation. */
 export interface ProvisioningServiceDescriptionListResult {
-  /** List of provisioning service descriptions. */
-  value?: ProvisioningServiceDescriptionListResultValueList;
-  /** the next link */
+  /** The ProvisioningServiceDescription items on this page */
+  value: ProvisioningServiceDescriptionListResultValueList;
+  /** The link to the next page of items */
   nextLink?: string;
 }
 export const ProvisioningServiceDescriptionListResult = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      value: S.optional(ProvisioningServiceDescriptionListResultValueList),
+      value: ProvisioningServiceDescriptionListResultValueList,
       nextLink: S.optional(S.String),
     }),
 ).annotate({
   identifier: "ProvisioningServiceDescriptionListResult",
 }) as any as S.Schema<ProvisioningServiceDescriptionListResult>;
 
-export interface IotDpsResourceListBySubscriptionRequest {
-  /** The subscription identifier. */
+export interface ListIotDpsResourceBySubscriptionRequest {
+  /** The ID of the target subscription. */
   subscriptionId: string;
 }
-export const IotDpsResourceListBySubscriptionRequest = /*@__PURE__*/ S.suspend(
+export const ListIotDpsResourceBySubscriptionRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -1856,22 +1784,22 @@ export const IotDpsResourceListBySubscriptionRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/provisioningServices",
         code: 200,
-        apiVersion: "2022-12-12",
+        apiVersion: "2026-08-31",
       }),
     ),
 ).annotate({
-  identifier: "IotDpsResourceListBySubscriptionRequest",
-}) as any as S.Schema<IotDpsResourceListBySubscriptionRequest>;
+  identifier: "ListIotDpsResourceBySubscriptionRequest",
+}) as any as S.Schema<ListIotDpsResourceBySubscriptionRequest>;
 
-export interface IotDpsResourceListKeysRequest {
-  /** The subscription identifier. */
+export interface ListIotDpsResourceKeysRequest {
+  /** The ID of the target subscription. */
   subscriptionId: string;
-  /** resource group name */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The provisioning service name to get the shared access keys for. */
+  /** Name of the provisioning service to retrieve. */
   provisioningServiceName: string;
 }
-export const IotDpsResourceListKeysRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListIotDpsResourceKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -1881,14 +1809,14 @@ export const IotDpsResourceListKeysRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/listkeys",
       code: 200,
-      apiVersion: "2022-12-12",
+      apiVersion: "2026-08-31",
     }),
   ),
 ).annotate({
-  identifier: "IotDpsResourceListKeysRequest",
-}) as any as S.Schema<IotDpsResourceListKeysRequest>;
+  identifier: "ListIotDpsResourceKeysRequest",
+}) as any as S.Schema<ListIotDpsResourceKeysRequest>;
 
-/** The list of shared access policies. */
+/** The SharedAccessSignatureAuthorizationRuleAccessRightsDescription items on this page */
 export type SharedAccessSignatureAuthorizationRuleListResultValueList =
   Array<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
 export const SharedAccessSignatureAuthorizationRuleListResultValueList =
@@ -1898,34 +1826,32 @@ export const SharedAccessSignatureAuthorizationRuleListResultValueList =
 
 /** List of shared access keys. */
 export interface SharedAccessSignatureAuthorizationRuleListResult {
-  /** The list of shared access policies. */
-  value?: SharedAccessSignatureAuthorizationRuleListResultValueList;
-  /** The next link. */
+  /** The SharedAccessSignatureAuthorizationRuleAccessRightsDescription items on this page */
+  value: SharedAccessSignatureAuthorizationRuleListResultValueList;
+  /** The link to the next page of items */
   nextLink?: string;
 }
 export const SharedAccessSignatureAuthorizationRuleListResult =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      value: S.optional(
-        SharedAccessSignatureAuthorizationRuleListResultValueList,
-      ),
+      value: SharedAccessSignatureAuthorizationRuleListResultValueList,
       nextLink: S.optional(S.String),
     }),
   ).annotate({
     identifier: "SharedAccessSignatureAuthorizationRuleListResult",
   }) as any as S.Schema<SharedAccessSignatureAuthorizationRuleListResult>;
 
-export interface IotDpsResourceListKeysForKeyNameRequest {
-  /** The subscription identifier. */
+export interface ListIotDpsResourceKeysForKeyNameRequest {
+  /** The ID of the target subscription. */
   subscriptionId: string;
-  /** The name of the resource group that contains the provisioning service. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** Name of the provisioning service. */
+  /** Name of the provisioning service to retrieve. */
   provisioningServiceName: string;
   /** Logical key name to get key-values for. */
   keyName: string;
 }
-export const IotDpsResourceListKeysForKeyNameRequest = /*@__PURE__*/ S.suspend(
+export const ListIotDpsResourceKeysForKeyNameRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -1937,22 +1863,22 @@ export const IotDpsResourceListKeysForKeyNameRequest = /*@__PURE__*/ S.suspend(
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/keys/{keyName}/listkeys",
         code: 200,
-        apiVersion: "2022-12-12",
+        apiVersion: "2026-08-31",
       }),
     ),
 ).annotate({
-  identifier: "IotDpsResourceListKeysForKeyNameRequest",
-}) as any as S.Schema<IotDpsResourceListKeysForKeyNameRequest>;
+  identifier: "ListIotDpsResourceKeysForKeyNameRequest",
+}) as any as S.Schema<ListIotDpsResourceKeysForKeyNameRequest>;
 
-export interface IotDpsResourceListPrivateEndpointConnectionsRequest {
-  /** The subscription identifier. */
+export interface ListIotDpsResourcePrivateEndpointConnectionsRequest {
+  /** The ID of the target subscription. */
   subscriptionId: string;
-  /** The name of the resource group that contains the provisioning service. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the provisioning service. */
+  /** Name of the provisioning service to retrieve. */
   resourceName: string;
 }
-export const IotDpsResourceListPrivateEndpointConnectionsRequest =
+export const ListIotDpsResourcePrivateEndpointConnectionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -1963,37 +1889,37 @@ export const IotDpsResourceListPrivateEndpointConnectionsRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections",
         code: 200,
-        apiVersion: "2022-12-12",
+        apiVersion: "2026-08-31",
       }),
     ),
   ).annotate({
-    identifier: "IotDpsResourceListPrivateEndpointConnectionsRequest",
-  }) as any as S.Schema<IotDpsResourceListPrivateEndpointConnectionsRequest>;
+    identifier: "ListIotDpsResourcePrivateEndpointConnectionsRequest",
+  }) as any as S.Schema<ListIotDpsResourcePrivateEndpointConnectionsRequest>;
 
-/** The list of private endpoint connections for a provisioning service */
+/** Represents a list of private endpoint connections. */
 export type PrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
 export const PrivateEndpointConnectionsList = /*@__PURE__*/ S.Array(
   PrivateEndpointConnection,
 ) as any as S.Schema<PrivateEndpointConnectionsList>;
 
-export type IotDpsResourceListPrivateEndpointConnectionsResponse =
+export type ListIotDpsResourcePrivateEndpointConnectionsResponse =
   PrivateEndpointConnectionsList;
-export const IotDpsResourceListPrivateEndpointConnectionsResponse =
+export const ListIotDpsResourcePrivateEndpointConnectionsResponse =
   /*@__PURE__*/ S.suspend(() =>
     PrivateEndpointConnectionsList.pipe(T.RawResponseRoot()),
   ).annotate({
-    identifier: "IotDpsResourceListPrivateEndpointConnectionsResponse",
-  }) as any as S.Schema<IotDpsResourceListPrivateEndpointConnectionsResponse>;
+    identifier: "ListIotDpsResourcePrivateEndpointConnectionsResponse",
+  }) as any as S.Schema<ListIotDpsResourcePrivateEndpointConnectionsResponse>;
 
-export interface IotDpsResourceListPrivateLinkResourcesRequest {
-  /** The subscription identifier. */
+export interface ListIotDpsResourcePrivateLinkResourcesRequest {
+  /** The ID of the target subscription. */
   subscriptionId: string;
-  /** The name of the resource group that contains the provisioning service. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the provisioning service. */
+  /** Name of the provisioning service to retrieve. */
   resourceName: string;
 }
-export const IotDpsResourceListPrivateLinkResourcesRequest =
+export const ListIotDpsResourcePrivateLinkResourcesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -2004,12 +1930,37 @@ export const IotDpsResourceListPrivateLinkResourcesRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateLinkResources",
         code: 200,
-        apiVersion: "2022-12-12",
+        apiVersion: "2026-08-31",
       }),
     ),
   ).annotate({
-    identifier: "IotDpsResourceListPrivateLinkResourcesRequest",
-  }) as any as S.Schema<IotDpsResourceListPrivateLinkResourcesRequest>;
+    identifier: "ListIotDpsResourcePrivateLinkResourcesRequest",
+  }) as any as S.Schema<ListIotDpsResourcePrivateLinkResourcesRequest>;
+
+/** The group information for creating a private endpoint on a provisioning service */
+export interface GroupIdInformation {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** The properties for a group information object */
+  properties: GroupIdInformationProperties;
+}
+export const GroupIdInformation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: GroupIdInformationProperties,
+  }),
+).annotate({
+  identifier: "GroupIdInformation",
+}) as any as S.Schema<GroupIdInformation>;
 
 /** The list of available private link resources for a provisioning service */
 export type PrivateLinkResourcesValueList = Array<GroupIdInformation>;
@@ -2030,15 +1981,15 @@ export const PrivateLinkResources = /*@__PURE__*/ S.suspend(() =>
   identifier: "PrivateLinkResources",
 }) as any as S.Schema<PrivateLinkResources>;
 
-export interface IotDpsResourceListValidSkusRequest {
-  /** The subscription identifier. */
+export interface ListIotDpsResourceValidSkusRequest {
+  /** The ID of the target subscription. */
   subscriptionId: string;
-  /** Name of resource group. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** Name of provisioning service. */
+  /** Name of the provisioning service to retrieve. */
   provisioningServiceName: string;
 }
-export const IotDpsResourceListValidSkusRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListIotDpsResourceValidSkusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -2048,31 +1999,27 @@ export const IotDpsResourceListValidSkusRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/skus",
       code: 200,
-      apiVersion: "2022-12-12",
+      apiVersion: "2026-08-31",
     }),
   ),
 ).annotate({
-  identifier: "IotDpsResourceListValidSkusRequest",
-}) as any as S.Schema<IotDpsResourceListValidSkusRequest>;
-
-/** Sku name. */
-export type IotDpsSkuDefinitionName = "S1";
-export const IotDpsSkuDefinitionName = /*@__PURE__*/ S.String;
+  identifier: "ListIotDpsResourceValidSkusRequest",
+}) as any as S.Schema<ListIotDpsResourceValidSkusRequest>;
 
 /** Available SKUs of tier and units. */
 export interface IotDpsSkuDefinition {
   /** Sku name. */
-  name?: IotDpsSkuDefinitionName;
+  name?: IotDpsSku;
 }
 export const IotDpsSkuDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(IotDpsSkuDefinitionName),
+    name: S.optional(IotDpsSku),
   }),
 ).annotate({
   identifier: "IotDpsSkuDefinition",
 }) as any as S.Schema<IotDpsSkuDefinition>;
 
-/** The list of SKUs */
+/** The IotDpsSkuDefinition items on this page */
 export type IotDpsSkuDefinitionListResultValueList = Array<IotDpsSkuDefinition>;
 export const IotDpsSkuDefinitionListResultValueList = /*@__PURE__*/ S.Array(
   IotDpsSkuDefinition,
@@ -2080,174 +2027,35 @@ export const IotDpsSkuDefinitionListResultValueList = /*@__PURE__*/ S.Array(
 
 /** List of available SKUs. */
 export interface IotDpsSkuDefinitionListResult {
-  /** The list of SKUs */
-  value?: IotDpsSkuDefinitionListResultValueList;
-  /** The next link. */
+  /** The IotDpsSkuDefinition items on this page */
+  value: IotDpsSkuDefinitionListResultValueList;
+  /** The link to the next page of items */
   nextLink?: string;
 }
 export const IotDpsSkuDefinitionListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(IotDpsSkuDefinitionListResultValueList),
+    value: IotDpsSkuDefinitionListResultValueList,
     nextLink: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IotDpsSkuDefinitionListResult",
 }) as any as S.Schema<IotDpsSkuDefinitionListResult>;
 
-/** Resource tags */
-export type IotDpsResourceUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
-export const IotDpsResourceUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<IotDpsResourceUpdateRequestTagsMap>;
-
-export interface IotDpsResourceUpdateRequest {
-  /** The subscription identifier. */
-  subscriptionId: string;
-  /** Resource group identifier. */
-  resourceGroupName: string;
-  /** Name of provisioning service to create or update. */
-  provisioningServiceName: string;
-  /** Resource tags */
-  tags?: IotDpsResourceUpdateRequestTagsMap;
-}
-export const IotDpsResourceUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    provisioningServiceName: S.String.pipe(T.Label()),
-    tags: S.optional(IotDpsResourceUpdateRequestTagsMap),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
-      code: 200,
-      apiVersion: "2022-12-12",
-    }),
-  ),
-).annotate({
-  identifier: "IotDpsResourceUpdateRequest",
-}) as any as S.Schema<IotDpsResourceUpdateRequest>;
-
-/** The resource tags. */
-export type IotDpsResourceUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const IotDpsResourceUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<IotDpsResourceUpdateResponseTagsMap>;
-
-/** The type of identity that created the resource. */
-export type IotDpsResourceUpdateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const IotDpsResourceUpdateResponseSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type IotDpsResourceUpdateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const IotDpsResourceUpdateResponseSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface IotDpsResourceUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: IotDpsResourceUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: IotDpsResourceUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const IotDpsResourceUpdateResponseSystemData = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      createdBy: S.optional(S.String),
-      createdByType: S.optional(
-        IotDpsResourceUpdateResponseSystemDataCreatedByType,
-      ),
-      createdAt: S.optional(S.String),
-      lastModifiedBy: S.optional(S.String),
-      lastModifiedByType: S.optional(
-        IotDpsResourceUpdateResponseSystemDataLastModifiedByType,
-      ),
-      lastModifiedAt: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "IotDpsResourceUpdateResponseSystemData",
-}) as any as S.Schema<IotDpsResourceUpdateResponseSystemData>;
-
-export interface IotDpsResourceUpdateResponse {
-  /** The resource identifier. */
-  id?: string;
-  /** The resource name. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-  /** The resource location. */
-  location: string;
-  /** The resource group of the resource. */
-  resourcegroup?: string;
-  /** The subscription id of the resource. */
-  subscriptionid?: string;
-  /** The resource tags. */
-  tags?: IotDpsResourceUpdateResponseTagsMap;
-  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
-  /** Service specific properties for a provisioning service */
-  properties: IotDpsPropertiesDescription;
-  /** Sku info for a provisioning Service. */
-  sku: IotDpsSkuInfo;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: IotDpsResourceUpdateResponseSystemData;
-}
-export const IotDpsResourceUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    location: S.String,
-    resourcegroup: S.optional(S.String),
-    subscriptionid: S.optional(S.String),
-    tags: S.optional(IotDpsResourceUpdateResponseTagsMap),
-    etag: S.optional(S.String),
-    properties: IotDpsPropertiesDescription,
-    sku: IotDpsSkuInfo,
-    systemData: S.optional(IotDpsResourceUpdateResponseSystemData),
-  }),
-).annotate({
-  identifier: "IotDpsResourceUpdateResponse",
-}) as any as S.Schema<IotDpsResourceUpdateResponse>;
-
-export interface OperationsListRequest {}
-export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
+export interface ListOperationsRequest {}
+export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
     T.Http({
       method: "GET",
       uri: "/providers/Microsoft.Devices/operations",
       code: 200,
-      apiVersion: "2022-12-12",
+      apiVersion: "2026-08-31",
     }),
   ),
 ).annotate({
-  identifier: "OperationsListRequest",
-}) as any as S.Schema<OperationsListRequest>;
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
 
-/** The object that represents the operation. */
+/** The display information for the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft Devices. */
   provider?: string;
@@ -2266,11 +2074,11 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
   identifier: "OperationDisplay",
 }) as any as S.Schema<OperationDisplay>;
 
-/** Provisioning Service REST API operation. */
+/** Represents an operation. */
 export interface Operation {
-  /** Operation name: {provider}/{resource}/{read | write | action | delete} */
+  /** The name of the operation. */
   name?: string;
-  /** The object that represents the operation. */
+  /** The display information for the operation. */
   display?: OperationDisplay;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
@@ -2280,136 +2088,400 @@ export const Operation = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
-/** Provisioning service operations supported by the Microsoft.Devices resource provider. */
+/** [Placeholder] Description for value property */
 export type OperationListResultValueList = Array<Operation>;
 export const OperationListResultValueList = /*@__PURE__*/ S.Array(
   Operation,
 ) as any as S.Schema<OperationListResultValueList>;
 
-/** Result of the request to list provisioning service operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
-  /** Provisioning service operations supported by the Microsoft.Devices resource provider. */
-  value?: OperationListResultValueList;
-  /** URL to get the next set of operation list results if there are any. */
+  /** [Placeholder] Description for value property */
+  value: OperationListResultValueList;
+  /** [Placeholder] Description for nextLink property. */
   nextLink?: string;
 }
 export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(OperationListResultValueList),
+    value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
 ).annotate({
   identifier: "OperationListResult",
 }) as any as S.Schema<OperationListResult>;
 
-export type DpsCertificateCreateOrUpdateError = AzureOpError;
-/** Upload the certificate to the provisioning service. Add new certificate or update an existing certificate. */
-export const DpsCertificateCreateOrUpdate: API.OperationMethod<
-  DpsCertificateCreateOrUpdateRequest,
-  CertificateResponse,
-  DpsCertificateCreateOrUpdateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DpsCertificateCreateOrUpdateRequest,
-  output: CertificateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
+/** Resource tags */
+export type UpdateIotDpsResourceRequestTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateIotDpsResourceRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateIotDpsResourceRequestTagsMap>;
 
-export type DpsCertificateDeleteError = AzureOpError;
-/** Delete the Provisioning Service Certificate. Deletes the specified certificate associated with the Provisioning Service */
-export const DpsCertificateDelete: API.OperationMethod<
-  DpsCertificateDeleteRequest,
-  DpsCertificateDeleteResponse,
-  DpsCertificateDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DpsCertificateDeleteRequest,
-  output: DpsCertificateDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
+export interface UpdateIotDpsResourceRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the provisioning service to retrieve. */
+  provisioningServiceName: string;
+  /** Resource tags */
+  tags?: UpdateIotDpsResourceRequestTagsMap;
+}
+export const UpdateIotDpsResourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    provisioningServiceName: S.String.pipe(T.Label()),
+    tags: S.optional(UpdateIotDpsResourceRequestTagsMap),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
+      code: 200,
+      apiVersion: "2026-08-31",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateIotDpsResourceRequest",
+}) as any as S.Schema<UpdateIotDpsResourceRequest>;
 
-export type DpsCertificateGenerateVerificationCodeError = AzureOpError;
-/** Generate verification code for Proof of Possession. */
-export const DpsCertificateGenerateVerificationCode: API.OperationMethod<
-  DpsCertificateGenerateVerificationCodeRequest,
-  VerificationCodeResponse,
-  DpsCertificateGenerateVerificationCodeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DpsCertificateGenerateVerificationCodeRequest,
-  output: VerificationCodeResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
+/** Resource tags. */
+export type UpdateIotDpsResourceResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateIotDpsResourceResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateIotDpsResourceResponseTagsMap>;
 
-export type DpsCertificateGetError = AzureOpError;
-/** Get the certificate from the provisioning service. */
-export const DpsCertificateGet: API.OperationMethod<
-  DpsCertificateGetRequest,
-  CertificateResponse,
-  DpsCertificateGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DpsCertificateGetRequest,
-  output: CertificateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type UpdateIotDpsResourceResponseIdentity =
+  GetIotDpsResourceResponseIdentity;
+export const UpdateIotDpsResourceResponseIdentity =
+  GetIotDpsResourceResponseIdentity;
 
-export type DpsCertificateListError = AzureOpError;
-/** Get all the certificates tied to the provisioning service. */
-export const DpsCertificateList: API.OperationMethod<
-  DpsCertificateListRequest,
-  CertificateListDescription,
-  DpsCertificateListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DpsCertificateListRequest,
-  output: CertificateListDescription,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
+export interface UpdateIotDpsResourceResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: UpdateIotDpsResourceResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
+  etag?: string;
+  /** The resource group of the resource. */
+  resourcegroup?: string;
+  /** The subscription id of the resource. */
+  subscriptionid?: string;
+  /** Service specific properties for a provisioning service */
+  properties: IotDpsPropertiesDescription;
+  /** Sku info for a provisioning Service. */
+  sku: IotDpsSkuInfo;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: GetIotDpsResourceResponseIdentity;
+}
+export const UpdateIotDpsResourceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(UpdateIotDpsResourceResponseTagsMap),
+    location: S.String,
+    etag: S.optional(S.String),
+    resourcegroup: S.optional(S.String),
+    subscriptionid: S.optional(S.String),
+    properties: IotDpsPropertiesDescription,
+    sku: IotDpsSkuInfo,
+    identity: S.optional(GetIotDpsResourceResponseIdentity),
+  }),
+).annotate({
+  identifier: "UpdateIotDpsResourceResponse",
+}) as any as S.Schema<UpdateIotDpsResourceResponse>;
 
-export type DpsCertificateVerifyCertificateError = AzureOpError;
-/** Verify certificate's private key possession. Verifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate. */
-export const DpsCertificateVerifyCertificate: API.OperationMethod<
-  DpsCertificateVerifyCertificateRequest,
-  CertificateResponse,
-  DpsCertificateVerifyCertificateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DpsCertificateVerifyCertificateRequest,
-  output: CertificateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
+export type VerifyDpsCertificateCertificateRequestCertificatePurpose =
+  | "clientAuthentication"
+  | "serverAuthentication";
+export const VerifyDpsCertificateCertificateRequestCertificatePurpose =
+  S.String;
 
-export type IotDpsResourceCheckProvisioningServiceNameAvailabilityError =
+export interface VerifyDpsCertificateCertificateRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the provisioning service to retrieve. */
+  provisioningServiceName: string;
+  /** Name of the certificate to retrieve. */
+  certificateName: string;
+  /** Common Name for the certificate. */
+  certificate_name?: string;
+  /** Raw data of certificate. */
+  certificate_rawBytes?: string;
+  /** Indicates if the certificate has been verified by owner of the private key. */
+  certificate_isVerified?: boolean;
+  /** Describe the purpose of the certificate. */
+  certificate_purpose?:
+    | VerifyDpsCertificateCertificateRequestCertificatePurpose
+    | (string & {});
+  /** Time the certificate is created. */
+  certificate_created?: string;
+  /** Certificate last updated time. */
+  certificate_lastUpdated?: string;
+  /** Indicates if the certificate contains private key. */
+  certificate_hasPrivateKey?: boolean;
+  /** Random number generated to indicate Proof of Possession. */
+  certificate_nonce?: string;
+  /** base-64 representation of X509 certificate .cer file or just .pem file content. */
+  certificate?: string;
+}
+export const VerifyDpsCertificateCertificateRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      provisioningServiceName: S.String.pipe(T.Label()),
+      certificateName: S.String.pipe(T.Label()),
+      certificate_name: S.optional(S.String.pipe(T.Query("certificate.name"))),
+      certificate_rawBytes: S.optional(
+        S.String.pipe(T.Query("certificate.rawBytes")),
+      ),
+      certificate_isVerified: S.optional(
+        S.Boolean.pipe(T.Query("certificate.isVerified")),
+      ),
+      certificate_purpose: S.optional(
+        VerifyDpsCertificateCertificateRequestCertificatePurpose.pipe(
+          T.Query("certificate.purpose"),
+        ),
+      ),
+      certificate_created: S.optional(
+        S.String.pipe(T.Query("certificate.created")),
+      ),
+      certificate_lastUpdated: S.optional(
+        S.String.pipe(T.Query("certificate.lastUpdated")),
+      ),
+      certificate_hasPrivateKey: S.optional(
+        S.Boolean.pipe(T.Query("certificate.hasPrivateKey")),
+      ),
+      certificate_nonce: S.optional(
+        S.String.pipe(T.Query("certificate.nonce")),
+      ),
+      certificate: S.optional(S.String),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/verify",
+        code: 200,
+        apiVersion: "2026-08-31",
+      }),
+    ),
+).annotate({
+  identifier: "VerifyDpsCertificateCertificateRequest",
+}) as any as S.Schema<VerifyDpsCertificateCertificateRequest>;
+
+export interface VerifyDpsCertificateCertificateResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** properties of a certificate */
+  properties?: CertificateProperties;
+  /** The entity tag. */
+  etag?: string;
+}
+export const VerifyDpsCertificateCertificateResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: S.optional(CertificateProperties),
+      etag: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "VerifyDpsCertificateCertificateResponse",
+}) as any as S.Schema<VerifyDpsCertificateCertificateResponse>;
+
+export type CheckIotDpsResourceProvisioningServiceNameAvailabilityError =
   AzureOpError;
 /** Check if a provisioning service name is available. Check if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable */
-export const IotDpsResourceCheckProvisioningServiceNameAvailability: API.OperationMethod<
-  IotDpsResourceCheckProvisioningServiceNameAvailabilityRequest,
+export const CheckIotDpsResourceProvisioningServiceNameAvailability: API.OperationMethod<
+  CheckIotDpsResourceProvisioningServiceNameAvailabilityRequest,
   NameAvailabilityInfo,
-  IotDpsResourceCheckProvisioningServiceNameAvailabilityError,
+  CheckIotDpsResourceProvisioningServiceNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceCheckProvisioningServiceNameAvailabilityRequest,
+  input: CheckIotDpsResourceProvisioningServiceNameAvailabilityRequest,
   output: NameAvailabilityInfo,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
+export type DeleteDpsCertificateError = AzureOpError;
+/** Deletes the specified certificate associated with the Provisioning Service */
+export const DeleteDpsCertificate: API.OperationMethod<
+  DeleteDpsCertificateRequest,
+  DeleteDpsCertificateResponse,
+  DeleteDpsCertificateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteDpsCertificateRequest,
+  output: DeleteDpsCertificateResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteIotDpsResourceError = AzureOpError;
+/** Deletes the Provisioning Service. */
+export const DeleteIotDpsResource: API.OperationMethod<
+  DeleteIotDpsResourceRequest,
+  DeleteIotDpsResourceResponse,
+  DeleteIotDpsResourceError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteIotDpsResourceRequest,
+  output: DeleteIotDpsResourceResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteIotDpsResourcePrivateEndpointConnectionError = AzureOpError;
+/** Delete private endpoint connection with the specified name */
+export const DeleteIotDpsResourcePrivateEndpointConnection: API.OperationMethod<
+  DeleteIotDpsResourcePrivateEndpointConnectionRequest,
+  DeleteIotDpsResourcePrivateEndpointConnectionResponse,
+  DeleteIotDpsResourcePrivateEndpointConnectionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteIotDpsResourcePrivateEndpointConnectionRequest,
+  output: DeleteIotDpsResourcePrivateEndpointConnectionResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DpsCertificateCreateOrUpdateError = AzureOpError;
+/** Add new certificate or update an existing certificate. */
+export const DpsCertificateCreateOrUpdate: API.OperationMethod<
+  DpsCertificateCreateOrUpdateRequest,
+  DpsCertificateCreateOrUpdateResponse,
+  DpsCertificateCreateOrUpdateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DpsCertificateCreateOrUpdateRequest,
+  output: DpsCertificateCreateOrUpdateResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GenerateDpsCertificateVerificationCodeError = AzureOpError;
+/** Generate verification code for Proof of Possession. */
+export const GenerateDpsCertificateVerificationCode: API.OperationMethod<
+  GenerateDpsCertificateVerificationCodeRequest,
+  VerificationCodeResponse,
+  GenerateDpsCertificateVerificationCodeError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GenerateDpsCertificateVerificationCodeRequest,
+  output: VerificationCodeResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetDpsCertificateError = AzureOpError;
+/** Get the certificate from the provisioning service. */
+export const GetDpsCertificate: API.OperationMethod<
+  GetDpsCertificateRequest,
+  GetDpsCertificateResponse,
+  GetDpsCertificateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetDpsCertificateRequest,
+  output: GetDpsCertificateResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetIotDpsResourceError = AzureOpError;
+/** Get the metadata of the provisioning service without SAS keys. */
+export const GetIotDpsResource: API.OperationMethod<
+  GetIotDpsResourceRequest,
+  GetIotDpsResourceResponse,
+  GetIotDpsResourceError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetIotDpsResourceRequest,
+  output: GetIotDpsResourceResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetIotDpsResourceOperationResultError = AzureOpError;
+/** Gets the status of a long running operation, such as create, update or delete a provisioning service. */
+export const GetIotDpsResourceOperationResult: API.OperationMethod<
+  GetIotDpsResourceOperationResultRequest,
+  AsyncOperationResult,
+  GetIotDpsResourceOperationResultError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetIotDpsResourceOperationResultRequest,
+  output: AsyncOperationResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetIotDpsResourcePrivateEndpointConnectionError = AzureOpError;
+/** Get private endpoint connection properties */
+export const GetIotDpsResourcePrivateEndpointConnection: API.OperationMethod<
+  GetIotDpsResourcePrivateEndpointConnectionRequest,
+  GetIotDpsResourcePrivateEndpointConnectionResponse,
+  GetIotDpsResourcePrivateEndpointConnectionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetIotDpsResourcePrivateEndpointConnectionRequest,
+  output: GetIotDpsResourcePrivateEndpointConnectionResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetIotDpsResourcePrivateLinkResourcesError = AzureOpError;
+/** Get the specified private link resource for the given provisioning service */
+export const GetIotDpsResourcePrivateLinkResources: API.OperationMethod<
+  GetIotDpsResourcePrivateLinkResourcesRequest,
+  GetIotDpsResourcePrivateLinkResourcesResponse,
+  GetIotDpsResourcePrivateLinkResourcesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetIotDpsResourcePrivateLinkResourcesRequest,
+  output: GetIotDpsResourcePrivateLinkResourcesResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
 export type IotDpsResourceCreateOrUpdateError = AzureOpError;
-/** Create or update the metadata of the provisioning service. Create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service. */
+/** Create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service. */
 export const IotDpsResourceCreateOrUpdate: API.OperationMethod<
   IotDpsResourceCreateOrUpdateRequest,
   IotDpsResourceCreateOrUpdateResponse,
@@ -2425,240 +2497,180 @@ export const IotDpsResourceCreateOrUpdate: API.OperationMethod<
 
 export type IotDpsResourceCreateOrUpdatePrivateEndpointConnectionError =
   AzureOpError;
-/** Create or update private endpoint connection Create or update the status of a private endpoint connection with the specified name */
+/** Create or update the status of a private endpoint connection with the specified name */
 export const IotDpsResourceCreateOrUpdatePrivateEndpointConnection: API.OperationMethod<
   IotDpsResourceCreateOrUpdatePrivateEndpointConnectionRequest,
-  PrivateEndpointConnection,
+  IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse,
   IotDpsResourceCreateOrUpdatePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionRequest,
-  output: PrivateEndpointConnection,
+  output: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type IotDpsResourceDeleteError = AzureOpError;
-/** Delete the Provisioning Service Deletes the Provisioning Service. */
-export const IotDpsResourceDelete: API.OperationMethod<
-  IotDpsResourceDeleteRequest,
-  IotDpsResourceDeleteResponse,
-  IotDpsResourceDeleteError,
+export type ListDpsCertificateError = AzureOpError;
+/** Get all the certificates tied to the provisioning service. */
+export const ListDpsCertificate: API.OperationMethod<
+  ListDpsCertificateRequest,
+  CertificateListDescription,
+  ListDpsCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceDeleteRequest,
-  output: IotDpsResourceDeleteResponse,
+  input: ListDpsCertificateRequest,
+  output: CertificateListDescription,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type IotDpsResourceDeletePrivateEndpointConnectionError = AzureOpError;
-/** Delete private endpoint connection Delete private endpoint connection with the specified name */
-export const IotDpsResourceDeletePrivateEndpointConnection: API.OperationMethod<
-  IotDpsResourceDeletePrivateEndpointConnectionRequest,
-  PrivateEndpointConnection,
-  IotDpsResourceDeletePrivateEndpointConnectionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceDeletePrivateEndpointConnectionRequest,
-  output: PrivateEndpointConnection,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type IotDpsResourceGetError = AzureOpError;
-/** Get the non-security related metadata of the provisioning service. Get the metadata of the provisioning service without SAS keys. */
-export const IotDpsResourceGet: API.OperationMethod<
-  IotDpsResourceGetRequest,
-  IotDpsResourceGetResponse,
-  IotDpsResourceGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceGetRequest,
-  output: IotDpsResourceGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type IotDpsResourceGetOperationResultError = AzureOpError;
-/** Gets the status of a long running operation, such as create, update or delete a provisioning service. */
-export const IotDpsResourceGetOperationResult: API.OperationMethod<
-  IotDpsResourceGetOperationResultRequest,
-  AsyncOperationResult,
-  IotDpsResourceGetOperationResultError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceGetOperationResultRequest,
-  output: AsyncOperationResult,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type IotDpsResourceGetPrivateEndpointConnectionError = AzureOpError;
-/** Get private endpoint connection Get private endpoint connection properties */
-export const IotDpsResourceGetPrivateEndpointConnection: API.OperationMethod<
-  IotDpsResourceGetPrivateEndpointConnectionRequest,
-  PrivateEndpointConnection,
-  IotDpsResourceGetPrivateEndpointConnectionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceGetPrivateEndpointConnectionRequest,
-  output: PrivateEndpointConnection,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type IotDpsResourceGetPrivateLinkResourcesError = AzureOpError;
-/** Get the specified private link resource Get the specified private link resource for the given provisioning service */
-export const IotDpsResourceGetPrivateLinkResources: API.OperationMethod<
-  IotDpsResourceGetPrivateLinkResourcesRequest,
-  GroupIdInformation,
-  IotDpsResourceGetPrivateLinkResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceGetPrivateLinkResourcesRequest,
-  output: GroupIdInformation,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type IotDpsResourceListByResourceGroupError = AzureOpError;
+export type ListIotDpsResourceByResourceGroupError = AzureOpError;
 /** Get a list of all provisioning services in the given resource group. */
-export const IotDpsResourceListByResourceGroup: API.OperationMethod<
-  IotDpsResourceListByResourceGroupRequest,
+export const ListIotDpsResourceByResourceGroup: API.OperationMethod<
+  ListIotDpsResourceByResourceGroupRequest,
   ProvisioningServiceDescriptionListResult,
-  IotDpsResourceListByResourceGroupError,
+  ListIotDpsResourceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceListByResourceGroupRequest,
+  input: ListIotDpsResourceByResourceGroupRequest,
   output: ProvisioningServiceDescriptionListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type IotDpsResourceListBySubscriptionError = AzureOpError;
-/** Get all the provisioning services in a subscription. List all the provisioning services for a given subscription id. */
-export const IotDpsResourceListBySubscription: API.OperationMethod<
-  IotDpsResourceListBySubscriptionRequest,
+export type ListIotDpsResourceBySubscriptionError = AzureOpError;
+/** List all the provisioning services for a given subscription id. */
+export const ListIotDpsResourceBySubscription: API.OperationMethod<
+  ListIotDpsResourceBySubscriptionRequest,
   ProvisioningServiceDescriptionListResult,
-  IotDpsResourceListBySubscriptionError,
+  ListIotDpsResourceBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceListBySubscriptionRequest,
+  input: ListIotDpsResourceBySubscriptionRequest,
   output: ProvisioningServiceDescriptionListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type IotDpsResourceListKeysError = AzureOpError;
-/** Get the security metadata for a provisioning service. List the primary and secondary keys for a provisioning service. */
-export const IotDpsResourceListKeys: API.OperationMethod<
-  IotDpsResourceListKeysRequest,
+export type ListIotDpsResourceKeysError = AzureOpError;
+/** List the primary and secondary keys for a provisioning service. */
+export const ListIotDpsResourceKeys: API.OperationMethod<
+  ListIotDpsResourceKeysRequest,
   SharedAccessSignatureAuthorizationRuleListResult,
-  IotDpsResourceListKeysError,
+  ListIotDpsResourceKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceListKeysRequest,
+  input: ListIotDpsResourceKeysRequest,
   output: SharedAccessSignatureAuthorizationRuleListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type IotDpsResourceListKeysForKeyNameError = AzureOpError;
-/** Get a shared access policy by name from a provisioning service. List primary and secondary keys for a specific key name */
-export const IotDpsResourceListKeysForKeyName: API.OperationMethod<
-  IotDpsResourceListKeysForKeyNameRequest,
+export type ListIotDpsResourceKeysForKeyNameError = AzureOpError;
+/** List primary and secondary keys for a specific key name */
+export const ListIotDpsResourceKeysForKeyName: API.OperationMethod<
+  ListIotDpsResourceKeysForKeyNameRequest,
   SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
-  IotDpsResourceListKeysForKeyNameError,
+  ListIotDpsResourceKeysForKeyNameError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceListKeysForKeyNameRequest,
+  input: ListIotDpsResourceKeysForKeyNameRequest,
   output: SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type IotDpsResourceListPrivateEndpointConnectionsError = AzureOpError;
-/** List private endpoint connections List private endpoint connection properties */
-export const IotDpsResourceListPrivateEndpointConnections: API.OperationMethod<
-  IotDpsResourceListPrivateEndpointConnectionsRequest,
-  IotDpsResourceListPrivateEndpointConnectionsResponse,
-  IotDpsResourceListPrivateEndpointConnectionsError,
+export type ListIotDpsResourcePrivateEndpointConnectionsError = AzureOpError;
+/** List private endpoint connection properties */
+export const ListIotDpsResourcePrivateEndpointConnections: API.OperationMethod<
+  ListIotDpsResourcePrivateEndpointConnectionsRequest,
+  ListIotDpsResourcePrivateEndpointConnectionsResponse,
+  ListIotDpsResourcePrivateEndpointConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceListPrivateEndpointConnectionsRequest,
-  output: IotDpsResourceListPrivateEndpointConnectionsResponse,
+  input: ListIotDpsResourcePrivateEndpointConnectionsRequest,
+  output: ListIotDpsResourcePrivateEndpointConnectionsResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type IotDpsResourceListPrivateLinkResourcesError = AzureOpError;
-/** List private link resources List private link resources for the given provisioning service */
-export const IotDpsResourceListPrivateLinkResources: API.OperationMethod<
-  IotDpsResourceListPrivateLinkResourcesRequest,
+export type ListIotDpsResourcePrivateLinkResourcesError = AzureOpError;
+/** List private link resources for the given provisioning service */
+export const ListIotDpsResourcePrivateLinkResources: API.OperationMethod<
+  ListIotDpsResourcePrivateLinkResourcesRequest,
   PrivateLinkResources,
-  IotDpsResourceListPrivateLinkResourcesError,
+  ListIotDpsResourcePrivateLinkResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceListPrivateLinkResourcesRequest,
+  input: ListIotDpsResourcePrivateLinkResourcesRequest,
   output: PrivateLinkResources,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type IotDpsResourceListValidSkusError = AzureOpError;
-/** Get the list of valid SKUs for a provisioning service. Gets the list of valid SKUs and tiers for a provisioning service. */
-export const IotDpsResourceListValidSkus: API.OperationMethod<
-  IotDpsResourceListValidSkusRequest,
+export type ListIotDpsResourceValidSkusError = AzureOpError;
+/** Gets the list of valid SKUs and tiers for a provisioning service. */
+export const ListIotDpsResourceValidSkus: API.OperationMethod<
+  ListIotDpsResourceValidSkusRequest,
   IotDpsSkuDefinitionListResult,
-  IotDpsResourceListValidSkusError,
+  ListIotDpsResourceValidSkusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceListValidSkusRequest,
+  input: ListIotDpsResourceValidSkusRequest,
   output: IotDpsSkuDefinitionListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type IotDpsResourceUpdateError = AzureOpError;
-/** Update an existing provisioning service's tags. Update an existing provisioning service's tags. to update other fields use the CreateOrUpdate method */
-export const IotDpsResourceUpdate: API.OperationMethod<
-  IotDpsResourceUpdateRequest,
-  IotDpsResourceUpdateResponse,
-  IotDpsResourceUpdateError,
+export type ListOperationsError = AzureOpError;
+/** List the operations for the provider */
+export const ListOperations: API.OperationMethod<
+  ListOperationsRequest,
+  OperationListResult,
+  ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: IotDpsResourceUpdateRequest,
-  output: IotDpsResourceUpdateResponse,
+  input: ListOperationsRequest,
+  output: OperationListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type OperationsListError = AzureOpError;
-/** Lists all of the available Microsoft.Devices REST API operations. */
-export const OperationsList: API.OperationMethod<
-  OperationsListRequest,
-  OperationListResult,
-  OperationsListError,
+export type UpdateIotDpsResourceError = AzureOpError;
+/** Update an existing provisioning service's tags. to update other fields use the CreateOrUpdate method */
+export const UpdateIotDpsResource: API.OperationMethod<
+  UpdateIotDpsResourceRequest,
+  UpdateIotDpsResourceResponse,
+  UpdateIotDpsResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: OperationsListRequest,
-  output: OperationListResult,
+  input: UpdateIotDpsResourceRequest,
+  output: UpdateIotDpsResourceResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type VerifyDpsCertificateCertificateError = AzureOpError;
+/** Verifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate. */
+export const VerifyDpsCertificateCertificate: API.OperationMethod<
+  VerifyDpsCertificateCertificateRequest,
+  VerifyDpsCertificateCertificateResponse,
+  VerifyDpsCertificateCertificateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: VerifyDpsCertificateCertificateRequest,
+  output: VerifyDpsCertificateCertificateResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

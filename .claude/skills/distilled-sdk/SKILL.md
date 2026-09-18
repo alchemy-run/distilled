@@ -1,0 +1,1 @@
+../../../.agents/skills/distilled-sdk/SKILL.md

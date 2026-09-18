@@ -12,19 +12,25 @@ import * as Retry from "../retry.ts";
 export type { PosthogOpError, PosthogOpContext };
 
 /** List of pre-approved tools the skill may use. Tool names cannot contain whitespace. */
-export type LlmSkillsCreateRequestAllowedToolsList = Array<string>;
-export const LlmSkillsCreateRequestAllowedToolsList = /*@__PURE__*/ S.Array(
+export type CreateLlmSkillRequestAllowedToolsList = Array<string>;
+export const CreateLlmSkillRequestAllowedToolsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<LlmSkillsCreateRequestAllowedToolsList>;
+) as any as S.Schema<CreateLlmSkillRequestAllowedToolsList>;
 
 /** Arbitrary key-value metadata. */
-export type LlmSkillsCreateRequestMetadataMap = {
+export type CreateLlmSkillRequestMetadataMap = {
   [key: string]: unknown | undefined;
 };
-export const LlmSkillsCreateRequestMetadataMap = /*@__PURE__*/ S.Record(
+export const CreateLlmSkillRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
-) as any as S.Schema<LlmSkillsCreateRequestMetadataMap>;
+) as any as S.Schema<CreateLlmSkillRequestMetadataMap>;
+
+/** User UUIDs to set as the skill's owners. Each must be a member of this project. Defaults to the creating user when omitted; pass an empty list to create with no owners. */
+export type CreateLlmSkillRequestOwnersList = Array<string>;
+export const CreateLlmSkillRequestOwnersList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateLlmSkillRequestOwnersList>;
 
 export interface LLMSkillFileInput {
   /** File path relative to skill root, e.g. 'scripts/setup.sh' or 'references/guide.md'. */
@@ -45,17 +51,17 @@ export const LLMSkillFileInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LLMSkillFileInput>;
 
 /** Bundled files to include with the initial version (scripts, references, assets). */
-export type LlmSkillsCreateRequestFilesList = Array<LLMSkillFileInput>;
-export const LlmSkillsCreateRequestFilesList = /*@__PURE__*/ S.Array(
+export type CreateLlmSkillRequestFilesList = Array<LLMSkillFileInput>;
+export const CreateLlmSkillRequestFilesList = /*@__PURE__*/ S.Array(
   LLMSkillFileInput,
-) as any as S.Schema<LlmSkillsCreateRequestFilesList>;
+) as any as S.Schema<CreateLlmSkillRequestFilesList>;
 
-export interface LlmSkillsCreateRequest {
+export interface CreateLlmSkillRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Unique skill name. Lowercase letters, numbers, and hyphens only. Max 64 characters. */
   name?: string;
-  /** What this skill does and when to use it. Max 4096 characters. */
+  /** What this skill does and when to use it. Max 1024 characters. */
   description?: string;
   /** The SKILL.md instruction content (markdown). */
   body?: string;
@@ -64,13 +70,15 @@ export interface LlmSkillsCreateRequest {
   /** Environment requirements (intended product, system packages, network access, etc.). */
   compatibility?: string;
   /** List of pre-approved tools the skill may use. Tool names cannot contain whitespace. */
-  allowed_tools?: LlmSkillsCreateRequestAllowedToolsList;
+  allowed_tools?: CreateLlmSkillRequestAllowedToolsList;
   /** Arbitrary key-value metadata. */
-  metadata?: LlmSkillsCreateRequestMetadataMap;
+  metadata?: CreateLlmSkillRequestMetadataMap;
+  /** User UUIDs to set as the skill's owners. Each must be a member of this project. Defaults to the creating user when omitted; pass an empty list to create with no owners. */
+  owners?: CreateLlmSkillRequestOwnersList;
   /** Bundled files to include with the initial version (scripts, references, assets). */
-  files?: LlmSkillsCreateRequestFilesList;
+  files?: CreateLlmSkillRequestFilesList;
 }
-export const LlmSkillsCreateRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateLlmSkillRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     name: S.optional(S.String),
@@ -78,9 +86,10 @@ export const LlmSkillsCreateRequest = /*@__PURE__*/ S.suspend(() =>
     body: S.optional(S.String),
     license: S.optional(S.String),
     compatibility: S.optional(S.String),
-    allowed_tools: S.optional(LlmSkillsCreateRequestAllowedToolsList),
-    metadata: S.optional(LlmSkillsCreateRequestMetadataMap),
-    files: S.optional(LlmSkillsCreateRequestFilesList),
+    allowed_tools: S.optional(CreateLlmSkillRequestAllowedToolsList),
+    metadata: S.optional(CreateLlmSkillRequestMetadataMap),
+    owners: S.optional(CreateLlmSkillRequestOwnersList),
+    files: S.optional(CreateLlmSkillRequestFilesList),
   }).pipe(
     T.Http({
       method: "POST",
@@ -89,44 +98,21 @@ export const LlmSkillsCreateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "LlmSkillsCreateRequest",
-}) as any as S.Schema<LlmSkillsCreateRequest>;
+  identifier: "CreateLlmSkillRequest",
+}) as any as S.Schema<CreateLlmSkillRequest>;
 
 /** List of pre-approved tools the skill may use. Tool names cannot contain whitespace. */
-export type LLMSkillCreateOutputAllowedToolsList = Array<string>;
-export const LLMSkillCreateOutputAllowedToolsList = /*@__PURE__*/ S.Array(
+export type LLMSkillAllowedToolsList = Array<string>;
+export const LLMSkillAllowedToolsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<LLMSkillCreateOutputAllowedToolsList>;
+) as any as S.Schema<LLMSkillAllowedToolsList>;
 
 /** Arbitrary key-value metadata. */
-export type LLMSkillCreateOutputMetadataMap = {
-  [key: string]: unknown | undefined;
-};
-export const LLMSkillCreateOutputMetadataMap = /*@__PURE__*/ S.Record(
+export type LLMSkillMetadataMap = { [key: string]: unknown | undefined };
+export const LLMSkillMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
-) as any as S.Schema<LLMSkillCreateOutputMetadataMap>;
-
-export interface LLMSkillOutlineEntry {
-  /** Markdown heading level (1-6). */
-  level?: number;
-  /** Heading text. */
-  text?: string;
-}
-export const LLMSkillOutlineEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    level: S.optional(S.Number),
-    text: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LLMSkillOutlineEntry",
-}) as any as S.Schema<LLMSkillOutlineEntry>;
-
-/** Flat list of markdown headings parsed from the skill body. Useful as a lightweight table of contents. */
-export type LLMSkillCreateOutputOutlineList = Array<LLMSkillOutlineEntry>;
-export const LLMSkillCreateOutputOutlineList = /*@__PURE__*/ S.Array(
-  LLMSkillOutlineEntry,
-) as any as S.Schema<LLMSkillCreateOutputOutlineList>;
+) as any as S.Schema<LLMSkillMetadataMap>;
 
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
@@ -134,7 +120,7 @@ export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<UserBasicHedgehogConfigMap>;
 
-/** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `other` - Other */
+/** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
 export type RoleAtOrganizationEnum =
   | "engineering"
   | "data"
@@ -143,15 +129,16 @@ export type RoleAtOrganizationEnum =
   | "leadership"
   | "marketing"
   | "sales"
+  | "student"
   | "other";
-export const RoleAtOrganizationEnum = /*@__PURE__*/ S.String;
+export const RoleAtOrganizationEnum = S.String;
 
 export type BlankEnum = "";
-export const BlankEnum = /*@__PURE__*/ S.String;
+export const BlankEnum = S.String;
 
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export const UserBasicRoleAtOrganization =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<UserBasicRoleAtOrganization>;
+  S.Unknown as any as S.Schema<UserBasicRoleAtOrganization>;
 
 export interface UserBasic {
   id?: number;
@@ -178,97 +165,11 @@ export const UserBasic = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UserBasic" }) as any as S.Schema<UserBasic>;
 
-/** Create serializer — accepts bundled files as write-only input on POST. */
-export interface LLMSkillCreateOutput {
-  id?: string;
-  /** Unique skill name. Lowercase letters, numbers, and hyphens only. Max 64 characters. */
-  name?: string;
-  /** What this skill does and when to use it. Max 4096 characters. */
-  description?: string;
-  /** The SKILL.md instruction content (markdown). */
-  body?: string;
-  /** License name or reference to a bundled license file. */
-  license?: string;
-  /** Environment requirements (intended product, system packages, network access, etc.). */
-  compatibility?: string;
-  /** List of pre-approved tools the skill may use. Tool names cannot contain whitespace. */
-  allowed_tools?: LLMSkillCreateOutputAllowedToolsList;
-  /** Arbitrary key-value metadata. */
-  metadata?: LLMSkillCreateOutputMetadataMap;
-  /** Server-owned classification — set by the producing system (the Signals harness stamps "scout"), not writable via the API. Empty for an ordinary skill. Groups skills into their own surface (e.g. the Scouts tab) independently of the skill name. */
-  category?: string;
-  /** Flat list of markdown headings parsed from the skill body. Useful as a lightweight table of contents. */
-  outline?: LLMSkillCreateOutputOutlineList;
-  version?: number;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  updated_at?: string;
-  deleted?: boolean;
-  is_latest?: boolean;
-  latest_version?: number;
-  version_count?: number;
-  first_version_created_at?: string;
-}
-export const LLMSkillCreateOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    body: S.optional(S.String),
-    license: S.optional(S.String),
-    compatibility: S.optional(S.String),
-    allowed_tools: S.optional(LLMSkillCreateOutputAllowedToolsList),
-    metadata: S.optional(LLMSkillCreateOutputMetadataMap),
-    category: S.optional(S.String),
-    outline: S.optional(LLMSkillCreateOutputOutlineList),
-    version: S.optional(S.Number),
-    created_by: S.optional(S.NullOr(UserBasic)),
-    created_at: S.optional(S.String),
-    updated_at: S.optional(S.String),
-    deleted: S.optional(S.Boolean),
-    is_latest: S.optional(S.Boolean),
-    latest_version: S.optional(S.Number),
-    version_count: S.optional(S.Number),
-    first_version_created_at: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LLMSkillCreateOutput",
-}) as any as S.Schema<LLMSkillCreateOutput>;
-
-export interface LlmSkillsImportCreateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A spec-compliant skill .zip (a SKILL.md plus optional bundled files under scripts/, references/, assets/). */
-  file: string;
-}
-export const LlmSkillsImportCreateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    file: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/llm_skills/import/",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
-).annotate({
-  identifier: "LlmSkillsImportCreateRequest",
-}) as any as S.Schema<LlmSkillsImportCreateRequest>;
-
-/** List of pre-approved tools the skill may use. Tool names cannot contain whitespace. */
-export type LLMSkillAllowedToolsList = Array<string>;
-export const LLMSkillAllowedToolsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<LLMSkillAllowedToolsList>;
-
-/** Arbitrary key-value metadata. */
-export type LLMSkillMetadataMap = { [key: string]: unknown | undefined };
-export const LLMSkillMetadataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<LLMSkillMetadataMap>;
+/** Users who own this skill, seed-creator first. Ownership is keyed on the logical skill (not a version), so it's stable across edits. Prefer this over created_by to learn who to route reviews or questions to. Set via the owners field on create/update (a list of user UUIDs). Empty for scout sandbox fetches of skills that haven't opted into the report channel. */
+export type LLMSkillOwnersList = Array<UserBasic>;
+export const LLMSkillOwnersList = /*@__PURE__*/ S.Array(
+  UserBasic,
+) as any as S.Schema<LLMSkillOwnersList>;
 
 export interface LLMSkillFileManifest {
   path?: string;
@@ -289,6 +190,21 @@ export const LLMSkillFilesList = /*@__PURE__*/ S.Array(
   LLMSkillFileManifest,
 ) as any as S.Schema<LLMSkillFilesList>;
 
+export interface LLMSkillOutlineEntry {
+  /** Markdown heading level (1-6). */
+  level?: number;
+  /** Heading text. */
+  text?: string;
+}
+export const LLMSkillOutlineEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    level: S.optional(S.Number),
+    text: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LLMSkillOutlineEntry",
+}) as any as S.Schema<LLMSkillOutlineEntry>;
+
 /** Flat list of markdown headings parsed from the skill body. Useful as a lightweight table of contents. */
 export type LLMSkillOutlineList = Array<LLMSkillOutlineEntry>;
 export const LLMSkillOutlineList = /*@__PURE__*/ S.Array(
@@ -299,8 +215,12 @@ export interface LLMSkill {
   id?: string;
   /** Unique skill name. Lowercase letters, numbers, and hyphens only. Max 64 characters. */
   name?: string;
-  /** What this skill does and when to use it. Max 4096 characters. */
+  /** What this skill does and when to use it. */
   description?: string;
+  /** Total length of the full body in characters, independent of any body_offset/body_length paging. Compare against the length of the returned body to detect a truncated response. */
+  body_total_length?: number;
+  /** When body_length paging stops before the end of the body, the character offset to request next (pass as body_offset). Null when the returned body reaches the end. */
+  body_next_offset?: number | null;
   /** The SKILL.md instruction content (markdown). */
   body?: string;
   /** License name or reference to a bundled license file. */
@@ -313,11 +233,15 @@ export interface LLMSkill {
   metadata?: LLMSkillMetadataMap;
   /** Server-owned classification — set by the producing system (the Signals harness stamps "scout"), not writable via the API. Empty for an ordinary skill. Groups skills into their own surface (e.g. the Scouts tab) independently of the skill name. */
   category?: string;
+  /** Users who own this skill, seed-creator first. Ownership is keyed on the logical skill (not a version), so it's stable across edits. Prefer this over created_by to learn who to route reviews or questions to. Set via the owners field on create/update (a list of user UUIDs). Empty for scout sandbox fetches of skills that haven't opted into the report channel. */
+  owners?: LLMSkillOwnersList;
   /** Bundled files manifest. Each entry is path + content_type only; fetch content via /llm_skills/name/{name}/files/{path}/. */
   files?: LLMSkillFilesList;
   /** Flat list of markdown headings parsed from the skill body. Useful as a lightweight table of contents. */
   outline?: LLMSkillOutlineList;
   version?: number;
+  /** Optional note describing what changed in this version. Set when the version is published. */
+  version_description?: string | null;
   created_by?: UserBasic | null;
   created_at?: string;
   updated_at?: string;
@@ -332,15 +256,19 @@ export const LLMSkill = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
+    body_total_length: S.optional(S.Number),
+    body_next_offset: S.optional(S.NullOr(S.Number)),
     body: S.optional(S.String),
     license: S.optional(S.String),
     compatibility: S.optional(S.String),
     allowed_tools: S.optional(LLMSkillAllowedToolsList),
     metadata: S.optional(LLMSkillMetadataMap),
     category: S.optional(S.String),
+    owners: S.optional(LLMSkillOwnersList),
     files: S.optional(LLMSkillFilesList),
     outline: S.optional(LLMSkillOutlineList),
     version: S.optional(S.Number),
+    version_description: S.optional(S.NullOr(S.String)),
     created_by: S.optional(S.NullOr(UserBasic)),
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
@@ -352,7 +280,216 @@ export const LLMSkill = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "LLMSkill" }) as any as S.Schema<LLMSkill>;
 
-export interface LlmSkillsListRequest {
+export interface CreateLlmSkillsNameFileRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  skill_name: string;
+  /** File path relative to skill root, e.g. 'scripts/setup.sh' or 'references/guide.md'. */
+  path?: string;
+  /** Text content of the file. */
+  content?: string;
+  /** MIME type of the file content. */
+  content_type?: string;
+  /** Latest version you are editing from. If provided, the request fails with 409 when another write has landed in the meantime. */
+  base_version?: number;
+}
+export const CreateLlmSkillsNameFileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    skill_name: S.String.pipe(T.Label()),
+    path: S.optional(S.String),
+    content: S.optional(S.String),
+    content_type: S.optional(S.String),
+    base_version: S.optional(S.Number),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/llm_skills/name/{skill_name}/files/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateLlmSkillsNameFileRequest",
+}) as any as S.Schema<CreateLlmSkillsNameFileRequest>;
+
+export type GetLlmSkillsBundleRequestContent = "stub" | "full";
+export const GetLlmSkillsBundleRequestContent = S.String;
+
+export interface GetLlmSkillsBundleRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** What each skill directory in the zip contains. 'stub' (default) writes a SKILL.md with the name, description and instructions to fetch the skill over the PostHog MCP when it is invoked. 'full' writes the rendered SKILL.md, every bundled file and the Codex sidecar. * `stub` - stub * `full` - full */
+  content?: GetLlmSkillsBundleRequestContent | (string & {});
+  /** Maximum number of skills in the zip, newest first; default 20, at most 100. Every skill in the zip costs the agent prompt context on each turn, so pick what the harness can usefully carry. Skills past the limit are reported in X-Skills-Dropped. */
+  limit?: number;
+}
+export const GetLlmSkillsBundleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    content: S.optional(GetLlmSkillsBundleRequestContent.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/llm_skills/bundle/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetLlmSkillsBundleRequest",
+}) as any as S.Schema<GetLlmSkillsBundleRequest>;
+
+export interface GetLlmSkillsBundleResponse {}
+export const GetLlmSkillsBundleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "GetLlmSkillsBundleResponse",
+}) as any as S.Schema<GetLlmSkillsBundleResponse>;
+
+export interface GetLlmSkillsNameRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  skill_name: string;
+  /** Maximum number of characters of the body to return starting at body_offset. Omit to return the whole body from the offset onwards. When the slice stops before the end, body_next_offset is the offset to request next. */
+  body_length?: number;
+  /** Zero-based character offset to start the returned body from. Use with body_length to page through a large body that a client would otherwise truncate. Compare the returned body length against body_total_length to detect truncation, then re-fetch from body_next_offset. Defaults to 0 (start of body). */
+  body_offset?: number;
+  /** Specific skill version to fetch. If omitted, the latest version is returned. */
+  version?: number;
+}
+export const GetLlmSkillsNameRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    skill_name: S.String.pipe(T.Label()),
+    body_length: S.optional(S.Number.pipe(T.Query())),
+    body_offset: S.optional(S.Number.pipe(T.Query())),
+    version: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/llm_skills/name/{skill_name}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetLlmSkillsNameRequest",
+}) as any as S.Schema<GetLlmSkillsNameRequest>;
+
+export interface GetLlmSkillsNameFileRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  skill_name: string;
+  file_path: string;
+  /** Specific skill version to fetch. If omitted, the latest version is returned. */
+  version?: number;
+}
+export const GetLlmSkillsNameFileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    skill_name: S.String.pipe(T.Label()),
+    file_path: S.String.pipe(T.Label()),
+    version: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/llm_skills/name/{skill_name}/files/{file_path}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetLlmSkillsNameFileRequest",
+}) as any as S.Schema<GetLlmSkillsNameFileRequest>;
+
+export interface LLMSkillFile {
+  path?: string;
+  content?: string;
+  content_type?: string;
+}
+export const LLMSkillFile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    path: S.optional(S.String),
+    content: S.optional(S.String),
+    content_type: S.optional(S.String),
+  }),
+).annotate({ identifier: "LLMSkillFile" }) as any as S.Schema<LLMSkillFile>;
+
+export interface GetLlmSkillsResolveNameRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  skill_name: string;
+  /** Return versions older than this version number. Mutually exclusive with offset. */
+  before_version?: number;
+  /** Maximum number of versions to return per page (1-100). */
+  limit?: number;
+  /** Zero-based offset into version history for pagination. Mutually exclusive with before_version. */
+  offset?: number;
+  /** Specific skill version to fetch. If omitted, the latest version is returned. */
+  version?: number;
+  /** Exact skill version UUID to resolve. */
+  version_id?: string;
+}
+export const GetLlmSkillsResolveNameRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    skill_name: S.String.pipe(T.Label()),
+    before_version: S.optional(S.Number.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
+    version: S.optional(S.Number.pipe(T.Query())),
+    version_id: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/llm_skills/resolve/name/{skill_name}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetLlmSkillsResolveNameRequest",
+}) as any as S.Schema<GetLlmSkillsResolveNameRequest>;
+
+export interface LLMSkillVersionSummary {
+  id?: string;
+  version?: number;
+  version_description?: string | null;
+  created_by?: UserBasic | null;
+  created_at?: string;
+  is_latest?: boolean;
+}
+export const LLMSkillVersionSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    version: S.optional(S.Number),
+    version_description: S.optional(S.NullOr(S.String)),
+    created_by: S.optional(S.NullOr(UserBasic)),
+    created_at: S.optional(S.String),
+    is_latest: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "LLMSkillVersionSummary",
+}) as any as S.Schema<LLMSkillVersionSummary>;
+
+export type LLMSkillResolveResponseVersionsList = Array<LLMSkillVersionSummary>;
+export const LLMSkillResolveResponseVersionsList = /*@__PURE__*/ S.Array(
+  LLMSkillVersionSummary,
+) as any as S.Schema<LLMSkillResolveResponseVersionsList>;
+
+export interface LLMSkillResolveResponse {
+  skill?: LLMSkill;
+  versions?: LLMSkillResolveResponseVersionsList;
+  has_more?: boolean;
+}
+export const LLMSkillResolveResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    skill: S.optional(LLMSkill),
+    versions: S.optional(LLMSkillResolveResponseVersionsList),
+    has_more: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "LLMSkillResolveResponse",
+}) as any as S.Schema<LLMSkillResolveResponse>;
+
+export interface ListLlmSkillsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter skills to this exact category. Pass "scout" for Signals scouts, or an empty string to return only uncategorized skills. Omit the parameter entirely to return skills of every category. */
@@ -363,16 +500,19 @@ export interface LlmSkillsListRequest {
   limit?: number;
   /** The initial index from which to return the results. */
   offset?: number;
+  /** Filter skills by the ID of a user who owns them. Ownership is keyed on the logical skill, so this is stable across versions — unlike created_by_id, which tracks whoever published the latest version. */
+  owner_id?: number;
   /** Optional substring filter applied to skill names and descriptions. */
   search?: string;
 }
-export const LlmSkillsListRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListLlmSkillsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     category: S.optional(S.String.pipe(T.Query())),
     created_by_id: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
+    owner_id: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -382,8 +522,8 @@ export const LlmSkillsListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "LlmSkillsListRequest",
-}) as any as S.Schema<LlmSkillsListRequest>;
+  identifier: "ListLlmSkillsRequest",
+}) as any as S.Schema<ListLlmSkillsRequest>;
 
 /** List of pre-approved tools the skill may use. Tool names cannot contain whitespace. */
 export type LLMSkillListAllowedToolsList = Array<string>;
@@ -398,6 +538,12 @@ export const LLMSkillListMetadataMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<LLMSkillListMetadataMap>;
 
+/** Users who own this skill, seed-creator first. Ownership is keyed on the logical skill (not a version), so it's stable across edits. Prefer this over created_by to learn who to route reviews or questions to. Set via the owners field on create/update (a list of user UUIDs). Empty for scout sandbox fetches of skills that haven't opted into the report channel. */
+export type LLMSkillListOwnersList = Array<UserBasic>;
+export const LLMSkillListOwnersList = /*@__PURE__*/ S.Array(
+  UserBasic,
+) as any as S.Schema<LLMSkillListOwnersList>;
+
 /** Flat list of markdown headings parsed from the skill body. Useful as a lightweight table of contents. */
 export type LLMSkillListOutlineList = Array<LLMSkillOutlineEntry>;
 export const LLMSkillListOutlineList = /*@__PURE__*/ S.Array(
@@ -409,7 +555,7 @@ export interface LLMSkillList {
   id?: string;
   /** Unique skill name. Lowercase letters, numbers, and hyphens only. Max 64 characters. */
   name?: string;
-  /** What this skill does and when to use it. Max 4096 characters. */
+  /** What this skill does and when to use it. */
   description?: string;
   /** License name or reference to a bundled license file. */
   license?: string;
@@ -421,9 +567,13 @@ export interface LLMSkillList {
   metadata?: LLMSkillListMetadataMap;
   /** Server-owned classification — set by the producing system (the Signals harness stamps "scout"), not writable via the API. Empty for an ordinary skill. Groups skills into their own surface (e.g. the Scouts tab) independently of the skill name. */
   category?: string;
+  /** Users who own this skill, seed-creator first. Ownership is keyed on the logical skill (not a version), so it's stable across edits. Prefer this over created_by to learn who to route reviews or questions to. Set via the owners field on create/update (a list of user UUIDs). Empty for scout sandbox fetches of skills that haven't opted into the report channel. */
+  owners?: LLMSkillListOwnersList;
   /** Flat list of markdown headings parsed from the skill body. Useful as a lightweight table of contents. */
   outline?: LLMSkillListOutlineList;
   version?: number;
+  /** Optional note describing what changed in this version. Set when the version is published. */
+  version_description?: string | null;
   created_by?: UserBasic | null;
   created_at?: string;
   updated_at?: string;
@@ -443,8 +593,10 @@ export const LLMSkillList = /*@__PURE__*/ S.suspend(() =>
     allowed_tools: S.optional(LLMSkillListAllowedToolsList),
     metadata: S.optional(LLMSkillListMetadataMap),
     category: S.optional(S.String),
+    owners: S.optional(LLMSkillListOwnersList),
     outline: S.optional(LLMSkillListOutlineList),
     version: S.optional(S.Number),
+    version_description: S.optional(S.NullOr(S.String)),
     created_by: S.optional(S.NullOr(UserBasic)),
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
@@ -478,6 +630,28 @@ export const PaginatedLLMSkillListList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedLLMSkillListList",
 }) as any as S.Schema<PaginatedLLMSkillListList>;
 
+export interface LlmSkillsImportCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A spec-compliant skill .zip (a SKILL.md plus optional bundled files under scripts/, references/, assets/). */
+  file: string;
+}
+export const LlmSkillsImportCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    file: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/llm_skills/import/",
+      code: 200,
+      contentType: "form-urlencoded",
+    }),
+  ),
+).annotate({
+  identifier: "LlmSkillsImportCreateRequest",
+}) as any as S.Schema<LlmSkillsImportCreateRequest>;
+
 export interface LlmSkillsMarketplaceInstallCommandCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -506,7 +680,7 @@ export type LLMSkillMarketplaceCommandStatusEnum =
   | "exists"
   | "created"
   | "rotated";
-export const LLMSkillMarketplaceCommandStatusEnum = /*@__PURE__*/ S.String;
+export const LLMSkillMarketplaceCommandStatusEnum = S.String;
 
 export interface LLMSkillMarketplaceCommand {
   /** absent: no credential yet. exists: one already exists (no token returned). created: a new credential was just minted. rotated: the existing credential was rolled. * `absent` - absent * `exists` - exists * `created` - created * `rotated` - rotated */
@@ -658,38 +832,6 @@ export const LlmSkillsNameExportRetrieveResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "LlmSkillsNameExportRetrieveResponse",
 }) as any as S.Schema<LlmSkillsNameExportRetrieveResponse>;
 
-export interface LlmSkillsNameFilesCreateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  skill_name: string;
-  /** File path relative to skill root, e.g. 'scripts/setup.sh' or 'references/guide.md'. */
-  path?: string;
-  /** Text content of the file. */
-  content?: string;
-  /** MIME type of the file content. */
-  content_type?: string;
-  /** Latest version you are editing from. If provided, the request fails with 409 when another write has landed in the meantime. */
-  base_version?: number;
-}
-export const LlmSkillsNameFilesCreateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    skill_name: S.String.pipe(T.Label()),
-    path: S.optional(S.String),
-    content: S.optional(S.String),
-    content_type: S.optional(S.String),
-    base_version: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/llm_skills/name/{skill_name}/files/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "LlmSkillsNameFilesCreateRequest",
-}) as any as S.Schema<LlmSkillsNameFilesCreateRequest>;
-
 export interface LlmSkillsNameFilesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -745,43 +887,60 @@ export const LlmSkillsNameFilesRenameCreateRequest = /*@__PURE__*/ S.suspend(
   identifier: "LlmSkillsNameFilesRenameCreateRequest",
 }) as any as S.Schema<LlmSkillsNameFilesRenameCreateRequest>;
 
-export interface LlmSkillsNameFilesRetrieveRequest {
+/** Tags used for filtering and discovery in the marketplace, e.g. ['web-analytics', 'triage']. */
+export type LlmSkillsNamePublishCommunityCreateRequestTagsList = Array<string>;
+export const LlmSkillsNamePublishCommunityCreateRequestTagsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<LlmSkillsNamePublishCommunityCreateRequestTagsList>;
+
+export interface LlmSkillsNamePublishCommunityCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   skill_name: string;
-  file_path: string;
-  /** Specific skill version to fetch. If omitted, the latest version is returned. */
-  version?: number;
+  /** Human-friendly display name for the community listing. Defaults to a title-cased skill slug. Must be a single line: it is used as the pull request title and commit message. */
+  display_name?: string;
+  /** Tags used for filtering and discovery in the marketplace, e.g. ['web-analytics', 'triage']. */
+  tags?: LlmSkillsNamePublishCommunityCreateRequestTagsList;
+  /** The publisher's GitHub username, used for public attribution on the listing and PR. Optional, and self-reported: it is not verified against the publisher's PostHog account. */
+  author_handle?: string;
 }
-export const LlmSkillsNameFilesRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    skill_name: S.String.pipe(T.Label()),
-    file_path: S.String.pipe(T.Label()),
-    version: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/llm_skills/name/{skill_name}/files/{file_path}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "LlmSkillsNameFilesRetrieveRequest",
-}) as any as S.Schema<LlmSkillsNameFilesRetrieveRequest>;
+export const LlmSkillsNamePublishCommunityCreateRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      skill_name: S.String.pipe(T.Label()),
+      display_name: S.optional(S.String),
+      tags: S.optional(LlmSkillsNamePublishCommunityCreateRequestTagsList),
+      author_handle: S.optional(S.String),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/api/projects/{project_id}/llm_skills/name/{skill_name}/publish-community/",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "LlmSkillsNamePublishCommunityCreateRequest",
+  }) as any as S.Schema<LlmSkillsNamePublishCommunityCreateRequest>;
 
-export interface LLMSkillFile {
-  path?: string;
-  content?: string;
-  content_type?: string;
+export interface CommunitySkillPublishResult {
+  /** URL of the pull request opened in the community-skills repo for maintainer review. */
+  pr_url: string;
+  /** Number of the opened pull request. */
+  pr_number: number;
+  /** Name of the branch created in the community-skills repo. */
+  branch: string;
 }
-export const LLMSkillFile = /*@__PURE__*/ S.suspend(() =>
+export const CommunitySkillPublishResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    path: S.optional(S.String),
-    content: S.optional(S.String),
-    content_type: S.optional(S.String),
+    pr_url: S.String,
+    pr_number: S.Number,
+    branch: S.String,
   }),
-).annotate({ identifier: "LLMSkillFile" }) as any as S.Schema<LLMSkillFile>;
+).annotate({
+  identifier: "CommunitySkillPublishResult",
+}) as any as S.Schema<CommunitySkillPublishResult>;
 
 export interface LLMSkillEditOperation {
   /** Text to find in the target content. Must match exactly once. */
@@ -799,35 +958,35 @@ export const LLMSkillEditOperation = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LLMSkillEditOperation>;
 
 /** List of find/replace operations to apply to the current skill body. Each edit's 'old' text must match exactly once. Edits are applied sequentially. Mutually exclusive with body. */
-export type LlmSkillsNamePartialUpdateRequestEditsList =
+export type UpdateLlmSkillsNamePartialRequestEditsList =
   Array<LLMSkillEditOperation>;
-export const LlmSkillsNamePartialUpdateRequestEditsList = /*@__PURE__*/ S.Array(
+export const UpdateLlmSkillsNamePartialRequestEditsList = /*@__PURE__*/ S.Array(
   LLMSkillEditOperation,
-) as any as S.Schema<LlmSkillsNamePartialUpdateRequestEditsList>;
+) as any as S.Schema<UpdateLlmSkillsNamePartialRequestEditsList>;
 
 /** List of pre-approved tools the skill may use. Tool names cannot contain whitespace. */
-export type LlmSkillsNamePartialUpdateRequestAllowedToolsList = Array<string>;
-export const LlmSkillsNamePartialUpdateRequestAllowedToolsList =
+export type UpdateLlmSkillsNamePartialRequestAllowedToolsList = Array<string>;
+export const UpdateLlmSkillsNamePartialRequestAllowedToolsList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<LlmSkillsNamePartialUpdateRequestAllowedToolsList>;
+  ) as any as S.Schema<UpdateLlmSkillsNamePartialRequestAllowedToolsList>;
 
 /** Arbitrary key-value metadata. */
-export type LlmSkillsNamePartialUpdateRequestMetadataMap = {
+export type UpdateLlmSkillsNamePartialRequestMetadataMap = {
   [key: string]: unknown | undefined;
 };
-export const LlmSkillsNamePartialUpdateRequestMetadataMap =
+export const UpdateLlmSkillsNamePartialRequestMetadataMap =
   /*@__PURE__*/ S.Record(
     S.String,
     S.Unknown,
-  ) as any as S.Schema<LlmSkillsNamePartialUpdateRequestMetadataMap>;
+  ) as any as S.Schema<UpdateLlmSkillsNamePartialRequestMetadataMap>;
 
 /** Bundled files to include with this version. Replaces all files from the previous version. Mutually exclusive with file_edits. */
-export type LlmSkillsNamePartialUpdateRequestFilesList =
+export type UpdateLlmSkillsNamePartialRequestFilesList =
   Array<LLMSkillFileInput>;
-export const LlmSkillsNamePartialUpdateRequestFilesList = /*@__PURE__*/ S.Array(
+export const UpdateLlmSkillsNamePartialRequestFilesList = /*@__PURE__*/ S.Array(
   LLMSkillFileInput,
-) as any as S.Schema<LlmSkillsNamePartialUpdateRequestFilesList>;
+) as any as S.Schema<UpdateLlmSkillsNamePartialRequestFilesList>;
 
 /** Sequential find/replace operations to apply to this file's content. */
 export type LLMSkillFileEditEditsList = Array<LLMSkillEditOperation>;
@@ -851,21 +1010,28 @@ export const LLMSkillFileEdit = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LLMSkillFileEdit>;
 
 /** Per-file find/replace updates. Each entry targets one existing file by path and applies sequential edits to its content. Non-targeted files carry forward unchanged. Cannot add, remove, or rename files — use 'files' for that. Mutually exclusive with files. */
-export type LlmSkillsNamePartialUpdateRequestFileEditsList =
+export type UpdateLlmSkillsNamePartialRequestFileEditsList =
   Array<LLMSkillFileEdit>;
-export const LlmSkillsNamePartialUpdateRequestFileEditsList =
+export const UpdateLlmSkillsNamePartialRequestFileEditsList =
   /*@__PURE__*/ S.Array(
     LLMSkillFileEdit,
-  ) as any as S.Schema<LlmSkillsNamePartialUpdateRequestFileEditsList>;
+  ) as any as S.Schema<UpdateLlmSkillsNamePartialRequestFileEditsList>;
 
-export interface LlmSkillsNamePartialUpdateRequest {
+/** Replace the skill's owners with these user UUIDs (each a member of this project). Omit to leave owners unchanged; pass an empty list to clear them. Owners are keyed on the logical skill, so setting them is independent of the version being published — a body edit alone never changes ownership. */
+export type UpdateLlmSkillsNamePartialRequestOwnersList = Array<string>;
+export const UpdateLlmSkillsNamePartialRequestOwnersList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateLlmSkillsNamePartialRequestOwnersList>;
+
+export interface UpdateLlmSkillsNamePartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   skill_name: string;
   /** Full skill body (SKILL.md instruction content) to publish as a new version. Mutually exclusive with edits. */
   body?: string;
   /** List of find/replace operations to apply to the current skill body. Each edit's 'old' text must match exactly once. Edits are applied sequentially. Mutually exclusive with body. */
-  edits?: LlmSkillsNamePartialUpdateRequestEditsList;
+  edits?: UpdateLlmSkillsNamePartialRequestEditsList;
   /** Updated description for the new version. */
   description?: string;
   /** License name or reference. */
@@ -873,32 +1039,38 @@ export interface LlmSkillsNamePartialUpdateRequest {
   /** Environment requirements. */
   compatibility?: string;
   /** List of pre-approved tools the skill may use. Tool names cannot contain whitespace. */
-  allowed_tools?: LlmSkillsNamePartialUpdateRequestAllowedToolsList;
+  allowed_tools?: UpdateLlmSkillsNamePartialRequestAllowedToolsList;
   /** Arbitrary key-value metadata. */
-  metadata?: LlmSkillsNamePartialUpdateRequestMetadataMap;
+  metadata?: UpdateLlmSkillsNamePartialRequestMetadataMap;
   /** Bundled files to include with this version. Replaces all files from the previous version. Mutually exclusive with file_edits. */
-  files?: LlmSkillsNamePartialUpdateRequestFilesList;
+  files?: UpdateLlmSkillsNamePartialRequestFilesList;
   /** Per-file find/replace updates. Each entry targets one existing file by path and applies sequential edits to its content. Non-targeted files carry forward unchanged. Cannot add, remove, or rename files — use 'files' for that. Mutually exclusive with files. */
-  file_edits?: LlmSkillsNamePartialUpdateRequestFileEditsList;
-  /** Latest version you are editing from. Used for optimistic concurrency checks. */
+  file_edits?: UpdateLlmSkillsNamePartialRequestFileEditsList;
+  /** Replace the skill's owners with these user UUIDs (each a member of this project). Omit to leave owners unchanged; pass an empty list to clear them. Owners are keyed on the logical skill, so setting them is independent of the version being published — a body edit alone never changes ownership. */
+  owners?: UpdateLlmSkillsNamePartialRequestOwnersList;
+  /** Latest version you are editing from. Used for optimistic concurrency checks. Required when publishing content changes; optional for an owner-only update (when omitted, owners are replaced without a concurrency check). */
   base_version?: number;
+  /** Optional note describing what changed in this version. Shown in the version history. */
+  version_description?: string;
 }
-export const LlmSkillsNamePartialUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateLlmSkillsNamePartialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     skill_name: S.String.pipe(T.Label()),
     body: S.optional(S.String),
-    edits: S.optional(LlmSkillsNamePartialUpdateRequestEditsList),
+    edits: S.optional(UpdateLlmSkillsNamePartialRequestEditsList),
     description: S.optional(S.String),
     license: S.optional(S.String),
     compatibility: S.optional(S.String),
     allowed_tools: S.optional(
-      LlmSkillsNamePartialUpdateRequestAllowedToolsList,
+      UpdateLlmSkillsNamePartialRequestAllowedToolsList,
     ),
-    metadata: S.optional(LlmSkillsNamePartialUpdateRequestMetadataMap),
-    files: S.optional(LlmSkillsNamePartialUpdateRequestFilesList),
-    file_edits: S.optional(LlmSkillsNamePartialUpdateRequestFileEditsList),
+    metadata: S.optional(UpdateLlmSkillsNamePartialRequestMetadataMap),
+    files: S.optional(UpdateLlmSkillsNamePartialRequestFilesList),
+    file_edits: S.optional(UpdateLlmSkillsNamePartialRequestFileEditsList),
+    owners: S.optional(UpdateLlmSkillsNamePartialRequestOwnersList),
     base_version: S.optional(S.Number),
+    version_description: S.optional(S.String),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -907,115 +1079,103 @@ export const LlmSkillsNamePartialUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "LlmSkillsNamePartialUpdateRequest",
-}) as any as S.Schema<LlmSkillsNamePartialUpdateRequest>;
+  identifier: "UpdateLlmSkillsNamePartialRequest",
+}) as any as S.Schema<UpdateLlmSkillsNamePartialRequest>;
 
-export interface LlmSkillsNameRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  skill_name: string;
-  /** Specific skill version to fetch. If omitted, the latest version is returned. */
-  version?: number;
-}
-export const LlmSkillsNameRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    skill_name: S.String.pipe(T.Label()),
-    version: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/llm_skills/name/{skill_name}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "LlmSkillsNameRetrieveRequest",
-}) as any as S.Schema<LlmSkillsNameRetrieveRequest>;
-
-export interface LlmSkillsResolveNameRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  skill_name: string;
-  /** Return versions older than this version number. Mutually exclusive with offset. */
-  before_version?: number;
-  /** Maximum number of versions to return per page (1-100). */
-  limit?: number;
-  /** Zero-based offset into version history for pagination. Mutually exclusive with before_version. */
-  offset?: number;
-  /** Specific skill version to fetch. If omitted, the latest version is returned. */
-  version?: number;
-  /** Exact skill version UUID to resolve. */
-  version_id?: string;
-}
-export const LlmSkillsResolveNameRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    skill_name: S.String.pipe(T.Label()),
-    before_version: S.optional(S.Number.pipe(T.Query())),
-    limit: S.optional(S.Number.pipe(T.Query())),
-    offset: S.optional(S.Number.pipe(T.Query())),
-    version: S.optional(S.Number.pipe(T.Query())),
-    version_id: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/llm_skills/resolve/name/{skill_name}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "LlmSkillsResolveNameRetrieveRequest",
-}) as any as S.Schema<LlmSkillsResolveNameRetrieveRequest>;
-
-export interface LLMSkillVersionSummary {
-  id?: string;
-  version?: number;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  is_latest?: boolean;
-}
-export const LLMSkillVersionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    version: S.optional(S.Number),
-    created_by: S.optional(S.NullOr(UserBasic)),
-    created_at: S.optional(S.String),
-    is_latest: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "LLMSkillVersionSummary",
-}) as any as S.Schema<LLMSkillVersionSummary>;
-
-export type LLMSkillResolveResponseVersionsList = Array<LLMSkillVersionSummary>;
-export const LLMSkillResolveResponseVersionsList = /*@__PURE__*/ S.Array(
-  LLMSkillVersionSummary,
-) as any as S.Schema<LLMSkillResolveResponseVersionsList>;
-
-export interface LLMSkillResolveResponse {
-  skill?: LLMSkill;
-  versions?: LLMSkillResolveResponseVersionsList;
-  has_more?: boolean;
-}
-export const LLMSkillResolveResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    skill: S.optional(LLMSkill),
-    versions: S.optional(LLMSkillResolveResponseVersionsList),
-    has_more: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "LLMSkillResolveResponse",
-}) as any as S.Schema<LLMSkillResolveResponse>;
-
-export type LlmSkillsCreateError = PosthogOpError;
-export const llmSkillsCreate: API.OperationMethod<
-  LlmSkillsCreateRequest,
-  LLMSkillCreateOutput,
-  LlmSkillsCreateError,
+export type CreateLlmSkillError = PosthogOpError;
+export const createLlmSkill: API.OperationMethod<
+  CreateLlmSkillRequest,
+  LLMSkill,
+  CreateLlmSkillError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: LlmSkillsCreateRequest,
-  output: LLMSkillCreateOutput,
+  input: CreateLlmSkillRequest,
+  output: LLMSkill,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateLlmSkillsNameFileError = PosthogOpError;
+export const createLlmSkillsNameFile: API.OperationMethod<
+  CreateLlmSkillsNameFileRequest,
+  LLMSkill,
+  CreateLlmSkillsNameFileError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateLlmSkillsNameFileRequest,
+  output: LLMSkill,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetLlmSkillsBundleError = PosthogOpError;
+/** One zip of the requesting user's store skills, for unpacking into a skills directory. */
+export const getLlmSkillsBundle: API.OperationMethod<
+  GetLlmSkillsBundleRequest,
+  GetLlmSkillsBundleResponse,
+  GetLlmSkillsBundleError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetLlmSkillsBundleRequest,
+  output: GetLlmSkillsBundleResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetLlmSkillsNameError = PosthogOpError;
+export const getLlmSkillsName: API.OperationMethod<
+  GetLlmSkillsNameRequest,
+  LLMSkill,
+  GetLlmSkillsNameError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetLlmSkillsNameRequest,
+  output: LLMSkill,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetLlmSkillsNameFileError = PosthogOpError;
+export const getLlmSkillsNameFile: API.OperationMethod<
+  GetLlmSkillsNameFileRequest,
+  LLMSkillFile,
+  GetLlmSkillsNameFileError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetLlmSkillsNameFileRequest,
+  output: LLMSkillFile,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetLlmSkillsResolveNameError = PosthogOpError;
+export const getLlmSkillsResolveName: API.OperationMethod<
+  GetLlmSkillsResolveNameRequest,
+  LLMSkillResolveResponse,
+  GetLlmSkillsResolveNameError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetLlmSkillsResolveNameRequest,
+  output: LLMSkillResolveResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListLlmSkillsError = PosthogOpError;
+export const listLlmSkills: API.OperationMethod<
+  ListLlmSkillsRequest,
+  PaginatedLLMSkillListList,
+  ListLlmSkillsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListLlmSkillsRequest,
+  output: PaginatedLLMSkillListList,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1030,20 +1190,6 @@ export const llmSkillsImportCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: LlmSkillsImportCreateRequest,
   output: LLMSkill,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type LlmSkillsListError = PosthogOpError;
-export const llmSkillsList: API.OperationMethod<
-  LlmSkillsListRequest,
-  PaginatedLLMSkillListList,
-  LlmSkillsListError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: LlmSkillsListRequest,
-  output: PaginatedLLMSkillListList,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1121,20 +1267,6 @@ export const llmSkillsNameExportRetrieve: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type LlmSkillsNameFilesCreateError = PosthogOpError;
-export const llmSkillsNameFilesCreate: API.OperationMethod<
-  LlmSkillsNameFilesCreateRequest,
-  LLMSkill,
-  LlmSkillsNameFilesCreateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: LlmSkillsNameFilesCreateRequest,
-  output: LLMSkill,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
 export type LlmSkillsNameFilesDestroyError = PosthogOpError;
 export const llmSkillsNameFilesDestroy: API.OperationMethod<
   LlmSkillsNameFilesDestroyRequest,
@@ -1163,57 +1295,29 @@ export const llmSkillsNameFilesRenameCreate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type LlmSkillsNameFilesRetrieveError = PosthogOpError;
-export const llmSkillsNameFilesRetrieve: API.OperationMethod<
-  LlmSkillsNameFilesRetrieveRequest,
-  LLMSkillFile,
-  LlmSkillsNameFilesRetrieveError,
+export type LlmSkillsNamePublishCommunityCreateError = PosthogOpError;
+export const llmSkillsNamePublishCommunityCreate: API.OperationMethod<
+  LlmSkillsNamePublishCommunityCreateRequest,
+  CommunitySkillPublishResult,
+  LlmSkillsNamePublishCommunityCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: LlmSkillsNameFilesRetrieveRequest,
-  output: LLMSkillFile,
+  input: LlmSkillsNamePublishCommunityCreateRequest,
+  output: CommunitySkillPublishResult,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type LlmSkillsNamePartialUpdateError = PosthogOpError;
-export const llmSkillsNamePartialUpdate: API.OperationMethod<
-  LlmSkillsNamePartialUpdateRequest,
+export type UpdateLlmSkillsNamePartialError = PosthogOpError;
+export const updateLlmSkillsNamePartial: API.OperationMethod<
+  UpdateLlmSkillsNamePartialRequest,
   LLMSkill,
-  LlmSkillsNamePartialUpdateError,
+  UpdateLlmSkillsNamePartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: LlmSkillsNamePartialUpdateRequest,
+  input: UpdateLlmSkillsNamePartialRequest,
   output: LLMSkill,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type LlmSkillsNameRetrieveError = PosthogOpError;
-export const llmSkillsNameRetrieve: API.OperationMethod<
-  LlmSkillsNameRetrieveRequest,
-  LLMSkill,
-  LlmSkillsNameRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: LlmSkillsNameRetrieveRequest,
-  output: LLMSkill,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type LlmSkillsResolveNameRetrieveError = PosthogOpError;
-export const llmSkillsResolveNameRetrieve: API.OperationMethod<
-  LlmSkillsResolveNameRetrieveRequest,
-  LLMSkillResolveResponse,
-  LlmSkillsResolveNameRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: LlmSkillsResolveNameRetrieveRequest,
-  output: LLMSkillResolveResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

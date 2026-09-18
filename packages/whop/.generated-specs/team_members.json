@@ -1,0 +1,934 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.team_members#ListTeamMembersRequestStatus": {
+      "type": "enum",
+      "members": {
+        "JOINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "joined"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.team_members#ListTeamMembersRequestRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "SALES_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales_manager"
+          }
+        },
+        "MODERATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "moderator"
+          }
+        },
+        "ADVERTISER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertiser"
+          }
+        },
+        "APP_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_manager"
+          }
+        },
+        "SUPPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "support"
+          }
+        },
+        "MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manager"
+          }
+        },
+        "WORKFORCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workforce"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.team_members#ListTeamMembersRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.team_members#ListTeamMembersRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.team_members#ListTeamMembersRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Account ID, prefixed `biz_`."
+          }
+        },
+        "status": {
+          "target": "com.whop.team_members#ListTeamMembersRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only return members with this status: `joined` (accepted members) or `pending` (pending invites). Both are returned by default."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "Only return the membership for this user ID, prefixed `user_`."
+          }
+        },
+        "role": {
+          "target": "com.whop.team_members#ListTeamMembersRequestRole",
+          "traits": {
+            "smithy.api#httpQuery": "role",
+            "smithy.api#documentation": "Only return members with this role. `custom` matches members on a dashboard-managed custom role."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only return members added before this ISO 8601 timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return members added after this ISO 8601 timestamp."
+          }
+        },
+        "order": {
+          "target": "com.whop.team_members#ListTeamMembersRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Field used to sort members."
+          }
+        },
+        "direction": {
+          "target": "com.whop.team_members#ListTeamMembersRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction. Defaults to `desc`."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of members to return. Defaults to 20; maximum 100."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor for the next page of members."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of members to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to paginate backwards from."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.team_members#TeamMember": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account this membership belongs to, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "authorized_role": {
+          "target": "com.whop.team_members#TeamMemberAuthorizedRole",
+          "traits": {
+            "smithy.api#documentation": "Custom role assigned to this member, or `null` when the member has a system role.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the member joined or the invite was sent, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The member's email address. For accepted members, `null` unless the caller holds the email read scope; for invites, the invited address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Team member ID — `ausr_` for accepted members, `ausri_` for pending invites.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_agent": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this member is an agent (app-controlled account) rather than a human team member. Always `false` for invites.",
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.whop.team_members#TeamMemberRole",
+          "traits": {
+            "smithy.api#documentation": "The member's role on the account. `custom` means a bespoke dashboard-managed role; the API can read but not grant it.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.team_members#TeamMemberStatus",
+          "traits": {
+            "smithy.api#documentation": "`joined` for accepted members, `pending` while the invite is pending.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the membership was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.team_members#UserSummary",
+          "traits": {
+            "smithy.api#documentation": "The user behind this team membership. `null` for an invite sent to an email with no Whop account yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.team_members#TeamMemberAuthorizedRole": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom role ID, prefixed `aurl_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom role name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.team_members#TeamMemberRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "SALES_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales_manager"
+          }
+        },
+        "MODERATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "moderator"
+          }
+        },
+        "ADVERTISER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertiser"
+          }
+        },
+        "APP_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_manager"
+          }
+        },
+        "SUPPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "support"
+          }
+        },
+        "MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manager"
+          }
+        },
+        "WORKFORCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workforce"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The member's role on the account. `custom` means a bespoke dashboard-managed role; the API can read but not grant it."
+      }
+    },
+    "com.whop.team_members#TeamMemberStatus": {
+      "type": "enum",
+      "members": {
+        "JOINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "joined"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`joined` for accepted members, `pending` while the invite is pending."
+      }
+    },
+    "com.whop.team_members#UserSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture": {
+          "target": "com.whop.team_members#UserProfilePicture",
+          "traits": {
+            "smithy.api#documentation": "Avatar wrapper; its `url` is always present, using a generated placeholder when the user set no picture.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.team_members#UserProfilePicture": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Avatar image URL. Always present — a generated placeholder when the user set no picture.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.team_members#ListTeamMembersResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.team_members#TeamMember"
+      },
+      "traits": {}
+    },
+    "com.whop.team_members#ListTeamMembersResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.team_members#ListTeamMembersResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.team_members#ListTeamMembersResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.team_members#ListTeamMembersResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.team_members#ListTeamMembers": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.team_members#ListTeamMembersRequest"
+      },
+      "output": {
+        "target": "com.whop.team_members#ListTeamMembersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.team_members#BadRequest"
+        },
+        {
+          "target": "com.whop.team_members#Forbidden"
+        },
+        {
+          "target": "com.whop.team_members#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/team_members",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Team Members\n\nLists an account's team members, including pending invites (`status: \"pending\"`, `ausri_` ids; `user` is `null` for invites sent to an email with no Whop account yet). For accepted members, `email` requires the `company:authorized_user:email:read` scope and is `null` otherwise. Listing `role=workforce` is also allowed with the `bounty:create` scope.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.team_members#CreateTeamMemberRequestRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "SALES_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales_manager"
+          }
+        },
+        "MODERATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "moderator"
+          }
+        },
+        "ADVERTISER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertiser"
+          }
+        },
+        "WORKFORCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workforce"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The system role to grant."
+      }
+    },
+    "com.whop.team_members#CreateTeamMemberRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address to invite. Mutually exclusive with `user_id`. If the email already belongs to a Whop account it is treated the same as passing that account's `user_id`; otherwise a pending invite is created for the email."
+          }
+        },
+        "role": {
+          "target": "com.whop.team_members#CreateTeamMemberRequestRole",
+          "traits": {
+            "smithy.api#documentation": "The system role to grant.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user to add to the team, prefixed `user_`. Mutually exclusive with `email`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.team_members#CreateTeamMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.team_members#CreateTeamMemberRequest"
+      },
+      "output": {
+        "target": "com.whop.team_members#TeamMember"
+      },
+      "errors": [
+        {
+          "target": "com.whop.team_members#BadRequest"
+        },
+        {
+          "target": "com.whop.team_members#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/team_members",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Team Member\n\nAdds a member to an account's team with a system role. Identify them by exactly one of `user_id` or `email`. If the person has not yet accepted — or the email does not belong to a Whop account yet — an invitation is sent instead and the response is `202` with `{ \"object\": \"team_member_invite\", \"invitation_sent\": true }`. If they already have a pending invite, the request fails with a `400`. Custom roles cannot be granted via the API. Granting the `workforce` role is also allowed with the `bounty:create` scope."
+      }
+    },
+    "com.whop.team_members#GetTeamMemberRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Team member ID — `ausr_` for accepted members, `ausri_` for pending invites."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.team_members#GetTeamMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.team_members#GetTeamMemberRequest"
+      },
+      "output": {
+        "target": "com.whop.team_members#TeamMember"
+      },
+      "errors": [
+        {
+          "target": "com.whop.team_members#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/team_members/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Team Member\n\nRetrieves a team member by ID. `email` requires the `company:authorized_user:email:read` scope and is `null` otherwise."
+      }
+    },
+    "com.whop.team_members#UpdateTeamMemberRequestRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "SALES_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales_manager"
+          }
+        },
+        "MODERATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "moderator"
+          }
+        },
+        "ADVERTISER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertiser"
+          }
+        },
+        "WORKFORCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workforce"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The system role to grant."
+      }
+    },
+    "com.whop.team_members#UpdateTeamMemberRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Team member ID — `ausr_` for accepted members, `ausri_` for pending invites."
+          }
+        },
+        "role": {
+          "target": "com.whop.team_members#UpdateTeamMemberRequestRole",
+          "traits": {
+            "smithy.api#documentation": "The system role to grant.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.team_members#UpdateTeamMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.team_members#UpdateTeamMemberRequest"
+      },
+      "output": {
+        "target": "com.whop.team_members#TeamMember"
+      },
+      "errors": [
+        {
+          "target": "com.whop.team_members#BadRequest"
+        },
+        {
+          "target": "com.whop.team_members#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/team_members/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Team Member\n\nChanges a team member's system role. Requires a user session — account API keys cannot change member roles. The account owner's role cannot be changed, and you cannot change your own role."
+      }
+    },
+    "com.whop.team_members#DeleteTeamMemberRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Team member ID — `ausr_` for accepted members, `ausri_` for pending invites."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.team_members#DeleteTeamMemberResponse": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.team_members#DeleteTeamMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.team_members#DeleteTeamMemberRequest"
+      },
+      "output": {
+        "target": "com.whop.team_members#DeleteTeamMemberResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.team_members#BadRequest"
+        },
+        {
+          "target": "com.whop.team_members#Forbidden"
+        },
+        {
+          "target": "com.whop.team_members#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/team_members/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete Team Member\n\nRemoves a team member from the account, or revokes a pending invite when given an `ausri_` ID. A user session may delete its own membership to leave the team without the delete scope. Removing a member on the `workforce` role is also allowed with the `bounty:create` scope. The account owner cannot be removed."
+      }
+    },
+    "com.whop.team_members#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.team_members#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.team_members#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.team_members#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.team_members#TeamMembers": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.team_members#ListTeamMembers"
+        },
+        {
+          "target": "com.whop.team_members#CreateTeamMember"
+        },
+        {
+          "target": "com.whop.team_members#GetTeamMember"
+        },
+        {
+          "target": "com.whop.team_members#UpdateTeamMember"
+        },
+        {
+          "target": "com.whop.team_members#DeleteTeamMember"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

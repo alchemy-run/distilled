@@ -70,8 +70,7 @@ export const GetEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetEntitlementRequest>;
 
 export type EntitlementsGetResponseAllowAddSubdomainType = "bool";
-export const EntitlementsGetResponseAllowAddSubdomainType =
-  /*@__PURE__*/ S.String;
+export const EntitlementsGetResponseAllowAddSubdomainType = S.String;
 
 export interface EntitlementsGetResponseAllowAddSubdomain {
   type: EntitlementsGetResponseAllowAddSubdomainType;
@@ -88,8 +87,7 @@ export const EntitlementsGetResponseAllowAddSubdomain = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<EntitlementsGetResponseAllowAddSubdomain>;
 
 export type EntitlementsGetResponseAllowAutoAcceptInvitesType = "bool";
-export const EntitlementsGetResponseAllowAutoAcceptInvitesType =
-  /*@__PURE__*/ S.String;
+export const EntitlementsGetResponseAllowAutoAcceptInvitesType = S.String;
 
 export interface EntitlementsGetResponseAllowAutoAcceptInvites {
   type: EntitlementsGetResponseAllowAutoAcceptInvitesType;
@@ -106,8 +104,7 @@ export const EntitlementsGetResponseAllowAutoAcceptInvites =
   }) as any as S.Schema<EntitlementsGetResponseAllowAutoAcceptInvites>;
 
 export type EntitlementsGetResponseCnameSetupAllowedType = "bool";
-export const EntitlementsGetResponseCnameSetupAllowedType =
-  /*@__PURE__*/ S.String;
+export const EntitlementsGetResponseCnameSetupAllowedType = S.String;
 
 export interface EntitlementsGetResponseCnameSetupAllowed {
   type: EntitlementsGetResponseCnameSetupAllowedType;
@@ -126,7 +123,7 @@ export const EntitlementsGetResponseCnameSetupAllowed = /*@__PURE__*/ S.suspend(
 export type EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPIMaxCountAllocationType =
   "max_count";
 export const EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPIMaxCountAllocationType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPIMaxCountAllocation {
   type: EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPIMaxCountAllocationType;
@@ -146,7 +143,7 @@ export const EntitlementsGetResponseCustomEntitlementsItemAllocationOrganization
 export type EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPIBoolAllocationType =
   "bool";
 export const EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPIBoolAllocationType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPIBoolAllocation {
   type: EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPIBoolAllocationType;
@@ -166,7 +163,7 @@ export const EntitlementsGetResponseCustomEntitlementsItemAllocationOrganization
 export type EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPINullAllocationType =
   "";
 export const EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPINullAllocationType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPINullAllocation {
   type: EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPINullAllocationType;
@@ -189,11 +186,14 @@ export type EntitlementsGetResponseCustomEntitlementsItemAllocation =
   | EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPINullAllocation;
 export const EntitlementsGetResponseCustomEntitlementsItemAllocation =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "value"],
-      ["type", "value"],
-      ["type", "value"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "value"],
+        ["type", "value"],
+        ["type", "value"],
+      ],
+      { key: "type", values: ["max_count", "bool", ""] },
+    ),
   );
 
 export interface EntitlementsGetResponseCustomEntitlementsItemFeature {
@@ -230,8 +230,7 @@ export const EntitlementsGetResponseCustomEntitlementsList =
   ) as any as S.Schema<EntitlementsGetResponseCustomEntitlementsList>;
 
 export type EntitlementsGetResponseMhsCertificateCountType = "max_count";
-export const EntitlementsGetResponseMhsCertificateCountType =
-  /*@__PURE__*/ S.String;
+export const EntitlementsGetResponseMhsCertificateCountType = S.String;
 
 export interface EntitlementsGetResponseMhsCertificateCount {
   type: EntitlementsGetResponseMhsCertificateCountType;
@@ -248,8 +247,7 @@ export const EntitlementsGetResponseMhsCertificateCount =
   }) as any as S.Schema<EntitlementsGetResponseMhsCertificateCount>;
 
 export type EntitlementsGetResponsePartialSetupAllowedType = "bool";
-export const EntitlementsGetResponsePartialSetupAllowedType =
-  /*@__PURE__*/ S.String;
+export const EntitlementsGetResponsePartialSetupAllowedType = S.String;
 
 export interface EntitlementsGetResponsePartialSetupAllowed {
   type: EntitlementsGetResponsePartialSetupAllowedType;
@@ -476,7 +474,15 @@ export const AccountsListResultItemSettings = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AccountsListResultItemSettings>;
 
 export type AccountsListResultItemType = "standard" | "enterprise";
-export const AccountsListResultItemType = /*@__PURE__*/ S.String;
+export const AccountsListResultItemType = S.String;
+
+export type AccountsListResultItemTagsMap = {
+  [key: string]: string | undefined;
+};
+export const AccountsListResultItemTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<AccountsListResultItemTagsMap>;
 
 export interface AccountsListResultItem {
   id: string;
@@ -484,6 +490,8 @@ export interface AccountsListResultItem {
   name: string;
   settings: AccountsListResultItemSettings;
   type: AccountsListResultItemType;
+  /** Account tags, present only when `include_tags=true` is requested. */
+  tags?: AccountsListResultItemTagsMap | null;
 }
 export const AccountsListResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -492,6 +500,7 @@ export const AccountsListResultItem = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     settings: AccountsListResultItemSettings,
     type: AccountsListResultItemType,
+    tags: S.optional(S.NullOr(AccountsListResultItemTagsMap)),
   }),
 ).annotate({
   identifier: "AccountsListResultItem",

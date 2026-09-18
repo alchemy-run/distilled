@@ -1,0 +1,550 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.dispute_alerts#ListDisputeAlertsRequestType": {
+      "type": "enum",
+      "members": {
+        "EARLY_FRAUD_WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "early_fraud_warning"
+          }
+        },
+        "DISPUTE_ALERT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dispute_alert"
+          }
+        },
+        "RAPID_DISPUTE_RESOLUTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rapid_dispute_resolution"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.dispute_alerts#ListDisputeAlertsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "REPORTED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reported_at"
+          }
+        },
+        "AMOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amount"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.dispute_alerts#ListDisputeAlertsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.dispute_alerts#ListDisputeAlertsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Only alerts on this account's payments (`biz_` tag). Omit it to cover every account you can read."
+          }
+        },
+        "payment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "payment_id",
+            "smithy.api#documentation": "Only alerts on this payment (`pay_` tag). A payment can carry several."
+          }
+        },
+        "type": {
+          "target": "com.whop.dispute_alerts#ListDisputeAlertsRequestType",
+          "traits": {
+            "smithy.api#httpQuery": "type",
+            "smithy.api#documentation": "Only alerts of this kind. `early_fraud_warning` for issuer fraud reports, `dispute_alert` for pre-dispute notices, `rapid_dispute_resolution` for Visa RDR cases the network already closed."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of alerts to return (default 20, max 100)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor; returns alerts after this position."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of alerts to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor; returns alerts before this position."
+          }
+        },
+        "order": {
+          "target": "com.whop.dispute_alerts#ListDisputeAlertsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort alerts by."
+          }
+        },
+        "direction": {
+          "target": "com.whop.dispute_alerts#ListDisputeAlertsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only alerts Whop received before this ISO 8601 timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only alerts Whop received after this ISO 8601 timestamp."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.dispute_alerts#DisputeAlert": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account the alerted payment belongs to, prefixed `biz_`. `null` while the alert is unmatched.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "actionable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether refunding the payment can still avoid a chargeback. `false` once the payment has been disputed or fully refunded, or when the alert could not be matched to a payment — `not_actionable_reason` says which.",
+            "smithy.api#required": {}
+          }
+        },
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The alerted amount, in whole units of `currency`. This is what the issuer reported, which can differ from the payment's own amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "card_brand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The card network as reported by the issuer, lowercased, such as `visa` or `mastercard`. `unknown` when the report carries neither a network nor a recognizable BIN.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When Whop received the alert, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO currency code of the alerted amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "fee_charged": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop charged the account an alert fee for this one. Always `false` for `early_fraud_warning`, which Whop is not billed for and never passes on.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dispute alert ID, prefixed `dspa_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "issuer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the bank that issued the card and filed the report.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "not_actionable_reason": {
+          "target": "com.whop.dispute_alerts#DisputeAlertNotActionableReason",
+          "traits": {
+            "smithy.api#documentation": "Why refunding can no longer avoid a chargeback. `network_resolved` when a Visa RDR already closed the case, `payment_unmatched` when no payment matched, `payment_not_captured` when it never captured money, `payment_disputed` once the payment carries a dispute, `payment_refunded` once fully refunded. `null` while `actionable` is true.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payment the issuer reported, prefixed `pay_`. `null` when Whop could not match the report to a payment.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product the alerted payment was for, prefixed `prod_`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reported_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the issuer filed the report, as an ISO 8601 timestamp. Earlier than `created_at`, which is when Whop received it.",
+            "smithy.api#required": {}
+          }
+        },
+        "transaction_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the reported transaction was made, as an ISO 8601 timestamp.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.dispute_alerts#DisputeAlertType",
+          "traits": {
+            "smithy.api#documentation": "What the issuer sent. `early_fraud_warning` is a fraud report on a settled payment (Visa TC40 / Mastercard SAFE) — refunding still avoids the chargeback, and Whop never charges a fee for one. `dispute_alert` is a pre-dispute notice from the issuer's alert network, which Whop pays for and passes on as a fee. `rapid_dispute_resolution` is a Visa RDR case the network already closed by refunding the payment — nothing is left to act on.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the alert was last changed, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.dispute_alerts#DisputeAlertNotActionableReason": {
+      "type": "enum",
+      "members": {
+        "NETWORK_RESOLVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "network_resolved"
+          }
+        },
+        "PAYMENT_UNMATCHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_unmatched"
+          }
+        },
+        "PAYMENT_NOT_CAPTURED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_not_captured"
+          }
+        },
+        "PAYMENT_DISPUTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_disputed"
+          }
+        },
+        "PAYMENT_REFUNDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_refunded"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why refunding can no longer avoid a chargeback. `network_resolved` when a Visa RDR already closed the case, `payment_unmatched` when no payment matched, `payment_not_captured` when it never captured money, `payment_disputed` once the payment carries a dispute, `payment_refunded` once fully refunded. `null` while `actionable` is true."
+      }
+    },
+    "com.whop.dispute_alerts#DisputeAlertType": {
+      "type": "enum",
+      "members": {
+        "EARLY_FRAUD_WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "early_fraud_warning"
+          }
+        },
+        "DISPUTE_ALERT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dispute_alert"
+          }
+        },
+        "RAPID_DISPUTE_RESOLUTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rapid_dispute_resolution"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the issuer sent. `early_fraud_warning` is a fraud report on a settled payment (Visa TC40 / Mastercard SAFE) — refunding still avoids the chargeback, and Whop never charges a fee for one. `dispute_alert` is a pre-dispute notice from the issuer's alert network, which Whop pays for and passes on as a fee. `rapid_dispute_resolution` is a Visa RDR case the network already closed by refunding the payment — nothing is left to act on."
+      }
+    },
+    "com.whop.dispute_alerts#ListDisputeAlertsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.dispute_alerts#DisputeAlert"
+      },
+      "traits": {}
+    },
+    "com.whop.dispute_alerts#ListDisputeAlertsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.dispute_alerts#ListDisputeAlertsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.dispute_alerts#ListDisputeAlertsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.dispute_alerts#ListDisputeAlertsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.dispute_alerts#ListDisputeAlerts": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.dispute_alerts#ListDisputeAlertsRequest"
+      },
+      "output": {
+        "target": "com.whop.dispute_alerts#ListDisputeAlertsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.dispute_alerts#BadRequest"
+        },
+        {
+          "target": "com.whop.dispute_alerts#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dispute_alerts",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Dispute Alerts\n\nLists the dispute alerts and early fraud warnings across the accounts you can read.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.dispute_alerts#GetDisputeAlertRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The dispute alert ID, prefixed `dspa_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.dispute_alerts#GetDisputeAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.dispute_alerts#GetDisputeAlertRequest"
+      },
+      "output": {
+        "target": "com.whop.dispute_alerts#DisputeAlert"
+      },
+      "errors": [
+        {
+          "target": "com.whop.dispute_alerts#Forbidden"
+        },
+        {
+          "target": "com.whop.dispute_alerts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dispute_alerts/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Dispute Alert\n\nRetrieves a single dispute alert or early fraud warning by ID."
+      }
+    },
+    "com.whop.dispute_alerts#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.dispute_alerts#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.dispute_alerts#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.dispute_alerts#DisputeAlerts": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.dispute_alerts#ListDisputeAlerts"
+        },
+        {
+          "target": "com.whop.dispute_alerts#GetDisputeAlert"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

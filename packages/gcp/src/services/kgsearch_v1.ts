@@ -45,30 +45,30 @@ export const StringList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<StringList>;
 
 export interface SearchEntitiesRequest {
-  /** The literal query string for search. */
-  query?: string;
+  /** Restricts returned entities with these types, e.g. Person (as defined in http://schema.org/Person). If multiple types are specified, returned entities will contain one or more of these types. */
+  types?: StringList;
   /** Limits the number of entities to be returned. */
   limit?: number;
   /** The list of entity id to be used for search instead of query string. To specify multiple ids in the HTTP request, repeat the parameter in the URL as in ...?ids=A&ids=B */
   ids?: StringList;
-  /** Restricts returned entities with these types, e.g. Person (as defined in http://schema.org/Person). If multiple types are specified, returned entities will contain one or more of these types. */
-  types?: StringList;
   /** The list of language codes (defined in ISO 693) to run the query with, e.g. 'en'. */
   languages?: StringList;
   /** Enables prefix match against names and aliases of entities */
   prefix?: boolean;
   /** Enables indenting of json results. */
   indent?: boolean;
+  /** The literal query string for search. */
+  query?: string;
 }
 export const SearchEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    query: S.optional(S.String.pipe(T.Query())),
+    types: S.optional(StringList.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     ids: S.optional(StringList.pipe(T.Query())),
-    types: S.optional(StringList.pipe(T.Query())),
     languages: S.optional(StringList.pipe(T.Query())),
     prefix: S.optional(S.Boolean.pipe(T.Query())),
     indent: S.optional(S.Boolean.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",

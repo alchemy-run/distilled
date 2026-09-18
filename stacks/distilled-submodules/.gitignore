@@ -1,0 +1,3 @@
+# Local alchemy state (CI runs start from empty state; reconcile converges
+# against the live GitHub API, so state is never the source of truth here).
+.alchemy/

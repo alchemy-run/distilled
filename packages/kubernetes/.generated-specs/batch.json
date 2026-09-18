@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1APIGroup": {
@@ -445,20 +446,20 @@
         "metadata": {
           "target": "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJobSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
+            "smithy.api#documentation": "spec is the specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
             "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJobStatus",
           "traits": {
-            "smithy.api#documentation": "Current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "status is the current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
           }
         }
       },
@@ -719,51 +720,51 @@
         "concurrencyPolicy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Specifies how to treat concurrent executions of a Job. Valid values are:\n\n- \"Allow\" (default): allows CronJobs to run concurrently; - \"Forbid\": forbids concurrent runs, skipping next run if previous run hasn't finished yet; - \"Replace\": cancels currently running job and replaces it with a new one"
+            "smithy.api#documentation": "concurrencyPolicy specifies how to treat concurrent executions of a Job. Valid values are:\n\n- \"Allow\" (default): allows CronJobs to run concurrently; - \"Forbid\": forbids concurrent runs, skipping next run if previous run hasn't finished yet; - \"Replace\": cancels currently running job and replaces it with a new one"
           }
         },
         "failedJobsHistoryLimit": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The number of failed finished jobs to retain. Value must be non-negative integer. Defaults to 1."
+            "smithy.api#documentation": "failedJobsHistoryLimit is the number of failed finished jobs to retain. Value must be non-negative integer. Defaults to 1."
           }
         },
         "jobTemplate": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1JobTemplateSpec",
           "traits": {
-            "smithy.api#documentation": "Specifies the job that will be created when executing a CronJob.",
+            "smithy.api#documentation": "jobTemplate specifies the job that will be created when executing a CronJob.",
             "smithy.api#required": {}
           }
         },
         "schedule": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The schedule in Cron format, see https://en.wikipedia.org/wiki/Cron.",
+            "smithy.api#documentation": "schedule is the schedule in Cron format, see https://en.wikipedia.org/wiki/Cron.",
             "smithy.api#required": {}
           }
         },
         "startingDeadlineSeconds": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Optional deadline in seconds for starting the job if it misses scheduled time for any reason.  Missed jobs executions will be counted as failed ones."
+            "smithy.api#documentation": "startingDeadlineSeconds is the optional deadline in seconds for starting the job if it misses scheduled time for any reason.  Missed jobs executions will be counted as failed ones."
           }
         },
         "successfulJobsHistoryLimit": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The number of successful finished jobs to retain. Value must be non-negative integer. Defaults to 3."
+            "smithy.api#documentation": "successfulJobsHistoryLimit is the number of successful finished jobs to retain. Value must be non-negative integer. Defaults to 3."
           }
         },
         "suspend": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "This flag tells the controller to suspend subsequent executions, it does not apply to already started executions.  Defaults to false."
+            "smithy.api#documentation": "suspend is a flag that tells the controller to suspend subsequent executions, it does not apply to already started executions.  Defaults to false."
           }
         },
         "timeZone": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The time zone name for the given schedule, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. If not specified, this will default to the time zone of the kube-controller-manager process. The set of valid time zone names and the time zone offset is loaded from the system-wide time zone database by the API server during CronJob validation and the controller manager during execution. If no system-wide time zone database can be found a bundled version of the database is used instead. If the time zone name becomes invalid during the lifetime of a CronJob or due to a change in host configuration, the controller will stop creating new new Jobs and will create a system event with the reason UnknownTimeZone. More information can be found in https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#time-zones"
+            "smithy.api#documentation": "timeZone is the time zone name for the given schedule, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. If not specified, this will default to the time zone of the kube-controller-manager process. The set of valid time zone names and the time zone offset is loaded from the system-wide time zone database by the API server during CronJob validation and the controller manager during execution. If no system-wide time zone database can be found a bundled version of the database is used instead. If the time zone name becomes invalid during the lifetime of a CronJob or due to a change in host configuration, the controller will stop creating new new Jobs and will create a system event with the reason UnknownTimeZone. More information can be found in https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#time-zones"
           }
         }
       },
@@ -777,13 +778,14 @@
         "metadata": {
           "target": "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata of the jobs created from this template. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object's metadata of the jobs created from this template. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1JobSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the desired behavior of the job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "spec is the specification of the desired behavior of the job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
+            "smithy.api#required": {}
           }
         }
       },
@@ -797,19 +799,19 @@
         "activeDeadlineSeconds": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Specifies the duration in seconds relative to the startTime that the job may be continuously active before the system tries to terminate it; value must be positive integer. If a Job is suspended (at creation or through an update), this timer will effectively be stopped and reset when the Job is resumed again."
+            "smithy.api#documentation": "activeDeadlineSeconds specifies the duration in seconds relative to the startTime that the job may be continuously active before the system tries to terminate it; value must be positive integer. If a Job is suspended (at creation or through an update), this timer will effectively be stopped and reset when the Job is resumed again."
           }
         },
         "backoffLimit": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Specifies the number of retries before marking this job failed. Defaults to 6, unless backoffLimitPerIndex (only Indexed Job) is specified. When backoffLimitPerIndex is specified, backoffLimit defaults to 2147483647."
+            "smithy.api#documentation": "backoffLimit specifies the number of retries before marking this job failed. Defaults to 6, unless backoffLimitPerIndex (only Indexed Job) is specified. When backoffLimitPerIndex is specified, backoffLimit defaults to 2147483647."
           }
         },
         "backoffLimitPerIndex": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Specifies the limit for the number of retries within an index before marking this index as failed. When enabled the number of failures per index is kept in the pod's batch.kubernetes.io/job-index-failure-count annotation. It can only be set when Job's completionMode=Indexed, and the Pod's restart policy is Never. The field is immutable."
+            "smithy.api#documentation": "backoffLimitPerIndex specifies the limit for the number of retries within an index before marking this index as failed. When enabled the number of failures per index is kept in the pod's batch.kubernetes.io/job-index-failure-count annotation. It can only be set when Job's completionMode=Indexed, and the Pod's restart policy is Never. The field is immutable."
           }
         },
         "completionMode": {
@@ -821,13 +823,13 @@
         "completions": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Specifies the desired number of successfully finished pods the job should be run with.  Setting to null means that the success of any pod signals the success of all pods, and allows parallelism to have any positive value.  Setting to 1 means that parallelism is limited to 1 and the success of that pod signals the success of the job. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/"
+            "smithy.api#documentation": "completions specifies the desired number of successfully finished pods the job should be run with.  Setting to null means that the success of any pod signals the success of all pods, and allows parallelism to have any positive value.  Setting to 1 means that parallelism is limited to 1 and the success of that pod signals the success of the job. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/"
           }
         },
         "managedBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "ManagedBy field indicates the controller that manages a Job. The k8s Job controller reconciles jobs which don't have this field at all or the field value is the reserved string `kubernetes.io/job-controller`, but skips reconciling Jobs with a custom value for this field. The value must be a valid domain-prefixed path (e.g. acme.io/foo) - all characters before the first \"/\" must be a valid subdomain as defined by RFC 1123. All characters trailing the first \"/\" must be valid HTTP Path characters as defined by RFC 3986. The value cannot exceed 63 characters. This field is immutable."
+            "smithy.api#documentation": "managedBy field indicates the controller that manages a Job. The k8s Job controller reconciles jobs which don't have this field at all or the field value is the reserved string `kubernetes.io/job-controller`, but skips reconciling Jobs with a custom value for this field. The value must be a valid domain-prefixed path (e.g. acme.io/foo) - all characters before the first \"/\" must be a valid subdomain as defined by RFC 1123. All characters trailing the first \"/\" must be valid HTTP Path characters as defined by RFC 3986. The value cannot exceed 63 characters. This field is immutable."
           }
         },
         "manualSelector": {
@@ -839,19 +841,19 @@
         "maxFailedIndexes": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Specifies the maximal number of failed indexes before marking the Job as failed, when backoffLimitPerIndex is set. Once the number of failed indexes exceeds this number the entire Job is marked as Failed and its execution is terminated. When left as null the job continues execution of all of its indexes and is marked with the `Complete` Job condition. It can only be specified when backoffLimitPerIndex is set. It can be null or up to completions. It is required and must be less than or equal to 10^4 when is completions greater than 10^5."
+            "smithy.api#documentation": "maxFailedIndexes specifies the maximal number of failed indexes before marking the Job as failed, when backoffLimitPerIndex is set. Once the number of failed indexes exceeds this number the entire Job is marked as Failed and its execution is terminated. When left as null the job continues execution of all of its indexes and is marked with the `Complete` Job condition. It can only be specified when backoffLimitPerIndex is set. It can be null or up to completions. It is required and must be less than or equal to 10^4 when is completions greater than 10^5."
           }
         },
         "parallelism": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Specifies the maximum desired number of pods the job should run at any given time. The actual number of pods running in steady state will be less than this number when ((.spec.completions - .status.successful) < .spec.parallelism), i.e. when the work left to do is less than max parallelism. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/"
+            "smithy.api#documentation": "parallelism specifies the maximum desired number of pods the job should run at any given time. The actual number of pods running in steady state will be less than this number when ((.spec.completions - .status.successful) < .spec.parallelism), i.e. when the work left to do is less than max parallelism. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/"
           }
         },
         "podFailurePolicy": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1PodFailurePolicy",
           "traits": {
-            "smithy.api#documentation": "Specifies the policy of handling failed pods. In particular, it allows to specify the set of actions and conditions which need to be satisfied to take the associated action. If empty, the default behaviour applies - the counter of failed pods, represented by the jobs's .status.failed field, is incremented and it is checked against the backoffLimit. This field cannot be used in combination with restartPolicy=OnFailure."
+            "smithy.api#documentation": "podFailurePolicy specifies the policy of handling failed pods. In particular, it allows to specify the set of actions and conditions which need to be satisfied to take the associated action. If empty, the default behaviour applies - the counter of failed pods, represented by the jobs's .status.failed field, is incremented and it is checked against the backoffLimit. This field cannot be used in combination with restartPolicy=OnFailure."
           }
         },
         "podReplacementPolicy": {
@@ -860,10 +862,16 @@
             "smithy.api#documentation": "podReplacementPolicy specifies when to create replacement Pods. Possible values are: - TerminatingOrFailed means that we recreate pods\n  when they are terminating (has a metadata.deletionTimestamp) or failed.\n- Failed means to wait until a previously created Pod is fully terminated (has phase\n  Failed or Succeeded) before creating a replacement Pod.\n\nWhen using podFailurePolicy, Failed is the the only allowed value. TerminatingOrFailed and Failed are allowed values when podFailurePolicy is not in use."
           }
         },
+        "scheduling": {
+          "target": "com.kubernetes.batch#IoK8sApiBatchV1JobSchedulingConfiguration",
+          "traits": {
+            "smithy.api#documentation": "scheduling defines the Workload-aware Scheduling configuration for this Job. When set, it specifies the scheduling policy (basic or gang), topology constraints, disruption mode, and shared resource claims. When omitted, the Job defaults to the basic scheduling policy, which behaves as standard pod-by-pod scheduling. This field is alpha-level and requires the WorkloadWithJob feature gate. This field is immutable, including whether it is set at all, only policy.gang.minCount may be changed after creation."
+          }
+        },
         "selector": {
           "target": "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1LabelSelector",
           "traits": {
-            "smithy.api#documentation": "A label query over pods that should match the pod count. Normally, the system sets this field for you. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors"
+            "smithy.api#documentation": "selector is a label query over pods that should match the pod count. Normally, the system sets this field for you. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors"
           }
         },
         "successPolicy": {
@@ -881,7 +889,7 @@
         "template": {
           "target": "com.kubernetes.batch#IoK8sApiCoreV1PodTemplateSpec",
           "traits": {
-            "smithy.api#documentation": "Describes the pod that will be created when executing a job. The only allowed template.spec.restartPolicy values are \"Never\" or \"OnFailure\". More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/",
+            "smithy.api#documentation": "template describes the pod that will be created when executing a job. The only allowed template.spec.restartPolicy values are \"Never\" or \"OnFailure\". More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/",
             "smithy.api#required": {}
           }
         },
@@ -902,8 +910,7 @@
         "rules": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1PodFailurePolicyRulesList",
           "traits": {
-            "smithy.api#documentation": "A list of pod failure policy rules. The rules are evaluated in order. Once a rule matches a Pod failure, the remaining of the rules are ignored. When no rule matches the Pod failure, the default handling applies - the counter of pod failures is incremented and it is checked against the backoffLimit. At most 20 elements are allowed.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "rules is a list of pod failure policy rules. The rules are evaluated in order. Once a rule matches a Pod failure, the remaining of the rules are ignored. When no rule matches the Pod failure, the default handling applies - the counter of pod failures is incremented and it is checked against the backoffLimit. At most 20 elements are allowed."
           }
         }
       },
@@ -917,20 +924,20 @@
         "action": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Specifies the action taken on a pod failure when the requirements are satisfied. Possible values are:\n\n- FailJob: indicates that the pod's job is marked as Failed and all\n  running pods are terminated.\n- FailIndex: indicates that the pod's index is marked as Failed and will\n  not be restarted.\n- Ignore: indicates that the counter towards the .backoffLimit is not\n  incremented and a replacement pod is created.\n- Count: indicates that the pod is handled in the default way - the\n  counter towards the .backoffLimit is incremented.\nAdditional values are considered to be added in the future. Clients should react to an unknown action by skipping the rule.",
+            "smithy.api#documentation": "action specifies the action taken on a pod failure when the requirements are satisfied. Possible values are:\n\n- FailJob: indicates that the pod's job is marked as Failed and all\n  running pods are terminated.\n- FailIndex: indicates that the pod's index is marked as Failed and will\n  not be restarted.\n- Ignore: indicates that the counter towards the .backoffLimit is not\n  incremented and a replacement pod is created.\n- Count: indicates that the pod is handled in the default way - the\n  counter towards the .backoffLimit is incremented.\nAdditional values are considered to be added in the future. Clients should react to an unknown action by skipping the rule.",
             "smithy.api#required": {}
           }
         },
         "onExitCodes": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirement",
           "traits": {
-            "smithy.api#documentation": "Represents the requirement on the container exit codes."
+            "smithy.api#documentation": "onExitCodes represents the requirement on the container exit codes."
           }
         },
         "onPodConditions": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1PodFailurePolicyRuleOnPodConditionsList",
           "traits": {
-            "smithy.api#documentation": "Represents the requirement on the pod conditions. The requirement is represented as a list of pod condition patterns. The requirement is satisfied if at least one pattern matches an actual pod condition. At most 20 elements are allowed."
+            "smithy.api#documentation": "onPodConditions represents the requirement on the pod conditions. The requirement is represented as a list of pod condition patterns. The requirement is satisfied if at least one pattern matches an actual pod condition. At most 20 elements are allowed."
           }
         }
       },
@@ -944,20 +951,20 @@
         "containerName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Restricts the check for exit codes to the container with the specified name. When null, the rule applies to all containers. When specified, it should match one the container or initContainer names in the pod template."
+            "smithy.api#documentation": "containerName restricts the check for exit codes to the container with the specified name. When null, the rule applies to all containers. When specified, it should match one the container or initContainer names in the pod template."
           }
         },
         "operator": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Represents the relationship between the container exit code(s) and the specified values. Containers completed with success (exit code 0) are excluded from the requirement check. Possible values are:\n\n- In: the requirement is satisfied if at least one container exit code\n  (might be multiple if there are multiple containers not restricted\n  by the 'containerName' field) is in the set of specified values.\n- NotIn: the requirement is satisfied if at least one container exit code\n  (might be multiple if there are multiple containers not restricted\n  by the 'containerName' field) is not in the set of specified values.\nAdditional values are considered to be added in the future. Clients should react to an unknown operator by assuming the requirement is not satisfied.",
+            "smithy.api#documentation": "operator represents the relationship between the container exit code(s) and the specified values. Containers completed with success (exit code 0) are excluded from the requirement check. Possible values are:\n\n- In: the requirement is satisfied if at least one container exit code\n  (might be multiple if there are multiple containers not restricted\n  by the 'containerName' field) is in the set of specified values.\n- NotIn: the requirement is satisfied if at least one container exit code\n  (might be multiple if there are multiple containers not restricted\n  by the 'containerName' field) is not in the set of specified values.\nAdditional values are considered to be added in the future. Clients should react to an unknown operator by assuming the requirement is not satisfied.",
             "smithy.api#required": {}
           }
         },
         "values": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1PodFailurePolicyOnExitCodesRequirementValuesList",
           "traits": {
-            "smithy.api#documentation": "Specifies the set of values. Each returned container exit code (might be multiple in case of multiple containers) is checked against this set of values with respect to the operator. The list of values must be ordered and must not contain duplicates. Value '0' cannot be used for the In operator. At least one element is required. At most 255 elements are allowed.",
+            "smithy.api#documentation": "values specifies the set of values. Each returned container exit code (might be multiple in case of multiple containers) is checked against this set of values with respect to the operator. The list of values must be ordered and must not contain duplicates. Value '0' cannot be used for the In operator. At least one element is required. At most 255 elements are allowed.",
             "smithy.api#required": {}
           }
         }
@@ -972,7 +979,7 @@
         "target": "smithy.api#Integer"
       },
       "traits": {
-        "smithy.api#documentation": "Specifies the set of values. Each returned container exit code (might be multiple in case of multiple containers) is checked against this set of values with respect to the operator. The list of values must be ordered and must not contain duplicates. Value '0' cannot be used for the In operator. At least one element is required. At most 255 elements are allowed."
+        "smithy.api#documentation": "values specifies the set of values. Each returned container exit code (might be multiple in case of multiple containers) is checked against this set of values with respect to the operator. The list of values must be ordered and must not contain duplicates. Value '0' cannot be used for the In operator. At least one element is required. At most 255 elements are allowed."
       }
     },
     "com.kubernetes.batch#IoK8sApiBatchV1PodFailurePolicyOnPodConditionsPattern": {
@@ -981,13 +988,13 @@
         "status": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Specifies the required Pod condition status. To match a pod condition it is required that the specified status equals the pod condition status. Defaults to True."
+            "smithy.api#documentation": "status specifies the required Pod condition status. To match a pod condition it is required that the specified status equals the pod condition status. Defaults to True."
           }
         },
         "type": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Specifies the required Pod condition type. To match a pod condition it is required that specified type equals the pod condition type.",
+            "smithy.api#documentation": "type specifies the required Pod condition type. To match a pod condition it is required that specified type equals the pod condition type.",
             "smithy.api#required": {}
           }
         }
@@ -1002,7 +1009,7 @@
         "target": "com.kubernetes.batch#IoK8sApiBatchV1PodFailurePolicyOnPodConditionsPattern"
       },
       "traits": {
-        "smithy.api#documentation": "Represents the requirement on the pod conditions. The requirement is represented as a list of pod condition patterns. The requirement is satisfied if at least one pattern matches an actual pod condition. At most 20 elements are allowed."
+        "smithy.api#documentation": "onPodConditions represents the requirement on the pod conditions. The requirement is represented as a list of pod condition patterns. The requirement is satisfied if at least one pattern matches an actual pod condition. At most 20 elements are allowed."
       }
     },
     "com.kubernetes.batch#IoK8sApiBatchV1PodFailurePolicyRulesList": {
@@ -1011,7 +1018,167 @@
         "target": "com.kubernetes.batch#IoK8sApiBatchV1PodFailurePolicyRule"
       },
       "traits": {
-        "smithy.api#documentation": "A list of pod failure policy rules. The rules are evaluated in order. Once a rule matches a Pod failure, the remaining of the rules are ignored. When no rule matches the Pod failure, the default handling applies - the counter of pod failures is incremented and it is checked against the backoffLimit. At most 20 elements are allowed."
+        "smithy.api#documentation": "rules is a list of pod failure policy rules. The rules are evaluated in order. Once a rule matches a Pod failure, the remaining of the rules are ignored. When no rule matches the Pod failure, the default handling applies - the counter of pod failures is incremented and it is checked against the backoffLimit. At most 20 elements are allowed."
+      }
+    },
+    "com.kubernetes.batch#IoK8sApiBatchV1JobSchedulingConfiguration": {
+      "type": "structure",
+      "members": {
+        "disruptionMode": {
+          "target": "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode",
+          "traits": {
+            "smithy.api#documentation": "disruptionMode defines the mode in which the Job's pods can be disrupted. One of Single, All. This field is immutable after creation: it may not be added or removed, and the selected mode may not be changed."
+          }
+        },
+        "resourceClaims": {
+          "target": "com.kubernetes.batch#IoK8sApiBatchV1JobSchedulingConfigurationResourceClaimsList",
+          "traits": {
+            "smithy.api#documentation": "resourceClaims defines which ResourceClaims may be shared among Pods in the Job. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. At most 4 claims may be set, matching the limit on the resulting PodGroup. This list is immutable after creation: entries may neither be added, removed, nor modified."
+          }
+        },
+        "schedulingConstraints": {
+          "target": "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints",
+          "traits": {
+            "smithy.api#documentation": "schedulingConstraints defines scheduling constraints (e.g. topology) for the Job's pods. This field is immutable after creation."
+          }
+        },
+        "schedulingPolicy": {
+          "target": "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy",
+          "traits": {
+            "smithy.api#documentation": "schedulingPolicy defines the scheduling policy for this Job. Exactly one of Basic or Gang must be set. This field is immutable after creation: the policy may not be added or removed. The policy variant (basic/gang) is frozen by hand-written validation; only schedulingPolicy.gang.minCount may be changed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "JobSchedulingConfiguration composes the reusable workload-aware scheduling building blocks."
+      }
+    },
+    "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3WorkloadPodGroupDisruptionMode": {
+      "type": "structure",
+      "members": {
+        "all": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "all specifies that all pods in the group must be disrupted together."
+          }
+        },
+        "single": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "single specifies that pods can be disrupted independently from each other."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "WorkloadPodGroupDisruptionMode defines how individual pods within a group can be disrupted. Exactly one mode must be set."
+      }
+    },
+    "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "name uniquely identifies this resource claim inside the group. This field is required. It must be a DNS_LABEL.",
+            "smithy.api#required": {}
+          }
+        },
+        "resourceClaimName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "resourceClaimName is the name of a ResourceClaim object in the same namespace. This field is optional. If it is not specified, no resource claim is used. If set, it must be a DNS subdomain."
+          }
+        },
+        "resourceClaimTemplateName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "resourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace. This field is optional. If it is not specified, no resource claim template is used. If set, it must be a DNS subdomain."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "WorkloadPodGroupResourceClaim references a dynamic resource claim that is shared across pods in the group."
+      }
+    },
+    "com.kubernetes.batch#IoK8sApiBatchV1JobSchedulingConfigurationResourceClaimsList": {
+      "type": "list",
+      "member": {
+        "target": "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3WorkloadPodGroupResourceClaim"
+      },
+      "traits": {
+        "smithy.api#documentation": "resourceClaims defines which ResourceClaims may be shared among Pods in the Job. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. At most 4 claims may be set, matching the limit on the resulting PodGroup. This list is immutable after creation: entries may neither be added, removed, nor modified."
+      }
+    },
+    "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraints": {
+      "type": "structure",
+      "members": {
+        "topology": {
+          "target": "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraintsTopologyList",
+          "traits": {
+            "smithy.api#documentation": "topology specifies desired topological placements for all pods within the pod group. If unset, no topology placement is requested."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "WorkloadPodGroupSchedulingConstraints defines leaf-level scheduling constraints, such as topology."
+      }
+    },
+    "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3TopologyConstraint": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "key specifies the key of the node label representing the topology domain. All pods within the PodGroup must be colocated within the same domain instance. Different PodGroups can land on different domain instances even if they derive from the same PodGroupTemplate. Examples: \"topology.kubernetes.io/rack\"",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "TopologyConstraint defines a topology constraint for a PodGroup."
+      }
+    },
+    "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingConstraintsTopologyList": {
+      "type": "list",
+      "member": {
+        "target": "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3TopologyConstraint"
+      },
+      "traits": {
+        "smithy.api#documentation": "topology specifies desired topological placements for all pods within the pod group. If unset, no topology placement is requested."
+      }
+    },
+    "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3WorkloadPodGroupSchedulingPolicy": {
+      "type": "structure",
+      "members": {
+        "basic": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "basic specifies that standard, pod-by-pod Kubernetes scheduling behavior should be used."
+          }
+        },
+        "gang": {
+          "target": "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy",
+          "traits": {
+            "smithy.api#documentation": "gang specifies all-or-nothing scheduling semantics."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "WorkloadPodGroupSchedulingPolicy defines the scheduling policy for a group of pods managed by a workload controller. Exactly one policy must be set."
+      }
+    },
+    "com.kubernetes.batch#IoK8sApiSchedulingV1alpha3WorkloadPodGroupGangSchedulingPolicy": {
+      "type": "structure",
+      "members": {
+        "minCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "minCount is the minimum number of pods that must be scheduled at the same time for the scheduler to admit the entire group. This field is optional. If it is not specified, the controller should inject a context-specific sane default (e.g., parallelism for a Job). If set, it must be a positive integer."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "WorkloadPodGroupGangSchedulingPolicy defines the parameters for gang (all-or-nothing) scheduling."
       }
     },
     "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1LabelSelector": {
@@ -1208,6 +1375,12 @@
             "smithy.api#documentation": "List of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource."
           }
         },
+        "evictionResponders": {
+          "target": "com.kubernetes.batch#IoK8sApiCoreV1PodSpecEvictionRespondersList",
+          "traits": {
+            "smithy.api#documentation": "evictionResponders reference responders that react to Evictions based on EvictionRequests. Responders should observe and communicate through the Eviction Resource API to help with the graceful termination of a pod. The responders are selected sequentially, according to their specified priority.\n\nResponders should periodically report on an eviction progress by updating the .status.responders[].heartbeatTime field of the Eviction object. If this field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there is no other responder, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource).\n\nThe maximum length of the responders list is 10. Responders are not supported when the pod is part of a PodGroup (.spec.schedulingGroup is set). This field can only be set on creation and is immutable afterwards."
+          }
+        },
         "hostAliases": {
           "target": "com.kubernetes.batch#IoK8sApiCoreV1PodSpecHostAliasesList",
           "traits": {
@@ -1247,7 +1420,7 @@
         "hostnameOverride": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "HostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false.\n\nThis field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters. Requires the HostnameOverride feature gate to be enabled."
+            "smithy.api#documentation": "HostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false.\n\nThis field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters."
           }
         },
         "imagePullSecrets": {
@@ -2335,6 +2508,12 @@
             "smithy.api#required": {}
           }
         },
+        "protocol": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Protocol selects the wire protocol for the probe connection. Nil defaults to HTTP/1.1."
+          }
+        },
         "scheme": {
           "target": "smithy.api#String",
           "traits": {
@@ -2484,6 +2663,12 @@
     "com.kubernetes.batch#IoK8sApiCoreV1GRPCAction": {
       "type": "structure",
       "members": {
+        "mode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "mode specifies the connection mode for the gRPC health probe. Set to \"TLS\" to use TLS without certificate verification. Set to \"Plaintext\" to use a plaintext (insecure) connection explicitly. If not specified, the probe uses a plaintext (insecure) connection."
+          }
+        },
         "port": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -2979,6 +3164,12 @@
     "com.kubernetes.batch#IoK8sApiCoreV1VolumeMount": {
       "type": "structure",
       "members": {
+        "bindMountOptions": {
+          "target": "com.kubernetes.batch#IoK8sApiCoreV1VolumeMountBindMountOptionsList",
+          "traits": {
+            "smithy.api#documentation": "bindMountOptions is the list of additional bind mount options to apply when mounting this volume into the container. Allowed values are noexec, nodev, and nosuid. These are Linux mount options and have no effect on Windows nodes. This field is not supported with image volumes. This is an alpha field and requires enabling the VolumeBindMountOptions feature gate."
+          }
+        },
         "mountPath": {
           "target": "smithy.api#String",
           "traits": {
@@ -3026,6 +3217,15 @@
       },
       "traits": {
         "smithy.api#documentation": "VolumeMount describes a mounting of a Volume within a container."
+      }
+    },
+    "com.kubernetes.batch#IoK8sApiCoreV1VolumeMountBindMountOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "bindMountOptions is the list of additional bind mount options to apply when mounting this volume into the container. Allowed values are noexec, nodev, and nosuid. These are Linux mount options and have no effect on Windows nodes. This field is not supported with image volumes. This is an alpha field and requires enabling the VolumeBindMountOptions feature gate."
       }
     },
     "com.kubernetes.batch#IoK8sApiCoreV1ContainerVolumeMountsList": {
@@ -3372,6 +3572,37 @@
       },
       "traits": {
         "smithy.api#documentation": "List of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource."
+      }
+    },
+    "com.kubernetes.batch#IoK8sApiCoreV1EvictionResponder": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "name allows you to identify the responder responding to the Eviction.\n\nIt must be a valid domain-prefixed key (such as \"acme.io/foo\"). Domain names *.k8s.io and *.kubernetes.io are reserved. This field must be unique for each responder. This field is required.",
+            "smithy.api#required": {}
+          }
+        },
+        "priority": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "priority for this responder. Higher priorities are selected first by the evictionrequest-controller. If there are responders with the same priority, the responder whose domain name comes first in the alphabetical higher domain order, will be picked. This means that the top domain labels are compared alphabetically first, followed by the lower domain labels. The key is compared last.\n\nThe responder that is the managing controller of the pod should set the value of this field to 10000 to allow both for preemption or fallback registration by other responders.\n\nThe minimum value is 0 and the maximum value is 100000. The interval 0-999 is reserved for responders with *.k8s.io suffix. This field is required.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "EvictionResponder allows you to specify the responder reacting to an Eviction. Responders should observe and communicate through the Eviction Resource API to help with the graceful eviction of a target (e.g. termination of a pod)."
+      }
+    },
+    "com.kubernetes.batch#IoK8sApiCoreV1PodSpecEvictionRespondersList": {
+      "type": "list",
+      "member": {
+        "target": "com.kubernetes.batch#IoK8sApiCoreV1EvictionResponder"
+      },
+      "traits": {
+        "smithy.api#documentation": "evictionResponders reference responders that react to Evictions based on EvictionRequests. Responders should observe and communicate through the Eviction Resource API to help with the graceful termination of a pod. The responders are selected sequentially, according to their specified priority.\n\nResponders should periodically report on an eviction progress by updating the .status.responders[].heartbeatTime field of the Eviction object. If this field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there is no other responder, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource).\n\nThe maximum length of the responders list is 10. Responders are not supported when the pod is part of a PodGroup (.spec.schedulingGroup is set). This field can only be set on creation and is immutable afterwards."
       }
     },
     "com.kubernetes.batch#IoK8sApiCoreV1HostAlias": {
@@ -4230,6 +4461,12 @@
             "smithy.api#documentation": "defaultMode is optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set."
           }
         },
+        "defaultUser": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
+          }
+        },
         "items": {
           "target": "com.kubernetes.batch#IoK8sApiCoreV1ConfigMapVolumeSourceItemsList",
           "traits": {
@@ -4274,6 +4511,12 @@
           "traits": {
             "smithy.api#documentation": "path is the relative path of the file to map the key to. May not be an absolute path. May not contain the path element '..'. May not start with the string '..'.",
             "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
           }
         }
       },
@@ -4350,6 +4593,12 @@
             "smithy.api#documentation": "Optional: mode bits to use on created files by default. Must be a Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set."
           }
         },
+        "defaultUser": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
+          }
+        },
         "items": {
           "target": "com.kubernetes.batch#IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList",
           "traits": {
@@ -4388,6 +4637,12 @@
           "traits": {
             "smithy.api#documentation": "Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported."
           }
+        },
+        "user": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
+          }
         }
       },
       "traits": {
@@ -4410,6 +4665,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "medium represents what type of storage medium should back this directory. The default is \"\" which means to use the node's default medium. Must be an empty string (default) or Memory. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir"
+          }
+        },
+        "mode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "mode specifies the permission bits for the emptyDir directory, in numeric notation (e.g., 0755, 01777). Must be a value between 0000 and 01777. If not specified, defaults to 0777. This might be in conflict with other options that affect the file mode, like fsGroup. If fsGroup is specified, the fsGroup permissions will override the mode specified here. This field has no effect on Windows. This field is alpha and requires EmptyDirVolumeMode featuregate to be enabled."
           }
         },
         "sizeLimit": {
@@ -5083,6 +5344,12 @@
             "smithy.api#documentation": "defaultMode are the mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set."
           }
         },
+        "defaultUser": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
+          }
+        },
         "sources": {
           "target": "com.kubernetes.batch#IoK8sApiCoreV1ProjectedVolumeSourceSourcesList",
           "traits": {
@@ -5170,6 +5437,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Select all ClusterTrustBundles that match this signer name. Mutually-exclusive with name.  The contents of all selected ClusterTrustBundles will be unified and deduplicated."
+          }
+        },
+        "user": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
           }
         }
       },
@@ -5276,6 +5549,12 @@
             "smithy.api#required": {}
           }
         },
+        "user": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
+          }
+        },
         "userAnnotations": {
           "target": "com.kubernetes.batch#IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap",
           "traits": {
@@ -5354,6 +5633,12 @@
           "traits": {
             "smithy.api#documentation": "path is the path relative to the mount point of the file to project the token into.",
             "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
           }
         }
       },
@@ -5561,6 +5846,12 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "defaultMode is Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set."
+          }
+        },
+        "defaultUser": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled."
           }
         },
         "items": {
@@ -5982,19 +6273,20 @@
         "metadata": {
           "target": "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1JobSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "spec is the specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1JobStatus",
           "traits": {
-            "smithy.api#documentation": "Current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "status is the current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
           }
         }
       },
@@ -6082,39 +6374,37 @@
         "lastProbeTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Last time the condition was checked."
+            "smithy.api#documentation": "lastProbeTime is the last time the condition was checked."
           }
         },
         "lastTransitionTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Last time the condition transit from one status to another."
+            "smithy.api#documentation": "lastTransitionTime is the last time the condition transit from one status to another."
           }
         },
         "message": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human readable message indicating details about last transition."
+            "smithy.api#documentation": "message is human readable message indicating details about last transition."
           }
         },
         "reason": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "(brief) reason for the condition's last transition."
+            "smithy.api#documentation": "reason is the brief reason for the condition's last transition."
           }
         },
         "status": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Status of the condition, one of True, False, Unknown.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "status is the status of the condition, one of True, False, Unknown."
           }
         },
         "type": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Type of job condition, Complete or Failed.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "type is the type of job condition, Complete or Failed."
           }
         }
       },
@@ -6366,20 +6656,20 @@
         "metadata": {
           "target": "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJobSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
+            "smithy.api#documentation": "spec is the specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
             "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJobStatus",
           "traits": {
-            "smithy.api#documentation": "Current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "status is the current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
           }
         }
       },
@@ -6847,20 +7137,20 @@
         "metadata": {
           "target": "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJobSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
+            "smithy.api#documentation": "spec is the specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
             "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJobStatus",
           "traits": {
-            "smithy.api#documentation": "Current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "status is the current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
           }
         }
       },
@@ -7216,20 +7506,20 @@
         "metadata": {
           "target": "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJobSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
+            "smithy.api#documentation": "spec is the specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
             "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJobStatus",
           "traits": {
-            "smithy.api#documentation": "Current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "status is the current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
           }
         }
       },
@@ -7523,19 +7813,20 @@
         "metadata": {
           "target": "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1JobSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "spec is the specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1JobStatus",
           "traits": {
-            "smithy.api#documentation": "Current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "status is the current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
           }
         }
       },
@@ -7848,19 +8139,20 @@
         "metadata": {
           "target": "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1JobSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "spec is the specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1JobStatus",
           "traits": {
-            "smithy.api#documentation": "Current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "status is the current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
           }
         }
       },
@@ -8216,19 +8508,20 @@
         "metadata": {
           "target": "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1JobSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "spec is the specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.batch#IoK8sApiBatchV1JobStatus",
           "traits": {
-            "smithy.api#documentation": "Current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "status is the current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
           }
         }
       },

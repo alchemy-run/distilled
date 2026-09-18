@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/hetzner",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
@@ -75,17 +75,18 @@
     "convert": "bun scripts/convert.ts",
     "generate": "bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "spec:download": "bun scripts/download-spec.ts"
+    "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-hetzner",
+    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-hetzner"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:tooling",
-    "@types/node": "catalog:tooling",
-    "@effect/platform-bun": "catalog:effect"
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "@effect/platform-bun": "catalog:"
   },
   "peerDependencies": {
-    "effect": "catalog:effect"
+    "effect": "catalog:"
   }
 }

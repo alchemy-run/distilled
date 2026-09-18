@@ -23,20 +23,20 @@ export class Forbidden
 
 /** Retired: this field is no longer supported. Whether the enterprise team should be reflected in each organization. This value cannot be set. */
 export type CreateRequestSyncToOrganizations = "all" | "disabled";
-export const CreateRequestSyncToOrganizations = /*@__PURE__*/ S.String;
+export const CreateRequestSyncToOrganizations = S.String;
 
 /** Specifies which organizations in the enterprise should have access to this team. Can be one of `disabled`, `selected`, or `all`. `disabled`: The team is not assigned to any organizations. This is the default when you create a new team. `selected`: The team is assigned to specific organizations. You can then use the [add organization assignments API](https://docs.github.com/rest/enterprise-teams/enterprise-team-organizations#add-organization-assignments) endpoint. `all`: The team is assigned to all current and future organizations in the enterprise. */
 export type CreateRequestOrganizationSelectionType =
   | "disabled"
   | "selected"
   | "all";
-export const CreateRequestOrganizationSelectionType = /*@__PURE__*/ S.String;
+export const CreateRequestOrganizationSelectionType = S.String;
 
 /** The notification setting the team is set to. The options are: * `notifications_enabled` - team members receive notifications when the team is @mentioned. * `notifications_disabled` - no one receives notifications. Default: `notifications_enabled` */
 export type CreateRequestNotificationSetting =
   | "notifications_enabled"
   | "notifications_disabled";
-export const CreateRequestNotificationSetting = /*@__PURE__*/ S.String;
+export const CreateRequestNotificationSetting = S.String;
 
 export interface CreateRequest {
   /** The slug version of the enterprise name. */
@@ -80,7 +80,7 @@ export const CreateRequest = /*@__PURE__*/ S.suspend(() =>
 export type EnterpriseTeamNotificationSetting =
   | "notifications_enabled"
   | "notifications_disabled";
-export const EnterpriseTeamNotificationSetting = /*@__PURE__*/ S.String;
+export const EnterpriseTeamNotificationSetting = S.String;
 
 /** Group of enterprise owners and/or members */
 export interface EnterpriseTeam {
@@ -164,6 +164,58 @@ export const GetRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetRequest" }) as any as S.Schema<GetRequest>;
 
+/** Whether team members will receive notifications when the team is mentioned. */
+export type EnterpriseTeamWithMemberCountNotificationSetting =
+  | "notifications_enabled"
+  | "notifications_disabled";
+export const EnterpriseTeamWithMemberCountNotificationSetting = S.String;
+
+/** Group of enterprise owners and/or members */
+export interface EnterpriseTeamWithMemberCount {
+  id: number;
+  name: string;
+  description?: string;
+  slug: string;
+  url: string;
+  /** Retired: this field will not be returned with GHEC enterprise teams. */
+  sync_to_organizations?: string;
+  organization_selection_type?: string;
+  group_id: string | null;
+  /** Retired: this field will not be returned with GHEC enterprise teams. */
+  group_name?: string | null;
+  html_url: string;
+  members_url: string;
+  /** The number of members in the enterprise team. */
+  members_count: number;
+  created_at: string;
+  updated_at: string;
+  /** Whether team members will receive notifications when the team is mentioned. */
+  notification_setting?: EnterpriseTeamWithMemberCountNotificationSetting;
+}
+export const EnterpriseTeamWithMemberCount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    name: S.String,
+    description: S.optional(S.String),
+    slug: S.String,
+    url: S.String,
+    sync_to_organizations: S.optional(S.String),
+    organization_selection_type: S.optional(S.String),
+    group_id: S.NullOr(S.String),
+    group_name: S.optional(S.NullOr(S.String)),
+    html_url: S.String,
+    members_url: S.String,
+    members_count: S.Number,
+    created_at: S.String,
+    updated_at: S.String,
+    notification_setting: S.optional(
+      EnterpriseTeamWithMemberCountNotificationSetting,
+    ),
+  }),
+).annotate({
+  identifier: "EnterpriseTeamWithMemberCount",
+}) as any as S.Schema<EnterpriseTeamWithMemberCount>;
+
 export interface ListRequest {
   /** The slug version of the enterprise name. */
   enterprise: string;
@@ -198,20 +250,20 @@ export const ListResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Retired: this field is no longer supported. Whether the enterprise team should be reflected in each organization. This value cannot be changed. */
 export type UpdateRequestSyncToOrganizations = "all" | "disabled";
-export const UpdateRequestSyncToOrganizations = /*@__PURE__*/ S.String;
+export const UpdateRequestSyncToOrganizations = S.String;
 
 /** Specifies which organizations in the enterprise should have access to this team. Can be one of `disabled`, `selected`, or `all`. `disabled`: The team is not assigned to any organizations. This is the default when you create a new team. `selected`: The team is assigned to specific organizations. You can then use the [add organization assignments API](https://docs.github.com/rest/enterprise-teams/enterprise-team-organizations#add-organization-assignments). `all`: The team is assigned to all current and future organizations in the enterprise. */
 export type UpdateRequestOrganizationSelectionType =
   | "disabled"
   | "selected"
   | "all";
-export const UpdateRequestOrganizationSelectionType = /*@__PURE__*/ S.String;
+export const UpdateRequestOrganizationSelectionType = S.String;
 
 /** The notification setting the team is set to. The options are: * `notifications_enabled` - team members receive notifications when the team is @mentioned. * `notifications_disabled` - no one receives notifications. */
 export type UpdateRequestNotificationSetting =
   | "notifications_enabled"
   | "notifications_disabled";
-export const UpdateRequestNotificationSetting = /*@__PURE__*/ S.String;
+export const UpdateRequestNotificationSetting = S.String;
 
 export interface UpdateRequest {
   /** The slug version of the enterprise name. */
@@ -288,12 +340,12 @@ export type GetError = Forbidden | GithubOpError;
 /** Get an enterprise team Gets a team using the team's slug. To create the slug, GitHub replaces special characters in the name string, changes all words to lowercase, and replaces spaces with a `-` separator and adds the "ent:" prefix. For example, "My TEam Näme" would become `ent:my-team-name`. */
 export const get: API.OperationMethod<
   GetRequest,
-  EnterpriseTeam,
+  EnterpriseTeamWithMemberCount,
   GetError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRequest,
-  output: EnterpriseTeam,
+  output: EnterpriseTeamWithMemberCount,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,

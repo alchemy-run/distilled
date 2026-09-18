@@ -1,0 +1,1223 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.streamlit_apps#ListStreamlitAppsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#PaginatedAppSummaryContractList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.streamlit_apps#PaginatedAppSummaryContractListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.streamlit_apps#AppSummaryContract": {
+      "type": "structure",
+      "members": {
+        "created_by": {
+          "target": "com.posthog.streamlit_apps#StreamlitAppUserInfo",
+          "traits": {
+            "smithy.api#documentation": "User who created this app.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cpu_cores": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memory_gb": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.streamlit_apps#StreamlitAppUserInfo": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "distinct_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "is_email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hedgehog_config": {
+          "target": "com.posthog.streamlit_apps#StreamlitAppUserInfoHedgehogConfigMap",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role_at_organization": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.streamlit_apps#StreamlitAppUserInfoHedgehogConfigMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.streamlit_apps#PaginatedAppSummaryContractListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.streamlit_apps#AppSummaryContract"
+      },
+      "traits": {}
+    },
+    "com.posthog.streamlit_apps#ListStreamlitApps": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#ListStreamlitAppsRequest"
+      },
+      "output": {
+        "target": "com.posthog.streamlit_apps#PaginatedAppSummaryContractList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/streamlit_apps/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List streamlit apps"
+      }
+    },
+    "com.posthog.streamlit_apps#CreateStreamlitAppRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the app.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description of the app."
+          }
+        },
+        "cpu_cores": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "CPU cores allocated to the sandbox."
+          }
+        },
+        "memory_gb": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Memory in GB allocated to the sandbox."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#AppContract": {
+      "type": "structure",
+      "members": {
+        "created_by": {
+          "target": "com.posthog.streamlit_apps#StreamlitAppUserInfo",
+          "traits": {
+            "smithy.api#documentation": "User who created this app.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "active_version": {
+          "target": "com.posthog.streamlit_apps#AppVersionContract",
+          "traits": {
+            "smithy.api#documentation": "Currently active version, or null if none uploaded yet.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sandbox": {
+          "target": "com.posthog.streamlit_apps#AppSandboxContract",
+          "traits": {
+            "smithy.api#documentation": "Current sandbox state, or null if the app has never started.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cpu_cores": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memory_gb": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.streamlit_apps#AppVersionContract": {
+      "type": "structure",
+      "members": {
+        "created_by": {
+          "target": "com.posthog.streamlit_apps#StreamlitAppUserInfo",
+          "traits": {
+            "smithy.api#documentation": "User who uploaded this version.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "zip_hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.streamlit_apps#AppSandboxContract": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "restart_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_activity_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.streamlit_apps#CreateStreamlitApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#CreateStreamlitAppRequest"
+      },
+      "output": {
+        "target": "com.posthog.streamlit_apps#AppContract"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/streamlit_apps/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a streamlit app"
+      }
+    },
+    "com.posthog.streamlit_apps#GetStreamlitAppRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#GetStreamlitApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#GetStreamlitAppRequest"
+      },
+      "output": {
+        "target": "com.posthog.streamlit_apps#AppContract"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/streamlit_apps/{short_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a streamlit app"
+      }
+    },
+    "com.posthog.streamlit_apps#UpdateStreamlitAppRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New name for the app."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New description for the app."
+          }
+        },
+        "cpu_cores": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "New CPU core allocation for the sandbox."
+          }
+        },
+        "memory_gb": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "New memory (GB) allocation for the sandbox."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#UpdateStreamlitApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#UpdateStreamlitAppRequest"
+      },
+      "output": {
+        "target": "com.posthog.streamlit_apps#AppContract"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/streamlit_apps/{short_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a streamlit app"
+      }
+    },
+    "com.posthog.streamlit_apps#UpdateStreamlitAppsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New name for the app."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New description for the app."
+          }
+        },
+        "cpu_cores": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "New CPU core allocation for the sandbox."
+          }
+        },
+        "memory_gb": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "New memory (GB) allocation for the sandbox."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#UpdateStreamlitAppsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#UpdateStreamlitAppsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.streamlit_apps#AppContract"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/streamlit_apps/{short_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Partially update a streamlit app"
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#StreamlitAppsDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/streamlit_apps/{short_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a streamlit app"
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsActivateVersionCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "version_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Version number to activate. Must reference an existing version of this app.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#ActivateVersionResponse": {
+      "type": "structure",
+      "members": {
+        "active_version": {
+          "target": "com.posthog.streamlit_apps#AppVersionContract",
+          "traits": {
+            "smithy.api#documentation": "The version that is now active for the app.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsActivateVersionCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#StreamlitAppsActivateVersionCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.streamlit_apps#ActivateVersionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/streamlit_apps/{short_id}/activate_version/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Activate an existing app version"
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsConnectInfoRetrieveRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitConnectInfo": {
+      "type": "structure",
+      "members": {
+        "iframe_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Authenticated URL to embed the running app in an iframe.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_in": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Seconds until the embedded session credential expires.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsConnectInfoRetrieve": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#StreamlitAppsConnectInfoRetrieveRequest"
+      },
+      "output": {
+        "target": "com.posthog.streamlit_apps#StreamlitConnectInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/streamlit_apps/{short_id}/connect_info/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get iframe connection info for a running app"
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsCreateVersionFromSourceCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full Python source for the Streamlit app's root app.py file, as free text (max 1 MB). Becomes a new version and is set as the active version.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsCreateVersionFromSourceCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#StreamlitAppsCreateVersionFromSourceCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.streamlit_apps#AppVersionContract"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/streamlit_apps/{short_id}/create_version_from_source/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an app version from source code"
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsRestartCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsRestartCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#StreamlitAppsRestartCreateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/streamlit_apps/{short_id}/restart/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Restart the app sandbox"
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsStartCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsStartCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#StreamlitAppsStartCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.streamlit_apps#AppContract"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/streamlit_apps/{short_id}/start/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Start the app sandbox"
+      }
+    },
+    "com.posthog.streamlit_apps#GetStreamlitAppsStatusRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppStatus": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sandbox lifecycle status, or 'stopped' when no sandbox exists.",
+            "smithy.api#required": {}
+          }
+        },
+        "restart_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of times the app's sandbox has been restarted.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Most recent sandbox error message, empty when there is none.",
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the current sandbox started, null when stopped.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_activity_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the last recorded viewer activity, null when none.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Version number the running sandbox was booted from.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.streamlit_apps#GetStreamlitAppsStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#GetStreamlitAppsStatusRequest"
+      },
+      "output": {
+        "target": "com.posthog.streamlit_apps#StreamlitAppStatus"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/streamlit_apps/{short_id}/status/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get app sandbox status"
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsStopCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsStopCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#StreamlitAppsStopCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.streamlit_apps#AppContract"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/streamlit_apps/{short_id}/stop/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stop the app sandbox"
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsUploadVersionCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zip archive containing the Streamlit app sources (max 10 MB).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsUploadVersionCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#StreamlitAppsUploadVersionCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.streamlit_apps#AppVersionContract"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/streamlit_apps/{short_id}/upload_version/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Upload a new app version"
+      }
+    },
+    "com.posthog.streamlit_apps#GetStreamlitAppsVersionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppVersionList": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.streamlit_apps#StreamlitAppVersionListResultsList",
+          "traits": {
+            "smithy.api#documentation": "Most recent versions of the app, newest first (capped at 50).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.streamlit_apps#StreamlitAppVersionListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.streamlit_apps#AppVersionContract"
+      },
+      "traits": {
+        "smithy.api#documentation": "Most recent versions of the app, newest first (capped at 50)."
+      }
+    },
+    "com.posthog.streamlit_apps#GetStreamlitAppsVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.streamlit_apps#GetStreamlitAppsVersionRequest"
+      },
+      "output": {
+        "target": "com.posthog.streamlit_apps#StreamlitAppVersionList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/streamlit_apps/{short_id}/versions/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List app versions"
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitApps": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.streamlit_apps#ListStreamlitApps"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#CreateStreamlitApp"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#GetStreamlitApp"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#UpdateStreamlitApp"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#UpdateStreamlitAppsPartial"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#StreamlitAppsDestroy"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#StreamlitAppsActivateVersionCreate"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#StreamlitAppsConnectInfoRetrieve"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#StreamlitAppsCreateVersionFromSourceCreate"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#StreamlitAppsRestartCreate"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#StreamlitAppsStartCreate"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#GetStreamlitAppsStatus"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#StreamlitAppsStopCreate"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#StreamlitAppsUploadVersionCreate"
+        },
+        {
+          "target": "com.posthog.streamlit_apps#GetStreamlitAppsVersion"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

@@ -1,0 +1,603 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.task#TaskClusterHelloRequest": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String"
+        },
+        "containerIp": {
+          "target": "smithy.api#String"
+        },
+        "imexHostIp": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.task#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.task#TaskClusterHelloResponse": {
+      "type": "structure",
+      "members": {
+        "clusterId": {
+          "target": "smithy.api#String"
+        },
+        "clusterRank": {
+          "target": "smithy.api#Integer"
+        },
+        "containerIps": {
+          "target": "com.modal.task#StringList",
+          "traits": {
+            "smithy.api#documentation": "All IPv6 addresses in cluster, ordered by cluster rank"
+          }
+        },
+        "containerIpv4Ips": {
+          "target": "com.modal.task#StringList"
+        },
+        "imexPeerIps": {
+          "target": "com.modal.task#StringList",
+          "traits": {
+            "smithy.api#documentation": "All nvidia-imex IPs in fabric, ordered by cluster rank, and otherwise absent on non-NVL72 systems"
+          }
+        },
+        "fabricIds": {
+          "target": "com.modal.task#StringList",
+          "traits": {
+            "smithy.api#documentation": "GPU-memory-fabric labels, ordered by cluster rank"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.task#TaskClusterHello": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.task#TaskClusterHelloRequest"
+      },
+      "output": {
+        "target": "com.modal.task#TaskClusterHelloResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/TaskClusterHello",
+          "code": 200
+        },
+        "smithy.api#documentation": "Tasks"
+      }
+    },
+    "com.modal.task#TaskCurrentInputsResponse": {
+      "type": "structure",
+      "members": {
+        "inputIds": {
+          "target": "com.modal.task#StringList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.task#TaskCurrentInputs": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.modal.task#TaskCurrentInputsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/TaskCurrentInputs",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.task#TaskGetCommandRouterAccessRequest": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.task#TaskGetCommandRouterAccessResponse": {
+      "type": "structure",
+      "members": {
+        "jwt": {
+          "target": "smithy.api#String"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.task#TaskGetCommandRouterAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.task#TaskGetCommandRouterAccessRequest"
+      },
+      "output": {
+        "target": "com.modal.task#TaskGetCommandRouterAccessResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/TaskGetCommandRouterAccess",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.task#TaskGetInfoRequest": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.task#TaskInfo": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "startedAt": {
+          "target": "smithy.api#Double"
+        },
+        "finishedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "For Function containers, this corresponds to the \"ready\" time, after startup phase"
+          }
+        },
+        "result": {
+          "target": "com.modal.task#GenericResult"
+        },
+        "enqueuedAt": {
+          "target": "smithy.api#Double"
+        },
+        "gpuType": {
+          "target": "smithy.api#String"
+        },
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "snapshotBehavior": {
+          "target": "com.modal.task#TaskSnapshotBehavior"
+        },
+        "gpuConfig": {
+          "target": "com.modal.task#GPUConfig"
+        }
+      }
+    },
+    "com.modal.task#GenericResult": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.modal.task#GenericResultGenericStatus"
+        },
+        "exception": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status of the task or function output."
+          }
+        },
+        "exitcode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Exception message for failures, if available."
+          }
+        },
+        "traceback": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly."
+          }
+        },
+        "serializedTb": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "String value of the Python traceback."
+          }
+        },
+        "tbLineCache": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "Pickled traceback object."
+          }
+        },
+        "data": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "Pickled line cache for traceback object."
+          }
+        },
+        "dataBlobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inline data of the result."
+          }
+        },
+        "propagationReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Blob ID for large data."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "sub-type for generic types like lists"
+      }
+    },
+    "com.modal.task#GenericResultGenericStatus": {
+      "type": "enum",
+      "members": {
+        "GENERIC_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_UNSPECIFIED"
+          }
+        },
+        "GENERIC_STATUS_SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_SUCCESS"
+          }
+        },
+        "GENERIC_STATUS_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_FAILURE"
+          }
+        },
+        "GENERIC_STATUS_TERMINATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_TERMINATED",
+            "smithy.api#documentation": "Used when a task was killed using an external signal."
+          }
+        },
+        "GENERIC_STATUS_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_TIMEOUT"
+          }
+        },
+        "GENERIC_STATUS_INIT_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_INIT_FAILURE",
+            "smithy.api#documentation": "Used when the user's function fails to initialize (ex. S3 mount failed due to invalid credentials). Terminates the function and all remaining inputs."
+          }
+        },
+        "GENERIC_STATUS_INTERNAL_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_INTERNAL_FAILURE"
+          }
+        },
+        "GENERIC_STATUS_IDLE_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_IDLE_TIMEOUT",
+            "smithy.api#documentation": "Used when sandboxes are terminated due to idle_timeout"
+          }
+        },
+        "GENERIC_STATUS_MEMORY_MANAGER_EVICTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_MEMORY_MANAGER_EVICTION",
+            "smithy.api#documentation": "Used when a task was killed because it was evicted by the memory manager when the worker was under memory pressure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Used for both tasks and function outputs"
+      }
+    },
+    "com.modal.task#TaskSnapshotBehavior": {
+      "type": "enum",
+      "members": {
+        "TASK_SNAPSHOT_BEHAVIOR_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_SNAPSHOT_BEHAVIOR_UNSPECIFIED"
+          }
+        },
+        "TASK_SNAPSHOT_BEHAVIOR_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_SNAPSHOT_BEHAVIOR_SNAPSHOT"
+          }
+        },
+        "TASK_SNAPSHOT_BEHAVIOR_RESTORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_SNAPSHOT_BEHAVIOR_RESTORE"
+          }
+        },
+        "TASK_SNAPSHOT_BEHAVIOR_NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_SNAPSHOT_BEHAVIOR_NONE"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ENOSPC: No space left on device"
+      }
+    },
+    "com.modal.task#GPUConfig": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.modal.task#GPUType"
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Deprecated, at some point"
+          }
+        },
+        "gpuType": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.task#GPUType": {
+      "type": "enum",
+      "members": {
+        "GPU_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_UNSPECIFIED",
+            "smithy.api#documentation": "Note: this enum is no longer used by current clients - don't add new types Old clients still send it, so we use it server-side for compatibility"
+          }
+        },
+        "GPU_TYPE_T4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_T4"
+          }
+        },
+        "GPU_TYPE_A100": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_A100"
+          }
+        },
+        "GPU_TYPE_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_A10G"
+          }
+        },
+        "GPU_TYPE_ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_ANY"
+          }
+        },
+        "GPU_TYPE_A100_80GB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_A100_80GB"
+          }
+        },
+        "GPU_TYPE_L4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_L4"
+          }
+        },
+        "GPU_TYPE_H100": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_H100"
+          }
+        },
+        "GPU_TYPE_L40S": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_L40S"
+          }
+        },
+        "GPU_TYPE_H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_H200"
+          }
+        }
+      }
+    },
+    "com.modal.task#TaskGetInfoResponse": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "info": {
+          "target": "com.modal.task#TaskInfo"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.task#TaskGetInfo": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.task#TaskGetInfoRequest"
+      },
+      "output": {
+        "target": "com.modal.task#TaskGetInfoResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/TaskGetInfo",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.task#ListTaskRequest": {
+      "type": "structure",
+      "members": {
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.task#TaskStats": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String"
+        },
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "appDescription": {
+          "target": "smithy.api#String"
+        },
+        "startedAt": {
+          "target": "smithy.api#Double"
+        },
+        "enqueuedAt": {
+          "target": "smithy.api#Double"
+        }
+      }
+    },
+    "com.modal.task#TaskStatsList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.task#TaskStats"
+      }
+    },
+    "com.modal.task#ListTaskResponse": {
+      "type": "structure",
+      "members": {
+        "tasks": {
+          "target": "com.modal.task#TaskStatsList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.task#ListTask": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.task#ListTaskRequest"
+      },
+      "output": {
+        "target": "com.modal.task#ListTaskResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/TaskList",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.task#TaskResultRequest": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.modal.task#GenericResult"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.task#TaskResult": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.task#TaskResultRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/TaskResult",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.task#TaskService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.task#TaskClusterHello"
+        },
+        {
+          "target": "com.modal.task#TaskCurrentInputs"
+        },
+        {
+          "target": "com.modal.task#TaskGetCommandRouterAccess"
+        },
+        {
+          "target": "com.modal.task#TaskGetInfo"
+        },
+        {
+          "target": "com.modal.task#ListTask"
+        },
+        {
+          "target": "com.modal.task#TaskResult"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Task",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Task`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

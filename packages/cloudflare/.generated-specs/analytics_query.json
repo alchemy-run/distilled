@@ -1,0 +1,1049 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.cloudflare.analytics_query#SummaryRequestFiltersItemValuesItem": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.analytics_query#SummaryRequestFiltersItemValuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#SummaryRequestFiltersItemValuesItem"
+      }
+    },
+    "com.cloudflare.analytics_query#SummaryRequestFiltersItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the column name to filter on. Requires a valid column for the target dataset (e.g. `country`, `allowed`, `appId`).",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter operator. Common values: `eq`, `neq`, `in`, `not_in`, `gt`, `lt`, `gte`, `lte`.",
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.cloudflare.analytics_query#SummaryRequestFiltersItemValuesList",
+          "traits": {
+            "smithy.api#documentation": "Values to match against. Type depends on the column.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.analytics_query#SummaryRequestFiltersList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#SummaryRequestFiltersItem"
+      }
+    },
+    "com.cloudflare.analytics_query#SummaryRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.analytics_query#SummaryRequestStatsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.analytics_query#SummaryRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "dataset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filters": {
+          "target": "com.cloudflare.analytics_query#SummaryRequestFiltersList",
+          "traits": {
+            "smithy.api#documentation": "Filters to apply before aggregating results.",
+            "smithy.api#required": {}
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start of the query time range (inclusive). RFC3339 format with timezone is required (e.g. `2024-11-05T00:00:00Z`).",
+            "smithy.api#required": {}
+          }
+        },
+        "groupBy": {
+          "target": "com.cloudflare.analytics_query#SummaryRequestGroupByList",
+          "traits": {
+            "smithy.api#documentation": "Specifies the column names to group results by. Requires valid columns for the target dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "stats": {
+          "target": "com.cloudflare.analytics_query#SummaryRequestStatsList",
+          "traits": {
+            "smithy.api#documentation": "Specifies the stat names to include in results. Requires valid stats for the target dataset (e.g. `attemptsTotal`, `bytesTotal`).",
+            "smithy.api#required": {}
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the end of the query time range (exclusive). Requires RFC3339 format with timezone.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.analytics_query#SummaryResponseCurrentTotalItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.analytics_query#SummaryResponseCurrentTotalList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#SummaryResponseCurrentTotalItemMap"
+      }
+    },
+    "com.cloudflare.analytics_query#SummaryResponsePreviousTotalItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.analytics_query#SummaryResponsePreviousTotalList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#SummaryResponsePreviousTotalItemMap"
+      }
+    },
+    "com.cloudflare.analytics_query#SummaryResponse": {
+      "type": "structure",
+      "members": {
+        "currentTotal": {
+          "target": "com.cloudflare.analytics_query#SummaryResponseCurrentTotalList",
+          "traits": {
+            "smithy.api#documentation": "Aggregated stats for the requested time range.",
+            "smithy.api#required": {}
+          }
+        },
+        "previousTotal": {
+          "target": "com.cloudflare.analytics_query#SummaryResponsePreviousTotalList",
+          "traits": {
+            "smithy.api#documentation": "Aggregated stats for the equivalent preceding time range, for trend comparison.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.analytics_query#Summary": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.analytics_query#SummaryRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.analytics_query#SummaryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/analytics/query/{dataset}/summary",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns aggregate summary stats for a dataset. Includes current-period and previous-period totals for trend comparison."
+      }
+    },
+    "com.cloudflare.analytics_query#TimeseriesRequestFiltersItemValuesItem": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.analytics_query#TimeseriesRequestFiltersItemValuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#TimeseriesRequestFiltersItemValuesItem"
+      }
+    },
+    "com.cloudflare.analytics_query#TimeseriesRequestFiltersItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the column name to filter on. Requires a valid column for the target dataset (e.g. `country`, `allowed`, `appId`).",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter operator. Common values: `eq`, `neq`, `in`, `not_in`, `gt`, `lt`, `gte`, `lte`.",
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.cloudflare.analytics_query#TimeseriesRequestFiltersItemValuesList",
+          "traits": {
+            "smithy.api#documentation": "Values to match against. Type depends on the column.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.analytics_query#TimeseriesRequestFiltersList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#TimeseriesRequestFiltersItem"
+      }
+    },
+    "com.cloudflare.analytics_query#TimeseriesRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.analytics_query#TimeseriesRequestStatsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.analytics_query#TimeseriesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "dataset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filters": {
+          "target": "com.cloudflare.analytics_query#TimeseriesRequestFiltersList",
+          "traits": {
+            "smithy.api#documentation": "Filters to apply before aggregating results.",
+            "smithy.api#required": {}
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start of the query time range (inclusive). RFC3339 format with timezone is required (e.g. `2024-11-05T00:00:00Z`).",
+            "smithy.api#required": {}
+          }
+        },
+        "groupBy": {
+          "target": "com.cloudflare.analytics_query#TimeseriesRequestGroupByList",
+          "traits": {
+            "smithy.api#documentation": "Specifies the column names to group results by. Requires valid columns for the target dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "resolution": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time bucket size for grouping results. Controls the granularity of the returned time slots.",
+            "smithy.api#required": {}
+          }
+        },
+        "stats": {
+          "target": "com.cloudflare.analytics_query#TimeseriesRequestStatsList",
+          "traits": {
+            "smithy.api#documentation": "Specifies the stat names to include in results. Requires valid stats for the target dataset (e.g. `attemptsTotal`, `bytesTotal`).",
+            "smithy.api#required": {}
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the end of the query time range (exclusive). Requires RFC3339 format with timezone.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.analytics_query#TimeseriesResponseSlotsItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.analytics_query#TimeseriesResponseSlotsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#TimeseriesResponseSlotsItemMap"
+      }
+    },
+    "com.cloudflare.analytics_query#TimeseriesResponse": {
+      "type": "structure",
+      "members": {
+        "resolution": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resolution used for time bucketing.",
+            "smithy.api#required": {}
+          }
+        },
+        "slots": {
+          "target": "com.cloudflare.analytics_query#TimeseriesResponseSlotsList",
+          "traits": {
+            "smithy.api#documentation": "Time-bucketed result rows. Each slot contains a `time_bucket` field plus the requested stats and group-by dimensions.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.analytics_query#Timeseries": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.analytics_query#TimeseriesRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.analytics_query#TimeseriesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/analytics/query/{dataset}/timeseries",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns time-bucketed analytics data for a dataset. Includes time slots, each containing the requested stats, group-by dimensions, and resolution-controlled bucket size (e.g. `hour`, `day`)."
+      }
+    },
+    "com.cloudflare.analytics_query#TopNRequestFiltersItemValuesItem": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.analytics_query#TopNRequestFiltersItemValuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#TopNRequestFiltersItemValuesItem"
+      }
+    },
+    "com.cloudflare.analytics_query#TopNRequestFiltersItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the column name to filter on. Requires a valid column for the target dataset (e.g. `country`, `allowed`, `appId`).",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter operator. Common values: `eq`, `neq`, `in`, `not_in`, `gt`, `lt`, `gte`, `lte`.",
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.cloudflare.analytics_query#TopNRequestFiltersItemValuesList",
+          "traits": {
+            "smithy.api#documentation": "Values to match against. Type depends on the column.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.analytics_query#TopNRequestFiltersList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#TopNRequestFiltersItem"
+      }
+    },
+    "com.cloudflare.analytics_query#TopNRequestGroupByList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.analytics_query#TopNRequestStatsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.analytics_query#TopNRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "dataset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filters": {
+          "target": "com.cloudflare.analytics_query#TopNRequestFiltersList",
+          "traits": {
+            "smithy.api#documentation": "Filters to apply before aggregating results.",
+            "smithy.api#required": {}
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start of the query time range (inclusive). RFC3339 format with timezone is required (e.g. `2024-11-05T00:00:00Z`).",
+            "smithy.api#required": {}
+          }
+        },
+        "groupBy": {
+          "target": "com.cloudflare.analytics_query#TopNRequestGroupByList",
+          "traits": {
+            "smithy.api#documentation": "Specifies the column names to group results by. Requires valid columns for the target dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "n": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of results to return.",
+            "smithy.api#required": {}
+          }
+        },
+        "orderBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the stat name for sorting results in descending order. Requires a valid stat for the target dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "stats": {
+          "target": "com.cloudflare.analytics_query#TopNRequestStatsList",
+          "traits": {
+            "smithy.api#documentation": "Specifies the stat names to include in results. Requires valid stats for the target dataset (e.g. `attemptsTotal`, `bytesTotal`).",
+            "smithy.api#required": {}
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the end of the query time range (exclusive). Requires RFC3339 format with timezone.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.analytics_query#TopNResultItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.analytics_query#TopNResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#TopNResultItemMap"
+      }
+    },
+    "com.cloudflare.analytics_query#TopNResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.analytics_query#TopNResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.analytics_query#TopN": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.analytics_query#TopNRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.analytics_query#TopNResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/analytics/query/{dataset}/top-n",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns the top N results for a dataset by a specified stat. Includes an array of result rows, each containing the requested stats and group-by dimensions."
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNRequestFiltersItemValuesItem": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNRequestFiltersItemValuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNRequestFiltersItemValuesItem"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNRequestFiltersItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the column name to filter on. Requires a valid column for the target dataset (e.g. `country`, `allowed`, `appId`).",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter operator. Common values: `eq`, `neq`, `in`, `not_in`, `gt`, `lt`, `gte`, `lte`.",
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNRequestFiltersItemValuesList",
+          "traits": {
+            "smithy.api#documentation": "Values to match against. Type depends on the column.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNRequestFiltersList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNRequestFiltersItem"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filters": {
+          "target": "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNRequestFiltersList",
+          "traits": {
+            "smithy.api#documentation": "Filters to apply. `findingType = content` is applied automatically for CASB data.",
+            "smithy.api#required": {}
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the query time range (inclusive). RFC3339.",
+            "smithy.api#required": {}
+          }
+        },
+        "n": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of integrations to return.",
+            "smithy.api#required": {}
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End of the query time range (exclusive). RFC3339.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNResultItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNResultItemMap"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityContentFindingsTopN": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.analytics_query#DataSecurityContentFindingsTopNResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/analytics/query/data-security/content-findings/top-n",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns the top N integrations ranked by total content findings."
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsSummaryRequestFiltersItemValuesItem": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsSummaryRequestFiltersItemValuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#DataSecurityFindingsSummaryRequestFiltersItemValuesItem"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsSummaryRequestFiltersItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the column name to filter on. Requires a valid column for the target dataset (e.g. `country`, `allowed`, `appId`).",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter operator. Common values: `eq`, `neq`, `in`, `not_in`, `gt`, `lt`, `gte`, `lte`.",
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.cloudflare.analytics_query#DataSecurityFindingsSummaryRequestFiltersItemValuesList",
+          "traits": {
+            "smithy.api#documentation": "Values to match against. Type depends on the column.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsSummaryRequestFiltersList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#DataSecurityFindingsSummaryRequestFiltersItem"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsSummaryRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filters": {
+          "target": "com.cloudflare.analytics_query#DataSecurityFindingsSummaryRequestFiltersList",
+          "traits": {
+            "smithy.api#documentation": "Filters to apply.",
+            "smithy.api#required": {}
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the query time range (inclusive). RFC3339.",
+            "smithy.api#required": {}
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End of the query time range (exclusive). RFC3339.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsSummaryResponseCurrentTotalItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsSummaryResponseCurrentTotalList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#DataSecurityFindingsSummaryResponseCurrentTotalItemMap"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsSummaryResponsePreviousTotalItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsSummaryResponsePreviousTotalList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#DataSecurityFindingsSummaryResponsePreviousTotalItemMap"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsSummaryResponse": {
+      "type": "structure",
+      "members": {
+        "currentTotal": {
+          "target": "com.cloudflare.analytics_query#DataSecurityFindingsSummaryResponseCurrentTotalList",
+          "traits": {
+            "smithy.api#documentation": "Aggregated stats for the requested time range.",
+            "smithy.api#required": {}
+          }
+        },
+        "previousTotal": {
+          "target": "com.cloudflare.analytics_query#DataSecurityFindingsSummaryResponsePreviousTotalList",
+          "traits": {
+            "smithy.api#documentation": "Aggregated stats for the equivalent preceding time range, for trend comparison.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsSummary": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.analytics_query#DataSecurityFindingsSummaryRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.analytics_query#DataSecurityFindingsSummaryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/analytics/query/data-security/findings/summary",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns aggregate current-period and previous-period totals for CASB findings."
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesRequestFiltersItemValuesItem": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesRequestFiltersItemValuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesRequestFiltersItemValuesItem"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesRequestFiltersItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the column name to filter on. Requires a valid column for the target dataset (e.g. `country`, `allowed`, `appId`).",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter operator. Common values: `eq`, `neq`, `in`, `not_in`, `gt`, `lt`, `gte`, `lte`.",
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesRequestFiltersItemValuesList",
+          "traits": {
+            "smithy.api#documentation": "Values to match against. Type depends on the column.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesRequestFiltersList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesRequestFiltersItem"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filters": {
+          "target": "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesRequestFiltersList",
+          "traits": {
+            "smithy.api#documentation": "Filters to apply.",
+            "smithy.api#required": {}
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the query time range (inclusive). RFC3339.",
+            "smithy.api#required": {}
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End of the query time range (exclusive). RFC3339.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesResponseSlotsItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesResponseSlotsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesResponseSlotsItemMap"
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesResponse": {
+      "type": "structure",
+      "members": {
+        "slots": {
+          "target": "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesResponseSlotsList",
+          "traits": {
+            "smithy.api#documentation": "Contains time-bucketed result rows. Each slot includes a `timestamp` plus `content` and `posture` maps with `cloud` and `saas` keys.",
+            "smithy.api#required": {}
+          }
+        },
+        "resolution": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always null for this endpoint."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.analytics_query#DataSecurityFindingsTimeseries": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.analytics_query#DataSecurityFindingsTimeseriesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/analytics/query/data-security/findings/timeseries",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns merged time-bucketed CASB findings."
+      }
+    },
+    "com.cloudflare.analytics_query#AnalyticsQuery": {
+      "type": "service",
+      "version": "4.0",
+      "operations": [
+        {
+          "target": "com.cloudflare.analytics_query#Summary"
+        },
+        {
+          "target": "com.cloudflare.analytics_query#Timeseries"
+        },
+        {
+          "target": "com.cloudflare.analytics_query#TopN"
+        },
+        {
+          "target": "com.cloudflare.analytics_query#DataSecurityContentFindingsTopN"
+        },
+        {
+          "target": "com.cloudflare.analytics_query#DataSecurityFindingsSummary"
+        },
+        {
+          "target": "com.cloudflare.analytics_query#DataSecurityFindingsTimeseries"
+        }
+      ],
+      "traits": {
+        "com.cloudflare.protocols#v4Json": {},
+        "smithy.api#title": "Cloudflare AnalyticsQuery",
+        "smithy.api#documentation": "Cloudflare API — analytics_query resource. Speaks the v4 JSON envelope protocol; operation outputs describe the unwrapped `result` payload."
+      }
+    }
+  }
+}

@@ -4,30 +4,36 @@
     "service": "chromewebstore",
     "version": "v1.1",
     "title": "Chrome Web Store API",
-    "baseUrl": "https://chromewebstore.googleapis.com/"
+    "baseUrl": "https://chromewebstore.googleapis.com/",
+    "distilled.finalized": true
   },
   "shapes": {
+    "com.gcp.chromewebstore_v1_1#PublishRequest": {
+      "type": "structure",
+      "members": {
+        "deployPercentage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The target deploy percentage of the item. It's only useful for items with big user base."
+          }
+        },
+        "reviewExemption": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data."
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The publish target of this publish operation. This is the same as using publishTarget as a URL query parameter. The string value can either be target=\"trustedTesters\" or target=\"default\". The default value, if none is supplied, is target=\"default\". Recommended usage is to use the URL query parameter to specificy the value."
+          }
+        }
+      }
+    },
     "com.gcp.chromewebstore_v1_1#Item": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Unique ID of the item."
-          }
-        },
-        "crxVersion": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The CRX version of the item. If the projection is draft, then it is the draft's CRX version."
-          }
-        },
-        "uploadState": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Status of the operation. Possible values are: - \\\"FAILURE\\\" - \\\"IN_PROGRESS\\\" - \\\"NOT_FOUND\\\" - \\\"SUCCESS\\\" "
-          }
-        },
         "publicKey": {
           "target": "smithy.api#String",
           "traits": {
@@ -38,6 +44,24 @@
           "target": "com.gcp.chromewebstore_v1_1#ItemErrorList",
           "traits": {
             "smithy.api#documentation": "Detail human-readable status of the operation, in English only. Same error messages are displayed when you upload your app to the Chrome Web Store."
+          }
+        },
+        "uploadState": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status of the operation. Possible values are: - \\\"FAILURE\\\" - \\\"IN_PROGRESS\\\" - \\\"NOT_FOUND\\\" - \\\"SUCCESS\\\" "
+          }
+        },
+        "crxVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The CRX version of the item. If the projection is draft, then it is the draft's CRX version."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the item."
           }
         },
         "kind": {
@@ -54,49 +78,6 @@
         "target": "com.gcp.chromewebstore_v1_1#ItemError"
       }
     },
-    "com.gcp.chromewebstore_v1_1#ItemError": {
-      "type": "structure",
-      "members": {
-        "error_code": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The error code."
-          }
-        },
-        "error_detail": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The human-readable detail message of the error."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Error of the item"
-      }
-    },
-    "com.gcp.chromewebstore_v1_1#PublishRequest": {
-      "type": "structure",
-      "members": {
-        "deployPercentage": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The target deploy percentage of the item. It's only useful for items with big user base."
-          }
-        },
-        "target": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The publish target of this publish operation. This is the same as using publishTarget as a URL query parameter. The string value can either be target=\"trustedTesters\" or target=\"default\". The default value, if none is supplied, is target=\"default\". Recommended usage is to use the URL query parameter to specificy the value."
-          }
-        },
-        "reviewExemption": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data."
-          }
-        }
-      }
-    },
     "com.gcp.chromewebstore_v1_1#Item2": {
       "type": "structure",
       "members": {
@@ -106,10 +87,10 @@
             "smithy.api#documentation": "The ID of this item."
           }
         },
-        "status": {
-          "target": "com.gcp.chromewebstore_v1_1#StringList",
+        "kind": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The status code of this publish operation. It may contain multiple elements from the following list: NOT_AUTHORIZED, INVALID_DEVELOPER, DEVELOPER_NO_OWNERSHIP, DEVELOPER_SUSPENDED, ITEM_NOT_FOUND, ITEM_PENDING_REVIEW, ITEM_TAKEN_DOWN, PUBLISHER_SUSPENDED."
+            "smithy.api#documentation": "Static string value is always \"chromewebstore#item\"."
           }
         },
         "statusDetail": {
@@ -118,10 +99,10 @@
             "smithy.api#documentation": "Detailed human-comprehensible explanation of the status code above."
           }
         },
-        "kind": {
-          "target": "smithy.api#String",
+        "status": {
+          "target": "com.gcp.chromewebstore_v1_1#StringList",
           "traits": {
-            "smithy.api#documentation": "Static string value is always \"chromewebstore#item\"."
+            "smithy.api#documentation": "The status code of this publish operation. It may contain multiple elements from the following list: NOT_AUTHORIZED, INVALID_DEVELOPER, DEVELOPER_NO_OWNERSHIP, DEVELOPER_SUSPENDED, ITEM_NOT_FOUND, ITEM_PENDING_REVIEW, ITEM_TAKEN_DOWN, PUBLISHER_SUSPENDED."
           }
         }
       }
@@ -132,22 +113,59 @@
         "target": "smithy.api#String"
       }
     },
-    "com.gcp.chromewebstore_v1_1#UpdateItemsRequest": {
+    "com.gcp.chromewebstore_v1_1#ItemError": {
       "type": "structure",
       "members": {
+        "error_detail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The human-readable detail message of the error."
+          }
+        },
+        "error_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error code."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Error of the item"
+      }
+    },
+    "com.gcp.chromewebstore_v1_1#GetItemsProjectionEnum": {
+      "type": "enum",
+      "members": {
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DRAFT"
+          }
+        },
+        "PUBLISHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PUBLISHED"
+          }
+        }
+      }
+    },
+    "com.gcp.chromewebstore_v1_1#GetItemsRequest": {
+      "type": "structure",
+      "members": {
+        "projection": {
+          "target": "com.gcp.chromewebstore_v1_1#GetItemsProjectionEnum",
+          "traits": {
+            "smithy.api#documentation": "Determines which subset of the item information to return.",
+            "smithy.api#httpQuery": "projection"
+          }
+        },
         "itemId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the item to upload.",
+            "smithy.api#documentation": "Unique identifier representing the Chrome App, Chrome Extension, or the Chrome Theme.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.chromewebstore_v1_1#Item",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
           }
         }
       }
@@ -176,99 +194,6 @@
             "status": 403
           }
         ]
-      }
-    },
-    "com.gcp.chromewebstore_v1_1#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.gcp.protocols#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.gcp.chromewebstore_v1_1#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.gcp.protocols#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.gcp.chromewebstore_v1_1#UpdateItems": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.chromewebstore_v1_1#UpdateItemsRequest"
-      },
-      "output": {
-        "target": "com.gcp.chromewebstore_v1_1#Item"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.chromewebstore_v1_1#NotFound"
-        },
-        {
-          "target": "com.gcp.chromewebstore_v1_1#Forbidden"
-        },
-        {
-          "target": "com.gcp.chromewebstore_v1_1#BadRequest"
-        },
-        {
-          "target": "com.gcp.chromewebstore_v1_1#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "chromewebstore/v1.1/items/{itemId}"
-        },
-        "smithy.api#documentation": "Updates an existing item."
-      }
-    },
-    "com.gcp.chromewebstore_v1_1#GetItemsProjectionEnum": {
-      "type": "enum",
-      "members": {
-        "DRAFT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "DRAFT"
-          }
-        },
-        "PUBLISHED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "PUBLISHED"
-          }
-        }
-      }
-    },
-    "com.gcp.chromewebstore_v1_1#GetItemsRequest": {
-      "type": "structure",
-      "members": {
-        "itemId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Unique identifier representing the Chrome App, Chrome Extension, or the Chrome Theme.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "projection": {
-          "target": "com.gcp.chromewebstore_v1_1#GetItemsProjectionEnum",
-          "traits": {
-            "smithy.api#documentation": "Determines which subset of the item information to return.",
-            "smithy.api#httpQuery": "projection"
-          }
-        }
       }
     },
     "com.gcp.chromewebstore_v1_1#GetItems": {
@@ -307,6 +232,32 @@
         }
       }
     },
+    "com.gcp.chromewebstore_v1_1#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.gcp.chromewebstore_v1_1#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
     "com.gcp.chromewebstore_v1_1#InsertItems": {
       "type": "operation",
       "input": {
@@ -340,19 +291,19 @@
     "com.gcp.chromewebstore_v1_1#PublishItemsRequest": {
       "type": "structure",
       "members": {
+        "publishTarget": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provide defined publishTarget in URL (case sensitive): publishTarget=\"trustedTesters\" or publishTarget=\"default\". Defaults to publishTarget=\"default\".",
+            "smithy.api#httpQuery": "publishTarget"
+          }
+        },
         "itemId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The ID of the item to publish.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
-          }
-        },
-        "publishTarget": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Provide defined publishTarget in URL (case sensitive): publishTarget=\"trustedTesters\" or publishTarget=\"default\". Defaults to publishTarget=\"default\".",
-            "smithy.api#httpQuery": "publishTarget"
           }
         },
         "deployPercentage": {
@@ -406,6 +357,56 @@
           "uri": "chromewebstore/v1.1/items/{itemId}/publish"
         },
         "smithy.api#documentation": "Publishes an item."
+      }
+    },
+    "com.gcp.chromewebstore_v1_1#UpdateItemsRequest": {
+      "type": "structure",
+      "members": {
+        "itemId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the item to upload.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.chromewebstore_v1_1#Item",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.chromewebstore_v1_1#UpdateItems": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.chromewebstore_v1_1#UpdateItemsRequest"
+      },
+      "output": {
+        "target": "com.gcp.chromewebstore_v1_1#Item"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.chromewebstore_v1_1#NotFound"
+        },
+        {
+          "target": "com.gcp.chromewebstore_v1_1#Forbidden"
+        },
+        {
+          "target": "com.gcp.chromewebstore_v1_1#BadRequest"
+        },
+        {
+          "target": "com.gcp.chromewebstore_v1_1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "chromewebstore/v1.1/items/{itemId}"
+        },
+        "smithy.api#documentation": "Updates an existing item."
       }
     }
   }

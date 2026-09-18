@@ -13,16 +13,6 @@
         "snippetName": "snippet_name",
         "totalCount": "total_count"
       }
-    },
-    {
-      "op": "add",
-      "path": "/metadata/opAliases",
-      "value": [
-        {
-          "alias": "listRules",
-          "target": "getRule"
-        }
-      ]
     }
   ]
 }

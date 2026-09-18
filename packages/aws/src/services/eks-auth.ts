@@ -131,11 +131,17 @@ export type JwtToken = string | redacted.Redacted<string>;
 export interface AssumeRoleForPodIdentityRequest {
   clusterName: string;
   token: string | redacted.Redacted<string>;
+  eksNodeName?: string;
+  instanceId?: string;
+  zone?: string;
 }
 export const AssumeRoleForPodIdentityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     token: SensitiveString,
+    eksNodeName: S.optional(S.String),
+    instanceId: S.optional(S.String),
+    zone: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({
@@ -221,12 +227,9 @@ export type AssumeRoleForPodIdentityError =
   | ThrottlingException
   | CommonErrors;
 /**
- * The Amazon EKS Auth API and the `AssumeRoleForPodIdentity` action are only used
- * by the EKS Pod Identity Agent.
+ * The Amazon EKS Auth API and the `AssumeRoleForPodIdentity` action are only used by the EKS Pod Identity Agent.
  *
- * We recommend that applications use the Amazon Web Services SDKs to connect to Amazon Web Services services; if
- * credentials from an EKS Pod Identity association are available in the pod, the latest versions of the
- * SDKs use them automatically.
+ * We recommend that applications use the Amazon Web Services SDKs to connect to Amazon Web Services services; if credentials from an EKS Pod Identity association are available in the pod, the latest versions of the SDKs use them automatically.
  */
 export const assumeRoleForPodIdentity: API.OperationMethod<
   AssumeRoleForPodIdentityRequest,

@@ -243,7 +243,7 @@ export interface IoK8sApimachineryPkgApisMetaV1Condition {
   /** lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed. If that is not known, then using the time when the API field changed is acceptable. */
   lastTransitionTime: string;
   /** message is a human readable message indicating details about the transition. This may be an empty string. */
-  message: string;
+  message?: string;
   /** observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance. */
   observedGeneration?: number;
   /** reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty. */
@@ -257,7 +257,7 @@ export const IoK8sApimachineryPkgApisMetaV1Condition = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       lastTransitionTime: S.String,
-      message: S.String,
+      message: S.optional(S.String),
       observedGeneration: S.optional(S.Number),
       reason: S.String,
       status: S.String,
@@ -370,6 +370,116 @@ export const IoK8sApiStoragemigrationV1beta1StorageVersionMigration =
   ).annotate({
     identifier: "IoK8sApiStoragemigrationV1beta1StorageVersionMigration",
   }) as any as S.Schema<IoK8sApiStoragemigrationV1beta1StorageVersionMigration>;
+
+/** Spec of the storage version migration. */
+export type IoK8sApiStoragemigrationV1StorageVersionMigrationSpec =
+  IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+export const IoK8sApiStoragemigrationV1StorageVersionMigrationSpec =
+  IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+
+/** The latest available observations of the migration's current state. */
+export type IoK8sApiStoragemigrationV1StorageVersionMigrationStatusConditionsList =
+  Array<IoK8sApimachineryPkgApisMetaV1Condition>;
+export const IoK8sApiStoragemigrationV1StorageVersionMigrationStatusConditionsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApimachineryPkgApisMetaV1Condition,
+  ) as any as S.Schema<IoK8sApiStoragemigrationV1StorageVersionMigrationStatusConditionsList>;
+
+/** Status of the storage version migration. */
+export interface IoK8sApiStoragemigrationV1StorageVersionMigrationStatus {
+  /** The latest available observations of the migration's current state. */
+  conditions?: IoK8sApiStoragemigrationV1StorageVersionMigrationStatusConditionsList;
+  /** ResourceVersion to compare with the GC cache for performing the migration. This is the current resource version of given group, version and resource when kube-controller-manager first observes this StorageVersionMigration resource. */
+  resourceVersion?: string;
+}
+export const IoK8sApiStoragemigrationV1StorageVersionMigrationStatus =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      conditions: S.optional(
+        IoK8sApiStoragemigrationV1StorageVersionMigrationStatusConditionsList,
+      ),
+      resourceVersion: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiStoragemigrationV1StorageVersionMigrationStatus",
+  }) as any as S.Schema<IoK8sApiStoragemigrationV1StorageVersionMigrationStatus>;
+
+export interface CreateStoragemigrationV1StorageVersionMigrationRequest {
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** Specification of the migration. */
+  spec?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+  /** Status of the migration. */
+  status?: IoK8sApiStoragemigrationV1StorageVersionMigrationStatus;
+}
+export const CreateStoragemigrationV1StorageVersionMigrationRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: S.optional(
+        IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec,
+      ),
+      status: S.optional(
+        IoK8sApiStoragemigrationV1StorageVersionMigrationStatus,
+      ),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/apis/storagemigration.k8s.io/v1/storageversionmigrations",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "CreateStoragemigrationV1StorageVersionMigrationRequest",
+  }) as any as S.Schema<CreateStoragemigrationV1StorageVersionMigrationRequest>;
+
+/** StorageVersionMigration represents a migration of stored data to the latest storage version. */
+export interface IoK8sApiStoragemigrationV1StorageVersionMigration {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** Specification of the migration. */
+  spec?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+  /** Status of the migration. */
+  status?: IoK8sApiStoragemigrationV1StorageVersionMigrationStatus;
+}
+export const IoK8sApiStoragemigrationV1StorageVersionMigration =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: S.optional(
+        IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec,
+      ),
+      status: S.optional(
+        IoK8sApiStoragemigrationV1StorageVersionMigrationStatus,
+      ),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiStoragemigrationV1StorageVersionMigration",
+  }) as any as S.Schema<IoK8sApiStoragemigrationV1StorageVersionMigration>;
 
 /** Preconditions must be fulfilled before an operation (update, delete, etc.) is carried out. */
 export interface IoK8sApimachineryPkgApisMetaV1Preconditions {
@@ -641,6 +751,127 @@ export const DeleteStoragemigrationV1beta1StorageVersionMigrationRequest =
     identifier: "DeleteStoragemigrationV1beta1StorageVersionMigrationRequest",
   }) as any as S.Schema<DeleteStoragemigrationV1beta1StorageVersionMigrationRequest>;
 
+export interface DeleteStoragemigrationV1CollectionStorageVersionMigrationRequest {
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteStoragemigrationV1CollectionStorageVersionMigrationRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      pretty: S.optional(S.String.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/storagemigration.k8s.io/v1/storageversionmigrations",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "DeleteStoragemigrationV1CollectionStorageVersionMigrationRequest",
+  }) as any as S.Schema<DeleteStoragemigrationV1CollectionStorageVersionMigrationRequest>;
+
+export interface DeleteStoragemigrationV1StorageVersionMigrationRequest {
+  /** name of the StorageVersionMigration */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteStoragemigrationV1StorageVersionMigrationRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/storagemigration.k8s.io/v1/storageversionmigrations/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteStoragemigrationV1StorageVersionMigrationRequest",
+  }) as any as S.Schema<DeleteStoragemigrationV1StorageVersionMigrationRequest>;
+
 export interface GetStoragemigrationAPIGroupRequest {}
 export const GetStoragemigrationAPIGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
@@ -733,19 +964,19 @@ export const IoK8sApimachineryPkgApisMetaV1APIGroup = /*@__PURE__*/ S.suspend(
   identifier: "IoK8sApimachineryPkgApisMetaV1APIGroup",
 }) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIGroup>;
 
-export interface GetStoragemigrationV1beta1APIResourcesRequest {}
-export const GetStoragemigrationV1beta1APIResourcesRequest =
-  /*@__PURE__*/ S.suspend(() =>
+export interface GetStoragemigrationV1APIResourcesRequest {}
+export const GetStoragemigrationV1APIResourcesRequest = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({}).pipe(
       T.Http({
         method: "GET",
-        uri: "/apis/storagemigration.k8s.io/v1beta1/",
+        uri: "/apis/storagemigration.k8s.io/v1/",
         code: 200,
       }),
     ),
-  ).annotate({
-    identifier: "GetStoragemigrationV1beta1APIResourcesRequest",
-  }) as any as S.Schema<GetStoragemigrationV1beta1APIResourcesRequest>;
+).annotate({
+  identifier: "GetStoragemigrationV1APIResourcesRequest",
+}) as any as S.Schema<GetStoragemigrationV1APIResourcesRequest>;
 
 /** categories is a list of the grouped resources this resource belongs to (e.g. 'all') */
 export type IoK8sApimachineryPkgApisMetaV1APIResourceCategoriesList =
@@ -846,6 +1077,20 @@ export const IoK8sApimachineryPkgApisMetaV1APIResourceList =
     identifier: "IoK8sApimachineryPkgApisMetaV1APIResourceList",
   }) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIResourceList>;
 
+export interface GetStoragemigrationV1beta1APIResourcesRequest {}
+export const GetStoragemigrationV1beta1APIResourcesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({}).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/storagemigration.k8s.io/v1beta1/",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "GetStoragemigrationV1beta1APIResourcesRequest",
+  }) as any as S.Schema<GetStoragemigrationV1beta1APIResourcesRequest>;
+
 export interface ListStoragemigrationV1beta1StorageVersionMigrationRequest {
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
   pretty?: string;
@@ -930,6 +1175,89 @@ export const IoK8sApiStoragemigrationV1beta1StorageVersionMigrationList =
     identifier: "IoK8sApiStoragemigrationV1beta1StorageVersionMigrationList",
   }) as any as S.Schema<IoK8sApiStoragemigrationV1beta1StorageVersionMigrationList>;
 
+export interface ListStoragemigrationV1StorageVersionMigrationRequest {
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const ListStoragemigrationV1StorageVersionMigrationRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      pretty: S.optional(S.String.pipe(T.Query())),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/storagemigration.k8s.io/v1/storageversionmigrations",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListStoragemigrationV1StorageVersionMigrationRequest",
+  }) as any as S.Schema<ListStoragemigrationV1StorageVersionMigrationRequest>;
+
+/** Items is the list of StorageVersionMigration */
+export type IoK8sApiStoragemigrationV1StorageVersionMigrationListItemsList =
+  Array<IoK8sApiStoragemigrationV1StorageVersionMigration>;
+export const IoK8sApiStoragemigrationV1StorageVersionMigrationListItemsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiStoragemigrationV1StorageVersionMigration,
+  ) as any as S.Schema<IoK8sApiStoragemigrationV1StorageVersionMigrationListItemsList>;
+
+/** StorageVersionMigrationList is a collection of storage version migrations. */
+export interface IoK8sApiStoragemigrationV1StorageVersionMigrationList {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Items is the list of StorageVersionMigration */
+  items: IoK8sApiStoragemigrationV1StorageVersionMigrationListItemsList;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Standard list metadata More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+}
+export const IoK8sApiStoragemigrationV1StorageVersionMigrationList =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      apiVersion: S.optional(S.String),
+      items: IoK8sApiStoragemigrationV1StorageVersionMigrationListItemsList,
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ListMeta),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiStoragemigrationV1StorageVersionMigrationList",
+  }) as any as S.Schema<IoK8sApiStoragemigrationV1StorageVersionMigrationList>;
+
 export interface PatchStoragemigrationV1beta1StorageVersionMigrationRequest {
   /** name of the StorageVersionMigration */
   name: string;
@@ -999,6 +1327,74 @@ export const PatchStoragemigrationV1beta1StorageVersionMigrationStatusRequest =
       "PatchStoragemigrationV1beta1StorageVersionMigrationStatusRequest",
   }) as any as S.Schema<PatchStoragemigrationV1beta1StorageVersionMigrationStatusRequest>;
 
+export interface PatchStoragemigrationV1StorageVersionMigrationRequest {
+  /** name of the StorageVersionMigration */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchStoragemigrationV1StorageVersionMigrationRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/apis/storagemigration.k8s.io/v1/storageversionmigrations/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchStoragemigrationV1StorageVersionMigrationRequest",
+  }) as any as S.Schema<PatchStoragemigrationV1StorageVersionMigrationRequest>;
+
+export interface PatchStoragemigrationV1StorageVersionMigrationStatusRequest {
+  /** name of the StorageVersionMigration */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchStoragemigrationV1StorageVersionMigrationStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/apis/storagemigration.k8s.io/v1/storageversionmigrations/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchStoragemigrationV1StorageVersionMigrationStatusRequest",
+  }) as any as S.Schema<PatchStoragemigrationV1StorageVersionMigrationStatusRequest>;
+
 export interface ReadStoragemigrationV1beta1StorageVersionMigrationRequest {
   /** name of the StorageVersionMigration */
   name: string;
@@ -1043,6 +1439,50 @@ export const ReadStoragemigrationV1beta1StorageVersionMigrationStatusRequest =
     identifier:
       "ReadStoragemigrationV1beta1StorageVersionMigrationStatusRequest",
   }) as any as S.Schema<ReadStoragemigrationV1beta1StorageVersionMigrationStatusRequest>;
+
+export interface ReadStoragemigrationV1StorageVersionMigrationRequest {
+  /** name of the StorageVersionMigration */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadStoragemigrationV1StorageVersionMigrationRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/storagemigration.k8s.io/v1/storageversionmigrations/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReadStoragemigrationV1StorageVersionMigrationRequest",
+  }) as any as S.Schema<ReadStoragemigrationV1StorageVersionMigrationRequest>;
+
+export interface ReadStoragemigrationV1StorageVersionMigrationStatusRequest {
+  /** name of the StorageVersionMigration */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadStoragemigrationV1StorageVersionMigrationStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/storagemigration.k8s.io/v1/storageversionmigrations/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReadStoragemigrationV1StorageVersionMigrationStatusRequest",
+  }) as any as S.Schema<ReadStoragemigrationV1StorageVersionMigrationStatusRequest>;
 
 export interface ReplaceStoragemigrationV1beta1StorageVersionMigrationRequest {
   /** name of the StorageVersionMigration */
@@ -1144,6 +1584,106 @@ export const ReplaceStoragemigrationV1beta1StorageVersionMigrationStatusRequest 
     identifier:
       "ReplaceStoragemigrationV1beta1StorageVersionMigrationStatusRequest",
   }) as any as S.Schema<ReplaceStoragemigrationV1beta1StorageVersionMigrationStatusRequest>;
+
+export interface ReplaceStoragemigrationV1StorageVersionMigrationRequest {
+  /** name of the StorageVersionMigration */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** Specification of the migration. */
+  spec?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+  /** Status of the migration. */
+  status?: IoK8sApiStoragemigrationV1StorageVersionMigrationStatus;
+}
+export const ReplaceStoragemigrationV1StorageVersionMigrationRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: S.optional(
+        IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec,
+      ),
+      status: S.optional(
+        IoK8sApiStoragemigrationV1StorageVersionMigrationStatus,
+      ),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/storagemigration.k8s.io/v1/storageversionmigrations/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReplaceStoragemigrationV1StorageVersionMigrationRequest",
+  }) as any as S.Schema<ReplaceStoragemigrationV1StorageVersionMigrationRequest>;
+
+export interface ReplaceStoragemigrationV1StorageVersionMigrationStatusRequest {
+  /** name of the StorageVersionMigration */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** Specification of the migration. */
+  spec?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+  /** Status of the migration. */
+  status?: IoK8sApiStoragemigrationV1StorageVersionMigrationStatus;
+}
+export const ReplaceStoragemigrationV1StorageVersionMigrationStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: S.optional(
+        IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec,
+      ),
+      status: S.optional(
+        IoK8sApiStoragemigrationV1StorageVersionMigrationStatus,
+      ),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/storagemigration.k8s.io/v1/storageversionmigrations/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReplaceStoragemigrationV1StorageVersionMigrationStatusRequest",
+  }) as any as S.Schema<ReplaceStoragemigrationV1StorageVersionMigrationStatusRequest>;
 
 export interface WatchStoragemigrationV1beta1StorageVersionMigrationRequest {
   /** name of the StorageVersionMigration */
@@ -1269,6 +1809,113 @@ export const WatchStoragemigrationV1beta1StorageVersionMigrationListRequest =
       "WatchStoragemigrationV1beta1StorageVersionMigrationListRequest",
   }) as any as S.Schema<WatchStoragemigrationV1beta1StorageVersionMigrationListRequest>;
 
+export interface WatchStoragemigrationV1StorageVersionMigrationRequest {
+  /** name of the StorageVersionMigration */
+  name: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchStoragemigrationV1StorageVersionMigrationRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/storagemigration.k8s.io/v1/watch/storageversionmigrations/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchStoragemigrationV1StorageVersionMigrationRequest",
+  }) as any as S.Schema<WatchStoragemigrationV1StorageVersionMigrationRequest>;
+
+export interface WatchStoragemigrationV1StorageVersionMigrationListRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchStoragemigrationV1StorageVersionMigrationListRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/storagemigration.k8s.io/v1/watch/storageversionmigrations",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchStoragemigrationV1StorageVersionMigrationListRequest",
+  }) as any as S.Schema<WatchStoragemigrationV1StorageVersionMigrationListRequest>;
+
 export type CreateStoragemigrationV1beta1StorageVersionMigrationError =
   | Conflict
   | UnprocessableEntity
@@ -1283,6 +1930,22 @@ export const createStoragemigrationV1beta1StorageVersionMigration: API.Operation
   input: CreateStoragemigrationV1beta1StorageVersionMigrationRequest,
   output: IoK8sApiStoragemigrationV1beta1StorageVersionMigration,
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateStoragemigrationV1StorageVersionMigrationError =
+  KubernetesOpError;
+/** create a StorageVersionMigration */
+export const createStoragemigrationV1StorageVersionMigration: API.OperationMethod<
+  CreateStoragemigrationV1StorageVersionMigrationRequest,
+  IoK8sApiStoragemigrationV1StorageVersionMigration,
+  CreateStoragemigrationV1StorageVersionMigrationError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateStoragemigrationV1StorageVersionMigrationRequest,
+  output: IoK8sApiStoragemigrationV1StorageVersionMigration,
+  errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
 }));
@@ -1321,6 +1984,38 @@ export const deleteStoragemigrationV1beta1StorageVersionMigration: API.Operation
   retry: Retry.Retry,
 }));
 
+export type DeleteStoragemigrationV1CollectionStorageVersionMigrationError =
+  KubernetesOpError;
+/** delete collection of StorageVersionMigration */
+export const deleteStoragemigrationV1CollectionStorageVersionMigration: API.OperationMethod<
+  DeleteStoragemigrationV1CollectionStorageVersionMigrationRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteStoragemigrationV1CollectionStorageVersionMigrationError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteStoragemigrationV1CollectionStorageVersionMigrationRequest,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteStoragemigrationV1StorageVersionMigrationError =
+  KubernetesOpError;
+/** delete a StorageVersionMigration */
+export const deleteStoragemigrationV1StorageVersionMigration: API.OperationMethod<
+  DeleteStoragemigrationV1StorageVersionMigrationRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteStoragemigrationV1StorageVersionMigrationError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteStoragemigrationV1StorageVersionMigrationRequest,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetStoragemigrationAPIGroupError = KubernetesOpError;
 /** get information of a group */
 export const getStoragemigrationAPIGroup: API.OperationMethod<
@@ -1331,6 +2026,21 @@ export const getStoragemigrationAPIGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetStoragemigrationAPIGroupRequest,
   output: IoK8sApimachineryPkgApisMetaV1APIGroup,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetStoragemigrationV1APIResourcesError = KubernetesOpError;
+/** get available resources */
+export const getStoragemigrationV1APIResources: API.OperationMethod<
+  GetStoragemigrationV1APIResourcesRequest,
+  IoK8sApimachineryPkgApisMetaV1APIResourceList,
+  GetStoragemigrationV1APIResourcesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetStoragemigrationV1APIResourcesRequest,
+  output: IoK8sApimachineryPkgApisMetaV1APIResourceList,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -1362,6 +2072,22 @@ export const listStoragemigrationV1beta1StorageVersionMigration: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: ListStoragemigrationV1beta1StorageVersionMigrationRequest,
   output: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListStoragemigrationV1StorageVersionMigrationError =
+  KubernetesOpError;
+/** list or watch objects of kind StorageVersionMigration */
+export const listStoragemigrationV1StorageVersionMigration: API.OperationMethod<
+  ListStoragemigrationV1StorageVersionMigrationRequest,
+  IoK8sApiStoragemigrationV1StorageVersionMigrationList,
+  ListStoragemigrationV1StorageVersionMigrationError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListStoragemigrationV1StorageVersionMigrationRequest,
+  output: IoK8sApiStoragemigrationV1StorageVersionMigrationList,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -1405,6 +2131,38 @@ export const patchStoragemigrationV1beta1StorageVersionMigrationStatus: API.Oper
   retry: Retry.Retry,
 }));
 
+export type PatchStoragemigrationV1StorageVersionMigrationError =
+  KubernetesOpError;
+/** partially update the specified StorageVersionMigration */
+export const patchStoragemigrationV1StorageVersionMigration: API.OperationMethod<
+  PatchStoragemigrationV1StorageVersionMigrationRequest,
+  IoK8sApiStoragemigrationV1StorageVersionMigration,
+  PatchStoragemigrationV1StorageVersionMigrationError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchStoragemigrationV1StorageVersionMigrationRequest,
+  output: IoK8sApiStoragemigrationV1StorageVersionMigration,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PatchStoragemigrationV1StorageVersionMigrationStatusError =
+  KubernetesOpError;
+/** partially update status of the specified StorageVersionMigration */
+export const patchStoragemigrationV1StorageVersionMigrationStatus: API.OperationMethod<
+  PatchStoragemigrationV1StorageVersionMigrationStatusRequest,
+  IoK8sApiStoragemigrationV1StorageVersionMigration,
+  PatchStoragemigrationV1StorageVersionMigrationStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchStoragemigrationV1StorageVersionMigrationStatusRequest,
+  output: IoK8sApiStoragemigrationV1StorageVersionMigration,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ReadStoragemigrationV1beta1StorageVersionMigrationError =
   | NotFound
   | KubernetesOpError;
@@ -1435,6 +2193,38 @@ export const readStoragemigrationV1beta1StorageVersionMigrationStatus: API.Opera
   input: ReadStoragemigrationV1beta1StorageVersionMigrationStatusRequest,
   output: IoK8sApiStoragemigrationV1beta1StorageVersionMigration,
   errors: [NotFound, UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadStoragemigrationV1StorageVersionMigrationError =
+  KubernetesOpError;
+/** read the specified StorageVersionMigration */
+export const readStoragemigrationV1StorageVersionMigration: API.OperationMethod<
+  ReadStoragemigrationV1StorageVersionMigrationRequest,
+  IoK8sApiStoragemigrationV1StorageVersionMigration,
+  ReadStoragemigrationV1StorageVersionMigrationError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadStoragemigrationV1StorageVersionMigrationRequest,
+  output: IoK8sApiStoragemigrationV1StorageVersionMigration,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadStoragemigrationV1StorageVersionMigrationStatusError =
+  KubernetesOpError;
+/** read status of the specified StorageVersionMigration */
+export const readStoragemigrationV1StorageVersionMigrationStatus: API.OperationMethod<
+  ReadStoragemigrationV1StorageVersionMigrationStatusRequest,
+  IoK8sApiStoragemigrationV1StorageVersionMigration,
+  ReadStoragemigrationV1StorageVersionMigrationStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadStoragemigrationV1StorageVersionMigrationStatusRequest,
+  output: IoK8sApiStoragemigrationV1StorageVersionMigration,
+  errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
 }));
@@ -1477,6 +2267,38 @@ export const replaceStoragemigrationV1beta1StorageVersionMigrationStatus: API.Op
   retry: Retry.Retry,
 }));
 
+export type ReplaceStoragemigrationV1StorageVersionMigrationError =
+  KubernetesOpError;
+/** replace the specified StorageVersionMigration */
+export const replaceStoragemigrationV1StorageVersionMigration: API.OperationMethod<
+  ReplaceStoragemigrationV1StorageVersionMigrationRequest,
+  IoK8sApiStoragemigrationV1StorageVersionMigration,
+  ReplaceStoragemigrationV1StorageVersionMigrationError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceStoragemigrationV1StorageVersionMigrationRequest,
+  output: IoK8sApiStoragemigrationV1StorageVersionMigration,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReplaceStoragemigrationV1StorageVersionMigrationStatusError =
+  KubernetesOpError;
+/** replace status of the specified StorageVersionMigration */
+export const replaceStoragemigrationV1StorageVersionMigrationStatus: API.OperationMethod<
+  ReplaceStoragemigrationV1StorageVersionMigrationStatusRequest,
+  IoK8sApiStoragemigrationV1StorageVersionMigration,
+  ReplaceStoragemigrationV1StorageVersionMigrationStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceStoragemigrationV1StorageVersionMigrationStatusRequest,
+  output: IoK8sApiStoragemigrationV1StorageVersionMigration,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type WatchStoragemigrationV1beta1StorageVersionMigrationError =
   KubernetesOpError;
 /** watch changes to an object of kind StorageVersionMigration. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter. */
@@ -1503,6 +2325,38 @@ export const watchStoragemigrationV1beta1StorageVersionMigrationList: API.Operat
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: WatchStoragemigrationV1beta1StorageVersionMigrationListRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchStoragemigrationV1StorageVersionMigrationError =
+  KubernetesOpError;
+/** watch changes to an object of kind StorageVersionMigration. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter. */
+export const watchStoragemigrationV1StorageVersionMigration: API.OperationMethod<
+  WatchStoragemigrationV1StorageVersionMigrationRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchStoragemigrationV1StorageVersionMigrationError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchStoragemigrationV1StorageVersionMigrationRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchStoragemigrationV1StorageVersionMigrationListError =
+  KubernetesOpError;
+/** watch individual changes to a list of StorageVersionMigration. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchStoragemigrationV1StorageVersionMigrationList: API.OperationMethod<
+  WatchStoragemigrationV1StorageVersionMigrationListRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchStoragemigrationV1StorageVersionMigrationListError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchStoragemigrationV1StorageVersionMigrationListRequest,
   output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,

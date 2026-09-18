@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.exports#ExportsListRequest": {
+    "com.posthog.exports#ListExportsRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -90,7 +91,10 @@
           }
         },
         "export_format": {
-          "target": "com.posthog.exports#ExportFormatEnum"
+          "target": "com.posthog.exports#ExportedAssetExportFormatEnum",
+          "traits": {
+            "smithy.api#documentation": "File format of the generated export.\n\n* `image/png` - image/png\n* `application/pdf` - application/pdf\n* `text/csv` - text/csv\n* `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\n* `video/webm` - video/webm\n* `video/mp4` - video/mp4\n* `image/gif` - image/gif\n* `application/json` - application/json\n* `application/x-ndjson` - application/x-ndjson"
+          }
         },
         "created_at": {
           "target": "smithy.api#String"
@@ -128,7 +132,103 @@
         "smithy.api#documentation": "Standard ExportedAsset serializer that doesn't return content."
       }
     },
-    "com.posthog.exports#ExportFormatEnum": {
+    "com.posthog.exports#ExportedAssetExportFormatEnum": {
+      "type": "enum",
+      "members": {
+        "IMAGE_PNG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image/png"
+          }
+        },
+        "APPLICATION_PDF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/pdf"
+          }
+        },
+        "TEXT_CSV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text/csv"
+          }
+        },
+        "APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          }
+        },
+        "VIDEO_WEBM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video/webm"
+          }
+        },
+        "VIDEO_MP4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video/mp4"
+          }
+        },
+        "IMAGE_GIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image/gif"
+          }
+        },
+        "APPLICATION_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/json"
+          }
+        },
+        "APPLICATION_X_NDJSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/x-ndjson"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `image/png` - image/png\n* `application/pdf` - application/pdf\n* `text/csv` - text/csv\n* `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\n* `video/webm` - video/webm\n* `video/mp4` - video/mp4\n* `image/gif` - image/gif\n* `application/json` - application/json\n* `application/x-ndjson` - application/x-ndjson"
+      }
+    },
+    "com.posthog.exports#PaginatedExportedAssetListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.exports#ExportedAsset"
+      },
+      "traits": {}
+    },
+    "com.posthog.exports#ListExports": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.exports#ListExportsRequest"
+      },
+      "output": {
+        "target": "com.posthog.exports#PaginatedExportedAssetList"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.exports#BadRequest"
+        },
+        {
+          "target": "com.posthog.exports#Forbidden"
+        },
+        {
+          "target": "com.posthog.exports#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/exports/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.exports#ExportedAssetCreateExportFormatEnum": {
       "type": "enum",
       "members": {
         "IMAGE_PNG": {
@@ -184,41 +284,7 @@
         "smithy.api#documentation": "* `image/png` - image/png\n* `application/pdf` - application/pdf\n* `text/csv` - text/csv\n* `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\n* `video/webm` - video/webm\n* `video/mp4` - video/mp4\n* `image/gif` - image/gif\n* `application/json` - application/json"
       }
     },
-    "com.posthog.exports#PaginatedExportedAssetListResultsList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.exports#ExportedAsset"
-      },
-      "traits": {}
-    },
-    "com.posthog.exports#ExportsList": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.exports#ExportsListRequest"
-      },
-      "output": {
-        "target": "com.posthog.exports#PaginatedExportedAssetList"
-      },
-      "errors": [
-        {
-          "target": "com.posthog.exports#BadRequest"
-        },
-        {
-          "target": "com.posthog.exports#Forbidden"
-        },
-        {
-          "target": "com.posthog.exports#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/exports/",
-          "code": 200
-        }
-      }
-    },
-    "com.posthog.exports#ExportsCreateRequest": {
+    "com.posthog.exports#CreateExportRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -242,7 +308,11 @@
           }
         },
         "export_format": {
-          "target": "com.posthog.exports#ExportFormatEnum"
+          "target": "com.posthog.exports#ExportedAssetCreateExportFormatEnum",
+          "traits": {
+            "smithy.api#documentation": "File format to generate. Dataset JSONL exports use the dataset export endpoint.\n\n* `image/png` - image/png\n* `application/pdf` - application/pdf\n* `text/csv` - text/csv\n* `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\n* `video/webm` - video/webm\n* `video/mp4` - video/mp4\n* `image/gif` - image/gif\n* `application/json` - application/json",
+            "smithy.api#required": {}
+          }
         },
         "export_context": {
           "target": "smithy.api#Document"
@@ -252,13 +322,89 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.exports#ExportsCreate": {
+    "com.posthog.exports#ExportedAssetCreate": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dashboard": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "insight": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "export_format": {
+          "target": "com.posthog.exports#ExportedAssetCreateExportFormatEnum",
+          "traits": {
+            "smithy.api#documentation": "File format to generate. Dataset JSONL exports use the dataset export endpoint.\n\n* `image/png` - image/png\n* `application/pdf` - application/pdf\n* `text/csv` - text/csv\n* `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\n* `video/webm` - video/webm\n* `video/mp4` - video/mp4\n* `image/gif` - image/gif\n* `application/json` - application/json",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_content": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "export_context": {
+          "target": "smithy.api#Document"
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expires_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exception": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_access_level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The effective access level the user has for this object",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Standard ExportedAsset serializer that doesn't return content."
+      }
+    },
+    "com.posthog.exports#CreateExport": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.exports#ExportsCreateRequest"
+        "target": "com.posthog.exports#CreateExportRequest"
       },
       "output": {
-        "target": "com.posthog.exports#ExportedAsset"
+        "target": "com.posthog.exports#ExportedAssetCreate"
       },
       "errors": [
         {
@@ -279,7 +425,7 @@
         }
       }
     },
-    "com.posthog.exports#ExportsRetrieveRequest": {
+    "com.posthog.exports#GetExportRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -303,10 +449,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.exports#ExportsRetrieve": {
+    "com.posthog.exports#GetExport": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.exports#ExportsRetrieveRequest"
+        "target": "com.posthog.exports#GetExportRequest"
       },
       "output": {
         "target": "com.posthog.exports#ExportedAsset"
@@ -327,7 +473,7 @@
         }
       }
     },
-    "com.posthog.exports#ExportsContentRetrieveRequest": {
+    "com.posthog.exports#GetExportsContentRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -351,10 +497,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.exports#ExportsContentRetrieve": {
+    "com.posthog.exports#GetExportsContent": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.exports#ExportsContentRetrieveRequest"
+        "target": "com.posthog.exports#GetExportsContentRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -419,16 +565,16 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.exports#ExportsList"
+          "target": "com.posthog.exports#ListExports"
         },
         {
-          "target": "com.posthog.exports#ExportsCreate"
+          "target": "com.posthog.exports#CreateExport"
         },
         {
-          "target": "com.posthog.exports#ExportsRetrieve"
+          "target": "com.posthog.exports#GetExport"
         },
         {
-          "target": "com.posthog.exports#ExportsContentRetrieve"
+          "target": "com.posthog.exports#GetExportsContent"
         }
       ],
       "traits": {

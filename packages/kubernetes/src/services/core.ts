@@ -2444,6 +2444,51 @@ export const IoK8sApiCoreV1PersistentVolumeClaimStatusConditionsList =
     IoK8sApiCoreV1PersistentVolumeClaimCondition,
   ) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaimStatusConditionsList>;
 
+/** VolumeHealthCondition represents an adverse health condition reported for a volume. */
+export interface IoK8sApiCoreV1VolumeHealthCondition {
+  /** message is a human-readable description. Maximum permitted length of a message is 1024 bytes. */
+  message?: string;
+  /** reason is a brief CamelCase machine-parseable reason. Together with status it forms the unique identity of a condition entry. Maximum permitted length of a reason is 256 bytes. */
+  reason: string;
+  /** status is the machine-parseable health category. Possible values: - "Inaccessible": the volume cannot be accessed. - "DataLoss": data loss has been detected on the volume. - "Degraded": the volume is functioning with reduced capability. */
+  status: string;
+}
+export const IoK8sApiCoreV1VolumeHealthCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    reason: S.String,
+    status: S.String,
+  }),
+).annotate({
+  identifier: "IoK8sApiCoreV1VolumeHealthCondition",
+}) as any as S.Schema<IoK8sApiCoreV1VolumeHealthCondition>;
+
+/** conditions is the set of adverse conditions reported by the CSI controller plugin. An empty list means no adverse condition. At most 16 conditions may be reported. */
+export type IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList =
+  Array<IoK8sApiCoreV1VolumeHealthCondition>;
+export const IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiCoreV1VolumeHealthCondition,
+  ) as any as S.Schema<IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList>;
+
+/** VolumeHealthStatus contains health information for a volume reported by the CSI controller plugin. */
+export interface IoK8sApiCoreV1VolumeHealthStatus {
+  /** conditions is the set of adverse conditions reported by the CSI controller plugin. An empty list means no adverse condition. At most 16 conditions may be reported. */
+  healthConditions?: IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList;
+  /** lastTransitionTime is when the current set of conditions first appeared. */
+  lastTransitionTime?: string;
+}
+export const IoK8sApiCoreV1VolumeHealthStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    healthConditions: S.optional(
+      IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList,
+    ),
+    lastTransitionTime: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IoK8sApiCoreV1VolumeHealthStatus",
+}) as any as S.Schema<IoK8sApiCoreV1VolumeHealthStatus>;
+
 /** ModifyVolumeStatus represents the status object of ControllerModifyVolume operation */
 export interface IoK8sApiCoreV1ModifyVolumeStatus {
   /** status is the status of the ControllerModifyVolume operation. It can be in any of following states: - Pending Pending indicates that the PersistentVolumeClaim cannot be modified due to unmet requirements, such as the specified VolumeAttributesClass not existing. - InProgress InProgress indicates that the volume is being modified. - Infeasible Infeasible indicates that the request has been rejected as invalid by the CSI driver. To resolve the error, a valid VolumeAttributesClass needs to be specified. Note: New statuses can be added in the future. Consumers should check for unknown statuses and fail appropriately. */
@@ -2474,6 +2519,8 @@ export interface IoK8sApiCoreV1PersistentVolumeClaimStatus {
   conditions?: IoK8sApiCoreV1PersistentVolumeClaimStatusConditionsList;
   /** currentVolumeAttributesClassName is the current name of the VolumeAttributesClass the PVC is using. When unset, there is no VolumeAttributeClass applied to this PersistentVolumeClaim */
   currentVolumeAttributesClassName?: string;
+  /** healthStatus contains the latest controller-reported health information for the volume bound to this claim. */
+  healthStatus?: IoK8sApiCoreV1VolumeHealthStatus;
   /** ModifyVolumeStatus represents the status object of ControllerModifyVolume operation. When this is unset, there is no ModifyVolume operation being attempted. */
   modifyVolumeStatus?: IoK8sApiCoreV1ModifyVolumeStatus;
   /** phase represents the current phase of PersistentVolumeClaim. */
@@ -2498,6 +2545,7 @@ export const IoK8sApiCoreV1PersistentVolumeClaimStatus =
         IoK8sApiCoreV1PersistentVolumeClaimStatusConditionsList,
       ),
       currentVolumeAttributesClassName: S.optional(S.String),
+      healthStatus: S.optional(IoK8sApiCoreV1VolumeHealthStatus),
       modifyVolumeStatus: S.optional(IoK8sApiCoreV1ModifyVolumeStatus),
       phase: S.optional(S.String),
     }),
@@ -3129,6 +3177,8 @@ export interface IoK8sApiCoreV1HTTPGetAction {
   path?: string;
   /** Name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
   port: string;
+  /** Protocol selects the wire protocol for the probe connection. Nil defaults to HTTP/1.1. */
+  protocol?: string;
   /** Scheme to use for connecting to the host. Defaults to HTTP. */
   scheme?: string;
 }
@@ -3138,6 +3188,7 @@ export const IoK8sApiCoreV1HTTPGetAction = /*@__PURE__*/ S.suspend(() =>
     httpHeaders: S.optional(IoK8sApiCoreV1HTTPGetActionHttpHeadersList),
     path: S.optional(S.String),
     port: S.String,
+    protocol: S.optional(S.String),
     scheme: S.optional(S.String),
   }),
 ).annotate({
@@ -3216,6 +3267,8 @@ export const IoK8sApiCoreV1Lifecycle = /*@__PURE__*/ S.suspend(() =>
 
 /** GRPCAction specifies an action involving a GRPC service. */
 export interface IoK8sApiCoreV1GRPCAction {
+  /** mode specifies the connection mode for the gRPC health probe. Set to "TLS" to use TLS without certificate verification. Set to "Plaintext" to use a plaintext (insecure) connection explicitly. If not specified, the probe uses a plaintext (insecure) connection. */
+  mode?: string;
   /** Port number of the gRPC service. Number must be in the range 1 to 65535. */
   port: number;
   /** Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). If this is not specified, the default behavior is defined by gRPC. */
@@ -3223,6 +3276,7 @@ export interface IoK8sApiCoreV1GRPCAction {
 }
 export const IoK8sApiCoreV1GRPCAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    mode: S.optional(S.String),
     port: S.Number,
     service: S.optional(S.String),
   }),
@@ -3613,8 +3667,17 @@ export const IoK8sApiCoreV1ContainerVolumeDevicesList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1VolumeDevice,
 ) as any as S.Schema<IoK8sApiCoreV1ContainerVolumeDevicesList>;
 
+/** bindMountOptions is the list of additional bind mount options to apply when mounting this volume into the container. Allowed values are noexec, nodev, and nosuid. These are Linux mount options and have no effect on Windows nodes. This field is not supported with image volumes. This is an alpha field and requires enabling the VolumeBindMountOptions feature gate. */
+export type IoK8sApiCoreV1VolumeMountBindMountOptionsList = Array<string>;
+export const IoK8sApiCoreV1VolumeMountBindMountOptionsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiCoreV1VolumeMountBindMountOptionsList>;
+
 /** VolumeMount describes a mounting of a Volume within a container. */
 export interface IoK8sApiCoreV1VolumeMount {
+  /** bindMountOptions is the list of additional bind mount options to apply when mounting this volume into the container. Allowed values are noexec, nodev, and nosuid. These are Linux mount options and have no effect on Windows nodes. This field is not supported with image volumes. This is an alpha field and requires enabling the VolumeBindMountOptions feature gate. */
+  bindMountOptions?: IoK8sApiCoreV1VolumeMountBindMountOptionsList;
   /** Path within the container at which the volume should be mounted. */
   mountPath: string;
   /** mountPropagation determines how mounts are propagated from the host to container and the other way around. When not set, MountPropagationNone is used. This field is beta in 1.10. When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified (which defaults to None). */
@@ -3632,6 +3695,7 @@ export interface IoK8sApiCoreV1VolumeMount {
 }
 export const IoK8sApiCoreV1VolumeMount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    bindMountOptions: S.optional(IoK8sApiCoreV1VolumeMountBindMountOptionsList),
     mountPath: S.String,
     mountPropagation: S.optional(S.String),
     name: S.String,
@@ -3965,6 +4029,30 @@ export const IoK8sApiCoreV1PodSpecEphemeralContainersList =
   /*@__PURE__*/ S.Array(
     IoK8sApiCoreV1EphemeralContainer,
   ) as any as S.Schema<IoK8sApiCoreV1PodSpecEphemeralContainersList>;
+
+/** EvictionResponder allows you to specify the responder reacting to an Eviction. Responders should observe and communicate through the Eviction Resource API to help with the graceful eviction of a target (e.g. termination of a pod). */
+export interface IoK8sApiCoreV1EvictionResponder {
+  /** name allows you to identify the responder responding to the Eviction. It must be a valid domain-prefixed key (such as "acme.io/foo"). Domain names *.k8s.io and *.kubernetes.io are reserved. This field must be unique for each responder. This field is required. */
+  name: string;
+  /** priority for this responder. Higher priorities are selected first by the evictionrequest-controller. If there are responders with the same priority, the responder whose domain name comes first in the alphabetical higher domain order, will be picked. This means that the top domain labels are compared alphabetically first, followed by the lower domain labels. The key is compared last. The responder that is the managing controller of the pod should set the value of this field to 10000 to allow both for preemption or fallback registration by other responders. The minimum value is 0 and the maximum value is 100000. The interval 0-999 is reserved for responders with *.k8s.io suffix. This field is required. */
+  priority: number;
+}
+export const IoK8sApiCoreV1EvictionResponder = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    priority: S.Number,
+  }),
+).annotate({
+  identifier: "IoK8sApiCoreV1EvictionResponder",
+}) as any as S.Schema<IoK8sApiCoreV1EvictionResponder>;
+
+/** evictionResponders reference responders that react to Evictions based on EvictionRequests. Responders should observe and communicate through the Eviction Resource API to help with the graceful termination of a pod. The responders are selected sequentially, according to their specified priority. Responders should periodically report on an eviction progress by updating the .status.responders[].heartbeatTime field of the Eviction object. If this field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there is no other responder, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource). The maximum length of the responders list is 10. Responders are not supported when the pod is part of a PodGroup (.spec.schedulingGroup is set). This field can only be set on creation and is immutable afterwards. */
+export type IoK8sApiCoreV1PodSpecEvictionRespondersList =
+  Array<IoK8sApiCoreV1EvictionResponder>;
+export const IoK8sApiCoreV1PodSpecEvictionRespondersList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiCoreV1EvictionResponder,
+  ) as any as S.Schema<IoK8sApiCoreV1PodSpecEvictionRespondersList>;
 
 /** Hostnames for the above IP address. */
 export type IoK8sApiCoreV1HostAliasHostnamesList = Array<string>;
@@ -4435,12 +4523,15 @@ export interface IoK8sApiCoreV1KeyToPath {
   mode?: number;
   /** path is the relative path of the file to map the key to. May not be an absolute path. May not contain the path element '..'. May not start with the string '..'. */
   path: string;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
 }
 export const IoK8sApiCoreV1KeyToPath = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.String,
     mode: S.optional(S.Number),
     path: S.String,
+    user: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "IoK8sApiCoreV1KeyToPath",
@@ -4458,6 +4549,8 @@ export const IoK8sApiCoreV1ConfigMapVolumeSourceItemsList =
 export interface IoK8sApiCoreV1ConfigMapVolumeSource {
   /** defaultMode is optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number;
   /** items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
   items?: IoK8sApiCoreV1ConfigMapVolumeSourceItemsList;
   /** Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
@@ -4468,6 +4561,7 @@ export interface IoK8sApiCoreV1ConfigMapVolumeSource {
 export const IoK8sApiCoreV1ConfigMapVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultMode: S.optional(S.Number),
+    defaultUser: S.optional(S.Number),
     items: S.optional(IoK8sApiCoreV1ConfigMapVolumeSourceItemsList),
     name: S.optional(S.String),
     optional: S.optional(S.Boolean),
@@ -4523,6 +4617,8 @@ export interface IoK8sApiCoreV1DownwardAPIVolumeFile {
   path: string;
   /** Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported. */
   resourceFieldRef?: IoK8sApiCoreV1ResourceFieldSelector;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
 }
 export const IoK8sApiCoreV1DownwardAPIVolumeFile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4530,6 +4626,7 @@ export const IoK8sApiCoreV1DownwardAPIVolumeFile = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(S.Number),
     path: S.String,
     resourceFieldRef: S.optional(IoK8sApiCoreV1ResourceFieldSelector),
+    user: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "IoK8sApiCoreV1DownwardAPIVolumeFile",
@@ -4547,6 +4644,8 @@ export const IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList =
 export interface IoK8sApiCoreV1DownwardAPIVolumeSource {
   /** Optional: mode bits to use on created files by default. Must be a Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number;
   /** Items is a list of downward API volume file */
   items?: IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList;
 }
@@ -4554,6 +4653,7 @@ export const IoK8sApiCoreV1DownwardAPIVolumeSource = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       defaultMode: S.optional(S.Number),
+      defaultUser: S.optional(S.Number),
       items: S.optional(IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList),
     }),
 ).annotate({
@@ -4564,12 +4664,15 @@ export const IoK8sApiCoreV1DownwardAPIVolumeSource = /*@__PURE__*/ S.suspend(
 export interface IoK8sApiCoreV1EmptyDirVolumeSource {
   /** medium represents what type of storage medium should back this directory. The default is "" which means to use the node's default medium. Must be an empty string (default) or Memory. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir */
   medium?: string;
+  /** mode specifies the permission bits for the emptyDir directory, in numeric notation (e.g., 0755, 01777). Must be a value between 0000 and 01777. If not specified, defaults to 0777. This might be in conflict with other options that affect the file mode, like fsGroup. If fsGroup is specified, the fsGroup permissions will override the mode specified here. This field has no effect on Windows. This field is alpha and requires EmptyDirVolumeMode featuregate to be enabled. */
+  mode?: number;
   /** sizeLimit is the total amount of local storage required for this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir */
   sizeLimit?: string;
 }
 export const IoK8sApiCoreV1EmptyDirVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     medium: S.optional(S.String),
+    mode: S.optional(S.Number),
     sizeLimit: S.optional(S.String),
   }),
 ).annotate({
@@ -4921,6 +5024,8 @@ export interface IoK8sApiCoreV1ClusterTrustBundleProjection {
   path: string;
   /** Select all ClusterTrustBundles that match this signer name. Mutually-exclusive with name. The contents of all selected ClusterTrustBundles will be unified and deduplicated. */
   signerName?: string;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
 }
 export const IoK8sApiCoreV1ClusterTrustBundleProjection =
   /*@__PURE__*/ S.suspend(() =>
@@ -4930,6 +5035,7 @@ export const IoK8sApiCoreV1ClusterTrustBundleProjection =
       optional: S.optional(S.Boolean),
       path: S.String,
       signerName: S.optional(S.String),
+      user: S.optional(S.Number),
     }),
   ).annotate({
     identifier: "IoK8sApiCoreV1ClusterTrustBundleProjection",
@@ -5006,6 +5112,8 @@ export interface IoK8sApiCoreV1PodCertificateProjection {
   maxExpirationSeconds?: number;
   /** Kubelet's generated CSRs will be addressed to this signer. */
   signerName: string;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
   /** userAnnotations allow pod authors to pass additional information to the signer implementation. Kubernetes does not restrict or validate this metadata in any way. These values are copied verbatim into the `spec.unverifiedUserAnnotations` field of the PodCertificateRequest objects that Kubelet creates. Entries are subject to the same validation as object metadata annotations, with the addition that all keys must be domain-prefixed. No restrictions are placed on values, except an overall size limitation on the entire field. Signers should document the keys and values they support. Signers should deny requests that contain keys they do not recognize. */
   userAnnotations?: IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap;
 }
@@ -5018,6 +5126,7 @@ export const IoK8sApiCoreV1PodCertificateProjection = /*@__PURE__*/ S.suspend(
       keyType: S.String,
       maxExpirationSeconds: S.optional(S.Number),
       signerName: S.String,
+      user: S.optional(S.Number),
       userAnnotations: S.optional(
         IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap,
       ),
@@ -5060,6 +5169,8 @@ export interface IoK8sApiCoreV1ServiceAccountTokenProjection {
   expirationSeconds?: number;
   /** path is the path relative to the mount point of the file to project the token into. */
   path: string;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
 }
 export const IoK8sApiCoreV1ServiceAccountTokenProjection =
   /*@__PURE__*/ S.suspend(() =>
@@ -5067,6 +5178,7 @@ export const IoK8sApiCoreV1ServiceAccountTokenProjection =
       audience: S.optional(S.String),
       expirationSeconds: S.optional(S.Number),
       path: S.String,
+      user: S.optional(S.Number),
     }),
   ).annotate({
     identifier: "IoK8sApiCoreV1ServiceAccountTokenProjection",
@@ -5114,12 +5226,15 @@ export const IoK8sApiCoreV1ProjectedVolumeSourceSourcesList =
 export interface IoK8sApiCoreV1ProjectedVolumeSource {
   /** defaultMode are the mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number;
   /** sources is the list of volume projections. Each entry in this list handles one source. */
   sources?: IoK8sApiCoreV1ProjectedVolumeSourceSourcesList;
 }
 export const IoK8sApiCoreV1ProjectedVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultMode: S.optional(S.Number),
+    defaultUser: S.optional(S.Number),
     sources: S.optional(IoK8sApiCoreV1ProjectedVolumeSourceSourcesList),
   }),
 ).annotate({
@@ -5245,6 +5360,8 @@ export const IoK8sApiCoreV1SecretVolumeSourceItemsList = /*@__PURE__*/ S.Array(
 export interface IoK8sApiCoreV1SecretVolumeSource {
   /** defaultMode is Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number;
   /** items If unspecified, each key-value pair in the Data field of the referenced Secret will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the Secret, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
   items?: IoK8sApiCoreV1SecretVolumeSourceItemsList;
   /** optional field specify whether the Secret or its keys must be defined */
@@ -5255,6 +5372,7 @@ export interface IoK8sApiCoreV1SecretVolumeSource {
 export const IoK8sApiCoreV1SecretVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultMode: S.optional(S.Number),
+    defaultUser: S.optional(S.Number),
     items: S.optional(IoK8sApiCoreV1SecretVolumeSourceItemsList),
     optional: S.optional(S.Boolean),
     secretName: S.optional(S.String),
@@ -5444,6 +5562,8 @@ export interface IoK8sApiCoreV1PodSpec {
   enableServiceLinks?: boolean;
   /** List of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource. */
   ephemeralContainers?: IoK8sApiCoreV1PodSpecEphemeralContainersList;
+  /** evictionResponders reference responders that react to Evictions based on EvictionRequests. Responders should observe and communicate through the Eviction Resource API to help with the graceful termination of a pod. The responders are selected sequentially, according to their specified priority. Responders should periodically report on an eviction progress by updating the .status.responders[].heartbeatTime field of the Eviction object. If this field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there is no other responder, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource). The maximum length of the responders list is 10. Responders are not supported when the pod is part of a PodGroup (.spec.schedulingGroup is set). This field can only be set on creation and is immutable afterwards. */
+  evictionResponders?: IoK8sApiCoreV1PodSpecEvictionRespondersList;
   /** HostAliases is an optional list of hosts and IPs that will be injected into the pod's hosts file if specified. */
   hostAliases?: IoK8sApiCoreV1PodSpecHostAliasesList;
   /** Use the host's ipc namespace. Optional: Default to false. */
@@ -5456,7 +5576,7 @@ export interface IoK8sApiCoreV1PodSpec {
   hostUsers?: boolean;
   /** Specifies the hostname of the Pod If not specified, the pod's hostname will be set to a system-defined value. */
   hostname?: string;
-  /** HostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false. This field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters. Requires the HostnameOverride feature gate to be enabled. */
+  /** HostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false. This field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters. */
   hostnameOverride?: string;
   /** ImagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod */
   imagePullSecrets?: IoK8sApiCoreV1PodSpecImagePullSecretsList;
@@ -5525,6 +5645,7 @@ export const IoK8sApiCoreV1PodSpec = /*@__PURE__*/ S.suspend(() =>
     ephemeralContainers: S.optional(
       IoK8sApiCoreV1PodSpecEphemeralContainersList,
     ),
+    evictionResponders: S.optional(IoK8sApiCoreV1PodSpecEvictionRespondersList),
     hostAliases: S.optional(IoK8sApiCoreV1PodSpecHostAliasesList),
     hostIPC: S.optional(S.Boolean),
     hostNetwork: S.optional(S.Boolean),
@@ -5652,7 +5773,7 @@ export const IoK8sApiCoreV1ResourceStatusResourcesList = /*@__PURE__*/ S.Array(
 
 /** ResourceStatus represents the status of a single resource allocated to a Pod. */
 export interface IoK8sApiCoreV1ResourceStatus {
-  /** Name of the resource. Must be unique within the pod and in case of non-DRA resource, match one of the resources from the pod spec. For DRA resources, the value must be "claim:<claim_name>/<request>". When this status is reported about a container, the "claim_name" and "request" must match one of the claims of this container. */
+  /** Name of the resource. Must be unique within the pod and in case of non-DRA resource, match one of the resources from the pod spec. For DRA resources, the value must be "claim:<claim_name>/<request>" when container.resources.claims[*].request is set or "claim:<claim_name>" when container.resources.claims[*].request is empty. For DRA-backed extended resources, "claim:<claim_name>/<request>" is used when the claim name and request name are recorded in pod.status.extendedResourceClaimStatus. When this status is reported about a container, the "claim_name" and "request" must match one of the claims of this container. */
   name: string;
   /** List of unique resources health. Each element in the list contains an unique resource ID and its health. At a minimum, for the lifetime of a Pod, resource ID must uniquely identify the resource allocated to the Pod on the Node. If other Pod on the same Node reports the status with the same resource ID, it must be the same resource they share. See ResourceID type definition for a specific format it has in various use cases. */
   resources?: IoK8sApiCoreV1ResourceStatusResourcesList;
@@ -6011,24 +6132,69 @@ export const IoK8sApiCoreV1NodeAllocatableResourceClaimStatusContainersList =
     S.String,
   ) as any as S.Schema<IoK8sApiCoreV1NodeAllocatableResourceClaimStatusContainersList>;
 
-/** Resources is a map of the node-allocatable resource name to the aggregate quantity allocated to the claim. */
-export type IoK8sApiCoreV1NodeAllocatableResourceClaimStatusResourcesMap = {
-  [key: string]: string | undefined;
-};
-export const IoK8sApiCoreV1NodeAllocatableResourceClaimStatusResourcesMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.String,
-  ) as any as S.Schema<IoK8sApiCoreV1NodeAllocatableResourceClaimStatusResourcesMap>;
+/** NodeAllocatableMappedResources describes mapped node allocatable resource allocations. */
+export interface IoK8sApiCoreV1NodeAllocatableMappedResources {
+  /** Name is the name of the resource (e.g., cpu, memory). */
+  name: string;
+  /** Quantity is the total node allocatable resource capacity allocated for the claim. This claim's allocated devices is shared by all the containers referencing the claim. Kubelet adds this value to both requests and limits at the pod-level cgroup, and to limits at the container-level cgroup for each container referencing the claim. */
+  quantity: string;
+}
+export const IoK8sApiCoreV1NodeAllocatableMappedResources =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      quantity: S.String,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiCoreV1NodeAllocatableMappedResources",
+  }) as any as S.Schema<IoK8sApiCoreV1NodeAllocatableMappedResources>;
+
+/** Mapping contains allocations through devices mapped in the device spec's `nodeAllocatableResources[...].mapping` field. This is used by kubelet for pod level and container-level cgroup enforcement. */
+export type IoK8sApiCoreV1NodeAllocatableResourceClaimStatusMappingList =
+  Array<IoK8sApiCoreV1NodeAllocatableMappedResources>;
+export const IoK8sApiCoreV1NodeAllocatableResourceClaimStatusMappingList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiCoreV1NodeAllocatableMappedResources,
+  ) as any as S.Schema<IoK8sApiCoreV1NodeAllocatableResourceClaimStatusMappingList>;
+
+/** NodeAllocatableOverheadResources describes auxiliary overhead resource allocations. */
+export interface IoK8sApiCoreV1NodeAllocatableOverheadResources {
+  /** Name is the name of the resource (e.g., cpu, memory). */
+  name: string;
+  /** PerContainer is the variable overhead quantity applied for each container referencing the claim. The container references are recorded in `nodeAllocatableResourceClaimStatuses.containers`. The total overhead quantity allocated for the claim is computed as: Quantity = PerPod + (PerContainer * NumReferences) Kubelet accounts for this overhead in cgroups: - Pod-level cgroup (requests and limits): Kubelet adds PerPod + (PerContainer * NumReferences). - Container-level cgroup (limits only): Kubelet adds PerPod + PerContainer for each referencing container. This allows any single container to access the pod-level overhead, while the parent cgroup caps the total usage to account for PerPod exactly once. At least one of PerPod or PerContainer must be specified. Specifying neither is an invalid configuration. */
+  perContainer?: string;
+  /** PerPod is the flat overhead quantity allocated per pod. Adding to each container limit allows individual containers to utilize the overhead, while the parent pod-level cgroup limit caps the total usage at the pod boundary where the overhead is accounted for exactly once. At least one of PerPod or PerContainer must be specified. Specifying neither is an invalid configuration. */
+  perPod?: string;
+}
+export const IoK8sApiCoreV1NodeAllocatableOverheadResources =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      perContainer: S.optional(S.String),
+      perPod: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiCoreV1NodeAllocatableOverheadResources",
+  }) as any as S.Schema<IoK8sApiCoreV1NodeAllocatableOverheadResources>;
+
+/** Overhead contains allocations through devices mapped in the device spec's `nodeAllocatableResources[...].overhead` field. This is used by kubelet for pod level and container-level cgroup enforcement. */
+export type IoK8sApiCoreV1NodeAllocatableResourceClaimStatusOverheadList =
+  Array<IoK8sApiCoreV1NodeAllocatableOverheadResources>;
+export const IoK8sApiCoreV1NodeAllocatableResourceClaimStatusOverheadList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiCoreV1NodeAllocatableOverheadResources,
+  ) as any as S.Schema<IoK8sApiCoreV1NodeAllocatableResourceClaimStatusOverheadList>;
 
 /** NodeAllocatableResourceClaimStatus describes the status of node allocatable resources allocated via DRA. */
 export interface IoK8sApiCoreV1NodeAllocatableResourceClaimStatus {
   /** Containers lists the names of all containers in this pod that reference the claim. */
   containers?: IoK8sApiCoreV1NodeAllocatableResourceClaimStatusContainersList;
+  /** Mapping contains allocations through devices mapped in the device spec's `nodeAllocatableResources[...].mapping` field. This is used by kubelet for pod level and container-level cgroup enforcement. */
+  mapping?: IoK8sApiCoreV1NodeAllocatableResourceClaimStatusMappingList;
+  /** Overhead contains allocations through devices mapped in the device spec's `nodeAllocatableResources[...].overhead` field. This is used by kubelet for pod level and container-level cgroup enforcement. */
+  overhead?: IoK8sApiCoreV1NodeAllocatableResourceClaimStatusOverheadList;
   /** ResourceClaimName is the resource claim referenced by the pod that resulted in this node allocatable resource allocation. */
   resourceClaimName: string;
-  /** Resources is a map of the node-allocatable resource name to the aggregate quantity allocated to the claim. */
-  resources: IoK8sApiCoreV1NodeAllocatableResourceClaimStatusResourcesMap;
 }
 export const IoK8sApiCoreV1NodeAllocatableResourceClaimStatus =
   /*@__PURE__*/ S.suspend(() =>
@@ -6036,8 +6202,13 @@ export const IoK8sApiCoreV1NodeAllocatableResourceClaimStatus =
       containers: S.optional(
         IoK8sApiCoreV1NodeAllocatableResourceClaimStatusContainersList,
       ),
+      mapping: S.optional(
+        IoK8sApiCoreV1NodeAllocatableResourceClaimStatusMappingList,
+      ),
+      overhead: S.optional(
+        IoK8sApiCoreV1NodeAllocatableResourceClaimStatusOverheadList,
+      ),
       resourceClaimName: S.String,
-      resources: IoK8sApiCoreV1NodeAllocatableResourceClaimStatusResourcesMap,
     }),
   ).annotate({
     identifier: "IoK8sApiCoreV1NodeAllocatableResourceClaimStatus",
@@ -6095,6 +6266,42 @@ export const IoK8sApiCoreV1PodStatusResourceClaimStatusesList =
     IoK8sApiCoreV1PodResourceClaimStatus,
   ) as any as S.Schema<IoK8sApiCoreV1PodStatusResourceClaimStatusesList>;
 
+/** conditions is the set of adverse conditions reported by the CSI node plugin for this volume on this node. At most 16 conditions may be reported. */
+export type IoK8sApiCoreV1PodVolumeHealthHealthConditionsList =
+  Array<IoK8sApiCoreV1VolumeHealthCondition>;
+export const IoK8sApiCoreV1PodVolumeHealthHealthConditionsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiCoreV1VolumeHealthCondition,
+  ) as any as S.Schema<IoK8sApiCoreV1PodVolumeHealthHealthConditionsList>;
+
+/** PodVolumeHealth contains health information for a volume used by a pod, reported by the CSI node plugin via the kubelet. */
+export interface IoK8sApiCoreV1PodVolumeHealth {
+  /** conditions is the set of adverse conditions reported by the CSI node plugin for this volume on this node. At most 16 conditions may be reported. */
+  healthConditions?: IoK8sApiCoreV1PodVolumeHealthHealthConditionsList;
+  /** lastTransitionTime is when the current set of conditions first appeared. */
+  lastTransitionTime?: string;
+  /** name matches an entry in pod.spec.volumes. */
+  name: string;
+}
+export const IoK8sApiCoreV1PodVolumeHealth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    healthConditions: S.optional(
+      IoK8sApiCoreV1PodVolumeHealthHealthConditionsList,
+    ),
+    lastTransitionTime: S.optional(S.String),
+    name: S.String,
+  }),
+).annotate({
+  identifier: "IoK8sApiCoreV1PodVolumeHealth",
+}) as any as S.Schema<IoK8sApiCoreV1PodVolumeHealth>;
+
+/** volumeHealth contains node-reported health for each volume the pod is using. Populated by the kubelet on the pod's node. */
+export type IoK8sApiCoreV1PodStatusVolumeHealthList =
+  Array<IoK8sApiCoreV1PodVolumeHealth>;
+export const IoK8sApiCoreV1PodStatusVolumeHealthList = /*@__PURE__*/ S.Array(
+  IoK8sApiCoreV1PodVolumeHealth,
+) as any as S.Schema<IoK8sApiCoreV1PodStatusVolumeHealthList>;
+
 /** PodStatus represents information about the status of a pod. Status may trail the actual state of a system, especially if the node that hosts the pod cannot contact the control plane. */
 export interface IoK8sApiCoreV1PodStatus {
   /** AllocatedResources is the total requests allocated for this pod by the node. If pod-level requests are not set, this will be the total requests aggregated across containers in the pod. */
@@ -6139,6 +6346,8 @@ export interface IoK8sApiCoreV1PodStatus {
   resources?: IoK8sApiCoreV1ResourceRequirements;
   /** RFC 3339 date and time at which the object was acknowledged by the Kubelet. This is before the Kubelet pulled the container image(s) for the pod. */
   startTime?: string;
+  /** volumeHealth contains node-reported health for each volume the pod is using. Populated by the kubelet on the pod's node. */
+  volumeHealth?: IoK8sApiCoreV1PodStatusVolumeHealthList;
 }
 export const IoK8sApiCoreV1PodStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6175,6 +6384,7 @@ export const IoK8sApiCoreV1PodStatus = /*@__PURE__*/ S.suspend(() =>
     ),
     resources: S.optional(IoK8sApiCoreV1ResourceRequirements),
     startTime: S.optional(S.String),
+    volumeHealth: S.optional(IoK8sApiCoreV1PodStatusVolumeHealthList),
   }),
 ).annotate({
   identifier: "IoK8sApiCoreV1PodStatus",
@@ -6371,11 +6581,11 @@ export interface CreateCoreV1NamespacedPodEvictionRequest {
   pretty?: string;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
   apiVersion?: string;
-  /** DeleteOptions may be provided */
+  /** deleteOptions may be provided */
   deleteOptions?: IoK8sApimachineryPkgApisMetaV1DeleteOptions;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** ObjectMeta describes the pod that is being evicted. */
+  /** metadata describes the pod that is being evicted. */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
 }
 export const CreateCoreV1NamespacedPodEvictionRequest = /*@__PURE__*/ S.suspend(
@@ -6406,11 +6616,11 @@ export const CreateCoreV1NamespacedPodEvictionRequest = /*@__PURE__*/ S.suspend(
 export interface IoK8sApiPolicyV1Eviction {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
   apiVersion?: string;
-  /** DeleteOptions may be provided */
+  /** deleteOptions may be provided */
   deleteOptions?: IoK8sApimachineryPkgApisMetaV1DeleteOptions;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** ObjectMeta describes the pod that is being evicted. */
+  /** metadata describes the pod that is being evicted. */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
 }
 export const IoK8sApiPolicyV1Eviction = /*@__PURE__*/ S.suspend(() =>
@@ -7157,7 +7367,7 @@ export interface IoK8sApimachineryPkgApisMetaV1Condition {
   /** lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed. If that is not known, then using the time when the API field changed is acceptable. */
   lastTransitionTime: string;
   /** message is a human readable message indicating details about the transition. This may be an empty string. */
-  message: string;
+  message?: string;
   /** observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance. */
   observedGeneration?: number;
   /** reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty. */
@@ -7171,7 +7381,7 @@ export const IoK8sApimachineryPkgApisMetaV1Condition = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       lastTransitionTime: S.String,
-      message: S.String,
+      message: S.optional(S.String),
       observedGeneration: S.optional(S.Number),
       reason: S.String,
       status: S.String,
@@ -7458,6 +7668,25 @@ export const IoK8sApiCoreV1ServiceAccount = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1ServiceAccount",
 }) as any as S.Schema<IoK8sApiCoreV1ServiceAccount>;
 
+export type IoK8sApiAuthenticationV1TokenRequestSpecAttestationsValueList =
+  Array<string>;
+export const IoK8sApiAuthenticationV1TokenRequestSpecAttestationsValueList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiAuthenticationV1TokenRequestSpecAttestationsValueList>;
+
+/** attestations is a map of well-known keys to string-slice values. The values for each key have a specific semantic meaning, which is documented on the key definition. Requesters of tokens may ask the Kubernetes API Server to attest to certain claims. The API Server may perform authorization checks depending on the key of this map. */
+export type IoK8sApiAuthenticationV1TokenRequestSpecAttestationsMap = {
+  [key: string]:
+    | IoK8sApiAuthenticationV1TokenRequestSpecAttestationsValueList
+    | undefined;
+};
+export const IoK8sApiAuthenticationV1TokenRequestSpecAttestationsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    IoK8sApiAuthenticationV1TokenRequestSpecAttestationsValueList,
+  ) as any as S.Schema<IoK8sApiAuthenticationV1TokenRequestSpecAttestationsMap>;
+
 /** audiences are the intendend audiences of the token. A recipient of a token must identify themself with an identifier in the list of audiences of the token, and otherwise should reject the token. A token issued for multiple audiences may be used to authenticate against any of the audiences listed but implies a high degree of trust between the target audiences. */
 export type IoK8sApiAuthenticationV1TokenRequestSpecAudiencesList =
   Array<string>;
@@ -7470,7 +7699,7 @@ export const IoK8sApiAuthenticationV1TokenRequestSpecAudiencesList =
 export interface IoK8sApiAuthenticationV1BoundObjectReference {
   /** apiVersion is API version of the referent. */
   apiVersion?: string;
-  /** kind of the referent. Valid kinds are 'Pod' and 'Secret'. */
+  /** kind of the referent. Valid kinds are 'Pod', 'Secret', 'Node', 'ValidatingWebhookConfiguration', and 'MutatingWebhookConfiguration'. */
   kind?: string;
   /** name of the referent. */
   name?: string;
@@ -7491,6 +7720,8 @@ export const IoK8sApiAuthenticationV1BoundObjectReference =
 
 /** TokenRequestSpec contains client provided parameters of a token request. */
 export interface IoK8sApiAuthenticationV1TokenRequestSpec {
+  /** attestations is a map of well-known keys to string-slice values. The values for each key have a specific semantic meaning, which is documented on the key definition. Requesters of tokens may ask the Kubernetes API Server to attest to certain claims. The API Server may perform authorization checks depending on the key of this map. */
+  attestations?: IoK8sApiAuthenticationV1TokenRequestSpecAttestationsMap;
   /** audiences are the intendend audiences of the token. A recipient of a token must identify themself with an identifier in the list of audiences of the token, and otherwise should reject the token. A token issued for multiple audiences may be used to authenticate against any of the audiences listed but implies a high degree of trust between the target audiences. */
   audiences?: IoK8sApiAuthenticationV1TokenRequestSpecAudiencesList;
   /** boundObjectRef is a reference to an object that the token will be bound to. The token will only be valid for as long as the bound object exists. NOTE: The API server's TokenReview endpoint will validate the BoundObjectRef, but other audiences may not. Keep ExpirationSeconds small if you want prompt revocation. */
@@ -7501,6 +7732,9 @@ export interface IoK8sApiAuthenticationV1TokenRequestSpec {
 export const IoK8sApiAuthenticationV1TokenRequestSpec = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      attestations: S.optional(
+        IoK8sApiAuthenticationV1TokenRequestSpecAttestationsMap,
+      ),
       audiences: S.optional(
         IoK8sApiAuthenticationV1TokenRequestSpecAudiencesList,
       ),
@@ -7648,6 +7882,30 @@ export const IoK8sApiCoreV1NodeSpecPodCIDRsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<IoK8sApiCoreV1NodeSpecPodCIDRsList>;
 
+/** DisableResizePreemption lists the owners (e.g., autoscalers, operators, administrators) that have requested to disable scheduler and Kubelet preemption for in-place pod resize on this node. If this list is non-empty, resize-induced preemption is disabled on this node. This is an alpha field and requires enabling the InPlacePodVerticalScalingSchedulerPreemption feature gate. */
+export type IoK8sApiCoreV1NodePodPreemptionPolicyDisableResizePreemptionList =
+  Array<string>;
+export const IoK8sApiCoreV1NodePodPreemptionPolicyDisableResizePreemptionList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiCoreV1NodePodPreemptionPolicyDisableResizePreemptionList>;
+
+/** NodePodPreemptionPolicy defines the node-level policies governing preemption for pods on this node. */
+export interface IoK8sApiCoreV1NodePodPreemptionPolicy {
+  /** DisableResizePreemption lists the owners (e.g., autoscalers, operators, administrators) that have requested to disable scheduler and Kubelet preemption for in-place pod resize on this node. If this list is non-empty, resize-induced preemption is disabled on this node. This is an alpha field and requires enabling the InPlacePodVerticalScalingSchedulerPreemption feature gate. */
+  disableResizePreemption?: IoK8sApiCoreV1NodePodPreemptionPolicyDisableResizePreemptionList;
+}
+export const IoK8sApiCoreV1NodePodPreemptionPolicy = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      disableResizePreemption: S.optional(
+        IoK8sApiCoreV1NodePodPreemptionPolicyDisableResizePreemptionList,
+      ),
+    }),
+).annotate({
+  identifier: "IoK8sApiCoreV1NodePodPreemptionPolicy",
+}) as any as S.Schema<IoK8sApiCoreV1NodePodPreemptionPolicy>;
+
 /** The node this Taint is attached to has the "effect" on any pod that does not tolerate the Taint. */
 export interface IoK8sApiCoreV1Taint {
   /** Required. The effect of the taint on pods that do not tolerate the taint. Valid effects are NoSchedule, PreferNoSchedule and NoExecute. */
@@ -7686,6 +7944,8 @@ export interface IoK8sApiCoreV1NodeSpec {
   podCIDR?: string;
   /** podCIDRs represents the IP ranges assigned to the node for usage by Pods on that node. If this field is specified, the 0th entry must match the podCIDR field. It may contain at most 1 value for each of IPv4 and IPv6. */
   podCIDRs?: IoK8sApiCoreV1NodeSpecPodCIDRsList;
+  /** PodPreemptionPolicy controls the node-level preemption behaviors for pods on this node. This is an alpha field and requires enabling the InPlacePodVerticalScalingSchedulerPreemption feature gate. */
+  podPreemptionPolicy?: IoK8sApiCoreV1NodePodPreemptionPolicy;
   /** ID of the node assigned by the cloud provider in the format: <ProviderName>://<ProviderSpecificNodeID> */
   providerID?: string;
   /** If specified, the node's taints. */
@@ -7699,6 +7959,7 @@ export const IoK8sApiCoreV1NodeSpec = /*@__PURE__*/ S.suspend(() =>
     externalID: S.optional(S.String),
     podCIDR: S.optional(S.String),
     podCIDRs: S.optional(IoK8sApiCoreV1NodeSpecPodCIDRsList),
+    podPreemptionPolicy: S.optional(IoK8sApiCoreV1NodePodPreemptionPolicy),
     providerID: S.optional(S.String),
     taints: S.optional(IoK8sApiCoreV1NodeSpecTaintsList),
     unschedulable: S.optional(S.Boolean),
@@ -7913,6 +8174,8 @@ export interface IoK8sApiCoreV1NodeSystemInfo {
   operatingSystem: string;
   /** OS Image reported by the node from /etc/os-release (e.g. Debian GNU/Linux 7 (wheezy)). */
   osImage: string;
+  /** Whether the node is running in a user namespace. */
+  runningInUserNamespace?: boolean;
   /** Swap Info reported by the node. */
   swap?: IoK8sApiCoreV1NodeSwapStatus;
   /** SystemUUID reported by the node. For unique machine identification MachineID is preferred. This field is specific to Red Hat hosts https://access.redhat.com/documentation/en-us/red_hat_subscription_management/1/html/rhsm/uuid */
@@ -7929,6 +8192,7 @@ export const IoK8sApiCoreV1NodeSystemInfo = /*@__PURE__*/ S.suspend(() =>
     machineID: S.String,
     operatingSystem: S.String,
     osImage: S.String,
+    runningInUserNamespace: S.optional(S.Boolean),
     swap: S.optional(IoK8sApiCoreV1NodeSwapStatus),
     systemUUID: S.String,
   }),
@@ -8739,6 +9003,384 @@ export const IoK8sApiCoreV1PersistentVolume = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "IoK8sApiCoreV1PersistentVolume",
 }) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>;
+
+/** EvictionPodReference contains enough information to locate the referenced pod inside the same namespace. */
+export interface IoK8sApiLifecycleV1alpha1EvictionPodReference {
+  /** name of the target. This field is required. */
+  name: string;
+  /** uid of the target. It can be found in .metadata.uid of the target and is a lowercase UUID in 8-4-4-4-12 format. This field is required. */
+  uid: string;
+}
+export const IoK8sApiLifecycleV1alpha1EvictionPodReference =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      uid: S.String,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiLifecycleV1alpha1EvictionPodReference",
+  }) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionPodReference>;
+
+/** EvictionTarget contains a reference to an object that should be evicted. */
+export interface IoK8sApiLifecycleV1alpha1EvictionTarget {
+  /** pod references a pod that is subject to eviction/termination. Pods that are part of a PodGroup (.spec.schedulingGroup is set) are not supported. */
+  pod?: IoK8sApiLifecycleV1alpha1EvictionPodReference;
+}
+export const IoK8sApiLifecycleV1alpha1EvictionTarget = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      pod: S.optional(IoK8sApiLifecycleV1alpha1EvictionPodReference),
+    }),
+).annotate({
+  identifier: "IoK8sApiLifecycleV1alpha1EvictionTarget",
+}) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionTarget>;
+
+/** EvictionSpec is a specification of an Eviction. */
+export interface IoK8sApiLifecycleV1alpha1EvictionSpec {
+  /** target contains a reference to an object (e.g. a pod) that should be evicted. This field is required and immutable. */
+  target: IoK8sApiLifecycleV1alpha1EvictionTarget;
+}
+export const IoK8sApiLifecycleV1alpha1EvictionSpec = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      target: IoK8sApiLifecycleV1alpha1EvictionTarget,
+    }),
+).annotate({
+  identifier: "IoK8sApiLifecycleV1alpha1EvictionSpec",
+}) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionSpec>;
+
+/** conditions contain information about the eviction request. Eviction specific conditions are: TargetEvicted or Failed (managed by evictionrequest-controller). - Failed means that the eviction request is no longer being processed by any eviction responder. This can happen if the request is canceled or if no responder managed to evict the target (e.g. terminate or delete a pod). - TargetEvicted means that the target has been evicted (e.g. a pod has been terminated or deleted). The maximum length of the conditions list is 100. */
+export type IoK8sApiLifecycleV1alpha1EvictionStatusConditionsList =
+  Array<IoK8sApimachineryPkgApisMetaV1Condition>;
+export const IoK8sApiLifecycleV1alpha1EvictionStatusConditionsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApimachineryPkgApisMetaV1Condition,
+  ) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionStatusConditionsList>;
+
+/** Requester allows you to identify the entity, that requested the eviction of the target. */
+export interface IoK8sApiLifecycleV1alpha1Requester {
+  /** intent specifies the action that should be taken for the specified target. - Eviction means that the requester is interested in the eviction of the target. - Withdrawn means that the requester is no longer interested in the eviction of the target. If all requesters' intents are withdrawn, the eviction will be canceled. Cancellation consequences: - Inactive responders will never run. - Active responders are expected to cancel the eviction. - Completed or Interrupted responders should not take any action. */
+  intent: string;
+  /** name allows you to identify the entity, that requested the eviction of the target. It must be a valid domain-prefixed key (such as "acme.io/foo"). This field must be unique for each requester. This field is required. */
+  name: string;
+}
+export const IoK8sApiLifecycleV1alpha1Requester = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    intent: S.String,
+    name: S.String,
+  }),
+).annotate({
+  identifier: "IoK8sApiLifecycleV1alpha1Requester",
+}) as any as S.Schema<IoK8sApiLifecycleV1alpha1Requester>;
+
+/** requesters allow you to identify the entities, that requested the eviction of the target. If all the requesters withdraw their eviction intent, the eviction will be canceled. The maximum length of the requesters list is 100. If this limit is exceeded, requesters with Withdrawn intent should be dropped first. */
+export type IoK8sApiLifecycleV1alpha1EvictionStatusRequestersList =
+  Array<IoK8sApiLifecycleV1alpha1Requester>;
+export const IoK8sApiLifecycleV1alpha1EvictionStatusRequestersList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiLifecycleV1alpha1Requester,
+  ) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionStatusRequestersList>;
+
+/** ResponderStatus represents the last observed status of the eviction process of the responder. It should be only updated by the designated responder whose name is .name field. */
+export interface IoK8sApiLifecycleV1alpha1ResponderStatus {
+  /** completionTime tracks the time at which the Responder stopped processing the eviction request. Completion means that the responders has either fully or partially completed the eviction process, which may have resulted in target eviction (e.g. pod termination). It should reflect the present time when set. This field becomes immutable once set. */
+  completionTime?: string;
+  /** expectedCompletionTime is the time at which the eviction process step is expected to end for the responder. The time cannot be set to the past. May be omitted if no estimate can be made. */
+  expectedCompletionTime?: string;
+  /** heartbeatTime is the last time at which the eviction process was reported to be in progress by the responder. It should reflect the present time when set. Responders should avoid heartbeats more frequent than 20 seconds to avoid overloading the control-plane. */
+  heartbeatTime?: string;
+  /** message provides human-readable details about the state of the responder and the eviction process. Maximum length is 4000 characters. */
+  message?: string;
+  /** name allows you to identify the responder reacting to the Eviction. It must be a valid domain-prefixed key (such as "acme.io/foo"). This field is initialized by Kubernetes and must be unique for each responder. This field is required. */
+  name: string;
+  /** startTime tracks the time at which this responder was designated as active and should start processing the eviction request. It should reflect the present time when set. This field is initialized by Kubernetes when this responder becomes active. This field becomes immutable once set. */
+  startTime?: string;
+}
+export const IoK8sApiLifecycleV1alpha1ResponderStatus = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      completionTime: S.optional(S.String),
+      expectedCompletionTime: S.optional(S.String),
+      heartbeatTime: S.optional(S.String),
+      message: S.optional(S.String),
+      name: S.String,
+      startTime: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "IoK8sApiLifecycleV1alpha1ResponderStatus",
+}) as any as S.Schema<IoK8sApiLifecycleV1alpha1ResponderStatus>;
+
+/** responders represents the eviction process status of each declared responder. The responder list should be the same length and have the same .name fields as .status.targetResponders. Only responders with .name that have Active state in .targetResponders[].state should be updated and can be mutated. First initialization of the list is allowed. Each ResponderStatus is initialized by evictionrequest-controller and then managed by the designated responder. */
+export type IoK8sApiLifecycleV1alpha1EvictionStatusRespondersList =
+  Array<IoK8sApiLifecycleV1alpha1ResponderStatus>;
+export const IoK8sApiLifecycleV1alpha1EvictionStatusRespondersList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiLifecycleV1alpha1ResponderStatus,
+  ) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionStatusRespondersList>;
+
+/** TargetResponder allows you to specify the responder reacting to the Eviction. Responders should observe and communicate through the Eviction API (see .state) to help with the graceful eviction of a target (e.g. termination of a pod). */
+export interface IoK8sApiLifecycleV1alpha1TargetResponder {
+  /** name allows you to identify the responder reacting to the Eviction. It must be a valid domain-prefixed key (such as "acme.io/foo"). This field must be unique for each responder. This field is required. */
+  name: string;
+  /** priority for this responder. Higher priorities are selected first by the evictionrequest-controller. If there are responders with the same priority, the responder whose domain name comes first in the alphabetical higher domain order, will be picked. This means that the top domain labels are compared alphabetically first, followed by the lower domain labels. The key is compared last. The responder that is the managing controller of the pod should set the value of this field to 10000 to allow both for preemption or fallback registration by other responders. The minimum value is 0 and the maximum value is 100000. The interval 0-999 is reserved for responders with *.k8s.io suffix. This field is required and immutable. */
+  priority: number;
+  /** state specifies a state that is assigned by the evictionrequest-controller. Responders should observe this state in order to navigate their lifecycle. - Inactive means that the responder should not yet process this eviction request. - Active means that the responder is either running or expected to start soon. Also, startTime has been set in the ResponderStatus by the evictionrequest-controller. An active responder should currently interact with the eviction process by updating .status.responders, where .name is the active responder name. ResponderStatus fields should be periodically updated to indicate the progress or completion of the eviction process. If .status.responders[].heartbeatTime field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. Only one responder can be active at a time. - Interrupted means that the responder has failed to start or failed to update heartbeatTime in ResponderStatus in a timely manner. - Canceled means that the responder has been canceled. In other words, there is no EvictionRequest with the same target and Eviction intent in .spec.intent. - Completed means that the responder has successfully completed and set completionTime in ResponderStatus. Please refer to the ResponderStatus in .status.responders for more details on each responder. */
+  state: string;
+}
+export const IoK8sApiLifecycleV1alpha1TargetResponder = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      priority: S.Number,
+      state: S.String,
+    }),
+).annotate({
+  identifier: "IoK8sApiLifecycleV1alpha1TargetResponder",
+}) as any as S.Schema<IoK8sApiLifecycleV1alpha1TargetResponder>;
+
+/** targetResponders reference responders that should eventually respond to this eviction to help with the graceful eviction of a target. These responders are selected sequentially, according to their specified priority by setting the Active state to the TargetResponder .state field. The maximum number of active responders allowed is 1. Eventually each responder can end up in an Interrupted, Canceled or, Completed state. Responders should observe these states in order to navigate their lifecycle. If the target is a pod, the field is populated from Pod's .spec.evictionResponders. Default responders may be added to the list according to the target. Default responders: - imperative-eviction.k8s.io/evictor responder with a priority of 100 is added to the list if the target is a pod. It will call the imperative Eviction API (pods/<name>/eviction subresource). This call may not succeed due to PodDisruptionBudgets, which may block the pod termination. It will update the responder message and try again with a backoff. The maximum length of the responders list is 11. The length and keys of the list cannot change once set. This field is managed by evictionrequest-controller. */
+export type IoK8sApiLifecycleV1alpha1EvictionStatusTargetRespondersList =
+  Array<IoK8sApiLifecycleV1alpha1TargetResponder>;
+export const IoK8sApiLifecycleV1alpha1EvictionStatusTargetRespondersList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiLifecycleV1alpha1TargetResponder,
+  ) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionStatusTargetRespondersList>;
+
+/** EvictionStatus represents the last observed status of the eviction request. */
+export interface IoK8sApiLifecycleV1alpha1EvictionStatus {
+  /** conditions contain information about the eviction request. Eviction specific conditions are: TargetEvicted or Failed (managed by evictionrequest-controller). - Failed means that the eviction request is no longer being processed by any eviction responder. This can happen if the request is canceled or if no responder managed to evict the target (e.g. terminate or delete a pod). - TargetEvicted means that the target has been evicted (e.g. a pod has been terminated or deleted). The maximum length of the conditions list is 100. */
+  conditions?: IoK8sApiLifecycleV1alpha1EvictionStatusConditionsList;
+  /** observedGeneration is Eviction's .metadata.generation observed by the evictionrequest-controller. The observed generation value cannot be negative and can only be incremented. The minimum value is 1. This field is managed by evictionrequest-controller. */
+  observedGeneration?: number;
+  /** requesters allow you to identify the entities, that requested the eviction of the target. If all the requesters withdraw their eviction intent, the eviction will be canceled. The maximum length of the requesters list is 100. If this limit is exceeded, requesters with Withdrawn intent should be dropped first. */
+  requesters?: IoK8sApiLifecycleV1alpha1EvictionStatusRequestersList;
+  /** responders represents the eviction process status of each declared responder. The responder list should be the same length and have the same .name fields as .status.targetResponders. Only responders with .name that have Active state in .targetResponders[].state should be updated and can be mutated. First initialization of the list is allowed. Each ResponderStatus is initialized by evictionrequest-controller and then managed by the designated responder. */
+  responders?: IoK8sApiLifecycleV1alpha1EvictionStatusRespondersList;
+  /** targetResponders reference responders that should eventually respond to this eviction to help with the graceful eviction of a target. These responders are selected sequentially, according to their specified priority by setting the Active state to the TargetResponder .state field. The maximum number of active responders allowed is 1. Eventually each responder can end up in an Interrupted, Canceled or, Completed state. Responders should observe these states in order to navigate their lifecycle. If the target is a pod, the field is populated from Pod's .spec.evictionResponders. Default responders may be added to the list according to the target. Default responders: - imperative-eviction.k8s.io/evictor responder with a priority of 100 is added to the list if the target is a pod. It will call the imperative Eviction API (pods/<name>/eviction subresource). This call may not succeed due to PodDisruptionBudgets, which may block the pod termination. It will update the responder message and try again with a backoff. The maximum length of the responders list is 11. The length and keys of the list cannot change once set. This field is managed by evictionrequest-controller. */
+  targetResponders?: IoK8sApiLifecycleV1alpha1EvictionStatusTargetRespondersList;
+}
+export const IoK8sApiLifecycleV1alpha1EvictionStatus = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      conditions: S.optional(
+        IoK8sApiLifecycleV1alpha1EvictionStatusConditionsList,
+      ),
+      observedGeneration: S.optional(S.Number),
+      requesters: S.optional(
+        IoK8sApiLifecycleV1alpha1EvictionStatusRequestersList,
+      ),
+      responders: S.optional(
+        IoK8sApiLifecycleV1alpha1EvictionStatusRespondersList,
+      ),
+      targetResponders: S.optional(
+        IoK8sApiLifecycleV1alpha1EvictionStatusTargetRespondersList,
+      ),
+    }),
+).annotate({
+  identifier: "IoK8sApiLifecycleV1alpha1EvictionStatus",
+}) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionStatus>;
+
+export interface CreateLifecycleV1alpha1NamespacedEvictionRequest2 {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. .metadata.name set by the evictionrequest-controller is purely informative and subject to change. .spec.target field should be used to identify the target precisesly. The requester and responder names will be used as label keys and added to the labels of the eviction in one of the following formats: 1. acme.io/foo: "requester" 2. acme.io/foo: "responder" 3. acme.io/foo: "requester-responder" Please see EvictionParticipantRole for available role label values. */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the eviction specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec: IoK8sApiLifecycleV1alpha1EvictionSpec;
+  /** status represents the most recently observed status of the eviction. Populated by responders and evictionrequest-controller. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  status?: IoK8sApiLifecycleV1alpha1EvictionStatus;
+}
+export const CreateLifecycleV1alpha1NamespacedEvictionRequest2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiLifecycleV1alpha1EvictionSpec,
+      status: S.optional(IoK8sApiLifecycleV1alpha1EvictionStatus),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "CreateLifecycleV1alpha1NamespacedEvictionRequest2",
+  }) as any as S.Schema<CreateLifecycleV1alpha1NamespacedEvictionRequest2>;
+
+/** Eviction initiates an eviction process, which should ideally result in a graceful eviction of a .spec.target (e.g. termination of a pod). The evictionrequest-controller observes intents of all EvictionRequests and transforms them into Evictions. It manages the Eviction lifecycle. Requesters are preserved in .status.requesters even after they have withdrawn their request. If all requesters withdraw their eviction intent for a common target, the eviction will be canceled. Once all EvictionRequest corresponding to this Eviction .spec.target have been removed, this Eviction object will eventually be garbage collected. If the target is a pod, the .status.targetResponders is populated from Pod's .spec.evictionResponders. Responders should observe and communicate through the .status to help with the eviction of the target when they see their state == Active in .status.targetResponders. ResponderStatus struct should then be periodically updated to indicate the progress or completion of the eviction process by each responder in .status.responders. If .status.responders[].heartbeatTime is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there are no other responders and the target is a pod, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource). */
+export interface IoK8sApiLifecycleV1alpha1Eviction {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. .metadata.name set by the evictionrequest-controller is purely informative and subject to change. .spec.target field should be used to identify the target precisesly. The requester and responder names will be used as label keys and added to the labels of the eviction in one of the following formats: 1. acme.io/foo: "requester" 2. acme.io/foo: "responder" 3. acme.io/foo: "requester-responder" Please see EvictionParticipantRole for available role label values. */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the eviction specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec: IoK8sApiLifecycleV1alpha1EvictionSpec;
+  /** status represents the most recently observed status of the eviction. Populated by responders and evictionrequest-controller. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  status?: IoK8sApiLifecycleV1alpha1EvictionStatus;
+}
+export const IoK8sApiLifecycleV1alpha1Eviction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    apiVersion: S.optional(S.String),
+    kind: S.optional(S.String),
+    metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+    spec: IoK8sApiLifecycleV1alpha1EvictionSpec,
+    status: S.optional(IoK8sApiLifecycleV1alpha1EvictionStatus),
+  }),
+).annotate({
+  identifier: "IoK8sApiLifecycleV1alpha1Eviction",
+}) as any as S.Schema<IoK8sApiLifecycleV1alpha1Eviction>;
+
+/** EvictionRequestPodReference contains enough information to locate the referenced pod inside the same namespace. */
+export type IoK8sApiLifecycleV1alpha1EvictionRequestPodReference =
+  IoK8sApiLifecycleV1alpha1EvictionPodReference;
+export const IoK8sApiLifecycleV1alpha1EvictionRequestPodReference =
+  IoK8sApiLifecycleV1alpha1EvictionPodReference;
+
+/** EvictionRequestTarget contains a reference to an object that should be evicted. */
+export type IoK8sApiLifecycleV1alpha1EvictionRequestTarget =
+  IoK8sApiLifecycleV1alpha1EvictionTarget;
+export const IoK8sApiLifecycleV1alpha1EvictionRequestTarget =
+  IoK8sApiLifecycleV1alpha1EvictionTarget;
+
+/** EvictionRequestSpec is a specification of an EvictionRequest. */
+export interface IoK8sApiLifecycleV1alpha1EvictionRequestSpec {
+  /** intent specifies the action that should be taken for the specified target. - Eviction means that the requester is interested in the eviction of the target. - Withdrawn means that the requester is no longer interested in the eviction of the target. If all requesters' intents are withdrawn for a common target, the eviction will be canceled. Cancellation consequences: - Inactive responders will never run. - Active responders are expected to cancel the eviction. - Completed or Interrupted responders should not take any action. */
+  intent: string;
+  /** requester allows you to identify the entity, that requested the eviction of the target. It must be a valid domain-prefixed key (such as "acme.io/foo"). Domain names *.k8s.io and *.kubernetes.io are reserved. This field is required and immutable. */
+  requester: string;
+  /** target contains a reference to an object (e.g. a pod) that should be evicted. This field is required and immutable. */
+  target: IoK8sApiLifecycleV1alpha1EvictionTarget;
+}
+export const IoK8sApiLifecycleV1alpha1EvictionRequestSpec =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      intent: S.String,
+      requester: S.String,
+      target: IoK8sApiLifecycleV1alpha1EvictionTarget,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiLifecycleV1alpha1EvictionRequestSpec",
+  }) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequestSpec>;
+
+/** conditions contain information about the eviction request. EvictionRequest specific conditions are: TargetEvicted or Failed (managed by evictionrequest-controller). - Failed means that the eviction request is no longer being processed by any eviction responder. This can happen if the request is canceled or if no responder managed to evict the target (e.g. terminate or delete a pod). - TargetEvicted means that the target has been evicted (e.g. a pod has been terminated or deleted). These conditions can be reset if the eviction was unsuccessful and a new Eviction intent has been submitted. The maximum length of the conditions list is 100. */
+export type IoK8sApiLifecycleV1alpha1EvictionRequestStatusConditionsList =
+  Array<IoK8sApimachineryPkgApisMetaV1Condition>;
+export const IoK8sApiLifecycleV1alpha1EvictionRequestStatusConditionsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApimachineryPkgApisMetaV1Condition,
+  ) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequestStatusConditionsList>;
+
+/** EvictionRequestStatus represents the last observed status of the eviction request. */
+export interface IoK8sApiLifecycleV1alpha1EvictionRequestStatus {
+  /** conditions contain information about the eviction request. EvictionRequest specific conditions are: TargetEvicted or Failed (managed by evictionrequest-controller). - Failed means that the eviction request is no longer being processed by any eviction responder. This can happen if the request is canceled or if no responder managed to evict the target (e.g. terminate or delete a pod). - TargetEvicted means that the target has been evicted (e.g. a pod has been terminated or deleted). These conditions can be reset if the eviction was unsuccessful and a new Eviction intent has been submitted. The maximum length of the conditions list is 100. */
+  conditions?: IoK8sApiLifecycleV1alpha1EvictionRequestStatusConditionsList;
+  /** observedGeneration is EvictionRequest's .metadata.generation observed by the evictionrequest-controller. The observed generation value cannot be negative and can only be incremented. The minimum value is 1. This field is managed by evictionrequest-controller. */
+  observedGeneration?: number;
+}
+export const IoK8sApiLifecycleV1alpha1EvictionRequestStatus =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      conditions: S.optional(
+        IoK8sApiLifecycleV1alpha1EvictionRequestStatusConditionsList,
+      ),
+      observedGeneration: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiLifecycleV1alpha1EvictionRequestStatus",
+  }) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequestStatus>;
+
+export interface CreateLifecycleV1alpha1NamespacedEvictionRequestRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the eviction request specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec: IoK8sApiLifecycleV1alpha1EvictionRequestSpec;
+  /** status represents the most recently observed status of the eviction request. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  status?: IoK8sApiLifecycleV1alpha1EvictionRequestStatus;
+}
+export const CreateLifecycleV1alpha1NamespacedEvictionRequestRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiLifecycleV1alpha1EvictionRequestSpec,
+      status: S.optional(IoK8sApiLifecycleV1alpha1EvictionRequestStatus),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "CreateLifecycleV1alpha1NamespacedEvictionRequestRequest",
+  }) as any as S.Schema<CreateLifecycleV1alpha1NamespacedEvictionRequestRequest>;
+
+/** EvictionRequest defines a request that should ideally result in a graceful eviction of a .spec.target (e.g. termination of a pod). The evictionrequest-controller observes intents of all EvictionRequests and transforms them into Evictions. - .spec.requester is set as a label on the Eviction for easier lookup. - Each target can have a set of responders assigned to it. Eviction objects are observed by these responders, who implement the eviction logic and update the Eviction's status with progress. There is many-to-many relationship between EvictionRequests and Evictions in general. And many-to-one if the target is a pod. If all requesters withdraw their eviction intent for a common target, the eviction will be canceled. Deleting an EvictionRequest also counts as a withdrawal. Once all EvictionRequest of a target are removed, the corresponding Evictions are eventually garbage collected. */
+export interface IoK8sApiLifecycleV1alpha1EvictionRequest {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the eviction request specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec: IoK8sApiLifecycleV1alpha1EvictionRequestSpec;
+  /** status represents the most recently observed status of the eviction request. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  status?: IoK8sApiLifecycleV1alpha1EvictionRequestStatus;
+}
+export const IoK8sApiLifecycleV1alpha1EvictionRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiLifecycleV1alpha1EvictionRequestSpec,
+      status: S.optional(IoK8sApiLifecycleV1alpha1EvictionRequestStatus),
+    }),
+).annotate({
+  identifier: "IoK8sApiLifecycleV1alpha1EvictionRequest",
+}) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequest>;
 
 export interface DeleteCoreV1CollectionNamespacedConfigMapRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -10645,6 +11287,259 @@ export const DeleteCoreV1PersistentVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCoreV1PersistentVolumeRequest",
 }) as any as S.Schema<DeleteCoreV1PersistentVolumeRequest>;
 
+export interface DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequest2 {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequest2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequest2",
+  }) as any as S.Schema<DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequest2>;
+
+export interface DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestRequest",
+  }) as any as S.Schema<DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestRequest>;
+
+export interface DeleteLifecycleV1alpha1NamespacedEvictionRequest2 {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the Eviction */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteLifecycleV1alpha1NamespacedEvictionRequest2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteLifecycleV1alpha1NamespacedEvictionRequest2",
+  }) as any as S.Schema<DeleteLifecycleV1alpha1NamespacedEvictionRequest2>;
+
+export interface DeleteLifecycleV1alpha1NamespacedEvictionRequestRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the EvictionRequest */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteLifecycleV1alpha1NamespacedEvictionRequestRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteLifecycleV1alpha1NamespacedEvictionRequestRequest",
+  }) as any as S.Schema<DeleteLifecycleV1alpha1NamespacedEvictionRequestRequest>;
+
 export interface GetAPIVersionsRequest {}
 export const GetAPIVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/", code: 200 })),
@@ -10964,6 +11859,29 @@ export const IoK8sApimachineryPkgApisMetaV1APIResourceList =
   ).annotate({
     identifier: "IoK8sApimachineryPkgApisMetaV1APIResourceList",
   }) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIResourceList>;
+
+export interface GetLifecycleAPIGroupRequest {}
+export const GetLifecycleAPIGroupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.Http({ method: "GET", uri: "/apis/lifecycle.k8s.io/", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetLifecycleAPIGroupRequest",
+}) as any as S.Schema<GetLifecycleAPIGroupRequest>;
+
+export interface GetLifecycleV1alpha1APIResourcesRequest {}
+export const GetLifecycleV1alpha1APIResourcesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({}).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetLifecycleV1alpha1APIResourcesRequest",
+}) as any as S.Schema<GetLifecycleV1alpha1APIResourcesRequest>;
 
 export interface GetServiceAccountIssuerOpenIDConfigurationRequest {}
 export const GetServiceAccountIssuerOpenIDConfigurationRequest =
@@ -12925,6 +13843,282 @@ export const ListCoreV1ServiceForAllNamespacesRequest = /*@__PURE__*/ S.suspend(
   identifier: "ListCoreV1ServiceForAllNamespacesRequest",
 }) as any as S.Schema<ListCoreV1ServiceForAllNamespacesRequest>;
 
+export interface ListLifecycleV1alpha1EvictionForAllNamespacesRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const ListLifecycleV1alpha1EvictionForAllNamespacesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/evictions",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListLifecycleV1alpha1EvictionForAllNamespacesRequest",
+  }) as any as S.Schema<ListLifecycleV1alpha1EvictionForAllNamespacesRequest>;
+
+/** items is the list of Evictions. */
+export type IoK8sApiLifecycleV1alpha1EvictionListItemsList =
+  Array<IoK8sApiLifecycleV1alpha1Eviction>;
+export const IoK8sApiLifecycleV1alpha1EvictionListItemsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiLifecycleV1alpha1Eviction,
+  ) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionListItemsList>;
+
+/** EvictionList contains a list of Eviction resources. */
+export interface IoK8sApiLifecycleV1alpha1EvictionList {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** items is the list of Evictions. */
+  items: IoK8sApiLifecycleV1alpha1EvictionListItemsList;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+}
+export const IoK8sApiLifecycleV1alpha1EvictionList = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      apiVersion: S.optional(S.String),
+      items: IoK8sApiLifecycleV1alpha1EvictionListItemsList,
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ListMeta),
+    }),
+).annotate({
+  identifier: "IoK8sApiLifecycleV1alpha1EvictionList",
+}) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionList>;
+
+export interface ListLifecycleV1alpha1EvictionRequestForAllNamespacesRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const ListLifecycleV1alpha1EvictionRequestForAllNamespacesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/evictionrequests",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListLifecycleV1alpha1EvictionRequestForAllNamespacesRequest",
+  }) as any as S.Schema<ListLifecycleV1alpha1EvictionRequestForAllNamespacesRequest>;
+
+/** items is the list of EvictionRequests. */
+export type IoK8sApiLifecycleV1alpha1EvictionRequestListItemsList =
+  Array<IoK8sApiLifecycleV1alpha1EvictionRequest>;
+export const IoK8sApiLifecycleV1alpha1EvictionRequestListItemsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiLifecycleV1alpha1EvictionRequest,
+  ) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequestListItemsList>;
+
+/** EvictionRequestList contains a list of EvictionRequests resources. */
+export interface IoK8sApiLifecycleV1alpha1EvictionRequestList {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** items is the list of EvictionRequests. */
+  items: IoK8sApiLifecycleV1alpha1EvictionRequestListItemsList;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+}
+export const IoK8sApiLifecycleV1alpha1EvictionRequestList =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      apiVersion: S.optional(S.String),
+      items: IoK8sApiLifecycleV1alpha1EvictionRequestListItemsList,
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ListMeta),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiLifecycleV1alpha1EvictionRequestList",
+  }) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequestList>;
+
+export interface ListLifecycleV1alpha1NamespacedEvictionRequest2 {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const ListLifecycleV1alpha1NamespacedEvictionRequest2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListLifecycleV1alpha1NamespacedEvictionRequest2",
+  }) as any as S.Schema<ListLifecycleV1alpha1NamespacedEvictionRequest2>;
+
+export interface ListLifecycleV1alpha1NamespacedEvictionRequestRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const ListLifecycleV1alpha1NamespacedEvictionRequestRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListLifecycleV1alpha1NamespacedEvictionRequestRequest",
+  }) as any as S.Schema<ListLifecycleV1alpha1NamespacedEvictionRequestRequest>;
+
 export interface LogFileHandlerRequest {
   /** path to the log */
   logpath: string;
@@ -13933,6 +15127,154 @@ export const PatchCoreV1PersistentVolumeStatusRequest = /*@__PURE__*/ S.suspend(
   identifier: "PatchCoreV1PersistentVolumeStatusRequest",
 }) as any as S.Schema<PatchCoreV1PersistentVolumeStatusRequest>;
 
+export interface PatchLifecycleV1alpha1NamespacedEvictionRequest2 {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the Eviction */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchLifecycleV1alpha1NamespacedEvictionRequest2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchLifecycleV1alpha1NamespacedEvictionRequest2",
+  }) as any as S.Schema<PatchLifecycleV1alpha1NamespacedEvictionRequest2>;
+
+export interface PatchLifecycleV1alpha1NamespacedEvictionRequestRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the EvictionRequest */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchLifecycleV1alpha1NamespacedEvictionRequestRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchLifecycleV1alpha1NamespacedEvictionRequestRequest",
+  }) as any as S.Schema<PatchLifecycleV1alpha1NamespacedEvictionRequestRequest>;
+
+export interface PatchLifecycleV1alpha1NamespacedEvictionRequestStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the EvictionRequest */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchLifecycleV1alpha1NamespacedEvictionRequestStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchLifecycleV1alpha1NamespacedEvictionRequestStatusRequest",
+  }) as any as S.Schema<PatchLifecycleV1alpha1NamespacedEvictionRequestStatusRequest>;
+
+export interface PatchLifecycleV1alpha1NamespacedEvictionStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the Eviction */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchLifecycleV1alpha1NamespacedEvictionStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchLifecycleV1alpha1NamespacedEvictionStatusRequest",
+  }) as any as S.Schema<PatchLifecycleV1alpha1NamespacedEvictionStatusRequest>;
+
 export interface ReadCoreV1ComponentStatusRequest {
   /** name of the ComponentStatus */
   name: string;
@@ -14620,6 +15962,106 @@ export const ReadCoreV1PersistentVolumeStatusRequest = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "ReadCoreV1PersistentVolumeStatusRequest",
 }) as any as S.Schema<ReadCoreV1PersistentVolumeStatusRequest>;
+
+export interface ReadLifecycleV1alpha1NamespacedEvictionRequest2 {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the Eviction */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadLifecycleV1alpha1NamespacedEvictionRequest2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReadLifecycleV1alpha1NamespacedEvictionRequest2",
+  }) as any as S.Schema<ReadLifecycleV1alpha1NamespacedEvictionRequest2>;
+
+export interface ReadLifecycleV1alpha1NamespacedEvictionRequestRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the EvictionRequest */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadLifecycleV1alpha1NamespacedEvictionRequestRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReadLifecycleV1alpha1NamespacedEvictionRequestRequest",
+  }) as any as S.Schema<ReadLifecycleV1alpha1NamespacedEvictionRequestRequest>;
+
+export interface ReadLifecycleV1alpha1NamespacedEvictionRequestStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the EvictionRequest */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadLifecycleV1alpha1NamespacedEvictionRequestStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReadLifecycleV1alpha1NamespacedEvictionRequestStatusRequest",
+  }) as any as S.Schema<ReadLifecycleV1alpha1NamespacedEvictionRequestStatusRequest>;
+
+export interface ReadLifecycleV1alpha1NamespacedEvictionStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the Eviction */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadLifecycleV1alpha1NamespacedEvictionStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReadLifecycleV1alpha1NamespacedEvictionStatusRequest",
+  }) as any as S.Schema<ReadLifecycleV1alpha1NamespacedEvictionStatusRequest>;
 
 export interface ReplaceCoreV1NamespaceRequest {
   /** name of the Namespace */
@@ -16011,6 +17453,203 @@ export const ReplaceCoreV1PersistentVolumeStatusRequest =
   ).annotate({
     identifier: "ReplaceCoreV1PersistentVolumeStatusRequest",
   }) as any as S.Schema<ReplaceCoreV1PersistentVolumeStatusRequest>;
+
+export interface ReplaceLifecycleV1alpha1NamespacedEvictionRequest2 {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the Eviction */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. .metadata.name set by the evictionrequest-controller is purely informative and subject to change. .spec.target field should be used to identify the target precisesly. The requester and responder names will be used as label keys and added to the labels of the eviction in one of the following formats: 1. acme.io/foo: "requester" 2. acme.io/foo: "responder" 3. acme.io/foo: "requester-responder" Please see EvictionParticipantRole for available role label values. */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the eviction specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec: IoK8sApiLifecycleV1alpha1EvictionSpec;
+  /** status represents the most recently observed status of the eviction. Populated by responders and evictionrequest-controller. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  status?: IoK8sApiLifecycleV1alpha1EvictionStatus;
+}
+export const ReplaceLifecycleV1alpha1NamespacedEvictionRequest2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiLifecycleV1alpha1EvictionSpec,
+      status: S.optional(IoK8sApiLifecycleV1alpha1EvictionStatus),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReplaceLifecycleV1alpha1NamespacedEvictionRequest2",
+  }) as any as S.Schema<ReplaceLifecycleV1alpha1NamespacedEvictionRequest2>;
+
+export interface ReplaceLifecycleV1alpha1NamespacedEvictionRequestRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the EvictionRequest */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the eviction request specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec: IoK8sApiLifecycleV1alpha1EvictionRequestSpec;
+  /** status represents the most recently observed status of the eviction request. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  status?: IoK8sApiLifecycleV1alpha1EvictionRequestStatus;
+}
+export const ReplaceLifecycleV1alpha1NamespacedEvictionRequestRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiLifecycleV1alpha1EvictionRequestSpec,
+      status: S.optional(IoK8sApiLifecycleV1alpha1EvictionRequestStatus),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReplaceLifecycleV1alpha1NamespacedEvictionRequestRequest",
+  }) as any as S.Schema<ReplaceLifecycleV1alpha1NamespacedEvictionRequestRequest>;
+
+export interface ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the EvictionRequest */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the eviction request specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec: IoK8sApiLifecycleV1alpha1EvictionRequestSpec;
+  /** status represents the most recently observed status of the eviction request. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  status?: IoK8sApiLifecycleV1alpha1EvictionRequestStatus;
+}
+export const ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiLifecycleV1alpha1EvictionRequestSpec,
+      status: S.optional(IoK8sApiLifecycleV1alpha1EvictionRequestStatus),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusRequest",
+  }) as any as S.Schema<ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusRequest>;
+
+export interface ReplaceLifecycleV1alpha1NamespacedEvictionStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the Eviction */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. .metadata.name set by the evictionrequest-controller is purely informative and subject to change. .spec.target field should be used to identify the target precisesly. The requester and responder names will be used as label keys and added to the labels of the eviction in one of the following formats: 1. acme.io/foo: "requester" 2. acme.io/foo: "responder" 3. acme.io/foo: "requester-responder" Please see EvictionParticipantRole for available role label values. */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the eviction specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec: IoK8sApiLifecycleV1alpha1EvictionSpec;
+  /** status represents the most recently observed status of the eviction. Populated by responders and evictionrequest-controller. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  status?: IoK8sApiLifecycleV1alpha1EvictionStatus;
+}
+export const ReplaceLifecycleV1alpha1NamespacedEvictionStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiLifecycleV1alpha1EvictionSpec,
+      status: S.optional(IoK8sApiLifecycleV1alpha1EvictionStatus),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReplaceLifecycleV1alpha1NamespacedEvictionStatusRequest",
+  }) as any as S.Schema<ReplaceLifecycleV1alpha1NamespacedEvictionStatusRequest>;
 
 export interface WatchCoreV1ConfigMapListForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
@@ -18263,6 +19902,337 @@ export const WatchCoreV1ServiceListForAllNamespacesRequest =
     identifier: "WatchCoreV1ServiceListForAllNamespacesRequest",
   }) as any as S.Schema<WatchCoreV1ServiceListForAllNamespacesRequest>;
 
+export interface WatchLifecycleV1alpha1EvictionListForAllNamespacesRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchLifecycleV1alpha1EvictionListForAllNamespacesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/watch/evictions",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchLifecycleV1alpha1EvictionListForAllNamespacesRequest",
+  }) as any as S.Schema<WatchLifecycleV1alpha1EvictionListForAllNamespacesRequest>;
+
+export interface WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/watch/evictionrequests",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesRequest",
+  }) as any as S.Schema<WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesRequest>;
+
+export interface WatchLifecycleV1alpha1NamespacedEvictionRequest2 {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the Eviction */
+  name: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchLifecycleV1alpha1NamespacedEvictionRequest2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/watch/namespaces/{namespace}/evictions/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchLifecycleV1alpha1NamespacedEvictionRequest2",
+  }) as any as S.Schema<WatchLifecycleV1alpha1NamespacedEvictionRequest2>;
+
+export interface WatchLifecycleV1alpha1NamespacedEvictionListRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchLifecycleV1alpha1NamespacedEvictionListRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/watch/namespaces/{namespace}/evictions",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchLifecycleV1alpha1NamespacedEvictionListRequest",
+  }) as any as S.Schema<WatchLifecycleV1alpha1NamespacedEvictionListRequest>;
+
+export interface WatchLifecycleV1alpha1NamespacedEvictionRequestRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the EvictionRequest */
+  name: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchLifecycleV1alpha1NamespacedEvictionRequestRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/watch/namespaces/{namespace}/evictionrequests/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchLifecycleV1alpha1NamespacedEvictionRequestRequest",
+  }) as any as S.Schema<WatchLifecycleV1alpha1NamespacedEvictionRequestRequest>;
+
+export interface WatchLifecycleV1alpha1NamespacedEvictionRequestListRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchLifecycleV1alpha1NamespacedEvictionRequestListRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/lifecycle.k8s.io/v1alpha1/watch/namespaces/{namespace}/evictionrequests",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchLifecycleV1alpha1NamespacedEvictionRequestListRequest",
+  }) as any as S.Schema<WatchLifecycleV1alpha1NamespacedEvictionRequestListRequest>;
+
 export type ConnectCoreV1DeleteNamespacedPodProxyError = KubernetesOpError;
 /** connect DELETE requests to proxy of Pod */
 export const connectCoreV1DeleteNamespacedPodProxy: API.OperationMethod<
@@ -19153,6 +21123,37 @@ export const createCoreV1PersistentVolume: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
+/** create an Eviction */
+export const createLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
+  CreateLifecycleV1alpha1NamespacedEvictionRequest2,
+  IoK8sApiLifecycleV1alpha1Eviction,
+  CreateLifecycleV1alpha1NamespacedEvictionError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateLifecycleV1alpha1NamespacedEvictionRequest2,
+  output: IoK8sApiLifecycleV1alpha1Eviction,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateLifecycleV1alpha1NamespacedEvictionRequestError =
+  KubernetesOpError;
+/** create an EvictionRequest */
+export const createLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
+  CreateLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  IoK8sApiLifecycleV1alpha1EvictionRequest,
+  CreateLifecycleV1alpha1NamespacedEvictionRequestError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  output: IoK8sApiLifecycleV1alpha1EvictionRequest,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteCoreV1CollectionNamespacedConfigMapError = KubernetesOpError;
 /** delete collection of ConfigMap */
 export const deleteCoreV1CollectionNamespacedConfigMap: API.OperationMethod<
@@ -19635,6 +21636,69 @@ export const deleteCoreV1PersistentVolume: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteLifecycleV1alpha1CollectionNamespacedEvictionError =
+  KubernetesOpError;
+/** delete collection of Eviction */
+export const deleteLifecycleV1alpha1CollectionNamespacedEviction: API.OperationMethod<
+  DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequest2,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteLifecycleV1alpha1CollectionNamespacedEvictionError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequest2,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestError =
+  KubernetesOpError;
+/** delete collection of EvictionRequest */
+export const deleteLifecycleV1alpha1CollectionNamespacedEvictionRequest: API.OperationMethod<
+  DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestRequest,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
+/** delete an Eviction */
+export const deleteLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
+  DeleteLifecycleV1alpha1NamespacedEvictionRequest2,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteLifecycleV1alpha1NamespacedEvictionError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteLifecycleV1alpha1NamespacedEvictionRequest2,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteLifecycleV1alpha1NamespacedEvictionRequestError =
+  KubernetesOpError;
+/** delete an EvictionRequest */
+export const deleteLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
+  DeleteLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteLifecycleV1alpha1NamespacedEvictionRequestError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetAPIVersionsError = KubernetesOpError;
 /** get available API versions */
 export const getAPIVersions: API.OperationMethod<
@@ -19689,6 +21753,36 @@ export const getCoreV1APIResources: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCoreV1APIResourcesRequest,
+  output: IoK8sApimachineryPkgApisMetaV1APIResourceList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetLifecycleAPIGroupError = KubernetesOpError;
+/** get information of a group */
+export const getLifecycleAPIGroup: API.OperationMethod<
+  GetLifecycleAPIGroupRequest,
+  IoK8sApimachineryPkgApisMetaV1APIGroup,
+  GetLifecycleAPIGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetLifecycleAPIGroupRequest,
+  output: IoK8sApimachineryPkgApisMetaV1APIGroup,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetLifecycleV1alpha1APIResourcesError = KubernetesOpError;
+/** get available resources */
+export const getLifecycleV1alpha1APIResources: API.OperationMethod<
+  GetLifecycleV1alpha1APIResourcesRequest,
+  IoK8sApimachineryPkgApisMetaV1APIResourceList,
+  GetLifecycleV1alpha1APIResourcesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetLifecycleV1alpha1APIResourcesRequest,
   output: IoK8sApimachineryPkgApisMetaV1APIResourceList,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
@@ -20142,6 +22236,69 @@ export const listCoreV1ServiceForAllNamespaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListCoreV1ServiceForAllNamespacesRequest,
   output: IoK8sApiCoreV1ServiceList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListLifecycleV1alpha1EvictionForAllNamespacesError =
+  KubernetesOpError;
+/** list or watch objects of kind Eviction */
+export const listLifecycleV1alpha1EvictionForAllNamespaces: API.OperationMethod<
+  ListLifecycleV1alpha1EvictionForAllNamespacesRequest,
+  IoK8sApiLifecycleV1alpha1EvictionList,
+  ListLifecycleV1alpha1EvictionForAllNamespacesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListLifecycleV1alpha1EvictionForAllNamespacesRequest,
+  output: IoK8sApiLifecycleV1alpha1EvictionList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListLifecycleV1alpha1EvictionRequestForAllNamespacesError =
+  KubernetesOpError;
+/** list or watch objects of kind EvictionRequest */
+export const listLifecycleV1alpha1EvictionRequestForAllNamespaces: API.OperationMethod<
+  ListLifecycleV1alpha1EvictionRequestForAllNamespacesRequest,
+  IoK8sApiLifecycleV1alpha1EvictionRequestList,
+  ListLifecycleV1alpha1EvictionRequestForAllNamespacesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListLifecycleV1alpha1EvictionRequestForAllNamespacesRequest,
+  output: IoK8sApiLifecycleV1alpha1EvictionRequestList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
+/** list or watch objects of kind Eviction */
+export const listLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
+  ListLifecycleV1alpha1NamespacedEvictionRequest2,
+  IoK8sApiLifecycleV1alpha1EvictionList,
+  ListLifecycleV1alpha1NamespacedEvictionError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListLifecycleV1alpha1NamespacedEvictionRequest2,
+  output: IoK8sApiLifecycleV1alpha1EvictionList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListLifecycleV1alpha1NamespacedEvictionRequestError =
+  KubernetesOpError;
+/** list or watch objects of kind EvictionRequest */
+export const listLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
+  ListLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  IoK8sApiLifecycleV1alpha1EvictionRequestList,
+  ListLifecycleV1alpha1NamespacedEvictionRequestError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  output: IoK8sApiLifecycleV1alpha1EvictionRequestList,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -20669,6 +22826,69 @@ export const patchCoreV1PersistentVolumeStatus: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PatchLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
+/** partially update the specified Eviction */
+export const patchLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
+  PatchLifecycleV1alpha1NamespacedEvictionRequest2,
+  IoK8sApiLifecycleV1alpha1Eviction,
+  PatchLifecycleV1alpha1NamespacedEvictionError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchLifecycleV1alpha1NamespacedEvictionRequest2,
+  output: IoK8sApiLifecycleV1alpha1Eviction,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PatchLifecycleV1alpha1NamespacedEvictionRequestError =
+  KubernetesOpError;
+/** partially update the specified EvictionRequest */
+export const patchLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
+  PatchLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  IoK8sApiLifecycleV1alpha1EvictionRequest,
+  PatchLifecycleV1alpha1NamespacedEvictionRequestError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  output: IoK8sApiLifecycleV1alpha1EvictionRequest,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PatchLifecycleV1alpha1NamespacedEvictionRequestStatusError =
+  KubernetesOpError;
+/** partially update status of the specified EvictionRequest */
+export const patchLifecycleV1alpha1NamespacedEvictionRequestStatus: API.OperationMethod<
+  PatchLifecycleV1alpha1NamespacedEvictionRequestStatusRequest,
+  IoK8sApiLifecycleV1alpha1EvictionRequest,
+  PatchLifecycleV1alpha1NamespacedEvictionRequestStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchLifecycleV1alpha1NamespacedEvictionRequestStatusRequest,
+  output: IoK8sApiLifecycleV1alpha1EvictionRequest,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PatchLifecycleV1alpha1NamespacedEvictionStatusError =
+  KubernetesOpError;
+/** partially update status of the specified Eviction */
+export const patchLifecycleV1alpha1NamespacedEvictionStatus: API.OperationMethod<
+  PatchLifecycleV1alpha1NamespacedEvictionStatusRequest,
+  IoK8sApiLifecycleV1alpha1Eviction,
+  PatchLifecycleV1alpha1NamespacedEvictionStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchLifecycleV1alpha1NamespacedEvictionStatusRequest,
+  output: IoK8sApiLifecycleV1alpha1Eviction,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ReadCoreV1ComponentStatusError = NotFound | KubernetesOpError;
 /** read the specified ComponentStatus */
 export const readCoreV1ComponentStatus: API.OperationMethod<
@@ -21107,6 +23327,69 @@ export const readCoreV1PersistentVolumeStatus: API.OperationMethod<
   input: ReadCoreV1PersistentVolumeStatusRequest,
   output: IoK8sApiCoreV1PersistentVolume,
   errors: [NotFound, UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
+/** read the specified Eviction */
+export const readLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
+  ReadLifecycleV1alpha1NamespacedEvictionRequest2,
+  IoK8sApiLifecycleV1alpha1Eviction,
+  ReadLifecycleV1alpha1NamespacedEvictionError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadLifecycleV1alpha1NamespacedEvictionRequest2,
+  output: IoK8sApiLifecycleV1alpha1Eviction,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadLifecycleV1alpha1NamespacedEvictionRequestError =
+  KubernetesOpError;
+/** read the specified EvictionRequest */
+export const readLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
+  ReadLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  IoK8sApiLifecycleV1alpha1EvictionRequest,
+  ReadLifecycleV1alpha1NamespacedEvictionRequestError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  output: IoK8sApiLifecycleV1alpha1EvictionRequest,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadLifecycleV1alpha1NamespacedEvictionRequestStatusError =
+  KubernetesOpError;
+/** read status of the specified EvictionRequest */
+export const readLifecycleV1alpha1NamespacedEvictionRequestStatus: API.OperationMethod<
+  ReadLifecycleV1alpha1NamespacedEvictionRequestStatusRequest,
+  IoK8sApiLifecycleV1alpha1EvictionRequest,
+  ReadLifecycleV1alpha1NamespacedEvictionRequestStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadLifecycleV1alpha1NamespacedEvictionRequestStatusRequest,
+  output: IoK8sApiLifecycleV1alpha1EvictionRequest,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadLifecycleV1alpha1NamespacedEvictionStatusError =
+  KubernetesOpError;
+/** read status of the specified Eviction */
+export const readLifecycleV1alpha1NamespacedEvictionStatus: API.OperationMethod<
+  ReadLifecycleV1alpha1NamespacedEvictionStatusRequest,
+  IoK8sApiLifecycleV1alpha1Eviction,
+  ReadLifecycleV1alpha1NamespacedEvictionStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadLifecycleV1alpha1NamespacedEvictionStatusRequest,
+  output: IoK8sApiLifecycleV1alpha1Eviction,
+  errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
 }));
@@ -21620,6 +23903,69 @@ export const replaceCoreV1PersistentVolumeStatus: API.OperationMethod<
   input: ReplaceCoreV1PersistentVolumeStatusRequest,
   output: IoK8sApiCoreV1PersistentVolume,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReplaceLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
+/** replace the specified Eviction */
+export const replaceLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
+  ReplaceLifecycleV1alpha1NamespacedEvictionRequest2,
+  IoK8sApiLifecycleV1alpha1Eviction,
+  ReplaceLifecycleV1alpha1NamespacedEvictionError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceLifecycleV1alpha1NamespacedEvictionRequest2,
+  output: IoK8sApiLifecycleV1alpha1Eviction,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReplaceLifecycleV1alpha1NamespacedEvictionRequestError =
+  KubernetesOpError;
+/** replace the specified EvictionRequest */
+export const replaceLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
+  ReplaceLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  IoK8sApiLifecycleV1alpha1EvictionRequest,
+  ReplaceLifecycleV1alpha1NamespacedEvictionRequestError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  output: IoK8sApiLifecycleV1alpha1EvictionRequest,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusError =
+  KubernetesOpError;
+/** replace status of the specified EvictionRequest */
+export const replaceLifecycleV1alpha1NamespacedEvictionRequestStatus: API.OperationMethod<
+  ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusRequest,
+  IoK8sApiLifecycleV1alpha1EvictionRequest,
+  ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusRequest,
+  output: IoK8sApiLifecycleV1alpha1EvictionRequest,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReplaceLifecycleV1alpha1NamespacedEvictionStatusError =
+  KubernetesOpError;
+/** replace status of the specified Eviction */
+export const replaceLifecycleV1alpha1NamespacedEvictionStatus: API.OperationMethod<
+  ReplaceLifecycleV1alpha1NamespacedEvictionStatusRequest,
+  IoK8sApiLifecycleV1alpha1Eviction,
+  ReplaceLifecycleV1alpha1NamespacedEvictionStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceLifecycleV1alpha1NamespacedEvictionStatusRequest,
+  output: IoK8sApiLifecycleV1alpha1Eviction,
+  errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
 }));
@@ -22254,6 +24600,101 @@ export const watchCoreV1ServiceListForAllNamespaces: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: WatchCoreV1ServiceListForAllNamespacesRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchLifecycleV1alpha1EvictionListForAllNamespacesError =
+  KubernetesOpError;
+/** watch individual changes to a list of Eviction. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchLifecycleV1alpha1EvictionListForAllNamespaces: API.OperationMethod<
+  WatchLifecycleV1alpha1EvictionListForAllNamespacesRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchLifecycleV1alpha1EvictionListForAllNamespacesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchLifecycleV1alpha1EvictionListForAllNamespacesRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesError =
+  KubernetesOpError;
+/** watch individual changes to a list of EvictionRequest. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchLifecycleV1alpha1EvictionRequestListForAllNamespaces: API.OperationMethod<
+  WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
+/** watch changes to an object of kind Eviction. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter. */
+export const watchLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
+  WatchLifecycleV1alpha1NamespacedEvictionRequest2,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchLifecycleV1alpha1NamespacedEvictionError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchLifecycleV1alpha1NamespacedEvictionRequest2,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchLifecycleV1alpha1NamespacedEvictionListError =
+  KubernetesOpError;
+/** watch individual changes to a list of Eviction. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchLifecycleV1alpha1NamespacedEvictionList: API.OperationMethod<
+  WatchLifecycleV1alpha1NamespacedEvictionListRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchLifecycleV1alpha1NamespacedEvictionListError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchLifecycleV1alpha1NamespacedEvictionListRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchLifecycleV1alpha1NamespacedEvictionRequestError =
+  KubernetesOpError;
+/** watch changes to an object of kind EvictionRequest. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter. */
+export const watchLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
+  WatchLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchLifecycleV1alpha1NamespacedEvictionRequestError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchLifecycleV1alpha1NamespacedEvictionRequestRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchLifecycleV1alpha1NamespacedEvictionRequestListError =
+  KubernetesOpError;
+/** watch individual changes to a list of EvictionRequest. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchLifecycleV1alpha1NamespacedEvictionRequestList: API.OperationMethod<
+  WatchLifecycleV1alpha1NamespacedEvictionRequestListRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchLifecycleV1alpha1NamespacedEvictionRequestListError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchLifecycleV1alpha1NamespacedEvictionRequestListRequest,
   output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,

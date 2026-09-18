@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1APIGroup": {
@@ -445,20 +446,20 @@
         "metadata": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata."
+            "smithy.api#documentation": "metadata is the standard object's metadata."
           }
         },
         "roleRef": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleRef",
           "traits": {
-            "smithy.api#documentation": "RoleRef can only reference a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.",
+            "smithy.api#documentation": "roleRef can only reference a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.",
             "smithy.api#required": {}
           }
         },
         "subjects": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1ClusterRoleBindingSubjectsList",
           "traits": {
-            "smithy.api#documentation": "Subjects holds references to the objects the role applies to."
+            "smithy.api#documentation": "subjects holds references to the objects the role applies to."
           }
         }
       },
@@ -719,20 +720,20 @@
         "apiGroup": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "APIGroup is the group for the resource being referenced"
+            "smithy.api#documentation": "apiGroup is the group for the resource being referenced"
           }
         },
         "kind": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Kind is the type of resource being referenced",
+            "smithy.api#documentation": "kind is the type of resource being referenced",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name is the name of resource being referenced",
+            "smithy.api#documentation": "name is the name of resource being referenced",
             "smithy.api#required": {}
           }
         }
@@ -747,27 +748,27 @@
         "apiGroup": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "APIGroup holds the API group of the referenced subject. Defaults to \"\" for ServiceAccount subjects. Defaults to \"rbac.authorization.k8s.io\" for User and Group subjects."
+            "smithy.api#documentation": "apiGroup holds the API group of the referenced subject. Defaults to \"\" for ServiceAccount subjects. Defaults to \"rbac.authorization.k8s.io\" for User and Group subjects."
           }
         },
         "kind": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Kind of object being referenced. Values defined by this API group are \"User\", \"Group\", and \"ServiceAccount\". If the Authorizer does not recognized the kind value, the Authorizer should report an error.",
+            "smithy.api#documentation": "kind of object being referenced. Values defined by this API group are \"User\", \"Group\", and \"ServiceAccount\". If the Authorizer does not recognized the kind value, the Authorizer should report an error.",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the object being referenced.",
+            "smithy.api#documentation": "name of the object being referenced.",
             "smithy.api#required": {}
           }
         },
         "namespace": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Namespace of the referenced object.  If the object kind is non-namespace, such as \"User\" or \"Group\", and this value is not empty the Authorizer should report an error."
+            "smithy.api#documentation": "namespace of the referenced object.  If the object kind is non-namespace, such as \"User\" or \"Group\", and this value is not empty the Authorizer should report an error."
           }
         }
       },
@@ -781,7 +782,7 @@
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1Subject"
       },
       "traits": {
-        "smithy.api#documentation": "Subjects holds references to the objects the role applies to."
+        "smithy.api#documentation": "subjects holds references to the objects the role applies to."
       }
     },
     "com.kubernetes.rbac_authorization#IoK8sApiRbacV1ClusterRoleBindingListItemsList": {
@@ -869,7 +870,7 @@
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1Subject"
       },
       "traits": {
-        "smithy.api#documentation": "Subjects holds references to the objects the role applies to."
+        "smithy.api#documentation": "subjects holds references to the objects the role applies to."
       }
     },
     "com.kubernetes.rbac_authorization#CreateRbacAuthorizationV1ClusterRoleBindingRequest": {
@@ -918,20 +919,20 @@
         "metadata": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata."
+            "smithy.api#documentation": "metadata is the standard object's metadata."
           }
         },
         "roleRef": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleRef",
           "traits": {
-            "smithy.api#documentation": "RoleRef can only reference a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.",
+            "smithy.api#documentation": "roleRef can only reference a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.",
             "smithy.api#required": {}
           }
         },
         "subjects": {
           "target": "com.kubernetes.rbac_authorization#CreateRbacAuthorizationV1ClusterRoleBindingRequestSubjectsList",
           "traits": {
-            "smithy.api#documentation": "Subjects holds references to the objects the role applies to."
+            "smithy.api#documentation": "subjects holds references to the objects the role applies to."
           }
         }
       },
@@ -1327,7 +1328,7 @@
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1Subject"
       },
       "traits": {
-        "smithy.api#documentation": "Subjects holds references to the objects the role applies to."
+        "smithy.api#documentation": "subjects holds references to the objects the role applies to."
       }
     },
     "com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1ClusterRoleBindingRequest": {
@@ -1384,20 +1385,20 @@
         "metadata": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata."
+            "smithy.api#documentation": "metadata is the standard object's metadata."
           }
         },
         "roleRef": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleRef",
           "traits": {
-            "smithy.api#documentation": "RoleRef can only reference a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.",
+            "smithy.api#documentation": "roleRef can only reference a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.",
             "smithy.api#required": {}
           }
         },
         "subjects": {
           "target": "com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1ClusterRoleBindingRequestSubjectsList",
           "traits": {
-            "smithy.api#documentation": "Subjects holds references to the objects the role applies to."
+            "smithy.api#documentation": "subjects holds references to the objects the role applies to."
           }
         }
       },
@@ -1753,7 +1754,7 @@
         "aggregationRule": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1AggregationRule",
           "traits": {
-            "smithy.api#documentation": "AggregationRule is an optional field that describes how to build the Rules for this ClusterRole. If AggregationRule is set, then the Rules are controller managed and direct changes to Rules will be stomped by the controller."
+            "smithy.api#documentation": "aggregationRule is an optional field that describes how to build the Rules for this ClusterRole. If AggregationRule is set, then the Rules are controller managed and direct changes to Rules will be stomped by the controller."
           }
         },
         "apiVersion": {
@@ -1771,13 +1772,13 @@
         "metadata": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata."
+            "smithy.api#documentation": "metadata is the standard object's metadata."
           }
         },
         "rules": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1ClusterRoleRulesList",
           "traits": {
-            "smithy.api#documentation": "Rules holds all the PolicyRules for this ClusterRole"
+            "smithy.api#documentation": "rules holds all the PolicyRules for this ClusterRole"
           }
         }
       },
@@ -1791,7 +1792,7 @@
         "clusterRoleSelectors": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1AggregationRuleClusterRoleSelectorsList",
           "traits": {
-            "smithy.api#documentation": "ClusterRoleSelectors holds a list of selectors which will be used to find ClusterRoles and create the rules. If any of the selectors match, then the ClusterRole's permissions will be added"
+            "smithy.api#documentation": "clusterRoleSelectors holds a list of selectors which will be used to find ClusterRoles and create the rules. If any of the selectors match, then the ClusterRole's permissions will be added"
           }
         }
       },
@@ -1883,7 +1884,7 @@
         "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1LabelSelector"
       },
       "traits": {
-        "smithy.api#documentation": "ClusterRoleSelectors holds a list of selectors which will be used to find ClusterRoles and create the rules. If any of the selectors match, then the ClusterRole's permissions will be added"
+        "smithy.api#documentation": "clusterRoleSelectors holds a list of selectors which will be used to find ClusterRoles and create the rules. If any of the selectors match, then the ClusterRole's permissions will be added"
       }
     },
     "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRule": {
@@ -1892,31 +1893,31 @@
         "apiGroups": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRuleApiGroupsList",
           "traits": {
-            "smithy.api#documentation": "APIGroups is the name of the APIGroup that contains the resources.  If multiple API groups are specified, any action requested against one of the enumerated resources in any API group will be allowed. \"\" represents the core API group and \"*\" represents all API groups."
+            "smithy.api#documentation": "apiGroups is the name of the APIGroup that contains the resources.  If multiple API groups are specified, any action requested against one of the enumerated resources in any API group will be allowed. \"\" represents the core API group and \"*\" represents all API groups."
           }
         },
         "nonResourceURLs": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRuleNonResourceURLsList",
           "traits": {
-            "smithy.api#documentation": "NonResourceURLs is a set of partial urls that a user should have access to.  *s are allowed, but only as the full, final step in the path Since non-resource URLs are not namespaced, this field is only applicable for ClusterRoles referenced from a ClusterRoleBinding. Rules can either apply to API resources (such as \"pods\" or \"secrets\") or non-resource URL paths (such as \"/api\"),  but not both."
+            "smithy.api#documentation": "nonResourceURLs is a set of partial urls that a user should have access to.  *s are allowed, but only as the full, final step in the path Since non-resource URLs are not namespaced, this field is only applicable for ClusterRoles referenced from a ClusterRoleBinding. Rules can either apply to API resources (such as \"pods\" or \"secrets\") or non-resource URL paths (such as \"/api\"),  but not both."
           }
         },
         "resourceNames": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRuleResourceNamesList",
           "traits": {
-            "smithy.api#documentation": "ResourceNames is an optional white list of names that the rule applies to.  An empty set means that everything is allowed."
+            "smithy.api#documentation": "resourceNames is an optional white list of names that the rule applies to.  An empty set means that everything is allowed."
           }
         },
         "resources": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRuleResourcesList",
           "traits": {
-            "smithy.api#documentation": "Resources is a list of resources this rule applies to. '*' represents all resources."
+            "smithy.api#documentation": "resources is a list of resources this rule applies to. '*' represents all resources."
           }
         },
         "verbs": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRuleVerbsList",
           "traits": {
-            "smithy.api#documentation": "Verbs is a list of Verbs that apply to ALL the ResourceKinds contained in this rule. '*' represents all verbs.",
+            "smithy.api#documentation": "verbs is a list of Verbs that apply to ALL the ResourceKinds contained in this rule. '*' represents all verbs.",
             "smithy.api#required": {}
           }
         }
@@ -1931,7 +1932,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "APIGroups is the name of the APIGroup that contains the resources.  If multiple API groups are specified, any action requested against one of the enumerated resources in any API group will be allowed. \"\" represents the core API group and \"*\" represents all API groups."
+        "smithy.api#documentation": "apiGroups is the name of the APIGroup that contains the resources.  If multiple API groups are specified, any action requested against one of the enumerated resources in any API group will be allowed. \"\" represents the core API group and \"*\" represents all API groups."
       }
     },
     "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRuleNonResourceURLsList": {
@@ -1940,7 +1941,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "NonResourceURLs is a set of partial urls that a user should have access to.  *s are allowed, but only as the full, final step in the path Since non-resource URLs are not namespaced, this field is only applicable for ClusterRoles referenced from a ClusterRoleBinding. Rules can either apply to API resources (such as \"pods\" or \"secrets\") or non-resource URL paths (such as \"/api\"),  but not both."
+        "smithy.api#documentation": "nonResourceURLs is a set of partial urls that a user should have access to.  *s are allowed, but only as the full, final step in the path Since non-resource URLs are not namespaced, this field is only applicable for ClusterRoles referenced from a ClusterRoleBinding. Rules can either apply to API resources (such as \"pods\" or \"secrets\") or non-resource URL paths (such as \"/api\"),  but not both."
       }
     },
     "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRuleResourceNamesList": {
@@ -1949,7 +1950,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "ResourceNames is an optional white list of names that the rule applies to.  An empty set means that everything is allowed."
+        "smithy.api#documentation": "resourceNames is an optional white list of names that the rule applies to.  An empty set means that everything is allowed."
       }
     },
     "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRuleResourcesList": {
@@ -1958,7 +1959,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Resources is a list of resources this rule applies to. '*' represents all resources."
+        "smithy.api#documentation": "resources is a list of resources this rule applies to. '*' represents all resources."
       }
     },
     "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRuleVerbsList": {
@@ -1967,7 +1968,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Verbs is a list of Verbs that apply to ALL the ResourceKinds contained in this rule. '*' represents all verbs."
+        "smithy.api#documentation": "verbs is a list of Verbs that apply to ALL the ResourceKinds contained in this rule. '*' represents all verbs."
       }
     },
     "com.kubernetes.rbac_authorization#IoK8sApiRbacV1ClusterRoleRulesList": {
@@ -1976,7 +1977,7 @@
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRule"
       },
       "traits": {
-        "smithy.api#documentation": "Rules holds all the PolicyRules for this ClusterRole"
+        "smithy.api#documentation": "rules holds all the PolicyRules for this ClusterRole"
       }
     },
     "com.kubernetes.rbac_authorization#IoK8sApiRbacV1ClusterRoleListItemsList": {
@@ -2011,7 +2012,7 @@
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRule"
       },
       "traits": {
-        "smithy.api#documentation": "Rules holds all the PolicyRules for this ClusterRole"
+        "smithy.api#documentation": "rules holds all the PolicyRules for this ClusterRole"
       }
     },
     "com.kubernetes.rbac_authorization#CreateRbacAuthorizationV1ClusterRoleRequest": {
@@ -2048,7 +2049,7 @@
         "aggregationRule": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1AggregationRule",
           "traits": {
-            "smithy.api#documentation": "AggregationRule is an optional field that describes how to build the Rules for this ClusterRole. If AggregationRule is set, then the Rules are controller managed and direct changes to Rules will be stomped by the controller."
+            "smithy.api#documentation": "aggregationRule is an optional field that describes how to build the Rules for this ClusterRole. If AggregationRule is set, then the Rules are controller managed and direct changes to Rules will be stomped by the controller."
           }
         },
         "apiVersion": {
@@ -2066,13 +2067,13 @@
         "metadata": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata."
+            "smithy.api#documentation": "metadata is the standard object's metadata."
           }
         },
         "rules": {
           "target": "com.kubernetes.rbac_authorization#CreateRbacAuthorizationV1ClusterRoleRequestRulesList",
           "traits": {
-            "smithy.api#documentation": "Rules holds all the PolicyRules for this ClusterRole"
+            "smithy.api#documentation": "rules holds all the PolicyRules for this ClusterRole"
           }
         }
       },
@@ -2313,7 +2314,7 @@
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRule"
       },
       "traits": {
-        "smithy.api#documentation": "Rules holds all the PolicyRules for this ClusterRole"
+        "smithy.api#documentation": "rules holds all the PolicyRules for this ClusterRole"
       }
     },
     "com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1ClusterRoleRequest": {
@@ -2358,7 +2359,7 @@
         "aggregationRule": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1AggregationRule",
           "traits": {
-            "smithy.api#documentation": "AggregationRule is an optional field that describes how to build the Rules for this ClusterRole. If AggregationRule is set, then the Rules are controller managed and direct changes to Rules will be stomped by the controller."
+            "smithy.api#documentation": "aggregationRule is an optional field that describes how to build the Rules for this ClusterRole. If AggregationRule is set, then the Rules are controller managed and direct changes to Rules will be stomped by the controller."
           }
         },
         "apiVersion": {
@@ -2376,13 +2377,13 @@
         "metadata": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata."
+            "smithy.api#documentation": "metadata is the standard object's metadata."
           }
         },
         "rules": {
           "target": "com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1ClusterRoleRequestRulesList",
           "traits": {
-            "smithy.api#documentation": "Rules holds all the PolicyRules for this ClusterRole"
+            "smithy.api#documentation": "rules holds all the PolicyRules for this ClusterRole"
           }
         }
       },
@@ -2758,20 +2759,20 @@
         "metadata": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata."
+            "smithy.api#documentation": "metadata is the standard object's metadata."
           }
         },
         "roleRef": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleRef",
           "traits": {
-            "smithy.api#documentation": "RoleRef can reference a Role in the current namespace or a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.",
+            "smithy.api#documentation": "roleRef can reference a Role in the current namespace or a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.",
             "smithy.api#required": {}
           }
         },
         "subjects": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleBindingSubjectsList",
           "traits": {
-            "smithy.api#documentation": "Subjects holds references to the objects the role applies to."
+            "smithy.api#documentation": "subjects holds references to the objects the role applies to."
           }
         }
       },
@@ -2785,7 +2786,7 @@
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1Subject"
       },
       "traits": {
-        "smithy.api#documentation": "Subjects holds references to the objects the role applies to."
+        "smithy.api#documentation": "subjects holds references to the objects the role applies to."
       }
     },
     "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleBindingListItemsList": {
@@ -2820,7 +2821,7 @@
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1Subject"
       },
       "traits": {
-        "smithy.api#documentation": "Subjects holds references to the objects the role applies to."
+        "smithy.api#documentation": "subjects holds references to the objects the role applies to."
       }
     },
     "com.kubernetes.rbac_authorization#CreateRbacAuthorizationV1NamespacedRoleBindingRequest": {
@@ -2877,20 +2878,20 @@
         "metadata": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata."
+            "smithy.api#documentation": "metadata is the standard object's metadata."
           }
         },
         "roleRef": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleRef",
           "traits": {
-            "smithy.api#documentation": "RoleRef can reference a Role in the current namespace or a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.",
+            "smithy.api#documentation": "roleRef can reference a Role in the current namespace or a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.",
             "smithy.api#required": {}
           }
         },
         "subjects": {
           "target": "com.kubernetes.rbac_authorization#CreateRbacAuthorizationV1NamespacedRoleBindingRequestSubjectsList",
           "traits": {
-            "smithy.api#documentation": "Subjects holds references to the objects the role applies to."
+            "smithy.api#documentation": "subjects holds references to the objects the role applies to."
           }
         }
       },
@@ -3147,7 +3148,7 @@
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1Subject"
       },
       "traits": {
-        "smithy.api#documentation": "Subjects holds references to the objects the role applies to."
+        "smithy.api#documentation": "subjects holds references to the objects the role applies to."
       }
     },
     "com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1NamespacedRoleBindingRequest": {
@@ -3212,20 +3213,20 @@
         "metadata": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata."
+            "smithy.api#documentation": "metadata is the standard object's metadata."
           }
         },
         "roleRef": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleRef",
           "traits": {
-            "smithy.api#documentation": "RoleRef can reference a Role in the current namespace or a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.",
+            "smithy.api#documentation": "roleRef can reference a Role in the current namespace or a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.",
             "smithy.api#required": {}
           }
         },
         "subjects": {
           "target": "com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1NamespacedRoleBindingRequestSubjectsList",
           "traits": {
-            "smithy.api#documentation": "Subjects holds references to the objects the role applies to."
+            "smithy.api#documentation": "subjects holds references to the objects the role applies to."
           }
         }
       },
@@ -3617,13 +3618,13 @@
         "metadata": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata."
+            "smithy.api#documentation": "metadata is the standard object's metadata."
           }
         },
         "rules": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleRulesList",
           "traits": {
-            "smithy.api#documentation": "Rules holds all the PolicyRules for this Role"
+            "smithy.api#documentation": "rules holds all the PolicyRules for this Role"
           }
         }
       },
@@ -3637,7 +3638,7 @@
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRule"
       },
       "traits": {
-        "smithy.api#documentation": "Rules holds all the PolicyRules for this Role"
+        "smithy.api#documentation": "rules holds all the PolicyRules for this Role"
       }
     },
     "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleListItemsList": {
@@ -3672,7 +3673,7 @@
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRule"
       },
       "traits": {
-        "smithy.api#documentation": "Rules holds all the PolicyRules for this Role"
+        "smithy.api#documentation": "rules holds all the PolicyRules for this Role"
       }
     },
     "com.kubernetes.rbac_authorization#CreateRbacAuthorizationV1NamespacedRoleRequest": {
@@ -3729,13 +3730,13 @@
         "metadata": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata."
+            "smithy.api#documentation": "metadata is the standard object's metadata."
           }
         },
         "rules": {
           "target": "com.kubernetes.rbac_authorization#CreateRbacAuthorizationV1NamespacedRoleRequestRulesList",
           "traits": {
-            "smithy.api#documentation": "Rules holds all the PolicyRules for this Role"
+            "smithy.api#documentation": "rules holds all the PolicyRules for this Role"
           }
         }
       },
@@ -3992,7 +3993,7 @@
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1PolicyRule"
       },
       "traits": {
-        "smithy.api#documentation": "Rules holds all the PolicyRules for this Role"
+        "smithy.api#documentation": "rules holds all the PolicyRules for this Role"
       }
     },
     "com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1NamespacedRoleRequest": {
@@ -4057,13 +4058,13 @@
         "metadata": {
           "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata."
+            "smithy.api#documentation": "metadata is the standard object's metadata."
           }
         },
         "rules": {
           "target": "com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1NamespacedRoleRequestRulesList",
           "traits": {
-            "smithy.api#documentation": "Rules holds all the PolicyRules for this Role"
+            "smithy.api#documentation": "rules holds all the PolicyRules for this Role"
           }
         }
       },

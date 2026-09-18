@@ -1,0 +1,612 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.recommended_actions#ListRecommendedActionsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Account ID, prefixed `biz_`. Defaults to the API key's own account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.recommended_actions#AccountRecommendedActionChain": {
+      "type": "structure",
+      "members": {
+        "actions": {
+          "target": "com.whop.recommended_actions#AccountRecommendedActionChainActionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What running the chain accomplishes",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Chain ID — `rac_seed_<chain>_<nonce>` for seeded chains, `rac_chain_*` for generated ones",
+            "smithy.api#required": {}
+          }
+        },
+        "reasoning": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Why the generator proposed this chain, or `null` for seeded chains",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Headline for the chain",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.recommended_actions#AccountRecommendedActionChainStep": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The action definition key this step runs; new values may be added, so handle unknown actions gracefully",
+            "smithy.api#required": {}
+          }
+        },
+        "cta": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL where this step is done by hand",
+            "smithy.api#required": {}
+          }
+        },
+        "cta_label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Button label",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supporting copy, or empty",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the step failed, or `null`",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "input": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The filled-in request body for the step's endpoint, or `null` when it was not recorded",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "output": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The API response the step produced, or `null` until it succeeds",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "position": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Zero-based order of this step within the chain",
+            "smithy.api#required": {}
+          }
+        },
+        "reasoning": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Why the generator filled the step this way, or `null` for seeded chains",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.recommended_actions#AccountRecommendedActionChainStepStatus",
+          "traits": {
+            "smithy.api#documentation": "Where the run step currently stands, or `null` when the chain has not been run",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Headline for the step",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.recommended_actions#AccountRecommendedActionChainStepStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "REDIRECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redirected"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where the run step currently stands, or `null` when the chain has not been run"
+      }
+    },
+    "com.whop.recommended_actions#AccountRecommendedActionChainActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.recommended_actions#AccountRecommendedActionChainStep"
+      },
+      "traits": {}
+    },
+    "com.whop.recommended_actions#ListRecommendedActionsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.recommended_actions#AccountRecommendedActionChain"
+      },
+      "traits": {}
+    },
+    "com.whop.recommended_actions#ListRecommendedActionsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.recommended_actions#ListRecommendedActionsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.recommended_actions#ListRecommendedActions": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.recommended_actions#ListRecommendedActionsRequest"
+      },
+      "output": {
+        "target": "com.whop.recommended_actions#ListRecommendedActionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.recommended_actions#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/recommended_actions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Action Chains\n\nLists the recommended action chains for an account — short sequences of actions (create a product, price it, publish it) the account should run next, gated on what it already has."
+      }
+    },
+    "com.whop.recommended_actions#GetRecommendedActionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Chain ID from the list endpoint, e.g. `rac_seed_start_selling_9f2c1a7b04`."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Account ID, prefixed `biz_`. Defaults to the API key's own account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.recommended_actions#GetRecommendedAction": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.recommended_actions#GetRecommendedActionRequest"
+      },
+      "output": {
+        "target": "com.whop.recommended_actions#AccountRecommendedActionChain"
+      },
+      "errors": [
+        {
+          "target": "com.whop.recommended_actions#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/recommended_actions/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Action Chain\n\nRetrieves a recommended action chain by id, including chains that have already been run. Seeded chains are reconstructed from their hard-coded chain; generated chains are read from the account's stored chain, with each step's filled-in input."
+      }
+    },
+    "com.whop.recommended_actions#RunRecommendedActionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Chain ID from the list endpoint, e.g. `rac_seed_start_selling_9f2c1a7b04`."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Account ID, prefixed `biz_`. Defaults to the API key's own account."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.recommended_actions#RunRecommendedActionResponseExecution": {
+      "type": "enum",
+      "members": {
+        "REDIRECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redirect"
+          }
+        },
+        "EXECUTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "executed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.recommended_actions#RunRecommendedActionResponse": {
+      "type": "structure",
+      "members": {
+        "chain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "execution": {
+          "target": "com.whop.recommended_actions#RunRecommendedActionResponseExecution",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.recommended_actions#RunRecommendedAction": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.recommended_actions#RunRecommendedActionRequest"
+      },
+      "output": {
+        "target": "com.whop.recommended_actions#RunRecommendedActionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.recommended_actions#NotFound"
+        },
+        {
+          "target": "com.whop.recommended_actions#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/recommended_actions/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Execute Action Chain\n\nRecords that the caller ran a recommended action chain. Nothing is executed server-side yet — the client follows the chain's step CTAs itself; this writes the `recommended_action_chain.executed` analytics event."
+      }
+    },
+    "com.whop.recommended_actions#ListRecommendedActionExecutionsRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Chain ID from the list endpoint."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Account ID, prefixed `biz_`. Defaults to the API key's own account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.recommended_actions#RecommendedActionExecution": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The action definition key the step ran",
+            "smithy.api#required": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the step reached a terminal status, ISO 8601",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the step failed, or `null`",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Execution ID, prefixed `raex_`",
+            "smithy.api#required": {}
+          }
+        },
+        "output": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The API response the step produced, or `null` until it succeeds",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "position": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Zero-based order of the step within the chain",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.recommended_actions#RecommendedActionExecutionStatus",
+          "traits": {
+            "smithy.api#documentation": "Where the step currently stands",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.recommended_actions#RecommendedActionExecutionStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "REDIRECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redirected"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where the step currently stands"
+      }
+    },
+    "com.whop.recommended_actions#ListRecommendedActionExecutionsResponseExecutionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.recommended_actions#RecommendedActionExecution"
+      },
+      "traits": {
+        "smithy.api#documentation": "One entry per run step, in position order."
+      }
+    },
+    "com.whop.recommended_actions#ListRecommendedActionExecutionsResponse": {
+      "type": "structure",
+      "members": {
+        "chain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The chain these executions belong to.",
+            "smithy.api#required": {}
+          }
+        },
+        "executions": {
+          "target": "com.whop.recommended_actions#ListRecommendedActionExecutionsResponseExecutionsList",
+          "traits": {
+            "smithy.api#documentation": "One entry per run step, in position order.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.recommended_actions#ListRecommendedActionExecutions": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.recommended_actions#ListRecommendedActionExecutionsRequest"
+      },
+      "output": {
+        "target": "com.whop.recommended_actions#ListRecommendedActionExecutionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.recommended_actions#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/recommended_actions/{id}/executions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Recommended Action Executions\n\nLists the per-step record of a recommended action chain the server ran — one entry per step in position order, each carrying its current status and, once the step completed, the API response it produced. A chain that was never run server-side returns an empty list."
+      }
+    },
+    "com.whop.recommended_actions#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.recommended_actions#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.recommended_actions#RecommendedActions": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.recommended_actions#ListRecommendedActions"
+        },
+        {
+          "target": "com.whop.recommended_actions#GetRecommendedAction"
+        },
+        {
+          "target": "com.whop.recommended_actions#RunRecommendedAction"
+        },
+        {
+          "target": "com.whop.recommended_actions#ListRecommendedActionExecutions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

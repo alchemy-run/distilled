@@ -4,22 +4,23 @@
     "service": "playcustomapp",
     "version": "v1",
     "title": "Google Play Custom App Publishing API",
-    "baseUrl": "https://playcustomapp.googleapis.com/"
+    "baseUrl": "https://playcustomapp.googleapis.com/",
+    "distilled.finalized": true
   },
   "shapes": {
     "com.gcp.playcustomapp_v1#CustomApp": {
       "type": "structure",
       "members": {
-        "packageName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Package name of the created Android app. Only present in the API response."
-          }
-        },
         "organizations": {
           "target": "com.gcp.playcustomapp_v1#OrganizationList",
           "traits": {
             "smithy.api#documentation": "Organizations to which the custom app should be made available. If the request contains any organizations, then the app will be restricted to only these organizations. To support the organization linked to the developer account, the organization ID should be provided explicitly together with other organizations. If no organizations are provided, then the app is only available to the organization linked to the developer account."
+          }
+        },
+        "packageName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Package name of the created Android app. Only present in the API response."
           }
         },
         "title": {

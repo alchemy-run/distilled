@@ -1,0 +1,184 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.blob#CreateBlobRequest": {
+      "type": "structure",
+      "members": {
+        "contentMd5": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "TODO(erikbern): how are these garbage collected? Shouldn't they belong to an app?"
+          }
+        },
+        "contentSha256Base64": {
+          "target": "smithy.api#String"
+        },
+        "contentLength": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.blob#MultiPartUpload": {
+      "type": "structure",
+      "members": {
+        "partLength": {
+          "target": "smithy.api#String"
+        },
+        "uploadUrls": {
+          "target": "com.modal.blob#StringList",
+          "traits": {
+            "smithy.api#documentation": "split upload based on this part length - all except the last part must have this length"
+          }
+        },
+        "completionUrl": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.blob#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.blob#UploadUrlList": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.modal.blob#StringList"
+        }
+      }
+    },
+    "com.modal.blob#MultiPartUploadList": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.modal.blob#MultiPartUploadList2"
+        }
+      }
+    },
+    "com.modal.blob#MultiPartUploadList2": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.blob#MultiPartUpload"
+      }
+    },
+    "com.modal.blob#CreateBlobResponse": {
+      "type": "structure",
+      "members": {
+        "blobId": {
+          "target": "smithy.api#String"
+        },
+        "uploadUrl": {
+          "target": "smithy.api#String"
+        },
+        "multipart": {
+          "target": "com.modal.blob#MultiPartUpload"
+        },
+        "blobIds": {
+          "target": "com.modal.blob#StringList"
+        },
+        "uploadUrls": {
+          "target": "com.modal.blob#UploadUrlList"
+        },
+        "multiparts": {
+          "target": "com.modal.blob#MultiPartUploadList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.blob#CreateBlob": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.blob#CreateBlobRequest"
+      },
+      "output": {
+        "target": "com.modal.blob#CreateBlobResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/BlobCreate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Blobs"
+      }
+    },
+    "com.modal.blob#GetBlobRequest": {
+      "type": "structure",
+      "members": {
+        "blobId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.blob#GetBlobResponse": {
+      "type": "structure",
+      "members": {
+        "downloadUrl": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.blob#GetBlob": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.blob#GetBlobRequest"
+      },
+      "output": {
+        "target": "com.modal.blob#GetBlobResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/BlobGet",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.blob#BlobService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.blob#CreateBlob"
+        },
+        {
+          "target": "com.modal.blob#GetBlob"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Blob",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Blob`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

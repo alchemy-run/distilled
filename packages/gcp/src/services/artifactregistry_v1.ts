@@ -72,15 +72,15 @@ export const StringList = /*@__PURE__*/ S.Array(
 
 /** The request to delete multiple versions across a repository. */
 export interface BatchDeleteVersionsRequest {
-  /** If true, the request is performed without deleting data, following AIP-163. */
-  validateOnly?: boolean;
   /** Required. The names of the versions to delete. The maximum number of versions deleted per batch is determined by the service and is dependent on the available resources in the region. */
   names?: StringList;
+  /** If true, the request is performed without deleting data, following AIP-163. */
+  validateOnly?: boolean;
 }
 export const BatchDeleteVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean),
     names: S.optional(StringList),
+    validateOnly: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "BatchDeleteVersionsRequest",
@@ -122,40 +122,40 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    code: S.optional(S.Number),
     message: S.optional(S.String),
+    code: S.optional(S.Number),
     details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
     error: S.optional(Status),
-    response: S.optional(DocumentMap),
+    metadata: S.optional(DocumentMap),
     name: S.optional(S.String),
+    response: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
@@ -198,17 +198,17 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 
 /** The request for checking an artifact for streaming. */
 export interface CheckPrewarmedArtifactRequest {
-  /** Optional. The artifact version Format: projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/versions/{version} */
-  version?: string;
   /** Optional. The artifact tag Format:projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/tags/{tag} */
   tag?: string;
+  /** Optional. The artifact version Format: projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/versions/{version} */
+  version?: string;
   /** Optional. The location of the prewarmed artifact. multi-region is not supported for this field. */
   streamLocation?: string;
 }
 export const CheckPrewarmedArtifactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.optional(S.String),
     tag: S.optional(S.String),
+    version: S.optional(S.String),
     streamLocation: S.optional(S.String),
   }),
 ).annotate({
@@ -239,18 +239,18 @@ export const CheckPrewarmedArtifactProjectsLocationsRepositoriesRequest =
 
 /** PrewarmedArtifact represents a streamed artifact. This is not a request message, so field_behavior annotations are not required. */
 export interface PrewarmedArtifact {
-  /** URL to access the image. Example: us-west4-docker.pkg.dev/test-project/test-repo/nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf */
-  uri?: string;
   /** The expiration time of the prewarmed artifact. */
   expirationTime?: string;
   /** The location of the prewarmed artifact. */
   location?: string;
+  /** URL to access the image. Example: us-west4-docker.pkg.dev/test-project/test-repo/nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf */
+  uri?: string;
 }
 export const PrewarmedArtifact = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uri: S.optional(S.String),
     expirationTime: S.optional(S.String),
     location: S.optional(S.String),
+    uri: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PrewarmedArtifact",
@@ -269,40 +269,6 @@ export const CheckPrewarmedArtifactResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CheckPrewarmedArtifactResponse",
 }) as any as S.Schema<CheckPrewarmedArtifactResponse>;
 
-export type PlatformLogsConfigLoggingStateEnum =
-  | "LOGGING_STATE_UNSPECIFIED"
-  | "ENABLED"
-  | "DISABLED";
-export const PlatformLogsConfigLoggingStateEnum = /*@__PURE__*/ S.String;
-
-export type PlatformLogsConfigSeverityLevelEnum =
-  | "SEVERITY_LEVEL_UNSPECIFIED"
-  | "DEBUG"
-  | "INFO"
-  | "NOTICE"
-  | "WARNING"
-  | "ERROR"
-  | "CRITICAL"
-  | "ALERT"
-  | "EMERGENCY";
-export const PlatformLogsConfigSeverityLevelEnum = /*@__PURE__*/ S.String;
-
-/** The platform logs config for a project or a repository. */
-export interface PlatformLogsConfig {
-  /** Optional. The state of the platform logs: enabled or disabled. */
-  loggingState?: PlatformLogsConfigLoggingStateEnum | (string & {});
-  /** Optional. The severity level for the logs. Logs will be generated if their severity level is >= than the value of the severity level mentioned here. */
-  severityLevel?: PlatformLogsConfigSeverityLevelEnum | (string & {});
-}
-export const PlatformLogsConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    loggingState: S.optional(PlatformLogsConfigLoggingStateEnum),
-    severityLevel: S.optional(PlatformLogsConfigSeverityLevelEnum),
-  }),
-).annotate({
-  identifier: "PlatformLogsConfig",
-}) as any as S.Schema<PlatformLogsConfig>;
-
 /** DockerRepositoryConfig is docker related repository details. Provides additional configuration details for repositories of the docker format type. */
 export interface DockerRepositoryConfig {
   /** The repository which enabled this flag prevents all tags from being modified, moved or deleted. This does not prevent tags from being created. */
@@ -316,68 +282,275 @@ export const DockerRepositoryConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "DockerRepositoryConfig",
 }) as any as S.Schema<DockerRepositoryConfig>;
 
-export type VulnerabilityScanningConfigEnablementConfigEnum =
-  | "ENABLEMENT_CONFIG_UNSPECIFIED"
-  | "INHERITED"
-  | "DISABLED";
-export const VulnerabilityScanningConfigEnablementConfigEnum =
-  /*@__PURE__*/ S.String;
-
-export type VulnerabilityScanningConfigEnablementStateEnum =
-  | "ENABLEMENT_STATE_UNSPECIFIED"
-  | "SCANNING_UNSUPPORTED"
-  | "SCANNING_DISABLED"
-  | "SCANNING_ACTIVE";
-export const VulnerabilityScanningConfigEnablementStateEnum =
-  /*@__PURE__*/ S.String;
-
-/** Config on whether to perform vulnerability scanning for resources in this repository, as well as output fields describing current state. */
-export interface VulnerabilityScanningConfig {
-  /** Optional. Config for whether this repository has vulnerability scanning disabled. */
-  enablementConfig?:
-    | VulnerabilityScanningConfigEnablementConfigEnum
-    | (string & {});
-  /** Output only. State of feature enablement, combining repository enablement config and API enablement state. */
-  enablementState?:
-    | VulnerabilityScanningConfigEnablementStateEnum
-    | (string & {});
-  /** Output only. The last time this repository config was enabled. */
-  lastEnableTime?: string;
-  /** Output only. Reason for the repository state. */
-  enablementStateReason?: string;
+/** Customer-specified publicly available remote repository. */
+export interface GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigDockerRepositoryCustomRepository {
+  /** An http/https uri reference to the custom remote repository, for ex: "https://registry-1.docker.io". */
+  uri?: string;
 }
-export const VulnerabilityScanningConfig = /*@__PURE__*/ S.suspend(() =>
+export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigDockerRepositoryCustomRepository =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      uri: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigDockerRepositoryCustomRepository",
+  }) as any as S.Schema<GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigDockerRepositoryCustomRepository>;
+
+export type DockerRepositoryPublicRepositoryEnum =
+  | "PUBLIC_REPOSITORY_UNSPECIFIED"
+  | "DOCKER_HUB";
+export const DockerRepositoryPublicRepositoryEnum = S.String;
+
+/** Configuration for a Docker remote repository. */
+export interface DockerRepository {
+  /** Customer-specified remote repository. */
+  customRepository?: GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigDockerRepositoryCustomRepository;
+  /** One of the publicly available Docker repositories supported by Artifact Registry. */
+  publicRepository?: DockerRepositoryPublicRepositoryEnum | (string & {});
+}
+export const DockerRepository = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enablementConfig: S.optional(
-      VulnerabilityScanningConfigEnablementConfigEnum,
+    customRepository: S.optional(
+      GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigDockerRepositoryCustomRepository,
     ),
-    enablementState: S.optional(VulnerabilityScanningConfigEnablementStateEnum),
-    lastEnableTime: S.optional(S.String),
-    enablementStateReason: S.optional(S.String),
+    publicRepository: S.optional(DockerRepositoryPublicRepositoryEnum),
   }),
 ).annotate({
-  identifier: "VulnerabilityScanningConfig",
-}) as any as S.Schema<VulnerabilityScanningConfig>;
+  identifier: "DockerRepository",
+}) as any as S.Schema<DockerRepository>;
 
-export type RepositoryFormatEnum =
-  | "FORMAT_UNSPECIFIED"
-  | "DOCKER"
-  | "MAVEN"
-  | "NPM"
-  | "APT"
-  | "YUM"
-  | "GOOGET"
-  | "PYTHON"
-  | "KFP"
-  | "GO"
-  | "GENERIC"
-  | "RUBY";
-export const RepositoryFormatEnum = /*@__PURE__*/ S.String;
+export type PythonRepositoryPublicRepositoryEnum =
+  | "PUBLIC_REPOSITORY_UNSPECIFIED"
+  | "PYPI";
+export const PythonRepositoryPublicRepositoryEnum = S.String;
+
+/** Customer-specified publicly available remote repository. */
+export interface GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository {
+  /** An http/https uri reference to the upstream remote repository, for ex: "https://my.python.registry/". */
+  uri?: string;
+}
+export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      uri: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository",
+  }) as any as S.Schema<GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository>;
+
+/** Configuration for a Python remote repository. */
+export interface PythonRepository {
+  /** One of the publicly available Python repositories supported by Artifact Registry. */
+  publicRepository?: PythonRepositoryPublicRepositoryEnum | (string & {});
+  /** Customer-specified remote repository. */
+  customRepository?: GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository;
+}
+export const PythonRepository = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    publicRepository: S.optional(PythonRepositoryPublicRepositoryEnum),
+    customRepository: S.optional(
+      GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository,
+    ),
+  }),
+).annotate({
+  identifier: "PythonRepository",
+}) as any as S.Schema<PythonRepository>;
+
+export type MavenRepositoryPublicRepositoryEnum =
+  | "PUBLIC_REPOSITORY_UNSPECIFIED"
+  | "MAVEN_CENTRAL";
+export const MavenRepositoryPublicRepositoryEnum = S.String;
+
+/** Customer-specified publicly available remote repository. */
+export interface GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository {
+  /** An http/https uri reference to the upstream remote repository, for ex: "https://my.maven.registry/". */
+  uri?: string;
+}
+export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      uri: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository",
+  }) as any as S.Schema<GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository>;
+
+/** Configuration for a Maven remote repository. */
+export interface MavenRepository {
+  /** One of the publicly available Maven repositories supported by Artifact Registry. */
+  publicRepository?: MavenRepositoryPublicRepositoryEnum | (string & {});
+  /** Customer-specified remote repository. */
+  customRepository?: GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository;
+}
+export const MavenRepository = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    publicRepository: S.optional(MavenRepositoryPublicRepositoryEnum),
+    customRepository: S.optional(
+      GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository,
+    ),
+  }),
+).annotate({
+  identifier: "MavenRepository",
+}) as any as S.Schema<MavenRepository>;
+
+/** Customer-specified publicly available remote repository. */
+export interface GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository {
+  /** An http/https uri reference to the upstream remote repository, for ex: "https://my.npm.registry/". */
+  uri?: string;
+}
+export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      uri: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository",
+  }) as any as S.Schema<GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository>;
+
+export type NpmRepositoryPublicRepositoryEnum =
+  | "PUBLIC_REPOSITORY_UNSPECIFIED"
+  | "NPMJS";
+export const NpmRepositoryPublicRepositoryEnum = S.String;
+
+/** Configuration for a Npm remote repository. */
+export interface NpmRepository {
+  /** Customer-specified remote repository. */
+  customRepository?: GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository;
+  /** One of the publicly available Npm repositories supported by Artifact Registry. */
+  publicRepository?: NpmRepositoryPublicRepositoryEnum | (string & {});
+}
+export const NpmRepository = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    customRepository: S.optional(
+      GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository,
+    ),
+    publicRepository: S.optional(NpmRepositoryPublicRepositoryEnum),
+  }),
+).annotate({ identifier: "NpmRepository" }) as any as S.Schema<NpmRepository>;
+
+/** Customer-specified publicly available remote repository. */
+export interface GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryCustomRepository {
+  /** An http/https uri reference to the upstream remote repository, for ex: "https://my.yum.registry/". */
+  uri?: string;
+}
+export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryCustomRepository =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      uri: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryCustomRepository",
+  }) as any as S.Schema<GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryCustomRepository>;
+
+export type GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepositoryRepositoryBaseEnum =
+  | "REPOSITORY_BASE_UNSPECIFIED"
+  | "CENTOS"
+  | "CENTOS_DEBUG"
+  | "CENTOS_VAULT"
+  | "CENTOS_STREAM"
+  | "ROCKY"
+  | "EPEL";
+export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepositoryRepositoryBaseEnum =
+  S.String;
+
+/** Publicly available Yum repositories constructed from a common repository base and a custom repository path. */
+export interface GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepository {
+  /** A custom field to define a path to a specific repository from the base. */
+  repositoryPath?: string;
+  /** A common public repository base for Yum. */
+  repositoryBase?:
+    | GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepositoryRepositoryBaseEnum
+    | (string & {});
+}
+export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepository =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      repositoryPath: S.optional(S.String),
+      repositoryBase: S.optional(
+        GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepositoryRepositoryBaseEnum,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepository",
+  }) as any as S.Schema<GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepository>;
+
+/** Configuration for a Yum remote repository. */
+export interface YumRepository {
+  /** Customer-specified remote repository. */
+  customRepository?: GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryCustomRepository;
+  /** One of the publicly available Yum repositories supported by Artifact Registry. */
+  publicRepository?: GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepository;
+}
+export const YumRepository = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    customRepository: S.optional(
+      GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryCustomRepository,
+    ),
+    publicRepository: S.optional(
+      GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepository,
+    ),
+  }),
+).annotate({ identifier: "YumRepository" }) as any as S.Schema<YumRepository>;
+
+/** Common remote repository settings type. */
+export interface CommonRemoteRepository {
+  /** Required. A common public repository base for remote repository. */
+  uri?: string;
+}
+export const CommonRemoteRepository = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uri: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CommonRemoteRepository",
+}) as any as S.Schema<CommonRemoteRepository>;
+
+/** The configuration for the no-cache fetching mode, which acts as a non-caching proxy. */
+export type NoCacheFetching = CancelOperationRequest;
+export const NoCacheFetching = CancelOperationRequest;
+
+/** Username and password credentials. */
+export interface UsernamePasswordCredentials {
+  /** The username to access the remote repository. */
+  username?: string;
+  /** The Secret Manager key version that holds the password to access the remote repository. Must be in the format of `projects/{project}/secrets/{secret}/versions/{version}`. */
+  passwordSecretVersion?: string;
+}
+export const UsernamePasswordCredentials = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    username: S.optional(S.String),
+    passwordSecretVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UsernamePasswordCredentials",
+}) as any as S.Schema<UsernamePasswordCredentials>;
+
+/** The credentials to access the remote repository. */
+export interface UpstreamCredentials {
+  /** Use username and password to access the remote repository. */
+  usernamePasswordCredentials?: UsernamePasswordCredentials;
+}
+export const UpstreamCredentials = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    usernamePasswordCredentials: S.optional(UsernamePasswordCredentials),
+  }),
+).annotate({
+  identifier: "UpstreamCredentials",
+}) as any as S.Schema<UpstreamCredentials>;
 
 export type GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigAptRepositoryPublicRepositoryRepositoryBaseEnum =
-  "REPOSITORY_BASE_UNSPECIFIED" | "DEBIAN" | "UBUNTU" | "DEBIAN_SNAPSHOT";
+  | "REPOSITORY_BASE_UNSPECIFIED"
+  | "DEBIAN"
+  | "UBUNTU"
+  | "DEBIAN_SNAPSHOT";
 export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigAptRepositoryPublicRepositoryRepositoryBaseEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** Publicly available Apt repositories constructed from a common repository base and a custom repository path. */
 export interface GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigAptRepositoryPublicRepository {
@@ -434,410 +607,116 @@ export const AptRepository = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AptRepository" }) as any as S.Schema<AptRepository>;
 
-export type NpmRepositoryPublicRepositoryEnum =
-  | "PUBLIC_REPOSITORY_UNSPECIFIED"
-  | "NPMJS";
-export const NpmRepositoryPublicRepositoryEnum = /*@__PURE__*/ S.String;
-
-/** Customer-specified publicly available remote repository. */
-export interface GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository {
-  /** An http/https uri reference to the upstream remote repository, for ex: "https://my.npm.registry/". */
-  uri?: string;
-}
-export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      uri: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository",
-  }) as any as S.Schema<GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository>;
-
-/** Configuration for a Npm remote repository. */
-export interface NpmRepository {
-  /** One of the publicly available Npm repositories supported by Artifact Registry. */
-  publicRepository?: NpmRepositoryPublicRepositoryEnum | (string & {});
-  /** Customer-specified remote repository. */
-  customRepository?: GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository;
-}
-export const NpmRepository = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    publicRepository: S.optional(NpmRepositoryPublicRepositoryEnum),
-    customRepository: S.optional(
-      GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigNpmRepositoryCustomRepository,
-    ),
-  }),
-).annotate({ identifier: "NpmRepository" }) as any as S.Schema<NpmRepository>;
-
-export type PythonRepositoryPublicRepositoryEnum =
-  | "PUBLIC_REPOSITORY_UNSPECIFIED"
-  | "PYPI";
-export const PythonRepositoryPublicRepositoryEnum = /*@__PURE__*/ S.String;
-
-/** Customer-specified publicly available remote repository. */
-export interface GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository {
-  /** An http/https uri reference to the upstream remote repository, for ex: "https://my.python.registry/". */
-  uri?: string;
-}
-export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      uri: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository",
-  }) as any as S.Schema<GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository>;
-
-/** Configuration for a Python remote repository. */
-export interface PythonRepository {
-  /** One of the publicly available Python repositories supported by Artifact Registry. */
-  publicRepository?: PythonRepositoryPublicRepositoryEnum | (string & {});
-  /** Customer-specified remote repository. */
-  customRepository?: GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository;
-}
-export const PythonRepository = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    publicRepository: S.optional(PythonRepositoryPublicRepositoryEnum),
-    customRepository: S.optional(
-      GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigPythonRepositoryCustomRepository,
-    ),
-  }),
-).annotate({
-  identifier: "PythonRepository",
-}) as any as S.Schema<PythonRepository>;
-
-export type GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepositoryRepositoryBaseEnum =
-    | "REPOSITORY_BASE_UNSPECIFIED"
-    | "CENTOS"
-    | "CENTOS_DEBUG"
-    | "CENTOS_VAULT"
-    | "CENTOS_STREAM"
-    | "ROCKY"
-    | "EPEL";
-export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepositoryRepositoryBaseEnum =
-  /*@__PURE__*/ S.String;
-
-/** Publicly available Yum repositories constructed from a common repository base and a custom repository path. */
-export interface GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepository {
-  /** A common public repository base for Yum. */
-  repositoryBase?:
-    | GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepositoryRepositoryBaseEnum
-    | (string & {});
-  /** A custom field to define a path to a specific repository from the base. */
-  repositoryPath?: string;
-}
-export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepository =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      repositoryBase: S.optional(
-        GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepositoryRepositoryBaseEnum,
-      ),
-      repositoryPath: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepository",
-  }) as any as S.Schema<GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepository>;
-
-/** Customer-specified publicly available remote repository. */
-export interface GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryCustomRepository {
-  /** An http/https uri reference to the upstream remote repository, for ex: "https://my.yum.registry/". */
-  uri?: string;
-}
-export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryCustomRepository =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      uri: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryCustomRepository",
-  }) as any as S.Schema<GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryCustomRepository>;
-
-/** Configuration for a Yum remote repository. */
-export interface YumRepository {
-  /** One of the publicly available Yum repositories supported by Artifact Registry. */
-  publicRepository?: GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepository;
-  /** Customer-specified remote repository. */
-  customRepository?: GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryCustomRepository;
-}
-export const YumRepository = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    publicRepository: S.optional(
-      GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryPublicRepository,
-    ),
-    customRepository: S.optional(
-      GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigYumRepositoryCustomRepository,
-    ),
-  }),
-).annotate({ identifier: "YumRepository" }) as any as S.Schema<YumRepository>;
-
-export type DockerRepositoryPublicRepositoryEnum =
-  | "PUBLIC_REPOSITORY_UNSPECIFIED"
-  | "DOCKER_HUB";
-export const DockerRepositoryPublicRepositoryEnum = /*@__PURE__*/ S.String;
-
-/** Customer-specified publicly available remote repository. */
-export interface GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigDockerRepositoryCustomRepository {
-  /** An http/https uri reference to the custom remote repository, for ex: "https://registry-1.docker.io". */
-  uri?: string;
-}
-export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigDockerRepositoryCustomRepository =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      uri: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigDockerRepositoryCustomRepository",
-  }) as any as S.Schema<GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigDockerRepositoryCustomRepository>;
-
-/** Configuration for a Docker remote repository. */
-export interface DockerRepository {
-  /** One of the publicly available Docker repositories supported by Artifact Registry. */
-  publicRepository?: DockerRepositoryPublicRepositoryEnum | (string & {});
-  /** Customer-specified remote repository. */
-  customRepository?: GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigDockerRepositoryCustomRepository;
-}
-export const DockerRepository = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    publicRepository: S.optional(DockerRepositoryPublicRepositoryEnum),
-    customRepository: S.optional(
-      GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigDockerRepositoryCustomRepository,
-    ),
-  }),
-).annotate({
-  identifier: "DockerRepository",
-}) as any as S.Schema<DockerRepository>;
-
-export type MavenRepositoryPublicRepositoryEnum =
-  | "PUBLIC_REPOSITORY_UNSPECIFIED"
-  | "MAVEN_CENTRAL";
-export const MavenRepositoryPublicRepositoryEnum = /*@__PURE__*/ S.String;
-
-/** Customer-specified publicly available remote repository. */
-export interface GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository {
-  /** An http/https uri reference to the upstream remote repository, for ex: "https://my.maven.registry/". */
-  uri?: string;
-}
-export const GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      uri: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository",
-  }) as any as S.Schema<GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository>;
-
-/** Configuration for a Maven remote repository. */
-export interface MavenRepository {
-  /** One of the publicly available Maven repositories supported by Artifact Registry. */
-  publicRepository?: MavenRepositoryPublicRepositoryEnum | (string & {});
-  /** Customer-specified remote repository. */
-  customRepository?: GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository;
-}
-export const MavenRepository = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    publicRepository: S.optional(MavenRepositoryPublicRepositoryEnum),
-    customRepository: S.optional(
-      GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigMavenRepositoryCustomRepository,
-    ),
-  }),
-).annotate({
-  identifier: "MavenRepository",
-}) as any as S.Schema<MavenRepository>;
-
-/** Common remote repository settings type. */
-export interface CommonRemoteRepository {
-  /** Required. A common public repository base for remote repository. */
-  uri?: string;
-}
-export const CommonRemoteRepository = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CommonRemoteRepository",
-}) as any as S.Schema<CommonRemoteRepository>;
-
-/** Username and password credentials. */
-export interface UsernamePasswordCredentials {
-  /** The username to access the remote repository. */
-  username?: string;
-  /** The Secret Manager key version that holds the password to access the remote repository. Must be in the format of `projects/{project}/secrets/{secret}/versions/{version}`. */
-  passwordSecretVersion?: string;
-}
-export const UsernamePasswordCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    username: S.optional(S.String),
-    passwordSecretVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UsernamePasswordCredentials",
-}) as any as S.Schema<UsernamePasswordCredentials>;
-
-/** The credentials to access the remote repository. */
-export interface UpstreamCredentials {
-  /** Use username and password to access the remote repository. */
-  usernamePasswordCredentials?: UsernamePasswordCredentials;
-}
-export const UpstreamCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    usernamePasswordCredentials: S.optional(UsernamePasswordCredentials),
-  }),
-).annotate({
-  identifier: "UpstreamCredentials",
-}) as any as S.Schema<UpstreamCredentials>;
-
 /** Remote repository configuration. */
 export interface RemoteRepositoryConfig {
-  /** Specific settings for an Apt remote repository. */
-  aptRepository?: AptRepository;
-  /** Specific settings for an Npm remote repository. */
-  npmRepository?: NpmRepository;
-  /** Specific settings for a Python remote repository. */
-  pythonRepository?: PythonRepository;
-  /** Specific settings for a Yum remote repository. */
-  yumRepository?: YumRepository;
   /** Specific settings for a Docker remote repository. */
   dockerRepository?: DockerRepository;
-  /** Specific settings for a Maven remote repository. */
-  mavenRepository?: MavenRepository;
   /** Input only. A create/update remote repo option to avoid making a HEAD/GET request to validate a remote repo and any supplied upstream credentials. */
   disableUpstreamValidation?: boolean;
-  /** Common remote repository settings. Used as the remote repository upstream URL. */
-  commonRepository?: CommonRemoteRepository;
   /** The description of the remote source. */
   description?: string;
+  /** Specific settings for a Python remote repository. */
+  pythonRepository?: PythonRepository;
+  /** Specific settings for a Maven remote repository. */
+  mavenRepository?: MavenRepository;
+  /** Specific settings for an Npm remote repository. */
+  npmRepository?: NpmRepository;
+  /** Specific settings for a Yum remote repository. */
+  yumRepository?: YumRepository;
+  /** Common remote repository settings. Used as the remote repository upstream URL. */
+  commonRepository?: CommonRemoteRepository;
+  /** The remote repository will act as a non-caching proxy. */
+  noCache?: CancelOperationRequest;
   /** Optional. The credentials used to access the remote repository. */
   upstreamCredentials?: UpstreamCredentials;
+  /** Specific settings for an Apt remote repository. */
+  aptRepository?: AptRepository;
 }
 export const RemoteRepositoryConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    aptRepository: S.optional(AptRepository),
-    npmRepository: S.optional(NpmRepository),
-    pythonRepository: S.optional(PythonRepository),
-    yumRepository: S.optional(YumRepository),
     dockerRepository: S.optional(DockerRepository),
-    mavenRepository: S.optional(MavenRepository),
     disableUpstreamValidation: S.optional(S.Boolean),
-    commonRepository: S.optional(CommonRemoteRepository),
     description: S.optional(S.String),
+    pythonRepository: S.optional(PythonRepository),
+    mavenRepository: S.optional(MavenRepository),
+    npmRepository: S.optional(NpmRepository),
+    yumRepository: S.optional(YumRepository),
+    commonRepository: S.optional(CommonRemoteRepository),
+    noCache: S.optional(CancelOperationRequest),
     upstreamCredentials: S.optional(UpstreamCredentials),
+    aptRepository: S.optional(AptRepository),
   }),
 ).annotate({
   identifier: "RemoteRepositoryConfig",
 }) as any as S.Schema<RemoteRepositoryConfig>;
 
-export type RepositoryModeEnum =
-  | "MODE_UNSPECIFIED"
-  | "STANDARD_REPOSITORY"
-  | "VIRTUAL_REPOSITORY"
-  | "REMOTE_REPOSITORY"
-  | "AOSS_REPOSITORY"
-  | "ASSURED_OSS_REPOSITORY";
-export const RepositoryModeEnum = /*@__PURE__*/ S.String;
+export type PlatformLogsConfigSeverityLevelEnum =
+  | "SEVERITY_LEVEL_UNSPECIFIED"
+  | "DEBUG"
+  | "INFO"
+  | "NOTICE"
+  | "WARNING"
+  | "ERROR"
+  | "CRITICAL"
+  | "ALERT"
+  | "EMERGENCY";
+export const PlatformLogsConfigSeverityLevelEnum = S.String;
 
-export type CleanupPolicyActionEnum = "ACTION_UNSPECIFIED" | "DELETE" | "KEEP";
-export const CleanupPolicyActionEnum = /*@__PURE__*/ S.String;
+export type PlatformLogsConfigLoggingStateEnum =
+  | "LOGGING_STATE_UNSPECIFIED"
+  | "ENABLED"
+  | "DISABLED";
+export const PlatformLogsConfigLoggingStateEnum = S.String;
 
-/** CleanupPolicyMostRecentVersions is an alternate condition of a CleanupPolicy for retaining a minimum number of versions. */
-export interface CleanupPolicyMostRecentVersions {
-  /** List of package name prefixes that will apply this rule. */
-  packageNamePrefixes?: StringList;
-  /** Minimum number of versions to keep. */
-  keepCount?: number;
+/** The platform logs config for a project or a repository. */
+export interface PlatformLogsConfig {
+  /** Optional. The severity level for the logs. Logs will be generated if their severity level is >= than the value of the severity level mentioned here. */
+  severityLevel?: PlatformLogsConfigSeverityLevelEnum | (string & {});
+  /** Optional. The state of the platform logs: enabled or disabled. */
+  loggingState?: PlatformLogsConfigLoggingStateEnum | (string & {});
 }
-export const CleanupPolicyMostRecentVersions = /*@__PURE__*/ S.suspend(() =>
+export const PlatformLogsConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    packageNamePrefixes: S.optional(StringList),
-    keepCount: S.optional(S.Number),
+    severityLevel: S.optional(PlatformLogsConfigSeverityLevelEnum),
+    loggingState: S.optional(PlatformLogsConfigLoggingStateEnum),
   }),
 ).annotate({
-  identifier: "CleanupPolicyMostRecentVersions",
-}) as any as S.Schema<CleanupPolicyMostRecentVersions>;
+  identifier: "PlatformLogsConfig",
+}) as any as S.Schema<PlatformLogsConfig>;
 
-export type CleanupPolicyConditionTagStateEnum =
-  | "TAG_STATE_UNSPECIFIED"
-  | "TAGGED"
-  | "UNTAGGED"
-  | "ANY";
-export const CleanupPolicyConditionTagStateEnum = /*@__PURE__*/ S.String;
-
-/** CleanupPolicyCondition is a set of conditions attached to a CleanupPolicy. If multiple entries are set, all must be satisfied for the condition to be satisfied. */
-export interface CleanupPolicyCondition {
-  /** Match versions older than a duration. */
-  olderThan?: string;
-  /** Match versions by tag status. */
-  tagState?: CleanupPolicyConditionTagStateEnum | (string & {});
-  /** Match versions by package prefix. Applied on any prefix match. */
-  packageNamePrefixes?: StringList;
-  /** Match versions by tag prefix. Applied on any prefix match. */
-  tagPrefixes?: StringList;
-  /** Match versions by version name prefix. Applied on any prefix match. */
-  versionNamePrefixes?: StringList;
-  /** Match versions newer than a duration. */
-  newerThan?: string;
-}
-export const CleanupPolicyCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    olderThan: S.optional(S.String),
-    tagState: S.optional(CleanupPolicyConditionTagStateEnum),
-    packageNamePrefixes: S.optional(StringList),
-    tagPrefixes: S.optional(StringList),
-    versionNamePrefixes: S.optional(StringList),
-    newerThan: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CleanupPolicyCondition",
-}) as any as S.Schema<CleanupPolicyCondition>;
-
-/** Artifact policy configuration for repository cleanup policies. */
-export interface CleanupPolicy {
-  /** Policy action. */
-  action?: CleanupPolicyActionEnum | (string & {});
-  /** Policy condition for retaining a minimum number of versions. May only be specified with a Keep action. */
-  mostRecentVersions?: CleanupPolicyMostRecentVersions;
-  /** The user-provided ID of the cleanup policy. */
-  id?: string;
-  /** Policy condition for matching versions. */
-  condition?: CleanupPolicyCondition;
-}
-export const CleanupPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    action: S.optional(CleanupPolicyActionEnum),
-    mostRecentVersions: S.optional(CleanupPolicyMostRecentVersions),
-    id: S.optional(S.String),
-    condition: S.optional(CleanupPolicyCondition),
-  }),
-).annotate({ identifier: "CleanupPolicy" }) as any as S.Schema<CleanupPolicy>;
-
-export type CleanupPolicyMap = { [key: string]: CleanupPolicy | undefined };
-export const CleanupPolicyMap = /*@__PURE__*/ S.Record(
-  S.String,
-  CleanupPolicy,
-) as any as S.Schema<CleanupPolicyMap>;
+export type RepositoryFormatEnum =
+  | "FORMAT_UNSPECIFIED"
+  | "DOCKER"
+  | "MAVEN"
+  | "NPM"
+  | "APT"
+  | "YUM"
+  | "GOOGET"
+  | "PYTHON"
+  | "KFP"
+  | "GO"
+  | "GENERIC"
+  | "RUBY"
+  | "CONDA";
+export const RepositoryFormatEnum = S.String;
 
 export type MavenRepositoryConfigVersionPolicyEnum =
   | "VERSION_POLICY_UNSPECIFIED"
   | "RELEASE"
   | "SNAPSHOT";
-export const MavenRepositoryConfigVersionPolicyEnum = /*@__PURE__*/ S.String;
+export const MavenRepositoryConfigVersionPolicyEnum = S.String;
 
 /** MavenRepositoryConfig is maven related repository details. Provides additional configuration details for repositories of the maven format type. */
 export interface MavenRepositoryConfig {
-  /** The repository with this flag will allow publishing the same snapshot versions. */
-  allowSnapshotOverwrites?: boolean;
   /** Version policy defines the versions that the registry will accept. */
   versionPolicy?: MavenRepositoryConfigVersionPolicyEnum | (string & {});
+  /** The repository with this flag will allow publishing the same snapshot versions. */
+  allowSnapshotOverwrites?: boolean;
 }
 export const MavenRepositoryConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    allowSnapshotOverwrites: S.optional(S.Boolean),
     versionPolicy: S.optional(MavenRepositoryConfigVersionPolicyEnum),
+    allowSnapshotOverwrites: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "MavenRepositoryConfig",
@@ -848,6 +727,136 @@ export const StringMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<StringMap>;
+
+export type RepositoryModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "STANDARD_REPOSITORY"
+  | "VIRTUAL_REPOSITORY"
+  | "REMOTE_REPOSITORY"
+  | "AOSS_REPOSITORY"
+  | "ASSURED_OSS_REPOSITORY";
+export const RepositoryModeEnum = S.String;
+
+export type VulnerabilityScanningConfigEnablementStateEnum =
+  | "ENABLEMENT_STATE_UNSPECIFIED"
+  | "SCANNING_UNSUPPORTED"
+  | "SCANNING_DISABLED"
+  | "SCANNING_ACTIVE";
+export const VulnerabilityScanningConfigEnablementStateEnum = S.String;
+
+export type VulnerabilityScanningConfigEnablementConfigEnum =
+  | "ENABLEMENT_CONFIG_UNSPECIFIED"
+  | "INHERITED"
+  | "DISABLED";
+export const VulnerabilityScanningConfigEnablementConfigEnum = S.String;
+
+/** Config on whether to perform vulnerability scanning for resources in this repository, as well as output fields describing current state. */
+export interface VulnerabilityScanningConfig {
+  /** Output only. State of feature enablement, combining repository enablement config and API enablement state. */
+  enablementState?:
+    | VulnerabilityScanningConfigEnablementStateEnum
+    | (string & {});
+  /** Output only. The last time this repository config was enabled. */
+  lastEnableTime?: string;
+  /** Output only. Reason for the repository state. */
+  enablementStateReason?: string;
+  /** Optional. Config for whether this repository has vulnerability scanning disabled. When unset (ENABLEMENT_CONFIG_UNSPECIFIED), this is treated as INHERITED for Docker repositories and DISABLED for non-Docker repositories. */
+  enablementConfig?:
+    | VulnerabilityScanningConfigEnablementConfigEnum
+    | (string & {});
+}
+export const VulnerabilityScanningConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enablementState: S.optional(VulnerabilityScanningConfigEnablementStateEnum),
+    lastEnableTime: S.optional(S.String),
+    enablementStateReason: S.optional(S.String),
+    enablementConfig: S.optional(
+      VulnerabilityScanningConfigEnablementConfigEnum,
+    ),
+  }),
+).annotate({
+  identifier: "VulnerabilityScanningConfig",
+}) as any as S.Schema<VulnerabilityScanningConfig>;
+
+export type CleanupPolicyActionEnum = "ACTION_UNSPECIFIED" | "DELETE" | "KEEP";
+export const CleanupPolicyActionEnum = S.String;
+
+/** CleanupPolicyMostRecentVersions is an alternate condition of a CleanupPolicy for retaining a minimum number of versions. */
+export interface CleanupPolicyMostRecentVersions {
+  /** Minimum number of versions to keep. */
+  keepCount?: number;
+  /** List of package name prefixes that will apply this rule. */
+  packageNamePrefixes?: StringList;
+}
+export const CleanupPolicyMostRecentVersions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    keepCount: S.optional(S.Number),
+    packageNamePrefixes: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "CleanupPolicyMostRecentVersions",
+}) as any as S.Schema<CleanupPolicyMostRecentVersions>;
+
+export type CleanupPolicyConditionTagStateEnum =
+  | "TAG_STATE_UNSPECIFIED"
+  | "TAGGED"
+  | "UNTAGGED"
+  | "ANY";
+export const CleanupPolicyConditionTagStateEnum = S.String;
+
+/** CleanupPolicyCondition is a set of conditions attached to a CleanupPolicy. If multiple entries are set, all must be satisfied for the condition to be satisfied. */
+export interface CleanupPolicyCondition {
+  /** Match versions by tag status. */
+  tagState?: CleanupPolicyConditionTagStateEnum | (string & {});
+  /** Match versions by tag prefix. Applied on any prefix match. */
+  tagPrefixes?: StringList;
+  /** Match versions older than a duration. */
+  olderThan?: string;
+  /** Match versions by version name prefix. Applied on any prefix match. */
+  versionNamePrefixes?: StringList;
+  /** Match versions by package prefix. Applied on any prefix match. */
+  packageNamePrefixes?: StringList;
+  /** Match versions newer than a duration. */
+  newerThan?: string;
+}
+export const CleanupPolicyCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tagState: S.optional(CleanupPolicyConditionTagStateEnum),
+    tagPrefixes: S.optional(StringList),
+    olderThan: S.optional(S.String),
+    versionNamePrefixes: S.optional(StringList),
+    packageNamePrefixes: S.optional(StringList),
+    newerThan: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CleanupPolicyCondition",
+}) as any as S.Schema<CleanupPolicyCondition>;
+
+/** Artifact policy configuration for repository cleanup policies. */
+export interface CleanupPolicy {
+  /** Policy action. */
+  action?: CleanupPolicyActionEnum | (string & {});
+  /** The user-provided ID of the cleanup policy. */
+  id?: string;
+  /** Policy condition for retaining a minimum number of versions. May only be specified with a Keep action. */
+  mostRecentVersions?: CleanupPolicyMostRecentVersions;
+  /** Policy condition for matching versions. */
+  condition?: CleanupPolicyCondition;
+}
+export const CleanupPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(CleanupPolicyActionEnum),
+    id: S.optional(S.String),
+    mostRecentVersions: S.optional(CleanupPolicyMostRecentVersions),
+    condition: S.optional(CleanupPolicyCondition),
+  }),
+).annotate({ identifier: "CleanupPolicy" }) as any as S.Schema<CleanupPolicy>;
+
+export type CleanupPolicyMap = { [key: string]: CleanupPolicy | undefined };
+export const CleanupPolicyMap = /*@__PURE__*/ S.Record(
+  S.String,
+  CleanupPolicy,
+) as any as S.Schema<CleanupPolicyMap>;
 
 /** Artifact policy configuration for the repository contents. */
 export interface UpstreamPolicy {
@@ -888,70 +897,70 @@ export const VirtualRepositoryConfig = /*@__PURE__*/ S.suspend(() =>
 export interface Repository {
   /** Optional. If this is true, an unspecified repo type will be treated as error rather than defaulting to standard. */
   disallowUnspecifiedMode?: boolean;
-  /** Optional. Configuration for platform logs. */
-  platformLogsConfig?: PlatformLogsConfig;
-  /** Output only. The repository endpoint, for example: `us-docker.pkg.dev/my-proj/my-repo`. */
-  registryUri?: string;
-  /** Output only. Whether or not this repository satisfies PZS. */
-  satisfiesPzs?: boolean;
-  /** Output only. Whether or not this repository satisfies PZI. */
-  satisfiesPzi?: boolean;
-  /** Output only. The time when the repository was created. */
-  createTime?: string;
   /** Docker repository config contains repository level configuration for the repositories of docker type. */
   dockerConfig?: DockerRepositoryConfig;
-  /** Optional. Config and state for vulnerability scanning of resources within this Repository. */
-  vulnerabilityScanningConfig?: VulnerabilityScanningConfig;
-  /** Optional. The format of packages that are stored in the repository. */
-  format?: RepositoryFormatEnum | (string & {});
-  /** Output only. The time when the repository was last updated. */
-  updateTime?: string;
-  /** The user-provided description of the repository. */
-  description?: string;
+  /** Output only. The time when the repository was created. */
+  createTime?: string;
+  /** Output only. Whether or not this repository satisfies PZI. */
+  satisfiesPzi?: boolean;
   /** Configuration specific for a Remote Repository. */
   remoteRepositoryConfig?: RemoteRepositoryConfig;
-  /** Optional. The mode of the repository. */
-  mode?: RepositoryModeEnum | (string & {});
-  /** Optional. Cleanup policies for this repository. Cleanup policies indicate when certain package versions can be automatically deleted. Map keys are policy IDs supplied by users during policy creation. They must unique within a repository and be under 128 characters in length. */
-  cleanupPolicies?: CleanupPolicyMap;
-  /** Maven repository config contains repository level configuration for the repositories of maven type. */
-  mavenConfig?: MavenRepositoryConfig;
-  /** The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
-  name?: string;
-  /** Labels with user-defined metadata. This field may contain up to 64 entries. Label keys and values may be no longer than 63 characters. Label keys must begin with a lowercase letter and may only contain lowercase letters, numeric characters, underscores, and dashes. */
-  labels?: StringMap;
   /** The Cloud KMS resource name of the customer managed encryption key that's used to encrypt the contents of the Repository. Has the form: `projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key`. This value may not be changed after the Repository has been created. */
   kmsKeyName?: string;
-  /** Configuration specific for a Virtual Repository. */
-  virtualRepositoryConfig?: VirtualRepositoryConfig;
+  /** The user-provided description of the repository. */
+  description?: string;
+  /** Optional. Configuration for platform logs. */
+  platformLogsConfig?: PlatformLogsConfig;
+  /** Optional. The format of packages that are stored in the repository. */
+  format?: RepositoryFormatEnum | (string & {});
+  /** Maven repository config contains repository level configuration for the repositories of maven type. */
+  mavenConfig?: MavenRepositoryConfig;
+  /** Labels with user-defined metadata. This field may contain up to 64 entries. Label keys and values may be no longer than 63 characters. Label keys must begin with a lowercase letter and may only contain lowercase letters, numeric characters, underscores, and dashes. */
+  labels?: StringMap;
+  /** Optional. The mode of the repository. */
+  mode?: RepositoryModeEnum | (string & {});
   /** Output only. The size, in bytes, of all artifact storage in this repository. Repositories that are generally available or in public preview use this to calculate storage costs. */
   sizeBytes?: string;
   /** Optional. If true, the cleanup pipeline is prevented from deleting versions in this repository. */
   cleanupPolicyDryRun?: boolean;
+  /** Output only. Whether or not this repository satisfies PZS. */
+  satisfiesPzs?: boolean;
+  /** Optional. Config and state for vulnerability scanning of resources within this Repository. */
+  vulnerabilityScanningConfig?: VulnerabilityScanningConfig;
+  /** Optional. Cleanup policies for this repository. Cleanup policies indicate when certain package versions can be automatically deleted. Map keys are policy IDs supplied by users during policy creation. They must unique within a repository and be under 128 characters in length. */
+  cleanupPolicies?: CleanupPolicyMap;
+  /** The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
+  name?: string;
+  /** Configuration specific for a Virtual Repository. */
+  virtualRepositoryConfig?: VirtualRepositoryConfig;
+  /** Output only. The repository endpoint, for example: `us-docker.pkg.dev/my-proj/my-repo`. */
+  registryUri?: string;
+  /** Output only. The time when the repository was last updated. */
+  updateTime?: string;
 }
 export const Repository = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     disallowUnspecifiedMode: S.optional(S.Boolean),
-    platformLogsConfig: S.optional(PlatformLogsConfig),
-    registryUri: S.optional(S.String),
-    satisfiesPzs: S.optional(S.Boolean),
-    satisfiesPzi: S.optional(S.Boolean),
-    createTime: S.optional(S.String),
     dockerConfig: S.optional(DockerRepositoryConfig),
-    vulnerabilityScanningConfig: S.optional(VulnerabilityScanningConfig),
-    format: S.optional(RepositoryFormatEnum),
-    updateTime: S.optional(S.String),
-    description: S.optional(S.String),
+    createTime: S.optional(S.String),
+    satisfiesPzi: S.optional(S.Boolean),
     remoteRepositoryConfig: S.optional(RemoteRepositoryConfig),
-    mode: S.optional(RepositoryModeEnum),
-    cleanupPolicies: S.optional(CleanupPolicyMap),
-    mavenConfig: S.optional(MavenRepositoryConfig),
-    name: S.optional(S.String),
-    labels: S.optional(StringMap),
     kmsKeyName: S.optional(S.String),
-    virtualRepositoryConfig: S.optional(VirtualRepositoryConfig),
+    description: S.optional(S.String),
+    platformLogsConfig: S.optional(PlatformLogsConfig),
+    format: S.optional(RepositoryFormatEnum),
+    mavenConfig: S.optional(MavenRepositoryConfig),
+    labels: S.optional(StringMap),
+    mode: S.optional(RepositoryModeEnum),
     sizeBytes: S.optional(S.String),
     cleanupPolicyDryRun: S.optional(S.Boolean),
+    satisfiesPzs: S.optional(S.Boolean),
+    vulnerabilityScanningConfig: S.optional(VulnerabilityScanningConfig),
+    cleanupPolicies: S.optional(CleanupPolicyMap),
+    name: S.optional(S.String),
+    virtualRepositoryConfig: S.optional(VirtualRepositoryConfig),
+    registryUri: S.optional(S.String),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Repository" }) as any as S.Schema<Repository>;
 
@@ -982,35 +991,35 @@ export const CreateProjectsLocationsRepositoriesRequest =
 
 /** An Attachment refers to additional metadata that can be attached to artifacts in Artifact Registry. An attachment consists of one or more files. */
 export interface Attachment {
-  /** Output only. The name of the OCI version that this attachment created. Only populated for Docker attachments. E.g. `projects/p1/locations/us-central1/repositories/repo1/packages/p1/versions/v1`. */
-  ociVersionName?: string;
-  /** The namespace this attachment belongs to. E.g. If an attachment is created by artifact analysis, namespace is set to `artifactanalysis.googleapis.com`. */
-  attachmentNamespace?: string;
-  /** Output only. The time when the attachment was last updated. */
-  updateTime?: string;
-  /** Required. The target the attachment is for, can be a Version, Package or Repository. E.g. `projects/p1/locations/us-central1/repositories/repo1/packages/p1/versions/v1`. */
-  target?: string;
-  /** Required. The files that belong to this attachment. If the file ID part contains slashes, they are escaped. E.g. `projects/p1/locations/us-central1/repositories/repo1/files/sha:`. */
-  files?: StringList;
   /** Type of attachment. E.g. `application/vnd.spdx+json` */
   type?: string;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Artifact Registry. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap;
   /** The name of the attachment. E.g. `projects/p1/locations/us/repositories/repo/attachments/sbom`. */
   name?: string;
+  /** The namespace this attachment belongs to. E.g. If an attachment is created by artifact analysis, namespace is set to `artifactanalysis.googleapis.com`. */
+  attachmentNamespace?: string;
+  /** Required. The target the attachment is for, can be a Version, Package or Repository. E.g. `projects/p1/locations/us-central1/repositories/repo1/packages/p1/versions/v1`. */
+  target?: string;
+  /** Output only. The time when the attachment was last updated. */
+  updateTime?: string;
+  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Artifact Registry. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
+  annotations?: StringMap;
+  /** Required. The files that belong to this attachment. If the file ID part contains slashes, they are escaped. E.g. `projects/p1/locations/us-central1/repositories/repo1/files/sha:`. */
+  files?: StringList;
+  /** Output only. The name of the OCI version that this attachment created. Only populated for Docker attachments. E.g. `projects/p1/locations/us-central1/repositories/repo1/packages/p1/versions/v1`. */
+  ociVersionName?: string;
   /** Output only. The time when the attachment was created. */
   createTime?: string;
 }
 export const Attachment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ociVersionName: S.optional(S.String),
-    attachmentNamespace: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    target: S.optional(S.String),
-    files: S.optional(StringList),
     type: S.optional(S.String),
-    annotations: S.optional(StringMap),
     name: S.optional(S.String),
+    attachmentNamespace: S.optional(S.String),
+    target: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    annotations: S.optional(StringMap),
+    files: S.optional(StringList),
+    ociVersionName: S.optional(S.String),
     createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
@@ -1079,59 +1088,57 @@ export const CreateProjectsLocationsRepositoriesPackagesTagsRequest =
     identifier: "CreateProjectsLocationsRepositoriesPackagesTagsRequest",
   }) as any as S.Schema<CreateProjectsLocationsRepositoriesPackagesTagsRequest>;
 
-export type GoogleDevtoolsArtifactregistryV1RuleOperationEnum =
-  | "OPERATION_UNSPECIFIED"
-  | "DOWNLOAD";
-export const GoogleDevtoolsArtifactregistryV1RuleOperationEnum =
-  /*@__PURE__*/ S.String;
-
 export type GoogleDevtoolsArtifactregistryV1RuleActionEnum =
   | "ACTION_UNSPECIFIED"
   | "ALLOW"
   | "DENY";
-export const GoogleDevtoolsArtifactregistryV1RuleActionEnum =
-  /*@__PURE__*/ S.String;
+export const GoogleDevtoolsArtifactregistryV1RuleActionEnum = S.String;
 
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     title: S.optional(S.String),
-    expression: S.optional(S.String),
     location: S.optional(S.String),
     description: S.optional(S.String),
+    expression: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
+export type GoogleDevtoolsArtifactregistryV1RuleOperationEnum =
+  | "OPERATION_UNSPECIFIED"
+  | "DOWNLOAD";
+export const GoogleDevtoolsArtifactregistryV1RuleOperationEnum = S.String;
+
 /** A rule defines the deny or allow action of the operation it applies to and the conditions required for the rule to apply. You can set one rule for an entire repository and one rule for each package within. */
 export interface GoogleDevtoolsArtifactregistryV1Rule {
-  /** The package ID the rule applies to. If empty, this rule applies to all packages inside the repository. */
-  packageId?: string;
-  operation?: GoogleDevtoolsArtifactregistryV1RuleOperationEnum | (string & {});
   /** The name of the rule, for example: `projects/p1/locations/us-central1/repositories/repo1/rules/rule1`. */
   name?: string;
   /** The action this rule takes. */
   action?: GoogleDevtoolsArtifactregistryV1RuleActionEnum | (string & {});
+  /** The package ID the rule applies to. If empty, this rule applies to all packages inside the repository. */
+  packageId?: string;
   /** Optional. A CEL expression for conditions that must be met in order for the rule to apply. If not provided, the rule matches all objects. */
   condition?: Expr;
+  operation?: GoogleDevtoolsArtifactregistryV1RuleOperationEnum | (string & {});
 }
 export const GoogleDevtoolsArtifactregistryV1Rule = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      packageId: S.optional(S.String),
-      operation: S.optional(GoogleDevtoolsArtifactregistryV1RuleOperationEnum),
       name: S.optional(S.String),
       action: S.optional(GoogleDevtoolsArtifactregistryV1RuleActionEnum),
+      packageId: S.optional(S.String),
       condition: S.optional(Expr),
+      operation: S.optional(GoogleDevtoolsArtifactregistryV1RuleOperationEnum),
     }),
 ).annotate({
   identifier: "GoogleDevtoolsArtifactregistryV1Rule",
@@ -1258,16 +1265,16 @@ export const DeleteProjectsLocationsRepositoriesPackagesTagsRequest =
   }) as any as S.Schema<DeleteProjectsLocationsRepositoriesPackagesTagsRequest>;
 
 export interface DeleteProjectsLocationsRepositoriesPackagesVersionsRequest {
-  /** The name of the version to delete. */
-  name: string;
   /** By default, a version that is tagged may not be deleted. If force=true, the version and any tags pointing to the version are deleted. */
   force?: boolean;
+  /** The name of the version to delete. */
+  name: string;
 }
 export const DeleteProjectsLocationsRepositoriesPackagesVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       force: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -1327,18 +1334,18 @@ export const DownloadFileResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The request for exporting an artifact to a destination. */
 export interface ExportArtifactRequest {
-  /** The Cloud Storage path to export the artifact to. Should start with the bucket name, and optionally have a directory path. Examples: `dst_bucket`, `dst_bucket/sub_dir`. Existing objects with the same path will be overwritten. */
-  gcsPath?: string;
-  /** The artifact version to export. Format: projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/versions/{version} */
-  sourceVersion?: string;
   /** The artifact tag to export. Format:projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/tags/{tag} */
   sourceTag?: string;
+  /** The artifact version to export. Format: projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/versions/{version} */
+  sourceVersion?: string;
+  /** The Cloud Storage path to export the artifact to. Should start with the bucket name, and optionally have a directory path. Examples: `dst_bucket`, `dst_bucket/sub_dir`. Existing objects with the same path will be overwritten. */
+  gcsPath?: string;
 }
 export const ExportArtifactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gcsPath: S.optional(S.String),
-    sourceVersion: S.optional(S.String),
     sourceTag: S.optional(S.String),
+    sourceVersion: S.optional(S.String),
+    gcsPath: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ExportArtifactRequest",
@@ -1367,16 +1374,16 @@ export const ExportArtifactProjectsLocationsRepositoriesRequest =
   }) as any as S.Schema<ExportArtifactProjectsLocationsRepositoriesRequest>;
 
 export interface GetIamPolicyProjectsLocationsRepositoriesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsRepositoriesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      resource: S.String.pipe(T.Label()),
       "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1390,18 +1397,18 @@ export const GetIamPolicyProjectsLocationsRepositoriesRequest =
 
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
   members?: StringList;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
   role?: string;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
 }
 export const Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    condition: S.optional(Expr),
     members: S.optional(StringList),
     role: S.optional(S.String),
-    condition: S.optional(Expr),
   }),
 ).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
 
@@ -1412,18 +1419,18 @@ export const BindingList = /*@__PURE__*/ S.Array(
 
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.optional(S.Number),
     etag: S.optional(S.String),
     bindings: S.optional(BindingList),
+    version: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
@@ -1448,15 +1455,15 @@ export const GetProjectConfigProjectsLocationsRequest = /*@__PURE__*/ S.suspend(
 
 /** The Artifact Registry logging configurations that apply to a Project. */
 export interface ProjectConfig {
-  /** Identifier. The name of the project's configuration. Always of the form: projects/{project}/locations/{location}/projectConfig */
-  name?: string;
   /** Optional. Configuration for platform logs. */
   platformLogsConfig?: PlatformLogsConfig;
+  /** Identifier. The name of the project's configuration. Always of the form: projects/{project}/locations/{location}/projectConfig */
+  name?: string;
 }
 export const ProjectConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     platformLogsConfig: S.optional(PlatformLogsConfig),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "ProjectConfig" }) as any as S.Schema<ProjectConfig>;
 
@@ -1485,7 +1492,7 @@ export type ProjectSettingsLegacyRedirectionStateEnum =
   | "REDIRECTION_FROM_GCR_IO_FINALIZED"
   | "REDIRECTION_FROM_GCR_IO_ENABLED_AND_COPYING"
   | "REDIRECTION_FROM_GCR_IO_PARTIAL_AND_COPYING";
-export const ProjectSettingsLegacyRedirectionStateEnum = /*@__PURE__*/ S.String;
+export const ProjectSettingsLegacyRedirectionStateEnum = S.String;
 
 /** The Artifact Registry settings that apply to a Project. */
 export interface ProjectSettings {
@@ -1530,24 +1537,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
     name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
     labels: S.optional(StringMap),
-    displayName: S.optional(S.String),
     locationId: S.optional(S.String),
+    displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -1629,30 +1636,30 @@ export const GetProjectsLocationsRepositoriesDockerImagesRequest =
 
 /** Details of a single image manifest within a multi-arch image. */
 export interface ImageManifest {
-  /** Optional. The variant of the CPU in the image, for example `v7` to specify ARMv7 when architecture is `arm`. */
-  variant?: string;
-  /** Optional. The operating system of the image. Values are provided by the Docker client and are not validated by Artifact Registry. Example values include "linux", "windows", "darwin", "aix", etc. */
-  os?: string;
-  /** Optional. The required OS features for the image, for example on Windows `win32k`. */
-  osFeatures?: StringList;
   /** Optional. The OS version of the image, for example on Windows `10.0.14393.1066`. */
   osVersion?: string;
-  /** Optional. The CPU architecture of the image. Values are provided by the Docker client and are not validated by Artifact Registry. Example values include "amd64", "arm64", "ppc64le", "s390x", "riscv64", "mips64le", etc. */
-  architecture?: string;
-  /** Optional. The media type of the manifest, e.g., "application/vnd.docker.distribution.manifest.v2+json" */
-  mediaType?: string;
   /** Optional. The manifest digest, in the format "sha256:". */
   digest?: string;
+  /** Optional. The variant of the CPU in the image, for example `v7` to specify ARMv7 when architecture is `arm`. */
+  variant?: string;
+  /** Optional. The required OS features for the image, for example on Windows `win32k`. */
+  osFeatures?: StringList;
+  /** Optional. The operating system of the image. Values are provided by the Docker client and are not validated by Artifact Registry. Example values include "linux", "windows", "darwin", "aix", etc. */
+  os?: string;
+  /** Optional. The media type of the manifest, e.g., "application/vnd.docker.distribution.manifest.v2+json" */
+  mediaType?: string;
+  /** Optional. The CPU architecture of the image. Values are provided by the Docker client and are not validated by Artifact Registry. Example values include "amd64", "arm64", "ppc64le", "s390x", "riscv64", "mips64le", etc. */
+  architecture?: string;
 }
 export const ImageManifest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    variant: S.optional(S.String),
-    os: S.optional(S.String),
-    osFeatures: S.optional(StringList),
     osVersion: S.optional(S.String),
-    architecture: S.optional(S.String),
-    mediaType: S.optional(S.String),
     digest: S.optional(S.String),
+    variant: S.optional(S.String),
+    osFeatures: S.optional(StringList),
+    os: S.optional(S.String),
+    mediaType: S.optional(S.String),
+    architecture: S.optional(S.String),
   }),
 ).annotate({ identifier: "ImageManifest" }) as any as S.Schema<ImageManifest>;
 
@@ -1663,39 +1670,39 @@ export const ImageManifestList = /*@__PURE__*/ S.Array(
 
 /** DockerImage represents a docker artifact. The following fields are returned as untyped metadata in the Version resource, using camelcase keys (i.e. metadata.imageSizeBytes): * imageSizeBytes * mediaType * buildTime */
 export interface DockerImage {
-  /** Required. registry_location, project_id, repository_name and image id forms a unique image name:`projects//locations//repositories//dockerImages/`. For example, "projects/test-project/locations/us-west4/repositories/test-repo/dockerImages/ nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf", where "us-west4" is the registry_location, "test-project" is the project_id, "test-repo" is the repository_name and "nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf" is the image's digest. */
-  name?: string;
-  /** Tags attached to this image. */
-  tags?: StringList;
-  /** Media type of this image, e.g. "application/vnd.docker.distribution.manifest.v2+json". This field is returned as the 'metadata.mediaType' field in the Version resource. */
-  mediaType?: string;
-  /** The time this image was built. This field is returned as the 'metadata.buildTime' field in the Version resource. The build time is returned to the client as an RFC 3339 string, which can be easily used with the JavaScript Date constructor. */
-  buildTime?: string;
   /** Output only. The time when the docker image was last updated. */
   updateTime?: string;
-  /** Calculated size of the image. This field is returned as the 'metadata.imageSizeBytes' field in the Version resource. */
-  imageSizeBytes?: string;
+  /** Media type of this image, e.g. "application/vnd.docker.distribution.manifest.v2+json". This field is returned as the 'metadata.mediaType' field in the Version resource. */
+  mediaType?: string;
   /** ArtifactType of this image, e.g. "application/vnd.example+type". If the `subject_digest` is set and no `artifact_type` is given, the `media_type` will be considered as the `artifact_type`. This field is returned as the `metadata.artifactType` field in the Version resource. */
   artifactType?: string;
-  /** Optional. For multi-arch images (manifest lists), this field contains the list of image manifests. */
-  imageManifests?: ImageManifestList;
   /** Required. URL to access the image. Example: us-west4-docker.pkg.dev/test-project/test-repo/nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf */
   uri?: string;
+  /** Calculated size of the image. This field is returned as the 'metadata.imageSizeBytes' field in the Version resource. */
+  imageSizeBytes?: string;
   /** Time the image was uploaded. */
   uploadTime?: string;
+  /** Required. registry_location, project_id, repository_name and image id forms a unique image name:`projects//locations//repositories//dockerImages/`. For example, "projects/test-project/locations/us-west4/repositories/test-repo/dockerImages/ nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf", where "us-west4" is the registry_location, "test-project" is the project_id, "test-repo" is the repository_name and "nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf" is the image's digest. */
+  name?: string;
+  /** The time this image was built. This field is returned as the 'metadata.buildTime' field in the Version resource. The build time is returned to the client as an RFC 3339 string, which can be easily used with the JavaScript Date constructor. */
+  buildTime?: string;
+  /** Tags attached to this image. */
+  tags?: StringList;
+  /** Optional. For multi-arch images (manifest lists), this field contains the list of image manifests. */
+  imageManifests?: ImageManifestList;
 }
 export const DockerImage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    tags: S.optional(StringList),
-    mediaType: S.optional(S.String),
-    buildTime: S.optional(S.String),
     updateTime: S.optional(S.String),
-    imageSizeBytes: S.optional(S.String),
+    mediaType: S.optional(S.String),
     artifactType: S.optional(S.String),
-    imageManifests: S.optional(ImageManifestList),
     uri: S.optional(S.String),
+    imageSizeBytes: S.optional(S.String),
     uploadTime: S.optional(S.String),
+    name: S.optional(S.String),
+    buildTime: S.optional(S.String),
+    tags: S.optional(StringList),
+    imageManifests: S.optional(ImageManifestList),
   }),
 ).annotate({ identifier: "DockerImage" }) as any as S.Schema<DockerImage>;
 
@@ -1723,19 +1730,19 @@ export type HashTypeEnum =
   | "SHA256"
   | "MD5"
   | "DIRSUM_SHA256";
-export const HashTypeEnum = /*@__PURE__*/ S.String;
+export const HashTypeEnum = S.String;
 
 /** A hash of file content. */
 export interface Hash {
-  /** The algorithm used to compute the hash value. */
-  type?: HashTypeEnum | (string & {});
   /** The hash value. */
   value?: string;
+  /** The algorithm used to compute the hash value. */
+  type?: HashTypeEnum | (string & {});
 }
 export const Hash = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(HashTypeEnum),
     value: S.optional(S.String),
+    type: S.optional(HashTypeEnum),
   }),
 ).annotate({ identifier: "Hash" }) as any as S.Schema<Hash>;
 
@@ -1746,34 +1753,34 @@ export const HashList = /*@__PURE__*/ S.Array(
 
 /** Files store content that is potentially associated with Packages or Versions. */
 export interface GoogleDevtoolsArtifactregistryV1File {
-  /** The hashes of the file content. */
-  hashes?: HashList;
-  /** Output only. The time when the last attempt to refresh the file's data was made. Only set when the repository is remote. */
-  fetchTime?: string;
-  /** Optional. Client specified annotations. */
-  annotations?: StringMap;
-  /** Output only. The time when the File was last updated. */
-  updateTime?: string;
-  /** The name of the Package or Version that owns this file, if any. */
-  owner?: string;
-  /** The name of the file, for example: `projects/p1/locations/us-central1/repositories/repo1/files/a%2Fb%2Fc.txt`. If the file ID part contains slashes, they are escaped. */
-  name?: string;
   /** The size of the File in bytes. */
   sizeBytes?: string;
+  /** The hashes of the file content. */
+  hashes?: HashList;
   /** Output only. The time when the File was created. */
   createTime?: string;
+  /** The name of the Package or Version that owns this file, if any. */
+  owner?: string;
+  /** Optional. Client specified annotations. */
+  annotations?: StringMap;
+  /** The name of the file, for example: `projects/p1/locations/us-central1/repositories/repo1/files/a%2Fb%2Fc.txt`. If the file ID part contains slashes, they are escaped. */
+  name?: string;
+  /** Output only. The time when the last attempt to refresh the file's data was made. Only set when the repository is remote. */
+  fetchTime?: string;
+  /** Output only. The time when the File was last updated. */
+  updateTime?: string;
 }
 export const GoogleDevtoolsArtifactregistryV1File = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      hashes: S.optional(HashList),
-      fetchTime: S.optional(S.String),
-      annotations: S.optional(StringMap),
-      updateTime: S.optional(S.String),
-      owner: S.optional(S.String),
-      name: S.optional(S.String),
       sizeBytes: S.optional(S.String),
+      hashes: S.optional(HashList),
       createTime: S.optional(S.String),
+      owner: S.optional(S.String),
+      annotations: S.optional(StringMap),
+      name: S.optional(S.String),
+      fetchTime: S.optional(S.String),
+      updateTime: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleDevtoolsArtifactregistryV1File",
@@ -1800,30 +1807,30 @@ export const GetProjectsLocationsRepositoriesMavenArtifactsRequest =
 
 /** MavenArtifact represents a maven artifact. */
 export interface MavenArtifact {
-  /** Required. registry_location, project_id, repository_name and maven_artifact forms a unique artifact For example, "projects/test-project/locations/us-west4/repositories/test-repo/mavenArtifacts/ com.google.guava:guava:31.0-jre", where "us-west4" is the registry_location, "test-project" is the project_id, "test-repo" is the repository_name and "com.google.guava:guava:31.0-jre" is the maven artifact. */
-  name?: string;
+  /** Version of this artifact. */
+  version?: string;
   /** Required. URL to access the pom file of the artifact. Example: us-west4-maven.pkg.dev/test-project/test-repo/com/google/guava/guava/31.0/guava-31.0.pom */
   pomUri?: string;
+  /** Required. registry_location, project_id, repository_name and maven_artifact forms a unique artifact For example, "projects/test-project/locations/us-west4/repositories/test-repo/mavenArtifacts/ com.google.guava:guava:31.0-jre", where "us-west4" is the registry_location, "test-project" is the project_id, "test-repo" is the repository_name and "com.google.guava:guava:31.0-jre" is the maven artifact. */
+  name?: string;
+  /** Output only. Time the artifact was updated. */
+  updateTime?: string;
+  /** Artifact ID for the artifact. */
+  artifactId?: string;
   /** Output only. Time the artifact was created. */
   createTime?: string;
   /** Group ID for the artifact. Example: com.google.guava */
   groupId?: string;
-  /** Artifact ID for the artifact. */
-  artifactId?: string;
-  /** Version of this artifact. */
-  version?: string;
-  /** Output only. Time the artifact was updated. */
-  updateTime?: string;
 }
 export const MavenArtifact = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    version: S.optional(S.String),
     pomUri: S.optional(S.String),
+    name: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    artifactId: S.optional(S.String),
     createTime: S.optional(S.String),
     groupId: S.optional(S.String),
-    artifactId: S.optional(S.String),
-    version: S.optional(S.String),
-    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "MavenArtifact" }) as any as S.Schema<MavenArtifact>;
 
@@ -1848,26 +1855,26 @@ export const GetProjectsLocationsRepositoriesNpmPackagesRequest =
 
 /** NpmPackage represents an npm artifact. */
 export interface NpmPackage {
+  /** Output only. Time the package was created. */
+  createTime?: string;
   /** Tags attached to this package. */
   tags?: StringList;
   /** Package for the artifact. */
   packageName?: string;
-  /** Required. registry_location, project_id, repository_name and npm_package forms a unique package For example, "projects/test-project/locations/us-west4/repositories/test-repo/npmPackages/ npm_test:1.0.0", where "us-west4" is the registry_location, "test-project" is the project_id, "test-repo" is the repository_name and npm_test:1.0.0" is the npm package. */
-  name?: string;
-  /** Output only. Time the package was created. */
-  createTime?: string;
   /** Version of this package. */
   version?: string;
+  /** Required. registry_location, project_id, repository_name and npm_package forms a unique package For example, "projects/test-project/locations/us-west4/repositories/test-repo/npmPackages/ npm_test:1.0.0", where "us-west4" is the registry_location, "test-project" is the project_id, "test-repo" is the repository_name and npm_test:1.0.0" is the npm package. */
+  name?: string;
   /** Output only. Time the package was updated. */
   updateTime?: string;
 }
 export const NpmPackage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    createTime: S.optional(S.String),
     tags: S.optional(StringList),
     packageName: S.optional(S.String),
-    name: S.optional(S.String),
-    createTime: S.optional(S.String),
     version: S.optional(S.String),
+    name: S.optional(S.String),
     updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "NpmPackage" }) as any as S.Schema<NpmPackage>;
@@ -1893,23 +1900,23 @@ export const GetProjectsLocationsRepositoriesPackagesRequest =
 
 /** Packages are named collections of versions. */
 export interface Package {
-  /** The name of the package, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. If the package ID part contains slashes, the slashes are escaped. */
-  name?: string;
   /** The time when the package was created. */
   createTime?: string;
-  /** The display name of the package. */
-  displayName?: string;
   /** The time when the package was last updated. This includes publishing a new version of the package. */
   updateTime?: string;
+  /** The name of the package, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. If the package ID part contains slashes, the slashes are escaped. */
+  name?: string;
+  /** The display name of the package. */
+  displayName?: string;
   /** Optional. Client specified annotations. */
   annotations?: StringMap;
 }
 export const Package = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     createTime: S.optional(S.String),
-    displayName: S.optional(S.String),
     updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
     annotations: S.optional(StringMap),
   }),
 ).annotate({ identifier: "Package" }) as any as S.Schema<Package>;
@@ -1938,25 +1945,25 @@ export type GetProjectsLocationsRepositoriesPackagesVersionsViewEnum =
   | "BASIC"
   | "FULL";
 export const GetProjectsLocationsRepositoriesPackagesVersionsViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface GetProjectsLocationsRepositoriesPackagesVersionsRequest {
+  /** The name of the version to retrieve. */
+  name: string;
   /** The view that should be returned in the response. */
   view?:
     | GetProjectsLocationsRepositoriesPackagesVersionsViewEnum
     | (string & {});
-  /** The name of the version to retrieve. */
-  name: string;
 }
 export const GetProjectsLocationsRepositoriesPackagesVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      name: S.String.pipe(T.Label()),
       view: S.optional(
         GetProjectsLocationsRepositoriesPackagesVersionsViewEnum.pipe(
           T.Query(),
         ),
       ),
-      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1973,33 +1980,33 @@ export const TagList = /*@__PURE__*/ S.Array(Tag) as any as S.Schema<TagList>;
 
 /** The body of a version resource. A version resource represents a collection of components, such as files and other data. This may correspond to a version in many package management schemes. */
 export interface Version {
+  /** Output only. Immutable reference for the version, calculated based on the version's content. Currently we only support dirsum_sha256 hash algorithm. Additional hash algorithms may be added in the future. */
+  fingerprints?: HashList;
+  /** Optional. Description of the version, as specified in its metadata. */
+  description?: string;
+  /** Output only. Repository-specific Metadata stored against this version. The fields returned are defined by the underlying repository-specific resource. Currently, the resources could be: DockerImage MavenArtifact */
+  metadata?: DocumentMap;
   /** Optional. Client specified annotations. */
   annotations?: StringMap;
   /** The time when the version was last updated. */
   updateTime?: string;
   /** The name of the version, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/art1`. If the package or version ID parts contain slashes, the slashes are escaped. */
   name?: string;
-  /** The time when the version was created. */
-  createTime?: string;
-  /** Output only. Immutable reference for the version, calculated based on the version's content. Currently we only support dirsum_sha256 hash algorithm. Additional hash algorithms may be added in the future. */
-  fingerprints?: HashList;
-  /** Optional. Description of the version, as specified in its metadata. */
-  description?: string;
   /** Output only. A list of related tags. Will contain up to 100 tags that reference this version. */
   relatedTags?: TagList;
-  /** Output only. Repository-specific Metadata stored against this version. The fields returned are defined by the underlying repository-specific resource. Currently, the resources could be: DockerImage MavenArtifact */
-  metadata?: DocumentMap;
+  /** The time when the version was created. */
+  createTime?: string;
 }
 export const Version = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    fingerprints: S.optional(HashList),
+    description: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
     annotations: S.optional(StringMap),
     updateTime: S.optional(S.String),
     name: S.optional(S.String),
-    createTime: S.optional(S.String),
-    fingerprints: S.optional(HashList),
-    description: S.optional(S.String),
     relatedTags: S.optional(TagList),
-    metadata: S.optional(DocumentMap),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Version" }) as any as S.Schema<Version>;
 
@@ -2024,26 +2031,26 @@ export const GetProjectsLocationsRepositoriesPythonPackagesRequest =
 
 /** PythonPackage represents a python artifact. */
 export interface PythonPackage {
-  /** Required. URL to access the package. Example: us-west4-python.pkg.dev/test-project/test-repo/python_package/file-name-1.0.0.tar.gz */
-  uri?: string;
-  /** Required. registry_location, project_id, repository_name and python_package forms a unique package name:`projects//locations//repository//pythonPackages/`. For example, "projects/test-project/locations/us-west4/repositories/test-repo/pythonPackages/ python_package:1.0.0", where "us-west4" is the registry_location, "test-project" is the project_id, "test-repo" is the repository_name and python_package:1.0.0" is the python package. */
-  name?: string;
   /** Output only. Time the package was created. */
   createTime?: string;
+  /** Required. registry_location, project_id, repository_name and python_package forms a unique package name:`projects//locations//repository//pythonPackages/`. For example, "projects/test-project/locations/us-west4/repositories/test-repo/pythonPackages/ python_package:1.0.0", where "us-west4" is the registry_location, "test-project" is the project_id, "test-repo" is the repository_name and python_package:1.0.0" is the python package. */
+  name?: string;
   /** Package for the artifact. */
   packageName?: string;
   /** Version of this package. */
   version?: string;
+  /** Required. URL to access the package. Example: us-west4-python.pkg.dev/test-project/test-repo/python_package/file-name-1.0.0.tar.gz */
+  uri?: string;
   /** Output only. Time the package was updated. */
   updateTime?: string;
 }
 export const PythonPackage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uri: S.optional(S.String),
-    name: S.optional(S.String),
     createTime: S.optional(S.String),
+    name: S.optional(S.String),
     packageName: S.optional(S.String),
     version: S.optional(S.String),
+    uri: S.optional(S.String),
     updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "PythonPackage" }) as any as S.Schema<PythonPackage>;
@@ -2090,7 +2097,7 @@ export type VPCSCConfigVpcscPolicyEnum =
   | "VPCSC_POLICY_UNSPECIFIED"
   | "DENY"
   | "ALLOW";
-export const VPCSCConfigVpcscPolicyEnum = /*@__PURE__*/ S.String;
+export const VPCSCConfigVpcscPolicyEnum = S.String;
 
 /** The Artifact Registry VPC SC config that apply to a Project. */
 export interface VPCSCConfig {
@@ -2159,15 +2166,15 @@ export const ImportProjectsLocationsRepositoriesAptArtifactsRequest =
 
 /** Google Cloud Storage location where the artifacts currently reside. */
 export interface ImportGoogetArtifactsGcsSource {
-  /** Cloud Storage paths URI (e.g., `gs://my_bucket/my_object`). */
-  uris?: StringList;
   /** Supports URI wildcards for matching multiple objects from a single URI. */
   useWildcards?: boolean;
+  /** Cloud Storage paths URI (e.g., `gs://my_bucket/my_object`). */
+  uris?: StringList;
 }
 export const ImportGoogetArtifactsGcsSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uris: S.optional(StringList),
     useWildcards: S.optional(S.Boolean),
+    uris: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ImportGoogetArtifactsGcsSource",
@@ -2209,24 +2216,45 @@ export const ImportProjectsLocationsRepositoriesGoogetArtifactsRequest =
   }) as any as S.Schema<ImportProjectsLocationsRepositoriesGoogetArtifactsRequest>;
 
 /** Google Cloud Storage location where the artifacts currently reside. */
-export type ImportYumArtifactsGcsSource = ImportAptArtifactsGcsSource;
-export const ImportYumArtifactsGcsSource = ImportAptArtifactsGcsSource;
+export interface ImportYumArtifactsGcsSource {
+  /** Supports URI wildcards for matching multiple objects from a single URI. */
+  useWildcards?: boolean;
+  /** Cloud Storage paths URI (e.g., gs://my_bucket//my_object). */
+  uris?: StringList;
+}
+export const ImportYumArtifactsGcsSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    useWildcards: S.optional(S.Boolean),
+    uris: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "ImportYumArtifactsGcsSource",
+}) as any as S.Schema<ImportYumArtifactsGcsSource>;
 
 /** The request to import new yum artifacts. */
-export type ImportYumArtifactsRequest = ImportAptArtifactsRequest;
-export const ImportYumArtifactsRequest = ImportAptArtifactsRequest;
+export interface ImportYumArtifactsRequest {
+  /** Google Cloud Storage location where input content is located. */
+  gcsSource?: ImportYumArtifactsGcsSource;
+}
+export const ImportYumArtifactsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gcsSource: S.optional(ImportYumArtifactsGcsSource),
+  }),
+).annotate({
+  identifier: "ImportYumArtifactsRequest",
+}) as any as S.Schema<ImportYumArtifactsRequest>;
 
 export interface ImportProjectsLocationsRepositoriesYumArtifactsRequest {
   /** The name of the parent resource where the artifacts will be imported. */
   parent: string;
   /** Request body */
-  body?: ImportAptArtifactsRequest;
+  body?: ImportYumArtifactsRequest;
 }
 export const ImportProjectsLocationsRepositoriesYumArtifactsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      body: S.optional(ImportAptArtifactsRequest.pipe(T.HttpBody())),
+      body: S.optional(ImportYumArtifactsRequest.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
         method: "POST",
@@ -2241,22 +2269,22 @@ export const ImportProjectsLocationsRepositoriesYumArtifactsRequest =
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2290,25 +2318,25 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsRepositoriesRequest {
-  /** Optional. An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` Examples of using a filter: To filter the results of your request to repositories with the name `my-repo` in project `my-project` in the `us-central` region, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-*"` * `name="projects/my-project/locations/us-central1/repositories/*repo"` * `name="projects/my-project/locations/us-central1/repositories/*repo*"` */
-  filter?: string;
-  /** Required. The name of the parent resource whose repositories will be listed. */
-  parent: string;
   /** The maximum number of repositories to return. Maximum page size is 1,000. */
   pageSize?: number;
   /** The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
   /** Optional. The field to order the results by. */
   orderBy?: string;
+  /** Required. The name of the parent resource whose repositories will be listed. */
+  parent: string;
+  /** Optional. An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` Examples of using a filter: To filter the results of your request to repositories with the name `my-repo` in project `my-project` in the `us-central` region, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-*"` * `name="projects/my-project/locations/us-central1/repositories/*repo"` * `name="projects/my-project/locations/us-central1/repositories/*repo*"` */
+  filter?: string;
 }
 export const ListProjectsLocationsRepositoriesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2342,21 +2370,21 @@ export const ListRepositoriesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListRepositoriesResponse>;
 
 export interface ListProjectsLocationsRepositoriesAttachmentsRequest {
-  /** Required. The name of the parent resource whose attachments will be listed. */
-  parent: string;
   /** The maximum number of attachments to return. Maximum page size is 1,000. */
   pageSize?: number;
   /** The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
+  /** Required. The name of the parent resource whose attachments will be listed. */
+  parent: string;
   /** Optional. An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `target` * `type` * `attachment_namespace` */
   filter?: string;
 }
 export const ListProjectsLocationsRepositoriesAttachmentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -2376,15 +2404,15 @@ export const AttachmentList = /*@__PURE__*/ S.Array(
 
 /** The response from listing attachments. */
 export interface ListAttachmentsResponse {
-  /** The attachments returned. */
-  attachments?: AttachmentList;
   /** The token to retrieve the next page of attachments, or empty if there are no more attachments to return. */
   nextPageToken?: string;
+  /** The attachments returned. */
+  attachments?: AttachmentList;
 }
 export const ListAttachmentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    attachments: S.optional(AttachmentList),
     nextPageToken: S.optional(S.String),
+    attachments: S.optional(AttachmentList),
   }),
 ).annotate({
   identifier: "ListAttachmentsResponse",
@@ -2393,20 +2421,20 @@ export const ListAttachmentsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsRepositoriesDockerImagesRequest {
   /** Required. The name of the parent resource whose docker images will be listed. */
   parent: string;
-  /** The maximum number of artifacts to return. Maximum page size is 1,000. */
-  pageSize?: number;
   /** The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
   /** The field to order the results by. */
   orderBy?: string;
+  /** The maximum number of artifacts to return. Maximum page size is 1,000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsRepositoriesDockerImagesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2425,39 +2453,39 @@ export const DockerImageList = /*@__PURE__*/ S.Array(
 
 /** The response from listing docker images. */
 export interface ListDockerImagesResponse {
-  /** The docker images returned. */
-  dockerImages?: DockerImageList;
   /** The token to retrieve the next page of artifacts, or empty if there are no more artifacts to return. */
   nextPageToken?: string;
+  /** The docker images returned. */
+  dockerImages?: DockerImageList;
 }
 export const ListDockerImagesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dockerImages: S.optional(DockerImageList),
     nextPageToken: S.optional(S.String),
+    dockerImages: S.optional(DockerImageList),
   }),
 ).annotate({
   identifier: "ListDockerImagesResponse",
 }) as any as S.Schema<ListDockerImagesResponse>;
 
 export interface ListProjectsLocationsRepositoriesFilesRequest {
-  /** An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `owner` * `annotations` Examples of using a filter: To filter the results of your request to files with the name `my_file.txt` in project `my-project` in the `us-central` region, in repository `my-repo`, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/my-file.txt"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/my-*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/*file.txt"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/*file*"` To filter the results of your request to files owned by the version `1.0` in package `pkg1`, append the following filter expression to your request: * `owner="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/1.0"` To filter the results of your request to files with the annotation key-value pair [`external_link`: `external_link_value`], append the following filter expression to your request: * `"annotations.external_link:external_link_value"` To filter just for a specific annotation key `external_link`, append the following filter expression to your request: * `"annotations.external_link"` If the annotation key or value contains special characters, you can escape them by surrounding the value with backticks. For example, to filter the results of your request to files with the annotation key-value pair [`external.link`:`https://example.com/my-file`], append the following filter expression to your request: * `` "annotations.`external.link`:`https://example.com/my-file`" `` You can also filter with annotations with a wildcard to match any number of characters before or after the value: * `` "annotations.*_link:`*example.com*`" `` */
-  filter?: string;
-  /** Required. The name of the repository whose files will be listed. For example: "projects/p1/locations/us-central1/repositories/repo1 */
-  parent: string;
-  /** The maximum number of files to return. Maximum page size is 1,000. */
-  pageSize?: number;
   /** The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
+  /** Required. The name of the repository whose files will be listed. For example: "projects/p1/locations/us-central1/repositories/repo1 */
+  parent: string;
+  /** An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `owner` * `annotations` Examples of using a filter: To filter the results of your request to files with the name `my_file.txt` in project `my-project` in the `us-central` region, in repository `my-repo`, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/my-file.txt"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/my-*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/*file.txt"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/*file*"` To filter the results of your request to files owned by the version `1.0` in package `pkg1`, append the following filter expression to your request: * `owner="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/1.0"` To filter the results of your request to files with the annotation key-value pair [`external_link`: `external_link_value`], append the following filter expression to your request: * `"annotations.external_link:external_link_value"` To filter just for a specific annotation key `external_link`, append the following filter expression to your request: * `"annotations.external_link"` If the annotation key or value contains special characters, you can escape them by surrounding the value with backticks. For example, to filter the results of your request to files with the annotation key-value pair [`external.link`:`https://example.com/my-file`], append the following filter expression to your request: * `` "annotations.`external.link`:`https://example.com/my-file`" `` You can also filter with annotations with a wildcard to match any number of characters before or after the value: * `` "annotations.*_link:`*example.com*`" `` */
+  filter?: string;
+  /** The maximum number of files to return. Maximum page size is 1,000. */
+  pageSize?: number;
   /** The field to order the results by. */
   orderBy?: string;
 }
 export const ListProjectsLocationsRepositoriesFilesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -2493,18 +2521,18 @@ export const ListFilesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListFilesResponse>;
 
 export interface ListProjectsLocationsRepositoriesMavenArtifactsRequest {
-  /** Required. The name of the parent resource whose maven artifacts will be listed. */
-  parent: string;
   /** The maximum number of artifacts to return. Maximum page size is 1,000. */
   pageSize?: number;
+  /** Required. The name of the parent resource whose maven artifacts will be listed. */
+  parent: string;
   /** The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
 }
 export const ListProjectsLocationsRepositoriesMavenArtifactsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -2585,25 +2613,25 @@ export const ListNpmPackagesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListNpmPackagesResponse>;
 
 export interface ListProjectsLocationsRepositoriesPackagesRequest {
-  /** Optional. An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `annotations` Examples of using a filter: To filter the results of your request to packages with the name `my-package` in project `my-project` in the `us-central` region, in repository `my-repo`, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/*package"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/*pack*"` To filter the results of your request to packages with the annotation key-value pair [`external_link`: `external_link_value`], append the following filter expression to your request": * `"annotations.external_link:external_link_value"` To filter the results just for a specific annotation key `external_link`, append the following filter expression to your request: * `"annotations.external_link"` If the annotation key or value contains special characters, you can escape them by surrounding the value with backticks. For example, to filter the results of your request to packages with the annotation key-value pair [`external.link`:`https://example.com/my-package`], append the following filter expression to your request: * `` "annotations.`external.link`:`https://example.com/my-package`" `` You can also filter with annotations with a wildcard to match any number of characters before or after the value: * `` "annotations.*_link:`*example.com*`" `` */
-  filter?: string;
-  /** Required. The name of the parent resource whose packages will be listed. */
-  parent: string;
-  /** The maximum number of packages to return. Maximum page size is 1,000. */
-  pageSize?: number;
   /** The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
   /** Optional. The field to order the results by. */
   orderBy?: string;
+  /** The maximum number of packages to return. Maximum page size is 1,000. */
+  pageSize?: number;
+  /** Required. The name of the parent resource whose packages will be listed. */
+  parent: string;
+  /** Optional. An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `annotations` Examples of using a filter: To filter the results of your request to packages with the name `my-package` in project `my-project` in the `us-central` region, in repository `my-repo`, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/*package"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/*pack*"` To filter the results of your request to packages with the annotation key-value pair [`external_link`: `external_link_value`], append the following filter expression to your request": * `"annotations.external_link:external_link_value"` To filter the results just for a specific annotation key `external_link`, append the following filter expression to your request: * `"annotations.external_link"` If the annotation key or value contains special characters, you can escape them by surrounding the value with backticks. For example, to filter the results of your request to packages with the annotation key-value pair [`external.link`:`https://example.com/my-package`], append the following filter expression to your request: * `` "annotations.`external.link`:`https://example.com/my-package`" `` You can also filter with annotations with a wildcard to match any number of characters before or after the value: * `` "annotations.*_link:`*example.com*`" `` */
+  filter?: string;
 }
 export const ListProjectsLocationsRepositoriesPackagesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2622,37 +2650,37 @@ export const PackageList = /*@__PURE__*/ S.Array(
 
 /** The response from listing packages. */
 export interface ListPackagesResponse {
-  /** The packages returned. */
-  packages?: PackageList;
   /** The token to retrieve the next page of packages, or empty if there are no more packages to return. */
   nextPageToken?: string;
+  /** The packages returned. */
+  packages?: PackageList;
 }
 export const ListPackagesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    packages: S.optional(PackageList),
     nextPageToken: S.optional(S.String),
+    packages: S.optional(PackageList),
   }),
 ).annotate({
   identifier: "ListPackagesResponse",
 }) as any as S.Schema<ListPackagesResponse>;
 
 export interface ListProjectsLocationsRepositoriesPackagesTagsRequest {
-  /** An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `version` Examples of using a filter: To filter the results of your request to tags with the name `my-tag` in package `my-package` in repository `my-repo` in project "`y-project` in the us-central region, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my-tag"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag*"` To filter the results of your request to tags applied to the version `1.0` in package `my-package`, append the following filter expression to your request: * `version="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/1.0"` */
-  filter?: string;
-  /** The name of the parent package whose tags will be listed. For example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. */
-  parent: string;
-  /** The maximum number of tags to return. Maximum page size is 1,000. */
-  pageSize?: number;
   /** The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
+  /** The name of the parent package whose tags will be listed. For example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. */
+  parent: string;
+  /** An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `version` Examples of using a filter: To filter the results of your request to tags with the name `my-tag` in package `my-package` in repository `my-repo` in project "`y-project` in the us-central region, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my-tag"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag*"` To filter the results of your request to tags applied to the version `1.0` in package `my-package`, append the following filter expression to your request: * `version="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/1.0"` */
+  filter?: string;
+  /** The maximum number of tags to return. Maximum page size is 1,000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsRepositoriesPackagesTagsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2666,15 +2694,15 @@ export const ListProjectsLocationsRepositoriesPackagesTagsRequest =
 
 /** The response from listing tags. */
 export interface ListTagsResponse {
-  /** The tags returned. */
-  tags?: TagList;
   /** The token to retrieve the next page of tags, or empty if there are no more tags to return. */
   nextPageToken?: string;
+  /** The tags returned. */
+  tags?: TagList;
 }
 export const ListTagsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tags: S.optional(TagList),
     nextPageToken: S.optional(S.String),
+    tags: S.optional(TagList),
   }),
 ).annotate({
   identifier: "ListTagsResponse",
@@ -2685,37 +2713,37 @@ export type ListProjectsLocationsRepositoriesPackagesVersionsViewEnum =
   | "BASIC"
   | "FULL";
 export const ListProjectsLocationsRepositoriesPackagesVersionsViewEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ListProjectsLocationsRepositoriesPackagesVersionsRequest {
-  /** Optional. An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `annotations` Examples of using a filter: To filter the results of your request to versions with the name `my-version` in project `my-project` in the `us-central` region, in repository `my-repo`, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/my-version"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/*version"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/my*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/*version*"` To filter the results of your request to versions with the annotation key-value pair [`external_link`: `external_link_value`], append the following filter expression to your request: * `"annotations.external_link:external_link_value"` To filter just for a specific annotation key `external_link`, append the following filter expression to your request: * `"annotations.external_link"` If the annotation key or value contains special characters, you can escape them by surrounding the value with backticks. For example, to filter the results of your request to versions with the annotation key-value pair [`external.link`:`https://example.com/my-version`], append the following filter expression to your request: * `` "annotations.`external.link`:`https://example.com/my-version`" `` You can also filter with annotations with a wildcard to match any number of characters before or after the value: * `` "annotations.*_link:`*example.com*`" `` */
-  filter?: string;
-  /** The name of the parent resource whose versions will be listed. */
-  parent: string;
   /** The maximum number of versions to return. Maximum page size is 1,000. */
   pageSize?: number;
+  /** Optional. The field to order the results by. */
+  orderBy?: string;
+  /** The name of the parent resource whose versions will be listed. */
+  parent: string;
+  /** Optional. An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `annotations` Examples of using a filter: To filter the results of your request to versions with the name `my-version` in project `my-project` in the `us-central` region, in repository `my-repo`, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/my-version"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/*version"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/my*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/*version*"` To filter the results of your request to versions with the annotation key-value pair [`external_link`: `external_link_value`], append the following filter expression to your request: * `"annotations.external_link:external_link_value"` To filter just for a specific annotation key `external_link`, append the following filter expression to your request: * `"annotations.external_link"` If the annotation key or value contains special characters, you can escape them by surrounding the value with backticks. For example, to filter the results of your request to versions with the annotation key-value pair [`external.link`:`https://example.com/my-version`], append the following filter expression to your request: * `` "annotations.`external.link`:`https://example.com/my-version`" `` You can also filter with annotations with a wildcard to match any number of characters before or after the value: * `` "annotations.*_link:`*example.com*`" `` */
+  filter?: string;
   /** The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
   /** The view that should be returned in the response. */
   view?:
     | ListProjectsLocationsRepositoriesPackagesVersionsViewEnum
     | (string & {});
-  /** Optional. The field to order the results by. */
-  orderBy?: string;
 }
 export const ListProjectsLocationsRepositoriesPackagesVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       view: S.optional(
         ListProjectsLocationsRepositoriesPackagesVersionsViewEnum.pipe(
           T.Query(),
         ),
       ),
-      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2734,37 +2762,37 @@ export const VersionList = /*@__PURE__*/ S.Array(
 
 /** The response from listing versions. */
 export interface ListVersionsResponse {
-  /** The versions returned. */
-  versions?: VersionList;
   /** The token to retrieve the next page of versions, or empty if there are no more versions to return. */
   nextPageToken?: string;
+  /** The versions returned. */
+  versions?: VersionList;
 }
 export const ListVersionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    versions: S.optional(VersionList),
     nextPageToken: S.optional(S.String),
+    versions: S.optional(VersionList),
   }),
 ).annotate({
   identifier: "ListVersionsResponse",
 }) as any as S.Schema<ListVersionsResponse>;
 
 export interface ListProjectsLocationsRepositoriesPrewarmedArtifactsRequest {
-  /** Optional. Filter should only support The location of the prewarmed artifacts. multi-region is not supported for this field. */
-  filter?: string;
   /** Required. The repository of the artifact to list. Format: projects/{project}/locations/{location}/repositories/{repository} */
   parent: string;
-  /** Optional. The maximum number of prewarmed artifacts to return. Maximum page size is 1,000. Default page size is 100. */
-  pageSize?: number;
+  /** Optional. Filter should only support The location of the prewarmed artifacts. multi-region is not supported for this field. */
+  filter?: string;
   /** Optional. The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
+  /** Optional. The maximum number of prewarmed artifacts to return. Maximum page size is 1,000. Default page size is 100. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsRepositoriesPrewarmedArtifactsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2800,17 +2828,17 @@ export const ListPrewarmedArtifactsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsRepositoriesPythonPackagesRequest {
   /** Required. The name of the parent resource whose python packages will be listed. */
   parent: string;
-  /** The maximum number of artifacts to return. Maximum page size is 1,000. */
-  pageSize?: number;
   /** The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
+  /** The maximum number of artifacts to return. Maximum page size is 1,000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsRepositoriesPythonPackagesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2829,34 +2857,34 @@ export const PythonPackageList = /*@__PURE__*/ S.Array(
 
 /** The response from listing python packages. */
 export interface ListPythonPackagesResponse {
-  /** The token to retrieve the next page of artifacts, or empty if there are no more artifacts to return. */
-  nextPageToken?: string;
   /** The python packages returned. */
   pythonPackages?: PythonPackageList;
+  /** The token to retrieve the next page of artifacts, or empty if there are no more artifacts to return. */
+  nextPageToken?: string;
 }
 export const ListPythonPackagesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     pythonPackages: S.optional(PythonPackageList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListPythonPackagesResponse",
 }) as any as S.Schema<ListPythonPackagesResponse>;
 
 export interface ListProjectsLocationsRepositoriesRulesRequest {
+  /** The next_page_token value returned from a previous list request, if any. */
+  pageToken?: string;
   /** Required. The name of the parent repository whose rules will be listed. For example: `projects/p1/locations/us-central1/repositories/repo1`. */
   parent: string;
   /** The maximum number of rules to return. Maximum page size is 1,000. */
   pageSize?: number;
-  /** The next_page_token value returned from a previous list request, if any. */
-  pageToken?: string;
 }
 export const ListProjectsLocationsRepositoriesRulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2876,33 +2904,33 @@ export const GoogleDevtoolsArtifactregistryV1RuleList = /*@__PURE__*/ S.Array(
 
 /** The response from listing rules. */
 export interface ListRulesResponse {
-  /** The rules returned. */
-  rules?: GoogleDevtoolsArtifactregistryV1RuleList;
   /** The token to retrieve the next page of rules, or empty if there are no more rules to return. */
   nextPageToken?: string;
+  /** The rules returned. */
+  rules?: GoogleDevtoolsArtifactregistryV1RuleList;
 }
 export const ListRulesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rules: S.optional(GoogleDevtoolsArtifactregistryV1RuleList),
     nextPageToken: S.optional(S.String),
+    rules: S.optional(GoogleDevtoolsArtifactregistryV1RuleList),
   }),
 ).annotate({
   identifier: "ListRulesResponse",
 }) as any as S.Schema<ListRulesResponse>;
 
 export interface PatchProjectsLocationsRepositoriesRequest {
-  /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
   /** The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
   name: string;
+  /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
+  updateMask?: string;
   /** Request body */
   body?: Repository;
 }
 export const PatchProjectsLocationsRepositoriesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(Repository.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -2966,18 +2994,18 @@ export const PatchProjectsLocationsRepositoriesPackagesRequest =
   }) as any as S.Schema<PatchProjectsLocationsRepositoriesPackagesRequest>;
 
 export interface PatchProjectsLocationsRepositoriesPackagesTagsRequest {
-  /** The name of the tag, for example: "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1". If the package part contains slashes, the slashes are escaped. The tag part can only have characters in [a-zA-Z0-9\-._~:@], anything else must be URL encoded. */
-  name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string;
+  /** The name of the tag, for example: "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1". If the package part contains slashes, the slashes are escaped. The tag part can only have characters in [a-zA-Z0-9\-._~:@], anything else must be URL encoded. */
+  name: string;
   /** Request body */
   body?: Tag;
 }
 export const PatchProjectsLocationsRepositoriesPackagesTagsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(Tag.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3058,27 +3086,27 @@ export const PrewarmPlatform = /*@__PURE__*/ S.suspend(() =>
 
 /** The request for prewarming an artifact for streaming. */
 export interface PrewarmArtifactRequest {
-  /** Optional. The platform (architecture and OS) of the image or tag. */
-  platform?: PrewarmPlatform;
-  /** Optional. The artifact version Format: projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/versions/{version} */
-  version?: string;
-  /** Optional. The location to cache the artifact in. If not specified, the artifact will be cached in the same location as the artifact. multi-region is not supported for this field. */
-  streamLocation?: string;
   /** Optional. If true, old artifact will be evicted to make room for the new artifact. */
   force?: boolean;
   /** Optional. The retention days of the prewarmed artifact. If not specified, the artifact will be cached for 3 days. */
   retentionDays?: string;
+  /** Optional. The platform (architecture and OS) of the image or tag. */
+  platform?: PrewarmPlatform;
   /** Optional. The artifact tag Format:projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/tags/{tag} */
   tag?: string;
+  /** Optional. The artifact version Format: projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/versions/{version} */
+  version?: string;
+  /** Optional. The location to cache the artifact in. If not specified, the artifact will be cached in the same location as the artifact. multi-region is not supported for this field. */
+  streamLocation?: string;
 }
 export const PrewarmArtifactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    platform: S.optional(PrewarmPlatform),
-    version: S.optional(S.String),
-    streamLocation: S.optional(S.String),
     force: S.optional(S.Boolean),
     retentionDays: S.optional(S.String),
+    platform: S.optional(PrewarmPlatform),
     tag: S.optional(S.String),
+    version: S.optional(S.String),
+    streamLocation: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PrewarmArtifactRequest",
@@ -3108,18 +3136,18 @@ export const PrewarmArtifactProjectsLocationsRepositoriesRequest =
 
 /** The request for removing an artifact from streaming. */
 export interface RemovePrewarmedArtifactRequest {
-  /** Optional. The location of the prewarmed artifact. multi-region is not supported for this field. */
-  streamLocation?: string;
   /** Optional. The artifact version Format: projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/versions/{version} */
   version?: string;
   /** Optional. The artifact tag Format:projects/{project}/locations/{location}/repositories/{repository}/packages/{package}/tags/{tag} */
   tag?: string;
+  /** Optional. The location of the prewarmed artifact. multi-region is not supported for this field. */
+  streamLocation?: string;
 }
 export const RemovePrewarmedArtifactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    streamLocation: S.optional(S.String),
     version: S.optional(S.String),
     tag: S.optional(S.String),
+    streamLocation: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RemovePrewarmedArtifactRequest",
@@ -3244,18 +3272,18 @@ export const TestIamPermissionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TestIamPermissionsResponse>;
 
 export interface UpdateProjectConfigProjectsLocationsRequest {
-  /** Identifier. The name of the project's configuration. Always of the form: projects/{project}/locations/{location}/projectConfig */
-  name: string;
   /** Optional. Field mask to support partial updates. See https://protobuf.dev/reference/protobuf/google.protobuf/#field-mask for more details. */
   updateMask?: string;
+  /** Identifier. The name of the project's configuration. Always of the form: projects/{project}/locations/{location}/projectConfig */
+  name: string;
   /** Request body */
   body?: ProjectConfig;
 }
 export const UpdateProjectConfigProjectsLocationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(ProjectConfig.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3357,13 +3385,19 @@ export const UploadAptArtifactMediaResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UploadAptArtifactMediaResponse",
 }) as any as S.Schema<UploadAptArtifactMediaResponse>;
 
+export type UploadFileRequestFileTypeEnum = "ATTACHMENT" | "ARTIFACT";
+export const UploadFileRequestFileTypeEnum = S.String;
+
 /** The request to upload a file. */
 export interface UploadFileRequest {
+  /** Optional. The type of the file to upload. Defaulting to ATTACHMENT if not specified. */
+  fileType?: UploadFileRequestFileTypeEnum | (string & {});
   /** Optional. The ID of the file. If left empty will default to sha256 digest of the content uploaded. */
   fileId?: string;
 }
 export const UploadFileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    fileType: S.optional(UploadFileRequestFileTypeEnum),
     fileId: S.optional(S.String),
   }),
 ).annotate({
@@ -3409,16 +3443,19 @@ export const UploadFileMediaResponse = /*@__PURE__*/ S.suspend(() =>
 export interface UploadGenericArtifactRequest {
   /** The name of the file of the generic artifact to be uploaded. E.g. `example-file.zip` The filename is limited to letters, numbers, and url safe characters, i.e. [a-zA-Z0-9-_.~@]. */
   filename?: string;
-  /** The ID of the package of the generic artifact. If the package does not exist, a new package will be created. The `package_id` should start and end with a letter or number, only contain letters, numbers, hyphens, underscores, and periods, and not exceed 256 characters. */
-  packageId?: string;
   /** The ID of the version of the generic artifact. If the version does not exist, a new version will be created. The version_id must start and end with a letter or number, can only contain lowercase letters, numbers, the following characters [-.+~:], i.e.[a-z0-9-.+~:] and cannot exceed a total of 128 characters. Creating a version called `latest` is not allowed. */
   versionId?: string;
+  /** Optional. Client specified annotations to attach to the version upon creation. This field is only applied if the Version is created during this upload. If the Version already exists and this field is set, the request will fail. */
+  versionAnnotations?: StringMap;
+  /** The ID of the package of the generic artifact. If the package does not exist, a new package will be created. The `package_id` should start and end with a letter or number, only contain letters, numbers, hyphens, underscores, and periods, and not exceed 256 characters. */
+  packageId?: string;
 }
 export const UploadGenericArtifactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filename: S.optional(S.String),
-    packageId: S.optional(S.String),
     versionId: S.optional(S.String),
+    versionAnnotations: S.optional(StringMap),
+    packageId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "UploadGenericArtifactRequest",
@@ -3539,15 +3576,15 @@ export const UploadGoogetArtifactMediaResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The request to upload an artifact. */
 export interface UploadKfpArtifactRequest {
-  /** Tags to be created with the version. */
-  tags?: StringList;
   /** Description of the package version. */
   description?: string;
+  /** Tags to be created with the version. */
+  tags?: StringList;
 }
 export const UploadKfpArtifactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tags: S.optional(StringList),
     description: S.optional(S.String),
+    tags: S.optional(StringList),
   }),
 ).annotate({
   identifier: "UploadKfpArtifactRequest",

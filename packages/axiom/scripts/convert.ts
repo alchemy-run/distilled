@@ -2,7 +2,7 @@
 /**
  * convert — turn the three Axiom OpenAPI specs into Smithy 2.0 JSON models.
  *
- * Input:  specs/docs/restapi/versions/{v2,v1-edge-ingest,v1-edge-query}.json
+ * Input:  specs/spec-mirror-axiom/specs/restapi/versions/{v2,v1-edge-ingest,v1-edge-query}.json
  *         (the axiomhq/docs submodule; a fourth file, v1.json, is unused)
  *         patches/{v2,v1-edge-ingest,v1-edge-query}/*.patch.json  (RFC-6902
  *         patches to the OpenAPI documents — ported verbatim from distilled
@@ -25,7 +25,7 @@ import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
 
 const root = path.resolve(import.meta.dir, "..");
-const specsDir = "specs/docs/restapi/versions";
+const specsDir = "specs/spec-mirror-axiom/specs/restapi/versions";
 
 /**
  * JSON-parse + prefix every path with the version segment and rewrite
@@ -46,7 +46,7 @@ const parseWithPrefix = (prefix: string) => (text: string) => {
 interface Version {
   /** Output model name (→ src/services/<name>.ts). */
   name: string;
-  /** Filename under specs/docs/restapi/versions/. */
+  /** Filename under specs/spec-mirror-axiom/specs/restapi/versions/. */
   specFile: string;
   /** Path prefix to apply (the real server URL segment, e.g. "/v2"). */
   pathPrefix: string;

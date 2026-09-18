@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.vercel.global_config#GetEdgeConfigsRequest": {
@@ -135,7 +136,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Keeps track of the current state of the Edge Config while it gets transferred."
+        "smithy.api#documentation": "Keeps track of the current state of the Global Config while it gets transferred."
       }
     },
     "com.vercel.global_config#GetEdgeConfigsResponse": {
@@ -156,7 +157,7 @@
         "createdBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the user who created the Edge Config, optional because it is not always set."
+            "smithy.api#documentation": "The ID of the user who created the Global Config, optional because it is not always set."
           }
         },
         "ownerId": {
@@ -168,7 +169,7 @@
         "slug": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name for the Edge Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores).",
+            "smithy.api#documentation": "Name for the Global Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores).",
             "smithy.api#required": {}
           }
         },
@@ -196,7 +197,7 @@
         "transfer": {
           "target": "com.vercel.global_config#GetEdgeConfigsResponseTransfer",
           "traits": {
-            "smithy.api#documentation": "Keeps track of the current state of the Edge Config while it gets transferred."
+            "smithy.api#documentation": "Keeps track of the current state of the Global Config while it gets transferred."
           }
         },
         "schema": {
@@ -205,7 +206,7 @@
         "syncedToDynamoAt": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Timestamp of when the Edge Config was synced to DynamoDB initially. It is only set when syncing the entire Edge Config, not when updating."
+            "smithy.api#documentation": "Timestamp of when the Global Config was synced to DynamoDB initially. It is only set when syncing the entire Global Config, not when updating."
           }
         },
         "sizeInBytes": {
@@ -381,7 +382,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Keeps track of the current state of the Edge Config while it gets transferred."
+        "smithy.api#documentation": "Keeps track of the current state of the Global Config while it gets transferred."
       }
     },
     "com.vercel.global_config#CreateEdgeConfigResponse": {
@@ -402,7 +403,7 @@
         "createdBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the user who created the Edge Config, optional because it is not always set."
+            "smithy.api#documentation": "The ID of the user who created the Global Config, optional because it is not always set."
           }
         },
         "ownerId": {
@@ -414,7 +415,7 @@
         "slug": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name for the Edge Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores).",
+            "smithy.api#documentation": "Name for the Global Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores).",
             "smithy.api#required": {}
           }
         },
@@ -442,7 +443,7 @@
         "transfer": {
           "target": "com.vercel.global_config#CreateEdgeConfigResponseTransfer",
           "traits": {
-            "smithy.api#documentation": "Keeps track of the current state of the Edge Config while it gets transferred."
+            "smithy.api#documentation": "Keeps track of the current state of the Global Config while it gets transferred."
           }
         },
         "schema": {
@@ -451,7 +452,7 @@
         "syncedToDynamoAt": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Timestamp of when the Edge Config was synced to DynamoDB initially. It is only set when syncing the entire Edge Config, not when updating."
+            "smithy.api#documentation": "Timestamp of when the Global Config was synced to DynamoDB initially. It is only set when syncing the entire Global Config, not when updating."
           }
         },
         "sizeInBytes": {
@@ -624,7 +625,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Keeps track of the current state of the Edge Config while it gets transferred."
+        "smithy.api#documentation": "Keeps track of the current state of the Global Config while it gets transferred."
       }
     },
     "com.vercel.global_config#GetEdgeConfigResponse": {
@@ -645,7 +646,7 @@
         "createdBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the user who created the Edge Config, optional because it is not always set."
+            "smithy.api#documentation": "The ID of the user who created the Global Config, optional because it is not always set."
           }
         },
         "ownerId": {
@@ -657,7 +658,7 @@
         "slug": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name for the Edge Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores).",
+            "smithy.api#documentation": "Name for the Global Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores).",
             "smithy.api#required": {}
           }
         },
@@ -685,7 +686,7 @@
         "transfer": {
           "target": "com.vercel.global_config#GetEdgeConfigResponseTransfer",
           "traits": {
-            "smithy.api#documentation": "Keeps track of the current state of the Edge Config while it gets transferred."
+            "smithy.api#documentation": "Keeps track of the current state of the Global Config while it gets transferred."
           }
         },
         "schema": {
@@ -694,7 +695,7 @@
         "syncedToDynamoAt": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Timestamp of when the Edge Config was synced to DynamoDB initially. It is only set when syncing the entire Edge Config, not when updating."
+            "smithy.api#documentation": "Timestamp of when the Global Config was synced to DynamoDB initially. It is only set when syncing the entire Global Config, not when updating."
           }
         },
         "sizeInBytes": {
@@ -867,7 +868,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Keeps track of the current state of the Edge Config while it gets transferred."
+        "smithy.api#documentation": "Keeps track of the current state of the Global Config while it gets transferred."
       }
     },
     "com.vercel.global_config#UpdateEdgeConfigResponse": {
@@ -888,7 +889,7 @@
         "createdBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the user who created the Edge Config, optional because it is not always set."
+            "smithy.api#documentation": "The ID of the user who created the Global Config, optional because it is not always set."
           }
         },
         "ownerId": {
@@ -900,7 +901,7 @@
         "slug": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name for the Edge Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores).",
+            "smithy.api#documentation": "Name for the Global Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores).",
             "smithy.api#required": {}
           }
         },
@@ -928,7 +929,7 @@
         "transfer": {
           "target": "com.vercel.global_config#UpdateEdgeConfigResponseTransfer",
           "traits": {
-            "smithy.api#documentation": "Keeps track of the current state of the Edge Config while it gets transferred."
+            "smithy.api#documentation": "Keeps track of the current state of the Global Config while it gets transferred."
           }
         },
         "schema": {
@@ -937,7 +938,7 @@
         "syncedToDynamoAt": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Timestamp of when the Edge Config was synced to DynamoDB initially. It is only set when syncing the entire Edge Config, not when updating."
+            "smithy.api#documentation": "Timestamp of when the Global Config was synced to DynamoDB initially. It is only set when syncing the entire Global Config, not when updating."
           }
         },
         "sizeInBytes": {
@@ -1080,7 +1081,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.global_config#EdgeConfigItem": {
+    "com.vercel.global_config#GlobalConfigItem": {
       "type": "structure",
       "members": {
         "key": {
@@ -1090,7 +1091,7 @@
           }
         },
         "value": {
-          "target": "com.vercel.global_config#EdgeConfigItemValue",
+          "target": "com.vercel.global_config#GlobalConfigItemValue",
           "traits": {
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
@@ -1122,7 +1123,7 @@
         "smithy.api#documentation": "The Global Config."
       }
     },
-    "com.vercel.global_config#EdgeConfigItemValue": {
+    "com.vercel.global_config#GlobalConfigItemValue": {
       "type": "union",
       "members": {
         "Case0": {
@@ -1132,10 +1133,10 @@
           "target": "smithy.api#Double"
         },
         "Case2": {
-          "target": "com.vercel.global_config#EdgeConfigItemValueCase2Map"
+          "target": "com.vercel.global_config#GlobalConfigItemValueCase2Map"
         },
         "Case3": {
-          "target": "com.vercel.global_config#EdgeConfigItemValueCase3List"
+          "target": "com.vercel.global_config#GlobalConfigItemValueCase3List"
         },
         "Case4": {
           "target": "smithy.api#Boolean"
@@ -1143,27 +1144,27 @@
       },
       "traits": {}
     },
-    "com.vercel.global_config#EdgeConfigItemValueCase2Map": {
+    "com.vercel.global_config#GlobalConfigItemValueCase2Map": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.global_config#EdgeConfigItemValue"
+        "target": "com.vercel.global_config#GlobalConfigItemValue"
       },
       "traits": {}
     },
-    "com.vercel.global_config#EdgeConfigItemValueCase3List": {
+    "com.vercel.global_config#GlobalConfigItemValueCase3List": {
       "type": "list",
       "member": {
-        "target": "com.vercel.global_config#EdgeConfigItemValue"
+        "target": "com.vercel.global_config#GlobalConfigItemValue"
       },
       "traits": {}
     },
     "com.vercel.global_config#GetEdgeConfigItemsResponseBodyList": {
       "type": "list",
       "member": {
-        "target": "com.vercel.global_config#EdgeConfigItem"
+        "target": "com.vercel.global_config#GlobalConfigItem"
       },
       "traits": {}
     },
@@ -1671,7 +1672,7 @@
         "target": "com.vercel.global_config#GetEdgeConfigItemRequest"
       },
       "output": {
-        "target": "com.vercel.global_config#EdgeConfigItem"
+        "target": "com.vercel.global_config#GlobalConfigItem"
       },
       "errors": [
         {
@@ -1722,7 +1723,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.global_config#EdgeConfigToken": {
+    "com.vercel.global_config#GlobalConfigToken": {
       "type": "structure",
       "members": {
         "partialToken": {
@@ -1774,7 +1775,7 @@
         "target": "com.vercel.global_config#GetEdgeConfigTokensRequest"
       },
       "output": {
-        "target": "com.vercel.global_config#EdgeConfigToken"
+        "target": "com.vercel.global_config#GlobalConfigToken"
       },
       "errors": [
         {
@@ -1921,7 +1922,7 @@
         "target": "com.vercel.global_config#GetEdgeConfigTokenRequest"
       },
       "output": {
-        "target": "com.vercel.global_config#EdgeConfigToken"
+        "target": "com.vercel.global_config#GlobalConfigToken"
       },
       "errors": [
         {
@@ -2084,7 +2085,7 @@
           }
         },
         "value": {
-          "target": "com.vercel.global_config#EdgeConfigItemValue",
+          "target": "com.vercel.global_config#GlobalConfigItemValue",
           "traits": {
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
@@ -2112,7 +2113,7 @@
         "slug": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name for the Edge Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores).",
+            "smithy.api#documentation": "Name for the Global Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores).",
             "smithy.api#required": {}
           }
         },
@@ -2217,7 +2218,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "The object the API responds with when requesting an Edge Config backup"
+        "smithy.api#documentation": "The object the API responds with when requesting a Global Config backup"
       }
     },
     "com.vercel.global_config#GetEdgeConfigBackupResponseBodyCase1User": {
@@ -2266,7 +2267,7 @@
           }
         },
         "value": {
-          "target": "com.vercel.global_config#EdgeConfigItemValue",
+          "target": "com.vercel.global_config#GlobalConfigItemValue",
           "traits": {
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
@@ -2294,7 +2295,7 @@
         "slug": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name for the Edge Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores).",
+            "smithy.api#documentation": "Name for the Global Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores).",
             "smithy.api#required": {}
           }
         },

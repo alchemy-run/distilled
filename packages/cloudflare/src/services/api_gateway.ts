@@ -178,7 +178,7 @@ export const BulkCreateLabelUsersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BulkCreateLabelUsersRequest>;
 
 export type LabelsUserBulkCreateResultItemSource = "user" | "managed";
-export const LabelsUserBulkCreateResultItemSource = /*@__PURE__*/ S.String;
+export const LabelsUserBulkCreateResultItemSource = S.String;
 
 export interface LabelsUserBulkCreateResultItem {
   createdAt: string;
@@ -189,7 +189,7 @@ export interface LabelsUserBulkCreateResultItem {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsUserBulkCreateResultItemSource;
 }
 export const LabelsUserBulkCreateResultItem = /*@__PURE__*/ S.suspend(() =>
@@ -335,14 +335,12 @@ export type OperationsLabelsBulkCreateResultItemMethod =
   | "CONNECT"
   | "PATCH"
   | "TRACE";
-export const OperationsLabelsBulkCreateResultItemMethod =
-  /*@__PURE__*/ S.String;
+export const OperationsLabelsBulkCreateResultItemMethod = S.String;
 
 export type OperationsLabelsBulkCreateResultItemLabelsItemSource =
   | "user"
   | "managed";
-export const OperationsLabelsBulkCreateResultItemLabelsItemSource =
-  /*@__PURE__*/ S.String;
+export const OperationsLabelsBulkCreateResultItemLabelsItemSource = S.String;
 
 export interface OperationsLabelsBulkCreateResultItemLabelsItem {
   createdAt: string;
@@ -353,7 +351,7 @@ export interface OperationsLabelsBulkCreateResultItemLabelsItem {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: OperationsLabelsBulkCreateResultItemLabelsItemSource;
 }
 export const OperationsLabelsBulkCreateResultItemLabelsItem =
@@ -436,7 +434,7 @@ export type OperationsBulkCreateRequestBodyItemMethod =
   | "CONNECT"
   | "PATCH"
   | "TRACE";
-export const OperationsBulkCreateRequestBodyItemMethod = /*@__PURE__*/ S.String;
+export const OperationsBulkCreateRequestBodyItemMethod = S.String;
 
 export interface OperationsBulkCreateRequestBodyItem {
   /** The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/. */
@@ -494,7 +492,7 @@ export type OperationsBulkCreateResultItemMethod =
   | "CONNECT"
   | "PATCH"
   | "TRACE";
-export const OperationsBulkCreateResultItemMethod = /*@__PURE__*/ S.String;
+export const OperationsBulkCreateResultItemMethod = S.String;
 
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholdsThresholds {
   /** The total number of auth-ids seen across this calculation. */
@@ -773,8 +771,6 @@ export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeature
   /** UUID. */
   id?: string | null;
   createdAt?: string | null;
-  /** True if schema is Cloudflare-provided. */
-  isLearned?: boolean | null;
   /** Schema file name. */
   name?: string | null;
 }
@@ -783,7 +779,6 @@ export const OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSche
     S.Struct({
       id: S.optional(S.NullOr(S.String)),
       createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
-      isLearned: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_learned"))),
       name: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
@@ -792,15 +787,15 @@ export const OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSche
   }) as any as S.Schema<OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema>;
 
 export type OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction =
-  "none" | "log" | "block";
+  | "none"
+  | "log"
+  | "block";
 export const OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo {
   /** Schema active on endpoint. */
   activeSchema?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema | null;
-  /** True if a Cloudflare-provided learned schema is available for this endpoint. */
-  learnedAvailable?: boolean | null;
   /** Action taken on requests failing validation. */
   mitigationAction?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction | null;
 }
@@ -811,9 +806,6 @@ export const OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSche
         S.NullOr(
           OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema,
         ).pipe(T.Body("active_schema")),
-      ),
-      learnedAvailable: S.optional(
-        S.NullOr(S.Boolean).pipe(T.Body("learned_available")),
       ),
       mitigationAction: S.optional(
         S.NullOr(
@@ -927,7 +919,7 @@ export const BulkDeleteLabelUsersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BulkDeleteLabelUsersRequest>;
 
 export type LabelsUserBulkDeleteResultItemSource = "user" | "managed";
-export const LabelsUserBulkDeleteResultItemSource = /*@__PURE__*/ S.String;
+export const LabelsUserBulkDeleteResultItemSource = S.String;
 
 export interface LabelsUserBulkDeleteResultItem {
   createdAt: string;
@@ -938,7 +930,7 @@ export interface LabelsUserBulkDeleteResultItem {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsUserBulkDeleteResultItemSource;
 }
 export const LabelsUserBulkDeleteResultItem = /*@__PURE__*/ S.suspend(() =>
@@ -1005,14 +997,12 @@ export type OperationsLabelsBulkDeleteResultItemMethod =
   | "CONNECT"
   | "PATCH"
   | "TRACE";
-export const OperationsLabelsBulkDeleteResultItemMethod =
-  /*@__PURE__*/ S.String;
+export const OperationsLabelsBulkDeleteResultItemMethod = S.String;
 
 export type OperationsLabelsBulkDeleteResultItemLabelsItemSource =
   | "user"
   | "managed";
-export const OperationsLabelsBulkDeleteResultItemLabelsItemSource =
-  /*@__PURE__*/ S.String;
+export const OperationsLabelsBulkDeleteResultItemLabelsItemSource = S.String;
 
 export interface OperationsLabelsBulkDeleteResultItemLabelsItem {
   createdAt: string;
@@ -1023,7 +1013,7 @@ export interface OperationsLabelsBulkDeleteResultItemLabelsItem {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: OperationsLabelsBulkDeleteResultItemLabelsItemSource;
 }
 export const OperationsLabelsBulkDeleteResultItemLabelsItem =
@@ -1126,8 +1116,7 @@ export const BulkDeleteOperationsResponse = /*@__PURE__*/ S.suspend(() =>
 export type DiscoveryOperationsBulkEditRequestBodyValueState =
   | "review"
   | "ignored";
-export const DiscoveryOperationsBulkEditRequestBodyValueState =
-  /*@__PURE__*/ S.String;
+export const DiscoveryOperationsBulkEditRequestBodyValueState = S.String;
 
 export interface DiscoveryOperationsBulkEditRequestBodyValue {
   /** Mark state of operation in API Discovery */
@@ -1173,8 +1162,7 @@ export const BulkPatchDiscoveryOperationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BulkPatchDiscoveryOperationsRequest>;
 
 export type DiscoveryOperationsBulkEditResultValueState = "review" | "ignored";
-export const DiscoveryOperationsBulkEditResultValueState =
-  /*@__PURE__*/ S.String;
+export const DiscoveryOperationsBulkEditResultValueState = S.String;
 
 export interface DiscoveryOperationsBulkEditResultValue {
   /** Mark state of operation in API Discovery */
@@ -1320,14 +1308,12 @@ export type OperationsLabelsBulkUpdateResultItemMethod =
   | "CONNECT"
   | "PATCH"
   | "TRACE";
-export const OperationsLabelsBulkUpdateResultItemMethod =
-  /*@__PURE__*/ S.String;
+export const OperationsLabelsBulkUpdateResultItemMethod = S.String;
 
 export type OperationsLabelsBulkUpdateResultItemLabelsItemSource =
   | "user"
   | "managed";
-export const OperationsLabelsBulkUpdateResultItemLabelsItemSource =
-  /*@__PURE__*/ S.String;
+export const OperationsLabelsBulkUpdateResultItemLabelsItemSource = S.String;
 
 export interface OperationsLabelsBulkUpdateResultItemLabelsItem {
   createdAt: string;
@@ -1338,7 +1324,7 @@ export interface OperationsLabelsBulkUpdateResultItemLabelsItem {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: OperationsLabelsBulkUpdateResultItemLabelsItemSource;
 }
 export const OperationsLabelsBulkUpdateResultItemLabelsItem =
@@ -1468,7 +1454,7 @@ export type OperationsCreateRequestMethod =
   | "CONNECT"
   | "PATCH"
   | "TRACE";
-export const OperationsCreateRequestMethod = /*@__PURE__*/ S.String;
+export const OperationsCreateRequestMethod = S.String;
 
 export interface CreateOperationRequest {
   /** Identifier. */
@@ -1509,7 +1495,7 @@ export type OperationsCreateResponseMethod =
   | "CONNECT"
   | "PATCH"
   | "TRACE";
-export const OperationsCreateResponseMethod = /*@__PURE__*/ S.String;
+export const OperationsCreateResponseMethod = S.String;
 
 export type OperationsCreateResponseFeaturesAPIShieldOperationFeatureThresholdsThresholds =
   OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholdsThresholds;
@@ -1636,15 +1622,15 @@ export const OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfo
   OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema;
 
 export type OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction =
-  "none" | "log" | "block";
+  | "none"
+  | "log"
+  | "block";
 export const OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo {
   /** Schema active on endpoint. */
   activeSchema?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema | null;
-  /** True if a Cloudflare-provided learned schema is available for this endpoint. */
-  learnedAvailable?: boolean | null;
   /** Action taken on requests failing validation. */
   mitigationAction?: OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction | null;
 }
@@ -1655,9 +1641,6 @@ export const OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfo
         S.NullOr(
           OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema,
         ).pipe(T.Body("active_schema")),
-      ),
-      learnedAvailable: S.optional(
-        S.NullOr(S.Boolean).pipe(T.Body("learned_available")),
       ),
       mitigationAction: S.optional(
         S.NullOr(
@@ -1886,11 +1869,10 @@ export type OperationsLabelsCreateResponseMethod =
   | "CONNECT"
   | "PATCH"
   | "TRACE";
-export const OperationsLabelsCreateResponseMethod = /*@__PURE__*/ S.String;
+export const OperationsLabelsCreateResponseMethod = S.String;
 
 export type OperationsLabelsCreateResponseLabelsItemSource = "user" | "managed";
-export const OperationsLabelsCreateResponseLabelsItemSource =
-  /*@__PURE__*/ S.String;
+export const OperationsLabelsCreateResponseLabelsItemSource = S.String;
 
 export interface OperationsLabelsCreateResponseLabelsItem {
   createdAt: string;
@@ -1901,7 +1883,7 @@ export interface OperationsLabelsCreateResponseLabelsItem {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: OperationsLabelsCreateResponseLabelsItemSource;
 }
 export const OperationsLabelsCreateResponseLabelsItem = /*@__PURE__*/ S.suspend(
@@ -1968,7 +1950,9 @@ export const CreateUserSchemaRequest = /*@__PURE__*/ S.suspend(() =>
     file: S.Unknown,
     kind: S.String,
     name: S.optional(S.String),
-    validationEnabled: S.optional(S.Boolean.pipe(T.Body("validation_enabled"))),
+    validationEnabled: S.optional(
+      S.Boolean.pipe(T.Body("validation_enabled"), T.StringEncoded()),
+    ),
   })
     .pipe(
       T.Http({
@@ -1984,7 +1968,7 @@ export const CreateUserSchemaRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateUserSchemaRequest>;
 
 export type UserSchemasCreateResponseSchemaKind = "openapi_v3";
-export const UserSchemasCreateResponseSchemaKind = /*@__PURE__*/ S.String;
+export const UserSchemasCreateResponseSchemaKind = S.String;
 
 export interface UserSchemasCreateResponseSchema {
   createdAt: string;
@@ -2024,7 +2008,7 @@ export const UserSchemasCreateResponseUploadDetailsWarningsItemLocationsList =
 export interface UserSchemasCreateResponseUploadDetailsWarningsItem {
   /** Code that identifies the event that occurred. */
   code: number;
-  /** JSONPath location(s) in the schema where these events were encountered. See <https://goessner.net/articles/JsonPath/> for JSONPath specification. */
+  /** JSONPath location(s) in the schema where these events were encountered. See https://goessner.net/articles/JsonPath/ for JSONPath specification. */
   locations?: UserSchemasCreateResponseUploadDetailsWarningsItemLocationsList | null;
   /** Diagnostic message that describes the event. */
   message?: string | null;
@@ -2108,7 +2092,7 @@ export const DeleteLabelUserRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteLabelUserRequest>;
 
 export type LabelsUserDeleteResponseSource = "user" | "managed";
-export const LabelsUserDeleteResponseSource = /*@__PURE__*/ S.String;
+export const LabelsUserDeleteResponseSource = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteLabelUserResponse {
@@ -2120,7 +2104,7 @@ export interface DeleteLabelUserResponse {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsUserDeleteResponseSource;
 }
 export const DeleteLabelUserResponse = /*@__PURE__*/ S.suspend(() =>
@@ -2199,11 +2183,10 @@ export type OperationsLabelsDeleteResponseMethod =
   | "CONNECT"
   | "PATCH"
   | "TRACE";
-export const OperationsLabelsDeleteResponseMethod = /*@__PURE__*/ S.String;
+export const OperationsLabelsDeleteResponseMethod = S.String;
 
 export type OperationsLabelsDeleteResponseLabelsItemSource = "user" | "managed";
-export const OperationsLabelsDeleteResponseLabelsItemSource =
-  /*@__PURE__*/ S.String;
+export const OperationsLabelsDeleteResponseLabelsItemSource = S.String;
 
 export interface OperationsLabelsDeleteResponseLabelsItem {
   createdAt: string;
@@ -2214,7 +2197,7 @@ export interface OperationsLabelsDeleteResponseLabelsItem {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: OperationsLabelsDeleteResponseLabelsItemSource;
 }
 export const OperationsLabelsDeleteResponseLabelsItem = /*@__PURE__*/ S.suspend(
@@ -2316,9 +2299,10 @@ export const GetConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetConfigurationRequest>;
 
 export type ConfigurationsGetResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicType =
-  "header" | "cookie";
+  | "header"
+  | "cookie";
 export const ConfigurationsGetResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigurationsGetResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristic {
   /** The name of the characteristic field, i.e., the header or cookie name. */
@@ -2340,10 +2324,10 @@ export const ConfigurationsGetResponseAuthIdCharacteristicsItemAPIShieldAuthIDCh
 export type ConfigurationsGetResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicJWTClaimType =
   "jwt";
 export const ConfigurationsGetResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicJWTClaimType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigurationsGetResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicJWTClaim {
-  /** Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id` */
+  /** Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id` is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535 JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html). The JSONPath expression may be in dot or bracket notation, may only specify literal keys or array indexes, and must return a singleton value, which will be interpreted as a string. */
   name: string;
   /** The type of characteristic. */
   type: ConfigurationsGetResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicJWTClaimType;
@@ -2460,7 +2444,7 @@ export const GetLabelManagedRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetLabelManagedRequest>;
 
 export type LabelsManagedGetResponseSource = "user" | "managed";
-export const LabelsManagedGetResponseSource = /*@__PURE__*/ S.String;
+export const LabelsManagedGetResponseSource = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetLabelManagedResponse {
@@ -2472,7 +2456,7 @@ export interface GetLabelManagedResponse {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsManagedGetResponseSource;
   /** Provides counts of what resources are linked to this label */
   mappedResources?: unknown | null;
@@ -2522,7 +2506,7 @@ export const GetLabelUserRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetLabelUserRequest>;
 
 export type LabelsUserGetResponseSource = "user" | "managed";
-export const LabelsUserGetResponseSource = /*@__PURE__*/ S.String;
+export const LabelsUserGetResponseSource = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetLabelUserResponse {
@@ -2534,7 +2518,7 @@ export interface GetLabelUserResponse {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsUserGetResponseSource;
   /** Provides counts of what resources are linked to this label */
   mappedResources?: unknown | null;
@@ -2558,8 +2542,9 @@ export const GetLabelUserResponse = /*@__PURE__*/ S.suspend(() =>
 export type OperationsGetRequestFeature =
   | "thresholds"
   | "parameter_schemas"
-  | "schema_info";
-export const OperationsGetRequestFeature = /*@__PURE__*/ S.String;
+  | "schema_info"
+  | "confidence_intervals";
+export const OperationsGetRequestFeature = S.String;
 
 export type OperationsGetRequestFeatureList = Array<
   OperationsGetRequestFeature | (string & {})
@@ -2607,7 +2592,7 @@ export type OperationsGetResponseMethod =
   | "CONNECT"
   | "PATCH"
   | "TRACE";
-export const OperationsGetResponseMethod = /*@__PURE__*/ S.String;
+export const OperationsGetResponseMethod = S.String;
 
 export type OperationsGetResponseFeaturesAPIShieldOperationFeatureThresholdsThresholds =
   OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholdsThresholds;
@@ -2734,15 +2719,15 @@ export const OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfoSch
   OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema;
 
 export type OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction =
-  "none" | "log" | "block";
+  | "none"
+  | "log"
+  | "block";
 export const OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo {
   /** Schema active on endpoint. */
   activeSchema?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema | null;
-  /** True if a Cloudflare-provided learned schema is available for this endpoint. */
-  learnedAvailable?: boolean | null;
   /** Action taken on requests failing validation. */
   mitigationAction?: OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction | null;
 }
@@ -2753,9 +2738,6 @@ export const OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfoSch
         S.NullOr(
           OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema,
         ).pipe(T.Body("active_schema")),
-      ),
-      learnedAvailable: S.optional(
-        S.NullOr(S.Boolean).pipe(T.Body("learned_available")),
       ),
       mitigationAction: S.optional(
         S.NullOr(
@@ -2961,8 +2943,7 @@ export type OperationsSchemaValidationGetResponseMitigationAction =
   | "log"
   | "block"
   | "none";
-export const OperationsSchemaValidationGetResponseMitigationAction =
-  /*@__PURE__*/ S.String;
+export const OperationsSchemaValidationGetResponseMitigationAction = S.String;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetOperationSchemaValidationResponse {
@@ -3039,7 +3020,7 @@ export const GetUserSchemaRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetUserSchemaRequest>;
 
 export type UserSchemasGetResponseKind = "openapi_v3";
-export const UserSchemasGetResponseKind = /*@__PURE__*/ S.String;
+export const UserSchemasGetResponseKind = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetUserSchemaResponse {
@@ -3071,7 +3052,7 @@ export const GetUserSchemaResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetUserSchemaResponse>;
 
 export type DiscoveryOperationsListRequestDirection = "asc" | "desc";
-export const DiscoveryOperationsListRequestDirection = /*@__PURE__*/ S.String;
+export const DiscoveryOperationsListRequestDirection = S.String;
 
 export type DiscoveryOperationsListRequestHostList = Array<string>;
 export const DiscoveryOperationsListRequestHostList = /*@__PURE__*/ S.Array(
@@ -3089,19 +3070,19 @@ export type DiscoveryOperationsListRequestOrder =
   | "endpoint"
   | "traffic_stats.requests"
   | "traffic_stats.last_updated";
-export const DiscoveryOperationsListRequestOrder = /*@__PURE__*/ S.String;
+export const DiscoveryOperationsListRequestOrder = S.String;
 
 export type DiscoveryOperationsListRequestOrigin =
   | "ML"
   | "SessionIdentifier"
   | "LabelDiscovery";
-export const DiscoveryOperationsListRequestOrigin = /*@__PURE__*/ S.String;
+export const DiscoveryOperationsListRequestOrigin = S.String;
 
 export type DiscoveryOperationsListRequestState =
   | "review"
   | "saved"
   | "ignored";
-export const DiscoveryOperationsListRequestState = /*@__PURE__*/ S.String;
+export const DiscoveryOperationsListRequestState = S.String;
 
 export interface ListDiscoveryOperationsRequest {
   /** Identifier. */
@@ -3167,14 +3148,13 @@ export type DiscoveryOperationsListResultItemMethod =
   | "CONNECT"
   | "PATCH"
   | "TRACE";
-export const DiscoveryOperationsListResultItemMethod = /*@__PURE__*/ S.String;
+export const DiscoveryOperationsListResultItemMethod = S.String;
 
 export type DiscoveryOperationsListResultItemOriginItem =
   | "ML"
   | "SessionIdentifier"
   | "LabelDiscovery";
-export const DiscoveryOperationsListResultItemOriginItem =
-  /*@__PURE__*/ S.String;
+export const DiscoveryOperationsListResultItemOriginItem = S.String;
 
 export type DiscoveryOperationsListResultItemOriginList =
   Array<DiscoveryOperationsListResultItemOriginItem>;
@@ -3187,7 +3167,7 @@ export type DiscoveryOperationsListResultItemState =
   | "review"
   | "saved"
   | "ignored";
-export const DiscoveryOperationsListResultItemState = /*@__PURE__*/ S.String;
+export const DiscoveryOperationsListResultItemState = S.String;
 
 export interface DiscoveryOperationsListResultItemFeaturesTrafficStats {
   lastUpdated: string;
@@ -3276,7 +3256,7 @@ export const ListDiscoveryOperationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListDiscoveryOperationsResponse>;
 
 export type LabelsListRequestDirection = "asc" | "desc";
-export const LabelsListRequestDirection = /*@__PURE__*/ S.String;
+export const LabelsListRequestDirection = S.String;
 
 export type LabelsListRequestOrder =
   | "name"
@@ -3284,10 +3264,10 @@ export type LabelsListRequestOrder =
   | "created_at"
   | "last_updated"
   | "mapped_resources.operations";
-export const LabelsListRequestOrder = /*@__PURE__*/ S.String;
+export const LabelsListRequestOrder = S.String;
 
 export type LabelsListRequestSource = "user" | "managed";
-export const LabelsListRequestSource = /*@__PURE__*/ S.String;
+export const LabelsListRequestSource = S.String;
 
 export interface ListLabelsRequest {
   /** Identifier. */
@@ -3333,7 +3313,7 @@ export const ListLabelsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListLabelsRequest>;
 
 export type LabelsListResultItemSource = "user" | "managed";
-export const LabelsListResultItemSource = /*@__PURE__*/ S.String;
+export const LabelsListResultItemSource = S.String;
 
 export interface LabelsListResultItem {
   createdAt: string;
@@ -3344,7 +3324,7 @@ export interface LabelsListResultItem {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsListResultItemSource;
   /** Provides counts of what resources are linked to this label */
   mappedResources?: unknown | null;
@@ -3386,13 +3366,14 @@ export const ListLabelsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListLabelsResponse>;
 
 export type OperationsListRequestDirection = "asc" | "desc";
-export const OperationsListRequestDirection = /*@__PURE__*/ S.String;
+export const OperationsListRequestDirection = S.String;
 
 export type OperationsListRequestFeature =
   | "thresholds"
   | "parameter_schemas"
-  | "schema_info";
-export const OperationsListRequestFeature = /*@__PURE__*/ S.String;
+  | "schema_info"
+  | "confidence_intervals";
+export const OperationsListRequestFeature = S.String;
 
 export type OperationsListRequestFeatureList = Array<
   OperationsListRequestFeature | (string & {})
@@ -3416,7 +3397,7 @@ export type OperationsListRequestOrder =
   | "host"
   | "endpoint"
   | "thresholds.$key";
-export const OperationsListRequestOrder = /*@__PURE__*/ S.String;
+export const OperationsListRequestOrder = S.String;
 
 export interface ListOperationsRequest {
   /** Identifier. */
@@ -3472,7 +3453,7 @@ export type OperationsListResultItemMethod =
   | "CONNECT"
   | "PATCH"
   | "TRACE";
-export const OperationsListResultItemMethod = /*@__PURE__*/ S.String;
+export const OperationsListResultItemMethod = S.String;
 
 export type OperationsListResultItemFeaturesAPIShieldOperationFeatureThresholdsThresholds =
   OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholdsThresholds;
@@ -3599,15 +3580,15 @@ export const OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfo
   OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema;
 
 export type OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction =
-  "none" | "log" | "block";
+  | "none"
+  | "log"
+  | "block";
 export const OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo {
   /** Schema active on endpoint. */
   activeSchema?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema | null;
-  /** True if a Cloudflare-provided learned schema is available for this endpoint. */
-  learnedAvailable?: boolean | null;
   /** Action taken on requests failing validation. */
   mitigationAction?: OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction | null;
 }
@@ -3618,9 +3599,6 @@ export const OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfo
         S.NullOr(
           OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema,
         ).pipe(T.Body("active_schema")),
-      ),
-      learnedAvailable: S.optional(
-        S.NullOr(S.Boolean).pipe(T.Body("learned_available")),
       ),
       mitigationAction: S.optional(
         S.NullOr(
@@ -3714,8 +3692,9 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
 export type SchemasListRequestFeature =
   | "thresholds"
   | "parameter_schemas"
-  | "schema_info";
-export const SchemasListRequestFeature = /*@__PURE__*/ S.String;
+  | "schema_info"
+  | "confidence_intervals";
+export const SchemasListRequestFeature = S.String;
 
 export type SchemasListRequestFeatureList = Array<
   SchemasListRequestFeature | (string & {})
@@ -3729,6 +3708,16 @@ export const SchemasListRequestHostList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<SchemasListRequestHostList>;
 
+export type SchemasListRequestIncludeSchemaKind = "learned";
+export const SchemasListRequestIncludeSchemaKind = S.String;
+
+export type SchemasListRequestIncludeSchemaKindList = Array<
+  SchemasListRequestIncludeSchemaKind | (string & {})
+>;
+export const SchemasListRequestIncludeSchemaKindList = /*@__PURE__*/ S.Array(
+  SchemasListRequestIncludeSchemaKind,
+) as any as S.Schema<SchemasListRequestIncludeSchemaKindList>;
+
 export interface ListSchemasRequest {
   /** Identifier. */
   zoneId: string;
@@ -3736,12 +3725,19 @@ export interface ListSchemasRequest {
   feature?: SchemasListRequestFeatureList;
   /** Receive schema only for the given host(s). */
   host?: SchemasListRequestHostList;
+  /** Schema kinds to include in exported OpenAPI schemas. */
+  includeSchemaKind?: SchemasListRequestIncludeSchemaKindList;
 }
 export const ListSchemasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
     feature: S.optional(SchemasListRequestFeatureList.pipe(T.Query())),
     host: S.optional(SchemasListRequestHostList.pipe(T.Query())),
+    includeSchemaKind: S.optional(
+      SchemasListRequestIncludeSchemaKindList.pipe(
+        T.Query("include_schema_kind"),
+      ),
+    ),
   })
     .pipe(
       T.Http({
@@ -3849,8 +3845,9 @@ export const ListUserSchemaHostsResponse = /*@__PURE__*/ S.suspend(() =>
 export type UserSchemasOperationsListRequestFeature =
   | "thresholds"
   | "parameter_schemas"
-  | "schema_info";
-export const UserSchemasOperationsListRequestFeature = /*@__PURE__*/ S.String;
+  | "schema_info"
+  | "confidence_intervals";
+export const UserSchemasOperationsListRequestFeature = S.String;
 
 export type UserSchemasOperationsListRequestFeatureList = Array<
   UserSchemasOperationsListRequestFeature | (string & {})
@@ -3873,8 +3870,7 @@ export const UserSchemasOperationsListRequestMethodList = /*@__PURE__*/ S.Array(
 export type UserSchemasOperationsListRequestOperationStatus =
   | "new"
   | "existing";
-export const UserSchemasOperationsListRequestOperationStatus =
-  /*@__PURE__*/ S.String;
+export const UserSchemasOperationsListRequestOperationStatus = S.String;
 
 export interface ListUserSchemaOperationsRequest {
   /** Identifier. */
@@ -3940,7 +3936,7 @@ export type UserSchemasOperationsListResultItemAPIShieldOperationMethod =
   | "PATCH"
   | "TRACE";
 export const UserSchemasOperationsListResultItemAPIShieldOperationMethod =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureThresholdsThresholds =
   OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureThresholdsThresholds;
@@ -4067,15 +4063,15 @@ export const UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShi
   OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema;
 
 export type UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction =
-  "none" | "log" | "block";
+  | "none"
+  | "log"
+  | "block";
 export const UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfo {
   /** Schema active on endpoint. */
   activeSchema?: OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema | null;
-  /** True if a Cloudflare-provided learned schema is available for this endpoint. */
-  learnedAvailable?: boolean | null;
   /** Action taken on requests failing validation. */
   mitigationAction?: UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoMitigationAction | null;
 }
@@ -4086,9 +4082,6 @@ export const UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShi
         S.NullOr(
           OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema,
         ).pipe(T.Body("active_schema")),
-      ),
-      learnedAvailable: S.optional(
-        S.NullOr(S.Boolean).pipe(T.Body("learned_available")),
       ),
       mitigationAction: S.optional(
         S.NullOr(
@@ -4174,7 +4167,7 @@ export type UserSchemasOperationsListResultItemAPIShieldBasicOperationMethod =
   | "PATCH"
   | "TRACE";
 export const UserSchemasOperationsListResultItemAPIShieldBasicOperationMethod =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface UserSchemasOperationsListResultItemAPIShieldBasicOperation {
   /** The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/. */
@@ -4261,7 +4254,7 @@ export const ListUserSchemasRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListUserSchemasRequest>;
 
 export type UserSchemasListResultItemKind = "openapi_v3";
-export const UserSchemasListResultItemKind = /*@__PURE__*/ S.String;
+export const UserSchemasListResultItemKind = S.String;
 
 export interface UserSchemasListResultItem {
   createdAt: string;
@@ -4341,7 +4334,7 @@ export const PatchLabelUserRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchLabelUserRequest>;
 
 export type LabelsUserEditResponseSource = "user" | "managed";
-export const LabelsUserEditResponseSource = /*@__PURE__*/ S.String;
+export const LabelsUserEditResponseSource = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchLabelUserResponse {
@@ -4353,7 +4346,7 @@ export interface PatchLabelUserResponse {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsUserEditResponseSource;
 }
 export const PatchLabelUserResponse = /*@__PURE__*/ S.suspend(() =>
@@ -4370,9 +4363,11 @@ export const PatchLabelUserResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchLabelUserResponse>;
 
 export type OperationsSchemaValidationEditRequestSettingsMultipleRequestMitigationAction =
-  "log" | "block" | "none";
+  | "log"
+  | "block"
+  | "none";
 export const OperationsSchemaValidationEditRequestSettingsMultipleRequestMitigationAction =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface OperationsSchemaValidationEditRequestSettingsMultipleRequest {
   /** When set, this applies a mitigation action to this operation */
@@ -4423,8 +4418,7 @@ export type OperationsSchemaValidationEditResponseMitigationAction =
   | "log"
   | "block"
   | "none";
-export const OperationsSchemaValidationEditResponseMitigationAction =
-  /*@__PURE__*/ S.String;
+export const OperationsSchemaValidationEditResponseMitigationAction = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchOperationSchemaValidationResponse {
@@ -4445,19 +4439,22 @@ export const PatchOperationSchemaValidationResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PatchOperationSchemaValidationResponse>;
 
 export type SettingsSchemaValidationEditRequestValidationDefaultMitigationAction =
-  "none" | "log" | "block";
+  | "none"
+  | "log"
+  | "block";
 export const SettingsSchemaValidationEditRequestValidationDefaultMitigationAction =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type SettingsSchemaValidationEditRequestValidationOverrideMitigationAction =
-  "none" | "disable_override";
+  | "none"
+  | "disable_override";
 export const SettingsSchemaValidationEditRequestValidationOverrideMitigationAction =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PatchSettingSchemaValidationRequest {
   /** Identifier. */
   zoneId: string;
-  /** The default mitigation action used when there is no mitigation action defined on the operation */
+  /** The default mitigation action used when there is no mitigation action defined on the operation Mitigation actions are as follows: */
   validationDefaultMitigationAction?:
     | SettingsSchemaValidationEditRequestValidationDefaultMitigationAction
     | (string & {});
@@ -4526,7 +4523,7 @@ export const PatchUserSchemaRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchUserSchemaRequest>;
 
 export type UserSchemasEditResponseKind = "openapi_v3";
-export const UserSchemasEditResponseKind = /*@__PURE__*/ S.String;
+export const UserSchemasEditResponseKind = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchUserSchemaResponse {
@@ -4558,9 +4555,10 @@ export const PatchUserSchemaResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchUserSchemaResponse>;
 
 export type ConfigurationsUpdateRequestAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicType =
-  "header" | "cookie";
+  | "header"
+  | "cookie";
 export const ConfigurationsUpdateRequestAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigurationsUpdateRequestAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristic {
   /** The name of the characteristic field, i.e., the header or cookie name. */
@@ -4584,10 +4582,10 @@ export const ConfigurationsUpdateRequestAuthIdCharacteristicsItemAPIShieldAuthID
 export type ConfigurationsUpdateRequestAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicJWTClaimType =
   "jwt";
 export const ConfigurationsUpdateRequestAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicJWTClaimType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigurationsUpdateRequestAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicJWTClaim {
-  /** Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id` */
+  /** Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id` is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535 JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html). The JSONPath expression may be in dot or bracket notation, may only specify literal keys or array indexes, and must return a singleton value, which will be interpreted as a string. */
   name: string;
   /** The type of characteristic. */
   type: ConfigurationsUpdateRequestAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicJWTClaimType;
@@ -4650,9 +4648,10 @@ export const PutConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PutConfigurationRequest>;
 
 export type ConfigurationsUpdateResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicType =
-  "header" | "cookie";
+  | "header"
+  | "cookie";
 export const ConfigurationsUpdateResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigurationsUpdateResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristic {
   /** The name of the characteristic field, i.e., the header or cookie name. */
@@ -4674,10 +4673,10 @@ export const ConfigurationsUpdateResponseAuthIdCharacteristicsItemAPIShieldAuthI
 export type ConfigurationsUpdateResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicJWTClaimType =
   "jwt";
 export const ConfigurationsUpdateResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicJWTClaimType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigurationsUpdateResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicJWTClaim {
-  /** Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id` */
+  /** Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id` is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535 JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html). The JSONPath expression may be in dot or bracket notation, may only specify literal keys or array indexes, and must return a singleton value, which will be interpreted as a string. */
   name: string;
   /** The type of characteristic. */
   type: ConfigurationsUpdateResponseAuthIdCharacteristicsItemAPIShieldAuthIDCharacteristicJWTClaimType;
@@ -4790,8 +4789,7 @@ export const PutLabelManagedResourceOperationRequest = /*@__PURE__*/ S.suspend(
 export type LabelsManagedResourcesOperationUpdateResponseSource =
   | "user"
   | "managed";
-export const LabelsManagedResourcesOperationUpdateResponseSource =
-  /*@__PURE__*/ S.String;
+export const LabelsManagedResourcesOperationUpdateResponseSource = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutLabelManagedResourceOperationResponse {
@@ -4803,7 +4801,7 @@ export interface PutLabelManagedResourceOperationResponse {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsManagedResourcesOperationUpdateResponseSource;
   /** Provides counts of what resources are linked to this label */
   mappedResources?: unknown | null;
@@ -4855,7 +4853,7 @@ export const PutLabelUserRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PutLabelUserRequest>;
 
 export type LabelsUserUpdateResponseSource = "user" | "managed";
-export const LabelsUserUpdateResponseSource = /*@__PURE__*/ S.String;
+export const LabelsUserUpdateResponseSource = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutLabelUserResponse {
@@ -4867,7 +4865,7 @@ export interface PutLabelUserResponse {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsUserUpdateResponseSource;
 }
 export const PutLabelUserResponse = /*@__PURE__*/ S.suspend(() =>
@@ -4947,8 +4945,7 @@ export const PutLabelUserResourceOperationRequest = /*@__PURE__*/ S.suspend(
 export type LabelsUserResourcesOperationUpdateResponseSource =
   | "user"
   | "managed";
-export const LabelsUserResourcesOperationUpdateResponseSource =
-  /*@__PURE__*/ S.String;
+export const LabelsUserResourcesOperationUpdateResponseSource = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutLabelUserResourceOperationResponse {
@@ -4960,7 +4957,7 @@ export interface PutLabelUserResourceOperationResponse {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: LabelsUserResourcesOperationUpdateResponseSource;
   /** Provides counts of what resources are linked to this label */
   mappedResources?: unknown | null;
@@ -4986,8 +4983,7 @@ export type OperationsSchemaValidationUpdateRequestMitigationAction =
   | "log"
   | "block"
   | "none";
-export const OperationsSchemaValidationUpdateRequestMitigationAction =
-  /*@__PURE__*/ S.String;
+export const OperationsSchemaValidationUpdateRequestMitigationAction = S.String;
 
 export interface PutOperationSchemaValidationRequest {
   /** Identifier. */
@@ -5026,7 +5022,7 @@ export type OperationsSchemaValidationUpdateResponseMitigationAction =
   | "block"
   | "none";
 export const OperationsSchemaValidationUpdateResponseMitigationAction =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface PutOperationSchemaValidationResponse {
@@ -5050,14 +5046,17 @@ export const PutOperationSchemaValidationResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PutOperationSchemaValidationResponse>;
 
 export type SettingsSchemaValidationUpdateRequestValidationDefaultMitigationAction =
-  "none" | "log" | "block";
+  | "none"
+  | "log"
+  | "block";
 export const SettingsSchemaValidationUpdateRequestValidationDefaultMitigationAction =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type SettingsSchemaValidationUpdateRequestValidationOverrideMitigationAction =
-  "none" | "disable_override";
+  | "none"
+  | "disable_override";
 export const SettingsSchemaValidationUpdateRequestValidationOverrideMitigationAction =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PutSettingSchemaValidationRequest {
   /** Identifier. */
@@ -5153,11 +5152,10 @@ export type OperationsLabelsUpdateResponseMethod =
   | "CONNECT"
   | "PATCH"
   | "TRACE";
-export const OperationsLabelsUpdateResponseMethod = /*@__PURE__*/ S.String;
+export const OperationsLabelsUpdateResponseMethod = S.String;
 
 export type OperationsLabelsUpdateResponseLabelsItemSource = "user" | "managed";
-export const OperationsLabelsUpdateResponseLabelsItemSource =
-  /*@__PURE__*/ S.String;
+export const OperationsLabelsUpdateResponseLabelsItemSource = S.String;
 
 export interface OperationsLabelsUpdateResponseLabelsItem {
   createdAt: string;
@@ -5168,7 +5166,7 @@ export interface OperationsLabelsUpdateResponseLabelsItem {
   metadata: unknown;
   /** The name of the label */
   name: string;
-  /** * `user` - label is owned by the user */
+  /** - `user` - label is owned by the user - `managed` - label is owned by cloudflare */
   source: OperationsLabelsUpdateResponseLabelsItemSource;
 }
 export const OperationsLabelsUpdateResponseLabelsItem = /*@__PURE__*/ S.suspend(
@@ -5221,7 +5219,7 @@ export type BulkCreateLabelUsersError =
   | LabelAlreadyExists
   | Forbidden
   | CloudflareOpError;
-/** Create user labels */
+/** Creates one or more user-defined labels for classifying web and API operations. */
 export const bulkCreateLabelUsers: API.PaginatedOperationMethod<
   BulkCreateLabelUsersRequest,
   BulkCreateLabelUsersResponse,
@@ -5246,7 +5244,7 @@ export const bulkCreateLabelUsers: API.PaginatedOperationMethod<
 ) as any;
 
 export type BulkCreateOperationLabelsError = CloudflareOpError;
-/** Bulk attach label(s) on operation(s) in endpoint management */
+/** Attaches labels to multiple web or API operations in one request. */
 export const bulkCreateOperationLabels: API.PaginatedOperationMethod<
   BulkCreateOperationLabelsRequest,
   BulkCreateOperationLabelsResponse,
@@ -5266,7 +5264,7 @@ export const bulkCreateOperationLabels: API.PaginatedOperationMethod<
 ) as any;
 
 export type BulkCreateOperationsError = CloudflareOpError;
-/** Add one or more operations to a zone. Endpoints can contain path variables. Host, method, endpoint will be normalized to a canoncial form when creating an operation and must be unique on the zone. Inserting an operation that matches an existing one will return the record of the already existing operation and update its last_updated date. */
+/** Creates one or more web or API operations. Hosts, methods, and paths are normalized; an existing matching operation is returned instead of duplicated. */
 export const bulkCreateOperations: API.PaginatedOperationMethod<
   BulkCreateOperationsRequest,
   BulkCreateOperationsResponse,
@@ -5286,7 +5284,7 @@ export const bulkCreateOperations: API.PaginatedOperationMethod<
 ) as any;
 
 export type BulkDeleteLabelUsersError = CloudflareOpError;
-/** Delete user labels */
+/** Deletes one or more user-defined labels and removes their associations with web and API operations. */
 export const bulkDeleteLabelUsers: API.PaginatedOperationMethod<
   BulkDeleteLabelUsersRequest,
   BulkDeleteLabelUsersResponse,
@@ -5306,7 +5304,7 @@ export const bulkDeleteLabelUsers: API.PaginatedOperationMethod<
 ) as any;
 
 export type BulkDeleteOperationLabelsError = CloudflareOpError;
-/** Bulk remove label(s) on operation(s) in endpoint management */
+/** Removes labels from multiple web or API operations in one request. */
 export const bulkDeleteOperationLabels: API.PaginatedOperationMethod<
   BulkDeleteOperationLabelsRequest,
   BulkDeleteOperationLabelsResponse,
@@ -5328,7 +5326,7 @@ export const bulkDeleteOperationLabels: API.PaginatedOperationMethod<
 export type BulkDeleteOperationsError =
   | InvalidObjectIdentifier
   | CloudflareOpError;
-/** Bulk removes multiple API operations from API Shield endpoint management in a single request. Efficient for cleaning up unused endpoints. */
+/** Deletes multiple web or API operations from endpoint management in one request. */
 export const bulkDeleteOperations: API.OperationMethod<
   BulkDeleteOperationsRequest,
   BulkDeleteOperationsResponse,
@@ -5346,7 +5344,7 @@ export type BulkPatchDiscoveryOperationsError =
   | InvalidObjectIdentifier
   | NotEntitled
   | CloudflareOpError;
-/** Update the `state` on one or more discovered operations */
+/** Updates the state of one or more discovered web and API operations. */
 export const bulkPatchDiscoveryOperations: API.OperationMethod<
   BulkPatchDiscoveryOperationsRequest,
   BulkPatchDiscoveryOperationsResponse,
@@ -5366,7 +5364,7 @@ export const bulkPatchDiscoveryOperations: API.OperationMethod<
 }));
 
 export type BulkUpdateOperationLabelsError = CloudflareOpError;
-/** Bulk replace label(s) on operation(s) in endpoint management */
+/** Replaces the complete label sets on multiple web or API operations in one request. */
 export const bulkUpdateOperationLabels: API.PaginatedOperationMethod<
   BulkUpdateOperationLabelsRequest,
   BulkUpdateOperationLabelsResponse,
@@ -5388,7 +5386,7 @@ export const bulkUpdateOperationLabels: API.PaginatedOperationMethod<
 export type CreateExpressionTemplateFallthroughError =
   | InvalidObjectIdentifier
   | CloudflareOpError;
-/** Creates an expression template fallthrough rule for API Shield. Used for configuring default behavior when no other expression templates match. */
+/** Generates a WAF expression template that matches fallthrough traffic for the supplied API hosts. This operation is deprecated and should not be used for new integrations. */
 export const createExpressionTemplateFallthrough: API.OperationMethod<
   CreateExpressionTemplateFallthroughRequest,
   CreateExpressionTemplateFallthroughResponse,
@@ -5406,7 +5404,7 @@ export type CreateOperationError =
   | InvalidObjectIdentifier
   | Forbidden
   | CloudflareOpError;
-/** Add one operation to a zone. Endpoints can contain path variables. Host, method, endpoint will be normalized to a canoncial form when creating an operation and must be unique on the zone. Inserting an operation that matches an existing one will return the record of the already existing operation and update its last_updated date. */
+/** Creates one web or API operation. The host, method, and path are normalized; an existing matching operation is returned instead of duplicated. */
 export const createOperation: API.OperationMethod<
   CreateOperationRequest,
   CreateOperationResponse,
@@ -5426,7 +5424,7 @@ export const createOperation: API.OperationMethod<
 }));
 
 export type CreateOperationLabelError = CloudflareOpError;
-/** Attach label(s) on an operation in endpoint management */
+/** Attaches one or more labels to a web or API operation. */
 export const createOperationLabel: API.OperationMethod<
   CreateOperationLabelRequest,
   CreateOperationLabelResponse,
@@ -5444,7 +5442,7 @@ export type CreateUserSchemaError =
   | InvalidObjectIdentifier
   | Forbidden
   | CloudflareOpError;
-/** Uploads a new OpenAPI schema for API Shield schema validation. The schema defines expected request/response formats for API endpoints. */
+/** Uploads an OpenAPI schema that defines expected request formats for API endpoints. Deprecated; use `/zones/{zone_id}/schema_validation/schemas` instead. */
 export const createUserSchema: API.OperationMethod<
   CreateUserSchemaRequest,
   CreateUserSchemaResponse,
@@ -5467,7 +5465,7 @@ export type DeleteLabelUserError =
   | LabelNotFound
   | Forbidden
   | CloudflareOpError;
-/** Delete user label */
+/** Deletes a user-defined label and removes its associations with web and API operations. */
 export const deleteLabelUser: API.OperationMethod<
   DeleteLabelUserRequest,
   DeleteLabelUserResponse,
@@ -5486,7 +5484,7 @@ export type DeleteOperationError =
   | OperationNotFound
   | Forbidden
   | CloudflareOpError;
-/** Removes a single API operation from API Shield endpoint management. The operation will no longer be tracked or protected by API Shield rules. */
+/** Deletes a web or API operation from endpoint management so its feature configuration is no longer tracked. */
 export const deleteOperation: API.OperationMethod<
   DeleteOperationRequest,
   DeleteOperationResponse,
@@ -5507,7 +5505,7 @@ export const deleteOperation: API.OperationMethod<
 }));
 
 export type DeleteOperationLabelError = CloudflareOpError;
-/** Remove label(s) on an operation in endpoint management */
+/** Removes one or more labels from a web or API operation. */
 export const deleteOperationLabel: API.OperationMethod<
   DeleteOperationLabelRequest,
   DeleteOperationLabelResponse,
@@ -5526,7 +5524,7 @@ export type DeleteUserSchemaError =
   | SchemaNotFound
   | Forbidden
   | CloudflareOpError;
-/** Permanently removes an uploaded OpenAPI schema from API Shield schema validation. Operations using this schema will lose their validation rules. */
+/** Permanently removes an uploaded OpenAPI schema from API Shield schema validation. Operations using this schema will lose their validation rules. Deprecated; use `/zones/{zone_id}/schema_validation/schemas/{schema_id}` instead. */
 export const deleteUserSchema: API.OperationMethod<
   DeleteUserSchemaRequest,
   DeleteUserSchemaResponse,
@@ -5551,7 +5549,7 @@ export type GetConfigurationError =
   | NotEntitled
   | Forbidden
   | CloudflareOpError;
-/** Gets the current API Shield configuration settings for a zone, including validation behavior and enforcement mode. */
+/** Returns the authentication identifier characteristics configured for the zone. Header, cookie, or JWT claim values identify distinct API sessions. */
 export const getConfiguration: API.OperationMethod<
   GetConfigurationRequest,
   GetConfigurationResponse,
@@ -5575,7 +5573,7 @@ export type GetDiscoveryError =
   | InvalidObjectIdentifier
   | NotEntitled
   | CloudflareOpError;
-/** Retrieve the most up to date view of discovered operations, rendered as OpenAPI schemas */
+/** Returns the latest API operations discovered from zone traffic, rendered as OpenAPI schemas. */
 export const getDiscovery: API.OperationMethod<
   GetDiscoveryRequest,
   GetDiscoveryResponse,
@@ -5595,7 +5593,7 @@ export const getDiscovery: API.OperationMethod<
 }));
 
 export type GetLabelManagedError = CloudflareOpError;
-/** Retrieve managed label */
+/** Returns a managed label and the web and API operations associated with it. */
 export const getLabelManaged: API.OperationMethod<
   GetLabelManagedRequest,
   GetLabelManagedResponse,
@@ -5610,7 +5608,7 @@ export const getLabelManaged: API.OperationMethod<
 }));
 
 export type GetLabelUserError = LabelNotFound | Forbidden | CloudflareOpError;
-/** Retrieve user label */
+/** Returns a user-defined label and the web and API operations associated with it. */
 export const getLabelUser: API.OperationMethod<
   GetLabelUserRequest,
   GetLabelUserResponse,
@@ -5629,7 +5627,7 @@ export type GetOperationError =
   | OperationNotFound
   | Forbidden
   | CloudflareOpError;
-/** Gets detailed information about a specific API operation in API Shield, including its schema validation settings and traffic statistics. */
+/** Returns a web or API operation, including its schema validation settings and requested feature data. */
 export const getOperation: API.OperationMethod<
   GetOperationRequest,
   GetOperationResponse,
@@ -5653,7 +5651,7 @@ export type GetOperationSchemaValidationError =
   | InvalidObjectIdentifier
   | OperationNotFound
   | CloudflareOpError;
-/** Retrieves operation-level schema validation settings on the zone */
+/** Retrieves operation-level schema validation settings on the zone. Deprecated; use `/zones/{zone_id}/schema_validation/settings/operations/{operation_id}` instead. */
 export const getOperationSchemaValidation: API.OperationMethod<
   GetOperationSchemaValidationRequest,
   GetOperationSchemaValidationResponse,
@@ -5675,7 +5673,7 @@ export const getOperationSchemaValidation: API.OperationMethod<
 export type GetSettingSchemaValidationError =
   | InvalidObjectIdentifier
   | CloudflareOpError;
-/** Retrieves zone level schema validation settings currently set on the zone */
+/** Retrieves zone level schema validation settings currently set on the zone. Deprecated; use `/zones/{zone_id}/schema_validation/settings` instead. */
 export const getSettingSchemaValidation: API.OperationMethod<
   GetSettingSchemaValidationRequest,
   GetSettingSchemaValidationResponse,
@@ -5694,7 +5692,7 @@ export type GetUserSchemaError =
   | SchemaNotFound
   | Forbidden
   | CloudflareOpError;
-/** Gets detailed information about a specific uploaded OpenAPI schema, including its contents and validation configuration. */
+/** Gets detailed information about a specific uploaded OpenAPI schema, including its contents and validation configuration. Deprecated; use `/zones/{zone_id}/schema_validation/schemas/{schema_id}` instead. */
 export const getUserSchema: API.OperationMethod<
   GetUserSchemaRequest,
   GetUserSchemaResponse,
@@ -5715,7 +5713,7 @@ export const getUserSchema: API.OperationMethod<
 }));
 
 export type ListDiscoveryOperationsError = CloudflareOpError;
-/** Retrieve the most up to date view of discovered operations */
+/** Returns the latest web and API operations discovered from zone traffic. */
 export const listDiscoveryOperations: API.PaginatedOperationMethod<
   ListDiscoveryOperationsRequest,
   ListDiscoveryOperationsResponse,
@@ -5745,7 +5743,7 @@ export type ListLabelsError =
   | Forbidden
   | NotFound
   | CloudflareOpError;
-/** Retrieve all labels */
+/** Returns all managed and user-defined labels available for web and API operations in the zone. */
 export const listLabels: API.PaginatedOperationMethod<
   ListLabelsRequest,
   ListLabelsResponse,
@@ -5777,7 +5775,7 @@ export const listLabels: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListOperationsError = Forbidden | CloudflareOpError;
-/** Lists all API operations tracked by API Shield for a zone with pagination. Returns operation details including method, path, and feature configurations. */
+/** Lists web and API operations tracked for the zone, including each operation's method, path, and feature configuration. */
 export const listOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
@@ -5803,7 +5801,7 @@ export const listOperations: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListSchemasError = InvalidObjectIdentifier | CloudflareOpError;
-/** Retrieves API operations and their features exported as OpenAPI schemas. */
+/** Returns tracked web and API operations and their feature configuration rendered as OpenAPI schemas. */
 export const listSchemas: API.OperationMethod<
   ListSchemasRequest,
   ListSchemasResponse,
@@ -5818,7 +5816,7 @@ export const listSchemas: API.OperationMethod<
 }));
 
 export type ListUserSchemaHostsError = CloudflareOpError;
-/** Lists all unique hosts found in uploaded OpenAPI schemas for the zone. Useful for understanding which domains have schema coverage. */
+/** Lists all unique hosts found in uploaded OpenAPI schemas for the zone. Useful for understanding which domains have schema coverage. Deprecated; use `/zones/{zone_id}/schema_validation/schemas/hosts` instead. */
 export const listUserSchemaHosts: API.PaginatedOperationMethod<
   ListUserSchemaHostsRequest,
   ListUserSchemaHostsResponse,
@@ -5844,7 +5842,7 @@ export const listUserSchemaHosts: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListUserSchemaOperationsError = CloudflareOpError;
-/** Retrieves all operations from the schema. Operations that already exist in API Shield Endpoint Management will be returned as full operations. */
+/** Retrieves all operations from the schema. Operations that already exist in API Shield Endpoint Management will be returned as full operations. Deprecated; use `/zones/{zone_id}/schema_validation/schemas/{schema_id}/operations` instead. */
 export const listUserSchemaOperations: API.PaginatedOperationMethod<
   ListUserSchemaOperationsRequest,
   ListUserSchemaOperationsResponse,
@@ -5870,7 +5868,7 @@ export const listUserSchemaOperations: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListUserSchemasError = ZonePurged | Forbidden | CloudflareOpError;
-/** Lists all OpenAPI schemas uploaded to API Shield for the zone, including their validation status and associated operations. */
+/** Lists all OpenAPI schemas uploaded to API Shield for the zone, including their validation status and associated operations. Deprecated; use `/zones/{zone_id}/schema_validation/schemas` instead. */
 export const listUserSchemas: API.PaginatedOperationMethod<
   ListUserSchemasRequest,
   ListUserSchemasResponse,
@@ -5896,7 +5894,7 @@ export const listUserSchemas: API.PaginatedOperationMethod<
 ) as any;
 
 export type PatchLabelUserError = LabelNotFound | CloudflareOpError;
-/** Update certain fields on a label */
+/** Updates only the supplied fields on a user-defined label. */
 export const patchLabelUser: API.OperationMethod<
   PatchLabelUserRequest,
   PatchLabelUserResponse,
@@ -5913,7 +5911,7 @@ export const patchLabelUser: API.OperationMethod<
 export type PatchOperationSchemaValidationError =
   | InvalidObjectIdentifier
   | CloudflareOpError;
-/** Updates multiple operation-level schema validation settings on the zone */
+/** Updates multiple operation-level schema validation settings on the zone. Deprecated; use `/zones/{zone_id}/schema_validation/settings/operations` instead. */
 export const patchOperationSchemaValidation: API.OperationMethod<
   PatchOperationSchemaValidationRequest,
   PatchOperationSchemaValidationResponse,
@@ -5930,7 +5928,7 @@ export const patchOperationSchemaValidation: API.OperationMethod<
 export type PatchSettingSchemaValidationError =
   | InvalidObjectIdentifier
   | CloudflareOpError;
-/** Updates zone level schema validation settings on the zone */
+/** Updates zone level schema validation settings on the zone. Deprecated; use `/zones/{zone_id}/schema_validation/settings` instead. */
 export const patchSettingSchemaValidation: API.OperationMethod<
   PatchSettingSchemaValidationRequest,
   PatchSettingSchemaValidationResponse,
@@ -5949,7 +5947,7 @@ export type PatchUserSchemaError =
   | SchemaNotFound
   | Forbidden
   | CloudflareOpError;
-/** Activates schema validation for an uploaded OpenAPI schema. Requests to matching endpoints will be validated against the schema definitions. */
+/** Activates schema validation for an uploaded OpenAPI schema. Requests to matching endpoints will be validated against the schema definitions. Deprecated; use `/zones/{zone_id}/schema_validation/schemas/{schema_id}` instead. */
 export const patchUserSchema: API.OperationMethod<
   PatchUserSchemaRequest,
   PatchUserSchemaResponse,
@@ -5974,7 +5972,7 @@ export type PutConfigurationError =
   | NotEntitled
   | Forbidden
   | CloudflareOpError;
-/** Updates API Shield configuration settings for a zone. Can modify validation strictness, enforcement mode, and other global settings. */
+/** Replaces the zone's authentication identifier characteristics used to identify distinct API sessions. */
 export const putConfiguration: API.OperationMethod<
   PutConfigurationRequest,
   PutConfigurationResponse,
@@ -5995,7 +5993,7 @@ export const putConfiguration: API.OperationMethod<
 }));
 
 export type PutLabelManagedResourceOperationError = CloudflareOpError;
-/** Replace all operations(s) attached to a managed label */
+/** Replaces the complete set of web and API operations attached to the managed label. */
 export const putLabelManagedResourceOperation: API.OperationMethod<
   PutLabelManagedResourceOperationRequest,
   PutLabelManagedResourceOperationResponse,
@@ -6010,7 +6008,7 @@ export const putLabelManagedResourceOperation: API.OperationMethod<
 }));
 
 export type PutLabelUserError = LabelNotFound | CloudflareOpError;
-/** Update all fields on a label */
+/** Replaces all editable fields on a user-defined label. */
 export const putLabelUser: API.OperationMethod<
   PutLabelUserRequest,
   PutLabelUserResponse,
@@ -6025,7 +6023,7 @@ export const putLabelUser: API.OperationMethod<
 }));
 
 export type PutLabelUserResourceOperationError = CloudflareOpError;
-/** Replace all operations(s) attached to a user label */
+/** Replaces the complete set of web and API operations attached to the user-defined label. */
 export const putLabelUserResourceOperation: API.OperationMethod<
   PutLabelUserResourceOperationRequest,
   PutLabelUserResourceOperationResponse,
@@ -6043,7 +6041,7 @@ export type PutOperationSchemaValidationError =
   | InvalidObjectIdentifier
   | OperationNotFound
   | CloudflareOpError;
-/** Updates operation-level schema validation settings on the zone */
+/** Updates operation-level schema validation settings on the zone. Deprecated; use `/zones/{zone_id}/schema_validation/settings/operations/{operation_id}` instead. */
 export const putOperationSchemaValidation: API.OperationMethod<
   PutOperationSchemaValidationRequest,
   PutOperationSchemaValidationResponse,
@@ -6065,7 +6063,7 @@ export const putOperationSchemaValidation: API.OperationMethod<
 export type PutSettingSchemaValidationError =
   | InvalidObjectIdentifier
   | CloudflareOpError;
-/** Updates zone level schema validation settings on the zone */
+/** Updates zone level schema validation settings on the zone. Deprecated; use `/zones/{zone_id}/schema_validation/settings` instead. */
 export const putSettingSchemaValidation: API.OperationMethod<
   PutSettingSchemaValidationRequest,
   PutSettingSchemaValidationResponse,
@@ -6080,7 +6078,7 @@ export const putSettingSchemaValidation: API.OperationMethod<
 }));
 
 export type UpdateOperationLabelError = CloudflareOpError;
-/** Replace label(s) on an operation in endpoint management */
+/** Replaces the complete label set on a web or API operation. */
 export const updateOperationLabel: API.OperationMethod<
   UpdateOperationLabelRequest,
   UpdateOperationLabelResponse,

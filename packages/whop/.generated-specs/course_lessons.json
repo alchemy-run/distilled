@@ -1,0 +1,1924 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.course_lessons#ListCourseLessonRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "course_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "course_id"
+          }
+        },
+        "chapter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "chapter_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_lessons#CourseLessonListItem": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Markdown content body of the lesson. Null if the lesson has no text content.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the lesson was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "days_from_course_start_until_unlock": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of days after a student starts the course before this lesson becomes accessible. Null if the lesson is available immediately.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "embed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external video identifier for embedded video lessons, such as a YouTube video ID or Loom share ID. Null if the lesson has no embed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "embed_type": {
+          "target": "com.whop.course_lessons#EmbedTypes",
+          "traits": {
+            "smithy.api#documentation": "The platform type for the embedded video. One of: youtube, loom. Null if the lesson has no embed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the lesson.",
+            "smithy.api#required": {}
+          }
+        },
+        "lesson_type": {
+          "target": "com.whop.course_lessons#LessonTypes",
+          "traits": {
+            "smithy.api#documentation": "The content format of this lesson. One of: text, video, pdf, multi, quiz, knowledge_check.",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The sort position of this lesson within its parent chapter, starting from zero.",
+            "smithy.api#required": {}
+          }
+        },
+        "thumbnail": {
+          "target": "com.whop.course_lessons#CourseLessonListItemThumbnail",
+          "traits": {
+            "smithy.api#documentation": "The thumbnail image displayed on lesson cards and previews. Null if no thumbnail has been uploaded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the lesson shown to students. Maximum 120 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.course_lessons#LessonVisibilities",
+          "traits": {
+            "smithy.api#documentation": "The visibility setting that controls whether this lesson appears to students. One of: visible, hidden.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An individual learning unit within a chapter, which can contain text, video, PDF, or assessment content."
+      }
+    },
+    "com.whop.course_lessons#EmbedTypes": {
+      "type": "enum",
+      "members": {
+        "YOUTUBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "youtube"
+          }
+        },
+        "LOOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "loom"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of embed for a lesson"
+      }
+    },
+    "com.whop.course_lessons#LessonTypes": {
+      "type": "enum",
+      "members": {
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        },
+        "VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video"
+          }
+        },
+        "PDF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pdf"
+          }
+        },
+        "MULTI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multi"
+          }
+        },
+        "QUIZ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quiz"
+          }
+        },
+        "KNOWLEDGE_CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "knowledge_check"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The available types for a lesson"
+      }
+    },
+    "com.whop.course_lessons#CourseLessonListItemThumbnail": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The thumbnail image displayed on lesson cards and previews. Null if no thumbnail has been uploaded."
+      }
+    },
+    "com.whop.course_lessons#LessonVisibilities": {
+      "type": "enum",
+      "members": {
+        "VISIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visible"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The available visibilities for a lesson. Determines how / whether a lesson is visible to users."
+      }
+    },
+    "com.whop.course_lessons#ListCourseLessonResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.course_lessons#CourseLessonListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.course_lessons#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.course_lessons#ListCourseLessonResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.course_lessons#ListCourseLessonResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.course_lessons#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.course_lessons#ListCourseLesson": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_lessons#ListCourseLessonRequest"
+      },
+      "output": {
+        "target": "com.whop.course_lessons#ListCourseLessonResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_lessons#BadRequest"
+        },
+        {
+          "target": "com.whop.course_lessons#Forbidden"
+        },
+        {
+          "target": "com.whop.course_lessons#NotFound"
+        },
+        {
+          "target": "com.whop.course_lessons#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/course_lessons",
+          "code": 200
+        },
+        "smithy.api#documentation": "List course lessons\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of lessons within a course or chapter, ordered by position.\n\nRequired permissions:\n - `courses:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.course_lessons#CreateCourseLessonRequestThumbnail": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The thumbnail image for the lesson in PNG, JPEG, or GIF format."
+      }
+    },
+    "com.whop.course_lessons#CreateCourseLessonRequest": {
+      "type": "structure",
+      "members": {
+        "chapter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the chapter to create the lesson in (e.g., \"chap_XXXXX\").",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Markdown content body of the lesson.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "days_from_course_start_until_unlock": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of days after a student starts the course before this lesson becomes accessible.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "embed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external video identifier for embedded content (e.g., a YouTube video ID or Loom share ID).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "embed_type": {
+          "target": "com.whop.course_lessons#EmbedTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of video embed for this lesson, such as YouTube or Loom.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lesson_type": {
+          "target": "com.whop.course_lessons#LessonTypes",
+          "traits": {
+            "smithy.api#documentation": "The content type of the lesson, such as video, text, quiz, or knowledge check.",
+            "smithy.api#required": {}
+          }
+        },
+        "thumbnail": {
+          "target": "com.whop.course_lessons#CreateCourseLessonRequestThumbnail",
+          "traits": {
+            "smithy.api#documentation": "The thumbnail image for the lesson in PNG, JPEG, or GIF format.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display title of the lesson (e.g., \"Getting Started with APIs\").",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_lessons#CourseLesson": {
+      "type": "structure",
+      "members": {
+        "assessment_questions": {
+          "target": "com.whop.course_lessons#CourseLessonAssessmentQuestionsList",
+          "traits": {
+            "smithy.api#documentation": "The list of questions for quiz or knowledge check lessons. Empty for non-assessment lesson types.",
+            "smithy.api#required": {}
+          }
+        },
+        "attachments": {
+          "target": "com.whop.course_lessons#CourseLessonAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "All supplementary files attached to this lesson returned as a flat array rather than a paginated connection.",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Markdown content body of the lesson. Null if the lesson has no text content.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the lesson was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "days_from_course_start_until_unlock": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of days after a student starts the course before this lesson becomes accessible. Null if the lesson is available immediately.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "embed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external video identifier for embedded video lessons, such as a YouTube video ID or Loom share ID. Null if the lesson has no embed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "embed_type": {
+          "target": "com.whop.course_lessons#EmbedTypes",
+          "traits": {
+            "smithy.api#documentation": "The platform type for the embedded video. One of: youtube, loom. Null if the lesson has no embed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the lesson.",
+            "smithy.api#required": {}
+          }
+        },
+        "lesson_type": {
+          "target": "com.whop.course_lessons#LessonTypes",
+          "traits": {
+            "smithy.api#documentation": "The content format of this lesson. One of: text, video, pdf, multi, quiz, knowledge_check.",
+            "smithy.api#required": {}
+          }
+        },
+        "main_pdf": {
+          "target": "com.whop.course_lessons#CourseLessonMainPdf",
+          "traits": {
+            "smithy.api#documentation": "The primary PDF document for PDF-type lessons. Null if this lesson is not a PDF lesson or no PDF has been uploaded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The sort position of this lesson within its parent chapter, starting from zero.",
+            "smithy.api#required": {}
+          }
+        },
+        "thumbnail": {
+          "target": "com.whop.course_lessons#CourseLessonThumbnail",
+          "traits": {
+            "smithy.api#documentation": "The thumbnail image displayed on lesson cards and previews. Null if no thumbnail has been uploaded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the lesson shown to students. Maximum 120 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "video_asset": {
+          "target": "com.whop.course_lessons#CourseLessonVideoAsset",
+          "traits": {
+            "smithy.api#documentation": "The Mux video asset for video-type lessons, used for streaming playback. Null if this lesson has no hosted video.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.course_lessons#LessonVisibilities",
+          "traits": {
+            "smithy.api#documentation": "The visibility setting that controls whether this lesson appears to students. One of: visible, hidden.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An individual learning unit within a chapter, which can contain text, video, PDF, or assessment content."
+      }
+    },
+    "com.whop.course_lessons#CourseLessonAssessmentQuestionsItemImage": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded file MIME type, such as image/jpeg, video/mp4, or audio/mpeg.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original filename of the uploaded attachment, including its file extension.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional image attachment for the question"
+      }
+    },
+    "com.whop.course_lessons#CourseLessonAssessmentQuestionsItemOptionsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the assessment question option.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_correct": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this option is a correct answer. Only visible to admins (users with courses:update permission)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "option_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text of the answer option",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The order of this option within the question",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An answer option for a multiple choice or multiple select assessment question"
+      }
+    },
+    "com.whop.course_lessons#CourseLessonAssessmentQuestionsItemOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.course_lessons#CourseLessonAssessmentQuestionsItemOptionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The answer options for multiple choice/select questions"
+      }
+    },
+    "com.whop.course_lessons#CoursesAssessmentQuestionTypes": {
+      "type": "enum",
+      "members": {
+        "SHORT_ANSWER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "short_answer"
+          }
+        },
+        "TRUE_FALSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "true_false"
+          }
+        },
+        "MULTIPLE_CHOICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple_choice"
+          }
+        },
+        "MULTIPLE_SELECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple_select"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The available types for an assessment question"
+      }
+    },
+    "com.whop.course_lessons#CourseLessonAssessmentQuestionsItem": {
+      "type": "structure",
+      "members": {
+        "correct_answer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The correct answer for the question. Used for short answer questions. Only visible to admins (users with courses:update permission)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the assessment question was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the assessment question.",
+            "smithy.api#required": {}
+          }
+        },
+        "image": {
+          "target": "com.whop.course_lessons#CourseLessonAssessmentQuestionsItemImage",
+          "traits": {
+            "smithy.api#documentation": "Optional image attachment for the question",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "options": {
+          "target": "com.whop.course_lessons#CourseLessonAssessmentQuestionsItemOptionsList",
+          "traits": {
+            "smithy.api#documentation": "The answer options for multiple choice/select questions",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The order of the question within its lesson",
+            "smithy.api#required": {}
+          }
+        },
+        "question_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text of the question",
+            "smithy.api#required": {}
+          }
+        },
+        "question_type": {
+          "target": "com.whop.course_lessons#CoursesAssessmentQuestionTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of the question",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An assessment question in a course quiz or knowledge check"
+      }
+    },
+    "com.whop.course_lessons#CourseLessonAssessmentQuestionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.course_lessons#CourseLessonAssessmentQuestionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of questions for quiz or knowledge check lessons. Empty for non-assessment lesson types."
+      }
+    },
+    "com.whop.course_lessons#CourseLessonAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded file MIME type, such as image/jpeg, video/mp4, or audio/mpeg.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original filename of the uploaded attachment, including its file extension.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents an image attachment"
+      }
+    },
+    "com.whop.course_lessons#CourseLessonAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.course_lessons#CourseLessonAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "All supplementary files attached to this lesson returned as a flat array rather than a paginated connection."
+      }
+    },
+    "com.whop.course_lessons#CourseLessonMainPdf": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded file MIME type, such as image/jpeg, video/mp4, or audio/mpeg.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original filename of the uploaded attachment, including its file extension.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The primary PDF document for PDF-type lessons. Null if this lesson is not a PDF lesson or no PDF has been uploaded."
+      }
+    },
+    "com.whop.course_lessons#CourseLessonThumbnail": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The thumbnail image displayed on lesson cards and previews. Null if no thumbnail has been uploaded."
+      }
+    },
+    "com.whop.course_lessons#MuxAssetStatuses": {
+      "type": "enum",
+      "members": {
+        "UPLOADING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uploading"
+          }
+        },
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Mux asset statuses"
+      }
+    },
+    "com.whop.course_lessons#CourseLessonVideoAsset": {
+      "type": "structure",
+      "members": {
+        "asset_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Mux-provided ID of the asset",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "audio_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this asset contains only audio",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the mux asset was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "duration_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The duration of the video in seconds",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finished_uploading_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the video finished uploading",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the mux asset.",
+            "smithy.api#required": {}
+          }
+        },
+        "playback_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public playback ID of the Mux asset",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "signed_playback_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed playback ID of the Mux asset",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "signed_storyboard_playback_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed storyboard playback token of the Mux asset",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "signed_thumbnail_playback_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed thumbnail playback token of the Mux asset",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "signed_video_playback_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed video playback token of the Mux asset",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.course_lessons#MuxAssetStatuses",
+          "traits": {
+            "smithy.api#documentation": "The status of the Mux asset",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the mux asset was last updated.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Mux video asset for video-type lessons, used for streaming playback. Null if this lesson has no hosted video."
+      }
+    },
+    "com.whop.course_lessons#CreateCourseLesson": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_lessons#CreateCourseLessonRequest"
+      },
+      "output": {
+        "target": "com.whop.course_lessons#CourseLesson"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_lessons#BadRequest"
+        },
+        {
+          "target": "com.whop.course_lessons#Forbidden"
+        },
+        {
+          "target": "com.whop.course_lessons#NotFound"
+        },
+        {
+          "target": "com.whop.course_lessons#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/course_lessons",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create course lesson\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreate a new lesson within a course chapter. Lessons can contain video, text, or assessment content.\n\nRequired permissions:\n - `courses:update`"
+      }
+    },
+    "com.whop.course_lessons#GetCourseLessonRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the lesson to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_lessons#GetCourseLesson": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_lessons#GetCourseLessonRequest"
+      },
+      "output": {
+        "target": "com.whop.course_lessons#CourseLesson"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_lessons#BadRequest"
+        },
+        {
+          "target": "com.whop.course_lessons#Forbidden"
+        },
+        {
+          "target": "com.whop.course_lessons#NotFound"
+        },
+        {
+          "target": "com.whop.course_lessons#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/course_lessons/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve course lesson\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing course lesson.\n\nRequired permissions:\n - `courses:read`"
+      }
+    },
+    "com.whop.course_lessons#UpdateCourseLessonRequestAssessmentCompletionRequirement": {
+      "type": "structure",
+      "members": {
+        "minimum_grade_percent": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The minimum grade percentage required to pass (0-100). Cannot be set together with minimum_questions_correct.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minimum_questions_correct": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum number of questions that must be answered correctly. Cannot be set together with minimum_grade_percent.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The passing criteria for quiz or knowledge check lessons, such as minimum grade or correct answers."
+      }
+    },
+    "com.whop.course_lessons#UpdateCourseLessonRequestAssessmentQuestionsItemImage": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional image attachment for the question"
+      }
+    },
+    "com.whop.course_lessons#UpdateCourseLessonRequestAssessmentQuestionsItemOptionsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing option. If provided, the option will be updated. If not provided, a new option will be created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_correct": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this option is a correct answer",
+            "smithy.api#required": {}
+          }
+        },
+        "option_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text of the answer option",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Input for creating or updating an assessment question option"
+      }
+    },
+    "com.whop.course_lessons#UpdateCourseLessonRequestAssessmentQuestionsItemOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.course_lessons#UpdateCourseLessonRequestAssessmentQuestionsItemOptionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The answer options for multiple choice/select questions"
+      }
+    },
+    "com.whop.course_lessons#UpdateCourseLessonRequestAssessmentQuestionsItem": {
+      "type": "structure",
+      "members": {
+        "correct_answer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The correct answer for the question. Used for short answer questions",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing question. If provided, the question will be updated. If not provided, a new question will be created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "image": {
+          "target": "com.whop.course_lessons#UpdateCourseLessonRequestAssessmentQuestionsItemImage",
+          "traits": {
+            "smithy.api#documentation": "Optional image attachment for the question",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "options": {
+          "target": "com.whop.course_lessons#UpdateCourseLessonRequestAssessmentQuestionsItemOptionsList",
+          "traits": {
+            "smithy.api#documentation": "The answer options for multiple choice/select questions",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "question_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text of the question",
+            "smithy.api#required": {}
+          }
+        },
+        "question_type": {
+          "target": "com.whop.course_lessons#CoursesAssessmentQuestionTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of the question",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Input for creating or updating an assessment question"
+      }
+    },
+    "com.whop.course_lessons#UpdateCourseLessonRequestAssessmentQuestionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.course_lessons#UpdateCourseLessonRequestAssessmentQuestionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The full list of assessment questions for quiz or knowledge check lessons. Replaces all existing questions."
+      }
+    },
+    "com.whop.course_lessons#UpdateCourseLessonRequestAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Input for an attachment"
+      }
+    },
+    "com.whop.course_lessons#UpdateCourseLessonRequestAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.course_lessons#UpdateCourseLessonRequestAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "File attachments for the lesson such as PDFs or documents. Replaces all existing attachments."
+      }
+    },
+    "com.whop.course_lessons#UpdateCourseLessonRequestMainPdf": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The primary PDF document attached to this lesson for student reference."
+      }
+    },
+    "com.whop.course_lessons#UpdateCourseLessonRequestThumbnail": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The thumbnail image for the lesson in PNG, JPEG, or GIF format."
+      }
+    },
+    "com.whop.course_lessons#UpdateCourseLessonRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the lesson to update (e.g., \"les_XXXXX\")."
+          }
+        },
+        "assessment_completion_requirement": {
+          "target": "com.whop.course_lessons#UpdateCourseLessonRequestAssessmentCompletionRequirement",
+          "traits": {
+            "smithy.api#documentation": "The passing criteria for quiz or knowledge check lessons, such as minimum grade or correct answers.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "assessment_questions": {
+          "target": "com.whop.course_lessons#UpdateCourseLessonRequestAssessmentQuestionsList",
+          "traits": {
+            "smithy.api#documentation": "The full list of assessment questions for quiz or knowledge check lessons. Replaces all existing questions.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "attachments": {
+          "target": "com.whop.course_lessons#UpdateCourseLessonRequestAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "File attachments for the lesson such as PDFs or documents. Replaces all existing attachments.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Markdown content body of the lesson.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "days_from_course_start_until_unlock": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of days after a student starts the course before this lesson becomes accessible.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "embed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external video identifier for embedded content (e.g., a YouTube video ID or Loom share ID).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "embed_type": {
+          "target": "com.whop.course_lessons#EmbedTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of video embed for this lesson, such as YouTube or Loom.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lesson_type": {
+          "target": "com.whop.course_lessons#LessonTypes",
+          "traits": {
+            "smithy.api#documentation": "The content type of the lesson, such as video, text, quiz, or knowledge check.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "main_pdf": {
+          "target": "com.whop.course_lessons#UpdateCourseLessonRequestMainPdf",
+          "traits": {
+            "smithy.api#documentation": "The primary PDF document attached to this lesson for student reference.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_attempts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of attempts a student is allowed for assessment lessons.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mux_asset_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of a Mux video asset to attach to this lesson (e.g., \"mux_XXXXX\").",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail": {
+          "target": "com.whop.course_lessons#UpdateCourseLessonRequestThumbnail",
+          "traits": {
+            "smithy.api#documentation": "The thumbnail image for the lesson in PNG, JPEG, or GIF format.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display title of the lesson (e.g., \"Getting Started with APIs\").",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.course_lessons#LessonVisibilities",
+          "traits": {
+            "smithy.api#documentation": "Controls whether this lesson is visible to students or hidden as a draft.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_lessons#UpdateCourseLesson": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_lessons#UpdateCourseLessonRequest"
+      },
+      "output": {
+        "target": "com.whop.course_lessons#CourseLesson"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_lessons#BadRequest"
+        },
+        {
+          "target": "com.whop.course_lessons#Forbidden"
+        },
+        {
+          "target": "com.whop.course_lessons#NotFound"
+        },
+        {
+          "target": "com.whop.course_lessons#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/course_lessons/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update course lesson\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUpdate a lesson's content, type, visibility, assessment questions, or media attachments.\n\nRequired permissions:\n - `courses:update`"
+      }
+    },
+    "com.whop.course_lessons#DeleteCourseLessonRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the lesson to delete (e.g., \"les_XXXXX\")."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_lessons#DeleteCourseLessonResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.course_lessons#DeleteCourseLesson": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_lessons#DeleteCourseLessonRequest"
+      },
+      "output": {
+        "target": "com.whop.course_lessons#DeleteCourseLessonResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_lessons#BadRequest"
+        },
+        {
+          "target": "com.whop.course_lessons#Forbidden"
+        },
+        {
+          "target": "com.whop.course_lessons#NotFound"
+        },
+        {
+          "target": "com.whop.course_lessons#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/course_lessons/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete course lesson\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nPermanently delete a lesson and remove it from its chapter.\n\nRequired permissions:\n - `courses:update`"
+      }
+    },
+    "com.whop.course_lessons#MarkAsCompletedCourseLessonRequest": {
+      "type": "structure",
+      "members": {
+        "lesson_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the lesson to mark as completed (e.g., \"les_XXXXX\")."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_lessons#MarkAsCompletedCourseLessonResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.course_lessons#MarkAsCompletedCourseLesson": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_lessons#MarkAsCompletedCourseLessonRequest"
+      },
+      "output": {
+        "target": "com.whop.course_lessons#MarkAsCompletedCourseLessonResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_lessons#BadRequest"
+        },
+        {
+          "target": "com.whop.course_lessons#Forbidden"
+        },
+        {
+          "target": "com.whop.course_lessons#NotFound"
+        },
+        {
+          "target": "com.whop.course_lessons#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/course_lessons/{lesson_id}/mark_as_completed",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mark as completed course lesson\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nMark a lesson as completed for the current user after they finish the content."
+      }
+    },
+    "com.whop.course_lessons#StartCourseLessonRequest": {
+      "type": "structure",
+      "members": {
+        "lesson_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the lesson the user is starting (e.g., \"les_XXXXX\")."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_lessons#StartCourseLessonResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.course_lessons#StartCourseLesson": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_lessons#StartCourseLessonRequest"
+      },
+      "output": {
+        "target": "com.whop.course_lessons#StartCourseLessonResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_lessons#BadRequest"
+        },
+        {
+          "target": "com.whop.course_lessons#Forbidden"
+        },
+        {
+          "target": "com.whop.course_lessons#NotFound"
+        },
+        {
+          "target": "com.whop.course_lessons#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/course_lessons/{lesson_id}/start",
+          "code": 200
+        },
+        "smithy.api#documentation": "Start course lesson\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRecord that the current user has started viewing a lesson, creating progress tracking records."
+      }
+    },
+    "com.whop.course_lessons#SubmitAssessmentCourseLessonRequestAnswersItemSelectedOptionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The IDs of the selected options (for multiple choice/select questions)"
+      }
+    },
+    "com.whop.course_lessons#SubmitAssessmentCourseLessonRequestAnswersItem": {
+      "type": "structure",
+      "members": {
+        "answer_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text answer provided by the user (for short answer questions)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "question_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the question being answered",
+            "smithy.api#required": {}
+          }
+        },
+        "selected_option_ids": {
+          "target": "com.whop.course_lessons#SubmitAssessmentCourseLessonRequestAnswersItemSelectedOptionIdsList",
+          "traits": {
+            "smithy.api#documentation": "The IDs of the selected options (for multiple choice/select questions)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Input for a single question's answer in an assessment submission"
+      }
+    },
+    "com.whop.course_lessons#SubmitAssessmentCourseLessonRequestAnswersList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.course_lessons#SubmitAssessmentCourseLessonRequestAnswersItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of answers to submit for each assessment question."
+      }
+    },
+    "com.whop.course_lessons#SubmitAssessmentCourseLessonRequest": {
+      "type": "structure",
+      "members": {
+        "lesson_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the quiz or knowledge check lesson to submit answers for (e.g., \"les_XXXXX\")."
+          }
+        },
+        "answers": {
+          "target": "com.whop.course_lessons#SubmitAssessmentCourseLessonRequestAnswersList",
+          "traits": {
+            "smithy.api#documentation": "The list of answers to submit for each assessment question.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_lessons#SubmitAssessmentCourseLessonResponseLesson": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the lesson.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the lesson shown to students. Maximum 120 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The lesson this assessment result is for"
+      }
+    },
+    "com.whop.course_lessons#SubmitAssessmentCourseLessonResponseResultGradedQuestionsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of graded questions with details"
+      }
+    },
+    "com.whop.course_lessons#SubmitAssessmentCourseLessonResponseUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who took the assessment"
+      }
+    },
+    "com.whop.course_lessons#SubmitAssessmentCourseLessonResponse": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the assessment result was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the assessment result.",
+            "smithy.api#required": {}
+          }
+        },
+        "lesson": {
+          "target": "com.whop.course_lessons#SubmitAssessmentCourseLessonResponseLesson",
+          "traits": {
+            "smithy.api#documentation": "The lesson this assessment result is for",
+            "smithy.api#required": {}
+          }
+        },
+        "result_correct": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of correct answers",
+            "smithy.api#required": {}
+          }
+        },
+        "result_grade": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The grade achieved on the assessment",
+            "smithy.api#required": {}
+          }
+        },
+        "result_graded_questions": {
+          "target": "com.whop.course_lessons#SubmitAssessmentCourseLessonResponseResultGradedQuestionsMap",
+          "traits": {
+            "smithy.api#documentation": "Array of graded questions with details",
+            "smithy.api#required": {}
+          }
+        },
+        "result_passing_grade": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the user achieved a passing grade",
+            "smithy.api#required": {}
+          }
+        },
+        "result_question_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of questions in the assessment",
+            "smithy.api#required": {}
+          }
+        },
+        "score_percent": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The percentage score achieved on the assessment",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the assessment result was last updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.course_lessons#SubmitAssessmentCourseLessonResponseUser",
+          "traits": {
+            "smithy.api#documentation": "The user who took the assessment",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.course_lessons#SubmitAssessmentCourseLesson": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_lessons#SubmitAssessmentCourseLessonRequest"
+      },
+      "output": {
+        "target": "com.whop.course_lessons#SubmitAssessmentCourseLessonResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_lessons#BadRequest"
+        },
+        {
+          "target": "com.whop.course_lessons#Forbidden"
+        },
+        {
+          "target": "com.whop.course_lessons#NotFound"
+        },
+        {
+          "target": "com.whop.course_lessons#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/course_lessons/{lesson_id}/submit_assessment",
+          "code": 200
+        },
+        "smithy.api#documentation": "Submit assessment course lesson\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nSubmit answers for a quiz or knowledge check lesson and receive a graded result."
+      }
+    },
+    "com.whop.course_lessons#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.course_lessons#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.course_lessons#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.course_lessons#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.course_lessons#CourseLessons": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.course_lessons#ListCourseLesson"
+        },
+        {
+          "target": "com.whop.course_lessons#CreateCourseLesson"
+        },
+        {
+          "target": "com.whop.course_lessons#GetCourseLesson"
+        },
+        {
+          "target": "com.whop.course_lessons#UpdateCourseLesson"
+        },
+        {
+          "target": "com.whop.course_lessons#DeleteCourseLesson"
+        },
+        {
+          "target": "com.whop.course_lessons#MarkAsCompletedCourseLesson"
+        },
+        {
+          "target": "com.whop.course_lessons#StartCourseLesson"
+        },
+        {
+          "target": "com.whop.course_lessons#SubmitAssessmentCourseLesson"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

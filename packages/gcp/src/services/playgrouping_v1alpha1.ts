@@ -67,23 +67,23 @@ export class NotFound
 
 /** A tag is associated with exactly one package name and user. */
 export interface Tag {
-  /** A signed 64-bit integer value of the tag. */
-  int64Value?: string;
-  /** A time value of the tag. */
-  timeValue?: string;
   /** Required. Key for the tag. */
   key?: string;
   /** A boolean value of the tag. */
   booleanValue?: boolean;
+  /** A signed 64-bit integer value of the tag. */
+  int64Value?: string;
+  /** A time value of the tag. */
+  timeValue?: string;
   /** A string value of the tag. */
   stringValue?: string;
 }
 export const Tag = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    int64Value: S.optional(S.String),
-    timeValue: S.optional(S.String),
     key: S.optional(S.String),
     booleanValue: S.optional(S.Boolean),
+    int64Value: S.optional(S.String),
+    timeValue: S.optional(S.String),
     stringValue: S.optional(S.String),
   }),
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
@@ -105,17 +105,17 @@ export const CreateOrUpdateTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateOrUpdateTagsRequest>;
 
 export interface CreateOrUpdateAppsTokensTagsRequest {
-  /** Required. App whose tags are being manipulated. Format: apps/{package_name} */
-  appPackage: string;
   /** Required. Token for which the tags are being inserted or updated. Format: tokens/{token} */
   token: string;
+  /** Required. App whose tags are being manipulated. Format: apps/{package_name} */
+  appPackage: string;
   /** Request body */
   body?: CreateOrUpdateTagsRequest;
 }
 export const CreateOrUpdateAppsTokensTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appPackage: S.String.pipe(T.Label()),
     token: S.String.pipe(T.Label()),
+    appPackage: S.String.pipe(T.Label()),
     body: S.optional(CreateOrUpdateTagsRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -155,17 +155,17 @@ export const VerifyTokenRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VerifyTokenRequest>;
 
 export interface VerifyAppsTokensRequest {
-  /** Required. App the token belongs to. Format: apps/{package_name} */
-  appPackage: string;
   /** Required. The token to be verified. Format: tokens/{token} */
   token: string;
+  /** Required. App the token belongs to. Format: apps/{package_name} */
+  appPackage: string;
   /** Request body */
   body?: VerifyTokenRequest;
 }
 export const VerifyAppsTokensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appPackage: S.String.pipe(T.Label()),
     token: S.String.pipe(T.Label()),
+    appPackage: S.String.pipe(T.Label()),
     body: S.optional(VerifyTokenRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

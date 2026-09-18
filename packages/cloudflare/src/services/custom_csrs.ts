@@ -32,7 +32,7 @@ export const CreateRequestSansList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateRequestSansList>;
 
 export type CreateRequestKeyType = "rsa2048" | "p256v1";
-export const CreateRequestKeyType = /*@__PURE__*/ S.String;
+export const CreateRequestKeyType = S.String;
 
 export interface CreateCustomCsrForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -87,7 +87,7 @@ export const CreateCustomCsrForAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateCustomCsrForAccountRequest>;
 
 export type CreateResponseKeyType = "rsa2048" | "p256v1";
-export const CreateResponseKeyType = /*@__PURE__*/ S.String;
+export const CreateResponseKeyType = S.String;
 
 export type CreateResponseSansList = Array<string>;
 export const CreateResponseSansList = /*@__PURE__*/ S.Array(
@@ -283,7 +283,7 @@ export const GetCustomCsrForAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCustomCsrForAccountRequest>;
 
 export type GetResponseKeyType = "rsa2048" | "p256v1";
-export const GetResponseKeyType = /*@__PURE__*/ S.String;
+export const GetResponseKeyType = S.String;
 
 export type GetResponseSansList = Array<string>;
 export const GetResponseSansList = /*@__PURE__*/ S.Array(
@@ -367,9 +367,19 @@ export const GetCustomCsrForZoneRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCustomCsrForZoneRequest",
 }) as any as S.Schema<GetCustomCsrForZoneRequest>;
 
+export type ListRequestDirection = "asc" | "desc";
+export const ListRequestDirection = S.String;
+
+export type ListRequestOrder = "name" | "account_tag" | "created_at";
+export const ListRequestOrder = S.String;
+
 export interface ListCustomCsrsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
+  /** The direction to sort by. */
+  direction?: ListRequestDirection | (string & {});
+  /** The field to sort the returned custom CSRs by. */
+  order?: ListRequestOrder | (string & {});
   /** Page number of paginated results. */
   page?: number;
   /** Number of custom CSRs per page. */
@@ -378,6 +388,8 @@ export interface ListCustomCsrsForAccountRequest {
 export const ListCustomCsrsForAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    direction: S.optional(ListRequestDirection.pipe(T.Query())),
+    order: S.optional(ListRequestOrder.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
@@ -394,7 +406,7 @@ export const ListCustomCsrsForAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListCustomCsrsForAccountRequest>;
 
 export type ListResultItemKeyType = "rsa2048" | "p256v1";
-export const ListResultItemKeyType = /*@__PURE__*/ S.String;
+export const ListResultItemKeyType = S.String;
 
 export type ListResultItemSansList = Array<string>;
 export const ListResultItemSansList = /*@__PURE__*/ S.Array(
@@ -475,6 +487,10 @@ export const ListCustomCsrsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListCustomCsrsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
+  /** The direction to sort by. */
+  direction?: ListRequestDirection | (string & {});
+  /** The field to sort the returned custom CSRs by. */
+  order?: ListRequestOrder | (string & {});
   /** Page number of paginated results. */
   page?: number;
   /** Number of custom CSRs per page. */
@@ -483,6 +499,8 @@ export interface ListCustomCsrsForZoneRequest {
 export const ListCustomCsrsForZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
+    direction: S.optional(ListRequestDirection.pipe(T.Query())),
+    order: S.optional(ListRequestOrder.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })

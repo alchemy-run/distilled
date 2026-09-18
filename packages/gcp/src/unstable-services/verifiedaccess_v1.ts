@@ -105,15 +105,15 @@ export const SignedData = /*@__PURE__*/ S.suspend(() =>
 
 /** Result message for VerifiedAccess.CreateChallenge. */
 export interface Challenge {
-  /** Generated challenge */
-  challenge?: SignedData;
   /** Challenge generated with the old signing key (this will only be present during key rotation) */
   alternativeChallenge?: SignedData;
+  /** Generated challenge */
+  challenge?: SignedData;
 }
 export const Challenge = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    challenge: S.optional(SignedData),
     alternativeChallenge: S.optional(SignedData),
+    challenge: S.optional(SignedData),
   }),
 ).annotate({ identifier: "Challenge" }) as any as S.Schema<Challenge>;
 
@@ -153,24 +153,24 @@ export const VerifyChallengeRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Result message for VerifiedAccess.VerifyChallengeResponse. */
 export interface VerifyChallengeResponseResult {
-  /** Device enrollment id is returned in this field (for the machine response only). */
-  deviceEnrollmentId?: string;
-  /** Attested device id (ADID) of the device, read from the verified data. */
-  attestedDeviceId?: string;
-  /** For EMCert check, device permanent id is returned here. For EUCert check, signed_public_key_and_challenge [base64 encoded] is returned if present, otherwise empty string is returned. This field is deprecated, please use device_permanent_id or signed_public_key_and_challenge fields. */
-  verificationOutput?: string;
-  /** Device permanent id is returned in this field (for the machine response only). */
-  devicePermanentId?: string;
   /** Certificate Signing Request (in the SPKAC format, base64 encoded) is returned in this field. This field will be set only if device has included CSR in its challenge response. (the option to include CSR is now available for both user and machine responses) */
   signedPublicKeyAndChallenge?: string;
+  /** For EMCert check, device permanent id is returned here. For EUCert check, signed_public_key_and_challenge [base64 encoded] is returned if present, otherwise empty string is returned. This field is deprecated, please use device_permanent_id or signed_public_key_and_challenge fields. */
+  verificationOutput?: string;
+  /** Device enrollment id is returned in this field (for the machine response only). */
+  deviceEnrollmentId?: string;
+  /** Device permanent id is returned in this field (for the machine response only). */
+  devicePermanentId?: string;
+  /** Attested device id (ADID) of the device, read from the verified data. */
+  attestedDeviceId?: string;
 }
 export const VerifyChallengeResponseResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deviceEnrollmentId: S.optional(S.String),
-    attestedDeviceId: S.optional(S.String),
-    verificationOutput: S.optional(S.String),
-    devicePermanentId: S.optional(S.String),
     signedPublicKeyAndChallenge: S.optional(S.String),
+    verificationOutput: S.optional(S.String),
+    deviceEnrollmentId: S.optional(S.String),
+    devicePermanentId: S.optional(S.String),
+    attestedDeviceId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "VerifyChallengeResponseResult",

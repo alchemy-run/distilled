@@ -37,7 +37,7 @@ export type ScansBulkCreateRequestBodyItemScreenshotsResolutionsItem =
   | "mobile"
   | "tablet";
 export const ScansBulkCreateRequestBodyItemScreenshotsResolutionsItem =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type ScansBulkCreateRequestBodyItemScreenshotsResolutionsList = Array<
   ScansBulkCreateRequestBodyItemScreenshotsResolutionsItem | (string & {})
@@ -48,7 +48,7 @@ export const ScansBulkCreateRequestBodyItemScreenshotsResolutionsList =
   ) as any as S.Schema<ScansBulkCreateRequestBodyItemScreenshotsResolutionsList>;
 
 export type ScansBulkCreateRequestBodyItemVisibility = "Public" | "Unlisted";
-export const ScansBulkCreateRequestBodyItemVisibility = /*@__PURE__*/ S.String;
+export const ScansBulkCreateRequestBodyItemVisibility = S.String;
 
 export interface ScansBulkCreateRequestBodyItem {
   url: string;
@@ -311,7 +311,7 @@ export type ScansCreateRequestCountry =
   | "YE"
   | "ZM"
   | "ZW";
-export const ScansCreateRequestCountry = /*@__PURE__*/ S.String;
+export const ScansCreateRequestCountry = S.String;
 
 export type ScansCreateRequestCustomHeadersMap = {
   [key: string]: string | undefined;
@@ -325,8 +325,7 @@ export type ScansCreateRequestScreenshotsResolutionsItem =
   | "desktop"
   | "mobile"
   | "tablet";
-export const ScansCreateRequestScreenshotsResolutionsItem =
-  /*@__PURE__*/ S.String;
+export const ScansCreateRequestScreenshotsResolutionsItem = S.String;
 
 export type ScansCreateRequestScreenshotsResolutionsList = Array<
   ScansCreateRequestScreenshotsResolutionsItem | (string & {})
@@ -337,7 +336,7 @@ export const ScansCreateRequestScreenshotsResolutionsList =
   ) as any as S.Schema<ScansCreateRequestScreenshotsResolutionsList>;
 
 export type ScansCreateRequestVisibility = "Public" | "Unlisted";
-export const ScansCreateRequestVisibility = /*@__PURE__*/ S.String;
+export const ScansCreateRequestVisibility = S.String;
 
 export interface CreateScanRequest {
   /** Account ID. */
@@ -2029,6 +2028,58 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibil
       "ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibility",
   }) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibility>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItemFinding =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItemFinding =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItemRequest =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemRequest;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItemRequest =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemRequest;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItemResponse =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemResponse;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItemResponse =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemResponse;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItem =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItem =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceList =
+  Array<ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem>;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceList =
+  /*@__PURE__*/ S.Array(
+    ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
+  ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceList>;
+
+export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid {
+  status: string;
+  details?: unknown | null;
+  durationMs?: number | null;
+  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceList | null;
+  message?: string | null;
+}
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      status: S.String,
+      details: S.optional(S.NullOr(S.Unknown)),
+      durationMs: S.optional(S.NullOr(S.Number)),
+      evidence: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceList,
+        ),
+      ),
+      message: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid",
+  }) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid>;
+
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeadersEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeadersEvidenceItemFinding =
@@ -2186,6 +2237,7 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySi
   }) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemap>;
 
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverability {
+  dnsAid: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid;
   linkHeaders: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeaders;
   robotsTxt: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxt;
   sitemap: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemap;
@@ -2193,6 +2245,8 @@ export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabili
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverability =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      dnsAid:
+        ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid,
       linkHeaders:
         ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeaders,
       robotsTxt:
@@ -2360,6 +2414,110 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatal
     identifier:
       "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalog",
   }) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalog>;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItemFinding =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItemFinding =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItemRequest =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemRequest;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItemRequest =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemRequest;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItemResponse =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemResponse;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItemResponse =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemResponse;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItem =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItem =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceList =
+  Array<ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem>;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceList =
+  /*@__PURE__*/ S.Array(
+    ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
+  ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceList>;
+
+export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd {
+  status: string;
+  details?: unknown | null;
+  durationMs?: number | null;
+  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceList | null;
+  message?: string | null;
+}
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      status: S.String,
+      details: S.optional(S.NullOr(S.Unknown)),
+      durationMs: S.optional(S.NullOr(S.Number)),
+      evidence: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceList,
+        ),
+      ),
+      message: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd",
+  }) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd>;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItemFinding =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItemFinding =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItemRequest =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemRequest;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItemRequest =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemRequest;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItemResponse =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemResponse;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItemResponse =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemResponse;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItem =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItem =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem;
+
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceList =
+  Array<ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem>;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceList =
+  /*@__PURE__*/ S.Array(
+    ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
+  ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceList>;
+
+export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd {
+  status: string;
+  details?: unknown | null;
+  durationMs?: number | null;
+  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceList | null;
+  message?: string | null;
+}
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      status: S.String,
+      details: S.optional(S.NullOr(S.Unknown)),
+      durationMs: S.optional(S.NullOr(S.Number)),
+      evidence: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceList,
+        ),
+      ),
+      message: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd",
+  }) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd>;
 
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCardEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -2573,6 +2731,8 @@ export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscovery {
   a2aAgentCard: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCard;
   agentSkills: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkills;
   apiCatalog: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalog;
+  ard: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd;
+  authMd: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd;
   mcpServerCard: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCard;
   oauthDiscovery: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscovery;
   oauthProtectedResource: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResource;
@@ -2587,6 +2747,8 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscovery =
         ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkills,
       apiCatalog:
         ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalog,
+      ard: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd,
+      authMd: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd,
       mcpServerCard:
         ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCard,
       oauthDiscovery:
@@ -3906,7 +4068,7 @@ export const ListScansResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListScansResponse>;
 
 export type ScansScreenshotRequestResolution = "desktop" | "mobile" | "tablet";
-export const ScansScreenshotRequestResolution = /*@__PURE__*/ S.String;
+export const ScansScreenshotRequestResolution = S.String;
 
 export interface ScreenshotScanRequest {
   /** Account ID. */
@@ -4032,7 +4194,7 @@ export const harScan: API.OperationMethod<
 }));
 
 export type ListScansError = CloudflareOpError;
-/** Use a subset of ElasticSearch Query syntax to filter scans. Some example queries:<br/> <br/>- 'path:"/bundles/jquery.js"': Searches for scans who requested resources with the given path.<br/>- 'page.asn:AS24940 AND hash:xxx': Websites hosted in AS24940 where a resource with the given hash was downloaded.<br/>- 'page.domain:microsoft* AND verdicts.malicious:true AND NOT page.domain:microsoft.com': malicious scans whose hostname starts with "microsoft".<br/>- 'apikey:me AND date:[2025-01 TO 2025-02]': my scans from 2025 January to 2025 February. */
+/** Use a subset of ElasticSearch Query syntax to filter scans. Some example queries: - 'path:"/bundles/jquery.js"': Searches for scans who requested resources with the given path. - 'page.asn:AS24940 AND hash:xxx': Websites hosted in AS24940 where a resource with the given hash was downloaded. - 'page.domain:microsoft* AND verdicts.malicious:true AND NOT page.domain:microsoft.com': malicious scans whose hostname starts with "microsoft". - 'apikey:me AND date:[2025-01 TO 2025-02]': my scans from 2025 January to 2025 February. */
 export const listScans: API.OperationMethod<
   ListScansRequest,
   ListScansResponse,

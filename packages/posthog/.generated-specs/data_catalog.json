@@ -1,0 +1,2325 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.data_catalog#ListDataCatalogCertificationsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#PaginatedDataCatalogCertificationList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.data_catalog#PaginatedDataCatalogCertificationListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#DataCatalogCertification": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "table": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The warehouse table this mark applies to (XOR saved_query).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "saved_query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The warehouse view this mark applies to (XOR table).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "target_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether the marked target is a 'table' or a 'view'.",
+            "smithy.api#required": {}
+          }
+        },
+        "target_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Queryable HogQL name of the marked table or view.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "proposed, certified (prefer this source), or deprecated (avoid this source).",
+            "smithy.api#required": {}
+          }
+        },
+        "proposed_status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The mark the proposal asks for: 'certified' (trust this source) or 'deprecated' (avoid this source). Informational once the mark is settled.",
+            "smithy.api#required": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why this mark exists, e.g. 'canonical MRR source'."
+          }
+        },
+        "certified_by": {
+          "target": "com.posthog.data_catalog#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "User who last set certified/deprecated, or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "certified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#UserBasic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "uuid": {
+          "target": "smithy.api#String"
+        },
+        "distinct_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String"
+        },
+        "last_name": {
+          "target": "smithy.api#String"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "is_email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hedgehog_config": {
+          "target": "com.posthog.data_catalog#UserBasicHedgehogConfigMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role_at_organization": {
+          "target": "com.posthog.data_catalog#UserBasicRoleAtOrganization",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#UserBasicHedgehogConfigMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#RoleAtOrganizationEnum": {
+      "type": "enum",
+      "members": {
+        "ENGINEERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engineering"
+          }
+        },
+        "DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data"
+          }
+        },
+        "PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product"
+          }
+        },
+        "FOUNDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "founder"
+          }
+        },
+        "LEADERSHIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leadership"
+          }
+        },
+        "MARKETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marketing"
+          }
+        },
+        "SALES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales"
+          }
+        },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
+      }
+    },
+    "com.posthog.data_catalog#BlankEnum": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": ""
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#UserBasicRoleAtOrganization": {
+      "type": "union",
+      "members": {
+        "RoleAtOrganizationEnum": {
+          "target": "com.posthog.data_catalog#RoleAtOrganizationEnum"
+        },
+        "BlankEnum": {
+          "target": "com.posthog.data_catalog#BlankEnum"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#PaginatedDataCatalogCertificationListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.data_catalog#DataCatalogCertification"
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#ListDataCatalogCertifications": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#ListDataCatalogCertificationsRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#PaginatedDataCatalogCertificationList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_catalog/certifications/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Trust marks on warehouse tables and views. Reads exclude soft-deleted targets."
+      }
+    },
+    "com.posthog.data_catalog#ProposedStatusEnum": {
+      "type": "enum",
+      "members": {
+        "CERTIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "certified"
+          }
+        },
+        "DEPRECATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deprecated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `certified` - certified\n* `deprecated` - deprecated"
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogCertificationRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "table_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Warehouse table id to certify (XOR the other targets)."
+          }
+        },
+        "saved_query_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Warehouse view (saved query) id to certify."
+          }
+        },
+        "table_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Queryable HogQL table name; 409 with candidates if ambiguous."
+          }
+        },
+        "view_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Queryable HogQL view name; 409 with candidates if ambiguous."
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why this mark exists."
+          }
+        },
+        "proposed_status": {
+          "target": "com.posthog.data_catalog#ProposedStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Intent of the proposal: 'certified' to propose trusting this source, 'deprecated' to propose avoiding it (e.g. a stale or wrong source).\n\n* `certified` - certified\n* `deprecated` - deprecated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogCertification": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#CreateDataCatalogCertificationRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogCertification"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_catalog/certifications/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Trust marks on warehouse tables and views. Reads exclude soft-deleted targets."
+      }
+    },
+    "com.posthog.data_catalog#GetDataCatalogCertificationRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this table certification."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#GetDataCatalogCertification": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#GetDataCatalogCertificationRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogCertification"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_catalog/certifications/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Trust marks on warehouse tables and views. Reads exclude soft-deleted targets."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogCertificationsDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this table certification."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogCertificationsDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#DataCatalogCertificationsDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/data_catalog/certifications/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Trust marks on warehouse tables and views. Reads exclude soft-deleted targets."
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogCertificationsCertifyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this table certification."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogCertificationsCertify": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#CreateDataCatalogCertificationsCertifyRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogCertification"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_catalog/certifications/{id}/certify/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mark the target as certified (prefer this source)."
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogCertificationsDeprecateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this table certification."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogCertificationsDeprecate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#CreateDataCatalogCertificationsDeprecateRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogCertification"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_catalog/certifications/{id}/deprecate/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mark the target as deprecated (avoid this source)."
+      }
+    },
+    "com.posthog.data_catalog#ListDataCatalogMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#PaginatedDataCatalogMetricList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.data_catalog#PaginatedDataCatalogMetricListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#DataCatalogMetric": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier-safe run handle, unique among the team's live metrics. Renaming or deleting a metric frees its name for reuse, and anything referencing the old name (SQL over information_schema.metrics, run URLs, links) stops resolving.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-friendly label. Mutable, unlike name."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the metric means and what it serves, in 1-3 short sentences: the business meaning plus any load-bearing inclusions/exclusions or grain. Never narrate or restate the query - the definition carries the mechanics; put rationale for query choices in 'reasoning'.",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit of the result, e.g. usd, percent, cents."
+          }
+        },
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the human accountable for this metric, or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "definition": {
+          "target": "com.posthog.data_catalog#DataCatalogMetricDefinitionMap",
+          "traits": {
+            "smithy.api#documentation": "Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "definition_kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Query kind of the definition (HogQLQuery, TrendsQuery, ...), or null for a stub.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "referenced_table_names": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Tables the definition directly references, extracted at write time for the catalog's denied-table filter.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Persisted lifecycle state: 'proposed' or 'approved'. Drift is reported separately.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_drifted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the definition has drifted from its linked source insight (or the insight is gone).",
+            "smithy.api#required": {}
+          }
+        },
+        "approved_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "approved_by": {
+          "target": "com.posthog.data_catalog#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "User who approved this metric as canonical, or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_insight_short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Create the metric from this insight's query (snapshotted server-side). Set to null to unlink. Mutually exclusive with definition.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_run_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the metric was last run (30-minute throttle).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_source": {
+          "target": "com.posthog.data_catalog#CreatedSourceEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether a human ('user') or an agent ('ai_generated') authored this metric.\n\n* `user` - user\n* `ai_generated` - ai_generated"
+          }
+        },
+        "ai_model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model that generated the metric, if AI-authored."
+          }
+        },
+        "confidence": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "AI author's confidence in the proposal, 0-1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reasoning": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AI author's reasoning, surfaced as review context."
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.data_catalog#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "User who first created this metric.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#DataCatalogMetricDefinitionMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical."
+      }
+    },
+    "com.posthog.data_catalog#CreatedSourceEnum": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "AI_GENERATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai_generated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `user` - user\n* `ai_generated` - ai_generated"
+      }
+    },
+    "com.posthog.data_catalog#PaginatedDataCatalogMetricListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.data_catalog#DataCatalogMetric"
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#ListDataCatalogMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#ListDataCatalogMetricsRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#PaginatedDataCatalogMetricList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_catalog/metrics/",
+          "code": 200
+        },
+        "smithy.api#documentation": "CRUD for catalog metrics, addressed by their ``name`` (e.g. /metrics/mrr/)."
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogMetricsRequestDefinitionMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical."
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier-safe run handle, unique among the team's live metrics. Renaming or deleting a metric frees its name for reuse, and anything referencing the old name (SQL over information_schema.metrics, run URLs, links) stops resolving.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-friendly label. Mutable, unlike name."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the metric means and what it serves, in 1-3 short sentences: the business meaning plus any load-bearing inclusions/exclusions or grain. Never narrate or restate the query - the definition carries the mechanics; put rationale for query choices in 'reasoning'.",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit of the result, e.g. usd, percent, cents."
+          }
+        },
+        "definition": {
+          "target": "com.posthog.data_catalog#CreateDataCatalogMetricsRequestDefinitionMap",
+          "traits": {
+            "smithy.api#documentation": "Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_insight_short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Create the metric from this insight's query (snapshotted server-side). Set to null to unlink. Mutually exclusive with definition.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_source": {
+          "target": "com.posthog.data_catalog#CreatedSourceEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether a human ('user') or an agent ('ai_generated') authored this metric.\n\n* `user` - user\n* `ai_generated` - ai_generated"
+          }
+        },
+        "ai_model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model that generated the metric, if AI-authored."
+          }
+        },
+        "confidence": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "AI author's confidence in the proposal, 0-1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reasoning": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AI author's reasoning, surfaced as review context."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#CreateDataCatalogMetricsRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogMetric"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_catalog/metrics/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a metric, or refine the one already holding this name for the team."
+      }
+    },
+    "com.posthog.data_catalog#GetDataCatalogMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#GetDataCatalogMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#GetDataCatalogMetricsRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogMetric"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_catalog/metrics/{name}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "CRUD for catalog metrics, addressed by their ``name`` (e.g. /metrics/mrr/)."
+      }
+    },
+    "com.posthog.data_catalog#UpdateDataCatalogMetricsRequestDefinitionMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical."
+      }
+    },
+    "com.posthog.data_catalog#UpdateDataCatalogMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-friendly label. Mutable, unlike name."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the metric means and what it serves, in 1-3 short sentences: the business meaning plus any load-bearing inclusions/exclusions or grain. Never narrate or restate the query - the definition carries the mechanics; put rationale for query choices in 'reasoning'.",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit of the result, e.g. usd, percent, cents."
+          }
+        },
+        "definition": {
+          "target": "com.posthog.data_catalog#UpdateDataCatalogMetricsRequestDefinitionMap",
+          "traits": {
+            "smithy.api#documentation": "Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_insight_short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Create the metric from this insight's query (snapshotted server-side). Set to null to unlink. Mutually exclusive with definition.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_source": {
+          "target": "com.posthog.data_catalog#CreatedSourceEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether a human ('user') or an agent ('ai_generated') authored this metric.\n\n* `user` - user\n* `ai_generated` - ai_generated"
+          }
+        },
+        "ai_model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model that generated the metric, if AI-authored."
+          }
+        },
+        "confidence": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "AI author's confidence in the proposal, 0-1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reasoning": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AI author's reasoning, surfaced as review context."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#UpdateDataCatalogMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#UpdateDataCatalogMetricsRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogMetric"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/data_catalog/metrics/{name}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "CRUD for catalog metrics, addressed by their ``name`` (e.g. /metrics/mrr/)."
+      }
+    },
+    "com.posthog.data_catalog#UpdateDataCatalogMetricsPartialRequestDefinitionMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical."
+      }
+    },
+    "com.posthog.data_catalog#UpdateDataCatalogMetricsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-friendly label. Mutable, unlike name."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the metric means and what it serves, in 1-3 short sentences: the business meaning plus any load-bearing inclusions/exclusions or grain. Never narrate or restate the query - the definition carries the mechanics; put rationale for query choices in 'reasoning'."
+          }
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit of the result, e.g. usd, percent, cents."
+          }
+        },
+        "definition": {
+          "target": "com.posthog.data_catalog#UpdateDataCatalogMetricsPartialRequestDefinitionMap",
+          "traits": {
+            "smithy.api#documentation": "Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_insight_short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Create the metric from this insight's query (snapshotted server-side). Set to null to unlink. Mutually exclusive with definition.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_source": {
+          "target": "com.posthog.data_catalog#CreatedSourceEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether a human ('user') or an agent ('ai_generated') authored this metric.\n\n* `user` - user\n* `ai_generated` - ai_generated"
+          }
+        },
+        "ai_model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model that generated the metric, if AI-authored."
+          }
+        },
+        "confidence": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "AI author's confidence in the proposal, 0-1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reasoning": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AI author's reasoning, surfaced as review context."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#UpdateDataCatalogMetricsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#UpdateDataCatalogMetricsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogMetric"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/data_catalog/metrics/{name}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "CRUD for catalog metrics, addressed by their ``name`` (e.g. /metrics/mrr/)."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricsDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricsDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#DataCatalogMetricsDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/data_catalog/metrics/{name}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "CRUD for catalog metrics, addressed by their ``name`` (e.g. /metrics/mrr/)."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricsApproveCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricsApproveCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#DataCatalogMetricsApproveCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogMetric"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_catalog/metrics/{name}/approve/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Bless a metric as canonical. Returns 409 while the metric is drifted from its insight."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricsRefreshFromInsightCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricsRefreshFromInsightCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#DataCatalogMetricsRefreshFromInsightCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogMetric"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_catalog/metrics/{name}/refresh_from_insight/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Re-snapshot the linked insight's current query into the definition."
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogMetricsRunRequestRefresh": {
+      "type": "enum",
+      "members": {
+        "BLOCKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blocking"
+          }
+        },
+        "ASYNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "async"
+          }
+        },
+        "LAZY_ASYNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lazy_async"
+          }
+        },
+        "FORCE_BLOCKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "force_blocking"
+          }
+        },
+        "FORCE_ASYNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "force_async"
+          }
+        },
+        "FORCE_CACHE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "force_cache"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#DataCatalogMetricRunRequestIntervalEnum": {
+      "type": "enum",
+      "members": {
+        "SECOND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "second"
+          }
+        },
+        "MINUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minute"
+          }
+        },
+        "HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hour"
+          }
+        },
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        },
+        "WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "week"
+          }
+        },
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        },
+        "QUARTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quarter"
+          }
+        },
+        "YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "year"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `second` - second\n* `minute` - minute\n* `hour` - hour\n* `day` - day\n* `week` - week\n* `month` - month\n* `quarter` - quarter\n* `year` - year"
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogMetricsRunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "refresh": {
+          "target": "com.posthog.data_catalog#CreateDataCatalogMetricsRunRequestRefresh",
+          "traits": {
+            "smithy.api#httpQuery": "refresh",
+            "smithy.api#documentation": "Cache/execution behavior, same semantics as /query/. Omit to serve a fresh cache hit and calculate blocking when stale.\n\n* `blocking` - blocking\n* `async` - async\n* `lazy_async` - lazy_async\n* `force_blocking` - force_blocking\n* `force_async` - force_async\n* `force_cache` - force_cache"
+          }
+        },
+        "date_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Override the start of the query window (e.g. '-7d'). Rejected for HogQLQuery metrics, whose window is fixed in SQL."
+          }
+        },
+        "date_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Override the end of the query window."
+          }
+        },
+        "interval": {
+          "target": "com.posthog.data_catalog#DataCatalogMetricRunRequestIntervalEnum",
+          "traits": {
+            "smithy.api#documentation": "Override the bucket interval. Rejected for HogQLQuery metrics.\n\n* `second` - second\n* `minute` - minute\n* `hour` - hour\n* `day` - day\n* `week` - week\n* `month` - month\n* `quarter` - quarter\n* `year` - year"
+          }
+        },
+        "query_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client-supplied id to correlate or cancel the run."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricRun": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle state of the metric that produced these results.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_drifted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the definition has drifted from its linked source insight (or the insight is gone). Only status 'approved' with is_drifted false is canonical.",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit of the result, e.g. usd, percent.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Query kind that was executed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The query results, for an executable metric. Null for a markdown metric.",
+            "smithy.api#required": {}
+          }
+        },
+        "compiled_query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The compiled HogQL, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "query_status": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Async query status, when the run is not blocking.",
+            "smithy.api#required": {}
+          }
+        },
+        "posthog_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deep link to open the query in the app (SQL editor or insight).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For a markdown (agent-calculated) metric, the steps to follow to compute it. Null for an executable metric.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Normalized envelope returned by the metric-run endpoint."
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogMetricsRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#CreateDataCatalogMetricsRunRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogMetricRun"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.data_catalog#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_catalog/metrics/{name}/run/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Execute the metric's definition and return the normalized result envelope."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricsBulkApproveCreateRequestNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the metrics to act on, at most 100. Duplicates are collapsed."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricsBulkApproveCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "names": {
+          "target": "com.posthog.data_catalog#DataCatalogMetricsBulkApproveCreateRequestNamesList",
+          "traits": {
+            "smithy.api#documentation": "Names of the metrics to act on, at most 100. Duplicates are collapsed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricBulkApprove": {
+      "type": "structure",
+      "members": {
+        "approved": {
+          "target": "com.posthog.data_catalog#DataCatalogMetricBulkApproveApprovedList",
+          "traits": {
+            "smithy.api#documentation": "The metrics that are now approved, freshly serialized.",
+            "smithy.api#required": {}
+          }
+        },
+        "skipped": {
+          "target": "com.posthog.data_catalog#DataCatalogMetricBulkApproveSkippedList",
+          "traits": {
+            "smithy.api#documentation": "Requested metrics that were not approved, with reasons.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Outcome of a bulk approve: what changed, and what was left alone."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricBulkApproveApprovedList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.data_catalog#DataCatalogMetric"
+      },
+      "traits": {
+        "smithy.api#documentation": "The metrics that are now approved, freshly serialized."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricBulkSkip": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the metric that was skipped.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why it was skipped, e.g. 'Not found', 'Already approved', 'Drifted from its source insight'.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A metric the bulk action did not act on, and why."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricBulkApproveSkippedList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.data_catalog#DataCatalogMetricBulkSkip"
+      },
+      "traits": {
+        "smithy.api#documentation": "Requested metrics that were not approved, with reasons."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricsBulkApproveCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#DataCatalogMetricsBulkApproveCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogMetricBulkApprove"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_catalog/metrics/bulk_approve/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Approve many metrics as canonical. Unknown, already-approved, and drifted metrics are skipped."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricsBulkDeleteCreateRequestNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the metrics to act on, at most 100. Duplicates are collapsed."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricsBulkDeleteCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "names": {
+          "target": "com.posthog.data_catalog#DataCatalogMetricsBulkDeleteCreateRequestNamesList",
+          "traits": {
+            "smithy.api#documentation": "Names of the metrics to act on, at most 100. Duplicates are collapsed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricBulkDelete": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "com.posthog.data_catalog#DataCatalogMetricBulkDeleteDeletedList",
+          "traits": {
+            "smithy.api#documentation": "Names of the metrics that were deleted, now free for reuse.",
+            "smithy.api#required": {}
+          }
+        },
+        "skipped": {
+          "target": "com.posthog.data_catalog#DataCatalogMetricBulkDeleteSkippedList",
+          "traits": {
+            "smithy.api#documentation": "Requested metrics that were not deleted, with reasons.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Outcome of a bulk delete: which names are gone, and what was left alone."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricBulkDeleteDeletedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the metrics that were deleted, now free for reuse."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricBulkDeleteSkippedList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.data_catalog#DataCatalogMetricBulkSkip"
+      },
+      "traits": {
+        "smithy.api#documentation": "Requested metrics that were not deleted, with reasons."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogMetricsBulkDeleteCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#DataCatalogMetricsBulkDeleteCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogMetricBulkDelete"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_catalog/metrics/bulk_delete/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete many metrics, freeing their names for reuse. Unknown metrics are skipped."
+      }
+    },
+    "com.posthog.data_catalog#ListDataCatalogRelationshipProposalsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by proposed/accepted/rejected."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#PaginatedDataCatalogRelationshipProposalList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.data_catalog#PaginatedDataCatalogRelationshipProposalListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#DataCatalogRelationshipProposal": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source_table_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the table the join starts from.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_table_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HogQL key expression on the source table (casts allowed).",
+            "smithy.api#required": {}
+          }
+        },
+        "joining_table_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the table being joined in.",
+            "smithy.api#required": {}
+          }
+        },
+        "joining_table_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HogQL key expression on the joining table (casts allowed).",
+            "smithy.api#required": {}
+          }
+        },
+        "field_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Accessor the join adds to the source table.",
+            "smithy.api#required": {}
+          }
+        },
+        "configuration": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Extra join configuration, e.g. a field mapping."
+          }
+        },
+        "confidence": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Discovery confidence in this join, 0-1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reasoning": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why this join is proposed."
+          }
+        },
+        "evidence": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Sampling evidence: match rates, sample values."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "proposed, accepted (promoted to a real join), or rejected (never re-proposed).",
+            "smithy.api#required": {}
+          }
+        },
+        "reviewed_by": {
+          "target": "com.posthog.data_catalog#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "User who accepted or rejected the proposal.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reviewed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rejection_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the proposal was rejected.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_join": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The join created when this proposal was accepted (promotion provenance).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#PaginatedDataCatalogRelationshipProposalListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.data_catalog#DataCatalogRelationshipProposal"
+      },
+      "traits": {}
+    },
+    "com.posthog.data_catalog#ListDataCatalogRelationshipProposals": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#ListDataCatalogRelationshipProposalsRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#PaginatedDataCatalogRelationshipProposalList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_catalog/relationship_proposals/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reviewed join facts. Accepting one promotes it to a real DataWarehouseJoin; rejections persist."
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogRelationshipProposalRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "source_table_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the table the join starts from.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_table_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HogQL key expression on the source table (casts allowed).",
+            "smithy.api#required": {}
+          }
+        },
+        "joining_table_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the table being joined in.",
+            "smithy.api#required": {}
+          }
+        },
+        "joining_table_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HogQL key expression on the joining table (casts allowed).",
+            "smithy.api#required": {}
+          }
+        },
+        "field_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Accessor the join adds to the source table.",
+            "smithy.api#required": {}
+          }
+        },
+        "configuration": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Extra join configuration, e.g. a field mapping."
+          }
+        },
+        "confidence": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Discovery confidence in this join, 0-1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reasoning": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why this join is proposed."
+          }
+        },
+        "evidence": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Sampling evidence: match rates, sample values."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#CreateDataCatalogRelationshipProposal": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#CreateDataCatalogRelationshipProposalRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogRelationshipProposal"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_catalog/relationship_proposals/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reviewed join facts. Accepting one promotes it to a real DataWarehouseJoin; rejections persist."
+      }
+    },
+    "com.posthog.data_catalog#GetDataCatalogRelationshipProposalRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this relationship proposal."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#GetDataCatalogRelationshipProposal": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#GetDataCatalogRelationshipProposalRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogRelationshipProposal"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_catalog/relationship_proposals/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reviewed join facts. Accepting one promotes it to a real DataWarehouseJoin; rejections persist."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogRelationshipProposalsAcceptCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this relationship proposal."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogRelationshipProposalsAcceptCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#DataCatalogRelationshipProposalsAcceptCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogRelationshipProposal"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_catalog/relationship_proposals/{id}/accept/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Promote the proposal to a real warehouse join after re-validating and probing it."
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogRelationshipProposalsRejectCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this relationship proposal."
+          }
+        },
+        "rejection_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the proposal is rejected. Persisted so it is never re-proposed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_catalog#DataCatalogRelationshipProposalsRejectCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_catalog#DataCatalogRelationshipProposalsRejectCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_catalog#DataCatalogRelationshipProposal"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_catalog/relationship_proposals/{id}/reject/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reject the proposal. Persists forever so the pair is never re-proposed."
+      }
+    },
+    "com.posthog.data_catalog#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.data_catalog#DataCatalog": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.data_catalog#ListDataCatalogCertifications"
+        },
+        {
+          "target": "com.posthog.data_catalog#CreateDataCatalogCertification"
+        },
+        {
+          "target": "com.posthog.data_catalog#GetDataCatalogCertification"
+        },
+        {
+          "target": "com.posthog.data_catalog#DataCatalogCertificationsDestroy"
+        },
+        {
+          "target": "com.posthog.data_catalog#CreateDataCatalogCertificationsCertify"
+        },
+        {
+          "target": "com.posthog.data_catalog#CreateDataCatalogCertificationsDeprecate"
+        },
+        {
+          "target": "com.posthog.data_catalog#ListDataCatalogMetrics"
+        },
+        {
+          "target": "com.posthog.data_catalog#CreateDataCatalogMetrics"
+        },
+        {
+          "target": "com.posthog.data_catalog#GetDataCatalogMetrics"
+        },
+        {
+          "target": "com.posthog.data_catalog#UpdateDataCatalogMetrics"
+        },
+        {
+          "target": "com.posthog.data_catalog#UpdateDataCatalogMetricsPartial"
+        },
+        {
+          "target": "com.posthog.data_catalog#DataCatalogMetricsDestroy"
+        },
+        {
+          "target": "com.posthog.data_catalog#DataCatalogMetricsApproveCreate"
+        },
+        {
+          "target": "com.posthog.data_catalog#DataCatalogMetricsRefreshFromInsightCreate"
+        },
+        {
+          "target": "com.posthog.data_catalog#CreateDataCatalogMetricsRun"
+        },
+        {
+          "target": "com.posthog.data_catalog#DataCatalogMetricsBulkApproveCreate"
+        },
+        {
+          "target": "com.posthog.data_catalog#DataCatalogMetricsBulkDeleteCreate"
+        },
+        {
+          "target": "com.posthog.data_catalog#ListDataCatalogRelationshipProposals"
+        },
+        {
+          "target": "com.posthog.data_catalog#CreateDataCatalogRelationshipProposal"
+        },
+        {
+          "target": "com.posthog.data_catalog#GetDataCatalogRelationshipProposal"
+        },
+        {
+          "target": "com.posthog.data_catalog#DataCatalogRelationshipProposalsAcceptCreate"
+        },
+        {
+          "target": "com.posthog.data_catalog#DataCatalogRelationshipProposalsRejectCreate"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

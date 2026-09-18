@@ -1,0 +1,553 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.fee_markups#ListFeeMarkupRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.fee_markups#FeeMarkupListItem": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the fee markup was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "fee_type": {
+          "target": "com.whop.fee_markups#FeeMarkupTypes",
+          "traits": {
+            "smithy.api#documentation": "The category of fee this markup applies to.",
+            "smithy.api#required": {}
+          }
+        },
+        "fixed_fee_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A flat fee charged per transaction, in USD. Ranges from 0 to 50. Null if no fixed fee is configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the fee markup.",
+            "smithy.api#required": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Internal notes about this fee markup, visible only to administrators. Null if no notes have been added.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "percentage_fee": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A percentage-based fee charged per transaction. Ranges from 0 to 25. Null if no percentage fee is configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the fee markup was last updated.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A fee markup configuration that defines additional charges applied to transactions for a platform's connected accounts."
+      }
+    },
+    "com.whop.fee_markups#FeeMarkupTypes": {
+      "type": "enum",
+      "members": {
+        "CRYPTO_WITHDRAWAL_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto_withdrawal_markup"
+          }
+        },
+        "RTP_WITHDRAWAL_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtp_withdrawal_markup"
+          }
+        },
+        "NEXT_DAY_BANK_WITHDRAWAL_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "next_day_bank_withdrawal_markup"
+          }
+        },
+        "BANK_WIRE_WITHDRAWAL_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_wire_withdrawal_markup"
+          }
+        },
+        "DIGITAL_WALLET_WITHDRAWAL_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "digital_wallet_withdrawal_markup"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The types of fee markups that can be configured"
+      }
+    },
+    "com.whop.fee_markups#ListFeeMarkupResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.fee_markups#FeeMarkupListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.fee_markups#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.fee_markups#ListFeeMarkupResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.fee_markups#ListFeeMarkupResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.fee_markups#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.fee_markups#ListFeeMarkup": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.fee_markups#ListFeeMarkupRequest"
+      },
+      "output": {
+        "target": "com.whop.fee_markups#ListFeeMarkupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.fee_markups#BadRequest"
+        },
+        {
+          "target": "com.whop.fee_markups#Forbidden"
+        },
+        {
+          "target": "com.whop.fee_markups#NotFound"
+        },
+        {
+          "target": "com.whop.fee_markups#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/fee_markups",
+          "code": 200
+        },
+        "smithy.api#documentation": "List fee markups\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of fee markups configured for a company. If the company is a platform account, returns the platform default markups.\n\nRequired permissions:\n - `company:update_child_fees`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.fee_markups#CreateFeeMarkupRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom key-value metadata to attach to this fee markup."
+      }
+    },
+    "com.whop.fee_markups#CreateFeeMarkupRequest": {
+      "type": "structure",
+      "members": {
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to create or update the fee markup for.",
+            "smithy.api#required": {}
+          }
+        },
+        "fee_type": {
+          "target": "com.whop.fee_markups#FeeMarkupTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of fee this markup applies to, such as processing or platform fees.",
+            "smithy.api#required": {}
+          }
+        },
+        "fixed_fee_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The fixed fee amount in USD to charge per transaction. Must be between 0 and 50.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.fee_markups#CreateFeeMarkupRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value metadata to attach to this fee markup.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Internal notes about this fee markup for record-keeping purposes.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "percentage_fee": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The percentage fee to charge per transaction. Must be between 0 and 25.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.fee_markups#FeeMarkup": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the fee markup was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "fee_type": {
+          "target": "com.whop.fee_markups#FeeMarkupTypes",
+          "traits": {
+            "smithy.api#documentation": "The category of fee this markup applies to.",
+            "smithy.api#required": {}
+          }
+        },
+        "fixed_fee_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A flat fee charged per transaction, in USD. Ranges from 0 to 50. Null if no fixed fee is configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the fee markup.",
+            "smithy.api#required": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Internal notes about this fee markup, visible only to administrators. Null if no notes have been added.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "percentage_fee": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A percentage-based fee charged per transaction. Ranges from 0 to 25. Null if no percentage fee is configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the fee markup was last updated.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A fee markup configuration that defines additional charges applied to transactions for a platform's connected accounts."
+      }
+    },
+    "com.whop.fee_markups#CreateFeeMarkup": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.fee_markups#CreateFeeMarkupRequest"
+      },
+      "output": {
+        "target": "com.whop.fee_markups#FeeMarkup"
+      },
+      "errors": [
+        {
+          "target": "com.whop.fee_markups#BadRequest"
+        },
+        {
+          "target": "com.whop.fee_markups#Forbidden"
+        },
+        {
+          "target": "com.whop.fee_markups#NotFound"
+        },
+        {
+          "target": "com.whop.fee_markups#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/fee_markups",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create fee markup\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreate or update a fee markup for a company. If a markup for the specified fee type already exists, it will be updated with the new values.\n\nRequired permissions:\n - `company:update_child_fees`"
+      }
+    },
+    "com.whop.fee_markups#DeleteFeeMarkupRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the fee markup to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.fee_markups#DeleteFeeMarkupResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.fee_markups#DeleteFeeMarkup": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.fee_markups#DeleteFeeMarkupRequest"
+      },
+      "output": {
+        "target": "com.whop.fee_markups#DeleteFeeMarkupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.fee_markups#BadRequest"
+        },
+        {
+          "target": "com.whop.fee_markups#Forbidden"
+        },
+        {
+          "target": "com.whop.fee_markups#NotFound"
+        },
+        {
+          "target": "com.whop.fee_markups#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/fee_markups/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete fee markup\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nDelete a fee markup configuration for a company. This removes the custom fee override and reverts to the parent company's default fees.\n\nRequired permissions:\n - `company:update_child_fees`"
+      }
+    },
+    "com.whop.fee_markups#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.fee_markups#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.fee_markups#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.fee_markups#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.fee_markups#FeeMarkups": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.fee_markups#ListFeeMarkup"
+        },
+        {
+          "target": "com.whop.fee_markups#CreateFeeMarkup"
+        },
+        {
+          "target": "com.whop.fee_markups#DeleteFeeMarkup"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

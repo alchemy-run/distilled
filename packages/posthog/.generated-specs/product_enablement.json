@@ -1,0 +1,133 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.product_enablement#ProductsEnum": {
+      "type": "enum",
+      "members": {
+        "CONVERSATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "conversations"
+          }
+        },
+        "ERROR_TRACKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error_tracking"
+          }
+        },
+        "SESSION_REPLAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "session_replay"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `conversations` - conversations\n* `error_tracking` - error_tracking\n* `session_replay` - session_replay"
+      }
+    },
+    "com.posthog.product_enablement#CreateProductEnablementRequestProductsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.product_enablement#ProductsEnum"
+      },
+      "traits": {
+        "smithy.api#documentation": "Products to turn on for this project, each enabled with server-owned conservative defaults."
+      }
+    },
+    "com.posthog.product_enablement#CreateProductEnablementRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "products": {
+          "target": "com.posthog.product_enablement#CreateProductEnablementRequestProductsList",
+          "traits": {
+            "smithy.api#documentation": "Products to turn on for this project, each enabled with server-owned conservative defaults.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.product_enablement#ProductEnablementResult": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.product_enablement#ProductEnablementResultResultsMap",
+          "traits": {
+            "smithy.api#documentation": "Per requested product: \"enabled\" (just turned on) or \"already_enabled\".",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.product_enablement#ProductEnablementResultResultsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Per requested product: \"enabled\" (just turned on) or \"already_enabled\"."
+      }
+    },
+    "com.posthog.product_enablement#CreateProductEnablement": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.product_enablement#CreateProductEnablementRequest"
+      },
+      "output": {
+        "target": "com.posthog.product_enablement#ProductEnablementResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/product_enablement/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.product_enablement#ProductEnablement": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.product_enablement#CreateProductEnablement"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

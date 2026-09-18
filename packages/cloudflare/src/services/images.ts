@@ -104,10 +104,28 @@ export class VariantNotFound
 export interface CreateV1Request {
   /** Account identifier tag. */
   accountId: string;
+  /** An optional custom unique identifier for your image. */
+  id?: string;
+  /** Can set the creator field with an internal user ID. */
+  creator?: string;
+  /** An image binary data. Only needed when type is uploading a file. */
+  file?: unknown;
+  /** User modifiable key-value store. Can use used for keeping references to another system of record for managing images. */
+  metadata?: unknown;
+  /** Indicates whether the image requires a signature token for the access. */
+  requireSignedURLs?: boolean;
+  /** A URL to fetch an image from origin. Only needed when type is uploading from a URL. */
+  url?: string;
 }
 export const CreateV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    id: S.optional(S.String),
+    creator: S.optional(S.String),
+    file: S.optional(S.Unknown),
+    metadata: S.optional(S.Unknown),
+    requireSignedURLs: S.optional(S.Boolean),
+    url: S.optional(S.String),
   })
     .pipe(
       T.Http({
@@ -163,13 +181,13 @@ export type V1VariantsCreateRequestOptionsFit =
   | "cover"
   | "crop"
   | "pad";
-export const V1VariantsCreateRequestOptionsFit = /*@__PURE__*/ S.String;
+export const V1VariantsCreateRequestOptionsFit = S.String;
 
 export type V1VariantsCreateRequestOptionsMetadata =
   | "keep"
   | "copyright"
   | "none";
-export const V1VariantsCreateRequestOptionsMetadata = /*@__PURE__*/ S.String;
+export const V1VariantsCreateRequestOptionsMetadata = S.String;
 
 export interface V1VariantsCreateRequestOptions {
   /** The fit property describes how the width and height dimensions should be interpreted. */
@@ -226,14 +244,13 @@ export type V1VariantsCreateResponseVariantOptionsFit =
   | "cover"
   | "crop"
   | "pad";
-export const V1VariantsCreateResponseVariantOptionsFit = /*@__PURE__*/ S.String;
+export const V1VariantsCreateResponseVariantOptionsFit = S.String;
 
 export type V1VariantsCreateResponseVariantOptionsMetadata =
   | "keep"
   | "copyright"
   | "none";
-export const V1VariantsCreateResponseVariantOptionsMetadata =
-  /*@__PURE__*/ S.String;
+export const V1VariantsCreateResponseVariantOptionsMetadata = S.String;
 
 export interface V1VariantsCreateResponseVariantOptions {
   /** The fit property describes how the width and height dimensions should be interpreted. */
@@ -289,10 +306,25 @@ export const CreateV1VariantResponse = /*@__PURE__*/ S.suspend(() =>
 export interface CreateV2DirectUploadRequest {
   /** Account identifier tag. */
   accountId: string;
+  /** Optional Image Custom ID. Up to 1024 chars. Can include any number of subpaths, and utf8 characters. Cannot start nor end with a / (forward slash). Cannot be a UUID. */
+  id?: string;
+  /** Can set the creator field with an internal user ID. */
+  creator?: string;
+  /** The date after which the upload will not be accepted. Minimum: Now + 2 minutes. Maximum: Now + 6 hours. */
+  expiry?: string;
+  /** User modifiable key-value store. Can be used for keeping references to another system of record, for managing images. */
+  metadata?: unknown;
+  /** Indicates whether the image requires a signature token to be accessed. */
+  requireSignedURLs?: boolean;
 }
 export const CreateV2DirectUploadRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    id: S.optional(S.String),
+    creator: S.optional(S.String),
+    expiry: S.optional(S.String),
+    metadata: S.optional(S.Unknown),
+    requireSignedURLs: S.optional(S.Boolean),
   })
     .pipe(
       T.Http({
@@ -595,14 +627,13 @@ export type V1VariantsGetResponseVariantOptionsFit =
   | "cover"
   | "crop"
   | "pad";
-export const V1VariantsGetResponseVariantOptionsFit = /*@__PURE__*/ S.String;
+export const V1VariantsGetResponseVariantOptionsFit = S.String;
 
 export type V1VariantsGetResponseVariantOptionsMetadata =
   | "keep"
   | "copyright"
   | "none";
-export const V1VariantsGetResponseVariantOptionsMetadata =
-  /*@__PURE__*/ S.String;
+export const V1VariantsGetResponseVariantOptionsMetadata = S.String;
 
 export interface V1VariantsGetResponseVariantOptions {
   /** The fit property describes how the width and height dimensions should be interpreted. */
@@ -799,15 +830,13 @@ export type V1VariantsListResponseVariantsHeroOptionsFit =
   | "cover"
   | "crop"
   | "pad";
-export const V1VariantsListResponseVariantsHeroOptionsFit =
-  /*@__PURE__*/ S.String;
+export const V1VariantsListResponseVariantsHeroOptionsFit = S.String;
 
 export type V1VariantsListResponseVariantsHeroOptionsMetadata =
   | "keep"
   | "copyright"
   | "none";
-export const V1VariantsListResponseVariantsHeroOptionsMetadata =
-  /*@__PURE__*/ S.String;
+export const V1VariantsListResponseVariantsHeroOptionsMetadata = S.String;
 
 export interface V1VariantsListResponseVariantsHeroOptions {
   /** The fit property describes how the width and height dimensions should be interpreted. */
@@ -873,18 +902,20 @@ export const ListV1VariantsResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface V2ListRequestMeta {
   /** Optional metadata filter(s). Multiple filters can be combined with AND logic. */
-  fieldOperator__?: unknown;
+  ltFieldGtLtOperatorGt__?: string;
 }
 export const V2ListRequestMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fieldOperator__: S.optional(S.Unknown.pipe(T.Body("<field>[<operator>]"))),
+    ltFieldGtLtOperatorGt__: S.optional(
+      S.String.pipe(T.Body("&lt;field&gt;[&lt;operator&gt;]")),
+    ),
   }),
 ).annotate({
   identifier: "V2ListRequestMeta",
 }) as any as S.Schema<V2ListRequestMeta>;
 
 export type V2ListRequestSortOrder = "asc" | "desc";
-export const V2ListRequestSortOrder = /*@__PURE__*/ S.String;
+export const V2ListRequestSortOrder = S.String;
 
 export interface ListV2sRequest {
   /** Account identifier tag. */
@@ -1047,13 +1078,13 @@ export type V1VariantsEditRequestOptionsFit =
   | "cover"
   | "crop"
   | "pad";
-export const V1VariantsEditRequestOptionsFit = /*@__PURE__*/ S.String;
+export const V1VariantsEditRequestOptionsFit = S.String;
 
 export type V1VariantsEditRequestOptionsMetadata =
   | "keep"
   | "copyright"
   | "none";
-export const V1VariantsEditRequestOptionsMetadata = /*@__PURE__*/ S.String;
+export const V1VariantsEditRequestOptionsMetadata = S.String;
 
 export interface V1VariantsEditRequestOptions {
   /** The fit property describes how the width and height dimensions should be interpreted. */
@@ -1110,14 +1141,13 @@ export type V1VariantsEditResponseVariantOptionsFit =
   | "cover"
   | "crop"
   | "pad";
-export const V1VariantsEditResponseVariantOptionsFit = /*@__PURE__*/ S.String;
+export const V1VariantsEditResponseVariantOptionsFit = S.String;
 
 export type V1VariantsEditResponseVariantOptionsMetadata =
   | "keep"
   | "copyright"
   | "none";
-export const V1VariantsEditResponseVariantOptionsMetadata =
-  /*@__PURE__*/ S.String;
+export const V1VariantsEditResponseVariantOptionsMetadata = S.String;
 
 export interface V1VariantsEditResponseVariantOptions {
   /** The fit property describes how the width and height dimensions should be interpreted. */
@@ -1480,7 +1510,7 @@ export const listV1Variants: API.OperationMethod<
 }));
 
 export type ListV2sError = ImagesAccessNotEnabled | CloudflareOpError;
-/** List up to 10000 images from CF Images, with up to 1000 results per page. Use the optional parameters below to get a specific range of images. Pagination is supported via continuation_token. **Metadata Filtering (Optional):** You can optionally filter images by custom metadata fields using the `meta.<field>[<operator>]=<value>` syntax. **Supported Operators:** - `eq` / `eq:string` / `eq:number` / `eq:boolean` - Exact match - `gt` / `gt:number` - Greater than (number only) - `gte` / `gte:number` - Greater than or equal (number only) - `lt` / `lt:number` - Less than (number only) - `lte` / `lte:number` - Less than or equal (number only) - `in` / `in:string` / `in:number` - Match any value in list (pipe-separated) **Metadata Filter Constraints:** - Maximum 5 metadata filters per request - Maximum 5 levels of nesting (e.g., `meta.first.second.third.fourth.fifth`) - Maximum 10 elements for list operators (`in`) - Supports string, number, and boolean value types - Range operators (`gt`, `gte`, `lt`, `lte`) only accept numeric values **Filter Consistency:** Filters are combined with AND logic. The system does not validate whether filter combinations are logically consistent. For example, `meta.priority[eq:number]=5&meta.priority[lte:number]=3` will return zero results because no value can satisfy both conditions simultaneously. It is the caller's responsibility to ensure filter combinations make sense. **Examples:** ``` # List all images /images/v2 # Filter by metadata [eq] /images/v2?meta.status[eq:string]=active # Filter by metadata [in] /images/v2?meta.status[in]=pending|deleted|flagged # Filter by metadata [in:number] /images/v2?meta.ratings[in:number]=4|5 # Filter by metadata range [gte:number] /images/v2?meta.priority[gte:number]=1 # Filter by bounded range /images/v2?meta.priority[gte:number]=1&meta.priority[lte:number]=5 # Filter by nested metadata /images/v2?meta.region.name[eq]=eu-west # Combine metadata filters with creator /images/v2?meta.status[eq]=active&creator=user123 # Multiple metadata filters (AND logic) /images/v2?meta.status[eq]=active&meta.priority[eq:number]=5 ``` */
+/** List up to 10000 images from CF Images, with up to 1000 results per page. Use the optional parameters below to get a specific range of images. Pagination is supported via continuation_token. **Metadata Filtering (Optional):** You can optionally filter images by custom metadata fields using the `meta.<field>[<operator>]=<value>` syntax. **Supported Operators:** - `eq` / `eq:string` / `eq:number` / `eq:boolean` - Exact match - `gt` / `gt:number` - Greater than (number only) - `gte` / `gte:number` - Greater than or equal (number only) - `lt` / `lt:number` - Less than (number only) - `lte` / `lte:number` - Less than or equal (number only) - `in` / `in:string` / `in:number` - Match any value in list (pipe-separated) **Metadata Filter Constraints:** - Maximum 5 metadata filters per request - Maximum 5 levels of nesting (e.g., `meta.first.second.third.fourth.fifth`) - Maximum 10 elements for list operators ( `in`) - Supports string, number, and boolean value types - Range operators ( `gt`, `gte`, `lt`, `lte`) only accept numeric values **Filter Consistency:** Filters are combined with AND logic. The system does not validate whether filter combinations are logically consistent. For example, `meta.priority[eq:number]=5&meta.priority[lte:number]=3` will return zero results because no value can satisfy both conditions simultaneously. It is the caller's responsibility to ensure filter combinations make sense. **Examples:** */
 export const listV2s: API.OperationMethod<
   ListV2sRequest,
   ListV2sResponse,

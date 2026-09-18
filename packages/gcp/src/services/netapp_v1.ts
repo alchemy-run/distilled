@@ -103,11 +103,6 @@ export const GoogleProtobufEmpty = /*@__PURE__*/ S.suspend(() =>
   identifier: "GoogleProtobufEmpty",
 }) as any as S.Schema<GoogleProtobufEmpty>;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
-
 export type ActiveDirectoryStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -117,7 +112,12 @@ export type ActiveDirectoryStateEnum =
   | "DELETING"
   | "ERROR"
   | "DIAGNOSING";
-export const ActiveDirectoryStateEnum = /*@__PURE__*/ S.String;
+export const ActiveDirectoryStateEnum = S.String;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
 
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(
@@ -127,75 +127,75 @@ export const StringMap = /*@__PURE__*/ S.Record(
 
 /** ActiveDirectory is the public representation of the active directory config. */
 export interface ActiveDirectory {
-  /** Optional. Users to be added to the Built-in Admininstrators group. */
-  administrators?: StringList;
-  /** Required. Comma separated list of DNS server IP addresses for the Active Directory domain. */
-  dns?: string;
-  /** Output only. The state of the AD. */
-  state?: ActiveDirectoryStateEnum | (string & {});
   /** Output only. The state details of the Active Directory. */
   stateDetails?: string;
-  /** If enabled, traffic between the SMB server to Domain Controller (DC) will be encrypted. */
-  encryptDcConnections?: boolean;
-  /** Labels for the active directory. */
-  labels?: StringMap;
-  /** Required. Name of the Active Directory domain */
-  domain?: string;
-  /** The Active Directory site the service will limit Domain Controller discovery too. */
-  site?: string;
-  /** Optional. Users to be added to the Built-in Backup Operator active directory group. */
-  backupOperators?: StringList;
-  /** Optional. Domain users to be given the SeSecurityPrivilege. */
-  securityOperators?: StringList;
-  /** Required. NetBIOSPrefix is used as a prefix for SMB server name. */
-  netBiosPrefix?: string;
+  /** Output only. The state of the AD. */
+  state?: ActiveDirectoryStateEnum | (string & {});
   /** KDC server IP address for the active directory machine. */
   kdcIp?: string;
-  /** If enabled, will allow access to local users and LDAP users. If access is needed for only LDAP users, it has to be disabled. */
-  nfsUsersWithLdap?: boolean;
-  /** The Organizational Unit (OU) within the Windows Active Directory the user belongs to. */
-  organizationalUnit?: string;
-  /** Description of the active directory. */
-  description?: string;
-  /** Required. Username of the Active Directory domain administrator. */
-  username?: string;
-  /** Specifies whether or not the LDAP traffic needs to be signed. */
-  ldapSigning?: boolean;
-  /** Name of the active directory machine. This optional parameter is used only while creating kerberos volume */
-  kdcHostname?: string;
-  /** Identifier. The resource name of the active directory. Format: `projects/{project_number}/locations/{location_id}/activeDirectories/{active_directory_id}`. */
-  name?: string;
-  /** Required. Password of the Active Directory domain administrator. */
-  password?: string;
-  /** If enabled, AES encryption will be enabled for SMB communication. */
-  aesEncryption?: boolean;
+  /** Required. NetBIOSPrefix is used as a prefix for SMB server name. */
+  netBiosPrefix?: string;
   /** Output only. Create time of the active directory. */
   createTime?: string;
+  /** Optional. Users to be added to the Built-in Admininstrators group. */
+  administrators?: StringList;
+  /** Required. Name of the Active Directory domain */
+  domain?: string;
+  /** Labels for the active directory. */
+  labels?: StringMap;
+  /** Required. Username of the Active Directory domain administrator. */
+  username?: string;
+  /** Required. Password of the Active Directory domain administrator. */
+  password?: string;
+  /** Identifier. The resource name of the active directory. Format: `projects/{project_number}/locations/{location_id}/activeDirectories/{active_directory_id}`. */
+  name?: string;
+  /** Description of the active directory. */
+  description?: string;
+  /** If enabled, will allow access to local users and LDAP users. If access is needed for only LDAP users, it has to be disabled. */
+  nfsUsersWithLdap?: boolean;
+  /** Specifies whether or not the LDAP traffic needs to be signed. */
+  ldapSigning?: boolean;
+  /** If enabled, AES encryption will be enabled for SMB communication. */
+  aesEncryption?: boolean;
+  /** The Organizational Unit (OU) within the Windows Active Directory the user belongs to. */
+  organizationalUnit?: string;
+  /** Name of the active directory machine. This optional parameter is used only while creating kerberos volume */
+  kdcHostname?: string;
+  /** The Active Directory site the service will limit Domain Controller discovery too. */
+  site?: string;
+  /** If enabled, traffic between the SMB server to Domain Controller (DC) will be encrypted. */
+  encryptDcConnections?: boolean;
+  /** Optional. Domain users to be given the SeSecurityPrivilege. */
+  securityOperators?: StringList;
+  /** Optional. Users to be added to the Built-in Backup Operator active directory group. */
+  backupOperators?: StringList;
+  /** Required. Comma separated list of DNS server IP addresses for the Active Directory domain. */
+  dns?: string;
 }
 export const ActiveDirectory = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    administrators: S.optional(StringList),
-    dns: S.optional(S.String),
-    state: S.optional(ActiveDirectoryStateEnum),
     stateDetails: S.optional(S.String),
-    encryptDcConnections: S.optional(S.Boolean),
-    labels: S.optional(StringMap),
-    domain: S.optional(S.String),
-    site: S.optional(S.String),
-    backupOperators: S.optional(StringList),
-    securityOperators: S.optional(StringList),
-    netBiosPrefix: S.optional(S.String),
+    state: S.optional(ActiveDirectoryStateEnum),
     kdcIp: S.optional(S.String),
-    nfsUsersWithLdap: S.optional(S.Boolean),
-    organizationalUnit: S.optional(S.String),
-    description: S.optional(S.String),
-    username: S.optional(S.String),
-    ldapSigning: S.optional(S.Boolean),
-    kdcHostname: S.optional(S.String),
-    name: S.optional(S.String),
-    password: S.optional(S.String),
-    aesEncryption: S.optional(S.Boolean),
+    netBiosPrefix: S.optional(S.String),
     createTime: S.optional(S.String),
+    administrators: S.optional(StringList),
+    domain: S.optional(S.String),
+    labels: S.optional(StringMap),
+    username: S.optional(S.String),
+    password: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    nfsUsersWithLdap: S.optional(S.Boolean),
+    ldapSigning: S.optional(S.Boolean),
+    aesEncryption: S.optional(S.Boolean),
+    organizationalUnit: S.optional(S.String),
+    kdcHostname: S.optional(S.String),
+    site: S.optional(S.String),
+    encryptDcConnections: S.optional(S.Boolean),
+    securityOperators: S.optional(StringList),
+    backupOperators: S.optional(StringList),
+    dns: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ActiveDirectory",
@@ -256,24 +256,24 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
-    error: S.optional(Status),
-    done: S.optional(S.Boolean),
     response: S.optional(DocumentMap),
     name: S.optional(S.String),
+    done: S.optional(S.Boolean),
+    error: S.optional(Status),
+    metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -284,43 +284,43 @@ export type BackupPolicyStateEnum =
   | "DELETING"
   | "ERROR"
   | "UPDATING";
-export const BackupPolicyStateEnum = /*@__PURE__*/ S.String;
+export const BackupPolicyStateEnum = S.String;
 
 /** Backup Policy. */
 export interface BackupPolicy {
-  /** Number of weekly backups to keep. Note that the sum of daily, weekly and monthly backups should be greater than 1. */
-  weeklyBackupLimit?: number;
-  /** Identifier. The resource name of the backup policy. Format: `projects/{project_id}/locations/{location}/backupPolicies/{backup_policy_id}`. */
-  name?: string;
   /** Resource labels to represent user provided metadata. */
   labels?: StringMap;
-  /** Output only. The backup policy state. */
-  state?: BackupPolicyStateEnum | (string & {});
-  /** Number of daily backups to keep. Note that the minimum daily backup limit is 2. */
-  dailyBackupLimit?: number;
-  /** Number of monthly backups to keep. Note that the sum of daily, weekly and monthly backups should be greater than 1. */
-  monthlyBackupLimit?: number;
   /** Output only. The total number of volumes assigned by this backup policy. */
   assignedVolumeCount?: number;
+  /** Number of weekly backups to keep. Note that the sum of daily, weekly and monthly backups should be greater than 1. */
+  weeklyBackupLimit?: number;
   /** Output only. The time when the backup policy was created. */
   createTime?: string;
-  /** Description of the backup policy. */
-  description?: string;
+  /** Number of daily backups to keep. Note that the minimum daily backup limit is 2. */
+  dailyBackupLimit?: number;
   /** If enabled, make backups automatically according to the schedules. This will be applied to all volumes that have this policy attached and enforced on volume level. If not specified, default is true. */
   enabled?: boolean;
+  /** Description of the backup policy. */
+  description?: string;
+  /** Number of monthly backups to keep. Note that the sum of daily, weekly and monthly backups should be greater than 1. */
+  monthlyBackupLimit?: number;
+  /** Identifier. The resource name of the backup policy. Format: `projects/{project_id}/locations/{location}/backupPolicies/{backup_policy_id}`. */
+  name?: string;
+  /** Output only. The backup policy state. */
+  state?: BackupPolicyStateEnum | (string & {});
 }
 export const BackupPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    weeklyBackupLimit: S.optional(S.Number),
-    name: S.optional(S.String),
     labels: S.optional(StringMap),
-    state: S.optional(BackupPolicyStateEnum),
-    dailyBackupLimit: S.optional(S.Number),
-    monthlyBackupLimit: S.optional(S.Number),
     assignedVolumeCount: S.optional(S.Number),
+    weeklyBackupLimit: S.optional(S.Number),
     createTime: S.optional(S.String),
-    description: S.optional(S.String),
+    dailyBackupLimit: S.optional(S.Number),
     enabled: S.optional(S.Boolean),
+    description: S.optional(S.String),
+    monthlyBackupLimit: S.optional(S.Number),
+    name: S.optional(S.String),
+    state: S.optional(BackupPolicyStateEnum),
   }),
 ).annotate({ identifier: "BackupPolicy" }) as any as S.Schema<BackupPolicy>;
 
@@ -349,19 +349,44 @@ export const CreateProjectsLocationsBackupPoliciesRequest =
     identifier: "CreateProjectsLocationsBackupPoliciesRequest",
   }) as any as S.Schema<CreateProjectsLocationsBackupPoliciesRequest>;
 
+/** Retention policy for backups in the backup vault */
+export interface BackupRetentionPolicy {
+  /** Optional. Indicates if the weekly backups are immutable. At least one of daily_backup_immutable, weekly_backup_immutable, monthly_backup_immutable and manual_backup_immutable must be true. */
+  weeklyBackupImmutable?: boolean;
+  /** Optional. Indicates if the manual backups are immutable. At least one of daily_backup_immutable, weekly_backup_immutable, monthly_backup_immutable and manual_backup_immutable must be true. */
+  manualBackupImmutable?: boolean;
+  /** Optional. Indicates if the monthly backups are immutable. At least one of daily_backup_immutable, weekly_backup_immutable, monthly_backup_immutable and manual_backup_immutable must be true. */
+  monthlyBackupImmutable?: boolean;
+  /** Required. Minimum retention duration in days for backups in the backup vault. */
+  backupMinimumEnforcedRetentionDays?: number;
+  /** Optional. Indicates if the daily backups are immutable. At least one of daily_backup_immutable, weekly_backup_immutable, monthly_backup_immutable and manual_backup_immutable must be true. */
+  dailyBackupImmutable?: boolean;
+}
+export const BackupRetentionPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    weeklyBackupImmutable: S.optional(S.Boolean),
+    manualBackupImmutable: S.optional(S.Boolean),
+    monthlyBackupImmutable: S.optional(S.Boolean),
+    backupMinimumEnforcedRetentionDays: S.optional(S.Number),
+    dailyBackupImmutable: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "BackupRetentionPolicy",
+}) as any as S.Schema<BackupRetentionPolicy>;
+
 export type BackupVaultEncryptionStateEnum =
   | "ENCRYPTION_STATE_UNSPECIFIED"
   | "ENCRYPTION_STATE_PENDING"
   | "ENCRYPTION_STATE_COMPLETED"
   | "ENCRYPTION_STATE_IN_PROGRESS"
   | "ENCRYPTION_STATE_FAILED";
-export const BackupVaultEncryptionStateEnum = /*@__PURE__*/ S.String;
+export const BackupVaultEncryptionStateEnum = S.String;
 
 export type BackupVaultBackupVaultTypeEnum =
   | "BACKUP_VAULT_TYPE_UNSPECIFIED"
   | "IN_REGION"
   | "CROSS_REGION";
-export const BackupVaultBackupVaultTypeEnum = /*@__PURE__*/ S.String;
+export const BackupVaultBackupVaultTypeEnum = S.String;
 
 export type BackupVaultStateEnum =
   | "STATE_UNSPECIFIED"
@@ -370,80 +395,55 @@ export type BackupVaultStateEnum =
   | "DELETING"
   | "ERROR"
   | "UPDATING";
-export const BackupVaultStateEnum = /*@__PURE__*/ S.String;
-
-/** Retention policy for backups in the backup vault */
-export interface BackupRetentionPolicy {
-  /** Optional. Indicates if the daily backups are immutable. At least one of daily_backup_immutable, weekly_backup_immutable, monthly_backup_immutable and manual_backup_immutable must be true. */
-  dailyBackupImmutable?: boolean;
-  /** Optional. Indicates if the manual backups are immutable. At least one of daily_backup_immutable, weekly_backup_immutable, monthly_backup_immutable and manual_backup_immutable must be true. */
-  manualBackupImmutable?: boolean;
-  /** Optional. Indicates if the monthly backups are immutable. At least one of daily_backup_immutable, weekly_backup_immutable, monthly_backup_immutable and manual_backup_immutable must be true. */
-  monthlyBackupImmutable?: boolean;
-  /** Required. Minimum retention duration in days for backups in the backup vault. */
-  backupMinimumEnforcedRetentionDays?: number;
-  /** Optional. Indicates if the weekly backups are immutable. At least one of daily_backup_immutable, weekly_backup_immutable, monthly_backup_immutable and manual_backup_immutable must be true. */
-  weeklyBackupImmutable?: boolean;
-}
-export const BackupRetentionPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dailyBackupImmutable: S.optional(S.Boolean),
-    manualBackupImmutable: S.optional(S.Boolean),
-    monthlyBackupImmutable: S.optional(S.Boolean),
-    backupMinimumEnforcedRetentionDays: S.optional(S.Number),
-    weeklyBackupImmutable: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "BackupRetentionPolicy",
-}) as any as S.Schema<BackupRetentionPolicy>;
+export const BackupVaultStateEnum = S.String;
 
 /** A NetApp BackupVault. */
 export interface BackupVault {
-  /** Description of the backup vault. */
-  description?: string;
-  /** Output only. Field indicating encryption state of CMEK backups. */
-  encryptionState?: BackupVaultEncryptionStateEnum | (string & {});
-  /** Optional. Type of backup vault to be created. Default is IN_REGION. */
-  backupVaultType?: BackupVaultBackupVaultTypeEnum | (string & {});
-  /** Output only. Name of the Backup vault created in source region. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}` */
-  sourceBackupVault?: string;
-  /** Resource labels to represent user provided metadata. */
-  labels?: StringMap;
-  /** Optional. Region where the backups are stored. Format: `projects/{project_id}/locations/{location}` */
-  backupRegion?: string;
-  /** Output only. Name of the Backup vault created in backup region. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}` */
-  destinationBackupVault?: string;
-  /** Output only. The backup vault state. */
-  state?: BackupVaultStateEnum | (string & {});
   /** Optional. Backup retention policy defining the retention of backups. */
   backupRetentionPolicy?: BackupRetentionPolicy;
-  /** Output only. Create time of the backup vault. */
-  createTime?: string;
-  /** Output only. Region in which the backup vault is created. Format: `projects/{project_id}/locations/{location}` */
-  sourceRegion?: string;
+  /** Output only. Name of the Backup vault created in source region. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}` */
+  sourceBackupVault?: string;
   /** Output only. The crypto key version used to encrypt the backup vault. Format: `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}/cryptoKeyVersions/{crypto_key_version}` */
   backupsCryptoKeyVersion?: string;
-  /** Identifier. The resource name of the backup vault. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}`. */
-  name?: string;
+  /** Output only. Name of the Backup vault created in backup region. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}` */
+  destinationBackupVault?: string;
   /** Optional. Specifies the Key Management System (KMS) configuration to be used for backup encryption. Format: `projects/{project}/locations/{location}/kmsConfigs/{kms_config}` */
   kmsConfig?: string;
+  /** Output only. Field indicating encryption state of CMEK backups. */
+  encryptionState?: BackupVaultEncryptionStateEnum | (string & {});
+  /** Optional. Region in which the backup vault is created. Format: `projects/{project_id}/locations/{location}` */
+  sourceRegion?: string;
+  /** Identifier. The resource name of the backup vault. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}`. */
+  name?: string;
+  /** Optional. Type of backup vault to be created. Default is IN_REGION. */
+  backupVaultType?: BackupVaultBackupVaultTypeEnum | (string & {});
+  /** Optional. Region where the backups are stored. Format: `projects/{project_id}/locations/{location}` */
+  backupRegion?: string;
+  /** Output only. Create time of the backup vault. */
+  createTime?: string;
+  /** Description of the backup vault. */
+  description?: string;
+  /** Resource labels to represent user provided metadata. */
+  labels?: StringMap;
+  /** Output only. The backup vault state. */
+  state?: BackupVaultStateEnum | (string & {});
 }
 export const BackupVault = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
-    encryptionState: S.optional(BackupVaultEncryptionStateEnum),
-    backupVaultType: S.optional(BackupVaultBackupVaultTypeEnum),
-    sourceBackupVault: S.optional(S.String),
-    labels: S.optional(StringMap),
-    backupRegion: S.optional(S.String),
-    destinationBackupVault: S.optional(S.String),
-    state: S.optional(BackupVaultStateEnum),
     backupRetentionPolicy: S.optional(BackupRetentionPolicy),
-    createTime: S.optional(S.String),
-    sourceRegion: S.optional(S.String),
+    sourceBackupVault: S.optional(S.String),
     backupsCryptoKeyVersion: S.optional(S.String),
-    name: S.optional(S.String),
+    destinationBackupVault: S.optional(S.String),
     kmsConfig: S.optional(S.String),
+    encryptionState: S.optional(BackupVaultEncryptionStateEnum),
+    sourceRegion: S.optional(S.String),
+    name: S.optional(S.String),
+    backupVaultType: S.optional(BackupVaultBackupVaultTypeEnum),
+    backupRegion: S.optional(S.String),
+    createTime: S.optional(S.String),
+    description: S.optional(S.String),
+    labels: S.optional(StringMap),
+    state: S.optional(BackupVaultStateEnum),
   }),
 ).annotate({ identifier: "BackupVault" }) as any as S.Schema<BackupVault>;
 
@@ -472,6 +472,9 @@ export const CreateProjectsLocationsBackupVaultsRequest =
     identifier: "CreateProjectsLocationsBackupVaultsRequest",
   }) as any as S.Schema<CreateProjectsLocationsBackupVaultsRequest>;
 
+export type BackupBackupTypeEnum = "TYPE_UNSPECIFIED" | "MANUAL" | "SCHEDULED";
+export const BackupBackupTypeEnum = S.String;
+
 export type BackupStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -480,97 +483,94 @@ export type BackupStateEnum =
   | "DELETING"
   | "ERROR"
   | "UPDATING";
-export const BackupStateEnum = /*@__PURE__*/ S.String;
+export const BackupStateEnum = S.String;
 
 /** Represents ONTAP source details. */
 export interface OntapSource {
-  /** Required. Name of the storage pool. This must be specified for creating backups for ONTAP mode volumes. Format: `projects/{projects_id}/locations/{location}/storagePools/{storage_pool_id}` */
-  storagePool?: string;
   /** Optional. The UUID of the ONTAP source snapshot. */
   snapshotUuid?: string;
   /** Required. The UUID of the ONTAP source volume. */
   volumeUuid?: string;
+  /** Required. Name of the storage pool. This must be specified for creating backups for ONTAP mode volumes. Format: `projects/{projects_id}/locations/{location}/storagePools/{storage_pool_id}` */
+  storagePool?: string;
 }
 export const OntapSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    storagePool: S.optional(S.String),
     snapshotUuid: S.optional(S.String),
     volumeUuid: S.optional(S.String),
+    storagePool: S.optional(S.String),
   }),
 ).annotate({ identifier: "OntapSource" }) as any as S.Schema<OntapSource>;
 
-export type BackupBackupTypeEnum = "TYPE_UNSPECIFIED" | "MANUAL" | "SCHEDULED";
-export const BackupBackupTypeEnum = /*@__PURE__*/ S.String;
-
 /** A NetApp Backup. */
 export interface Backup {
-  /** Output only. The backup state. */
-  state?: BackupStateEnum | (string & {});
+  /** Output only. The time when the backup was created. */
+  createTime?: string;
   /** Output only. Reserved for future use */
   satisfiesPzi?: boolean;
-  /** Resource labels to represent user provided metadata. */
-  labels?: StringMap;
-  /** Output only. Region in which backup is stored. Format: `projects/{project_id}/locations/{location}` */
-  backupRegion?: string;
-  /** If specified, backup will be created from the given snapshot. If not specified, there will be a new snapshot taken to initiate the backup creation. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/snapshots/{snapshot_id}` */
-  sourceSnapshot?: string;
-  /** Output only. Region of the volume from which the backup was created. Format: `projects/{project_id}/locations/{location}` */
-  volumeRegion?: string;
-  /** A description of the backup with 2048 characters or less. Requests with longer descriptions will be rejected. */
-  description?: string;
   /** Output only. The time until which the backup is not deletable. */
   enforcedRetentionEndTime?: string;
-  /** Optional. Represents source details for ONTAP backups. Either source_volume or ontap_source should be provided. */
-  ontapSource?: OntapSource;
-  /** Output only. Reserved for future use */
-  satisfiesPzs?: boolean;
-  /** Identifier. The resource name of the backup. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}/backups/{backup_id}`. */
-  name?: string;
+  /** A description of the backup with 2048 characters or less. Requests with longer descriptions will be rejected. */
+  description?: string;
+  /** Resource labels to represent user provided metadata. */
+  labels?: StringMap;
   /** The resource name of the volume that this backup belongs to. You must provide either `source_volume` or `ontap_source`. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}` */
   sourceVolume?: string;
   /** Output only. Type of backup, manually created or created by a backup policy. */
   backupType?: BackupBackupTypeEnum | (string & {});
+  /** Output only. Region of the volume from which the backup was created. Format: `projects/{project_id}/locations/{location}` */
+  volumeRegion?: string;
+  /** Output only. Region in which backup is stored. Format: `projects/{project_id}/locations/{location}` */
+  backupRegion?: string;
   /** Output only. Total size of all backups in a chain in bytes = baseline backup size + sum(incremental backup size) */
   chainStorageBytes?: string;
+  /** Output only. The backup state. */
+  state?: BackupStateEnum | (string & {});
   /** Output only. Size of the file system when the backup was created. When creating a new volume from the backup, the volume capacity will have to be at least as big. */
   volumeUsageBytes?: string;
-  /** Output only. The time when the backup was created. */
-  createTime?: string;
+  /** Output only. Reserved for future use */
+  satisfiesPzs?: boolean;
+  /** Identifier. The resource name of the backup. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}/backups/{backup_id}`. */
+  name?: string;
+  /** Optional. Represents source details for ONTAP backups. Either source_volume or ontap_source should be provided. */
+  ontapSource?: OntapSource;
+  /** If specified, backup will be created from the given snapshot. If not specified, there will be a new snapshot taken to initiate the backup creation. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/snapshots/{snapshot_id}` */
+  sourceSnapshot?: string;
 }
 export const Backup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(BackupStateEnum),
+    createTime: S.optional(S.String),
     satisfiesPzi: S.optional(S.Boolean),
-    labels: S.optional(StringMap),
-    backupRegion: S.optional(S.String),
-    sourceSnapshot: S.optional(S.String),
-    volumeRegion: S.optional(S.String),
-    description: S.optional(S.String),
     enforcedRetentionEndTime: S.optional(S.String),
-    ontapSource: S.optional(OntapSource),
-    satisfiesPzs: S.optional(S.Boolean),
-    name: S.optional(S.String),
+    description: S.optional(S.String),
+    labels: S.optional(StringMap),
     sourceVolume: S.optional(S.String),
     backupType: S.optional(BackupBackupTypeEnum),
+    volumeRegion: S.optional(S.String),
+    backupRegion: S.optional(S.String),
     chainStorageBytes: S.optional(S.String),
+    state: S.optional(BackupStateEnum),
     volumeUsageBytes: S.optional(S.String),
-    createTime: S.optional(S.String),
+    satisfiesPzs: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    ontapSource: S.optional(OntapSource),
+    sourceSnapshot: S.optional(S.String),
   }),
 ).annotate({ identifier: "Backup" }) as any as S.Schema<Backup>;
 
 export interface CreateProjectsLocationsBackupVaultsBackupsRequest {
-  /** Required. The NetApp backupVault to create the backups of, in the format `projects/*\/locations/*\/backupVaults/{backup_vault_id}` */
-  parent: string;
   /** Required. The ID to use for the backup. The ID must be unique within the specified backupVault. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   backupId?: string;
+  /** Required. The NetApp backupVault to create the backups of, in the format `projects/*\/locations/*\/backupVaults/{backup_vault_id}` */
+  parent: string;
   /** Request body */
   body?: Backup;
 }
 export const CreateProjectsLocationsBackupVaultsBackupsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       backupId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(Backup.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -583,6 +583,16 @@ export const CreateProjectsLocationsBackupVaultsBackupsRequest =
     identifier: "CreateProjectsLocationsBackupVaultsBackupsRequest",
   }) as any as S.Schema<CreateProjectsLocationsBackupVaultsBackupsRequest>;
 
+export type HostGroupTypeEnum = "TYPE_UNSPECIFIED" | "ISCSI_INITIATOR";
+export const HostGroupTypeEnum = S.String;
+
+export type HostGroupOsTypeEnum =
+  | "OS_TYPE_UNSPECIFIED"
+  | "LINUX"
+  | "WINDOWS"
+  | "ESXI";
+export const HostGroupOsTypeEnum = S.String;
+
 export type HostGroupStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -590,46 +600,36 @@ export type HostGroupStateEnum =
   | "UPDATING"
   | "DELETING"
   | "DISABLED";
-export const HostGroupStateEnum = /*@__PURE__*/ S.String;
-
-export type HostGroupTypeEnum = "TYPE_UNSPECIFIED" | "ISCSI_INITIATOR";
-export const HostGroupTypeEnum = /*@__PURE__*/ S.String;
-
-export type HostGroupOsTypeEnum =
-  | "OS_TYPE_UNSPECIFIED"
-  | "LINUX"
-  | "WINDOWS"
-  | "ESXI";
-export const HostGroupOsTypeEnum = /*@__PURE__*/ S.String;
+export const HostGroupStateEnum = S.String;
 
 /** Host group is a collection of hosts that can be used for accessing a Block Volume. */
 export interface HostGroup {
-  /** Output only. State of the host group. */
-  state?: HostGroupStateEnum | (string & {});
-  /** Required. The list of hosts associated with the host group. */
-  hosts?: StringList;
-  /** Required. Type of the host group. */
-  type?: HostGroupTypeEnum | (string & {});
   /** Identifier. The resource name of the host group. Format: `projects/{project_number}/locations/{location_id}/hostGroups/{host_group_id}`. */
   name?: string;
   /** Optional. Description of the host group. */
   description?: string;
-  /** Output only. Create time of the host group. */
-  createTime?: string;
+  /** Required. Type of the host group. */
+  type?: HostGroupTypeEnum | (string & {});
   /** Required. The OS type of the host group. It indicates the type of operating system used by all of the hosts in the HostGroup. All hosts in a HostGroup must be of the same OS type. This can be set only when creating a HostGroup. */
   osType?: HostGroupOsTypeEnum | (string & {});
+  /** Required. The list of hosts associated with the host group. */
+  hosts?: StringList;
+  /** Output only. State of the host group. */
+  state?: HostGroupStateEnum | (string & {});
+  /** Output only. Create time of the host group. */
+  createTime?: string;
   /** Optional. Labels of the host group. */
   labels?: StringMap;
 }
 export const HostGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(HostGroupStateEnum),
-    hosts: S.optional(StringList),
-    type: S.optional(HostGroupTypeEnum),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    createTime: S.optional(S.String),
+    type: S.optional(HostGroupTypeEnum),
     osType: S.optional(HostGroupOsTypeEnum),
+    hosts: S.optional(StringList),
+    state: S.optional(HostGroupStateEnum),
+    createTime: S.optional(S.String),
     labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "HostGroup" }) as any as S.Schema<HostGroup>;
@@ -672,40 +672,40 @@ export type KmsConfigStateEnum =
   | "DISABLING"
   | "DISABLED"
   | "MIGRATING";
-export const KmsConfigStateEnum = /*@__PURE__*/ S.String;
+export const KmsConfigStateEnum = S.String;
 
 /** KmsConfig is the customer-managed encryption key(CMEK) configuration. */
 export interface KmsConfig {
-  /** Description of the KmsConfig. */
-  description?: string;
   /** Output only. Create time of the KmsConfig. */
   createTime?: string;
-  /** Output only. State of the KmsConfig. */
-  state?: KmsConfigStateEnum | (string & {});
-  /** Output only. State details of the KmsConfig. */
-  stateDetails?: string;
-  /** Output only. Instructions to provide the access to the customer provided encryption key. */
-  instructions?: string;
-  /** Labels as key value pairs */
-  labels?: StringMap;
-  /** Identifier. Name of the `KmsConfig`. Format: `projects/{project}/locations/{location}/kmsConfigs/{kms_config}` */
-  name?: string;
   /** Required. Customer-managed crypto key resource full name. Format: `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}` */
   cryptoKeyName?: string;
+  /** Description of the KmsConfig. */
+  description?: string;
   /** Output only. The Service account which will have access to the customer provided encryption key. */
   serviceAccount?: string;
+  /** Labels as key value pairs */
+  labels?: StringMap;
+  /** Output only. State details of the KmsConfig. */
+  stateDetails?: string;
+  /** Identifier. Name of the `KmsConfig`. Format: `projects/{project}/locations/{location}/kmsConfigs/{kms_config}` */
+  name?: string;
+  /** Output only. Instructions to provide the access to the customer provided encryption key. */
+  instructions?: string;
+  /** Output only. State of the KmsConfig. */
+  state?: KmsConfigStateEnum | (string & {});
 }
 export const KmsConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
     createTime: S.optional(S.String),
-    state: S.optional(KmsConfigStateEnum),
-    stateDetails: S.optional(S.String),
-    instructions: S.optional(S.String),
-    labels: S.optional(StringMap),
-    name: S.optional(S.String),
     cryptoKeyName: S.optional(S.String),
+    description: S.optional(S.String),
     serviceAccount: S.optional(S.String),
+    labels: S.optional(StringMap),
+    stateDetails: S.optional(S.String),
+    name: S.optional(S.String),
+    instructions: S.optional(S.String),
+    state: S.optional(KmsConfigStateEnum),
   }),
 ).annotate({ identifier: "KmsConfig" }) as any as S.Schema<KmsConfig>;
 
@@ -734,6 +734,32 @@ export const CreateProjectsLocationsKmsConfigsRequest = /*@__PURE__*/ S.suspend(
   identifier: "CreateProjectsLocationsKmsConfigsRequest",
 }) as any as S.Schema<CreateProjectsLocationsKmsConfigsRequest>;
 
+export type StoragePoolQosTypeEnum = "QOS_TYPE_UNSPECIFIED" | "AUTO" | "MANUAL";
+export const StoragePoolQosTypeEnum = S.String;
+
+export type StoragePoolScaleTypeEnum =
+  | "SCALE_TYPE_UNSPECIFIED"
+  | "SCALE_TYPE_DEFAULT"
+  | "SCALE_TYPE_SCALEOUT";
+export const StoragePoolScaleTypeEnum = S.String;
+
+export type StoragePoolTypeEnum =
+  | "STORAGE_POOL_TYPE_UNSPECIFIED"
+  | "FILE"
+  | "UNIFIED";
+export const StoragePoolTypeEnum = S.String;
+
+export type StoragePoolServiceLevelEnum =
+  | "SERVICE_LEVEL_UNSPECIFIED"
+  | "PREMIUM"
+  | "EXTREME"
+  | "STANDARD"
+  | "FLEX";
+export const StoragePoolServiceLevelEnum = S.String;
+
+export type StoragePoolModeEnum = "MODE_UNSPECIFIED" | "DEFAULT" | "ONTAP";
+export const StoragePoolModeEnum = S.String;
+
 export type StoragePoolStateEnum =
   | "STATE_UNSPECIFIED"
   | "READY"
@@ -743,163 +769,137 @@ export type StoragePoolStateEnum =
   | "RESTORING"
   | "DISABLED"
   | "ERROR";
-export const StoragePoolStateEnum = /*@__PURE__*/ S.String;
-
-export type StoragePoolServiceLevelEnum =
-  | "SERVICE_LEVEL_UNSPECIFIED"
-  | "PREMIUM"
-  | "EXTREME"
-  | "STANDARD"
-  | "FLEX";
-export const StoragePoolServiceLevelEnum = /*@__PURE__*/ S.String;
-
-export type StoragePoolModeEnum = "MODE_UNSPECIFIED" | "DEFAULT" | "ONTAP";
-export const StoragePoolModeEnum = /*@__PURE__*/ S.String;
-
-export type StoragePoolQosTypeEnum = "QOS_TYPE_UNSPECIFIED" | "AUTO" | "MANUAL";
-export const StoragePoolQosTypeEnum = /*@__PURE__*/ S.String;
-
-export type StoragePoolTypeEnum =
-  | "STORAGE_POOL_TYPE_UNSPECIFIED"
-  | "FILE"
-  | "UNIFIED";
-export const StoragePoolTypeEnum = /*@__PURE__*/ S.String;
+export const StoragePoolStateEnum = S.String;
 
 export type StoragePoolEncryptionTypeEnum =
   | "ENCRYPTION_TYPE_UNSPECIFIED"
   | "SERVICE_MANAGED"
   | "CLOUD_KMS";
-export const StoragePoolEncryptionTypeEnum = /*@__PURE__*/ S.String;
-
-export type StoragePoolScaleTypeEnum =
-  | "SCALE_TYPE_UNSPECIFIED"
-  | "SCALE_TYPE_DEFAULT"
-  | "SCALE_TYPE_SCALEOUT";
-export const StoragePoolScaleTypeEnum = /*@__PURE__*/ S.String;
+export const StoragePoolEncryptionTypeEnum = S.String;
 
 /** StoragePool is a container for volumes with a service level and capacity. Volumes can be created in a pool of sufficient available capacity. StoragePool capacity is what you are billed for. */
 export interface StoragePool {
-  /** Required. VPC Network name. Format: projects/{project}/global/networks/{network} */
-  network?: string;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap;
-  /** Output only. State of the storage pool */
-  state?: StoragePoolStateEnum | (string & {});
-  /** Optional. Flag indicating that the hot-tier threshold will be auto-increased by 10% of the hot-tier when it hits 100%. Default is true. The increment will kick in only if the new size after increment is still less than or equal to storage pool size. */
-  enableHotTierAutoResize?: boolean;
-  /** Output only. Create time of the storage pool */
-  createTime?: string;
-  /** Optional. True if using Independent Scaling of capacity and performance (Hyperdisk) By default set to false */
-  customPerformanceEnabled?: boolean;
-  /** Optional. Custom Performance Total IOPS of the pool if not provided, it will be calculated based on the total_throughput_mibps */
-  totalIops?: string;
-  /** Output only. Available throughput of the storage pool (in MiB/s). */
-  availableThroughputMibps?: number;
-  /** Optional. Specifies the replica zone for regional storagePool. */
-  replicaZone?: string;
-  /** Identifier. Name of the storage pool */
-  name?: string;
-  /** Required. Service level of the storage pool */
-  serviceLevel?: StoragePoolServiceLevelEnum | (string & {});
-  /** Optional. Specifies the KMS config to be used for volume encryption. */
-  kmsConfig?: string;
-  /** Required. Capacity in GIB of the pool */
-  capacityGib?: string;
-  /** Output only. Reserved for future use */
-  satisfiesPzs?: boolean;
-  /** Optional. Description of the storage pool */
-  description?: string;
-  /** Output only. Volume count of the storage pool */
-  volumeCount?: number;
-  /** Output only. Reserved for future use */
-  satisfiesPzi?: boolean;
-  /** Optional. Flag indicating if the pool is NFS LDAP enabled or not. */
-  ldapEnabled?: boolean;
-  /** Output only. Total cold tier data rounded down to the nearest GiB used by the storage pool. */
-  coldTierSizeUsedGib?: string;
-  /** Optional. Mode of the storage pool. This field is used to control whether the user can perform ONTAP operations on the storage pool using the GCNV ONTAP Mode APIs. If not specified during creation, it defaults to `DEFAULT`. */
-  mode?: StoragePoolModeEnum | (string & {});
-  /** Output only. State details of the storage pool */
-  stateDetails?: string;
   /** Optional. QoS (Quality of Service) Type of the storage pool */
   qosType?: StoragePoolQosTypeEnum | (string & {});
-  /** Optional. This field is not implemented. The values provided in this field are ignored. */
-  psaRange?: string;
-  /** Optional. Total hot tier capacity for the Storage Pool. It is applicable only to Flex service level. It should be less than the minimum storage pool size and cannot be more than the current storage pool size. It cannot be decreased once set. */
-  hotTierSizeGib?: string;
-  /** Optional. True if the storage pool supports Auto Tiering enabled volumes. Default is false. Auto-tiering can be enabled after storage pool creation but it can't be disabled once enabled. */
-  allowAutoTiering?: boolean;
-  /** Optional. Specifies the active zone for regional storagePool. */
-  zone?: string;
-  /** Output only. Total hot tier data rounded down to the nearest GiB used by the storage pool. */
-  hotTierSizeUsedGib?: string;
-  /** Optional. Type of the storage pool. This field is used to control whether the pool supports `FILE` based volumes only or `UNIFIED` (both `FILE` and `BLOCK`) volumes. If not specified during creation, it defaults to `FILE`. */
-  type?: StoragePoolTypeEnum | (string & {});
-  /** Output only. Allocated size of all volumes in GIB in the storage pool */
-  volumeCapacityGib?: string;
-  /** Optional. Specifies the Active Directory to be used for creating a SMB volume. */
-  activeDirectory?: string;
-  /** Output only. Specifies the current pool encryption key source. */
-  encryptionType?: StoragePoolEncryptionTypeEnum | (string & {});
-  /** Optional. Custom Performance Total Throughput of the pool (in MiBps) */
-  totalThroughputMibps?: string;
+  /** Optional. Description of the storage pool */
+  description?: string;
   /** Optional. The scale type of the storage pool. Defaults to `SCALE_TYPE_DEFAULT` if not specified. */
   scaleType?: StoragePoolScaleTypeEnum | (string & {});
+  /** Optional. Flag indicating if the pool is NFS LDAP enabled or not. */
+  ldapEnabled?: boolean;
+  /** Optional. Flag indicating that the hot-tier threshold will be auto-increased by 10% of the hot-tier when it hits 100%. Default is true. The increment will kick in only if the new size after increment is still less than or equal to storage pool size. */
+  enableHotTierAutoResize?: boolean;
+  /** Required. VPC Network name. Format: projects/{project}/global/networks/{network} */
+  network?: string;
+  /** Output only. Volume count of the storage pool */
+  volumeCount?: number;
+  /** Identifier. Name of the storage pool */
+  name?: string;
+  /** Optional. Type of the storage pool. This field is used to control whether the pool supports `FILE` based volumes only or `UNIFIED` (both `FILE` and `BLOCK`) volumes. If not specified during creation, it defaults to `FILE`. */
+  type?: StoragePoolTypeEnum | (string & {});
+  /** Optional. True if using Independent Scaling of capacity and performance (Hyperdisk) By default set to false */
+  customPerformanceEnabled?: boolean;
+  /** Output only. Allocated size of all volumes in GIB in the storage pool */
+  volumeCapacityGib?: string;
+  /** Output only. Reserved for future use */
+  satisfiesPzi?: boolean;
+  /** Output only. Total hot tier data rounded down to the nearest GiB used by the storage pool. */
+  hotTierSizeUsedGib?: string;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap;
+  /** Required. Service level of the storage pool */
+  serviceLevel?: StoragePoolServiceLevelEnum | (string & {});
+  /** Optional. Specifies the active zone for regional storagePool. */
+  zone?: string;
+  /** Output only. State details of the storage pool */
+  stateDetails?: string;
+  /** Optional. Specifies the replica zone for regional storagePool. */
+  replicaZone?: string;
+  /** Optional. This field is not implemented. The values provided in this field are ignored. */
+  psaRange?: string;
+  /** Optional. Custom Performance Total Throughput of the pool (in MiBps) */
+  totalThroughputMibps?: string;
+  /** Optional. True if the storage pool supports Auto Tiering enabled volumes. Default is false. Auto-tiering can be enabled after storage pool creation but it can't be disabled once enabled. */
+  allowAutoTiering?: boolean;
+  /** Optional. Mode of the storage pool. This field is used to control whether the user can perform ONTAP operations on the storage pool using the GCNV ONTAP Mode APIs. If not specified during creation, it defaults to `DEFAULT`. */
+  mode?: StoragePoolModeEnum | (string & {});
+  /** Output only. State of the storage pool */
+  state?: StoragePoolStateEnum | (string & {});
+  /** Output only. Specifies the current pool encryption key source. */
+  encryptionType?: StoragePoolEncryptionTypeEnum | (string & {});
+  /** Output only. Available throughput of the storage pool (in MiB/s). */
+  availableThroughputMibps?: number;
+  /** Output only. Total cold tier data rounded down to the nearest GiB used by the storage pool. */
+  coldTierSizeUsedGib?: string;
+  /** Output only. Reserved for future use */
+  satisfiesPzs?: boolean;
+  /** Output only. Create time of the storage pool */
+  createTime?: string;
   /** Deprecated. Used to allow SO pool to access AD or DNS server from other regions. */
   globalAccessAllowed?: boolean;
+  /** Optional. Custom Performance Total IOPS of the pool if not provided, it will be calculated based on the total_throughput_mibps */
+  totalIops?: string;
+  /** Optional. Specifies the Active Directory to be used for creating a SMB volume. */
+  activeDirectory?: string;
+  /** Required. Capacity in GIB of the pool */
+  capacityGib?: string;
+  /** Optional. Specifies the KMS config to be used for volume encryption. */
+  kmsConfig?: string;
+  /** Optional. Total hot tier capacity for the Storage Pool. It is applicable only to Flex service level. It should be less than the minimum storage pool size and cannot be more than the current storage pool size. It cannot be decreased once set. */
+  hotTierSizeGib?: string;
 }
 export const StoragePool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    network: S.optional(S.String),
-    labels: S.optional(StringMap),
-    state: S.optional(StoragePoolStateEnum),
-    enableHotTierAutoResize: S.optional(S.Boolean),
-    createTime: S.optional(S.String),
-    customPerformanceEnabled: S.optional(S.Boolean),
-    totalIops: S.optional(S.String),
-    availableThroughputMibps: S.optional(S.Number),
-    replicaZone: S.optional(S.String),
-    name: S.optional(S.String),
-    serviceLevel: S.optional(StoragePoolServiceLevelEnum),
-    kmsConfig: S.optional(S.String),
-    capacityGib: S.optional(S.String),
-    satisfiesPzs: S.optional(S.Boolean),
-    description: S.optional(S.String),
-    volumeCount: S.optional(S.Number),
-    satisfiesPzi: S.optional(S.Boolean),
-    ldapEnabled: S.optional(S.Boolean),
-    coldTierSizeUsedGib: S.optional(S.String),
-    mode: S.optional(StoragePoolModeEnum),
-    stateDetails: S.optional(S.String),
     qosType: S.optional(StoragePoolQosTypeEnum),
-    psaRange: S.optional(S.String),
-    hotTierSizeGib: S.optional(S.String),
-    allowAutoTiering: S.optional(S.Boolean),
-    zone: S.optional(S.String),
-    hotTierSizeUsedGib: S.optional(S.String),
-    type: S.optional(StoragePoolTypeEnum),
-    volumeCapacityGib: S.optional(S.String),
-    activeDirectory: S.optional(S.String),
-    encryptionType: S.optional(StoragePoolEncryptionTypeEnum),
-    totalThroughputMibps: S.optional(S.String),
+    description: S.optional(S.String),
     scaleType: S.optional(StoragePoolScaleTypeEnum),
+    ldapEnabled: S.optional(S.Boolean),
+    enableHotTierAutoResize: S.optional(S.Boolean),
+    network: S.optional(S.String),
+    volumeCount: S.optional(S.Number),
+    name: S.optional(S.String),
+    type: S.optional(StoragePoolTypeEnum),
+    customPerformanceEnabled: S.optional(S.Boolean),
+    volumeCapacityGib: S.optional(S.String),
+    satisfiesPzi: S.optional(S.Boolean),
+    hotTierSizeUsedGib: S.optional(S.String),
+    labels: S.optional(StringMap),
+    serviceLevel: S.optional(StoragePoolServiceLevelEnum),
+    zone: S.optional(S.String),
+    stateDetails: S.optional(S.String),
+    replicaZone: S.optional(S.String),
+    psaRange: S.optional(S.String),
+    totalThroughputMibps: S.optional(S.String),
+    allowAutoTiering: S.optional(S.Boolean),
+    mode: S.optional(StoragePoolModeEnum),
+    state: S.optional(StoragePoolStateEnum),
+    encryptionType: S.optional(StoragePoolEncryptionTypeEnum),
+    availableThroughputMibps: S.optional(S.Number),
+    coldTierSizeUsedGib: S.optional(S.String),
+    satisfiesPzs: S.optional(S.Boolean),
+    createTime: S.optional(S.String),
     globalAccessAllowed: S.optional(S.Boolean),
+    totalIops: S.optional(S.String),
+    activeDirectory: S.optional(S.String),
+    capacityGib: S.optional(S.String),
+    kmsConfig: S.optional(S.String),
+    hotTierSizeGib: S.optional(S.String),
   }),
 ).annotate({ identifier: "StoragePool" }) as any as S.Schema<StoragePool>;
 
 export interface CreateProjectsLocationsStoragePoolsRequest {
-  /** Required. Value for parent. */
-  parent: string;
   /** Required. Id of the requesting storage pool. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   storagePoolId?: string;
+  /** Required. Value for parent. */
+  parent: string;
   /** Request body */
   body?: StoragePool;
 }
 export const CreateProjectsLocationsStoragePoolsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       storagePoolId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(StoragePool.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -912,418 +912,251 @@ export const CreateProjectsLocationsStoragePoolsRequest =
     identifier: "CreateProjectsLocationsStoragePoolsRequest",
   }) as any as S.Schema<CreateProjectsLocationsStoragePoolsRequest>;
 
-export type TieringPolicyTierActionEnum =
-  | "TIER_ACTION_UNSPECIFIED"
-  | "ENABLED"
-  | "PAUSED";
-export const TieringPolicyTierActionEnum = /*@__PURE__*/ S.String;
-
-/** Defines tiering policy for the volume. */
-export interface TieringPolicy {
-  /** Optional. Flag indicating if the volume has tiering policy enable/pause. Default is PAUSED. */
-  tierAction?: TieringPolicyTierActionEnum | (string & {});
-  /** Optional. Flag indicating that the hot tier bypass mode is enabled. Default is false. This is only applicable to Flex service level. */
-  hotTierBypassModeEnabled?: boolean;
-  /** Optional. Time in days to mark the volume's data block as cold and make it eligible for tiering, can be range from 2-183. Default is 31. */
-  coolingThresholdDays?: number;
-}
-export const TieringPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tierAction: S.optional(TieringPolicyTierActionEnum),
-    hotTierBypassModeEnabled: S.optional(S.Boolean),
-    coolingThresholdDays: S.optional(S.Number),
-  }),
-).annotate({ identifier: "TieringPolicy" }) as any as S.Schema<TieringPolicy>;
-
 export type HybridReplicationParametersHybridReplicationTypeEnum =
   | "VOLUME_HYBRID_REPLICATION_TYPE_UNSPECIFIED"
   | "MIGRATION"
   | "CONTINUOUS_REPLICATION"
   | "ONPREM_REPLICATION"
   | "REVERSE_ONPREM_REPLICATION";
-export const HybridReplicationParametersHybridReplicationTypeEnum =
-  /*@__PURE__*/ S.String;
+export const HybridReplicationParametersHybridReplicationTypeEnum = S.String;
 
 export type HybridReplicationParametersReplicationScheduleEnum =
   | "HYBRID_REPLICATION_SCHEDULE_UNSPECIFIED"
   | "EVERY_10_MINUTES"
   | "HOURLY"
   | "DAILY";
-export const HybridReplicationParametersReplicationScheduleEnum =
-  /*@__PURE__*/ S.String;
+export const HybridReplicationParametersReplicationScheduleEnum = S.String;
 
 /** The Hybrid Replication parameters for the volume. */
 export interface HybridReplicationParameters {
-  /** Required. Name of the user's local source volume to be peered with the destination volume. */
-  peerVolumeName?: string;
-  /** Required. Name of the user's local source cluster to be peered with the destination cluster. */
-  peerClusterName?: string;
-  /** Optional. Description of the replication. */
-  description?: string;
-  /** Optional. Constituent volume count for large volume. */
-  largeVolumeConstituentCount?: number;
   /** Required. List of node ip addresses to be peered with. */
   peerIpAddresses?: StringList;
+  /** Optional. Description of the replication. */
+  description?: string;
   /** Optional. Type of the hybrid replication. */
   hybridReplicationType?:
     | HybridReplicationParametersHybridReplicationTypeEnum
     | (string & {});
-  /** Optional. Labels to be added to the replication as the key value pairs. */
-  labels?: StringMap;
-  /** Required. Desired name for the replication of this volume. */
-  replication?: string;
-  /** Required. Name of the user's local source vserver svm to be peered with the destination vserver svm. */
-  peerSvmName?: string;
   /** Optional. Replication Schedule for the replication created. */
   replicationSchedule?:
     | HybridReplicationParametersReplicationScheduleEnum
     | (string & {});
+  /** Optional. Constituent volume count for large volume. */
+  largeVolumeConstituentCount?: number;
+  /** Optional. Labels to be added to the replication as the key value pairs. */
+  labels?: StringMap;
   /** Optional. Name of source cluster location associated with the Hybrid replication. This is a free-form field for the display purpose only. */
   clusterLocation?: string;
+  /** Required. Name of the user's local source volume to be peered with the destination volume. */
+  peerVolumeName?: string;
+  /** Required. Name of the user's local source cluster to be peered with the destination cluster. */
+  peerClusterName?: string;
+  /** Required. Desired name for the replication of this volume. */
+  replication?: string;
+  /** Required. Name of the user's local source vserver svm to be peered with the destination vserver svm. */
+  peerSvmName?: string;
 }
 export const HybridReplicationParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    peerVolumeName: S.optional(S.String),
-    peerClusterName: S.optional(S.String),
-    description: S.optional(S.String),
-    largeVolumeConstituentCount: S.optional(S.Number),
     peerIpAddresses: S.optional(StringList),
+    description: S.optional(S.String),
     hybridReplicationType: S.optional(
       HybridReplicationParametersHybridReplicationTypeEnum,
     ),
-    labels: S.optional(StringMap),
-    replication: S.optional(S.String),
-    peerSvmName: S.optional(S.String),
     replicationSchedule: S.optional(
       HybridReplicationParametersReplicationScheduleEnum,
     ),
+    largeVolumeConstituentCount: S.optional(S.Number),
+    labels: S.optional(StringMap),
     clusterLocation: S.optional(S.String),
+    peerVolumeName: S.optional(S.String),
+    peerClusterName: S.optional(S.String),
+    replication: S.optional(S.String),
+    peerSvmName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "HybridReplicationParameters",
 }) as any as S.Schema<HybridReplicationParameters>;
 
-/** Make a snapshot once a month e.g. at 2nd 04:00, 7th 05:20, 24th 23:50 */
-export interface MonthlySchedule {
-  /** Set the hour to start the snapshot (0-23), defaults to midnight (0). */
-  hour?: number;
-  /** Set the minute of the hour to start the snapshot (0-59), defaults to the top of the hour (0). */
-  minute?: number;
-  /** The maximum number of Snapshots to keep for the hourly schedule */
-  snapshotsToKeep?: number;
-  /** Set the day or days of the month to make a snapshot (1-31). Accepts a comma separated number of days. Defaults to '1'. */
-  daysOfMonth?: string;
+export type CacheConfigCachePrePopulateStateEnum =
+  | "CACHE_PRE_POPULATE_STATE_UNSPECIFIED"
+  | "NOT_NEEDED"
+  | "IN_PROGRESS"
+  | "COMPLETE"
+  | "ERROR";
+export const CacheConfigCachePrePopulateStateEnum = S.String;
+
+/** Pre-populate cache volume with data from the origin volume. */
+export interface CachePrePopulate {
+  /** Optional. List of directory-paths to be excluded for pre-population for the FlexCache volume. */
+  excludePathList?: StringList;
+  /** Optional. List of directory-paths to be pre-populated for the FlexCache volume. */
+  pathList?: StringList;
+  /** Optional. Flag indicating whether the directories listed with the `path_list` need to be recursively pre-populated. */
+  recursion?: boolean;
 }
-export const MonthlySchedule = /*@__PURE__*/ S.suspend(() =>
+export const CachePrePopulate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    hour: S.optional(S.Number),
-    minute: S.optional(S.Number),
-    snapshotsToKeep: S.optional(S.Number),
-    daysOfMonth: S.optional(S.String),
+    excludePathList: S.optional(StringList),
+    pathList: S.optional(StringList),
+    recursion: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "MonthlySchedule",
-}) as any as S.Schema<MonthlySchedule>;
+  identifier: "CachePrePopulate",
+}) as any as S.Schema<CachePrePopulate>;
 
-/** Make a snapshot every hour e.g. at 04:00, 05:00, 06:00. */
-export interface HourlySchedule {
-  /** The maximum number of Snapshots to keep for the hourly schedule */
-  snapshotsToKeep?: number;
-  /** Set the minute of the hour to start the snapshot (0-59), defaults to the top of the hour (0). */
-  minute?: number;
+/** Configuration of the cache volume. */
+export interface CacheConfig {
+  /** Optional. Flag indicating whether a CIFS change notification is enabled for the FlexCache volume. */
+  cifsChangeNotifyEnabled?: boolean;
+  /** Optional. Flag indicating whether writeback is enabled for the FlexCache volume. */
+  writebackEnabled?: boolean;
+  /** Output only. State of the prepopulation job indicating how the prepopulation is progressing. */
+  cachePrePopulateState?: CacheConfigCachePrePopulateStateEnum | (string & {});
+  /** Optional. Pre-populate cache volume with data from the origin volume. */
+  cachePrePopulate?: CachePrePopulate;
 }
-export const HourlySchedule = /*@__PURE__*/ S.suspend(() =>
+export const CacheConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshotsToKeep: S.optional(S.Number),
-    minute: S.optional(S.Number),
+    cifsChangeNotifyEnabled: S.optional(S.Boolean),
+    writebackEnabled: S.optional(S.Boolean),
+    cachePrePopulateState: S.optional(CacheConfigCachePrePopulateStateEnum),
+    cachePrePopulate: S.optional(CachePrePopulate),
   }),
-).annotate({ identifier: "HourlySchedule" }) as any as S.Schema<HourlySchedule>;
+).annotate({ identifier: "CacheConfig" }) as any as S.Schema<CacheConfig>;
 
-/** Make a snapshot every day e.g. at 04:00, 05:20, 23:50 */
-export interface DailySchedule {
-  /** The maximum number of Snapshots to keep for the hourly schedule */
-  snapshotsToKeep?: number;
-  /** Set the minute of the hour to start the snapshot (0-59), defaults to the top of the hour (0). */
-  minute?: number;
-  /** Set the hour to start the snapshot (0-23), defaults to midnight (0). */
-  hour?: number;
+export type CacheParametersCacheStateEnum =
+  | "CACHE_STATE_UNSPECIFIED"
+  | "PENDING_CLUSTER_PEERING"
+  | "PENDING_SVM_PEERING"
+  | "PEERED"
+  | "ERROR";
+export const CacheParametersCacheStateEnum = S.String;
+
+/** Cache Parameters for the volume. */
+export interface CacheParameters {
+  /** Required. Name of the origin volume's ONTAP cluster. */
+  peerClusterName?: string;
+  /** Output only. Temporary passphrase generated to accept cluster peering command. */
+  passphrase?: string;
+  /** Output only. Detailed description of the current cache state. */
+  stateDetails?: string;
+  /** Optional. Indicates whether the cache volume has global file lock enabled. */
+  enableGlobalFileLock?: boolean;
+  /** Optional. Expiration time for the peering command to be executed on user's ONTAP. */
+  peeringCommandExpiryTime?: string;
+  /** Required. Name of the origin volume for the cache volume. */
+  peerVolumeName?: string;
+  /** Required. Name of the origin volume's SVM. */
+  peerSvmName?: string;
+  /** Optional. Configuration of the cache volume. */
+  cacheConfig?: CacheConfig;
+  /** Output only. State of the cache volume indicating the peering status. */
+  cacheState?: CacheParametersCacheStateEnum | (string & {});
+  /** Output only. Copy-paste-able commands to be used on user's ONTAP to accept peering requests. */
+  command?: string;
+  /** Required. List of IC LIF addresses of the origin volume's ONTAP cluster. */
+  peerIpAddresses?: StringList;
 }
-export const DailySchedule = /*@__PURE__*/ S.suspend(() =>
+export const CacheParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshotsToKeep: S.optional(S.Number),
-    minute: S.optional(S.Number),
-    hour: S.optional(S.Number),
+    peerClusterName: S.optional(S.String),
+    passphrase: S.optional(S.String),
+    stateDetails: S.optional(S.String),
+    enableGlobalFileLock: S.optional(S.Boolean),
+    peeringCommandExpiryTime: S.optional(S.String),
+    peerVolumeName: S.optional(S.String),
+    peerSvmName: S.optional(S.String),
+    cacheConfig: S.optional(CacheConfig),
+    cacheState: S.optional(CacheParametersCacheStateEnum),
+    command: S.optional(S.String),
+    peerIpAddresses: S.optional(StringList),
   }),
-).annotate({ identifier: "DailySchedule" }) as any as S.Schema<DailySchedule>;
+).annotate({
+  identifier: "CacheParameters",
+}) as any as S.Schema<CacheParameters>;
 
-/** Make a snapshot every week e.g. at Monday 04:00, Wednesday 05:20, Sunday 23:50 */
-export interface WeeklySchedule {
-  /** The maximum number of Snapshots to keep for the hourly schedule */
-  snapshotsToKeep?: number;
-  /** Set the minute of the hour to start the snapshot (0-59), defaults to the top of the hour (0). */
-  minute?: number;
-  /** Set the hour to start the snapshot (0-23), defaults to midnight (0). */
-  hour?: number;
-  /** Set the day or days of the week to make a snapshot. Accepts a comma separated days of the week. Defaults to 'Sunday'. */
-  day?: string;
+export type TieringPolicyTierActionEnum =
+  | "TIER_ACTION_UNSPECIFIED"
+  | "ENABLED"
+  | "PAUSED";
+export const TieringPolicyTierActionEnum = S.String;
+
+/** Defines tiering policy for the volume. */
+export interface TieringPolicy {
+  /** Optional. Flag indicating that the hot tier bypass mode is enabled. Default is false. This is only applicable to Flex service level. */
+  hotTierBypassModeEnabled?: boolean;
+  /** Optional. Flag indicating if the volume has tiering policy enable/pause. Default is PAUSED. */
+  tierAction?: TieringPolicyTierActionEnum | (string & {});
+  /** Optional. Time in days to mark the volume's data block as cold and make it eligible for tiering, can be range from 2-183. Default is 31. */
+  coolingThresholdDays?: number;
 }
-export const WeeklySchedule = /*@__PURE__*/ S.suspend(() =>
+export const TieringPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshotsToKeep: S.optional(S.Number),
-    minute: S.optional(S.Number),
-    hour: S.optional(S.Number),
-    day: S.optional(S.String),
+    hotTierBypassModeEnabled: S.optional(S.Boolean),
+    tierAction: S.optional(TieringPolicyTierActionEnum),
+    coolingThresholdDays: S.optional(S.Number),
   }),
-).annotate({ identifier: "WeeklySchedule" }) as any as S.Schema<WeeklySchedule>;
-
-/** Snapshot Policy for a volume. */
-export interface SnapshotPolicy {
-  /** Monthly schedule policy. */
-  monthlySchedule?: MonthlySchedule;
-  /** If enabled, make snapshots automatically according to the schedules. Default is false. */
-  enabled?: boolean;
-  /** Hourly schedule policy. */
-  hourlySchedule?: HourlySchedule;
-  /** Daily schedule policy. */
-  dailySchedule?: DailySchedule;
-  /** Weekly schedule policy. */
-  weeklySchedule?: WeeklySchedule;
-}
-export const SnapshotPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monthlySchedule: S.optional(MonthlySchedule),
-    enabled: S.optional(S.Boolean),
-    hourlySchedule: S.optional(HourlySchedule),
-    dailySchedule: S.optional(DailySchedule),
-    weeklySchedule: S.optional(WeeklySchedule),
-  }),
-).annotate({ identifier: "SnapshotPolicy" }) as any as S.Schema<SnapshotPolicy>;
-
-export type BlockDeviceOsTypeEnum =
-  | "OS_TYPE_UNSPECIFIED"
-  | "LINUX"
-  | "WINDOWS"
-  | "ESXI";
-export const BlockDeviceOsTypeEnum = /*@__PURE__*/ S.String;
-
-/** Block device represents the device(s) which are stored in the block volume. */
-export interface BlockDevice {
-  /** Required. Immutable. The OS type of the volume. This field can't be changed after the block device is created. */
-  osType?: BlockDeviceOsTypeEnum | (string & {});
-  /** Output only. Device identifier of the block volume. This represents `lun_serial_number` for iSCSI volumes. */
-  identifier?: string;
-  /** Optional. User-defined name for the block device, unique within the volume. In case no user input is provided, name will be auto-generated in the backend. The name must meet the following requirements: * Be between 1 and 255 characters long. * Contain only uppercase or lowercase letters (A-Z, a-z), numbers (0-9), and the following special characters: "-", "_", "}", "{", ".". * Spaces are not allowed. */
-  name?: string;
-  /** Optional. The size of the block device in GiB. Any value provided for the `size_gib` field during volume creation is ignored. The block device's size is system-managed and will be set to match the parent Volume's `capacity_gib`. */
-  sizeGib?: string;
-  /** Optional. A list of host groups that identify hosts that can mount the block volume. Format: `projects/{project_id}/locations/{location}/hostGroups/{host_group_id}` This field can be updated after the block device is created. */
-  hostGroups?: StringList;
-}
-export const BlockDevice = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    osType: S.optional(BlockDeviceOsTypeEnum),
-    identifier: S.optional(S.String),
-    name: S.optional(S.String),
-    sizeGib: S.optional(S.String),
-    hostGroups: S.optional(StringList),
-  }),
-).annotate({ identifier: "BlockDevice" }) as any as S.Schema<BlockDevice>;
-
-export type BlockDeviceList = Array<BlockDevice>;
-export const BlockDeviceList = /*@__PURE__*/ S.Array(
-  BlockDevice,
-) as any as S.Schema<BlockDeviceList>;
-
-export type VolumeStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "READY"
-  | "CREATING"
-  | "DELETING"
-  | "UPDATING"
-  | "RESTORING"
-  | "DISABLED"
-  | "ERROR"
-  | "PREPARING"
-  | "READ_ONLY";
-export const VolumeStateEnum = /*@__PURE__*/ S.String;
-
-export type VolumeSecurityStyleEnum =
-  | "SECURITY_STYLE_UNSPECIFIED"
-  | "NTFS"
-  | "UNIX";
-export const VolumeSecurityStyleEnum = /*@__PURE__*/ S.String;
-
-/** BackupConfig contains backup related config on a volume. */
-export interface BackupConfig {
-  /** Optional. Name of backup vault. Format: projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id} */
-  backupVault?: string;
-  /** Optional. When specified, schedule backups will be created based on the policy configuration. */
-  backupPolicies?: StringList;
-  /** Optional. When set to true, scheduled backup is enabled on the volume. This field should be nil when there's no backup policy attached. */
-  scheduledBackupEnabled?: boolean;
-  /** Output only. Total size of all backups in a chain in bytes = baseline backup size + sum(incremental backup size). */
-  backupChainBytes?: string;
-}
-export const BackupConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    backupVault: S.optional(S.String),
-    backupPolicies: S.optional(StringList),
-    scheduledBackupEnabled: S.optional(S.Boolean),
-    backupChainBytes: S.optional(S.String),
-  }),
-).annotate({ identifier: "BackupConfig" }) as any as S.Schema<BackupConfig>;
-
-export type VolumeProtocolsItemEnum =
-  | "PROTOCOLS_UNSPECIFIED"
-  | "NFSV3"
-  | "NFSV4"
-  | "SMB"
-  | "ISCSI"
-  | "NVME";
-export const VolumeProtocolsItemEnum = /*@__PURE__*/ S.String;
-
-export type VolumeProtocolsItemEnumList = Array<
-  VolumeProtocolsItemEnum | (string & {})
->;
-export const VolumeProtocolsItemEnumList = /*@__PURE__*/ S.Array(
-  VolumeProtocolsItemEnum,
-) as any as S.Schema<VolumeProtocolsItemEnumList>;
-
-export type MountOptionProtocolEnum =
-  | "PROTOCOLS_UNSPECIFIED"
-  | "NFSV3"
-  | "NFSV4"
-  | "SMB"
-  | "ISCSI"
-  | "NVME";
-export const MountOptionProtocolEnum = /*@__PURE__*/ S.String;
-
-/** View only mount options for a volume. */
-export interface MountOption {
-  /** Full export string */
-  exportFull?: string;
-  /** Protocol to mount with. */
-  protocol?: MountOptionProtocolEnum | (string & {});
-  /** Export string */
-  export?: string;
-  /** Instructions for mounting */
-  instructions?: string;
-  /** Output only. IP Address. */
-  ipAddress?: string;
-}
-export const MountOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    exportFull: S.optional(S.String),
-    protocol: S.optional(MountOptionProtocolEnum),
-    export: S.optional(S.String),
-    instructions: S.optional(S.String),
-    ipAddress: S.optional(S.String),
-  }),
-).annotate({ identifier: "MountOption" }) as any as S.Schema<MountOption>;
-
-export type MountOptionList = Array<MountOption>;
-export const MountOptionList = /*@__PURE__*/ S.Array(
-  MountOption,
-) as any as S.Schema<MountOptionList>;
-
-export type VolumeRestrictedActionsItemEnum =
-  | "RESTRICTED_ACTION_UNSPECIFIED"
-  | "DELETE";
-export const VolumeRestrictedActionsItemEnum = /*@__PURE__*/ S.String;
-
-export type VolumeRestrictedActionsItemEnumList = Array<
-  VolumeRestrictedActionsItemEnum | (string & {})
->;
-export const VolumeRestrictedActionsItemEnumList = /*@__PURE__*/ S.Array(
-  VolumeRestrictedActionsItemEnum,
-) as any as S.Schema<VolumeRestrictedActionsItemEnumList>;
-
-export type VolumeServiceLevelEnum =
-  | "SERVICE_LEVEL_UNSPECIFIED"
-  | "PREMIUM"
-  | "EXTREME"
-  | "STANDARD"
-  | "FLEX";
-export const VolumeServiceLevelEnum = /*@__PURE__*/ S.String;
-
-export type VolumeSmbSettingsItemEnum =
-  | "SMB_SETTINGS_UNSPECIFIED"
-  | "ENCRYPT_DATA"
-  | "BROWSABLE"
-  | "CHANGE_NOTIFY"
-  | "NON_BROWSABLE"
-  | "OPLOCKS"
-  | "SHOW_SNAPSHOT"
-  | "SHOW_PREVIOUS_VERSIONS"
-  | "ACCESS_BASED_ENUMERATION"
-  | "CONTINUOUSLY_AVAILABLE";
-export const VolumeSmbSettingsItemEnum = /*@__PURE__*/ S.String;
-
-export type VolumeSmbSettingsItemEnumList = Array<
-  VolumeSmbSettingsItemEnum | (string & {})
->;
-export const VolumeSmbSettingsItemEnumList = /*@__PURE__*/ S.Array(
-  VolumeSmbSettingsItemEnum,
-) as any as S.Schema<VolumeSmbSettingsItemEnumList>;
-
-export type SimpleExportPolicyRuleAccessTypeEnum =
-  | "ACCESS_TYPE_UNSPECIFIED"
-  | "READ_ONLY"
-  | "READ_WRITE"
-  | "READ_NONE";
-export const SimpleExportPolicyRuleAccessTypeEnum = /*@__PURE__*/ S.String;
+).annotate({ identifier: "TieringPolicy" }) as any as S.Schema<TieringPolicy>;
 
 export type SimpleExportPolicyRuleSquashModeEnum =
   | "SQUASH_MODE_UNSPECIFIED"
   | "NO_ROOT_SQUASH"
   | "ROOT_SQUASH"
   | "ALL_SQUASH";
-export const SimpleExportPolicyRuleSquashModeEnum = /*@__PURE__*/ S.String;
+export const SimpleExportPolicyRuleSquashModeEnum = S.String;
+
+export type SimpleExportPolicyRuleAccessTypeEnum =
+  | "ACCESS_TYPE_UNSPECIFIED"
+  | "READ_ONLY"
+  | "READ_WRITE"
+  | "READ_NONE";
+export const SimpleExportPolicyRuleAccessTypeEnum = S.String;
 
 /** An export policy rule describing various export options. */
 export interface SimpleExportPolicyRule {
-  /** Access type (ReadWrite, ReadOnly, None) */
-  accessType?: SimpleExportPolicyRuleAccessTypeEnum | (string & {});
   /** Optional. Defines how user identity squashing is applied for this export rule. This field is the preferred way to configure squashing behavior and takes precedence over `has_root_access` if both are provided. */
   squashMode?: SimpleExportPolicyRuleSquashModeEnum | (string & {});
-  /** NFS V4 protocol. */
-  nfsv4?: boolean;
-  /** Optional. An integer representing the anonymous user ID. Range is 0 to `4294967295`. Required when `squash_mode` is `ROOT_SQUASH` or `ALL_SQUASH`. */
-  anonUid?: string;
-  /** If enabled (true) the rule defines read and write access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'integrity' kerberos security mode. The 'kerberos5iReadOnly' value be ignored if this is enabled. */
-  kerberos5iReadWrite?: boolean;
-  /** NFS V3 protocol. */
-  nfsv3?: boolean;
-  /** If enabled (true) the rule defines a read only access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'authentication' kerberos security mode. */
-  kerberos5ReadOnly?: boolean;
+  /** Access type (ReadWrite, ReadOnly, None) */
+  accessType?: SimpleExportPolicyRuleAccessTypeEnum | (string & {});
   /** If enabled (true) the rule defines read and write access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'privacy' kerberos security mode. The 'kerberos5pReadOnly' value be ignored if this is enabled. */
   kerberos5pReadWrite?: boolean;
-  /** Comma separated list of allowed clients IP addresses */
-  allowedClients?: string;
-  /** If enabled (true) the rule defines a read only access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'privacy' kerberos security mode. */
-  kerberos5pReadOnly?: boolean;
-  /** If enabled (true) the rule defines a read only access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'integrity' kerberos security mode. */
-  kerberos5iReadOnly?: boolean;
   /** Whether Unix root access will be granted. */
   hasRootAccess?: string;
+  /** Optional. An integer representing the anonymous user ID. Range is 0 to `4294967295`. Required when `squash_mode` is `ROOT_SQUASH` or `ALL_SQUASH`. */
+  anonUid?: string;
+  /** NFS V3 protocol. */
+  nfsv3?: boolean;
+  /** If enabled (true) the rule defines read and write access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'integrity' kerberos security mode. The 'kerberos5iReadOnly' value be ignored if this is enabled. */
+  kerberos5iReadWrite?: boolean;
+  /** If enabled (true) the rule defines a read only access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'privacy' kerberos security mode. */
+  kerberos5pReadOnly?: boolean;
+  /** Comma separated list of allowed clients IP addresses */
+  allowedClients?: string;
+  /** If enabled (true) the rule defines a read only access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'authentication' kerberos security mode. */
+  kerberos5ReadOnly?: boolean;
   /** If enabled (true) the rule defines read and write access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'authentication' kerberos security mode. The 'kerberos5ReadOnly' value be ignored if this is enabled. */
   kerberos5ReadWrite?: boolean;
+  /** If enabled (true) the rule defines a read only access for clients matching the 'allowedClients' specification. It enables nfs clients to mount using 'integrity' kerberos security mode. */
+  kerberos5iReadOnly?: boolean;
+  /** NFS V4 protocol. */
+  nfsv4?: boolean;
 }
 export const SimpleExportPolicyRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accessType: S.optional(SimpleExportPolicyRuleAccessTypeEnum),
     squashMode: S.optional(SimpleExportPolicyRuleSquashModeEnum),
-    nfsv4: S.optional(S.Boolean),
-    anonUid: S.optional(S.String),
-    kerberos5iReadWrite: S.optional(S.Boolean),
-    nfsv3: S.optional(S.Boolean),
-    kerberos5ReadOnly: S.optional(S.Boolean),
+    accessType: S.optional(SimpleExportPolicyRuleAccessTypeEnum),
     kerberos5pReadWrite: S.optional(S.Boolean),
-    allowedClients: S.optional(S.String),
-    kerberos5pReadOnly: S.optional(S.Boolean),
-    kerberos5iReadOnly: S.optional(S.Boolean),
     hasRootAccess: S.optional(S.String),
+    anonUid: S.optional(S.String),
+    nfsv3: S.optional(S.Boolean),
+    kerberos5iReadWrite: S.optional(S.Boolean),
+    kerberos5pReadOnly: S.optional(S.Boolean),
+    allowedClients: S.optional(S.String),
+    kerberos5ReadOnly: S.optional(S.Boolean),
     kerberos5ReadWrite: S.optional(S.Boolean),
+    kerberos5iReadOnly: S.optional(S.Boolean),
+    nfsv4: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "SimpleExportPolicyRule",
@@ -1345,20 +1178,46 @@ export const ExportPolicy = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ExportPolicy" }) as any as S.Schema<ExportPolicy>;
 
+export type VolumeProtocolsItemEnum =
+  | "PROTOCOLS_UNSPECIFIED"
+  | "NFSV3"
+  | "NFSV4"
+  | "SMB"
+  | "ISCSI"
+  | "NVME";
+export const VolumeProtocolsItemEnum = S.String;
+
+export type VolumeProtocolsItemEnumList = Array<
+  VolumeProtocolsItemEnum | (string & {})
+>;
+export const VolumeProtocolsItemEnumList = /*@__PURE__*/ S.Array(
+  VolumeProtocolsItemEnum,
+) as any as S.Schema<VolumeProtocolsItemEnumList>;
+
+export type CloneDetailsSplitStateEnum =
+  | "SPLIT_STATE_UNSPECIFIED"
+  | "SPLIT_STATE_NOT_SPLITTING"
+  | "SPLIT_STATE_IN_PROGRESS"
+  | "SPLIT_STATE_FAILED";
+export const CloneDetailsSplitStateEnum = S.String;
+
 /** Details about a clone volume. */
 export interface CloneDetails {
+  /** Output only. Shared space in GiB. Determined at volume creation time based on size of source snapshot. */
+  sharedSpaceGib?: string;
+  /** Output only. The current state of the clone split operation. */
+  splitState?: CloneDetailsSplitStateEnum | (string & {});
   /** Output only. Full name of the source volume resource. Format: projects/{project}/locations/{location}/volumes/{volume} */
   sourceVolume?: string;
   /** Output only. Specifies the full resource name of the source snapshot from which this volume was cloned. Format: projects/{project}/locations/{location}/volumes/{volume}/snapshots/{snapshot} */
   sourceSnapshot?: string;
-  /** Output only. Shared space in GiB. Determined at volume creation time based on size of source snapshot. */
-  sharedSpaceGib?: string;
 }
 export const CloneDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    sharedSpaceGib: S.optional(S.String),
+    splitState: S.optional(CloneDetailsSplitStateEnum),
     sourceVolume: S.optional(S.String),
     sourceSnapshot: S.optional(S.String),
-    sharedSpaceGib: S.optional(S.String),
   }),
 ).annotate({ identifier: "CloneDetails" }) as any as S.Schema<CloneDetails>;
 
@@ -1375,279 +1234,428 @@ export const LargeCapacityConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "LargeCapacityConfig",
 }) as any as S.Schema<LargeCapacityConfig>;
 
-/** Pre-populate cache volume with data from the origin volume. */
-export interface CachePrePopulate {
-  /** Optional. List of directory-paths to be pre-populated for the FlexCache volume. */
-  pathList?: StringList;
-  /** Optional. List of directory-paths to be excluded for pre-population for the FlexCache volume. */
-  excludePathList?: StringList;
-  /** Optional. Flag indicating whether the directories listed with the `path_list` need to be recursively pre-populated. */
-  recursion?: boolean;
+export type VolumeStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "READY"
+  | "CREATING"
+  | "DELETING"
+  | "UPDATING"
+  | "RESTORING"
+  | "DISABLED"
+  | "ERROR"
+  | "PREPARING"
+  | "READ_ONLY";
+export const VolumeStateEnum = S.String;
+
+/** Make a snapshot every day e.g. at 04:00, 05:20, 23:50 */
+export interface DailySchedule {
+  /** Set the minute of the hour to start the snapshot (0-59), defaults to the top of the hour (0). */
+  minute?: number;
+  /** Set the hour to start the snapshot (0-23), defaults to midnight (0). */
+  hour?: number;
+  /** The maximum number of Snapshots to keep for the hourly schedule */
+  snapshotsToKeep?: number;
 }
-export const CachePrePopulate = /*@__PURE__*/ S.suspend(() =>
+export const DailySchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pathList: S.optional(StringList),
-    excludePathList: S.optional(StringList),
-    recursion: S.optional(S.Boolean),
+    minute: S.optional(S.Number),
+    hour: S.optional(S.Number),
+    snapshotsToKeep: S.optional(S.Number),
+  }),
+).annotate({ identifier: "DailySchedule" }) as any as S.Schema<DailySchedule>;
+
+/** Make a snapshot once a month e.g. at 2nd 04:00, 7th 05:20, 24th 23:50 */
+export interface MonthlySchedule {
+  /** Set the minute of the hour to start the snapshot (0-59), defaults to the top of the hour (0). */
+  minute?: number;
+  /** The maximum number of Snapshots to keep for the hourly schedule */
+  snapshotsToKeep?: number;
+  /** Set the hour to start the snapshot (0-23), defaults to midnight (0). */
+  hour?: number;
+  /** Set the day or days of the month to make a snapshot (1-31). Accepts a comma separated number of days. Defaults to '1'. */
+  daysOfMonth?: string;
+}
+export const MonthlySchedule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minute: S.optional(S.Number),
+    snapshotsToKeep: S.optional(S.Number),
+    hour: S.optional(S.Number),
+    daysOfMonth: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "CachePrePopulate",
-}) as any as S.Schema<CachePrePopulate>;
+  identifier: "MonthlySchedule",
+}) as any as S.Schema<MonthlySchedule>;
 
-export type CacheConfigCachePrePopulateStateEnum =
-  | "CACHE_PRE_POPULATE_STATE_UNSPECIFIED"
-  | "NOT_NEEDED"
-  | "IN_PROGRESS"
-  | "COMPLETE"
-  | "ERROR";
-export const CacheConfigCachePrePopulateStateEnum = /*@__PURE__*/ S.String;
-
-/** Configuration of the cache volume. */
-export interface CacheConfig {
-  /** Optional. Pre-populate cache volume with data from the origin volume. */
-  cachePrePopulate?: CachePrePopulate;
-  /** Output only. State of the prepopulation job indicating how the prepopulation is progressing. */
-  cachePrePopulateState?: CacheConfigCachePrePopulateStateEnum | (string & {});
-  /** Optional. Flag indicating whether a CIFS change notification is enabled for the FlexCache volume. */
-  cifsChangeNotifyEnabled?: boolean;
-  /** Optional. Flag indicating whether writeback is enabled for the FlexCache volume. */
-  writebackEnabled?: boolean;
+/** Make a snapshot every hour e.g. at 04:00, 05:00, 06:00. */
+export interface HourlySchedule {
+  /** The maximum number of Snapshots to keep for the hourly schedule */
+  snapshotsToKeep?: number;
+  /** Set the minute of the hour to start the snapshot (0-59), defaults to the top of the hour (0). */
+  minute?: number;
 }
-export const CacheConfig = /*@__PURE__*/ S.suspend(() =>
+export const HourlySchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cachePrePopulate: S.optional(CachePrePopulate),
-    cachePrePopulateState: S.optional(CacheConfigCachePrePopulateStateEnum),
-    cifsChangeNotifyEnabled: S.optional(S.Boolean),
-    writebackEnabled: S.optional(S.Boolean),
+    snapshotsToKeep: S.optional(S.Number),
+    minute: S.optional(S.Number),
   }),
-).annotate({ identifier: "CacheConfig" }) as any as S.Schema<CacheConfig>;
+).annotate({ identifier: "HourlySchedule" }) as any as S.Schema<HourlySchedule>;
 
-export type CacheParametersCacheStateEnum =
-  | "CACHE_STATE_UNSPECIFIED"
-  | "PENDING_CLUSTER_PEERING"
-  | "PENDING_SVM_PEERING"
-  | "PEERED"
-  | "ERROR";
-export const CacheParametersCacheStateEnum = /*@__PURE__*/ S.String;
-
-/** Cache Parameters for the volume. */
-export interface CacheParameters {
-  /** Optional. Configuration of the cache volume. */
-  cacheConfig?: CacheConfig;
-  /** Required. Name of the origin volume's SVM. */
-  peerSvmName?: string;
-  /** Optional. Expiration time for the peering command to be executed on user's ONTAP. */
-  peeringCommandExpiryTime?: string;
-  /** Output only. Detailed description of the current cache state. */
-  stateDetails?: string;
-  /** Output only. Copy-paste-able commands to be used on user's ONTAP to accept peering requests. */
-  command?: string;
-  /** Output only. Temporary passphrase generated to accept cluster peering command. */
-  passphrase?: string;
-  /** Optional. Indicates whether the cache volume has global file lock enabled. */
-  enableGlobalFileLock?: boolean;
-  /** Required. List of IC LIF addresses of the origin volume's ONTAP cluster. */
-  peerIpAddresses?: StringList;
-  /** Output only. State of the cache volume indicating the peering status. */
-  cacheState?: CacheParametersCacheStateEnum | (string & {});
-  /** Required. Name of the origin volume for the cache volume. */
-  peerVolumeName?: string;
-  /** Required. Name of the origin volume's ONTAP cluster. */
-  peerClusterName?: string;
+/** Make a snapshot every week e.g. at Monday 04:00, Wednesday 05:20, Sunday 23:50 */
+export interface WeeklySchedule {
+  /** Set the minute of the hour to start the snapshot (0-59), defaults to the top of the hour (0). */
+  minute?: number;
+  /** Set the hour to start the snapshot (0-23), defaults to midnight (0). */
+  hour?: number;
+  /** Set the day or days of the week to make a snapshot. Accepts a comma separated days of the week. Defaults to 'Sunday'. */
+  day?: string;
+  /** The maximum number of Snapshots to keep for the hourly schedule */
+  snapshotsToKeep?: number;
 }
-export const CacheParameters = /*@__PURE__*/ S.suspend(() =>
+export const WeeklySchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cacheConfig: S.optional(CacheConfig),
-    peerSvmName: S.optional(S.String),
-    peeringCommandExpiryTime: S.optional(S.String),
-    stateDetails: S.optional(S.String),
-    command: S.optional(S.String),
-    passphrase: S.optional(S.String),
-    enableGlobalFileLock: S.optional(S.Boolean),
-    peerIpAddresses: S.optional(StringList),
-    cacheState: S.optional(CacheParametersCacheStateEnum),
-    peerVolumeName: S.optional(S.String),
-    peerClusterName: S.optional(S.String),
+    minute: S.optional(S.Number),
+    hour: S.optional(S.Number),
+    day: S.optional(S.String),
+    snapshotsToKeep: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CacheParameters",
-}) as any as S.Schema<CacheParameters>;
+).annotate({ identifier: "WeeklySchedule" }) as any as S.Schema<WeeklySchedule>;
 
-/** The RestoreParameters if volume is created from a snapshot or backup. */
-export interface RestoreParameters {
-  /** Full name of the snapshot resource. Format: projects/{project}/locations/{location}/volumes/{volume}/snapshots/{snapshot} */
-  sourceSnapshot?: string;
-  /** Full name of the backup resource. Format for standard backup: projects/{project}/locations/{location}/backupVaults/{backup_vault_id}/backups/{backup_id}. Format for BackupDR backup: projects/{project}/locations/{location}/backupVaults/{backup_vault}/dataSources/{data_source}/backups/{backup} */
-  sourceBackup?: string;
+/** Snapshot Policy for a volume. */
+export interface SnapshotPolicy {
+  /** Daily schedule policy. */
+  dailySchedule?: DailySchedule;
+  /** Monthly schedule policy. */
+  monthlySchedule?: MonthlySchedule;
+  /** Hourly schedule policy. */
+  hourlySchedule?: HourlySchedule;
+  /** If enabled, make snapshots automatically according to the schedules. Default is false. */
+  enabled?: boolean;
+  /** Weekly schedule policy. */
+  weeklySchedule?: WeeklySchedule;
 }
-export const RestoreParameters = /*@__PURE__*/ S.suspend(() =>
+export const SnapshotPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sourceSnapshot: S.optional(S.String),
-    sourceBackup: S.optional(S.String),
+    dailySchedule: S.optional(DailySchedule),
+    monthlySchedule: S.optional(MonthlySchedule),
+    hourlySchedule: S.optional(HourlySchedule),
+    enabled: S.optional(S.Boolean),
+    weeklySchedule: S.optional(WeeklySchedule),
   }),
-).annotate({
-  identifier: "RestoreParameters",
-}) as any as S.Schema<RestoreParameters>;
+).annotate({ identifier: "SnapshotPolicy" }) as any as S.Schema<SnapshotPolicy>;
+
+/** BackupConfig contains backup related config on a volume. */
+export interface BackupConfig {
+  /** Optional. When set to true, scheduled backup is enabled on the volume. This field should be nil when there's no backup policy attached. */
+  scheduledBackupEnabled?: boolean;
+  /** Optional. When specified, schedule backups will be created based on the policy configuration. */
+  backupPolicies?: StringList;
+  /** Optional. Name of backup vault. Format: projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id} */
+  backupVault?: string;
+  /** Output only. Total size of all backups in a chain in bytes = baseline backup size + sum(incremental backup size). */
+  backupChainBytes?: string;
+}
+export const BackupConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scheduledBackupEnabled: S.optional(S.Boolean),
+    backupPolicies: S.optional(StringList),
+    backupVault: S.optional(S.String),
+    backupChainBytes: S.optional(S.String),
+  }),
+).annotate({ identifier: "BackupConfig" }) as any as S.Schema<BackupConfig>;
+
+export type VolumeRestrictedActionsItemEnum =
+  | "RESTRICTED_ACTION_UNSPECIFIED"
+  | "DELETE";
+export const VolumeRestrictedActionsItemEnum = S.String;
+
+export type VolumeRestrictedActionsItemEnumList = Array<
+  VolumeRestrictedActionsItemEnum | (string & {})
+>;
+export const VolumeRestrictedActionsItemEnumList = /*@__PURE__*/ S.Array(
+  VolumeRestrictedActionsItemEnum,
+) as any as S.Schema<VolumeRestrictedActionsItemEnumList>;
+
+export type MountOptionProtocolEnum =
+  | "PROTOCOLS_UNSPECIFIED"
+  | "NFSV3"
+  | "NFSV4"
+  | "SMB"
+  | "ISCSI"
+  | "NVME";
+export const MountOptionProtocolEnum = S.String;
+
+/** View only mount options for a volume. */
+export interface MountOption {
+  /** Output only. IP Address. */
+  ipAddress?: string;
+  /** Full export string */
+  exportFull?: string;
+  /** Instructions for mounting */
+  instructions?: string;
+  /** Protocol to mount with. */
+  protocol?: MountOptionProtocolEnum | (string & {});
+  /** Export string */
+  export?: string;
+}
+export const MountOption = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ipAddress: S.optional(S.String),
+    exportFull: S.optional(S.String),
+    instructions: S.optional(S.String),
+    protocol: S.optional(MountOptionProtocolEnum),
+    export: S.optional(S.String),
+  }),
+).annotate({ identifier: "MountOption" }) as any as S.Schema<MountOption>;
+
+export type MountOptionList = Array<MountOption>;
+export const MountOptionList = /*@__PURE__*/ S.Array(
+  MountOption,
+) as any as S.Schema<MountOptionList>;
+
+export type BlockDeviceOsTypeEnum =
+  | "OS_TYPE_UNSPECIFIED"
+  | "LINUX"
+  | "WINDOWS"
+  | "ESXI";
+export const BlockDeviceOsTypeEnum = S.String;
+
+/** Block device represents the device(s) which are stored in the block volume. */
+export interface BlockDevice {
+  /** Optional. User-defined name for the block device, unique within the volume. In case no user input is provided, name will be auto-generated in the backend. The name must meet the following requirements: * Be between 1 and 255 characters long. * Contain only uppercase or lowercase letters (A-Z, a-z), numbers (0-9), and the following special characters: "-", "_", "}", "{", ".". * Spaces are not allowed. */
+  name?: string;
+  /** Optional. The size of the block device in GiB. Any value provided for the `size_gib` field during volume creation is ignored. The block device's size is system-managed and will be set to match the parent Volume's `capacity_gib`. */
+  sizeGib?: string;
+  /** Optional. A list of host groups that identify hosts that can mount the block volume. Format: `projects/{project_id}/locations/{location}/hostGroups/{host_group_id}` This field can be updated after the block device is created. */
+  hostGroups?: StringList;
+  /** Required. Immutable. The OS type of the volume. This field can't be changed after the block device is created. */
+  osType?: BlockDeviceOsTypeEnum | (string & {});
+  /** Output only. Device identifier of the block volume. This represents `lun_serial_number` for iSCSI volumes. */
+  identifier?: string;
+}
+export const BlockDevice = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    sizeGib: S.optional(S.String),
+    hostGroups: S.optional(StringList),
+    osType: S.optional(BlockDeviceOsTypeEnum),
+    identifier: S.optional(S.String),
+  }),
+).annotate({ identifier: "BlockDevice" }) as any as S.Schema<BlockDevice>;
+
+export type BlockDeviceList = Array<BlockDevice>;
+export const BlockDeviceList = /*@__PURE__*/ S.Array(
+  BlockDevice,
+) as any as S.Schema<BlockDeviceList>;
 
 export type VolumeEncryptionTypeEnum =
   | "ENCRYPTION_TYPE_UNSPECIFIED"
   | "SERVICE_MANAGED"
   | "CLOUD_KMS";
-export const VolumeEncryptionTypeEnum = /*@__PURE__*/ S.String;
+export const VolumeEncryptionTypeEnum = S.String;
+
+export type VolumeSecurityStyleEnum =
+  | "SECURITY_STYLE_UNSPECIFIED"
+  | "NTFS"
+  | "UNIX";
+export const VolumeSecurityStyleEnum = S.String;
+
+/** The RestoreParameters if volume is created from a snapshot or backup. */
+export interface RestoreParameters {
+  /** Full name of the backup resource. Format for standard backup: projects/{project}/locations/{location}/backupVaults/{backup_vault_id}/backups/{backup_id}. Format for BackupDR backup: projects/{project}/locations/{location}/backupVaults/{backup_vault}/dataSources/{data_source}/backups/{backup} */
+  sourceBackup?: string;
+  /** Full name of the snapshot resource. Format: projects/{project}/locations/{location}/volumes/{volume}/snapshots/{snapshot} */
+  sourceSnapshot?: string;
+}
+export const RestoreParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sourceBackup: S.optional(S.String),
+    sourceSnapshot: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RestoreParameters",
+}) as any as S.Schema<RestoreParameters>;
+
+export type VolumeSmbSettingsItemEnum =
+  | "SMB_SETTINGS_UNSPECIFIED"
+  | "ENCRYPT_DATA"
+  | "BROWSABLE"
+  | "CHANGE_NOTIFY"
+  | "NON_BROWSABLE"
+  | "OPLOCKS"
+  | "SHOW_SNAPSHOT"
+  | "SHOW_PREVIOUS_VERSIONS"
+  | "ACCESS_BASED_ENUMERATION"
+  | "CONTINUOUSLY_AVAILABLE";
+export const VolumeSmbSettingsItemEnum = S.String;
+
+export type VolumeSmbSettingsItemEnumList = Array<
+  VolumeSmbSettingsItemEnum | (string & {})
+>;
+export const VolumeSmbSettingsItemEnumList = /*@__PURE__*/ S.Array(
+  VolumeSmbSettingsItemEnum,
+) as any as S.Schema<VolumeSmbSettingsItemEnumList>;
+
+export type VolumeServiceLevelEnum =
+  | "SERVICE_LEVEL_UNSPECIFIED"
+  | "PREMIUM"
+  | "EXTREME"
+  | "STANDARD"
+  | "FLEX";
+export const VolumeServiceLevelEnum = S.String;
 
 /** Volume provides a filesystem that you can mount. */
 export interface Volume {
-  /** Output only. VPC Network name. Format: projects/{project}/global/networks/{network} */
-  network?: string;
-  /** Tiering policy for the volume. */
-  tieringPolicy?: TieringPolicy;
-  /** Optional. The Hybrid Replication parameters for the volume. */
-  hybridReplicationParameters?: HybridReplicationParameters;
-  /** Optional. SnapshotPolicy for a volume. */
-  snapshotPolicy?: SnapshotPolicy;
-  /** Optional. Default unix style permission (e.g. 777) the mount point will be created with. Applicable for NFS protocol types only. */
-  unixPermissions?: string;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap;
-  /** Optional. Block devices for the volume. Currently, only one block device is permitted per Volume. */
-  blockDevices?: BlockDeviceList;
-  /** Output only. State of the volume */
-  state?: VolumeStateEnum | (string & {});
-  /** Optional. Snap_reserve specifies percentage of volume storage reserved for snapshot storage. Default is 0 percent. */
-  snapReserve?: number;
-  /** Optional. Flag indicating if the volume will have an IP address per node for volumes supporting multiple IP endpoints. Only the volume with large_capacity will be allowed to have multiple endpoints. */
-  multipleEndpoints?: boolean;
-  /** Output only. Create time of the volume */
-  createTime?: string;
-  /** Optional. Security Style of the Volume */
-  securityStyle?: VolumeSecurityStyleEnum | (string & {});
-  /** Output only. Specifies the replica zone for regional volume. */
-  replicaZone?: string;
   /** Output only. Indicates whether the volume is part of a replication relationship. */
   hasReplication?: boolean;
-  /** BackupConfig of the volume. */
-  backupConfig?: BackupConfig;
-  /** Required. Protocols required for the volume */
-  protocols?: VolumeProtocolsItemEnumList;
-  /** Output only. Mount options of this volume */
-  mountOptions?: MountOptionList;
-  /** Optional. List of actions that are restricted on this volume. */
-  restrictedActions?: VolumeRestrictedActionsItemEnumList;
-  /** Output only. Service level of the volume */
-  serviceLevel?: VolumeServiceLevelEnum | (string & {});
-  /** Identifier. Name of the volume */
-  name?: string;
-  /** Required. Share name of the volume */
-  shareName?: string;
-  /** Optional. SMB share settings for the volume. */
-  smbSettings?: VolumeSmbSettingsItemEnumList;
-  /** Output only. Specifies the KMS config to be used for volume encryption. */
-  kmsConfig?: string;
-  /** Optional. Throughput of the volume (in MiB/s) */
-  throughputMibps?: number;
-  /** Required. Capacity in GIB of the volume */
-  capacityGib?: string;
-  /** Optional. Export policy of the volume */
-  exportPolicy?: ExportPolicy;
-  /** Output only. If this volume is a clone, this field contains details about the clone. */
-  cloneDetails?: CloneDetails;
-  /** Optional. Description of the volume */
-  description?: string;
-  /** Optional. Flag indicating if the volume will be a large capacity volume or a regular volume. This field is used for legacy FILE pools. For Unified pools, use the `large_capacity_config` field instead. This field and `large_capacity_config` are mutually exclusive. */
-  largeCapacity?: boolean;
-  /** Output only. Size of the volume cold tier data rounded down to the nearest GiB. */
-  coldTierSizeGib?: string;
-  /** Output only. Flag indicating if the volume is NFS LDAP enabled or not. */
-  ldapEnabled?: boolean;
-  /** Optional. Large capacity config for the volume. Enables and configures large capacity for volumes in Unified pools with File protocols. Not applicable for Block protocols in Unified pools. This field and the legacy `large_capacity` boolean field are mutually exclusive. */
-  largeCapacityConfig?: LargeCapacityConfig;
-  /** Output only. This field is not implemented. The values provided in this field are ignored. */
-  psaRange?: string;
   /** Required. StoragePool name of the volume */
   storagePool?: string;
   /** Output only. State details of the volume */
   stateDetails?: string;
-  /** Output only. Used capacity in GIB of the volume. This is computed periodically and it does not represent the realtime usage. */
-  usedGib?: string;
+  /** Optional. The Hybrid Replication parameters for the volume. */
+  hybridReplicationParameters?: HybridReplicationParameters;
+  /** Required. Capacity in GIB of the volume */
+  capacityGib?: string;
   /** Output only. Specifies the active zone for regional volume. */
   zone?: string;
-  /** Output only. Total hot tier data rounded down to the nearest GiB used by the Volume. This field is only used for flex Service Level */
-  hotTierSizeUsedGib?: string;
-  /** Optional. Flag indicating if the volume is a kerberos volume or not, export policy rules control kerberos security modes (krb5, krb5i, krb5p). */
-  kerberosEnabled?: boolean;
-  /** Optional. Snapshot_directory if enabled (true) the volume will contain a read-only .snapshot directory which provides access to each of the volume's snapshots. */
-  snapshotDirectory?: boolean;
+  /** Output only. Create time of the volume */
+  createTime?: string;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap;
   /** Optional. Cache parameters for the volume. */
   cacheParameters?: CacheParameters;
-  /** Optional. Specifies the source of the volume to be created from. */
-  restoreParameters?: RestoreParameters;
   /** Output only. Specifies the ActiveDirectory name of a SMB volume. */
   activeDirectory?: string;
+  /** Tiering policy for the volume. */
+  tieringPolicy?: TieringPolicy;
+  /** Output only. Total hot tier data rounded down to the nearest GiB used by the Volume. This field is only used for flex Service Level */
+  hotTierSizeUsedGib?: string;
+  /** Optional. Export policy of the volume */
+  exportPolicy?: ExportPolicy;
+  /** Output only. Specifies the replica zone for regional volume. */
+  replicaZone?: string;
+  /** Optional. Snap_reserve specifies percentage of volume storage reserved for snapshot storage. Default is 0 percent. */
+  snapReserve?: number;
+  /** Output only. Size of the volume cold tier data rounded down to the nearest GiB. */
+  coldTierSizeGib?: string;
+  /** Required. Protocols required for the volume */
+  protocols?: VolumeProtocolsItemEnumList;
+  /** Output only. If this volume is a clone, this field contains details about the clone. */
+  cloneDetails?: CloneDetails;
+  /** Optional. Large capacity config for the volume. Enables and configures large capacity for volumes in Unified pools with File protocols. Not applicable for Block protocols in Unified pools. This field and the legacy `large_capacity` boolean field are mutually exclusive. */
+  largeCapacityConfig?: LargeCapacityConfig;
+  /** Output only. Used capacity in GIB of the volume. This is computed periodically and it does not represent the realtime usage. */
+  usedGib?: string;
+  /** Output only. State of the volume */
+  state?: VolumeStateEnum | (string & {});
+  /** Optional. SnapshotPolicy for a volume. */
+  snapshotPolicy?: SnapshotPolicy;
+  /** BackupConfig of the volume. */
+  backupConfig?: BackupConfig;
+  /** Optional. Snapshot_directory if enabled (true) the volume will contain a read-only .snapshot directory which provides access to each of the volume's snapshots. */
+  snapshotDirectory?: boolean;
+  /** Optional. List of actions that are restricted on this volume. */
+  restrictedActions?: VolumeRestrictedActionsItemEnumList;
+  /** Optional. Flag indicating if the volume will be a large capacity volume or a regular volume. This field is used for legacy FILE pools. For Unified pools, use the `large_capacity_config` field instead. This field and `large_capacity_config` are mutually exclusive. */
+  largeCapacity?: boolean;
+  /** Output only. Mount options of this volume */
+  mountOptions?: MountOptionList;
+  /** Optional. Block devices for the volume. Currently, only one block device is permitted per Volume. */
+  blockDevices?: BlockDeviceList;
+  /** Required. Share name of the volume */
+  shareName?: string;
   /** Output only. Specified the current volume encryption key source. */
   encryptionType?: VolumeEncryptionTypeEnum | (string & {});
+  /** Optional. Security Style of the Volume */
+  securityStyle?: VolumeSecurityStyleEnum | (string & {});
+  /** Output only. This field is not implemented. The values provided in this field are ignored. */
+  psaRange?: string;
+  /** Optional. Throughput of the volume (in MiB/s) */
+  throughputMibps?: number;
+  /** Optional. Specifies the source of the volume to be created from. */
+  restoreParameters?: RestoreParameters;
+  /** Optional. SMB share settings for the volume. */
+  smbSettings?: VolumeSmbSettingsItemEnumList;
+  /** Output only. Flag indicating if the volume is NFS LDAP enabled or not. */
+  ldapEnabled?: boolean;
+  /** Identifier. Name of the volume */
+  name?: string;
+  /** Optional. Flag indicating if the volume will have an IP address per node for volumes supporting multiple IP endpoints. Only the volume with large_capacity will be allowed to have multiple endpoints. */
+  multipleEndpoints?: boolean;
+  /** Output only. Service level of the volume */
+  serviceLevel?: VolumeServiceLevelEnum | (string & {});
+  /** Output only. Specifies the KMS config to be used for volume encryption. */
+  kmsConfig?: string;
+  /** Optional. Default unix style permission (e.g. 777) the mount point will be created with. Applicable for NFS protocol types only. */
+  unixPermissions?: string;
+  /** Optional. Description of the volume */
+  description?: string;
+  /** Optional. Flag indicating if the volume is a kerberos volume or not, export policy rules control kerberos security modes (krb5, krb5i, krb5p). */
+  kerberosEnabled?: boolean;
+  /** Output only. VPC Network name. Format: projects/{project}/global/networks/{network} */
+  network?: string;
 }
 export const Volume = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    network: S.optional(S.String),
-    tieringPolicy: S.optional(TieringPolicy),
-    hybridReplicationParameters: S.optional(HybridReplicationParameters),
-    snapshotPolicy: S.optional(SnapshotPolicy),
-    unixPermissions: S.optional(S.String),
-    labels: S.optional(StringMap),
-    blockDevices: S.optional(BlockDeviceList),
-    state: S.optional(VolumeStateEnum),
-    snapReserve: S.optional(S.Number),
-    multipleEndpoints: S.optional(S.Boolean),
-    createTime: S.optional(S.String),
-    securityStyle: S.optional(VolumeSecurityStyleEnum),
-    replicaZone: S.optional(S.String),
     hasReplication: S.optional(S.Boolean),
-    backupConfig: S.optional(BackupConfig),
-    protocols: S.optional(VolumeProtocolsItemEnumList),
-    mountOptions: S.optional(MountOptionList),
-    restrictedActions: S.optional(VolumeRestrictedActionsItemEnumList),
-    serviceLevel: S.optional(VolumeServiceLevelEnum),
-    name: S.optional(S.String),
-    shareName: S.optional(S.String),
-    smbSettings: S.optional(VolumeSmbSettingsItemEnumList),
-    kmsConfig: S.optional(S.String),
-    throughputMibps: S.optional(S.Number),
-    capacityGib: S.optional(S.String),
-    exportPolicy: S.optional(ExportPolicy),
-    cloneDetails: S.optional(CloneDetails),
-    description: S.optional(S.String),
-    largeCapacity: S.optional(S.Boolean),
-    coldTierSizeGib: S.optional(S.String),
-    ldapEnabled: S.optional(S.Boolean),
-    largeCapacityConfig: S.optional(LargeCapacityConfig),
-    psaRange: S.optional(S.String),
     storagePool: S.optional(S.String),
     stateDetails: S.optional(S.String),
-    usedGib: S.optional(S.String),
+    hybridReplicationParameters: S.optional(HybridReplicationParameters),
+    capacityGib: S.optional(S.String),
     zone: S.optional(S.String),
-    hotTierSizeUsedGib: S.optional(S.String),
-    kerberosEnabled: S.optional(S.Boolean),
-    snapshotDirectory: S.optional(S.Boolean),
+    createTime: S.optional(S.String),
+    labels: S.optional(StringMap),
     cacheParameters: S.optional(CacheParameters),
-    restoreParameters: S.optional(RestoreParameters),
     activeDirectory: S.optional(S.String),
+    tieringPolicy: S.optional(TieringPolicy),
+    hotTierSizeUsedGib: S.optional(S.String),
+    exportPolicy: S.optional(ExportPolicy),
+    replicaZone: S.optional(S.String),
+    snapReserve: S.optional(S.Number),
+    coldTierSizeGib: S.optional(S.String),
+    protocols: S.optional(VolumeProtocolsItemEnumList),
+    cloneDetails: S.optional(CloneDetails),
+    largeCapacityConfig: S.optional(LargeCapacityConfig),
+    usedGib: S.optional(S.String),
+    state: S.optional(VolumeStateEnum),
+    snapshotPolicy: S.optional(SnapshotPolicy),
+    backupConfig: S.optional(BackupConfig),
+    snapshotDirectory: S.optional(S.Boolean),
+    restrictedActions: S.optional(VolumeRestrictedActionsItemEnumList),
+    largeCapacity: S.optional(S.Boolean),
+    mountOptions: S.optional(MountOptionList),
+    blockDevices: S.optional(BlockDeviceList),
+    shareName: S.optional(S.String),
     encryptionType: S.optional(VolumeEncryptionTypeEnum),
+    securityStyle: S.optional(VolumeSecurityStyleEnum),
+    psaRange: S.optional(S.String),
+    throughputMibps: S.optional(S.Number),
+    restoreParameters: S.optional(RestoreParameters),
+    smbSettings: S.optional(VolumeSmbSettingsItemEnumList),
+    ldapEnabled: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    multipleEndpoints: S.optional(S.Boolean),
+    serviceLevel: S.optional(VolumeServiceLevelEnum),
+    kmsConfig: S.optional(S.String),
+    unixPermissions: S.optional(S.String),
+    description: S.optional(S.String),
+    kerberosEnabled: S.optional(S.Boolean),
+    network: S.optional(S.String),
   }),
 ).annotate({ identifier: "Volume" }) as any as S.Schema<Volume>;
 
 export interface CreateProjectsLocationsVolumesRequest {
-  /** Required. Value for parent. */
-  parent: string;
   /** Required. Id of the requesting volume. Must be unique within the parent resource. Must contain only letters, numbers and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
   volumeId?: string;
+  /** Required. Value for parent. */
+  parent: string;
   /** Request body */
   body?: Volume;
 }
 export const CreateProjectsLocationsVolumesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       volumeId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(Volume.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1660,14 +1668,6 @@ export const CreateProjectsLocationsVolumesRequest = /*@__PURE__*/ S.suspend(
   identifier: "CreateProjectsLocationsVolumesRequest",
 }) as any as S.Schema<CreateProjectsLocationsVolumesRequest>;
 
-export type QuotaRuleTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "INDIVIDUAL_USER_QUOTA"
-  | "INDIVIDUAL_GROUP_QUOTA"
-  | "DEFAULT_USER_QUOTA"
-  | "DEFAULT_GROUP_QUOTA";
-export const QuotaRuleTypeEnum = /*@__PURE__*/ S.String;
-
 export type QuotaRuleStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -1675,56 +1675,64 @@ export type QuotaRuleStateEnum =
   | "DELETING"
   | "READY"
   | "ERROR";
-export const QuotaRuleStateEnum = /*@__PURE__*/ S.String;
+export const QuotaRuleStateEnum = S.String;
+
+export type QuotaRuleTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "INDIVIDUAL_USER_QUOTA"
+  | "INDIVIDUAL_GROUP_QUOTA"
+  | "DEFAULT_USER_QUOTA"
+  | "DEFAULT_GROUP_QUOTA";
+export const QuotaRuleTypeEnum = S.String;
 
 /** QuotaRule specifies the maximum disk space a user or group can use within a volume. They can be used for creating default and individual quota rules. */
 export interface QuotaRule {
-  /** Required. The type of quota rule. */
-  type?: QuotaRuleTypeEnum | (string & {});
-  /** Optional. Description of the quota rule */
-  description?: string;
-  /** Output only. Create time of the quota rule */
-  createTime?: string;
-  /** Optional. The quota rule applies to the specified user or group, identified by a Unix UID/GID, Windows SID, or null for default. */
-  target?: string;
+  /** Optional. Labels of the quota rule */
+  labels?: StringMap;
   /** Output only. State of the quota rule */
   state?: QuotaRuleStateEnum | (string & {});
+  /** Optional. Description of the quota rule */
+  description?: string;
   /** Output only. State details of the quota rule */
   stateDetails?: string;
   /** Required. The maximum allowed disk space in MiB. */
   diskLimitMib?: number;
-  /** Optional. Labels of the quota rule */
-  labels?: StringMap;
+  /** Optional. The quota rule applies to the specified user or group, identified by a Unix UID/GID, Windows SID, or null for default. */
+  target?: string;
+  /** Required. The type of quota rule. */
+  type?: QuotaRuleTypeEnum | (string & {});
   /** Identifier. The resource name of the quota rule. Format: `projects/{project_number}/locations/{location_id}/volumes/volumes/{volume_id}/quotaRules/{quota_rule_id}`. */
   name?: string;
+  /** Output only. Create time of the quota rule */
+  createTime?: string;
 }
 export const QuotaRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(QuotaRuleTypeEnum),
-    description: S.optional(S.String),
-    createTime: S.optional(S.String),
-    target: S.optional(S.String),
+    labels: S.optional(StringMap),
     state: S.optional(QuotaRuleStateEnum),
+    description: S.optional(S.String),
     stateDetails: S.optional(S.String),
     diskLimitMib: S.optional(S.Number),
-    labels: S.optional(StringMap),
+    target: S.optional(S.String),
+    type: S.optional(QuotaRuleTypeEnum),
     name: S.optional(S.String),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "QuotaRule" }) as any as S.Schema<QuotaRule>;
 
 export interface CreateProjectsLocationsVolumesQuotaRulesRequest {
-  /** Required. ID of the quota rule to create. Must be unique within the parent resource. Must contain only letters, numbers, underscore and hyphen, with the first character a letter or underscore, the last a letter or underscore or a number, and a 63 character maximum. */
-  quotaRuleId?: string;
   /** Required. Parent value for CreateQuotaRuleRequest */
   parent: string;
+  /** Required. ID of the quota rule to create. Must be unique within the parent resource. Must contain only letters, numbers, underscore and hyphen, with the first character a letter or underscore, the last a letter or underscore or a number, and a 63 character maximum. */
+  quotaRuleId?: string;
   /** Request body */
   body?: QuotaRule;
 }
 export const CreateProjectsLocationsVolumesQuotaRulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      quotaRuleId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      quotaRuleId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(QuotaRule.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1737,44 +1745,11 @@ export const CreateProjectsLocationsVolumesQuotaRulesRequest =
     identifier: "CreateProjectsLocationsVolumesQuotaRulesRequest",
   }) as any as S.Schema<CreateProjectsLocationsVolumesQuotaRulesRequest>;
 
-/** HybridPeeringDetails contains details about the hybrid peering. */
-export interface HybridPeeringDetails {
-  /** Output only. Name of the user's local source volume to be peered with the destination volume. */
-  peerVolumeName?: string;
-  /** Output only. Copy-paste-able commands to be used on user's ONTAP to accept peering requests. */
-  command?: string;
-  /** Output only. Name of the user's local source cluster to be peered with the destination cluster. */
-  peerClusterName?: string;
-  /** Output only. Temporary passphrase generated to accept cluster peering command. */
-  passphrase?: string;
-  /** Output only. IP address of the subnet. */
-  subnetIp?: string;
-  /** Output only. Expiration time for the peering command to be executed on user's ONTAP. */
-  commandExpiryTime?: string;
-  /** Output only. Name of the user's local source vserver svm to be peered with the destination vserver svm. */
-  peerSvmName?: string;
-}
-export const HybridPeeringDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    peerVolumeName: S.optional(S.String),
-    command: S.optional(S.String),
-    peerClusterName: S.optional(S.String),
-    passphrase: S.optional(S.String),
-    subnetIp: S.optional(S.String),
-    commandExpiryTime: S.optional(S.String),
-    peerSvmName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "HybridPeeringDetails",
-}) as any as S.Schema<HybridPeeringDetails>;
-
-export type ReplicationHybridReplicationTypeEnum =
-  | "HYBRID_REPLICATION_TYPE_UNSPECIFIED"
-  | "MIGRATION"
-  | "CONTINUOUS_REPLICATION"
-  | "ONPREM_REPLICATION"
-  | "REVERSE_ONPREM_REPLICATION";
-export const ReplicationHybridReplicationTypeEnum = /*@__PURE__*/ S.String;
+export type ReplicationRoleEnum =
+  | "REPLICATION_ROLE_UNSPECIFIED"
+  | "SOURCE"
+  | "DESTINATION";
+export const ReplicationRoleEnum = S.String;
 
 export type ReplicationMirrorStateEnum =
   | "MIRROR_STATE_UNSPECIFIED"
@@ -1786,7 +1761,38 @@ export type ReplicationMirrorStateEnum =
   | "ABORTED"
   | "EXTERNALLY_MANAGED"
   | "PENDING_PEERING";
-export const ReplicationMirrorStateEnum = /*@__PURE__*/ S.String;
+export const ReplicationMirrorStateEnum = S.String;
+
+/** HybridPeeringDetails contains details about the hybrid peering. */
+export interface HybridPeeringDetails {
+  /** Output only. Copy-paste-able commands to be used on user's ONTAP to accept peering requests. */
+  command?: string;
+  /** Output only. Name of the user's local source vserver svm to be peered with the destination vserver svm. */
+  peerSvmName?: string;
+  /** Output only. Name of the user's local source volume to be peered with the destination volume. */
+  peerVolumeName?: string;
+  /** Output only. Expiration time for the peering command to be executed on user's ONTAP. */
+  commandExpiryTime?: string;
+  /** Output only. Temporary passphrase generated to accept cluster peering command. */
+  passphrase?: string;
+  /** Output only. Name of the user's local source cluster to be peered with the destination cluster. */
+  peerClusterName?: string;
+  /** Output only. IP address of the subnet. */
+  subnetIp?: string;
+}
+export const HybridPeeringDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    command: S.optional(S.String),
+    peerSvmName: S.optional(S.String),
+    peerVolumeName: S.optional(S.String),
+    commandExpiryTime: S.optional(S.String),
+    passphrase: S.optional(S.String),
+    peerClusterName: S.optional(S.String),
+    subnetIp: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "HybridPeeringDetails",
+}) as any as S.Schema<HybridPeeringDetails>;
 
 export type ReplicationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1799,52 +1805,79 @@ export type ReplicationStateEnum =
   | "PENDING_SVM_PEERING"
   | "PENDING_REMOTE_RESYNC"
   | "EXTERNALLY_MANAGED_REPLICATION";
-export const ReplicationStateEnum = /*@__PURE__*/ S.String;
+export const ReplicationStateEnum = S.String;
+
+/** TransferStats reports all statistics related to replication transfer. */
+export interface TransferStats {
+  /** Cumulative bytes transferred so far for the replication relationship. */
+  transferBytes?: string;
+  /** Cumulative time taken across all transfers for the replication relationship. */
+  totalTransferDuration?: string;
+  /** A message describing the cause of the last transfer failure. */
+  lastTransferError?: string;
+  /** Lag duration indicates the duration by which Destination region volume content lags behind the primary region volume content. */
+  lagDuration?: string;
+  /** Time taken during last transfer. */
+  lastTransferDuration?: string;
+  /** Time when last transfer completed. */
+  lastTransferEndTime?: string;
+  /** Last transfer size in bytes. */
+  lastTransferBytes?: string;
+  /** Time when progress was updated last. */
+  updateTime?: string;
+}
+export const TransferStats = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    transferBytes: S.optional(S.String),
+    totalTransferDuration: S.optional(S.String),
+    lastTransferError: S.optional(S.String),
+    lagDuration: S.optional(S.String),
+    lastTransferDuration: S.optional(S.String),
+    lastTransferEndTime: S.optional(S.String),
+    lastTransferBytes: S.optional(S.String),
+    updateTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "TransferStats" }) as any as S.Schema<TransferStats>;
+
+export type ReplicationHybridReplicationTypeEnum =
+  | "HYBRID_REPLICATION_TYPE_UNSPECIFIED"
+  | "MIGRATION"
+  | "CONTINUOUS_REPLICATION"
+  | "ONPREM_REPLICATION"
+  | "REVERSE_ONPREM_REPLICATION";
+export const ReplicationHybridReplicationTypeEnum = S.String;
 
 export type ReplicationReplicationScheduleEnum =
   | "REPLICATION_SCHEDULE_UNSPECIFIED"
   | "EVERY_10_MINUTES"
   | "HOURLY"
   | "DAILY";
-export const ReplicationReplicationScheduleEnum = /*@__PURE__*/ S.String;
+export const ReplicationReplicationScheduleEnum = S.String;
 
-/** TransferStats reports all statistics related to replication transfer. */
-export interface TransferStats {
-  /** Cumulative bytes transferred so far for the replication relationship. */
-  transferBytes?: string;
-  /** Last transfer size in bytes. */
-  lastTransferBytes?: string;
-  /** Cumulative time taken across all transfers for the replication relationship. */
-  totalTransferDuration?: string;
-  /** A message describing the cause of the last transfer failure. */
-  lastTransferError?: string;
-  /** Time when progress was updated last. */
-  updateTime?: string;
-  /** Time when last transfer completed. */
-  lastTransferEndTime?: string;
-  /** Lag duration indicates the duration by which Destination region volume content lags behind the primary region volume content. */
-  lagDuration?: string;
-  /** Time taken during last transfer. */
-  lastTransferDuration?: string;
+/** DestinationVolumeParameters specify input parameters used for creating destination volume. */
+export interface DestinationVolumeParameters {
+  /** Destination volume's share name. If not specified, source volume's share name will be used. */
+  shareName?: string;
+  /** Optional. Tiering policy for the volume. */
+  tieringPolicy?: TieringPolicy;
+  /** Required. Existing destination StoragePool name. */
+  storagePool?: string;
+  /** Desired destination volume resource id. If not specified, source volume's resource id will be used. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
+  volumeId?: string;
+  /** Description for the destination volume. */
+  description?: string;
 }
-export const TransferStats = /*@__PURE__*/ S.suspend(() =>
+export const DestinationVolumeParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    transferBytes: S.optional(S.String),
-    lastTransferBytes: S.optional(S.String),
-    totalTransferDuration: S.optional(S.String),
-    lastTransferError: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    lastTransferEndTime: S.optional(S.String),
-    lagDuration: S.optional(S.String),
-    lastTransferDuration: S.optional(S.String),
+    shareName: S.optional(S.String),
+    tieringPolicy: S.optional(TieringPolicy),
+    storagePool: S.optional(S.String),
+    volumeId: S.optional(S.String),
+    description: S.optional(S.String),
   }),
-).annotate({ identifier: "TransferStats" }) as any as S.Schema<TransferStats>;
-
-export type ReplicationRoleEnum =
-  | "REPLICATION_ROLE_UNSPECIFIED"
-  | "SOURCE"
-  | "DESTINATION";
-export const ReplicationRoleEnum = /*@__PURE__*/ S.String;
+).annotate({
+  identifier: "DestinationVolumeParameters",
+}) as any as S.Schema<DestinationVolumeParameters>;
 
 /** UserCommands contains the commands to be executed by the customer. */
 export interface UserCommands {
@@ -1857,90 +1890,65 @@ export const UserCommands = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UserCommands" }) as any as S.Schema<UserCommands>;
 
-/** DestinationVolumeParameters specify input parameters used for creating destination volume. */
-export interface DestinationVolumeParameters {
-  /** Required. Existing destination StoragePool name. */
-  storagePool?: string;
-  /** Destination volume's share name. If not specified, source volume's share name will be used. */
-  shareName?: string;
-  /** Description for the destination volume. */
-  description?: string;
-  /** Optional. Tiering policy for the volume. */
-  tieringPolicy?: TieringPolicy;
-  /** Desired destination volume resource id. If not specified, source volume's resource id will be used. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
-  volumeId?: string;
-}
-export const DestinationVolumeParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storagePool: S.optional(S.String),
-    shareName: S.optional(S.String),
-    description: S.optional(S.String),
-    tieringPolicy: S.optional(TieringPolicy),
-    volumeId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DestinationVolumeParameters",
-}) as any as S.Schema<DestinationVolumeParameters>;
-
 /** Replication is a nested resource under Volume, that describes a cross-region replication relationship between 2 volumes in different regions. */
 export interface Replication {
-  /** A description about this replication relationship. */
-  description?: string;
-  /** Output only. Hybrid peering details. */
-  hybridPeeringDetails?: HybridPeeringDetails;
-  /** Resource labels to represent user provided metadata. */
-  labels?: StringMap;
-  /** Output only. Type of the hybrid replication. */
-  hybridReplicationType?: ReplicationHybridReplicationTypeEnum | (string & {});
-  /** Output only. Indicates the state of mirroring. */
-  mirrorState?: ReplicationMirrorStateEnum | (string & {});
-  /** Output only. Full name of destination volume resource. Example : "projects/{project}/locations/{location}/volumes/{volume_id}" */
-  destinationVolume?: string;
-  /** Output only. State of the replication. */
-  state?: ReplicationStateEnum | (string & {});
-  /** Output only. State details of the replication. */
-  stateDetails?: string;
-  /** Output only. Condition of the relationship. Can be one of the following: - true: The replication relationship is healthy. It has not missed the most recent scheduled transfer. - false: The replication relationship is not healthy. It has missed the most recent scheduled transfer. */
-  healthy?: boolean;
-  /** Required. Indicates the schedule for replication. */
-  replicationSchedule?: ReplicationReplicationScheduleEnum | (string & {});
-  /** Output only. Replication create time. */
-  createTime?: string;
-  /** Output only. Replication transfer statistics. */
-  transferStats?: TransferStats;
   /** Output only. Indicates whether this points to source or destination. */
   role?: ReplicationRoleEnum | (string & {});
+  /** Output only. Indicates the state of mirroring. */
+  mirrorState?: ReplicationMirrorStateEnum | (string & {});
+  /** Output only. Hybrid peering details. */
+  hybridPeeringDetails?: HybridPeeringDetails;
+  /** Output only. State details of the replication. */
+  stateDetails?: string;
   /** Identifier. The resource name of the Replication. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/replications/{replication_id}`. */
   name?: string;
-  /** Output only. Full name of source volume resource. Example : "projects/{project}/locations/{location}/volumes/{volume_id}" */
-  sourceVolume?: string;
-  /** Output only. Copy pastable snapmirror commands to be executed on onprem cluster by the customer. */
-  hybridReplicationUserCommands?: UserCommands;
-  /** Required. Input only. Destination volume parameters */
-  destinationVolumeParameters?: DestinationVolumeParameters;
   /** Optional. Location of the user cluster. */
   clusterLocation?: string;
+  /** Output only. State of the replication. */
+  state?: ReplicationStateEnum | (string & {});
+  /** Output only. Replication transfer statistics. */
+  transferStats?: TransferStats;
+  /** Output only. Condition of the relationship. Can be one of the following: - true: The replication relationship is healthy. It has not missed the most recent scheduled transfer. - false: The replication relationship is not healthy. It has missed the most recent scheduled transfer. */
+  healthy?: boolean;
+  /** A description about this replication relationship. */
+  description?: string;
+  /** Output only. Full name of source volume resource. Example : "projects/{project}/locations/{location}/volumes/{volume_id}" */
+  sourceVolume?: string;
+  /** Output only. Replication create time. */
+  createTime?: string;
+  /** Output only. Type of the hybrid replication. */
+  hybridReplicationType?: ReplicationHybridReplicationTypeEnum | (string & {});
+  /** Resource labels to represent user provided metadata. */
+  labels?: StringMap;
+  /** Required. Indicates the schedule for replication. */
+  replicationSchedule?: ReplicationReplicationScheduleEnum | (string & {});
+  /** Output only. Full name of destination volume resource. Example : "projects/{project}/locations/{location}/volumes/{volume_id}" */
+  destinationVolume?: string;
+  /** Required. Input only. Destination volume parameters */
+  destinationVolumeParameters?: DestinationVolumeParameters;
+  /** Output only. Copy pastable snapmirror commands to be executed on onprem cluster by the customer. */
+  hybridReplicationUserCommands?: UserCommands;
 }
 export const Replication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
-    hybridPeeringDetails: S.optional(HybridPeeringDetails),
-    labels: S.optional(StringMap),
-    hybridReplicationType: S.optional(ReplicationHybridReplicationTypeEnum),
-    mirrorState: S.optional(ReplicationMirrorStateEnum),
-    destinationVolume: S.optional(S.String),
-    state: S.optional(ReplicationStateEnum),
-    stateDetails: S.optional(S.String),
-    healthy: S.optional(S.Boolean),
-    replicationSchedule: S.optional(ReplicationReplicationScheduleEnum),
-    createTime: S.optional(S.String),
-    transferStats: S.optional(TransferStats),
     role: S.optional(ReplicationRoleEnum),
+    mirrorState: S.optional(ReplicationMirrorStateEnum),
+    hybridPeeringDetails: S.optional(HybridPeeringDetails),
+    stateDetails: S.optional(S.String),
     name: S.optional(S.String),
-    sourceVolume: S.optional(S.String),
-    hybridReplicationUserCommands: S.optional(UserCommands),
-    destinationVolumeParameters: S.optional(DestinationVolumeParameters),
     clusterLocation: S.optional(S.String),
+    state: S.optional(ReplicationStateEnum),
+    transferStats: S.optional(TransferStats),
+    healthy: S.optional(S.Boolean),
+    description: S.optional(S.String),
+    sourceVolume: S.optional(S.String),
+    createTime: S.optional(S.String),
+    hybridReplicationType: S.optional(ReplicationHybridReplicationTypeEnum),
+    labels: S.optional(StringMap),
+    replicationSchedule: S.optional(ReplicationReplicationScheduleEnum),
+    destinationVolume: S.optional(S.String),
+    destinationVolumeParameters: S.optional(DestinationVolumeParameters),
+    hybridReplicationUserCommands: S.optional(UserCommands),
   }),
 ).annotate({ identifier: "Replication" }) as any as S.Schema<Replication>;
 
@@ -1977,34 +1985,34 @@ export type SnapshotStateEnum =
   | "UPDATING"
   | "DISABLED"
   | "ERROR";
-export const SnapshotStateEnum = /*@__PURE__*/ S.String;
+export const SnapshotStateEnum = S.String;
 
 /** Snapshot is a point-in-time version of a Volume's content. */
 export interface Snapshot {
-  /** Output only. The snapshot state. */
-  state?: SnapshotStateEnum | (string & {});
   /** Output only. State details of the storage pool */
   stateDetails?: string;
-  /** Resource labels to represent user provided metadata. */
-  labels?: StringMap;
-  /** Output only. Current storage usage for the snapshot in bytes. */
-  usedBytes?: number;
   /** Output only. The time when the snapshot was created. */
   createTime?: string;
-  /** Identifier. The resource name of the snapshot. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/snapshots/{snapshot_id}`. */
-  name?: string;
   /** A description of the snapshot with 2048 characters or less. Requests with longer descriptions will be rejected. */
   description?: string;
+  /** Output only. The snapshot state. */
+  state?: SnapshotStateEnum | (string & {});
+  /** Resource labels to represent user provided metadata. */
+  labels?: StringMap;
+  /** Identifier. The resource name of the snapshot. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/snapshots/{snapshot_id}`. */
+  name?: string;
+  /** Output only. Current storage usage for the snapshot in bytes. */
+  usedBytes?: number;
 }
 export const Snapshot = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(SnapshotStateEnum),
     stateDetails: S.optional(S.String),
-    labels: S.optional(StringMap),
-    usedBytes: S.optional(S.Number),
     createTime: S.optional(S.String),
-    name: S.optional(S.String),
     description: S.optional(S.String),
+    state: S.optional(SnapshotStateEnum),
+    labels: S.optional(StringMap),
+    name: S.optional(S.String),
+    usedBytes: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Snapshot" }) as any as S.Schema<Snapshot>;
 
@@ -2292,21 +2300,21 @@ export const EncryptProjectsLocationsKmsConfigsRequest =
 
 /** EstablishVolumePeeringRequest establishes cluster and svm peerings between the source and destination clusters. */
 export interface EstablishVolumePeeringRequest {
-  /** Required. Name of the user's local source cluster to be peered with the destination cluster. */
-  peerClusterName?: string;
   /** Required. Name of the user's local source vserver svm to be peered with the destination vserver svm. */
   peerSvmName?: string;
   /** Optional. List of IPv4 IP addresses to be used for peering. */
   peerIpAddresses?: StringList;
   /** Required. Name of the user's local source volume to be peered with the destination volume. */
   peerVolumeName?: string;
+  /** Required. Name of the user's local source cluster to be peered with the destination cluster. */
+  peerClusterName?: string;
 }
 export const EstablishVolumePeeringRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    peerClusterName: S.optional(S.String),
     peerSvmName: S.optional(S.String),
     peerIpAddresses: S.optional(StringList),
     peerVolumeName: S.optional(S.String),
+    peerClusterName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EstablishVolumePeeringRequest",
@@ -2336,21 +2344,21 @@ export const EstablishPeeringProjectsLocationsVolumesRequest =
 
 /** EstablishPeeringRequest establishes cluster and svm peerings between the source and the destination replications. */
 export interface EstablishPeeringRequest {
-  /** Optional. List of IPv4 ip addresses to be used for peering. */
-  peerIpAddresses?: StringList;
   /** Required. Name of the user's local source cluster to be peered with the destination cluster. */
   peerClusterName?: string;
   /** Required. Name of the user's local source vserver svm to be peered with the destination vserver svm. */
   peerSvmName?: string;
   /** Required. Name of the user's local source volume to be peered with the destination volume. */
   peerVolumeName?: string;
+  /** Optional. List of IPv4 ip addresses to be used for peering. */
+  peerIpAddresses?: StringList;
 }
 export const EstablishPeeringRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    peerIpAddresses: S.optional(StringList),
     peerClusterName: S.optional(S.String),
     peerSvmName: S.optional(S.String),
     peerVolumeName: S.optional(S.String),
+    peerIpAddresses: S.optional(StringList),
   }),
 ).annotate({
   identifier: "EstablishPeeringRequest",
@@ -2549,23 +2557,23 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     labels: S.optional(StringMap),
-    locationId: S.optional(S.String),
     metadata: S.optional(DocumentMap),
+    locationId: S.optional(S.String),
+    name: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
@@ -2797,25 +2805,68 @@ export const GetProjectsLocationsVolumesSnapshotsRequest =
     identifier: "GetProjectsLocationsVolumesSnapshotsRequest",
   }) as any as S.Schema<GetProjectsLocationsVolumesSnapshotsRequest>;
 
+export interface GetSplitStatusProjectsLocationsVolumesRequest {
+  /** Required. The full name of the volume. Format: projects/{project_number}/locations/{location}/volumes/{volume_id} */
+  name: string;
+}
+export const GetSplitStatusProjectsLocationsVolumesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+name}:getSplitStatus",
+        baseUrl: "https://netapp.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetSplitStatusProjectsLocationsVolumesRequest",
+  }) as any as S.Schema<GetSplitStatusProjectsLocationsVolumesRequest>;
+
+export type SplitStatusSplitStateEnum =
+  | "SPLIT_STATE_UNSPECIFIED"
+  | "SPLIT_STATE_NOT_SPLITTING"
+  | "SPLIT_STATE_IN_PROGRESS"
+  | "SPLIT_STATE_FAILED";
+export const SplitStatusSplitStateEnum = S.String;
+
+/** Message for SplitStatus. */
+export interface SplitStatus {
+  /** Output only. The current state of the clone split operation. */
+  splitState?: SplitStatusSplitStateEnum;
+  /** Output only. The estimated progress percentage of the split operation (0-100). This is meaningful primarily when split_state is IN_PROGRESS. */
+  progressPercent?: number;
+  /** Output only. Human-readable details about the current state. Mostly used for displaying error messages during split failure Examples: "Split in progress", "Error: insufficient capacity". */
+  stateDetails?: string;
+}
+export const SplitStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    splitState: S.optional(SplitStatusSplitStateEnum),
+    progressPercent: S.optional(S.Number),
+    stateDetails: S.optional(S.String),
+  }),
+).annotate({ identifier: "SplitStatus" }) as any as S.Schema<SplitStatus>;
+
 export interface ListProjectsLocationsRequest {
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
+    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2834,15 +2885,15 @@ export const LocationList = /*@__PURE__*/ S.Array(
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locations: S.optional(LocationList),
     nextPageToken: S.optional(S.String),
+    locations: S.optional(LocationList),
   }),
 ).annotate({
   identifier: "ListLocationsResponse",
@@ -2851,23 +2902,23 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsActiveDirectoriesRequest {
   /** Hint for how to order the results */
   orderBy?: string;
-  /** Filtering results */
-  filter?: string;
-  /** A token identifying a page of results the server should return. */
-  pageToken?: string;
-  /** Required. Parent value for ListActiveDirectoriesRequest */
-  parent: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
   pageSize?: number;
+  /** Required. Parent value for ListActiveDirectoriesRequest */
+  parent: string;
+  /** A token identifying a page of results the server should return. */
+  pageToken?: string;
+  /** Filtering results */
+  filter?: string;
 }
 export const ListProjectsLocationsActiveDirectoriesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       orderBy: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2888,41 +2939,41 @@ export const ActiveDirectoryList = /*@__PURE__*/ S.Array(
 export interface ListActiveDirectoriesResponse {
   /** The list of active directories. */
   activeDirectories?: ActiveDirectoryList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListActiveDirectoriesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     activeDirectories: S.optional(ActiveDirectoryList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListActiveDirectoriesResponse",
 }) as any as S.Schema<ListActiveDirectoriesResponse>;
 
 export interface ListProjectsLocationsBackupPoliciesRequest {
-  /** Required. Parent value for ListBackupPoliciesRequest */
-  parent: string;
-  /** Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
-  /** Hint for how to order the results */
-  orderBy?: string;
-  /** Filtering results */
-  filter?: string;
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
+  /** Hint for how to order the results */
+  orderBy?: string;
+  /** Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Filtering results */
+  filter?: string;
+  /** Required. Parent value for ListBackupPoliciesRequest */
+  parent: string;
 }
 export const ListProjectsLocationsBackupPoliciesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      orderBy: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2941,26 +2992,24 @@ export const BackupPolicyList = /*@__PURE__*/ S.Array(
 
 /** ListBackupPoliciesResponse contains all the backup policies requested. */
 export interface ListBackupPoliciesResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
   /** The list of backup policies. */
   backupPolicies?: BackupPolicyList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
 }
 export const ListBackupPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     backupPolicies: S.optional(BackupPolicyList),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListBackupPoliciesResponse",
 }) as any as S.Schema<ListBackupPoliciesResponse>;
 
 export interface ListProjectsLocationsBackupVaultsRequest {
-  /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
-  orderBy?: string;
   /** The next_page_token value to use if there are additional results to retrieve for this list request. */
   pageToken?: string;
   /** List filter. */
@@ -2969,15 +3018,17 @@ export interface ListProjectsLocationsBackupVaultsRequest {
   pageSize?: number;
   /** Required. The location for which to retrieve backupVault information, in the format `projects/{project_id}/locations/{location}`. */
   parent: string;
+  /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
+  orderBy?: string;
 }
 export const ListProjectsLocationsBackupVaultsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      orderBy: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2998,40 +3049,40 @@ export const BackupVaultList = /*@__PURE__*/ S.Array(
 export interface ListBackupVaultsResponse {
   /** The token you can use to retrieve the next page of results. Not returned if there are no more results in the list. */
   nextPageToken?: string;
-  /** A list of backupVaults in the project for the specified location. */
-  backupVaults?: BackupVaultList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** A list of backupVaults in the project for the specified location. */
+  backupVaults?: BackupVaultList;
 }
 export const ListBackupVaultsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    backupVaults: S.optional(BackupVaultList),
     unreachable: S.optional(StringList),
+    backupVaults: S.optional(BackupVaultList),
   }),
 ).annotate({
   identifier: "ListBackupVaultsResponse",
 }) as any as S.Schema<ListBackupVaultsResponse>;
 
 export interface ListProjectsLocationsBackupVaultsBackupsRequest {
+  /** The standard list filter. If specified, backups will be returned based on the attribute name that matches the filter expression. If empty, then no backups are filtered out. See https://google.aip.dev/160 */
+  filter?: string;
   /** The maximum number of items to return. The service may return fewer than this value. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
   /** Required. The backupVault for which to retrieve backup information, in the format `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}`. To retrieve backup information for all locations, use "-" for the `{location}` value. To retrieve backup information for all backupVaults, use "-" for the `{backup_vault_id}` value. To retrieve backup information for a volume, use "-" for the `{backup_vault_id}` value and specify volume full name with the filter. */
   parent: string;
   /** The next_page_token value to use if there are additional results to retrieve for this list request. */
   pageToken?: string;
-  /** The standard list filter. If specified, backups will be returned based on the attribute name that matches the filter expression. If empty, then no backups are filtered out. See https://google.aip.dev/160 */
-  filter?: string;
   /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
   orderBy?: string;
 }
 export const ListProjectsLocationsBackupVaultsBackupsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      filter: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -3051,43 +3102,43 @@ export const BackupList = /*@__PURE__*/ S.Array(
 
 /** ListBackupsResponse is the result of ListBackupsRequest. */
 export interface ListBackupsResponse {
-  /** The token you can use to retrieve the next page of results. Not returned if there are no more results in the list. */
-  nextPageToken?: string;
-  /** A list of backups in the project. */
-  backups?: BackupList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** A list of backups in the project. */
+  backups?: BackupList;
+  /** The token you can use to retrieve the next page of results. Not returned if there are no more results in the list. */
+  nextPageToken?: string;
 }
 export const ListBackupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    backups: S.optional(BackupList),
     unreachable: S.optional(StringList),
+    backups: S.optional(BackupList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListBackupsResponse",
 }) as any as S.Schema<ListBackupsResponse>;
 
 export interface ListProjectsLocationsHostGroupsRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
-  /** Required. Parent value for ListHostGroupsRequest */
-  parent: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
-  /** Optional. Filter to apply to the request. */
-  filter?: string;
+  /** Required. Parent value for ListHostGroupsRequest */
+  parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
   /** Optional. Hint for how to order the results */
   orderBy?: string;
+  /** Optional. Filter to apply to the request. */
+  filter?: string;
 }
 export const ListProjectsLocationsHostGroupsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3106,43 +3157,43 @@ export const HostGroupList = /*@__PURE__*/ S.Array(
 
 /** ListHostGroupsResponse is the response to a ListHostGroupsRequest. */
 export interface ListHostGroupsResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
   /** The list of host groups. */
   hostGroups?: HostGroupList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
 }
 export const ListHostGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     hostGroups: S.optional(HostGroupList),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListHostGroupsResponse",
 }) as any as S.Schema<ListHostGroupsResponse>;
 
 export interface ListProjectsLocationsKmsConfigsRequest {
-  /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
-  orderBy?: string;
   /** The next_page_token value to use if there are additional results to retrieve for this list request. */
   pageToken?: string;
+  /** Required. Parent value */
+  parent: string;
   /** List filter. */
   filter?: string;
   /** The maximum number of items to return. */
   pageSize?: number;
-  /** Required. Parent value */
-  parent: string;
+  /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
+  orderBy?: string;
 }
 export const ListProjectsLocationsKmsConfigsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      orderBy: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
+      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3163,41 +3214,41 @@ export const KmsConfigList = /*@__PURE__*/ S.Array(
 export interface ListKmsConfigsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** The list of KmsConfigs */
-  kmsConfigs?: KmsConfigList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** The list of KmsConfigs */
+  kmsConfigs?: KmsConfigList;
 }
 export const ListKmsConfigsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    kmsConfigs: S.optional(KmsConfigList),
     nextPageToken: S.optional(S.String),
+    kmsConfigs: S.optional(KmsConfigList),
   }),
 ).annotate({
   identifier: "ListKmsConfigsResponse",
 }) as any as S.Schema<ListKmsConfigsResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list filter. */
-  filter?: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
-  /** The standard list page token. */
-  pageToken?: string;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list page token. */
+  pageToken?: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** The standard list filter. */
+  filter?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
       returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3216,17 +3267,17 @@ export const OperationList = /*@__PURE__*/ S.Array(
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operations: S.optional(OperationList),
     nextPageToken: S.optional(S.String),
+    operations: S.optional(OperationList),
     unreachable: S.optional(StringList),
   }),
 ).annotate({
@@ -3234,25 +3285,25 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProjectsLocationsStoragePoolsRequest {
-  /** Optional. List filter. */
-  filter?: string;
-  /** Optional. The next_page_token value to use if there are additional results to retrieve for this list request. */
-  pageToken?: string;
-  /** Optional. Sort results. Supported values are "name", "name desc" or "" (unsorted). */
-  orderBy?: string;
   /** Required. Parent value */
   parent: string;
+  /** Optional. The next_page_token value to use if there are additional results to retrieve for this list request. */
+  pageToken?: string;
   /** Optional. The maximum number of items to return. */
   pageSize?: number;
+  /** Optional. List filter. */
+  filter?: string;
+  /** Optional. Sort results. Supported values are "name", "name desc" or "" (unsorted). */
+  orderBy?: string;
 }
 export const ListProjectsLocationsStoragePoolsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      orderBy: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3271,42 +3322,42 @@ export const StoragePoolList = /*@__PURE__*/ S.Array(
 
 /** ListStoragePoolsResponse is the response to a ListStoragePoolsRequest. */
 export interface ListStoragePoolsResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
   /** The list of StoragePools */
   storagePools?: StoragePoolList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
 }
 export const ListStoragePoolsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     storagePools: S.optional(StoragePoolList),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListStoragePoolsResponse",
 }) as any as S.Schema<ListStoragePoolsResponse>;
 
 export interface ListProjectsLocationsStoragePoolsBackupConfigsRequest {
-  /** Required. The ONTAP StoragePool for which to retrieve backup configuration information, in the format `projects/{project}/locations/{location}/storagePools/{storage_pool}`. */
-  parent: string;
-  /** Optional. The maximum number of items to return. The service may return fewer than this value. The maximum value is 1000; values above 1000 will be coerced to 1000. If unspecified or set to 0, a default of 50 will be used. */
-  pageSize?: number;
   /** Optional. The standard list filter. */
   filter?: string;
+  /** Required. The ONTAP StoragePool for which to retrieve backup configuration information, in the format `projects/{project}/locations/{location}/storagePools/{storage_pool}`. */
+  parent: string;
   /** Optional. The next_page_token value to use if there are additional results to retrieve for this list request. */
   pageToken?: string;
+  /** Optional. The maximum number of items to return. The service may return fewer than this value. The maximum value is 1000; values above 1000 will be coerced to 1000. If unspecified or set to 0, a default of 50 will be used. */
+  pageSize?: number;
   /** Optional. Sort results. Supported values are "volume_id" or "" */
   orderBy?: string;
 }
 export const ListProjectsLocationsStoragePoolsBackupConfigsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -3342,17 +3393,17 @@ export const VolumeBackupConfigList = /*@__PURE__*/ S.Array(
 
 /** Message for response to listing BackupConfigs in an ONTAP StoragePool. */
 export interface ListBackupConfigsResponse {
-  /** A list of backup configurations for volumes in the pool. */
-  volumeBackupConfigs?: VolumeBackupConfigList;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList;
+  /** A list of backup configurations for volumes in the pool. */
+  volumeBackupConfigs?: VolumeBackupConfigList;
   /** The token you can use to retrieve the next page of results. Not returned if there are no more results in the list. */
   nextPageToken?: string;
 }
 export const ListBackupConfigsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeBackupConfigs: S.optional(VolumeBackupConfigList),
     unreachable: S.optional(StringList),
+    volumeBackupConfigs: S.optional(VolumeBackupConfigList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({
@@ -3360,24 +3411,24 @@ export const ListBackupConfigsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListBackupConfigsResponse>;
 
 export interface ListProjectsLocationsVolumesRequest {
-  /** Filtering results */
-  filter?: string;
+  /** Required. Parent value for ListVolumesRequest */
+  parent: string;
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
   /** Hint for how to order the results */
   orderBy?: string;
-  /** Required. Parent value for ListVolumesRequest */
-  parent: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
   pageSize?: number;
+  /** Filtering results */
+  filter?: string;
 }
 export const ListProjectsLocationsVolumesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3396,17 +3447,17 @@ export const VolumeList = /*@__PURE__*/ S.Array(
 
 /** Message for response to listing Volumes */
 export interface ListVolumesResponse {
-  /** The list of Volume */
-  volumes?: VolumeList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** The list of Volume */
+  volumes?: VolumeList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
 }
 export const ListVolumesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumes: S.optional(VolumeList),
     unreachable: S.optional(StringList),
+    volumes: S.optional(VolumeList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({
@@ -3416,23 +3467,23 @@ export const ListVolumesResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsVolumesQuotaRulesRequest {
   /** Required. Parent value for ListQuotaRulesRequest */
   parent: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string;
   /** Optional. Filtering results */
   filter?: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsVolumesQuotaRulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      orderBy: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3451,17 +3502,17 @@ export const QuotaRuleList = /*@__PURE__*/ S.Array(
 
 /** ListQuotaRulesResponse is the response to a ListQuotaRulesRequest. */
 export interface ListQuotaRulesResponse {
-  /** List of quota rules */
-  quotaRules?: QuotaRuleList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** List of quota rules */
+  quotaRules?: QuotaRuleList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
 }
 export const ListQuotaRulesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    quotaRules: S.optional(QuotaRuleList),
     unreachable: S.optional(StringList),
+    quotaRules: S.optional(QuotaRuleList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({
@@ -3469,25 +3520,25 @@ export const ListQuotaRulesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListQuotaRulesResponse>;
 
 export interface ListProjectsLocationsVolumesReplicationsRequest {
-  /** The maximum number of items to return. */
-  pageSize?: number;
-  /** Required. The volume for which to retrieve replication information, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}`. */
-  parent: string;
-  /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
-  orderBy?: string;
   /** The next_page_token value to use if there are additional results to retrieve for this list request. */
   pageToken?: string;
   /** List filter. */
   filter?: string;
+  /** The maximum number of items to return. */
+  pageSize?: number;
+  /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
+  orderBy?: string;
+  /** Required. The volume for which to retrieve replication information, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}`. */
+  parent: string;
 }
 export const ListProjectsLocationsVolumesReplicationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      orderBy: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3526,23 +3577,23 @@ export const ListReplicationsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsVolumesSnapshotsRequest {
   /** List filter. */
   filter?: string;
-  /** The next_page_token value to use if there are additional results to retrieve for this list request. */
-  pageToken?: string;
   /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
   orderBy?: string;
-  /** Required. The volume for which to retrieve snapshot information, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}`. */
-  parent: string;
   /** The maximum number of items to return. */
   pageSize?: number;
+  /** Required. The volume for which to retrieve snapshot information, in the format `projects/{project_id}/locations/{location}/volumes/{volume_id}`. */
+  parent: string;
+  /** The next_page_token value to use if there are additional results to retrieve for this list request. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsVolumesSnapshotsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3604,18 +3655,18 @@ export const PatchProjectsLocationsActiveDirectoriesRequest =
   }) as any as S.Schema<PatchProjectsLocationsActiveDirectoriesRequest>;
 
 export interface PatchProjectsLocationsBackupPoliciesRequest {
-  /** Identifier. The resource name of the backup policy. Format: `projects/{project_id}/locations/{location}/backupPolicies/{backup_policy_id}`. */
-  name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Backup Policy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
+  /** Identifier. The resource name of the backup policy. Format: `projects/{project_id}/locations/{location}/backupPolicies/{backup_policy_id}`. */
+  name: string;
   /** Request body */
   body?: BackupPolicy;
 }
 export const PatchProjectsLocationsBackupPoliciesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(BackupPolicy.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3654,18 +3705,18 @@ export const PatchProjectsLocationsBackupVaultsRequest =
   }) as any as S.Schema<PatchProjectsLocationsBackupVaultsRequest>;
 
 export interface PatchProjectsLocationsBackupVaultsBackupsRequest {
-  /** Required. Field mask is used to specify the fields to be overwritten in the Backup resource to be updated. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Identifier. The resource name of the backup. Format: `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}/backups/{backup_id}`. */
   name: string;
+  /** Required. Field mask is used to specify the fields to be overwritten in the Backup resource to be updated. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: Backup;
 }
 export const PatchProjectsLocationsBackupVaultsBackupsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(Backup.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3679,18 +3730,18 @@ export const PatchProjectsLocationsBackupVaultsBackupsRequest =
   }) as any as S.Schema<PatchProjectsLocationsBackupVaultsBackupsRequest>;
 
 export interface PatchProjectsLocationsHostGroupsRequest {
-  /** Identifier. The resource name of the host group. Format: `projects/{project_number}/locations/{location_id}/hostGroups/{host_group_id}`. */
-  name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string;
+  /** Identifier. The resource name of the host group. Format: `projects/{project_number}/locations/{location_id}/hostGroups/{host_group_id}`. */
+  name: string;
   /** Request body */
   body?: HostGroup;
 }
 export const PatchProjectsLocationsHostGroupsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(HostGroup.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3754,18 +3805,18 @@ export const PatchProjectsLocationsStoragePoolsRequest =
   }) as any as S.Schema<PatchProjectsLocationsStoragePoolsRequest>;
 
 export interface PatchProjectsLocationsVolumesRequest {
-  /** Required. Field mask is used to specify the fields to be overwritten in the Volume resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Identifier. Name of the volume */
   name: string;
+  /** Required. Field mask is used to specify the fields to be overwritten in the Volume resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: Volume;
 }
 export const PatchProjectsLocationsVolumesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(Volume.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3779,18 +3830,18 @@ export const PatchProjectsLocationsVolumesRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PatchProjectsLocationsVolumesRequest>;
 
 export interface PatchProjectsLocationsVolumesQuotaRulesRequest {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the Quota Rule resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Identifier. The resource name of the quota rule. Format: `projects/{project_number}/locations/{location_id}/volumes/volumes/{volume_id}/quotaRules/{quota_rule_id}`. */
   name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the Quota Rule resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: QuotaRule;
 }
 export const PatchProjectsLocationsVolumesQuotaRulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(QuotaRule.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3804,18 +3855,18 @@ export const PatchProjectsLocationsVolumesQuotaRulesRequest =
   }) as any as S.Schema<PatchProjectsLocationsVolumesQuotaRulesRequest>;
 
 export interface PatchProjectsLocationsVolumesReplicationsRequest {
-  /** Required. Mask of fields to update. At least one path must be supplied in this field. */
-  updateMask?: string;
   /** Identifier. The resource name of the Replication. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/replications/{replication_id}`. */
   name: string;
+  /** Required. Mask of fields to update. At least one path must be supplied in this field. */
+  updateMask?: string;
   /** Request body */
   body?: Replication;
 }
 export const PatchProjectsLocationsVolumesReplicationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(Replication.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3829,18 +3880,18 @@ export const PatchProjectsLocationsVolumesReplicationsRequest =
   }) as any as S.Schema<PatchProjectsLocationsVolumesReplicationsRequest>;
 
 export interface PatchProjectsLocationsVolumesSnapshotsRequest {
-  /** Required. Mask of fields to update. At least one path must be supplied in this field. */
-  updateMask?: string;
   /** Identifier. The resource name of the snapshot. Format: `projects/{project_id}/locations/{location}/volumes/{volume_id}/snapshots/{snapshot_id}`. */
   name: string;
+  /** Required. Mask of fields to update. At least one path must be supplied in this field. */
+  updateMask?: string;
   /** Request body */
   body?: Snapshot;
 }
 export const PatchProjectsLocationsVolumesSnapshotsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(Snapshot.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3855,18 +3906,18 @@ export const PatchProjectsLocationsVolumesSnapshotsRequest =
 
 /** RestoreBackupFilesRequest restores files from a backup to a volume. */
 export interface RestoreBackupFilesRequest {
-  /** Required. The backup resource name, in the format `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}/backups/{backup_id}` */
-  backup?: string;
-  /** Required. List of files to be restored, specified by their absolute path in the source volume. */
-  fileList?: StringList;
   /** Optional. Absolute directory path in the destination volume. This is required if the `file_list` is provided. */
   restoreDestinationPath?: string;
+  /** Required. List of files to be restored, specified by their absolute path in the source volume. */
+  fileList?: StringList;
+  /** Required. The backup resource name, in the format `projects/{project_id}/locations/{location}/backupVaults/{backup_vault_id}/backups/{backup_id}` */
+  backup?: string;
 }
 export const RestoreBackupFilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    backup: S.optional(S.String),
-    fileList: S.optional(StringList),
     restoreDestinationPath: S.optional(S.String),
+    fileList: S.optional(StringList),
+    backup: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RestoreBackupFilesRequest",
@@ -3912,15 +3963,15 @@ export const OntapVolumeTarget = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents the backup source of the restore operation. */
 export interface BackupSource {
-  /** Optional. List of files to be restored in the form of their absolute path as in source volume. If provided, only these files will be restored. If not provided, the entire backup will be restored (Full Backup Restore) */
-  fileList?: StringList;
   /** Required. The backup resource name. */
   backup?: string;
+  /** Optional. List of files to be restored in the form of their absolute path as in source volume. If provided, only these files will be restored. If not provided, the entire backup will be restored (Full Backup Restore) */
+  fileList?: StringList;
 }
 export const BackupSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fileList: S.optional(StringList),
     backup: S.optional(S.String),
+    fileList: S.optional(StringList),
   }),
 ).annotate({ identifier: "BackupSource" }) as any as S.Schema<BackupSource>;
 
@@ -4049,6 +4100,32 @@ export const RevertProjectsLocationsVolumesRequest = /*@__PURE__*/ S.suspend(
   identifier: "RevertProjectsLocationsVolumesRequest",
 }) as any as S.Schema<RevertProjectsLocationsVolumesRequest>;
 
+/** Request message for splitting a volume. */
+export type StartSplitRequest = CancelOperationRequest;
+export const StartSplitRequest = CancelOperationRequest;
+
+export interface StartSplitProjectsLocationsVolumesRequest {
+  /** Required. The full name of the clone volume to be split from its source. Format: projects/{project_number}/locations/{location}/volumes/{volume_id} */
+  name: string;
+  /** Request body */
+  body?: CancelOperationRequest;
+}
+export const StartSplitProjectsLocationsVolumesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      body: S.optional(CancelOperationRequest.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1/{+name}:startSplit",
+        baseUrl: "https://netapp.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "StartSplitProjectsLocationsVolumesRequest",
+  }) as any as S.Schema<StartSplitProjectsLocationsVolumesRequest>;
+
 /** StopReplicationRequest stops a replication until resumed. */
 export interface StopReplicationRequest {
   /** Indicates whether to stop replication forcefully while data transfer is in progress. Warning! if force is true, this will abort any current transfers and can lead to data loss due to partial transfer. If force is false, stop replication will fail while data transfer is in progress and you will need to retry later. */
@@ -4140,16 +4217,16 @@ export const SyncProjectsLocationsVolumesReplicationsRequest =
 export interface UpdateBackupConfigRequest {
   /** Required. The UUID of the ONTAP-mode volume. */
   volumeUuid?: string;
-  /** Required. Backup configuration to apply. */
-  backupConfig?: BackupConfig;
   /** Required. Field mask is used to specify the fields to be overwritten in the BackupConfig for the Volume. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string;
+  /** Required. Backup configuration to apply. */
+  backupConfig?: BackupConfig;
 }
 export const UpdateBackupConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     volumeUuid: S.optional(S.String),
-    backupConfig: S.optional(BackupConfig),
     updateMask: S.optional(S.String),
+    backupConfig: S.optional(BackupConfig),
   }),
 ).annotate({
   identifier: "UpdateBackupConfigRequest",
@@ -4180,8 +4257,7 @@ export const UpdateBackupConfigProjectsLocationsStoragePoolsRequest =
 export type ValidateDirectoryServiceRequestDirectoryServiceTypeEnum =
   | "DIRECTORY_SERVICE_TYPE_UNSPECIFIED"
   | "ACTIVE_DIRECTORY";
-export const ValidateDirectoryServiceRequestDirectoryServiceTypeEnum =
-  /*@__PURE__*/ S.String;
+export const ValidateDirectoryServiceRequestDirectoryServiceTypeEnum = S.String;
 
 /** ValidateDirectoryServiceRequest validates the directory service policy attached to the storage pool. */
 export interface ValidateDirectoryServiceRequest {
@@ -5116,6 +5192,24 @@ export const getProjectsLocationsVolumesSnapshots: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetSplitStatusProjectsLocationsVolumesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Retrieves the current state, progress, and details of a split operation for a volume. This method is relevant when the volume is a clone. For volumes that are not clones, this method will return an error. */
+export const getSplitStatusProjectsLocationsVolumes: API.OperationMethod<
+  GetSplitStatusProjectsLocationsVolumesRequest,
+  SplitStatus,
+  GetSplitStatusProjectsLocationsVolumesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSplitStatusProjectsLocationsVolumesRequest,
+  output: SplitStatus,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
 /** Lists information about the supported locations for this service. This method lists locations based on the resource scope provided in the ListLocationsRequest.name field: * **Global locations**: If `name` is empty, the method lists the public locations available to all projects. * **Project-specific locations**: If `name` follows the format `projects/{project}`, the method lists locations visible to that specific project. This includes public, private, or other project-specific locations enabled for the project. For gRPC and client library implementations, the resource name is passed as the `name` field. For direct service calls, the resource name is incorporated into the request path based on the specific service implementation and version. */
 export const listProjectsLocations: API.PaginatedOperationMethod<
@@ -5749,6 +5843,26 @@ export const revertProjectsLocationsVolumes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: RevertProjectsLocationsVolumesRequest,
+  output: Operation,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type StartSplitProjectsLocationsVolumesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Splits a clone volume from its source volume. This operation will only work for volumes which have clone_details set(clones). For volumes that are not clones, this operation will return an error. */
+export const startSplitProjectsLocationsVolumes: API.OperationMethod<
+  StartSplitProjectsLocationsVolumesRequest,
+  Operation,
+  StartSplitProjectsLocationsVolumesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: StartSplitProjectsLocationsVolumesRequest,
   output: Operation,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,

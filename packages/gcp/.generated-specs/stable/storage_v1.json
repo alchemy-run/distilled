@@ -4,7 +4,8 @@
     "service": "storage",
     "version": "v1",
     "title": "Cloud Storage JSON API",
-    "baseUrl": "https://storage.googleapis.com/storage/v1/"
+    "baseUrl": "https://storage.googleapis.com/storage/v1/",
+    "distilled.finalized": true
   },
   "shapes": {
     "com.gcp.storage_v1#Bucket": {
@@ -1015,6 +1016,130 @@
         "target": "com.gcp.storage_v1#AnywhereCache"
       }
     },
+    "com.gcp.storage_v1#RapidCache": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The kind of item this is. For Rapid Cache, this is always storage#rapidCache."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the resource, including the project number, bucket name and rapid cache ID."
+          }
+        },
+        "selfLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to this cache instance."
+          }
+        },
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the bucket containing this cache instance."
+          }
+        },
+        "rapidCacheId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Rapid cache instance."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The zone in which the cache instance is running. For example, us-central1-a."
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current state of the cache instance."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation time of the cache instance in RFC 3339 format."
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The modification time of the cache instance metadata in RFC 3339 format."
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The TTL of all cache entries in whole seconds. e.g., \"7200s\"."
+          }
+        },
+        "admissionPolicy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cache-level entry admission policy."
+          }
+        },
+        "pendingUpdate": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if the cache instance has an active Update long-running operation."
+          }
+        },
+        "ingestOnWrite": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Specifies whether objects are ingested into the cache upon write."
+          }
+        },
+        "cacheType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of Rapid Cache this represents. Valid values include: \"rapid-cache\" and \"rapid-cache-ultra\"."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A Rapid Cache instance."
+      }
+    },
+    "com.gcp.storage_v1#RapidCaches": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The kind of item this is. For lists of Rapid Caches, this is always storage#rapidCaches."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results."
+          }
+        },
+        "items": {
+          "target": "com.gcp.storage_v1#RapidCacheList",
+          "traits": {
+            "smithy.api#documentation": "The list of items."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of Rapid Caches."
+      }
+    },
+    "com.gcp.storage_v1#RapidCacheList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.storage_v1#RapidCache"
+      }
+    },
     "com.gcp.storage_v1#BucketAccessControl": {
       "type": "structure",
       "members": {
@@ -1806,10 +1931,76 @@
           "traits": {
             "smithy.api#documentation": "The last update time of the managed folder metadata in RFC 3339 format."
           }
+        },
+        "rapidCacheConfig": {
+          "target": "com.gcp.storage_v1#RapidCacheConfig",
+          "traits": {
+            "smithy.api#documentation": "The rapid cache configuration for the managed folder."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "A managed folder."
+      }
+    },
+    "com.gcp.storage_v1#RapidCacheConfig": {
+      "type": "structure",
+      "members": {
+        "policies": {
+          "target": "com.gcp.storage_v1#RapidCachePolicyMap",
+          "traits": {
+            "smithy.api#documentation": "A map of rapid cache IDs to the corresponding `RapidCachePolicy` configurations for a managed folder."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration options for the rapid cache of a managed folder."
+      }
+    },
+    "com.gcp.storage_v1#RapidCachePolicyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.gcp.storage_v1#RapidCachePolicy"
+      }
+    },
+    "com.gcp.storage_v1#RapidCachePolicy": {
+      "type": "structure",
+      "members": {
+        "rapidCacheId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the rapid cache."
+          }
+        },
+        "ingestOnWrite": {
+          "target": "com.gcp.storage_v1#RapidCachePolicyIngestOnWriteEnum",
+          "traits": {
+            "smithy.api#documentation": "The ingest-on-write policy for objects in the managed folder. When set to `enabled`, objects are automatically ingested into the cache when they are written to the managed folder."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The rapid cache policy configuration for a managed folder."
+      }
+    },
+    "com.gcp.storage_v1#RapidCachePolicyIngestOnWriteEnum": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unspecified"
+          }
+        }
       }
     },
     "com.gcp.storage_v1#ManagedFolders": {
@@ -3082,6 +3273,266 @@
           "uri": "b/{bucket}/anywhereCaches/{anywhereCacheId}/disable"
         },
         "smithy.api#documentation": "Disables an Anywhere Cache instance."
+      }
+    },
+    "com.gcp.storage_v1#InsertRapidCachesRequest": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the parent bucket.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.storage_v1#RapidCache",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.storage_v1#InsertRapidCaches": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storage_v1#InsertRapidCachesRequest"
+      },
+      "output": {
+        "target": "com.gcp.storage_v1#GoogleLongrunningOperation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storage_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storage_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storage_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storage_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "b/{bucket}/rapidCaches"
+        },
+        "smithy.api#documentation": "Creates a Rapid Cache instance."
+      }
+    },
+    "com.gcp.storage_v1#UpdateRapidCachesRequest": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the parent bucket.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "rapidCacheId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the requested Rapid Cache instance.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.storage_v1#RapidCache",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.storage_v1#UpdateRapidCaches": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storage_v1#UpdateRapidCachesRequest"
+      },
+      "output": {
+        "target": "com.gcp.storage_v1#GoogleLongrunningOperation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storage_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storage_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storage_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storage_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "b/{bucket}/rapidCaches/{rapidCacheId}"
+        },
+        "smithy.api#documentation": "Updates the configuration of a Rapid Cache instance."
+      }
+    },
+    "com.gcp.storage_v1#GetRapidCachesRequest": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the parent bucket.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "rapidCacheId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the requested Rapid Cache instance.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.storage_v1#GetRapidCaches": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storage_v1#GetRapidCachesRequest"
+      },
+      "output": {
+        "target": "com.gcp.storage_v1#RapidCache"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storage_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storage_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "b/{bucket}/rapidCaches/{rapidCacheId}"
+        },
+        "smithy.api#documentation": "Returns the metadata of a Rapid Cache instance."
+      }
+    },
+    "com.gcp.storage_v1#ListRapidCachesRequest": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the parent bucket.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of items to return in a single page of responses.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A previously-returned page token representing part of the larger set of results to view.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        }
+      }
+    },
+    "com.gcp.storage_v1#ListRapidCaches": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storage_v1#ListRapidCachesRequest"
+      },
+      "output": {
+        "target": "com.gcp.storage_v1#RapidCaches"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storage_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storage_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "b/{bucket}/rapidCaches"
+        },
+        "smithy.api#documentation": "Returns a list of Rapid Cache instances of the bucket.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken",
+          "items": "items"
+        }
+      }
+    },
+    "com.gcp.storage_v1#DisableRapidCachesRequest": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the parent bucket.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "rapidCacheId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the requested Rapid Cache instance.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.storage_v1#DisableRapidCaches": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storage_v1#DisableRapidCachesRequest"
+      },
+      "output": {
+        "target": "com.gcp.storage_v1#GoogleLongrunningOperation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storage_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storage_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storage_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storage_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "b/{bucket}/rapidCaches/{rapidCacheId}/disable"
+        },
+        "smithy.api#documentation": "Disables a Rapid Cache instance."
       }
     },
     "com.gcp.storage_v1#DeleteBucketAccessControlsRequest": {
@@ -5758,6 +6209,78 @@
         "smithy.api#documentation": "Returns metadata of the specified managed folder."
       }
     },
+    "com.gcp.storage_v1#UpdateManagedFoldersRequest": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the bucket containing the managed folder.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "managedFolder": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the managed folder.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ifMetagenerationMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Makes the operation conditional on whether the metageneration of the managed folder matches the specified value.",
+            "smithy.api#httpQuery": "ifMetagenerationMatch"
+          }
+        },
+        "ifMetagenerationNotMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Makes the operation conditional on whether the metageneration of the managed folder doesn't match the specified value.",
+            "smithy.api#httpQuery": "ifMetagenerationNotMatch"
+          }
+        },
+        "body": {
+          "target": "com.gcp.storage_v1#ManagedFolder",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.storage_v1#UpdateManagedFolders": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storage_v1#UpdateManagedFoldersRequest"
+      },
+      "output": {
+        "target": "com.gcp.storage_v1#ManagedFolder"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storage_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storage_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.storage_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.storage_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "b/{bucket}/managedFolders/{managedFolder}"
+        },
+        "smithy.api#documentation": "Updates a managed folder using patch semantics."
+      }
+    },
     "com.gcp.storage_v1#GetIamPolicyManagedFoldersRequest": {
       "type": "structure",
       "members": {
@@ -6761,7 +7284,7 @@
         "dropContextGroups": {
           "target": "com.gcp.storage_v1#StringList",
           "traits": {
-            "smithy.api#documentation": "Specifies which groups of Object Contexts from the source object(s) should be dropped from the destination object.",
+            "smithy.api#documentation": "Specifies which object context groups to drop from the source object(s) during a compose operation. The accepted value is 'custom'.\nDestination contexts behave as follows:\n- When request body contexts are provided, they override all source contexts.\n- When no request body contexts are provided, source contexts are preserved unless 'dropContextGroups' contains 'custom', in which case all contexts are dropped.",
             "smithy.api#httpQuery": "dropContextGroups"
           }
         },
@@ -7937,7 +8460,7 @@
         "dropContextGroups": {
           "target": "com.gcp.storage_v1#StringList",
           "traits": {
-            "smithy.api#documentation": "Specifies which groups of Object Contexts from the source object should be dropped from the destination object.",
+            "smithy.api#documentation": "Specifies which object context groups to drop from the source object during a copy operation. The accepted value is 'custom'.\nDestination contexts behave as follows:\n- When request body contexts are provided, they override all source contexts.\n- When no request body contexts are provided, source contexts are preserved unless 'dropContextGroups' contains 'custom', in which case all contexts are dropped.",
             "smithy.api#httpQuery": "dropContextGroups"
           }
         },

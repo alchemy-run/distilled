@@ -210,14 +210,14 @@ export type PaymentOption =
   | "NO_UPFRONT"
   | "PARTIAL_UPFRONT"
   | (string & {});
-export const PaymentOption = /*@__PURE__*/ S.String;
+export const PaymentOption = S.String;
 
 export type PaymentTerm =
   | "THREE_YEARS"
   | "ONE_YEAR"
   | "FIVE_YEARS"
   | (string & {});
-export const PaymentTerm = /*@__PURE__*/ S.String;
+export const PaymentTerm = S.String;
 
 export interface CreateOrderInput {
   OutpostIdentifier: string;
@@ -262,7 +262,7 @@ export type OrderStatus =
   | "COMPLETED"
   | "ERROR"
   | (string & {});
-export const OrderStatus = /*@__PURE__*/ S.String;
+export const OrderStatus = S.String;
 
 export type LineItemId = string;
 export type LineItemStatus =
@@ -276,7 +276,7 @@ export type LineItemStatus =
   | "CANCELLED"
   | "REPLACED"
   | (string & {});
-export const LineItemStatus = /*@__PURE__*/ S.String;
+export const LineItemStatus = S.String;
 
 export type TrackingId = string;
 export type ShipmentCarrier =
@@ -286,7 +286,7 @@ export type ShipmentCarrier =
   | "UPS"
   | "EXPEDITORS"
   | (string & {});
-export const ShipmentCarrier = /*@__PURE__*/ S.String;
+export const ShipmentCarrier = S.String;
 
 export interface ShipmentInformation {
   ShipmentTrackingNumber?: string;
@@ -346,7 +346,7 @@ export type LineItemListDefinition = LineItem[];
 export const LineItemListDefinition = /*@__PURE__*/ S.Array(LineItem);
 export type ISO8601Timestamp = Date;
 export type OrderType = "OUTPOST" | "REPLACEMENT" | (string & {});
-export const OrderType = /*@__PURE__*/ S.String;
+export const OrderType = S.String;
 
 export interface Order {
   OutpostId?: string;
@@ -401,7 +401,7 @@ export const TagMap = /*@__PURE__*/ S.Record(
   S.String.pipe(S.optional),
 );
 export type SupportedHardwareType = "RACK" | "SERVER" | (string & {});
-export const SupportedHardwareType = /*@__PURE__*/ S.String;
+export const SupportedHardwareType = S.String;
 
 export interface CreateOutpostInput {
   Name: string;
@@ -477,9 +477,86 @@ export const CreateOutpostOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateOutpostOutput",
 }) as any as S.Schema<CreateOutpostOutput>;
+export type VpcId = string;
+export type SubnetId = string;
+export type SubnetIds = string[];
+export const SubnetIds = /*@__PURE__*/ S.Array(S.String);
+export type VpcEndpointId = string;
+export interface VpcInformation {
+  VpcId?: string;
+  SubnetIds?: string[];
+  VpcEndpointId?: string;
+}
+export const VpcInformation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    VpcId: S.optional(S.String),
+    SubnetIds: S.optional(SubnetIds),
+    VpcEndpointId: S.optional(S.String),
+  }),
+).annotate({ identifier: "VpcInformation" }) as any as S.Schema<VpcInformation>;
+export type VpcInformationList = VpcInformation[];
+export const VpcInformationList = /*@__PURE__*/ S.Array(VpcInformation);
+export interface CreatePrivateConnectivityConfigInput {
+  OutpostId: string;
+  VpcInformationList: VpcInformation[];
+}
+export const CreatePrivateConnectivityConfigInput = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      OutpostId: S.String.pipe(T.HttpLabel("OutpostId")),
+      VpcInformationList: VpcInformationList,
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/outposts/{OutpostId}/privateConnectivity",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "CreatePrivateConnectivityConfigInput",
+}) as any as S.Schema<CreatePrivateConnectivityConfigInput>;
+export type RoleArn = string;
+export type PrivateConnectivityStatus = "ENABLED" | "DISABLED" | (string & {});
+export const PrivateConnectivityStatus = S.String;
+
+export interface PrivateConnectivityConfig {
+  RoleArn?: string;
+  PrivateConnectivityStatus?: PrivateConnectivityStatus;
+  VpcInformationList?: VpcInformation[];
+  ProvisioningRoleArn?: string;
+}
+export const PrivateConnectivityConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RoleArn: S.optional(S.String),
+    PrivateConnectivityStatus: S.optional(PrivateConnectivityStatus),
+    VpcInformationList: S.optional(VpcInformationList),
+    ProvisioningRoleArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PrivateConnectivityConfig",
+}) as any as S.Schema<PrivateConnectivityConfig>;
+export interface CreatePrivateConnectivityConfigOutput {
+  PrivateConnectivityConfig?: PrivateConnectivityConfig;
+  OutpostId?: string;
+}
+export const CreatePrivateConnectivityConfigOutput = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      PrivateConnectivityConfig: S.optional(PrivateConnectivityConfig),
+      OutpostId: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "CreatePrivateConnectivityConfigOutput",
+}) as any as S.Schema<CreatePrivateConnectivityConfigOutput>;
 export type CountryCode = string;
 export type QuoteCapacityType = "EC2" | "EBS" | "S3" | (string & {});
-export const QuoteCapacityType = /*@__PURE__*/ S.String;
+export const QuoteCapacityType = S.String;
 
 export interface QuoteCapacity {
   QuoteCapacityType?: QuoteCapacityType;
@@ -500,7 +577,7 @@ export type QuoteConstraintType =
   | "RACK_MAX_POWER_KVA"
   | "RACK_MAX_WEIGHT_LBS"
   | (string & {});
-export const QuoteConstraintType = /*@__PURE__*/ S.String;
+export const QuoteConstraintType = S.String;
 
 export type ConstraintValue = string;
 export interface QuoteConstraint {
@@ -560,7 +637,7 @@ export type QuoteStatus =
   | "ORDER_SUBMITTED"
   | "EXPIRED"
   | (string & {});
-export const QuoteStatus = /*@__PURE__*/ S.String;
+export const QuoteStatus = S.String;
 
 export type StatusMessage = string;
 export interface CapacitySummary {
@@ -583,18 +660,18 @@ export type QuoteSpecificationType =
   | "EXISTING_RACK"
   | "SERVER"
   | (string & {});
-export const QuoteSpecificationType = /*@__PURE__*/ S.String;
+export const QuoteSpecificationType = S.String;
 
 export type RackId = string;
 export type QuoteRackUseType = "NETWORKING" | "COMPUTE" | (string & {});
-export const QuoteRackUseType = /*@__PURE__*/ S.String;
+export const QuoteRackUseType = S.String;
 
 export type RackUnitHeight =
   | "HEIGHT_42U"
   | "HEIGHT_2U"
   | "HEIGHT_1U"
   | (string & {});
-export const RackUnitHeight = /*@__PURE__*/ S.String;
+export const RackUnitHeight = S.String;
 
 export type Family = string;
 export type MaxSize = string;
@@ -680,10 +757,10 @@ export const QuoteSpecification = /*@__PURE__*/ S.suspend(() =>
 export type QuoteSpecificationList = QuoteSpecification[];
 export const QuoteSpecificationList = /*@__PURE__*/ S.Array(QuoteSpecification);
 export type QuotePricingType = "SUBSCRIPTION" | (string & {});
-export const QuotePricingType = /*@__PURE__*/ S.String;
+export const QuotePricingType = S.String;
 
 export type CurrencyCode = "USD" | (string & {});
-export const CurrencyCode = /*@__PURE__*/ S.String;
+export const CurrencyCode = S.String;
 
 export interface SubscriptionPricingDetails {
   PaymentOption?: PaymentOption;
@@ -752,14 +829,14 @@ export type OrderingRequirementType =
   | "OUTPOST_NOT_FOUND_ERROR"
   | "OUTPOST_RENEWAL_REQUIRED_ERROR"
   | (string & {});
-export const OrderingRequirementType = /*@__PURE__*/ S.String;
+export const OrderingRequirementType = S.String;
 
 export type OrderingRequirementStatus =
   | "PASS"
   | "FAIL"
   | "EXEMPT"
   | (string & {});
-export const OrderingRequirementStatus = /*@__PURE__*/ S.String;
+export const OrderingRequirementStatus = S.String;
 
 export interface OrderingRequirement {
   StatusMessage?: string;
@@ -918,10 +995,10 @@ export type PowerDrawKva =
   | "POWER_15_KVA"
   | "POWER_30_KVA"
   | (string & {});
-export const PowerDrawKva = /*@__PURE__*/ S.String;
+export const PowerDrawKva = S.String;
 
 export type PowerPhase = "SINGLE_PHASE" | "THREE_PHASE" | (string & {});
-export const PowerPhase = /*@__PURE__*/ S.String;
+export const PowerPhase = S.String;
 
 export type PowerConnector =
   | "L6_30P"
@@ -930,10 +1007,10 @@ export type PowerConnector =
   | "AH532P6W"
   | "CS8365C"
   | (string & {});
-export const PowerConnector = /*@__PURE__*/ S.String;
+export const PowerConnector = S.String;
 
 export type PowerFeedDrop = "ABOVE_RACK" | "BELOW_RACK" | (string & {});
-export const PowerFeedDrop = /*@__PURE__*/ S.String;
+export const PowerFeedDrop = S.String;
 
 export type UplinkGbps =
   | "UPLINK_1G"
@@ -941,7 +1018,7 @@ export type UplinkGbps =
   | "UPLINK_40G"
   | "UPLINK_100G"
   | (string & {});
-export const UplinkGbps = /*@__PURE__*/ S.String;
+export const UplinkGbps = S.String;
 
 export type UplinkCount =
   | "UPLINK_COUNT_1"
@@ -955,10 +1032,10 @@ export type UplinkCount =
   | "UPLINK_COUNT_12"
   | "UPLINK_COUNT_16"
   | (string & {});
-export const UplinkCount = /*@__PURE__*/ S.String;
+export const UplinkCount = S.String;
 
 export type FiberOpticCableType = "SINGLE_MODE" | "MULTI_MODE" | (string & {});
-export const FiberOpticCableType = /*@__PURE__*/ S.String;
+export const FiberOpticCableType = S.String;
 
 export type OpticalStandard =
   | "OPTIC_10GBASE_SR"
@@ -975,7 +1052,7 @@ export type OpticalStandard =
   | "OPTIC_1000BASE_LX"
   | "OPTIC_1000BASE_SX"
   | (string & {});
-export const OpticalStandard = /*@__PURE__*/ S.String;
+export const OpticalStandard = S.String;
 
 export type MaximumSupportedWeightLbs =
   | "NO_LIMIT"
@@ -984,7 +1061,7 @@ export type MaximumSupportedWeightLbs =
   | "MAX_1800_LBS"
   | "MAX_2000_LBS"
   | (string & {});
-export const MaximumSupportedWeightLbs = /*@__PURE__*/ S.String;
+export const MaximumSupportedWeightLbs = S.String;
 
 export interface RackPhysicalProperties {
   PowerDrawKva?: PowerDrawKva;
@@ -1196,12 +1273,13 @@ export const AccountIdList = /*@__PURE__*/ S.Array(S.String);
 export type AWSServiceName =
   | "AWS"
   | "EC2"
+  | "EKS"
   | "ELASTICACHE"
   | "ELB"
   | "RDS"
   | "ROUTE53"
   | (string & {});
-export const AWSServiceName = /*@__PURE__*/ S.String;
+export const AWSServiceName = S.String;
 
 export type AWSServiceNameList = AWSServiceName[];
 export const AWSServiceNameList = /*@__PURE__*/ S.Array(AWSServiceName);
@@ -1229,7 +1307,7 @@ export type CapacityTaskStatus =
   | "CANCELLATION_IN_PROGRESS"
   | "CANCELLED"
   | (string & {});
-export const CapacityTaskStatus = /*@__PURE__*/ S.String;
+export const CapacityTaskStatus = S.String;
 
 export type CapacityTaskStatusReason = string;
 export type CapacityTaskFailureType =
@@ -1239,7 +1317,7 @@ export type CapacityTaskFailureType =
   | "INTERNAL_SERVER_ERROR"
   | "RESOURCE_NOT_FOUND"
   | (string & {});
-export const CapacityTaskFailureType = /*@__PURE__*/ S.String;
+export const CapacityTaskFailureType = S.String;
 
 export interface CapacityTaskFailure {
   Reason: string;
@@ -1254,7 +1332,7 @@ export type TaskActionOnBlockingInstances =
   | "WAIT_FOR_EVACUATION"
   | "FAIL_TASK"
   | (string & {});
-export const TaskActionOnBlockingInstances = /*@__PURE__*/ S.String;
+export const TaskActionOnBlockingInstances = S.String;
 
 export interface GetCapacityTaskOutput {
   CapacityTaskId?: string;
@@ -1310,7 +1388,7 @@ export const GetCatalogItemInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCatalogItemInput",
 }) as any as S.Schema<GetCatalogItemInput>;
 export type CatalogItemStatus = "AVAILABLE" | "DISCONTINUED" | (string & {});
-export const CatalogItemStatus = /*@__PURE__*/ S.String;
+export const CatalogItemStatus = S.String;
 
 export type CatalogItemPowerKva = number;
 export type CatalogItemWeightLbs = number;
@@ -1320,7 +1398,7 @@ export const SupportedUplinkGbpsListDefinition = /*@__PURE__*/ S.Array(
   S.Number,
 );
 export type SupportedStorageEnum = "EBS" | "S3" | (string & {});
-export const SupportedStorageEnum = /*@__PURE__*/ S.String;
+export const SupportedStorageEnum = S.String;
 
 export type SupportedStorageList = SupportedStorageEnum[];
 export const SupportedStorageList = /*@__PURE__*/ S.Array(SupportedStorageEnum);
@@ -1486,7 +1564,7 @@ export type SubscriptionType =
   | "RENEWAL"
   | "CAPACITY_INCREASE"
   | (string & {});
-export const SubscriptionType = /*@__PURE__*/ S.String;
+export const SubscriptionType = S.String;
 
 export type SubscriptionStatus =
   | "ACTIVE"
@@ -1494,7 +1572,7 @@ export type SubscriptionStatus =
   | "INACTIVE"
   | "CANCELLED"
   | (string & {});
-export const SubscriptionStatus = /*@__PURE__*/ S.String;
+export const SubscriptionStatus = S.String;
 
 export type OrderIdList = string[];
 export const OrderIdList = /*@__PURE__*/ S.Array(S.String);
@@ -1640,6 +1718,36 @@ export const GetOutpostSupportedInstanceTypesOutput = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "GetOutpostSupportedInstanceTypesOutput",
 }) as any as S.Schema<GetOutpostSupportedInstanceTypesOutput>;
+export interface GetPrivateConnectivityConfigInput {
+  OutpostId: string;
+}
+export const GetPrivateConnectivityConfigInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ OutpostId: S.String.pipe(T.HttpLabel("OutpostId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/outposts/{OutpostId}/privateConnectivity",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPrivateConnectivityConfigInput",
+}) as any as S.Schema<GetPrivateConnectivityConfigInput>;
+export interface GetPrivateConnectivityConfigOutput {
+  PrivateConnectivityConfig?: PrivateConnectivityConfig;
+}
+export const GetPrivateConnectivityConfigOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PrivateConnectivityConfig: S.optional(PrivateConnectivityConfig),
+  }),
+).annotate({
+  identifier: "GetPrivateConnectivityConfigOutput",
+}) as any as S.Schema<GetPrivateConnectivityConfigOutput>;
 export interface GetQuoteInput {
   QuoteIdentifier: string;
 }
@@ -1686,7 +1794,7 @@ export const GetRenewalPricingInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetRenewalPricingInput",
 }) as any as S.Schema<GetRenewalPricingInput>;
 export type PricingResult = "PRICED" | "UNABLE_TO_PRICE" | (string & {});
-export const PricingResult = /*@__PURE__*/ S.String;
+export const PricingResult = S.String;
 
 export interface GetRenewalPricingOutput {
   PricingResult?: PricingResult;
@@ -1725,7 +1833,7 @@ export type AddressType =
   | "SHIPPING_ADDRESS"
   | "OPERATING_ADDRESS"
   | (string & {});
-export const AddressType = /*@__PURE__*/ S.String;
+export const AddressType = S.String;
 
 export interface GetSiteAddressInput {
   SiteId: string;
@@ -1846,7 +1954,7 @@ export type AssetState =
   | "ISOLATED"
   | "INSTALLING"
   | (string & {});
-export const AssetState = /*@__PURE__*/ S.String;
+export const AssetState = S.String;
 
 export type StatusList = AssetState[];
 export const StatusList = /*@__PURE__*/ S.Array(AssetState);
@@ -1857,7 +1965,7 @@ export type AssetType =
   | "SWITCH"
   | "NETWORKING"
   | (string & {});
-export const AssetType = /*@__PURE__*/ S.String;
+export const AssetType = S.String;
 
 export type AssetTypeList = AssetType[];
 export const AssetTypeList = /*@__PURE__*/ S.Array(AssetType);
@@ -1898,7 +2006,7 @@ export type ComputeAssetState =
   | "RETIRING"
   | "INSTALLING"
   | (string & {});
-export const ComputeAssetState = /*@__PURE__*/ S.String;
+export const ComputeAssetState = S.String;
 
 export type InstanceFamilyName = string;
 export type InstanceFamilies = string[];
@@ -2101,7 +2209,7 @@ export const ListCapacityTasksOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListCapacityTasksOutput",
 }) as any as S.Schema<ListCapacityTasksOutput>;
 export type CatalogItemClass = "RACK" | "SERVER" | (string & {});
-export const CatalogItemClass = /*@__PURE__*/ S.String;
+export const CatalogItemClass = S.String;
 
 export type CatalogItemClassList = CatalogItemClass[];
 export const CatalogItemClassList = /*@__PURE__*/ S.Array(CatalogItemClass);
@@ -2155,7 +2263,7 @@ export const ListCatalogItemsOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListCatalogItemsOutput",
 }) as any as S.Schema<ListCatalogItemsOutput>;
 export type OutpostGeneration = "GENERATION_2" | "GENERATION_1" | (string & {});
-export const OutpostGeneration = /*@__PURE__*/ S.String;
+export const OutpostGeneration = S.String;
 
 export interface ListOrderableInstanceTypesInput {
   OutpostGenerationFilter?: OutpostGeneration;
@@ -2185,7 +2293,7 @@ export const ListOrderableInstanceTypesInput = /*@__PURE__*/ S.suspend(() =>
 export type MemoryInMib = number;
 export type NetworkPerformance = string;
 export type FormFactor = "RACK" | "SERVER" | (string & {});
-export const FormFactor = /*@__PURE__*/ S.String;
+export const FormFactor = S.String;
 
 export interface FormFactorConfig {
   FormFactor?: FormFactor;
@@ -2641,7 +2749,7 @@ export type DecommissionRequestStatus =
   | "BLOCKED"
   | "REQUESTED"
   | (string & {});
-export const DecommissionRequestStatus = /*@__PURE__*/ S.String;
+export const DecommissionRequestStatus = S.String;
 
 export type BlockingResourceType =
   | "EC2_INSTANCE"
@@ -2652,7 +2760,7 @@ export type BlockingResourceType =
   | "OUTPOST_ORDER_CANCELLABLE"
   | "OUTPOST_ORDER_INTERVENTION_REQUIRED"
   | (string & {});
-export const BlockingResourceType = /*@__PURE__*/ S.String;
+export const BlockingResourceType = S.String;
 
 export type BlockingResourceTypeList = BlockingResourceType[];
 export const BlockingResourceTypeList =
@@ -2919,7 +3027,7 @@ export const UpdateSiteRackPhysicalPropertiesOutput = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<UpdateSiteRackPhysicalPropertiesOutput>;
 export type ErrorMessage = string;
 export type ResourceType = "OUTPOST" | "ORDER" | (string & {});
-export const ResourceType = /*@__PURE__*/ S.String;
+export const ResourceType = S.String;
 
 export type CancelCapacityTaskError =
   | AccessDeniedException
@@ -3045,6 +3153,39 @@ export const createOutpost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutpost",
+}));
+
+export type CreatePrivateConnectivityConfigError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates the private connectivity configuration for the specified Outpost. Private
+ * connectivity establishes a service link VPN connection between the Outpost and its home
+ * Amazon Web Services Region using a VPC and subnet that you specify, which allows the service link traffic
+ * to flow through your VPC and minimizes public internet exposure.
+ */
+export const createPrivateConnectivityConfig: API.OperationMethod<
+  CreatePrivateConnectivityConfigInput,
+  CreatePrivateConnectivityConfigOutput,
+  CreatePrivateConnectivityConfigError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePrivateConnectivityConfigInput,
+  output: CreatePrivateConnectivityConfigOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreatePrivateConnectivityConfig",
 }));
 
 export type CreateQuoteError =
@@ -3464,6 +3605,34 @@ export const getOutpostSupportedInstanceTypes: API.PaginatedOperationMethod<
     pageSize: "MaxResults",
   } as const,
 })) as any;
+
+export type GetPrivateConnectivityConfigError =
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Gets the private connectivity configuration for the specified Outpost.
+ */
+export const getPrivateConnectivityConfig: API.OperationMethod<
+  GetPrivateConnectivityConfigInput,
+  GetPrivateConnectivityConfigOutput,
+  GetPrivateConnectivityConfigError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPrivateConnectivityConfigInput,
+  output: GetPrivateConnectivityConfigOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    NotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetPrivateConnectivityConfig",
+}));
 
 export type GetQuoteError =
   | AccessDeniedException

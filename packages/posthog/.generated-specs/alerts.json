@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.alerts#AlertsListRequest": {
+    "com.posthog.alerts#ListAlertsRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -35,11 +36,25 @@
             "smithy.api#documentation": "Optional. Restrict results to alerts created by the user with this UUID."
           }
         },
+        "has_detector": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "has_detector",
+            "smithy.api#documentation": "Optional. Restrict results by whether the alert uses anomaly detection."
+          }
+        },
         "insight_id": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "insight_id",
             "smithy.api#documentation": "Optional. Restrict results to alerts on this insight ID."
+          }
+        },
+        "insight_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "insight_tag",
+            "smithy.api#documentation": "Optional. Restrict results to alerts whose insight has this tag."
           }
         },
         "limit": {
@@ -113,6 +128,18 @@
             "smithy.api#documentation": "Insight ID monitored by this alert. Note: Response returns full InsightBasicSerializer object."
           }
         },
+        "insight_short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short ID of the insight monitored by this alert."
+          }
+        },
+        "insight_display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the insight monitored by this alert."
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -184,7 +211,7 @@
         "config": {
           "target": "com.posthog.alerts#AlertConfigUnion",
           "traits": {
-            "smithy.api#documentation": "Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step) and metric ('conversion_from_start' or 'conversion_from_previous'); funnel alerts only support absolute_value conditions.",
+            "smithy.api#documentation": "Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step), metric ('conversion_from_start' or 'conversion_from_previous'), and check_ongoing_interval (historical-trend funnels: also evaluate the current in-progress period). Steps funnels support only absolute_value conditions; historical-trend funnels also support relative_increase/relative_decrease (compared against the prior period).",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -197,7 +224,7 @@
         "calculation_interval": {
           "target": "com.posthog.alerts#CalculationIntervalEnum",
           "traits": {
-            "smithy.api#documentation": "How often the alert is checked: every 15 minutes (Boost+), hourly, daily, weekly, or monthly.\n\n* `every_15_minutes` - every_15_minutes\n* `hourly` - hourly\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly"
+            "smithy.api#documentation": "How often the alert is checked: real time (Scale+), every 15 minutes (Boost+), hourly, daily, weekly, or monthly.\n\n* `real_time` - real_time\n* `every_15_minutes` - every_15_minutes\n* `hourly` - hourly\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly"
           }
         },
         "snoozed_until": {
@@ -231,25 +258,25 @@
         "investigation_agent_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When enabled, an investigation agent runs on the state transition to firing and writes findings to a Notebook linked from the alert check. Only effective for detector-based (anomaly) alerts."
+            "smithy.api#documentation": "When enabled, an investigation agent runs on each check where the alert fires, up to three times per firing episode, and writes findings to a Notebook linked from the alert check. An episode is the run of consecutive firing checks since the last check that did not fire. A later investigation of the same episode that reaches a different verdict sends one follow-up notification, unless investigation_inconclusive_action suppresses it. Only effective for detector-based (anomaly) alerts."
           }
         },
         "investigation_gates_notifications": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When enabled (and investigation_agent_enabled is on), notification dispatch is held until the investigation agent produces a verdict. Notifications are suppressed when the verdict is false_positive (and optionally when inconclusive). A safety-net task force-fires after a few minutes if the investigation stalls."
+            "smithy.api#documentation": "When enabled (and investigation_agent_enabled is on), the first fire of an episode is held until the investigation agent produces a verdict, and that notification is suppressed when the verdict is false_positive (and optionally when inconclusive). Later fires of the same episode notify without waiting. A safety-net task force-fires after a few minutes if the investigation stalls."
           }
         },
         "investigation_inconclusive_action": {
           "target": "com.posthog.alerts#InvestigationInconclusiveActionEnum",
           "traits": {
-            "smithy.api#documentation": "How to handle an 'inconclusive' verdict when notifications are gated. 'notify' is the safe default — an agent that can't be sure is itself useful signal.\n\n* `notify` - Notify\n* `suppress` - Suppress"
+            "smithy.api#documentation": "How to handle an 'inconclusive' verdict: whether gated notifications fire and whether the investigation surfaces in the Signals inbox. 'notify' is the safe default — an agent that can't be sure is itself useful signal. False positives never reach the inbox regardless of this setting.\n\n* `notify` - Notify\n* `suppress` - Suppress"
           }
         },
         "search_match_type": {
           "target": "com.posthog.alerts#SearchMatchTypeEnum",
           "traits": {
-            "smithy.api#documentation": "How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match only). Results are ordered exact-first. Null when the list is not filtered by `search`.",
+            "smithy.api#documentation": "How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -356,6 +383,12 @@
             "smithy.api#enumValue": "sales"
           }
         },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
         "OTHER": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -364,7 +397,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `other` - Other"
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
       }
     },
     "com.posthog.alerts#BlankEnum": {
@@ -531,6 +564,12 @@
         "state": {
           "target": "com.posthog.alerts#AlertCheckStateEnum"
         },
+        "error": {
+          "target": "com.posthog.alerts#AlertCheckErrorMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "targets_notified": {
           "target": "smithy.api#Boolean"
         },
@@ -585,6 +624,13 @@
         },
         "notification_suppressed_by_agent": {
           "target": "smithy.api#Boolean"
+        },
+        "deliveries": {
+          "target": "com.posthog.alerts#AlertCheckDeliveriesList",
+          "traits": {
+            "smithy.api#documentation": "Destinations that accepted this check's notification, one record per destination (channel, target, status, at). Null when no delivery receipt was recorded, which covers checks that notified nobody and checks predating delivery receipts.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -620,6 +666,16 @@
       "traits": {
         "smithy.api#documentation": "* `Firing` - Firing\n* `Not firing` - Not firing\n* `Errored` - Errored\n* `Snoozed` - Snoozed"
       }
+    },
+    "com.posthog.alerts#AlertCheckErrorMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
     },
     "com.posthog.alerts#InvestigationStatusEnum": {
       "type": "enum",
@@ -685,6 +741,71 @@
         "smithy.api#documentation": "* `true_positive` - true_positive\n* `false_positive` - false_positive\n* `inconclusive` - inconclusive"
       }
     },
+    "com.posthog.alerts#AlertDelivery": {
+      "type": "structure",
+      "members": {
+        "channel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Delivery channel: 'email' or 'hog_function' (destinations).",
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address, or destination name, that received the notification.",
+            "smithy.api#required": {}
+          }
+        },
+        "target_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hog function ID, for destination deliveries. Null for email.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "template": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination template: 'slack', 'discord', 'webhook', or 'teams'. Null for email.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Delivery status. Always 'accepted', for a confirmed send.",
+            "smithy.api#required": {}
+          }
+        },
+        "at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the delivery was recorded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "display_label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ready-to-display description of the delivery, e.g. 'Email: a@example.com' or 'Slack #eng-alerts'.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.alerts#AlertCheckDeliveriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.alerts#AlertDelivery"
+      },
+      "traits": {
+        "smithy.api#documentation": "Destinations that accepted this check's notification, one record per destination (channel, target, status, at). Null when no delivery receipt was recorded, which covers checks that notified nobody and checks predating delivery receipts."
+      }
+    },
     "com.posthog.alerts#AlertChecksList": {
       "type": "list",
       "member": {
@@ -705,6 +826,9 @@
         },
         "FunnelsAlertConfig": {
           "target": "com.posthog.alerts#FunnelsAlertConfig"
+        },
+        "MetricsAlertConfig": {
+          "target": "com.posthog.alerts#MetricsAlertConfig"
         }
       },
       "traits": {
@@ -790,6 +914,13 @@
     "com.posthog.alerts#FunnelsAlertConfig": {
       "type": "structure",
       "members": {
+        "check_ongoing_interval": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, evaluate the current (still in-progress) period; by default only completed periods are used.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "funnel_step": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -823,6 +954,22 @@
           "traits": {
             "smithy.api#enumValue": "conversion_from_previous"
           }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.alerts#MetricsAlertConfig": {
+      "type": "structure",
+      "members": {
+        "check_ongoing_interval": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, anchor on the trailing (possibly still accumulating) bucket instead of the last complete one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -1427,6 +1574,12 @@
     "com.posthog.alerts#CalculationIntervalEnum": {
       "type": "enum",
       "members": {
+        "REAL_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "real_time"
+          }
+        },
         "EVERY_15_MINUTES": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1459,7 +1612,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `every_15_minutes` - every_15_minutes\n* `hourly` - hourly\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly"
+        "smithy.api#documentation": "* `real_time` - real_time\n* `every_15_minutes` - every_15_minutes\n* `hourly` - hourly\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly"
       }
     },
     "com.posthog.alerts#AlertScheduleRestriction": {
@@ -1546,10 +1699,10 @@
       },
       "traits": {}
     },
-    "com.posthog.alerts#AlertsList": {
+    "com.posthog.alerts#ListAlerts": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.alerts#AlertsListRequest"
+        "target": "com.posthog.alerts#ListAlertsRequest"
       },
       "output": {
         "target": "com.posthog.alerts#PaginatedAlertList"
@@ -1573,7 +1726,7 @@
         }
       }
     },
-    "com.posthog.alerts#AlertsCreateRequestSubscribedUsersList": {
+    "com.posthog.alerts#CreateAlertRequestSubscribedUsersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
@@ -1600,7 +1753,7 @@
       },
       "traits": {}
     },
-    "com.posthog.alerts#AlertsCreateRequest": {
+    "com.posthog.alerts#CreateAlertRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1624,7 +1777,7 @@
           }
         },
         "subscribed_users": {
-          "target": "com.posthog.alerts#AlertsCreateRequestSubscribedUsersList",
+          "target": "com.posthog.alerts#CreateAlertRequestSubscribedUsersList",
           "traits": {
             "smithy.api#documentation": "User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object."
           }
@@ -1651,7 +1804,7 @@
         "config": {
           "target": "com.posthog.alerts#AlertConfigUnion",
           "traits": {
-            "smithy.api#documentation": "Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step) and metric ('conversion_from_start' or 'conversion_from_previous'); funnel alerts only support absolute_value conditions.",
+            "smithy.api#documentation": "Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step), metric ('conversion_from_start' or 'conversion_from_previous'), and check_ongoing_interval (historical-trend funnels: also evaluate the current in-progress period). Steps funnels support only absolute_value conditions; historical-trend funnels also support relative_increase/relative_decrease (compared against the prior period).",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1664,7 +1817,7 @@
         "calculation_interval": {
           "target": "com.posthog.alerts#CalculationIntervalEnum",
           "traits": {
-            "smithy.api#documentation": "How often the alert is checked: every 15 minutes (Boost+), hourly, daily, weekly, or monthly.\n\n* `every_15_minutes` - every_15_minutes\n* `hourly` - hourly\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly"
+            "smithy.api#documentation": "How often the alert is checked: real time (Scale+), every 15 minutes (Boost+), hourly, daily, weekly, or monthly.\n\n* `real_time` - real_time\n* `every_15_minutes` - every_15_minutes\n* `hourly` - hourly\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly"
           }
         },
         "snoozed_until": {
@@ -1691,19 +1844,19 @@
         "investigation_agent_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When enabled, an investigation agent runs on the state transition to firing and writes findings to a Notebook linked from the alert check. Only effective for detector-based (anomaly) alerts."
+            "smithy.api#documentation": "When enabled, an investigation agent runs on each check where the alert fires, up to three times per firing episode, and writes findings to a Notebook linked from the alert check. An episode is the run of consecutive firing checks since the last check that did not fire. A later investigation of the same episode that reaches a different verdict sends one follow-up notification, unless investigation_inconclusive_action suppresses it. Only effective for detector-based (anomaly) alerts."
           }
         },
         "investigation_gates_notifications": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When enabled (and investigation_agent_enabled is on), notification dispatch is held until the investigation agent produces a verdict. Notifications are suppressed when the verdict is false_positive (and optionally when inconclusive). A safety-net task force-fires after a few minutes if the investigation stalls."
+            "smithy.api#documentation": "When enabled (and investigation_agent_enabled is on), the first fire of an episode is held until the investigation agent produces a verdict, and that notification is suppressed when the verdict is false_positive (and optionally when inconclusive). Later fires of the same episode notify without waiting. A safety-net task force-fires after a few minutes if the investigation stalls."
           }
         },
         "investigation_inconclusive_action": {
           "target": "com.posthog.alerts#InvestigationInconclusiveActionEnum",
           "traits": {
-            "smithy.api#documentation": "How to handle an 'inconclusive' verdict when notifications are gated. 'notify' is the safe default — an agent that can't be sure is itself useful signal.\n\n* `notify` - Notify\n* `suppress` - Suppress"
+            "smithy.api#documentation": "How to handle an 'inconclusive' verdict: whether gated notifications fire and whether the investigation surfaces in the Signals inbox. 'notify' is the safe default — an agent that can't be sure is itself useful signal. False positives never reach the inbox regardless of this setting.\n\n* `notify` - Notify\n* `suppress` - Suppress"
           }
         }
       },
@@ -1711,10 +1864,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.alerts#AlertsCreate": {
+    "com.posthog.alerts#CreateAlert": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.alerts#AlertsCreateRequest"
+        "target": "com.posthog.alerts#CreateAlertRequest"
       },
       "output": {
         "target": "com.posthog.alerts#Alert"
@@ -1738,7 +1891,7 @@
         }
       }
     },
-    "com.posthog.alerts#AlertsRetrieveRequest": {
+    "com.posthog.alerts#GetAlertRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1790,10 +1943,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.alerts#AlertsRetrieve": {
+    "com.posthog.alerts#GetAlert": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.alerts#AlertsRetrieveRequest"
+        "target": "com.posthog.alerts#GetAlertRequest"
       },
       "output": {
         "target": "com.posthog.alerts#Alert"
@@ -1817,7 +1970,7 @@
         }
       }
     },
-    "com.posthog.alerts#AlertsUpdateRequestSubscribedUsersList": {
+    "com.posthog.alerts#UpdateAlertRequestSubscribedUsersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
@@ -1826,7 +1979,7 @@
         "smithy.api#documentation": "User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object."
       }
     },
-    "com.posthog.alerts#AlertsUpdateRequest": {
+    "com.posthog.alerts#UpdateAlertRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1858,7 +2011,7 @@
           }
         },
         "subscribed_users": {
-          "target": "com.posthog.alerts#AlertsUpdateRequestSubscribedUsersList",
+          "target": "com.posthog.alerts#UpdateAlertRequestSubscribedUsersList",
           "traits": {
             "smithy.api#documentation": "User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object."
           }
@@ -1885,7 +2038,7 @@
         "config": {
           "target": "com.posthog.alerts#AlertConfigUnion",
           "traits": {
-            "smithy.api#documentation": "Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step) and metric ('conversion_from_start' or 'conversion_from_previous'); funnel alerts only support absolute_value conditions.",
+            "smithy.api#documentation": "Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step), metric ('conversion_from_start' or 'conversion_from_previous'), and check_ongoing_interval (historical-trend funnels: also evaluate the current in-progress period). Steps funnels support only absolute_value conditions; historical-trend funnels also support relative_increase/relative_decrease (compared against the prior period).",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1898,7 +2051,7 @@
         "calculation_interval": {
           "target": "com.posthog.alerts#CalculationIntervalEnum",
           "traits": {
-            "smithy.api#documentation": "How often the alert is checked: every 15 minutes (Boost+), hourly, daily, weekly, or monthly.\n\n* `every_15_minutes` - every_15_minutes\n* `hourly` - hourly\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly"
+            "smithy.api#documentation": "How often the alert is checked: real time (Scale+), every 15 minutes (Boost+), hourly, daily, weekly, or monthly.\n\n* `real_time` - real_time\n* `every_15_minutes` - every_15_minutes\n* `hourly` - hourly\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly"
           }
         },
         "snoozed_until": {
@@ -1925,19 +2078,19 @@
         "investigation_agent_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When enabled, an investigation agent runs on the state transition to firing and writes findings to a Notebook linked from the alert check. Only effective for detector-based (anomaly) alerts."
+            "smithy.api#documentation": "When enabled, an investigation agent runs on each check where the alert fires, up to three times per firing episode, and writes findings to a Notebook linked from the alert check. An episode is the run of consecutive firing checks since the last check that did not fire. A later investigation of the same episode that reaches a different verdict sends one follow-up notification, unless investigation_inconclusive_action suppresses it. Only effective for detector-based (anomaly) alerts."
           }
         },
         "investigation_gates_notifications": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When enabled (and investigation_agent_enabled is on), notification dispatch is held until the investigation agent produces a verdict. Notifications are suppressed when the verdict is false_positive (and optionally when inconclusive). A safety-net task force-fires after a few minutes if the investigation stalls."
+            "smithy.api#documentation": "When enabled (and investigation_agent_enabled is on), the first fire of an episode is held until the investigation agent produces a verdict, and that notification is suppressed when the verdict is false_positive (and optionally when inconclusive). Later fires of the same episode notify without waiting. A safety-net task force-fires after a few minutes if the investigation stalls."
           }
         },
         "investigation_inconclusive_action": {
           "target": "com.posthog.alerts#InvestigationInconclusiveActionEnum",
           "traits": {
-            "smithy.api#documentation": "How to handle an 'inconclusive' verdict when notifications are gated. 'notify' is the safe default — an agent that can't be sure is itself useful signal.\n\n* `notify` - Notify\n* `suppress` - Suppress"
+            "smithy.api#documentation": "How to handle an 'inconclusive' verdict: whether gated notifications fire and whether the investigation surfaces in the Signals inbox. 'notify' is the safe default — an agent that can't be sure is itself useful signal. False positives never reach the inbox regardless of this setting.\n\n* `notify` - Notify\n* `suppress` - Suppress"
           }
         }
       },
@@ -1945,10 +2098,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.alerts#AlertsUpdate": {
+    "com.posthog.alerts#UpdateAlert": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.alerts#AlertsUpdateRequest"
+        "target": "com.posthog.alerts#UpdateAlertRequest"
       },
       "output": {
         "target": "com.posthog.alerts#Alert"
@@ -1972,7 +2125,7 @@
         }
       }
     },
-    "com.posthog.alerts#AlertsPartialUpdateRequestSubscribedUsersList": {
+    "com.posthog.alerts#UpdateAlertsPartialRequestSubscribedUsersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
@@ -1981,7 +2134,7 @@
         "smithy.api#documentation": "User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object."
       }
     },
-    "com.posthog.alerts#AlertsPartialUpdateRequest": {
+    "com.posthog.alerts#UpdateAlertsPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -2013,7 +2166,7 @@
           }
         },
         "subscribed_users": {
-          "target": "com.posthog.alerts#AlertsPartialUpdateRequestSubscribedUsersList",
+          "target": "com.posthog.alerts#UpdateAlertsPartialRequestSubscribedUsersList",
           "traits": {
             "smithy.api#documentation": "User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object."
           }
@@ -2040,7 +2193,7 @@
         "config": {
           "target": "com.posthog.alerts#AlertConfigUnion",
           "traits": {
-            "smithy.api#documentation": "Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step) and metric ('conversion_from_start' or 'conversion_from_previous'); funnel alerts only support absolute_value conditions.",
+            "smithy.api#documentation": "Per-insight-kind alert configuration, discriminated by `type`. TrendsAlertConfig: series_index (which series to monitor) and check_ongoing_interval (whether to check the current incomplete interval). HogQLAlertConfig (SQL insights): column (which result column to evaluate, defaults to the single numeric column), evaluation ('last_row' checks the latest value of an oldest->newest query, 'first_row' checks the first value of a newest->oldest query, 'any_row' fires if any row breaches), and label_column (names the evaluated row(s) in breach messages, in every evaluation mode). FunnelsAlertConfig (funnel insights): funnel_step (the step to monitor, null for the overall last step), metric ('conversion_from_start' or 'conversion_from_previous'), and check_ongoing_interval (historical-trend funnels: also evaluate the current in-progress period). Steps funnels support only absolute_value conditions; historical-trend funnels also support relative_increase/relative_decrease (compared against the prior period).",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2053,7 +2206,7 @@
         "calculation_interval": {
           "target": "com.posthog.alerts#CalculationIntervalEnum",
           "traits": {
-            "smithy.api#documentation": "How often the alert is checked: every 15 minutes (Boost+), hourly, daily, weekly, or monthly.\n\n* `every_15_minutes` - every_15_minutes\n* `hourly` - hourly\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly"
+            "smithy.api#documentation": "How often the alert is checked: real time (Scale+), every 15 minutes (Boost+), hourly, daily, weekly, or monthly.\n\n* `real_time` - real_time\n* `every_15_minutes` - every_15_minutes\n* `hourly` - hourly\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly"
           }
         },
         "snoozed_until": {
@@ -2080,19 +2233,19 @@
         "investigation_agent_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When enabled, an investigation agent runs on the state transition to firing and writes findings to a Notebook linked from the alert check. Only effective for detector-based (anomaly) alerts."
+            "smithy.api#documentation": "When enabled, an investigation agent runs on each check where the alert fires, up to three times per firing episode, and writes findings to a Notebook linked from the alert check. An episode is the run of consecutive firing checks since the last check that did not fire. A later investigation of the same episode that reaches a different verdict sends one follow-up notification, unless investigation_inconclusive_action suppresses it. Only effective for detector-based (anomaly) alerts."
           }
         },
         "investigation_gates_notifications": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When enabled (and investigation_agent_enabled is on), notification dispatch is held until the investigation agent produces a verdict. Notifications are suppressed when the verdict is false_positive (and optionally when inconclusive). A safety-net task force-fires after a few minutes if the investigation stalls."
+            "smithy.api#documentation": "When enabled (and investigation_agent_enabled is on), the first fire of an episode is held until the investigation agent produces a verdict, and that notification is suppressed when the verdict is false_positive (and optionally when inconclusive). Later fires of the same episode notify without waiting. A safety-net task force-fires after a few minutes if the investigation stalls."
           }
         },
         "investigation_inconclusive_action": {
           "target": "com.posthog.alerts#InvestigationInconclusiveActionEnum",
           "traits": {
-            "smithy.api#documentation": "How to handle an 'inconclusive' verdict when notifications are gated. 'notify' is the safe default — an agent that can't be sure is itself useful signal.\n\n* `notify` - Notify\n* `suppress` - Suppress"
+            "smithy.api#documentation": "How to handle an 'inconclusive' verdict: whether gated notifications fire and whether the investigation surfaces in the Signals inbox. 'notify' is the safe default — an agent that can't be sure is itself useful signal. False positives never reach the inbox regardless of this setting.\n\n* `notify` - Notify\n* `suppress` - Suppress"
           }
         }
       },
@@ -2100,10 +2253,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.alerts#AlertsPartialUpdate": {
+    "com.posthog.alerts#UpdateAlertsPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.alerts#AlertsPartialUpdateRequest"
+        "target": "com.posthog.alerts#UpdateAlertsPartialRequest"
       },
       "output": {
         "target": "com.posthog.alerts#Alert"
@@ -2175,7 +2328,62 @@
         }
       }
     },
-    "com.posthog.alerts#AlertsSimulateCreateRequest": {
+    "com.posthog.alerts#CreateAlertsTestDeliveryRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this alert configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.alerts#CreateAlertsTestDelivery": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.alerts#CreateAlertsTestDeliveryRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/alerts/{id}/test-delivery/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Send a synthetic test notification to subscribed users and every active destination on this alert."
+      }
+    },
+    "com.posthog.alerts#CreateAlertsSimulateRequestInsight": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Numeric insight ID or saved insight short ID to simulate the detector on."
+      }
+    },
+    "com.posthog.alerts#CreateAlertsSimulateRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -2187,15 +2395,15 @@
           }
         },
         "insight": {
-          "target": "smithy.api#Integer",
+          "target": "com.posthog.alerts#CreateAlertsSimulateRequestInsight",
           "traits": {
-            "smithy.api#documentation": "Insight ID to simulate the detector on."
+            "smithy.api#documentation": "Numeric insight ID or saved insight short ID to simulate the detector on."
           }
         },
         "detector_config": {
           "target": "com.posthog.alerts#DetectorConfig",
           "traits": {
-            "smithy.api#documentation": "Detector configuration to simulate."
+            "smithy.api#documentation": "Detector configuration to simulate. Omit it to use the default daily z-score detector (threshold 0.95, window 90, first-difference preprocessing)."
           }
         },
         "series_index": {
@@ -2311,7 +2519,10 @@
     "com.posthog.alerts#AlertSimulateResponseScoresList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Anomaly score for each point (null if insufficient data)."
@@ -2435,7 +2646,10 @@
     "com.posthog.alerts#BreakdownSimulationResultScoresList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Anomaly score for each point."
@@ -2487,10 +2701,10 @@
         "smithy.api#documentation": "Per-breakdown-value simulation results. Present only when the insight has breakdowns (up to 25 values)."
       }
     },
-    "com.posthog.alerts#AlertsSimulateCreate": {
+    "com.posthog.alerts#CreateAlertsSimulate": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.alerts#AlertsSimulateCreateRequest"
+        "target": "com.posthog.alerts#CreateAlertsSimulateRequest"
       },
       "output": {
         "target": "com.posthog.alerts#AlertSimulateResponse"
@@ -2559,25 +2773,28 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.alerts#AlertsList"
+          "target": "com.posthog.alerts#ListAlerts"
         },
         {
-          "target": "com.posthog.alerts#AlertsCreate"
+          "target": "com.posthog.alerts#CreateAlert"
         },
         {
-          "target": "com.posthog.alerts#AlertsRetrieve"
+          "target": "com.posthog.alerts#GetAlert"
         },
         {
-          "target": "com.posthog.alerts#AlertsUpdate"
+          "target": "com.posthog.alerts#UpdateAlert"
         },
         {
-          "target": "com.posthog.alerts#AlertsPartialUpdate"
+          "target": "com.posthog.alerts#UpdateAlertsPartial"
         },
         {
           "target": "com.posthog.alerts#AlertsDestroy"
         },
         {
-          "target": "com.posthog.alerts#AlertsSimulateCreate"
+          "target": "com.posthog.alerts#CreateAlertsTestDelivery"
+        },
+        {
+          "target": "com.posthog.alerts#CreateAlertsSimulate"
         }
       ],
       "traits": {

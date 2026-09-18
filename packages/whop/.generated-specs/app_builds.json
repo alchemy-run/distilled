@@ -1,0 +1,816 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.app_builds#ListAppBuildsRequestPlatform": {
+      "type": "enum",
+      "members": {
+        "IOS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ios"
+          }
+        },
+        "ANDROID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "android"
+          }
+        },
+        "WEB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "web"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.app_builds#ListAppBuildsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.app_builds#ListAppBuildsRequest": {
+      "type": "structure",
+      "members": {
+        "app_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "app_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The app to list builds for, prefixed `app_`."
+          }
+        },
+        "platform": {
+          "target": "com.whop.app_builds#ListAppBuildsRequestPlatform",
+          "traits": {
+            "smithy.api#httpQuery": "platform",
+            "smithy.api#documentation": "Filter builds by target platform."
+          }
+        },
+        "status": {
+          "target": "com.whop.app_builds#ListAppBuildsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter builds by review status."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only return builds created before this ISO 8601 timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return builds created after this ISO 8601 timestamp."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of builds to return (default 20, max 100)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor; returns builds after this position."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of builds to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor; returns builds before this position."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.app_builds#AppBuild": {
+      "type": "structure",
+      "members": {
+        "checksum": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client-generated checksum of the build file, used to verify file integrity.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the build was uploaded, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "file_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to download the uploaded build artifact.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "App build ID, prefixed `abld_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_production": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this build is the currently active production build for its platform.",
+            "smithy.api#required": {}
+          }
+        },
+        "platform": {
+          "target": "com.whop.app_builds#AppBuildPlatform",
+          "traits": {
+            "smithy.api#documentation": "The target platform for this build.",
+            "smithy.api#required": {}
+          }
+        },
+        "review_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Feedback from the reviewer explaining a rejection, or `null` if the build has not been reviewed or was approved.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to download the compressed source code archive that produced this build, or `null` when the build was uploaded without a source archive.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.app_builds#AppBuildStatus",
+          "traits": {
+            "smithy.api#documentation": "The build's review status.",
+            "smithy.api#required": {}
+          }
+        },
+        "supported_app_view_types": {
+          "target": "com.whop.app_builds#AppBuildSupportedAppViewTypesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.app_builds#AppBuildPlatform": {
+      "type": "enum",
+      "members": {
+        "IOS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ios"
+          }
+        },
+        "ANDROID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "android"
+          }
+        },
+        "WEB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "web"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The target platform for this build."
+      }
+    },
+    "com.whop.app_builds#AppBuildStatus": {
+      "type": "enum",
+      "members": {
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The build's review status."
+      }
+    },
+    "com.whop.app_builds#AppBuildSupportedAppViewTypesItem": {
+      "type": "enum",
+      "members": {
+        "HUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hub"
+          }
+        },
+        "DISCOVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "discover"
+          }
+        },
+        "DASH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dash"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "ANALYTICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analytics"
+          }
+        },
+        "SKILLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skills"
+          }
+        },
+        "OPENAPI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openapi"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The view types this build supports, as declared by the developer."
+      }
+    },
+    "com.whop.app_builds#AppBuildSupportedAppViewTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.app_builds#AppBuildSupportedAppViewTypesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.app_builds#ListAppBuildsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.app_builds#AppBuild"
+      },
+      "traits": {}
+    },
+    "com.whop.app_builds#ListAppBuildsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.app_builds#ListAppBuildsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.app_builds#ListAppBuildsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.app_builds#ListAppBuildsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.app_builds#ListAppBuilds": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.app_builds#ListAppBuildsRequest"
+      },
+      "output": {
+        "target": "com.whop.app_builds#ListAppBuildsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.app_builds#BadRequest"
+        },
+        {
+          "target": "com.whop.app_builds#Forbidden"
+        },
+        {
+          "target": "com.whop.app_builds#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/app_builds",
+          "code": 200
+        },
+        "smithy.api#documentation": "List App Builds\n\nReturns a paginated list of build artifacts for an app, newest first, with optional platform, status, and creation-date filters.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.app_builds#CreateAppBuildRequestAttachment": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed id of a completed direct upload."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tag of an already-uploaded file."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The uploaded build file: `{ id }` for an existing file or `{ direct_upload_id }` for a completed direct upload."
+      }
+    },
+    "com.whop.app_builds#CreateAppBuildRequestPlatform": {
+      "type": "enum",
+      "members": {
+        "IOS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ios"
+          }
+        },
+        "ANDROID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "android"
+          }
+        },
+        "WEB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "web"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The target platform for the build."
+      }
+    },
+    "com.whop.app_builds#CreateAppBuildRequestSourceAttachment": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed id of a completed direct upload."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tag of an already-uploaded file."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An optional compressed archive (.zip or .gz) of the source code that produced this build, stored alongside the build so it can be downloaded later. Referenced like `attachment`, and must be a different file."
+      }
+    },
+    "com.whop.app_builds#CreateAppBuildRequestSupportedAppViewTypesItem": {
+      "type": "enum",
+      "members": {
+        "HUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hub"
+          }
+        },
+        "DISCOVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "discover"
+          }
+        },
+        "DASH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dash"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "ANALYTICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analytics"
+          }
+        },
+        "SKILLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skills"
+          }
+        },
+        "OPENAPI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openapi"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.app_builds#CreateAppBuildRequestSupportedAppViewTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.app_builds#CreateAppBuildRequestSupportedAppViewTypesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The view types this build supports. Only list the ones its code implements."
+      }
+    },
+    "com.whop.app_builds#CreateAppBuildRequest": {
+      "type": "structure",
+      "members": {
+        "ai_prompt_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The AI prompt that generated this build, if applicable."
+          }
+        },
+        "app_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The app to create the build for, prefixed `app_`. Defaults to the app behind the presented credential."
+          }
+        },
+        "attachment": {
+          "target": "com.whop.app_builds#CreateAppBuildRequestAttachment",
+          "traits": {
+            "smithy.api#documentation": "The uploaded build file: `{ id }` for an existing file or `{ direct_upload_id }` for a completed direct upload.",
+            "smithy.api#required": {}
+          }
+        },
+        "checksum": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A client-generated checksum of the build file, used to verify file integrity when unpacked.",
+            "smithy.api#required": {}
+          }
+        },
+        "platform": {
+          "target": "com.whop.app_builds#CreateAppBuildRequestPlatform",
+          "traits": {
+            "smithy.api#documentation": "The target platform for the build.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_attachment": {
+          "target": "com.whop.app_builds#CreateAppBuildRequestSourceAttachment",
+          "traits": {
+            "smithy.api#documentation": "An optional compressed archive (.zip or .gz) of the source code that produced this build, stored alongside the build so it can be downloaded later. Referenced like `attachment`, and must be a different file."
+          }
+        },
+        "supported_app_view_types": {
+          "target": "com.whop.app_builds#CreateAppBuildRequestSupportedAppViewTypesList",
+          "traits": {
+            "smithy.api#documentation": "The view types this build supports. Only list the ones its code implements."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.app_builds#CreateAppBuild": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.app_builds#CreateAppBuildRequest"
+      },
+      "output": {
+        "target": "com.whop.app_builds#AppBuild"
+      },
+      "errors": [
+        {
+          "target": "com.whop.app_builds#BadRequest"
+        },
+        {
+          "target": "com.whop.app_builds#Forbidden"
+        },
+        {
+          "target": "com.whop.app_builds#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/app_builds",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create App Build\n\nUploads a new build artifact for an app. Upload the file first (POST /files or a direct upload), then reference it here; iOS and Android take a .zip bundle, web takes a JavaScript file or a .zip archive of the hosted site."
+      }
+    },
+    "com.whop.app_builds#GetAppBuildRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "App build ID, prefixed `abld_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.app_builds#GetAppBuild": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.app_builds#GetAppBuildRequest"
+      },
+      "output": {
+        "target": "com.whop.app_builds#AppBuild"
+      },
+      "errors": [
+        {
+          "target": "com.whop.app_builds#Forbidden"
+        },
+        {
+          "target": "com.whop.app_builds#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/app_builds/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve App Build\n\nRetrieves the details of an existing app build."
+      }
+    },
+    "com.whop.app_builds#PromoteAppBuildRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "App build ID, prefixed `abld_`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.app_builds#PromoteAppBuild": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.app_builds#PromoteAppBuildRequest"
+      },
+      "output": {
+        "target": "com.whop.app_builds#AppBuild"
+      },
+      "errors": [
+        {
+          "target": "com.whop.app_builds#BadRequest"
+        },
+        {
+          "target": "com.whop.app_builds#Forbidden"
+        },
+        {
+          "target": "com.whop.app_builds#NotFound"
+        },
+        {
+          "target": "com.whop.app_builds#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/app_builds/{id}/promote",
+          "code": 200
+        },
+        "smithy.api#documentation": "Promote App Build\n\nPromotes a draft or approved app build to production so it becomes the active version served to users. Draft builds enter review first."
+      }
+    },
+    "com.whop.app_builds#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.app_builds#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.app_builds#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.app_builds#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.app_builds#AppBuilds": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.app_builds#ListAppBuilds"
+        },
+        {
+          "target": "com.whop.app_builds#CreateAppBuild"
+        },
+        {
+          "target": "com.whop.app_builds#GetAppBuild"
+        },
+        {
+          "target": "com.whop.app_builds#PromoteAppBuild"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

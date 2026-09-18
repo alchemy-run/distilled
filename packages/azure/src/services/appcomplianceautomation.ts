@@ -12,179 +12,61 @@ import * as Retry from "../retry.ts";
 
 export type { AzureOpError, AzureOpContext };
 
-/** Evidence type */
-export type EvidenceType = "File" | "AutoCollectedEvidence" | "Data";
-export const EvidenceType = /*@__PURE__*/ S.String;
-
-/** Evidence's properties. */
-export interface EvidencePropertiesInput {
-  /** Evidence type. */
-  evidenceType?: EvidenceType | (string & {});
-  /** The path of the file in storage. */
-  filePath: string;
-  /** Extra data considered as evidence. */
-  extraData?: string;
-  /** Control id. */
-  controlId?: string;
-  /** Responsibility id. */
-  responsibilityId?: string;
-}
-export const EvidencePropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    evidenceType: S.optional(EvidenceType),
-    filePath: S.String,
-    extraData: S.optional(S.String),
-    controlId: S.optional(S.String),
-    responsibilityId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EvidencePropertiesInput",
-}) as any as S.Schema<EvidencePropertiesInput>;
-
-export interface EvidenceCreateOrUpdateRequest {
-  /** Report Name. */
-  reportName: string;
-  /** The evidence name. */
-  evidenceName: string;
-  /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
-  /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
-  /** Evidence property. */
-  properties: EvidencePropertiesInput;
-}
-export const EvidenceCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-    evidenceName: S.String.pipe(T.Label()),
-    offerGuid: S.optional(S.String.pipe(T.Query())),
-    reportCreatorTenantId: S.optional(S.String.pipe(T.Query())),
-    properties: EvidencePropertiesInput,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/evidences/{evidenceName}",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "EvidenceCreateOrUpdateRequest",
-}) as any as S.Schema<EvidenceCreateOrUpdateRequest>;
-
-/** The type of identity that created the resource. */
-export type SystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const SystemDataCreatedByType = /*@__PURE__*/ S.String;
-
-/** The type of identity that last modified the resource. */
-export type SystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-export const SystemDataLastModifiedByType = /*@__PURE__*/ S.String;
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-export const SystemData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    createdBy: S.optional(S.String),
-    createdByType: S.optional(SystemDataCreatedByType),
-    createdAt: S.optional(S.String),
-    lastModifiedBy: S.optional(S.String),
-    lastModifiedByType: S.optional(SystemDataLastModifiedByType),
-    lastModifiedAt: S.optional(S.String),
-  }),
-).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
-
-/** Resource provisioning states. */
-export type ProvisioningState =
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Creating"
-  | "Deleting"
-  | "Fixing"
-  | "Verifying"
-  | "Updating";
-export const ProvisioningState = /*@__PURE__*/ S.String;
-
-/** Evidence's properties. */
-export interface EvidenceProperties {
-  /** Evidence type. */
-  evidenceType?: EvidenceType;
-  /** The path of the file in storage. */
-  filePath: string;
-  /** Extra data considered as evidence. */
-  extraData?: string;
-  /** Control id. */
-  controlId?: string;
-  /** Responsibility id. */
-  responsibilityId?: string;
-  /** Azure lifecycle management */
-  provisioningState?: ProvisioningState;
-}
-export const EvidenceProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    evidenceType: S.optional(EvidenceType),
-    filePath: S.String,
-    extraData: S.optional(S.String),
-    controlId: S.optional(S.String),
-    responsibilityId: S.optional(S.String),
-    provisioningState: S.optional(ProvisioningState),
-  }),
-).annotate({
-  identifier: "EvidenceProperties",
-}) as any as S.Schema<EvidenceProperties>;
-
-export interface EvidenceCreateOrUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
+export interface CheckProviderActionNameAvailabilityRequest {
+  /** The name of the resource for which availability needs to be checked. */
   name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  /** The resource type. */
   type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Evidence property. */
-  properties: EvidenceProperties;
 }
-export const EvidenceCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: EvidenceProperties,
-  }),
-).annotate({
-  identifier: "EvidenceCreateOrUpdateResponse",
-}) as any as S.Schema<EvidenceCreateOrUpdateResponse>;
+export const CheckProviderActionNameAvailabilityRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/providers/Microsoft.AppComplianceAutomation/checkNameAvailability",
+        code: 200,
+        apiVersion: "2024-06-27",
+      }),
+    ),
+  ).annotate({
+    identifier: "CheckProviderActionNameAvailabilityRequest",
+  }) as any as S.Schema<CheckProviderActionNameAvailabilityRequest>;
 
-export interface EvidenceDeleteRequest {
+/** The reason why the given name is not available. */
+export type CheckProviderActionNameAvailabilityResponseReason =
+  | "Invalid"
+  | "AlreadyExists";
+export const CheckProviderActionNameAvailabilityResponseReason = S.String;
+
+export interface CheckProviderActionNameAvailabilityResponse {
+  /** Indicates if the resource name is available. */
+  nameAvailable?: boolean;
+  /** The reason why the given name is not available. */
+  reason?: CheckProviderActionNameAvailabilityResponseReason;
+  /** Detailed reason why the given name is available. */
+  message?: string;
+}
+export const CheckProviderActionNameAvailabilityResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      nameAvailable: S.optional(S.Boolean),
+      reason: S.optional(CheckProviderActionNameAvailabilityResponseReason),
+      message: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CheckProviderActionNameAvailabilityResponse",
+  }) as any as S.Schema<CheckProviderActionNameAvailabilityResponse>;
+
+export interface DeleteEvidenceRequest {
   /** Report Name. */
   reportName: string;
   /** The evidence name. */
   evidenceName: string;
 }
-export const EvidenceDeleteRequest = /*@__PURE__*/ S.suspend(() =>
+export const DeleteEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reportName: S.String.pipe(T.Label()),
     evidenceName: S.String.pipe(T.Label()),
@@ -197,17 +79,101 @@ export const EvidenceDeleteRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "EvidenceDeleteRequest",
-}) as any as S.Schema<EvidenceDeleteRequest>;
+  identifier: "DeleteEvidenceRequest",
+}) as any as S.Schema<DeleteEvidenceRequest>;
 
-export interface EvidenceDeleteResponse {}
-export const EvidenceDeleteResponse = /*@__PURE__*/ S.suspend(() =>
+export interface DeleteEvidenceResponse {}
+export const DeleteEvidenceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}),
 ).annotate({
-  identifier: "EvidenceDeleteResponse",
-}) as any as S.Schema<EvidenceDeleteResponse>;
+  identifier: "DeleteEvidenceResponse",
+}) as any as S.Schema<DeleteEvidenceResponse>;
 
-export interface EvidenceDownloadRequest {
+export interface DeleteReportRequest {
+  /** Report Name. */
+  reportName: string;
+}
+export const DeleteReportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteReportRequest",
+}) as any as S.Schema<DeleteReportRequest>;
+
+export interface DeleteReportResponse {}
+export const DeleteReportResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteReportResponse",
+}) as any as S.Schema<DeleteReportResponse>;
+
+export interface DeleteScopingConfigurationRequest {
+  /** Report Name. */
+  reportName: string;
+  /** The scoping configuration of the specific report. */
+  scopingConfigurationName: string;
+}
+export const DeleteScopingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+    scopingConfigurationName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/scopingConfigurations/{scopingConfigurationName}",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteScopingConfigurationRequest",
+}) as any as S.Schema<DeleteScopingConfigurationRequest>;
+
+export interface DeleteScopingConfigurationResponse {}
+export const DeleteScopingConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteScopingConfigurationResponse",
+}) as any as S.Schema<DeleteScopingConfigurationResponse>;
+
+export interface DeleteWebhookRequest {
+  /** Report Name. */
+  reportName: string;
+  /** Webhook Name. */
+  webhookName: string;
+}
+export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+    webhookName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks/{webhookName}",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteWebhookRequest",
+}) as any as S.Schema<DeleteWebhookRequest>;
+
+export interface DeleteWebhookResponse {}
+export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteWebhookResponse",
+}) as any as S.Schema<DeleteWebhookResponse>;
+
+export interface DownloadEvidenceRequest {
   /** Report Name. */
   reportName: string;
   /** The evidence name. */
@@ -217,7 +183,7 @@ export interface EvidenceDownloadRequest {
   /** The offerGuid which mapping to the reports. */
   offerGuid?: string;
 }
-export const EvidenceDownloadRequest = /*@__PURE__*/ S.suspend(() =>
+export const DownloadEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reportName: S.String.pipe(T.Label()),
     evidenceName: S.String.pipe(T.Label()),
@@ -232,8 +198,8 @@ export const EvidenceDownloadRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "EvidenceDownloadRequest",
-}) as any as S.Schema<EvidenceDownloadRequest>;
+  identifier: "DownloadEvidenceRequest",
+}) as any as S.Schema<DownloadEvidenceRequest>;
 
 /** The uri of evidence file */
 export interface EvidenceFileDownloadResponseEvidenceFile {
@@ -262,1632 +228,15 @@ export const EvidenceFileDownloadResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "EvidenceFileDownloadResponse",
 }) as any as S.Schema<EvidenceFileDownloadResponse>;
 
-export interface EvidenceGetRequest {
-  /** Report Name. */
-  reportName: string;
-  /** The evidence name. */
-  evidenceName: string;
-}
-export const EvidenceGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-    evidenceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/evidences/{evidenceName}",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "EvidenceGetRequest",
-}) as any as S.Schema<EvidenceGetRequest>;
-
-export interface EvidenceGetResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Evidence property. */
-  properties: EvidenceProperties;
-}
-export const EvidenceGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: EvidenceProperties,
-  }),
-).annotate({
-  identifier: "EvidenceGetResponse",
-}) as any as S.Schema<EvidenceGetResponse>;
-
-export interface EvidenceListByReportRequest {
-  /** Report Name. */
-  reportName: string;
-  /** Skip over when retrieving results. */
-  _skipToken?: string;
-  /** Number of elements to return when retrieving results. */
-  _top?: number;
-  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
-  _select?: string;
-  /** The filter to apply on the operation. */
-  _filter?: string;
-  /** OData order by query option. */
-  _orderby?: string;
-  /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
-  /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
-}
-export const EvidenceListByReportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-    _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
-    _top: S.optional(S.Number.pipe(T.Query("$top"))),
-    _select: S.optional(S.String.pipe(T.Query("$select"))),
-    _filter: S.optional(S.String.pipe(T.Query("$filter"))),
-    _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
-    offerGuid: S.optional(S.String.pipe(T.Query())),
-    reportCreatorTenantId: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/evidences",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "EvidenceListByReportRequest",
-}) as any as S.Schema<EvidenceListByReportRequest>;
-
-/** A class represent an AppComplianceAutomation evidence resource. */
-export interface EvidenceResource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Evidence property. */
-  properties: EvidenceProperties;
-}
-export const EvidenceResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: EvidenceProperties,
-  }),
-).annotate({
-  identifier: "EvidenceResource",
-}) as any as S.Schema<EvidenceResource>;
-
-/** The EvidenceResource items on this page */
-export type EvidenceResourceListResultValueList = Array<EvidenceResource>;
-export const EvidenceResourceListResultValueList = /*@__PURE__*/ S.Array(
-  EvidenceResource,
-) as any as S.Schema<EvidenceResourceListResultValueList>;
-
-/** The response of a EvidenceResource list operation. */
-export interface EvidenceResourceListResult {
-  /** The EvidenceResource items on this page */
-  value: EvidenceResourceListResultValueList;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-export const EvidenceResourceListResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: EvidenceResourceListResultValueList,
-    nextLink: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EvidenceResourceListResult",
-}) as any as S.Schema<EvidenceResourceListResult>;
-
-export interface OperationsListRequest {}
-export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/providers/Microsoft.AppComplianceAutomation/operations",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "OperationsListRequest",
-}) as any as S.Schema<OperationsListRequest>;
-
-/** Localized display information for this particular operation. */
-export interface OperationDisplay {
-  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
-  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
-  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
-  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
-}
-export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provider: S.optional(S.String),
-    resource: S.optional(S.String),
-    operation: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
-
-/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-export type OperationOrigin = "user" | "system" | "user,system";
-export const OperationOrigin = /*@__PURE__*/ S.String;
-
-/** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-export type OperationActionType = "Internal";
-export const OperationActionType = /*@__PURE__*/ S.String;
-
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
-  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
-  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
-  /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
-}
-export const Operation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    isDataAction: S.optional(S.Boolean),
-    display: S.optional(OperationDisplay),
-    origin: S.optional(OperationOrigin),
-    actionType: S.optional(OperationActionType),
-  }),
-).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
-
-/** List of operations supported by the resource provider */
-export type OperationsListResponseValueList = Array<Operation>;
-export const OperationsListResponseValueList = /*@__PURE__*/ S.Array(
-  Operation,
-) as any as S.Schema<OperationsListResponseValueList>;
-
-export interface OperationsListResponse {
-  /** List of operations supported by the resource provider */
-  value?: OperationsListResponseValueList;
-  /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
-}
-export const OperationsListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(OperationsListResponseValueList),
-    nextLink: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OperationsListResponse",
-}) as any as S.Schema<OperationsListResponse>;
-
-export interface ProviderActionsCheckNameAvailabilityRequest {
-  /** The name of the resource for which availability needs to be checked. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-}
-export const ProviderActionsCheckNameAvailabilityRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/providers/Microsoft.AppComplianceAutomation/checkNameAvailability",
-        code: 200,
-        apiVersion: "2024-06-27",
-      }),
-    ),
-  ).annotate({
-    identifier: "ProviderActionsCheckNameAvailabilityRequest",
-  }) as any as S.Schema<ProviderActionsCheckNameAvailabilityRequest>;
-
-/** The reason why the given name is not available. */
-export type ProviderActionsCheckNameAvailabilityResponseReason =
-  | "Invalid"
-  | "AlreadyExists";
-export const ProviderActionsCheckNameAvailabilityResponseReason =
-  /*@__PURE__*/ S.String;
-
-export interface ProviderActionsCheckNameAvailabilityResponse {
-  /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
-  /** The reason why the given name is not available. */
-  reason?: ProviderActionsCheckNameAvailabilityResponseReason;
-  /** Detailed reason why the given name is available. */
-  message?: string;
-}
-export const ProviderActionsCheckNameAvailabilityResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      nameAvailable: S.optional(S.Boolean),
-      reason: S.optional(ProviderActionsCheckNameAvailabilityResponseReason),
-      message: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ProviderActionsCheckNameAvailabilityResponse",
-  }) as any as S.Schema<ProviderActionsCheckNameAvailabilityResponse>;
-
-export interface ProviderActionsGetCollectionCountRequest {
-  /** The resource type. */
-  type?: string;
-}
-export const ProviderActionsGetCollectionCountRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      type: S.optional(S.String),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/providers/Microsoft.AppComplianceAutomation/getCollectionCount",
-        code: 200,
-        apiVersion: "2024-06-27",
-      }),
-    ),
-).annotate({
-  identifier: "ProviderActionsGetCollectionCountRequest",
-}) as any as S.Schema<ProviderActionsGetCollectionCountRequest>;
-
-/** The get collection count response. */
-export interface GetCollectionCountResponse {
-  /** The count of the specified resource. */
-  count?: number;
-}
-export const GetCollectionCountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    count: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GetCollectionCountResponse",
-}) as any as S.Schema<GetCollectionCountResponse>;
-
-export interface ProviderActionsGetOverviewStatusRequest {
-  /** The resource type. */
-  type?: string;
-}
-export const ProviderActionsGetOverviewStatusRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      type: S.optional(S.String),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/providers/Microsoft.AppComplianceAutomation/getOverviewStatus",
-        code: 200,
-        apiVersion: "2024-06-27",
-      }),
-    ),
-).annotate({
-  identifier: "ProviderActionsGetOverviewStatusRequest",
-}) as any as S.Schema<ProviderActionsGetOverviewStatusRequest>;
-
-/** Single status. */
-export interface StatusItem {
-  /** Status name - e.g. "Active", "Failed". */
-  statusName?: string;
-  /** Status value. e.g. "100", or "100%". */
-  statusValue?: string;
-}
-export const StatusItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    statusName: S.optional(S.String),
-    statusValue: S.optional(S.String),
-  }),
-).annotate({ identifier: "StatusItem" }) as any as S.Schema<StatusItem>;
-
-/** List of different status items. */
-export type GetOverviewStatusResponseStatusListList = Array<StatusItem>;
-export const GetOverviewStatusResponseStatusListList = /*@__PURE__*/ S.Array(
-  StatusItem,
-) as any as S.Schema<GetOverviewStatusResponseStatusListList>;
-
-/** The get overview status response. */
-export interface GetOverviewStatusResponse {
-  /** List of different status items. */
-  statusList?: GetOverviewStatusResponseStatusListList;
-}
-export const GetOverviewStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    statusList: S.optional(GetOverviewStatusResponseStatusListList),
-  }),
-).annotate({
-  identifier: "GetOverviewStatusResponse",
-}) as any as S.Schema<GetOverviewStatusResponse>;
-
-/** List of subscription ids to be query. If the list is null or empty, the API will query all the subscriptions of the user. */
-export type ProviderActionsListInUseStorageAccountsRequestSubscriptionIdsList =
-  Array<string>;
-export const ProviderActionsListInUseStorageAccountsRequestSubscriptionIdsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ProviderActionsListInUseStorageAccountsRequestSubscriptionIdsList>;
-
-export interface ProviderActionsListInUseStorageAccountsRequest {
-  /** List of subscription ids to be query. If the list is null or empty, the API will query all the subscriptions of the user. */
-  subscriptionIds?: ProviderActionsListInUseStorageAccountsRequestSubscriptionIdsList;
-}
-export const ProviderActionsListInUseStorageAccountsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionIds: S.optional(
-        ProviderActionsListInUseStorageAccountsRequestSubscriptionIdsList,
-      ),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/providers/Microsoft.AppComplianceAutomation/listInUseStorageAccounts",
-        code: 200,
-        apiVersion: "2024-06-27",
-      }),
-    ),
-  ).annotate({
-    identifier: "ProviderActionsListInUseStorageAccountsRequest",
-  }) as any as S.Schema<ProviderActionsListInUseStorageAccountsRequest>;
-
-/** The information of 'bring your own storage' account binding to the report */
-export interface StorageInfo {
-  /** The subscription id which 'bring your own storage' account belongs to */
-  subscriptionId?: string;
-  /** The resourceGroup which 'bring your own storage' account belongs to */
-  resourceGroup?: string;
-  /** 'bring your own storage' account name */
-  accountName?: string;
-  /** The region of 'bring your own storage' account */
-  location?: string;
-}
-export const StorageInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionId: S.optional(S.String),
-    resourceGroup: S.optional(S.String),
-    accountName: S.optional(S.String),
-    location: S.optional(S.String),
-  }),
-).annotate({ identifier: "StorageInfo" }) as any as S.Schema<StorageInfo>;
-
-/** The storage account list which in use in related reports. */
-export type ListInUseStorageAccountsResponseStorageAccountListList =
-  Array<StorageInfo>;
-export const ListInUseStorageAccountsResponseStorageAccountListList =
-  /*@__PURE__*/ S.Array(
-    StorageInfo,
-  ) as any as S.Schema<ListInUseStorageAccountsResponseStorageAccountListList>;
-
-/** Parameters for listing in use storage accounts operation. If subscription list is null, it will check the user's all subscriptions. */
-export interface ListInUseStorageAccountsResponse {
-  /** The storage account list which in use in related reports. */
-  storageAccountList?: ListInUseStorageAccountsResponseStorageAccountListList;
-}
-export const ListInUseStorageAccountsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storageAccountList: S.optional(
-      ListInUseStorageAccountsResponseStorageAccountListList,
-    ),
-  }),
-).annotate({
-  identifier: "ListInUseStorageAccountsResponse",
-}) as any as S.Schema<ListInUseStorageAccountsResponse>;
-
-/** List of subscription ids to be onboarded */
-export type ProviderActionsOnboardRequestSubscriptionIdsList = Array<string>;
-export const ProviderActionsOnboardRequestSubscriptionIdsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ProviderActionsOnboardRequestSubscriptionIdsList>;
-
-export interface ProviderActionsOnboardRequest {
-  /** List of subscription ids to be onboarded */
-  subscriptionIds: ProviderActionsOnboardRequestSubscriptionIdsList;
-}
-export const ProviderActionsOnboardRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionIds: ProviderActionsOnboardRequestSubscriptionIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/providers/Microsoft.AppComplianceAutomation/onboard",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "ProviderActionsOnboardRequest",
-}) as any as S.Schema<ProviderActionsOnboardRequest>;
-
-/** List of subscription ids that are onboarded */
-export type OnboardResponseSubscriptionIdsList = Array<string>;
-export const OnboardResponseSubscriptionIdsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<OnboardResponseSubscriptionIdsList>;
-
-/** Success. The response indicates given subscriptions has been onboarded. */
-export interface OnboardResponse {
-  /** List of subscription ids that are onboarded */
-  subscriptionIds?: OnboardResponseSubscriptionIdsList;
-}
-export const OnboardResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptionIds: S.optional(OnboardResponseSubscriptionIdsList),
-  }),
-).annotate({
-  identifier: "OnboardResponse",
-}) as any as S.Schema<OnboardResponse>;
-
-/** List of resource ids to be evaluated */
-export type ProviderActionsTriggerEvaluationRequestResourceIdsList =
-  Array<string>;
-export const ProviderActionsTriggerEvaluationRequestResourceIdsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ProviderActionsTriggerEvaluationRequestResourceIdsList>;
-
-export interface ProviderActionsTriggerEvaluationRequest {
-  /** List of resource ids to be evaluated */
-  resourceIds: ProviderActionsTriggerEvaluationRequestResourceIdsList;
-}
-export const ProviderActionsTriggerEvaluationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      resourceIds: ProviderActionsTriggerEvaluationRequestResourceIdsList,
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/providers/Microsoft.AppComplianceAutomation/triggerEvaluation",
-        code: 200,
-        apiVersion: "2024-06-27",
-      }),
-    ),
-).annotate({
-  identifier: "ProviderActionsTriggerEvaluationRequest",
-}) as any as S.Schema<ProviderActionsTriggerEvaluationRequest>;
-
-/** List of resource ids to be evaluated */
-export type TriggerEvaluationPropertyResourceIdsList = Array<string>;
-export const TriggerEvaluationPropertyResourceIdsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<TriggerEvaluationPropertyResourceIdsList>;
-
-/** Indicates the resource status. */
-export type ResourceStatus = "Healthy" | "Unhealthy";
-export const ResourceStatus = /*@__PURE__*/ S.String;
-
-/** A class represent the quick assessment. */
-export interface QuickAssessment {
-  /** Resource id. */
-  resourceId?: string;
-  /** Responsibility id. */
-  responsibilityId?: string;
-  /** The timestamp of resource creation (UTC). */
-  timestamp?: string;
-  /** Quick assessment status. */
-  resourceStatus?: ResourceStatus;
-  /** Quick assessment display name. */
-  displayName?: string;
-  /** Quick assessment display name. */
-  description?: string;
-  /** Link to remediation steps for this quick assessment. */
-  remediationLink?: string;
-}
-export const QuickAssessment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceId: S.optional(S.String),
-    responsibilityId: S.optional(S.String),
-    timestamp: S.optional(S.String),
-    resourceStatus: S.optional(ResourceStatus),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
-    remediationLink: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "QuickAssessment",
-}) as any as S.Schema<QuickAssessment>;
-
-/** List of quick assessments */
-export type TriggerEvaluationPropertyQuickAssessmentsList =
-  Array<QuickAssessment>;
-export const TriggerEvaluationPropertyQuickAssessmentsList =
-  /*@__PURE__*/ S.Array(
-    QuickAssessment,
-  ) as any as S.Schema<TriggerEvaluationPropertyQuickAssessmentsList>;
-
-/** Trigger evaluation response. */
-export interface TriggerEvaluationProperty {
-  /** The time when the evaluation is triggered. */
-  triggerTime?: string;
-  /** The time when the evaluation is end. */
-  evaluationEndTime?: string;
-  /** List of resource ids to be evaluated */
-  resourceIds?: TriggerEvaluationPropertyResourceIdsList;
-  /** List of quick assessments */
-  quickAssessments?: TriggerEvaluationPropertyQuickAssessmentsList;
-}
-export const TriggerEvaluationProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    triggerTime: S.optional(S.String),
-    evaluationEndTime: S.optional(S.String),
-    resourceIds: S.optional(TriggerEvaluationPropertyResourceIdsList),
-    quickAssessments: S.optional(TriggerEvaluationPropertyQuickAssessmentsList),
-  }),
-).annotate({
-  identifier: "TriggerEvaluationProperty",
-}) as any as S.Schema<TriggerEvaluationProperty>;
-
-/** Trigger evaluation response. */
-export interface TriggerEvaluationResponse {
-  /** trigger evaluation property. */
-  properties?: TriggerEvaluationProperty;
-}
-export const TriggerEvaluationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    properties: S.optional(TriggerEvaluationProperty),
-  }),
-).annotate({
-  identifier: "TriggerEvaluationResponse",
-}) as any as S.Schema<TriggerEvaluationResponse>;
-
-/** Resource Origin. */
-export type ResourceOrigin = "Azure" | "AWS" | "GCP";
-export const ResourceOrigin = /*@__PURE__*/ S.String;
-
-/** Single resource Id's metadata. */
-export interface ResourceMetadata {
-  /** Resource Id - e.g. "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1". */
-  resourceId: string;
-  /** Resource type. e.g. "Microsoft.Compute/virtualMachines" */
-  resourceType?: string;
-  /** Resource kind. */
-  resourceKind?: string;
-  /** Resource Origin. */
-  resourceOrigin?: ResourceOrigin | (string & {});
-  /** Account Id. For example - the AWS account id. */
-  accountId?: string;
-}
-export const ResourceMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceId: S.String,
-    resourceType: S.optional(S.String),
-    resourceKind: S.optional(S.String),
-    resourceOrigin: S.optional(ResourceOrigin),
-    accountId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResourceMetadata",
-}) as any as S.Schema<ResourceMetadata>;
-
-/** List of resource data. */
-export type ReportPropertiesInputResourcesList = Array<ResourceMetadata>;
-export const ReportPropertiesInputResourcesList = /*@__PURE__*/ S.Array(
-  ResourceMetadata,
-) as any as S.Schema<ReportPropertiesInputResourcesList>;
-
-/** Create Report's properties. */
-export interface ReportPropertiesInput {
-  /** Report collection trigger time. */
-  triggerTime: string;
-  /** Report collection trigger time's time zone, the available list can be obtained by executing "Get-TimeZone -ListAvailable" in PowerShell. An example of valid timezone id is "Pacific Standard Time". */
-  timeZone: string;
-  /** List of resource data. */
-  resources: ReportPropertiesInputResourcesList;
-  /** A list of comma-separated offerGuids indicates a series of offerGuids that map to the report. For example, "00000000-0000-0000-0000-000000000001,00000000-0000-0000-0000-000000000002" and "00000000-0000-0000-0000-000000000003". */
-  offerGuid?: string;
-  /** The information of 'bring your own storage' binding to the report */
-  storageInfo?: StorageInfo;
-}
-export const ReportPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    triggerTime: S.String,
-    timeZone: S.String,
-    resources: ReportPropertiesInputResourcesList,
-    offerGuid: S.optional(S.String),
-    storageInfo: S.optional(StorageInfo),
-  }),
-).annotate({
-  identifier: "ReportPropertiesInput",
-}) as any as S.Schema<ReportPropertiesInput>;
-
-export interface ReportCreateOrUpdateRequest {
-  /** Report Name. */
-  reportName: string;
-  /** Report property. */
-  properties: ReportPropertiesInput;
-}
-export const ReportCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-    properties: ReportPropertiesInput,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "ReportCreateOrUpdateRequest",
-}) as any as S.Schema<ReportCreateOrUpdateRequest>;
-
-/** List of resource data. */
-export type ReportPropertiesResourcesList = Array<ResourceMetadata>;
-export const ReportPropertiesResourcesList = /*@__PURE__*/ S.Array(
-  ResourceMetadata,
-) as any as S.Schema<ReportPropertiesResourcesList>;
-
-/** Report status. */
-export type ReportStatus = "Active" | "Failed" | "Reviewing" | "Disabled";
-export const ReportStatus = /*@__PURE__*/ S.String;
-
-/** List of report error codes. */
-export type ReportPropertiesErrorsList = Array<string>;
-export const ReportPropertiesErrorsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ReportPropertiesErrorsList>;
-
-/** List of subscription Ids. */
-export type ReportPropertiesSubscriptionsList = Array<string>;
-export const ReportPropertiesSubscriptionsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ReportPropertiesSubscriptionsList>;
-
-/** The overview of the compliance result for one report. */
-export interface OverviewStatus {
-  /** The count of all passed control. */
-  passedCount?: number;
-  /** The count of all failed control. */
-  failedCount?: number;
-  /** The count of all manual control. */
-  manualCount?: number;
-  /** The count of all not applicable control. */
-  notApplicableCount?: number;
-  /** The count of all pending for approval control. */
-  pendingCount?: number;
-}
-export const OverviewStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    passedCount: S.optional(S.Number),
-    failedCount: S.optional(S.Number),
-    manualCount: S.optional(S.Number),
-    notApplicableCount: S.optional(S.Number),
-    pendingCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "OverviewStatus" }) as any as S.Schema<OverviewStatus>;
-
-/** A list which includes all the compliance result for one report. */
-export interface ReportComplianceStatus {
-  /** The Microsoft 365 certification name. */
-  m365?: OverviewStatus;
-}
-export const ReportComplianceStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    m365: S.optional(OverviewStatus),
-  }),
-).annotate({
-  identifier: "ReportComplianceStatus",
-}) as any as S.Schema<ReportComplianceStatus>;
-
-/** A class represent the control record synchronized from app compliance. */
-export interface ControlSyncRecord {
-  /** The Id of the control. e.g. "Operational_Security_10" */
-  controlId?: string;
-  /** Control status synchronized from app compliance. */
-  controlStatus?: string;
-}
-export const ControlSyncRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    controlId: S.optional(S.String),
-    controlStatus: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ControlSyncRecord",
-}) as any as S.Schema<ControlSyncRecord>;
-
-/** The control records list to be synchronized. */
-export type CertSyncRecordControlsList = Array<ControlSyncRecord>;
-export const CertSyncRecordControlsList = /*@__PURE__*/ S.Array(
-  ControlSyncRecord,
-) as any as S.Schema<CertSyncRecordControlsList>;
-
-/** A class represent the certification record synchronized from app compliance. */
-export interface CertSyncRecord {
-  /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
-  /** Indicates the status of certification process. */
-  certificationStatus?: string;
-  /** Indicates the status of compliance process. */
-  ingestionStatus?: string;
-  /** The control records list to be synchronized. */
-  controls?: CertSyncRecordControlsList;
-}
-export const CertSyncRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    offerGuid: S.optional(S.String),
-    certificationStatus: S.optional(S.String),
-    ingestionStatus: S.optional(S.String),
-    controls: S.optional(CertSyncRecordControlsList),
-  }),
-).annotate({ identifier: "CertSyncRecord" }) as any as S.Schema<CertSyncRecord>;
-
-/** List of synchronized certification records. */
-export type ReportPropertiesCertRecordsList = Array<CertSyncRecord>;
-export const ReportPropertiesCertRecordsList = /*@__PURE__*/ S.Array(
-  CertSyncRecord,
-) as any as S.Schema<ReportPropertiesCertRecordsList>;
-
-/** Create Report's properties. */
-export interface ReportProperties {
-  /** Report collection trigger time. */
-  triggerTime: string;
-  /** Report collection trigger time's time zone, the available list can be obtained by executing "Get-TimeZone -ListAvailable" in PowerShell. An example of valid timezone id is "Pacific Standard Time". */
-  timeZone: string;
-  /** List of resource data. */
-  resources: ReportPropertiesResourcesList;
-  /** Report status. */
-  status?: ReportStatus;
-  /** List of report error codes. */
-  errors?: ReportPropertiesErrorsList;
-  /** Report's tenant id. */
-  tenantId?: string;
-  /** A list of comma-separated offerGuids indicates a series of offerGuids that map to the report. For example, "00000000-0000-0000-0000-000000000001,00000000-0000-0000-0000-000000000002" and "00000000-0000-0000-0000-000000000003". */
-  offerGuid?: string;
-  /** Report next collection trigger time. */
-  nextTriggerTime?: string;
-  /** Report last collection trigger time. */
-  lastTriggerTime?: string;
-  /** List of subscription Ids. */
-  subscriptions?: ReportPropertiesSubscriptionsList;
-  /** Report compliance status. */
-  complianceStatus?: ReportComplianceStatus;
-  /** The information of 'bring your own storage' binding to the report */
-  storageInfo?: StorageInfo;
-  /** List of synchronized certification records. */
-  certRecords?: ReportPropertiesCertRecordsList;
-  /** Azure lifecycle management */
-  provisioningState?: ProvisioningState;
-}
-export const ReportProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    triggerTime: S.String,
-    timeZone: S.String,
-    resources: ReportPropertiesResourcesList,
-    status: S.optional(ReportStatus),
-    errors: S.optional(ReportPropertiesErrorsList),
-    tenantId: S.optional(S.String),
-    offerGuid: S.optional(S.String),
-    nextTriggerTime: S.optional(S.String),
-    lastTriggerTime: S.optional(S.String),
-    subscriptions: S.optional(ReportPropertiesSubscriptionsList),
-    complianceStatus: S.optional(ReportComplianceStatus),
-    storageInfo: S.optional(StorageInfo),
-    certRecords: S.optional(ReportPropertiesCertRecordsList),
-    provisioningState: S.optional(ProvisioningState),
-  }),
-).annotate({
-  identifier: "ReportProperties",
-}) as any as S.Schema<ReportProperties>;
-
-export interface ReportCreateOrUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Report property. */
-  properties: ReportProperties;
-}
-export const ReportCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: ReportProperties,
-  }),
-).annotate({
-  identifier: "ReportCreateOrUpdateResponse",
-}) as any as S.Schema<ReportCreateOrUpdateResponse>;
-
-export interface ReportDeleteRequest {
-  /** Report Name. */
-  reportName: string;
-}
-export const ReportDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "ReportDeleteRequest",
-}) as any as S.Schema<ReportDeleteRequest>;
-
-export interface ReportDeleteResponse {}
-export const ReportDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ReportDeleteResponse",
-}) as any as S.Schema<ReportDeleteResponse>;
-
-export interface ReportFixRequest {
-  /** Report Name. */
-  reportName: string;
-}
-export const ReportFixRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/fix",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "ReportFixRequest",
-}) as any as S.Schema<ReportFixRequest>;
-
-/** Indicates whether the fix action is Succeeded or Failed. */
-export type Result = "Succeeded" | "Failed";
-export const Result = /*@__PURE__*/ S.String;
-
-/** Report fix result. */
-export interface ReportFixResult {
-  /** Indicates whether the fix action is Succeeded or Failed. */
-  result?: Result;
-  /** If the report fix action failed, to indicate the detailed failed reason. */
-  reason?: string;
-}
-export const ReportFixResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    result: S.optional(Result),
-    reason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ReportFixResult",
-}) as any as S.Schema<ReportFixResult>;
-
-export interface ReportGetRequest {
-  /** Report Name. */
-  reportName: string;
-}
-export const ReportGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "ReportGetRequest",
-}) as any as S.Schema<ReportGetRequest>;
-
-export interface ReportGetResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Report property. */
-  properties: ReportProperties;
-}
-export const ReportGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: ReportProperties,
-  }),
-).annotate({
-  identifier: "ReportGetResponse",
-}) as any as S.Schema<ReportGetResponse>;
-
-export interface ReportGetScopingQuestionsRequest {
-  /** Report Name. */
-  reportName: string;
-}
-export const ReportGetScopingQuestionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/getScopingQuestions",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "ReportGetScopingQuestionsRequest",
-}) as any as S.Schema<ReportGetScopingQuestionsRequest>;
-
-/** Question input type. */
-export type InputType =
-  | "None"
-  | "Text"
-  | "Email"
-  | "MultilineText"
-  | "Url"
-  | "Number"
-  | "Boolean"
-  | "Telephone"
-  | "YesNoNa"
-  | "Date"
-  | "YearPicker"
-  | "SingleSelection"
-  | "SingleSelectDropdown"
-  | "MultiSelectCheckbox"
-  | "MultiSelectDropdown"
-  | "MultiSelectDropdownCustom"
-  | "Group"
-  | "Upload";
-export const InputType = /*@__PURE__*/ S.String;
-
-/** Option id list. */
-export type ScopingQuestionOptionIdsList = Array<string>;
-export const ScopingQuestionOptionIdsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ScopingQuestionOptionIdsList>;
-
-/** Scoping question rule. */
-export type Rule =
-  | "Required"
-  | "CharLength"
-  | "Url"
-  | "Urls"
-  | "Domains"
-  | "USPrivacyShield"
-  | "PublicSOX"
-  | "CreditCardPCI"
-  | "AzureApplication"
-  | "ValidGuid"
-  | "PublisherVerification"
-  | "DynamicDropdown"
-  | "PreventNonEnglishChar"
-  | "ValidEmail";
-export const Rule = /*@__PURE__*/ S.String;
-
-/** The rule of the question. */
-export type ScopingQuestionRulesList = Array<Rule>;
-export const ScopingQuestionRulesList = /*@__PURE__*/ S.Array(
-  Rule,
-) as any as S.Schema<ScopingQuestionRulesList>;
-
-/** The definition of a scoping question. */
-export interface ScopingQuestion {
-  /** Question id. */
-  questionId: string;
-  /** Superior question id. */
-  superiorQuestionId?: string;
-  /** Input type of the question answer. */
-  inputType: InputType;
-  /** Option id list. */
-  optionIds: ScopingQuestionOptionIdsList;
-  /** The rule of the question. */
-  rules: ScopingQuestionRulesList;
-  /** The answer value to show the sub questions. */
-  showSubQuestionsValue?: string;
-}
-export const ScopingQuestion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    questionId: S.String,
-    superiorQuestionId: S.optional(S.String),
-    inputType: InputType,
-    optionIds: ScopingQuestionOptionIdsList,
-    rules: ScopingQuestionRulesList,
-    showSubQuestionsValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ScopingQuestion",
-}) as any as S.Schema<ScopingQuestion>;
-
-/** List of scoping questions. */
-export type ScopingQuestionsQuestionsList = Array<ScopingQuestion>;
-export const ScopingQuestionsQuestionsList = /*@__PURE__*/ S.Array(
-  ScopingQuestion,
-) as any as S.Schema<ScopingQuestionsQuestionsList>;
-
-/** Scoping question list. */
-export interface ScopingQuestions {
-  /** List of scoping questions. */
-  questions?: ScopingQuestionsQuestionsList;
-}
-export const ScopingQuestions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    questions: S.optional(ScopingQuestionsQuestionsList),
-  }),
-).annotate({
-  identifier: "ScopingQuestions",
-}) as any as S.Schema<ScopingQuestions>;
-
-export interface ReportListRequest {
-  /** Skip over when retrieving results. */
-  _skipToken?: string;
-  /** Number of elements to return when retrieving results. */
-  _top?: number;
-  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
-  _select?: string;
-  /** The filter to apply on the operation. */
-  _filter?: string;
-  /** OData order by query option. */
-  _orderby?: string;
-  /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
-  /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
-}
-export const ReportListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
-    _top: S.optional(S.Number.pipe(T.Query("$top"))),
-    _select: S.optional(S.String.pipe(T.Query("$select"))),
-    _filter: S.optional(S.String.pipe(T.Query("$filter"))),
-    _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
-    offerGuid: S.optional(S.String.pipe(T.Query())),
-    reportCreatorTenantId: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "ReportListRequest",
-}) as any as S.Schema<ReportListRequest>;
-
-/** A class represent an AppComplianceAutomation report resource. */
-export interface ReportResource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Report property. */
-  properties: ReportProperties;
-}
-export const ReportResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: ReportProperties,
-  }),
-).annotate({ identifier: "ReportResource" }) as any as S.Schema<ReportResource>;
-
-/** The ReportResource items on this page */
-export type ReportResourceListResultValueList = Array<ReportResource>;
-export const ReportResourceListResultValueList = /*@__PURE__*/ S.Array(
-  ReportResource,
-) as any as S.Schema<ReportResourceListResultValueList>;
-
-/** The response of a ReportResource list operation. */
-export interface ReportResourceListResult {
-  /** The ReportResource items on this page */
-  value: ReportResourceListResultValueList;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-export const ReportResourceListResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: ReportResourceListResultValueList,
-    nextLink: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ReportResourceListResult",
-}) as any as S.Schema<ReportResourceListResult>;
-
-export interface ReportNestedResourceCheckNameAvailabilityRequest {
-  /** Report Name. */
-  reportName: string;
-  /** The name of the resource for which availability needs to be checked. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-}
-export const ReportNestedResourceCheckNameAvailabilityRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      reportName: S.String.pipe(T.Label()),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/checkNameAvailability",
-        code: 200,
-        apiVersion: "2024-06-27",
-      }),
-    ),
-  ).annotate({
-    identifier: "ReportNestedResourceCheckNameAvailabilityRequest",
-  }) as any as S.Schema<ReportNestedResourceCheckNameAvailabilityRequest>;
-
-/** The reason why the given name is not available. */
-export type ReportNestedResourceCheckNameAvailabilityResponseReason =
-  | "Invalid"
-  | "AlreadyExists";
-export const ReportNestedResourceCheckNameAvailabilityResponseReason =
-  /*@__PURE__*/ S.String;
-
-export interface ReportNestedResourceCheckNameAvailabilityResponse {
-  /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
-  /** The reason why the given name is not available. */
-  reason?: ReportNestedResourceCheckNameAvailabilityResponseReason;
-  /** Detailed reason why the given name is available. */
-  message?: string;
-}
-export const ReportNestedResourceCheckNameAvailabilityResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      nameAvailable: S.optional(S.Boolean),
-      reason: S.optional(
-        ReportNestedResourceCheckNameAvailabilityResponseReason,
-      ),
-      message: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ReportNestedResourceCheckNameAvailabilityResponse",
-  }) as any as S.Schema<ReportNestedResourceCheckNameAvailabilityResponse>;
-
-export interface ReportSyncCertRecordRequest {
-  /** Report Name. */
-  reportName: string;
-  /** certification record to be synchronized. */
-  certRecord: CertSyncRecord;
-}
-export const ReportSyncCertRecordRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-    certRecord: CertSyncRecord,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/syncCertRecord",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "ReportSyncCertRecordRequest",
-}) as any as S.Schema<ReportSyncCertRecordRequest>;
-
-/** Synchronize certification record response. */
-export interface SyncCertRecordResponse {
-  /** certification record synchronized. */
-  certRecord?: CertSyncRecord;
-}
-export const SyncCertRecordResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    certRecord: S.optional(CertSyncRecord),
-  }),
-).annotate({
-  identifier: "SyncCertRecordResponse",
-}) as any as S.Schema<SyncCertRecordResponse>;
-
-/** List of resource data. */
-export type ReportPatchPropertiesInputResourcesList = Array<ResourceMetadata>;
-export const ReportPatchPropertiesInputResourcesList = /*@__PURE__*/ S.Array(
-  ResourceMetadata,
-) as any as S.Schema<ReportPatchPropertiesInputResourcesList>;
-
-/** Patch Report's properties. */
-export interface ReportPatchPropertiesInput {
-  /** Report collection trigger time. */
-  triggerTime?: string;
-  /** Report collection trigger time's time zone, the available list can be obtained by executing "Get-TimeZone -ListAvailable" in PowerShell. An example of valid timezone id is "Pacific Standard Time". */
-  timeZone?: string;
-  /** List of resource data. */
-  resources?: ReportPatchPropertiesInputResourcesList;
-  /** A list of comma-separated offerGuids indicates a series of offerGuids that map to the report. For example, "00000000-0000-0000-0000-000000000001,00000000-0000-0000-0000-000000000002" and "00000000-0000-0000-0000-000000000003". */
-  offerGuid?: string;
-  /** The information of 'bring your own storage' binding to the report */
-  storageInfo?: StorageInfo;
-}
-export const ReportPatchPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    triggerTime: S.optional(S.String),
-    timeZone: S.optional(S.String),
-    resources: S.optional(ReportPatchPropertiesInputResourcesList),
-    offerGuid: S.optional(S.String),
-    storageInfo: S.optional(StorageInfo),
-  }),
-).annotate({
-  identifier: "ReportPatchPropertiesInput",
-}) as any as S.Schema<ReportPatchPropertiesInput>;
-
-export interface ReportUpdateRequest {
-  /** Report Name. */
-  reportName: string;
-  /** Report property. */
-  properties?: ReportPatchPropertiesInput;
-}
-export const ReportUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-    properties: S.optional(ReportPatchPropertiesInput),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "ReportUpdateRequest",
-}) as any as S.Schema<ReportUpdateRequest>;
-
-export interface ReportUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Report property. */
-  properties: ReportProperties;
-}
-export const ReportUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: ReportProperties,
-  }),
-).annotate({
-  identifier: "ReportUpdateResponse",
-}) as any as S.Schema<ReportUpdateResponse>;
-
-export interface ReportVerifyRequest {
-  /** Report Name. */
-  reportName: string;
-}
-export const ReportVerifyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/verify",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "ReportVerifyRequest",
-}) as any as S.Schema<ReportVerifyRequest>;
-
-/** Report health status verification result. */
-export interface ReportVerificationResult {
-  /** Indicates whether the report verification action is Succeeded or Failed. */
-  result?: Result;
-  /** If the report verification action failed, to indicate the detailed failed reason. */
-  reason?: string;
-}
-export const ReportVerificationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    result: S.optional(Result),
-    reason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ReportVerificationResult",
-}) as any as S.Schema<ReportVerificationResult>;
-
-/** Question answer value list. */
-export type ScopingAnswerAnswersList = Array<string>;
-export const ScopingAnswerAnswersList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ScopingAnswerAnswersList>;
-
-/** Scoping answer. */
-export interface ScopingAnswer {
-  /** Question id. */
-  questionId: string;
-  /** Question answer value list. */
-  answers: ScopingAnswerAnswersList;
-}
-export const ScopingAnswer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    questionId: S.String,
-    answers: ScopingAnswerAnswersList,
-  }),
-).annotate({ identifier: "ScopingAnswer" }) as any as S.Schema<ScopingAnswer>;
-
-/** List of scoping question answers. */
-export type ScopingConfigurationPropertiesInputAnswersList =
-  Array<ScopingAnswer>;
-export const ScopingConfigurationPropertiesInputAnswersList =
-  /*@__PURE__*/ S.Array(
-    ScopingAnswer,
-  ) as any as S.Schema<ScopingConfigurationPropertiesInputAnswersList>;
-
-/** ScopingConfiguration's properties. */
-export interface ScopingConfigurationPropertiesInput {
-  /** List of scoping question answers. */
-  answers?: ScopingConfigurationPropertiesInputAnswersList;
-}
-export const ScopingConfigurationPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    answers: S.optional(ScopingConfigurationPropertiesInputAnswersList),
-  }),
-).annotate({
-  identifier: "ScopingConfigurationPropertiesInput",
-}) as any as S.Schema<ScopingConfigurationPropertiesInput>;
-
-export interface ScopingConfigurationCreateOrUpdateRequest {
-  /** Report Name. */
-  reportName: string;
-  /** The scoping configuration of the specific report. */
-  scopingConfigurationName: string;
-  /** ScopingConfiguration property. */
-  properties: ScopingConfigurationPropertiesInput;
-}
-export const ScopingConfigurationCreateOrUpdateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      reportName: S.String.pipe(T.Label()),
-      scopingConfigurationName: S.String.pipe(T.Label()),
-      properties: ScopingConfigurationPropertiesInput,
-    }).pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/scopingConfigurations/{scopingConfigurationName}",
-        code: 200,
-        apiVersion: "2024-06-27",
-      }),
-    ),
-  ).annotate({
-    identifier: "ScopingConfigurationCreateOrUpdateRequest",
-  }) as any as S.Schema<ScopingConfigurationCreateOrUpdateRequest>;
-
-/** List of scoping question answers. */
-export type ScopingConfigurationPropertiesAnswersList = Array<ScopingAnswer>;
-export const ScopingConfigurationPropertiesAnswersList = /*@__PURE__*/ S.Array(
-  ScopingAnswer,
-) as any as S.Schema<ScopingConfigurationPropertiesAnswersList>;
-
-/** ScopingConfiguration's properties. */
-export interface ScopingConfigurationProperties {
-  /** List of scoping question answers. */
-  answers?: ScopingConfigurationPropertiesAnswersList;
-  /** Azure lifecycle management */
-  provisioningState?: ProvisioningState;
-}
-export const ScopingConfigurationProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    answers: S.optional(ScopingConfigurationPropertiesAnswersList),
-    provisioningState: S.optional(ProvisioningState),
-  }),
-).annotate({
-  identifier: "ScopingConfigurationProperties",
-}) as any as S.Schema<ScopingConfigurationProperties>;
-
-export interface ScopingConfigurationCreateOrUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** ScopingConfiguration property. */
-  properties: ScopingConfigurationProperties;
-}
-export const ScopingConfigurationCreateOrUpdateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      systemData: S.optional(SystemData),
-      properties: ScopingConfigurationProperties,
-    }),
-  ).annotate({
-    identifier: "ScopingConfigurationCreateOrUpdateResponse",
-  }) as any as S.Schema<ScopingConfigurationCreateOrUpdateResponse>;
-
-export interface ScopingConfigurationDeleteRequest {
-  /** Report Name. */
-  reportName: string;
-  /** The scoping configuration of the specific report. */
-  scopingConfigurationName: string;
-}
-export const ScopingConfigurationDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-    scopingConfigurationName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/scopingConfigurations/{scopingConfigurationName}",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "ScopingConfigurationDeleteRequest",
-}) as any as S.Schema<ScopingConfigurationDeleteRequest>;
-
-export interface ScopingConfigurationDeleteResponse {}
-export const ScopingConfigurationDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ScopingConfigurationDeleteResponse",
-}) as any as S.Schema<ScopingConfigurationDeleteResponse>;
-
-export interface ScopingConfigurationGetRequest {
-  /** Report Name. */
-  reportName: string;
-  /** The scoping configuration of the specific report. */
-  scopingConfigurationName: string;
-}
-export const ScopingConfigurationGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-    scopingConfigurationName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/scopingConfigurations/{scopingConfigurationName}",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "ScopingConfigurationGetRequest",
-}) as any as S.Schema<ScopingConfigurationGetRequest>;
-
-export interface ScopingConfigurationGetResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** ScopingConfiguration property. */
-  properties: ScopingConfigurationProperties;
-}
-export const ScopingConfigurationGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: ScopingConfigurationProperties,
-  }),
-).annotate({
-  identifier: "ScopingConfigurationGetResponse",
-}) as any as S.Schema<ScopingConfigurationGetResponse>;
-
-export interface ScopingConfigurationListRequest {
-  /** Report Name. */
-  reportName: string;
-}
-export const ScopingConfigurationListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/scopingConfigurations",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "ScopingConfigurationListRequest",
-}) as any as S.Schema<ScopingConfigurationListRequest>;
-
-/** A class represent an AppComplianceAutomation scoping configuration resource. */
-export interface ScopingConfigurationResource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** ScopingConfiguration property. */
-  properties: ScopingConfigurationProperties;
-}
-export const ScopingConfigurationResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: ScopingConfigurationProperties,
-  }),
-).annotate({
-  identifier: "ScopingConfigurationResource",
-}) as any as S.Schema<ScopingConfigurationResource>;
-
-/** The ScopingConfigurationResource items on this page */
-export type ScopingConfigurationResourceListResultValueList =
-  Array<ScopingConfigurationResource>;
-export const ScopingConfigurationResourceListResultValueList =
-  /*@__PURE__*/ S.Array(
-    ScopingConfigurationResource,
-  ) as any as S.Schema<ScopingConfigurationResourceListResultValueList>;
-
-/** The response of a ScopingConfigurationResource list operation. */
-export interface ScopingConfigurationResourceListResult {
-  /** The ScopingConfigurationResource items on this page */
-  value: ScopingConfigurationResourceListResultValueList;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-export const ScopingConfigurationResourceListResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      value: ScopingConfigurationResourceListResultValueList,
-      nextLink: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "ScopingConfigurationResourceListResult",
-}) as any as S.Schema<ScopingConfigurationResourceListResult>;
-
 /** Indicates the download type. */
 export type DownloadType =
   | "ComplianceReport"
   | "CompliancePdfReport"
   | "ComplianceDetailedPdfReport"
   | "ResourceList";
-export const DownloadType = /*@__PURE__*/ S.String;
+export const DownloadType = S.String;
 
-export interface SnapshotDownloadRequest {
+export interface DownloadSnapshotRequest {
   /** Report Name. */
   reportName: string;
   /** Snapshot Name. */
@@ -1899,7 +248,7 @@ export interface SnapshotDownloadRequest {
   /** The offerGuid which mapping to the reports. */
   offerGuid?: string;
 }
-export const SnapshotDownloadRequest = /*@__PURE__*/ S.suspend(() =>
+export const DownloadSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reportName: S.String.pipe(T.Label()),
     snapshotName: S.String.pipe(T.Label()),
@@ -1915,8 +264,8 @@ export const SnapshotDownloadRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "SnapshotDownloadRequest",
-}) as any as S.Schema<SnapshotDownloadRequest>;
+  identifier: "DownloadSnapshotRequest",
+}) as any as S.Schema<DownloadSnapshotRequest>;
 
 /** Resource Id. */
 export interface ResourceItem {
@@ -1950,7 +299,15 @@ export type ControlStatus =
   | "Failed"
   | "NotApplicable"
   | "PendingApproval";
-export const ControlStatus = /*@__PURE__*/ S.String;
+export const ControlStatus = S.String;
+
+/** Resource Origin. */
+export type ResourceOrigin = "Azure" | "AWS" | "GCP";
+export const ResourceOrigin = S.String;
+
+/** Indicates the resource status. */
+export type ResourceStatus = "Healthy" | "Unhealthy";
+export const ResourceStatus = S.String;
 
 /** Object that includes all the content for single compliance result. */
 export interface ComplianceReportItem {
@@ -2055,13 +412,763 @@ export const DownloadResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DownloadResponse",
 }) as any as S.Schema<DownloadResponse>;
 
-export interface SnapshotGetRequest {
+/** Evidence type */
+export type EvidenceType = "File" | "AutoCollectedEvidence" | "Data";
+export const EvidenceType = S.String;
+
+/** Evidence's properties. */
+export interface EvidencePropertiesInput {
+  /** Evidence type. */
+  evidenceType?: EvidenceType | (string & {});
+  /** The path of the file in storage. */
+  filePath: string;
+  /** Extra data considered as evidence. */
+  extraData?: string;
+  /** Control id. */
+  controlId?: string;
+  /** Responsibility id. */
+  responsibilityId?: string;
+}
+export const EvidencePropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    evidenceType: S.optional(EvidenceType),
+    filePath: S.String,
+    extraData: S.optional(S.String),
+    controlId: S.optional(S.String),
+    responsibilityId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EvidencePropertiesInput",
+}) as any as S.Schema<EvidencePropertiesInput>;
+
+export interface EvidenceCreateOrUpdateRequest {
+  /** Report Name. */
+  reportName: string;
+  /** The evidence name. */
+  evidenceName: string;
+  /** The offerGuid which mapping to the reports. */
+  offerGuid?: string;
+  /** The tenant id of the report creator. */
+  reportCreatorTenantId?: string;
+  /** Evidence property. */
+  properties: EvidencePropertiesInput;
+}
+export const EvidenceCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+    evidenceName: S.String.pipe(T.Label()),
+    offerGuid: S.optional(S.String.pipe(T.Query())),
+    reportCreatorTenantId: S.optional(S.String.pipe(T.Query())),
+    properties: EvidencePropertiesInput,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/evidences/{evidenceName}",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "EvidenceCreateOrUpdateRequest",
+}) as any as S.Schema<EvidenceCreateOrUpdateRequest>;
+
+/** The type of identity that created the resource. */
+export type SystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const SystemDataCreatedByType = S.String;
+
+/** The type of identity that last modified the resource. */
+export type SystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const SystemDataLastModifiedByType = S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: SystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: SystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const SystemData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createdBy: S.optional(S.String),
+    createdByType: S.optional(SystemDataCreatedByType),
+    createdAt: S.optional(S.String),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedByType: S.optional(SystemDataLastModifiedByType),
+    lastModifiedAt: S.optional(S.String),
+  }),
+).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
+
+/** Resource provisioning states. */
+export type ProvisioningState =
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Creating"
+  | "Deleting"
+  | "Fixing"
+  | "Verifying"
+  | "Updating";
+export const ProvisioningState = S.String;
+
+/** Evidence's properties. */
+export interface EvidenceProperties {
+  /** Evidence type. */
+  evidenceType?: EvidenceType;
+  /** The path of the file in storage. */
+  filePath: string;
+  /** Extra data considered as evidence. */
+  extraData?: string;
+  /** Control id. */
+  controlId?: string;
+  /** Responsibility id. */
+  responsibilityId?: string;
+  /** Azure lifecycle management */
+  provisioningState?: ProvisioningState;
+}
+export const EvidenceProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    evidenceType: S.optional(EvidenceType),
+    filePath: S.String,
+    extraData: S.optional(S.String),
+    controlId: S.optional(S.String),
+    responsibilityId: S.optional(S.String),
+    provisioningState: S.optional(ProvisioningState),
+  }),
+).annotate({
+  identifier: "EvidenceProperties",
+}) as any as S.Schema<EvidenceProperties>;
+
+export interface EvidenceCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Evidence property. */
+  properties: EvidenceProperties;
+}
+export const EvidenceCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: EvidenceProperties,
+  }),
+).annotate({
+  identifier: "EvidenceCreateOrUpdateResponse",
+}) as any as S.Schema<EvidenceCreateOrUpdateResponse>;
+
+export interface GetEvidenceRequest {
+  /** Report Name. */
+  reportName: string;
+  /** The evidence name. */
+  evidenceName: string;
+}
+export const GetEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+    evidenceName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/evidences/{evidenceName}",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "GetEvidenceRequest",
+}) as any as S.Schema<GetEvidenceRequest>;
+
+export interface GetEvidenceResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Evidence property. */
+  properties: EvidenceProperties;
+}
+export const GetEvidenceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: EvidenceProperties,
+  }),
+).annotate({
+  identifier: "GetEvidenceResponse",
+}) as any as S.Schema<GetEvidenceResponse>;
+
+export interface GetProviderActionCollectionCountRequest {
+  /** The resource type. */
+  type?: string;
+}
+export const GetProviderActionCollectionCountRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: S.optional(S.String),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/providers/Microsoft.AppComplianceAutomation/getCollectionCount",
+        code: 200,
+        apiVersion: "2024-06-27",
+      }),
+    ),
+).annotate({
+  identifier: "GetProviderActionCollectionCountRequest",
+}) as any as S.Schema<GetProviderActionCollectionCountRequest>;
+
+/** The get collection count response. */
+export interface GetCollectionCountResponse {
+  /** The count of the specified resource. */
+  count?: number;
+}
+export const GetCollectionCountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GetCollectionCountResponse",
+}) as any as S.Schema<GetCollectionCountResponse>;
+
+export interface GetProviderActionOverviewStatusRequest {
+  /** The resource type. */
+  type?: string;
+}
+export const GetProviderActionOverviewStatusRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: S.optional(S.String),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/providers/Microsoft.AppComplianceAutomation/getOverviewStatus",
+        code: 200,
+        apiVersion: "2024-06-27",
+      }),
+    ),
+).annotate({
+  identifier: "GetProviderActionOverviewStatusRequest",
+}) as any as S.Schema<GetProviderActionOverviewStatusRequest>;
+
+/** Single status. */
+export interface StatusItem {
+  /** Status name - e.g. "Active", "Failed". */
+  statusName?: string;
+  /** Status value. e.g. "100", or "100%". */
+  statusValue?: string;
+}
+export const StatusItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    statusName: S.optional(S.String),
+    statusValue: S.optional(S.String),
+  }),
+).annotate({ identifier: "StatusItem" }) as any as S.Schema<StatusItem>;
+
+/** List of different status items. */
+export type GetOverviewStatusResponseStatusListList = Array<StatusItem>;
+export const GetOverviewStatusResponseStatusListList = /*@__PURE__*/ S.Array(
+  StatusItem,
+) as any as S.Schema<GetOverviewStatusResponseStatusListList>;
+
+/** The get overview status response. */
+export interface GetOverviewStatusResponse {
+  /** List of different status items. */
+  statusList?: GetOverviewStatusResponseStatusListList;
+}
+export const GetOverviewStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    statusList: S.optional(GetOverviewStatusResponseStatusListList),
+  }),
+).annotate({
+  identifier: "GetOverviewStatusResponse",
+}) as any as S.Schema<GetOverviewStatusResponse>;
+
+export interface GetReportRequest {
+  /** Report Name. */
+  reportName: string;
+}
+export const GetReportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "GetReportRequest",
+}) as any as S.Schema<GetReportRequest>;
+
+/** Single resource Id's metadata. */
+export interface ResourceMetadata {
+  /** Resource Id - e.g. "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1". */
+  resourceId: string;
+  /** Resource type. e.g. "Microsoft.Compute/virtualMachines" */
+  resourceType?: string;
+  /** Resource kind. */
+  resourceKind?: string;
+  /** Resource Origin. */
+  resourceOrigin?: ResourceOrigin | (string & {});
+  /** Account Id. For example - the AWS account id. */
+  accountId?: string;
+}
+export const ResourceMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceId: S.String,
+    resourceType: S.optional(S.String),
+    resourceKind: S.optional(S.String),
+    resourceOrigin: S.optional(ResourceOrigin),
+    accountId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResourceMetadata",
+}) as any as S.Schema<ResourceMetadata>;
+
+/** List of resource data. */
+export type ReportPropertiesResourcesList = Array<ResourceMetadata>;
+export const ReportPropertiesResourcesList = /*@__PURE__*/ S.Array(
+  ResourceMetadata,
+) as any as S.Schema<ReportPropertiesResourcesList>;
+
+/** Report status. */
+export type ReportStatus = "Active" | "Failed" | "Reviewing" | "Disabled";
+export const ReportStatus = S.String;
+
+/** List of report error codes. */
+export type ReportPropertiesErrorsList = Array<string>;
+export const ReportPropertiesErrorsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ReportPropertiesErrorsList>;
+
+/** List of subscription Ids. */
+export type ReportPropertiesSubscriptionsList = Array<string>;
+export const ReportPropertiesSubscriptionsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ReportPropertiesSubscriptionsList>;
+
+/** The overview of the compliance result for one report. */
+export interface OverviewStatus {
+  /** The count of all passed control. */
+  passedCount?: number;
+  /** The count of all failed control. */
+  failedCount?: number;
+  /** The count of all manual control. */
+  manualCount?: number;
+  /** The count of all not applicable control. */
+  notApplicableCount?: number;
+  /** The count of all pending for approval control. */
+  pendingCount?: number;
+}
+export const OverviewStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    passedCount: S.optional(S.Number),
+    failedCount: S.optional(S.Number),
+    manualCount: S.optional(S.Number),
+    notApplicableCount: S.optional(S.Number),
+    pendingCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "OverviewStatus" }) as any as S.Schema<OverviewStatus>;
+
+/** A list which includes all the compliance result for one report. */
+export interface ReportComplianceStatus {
+  /** The Microsoft 365 certification name. */
+  m365?: OverviewStatus;
+}
+export const ReportComplianceStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    m365: S.optional(OverviewStatus),
+  }),
+).annotate({
+  identifier: "ReportComplianceStatus",
+}) as any as S.Schema<ReportComplianceStatus>;
+
+/** The information of 'bring your own storage' account binding to the report */
+export interface StorageInfo {
+  /** The subscription id which 'bring your own storage' account belongs to */
+  subscriptionId?: string;
+  /** The resourceGroup which 'bring your own storage' account belongs to */
+  resourceGroup?: string;
+  /** 'bring your own storage' account name */
+  accountName?: string;
+  /** The region of 'bring your own storage' account */
+  location?: string;
+}
+export const StorageInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.optional(S.String),
+    resourceGroup: S.optional(S.String),
+    accountName: S.optional(S.String),
+    location: S.optional(S.String),
+  }),
+).annotate({ identifier: "StorageInfo" }) as any as S.Schema<StorageInfo>;
+
+/** A class represent the control record synchronized from app compliance. */
+export interface ControlSyncRecord {
+  /** The Id of the control. e.g. "Operational_Security_10" */
+  controlId?: string;
+  /** Control status synchronized from app compliance. */
+  controlStatus?: string;
+}
+export const ControlSyncRecord = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    controlId: S.optional(S.String),
+    controlStatus: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ControlSyncRecord",
+}) as any as S.Schema<ControlSyncRecord>;
+
+/** The control records list to be synchronized. */
+export type CertSyncRecordControlsList = Array<ControlSyncRecord>;
+export const CertSyncRecordControlsList = /*@__PURE__*/ S.Array(
+  ControlSyncRecord,
+) as any as S.Schema<CertSyncRecordControlsList>;
+
+/** A class represent the certification record synchronized from app compliance. */
+export interface CertSyncRecord {
+  /** The offerGuid which mapping to the reports. */
+  offerGuid?: string;
+  /** Indicates the status of certification process. */
+  certificationStatus?: string;
+  /** Indicates the status of compliance process. */
+  ingestionStatus?: string;
+  /** The control records list to be synchronized. */
+  controls?: CertSyncRecordControlsList;
+}
+export const CertSyncRecord = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    offerGuid: S.optional(S.String),
+    certificationStatus: S.optional(S.String),
+    ingestionStatus: S.optional(S.String),
+    controls: S.optional(CertSyncRecordControlsList),
+  }),
+).annotate({ identifier: "CertSyncRecord" }) as any as S.Schema<CertSyncRecord>;
+
+/** List of synchronized certification records. */
+export type ReportPropertiesCertRecordsList = Array<CertSyncRecord>;
+export const ReportPropertiesCertRecordsList = /*@__PURE__*/ S.Array(
+  CertSyncRecord,
+) as any as S.Schema<ReportPropertiesCertRecordsList>;
+
+/** Create Report's properties. */
+export interface ReportProperties {
+  /** Report collection trigger time. */
+  triggerTime: string;
+  /** Report collection trigger time's time zone, the available list can be obtained by executing "Get-TimeZone -ListAvailable" in PowerShell. An example of valid timezone id is "Pacific Standard Time". */
+  timeZone: string;
+  /** List of resource data. */
+  resources: ReportPropertiesResourcesList;
+  /** Report status. */
+  status?: ReportStatus;
+  /** List of report error codes. */
+  errors?: ReportPropertiesErrorsList;
+  /** Report's tenant id. */
+  tenantId?: string;
+  /** A list of comma-separated offerGuids indicates a series of offerGuids that map to the report. For example, "00000000-0000-0000-0000-000000000001,00000000-0000-0000-0000-000000000002" and "00000000-0000-0000-0000-000000000003". */
+  offerGuid?: string;
+  /** Report next collection trigger time. */
+  nextTriggerTime?: string;
+  /** Report last collection trigger time. */
+  lastTriggerTime?: string;
+  /** List of subscription Ids. */
+  subscriptions?: ReportPropertiesSubscriptionsList;
+  /** Report compliance status. */
+  complianceStatus?: ReportComplianceStatus;
+  /** The information of 'bring your own storage' binding to the report */
+  storageInfo?: StorageInfo;
+  /** List of synchronized certification records. */
+  certRecords?: ReportPropertiesCertRecordsList;
+  /** Azure lifecycle management */
+  provisioningState?: ProvisioningState;
+}
+export const ReportProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    triggerTime: S.String,
+    timeZone: S.String,
+    resources: ReportPropertiesResourcesList,
+    status: S.optional(ReportStatus),
+    errors: S.optional(ReportPropertiesErrorsList),
+    tenantId: S.optional(S.String),
+    offerGuid: S.optional(S.String),
+    nextTriggerTime: S.optional(S.String),
+    lastTriggerTime: S.optional(S.String),
+    subscriptions: S.optional(ReportPropertiesSubscriptionsList),
+    complianceStatus: S.optional(ReportComplianceStatus),
+    storageInfo: S.optional(StorageInfo),
+    certRecords: S.optional(ReportPropertiesCertRecordsList),
+    provisioningState: S.optional(ProvisioningState),
+  }),
+).annotate({
+  identifier: "ReportProperties",
+}) as any as S.Schema<ReportProperties>;
+
+export interface GetReportResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Report property. */
+  properties: ReportProperties;
+}
+export const GetReportResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: ReportProperties,
+  }),
+).annotate({
+  identifier: "GetReportResponse",
+}) as any as S.Schema<GetReportResponse>;
+
+export interface GetReportScopingQuestionsRequest {
+  /** Report Name. */
+  reportName: string;
+}
+export const GetReportScopingQuestionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/getScopingQuestions",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "GetReportScopingQuestionsRequest",
+}) as any as S.Schema<GetReportScopingQuestionsRequest>;
+
+/** Question input type. */
+export type InputType =
+  | "None"
+  | "Text"
+  | "Email"
+  | "MultilineText"
+  | "Url"
+  | "Number"
+  | "Boolean"
+  | "Telephone"
+  | "YesNoNa"
+  | "Date"
+  | "YearPicker"
+  | "SingleSelection"
+  | "SingleSelectDropdown"
+  | "MultiSelectCheckbox"
+  | "MultiSelectDropdown"
+  | "MultiSelectDropdownCustom"
+  | "Group"
+  | "Upload";
+export const InputType = S.String;
+
+/** Option id list. */
+export type ScopingQuestionOptionIdsList = Array<string>;
+export const ScopingQuestionOptionIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ScopingQuestionOptionIdsList>;
+
+/** Scoping question rule. */
+export type Rule =
+  | "Required"
+  | "CharLength"
+  | "Url"
+  | "Urls"
+  | "Domains"
+  | "USPrivacyShield"
+  | "PublicSOX"
+  | "CreditCardPCI"
+  | "AzureApplication"
+  | "ValidGuid"
+  | "PublisherVerification"
+  | "DynamicDropdown"
+  | "PreventNonEnglishChar"
+  | "ValidEmail";
+export const Rule = S.String;
+
+/** The rule of the question. */
+export type ScopingQuestionRulesList = Array<Rule>;
+export const ScopingQuestionRulesList = /*@__PURE__*/ S.Array(
+  Rule,
+) as any as S.Schema<ScopingQuestionRulesList>;
+
+/** The definition of a scoping question. */
+export interface ScopingQuestion {
+  /** Question id. */
+  questionId: string;
+  /** Superior question id. */
+  superiorQuestionId?: string;
+  /** Input type of the question answer. */
+  inputType: InputType;
+  /** Option id list. */
+  optionIds: ScopingQuestionOptionIdsList;
+  /** The rule of the question. */
+  rules: ScopingQuestionRulesList;
+  /** The answer value to show the sub questions. */
+  showSubQuestionsValue?: string;
+}
+export const ScopingQuestion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    questionId: S.String,
+    superiorQuestionId: S.optional(S.String),
+    inputType: InputType,
+    optionIds: ScopingQuestionOptionIdsList,
+    rules: ScopingQuestionRulesList,
+    showSubQuestionsValue: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ScopingQuestion",
+}) as any as S.Schema<ScopingQuestion>;
+
+/** List of scoping questions. */
+export type ScopingQuestionsQuestionsList = Array<ScopingQuestion>;
+export const ScopingQuestionsQuestionsList = /*@__PURE__*/ S.Array(
+  ScopingQuestion,
+) as any as S.Schema<ScopingQuestionsQuestionsList>;
+
+/** Scoping question list. */
+export interface ScopingQuestions {
+  /** List of scoping questions. */
+  questions?: ScopingQuestionsQuestionsList;
+}
+export const ScopingQuestions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    questions: S.optional(ScopingQuestionsQuestionsList),
+  }),
+).annotate({
+  identifier: "ScopingQuestions",
+}) as any as S.Schema<ScopingQuestions>;
+
+export interface GetScopingConfigurationRequest {
+  /** Report Name. */
+  reportName: string;
+  /** The scoping configuration of the specific report. */
+  scopingConfigurationName: string;
+}
+export const GetScopingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+    scopingConfigurationName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/scopingConfigurations/{scopingConfigurationName}",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "GetScopingConfigurationRequest",
+}) as any as S.Schema<GetScopingConfigurationRequest>;
+
+/** Question answer value list. */
+export type ScopingAnswerAnswersList = Array<string>;
+export const ScopingAnswerAnswersList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ScopingAnswerAnswersList>;
+
+/** Scoping answer. */
+export interface ScopingAnswer {
+  /** Question id. */
+  questionId: string;
+  /** Question answer value list. */
+  answers: ScopingAnswerAnswersList;
+}
+export const ScopingAnswer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    questionId: S.String,
+    answers: ScopingAnswerAnswersList,
+  }),
+).annotate({ identifier: "ScopingAnswer" }) as any as S.Schema<ScopingAnswer>;
+
+/** List of scoping question answers. */
+export type ScopingConfigurationPropertiesAnswersList = Array<ScopingAnswer>;
+export const ScopingConfigurationPropertiesAnswersList = /*@__PURE__*/ S.Array(
+  ScopingAnswer,
+) as any as S.Schema<ScopingConfigurationPropertiesAnswersList>;
+
+/** ScopingConfiguration's properties. */
+export interface ScopingConfigurationProperties {
+  /** List of scoping question answers. */
+  answers?: ScopingConfigurationPropertiesAnswersList;
+  /** Azure lifecycle management */
+  provisioningState?: ProvisioningState;
+}
+export const ScopingConfigurationProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    answers: S.optional(ScopingConfigurationPropertiesAnswersList),
+    provisioningState: S.optional(ProvisioningState),
+  }),
+).annotate({
+  identifier: "ScopingConfigurationProperties",
+}) as any as S.Schema<ScopingConfigurationProperties>;
+
+export interface GetScopingConfigurationResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** ScopingConfiguration property. */
+  properties: ScopingConfigurationProperties;
+}
+export const GetScopingConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: ScopingConfigurationProperties,
+  }),
+).annotate({
+  identifier: "GetScopingConfigurationResponse",
+}) as any as S.Schema<GetScopingConfigurationResponse>;
+
+export interface GetSnapshotRequest {
   /** Report Name. */
   reportName: string;
   /** Snapshot Name. */
   snapshotName: string;
 }
-export const SnapshotGetRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reportName: S.String.pipe(T.Label()),
     snapshotName: S.String.pipe(T.Label()),
@@ -2074,8 +1181,8 @@ export const SnapshotGetRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "SnapshotGetRequest",
-}) as any as S.Schema<SnapshotGetRequest>;
+  identifier: "GetSnapshotRequest",
+}) as any as S.Schema<GetSnapshotRequest>;
 
 /** The type of identity that created the resource. */
 export type SnapshotPropertiesReportSystemDataCreatedByType =
@@ -2083,8 +1190,7 @@ export type SnapshotPropertiesReportSystemDataCreatedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const SnapshotPropertiesReportSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
+export const SnapshotPropertiesReportSystemDataCreatedByType = S.String;
 
 /** The type of identity that last modified the resource. */
 export type SnapshotPropertiesReportSystemDataLastModifiedByType =
@@ -2092,8 +1198,7 @@ export type SnapshotPropertiesReportSystemDataLastModifiedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const SnapshotPropertiesReportSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
+export const SnapshotPropertiesReportSystemDataLastModifiedByType = S.String;
 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SnapshotPropertiesReportSystemData {
@@ -2131,7 +1236,7 @@ export type CategoryStatus =
   | "Failed"
   | "NotApplicable"
   | "PendingApproval";
-export const CategoryStatus = /*@__PURE__*/ S.String;
+export const CategoryStatus = S.String;
 
 /** Indicates the control family status. */
 export type ControlFamilyStatus =
@@ -2139,15 +1244,15 @@ export type ControlFamilyStatus =
   | "Failed"
   | "NotApplicable"
   | "PendingApproval";
-export const ControlFamilyStatus = /*@__PURE__*/ S.String;
+export const ControlFamilyStatus = S.String;
 
 /** Indicates the customer responsibility type. */
 export type ResponsibilityType = "Automated" | "ScopedManual" | "Manual";
-export const ResponsibilityType = /*@__PURE__*/ S.String;
+export const ResponsibilityType = S.String;
 
 /** Indicates the customer responsibility severity. */
 export type ResponsibilitySeverity = "High" | "Medium" | "Low";
-export const ResponsibilitySeverity = /*@__PURE__*/ S.String;
+export const ResponsibilitySeverity = S.String;
 
 /** Indicates the customer responsibility status. */
 export type ResponsibilityStatus =
@@ -2155,11 +1260,11 @@ export type ResponsibilityStatus =
   | "Failed"
   | "NotApplicable"
   | "PendingApproval";
-export const ResponsibilityStatus = /*@__PURE__*/ S.String;
+export const ResponsibilityStatus = S.String;
 
 /** Indicates the customer responsibility supported cloud environment. */
 export type ResponsibilityEnvironment = "Azure" | "AWS" | "GCP" | "General";
-export const ResponsibilityEnvironment = /*@__PURE__*/ S.String;
+export const ResponsibilityEnvironment = S.String;
 
 /** List of recommendation id. */
 export type ResponsibilityResourceRecommendationIdsList = Array<string>;
@@ -2207,7 +1312,7 @@ export const ResponsibilityResourceListList = /*@__PURE__*/ S.Array(
 
 /** Indicates whether this solution is the recommended. */
 export type IsRecommendSolution = "true" | "false";
-export const IsRecommendSolution = /*@__PURE__*/ S.String;
+export const IsRecommendSolution = S.String;
 
 /** A class represent the recommendation solution. */
 export interface RecommendationSolution {
@@ -2453,7 +1558,7 @@ export const SnapshotProperties = /*@__PURE__*/ S.suspend(() =>
   identifier: "SnapshotProperties",
 }) as any as S.Schema<SnapshotProperties>;
 
-export interface SnapshotGetResponse {
+export interface GetSnapshotResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -2465,7 +1570,7 @@ export interface SnapshotGetResponse {
   /** Snapshot's property. */
   properties?: SnapshotProperties;
 }
-export const SnapshotGetResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -2474,103 +1579,38 @@ export const SnapshotGetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SnapshotProperties),
   }),
 ).annotate({
-  identifier: "SnapshotGetResponse",
-}) as any as S.Schema<SnapshotGetResponse>;
+  identifier: "GetSnapshotResponse",
+}) as any as S.Schema<GetSnapshotResponse>;
 
-export interface SnapshotListRequest {
+export interface GetWebhookRequest {
   /** Report Name. */
   reportName: string;
-  /** Skip over when retrieving results. */
-  _skipToken?: string;
-  /** Number of elements to return when retrieving results. */
-  _top?: number;
-  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
-  _select?: string;
-  /** The filter to apply on the operation. */
-  _filter?: string;
-  /** OData order by query option. */
-  _orderby?: string;
-  /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
-  /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
+  /** Webhook Name. */
+  webhookName: string;
 }
-export const SnapshotListRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reportName: S.String.pipe(T.Label()),
-    _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
-    _top: S.optional(S.Number.pipe(T.Query("$top"))),
-    _select: S.optional(S.String.pipe(T.Query("$select"))),
-    _filter: S.optional(S.String.pipe(T.Query("$filter"))),
-    _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
-    offerGuid: S.optional(S.String.pipe(T.Query())),
-    reportCreatorTenantId: S.optional(S.String.pipe(T.Query())),
+    webhookName: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks/{webhookName}",
       code: 200,
       apiVersion: "2024-06-27",
     }),
   ),
 ).annotate({
-  identifier: "SnapshotListRequest",
-}) as any as S.Schema<SnapshotListRequest>;
-
-/** A class represent a AppComplianceAutomation snapshot resource. */
-export interface SnapshotResource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Snapshot's property. */
-  properties?: SnapshotProperties;
-}
-export const SnapshotResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: S.optional(SnapshotProperties),
-  }),
-).annotate({
-  identifier: "SnapshotResource",
-}) as any as S.Schema<SnapshotResource>;
-
-/** The SnapshotResource items on this page */
-export type SnapshotResourceListResultValueList = Array<SnapshotResource>;
-export const SnapshotResourceListResultValueList = /*@__PURE__*/ S.Array(
-  SnapshotResource,
-) as any as S.Schema<SnapshotResourceListResultValueList>;
-
-/** The response of a SnapshotResource list operation. */
-export interface SnapshotResourceListResult {
-  /** The SnapshotResource items on this page */
-  value: SnapshotResourceListResultValueList;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-export const SnapshotResourceListResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: SnapshotResourceListResultValueList,
-    nextLink: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SnapshotResourceListResult",
-}) as any as S.Schema<SnapshotResourceListResult>;
+  identifier: "GetWebhookRequest",
+}) as any as S.Schema<GetWebhookRequest>;
 
 /** Webhook status. */
 export type WebhookStatus = "Enabled" | "Disabled";
-export const WebhookStatus = /*@__PURE__*/ S.String;
+export const WebhookStatus = S.String;
 
 /** whether to send notification under any event. */
 export type SendAllEvents = "true" | "false";
-export const SendAllEvents = /*@__PURE__*/ S.String;
+export const SendAllEvents = S.String;
 
 /** notification event. */
 export type NotificationEvent =
@@ -2579,86 +1619,7 @@ export type NotificationEvent =
   | "assessment_failure"
   | "report_configuration_changes"
   | "report_deletion";
-export const NotificationEvent = /*@__PURE__*/ S.String;
-
-/** under which event notification should be sent. */
-export type WebhookPropertiesInputEventsList = Array<
-  NotificationEvent | (string & {})
->;
-export const WebhookPropertiesInputEventsList = /*@__PURE__*/ S.Array(
-  NotificationEvent,
-) as any as S.Schema<WebhookPropertiesInputEventsList>;
-
-/** content type */
-export type ContentType = "application/json";
-export const ContentType = /*@__PURE__*/ S.String;
-
-/** whether to update webhookKey. */
-export type UpdateWebhookKey = "true" | "false";
-export const UpdateWebhookKey = /*@__PURE__*/ S.String;
-
-/** whether to enable ssl verification */
-export type EnableSslVerification = "true" | "false";
-export const EnableSslVerification = /*@__PURE__*/ S.String;
-
-/** Webhook properties. */
-export interface WebhookPropertiesInput {
-  /** Webhook status. */
-  status?: WebhookStatus | (string & {});
-  /** whether to send notification under any event. */
-  sendAllEvents?: SendAllEvents | (string & {});
-  /** under which event notification should be sent. */
-  events?: WebhookPropertiesInputEventsList;
-  /** webhook payload url */
-  payloadUrl?: string;
-  /** content type */
-  contentType?: ContentType | (string & {});
-  /** webhook secret token. If not set, this field value is null; otherwise, please set a string value. */
-  webhookKey?: string;
-  /** whether to update webhookKey. */
-  updateWebhookKey?: UpdateWebhookKey | (string & {});
-  /** whether to enable ssl verification */
-  enableSslVerification?: EnableSslVerification | (string & {});
-}
-export const WebhookPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(WebhookStatus),
-    sendAllEvents: S.optional(SendAllEvents),
-    events: S.optional(WebhookPropertiesInputEventsList),
-    payloadUrl: S.optional(S.String),
-    contentType: S.optional(ContentType),
-    webhookKey: S.optional(S.String),
-    updateWebhookKey: S.optional(UpdateWebhookKey),
-    enableSslVerification: S.optional(EnableSslVerification),
-  }),
-).annotate({
-  identifier: "WebhookPropertiesInput",
-}) as any as S.Schema<WebhookPropertiesInput>;
-
-export interface WebhookCreateOrUpdateRequest {
-  /** Report Name. */
-  reportName: string;
-  /** Webhook Name. */
-  webhookName: string;
-  /** Webhook property. */
-  properties: WebhookPropertiesInput;
-}
-export const WebhookCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-    webhookName: S.String.pipe(T.Label()),
-    properties: WebhookPropertiesInput,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks/{webhookName}",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "WebhookCreateOrUpdateRequest",
-}) as any as S.Schema<WebhookCreateOrUpdateRequest>;
+export const NotificationEvent = S.String;
 
 /** under which event notification should be sent. */
 export type WebhookPropertiesEventsList = Array<NotificationEvent>;
@@ -2666,13 +1627,25 @@ export const WebhookPropertiesEventsList = /*@__PURE__*/ S.Array(
   NotificationEvent,
 ) as any as S.Schema<WebhookPropertiesEventsList>;
 
+/** content type */
+export type ContentType = "application/json";
+export const ContentType = S.String;
+
+/** whether to update webhookKey. */
+export type UpdateWebhookKey = "true" | "false";
+export const UpdateWebhookKey = S.String;
+
 /** whether webhookKey is enabled. */
 export type WebhookKeyEnabled = "true" | "false";
-export const WebhookKeyEnabled = /*@__PURE__*/ S.String;
+export const WebhookKeyEnabled = S.String;
+
+/** whether to enable ssl verification */
+export type EnableSslVerification = "true" | "false";
+export const EnableSslVerification = S.String;
 
 /** webhook deliveryStatus */
 export type DeliveryStatus = "Succeeded" | "Failed" | "NotStarted";
-export const DeliveryStatus = /*@__PURE__*/ S.String;
+export const DeliveryStatus = S.String;
 
 /** Webhook properties. */
 export interface WebhookProperties {
@@ -2723,7 +1696,7 @@ export const WebhookProperties = /*@__PURE__*/ S.suspend(() =>
   identifier: "WebhookProperties",
 }) as any as S.Schema<WebhookProperties>;
 
-export interface WebhookCreateOrUpdateResponse {
+export interface GetWebhookResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -2735,7 +1708,7 @@ export interface WebhookCreateOrUpdateResponse {
   /** Webhook property. */
   properties: WebhookProperties;
 }
-export const WebhookCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -2744,85 +1717,10 @@ export const WebhookCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: WebhookProperties,
   }),
 ).annotate({
-  identifier: "WebhookCreateOrUpdateResponse",
-}) as any as S.Schema<WebhookCreateOrUpdateResponse>;
+  identifier: "GetWebhookResponse",
+}) as any as S.Schema<GetWebhookResponse>;
 
-export interface WebhookDeleteRequest {
-  /** Report Name. */
-  reportName: string;
-  /** Webhook Name. */
-  webhookName: string;
-}
-export const WebhookDeleteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-    webhookName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks/{webhookName}",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "WebhookDeleteRequest",
-}) as any as S.Schema<WebhookDeleteRequest>;
-
-export interface WebhookDeleteResponse {}
-export const WebhookDeleteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "WebhookDeleteResponse",
-}) as any as S.Schema<WebhookDeleteResponse>;
-
-export interface WebhookGetRequest {
-  /** Report Name. */
-  reportName: string;
-  /** Webhook Name. */
-  webhookName: string;
-}
-export const WebhookGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportName: S.String.pipe(T.Label()),
-    webhookName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks/{webhookName}",
-      code: 200,
-      apiVersion: "2024-06-27",
-    }),
-  ),
-).annotate({
-  identifier: "WebhookGetRequest",
-}) as any as S.Schema<WebhookGetRequest>;
-
-export interface WebhookGetResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Webhook property. */
-  properties: WebhookProperties;
-}
-export const WebhookGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    properties: WebhookProperties,
-  }),
-).annotate({
-  identifier: "WebhookGetResponse",
-}) as any as S.Schema<WebhookGetResponse>;
-
-export interface WebhookListRequest {
+export interface ListEvidenceByReportRequest {
   /** Report Name. */
   reportName: string;
   /** Skip over when retrieving results. */
@@ -2840,7 +1738,473 @@ export interface WebhookListRequest {
   /** The tenant id of the report creator. */
   reportCreatorTenantId?: string;
 }
-export const WebhookListRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListEvidenceByReportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+    _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+    _top: S.optional(S.Number.pipe(T.Query("$top"))),
+    _select: S.optional(S.String.pipe(T.Query("$select"))),
+    _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+    _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+    offerGuid: S.optional(S.String.pipe(T.Query())),
+    reportCreatorTenantId: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/evidences",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "ListEvidenceByReportRequest",
+}) as any as S.Schema<ListEvidenceByReportRequest>;
+
+/** A class represent an AppComplianceAutomation evidence resource. */
+export interface EvidenceResource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Evidence property. */
+  properties: EvidenceProperties;
+}
+export const EvidenceResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: EvidenceProperties,
+  }),
+).annotate({
+  identifier: "EvidenceResource",
+}) as any as S.Schema<EvidenceResource>;
+
+/** The EvidenceResource items on this page */
+export type EvidenceResourceListResultValueList = Array<EvidenceResource>;
+export const EvidenceResourceListResultValueList = /*@__PURE__*/ S.Array(
+  EvidenceResource,
+) as any as S.Schema<EvidenceResourceListResultValueList>;
+
+/** The response of a EvidenceResource list operation. */
+export interface EvidenceResourceListResult {
+  /** The EvidenceResource items on this page */
+  value: EvidenceResourceListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const EvidenceResourceListResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: EvidenceResourceListResultValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EvidenceResourceListResult",
+}) as any as S.Schema<EvidenceResourceListResult>;
+
+export interface ListOperationsRequest {}
+export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/providers/Microsoft.AppComplianceAutomation/operations",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  description?: string;
+}
+export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.optional(S.String),
+    resource: S.optional(S.String),
+    operation: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "OperationDisplay",
+}) as any as S.Schema<OperationDisplay>;
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+export type OperationOrigin = "user" | "system" | "user,system";
+export const OperationOrigin = S.String;
+
+/** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+export type OperationActionType = "Internal";
+export const OperationActionType = S.String;
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
+  name?: string;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
+  isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  origin?: OperationOrigin;
+  /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  actionType?: OperationActionType;
+}
+export const Operation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    isDataAction: S.optional(S.Boolean),
+    display: S.optional(OperationDisplay),
+    origin: S.optional(OperationOrigin),
+    actionType: S.optional(OperationActionType),
+  }),
+).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
+
+/** List of operations supported by the resource provider */
+export type ListOperationsResponseValueList = Array<Operation>;
+export const ListOperationsResponseValueList = /*@__PURE__*/ S.Array(
+  Operation,
+) as any as S.Schema<ListOperationsResponseValueList>;
+
+export interface ListOperationsResponse {
+  /** List of operations supported by the resource provider */
+  value?: ListOperationsResponseValueList;
+  /** URL to get the next set of operation list results (if there are any). */
+  nextLink?: string;
+}
+export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(ListOperationsResponseValueList),
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListOperationsResponse",
+}) as any as S.Schema<ListOperationsResponse>;
+
+/** List of subscription ids to be query. If the list is null or empty, the API will query all the subscriptions of the user. */
+export type ListProviderActionInUseStorageAccountsRequestSubscriptionIdsList =
+  Array<string>;
+export const ListProviderActionInUseStorageAccountsRequestSubscriptionIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListProviderActionInUseStorageAccountsRequestSubscriptionIdsList>;
+
+export interface ListProviderActionInUseStorageAccountsRequest {
+  /** List of subscription ids to be query. If the list is null or empty, the API will query all the subscriptions of the user. */
+  subscriptionIds?: ListProviderActionInUseStorageAccountsRequestSubscriptionIdsList;
+}
+export const ListProviderActionInUseStorageAccountsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionIds: S.optional(
+        ListProviderActionInUseStorageAccountsRequestSubscriptionIdsList,
+      ),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/providers/Microsoft.AppComplianceAutomation/listInUseStorageAccounts",
+        code: 200,
+        apiVersion: "2024-06-27",
+      }),
+    ),
+  ).annotate({
+    identifier: "ListProviderActionInUseStorageAccountsRequest",
+  }) as any as S.Schema<ListProviderActionInUseStorageAccountsRequest>;
+
+/** The storage account list which in use in related reports. */
+export type ListInUseStorageAccountsResponseStorageAccountListList =
+  Array<StorageInfo>;
+export const ListInUseStorageAccountsResponseStorageAccountListList =
+  /*@__PURE__*/ S.Array(
+    StorageInfo,
+  ) as any as S.Schema<ListInUseStorageAccountsResponseStorageAccountListList>;
+
+/** Parameters for listing in use storage accounts operation. If subscription list is null, it will check the user's all subscriptions. */
+export interface ListInUseStorageAccountsResponse {
+  /** The storage account list which in use in related reports. */
+  storageAccountList?: ListInUseStorageAccountsResponseStorageAccountListList;
+}
+export const ListInUseStorageAccountsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storageAccountList: S.optional(
+      ListInUseStorageAccountsResponseStorageAccountListList,
+    ),
+  }),
+).annotate({
+  identifier: "ListInUseStorageAccountsResponse",
+}) as any as S.Schema<ListInUseStorageAccountsResponse>;
+
+export interface ListReportRequest {
+  /** Skip over when retrieving results. */
+  _skipToken?: string;
+  /** Number of elements to return when retrieving results. */
+  _top?: number;
+  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
+  _select?: string;
+  /** The filter to apply on the operation. */
+  _filter?: string;
+  /** OData order by query option. */
+  _orderby?: string;
+  /** The offerGuid which mapping to the reports. */
+  offerGuid?: string;
+  /** The tenant id of the report creator. */
+  reportCreatorTenantId?: string;
+}
+export const ListReportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+    _top: S.optional(S.Number.pipe(T.Query("$top"))),
+    _select: S.optional(S.String.pipe(T.Query("$select"))),
+    _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+    _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+    offerGuid: S.optional(S.String.pipe(T.Query())),
+    reportCreatorTenantId: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "ListReportRequest",
+}) as any as S.Schema<ListReportRequest>;
+
+/** A class represent an AppComplianceAutomation report resource. */
+export interface ReportResource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Report property. */
+  properties: ReportProperties;
+}
+export const ReportResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: ReportProperties,
+  }),
+).annotate({ identifier: "ReportResource" }) as any as S.Schema<ReportResource>;
+
+/** The ReportResource items on this page */
+export type ReportResourceListResultValueList = Array<ReportResource>;
+export const ReportResourceListResultValueList = /*@__PURE__*/ S.Array(
+  ReportResource,
+) as any as S.Schema<ReportResourceListResultValueList>;
+
+/** The response of a ReportResource list operation. */
+export interface ReportResourceListResult {
+  /** The ReportResource items on this page */
+  value: ReportResourceListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const ReportResourceListResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: ReportResourceListResultValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ReportResourceListResult",
+}) as any as S.Schema<ReportResourceListResult>;
+
+export interface ListScopingConfigurationRequest {
+  /** Report Name. */
+  reportName: string;
+}
+export const ListScopingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/scopingConfigurations",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "ListScopingConfigurationRequest",
+}) as any as S.Schema<ListScopingConfigurationRequest>;
+
+/** A class represent an AppComplianceAutomation scoping configuration resource. */
+export interface ScopingConfigurationResource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** ScopingConfiguration property. */
+  properties: ScopingConfigurationProperties;
+}
+export const ScopingConfigurationResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: ScopingConfigurationProperties,
+  }),
+).annotate({
+  identifier: "ScopingConfigurationResource",
+}) as any as S.Schema<ScopingConfigurationResource>;
+
+/** The ScopingConfigurationResource items on this page */
+export type ScopingConfigurationResourceListResultValueList =
+  Array<ScopingConfigurationResource>;
+export const ScopingConfigurationResourceListResultValueList =
+  /*@__PURE__*/ S.Array(
+    ScopingConfigurationResource,
+  ) as any as S.Schema<ScopingConfigurationResourceListResultValueList>;
+
+/** The response of a ScopingConfigurationResource list operation. */
+export interface ScopingConfigurationResourceListResult {
+  /** The ScopingConfigurationResource items on this page */
+  value: ScopingConfigurationResourceListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const ScopingConfigurationResourceListResult = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      value: ScopingConfigurationResourceListResultValueList,
+      nextLink: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "ScopingConfigurationResourceListResult",
+}) as any as S.Schema<ScopingConfigurationResourceListResult>;
+
+export interface ListSnapshotRequest {
+  /** Report Name. */
+  reportName: string;
+  /** Skip over when retrieving results. */
+  _skipToken?: string;
+  /** Number of elements to return when retrieving results. */
+  _top?: number;
+  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
+  _select?: string;
+  /** The filter to apply on the operation. */
+  _filter?: string;
+  /** OData order by query option. */
+  _orderby?: string;
+  /** The offerGuid which mapping to the reports. */
+  offerGuid?: string;
+  /** The tenant id of the report creator. */
+  reportCreatorTenantId?: string;
+}
+export const ListSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+    _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+    _top: S.optional(S.Number.pipe(T.Query("$top"))),
+    _select: S.optional(S.String.pipe(T.Query("$select"))),
+    _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+    _orderby: S.optional(S.String.pipe(T.Query("$orderby"))),
+    offerGuid: S.optional(S.String.pipe(T.Query())),
+    reportCreatorTenantId: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "ListSnapshotRequest",
+}) as any as S.Schema<ListSnapshotRequest>;
+
+/** A class represent a AppComplianceAutomation snapshot resource. */
+export interface SnapshotResource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Snapshot's property. */
+  properties?: SnapshotProperties;
+}
+export const SnapshotResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: S.optional(SnapshotProperties),
+  }),
+).annotate({
+  identifier: "SnapshotResource",
+}) as any as S.Schema<SnapshotResource>;
+
+/** The SnapshotResource items on this page */
+export type SnapshotResourceListResultValueList = Array<SnapshotResource>;
+export const SnapshotResourceListResultValueList = /*@__PURE__*/ S.Array(
+  SnapshotResource,
+) as any as S.Schema<SnapshotResourceListResultValueList>;
+
+/** The response of a SnapshotResource list operation. */
+export interface SnapshotResourceListResult {
+  /** The SnapshotResource items on this page */
+  value: SnapshotResourceListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const SnapshotResourceListResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: SnapshotResourceListResultValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SnapshotResourceListResult",
+}) as any as S.Schema<SnapshotResourceListResult>;
+
+export interface ListWebhookRequest {
+  /** Report Name. */
+  reportName: string;
+  /** Skip over when retrieving results. */
+  _skipToken?: string;
+  /** Number of elements to return when retrieving results. */
+  _top?: number;
+  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
+  _select?: string;
+  /** The filter to apply on the operation. */
+  _filter?: string;
+  /** OData order by query option. */
+  _orderby?: string;
+  /** The offerGuid which mapping to the reports. */
+  offerGuid?: string;
+  /** The tenant id of the report creator. */
+  reportCreatorTenantId?: string;
+}
+export const ListWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reportName: S.String.pipe(T.Label()),
     _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
@@ -2859,8 +2223,8 @@ export const WebhookListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "WebhookListRequest",
-}) as any as S.Schema<WebhookListRequest>;
+  identifier: "ListWebhookRequest",
+}) as any as S.Schema<ListWebhookRequest>;
 
 /** A class represent an AppComplianceAutomation webhook resource. */
 export interface WebhookResource {
@@ -2909,7 +2273,555 @@ export const WebhookResourceListResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "WebhookResourceListResult",
 }) as any as S.Schema<WebhookResourceListResult>;
 
-export interface WebhookUpdateRequest {
+/** List of subscription ids to be onboarded */
+export type ProviderActionsOnboardRequestSubscriptionIdsList = Array<string>;
+export const ProviderActionsOnboardRequestSubscriptionIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ProviderActionsOnboardRequestSubscriptionIdsList>;
+
+export interface ProviderActionsOnboardRequest {
+  /** List of subscription ids to be onboarded */
+  subscriptionIds: ProviderActionsOnboardRequestSubscriptionIdsList;
+}
+export const ProviderActionsOnboardRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionIds: ProviderActionsOnboardRequestSubscriptionIdsList,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/providers/Microsoft.AppComplianceAutomation/onboard",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "ProviderActionsOnboardRequest",
+}) as any as S.Schema<ProviderActionsOnboardRequest>;
+
+/** List of subscription ids that are onboarded */
+export type OnboardResponseSubscriptionIdsList = Array<string>;
+export const OnboardResponseSubscriptionIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<OnboardResponseSubscriptionIdsList>;
+
+/** Success. The response indicates given subscriptions has been onboarded. */
+export interface OnboardResponse {
+  /** List of subscription ids that are onboarded */
+  subscriptionIds?: OnboardResponseSubscriptionIdsList;
+}
+export const OnboardResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionIds: S.optional(OnboardResponseSubscriptionIdsList),
+  }),
+).annotate({
+  identifier: "OnboardResponse",
+}) as any as S.Schema<OnboardResponse>;
+
+/** List of resource data. */
+export type ReportPropertiesInputResourcesList = Array<ResourceMetadata>;
+export const ReportPropertiesInputResourcesList = /*@__PURE__*/ S.Array(
+  ResourceMetadata,
+) as any as S.Schema<ReportPropertiesInputResourcesList>;
+
+/** Create Report's properties. */
+export interface ReportPropertiesInput {
+  /** Report collection trigger time. */
+  triggerTime: string;
+  /** Report collection trigger time's time zone, the available list can be obtained by executing "Get-TimeZone -ListAvailable" in PowerShell. An example of valid timezone id is "Pacific Standard Time". */
+  timeZone: string;
+  /** List of resource data. */
+  resources: ReportPropertiesInputResourcesList;
+  /** A list of comma-separated offerGuids indicates a series of offerGuids that map to the report. For example, "00000000-0000-0000-0000-000000000001,00000000-0000-0000-0000-000000000002" and "00000000-0000-0000-0000-000000000003". */
+  offerGuid?: string;
+  /** The information of 'bring your own storage' binding to the report */
+  storageInfo?: StorageInfo;
+}
+export const ReportPropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    triggerTime: S.String,
+    timeZone: S.String,
+    resources: ReportPropertiesInputResourcesList,
+    offerGuid: S.optional(S.String),
+    storageInfo: S.optional(StorageInfo),
+  }),
+).annotate({
+  identifier: "ReportPropertiesInput",
+}) as any as S.Schema<ReportPropertiesInput>;
+
+export interface ReportCreateOrUpdateRequest {
+  /** Report Name. */
+  reportName: string;
+  /** Report property. */
+  properties: ReportPropertiesInput;
+}
+export const ReportCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+    properties: ReportPropertiesInput,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "ReportCreateOrUpdateRequest",
+}) as any as S.Schema<ReportCreateOrUpdateRequest>;
+
+export interface ReportCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Report property. */
+  properties: ReportProperties;
+}
+export const ReportCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: ReportProperties,
+  }),
+).annotate({
+  identifier: "ReportCreateOrUpdateResponse",
+}) as any as S.Schema<ReportCreateOrUpdateResponse>;
+
+export interface ReportFixRequest {
+  /** Report Name. */
+  reportName: string;
+}
+export const ReportFixRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/fix",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "ReportFixRequest",
+}) as any as S.Schema<ReportFixRequest>;
+
+/** Indicates whether the fix action is Succeeded or Failed. */
+export type Result = "Succeeded" | "Failed";
+export const Result = S.String;
+
+/** Report fix result. */
+export interface ReportFixResult {
+  /** Indicates whether the fix action is Succeeded or Failed. */
+  result?: Result;
+  /** If the report fix action failed, to indicate the detailed failed reason. */
+  reason?: string;
+}
+export const ReportFixResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    result: S.optional(Result),
+    reason: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ReportFixResult",
+}) as any as S.Schema<ReportFixResult>;
+
+export interface ReportNestedResourceCheckNameAvailabilityRequest {
+  /** Report Name. */
+  reportName: string;
+  /** The name of the resource for which availability needs to be checked. */
+  name?: string;
+  /** The resource type. */
+  type?: string;
+}
+export const ReportNestedResourceCheckNameAvailabilityRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      reportName: S.String.pipe(T.Label()),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/checkNameAvailability",
+        code: 200,
+        apiVersion: "2024-06-27",
+      }),
+    ),
+  ).annotate({
+    identifier: "ReportNestedResourceCheckNameAvailabilityRequest",
+  }) as any as S.Schema<ReportNestedResourceCheckNameAvailabilityRequest>;
+
+/** The reason why the given name is not available. */
+export type ReportNestedResourceCheckNameAvailabilityResponseReason =
+  | "Invalid"
+  | "AlreadyExists";
+export const ReportNestedResourceCheckNameAvailabilityResponseReason = S.String;
+
+export interface ReportNestedResourceCheckNameAvailabilityResponse {
+  /** Indicates if the resource name is available. */
+  nameAvailable?: boolean;
+  /** The reason why the given name is not available. */
+  reason?: ReportNestedResourceCheckNameAvailabilityResponseReason;
+  /** Detailed reason why the given name is available. */
+  message?: string;
+}
+export const ReportNestedResourceCheckNameAvailabilityResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      nameAvailable: S.optional(S.Boolean),
+      reason: S.optional(
+        ReportNestedResourceCheckNameAvailabilityResponseReason,
+      ),
+      message: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ReportNestedResourceCheckNameAvailabilityResponse",
+  }) as any as S.Schema<ReportNestedResourceCheckNameAvailabilityResponse>;
+
+/** List of scoping question answers. */
+export type ScopingConfigurationPropertiesInputAnswersList =
+  Array<ScopingAnswer>;
+export const ScopingConfigurationPropertiesInputAnswersList =
+  /*@__PURE__*/ S.Array(
+    ScopingAnswer,
+  ) as any as S.Schema<ScopingConfigurationPropertiesInputAnswersList>;
+
+/** ScopingConfiguration's properties. */
+export interface ScopingConfigurationPropertiesInput {
+  /** List of scoping question answers. */
+  answers?: ScopingConfigurationPropertiesInputAnswersList;
+}
+export const ScopingConfigurationPropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    answers: S.optional(ScopingConfigurationPropertiesInputAnswersList),
+  }),
+).annotate({
+  identifier: "ScopingConfigurationPropertiesInput",
+}) as any as S.Schema<ScopingConfigurationPropertiesInput>;
+
+export interface ScopingConfigurationCreateOrUpdateRequest {
+  /** Report Name. */
+  reportName: string;
+  /** The scoping configuration of the specific report. */
+  scopingConfigurationName: string;
+  /** ScopingConfiguration property. */
+  properties: ScopingConfigurationPropertiesInput;
+}
+export const ScopingConfigurationCreateOrUpdateRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      reportName: S.String.pipe(T.Label()),
+      scopingConfigurationName: S.String.pipe(T.Label()),
+      properties: ScopingConfigurationPropertiesInput,
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/scopingConfigurations/{scopingConfigurationName}",
+        code: 200,
+        apiVersion: "2024-06-27",
+      }),
+    ),
+  ).annotate({
+    identifier: "ScopingConfigurationCreateOrUpdateRequest",
+  }) as any as S.Schema<ScopingConfigurationCreateOrUpdateRequest>;
+
+export interface ScopingConfigurationCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** ScopingConfiguration property. */
+  properties: ScopingConfigurationProperties;
+}
+export const ScopingConfigurationCreateOrUpdateResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: ScopingConfigurationProperties,
+    }),
+  ).annotate({
+    identifier: "ScopingConfigurationCreateOrUpdateResponse",
+  }) as any as S.Schema<ScopingConfigurationCreateOrUpdateResponse>;
+
+export interface SyncReportCertRecordRequest {
+  /** Report Name. */
+  reportName: string;
+  /** certification record to be synchronized. */
+  certRecord: CertSyncRecord;
+}
+export const SyncReportCertRecordRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+    certRecord: CertSyncRecord,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/syncCertRecord",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "SyncReportCertRecordRequest",
+}) as any as S.Schema<SyncReportCertRecordRequest>;
+
+/** Synchronize certification record response. */
+export interface SyncCertRecordResponse {
+  /** certification record synchronized. */
+  certRecord?: CertSyncRecord;
+}
+export const SyncCertRecordResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    certRecord: S.optional(CertSyncRecord),
+  }),
+).annotate({
+  identifier: "SyncCertRecordResponse",
+}) as any as S.Schema<SyncCertRecordResponse>;
+
+/** List of resource ids to be evaluated */
+export type TriggerProviderActionEvaluationRequestResourceIdsList =
+  Array<string>;
+export const TriggerProviderActionEvaluationRequestResourceIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<TriggerProviderActionEvaluationRequestResourceIdsList>;
+
+export interface TriggerProviderActionEvaluationRequest {
+  /** List of resource ids to be evaluated */
+  resourceIds: TriggerProviderActionEvaluationRequestResourceIdsList;
+}
+export const TriggerProviderActionEvaluationRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      resourceIds: TriggerProviderActionEvaluationRequestResourceIdsList,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/providers/Microsoft.AppComplianceAutomation/triggerEvaluation",
+        code: 200,
+        apiVersion: "2024-06-27",
+      }),
+    ),
+).annotate({
+  identifier: "TriggerProviderActionEvaluationRequest",
+}) as any as S.Schema<TriggerProviderActionEvaluationRequest>;
+
+/** List of resource ids to be evaluated */
+export type TriggerEvaluationPropertyResourceIdsList = Array<string>;
+export const TriggerEvaluationPropertyResourceIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TriggerEvaluationPropertyResourceIdsList>;
+
+/** A class represent the quick assessment. */
+export interface QuickAssessment {
+  /** Resource id. */
+  resourceId?: string;
+  /** Responsibility id. */
+  responsibilityId?: string;
+  /** The timestamp of resource creation (UTC). */
+  timestamp?: string;
+  /** Quick assessment status. */
+  resourceStatus?: ResourceStatus;
+  /** Quick assessment display name. */
+  displayName?: string;
+  /** Quick assessment display name. */
+  description?: string;
+  /** Link to remediation steps for this quick assessment. */
+  remediationLink?: string;
+}
+export const QuickAssessment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceId: S.optional(S.String),
+    responsibilityId: S.optional(S.String),
+    timestamp: S.optional(S.String),
+    resourceStatus: S.optional(ResourceStatus),
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+    remediationLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "QuickAssessment",
+}) as any as S.Schema<QuickAssessment>;
+
+/** List of quick assessments */
+export type TriggerEvaluationPropertyQuickAssessmentsList =
+  Array<QuickAssessment>;
+export const TriggerEvaluationPropertyQuickAssessmentsList =
+  /*@__PURE__*/ S.Array(
+    QuickAssessment,
+  ) as any as S.Schema<TriggerEvaluationPropertyQuickAssessmentsList>;
+
+/** Trigger evaluation response. */
+export interface TriggerEvaluationProperty {
+  /** The time when the evaluation is triggered. */
+  triggerTime?: string;
+  /** The time when the evaluation is end. */
+  evaluationEndTime?: string;
+  /** List of resource ids to be evaluated */
+  resourceIds?: TriggerEvaluationPropertyResourceIdsList;
+  /** List of quick assessments */
+  quickAssessments?: TriggerEvaluationPropertyQuickAssessmentsList;
+}
+export const TriggerEvaluationProperty = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    triggerTime: S.optional(S.String),
+    evaluationEndTime: S.optional(S.String),
+    resourceIds: S.optional(TriggerEvaluationPropertyResourceIdsList),
+    quickAssessments: S.optional(TriggerEvaluationPropertyQuickAssessmentsList),
+  }),
+).annotate({
+  identifier: "TriggerEvaluationProperty",
+}) as any as S.Schema<TriggerEvaluationProperty>;
+
+/** Trigger evaluation response. */
+export interface TriggerEvaluationResponse {
+  /** trigger evaluation property. */
+  properties?: TriggerEvaluationProperty;
+}
+export const TriggerEvaluationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    properties: S.optional(TriggerEvaluationProperty),
+  }),
+).annotate({
+  identifier: "TriggerEvaluationResponse",
+}) as any as S.Schema<TriggerEvaluationResponse>;
+
+/** List of resource data. */
+export type ReportPatchPropertiesInputResourcesList = Array<ResourceMetadata>;
+export const ReportPatchPropertiesInputResourcesList = /*@__PURE__*/ S.Array(
+  ResourceMetadata,
+) as any as S.Schema<ReportPatchPropertiesInputResourcesList>;
+
+/** Patch Report's properties. */
+export interface ReportPatchPropertiesInput {
+  /** Report collection trigger time. */
+  triggerTime?: string;
+  /** Report collection trigger time's time zone, the available list can be obtained by executing "Get-TimeZone -ListAvailable" in PowerShell. An example of valid timezone id is "Pacific Standard Time". */
+  timeZone?: string;
+  /** List of resource data. */
+  resources?: ReportPatchPropertiesInputResourcesList;
+  /** A list of comma-separated offerGuids indicates a series of offerGuids that map to the report. For example, "00000000-0000-0000-0000-000000000001,00000000-0000-0000-0000-000000000002" and "00000000-0000-0000-0000-000000000003". */
+  offerGuid?: string;
+  /** The information of 'bring your own storage' binding to the report */
+  storageInfo?: StorageInfo;
+}
+export const ReportPatchPropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    triggerTime: S.optional(S.String),
+    timeZone: S.optional(S.String),
+    resources: S.optional(ReportPatchPropertiesInputResourcesList),
+    offerGuid: S.optional(S.String),
+    storageInfo: S.optional(StorageInfo),
+  }),
+).annotate({
+  identifier: "ReportPatchPropertiesInput",
+}) as any as S.Schema<ReportPatchPropertiesInput>;
+
+export interface UpdateReportRequest {
+  /** Report Name. */
+  reportName: string;
+  /** Report property. */
+  properties?: ReportPatchPropertiesInput;
+}
+export const UpdateReportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+    properties: S.optional(ReportPatchPropertiesInput),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateReportRequest",
+}) as any as S.Schema<UpdateReportRequest>;
+
+export interface UpdateReportResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Report property. */
+  properties: ReportProperties;
+}
+export const UpdateReportResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: ReportProperties,
+  }),
+).annotate({
+  identifier: "UpdateReportResponse",
+}) as any as S.Schema<UpdateReportResponse>;
+
+/** under which event notification should be sent. */
+export type WebhookPropertiesInputEventsList = Array<
+  NotificationEvent | (string & {})
+>;
+export const WebhookPropertiesInputEventsList = /*@__PURE__*/ S.Array(
+  NotificationEvent,
+) as any as S.Schema<WebhookPropertiesInputEventsList>;
+
+/** Webhook properties. */
+export interface WebhookPropertiesInput {
+  /** Webhook status. */
+  status?: WebhookStatus | (string & {});
+  /** whether to send notification under any event. */
+  sendAllEvents?: SendAllEvents | (string & {});
+  /** under which event notification should be sent. */
+  events?: WebhookPropertiesInputEventsList;
+  /** webhook payload url */
+  payloadUrl?: string;
+  /** content type */
+  contentType?: ContentType | (string & {});
+  /** webhook secret token. If not set, this field value is null; otherwise, please set a string value. */
+  webhookKey?: string;
+  /** whether to update webhookKey. */
+  updateWebhookKey?: UpdateWebhookKey | (string & {});
+  /** whether to enable ssl verification */
+  enableSslVerification?: EnableSslVerification | (string & {});
+}
+export const WebhookPropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(WebhookStatus),
+    sendAllEvents: S.optional(SendAllEvents),
+    events: S.optional(WebhookPropertiesInputEventsList),
+    payloadUrl: S.optional(S.String),
+    contentType: S.optional(ContentType),
+    webhookKey: S.optional(S.String),
+    updateWebhookKey: S.optional(UpdateWebhookKey),
+    enableSslVerification: S.optional(EnableSslVerification),
+  }),
+).annotate({
+  identifier: "WebhookPropertiesInput",
+}) as any as S.Schema<WebhookPropertiesInput>;
+
+export interface UpdateWebhookRequest {
   /** Report Name. */
   reportName: string;
   /** Webhook Name. */
@@ -2917,7 +2829,7 @@ export interface WebhookUpdateRequest {
   /** Webhook property. */
   properties?: WebhookPropertiesInput;
 }
-export const WebhookUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reportName: S.String.pipe(T.Label()),
     webhookName: S.String.pipe(T.Label()),
@@ -2931,10 +2843,10 @@ export const WebhookUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "WebhookUpdateRequest",
-}) as any as S.Schema<WebhookUpdateRequest>;
+  identifier: "UpdateWebhookRequest",
+}) as any as S.Schema<UpdateWebhookRequest>;
 
-export interface WebhookUpdateResponse {
+export interface UpdateWebhookResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -2946,7 +2858,7 @@ export interface WebhookUpdateResponse {
   /** Webhook property. */
   properties: WebhookProperties;
 }
-export const WebhookUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+export const UpdateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -2955,8 +2867,197 @@ export const WebhookUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: WebhookProperties,
   }),
 ).annotate({
-  identifier: "WebhookUpdateResponse",
-}) as any as S.Schema<WebhookUpdateResponse>;
+  identifier: "UpdateWebhookResponse",
+}) as any as S.Schema<UpdateWebhookResponse>;
+
+export interface VerifyReportRequest {
+  /** Report Name. */
+  reportName: string;
+}
+export const VerifyReportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/verify",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "VerifyReportRequest",
+}) as any as S.Schema<VerifyReportRequest>;
+
+/** Report health status verification result. */
+export interface ReportVerificationResult {
+  /** Indicates whether the report verification action is Succeeded or Failed. */
+  result?: Result;
+  /** If the report verification action failed, to indicate the detailed failed reason. */
+  reason?: string;
+}
+export const ReportVerificationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    result: S.optional(Result),
+    reason: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ReportVerificationResult",
+}) as any as S.Schema<ReportVerificationResult>;
+
+export interface WebhookCreateOrUpdateRequest {
+  /** Report Name. */
+  reportName: string;
+  /** Webhook Name. */
+  webhookName: string;
+  /** Webhook property. */
+  properties: WebhookPropertiesInput;
+}
+export const WebhookCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reportName: S.String.pipe(T.Label()),
+    webhookName: S.String.pipe(T.Label()),
+    properties: WebhookPropertiesInput,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks/{webhookName}",
+      code: 200,
+      apiVersion: "2024-06-27",
+    }),
+  ),
+).annotate({
+  identifier: "WebhookCreateOrUpdateRequest",
+}) as any as S.Schema<WebhookCreateOrUpdateRequest>;
+
+export interface WebhookCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Webhook property. */
+  properties: WebhookProperties;
+}
+export const WebhookCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    properties: WebhookProperties,
+  }),
+).annotate({
+  identifier: "WebhookCreateOrUpdateResponse",
+}) as any as S.Schema<WebhookCreateOrUpdateResponse>;
+
+export type CheckProviderActionNameAvailabilityError = AzureOpError;
+/** Check if the given name is available for a report. */
+export const CheckProviderActionNameAvailability: API.OperationMethod<
+  CheckProviderActionNameAvailabilityRequest,
+  CheckProviderActionNameAvailabilityResponse,
+  CheckProviderActionNameAvailabilityError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CheckProviderActionNameAvailabilityRequest,
+  output: CheckProviderActionNameAvailabilityResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteEvidenceError = AzureOpError;
+/** Delete an existent evidence from a specified report */
+export const DeleteEvidence: API.OperationMethod<
+  DeleteEvidenceRequest,
+  DeleteEvidenceResponse,
+  DeleteEvidenceError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteEvidenceRequest,
+  output: DeleteEvidenceResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteReportError = AzureOpError;
+/** Delete an AppComplianceAutomation report. */
+export const DeleteReport: API.OperationMethod<
+  DeleteReportRequest,
+  DeleteReportResponse,
+  DeleteReportError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteReportRequest,
+  output: DeleteReportResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteScopingConfigurationError = AzureOpError;
+/** Clean the AppComplianceAutomation scoping configuration of the specific report. */
+export const DeleteScopingConfiguration: API.OperationMethod<
+  DeleteScopingConfigurationRequest,
+  DeleteScopingConfigurationResponse,
+  DeleteScopingConfigurationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteScopingConfigurationRequest,
+  output: DeleteScopingConfigurationResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteWebhookError = AzureOpError;
+/** Delete an AppComplianceAutomation webhook. */
+export const DeleteWebhook: API.OperationMethod<
+  DeleteWebhookRequest,
+  DeleteWebhookResponse,
+  DeleteWebhookError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteWebhookRequest,
+  output: DeleteWebhookResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DownloadEvidenceError = AzureOpError;
+/** Download evidence file. */
+export const DownloadEvidence: API.OperationMethod<
+  DownloadEvidenceRequest,
+  EvidenceFileDownloadResponse,
+  DownloadEvidenceError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DownloadEvidenceRequest,
+  output: EvidenceFileDownloadResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DownloadSnapshotError = AzureOpError;
+/** Download compliance needs from snapshot, like: Compliance Report, Resource List. */
+export const DownloadSnapshot: API.OperationMethod<
+  DownloadSnapshotRequest,
+  DownloadResponse,
+  DownloadSnapshotError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DownloadSnapshotRequest,
+  output: DownloadResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
 
 export type EvidenceCreateOrUpdateError = AzureOpError;
 /** Create or Update an evidence a specified report */
@@ -2973,136 +3074,226 @@ export const EvidenceCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type EvidenceDeleteError = AzureOpError;
-/** Delete an existent evidence from a specified report */
-export const EvidenceDelete: API.OperationMethod<
-  EvidenceDeleteRequest,
-  EvidenceDeleteResponse,
-  EvidenceDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: EvidenceDeleteRequest,
-  output: EvidenceDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type EvidenceDownloadError = AzureOpError;
-/** Download evidence file. */
-export const EvidenceDownload: API.OperationMethod<
-  EvidenceDownloadRequest,
-  EvidenceFileDownloadResponse,
-  EvidenceDownloadError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: EvidenceDownloadRequest,
-  output: EvidenceFileDownloadResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type EvidenceGetError = AzureOpError;
+export type GetEvidenceError = AzureOpError;
 /** Get the evidence metadata */
-export const EvidenceGet: API.OperationMethod<
-  EvidenceGetRequest,
-  EvidenceGetResponse,
-  EvidenceGetError,
+export const GetEvidence: API.OperationMethod<
+  GetEvidenceRequest,
+  GetEvidenceResponse,
+  GetEvidenceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: EvidenceGetRequest,
-  output: EvidenceGetResponse,
+  input: GetEvidenceRequest,
+  output: GetEvidenceResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type EvidenceListByReportError = AzureOpError;
-/** Returns a paginated list of evidences for a specified report. */
-export const EvidenceListByReport: API.OperationMethod<
-  EvidenceListByReportRequest,
-  EvidenceResourceListResult,
-  EvidenceListByReportError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: EvidenceListByReportRequest,
-  output: EvidenceResourceListResult,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type OperationsListError = AzureOpError;
-/** List the operations for the provider */
-export const OperationsList: API.OperationMethod<
-  OperationsListRequest,
-  OperationsListResponse,
-  OperationsListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: OperationsListRequest,
-  output: OperationsListResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ProviderActionsCheckNameAvailabilityError = AzureOpError;
-/** Check if the given name is available for a report. */
-export const ProviderActionsCheckNameAvailability: API.OperationMethod<
-  ProviderActionsCheckNameAvailabilityRequest,
-  ProviderActionsCheckNameAvailabilityResponse,
-  ProviderActionsCheckNameAvailabilityError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ProviderActionsCheckNameAvailabilityRequest,
-  output: ProviderActionsCheckNameAvailabilityResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ProviderActionsGetCollectionCountError = AzureOpError;
+export type GetProviderActionCollectionCountError = AzureOpError;
 /** Get the count of reports. */
-export const ProviderActionsGetCollectionCount: API.OperationMethod<
-  ProviderActionsGetCollectionCountRequest,
+export const GetProviderActionCollectionCount: API.OperationMethod<
+  GetProviderActionCollectionCountRequest,
   GetCollectionCountResponse,
-  ProviderActionsGetCollectionCountError,
+  GetProviderActionCollectionCountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ProviderActionsGetCollectionCountRequest,
+  input: GetProviderActionCollectionCountRequest,
   output: GetCollectionCountResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type ProviderActionsGetOverviewStatusError = AzureOpError;
+export type GetProviderActionOverviewStatusError = AzureOpError;
 /** Get the resource overview status. */
-export const ProviderActionsGetOverviewStatus: API.OperationMethod<
-  ProviderActionsGetOverviewStatusRequest,
+export const GetProviderActionOverviewStatus: API.OperationMethod<
+  GetProviderActionOverviewStatusRequest,
   GetOverviewStatusResponse,
-  ProviderActionsGetOverviewStatusError,
+  GetProviderActionOverviewStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ProviderActionsGetOverviewStatusRequest,
+  input: GetProviderActionOverviewStatusRequest,
   output: GetOverviewStatusResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type ProviderActionsListInUseStorageAccountsError = AzureOpError;
-/** List the storage accounts which are in use by related reports */
-export const ProviderActionsListInUseStorageAccounts: API.OperationMethod<
-  ProviderActionsListInUseStorageAccountsRequest,
-  ListInUseStorageAccountsResponse,
-  ProviderActionsListInUseStorageAccountsError,
+export type GetReportError = AzureOpError;
+/** Get the AppComplianceAutomation report and its properties. */
+export const GetReport: API.OperationMethod<
+  GetReportRequest,
+  GetReportResponse,
+  GetReportError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ProviderActionsListInUseStorageAccountsRequest,
+  input: GetReportRequest,
+  output: GetReportResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetReportScopingQuestionsError = AzureOpError;
+/** Fix the AppComplianceAutomation report error. e.g: App Compliance Automation Tool service unregistered, automation removed. */
+export const GetReportScopingQuestions: API.OperationMethod<
+  GetReportScopingQuestionsRequest,
+  ScopingQuestions,
+  GetReportScopingQuestionsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetReportScopingQuestionsRequest,
+  output: ScopingQuestions,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetScopingConfigurationError = AzureOpError;
+/** Get the AppComplianceAutomation scoping configuration of the specific report. */
+export const GetScopingConfiguration: API.OperationMethod<
+  GetScopingConfigurationRequest,
+  GetScopingConfigurationResponse,
+  GetScopingConfigurationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetScopingConfigurationRequest,
+  output: GetScopingConfigurationResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSnapshotError = AzureOpError;
+/** Get the AppComplianceAutomation snapshot and its properties. */
+export const GetSnapshot: API.OperationMethod<
+  GetSnapshotRequest,
+  GetSnapshotResponse,
+  GetSnapshotError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSnapshotRequest,
+  output: GetSnapshotResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetWebhookError = AzureOpError;
+/** Get the AppComplianceAutomation webhook and its properties. */
+export const GetWebhook: API.OperationMethod<
+  GetWebhookRequest,
+  GetWebhookResponse,
+  GetWebhookError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetWebhookRequest,
+  output: GetWebhookResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListEvidenceByReportError = AzureOpError;
+/** Returns a paginated list of evidences for a specified report. */
+export const ListEvidenceByReport: API.OperationMethod<
+  ListEvidenceByReportRequest,
+  EvidenceResourceListResult,
+  ListEvidenceByReportError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListEvidenceByReportRequest,
+  output: EvidenceResourceListResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListOperationsError = AzureOpError;
+/** List the operations for the provider */
+export const ListOperations: API.OperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse,
+  ListOperationsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOperationsRequest,
+  output: ListOperationsResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListProviderActionInUseStorageAccountsError = AzureOpError;
+/** List the storage accounts which are in use by related reports */
+export const ListProviderActionInUseStorageAccounts: API.OperationMethod<
+  ListProviderActionInUseStorageAccountsRequest,
+  ListInUseStorageAccountsResponse,
+  ListProviderActionInUseStorageAccountsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListProviderActionInUseStorageAccountsRequest,
   output: ListInUseStorageAccountsResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListReportError = AzureOpError;
+/** Get the AppComplianceAutomation report list for the tenant. */
+export const ListReport: API.OperationMethod<
+  ListReportRequest,
+  ReportResourceListResult,
+  ListReportError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListReportRequest,
+  output: ReportResourceListResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListScopingConfigurationError = AzureOpError;
+/** Returns a list format of the singleton scopingConfiguration for a specified report. */
+export const ListScopingConfiguration: API.OperationMethod<
+  ListScopingConfigurationRequest,
+  ScopingConfigurationResourceListResult,
+  ListScopingConfigurationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListScopingConfigurationRequest,
+  output: ScopingConfigurationResourceListResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSnapshotError = AzureOpError;
+/** Get the AppComplianceAutomation snapshot list. */
+export const ListSnapshot: API.OperationMethod<
+  ListSnapshotRequest,
+  SnapshotResourceListResult,
+  ListSnapshotError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSnapshotRequest,
+  output: SnapshotResourceListResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListWebhookError = AzureOpError;
+/** Get the AppComplianceAutomation webhook list. */
+export const ListWebhook: API.OperationMethod<
+  ListWebhookRequest,
+  WebhookResourceListResult,
+  ListWebhookError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListWebhookRequest,
+  output: WebhookResourceListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3123,21 +3314,6 @@ export const ProviderActionsOnboard: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ProviderActionsTriggerEvaluationError = AzureOpError;
-/** Trigger quick evaluation for the given subscriptions. */
-export const ProviderActionsTriggerEvaluation: API.OperationMethod<
-  ProviderActionsTriggerEvaluationRequest,
-  TriggerEvaluationResponse,
-  ProviderActionsTriggerEvaluationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ProviderActionsTriggerEvaluationRequest,
-  output: TriggerEvaluationResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
 export type ReportCreateOrUpdateError = AzureOpError;
 /** Create a new AppComplianceAutomation report or update an exiting AppComplianceAutomation report. */
 export const ReportCreateOrUpdate: API.OperationMethod<
@@ -3148,21 +3324,6 @@ export const ReportCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ReportCreateOrUpdateRequest,
   output: ReportCreateOrUpdateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ReportDeleteError = AzureOpError;
-/** Delete an AppComplianceAutomation report. */
-export const ReportDelete: API.OperationMethod<
-  ReportDeleteRequest,
-  ReportDeleteResponse,
-  ReportDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ReportDeleteRequest,
-  output: ReportDeleteResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3183,51 +3344,6 @@ export const ReportFix: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ReportGetError = AzureOpError;
-/** Get the AppComplianceAutomation report and its properties. */
-export const ReportGet: API.OperationMethod<
-  ReportGetRequest,
-  ReportGetResponse,
-  ReportGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ReportGetRequest,
-  output: ReportGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ReportGetScopingQuestionsError = AzureOpError;
-/** Fix the AppComplianceAutomation report error. e.g: App Compliance Automation Tool service unregistered, automation removed. */
-export const ReportGetScopingQuestions: API.OperationMethod<
-  ReportGetScopingQuestionsRequest,
-  ScopingQuestions,
-  ReportGetScopingQuestionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ReportGetScopingQuestionsRequest,
-  output: ScopingQuestions,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ReportListError = AzureOpError;
-/** Get the AppComplianceAutomation report list for the tenant. */
-export const ReportList: API.OperationMethod<
-  ReportListRequest,
-  ReportResourceListResult,
-  ReportListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ReportListRequest,
-  output: ReportResourceListResult,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
 export type ReportNestedResourceCheckNameAvailabilityError = AzureOpError;
 /** Checks the report's nested resource name availability, e.g: Webhooks, Evidences, Snapshots. */
 export const ReportNestedResourceCheckNameAvailability: API.OperationMethod<
@@ -3238,51 +3354,6 @@ export const ReportNestedResourceCheckNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ReportNestedResourceCheckNameAvailabilityRequest,
   output: ReportNestedResourceCheckNameAvailabilityResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ReportSyncCertRecordError = AzureOpError;
-/** Synchronize attestation record from app compliance. */
-export const ReportSyncCertRecord: API.OperationMethod<
-  ReportSyncCertRecordRequest,
-  SyncCertRecordResponse,
-  ReportSyncCertRecordError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ReportSyncCertRecordRequest,
-  output: SyncCertRecordResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ReportUpdateError = AzureOpError;
-/** Update an exiting AppComplianceAutomation report. */
-export const ReportUpdate: API.OperationMethod<
-  ReportUpdateRequest,
-  ReportUpdateResponse,
-  ReportUpdateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ReportUpdateRequest,
-  output: ReportUpdateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ReportVerifyError = AzureOpError;
-/** Verify the AppComplianceAutomation report health status. */
-export const ReportVerify: API.OperationMethod<
-  ReportVerifyRequest,
-  ReportVerificationResult,
-  ReportVerifyError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ReportVerifyRequest,
-  output: ReportVerificationResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3303,91 +3374,76 @@ export const ScopingConfigurationCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ScopingConfigurationDeleteError = AzureOpError;
-/** Clean the AppComplianceAutomation scoping configuration of the specific report. */
-export const ScopingConfigurationDelete: API.OperationMethod<
-  ScopingConfigurationDeleteRequest,
-  ScopingConfigurationDeleteResponse,
-  ScopingConfigurationDeleteError,
+export type SyncReportCertRecordError = AzureOpError;
+/** Synchronize attestation record from app compliance. */
+export const SyncReportCertRecord: API.OperationMethod<
+  SyncReportCertRecordRequest,
+  SyncCertRecordResponse,
+  SyncReportCertRecordError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ScopingConfigurationDeleteRequest,
-  output: ScopingConfigurationDeleteResponse,
+  input: SyncReportCertRecordRequest,
+  output: SyncCertRecordResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type ScopingConfigurationGetError = AzureOpError;
-/** Get the AppComplianceAutomation scoping configuration of the specific report. */
-export const ScopingConfigurationGet: API.OperationMethod<
-  ScopingConfigurationGetRequest,
-  ScopingConfigurationGetResponse,
-  ScopingConfigurationGetError,
+export type TriggerProviderActionEvaluationError = AzureOpError;
+/** Trigger quick evaluation for the given subscriptions. */
+export const TriggerProviderActionEvaluation: API.OperationMethod<
+  TriggerProviderActionEvaluationRequest,
+  TriggerEvaluationResponse,
+  TriggerProviderActionEvaluationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ScopingConfigurationGetRequest,
-  output: ScopingConfigurationGetResponse,
+  input: TriggerProviderActionEvaluationRequest,
+  output: TriggerEvaluationResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type ScopingConfigurationListError = AzureOpError;
-/** Returns a list format of the singleton scopingConfiguration for a specified report. */
-export const ScopingConfigurationList: API.OperationMethod<
-  ScopingConfigurationListRequest,
-  ScopingConfigurationResourceListResult,
-  ScopingConfigurationListError,
+export type UpdateReportError = AzureOpError;
+/** Update an exiting AppComplianceAutomation report. */
+export const UpdateReport: API.OperationMethod<
+  UpdateReportRequest,
+  UpdateReportResponse,
+  UpdateReportError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ScopingConfigurationListRequest,
-  output: ScopingConfigurationResourceListResult,
+  input: UpdateReportRequest,
+  output: UpdateReportResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type SnapshotDownloadError = AzureOpError;
-/** Download compliance needs from snapshot, like: Compliance Report, Resource List. */
-export const SnapshotDownload: API.OperationMethod<
-  SnapshotDownloadRequest,
-  DownloadResponse,
-  SnapshotDownloadError,
+export type UpdateWebhookError = AzureOpError;
+/** Update an exiting AppComplianceAutomation webhook. */
+export const UpdateWebhook: API.OperationMethod<
+  UpdateWebhookRequest,
+  UpdateWebhookResponse,
+  UpdateWebhookError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: SnapshotDownloadRequest,
-  output: DownloadResponse,
+  input: UpdateWebhookRequest,
+  output: UpdateWebhookResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type SnapshotGetError = AzureOpError;
-/** Get the AppComplianceAutomation snapshot and its properties. */
-export const SnapshotGet: API.OperationMethod<
-  SnapshotGetRequest,
-  SnapshotGetResponse,
-  SnapshotGetError,
+export type VerifyReportError = AzureOpError;
+/** Verify the AppComplianceAutomation report health status. */
+export const VerifyReport: API.OperationMethod<
+  VerifyReportRequest,
+  ReportVerificationResult,
+  VerifyReportError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: SnapshotGetRequest,
-  output: SnapshotGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type SnapshotListError = AzureOpError;
-/** Get the AppComplianceAutomation snapshot list. */
-export const SnapshotList: API.OperationMethod<
-  SnapshotListRequest,
-  SnapshotResourceListResult,
-  SnapshotListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SnapshotListRequest,
-  output: SnapshotResourceListResult,
+  input: VerifyReportRequest,
+  output: ReportVerificationResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3403,66 +3459,6 @@ export const WebhookCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WebhookCreateOrUpdateRequest,
   output: WebhookCreateOrUpdateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type WebhookDeleteError = AzureOpError;
-/** Delete an AppComplianceAutomation webhook. */
-export const WebhookDelete: API.OperationMethod<
-  WebhookDeleteRequest,
-  WebhookDeleteResponse,
-  WebhookDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: WebhookDeleteRequest,
-  output: WebhookDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type WebhookGetError = AzureOpError;
-/** Get the AppComplianceAutomation webhook and its properties. */
-export const WebhookGet: API.OperationMethod<
-  WebhookGetRequest,
-  WebhookGetResponse,
-  WebhookGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: WebhookGetRequest,
-  output: WebhookGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type WebhookListError = AzureOpError;
-/** Get the AppComplianceAutomation webhook list. */
-export const WebhookList: API.OperationMethod<
-  WebhookListRequest,
-  WebhookResourceListResult,
-  WebhookListError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: WebhookListRequest,
-  output: WebhookResourceListResult,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type WebhookUpdateError = AzureOpError;
-/** Update an exiting AppComplianceAutomation webhook. */
-export const WebhookUpdate: API.OperationMethod<
-  WebhookUpdateRequest,
-  WebhookUpdateResponse,
-  WebhookUpdateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: WebhookUpdateRequest,
-  output: WebhookUpdateResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

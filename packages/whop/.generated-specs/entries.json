@@ -1,0 +1,848 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.entries#Direction": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The direction of the sort."
+      }
+    },
+    "com.whop.entries#EntriesSortableColumns": {
+      "type": "enum",
+      "members": {
+        "ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id"
+          }
+        },
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which columns can be used to sort."
+      }
+    },
+    "com.whop.entries#ListEntryRequestProductIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Filter entries to only those for specific products."
+      }
+    },
+    "com.whop.entries#ListEntryRequestPlanIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Filter entries to only those for specific plans."
+      }
+    },
+    "com.whop.entries#EntryStatus": {
+      "type": "enum",
+      "members": {
+        "DRAFTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "drafted"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        },
+        "ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "any"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The status of an entry to a waitlist."
+      }
+    },
+    "com.whop.entries#ListEntryRequestStatusesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.entries#EntryStatus"
+      },
+      "traits": {
+        "smithy.api#documentation": "Filter entries by their current status."
+      }
+    },
+    "com.whop.entries#ListEntryRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id",
+            "smithy.api#required": {}
+          }
+        },
+        "direction": {
+          "target": "com.whop.entries#Direction",
+          "traits": {
+            "smithy.api#httpQuery": "direction"
+          }
+        },
+        "order": {
+          "target": "com.whop.entries#EntriesSortableColumns",
+          "traits": {
+            "smithy.api#httpQuery": "order"
+          }
+        },
+        "product_ids": {
+          "target": "com.whop.entries#ListEntryRequestProductIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "product_ids"
+          }
+        },
+        "plan_ids": {
+          "target": "com.whop.entries#ListEntryRequestPlanIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "plan_ids"
+          }
+        },
+        "statuses": {
+          "target": "com.whop.entries#ListEntryRequestStatusesList",
+          "traits": {
+            "smithy.api#httpQuery": "statuses"
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before"
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.entries#EntryListItem": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the entry was created.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the entry.",
+            "smithy.api#required": {}
+          }
+        },
+        "plan": {
+          "target": "com.whop.entries#EntryListItemPlan",
+          "traits": {
+            "smithy.api#documentation": "The waitlisted plan that this entry is a signup for.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product": {
+          "target": "com.whop.entries#EntryListItemProduct",
+          "traits": {
+            "smithy.api#documentation": "The product associated with this entry's waitlisted plan. Null if the plan is not tied to a product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.entries#EntryStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the waitlist entry (e.g., drafted, pending, approved, denied).",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.entries#EntryListItemUser",
+          "traits": {
+            "smithy.api#documentation": "The user who submitted this waitlist entry.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An entry represents a user's signup for a waitlisted plan."
+      }
+    },
+    "com.whop.entries#EntryListItemPlan": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the plan.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The waitlisted plan that this entry is a signup for."
+      }
+    },
+    "com.whop.entries#EntryListItemProduct": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the product shown to customers on the product page and in search results.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The product associated with this entry's waitlisted plan. Null if the plan is not tied to a product."
+      }
+    },
+    "com.whop.entries#EntryListItemUser": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's email address. Requires the member:email:read permission to access. Null if not authorized.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who submitted this waitlist entry."
+      }
+    },
+    "com.whop.entries#ListEntryResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.entries#EntryListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.entries#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.entries#ListEntryResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.entries#ListEntryResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.entries#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.entries#ListEntry": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.entries#ListEntryRequest"
+      },
+      "output": {
+        "target": "com.whop.entries#ListEntryResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.entries#BadRequest"
+        },
+        {
+          "target": "com.whop.entries#Forbidden"
+        },
+        {
+          "target": "com.whop.entries#NotFound"
+        },
+        {
+          "target": "com.whop.entries#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/entries",
+          "code": 200
+        },
+        "smithy.api#documentation": "List entries\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of waitlist entries for a company, with optional filtering by product, plan, status, and creation date.\n\nRequired permissions:\n - `plan:waitlist:read`\n - `member:email:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.entries#GetEntryRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the waitlist entry to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.entries#Entry": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the entry was created.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_field_responses": {
+          "target": "com.whop.entries#EntryCustomFieldResponsesList",
+          "traits": {
+            "smithy.api#documentation": "The list of responses collected from the user when submitting their waitlist entry.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the entry.",
+            "smithy.api#required": {}
+          }
+        },
+        "plan": {
+          "target": "com.whop.entries#EntryPlan",
+          "traits": {
+            "smithy.api#documentation": "The waitlisted plan that this entry is a signup for.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product": {
+          "target": "com.whop.entries#EntryProduct",
+          "traits": {
+            "smithy.api#documentation": "The product associated with this entry's waitlisted plan. Null if the plan is not tied to a product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.entries#EntryStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the waitlist entry (e.g., drafted, pending, approved, denied).",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.entries#EntryUser",
+          "traits": {
+            "smithy.api#documentation": "The user who submitted this waitlist entry.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An entry represents a user's signup for a waitlisted plan."
+      }
+    },
+    "com.whop.entries#EntryCustomFieldResponsesItem": {
+      "type": "structure",
+      "members": {
+        "answer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The response a user gave to the specific question or field.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the custom field response.",
+            "smithy.api#required": {}
+          }
+        },
+        "question": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The question asked by the custom field",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response from a custom field on checkout"
+      }
+    },
+    "com.whop.entries#EntryCustomFieldResponsesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.entries#EntryCustomFieldResponsesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of responses collected from the user when submitting their waitlist entry."
+      }
+    },
+    "com.whop.entries#EntryPlan": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the plan.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The waitlisted plan that this entry is a signup for."
+      }
+    },
+    "com.whop.entries#EntryProduct": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the product shown to customers on the product page and in search results.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The product associated with this entry's waitlisted plan. Null if the plan is not tied to a product."
+      }
+    },
+    "com.whop.entries#EntryUser": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's email address. Requires the member:email:read permission to access. Null if not authorized.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who submitted this waitlist entry."
+      }
+    },
+    "com.whop.entries#GetEntry": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.entries#GetEntryRequest"
+      },
+      "output": {
+        "target": "com.whop.entries#Entry"
+      },
+      "errors": [
+        {
+          "target": "com.whop.entries#BadRequest"
+        },
+        {
+          "target": "com.whop.entries#Forbidden"
+        },
+        {
+          "target": "com.whop.entries#NotFound"
+        },
+        {
+          "target": "com.whop.entries#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/entries/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve entry\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing waitlist entry.\n\nRequired permissions:\n - `plan:waitlist:read`\n - `member:email:read`"
+      }
+    },
+    "com.whop.entries#ApproveEntryRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the waitlist entry to approve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.entries#ApproveEntryResponse": {
+      "type": "structure",
+      "members": {
+        "job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the job.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.entries#ApproveEntry": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.entries#ApproveEntryRequest"
+      },
+      "output": {
+        "target": "com.whop.entries#ApproveEntryResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.entries#BadRequest"
+        },
+        {
+          "target": "com.whop.entries#Forbidden"
+        },
+        {
+          "target": "com.whop.entries#NotFound"
+        },
+        {
+          "target": "com.whop.entries#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/entries/{id}/approve",
+          "code": 200
+        },
+        "smithy.api#documentation": "Approve entry\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nApprove a pending waitlist entry, triggering the checkout process to grant the user access to the plan.\n\nRequired permissions:\n - `plan:waitlist:manage`"
+      }
+    },
+    "com.whop.entries#DenyEntryRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the waitlist entry to deny."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.entries#DenyEntry": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.entries#DenyEntryRequest"
+      },
+      "output": {
+        "target": "com.whop.entries#Entry"
+      },
+      "errors": [
+        {
+          "target": "com.whop.entries#BadRequest"
+        },
+        {
+          "target": "com.whop.entries#Forbidden"
+        },
+        {
+          "target": "com.whop.entries#NotFound"
+        },
+        {
+          "target": "com.whop.entries#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/entries/{id}/deny",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deny entry\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nDeny a pending waitlist entry, preventing the user from gaining access to the plan.\n\nRequired permissions:\n - `plan:waitlist:manage`\n - `plan:basic:read`\n - `member:email:read`"
+      }
+    },
+    "com.whop.entries#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.entries#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.entries#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.entries#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.entries#Entries": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.entries#ListEntry"
+        },
+        {
+          "target": "com.whop.entries#GetEntry"
+        },
+        {
+          "target": "com.whop.entries#ApproveEntry"
+        },
+        {
+          "target": "com.whop.entries#DenyEntry"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

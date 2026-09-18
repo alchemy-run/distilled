@@ -1,0 +1,749 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.ai_chats#ListAiChatRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "only_active_crons": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "only_active_crons"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ai_chats#AiChatListItem": {
+      "type": "structure",
+      "members": {
+        "blended_token_usage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total number of tokens consumed across all messages in this conversation.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the ai chat was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the ai chat.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_message_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of the most recent message in this conversation. Null if no messages have been sent yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of messages exchanged in this conversation.",
+            "smithy.api#required": {}
+          }
+        },
+        "notification_preference": {
+          "target": "com.whop.ai_chats#AiChatNotificationPreferences",
+          "traits": {
+            "smithy.api#documentation": "The notification preference for this AI chat. `all` delivers AI chat notifications and badges, while `none` mutes them.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short descriptive title for this AI chat conversation. Null if no title has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the ai chat was last updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.ai_chats#AiChatListItemUser",
+          "traits": {
+            "smithy.api#documentation": "The user who owns this AI chat conversation.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An AI-powered chat conversation belonging to a user, with optional scheduled automation."
+      }
+    },
+    "com.whop.ai_chats#AiChatNotificationPreferences": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The notification preference for an AI chat"
+      }
+    },
+    "com.whop.ai_chats#AiChatListItemUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who owns this AI chat conversation."
+      }
+    },
+    "com.whop.ai_chats#ListAiChatResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ai_chats#AiChatListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.ai_chats#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.ai_chats#ListAiChatResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.ai_chats#ListAiChatResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.ai_chats#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ai_chats#ListAiChat": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ai_chats#ListAiChatRequest"
+      },
+      "output": {
+        "target": "com.whop.ai_chats#ListAiChatResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ai_chats#BadRequest"
+        },
+        {
+          "target": "com.whop.ai_chats#Forbidden"
+        },
+        {
+          "target": "com.whop.ai_chats#NotFound"
+        },
+        {
+          "target": "com.whop.ai_chats#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ai_chats",
+          "code": 200
+        },
+        "smithy.api#documentation": "List ai chats\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of AI chat threads for the current authenticated user.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.ai_chats#CreateAiChatRequestMessageAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Input for an attachment"
+      }
+    },
+    "com.whop.ai_chats#CreateAiChatRequestMessageAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ai_chats#CreateAiChatRequestMessageAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of previously uploaded file attachments to include with the first message."
+      }
+    },
+    "com.whop.ai_chats#AiChatMessageSourceTypes": {
+      "type": "enum",
+      "members": {
+        "MANUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual"
+          }
+        },
+        "SUGGESTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "suggestion"
+          }
+        },
+        "LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The source of an AI chat message"
+      }
+    },
+    "com.whop.ai_chats#CreateAiChatRequest": {
+      "type": "structure",
+      "members": {
+        "current_company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to set as context for the AI chat (e.g., \"biz_XXXXX\").",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message_attachments": {
+          "target": "com.whop.ai_chats#CreateAiChatRequestMessageAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "A list of previously uploaded file attachments to include with the first message.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message_source": {
+          "target": "com.whop.ai_chats#AiChatMessageSourceTypes",
+          "traits": {
+            "smithy.api#documentation": "The source of the message.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text content of the first message to send to the AI agent.",
+            "smithy.api#required": {}
+          }
+        },
+        "suggestion_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of suggestion prompt that was clicked, when message_source is 'suggestion'.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An optional display title for the AI chat thread (e.g., \"Help with billing\").",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ai_chats#AiChat": {
+      "type": "structure",
+      "members": {
+        "blended_token_usage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total number of tokens consumed across all messages in this conversation.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the ai chat was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the ai chat.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_message_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of the most recent message in this conversation. Null if no messages have been sent yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of messages exchanged in this conversation.",
+            "smithy.api#required": {}
+          }
+        },
+        "notification_preference": {
+          "target": "com.whop.ai_chats#AiChatNotificationPreferences",
+          "traits": {
+            "smithy.api#documentation": "The notification preference for this AI chat. `all` delivers AI chat notifications and badges, while `none` mutes them.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short descriptive title for this AI chat conversation. Null if no title has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the ai chat was last updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.ai_chats#AiChatUser",
+          "traits": {
+            "smithy.api#documentation": "The user who owns this AI chat conversation.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An AI-powered chat conversation belonging to a user, with optional scheduled automation."
+      }
+    },
+    "com.whop.ai_chats#AiChatUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who owns this AI chat conversation."
+      }
+    },
+    "com.whop.ai_chats#CreateAiChat": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ai_chats#CreateAiChatRequest"
+      },
+      "output": {
+        "target": "com.whop.ai_chats#AiChat"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ai_chats#BadRequest"
+        },
+        {
+          "target": "com.whop.ai_chats#Forbidden"
+        },
+        {
+          "target": "com.whop.ai_chats#NotFound"
+        },
+        {
+          "target": "com.whop.ai_chats#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ai_chats",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create ai chat\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreate a new AI chat thread and send the first message to the AI agent.\n\nRequired permissions:\n - `ai_chat:create`"
+      }
+    },
+    "com.whop.ai_chats#GetAiChatRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the AI chat to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ai_chats#GetAiChat": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ai_chats#GetAiChatRequest"
+      },
+      "output": {
+        "target": "com.whop.ai_chats#AiChat"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ai_chats#BadRequest"
+        },
+        {
+          "target": "com.whop.ai_chats#Forbidden"
+        },
+        {
+          "target": "com.whop.ai_chats#NotFound"
+        },
+        {
+          "target": "com.whop.ai_chats#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ai_chats/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve ai chat\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing AI chat."
+      }
+    },
+    "com.whop.ai_chats#UpdateAiChatRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the AI chat to update (e.g., \"ai_chat_XXXXX\")."
+          }
+        },
+        "current_company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to set as context for the AI chat (e.g., \"biz_XXXXX\").",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notification_preference": {
+          "target": "com.whop.ai_chats#AiChatNotificationPreferences",
+          "traits": {
+            "smithy.api#documentation": "The notification preference for the AI chat.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The new display title for the AI chat thread (e.g., \"Help with billing\").",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ai_chats#UpdateAiChat": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ai_chats#UpdateAiChatRequest"
+      },
+      "output": {
+        "target": "com.whop.ai_chats#AiChat"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ai_chats#BadRequest"
+        },
+        {
+          "target": "com.whop.ai_chats#Forbidden"
+        },
+        {
+          "target": "com.whop.ai_chats#NotFound"
+        },
+        {
+          "target": "com.whop.ai_chats#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/ai_chats/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update ai chat\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUpdate an AI chat's title, notification preferences, or associated company context.\n\nRequired permissions:\n - `ai_chat:update`"
+      }
+    },
+    "com.whop.ai_chats#DeleteAiChatRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the AI chat to delete (e.g., \"ai_chat_XXXXX\")."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ai_chats#DeleteAiChatResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ai_chats#DeleteAiChat": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ai_chats#DeleteAiChatRequest"
+      },
+      "output": {
+        "target": "com.whop.ai_chats#DeleteAiChatResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ai_chats#BadRequest"
+        },
+        {
+          "target": "com.whop.ai_chats#Forbidden"
+        },
+        {
+          "target": "com.whop.ai_chats#NotFound"
+        },
+        {
+          "target": "com.whop.ai_chats#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/ai_chats/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete ai chat\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nDelete an AI chat thread so it no longer appears in the user's chat list.\n\nRequired permissions:\n - `ai_chat:delete`"
+      }
+    },
+    "com.whop.ai_chats#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.ai_chats#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.ai_chats#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.ai_chats#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.ai_chats#AiChats": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.ai_chats#ListAiChat"
+        },
+        {
+          "target": "com.whop.ai_chats#CreateAiChat"
+        },
+        {
+          "target": "com.whop.ai_chats#GetAiChat"
+        },
+        {
+          "target": "com.whop.ai_chats#UpdateAiChat"
+        },
+        {
+          "target": "com.whop.ai_chats#DeleteAiChat"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

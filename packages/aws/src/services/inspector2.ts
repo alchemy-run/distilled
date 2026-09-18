@@ -227,7 +227,7 @@ export type AssociationResultStatusCode =
   | "RESOURCE_NOT_FOUND"
   | "QUOTA_EXCEEDED"
   | (string & {});
-export const AssociationResultStatusCode = /*@__PURE__*/ S.String;
+export const AssociationResultStatusCode = S.String;
 
 export type AssociationResultStatusMessage = string;
 export interface FailedAssociationResult {
@@ -680,11 +680,13 @@ export const BatchGetFreeTrialInfoRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BatchGetFreeTrialInfoRequest>;
 export type FreeTrialType = string;
 export type FreeTrialStatus = string;
+export type CloudProvider = string;
 export interface FreeTrialInfo {
   type: string;
   start: Date;
   end: Date;
   status: string;
+  cloudProvider?: string;
 }
 export const FreeTrialInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -692,6 +694,7 @@ export const FreeTrialInfo = /*@__PURE__*/ S.suspend(() =>
     start: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     end: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     status: S.String,
+    cloudProvider: S.optional(S.String),
   }),
 ).annotate({ identifier: "FreeTrialInfo" }) as any as S.Schema<FreeTrialInfo>;
 export type FreeTrialInfoList = FreeTrialInfo[];
@@ -911,7 +914,7 @@ export const CancelSbomExportResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CancelSbomExportResponse>;
 export type CisScanName = string;
 export type CisSecurityLevel = "LEVEL_1" | "LEVEL_2" | (string & {});
-export const CisSecurityLevel = /*@__PURE__*/ S.String;
+export const CisSecurityLevel = S.String;
 
 export interface OneTimeSchedule {}
 export const OneTimeSchedule = /*@__PURE__*/ S.suspend(() =>
@@ -943,7 +946,7 @@ export type Day =
   | "FRI"
   | "SAT"
   | (string & {});
-export const Day = /*@__PURE__*/ S.String;
+export const Day = S.String;
 
 export type DaysList = Day[];
 export const DaysList = /*@__PURE__*/ S.Array(Day);
@@ -1048,7 +1051,7 @@ export const CreateCisScanConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateCisScanConfigurationResponse>;
 export type IntegrationName = string;
 export type IntegrationType = "GITLAB_SELF_MANAGED" | "GITHUB" | (string & {});
-export const IntegrationType = /*@__PURE__*/ S.String;
+export const IntegrationType = S.String;
 
 export type InstanceUrl = string | redacted.Redacted<string>;
 export type GitLabAccessToken = string | redacted.Redacted<string>;
@@ -1107,7 +1110,7 @@ export type IntegrationStatus =
   | "INACTIVE"
   | "DISABLING"
   | (string & {});
-export const IntegrationStatus = /*@__PURE__*/ S.String;
+export const IntegrationStatus = S.String;
 
 export type AuthorizationUrl = string | redacted.Redacted<string>;
 export interface CreateCodeSecurityIntegrationResponse {
@@ -1127,14 +1130,14 @@ export const CreateCodeSecurityIntegrationResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<CreateCodeSecurityIntegrationResponse>;
 export type ScanConfigurationName = string;
 export type ConfigurationLevel = "ORGANIZATION" | "ACCOUNT" | (string & {});
-export const ConfigurationLevel = /*@__PURE__*/ S.String;
+export const ConfigurationLevel = S.String;
 
 export type PeriodicScanFrequency =
   | "WEEKLY"
   | "MONTHLY"
   | "NEVER"
   | (string & {});
-export const PeriodicScanFrequency = /*@__PURE__*/ S.String;
+export const PeriodicScanFrequency = S.String;
 
 export type FrequencyExpression = string;
 export interface PeriodicScanConfiguration {
@@ -1153,7 +1156,7 @@ export type ContinuousIntegrationScanEvent =
   | "PULL_REQUEST"
   | "PUSH"
   | (string & {});
-export const ContinuousIntegrationScanEvent = /*@__PURE__*/ S.String;
+export const ContinuousIntegrationScanEvent = S.String;
 
 export type ContinuousIntegrationScanSupportedEvents =
   ContinuousIntegrationScanEvent[];
@@ -1169,7 +1172,7 @@ export const ContinuousIntegrationScanConfiguration = /*@__PURE__*/ S.suspend(
   identifier: "ContinuousIntegrationScanConfiguration",
 }) as any as S.Schema<ContinuousIntegrationScanConfiguration>;
 export type RuleSetCategory = "SAST" | "IAC" | "SCA" | (string & {});
-export const RuleSetCategory = /*@__PURE__*/ S.String;
+export const RuleSetCategory = S.String;
 
 export type RuleSetCategories = RuleSetCategory[];
 export const RuleSetCategories = /*@__PURE__*/ S.Array(RuleSetCategory);
@@ -1190,7 +1193,7 @@ export const CodeSecurityScanConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "CodeSecurityScanConfiguration",
 }) as any as S.Schema<CodeSecurityScanConfiguration>;
 export type ProjectSelectionScope = "ALL" | (string & {});
-export const ProjectSelectionScope = /*@__PURE__*/ S.String;
+export const ProjectSelectionScope = S.String;
 
 export interface ScopeSettings {
   projectSelectionScope?: ProjectSelectionScope;
@@ -1238,6 +1241,109 @@ export const CreateCodeSecurityScanConfigurationResponse =
   ).annotate({
     identifier: "CreateCodeSecurityScanConfigurationResponse",
   }) as any as S.Schema<CreateCodeSecurityScanConfigurationResponse>;
+export type ConnectorName = string;
+export type ConnectorCloudProvider = "AZURE" | (string & {});
+export const ConnectorCloudProvider = S.String;
+
+export type ConnectorDescription = string;
+export type AwsConfigConnectorArn = string;
+export type ScopeType = "TENANT" | "SUBSCRIPTION" | (string & {});
+export const ScopeType = S.String;
+
+export type ScopeValue = string;
+export type ScopeValueList = string[];
+export const ScopeValueList = /*@__PURE__*/ S.Array(S.String);
+export interface ScopeConfigurationInput {
+  scopeType: ScopeType;
+  scopeValues?: string[];
+}
+export const ScopeConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ scopeType: ScopeType, scopeValues: S.optional(ScopeValueList) }),
+).annotate({
+  identifier: "ScopeConfigurationInput",
+}) as any as S.Schema<ScopeConfigurationInput>;
+export interface AzureScopeConfigurationInput {
+  vmScanning?: ScopeConfigurationInput;
+  containerImageScanning?: ScopeConfigurationInput;
+  serverlessScanning?: ScopeConfigurationInput;
+}
+export const AzureScopeConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vmScanning: S.optional(ScopeConfigurationInput),
+    containerImageScanning: S.optional(ScopeConfigurationInput),
+    serverlessScanning: S.optional(ScopeConfigurationInput),
+  }),
+).annotate({
+  identifier: "AzureScopeConfigurationInput",
+}) as any as S.Schema<AzureScopeConfigurationInput>;
+export type AzureRegion = string;
+export type AzureRegionList = string[];
+export const AzureRegionList = /*@__PURE__*/ S.Array(S.String);
+export interface AzureProviderDetailCreate {
+  awsConfigConnectorArn: string;
+  scopeConfiguration: AzureScopeConfigurationInput;
+  azureRegions: string[];
+  autoInstallVMScanner?: boolean;
+}
+export const AzureProviderDetailCreate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    awsConfigConnectorArn: S.String,
+    scopeConfiguration: AzureScopeConfigurationInput,
+    azureRegions: AzureRegionList,
+    autoInstallVMScanner: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "AzureProviderDetailCreate",
+}) as any as S.Schema<AzureProviderDetailCreate>;
+export type ProviderDetailCreate = { azure: AzureProviderDetailCreate };
+export const ProviderDetailCreate = /*@__PURE__*/ S.Union([
+  S.Struct({ azure: AzureProviderDetailCreate }),
+]);
+export type ConnectorTagKey = string;
+export type ConnectorTagValue = string;
+export type ConnectorTagMap = { [key: string]: string | undefined };
+export const ConnectorTagMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface CreateConnectorRequest {
+  clientToken?: string;
+  name: string;
+  provider: ConnectorCloudProvider;
+  description?: string;
+  providerDetail: ProviderDetailCreate;
+  tags?: { [key: string]: string | undefined };
+}
+export const CreateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    name: S.String,
+    provider: ConnectorCloudProvider,
+    description: S.optional(S.String),
+    providerDetail: ProviderDetailCreate,
+    tags: S.optional(ConnectorTagMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/connector/create" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateConnectorRequest",
+}) as any as S.Schema<CreateConnectorRequest>;
+export type ConnectorArn = string;
+export interface CreateConnectorResponse {
+  connectorArn: string;
+}
+export const CreateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ connectorArn: S.String }),
+).annotate({
+  identifier: "CreateConnectorResponse",
+}) as any as S.Schema<CreateConnectorResponse>;
 export type FilterAction = string;
 export type FilterDescription = string;
 export type StringComparison = string;
@@ -1376,6 +1482,25 @@ export interface FilterCriteria {
   epssScore?: NumberFilter[];
   codeRepositoryProjectName?: StringFilter[];
   codeRepositoryProviderType?: StringFilter[];
+  cloudProvider?: StringFilter[];
+  cloudProviderRegion?: StringFilter[];
+  cloudProviderAccountId?: StringFilter[];
+  cloudProviderOrgId?: StringFilter[];
+  cloudVmImageReference?: StringFilter[];
+  cloudVmNetworkId?: StringFilter[];
+  cloudVmSubnetIds?: StringFilter[];
+  cloudImageRepositoryName?: StringFilter[];
+  cloudImageRegistry?: StringFilter[];
+  cloudImageDigest?: StringFilter[];
+  cloudImageTags?: StringFilter[];
+  cloudImagePushedAt?: DateFilter[];
+  cloudImageArchitecture?: StringFilter[];
+  cloudImageLastInUseAt?: DateFilter[];
+  cloudImageInUseCount?: NumberFilter[];
+  cloudServerlessFunctionName?: StringFilter[];
+  cloudServerlessFunctionRuntime?: StringFilter[];
+  cloudServerlessFunctionLastModifiedAt?: DateFilter[];
+  cloudServerlessFunctionExecutionRole?: StringFilter[];
 }
 export const FilterCriteria = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1425,6 +1550,25 @@ export const FilterCriteria = /*@__PURE__*/ S.suspend(() =>
     epssScore: S.optional(NumberFilterList),
     codeRepositoryProjectName: S.optional(StringFilterList),
     codeRepositoryProviderType: S.optional(StringFilterList),
+    cloudProvider: S.optional(StringFilterList),
+    cloudProviderRegion: S.optional(StringFilterList),
+    cloudProviderAccountId: S.optional(StringFilterList),
+    cloudProviderOrgId: S.optional(StringFilterList),
+    cloudVmImageReference: S.optional(StringFilterList),
+    cloudVmNetworkId: S.optional(StringFilterList),
+    cloudVmSubnetIds: S.optional(StringFilterList),
+    cloudImageRepositoryName: S.optional(StringFilterList),
+    cloudImageRegistry: S.optional(StringFilterList),
+    cloudImageDigest: S.optional(StringFilterList),
+    cloudImageTags: S.optional(StringFilterList),
+    cloudImagePushedAt: S.optional(DateFilterList),
+    cloudImageArchitecture: S.optional(StringFilterList),
+    cloudImageLastInUseAt: S.optional(DateFilterList),
+    cloudImageInUseCount: S.optional(NumberFilterList),
+    cloudServerlessFunctionName: S.optional(StringFilterList),
+    cloudServerlessFunctionRuntime: S.optional(StringFilterList),
+    cloudServerlessFunctionLastModifiedAt: S.optional(DateFilterList),
+    cloudServerlessFunctionExecutionRole: S.optional(StringFilterList),
   }),
 ).annotate({ identifier: "FilterCriteria" }) as any as S.Schema<FilterCriteria>;
 export type FilterName = string;
@@ -1551,6 +1695,17 @@ export interface ResourceFilterCriteria {
   ecrImageTags?: ResourceStringFilter[];
   ec2InstanceTags?: ResourceMapFilter[];
   lambdaFunctionTags?: ResourceMapFilter[];
+  cloudProvider?: ResourceStringFilter[];
+  cloudProviderAccountId?: ResourceStringFilter[];
+  cloudProviderOrgId?: ResourceStringFilter[];
+  cloudProviderRegion?: ResourceStringFilter[];
+  cloudVmInstanceTags?: ResourceMapFilter[];
+  cloudContainerImageTags?: ResourceStringFilter[];
+  cloudContainerRepositoryName?: ResourceStringFilter[];
+  cloudContainerRegistryName?: ResourceStringFilter[];
+  cloudServerlessFunctionName?: ResourceStringFilter[];
+  cloudServerlessFunctionRuntime?: ResourceStringFilter[];
+  cloudServerlessFunctionTags?: ResourceMapFilter[];
 }
 export const ResourceFilterCriteria = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1562,6 +1717,17 @@ export const ResourceFilterCriteria = /*@__PURE__*/ S.suspend(() =>
     ecrImageTags: S.optional(ResourceStringFilterList),
     ec2InstanceTags: S.optional(ResourceMapFilterList),
     lambdaFunctionTags: S.optional(ResourceMapFilterList),
+    cloudProvider: S.optional(ResourceStringFilterList),
+    cloudProviderAccountId: S.optional(ResourceStringFilterList),
+    cloudProviderOrgId: S.optional(ResourceStringFilterList),
+    cloudProviderRegion: S.optional(ResourceStringFilterList),
+    cloudVmInstanceTags: S.optional(ResourceMapFilterList),
+    cloudContainerImageTags: S.optional(ResourceStringFilterList),
+    cloudContainerRepositoryName: S.optional(ResourceStringFilterList),
+    cloudContainerRegistryName: S.optional(ResourceStringFilterList),
+    cloudServerlessFunctionName: S.optional(ResourceStringFilterList),
+    cloudServerlessFunctionRuntime: S.optional(ResourceStringFilterList),
+    cloudServerlessFunctionTags: S.optional(ResourceMapFilterList),
   }),
 ).annotate({
   identifier: "ResourceFilterCriteria",
@@ -1679,6 +1845,29 @@ export const DeleteCodeSecurityScanConfigurationResponse =
   ).annotate({
     identifier: "DeleteCodeSecurityScanConfigurationResponse",
   }) as any as S.Schema<DeleteCodeSecurityScanConfigurationResponse>;
+export interface DeleteConnectorRequest {
+  connectorArn: string;
+}
+export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ connectorArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/connector/delete" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteConnectorRequest",
+}) as any as S.Schema<DeleteConnectorRequest>;
+export interface DeleteConnectorResponse {}
+export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteConnectorResponse",
+}) as any as S.Schema<DeleteConnectorResponse>;
 export interface DeleteFilterRequest {
   arn: string;
 }
@@ -1914,7 +2103,7 @@ export type CisScanArn = string;
 export type ReportTargetAccounts = string[];
 export const ReportTargetAccounts = /*@__PURE__*/ S.Array(S.String);
 export type CisReportFormat = "PDF" | "CSV" | (string & {});
-export const CisReportFormat = /*@__PURE__*/ S.String;
+export const CisReportFormat = S.String;
 
 export interface GetCisScanReportRequest {
   scanArn: string;
@@ -1944,7 +2133,7 @@ export type CisReportStatus =
   | "FAILED"
   | "IN_PROGRESS"
   | (string & {});
-export const CisReportStatus = /*@__PURE__*/ S.String;
+export const CisReportStatus = S.String;
 
 export interface GetCisScanReportResponse {
   url?: string;
@@ -1957,10 +2146,10 @@ export const GetCisScanReportResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCisScanReportResponse>;
 export type ResourceId = string;
 export type CisFindingStatusComparison = "EQUALS" | (string & {});
-export const CisFindingStatusComparison = /*@__PURE__*/ S.String;
+export const CisFindingStatusComparison = S.String;
 
 export type CisFindingStatus = "PASSED" | "FAILED" | "SKIPPED" | (string & {});
-export const CisFindingStatus = /*@__PURE__*/ S.String;
+export const CisFindingStatus = S.String;
 
 export interface CisFindingStatusFilter {
   comparison: CisFindingStatusComparison;
@@ -1980,7 +2169,7 @@ export type CisStringComparison =
   | "PREFIX"
   | "NOT_EQUALS"
   | (string & {});
-export const CisStringComparison = /*@__PURE__*/ S.String;
+export const CisStringComparison = S.String;
 
 export interface CisStringFilter {
   comparison: CisStringComparison;
@@ -1996,7 +2185,7 @@ export const CheckIdFilterList = /*@__PURE__*/ S.Array(CisStringFilter);
 export type TitleFilterList = CisStringFilter[];
 export const TitleFilterList = /*@__PURE__*/ S.Array(CisStringFilter);
 export type CisSecurityLevelComparison = "EQUALS" | (string & {});
-export const CisSecurityLevelComparison = /*@__PURE__*/ S.String;
+export const CisSecurityLevelComparison = S.String;
 
 export interface CisSecurityLevelFilter {
   comparison: CisSecurityLevelComparison;
@@ -2032,10 +2221,10 @@ export const CisScanResultDetailsFilterCriteria = /*@__PURE__*/ S.suspend(() =>
   identifier: "CisScanResultDetailsFilterCriteria",
 }) as any as S.Schema<CisScanResultDetailsFilterCriteria>;
 export type CisScanResultDetailsSortBy = "CHECK_ID" | "STATUS" | (string & {});
-export const CisScanResultDetailsSortBy = /*@__PURE__*/ S.String;
+export const CisScanResultDetailsSortBy = S.String;
 
 export type CisSortOrder = "ASC" | "DESC" | (string & {});
-export const CisSortOrder = /*@__PURE__*/ S.String;
+export const CisSortOrder = S.String;
 
 export type NextToken = string;
 export type GetCisScanResultDetailsMaxResults = number;
@@ -2265,8 +2454,8 @@ export interface GetCodeSecurityIntegrationResponse {
   statusReason: string;
   createdOn: Date;
   lastUpdateOn: Date;
-  tags?: { [key: string]: string | undefined };
   authorizationUrl?: string | redacted.Redacted<string>;
+  tags?: { [key: string]: string | undefined };
 }
 export const GetCodeSecurityIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2277,8 +2466,8 @@ export const GetCodeSecurityIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
     statusReason: S.String,
     createdOn: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastUpdateOn: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    tags: S.optional(TagMap),
     authorizationUrl: S.optional(SensitiveString),
+    tags: S.optional(TagMap),
   }),
 ).annotate({
   identifier: "GetCodeSecurityIntegrationResponse",
@@ -2308,7 +2497,7 @@ export type CodeScanStatus =
   | "FAILED"
   | "SKIPPED"
   | (string & {});
-export const CodeScanStatus = /*@__PURE__*/ S.String;
+export const CodeScanStatus = S.String;
 
 export interface GetCodeSecurityScanResponse {
   scanId?: string;
@@ -2379,9 +2568,11 @@ export const GetCodeSecurityScanConfigurationResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "GetCodeSecurityScanConfigurationResponse",
 }) as any as S.Schema<GetCodeSecurityScanConfigurationResponse>;
-export interface GetConfigurationRequest {}
+export interface GetConfigurationRequest {
+  accountId?: string;
+}
 export const GetConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
+  S.Struct({ accountId: S.optional(S.String) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/configuration/get" }),
       svc,
@@ -2743,7 +2934,7 @@ export const ListAccountPermissionsResponse = /*@__PURE__*/ S.suspend(() =>
 export type CisScanNameFilterList = CisStringFilter[];
 export const CisScanNameFilterList = /*@__PURE__*/ S.Array(CisStringFilter);
 export type TagComparison = "EQUALS" | (string & {});
-export const TagComparison = /*@__PURE__*/ S.String;
+export const TagComparison = S.String;
 
 export interface TagFilter {
   comparison: TagComparison;
@@ -2779,7 +2970,7 @@ export type CisScanConfigurationsSortBy =
   | "SCAN_NAME"
   | "SCAN_CONFIGURATION_ARN"
   | (string & {});
-export const CisScanConfigurationsSortBy = /*@__PURE__*/ S.String;
+export const CisScanConfigurationsSortBy = S.String;
 
 export type ListCisScanConfigurationsMaxResults = number;
 export interface ListCisScanConfigurationsRequest {
@@ -2905,7 +3096,7 @@ export type CisScanResultsAggregatedByChecksSortBy =
   | "FAILED_COUNTS"
   | "SECURITY_LEVEL"
   | (string & {});
-export const CisScanResultsAggregatedByChecksSortBy = /*@__PURE__*/ S.String;
+export const CisScanResultsAggregatedByChecksSortBy = S.String;
 
 export type CisScanResultsMaxResults = number;
 export interface ListCisScanResultsAggregatedByChecksRequest {
@@ -2995,10 +3186,10 @@ export const ListCisScanResultsAggregatedByChecksResponse =
 export type AccountIdFilterList = CisStringFilter[];
 export const AccountIdFilterList = /*@__PURE__*/ S.Array(CisStringFilter);
 export type CisResultStatusComparison = "EQUALS" | (string & {});
-export const CisResultStatusComparison = /*@__PURE__*/ S.String;
+export const CisResultStatusComparison = S.String;
 
 export type CisResultStatus = "PASSED" | "FAILED" | "SKIPPED" | (string & {});
-export const CisResultStatus = /*@__PURE__*/ S.String;
+export const CisResultStatus = S.String;
 
 export interface CisResultStatusFilter {
   comparison: CisResultStatusComparison;
@@ -3016,14 +3207,14 @@ export const CisResultStatusFilterList = /*@__PURE__*/ S.Array(
 export type ResourceIdFilterList = CisStringFilter[];
 export const ResourceIdFilterList = /*@__PURE__*/ S.Array(CisStringFilter);
 export type CisTargetStatusComparison = "EQUALS" | (string & {});
-export const CisTargetStatusComparison = /*@__PURE__*/ S.String;
+export const CisTargetStatusComparison = S.String;
 
 export type CisTargetStatus =
   | "TIMED_OUT"
   | "CANCELLED"
   | "COMPLETED"
   | (string & {});
-export const CisTargetStatus = /*@__PURE__*/ S.String;
+export const CisTargetStatus = S.String;
 
 export interface CisTargetStatusFilter {
   comparison: CisTargetStatusComparison;
@@ -3043,7 +3234,7 @@ export type CisTargetStatusReason =
   | "UNSUPPORTED_OS"
   | "SSM_UNMANAGED"
   | (string & {});
-export const CisTargetStatusReason = /*@__PURE__*/ S.String;
+export const CisTargetStatusReason = S.String;
 
 export interface CisTargetStatusReasonFilter {
   comparison: CisTargetStatusComparison;
@@ -3096,8 +3287,7 @@ export type CisScanResultsAggregatedByTargetResourceSortBy =
   | "TARGET_STATUS"
   | "TARGET_STATUS_REASON"
   | (string & {});
-export const CisScanResultsAggregatedByTargetResourceSortBy =
-  /*@__PURE__*/ S.String;
+export const CisScanResultsAggregatedByTargetResourceSortBy = S.String;
 
 export interface ListCisScanResultsAggregatedByTargetResourceRequest {
   scanArn: string;
@@ -3173,7 +3363,7 @@ export const ListCisScanResultsAggregatedByTargetResourceResponse =
     identifier: "ListCisScanResultsAggregatedByTargetResourceResponse",
   }) as any as S.Schema<ListCisScanResultsAggregatedByTargetResourceResponse>;
 export type CisScanStatusComparison = "EQUALS" | (string & {});
-export const CisScanStatusComparison = /*@__PURE__*/ S.String;
+export const CisScanStatusComparison = S.String;
 
 export type CisScanStatus =
   | "FAILED"
@@ -3181,7 +3371,7 @@ export type CisScanStatus =
   | "CANCELLED"
   | "IN_PROGRESS"
   | (string & {});
-export const CisScanStatus = /*@__PURE__*/ S.String;
+export const CisScanStatus = S.String;
 
 export interface CisScanStatusFilter {
   comparison: CisScanStatusComparison;
@@ -3244,7 +3434,7 @@ export const ListCisScansFilterCriteria = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListCisScansFilterCriteria",
 }) as any as S.Schema<ListCisScansFilterCriteria>;
 export type ListCisScansDetailLevel = "ORGANIZATION" | "MEMBER" | (string & {});
-export const ListCisScansDetailLevel = /*@__PURE__*/ S.String;
+export const ListCisScansDetailLevel = S.String;
 
 export type ListCisScansSortBy =
   | "STATUS"
@@ -3252,7 +3442,7 @@ export type ListCisScansSortBy =
   | "SCAN_START_DATE"
   | "FAILED_CHECKS"
   | (string & {});
-export const ListCisScansSortBy = /*@__PURE__*/ S.String;
+export const ListCisScansSortBy = S.String;
 
 export type ListCisScansMaxResults = number;
 export interface ListCisScansRequest {
@@ -3350,7 +3540,6 @@ export interface CodeSecurityIntegrationSummary {
   statusReason: string;
   createdOn: Date;
   lastUpdateOn: Date;
-  tags?: { [key: string]: string | undefined };
 }
 export const CodeSecurityIntegrationSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3361,7 +3550,6 @@ export const CodeSecurityIntegrationSummary = /*@__PURE__*/ S.suspend(() =>
     statusReason: S.String,
     createdOn: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastUpdateOn: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    tags: S.optional(TagMap),
   }),
 ).annotate({
   identifier: "CodeSecurityIntegrationSummary",
@@ -3473,7 +3661,6 @@ export interface CodeSecurityScanConfigurationSummary {
   continuousIntegrationScanSupportedEvents?: ContinuousIntegrationScanEvent[];
   ruleSetCategories: RuleSetCategory[];
   scopeSettings?: ScopeSettings;
-  tags?: { [key: string]: string | undefined };
 }
 export const CodeSecurityScanConfigurationSummary = /*@__PURE__*/ S.suspend(
   () =>
@@ -3488,7 +3675,6 @@ export const CodeSecurityScanConfigurationSummary = /*@__PURE__*/ S.suspend(
       ),
       ruleSetCategories: RuleSetCategories,
       scopeSettings: S.optional(ScopeSettings),
-      tags: S.optional(TagMap),
     }),
 ).annotate({
   identifier: "CodeSecurityScanConfigurationSummary",
@@ -3511,6 +3697,318 @@ export const ListCodeSecurityScanConfigurationsResponse =
   ).annotate({
     identifier: "ListCodeSecurityScanConfigurationsResponse",
   }) as any as S.Schema<ListCodeSecurityScanConfigurationsResponse>;
+export type ConnectorNextToken = string | redacted.Redacted<string>;
+export type ConnectorArnComparison = "EQUALS" | (string & {});
+export const ConnectorArnComparison = S.String;
+
+export interface ConnectorArnFilter {
+  comparison: ConnectorArnComparison;
+  value: string;
+}
+export const ConnectorArnFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ comparison: ConnectorArnComparison, value: S.String }),
+).annotate({
+  identifier: "ConnectorArnFilter",
+}) as any as S.Schema<ConnectorArnFilter>;
+export type ConnectorArnFilterList = ConnectorArnFilter[];
+export const ConnectorArnFilterList = /*@__PURE__*/ S.Array(ConnectorArnFilter);
+export type AwsConfigConnectorArnComparison = "EQUALS" | (string & {});
+export const AwsConfigConnectorArnComparison = S.String;
+
+export interface AwsConfigConnectorArnFilter {
+  comparison: AwsConfigConnectorArnComparison;
+  value: string;
+}
+export const AwsConfigConnectorArnFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ comparison: AwsConfigConnectorArnComparison, value: S.String }),
+).annotate({
+  identifier: "AwsConfigConnectorArnFilter",
+}) as any as S.Schema<AwsConfigConnectorArnFilter>;
+export type AwsConfigConnectorArnFilterList = AwsConfigConnectorArnFilter[];
+export const AwsConfigConnectorArnFilterList = /*@__PURE__*/ S.Array(
+  AwsConfigConnectorArnFilter,
+);
+export type ConnectorTypeComparison = "EQUALS" | (string & {});
+export const ConnectorTypeComparison = S.String;
+
+export type ConnectorType =
+  | "CUSTOMER_MANAGED"
+  | "SERVICE_LINKED"
+  | (string & {});
+export const ConnectorType = S.String;
+
+export interface ConnectorTypeFilter {
+  comparison: ConnectorTypeComparison;
+  value: ConnectorType;
+}
+export const ConnectorTypeFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ comparison: ConnectorTypeComparison, value: ConnectorType }),
+).annotate({
+  identifier: "ConnectorTypeFilter",
+}) as any as S.Schema<ConnectorTypeFilter>;
+export type ConnectorTypeFilterList = ConnectorTypeFilter[];
+export const ConnectorTypeFilterList =
+  /*@__PURE__*/ S.Array(ConnectorTypeFilter);
+export type ProviderComparison = "EQUALS" | (string & {});
+export const ProviderComparison = S.String;
+
+export interface ProviderFilter {
+  comparison: ProviderComparison;
+  value: ConnectorCloudProvider;
+}
+export const ProviderFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ comparison: ProviderComparison, value: ConnectorCloudProvider }),
+).annotate({ identifier: "ProviderFilter" }) as any as S.Schema<ProviderFilter>;
+export type ProviderFilterList = ProviderFilter[];
+export const ProviderFilterList = /*@__PURE__*/ S.Array(ProviderFilter);
+export interface ConnectorFilterCriteria {
+  connectorArns?: ConnectorArnFilter[];
+  accounts?: StringFilter[];
+  awsConfigConnectorArns?: AwsConfigConnectorArnFilter[];
+  connectorType?: ConnectorTypeFilter[];
+  provider?: ProviderFilter[];
+}
+export const ConnectorFilterCriteria = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connectorArns: S.optional(ConnectorArnFilterList),
+    accounts: S.optional(StringFilterList),
+    awsConfigConnectorArns: S.optional(AwsConfigConnectorArnFilterList),
+    connectorType: S.optional(ConnectorTypeFilterList),
+    provider: S.optional(ProviderFilterList),
+  }),
+).annotate({
+  identifier: "ConnectorFilterCriteria",
+}) as any as S.Schema<ConnectorFilterCriteria>;
+export interface ListConnectorsRequest {
+  maxResults?: number;
+  nextToken?: string | redacted.Redacted<string>;
+  filterCriteria?: ConnectorFilterCriteria;
+}
+export const ListConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(SensitiveString),
+    filterCriteria: S.optional(ConnectorFilterCriteria),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/connector/list" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListConnectorsRequest",
+}) as any as S.Schema<ListConnectorsRequest>;
+export type EnablementStatus =
+  | "ENABLED"
+  | "PENDING_ENABLEMENT"
+  | "FAILED_TO_ENABLE"
+  | "PENDING_UPDATE"
+  | "FAILED_TO_UPDATE"
+  | "PENDING_DELETION"
+  | "DELETED"
+  | "FAILED_TO_DELETE"
+  | (string & {});
+export const EnablementStatus = S.String;
+
+export type ConnectorHealthStatus =
+  | "CONNECTED"
+  | "DEGRADED"
+  | "FAILED_TO_CONNECT"
+  | "PENDING_AUTHORIZATION"
+  | "PENDING_CONFIGURATION"
+  | "UNKNOWN"
+  | (string & {});
+export const ConnectorHealthStatus = S.String;
+
+export interface ConnectorHealth {
+  connectorStatus: ConnectorHealthStatus;
+  lastCheckedAt: Date;
+  message?: string;
+}
+export const ConnectorHealth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connectorStatus: ConnectorHealthStatus,
+    lastCheckedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ConnectorHealth",
+}) as any as S.Schema<ConnectorHealth>;
+export type ScopeState =
+  | "ACTIVE"
+  | "PENDING"
+  | "ERROR"
+  | "DISABLED"
+  | (string & {});
+export const ScopeState = S.String;
+
+export interface ScopeConfiguration {
+  scopeType: ScopeType;
+  scopeValues?: string[];
+  state?: ScopeState;
+  stateReason?: string;
+}
+export const ScopeConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scopeType: ScopeType,
+    scopeValues: S.optional(ScopeValueList),
+    state: S.optional(ScopeState),
+    stateReason: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ScopeConfiguration",
+}) as any as S.Schema<ScopeConfiguration>;
+export interface AzureScopeConfiguration {
+  vmScanning?: ScopeConfiguration;
+  containerImageScanning?: ScopeConfiguration;
+  serverlessScanning?: ScopeConfiguration;
+}
+export const AzureScopeConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vmScanning: S.optional(ScopeConfiguration),
+    containerImageScanning: S.optional(ScopeConfiguration),
+    serverlessScanning: S.optional(ScopeConfiguration),
+  }),
+).annotate({
+  identifier: "AzureScopeConfiguration",
+}) as any as S.Schema<AzureScopeConfiguration>;
+export interface Connector {
+  connectorArn: string;
+  name?: string;
+  description?: string;
+  provider: ConnectorCloudProvider;
+  enablementStatus?: EnablementStatus;
+  enablementStatusReason?: string;
+  health?: ConnectorHealth;
+  createdAt: Date;
+  updatedAt: Date;
+  azureRegions?: string[];
+  awsConfigConnectorArn?: string;
+  scopeConfiguration?: AzureScopeConfiguration;
+  tags?: { [key: string]: string | undefined };
+  autoInstallVMScanner?: boolean;
+}
+export const Connector = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connectorArn: S.String,
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    provider: ConnectorCloudProvider,
+    enablementStatus: S.optional(EnablementStatus),
+    enablementStatusReason: S.optional(S.String),
+    health: S.optional(ConnectorHealth),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    azureRegions: S.optional(AzureRegionList),
+    awsConfigConnectorArn: S.optional(S.String),
+    scopeConfiguration: S.optional(AzureScopeConfiguration),
+    tags: S.optional(ConnectorTagMap),
+    autoInstallVMScanner: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "Connector" }) as any as S.Schema<Connector>;
+export type ConnectorList = Connector[];
+export const ConnectorList = /*@__PURE__*/ S.Array(Connector);
+export interface ListConnectorsResponse {
+  items: Connector[];
+  nextToken?: string | redacted.Redacted<string>;
+}
+export const ListConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ items: ConnectorList, nextToken: S.optional(SensitiveString) }),
+).annotate({
+  identifier: "ListConnectorsResponse",
+}) as any as S.Schema<ListConnectorsResponse>;
+export type AwsConfigConnectorArnList = string[];
+export const AwsConfigConnectorArnList = /*@__PURE__*/ S.Array(S.String);
+export type ListConnectorScanConfigurationsMaxResults = number;
+export interface ListConnectorScanConfigurationsRequest {
+  awsConfigConnectorArns?: string[];
+  maxResults?: number;
+  nextToken?: string | redacted.Redacted<string>;
+}
+export const ListConnectorScanConfigurationsRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      awsConfigConnectorArns: S.optional(AwsConfigConnectorArnList),
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(SensitiveString),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/connectorscanconfigurations/list" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "ListConnectorScanConfigurationsRequest",
+}) as any as S.Schema<ListConnectorScanConfigurationsRequest>;
+export type ConnectorArnList = string[];
+export const ConnectorArnList = /*@__PURE__*/ S.Array(S.String);
+export type ContainerImageRescanDuration = string;
+export type ContainerImagePullDateRescanDuration = string;
+export interface ConnectorContainerImageScanConfiguration {
+  pushDuration?: string;
+  pullDuration?: string;
+}
+export const ConnectorContainerImageScanConfiguration = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      pushDuration: S.optional(S.String),
+      pullDuration: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "ConnectorContainerImageScanConfiguration",
+}) as any as S.Schema<ConnectorContainerImageScanConfiguration>;
+export interface ConnectorScanConfiguration {
+  containerImageScanning?: ConnectorContainerImageScanConfiguration;
+}
+export const ConnectorScanConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    containerImageScanning: S.optional(
+      ConnectorContainerImageScanConfiguration,
+    ),
+  }),
+).annotate({
+  identifier: "ConnectorScanConfiguration",
+}) as any as S.Schema<ConnectorScanConfiguration>;
+export interface ConnectorScanConfigurationItem {
+  awsConfigConnectorArn: string;
+  connectorArns: string[];
+  scanConfiguration: ConnectorScanConfiguration;
+}
+export const ConnectorScanConfigurationItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    awsConfigConnectorArn: S.String,
+    connectorArns: ConnectorArnList,
+    scanConfiguration: ConnectorScanConfiguration,
+  }),
+).annotate({
+  identifier: "ConnectorScanConfigurationItem",
+}) as any as S.Schema<ConnectorScanConfigurationItem>;
+export type ConnectorScanConfigurationItemList =
+  ConnectorScanConfigurationItem[];
+export const ConnectorScanConfigurationItemList = /*@__PURE__*/ S.Array(
+  ConnectorScanConfigurationItem,
+);
+export interface ListConnectorScanConfigurationsResponse {
+  scanConfigurations: ConnectorScanConfigurationItem[];
+  nextToken?: string | redacted.Redacted<string>;
+}
+export const ListConnectorScanConfigurationsResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      scanConfigurations: ConnectorScanConfigurationItemList,
+      nextToken: S.optional(SensitiveString),
+    }),
+).annotate({
+  identifier: "ListConnectorScanConfigurationsResponse",
+}) as any as S.Schema<ListConnectorScanConfigurationsResponse>;
 export type ListCoverageMaxResults = number;
 export type CoverageStringComparison = string;
 export type CoverageStringInput = string;
@@ -3594,6 +4092,17 @@ export interface CoverageFilterCriteria {
   codeRepositoryProviderType?: CoverageStringFilter[];
   codeRepositoryProviderTypeVisibility?: CoverageStringFilter[];
   lastScannedCommitId?: CoverageStringFilter[];
+  cloudProvider?: CoverageStringFilter[];
+  cloudProviderAccountId?: CoverageStringFilter[];
+  cloudProviderRegion?: CoverageStringFilter[];
+  cloudVmInstanceTags?: CoverageMapFilter[];
+  cloudContainerImageTags?: CoverageStringFilter[];
+  cloudContainerRepositoryName?: CoverageStringFilter[];
+  cloudContainerRegistryName?: CoverageStringFilter[];
+  cloudServerlessFunctionName?: CoverageStringFilter[];
+  cloudServerlessFunctionRuntime?: CoverageStringFilter[];
+  cloudServerlessFunctionTags?: CoverageMapFilter[];
+  cloudProviderOrgId?: CoverageStringFilter[];
 }
 export const CoverageFilterCriteria = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3618,6 +4127,17 @@ export const CoverageFilterCriteria = /*@__PURE__*/ S.suspend(() =>
     codeRepositoryProviderType: S.optional(CoverageStringFilterList),
     codeRepositoryProviderTypeVisibility: S.optional(CoverageStringFilterList),
     lastScannedCommitId: S.optional(CoverageStringFilterList),
+    cloudProvider: S.optional(CoverageStringFilterList),
+    cloudProviderAccountId: S.optional(CoverageStringFilterList),
+    cloudProviderRegion: S.optional(CoverageStringFilterList),
+    cloudVmInstanceTags: S.optional(CoverageMapFilterList),
+    cloudContainerImageTags: S.optional(CoverageStringFilterList),
+    cloudContainerRepositoryName: S.optional(CoverageStringFilterList),
+    cloudContainerRegistryName: S.optional(CoverageStringFilterList),
+    cloudServerlessFunctionName: S.optional(CoverageStringFilterList),
+    cloudServerlessFunctionRuntime: S.optional(CoverageStringFilterList),
+    cloudServerlessFunctionTags: S.optional(CoverageMapFilterList),
+    cloudProviderOrgId: S.optional(CoverageStringFilterList),
   }),
 ).annotate({
   identifier: "CoverageFilterCriteria",
@@ -3805,12 +4325,81 @@ export const CodeRepositoryMetadata = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CodeRepositoryMetadata",
 }) as any as S.Schema<CodeRepositoryMetadata>;
+export type VmPlatform = string;
+export interface VmInstanceMetadata {
+  tags?: { [key: string]: string | undefined };
+  platform?: string;
+  inventoryHash?: string;
+  vmImageReference?: string;
+}
+export const VmInstanceMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tags: S.optional(TagMap),
+    platform: S.optional(S.String),
+    inventoryHash: S.optional(S.String),
+    vmImageReference: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "VmInstanceMetadata",
+}) as any as S.Schema<VmInstanceMetadata>;
+export interface ContainerImageMetadata {
+  imageTags?: string[];
+  imagePulledAt?: Date;
+  lastInUseAt?: Date;
+  inUseCount?: number;
+}
+export const ContainerImageMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageTags: S.optional(TagList),
+    imagePulledAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastInUseAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    inUseCount: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ContainerImageMetadata",
+}) as any as S.Schema<ContainerImageMetadata>;
+export interface ContainerRepositoryMetadata {
+  name?: string;
+  scanFrequency?: string;
+}
+export const ContainerRepositoryMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), scanFrequency: S.optional(S.String) }),
+).annotate({
+  identifier: "ContainerRepositoryMetadata",
+}) as any as S.Schema<ContainerRepositoryMetadata>;
+export interface ContainerRegistryMetadata {
+  name?: string;
+}
+export const ContainerRegistryMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ name: S.optional(S.String) }),
+).annotate({
+  identifier: "ContainerRegistryMetadata",
+}) as any as S.Schema<ContainerRegistryMetadata>;
+export interface ServerlessFunctionMetadata {
+  serverlessFunctionName?: string;
+  runtime?: string;
+  functionTags?: { [key: string]: string | undefined };
+}
+export const ServerlessFunctionMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serverlessFunctionName: S.optional(S.String),
+    runtime: S.optional(S.String),
+    functionTags: S.optional(TagMap),
+  }),
+).annotate({
+  identifier: "ServerlessFunctionMetadata",
+}) as any as S.Schema<ServerlessFunctionMetadata>;
 export interface ResourceScanMetadata {
   ecrRepository?: EcrRepositoryMetadata;
   ecrImage?: EcrContainerImageMetadata;
   ec2?: Ec2Metadata;
   lambdaFunction?: LambdaFunctionMetadata;
   codeRepository?: CodeRepositoryMetadata;
+  vmInstance?: VmInstanceMetadata;
+  containerImage?: ContainerImageMetadata;
+  containerRepository?: ContainerRepositoryMetadata;
+  containerRegistry?: ContainerRegistryMetadata;
+  serverlessFunction?: ServerlessFunctionMetadata;
 }
 export const ResourceScanMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3819,11 +4408,21 @@ export const ResourceScanMetadata = /*@__PURE__*/ S.suspend(() =>
     ec2: S.optional(Ec2Metadata),
     lambdaFunction: S.optional(LambdaFunctionMetadata),
     codeRepository: S.optional(CodeRepositoryMetadata),
+    vmInstance: S.optional(VmInstanceMetadata),
+    containerImage: S.optional(ContainerImageMetadata),
+    containerRepository: S.optional(ContainerRepositoryMetadata),
+    containerRegistry: S.optional(ContainerRegistryMetadata),
+    serverlessFunction: S.optional(ServerlessFunctionMetadata),
   }),
 ).annotate({
   identifier: "ResourceScanMetadata",
 }) as any as S.Schema<ResourceScanMetadata>;
 export type ScanMode = string;
+export type Provider = string;
+export type ProviderAccountId = string;
+export type ProviderOrgId = string;
+export type ProviderRegion = string;
+export type ProviderPartition = string;
 export interface CoveredResource {
   resourceType: string;
   resourceId: string;
@@ -3833,6 +4432,11 @@ export interface CoveredResource {
   resourceMetadata?: ResourceScanMetadata;
   lastScannedAt?: Date;
   scanMode?: string;
+  provider?: string;
+  providerAccountId?: string;
+  providerOrgId?: string;
+  providerRegion?: string;
+  providerPartition?: string;
 }
 export const CoveredResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3844,6 +4448,11 @@ export const CoveredResource = /*@__PURE__*/ S.suspend(() =>
     resourceMetadata: S.optional(ResourceScanMetadata),
     lastScannedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     scanMode: S.optional(S.String),
+    provider: S.optional(S.String),
+    providerAccountId: S.optional(S.String),
+    providerOrgId: S.optional(S.String),
+    providerRegion: S.optional(S.String),
+    providerPartition: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CoveredResource",
@@ -4128,6 +4737,11 @@ export interface ImageLayerAggregation {
   repositories?: StringFilter[];
   resourceIds?: StringFilter[];
   layerHashes?: StringFilter[];
+  cloudProviders?: StringFilter[];
+  cloudAccountIds?: StringFilter[];
+  cloudOrgIds?: StringFilter[];
+  cloudRegions?: StringFilter[];
+  cloudPartitions?: StringFilter[];
   sortOrder?: string;
   sortBy?: string;
 }
@@ -4136,6 +4750,11 @@ export const ImageLayerAggregation = /*@__PURE__*/ S.suspend(() =>
     repositories: S.optional(StringFilterList),
     resourceIds: S.optional(StringFilterList),
     layerHashes: S.optional(StringFilterList),
+    cloudProviders: S.optional(StringFilterList),
+    cloudAccountIds: S.optional(StringFilterList),
+    cloudOrgIds: S.optional(StringFilterList),
+    cloudRegions: S.optional(StringFilterList),
+    cloudPartitions: S.optional(StringFilterList),
     sortOrder: S.optional(S.String),
     sortBy: S.optional(S.String),
   }),
@@ -4177,18 +4796,18 @@ export interface TitleAggregation {
   titles?: StringFilter[];
   vulnerabilityIds?: StringFilter[];
   resourceType?: string;
+  findingType?: string;
   sortOrder?: string;
   sortBy?: string;
-  findingType?: string;
 }
 export const TitleAggregation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     titles: S.optional(StringFilterList),
     vulnerabilityIds: S.optional(StringFilterList),
     resourceType: S.optional(S.String),
+    findingType: S.optional(S.String),
     sortOrder: S.optional(S.String),
     sortBy: S.optional(S.String),
-    findingType: S.optional(S.String),
   }),
 ).annotate({
   identifier: "TitleAggregation",
@@ -4252,6 +4871,107 @@ export const CodeRepositoryAggregation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CodeRepositoryAggregation",
 }) as any as S.Schema<CodeRepositoryAggregation>;
+export type VmInstanceSortBy = string;
+export interface VmInstanceAggregation {
+  resourceIds?: StringFilter[];
+  operatingSystems?: StringFilter[];
+  instanceTags?: MapFilter[];
+  vmImageReferences?: StringFilter[];
+  cloudProviders?: StringFilter[];
+  cloudPartitions?: StringFilter[];
+  cloudRegions?: StringFilter[];
+  cloudOrgIds?: StringFilter[];
+  cloudAccountIds?: StringFilter[];
+  sortOrder?: string;
+  sortBy?: string;
+}
+export const VmInstanceAggregation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceIds: S.optional(StringFilterList),
+    operatingSystems: S.optional(StringFilterList),
+    instanceTags: S.optional(MapFilterList),
+    vmImageReferences: S.optional(StringFilterList),
+    cloudProviders: S.optional(StringFilterList),
+    cloudPartitions: S.optional(StringFilterList),
+    cloudRegions: S.optional(StringFilterList),
+    cloudOrgIds: S.optional(StringFilterList),
+    cloudAccountIds: S.optional(StringFilterList),
+    sortOrder: S.optional(S.String),
+    sortBy: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "VmInstanceAggregation",
+}) as any as S.Schema<VmInstanceAggregation>;
+export type ContainerImageSortBy = string;
+export interface ContainerImageAggregation {
+  resourceIds?: StringFilter[];
+  imageDigests?: StringFilter[];
+  repositories?: StringFilter[];
+  registries?: StringFilter[];
+  architectures?: StringFilter[];
+  imageTags?: StringFilter[];
+  cloudProviders?: StringFilter[];
+  cloudPartitions?: StringFilter[];
+  cloudRegions?: StringFilter[];
+  cloudOrgIds?: StringFilter[];
+  cloudAccountIds?: StringFilter[];
+  lastInUseAt?: DateFilter[];
+  inUseCount?: NumberFilter[];
+  sortOrder?: string;
+  sortBy?: string;
+}
+export const ContainerImageAggregation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceIds: S.optional(StringFilterList),
+    imageDigests: S.optional(StringFilterList),
+    repositories: S.optional(StringFilterList),
+    registries: S.optional(StringFilterList),
+    architectures: S.optional(StringFilterList),
+    imageTags: S.optional(StringFilterList),
+    cloudProviders: S.optional(StringFilterList),
+    cloudPartitions: S.optional(StringFilterList),
+    cloudRegions: S.optional(StringFilterList),
+    cloudOrgIds: S.optional(StringFilterList),
+    cloudAccountIds: S.optional(StringFilterList),
+    lastInUseAt: S.optional(DateFilterList),
+    inUseCount: S.optional(NumberFilterList),
+    sortOrder: S.optional(S.String),
+    sortBy: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ContainerImageAggregation",
+}) as any as S.Schema<ContainerImageAggregation>;
+export type ServerlessFunctionSortBy = string;
+export interface ServerlessFunctionAggregation {
+  resourceIds?: StringFilter[];
+  functionNames?: StringFilter[];
+  runtimes?: StringFilter[];
+  functionTags?: MapFilter[];
+  cloudProviders?: StringFilter[];
+  cloudPartitions?: StringFilter[];
+  cloudRegions?: StringFilter[];
+  cloudOrgIds?: StringFilter[];
+  cloudAccountIds?: StringFilter[];
+  sortOrder?: string;
+  sortBy?: string;
+}
+export const ServerlessFunctionAggregation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceIds: S.optional(StringFilterList),
+    functionNames: S.optional(StringFilterList),
+    runtimes: S.optional(StringFilterList),
+    functionTags: S.optional(MapFilterList),
+    cloudProviders: S.optional(StringFilterList),
+    cloudPartitions: S.optional(StringFilterList),
+    cloudRegions: S.optional(StringFilterList),
+    cloudOrgIds: S.optional(StringFilterList),
+    cloudAccountIds: S.optional(StringFilterList),
+    sortOrder: S.optional(S.String),
+    sortBy: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ServerlessFunctionAggregation",
+}) as any as S.Schema<ServerlessFunctionAggregation>;
 export type AggregationRequest =
   | {
       accountAggregation: AccountAggregation;
@@ -4266,6 +4986,9 @@ export type AggregationRequest =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4280,6 +5003,9 @@ export type AggregationRequest =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4294,6 +5020,9 @@ export type AggregationRequest =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4308,6 +5037,9 @@ export type AggregationRequest =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4322,6 +5054,9 @@ export type AggregationRequest =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4336,6 +5071,9 @@ export type AggregationRequest =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4350,6 +5088,9 @@ export type AggregationRequest =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4364,6 +5105,9 @@ export type AggregationRequest =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4378,6 +5122,9 @@ export type AggregationRequest =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4392,6 +5139,9 @@ export type AggregationRequest =
       lambdaLayerAggregation: LambdaLayerAggregation;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4406,6 +5156,9 @@ export type AggregationRequest =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation: LambdaFunctionAggregation;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4420,6 +5173,60 @@ export type AggregationRequest =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation: CodeRepositoryAggregation;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+      vmInstanceAggregation: VmInstanceAggregation;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation: ContainerImageAggregation;
+      serverlessFunctionAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation: ServerlessFunctionAggregation;
     };
 export const AggregationRequest = /*@__PURE__*/ S.Union([
   S.Struct({ accountAggregation: AccountAggregation }),
@@ -4434,6 +5241,9 @@ export const AggregationRequest = /*@__PURE__*/ S.Union([
   S.Struct({ lambdaLayerAggregation: LambdaLayerAggregation }),
   S.Struct({ lambdaFunctionAggregation: LambdaFunctionAggregation }),
   S.Struct({ codeRepositoryAggregation: CodeRepositoryAggregation }),
+  S.Struct({ vmInstanceAggregation: VmInstanceAggregation }),
+  S.Struct({ containerImageAggregation: ContainerImageAggregation }),
+  S.Struct({ serverlessFunctionAggregation: ServerlessFunctionAggregation }),
 ]);
 export interface ListFindingAggregationsRequest {
   aggregationType: string;
@@ -4495,6 +5305,11 @@ export const AccountAggregationResponse = /*@__PURE__*/ S.suspend(() =>
 export interface AmiAggregationResponse {
   ami: string;
   accountId?: string;
+  cloudProvider?: string;
+  cloudPartition?: string;
+  cloudRegion?: string;
+  cloudOrgId?: string;
+  cloudAccountId?: string;
   severityCounts?: SeverityCounts;
   affectedInstances?: number;
 }
@@ -4502,6 +5317,11 @@ export const AmiAggregationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ami: S.String,
     accountId: S.optional(S.String),
+    cloudProvider: S.optional(S.String),
+    cloudPartition: S.optional(S.String),
+    cloudRegion: S.optional(S.String),
+    cloudOrgId: S.optional(S.String),
+    cloudAccountId: S.optional(S.String),
     severityCounts: S.optional(SeverityCounts),
     affectedInstances: S.optional(S.Number),
   }),
@@ -4563,6 +5383,11 @@ export interface FindingTypeAggregationResponse {
   severityCounts?: SeverityCounts;
   exploitAvailableCount?: number;
   fixAvailableCount?: number;
+  cloudProvider?: string;
+  cloudAccountId?: string;
+  cloudOrgId?: string;
+  cloudRegion?: string;
+  cloudPartition?: string;
 }
 export const FindingTypeAggregationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4570,6 +5395,11 @@ export const FindingTypeAggregationResponse = /*@__PURE__*/ S.suspend(() =>
     severityCounts: S.optional(SeverityCounts),
     exploitAvailableCount: S.optional(S.Number),
     fixAvailableCount: S.optional(S.Number),
+    cloudProvider: S.optional(S.String),
+    cloudAccountId: S.optional(S.String),
+    cloudOrgId: S.optional(S.String),
+    cloudRegion: S.optional(S.String),
+    cloudPartition: S.optional(S.String),
   }),
 ).annotate({
   identifier: "FindingTypeAggregationResponse",
@@ -4579,6 +5409,11 @@ export interface ImageLayerAggregationResponse {
   resourceId: string;
   layerHash: string;
   accountId: string;
+  cloudProvider?: string;
+  cloudAccountId?: string;
+  cloudOrgId?: string;
+  cloudRegion?: string;
+  cloudPartition?: string;
   severityCounts?: SeverityCounts;
 }
 export const ImageLayerAggregationResponse = /*@__PURE__*/ S.suspend(() =>
@@ -4587,6 +5422,11 @@ export const ImageLayerAggregationResponse = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.String,
     layerHash: S.String,
     accountId: S.String,
+    cloudProvider: S.optional(S.String),
+    cloudAccountId: S.optional(S.String),
+    cloudOrgId: S.optional(S.String),
+    cloudRegion: S.optional(S.String),
+    cloudPartition: S.optional(S.String),
     severityCounts: S.optional(SeverityCounts),
   }),
 ).annotate({
@@ -4609,6 +5449,11 @@ export const PackageAggregationResponse = /*@__PURE__*/ S.suspend(() =>
 export interface RepositoryAggregationResponse {
   repository: string;
   accountId?: string;
+  cloudProvider?: string;
+  cloudPartition?: string;
+  cloudRegion?: string;
+  cloudOrgId?: string;
+  cloudAccountId?: string;
   severityCounts?: SeverityCounts;
   affectedImages?: number;
 }
@@ -4616,6 +5461,11 @@ export const RepositoryAggregationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repository: S.String,
     accountId: S.optional(S.String),
+    cloudProvider: S.optional(S.String),
+    cloudPartition: S.optional(S.String),
+    cloudRegion: S.optional(S.String),
+    cloudOrgId: S.optional(S.String),
+    cloudAccountId: S.optional(S.String),
     severityCounts: S.optional(SeverityCounts),
     affectedImages: S.optional(S.Number),
   }),
@@ -4700,6 +5550,123 @@ export const CodeRepositoryAggregationResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CodeRepositoryAggregationResponse",
 }) as any as S.Schema<CodeRepositoryAggregationResponse>;
+export interface VmInstanceAggregationResponse {
+  resourceId: string;
+  cloudProvider?: string;
+  cloudAccountId?: string;
+  cloudPartition?: string;
+  cloudRegion?: string;
+  cloudOrgId?: string;
+  vmImageReference?: string;
+  operatingSystem?: string;
+  tags?: { [key: string]: string | undefined };
+  accountId?: string;
+  severityCounts?: SeverityCounts;
+  networkFindings?: number;
+  exploitAvailableActiveFindingsCount?: number;
+  fixAvailableActiveFindingsCount?: number;
+}
+export const VmInstanceAggregationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceId: S.String,
+    cloudProvider: S.optional(S.String),
+    cloudAccountId: S.optional(S.String),
+    cloudPartition: S.optional(S.String),
+    cloudRegion: S.optional(S.String),
+    cloudOrgId: S.optional(S.String),
+    vmImageReference: S.optional(S.String),
+    operatingSystem: S.optional(S.String),
+    tags: S.optional(TagMap),
+    accountId: S.optional(S.String),
+    severityCounts: S.optional(SeverityCounts),
+    networkFindings: S.optional(S.Number),
+    exploitAvailableActiveFindingsCount: S.optional(S.Number),
+    fixAvailableActiveFindingsCount: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "VmInstanceAggregationResponse",
+}) as any as S.Schema<VmInstanceAggregationResponse>;
+export interface ContainerImageAggregationResponse {
+  resourceId: string;
+  cloudProvider?: string;
+  cloudAccountId?: string;
+  cloudPartition?: string;
+  cloudRegion?: string;
+  cloudOrgId?: string;
+  imageDigest?: string;
+  repository?: string;
+  registry?: string;
+  architecture?: string;
+  imageTags?: string[];
+  accountId?: string;
+  severityCounts?: SeverityCounts;
+  lastInUseAt?: Date;
+  inUseCount?: number;
+  exploitAvailableActiveFindingsCount?: number;
+  fixAvailableActiveFindingsCount?: number;
+}
+export const ContainerImageAggregationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceId: S.String,
+    cloudProvider: S.optional(S.String),
+    cloudAccountId: S.optional(S.String),
+    cloudPartition: S.optional(S.String),
+    cloudRegion: S.optional(S.String),
+    cloudOrgId: S.optional(S.String),
+    imageDigest: S.optional(S.String),
+    repository: S.optional(S.String),
+    registry: S.optional(S.String),
+    architecture: S.optional(S.String),
+    imageTags: S.optional(StringList),
+    accountId: S.optional(S.String),
+    severityCounts: S.optional(SeverityCounts),
+    lastInUseAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    inUseCount: S.optional(S.Number),
+    exploitAvailableActiveFindingsCount: S.optional(S.Number),
+    fixAvailableActiveFindingsCount: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ContainerImageAggregationResponse",
+}) as any as S.Schema<ContainerImageAggregationResponse>;
+export interface ServerlessFunctionAggregationResponse {
+  resourceId: string;
+  cloudProvider?: string;
+  cloudAccountId?: string;
+  cloudPartition?: string;
+  cloudRegion?: string;
+  cloudOrgId?: string;
+  functionName?: string;
+  runtime?: string;
+  tags?: { [key: string]: string | undefined };
+  accountId?: string;
+  severityCounts?: SeverityCounts;
+  lastModifiedAt?: Date;
+  exploitAvailableActiveFindingsCount?: number;
+  fixAvailableActiveFindingsCount?: number;
+}
+export const ServerlessFunctionAggregationResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      resourceId: S.String,
+      cloudProvider: S.optional(S.String),
+      cloudAccountId: S.optional(S.String),
+      cloudPartition: S.optional(S.String),
+      cloudRegion: S.optional(S.String),
+      cloudOrgId: S.optional(S.String),
+      functionName: S.optional(S.String),
+      runtime: S.optional(S.String),
+      tags: S.optional(TagMap),
+      accountId: S.optional(S.String),
+      severityCounts: S.optional(SeverityCounts),
+      lastModifiedAt: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+      exploitAvailableActiveFindingsCount: S.optional(S.Number),
+      fixAvailableActiveFindingsCount: S.optional(S.Number),
+    }),
+).annotate({
+  identifier: "ServerlessFunctionAggregationResponse",
+}) as any as S.Schema<ServerlessFunctionAggregationResponse>;
 export type AggregationResponse =
   | {
       accountAggregation: AccountAggregationResponse;
@@ -4714,6 +5681,9 @@ export type AggregationResponse =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4728,6 +5698,9 @@ export type AggregationResponse =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4742,6 +5715,9 @@ export type AggregationResponse =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4756,6 +5732,9 @@ export type AggregationResponse =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4770,6 +5749,9 @@ export type AggregationResponse =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4784,6 +5766,9 @@ export type AggregationResponse =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4798,6 +5783,9 @@ export type AggregationResponse =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4812,6 +5800,9 @@ export type AggregationResponse =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4826,6 +5817,9 @@ export type AggregationResponse =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4840,6 +5834,9 @@ export type AggregationResponse =
       lambdaLayerAggregation: LambdaLayerAggregationResponse;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4854,6 +5851,9 @@ export type AggregationResponse =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation: LambdaFunctionAggregationResponse;
       codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
     }
   | {
       accountAggregation?: never;
@@ -4868,6 +5868,60 @@ export type AggregationResponse =
       lambdaLayerAggregation?: never;
       lambdaFunctionAggregation?: never;
       codeRepositoryAggregation: CodeRepositoryAggregationResponse;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+      vmInstanceAggregation: VmInstanceAggregationResponse;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation: ContainerImageAggregationResponse;
+      serverlessFunctionAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+      vmInstanceAggregation?: never;
+      containerImageAggregation?: never;
+      serverlessFunctionAggregation: ServerlessFunctionAggregationResponse;
     };
 export const AggregationResponse = /*@__PURE__*/ S.Union([
   S.Struct({ accountAggregation: AccountAggregationResponse }),
@@ -4882,6 +5936,11 @@ export const AggregationResponse = /*@__PURE__*/ S.Union([
   S.Struct({ lambdaLayerAggregation: LambdaLayerAggregationResponse }),
   S.Struct({ lambdaFunctionAggregation: LambdaFunctionAggregationResponse }),
   S.Struct({ codeRepositoryAggregation: CodeRepositoryAggregationResponse }),
+  S.Struct({ vmInstanceAggregation: VmInstanceAggregationResponse }),
+  S.Struct({ containerImageAggregation: ContainerImageAggregationResponse }),
+  S.Struct({
+    serverlessFunctionAggregation: ServerlessFunctionAggregationResponse,
+  }),
 ]);
 export type AggregationResponseList = AggregationResponse[];
 export const AggregationResponseList =
@@ -5093,11 +6152,109 @@ export const CodeRepositoryDetails = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CodeRepositoryDetails",
 }) as any as S.Schema<CodeRepositoryDetails>;
+export type CloudSubnetIdList = string[];
+export const CloudSubnetIdList = /*@__PURE__*/ S.Array(S.String);
+export type CloudSecurityGroupIdList = string[];
+export const CloudSecurityGroupIdList = /*@__PURE__*/ S.Array(S.String);
+export interface Vm {
+  type?: string;
+  vmName?: string;
+  vmImageReference?: string;
+  ipV4Addresses?: string[];
+  ipV6Addresses?: string[];
+  networkId?: string;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
+  launchedAt?: Date;
+  platform?: string;
+  executionRole?: string;
+  keyName?: string;
+}
+export const Vm = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    vmName: S.optional(S.String),
+    vmImageReference: S.optional(S.String),
+    ipV4Addresses: S.optional(IpV4AddressList),
+    ipV6Addresses: S.optional(IpV6AddressList),
+    networkId: S.optional(S.String),
+    subnetIds: S.optional(CloudSubnetIdList),
+    securityGroupIds: S.optional(CloudSecurityGroupIdList),
+    launchedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    platform: S.optional(S.String),
+    executionRole: S.optional(S.String),
+    keyName: S.optional(S.String),
+  }),
+).annotate({ identifier: "Vm" }) as any as S.Schema<Vm>;
+export interface Image {
+  repositoryName?: string;
+  registry?: string;
+  imageTags?: string[];
+  imageDigest?: string;
+  pushedAt?: Date;
+  architecture?: string;
+  author?: string;
+  inUseCount?: number;
+  lastInUseAt?: Date;
+  platform?: string;
+}
+export const Image = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repositoryName: S.optional(S.String),
+    registry: S.optional(S.String),
+    imageTags: S.optional(ImageTagList),
+    imageDigest: S.optional(S.String),
+    pushedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    architecture: S.optional(S.String),
+    author: S.optional(S.String),
+    inUseCount: S.optional(S.Number),
+    lastInUseAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    platform: S.optional(S.String),
+  }),
+).annotate({ identifier: "Image" }) as any as S.Schema<Image>;
+export type ServerlessFunctionLayerUrn = string;
+export type ServerlessFunctionLayerList = string[];
+export const ServerlessFunctionLayerList = /*@__PURE__*/ S.Array(S.String);
+export interface ServerlessFunction {
+  serverlessFunctionName?: string;
+  runtime?: string;
+  version?: string;
+  codeDigest?: string;
+  lastModifiedAt?: Date;
+  networkId?: string;
+  subnetIds?: string[];
+  securityGroupIds?: string[];
+  executionRole?: string;
+  packageType?: string;
+  architectures?: string[];
+  layers?: string[];
+}
+export const ServerlessFunction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serverlessFunctionName: S.optional(S.String),
+    runtime: S.optional(S.String),
+    version: S.optional(S.String),
+    codeDigest: S.optional(S.String),
+    lastModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    networkId: S.optional(S.String),
+    subnetIds: S.optional(CloudSubnetIdList),
+    securityGroupIds: S.optional(CloudSecurityGroupIdList),
+    executionRole: S.optional(S.String),
+    packageType: S.optional(S.String),
+    architectures: S.optional(ArchitectureList),
+    layers: S.optional(ServerlessFunctionLayerList),
+  }),
+).annotate({
+  identifier: "ServerlessFunction",
+}) as any as S.Schema<ServerlessFunction>;
 export interface ResourceDetails {
   awsEc2Instance?: AwsEc2InstanceDetails;
   awsEcrContainerImage?: AwsEcrContainerImageDetails;
   awsLambdaFunction?: AwsLambdaFunctionDetails;
   codeRepository?: CodeRepositoryDetails;
+  vm?: Vm;
+  image?: Image;
+  serverlessFunction?: ServerlessFunction;
 }
 export const ResourceDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5105,6 +6262,9 @@ export const ResourceDetails = /*@__PURE__*/ S.suspend(() =>
     awsEcrContainerImage: S.optional(AwsEcrContainerImageDetails),
     awsLambdaFunction: S.optional(AwsLambdaFunctionDetails),
     codeRepository: S.optional(CodeRepositoryDetails),
+    vm: S.optional(Vm),
+    image: S.optional(Image),
+    serverlessFunction: S.optional(ServerlessFunction),
   }),
 ).annotate({
   identifier: "ResourceDetails",
@@ -5116,6 +6276,9 @@ export interface Resource {
   region?: string;
   tags?: { [key: string]: string | undefined };
   details?: ResourceDetails;
+  provider?: string;
+  providerAccountId?: string;
+  providerOrgId?: string;
 }
 export const Resource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5125,6 +6288,9 @@ export const Resource = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     tags: S.optional(TagMap),
     details: S.optional(ResourceDetails),
+    provider: S.optional(S.String),
+    providerAccountId: S.optional(S.String),
+    providerOrgId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type ResourceList = Resource[];
@@ -5536,6 +6702,7 @@ export interface Usage {
   total?: number;
   estimatedMonthlyCost?: number;
   currency?: string;
+  cloudProvider?: string;
 }
 export const Usage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5543,6 +6710,7 @@ export const Usage = /*@__PURE__*/ S.suspend(() =>
     total: S.optional(S.Number),
     estimatedMonthlyCost: S.optional(S.Number),
     currency: S.optional(S.String),
+    cloudProvider: S.optional(S.String),
   }),
 ).annotate({ identifier: "Usage" }) as any as S.Schema<Usage>;
 export type UsageList = Usage[];
@@ -5786,7 +6954,7 @@ export type CisRuleStatus =
   | "NOT_APPLICABLE"
   | "ERROR"
   | (string & {});
-export const CisRuleStatus = /*@__PURE__*/ S.String;
+export const CisRuleStatus = S.String;
 
 export type CisRuleDetails = Uint8Array;
 export interface CisSessionMessage {
@@ -5902,7 +7070,7 @@ export type StopCisSessionStatus =
   | "INTERRUPTED"
   | "UNSUPPORTED_OS"
   | (string & {});
-export const StopCisSessionStatus = /*@__PURE__*/ S.String;
+export const StopCisSessionStatus = S.String;
 
 export type Reason = string;
 export type CheckCount = number;
@@ -6220,14 +7388,31 @@ export const Ec2Configuration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "Ec2Configuration",
 }) as any as S.Schema<Ec2Configuration>;
+export type InheritanceMode = string;
+export interface UpdateConfigurationInheritance {
+  ec2Configuration?: string;
+  ecrConfiguration?: string;
+}
+export const UpdateConfigurationInheritance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ec2Configuration: S.optional(S.String),
+    ecrConfiguration: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpdateConfigurationInheritance",
+}) as any as S.Schema<UpdateConfigurationInheritance>;
 export interface UpdateConfigurationRequest {
+  accountId?: string;
   ecrConfiguration?: EcrConfiguration;
   ec2Configuration?: Ec2Configuration;
+  updateConfigurationInheritance?: UpdateConfigurationInheritance;
 }
 export const UpdateConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    accountId: S.optional(S.String),
     ecrConfiguration: S.optional(EcrConfiguration),
     ec2Configuration: S.optional(Ec2Configuration),
+    updateConfigurationInheritance: S.optional(UpdateConfigurationInheritance),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/configuration/update" }),
@@ -6247,6 +7432,83 @@ export const UpdateConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateConfigurationResponse",
 }) as any as S.Schema<UpdateConfigurationResponse>;
+export interface AzureProviderDetailUpdate {
+  azureRegions?: string[];
+  scopeConfiguration?: AzureScopeConfigurationInput;
+  autoInstallVMScanner?: boolean;
+}
+export const AzureProviderDetailUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    azureRegions: S.optional(AzureRegionList),
+    scopeConfiguration: S.optional(AzureScopeConfigurationInput),
+    autoInstallVMScanner: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "AzureProviderDetailUpdate",
+}) as any as S.Schema<AzureProviderDetailUpdate>;
+export type ProviderDetailUpdate = { azure: AzureProviderDetailUpdate };
+export const ProviderDetailUpdate = /*@__PURE__*/ S.Union([
+  S.Struct({ azure: AzureProviderDetailUpdate }),
+]);
+export interface UpdateConnectorRequest {
+  connectorArn: string;
+  description?: string;
+  providerDetail?: ProviderDetailUpdate;
+}
+export const UpdateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connectorArn: S.String,
+    description: S.optional(S.String),
+    providerDetail: S.optional(ProviderDetailUpdate),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/connector/update" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateConnectorRequest",
+}) as any as S.Schema<UpdateConnectorRequest>;
+export interface UpdateConnectorResponse {
+  connectorArn?: string;
+}
+export const UpdateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ connectorArn: S.optional(S.String) }),
+).annotate({
+  identifier: "UpdateConnectorResponse",
+}) as any as S.Schema<UpdateConnectorResponse>;
+export interface UpdateConnectorScanConfigurationRequest {
+  awsConfigConnectorArn: string;
+  scanConfiguration: ConnectorScanConfiguration;
+}
+export const UpdateConnectorScanConfigurationRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      awsConfigConnectorArn: S.String,
+      scanConfiguration: ConnectorScanConfiguration,
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/connectorscanconfiguration/update" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "UpdateConnectorScanConfigurationRequest",
+}) as any as S.Schema<UpdateConnectorScanConfigurationRequest>;
+export interface UpdateConnectorScanConfigurationResponse {}
+export const UpdateConnectorScanConfigurationResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "UpdateConnectorScanConfigurationResponse",
+}) as any as S.Schema<UpdateConnectorScanConfigurationResponse>;
 export interface UpdateEc2DeepInspectionConfigurationRequest {
   activateDeepInspection?: boolean;
   packagePaths?: string[];
@@ -6852,6 +8114,38 @@ export const createCodeSecurityScanConfiguration: API.OperationMethod<
   operationName: "CreateCodeSecurityScanConfiguration",
 }));
 
+export type CreateConnectorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a connector that links an external cloud provider to Amazon Inspector for vulnerability scanning.
+ */
+export const createConnector: API.OperationMethod<
+  CreateConnectorRequest,
+  CreateConnectorResponse,
+  CreateConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateConnectorRequest,
+  output: CreateConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateConnector",
+}));
+
 export type CreateFilterError =
   | AccessDeniedException
   | BadRequestException
@@ -7035,6 +8329,38 @@ export const deleteCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeSecurityScanConfiguration",
+}));
+
+export type DeleteConnectorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a connector from your account.
+ */
+export const deleteConnector: API.OperationMethod<
+  DeleteConnectorRequest,
+  DeleteConnectorResponse,
+  DeleteConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteConnectorRequest,
+  output: DeleteConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteConnector",
 }));
 
 export type DeleteFilterError =
@@ -7441,12 +8767,18 @@ export const getCodeSecurityScanConfiguration: API.OperationMethod<
 }));
 
 export type GetConfigurationError =
+  | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
- * Retrieves setting configurations for Inspector scans.
+ * Retrieves setting configurations for Amazon Inspector scans. If you specify an
+ * `accountId`, this operation returns the scan configuration for that member
+ * account. You must be the delegated administrator for the specified member account.
+ * If you do not specify an `accountId`, this operation returns your own
+ * scan configuration.
  */
 export const getConfiguration: API.OperationMethod<
   GetConfigurationRequest,
@@ -7457,9 +8789,11 @@ export const getConfiguration: API.OperationMethod<
   input: GetConfigurationRequest,
   output: GetConfigurationResponse,
   errors: [
+    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7910,6 +9244,76 @@ export const listCodeSecurityScanConfigurations: API.OperationMethod<
   retry: Retry,
   operationName: "ListCodeSecurityScanConfigurations",
 }));
+
+export type ListConnectorsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists connectors in your account. Results are paginated. Use the `nextToken` parameter to retrieve the next page of results.
+ */
+export const listConnectors: API.PaginatedOperationMethod<
+  ListConnectorsRequest,
+  ListConnectorsResponse,
+  ListConnectorsError,
+  Credentials | HttpClient.HttpClient,
+  Connector
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectorsRequest,
+  output: ListConnectorsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListConnectors",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListConnectorScanConfigurationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists scan configurations for Amazon Web Services Config connectors. Results are paginated. Use the `nextToken` parameter to retrieve the next page of results.
+ */
+export const listConnectorScanConfigurations: API.PaginatedOperationMethod<
+  ListConnectorScanConfigurationsRequest,
+  ListConnectorScanConfigurationsResponse,
+  ListConnectorScanConfigurationsError,
+  Credentials | HttpClient.HttpClient,
+  ConnectorScanConfigurationItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListConnectorScanConfigurationsRequest,
+  output: ListConnectorScanConfigurationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListConnectorScanConfigurations",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "scanConfigurations",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
 
 export type ListCoverageError =
   | InternalServerException
@@ -8584,9 +9988,12 @@ export type UpdateConfigurationError =
   | ValidationException
   | CommonErrors;
 /**
- * Updates setting configurations for your Amazon Inspector account. When you use this API as an Amazon Inspector
- * delegated administrator this updates the setting for all accounts you manage. Member
- * accounts in an organization cannot update this setting.
+ * Updates the scan configuration for your Amazon Inspector account. If you don't specify an
+ * `accountId`, this operation updates the delegated administrator's configuration
+ * and propagates it to member accounts that have not been individually configured. If you
+ * specify an `accountId`, this operation updates that member account's
+ * configuration. Only the delegated administrator can specify an `accountId`;
+ * member accounts cannot call this operation.
  */
 export const updateConfiguration: API.OperationMethod<
   UpdateConfigurationRequest,
@@ -8605,6 +10012,70 @@ export const updateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguration",
+}));
+
+export type UpdateConnectorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the description or provider-specific configuration details of an existing connector.
+ */
+export const updateConnector: API.OperationMethod<
+  UpdateConnectorRequest,
+  UpdateConnectorResponse,
+  UpdateConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateConnectorRequest,
+  output: UpdateConnectorResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateConnector",
+}));
+
+export type UpdateConnectorScanConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates scan configuration settings for resources associated with an Amazon Web Services Config connector.
+ */
+export const updateConnectorScanConfiguration: API.OperationMethod<
+  UpdateConnectorScanConfigurationRequest,
+  UpdateConnectorScanConfigurationResponse,
+  UpdateConnectorScanConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateConnectorScanConfigurationRequest,
+  output: UpdateConnectorScanConfigurationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateConnectorScanConfiguration",
 }));
 
 export type UpdateEc2DeepInspectionConfigurationError =

@@ -332,7 +332,7 @@ export type LivestreamsCreateIndependentLivestreamResponseDataStatus =
   | "ERRORED"
   | "INVOKED";
 export const LivestreamsCreateIndependentLivestreamResponseDataStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface LivestreamsCreateIndependentLivestreamResponseData {
   /** The livestream ID. */
@@ -394,14 +394,12 @@ export type MeetingsCreateRequestAiConfigSummarizationSummaryType =
   | "one_on_one_meeting"
   | "lecture"
   | "code_review";
-export const MeetingsCreateRequestAiConfigSummarizationSummaryType =
-  /*@__PURE__*/ S.String;
+export const MeetingsCreateRequestAiConfigSummarizationSummaryType = S.String;
 
 export type MeetingsCreateRequestAiConfigSummarizationTextFormat =
   | "plain_text"
   | "markdown";
-export const MeetingsCreateRequestAiConfigSummarizationTextFormat =
-  /*@__PURE__*/ S.String;
+export const MeetingsCreateRequestAiConfigSummarizationTextFormat = S.String;
 
 export interface MeetingsCreateRequestAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
@@ -452,8 +450,7 @@ export type MeetingsCreateRequestAiConfigTranscriptionLanguage =
   | "el"
   | "fr"
   | "nl";
-export const MeetingsCreateRequestAiConfigTranscriptionLanguage =
-  /*@__PURE__*/ S.String;
+export const MeetingsCreateRequestAiConfigTranscriptionLanguage = S.String;
 
 export interface MeetingsCreateRequestAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
@@ -494,14 +491,12 @@ export const MeetingsCreateRequestAiConfig = /*@__PURE__*/ S.suspend(() =>
 export type MeetingsCreateRequestRecordingConfigAudioConfigChannel =
   | "mono"
   | "stereo";
-export const MeetingsCreateRequestRecordingConfigAudioConfigChannel =
-  /*@__PURE__*/ S.String;
+export const MeetingsCreateRequestRecordingConfigAudioConfigChannel = S.String;
 
 export type MeetingsCreateRequestRecordingConfigAudioConfigCodec =
   | "MP3"
   | "AAC";
-export const MeetingsCreateRequestRecordingConfigAudioConfigCodec =
-  /*@__PURE__*/ S.String;
+export const MeetingsCreateRequestRecordingConfigAudioConfigCodec = S.String;
 
 export interface MeetingsCreateRequestRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
@@ -552,29 +547,22 @@ export const MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig =
     identifier: "MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig",
   }) as any as S.Schema<MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig>;
 
-export type MeetingsCreateRequestRecordingConfigStorageConfigType =
-  | "aws"
-  | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
-export const MeetingsCreateRequestRecordingConfigStorageConfigType =
-  /*@__PURE__*/ S.String;
-
-export type MeetingsCreateRequestRecordingConfigStorageConfigAuthMethod =
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase0AuthMethod =
   | "KEY"
   | "PASSWORD";
-export const MeetingsCreateRequestRecordingConfigStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export const MeetingsCreateRequestRecordingConfigStorageConfigCase0AuthMethod =
+  S.String;
 
-export interface MeetingsCreateRequestRecordingConfigStorageConfig {
-  /** Type of storage media. */
-  type: MeetingsCreateRequestRecordingConfigStorageConfigType | (string & {});
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase0Type = "gcs";
+export const MeetingsCreateRequestRecordingConfigStorageConfigCase0Type =
+  S.String;
+
+export interface MeetingsCreateRequestRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
-    | MeetingsCreateRequestRecordingConfigStorageConfigAuthMethod
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase0AuthMethod
     | (string & {});
   /** Name of the storage medium's bucket. */
   bucket?: string;
@@ -592,16 +580,18 @@ export interface MeetingsCreateRequestRecordingConfigStorageConfig {
   region?: string;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string;
+  type?:
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase0Type
+    | (string & {});
   /** SSH destination server username for SFTP type storage medium */
   username?: string;
 }
-export const MeetingsCreateRequestRecordingConfigStorageConfig =
+export const MeetingsCreateRequestRecordingConfigStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: MeetingsCreateRequestRecordingConfigStorageConfigType,
       accessKey: S.optional(S.String.pipe(T.Body("access_key"))),
       authMethod: S.optional(
-        MeetingsCreateRequestRecordingConfigStorageConfigAuthMethod.pipe(
+        MeetingsCreateRequestRecordingConfigStorageConfigCase0AuthMethod.pipe(
           T.Body("auth_method"),
         ),
       ),
@@ -613,17 +603,291 @@ export const MeetingsCreateRequestRecordingConfigStorageConfig =
       privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
       region: S.optional(S.String),
       secret: S.optional(S.String),
+      type: S.optional(
+        MeetingsCreateRequestRecordingConfigStorageConfigCase0Type,
+      ),
       username: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "MeetingsCreateRequestRecordingConfigStorageConfig",
-  }) as any as S.Schema<MeetingsCreateRequestRecordingConfigStorageConfig>;
+    identifier: "MeetingsCreateRequestRecordingConfigStorageConfigCase0",
+  }) as any as S.Schema<MeetingsCreateRequestRecordingConfigStorageConfigCase0>;
+
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const MeetingsCreateRequestRecordingConfigStorageConfigCase1AuthMethod =
+  S.String;
+
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const MeetingsCreateRequestRecordingConfigStorageConfigCase1Type =
+  S.String;
+
+export interface MeetingsCreateRequestRecordingConfigStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase1AuthMethod
+    | (string & {});
+  /** Name of the storage medium's bucket. */
+  bucket?: string;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string;
+  type?:
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase1Type
+    | (string & {});
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string;
+}
+export const MeetingsCreateRequestRecordingConfigStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        MeetingsCreateRequestRecordingConfigStorageConfigCase1AuthMethod.pipe(
+          T.Body("auth_method"),
+        ),
+      ),
+      bucket: S.optional(S.String),
+      host: S.optional(S.String),
+      password: S.optional(S.String),
+      path: S.optional(S.String),
+      port: S.optional(S.Number),
+      privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
+      secret: S.optional(S.String),
+      type: S.optional(
+        MeetingsCreateRequestRecordingConfigStorageConfigCase1Type,
+      ),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "MeetingsCreateRequestRecordingConfigStorageConfigCase1",
+  }) as any as S.Schema<MeetingsCreateRequestRecordingConfigStorageConfigCase1>;
+
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase2AuthMethod =
+  "KEY";
+export const MeetingsCreateRequestRecordingConfigStorageConfigCase2AuthMethod =
+  S.String;
+
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsCreateRequestRecordingConfigStorageConfigCase2Type =
+  S.String;
+
+export interface MeetingsCreateRequestRecordingConfigStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string;
+  authMethod?:
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase2AuthMethod
+    | (string & {});
+  /** Name of the storage medium's bucket. */
+  bucket?: string;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number;
+  /** Region of the storage medium. */
+  region?: string;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string;
+  /** Type of storage media. */
+  type?:
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase2Type
+    | (string & {});
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string;
+}
+export const MeetingsCreateRequestRecordingConfigStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.String.pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        MeetingsCreateRequestRecordingConfigStorageConfigCase2AuthMethod.pipe(
+          T.Body("auth_method"),
+        ),
+      ),
+      bucket: S.optional(S.String),
+      host: S.optional(S.String),
+      password: S.optional(S.String),
+      path: S.optional(S.String),
+      port: S.optional(S.Number),
+      region: S.optional(S.String),
+      secret: S.optional(S.String),
+      type: S.optional(
+        MeetingsCreateRequestRecordingConfigStorageConfigCase2Type,
+      ),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "MeetingsCreateRequestRecordingConfigStorageConfigCase2",
+  }) as any as S.Schema<MeetingsCreateRequestRecordingConfigStorageConfigCase2>;
+
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const MeetingsCreateRequestRecordingConfigStorageConfigCase3AuthMethod =
+  S.String;
+
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsCreateRequestRecordingConfigStorageConfigCase3Type =
+  S.String;
+
+export interface MeetingsCreateRequestRecordingConfigStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string;
+  authMethod?:
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase3AuthMethod
+    | (string & {});
+  /** Name of the storage medium's bucket. */
+  bucket?: string;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string;
+  /** Region of the storage medium. */
+  region?: string;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string;
+  /** Type of storage media. */
+  type?:
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase3Type
+    | (string & {});
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string;
+}
+export const MeetingsCreateRequestRecordingConfigStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.String.pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        MeetingsCreateRequestRecordingConfigStorageConfigCase3AuthMethod.pipe(
+          T.Body("auth_method"),
+        ),
+      ),
+      bucket: S.optional(S.String),
+      host: S.optional(S.String),
+      path: S.optional(S.String),
+      port: S.optional(S.Number),
+      privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
+      region: S.optional(S.String),
+      secret: S.optional(S.String),
+      type: S.optional(
+        MeetingsCreateRequestRecordingConfigStorageConfigCase3Type,
+      ),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "MeetingsCreateRequestRecordingConfigStorageConfigCase3",
+  }) as any as S.Schema<MeetingsCreateRequestRecordingConfigStorageConfigCase3>;
+
+export type MeetingsCreateRequestRecordingConfigStorageConfig =
+  | MeetingsCreateRequestRecordingConfigStorageConfigCase0
+  | MeetingsCreateRequestRecordingConfigStorageConfigCase1
+  | MeetingsCreateRequestRecordingConfigStorageConfigCase2
+  | MeetingsCreateRequestRecordingConfigStorageConfigCase3;
+export const MeetingsCreateRequestRecordingConfigStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
 
 export type MeetingsCreateRequestRecordingConfigVideoConfigCodec =
   | "H264"
-  | "VP8";
-export const MeetingsCreateRequestRecordingConfigVideoConfigCodec =
-  /*@__PURE__*/ S.String;
+  | "VP8"
+  | "VP9";
+export const MeetingsCreateRequestRecordingConfigVideoConfigCodec = S.String;
 
 export type MeetingsCreateRequestRecordingConfigVideoConfigWatermarkPosition =
   | "left top"
@@ -631,7 +895,7 @@ export type MeetingsCreateRequestRecordingConfigVideoConfigWatermarkPosition =
   | "left bottom"
   | "right bottom";
 export const MeetingsCreateRequestRecordingConfigVideoConfigWatermarkPosition =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize {
   /** Height of the watermark in px */
@@ -817,13 +1081,13 @@ export type MeetingsCreateResponseDataAiConfigSummarizationSummaryType =
   | "lecture"
   | "code_review";
 export const MeetingsCreateResponseDataAiConfigSummarizationSummaryType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsCreateResponseDataAiConfigSummarizationTextFormat =
   | "plain_text"
   | "markdown";
 export const MeetingsCreateResponseDataAiConfigSummarizationTextFormat =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsCreateResponseDataAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
@@ -870,8 +1134,7 @@ export type MeetingsCreateResponseDataAiConfigTranscriptionLanguage =
   | "el"
   | "fr"
   | "nl";
-export const MeetingsCreateResponseDataAiConfigTranscriptionLanguage =
-  /*@__PURE__*/ S.String;
+export const MeetingsCreateResponseDataAiConfigTranscriptionLanguage = S.String;
 
 export interface MeetingsCreateResponseDataAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
@@ -921,13 +1184,13 @@ export type MeetingsCreateResponseDataRecordingConfigAudioConfigChannel =
   | "mono"
   | "stereo";
 export const MeetingsCreateResponseDataRecordingConfigAudioConfigChannel =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsCreateResponseDataRecordingConfigAudioConfigCodec =
   | "MP3"
   | "AAC";
 export const MeetingsCreateResponseDataRecordingConfigAudioConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsCreateResponseDataRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
@@ -970,28 +1233,22 @@ export type MeetingsCreateResponseDataRecordingConfigRealtimekitBucketConfig =
 export const MeetingsCreateResponseDataRecordingConfigRealtimekitBucketConfig =
   MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
 
-export type MeetingsCreateResponseDataRecordingConfigStorageConfigType =
-  | "aws"
-  | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
-export const MeetingsCreateResponseDataRecordingConfigStorageConfigType =
-  /*@__PURE__*/ S.String;
-
-export type MeetingsCreateResponseDataRecordingConfigStorageConfigAuthMethod =
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase0AuthMethod =
   | "KEY"
   | "PASSWORD";
-export const MeetingsCreateResponseDataRecordingConfigStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export const MeetingsCreateResponseDataRecordingConfigStorageConfigCase0AuthMethod =
+  S.String;
 
-export interface MeetingsCreateResponseDataRecordingConfigStorageConfig {
-  /** Type of storage media. */
-  type: MeetingsCreateResponseDataRecordingConfigStorageConfigType;
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase0Type =
+  "gcs";
+export const MeetingsCreateResponseDataRecordingConfigStorageConfigCase0Type =
+  S.String;
+
+export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsCreateResponseDataRecordingConfigStorageConfigAuthMethod | null;
+  authMethod?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase0AuthMethod | null;
   /** Name of the storage medium's bucket. */
   bucket?: string | null;
   /** SSH destination server host for SFTP type storage medium */
@@ -1008,17 +1265,17 @@ export interface MeetingsCreateResponseDataRecordingConfigStorageConfig {
   region?: string | null;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | null;
+  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase0Type | null;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null;
 }
-export const MeetingsCreateResponseDataRecordingConfigStorageConfig =
+export const MeetingsCreateResponseDataRecordingConfigStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: MeetingsCreateResponseDataRecordingConfigStorageConfigType,
       accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
       authMethod: S.optional(
         S.NullOr(
-          MeetingsCreateResponseDataRecordingConfigStorageConfigAuthMethod,
+          MeetingsCreateResponseDataRecordingConfigStorageConfigCase0AuthMethod,
         ).pipe(T.Body("auth_method")),
       ),
       bucket: S.optional(S.NullOr(S.String)),
@@ -1029,22 +1286,296 @@ export const MeetingsCreateResponseDataRecordingConfigStorageConfig =
       privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
       region: S.optional(S.NullOr(S.String)),
       secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsCreateResponseDataRecordingConfigStorageConfigCase0Type,
+        ),
+      ),
       username: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
-    identifier: "MeetingsCreateResponseDataRecordingConfigStorageConfig",
-  }) as any as S.Schema<MeetingsCreateResponseDataRecordingConfigStorageConfig>;
+    identifier: "MeetingsCreateResponseDataRecordingConfigStorageConfigCase0",
+  }) as any as S.Schema<MeetingsCreateResponseDataRecordingConfigStorageConfigCase0>;
+
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const MeetingsCreateResponseDataRecordingConfigStorageConfigCase1AuthMethod =
+  S.String;
+
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const MeetingsCreateResponseDataRecordingConfigStorageConfigCase1Type =
+  S.String;
+
+export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase1AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase1Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsCreateResponseDataRecordingConfigStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsCreateResponseDataRecordingConfigStorageConfigCase1AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsCreateResponseDataRecordingConfigStorageConfigCase1Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "MeetingsCreateResponseDataRecordingConfigStorageConfigCase1",
+  }) as any as S.Schema<MeetingsCreateResponseDataRecordingConfigStorageConfigCase1>;
+
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase2AuthMethod =
+  "KEY";
+export const MeetingsCreateResponseDataRecordingConfigStorageConfigCase2AuthMethod =
+  S.String;
+
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsCreateResponseDataRecordingConfigStorageConfigCase2Type =
+  S.String;
+
+export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase2AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase2Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsCreateResponseDataRecordingConfigStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsCreateResponseDataRecordingConfigStorageConfigCase2AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsCreateResponseDataRecordingConfigStorageConfigCase2Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "MeetingsCreateResponseDataRecordingConfigStorageConfigCase2",
+  }) as any as S.Schema<MeetingsCreateResponseDataRecordingConfigStorageConfigCase2>;
+
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const MeetingsCreateResponseDataRecordingConfigStorageConfigCase3AuthMethod =
+  S.String;
+
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsCreateResponseDataRecordingConfigStorageConfigCase3Type =
+  S.String;
+
+export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase3AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase3Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsCreateResponseDataRecordingConfigStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsCreateResponseDataRecordingConfigStorageConfigCase3AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsCreateResponseDataRecordingConfigStorageConfigCase3Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "MeetingsCreateResponseDataRecordingConfigStorageConfigCase3",
+  }) as any as S.Schema<MeetingsCreateResponseDataRecordingConfigStorageConfigCase3>;
+
+export type MeetingsCreateResponseDataRecordingConfigStorageConfig =
+  | MeetingsCreateResponseDataRecordingConfigStorageConfigCase0
+  | MeetingsCreateResponseDataRecordingConfigStorageConfigCase1
+  | MeetingsCreateResponseDataRecordingConfigStorageConfigCase2
+  | MeetingsCreateResponseDataRecordingConfigStorageConfigCase3;
+export const MeetingsCreateResponseDataRecordingConfigStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
 
 export type MeetingsCreateResponseDataRecordingConfigVideoConfigCodec =
   | "H264"
-  | "VP8";
+  | "VP8"
+  | "VP9";
 export const MeetingsCreateResponseDataRecordingConfigVideoConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkPosition =
-  "left top" | "right top" | "left bottom" | "right bottom";
+  | "left top"
+  | "right top"
+  | "left bottom"
+  | "right bottom";
 export const MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkPosition =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize {
   /** Height of the watermark in px */
@@ -1169,7 +1700,7 @@ export const MeetingsCreateResponseDataRecordingConfig =
   }) as any as S.Schema<MeetingsCreateResponseDataRecordingConfig>;
 
 export type MeetingsCreateResponseDataStatus = "ACTIVE" | "INACTIVE";
-export const MeetingsCreateResponseDataStatus = /*@__PURE__*/ S.String;
+export const MeetingsCreateResponseDataStatus = S.String;
 
 export interface MeetingsCreateResponseData {
   /** ID of the meeting. */
@@ -1417,8 +1948,7 @@ export type PresetsCreateRequestConfigMediaScreenshareQuality =
   | "qvga"
   | "fhd"
   | "uhd";
-export const PresetsCreateRequestConfigMediaScreenshareQuality =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateRequestConfigMediaScreenshareQuality = S.String;
 
 export interface PresetsCreateRequestConfigMediaScreenshare {
   /** Frame rate of screen share */
@@ -1442,8 +1972,7 @@ export type PresetsCreateRequestConfigMediaVideoQuality =
   | "qvga"
   | "fhd"
   | "uhd";
-export const PresetsCreateRequestConfigMediaVideoQuality =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateRequestConfigMediaVideoQuality = S.String;
 
 export interface PresetsCreateRequestConfigMediaVideo {
   /** Frame rate of participants' video */
@@ -1505,7 +2034,7 @@ export type PresetsCreateRequestConfigViewType =
   | "WEBINAR"
   | "AUDIO_ROOM"
   | "LIVESTREAM";
-export const PresetsCreateRequestConfigViewType = /*@__PURE__*/ S.String;
+export const PresetsCreateRequestConfigViewType = S.String;
 
 export type PresetsCreateRequestConfigLivestreamViewerQualitiesList =
   Array<number>;
@@ -1620,8 +2149,7 @@ export type PresetsCreateRequestPermissionsMediaAudioCanProduce =
   | "ALLOWED"
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
-export const PresetsCreateRequestPermissionsMediaAudioCanProduce =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateRequestPermissionsMediaAudioCanProduce = S.String;
 
 export interface PresetsCreateRequestPermissionsMediaAudio {
   /** Can produce audio */
@@ -1645,7 +2173,7 @@ export type PresetsCreateRequestPermissionsMediaScreenshareCanProduce =
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
 export const PresetsCreateRequestPermissionsMediaScreenshareCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsCreateRequestPermissionsMediaScreenshare {
   /** Can produce screen share video */
@@ -1669,8 +2197,7 @@ export type PresetsCreateRequestPermissionsMediaVideoCanProduce =
   | "ALLOWED"
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
-export const PresetsCreateRequestPermissionsMediaVideoCanProduce =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateRequestPermissionsMediaVideoCanProduce = S.String;
 
 export interface PresetsCreateRequestPermissionsMediaVideo {
   /** Can produce video */
@@ -1753,22 +2280,19 @@ export type PresetsCreateRequestPermissionsRecorderType =
   | "RECORDER"
   | "LIVESTREAMER"
   | "NONE";
-export const PresetsCreateRequestPermissionsRecorderType =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateRequestPermissionsRecorderType = S.String;
 
 export type PresetsCreateRequestPermissionsWaitingRoomType =
   | "SKIP"
   | "ON_PRIVILEGED_USER_ENTRY"
   | "SKIP_ON_ACCEPT";
-export const PresetsCreateRequestPermissionsWaitingRoomType =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateRequestPermissionsWaitingRoomType = S.String;
 
 export type PresetsCreateRequestPermissionsStageAccess =
   | "ALLOWED"
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
-export const PresetsCreateRequestPermissionsStageAccess =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateRequestPermissionsStageAccess = S.String;
 
 export interface PresetsCreateRequestPermissions {
   /** Whether this participant can accept waiting requests */
@@ -1867,15 +2391,13 @@ export type PresetsCreateRequestUiDesignTokensBorderRadius =
   | "rounded"
   | "extra-rounded"
   | "circular";
-export const PresetsCreateRequestUiDesignTokensBorderRadius =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateRequestUiDesignTokensBorderRadius = S.String;
 
 export type PresetsCreateRequestUiDesignTokensBorderWidth =
   | "none"
   | "thin"
   | "fat";
-export const PresetsCreateRequestUiDesignTokensBorderWidth =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateRequestUiDesignTokensBorderWidth = S.String;
 
 export interface PresetsCreateRequestUiDesignTokensColorsBackground {
   "1000": string;
@@ -1947,7 +2469,7 @@ export type PresetsCreateRequestUiDesignTokensTheme =
   | "darkest"
   | "dark"
   | "light";
-export const PresetsCreateRequestUiDesignTokensTheme = /*@__PURE__*/ S.String;
+export const PresetsCreateRequestUiDesignTokensTheme = S.String;
 
 export interface PresetsCreateRequestUiDesignTokens {
   borderRadius: PresetsCreateRequestUiDesignTokensBorderRadius | (string & {});
@@ -2034,8 +2556,7 @@ export type PresetsCreateResponseDataConfigMediaScreenshareQuality =
   | "qvga"
   | "fhd"
   | "uhd";
-export const PresetsCreateResponseDataConfigMediaScreenshareQuality =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateResponseDataConfigMediaScreenshareQuality = S.String;
 
 export interface PresetsCreateResponseDataConfigMediaScreenshare {
   /** Frame rate of screen share */
@@ -2059,8 +2580,7 @@ export type PresetsCreateResponseDataConfigMediaVideoQuality =
   | "qvga"
   | "fhd"
   | "uhd";
-export const PresetsCreateResponseDataConfigMediaVideoQuality =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateResponseDataConfigMediaVideoQuality = S.String;
 
 export interface PresetsCreateResponseDataConfigMediaVideo {
   /** Frame rate of participants' video */
@@ -2125,7 +2645,7 @@ export type PresetsCreateResponseDataConfigViewType =
   | "WEBINAR"
   | "AUDIO_ROOM"
   | "LIVESTREAM";
-export const PresetsCreateResponseDataConfigViewType = /*@__PURE__*/ S.String;
+export const PresetsCreateResponseDataConfigViewType = S.String;
 
 export type PresetsCreateResponseDataConfigLivestreamViewerQualitiesList =
   Array<number>;
@@ -2189,7 +2709,7 @@ export type PresetsCreateResponseDataPermissionsMediaAudioCanProduce =
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
 export const PresetsCreateResponseDataPermissionsMediaAudioCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsCreateResponseDataPermissionsMediaAudio {
   /** Can produce audio */
@@ -2211,7 +2731,7 @@ export type PresetsCreateResponseDataPermissionsMediaScreenshareCanProduce =
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
 export const PresetsCreateResponseDataPermissionsMediaScreenshareCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsCreateResponseDataPermissionsMediaScreenshare {
   /** Can produce screen share video */
@@ -2234,7 +2754,7 @@ export type PresetsCreateResponseDataPermissionsMediaVideoCanProduce =
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
 export const PresetsCreateResponseDataPermissionsMediaVideoCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsCreateResponseDataPermissionsMediaVideo {
   /** Can produce video */
@@ -2284,22 +2804,19 @@ export type PresetsCreateResponseDataPermissionsRecorderType =
   | "RECORDER"
   | "LIVESTREAMER"
   | "NONE";
-export const PresetsCreateResponseDataPermissionsRecorderType =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateResponseDataPermissionsRecorderType = S.String;
 
 export type PresetsCreateResponseDataPermissionsWaitingRoomType =
   | "SKIP"
   | "ON_PRIVILEGED_USER_ENTRY"
   | "SKIP_ON_ACCEPT";
-export const PresetsCreateResponseDataPermissionsWaitingRoomType =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateResponseDataPermissionsWaitingRoomType = S.String;
 
 export type PresetsCreateResponseDataPermissionsStageAccess =
   | "ALLOWED"
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
-export const PresetsCreateResponseDataPermissionsStageAccess =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateResponseDataPermissionsStageAccess = S.String;
 
 export interface PresetsCreateResponseDataPermissions {
   /** Whether this participant can accept waiting requests */
@@ -2401,15 +2918,13 @@ export type PresetsCreateResponseDataUiDesignTokensBorderRadius =
   | "rounded"
   | "extra-rounded"
   | "circular";
-export const PresetsCreateResponseDataUiDesignTokensBorderRadius =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateResponseDataUiDesignTokensBorderRadius = S.String;
 
 export type PresetsCreateResponseDataUiDesignTokensBorderWidth =
   | "none"
   | "thin"
   | "fat";
-export const PresetsCreateResponseDataUiDesignTokensBorderWidth =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateResponseDataUiDesignTokensBorderWidth = S.String;
 
 export type PresetsCreateResponseDataUiDesignTokensColorsBackground =
   PresetsCreateRequestUiDesignTokensColorsBackground;
@@ -2430,8 +2945,7 @@ export type PresetsCreateResponseDataUiDesignTokensTheme =
   | "darkest"
   | "dark"
   | "light";
-export const PresetsCreateResponseDataUiDesignTokensTheme =
-  /*@__PURE__*/ S.String;
+export const PresetsCreateResponseDataUiDesignTokensTheme = S.String;
 
 export interface PresetsCreateResponseDataUiDesignTokens {
   borderRadius: PresetsCreateResponseDataUiDesignTokensBorderRadius;
@@ -2526,7 +3040,7 @@ export type WebhooksCreateWebhookRequestEventsItem =
   | "livestreaming.statusUpdate"
   | "meeting.transcript"
   | "meeting.summary";
-export const WebhooksCreateWebhookRequestEventsItem = /*@__PURE__*/ S.String;
+export const WebhooksCreateWebhookRequestEventsItem = S.String;
 
 export type WebhooksCreateWebhookRequestEventsList = Array<
   WebhooksCreateWebhookRequestEventsItem | (string & {})
@@ -2580,8 +3094,7 @@ export type WebhooksCreateWebhookResponseDataEventsItem =
   | "livestreaming.statusUpdate"
   | "meeting.transcript"
   | "meeting.summary";
-export const WebhooksCreateWebhookResponseDataEventsItem =
-  /*@__PURE__*/ S.String;
+export const WebhooksCreateWebhookResponseDataEventsItem = S.String;
 
 export type WebhooksCreateWebhookResponseDataEventsList =
   Array<WebhooksCreateWebhookResponseDataEventsItem>;
@@ -2732,8 +3245,7 @@ export type PresetsDeleteResponseDataConfigMediaScreenshareQuality =
   | "qvga"
   | "fhd"
   | "uhd";
-export const PresetsDeleteResponseDataConfigMediaScreenshareQuality =
-  /*@__PURE__*/ S.String;
+export const PresetsDeleteResponseDataConfigMediaScreenshareQuality = S.String;
 
 export interface PresetsDeleteResponseDataConfigMediaScreenshare {
   /** Frame rate of screen share */
@@ -2757,8 +3269,7 @@ export type PresetsDeleteResponseDataConfigMediaVideoQuality =
   | "qvga"
   | "fhd"
   | "uhd";
-export const PresetsDeleteResponseDataConfigMediaVideoQuality =
-  /*@__PURE__*/ S.String;
+export const PresetsDeleteResponseDataConfigMediaVideoQuality = S.String;
 
 export interface PresetsDeleteResponseDataConfigMediaVideo {
   /** Frame rate of participants' video */
@@ -2808,7 +3319,7 @@ export type PresetsDeleteResponseDataConfigViewType =
   | "WEBINAR"
   | "AUDIO_ROOM"
   | "LIVESTREAM";
-export const PresetsDeleteResponseDataConfigViewType = /*@__PURE__*/ S.String;
+export const PresetsDeleteResponseDataConfigViewType = S.String;
 
 export type PresetsDeleteResponseDataConfigLivestreamViewerQualitiesList =
   Array<number>;
@@ -2872,7 +3383,7 @@ export type PresetsDeleteResponseDataPermissionsMediaAudioCanProduce =
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
 export const PresetsDeleteResponseDataPermissionsMediaAudioCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsDeleteResponseDataPermissionsMediaAudio {
   /** Can produce audio */
@@ -2894,7 +3405,7 @@ export type PresetsDeleteResponseDataPermissionsMediaScreenshareCanProduce =
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
 export const PresetsDeleteResponseDataPermissionsMediaScreenshareCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsDeleteResponseDataPermissionsMediaScreenshare {
   /** Can produce screen share video */
@@ -2917,7 +3428,7 @@ export type PresetsDeleteResponseDataPermissionsMediaVideoCanProduce =
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
 export const PresetsDeleteResponseDataPermissionsMediaVideoCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsDeleteResponseDataPermissionsMediaVideo {
   /** Can produce video */
@@ -2967,22 +3478,19 @@ export type PresetsDeleteResponseDataPermissionsRecorderType =
   | "RECORDER"
   | "LIVESTREAMER"
   | "NONE";
-export const PresetsDeleteResponseDataPermissionsRecorderType =
-  /*@__PURE__*/ S.String;
+export const PresetsDeleteResponseDataPermissionsRecorderType = S.String;
 
 export type PresetsDeleteResponseDataPermissionsWaitingRoomType =
   | "SKIP"
   | "ON_PRIVILEGED_USER_ENTRY"
   | "SKIP_ON_ACCEPT";
-export const PresetsDeleteResponseDataPermissionsWaitingRoomType =
-  /*@__PURE__*/ S.String;
+export const PresetsDeleteResponseDataPermissionsWaitingRoomType = S.String;
 
 export type PresetsDeleteResponseDataPermissionsStageAccess =
   | "ALLOWED"
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
-export const PresetsDeleteResponseDataPermissionsStageAccess =
-  /*@__PURE__*/ S.String;
+export const PresetsDeleteResponseDataPermissionsStageAccess = S.String;
 
 export interface PresetsDeleteResponseDataPermissions {
   /** Whether this participant can accept waiting requests */
@@ -3084,15 +3592,13 @@ export type PresetsDeleteResponseDataUiDesignTokensBorderRadius =
   | "rounded"
   | "extra-rounded"
   | "circular";
-export const PresetsDeleteResponseDataUiDesignTokensBorderRadius =
-  /*@__PURE__*/ S.String;
+export const PresetsDeleteResponseDataUiDesignTokensBorderRadius = S.String;
 
 export type PresetsDeleteResponseDataUiDesignTokensBorderWidth =
   | "none"
   | "thin"
   | "fat";
-export const PresetsDeleteResponseDataUiDesignTokensBorderWidth =
-  /*@__PURE__*/ S.String;
+export const PresetsDeleteResponseDataUiDesignTokensBorderWidth = S.String;
 
 export type PresetsDeleteResponseDataUiDesignTokensColorsBackground =
   PresetsCreateRequestUiDesignTokensColorsBackground;
@@ -3113,8 +3619,7 @@ export type PresetsDeleteResponseDataUiDesignTokensTheme =
   | "darkest"
   | "dark"
   | "light";
-export const PresetsDeleteResponseDataUiDesignTokensTheme =
-  /*@__PURE__*/ S.String;
+export const PresetsDeleteResponseDataUiDesignTokensTheme = S.String;
 
 export interface PresetsDeleteResponseDataUiDesignTokens {
   borderRadius: PresetsDeleteResponseDataUiDesignTokensBorderRadius;
@@ -3234,8 +3739,7 @@ export type WebhooksDeleteWebhookResponseDataEventsItem =
   | "livestreaming.statusUpdate"
   | "meeting.transcript"
   | "meeting.summary";
-export const WebhooksDeleteWebhookResponseDataEventsItem =
-  /*@__PURE__*/ S.String;
+export const WebhooksDeleteWebhookResponseDataEventsItem = S.String;
 
 export type WebhooksDeleteWebhookResponseDataEventsList =
   Array<WebhooksDeleteWebhookResponseDataEventsItem>;
@@ -3350,7 +3854,7 @@ export type WebhooksEditWebhookRequestEventsItem =
   | "meeting.chatSynced"
   | "meeting.transcript"
   | "meeting.summary";
-export const WebhooksEditWebhookRequestEventsItem = /*@__PURE__*/ S.String;
+export const WebhooksEditWebhookRequestEventsItem = S.String;
 
 export type WebhooksEditWebhookRequestEventsList = Array<
   WebhooksEditWebhookRequestEventsItem | (string & {})
@@ -3405,7 +3909,7 @@ export type WebhooksEditWebhookResponseDataEventsItem =
   | "livestreaming.statusUpdate"
   | "meeting.transcript"
   | "meeting.summary";
-export const WebhooksEditWebhookResponseDataEventsItem = /*@__PURE__*/ S.String;
+export const WebhooksEditWebhookResponseDataEventsItem = S.String;
 
 export type WebhooksEditWebhookResponseDataEventsList =
   Array<WebhooksEditWebhookResponseDataEventsItem>;
@@ -3537,9 +4041,12 @@ export const GetActiveLivestreamsForLivestreamIdLivestreamRequest =
   }) as any as S.Schema<GetActiveLivestreamsForLivestreamIdLivestreamRequest>;
 
 export type LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataLivestreamStatus =
-  "LIVE" | "IDLE" | "ERRORED" | "INVOKED";
+  | "LIVE"
+  | "IDLE"
+  | "ERRORED"
+  | "INVOKED";
 export const LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataLivestreamStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataLivestream {
   id?: string | null;
@@ -3699,8 +4206,7 @@ export type RecordingsGetActiveRecordingsResponseDataStatus =
   | "UPLOADED"
   | "ERRORED"
   | "PAUSED";
-export const RecordingsGetActiveRecordingsResponseDataStatus =
-  /*@__PURE__*/ S.String;
+export const RecordingsGetActiveRecordingsResponseDataStatus = S.String;
 
 export interface RecordingsGetActiveRecordingsResponseData {
   /** ID of the recording */
@@ -3791,15 +4297,13 @@ export const GetActiveSessionActiveSessionRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GetActiveSessionActiveSessionRequest>;
 
 export type ActiveSessionGetActiveSessionResponseDataStatus = "LIVE" | "ENDED";
-export const ActiveSessionGetActiveSessionResponseDataStatus =
-  /*@__PURE__*/ S.String;
+export const ActiveSessionGetActiveSessionResponseDataStatus = S.String;
 
 export type ActiveSessionGetActiveSessionResponseDataType =
   | "meeting"
   | "livestream"
   | "participant";
-export const ActiveSessionGetActiveSessionResponseDataType =
-  /*@__PURE__*/ S.String;
+export const ActiveSessionGetActiveSessionResponseDataType = S.String;
 
 export type ActiveSessionGetActiveSessionResponseDataBreakoutRoomsList =
   Array<unknown>;
@@ -3879,15 +4383,14 @@ export const GetActiveSessionActiveSessionResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GetActiveSessionActiveSessionResponse>;
 
 export type LivestreamsGetAllLivestreamsRequestSortOrder = "ASC" | "DSC";
-export const LivestreamsGetAllLivestreamsRequestSortOrder =
-  /*@__PURE__*/ S.String;
+export const LivestreamsGetAllLivestreamsRequestSortOrder = S.String;
 
 export type LivestreamsGetAllLivestreamsRequestStatus =
   | "LIVE"
   | "IDLE"
   | "ERRORED"
   | "INVOKED";
-export const LivestreamsGetAllLivestreamsRequestStatus = /*@__PURE__*/ S.String;
+export const LivestreamsGetAllLivestreamsRequestStatus = S.String;
 
 export interface GetAllLivestreamsLivestreamRequest {
   /** The account identifier tag. */
@@ -3958,8 +4461,7 @@ export type LivestreamsGetAllLivestreamsResponseDataStatus =
   | "IDLE"
   | "ERRORED"
   | "INVOKED";
-export const LivestreamsGetAllLivestreamsResponseDataStatus =
-  /*@__PURE__*/ S.String;
+export const LivestreamsGetAllLivestreamsResponseDataStatus = S.String;
 
 export interface LivestreamsGetAllLivestreamsResponseData {
   /** The ID of the livestream. */
@@ -4021,7 +4523,7 @@ export const GetAllLivestreamsLivestreamResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAllLivestreamsLivestreamResponse>;
 
 export type AppsGetRequestSortOrder = "ASC" | "DESC";
-export const AppsGetRequestSortOrder = /*@__PURE__*/ S.String;
+export const AppsGetRequestSortOrder = S.String;
 
 export interface GetAppRequest {
   /** The account identifier tag. */
@@ -4363,9 +4865,12 @@ export const GetLivestreamSessionForLivestreamIdLivestreamRequest =
   }) as any as S.Schema<GetLivestreamSessionForLivestreamIdLivestreamRequest>;
 
 export type LivestreamsGetLivestreamSessionForLivestreamIdResponseDataLivestreamStatus =
-  "LIVE" | "IDLE" | "ERRORED" | "INVOKED";
+  | "LIVE"
+  | "IDLE"
+  | "ERRORED"
+  | "INVOKED";
 export const LivestreamsGetLivestreamSessionForLivestreamIdResponseDataLivestreamStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface LivestreamsGetLivestreamSessionForLivestreamIdResponseDataLivestream {
   /** ID of the livestream. */
@@ -4505,7 +5010,7 @@ export const GetLivestreamSessionForLivestreamIdLivestreamResponse =
   }) as any as S.Schema<GetLivestreamSessionForLivestreamIdLivestreamResponse>;
 
 export type MeetingsGetRequestStatus = "ACTIVE" | "INACTIVE";
-export const MeetingsGetRequestStatus = /*@__PURE__*/ S.String;
+export const MeetingsGetRequestStatus = S.String;
 
 export interface GetMeetingRequest {
   /** The account identifier tag. */
@@ -4552,13 +5057,13 @@ export type MeetingsGetResponseDataItemRecordingConfigAudioConfigChannel =
   | "mono"
   | "stereo";
 export const MeetingsGetResponseDataItemRecordingConfigAudioConfigChannel =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsGetResponseDataItemRecordingConfigAudioConfigCodec =
   | "MP3"
   | "AAC";
 export const MeetingsGetResponseDataItemRecordingConfigAudioConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsGetResponseDataItemRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
@@ -4593,28 +5098,22 @@ export type MeetingsGetResponseDataItemRecordingConfigRealtimekitBucketConfig =
 export const MeetingsGetResponseDataItemRecordingConfigRealtimekitBucketConfig =
   MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
 
-export type MeetingsGetResponseDataItemRecordingConfigStorageConfigType =
-  | "aws"
-  | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
-export const MeetingsGetResponseDataItemRecordingConfigStorageConfigType =
-  /*@__PURE__*/ S.String;
-
-export type MeetingsGetResponseDataItemRecordingConfigStorageConfigAuthMethod =
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0AuthMethod =
   | "KEY"
   | "PASSWORD";
-export const MeetingsGetResponseDataItemRecordingConfigStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export const MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0AuthMethod =
+  S.String;
 
-export interface MeetingsGetResponseDataItemRecordingConfigStorageConfig {
-  /** Type of storage media. */
-  type: MeetingsGetResponseDataItemRecordingConfigStorageConfigType;
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0Type =
+  "gcs";
+export const MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0Type =
+  S.String;
+
+export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsGetResponseDataItemRecordingConfigStorageConfigAuthMethod | null;
+  authMethod?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0AuthMethod | null;
   /** Name of the storage medium's bucket. */
   bucket?: string | null;
   /** SSH destination server host for SFTP type storage medium */
@@ -4631,17 +5130,17 @@ export interface MeetingsGetResponseDataItemRecordingConfigStorageConfig {
   region?: string | null;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | null;
+  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0Type | null;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null;
 }
-export const MeetingsGetResponseDataItemRecordingConfigStorageConfig =
+export const MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: MeetingsGetResponseDataItemRecordingConfigStorageConfigType,
       accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
       authMethod: S.optional(
         S.NullOr(
-          MeetingsGetResponseDataItemRecordingConfigStorageConfigAuthMethod,
+          MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0AuthMethod,
         ).pipe(T.Body("auth_method")),
       ),
       bucket: S.optional(S.NullOr(S.String)),
@@ -4652,22 +5151,296 @@ export const MeetingsGetResponseDataItemRecordingConfigStorageConfig =
       privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
       region: S.optional(S.NullOr(S.String)),
       secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0Type,
+        ),
+      ),
       username: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
-    identifier: "MeetingsGetResponseDataItemRecordingConfigStorageConfig",
-  }) as any as S.Schema<MeetingsGetResponseDataItemRecordingConfigStorageConfig>;
+    identifier: "MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0",
+  }) as any as S.Schema<MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0>;
+
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1AuthMethod =
+  S.String;
+
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1Type =
+  S.String;
+
+export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1",
+  }) as any as S.Schema<MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1>;
+
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2AuthMethod =
+  "KEY";
+export const MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2AuthMethod =
+  S.String;
+
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2Type =
+  S.String;
+
+export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2",
+  }) as any as S.Schema<MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2>;
+
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3AuthMethod =
+  S.String;
+
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3Type =
+  S.String;
+
+export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3",
+  }) as any as S.Schema<MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3>;
+
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfig =
+  | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0
+  | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1
+  | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2
+  | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3;
+export const MeetingsGetResponseDataItemRecordingConfigStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
 
 export type MeetingsGetResponseDataItemRecordingConfigVideoConfigCodec =
   | "H264"
-  | "VP8";
+  | "VP8"
+  | "VP9";
 export const MeetingsGetResponseDataItemRecordingConfigVideoConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsGetResponseDataItemRecordingConfigVideoConfigWatermarkPosition =
-  "left top" | "right top" | "left bottom" | "right bottom";
+  | "left top"
+  | "right top"
+  | "left bottom"
+  | "right bottom";
 export const MeetingsGetResponseDataItemRecordingConfigVideoConfigWatermarkPosition =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsGetResponseDataItemRecordingConfigVideoConfigWatermarkSize =
   MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize;
@@ -4783,7 +5556,7 @@ export const MeetingsGetResponseDataItemRecordingConfig =
   }) as any as S.Schema<MeetingsGetResponseDataItemRecordingConfig>;
 
 export type MeetingsGetResponseDataItemStatus = "ACTIVE" | "INACTIVE";
-export const MeetingsGetResponseDataItemStatus = /*@__PURE__*/ S.String;
+export const MeetingsGetResponseDataItemStatus = S.String;
 
 export interface MeetingsGetResponseDataItem {
   /** ID of the meeting. */
@@ -4910,7 +5683,7 @@ export type LivestreamsGetMeetingActiveLivestreamsResponseDataStatus =
   | "ERRORED"
   | "INVOKED";
 export const LivestreamsGetMeetingActiveLivestreamsResponseDataStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface LivestreamsGetMeetingActiveLivestreamsResponseData {
   /** The livestream ID. */
@@ -4997,23 +5770,23 @@ export const GetMeetingByIdMeetingRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetMeetingByIdMeetingRequest>;
 
 export type MeetingsGetMeetingByIdResponseDataAiConfigSummarizationSummaryType =
-    | "general"
-    | "team_meeting"
-    | "sales_call"
-    | "client_check_in"
-    | "interview"
-    | "daily_standup"
-    | "one_on_one_meeting"
-    | "lecture"
-    | "code_review";
+  | "general"
+  | "team_meeting"
+  | "sales_call"
+  | "client_check_in"
+  | "interview"
+  | "daily_standup"
+  | "one_on_one_meeting"
+  | "lecture"
+  | "code_review";
 export const MeetingsGetMeetingByIdResponseDataAiConfigSummarizationSummaryType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsGetMeetingByIdResponseDataAiConfigSummarizationTextFormat =
   | "plain_text"
   | "markdown";
 export const MeetingsGetMeetingByIdResponseDataAiConfigSummarizationTextFormat =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsGetMeetingByIdResponseDataAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
@@ -5061,7 +5834,7 @@ export type MeetingsGetMeetingByIdResponseDataAiConfigTranscriptionLanguage =
   | "fr"
   | "nl";
 export const MeetingsGetMeetingByIdResponseDataAiConfigTranscriptionLanguage =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsGetMeetingByIdResponseDataAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
@@ -5113,15 +5886,16 @@ export const MeetingsGetMeetingByIdResponseDataAiConfig =
   }) as any as S.Schema<MeetingsGetMeetingByIdResponseDataAiConfig>;
 
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfigChannel =
-  "mono" | "stereo";
+  | "mono"
+  | "stereo";
 export const MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfigChannel =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfigCodec =
   | "MP3"
   | "AAC";
 export const MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
@@ -5160,23 +5934,22 @@ export type MeetingsGetMeetingByIdResponseDataRecordingConfigRealtimekitBucketCo
 export const MeetingsGetMeetingByIdResponseDataRecordingConfigRealtimekitBucketConfig =
   MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
 
-export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigType =
-  "aws" | "azure" | "digitalocean" | "gcs" | "sftp";
-export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigType =
-  /*@__PURE__*/ S.String;
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod =
+  S.String;
 
-export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigAuthMethod =
-  "KEY" | "PASSWORD";
-export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type =
+  "gcs";
+export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type =
+  S.String;
 
-export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfig {
-  /** Type of storage media. */
-  type: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigType;
+export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigAuthMethod | null;
+  authMethod?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod | null;
   /** Name of the storage medium's bucket. */
   bucket?: string | null;
   /** SSH destination server host for SFTP type storage medium */
@@ -5193,17 +5966,17 @@ export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfig 
   region?: string | null;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | null;
+  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type | null;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null;
 }
-export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfig =
+export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigType,
       accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
       authMethod: S.optional(
         S.NullOr(
-          MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigAuthMethod,
+          MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod,
         ).pipe(T.Body("auth_method")),
       ),
       bucket: S.optional(S.NullOr(S.String)),
@@ -5214,23 +5987,300 @@ export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfig =
       privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
       region: S.optional(S.NullOr(S.String)),
       secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type,
+        ),
+      ),
       username: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
-      "MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfig",
-  }) as any as S.Schema<MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfig>;
+      "MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0",
+  }) as any as S.Schema<MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0>;
+
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod =
+  S.String;
+
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type =
+  S.String;
+
+export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1",
+  }) as any as S.Schema<MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1>;
+
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod =
+  "KEY";
+export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod =
+  S.String;
+
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type =
+  S.String;
+
+export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2",
+  }) as any as S.Schema<MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2>;
+
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod =
+  S.String;
+
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type =
+  S.String;
+
+export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3",
+  }) as any as S.Schema<MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3>;
+
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfig =
+  | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0
+  | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1
+  | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2
+  | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3;
+export const MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
 
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigCodec =
   | "H264"
-  | "VP8";
+  | "VP8"
+  | "VP9";
 export const MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkPosition =
-  "left top" | "right top" | "left bottom" | "right bottom";
+  | "left top"
+  | "right top"
+  | "left bottom"
+  | "right bottom";
 export const MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkPosition =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkSize =
   MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize;
@@ -5348,7 +6398,7 @@ export const MeetingsGetMeetingByIdResponseDataRecordingConfig =
   }) as any as S.Schema<MeetingsGetMeetingByIdResponseDataRecordingConfig>;
 
 export type MeetingsGetMeetingByIdResponseDataStatus = "ACTIVE" | "INACTIVE";
-export const MeetingsGetMeetingByIdResponseDataStatus = /*@__PURE__*/ S.String;
+export const MeetingsGetMeetingByIdResponseDataStatus = S.String;
 
 export interface MeetingsGetMeetingByIdResponseData {
   /** ID of the meeting. */
@@ -5597,14 +6647,13 @@ export type RecordingsGetOneRecordingResponseDataStatus =
   | "UPLOADED"
   | "ERRORED"
   | "PAUSED";
-export const RecordingsGetOneRecordingResponseDataStatus =
-  /*@__PURE__*/ S.String;
+export const RecordingsGetOneRecordingResponseDataStatus = S.String;
 
 export type RecordingsGetOneRecordingResponseDataStartReasonCallerType =
   | "ORGANIZATION"
   | "USER";
 export const RecordingsGetOneRecordingResponseDataStartReasonCallerType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface RecordingsGetOneRecordingResponseDataStartReasonCaller {
   /** Name of the user who started the recording. */
@@ -5630,8 +6679,7 @@ export const RecordingsGetOneRecordingResponseDataStartReasonCaller =
 export type RecordingsGetOneRecordingResponseDataStartReasonReason =
   | "API_CALL"
   | "RECORD_ON_START";
-export const RecordingsGetOneRecordingResponseDataStartReasonReason =
-  /*@__PURE__*/ S.String;
+export const RecordingsGetOneRecordingResponseDataStartReasonReason = S.String;
 
 export interface RecordingsGetOneRecordingResponseDataStartReason {
   caller?: RecordingsGetOneRecordingResponseDataStartReasonCaller | null;
@@ -5656,7 +6704,7 @@ export type RecordingsGetOneRecordingResponseDataStopReasonCallerType =
   | "ORGANIZATION"
   | "USER";
 export const RecordingsGetOneRecordingResponseDataStopReasonCallerType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface RecordingsGetOneRecordingResponseDataStopReasonCaller {
   /** Name of the user who stopped the recording. */
@@ -5683,8 +6731,7 @@ export type RecordingsGetOneRecordingResponseDataStopReasonReason =
   | "API_CALL"
   | "INTERNAL_ERROR"
   | "ALL_PEERS_LEFT";
-export const RecordingsGetOneRecordingResponseDataStopReasonReason =
-  /*@__PURE__*/ S.String;
+export const RecordingsGetOneRecordingResponseDataStopReasonReason = S.String;
 
 export interface RecordingsGetOneRecordingResponseDataStopReason {
   caller?: RecordingsGetOneRecordingResponseDataStopReasonCaller | null;
@@ -5705,28 +6752,21 @@ export const RecordingsGetOneRecordingResponseDataStopReason =
     identifier: "RecordingsGetOneRecordingResponseDataStopReason",
   }) as any as S.Schema<RecordingsGetOneRecordingResponseDataStopReason>;
 
-export type RecordingsGetOneRecordingResponseDataStorageConfigType =
-  | "aws"
-  | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
-export const RecordingsGetOneRecordingResponseDataStorageConfigType =
-  /*@__PURE__*/ S.String;
-
-export type RecordingsGetOneRecordingResponseDataStorageConfigAuthMethod =
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase0AuthMethod =
   | "KEY"
   | "PASSWORD";
-export const RecordingsGetOneRecordingResponseDataStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export const RecordingsGetOneRecordingResponseDataStorageConfigCase0AuthMethod =
+  S.String;
 
-export interface RecordingsGetOneRecordingResponseDataStorageConfig {
-  /** Type of storage media. */
-  type: RecordingsGetOneRecordingResponseDataStorageConfigType;
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase0Type = "gcs";
+export const RecordingsGetOneRecordingResponseDataStorageConfigCase0Type =
+  S.String;
+
+export interface RecordingsGetOneRecordingResponseDataStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigAuthMethod | null;
+  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase0AuthMethod | null;
   /** Name of the storage medium's bucket. */
   bucket?: string | null;
   /** SSH destination server host for SFTP type storage medium */
@@ -5743,17 +6783,17 @@ export interface RecordingsGetOneRecordingResponseDataStorageConfig {
   region?: string | null;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | null;
+  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase0Type | null;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null;
 }
-export const RecordingsGetOneRecordingResponseDataStorageConfig =
+export const RecordingsGetOneRecordingResponseDataStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: RecordingsGetOneRecordingResponseDataStorageConfigType,
       accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
       authMethod: S.optional(
         S.NullOr(
-          RecordingsGetOneRecordingResponseDataStorageConfigAuthMethod,
+          RecordingsGetOneRecordingResponseDataStorageConfigCase0AuthMethod,
         ).pipe(T.Body("auth_method")),
       ),
       bucket: S.optional(S.NullOr(S.String)),
@@ -5764,11 +6804,273 @@ export const RecordingsGetOneRecordingResponseDataStorageConfig =
       privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
       region: S.optional(S.NullOr(S.String)),
       secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(RecordingsGetOneRecordingResponseDataStorageConfigCase0Type),
+      ),
       username: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
-    identifier: "RecordingsGetOneRecordingResponseDataStorageConfig",
-  }) as any as S.Schema<RecordingsGetOneRecordingResponseDataStorageConfig>;
+    identifier: "RecordingsGetOneRecordingResponseDataStorageConfigCase0",
+  }) as any as S.Schema<RecordingsGetOneRecordingResponseDataStorageConfigCase0>;
+
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const RecordingsGetOneRecordingResponseDataStorageConfigCase1AuthMethod =
+  S.String;
+
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const RecordingsGetOneRecordingResponseDataStorageConfigCase1Type =
+  S.String;
+
+export interface RecordingsGetOneRecordingResponseDataStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase1AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase1Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsGetOneRecordingResponseDataStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsGetOneRecordingResponseDataStorageConfigCase1AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(RecordingsGetOneRecordingResponseDataStorageConfigCase1Type),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "RecordingsGetOneRecordingResponseDataStorageConfigCase1",
+  }) as any as S.Schema<RecordingsGetOneRecordingResponseDataStorageConfigCase1>;
+
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase2AuthMethod =
+  "KEY";
+export const RecordingsGetOneRecordingResponseDataStorageConfigCase2AuthMethod =
+  S.String;
+
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const RecordingsGetOneRecordingResponseDataStorageConfigCase2Type =
+  S.String;
+
+export interface RecordingsGetOneRecordingResponseDataStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase2AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase2Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsGetOneRecordingResponseDataStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsGetOneRecordingResponseDataStorageConfigCase2AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(RecordingsGetOneRecordingResponseDataStorageConfigCase2Type),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "RecordingsGetOneRecordingResponseDataStorageConfigCase2",
+  }) as any as S.Schema<RecordingsGetOneRecordingResponseDataStorageConfigCase2>;
+
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const RecordingsGetOneRecordingResponseDataStorageConfigCase3AuthMethod =
+  S.String;
+
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const RecordingsGetOneRecordingResponseDataStorageConfigCase3Type =
+  S.String;
+
+export interface RecordingsGetOneRecordingResponseDataStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase3AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase3Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsGetOneRecordingResponseDataStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsGetOneRecordingResponseDataStorageConfigCase3AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(RecordingsGetOneRecordingResponseDataStorageConfigCase3Type),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "RecordingsGetOneRecordingResponseDataStorageConfigCase3",
+  }) as any as S.Schema<RecordingsGetOneRecordingResponseDataStorageConfigCase3>;
+
+export type RecordingsGetOneRecordingResponseDataStorageConfig =
+  | RecordingsGetOneRecordingResponseDataStorageConfigCase0
+  | RecordingsGetOneRecordingResponseDataStorageConfigCase1
+  | RecordingsGetOneRecordingResponseDataStorageConfigCase2
+  | RecordingsGetOneRecordingResponseDataStorageConfigCase3;
+export const RecordingsGetOneRecordingResponseDataStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
 
 export interface RecordingsGetOneRecordingResponseData {
   /** ID of the recording */
@@ -6033,8 +7335,7 @@ export type SessionsGetParticipantDataFromPeerIdRequestFilters =
   | "precall_network_information"
   | "events"
   | "quality_stats";
-export const SessionsGetParticipantDataFromPeerIdRequestFilters =
-  /*@__PURE__*/ S.String;
+export const SessionsGetParticipantDataFromPeerIdRequestFilters = S.String;
 
 export interface GetParticipantDataFromPeerIdSessionRequest {
   /** The account identifier tag. */
@@ -6073,14 +7374,20 @@ export const GetParticipantDataFromPeerIdSessionRequest =
   }) as any as S.Schema<GetParticipantDataFromPeerIdSessionRequest>;
 
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsItemEventName =
-  "PEER_CREATED" | "PEER_JOINING" | "PEER_LEAVING";
+  | "PEER_CREATED"
+  | "PEER_JOINING"
+  | "PEER_LEAVING";
 export const SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsItemEventName =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsItemPresetViewType =
-  "GROUP_CALL" | "WEBINAR" | "AUDIO_ROOM" | "LIVESTREAM" | "CHAT";
+  | "GROUP_CALL"
+  | "WEBINAR"
+  | "AUDIO_ROOM"
+  | "LIVESTREAM"
+  | "CHAT";
 export const SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsItemPresetViewType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsItem {
   /** ID of the peer event. */
@@ -6424,7 +7731,9 @@ export const SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepo
   }) as any as S.Schema<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataDeviceInfo>;
 
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadata =
-  string | number | boolean;
+  | string
+  | number
+  | boolean;
 export const SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadata =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], []]));
 
@@ -7320,9 +8629,12 @@ export const SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepo
   }) as any as S.Schema<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItemQualityLimitationDurations>;
 
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItemQualityLimitationReason =
-  "cpu" | "bandwidth" | "none" | "other";
+  | "cpu"
+  | "bandwidth"
+  | "none"
+  | "other";
 export const SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItemQualityLimitationReason =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItem {
   bytesSent?: number | null;
@@ -7571,9 +8883,12 @@ export const SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepo
   SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItemQualityLimitationDurations;
 
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoProducerItemQualityLimitationReason =
-  "cpu" | "bandwidth" | "none" | "other";
+  | "cpu"
+  | "bandwidth"
+  | "none"
+  | "other";
 export const SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoProducerItemQualityLimitationReason =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoProducerItem {
   bytesSent?: number | null;
@@ -8025,7 +9340,7 @@ export type PresetsGetPresetByIdResponseDataConfigMediaScreenshareQuality =
   | "fhd"
   | "uhd";
 export const PresetsGetPresetByIdResponseDataConfigMediaScreenshareQuality =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsGetPresetByIdResponseDataConfigMediaScreenshare {
   /** Frame rate of screen share */
@@ -8049,8 +9364,7 @@ export type PresetsGetPresetByIdResponseDataConfigMediaVideoQuality =
   | "qvga"
   | "fhd"
   | "uhd";
-export const PresetsGetPresetByIdResponseDataConfigMediaVideoQuality =
-  /*@__PURE__*/ S.String;
+export const PresetsGetPresetByIdResponseDataConfigMediaVideoQuality = S.String;
 
 export interface PresetsGetPresetByIdResponseDataConfigMediaVideo {
   /** Frame rate of participants' video */
@@ -8100,8 +9414,7 @@ export type PresetsGetPresetByIdResponseDataConfigViewType =
   | "WEBINAR"
   | "AUDIO_ROOM"
   | "LIVESTREAM";
-export const PresetsGetPresetByIdResponseDataConfigViewType =
-  /*@__PURE__*/ S.String;
+export const PresetsGetPresetByIdResponseDataConfigViewType = S.String;
 
 export type PresetsGetPresetByIdResponseDataConfigLivestreamViewerQualitiesList =
   Array<number>;
@@ -8168,7 +9481,7 @@ export type PresetsGetPresetByIdResponseDataPermissionsMediaAudioCanProduce =
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
 export const PresetsGetPresetByIdResponseDataPermissionsMediaAudioCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsGetPresetByIdResponseDataPermissionsMediaAudio {
   /** Can produce audio */
@@ -8187,9 +9500,11 @@ export const PresetsGetPresetByIdResponseDataPermissionsMediaAudio =
   }) as any as S.Schema<PresetsGetPresetByIdResponseDataPermissionsMediaAudio>;
 
 export type PresetsGetPresetByIdResponseDataPermissionsMediaScreenshareCanProduce =
-  "ALLOWED" | "NOT_ALLOWED" | "CAN_REQUEST";
+  | "ALLOWED"
+  | "NOT_ALLOWED"
+  | "CAN_REQUEST";
 export const PresetsGetPresetByIdResponseDataPermissionsMediaScreenshareCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsGetPresetByIdResponseDataPermissionsMediaScreenshare {
   /** Can produce screen share video */
@@ -8212,7 +9527,7 @@ export type PresetsGetPresetByIdResponseDataPermissionsMediaVideoCanProduce =
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
 export const PresetsGetPresetByIdResponseDataPermissionsMediaVideoCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsGetPresetByIdResponseDataPermissionsMediaVideo {
   /** Can produce video */
@@ -8263,22 +9578,20 @@ export type PresetsGetPresetByIdResponseDataPermissionsRecorderType =
   | "RECORDER"
   | "LIVESTREAMER"
   | "NONE";
-export const PresetsGetPresetByIdResponseDataPermissionsRecorderType =
-  /*@__PURE__*/ S.String;
+export const PresetsGetPresetByIdResponseDataPermissionsRecorderType = S.String;
 
 export type PresetsGetPresetByIdResponseDataPermissionsWaitingRoomType =
   | "SKIP"
   | "ON_PRIVILEGED_USER_ENTRY"
   | "SKIP_ON_ACCEPT";
 export const PresetsGetPresetByIdResponseDataPermissionsWaitingRoomType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type PresetsGetPresetByIdResponseDataPermissionsStageAccess =
   | "ALLOWED"
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
-export const PresetsGetPresetByIdResponseDataPermissionsStageAccess =
-  /*@__PURE__*/ S.String;
+export const PresetsGetPresetByIdResponseDataPermissionsStageAccess = S.String;
 
 export interface PresetsGetPresetByIdResponseDataPermissions {
   /** Whether this participant can accept waiting requests */
@@ -8383,14 +9696,14 @@ export type PresetsGetPresetByIdResponseDataUiDesignTokensBorderRadius =
   | "extra-rounded"
   | "circular";
 export const PresetsGetPresetByIdResponseDataUiDesignTokensBorderRadius =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type PresetsGetPresetByIdResponseDataUiDesignTokensBorderWidth =
   | "none"
   | "thin"
   | "fat";
 export const PresetsGetPresetByIdResponseDataUiDesignTokensBorderWidth =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type PresetsGetPresetByIdResponseDataUiDesignTokensColorsBackground =
   PresetsCreateRequestUiDesignTokensColorsBackground;
@@ -8411,8 +9724,7 @@ export type PresetsGetPresetByIdResponseDataUiDesignTokensTheme =
   | "darkest"
   | "dark"
   | "light";
-export const PresetsGetPresetByIdResponseDataUiDesignTokensTheme =
-  /*@__PURE__*/ S.String;
+export const PresetsGetPresetByIdResponseDataUiDesignTokensTheme = S.String;
 
 export interface PresetsGetPresetByIdResponseDataUiDesignTokens {
   borderRadius: PresetsGetPresetByIdResponseDataUiDesignTokensBorderRadius;
@@ -8503,10 +9815,10 @@ export const GetPresetByIdPresetResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetPresetByIdPresetResponse>;
 
 export type RecordingsGetRecordingsRequestSortBy = "invokedTime";
-export const RecordingsGetRecordingsRequestSortBy = /*@__PURE__*/ S.String;
+export const RecordingsGetRecordingsRequestSortBy = S.String;
 
 export type RecordingsGetRecordingsRequestSortOrder = "ASC" | "DESC";
-export const RecordingsGetRecordingsRequestSortOrder = /*@__PURE__*/ S.String;
+export const RecordingsGetRecordingsRequestSortOrder = S.String;
 
 export type RecordingsGetRecordingsRequestStatus =
   | "INVOKED"
@@ -8515,7 +9827,7 @@ export type RecordingsGetRecordingsRequestStatus =
   | "UPLOADED"
   | "ERRORED"
   | "PAUSED";
-export const RecordingsGetRecordingsRequestStatus = /*@__PURE__*/ S.String;
+export const RecordingsGetRecordingsRequestStatus = S.String;
 
 export type RecordingsGetRecordingsRequestStatusList = Array<
   RecordingsGetRecordingsRequestStatus | (string & {})
@@ -8588,18 +9900,19 @@ export type RecordingsGetRecordingsResponseDataItemStatus =
   | "UPLOADED"
   | "ERRORED"
   | "PAUSED";
-export const RecordingsGetRecordingsResponseDataItemStatus =
-  /*@__PURE__*/ S.String;
+export const RecordingsGetRecordingsResponseDataItemStatus = S.String;
 
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigAudioConfigChannel =
-  "mono" | "stereo";
+  | "mono"
+  | "stereo";
 export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigAudioConfigChannel =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigAudioConfigCodec =
-  "MP3" | "AAC";
+  | "MP3"
+  | "AAC";
 export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigAudioConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
@@ -8639,23 +9952,22 @@ export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigRealtim
 export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigRealtimekitBucketConfig =
   MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
 
-export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigType =
-  "aws" | "azure" | "digitalocean" | "gcs" | "sftp";
-export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigType =
-  /*@__PURE__*/ S.String;
+export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0AuthMethod =
+  S.String;
 
-export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigAuthMethod =
-  "KEY" | "PASSWORD";
-export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0Type =
+  "gcs";
+export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0Type =
+  S.String;
 
-export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfig {
-  /** Type of storage media. */
-  type: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigType;
+export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigAuthMethod | null;
+  authMethod?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0AuthMethod | null;
   /** Name of the storage medium's bucket. */
   bucket?: string | null;
   /** SSH destination server host for SFTP type storage medium */
@@ -8672,17 +9984,17 @@ export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigSt
   region?: string | null;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | null;
+  type?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0Type | null;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null;
 }
-export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfig =
+export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigType,
       accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
       authMethod: S.optional(
         S.NullOr(
-          RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigAuthMethod,
+          RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0AuthMethod,
         ).pipe(T.Body("auth_method")),
       ),
       bucket: S.optional(S.NullOr(S.String)),
@@ -8693,22 +10005,300 @@ export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorag
       privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
       region: S.optional(S.NullOr(S.String)),
       secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0Type,
+        ),
+      ),
       username: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
-      "RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfig",
-  }) as any as S.Schema<RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfig>;
+      "RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0",
+  }) as any as S.Schema<RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0>;
+
+export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1AuthMethod =
+  S.String;
+
+export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1Type =
+  S.String;
+
+export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  type?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1",
+  }) as any as S.Schema<RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1>;
+
+export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2AuthMethod =
+  "KEY";
+export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2AuthMethod =
+  S.String;
+
+export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2Type =
+  S.String;
+
+export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2",
+  }) as any as S.Schema<RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2>;
+
+export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3AuthMethod =
+  S.String;
+
+export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3Type =
+  S.String;
+
+export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3",
+  }) as any as S.Schema<RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3>;
+
+export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfig =
+  | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0
+  | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1
+  | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2
+  | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3;
+export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
 
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfigCodec =
-  "H264" | "VP8";
+  | "H264"
+  | "VP8"
+  | "VP9";
 export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfigWatermarkPosition =
-  "left top" | "right top" | "left bottom" | "right bottom";
+  | "left top"
+  | "right top"
+  | "left bottom"
+  | "right bottom";
 export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfigWatermarkPosition =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfigWatermarkSize =
   MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize;
@@ -8829,8 +10419,7 @@ export const RecordingsGetRecordingsResponseDataItemMeetingRecordingConfig =
 export type RecordingsGetRecordingsResponseDataItemMeetingStatus =
   | "ACTIVE"
   | "INACTIVE";
-export const RecordingsGetRecordingsResponseDataItemMeetingStatus =
-  /*@__PURE__*/ S.String;
+export const RecordingsGetRecordingsResponseDataItemMeetingStatus = S.String;
 
 export interface RecordingsGetRecordingsResponseDataItemMeeting {
   /** ID of the meeting. */
@@ -8894,28 +10483,22 @@ export const RecordingsGetRecordingsResponseDataItemMeeting =
     identifier: "RecordingsGetRecordingsResponseDataItemMeeting",
   }) as any as S.Schema<RecordingsGetRecordingsResponseDataItemMeeting>;
 
-export type RecordingsGetRecordingsResponseDataItemStorageConfigType =
-  | "aws"
-  | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
-export const RecordingsGetRecordingsResponseDataItemStorageConfigType =
-  /*@__PURE__*/ S.String;
-
-export type RecordingsGetRecordingsResponseDataItemStorageConfigAuthMethod =
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase0AuthMethod =
   | "KEY"
   | "PASSWORD";
-export const RecordingsGetRecordingsResponseDataItemStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export const RecordingsGetRecordingsResponseDataItemStorageConfigCase0AuthMethod =
+  S.String;
 
-export interface RecordingsGetRecordingsResponseDataItemStorageConfig {
-  /** Type of storage media. */
-  type: RecordingsGetRecordingsResponseDataItemStorageConfigType;
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase0Type =
+  "gcs";
+export const RecordingsGetRecordingsResponseDataItemStorageConfigCase0Type =
+  S.String;
+
+export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsGetRecordingsResponseDataItemStorageConfigAuthMethod | null;
+  authMethod?: RecordingsGetRecordingsResponseDataItemStorageConfigCase0AuthMethod | null;
   /** Name of the storage medium's bucket. */
   bucket?: string | null;
   /** SSH destination server host for SFTP type storage medium */
@@ -8932,17 +10515,17 @@ export interface RecordingsGetRecordingsResponseDataItemStorageConfig {
   region?: string | null;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | null;
+  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase0Type | null;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null;
 }
-export const RecordingsGetRecordingsResponseDataItemStorageConfig =
+export const RecordingsGetRecordingsResponseDataItemStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: RecordingsGetRecordingsResponseDataItemStorageConfigType,
       accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
       authMethod: S.optional(
         S.NullOr(
-          RecordingsGetRecordingsResponseDataItemStorageConfigAuthMethod,
+          RecordingsGetRecordingsResponseDataItemStorageConfigCase0AuthMethod,
         ).pipe(T.Body("auth_method")),
       ),
       bucket: S.optional(S.NullOr(S.String)),
@@ -8953,11 +10536,273 @@ export const RecordingsGetRecordingsResponseDataItemStorageConfig =
       privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
       region: S.optional(S.NullOr(S.String)),
       secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(RecordingsGetRecordingsResponseDataItemStorageConfigCase0Type),
+      ),
       username: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
-    identifier: "RecordingsGetRecordingsResponseDataItemStorageConfig",
-  }) as any as S.Schema<RecordingsGetRecordingsResponseDataItemStorageConfig>;
+    identifier: "RecordingsGetRecordingsResponseDataItemStorageConfigCase0",
+  }) as any as S.Schema<RecordingsGetRecordingsResponseDataItemStorageConfigCase0>;
+
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const RecordingsGetRecordingsResponseDataItemStorageConfigCase1AuthMethod =
+  S.String;
+
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const RecordingsGetRecordingsResponseDataItemStorageConfigCase1Type =
+  S.String;
+
+export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: RecordingsGetRecordingsResponseDataItemStorageConfigCase1AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase1Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsGetRecordingsResponseDataItemStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsGetRecordingsResponseDataItemStorageConfigCase1AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(RecordingsGetRecordingsResponseDataItemStorageConfigCase1Type),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "RecordingsGetRecordingsResponseDataItemStorageConfigCase1",
+  }) as any as S.Schema<RecordingsGetRecordingsResponseDataItemStorageConfigCase1>;
+
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase2AuthMethod =
+  "KEY";
+export const RecordingsGetRecordingsResponseDataItemStorageConfigCase2AuthMethod =
+  S.String;
+
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const RecordingsGetRecordingsResponseDataItemStorageConfigCase2Type =
+  S.String;
+
+export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: RecordingsGetRecordingsResponseDataItemStorageConfigCase2AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase2Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsGetRecordingsResponseDataItemStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsGetRecordingsResponseDataItemStorageConfigCase2AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(RecordingsGetRecordingsResponseDataItemStorageConfigCase2Type),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "RecordingsGetRecordingsResponseDataItemStorageConfigCase2",
+  }) as any as S.Schema<RecordingsGetRecordingsResponseDataItemStorageConfigCase2>;
+
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const RecordingsGetRecordingsResponseDataItemStorageConfigCase3AuthMethod =
+  S.String;
+
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const RecordingsGetRecordingsResponseDataItemStorageConfigCase3Type =
+  S.String;
+
+export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: RecordingsGetRecordingsResponseDataItemStorageConfigCase3AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase3Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsGetRecordingsResponseDataItemStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsGetRecordingsResponseDataItemStorageConfigCase3AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(RecordingsGetRecordingsResponseDataItemStorageConfigCase3Type),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "RecordingsGetRecordingsResponseDataItemStorageConfigCase3",
+  }) as any as S.Schema<RecordingsGetRecordingsResponseDataItemStorageConfigCase3>;
+
+export type RecordingsGetRecordingsResponseDataItemStorageConfig =
+  | RecordingsGetRecordingsResponseDataItemStorageConfigCase0
+  | RecordingsGetRecordingsResponseDataItemStorageConfigCase1
+  | RecordingsGetRecordingsResponseDataItemStorageConfigCase2
+  | RecordingsGetRecordingsResponseDataItemStorageConfigCase3;
+export const RecordingsGetRecordingsResponseDataItemStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
 
 export interface RecordingsGetRecordingsResponseDataItem {
   /** ID of the recording */
@@ -9123,14 +10968,13 @@ export const GetSessionDetailsSessionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSessionDetailsSessionRequest>;
 
 export type SessionsGetSessionDetailsResponseDataStatus = "LIVE" | "ENDED";
-export const SessionsGetSessionDetailsResponseDataStatus =
-  /*@__PURE__*/ S.String;
+export const SessionsGetSessionDetailsResponseDataStatus = S.String;
 
 export type SessionsGetSessionDetailsResponseDataType =
   | "meeting"
   | "livestream"
   | "participant";
-export const SessionsGetSessionDetailsResponseDataType = /*@__PURE__*/ S.String;
+export const SessionsGetSessionDetailsResponseDataType = S.String;
 
 export type SessionsGetSessionDetailsResponseDataBreakoutRoomsList =
   Array<unknown>;
@@ -9242,14 +11086,20 @@ export const GetSessionParticipantDetailsSessionRequest =
   }) as any as S.Schema<GetSessionParticipantDetailsSessionRequest>;
 
 export type SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsItemEventName =
-  "PEER_CREATED" | "PEER_JOINING" | "PEER_LEAVING";
+  | "PEER_CREATED"
+  | "PEER_JOINING"
+  | "PEER_LEAVING";
 export const SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsItemEventName =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsItemPresetViewType =
-  "GROUP_CALL" | "WEBINAR" | "AUDIO_ROOM" | "LIVESTREAM" | "CHAT";
+  | "GROUP_CALL"
+  | "WEBINAR"
+  | "AUDIO_ROOM"
+  | "LIVESTREAM"
+  | "CHAT";
 export const SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsItemPresetViewType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsItem {
   /** ID of the peer event. */
@@ -9394,15 +11244,13 @@ export const GetSessionParticipantDetailsSessionResponse =
 export type SessionsGetSessionParticipantsRequestSortBy =
   | "joinedAt"
   | "duration";
-export const SessionsGetSessionParticipantsRequestSortBy =
-  /*@__PURE__*/ S.String;
+export const SessionsGetSessionParticipantsRequestSortBy = S.String;
 
 export type SessionsGetSessionParticipantsRequestSortOrder = "ASC" | "DESC";
-export const SessionsGetSessionParticipantsRequestSortOrder =
-  /*@__PURE__*/ S.String;
+export const SessionsGetSessionParticipantsRequestSortOrder = S.String;
 
 export type SessionsGetSessionParticipantsRequestView = "raw" | "consolidated";
-export const SessionsGetSessionParticipantsRequestView = /*@__PURE__*/ S.String;
+export const SessionsGetSessionParticipantsRequestView = S.String;
 
 export interface GetSessionParticipantsSessionRequest {
   /** The account identifier tag. */
@@ -9414,7 +11262,7 @@ export interface GetSessionParticipantsSessionRequest {
   includePeerEvents?: boolean;
   /** The page number from which you want your page search results to be displayed. */
   pageNo?: number;
-  /** Number of results per page */
+  /** Number of results per page. */
   perPage?: number;
   /** The search query string. You can search using participant ID, custom participant ID, or display name. */
   search?: string;
@@ -9460,14 +11308,20 @@ export const GetSessionParticipantsSessionRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GetSessionParticipantsSessionRequest>;
 
 export type SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsItemEventName =
-  "PEER_CREATED" | "PEER_JOINING" | "PEER_LEAVING";
+  | "PEER_CREATED"
+  | "PEER_JOINING"
+  | "PEER_LEAVING";
 export const SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsItemEventName =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsItemPresetViewType =
-  "GROUP_CALL" | "WEBINAR" | "AUDIO_ROOM" | "LIVESTREAM" | "CHAT";
+  | "GROUP_CALL"
+  | "WEBINAR"
+  | "AUDIO_ROOM"
+  | "LIVESTREAM"
+  | "CHAT";
 export const SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsItemPresetViewType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsItem {
   /** ID of the peer event. */
@@ -9615,13 +11469,13 @@ export const GetSessionParticipantsSessionResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GetSessionParticipantsSessionResponse>;
 
 export type SessionsGetSessionsRequestSortBy = "minutesConsumed" | "createdAt";
-export const SessionsGetSessionsRequestSortBy = /*@__PURE__*/ S.String;
+export const SessionsGetSessionsRequestSortBy = S.String;
 
 export type SessionsGetSessionsRequestSortOrder = "ASC" | "DESC";
-export const SessionsGetSessionsRequestSortOrder = /*@__PURE__*/ S.String;
+export const SessionsGetSessionsRequestSortOrder = S.String;
 
 export type SessionsGetSessionsRequestStatus = "LIVE" | "ENDED";
-export const SessionsGetSessionsRequestStatus = /*@__PURE__*/ S.String;
+export const SessionsGetSessionsRequestStatus = S.String;
 
 export interface GetSessionsSessionRequest {
   /** The account identifier tag. */
@@ -9679,15 +11533,13 @@ export const GetSessionsSessionRequest = /*@__PURE__*/ S.suspend(() =>
 export type SessionsGetSessionsResponseDataSessionsItemStatus =
   | "LIVE"
   | "ENDED";
-export const SessionsGetSessionsResponseDataSessionsItemStatus =
-  /*@__PURE__*/ S.String;
+export const SessionsGetSessionsResponseDataSessionsItemStatus = S.String;
 
 export type SessionsGetSessionsResponseDataSessionsItemType =
   | "meeting"
   | "livestream"
   | "participant";
-export const SessionsGetSessionsResponseDataSessionsItemType =
-  /*@__PURE__*/ S.String;
+export const SessionsGetSessionsResponseDataSessionsItemType = S.String;
 
 export type SessionsGetSessionsResponseDataSessionsItemBreakoutRoomsList =
   Array<unknown>;
@@ -9852,8 +11704,7 @@ export type SessionsGetSessionTranscriptsRequestFormat =
   | "VTT"
   | "JSON"
   | "CSV";
-export const SessionsGetSessionTranscriptsRequestFormat =
-  /*@__PURE__*/ S.String;
+export const SessionsGetSessionTranscriptsRequestFormat = S.String;
 
 export interface GetSessionTranscriptsSessionRequest {
   /** The account identifier tag. */
@@ -9953,8 +11804,7 @@ export type WebhooksGetWebhookByIdResponseDataEventsItem =
   | "livestreaming.statusUpdate"
   | "meeting.transcript"
   | "meeting.summary";
-export const WebhooksGetWebhookByIdResponseDataEventsItem =
-  /*@__PURE__*/ S.String;
+export const WebhooksGetWebhookByIdResponseDataEventsItem = S.String;
 
 export type WebhooksGetWebhookByIdResponseDataEventsList =
   Array<WebhooksGetWebhookByIdResponseDataEventsItem>;
@@ -10038,8 +11888,7 @@ export type WebhooksGetWebhooksResponseDataItemEventsItem =
   | "livestreaming.statusUpdate"
   | "meeting.transcript"
   | "meeting.summary";
-export const WebhooksGetWebhooksResponseDataItemEventsItem =
-  /*@__PURE__*/ S.String;
+export const WebhooksGetWebhooksResponseDataItemEventsItem = S.String;
 
 export type WebhooksGetWebhooksResponseDataItemEventsList =
   Array<WebhooksGetWebhooksResponseDataItemEventsItem>;
@@ -10171,8 +12020,8 @@ export interface KickParticipantsActiveSessionRequest {
   /** The app identifier tag. */
   appId: string;
   meetingId: string;
-  customParticipantIds: ActiveSessionKickParticipantsRequestCustomParticipantIdsList;
-  participantIds: ActiveSessionKickParticipantsRequestParticipantIdsList;
+  customParticipantIds?: ActiveSessionKickParticipantsRequestCustomParticipantIdsList;
+  participantIds?: ActiveSessionKickParticipantsRequestParticipantIdsList;
 }
 export const KickParticipantsActiveSessionRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -10180,14 +12029,16 @@ export const KickParticipantsActiveSessionRequest = /*@__PURE__*/ S.suspend(
       accountId: S.String.pipe(T.Label("account_id")),
       appId: S.String.pipe(T.Label("app_id")),
       meetingId: S.String.pipe(T.Label("meeting_id")),
-      customParticipantIds:
+      customParticipantIds: S.optional(
         ActiveSessionKickParticipantsRequestCustomParticipantIdsList.pipe(
           T.Body("custom_participant_ids"),
         ),
-      participantIds:
+      ),
+      participantIds: S.optional(
         ActiveSessionKickParticipantsRequestParticipantIdsList.pipe(
           T.Body("participant_ids"),
         ),
+      ),
     })
       .pipe(
         T.Http({
@@ -10440,8 +12291,7 @@ export type PresetsUpdateRequestConfigMediaScreenshareQuality =
   | "qvga"
   | "fhd"
   | "uhd";
-export const PresetsUpdateRequestConfigMediaScreenshareQuality =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateRequestConfigMediaScreenshareQuality = S.String;
 
 export interface PresetsUpdateRequestConfigMediaScreenshare {
   /** Frame rate of screen share */
@@ -10465,8 +12315,7 @@ export type PresetsUpdateRequestConfigMediaVideoQuality =
   | "qvga"
   | "fhd"
   | "uhd";
-export const PresetsUpdateRequestConfigMediaVideoQuality =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateRequestConfigMediaVideoQuality = S.String;
 
 export interface PresetsUpdateRequestConfigMediaVideo {
   /** Frame rate of participants' video */
@@ -10510,7 +12359,7 @@ export type PresetsUpdateRequestConfigViewType =
   | "WEBINAR"
   | "AUDIO_ROOM"
   | "LIVESTREAM";
-export const PresetsUpdateRequestConfigViewType = /*@__PURE__*/ S.String;
+export const PresetsUpdateRequestConfigViewType = S.String;
 
 export interface PresetsUpdateRequestConfig {
   /** Livestream viewer quality levels. */
@@ -10624,8 +12473,7 @@ export type PresetsUpdateRequestPermissionsMediaAudioCanProduce =
   | "ALLOWED"
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
-export const PresetsUpdateRequestPermissionsMediaAudioCanProduce =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateRequestPermissionsMediaAudioCanProduce = S.String;
 
 export interface PresetsUpdateRequestPermissionsMediaAudio {
   /** Can produce audio */
@@ -10651,7 +12499,7 @@ export type PresetsUpdateRequestPermissionsMediaScreenshareCanProduce =
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
 export const PresetsUpdateRequestPermissionsMediaScreenshareCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsUpdateRequestPermissionsMediaScreenshare {
   /** Can produce screen share video */
@@ -10676,8 +12524,7 @@ export type PresetsUpdateRequestPermissionsMediaVideoCanProduce =
   | "ALLOWED"
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
-export const PresetsUpdateRequestPermissionsMediaVideoCanProduce =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateRequestPermissionsMediaVideoCanProduce = S.String;
 
 export interface PresetsUpdateRequestPermissionsMediaVideo {
   /** Can produce video */
@@ -10762,22 +12609,19 @@ export type PresetsUpdateRequestPermissionsRecorderType =
   | "RECORDER"
   | "LIVESTREAMER"
   | "NONE";
-export const PresetsUpdateRequestPermissionsRecorderType =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateRequestPermissionsRecorderType = S.String;
 
 export type PresetsUpdateRequestPermissionsStageAccess =
   | "ALLOWED"
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
-export const PresetsUpdateRequestPermissionsStageAccess =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateRequestPermissionsStageAccess = S.String;
 
 export type PresetsUpdateRequestPermissionsWaitingRoomType =
   | "SKIP"
   | "ON_PRIVILEGED_USER_ENTRY"
   | "SKIP_ON_ACCEPT";
-export const PresetsUpdateRequestPermissionsWaitingRoomType =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateRequestPermissionsWaitingRoomType = S.String;
 
 export interface PresetsUpdateRequestPermissions {
   acceptStageRequests?: boolean;
@@ -10886,15 +12730,13 @@ export type PresetsUpdateRequestUiDesignTokensBorderRadius =
   | "rounded"
   | "extra-rounded"
   | "circular";
-export const PresetsUpdateRequestUiDesignTokensBorderRadius =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateRequestUiDesignTokensBorderRadius = S.String;
 
 export type PresetsUpdateRequestUiDesignTokensBorderWidth =
   | "none"
   | "thin"
   | "fat";
-export const PresetsUpdateRequestUiDesignTokensBorderWidth =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateRequestUiDesignTokensBorderWidth = S.String;
 
 export interface PresetsUpdateRequestUiDesignTokensColorsBackground {
   "1000"?: string;
@@ -10968,7 +12810,7 @@ export type PresetsUpdateRequestUiDesignTokensTheme =
   | "darkest"
   | "dark"
   | "light";
-export const PresetsUpdateRequestUiDesignTokensTheme = /*@__PURE__*/ S.String;
+export const PresetsUpdateRequestUiDesignTokensTheme = S.String;
 
 export interface PresetsUpdateRequestUiDesignTokens {
   borderRadius?: PresetsUpdateRequestUiDesignTokensBorderRadius | (string & {});
@@ -11061,8 +12903,7 @@ export type PresetsUpdateResponseDataConfigMediaScreenshareQuality =
   | "qvga"
   | "fhd"
   | "uhd";
-export const PresetsUpdateResponseDataConfigMediaScreenshareQuality =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateResponseDataConfigMediaScreenshareQuality = S.String;
 
 export interface PresetsUpdateResponseDataConfigMediaScreenshare {
   /** Frame rate of screen share */
@@ -11086,8 +12927,7 @@ export type PresetsUpdateResponseDataConfigMediaVideoQuality =
   | "qvga"
   | "fhd"
   | "uhd";
-export const PresetsUpdateResponseDataConfigMediaVideoQuality =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateResponseDataConfigMediaVideoQuality = S.String;
 
 export interface PresetsUpdateResponseDataConfigMediaVideo {
   /** Frame rate of participants' video */
@@ -11137,7 +12977,7 @@ export type PresetsUpdateResponseDataConfigViewType =
   | "WEBINAR"
   | "AUDIO_ROOM"
   | "LIVESTREAM";
-export const PresetsUpdateResponseDataConfigViewType = /*@__PURE__*/ S.String;
+export const PresetsUpdateResponseDataConfigViewType = S.String;
 
 export type PresetsUpdateResponseDataConfigLivestreamViewerQualitiesList =
   Array<number>;
@@ -11201,7 +13041,7 @@ export type PresetsUpdateResponseDataPermissionsMediaAudioCanProduce =
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
 export const PresetsUpdateResponseDataPermissionsMediaAudioCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsUpdateResponseDataPermissionsMediaAudio {
   /** Can produce audio */
@@ -11223,7 +13063,7 @@ export type PresetsUpdateResponseDataPermissionsMediaScreenshareCanProduce =
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
 export const PresetsUpdateResponseDataPermissionsMediaScreenshareCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsUpdateResponseDataPermissionsMediaScreenshare {
   /** Can produce screen share video */
@@ -11246,7 +13086,7 @@ export type PresetsUpdateResponseDataPermissionsMediaVideoCanProduce =
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
 export const PresetsUpdateResponseDataPermissionsMediaVideoCanProduce =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface PresetsUpdateResponseDataPermissionsMediaVideo {
   /** Can produce video */
@@ -11296,22 +13136,19 @@ export type PresetsUpdateResponseDataPermissionsRecorderType =
   | "RECORDER"
   | "LIVESTREAMER"
   | "NONE";
-export const PresetsUpdateResponseDataPermissionsRecorderType =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateResponseDataPermissionsRecorderType = S.String;
 
 export type PresetsUpdateResponseDataPermissionsWaitingRoomType =
   | "SKIP"
   | "ON_PRIVILEGED_USER_ENTRY"
   | "SKIP_ON_ACCEPT";
-export const PresetsUpdateResponseDataPermissionsWaitingRoomType =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateResponseDataPermissionsWaitingRoomType = S.String;
 
 export type PresetsUpdateResponseDataPermissionsStageAccess =
   | "ALLOWED"
   | "NOT_ALLOWED"
   | "CAN_REQUEST";
-export const PresetsUpdateResponseDataPermissionsStageAccess =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateResponseDataPermissionsStageAccess = S.String;
 
 export interface PresetsUpdateResponseDataPermissions {
   /** Whether this participant can accept waiting requests */
@@ -11413,15 +13250,13 @@ export type PresetsUpdateResponseDataUiDesignTokensBorderRadius =
   | "rounded"
   | "extra-rounded"
   | "circular";
-export const PresetsUpdateResponseDataUiDesignTokensBorderRadius =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateResponseDataUiDesignTokensBorderRadius = S.String;
 
 export type PresetsUpdateResponseDataUiDesignTokensBorderWidth =
   | "none"
   | "thin"
   | "fat";
-export const PresetsUpdateResponseDataUiDesignTokensBorderWidth =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateResponseDataUiDesignTokensBorderWidth = S.String;
 
 export type PresetsUpdateResponseDataUiDesignTokensColorsBackground =
   PresetsCreateRequestUiDesignTokensColorsBackground;
@@ -11442,8 +13277,7 @@ export type PresetsUpdateResponseDataUiDesignTokensTheme =
   | "darkest"
   | "dark"
   | "light";
-export const PresetsUpdateResponseDataUiDesignTokensTheme =
-  /*@__PURE__*/ S.String;
+export const PresetsUpdateResponseDataUiDesignTokensTheme = S.String;
 
 export interface PresetsUpdateResponseDataUiDesignTokens {
   borderRadius: PresetsUpdateResponseDataUiDesignTokensBorderRadius;
@@ -11532,8 +13366,7 @@ export type RecordingsPauseResumeStopRecordingRequestAction =
   | "stop"
   | "pause"
   | "resume";
-export const RecordingsPauseResumeStopRecordingRequestAction =
-  /*@__PURE__*/ S.String;
+export const RecordingsPauseResumeStopRecordingRequestAction = S.String;
 
 export interface PauseResumeStopRecordingRecordingRequest {
   /** The account identifier tag. */
@@ -11569,13 +13402,13 @@ export type RecordingsPauseResumeStopRecordingResponseDataStatus =
   | "UPLOADED"
   | "ERRORED"
   | "PAUSED";
-export const RecordingsPauseResumeStopRecordingResponseDataStatus =
-  /*@__PURE__*/ S.String;
+export const RecordingsPauseResumeStopRecordingResponseDataStatus = S.String;
 
 export type RecordingsPauseResumeStopRecordingResponseDataStartReasonCallerType =
-  "ORGANIZATION" | "USER";
+  | "ORGANIZATION"
+  | "USER";
 export const RecordingsPauseResumeStopRecordingResponseDataStartReasonCallerType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface RecordingsPauseResumeStopRecordingResponseDataStartReasonCaller {
   /** Name of the user who started the recording. */
@@ -11605,7 +13438,7 @@ export type RecordingsPauseResumeStopRecordingResponseDataStartReasonReason =
   | "API_CALL"
   | "RECORD_ON_START";
 export const RecordingsPauseResumeStopRecordingResponseDataStartReasonReason =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface RecordingsPauseResumeStopRecordingResponseDataStartReason {
   caller?: RecordingsPauseResumeStopRecordingResponseDataStartReasonCaller | null;
@@ -11631,9 +13464,10 @@ export const RecordingsPauseResumeStopRecordingResponseDataStartReason =
   }) as any as S.Schema<RecordingsPauseResumeStopRecordingResponseDataStartReason>;
 
 export type RecordingsPauseResumeStopRecordingResponseDataStopReasonCallerType =
-  "ORGANIZATION" | "USER";
+  | "ORGANIZATION"
+  | "USER";
 export const RecordingsPauseResumeStopRecordingResponseDataStopReasonCallerType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface RecordingsPauseResumeStopRecordingResponseDataStopReasonCaller {
   /** Name of the user who stopped the recording. */
@@ -11664,7 +13498,7 @@ export type RecordingsPauseResumeStopRecordingResponseDataStopReasonReason =
   | "INTERNAL_ERROR"
   | "ALL_PEERS_LEFT";
 export const RecordingsPauseResumeStopRecordingResponseDataStopReasonReason =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface RecordingsPauseResumeStopRecordingResponseDataStopReason {
   caller?: RecordingsPauseResumeStopRecordingResponseDataStopReasonCaller | null;
@@ -11689,27 +13523,22 @@ export const RecordingsPauseResumeStopRecordingResponseDataStopReason =
     identifier: "RecordingsPauseResumeStopRecordingResponseDataStopReason",
   }) as any as S.Schema<RecordingsPauseResumeStopRecordingResponseDataStopReason>;
 
-export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigType =
-  | "aws"
-  | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
-export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigType =
-  /*@__PURE__*/ S.String;
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0AuthMethod =
+  S.String;
 
-export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigAuthMethod =
-  "KEY" | "PASSWORD";
-export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0Type =
+  "gcs";
+export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0Type =
+  S.String;
 
-export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfig {
-  /** Type of storage media. */
-  type: RecordingsPauseResumeStopRecordingResponseDataStorageConfigType;
+export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigAuthMethod | null;
+  authMethod?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0AuthMethod | null;
   /** Name of the storage medium's bucket. */
   bucket?: string | null;
   /** SSH destination server host for SFTP type storage medium */
@@ -11726,17 +13555,17 @@ export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfig {
   region?: string | null;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | null;
+  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0Type | null;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null;
 }
-export const RecordingsPauseResumeStopRecordingResponseDataStorageConfig =
+export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: RecordingsPauseResumeStopRecordingResponseDataStorageConfigType,
       accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
       authMethod: S.optional(
         S.NullOr(
-          RecordingsPauseResumeStopRecordingResponseDataStorageConfigAuthMethod,
+          RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0AuthMethod,
         ).pipe(T.Body("auth_method")),
       ),
       bucket: S.optional(S.NullOr(S.String)),
@@ -11747,11 +13576,285 @@ export const RecordingsPauseResumeStopRecordingResponseDataStorageConfig =
       privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
       region: S.optional(S.NullOr(S.String)),
       secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0Type,
+        ),
+      ),
       username: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
-    identifier: "RecordingsPauseResumeStopRecordingResponseDataStorageConfig",
-  }) as any as S.Schema<RecordingsPauseResumeStopRecordingResponseDataStorageConfig>;
+    identifier:
+      "RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0",
+  }) as any as S.Schema<RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0>;
+
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1AuthMethod =
+  S.String;
+
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1Type =
+  S.String;
+
+export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1",
+  }) as any as S.Schema<RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1>;
+
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2AuthMethod =
+  "KEY";
+export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2AuthMethod =
+  S.String;
+
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2Type =
+  S.String;
+
+export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2",
+  }) as any as S.Schema<RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2>;
+
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3AuthMethod =
+  S.String;
+
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3Type =
+  S.String;
+
+export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3",
+  }) as any as S.Schema<RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3>;
+
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfig =
+  | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0
+  | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1
+  | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2
+  | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3;
+export const RecordingsPauseResumeStopRecordingResponseDataStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
 
 export interface RecordingsPauseResumeStopRecordingResponseData {
   /** ID of the recording */
@@ -11947,13 +14050,13 @@ export type MeetingsReplaceMeetingByIdRequestAiConfigSummarizationSummaryType =
   | "lecture"
   | "code_review";
 export const MeetingsReplaceMeetingByIdRequestAiConfigSummarizationSummaryType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsReplaceMeetingByIdRequestAiConfigSummarizationTextFormat =
   | "plain_text"
   | "markdown";
 export const MeetingsReplaceMeetingByIdRequestAiConfigSummarizationTextFormat =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsReplaceMeetingByIdRequestAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
@@ -12005,7 +14108,7 @@ export type MeetingsReplaceMeetingByIdRequestAiConfigTranscriptionLanguage =
   | "fr"
   | "nl";
 export const MeetingsReplaceMeetingByIdRequestAiConfigTranscriptionLanguage =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsReplaceMeetingByIdRequestAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
@@ -12053,15 +14156,16 @@ export const MeetingsReplaceMeetingByIdRequestAiConfig =
   }) as any as S.Schema<MeetingsReplaceMeetingByIdRequestAiConfig>;
 
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfigChannel =
-  "mono" | "stereo";
+  | "mono"
+  | "stereo";
 export const MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfigChannel =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfigCodec =
   | "MP3"
   | "AAC";
 export const MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
@@ -12100,30 +14204,23 @@ export type MeetingsReplaceMeetingByIdRequestRecordingConfigRealtimekitBucketCon
 export const MeetingsReplaceMeetingByIdRequestRecordingConfigRealtimekitBucketConfig =
   MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
 
-export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigType =
-  | "aws"
-  | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
-export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigType =
-  /*@__PURE__*/ S.String;
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0AuthMethod =
+  S.String;
 
-export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigAuthMethod =
-  "KEY" | "PASSWORD";
-export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0Type =
+  "gcs";
+export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0Type =
+  S.String;
 
-export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfig {
-  /** Type of storage media. */
-  type:
-    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigType
-    | (string & {});
+export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
-    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigAuthMethod
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0AuthMethod
     | (string & {});
   /** Name of the storage medium's bucket. */
   bucket?: string;
@@ -12141,16 +14238,18 @@ export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfig {
   region?: string;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string;
+  type?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0Type
+    | (string & {});
   /** SSH destination server username for SFTP type storage medium */
   username?: string;
 }
-export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfig =
+export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigType,
       accessKey: S.optional(S.String.pipe(T.Body("access_key"))),
       authMethod: S.optional(
-        MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigAuthMethod.pipe(
+        MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0AuthMethod.pipe(
           T.Body("auth_method"),
         ),
       ),
@@ -12162,22 +14261,304 @@ export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfig =
       privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
       region: S.optional(S.String),
       secret: S.optional(S.String),
+      type: S.optional(
+        MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0Type,
+      ),
       username: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfig",
-  }) as any as S.Schema<MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfig>;
+    identifier:
+      "MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0",
+  }) as any as S.Schema<MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0>;
+
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod =
+  S.String;
+
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1Type =
+  S.String;
+
+export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod
+    | (string & {});
+  /** Name of the storage medium's bucket. */
+  bucket?: string;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string;
+  type?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1Type
+    | (string & {});
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string;
+}
+export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod.pipe(
+          T.Body("auth_method"),
+        ),
+      ),
+      bucket: S.optional(S.String),
+      host: S.optional(S.String),
+      password: S.optional(S.String),
+      path: S.optional(S.String),
+      port: S.optional(S.Number),
+      privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
+      secret: S.optional(S.String),
+      type: S.optional(
+        MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1Type,
+      ),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1",
+  }) as any as S.Schema<MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1>;
+
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod =
+  "KEY";
+export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod =
+  S.String;
+
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2Type =
+  S.String;
+
+export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string;
+  authMethod?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod
+    | (string & {});
+  /** Name of the storage medium's bucket. */
+  bucket?: string;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number;
+  /** Region of the storage medium. */
+  region?: string;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string;
+  /** Type of storage media. */
+  type?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2Type
+    | (string & {});
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string;
+}
+export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.String.pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod.pipe(
+          T.Body("auth_method"),
+        ),
+      ),
+      bucket: S.optional(S.String),
+      host: S.optional(S.String),
+      password: S.optional(S.String),
+      path: S.optional(S.String),
+      port: S.optional(S.Number),
+      region: S.optional(S.String),
+      secret: S.optional(S.String),
+      type: S.optional(
+        MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2Type,
+      ),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2",
+  }) as any as S.Schema<MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2>;
+
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod =
+  S.String;
+
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3Type =
+  S.String;
+
+export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string;
+  authMethod?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod
+    | (string & {});
+  /** Name of the storage medium's bucket. */
+  bucket?: string;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string;
+  /** Region of the storage medium. */
+  region?: string;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string;
+  /** Type of storage media. */
+  type?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3Type
+    | (string & {});
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string;
+}
+export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.String.pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod.pipe(
+          T.Body("auth_method"),
+        ),
+      ),
+      bucket: S.optional(S.String),
+      host: S.optional(S.String),
+      path: S.optional(S.String),
+      port: S.optional(S.Number),
+      privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
+      region: S.optional(S.String),
+      secret: S.optional(S.String),
+      type: S.optional(
+        MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3Type,
+      ),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3",
+  }) as any as S.Schema<MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3>;
+
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfig =
+  | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0
+  | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1
+  | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2
+  | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3;
+export const MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
 
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfigCodec =
   | "H264"
-  | "VP8";
+  | "VP8"
+  | "VP9";
 export const MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfigWatermarkPosition =
-  "left top" | "right top" | "left bottom" | "right bottom";
+  | "left top"
+  | "right top"
+  | "left bottom"
+  | "right bottom";
 export const MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfigWatermarkPosition =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfigWatermarkSize =
   MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize;
@@ -12351,22 +14732,23 @@ export const ReplaceMeetingByIdMeetingRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ReplaceMeetingByIdMeetingRequest>;
 
 export type MeetingsReplaceMeetingByIdResponseDataAiConfigSummarizationSummaryType =
-    | "general"
-    | "team_meeting"
-    | "sales_call"
-    | "client_check_in"
-    | "interview"
-    | "daily_standup"
-    | "one_on_one_meeting"
-    | "lecture"
-    | "code_review";
+  | "general"
+  | "team_meeting"
+  | "sales_call"
+  | "client_check_in"
+  | "interview"
+  | "daily_standup"
+  | "one_on_one_meeting"
+  | "lecture"
+  | "code_review";
 export const MeetingsReplaceMeetingByIdResponseDataAiConfigSummarizationSummaryType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsReplaceMeetingByIdResponseDataAiConfigSummarizationTextFormat =
-  "plain_text" | "markdown";
+  | "plain_text"
+  | "markdown";
 export const MeetingsReplaceMeetingByIdResponseDataAiConfigSummarizationTextFormat =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsReplaceMeetingByIdResponseDataAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
@@ -12403,9 +14785,18 @@ export const MeetingsReplaceMeetingByIdResponseDataAiConfigTranscriptionKeywords
   ) as any as S.Schema<MeetingsReplaceMeetingByIdResponseDataAiConfigTranscriptionKeywordsList>;
 
 export type MeetingsReplaceMeetingByIdResponseDataAiConfigTranscriptionLanguage =
-  "en-US" | "en-IN" | "de" | "hi" | "sv" | "ru" | "pl" | "el" | "fr" | "nl";
+  | "en-US"
+  | "en-IN"
+  | "de"
+  | "hi"
+  | "sv"
+  | "ru"
+  | "pl"
+  | "el"
+  | "fr"
+  | "nl";
 export const MeetingsReplaceMeetingByIdResponseDataAiConfigTranscriptionLanguage =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsReplaceMeetingByIdResponseDataAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
@@ -12457,14 +14848,16 @@ export const MeetingsReplaceMeetingByIdResponseDataAiConfig =
   }) as any as S.Schema<MeetingsReplaceMeetingByIdResponseDataAiConfig>;
 
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfigChannel =
-  "mono" | "stereo";
+  | "mono"
+  | "stereo";
 export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfigChannel =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfigCodec =
-  "MP3" | "AAC";
+  | "MP3"
+  | "AAC";
 export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
@@ -12504,23 +14897,22 @@ export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigRealtimekitBuck
 export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigRealtimekitBucketConfig =
   MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
 
-export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigType =
-  "aws" | "azure" | "digitalocean" | "gcs" | "sftp";
-export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigType =
-  /*@__PURE__*/ S.String;
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod =
+  S.String;
 
-export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigAuthMethod =
-  "KEY" | "PASSWORD";
-export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type =
+  "gcs";
+export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type =
+  S.String;
 
-export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfig {
-  /** Type of storage media. */
-  type: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigType;
+export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigAuthMethod | null;
+  authMethod?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod | null;
   /** Name of the storage medium's bucket. */
   bucket?: string | null;
   /** SSH destination server host for SFTP type storage medium */
@@ -12537,17 +14929,17 @@ export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageCon
   region?: string | null;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | null;
+  type?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type | null;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null;
 }
-export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfig =
+export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigType,
       accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
       authMethod: S.optional(
         S.NullOr(
-          MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigAuthMethod,
+          MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod,
         ).pipe(T.Body("auth_method")),
       ),
       bucket: S.optional(S.NullOr(S.String)),
@@ -12558,22 +14950,300 @@ export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfig 
       privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
       region: S.optional(S.NullOr(S.String)),
       secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type,
+        ),
+      ),
       username: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
-      "MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfig",
-  }) as any as S.Schema<MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfig>;
+      "MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0",
+  }) as any as S.Schema<MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0>;
+
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod =
+  S.String;
+
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type =
+  S.String;
+
+export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  type?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1",
+  }) as any as S.Schema<MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1>;
+
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod =
+  "KEY";
+export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod =
+  S.String;
+
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type =
+  S.String;
+
+export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2",
+  }) as any as S.Schema<MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2>;
+
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod =
+  S.String;
+
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type =
+  S.String;
+
+export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3",
+  }) as any as S.Schema<MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3>;
+
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfig =
+  | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0
+  | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1
+  | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2
+  | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3;
+export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
 
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigCodec =
-  "H264" | "VP8";
+  | "H264"
+  | "VP8"
+  | "VP9";
 export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkPosition =
-  "left top" | "right top" | "left bottom" | "right bottom";
+  | "left top"
+  | "right top"
+  | "left bottom"
+  | "right bottom";
 export const MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkPosition =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkSize =
   MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize;
@@ -12694,8 +15364,7 @@ export const MeetingsReplaceMeetingByIdResponseDataRecordingConfig =
 export type MeetingsReplaceMeetingByIdResponseDataStatus =
   | "ACTIVE"
   | "INACTIVE";
-export const MeetingsReplaceMeetingByIdResponseDataStatus =
-  /*@__PURE__*/ S.String;
+export const MeetingsReplaceMeetingByIdResponseDataStatus = S.String;
 
 export interface MeetingsReplaceMeetingByIdResponseData {
   /** ID of the meeting. */
@@ -12779,6 +15448,1063 @@ export const ReplaceMeetingByIdMeetingResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReplaceMeetingByIdMeetingResponse",
 }) as any as S.Schema<ReplaceMeetingByIdMeetingResponse>;
 
+export type ReplacePresetByIdRequestConfigMaxVideoStreams =
+  PresetsCreateRequestConfigMaxVideoStreams;
+export const ReplacePresetByIdRequestConfigMaxVideoStreams =
+  PresetsCreateRequestConfigMaxVideoStreams;
+
+export type ReplacePresetByIdRequestConfigMediaScreenshareQuality =
+  | "hd"
+  | "vga"
+  | "qvga"
+  | "fhd"
+  | "uhd";
+export const ReplacePresetByIdRequestConfigMediaScreenshareQuality = S.String;
+
+export interface ReplacePresetByIdRequestConfigMediaScreenshare {
+  /** Frame rate of screen share */
+  frameRate: number;
+  /** Quality of screen share */
+  quality:
+    | ReplacePresetByIdRequestConfigMediaScreenshareQuality
+    | (string & {});
+}
+export const ReplacePresetByIdRequestConfigMediaScreenshare =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      frameRate: S.Number.pipe(T.Body("frame_rate")),
+      quality: ReplacePresetByIdRequestConfigMediaScreenshareQuality,
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdRequestConfigMediaScreenshare",
+  }) as any as S.Schema<ReplacePresetByIdRequestConfigMediaScreenshare>;
+
+export type ReplacePresetByIdRequestConfigMediaVideoQuality =
+  | "hd"
+  | "vga"
+  | "qvga"
+  | "fhd"
+  | "uhd";
+export const ReplacePresetByIdRequestConfigMediaVideoQuality = S.String;
+
+export interface ReplacePresetByIdRequestConfigMediaVideo {
+  /** Frame rate of participants' video */
+  frameRate: number;
+  /** Video quality of participants */
+  quality: ReplacePresetByIdRequestConfigMediaVideoQuality | (string & {});
+  /** Enable simulcast for participant videos. */
+  simulcast?: boolean;
+}
+export const ReplacePresetByIdRequestConfigMediaVideo = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      frameRate: S.Number.pipe(T.Body("frame_rate")),
+      quality: ReplacePresetByIdRequestConfigMediaVideoQuality,
+      simulcast: S.optional(S.Boolean),
+    }),
+).annotate({
+  identifier: "ReplacePresetByIdRequestConfigMediaVideo",
+}) as any as S.Schema<ReplacePresetByIdRequestConfigMediaVideo>;
+
+export type ReplacePresetByIdRequestConfigMediaAudio =
+  PresetsCreateRequestConfigMediaAudio;
+export const ReplacePresetByIdRequestConfigMediaAudio =
+  PresetsCreateRequestConfigMediaAudio;
+
+export interface ReplacePresetByIdRequestConfigMedia {
+  /** Configuration options for participant screen shares */
+  screenshare: ReplacePresetByIdRequestConfigMediaScreenshare;
+  /** Configuration options for participant videos */
+  video: ReplacePresetByIdRequestConfigMediaVideo;
+  /** Control options for Audio quality. */
+  audio?: PresetsCreateRequestConfigMediaAudio;
+}
+export const ReplacePresetByIdRequestConfigMedia = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    screenshare: ReplacePresetByIdRequestConfigMediaScreenshare,
+    video: ReplacePresetByIdRequestConfigMediaVideo,
+    audio: S.optional(PresetsCreateRequestConfigMediaAudio),
+  }),
+).annotate({
+  identifier: "ReplacePresetByIdRequestConfigMedia",
+}) as any as S.Schema<ReplacePresetByIdRequestConfigMedia>;
+
+export type ReplacePresetByIdRequestConfigViewType =
+  | "GROUP_CALL"
+  | "WEBINAR"
+  | "AUDIO_ROOM"
+  | "LIVESTREAM";
+export const ReplacePresetByIdRequestConfigViewType = S.String;
+
+export type ReplacePresetByIdRequestConfigLivestreamViewerQualitiesList =
+  Array<number>;
+export const ReplacePresetByIdRequestConfigLivestreamViewerQualitiesList =
+  /*@__PURE__*/ S.Array(
+    S.Number,
+  ) as any as S.Schema<ReplacePresetByIdRequestConfigLivestreamViewerQualitiesList>;
+
+export interface ReplacePresetByIdRequestConfig {
+  /** Maximum number of screen shares that can be active at a given time */
+  maxScreenshareCount: number;
+  /** Maximum number of streams that are visible on a device */
+  maxVideoStreams: PresetsCreateRequestConfigMaxVideoStreams;
+  /** Media configuration options. eg: Video quality */
+  media: ReplacePresetByIdRequestConfigMedia;
+  /** Type of the meeting */
+  viewType: ReplacePresetByIdRequestConfigViewType | (string & {});
+  /** Livestream viewer quality levels. */
+  livestreamViewerQualities?: ReplacePresetByIdRequestConfigLivestreamViewerQualitiesList;
+}
+export const ReplacePresetByIdRequestConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxScreenshareCount: S.Number.pipe(T.Body("max_screenshare_count")),
+    maxVideoStreams: PresetsCreateRequestConfigMaxVideoStreams.pipe(
+      T.Body("max_video_streams"),
+    ),
+    media: ReplacePresetByIdRequestConfigMedia,
+    viewType: ReplacePresetByIdRequestConfigViewType.pipe(T.Body("view_type")),
+    livestreamViewerQualities: S.optional(
+      ReplacePresetByIdRequestConfigLivestreamViewerQualitiesList.pipe(
+        T.Body("livestream_viewer_qualities"),
+      ),
+    ),
+  }),
+).annotate({
+  identifier: "ReplacePresetByIdRequestConfig",
+}) as any as S.Schema<ReplacePresetByIdRequestConfig>;
+
+export type ReplacePresetByIdRequestPermissionsChatPrivate =
+  PresetsCreateRequestPermissionsChatPrivate;
+export const ReplacePresetByIdRequestPermissionsChatPrivate =
+  PresetsCreateRequestPermissionsChatPrivate;
+
+export type ReplacePresetByIdRequestPermissionsChatPublic =
+  PresetsCreateRequestPermissionsChatPublic;
+export const ReplacePresetByIdRequestPermissionsChatPublic =
+  PresetsCreateRequestPermissionsChatPublic;
+
+export type ReplacePresetByIdRequestPermissionsChat =
+  PresetsCreateRequestPermissionsChat;
+export const ReplacePresetByIdRequestPermissionsChat =
+  PresetsCreateRequestPermissionsChat;
+
+export type ReplacePresetByIdRequestPermissionsConnectedMeetings =
+  PresetsCreateRequestPermissionsConnectedMeetings;
+export const ReplacePresetByIdRequestPermissionsConnectedMeetings =
+  PresetsCreateRequestPermissionsConnectedMeetings;
+
+export type ReplacePresetByIdRequestPermissionsMediaAudioCanProduce =
+  | "ALLOWED"
+  | "NOT_ALLOWED"
+  | "CAN_REQUEST";
+export const ReplacePresetByIdRequestPermissionsMediaAudioCanProduce = S.String;
+
+export interface ReplacePresetByIdRequestPermissionsMediaAudio {
+  /** Can produce audio */
+  canProduce:
+    | ReplacePresetByIdRequestPermissionsMediaAudioCanProduce
+    | (string & {});
+}
+export const ReplacePresetByIdRequestPermissionsMediaAudio =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      canProduce: ReplacePresetByIdRequestPermissionsMediaAudioCanProduce.pipe(
+        T.Body("can_produce"),
+      ),
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdRequestPermissionsMediaAudio",
+  }) as any as S.Schema<ReplacePresetByIdRequestPermissionsMediaAudio>;
+
+export type ReplacePresetByIdRequestPermissionsMediaScreenshareCanProduce =
+  | "ALLOWED"
+  | "NOT_ALLOWED"
+  | "CAN_REQUEST";
+export const ReplacePresetByIdRequestPermissionsMediaScreenshareCanProduce =
+  S.String;
+
+export interface ReplacePresetByIdRequestPermissionsMediaScreenshare {
+  /** Can produce screen share video */
+  canProduce:
+    | ReplacePresetByIdRequestPermissionsMediaScreenshareCanProduce
+    | (string & {});
+}
+export const ReplacePresetByIdRequestPermissionsMediaScreenshare =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      canProduce:
+        ReplacePresetByIdRequestPermissionsMediaScreenshareCanProduce.pipe(
+          T.Body("can_produce"),
+        ),
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdRequestPermissionsMediaScreenshare",
+  }) as any as S.Schema<ReplacePresetByIdRequestPermissionsMediaScreenshare>;
+
+export type ReplacePresetByIdRequestPermissionsMediaVideoCanProduce =
+  | "ALLOWED"
+  | "NOT_ALLOWED"
+  | "CAN_REQUEST";
+export const ReplacePresetByIdRequestPermissionsMediaVideoCanProduce = S.String;
+
+export interface ReplacePresetByIdRequestPermissionsMediaVideo {
+  /** Can produce video */
+  canProduce:
+    | ReplacePresetByIdRequestPermissionsMediaVideoCanProduce
+    | (string & {});
+}
+export const ReplacePresetByIdRequestPermissionsMediaVideo =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      canProduce: ReplacePresetByIdRequestPermissionsMediaVideoCanProduce.pipe(
+        T.Body("can_produce"),
+      ),
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdRequestPermissionsMediaVideo",
+  }) as any as S.Schema<ReplacePresetByIdRequestPermissionsMediaVideo>;
+
+export interface ReplacePresetByIdRequestPermissionsMedia {
+  /** Audio permissions */
+  audio: ReplacePresetByIdRequestPermissionsMediaAudio;
+  /** Screenshare permissions */
+  screenshare: ReplacePresetByIdRequestPermissionsMediaScreenshare;
+  /** Video permissions */
+  video: ReplacePresetByIdRequestPermissionsMediaVideo;
+}
+export const ReplacePresetByIdRequestPermissionsMedia = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      audio: ReplacePresetByIdRequestPermissionsMediaAudio,
+      screenshare: ReplacePresetByIdRequestPermissionsMediaScreenshare,
+      video: ReplacePresetByIdRequestPermissionsMediaVideo,
+    }),
+).annotate({
+  identifier: "ReplacePresetByIdRequestPermissionsMedia",
+}) as any as S.Schema<ReplacePresetByIdRequestPermissionsMedia>;
+
+export type ReplacePresetByIdRequestPermissionsPluginsConfigValueAccessControl =
+  | "FULL_ACCESS"
+  | "VIEW_ONLY";
+export const ReplacePresetByIdRequestPermissionsPluginsConfigValueAccessControl =
+  S.String;
+
+export interface ReplacePresetByIdRequestPermissionsPluginsConfigValue {
+  accessControl?:
+    | ReplacePresetByIdRequestPermissionsPluginsConfigValueAccessControl
+    | (string & {});
+  handlesViewOnly?: boolean;
+}
+export const ReplacePresetByIdRequestPermissionsPluginsConfigValue =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessControl: S.optional(
+        ReplacePresetByIdRequestPermissionsPluginsConfigValueAccessControl.pipe(
+          T.Body("access_control"),
+        ),
+      ),
+      handlesViewOnly: S.optional(S.Boolean.pipe(T.Body("handles_view_only"))),
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdRequestPermissionsPluginsConfigValue",
+  }) as any as S.Schema<ReplacePresetByIdRequestPermissionsPluginsConfigValue>;
+
+export type ReplacePresetByIdRequestPermissionsPluginsConfigMap = {
+  [key: string]:
+    | ReplacePresetByIdRequestPermissionsPluginsConfigValue
+    | undefined;
+};
+export const ReplacePresetByIdRequestPermissionsPluginsConfigMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    ReplacePresetByIdRequestPermissionsPluginsConfigValue,
+  ) as any as S.Schema<ReplacePresetByIdRequestPermissionsPluginsConfigMap>;
+
+export interface ReplacePresetByIdRequestPermissionsPlugins {
+  /** Can close plugins that are already open */
+  canClose: boolean;
+  /** Can edit plugin config */
+  canEditConfig: boolean;
+  /** Can start plugins */
+  canStart: boolean;
+  /** Plugin configuration keyed by plugin UUID. */
+  config: ReplacePresetByIdRequestPermissionsPluginsConfigMap;
+}
+export const ReplacePresetByIdRequestPermissionsPlugins =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      canClose: S.Boolean.pipe(T.Body("can_close")),
+      canEditConfig: S.Boolean.pipe(T.Body("can_edit_config")),
+      canStart: S.Boolean.pipe(T.Body("can_start")),
+      config: ReplacePresetByIdRequestPermissionsPluginsConfigMap,
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdRequestPermissionsPlugins",
+  }) as any as S.Schema<ReplacePresetByIdRequestPermissionsPlugins>;
+
+export type ReplacePresetByIdRequestPermissionsPolls =
+  PresetsCreateRequestPermissionsPolls;
+export const ReplacePresetByIdRequestPermissionsPolls =
+  PresetsCreateRequestPermissionsPolls;
+
+export type ReplacePresetByIdRequestPermissionsRecorderType =
+  | "RECORDER"
+  | "LIVESTREAMER"
+  | "NONE";
+export const ReplacePresetByIdRequestPermissionsRecorderType = S.String;
+
+export type ReplacePresetByIdRequestPermissionsWaitingRoomType =
+  | "SKIP"
+  | "ON_PRIVILEGED_USER_ENTRY"
+  | "SKIP_ON_ACCEPT";
+export const ReplacePresetByIdRequestPermissionsWaitingRoomType = S.String;
+
+export type ReplacePresetByIdRequestPermissionsStageAccess =
+  | "ALLOWED"
+  | "NOT_ALLOWED"
+  | "CAN_REQUEST";
+export const ReplacePresetByIdRequestPermissionsStageAccess = S.String;
+
+export interface ReplacePresetByIdRequestPermissions {
+  /** Whether this participant can accept waiting requests */
+  acceptWaitingRequests: boolean;
+  canAcceptProductionRequests: boolean;
+  canChangeParticipantPermissions: boolean;
+  canEditDisplayName: boolean;
+  canLivestream: boolean;
+  canRecord: boolean;
+  canSpotlight: boolean;
+  chat: PresetsCreateRequestPermissionsChat;
+  connectedMeetings: PresetsCreateRequestPermissionsConnectedMeetings;
+  disableParticipantAudio: boolean;
+  disableParticipantScreensharing: boolean;
+  disableParticipantVideo: boolean;
+  /** Whether this participant is visible to others or not */
+  hiddenParticipant: boolean;
+  kickParticipant: boolean;
+  /** Media permissions */
+  media: ReplacePresetByIdRequestPermissionsMedia;
+  pinParticipant: boolean;
+  /** Plugin permissions */
+  plugins: ReplacePresetByIdRequestPermissionsPlugins;
+  /** Poll permissions */
+  polls: PresetsCreateRequestPermissionsPolls;
+  /** Type of the recording peer */
+  recorderType: ReplacePresetByIdRequestPermissionsRecorderType | (string & {});
+  showParticipantList: boolean;
+  /** Waiting room type */
+  waitingRoomType:
+    | ReplacePresetByIdRequestPermissionsWaitingRoomType
+    | (string & {});
+  acceptStageRequests?: boolean;
+  isRecorder?: boolean;
+  stageAccess?: ReplacePresetByIdRequestPermissionsStageAccess | (string & {});
+  stageEnabled?: boolean;
+  transcriptionEnabled?: boolean;
+}
+export const ReplacePresetByIdRequestPermissions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    acceptWaitingRequests: S.Boolean.pipe(T.Body("accept_waiting_requests")),
+    canAcceptProductionRequests: S.Boolean.pipe(
+      T.Body("can_accept_production_requests"),
+    ),
+    canChangeParticipantPermissions: S.Boolean.pipe(
+      T.Body("can_change_participant_permissions"),
+    ),
+    canEditDisplayName: S.Boolean.pipe(T.Body("can_edit_display_name")),
+    canLivestream: S.Boolean.pipe(T.Body("can_livestream")),
+    canRecord: S.Boolean.pipe(T.Body("can_record")),
+    canSpotlight: S.Boolean.pipe(T.Body("can_spotlight")),
+    chat: PresetsCreateRequestPermissionsChat,
+    connectedMeetings: PresetsCreateRequestPermissionsConnectedMeetings.pipe(
+      T.Body("connected_meetings"),
+    ),
+    disableParticipantAudio: S.Boolean.pipe(
+      T.Body("disable_participant_audio"),
+    ),
+    disableParticipantScreensharing: S.Boolean.pipe(
+      T.Body("disable_participant_screensharing"),
+    ),
+    disableParticipantVideo: S.Boolean.pipe(
+      T.Body("disable_participant_video"),
+    ),
+    hiddenParticipant: S.Boolean.pipe(T.Body("hidden_participant")),
+    kickParticipant: S.Boolean.pipe(T.Body("kick_participant")),
+    media: ReplacePresetByIdRequestPermissionsMedia,
+    pinParticipant: S.Boolean.pipe(T.Body("pin_participant")),
+    plugins: ReplacePresetByIdRequestPermissionsPlugins,
+    polls: PresetsCreateRequestPermissionsPolls,
+    recorderType: ReplacePresetByIdRequestPermissionsRecorderType.pipe(
+      T.Body("recorder_type"),
+    ),
+    showParticipantList: S.Boolean.pipe(T.Body("show_participant_list")),
+    waitingRoomType: ReplacePresetByIdRequestPermissionsWaitingRoomType.pipe(
+      T.Body("waiting_room_type"),
+    ),
+    acceptStageRequests: S.optional(
+      S.Boolean.pipe(T.Body("accept_stage_requests")),
+    ),
+    isRecorder: S.optional(S.Boolean.pipe(T.Body("is_recorder"))),
+    stageAccess: S.optional(
+      ReplacePresetByIdRequestPermissionsStageAccess.pipe(
+        T.Body("stage_access"),
+      ),
+    ),
+    stageEnabled: S.optional(S.Boolean.pipe(T.Body("stage_enabled"))),
+    transcriptionEnabled: S.optional(
+      S.Boolean.pipe(T.Body("transcription_enabled")),
+    ),
+  }),
+).annotate({
+  identifier: "ReplacePresetByIdRequestPermissions",
+}) as any as S.Schema<ReplacePresetByIdRequestPermissions>;
+
+export type ReplacePresetByIdRequestUiDesignTokensBorderRadius =
+  | "sharp"
+  | "rounded"
+  | "extra-rounded"
+  | "circular";
+export const ReplacePresetByIdRequestUiDesignTokensBorderRadius = S.String;
+
+export type ReplacePresetByIdRequestUiDesignTokensBorderWidth =
+  | "none"
+  | "thin"
+  | "fat";
+export const ReplacePresetByIdRequestUiDesignTokensBorderWidth = S.String;
+
+export type ReplacePresetByIdRequestUiDesignTokensColorsBackground =
+  PresetsCreateRequestUiDesignTokensColorsBackground;
+export const ReplacePresetByIdRequestUiDesignTokensColorsBackground =
+  PresetsCreateRequestUiDesignTokensColorsBackground;
+
+export type ReplacePresetByIdRequestUiDesignTokensColorsBrand =
+  PresetsCreateRequestUiDesignTokensColorsBrand;
+export const ReplacePresetByIdRequestUiDesignTokensColorsBrand =
+  PresetsCreateRequestUiDesignTokensColorsBrand;
+
+export type ReplacePresetByIdRequestUiDesignTokensColors =
+  PresetsCreateRequestUiDesignTokensColors;
+export const ReplacePresetByIdRequestUiDesignTokensColors =
+  PresetsCreateRequestUiDesignTokensColors;
+
+export type ReplacePresetByIdRequestUiDesignTokensTheme =
+  | "darkest"
+  | "dark"
+  | "light";
+export const ReplacePresetByIdRequestUiDesignTokensTheme = S.String;
+
+export interface ReplacePresetByIdRequestUiDesignTokens {
+  borderRadius:
+    | ReplacePresetByIdRequestUiDesignTokensBorderRadius
+    | (string & {});
+  borderWidth:
+    | ReplacePresetByIdRequestUiDesignTokensBorderWidth
+    | (string & {});
+  colors: PresetsCreateRequestUiDesignTokensColors;
+  spacingBase: number;
+  theme: ReplacePresetByIdRequestUiDesignTokensTheme | (string & {});
+  fontFamily?: string;
+  googleFont?: string;
+  logo?: string;
+}
+export const ReplacePresetByIdRequestUiDesignTokens = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      borderRadius: ReplacePresetByIdRequestUiDesignTokensBorderRadius.pipe(
+        T.Body("border_radius"),
+      ),
+      borderWidth: ReplacePresetByIdRequestUiDesignTokensBorderWidth.pipe(
+        T.Body("border_width"),
+      ),
+      colors: PresetsCreateRequestUiDesignTokensColors,
+      spacingBase: S.Number.pipe(T.Body("spacing_base")),
+      theme: ReplacePresetByIdRequestUiDesignTokensTheme,
+      fontFamily: S.optional(S.String.pipe(T.Body("font_family"))),
+      googleFont: S.optional(S.String.pipe(T.Body("google_font"))),
+      logo: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "ReplacePresetByIdRequestUiDesignTokens",
+}) as any as S.Schema<ReplacePresetByIdRequestUiDesignTokens>;
+
+export interface ReplacePresetByIdRequestUi {
+  designTokens: ReplacePresetByIdRequestUiDesignTokens;
+}
+export const ReplacePresetByIdRequestUi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    designTokens: ReplacePresetByIdRequestUiDesignTokens.pipe(
+      T.Body("design_tokens"),
+    ),
+  }),
+).annotate({
+  identifier: "ReplacePresetByIdRequestUi",
+}) as any as S.Schema<ReplacePresetByIdRequestUi>;
+
+export interface ReplacePresetByIdRequest {
+  /** The account identifier tag. */
+  accountId: string;
+  /** The app identifier tag. */
+  appId: string;
+  presetId: string;
+  config: ReplacePresetByIdRequestConfig;
+  /** Name of the preset */
+  name: string;
+  permissions: ReplacePresetByIdRequestPermissions;
+  ui: ReplacePresetByIdRequestUi;
+}
+export const ReplacePresetByIdRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    appId: S.String.pipe(T.Label("app_id")),
+    presetId: S.String.pipe(T.Label("preset_id")),
+    config: ReplacePresetByIdRequestConfig,
+    name: S.String,
+    permissions: ReplacePresetByIdRequestPermissions,
+    ui: ReplacePresetByIdRequestUi,
+  })
+    .pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ReplacePresetByIdRequest",
+}) as any as S.Schema<ReplacePresetByIdRequest>;
+
+export type ReplacePresetByIdResponseDataConfigMaxVideoStreams =
+  PresetsCreateRequestConfigMaxVideoStreams;
+export const ReplacePresetByIdResponseDataConfigMaxVideoStreams =
+  PresetsCreateRequestConfigMaxVideoStreams;
+
+export type ReplacePresetByIdResponseDataConfigMediaScreenshareQuality =
+  | "hd"
+  | "vga"
+  | "qvga"
+  | "fhd"
+  | "uhd";
+export const ReplacePresetByIdResponseDataConfigMediaScreenshareQuality =
+  S.String;
+
+export interface ReplacePresetByIdResponseDataConfigMediaScreenshare {
+  /** Frame rate of screen share */
+  frameRate: number;
+  /** Quality of screen share */
+  quality: ReplacePresetByIdResponseDataConfigMediaScreenshareQuality;
+}
+export const ReplacePresetByIdResponseDataConfigMediaScreenshare =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      frameRate: S.Number.pipe(T.Body("frame_rate")),
+      quality: ReplacePresetByIdResponseDataConfigMediaScreenshareQuality,
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdResponseDataConfigMediaScreenshare",
+  }) as any as S.Schema<ReplacePresetByIdResponseDataConfigMediaScreenshare>;
+
+export type ReplacePresetByIdResponseDataConfigMediaVideoQuality =
+  | "hd"
+  | "vga"
+  | "qvga"
+  | "fhd"
+  | "uhd";
+export const ReplacePresetByIdResponseDataConfigMediaVideoQuality = S.String;
+
+export interface ReplacePresetByIdResponseDataConfigMediaVideo {
+  /** Frame rate of participants' video */
+  frameRate: number;
+  /** Video quality of participants */
+  quality: ReplacePresetByIdResponseDataConfigMediaVideoQuality;
+  /** Enable simulcast for participant videos. */
+  simulcast?: boolean | null;
+}
+export const ReplacePresetByIdResponseDataConfigMediaVideo =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      frameRate: S.Number.pipe(T.Body("frame_rate")),
+      quality: ReplacePresetByIdResponseDataConfigMediaVideoQuality,
+      simulcast: S.optional(S.NullOr(S.Boolean)),
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdResponseDataConfigMediaVideo",
+  }) as any as S.Schema<ReplacePresetByIdResponseDataConfigMediaVideo>;
+
+export type ReplacePresetByIdResponseDataConfigMediaAudio =
+  PresetsCreateResponseDataConfigMediaAudio;
+export const ReplacePresetByIdResponseDataConfigMediaAudio =
+  PresetsCreateResponseDataConfigMediaAudio;
+
+export interface ReplacePresetByIdResponseDataConfigMedia {
+  /** Configuration options for participant screen shares */
+  screenshare: ReplacePresetByIdResponseDataConfigMediaScreenshare;
+  /** Configuration options for participant videos */
+  video: ReplacePresetByIdResponseDataConfigMediaVideo;
+  /** Control options for Audio quality. */
+  audio?: PresetsCreateResponseDataConfigMediaAudio | null;
+}
+export const ReplacePresetByIdResponseDataConfigMedia = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      screenshare: ReplacePresetByIdResponseDataConfigMediaScreenshare,
+      video: ReplacePresetByIdResponseDataConfigMediaVideo,
+      audio: S.optional(S.NullOr(PresetsCreateResponseDataConfigMediaAudio)),
+    }),
+).annotate({
+  identifier: "ReplacePresetByIdResponseDataConfigMedia",
+}) as any as S.Schema<ReplacePresetByIdResponseDataConfigMedia>;
+
+export type ReplacePresetByIdResponseDataConfigViewType =
+  | "GROUP_CALL"
+  | "WEBINAR"
+  | "AUDIO_ROOM"
+  | "LIVESTREAM";
+export const ReplacePresetByIdResponseDataConfigViewType = S.String;
+
+export type ReplacePresetByIdResponseDataConfigLivestreamViewerQualitiesList =
+  Array<number>;
+export const ReplacePresetByIdResponseDataConfigLivestreamViewerQualitiesList =
+  /*@__PURE__*/ S.Array(
+    S.Number,
+  ) as any as S.Schema<ReplacePresetByIdResponseDataConfigLivestreamViewerQualitiesList>;
+
+export interface ReplacePresetByIdResponseDataConfig {
+  /** Maximum number of screen shares that can be active at a given time */
+  maxScreenshareCount: number;
+  /** Maximum number of streams that are visible on a device */
+  maxVideoStreams: PresetsCreateRequestConfigMaxVideoStreams;
+  /** Media configuration options. eg: Video quality */
+  media: ReplacePresetByIdResponseDataConfigMedia;
+  /** Type of the meeting */
+  viewType: ReplacePresetByIdResponseDataConfigViewType;
+  /** Livestream viewer quality levels. */
+  livestreamViewerQualities?: ReplacePresetByIdResponseDataConfigLivestreamViewerQualitiesList | null;
+}
+export const ReplacePresetByIdResponseDataConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxScreenshareCount: S.Number.pipe(T.Body("max_screenshare_count")),
+    maxVideoStreams: PresetsCreateRequestConfigMaxVideoStreams.pipe(
+      T.Body("max_video_streams"),
+    ),
+    media: ReplacePresetByIdResponseDataConfigMedia,
+    viewType: ReplacePresetByIdResponseDataConfigViewType.pipe(
+      T.Body("view_type"),
+    ),
+    livestreamViewerQualities: S.optional(
+      S.NullOr(
+        ReplacePresetByIdResponseDataConfigLivestreamViewerQualitiesList,
+      ).pipe(T.Body("livestream_viewer_qualities")),
+    ),
+  }),
+).annotate({
+  identifier: "ReplacePresetByIdResponseDataConfig",
+}) as any as S.Schema<ReplacePresetByIdResponseDataConfig>;
+
+export type ReplacePresetByIdResponseDataPermissionsChatPrivate =
+  PresetsCreateRequestPermissionsChatPrivate;
+export const ReplacePresetByIdResponseDataPermissionsChatPrivate =
+  PresetsCreateRequestPermissionsChatPrivate;
+
+export type ReplacePresetByIdResponseDataPermissionsChatPublic =
+  PresetsCreateRequestPermissionsChatPublic;
+export const ReplacePresetByIdResponseDataPermissionsChatPublic =
+  PresetsCreateRequestPermissionsChatPublic;
+
+export type ReplacePresetByIdResponseDataPermissionsChat =
+  PresetsCreateRequestPermissionsChat;
+export const ReplacePresetByIdResponseDataPermissionsChat =
+  PresetsCreateRequestPermissionsChat;
+
+export type ReplacePresetByIdResponseDataPermissionsConnectedMeetings =
+  PresetsCreateRequestPermissionsConnectedMeetings;
+export const ReplacePresetByIdResponseDataPermissionsConnectedMeetings =
+  PresetsCreateRequestPermissionsConnectedMeetings;
+
+export type ReplacePresetByIdResponseDataPermissionsMediaAudioCanProduce =
+  | "ALLOWED"
+  | "NOT_ALLOWED"
+  | "CAN_REQUEST";
+export const ReplacePresetByIdResponseDataPermissionsMediaAudioCanProduce =
+  S.String;
+
+export interface ReplacePresetByIdResponseDataPermissionsMediaAudio {
+  /** Can produce audio */
+  canProduce: ReplacePresetByIdResponseDataPermissionsMediaAudioCanProduce;
+}
+export const ReplacePresetByIdResponseDataPermissionsMediaAudio =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      canProduce:
+        ReplacePresetByIdResponseDataPermissionsMediaAudioCanProduce.pipe(
+          T.Body("can_produce"),
+        ),
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdResponseDataPermissionsMediaAudio",
+  }) as any as S.Schema<ReplacePresetByIdResponseDataPermissionsMediaAudio>;
+
+export type ReplacePresetByIdResponseDataPermissionsMediaScreenshareCanProduce =
+  | "ALLOWED"
+  | "NOT_ALLOWED"
+  | "CAN_REQUEST";
+export const ReplacePresetByIdResponseDataPermissionsMediaScreenshareCanProduce =
+  S.String;
+
+export interface ReplacePresetByIdResponseDataPermissionsMediaScreenshare {
+  /** Can produce screen share video */
+  canProduce: ReplacePresetByIdResponseDataPermissionsMediaScreenshareCanProduce;
+}
+export const ReplacePresetByIdResponseDataPermissionsMediaScreenshare =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      canProduce:
+        ReplacePresetByIdResponseDataPermissionsMediaScreenshareCanProduce.pipe(
+          T.Body("can_produce"),
+        ),
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdResponseDataPermissionsMediaScreenshare",
+  }) as any as S.Schema<ReplacePresetByIdResponseDataPermissionsMediaScreenshare>;
+
+export type ReplacePresetByIdResponseDataPermissionsMediaVideoCanProduce =
+  | "ALLOWED"
+  | "NOT_ALLOWED"
+  | "CAN_REQUEST";
+export const ReplacePresetByIdResponseDataPermissionsMediaVideoCanProduce =
+  S.String;
+
+export interface ReplacePresetByIdResponseDataPermissionsMediaVideo {
+  /** Can produce video */
+  canProduce: ReplacePresetByIdResponseDataPermissionsMediaVideoCanProduce;
+}
+export const ReplacePresetByIdResponseDataPermissionsMediaVideo =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      canProduce:
+        ReplacePresetByIdResponseDataPermissionsMediaVideoCanProduce.pipe(
+          T.Body("can_produce"),
+        ),
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdResponseDataPermissionsMediaVideo",
+  }) as any as S.Schema<ReplacePresetByIdResponseDataPermissionsMediaVideo>;
+
+export interface ReplacePresetByIdResponseDataPermissionsMedia {
+  /** Audio permissions */
+  audio: ReplacePresetByIdResponseDataPermissionsMediaAudio;
+  /** Screenshare permissions */
+  screenshare: ReplacePresetByIdResponseDataPermissionsMediaScreenshare;
+  /** Video permissions */
+  video: ReplacePresetByIdResponseDataPermissionsMediaVideo;
+}
+export const ReplacePresetByIdResponseDataPermissionsMedia =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      audio: ReplacePresetByIdResponseDataPermissionsMediaAudio,
+      screenshare: ReplacePresetByIdResponseDataPermissionsMediaScreenshare,
+      video: ReplacePresetByIdResponseDataPermissionsMediaVideo,
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdResponseDataPermissionsMedia",
+  }) as any as S.Schema<ReplacePresetByIdResponseDataPermissionsMedia>;
+
+export type ReplacePresetByIdResponseDataPermissionsPluginsConfigValueAccessControl =
+  | "FULL_ACCESS"
+  | "VIEW_ONLY";
+export const ReplacePresetByIdResponseDataPermissionsPluginsConfigValueAccessControl =
+  S.String;
+
+export interface ReplacePresetByIdResponseDataPermissionsPluginsConfigValue {
+  accessControl?: ReplacePresetByIdResponseDataPermissionsPluginsConfigValueAccessControl | null;
+  handlesViewOnly?: boolean | null;
+}
+export const ReplacePresetByIdResponseDataPermissionsPluginsConfigValue =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessControl: S.optional(
+        S.NullOr(
+          ReplacePresetByIdResponseDataPermissionsPluginsConfigValueAccessControl,
+        ).pipe(T.Body("access_control")),
+      ),
+      handlesViewOnly: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("handles_view_only")),
+      ),
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdResponseDataPermissionsPluginsConfigValue",
+  }) as any as S.Schema<ReplacePresetByIdResponseDataPermissionsPluginsConfigValue>;
+
+export type ReplacePresetByIdResponseDataPermissionsPluginsConfigMap = {
+  [key: string]:
+    | ReplacePresetByIdResponseDataPermissionsPluginsConfigValue
+    | undefined;
+};
+export const ReplacePresetByIdResponseDataPermissionsPluginsConfigMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    ReplacePresetByIdResponseDataPermissionsPluginsConfigValue,
+  ) as any as S.Schema<ReplacePresetByIdResponseDataPermissionsPluginsConfigMap>;
+
+export interface ReplacePresetByIdResponseDataPermissionsPlugins {
+  /** Can close plugins that are already open */
+  canClose: boolean;
+  /** Can edit plugin config */
+  canEditConfig: boolean;
+  /** Can start plugins */
+  canStart: boolean;
+  /** Plugin configuration keyed by plugin UUID. */
+  config: ReplacePresetByIdResponseDataPermissionsPluginsConfigMap;
+}
+export const ReplacePresetByIdResponseDataPermissionsPlugins =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      canClose: S.Boolean.pipe(T.Body("can_close")),
+      canEditConfig: S.Boolean.pipe(T.Body("can_edit_config")),
+      canStart: S.Boolean.pipe(T.Body("can_start")),
+      config: ReplacePresetByIdResponseDataPermissionsPluginsConfigMap,
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdResponseDataPermissionsPlugins",
+  }) as any as S.Schema<ReplacePresetByIdResponseDataPermissionsPlugins>;
+
+export type ReplacePresetByIdResponseDataPermissionsPolls =
+  PresetsCreateRequestPermissionsPolls;
+export const ReplacePresetByIdResponseDataPermissionsPolls =
+  PresetsCreateRequestPermissionsPolls;
+
+export type ReplacePresetByIdResponseDataPermissionsRecorderType =
+  | "RECORDER"
+  | "LIVESTREAMER"
+  | "NONE";
+export const ReplacePresetByIdResponseDataPermissionsRecorderType = S.String;
+
+export type ReplacePresetByIdResponseDataPermissionsWaitingRoomType =
+  | "SKIP"
+  | "ON_PRIVILEGED_USER_ENTRY"
+  | "SKIP_ON_ACCEPT";
+export const ReplacePresetByIdResponseDataPermissionsWaitingRoomType = S.String;
+
+export type ReplacePresetByIdResponseDataPermissionsStageAccess =
+  | "ALLOWED"
+  | "NOT_ALLOWED"
+  | "CAN_REQUEST";
+export const ReplacePresetByIdResponseDataPermissionsStageAccess = S.String;
+
+export interface ReplacePresetByIdResponseDataPermissions {
+  /** Whether this participant can accept waiting requests */
+  acceptWaitingRequests: boolean;
+  canAcceptProductionRequests: boolean;
+  canChangeParticipantPermissions: boolean;
+  canEditDisplayName: boolean;
+  canLivestream: boolean;
+  canRecord: boolean;
+  canSpotlight: boolean;
+  chat: PresetsCreateRequestPermissionsChat;
+  connectedMeetings: PresetsCreateRequestPermissionsConnectedMeetings;
+  disableParticipantAudio: boolean;
+  disableParticipantScreensharing: boolean;
+  disableParticipantVideo: boolean;
+  /** Whether this participant is visible to others or not */
+  hiddenParticipant: boolean;
+  kickParticipant: boolean;
+  /** Media permissions */
+  media: ReplacePresetByIdResponseDataPermissionsMedia;
+  pinParticipant: boolean;
+  /** Plugin permissions */
+  plugins: ReplacePresetByIdResponseDataPermissionsPlugins;
+  /** Poll permissions */
+  polls: PresetsCreateRequestPermissionsPolls;
+  /** Type of the recording peer */
+  recorderType: ReplacePresetByIdResponseDataPermissionsRecorderType;
+  showParticipantList: boolean;
+  /** Waiting room type */
+  waitingRoomType: ReplacePresetByIdResponseDataPermissionsWaitingRoomType;
+  acceptStageRequests?: boolean | null;
+  isRecorder?: boolean | null;
+  stageAccess?: ReplacePresetByIdResponseDataPermissionsStageAccess | null;
+  stageEnabled?: boolean | null;
+  transcriptionEnabled?: boolean | null;
+}
+export const ReplacePresetByIdResponseDataPermissions = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      acceptWaitingRequests: S.Boolean.pipe(T.Body("accept_waiting_requests")),
+      canAcceptProductionRequests: S.Boolean.pipe(
+        T.Body("can_accept_production_requests"),
+      ),
+      canChangeParticipantPermissions: S.Boolean.pipe(
+        T.Body("can_change_participant_permissions"),
+      ),
+      canEditDisplayName: S.Boolean.pipe(T.Body("can_edit_display_name")),
+      canLivestream: S.Boolean.pipe(T.Body("can_livestream")),
+      canRecord: S.Boolean.pipe(T.Body("can_record")),
+      canSpotlight: S.Boolean.pipe(T.Body("can_spotlight")),
+      chat: PresetsCreateRequestPermissionsChat,
+      connectedMeetings: PresetsCreateRequestPermissionsConnectedMeetings.pipe(
+        T.Body("connected_meetings"),
+      ),
+      disableParticipantAudio: S.Boolean.pipe(
+        T.Body("disable_participant_audio"),
+      ),
+      disableParticipantScreensharing: S.Boolean.pipe(
+        T.Body("disable_participant_screensharing"),
+      ),
+      disableParticipantVideo: S.Boolean.pipe(
+        T.Body("disable_participant_video"),
+      ),
+      hiddenParticipant: S.Boolean.pipe(T.Body("hidden_participant")),
+      kickParticipant: S.Boolean.pipe(T.Body("kick_participant")),
+      media: ReplacePresetByIdResponseDataPermissionsMedia,
+      pinParticipant: S.Boolean.pipe(T.Body("pin_participant")),
+      plugins: ReplacePresetByIdResponseDataPermissionsPlugins,
+      polls: PresetsCreateRequestPermissionsPolls,
+      recorderType: ReplacePresetByIdResponseDataPermissionsRecorderType.pipe(
+        T.Body("recorder_type"),
+      ),
+      showParticipantList: S.Boolean.pipe(T.Body("show_participant_list")),
+      waitingRoomType:
+        ReplacePresetByIdResponseDataPermissionsWaitingRoomType.pipe(
+          T.Body("waiting_room_type"),
+        ),
+      acceptStageRequests: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("accept_stage_requests")),
+      ),
+      isRecorder: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_recorder"))),
+      stageAccess: S.optional(
+        S.NullOr(ReplacePresetByIdResponseDataPermissionsStageAccess).pipe(
+          T.Body("stage_access"),
+        ),
+      ),
+      stageEnabled: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("stage_enabled")),
+      ),
+      transcriptionEnabled: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("transcription_enabled")),
+      ),
+    }),
+).annotate({
+  identifier: "ReplacePresetByIdResponseDataPermissions",
+}) as any as S.Schema<ReplacePresetByIdResponseDataPermissions>;
+
+export type ReplacePresetByIdResponseDataUiDesignTokensBorderRadius =
+  | "sharp"
+  | "rounded"
+  | "extra-rounded"
+  | "circular";
+export const ReplacePresetByIdResponseDataUiDesignTokensBorderRadius = S.String;
+
+export type ReplacePresetByIdResponseDataUiDesignTokensBorderWidth =
+  | "none"
+  | "thin"
+  | "fat";
+export const ReplacePresetByIdResponseDataUiDesignTokensBorderWidth = S.String;
+
+export type ReplacePresetByIdResponseDataUiDesignTokensColorsBackground =
+  PresetsCreateRequestUiDesignTokensColorsBackground;
+export const ReplacePresetByIdResponseDataUiDesignTokensColorsBackground =
+  PresetsCreateRequestUiDesignTokensColorsBackground;
+
+export type ReplacePresetByIdResponseDataUiDesignTokensColorsBrand =
+  PresetsCreateRequestUiDesignTokensColorsBrand;
+export const ReplacePresetByIdResponseDataUiDesignTokensColorsBrand =
+  PresetsCreateRequestUiDesignTokensColorsBrand;
+
+export type ReplacePresetByIdResponseDataUiDesignTokensColors =
+  PresetsCreateRequestUiDesignTokensColors;
+export const ReplacePresetByIdResponseDataUiDesignTokensColors =
+  PresetsCreateRequestUiDesignTokensColors;
+
+export type ReplacePresetByIdResponseDataUiDesignTokensTheme =
+  | "darkest"
+  | "dark"
+  | "light";
+export const ReplacePresetByIdResponseDataUiDesignTokensTheme = S.String;
+
+export interface ReplacePresetByIdResponseDataUiDesignTokens {
+  borderRadius: ReplacePresetByIdResponseDataUiDesignTokensBorderRadius;
+  borderWidth: ReplacePresetByIdResponseDataUiDesignTokensBorderWidth;
+  colors: PresetsCreateRequestUiDesignTokensColors;
+  spacingBase: number;
+  theme: ReplacePresetByIdResponseDataUiDesignTokensTheme;
+  fontFamily?: string | null;
+  googleFont?: string | null;
+  logo?: string | null;
+}
+export const ReplacePresetByIdResponseDataUiDesignTokens =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      borderRadius:
+        ReplacePresetByIdResponseDataUiDesignTokensBorderRadius.pipe(
+          T.Body("border_radius"),
+        ),
+      borderWidth: ReplacePresetByIdResponseDataUiDesignTokensBorderWidth.pipe(
+        T.Body("border_width"),
+      ),
+      colors: PresetsCreateRequestUiDesignTokensColors,
+      spacingBase: S.Number.pipe(T.Body("spacing_base")),
+      theme: ReplacePresetByIdResponseDataUiDesignTokensTheme,
+      fontFamily: S.optional(S.NullOr(S.String).pipe(T.Body("font_family"))),
+      googleFont: S.optional(S.NullOr(S.String).pipe(T.Body("google_font"))),
+      logo: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "ReplacePresetByIdResponseDataUiDesignTokens",
+  }) as any as S.Schema<ReplacePresetByIdResponseDataUiDesignTokens>;
+
+export interface ReplacePresetByIdResponseDataUi {
+  designTokens: ReplacePresetByIdResponseDataUiDesignTokens;
+}
+export const ReplacePresetByIdResponseDataUi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    designTokens: ReplacePresetByIdResponseDataUiDesignTokens.pipe(
+      T.Body("design_tokens"),
+    ),
+  }),
+).annotate({
+  identifier: "ReplacePresetByIdResponseDataUi",
+}) as any as S.Schema<ReplacePresetByIdResponseDataUi>;
+
+export interface ReplacePresetByIdResponseData {
+  /** ID of the preset */
+  id: string;
+  config: ReplacePresetByIdResponseDataConfig;
+  /** Timestamp this preset was created at */
+  createdAt: string;
+  /** Name of the preset */
+  name: string;
+  permissions: ReplacePresetByIdResponseDataPermissions;
+  ui: ReplacePresetByIdResponseDataUi;
+  /** Timestamp this preset was last updated */
+  updatedAt: string;
+}
+export const ReplacePresetByIdResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    config: ReplacePresetByIdResponseDataConfig,
+    createdAt: S.String.pipe(T.Body("created_at")),
+    name: S.String,
+    permissions: ReplacePresetByIdResponseDataPermissions,
+    ui: ReplacePresetByIdResponseDataUi,
+    updatedAt: S.String.pipe(T.Body("updated_at")),
+  }),
+).annotate({
+  identifier: "ReplacePresetByIdResponseData",
+}) as any as S.Schema<ReplacePresetByIdResponseData>;
+
+/** Raw response payload (operation does not use the standard v4 result envelope). */
+export interface ReplacePresetByIdResponse {
+  /** Data returned by the operation */
+  data: ReplacePresetByIdResponseData;
+}
+export const ReplacePresetByIdResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: ReplacePresetByIdResponseData,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ReplacePresetByIdResponse",
+}) as any as S.Schema<ReplacePresetByIdResponse>;
+
 export type WebhooksReplaceWebhookRequestEventsItem =
   | "meeting.started"
   | "meeting.ended"
@@ -12789,7 +16515,7 @@ export type WebhooksReplaceWebhookRequestEventsItem =
   | "livestreaming.statusUpdate"
   | "meeting.transcript"
   | "meeting.summary";
-export const WebhooksReplaceWebhookRequestEventsItem = /*@__PURE__*/ S.String;
+export const WebhooksReplaceWebhookRequestEventsItem = S.String;
 
 export type WebhooksReplaceWebhookRequestEventsList = Array<
   WebhooksReplaceWebhookRequestEventsItem | (string & {})
@@ -12845,8 +16571,7 @@ export type WebhooksReplaceWebhookResponseDataEventsItem =
   | "livestreaming.statusUpdate"
   | "meeting.transcript"
   | "meeting.summary";
-export const WebhooksReplaceWebhookResponseDataEventsItem =
-  /*@__PURE__*/ S.String;
+export const WebhooksReplaceWebhookResponseDataEventsItem = S.String;
 
 export type WebhooksReplaceWebhookResponseDataEventsList =
   Array<WebhooksReplaceWebhookResponseDataEventsItem>;
@@ -12952,8 +16677,7 @@ export type LivestreamsStartLivestreamingAMeetingResponseDataStatus =
   | "IDLE"
   | "ERRORED"
   | "INVOKED";
-export const LivestreamsStartLivestreamingAMeetingResponseDataStatus =
-  /*@__PURE__*/ S.String;
+export const LivestreamsStartLivestreamingAMeetingResponseDataStatus = S.String;
 
 export interface LivestreamsStartLivestreamingAMeetingResponseData {
   /** The livestream ID. */
@@ -13001,12 +16725,10 @@ export const StartLivestreamingAMeetingLivestreamResponse =
 export type RecordingsStartRecordingsRequestAudioConfigChannel =
   | "mono"
   | "stereo";
-export const RecordingsStartRecordingsRequestAudioConfigChannel =
-  /*@__PURE__*/ S.String;
+export const RecordingsStartRecordingsRequestAudioConfigChannel = S.String;
 
 export type RecordingsStartRecordingsRequestAudioConfigCodec = "MP3" | "AAC";
-export const RecordingsStartRecordingsRequestAudioConfigCodec =
-  /*@__PURE__*/ S.String;
+export const RecordingsStartRecordingsRequestAudioConfigCodec = S.String;
 
 export interface RecordingsStartRecordingsRequestAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
@@ -13028,8 +16750,7 @@ export const RecordingsStartRecordingsRequestAudioConfig =
   }) as any as S.Schema<RecordingsStartRecordingsRequestAudioConfig>;
 
 export type RecordingsStartRecordingsRequestInteractiveConfigType = "ID3";
-export const RecordingsStartRecordingsRequestInteractiveConfigType =
-  /*@__PURE__*/ S.String;
+export const RecordingsStartRecordingsRequestInteractiveConfigType = S.String;
 
 export interface RecordingsStartRecordingsRequestInteractiveConfig {
   /** The metadata is presented in the form of ID3 tags. */
@@ -13054,29 +16775,21 @@ export type RecordingsStartRecordingsRequestRtmpOutConfig =
 export const RecordingsStartRecordingsRequestRtmpOutConfig =
   MeetingsCreateRequestRecordingConfigLiveStreamingConfig;
 
-export type RecordingsStartRecordingsRequestStorageConfigType =
-  | "aws"
-  | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
-export const RecordingsStartRecordingsRequestStorageConfigType =
-  /*@__PURE__*/ S.String;
-
-export type RecordingsStartRecordingsRequestStorageConfigAuthMethod =
+export type RecordingsStartRecordingsRequestStorageConfigCase0AuthMethod =
   | "KEY"
   | "PASSWORD";
-export const RecordingsStartRecordingsRequestStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export const RecordingsStartRecordingsRequestStorageConfigCase0AuthMethod =
+  S.String;
 
-export interface RecordingsStartRecordingsRequestStorageConfig {
-  /** Type of storage media. */
-  type: RecordingsStartRecordingsRequestStorageConfigType | (string & {});
+export type RecordingsStartRecordingsRequestStorageConfigCase0Type = "gcs";
+export const RecordingsStartRecordingsRequestStorageConfigCase0Type = S.String;
+
+export interface RecordingsStartRecordingsRequestStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
-    | RecordingsStartRecordingsRequestStorageConfigAuthMethod
+    | RecordingsStartRecordingsRequestStorageConfigCase0AuthMethod
     | (string & {});
   /** Name of the storage medium's bucket. */
   bucket?: string;
@@ -13094,16 +16807,16 @@ export interface RecordingsStartRecordingsRequestStorageConfig {
   region?: string;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string;
+  type?: RecordingsStartRecordingsRequestStorageConfigCase0Type | (string & {});
   /** SSH destination server username for SFTP type storage medium */
   username?: string;
 }
-export const RecordingsStartRecordingsRequestStorageConfig =
+export const RecordingsStartRecordingsRequestStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: RecordingsStartRecordingsRequestStorageConfigType,
       accessKey: S.optional(S.String.pipe(T.Body("access_key"))),
       authMethod: S.optional(
-        RecordingsStartRecordingsRequestStorageConfigAuthMethod.pipe(
+        RecordingsStartRecordingsRequestStorageConfigCase0AuthMethod.pipe(
           T.Body("auth_method"),
         ),
       ),
@@ -13115,15 +16828,274 @@ export const RecordingsStartRecordingsRequestStorageConfig =
       privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
       region: S.optional(S.String),
       secret: S.optional(S.String),
+      type: S.optional(RecordingsStartRecordingsRequestStorageConfigCase0Type),
       username: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "RecordingsStartRecordingsRequestStorageConfig",
-  }) as any as S.Schema<RecordingsStartRecordingsRequestStorageConfig>;
+    identifier: "RecordingsStartRecordingsRequestStorageConfigCase0",
+  }) as any as S.Schema<RecordingsStartRecordingsRequestStorageConfigCase0>;
 
-export type RecordingsStartRecordingsRequestVideoConfigCodec = "H264" | "VP8";
-export const RecordingsStartRecordingsRequestVideoConfigCodec =
-  /*@__PURE__*/ S.String;
+export type RecordingsStartRecordingsRequestStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const RecordingsStartRecordingsRequestStorageConfigCase1AuthMethod =
+  S.String;
+
+export type RecordingsStartRecordingsRequestStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const RecordingsStartRecordingsRequestStorageConfigCase1Type = S.String;
+
+export interface RecordingsStartRecordingsRequestStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | RecordingsStartRecordingsRequestStorageConfigCase1AuthMethod
+    | (string & {});
+  /** Name of the storage medium's bucket. */
+  bucket?: string;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string;
+  type?: RecordingsStartRecordingsRequestStorageConfigCase1Type | (string & {});
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string;
+}
+export const RecordingsStartRecordingsRequestStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        RecordingsStartRecordingsRequestStorageConfigCase1AuthMethod.pipe(
+          T.Body("auth_method"),
+        ),
+      ),
+      bucket: S.optional(S.String),
+      host: S.optional(S.String),
+      password: S.optional(S.String),
+      path: S.optional(S.String),
+      port: S.optional(S.Number),
+      privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
+      secret: S.optional(S.String),
+      type: S.optional(RecordingsStartRecordingsRequestStorageConfigCase1Type),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "RecordingsStartRecordingsRequestStorageConfigCase1",
+  }) as any as S.Schema<RecordingsStartRecordingsRequestStorageConfigCase1>;
+
+export type RecordingsStartRecordingsRequestStorageConfigCase2AuthMethod =
+  "KEY";
+export const RecordingsStartRecordingsRequestStorageConfigCase2AuthMethod =
+  S.String;
+
+export type RecordingsStartRecordingsRequestStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const RecordingsStartRecordingsRequestStorageConfigCase2Type = S.String;
+
+export interface RecordingsStartRecordingsRequestStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string;
+  authMethod?:
+    | RecordingsStartRecordingsRequestStorageConfigCase2AuthMethod
+    | (string & {});
+  /** Name of the storage medium's bucket. */
+  bucket?: string;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number;
+  /** Region of the storage medium. */
+  region?: string;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string;
+  /** Type of storage media. */
+  type?: RecordingsStartRecordingsRequestStorageConfigCase2Type | (string & {});
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string;
+}
+export const RecordingsStartRecordingsRequestStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.String.pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        RecordingsStartRecordingsRequestStorageConfigCase2AuthMethod.pipe(
+          T.Body("auth_method"),
+        ),
+      ),
+      bucket: S.optional(S.String),
+      host: S.optional(S.String),
+      password: S.optional(S.String),
+      path: S.optional(S.String),
+      port: S.optional(S.Number),
+      region: S.optional(S.String),
+      secret: S.optional(S.String),
+      type: S.optional(RecordingsStartRecordingsRequestStorageConfigCase2Type),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "RecordingsStartRecordingsRequestStorageConfigCase2",
+  }) as any as S.Schema<RecordingsStartRecordingsRequestStorageConfigCase2>;
+
+export type RecordingsStartRecordingsRequestStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const RecordingsStartRecordingsRequestStorageConfigCase3AuthMethod =
+  S.String;
+
+export type RecordingsStartRecordingsRequestStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const RecordingsStartRecordingsRequestStorageConfigCase3Type = S.String;
+
+export interface RecordingsStartRecordingsRequestStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string;
+  authMethod?:
+    | RecordingsStartRecordingsRequestStorageConfigCase3AuthMethod
+    | (string & {});
+  /** Name of the storage medium's bucket. */
+  bucket?: string;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string;
+  /** Region of the storage medium. */
+  region?: string;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string;
+  /** Type of storage media. */
+  type?: RecordingsStartRecordingsRequestStorageConfigCase3Type | (string & {});
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string;
+}
+export const RecordingsStartRecordingsRequestStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.String.pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        RecordingsStartRecordingsRequestStorageConfigCase3AuthMethod.pipe(
+          T.Body("auth_method"),
+        ),
+      ),
+      bucket: S.optional(S.String),
+      host: S.optional(S.String),
+      path: S.optional(S.String),
+      port: S.optional(S.Number),
+      privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
+      region: S.optional(S.String),
+      secret: S.optional(S.String),
+      type: S.optional(RecordingsStartRecordingsRequestStorageConfigCase3Type),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "RecordingsStartRecordingsRequestStorageConfigCase3",
+  }) as any as S.Schema<RecordingsStartRecordingsRequestStorageConfigCase3>;
+
+export type RecordingsStartRecordingsRequestStorageConfig =
+  | RecordingsStartRecordingsRequestStorageConfigCase0
+  | RecordingsStartRecordingsRequestStorageConfigCase1
+  | RecordingsStartRecordingsRequestStorageConfigCase2
+  | RecordingsStartRecordingsRequestStorageConfigCase3;
+export const RecordingsStartRecordingsRequestStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
+
+export type RecordingsStartRecordingsRequestVideoConfigCodec =
+  | "H264"
+  | "VP8"
+  | "VP9";
+export const RecordingsStartRecordingsRequestVideoConfigCodec = S.String;
 
 export type RecordingsStartRecordingsRequestVideoConfigWatermarkPosition =
   | "left top"
@@ -13131,7 +17103,7 @@ export type RecordingsStartRecordingsRequestVideoConfigWatermarkPosition =
   | "left bottom"
   | "right bottom";
 export const RecordingsStartRecordingsRequestVideoConfigWatermarkPosition =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type RecordingsStartRecordingsRequestVideoConfigWatermarkSize =
   MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize;
@@ -13271,14 +17243,13 @@ export type RecordingsStartRecordingsResponseDataStatus =
   | "UPLOADED"
   | "ERRORED"
   | "PAUSED";
-export const RecordingsStartRecordingsResponseDataStatus =
-  /*@__PURE__*/ S.String;
+export const RecordingsStartRecordingsResponseDataStatus = S.String;
 
 export type RecordingsStartRecordingsResponseDataStartReasonCallerType =
   | "ORGANIZATION"
   | "USER";
 export const RecordingsStartRecordingsResponseDataStartReasonCallerType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface RecordingsStartRecordingsResponseDataStartReasonCaller {
   /** Name of the user who started the recording. */
@@ -13304,8 +17275,7 @@ export const RecordingsStartRecordingsResponseDataStartReasonCaller =
 export type RecordingsStartRecordingsResponseDataStartReasonReason =
   | "API_CALL"
   | "RECORD_ON_START";
-export const RecordingsStartRecordingsResponseDataStartReasonReason =
-  /*@__PURE__*/ S.String;
+export const RecordingsStartRecordingsResponseDataStartReasonReason = S.String;
 
 export interface RecordingsStartRecordingsResponseDataStartReason {
   caller?: RecordingsStartRecordingsResponseDataStartReasonCaller | null;
@@ -13330,7 +17300,7 @@ export type RecordingsStartRecordingsResponseDataStopReasonCallerType =
   | "ORGANIZATION"
   | "USER";
 export const RecordingsStartRecordingsResponseDataStopReasonCallerType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface RecordingsStartRecordingsResponseDataStopReasonCaller {
   /** Name of the user who stopped the recording. */
@@ -13357,8 +17327,7 @@ export type RecordingsStartRecordingsResponseDataStopReasonReason =
   | "API_CALL"
   | "INTERNAL_ERROR"
   | "ALL_PEERS_LEFT";
-export const RecordingsStartRecordingsResponseDataStopReasonReason =
-  /*@__PURE__*/ S.String;
+export const RecordingsStartRecordingsResponseDataStopReasonReason = S.String;
 
 export interface RecordingsStartRecordingsResponseDataStopReason {
   caller?: RecordingsStartRecordingsResponseDataStopReasonCaller | null;
@@ -13379,28 +17348,21 @@ export const RecordingsStartRecordingsResponseDataStopReason =
     identifier: "RecordingsStartRecordingsResponseDataStopReason",
   }) as any as S.Schema<RecordingsStartRecordingsResponseDataStopReason>;
 
-export type RecordingsStartRecordingsResponseDataStorageConfigType =
-  | "aws"
-  | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
-export const RecordingsStartRecordingsResponseDataStorageConfigType =
-  /*@__PURE__*/ S.String;
-
-export type RecordingsStartRecordingsResponseDataStorageConfigAuthMethod =
+export type RecordingsStartRecordingsResponseDataStorageConfigCase0AuthMethod =
   | "KEY"
   | "PASSWORD";
-export const RecordingsStartRecordingsResponseDataStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export const RecordingsStartRecordingsResponseDataStorageConfigCase0AuthMethod =
+  S.String;
 
-export interface RecordingsStartRecordingsResponseDataStorageConfig {
-  /** Type of storage media. */
-  type: RecordingsStartRecordingsResponseDataStorageConfigType;
+export type RecordingsStartRecordingsResponseDataStorageConfigCase0Type = "gcs";
+export const RecordingsStartRecordingsResponseDataStorageConfigCase0Type =
+  S.String;
+
+export interface RecordingsStartRecordingsResponseDataStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigAuthMethod | null;
+  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase0AuthMethod | null;
   /** Name of the storage medium's bucket. */
   bucket?: string | null;
   /** SSH destination server host for SFTP type storage medium */
@@ -13417,17 +17379,17 @@ export interface RecordingsStartRecordingsResponseDataStorageConfig {
   region?: string | null;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | null;
+  type?: RecordingsStartRecordingsResponseDataStorageConfigCase0Type | null;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null;
 }
-export const RecordingsStartRecordingsResponseDataStorageConfig =
+export const RecordingsStartRecordingsResponseDataStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: RecordingsStartRecordingsResponseDataStorageConfigType,
       accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
       authMethod: S.optional(
         S.NullOr(
-          RecordingsStartRecordingsResponseDataStorageConfigAuthMethod,
+          RecordingsStartRecordingsResponseDataStorageConfigCase0AuthMethod,
         ).pipe(T.Body("auth_method")),
       ),
       bucket: S.optional(S.NullOr(S.String)),
@@ -13438,11 +17400,273 @@ export const RecordingsStartRecordingsResponseDataStorageConfig =
       privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
       region: S.optional(S.NullOr(S.String)),
       secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(RecordingsStartRecordingsResponseDataStorageConfigCase0Type),
+      ),
       username: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
-    identifier: "RecordingsStartRecordingsResponseDataStorageConfig",
-  }) as any as S.Schema<RecordingsStartRecordingsResponseDataStorageConfig>;
+    identifier: "RecordingsStartRecordingsResponseDataStorageConfigCase0",
+  }) as any as S.Schema<RecordingsStartRecordingsResponseDataStorageConfigCase0>;
+
+export type RecordingsStartRecordingsResponseDataStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const RecordingsStartRecordingsResponseDataStorageConfigCase1AuthMethod =
+  S.String;
+
+export type RecordingsStartRecordingsResponseDataStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const RecordingsStartRecordingsResponseDataStorageConfigCase1Type =
+  S.String;
+
+export interface RecordingsStartRecordingsResponseDataStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase1AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  type?: RecordingsStartRecordingsResponseDataStorageConfigCase1Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsStartRecordingsResponseDataStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsStartRecordingsResponseDataStorageConfigCase1AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(RecordingsStartRecordingsResponseDataStorageConfigCase1Type),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "RecordingsStartRecordingsResponseDataStorageConfigCase1",
+  }) as any as S.Schema<RecordingsStartRecordingsResponseDataStorageConfigCase1>;
+
+export type RecordingsStartRecordingsResponseDataStorageConfigCase2AuthMethod =
+  "KEY";
+export const RecordingsStartRecordingsResponseDataStorageConfigCase2AuthMethod =
+  S.String;
+
+export type RecordingsStartRecordingsResponseDataStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const RecordingsStartRecordingsResponseDataStorageConfigCase2Type =
+  S.String;
+
+export interface RecordingsStartRecordingsResponseDataStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase2AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: RecordingsStartRecordingsResponseDataStorageConfigCase2Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsStartRecordingsResponseDataStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsStartRecordingsResponseDataStorageConfigCase2AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(RecordingsStartRecordingsResponseDataStorageConfigCase2Type),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "RecordingsStartRecordingsResponseDataStorageConfigCase2",
+  }) as any as S.Schema<RecordingsStartRecordingsResponseDataStorageConfigCase2>;
+
+export type RecordingsStartRecordingsResponseDataStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const RecordingsStartRecordingsResponseDataStorageConfigCase3AuthMethod =
+  S.String;
+
+export type RecordingsStartRecordingsResponseDataStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const RecordingsStartRecordingsResponseDataStorageConfigCase3Type =
+  S.String;
+
+export interface RecordingsStartRecordingsResponseDataStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase3AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: RecordingsStartRecordingsResponseDataStorageConfigCase3Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const RecordingsStartRecordingsResponseDataStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          RecordingsStartRecordingsResponseDataStorageConfigCase3AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(RecordingsStartRecordingsResponseDataStorageConfigCase3Type),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "RecordingsStartRecordingsResponseDataStorageConfigCase3",
+  }) as any as S.Schema<RecordingsStartRecordingsResponseDataStorageConfigCase3>;
+
+export type RecordingsStartRecordingsResponseDataStorageConfig =
+  | RecordingsStartRecordingsResponseDataStorageConfigCase0
+  | RecordingsStartRecordingsResponseDataStorageConfigCase1
+  | RecordingsStartRecordingsResponseDataStorageConfigCase2
+  | RecordingsStartRecordingsResponseDataStorageConfigCase3;
+export const RecordingsStartRecordingsResponseDataStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
 
 export interface RecordingsStartRecordingsResponseData {
   /** ID of the recording */
@@ -13525,7 +17749,7 @@ export const StartRecordingsRecordingResponse = /*@__PURE__*/ S.suspend(() =>
 
 export type RecordingsStartTrackRecordingRequestLayersValueMediaKind = "audio";
 export const RecordingsStartTrackRecordingRequestLayersValueMediaKind =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface RecordingsStartTrackRecordingRequestLayersValue {
   /** A file name prefix to apply for files generated from this layer */
@@ -13606,7 +17830,7 @@ export type RecordingsStartTrackRecordingResponseDataRecordingStatus =
   | "ERRORED"
   | "PAUSED";
 export const RecordingsStartTrackRecordingResponseDataRecordingStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface RecordingsStartTrackRecordingResponseDataRecording {
   /** ID of the recording */
@@ -13746,13 +17970,13 @@ export type MeetingsUpdateMeetingByIdRequestAiConfigSummarizationSummaryType =
   | "lecture"
   | "code_review";
 export const MeetingsUpdateMeetingByIdRequestAiConfigSummarizationSummaryType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsUpdateMeetingByIdRequestAiConfigSummarizationTextFormat =
   | "plain_text"
   | "markdown";
 export const MeetingsUpdateMeetingByIdRequestAiConfigSummarizationTextFormat =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsUpdateMeetingByIdRequestAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
@@ -13804,7 +18028,7 @@ export type MeetingsUpdateMeetingByIdRequestAiConfigTranscriptionLanguage =
   | "fr"
   | "nl";
 export const MeetingsUpdateMeetingByIdRequestAiConfigTranscriptionLanguage =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsUpdateMeetingByIdRequestAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
@@ -13855,13 +18079,13 @@ export type MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfigChannel =
   | "mono"
   | "stereo";
 export const MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfigChannel =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfigCodec =
   | "MP3"
   | "AAC";
 export const MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
@@ -13900,30 +18124,23 @@ export type MeetingsUpdateMeetingByIdRequestRecordingConfigRealtimekitBucketConf
 export const MeetingsUpdateMeetingByIdRequestRecordingConfigRealtimekitBucketConfig =
   MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
 
-export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigType =
-  | "aws"
-  | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
-export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigType =
-  /*@__PURE__*/ S.String;
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0AuthMethod =
+  S.String;
 
-export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigAuthMethod =
-  "KEY" | "PASSWORD";
-export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0Type =
+  "gcs";
+export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0Type =
+  S.String;
 
-export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfig {
-  /** Type of storage media. */
-  type:
-    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigType
-    | (string & {});
+export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
-    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigAuthMethod
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0AuthMethod
     | (string & {});
   /** Name of the storage medium's bucket. */
   bucket?: string;
@@ -13941,16 +18158,18 @@ export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfig {
   region?: string;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string;
+  type?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0Type
+    | (string & {});
   /** SSH destination server username for SFTP type storage medium */
   username?: string;
 }
-export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfig =
+export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigType,
       accessKey: S.optional(S.String.pipe(T.Body("access_key"))),
       authMethod: S.optional(
-        MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigAuthMethod.pipe(
+        MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0AuthMethod.pipe(
           T.Body("auth_method"),
         ),
       ),
@@ -13962,22 +18181,304 @@ export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfig =
       privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
       region: S.optional(S.String),
       secret: S.optional(S.String),
+      type: S.optional(
+        MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0Type,
+      ),
       username: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfig",
-  }) as any as S.Schema<MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfig>;
+    identifier:
+      "MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0",
+  }) as any as S.Schema<MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0>;
+
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod =
+  S.String;
+
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1Type =
+  S.String;
+
+export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod
+    | (string & {});
+  /** Name of the storage medium's bucket. */
+  bucket?: string;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string;
+  type?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1Type
+    | (string & {});
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string;
+}
+export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod.pipe(
+          T.Body("auth_method"),
+        ),
+      ),
+      bucket: S.optional(S.String),
+      host: S.optional(S.String),
+      password: S.optional(S.String),
+      path: S.optional(S.String),
+      port: S.optional(S.Number),
+      privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
+      secret: S.optional(S.String),
+      type: S.optional(
+        MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1Type,
+      ),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1",
+  }) as any as S.Schema<MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1>;
+
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod =
+  "KEY";
+export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod =
+  S.String;
+
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2Type =
+  S.String;
+
+export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string;
+  authMethod?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod
+    | (string & {});
+  /** Name of the storage medium's bucket. */
+  bucket?: string;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number;
+  /** Region of the storage medium. */
+  region?: string;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string;
+  /** Type of storage media. */
+  type?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2Type
+    | (string & {});
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string;
+}
+export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.String.pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod.pipe(
+          T.Body("auth_method"),
+        ),
+      ),
+      bucket: S.optional(S.String),
+      host: S.optional(S.String),
+      password: S.optional(S.String),
+      path: S.optional(S.String),
+      port: S.optional(S.Number),
+      region: S.optional(S.String),
+      secret: S.optional(S.String),
+      type: S.optional(
+        MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2Type,
+      ),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2",
+  }) as any as S.Schema<MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2>;
+
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod =
+  S.String;
+
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3Type =
+  S.String;
+
+export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string;
+  authMethod?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod
+    | (string & {});
+  /** Name of the storage medium's bucket. */
+  bucket?: string;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string;
+  /** Region of the storage medium. */
+  region?: string;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string;
+  /** Type of storage media. */
+  type?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3Type
+    | (string & {});
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string;
+}
+export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.String.pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod.pipe(
+          T.Body("auth_method"),
+        ),
+      ),
+      bucket: S.optional(S.String),
+      host: S.optional(S.String),
+      path: S.optional(S.String),
+      port: S.optional(S.Number),
+      privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
+      region: S.optional(S.String),
+      secret: S.optional(S.String),
+      type: S.optional(
+        MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3Type,
+      ),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3",
+  }) as any as S.Schema<MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3>;
+
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfig =
+  | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0
+  | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1
+  | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2
+  | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3;
+export const MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
 
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfigCodec =
   | "H264"
-  | "VP8";
+  | "VP8"
+  | "VP9";
 export const MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfigWatermarkPosition =
-  "left top" | "right top" | "left bottom" | "right bottom";
+  | "left top"
+  | "right top"
+  | "left bottom"
+  | "right bottom";
 export const MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfigWatermarkPosition =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfigWatermarkSize =
   MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize;
@@ -14089,7 +18590,7 @@ export const MeetingsUpdateMeetingByIdRequestRecordingConfig =
   }) as any as S.Schema<MeetingsUpdateMeetingByIdRequestRecordingConfig>;
 
 export type MeetingsUpdateMeetingByIdRequestStatus = "ACTIVE" | "INACTIVE";
-export const MeetingsUpdateMeetingByIdRequestStatus = /*@__PURE__*/ S.String;
+export const MeetingsUpdateMeetingByIdRequestStatus = S.String;
 
 export interface UpdateMeetingByIdMeetingRequest {
   /** The account identifier tag. */
@@ -14157,22 +18658,23 @@ export const UpdateMeetingByIdMeetingRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateMeetingByIdMeetingRequest>;
 
 export type MeetingsUpdateMeetingByIdResponseDataAiConfigSummarizationSummaryType =
-    | "general"
-    | "team_meeting"
-    | "sales_call"
-    | "client_check_in"
-    | "interview"
-    | "daily_standup"
-    | "one_on_one_meeting"
-    | "lecture"
-    | "code_review";
+  | "general"
+  | "team_meeting"
+  | "sales_call"
+  | "client_check_in"
+  | "interview"
+  | "daily_standup"
+  | "one_on_one_meeting"
+  | "lecture"
+  | "code_review";
 export const MeetingsUpdateMeetingByIdResponseDataAiConfigSummarizationSummaryType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsUpdateMeetingByIdResponseDataAiConfigSummarizationTextFormat =
-  "plain_text" | "markdown";
+  | "plain_text"
+  | "markdown";
 export const MeetingsUpdateMeetingByIdResponseDataAiConfigSummarizationTextFormat =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsUpdateMeetingByIdResponseDataAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
@@ -14209,9 +18711,18 @@ export const MeetingsUpdateMeetingByIdResponseDataAiConfigTranscriptionKeywordsL
   ) as any as S.Schema<MeetingsUpdateMeetingByIdResponseDataAiConfigTranscriptionKeywordsList>;
 
 export type MeetingsUpdateMeetingByIdResponseDataAiConfigTranscriptionLanguage =
-  "en-US" | "en-IN" | "de" | "hi" | "sv" | "ru" | "pl" | "el" | "fr" | "nl";
+  | "en-US"
+  | "en-IN"
+  | "de"
+  | "hi"
+  | "sv"
+  | "ru"
+  | "pl"
+  | "el"
+  | "fr"
+  | "nl";
 export const MeetingsUpdateMeetingByIdResponseDataAiConfigTranscriptionLanguage =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsUpdateMeetingByIdResponseDataAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
@@ -14263,14 +18774,16 @@ export const MeetingsUpdateMeetingByIdResponseDataAiConfig =
   }) as any as S.Schema<MeetingsUpdateMeetingByIdResponseDataAiConfig>;
 
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfigChannel =
-  "mono" | "stereo";
+  | "mono"
+  | "stereo";
 export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfigChannel =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfigCodec =
-  "MP3" | "AAC";
+  | "MP3"
+  | "AAC";
 export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
@@ -14310,23 +18823,22 @@ export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigRealtimekitBucke
 export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigRealtimekitBucketConfig =
   MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
 
-export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigType =
-  "aws" | "azure" | "digitalocean" | "gcs" | "sftp";
-export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigType =
-  /*@__PURE__*/ S.String;
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod =
+  S.String;
 
-export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigAuthMethod =
-  "KEY" | "PASSWORD";
-export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigAuthMethod =
-  /*@__PURE__*/ S.String;
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type =
+  "gcs";
+export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type =
+  S.String;
 
-export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfig {
-  /** Type of storage media. */
-  type: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigType;
+export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigAuthMethod | null;
+  authMethod?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod | null;
   /** Name of the storage medium's bucket. */
   bucket?: string | null;
   /** SSH destination server host for SFTP type storage medium */
@@ -14343,17 +18855,17 @@ export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConf
   region?: string | null;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | null;
+  type?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type | null;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null;
 }
-export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfig =
+export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigType,
       accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
       authMethod: S.optional(
         S.NullOr(
-          MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigAuthMethod,
+          MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod,
         ).pipe(T.Body("auth_method")),
       ),
       bucket: S.optional(S.NullOr(S.String)),
@@ -14364,22 +18876,300 @@ export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfig =
       privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
       region: S.optional(S.NullOr(S.String)),
       secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type,
+        ),
+      ),
       username: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
-      "MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfig",
-  }) as any as S.Schema<MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfig>;
+      "MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0",
+  }) as any as S.Schema<MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0>;
+
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod =
+  S.String;
+
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type =
+  | "aws"
+  | "azure"
+  | "digitalocean";
+export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type =
+  S.String;
+
+export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1 {
+  accessKey: unknown;
+  region: unknown;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  type?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessKey: S.Unknown.pipe(T.Body("access_key")),
+      region: S.Unknown,
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1",
+  }) as any as S.Schema<MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1>;
+
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod =
+  "KEY";
+export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod =
+  S.String;
+
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type =
+  S.String;
+
+export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      privateKey: S.String.pipe(T.Body("private_key")),
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      password: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2",
+  }) as any as S.Schema<MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2>;
+
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod =
+  "PASSWORD";
+export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod =
+  S.String;
+
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp";
+export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type =
+  S.String;
+
+export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3 {
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null;
+  authMethod?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod | null;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null;
+  /** Region of the storage medium. */
+  region?: string | null;
+  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null;
+  /** Type of storage media. */
+  type?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type | null;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null;
+}
+export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      password: S.String,
+      accessKey: S.optional(S.NullOr(S.String).pipe(T.Body("access_key"))),
+      authMethod: S.optional(
+        S.NullOr(
+          MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod,
+        ).pipe(T.Body("auth_method")),
+      ),
+      bucket: S.optional(S.NullOr(S.String)),
+      host: S.optional(S.NullOr(S.String)),
+      path: S.optional(S.NullOr(S.String)),
+      port: S.optional(S.NullOr(S.Number)),
+      privateKey: S.optional(S.NullOr(S.String).pipe(T.Body("private_key"))),
+      region: S.optional(S.NullOr(S.String)),
+      secret: S.optional(S.NullOr(S.String)),
+      type: S.optional(
+        S.NullOr(
+          MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type,
+        ),
+      ),
+      username: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier:
+      "MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3",
+  }) as any as S.Schema<MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3>;
+
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfig =
+  | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0
+  | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1
+  | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2
+  | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3;
+export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfig =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "accessKey",
+        "region",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "privateKey",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "privateKey",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "password",
+        "path",
+        "port",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+      [
+        "password",
+        "accessKey",
+        "authMethod",
+        "bucket",
+        "host",
+        "path",
+        "port",
+        "privateKey",
+        "region",
+        "secret",
+        "type",
+        "username",
+      ],
+    ]),
+  );
 
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigCodec =
-  "H264" | "VP8";
+  | "H264"
+  | "VP8"
+  | "VP9";
 export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigCodec =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkPosition =
-  "left top" | "right top" | "left bottom" | "right bottom";
+  | "left top"
+  | "right top"
+  | "left bottom"
+  | "right bottom";
 export const MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkPosition =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkSize =
   MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize;
@@ -14498,8 +19288,7 @@ export const MeetingsUpdateMeetingByIdResponseDataRecordingConfig =
   }) as any as S.Schema<MeetingsUpdateMeetingByIdResponseDataRecordingConfig>;
 
 export type MeetingsUpdateMeetingByIdResponseDataStatus = "ACTIVE" | "INACTIVE";
-export const MeetingsUpdateMeetingByIdResponseDataStatus =
-  /*@__PURE__*/ S.String;
+export const MeetingsUpdateMeetingByIdResponseDataStatus = S.String;
 
 export interface MeetingsUpdateMeetingByIdResponseData {
   /** ID of the meeting. */
@@ -15135,7 +19924,7 @@ export const getSessionDetailsSession: API.OperationMethod<
 }));
 
 export type GetSessionParticipantDetailsSessionError = CloudflareOpError;
-/** Returns details of the given participant ID along with call statistics for the given session ID. */
+/** Returns details of the given participant ID for the given session ID. Use the peer report endpoint to retrieve call statistics. */
 export const getSessionParticipantDetailsSession: API.OperationMethod<
   GetSessionParticipantDetailsSessionRequest,
   GetSessionParticipantDetailsSessionResponse,
@@ -15383,6 +20172,21 @@ export const replaceMeetingByIdMeeting: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ReplacePresetByIdError = CloudflareOpError;
+/** Replace all details for the preset using the provided preset ID. */
+export const replacePresetById: API.OperationMethod<
+  ReplacePresetByIdRequest,
+  ReplacePresetByIdResponse,
+  ReplacePresetByIdError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplacePresetByIdRequest,
+  output: ReplacePresetByIdResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ReplaceWebhookWebhookError =
   | RealtimeKitWebhookNotFound
   | Forbidden
@@ -15437,7 +20241,7 @@ export const startRecordingsRecording: API.OperationMethod<
 }));
 
 export type StartTrackRecordingRecordingError = CloudflareOpError;
-/** Starts track recording for a meeting. Track recording currently records separate participant audio tracks as WebM files in the RealtimeKit bucket. Video track recording is in development. For more information, refer to [Track recording](/realtime/realtimekit/recording-guide/track-recording/). */
+/** Starts track recording for a meeting. Track recording currently records separate participant audio tracks as WebM files in the RealtimeKit bucket. Video track recording is in development. For more information, refer to [Track recording](https://developers.cloudflare.com/realtime/realtimekit/recording-guide/track-recording/). */
 export const startTrackRecordingRecording: API.OperationMethod<
   StartTrackRecordingRecordingRequest,
   StartTrackRecordingRecordingResponse,

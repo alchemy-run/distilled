@@ -95,6 +95,12 @@ export class ConflictException
     { message: S.String.pipe(T.ErrorMessage()) },
     T.all(T.HttpError(409), T.Retryable()),
   ).pipe(C.withConflictError, C.withRetryableError) {}
+export class GatewayTimedOutException
+  extends /*@__PURE__*/ S.TaggedError<GatewayTimedOutException>()(
+    "GatewayTimedOutException",
+    { message: S.String.pipe(T.ErrorMessage()) },
+    T.all(T.HttpError(504), T.Retryable()),
+  ).pipe(C.withTimeoutError, C.withRetryableError) {}
 export class InternalServerErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
     "InternalServerErrorException",
@@ -113,6 +119,12 @@ export class ServiceQuotaExceededException
     { message: S.String.pipe(T.ErrorMessage()) },
     T.HttpError(402),
   ).pipe(C.withQuotaError) {}
+export class ServiceUnavailableException
+  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
+    "ServiceUnavailableException",
+    { message: S.String.pipe(T.ErrorMessage()) },
+    T.all(T.HttpError(503), T.Retryable()),
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class TooManyRequestException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestException>()(
     "TooManyRequestException",
@@ -128,16 +140,43 @@ export class ValidationException
 export type FeedId = string;
 export type AssociatedResourceName = string;
 export type ResourceName = string;
-export interface CroppingConfig {}
+export type S3Uri = string;
+export type TemplateUriList = string[];
+export const TemplateUriList = /*@__PURE__*/ S.Array(S.String);
+export interface TemplateGroup {
+  name: string;
+  templateUris: string[];
+}
+export const TemplateGroup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ name: S.String, templateUris: TemplateUriList }),
+).annotate({ identifier: "TemplateGroup" }) as any as S.Schema<TemplateGroup>;
+export type TemplateGroupList = TemplateGroup[];
+export const TemplateGroupList = /*@__PURE__*/ S.Array(TemplateGroup);
+export interface CroppingConfig {
+  templateGroups?: TemplateGroup[];
+}
 export const CroppingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({ templateGroups: S.optional(TemplateGroupList) }),
 ).annotate({ identifier: "CroppingConfig" }) as any as S.Schema<CroppingConfig>;
 export type ResourceDescription = string;
+export type FixtureId = string;
+export interface DataSourceConfiguration {
+  fixtureId: string;
+}
+export const DataSourceConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ fixtureId: S.String }),
+).annotate({
+  identifier: "DataSourceConfiguration",
+}) as any as S.Schema<DataSourceConfiguration>;
 export interface ClippingConfig {
   callbackMetadata?: string;
+  dataSourceConfiguration?: DataSourceConfiguration;
 }
 export const ClippingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ callbackMetadata: S.optional(S.String) }),
+  S.Struct({
+    callbackMetadata: S.optional(S.String),
+    dataSourceConfiguration: S.optional(DataSourceConfiguration),
+  }),
 ).annotate({ identifier: "ClippingConfig" }) as any as S.Schema<ClippingConfig>;
 export type TranscriptionLanguage =
   | "eng"
@@ -150,7 +189,7 @@ export type TranscriptionLanguage =
   | "spa"
   | "por"
   | (string & {});
-export const TranscriptionLanguage = /*@__PURE__*/ S.String;
+export const TranscriptionLanguage = S.String;
 
 export interface AspectRatio {
   width: number;
@@ -165,7 +204,7 @@ export type ProfanityFilterMode =
   | "CENSOR"
   | "DROP"
   | (string & {});
-export const ProfanityFilterMode = /*@__PURE__*/ S.String;
+export const ProfanityFilterMode = S.String;
 
 export interface SubtitlingConfig {
   language: TranscriptionLanguage;
@@ -193,7 +232,7 @@ export const OutputConfig = /*@__PURE__*/ S.Union([
   S.Struct({ subtitling: SubtitlingConfig }),
 ]);
 export type OutputStatus = "ENABLED" | "DISABLED" | (string & {});
-export const OutputStatus = /*@__PURE__*/ S.String;
+export const OutputStatus = S.String;
 
 export interface CreateOutput {
   name: string;
@@ -254,7 +293,7 @@ export type DictionaryLanguage =
   | "spa"
   | "por"
   | (string & {});
-export const DictionaryLanguage = /*@__PURE__*/ S.String;
+export const DictionaryLanguage = S.String;
 
 export type DictionaryEntriesPayload = string;
 export type TagKey = string;
@@ -297,7 +336,7 @@ export type DictionaryStatus =
   | "DELETING"
   | "DELETED"
   | (string & {});
-export const DictionaryStatus = /*@__PURE__*/ S.String;
+export const DictionaryStatus = S.String;
 
 export type FeedReferences = string[];
 export const FeedReferences = /*@__PURE__*/ S.Array(S.String);
@@ -323,14 +362,17 @@ export const CreateDictionaryResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateDictionaryResponse",
 }) as any as S.Schema<CreateDictionaryResponse>;
+export type IamRoleArn = string;
 export interface CreateFeedRequest {
   name: string;
+  accessRoleArn?: string;
   outputs: CreateOutput[];
   tags?: { [key: string]: string | undefined };
 }
 export const CreateFeedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
+    accessRoleArn: S.optional(S.String),
     outputs: CreateOutputList,
     tags: S.optional(TagMap),
   }).pipe(
@@ -375,7 +417,7 @@ export type FeedStatus =
   | "DELETED"
   | "ARCHIVED"
   | (string & {});
-export const FeedStatus = /*@__PURE__*/ S.String;
+export const FeedStatus = S.String;
 
 export interface FeedAssociation {
   associatedResourceName: string;
@@ -391,6 +433,7 @@ export interface CreateFeedResponse {
   id: string;
   dataEndpoints: string[];
   outputs: GetOutput[];
+  accessRoleArn?: string;
   status: FeedStatus;
   association?: FeedAssociation;
   tags?: { [key: string]: string | undefined };
@@ -402,6 +445,7 @@ export const CreateFeedResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     dataEndpoints: StringList,
     outputs: GetOutputList,
+    accessRoleArn: S.optional(S.String),
     status: FeedStatus,
     association: S.optional(FeedAssociation),
     tags: S.optional(TagMap),
@@ -580,6 +624,7 @@ export interface GetFeedResponse {
   id: string;
   dataEndpoints: string[];
   outputs: GetOutput[];
+  accessRoleArn?: string;
   status: FeedStatus;
   association?: FeedAssociation;
   tags?: { [key: string]: string | undefined };
@@ -591,6 +636,7 @@ export const GetFeedResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     dataEndpoints: StringList,
     outputs: GetOutputList,
+    accessRoleArn: S.optional(S.String),
     status: FeedStatus,
     association: S.optional(FeedAssociation),
     tags: S.optional(TagMap),
@@ -598,6 +644,54 @@ export const GetFeedResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetFeedResponse",
 }) as any as S.Schema<GetFeedResponse>;
+export interface GetFixtureRequest {
+  fixtureId: string;
+}
+export const GetFixtureRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ fixtureId: S.String.pipe(T.HttpLabel("fixtureId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v1/fixtures/{fixtureId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetFixtureRequest",
+}) as any as S.Schema<GetFixtureRequest>;
+export interface Competitor {
+  name?: string;
+  isHome?: boolean;
+}
+export const Competitor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ name: S.optional(S.String), isHome: S.optional(S.Boolean) }),
+).annotate({ identifier: "Competitor" }) as any as S.Schema<Competitor>;
+export type CompetitorList = Competitor[];
+export const CompetitorList = /*@__PURE__*/ S.Array(Competitor);
+export interface GetFixtureResponse {
+  fixtureId: string;
+  name: string;
+  fixtureGroup?: string;
+  scheduledStart?: Date;
+  status: string;
+  competitors: Competitor[];
+}
+export const GetFixtureResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixtureId: S.String,
+    name: S.String,
+    fixtureGroup: S.optional(S.String),
+    scheduledStart: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    status: S.String,
+    competitors: CompetitorList,
+  }),
+).annotate({
+  identifier: "GetFixtureResponse",
+}) as any as S.Schema<GetFixtureResponse>;
 export interface ListDictionariesRequest {
   maxResults?: number;
   nextToken?: string;
@@ -725,6 +819,88 @@ export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export type DataSourceSport =
+  | "basketball"
+  | "american-football"
+  | (string & {});
+export const DataSourceSport = S.String;
+
+export type FixtureDate = string;
+export type FilterName = "COMPETITOR" | (string & {});
+export const FilterName = S.String;
+
+export type FilterValue = string;
+export type FilterValueList = string[];
+export const FilterValueList = /*@__PURE__*/ S.Array(S.String);
+export interface SearchFilter {
+  name: FilterName;
+  values: string[];
+}
+export const SearchFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ name: FilterName, values: FilterValueList }),
+).annotate({ identifier: "SearchFilter" }) as any as S.Schema<SearchFilter>;
+export type SearchFilterList = SearchFilter[];
+export const SearchFilterList = /*@__PURE__*/ S.Array(SearchFilter);
+export interface SearchFixturesRequest {
+  sport: DataSourceSport;
+  startDate: string;
+  endDate?: string;
+  filters?: SearchFilter[];
+  maxResults?: number;
+  nextToken?: string;
+}
+export const SearchFixturesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sport: DataSourceSport,
+    startDate: S.String,
+    endDate: S.optional(S.String),
+    filters: S.optional(SearchFilterList),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/fixtures" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "SearchFixturesRequest",
+}) as any as S.Schema<SearchFixturesRequest>;
+export interface FixtureSummary {
+  fixtureId: string;
+  name: string;
+  fixtureGroup?: string;
+  scheduledStart?: Date;
+  status: string;
+  competitors: Competitor[];
+}
+export const FixtureSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixtureId: S.String,
+    name: S.String,
+    fixtureGroup: S.optional(S.String),
+    scheduledStart: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    status: S.String,
+    competitors: CompetitorList,
+  }),
+).annotate({ identifier: "FixtureSummary" }) as any as S.Schema<FixtureSummary>;
+export type FixtureSummaryList = FixtureSummary[];
+export const FixtureSummaryList = /*@__PURE__*/ S.Array(FixtureSummary);
+export interface SearchFixturesResponse {
+  fixtures: FixtureSummary[];
+  nextToken?: string;
+}
+export const SearchFixturesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ fixtures: FixtureSummaryList, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "SearchFixturesResponse",
+}) as any as S.Schema<SearchFixturesResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
@@ -848,12 +1024,14 @@ export type UpdateOutputList = UpdateOutput[];
 export const UpdateOutputList = /*@__PURE__*/ S.Array(UpdateOutput);
 export interface UpdateFeedRequest {
   name: string;
+  accessRoleArn?: string;
   id: string;
   outputs: UpdateOutput[];
 }
 export const UpdateFeedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
+    accessRoleArn: S.optional(S.String),
     id: S.String.pipe(T.HttpLabel("id")),
     outputs: UpdateOutputList,
   }).pipe(
@@ -875,6 +1053,7 @@ export interface UpdateFeedResponse {
   id: string;
   dataEndpoints: string[];
   outputs: GetOutput[];
+  accessRoleArn?: string;
   status: FeedStatus;
   association?: FeedAssociation;
   tags?: { [key: string]: string | undefined };
@@ -886,6 +1065,7 @@ export const UpdateFeedResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     dataEndpoints: StringList,
     outputs: GetOutputList,
+    accessRoleArn: S.optional(S.String),
     status: FeedStatus,
     association: S.optional(FeedAssociation),
     tags: S.optional(TagMap),
@@ -1189,6 +1369,40 @@ export const getFeed: API.OperationMethod<
   operationName: "GetFeed",
 }));
 
+export type GetFixtureError =
+  | AccessDeniedException
+  | GatewayTimedOutException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves information about the specified fixture (a sports event, such as a specific basketball game). You obtain a fixtureId from SearchFixtures, or from the clipping output of a feed.
+ */
+export const getFixture: API.OperationMethod<
+  GetFixtureRequest,
+  GetFixtureResponse,
+  GetFixtureError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetFixtureRequest,
+  output: GetFixtureResponse,
+  errors: [
+    AccessDeniedException,
+    GatewayTimedOutException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetFixture",
+}));
+
 export type ListDictionariesError =
   | AccessDeniedException
   | InternalServerErrorException
@@ -1290,6 +1504,45 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
 }));
+
+export type SearchFixturesError =
+  | AccessDeniedException
+  | GatewayTimedOutException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Searches for the fixtures (sports events, such as a specific basketball game) that are available for a sport in a date window. Each fixture in the response includes a fixtureId that you specify in the clipping output of a feed, so that Elemental Inference maps the event data for that fixture onto the clipping metadata. This operation is paginated: if there are more fixtures than fit in one page, the response includes a nextToken that you pass in a subsequent request.
+ */
+export const searchFixtures: API.PaginatedOperationMethod<
+  SearchFixturesRequest,
+  SearchFixturesResponse,
+  SearchFixturesError,
+  Credentials | HttpClient.HttpClient,
+  FixtureSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: SearchFixturesRequest,
+  output: SearchFixturesResponse,
+  errors: [
+    AccessDeniedException,
+    GatewayTimedOutException,
+    InternalServerErrorException,
+    ServiceUnavailableException,
+    TooManyRequestException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "SearchFixtures",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "fixtures",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
 
 export type TagResourceError =
   | AccessDeniedException

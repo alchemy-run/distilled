@@ -2,7 +2,7 @@
 /**
  * convert — turn the WorkOS OpenAPI spec into a Smithy 2.0 JSON model.
  *
- * Input:  specs/openapi-spec/spec/open-api-spec.yaml  (spec submodule; the
+ * Input:  specs/spec-mirror-workos/specs/open-api-spec.yaml  (spec submodule; the
  *         WorkOS spec is YAML — parsed with Bun's native YAML support, so no
  *         temp-JSON dance like distilled v0's driver)
  *         patches/*.patch.json  (RFC-6902 patches to the OpenAPI document —
@@ -22,7 +22,7 @@ await runOpenApiConvert({
   specs: [
     {
       name: "workos",
-      specPath: "specs/openapi-spec/spec/open-api-spec.yaml",
+      specPath: "specs/spec-mirror-workos/specs/open-api-spec.yaml",
     },
   ],
   // OpenAPI-document patches (v0 layout: flat patches/*.patch.json). The

@@ -1,0 +1,568 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.payout_methods#ListPayoutMethodRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payout_methods#PayoutMethodListItem": {
+      "type": "structure",
+      "members": {
+        "account_reference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A masked identifier for the payout destination, such as the last four digits of a bank account or an email address. Null if no reference is available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.payout_methods#PayoutMethodListItemCompany",
+          "traits": {
+            "smithy.api#documentation": "The company associated with this payout destination. Null if not linked to a specific company.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the payout token was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The three-letter ISO currency code that payouts are delivered in for this destination.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination": {
+          "target": "com.whop.payout_methods#PayoutMethodListItemDestination",
+          "traits": {
+            "smithy.api#documentation": "The payout destination configuration linked to this token. Null if not yet configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the payout token.",
+            "smithy.api#required": {}
+          }
+        },
+        "institution_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the bank or financial institution receiving payouts. Null if not applicable or not provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this is the default payout destination for the associated payout account.",
+            "smithy.api#required": {}
+          }
+        },
+        "nickname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-defined label to help identify this payout destination. Not sent to the provider. Null if no nickname has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A configured payout destination where a user receives earned funds, such as a bank account or digital wallet."
+      }
+    },
+    "com.whop.payout_methods#PayoutMethodListItemCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company associated with this payout destination. Null if not linked to a specific company."
+      }
+    },
+    "com.whop.payout_methods#PayoutDestinationCategory": {
+      "type": "enum",
+      "members": {
+        "CRYPTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto"
+          }
+        },
+        "RTP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtp"
+          }
+        },
+        "NEXT_DAY_BANK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "next_day_bank"
+          }
+        },
+        "BANK_WIRE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_wire"
+          }
+        },
+        "DIGITAL_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "digital_wallet"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The category of a payout destination."
+      }
+    },
+    "com.whop.payout_methods#PayoutMethodListItemDestination": {
+      "type": "structure",
+      "members": {
+        "category": {
+          "target": "com.whop.payout_methods#PayoutDestinationCategory",
+          "traits": {
+            "smithy.api#documentation": "The category of the payout destination",
+            "smithy.api#required": {}
+          }
+        },
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country code of the payout destination",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the payer associated with the payout destination",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payout destination configuration linked to this token. Null if not yet configured."
+      }
+    },
+    "com.whop.payout_methods#ListPayoutMethodResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payout_methods#PayoutMethodListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.payout_methods#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.payout_methods#ListPayoutMethodResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.payout_methods#ListPayoutMethodResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.payout_methods#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payout_methods#ListPayoutMethod": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payout_methods#ListPayoutMethodRequest"
+      },
+      "output": {
+        "target": "com.whop.payout_methods#ListPayoutMethodResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payout_methods#BadRequest"
+        },
+        {
+          "target": "com.whop.payout_methods#Forbidden"
+        },
+        {
+          "target": "com.whop.payout_methods#NotFound"
+        },
+        {
+          "target": "com.whop.payout_methods#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payout_methods",
+          "code": 200
+        },
+        "smithy.api#documentation": "List payout methods\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a list of active payout methods configured for a company, ordered by most recently created.\n\nRequired permissions:\n - `payout:destination:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.payout_methods#GetPayoutMethodRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the payout method to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payout_methods#PayoutMethod": {
+      "type": "structure",
+      "members": {
+        "account_reference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A masked identifier for the payout destination, such as the last four digits of a bank account or an email address. Null if no reference is available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.payout_methods#PayoutMethodCompany",
+          "traits": {
+            "smithy.api#documentation": "The company associated with this payout destination. Null if not linked to a specific company.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the payout token was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The three-letter ISO currency code that payouts are delivered in for this destination.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination": {
+          "target": "com.whop.payout_methods#PayoutMethodDestination",
+          "traits": {
+            "smithy.api#documentation": "The payout destination configuration linked to this token. Null if not yet configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the payout token.",
+            "smithy.api#required": {}
+          }
+        },
+        "institution_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the bank or financial institution receiving payouts. Null if not applicable or not provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this is the default payout destination for the associated payout account.",
+            "smithy.api#required": {}
+          }
+        },
+        "nickname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-defined label to help identify this payout destination. Not sent to the provider. Null if no nickname has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A configured payout destination where a user receives earned funds, such as a bank account or digital wallet."
+      }
+    },
+    "com.whop.payout_methods#PayoutMethodCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company associated with this payout destination. Null if not linked to a specific company."
+      }
+    },
+    "com.whop.payout_methods#PayoutMethodDestination": {
+      "type": "structure",
+      "members": {
+        "category": {
+          "target": "com.whop.payout_methods#PayoutDestinationCategory",
+          "traits": {
+            "smithy.api#documentation": "The category of the payout destination",
+            "smithy.api#required": {}
+          }
+        },
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country code of the payout destination",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the payer associated with the payout destination",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payout destination configuration linked to this token. Null if not yet configured."
+      }
+    },
+    "com.whop.payout_methods#GetPayoutMethod": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payout_methods#GetPayoutMethodRequest"
+      },
+      "output": {
+        "target": "com.whop.payout_methods#PayoutMethod"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payout_methods#BadRequest"
+        },
+        {
+          "target": "com.whop.payout_methods#Forbidden"
+        },
+        {
+          "target": "com.whop.payout_methods#NotFound"
+        },
+        {
+          "target": "com.whop.payout_methods#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payout_methods/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve payout method\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing payout method.\n\nRequired permissions:\n - `payout:destination:read`"
+      }
+    },
+    "com.whop.payout_methods#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.payout_methods#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.payout_methods#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.payout_methods#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.payout_methods#PayoutMethods": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.payout_methods#ListPayoutMethod"
+        },
+        {
+          "target": "com.whop.payout_methods#GetPayoutMethod"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

@@ -1,0 +1,739 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.members#ListMembersRequestAccessLevel": {
+      "type": "enum",
+      "members": {
+        "NO_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_access"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "CUSTOMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.members#ListMembersRequestStatus": {
+      "type": "enum",
+      "members": {
+        "JOINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "joined"
+          }
+        },
+        "LEFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "left"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.members#ListMembersRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "JOINED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "joined_at"
+          }
+        },
+        "LAST_ACCESSED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_accessed_at"
+          }
+        },
+        "USD_TOTAL_SPENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usd_total_spent"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.members#ListMembersRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.members#ListMembersRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The account to list members for (`biz_` tag). Defaults to the account the credential acts as."
+          }
+        },
+        "access_level": {
+          "target": "com.whop.members#ListMembersRequestAccessLevel",
+          "traits": {
+            "smithy.api#httpQuery": "access_level",
+            "smithy.api#documentation": "Filter by what the member can reach on the account."
+          }
+        },
+        "status": {
+          "target": "com.whop.members#ListMembersRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by whether the member is still part of the account."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "Search members by name or username. An exact email address also matches when the credential holds the member:email:read scope."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only members who joined after this ISO 8601 timestamp."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only members who joined before this ISO 8601 timestamp."
+          }
+        },
+        "order": {
+          "target": "com.whop.members#ListMembersRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort field."
+          }
+        },
+        "direction": {
+          "target": "com.whop.members#ListMembersRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of members to return from the start of the window."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to paginate forwards from."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of members to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to paginate backwards from."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.members#Member": {
+      "type": "structure",
+      "members": {
+        "access_level": {
+          "target": "com.whop.members#MemberAccessLevel",
+          "traits": {
+            "smithy.api#documentation": "What the member can reach on the account: `customer` for paying members, `admin` for team members, `no_access` once every grant has lapsed.",
+            "smithy.api#required": {}
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account this member belongs to, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the member record was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Member ID, prefixed `mber_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "joined_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the member first joined the account, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_accessed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the member last opened the account's content, as an ISO 8601 timestamp. `null` if they never have.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.members#MemberStatus",
+          "traits": {
+            "smithy.api#documentation": "`joined` while the member is part of the account, `left` after they leave.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.members#UserSummary",
+          "traits": {
+            "smithy.api#documentation": "The user behind this member. `null` when the buyer is another business rather than a person.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.members#MemberAccessLevel": {
+      "type": "enum",
+      "members": {
+        "NO_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_access"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "CUSTOMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the member can reach on the account: `customer` for paying members, `admin` for team members, `no_access` once every grant has lapsed."
+      }
+    },
+    "com.whop.members#MemberStatus": {
+      "type": "enum",
+      "members": {
+        "JOINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "joined"
+          }
+        },
+        "LEFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "left"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`joined` while the member is part of the account, `left` after they leave."
+      }
+    },
+    "com.whop.members#UserSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture": {
+          "target": "com.whop.members#UserProfilePicture",
+          "traits": {
+            "smithy.api#documentation": "Avatar wrapper; its `url` is always present, using a generated placeholder when the user set no picture.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.members#UserProfilePicture": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Avatar image URL. Always present — a generated placeholder when the user set no picture.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.members#ListMembersResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.members#Member"
+      },
+      "traits": {}
+    },
+    "com.whop.members#ListMembersResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.members#ListMembersResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.members#ListMembersResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.members#ListMembersResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.members#ListMembers": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.members#ListMembersRequest"
+      },
+      "output": {
+        "target": "com.whop.members#ListMembersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.members#BadRequest"
+        },
+        {
+          "target": "com.whop.members#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/members",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Members\n\nLists the members of an account. A member is one buyer's relationship with the account, regardless of how many memberships they hold.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.members#GetMemberRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Member ID (`mber_` tag)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.members#GetMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.members#GetMemberRequest"
+      },
+      "output": {
+        "target": "com.whop.members#Member"
+      },
+      "errors": [
+        {
+          "target": "com.whop.members#Forbidden"
+        },
+        {
+          "target": "com.whop.members#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/members/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Member\n\nRetrieves a member by ID. Accessible to the account and to the member's own user."
+      }
+    },
+    "com.whop.members#ListMemberLogsRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Member ID (`mber_` tag)."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of log entries to return from the start of the window."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to paginate forwards from."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of log entries to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to paginate backwards from."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.members#ListMemberLogsResponseDataItemActor": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.members#ListMemberLogsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "actor": {
+          "target": "com.whop.members#ListMemberLogsResponseDataItemActor",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.members#ListMemberLogsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.members#ListMemberLogsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.members#ListMemberLogsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.members#ListMemberLogsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.members#ListMemberLogsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.members#ListMemberLogsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.members#ListMemberLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.members#ListMemberLogsRequest"
+      },
+      "output": {
+        "target": "com.whop.members#ListMemberLogsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.members#Forbidden"
+        },
+        {
+          "target": "com.whop.members#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/members/{id}/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Member Logs\n\nLists activity for a member and all of their non-drafted memberships, most recent first.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.members#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.members#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.members#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.members#Members": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.members#ListMembers"
+        },
+        {
+          "target": "com.whop.members#GetMember"
+        },
+        {
+          "target": "com.whop.members#ListMemberLogs"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

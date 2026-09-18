@@ -12,7 +12,7 @@ import * as Retry from "../retry.ts";
 
 export type { AzureOpError, AzureOpContext };
 
-export interface DiagnosticsCheckNameAvailabilityRequest {
+export interface CheckDiagnosticNameAvailabilityRequest {
   /** This is an extension resource provider and only resource level extension is supported at the moment. */
   scope: string;
   /** The name of the resource for which availability needs to be checked. */
@@ -20,7 +20,7 @@ export interface DiagnosticsCheckNameAvailabilityRequest {
   /** The resource type. */
   type?: string;
 }
-export const DiagnosticsCheckNameAvailabilityRequest = /*@__PURE__*/ S.suspend(
+export const CheckDiagnosticNameAvailabilityRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       scope: S.String.pipe(T.Label()),
@@ -35,8 +35,8 @@ export const DiagnosticsCheckNameAvailabilityRequest = /*@__PURE__*/ S.suspend(
       }),
     ),
 ).annotate({
-  identifier: "DiagnosticsCheckNameAvailabilityRequest",
-}) as any as S.Schema<DiagnosticsCheckNameAvailabilityRequest>;
+  identifier: "CheckDiagnosticNameAvailabilityRequest",
+}) as any as S.Schema<CheckDiagnosticNameAvailabilityRequest>;
 
 /** Response for whether the requested resource name is available or not. */
 export interface CheckNameAvailabilityResponse {
@@ -121,7 +121,7 @@ export const DiagnosticResourcePropertiesInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DiagnosticResourcePropertiesInput",
 }) as any as S.Schema<DiagnosticResourcePropertiesInput>;
 
-export interface DiagnosticsCreateRequest {
+export interface CreateDiagnosticRequest {
   /** This is an extension resource provider and only resource level extension is supported at the moment. */
   scope: string;
   /** Unique resource name for insight resources */
@@ -129,7 +129,7 @@ export interface DiagnosticsCreateRequest {
   /** Diagnostic Resource properties. */
   properties?: DiagnosticResourcePropertiesInput;
 }
-export const DiagnosticsCreateRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scope: S.String.pipe(T.Label()),
     diagnosticsResourceName: S.String.pipe(T.Label()),
@@ -143,8 +143,8 @@ export const DiagnosticsCreateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "DiagnosticsCreateRequest",
-}) as any as S.Schema<DiagnosticsCreateRequest>;
+  identifier: "CreateDiagnosticRequest",
+}) as any as S.Schema<CreateDiagnosticRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType =
@@ -152,7 +152,7 @@ export type SystemDataCreatedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const SystemDataCreatedByType = /*@__PURE__*/ S.String;
+export const SystemDataCreatedByType = S.String;
 
 /** The type of identity that last modified the resource. */
 export type SystemDataLastModifiedByType =
@@ -160,7 +160,7 @@ export type SystemDataLastModifiedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const SystemDataLastModifiedByType = /*@__PURE__*/ S.String;
+export const SystemDataLastModifiedByType = S.String;
 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
@@ -211,8 +211,7 @@ export type DiagnosticResourcePropertiesProvisioningState =
   | "PartialComplete"
   | "Failed"
   | "Canceled";
-export const DiagnosticResourcePropertiesProvisioningState =
-  /*@__PURE__*/ S.String;
+export const DiagnosticResourcePropertiesProvisioningState = S.String;
 
 /** Denotes the status of the diagnostic resource. */
 export type DiagnosticStatus =
@@ -221,11 +220,11 @@ export type DiagnosticStatus =
   | "Running"
   | "Succeeded"
   | "Timeout";
-export const DiagnosticStatus = /*@__PURE__*/ S.String;
+export const DiagnosticStatus = S.String;
 
 /** Importance level of the insight. */
 export type InsightImportanceLevel = "Critical" | "Warning" | "Information";
-export const InsightImportanceLevel = /*@__PURE__*/ S.String;
+export const InsightImportanceLevel = S.String;
 
 /** Detailed insights(s) obtained via the invocation of an insight diagnostic troubleshooter. */
 export interface Insight {
@@ -333,7 +332,7 @@ export const DiagnosticResourceProperties = /*@__PURE__*/ S.suspend(() =>
   identifier: "DiagnosticResourceProperties",
 }) as any as S.Schema<DiagnosticResourceProperties>;
 
-export interface DiagnosticsCreateResponse {
+export interface CreateDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -345,7 +344,7 @@ export interface DiagnosticsCreateResponse {
   /** Diagnostic Resource properties. */
   properties?: DiagnosticResourceProperties;
 }
-export const DiagnosticsCreateResponse = /*@__PURE__*/ S.suspend(() =>
+export const CreateDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -354,16 +353,16 @@ export const DiagnosticsCreateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DiagnosticResourceProperties),
   }),
 ).annotate({
-  identifier: "DiagnosticsCreateResponse",
-}) as any as S.Schema<DiagnosticsCreateResponse>;
+  identifier: "CreateDiagnosticResponse",
+}) as any as S.Schema<CreateDiagnosticResponse>;
 
-export interface DiagnosticsGetRequest {
+export interface GetDiagnosticRequest {
   /** This is an extension resource provider and only resource level extension is supported at the moment. */
   scope: string;
   /** Unique resource name for insight resources */
   diagnosticsResourceName: string;
 }
-export const DiagnosticsGetRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scope: S.String.pipe(T.Label()),
     diagnosticsResourceName: S.String.pipe(T.Label()),
@@ -376,10 +375,10 @@ export const DiagnosticsGetRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "DiagnosticsGetRequest",
-}) as any as S.Schema<DiagnosticsGetRequest>;
+  identifier: "GetDiagnosticRequest",
+}) as any as S.Schema<GetDiagnosticRequest>;
 
-export interface DiagnosticsGetResponse {
+export interface GetDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -391,7 +390,7 @@ export interface DiagnosticsGetResponse {
   /** Diagnostic Resource properties. */
   properties?: DiagnosticResourceProperties;
 }
-export const DiagnosticsGetResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -400,10 +399,10 @@ export const DiagnosticsGetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DiagnosticResourceProperties),
   }),
 ).annotate({
-  identifier: "DiagnosticsGetResponse",
-}) as any as S.Schema<DiagnosticsGetResponse>;
+  identifier: "GetDiagnosticResponse",
+}) as any as S.Schema<GetDiagnosticResponse>;
 
-export interface DiscoverySolutionListRequest {
+export interface ListDiscoverySolutionRequest {
   /** This is an extension resource provider and only resource level extension is supported at the moment. */
   scope: string;
   /** Can be used to filter solutionIds by 'ProblemClassificationId'. The filter supports only 'and' and 'eq' operators. Example: $filter=ProblemClassificationId eq '1ddda5b4-cf6c-4d4f-91ad-bc38ab0e811e' and ProblemClassificationId eq '0a9673c2-7af6-4e19-90d3-4ee2461076d9'. */
@@ -411,7 +410,7 @@ export interface DiscoverySolutionListRequest {
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string;
 }
-export const DiscoverySolutionListRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListDiscoverySolutionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scope: S.String.pipe(T.Label()),
     _filter: S.optional(S.String.pipe(T.Query("$filter"))),
@@ -425,8 +424,8 @@ export const DiscoverySolutionListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "DiscoverySolutionListRequest",
-}) as any as S.Schema<DiscoverySolutionListRequest>;
+  identifier: "ListDiscoverySolutionRequest",
+}) as any as S.Schema<ListDiscoverySolutionRequest>;
 
 export type SolutionMetadataPropertiesRequiredParameterSetsItemList =
   Array<string>;
@@ -514,8 +513,8 @@ export const DiscoveryResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DiscoveryResponse",
 }) as any as S.Schema<DiscoveryResponse>;
 
-export interface OperationsListRequest {}
-export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
+export interface ListOperationsRequest {}
+export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
     T.Http({
       method: "GET",
@@ -525,8 +524,8 @@ export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "OperationsListRequest",
-}) as any as S.Schema<OperationsListRequest>;
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -552,11 +551,11 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
-export const OperationOrigin = /*@__PURE__*/ S.String;
+export const OperationOrigin = S.String;
 
 /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 export type OperationActionType = "Internal";
-export const OperationActionType = /*@__PURE__*/ S.String;
+export const OperationActionType = S.String;
 
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
@@ -582,96 +581,96 @@ export const Operation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
 /** List of operations supported by the resource provider */
-export type OperationsListResponseValueList = Array<Operation>;
-export const OperationsListResponseValueList = /*@__PURE__*/ S.Array(
+export type ListOperationsResponseValueList = Array<Operation>;
+export const ListOperationsResponseValueList = /*@__PURE__*/ S.Array(
   Operation,
-) as any as S.Schema<OperationsListResponseValueList>;
+) as any as S.Schema<ListOperationsResponseValueList>;
 
-export interface OperationsListResponse {
+export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: OperationsListResponseValueList;
+  value?: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string;
 }
-export const OperationsListResponse = /*@__PURE__*/ S.suspend(() =>
+export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(OperationsListResponseValueList),
+    value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "OperationsListResponse",
-}) as any as S.Schema<OperationsListResponse>;
+  identifier: "ListOperationsResponse",
+}) as any as S.Schema<ListOperationsResponse>;
 
-export type DiagnosticsCheckNameAvailabilityError = AzureOpError;
+export type CheckDiagnosticNameAvailabilityError = AzureOpError;
 /** This API is used to check the uniqueness of a resource name used for a diagnostic check. */
-export const DiagnosticsCheckNameAvailability: API.OperationMethod<
-  DiagnosticsCheckNameAvailabilityRequest,
+export const CheckDiagnosticNameAvailability: API.OperationMethod<
+  CheckDiagnosticNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
-  DiagnosticsCheckNameAvailabilityError,
+  CheckDiagnosticNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: DiagnosticsCheckNameAvailabilityRequest,
+  input: CheckDiagnosticNameAvailabilityRequest,
   output: CheckNameAvailabilityResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type DiagnosticsCreateError = AzureOpError;
+export type CreateDiagnosticError = AzureOpError;
 /** Diagnostics tells you precisely the root cause of the issue and how to address it. You can get diagnostics once you discover and identify the relevant solution for your Azure issue.<br/><br/> You can create diagnostics using the ‘solutionId’ from Solution Discovery API response and ‘additionalParameters’ <br/><br/> <b>Note: </b>‘requiredParameterSets’ from Solutions Discovery API response must be passed via ‘additionalParameters’ as an input to Diagnostics API */
-export const DiagnosticsCreate: API.OperationMethod<
-  DiagnosticsCreateRequest,
-  DiagnosticsCreateResponse,
-  DiagnosticsCreateError,
+export const CreateDiagnostic: API.OperationMethod<
+  CreateDiagnosticRequest,
+  CreateDiagnosticResponse,
+  CreateDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: DiagnosticsCreateRequest,
-  output: DiagnosticsCreateResponse,
+  input: CreateDiagnosticRequest,
+  output: CreateDiagnosticResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type DiagnosticsGetError = AzureOpError;
+export type GetDiagnosticError = AzureOpError;
 /** Get the diagnostics using the 'diagnosticsResourceName' you chose while creating the diagnostic. */
-export const DiagnosticsGet: API.OperationMethod<
-  DiagnosticsGetRequest,
-  DiagnosticsGetResponse,
-  DiagnosticsGetError,
+export const GetDiagnostic: API.OperationMethod<
+  GetDiagnosticRequest,
+  GetDiagnosticResponse,
+  GetDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: DiagnosticsGetRequest,
-  output: DiagnosticsGetResponse,
+  input: GetDiagnosticRequest,
+  output: GetDiagnosticResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type DiscoverySolutionListError = AzureOpError;
+export type ListDiscoverySolutionError = AzureOpError;
 /** Solutions Discovery is the initial point of entry within Help API, which helps you identify the relevant solutions for your Azure issue.<br/><br/> You can discover solutions using resourceUri OR resourceUri + problemClassificationId.<br/><br/>We will do our best in returning relevant diagnostics for your Azure issue.<br/><br/> Get the problemClassificationId(s) using this [reference](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP).<br/><br/> <b>Note: </b> ‘requiredParameterSets’ from Solutions Discovery API response must be passed via ‘additionalParameters’ as an input to Diagnostics API. */
-export const DiscoverySolutionList: API.OperationMethod<
-  DiscoverySolutionListRequest,
+export const ListDiscoverySolution: API.OperationMethod<
+  ListDiscoverySolutionRequest,
   DiscoveryResponse,
-  DiscoverySolutionListError,
+  ListDiscoverySolutionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: DiscoverySolutionListRequest,
+  input: ListDiscoverySolutionRequest,
   output: DiscoveryResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type OperationsListError = AzureOpError;
+export type ListOperationsError = AzureOpError;
 /** Returns list of operations. */
-export const OperationsList: API.OperationMethod<
-  OperationsListRequest,
-  OperationsListResponse,
-  OperationsListError,
+export const ListOperations: API.OperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse,
+  ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: OperationsListRequest,
-  output: OperationsListResponse,
+  input: ListOperationsRequest,
+  output: ListOperationsResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

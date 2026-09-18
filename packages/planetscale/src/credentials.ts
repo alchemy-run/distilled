@@ -89,9 +89,9 @@ export const fromOAuth = (input: {
   );
 
 const envConfig = EffectConfig.all({
-  tokenId: EffectConfig.string("PLANETSCALE_API_TOKEN_ID"),
-  token: EffectConfig.string("PLANETSCALE_API_TOKEN"),
-  organization: EffectConfig.string("PLANETSCALE_ORGANIZATION"),
+  tokenId: EffectConfig.String("PLANETSCALE_API_TOKEN_ID"),
+  token: EffectConfig.String("PLANETSCALE_API_TOKEN"),
+  organization: EffectConfig.String("PLANETSCALE_ORGANIZATION"),
 });
 
 export const CredentialsFromEnv = Layer.succeed(

@@ -1,0 +1,852 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.company_token_transactions#CompanyTokenTransactionTypes": {
+      "type": "enum",
+      "members": {
+        "ADD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add"
+          }
+        },
+        "SUBTRACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subtract"
+          }
+        },
+        "TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of token transaction"
+      }
+    },
+    "com.whop.company_token_transactions#ListCompanyTokenTransactionRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id",
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id"
+          }
+        },
+        "transaction_type": {
+          "target": "com.whop.company_token_transactions#CompanyTokenTransactionTypes",
+          "traits": {
+            "smithy.api#httpQuery": "transaction_type"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.company_token_transactions#CompanyTokenTransactionListItem": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The token amount for this transaction. Always a positive value regardless of transaction type.",
+            "smithy.api#required": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.company_token_transactions#CompanyTokenTransactionListItemCompany",
+          "traits": {
+            "smithy.api#documentation": "The company whose token balance this transaction affects.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the company token transaction was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-text description explaining the reason for this token transaction. Null if no description was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company token transaction.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique key used to prevent duplicate transactions when retrying API requests. Null if no idempotency key was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "linked_transaction_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the corresponding transaction on the other side of a transfer. Null if this is not a transfer transaction.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member": {
+          "target": "com.whop.company_token_transactions#CompanyTokenTransactionListItemMember",
+          "traits": {
+            "smithy.api#documentation": "The member whose token balance was affected by this transaction.",
+            "smithy.api#required": {}
+          }
+        },
+        "transaction_type": {
+          "target": "com.whop.company_token_transactions#CompanyTokenTransactionTypes",
+          "traits": {
+            "smithy.api#documentation": "The direction of this token transaction (add, subtract, or transfer).",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.company_token_transactions#CompanyTokenTransactionListItemUser",
+          "traits": {
+            "smithy.api#documentation": "The user whose token balance was affected by this transaction.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A token transaction records a credit or debit to a member's token balance within a company, including transfers between members."
+      }
+    },
+    "com.whop.company_token_transactions#CompanyTokenTransactionListItemCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The slug/route of the company on the Whop site.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The written name of the company.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company whose token balance this transaction affects."
+      }
+    },
+    "com.whop.company_token_transactions#CompanyTokenTransactionListItemMember": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company member.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The member whose token balance was affected by this transaction."
+      }
+    },
+    "com.whop.company_token_transactions#CompanyTokenTransactionListItemUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user whose token balance was affected by this transaction."
+      }
+    },
+    "com.whop.company_token_transactions#ListCompanyTokenTransactionResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.company_token_transactions#CompanyTokenTransactionListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.company_token_transactions#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.company_token_transactions#ListCompanyTokenTransactionResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.company_token_transactions#ListCompanyTokenTransactionResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.company_token_transactions#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.company_token_transactions#ListCompanyTokenTransaction": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.company_token_transactions#ListCompanyTokenTransactionRequest"
+      },
+      "output": {
+        "target": "com.whop.company_token_transactions#ListCompanyTokenTransactionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.company_token_transactions#BadRequest"
+        },
+        {
+          "target": "com.whop.company_token_transactions#Forbidden"
+        },
+        {
+          "target": "com.whop.company_token_transactions#NotFound"
+        },
+        {
+          "target": "com.whop.company_token_transactions#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/company_token_transactions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List company token transactions\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of token transactions for a user or company, depending on the authenticated actor, with optional filtering by user and transaction type.\n\nRequired permissions:\n - `company_token_transaction:read`\n - `member:basic:read`\n - `company:basic:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.company_token_transactions#CreateCompanyTokenTransactionRequestBodyCase0": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The positive number of tokens to transact. For example, 100.0 for 100 tokens.",
+            "smithy.api#required": {}
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to create the transaction in, starting with 'biz_'.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable description of why the transaction was created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination_user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user receiving the tokens. Required when the transaction type is 'transfer'.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique key to prevent duplicate transactions. Use a UUID or similar unique string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "transaction_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user whose token balance will be affected, starting with 'user_'.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of CreateCompanyTokenTransaction"
+      }
+    },
+    "com.whop.company_token_transactions#CreateCompanyTokenTransactionRequestBodyCase1": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The positive number of tokens to transact. For example, 100.0 for 100 tokens.",
+            "smithy.api#required": {}
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to create the transaction in, starting with 'biz_'.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable description of why the transaction was created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique key to prevent duplicate transactions. Use a UUID or similar unique string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "transaction_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user whose token balance will be affected, starting with 'user_'.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of CreateCompanyTokenTransaction"
+      }
+    },
+    "com.whop.company_token_transactions#CreateCompanyTokenTransactionRequestBodyCase2": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The positive number of tokens to transact. For example, 100.0 for 100 tokens.",
+            "smithy.api#required": {}
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to create the transaction in, starting with 'biz_'.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable description of why the transaction was created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique key to prevent duplicate transactions. Use a UUID or similar unique string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "transaction_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user whose token balance will be affected, starting with 'user_'.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of CreateCompanyTokenTransaction"
+      }
+    },
+    "com.whop.company_token_transactions#CreateCompanyTokenTransactionRequestBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.company_token_transactions#CreateCompanyTokenTransactionRequestBodyCase0"
+        },
+        "Case1": {
+          "target": "com.whop.company_token_transactions#CreateCompanyTokenTransactionRequestBodyCase1"
+        },
+        "Case2": {
+          "target": "com.whop.company_token_transactions#CreateCompanyTokenTransactionRequestBodyCase2"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Parameters for CreateCompanyTokenTransaction"
+      }
+    },
+    "com.whop.company_token_transactions#CreateCompanyTokenTransactionRequest": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.whop.company_token_transactions#CreateCompanyTokenTransactionRequestBody",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.company_token_transactions#CompanyTokenTransaction": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The token amount for this transaction. Always a positive value regardless of transaction type.",
+            "smithy.api#required": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.company_token_transactions#CompanyTokenTransactionCompany",
+          "traits": {
+            "smithy.api#documentation": "The company whose token balance this transaction affects.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the company token transaction was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-text description explaining the reason for this token transaction. Null if no description was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company token transaction.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique key used to prevent duplicate transactions when retrying API requests. Null if no idempotency key was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "linked_transaction_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the corresponding transaction on the other side of a transfer. Null if this is not a transfer transaction.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member": {
+          "target": "com.whop.company_token_transactions#CompanyTokenTransactionMember",
+          "traits": {
+            "smithy.api#documentation": "The member whose token balance was affected by this transaction.",
+            "smithy.api#required": {}
+          }
+        },
+        "transaction_type": {
+          "target": "com.whop.company_token_transactions#CompanyTokenTransactionTypes",
+          "traits": {
+            "smithy.api#documentation": "The direction of this token transaction (add, subtract, or transfer).",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.company_token_transactions#CompanyTokenTransactionUser",
+          "traits": {
+            "smithy.api#documentation": "The user whose token balance was affected by this transaction.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A token transaction records a credit or debit to a member's token balance within a company, including transfers between members."
+      }
+    },
+    "com.whop.company_token_transactions#CompanyTokenTransactionCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The slug/route of the company on the Whop site.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The written name of the company.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company whose token balance this transaction affects."
+      }
+    },
+    "com.whop.company_token_transactions#CompanyTokenTransactionMember": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company member.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The member whose token balance was affected by this transaction."
+      }
+    },
+    "com.whop.company_token_transactions#CompanyTokenTransactionUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user whose token balance was affected by this transaction."
+      }
+    },
+    "com.whop.company_token_transactions#CreateCompanyTokenTransaction": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.company_token_transactions#CreateCompanyTokenTransactionRequest"
+      },
+      "output": {
+        "target": "com.whop.company_token_transactions#CompanyTokenTransaction"
+      },
+      "errors": [
+        {
+          "target": "com.whop.company_token_transactions#BadRequest"
+        },
+        {
+          "target": "com.whop.company_token_transactions#Forbidden"
+        },
+        {
+          "target": "com.whop.company_token_transactions#NotFound"
+        },
+        {
+          "target": "com.whop.company_token_transactions#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/company_token_transactions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create company token transaction\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreate a token transaction to add, subtract, or transfer tokens for a member within a company.\n\nRequired permissions:\n - `company_token_transaction:create`\n - `member:basic:read`\n - `company:basic:read`"
+      }
+    },
+    "com.whop.company_token_transactions#GetCompanyTokenTransactionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the token transaction to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.company_token_transactions#GetCompanyTokenTransaction": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.company_token_transactions#GetCompanyTokenTransactionRequest"
+      },
+      "output": {
+        "target": "com.whop.company_token_transactions#CompanyTokenTransaction"
+      },
+      "errors": [
+        {
+          "target": "com.whop.company_token_transactions#BadRequest"
+        },
+        {
+          "target": "com.whop.company_token_transactions#Forbidden"
+        },
+        {
+          "target": "com.whop.company_token_transactions#NotFound"
+        },
+        {
+          "target": "com.whop.company_token_transactions#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/company_token_transactions/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve company token transaction\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing company token transaction.\n\nRequired permissions:\n - `company_token_transaction:read`\n - `member:basic:read`\n - `company:basic:read`"
+      }
+    },
+    "com.whop.company_token_transactions#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.company_token_transactions#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.company_token_transactions#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.company_token_transactions#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.company_token_transactions#CompanyTokenTransactions": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.company_token_transactions#ListCompanyTokenTransaction"
+        },
+        {
+          "target": "com.whop.company_token_transactions#CreateCompanyTokenTransaction"
+        },
+        {
+          "target": "com.whop.company_token_transactions#GetCompanyTokenTransaction"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

@@ -1,0 +1,3914 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.setup_intents#UpdateReturnUrlSetupIntentRequest": {
+      "type": "structure",
+      "members": {
+        "setup_intent_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the setup intent."
+          }
+        },
+        "return_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where the buyer continues after completing an off-site step. Must be an absolute https URL without credentials (http is allowed for localhost), at most 2,048 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.setup_intents#SetupStatus": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The setup this status describes, prefixed `sint_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_setup_error": {
+          "target": "com.whop.setup_intents#SetupLastSetupError",
+          "traits": {
+            "smithy.api#documentation": "Why the setup ended where it did, or `null` when nothing has failed. Present on `canceled` — a buyer who abandoned carries no code, one refused by the provider does.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "next_action": {
+          "target": "com.whop.setup_intents#PaymentNextAction",
+          "traits": {
+            "smithy.api#documentation": "What the buyer must do next while `status` is `requires_action`, otherwise `null`. `type` picks the shape and each variant carries only its own `data`, so switching on `type` gives you exactly that step's payload.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `setup_status`.",
+            "smithy.api#required": {}
+          }
+        },
+        "return_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where to send the buyer once the setup reaches a resting state, or `null` to leave them where they are.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.setup_intents#SetupStatusStatus",
+          "traits": {
+            "smithy.api#documentation": "How far the setup has got. **A 200 means we answered, not that the method was saved — always branch on this.** `requires_action` — the buyer has a step outstanding; see `next_action`. `processing` — the buyer has done their part and the processor is deciding. `succeeded` — the payment method is saved, and only this one means saved. `canceled` — abandoned or refused; see `last_setup_error` to tell which.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#SetupLastSetupError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A machine-readable classification of the failure, e.g. `enrollment_declined`. Absent when the buyer simply abandoned the setup.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable explanation of the failure.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentNextAction": {
+      "type": "union",
+      "members": {
+        "PaymentNextActionRedirect": {
+          "target": "com.whop.setup_intents#PaymentNextActionRedirect"
+        },
+        "PaymentNextActionDisplayInstructions": {
+          "target": "com.whop.setup_intents#PaymentNextActionDisplayInstructions"
+        },
+        "PaymentNextActionAwaitConfirmation": {
+          "target": "com.whop.setup_intents#PaymentNextActionAwaitConfirmation"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the buyer must do to finish. `type` picks the shape and each type carries only its own `data`, so switching on `type` gives you exactly that step's payload."
+      }
+    },
+    "com.whop.setup_intents#PaymentNextActionRedirect": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.setup_intents#PaymentNextActionRedirectData",
+          "traits": {
+            "smithy.api#documentation": "Where to send the buyer.",
+            "smithy.api#required": {}
+          }
+        },
+        "render": {
+          "target": "com.whop.setup_intents#PaymentNextActionRedirectRenderList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.setup_intents#PaymentNextActionRedirectType",
+          "traits": {
+            "smithy.api#documentation": "Always `redirect`: send the buyer to `data.url`. The provider hands them back to `return_url` when they are done.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentNextActionRedirectData": {
+      "type": "structure",
+      "members": {
+        "frame_max_width": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The widest the provider's page lays out usefully, in CSS pixels — cap a frame or dialog presenting it at this width. `null` when the page fills whatever width it is given.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider's page for this payment, as an absolute URL — take the buyer there.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentNextActionRedirectRenderItem": {
+      "type": "enum",
+      "members": {
+        "INLINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inline"
+          }
+        },
+        "FULL_PAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full_page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where this step can be presented: `inline` inside your own page, `full_page` as a top-level navigation. Pick whichever listed mode suits your surface."
+      }
+    },
+    "com.whop.setup_intents#PaymentNextActionRedirectRenderList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.setup_intents#PaymentNextActionRedirectRenderItem"
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentNextActionRedirectType": {
+      "type": "enum",
+      "members": {
+        "REDIRECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redirect"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `redirect`: send the buyer to `data.url`. The provider hands them back to `return_url` when they are done."
+      }
+    },
+    "com.whop.setup_intents#PaymentNextActionDisplayInstructions": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.setup_intents#PaymentInstructions",
+          "traits": {
+            "smithy.api#documentation": "The instructions. `kind` picks the shape, and the details sit under the key named for it: `voucher`, `qr`, or `bank_transfer`.",
+            "smithy.api#required": {}
+          }
+        },
+        "render": {
+          "target": "com.whop.setup_intents#PaymentNextActionDisplayInstructionsRenderList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.setup_intents#PaymentNextActionDisplayInstructionsType",
+          "traits": {
+            "smithy.api#documentation": "Always `display_instructions`: show the buyer `data` — what to pay, where, and by when. The payment completes once they pay and the rail confirms it, so keep polling `status`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentInstructions": {
+      "type": "union",
+      "members": {
+        "PaymentVoucherInstructions": {
+          "target": "com.whop.setup_intents#PaymentVoucherInstructions"
+        },
+        "PaymentQrInstructions": {
+          "target": "com.whop.setup_intents#PaymentQrInstructions"
+        },
+        "PaymentBankTransferInstructions": {
+          "target": "com.whop.setup_intents#PaymentBankTransferInstructions"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What to show the buyer so they can pay. `kind` picks the shape and the details sit under the key named for it, so switching on `kind` gives you exactly that kind's payload. Every detail field is optional — the rails behind these methods publish them unevenly — but a kind that arrives with `document_url` can always fall back to sending the buyer to that hosted copy of the instructions."
+      }
+    },
+    "com.whop.setup_intents#PaymentVoucherInstructions": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.whop.setup_intents#PaymentVoucherInstructionsKind",
+          "traits": {
+            "smithy.api#documentation": "Always `voucher`: a code the buyer pays in person, at a convenience store or bank counter.",
+            "smithy.api#required": {}
+          }
+        },
+        "voucher": {
+          "target": "com.whop.setup_intents#PaymentVoucher",
+          "traits": {
+            "smithy.api#documentation": "The voucher to show.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentVoucherInstructionsKind": {
+      "type": "enum",
+      "members": {
+        "VOUCHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "voucher"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `voucher`: a code the buyer pays in person, at a convenience store or bank counter."
+      }
+    },
+    "com.whop.setup_intents#PaymentVoucher": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "com.whop.setup_intents#Money",
+          "traits": {
+            "smithy.api#documentation": "Exactly what the buyer must pay, in the charged currency."
+          }
+        },
+        "barcode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The barcode's contents, when the voucher carries one — render it in the symbology named by `barcode_format`."
+          }
+        },
+        "barcode_format": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The symbology `barcode` is encoded in, such as `CODE_128`."
+          }
+        },
+        "company_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Who the payment is made out to."
+          }
+        },
+        "document_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hosted page with the complete, printable instructions. If you would rather not render the details yourself, send the buyer here."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the voucher stops being payable, as an ISO 8601 timestamp."
+          }
+        },
+        "provider_logo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of that network's logo."
+          }
+        },
+        "provider_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The network the buyer pays at, such as OXXO."
+          }
+        },
+        "reference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The voucher's number — what the buyer reads out or types at the counter to pay."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#Money": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount in major units, as an exact decimal string — `\"10.00\"` is ten dollars. A string so no float rounds it in transit.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO 4217 currency code, lowercase.",
+            "smithy.api#required": {}
+          }
+        },
+        "decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places the amount CARRIES — the precision the charge itself runs at.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentQrInstructions": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.whop.setup_intents#PaymentQrInstructionsKind",
+          "traits": {
+            "smithy.api#documentation": "Always `qr`: a code the buyer scans with their banking app.",
+            "smithy.api#required": {}
+          }
+        },
+        "qr": {
+          "target": "com.whop.setup_intents#PaymentQr",
+          "traits": {
+            "smithy.api#documentation": "The code to show.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentQrInstructionsKind": {
+      "type": "enum",
+      "members": {
+        "QR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qr"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `qr`: a code the buyer scans with their banking app."
+      }
+    },
+    "com.whop.setup_intents#PaymentQr": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "com.whop.setup_intents#Money",
+          "traits": {
+            "smithy.api#documentation": "Exactly what the buyer must pay, in the charged currency."
+          }
+        },
+        "document_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hosted page with the complete, printable instructions. If you would rather not render the details yourself, send the buyer here."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the code stops being payable, as an ISO 8601 timestamp."
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An account key the buyer can pay to directly (Colombia's Bre-B llave), for apps that take a key instead of a scan."
+          }
+        },
+        "qr_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The QR code's contents, ready to render as a scannable image — `qr_format` says how it is encoded."
+          }
+        },
+        "qr_format": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How `qr_code` is encoded."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentBankTransferInstructions": {
+      "type": "structure",
+      "members": {
+        "bank_transfer": {
+          "target": "com.whop.setup_intents#PaymentBankTransfer",
+          "traits": {
+            "smithy.api#documentation": "The account details to show.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.whop.setup_intents#PaymentBankTransferInstructionsKind",
+          "traits": {
+            "smithy.api#documentation": "Always `bank_transfer`: account details the buyer sends money to from their own bank.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentBankTransfer": {
+      "type": "structure",
+      "members": {
+        "account_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account to send to, in the local scheme's format — `account_number_label` says what to call it."
+          }
+        },
+        "account_number_label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What to call `account_number` when showing it, in the local scheme's own terms — `CLABE` in Mexico, for example."
+          }
+        },
+        "amount": {
+          "target": "com.whop.setup_intents#Money",
+          "traits": {
+            "smithy.api#documentation": "Exactly what the buyer must send, in the charged currency."
+          }
+        },
+        "bank_account_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The kind of account receiving the transfer, such as a checking account, in the local system's own vocabulary."
+          }
+        },
+        "bank_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The receiving bank's address."
+          }
+        },
+        "bank_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The receiving branch, where the local system routes by branch."
+          }
+        },
+        "bank_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The receiving bank's code in the local clearing system."
+          }
+        },
+        "bank_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The receiving bank's name."
+          }
+        },
+        "beneficiary_document": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account holder's tax or identity document number, where the local system needs it to send."
+          }
+        },
+        "beneficiary_document_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What kind of document `beneficiary_document` is, in the local system's own vocabulary."
+          }
+        },
+        "beneficiary_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Who the account belongs to — the name the buyer's bank may ask them to confirm."
+          }
+        },
+        "document_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hosted page with the complete, printable instructions. If you would rather not render the details yourself, send the buyer here."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When these details stop being payable, as an ISO 8601 timestamp."
+          }
+        },
+        "instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The rail's own step-by-step payment text, when it supplies one."
+          }
+        },
+        "reference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reference the buyer must attach to the transfer so it can be matched to this payment."
+          }
+        },
+        "routing_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The receiving bank's routing number for US transfers."
+          }
+        },
+        "secondary_account_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A second account number, where the rail publishes the same destination in more than one format."
+          }
+        },
+        "secondary_account_number_label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What to call `secondary_account_number` when showing it."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentBankTransferInstructionsKind": {
+      "type": "enum",
+      "members": {
+        "BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_transfer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `bank_transfer`: account details the buyer sends money to from their own bank."
+      }
+    },
+    "com.whop.setup_intents#PaymentNextActionDisplayInstructionsRenderItem": {
+      "type": "enum",
+      "members": {
+        "INLINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inline"
+          }
+        },
+        "FULL_PAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full_page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where this step can be presented: `inline` inside your own page, `full_page` as a top-level navigation. Pick whichever listed mode suits your surface."
+      }
+    },
+    "com.whop.setup_intents#PaymentNextActionDisplayInstructionsRenderList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.setup_intents#PaymentNextActionDisplayInstructionsRenderItem"
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentNextActionDisplayInstructionsType": {
+      "type": "enum",
+      "members": {
+        "DISPLAY_INSTRUCTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "display_instructions"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `display_instructions`: show the buyer `data` — what to pay, where, and by when. The payment completes once they pay and the rail confirms it, so keep polling `status`."
+      }
+    },
+    "com.whop.setup_intents#PaymentNextActionAwaitConfirmation": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.setup_intents#PaymentNextActionAwaitConfirmationData",
+          "traits": {
+            "smithy.api#documentation": "How long the wait can last.",
+            "smithy.api#required": {}
+          }
+        },
+        "render": {
+          "target": "com.whop.setup_intents#PaymentNextActionAwaitConfirmationRenderList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.setup_intents#PaymentNextActionAwaitConfirmationType",
+          "traits": {
+            "smithy.api#documentation": "Always `await_confirmation`: nothing to show — the buyer has done their part and the rail settles out of band. Poll `status` until it moves.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentNextActionAwaitConfirmationData": {
+      "type": "structure",
+      "members": {
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the confirmation window closes, as an ISO 8601 timestamp. A payment still unconfirmed by then will not succeed — watch `status` for the failed attempt.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentNextActionAwaitConfirmationRenderItem": {
+      "type": "enum",
+      "members": {
+        "INLINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inline"
+          }
+        },
+        "FULL_PAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full_page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where this step can be presented: `inline` inside your own page, `full_page` as a top-level navigation. Pick whichever listed mode suits your surface."
+      }
+    },
+    "com.whop.setup_intents#PaymentNextActionAwaitConfirmationRenderList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.setup_intents#PaymentNextActionAwaitConfirmationRenderItem"
+      },
+      "traits": {}
+    },
+    "com.whop.setup_intents#PaymentNextActionAwaitConfirmationType": {
+      "type": "enum",
+      "members": {
+        "AWAIT_CONFIRMATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "await_confirmation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `await_confirmation`: nothing to show — the buyer has done their part and the rail settles out of band. Poll `status` until it moves."
+      }
+    },
+    "com.whop.setup_intents#SetupStatusStatus": {
+      "type": "enum",
+      "members": {
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "REQUIRES_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requires_action"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How far the setup has got. **A 200 means we answered, not that the method was saved — always branch on this.** `requires_action` — the buyer has a step outstanding; see `next_action`. `processing` — the buyer has done their part and the processor is deciding. `succeeded` — the payment method is saved, and only this one means saved. `canceled` — abandoned or refused; see `last_setup_error` to tell which."
+      }
+    },
+    "com.whop.setup_intents#UpdateReturnUrlSetupIntent": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.setup_intents#UpdateReturnUrlSetupIntentRequest"
+      },
+      "output": {
+        "target": "com.whop.setup_intents#SetupStatus"
+      },
+      "errors": [
+        {
+          "target": "com.whop.setup_intents#BadRequest"
+        },
+        {
+          "target": "com.whop.setup_intents#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/setup_intents/{setup_intent_id}/return_url",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update setup return URL\n\nChanges where the buyer lands after completing an off-site step, up until they return. Accepts either a secret key or the setup's own `client_secret`, so the surface that knows the final destination can set it."
+      }
+    },
+    "com.whop.setup_intents#GetStatusSetupIntentRequest": {
+      "type": "structure",
+      "members": {
+        "setup_intent_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the setup intent."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.setup_intents#GetStatusSetupIntent": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.setup_intents#GetStatusSetupIntentRequest"
+      },
+      "output": {
+        "target": "com.whop.setup_intents#SetupStatus"
+      },
+      "errors": [
+        {
+          "target": "com.whop.setup_intents#Forbidden"
+        },
+        {
+          "target": "com.whop.setup_intents#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/setup_intents/{setup_intent_id}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve setup status\n\nRetrieves how far a setup has got and what the buyer must do next, if anything. Collection runs in the background, so poll this rather than reading the create response. Accepts either a secret key or the setup's own `client_secret`, so the surface collecting the payment method can poll it directly."
+      }
+    },
+    "com.whop.setup_intents#Direction": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The direction of the sort."
+      }
+    },
+    "com.whop.setup_intents#ListSetupIntentRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id",
+            "smithy.api#required": {}
+          }
+        },
+        "direction": {
+          "target": "com.whop.setup_intents#Direction",
+          "traits": {
+            "smithy.api#httpQuery": "direction"
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before"
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.setup_intents#SetupIntentListItem": {
+      "type": "structure",
+      "members": {
+        "checkout_configuration": {
+          "target": "com.whop.setup_intents#SetupIntentListItemCheckoutConfiguration",
+          "traits": {
+            "smithy.api#documentation": "The checkout session configuration associated with this setup intent. Null if no checkout session was used.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.setup_intents#SetupIntentListItemCompany",
+          "traits": {
+            "smithy.api#documentation": "The company that initiated this setup intent. Null if the company has been deleted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the setup intent was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable error message explaining why the setup intent failed. Null if no error occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the setup intent.",
+            "smithy.api#required": {}
+          }
+        },
+        "member": {
+          "target": "com.whop.setup_intents#SetupIntentListItemMember",
+          "traits": {
+            "smithy.api#documentation": "The company member associated with this setup intent. Null if the user is not a member.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.setup_intents#SetupIntentListItemMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs attached to this setup intent. Null if no metadata was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method": {
+          "target": "com.whop.setup_intents#SetupIntentListItemPaymentMethod",
+          "traits": {
+            "smithy.api#documentation": "The saved payment method created by this setup intent. Null if the setup has not completed successfully.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.setup_intents#SetupIntentStatuses",
+          "traits": {
+            "smithy.api#documentation": "The current status of the setup intent.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A setup intent allows a user to save a payment method for future use without making an immediate purchase."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentListItemCheckoutConfiguration": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the checkout session.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The checkout session configuration associated with this setup intent. Null if no checkout session was used."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentListItemCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company that initiated this setup intent. Null if the company has been deleted."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentListItemMemberUser": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The digital mailing address of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company member user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's full name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The whop username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user for this member, if any."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentListItemMember": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company member.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.setup_intents#SetupIntentListItemMemberUser",
+          "traits": {
+            "smithy.api#documentation": "The user for this member, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company member associated with this setup intent. Null if the user is not a member."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentListItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom key-value pairs attached to this setup intent. Null if no metadata was provided."
+      }
+    },
+    "com.whop.setup_intents#CardBrands": {
+      "type": "enum",
+      "members": {
+        "MASTERCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mastercard"
+          }
+        },
+        "VISA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visa"
+          }
+        },
+        "AMEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amex"
+          }
+        },
+        "DISCOVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "discover"
+          }
+        },
+        "UNIONPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unionpay"
+          }
+        },
+        "JCB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jcb"
+          }
+        },
+        "DINERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "diners"
+          }
+        },
+        "LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link"
+          }
+        },
+        "TROY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "troy"
+          }
+        },
+        "VISADANKORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visadankort"
+          }
+        },
+        "VISABANCONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visabancontact"
+          }
+        },
+        "CHINA_UNION_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "china_union_pay"
+          }
+        },
+        "RUPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rupay"
+          }
+        },
+        "JCBRUPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jcbrupay"
+          }
+        },
+        "ELO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elo"
+          }
+        },
+        "MAESTRO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "maestro"
+          }
+        },
+        "TARJETA_NARANJA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tarjeta_naranja"
+          }
+        },
+        "CIRRUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cirrus"
+          }
+        },
+        "NSPK_MIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nspk_mir"
+          }
+        },
+        "VERVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verve"
+          }
+        },
+        "EBT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ebt"
+          }
+        },
+        "PRIVATE_LABEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private_label"
+          }
+        },
+        "LOCAL_BRAND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local_brand"
+          }
+        },
+        "UATP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uatp"
+          }
+        },
+        "WEXCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wexcard"
+          }
+        },
+        "UZCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uzcard"
+          }
+        },
+        "MEEZA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meeza"
+          }
+        },
+        "HRG_STORE_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hrg_store_card"
+          }
+        },
+        "GIROCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "girocard"
+          }
+        },
+        "FUEL_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fuel_card"
+          }
+        },
+        "DANKORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dankort"
+          }
+        },
+        "CARNET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "carnet"
+          }
+        },
+        "ATM_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "atm_card"
+          }
+        },
+        "CHINA_UNION_PAYUZCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "china_union_payuzcard"
+          }
+        },
+        "CODENSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "codensa"
+          }
+        },
+        "CABAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cabal"
+          }
+        },
+        "HIPERCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hipercard"
+          }
+        },
+        "JCBLANKAPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jcblankapay"
+          }
+        },
+        "CMI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cmi"
+          }
+        },
+        "AURA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aura"
+          }
+        },
+        "ACCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accel"
+          }
+        },
+        "CULIANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "culiance"
+          }
+        },
+        "NYCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nyce"
+          }
+        },
+        "PULSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pulse"
+          }
+        },
+        "STAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "star"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Possible card brands that a payment token can have"
+      }
+    },
+    "com.whop.setup_intents#SetupIntentListItemPaymentMethodCard": {
+      "type": "structure",
+      "members": {
+        "brand": {
+          "target": "com.whop.setup_intents#CardBrands",
+          "traits": {
+            "smithy.api#documentation": "The card network (e.g., visa, mastercard, amex). Null if the brand could not be determined.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exp_month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The two-digit expiration month of the card (1-12). Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exp_year": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The two-digit expiration year of the card (e.g., 27 for 2027). Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last four digits of the card number. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The card data associated with the payment method, if its a debit or credit card."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentListItemPaymentMethodMailingAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 1 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 2 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the customer.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The mailing address associated with the payment method's user"
+      }
+    },
+    "com.whop.setup_intents#PaymentMethodTypes": {
+      "type": "enum",
+      "members": {
+        "ACSS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "acss_debit"
+          }
+        },
+        "ADDI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "addi"
+          }
+        },
+        "AFFIRM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affirm"
+          }
+        },
+        "AFTERPAY_CLEARPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "afterpay_clearpay"
+          }
+        },
+        "ALIPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alipay"
+          }
+        },
+        "ALMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alma"
+          }
+        },
+        "AMAZON_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amazon_pay"
+          }
+        },
+        "APPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple"
+          }
+        },
+        "APPLE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple_pay"
+          }
+        },
+        "AU_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_bank_transfer"
+          }
+        },
+        "AU_BECS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_becs_debit"
+          }
+        },
+        "BACS_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bacs_debit"
+          }
+        },
+        "BANCOLOMBIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bancolombia"
+          }
+        },
+        "BANCONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bancontact"
+          }
+        },
+        "BANK_WIRE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_wire"
+          }
+        },
+        "BILLIE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "billie"
+          }
+        },
+        "BIZUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bizum"
+          }
+        },
+        "BLIK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blik"
+          }
+        },
+        "BOLETO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boleto"
+          }
+        },
+        "BRE_B": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bre_b"
+          }
+        },
+        "CA_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_bank_transfer"
+          }
+        },
+        "CAPCHASE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "capchase_pay"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "CARD_INSTALLMENTS_THREE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_three"
+          }
+        },
+        "CARD_INSTALLMENTS_SIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_six"
+          }
+        },
+        "CARD_INSTALLMENTS_TWELVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_installments_twelve"
+          }
+        },
+        "CASHAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashapp"
+          }
+        },
+        "CLARITYPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claritypay"
+          }
+        },
+        "COINBASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "coinbase"
+          }
+        },
+        "CRYPTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "CUSTOMER_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_balance"
+          }
+        },
+        "DEMO_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "demo_pay"
+          }
+        },
+        "EFECTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "efecty"
+          }
+        },
+        "EPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eps"
+          }
+        },
+        "EU_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu_bank_transfer"
+          }
+        },
+        "FPX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fpx"
+          }
+        },
+        "GB_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gb_bank_transfer"
+          }
+        },
+        "GIROPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "giropay"
+          }
+        },
+        "GOOGLE_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google_pay"
+          }
+        },
+        "GOPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gopay"
+          }
+        },
+        "GRABPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "grabpay"
+          }
+        },
+        "ID_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_bank_transfer"
+          }
+        },
+        "IDEAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ideal"
+          }
+        },
+        "INTERAC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "interac"
+          }
+        },
+        "KAKAO_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kakao_pay"
+          }
+        },
+        "KLARNA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "klarna"
+          }
+        },
+        "KLARNA_PAY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "klarna_pay_now"
+          }
+        },
+        "KONBINI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "konbini"
+          }
+        },
+        "KR_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_card"
+          }
+        },
+        "KR_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_market"
+          }
+        },
+        "KRIYA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kriya"
+          }
+        },
+        "KUESKI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kueski"
+          }
+        },
+        "LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link"
+          }
+        },
+        "MB_WAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mb_way"
+          }
+        },
+        "M_PESA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "m_pesa"
+          }
+        },
+        "MERCADO_PAGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago"
+          }
+        },
+        "MOBILEPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobilepay"
+          }
+        },
+        "MODO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modo"
+          }
+        },
+        "MONDU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mondu"
+          }
+        },
+        "MULTIBANCO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multibanco"
+          }
+        },
+        "NAVER_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "naver_pay"
+          }
+        },
+        "NEQUI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nequi"
+          }
+        },
+        "NETBANKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "netbanking"
+          }
+        },
+        "NG_BANK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_bank"
+          }
+        },
+        "NG_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_bank_transfer"
+          }
+        },
+        "NG_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_card"
+          }
+        },
+        "NG_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_market"
+          }
+        },
+        "NG_USSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_ussd"
+          }
+        },
+        "NG_WALLET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_wallet"
+          }
+        },
+        "NZ_BANK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nz_bank_account"
+          }
+        },
+        "OXXO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oxxo"
+          }
+        },
+        "P24": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p24"
+          }
+        },
+        "PAGO_EFECTIVO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pago_efectivo"
+          }
+        },
+        "PSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pse"
+          }
+        },
+        "PAY_BY_BANK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pay_by_bank"
+          }
+        },
+        "PAYCO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payco"
+          }
+        },
+        "PAYNOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paynow"
+          }
+        },
+        "PAYPAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypal"
+          }
+        },
+        "PAYPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypay"
+          }
+        },
+        "PAYTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payto"
+          }
+        },
+        "PIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pix"
+          }
+        },
+        "PLATFORM_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_balance"
+          }
+        },
+        "PROMPTPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promptpay"
+          }
+        },
+        "QRIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qris"
+          }
+        },
+        "RAPIPAGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rapipago"
+          }
+        },
+        "RECHNUNG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rechnung"
+          }
+        },
+        "REVOLUT_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revolut_pay"
+          }
+        },
+        "SAMSUNG_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "samsung_pay"
+          }
+        },
+        "SATISPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "satispay"
+          }
+        },
+        "SCALAPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scalapay"
+          }
+        },
+        "SENCILLITO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sencillito"
+          }
+        },
+        "SEPA_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sepa_debit"
+          }
+        },
+        "SEQURA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sequra"
+          }
+        },
+        "SERVIPAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "servipag"
+          }
+        },
+        "SEZZLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sezzle"
+          }
+        },
+        "SHOP_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shop_pay"
+          }
+        },
+        "SHOPEEPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shopeepay"
+          }
+        },
+        "SOFORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sofort"
+          }
+        },
+        "SOUTH_KOREA_MARKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "south_korea_market"
+          }
+        },
+        "SPEI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spei"
+          }
+        },
+        "SPLITIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "splitit"
+          }
+        },
+        "SUNBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sunbit"
+          }
+        },
+        "SWISH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swish"
+          }
+        },
+        "TAMARA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tamara"
+          }
+        },
+        "TWINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twint"
+          }
+        },
+        "UPI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upi"
+          }
+        },
+        "US_BANK_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_bank_account"
+          }
+        },
+        "US_BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_bank_transfer"
+          }
+        },
+        "VENMO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "venmo"
+          }
+        },
+        "VIPPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vipps"
+          }
+        },
+        "WEBPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webpay"
+          }
+        },
+        "WECHAT_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wechat_pay"
+          }
+        },
+        "YAPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yape"
+          }
+        },
+        "ZIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zip"
+          }
+        },
+        "COINFLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "coinflow"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The different types of payment methods that can be used."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentListItemPaymentMethod": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.setup_intents#SetupIntentListItemPaymentMethodCard",
+          "traits": {
+            "smithy.api#documentation": "The card data associated with the payment method, if its a debit or credit card.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the payment token was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the payment token.",
+            "smithy.api#required": {}
+          }
+        },
+        "mailing_address": {
+          "target": "com.whop.setup_intents#SetupIntentListItemPaymentMethodMailingAddress",
+          "traits": {
+            "smithy.api#documentation": "The mailing address associated with the payment method's user",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.setup_intents#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The payment method type of the payment method",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The saved payment method created by this setup intent. Null if the setup has not completed successfully."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentStatuses": {
+      "type": "enum",
+      "members": {
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "REQUIRES_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requires_action"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The status of the setup intent."
+      }
+    },
+    "com.whop.setup_intents#ListSetupIntentResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.setup_intents#SetupIntentListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.setup_intents#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.setup_intents#ListSetupIntentResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.setup_intents#ListSetupIntentResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.setup_intents#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.setup_intents#ListSetupIntent": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.setup_intents#ListSetupIntentRequest"
+      },
+      "output": {
+        "target": "com.whop.setup_intents#ListSetupIntentResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.setup_intents#BadRequest"
+        },
+        {
+          "target": "com.whop.setup_intents#Forbidden"
+        },
+        {
+          "target": "com.whop.setup_intents#NotFound"
+        },
+        {
+          "target": "com.whop.setup_intents#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/setup_intents",
+          "code": 200
+        },
+        "smithy.api#documentation": "List setup intents\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of setup intents for a company, with optional filtering by creation date. A setup intent securely collects and stores a member's payment method for future use without charging them immediately.\n\nRequired permissions:\n - `payment:setup_intent:read`\n - `member:basic:read`\n - `member:email:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.setup_intents#Currencies": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usd"
+          }
+        },
+        "SGD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sgd"
+          }
+        },
+        "INR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inr"
+          }
+        },
+        "AUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aud"
+          }
+        },
+        "BRL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brl"
+          }
+        },
+        "CAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cad"
+          }
+        },
+        "DKK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dkk"
+          }
+        },
+        "EUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eur"
+          }
+        },
+        "NOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nok"
+          }
+        },
+        "GBP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gbp"
+          }
+        },
+        "SEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sek"
+          }
+        },
+        "CHF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chf"
+          }
+        },
+        "HKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hkd"
+          }
+        },
+        "HUF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "huf"
+          }
+        },
+        "JPY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jpy"
+          }
+        },
+        "MXN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mxn"
+          }
+        },
+        "MYR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "myr"
+          }
+        },
+        "PLN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pln"
+          }
+        },
+        "CZK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "czk"
+          }
+        },
+        "NZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nzd"
+          }
+        },
+        "AED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aed"
+          }
+        },
+        "ETH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eth"
+          }
+        },
+        "APE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ape"
+          }
+        },
+        "COP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cop"
+          }
+        },
+        "RON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ron"
+          }
+        },
+        "THB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thb"
+          }
+        },
+        "BGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bgn"
+          }
+        },
+        "IDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "idr"
+          }
+        },
+        "DOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dop"
+          }
+        },
+        "PHP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "php"
+          }
+        },
+        "TRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "try"
+          }
+        },
+        "KRW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "krw"
+          }
+        },
+        "TWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twd"
+          }
+        },
+        "VND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vnd"
+          }
+        },
+        "PKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pkr"
+          }
+        },
+        "CLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clp"
+          }
+        },
+        "UYU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uyu"
+          }
+        },
+        "ARS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ars"
+          }
+        },
+        "ZAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zar"
+          }
+        },
+        "DZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dzd"
+          }
+        },
+        "TND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tnd"
+          }
+        },
+        "MAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mad"
+          }
+        },
+        "KES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kes"
+          }
+        },
+        "KWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kwd"
+          }
+        },
+        "JOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jod"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "XCD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xcd"
+          }
+        },
+        "AMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amd"
+          }
+        },
+        "BSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd"
+          }
+        },
+        "BHD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bhd"
+          }
+        },
+        "BOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bob"
+          }
+        },
+        "BAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bam"
+          }
+        },
+        "KHR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "khr"
+          }
+        },
+        "CRC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crc"
+          }
+        },
+        "XOF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xof"
+          }
+        },
+        "EGP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egp"
+          }
+        },
+        "ETB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "etb"
+          }
+        },
+        "GMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gmd"
+          }
+        },
+        "GHS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ghs"
+          }
+        },
+        "GTQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gtq"
+          }
+        },
+        "GYD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gyd"
+          }
+        },
+        "ILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ils"
+          }
+        },
+        "JMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jmd"
+          }
+        },
+        "MOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mop"
+          }
+        },
+        "MGA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mga"
+          }
+        },
+        "MUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mur"
+          }
+        },
+        "MDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mdl"
+          }
+        },
+        "MNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mnt"
+          }
+        },
+        "NAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nad"
+          }
+        },
+        "NGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ngn"
+          }
+        },
+        "MKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mkd"
+          }
+        },
+        "OMR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "omr"
+          }
+        },
+        "PYG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pyg"
+          }
+        },
+        "PEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pen"
+          }
+        },
+        "QAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qar"
+          }
+        },
+        "RWF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rwf"
+          }
+        },
+        "SAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sar"
+          }
+        },
+        "RSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsd"
+          }
+        },
+        "LKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lkr"
+          }
+        },
+        "TZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tzs"
+          }
+        },
+        "TTD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ttd"
+          }
+        },
+        "UZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uzs"
+          }
+        },
+        "RUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rub"
+          }
+        },
+        "BTC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "btc"
+          }
+        },
+        "CNY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cny"
+          }
+        },
+        "USDT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usdt"
+          }
+        },
+        "KZT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kzt"
+          }
+        },
+        "AWG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awg"
+          }
+        },
+        "WHOP_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whop_usd"
+          }
+        },
+        "XAU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xau"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The available currencies on the platform"
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentRequestBodyCase0MetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom metadata to attach to the setup intent."
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentRequestBodyCase0": {
+      "type": "structure",
+      "members": {
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the company to save the payment method for.",
+            "smithy.api#required": {}
+          }
+        },
+        "confirmation_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A confirmation token ID (ctok_) describing a payment method the buyer just supplied. Provide this or payment_method_id, not both.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.whop.setup_intents#Currencies",
+          "traits": {
+            "smithy.api#documentation": "The currency the saved payment method will be used with. Controls which currency-specific payment methods are available. Defaults to usd.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Overrides the buyer email carried on the confirmation token, resolving or creating the Whop user the method belongs to. Ignored when the caller IS the buyer or the confirmation token was created by a signed-in buyer, and unless confirmation_token is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.setup_intents#CreateSetupIntentRequestBodyCase0MetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom metadata to attach to the setup intent.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "return_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where the buyer continues after completing an off-site step. Must be an absolute https URL without credentials (http is allowed for localhost), at most 2,048 characters.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of CreateSetupIntent"
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentRequestBodyCase1MetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom metadata to attach to the setup intent."
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentRequestBodyCase1": {
+      "type": "structure",
+      "members": {
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the company to save the payment method for.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.whop.setup_intents#Currencies",
+          "traits": {
+            "smithy.api#documentation": "The currency the saved payment method will be used with. Controls which currency-specific payment methods are available. Defaults to usd.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Overrides the buyer email carried on the confirmation token, resolving or creating the Whop user the method belongs to. Ignored when the caller IS the buyer or the confirmation token was created by a signed-in buyer, and unless confirmation_token is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.setup_intents#CreateSetupIntentRequestBodyCase1MetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom metadata to attach to the setup intent.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An existing payment method (payt_) to re-verify and save. Provide this or confirmation_token, not both.",
+            "smithy.api#required": {}
+          }
+        },
+        "return_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where the buyer continues after completing an off-site step. Must be an absolute https URL without credentials (http is allowed for localhost), at most 2,048 characters.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of CreateSetupIntent"
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentRequestBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.setup_intents#CreateSetupIntentRequestBodyCase0"
+        },
+        "Case1": {
+          "target": "com.whop.setup_intents#CreateSetupIntentRequestBodyCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Parameters for CreateSetupIntent"
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentRequest": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.whop.setup_intents#CreateSetupIntentRequestBody",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentResponseCheckoutConfiguration": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the checkout session.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The checkout session configuration associated with this setup intent. Null if no checkout session was used."
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentResponseCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company that initiated this setup intent. Null if the company has been deleted."
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentResponseMemberUser": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The digital mailing address of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company member user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's full name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The whop username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user for this member, if any."
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentResponseMember": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company member.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.setup_intents#CreateSetupIntentResponseMemberUser",
+          "traits": {
+            "smithy.api#documentation": "The user for this member, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company member associated with this setup intent. Null if the user is not a member."
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom key-value pairs attached to this setup intent. Null if no metadata was provided."
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentResponsePaymentMethodCard": {
+      "type": "structure",
+      "members": {
+        "brand": {
+          "target": "com.whop.setup_intents#CardBrands",
+          "traits": {
+            "smithy.api#documentation": "The card network (e.g., visa, mastercard, amex). Null if the brand could not be determined.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exp_month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The two-digit expiration month of the card (1-12). Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exp_year": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The two-digit expiration year of the card (e.g., 27 for 2027). Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last four digits of the card number. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The card data associated with the payment method, if its a debit or credit card."
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentResponsePaymentMethodMailingAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 1 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 2 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the customer.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The mailing address associated with the payment method's user"
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentResponsePaymentMethod": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.setup_intents#CreateSetupIntentResponsePaymentMethodCard",
+          "traits": {
+            "smithy.api#documentation": "The card data associated with the payment method, if its a debit or credit card.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the payment token was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the payment token.",
+            "smithy.api#required": {}
+          }
+        },
+        "mailing_address": {
+          "target": "com.whop.setup_intents#CreateSetupIntentResponsePaymentMethodMailingAddress",
+          "traits": {
+            "smithy.api#documentation": "The mailing address associated with the payment method's user",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.setup_intents#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The payment method type of the payment method",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The saved payment method created by this setup intent. Null if the setup has not completed successfully."
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntentResponse": {
+      "type": "structure",
+      "members": {
+        "checkout_configuration": {
+          "target": "com.whop.setup_intents#CreateSetupIntentResponseCheckoutConfiguration",
+          "traits": {
+            "smithy.api#documentation": "The checkout session configuration associated with this setup intent. Null if no checkout session was used.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The credential the buyer's surface presents to poll this setup intent and set its return URL. Returned when the setup is created and still has something to finish — hold on to it, because a later read will not repeat it. Null when the setup settled on the spot and there is nothing left to authorize. It unlocks this setup intent and nothing else; treat it like a password for that one attempt.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.setup_intents#CreateSetupIntentResponseCompany",
+          "traits": {
+            "smithy.api#documentation": "The company that initiated this setup intent. Null if the company has been deleted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the setup intent was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable error message explaining why the setup intent failed. Null if no error occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the setup intent.",
+            "smithy.api#required": {}
+          }
+        },
+        "member": {
+          "target": "com.whop.setup_intents#CreateSetupIntentResponseMember",
+          "traits": {
+            "smithy.api#documentation": "The company member associated with this setup intent. Null if the user is not a member.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.setup_intents#CreateSetupIntentResponseMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs attached to this setup intent. Null if no metadata was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method": {
+          "target": "com.whop.setup_intents#CreateSetupIntentResponsePaymentMethod",
+          "traits": {
+            "smithy.api#documentation": "The saved payment method created by this setup intent. Null if the setup has not completed successfully.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.setup_intents#SetupIntentStatuses",
+          "traits": {
+            "smithy.api#documentation": "The current status of the setup intent.",
+            "smithy.api#required": {}
+          }
+        },
+        "three_ds_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether 3D Secure authentication was completed when this payment method was set up.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.setup_intents#CreateSetupIntent": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.setup_intents#CreateSetupIntentRequest"
+      },
+      "output": {
+        "target": "com.whop.setup_intents#CreateSetupIntentResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.setup_intents#BadRequest"
+        },
+        {
+          "target": "com.whop.setup_intents#Forbidden"
+        },
+        {
+          "target": "com.whop.setup_intents#NotFound"
+        },
+        {
+          "target": "com.whop.setup_intents#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/setup_intents",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create setup intent\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nSave a buyer's payment method for later without charging it. Provide a confirmation token for a method the buyer just supplied, or an existing payment method to re-verify. The buyer may still have a step to complete — 3D Secure, a hosted enrollment, linking a bank account — so poll the setup intent's status endpoint for what to do next.\n\nRequired permissions:\n - `payment:charge`\n - `member:basic:read`\n - `member:email:read`"
+      }
+    },
+    "com.whop.setup_intents#GetSetupIntentRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the setup intent."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.setup_intents#SetupIntent": {
+      "type": "structure",
+      "members": {
+        "checkout_configuration": {
+          "target": "com.whop.setup_intents#SetupIntentCheckoutConfiguration",
+          "traits": {
+            "smithy.api#documentation": "The checkout session configuration associated with this setup intent. Null if no checkout session was used.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.setup_intents#SetupIntentCompany",
+          "traits": {
+            "smithy.api#documentation": "The company that initiated this setup intent. Null if the company has been deleted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the setup intent was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable error message explaining why the setup intent failed. Null if no error occurred.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the setup intent.",
+            "smithy.api#required": {}
+          }
+        },
+        "member": {
+          "target": "com.whop.setup_intents#SetupIntentMember",
+          "traits": {
+            "smithy.api#documentation": "The company member associated with this setup intent. Null if the user is not a member.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.setup_intents#SetupIntentMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs attached to this setup intent. Null if no metadata was provided.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method": {
+          "target": "com.whop.setup_intents#SetupIntentPaymentMethod",
+          "traits": {
+            "smithy.api#documentation": "The saved payment method created by this setup intent. Null if the setup has not completed successfully.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.setup_intents#SetupIntentStatuses",
+          "traits": {
+            "smithy.api#documentation": "The current status of the setup intent.",
+            "smithy.api#required": {}
+          }
+        },
+        "three_ds_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether 3D Secure authentication was completed when this payment method was set up.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A setup intent allows a user to save a payment method for future use without making an immediate purchase."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentCheckoutConfiguration": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the checkout session.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The checkout session configuration associated with this setup intent. Null if no checkout session was used."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company that initiated this setup intent. Null if the company has been deleted."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentMemberUser": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The digital mailing address of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company member user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's full name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The whop username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user for this member, if any."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentMember": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company member.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.setup_intents#SetupIntentMemberUser",
+          "traits": {
+            "smithy.api#documentation": "The user for this member, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company member associated with this setup intent. Null if the user is not a member."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom key-value pairs attached to this setup intent. Null if no metadata was provided."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentPaymentMethodCard": {
+      "type": "structure",
+      "members": {
+        "brand": {
+          "target": "com.whop.setup_intents#CardBrands",
+          "traits": {
+            "smithy.api#documentation": "The card network (e.g., visa, mastercard, amex). Null if the brand could not be determined.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exp_month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The two-digit expiration month of the card (1-12). Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exp_year": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The two-digit expiration year of the card (e.g., 27 for 2027). Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last four digits of the card number. Null if not available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The card data associated with the payment method, if its a debit or credit card."
+      }
+    },
+    "com.whop.setup_intents#SetupIntentPaymentMethodMailingAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 1 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The line 2 of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the customer.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The postal code of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The mailing address associated with the payment method's user"
+      }
+    },
+    "com.whop.setup_intents#SetupIntentPaymentMethod": {
+      "type": "structure",
+      "members": {
+        "card": {
+          "target": "com.whop.setup_intents#SetupIntentPaymentMethodCard",
+          "traits": {
+            "smithy.api#documentation": "The card data associated with the payment method, if its a debit or credit card.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the payment token was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the payment token.",
+            "smithy.api#required": {}
+          }
+        },
+        "mailing_address": {
+          "target": "com.whop.setup_intents#SetupIntentPaymentMethodMailingAddress",
+          "traits": {
+            "smithy.api#documentation": "The mailing address associated with the payment method's user",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "com.whop.setup_intents#PaymentMethodTypes",
+          "traits": {
+            "smithy.api#documentation": "The payment method type of the payment method",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The saved payment method created by this setup intent. Null if the setup has not completed successfully."
+      }
+    },
+    "com.whop.setup_intents#GetSetupIntent": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.setup_intents#GetSetupIntentRequest"
+      },
+      "output": {
+        "target": "com.whop.setup_intents#SetupIntent"
+      },
+      "errors": [
+        {
+          "target": "com.whop.setup_intents#BadRequest"
+        },
+        {
+          "target": "com.whop.setup_intents#Forbidden"
+        },
+        {
+          "target": "com.whop.setup_intents#NotFound"
+        },
+        {
+          "target": "com.whop.setup_intents#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/setup_intents/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve setup intent\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing setup intent.\n\nRequired permissions:\n - `payment:setup_intent:read`\n - `member:basic:read`\n - `member:email:read`"
+      }
+    },
+    "com.whop.setup_intents#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.setup_intents#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.setup_intents#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.setup_intents#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.setup_intents#SetupIntents": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.setup_intents#UpdateReturnUrlSetupIntent"
+        },
+        {
+          "target": "com.whop.setup_intents#GetStatusSetupIntent"
+        },
+        {
+          "target": "com.whop.setup_intents#ListSetupIntent"
+        },
+        {
+          "target": "com.whop.setup_intents#CreateSetupIntent"
+        },
+        {
+          "target": "com.whop.setup_intents#GetSetupIntent"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

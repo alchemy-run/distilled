@@ -1,0 +1,587 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.course_lesson_interactions#ListCourseLessonInteractionRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id"
+          }
+        },
+        "lesson_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "lesson_id"
+          }
+        },
+        "course_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "course_id"
+          }
+        },
+        "completed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "completed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_lesson_interactions#CourseLessonInteractionListItem": {
+      "type": "structure",
+      "members": {
+        "completed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the user has finished this lesson.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the lesson interaction was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the lesson interaction.",
+            "smithy.api#required": {}
+          }
+        },
+        "lesson": {
+          "target": "com.whop.course_lesson_interactions#CourseLessonInteractionListItemLesson",
+          "traits": {
+            "smithy.api#documentation": "The lesson that this progress record belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.course_lesson_interactions#CourseLessonInteractionListItemUser",
+          "traits": {
+            "smithy.api#documentation": "The user whose progress is being tracked.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A record of a user's progress on a specific lesson, tracking whether they have completed it."
+      }
+    },
+    "com.whop.course_lesson_interactions#CourseLessonInteractionListItemLessonChapter": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the chapter.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The parent chapter that contains this lesson."
+      }
+    },
+    "com.whop.course_lesson_interactions#CourseLessonInteractionListItemLesson": {
+      "type": "structure",
+      "members": {
+        "chapter": {
+          "target": "com.whop.course_lesson_interactions#CourseLessonInteractionListItemLessonChapter",
+          "traits": {
+            "smithy.api#documentation": "The parent chapter that contains this lesson.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the lesson.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the lesson shown to students. Maximum 120 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The lesson that this progress record belongs to."
+      }
+    },
+    "com.whop.course_lesson_interactions#CourseLessonInteractionListItemUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user whose progress is being tracked."
+      }
+    },
+    "com.whop.course_lesson_interactions#ListCourseLessonInteractionResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.course_lesson_interactions#CourseLessonInteractionListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.course_lesson_interactions#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.course_lesson_interactions#ListCourseLessonInteractionResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.course_lesson_interactions#ListCourseLessonInteractionResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.course_lesson_interactions#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.course_lesson_interactions#ListCourseLessonInteraction": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_lesson_interactions#ListCourseLessonInteractionRequest"
+      },
+      "output": {
+        "target": "com.whop.course_lesson_interactions#ListCourseLessonInteractionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_lesson_interactions#BadRequest"
+        },
+        {
+          "target": "com.whop.course_lesson_interactions#Forbidden"
+        },
+        {
+          "target": "com.whop.course_lesson_interactions#NotFound"
+        },
+        {
+          "target": "com.whop.course_lesson_interactions#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/course_lesson_interactions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List course lesson interactions\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of lesson interactions, filtered by lesson, course, user, or completion status.\n\nRequired permissions:\n - `courses:read`\n - `course_analytics:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.course_lesson_interactions#GetCourseLessonInteractionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the lesson interaction to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.course_lesson_interactions#CourseLessonInteraction": {
+      "type": "structure",
+      "members": {
+        "completed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the user has finished this lesson.",
+            "smithy.api#required": {}
+          }
+        },
+        "course": {
+          "target": "com.whop.course_lesson_interactions#CourseLessonInteractionCourse",
+          "traits": {
+            "smithy.api#documentation": "The course that contains the tracked lesson.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the lesson interaction was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the lesson interaction.",
+            "smithy.api#required": {}
+          }
+        },
+        "lesson": {
+          "target": "com.whop.course_lesson_interactions#CourseLessonInteractionLesson",
+          "traits": {
+            "smithy.api#documentation": "The lesson that this progress record belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.course_lesson_interactions#CourseLessonInteractionUser",
+          "traits": {
+            "smithy.api#documentation": "The user whose progress is being tracked.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A record of a user's progress on a specific lesson, tracking whether they have completed it."
+      }
+    },
+    "com.whop.course_lesson_interactions#CourseLessonInteractionCourseExperience": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the experience.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The parent experience that this course belongs to."
+      }
+    },
+    "com.whop.course_lesson_interactions#CourseLessonInteractionCourse": {
+      "type": "structure",
+      "members": {
+        "experience": {
+          "target": "com.whop.course_lesson_interactions#CourseLessonInteractionCourseExperience",
+          "traits": {
+            "smithy.api#documentation": "The parent experience that this course belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the course.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the course shown to students. Null if no title has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The course that contains the tracked lesson."
+      }
+    },
+    "com.whop.course_lesson_interactions#CourseLessonInteractionLessonChapter": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the chapter.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The parent chapter that contains this lesson."
+      }
+    },
+    "com.whop.course_lesson_interactions#CourseLessonInteractionLesson": {
+      "type": "structure",
+      "members": {
+        "chapter": {
+          "target": "com.whop.course_lesson_interactions#CourseLessonInteractionLessonChapter",
+          "traits": {
+            "smithy.api#documentation": "The parent chapter that contains this lesson.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the lesson.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the lesson shown to students. Maximum 120 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The lesson that this progress record belongs to."
+      }
+    },
+    "com.whop.course_lesson_interactions#CourseLessonInteractionUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user whose progress is being tracked."
+      }
+    },
+    "com.whop.course_lesson_interactions#GetCourseLessonInteraction": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.course_lesson_interactions#GetCourseLessonInteractionRequest"
+      },
+      "output": {
+        "target": "com.whop.course_lesson_interactions#CourseLessonInteraction"
+      },
+      "errors": [
+        {
+          "target": "com.whop.course_lesson_interactions#BadRequest"
+        },
+        {
+          "target": "com.whop.course_lesson_interactions#Forbidden"
+        },
+        {
+          "target": "com.whop.course_lesson_interactions#NotFound"
+        },
+        {
+          "target": "com.whop.course_lesson_interactions#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/course_lesson_interactions/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve course lesson interaction\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing course lesson interaction.\n\nRequired permissions:\n - `courses:read`\n - `course_analytics:read`"
+      }
+    },
+    "com.whop.course_lesson_interactions#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.course_lesson_interactions#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.course_lesson_interactions#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.course_lesson_interactions#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.course_lesson_interactions#CourseLessonInteractions": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.course_lesson_interactions#ListCourseLessonInteraction"
+        },
+        {
+          "target": "com.whop.course_lesson_interactions#GetCourseLessonInteraction"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

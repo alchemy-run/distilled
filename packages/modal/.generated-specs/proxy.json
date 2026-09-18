@@ -1,0 +1,438 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.proxy#ProxyAddIpRequest": {
+      "type": "structure",
+      "members": {
+        "proxyId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.proxy#ProxyIp": {
+      "type": "structure",
+      "members": {
+        "proxyIp": {
+          "target": "smithy.api#String"
+        },
+        "status": {
+          "target": "com.modal.proxy#ProxyIpStatus"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.proxy#ProxyIpStatus": {
+      "type": "enum",
+      "members": {
+        "PROXY_IP_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROXY_IP_STATUS_UNSPECIFIED"
+          }
+        },
+        "PROXY_IP_STATUS_CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROXY_IP_STATUS_CREATING"
+          }
+        },
+        "PROXY_IP_STATUS_ONLINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROXY_IP_STATUS_ONLINE"
+          }
+        },
+        "PROXY_IP_STATUS_TERMINATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROXY_IP_STATUS_TERMINATED"
+          }
+        },
+        "PROXY_IP_STATUS_UNHEALTHY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROXY_IP_STATUS_UNHEALTHY"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "TODO(erikbern): needs_prefix"
+      }
+    },
+    "com.modal.proxy#ProxyAddIpResponse": {
+      "type": "structure",
+      "members": {
+        "proxyIp": {
+          "target": "com.modal.proxy#ProxyIp"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.proxy#ProxyAddIp": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.proxy#ProxyAddIpRequest"
+      },
+      "output": {
+        "target": "com.modal.proxy#ProxyAddIpResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ProxyAddIp",
+          "code": 200
+        },
+        "smithy.api#documentation": "Proxies"
+      }
+    },
+    "com.modal.proxy#CreateProxyRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "region": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.proxy#Proxy": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "proxyIps": {
+          "target": "com.modal.proxy#ProxyIpList"
+        },
+        "proxyId": {
+          "target": "smithy.api#String"
+        },
+        "region": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.proxy#ProxyIpList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.proxy#ProxyIp"
+      }
+    },
+    "com.modal.proxy#CreateProxyResponse": {
+      "type": "structure",
+      "members": {
+        "proxy": {
+          "target": "com.modal.proxy#Proxy"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.proxy#CreateProxy": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.proxy#CreateProxyRequest"
+      },
+      "output": {
+        "target": "com.modal.proxy#CreateProxyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ProxyCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.proxy#DeleteProxyRequest": {
+      "type": "structure",
+      "members": {
+        "proxyId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.proxy#DeleteProxy": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.proxy#DeleteProxyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ProxyDelete",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.proxy#GetProxyRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.proxy#GetProxyResponse": {
+      "type": "structure",
+      "members": {
+        "proxy": {
+          "target": "com.modal.proxy#Proxy"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.proxy#GetProxy": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.proxy#GetProxyRequest"
+      },
+      "output": {
+        "target": "com.modal.proxy#GetProxyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ProxyGet",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.proxy#ObjectCreationType": {
+      "type": "enum",
+      "members": {
+        "OBJECT_CREATION_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_UNSPECIFIED"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_IF_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_IF_MISSING",
+            "smithy.api#documentation": "just lookup"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
+          }
+        },
+        "OBJECT_CREATION_TYPE_EPHEMERAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_EPHEMERAL",
+            "smithy.api#documentation": "deprecate at some point"
+          }
+        }
+      }
+    },
+    "com.modal.proxy#ProxyGetOrCreateRequest": {
+      "type": "structure",
+      "members": {
+        "deploymentName": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "namespace"
+          }
+        },
+        "objectCreationType": {
+          "target": "com.modal.proxy#ObjectCreationType"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.proxy#ProxyGetOrCreateResponse": {
+      "type": "structure",
+      "members": {
+        "proxyId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.proxy#ProxyGetOrCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.proxy#ProxyGetOrCreateRequest"
+      },
+      "output": {
+        "target": "com.modal.proxy#ProxyGetOrCreateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ProxyGetOrCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.proxy#ProxyList2": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.proxy#Proxy"
+      }
+    },
+    "com.modal.proxy#ListProxyResponse": {
+      "type": "structure",
+      "members": {
+        "proxies": {
+          "target": "com.modal.proxy#ProxyList2"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.proxy#ListProxy": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.modal.proxy#ListProxyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ProxyList",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.proxy#ProxyRemoveIpRequest": {
+      "type": "structure",
+      "members": {
+        "proxyIp": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.proxy#ProxyRemoveIp": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.proxy#ProxyRemoveIpRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ProxyRemoveIp",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.proxy#ProxyService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.proxy#ProxyAddIp"
+        },
+        {
+          "target": "com.modal.proxy#CreateProxy"
+        },
+        {
+          "target": "com.modal.proxy#DeleteProxy"
+        },
+        {
+          "target": "com.modal.proxy#GetProxy"
+        },
+        {
+          "target": "com.modal.proxy#ProxyGetOrCreate"
+        },
+        {
+          "target": "com.modal.proxy#ListProxy"
+        },
+        {
+          "target": "com.modal.proxy#ProxyRemoveIp"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Proxy",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Proxy`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

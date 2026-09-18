@@ -4,116 +4,10 @@
     "service": "webfonts",
     "version": "v1",
     "title": "Web Fonts Developer API",
-    "baseUrl": "https://webfonts.googleapis.com/"
+    "baseUrl": "https://webfonts.googleapis.com/",
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.webfonts_v1#Webfont": {
-      "type": "structure",
-      "members": {
-        "version": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The font version."
-          }
-        },
-        "lastModified": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The date (format \"yyyy-MM-dd\") the font was modified for the last time."
-          }
-        },
-        "menu": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Font URL for menu subset, a subset of the font that is enough to display the font name"
-          }
-        },
-        "kind": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "This kind represents a webfont object in the webfonts service."
-          }
-        },
-        "category": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The category of the font."
-          }
-        },
-        "axes": {
-          "target": "com.gcp.webfonts_v1#AxisList",
-          "traits": {
-            "smithy.api#documentation": "Axis for variable fonts."
-          }
-        },
-        "subsets": {
-          "target": "com.gcp.webfonts_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "The scripts supported by the font."
-          }
-        },
-        "family": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the font."
-          }
-        },
-        "variants": {
-          "target": "com.gcp.webfonts_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "The available variants for the font."
-          }
-        },
-        "colorCapabilities": {
-          "target": "com.gcp.webfonts_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "The color format(s) available for this family."
-          }
-        },
-        "tags": {
-          "target": "com.gcp.webfonts_v1#TagList",
-          "traits": {
-            "smithy.api#documentation": "The tags that apply to this family."
-          }
-        },
-        "files": {
-          "target": "com.gcp.webfonts_v1#StringMap",
-          "traits": {
-            "smithy.api#documentation": "The font files (with all supported scripts) for each one of the available variants, as a key : value map."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata describing a family of fonts."
-      }
-    },
-    "com.gcp.webfonts_v1#AxisList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.webfonts_v1#Axis"
-      }
-    },
-    "com.gcp.webfonts_v1#StringList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.gcp.webfonts_v1#TagList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.webfonts_v1#Tag"
-      }
-    },
-    "com.gcp.webfonts_v1#StringMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#String"
-      }
-    },
     "com.gcp.webfonts_v1#Axis": {
       "type": "structure",
       "members": {
@@ -123,16 +17,16 @@
             "smithy.api#documentation": "maximum value"
           }
         },
-        "tag": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "tag name."
-          }
-        },
         "start": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "minimum value"
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "tag name."
           }
         }
       },
@@ -160,19 +54,126 @@
         "smithy.api#documentation": "Metadata for a tag."
       }
     },
-    "com.gcp.webfonts_v1#WebfontList": {
+    "com.gcp.webfonts_v1#Webfont": {
       "type": "structure",
       "members": {
-        "items": {
-          "target": "com.gcp.webfonts_v1#WebfontList_",
+        "colorCapabilities": {
+          "target": "com.gcp.webfonts_v1#StringList",
           "traits": {
-            "smithy.api#documentation": "The list of fonts currently served by the Google Fonts API."
+            "smithy.api#documentation": "The color format(s) available for this family."
+          }
+        },
+        "family": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the font."
+          }
+        },
+        "subsets": {
+          "target": "com.gcp.webfonts_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "The scripts supported by the font."
+          }
+        },
+        "axes": {
+          "target": "com.gcp.webfonts_v1#AxisList",
+          "traits": {
+            "smithy.api#documentation": "Axis for variable fonts."
+          }
+        },
+        "tags": {
+          "target": "com.gcp.webfonts_v1#TagList",
+          "traits": {
+            "smithy.api#documentation": "The tags that apply to this family."
           }
         },
         "kind": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "This kind represents a webfont object in the webfonts service."
+          }
+        },
+        "files": {
+          "target": "com.gcp.webfonts_v1#StringMap",
+          "traits": {
+            "smithy.api#documentation": "The font files (with all supported scripts) for each one of the available variants, as a key : value map."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The font version."
+          }
+        },
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The category of the font."
+          }
+        },
+        "lastModified": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date (format \"yyyy-MM-dd\") the font was modified for the last time."
+          }
+        },
+        "menu": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Font URL for menu subset, a subset of the font that is enough to display the font name"
+          }
+        },
+        "variants": {
+          "target": "com.gcp.webfonts_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "The available variants for the font."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata describing a family of fonts."
+      }
+    },
+    "com.gcp.webfonts_v1#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.webfonts_v1#AxisList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.webfonts_v1#Axis"
+      }
+    },
+    "com.gcp.webfonts_v1#TagList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.webfonts_v1#Tag"
+      }
+    },
+    "com.gcp.webfonts_v1#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.webfonts_v1#WebfontList": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
             "smithy.api#documentation": "This kind represents a list of webfont objects in the webfonts service."
+          }
+        },
+        "items": {
+          "target": "com.gcp.webfonts_v1#WebfontList_",
+          "traits": {
+            "smithy.api#documentation": "The list of fonts currently served by the Google Fonts API."
           }
         }
       },
@@ -184,6 +185,41 @@
       "type": "list",
       "member": {
         "target": "com.gcp.webfonts_v1#Webfont"
+      }
+    },
+    "com.gcp.webfonts_v1#ListWebfontsCapabilityEnum": {
+      "type": "enum",
+      "members": {
+        "CAPABILITY_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CAPABILITY_UNSPECIFIED"
+          }
+        },
+        "WOFF2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WOFF2"
+          }
+        },
+        "VF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VF"
+          }
+        },
+        "FAMILY_TAGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAMILY_TAGS"
+          }
+        }
+      }
+    },
+    "com.gcp.webfonts_v1#ListWebfontsCapabilityEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.webfonts_v1#ListWebfontsCapabilityEnum"
       }
     },
     "com.gcp.webfonts_v1#ListWebfontsSortEnum": {
@@ -227,56 +263,21 @@
         }
       }
     },
-    "com.gcp.webfonts_v1#ListWebfontsCapabilityEnum": {
-      "type": "enum",
-      "members": {
-        "CAPABILITY_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CAPABILITY_UNSPECIFIED"
-          }
-        },
-        "WOFF2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "WOFF2"
-          }
-        },
-        "VF": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "VF"
-          }
-        },
-        "FAMILY_TAGS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FAMILY_TAGS"
-          }
-        }
-      }
-    },
-    "com.gcp.webfonts_v1#ListWebfontsCapabilityEnumList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.webfonts_v1#ListWebfontsCapabilityEnum"
-      }
-    },
     "com.gcp.webfonts_v1#ListWebfontsRequest": {
       "type": "structure",
       "members": {
+        "capability": {
+          "target": "com.gcp.webfonts_v1#ListWebfontsCapabilityEnumList",
+          "traits": {
+            "smithy.api#documentation": "Controls the font urls in `Webfont.files`, by default, static ttf fonts are sent.",
+            "smithy.api#httpQuery": "capability"
+          }
+        },
         "sort": {
           "target": "com.gcp.webfonts_v1#ListWebfontsSortEnum",
           "traits": {
             "smithy.api#documentation": "Enables sorting of the list.",
             "smithy.api#httpQuery": "sort"
-          }
-        },
-        "category": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Filters by Webfont.category, if category is found in Webfont.categories. If not set, returns all families.",
-            "smithy.api#httpQuery": "category"
           }
         },
         "subset": {
@@ -286,18 +287,18 @@
             "smithy.api#httpQuery": "subset"
           }
         },
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filters by Webfont.category, if category is found in Webfont.categories. If not set, returns all families.",
+            "smithy.api#httpQuery": "category"
+          }
+        },
         "family": {
           "target": "com.gcp.webfonts_v1#StringList",
           "traits": {
             "smithy.api#documentation": "Filters by Webfont.family, using literal match. If not set, returns all families",
             "smithy.api#httpQuery": "family"
-          }
-        },
-        "capability": {
-          "target": "com.gcp.webfonts_v1#ListWebfontsCapabilityEnumList",
-          "traits": {
-            "smithy.api#documentation": "Controls the font urls in `Webfont.files`, by default, static ttf fonts are sent.",
-            "smithy.api#httpQuery": "capability"
           }
         }
       }

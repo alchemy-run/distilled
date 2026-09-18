@@ -53,7 +53,7 @@ const coinbaseSpec: SdkSpec = {
   // the CDP API), so no runtime case discrimination is needed.
   union: ({ name, caseTargets, tsRef }) => [
     `export type ${name} = ${caseTargets.map(tsRef).join(" | ") || "unknown"};`,
-    `export const ${name} = /*@__PURE__*/ S.Unknown as any as S.Schema<${name}>;\n`,
+    `export const ${name} = S.Unknown as any as S.Schema<${name}>;\n`,
   ],
 
   // NOTE: no paginationProfiles — v0 emitted every op plain (token
@@ -68,7 +68,8 @@ const coinbaseSpec: SdkSpec = {
     retry: "Retry.Retry",
   },
 
-  sourceNote: ".generated-specs (specs/cdp-sdk/openapi.yaml)",
+  sourceNote:
+    ".generated-specs (specs/spec-mirror-coinbase/specs/openapi.yaml)",
 
   // Sensitive member types reference Redacted; pull the import in when used.
   postProcess: (code) =>

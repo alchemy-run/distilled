@@ -487,6 +487,35 @@ export const GetPrimaryEmailResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetPrimaryEmailResponse",
 }) as any as S.Schema<GetPrimaryEmailResponse>;
+export interface GetPrimaryEmailUpdateStatusRequest {
+  AccountId?: string;
+}
+export const GetPrimaryEmailUpdateStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AccountId: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/getPrimaryEmailUpdateStatus" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetPrimaryEmailUpdateStatusRequest",
+}) as any as S.Schema<GetPrimaryEmailUpdateStatusRequest>;
+export interface GetPrimaryEmailUpdateStatusResponse {
+  Status: string;
+  UpdatedAt?: Date;
+}
+export const GetPrimaryEmailUpdateStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Status: S.String,
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "GetPrimaryEmailUpdateStatusResponse",
+}) as any as S.Schema<GetPrimaryEmailUpdateStatusResponse>;
 export interface GetRegionOptStatusRequest {
   AccountId?: string;
   RegionName: string;
@@ -981,6 +1010,36 @@ export const getPrimaryEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrimaryEmail",
+}));
+
+export type GetPrimaryEmailUpdateStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves the status of the most recent primary email update for the specified account. For complete details about how to update the primary email address, see Update the primary email address for your AWS account.
+ */
+export const getPrimaryEmailUpdateStatus: API.OperationMethod<
+  GetPrimaryEmailUpdateStatusRequest,
+  GetPrimaryEmailUpdateStatusResponse,
+  GetPrimaryEmailUpdateStatusError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPrimaryEmailUpdateStatusRequest,
+  output: GetPrimaryEmailUpdateStatusResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetPrimaryEmailUpdateStatus",
 }));
 
 export type GetRegionOptStatusError =

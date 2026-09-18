@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.github.dependabot#ListAlertsForEnterpriseRequestHasCase1Item": {
@@ -2147,7 +2148,10 @@
     "com.github.dependabot#DependabotRepositoryAccessDetailsAccessibleRepositoriesList": {
       "type": "list",
       "member": {
-        "target": "com.github.dependabot#NullableSimpleRepository"
+        "target": "com.github.dependabot#NullableSimpleRepository",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

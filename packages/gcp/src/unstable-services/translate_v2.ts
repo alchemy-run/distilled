@@ -108,17 +108,17 @@ export const DetectDetectionsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DetectDetectionsRequest>;
 
 export interface DetectionsResourceItem {
-  /** The language we detected. */
-  language?: string;
   /** The confidence of the detection result of this language. */
   confidence?: number;
+  /** The language we detected. */
+  language?: string;
   /** A boolean to indicate is the language detection result reliable. */
   isReliable?: boolean;
 }
 export const DetectionsResourceItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    language: S.optional(S.String),
     confidence: S.optional(S.Number),
+    language: S.optional(S.String),
     isReliable: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -200,15 +200,15 @@ export const ListLanguagesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListLanguagesRequest>;
 
 export interface LanguagesResource {
-  /** Supported language code, generally consisting of its ISO 639-1 identifier. (E.g. 'en', 'ja'). In certain cases, BCP-47 codes including language + region identifiers are returned (e.g. 'zh-TW' and 'zh-CH') */
-  language?: string;
   /** Human readable name of the language localized to the target language. */
   name?: string;
+  /** Supported language code, generally consisting of its ISO 639-1 identifier. (E.g. 'en', 'ja'). In certain cases, BCP-47 codes including language + region identifiers are returned (e.g. 'zh-TW' and 'zh-CH') */
+  language?: string;
 }
 export const LanguagesResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    language: S.optional(S.String),
     name: S.optional(S.String),
+    language: S.optional(S.String),
   }),
 ).annotate({
   identifier: "LanguagesResource",
@@ -232,7 +232,7 @@ export const LanguagesListResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LanguagesListResponse>;
 
 export type ListTranslationsFormatEnum = "html" | "text";
-export const ListTranslationsFormatEnum = /*@__PURE__*/ S.String;
+export const ListTranslationsFormatEnum = S.String;
 
 export interface ListTranslationsRequest {
   /** OAuth bearer token. */
@@ -241,12 +241,12 @@ export interface ListTranslationsRequest {
   pp?: boolean;
   /** The customization id for translate */
   cid?: StringList;
-  /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
-  source?: string;
   /** The format of the source text, in either HTML (default) or plain-text. A value of "html" indicates HTML and a value of "text" indicates plain-text. */
   format?: ListTranslationsFormatEnum | (string & {});
   /** The `model` type requested for this translation. Valid values are listed in public documentation. */
   model?: string;
+  /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
+  source?: string;
   /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
   q: StringList;
   /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
@@ -257,9 +257,9 @@ export const ListTranslationsRequest = /*@__PURE__*/ S.suspend(() =>
     bearer_token: S.optional(S.String.pipe(T.Query())),
     pp: S.optional(S.Boolean.pipe(T.Query())),
     cid: S.optional(StringList.pipe(T.Query())),
-    source: S.optional(S.String.pipe(T.Query())),
     format: S.optional(ListTranslationsFormatEnum.pipe(T.Query())),
     model: S.optional(S.String.pipe(T.Query())),
+    source: S.optional(S.String.pipe(T.Query())),
     q: StringList.pipe(T.Query()),
     target: S.String.pipe(T.Query()),
   }).pipe(
@@ -311,24 +311,24 @@ export const TranslationsListResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The main translation request message for the Cloud Translation API. */
 export interface TranslateTextRequest {
-  /** The `model` type requested for this translation. Valid values are listed in public documentation. */
-  model?: string;
-  /** The format of the source text, in either HTML (default) or plain-text. A value of "html" indicates HTML and a value of "text" indicates plain-text. */
-  format?: string;
-  /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
-  source?: string;
-  /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
-  target?: string;
   /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
   q?: StringList;
+  /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
+  source?: string;
+  /** The format of the source text, in either HTML (default) or plain-text. A value of "html" indicates HTML and a value of "text" indicates plain-text. */
+  format?: string;
+  /** The `model` type requested for this translation. Valid values are listed in public documentation. */
+  model?: string;
+  /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
+  target?: string;
 }
 export const TranslateTextRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    model: S.optional(S.String),
-    format: S.optional(S.String),
-    source: S.optional(S.String),
-    target: S.optional(S.String),
     q: S.optional(StringList),
+    source: S.optional(S.String),
+    format: S.optional(S.String),
+    model: S.optional(S.String),
+    target: S.optional(S.String),
   }),
 ).annotate({
   identifier: "TranslateTextRequest",

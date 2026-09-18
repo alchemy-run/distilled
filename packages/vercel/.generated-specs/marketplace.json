@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.vercel.marketplace#UpdateInstallationRequestStatus": {
@@ -475,6 +476,189 @@
         "smithy.api#documentation": "Get Member Information\n\nReturns the member role and other information for a given member ID (\"user_id\" claim in the SSO OIDC token)."
       }
     },
+    "com.vercel.marketplace#RotateInstallationCredentialRequest": {
+      "type": "structure",
+      "members": {
+        "integrationConfigurationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "client_id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.marketplace#RotateInstallationCredentialResponseTokenType": {
+      "type": "enum",
+      "members": {
+        "OAUTH2_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oauth2-token"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.marketplace#RotateInstallationCredentialResponse": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expires_in": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "access_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "token_type": {
+          "target": "com.vercel.marketplace#RotateInstallationCredentialResponseTokenType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.marketplace#RotateInstallationCredential": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.marketplace#RotateInstallationCredentialRequest"
+      },
+      "output": {
+        "target": "com.vercel.marketplace#RotateInstallationCredentialResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.marketplace#BadRequest"
+        },
+        {
+          "target": "com.vercel.marketplace#Forbidden"
+        },
+        {
+          "target": "com.vercel.marketplace#NotFound"
+        },
+        {
+          "target": "com.vercel.marketplace#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/installations/{integrationConfigurationId}/credentials/rotate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rotate Installation Credential\n\nIssues a replacement access token for an installation, so a partner can rotate a credential it believes is compromised without the customer having to reinstall. Authenticated by the credential being replaced plus the integration's client secret: a leaked access token on its own cannot rotate itself, which would otherwise let an attacker take over the installation and lock the partner out. The previous credential intentionally stays valid so in-flight requests keep working. Retiring it is a separate, explicit operation — a partner is never left mid-rotation without a working credential."
+      }
+    },
+    "com.vercel.marketplace#RevokeInstallationCredentialRequest": {
+      "type": "structure",
+      "members": {
+        "integrationConfigurationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "client_id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.marketplace#RevokeInstallationCredentialResponse": {
+      "type": "structure",
+      "members": {
+        "revoked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "already_revoked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.marketplace#RevokeInstallationCredential": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.marketplace#RevokeInstallationCredentialRequest"
+      },
+      "output": {
+        "target": "com.vercel.marketplace#RevokeInstallationCredentialResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.marketplace#BadRequest"
+        },
+        {
+          "target": "com.vercel.marketplace#Forbidden"
+        },
+        {
+          "target": "com.vercel.marketplace#NotFound"
+        },
+        {
+          "target": "com.vercel.marketplace#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/installations/{integrationConfigurationId}/credentials/revoke",
+          "code": 200
+        },
+        "smithy.api#documentation": "Revoke Installation Credential\n\nRetires a superseded installation credential, so a partner can complete a rotation it started with `POST /credentials/rotate` — the leaked credential stops working without the customer having to reinstall. Authenticated by a live installation credential plus the integration's client secret. The credential to retire is named in the body rather than being the one that authenticates, so the ordinary flow is: rotate, store the replacement, then authenticate with the replacement and revoke the old one. Refuses to retire an installation's last live credential. Rotation exists so remediation is not customer-visible; revoking the only credential would undo that and leave the install needing a reinstall."
+      }
+    },
     "com.vercel.marketplace#CreateEventRequestEventCase0Type": {
       "type": "enum",
       "members": {
@@ -689,11 +873,72 @@
       },
       "traits": {}
     },
+    "com.vercel.marketplace#GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItemTarget": {
+      "type": "enum",
+      "members": {
+        "DEVELOPMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "development"
+          }
+        },
+        "PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "PRODUCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "production"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.marketplace#GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "com.vercel.marketplace#GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItemTarget",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.marketplace#GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.marketplace#GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.marketplace#GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication": {
+      "type": "structure",
+      "members": {
+        "appUrls": {
+          "target": "com.vercel.marketplace#GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList"
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.marketplace#GetIntegrationResourcesResponseResourcesItemProtocolSettings": {
       "type": "structure",
       "members": {
         "experimentation": {
           "target": "com.vercel.marketplace#GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation"
+        },
+        "authentication": {
+          "target": "com.vercel.marketplace#GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication"
         }
       },
       "traits": {
@@ -1000,11 +1245,72 @@
       },
       "traits": {}
     },
+    "com.vercel.marketplace#GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItemTarget": {
+      "type": "enum",
+      "members": {
+        "DEVELOPMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "development"
+          }
+        },
+        "PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "PRODUCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "production"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.marketplace#GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "com.vercel.marketplace#GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItemTarget",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.marketplace#GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.marketplace#GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.marketplace#GetIntegrationResourceResponseProtocolSettingsAuthentication": {
+      "type": "structure",
+      "members": {
+        "appUrls": {
+          "target": "com.vercel.marketplace#GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList"
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.marketplace#GetIntegrationResourceResponseProtocolSettings": {
       "type": "structure",
       "members": {
         "experimentation": {
           "target": "com.vercel.marketplace#GetIntegrationResourceResponseProtocolSettingsExperimentation"
+        },
+        "authentication": {
+          "target": "com.vercel.marketplace#GetIntegrationResourceResponseProtocolSettingsAuthentication"
         }
       },
       "traits": {
@@ -3884,7 +4190,7 @@
         "smithy.api#documentation": "Patch an existing experimentation item\n\nPatch an existing experimentation item"
       }
     },
-    "com.vercel.marketplace#DeleteInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsByItemIdRequest": {
+    "com.vercel.marketplace#DeleteInstallationResourceExperimentationItemRequest": {
       "type": "structure",
       "members": {
         "integrationConfigurationId": {
@@ -3913,10 +4219,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.marketplace#DeleteInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsByItemId": {
+    "com.vercel.marketplace#DeleteInstallationResourceExperimentationItem": {
       "type": "operation",
       "input": {
-        "target": "com.vercel.marketplace#DeleteInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsByItemIdRequest"
+        "target": "com.vercel.marketplace#DeleteInstallationResourceExperimentationItemRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -3941,7 +4247,7 @@
         "smithy.api#documentation": "Delete an existing experimentation item\n\nDelete an existing experimentation item"
       }
     },
-    "com.vercel.marketplace#GetInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigRequest": {
+    "com.vercel.marketplace#GetInstallationResourceExperimentationGlobalConfigRequest": {
       "type": "structure",
       "members": {
         "integrationConfigurationId": {
@@ -3963,7 +4269,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.marketplace#EdgeConfigItemValue": {
+    "com.vercel.marketplace#GlobalConfigItemValue": {
       "type": "union",
       "members": {
         "Case0": {
@@ -3973,10 +4279,10 @@
           "target": "smithy.api#Double"
         },
         "Case2": {
-          "target": "com.vercel.marketplace#EdgeConfigItemValueCase2Map"
+          "target": "com.vercel.marketplace#GlobalConfigItemValueCase2Map"
         },
         "Case3": {
-          "target": "com.vercel.marketplace#EdgeConfigItemValueCase3List"
+          "target": "com.vercel.marketplace#GlobalConfigItemValueCase3List"
         },
         "Case4": {
           "target": "smithy.api#Boolean"
@@ -3984,34 +4290,37 @@
       },
       "traits": {}
     },
-    "com.vercel.marketplace#EdgeConfigItemValueCase2Map": {
+    "com.vercel.marketplace#GlobalConfigItemValueCase2Map": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.marketplace#EdgeConfigItemValue"
+        "target": "com.vercel.marketplace#GlobalConfigItemValue"
       },
       "traits": {}
     },
-    "com.vercel.marketplace#EdgeConfigItemValueCase3List": {
+    "com.vercel.marketplace#GlobalConfigItemValueCase3List": {
       "type": "list",
       "member": {
-        "target": "com.vercel.marketplace#EdgeConfigItemValue"
+        "target": "com.vercel.marketplace#GlobalConfigItemValue"
       },
       "traits": {}
     },
-    "com.vercel.marketplace#GetInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponseItemsMap": {
+    "com.vercel.marketplace#GetInstallationResourceExperimentationGlobalConfigResponseItemsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.marketplace#EdgeConfigItemValue"
+        "target": "com.vercel.marketplace#GlobalConfigItemValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
-    "com.vercel.marketplace#GetInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponsePurpose": {
+    "com.vercel.marketplace#GetInstallationResourceExperimentationGlobalConfigResponsePurpose": {
       "type": "enum",
       "members": {
         "EXPERIMENTATION": {
@@ -4029,11 +4338,11 @@
       },
       "traits": {}
     },
-    "com.vercel.marketplace#GetInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponse": {
+    "com.vercel.marketplace#GetInstallationResourceExperimentationGlobalConfigResponse": {
       "type": "structure",
       "members": {
         "items": {
-          "target": "com.vercel.marketplace#GetInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponseItemsMap",
+          "target": "com.vercel.marketplace#GetInstallationResourceExperimentationGlobalConfigResponseItemsMap",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4051,20 +4360,20 @@
           }
         },
         "purpose": {
-          "target": "com.vercel.marketplace#GetInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponsePurpose"
+          "target": "com.vercel.marketplace#GetInstallationResourceExperimentationGlobalConfigResponsePurpose"
         }
       },
       "traits": {
         "smithy.api#output": {}
       }
     },
-    "com.vercel.marketplace#GetInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfig": {
+    "com.vercel.marketplace#GetInstallationResourceExperimentationGlobalConfig": {
       "type": "operation",
       "input": {
-        "target": "com.vercel.marketplace#GetInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigRequest"
+        "target": "com.vercel.marketplace#GetInstallationResourceExperimentationGlobalConfigRequest"
       },
       "output": {
-        "target": "com.vercel.marketplace#GetInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponse"
+        "target": "com.vercel.marketplace#GetInstallationResourceExperimentationGlobalConfigResponse"
       },
       "errors": [
         {
@@ -4130,7 +4439,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.marketplace#EdgeConfigItemValue"
+        "target": "com.vercel.marketplace#GlobalConfigItemValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -4212,7 +4524,7 @@
         "smithy.api#documentation": "Push data into a user-provided Global Config\n\nWhen the user enabled Global Config syncing, then this endpoint can be used by the partner to push their configuration data into the relevant Global Config."
       }
     },
-    "com.vercel.marketplace#HeadInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigRequest": {
+    "com.vercel.marketplace#HeadInstallationResourceExperimentationGlobalConfigRequest": {
       "type": "structure",
       "members": {
         "integrationConfigurationId": {
@@ -4234,10 +4546,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.marketplace#HeadInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfig": {
+    "com.vercel.marketplace#HeadInstallationResourceExperimentationGlobalConfig": {
       "type": "operation",
       "input": {
-        "target": "com.vercel.marketplace#HeadInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigRequest"
+        "target": "com.vercel.marketplace#HeadInstallationResourceExperimentationGlobalConfigRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -4341,6 +4653,12 @@
           "target": "com.vercel.marketplace#GetMember"
         },
         {
+          "target": "com.vercel.marketplace#RotateInstallationCredential"
+        },
+        {
+          "target": "com.vercel.marketplace#RevokeInstallationCredential"
+        },
+        {
           "target": "com.vercel.marketplace#CreateEvent"
         },
         {
@@ -4386,16 +4704,16 @@
           "target": "com.vercel.marketplace#UpdateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsByItemId"
         },
         {
-          "target": "com.vercel.marketplace#DeleteInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsByItemId"
+          "target": "com.vercel.marketplace#DeleteInstallationResourceExperimentationItem"
         },
         {
-          "target": "com.vercel.marketplace#GetInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfig"
+          "target": "com.vercel.marketplace#GetInstallationResourceExperimentationGlobalConfig"
         },
         {
           "target": "com.vercel.marketplace#ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfig"
         },
         {
-          "target": "com.vercel.marketplace#HeadInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfig"
+          "target": "com.vercel.marketplace#HeadInstallationResourceExperimentationGlobalConfig"
         }
       ],
       "traits": {

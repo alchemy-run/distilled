@@ -1,0 +1,758 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.account_track_rules#ListAccountTrackRulesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_track_rules#AccountTrackRulesConfig": {
+      "type": "structure",
+      "members": {
+        "schema_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "groups": {
+          "target": "com.posthog.account_track_rules#AccountTrackRulesConfigGroupsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#AccountTrackRuleGroup": {
+      "type": "structure",
+      "members": {
+        "conditions": {
+          "target": "com.posthog.account_track_rules#AccountTrackRuleGroupConditionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#AccountTrackRuleCondition": {
+      "type": "structure",
+      "members": {
+        "field": {
+          "target": "com.posthog.account_track_rules#AccountTrackRuleField",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "operator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.posthog.account_track_rules#AccountTrackRuleConditionValuesList"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#AccountTrackRuleField": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.posthog.account_track_rules#AccountTrackRuleFieldKindEnum",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "field": {
+          "target": "com.posthog.account_track_rules#AccountTrackRuleFieldFieldEnum",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#AccountTrackRuleFieldKindEnum": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT_FIELD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_field"
+          }
+        },
+        "CUSTOM_PROPERTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom_property"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `account_field` - account_field\n* `custom_property` - custom_property"
+      }
+    },
+    "com.posthog.account_track_rules#AccountTrackRuleFieldFieldEnum": {
+      "type": "enum",
+      "members": {
+        "NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name"
+          }
+        },
+        "EXTERNAL_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_id"
+          }
+        },
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        },
+        "CHURNED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "churned_at"
+          }
+        },
+        "IGNORED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ignored_at"
+          }
+        },
+        "STRIPE_CUSTOMER_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stripe_customer_id"
+          }
+        },
+        "HUBSPOT_DEAL_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hubspot_deal_id"
+          }
+        },
+        "BILLING_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "billing_id"
+          }
+        },
+        "SFDC_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sfdc_id"
+          }
+        },
+        "ZENDESK_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zendesk_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `name` - name\n* `external_id` - external_id\n* `created_at` - created_at\n* `updated_at` - updated_at\n* `churned_at` - churned_at\n* `ignored_at` - ignored_at\n* `stripe_customer_id` - stripe_customer_id\n* `hubspot_deal_id` - hubspot_deal_id\n* `billing_id` - billing_id\n* `sfdc_id` - sfdc_id\n* `zendesk_id` - zendesk_id"
+      }
+    },
+    "com.posthog.account_track_rules#AccountTrackRuleConditionValuesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#AccountTrackRuleGroupConditionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.account_track_rules#AccountTrackRuleCondition"
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#AccountTrackRulesConfigGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.account_track_rules#AccountTrackRuleGroup"
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#ListAccountTrackRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_track_rules#ListAccountTrackRulesRequest"
+      },
+      "output": {
+        "target": "com.posthog.account_track_rules#AccountTrackRulesConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/account_track_rules/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.account_track_rules#UpdateAccountTrackRuleRequestGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.account_track_rules#AccountTrackRuleGroup"
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#UpdateAccountTrackRuleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "schema_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "groups": {
+          "target": "com.posthog.account_track_rules#UpdateAccountTrackRuleRequestGroupsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_track_rules#UpdateAccountTrackRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_track_rules#UpdateAccountTrackRuleRequest"
+      },
+      "output": {
+        "target": "com.posthog.account_track_rules#AccountTrackRulesConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/account_track_rules/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.account_track_rules#CreateAccountTrackRulesPreviewRequestGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.account_track_rules#AccountTrackRuleGroup"
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#CreateAccountTrackRulesPreviewRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "schema_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "groups": {
+          "target": "com.posthog.account_track_rules#CreateAccountTrackRulesPreviewRequestGroupsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_track_rules#AccountTrackRulePreview": {
+      "type": "structure",
+      "members": {
+        "config_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "eligible_active": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skipped_churned": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tracked": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ignored": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "newly_ignored": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "restored": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tracked_samples": {
+          "target": "com.posthog.account_track_rules#AccountTrackRulePreviewTrackedSamplesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ignored_samples": {
+          "target": "com.posthog.account_track_rules#AccountTrackRulePreviewIgnoredSamplesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "validation_errors": {
+          "target": "com.posthog.account_track_rules#AccountTrackRulePreviewValidationErrorsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#AccountTrackRuleSample": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "external_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rule_values": {
+          "target": "com.posthog.account_track_rules#AccountTrackRuleSampleRuleValuesMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#AccountTrackRuleSampleRuleValuesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#AccountTrackRulePreviewTrackedSamplesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.account_track_rules#AccountTrackRuleSample"
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#AccountTrackRulePreviewIgnoredSamplesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.account_track_rules#AccountTrackRuleSample"
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#AccountTrackRulePreviewValidationErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#CreateAccountTrackRulesPreview": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_track_rules#CreateAccountTrackRulesPreviewRequest"
+      },
+      "output": {
+        "target": "com.posthog.account_track_rules#AccountTrackRulePreview"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/account_track_rules/preview/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.account_track_rules#CreateAccountTrackRulesRunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "confirmed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_track_rules#CreateAccountTrackRulesRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_track_rules#CreateAccountTrackRulesRunRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/account_track_rules/run/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.account_track_rules#ListAccountTrackRulesRunsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_track_rules#PaginatedAccountTrackRuleRunViewList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.account_track_rules#PaginatedAccountTrackRuleRunViewListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#AccountTrackRuleRunView": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "config_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "trigger": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "eligible_active": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skipped_churned": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tracked": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ignored": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "newly_ignored": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "restored": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#PaginatedAccountTrackRuleRunViewListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.account_track_rules#AccountTrackRuleRunView"
+      },
+      "traits": {}
+    },
+    "com.posthog.account_track_rules#ListAccountTrackRulesRuns": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_track_rules#ListAccountTrackRulesRunsRequest"
+      },
+      "output": {
+        "target": "com.posthog.account_track_rules#PaginatedAccountTrackRuleRunViewList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/account_track_rules/runs/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.account_track_rules#AccountTrackRules": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.account_track_rules#ListAccountTrackRules"
+        },
+        {
+          "target": "com.posthog.account_track_rules#UpdateAccountTrackRule"
+        },
+        {
+          "target": "com.posthog.account_track_rules#CreateAccountTrackRulesPreview"
+        },
+        {
+          "target": "com.posthog.account_track_rules#CreateAccountTrackRulesRun"
+        },
+        {
+          "target": "com.posthog.account_track_rules#ListAccountTrackRulesRuns"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

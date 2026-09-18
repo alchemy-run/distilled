@@ -21,6 +21,15 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+export class NotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 404 }],
+  ) {}
+
 export interface AddRequest {
   /** The slug version of the enterprise name. */
   enterprise: string;
@@ -234,6 +243,90 @@ export const ListResponse = /*@__PURE__*/ S.suspend(() =>
   ListResponseBodyList.pipe(T.RawResponseRoot()),
 ).annotate({ identifier: "ListResponse" }) as any as S.Schema<ListResponse>;
 
+export interface ListTeamsForUserRequest {
+  /** The slug version of the enterprise name. */
+  enterprise: string;
+  /** The handle for the GitHub user account. */
+  username: string;
+  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  per_page?: number;
+  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  page?: number;
+}
+export const ListTeamsForUserRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enterprise: S.String.pipe(T.Label()),
+    username: S.String.pipe(T.Label()),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/enterprises/{enterprise}/members/{username}/teams",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListTeamsForUserRequest",
+}) as any as S.Schema<ListTeamsForUserRequest>;
+
+/** Whether team members will receive notifications when the team is mentioned. */
+export type EnterpriseTeamNotificationSetting =
+  | "notifications_enabled"
+  | "notifications_disabled";
+export const EnterpriseTeamNotificationSetting = S.String;
+
+/** Group of enterprise owners and/or members */
+export interface EnterpriseTeam {
+  id: number;
+  name: string;
+  description?: string;
+  slug: string;
+  url: string;
+  /** Retired: this field will not be returned with GHEC enterprise teams. */
+  sync_to_organizations?: string;
+  organization_selection_type?: string;
+  group_id: string | null;
+  /** Retired: this field will not be returned with GHEC enterprise teams. */
+  group_name?: string | null;
+  html_url: string;
+  members_url: string;
+  created_at: string;
+  updated_at: string;
+  /** Whether team members will receive notifications when the team is mentioned. */
+  notification_setting?: EnterpriseTeamNotificationSetting;
+}
+export const EnterpriseTeam = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    name: S.String,
+    description: S.optional(S.String),
+    slug: S.String,
+    url: S.String,
+    sync_to_organizations: S.optional(S.String),
+    organization_selection_type: S.optional(S.String),
+    group_id: S.NullOr(S.String),
+    group_name: S.optional(S.NullOr(S.String)),
+    html_url: S.String,
+    members_url: S.String,
+    created_at: S.String,
+    updated_at: S.String,
+    notification_setting: S.optional(EnterpriseTeamNotificationSetting),
+  }),
+).annotate({ identifier: "EnterpriseTeam" }) as any as S.Schema<EnterpriseTeam>;
+
+export type ListTeamsForUserResponseBodyList = Array<EnterpriseTeam>;
+export const ListTeamsForUserResponseBodyList = /*@__PURE__*/ S.Array(
+  EnterpriseTeam,
+) as any as S.Schema<ListTeamsForUserResponseBodyList>;
+
+export type ListTeamsForUserResponse = ListTeamsForUserResponseBodyList;
+export const ListTeamsForUserResponse = /*@__PURE__*/ S.suspend(() =>
+  ListTeamsForUserResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListTeamsForUserResponse",
+}) as any as S.Schema<ListTeamsForUserResponse>;
+
 export interface RemoveRequest {
   /** The slug version of the enterprise name. */
   enterprise: string;
@@ -332,6 +425,21 @@ export const list: API.OperationMethod<
   input: ListRequest,
   output: ListResponse,
   errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListTeamsForUserError = Forbidden | NotFound | GithubOpError;
+/** List enterprise teams for a user Lists all enterprise teams that a user is a member of. This endpoint is available only for enterprises using the new enterprise teams experience. The authenticated user must be an enterprise owner or have the `enterprise_teams:read` permission. */
+export const listTeamsForUser: API.OperationMethod<
+  ListTeamsForUserRequest,
+  ListTeamsForUserResponse,
+  ListTeamsForUserError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListTeamsForUserRequest,
+  output: ListTeamsForUserResponse,
+  errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));

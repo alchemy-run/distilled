@@ -102,53 +102,53 @@ export const CloseAccountResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CloseAccountResponse",
 }) as any as S.Schema<CloseAccountResponse>;
 
+/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
+export interface TimeZone {
+  /** Optional. IANA Time Zone Database version number. For example "2019a". */
+  version?: string;
+  /** IANA Time Zone Database time zone. For example "America/New_York". */
+  id?: string;
+}
+export const TimeZone = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    version: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
+
 export type AccountStateEnum =
   | "STATE_UNSPECIFIED"
   | "UNCHECKED"
   | "APPROVED"
   | "DISAPPROVED";
-export const AccountStateEnum = /*@__PURE__*/ S.String;
-
-/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
-export interface TimeZone {
-  /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
-  /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
-}
-export const TimeZone = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    version: S.optional(S.String),
-  }),
-).annotate({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
+export const AccountStateEnum = S.String;
 
 /** Representation of an Account. */
 export interface Account {
+  /** Required. Input only. CLDR region code of the country/region of the address. Set this to country code of the child account if known, otherwise to your own country code. */
+  regionCode?: string;
+  /** Output only. Creation time of the account. */
+  createTime?: string;
+  /** Required. The IANA TZ timezone code of this account. For more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. This field is used for reporting. It is recommended to set it to the same value for all child accounts. */
+  timeZone?: TimeZone;
   /** Output only. Approval state of the account. */
   state?: AccountStateEnum | (string & {});
   /** Required. An opaque token that uniquely identifies the account among all the platform's accounts. This string may contain at most 64 non-whitespace ASCII characters, but otherwise has no predefined structure. However, it is expected to be a platform-specific identifier for the user creating the account, so that only a single account can be created for any given user. This field must not contain any information that is recognizable as personally identifiable information. e.g. it should not be an email address or login name. Once an account has been created, a second attempt to create an account using the same creation_request_id will result in an ALREADY_EXISTS error. */
   creationRequestId?: string;
-  /** Output only. Resource name of the account. Format: platforms/pub-[0-9]+/accounts/pub-[0-9]+ */
-  name?: string;
-  /** Output only. Creation time of the account. */
-  createTime?: string;
   /** Display name of this account. */
   displayName?: string;
-  /** Required. The IANA TZ timezone code of this account. For more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. This field is used for reporting. It is recommended to set it to the same value for all child accounts. */
-  timeZone?: TimeZone;
-  /** Required. Input only. CLDR region code of the country/region of the address. Set this to country code of the child account if known, otherwise to your own country code. */
-  regionCode?: string;
+  /** Output only. Resource name of the account. Format: platforms/pub-[0-9]+/accounts/pub-[0-9]+ */
+  name?: string;
 }
 export const Account = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    regionCode: S.optional(S.String),
+    createTime: S.optional(S.String),
+    timeZone: S.optional(TimeZone),
     state: S.optional(AccountStateEnum),
     creationRequestId: S.optional(S.String),
-    name: S.optional(S.String),
-    createTime: S.optional(S.String),
     displayName: S.optional(S.String),
-    timeZone: S.optional(TimeZone),
-    regionCode: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Account" }) as any as S.Schema<Account>;
 
@@ -177,37 +177,37 @@ export const CreatePlatformsAccountsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface Address {
   /** First line of address. Max length 64 bytes or 30 characters. */
   address1?: string;
-  /** Second line of address. Max length 64 bytes or 30 characters. */
-  address2?: string;
-  /** Contact name of the company. Max length 128 bytes or 34 characters. */
-  contact?: string;
-  /** Fax number with international code (i.e. +441234567890). */
-  fax?: string;
   /** Name of the company. Max length 255 bytes or 34 characters. */
   company?: string;
+  /** Contact name of the company. Max length 128 bytes or 34 characters. */
+  contact?: string;
   /** Phone number with international code (i.e. +441234567890). */
   phone?: string;
-  /** State. Max length 60 bytes or 30 characters. */
-  state?: string;
-  /** Zip/post code. Max length 10 bytes or 10 characters. */
-  zip?: string;
+  /** Fax number with international code (i.e. +441234567890). */
+  fax?: string;
   /** City. Max length 60 bytes or 30 characters. */
   city?: string;
   /** Country/Region code. The region is specified as a CLDR region code (e.g. "US", "FR"). */
   regionCode?: string;
+  /** Zip/post code. Max length 10 bytes or 10 characters. */
+  zip?: string;
+  /** Second line of address. Max length 64 bytes or 30 characters. */
+  address2?: string;
+  /** State. Max length 60 bytes or 30 characters. */
+  state?: string;
 }
 export const Address = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     address1: S.optional(S.String),
-    address2: S.optional(S.String),
-    contact: S.optional(S.String),
-    fax: S.optional(S.String),
     company: S.optional(S.String),
+    contact: S.optional(S.String),
     phone: S.optional(S.String),
-    state: S.optional(S.String),
-    zip: S.optional(S.String),
+    fax: S.optional(S.String),
     city: S.optional(S.String),
     regionCode: S.optional(S.String),
+    zip: S.optional(S.String),
+    address2: S.optional(S.String),
+    state: S.optional(S.String),
   }),
 ).annotate({ identifier: "Address" }) as any as S.Schema<Address>;
 
@@ -229,7 +229,7 @@ export type EventEventTypeEnum =
   | "EVENT_TYPE_UNSPECIFIED"
   | "LOG_IN_VIA_PLATFORM"
   | "SIGN_UP_VIA_PLATFORM";
-export const EventEventTypeEnum = /*@__PURE__*/ S.String;
+export const EventEventTypeEnum = S.String;
 
 /** A platform sub-account event to record spam signals. */
 export interface Event {
@@ -276,22 +276,22 @@ export type SiteStateEnum =
   | "GETTING_READY"
   | "READY"
   | "NEEDS_ATTENTION";
-export const SiteStateEnum = /*@__PURE__*/ S.String;
+export const SiteStateEnum = S.String;
 
 /** Representation of a Site. */
 export interface Site {
-  /** Domain/sub-domain of the site. Must be a valid domain complying with [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt) and formatted as punycode [RFC 3492](https://www.ietf.org/rfc/rfc3492.txt) in case the domain contains unicode characters. */
-  domain?: string;
-  /** Output only. State of a site. */
-  state?: SiteStateEnum | (string & {});
   /** Output only. Resource name of a site. Format: platforms/{platform}/accounts/{account}/sites/{site} */
   name?: string;
+  /** Output only. State of a site. */
+  state?: SiteStateEnum | (string & {});
+  /** Domain/sub-domain of the site. Must be a valid domain complying with [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt) and formatted as punycode [RFC 3492](https://www.ietf.org/rfc/rfc3492.txt) in case the domain contains unicode characters. */
+  domain?: string;
 }
 export const Site = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domain: S.optional(S.String),
-    state: S.optional(SiteStateEnum),
     name: S.optional(S.String),
+    state: S.optional(SiteStateEnum),
+    domain: S.optional(S.String),
   }),
 ).annotate({ identifier: "Site" }) as any as S.Schema<Site>;
 
@@ -360,18 +360,18 @@ export const GetAccountsPlatformsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Representation of a Transparent Platform. */
 export interface Platform {
-  /** Identifier. Resource name of a platform. Format: accounts/{account}/platforms/{platform} */
-  name?: string;
   /** Output only. Description of the platform. */
   description?: string;
   /** Default platform group for the platform. */
   defaultPlatformGroup?: string;
+  /** Identifier. Resource name of a platform. Format: accounts/{account}/platforms/{platform} */
+  name?: string;
 }
 export const Platform = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     description: S.optional(S.String),
     defaultPlatformGroup: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Platform" }) as any as S.Schema<Platform>;
 
@@ -398,16 +398,16 @@ export const GetAccountsPlatformsChildAccountsSitesRequest =
 export interface PlatformChildSite {
   /** Identifier. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account}/sites/{platform_child_site} */
   name?: string;
-  /** Output only. Domain URL of the Platform Child Site. Part of the PlatformChildSite name. */
-  domain?: string;
   /** Resource name of the Platform Group of the Platform Child Site. */
   platformGroup?: string;
+  /** Output only. Domain URL of the Platform Child Site. Part of the PlatformChildSite name. */
+  domain?: string;
 }
 export const PlatformChildSite = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    domain: S.optional(S.String),
     platformGroup: S.optional(S.String),
+    domain: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PlatformChildSite",
@@ -444,17 +444,17 @@ export const Decimal = /*@__PURE__*/ S.suspend(() =>
 
 /** Representation of a Transparent Platform Group. */
 export interface PlatformGroup {
-  /** Identifier. Format: accounts/{account}/platforms/{platform}/groups/{platform_group} */
-  name?: string;
   /** Required. Description of the PlatformGroup. */
   description?: string;
+  /** Identifier. Format: accounts/{account}/platforms/{platform}/groups/{platform_group} */
+  name?: string;
   /** Output only. The revenue share of the PlatformGroup, in millipercent (e.g. 15000 = 15%). */
   revshareMillipercent?: Decimal;
 }
 export const PlatformGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     description: S.optional(S.String),
+    name: S.optional(S.String),
     revshareMillipercent: S.optional(Decimal),
   }),
 ).annotate({ identifier: "PlatformGroup" }) as any as S.Schema<PlatformGroup>;
@@ -496,18 +496,18 @@ export const GetPlatformsAccountsSitesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetPlatformsAccountsSitesRequest>;
 
 export interface ListAccountsPlatformsRequest {
+  /** Required. The account which owns the platforms. Format: accounts/{account} */
+  parent: string;
   /** Optional. A page token, received from a previous `ListPlatforms` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPlatforms` must match the call that provided the page token. */
   pageToken?: string;
   /** Optional. The maximum number of platforms to include in the response, used for paging. If unspecified, at most 10000 platforms will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number;
-  /** Required. The account which owns the platforms. Format: accounts/{account} */
-  parent: string;
 }
 export const ListAccountsPlatformsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -526,15 +526,15 @@ export const PlatformList = /*@__PURE__*/ S.Array(
 
 /** Response definition for the platform list rpc. */
 export interface ListPlatformsResponse {
-  /** The platforms returned in this list response. */
-  platforms?: PlatformList;
   /** Continuation token used to page through platforms. To retrieve the next page of the results, set the next request's "page_token" value to this. */
   nextPageToken?: string;
+  /** The platforms returned in this list response. */
+  platforms?: PlatformList;
 }
 export const ListPlatformsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    platforms: S.optional(PlatformList),
     nextPageToken: S.optional(S.String),
+    platforms: S.optional(PlatformList),
   }),
 ).annotate({
   identifier: "ListPlatformsResponse",
@@ -587,18 +587,18 @@ export const ListPlatformChildSitesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListPlatformChildSitesResponse>;
 
 export interface ListAccountsPlatformsGroupsRequest {
-  /** Required. The name of the platform to retrieve. Format: accounts/{account}/platforms/{platform} */
-  parent: string;
-  /** Optional. A page token, received from a previous `ListPlatformGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPlatformGroups` must match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. The maximum number of groups to include in the response, used for paging. If unspecified, at most 10000 groups will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number;
+  /** Optional. A page token, received from a previous `ListPlatformGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPlatformGroups` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Required. The name of the platform to retrieve. Format: accounts/{account}/platforms/{platform} */
+  parent: string;
 }
 export const ListAccountsPlatformsGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -634,16 +634,16 @@ export const ListPlatformGroupsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListPlatformsAccountsRequest {
   /** Required. Platform who parents the accounts. Format: platforms/{platform} */
   parent: string;
-  /** Optional. The maximum number of accounts to include in the response, used for paging. If unspecified, at most 10000 accounts will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
   /** Optional. A page token, received from a previous `ListAccounts` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
+  /** Optional. The maximum number of accounts to include in the response, used for paging. If unspecified, at most 10000 accounts will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
+  pageSize?: number;
 }
 export const ListPlatformsAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -781,17 +781,17 @@ export const PatchAccountsPlatformsChildAccountsSitesRequest =
   }) as any as S.Schema<PatchAccountsPlatformsChildAccountsSitesRequest>;
 
 export interface PatchAccountsPlatformsGroupsRequest {
-  /** Identifier. Format: accounts/{account}/platforms/{platform}/groups/{platform_group} */
-  name: string;
   /** Optional. The list of fields to update - currently only supports updating the `description` field. */
   updateMask?: string;
+  /** Identifier. Format: accounts/{account}/platforms/{platform}/groups/{platform_group} */
+  name: string;
   /** Request body */
   body?: PlatformGroup;
 }
 export const PatchAccountsPlatformsGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(PlatformGroup.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

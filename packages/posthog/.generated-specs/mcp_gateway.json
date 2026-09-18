@@ -1,0 +1,3497 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.mcp_gateway#ListMcpGatewayAuditRequestQuickFilter": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "AGENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agents"
+          }
+        },
+        "APPROVALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approvals"
+          }
+        },
+        "BLOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blocked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#ListMcpGatewayAuditRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "actor_service_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "actor_service_account_id",
+            "smithy.api#documentation": "Only calls made by this service account."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "quick_filter": {
+          "target": "com.posthog.mcp_gateway#ListMcpGatewayAuditRequestQuickFilter",
+          "traits": {
+            "smithy.api#httpQuery": "quick_filter",
+            "smithy.api#documentation": "all, agents (agent calls only), approvals (approved or pending), or blocked.\n\n* `all` - all\n* `agents` - agents\n* `approvals` - approvals\n* `blocked` - blocked"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#PaginatedMCPAuditEventList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.mcp_gateway#PaginatedMCPAuditEventListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#MCPAuditEvent": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "server_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway server name at call time (denormalized).",
+            "smithy.api#required": {}
+          }
+        },
+        "tool_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tool that was called.",
+            "smithy.api#required": {}
+          }
+        },
+        "decision": {
+          "target": "com.posthog.mcp_gateway#MCPAuditDecisionEnum",
+          "traits": {
+            "smithy.api#documentation": "How the gateway decided the call.\n\n* `auto` - Auto-approved\n* `approved` - Approved\n* `pending` - Awaiting approval\n* `blocked` - Blocked",
+            "smithy.api#required": {}
+          }
+        },
+        "actor_user": {
+          "target": "com.posthog.mcp_gateway#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "Member who made the call, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "actor_service_account": {
+          "target": "com.posthog.mcp_gateway#AuditActorServiceAccount",
+          "traits": {
+            "smithy.api#documentation": "Agent that made the call, if any. Null for member calls.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "actor_label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Denormalized actor label (email or handle) that survives deletion.",
+            "smithy.api#required": {}
+          }
+        },
+        "credential_owner": {
+          "target": "com.posthog.mcp_gateway#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "Member whose connection an agent call used. Null for member calls and for owners whose account has since been deleted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "grant_scope": {
+          "target": "com.posthog.mcp_gateway#MCPAuditEventGrantScope",
+          "traits": {
+            "smithy.api#documentation": "Scope of the agent grant the call used. Blank for member calls.\n\n* `personal` - Personal\n* `team` - Team",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#MCPAuditDecisionEnum": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "BLOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blocked"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `auto` - Auto-approved\n* `approved` - Approved\n* `pending` - Awaiting approval\n* `blocked` - Blocked"
+      }
+    },
+    "com.posthog.mcp_gateway#UserBasic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "uuid": {
+          "target": "smithy.api#String"
+        },
+        "distinct_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String"
+        },
+        "last_name": {
+          "target": "smithy.api#String"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "is_email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hedgehog_config": {
+          "target": "com.posthog.mcp_gateway#UserBasicHedgehogConfigMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role_at_organization": {
+          "target": "com.posthog.mcp_gateway#UserBasicRoleAtOrganization",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#UserBasicHedgehogConfigMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#RoleAtOrganizationEnum": {
+      "type": "enum",
+      "members": {
+        "ENGINEERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engineering"
+          }
+        },
+        "DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data"
+          }
+        },
+        "PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product"
+          }
+        },
+        "FOUNDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "founder"
+          }
+        },
+        "LEADERSHIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leadership"
+          }
+        },
+        "MARKETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marketing"
+          }
+        },
+        "SALES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales"
+          }
+        },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
+      }
+    },
+    "com.posthog.mcp_gateway#BlankEnum": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": ""
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#UserBasicRoleAtOrganization": {
+      "type": "union",
+      "members": {
+        "RoleAtOrganizationEnum": {
+          "target": "com.posthog.mcp_gateway#RoleAtOrganizationEnum"
+        },
+        "BlankEnum": {
+          "target": "com.posthog.mcp_gateway#BlankEnum"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#AuditActorServiceAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service account id.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Agent display name.",
+            "smithy.api#required": {}
+          }
+        },
+        "handle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Agent identity handle.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#MCPAgentGrantScopeEnum": {
+      "type": "enum",
+      "members": {
+        "PERSONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "personal"
+          }
+        },
+        "TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `personal` - Personal\n* `team` - Team"
+      }
+    },
+    "com.posthog.mcp_gateway#MCPAuditEventGrantScope": {
+      "type": "union",
+      "members": {
+        "MCPAgentGrantScopeEnum": {
+          "target": "com.posthog.mcp_gateway#MCPAgentGrantScopeEnum"
+        },
+        "BlankEnum": {
+          "target": "com.posthog.mcp_gateway#BlankEnum"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scope of the agent grant the call used. Blank for member calls.\n\n* `personal` - Personal\n* `team` - Team"
+      }
+    },
+    "com.posthog.mcp_gateway#PaginatedMCPAuditEventListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_gateway#MCPAuditEvent"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#ListMcpGatewayAudit": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#ListMcpGatewayAuditRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#PaginatedMCPAuditEventList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_gateway/audit/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Read-only trail of proxied tool calls. Project admins see all calls.\nMembers see calls made through their connections, including calls made by\nagents using connections they shared."
+      }
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayAuditRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp audit event."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayAudit": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#GetMcpGatewayAuditRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#MCPAuditEvent"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_gateway/audit/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Read-only trail of proxied tool calls. Project admins see all calls.\nMembers see calls made through their connections, including calls made by\nagents using connections they shared."
+      }
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayAuditCountRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "actor_service_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "actor_service_account_id",
+            "smithy.api#documentation": "Only count calls made by this service account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#AuditCounts": {
+      "type": "structure",
+      "members": {
+        "all": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Every audited tool call visible to the requesting user.",
+            "smithy.api#required": {}
+          }
+        },
+        "agents": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Visible calls made by service accounts.",
+            "smithy.api#required": {}
+          }
+        },
+        "approvals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Visible calls that were approved or are awaiting approval.",
+            "smithy.api#required": {}
+          }
+        },
+        "blocked": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Visible calls the gateway blocked.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayAuditCount": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#GetMcpGatewayAuditCountRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#AuditCounts"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_gateway/audit/counts/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Totals backing the quick-filter chips."
+      }
+    },
+    "com.posthog.mcp_gateway#ListMcpGatewayConfigRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#TeamMCPGatewayConfig": {
+      "type": "structure",
+      "members": {
+        "allow_custom_servers": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether non-admin members may register custom MCP servers with the gateway."
+          }
+        },
+        "allow_member_agent_access": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether non-admin members may share their available MCP connections with agents and manage agent tool policies."
+          }
+        },
+        "default_servers_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether servers with no gateway registration — including catalog templates published later — are enabled for the team. A registered server's own toggle always wins."
+          }
+        },
+        "member_default_preset": {
+          "target": "com.posthog.mcp_gateway#TeamMCPGatewayConfigMemberDefaultPreset",
+          "traits": {
+            "smithy.api#documentation": "Baseline preset for members. Empty until an admin applies one from Team settings.\n\n* `allow` - Allow all\n* `user` - Member decides\n* `ask` - Ask for destructive\n* `block` - Block destructive"
+          }
+        },
+        "agent_default_preset": {
+          "target": "com.posthog.mcp_gateway#TeamMCPGatewayConfigAgentDefaultPreset",
+          "traits": {
+            "smithy.api#documentation": "Baseline preset deriving default policies for tools an agent has no explicit row for.\n\n* `allow` - Allow all\n* `user` - Member decides\n* `ask` - Ask for destructive\n* `block` - Block destructive"
+          }
+        },
+        "registered_template_ids": {
+          "target": "com.posthog.mcp_gateway#TeamMCPGatewayConfigRegisteredTemplateIdsList",
+          "traits": {
+            "smithy.api#documentation": "Catalog template ids that already have a gateway registration, including registrations hidden from the requesting member. Clients use this list to avoid presenting disabled or revoked templates as new.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_admin": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the requesting user can administer the gateway (org admin or explicit project admin).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#MCPPolicyPresetEnum": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "ASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ask"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `allow` - Allow all\n* `user` - Member decides\n* `ask` - Ask for destructive\n* `block` - Block destructive"
+      }
+    },
+    "com.posthog.mcp_gateway#TeamMCPGatewayConfigMemberDefaultPreset": {
+      "type": "union",
+      "members": {
+        "MCPPolicyPresetEnum": {
+          "target": "com.posthog.mcp_gateway#MCPPolicyPresetEnum"
+        },
+        "BlankEnum": {
+          "target": "com.posthog.mcp_gateway#BlankEnum"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Baseline preset for members. Empty until an admin applies one from Team settings.\n\n* `allow` - Allow all\n* `user` - Member decides\n* `ask` - Ask for destructive\n* `block` - Block destructive"
+      }
+    },
+    "com.posthog.mcp_gateway#TeamMCPGatewayConfigAgentDefaultPreset": {
+      "type": "union",
+      "members": {
+        "MCPPolicyPresetEnum": {
+          "target": "com.posthog.mcp_gateway#MCPPolicyPresetEnum"
+        },
+        "BlankEnum": {
+          "target": "com.posthog.mcp_gateway#BlankEnum"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Baseline preset deriving default policies for tools an agent has no explicit row for.\n\n* `allow` - Allow all\n* `user` - Member decides\n* `ask` - Ask for destructive\n* `block` - Block destructive"
+      }
+    },
+    "com.posthog.mcp_gateway#TeamMCPGatewayConfigRegisteredTemplateIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Catalog template ids that already have a gateway registration, including registrations hidden from the requesting member. Clients use this list to avoid presenting disabled or revoked templates as new."
+      }
+    },
+    "com.posthog.mcp_gateway#ListMcpGatewayConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#ListMcpGatewayConfigRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#TeamMCPGatewayConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_gateway/config/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The team's gateway settings, plus whether the caller can administer them."
+      }
+    },
+    "com.posthog.mcp_gateway#AudienceEnum": {
+      "type": "enum",
+      "members": {
+        "MEMBERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "members"
+          }
+        },
+        "AGENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agents"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `members` - members\n* `agents` - agents"
+      }
+    },
+    "com.posthog.mcp_gateway#McpGatewayConfigApplyPresetCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "audience": {
+          "target": "com.posthog.mcp_gateway#AudienceEnum",
+          "traits": {
+            "smithy.api#documentation": "Which audience's baseline to overwrite.\n\n* `members` - members\n* `agents` - agents",
+            "smithy.api#required": {}
+          }
+        },
+        "preset": {
+          "target": "com.posthog.mcp_gateway#MCPPolicyPresetEnum",
+          "traits": {
+            "smithy.api#documentation": "Preset to apply.\n\n* `allow` - Allow all\n* `user` - Member decides\n* `ask` - Ask for destructive\n* `block` - Block destructive",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#McpGatewayConfigApplyPresetCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#McpGatewayConfigApplyPresetCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#TeamMCPGatewayConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/mcp_gateway/config/apply_preset/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set the policy baseline for members or agents (admin-only)."
+      }
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayConfigSetAllServersEnabledRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True enables every MCP server for the team; false disables them all. Applies to every registered server and becomes the default for untouched and future catalog servers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayConfigSetAllServersEnabled": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#CreateMcpGatewayConfigSetAllServersEnabledRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#TeamMCPGatewayConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/mcp_gateway/config/set_all_servers_enabled/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Enable or disable every MCP server for the team (admin-only): flips\neach registered server and the default for untouched catalog servers,\nso newly published templates follow the same posture."
+      }
+    },
+    "com.posthog.mcp_gateway#McpGatewayConfigUpdateSettingsCreateRequestMemberDefaultPreset": {
+      "type": "union",
+      "members": {
+        "MCPPolicyPresetEnum": {
+          "target": "com.posthog.mcp_gateway#MCPPolicyPresetEnum"
+        },
+        "BlankEnum": {
+          "target": "com.posthog.mcp_gateway#BlankEnum"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Baseline preset for members.\n\n* `allow` - Allow all\n* `user` - Member decides\n* `ask` - Ask for destructive\n* `block` - Block destructive"
+      }
+    },
+    "com.posthog.mcp_gateway#McpGatewayConfigUpdateSettingsCreateRequestAgentDefaultPreset": {
+      "type": "union",
+      "members": {
+        "MCPPolicyPresetEnum": {
+          "target": "com.posthog.mcp_gateway#MCPPolicyPresetEnum"
+        },
+        "BlankEnum": {
+          "target": "com.posthog.mcp_gateway#BlankEnum"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Baseline preset for agents.\n\n* `allow` - Allow all\n* `user` - Member decides\n* `ask` - Ask for destructive\n* `block` - Block destructive"
+      }
+    },
+    "com.posthog.mcp_gateway#McpGatewayConfigUpdateSettingsCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "allow_custom_servers": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether non-admin members may register custom MCP servers."
+          }
+        },
+        "allow_member_agent_access": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether non-admin members may share their available MCP connections with agents and manage agent tool policies."
+          }
+        },
+        "default_servers_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether servers with no gateway registration — including catalog templates published later — are enabled for the team. A registered server's own toggle always wins."
+          }
+        },
+        "member_default_preset": {
+          "target": "com.posthog.mcp_gateway#McpGatewayConfigUpdateSettingsCreateRequestMemberDefaultPreset",
+          "traits": {
+            "smithy.api#documentation": "Baseline preset for members.\n\n* `allow` - Allow all\n* `user` - Member decides\n* `ask` - Ask for destructive\n* `block` - Block destructive"
+          }
+        },
+        "agent_default_preset": {
+          "target": "com.posthog.mcp_gateway#McpGatewayConfigUpdateSettingsCreateRequestAgentDefaultPreset",
+          "traits": {
+            "smithy.api#documentation": "Baseline preset for agents.\n\n* `allow` - Allow all\n* `user` - Member decides\n* `ask` - Ask for destructive\n* `block` - Block destructive"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#McpGatewayConfigUpdateSettingsCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#McpGatewayConfigUpdateSettingsCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#TeamMCPGatewayConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/mcp_gateway/config/update_settings/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update team gateway settings (admin-only)."
+      }
+    },
+    "com.posthog.mcp_gateway#ListMcpGatewayMembersRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#PaginatedGatewayMemberSummaryList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.mcp_gateway#PaginatedGatewayMemberSummaryListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#GatewayMemberSummary": {
+      "type": "structure",
+      "members": {
+        "user": {
+          "target": "com.posthog.mcp_gateway#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "The member.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_org_admin": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the member is an organization admin or owner.",
+            "smithy.api#required": {}
+          }
+        },
+        "connected_server_ids": {
+          "target": "com.posthog.mcp_gateway#GatewayMemberSummaryConnectedServerIdsList",
+          "traits": {
+            "smithy.api#documentation": "Gateway servers the member has a personal connection to.",
+            "smithy.api#required": {}
+          }
+        },
+        "revoked_server_ids": {
+          "target": "com.posthog.mcp_gateway#GatewayMemberSummaryRevokedServerIdsList",
+          "traits": {
+            "smithy.api#documentation": "Gateway servers an admin turned off for this member.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One team member's gateway posture (admin overview)."
+      }
+    },
+    "com.posthog.mcp_gateway#GatewayMemberSummaryConnectedServerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Gateway servers the member has a personal connection to."
+      }
+    },
+    "com.posthog.mcp_gateway#GatewayMemberSummaryRevokedServerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Gateway servers an admin turned off for this member."
+      }
+    },
+    "com.posthog.mcp_gateway#PaginatedGatewayMemberSummaryListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_gateway#GatewayMemberSummary"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#ListMcpGatewayMembers": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#ListMcpGatewayMembersRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#PaginatedGatewayMemberSummaryList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_gateway/members/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Admin overview of each member's gateway posture, plus the per-member\nserver kill switch."
+      }
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayMemberRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#GetMcpGatewayMemberRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#GatewayMemberSummary"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_gateway/members/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Admin overview of each member's gateway posture, plus the per-member\nserver kill switch."
+      }
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayMembersSetAccessRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gateway_server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway server to toggle for the member.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "False turns the server off for the member; true restores it.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayMembersSetAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#CreateMcpGatewayMembersSetAccessRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/mcp_gateway/members/{id}/set_access/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Turn one gateway server off (or back on) for one member."
+      }
+    },
+    "com.posthog.mcp_gateway#ListMcpGatewayRulesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#PaginatedMCPOrgRuleList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.mcp_gateway#PaginatedMCPOrgRuleListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#MCPOrgRule": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short rule name shown wherever the rule locks a tool.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why this guardrail exists."
+          }
+        },
+        "applies_to": {
+          "target": "com.posthog.mcp_gateway#AppliesToEnum",
+          "traits": {
+            "smithy.api#documentation": "Audience the rule constrains.\n\n* `everyone` - Everyone\n* `members` - Members\n* `agents` - Agents"
+          }
+        },
+        "effect": {
+          "target": "com.posthog.mcp_gateway#EffectEnum",
+          "traits": {
+            "smithy.api#documentation": "State the rule forces on matching tools.\n\n* `needs_approval` - Require approval\n* `do_not_use` - Block"
+          }
+        },
+        "tool_pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "fnmatch pattern against tool names. Blank matches destructive tools heuristically."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disabled rules are kept but not evaluated."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#AppliesToEnum": {
+      "type": "enum",
+      "members": {
+        "EVERYONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "everyone"
+          }
+        },
+        "MEMBERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "members"
+          }
+        },
+        "AGENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agents"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `everyone` - Everyone\n* `members` - Members\n* `agents` - Agents"
+      }
+    },
+    "com.posthog.mcp_gateway#EffectEnum": {
+      "type": "enum",
+      "members": {
+        "NEEDS_APPROVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_approval"
+          }
+        },
+        "DO_NOT_USE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "do_not_use"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `needs_approval` - Require approval\n* `do_not_use` - Block"
+      }
+    },
+    "com.posthog.mcp_gateway#PaginatedMCPOrgRuleListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_gateway#MCPOrgRule"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#ListMcpGatewayRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#ListMcpGatewayRulesRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#PaginatedMCPOrgRuleList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_gateway/rules/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Team guardrails evaluated before any scope policy."
+      }
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayRuleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short rule name shown wherever the rule locks a tool.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why this guardrail exists."
+          }
+        },
+        "applies_to": {
+          "target": "com.posthog.mcp_gateway#AppliesToEnum",
+          "traits": {
+            "smithy.api#documentation": "Audience the rule constrains.\n\n* `everyone` - Everyone\n* `members` - Members\n* `agents` - Agents"
+          }
+        },
+        "effect": {
+          "target": "com.posthog.mcp_gateway#EffectEnum",
+          "traits": {
+            "smithy.api#documentation": "State the rule forces on matching tools.\n\n* `needs_approval` - Require approval\n* `do_not_use` - Block"
+          }
+        },
+        "tool_pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "fnmatch pattern against tool names. Blank matches destructive tools heuristically."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disabled rules are kept but not evaluated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#CreateMcpGatewayRuleRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#MCPOrgRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/mcp_gateway/rules/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Team guardrails evaluated before any scope policy."
+      }
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayRuleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp org rule."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#GetMcpGatewayRuleRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#MCPOrgRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_gateway/rules/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Team guardrails evaluated before any scope policy."
+      }
+    },
+    "com.posthog.mcp_gateway#UpdateMcpGatewayRuleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp org rule."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short rule name shown wherever the rule locks a tool.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why this guardrail exists."
+          }
+        },
+        "applies_to": {
+          "target": "com.posthog.mcp_gateway#AppliesToEnum",
+          "traits": {
+            "smithy.api#documentation": "Audience the rule constrains.\n\n* `everyone` - Everyone\n* `members` - Members\n* `agents` - Agents"
+          }
+        },
+        "effect": {
+          "target": "com.posthog.mcp_gateway#EffectEnum",
+          "traits": {
+            "smithy.api#documentation": "State the rule forces on matching tools.\n\n* `needs_approval` - Require approval\n* `do_not_use` - Block"
+          }
+        },
+        "tool_pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "fnmatch pattern against tool names. Blank matches destructive tools heuristically."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disabled rules are kept but not evaluated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#UpdateMcpGatewayRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#UpdateMcpGatewayRuleRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#MCPOrgRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/mcp_gateway/rules/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Team guardrails evaluated before any scope policy."
+      }
+    },
+    "com.posthog.mcp_gateway#UpdateMcpGatewayRulesPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp org rule."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short rule name shown wherever the rule locks a tool."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why this guardrail exists."
+          }
+        },
+        "applies_to": {
+          "target": "com.posthog.mcp_gateway#AppliesToEnum",
+          "traits": {
+            "smithy.api#documentation": "Audience the rule constrains.\n\n* `everyone` - Everyone\n* `members` - Members\n* `agents` - Agents"
+          }
+        },
+        "effect": {
+          "target": "com.posthog.mcp_gateway#EffectEnum",
+          "traits": {
+            "smithy.api#documentation": "State the rule forces on matching tools.\n\n* `needs_approval` - Require approval\n* `do_not_use` - Block"
+          }
+        },
+        "tool_pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "fnmatch pattern against tool names. Blank matches destructive tools heuristically."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disabled rules are kept but not evaluated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#UpdateMcpGatewayRulesPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#UpdateMcpGatewayRulesPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#MCPOrgRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/mcp_gateway/rules/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Team guardrails evaluated before any scope policy."
+      }
+    },
+    "com.posthog.mcp_gateway#McpGatewayRulesDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp org rule."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#McpGatewayRulesDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#McpGatewayRulesDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/mcp_gateway/rules/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Team guardrails evaluated before any scope policy."
+      }
+    },
+    "com.posthog.mcp_gateway#ListMcpGatewayServersRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#PaginatedMCPGatewayServerList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.mcp_gateway#PaginatedMCPGatewayServerListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#MCPGatewayServer": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "category": {
+          "target": "com.posthog.mcp_gateway#MCPServerCategoryEnum",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "template_auth_type": {
+          "target": "com.posthog.mcp_gateway#MCPAuthTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Fixed authentication type for catalog templates. Null for custom servers, where members choose.\n\n* `api_key` - API Key\n* `oauth` - OAuth",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "auth_type": {
+          "target": "com.posthog.mcp_gateway#MCPAuthTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "How members connect to this server: the template's type for catalog servers, or the type the custom server was added with. Null only for custom servers registered before the type was recorded; members then choose.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_team_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "icon_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated brand icon key from the linked template. Empty for custom servers.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Brand domain from the linked template. Empty for custom servers.",
+            "smithy.api#required": {}
+          }
+        },
+        "docs_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Documentation URL from the template.",
+            "smithy.api#required": {}
+          }
+        },
+        "template_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Linked catalog template.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tool_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of live tools known for this server.",
+            "smithy.api#required": {}
+          }
+        },
+        "connections": {
+          "target": "com.posthog.mcp_gateway#MCPGatewayServerConnectionsList",
+          "traits": {
+            "smithy.api#documentation": "Members with a connection to this server. Only project admins receive this list.",
+            "smithy.api#required": {}
+          }
+        },
+        "your_connection": {
+          "target": "com.posthog.mcp_gateway#GatewayYourConnection",
+          "traits": {
+            "smithy.api#documentation": "The requesting user's own connection, or null when not connected.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "agents": {
+          "target": "com.posthog.mcp_gateway#MCPGatewayServerAgentsList",
+          "traits": {
+            "smithy.api#documentation": "Agents this server is shared with.",
+            "smithy.api#required": {}
+          }
+        },
+        "revoked_user_ids": {
+          "target": "com.posthog.mcp_gateway#MCPGatewayServerRevokedUserIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of members whose access an admin has turned off. Only project admins receive this list.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_revoked_for_you": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when an admin has turned this server off for the requesting user.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.mcp_gateway#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "Who registered the server. Null when that user was deleted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A server registered in the team's gateway, with connection summary."
+      }
+    },
+    "com.posthog.mcp_gateway#MCPServerCategoryEnum": {
+      "type": "enum",
+      "members": {
+        "BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "business"
+          }
+        },
+        "DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data"
+          }
+        },
+        "DESIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "design"
+          }
+        },
+        "DEV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dev"
+          }
+        },
+        "INFRA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "infra"
+          }
+        },
+        "PRODUCTIVITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "productivity"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `business` - Business Operations\n* `data` - Data & Analytics\n* `design` - Design & Content\n* `dev` - Developer Tools & APIs\n* `infra` - Infrastructure\n* `productivity` - Productivity & Collaboration"
+      }
+    },
+    "com.posthog.mcp_gateway#MCPAuthTypeEnum": {
+      "type": "enum",
+      "members": {
+        "API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key"
+          }
+        },
+        "OAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oauth"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `api_key` - API Key\n* `oauth` - OAuth"
+      }
+    },
+    "com.posthog.mcp_gateway#GatewayConnection": {
+      "type": "structure",
+      "members": {
+        "installation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Installation row backing this connection.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.posthog.mcp_gateway#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "The member who connected.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_used_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this connection last proxied a tool call. Null if never used.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pending_oauth": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the OAuth round-trip has not completed yet.",
+            "smithy.api#required": {}
+          }
+        },
+        "needs_reauth": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the stored token was invalidated and needs reauth.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One member's personal connection to a gateway server."
+      }
+    },
+    "com.posthog.mcp_gateway#MCPGatewayServerConnectionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_gateway#GatewayConnection"
+      },
+      "traits": {
+        "smithy.api#documentation": "Members with a connection to this server. Only project admins receive this list."
+      }
+    },
+    "com.posthog.mcp_gateway#GatewayYourConnection": {
+      "type": "structure",
+      "members": {
+        "installation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The caller's installation row for this server.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Per-connection switch — false when self-disabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "pending_oauth": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the OAuth round-trip has not completed yet.",
+            "smithy.api#required": {}
+          }
+        },
+        "needs_reauth": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the stored token was invalidated and needs reauth.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_used_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the caller last proxied a call through this connection.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The requesting user's own connection to a gateway server."
+      }
+    },
+    "com.posthog.mcp_gateway#GatewayAgentAccess": {
+      "type": "structure",
+      "members": {
+        "service_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service account granted access.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.posthog.mcp_gateway#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "The member whose connection the agent uses.",
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "com.posthog.mcp_gateway#MCPAgentGrantScopeEnum",
+          "traits": {
+            "smithy.api#documentation": "'personal' lets the agent use this connection only when working for the member who shared it. 'team' lets it use the connection for the whole project's agent runs.\n\n* `personal` - Personal\n* `team` - Team",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Agent display name.",
+            "smithy.api#required": {}
+          }
+        },
+        "handle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Agent identity handle, e.g. posthog-support.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.mcp_gateway#MCPServiceAccountStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "active, or paused (all access off).\n\n* `active` - Active\n* `paused` - Paused",
+            "smithy.api#required": {}
+          }
+        },
+        "last_active_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the agent last made a call.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "granted_by": {
+          "target": "com.posthog.mcp_gateway#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "Member who shared this server with the agent.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One agent's access to a gateway server, on behalf of one member."
+      }
+    },
+    "com.posthog.mcp_gateway#MCPServiceAccountStatusEnum": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `active` - Active\n* `paused` - Paused"
+      }
+    },
+    "com.posthog.mcp_gateway#MCPGatewayServerAgentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_gateway#GatewayAgentAccess"
+      },
+      "traits": {
+        "smithy.api#documentation": "Agents this server is shared with."
+      }
+    },
+    "com.posthog.mcp_gateway#MCPGatewayServerRevokedUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of members whose access an admin has turned off. Only project admins receive this list."
+      }
+    },
+    "com.posthog.mcp_gateway#PaginatedMCPGatewayServerListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_gateway#MCPGatewayServer"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#ListMcpGatewayServers": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#ListMcpGatewayServersRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#PaginatedMCPGatewayServerList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_gateway/servers/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The team's gateway server registry. The registry is sparse: rows appear\nthrough the install/share/OAuth-start flows in views.py, or when an admin\ntoggles an untouched catalog template here (`set_template_enabled`).\nServers with no row follow the team config's `default_servers_enabled`."
+      }
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayServerRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp gateway server."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayServer": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#GetMcpGatewayServerRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#MCPGatewayServer"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_gateway/servers/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The team's gateway server registry. The registry is sparse: rows appear\nthrough the install/share/OAuth-start flows in views.py, or when an admin\ntoggles an untouched catalog template here (`set_template_enabled`).\nServers with no row follow the team config's `default_servers_enabled`."
+      }
+    },
+    "com.posthog.mcp_gateway#UpdateMcpGatewayServerRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp gateway server."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name shown across the gateway."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short description shown on server cards."
+          }
+        },
+        "category": {
+          "target": "com.posthog.mcp_gateway#MCPServerCategoryEnum",
+          "traits": {
+            "smithy.api#documentation": "Catalog category used for filter chips.\n\n* `business` - Business Operations\n* `data` - Data & Analytics\n* `design` - Design & Content\n* `dev` - Developer Tools & APIs\n* `infra` - Infrastructure\n* `productivity` - Productivity & Collaboration"
+          }
+        },
+        "is_team_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the team can see and call the server. Turning it off also blocks agent access."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#MCPGatewayServerUpdate": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name shown across the gateway."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short description shown on server cards."
+          }
+        },
+        "category": {
+          "target": "com.posthog.mcp_gateway#MCPServerCategoryEnum",
+          "traits": {
+            "smithy.api#documentation": "Catalog category used for filter chips.\n\n* `business` - Business Operations\n* `data` - Data & Analytics\n* `design` - Design & Content\n* `dev` - Developer Tools & APIs\n* `infra` - Infrastructure\n* `productivity` - Productivity & Collaboration"
+          }
+        },
+        "is_team_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the team can see and call the server. Turning it off also blocks agent access."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#UpdateMcpGatewayServer": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#UpdateMcpGatewayServerRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#MCPGatewayServerUpdate"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/mcp_gateway/servers/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The team's gateway server registry. The registry is sparse: rows appear\nthrough the install/share/OAuth-start flows in views.py, or when an admin\ntoggles an untouched catalog template here (`set_template_enabled`).\nServers with no row follow the team config's `default_servers_enabled`."
+      }
+    },
+    "com.posthog.mcp_gateway#UpdateMcpGatewayServersPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp gateway server."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name shown across the gateway."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short description shown on server cards."
+          }
+        },
+        "category": {
+          "target": "com.posthog.mcp_gateway#MCPServerCategoryEnum",
+          "traits": {
+            "smithy.api#documentation": "Catalog category used for filter chips.\n\n* `business` - Business Operations\n* `data` - Data & Analytics\n* `design` - Design & Content\n* `dev` - Developer Tools & APIs\n* `infra` - Infrastructure\n* `productivity` - Productivity & Collaboration"
+          }
+        },
+        "is_team_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the team can see and call the server. Turning it off also blocks agent access."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#UpdateMcpGatewayServersPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#UpdateMcpGatewayServersPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#MCPGatewayServerUpdate"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/mcp_gateway/servers/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The team's gateway server registry. The registry is sparse: rows appear\nthrough the install/share/OAuth-start flows in views.py, or when an admin\ntoggles an untouched catalog template here (`set_template_enabled`).\nServers with no row follow the team config's `default_servers_enabled`."
+      }
+    },
+    "com.posthog.mcp_gateway#McpGatewayServersDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp gateway server."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#McpGatewayServersDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#McpGatewayServersDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/mcp_gateway/servers/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The team's gateway server registry. The registry is sparse: rows appear\nthrough the install/share/OAuth-start flows in views.py, or when an admin\ntoggles an untouched catalog template here (`set_template_enabled`).\nServers with no row follow the team config's `default_servers_enabled`."
+      }
+    },
+    "com.posthog.mcp_gateway#ScopeTypeEnum": {
+      "type": "enum",
+      "members": {
+        "TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team"
+          }
+        },
+        "MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member"
+          }
+        },
+        "AGENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `team` - Team default\n* `member` - Member\n* `agent` - Agent"
+      }
+    },
+    "com.posthog.mcp_gateway#ToolPolicyEntry": {
+      "type": "structure",
+      "members": {
+        "tool_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tool to set the policy for, up to 200 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "policy_state": {
+          "target": "com.posthog.mcp_gateway#MCPToolApprovalStateEnum",
+          "traits": {
+            "smithy.api#documentation": "State to apply for this scope.\n\n* `approved` - Approved\n* `needs_approval` - Needs approval\n* `do_not_use` - Do not use",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#MCPToolApprovalStateEnum": {
+      "type": "enum",
+      "members": {
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "NEEDS_APPROVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_approval"
+          }
+        },
+        "DO_NOT_USE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "do_not_use"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `approved` - Approved\n* `needs_approval` - Needs approval\n* `do_not_use` - Do not use"
+      }
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayServersPolicyRequestPoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_gateway#ToolPolicyEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-tool states to upsert for the scope. At most 1,000 entries per request."
+      }
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayServersPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp gateway server."
+          }
+        },
+        "scope_type": {
+          "target": "com.posthog.mcp_gateway#ScopeTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Which scope to resolve: the team default, one member, or one agent.\n\n* `team` - Team default\n* `member` - Member\n* `agent` - Agent"
+          }
+        },
+        "scope_user_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Member scope target. Defaults to the requesting user."
+          }
+        },
+        "scope_service_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Agent scope target. Required when scope_type is agent."
+          }
+        },
+        "policies": {
+          "target": "com.posthog.mcp_gateway#CreateMcpGatewayServersPolicyRequestPoliciesList",
+          "traits": {
+            "smithy.api#documentation": "Per-tool states to upsert for the scope. At most 1,000 entries per request.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#PaginatedResolvedToolPolicyList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.mcp_gateway#PaginatedResolvedToolPolicyListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#ResolvedToolPolicy": {
+      "type": "structure",
+      "members": {
+        "tool_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tool name as exposed by the upstream server.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tool description from the upstream server.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_schema": {
+          "target": "com.posthog.mcp_gateway#ResolvedToolPolicyInputSchemaMap",
+          "traits": {
+            "smithy.api#documentation": "JSON Schema describing the tool's input arguments.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_destructive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the canonical gateway heuristic treats this tool as destructive.",
+            "smithy.api#required": {}
+          }
+        },
+        "policy_state": {
+          "target": "com.posthog.mcp_gateway#MCPToolApprovalStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Effective state for the scope.\n\n* `approved` - Approved\n* `needs_approval` - Needs approval\n* `do_not_use` - Do not use",
+            "smithy.api#required": {}
+          }
+        },
+        "team_state": {
+          "target": "com.posthog.mcp_gateway#MCPToolApprovalStateEnum",
+          "traits": {
+            "smithy.api#documentation": "What the team-level chain (row or preset) yields, ignoring the scope. Null when the team imposes nothing.\n\n* `approved` - Approved\n* `needs_approval` - Needs approval\n* `do_not_use` - Do not use",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "locked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when no state is editable for this scope (a rule match or a Blocked team ceiling).",
+            "smithy.api#required": {}
+          }
+        },
+        "decided_by": {
+          "target": "com.posthog.mcp_gateway#DecidedByEnum",
+          "traits": {
+            "smithy.api#documentation": "Which policy layer decided the state.\n\n* `rule` - rule\n* `scope` - scope\n* `team` - team\n* `preset` - preset\n* `legacy` - legacy\n* `default` - default",
+            "smithy.api#required": {}
+          }
+        },
+        "rule_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Matching org rule name, when decided_by is rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "rule_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Matching org rule description, when decided_by is rule.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One tool with its effective policy for the requested scope."
+      }
+    },
+    "com.posthog.mcp_gateway#ResolvedToolPolicyInputSchemaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "JSON Schema describing the tool's input arguments."
+      }
+    },
+    "com.posthog.mcp_gateway#DecidedByEnum": {
+      "type": "enum",
+      "members": {
+        "RULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rule"
+          }
+        },
+        "SCOPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scope"
+          }
+        },
+        "TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team"
+          }
+        },
+        "PRESET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preset"
+          }
+        },
+        "LEGACY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "legacy"
+          }
+        },
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `rule` - rule\n* `scope` - scope\n* `team` - team\n* `preset` - preset\n* `legacy` - legacy\n* `default` - default"
+      }
+    },
+    "com.posthog.mcp_gateway#PaginatedResolvedToolPolicyListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_gateway#ResolvedToolPolicy"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayServersPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#CreateMcpGatewayServersPolicyRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#PaginatedResolvedToolPolicyList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/mcp_gateway/servers/{id}/policies/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Upsert per-tool states for a scope, returning the re-resolved catalog."
+      }
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayServersToolRequestScopeType": {
+      "type": "enum",
+      "members": {
+        "TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team"
+          }
+        },
+        "MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member"
+          }
+        },
+        "AGENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agent"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayServersToolRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp gateway server."
+          }
+        },
+        "scope_service_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "scope_service_account_id",
+            "smithy.api#documentation": "Agent scope target. Required when scope_type is agent."
+          }
+        },
+        "scope_type": {
+          "target": "com.posthog.mcp_gateway#GetMcpGatewayServersToolRequestScopeType",
+          "traits": {
+            "smithy.api#httpQuery": "scope_type",
+            "smithy.api#documentation": "Which scope to resolve: the team default, one member, or one agent.\n\n* `team` - Team default\n* `member` - Member\n* `agent` - Agent"
+          }
+        },
+        "scope_user_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "scope_user_id",
+            "smithy.api#documentation": "Member scope target. Defaults to the requesting user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayServersTool": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#GetMcpGatewayServersToolRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#PaginatedResolvedToolPolicyList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_gateway/servers/{id}/tools/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Tool catalog with the resolved policy for a scope."
+      }
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayServersSetTemplateEnabledRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "template_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Active catalog template to enable or disable for the team.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True lets the team see and call the server; false hides it from members and blocks connections.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayServersSetTemplateEnabled": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#CreateMcpGatewayServersSetTemplateEnabledRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#MCPGatewayServer"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/mcp_gateway/servers/set_template_enabled/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Enable or disable a catalog template for the team (admin-only),\nmaterializing its gateway registration on the first toggle."
+      }
+    },
+    "com.posthog.mcp_gateway#ListMcpGatewayServiceAccountsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#PaginatedMCPServiceAccountList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.mcp_gateway#PaginatedMCPServiceAccountListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#MCPServiceAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "handle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable internal identity handle for this PostHog agent.",
+            "smithy.api#required": {}
+          }
+        },
+        "agent_key": {
+          "target": "com.posthog.mcp_gateway#AgentKeyEnum",
+          "traits": {
+            "smithy.api#documentation": "Stable PostHog agent identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.mcp_gateway#MCPServiceAccountStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "active, or paused (all MCP access off).\n\n* `active` - Active\n* `paused` - Paused",
+            "smithy.api#required": {}
+          }
+        },
+        "server_ids": {
+          "target": "com.posthog.mcp_gateway#MCPServiceAccountServerIdsList",
+          "traits": {
+            "smithy.api#documentation": "Gateway servers configured for this agent.",
+            "smithy.api#required": {}
+          }
+        },
+        "servers": {
+          "target": "com.posthog.mcp_gateway#MCPServiceAccountServersList",
+          "traits": {
+            "smithy.api#documentation": "Credential-safe summaries of the gateway servers configured for this agent.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_active_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the agent last made a call through the gateway.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#AgentKeyEnum": {
+      "type": "enum",
+      "members": {
+        "SUPPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "support"
+          }
+        },
+        "SCOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scout"
+          }
+        },
+        "WORKFLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workflow"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#MCPServiceAccountServerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Gateway servers configured for this agent."
+      }
+    },
+    "com.posthog.mcp_gateway#MCPServiceAccountServer": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway server granted to the agent.",
+            "smithy.api#required": {}
+          }
+        },
+        "shared_by": {
+          "target": "com.posthog.mcp_gateway#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "The member whose connection the agent uses.",
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "com.posthog.mcp_gateway#MCPAgentGrantScopeEnum",
+          "traits": {
+            "smithy.api#documentation": "'personal' lets the agent use this connection only when working for the member who shared it. 'team' lets it use the connection for the whole project's agent runs.\n\n* `personal` - Personal\n* `team` - Team",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server display name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server description.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MCP server URL. Clients derive a brand icon from it when icon_domain is empty.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated brand icon key. Empty for custom servers.",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Brand domain. Empty for custom servers.",
+            "smithy.api#required": {}
+          }
+        },
+        "connection_state": {
+          "target": "com.posthog.mcp_gateway#ConnectionStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether the credential delegated to the agent is ready to use.\n\n* `ready` - ready\n* `pending_oauth` - pending_oauth\n* `needs_reauth` - needs_reauth\n* `disabled` - disabled\n* `missing_credential` - missing_credential",
+            "smithy.api#required": {}
+          }
+        },
+        "reachable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether agent runs can use this grant: the server is enabled for the project and an admin has not revoked the sharing member's access. Independent of connection_state, which reports credential health.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A credential-safe summary of a server configured for an agent."
+      }
+    },
+    "com.posthog.mcp_gateway#ConnectionStateEnum": {
+      "type": "enum",
+      "members": {
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "PENDING_OAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_oauth"
+          }
+        },
+        "NEEDS_REAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_reauth"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "MISSING_CREDENTIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "missing_credential"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `ready` - ready\n* `pending_oauth` - pending_oauth\n* `needs_reauth` - needs_reauth\n* `disabled` - disabled\n* `missing_credential` - missing_credential"
+      }
+    },
+    "com.posthog.mcp_gateway#MCPServiceAccountServersList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_gateway#MCPServiceAccountServer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Credential-safe summaries of the gateway servers configured for this agent."
+      }
+    },
+    "com.posthog.mcp_gateway#PaginatedMCPServiceAccountListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_gateway#MCPServiceAccount"
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#ListMcpGatewayServiceAccounts": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#ListMcpGatewayServiceAccountsRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#PaginatedMCPServiceAccountList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_gateway/service_accounts/",
+          "code": 200
+        },
+        "smithy.api#documentation": "PostHog's built-in agents and their MCP access grants.\n\nThe catalog is fixed. Projects can pause an agent's MCP access and grant or\nrevoke servers, but cannot create, rename, rotate, or delete agents."
+      }
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayServiceAccountRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp service account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#GetMcpGatewayServiceAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#GetMcpGatewayServiceAccountRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#MCPServiceAccount"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_gateway/service_accounts/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "PostHog's built-in agents and their MCP access grants.\n\nThe catalog is fixed. Projects can pause an agent's MCP access and grant or\nrevoke servers, but cannot create, rename, rotate, or delete agents."
+      }
+    },
+    "com.posthog.mcp_gateway#UpdateMcpGatewayServiceAccountRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp service account."
+          }
+        },
+        "status": {
+          "target": "com.posthog.mcp_gateway#MCPServiceAccountStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "active, or paused (all MCP access off).\n\n* `active` - Active\n* `paused` - Paused"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#MCPServiceAccountUpdate": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.posthog.mcp_gateway#MCPServiceAccountStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "active, or paused (all MCP access off).\n\n* `active` - Active\n* `paused` - Paused"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_gateway#UpdateMcpGatewayServiceAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#UpdateMcpGatewayServiceAccountRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#MCPServiceAccountUpdate"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/mcp_gateway/service_accounts/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "PostHog's built-in agents and their MCP access grants.\n\nThe catalog is fixed. Projects can pause an agent's MCP access and grant or\nrevoke servers, but cannot create, rename, rotate, or delete agents."
+      }
+    },
+    "com.posthog.mcp_gateway#UpdateMcpGatewayServiceAccountsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp service account."
+          }
+        },
+        "status": {
+          "target": "com.posthog.mcp_gateway#MCPServiceAccountStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "active, or paused (all MCP access off).\n\n* `active` - Active\n* `paused` - Paused"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#UpdateMcpGatewayServiceAccountsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#UpdateMcpGatewayServiceAccountsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#MCPServiceAccountUpdate"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/mcp_gateway/service_accounts/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "PostHog's built-in agents and their MCP access grants.\n\nThe catalog is fixed. Projects can pause an agent's MCP access and grant or\nrevoke servers, but cannot create, rename, rotate, or delete agents."
+      }
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayServiceAccountsAccessRequestPoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_gateway#ToolPolicyEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional agent-scope tool policies to set alongside the grant. At most 1,000 entries per request."
+      }
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayServiceAccountsAccessRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this mcp service account."
+          }
+        },
+        "gateway_server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway server to share or stop sharing.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True shares the caller's own connection with the agent, false removes the caller's share.",
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "com.posthog.mcp_gateway#MCPAgentGrantScopeEnum",
+          "traits": {
+            "smithy.api#documentation": "Applies to the caller's own share, and only alongside enabled=true. 'personal' lets the agent use the connection when it works for the caller. 'team' lets it use the connection for the whole project's agent runs, including runs nobody started. It never lets another person use the connection. Defaults to personal, so re-sharing without this field resets the caller's share to personal.\n\n* `personal` - Personal\n* `team` - Team"
+          }
+        },
+        "all": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Only valid with enabled=false. Removes every member's share of this server with this agent, along with the agent's tool policies for it. Project admins only."
+          }
+        },
+        "policies": {
+          "target": "com.posthog.mcp_gateway#CreateMcpGatewayServiceAccountsAccessRequestPoliciesList",
+          "traits": {
+            "smithy.api#documentation": "Optional agent-scope tool policies to set alongside the grant. At most 1,000 entries per request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_gateway#CreateMcpGatewayServiceAccountsAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_gateway#CreateMcpGatewayServiceAccountsAccessRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_gateway#MCPServiceAccount"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/mcp_gateway/service_accounts/{id}/access/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Share, or stop sharing, one gateway server with this agent.\n\nSharing is personal. `enabled=true` delegates the caller's own\nconnection, and the agent may use it only when acting for the caller,\nunless the caller sends `scope=team` to lend it to the project's agent\nruns generally. Scope only ever applies to the caller's own share: it is\ntheir credential to lend, so no admin permission is involved and no\nmember can change someone else's share.\n`enabled=false` removes the caller's own share and leaves other members'\nshares, and the agent's tool policies, in place.\n\nProject admins can send `all=true` alongside `enabled=false` to remove\nevery member's share of this server with this agent, along with the\nagent's tool policies for it."
+      }
+    },
+    "com.posthog.mcp_gateway#McpGateway": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.mcp_gateway#ListMcpGatewayAudit"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#GetMcpGatewayAudit"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#GetMcpGatewayAuditCount"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#ListMcpGatewayConfig"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#McpGatewayConfigApplyPresetCreate"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#CreateMcpGatewayConfigSetAllServersEnabled"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#McpGatewayConfigUpdateSettingsCreate"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#ListMcpGatewayMembers"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#GetMcpGatewayMember"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#CreateMcpGatewayMembersSetAccess"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#ListMcpGatewayRules"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#CreateMcpGatewayRule"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#GetMcpGatewayRule"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#UpdateMcpGatewayRule"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#UpdateMcpGatewayRulesPartial"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#McpGatewayRulesDestroy"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#ListMcpGatewayServers"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#GetMcpGatewayServer"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#UpdateMcpGatewayServer"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#UpdateMcpGatewayServersPartial"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#McpGatewayServersDestroy"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#CreateMcpGatewayServersPolicy"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#GetMcpGatewayServersTool"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#CreateMcpGatewayServersSetTemplateEnabled"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#ListMcpGatewayServiceAccounts"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#GetMcpGatewayServiceAccount"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#UpdateMcpGatewayServiceAccount"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#UpdateMcpGatewayServiceAccountsPartial"
+        },
+        {
+          "target": "com.posthog.mcp_gateway#CreateMcpGatewayServiceAccountsAccess"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

@@ -695,6 +695,7 @@ export interface ProductUserSummary {
   Domain?: string;
   SubscriptionStartDate?: string;
   SubscriptionEndDate?: string;
+  LicenseExpirationDate?: string;
 }
 export const ProductUserSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -707,6 +708,7 @@ export const ProductUserSummary = /*@__PURE__*/ S.suspend(() =>
     Domain: S.optional(S.String),
     SubscriptionStartDate: S.optional(S.String),
     SubscriptionEndDate: S.optional(S.String),
+    LicenseExpirationDate: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ProductUserSummary",

@@ -86,10 +86,10 @@ export const OrganizationList = /*@__PURE__*/ S.Array(
 
 /** This resource represents a custom app. */
 export interface CustomApp {
-  /** Output only. Package name of the created Android app. Only present in the API response. */
-  packageName?: string;
   /** Organizations to which the custom app should be made available. If the request contains any organizations, then the app will be restricted to only these organizations. To support the organization linked to the developer account, the organization ID should be provided explicitly together with other organizations. If no organizations are provided, then the app is only available to the organization linked to the developer account. */
   organizations?: OrganizationList;
+  /** Output only. Package name of the created Android app. Only present in the API response. */
+  packageName?: string;
   /** Title for the Android app. */
   title?: string;
   /** Default listing language in BCP 47 format. */
@@ -97,8 +97,8 @@ export interface CustomApp {
 }
 export const CustomApp = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    packageName: S.optional(S.String),
     organizations: S.optional(OrganizationList),
+    packageName: S.optional(S.String),
     title: S.optional(S.String),
     languageCode: S.optional(S.String),
   }),

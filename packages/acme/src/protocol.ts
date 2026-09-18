@@ -27,6 +27,8 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import * as Schema from "effect/Schema";
+import type * as HttpBody from "effect/unstable/http/HttpBody";
 import type * as AST from "effect/SchemaAST";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
@@ -50,9 +52,13 @@ import {
   InternalServerError,
   type ConfigError,
 } from "@distilled.cloud/core/errors";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import {
+  parseRetryAfter,
+  parseRetryAfterForStatus,
+} from "@distilled.cloud/core/retry-after";
 import { Credentials, type Config } from "./credentials.ts";
 import {
+  AcmeParseError,
   DirectoryMissingResource,
   JoseError,
   UnknownAcmeError,
@@ -62,7 +68,7 @@ import {
   parseJwk,
   signExternalAccountBinding,
   signRequest,
-  type Jwk,
+  type SignOptions,
 } from "./jose.ts";
 
 /**
@@ -83,21 +89,26 @@ export type AcmeOpContext = Credentials | HttpClient.HttpClient;
 // Directory + nonce caches (per CA, process-wide)
 // =============================================================================
 
-interface Directory {
-  readonly newNonce: string;
-  readonly newAccount: string;
-  readonly newOrder: string;
-  readonly revokeCert: string;
-  readonly newAuthz?: string;
-  readonly keyChange?: string;
-  readonly meta?: Record<string, unknown>;
-}
+const DirectorySchema = Schema.Struct({
+  newNonce: Schema.String,
+  newAccount: Schema.String,
+  newOrder: Schema.String,
+  revokeCert: Schema.String,
+  newAuthz: Schema.optional(Schema.String),
+  keyChange: Schema.optional(Schema.String),
+  meta: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+});
+type Directory = typeof DirectorySchema.Type;
 
 const directories = new Map<string, Directory>();
-/** The last unused `Replay-Nonce` per CA host. Nonces are single-use. */
+/** The last unused `Replay-Nonce` per directory URL. Nonces are single-use. */
 const nonces = new Map<string, string>();
 
-const hostOf = (url: string): string => new URL(url).host;
+type SigningContext = Omit<SignOptions, "nonce"> & {
+  readonly directoryUrl: string;
+};
+// HTTP request copies preserve the body identity; entries live only with a request.
+const signedRequests = new WeakMap<HttpBody.HttpBody, SigningContext>();
 
 const resolveCredentials = Effect.gen(function* () {
   const resolve = yield* Credentials;
@@ -117,32 +128,37 @@ const fetchDirectory = (directoryUrl: string) =>
         new UnknownAcmeError({
           message: `GET ${directoryUrl} answered ${response.status}`,
           status: response.status,
-          body: text,
+          body: Redacted.make(text),
         }),
       );
     }
-    const directory = (yield* response.json) as unknown as Directory;
+    const text = yield* response.text;
+    const json = yield* parseJson(text);
+    const directory = yield* Schema.decodeUnknownEffect(DirectorySchema)(
+      json,
+    ).pipe(
+      Effect.mapError(() => parseError("Invalid ACME directory response")),
+    );
     directories.set(directoryUrl, directory);
     return directory;
   });
 
 const rememberNonce = (
-  url: string,
+  directoryUrl: string,
   response: HttpClientResponse.HttpClientResponse,
 ): void => {
   const nonce = response.headers["replay-nonce"];
   if (typeof nonce === "string" && nonce.length > 0) {
-    nonces.set(hostOf(url), nonce);
+    nonces.set(directoryUrl, nonce);
   }
 };
 
 /** Take the cached nonce for this CA, or fetch a fresh one from `newNonce`. */
-const takeNonce = (directory: Directory) =>
+const takeNonce = (directoryUrl: string, directory: Directory) =>
   Effect.gen(function* () {
-    const host = hostOf(directory.newNonce);
-    const cached = nonces.get(host);
+    const cached = nonces.get(directoryUrl);
     if (cached !== undefined) {
-      nonces.delete(host);
+      nonces.delete(directoryUrl);
       return cached;
     }
     const client = yield* HttpClient.HttpClient;
@@ -304,15 +320,23 @@ const encode = ({
         });
     }
 
-    const nonce = yield* takeNonce(directory);
-    const jws = yield* signRequest({
+    const nonce = yield* takeNonce(creds.directoryUrl, directory);
+    const signing: SigningContext = {
       jwk,
       url,
-      nonce,
       kid: embedKey ? undefined : creds.accountUrl,
       payload,
-    });
-    return HttpClientRequest.post(url).pipe(
+      directoryUrl: creds.directoryUrl,
+    };
+    const request = yield* signedRequest(signing, nonce);
+    signedRequests.set(request.body, signing);
+    return request;
+  });
+
+const signedRequest = (signing: SigningContext, nonce: string) =>
+  Effect.gen(function* () {
+    const jws = yield* signRequest({ ...signing, nonce });
+    return HttpClientRequest.post(signing.url).pipe(
       HttpClientRequest.setHeader("Accept", JOSE_ACCEPT),
       HttpClientRequest.bodyText(JSON.stringify(jws), "application/jose+json"),
     );
@@ -330,7 +354,7 @@ interface Problem {
 }
 
 const isProblem = (value: unknown): value is Problem =>
-  typeof value === "object" && value !== null && "type" in value;
+  isObject(value) && typeof value.type === "string";
 
 /**
  * Match a problem document against the operation's typed error classes by
@@ -341,6 +365,7 @@ const matchProblem = (
   errorClasses: ReadonlyArray<unknown>,
   status: number,
   problem: Problem,
+  headers: Record<string, string | undefined>,
 ): unknown | undefined => {
   const urn = problem.type ?? "";
   let best: { cls: unknown; specificity: number } | undefined;
@@ -370,6 +395,9 @@ const matchProblem = (
     type: urn,
     detail: problem.detail,
     subproblems: problem.subproblems,
+    ...(urn === "urn:ietf:params:acme:error:rateLimited"
+      ? { retryAfter: parseRetryAfter(headers) }
+      : {}),
   });
 };
 
@@ -394,81 +422,130 @@ const decode = ({
   readonly config: API.ProtocolOperationConfig;
 }) =>
   Effect.gen(function* () {
-    const headers = response.headers as Record<string, string | undefined>;
-    const status = response.status;
-    rememberNonce(response.request.url, response);
+    const signing = signedRequests.get(response.request.body);
+    signedRequests.delete(response.request.body);
+    const directoryUrl =
+      signing?.directoryUrl ?? (yield* resolveCredentials).directoryUrl;
 
-    // Decode has no operation name either: `newNonce` is the only HEAD, and a
-    // certificate download is the only PEM response.
-    const isNewNonce = response.request.method === "HEAD";
-    const contentType = headers["content-type"] ?? "";
-    const isCertificate = contentType.includes("pem-certificate-chain");
-    const text = isNewNonce ? "" : yield* response.text;
-    let json: unknown;
-    if (text.trim().length > 0 && /json/.test(contentType)) {
-      try {
-        json = JSON.parse(text);
-      } catch {
-        json = undefined;
+    for (let retries = 0; ; retries++) {
+      const headers = response.headers as Record<string, string | undefined>;
+      const status = response.status;
+      const isNewNonce = response.request.method === "HEAD";
+      const isCertificate = (headers["content-type"] ?? "").includes(
+        "pem-certificate-chain",
+      );
+      const text = isNewNonce ? "" : yield* response.text;
+      const json =
+        isNewNonce || (isCertificate && status < 400)
+          ? undefined
+          : yield* parseJson(text).pipe(
+              Effect.catchTag("AcmeParseError", (error) =>
+                status >= 400 ? Effect.succeed(undefined) : Effect.fail(error),
+              ),
+            );
+      const problem = status >= 400 && isProblem(json) ? json : undefined;
+      const badNonce = problem?.type === "urn:ietf:params:acme:error:badNonce";
+      if (badNonce) {
+        const nonce = headers["replay-nonce"];
+        // Rejection nonces belong only to this request, never to the shared cache.
+        if (signing && nonce && retries < 2) {
+          const client = yield* HttpClient.HttpClient;
+          response = yield* client.execute(
+            yield* signedRequest(signing, nonce),
+          );
+          continue;
+        }
+      } else {
+        rememberNonce(directoryUrl, response);
       }
-    }
 
-    if (status >= 400) {
-      const problem = isProblem(json) ? json : undefined;
-      if (problem) {
-        const typed = matchProblem(errorClasses, status, problem);
-        if (typed !== undefined) return yield* fail(typed);
-      }
-      const message =
-        problem?.detail ??
-        (text.trim().length > 0 ? text.trim() : `HTTP ${status}`);
-      const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[
-        status
-      ] as
-        | (new (args: {
-            message: string;
-            retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
-          }) => unknown)
-        | undefined;
-      if (StatusClass) {
+      if (status >= 400) {
+        if (problem) {
+          const typed = matchProblem(errorClasses, status, problem, headers);
+          if (typed !== undefined) return yield* fail(typed);
+          return yield* fail(
+            new UnknownAcmeError({
+              type: problem.type,
+              detail: problem.detail,
+              subproblems: problem.subproblems,
+              message: problem.detail ?? problem.type,
+              status,
+              body: Redacted.make(json),
+            }),
+          );
+        }
+        const message = `HTTP ${status}`;
+        const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[
+          status
+        ] as
+          | (new (args: {
+              message: string;
+              retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
+            }) => unknown)
+          | undefined;
+        if (StatusClass) {
+          return yield* fail(
+            new StatusClass({
+              message,
+              retryAfter: parseRetryAfterForStatus(status, headers),
+            }),
+          );
+        }
+        if (status >= 500) {
+          return yield* fail(
+            new InternalServerError({
+              message,
+              retryAfter: parseRetryAfterForStatus(status, headers),
+            }),
+          );
+        }
         return yield* fail(
-          new StatusClass({
+          new UnknownAcmeError({
             message,
-            retryAfter: parseRetryAfterForStatus(status, headers),
+            status,
+            body: Redacted.make(json ?? text),
           }),
         );
       }
-      if (status >= 500) {
-        return yield* fail(
-          new InternalServerError({
-            message,
-            retryAfter: parseRetryAfterForStatus(status, headers),
-          }),
-        );
+
+      let body: Record<string, unknown>;
+      if (isNewNonce) {
+        body = { replayNonce: headers["replay-nonce"] || undefined };
+      } else if (isCertificate) {
+        body = {
+          chain: text,
+          alternates: parseLinkAlternates(headers["link"]),
+        };
+      } else {
+        if (!isObject(json))
+          return yield* fail(parseError("Expected a JSON object"));
+        body = json;
+        const location = headers["location"];
+        if (location) body = { ...body, location };
       }
-      return yield* fail(
-        new UnknownAcmeError({
-          type: problem?.type,
-          message,
-          status,
-          body: json ?? text,
-        }),
+      return yield* Schema.decodeUnknownEffect(
+        Schema.make<Schema.Schema<unknown>>(outputAst),
+      )(mapKeys(outputAst, body, "decode")).pipe(
+        Effect.mapError(() =>
+          parseError("Response does not match the output schema"),
+        ),
       );
     }
+  });
 
-    let body: Record<string, unknown>;
-    if (isNewNonce) {
-      body = { replayNonce: headers["replay-nonce"] ?? "" };
-    } else if (isCertificate) {
-      body = { chain: text, alternates: parseLinkAlternates(headers["link"]) };
-    } else {
-      body = (json ?? {}) as Record<string, unknown>;
-      const location = headers["location"];
-      if (typeof location === "string" && location.length > 0) {
-        body = { ...body, location };
-      }
-    }
-    return mapKeys(outputAst, body, "decode");
+const isObject = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+const parseError = (cause: string) =>
+  new AcmeParseError({
+    body: "[REDACTED]",
+    cause,
+  });
+
+const parseJson = (text: string) =>
+  Effect.try({
+    try: (): unknown => (text.trim().length > 0 ? JSON.parse(text) : {}),
+    catch: () => parseError("Invalid JSON response"),
   });
 
 const fail = <E>(error: E) => Effect.fail(error) as Effect.Effect<never, E>;

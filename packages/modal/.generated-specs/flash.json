@@ -1,0 +1,223 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.flash#FlashContainerDeregisterRequest": {
+      "type": "structure",
+      "members": {
+        "serviceName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.flash#FlashContainerDeregister": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.flash#FlashContainerDeregisterRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/FlashContainerDeregister",
+          "code": 200
+        },
+        "smithy.api#documentation": "Modal Flash (experimental)"
+      }
+    },
+    "com.modal.flash#ListFlashContainerRequest": {
+      "type": "structure",
+      "members": {
+        "functionId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.flash#ListFlashContainerResponseContainer": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String"
+        },
+        "host": {
+          "target": "smithy.api#String"
+        },
+        "port": {
+          "target": "smithy.api#Integer"
+        }
+      }
+    },
+    "com.modal.flash#ListFlashContainerResponseContainerList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.flash#ListFlashContainerResponseContainer"
+      }
+    },
+    "com.modal.flash#ListFlashContainerResponse": {
+      "type": "structure",
+      "members": {
+        "containers": {
+          "target": "com.modal.flash#ListFlashContainerResponseContainerList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.flash#ListFlashContainer": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.flash#ListFlashContainerRequest"
+      },
+      "output": {
+        "target": "com.modal.flash#ListFlashContainerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/FlashContainerList",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.flash#RegisterFlashContainerRequest": {
+      "type": "structure",
+      "members": {
+        "serviceName": {
+          "target": "smithy.api#String"
+        },
+        "priority": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "not used?"
+          }
+        },
+        "weight": {
+          "target": "smithy.api#Integer"
+        },
+        "host": {
+          "target": "smithy.api#String"
+        },
+        "port": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.flash#RegisterFlashContainerResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.flash#RegisterFlashContainer": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.flash#RegisterFlashContainerRequest"
+      },
+      "output": {
+        "target": "com.modal.flash#RegisterFlashContainerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/FlashContainerRegister",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.flash#FlashSetTargetSlotsMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "functionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "TODO(claudia): add other metrics to use in autoscaling decisions"
+          }
+        },
+        "targetSlots": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.flash#FlashSetTargetSlotsMetricsResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.flash#FlashSetTargetSlotsMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.flash#FlashSetTargetSlotsMetricsRequest"
+      },
+      "output": {
+        "target": "com.modal.flash#FlashSetTargetSlotsMetricsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/FlashSetTargetSlotsMetrics",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.flash#FlashService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.flash#FlashContainerDeregister"
+        },
+        {
+          "target": "com.modal.flash#ListFlashContainer"
+        },
+        {
+          "target": "com.modal.flash#RegisterFlashContainer"
+        },
+        {
+          "target": "com.modal.flash#FlashSetTargetSlotsMetrics"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Flash",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Flash`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

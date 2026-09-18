@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.github.teams#ListRequestTeamType": {
@@ -857,16 +858,28 @@
           "target": "smithy.api#String"
         },
         "company": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "blog": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "location": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "email": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "twitter_username": {
           "target": "smithy.api#String",
@@ -1927,7 +1940,7 @@
           "uri": "/orgs/{org}/teams/{team_slug}/members",
           "code": 200
         },
-        "smithy.api#documentation": "List team members\n\nTeam members will include the members of child teams.\n\nEach member includes their `role` on the team (`member` or `maintainer`) and an `inherited` flag indicating whether the membership is inherited from a child team (`true`) or is a direct membership (`false`). These fields let you read a member's role and direct/inherited status without additional requests.\n\nTo list members in a team, the team must be visible to the authenticated user."
+        "smithy.api#documentation": "List team members\n\nTeam members will include the members of child teams.\n\nEach member includes their `role` on the team (`member` or `maintainer`) and an `inherited` flag indicating whether the membership is inherited from a child team (`true`) or is a direct membership (`false`). These fields let you read a member's role and direct/inherited status without additional requests.\n\nTo list members in a team, the team must be visible to the authenticated user.\n\n> [!NOTE]\n> You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/members`."
       }
     },
     "com.github.teams#GetMembershipForUserInOrgRequest": {

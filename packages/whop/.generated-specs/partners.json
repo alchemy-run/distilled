@@ -1,0 +1,3576 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.partners#CreateReferralPartnerRequest": {
+      "type": "structure",
+      "members": {
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.partners#CreateReferralPartnerResponse": {
+      "type": "structure",
+      "members": {
+        "referral_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The caller's referral link — businesses that sign up through it are attributed to the caller.",
+            "smithy.api#required": {}
+          }
+        },
+        "whop_partner_enabled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the caller became a Whop partner.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.partners#CreateReferralPartner": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.partners#CreateReferralPartnerRequest"
+      },
+      "output": {
+        "target": "com.whop.partners#CreateReferralPartnerResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.partners#Forbidden"
+        },
+        {
+          "target": "com.whop.partners#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/partners",
+          "code": 200
+        },
+        "smithy.api#documentation": "Enroll as a Whop partner\n\nEnrolls the calling user in the Whop partner program, making their partner businesses eligible for earnings. Idempotent — enrolling again keeps the original enrollment time."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessesRequestStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "REMOVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "removed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "REFERRAL_STARTED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "referral_started_at"
+          }
+        },
+        "REFERRAL_EXPIRES_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "referral_expires_at"
+          }
+        },
+        "PAYOUT_PERCENTAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout_percentage"
+          }
+        },
+        "VOLUME_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "volume_usd"
+          }
+        },
+        "EARNINGS_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "earnings_usd"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessesRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessesRequestTier": {
+      "type": "enum",
+      "members": {
+        "FIRST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first"
+          }
+        },
+        "SECOND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "second"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessesRequest": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.whop.partners#ListPartnerBusinessesRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by referral status."
+          }
+        },
+        "has_earnings": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "has_earnings",
+            "smithy.api#documentation": "When true, only businesses with pending or completed earnings paid to the caller."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of partner businesses to return from the start of the window."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of partner businesses to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+          }
+        },
+        "order": {
+          "target": "com.whop.partners#ListPartnerBusinessesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort partner businesses by."
+          }
+        },
+        "direction": {
+          "target": "com.whop.partners#ListPartnerBusinessesRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only return partner businesses created before this timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return partner businesses created after this timestamp."
+          }
+        },
+        "referred_user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "referred_user_id",
+            "smithy.api#documentation": "Filter to referrals attributed to this user. For first-tier referrals, this is the referred account owner; for second-tier referrals, this is the partner you recruited."
+          }
+        },
+        "referred_username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "referred_username",
+            "smithy.api#documentation": "Filter by the referred user's exact username. Ignored when `referred_user_id` is present."
+          }
+        },
+        "tier": {
+          "target": "com.whop.partners#ListPartnerBusinessesRequestTier",
+          "traits": {
+            "smithy.api#httpQuery": "tier",
+            "smithy.api#documentation": "Filter to only first-tier referrals or only second-tier referrals."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItemAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referred account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "logo_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referred account logo URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referred account route.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referred account display name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Referred account."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItemEarningsUsd": {
+      "type": "structure",
+      "members": {
+        "completed": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Commission already paid out, in USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "pending": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Commission scheduled but not yet paid, in USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Pending + completed commission, in USD.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItemFirstTierPartnerProfilePicture": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture URL.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user's profile picture."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItemFirstTierPartner": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataItemFirstTierPartnerProfilePicture",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The partner who referred the business owner onto Whop (first tier). Null if there is no active first-tier partner."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItemMyPartnerTier": {
+      "type": "enum",
+      "members": {
+        "FIRST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first"
+          }
+        },
+        "SECOND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "second"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which tier the caller earns on for this business: `first` (they referred the owner) or `second` (they referred the first-tier partner)."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItemObject": {
+      "type": "enum",
+      "members": {
+        "PARTNER_BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner_business"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItemOwnerProfilePicture": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture URL.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user's profile picture."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItemOwner": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataItemOwnerProfilePicture",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The owner of the referred business."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItemPayoutPercentages": {
+      "type": "structure",
+      "members": {
+        "ad_spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of the referred business's Whop Ads spend.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "card_interchange": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of Whop's profit from card interchange.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sales": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of Whop's profit from product sales.",
+            "smithy.api#required": {}
+          }
+        },
+        "transfer": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of Whop's profit from platform balance transfers.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The referrer's commission rate for each income source, expressed as a fraction (0.3 = 30%)."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItemSecondTierPartnerProfilePicture": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture URL.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user's profile picture."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItemSecondTierPartner": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataItemSecondTierPartnerProfilePicture",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The second-tier partner who earns on this business (referred the first-tier partner). Null if there is no active second-tier partner."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItemStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "REMOVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "removed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current referral status."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItemVolumeUsd": {
+      "type": "structure",
+      "members": {
+        "attributed": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credited GMV (awaiting_settlement + settled); excludes canceled and reversed, in USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "awaiting_settlement": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "GMV awaiting settlement (commission not yet computed), in USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "settled": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "GMV of pending + completed payments, in USD.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataItemAccount",
+          "traits": {
+            "smithy.api#documentation": "Referred account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the partner business was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "earnings_usd": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataItemEarningsUsd",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_tier_partner": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataItemFirstTierPartner",
+          "traits": {
+            "smithy.api#documentation": "The partner who referred the business owner onto Whop (first tier). Null if there is no active first-tier partner.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Partner business ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "my_partner_tier": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataItemMyPartnerTier",
+          "traits": {
+            "smithy.api#documentation": "Which tier the caller earns on for this business: `first` (they referred the owner) or `second` (they referred the first-tier partner).",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataItemObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "owner": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataItemOwner",
+          "traits": {
+            "smithy.api#documentation": "The owner of the referred business.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payout_percentages": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataItemPayoutPercentages",
+          "traits": {
+            "smithy.api#documentation": "The referrer's commission rate for each income source, expressed as a fraction (0.3 = 30%).",
+            "smithy.api#required": {}
+          }
+        },
+        "referral_expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the referral expires.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "referral_started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the referral became active.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "second_tier_partner": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataItemSecondTierPartner",
+          "traits": {
+            "smithy.api#documentation": "The second-tier partner who earns on this business (referred the first-tier partner). Null if there is no active second-tier partner.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataItemStatus",
+          "traits": {
+            "smithy.api#documentation": "Current referral status.",
+            "smithy.api#required": {}
+          }
+        },
+        "volume_usd": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataItemVolumeUsd",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.partners#ListPartnerBusinessesResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessesResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.partners#ListPartnerBusinessesResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.partners#ListPartnerBusinesses": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.partners#ListPartnerBusinessesRequest"
+      },
+      "output": {
+        "target": "com.whop.partners#ListPartnerBusinessesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.partners#BadRequest"
+        },
+        {
+          "target": "com.whop.partners#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/partners/businesses",
+          "code": 200
+        },
+        "smithy.api#documentation": "List referred businesses\n\nLists the businesses the authenticated user referred onto Whop, most recent first.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The partner business ID (a coma_ identifier)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.partners#AccountCapabilities": {
+      "type": "structure",
+      "members": {
+        "accept_bank_payments": {
+          "target": "com.whop.partners#AccountCapabilitiesAcceptBankPayments",
+          "traits": {
+            "smithy.api#documentation": "Bank payins: debits, transfers, and local bank rails",
+            "smithy.api#required": {}
+          }
+        },
+        "accept_bnpl_payments": {
+          "target": "com.whop.partners#AccountCapabilitiesAcceptBnplPayments",
+          "traits": {
+            "smithy.api#documentation": "Buy-now-pay-later payins; requires approval",
+            "smithy.api#required": {}
+          }
+        },
+        "accept_card_payments": {
+          "target": "com.whop.partners#AccountCapabilitiesAcceptCardPayments",
+          "traits": {
+            "smithy.api#documentation": "Card payins, including Apple Pay and Google Pay",
+            "smithy.api#required": {}
+          }
+        },
+        "bank_deposit": {
+          "target": "com.whop.partners#AccountCapabilitiesBankDeposit",
+          "traits": {
+            "smithy.api#documentation": "Deposits by bank wire or ACH to the account's virtual bank account",
+            "smithy.api#required": {}
+          }
+        },
+        "card_deposit": {
+          "target": "com.whop.partners#AccountCapabilitiesCardDeposit",
+          "traits": {
+            "smithy.api#documentation": "Balance top-ups by charging a stored payment method",
+            "smithy.api#required": {}
+          }
+        },
+        "card_issuing": {
+          "target": "com.whop.partners#AccountCapabilitiesCardIssuing",
+          "traits": {
+            "smithy.api#documentation": "Issuing Whop cards; requires card application approval",
+            "smithy.api#required": {}
+          }
+        },
+        "crypto_deposit": {
+          "target": "com.whop.partners#AccountCapabilitiesCryptoDeposit",
+          "traits": {
+            "smithy.api#documentation": "On-chain deposits to the account's crypto wallet",
+            "smithy.api#required": {}
+          }
+        },
+        "crypto_payout": {
+          "target": "com.whop.partners#AccountCapabilitiesCryptoPayout",
+          "traits": {
+            "smithy.api#documentation": "On-chain payouts to a crypto wallet",
+            "smithy.api#required": {}
+          }
+        },
+        "instant_payout": {
+          "target": "com.whop.partners#AccountCapabilitiesInstantPayout",
+          "traits": {
+            "smithy.api#documentation": "Instant payouts to an eligible payout destination",
+            "smithy.api#required": {}
+          }
+        },
+        "run_ads": {
+          "target": "com.whop.partners#AccountCapabilitiesRunAds",
+          "traits": {
+            "smithy.api#documentation": "Launching ad campaigns through Whop Ads. `inactive` while a requested ads services agreement is awaiting the account's signature.",
+            "smithy.api#required": {}
+          }
+        },
+        "standard_payout": {
+          "target": "com.whop.partners#AccountCapabilitiesStandardPayout",
+          "traits": {
+            "smithy.api#documentation": "Standard payouts to an external payout destination",
+            "smithy.api#required": {}
+          }
+        },
+        "transfer": {
+          "target": "com.whop.partners#AccountCapabilitiesTransfer",
+          "traits": {
+            "smithy.api#documentation": "Transfers to other accounts",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#AccountCapabilitiesAcceptBankPayments": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Bank payins: debits, transfers, and local bank rails"
+      }
+    },
+    "com.whop.partners#AccountCapabilitiesAcceptBnplPayments": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Buy-now-pay-later payins; requires approval"
+      }
+    },
+    "com.whop.partners#AccountCapabilitiesAcceptCardPayments": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Card payins, including Apple Pay and Google Pay"
+      }
+    },
+    "com.whop.partners#AccountCapabilitiesBankDeposit": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Deposits by bank wire or ACH to the account's virtual bank account"
+      }
+    },
+    "com.whop.partners#AccountCapabilitiesCardDeposit": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Balance top-ups by charging a stored payment method"
+      }
+    },
+    "com.whop.partners#AccountCapabilitiesCardIssuing": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Issuing Whop cards; requires card application approval"
+      }
+    },
+    "com.whop.partners#AccountCapabilitiesCryptoDeposit": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "On-chain deposits to the account's crypto wallet"
+      }
+    },
+    "com.whop.partners#AccountCapabilitiesCryptoPayout": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "On-chain payouts to a crypto wallet"
+      }
+    },
+    "com.whop.partners#AccountCapabilitiesInstantPayout": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Instant payouts to an eligible payout destination"
+      }
+    },
+    "com.whop.partners#AccountCapabilitiesRunAds": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Launching ad campaigns through Whop Ads. `inactive` while a requested ads services agreement is awaiting the account's signature."
+      }
+    },
+    "com.whop.partners#AccountCapabilitiesStandardPayout": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Standard payouts to an external payout destination"
+      }
+    },
+    "com.whop.partners#AccountCapabilitiesTransfer": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Transfers to other accounts"
+      }
+    },
+    "com.whop.partners#AccountRecommendedAction": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.whop.partners#AccountRecommendedActionAction",
+          "traits": {
+            "smithy.api#documentation": "The recommendation; new values may be added, so handle unknown actions gracefully",
+            "smithy.api#required": {}
+          }
+        },
+        "blocked_capabilities": {
+          "target": "com.whop.partners#AccountRecommendedActionBlockedCapabilitiesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cta": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL the call-to-action links to",
+            "smithy.api#required": {}
+          }
+        },
+        "cta_label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Button label",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supporting copy, or empty",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Illustration icon URL, or `null`",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "impact_score": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Estimated impact from 0-100, or `null` when not ranked",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reasoning": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why this action was recommended, or `null`",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.partners#AccountRecommendedActionStatus",
+          "traits": {
+            "smithy.api#documentation": "Always optional — never blocking",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Headline for the recommendation",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#AccountRecommendedActionAction": {
+      "type": "enum",
+      "members": {
+        "THEME_BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "theme_business"
+          }
+        },
+        "CREATE_PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_product"
+          }
+        },
+        "CREATE_PLAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_plan"
+          }
+        },
+        "VERIFY_IDENTITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verify_identity"
+          }
+        },
+        "CONNECT_AFFILIATE_PROGRAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connect_affiliate_program"
+          }
+        },
+        "CREATE_PROMOTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_promotion"
+          }
+        },
+        "MIGRATE_FROM_STRIPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "migrate_from_stripe"
+          }
+        },
+        "ACCEPT_FIRST_PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accept_first_payment"
+          }
+        },
+        "LAUNCH_FIRST_AD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "launch_first_ad"
+          }
+        },
+        "LAUNCH_DRAFT_CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "launch_draft_campaign"
+          }
+        },
+        "INCREASE_AD_BUDGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "increase_ad_budget"
+          }
+        },
+        "REFRESH_AD_CREATIVES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "refresh_ad_creatives"
+          }
+        },
+        "FIX_AD_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fix_ad_billing"
+          }
+        },
+        "EXCLUDE_CUSTOMERS_FROM_ADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exclude_customers_from_ads"
+          }
+        },
+        "RETARGET_ABANDONED_CHECKOUTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "retarget_abandoned_checkouts"
+          }
+        },
+        "FIX_FUNNEL_DROPOFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fix_funnel_dropoff"
+          }
+        },
+        "INVITE_TEAM_MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invite_team_member"
+          }
+        },
+        "ENABLE_TAX_COLLECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enable_tax_collection"
+          }
+        },
+        "CREATE_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_card"
+          }
+        },
+        "APPLY_FOR_FINANCING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apply_for_financing"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The recommendation; new values may be added, so handle unknown actions gracefully"
+      }
+    },
+    "com.whop.partners#AccountRecommendedActionBlockedCapabilitiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.partners#AccountRecommendedActionStatus": {
+      "type": "enum",
+      "members": {
+        "OPTIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "optional"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always optional — never blocking"
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessResponseAccountRecommendedActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.partners#AccountRecommendedAction"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional actions that unlock capabilities or grow the referred account."
+      }
+    },
+    "com.whop.partners#AccountRequiredAction": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.whop.partners#AccountRequiredActionAction",
+          "traits": {
+            "smithy.api#documentation": "What the holder must do; new values may be added, so handle unknown actions gracefully",
+            "smithy.api#required": {}
+          }
+        },
+        "blocked_capabilities": {
+          "target": "com.whop.partners#AccountRequiredActionBlockedCapabilitiesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cta": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL the call-to-action links to, or null when there is no button",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cta_label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Button label, or empty when there is no button",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supporting copy, or empty",
+            "smithy.api#required": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the action's illustration icon, or null if it has none",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.partners#AccountRequiredActionStatus",
+          "traits": {
+            "smithy.api#documentation": "required (act now) or pending (under review)",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Headline for the action",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#AccountRequiredActionAction": {
+      "type": "enum",
+      "members": {
+        "DEPOSIT_FUNDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deposit_funds"
+          }
+        },
+        "SUBMIT_INFORMATION_REQUEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submit_information_request"
+          }
+        },
+        "REAUTHORIZE_PAYOUT_METHODS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reauthorize_payout_methods"
+          }
+        },
+        "UPDATE_PAYOUT_PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_payout_profile"
+          }
+        },
+        "CARD_USAGE_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_usage_review"
+          }
+        },
+        "VERIFY_IDENTITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verify_identity"
+          }
+        },
+        "SIGN_FORMATION_DOCUMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sign_formation_documents"
+          }
+        },
+        "CONNECT_FULFILLMENT_TRACKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connect_fulfillment_tracker"
+          }
+        },
+        "SETUP_APPLE_PAY_DOMAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "setup_apple_pay_domains"
+          }
+        },
+        "CONFIGURE_TAX_REMITTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "configure_tax_remitter"
+          }
+        },
+        "ADD_VAT_REGISTRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add_vat_registration"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the holder must do; new values may be added, so handle unknown actions gracefully"
+      }
+    },
+    "com.whop.partners#AccountRequiredActionBlockedCapabilitiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.partners#AccountRequiredActionStatus": {
+      "type": "enum",
+      "members": {
+        "REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "required"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "required (act now) or pending (under review)"
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessResponseAccountRequiredActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.partners#AccountRequiredAction"
+      },
+      "traits": {
+        "smithy.api#documentation": "Actions the referred account owner must take to unblock capabilities."
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessResponseAccount": {
+      "type": "structure",
+      "members": {
+        "capabilities": {
+          "target": "com.whop.partners#AccountCapabilities",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referred account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "logo_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referred account logo URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "recommended_actions": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseAccountRecommendedActionsList",
+          "traits": {
+            "smithy.api#documentation": "Optional actions that unlock capabilities or grow the referred account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "required_actions": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseAccountRequiredActionsList",
+          "traits": {
+            "smithy.api#documentation": "Actions the referred account owner must take to unblock capabilities.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referred account route.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referred account display name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Referred account."
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessResponseEarningsUsd": {
+      "type": "structure",
+      "members": {
+        "completed": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Commission already paid out, in USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "pending": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Commission scheduled but not yet paid, in USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Pending + completed commission, in USD.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#GetPartnerBusinessResponseFirstTierPartnerProfilePicture": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture URL.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user's profile picture."
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessResponseFirstTierPartner": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseFirstTierPartnerProfilePicture",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The partner who referred the business owner onto Whop (first tier). Null if there is no active first-tier partner."
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessResponseMyPartnerTier": {
+      "type": "enum",
+      "members": {
+        "FIRST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first"
+          }
+        },
+        "SECOND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "second"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which tier the caller earns on for this business: `first` (they referred the owner) or `second` (they referred the first-tier partner)."
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessResponseObject": {
+      "type": "enum",
+      "members": {
+        "PARTNER_BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner_business"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#GetPartnerBusinessResponseOwnerProfilePicture": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture URL.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user's profile picture."
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessResponseOwner": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseOwnerProfilePicture",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The owner of the referred business."
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessResponsePayoutPercentages": {
+      "type": "structure",
+      "members": {
+        "ad_spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of the referred business's Whop Ads spend.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "card_interchange": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of Whop's profit from card interchange.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sales": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of Whop's profit from product sales.",
+            "smithy.api#required": {}
+          }
+        },
+        "transfer": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of Whop's profit from platform balance transfers.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The referrer's commission rate for each income source, expressed as a fraction (0.3 = 30%)."
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessResponseSecondTierPartnerProfilePicture": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture URL.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user's profile picture."
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessResponseSecondTierPartner": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseSecondTierPartnerProfilePicture",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The second-tier partner who earns on this business (referred the first-tier partner). Null if there is no active second-tier partner."
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "REMOVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "removed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current referral status."
+      }
+    },
+    "com.whop.partners#GetPartnerBusinessResponseVolumeUsd": {
+      "type": "structure",
+      "members": {
+        "attributed": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credited GMV (awaiting_settlement + settled); excludes canceled and reversed, in USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "awaiting_settlement": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "GMV awaiting settlement (commission not yet computed), in USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "settled": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "GMV of pending + completed payments, in USD.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#GetPartnerBusinessResponse": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseAccount",
+          "traits": {
+            "smithy.api#documentation": "Referred account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the partner business was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "earnings_usd": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseEarningsUsd",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_tier_partner": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseFirstTierPartner",
+          "traits": {
+            "smithy.api#documentation": "The partner who referred the business owner onto Whop (first tier). Null if there is no active first-tier partner.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Partner business ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "my_partner_tier": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseMyPartnerTier",
+          "traits": {
+            "smithy.api#documentation": "Which tier the caller earns on for this business: `first` (they referred the owner) or `second` (they referred the first-tier partner).",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "owner": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseOwner",
+          "traits": {
+            "smithy.api#documentation": "The owner of the referred business.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payout_percentages": {
+          "target": "com.whop.partners#GetPartnerBusinessResponsePayoutPercentages",
+          "traits": {
+            "smithy.api#documentation": "The referrer's commission rate for each income source, expressed as a fraction (0.3 = 30%).",
+            "smithy.api#required": {}
+          }
+        },
+        "referral_expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the referral expires.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "referral_started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the referral became active.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "second_tier_partner": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseSecondTierPartner",
+          "traits": {
+            "smithy.api#documentation": "The second-tier partner who earns on this business (referred the first-tier partner). Null if there is no active second-tier partner.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Current referral status.",
+            "smithy.api#required": {}
+          }
+        },
+        "volume_usd": {
+          "target": "com.whop.partners#GetPartnerBusinessResponseVolumeUsd",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.partners#GetPartnerBusiness": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.partners#GetPartnerBusinessRequest"
+      },
+      "output": {
+        "target": "com.whop.partners#GetPartnerBusinessResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.partners#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/partners/businesses/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a referred business\n\nRetrieves a single referred business and its referral terms."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "AWAITING_SETTLEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_settlement"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "REVERSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reversed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsRequestIncomeSourceItem": {
+      "type": "enum",
+      "members": {
+        "SALES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales"
+          }
+        },
+        "AD_SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_spend"
+          }
+        },
+        "TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer"
+          }
+        },
+        "CARD_INTERCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_interchange"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsRequestIncomeSourceList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.partners#ListPartnerBusinessEarningsRequestIncomeSourceItem"
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "COMMISSION_AMOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "commission_amount"
+          }
+        },
+        "TRANSACTION_AMOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transaction_amount"
+          }
+        },
+        "PAYOUT_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The partner business ID (a coma_ identifier)."
+          }
+        },
+        "status": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by earning status."
+          }
+        },
+        "income_source": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsRequestIncomeSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "income_source",
+            "smithy.api#documentation": "Filter to earnings from these income sources. Repeat the parameter for each one (income_source=sales&income_source=ad_spend)."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "order": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort earnings by."
+          }
+        },
+        "direction": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only return earnings created before this timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return earnings created after this timestamp."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referred account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "logo_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referred account logo URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referred account route.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referred account display name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Referred account."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemFinancialActivityItemType": {
+      "type": "enum",
+      "members": {
+        "INCOME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "income"
+          }
+        },
+        "EXPENSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expense"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the line is income Whop collected or a cost Whop paid."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemFinancialActivityItem": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Line amount in its native currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "amount_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Line amount in USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fee or cost category of the line.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency of the native amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemFinancialActivityItemType",
+          "traits": {
+            "smithy.api#documentation": "Whether the line is income Whop collected or a cost Whop paid.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemFinancialActivityList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemFinancialActivityItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Income and cost lines behind this earning's commission. Null for earnings settled before this data was recorded."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemIncomeSource": {
+      "type": "enum",
+      "members": {
+        "SALES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales"
+          }
+        },
+        "AD_SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_spend"
+          }
+        },
+        "TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer"
+          }
+        },
+        "CARD_INTERCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_interchange"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which income source the commission is on: product-sales gross profit, Whop Ads spend billed to the business, platform balance transfer fees, or Whop Card interchange."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemObject": {
+      "type": "enum",
+      "members": {
+        "PARTNER_BUSINESS_EARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner_business_earning"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemProduct": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase0AlternativePaymentMethod": {
+      "type": "structure",
+      "members": {
+        "image_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase0Object": {
+      "type": "enum",
+      "members": {
+        "RECEIPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "receipt"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase0": {
+      "type": "structure",
+      "members": {
+        "alternative_payment_method": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase0AlternativePaymentMethod",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "brand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase0Object",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "processor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase1Object": {
+      "type": "enum",
+      "members": {
+        "TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase1": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase1Object",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase2Object": {
+      "type": "enum",
+      "members": {
+        "CARD_TRANSACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_transaction"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase2": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "merchant_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase2Object",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResource": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase0"
+        },
+        "Case1": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase1"
+        },
+        "Case2": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResourceCase2"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The resource that generated the earning: the customer payment receipt for sales and ad spend earnings, the balance transfer for transfer earnings, or the card transaction for card interchange earnings."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemStatus": {
+      "type": "enum",
+      "members": {
+        "AWAITING_SETTLEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_settlement"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "REVERSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reversed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current status of the earning."
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemAccount",
+          "traits": {
+            "smithy.api#documentation": "Referred account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancelation_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the earning was canceled or reversed, if applicable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commission_amount_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the referrer earns, in USD. Null until the earning settles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "financial_activity": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemFinancialActivityList",
+          "traits": {
+            "smithy.api#documentation": "Income and cost lines behind this earning's commission. Null for earnings settled before this data was recorded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "income_source": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemIncomeSource",
+          "traits": {
+            "smithy.api#documentation": "Which income source the commission is on: product-sales gross profit, Whop Ads spend billed to the business, platform balance transfer fees, or Whop Card interchange.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "payout_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payout_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The referrer's share of Whop's gross profit, as a fraction (0.3 = 30%). Null until the earning settles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemProduct",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resource": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemResource",
+          "traits": {
+            "smithy.api#documentation": "The resource that generated the earning: the customer payment receipt for sales and ad spend earnings, the balance transfer for transfer earnings, or the card transaction for card interchange earnings.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "second_tier": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this earning is a second-tier (grandparent) commission.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItemStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the earning.",
+            "smithy.api#required": {}
+          }
+        },
+        "transaction_amount_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The underlying transaction amount the commission's income comes from, in USD.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListPartnerBusinessEarningsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.partners#ListPartnerBusinessEarningsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.partners#ListPartnerBusinessEarnings": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.partners#ListPartnerBusinessEarningsRequest"
+      },
+      "output": {
+        "target": "com.whop.partners#ListPartnerBusinessEarningsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.partners#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/partners/businesses/{id}/earnings",
+          "code": 200
+        },
+        "smithy.api#documentation": "List referred business earnings\n\nLists the earnings Whop pays out for one referred business's activity, most recent first.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.partners#GetPartnerLeaderboardRequestPeriod": {
+      "type": "enum",
+      "members": {
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        },
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        },
+        "YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "year"
+          }
+        },
+        "LAST_30_DAYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_30_days"
+          }
+        },
+        "ALL_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all_time"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#GetPartnerLeaderboardRequest": {
+      "type": "structure",
+      "members": {
+        "period": {
+          "target": "com.whop.partners#GetPartnerLeaderboardRequestPeriod",
+          "traits": {
+            "smithy.api#httpQuery": "period",
+            "smithy.api#documentation": "Time window for the rankings. `day`, `month`, and `year` count earnings since the start of the current calendar day, month, or year; `last_30_days` counts earnings over the trailing 30 days; `all_time` ranks lifetime earnings."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.partners#GetPartnerLeaderboardResponseLeadersItemUserProfilePicture": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture URL.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user's profile picture. Present only on the caller's own entry."
+      }
+    },
+    "com.whop.partners#GetPartnerLeaderboardResponseLeadersItemUser": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city where the referrer is located, derived from their IP address. Null if location sharing is disabled.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country where the referrer is located, derived from their IP address. Null if location sharing is disabled.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`. Present only on the caller's own entry."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name. Present only on the caller's own entry.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture": {
+          "target": "com.whop.partners#GetPartnerLeaderboardResponseLeadersItemUserProfilePicture",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture. Present only on the caller's own entry."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username. Present only on the caller's own entry."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The ranked referrer. Identity fields (id, name, username, profile_picture) are returned only on the caller's own entry; other referrers expose coarse location only."
+      }
+    },
+    "com.whop.partners#GetPartnerLeaderboardResponseLeadersItem": {
+      "type": "structure",
+      "members": {
+        "first_referral_started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the referrer's earliest partner business became active.",
+            "smithy.api#required": {}
+          }
+        },
+        "rank": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "1-based leaderboard position.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_earnings_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The referrer's pending + completed earnings across all referred businesses, in USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_volume_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credited GMV across all the referrer's referred businesses, in USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.partners#GetPartnerLeaderboardResponseLeadersItemUser",
+          "traits": {
+            "smithy.api#documentation": "The ranked referrer. Identity fields (id, name, username, profile_picture) are returned only on the caller's own entry; other referrers expose coarse location only.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#GetPartnerLeaderboardResponseLeadersList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.partners#GetPartnerLeaderboardResponseLeadersItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The top referrers by total earnings, best first."
+      }
+    },
+    "com.whop.partners#GetPartnerLeaderboardResponseMeUserProfilePicture": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture URL.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user's profile picture. Present only on the caller's own entry."
+      }
+    },
+    "com.whop.partners#GetPartnerLeaderboardResponseMeUser": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The city where the referrer is located, derived from their IP address. Null if location sharing is disabled.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The country where the referrer is located, derived from their IP address. Null if location sharing is disabled.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`. Present only on the caller's own entry."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name. Present only on the caller's own entry.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture": {
+          "target": "com.whop.partners#GetPartnerLeaderboardResponseMeUserProfilePicture",
+          "traits": {
+            "smithy.api#documentation": "The user's profile picture. Present only on the caller's own entry."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username. Present only on the caller's own entry."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The ranked referrer. Identity fields (id, name, username, profile_picture) are returned only on the caller's own entry; other referrers expose coarse location only."
+      }
+    },
+    "com.whop.partners#GetPartnerLeaderboardResponseMe": {
+      "type": "structure",
+      "members": {
+        "first_referral_started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the referrer's earliest partner business became active.",
+            "smithy.api#required": {}
+          }
+        },
+        "rank": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "1-based leaderboard position.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_earnings_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The referrer's pending + completed earnings across all referred businesses, in USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_volume_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credited GMV across all the referrer's referred businesses, in USD.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.partners#GetPartnerLeaderboardResponseMeUser",
+          "traits": {
+            "smithy.api#documentation": "The ranked referrer. Identity fields (id, name, username, profile_picture) are returned only on the caller's own entry; other referrers expose coarse location only.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The caller's own standing; null when the caller has no referral earnings."
+      }
+    },
+    "com.whop.partners#GetPartnerLeaderboardResponse": {
+      "type": "structure",
+      "members": {
+        "leaders": {
+          "target": "com.whop.partners#GetPartnerLeaderboardResponseLeadersList",
+          "traits": {
+            "smithy.api#documentation": "The top referrers by total earnings, best first.",
+            "smithy.api#required": {}
+          }
+        },
+        "me": {
+          "target": "com.whop.partners#GetPartnerLeaderboardResponseMe",
+          "traits": {
+            "smithy.api#documentation": "The caller's own standing; null when the caller has no referral earnings.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.partners#GetPartnerLeaderboard": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.partners#GetPartnerLeaderboardRequest"
+      },
+      "output": {
+        "target": "com.whop.partners#GetPartnerLeaderboardResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.partners#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/partners/leaderboard",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve the leaderboard\n\nRanks referrers by partner business earnings — all-time by default, or over the current day, month, year, or trailing 30 days. Authentication is optional: authenticated callers also get their own standing, anonymous callers get the rankings alone."
+      }
+    },
+    "com.whop.partners#ListReferredUsersRequest": {
+      "type": "structure",
+      "members": {
+        "has_businesses": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "has_businesses",
+            "smithy.api#documentation": "When true, only referred users who brought at least one business onto Whop."
+          }
+        },
+        "has_earning_businesses": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "has_earning_businesses",
+            "smithy.api#documentation": "When true, only referred users with at least one business that has generated earnings."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of referred users to return from the start of the window."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of referred users to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.partners#ListReferredUsersResponseDataItemUserProfilePicture": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListReferredUsersResponseDataItemUser": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture": {
+          "target": "com.whop.partners#ListReferredUsersResponseDataItemUserProfilePicture"
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListReferredUsersResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "total_earnings_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total_volume_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.partners#ListReferredUsersResponseDataItemUser",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListReferredUsersResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.partners#ListReferredUsersResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListReferredUsersResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.partners#ListReferredUsersResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.partners#ListReferredUsersResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.partners#ListReferredUsersResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.partners#ListReferredUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.partners#ListReferredUsersRequest"
+      },
+      "output": {
+        "target": "com.whop.partners#ListReferredUsersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/partners/referred_users",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the users the caller referred\n\nLists the users the caller referred onto Whop (newest first), each with the second-tier earnings the caller has made from that user's businesses.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.partners#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.partners#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.partners#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.partners#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.partners#Partners": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.partners#CreateReferralPartner"
+        },
+        {
+          "target": "com.whop.partners#ListPartnerBusinesses"
+        },
+        {
+          "target": "com.whop.partners#GetPartnerBusiness"
+        },
+        {
+          "target": "com.whop.partners#ListPartnerBusinessEarnings"
+        },
+        {
+          "target": "com.whop.partners#GetPartnerLeaderboard"
+        },
+        {
+          "target": "com.whop.partners#ListReferredUsers"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

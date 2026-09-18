@@ -1,0 +1,316 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.feature_request_product_areas#ListFeatureRequestProductAreasRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "include_inactive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_inactive",
+            "smithy.api#documentation": "Include inactive product areas. Defaults to false."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.feature_request_product_areas#FeatureRequestProductArea": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable product area ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Team-maintained product area name.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Position in product area selectors. Lower values appear first."
+          }
+        },
+        "is_active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether editors can select this product area for new requests."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the product area was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the product area was last updated.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.feature_request_product_areas#ListFeatureRequestProductAreasResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.feature_request_product_areas#FeatureRequestProductArea"
+      },
+      "traits": {}
+    },
+    "com.posthog.feature_request_product_areas#ListFeatureRequestProductAreasResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.feature_request_product_areas#ListFeatureRequestProductAreasResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.feature_request_product_areas#ListFeatureRequestProductAreas": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.feature_request_product_areas#ListFeatureRequestProductAreasRequest"
+      },
+      "output": {
+        "target": "com.posthog.feature_request_product_areas#ListFeatureRequestProductAreasResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/feature_request_product_areas/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.feature_request_product_areas#CreateFeatureRequestProductAreasRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Team-maintained product area name.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Position in product area selectors. Lower values appear first."
+          }
+        },
+        "is_active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether editors can select this product area for new requests."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.feature_request_product_areas#CreateFeatureRequestProductAreas": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.feature_request_product_areas#CreateFeatureRequestProductAreasRequest"
+      },
+      "output": {
+        "target": "com.posthog.feature_request_product_areas#FeatureRequestProductArea"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/feature_request_product_areas/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.feature_request_product_areas#UpdateFeatureRequestProductAreasRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Team-maintained product area name.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Position in product area selectors. Lower values appear first."
+          }
+        },
+        "is_active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether editors can select this product area for new requests."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.feature_request_product_areas#UpdateFeatureRequestProductAreas": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.feature_request_product_areas#UpdateFeatureRequestProductAreasRequest"
+      },
+      "output": {
+        "target": "com.posthog.feature_request_product_areas#FeatureRequestProductArea"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/feature_request_product_areas/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.feature_request_product_areas#UpdateFeatureRequestProductAreasPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Team-maintained product area name."
+          }
+        },
+        "display_order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Position in product area selectors. Lower values appear first."
+          }
+        },
+        "is_active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether editors can select this product area for new requests."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.feature_request_product_areas#UpdateFeatureRequestProductAreasPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.feature_request_product_areas#UpdateFeatureRequestProductAreasPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.feature_request_product_areas#FeatureRequestProductArea"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/feature_request_product_areas/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.feature_request_product_areas#FeatureRequestProductAreas": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.feature_request_product_areas#ListFeatureRequestProductAreas"
+        },
+        {
+          "target": "com.posthog.feature_request_product_areas#CreateFeatureRequestProductAreas"
+        },
+        {
+          "target": "com.posthog.feature_request_product_areas#UpdateFeatureRequestProductAreas"
+        },
+        {
+          "target": "com.posthog.feature_request_product_areas#UpdateFeatureRequestProductAreasPartial"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

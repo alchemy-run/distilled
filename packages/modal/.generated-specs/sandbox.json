@@ -1,0 +1,3050 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.sandbox#Sandbox": {
+      "type": "structure",
+      "members": {
+        "entrypointArgs": {
+          "target": "com.modal.sandbox#StringList"
+        },
+        "mountIds": {
+          "target": "com.modal.sandbox#StringList"
+        },
+        "imageId": {
+          "target": "smithy.api#String"
+        },
+        "secretIds": {
+          "target": "com.modal.sandbox#StringList"
+        },
+        "resources": {
+          "target": "com.modal.sandbox#Resources"
+        },
+        "cloudProvider": {
+          "target": "com.modal.sandbox#CloudProvider"
+        },
+        "timeoutSecs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Deprecated at some point"
+          }
+        },
+        "workdir": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The max lifetime of a sandbox in seconds."
+          }
+        },
+        "nfsMounts": {
+          "target": "com.modal.sandbox#SharedVolumeMountList"
+        },
+        "runtimeDebug": {
+          "target": "smithy.api#Boolean"
+        },
+        "blockNetwork": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "For internal debugging use only."
+          }
+        },
+        "s3Mounts": {
+          "target": "com.modal.sandbox#S3MountList",
+          "traits": {
+            "smithy.api#documentation": "deprecated, use network_access instead"
+          }
+        },
+        "cloudBucketMounts": {
+          "target": "com.modal.sandbox#CloudBucketMountList"
+        },
+        "volumeMounts": {
+          "target": "com.modal.sandbox#VolumeMountList"
+        },
+        "ptyInfo": {
+          "target": "com.modal.sandbox#PTYInfo"
+        },
+        "schedulerPlacement": {
+          "target": "com.modal.sandbox#SchedulerPlacement",
+          "traits": {
+            "smithy.api#documentation": "_experimental_scheduler"
+          }
+        },
+        "workerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "_experimental_resources"
+          }
+        },
+        "openPorts": {
+          "target": "com.modal.sandbox#PortSpecs",
+          "traits": {
+            "smithy.api#documentation": "for internal debugging use only"
+          }
+        },
+        "i6pnEnabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "networkAccess": {
+          "target": "com.modal.sandbox#NetworkAccess",
+          "traits": {
+            "smithy.api#documentation": "Network access configuration beyond simple allow/block."
+          }
+        },
+        "proxyId": {
+          "target": "smithy.api#String"
+        },
+        "enableSnapshot": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable snapshotting the sandbox (both memory and filesystem). This doesn't need to be enabled to save the filesystem as an image (i.e. a filesystem-only snapshot)."
+          }
+        },
+        "snapshotVersion": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Used to pin gVisor version for memory-snapshottable sandboxes. This field is set by the server, not the client."
+          }
+        },
+        "cloudProviderStr": {
+          "target": "smithy.api#String"
+        },
+        "runscRuntimeVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supersedes cloud_provider Specifies container runtime behavior for sandboxes which are restored from a snapshot. Set by the backend at snapshot creation time."
+          }
+        },
+        "runtime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If set, overrides the runtime used by the function, either \"runc\" or \"gvisor\"."
+          }
+        },
+        "verbose": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If set, the sandbox will be created with verbose logging enabled."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If set, the sandbox will be created with a name."
+          }
+        },
+        "experimentalOptions": {
+          "target": "com.modal.sandbox#BooleanMap",
+          "traits": {
+            "smithy.api#documentation": "Deprecated: use experimental_options_v2 instead.",
+            "smithy.api#deprecated": {}
+          }
+        },
+        "experimentalOptionsV2": {
+          "target": "com.modal.sandbox#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Experimental options"
+          }
+        },
+        "preloadPathPrefixes": {
+          "target": "com.modal.sandbox#StringList"
+        },
+        "idleTimeoutSecs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Internal use only. Optional idle timeout in seconds. If set, the sandbox will be terminated after being idle for this duration."
+          }
+        },
+        "directSandboxCommandsEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Deprecated: direct sandbox commands are always enabled.",
+            "smithy.api#deprecated": {}
+          }
+        },
+        "RestoreInstanceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Internal: restricts sandbox to run on this specific instance type. Set by server during SandboxRestore to ensure the restored sandbox runs on the same instance type as the original snapshot."
+          }
+        },
+        "customDomain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If set, connections to this sandbox will be subdomains of this domain rather than the default."
+          }
+        },
+        "includeOidcIdentityToken": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If set, the sandbox will receive a MODAL_IDENTITY_TOKEN env var, similar to how modal Function containers do. This can be used for OIDC-based authentication (e.g. to AWS, GCP)."
+          }
+        },
+        "readinessProbe": {
+          "target": "com.modal.sandbox#Probe",
+          "traits": {
+            "smithy.api#documentation": "Probe used to determine when the sandbox has become ready."
+          }
+        },
+        "inboundCidrAllowlist": {
+          "target": "com.modal.sandbox#StringList",
+          "traits": {
+            "smithy.api#documentation": "If set, only connections from these CIDRs will be allowed to connect to the sandbox (tunnels and auth proxy)."
+          }
+        },
+        "environmentVariables": {
+          "target": "com.modal.sandbox#StringMap2"
+        }
+      }
+    },
+    "com.modal.sandbox#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.sandbox#Resources": {
+      "type": "structure",
+      "members": {
+        "memoryMb": {
+          "target": "smithy.api#Integer"
+        },
+        "milliCpu": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "MiB"
+          }
+        },
+        "gpuConfig": {
+          "target": "com.modal.sandbox#GPUConfig",
+          "traits": {
+            "smithy.api#documentation": "milli CPU cores"
+          }
+        },
+        "memoryMbMax": {
+          "target": "smithy.api#Integer"
+        },
+        "ephemeralDiskMb": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "MiB"
+          }
+        },
+        "milliCpuMax": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "MiB"
+          }
+        },
+        "rdma": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "milli CPU cores"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "milli CPU cores"
+      }
+    },
+    "com.modal.sandbox#GPUConfig": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.modal.sandbox#GPUType"
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Deprecated, at some point"
+          }
+        },
+        "gpuType": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.sandbox#GPUType": {
+      "type": "enum",
+      "members": {
+        "GPU_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_UNSPECIFIED",
+            "smithy.api#documentation": "Note: this enum is no longer used by current clients - don't add new types Old clients still send it, so we use it server-side for compatibility"
+          }
+        },
+        "GPU_TYPE_T4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_T4"
+          }
+        },
+        "GPU_TYPE_A100": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_A100"
+          }
+        },
+        "GPU_TYPE_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_A10G"
+          }
+        },
+        "GPU_TYPE_ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_ANY"
+          }
+        },
+        "GPU_TYPE_A100_80GB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_A100_80GB"
+          }
+        },
+        "GPU_TYPE_L4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_L4"
+          }
+        },
+        "GPU_TYPE_H100": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_H100"
+          }
+        },
+        "GPU_TYPE_L40S": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_L40S"
+          }
+        },
+        "GPU_TYPE_H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_H200"
+          }
+        }
+      }
+    },
+    "com.modal.sandbox#CloudProvider": {
+      "type": "enum",
+      "members": {
+        "CLOUD_PROVIDER_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_PROVIDER_UNSPECIFIED"
+          }
+        },
+        "CLOUD_PROVIDER_AWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_PROVIDER_AWS"
+          }
+        },
+        "CLOUD_PROVIDER_GCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_PROVIDER_GCP"
+          }
+        },
+        "CLOUD_PROVIDER_AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_PROVIDER_AUTO"
+          }
+        },
+        "CLOUD_PROVIDER_OCI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_PROVIDER_OCI"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "libmodal/modal-go: Go SDK, since version modal-go/v0.0.15"
+      }
+    },
+    "com.modal.sandbox#SharedVolumeMount": {
+      "type": "structure",
+      "members": {
+        "mountPath": {
+          "target": "smithy.api#String"
+        },
+        "sharedVolumeId": {
+          "target": "smithy.api#String"
+        },
+        "cloudProvider": {
+          "target": "com.modal.sandbox#CloudProvider"
+        }
+      }
+    },
+    "com.modal.sandbox#SharedVolumeMountList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.sandbox#SharedVolumeMount"
+      }
+    },
+    "com.modal.sandbox#S3Mount": {
+      "type": "structure",
+      "members": {
+        "bucketName": {
+          "target": "smithy.api#String"
+        },
+        "mountPath": {
+          "target": "smithy.api#String"
+        },
+        "credentialsSecretId": {
+          "target": "smithy.api#String"
+        },
+        "readOnly": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.modal.sandbox#S3MountList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.sandbox#S3Mount"
+      }
+    },
+    "com.modal.sandbox#CloudBucketMount": {
+      "type": "structure",
+      "members": {
+        "bucketName": {
+          "target": "smithy.api#String"
+        },
+        "mountPath": {
+          "target": "smithy.api#String"
+        },
+        "credentialsSecretId": {
+          "target": "smithy.api#String"
+        },
+        "readOnly": {
+          "target": "smithy.api#Boolean"
+        },
+        "bucketType": {
+          "target": "com.modal.sandbox#CloudBucketMountBucketType"
+        },
+        "requesterPays": {
+          "target": "smithy.api#Boolean"
+        },
+        "bucketEndpointUrl": {
+          "target": "smithy.api#String"
+        },
+        "keyPrefix": {
+          "target": "smithy.api#String"
+        },
+        "oidcAuthRoleArn": {
+          "target": "smithy.api#String"
+        },
+        "forcePathStyle": {
+          "target": "smithy.api#Boolean"
+        },
+        "metadataTtlType": {
+          "target": "com.modal.sandbox#CloudBucketMountMetadataTTLType"
+        },
+        "metadataTtlSeconds": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.sandbox#CloudBucketMountBucketType": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "S3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "S3"
+          }
+        },
+        "R2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R2"
+          }
+        },
+        "GCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GCP"
+          }
+        }
+      }
+    },
+    "com.modal.sandbox#CloudBucketMountMetadataTTLType": {
+      "type": "enum",
+      "members": {
+        "METADATA_TTL_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "METADATA_TTL_TYPE_UNSPECIFIED"
+          }
+        },
+        "METADATA_TTL_TYPE_MINIMAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "METADATA_TTL_TYPE_MINIMAL"
+          }
+        },
+        "METADATA_TTL_TYPE_INDEFINITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "METADATA_TTL_TYPE_INDEFINITE"
+          }
+        }
+      }
+    },
+    "com.modal.sandbox#CloudBucketMountList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.sandbox#CloudBucketMount"
+      }
+    },
+    "com.modal.sandbox#VolumeMount": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String"
+        },
+        "mountPath": {
+          "target": "smithy.api#String"
+        },
+        "allowBackgroundCommits": {
+          "target": "smithy.api#Boolean"
+        },
+        "readOnly": {
+          "target": "smithy.api#Boolean"
+        },
+        "subPath": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.sandbox#VolumeMountList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.sandbox#VolumeMount"
+      }
+    },
+    "com.modal.sandbox#PTYInfo": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "winszRows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Soon deprecated"
+          }
+        },
+        "winszCols": {
+          "target": "smithy.api#Integer"
+        },
+        "envTerm": {
+          "target": "smithy.api#String"
+        },
+        "envColorterm": {
+          "target": "smithy.api#String"
+        },
+        "envTermProgram": {
+          "target": "smithy.api#String"
+        },
+        "ptyType": {
+          "target": "com.modal.sandbox#PTYInfoPTYType",
+          "traits": {
+            "smithy.api#documentation": "Replace function with shell"
+          }
+        },
+        "noTerminateOnIdleStdin": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.modal.sandbox#PTYInfoPTYType": {
+      "type": "enum",
+      "members": {
+        "PTY_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PTY_TYPE_UNSPECIFIED"
+          }
+        },
+        "PTY_TYPE_FUNCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PTY_TYPE_FUNCTION",
+            "smithy.api#documentation": "Nothing"
+          }
+        },
+        "PTY_TYPE_SHELL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PTY_TYPE_SHELL",
+            "smithy.api#documentation": "Run function in PTY"
+          }
+        }
+      }
+    },
+    "com.modal.sandbox#SchedulerPlacement": {
+      "type": "structure",
+      "members": {
+        "regions": {
+          "target": "com.modal.sandbox#StringList"
+        },
+        "Zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#deprecated": {}
+          }
+        },
+        "Lifecycle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#deprecated": {}
+          }
+        },
+        "InstanceTypes": {
+          "target": "com.modal.sandbox#StringList",
+          "traits": {
+            "smithy.api#deprecated": {}
+          }
+        },
+        "nonpreemptible": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scheduling constraints for Functions and Sandboxes."
+      }
+    },
+    "com.modal.sandbox#PortSpecs": {
+      "type": "structure",
+      "members": {
+        "ports": {
+          "target": "com.modal.sandbox#PortSpecList"
+        }
+      }
+    },
+    "com.modal.sandbox#PortSpec": {
+      "type": "structure",
+      "members": {
+        "port": {
+          "target": "smithy.api#Integer"
+        },
+        "unencrypted": {
+          "target": "smithy.api#Boolean"
+        },
+        "tunnelType": {
+          "target": "com.modal.sandbox#TunnelType"
+        }
+      }
+    },
+    "com.modal.sandbox#TunnelType": {
+      "type": "enum",
+      "members": {
+        "TUNNEL_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TUNNEL_TYPE_UNSPECIFIED"
+          }
+        },
+        "TUNNEL_TYPE_H2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TUNNEL_TYPE_H2"
+          }
+        }
+      }
+    },
+    "com.modal.sandbox#PortSpecList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.sandbox#PortSpec"
+      }
+    },
+    "com.modal.sandbox#NetworkAccess": {
+      "type": "structure",
+      "members": {
+        "networkAccessType": {
+          "target": "com.modal.sandbox#NetworkAccessNetworkAccessType"
+        },
+        "allowedCidrs": {
+          "target": "com.modal.sandbox#StringList"
+        },
+        "allowedDomains": {
+          "target": "com.modal.sandbox#StringList"
+        }
+      }
+    },
+    "com.modal.sandbox#NetworkAccessNetworkAccessType": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPEN"
+          }
+        },
+        "BLOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCKED"
+          }
+        },
+        "ALLOWLIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ALLOWLIST"
+          }
+        }
+      }
+    },
+    "com.modal.sandbox#BooleanMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    "com.modal.sandbox#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.sandbox#Probe": {
+      "type": "structure",
+      "members": {
+        "tcpPort": {
+          "target": "smithy.api#Integer"
+        },
+        "execCommand": {
+          "target": "com.modal.sandbox#ProbeExecCommand"
+        },
+        "intervalMs": {
+          "target": "smithy.api#Integer"
+        }
+      }
+    },
+    "com.modal.sandbox#ProbeExecCommand": {
+      "type": "structure",
+      "members": {
+        "argv": {
+          "target": "com.modal.sandbox#StringList",
+          "traits": {
+            "smithy.api#documentation": "Command and args to execute directly (argv form, not shell-parsed)."
+          }
+        }
+      }
+    },
+    "com.modal.sandbox#StringMap2": {
+      "type": "structure",
+      "members": {
+        "contents": {
+          "target": "com.modal.sandbox#StringMap"
+        }
+      }
+    },
+    "com.modal.sandbox#StringMap2Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.modal.sandbox#StringMap2"
+      }
+    },
+    "com.modal.sandbox#SandboxContainerCreateV2Request": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sandbox the container joins; it runs inside that sandbox's task."
+          }
+        },
+        "containerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Logical container name, unique within the sandbox."
+          }
+        },
+        "definition": {
+          "target": "com.modal.sandbox#Sandbox",
+          "traits": {
+            "smithy.api#documentation": "Same definition type as SandboxCreateV2. Fields a container cannot honor (resources, timeouts, scheduling constraints, ...) are rejected."
+          }
+        },
+        "ephemeralSecrets": {
+          "target": "com.modal.sandbox#StringMap2"
+        },
+        "cloudBucketMountCredentials": {
+          "target": "com.modal.sandbox#StringMap2Map"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxContainerCreateV2Response": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String"
+        },
+        "containerName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxContainerCreateV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxContainerCreateV2Request"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxContainerCreateV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxContainerCreateV2",
+          "code": 200
+        },
+        "smithy.api#documentation": "Sandboxes"
+      }
+    },
+    "com.modal.sandbox#SandboxTag": {
+      "type": "structure",
+      "members": {
+        "tagName": {
+          "target": "smithy.api#String"
+        },
+        "tagValue": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxTagList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.sandbox#SandboxTag"
+      }
+    },
+    "com.modal.sandbox#CreateSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "definition": {
+          "target": "com.modal.sandbox#Sandbox"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "tags": {
+          "target": "com.modal.sandbox#SandboxTagList",
+          "traits": {
+            "smithy.api#documentation": "*DEPRECATED* 7/16/2025"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxHandleMetadata": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.modal.sandbox#GenericResult"
+        },
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.sandbox#GenericResult": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.modal.sandbox#GenericResultGenericStatus"
+        },
+        "exception": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status of the task or function output."
+          }
+        },
+        "exitcode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Exception message for failures, if available."
+          }
+        },
+        "traceback": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly."
+          }
+        },
+        "serializedTb": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "String value of the Python traceback."
+          }
+        },
+        "tbLineCache": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "Pickled traceback object."
+          }
+        },
+        "data": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "Pickled line cache for traceback object."
+          }
+        },
+        "dataBlobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inline data of the result."
+          }
+        },
+        "propagationReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Blob ID for large data."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "sub-type for generic types like lists"
+      }
+    },
+    "com.modal.sandbox#GenericResultGenericStatus": {
+      "type": "enum",
+      "members": {
+        "GENERIC_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_UNSPECIFIED"
+          }
+        },
+        "GENERIC_STATUS_SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_SUCCESS"
+          }
+        },
+        "GENERIC_STATUS_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_FAILURE"
+          }
+        },
+        "GENERIC_STATUS_TERMINATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_TERMINATED",
+            "smithy.api#documentation": "Used when a task was killed using an external signal."
+          }
+        },
+        "GENERIC_STATUS_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_TIMEOUT"
+          }
+        },
+        "GENERIC_STATUS_INIT_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_INIT_FAILURE",
+            "smithy.api#documentation": "Used when the user's function fails to initialize (ex. S3 mount failed due to invalid credentials). Terminates the function and all remaining inputs."
+          }
+        },
+        "GENERIC_STATUS_INTERNAL_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_INTERNAL_FAILURE"
+          }
+        },
+        "GENERIC_STATUS_IDLE_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_IDLE_TIMEOUT",
+            "smithy.api#documentation": "Used when sandboxes are terminated due to idle_timeout"
+          }
+        },
+        "GENERIC_STATUS_MEMORY_MANAGER_EVICTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_MEMORY_MANAGER_EVICTION",
+            "smithy.api#documentation": "Used when a task was killed because it was evicted by the memory manager when the worker was under memory pressure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Used for both tasks and function outputs"
+      }
+    },
+    "com.modal.sandbox#CreateSandboxResponse": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.sandbox#SandboxHandleMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#CreateSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#CreateSandboxRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#CreateSandboxResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxCreateConnectTokenRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "userMetadata": {
+          "target": "smithy.api#String"
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Uses port 8080 if unspecified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxCreateConnectTokenResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "token": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxCreateConnectToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxCreateConnectTokenRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxCreateConnectTokenResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxCreateConnectToken",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxCreateConnectTokenV2Request": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "userMetadata": {
+          "target": "smithy.api#String"
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Uses port 8080 if unspecified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxCreateConnectTokenV2Response": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "token": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxCreateConnectTokenV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxCreateConnectTokenV2Request"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxCreateConnectTokenV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxCreateConnectTokenV2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxCreateV2Request": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "definition": {
+          "target": "com.modal.sandbox#Sandbox"
+        },
+        "ephemeralSecrets": {
+          "target": "com.modal.sandbox#StringMap2"
+        },
+        "tags": {
+          "target": "com.modal.sandbox#SandboxTagList"
+        },
+        "cloudBucketMountCredentials": {
+          "target": "com.modal.sandbox#StringMap2Map"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#TunnelData": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "smithy.api#String"
+        },
+        "port": {
+          "target": "smithy.api#Integer"
+        },
+        "unencryptedHost": {
+          "target": "smithy.api#String"
+        },
+        "unencryptedPort": {
+          "target": "smithy.api#Integer"
+        },
+        "containerPort": {
+          "target": "smithy.api#Integer"
+        }
+      }
+    },
+    "com.modal.sandbox#TunnelDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.sandbox#TunnelData"
+      }
+    },
+    "com.modal.sandbox#CommandRouterAccess": {
+      "type": "structure",
+      "members": {
+        "jwt": {
+          "target": "smithy.api#String"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defined as start time of the first task in the cluster"
+      }
+    },
+    "com.modal.sandbox#SandboxCreateV2Response": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "tunnels": {
+          "target": "com.modal.sandbox#TunnelDataList"
+        },
+        "taskId": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.sandbox#SandboxHandleMetadata"
+        },
+        "commandRouterAccess": {
+          "target": "com.modal.sandbox#CommandRouterAccess"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxCreateV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxCreateV2Request"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxCreateV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxCreateV2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxGetCommandRouterAccessRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "taskId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetCommandRouterAccessResponse": {
+      "type": "structure",
+      "members": {
+        "jwt": {
+          "target": "smithy.api#String"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "workerIpv4Address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Worker's public IPv4 address. When set, clients should connect directly to this IP while still using the URL's hostname for TLS SNI and the HTTP/2 :authority header."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetCommandRouterAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxGetCommandRouterAccessRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxGetCommandRouterAccessResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxGetCommandRouterAccess",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxGetExitSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetExitSnapshotResponseSuccess": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxGetExitSnapshotResponsePending": {
+      "type": "structure",
+      "members": {}
+    },
+    "com.modal.sandbox#SandboxGetExitSnapshotResponseError": {
+      "type": "structure",
+      "members": {
+        "errorCode": {
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseErrorCode"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxGetExitSnapshotResponseErrorCode": {
+      "type": "enum",
+      "members": {
+        "ERROR_CODE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR_CODE_UNSPECIFIED"
+          }
+        },
+        "ERROR_CODE_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR_CODE_TIMEOUT"
+          }
+        },
+        "ERROR_CODE_INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR_CODE_INTERNAL"
+          }
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxGetExitSnapshotResponse": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseSuccess"
+        },
+        "pending": {
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponsePending"
+        },
+        "error": {
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseError"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetExitSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxGetExitSnapshotRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxGetExitSnapshotResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxGetExitSnapshot",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxGetExitSnapshotV2Request": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetExitSnapshotV2Response": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseSuccess"
+        },
+        "pending": {
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponsePending"
+        },
+        "error": {
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseError"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetExitSnapshotV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxGetExitSnapshotV2Request"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxGetExitSnapshotV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxGetExitSnapshotV2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxGetFromNameRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxName": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "appName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetFromNameResponse": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.sandbox#SandboxHandleMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetFromName": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxGetFromNameRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxGetFromNameResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxGetFromName",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxGetFromNameV2Request": {
+      "type": "structure",
+      "members": {
+        "sandboxName": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "appName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetFromNameV2Response": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.sandbox#SandboxHandleMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetFromNameV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxGetFromNameV2Request"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxGetFromNameV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxGetFromNameV2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxGetResourceUsageRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetResourceUsageResponse": {
+      "type": "structure",
+      "members": {
+        "cpuCoreNanosecs": {
+          "target": "smithy.api#String"
+        },
+        "memGibNanosecs": {
+          "target": "smithy.api#String"
+        },
+        "gpuNanosecs": {
+          "target": "smithy.api#String"
+        },
+        "gpuType": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetResourceUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxGetResourceUsageRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxGetResourceUsageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxGetResourceUsage",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxGetTaskIdRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        },
+        "waitUntilReady": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Legacy clients do not provide a timeout. New clients must always provide a timeout."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetTaskIdResponse": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String"
+        },
+        "taskResult": {
+          "target": "com.modal.sandbox#GenericResult",
+          "traits": {
+            "smithy.api#documentation": "This is None if the sandbox was terminated before a task could be scheduled."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetTaskId": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxGetTaskIdRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxGetTaskIdResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxGetTaskId",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxGetTaskIdV2Request": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        },
+        "waitUntilReady": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Legacy clients do not provide a timeout. New clients must always provide a timeout."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetTaskIdV2Response": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String"
+        },
+        "taskResult": {
+          "target": "com.modal.sandbox#GenericResult",
+          "traits": {
+            "smithy.api#documentation": "This is None if the sandbox was terminated before a task could be scheduled."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetTaskIdV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxGetTaskIdV2Request"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxGetTaskIdV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxGetTaskIdV2",
+          "code": 200
+        },
+        "smithy.api#documentation": "needed for modal container exec"
+      }
+    },
+    "com.modal.sandbox#SandboxGetTunnelsRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetTunnelsResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.modal.sandbox#GenericResult"
+        },
+        "tunnels": {
+          "target": "com.modal.sandbox#TunnelDataList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetTunnels": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxGetTunnelsRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxGetTunnelsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxGetTunnels",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxGetTunnelsV2Request": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetTunnelsV2Response": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.modal.sandbox#GenericResult"
+        },
+        "tunnels": {
+          "target": "com.modal.sandbox#TunnelDataList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxGetTunnelsV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxGetTunnelsV2Request"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxGetTunnelsV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxGetTunnelsV2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#ListSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "beforeTimestamp": {
+          "target": "smithy.api#Double"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "includeFinished": {
+          "target": "smithy.api#Boolean"
+        },
+        "tags": {
+          "target": "com.modal.sandbox#SandboxTagList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxInfo": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "modal.client.Sandbox definition"
+          }
+        },
+        "taskInfo": {
+          "target": "com.modal.sandbox#TaskInfo"
+        },
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "tags": {
+          "target": "com.modal.sandbox#SandboxTagList"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "TODO: Not yet exposed in client library."
+          }
+        },
+        "imageId": {
+          "target": "smithy.api#String"
+        },
+        "resourceInfo": {
+          "target": "com.modal.sandbox#ResourceInfo"
+        },
+        "regions": {
+          "target": "com.modal.sandbox#StringList"
+        },
+        "timeoutSecs": {
+          "target": "smithy.api#Integer"
+        },
+        "idleTimeoutSecs": {
+          "target": "smithy.api#Integer"
+        },
+        "readyAt": {
+          "target": "smithy.api#Double"
+        },
+        "readinessProbe": {
+          "target": "com.modal.sandbox#Probe"
+        },
+        "tunnels": {
+          "target": "com.modal.sandbox#TunnelDataList"
+        },
+        "metadata": {
+          "target": "com.modal.sandbox#SandboxHandleMetadata"
+        }
+      }
+    },
+    "com.modal.sandbox#TaskInfo": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "startedAt": {
+          "target": "smithy.api#Double"
+        },
+        "finishedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "For Function containers, this corresponds to the \"ready\" time, after startup phase"
+          }
+        },
+        "result": {
+          "target": "com.modal.sandbox#GenericResult"
+        },
+        "enqueuedAt": {
+          "target": "smithy.api#Double"
+        },
+        "gpuType": {
+          "target": "smithy.api#String"
+        },
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "snapshotBehavior": {
+          "target": "com.modal.sandbox#TaskSnapshotBehavior"
+        },
+        "gpuConfig": {
+          "target": "com.modal.sandbox#GPUConfig"
+        }
+      }
+    },
+    "com.modal.sandbox#TaskSnapshotBehavior": {
+      "type": "enum",
+      "members": {
+        "TASK_SNAPSHOT_BEHAVIOR_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_SNAPSHOT_BEHAVIOR_UNSPECIFIED"
+          }
+        },
+        "TASK_SNAPSHOT_BEHAVIOR_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_SNAPSHOT_BEHAVIOR_SNAPSHOT"
+          }
+        },
+        "TASK_SNAPSHOT_BEHAVIOR_RESTORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_SNAPSHOT_BEHAVIOR_RESTORE"
+          }
+        },
+        "TASK_SNAPSHOT_BEHAVIOR_NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_SNAPSHOT_BEHAVIOR_NONE"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ENOSPC: No space left on device"
+      }
+    },
+    "com.modal.sandbox#ResourceInfo": {
+      "type": "structure",
+      "members": {
+        "memoryMb": {
+          "target": "com.modal.sandbox#ResourceInfoResourceValue"
+        },
+        "milliCpu": {
+          "target": "com.modal.sandbox#ResourceInfoResourceValue",
+          "traits": {
+            "smithy.api#documentation": "MiB"
+          }
+        },
+        "gpuType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "milli CPU cores"
+          }
+        },
+        "memoryMbMax": {
+          "target": "smithy.api#Integer"
+        },
+        "ephemeralDiskMb": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "MiB"
+          }
+        },
+        "milliCpuMax": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "MiB"
+          }
+        }
+      }
+    },
+    "com.modal.sandbox#ResourceInfoResourceValue": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "smithy.api#Integer"
+        },
+        "isDefault": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxInfoList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.sandbox#SandboxInfo"
+      }
+    },
+    "com.modal.sandbox#ListSandboxResponse": {
+      "type": "structure",
+      "members": {
+        "sandboxes": {
+          "target": "com.modal.sandbox#SandboxInfoList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#ListSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#ListSandboxRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#ListSandboxResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxList",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxListV2Request": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String"
+        },
+        "beforeTimestamp": {
+          "target": "smithy.api#Double"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "includeFinished": {
+          "target": "smithy.api#Boolean"
+        },
+        "tags": {
+          "target": "com.modal.sandbox#SandboxTagList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxListV2Response": {
+      "type": "structure",
+      "members": {
+        "sandboxes": {
+          "target": "com.modal.sandbox#SandboxInfoList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxListV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxListV2Request"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxListV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxListV2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#RestoreSandboxRequestSandboxNameOverrideType": {
+      "type": "enum",
+      "members": {
+        "SANDBOX_NAME_OVERRIDE_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SANDBOX_NAME_OVERRIDE_TYPE_UNSPECIFIED"
+          }
+        },
+        "SANDBOX_NAME_OVERRIDE_TYPE_NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SANDBOX_NAME_OVERRIDE_TYPE_NONE"
+          }
+        },
+        "SANDBOX_NAME_OVERRIDE_TYPE_STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SANDBOX_NAME_OVERRIDE_TYPE_STRING"
+          }
+        }
+      }
+    },
+    "com.modal.sandbox#RestoreSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "snapshotId": {
+          "target": "smithy.api#String"
+        },
+        "sandboxNameOverride": {
+          "target": "smithy.api#String"
+        },
+        "sandboxNameOverrideType": {
+          "target": "com.modal.sandbox#RestoreSandboxRequestSandboxNameOverrideType"
+        },
+        "workerId": {
+          "target": "smithy.api#String"
+        },
+        "replaceVolumeMounts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "For internal debugging use only."
+          }
+        },
+        "volumeMounts": {
+          "target": "com.modal.sandbox#VolumeMountList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#RestoreSandboxResponse": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#RestoreSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#RestoreSandboxRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#RestoreSandboxResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxRestore",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxRestoreV2Request": {
+      "type": "structure",
+      "members": {
+        "snapshotId": {
+          "target": "smithy.api#String"
+        },
+        "sandboxNameOverride": {
+          "target": "smithy.api#String"
+        },
+        "sandboxNameOverrideType": {
+          "target": "com.modal.sandbox#RestoreSandboxRequestSandboxNameOverrideType"
+        },
+        "workerId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxRestoreV2Response": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "tunnels": {
+          "target": "com.modal.sandbox#TunnelDataList"
+        },
+        "taskId": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.sandbox#SandboxHandleMetadata"
+        },
+        "commandRouterAccess": {
+          "target": "com.modal.sandbox#CommandRouterAccess"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxRestoreV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxRestoreV2Request"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxRestoreV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxRestoreV2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxSetNameRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxSetNameResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxSetName": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxSetNameRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxSetNameResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxSetName",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxSnapshotResponse": {
+      "type": "structure",
+      "members": {
+        "snapshotId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxSnapshotRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxSnapshotResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxSnapshot",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxSnapshotFsRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#ImageMetadata": {
+      "type": "structure",
+      "members": {
+        "pythonVersionInfo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The output of `python -VV. Not set if missing"
+          }
+        },
+        "pythonPackages": {
+          "target": "com.modal.sandbox#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Installed python packages, as listed by by `pip list`. package name -> version. Empty if missing"
+          }
+        },
+        "workdir": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The working directory of the image, as an absolute file path. For most images, this is not set, which means to use the default workdir: - On function runners, the default is `/root` (home directory). - For image builds and sandbox environments, it is `/`."
+          }
+        },
+        "libcVersionInfo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The version of glibc in this image, if any."
+          }
+        },
+        "imageBuilderVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The builder version for/with which the image was created."
+          }
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxSnapshotFsResponse": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        },
+        "result": {
+          "target": "com.modal.sandbox#GenericResult"
+        },
+        "imageMetadata": {
+          "target": "com.modal.sandbox#ImageMetadata",
+          "traits": {
+            "smithy.api#documentation": "Metadata may be empty since we may skip it for performance reasons."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxSnapshotFs": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxSnapshotFsRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxSnapshotFsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxSnapshotFs",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxSnapshotFsAsyncRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxSnapshotFsAsyncResponse": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxSnapshotFsAsync": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxSnapshotFsAsyncRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxSnapshotFsAsyncResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxSnapshotFsAsync",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#GetSandboxSnapshotFsAsyncRequest": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#GetSandboxSnapshotFsAsyncResponse": {
+      "type": "structure",
+      "members": {
+        "imageId": {
+          "target": "smithy.api#String"
+        },
+        "result": {
+          "target": "com.modal.sandbox#GenericResult"
+        },
+        "imageMetadata": {
+          "target": "com.modal.sandbox#ImageMetadata",
+          "traits": {
+            "smithy.api#documentation": "Metadata may be empty since we may skip it for performance reasons."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#GetSandboxSnapshotFsAsync": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#GetSandboxSnapshotFsAsyncRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#GetSandboxSnapshotFsAsyncResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxSnapshotFsAsyncGet",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#GetSandboxSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "snapshotId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxSnapshotHandleMetadata": {
+      "type": "structure",
+      "members": {
+        "isV2": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.modal.sandbox#GetSandboxSnapshotResponse": {
+      "type": "structure",
+      "members": {
+        "snapshotId": {
+          "target": "smithy.api#String"
+        },
+        "handleMetadata": {
+          "target": "com.modal.sandbox#SandboxSnapshotHandleMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#GetSandboxSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#GetSandboxSnapshotRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#GetSandboxSnapshotResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxSnapshotGet",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#WaitSandboxSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "snapshotId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#WaitSandboxSnapshotResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.modal.sandbox#GenericResult"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#WaitSandboxSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#WaitSandboxSnapshotRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#WaitSandboxSnapshotResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxSnapshotWait",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxStdinWriteRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "input": {
+          "target": "smithy.api#Blob"
+        },
+        "index": {
+          "target": "smithy.api#Integer"
+        },
+        "eof": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxStdinWriteResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxStdinWrite": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxStdinWriteRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxStdinWriteResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxStdinWrite",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#GetSandboxTagRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#GetSandboxTagResponse": {
+      "type": "structure",
+      "members": {
+        "tags": {
+          "target": "com.modal.sandbox#SandboxTagList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#GetSandboxTag": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#GetSandboxTagRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#GetSandboxTagResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxTagsGet",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxTagsGetV2Request": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxTagsGetV2Response": {
+      "type": "structure",
+      "members": {
+        "tags": {
+          "target": "com.modal.sandbox#SandboxTagList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxTagsGetV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxTagsGetV2Request"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxTagsGetV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxTagsGetV2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SetSandboxTagRequest": {
+      "type": "structure",
+      "members": {
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "tags": {
+          "target": "com.modal.sandbox#SandboxTagList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SetSandboxTag": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SetSandboxTagRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxTagsSet",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxTagsSetV2Request": {
+      "type": "structure",
+      "members": {
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "tags": {
+          "target": "com.modal.sandbox#SandboxTagList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxTagsSetV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxTagsSetV2Request"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxTagsSetV2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#TerminateSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#TerminateSandboxResponse": {
+      "type": "structure",
+      "members": {
+        "existingResult": {
+          "target": "com.modal.sandbox#GenericResult"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#TerminateSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#TerminateSandboxRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#TerminateSandboxResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxTerminate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxTerminateV2Request": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxTerminateV2Response": {
+      "type": "structure",
+      "members": {
+        "existingResult": {
+          "target": "com.modal.sandbox#GenericResult"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxTerminateV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxTerminateV2Request"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxTerminateV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxTerminateV2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#WaitSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#WaitSandboxResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.modal.sandbox#GenericResult"
+        },
+        "metadata": {
+          "target": "com.modal.sandbox#SandboxHandleMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#WaitSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#WaitSandboxRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#WaitSandboxResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxWait",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxWaitUntilReadyRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxWaitUntilReadyResponse": {
+      "type": "structure",
+      "members": {
+        "readyAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxWaitUntilReady": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxWaitUntilReadyRequest"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxWaitUntilReadyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxWaitUntilReady",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxWaitV2Request": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "timeout": {
+          "target": "smithy.api#Float"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.sandbox#SandboxWaitV2Response": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.modal.sandbox#GenericResult"
+        },
+        "metadata": {
+          "target": "com.modal.sandbox#SandboxHandleMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.sandbox#SandboxWaitV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.sandbox#SandboxWaitV2Request"
+      },
+      "output": {
+        "target": "com.modal.sandbox#SandboxWaitV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SandboxWaitV2",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.sandbox#SandboxService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.sandbox#SandboxContainerCreateV2"
+        },
+        {
+          "target": "com.modal.sandbox#CreateSandbox"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxCreateConnectToken"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxCreateConnectTokenV2"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxCreateV2"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxGetCommandRouterAccess"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxGetExitSnapshot"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotV2"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxGetFromName"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxGetFromNameV2"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxGetResourceUsage"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxGetTaskId"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxGetTaskIdV2"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxGetTunnels"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxGetTunnelsV2"
+        },
+        {
+          "target": "com.modal.sandbox#ListSandbox"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxListV2"
+        },
+        {
+          "target": "com.modal.sandbox#RestoreSandbox"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxRestoreV2"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxSetName"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxSnapshot"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxSnapshotFs"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxSnapshotFsAsync"
+        },
+        {
+          "target": "com.modal.sandbox#GetSandboxSnapshotFsAsync"
+        },
+        {
+          "target": "com.modal.sandbox#GetSandboxSnapshot"
+        },
+        {
+          "target": "com.modal.sandbox#WaitSandboxSnapshot"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxStdinWrite"
+        },
+        {
+          "target": "com.modal.sandbox#GetSandboxTag"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxTagsGetV2"
+        },
+        {
+          "target": "com.modal.sandbox#SetSandboxTag"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxTagsSetV2"
+        },
+        {
+          "target": "com.modal.sandbox#TerminateSandbox"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxTerminateV2"
+        },
+        {
+          "target": "com.modal.sandbox#WaitSandbox"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxWaitUntilReady"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxWaitV2"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Sandbox",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Sandbox`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

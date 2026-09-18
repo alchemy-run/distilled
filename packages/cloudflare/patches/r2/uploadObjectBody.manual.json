@@ -93,17 +93,6 @@
           "smithy.api#documentation": "Expiration date of the object."
         }
       }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.r2#UploadBucketObjectRequest/members/cf_r2_storage_class",
-      "value": {
-        "target": "smithy.api#String",
-        "traits": {
-          "smithy.api#httpHeader": "cf-r2-storage-class",
-          "smithy.api#documentation": "Storage class for the object."
-        }
-      }
     }
   ]
 }

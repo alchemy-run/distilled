@@ -92,6 +92,83 @@ export const GoogleProtobufEmpty = /*@__PURE__*/ S.suspend(() =>
   identifier: "GoogleProtobufEmpty",
 }) as any as S.Schema<GoogleProtobufEmpty>;
 
+/** Represents a scheduled maintenance event. */
+export interface MaintenanceSchedule {
+  /** Output only. The scheduled start time for the maintenance. */
+  startTime?: string;
+  /** Output only. The scheduled end time for the maintenance. */
+  endTime?: string;
+}
+export const MaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    startTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "MaintenanceSchedule",
+}) as any as S.Schema<MaintenanceSchedule>;
+
+export type AccessRuleSquashModeEnum =
+  | "SQUASH_MODE_UNSPECIFIED"
+  | "NO_SQUASH"
+  | "ROOT_SQUASH";
+export const AccessRuleSquashModeEnum = S.String;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
+/** A single policy group with IP-based access rules for the Managed Lustre instance. */
+export interface AccessRule {
+  /** Required. The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or '_'. */
+  name?: string;
+  /** Required. Squash mode for the access rule. */
+  squashMode?: AccessRuleSquashModeEnum | (string & {});
+  /** Required. The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., `192.168.1.0/24`) and IP addresses (e.g., `192.168.1.0`). */
+  ipAddressRanges?: StringList;
+}
+export const AccessRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    squashMode: S.optional(AccessRuleSquashModeEnum),
+    ipAddressRanges: S.optional(StringList),
+  }),
+).annotate({ identifier: "AccessRule" }) as any as S.Schema<AccessRule>;
+
+export type AccessRuleList = Array<AccessRule>;
+export const AccessRuleList = /*@__PURE__*/ S.Array(
+  AccessRule,
+) as any as S.Schema<AccessRuleList>;
+
+export type AccessRulesOptionsDefaultSquashModeEnum =
+  | "SQUASH_MODE_UNSPECIFIED"
+  | "NO_SQUASH"
+  | "ROOT_SQUASH";
+export const AccessRulesOptionsDefaultSquashModeEnum = S.String;
+
+/** IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. */
+export interface AccessRulesOptions {
+  /** Optional. The access rules for the instance. */
+  accessRules?: AccessRuleList;
+  /** Optional. The user squash GID for the default access rule. This user squash GID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no GID squash). */
+  defaultSquashGid?: number;
+  /** Optional. The user squash UID for the default access rule. This user squash UID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no UID squash). */
+  defaultSquashUid?: number;
+  /** Required. The squash mode for the default access rule. */
+  defaultSquashMode?: AccessRulesOptionsDefaultSquashModeEnum | (string & {});
+}
+export const AccessRulesOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accessRules: S.optional(AccessRuleList),
+    defaultSquashGid: S.optional(S.Number),
+    defaultSquashUid: S.optional(S.Number),
+    defaultSquashMode: S.optional(AccessRulesOptionsDefaultSquashModeEnum),
+  }),
+).annotate({
+  identifier: "AccessRulesOptions",
+}) as any as S.Schema<AccessRulesOptions>;
+
 export type WeeklyMaintenanceWindowDayOfWeekEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
   | "MONDAY"
@@ -101,25 +178,25 @@ export type WeeklyMaintenanceWindowDayOfWeekEnum =
   | "FRIDAY"
   | "SATURDAY"
   | "SUNDAY";
-export const WeeklyMaintenanceWindowDayOfWeekEnum = /*@__PURE__*/ S.String;
+export const WeeklyMaintenanceWindowDayOfWeekEnum = S.String;
 
 /** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
 export interface TimeOfDay {
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
   /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
   nanos?: number;
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number;
   /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
   seconds?: number;
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number;
 }
 export const TimeOfDay = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    minutes: S.optional(S.Number),
     nanos: S.optional(S.Number),
-    hours: S.optional(S.Number),
+    minutes: S.optional(S.Number),
     seconds: S.optional(S.Number),
+    hours: S.optional(S.Number),
   }),
 ).annotate({ identifier: "TimeOfDay" }) as any as S.Schema<TimeOfDay>;
 
@@ -146,17 +223,17 @@ export const WeeklyMaintenanceWindowList = /*@__PURE__*/ S.Array(
 
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Lustre_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   day?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   month?: number;
 }
 export const Lustre_Date = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    year: S.optional(S.Number),
     day: S.optional(S.Number),
+    year: S.optional(S.Number),
     month: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Lustre_Date" }) as any as S.Schema<Lustre_Date>;
@@ -201,6 +278,25 @@ export const MaintenancePolicy = /*@__PURE__*/ S.suspend(() =>
   identifier: "MaintenancePolicy",
 }) as any as S.Schema<MaintenancePolicy>;
 
+export type DynamicTierOptionsModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "DISABLED"
+  | "DEFAULT_CACHE";
+export const DynamicTierOptionsModeEnum = S.String;
+
+/** Dynamic tier options for a Managed Lustre instance. */
+export interface DynamicTierOptions {
+  /** Required. Immutable. The dynamic tier mode of the instance. */
+  mode?: DynamicTierOptionsModeEnum | (string & {});
+}
+export const DynamicTierOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mode: S.optional(DynamicTierOptionsModeEnum),
+  }),
+).annotate({
+  identifier: "DynamicTierOptions",
+}) as any as S.Schema<DynamicTierOptions>;
+
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -217,188 +313,92 @@ export type InstanceStateEnum =
   | "STOPPED"
   | "UPDATING"
   | "SUSPENDED";
-export const InstanceStateEnum = /*@__PURE__*/ S.String;
-
-export type AccessRulesOptionsDefaultSquashModeEnum =
-  | "SQUASH_MODE_UNSPECIFIED"
-  | "NO_SQUASH"
-  | "ROOT_SQUASH";
-export const AccessRulesOptionsDefaultSquashModeEnum = /*@__PURE__*/ S.String;
-
-export type AccessRuleSquashModeEnum =
-  | "SQUASH_MODE_UNSPECIFIED"
-  | "NO_SQUASH"
-  | "ROOT_SQUASH";
-export const AccessRuleSquashModeEnum = /*@__PURE__*/ S.String;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
-
-/** A single policy group with IP-based access rules for the Managed Lustre instance. */
-export interface AccessRule {
-  /** Required. Squash mode for the access rule. */
-  squashMode?: AccessRuleSquashModeEnum | (string & {});
-  /** Required. The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or '_'. */
-  name?: string;
-  /** Required. The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., `192.168.1.0/24`) and IP addresses (e.g., `192.168.1.0`). */
-  ipAddressRanges?: StringList;
-}
-export const AccessRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    squashMode: S.optional(AccessRuleSquashModeEnum),
-    name: S.optional(S.String),
-    ipAddressRanges: S.optional(StringList),
-  }),
-).annotate({ identifier: "AccessRule" }) as any as S.Schema<AccessRule>;
-
-export type AccessRuleList = Array<AccessRule>;
-export const AccessRuleList = /*@__PURE__*/ S.Array(
-  AccessRule,
-) as any as S.Schema<AccessRuleList>;
-
-/** IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. */
-export interface AccessRulesOptions {
-  /** Optional. The user squash GID for the default access rule. This user squash GID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no GID squash). */
-  defaultSquashGid?: number;
-  /** Required. The squash mode for the default access rule. */
-  defaultSquashMode?: AccessRulesOptionsDefaultSquashModeEnum | (string & {});
-  /** Optional. The access rules for the instance. */
-  accessRules?: AccessRuleList;
-  /** Optional. The user squash UID for the default access rule. This user squash UID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no UID squash). */
-  defaultSquashUid?: number;
-}
-export const AccessRulesOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    defaultSquashGid: S.optional(S.Number),
-    defaultSquashMode: S.optional(AccessRulesOptionsDefaultSquashModeEnum),
-    accessRules: S.optional(AccessRuleList),
-    defaultSquashUid: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "AccessRulesOptions",
-}) as any as S.Schema<AccessRulesOptions>;
-
-/** Represents a scheduled maintenance event. */
-export interface MaintenanceSchedule {
-  /** Output only. The scheduled start time for the maintenance. */
-  startTime?: string;
-  /** Output only. The scheduled end time for the maintenance. */
-  endTime?: string;
-}
-export const MaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startTime: S.optional(S.String),
-    endTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MaintenanceSchedule",
-}) as any as S.Schema<MaintenanceSchedule>;
-
-export type DynamicTierOptionsModeEnum =
-  | "MODE_UNSPECIFIED"
-  | "DISABLED"
-  | "DEFAULT_CACHE";
-export const DynamicTierOptionsModeEnum = /*@__PURE__*/ S.String;
-
-/** Dynamic tier options for a Managed Lustre instance. */
-export interface DynamicTierOptions {
-  /** Required. Immutable. The dynamic tier mode of the instance. */
-  mode?: DynamicTierOptionsModeEnum | (string & {});
-}
-export const DynamicTierOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mode: S.optional(DynamicTierOptionsModeEnum),
-  }),
-).annotate({
-  identifier: "DynamicTierOptions",
-}) as any as S.Schema<DynamicTierOptions>;
+export const InstanceStateEnum = S.String;
 
 /** A Managed Lustre instance. */
 export interface Instance {
-  /** Identifier. The name of the instance. */
-  name?: string;
-  /** Required. The storage capacity of the instance in gibibytes (GiB). Allowed values depend on the `perUnitStorageThroughput`. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for specific minimums, maximums, and step sizes for each performance tier. */
-  capacityGib?: string;
-  /** Optional. A user-readable description of the instance. */
-  description?: string;
-  /** Output only. Mount point of the instance in the format `IP_ADDRESS@tcp:/FILESYSTEM`. */
-  mountPoint?: string;
-  /** Output only. Timestamp when the instance was last updated. */
-  updateTime?: string;
-  /** Optional. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported. */
-  gkeSupportEnabled?: boolean;
-  /** Optional. The maintenance policy for the instance to determine when to allow or exclude the instance from maintenance updates. */
-  maintenancePolicy?: MaintenancePolicy;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap;
-  /** Output only. Timestamp when the instance was created. */
-  createTime?: string;
-  /** Required. Immutable. The full name of the VPC network to which the instance is connected. Must be in the format `projects/{project_id}/global/networks/{network_name}`. */
-  network?: string;
-  /** Output only. The state of the instance. */
-  state?: InstanceStateEnum | (string & {});
-  /** Optional. The access rules options for the instance. */
-  accessRulesOptions?: AccessRulesOptions;
   /** Optional. Immutable. The Cloud KMS key name to use for data encryption. If not set, the instance will use Google-managed encryption keys. If set, the instance will use customer-managed encryption keys. The key must be in the same region as the instance. The key format is: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{key} */
   kmsKey?: string;
-  /** Output only. Date and time of upcoming maintenance for the instance, if a maintenance policy is set. */
-  upcomingMaintenanceSchedule?: MaintenanceSchedule;
   /** Optional. The placement policy name for the instance in the format of projects/{project}/locations/{location}/resourcePolicies/{resource_policy} */
   placementPolicy?: string;
-  /** Output only. Unique ID of the resource. This is unrelated to the access rules which allow specifying the root squash uid. */
-  uid?: string;
-  /** Optional. Immutable. Specifies whether the instance is on the Dynamic tier. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. */
-  dynamicTierOptions?: DynamicTierOptions;
   /** Required. Immutable. The filesystem name for this instance. This name is used by client-side tools, including when mounting the instance. Must be eight characters or less and can only contain letters and numbers. */
   filesystem?: string;
+  /** Output only. Date and time of upcoming maintenance for the instance, if a maintenance policy is set. */
+  upcomingMaintenanceSchedule?: MaintenanceSchedule;
+  /** Optional. A user-readable description of the instance. */
+  description?: string;
+  /** Optional. The access rules options for the instance. */
+  accessRulesOptions?: AccessRulesOptions;
+  /** Optional. The maintenance policy for the instance to determine when to allow or exclude the instance from maintenance updates. */
+  maintenancePolicy?: MaintenancePolicy;
+  /** Output only. Timestamp when the instance was created. */
+  createTime?: string;
+  /** Optional. Immutable. Specifies whether the instance is on the Dynamic tier. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. */
+  dynamicTierOptions?: DynamicTierOptions;
+  /** Required. The storage capacity of the instance in gibibytes (GiB). Allowed values depend on the `perUnitStorageThroughput`. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for specific minimums, maximums, and step sizes for each performance tier. */
+  capacityGib?: string;
+  /** Optional. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported. */
+  gkeSupportEnabled?: boolean;
+  /** Output only. Unique ID of the resource. This is unrelated to the access rules which allow specifying the root squash uid. */
+  uid?: string;
+  /** Output only. Mount point of the instance in the format `IP_ADDRESS@tcp:/FILESYSTEM`. */
+  mountPoint?: string;
+  /** Required. Immutable. The full name of the VPC network to which the instance is connected. Must be in the format `projects/{project_id}/global/networks/{network_name}`. */
+  network?: string;
   /** Optional. The throughput of the instance in MBps per TiB. Valid values are 0, 125, 250, 500, 1000. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. If the instance is using the Dynamic tier, this field must not be set or must be set to zero. */
   perUnitStorageThroughput?: string;
+  /** Identifier. The name of the instance. */
+  name?: string;
+  /** Optional. Labels as key value pairs. */
+  labels?: StringMap;
   /** Output only. The reason why the instance is in a certain state (e.g. SUSPENDED). */
   stateReason?: string;
+  /** Output only. The state of the instance. */
+  state?: InstanceStateEnum | (string & {});
+  /** Output only. Timestamp when the instance was last updated. */
+  updateTime?: string;
 }
 export const Instance = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    capacityGib: S.optional(S.String),
-    description: S.optional(S.String),
-    mountPoint: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    gkeSupportEnabled: S.optional(S.Boolean),
-    maintenancePolicy: S.optional(MaintenancePolicy),
-    labels: S.optional(StringMap),
-    createTime: S.optional(S.String),
-    network: S.optional(S.String),
-    state: S.optional(InstanceStateEnum),
-    accessRulesOptions: S.optional(AccessRulesOptions),
     kmsKey: S.optional(S.String),
-    upcomingMaintenanceSchedule: S.optional(MaintenanceSchedule),
     placementPolicy: S.optional(S.String),
-    uid: S.optional(S.String),
-    dynamicTierOptions: S.optional(DynamicTierOptions),
     filesystem: S.optional(S.String),
+    upcomingMaintenanceSchedule: S.optional(MaintenanceSchedule),
+    description: S.optional(S.String),
+    accessRulesOptions: S.optional(AccessRulesOptions),
+    maintenancePolicy: S.optional(MaintenancePolicy),
+    createTime: S.optional(S.String),
+    dynamicTierOptions: S.optional(DynamicTierOptions),
+    capacityGib: S.optional(S.String),
+    gkeSupportEnabled: S.optional(S.Boolean),
+    uid: S.optional(S.String),
+    mountPoint: S.optional(S.String),
+    network: S.optional(S.String),
     perUnitStorageThroughput: S.optional(S.String),
+    name: S.optional(S.String),
+    labels: S.optional(StringMap),
     stateReason: S.optional(S.String),
+    state: S.optional(InstanceStateEnum),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Instance" }) as any as S.Schema<Instance>;
 
 export interface CreateProjectsLocationsInstancesRequest {
-  /** Required. The name of the Managed Lustre instance. * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. */
-  instanceId?: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The instance's project and location, in the format `projects/{project}/locations/{location}`. Locations map to Google Cloud zones; for example, `us-west1-b`. */
   parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Required. The name of the Managed Lustre instance. * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. */
+  instanceId?: string;
   /** Request body */
   body?: Instance;
 }
 export const CreateProjectsLocationsInstancesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      instanceId: S.optional(S.String.pipe(T.Query())),
-      requestId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      requestId: S.optional(S.String.pipe(T.Query())),
+      instanceId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(Instance.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -443,36 +443,39 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     response: S.optional(DocumentMap),
-    metadata: S.optional(DocumentMap),
     error: S.optional(Status),
     name: S.optional(S.String),
     done: S.optional(S.Boolean),
+    metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
 export interface DeleteProjectsLocationsInstancesRequest {
-  /** Required. The resource name of the instance to delete, in the format `projects/{projectId}/locations/{location}/instances/{instanceId}`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The resource name of the instance to delete, in the format `projects/{projectId}/locations/{location}/instances/{instanceId}`. */
+  name: string;
+  /** Optional. If set to true, any sub-resources from this instance will also be deleted. Otherwise, the request will only work if the instance has no sub-resources. */
+  force?: boolean;
 }
 export const DeleteProjectsLocationsInstancesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      force: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -529,19 +532,19 @@ export const LustrePath = /*@__PURE__*/ S.suspend(() =>
 export interface ExportDataRequest {
   /** Optional. User-specified service account used to perform the transfer. If unspecified, the Managed Lustre service agent is used. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` */
   serviceAccount?: string;
+  /** Optional. UUID to identify requests. */
+  requestId?: string;
   /** The URI to a Cloud Storage bucket, or a path within a bucket, using the format `gs:////`. If a path inside the bucket is specified, it must end with a forward slash (`/`). */
   gcsPath?: GcsPath;
   /** The root directory path to the Managed Lustre file system. Must start with `/`. Default is `/`. */
   lustrePath?: LustrePath;
-  /** Optional. UUID to identify requests. */
-  requestId?: string;
 }
 export const ExportDataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceAccount: S.optional(S.String),
+    requestId: S.optional(S.String),
     gcsPath: S.optional(GcsPath),
     lustrePath: S.optional(LustrePath),
-    requestId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ExportDataRequest",
@@ -589,24 +592,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    metadata: S.optional(DocumentMap),
+    displayName: S.optional(S.String),
+    labels: S.optional(StringMap),
     name: S.optional(S.String),
     locationId: S.optional(S.String),
-    labels: S.optional(StringMap),
-    displayName: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -650,21 +653,21 @@ export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
 
 /** Message for importing data to Lustre. */
 export interface ImportDataRequest {
-  /** Optional. User-specified service account used to perform the transfer. If unspecified, the default Managed Lustre service agent will be used. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` */
-  serviceAccount?: string;
   /** The Cloud Storage source bucket and, optionally, path inside the bucket. If a path inside the bucket is specified, it must end with a forward slash (`/`). */
   gcsPath?: GcsPath;
   /** Lustre path destination. */
   lustrePath?: LustrePath;
   /** Optional. UUID to identify requests. */
   requestId?: string;
+  /** Optional. User-specified service account used to perform the transfer. If unspecified, the default Managed Lustre service agent will be used. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` */
+  serviceAccount?: string;
 }
 export const ImportDataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceAccount: S.optional(S.String),
     gcsPath: S.optional(GcsPath),
     lustrePath: S.optional(LustrePath),
     requestId: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ImportDataRequest",
@@ -695,22 +698,22 @@ export const ImportDataProjectsLocationsInstancesRequest =
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -781,43 +784,43 @@ export const InstanceList = /*@__PURE__*/ S.Array(
 
 /** Message for response to listing Instances */
 export interface ListInstancesResponse {
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
   /** Response from ListInstances. */
   instances?: InstanceList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     instances: S.optional(InstanceList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListInstancesResponse",
 }) as any as S.Schema<ListInstancesResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list page token. */
-  pageToken?: string;
   /** The standard list page size. */
   pageSize?: number;
   /** The standard list filter. */
   filter?: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  /** The standard list page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
-      returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -854,10 +857,10 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOperationsResponse>;
 
 export interface PatchProjectsLocationsInstancesRequest {
-  /** Identifier. The name of the instance. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Identifier. The name of the instance. */
+  name: string;
   /** Optional. Specifies the fields to be overwritten in the instance resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If no mask is provided then all fields present in the request are overwritten. */
   updateMask?: string;
   /** Request body */
@@ -866,8 +869,8 @@ export interface PatchProjectsLocationsInstancesRequest {
 export const PatchProjectsLocationsInstancesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(Instance.pipe(T.HttpBody())),
     }).pipe(
@@ -886,7 +889,7 @@ export type RescheduleRescheduleTypeEnum =
   | "IMMEDIATE"
   | "NEXT_AVAILABLE_WINDOW"
   | "BY_TIME";
-export const RescheduleRescheduleTypeEnum = /*@__PURE__*/ S.String;
+export const RescheduleRescheduleTypeEnum = S.String;
 
 /** The desired reschedule settings. */
 export interface Reschedule {
@@ -904,15 +907,15 @@ export const Reschedule = /*@__PURE__*/ S.suspend(() =>
 
 /** Message for requesting to reschedule a maintenance event for a specific instance. */
 export interface RescheduleMaintenanceRequest {
-  /** Required. The desired reschedule settings. */
-  reschedule?: Reschedule;
   /** Optional. A unique identifier for this request. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
   requestId?: string;
+  /** Required. The desired reschedule settings. */
+  reschedule?: Reschedule;
 }
 export const RescheduleMaintenanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reschedule: S.optional(Reschedule),
     requestId: S.optional(S.String),
+    reschedule: S.optional(Reschedule),
   }),
 ).annotate({
   identifier: "RescheduleMaintenanceRequest",

@@ -57,7 +57,7 @@ export const DmarcReportsGetResponseApprovedSourcesItemIpsList =
   ) as any as S.Schema<DmarcReportsGetResponseApprovedSourcesItemIpsList>;
 
 export interface DmarcReportsGetResponseApprovedSourcesItem {
-  /** Deprecated, use created_at */
+  /** Use `created_at` instead. */
   created?: string | null;
   /** Creation timestamp */
   createdAt?: string | null;
@@ -65,7 +65,7 @@ export interface DmarcReportsGetResponseApprovedSourcesItem {
   domain?: string | null;
   /** Resolved IP addresses from SPF */
   ips?: DmarcReportsGetResponseApprovedSourcesItemIpsList | null;
-  /** Deprecated, use modified_at */
+  /** Use `modified_at` instead. */
   modified?: string | null;
   /** Last modification timestamp */
   modifiedAt?: string | null;
@@ -101,6 +101,13 @@ export const DmarcReportsGetResponseApprovedSourcesList = /*@__PURE__*/ S.Array(
   DmarcReportsGetResponseApprovedSourcesItem,
 ) as any as S.Schema<DmarcReportsGetResponseApprovedSourcesList>;
 
+export type DmarcReportsGetResponseRecordsBimiRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsGetResponseRecordsBimiRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsGetResponseRecordsBimiRecordsItemResolvedList>;
+
 export interface DmarcReportsGetResponseRecordsBimiRecordsItem {
   /** DNS record ID */
   id?: string | null;
@@ -108,6 +115,8 @@ export interface DmarcReportsGetResponseRecordsBimiRecordsItem {
   content?: string | null;
   /** DNS record name */
   name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsGetResponseRecordsBimiRecordsItemResolvedList | null;
   /** Time to live in seconds */
   ttl?: number | null;
   /** Record type */
@@ -119,6 +128,9 @@ export const DmarcReportsGetResponseRecordsBimiRecordsItem =
       id: S.optional(S.NullOr(S.String)),
       content: S.optional(S.NullOr(S.String)),
       name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(DmarcReportsGetResponseRecordsBimiRecordsItemResolvedList),
+      ),
       ttl: S.optional(S.NullOr(S.Number)),
       type: S.optional(S.NullOr(S.String)),
     }),
@@ -133,91 +145,312 @@ export const DmarcReportsGetResponseRecordsBimiRecordsList =
     DmarcReportsGetResponseRecordsBimiRecordsItem,
   ) as any as S.Schema<DmarcReportsGetResponseRecordsBimiRecordsList>;
 
-export type DmarcReportsGetResponseRecordsCnameDkimRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+export type DmarcReportsGetResponseRecordsCnameDkimRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsGetResponseRecordsCnameDkimRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsGetResponseRecordsCnameDkimRecordsItemResolvedList>;
+
+export interface DmarcReportsGetResponseRecordsCnameDkimRecordsItem {
+  /** DNS record ID */
+  id?: string | null;
+  /** Record content */
+  content?: string | null;
+  /** DNS record name */
+  name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsGetResponseRecordsCnameDkimRecordsItemResolvedList | null;
+  /** Time to live in seconds */
+  ttl?: number | null;
+  /** Record type */
+  type?: string | null;
+}
 export const DmarcReportsGetResponseRecordsCnameDkimRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(
+          DmarcReportsGetResponseRecordsCnameDkimRecordsItemResolvedList,
+        ),
+      ),
+      ttl: S.optional(S.NullOr(S.Number)),
+      type: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsGetResponseRecordsCnameDkimRecordsItem",
+  }) as any as S.Schema<DmarcReportsGetResponseRecordsCnameDkimRecordsItem>;
 
 export type DmarcReportsGetResponseRecordsCnameDkimRecordsList =
-  Array<DmarcReportsGetResponseRecordsBimiRecordsItem>;
+  Array<DmarcReportsGetResponseRecordsCnameDkimRecordsItem>;
 export const DmarcReportsGetResponseRecordsCnameDkimRecordsList =
   /*@__PURE__*/ S.Array(
-    DmarcReportsGetResponseRecordsBimiRecordsItem,
+    DmarcReportsGetResponseRecordsCnameDkimRecordsItem,
   ) as any as S.Schema<DmarcReportsGetResponseRecordsCnameDkimRecordsList>;
 
-export type DmarcReportsGetResponseRecordsCnameDmarcRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+export type DmarcReportsGetResponseRecordsCnameDmarcRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsGetResponseRecordsCnameDmarcRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsGetResponseRecordsCnameDmarcRecordsItemResolvedList>;
+
+export interface DmarcReportsGetResponseRecordsCnameDmarcRecordsItem {
+  /** DNS record ID */
+  id?: string | null;
+  /** Record content */
+  content?: string | null;
+  /** DNS record name */
+  name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsGetResponseRecordsCnameDmarcRecordsItemResolvedList | null;
+  /** Time to live in seconds */
+  ttl?: number | null;
+  /** Record type */
+  type?: string | null;
+}
 export const DmarcReportsGetResponseRecordsCnameDmarcRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(
+          DmarcReportsGetResponseRecordsCnameDmarcRecordsItemResolvedList,
+        ),
+      ),
+      ttl: S.optional(S.NullOr(S.Number)),
+      type: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsGetResponseRecordsCnameDmarcRecordsItem",
+  }) as any as S.Schema<DmarcReportsGetResponseRecordsCnameDmarcRecordsItem>;
 
 export type DmarcReportsGetResponseRecordsCnameDmarcRecordsList =
-  Array<DmarcReportsGetResponseRecordsBimiRecordsItem>;
+  Array<DmarcReportsGetResponseRecordsCnameDmarcRecordsItem>;
 export const DmarcReportsGetResponseRecordsCnameDmarcRecordsList =
   /*@__PURE__*/ S.Array(
-    DmarcReportsGetResponseRecordsBimiRecordsItem,
+    DmarcReportsGetResponseRecordsCnameDmarcRecordsItem,
   ) as any as S.Schema<DmarcReportsGetResponseRecordsCnameDmarcRecordsList>;
 
-export type DmarcReportsGetResponseRecordsCnameSpfRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+export type DmarcReportsGetResponseRecordsCnameSpfRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsGetResponseRecordsCnameSpfRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsGetResponseRecordsCnameSpfRecordsItemResolvedList>;
+
+export interface DmarcReportsGetResponseRecordsCnameSpfRecordsItem {
+  /** DNS record ID */
+  id?: string | null;
+  /** Record content */
+  content?: string | null;
+  /** DNS record name */
+  name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsGetResponseRecordsCnameSpfRecordsItemResolvedList | null;
+  /** Time to live in seconds */
+  ttl?: number | null;
+  /** Record type */
+  type?: string | null;
+}
 export const DmarcReportsGetResponseRecordsCnameSpfRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(DmarcReportsGetResponseRecordsCnameSpfRecordsItemResolvedList),
+      ),
+      ttl: S.optional(S.NullOr(S.Number)),
+      type: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsGetResponseRecordsCnameSpfRecordsItem",
+  }) as any as S.Schema<DmarcReportsGetResponseRecordsCnameSpfRecordsItem>;
 
 export type DmarcReportsGetResponseRecordsCnameSpfRecordsList =
-  Array<DmarcReportsGetResponseRecordsBimiRecordsItem>;
+  Array<DmarcReportsGetResponseRecordsCnameSpfRecordsItem>;
 export const DmarcReportsGetResponseRecordsCnameSpfRecordsList =
   /*@__PURE__*/ S.Array(
-    DmarcReportsGetResponseRecordsBimiRecordsItem,
+    DmarcReportsGetResponseRecordsCnameSpfRecordsItem,
   ) as any as S.Schema<DmarcReportsGetResponseRecordsCnameSpfRecordsList>;
 
-export type DmarcReportsGetResponseRecordsDkimRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+export type DmarcReportsGetResponseRecordsDkimRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsGetResponseRecordsDkimRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsGetResponseRecordsDkimRecordsItemResolvedList>;
+
+export interface DmarcReportsGetResponseRecordsDkimRecordsItem {
+  /** DNS record ID */
+  id?: string | null;
+  /** Record content */
+  content?: string | null;
+  /** DNS record name */
+  name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsGetResponseRecordsDkimRecordsItemResolvedList | null;
+  /** Time to live in seconds */
+  ttl?: number | null;
+  /** Record type */
+  type?: string | null;
+}
 export const DmarcReportsGetResponseRecordsDkimRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(DmarcReportsGetResponseRecordsDkimRecordsItemResolvedList),
+      ),
+      ttl: S.optional(S.NullOr(S.Number)),
+      type: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsGetResponseRecordsDkimRecordsItem",
+  }) as any as S.Schema<DmarcReportsGetResponseRecordsDkimRecordsItem>;
 
 export type DmarcReportsGetResponseRecordsDkimRecordsList =
-  Array<DmarcReportsGetResponseRecordsBimiRecordsItem>;
+  Array<DmarcReportsGetResponseRecordsDkimRecordsItem>;
 export const DmarcReportsGetResponseRecordsDkimRecordsList =
   /*@__PURE__*/ S.Array(
-    DmarcReportsGetResponseRecordsBimiRecordsItem,
+    DmarcReportsGetResponseRecordsDkimRecordsItem,
   ) as any as S.Schema<DmarcReportsGetResponseRecordsDkimRecordsList>;
 
-export type DmarcReportsGetResponseRecordsDmarcRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+export type DmarcReportsGetResponseRecordsDmarcRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsGetResponseRecordsDmarcRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsGetResponseRecordsDmarcRecordsItemResolvedList>;
+
+export interface DmarcReportsGetResponseRecordsDmarcRecordsItem {
+  /** DNS record ID */
+  id?: string | null;
+  /** Record content */
+  content?: string | null;
+  /** DNS record name */
+  name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsGetResponseRecordsDmarcRecordsItemResolvedList | null;
+  /** Time to live in seconds */
+  ttl?: number | null;
+  /** Record type */
+  type?: string | null;
+}
 export const DmarcReportsGetResponseRecordsDmarcRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(DmarcReportsGetResponseRecordsDmarcRecordsItemResolvedList),
+      ),
+      ttl: S.optional(S.NullOr(S.Number)),
+      type: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsGetResponseRecordsDmarcRecordsItem",
+  }) as any as S.Schema<DmarcReportsGetResponseRecordsDmarcRecordsItem>;
 
 export type DmarcReportsGetResponseRecordsDmarcRecordsList =
-  Array<DmarcReportsGetResponseRecordsBimiRecordsItem>;
+  Array<DmarcReportsGetResponseRecordsDmarcRecordsItem>;
 export const DmarcReportsGetResponseRecordsDmarcRecordsList =
   /*@__PURE__*/ S.Array(
-    DmarcReportsGetResponseRecordsBimiRecordsItem,
+    DmarcReportsGetResponseRecordsDmarcRecordsItem,
   ) as any as S.Schema<DmarcReportsGetResponseRecordsDmarcRecordsList>;
 
-export type DmarcReportsGetResponseRecordsSpfRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+export interface DmarcReportsGetResponseRecordsResolvedDmarcRecordsItem {
+  /** The TXT record value. The API joins all character-strings into a single string. */
+  content?: string | null;
+  /** The name the API queried. */
+  name?: string | null;
+}
+export const DmarcReportsGetResponseRecordsResolvedDmarcRecordsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsGetResponseRecordsResolvedDmarcRecordsItem",
+  }) as any as S.Schema<DmarcReportsGetResponseRecordsResolvedDmarcRecordsItem>;
+
+export type DmarcReportsGetResponseRecordsResolvedDmarcRecordsList =
+  Array<DmarcReportsGetResponseRecordsResolvedDmarcRecordsItem>;
+export const DmarcReportsGetResponseRecordsResolvedDmarcRecordsList =
+  /*@__PURE__*/ S.Array(
+    DmarcReportsGetResponseRecordsResolvedDmarcRecordsItem,
+  ) as any as S.Schema<DmarcReportsGetResponseRecordsResolvedDmarcRecordsList>;
+
+export type DmarcReportsGetResponseRecordsSpfRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsGetResponseRecordsSpfRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsGetResponseRecordsSpfRecordsItemResolvedList>;
+
+export interface DmarcReportsGetResponseRecordsSpfRecordsItem {
+  /** DNS record ID */
+  id?: string | null;
+  /** Record content */
+  content?: string | null;
+  /** DNS record name */
+  name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsGetResponseRecordsSpfRecordsItemResolvedList | null;
+  /** Time to live in seconds */
+  ttl?: number | null;
+  /** Record type */
+  type?: string | null;
+}
 export const DmarcReportsGetResponseRecordsSpfRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(DmarcReportsGetResponseRecordsSpfRecordsItemResolvedList),
+      ),
+      ttl: S.optional(S.NullOr(S.Number)),
+      type: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsGetResponseRecordsSpfRecordsItem",
+  }) as any as S.Schema<DmarcReportsGetResponseRecordsSpfRecordsItem>;
 
 export type DmarcReportsGetResponseRecordsSpfRecordsList =
-  Array<DmarcReportsGetResponseRecordsBimiRecordsItem>;
+  Array<DmarcReportsGetResponseRecordsSpfRecordsItem>;
 export const DmarcReportsGetResponseRecordsSpfRecordsList =
   /*@__PURE__*/ S.Array(
-    DmarcReportsGetResponseRecordsBimiRecordsItem,
+    DmarcReportsGetResponseRecordsSpfRecordsItem,
   ) as any as S.Schema<DmarcReportsGetResponseRecordsSpfRecordsList>;
 
 export interface DmarcReportsGetResponseRecords {
   /** BIMI TXT records */
   bimiRecords?: DmarcReportsGetResponseRecordsBimiRecordsList | null;
-  /** CNAME records for DKIM */
+  /** CNAME records for DKIM selectors. Each selector is resolved independently; when a selector's CNAME resolves to a DKIM TXT record, the API returns that record's content in the `resolved` field of the corresponding entry. */
   cnameDkimRecords?: DmarcReportsGetResponseRecordsCnameDkimRecordsList | null;
-  /** CNAME records at _dmarc (problematic) */
+  /** CNAME records at _dmarc. When such a CNAME resolves to a DMARC TXT record, the API returns that record's content in the `resolved` field of the corresponding entry. */
   cnameDmarcRecords?: DmarcReportsGetResponseRecordsCnameDmarcRecordsList | null;
-  /** CNAME records for SPF */
+  /** CNAME records at the zone apex. When such a CNAME resolves to an SPF TXT record, the API returns that record's content in the `resolved` field of the corresponding entry. */
   cnameSpfRecords?: DmarcReportsGetResponseRecordsCnameSpfRecordsList | null;
   /** DKIM TXT records */
   dkimRecords?: DmarcReportsGetResponseRecordsDkimRecordsList | null;
   /** DMARC TXT records */
   dmarcRecords?: DmarcReportsGetResponseRecordsDmarcRecordsList | null;
+  /** Use the `resolved` field on the corresponding entry in cname_dmarc_records instead. */
+  resolvedDmarcRecords?: DmarcReportsGetResponseRecordsResolvedDmarcRecordsList | null;
   /** SPF TXT records */
   spfRecords?: DmarcReportsGetResponseRecordsSpfRecordsList | null;
 }
@@ -253,6 +486,11 @@ export const DmarcReportsGetResponseRecords = /*@__PURE__*/ S.suspend(() =>
         T.Body("dmarc_records"),
       ),
     ),
+    resolvedDmarcRecords: S.optional(
+      S.NullOr(DmarcReportsGetResponseRecordsResolvedDmarcRecordsList).pipe(
+        T.Body("resolved_dmarc_records"),
+      ),
+    ),
     spfRecords: S.optional(
       S.NullOr(DmarcReportsGetResponseRecordsSpfRecordsList).pipe(
         T.Body("spf_records"),
@@ -267,20 +505,21 @@ export type DmarcReportsGetResponseStatus =
   | "missing-dmarc-report"
   | "multiple-dmarc-reports"
   | "missing-dmarc-rua"
-  | "cname-on-dmarc-record";
-export const DmarcReportsGetResponseStatus = /*@__PURE__*/ S.String;
+  | "cname-on-dmarc-record"
+  | "unauthorized-reporting-domain";
+export const DmarcReportsGetResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDmarcReportResponse {
   /** List of approved sending sources (omitted when empty) */
   approvedSources?: DmarcReportsGetResponseApprovedSourcesList | null;
-  /** Deprecated, use created_at */
+  /** Use `created_at` instead. */
   created?: string | null;
   /** Creation timestamp */
   createdAt?: string | null;
   /** Whether DMARC reports are enabled */
   enabled?: boolean | null;
-  /** Deprecated, use modified_at */
+  /** Use `modified_at` instead. */
   modified?: string | null;
   /** Last modification timestamp */
   modifiedAt?: string | null;
@@ -290,9 +529,9 @@ export interface GetDmarcReportResponse {
   ruaPrefix?: string | null;
   /** Whether to skip the setup wizard */
   skipWizard?: boolean | null;
-  /** DMARC configuration status */
+  /** DMARC configuration status. The API omits this field when DMARC is correctly configured. If the zone lacks a DMARC TXT record of its own, the API resolves _dmarc.{zone} recursively and evaluates whatever that lookup returns. A CNAME at _dmarc.{zone} that points to a valid DMARC record is therefore healthy; the cname-on-dmarc-record value means the CNAME resolves to no DMARC record at all. */
   status?: DmarcReportsGetResponseStatus | null;
-  /** Use `zone_id` instead */
+  /** Use `zone_id` instead. */
   tag?: string | null;
   /** Zone identifier */
   zoneId?: string | null;
@@ -385,7 +624,7 @@ export interface GetSpfInspectResponse {
   record: string;
   /** Total number of DNS lookups performed across all includes */
   totalLookups: number;
-  /** All errors encountered during inspection, collected from the entire tree. */
+  /** All errors encountered during inspection, collected from the entire tree. This includes errors from nested includes at any depth, providing a quick overview of all issues without needing to traverse the nested structure. Each error includes a `domain` field to identify where it occurred. Empty array if no errors (omitted from JSON when empty). */
   errors?: SpfInspectGetResponseErrorsList | null;
 }
 export const GetSpfInspectResponse = /*@__PURE__*/ S.suspend(() =>
@@ -433,7 +672,7 @@ export const DmarcReportsEditResponseApprovedSourcesItemIpsList =
   ) as any as S.Schema<DmarcReportsEditResponseApprovedSourcesItemIpsList>;
 
 export interface DmarcReportsEditResponseApprovedSourcesItem {
-  /** Deprecated, use created_at */
+  /** Use `created_at` instead. */
   created?: string | null;
   /** Creation timestamp */
   createdAt?: string | null;
@@ -441,7 +680,7 @@ export interface DmarcReportsEditResponseApprovedSourcesItem {
   domain?: string | null;
   /** Resolved IP addresses from SPF */
   ips?: DmarcReportsEditResponseApprovedSourcesItemIpsList | null;
-  /** Deprecated, use modified_at */
+  /** Use `modified_at` instead. */
   modified?: string | null;
   /** Last modification timestamp */
   modifiedAt?: string | null;
@@ -478,103 +717,347 @@ export const DmarcReportsEditResponseApprovedSourcesList =
     DmarcReportsEditResponseApprovedSourcesItem,
   ) as any as S.Schema<DmarcReportsEditResponseApprovedSourcesList>;
 
-export type DmarcReportsEditResponseRecordsBimiRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+export type DmarcReportsEditResponseRecordsBimiRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsEditResponseRecordsBimiRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsEditResponseRecordsBimiRecordsItemResolvedList>;
+
+export interface DmarcReportsEditResponseRecordsBimiRecordsItem {
+  /** DNS record ID */
+  id?: string | null;
+  /** Record content */
+  content?: string | null;
+  /** DNS record name */
+  name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsEditResponseRecordsBimiRecordsItemResolvedList | null;
+  /** Time to live in seconds */
+  ttl?: number | null;
+  /** Record type */
+  type?: string | null;
+}
 export const DmarcReportsEditResponseRecordsBimiRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(DmarcReportsEditResponseRecordsBimiRecordsItemResolvedList),
+      ),
+      ttl: S.optional(S.NullOr(S.Number)),
+      type: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsEditResponseRecordsBimiRecordsItem",
+  }) as any as S.Schema<DmarcReportsEditResponseRecordsBimiRecordsItem>;
 
 export type DmarcReportsEditResponseRecordsBimiRecordsList =
-  Array<DmarcReportsGetResponseRecordsBimiRecordsItem>;
+  Array<DmarcReportsEditResponseRecordsBimiRecordsItem>;
 export const DmarcReportsEditResponseRecordsBimiRecordsList =
   /*@__PURE__*/ S.Array(
-    DmarcReportsGetResponseRecordsBimiRecordsItem,
+    DmarcReportsEditResponseRecordsBimiRecordsItem,
   ) as any as S.Schema<DmarcReportsEditResponseRecordsBimiRecordsList>;
 
-export type DmarcReportsEditResponseRecordsCnameDkimRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+export type DmarcReportsEditResponseRecordsCnameDkimRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsEditResponseRecordsCnameDkimRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsEditResponseRecordsCnameDkimRecordsItemResolvedList>;
+
+export interface DmarcReportsEditResponseRecordsCnameDkimRecordsItem {
+  /** DNS record ID */
+  id?: string | null;
+  /** Record content */
+  content?: string | null;
+  /** DNS record name */
+  name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsEditResponseRecordsCnameDkimRecordsItemResolvedList | null;
+  /** Time to live in seconds */
+  ttl?: number | null;
+  /** Record type */
+  type?: string | null;
+}
 export const DmarcReportsEditResponseRecordsCnameDkimRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(
+          DmarcReportsEditResponseRecordsCnameDkimRecordsItemResolvedList,
+        ),
+      ),
+      ttl: S.optional(S.NullOr(S.Number)),
+      type: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsEditResponseRecordsCnameDkimRecordsItem",
+  }) as any as S.Schema<DmarcReportsEditResponseRecordsCnameDkimRecordsItem>;
 
 export type DmarcReportsEditResponseRecordsCnameDkimRecordsList =
-  Array<DmarcReportsGetResponseRecordsBimiRecordsItem>;
+  Array<DmarcReportsEditResponseRecordsCnameDkimRecordsItem>;
 export const DmarcReportsEditResponseRecordsCnameDkimRecordsList =
   /*@__PURE__*/ S.Array(
-    DmarcReportsGetResponseRecordsBimiRecordsItem,
+    DmarcReportsEditResponseRecordsCnameDkimRecordsItem,
   ) as any as S.Schema<DmarcReportsEditResponseRecordsCnameDkimRecordsList>;
 
-export type DmarcReportsEditResponseRecordsCnameDmarcRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+export type DmarcReportsEditResponseRecordsCnameDmarcRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsEditResponseRecordsCnameDmarcRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsEditResponseRecordsCnameDmarcRecordsItemResolvedList>;
+
+export interface DmarcReportsEditResponseRecordsCnameDmarcRecordsItem {
+  /** DNS record ID */
+  id?: string | null;
+  /** Record content */
+  content?: string | null;
+  /** DNS record name */
+  name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsEditResponseRecordsCnameDmarcRecordsItemResolvedList | null;
+  /** Time to live in seconds */
+  ttl?: number | null;
+  /** Record type */
+  type?: string | null;
+}
 export const DmarcReportsEditResponseRecordsCnameDmarcRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(
+          DmarcReportsEditResponseRecordsCnameDmarcRecordsItemResolvedList,
+        ),
+      ),
+      ttl: S.optional(S.NullOr(S.Number)),
+      type: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsEditResponseRecordsCnameDmarcRecordsItem",
+  }) as any as S.Schema<DmarcReportsEditResponseRecordsCnameDmarcRecordsItem>;
 
 export type DmarcReportsEditResponseRecordsCnameDmarcRecordsList =
-  Array<DmarcReportsGetResponseRecordsBimiRecordsItem>;
+  Array<DmarcReportsEditResponseRecordsCnameDmarcRecordsItem>;
 export const DmarcReportsEditResponseRecordsCnameDmarcRecordsList =
   /*@__PURE__*/ S.Array(
-    DmarcReportsGetResponseRecordsBimiRecordsItem,
+    DmarcReportsEditResponseRecordsCnameDmarcRecordsItem,
   ) as any as S.Schema<DmarcReportsEditResponseRecordsCnameDmarcRecordsList>;
 
-export type DmarcReportsEditResponseRecordsCnameSpfRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+export type DmarcReportsEditResponseRecordsCnameSpfRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsEditResponseRecordsCnameSpfRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsEditResponseRecordsCnameSpfRecordsItemResolvedList>;
+
+export interface DmarcReportsEditResponseRecordsCnameSpfRecordsItem {
+  /** DNS record ID */
+  id?: string | null;
+  /** Record content */
+  content?: string | null;
+  /** DNS record name */
+  name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsEditResponseRecordsCnameSpfRecordsItemResolvedList | null;
+  /** Time to live in seconds */
+  ttl?: number | null;
+  /** Record type */
+  type?: string | null;
+}
 export const DmarcReportsEditResponseRecordsCnameSpfRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(
+          DmarcReportsEditResponseRecordsCnameSpfRecordsItemResolvedList,
+        ),
+      ),
+      ttl: S.optional(S.NullOr(S.Number)),
+      type: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsEditResponseRecordsCnameSpfRecordsItem",
+  }) as any as S.Schema<DmarcReportsEditResponseRecordsCnameSpfRecordsItem>;
 
 export type DmarcReportsEditResponseRecordsCnameSpfRecordsList =
-  Array<DmarcReportsGetResponseRecordsBimiRecordsItem>;
+  Array<DmarcReportsEditResponseRecordsCnameSpfRecordsItem>;
 export const DmarcReportsEditResponseRecordsCnameSpfRecordsList =
   /*@__PURE__*/ S.Array(
-    DmarcReportsGetResponseRecordsBimiRecordsItem,
+    DmarcReportsEditResponseRecordsCnameSpfRecordsItem,
   ) as any as S.Schema<DmarcReportsEditResponseRecordsCnameSpfRecordsList>;
 
-export type DmarcReportsEditResponseRecordsDkimRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+export type DmarcReportsEditResponseRecordsDkimRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsEditResponseRecordsDkimRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsEditResponseRecordsDkimRecordsItemResolvedList>;
+
+export interface DmarcReportsEditResponseRecordsDkimRecordsItem {
+  /** DNS record ID */
+  id?: string | null;
+  /** Record content */
+  content?: string | null;
+  /** DNS record name */
+  name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsEditResponseRecordsDkimRecordsItemResolvedList | null;
+  /** Time to live in seconds */
+  ttl?: number | null;
+  /** Record type */
+  type?: string | null;
+}
 export const DmarcReportsEditResponseRecordsDkimRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(DmarcReportsEditResponseRecordsDkimRecordsItemResolvedList),
+      ),
+      ttl: S.optional(S.NullOr(S.Number)),
+      type: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsEditResponseRecordsDkimRecordsItem",
+  }) as any as S.Schema<DmarcReportsEditResponseRecordsDkimRecordsItem>;
 
 export type DmarcReportsEditResponseRecordsDkimRecordsList =
-  Array<DmarcReportsGetResponseRecordsBimiRecordsItem>;
+  Array<DmarcReportsEditResponseRecordsDkimRecordsItem>;
 export const DmarcReportsEditResponseRecordsDkimRecordsList =
   /*@__PURE__*/ S.Array(
-    DmarcReportsGetResponseRecordsBimiRecordsItem,
+    DmarcReportsEditResponseRecordsDkimRecordsItem,
   ) as any as S.Schema<DmarcReportsEditResponseRecordsDkimRecordsList>;
 
-export type DmarcReportsEditResponseRecordsDmarcRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+export type DmarcReportsEditResponseRecordsDmarcRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsEditResponseRecordsDmarcRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsEditResponseRecordsDmarcRecordsItemResolvedList>;
+
+export interface DmarcReportsEditResponseRecordsDmarcRecordsItem {
+  /** DNS record ID */
+  id?: string | null;
+  /** Record content */
+  content?: string | null;
+  /** DNS record name */
+  name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsEditResponseRecordsDmarcRecordsItemResolvedList | null;
+  /** Time to live in seconds */
+  ttl?: number | null;
+  /** Record type */
+  type?: string | null;
+}
 export const DmarcReportsEditResponseRecordsDmarcRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(DmarcReportsEditResponseRecordsDmarcRecordsItemResolvedList),
+      ),
+      ttl: S.optional(S.NullOr(S.Number)),
+      type: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsEditResponseRecordsDmarcRecordsItem",
+  }) as any as S.Schema<DmarcReportsEditResponseRecordsDmarcRecordsItem>;
 
 export type DmarcReportsEditResponseRecordsDmarcRecordsList =
-  Array<DmarcReportsGetResponseRecordsBimiRecordsItem>;
+  Array<DmarcReportsEditResponseRecordsDmarcRecordsItem>;
 export const DmarcReportsEditResponseRecordsDmarcRecordsList =
   /*@__PURE__*/ S.Array(
-    DmarcReportsGetResponseRecordsBimiRecordsItem,
+    DmarcReportsEditResponseRecordsDmarcRecordsItem,
   ) as any as S.Schema<DmarcReportsEditResponseRecordsDmarcRecordsList>;
 
-export type DmarcReportsEditResponseRecordsSpfRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+export type DmarcReportsEditResponseRecordsResolvedDmarcRecordsItem =
+  DmarcReportsGetResponseRecordsResolvedDmarcRecordsItem;
+export const DmarcReportsEditResponseRecordsResolvedDmarcRecordsItem =
+  DmarcReportsGetResponseRecordsResolvedDmarcRecordsItem;
+
+export type DmarcReportsEditResponseRecordsResolvedDmarcRecordsList =
+  Array<DmarcReportsGetResponseRecordsResolvedDmarcRecordsItem>;
+export const DmarcReportsEditResponseRecordsResolvedDmarcRecordsList =
+  /*@__PURE__*/ S.Array(
+    DmarcReportsGetResponseRecordsResolvedDmarcRecordsItem,
+  ) as any as S.Schema<DmarcReportsEditResponseRecordsResolvedDmarcRecordsList>;
+
+export type DmarcReportsEditResponseRecordsSpfRecordsItemResolvedList =
+  Array<string>;
+export const DmarcReportsEditResponseRecordsSpfRecordsItemResolvedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DmarcReportsEditResponseRecordsSpfRecordsItemResolvedList>;
+
+export interface DmarcReportsEditResponseRecordsSpfRecordsItem {
+  /** DNS record ID */
+  id?: string | null;
+  /** Record content */
+  content?: string | null;
+  /** DNS record name */
+  name?: string | null;
+  /** For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records. */
+  resolved?: DmarcReportsEditResponseRecordsSpfRecordsItemResolvedList | null;
+  /** Time to live in seconds */
+  ttl?: number | null;
+  /** Record type */
+  type?: string | null;
+}
 export const DmarcReportsEditResponseRecordsSpfRecordsItem =
-  DmarcReportsGetResponseRecordsBimiRecordsItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.NullOr(S.String)),
+      content: S.optional(S.NullOr(S.String)),
+      name: S.optional(S.NullOr(S.String)),
+      resolved: S.optional(
+        S.NullOr(DmarcReportsEditResponseRecordsSpfRecordsItemResolvedList),
+      ),
+      ttl: S.optional(S.NullOr(S.Number)),
+      type: S.optional(S.NullOr(S.String)),
+    }),
+  ).annotate({
+    identifier: "DmarcReportsEditResponseRecordsSpfRecordsItem",
+  }) as any as S.Schema<DmarcReportsEditResponseRecordsSpfRecordsItem>;
 
 export type DmarcReportsEditResponseRecordsSpfRecordsList =
-  Array<DmarcReportsGetResponseRecordsBimiRecordsItem>;
+  Array<DmarcReportsEditResponseRecordsSpfRecordsItem>;
 export const DmarcReportsEditResponseRecordsSpfRecordsList =
   /*@__PURE__*/ S.Array(
-    DmarcReportsGetResponseRecordsBimiRecordsItem,
+    DmarcReportsEditResponseRecordsSpfRecordsItem,
   ) as any as S.Schema<DmarcReportsEditResponseRecordsSpfRecordsList>;
 
 export interface DmarcReportsEditResponseRecords {
   /** BIMI TXT records */
   bimiRecords?: DmarcReportsEditResponseRecordsBimiRecordsList | null;
-  /** CNAME records for DKIM */
+  /** CNAME records for DKIM selectors. Each selector is resolved independently; when a selector's CNAME resolves to a DKIM TXT record, the API returns that record's content in the `resolved` field of the corresponding entry. */
   cnameDkimRecords?: DmarcReportsEditResponseRecordsCnameDkimRecordsList | null;
-  /** CNAME records at _dmarc (problematic) */
+  /** CNAME records at _dmarc. When such a CNAME resolves to a DMARC TXT record, the API returns that record's content in the `resolved` field of the corresponding entry. */
   cnameDmarcRecords?: DmarcReportsEditResponseRecordsCnameDmarcRecordsList | null;
-  /** CNAME records for SPF */
+  /** CNAME records at the zone apex. When such a CNAME resolves to an SPF TXT record, the API returns that record's content in the `resolved` field of the corresponding entry. */
   cnameSpfRecords?: DmarcReportsEditResponseRecordsCnameSpfRecordsList | null;
   /** DKIM TXT records */
   dkimRecords?: DmarcReportsEditResponseRecordsDkimRecordsList | null;
   /** DMARC TXT records */
   dmarcRecords?: DmarcReportsEditResponseRecordsDmarcRecordsList | null;
+  /** Use the `resolved` field on the corresponding entry in cname_dmarc_records instead. */
+  resolvedDmarcRecords?: DmarcReportsEditResponseRecordsResolvedDmarcRecordsList | null;
   /** SPF TXT records */
   spfRecords?: DmarcReportsEditResponseRecordsSpfRecordsList | null;
 }
@@ -610,6 +1093,11 @@ export const DmarcReportsEditResponseRecords = /*@__PURE__*/ S.suspend(() =>
         T.Body("dmarc_records"),
       ),
     ),
+    resolvedDmarcRecords: S.optional(
+      S.NullOr(DmarcReportsEditResponseRecordsResolvedDmarcRecordsList).pipe(
+        T.Body("resolved_dmarc_records"),
+      ),
+    ),
     spfRecords: S.optional(
       S.NullOr(DmarcReportsEditResponseRecordsSpfRecordsList).pipe(
         T.Body("spf_records"),
@@ -624,20 +1112,21 @@ export type DmarcReportsEditResponseStatus =
   | "missing-dmarc-report"
   | "multiple-dmarc-reports"
   | "missing-dmarc-rua"
-  | "cname-on-dmarc-record";
-export const DmarcReportsEditResponseStatus = /*@__PURE__*/ S.String;
+  | "cname-on-dmarc-record"
+  | "unauthorized-reporting-domain";
+export const DmarcReportsEditResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchDmarcReportResponse {
   /** List of approved sending sources (omitted when empty) */
   approvedSources?: DmarcReportsEditResponseApprovedSourcesList | null;
-  /** Deprecated, use created_at */
+  /** Use `created_at` instead. */
   created?: string | null;
   /** Creation timestamp */
   createdAt?: string | null;
   /** Whether DMARC reports are enabled */
   enabled?: boolean | null;
-  /** Deprecated, use modified_at */
+  /** Use `modified_at` instead. */
   modified?: string | null;
   /** Last modification timestamp */
   modifiedAt?: string | null;
@@ -647,9 +1136,9 @@ export interface PatchDmarcReportResponse {
   ruaPrefix?: string | null;
   /** Whether to skip the setup wizard */
   skipWizard?: boolean | null;
-  /** DMARC configuration status */
+  /** DMARC configuration status. The API omits this field when DMARC is correctly configured. If the zone lacks a DMARC TXT record of its own, the API resolves _dmarc.{zone} recursively and evaluates whatever that lookup returns. A CNAME at _dmarc.{zone} that points to a valid DMARC record is therefore healthy; the cname-on-dmarc-record value means the CNAME resolves to no DMARC record at all. */
   status?: DmarcReportsEditResponseStatus | null;
-  /** Use `zone_id` instead */
+  /** Use `zone_id` instead. */
   tag?: string | null;
   /** Zone identifier */
   zoneId?: string | null;

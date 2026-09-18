@@ -38,8 +38,8 @@ import * as Category from "@distilled.cloud/core/category";
 
 /**
  * Unknown ACME error — a problem document whose `type` matches no typed
- * class on the operation. Carries the raw document for cataloging: the fix
- * is a patch adding the URN's shape, never a consumer catch.
+ * class on the operation. Carries structured problem fields and a redacted
+ * body. Add newly observed URNs to the authored model.
  */
 export class UnknownAcmeError extends Schema.TaggedError<UnknownAcmeError>()(
   "UnknownAcmeError",
@@ -48,9 +48,11 @@ export class UnknownAcmeError extends Schema.TaggedError<UnknownAcmeError>()(
     type: Schema.optional(Schema.String),
     message: Schema.optional(Schema.String),
     status: Schema.optional(Schema.Number),
+    detail: Schema.optional(Schema.String),
+    subproblems: Schema.optional(Schema.Array(Schema.Unknown)),
     body: Schema.Unknown,
   },
-).pipe(Category.withServerError) {}
+) {}
 
 /** Schema parse error wrapper. */
 export class AcmeParseError extends Schema.TaggedError<AcmeParseError>()(

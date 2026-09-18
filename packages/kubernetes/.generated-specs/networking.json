@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1APIGroup": {
@@ -445,7 +446,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -891,7 +892,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -1341,7 +1342,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -1715,7 +1716,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -1866,7 +1867,10 @@
           }
         },
         "http": {
-          "target": "com.kubernetes.networking#IoK8sApiNetworkingV1HTTPIngressRuleValue"
+          "target": "com.kubernetes.networking#IoK8sApiNetworkingV1HTTPIngressRuleValue",
+          "traits": {
+            "smithy.api#documentation": "http is a HTTP IngressRuleValue, which contains a list of http selectors"
+          }
         }
       },
       "traits": {
@@ -2241,7 +2245,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -2262,7 +2266,7 @@
         "parentRef": {
           "target": "com.kubernetes.networking#IoK8sApiNetworkingV1ParentReference",
           "traits": {
-            "smithy.api#documentation": "ParentRef references the resource that an IPAddress is attached to. An IPAddress must reference a parent object.",
+            "smithy.api#documentation": "parentRef references the resource that an IPAddress is attached to. An IPAddress must reference a parent object.",
             "smithy.api#required": {}
           }
         }
@@ -2277,26 +2281,26 @@
         "group": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Group is the group of the object being referenced."
+            "smithy.api#documentation": "group is the group of the object being referenced."
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name is the name of the object being referenced.",
+            "smithy.api#documentation": "name is the name of the object being referenced.",
             "smithy.api#required": {}
           }
         },
         "namespace": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Namespace is the namespace of the object being referenced."
+            "smithy.api#documentation": "namespace is the namespace of the object being referenced."
           }
         },
         "resource": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Resource is the resource of the object being referenced.",
+            "smithy.api#documentation": "resource is the resource of the object being referenced.",
             "smithy.api#required": {}
           }
         }
@@ -2377,7 +2381,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -2673,7 +2677,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -3076,7 +3080,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -3401,7 +3405,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -3769,7 +3773,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -4055,7 +4059,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -4444,7 +4448,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -4763,7 +4767,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -5262,7 +5266,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -5288,7 +5292,7 @@
         "cidrs": {
           "target": "com.kubernetes.networking#IoK8sApiNetworkingV1ServiceCIDRSpecCidrsList",
           "traits": {
-            "smithy.api#documentation": "CIDRs defines the IP blocks in CIDR notation (e.g. \"192.168.0.0/24\" or \"2001:db8::/64\") from which to assign service cluster IPs. Max of two CIDRs is allowed, one of each IP family. This field is immutable."
+            "smithy.api#documentation": "cidrs defines the IP blocks in CIDR notation (e.g. \"192.168.0.0/24\" or \"2001:db8::/64\") from which to assign service cluster IPs. Max of two CIDRs is allowed, one of each IP family. This field is immutable."
           }
         }
       },
@@ -5302,7 +5306,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "CIDRs defines the IP blocks in CIDR notation (e.g. \"192.168.0.0/24\" or \"2001:db8::/64\") from which to assign service cluster IPs. Max of two CIDRs is allowed, one of each IP family. This field is immutable."
+        "smithy.api#documentation": "cidrs defines the IP blocks in CIDR notation (e.g. \"192.168.0.0/24\" or \"2001:db8::/64\") from which to assign service cluster IPs. Max of two CIDRs is allowed, one of each IP family. This field is immutable."
       }
     },
     "com.kubernetes.networking#IoK8sApiNetworkingV1ServiceCIDRStatus": {
@@ -5332,8 +5336,7 @@
         "message": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "message is a human readable message indicating details about the transition. This may be an empty string.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "message is a human readable message indicating details about the transition. This may be an empty string."
           }
         },
         "observedGeneration": {
@@ -5449,7 +5452,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -5750,7 +5753,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
@@ -6086,7 +6089,7 @@
         "metadata": {
           "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {

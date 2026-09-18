@@ -1,0 +1,1143 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.experiences#ListExperienceRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id",
+            "smithy.api#required": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "product_id"
+          }
+        },
+        "app_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "app_id"
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before"
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiences#ExperienceListItem": {
+      "type": "structure",
+      "members": {
+        "app": {
+          "target": "com.whop.experiences#ExperienceListItemApp",
+          "traits": {
+            "smithy.api#documentation": "The app that powers this experience, defining its interface and behavior.",
+            "smithy.api#required": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.experiences#ExperienceListItemCompany",
+          "traits": {
+            "smithy.api#documentation": "The company that owns this experience.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the experience was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the experience.",
+            "smithy.api#required": {}
+          }
+        },
+        "image": {
+          "target": "com.whop.experiences#ExperienceListItemImage",
+          "traits": {
+            "smithy.api#documentation": "The custom logo image for this experience. Null if no custom logo has been uploaded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this experience is publicly visible to all users, including those without a membership.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of this experience shown to users in the product navigation. Maximum 255 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sort position of this experience within its section. Lower values appear first. Null if no position has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An experience is a feature or content module within a product, such as a chat, course, or custom app."
+      }
+    },
+    "com.whop.experiences#ExperienceListItemAppIcon": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The icon image for this app, displayed on the app store, product pages, checkout, and as the default icon for experiences using this app."
+      }
+    },
+    "com.whop.experiences#ExperienceListItemApp": {
+      "type": "structure",
+      "members": {
+        "icon": {
+          "target": "com.whop.experiences#ExperienceListItemAppIcon",
+          "traits": {
+            "smithy.api#documentation": "The icon image for this app, displayed on the app store, product pages, checkout, and as the default icon for experiences using this app.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the app.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of this app shown on the app store and in experience navigation. Maximum 30 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The app that powers this experience, defining its interface and behavior."
+      }
+    },
+    "com.whop.experiences#ExperienceListItemCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL slug for the account's store page, e.g. `pickaxe` in whop.com/pickaxe.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the company shown to customers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company that owns this experience."
+      }
+    },
+    "com.whop.experiences#ExperienceListItemImage": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The custom logo image for this experience. Null if no custom logo has been uploaded."
+      }
+    },
+    "com.whop.experiences#ListExperienceResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.experiences#ExperienceListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.experiences#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.experiences#ListExperienceResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.experiences#ListExperienceResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.experiences#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.experiences#ListExperience": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiences#ListExperienceRequest"
+      },
+      "output": {
+        "target": "com.whop.experiences#ListExperienceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiences#BadRequest"
+        },
+        {
+          "target": "com.whop.experiences#Forbidden"
+        },
+        {
+          "target": "com.whop.experiences#NotFound"
+        },
+        {
+          "target": "com.whop.experiences#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/experiences",
+          "code": 200
+        },
+        "smithy.api#documentation": "List experiences\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of experiences belonging to a company, with optional filtering by product and app.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.experiences#CreateExperienceRequestLogo": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A logo image displayed alongside the experience name."
+      }
+    },
+    "com.whop.experiences#CreateExperienceRequest": {
+      "type": "structure",
+      "members": {
+        "app_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the app that powers this experience.",
+            "smithy.api#required": {}
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to create this experience for.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the experience is publicly accessible without a membership.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logo": {
+          "target": "com.whop.experiences#CreateExperienceRequestLogo",
+          "traits": {
+            "smithy.api#documentation": "A logo image displayed alongside the experience name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the experience. Defaults to the app's name if not provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notifications_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop app notifications are enabled for this experience. Webhooks still fire.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "section_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the section to place the experience in.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiences#Experience": {
+      "type": "structure",
+      "members": {
+        "app": {
+          "target": "com.whop.experiences#ExperienceApp",
+          "traits": {
+            "smithy.api#documentation": "The app that powers this experience, defining its interface and behavior.",
+            "smithy.api#required": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.experiences#ExperienceCompany",
+          "traits": {
+            "smithy.api#documentation": "The company that owns this experience.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the experience was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the experience.",
+            "smithy.api#required": {}
+          }
+        },
+        "image": {
+          "target": "com.whop.experiences#ExperienceImage",
+          "traits": {
+            "smithy.api#documentation": "The custom logo image for this experience. Null if no custom logo has been uploaded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this experience is publicly visible to all users, including those without a membership.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of this experience shown to users in the product navigation. Maximum 255 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sort position of this experience within its section. Lower values appear first. Null if no position has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "products": {
+          "target": "com.whop.experiences#ExperienceProductsList",
+          "traits": {
+            "smithy.api#documentation": "The list of products this experience is attached to, which determines which customers have access. Empty if the experience is only visible to authorized company team members.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An experience is a feature or content module within a product, such as a chat, course, or custom app."
+      }
+    },
+    "com.whop.experiences#ExperienceAppIcon": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The icon image for this app, displayed on the app store, product pages, checkout, and as the default icon for experiences using this app."
+      }
+    },
+    "com.whop.experiences#ExperienceApp": {
+      "type": "structure",
+      "members": {
+        "icon": {
+          "target": "com.whop.experiences#ExperienceAppIcon",
+          "traits": {
+            "smithy.api#documentation": "The icon image for this app, displayed on the app store, product pages, checkout, and as the default icon for experiences using this app.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the app.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of this app shown on the app store and in experience navigation. Maximum 30 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The app that powers this experience, defining its interface and behavior."
+      }
+    },
+    "com.whop.experiences#ExperienceCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL slug for the account's store page, e.g. `pickaxe` in whop.com/pickaxe.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the company shown to customers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company that owns this experience."
+      }
+    },
+    "com.whop.experiences#ExperienceImage": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The custom logo image for this experience. Null if no custom logo has been uploaded."
+      }
+    },
+    "com.whop.experiences#ExperienceProductsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL slug in the product's public link, e.g. `pickaxe-analytics` in whop.com/company/pickaxe-analytics.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the product shown to customers on the product page and in search results.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A product is a digital good or service sold on Whop. Products contain plans for pricing and experiences for content delivery."
+      }
+    },
+    "com.whop.experiences#ExperienceProductsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.experiences#ExperienceProductsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of products this experience is attached to, which determines which customers have access. Empty if the experience is only visible to authorized company team members."
+      }
+    },
+    "com.whop.experiences#CreateExperience": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiences#CreateExperienceRequest"
+      },
+      "output": {
+        "target": "com.whop.experiences#Experience"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiences#BadRequest"
+        },
+        {
+          "target": "com.whop.experiences#Forbidden"
+        },
+        {
+          "target": "com.whop.experiences#NotFound"
+        },
+        {
+          "target": "com.whop.experiences#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/experiences",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create experience\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRequired permissions:\n - `experience:create`"
+      }
+    },
+    "com.whop.experiences#GetExperienceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the experience."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiences#GetExperience": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiences#GetExperienceRequest"
+      },
+      "output": {
+        "target": "com.whop.experiences#Experience"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiences#BadRequest"
+        },
+        {
+          "target": "com.whop.experiences#Forbidden"
+        },
+        {
+          "target": "com.whop.experiences#NotFound"
+        },
+        {
+          "target": "com.whop.experiences#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/experiences/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve experience\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing experience."
+      }
+    },
+    "com.whop.experiences#ExperienceAccessLevels": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The different access levels for experiences (PUBLIC IS NEVER USED ANYMORE)."
+      }
+    },
+    "com.whop.experiences#UpdateExperienceRequestLogo": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A logo image displayed alongside the experience name."
+      }
+    },
+    "com.whop.experiences#UpdateExperienceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the experience to update."
+          }
+        },
+        "access_level": {
+          "target": "com.whop.experiences#ExperienceAccessLevels",
+          "traits": {
+            "smithy.api#documentation": "The access level of the experience.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the experience is publicly accessible without a membership.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logo": {
+          "target": "com.whop.experiences#UpdateExperienceRequestLogo",
+          "traits": {
+            "smithy.api#documentation": "A logo image displayed alongside the experience name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the experience.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notifications_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop app notifications are enabled for this experience. Webhooks still fire.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The position of the experience within its section for display ordering.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "section_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the section to move the experience into.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiences#UpdateExperience": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiences#UpdateExperienceRequest"
+      },
+      "output": {
+        "target": "com.whop.experiences#Experience"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiences#BadRequest"
+        },
+        {
+          "target": "com.whop.experiences#Forbidden"
+        },
+        {
+          "target": "com.whop.experiences#NotFound"
+        },
+        {
+          "target": "com.whop.experiences#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/experiences/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update experience\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRequired permissions:\n - `experience:update`"
+      }
+    },
+    "com.whop.experiences#DeleteExperienceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the experience to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiences#DeleteExperienceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.experiences#DeleteExperience": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiences#DeleteExperienceRequest"
+      },
+      "output": {
+        "target": "com.whop.experiences#DeleteExperienceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiences#BadRequest"
+        },
+        {
+          "target": "com.whop.experiences#Forbidden"
+        },
+        {
+          "target": "com.whop.experiences#NotFound"
+        },
+        {
+          "target": "com.whop.experiences#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/experiences/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete experience\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRequired permissions:\n - `experience:delete`"
+      }
+    },
+    "com.whop.experiences#AttachExperienceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the experience to attach."
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the product to attach the experience to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiences#AttachExperience": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiences#AttachExperienceRequest"
+      },
+      "output": {
+        "target": "com.whop.experiences#Experience"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiences#BadRequest"
+        },
+        {
+          "target": "com.whop.experiences#Forbidden"
+        },
+        {
+          "target": "com.whop.experiences#NotFound"
+        },
+        {
+          "target": "com.whop.experiences#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/experiences/{id}/attach",
+          "code": 200
+        },
+        "smithy.api#documentation": "Attach experience\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nAttach an experience to a product, making it accessible to the product's customers.\n\nRequired permissions:\n - `experience:attach`"
+      }
+    },
+    "com.whop.experiences#DetachExperienceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the experience to detach."
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the product to detach the experience from.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiences#DetachExperience": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiences#DetachExperienceRequest"
+      },
+      "output": {
+        "target": "com.whop.experiences#Experience"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiences#BadRequest"
+        },
+        {
+          "target": "com.whop.experiences#Forbidden"
+        },
+        {
+          "target": "com.whop.experiences#NotFound"
+        },
+        {
+          "target": "com.whop.experiences#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/experiences/{id}/detach",
+          "code": 200
+        },
+        "smithy.api#documentation": "Detach experience\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nDetach an experience from a product, removing customer access to it through that product.\n\nRequired permissions:\n - `experience:detach`"
+      }
+    },
+    "com.whop.experiences#DuplicateExperienceRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the experience to duplicate."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name for the duplicated experience. Defaults to the original experience's name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiences#DuplicateExperience": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiences#DuplicateExperienceRequest"
+      },
+      "output": {
+        "target": "com.whop.experiences#Experience"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiences#BadRequest"
+        },
+        {
+          "target": "com.whop.experiences#Forbidden"
+        },
+        {
+          "target": "com.whop.experiences#NotFound"
+        },
+        {
+          "target": "com.whop.experiences#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/experiences/{id}/duplicate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Duplicate experience\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nDuplicates an existing experience. The name will be copied, unless provided. The new experience will be attached to the same products as the original experience.\nIf duplicating a Forum or Chat experience, the new experience will have the same settings as the original experience, e.g. who can post, who can comment, etc.\nNo content, e.g. posts, messages, lessons from within the original experience will be copied.\n\n\nRequired permissions:\n - `experience:create`"
+      }
+    },
+    "com.whop.experiences#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.experiences#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.experiences#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.experiences#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.experiences#Experiences": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.experiences#ListExperience"
+        },
+        {
+          "target": "com.whop.experiences#CreateExperience"
+        },
+        {
+          "target": "com.whop.experiences#GetExperience"
+        },
+        {
+          "target": "com.whop.experiences#UpdateExperience"
+        },
+        {
+          "target": "com.whop.experiences#DeleteExperience"
+        },
+        {
+          "target": "com.whop.experiences#AttachExperience"
+        },
+        {
+          "target": "com.whop.experiences#DetachExperience"
+        },
+        {
+          "target": "com.whop.experiences#DuplicateExperience"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

@@ -108,67 +108,10 @@ export const GoogleCloudBillingBudgetsV1BudgetAmount = /*@__PURE__*/ S.suspend(
   identifier: "GoogleCloudBillingBudgetsV1BudgetAmount",
 }) as any as S.Schema<GoogleCloudBillingBudgetsV1BudgetAmount>;
 
-export type GoogleCloudBillingBudgetsV1BudgetOwnershipScopeEnum =
-  | "OWNERSHIP_SCOPE_UNSPECIFIED"
-  | "ALL_USERS"
-  | "BILLING_ACCOUNT";
-export const GoogleCloudBillingBudgetsV1BudgetOwnershipScopeEnum =
-  /*@__PURE__*/ S.String;
-
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<StringList>;
-
-export type GoogleCloudBillingBudgetsV1FilterCalendarPeriodEnum =
-  | "CALENDAR_PERIOD_UNSPECIFIED"
-  | "MONTH"
-  | "QUARTER"
-  | "YEAR";
-export const GoogleCloudBillingBudgetsV1FilterCalendarPeriodEnum =
-  /*@__PURE__*/ S.String;
-
-export type GoogleCloudBillingBudgetsV1FilterCreditTypesTreatmentEnum =
-  | "CREDIT_TYPES_TREATMENT_UNSPECIFIED"
-  | "INCLUDE_ALL_CREDITS"
-  | "EXCLUDE_ALL_CREDITS"
-  | "INCLUDE_SPECIFIED_CREDITS";
-export const GoogleCloudBillingBudgetsV1FilterCreditTypesTreatmentEnum =
-  /*@__PURE__*/ S.String;
-
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface GoogleTypeDate {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-}
-export const GoogleTypeDate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    year: S.optional(S.Number),
-    month: S.optional(S.Number),
-    day: S.optional(S.Number),
-  }),
-).annotate({ identifier: "GoogleTypeDate" }) as any as S.Schema<GoogleTypeDate>;
-
-/** All date times begin at 12 AM US and Canadian Pacific Time (UTC-8). */
-export interface GoogleCloudBillingBudgetsV1CustomPeriod {
-  /** Required. The start date must be after January 1, 2017. */
-  startDate?: GoogleTypeDate;
-  /** Optional. The end date of the time period. Budgets with elapsed end date won't be processed. If unset, specifies to track all usage incurred since the start_date. */
-  endDate?: GoogleTypeDate;
-}
-export const GoogleCloudBillingBudgetsV1CustomPeriod = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      startDate: S.optional(GoogleTypeDate),
-      endDate: S.optional(GoogleTypeDate),
-    }),
-).annotate({
-  identifier: "GoogleCloudBillingBudgetsV1CustomPeriod",
-}) as any as S.Schema<GoogleCloudBillingBudgetsV1CustomPeriod>;
 
 export type DocumentList = Array<unknown>;
 export const DocumentList = /*@__PURE__*/ S.Array(
@@ -181,57 +124,131 @@ export const DocumentListMap = /*@__PURE__*/ S.Record(
   DocumentList,
 ) as any as S.Schema<DocumentListMap>;
 
+export type GoogleCloudBillingBudgetsV1FilterCalendarPeriodEnum =
+  | "CALENDAR_PERIOD_UNSPECIFIED"
+  | "MONTH"
+  | "QUARTER"
+  | "YEAR";
+export const GoogleCloudBillingBudgetsV1FilterCalendarPeriodEnum = S.String;
+
+export type GoogleCloudBillingBudgetsV1FilterCreditTypesTreatmentEnum =
+  | "CREDIT_TYPES_TREATMENT_UNSPECIFIED"
+  | "INCLUDE_ALL_CREDITS"
+  | "EXCLUDE_ALL_CREDITS"
+  | "INCLUDE_SPECIFIED_CREDITS";
+export const GoogleCloudBillingBudgetsV1FilterCreditTypesTreatmentEnum =
+  S.String;
+
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface GoogleTypeDate {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+}
+export const GoogleTypeDate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    month: S.optional(S.Number),
+    year: S.optional(S.Number),
+    day: S.optional(S.Number),
+  }),
+).annotate({ identifier: "GoogleTypeDate" }) as any as S.Schema<GoogleTypeDate>;
+
+/** All date times begin at 12 AM US and Canadian Pacific Time (UTC-8). */
+export interface GoogleCloudBillingBudgetsV1CustomPeriod {
+  /** Optional. The end date of the time period. Budgets with elapsed end date won't be processed. If unset, specifies to track all usage incurred since the start_date. */
+  endDate?: GoogleTypeDate;
+  /** Required. The start date must be after January 1, 2017. */
+  startDate?: GoogleTypeDate;
+}
+export const GoogleCloudBillingBudgetsV1CustomPeriod = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      endDate: S.optional(GoogleTypeDate),
+      startDate: S.optional(GoogleTypeDate),
+    }),
+).annotate({
+  identifier: "GoogleCloudBillingBudgetsV1CustomPeriod",
+}) as any as S.Schema<GoogleCloudBillingBudgetsV1CustomPeriod>;
+
 /** A filter for a budget, limiting the scope of the cost to calculate. */
 export interface GoogleCloudBillingBudgetsV1Filter {
   /** Optional. A set of folder and organization names of the form `folders/{folderId}` or `organizations/{organizationId}`, specifying that usage from only this set of folders and organizations should be included in the budget. If omitted, the budget includes all usage that the billing account pays for. If the folder or organization contains projects that are paid for by a different Cloud Billing account, the budget *doesn't* apply to those projects. */
   resourceAncestors?: StringList;
-  /** Optional. A set of subaccounts of the form `billingAccounts/{account_id}`, specifying that usage from only this set of subaccounts should be included in the budget. If a subaccount is set to the name of the parent account, usage from the parent account is included. If the field is omitted, the report includes usage from the parent account and all subaccounts, if they exist. */
-  subaccounts?: StringList;
+  /** Optional. If Filter.credit_types_treatment is INCLUDE_SPECIFIED_CREDITS, this is a list of credit types to be subtracted from gross cost to determine the spend for threshold calculations. See [a list of acceptable credit type values](https://cloud.google.com/billing/docs/how-to/export-data-bigquery-tables#credits-type). If Filter.credit_types_treatment is **not** INCLUDE_SPECIFIED_CREDITS, this field must be empty. */
+  creditTypes?: StringList;
+  /** Optional. A set of services of the form `services/{service_id}`, specifying that usage from only this set of services should be included in the budget. If omitted, the report includes usage for all the services. The service names are available through the Catalog API: https://cloud.google.com/billing/v1/how-tos/catalog-api. */
+  services?: StringList;
+  /** Optional. A set of projects of the form `projects/{project}`, specifying that usage from only this set of projects should be included in the budget. If omitted, the report includes all usage for the billing account, regardless of which project the usage occurred on. */
+  projects?: StringList;
+  /** Optional. A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget. If omitted, the report includes all labeled and unlabeled usage. An object containing a single `"key": value` pair. Example: `{ "name": "wrench" }`. _Currently, multiple entries or multiple values per entry are not allowed._ */
+  labels?: DocumentListMap;
   /** Optional. Specifies to track usage for recurring calendar period. For example, assume that CalendarPeriod.QUARTER is set. The budget tracks usage from April 1 to June 30, when the current calendar month is April, May, June. After that, it tracks usage from July 1 to September 30 when the current calendar month is July, August, September, so on. */
   calendarPeriod?:
     | GoogleCloudBillingBudgetsV1FilterCalendarPeriodEnum
     | (string & {});
-  /** Optional. A set of services of the form `services/{service_id}`, specifying that usage from only this set of services should be included in the budget. If omitted, the report includes usage for all the services. The service names are available through the Catalog API: https://cloud.google.com/billing/v1/how-tos/catalog-api. */
-  services?: StringList;
-  /** Optional. If Filter.credit_types_treatment is INCLUDE_SPECIFIED_CREDITS, this is a list of credit types to be subtracted from gross cost to determine the spend for threshold calculations. See [a list of acceptable credit type values](https://cloud.google.com/billing/docs/how-to/export-data-bigquery-tables#credits-type). If Filter.credit_types_treatment is **not** INCLUDE_SPECIFIED_CREDITS, this field must be empty. */
-  creditTypes?: StringList;
+  /** Optional. A set of subaccounts of the form `billingAccounts/{account_id}`, specifying that usage from only this set of subaccounts should be included in the budget. If a subaccount is set to the name of the parent account, usage from the parent account is included. If the field is omitted, the report includes usage from the parent account and all subaccounts, if they exist. */
+  subaccounts?: StringList;
   /** Optional. If not set, default behavior is `INCLUDE_ALL_CREDITS`. */
   creditTypesTreatment?:
     | GoogleCloudBillingBudgetsV1FilterCreditTypesTreatmentEnum
     | (string & {});
-  /** Optional. A set of projects of the form `projects/{project}`, specifying that usage from only this set of projects should be included in the budget. If omitted, the report includes all usage for the billing account, regardless of which project the usage occurred on. */
-  projects?: StringList;
   /** Optional. Specifies to track usage from any start date (required) to any end date (optional). This time period is static, it does not recur. */
   customPeriod?: GoogleCloudBillingBudgetsV1CustomPeriod;
-  /** Optional. A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget. If omitted, the report includes all labeled and unlabeled usage. An object containing a single `"key": value` pair. Example: `{ "name": "wrench" }`. _Currently, multiple entries or multiple values per entry are not allowed._ */
-  labels?: DocumentListMap;
 }
 export const GoogleCloudBillingBudgetsV1Filter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceAncestors: S.optional(StringList),
-    subaccounts: S.optional(StringList),
+    creditTypes: S.optional(StringList),
+    services: S.optional(StringList),
+    projects: S.optional(StringList),
+    labels: S.optional(DocumentListMap),
     calendarPeriod: S.optional(
       GoogleCloudBillingBudgetsV1FilterCalendarPeriodEnum,
     ),
-    services: S.optional(StringList),
-    creditTypes: S.optional(StringList),
+    subaccounts: S.optional(StringList),
     creditTypesTreatment: S.optional(
       GoogleCloudBillingBudgetsV1FilterCreditTypesTreatmentEnum,
     ),
-    projects: S.optional(StringList),
     customPeriod: S.optional(GoogleCloudBillingBudgetsV1CustomPeriod),
-    labels: S.optional(DocumentListMap),
   }),
 ).annotate({
   identifier: "GoogleCloudBillingBudgetsV1Filter",
 }) as any as S.Schema<GoogleCloudBillingBudgetsV1Filter>;
 
+/** NotificationsRule defines notifications that are sent based on budget spend and thresholds. */
+export interface GoogleCloudBillingBudgetsV1NotificationsRule {
+  /** Optional. Email targets to send notifications to when a threshold is exceeded. This is in addition to the `DefaultIamRecipients` who receive alert emails based on their billing account IAM role. The value is the full REST resource name of a Cloud Monitoring email notification channel with the form `projects/{project_id}/notificationChannels/{channel_id}`. A maximum of 5 email notifications are allowed. To customize budget alert email recipients with monitoring notification channels, you _must create the monitoring notification channels before you link them to a budget_. For guidance on setting up notification channels to use with budgets, see [Customize budget alert email recipients](https://cloud.google.com/billing/docs/how-to/budgets-notification-recipients). For Cloud Billing budget alerts, you _must use email notification channels_. The other types of notification channels are _not_ supported, such as Slack, SMS, or PagerDuty. If you want to [send budget notifications to Slack](https://cloud.google.com/billing/docs/how-to/notify#send_notifications_to_slack), use a pubsubTopic and configure [programmatic notifications](https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications). */
+  monitoringNotificationChannels?: StringList;
+  /** Optional. When set to true, disables default notifications sent when a threshold is exceeded. Default notifications are sent to those with Billing Account Administrator and Billing Account User IAM roles for the target account. */
+  disableDefaultIamRecipients?: boolean;
+  /** Optional. When set to true, and when the budget has a single project configured, notifications will be sent to project level recipients of that project. This field will be ignored if the budget has multiple or no project configured. Currently, project level recipients are the users with `Owner` role on a cloud project. */
+  enableProjectLevelRecipients?: boolean;
+  /** Optional. The name of the Pub/Sub topic where budget-related messages are published, in the form `projects/{project_id}/topics/{topic_id}`. Updates are sent to the topic at regular intervals; the timing of the updates is not dependent on the [threshold rules](#thresholdrule) you've set. Note that if you want your [Pub/Sub JSON object](https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications#notification_format) to contain data for `alertThresholdExceeded`, you need at least one [alert threshold rule](#thresholdrule). When you set threshold rules, you must also enable at least one of the email notification options, either using the default IAM recipients or Cloud Monitoring email notification channels. To use Pub/Sub topics with budgets, you must do the following: 1. Create the Pub/Sub topic before connecting it to your budget. For guidance, see [Manage programmatic budget alert notifications](https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications). 2. Grant the API caller the `pubsub.topics.setIamPolicy` permission on the Pub/Sub topic. If not set, the API call fails with PERMISSION_DENIED. For additional details on Pub/Sub roles and permissions, see [Permissions required for this task](https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications#permissions_required_for_this_task). */
+  pubsubTopic?: string;
+  /** Optional. Required when NotificationsRule.pubsub_topic is set. The schema version of the notification sent to NotificationsRule.pubsub_topic. Only "1.0" is accepted. It represents the JSON schema as defined in https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications#notification_format. */
+  schemaVersion?: string;
+}
+export const GoogleCloudBillingBudgetsV1NotificationsRule =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      monitoringNotificationChannels: S.optional(StringList),
+      disableDefaultIamRecipients: S.optional(S.Boolean),
+      enableProjectLevelRecipients: S.optional(S.Boolean),
+      pubsubTopic: S.optional(S.String),
+      schemaVersion: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudBillingBudgetsV1NotificationsRule",
+  }) as any as S.Schema<GoogleCloudBillingBudgetsV1NotificationsRule>;
+
 export type GoogleCloudBillingBudgetsV1ThresholdRuleSpendBasisEnum =
   | "BASIS_UNSPECIFIED"
   | "CURRENT_SPEND"
   | "FORECASTED_SPEND";
-export const GoogleCloudBillingBudgetsV1ThresholdRuleSpendBasisEnum =
-  /*@__PURE__*/ S.String;
+export const GoogleCloudBillingBudgetsV1ThresholdRuleSpendBasisEnum = S.String;
 
 /** ThresholdRule contains the definition of a threshold. Threshold rules define the triggering events used to generate a budget notification email. When a threshold is crossed (spend exceeds the specified percentages of the budget), budget alert emails are sent to the email recipients you specify in the [NotificationsRule](#notificationsrule). Threshold rules also affect the fields included in the [JSON data object](https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications#notification_format) sent to a Pub/Sub topic. Threshold rules are _required_ if using email notifications. Threshold rules are _optional_ if only setting a [`pubsubTopic` NotificationsRule](#NotificationsRule), unless you want your JSON data object to include data about the thresholds you set. For more information, see [set budget threshold rules and actions](https://cloud.google.com/billing/docs/how-to/budgets#budget-actions). */
 export interface GoogleCloudBillingBudgetsV1ThresholdRule {
@@ -261,64 +278,44 @@ export const GoogleCloudBillingBudgetsV1ThresholdRuleList =
     GoogleCloudBillingBudgetsV1ThresholdRule,
   ) as any as S.Schema<GoogleCloudBillingBudgetsV1ThresholdRuleList>;
 
-/** NotificationsRule defines notifications that are sent based on budget spend and thresholds. */
-export interface GoogleCloudBillingBudgetsV1NotificationsRule {
-  /** Optional. Required when NotificationsRule.pubsub_topic is set. The schema version of the notification sent to NotificationsRule.pubsub_topic. Only "1.0" is accepted. It represents the JSON schema as defined in https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications#notification_format. */
-  schemaVersion?: string;
-  /** Optional. The name of the Pub/Sub topic where budget-related messages are published, in the form `projects/{project_id}/topics/{topic_id}`. Updates are sent to the topic at regular intervals; the timing of the updates is not dependent on the [threshold rules](#thresholdrule) you've set. Note that if you want your [Pub/Sub JSON object](https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications#notification_format) to contain data for `alertThresholdExceeded`, you need at least one [alert threshold rule](#thresholdrule). When you set threshold rules, you must also enable at least one of the email notification options, either using the default IAM recipients or Cloud Monitoring email notification channels. To use Pub/Sub topics with budgets, you must do the following: 1. Create the Pub/Sub topic before connecting it to your budget. For guidance, see [Manage programmatic budget alert notifications](https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications). 2. Grant the API caller the `pubsub.topics.setIamPolicy` permission on the Pub/Sub topic. If not set, the API call fails with PERMISSION_DENIED. For additional details on Pub/Sub roles and permissions, see [Permissions required for this task](https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications#permissions_required_for_this_task). */
-  pubsubTopic?: string;
-  /** Optional. When set to true, disables default notifications sent when a threshold is exceeded. Default notifications are sent to those with Billing Account Administrator and Billing Account User IAM roles for the target account. */
-  disableDefaultIamRecipients?: boolean;
-  /** Optional. When set to true, and when the budget has a single project configured, notifications will be sent to project level recipients of that project. This field will be ignored if the budget has multiple or no project configured. Currently, project level recipients are the users with `Owner` role on a cloud project. */
-  enableProjectLevelRecipients?: boolean;
-  /** Optional. Email targets to send notifications to when a threshold is exceeded. This is in addition to the `DefaultIamRecipients` who receive alert emails based on their billing account IAM role. The value is the full REST resource name of a Cloud Monitoring email notification channel with the form `projects/{project_id}/notificationChannels/{channel_id}`. A maximum of 5 email notifications are allowed. To customize budget alert email recipients with monitoring notification channels, you _must create the monitoring notification channels before you link them to a budget_. For guidance on setting up notification channels to use with budgets, see [Customize budget alert email recipients](https://cloud.google.com/billing/docs/how-to/budgets-notification-recipients). For Cloud Billing budget alerts, you _must use email notification channels_. The other types of notification channels are _not_ supported, such as Slack, SMS, or PagerDuty. If you want to [send budget notifications to Slack](https://cloud.google.com/billing/docs/how-to/notify#send_notifications_to_slack), use a pubsubTopic and configure [programmatic notifications](https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications). */
-  monitoringNotificationChannels?: StringList;
-}
-export const GoogleCloudBillingBudgetsV1NotificationsRule =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      schemaVersion: S.optional(S.String),
-      pubsubTopic: S.optional(S.String),
-      disableDefaultIamRecipients: S.optional(S.Boolean),
-      enableProjectLevelRecipients: S.optional(S.Boolean),
-      monitoringNotificationChannels: S.optional(StringList),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudBillingBudgetsV1NotificationsRule",
-  }) as any as S.Schema<GoogleCloudBillingBudgetsV1NotificationsRule>;
+export type GoogleCloudBillingBudgetsV1BudgetOwnershipScopeEnum =
+  | "OWNERSHIP_SCOPE_UNSPECIFIED"
+  | "ALL_USERS"
+  | "BILLING_ACCOUNT";
+export const GoogleCloudBillingBudgetsV1BudgetOwnershipScopeEnum = S.String;
 
 /** A budget is a plan that describes what you expect to spend on Cloud projects, plus the rules to execute as spend is tracked against that plan, (for example, send an alert when 90% of the target spend is met). The budget time period is configurable, with options such as month (default), quarter, year, or custom time period. */
 export interface GoogleCloudBillingBudgetsV1Budget {
-  /** User data for display name in UI. The name must be less than or equal to 60 characters. */
-  displayName?: string;
   /** Required. Budgeted amount. */
   amount?: GoogleCloudBillingBudgetsV1BudgetAmount;
+  /** Optional. Etag to validate that the object is unchanged for a read-modify-write operation. An empty etag causes an update to overwrite other changes. */
+  etag?: string;
+  /** Optional. Filters that define which resources are used to compute the actual spend against the budget amount, such as projects, services, and the budget's time period, as well as other filters. */
+  budgetFilter?: GoogleCloudBillingBudgetsV1Filter;
+  /** Optional. Rules to apply to notifications sent based on budget spend and thresholds. */
+  notificationsRule?: GoogleCloudBillingBudgetsV1NotificationsRule;
+  /** Output only. Resource name of the budget. The resource name implies the scope of a budget. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
+  name?: string;
+  /** User data for display name in UI. The name must be less than or equal to 60 characters. */
+  displayName?: string;
+  /** Optional. Rules that trigger alerts (notifications of thresholds being crossed) when spend exceeds the specified percentages of the budget. Optional for `pubsubTopic` notifications. Required if using email notifications. */
+  thresholdRules?: GoogleCloudBillingBudgetsV1ThresholdRuleList;
   ownershipScope?:
     | GoogleCloudBillingBudgetsV1BudgetOwnershipScopeEnum
     | (string & {});
-  /** Optional. Filters that define which resources are used to compute the actual spend against the budget amount, such as projects, services, and the budget's time period, as well as other filters. */
-  budgetFilter?: GoogleCloudBillingBudgetsV1Filter;
-  /** Optional. Rules that trigger alerts (notifications of thresholds being crossed) when spend exceeds the specified percentages of the budget. Optional for `pubsubTopic` notifications. Required if using email notifications. */
-  thresholdRules?: GoogleCloudBillingBudgetsV1ThresholdRuleList;
-  /** Output only. Resource name of the budget. The resource name implies the scope of a budget. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
-  name?: string;
-  /** Optional. Rules to apply to notifications sent based on budget spend and thresholds. */
-  notificationsRule?: GoogleCloudBillingBudgetsV1NotificationsRule;
-  /** Optional. Etag to validate that the object is unchanged for a read-modify-write operation. An empty etag causes an update to overwrite other changes. */
-  etag?: string;
 }
 export const GoogleCloudBillingBudgetsV1Budget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
     amount: S.optional(GoogleCloudBillingBudgetsV1BudgetAmount),
+    etag: S.optional(S.String),
+    budgetFilter: S.optional(GoogleCloudBillingBudgetsV1Filter),
+    notificationsRule: S.optional(GoogleCloudBillingBudgetsV1NotificationsRule),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
+    thresholdRules: S.optional(GoogleCloudBillingBudgetsV1ThresholdRuleList),
     ownershipScope: S.optional(
       GoogleCloudBillingBudgetsV1BudgetOwnershipScopeEnum,
     ),
-    budgetFilter: S.optional(GoogleCloudBillingBudgetsV1Filter),
-    thresholdRules: S.optional(GoogleCloudBillingBudgetsV1ThresholdRuleList),
-    name: S.optional(S.String),
-    notificationsRule: S.optional(GoogleCloudBillingBudgetsV1NotificationsRule),
-    etag: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudBillingBudgetsV1Budget",
@@ -390,21 +387,21 @@ export const GetBillingAccountsBudgetsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetBillingAccountsBudgetsRequest>;
 
 export interface ListBillingAccountsBudgetsRequest {
-  /** Optional. The maximum number of budgets to return per page. The default and maximum value are 100. */
-  pageSize?: number;
-  /** Required. Name of billing account to list budgets under. Values are of the form `billingAccounts/{billingAccountId}`. */
-  parent: string;
-  /** Optional. Set the scope of the budgets to be returned, in the format of the resource name. The scope of a budget is the cost that it tracks, such as costs for a single project, or the costs for all projects in a folder. Only project scope (in the format of "projects/project-id" or "projects/123") is supported in this field. When this field is set to a project's resource name, the budgets returned are tracking the costs for that project. */
-  scope?: string;
   /** Optional. The value returned by the last `ListBudgetsResponse` which indicates that this is a continuation of a prior `ListBudgets` call, and that the system should return the next page of data. */
   pageToken?: string;
+  /** Required. Name of billing account to list budgets under. Values are of the form `billingAccounts/{billingAccountId}`. */
+  parent: string;
+  /** Optional. The maximum number of budgets to return per page. The default and maximum value are 100. */
+  pageSize?: number;
+  /** Optional. Set the scope of the budgets to be returned, in the format of the resource name. The scope of a budget is the cost that it tracks, such as costs for a single project, or the costs for all projects in a folder. Only project scope (in the format of "projects/project-id" or "projects/123") is supported in this field. When this field is set to a project's resource name, the budgets returned are tracking the costs for that project. */
+  scope?: string;
 }
 export const ListBillingAccountsBudgetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    scope: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    scope: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -440,17 +437,17 @@ export const GoogleCloudBillingBudgetsV1ListBudgetsResponse =
   }) as any as S.Schema<GoogleCloudBillingBudgetsV1ListBudgetsResponse>;
 
 export interface PatchBillingAccountsBudgetsRequest {
-  /** Output only. Resource name of the budget. The resource name implies the scope of a budget. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
-  name: string;
   /** Optional. Indicates which fields in the provided budget to update. Read-only fields (such as `name`) cannot be changed. If this is not provided, then only fields with non-default values from the request are updated. See https://developers.google.com/protocol-buffers/docs/proto3#default for more details about default values. */
   updateMask?: string;
+  /** Output only. Resource name of the budget. The resource name implies the scope of a budget. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
+  name: string;
   /** Request body */
   body?: GoogleCloudBillingBudgetsV1Budget;
 }
 export const PatchBillingAccountsBudgetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudBillingBudgetsV1Budget.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

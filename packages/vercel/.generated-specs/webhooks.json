@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.vercel.webhooks#GetWebhooksRequest": {
@@ -160,6 +161,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "express"
+          }
+        },
+        "FACTORY_EVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "factory-eve"
           }
         },
         "FASTAPI": {
@@ -520,6 +527,13 @@
       "type": "list",
       "member": {
         "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectsMetadataItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemAlertRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -1231,6 +1245,9 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "alertRuleIds": {
+          "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemAlertRuleIdsList"
+        },
         "events": {
           "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemEventsList",
           "traits": {
@@ -1286,6 +1303,13 @@
       "type": "list",
       "member": {
         "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0Item"
+      },
+      "traits": {}
+    },
+    "com.vercel.webhooks#GetWebhooksResponseBodyCase1ItemAlertRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -1990,6 +2014,9 @@
     "com.vercel.webhooks#GetWebhooksResponseBodyCase1Item": {
       "type": "structure",
       "members": {
+        "alertRuleIds": {
+          "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase1ItemAlertRuleIdsList"
+        },
         "events": {
           "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase1ItemEventsList",
           "traits": {
@@ -2829,6 +2856,13 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.webhooks#CreateWebhookResponseAlertRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.vercel.webhooks#CreateWebhookResponseEventsItem": {
       "type": "enum",
       "members": {
@@ -3538,6 +3572,9 @@
             "smithy.api#sensitive": {}
           }
         },
+        "alertRuleIds": {
+          "target": "com.vercel.webhooks#CreateWebhookResponseAlertRuleIdsList"
+        },
         "events": {
           "target": "com.vercel.webhooks#CreateWebhookResponseEventsList",
           "traits": {
@@ -3644,6 +3681,13 @@
       "traits": {
         "smithy.api#input": {}
       }
+    },
+    "com.vercel.webhooks#GetWebhookResponseAlertRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
     },
     "com.vercel.webhooks#GetWebhookResponseEventsItem": {
       "type": "enum",
@@ -4346,6 +4390,9 @@
     "com.vercel.webhooks#GetWebhookResponse": {
       "type": "structure",
       "members": {
+        "alertRuleIds": {
+          "target": "com.vercel.webhooks#GetWebhookResponseAlertRuleIdsList"
+        },
         "events": {
           "target": "com.vercel.webhooks#GetWebhookResponseEventsList",
           "traits": {

@@ -71,24 +71,24 @@ export const DocumentMap = /*@__PURE__*/ S.Record(
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    locationId: S.optional(S.String),
     displayName: S.optional(S.String),
     labels: S.optional(StringMap),
-    name: S.optional(S.String),
-    locationId: S.optional(S.String),
     metadata: S.optional(DocumentMap),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -111,47 +111,47 @@ export const GetProjectsLocationsCloudLocationsRequest =
     identifier: "GetProjectsLocationsCloudLocationsRequest",
   }) as any as S.Schema<GetProjectsLocationsCloudLocationsRequest>;
 
-export type CloudLocationCloudLocationTypeEnum =
-  | "CLOUD_LOCATION_TYPE_UNSPECIFIED"
-  | "CLOUD_LOCATION_TYPE_REGION"
-  | "CLOUD_LOCATION_TYPE_ZONE"
-  | "CLOUD_LOCATION_TYPE_GDCC_ZONE";
-export const CloudLocationCloudLocationTypeEnum = /*@__PURE__*/ S.String;
-
 export type CloudLocationCloudProviderEnum =
   | "CLOUD_PROVIDER_UNSPECIFIED"
   | "CLOUD_PROVIDER_GCP"
   | "CLOUD_PROVIDER_AWS"
   | "CLOUD_PROVIDER_AZURE"
   | "CLOUD_PROVIDER_OCI";
-export const CloudLocationCloudProviderEnum = /*@__PURE__*/ S.String;
+export const CloudLocationCloudProviderEnum = S.String;
+
+export type CloudLocationCloudLocationTypeEnum =
+  | "CLOUD_LOCATION_TYPE_UNSPECIFIED"
+  | "CLOUD_LOCATION_TYPE_REGION"
+  | "CLOUD_LOCATION_TYPE_ZONE"
+  | "CLOUD_LOCATION_TYPE_GDCC_ZONE";
+export const CloudLocationCloudLocationTypeEnum = S.String;
 
 /** Represents resource cloud locations. */
 export interface CloudLocation {
-  /** Identifier. Name of the cloud location. Unique name of the cloud location including project and location using the form: `projects/{project_id}/locations/{location}/cloudLocations/{cloud_location}` */
-  name?: string;
-  /** Optional. The two-letter ISO 3166-1 alpha-2 code of the cloud location. Examples: US, JP, KR. */
-  territoryCode?: string;
-  /** Optional. The human-readable name of the cloud location. Example: us-east-2, us-east1. */
-  displayName?: string;
-  /** Optional. The type of the cloud location. */
-  cloudLocationType?: CloudLocationCloudLocationTypeEnum;
-  /** Output only. The containing cloud location in the strict nesting hierarchy. For example, the containing cloud location of a zone is a region. */
-  containingCloudLocation?: string;
   /** Optional. The provider of the cloud location. Values can be Google Cloud or third-party providers, including AWS, Azure, or Oracle Cloud Infrastructure. */
   cloudProvider?: CloudLocationCloudProviderEnum;
+  /** Optional. The two-letter ISO 3166-1 alpha-2 code of the cloud location. Examples: US, JP, KR. */
+  territoryCode?: string;
   /** Optional. The carbon free energy percentage of the cloud location. This represents the average percentage of time customers' application will be running on carbon-free energy. See https://cloud.google.com/sustainability/region-carbon for more details. There is a difference between default value 0 and unset value. 0 means the carbon free energy percentage is 0%, while unset value means the carbon footprint data is not available. */
   carbonFreeEnergyPercentage?: number;
+  /** Optional. The type of the cloud location. */
+  cloudLocationType?: CloudLocationCloudLocationTypeEnum;
+  /** Optional. The human-readable name of the cloud location. Example: us-east-2, us-east1. */
+  displayName?: string;
+  /** Identifier. Name of the cloud location. Unique name of the cloud location including project and location using the form: `projects/{project_id}/locations/{location}/cloudLocations/{cloud_location}` */
+  name?: string;
+  /** Output only. The containing cloud location in the strict nesting hierarchy. For example, the containing cloud location of a zone is a region. */
+  containingCloudLocation?: string;
 }
 export const CloudLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    territoryCode: S.optional(S.String),
-    displayName: S.optional(S.String),
-    cloudLocationType: S.optional(CloudLocationCloudLocationTypeEnum),
-    containingCloudLocation: S.optional(S.String),
     cloudProvider: S.optional(CloudLocationCloudProviderEnum),
+    territoryCode: S.optional(S.String),
     carbonFreeEnergyPercentage: S.optional(S.Number),
+    cloudLocationType: S.optional(CloudLocationCloudLocationTypeEnum),
+    displayName: S.optional(S.String),
+    name: S.optional(S.String),
+    containingCloudLocation: S.optional(S.String),
   }),
 ).annotate({ identifier: "CloudLocation" }) as any as S.Schema<CloudLocation>;
 
@@ -161,24 +161,24 @@ export const StringList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<StringList>;
 
 export interface ListProjectsLocationsRequest {
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -197,37 +197,37 @@ export const LocationList = /*@__PURE__*/ S.Array(
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locations: S.optional(LocationList),
     nextPageToken: S.optional(S.String),
+    locations: S.optional(LocationList),
   }),
 ).annotate({
   identifier: "ListLocationsResponse",
 }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsCloudLocationsRequest {
-  /** Optional. The maximum number of cloud locations to return per page. The service might return fewer cloud locations than this value. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
-  /** Required. The parent, which owns this collection of cloud locations. Format: projects/{project}/locations/{location} */
-  parent: string;
-  /** Optional. A token identifying a page of results the server should return. Provide page token returned by a previous 'ListCloudLocations' call to retrieve the next page of results. When paginating, all other parameters provided to 'ListCloudLocations' must match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. A filter expression that filters resources listed in the response. The expression is in the form of field=value. For example, 'cloud_location_type=CLOUD_LOCATION_TYPE_REGION'. Multiple filter queries are space-separated. For example, 'cloud_location_type=CLOUD_LOCATION_TYPE_REGION territory_code="US"' By default, each expression is an AND expression. However, you can include AND and OR expressions explicitly. */
   filter?: string;
+  /** Optional. The maximum number of cloud locations to return per page. The service might return fewer cloud locations than this value. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. A token identifying a page of results the server should return. Provide page token returned by a previous 'ListCloudLocations' call to retrieve the next page of results. When paginating, all other parameters provided to 'ListCloudLocations' must match the call that provided the page token. */
+  pageToken?: string;
+  /** Required. The parent, which owns this collection of cloud locations. Format: projects/{project}/locations/{location} */
+  parent: string;
 }
 export const ListProjectsLocationsCloudLocationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -246,15 +246,15 @@ export const CloudLocationList = /*@__PURE__*/ S.Array(
 
 /** Message for response to listing cloud locations. */
 export interface ListCloudLocationsResponse {
-  /** Output only. List of cloud locations. */
-  cloudLocations?: CloudLocationList;
   /** Output only. The continuation token, used to page through large result sets. Provide this value in a subsequent request as page_token in subsequent requests to retrieve the next page. If this field is not present, there are no subsequent results. */
   nextPageToken?: string;
+  /** Output only. List of cloud locations. */
+  cloudLocations?: CloudLocationList;
 }
 export const ListCloudLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cloudLocations: S.optional(CloudLocationList),
     nextPageToken: S.optional(S.String),
+    cloudLocations: S.optional(CloudLocationList),
   }),
 ).annotate({
   identifier: "ListCloudLocationsResponse",
@@ -263,23 +263,23 @@ export const ListCloudLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface SearchProjectsLocationsCloudLocationsRequest {
   /** Optional. The maximum number of cloud locations to return. The service might return fewer cloud locations than this value. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
-  /** Optional. The query string in search query syntax. While filter is used to filter the search results by attributes, query is used to specify the search requirements. */
-  query?: string;
-  /** Required. The parent, which owns this collection of cloud locations. Format: projects/{project}/locations/{location} */
-  parent: string;
   /** Optional. A token identifying a page of results the server should return. Provide Page token returned by a previous 'ListCloudLocations' call to retrieve the next page of results. When paginating, all other parameters provided to 'ListCloudLocations' must match the call that provided the page token. */
   pageToken?: string;
+  /** Optional. The query string in search query syntax. While filter is used to filter the search results by attributes, query is used to specify the search requirements. */
+  query?: string;
   /** Required. The source cloud location to search from. Example search can be searching nearby cloud locations from the source cloud location by latency. */
   sourceCloudLocation?: string;
+  /** Required. The parent, which owns this collection of cloud locations. Format: projects/{project}/locations/{location} */
+  parent: string;
 }
 export const SearchProjectsLocationsCloudLocationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      query: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      query: S.optional(S.String.pipe(T.Query())),
       sourceCloudLocation: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",

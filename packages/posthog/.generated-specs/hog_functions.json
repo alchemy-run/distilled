@@ -14,17 +14,18 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.hog_functions#HogFunctionsListRequestTypeList": {
+    "com.posthog.hog_functions#ListHogFunctionsRequestTypeList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.hog_functions#HogFunctionsListRequest": {
+    "com.posthog.hog_functions#ListHogFunctionsRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -74,7 +75,7 @@
           }
         },
         "type": {
-          "target": "com.posthog.hog_functions#HogFunctionsListRequestTypeList",
+          "target": "com.posthog.hog_functions#ListHogFunctionsRequestTypeList",
           "traits": {
             "smithy.api#httpQuery": "type",
             "smithy.api#documentation": "Multiple values may be separated by commas."
@@ -181,7 +182,14 @@
         "search_match_type": {
           "target": "com.posthog.hog_functions#SearchMatchTypeEnum",
           "traits": {
-            "smithy.api#documentation": "How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match only). Results are ordered exact-first. Null when the list is not filtered by `search`.",
+            "smithy.api#documentation": "How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "draft_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When config was last staged for review, or null when nothing is staged.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -288,6 +296,12 @@
             "smithy.api#enumValue": "sales"
           }
         },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
         "OTHER": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -296,7 +310,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `other` - Other"
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
       }
     },
     "com.posthog.hog_functions#BlankEnum": {
@@ -550,10 +564,10 @@
       },
       "traits": {}
     },
-    "com.posthog.hog_functions#HogFunctionsList": {
+    "com.posthog.hog_functions#ListHogFunctions": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.hog_functions#HogFunctionsListRequest"
+        "target": "com.posthog.hog_functions#ListHogFunctionsRequest"
       },
       "output": {
         "target": "com.posthog.hog_functions#PaginatedHogFunctionMinimalList"
@@ -621,10 +635,16 @@
           "traits": {
             "smithy.api#enumValue": "transformation"
           }
+        },
+        "TRANSFORMATION_LOG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transformation_log"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation"
+        "smithy.api#documentation": "* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation\n* `transformation_log` - Transformation Log"
       }
     },
     "com.posthog.hog_functions#InputsSchemaItem": {
@@ -726,6 +746,12 @@
             "smithy.api#enumValue": "integration"
           }
         },
+        "INTEGRATION_MULTI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "integration_multi"
+          }
+        },
         "INTEGRATION_FIELD": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -767,10 +793,52 @@
           "traits": {
             "smithy.api#enumValue": "non_failure_status_codes"
           }
+        },
+        "CUSTOMER_ANALYTICS_ACCOUNT_PROPERTIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_analytics_account_properties"
+          }
+        },
+        "CUSTOMER_ANALYTICS_ACCOUNT_RELATIONSHIPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_analytics_account_relationships"
+          }
+        },
+        "TASK_MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "task_model"
+          }
+        },
+        "TASK_REPOSITORY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "task_repository"
+          }
+        },
+        "TASK_MCP_INSTALLATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "task_mcp_installations"
+          }
+        },
+        "SIGNALS_SCOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "signals_scout"
+          }
+        },
+        "TASK_SKILLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "task_skills"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `string` - string\n* `number` - number\n* `boolean` - boolean\n* `dictionary` - dictionary\n* `choice` - choice\n* `json` - json\n* `integration` - integration\n* `integration_field` - integration_field\n* `email` - email\n* `native_email` - native_email\n* `posthog_assignee` - posthog_assignee\n* `posthog_ticket_tags` - posthog_ticket_tags\n* `posthog_business_hours` - posthog_business_hours\n* `non_failure_status_codes` - non_failure_status_codes"
+        "smithy.api#documentation": "* `string` - string\n* `number` - number\n* `boolean` - boolean\n* `dictionary` - dictionary\n* `choice` - choice\n* `json` - json\n* `integration` - integration\n* `integration_multi` - integration_multi\n* `integration_field` - integration_field\n* `email` - email\n* `native_email` - native_email\n* `posthog_assignee` - posthog_assignee\n* `posthog_ticket_tags` - posthog_ticket_tags\n* `posthog_business_hours` - posthog_business_hours\n* `non_failure_status_codes` - non_failure_status_codes\n* `customer_analytics_account_properties` - customer_analytics_account_properties\n* `customer_analytics_account_relationships` - customer_analytics_account_relationships\n* `task_model` - task_model\n* `task_repository` - task_repository\n* `task_mcp_installations` - task_mcp_installations\n* `signals_scout` - signals_scout\n* `task_skills` - task_skills"
       }
     },
     "com.posthog.hog_functions#InputsSchemaItemChoicesItemMap": {
@@ -820,7 +888,7 @@
       },
       "traits": {}
     },
-    "com.posthog.hog_functions#HogFunctionsCreateRequestInputsSchemaList": {
+    "com.posthog.hog_functions#CreateHogFunctionRequestInputsSchemaList": {
       "type": "list",
       "member": {
         "target": "com.posthog.hog_functions#InputsSchemaItem"
@@ -861,7 +929,7 @@
         "smithy.api#documentation": "* `hog` - hog\n* `liquid` - liquid"
       }
     },
-    "com.posthog.hog_functions#HogFunctionsCreateRequestInputsMap": {
+    "com.posthog.hog_functions#CreateHogFunctionRequestInputsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -915,6 +983,12 @@
             "smithy.api#enumValue": "events"
           }
         },
+        "INTERNAL_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal-events"
+          }
+        },
         "PERSON_UPDATES": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -926,10 +1000,16 @@
           "traits": {
             "smithy.api#enumValue": "data-warehouse-table"
           }
+        },
+        "DATA_WAREHOUSE_VIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data-warehouse-view"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `events` - events\n* `person-updates` - person-updates\n* `data-warehouse-table` - data-warehouse-table"
+        "smithy.api#documentation": "* `events` - events\n* `internal-events` - internal-events\n* `person-updates` - person-updates\n* `data-warehouse-table` - data-warehouse-table\n* `data-warehouse-view` - data-warehouse-view"
       }
     },
     "com.posthog.hog_functions#HogFunctionFiltersActionsItemMap": {
@@ -1066,7 +1146,7 @@
       },
       "traits": {}
     },
-    "com.posthog.hog_functions#HogFunctionsCreateRequestMappingsList": {
+    "com.posthog.hog_functions#CreateHogFunctionRequestMappingsList": {
       "type": "list",
       "member": {
         "target": "com.posthog.hog_functions#MappingsInput"
@@ -1075,7 +1155,7 @@
         "smithy.api#documentation": "Event-to-destination field mappings. Only for destination and site_destination types."
       }
     },
-    "com.posthog.hog_functions#HogFunctionsCreateRequest": {
+    "com.posthog.hog_functions#CreateHogFunctionRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1089,7 +1169,7 @@
         "type": {
           "target": "com.posthog.hog_functions#HogFunctionTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, or transformation.\n\n* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation",
+            "smithy.api#documentation": "Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log.\n\n* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation\n* `transformation_log` - Transformation Log",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1125,13 +1205,13 @@
           }
         },
         "inputs_schema": {
-          "target": "com.posthog.hog_functions#HogFunctionsCreateRequestInputsSchemaList",
+          "target": "com.posthog.hog_functions#CreateHogFunctionRequestInputsSchemaList",
           "traits": {
             "smithy.api#documentation": "Schema defining the configurable input parameters for this function."
           }
         },
         "inputs": {
-          "target": "com.posthog.hog_functions#HogFunctionsCreateRequestInputsMap",
+          "target": "com.posthog.hog_functions#CreateHogFunctionRequestInputsMap",
           "traits": {
             "smithy.api#documentation": "Values for each input defined in inputs_schema."
           }
@@ -1150,7 +1230,7 @@
           }
         },
         "mappings": {
-          "target": "com.posthog.hog_functions#HogFunctionsCreateRequestMappingsList",
+          "target": "com.posthog.hog_functions#CreateHogFunctionRequestMappingsList",
           "traits": {
             "smithy.api#documentation": "Event-to-destination field mappings. Only for destination and site_destination types.",
             "com.distilled.openapi#nullable": {}
@@ -1179,6 +1259,12 @@
         },
         "_create_in_folder": {
           "target": "smithy.api#String"
+        },
+        "base_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally."
+          }
         }
       },
       "traits": {
@@ -1194,7 +1280,7 @@
         "type": {
           "target": "com.posthog.hog_functions#HogFunctionTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, or transformation.\n\n* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation",
+            "smithy.api#documentation": "Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log.\n\n* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation\n* `transformation_log` - Transformation Log",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1308,7 +1394,26 @@
         "search_match_type": {
           "target": "com.posthog.hog_functions#SearchMatchTypeEnum",
           "traits": {
-            "smithy.api#documentation": "How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match only). Results are ordered exact-first. Null when the list is not filtered by `search`.",
+            "smithy.api#documentation": "How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Incremented every time the live config changes. See the revisions endpoint."
+          }
+        },
+        "draft": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Config staged for review but not live yet: a full snapshot of hog, inputs_schema, inputs, filters, mappings and masking. Null when nothing is staged. Publish or discard it to clear."
+          }
+        },
+        "draft_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When config was last staged for review, or null when nothing is staged.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -1408,10 +1513,10 @@
         "smithy.api#documentation": "Event-to-destination field mappings. Only for destination and site_destination types."
       }
     },
-    "com.posthog.hog_functions#HogFunctionsCreate": {
+    "com.posthog.hog_functions#CreateHogFunction": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.hog_functions#HogFunctionsCreateRequest"
+        "target": "com.posthog.hog_functions#CreateHogFunctionRequest"
       },
       "output": {
         "target": "com.posthog.hog_functions#HogFunctionOutput"
@@ -1435,7 +1540,7 @@
         }
       }
     },
-    "com.posthog.hog_functions#HogFunctionsRetrieveRequest": {
+    "com.posthog.hog_functions#GetHogFunctionRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1459,10 +1564,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.hog_functions#HogFunctionsRetrieve": {
+    "com.posthog.hog_functions#GetHogFunction": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.hog_functions#HogFunctionsRetrieveRequest"
+        "target": "com.posthog.hog_functions#GetHogFunctionRequest"
       },
       "output": {
         "target": "com.posthog.hog_functions#HogFunctionOutput"
@@ -1483,7 +1588,7 @@
         }
       }
     },
-    "com.posthog.hog_functions#HogFunctionsUpdateRequestInputsSchemaList": {
+    "com.posthog.hog_functions#UpdateHogFunctionRequestInputsSchemaList": {
       "type": "list",
       "member": {
         "target": "com.posthog.hog_functions#InputsSchemaItem"
@@ -1492,7 +1597,7 @@
         "smithy.api#documentation": "Schema defining the configurable input parameters for this function."
       }
     },
-    "com.posthog.hog_functions#HogFunctionsUpdateRequestInputsMap": {
+    "com.posthog.hog_functions#UpdateHogFunctionRequestInputsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1504,7 +1609,7 @@
         "smithy.api#documentation": "Values for each input defined in inputs_schema."
       }
     },
-    "com.posthog.hog_functions#HogFunctionsUpdateRequestMappingsList": {
+    "com.posthog.hog_functions#UpdateHogFunctionRequestMappingsList": {
       "type": "list",
       "member": {
         "target": "com.posthog.hog_functions#MappingsInput"
@@ -1513,7 +1618,7 @@
         "smithy.api#documentation": "Event-to-destination field mappings. Only for destination and site_destination types."
       }
     },
-    "com.posthog.hog_functions#HogFunctionsUpdateRequest": {
+    "com.posthog.hog_functions#UpdateHogFunctionRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1535,7 +1640,7 @@
         "type": {
           "target": "com.posthog.hog_functions#HogFunctionTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, or transformation.\n\n* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation",
+            "smithy.api#documentation": "Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log.\n\n* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation\n* `transformation_log` - Transformation Log",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1571,13 +1676,13 @@
           }
         },
         "inputs_schema": {
-          "target": "com.posthog.hog_functions#HogFunctionsUpdateRequestInputsSchemaList",
+          "target": "com.posthog.hog_functions#UpdateHogFunctionRequestInputsSchemaList",
           "traits": {
             "smithy.api#documentation": "Schema defining the configurable input parameters for this function."
           }
         },
         "inputs": {
-          "target": "com.posthog.hog_functions#HogFunctionsUpdateRequestInputsMap",
+          "target": "com.posthog.hog_functions#UpdateHogFunctionRequestInputsMap",
           "traits": {
             "smithy.api#documentation": "Values for each input defined in inputs_schema."
           }
@@ -1596,7 +1701,7 @@
           }
         },
         "mappings": {
-          "target": "com.posthog.hog_functions#HogFunctionsUpdateRequestMappingsList",
+          "target": "com.posthog.hog_functions#UpdateHogFunctionRequestMappingsList",
           "traits": {
             "smithy.api#documentation": "Event-to-destination field mappings. Only for destination and site_destination types.",
             "com.distilled.openapi#nullable": {}
@@ -1625,16 +1730,22 @@
         },
         "_create_in_folder": {
           "target": "smithy.api#String"
+        },
+        "base_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally."
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.hog_functions#HogFunctionsUpdate": {
+    "com.posthog.hog_functions#UpdateHogFunction": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.hog_functions#HogFunctionsUpdateRequest"
+        "target": "com.posthog.hog_functions#UpdateHogFunctionRequest"
       },
       "output": {
         "target": "com.posthog.hog_functions#HogFunctionOutput"
@@ -1658,7 +1769,7 @@
         }
       }
     },
-    "com.posthog.hog_functions#HogFunctionsPartialUpdateRequestInputsSchemaList": {
+    "com.posthog.hog_functions#UpdateHogFunctionsPartialRequestInputsSchemaList": {
       "type": "list",
       "member": {
         "target": "com.posthog.hog_functions#InputsSchemaItem"
@@ -1667,7 +1778,7 @@
         "smithy.api#documentation": "Schema defining the configurable input parameters for this function."
       }
     },
-    "com.posthog.hog_functions#HogFunctionsPartialUpdateRequestInputsMap": {
+    "com.posthog.hog_functions#UpdateHogFunctionsPartialRequestInputsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1679,7 +1790,7 @@
         "smithy.api#documentation": "Values for each input defined in inputs_schema."
       }
     },
-    "com.posthog.hog_functions#HogFunctionsPartialUpdateRequestMappingsList": {
+    "com.posthog.hog_functions#UpdateHogFunctionsPartialRequestMappingsList": {
       "type": "list",
       "member": {
         "target": "com.posthog.hog_functions#MappingsInput"
@@ -1688,7 +1799,7 @@
         "smithy.api#documentation": "Event-to-destination field mappings. Only for destination and site_destination types."
       }
     },
-    "com.posthog.hog_functions#HogFunctionsPartialUpdateRequest": {
+    "com.posthog.hog_functions#UpdateHogFunctionsPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1710,7 +1821,7 @@
         "type": {
           "target": "com.posthog.hog_functions#HogFunctionTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, or transformation.\n\n* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation",
+            "smithy.api#documentation": "Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log.\n\n* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation\n* `transformation_log` - Transformation Log",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1746,13 +1857,13 @@
           }
         },
         "inputs_schema": {
-          "target": "com.posthog.hog_functions#HogFunctionsPartialUpdateRequestInputsSchemaList",
+          "target": "com.posthog.hog_functions#UpdateHogFunctionsPartialRequestInputsSchemaList",
           "traits": {
             "smithy.api#documentation": "Schema defining the configurable input parameters for this function."
           }
         },
         "inputs": {
-          "target": "com.posthog.hog_functions#HogFunctionsPartialUpdateRequestInputsMap",
+          "target": "com.posthog.hog_functions#UpdateHogFunctionsPartialRequestInputsMap",
           "traits": {
             "smithy.api#documentation": "Values for each input defined in inputs_schema."
           }
@@ -1771,7 +1882,7 @@
           }
         },
         "mappings": {
-          "target": "com.posthog.hog_functions#HogFunctionsPartialUpdateRequestMappingsList",
+          "target": "com.posthog.hog_functions#UpdateHogFunctionsPartialRequestMappingsList",
           "traits": {
             "smithy.api#documentation": "Event-to-destination field mappings. Only for destination and site_destination types.",
             "com.distilled.openapi#nullable": {}
@@ -1800,16 +1911,22 @@
         },
         "_create_in_folder": {
           "target": "smithy.api#String"
+        },
+        "base_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally."
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.hog_functions#HogFunctionsPartialUpdate": {
+    "com.posthog.hog_functions#UpdateHogFunctionsPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.hog_functions#HogFunctionsPartialUpdateRequest"
+        "target": "com.posthog.hog_functions#UpdateHogFunctionsPartialRequest"
       },
       "output": {
         "target": "com.posthog.hog_functions#HogFunctionOutput"
@@ -1882,6 +1999,46 @@
         "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
       }
     },
+    "com.posthog.hog_functions#CreateHogFunctionsDiscardDraftRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this hog function."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.hog_functions#CreateHogFunctionsDiscardDraft": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.hog_functions#CreateHogFunctionsDiscardDraftRequest"
+      },
+      "output": {
+        "target": "com.posthog.hog_functions#HogFunctionOutput"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/discard_draft/",
+          "code": 200
+        }
+      }
+    },
     "com.posthog.hog_functions#HogFunctionsEnableBackfillsCreateRequestInputsSchemaList": {
       "type": "list",
       "member": {
@@ -1934,7 +2091,7 @@
         "type": {
           "target": "com.posthog.hog_functions#HogFunctionTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, or transformation.\n\n* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation",
+            "smithy.api#documentation": "Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log.\n\n* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation\n* `transformation_log` - Transformation Log",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2024,6 +2181,12 @@
         },
         "_create_in_folder": {
           "target": "smithy.api#String"
+        },
+        "base_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally."
+          }
         }
       },
       "traits": {
@@ -2063,7 +2226,7 @@
         "type": {
           "target": "com.posthog.hog_functions#HogFunctionTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, or transformation.\n\n* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation",
+            "smithy.api#documentation": "Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log.\n\n* `destination` - Destination\n* `site_destination` - Site Destination\n* `internal_destination` - Internal Destination\n* `source_webhook` - Source Webhook\n* `warehouse_source_webhook` - Warehouse Source Webhook\n* `site_app` - Site App\n* `transformation` - Transformation\n* `transformation_log` - Transformation Log",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2153,6 +2316,12 @@
         },
         "_create_in_folder": {
           "target": "smithy.api#String"
+        },
+        "base_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optimistic concurrency: the updated_at (or draft_updated_at when editing a staged draft) you last read. If the stored side is newer, the write fails with 409 instead of overwriting the concurrent edit. Omit to overwrite unconditionally."
+          }
         }
       },
       "traits": {}
@@ -2187,7 +2356,7 @@
         "smithy.api#documentation": "Event-to-destination field mappings. Only for destination and site_destination types."
       }
     },
-    "com.posthog.hog_functions#HogFunctionsInvocationsCreateRequestGlobalsMap": {
+    "com.posthog.hog_functions#CreateHogFunctionsInvocationRequestGlobalsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2199,7 +2368,7 @@
         "smithy.api#documentation": "Mock global variables available during test invocation."
       }
     },
-    "com.posthog.hog_functions#HogFunctionsInvocationsCreateRequestClickhouseEventMap": {
+    "com.posthog.hog_functions#CreateHogFunctionsInvocationRequestClickhouseEventMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2211,7 +2380,7 @@
         "smithy.api#documentation": "Mock ClickHouse event data to test the function with."
       }
     },
-    "com.posthog.hog_functions#HogFunctionsInvocationsCreateRequest": {
+    "com.posthog.hog_functions#CreateHogFunctionsInvocationRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -2233,17 +2402,23 @@
         "configuration": {
           "target": "com.posthog.hog_functions#HogFunctionInput",
           "traits": {
-            "smithy.api#documentation": "Full function configuration to test."
+            "smithy.api#documentation": "Full function configuration to test. Omit when use_draft is true."
+          }
+        },
+        "use_draft": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Test the function's staged draft instead of passing a configuration. Staged secret inputs are used; secrets the draft doesn't change fall back to the live values. 400 when nothing is staged."
           }
         },
         "globals": {
-          "target": "com.posthog.hog_functions#HogFunctionsInvocationsCreateRequestGlobalsMap",
+          "target": "com.posthog.hog_functions#CreateHogFunctionsInvocationRequestGlobalsMap",
           "traits": {
             "smithy.api#documentation": "Mock global variables available during test invocation."
           }
         },
         "clickhouse_event": {
-          "target": "com.posthog.hog_functions#HogFunctionsInvocationsCreateRequestClickhouseEventMap",
+          "target": "com.posthog.hog_functions#CreateHogFunctionsInvocationRequestClickhouseEventMap",
           "traits": {
             "smithy.api#documentation": "Mock ClickHouse event data to test the function with."
           }
@@ -2300,10 +2475,10 @@
         "smithy.api#documentation": "Execution logs from the test invocation."
       }
     },
-    "com.posthog.hog_functions#HogFunctionsInvocationsCreate": {
+    "com.posthog.hog_functions#CreateHogFunctionsInvocation": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.hog_functions#HogFunctionsInvocationsCreateRequest"
+        "target": "com.posthog.hog_functions#CreateHogFunctionsInvocationRequest"
       },
       "output": {
         "target": "com.posthog.hog_functions#HogFunctionInvocationOutput"
@@ -2327,7 +2502,7 @@
         }
       }
     },
-    "com.posthog.hog_functions#HogFunctionsLogsRetrieveRequest": {
+    "com.posthog.hog_functions#GetHogFunctionsLogRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -2350,7 +2525,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "Only return entries after this ISO 8601 timestamp."
+            "smithy.api#documentation": "Only return entries after this ISO 8601 timestamp. Defaults to 7 days ago; pass an explicit value to read further back."
           }
         },
         "before": {
@@ -2393,10 +2568,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.hog_functions#HogFunctionsLogsRetrieve": {
+    "com.posthog.hog_functions#GetHogFunctionsLog": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.hog_functions#HogFunctionsLogsRetrieveRequest"
+        "target": "com.posthog.hog_functions#GetHogFunctionsLogRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -2420,7 +2595,7 @@
         }
       }
     },
-    "com.posthog.hog_functions#HogFunctionsMetricsRetrieveRequestBreakdownBy": {
+    "com.posthog.hog_functions#GetHogFunctionsMetricsRequestBreakdownBy": {
       "type": "enum",
       "members": {
         "NAME": {
@@ -2438,7 +2613,7 @@
       },
       "traits": {}
     },
-    "com.posthog.hog_functions#HogFunctionsMetricsRetrieveRequestInterval": {
+    "com.posthog.hog_functions#GetHogFunctionsMetricsRequestInterval": {
       "type": "enum",
       "members": {
         "HOUR": {
@@ -2462,7 +2637,7 @@
       },
       "traits": {}
     },
-    "com.posthog.hog_functions#HogFunctionsMetricsRetrieveRequest": {
+    "com.posthog.hog_functions#GetHogFunctionsMetricsRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -2496,7 +2671,7 @@
           }
         },
         "breakdown_by": {
-          "target": "com.posthog.hog_functions#HogFunctionsMetricsRetrieveRequestBreakdownBy",
+          "target": "com.posthog.hog_functions#GetHogFunctionsMetricsRequestBreakdownBy",
           "traits": {
             "smithy.api#httpQuery": "breakdown_by",
             "smithy.api#documentation": "Group the series by metric 'name' or 'kind'. Defaults to 'kind'.\n\n* `name` - name\n* `kind` - kind"
@@ -2510,7 +2685,7 @@
           }
         },
         "interval": {
-          "target": "com.posthog.hog_functions#HogFunctionsMetricsRetrieveRequestInterval",
+          "target": "com.posthog.hog_functions#GetHogFunctionsMetricsRequestInterval",
           "traits": {
             "smithy.api#httpQuery": "interval",
             "smithy.api#documentation": "Time bucket size for the series. One of: hour, day, week. Defaults to 'day'.\n\n* `hour` - hour\n* `day` - day\n* `week` - week"
@@ -2580,10 +2755,10 @@
       },
       "traits": {}
     },
-    "com.posthog.hog_functions#HogFunctionsMetricsRetrieve": {
+    "com.posthog.hog_functions#GetHogFunctionsMetrics": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.hog_functions#HogFunctionsMetricsRetrieveRequest"
+        "target": "com.posthog.hog_functions#GetHogFunctionsMetricsRequest"
       },
       "output": {
         "target": "com.posthog.hog_functions#AppMetricsResponse"
@@ -2607,7 +2782,7 @@
         }
       }
     },
-    "com.posthog.hog_functions#HogFunctionsMetricsTotalsRetrieveRequestBreakdownBy": {
+    "com.posthog.hog_functions#GetHogFunctionsMetricsTotalRequestBreakdownBy": {
       "type": "enum",
       "members": {
         "NAME": {
@@ -2625,7 +2800,7 @@
       },
       "traits": {}
     },
-    "com.posthog.hog_functions#HogFunctionsMetricsTotalsRetrieveRequestInterval": {
+    "com.posthog.hog_functions#GetHogFunctionsMetricsTotalRequestInterval": {
       "type": "enum",
       "members": {
         "HOUR": {
@@ -2649,7 +2824,7 @@
       },
       "traits": {}
     },
-    "com.posthog.hog_functions#HogFunctionsMetricsTotalsRetrieveRequest": {
+    "com.posthog.hog_functions#GetHogFunctionsMetricsTotalRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -2683,7 +2858,7 @@
           }
         },
         "breakdown_by": {
-          "target": "com.posthog.hog_functions#HogFunctionsMetricsTotalsRetrieveRequestBreakdownBy",
+          "target": "com.posthog.hog_functions#GetHogFunctionsMetricsTotalRequestBreakdownBy",
           "traits": {
             "smithy.api#httpQuery": "breakdown_by",
             "smithy.api#documentation": "Group the series by metric 'name' or 'kind'. Defaults to 'kind'.\n\n* `name` - name\n* `kind` - kind"
@@ -2697,7 +2872,7 @@
           }
         },
         "interval": {
-          "target": "com.posthog.hog_functions#HogFunctionsMetricsTotalsRetrieveRequestInterval",
+          "target": "com.posthog.hog_functions#GetHogFunctionsMetricsTotalRequestInterval",
           "traits": {
             "smithy.api#httpQuery": "interval",
             "smithy.api#documentation": "Time bucket size for the series. One of: hour, day, week. Defaults to 'day'.\n\n* `hour` - hour\n* `day` - day\n* `week` - week"
@@ -2741,10 +2916,10 @@
       },
       "traits": {}
     },
-    "com.posthog.hog_functions#HogFunctionsMetricsTotalsRetrieve": {
+    "com.posthog.hog_functions#GetHogFunctionsMetricsTotal": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.hog_functions#HogFunctionsMetricsTotalsRetrieveRequest"
+        "target": "com.posthog.hog_functions#GetHogFunctionsMetricsTotalRequest"
       },
       "output": {
         "target": "com.posthog.hog_functions#AppMetricsTotalsResponse"
@@ -2768,7 +2943,563 @@
         }
       }
     },
-    "com.posthog.hog_functions#HogFunctionsIconRetrieveRequest": {
+    "com.posthog.hog_functions#HogFunctionsPublishCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this hog function."
+          }
+        },
+        "confirm": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "False (default) previews the publish: returns which config fields would change without changing anything. True applies the staged draft to the live function."
+          }
+        },
+        "confirm_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "From the preview response, and required when confirm=true on an enabled function. Expires after 15 minutes, and any edit to the draft or the live config invalidates it (409), so you always publish the exact draft you previewed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.hog_functions#HogFunctionPublishResponseOutput": {
+      "type": "structure",
+      "members": {
+        "published": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the draft was applied to the live function.",
+            "smithy.api#required": {}
+          }
+        },
+        "draft_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The staged draft's timestamp, for reference; publishing is confirmed via confirm_token.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "confirm_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Echo this back with confirm=true to publish the previewed draft. Only set on previews.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "changed_fields": {
+          "target": "com.posthog.hog_functions#HogFunctionPublishResponseOutputChangedFieldsList",
+          "traits": {
+            "smithy.api#documentation": "Config fields publishing would change (hog, inputs_schema, inputs, filters, mappings, masking). Only set on previews.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "function": {
+          "target": "com.posthog.hog_functions#HogFunctionOutput",
+          "traits": {
+            "smithy.api#documentation": "The function after publishing (only set when published=true).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.hog_functions#HogFunctionPublishResponseOutputChangedFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Config fields publishing would change (hog, inputs_schema, inputs, filters, mappings, masking). Only set on previews."
+      }
+    },
+    "com.posthog.hog_functions#HogFunctionsPublishCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.hog_functions#HogFunctionsPublishCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.hog_functions#HogFunctionPublishResponseOutput"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/publish/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.hog_functions#HogInvocationRerunFilter": {
+      "type": "structure",
+      "members": {
+        "window_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inclusive lower bound on `scheduled_at` (UTC).",
+            "smithy.api#required": {}
+          }
+        },
+        "window_end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exclusive upper bound on `scheduled_at` (UTC).",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.hog_functions#HogInvocationRerunFilterStatusList",
+          "traits": {
+            "smithy.api#documentation": "Restrict to invocations whose latest status is one of these. Defaults to ['failed']."
+          }
+        },
+        "error_kind": {
+          "target": "com.posthog.hog_functions#HogInvocationRerunFilterErrorKindList",
+          "traits": {
+            "smithy.api#documentation": "Restrict to invocations whose error_kind matches one of these (e.g. 'http_5xx', 'timeout')."
+          }
+        },
+        "error_message_contains": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restrict to invocations whose error_message contains this substring (case-insensitive). Use to isolate one failure mode when error_kind is too coarse (most app-level errors share the 'hog_error' kind)."
+          }
+        },
+        "max_attempts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Skip invocations that have already been attempted this many times or more."
+          }
+        },
+        "max_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of invocations to rerun in this request. Server-side cap is 10000."
+          }
+        },
+        "invocation_ids": {
+          "target": "com.posthog.hog_functions#HogInvocationRerunFilterInvocationIdsList",
+          "traits": {
+            "smithy.api#documentation": "Optional restriction to specific invocation IDs within the window. Capped at 10000 per request. Always combined with `window_start`/`window_end` so the ClickHouse query can be partition-pruned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Filter shape for the rerun endpoint. `window_start`/`window_end` are required."
+      }
+    },
+    "com.posthog.hog_functions#HogInvocationRerunFilterStatusEnum": {
+      "type": "enum",
+      "members": {
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `running` - running\n* `succeeded` - succeeded\n* `failed` - failed\n* `canceled` - canceled"
+      }
+    },
+    "com.posthog.hog_functions#HogInvocationRerunFilterStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.hog_functions#HogInvocationRerunFilterStatusEnum"
+      },
+      "traits": {
+        "smithy.api#documentation": "Restrict to invocations whose latest status is one of these. Defaults to ['failed']."
+      }
+    },
+    "com.posthog.hog_functions#HogInvocationRerunFilterErrorKindList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Restrict to invocations whose error_kind matches one of these (e.g. 'http_5xx', 'timeout')."
+      }
+    },
+    "com.posthog.hog_functions#HogInvocationRerunFilterInvocationIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional restriction to specific invocation IDs within the window. Capped at 10000 per request. Always combined with `window_start`/`window_end` so the ClickHouse query can be partition-pruned."
+      }
+    },
+    "com.posthog.hog_functions#CreateHogFunctionsRerunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this hog function."
+          }
+        },
+        "filter": {
+          "target": "com.posthog.hog_functions#HogInvocationRerunFilter",
+          "traits": {
+            "smithy.api#documentation": "Required. `window_start` / `window_end` pin the query to a small set of date partitions on the `hog_invocation_results` table. Optional `invocation_ids` restricts to specific invocations within that window.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.hog_functions#HogInvocationRerunResponse": {
+      "type": "structure",
+      "members": {
+        "rerun_job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the cyclotron wrapper job that will run the rerun. Use this to poll status.",
+            "smithy.api#required": {}
+          }
+        },
+        "queued_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Always 0 — rerun runs asynchronously. Kept for response shape stability.",
+            "smithy.api#required": {}
+          }
+        },
+        "skipped_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Always 0 — rerun runs asynchronously. Kept for response shape stability.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response from the rerun endpoint. The endpoint only enqueues a wrapper\njob onto the cyclotron `rerun` queue — the actual ClickHouse paging and\nre-enqueue work happens asynchronously in the `cdp-rerun-worker` service.\nUse `rerun_job_id` to look up progress on the wrapper job later."
+      }
+    },
+    "com.posthog.hog_functions#CreateHogFunctionsRerun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.hog_functions#CreateHogFunctionsRerunRequest"
+      },
+      "output": {
+        "target": "com.posthog.hog_functions#HogInvocationRerunResponse"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/rerun/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rerun past invocations of this hog function from their stored payloads.\n\nThe CDP worker reads matching rows from the `hog_invocation_results`\nClickHouse table, rehydrates the invocation from the stored\n`invocation_globals`, and re-enqueues onto cyclotron. Each rerun\nrun reuses the original `invocation_id` with `is_retry=1` set on the\nnew lifecycle row so the UI can surface that it was a rerun.\n\nOnly types a cyclotron worker executes (`TYPES_THAT_CAN_RERUN`) can be\nrerun: rerun re-enqueues onto the cyclotron hog queue, and other types\nrun elsewhere (source webhooks inline in the cdp-api HTTP handler,\ntransformations during ingestion, `site_*` transpiled to client-side\nJS). A re-enqueued invocation of one of those would never drain and\nwedges the partition, so a rerun of a non-rerunnable type is rejected\nwith a 400 here. A disabled function is rejected the same way: the\nworker skips its invocations, so the rerun could never execute.\n\nBecause rerun replays historical event/person/group data, it requires\n`person:read` and `group:read` on top of `hog_function:write`."
+      }
+    },
+    "com.posthog.hog_functions#ListHogFunctionsRevisionsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this hog function."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.hog_functions#PaginatedHogFunctionRevisionBasicList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.hog_functions#PaginatedHogFunctionRevisionBasicListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.hog_functions#HogFunctionRevisionBasic": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Function version this snapshot was published as.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.hog_functions#UserBasic",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.hog_functions#PaginatedHogFunctionRevisionBasicListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.hog_functions#HogFunctionRevisionBasic"
+      },
+      "traits": {}
+    },
+    "com.posthog.hog_functions#ListHogFunctionsRevisions": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.hog_functions#ListHogFunctionsRevisionsRequest"
+      },
+      "output": {
+        "target": "com.posthog.hog_functions#PaginatedHogFunctionRevisionBasicList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/revisions/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.hog_functions#GetHogFunctionsRevisionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this hog function."
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Function version to fetch."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.hog_functions#HogFunctionRevision": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Function version this snapshot was published as.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.hog_functions#UserBasic",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Full snapshot of the function's config fields (hog, inputs_schema, inputs, filters, mappings, masking) at this version.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.hog_functions#GetHogFunctionsRevision": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.hog_functions#GetHogFunctionsRevisionRequest"
+      },
+      "output": {
+        "target": "com.posthog.hog_functions#HogFunctionRevision"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/revisions/{version}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.hog_functions#HogFunctionsRevisionsRestoreCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this hog function."
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Function version to restore."
+          }
+        },
+        "overwrite": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Replace the open staged draft with this revision's config. Without it, restoring while a draft is open returns 409."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.hog_functions#HogFunctionsRevisionsRestoreCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.hog_functions#HogFunctionsRevisionsRestoreCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.hog_functions#HogFunctionOutput"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/revisions/{version}/restore/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.hog_functions#GetHogFunctionsIconRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -2784,10 +3515,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.hog_functions#HogFunctionsIconRetrieve": {
+    "com.posthog.hog_functions#GetHogFunctionsIcon": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.hog_functions#HogFunctionsIconRetrieveRequest"
+        "target": "com.posthog.hog_functions#GetHogFunctionsIconRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -2808,7 +3539,7 @@
         }
       }
     },
-    "com.posthog.hog_functions#HogFunctionsIconsRetrieveRequest": {
+    "com.posthog.hog_functions#GetHogFunctionsIconRequest2": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -2824,10 +3555,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.hog_functions#HogFunctionsIconsRetrieve": {
+    "com.posthog.hog_functions#GetHogFunctionsIcon2": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.hog_functions#HogFunctionsIconsRetrieveRequest"
+        "target": "com.posthog.hog_functions#GetHogFunctionsIconRequest2"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -2848,7 +3579,128 @@
         }
       }
     },
-    "com.posthog.hog_functions#HogFunctionsRearrangePartialUpdateRequestOrdersMap": {
+    "com.posthog.hog_functions#GetHogFunctionsMaskedSecretRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.hog_functions#HogFunctionMaskedSecret": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the hog function.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the hog function.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hog function type, for example 'destination'.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the hog function is enabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_keys": {
+          "target": "com.posthog.hog_functions#HogFunctionMaskedSecretInputKeysList",
+          "traits": {
+            "smithy.api#documentation": "Keys of the live secret inputs to enter again. Only keys are returned, never values.",
+            "smithy.api#required": {}
+          }
+        },
+        "draft_input_keys": {
+          "target": "com.posthog.hog_functions#HogFunctionMaskedSecretDraftInputKeysList",
+          "traits": {
+            "smithy.api#documentation": "Keys of the staged draft's secret inputs to enter again. Only keys are returned.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.hog_functions#HogFunctionMaskedSecretInputKeysList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Keys of the live secret inputs to enter again. Only keys are returned, never values."
+      }
+    },
+    "com.posthog.hog_functions#HogFunctionMaskedSecretDraftInputKeysList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Keys of the staged draft's secret inputs to enter again. Only keys are returned."
+      }
+    },
+    "com.posthog.hog_functions#GetHogFunctionsMaskedSecretResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.hog_functions#HogFunctionMaskedSecret"
+      },
+      "traits": {}
+    },
+    "com.posthog.hog_functions#GetHogFunctionsMaskedSecretResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.hog_functions#GetHogFunctionsMaskedSecretResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.hog_functions#GetHogFunctionsMaskedSecret": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.hog_functions#GetHogFunctionsMaskedSecretRequest"
+      },
+      "output": {
+        "target": "com.posthog.hog_functions#GetHogFunctionsMaskedSecretResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/hog_functions/masked_secrets/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Hog functions storing the secret mask in place of a real credential.\n\nSuch a function authenticates against nothing and fails every send. The original value\ncannot be restored from our side, so each listed input has to be entered again."
+      }
+    },
+    "com.posthog.hog_functions#UpdateHogFunctionsRearrangePartialRequestOrdersMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2860,7 +3712,7 @@
         "smithy.api#documentation": "Map of hog function UUIDs to their new execution_order values."
       }
     },
-    "com.posthog.hog_functions#HogFunctionsRearrangePartialUpdateRequest": {
+    "com.posthog.hog_functions#UpdateHogFunctionsRearrangePartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -2872,7 +3724,7 @@
           }
         },
         "orders": {
-          "target": "com.posthog.hog_functions#HogFunctionsRearrangePartialUpdateRequestOrdersMap",
+          "target": "com.posthog.hog_functions#UpdateHogFunctionsRearrangePartialRequestOrdersMap",
           "traits": {
             "smithy.api#documentation": "Map of hog function UUIDs to their new execution_order values."
           }
@@ -2882,18 +3734,18 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.hog_functions#HogFunctionsRearrangePartialUpdateResponseBodyList": {
+    "com.posthog.hog_functions#UpdateHogFunctionsRearrangePartialResponseBodyList": {
       "type": "list",
       "member": {
         "target": "com.posthog.hog_functions#HogFunctionOutput"
       },
       "traits": {}
     },
-    "com.posthog.hog_functions#HogFunctionsRearrangePartialUpdateResponse": {
+    "com.posthog.hog_functions#UpdateHogFunctionsRearrangePartialResponse": {
       "type": "structure",
       "members": {
         "body": {
-          "target": "com.posthog.hog_functions#HogFunctionsRearrangePartialUpdateResponseBodyList",
+          "target": "com.posthog.hog_functions#UpdateHogFunctionsRearrangePartialResponseBodyList",
           "traits": {
             "com.distilled.openapi#rawResponse": {},
             "smithy.api#required": {}
@@ -2904,13 +3756,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.posthog.hog_functions#HogFunctionsRearrangePartialUpdate": {
+    "com.posthog.hog_functions#UpdateHogFunctionsRearrangePartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.hog_functions#HogFunctionsRearrangePartialUpdateRequest"
+        "target": "com.posthog.hog_functions#UpdateHogFunctionsRearrangePartialRequest"
       },
       "output": {
-        "target": "com.posthog.hog_functions#HogFunctionsRearrangePartialUpdateResponse"
+        "target": "com.posthog.hog_functions#UpdateHogFunctionsRearrangePartialResponse"
       },
       "errors": [
         {
@@ -2976,46 +3828,67 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.hog_functions#HogFunctionsList"
+          "target": "com.posthog.hog_functions#ListHogFunctions"
         },
         {
-          "target": "com.posthog.hog_functions#HogFunctionsCreate"
+          "target": "com.posthog.hog_functions#CreateHogFunction"
         },
         {
-          "target": "com.posthog.hog_functions#HogFunctionsRetrieve"
+          "target": "com.posthog.hog_functions#GetHogFunction"
         },
         {
-          "target": "com.posthog.hog_functions#HogFunctionsUpdate"
+          "target": "com.posthog.hog_functions#UpdateHogFunction"
         },
         {
-          "target": "com.posthog.hog_functions#HogFunctionsPartialUpdate"
+          "target": "com.posthog.hog_functions#UpdateHogFunctionsPartial"
         },
         {
           "target": "com.posthog.hog_functions#HogFunctionsDestroy"
         },
         {
+          "target": "com.posthog.hog_functions#CreateHogFunctionsDiscardDraft"
+        },
+        {
           "target": "com.posthog.hog_functions#HogFunctionsEnableBackfillsCreate"
         },
         {
-          "target": "com.posthog.hog_functions#HogFunctionsInvocationsCreate"
+          "target": "com.posthog.hog_functions#CreateHogFunctionsInvocation"
         },
         {
-          "target": "com.posthog.hog_functions#HogFunctionsLogsRetrieve"
+          "target": "com.posthog.hog_functions#GetHogFunctionsLog"
         },
         {
-          "target": "com.posthog.hog_functions#HogFunctionsMetricsRetrieve"
+          "target": "com.posthog.hog_functions#GetHogFunctionsMetrics"
         },
         {
-          "target": "com.posthog.hog_functions#HogFunctionsMetricsTotalsRetrieve"
+          "target": "com.posthog.hog_functions#GetHogFunctionsMetricsTotal"
         },
         {
-          "target": "com.posthog.hog_functions#HogFunctionsIconRetrieve"
+          "target": "com.posthog.hog_functions#HogFunctionsPublishCreate"
         },
         {
-          "target": "com.posthog.hog_functions#HogFunctionsIconsRetrieve"
+          "target": "com.posthog.hog_functions#CreateHogFunctionsRerun"
         },
         {
-          "target": "com.posthog.hog_functions#HogFunctionsRearrangePartialUpdate"
+          "target": "com.posthog.hog_functions#ListHogFunctionsRevisions"
+        },
+        {
+          "target": "com.posthog.hog_functions#GetHogFunctionsRevision"
+        },
+        {
+          "target": "com.posthog.hog_functions#HogFunctionsRevisionsRestoreCreate"
+        },
+        {
+          "target": "com.posthog.hog_functions#GetHogFunctionsIcon"
+        },
+        {
+          "target": "com.posthog.hog_functions#GetHogFunctionsIcon2"
+        },
+        {
+          "target": "com.posthog.hog_functions#GetHogFunctionsMaskedSecret"
+        },
+        {
+          "target": "com.posthog.hog_functions#UpdateHogFunctionsRearrangePartial"
         }
       ],
       "traits": {

@@ -1,0 +1,3249 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.bounties#ListBountiesRequestStatus": {
+      "type": "enum",
+      "members": {
+        "SCHEDULED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scheduled"
+          }
+        },
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#ListBountiesRequestBusinessGoalType": {
+      "type": "enum",
+      "members": {
+        "CLIPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clipping"
+          }
+        },
+        "POST_ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post_engagement"
+          }
+        },
+        "OWNED_ACCOUNT_GROWTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owned_account_growth"
+          }
+        },
+        "UGC_CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ugc_content"
+          }
+        },
+        "LOCAL_ACTIVATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local_activation"
+          }
+        },
+        "DATA_CAPTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data_capture"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#ListBountiesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "GROSS_PAID_OUT_AMOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gross_paid_out_amount"
+          }
+        },
+        "GROSS_REWARD_AMOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gross_reward_amount"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#ListBountiesRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#ListBountiesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Scope the list to this account (`biz_` tag). Requires read access to the account; account API keys may pass their own account or a connected account."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "List the bounties this user participated in (`user_` tag). Must be the authenticated user."
+          }
+        },
+        "status": {
+          "target": "com.whop.bounties#ListBountiesRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by lifecycle state."
+          }
+        },
+        "business_goal_type": {
+          "target": "com.whop.bounties#ListBountiesRequestBusinessGoalType",
+          "traits": {
+            "smithy.api#httpQuery": "business_goal_type",
+            "smithy.api#documentation": "Filter by the poster's declared goal. Bounties created before the goal taxonomy carry no goal and never match this filter."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "country",
+            "smithy.api#documentation": "Only bounties workable from this country, as an ISO 3166-1 alpha-2 code. Bounties with no country targeting are workable worldwide and always match."
+          }
+        },
+        "experience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "experience_id",
+            "smithy.api#documentation": "Only bounties posted to this forum experience, prefixed `exp_`. An unknown experience, or one outside the caller's scope, matches nothing."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "Substring match on the bounty title or ID."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only bounties created after this ISO 8601 timestamp."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only bounties created before this ISO 8601 timestamp."
+          }
+        },
+        "order": {
+          "target": "com.whop.bounties#ListBountiesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort field."
+          }
+        },
+        "direction": {
+          "target": "com.whop.bounties#ListBountiesRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of bounties to return from the start of the window."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to paginate forwards from."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of bounties to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to paginate backwards from."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.bounties#BountyListItem": {
+      "type": "structure",
+      "members": {
+        "accepted_deliverable_types": {
+          "target": "com.whop.bounties#BountyListItemAcceptedDeliverableTypesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "accepted_submissions_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Submissions accepted so far.",
+            "smithy.api#required": {}
+          }
+        },
+        "accepted_submissions_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of submissions that can be accepted (winner slots).",
+            "smithy.api#required": {}
+          }
+        },
+        "accepted_submissions_per_user_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many winner slots one worker can win. Defaults to `1`. Wins plus proofs awaiting review never exceed this number, and a worker runs one attempt at a time. Cannot exceed `accepted_submissions_limit`.",
+            "smithy.api#required": {}
+          }
+        },
+        "affiliate_share_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "What a referrer earns per accepted submission when the worker arrived through their affiliate link, in whole currency units, at the standard platform fee rate. Taken out of the worker's post-fee reward rather than added on top. `0` when the bounty pays no affiliate share, including bounties tied to no account, which cannot record a referral.",
+            "smithy.api#required": {}
+          }
+        },
+        "allowed_country_codes": {
+          "target": "com.whop.bounties#BountyListItemAllowedCountryCodesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "budget_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total gross budget committed to the bounty: `gross_reward_amount` times `accepted_submissions_limit`.",
+            "smithy.api#required": {}
+          }
+        },
+        "business_goal_type": {
+          "target": "com.whop.bounties#BountyListItemBusinessGoalType",
+          "traits": {
+            "smithy.api#documentation": "What the poster wants the work to achieve, declared once at create. `null` for bounties created before the taxonomy rolled out.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancel_requested_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When cancellation was requested, as an ISO 8601 timestamp. On a `closed` bounty this means the cancel is pending: submissions are stopped and the bounty cancels once in-flight submissions resolve. On a `canceled` bounty it records when the cancellation was requested. `null` when no cancellation was ever requested.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the bounty was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency for all amounts on the bounty, as a lowercase ISO 4217 code.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full task instructions shown to workers.",
+            "smithy.api#required": {}
+          }
+        },
+        "discussion_experience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Experience the bounty's discussion thread lives in, prefixed `exp_`. Read this — not `experience_id` — to open the thread: a platform-wide bounty has no hosting experience of its own but its discussion still lives in one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "discussion_feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Forum feed containing the bounty's discussion thread. `null` for a bounty with no forum post.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "discussion_post_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Forum post anchoring the bounty's discussion thread. Read together with `discussion_experience_id` to address the thread. `null` for a bounty with no forum post.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "experience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Experience the bounty is hosted in, prefixed `exp_`. `null` for platform-wide bounties; may belong to a different account than the funder.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "funding_account": {
+          "target": "com.whop.bounties#AccountSummary",
+          "traits": {
+            "smithy.api#documentation": "Account whose balance funds the bounty pool, or `null` when a user funds it personally. May differ from the account hosting `experience_id`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gross_paid_out_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Gross amount paid out from the bounty pool across accepted submissions — worker payouts, platform fees, and affiliate shares together. Tips and reviewer rewards are excluded.",
+            "smithy.api#required": {}
+          }
+        },
+        "gross_reward_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Gross bounty-pool amount allocated per accepted submission, in whole currency units.",
+            "smithy.api#required": {}
+          }
+        },
+        "hosting_account": {
+          "target": "com.whop.bounties#StorefrontAccount",
+          "traits": {
+            "smithy.api#documentation": "Account hosting the bounty's forum — the one whose `route` and `experience_id` address its discussion thread, and where its submissions dashboard lives. `null` for a platform-wide bounty with no host. May differ from `funding_account`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Bounty ID, prefixed `bnty_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "net_reward_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "What a worker is quoted per accepted submission after the platform fee, in whole currency units. The exact post-fee figure, at the standard platform fee rate — a worker who locked a different rate, or who arrived through an affiliate link, is paid a different amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "poster": {
+          "target": "com.whop.bounties#UserSummary",
+          "traits": {
+            "smithy.api#documentation": "User who posted the bounty — the account owner when created with an account API key.",
+            "smithy.api#required": {}
+          }
+        },
+        "scheduled_frequency": {
+          "target": "com.whop.bounties#BountyListItemScheduledFrequency",
+          "traits": {
+            "smithy.api#documentation": "How often the schedule creates a new bounty. Each occurrence is a separate bounty; the original is not republished.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scheduled_publish_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When a scheduled bounty will publish, as an ISO 8601 timestamp. `null` once published, for bounties that were never scheduled, and for terminally failed drafts parked for manual rescheduling.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spots_remaining": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unfilled winner capacity: `accepted_submissions_limit` minus `accepted_submissions_count`, clamped to zero. Not on its own a signal that the bounty accepts new claims — read `status` for that: only an `open` bounty takes new submissions.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.bounties#BountyListItemStatus",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle state. `scheduled` bounties are unpublished drafts, visible to their poster and the account's authorized managers; `open` bounties accept new submissions; `closed` bounties are live but no longer accept new submissions; `completed` bounties paid out every winner slot; `canceled` bounties ended before filling their slots.",
+            "smithy.api#required": {}
+          }
+        },
+        "submissions_closed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When new submissions stopped being accepted, as an ISO 8601 timestamp. Set when a cancellation is requested on a bounty with work in flight, so in-flight submissions can resolve before the bounty cancels. `null` when submissions were never stopped — including completed bounties that simply filled every winner slot.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short name of the task shown to workers.",
+            "smithy.api#required": {}
+          }
+        },
+        "unresolved_submissions_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Submissions still awaiting an outcome: in progress or pending review.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the bounty was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "viewer_accepted_submissions_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many winner slots the authenticated user has already won on this bounty. Read against `accepted_submissions_per_user_limit` to show a worker their remaining allowance. `0` when the request has no authenticated user.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#BountyListItemAcceptedDeliverableTypesItem": {
+      "type": "enum",
+      "members": {
+        "CONTENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_url"
+          }
+        },
+        "MEDIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "media"
+          }
+        },
+        "DATA_CAPTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data_capture"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The deliverable shapes this bounty accepts. Every bounty accepts any combination of `content_url` (posted links) and `media` (uploaded files), except `data_capture` bounties, whose proof is clips recorded in the Whop app that accumulate on the attempt."
+      }
+    },
+    "com.whop.bounties#BountyListItemAcceptedDeliverableTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.bounties#BountyListItemAcceptedDeliverableTypesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#BountyListItemAllowedCountryCodesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#BountyListItemBusinessGoalType": {
+      "type": "enum",
+      "members": {
+        "CLIPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clipping"
+          }
+        },
+        "POST_ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post_engagement"
+          }
+        },
+        "OWNED_ACCOUNT_GROWTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owned_account_growth"
+          }
+        },
+        "UGC_CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ugc_content"
+          }
+        },
+        "LOCAL_ACTIVATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local_activation"
+          }
+        },
+        "DATA_CAPTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data_capture"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the poster wants the work to achieve, declared once at create. `null` for bounties created before the taxonomy rolled out."
+      }
+    },
+    "com.whop.bounties#AccountSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account display name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#StorefrontAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account public route identifier — the `whop.com/{route}` storefront path.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account display name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#UserSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID, prefixed `user_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture": {
+          "target": "com.whop.bounties#UserProfilePicture",
+          "traits": {
+            "smithy.api#documentation": "Avatar wrapper; its `url` is always present, using a generated placeholder when the user set no picture.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#UserProfilePicture": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Avatar image URL. Always present — a generated placeholder when the user set no picture.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#BountyListItemScheduledFrequency": {
+      "type": "enum",
+      "members": {
+        "ONCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "once"
+          }
+        },
+        "HOURLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hourly"
+          }
+        },
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How often the schedule creates a new bounty. Each occurrence is a separate bounty; the original is not republished."
+      }
+    },
+    "com.whop.bounties#BountyListItemStatus": {
+      "type": "enum",
+      "members": {
+        "SCHEDULED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scheduled"
+          }
+        },
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Lifecycle state. `scheduled` bounties are unpublished drafts, visible to their poster and the account's authorized managers; `open` bounties accept new submissions; `closed` bounties are live but no longer accept new submissions; `completed` bounties paid out every winner slot; `canceled` bounties ended before filling their slots."
+      }
+    },
+    "com.whop.bounties#ListBountiesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.bounties#BountyListItem"
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#ListBountiesResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#ListBountiesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.bounties#ListBountiesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.bounties#ListBountiesResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.bounties#ListBounties": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.bounties#ListBountiesRequest"
+      },
+      "output": {
+        "target": "com.whop.bounties#ListBountiesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.bounties#BadRequest"
+        },
+        {
+          "target": "com.whop.bounties#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/bounties",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Bounties\n\nLists bounties visible to the credential — for an account API key, the account's bounties including scheduled drafts; for a user token, the bounties the user can see and work.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.bounties#CreateBountyRequestAllowedCountryCodesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Countries whose residents can work the bounty, as ISO 3166 alpha-2 codes. Empty means worldwide."
+      }
+    },
+    "com.whop.bounties#CreateBountyRequestBusinessGoalType": {
+      "type": "enum",
+      "members": {
+        "CLIPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clipping"
+          }
+        },
+        "POST_ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post_engagement"
+          }
+        },
+        "OWNED_ACCOUNT_GROWTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owned_account_growth"
+          }
+        },
+        "UGC_CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ugc_content"
+          }
+        },
+        "LOCAL_ACTIVATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local_activation"
+          }
+        },
+        "DATA_CAPTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data_capture"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the poster wants the work to achieve, declared once here."
+      }
+    },
+    "com.whop.bounties#CreateBountyRequestCaptureSpecStabilizationMode": {
+      "type": "enum",
+      "members": {
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        },
+        "ON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "on"
+          }
+        },
+        "ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "any"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the recorder configures video stabilization. `off` preserves raw motion for pose extraction."
+      }
+    },
+    "com.whop.bounties#CreateBountyRequestCaptureSpec": {
+      "type": "structure",
+      "members": {
+        "bitrate_target_mbps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Average bitrate the recorder encodes at, in megabits per second. Must sit within the served floor and ceiling."
+          }
+        },
+        "embed_camera_metadata": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the recorder also writes camera make and model into the video container's metadata."
+          }
+        },
+        "frame_gap_tolerance_ms": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Longest stall between consecutive frames a clip may contain before the client rejects it, in milliseconds. Unlike the recording fields this one can also be tuned after the bounty is created, since it bounds what is accepted rather than how footage is captured."
+          }
+        },
+        "min_clip_duration_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum length of a single clip, in seconds."
+          }
+        },
+        "min_total_verified_duration_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total verified footage a submission must accumulate across all its clips before it can be submitted, in seconds. Must be a whole number of hours between 1 and 12. Editable after create, until someone starts an attempt."
+          }
+        },
+        "stabilization_mode": {
+          "target": "com.whop.bounties#CreateBountyRequestCaptureSpecStabilizationMode",
+          "traits": {
+            "smithy.api#documentation": "How the recorder configures video stabilization. `off` preserves raw motion for pose extraction."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-bounty overrides of the served capture contract. Only accepted when `business_goal_type` is `data_capture`; omitted fields keep the platform defaults, and the resulting contract is echoed back as `capture_spec` on the bounty."
+      }
+    },
+    "com.whop.bounties#CreateBountyRequestFrequency": {
+      "type": "enum",
+      "members": {
+        "ONCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "once"
+          }
+        },
+        "HOURLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hourly"
+          }
+        },
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How often the schedule creates a new bounty. Each occurrence is a separate bounty. Defaults to `once`; only applies with `publish_at`."
+      }
+    },
+    "com.whop.bounties#CreateBountyRequest": {
+      "type": "structure",
+      "members": {
+        "accepted_submissions_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of submissions that can be accepted (winner slots). Defaults to 1. The escrowed total is `gross_reward_amount` times this limit and must be at least $5.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "accepted_submissions_per_user_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many winner slots one worker can win. Defaults to `1`. Wins plus proofs awaiting review never exceed this number, and a worker runs one attempt at a time. Cannot exceed `accepted_submissions_limit`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account whose balance funds the bounty pool (`biz_` tag). Defaults to the caller's personal balance. Requires permission to move the account's funds.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "allowed_country_codes": {
+          "target": "com.whop.bounties#CreateBountyRequestAllowedCountryCodesList",
+          "traits": {
+            "smithy.api#documentation": "Countries whose residents can work the bounty, as ISO 3166 alpha-2 codes. Empty means worldwide.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_goal_type": {
+          "target": "com.whop.bounties#CreateBountyRequestBusinessGoalType",
+          "traits": {
+            "smithy.api#documentation": "What the poster wants the work to achieve, declared once here."
+          }
+        },
+        "capture_spec": {
+          "target": "com.whop.bounties#CreateBountyRequestCaptureSpec",
+          "traits": {
+            "smithy.api#documentation": "Per-bounty overrides of the served capture contract. Only accepted when `business_goal_type` is `data_capture`; omitted fields keep the platform defaults, and the resulting contract is echoed back as `capture_spec` on the bounty."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full task instructions shown to workers.",
+            "smithy.api#required": {}
+          }
+        },
+        "experience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Experience to host the bounty in (`exp_` tag). Any visibility — public for an open bounty, private for an invited one. Required unless account_id is set, in which case the bounty anchors in that account's public forum.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frequency": {
+          "target": "com.whop.bounties#CreateBountyRequestFrequency",
+          "traits": {
+            "smithy.api#documentation": "How often the schedule creates a new bounty. Each occurrence is a separate bounty. Defaults to `once`; only applies with `publish_at`."
+          }
+        },
+        "gross_reward_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Gross bounty-pool amount (USD) escrowed per accepted submission, in whole dollars. Platform fees and affiliate shares are paid from this amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "publish_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 time to publish the bounty. When set, the bounty is created as a hidden draft and funded + published at this time instead of immediately.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "publish_at_timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IANA timezone for recurring occurrences. Required when publish_at is set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short name of the task shown to workers.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.bounties#Bounty": {
+      "type": "structure",
+      "members": {
+        "accepted_deliverable_types": {
+          "target": "com.whop.bounties#BountyAcceptedDeliverableTypesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "accepted_submissions_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Submissions accepted so far.",
+            "smithy.api#required": {}
+          }
+        },
+        "accepted_submissions_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of submissions that can be accepted (winner slots).",
+            "smithy.api#required": {}
+          }
+        },
+        "accepted_submissions_per_user_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many winner slots one worker can win. Defaults to `1`. Wins plus proofs awaiting review never exceed this number, and a worker runs one attempt at a time. Cannot exceed `accepted_submissions_limit`.",
+            "smithy.api#required": {}
+          }
+        },
+        "active_proof_livestream_feeds": {
+          "target": "com.whop.bounties#BountyActiveProofLivestreamFeedsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "affiliate_share_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "What a referrer earns per accepted submission when the worker arrived through their affiliate link, in whole currency units, at the standard platform fee rate. Taken out of the worker's post-fee reward rather than added on top. `0` when the bounty pays no affiliate share, including bounties tied to no account, which cannot record a referral.",
+            "smithy.api#required": {}
+          }
+        },
+        "allowed_country_codes": {
+          "target": "com.whop.bounties#BountyAllowedCountryCodesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "awaiting_review_submissions_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Submissions delivered and waiting on review. A subset of `unresolved_submissions_count`, which also counts attempts still in progress.",
+            "smithy.api#required": {}
+          }
+        },
+        "budget_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total gross budget committed to the bounty: `gross_reward_amount` times `accepted_submissions_limit`.",
+            "smithy.api#required": {}
+          }
+        },
+        "business_goal_type": {
+          "target": "com.whop.bounties#BountyBusinessGoalType",
+          "traits": {
+            "smithy.api#documentation": "What the poster wants the work to achieve, declared once at create. `null` for bounties created before the taxonomy rolled out.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancel_requested_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When cancellation was requested, as an ISO 8601 timestamp. On a `closed` bounty this means the cancel is pending: submissions are stopped and the bounty cancels once in-flight submissions resolve. On a `canceled` bounty it records when the cancellation was requested. `null` when no cancellation was ever requested.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "capture_spec": {
+          "target": "com.whop.bounties#CaptureSpec",
+          "traits": {
+            "smithy.api#documentation": "The technical contract footage must be recorded against. Present only on `data_capture` bounties; `null` for every other goal type.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the bounty was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.whop.bounties#BountyCurrency",
+          "traits": {
+            "smithy.api#documentation": "Currency for all amounts on the bounty, as a lowercase ISO 4217 code.",
+            "smithy.api#required": {}
+          }
+        },
+        "denied_submissions_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Submissions reviewed and turned down.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full task instructions shown to workers.",
+            "smithy.api#required": {}
+          }
+        },
+        "discussion_experience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Experience the bounty's discussion thread lives in, prefixed `exp_`. Read this — not `experience_id` — to open the thread: a platform-wide bounty has no hosting experience of its own but its discussion still lives in one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "discussion_feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Forum feed containing the bounty's discussion thread. `null` for a bounty with no forum post.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "discussion_post_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Forum post anchoring the bounty's discussion thread. Read together with `discussion_experience_id` to address the thread. `null` for a bounty with no forum post.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "experience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Experience the bounty is hosted in, prefixed `exp_`. `null` for platform-wide bounties; may belong to a different account than the funder.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "funding_account": {
+          "target": "com.whop.bounties#AccountSummary",
+          "traits": {
+            "smithy.api#documentation": "Account whose balance funds the bounty pool, or `null` when a user funds it personally. May differ from the account hosting `experience_id`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gross_paid_out_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Gross amount paid out from the bounty pool across accepted submissions — worker payouts, platform fees, and affiliate shares together. Tips and reviewer rewards are excluded.",
+            "smithy.api#required": {}
+          }
+        },
+        "gross_reward_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Gross bounty-pool amount allocated per accepted submission, in whole currency units.",
+            "smithy.api#required": {}
+          }
+        },
+        "hosting_account": {
+          "target": "com.whop.bounties#StorefrontAccount",
+          "traits": {
+            "smithy.api#documentation": "Account hosting the bounty's forum — the one whose `route` and `experience_id` address its discussion thread, and where its submissions dashboard lives. `null` for a platform-wide bounty with no host. May differ from `funding_account`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Bounty ID, prefixed `bnty_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "net_reward_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "What a worker is quoted per accepted submission after the platform fee, in whole currency units. The exact post-fee figure, at the standard platform fee rate — a worker who locked a different rate, or who arrived through an affiliate link, is paid a different amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "poster": {
+          "target": "com.whop.bounties#UserSummary",
+          "traits": {
+            "smithy.api#documentation": "User who posted the bounty — the account owner when created with an account API key.",
+            "smithy.api#required": {}
+          }
+        },
+        "scheduled_frequency": {
+          "target": "com.whop.bounties#BountyScheduledFrequency",
+          "traits": {
+            "smithy.api#documentation": "How often the schedule creates a new bounty. Each occurrence is a separate bounty; the original is not republished.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scheduled_publish_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When a scheduled bounty will publish, as an ISO 8601 timestamp. `null` once published, for bounties that were never scheduled, and for terminally failed drafts parked for manual rescheduling.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spots_remaining": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unfilled winner capacity: `accepted_submissions_limit` minus `accepted_submissions_count`, clamped to zero. Not on its own a signal that the bounty accepts new claims — read `status` for that: only an `open` bounty takes new submissions.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.bounties#BountyStatus",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle state. `scheduled` bounties are unpublished drafts, visible to their poster and the account's authorized managers; `open` bounties accept new submissions; `closed` bounties are live but no longer accept new submissions; `completed` bounties paid out every winner slot; `canceled` bounties ended before filling their slots.",
+            "smithy.api#required": {}
+          }
+        },
+        "submissions_closed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When new submissions stopped being accepted, as an ISO 8601 timestamp. Set when a cancellation is requested on a bounty with work in flight, so in-flight submissions can resolve before the bounty cancels. `null` when submissions were never stopped — including completed bounties that simply filled every winner slot.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short name of the task shown to workers.",
+            "smithy.api#required": {}
+          }
+        },
+        "unresolved_submissions_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Submissions still awaiting an outcome: in progress or pending review.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the bounty was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "viewer_accepted_submissions_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many winner slots the authenticated user has already won on this bounty. Read against `accepted_submissions_per_user_limit` to show a worker their remaining allowance. `0` when the request has no authenticated user.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#BountyAcceptedDeliverableTypesItem": {
+      "type": "enum",
+      "members": {
+        "CONTENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_url"
+          }
+        },
+        "MEDIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "media"
+          }
+        },
+        "DATA_CAPTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data_capture"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The deliverable shapes this bounty accepts. Every bounty accepts any combination of `content_url` (posted links) and `media` (uploaded files), except `data_capture` bounties, whose proof is clips recorded in the Whop app that accumulate on the attempt."
+      }
+    },
+    "com.whop.bounties#BountyAcceptedDeliverableTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.bounties#BountyAcceptedDeliverableTypesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#BountyActiveLivestreamFeed": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "com.whop.bounties#UserSummary",
+          "traits": {
+            "smithy.api#documentation": "User hosting the proof livestream — the worker streaming their attempt. `null` if the host account no longer exists.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Livestream feed ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display title for the proof livestream.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#BountyActiveProofLivestreamFeedsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.bounties#BountyActiveLivestreamFeed"
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#BountyAllowedCountryCodesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#BountyBusinessGoalType": {
+      "type": "enum",
+      "members": {
+        "CLIPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clipping"
+          }
+        },
+        "POST_ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post_engagement"
+          }
+        },
+        "OWNED_ACCOUNT_GROWTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owned_account_growth"
+          }
+        },
+        "UGC_CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ugc_content"
+          }
+        },
+        "LOCAL_ACTIVATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local_activation"
+          }
+        },
+        "DATA_CAPTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data_capture"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the poster wants the work to achieve, declared once at create. `null` for bounties created before the taxonomy rolled out."
+      }
+    },
+    "com.whop.bounties#CaptureSpec": {
+      "type": "structure",
+      "members": {
+        "filename_pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The naming convention for uploaded files, built from the required metadata fields.",
+            "smithy.api#required": {}
+          }
+        },
+        "imu": {
+          "target": "com.whop.bounties#CaptureSpecImu",
+          "traits": {
+            "smithy.api#documentation": "Inertial measurement unit (IMU) recording requirements.",
+            "smithy.api#required": {}
+          }
+        },
+        "manifest_schema_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Schema version the client must stamp on the capture manifest it uploads.",
+            "smithy.api#required": {}
+          }
+        },
+        "min_clip_duration_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum length of a single clip, in seconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "min_total_verified_duration_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total verified footage a submission must accumulate across all its clips before it can be submitted, in seconds. Always a whole number of hours.",
+            "smithy.api#required": {}
+          }
+        },
+        "required_metadata_fields": {
+          "target": "com.whop.bounties#CaptureSpecRequiredMetadataFieldsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "single_continuous_take": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether each clip must be one uninterrupted recording rather than stitched segments.",
+            "smithy.api#required": {}
+          }
+        },
+        "video": {
+          "target": "com.whop.bounties#CaptureSpecVideo",
+          "traits": {
+            "smithy.api#documentation": "Video recording requirements.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#CaptureSpecImu": {
+      "type": "structure",
+      "members": {
+        "device_motion_units": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Units for the device-motion channels, as a compact key=unit string.",
+            "smithy.api#required": {}
+          }
+        },
+        "magnetometer_units": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Units for the magnetometer channel.",
+            "smithy.api#required": {}
+          }
+        },
+        "min_rate_hz": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum sustained IMU sample rate in hertz for a clip to pass validation.",
+            "smithy.api#required": {}
+          }
+        },
+        "target_rate_hz": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Target IMU sample rate in hertz.",
+            "smithy.api#required": {}
+          }
+        },
+        "warmup_min_rate_hz": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum IMU sample rate in hertz tolerated during the warmup window.",
+            "smithy.api#required": {}
+          }
+        },
+        "warmup_ns": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Startup window, in nanoseconds, during which the relaxed warmup rate applies.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#CaptureSpecRequiredMetadataFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#CaptureSpecVideo": {
+      "type": "structure",
+      "members": {
+        "bitrate_ceiling_mbps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum acceptable average bitrate, in megabits per second.",
+            "smithy.api#required": {}
+          }
+        },
+        "bitrate_floor_mbps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum acceptable average bitrate, in megabits per second.",
+            "smithy.api#required": {}
+          }
+        },
+        "bitrate_target_mbps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Recommended average bitrate to encode at, in megabits per second.",
+            "smithy.api#required": {}
+          }
+        },
+        "camera_lens": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Which physical lens to record with.",
+            "smithy.api#required": {}
+          }
+        },
+        "codecs": {
+          "target": "com.whop.bounties#CaptureSpecVideoCodecsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "embed_camera_metadata": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the client must also write the camera make and model into the video container's metadata. When `false`, the capture manifest and export CSV are the metadata carrier.",
+            "smithy.api#required": {}
+          }
+        },
+        "fps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Target capture frame rate.",
+            "smithy.api#required": {}
+          }
+        },
+        "frame_gap_tolerance_ms": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Longest stall between consecutive frames a clip may contain before the client rejects it, in milliseconds. Every frame is timestamped in the frame log, so a stall stays alignable downstream — this bounds how broken a capture may be, not how evenly it must be paced.",
+            "smithy.api#required": {}
+          }
+        },
+        "height": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Required frame height in pixels — recorded footage must match exactly.",
+            "smithy.api#required": {}
+          }
+        },
+        "min_fov_degrees": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum acceptable horizontal field of view, in degrees.",
+            "smithy.api#required": {}
+          }
+        },
+        "orientation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device orientation to record in.",
+            "smithy.api#required": {}
+          }
+        },
+        "preferred_fov_degrees": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Preferred horizontal field of view, in degrees.",
+            "smithy.api#required": {}
+          }
+        },
+        "stabilization_mode": {
+          "target": "com.whop.bounties#CaptureSpecVideoStabilizationMode",
+          "traits": {
+            "smithy.api#documentation": "How the client must configure video stabilization: `off` disables EIS so raw motion is preserved for pose extraction, `on` requires it, `any` leaves the device default.",
+            "smithy.api#required": {}
+          }
+        },
+        "stabilization_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether hardware/software stabilization must be enabled. True exactly when stabilization_mode is `on`.",
+            "smithy.api#required": {}
+          }
+        },
+        "width": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Required frame width in pixels — recorded footage must match exactly.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#CaptureSpecVideoCodecsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#CaptureSpecVideoStabilizationMode": {
+      "type": "enum",
+      "members": {
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        },
+        "ON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "on"
+          }
+        },
+        "ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "any"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the client must configure video stabilization: `off` disables EIS so raw motion is preserved for pose extraction, `on` requires it, `any` leaves the device default."
+      }
+    },
+    "com.whop.bounties#BountyCurrency": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usd"
+          }
+        },
+        "SGD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sgd"
+          }
+        },
+        "INR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inr"
+          }
+        },
+        "AUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aud"
+          }
+        },
+        "BRL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brl"
+          }
+        },
+        "CAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cad"
+          }
+        },
+        "DKK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dkk"
+          }
+        },
+        "EUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eur"
+          }
+        },
+        "NOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nok"
+          }
+        },
+        "GBP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gbp"
+          }
+        },
+        "SEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sek"
+          }
+        },
+        "CHF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chf"
+          }
+        },
+        "HKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hkd"
+          }
+        },
+        "HUF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "huf"
+          }
+        },
+        "JPY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jpy"
+          }
+        },
+        "MXN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mxn"
+          }
+        },
+        "MYR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "myr"
+          }
+        },
+        "PLN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pln"
+          }
+        },
+        "CZK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "czk"
+          }
+        },
+        "NZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nzd"
+          }
+        },
+        "AED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aed"
+          }
+        },
+        "COP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cop"
+          }
+        },
+        "RON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ron"
+          }
+        },
+        "THB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thb"
+          }
+        },
+        "BGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bgn"
+          }
+        },
+        "IDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "idr"
+          }
+        },
+        "DOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dop"
+          }
+        },
+        "PHP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "php"
+          }
+        },
+        "TRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "try"
+          }
+        },
+        "KRW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "krw"
+          }
+        },
+        "TWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twd"
+          }
+        },
+        "VND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vnd"
+          }
+        },
+        "PKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pkr"
+          }
+        },
+        "CLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clp"
+          }
+        },
+        "UYU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uyu"
+          }
+        },
+        "ARS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ars"
+          }
+        },
+        "ZAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zar"
+          }
+        },
+        "DZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dzd"
+          }
+        },
+        "TND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tnd"
+          }
+        },
+        "MAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mad"
+          }
+        },
+        "KES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kes"
+          }
+        },
+        "KWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kwd"
+          }
+        },
+        "JOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jod"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "XCD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xcd"
+          }
+        },
+        "AMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amd"
+          }
+        },
+        "BSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd"
+          }
+        },
+        "BHD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bhd"
+          }
+        },
+        "BOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bob"
+          }
+        },
+        "BAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bam"
+          }
+        },
+        "KHR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "khr"
+          }
+        },
+        "CRC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crc"
+          }
+        },
+        "XOF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xof"
+          }
+        },
+        "EGP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egp"
+          }
+        },
+        "ETB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "etb"
+          }
+        },
+        "GMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gmd"
+          }
+        },
+        "GHS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ghs"
+          }
+        },
+        "GTQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gtq"
+          }
+        },
+        "GYD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gyd"
+          }
+        },
+        "ILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ils"
+          }
+        },
+        "JMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jmd"
+          }
+        },
+        "MOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mop"
+          }
+        },
+        "MGA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mga"
+          }
+        },
+        "MUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mur"
+          }
+        },
+        "MDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mdl"
+          }
+        },
+        "MNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mnt"
+          }
+        },
+        "NAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nad"
+          }
+        },
+        "NGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ngn"
+          }
+        },
+        "MKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mkd"
+          }
+        },
+        "OMR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "omr"
+          }
+        },
+        "PYG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pyg"
+          }
+        },
+        "PEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pen"
+          }
+        },
+        "QAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qar"
+          }
+        },
+        "RWF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rwf"
+          }
+        },
+        "SAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sar"
+          }
+        },
+        "RSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsd"
+          }
+        },
+        "LKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lkr"
+          }
+        },
+        "TZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tzs"
+          }
+        },
+        "TTD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ttd"
+          }
+        },
+        "UZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uzs"
+          }
+        },
+        "RUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rub"
+          }
+        },
+        "CNY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cny"
+          }
+        },
+        "KZT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kzt"
+          }
+        },
+        "AWG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awg"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Currency for all amounts on the bounty, as a lowercase ISO 4217 code."
+      }
+    },
+    "com.whop.bounties#BountyScheduledFrequency": {
+      "type": "enum",
+      "members": {
+        "ONCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "once"
+          }
+        },
+        "HOURLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hourly"
+          }
+        },
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How often the schedule creates a new bounty. Each occurrence is a separate bounty; the original is not republished."
+      }
+    },
+    "com.whop.bounties#BountyStatus": {
+      "type": "enum",
+      "members": {
+        "SCHEDULED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scheduled"
+          }
+        },
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Lifecycle state. `scheduled` bounties are unpublished drafts, visible to their poster and the account's authorized managers; `open` bounties accept new submissions; `closed` bounties are live but no longer accept new submissions; `completed` bounties paid out every winner slot; `canceled` bounties ended before filling their slots."
+      }
+    },
+    "com.whop.bounties#CreateBounty": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.bounties#CreateBountyRequest"
+      },
+      "output": {
+        "target": "com.whop.bounties#Bounty"
+      },
+      "errors": [
+        {
+          "target": "com.whop.bounties#BadRequest"
+        },
+        {
+          "target": "com.whop.bounties#Forbidden"
+        },
+        {
+          "target": "com.whop.bounties#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/bounties",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Bounty\n\nCreates a bounty and escrows its reward pool. Publishes immediately, or as a scheduled draft when you set `publish_at`."
+      }
+    },
+    "com.whop.bounties#ListPublicBountySubmissionsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#ListPublicBountySubmissionsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#ListPublicBountySubmissionsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#ListPublicBountySubmissionsRequest": {
+      "type": "structure",
+      "members": {
+        "bounty_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The bounty whose public submissions to list (`bnty_` tag)."
+          }
+        },
+        "status": {
+          "target": "com.whop.bounties#ListPublicBountySubmissionsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by lifecycle state."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only submissions created after this ISO 8601 timestamp."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only submissions created before this ISO 8601 timestamp."
+          }
+        },
+        "order": {
+          "target": "com.whop.bounties#ListPublicBountySubmissionsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort field."
+          }
+        },
+        "direction": {
+          "target": "com.whop.bounties#ListPublicBountySubmissionsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of submissions to return from the start of the window."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to paginate forwards from."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of submissions to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to paginate backwards from."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.bounties#PublicBountySubmission": {
+      "type": "structure",
+      "members": {
+        "bounty_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The bounty the work was submitted to, prefixed `bnty_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "claimed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the worker claimed the submission, as an ISO 8601 timestamp.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the submission was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "denial_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the submission was denied, when a presentable reason exists. Always `null` unless `status` is `denied`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Submission ID, prefixed `btys_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "latest_proof_livestream_feed": {
+          "target": "com.whop.bounties#BountySubmissionLivestreamFeed",
+          "traits": {
+            "smithy.api#documentation": "Latest public proof livestream attached to the submission.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resolved_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the submission was approved or denied, as an ISO 8601 timestamp. `null` until then.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.bounties#PublicBountySubmissionStatus",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle state. `submitted` submissions await review; `approved` submissions were accepted and paid; `denied` submissions were rejected. In-progress attempts never appear on the public list.",
+            "smithy.api#required": {}
+          }
+        },
+        "submitted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When proof was submitted for review, as an ISO 8601 timestamp.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the submission was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "worker": {
+          "target": "com.whop.bounties#UserSummary",
+          "traits": {
+            "smithy.api#documentation": "User who submitted the work.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#BountySubmissionLivestreamFeed": {
+      "type": "structure",
+      "members": {
+        "ended_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the proof livestream ended, as an ISO 8601 timestamp. `null` while it is still live — a feed with a `started_at` and no `ended_at` is streaming right now.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Livestream feed ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "recording_status": {
+          "target": "com.whop.bounties#BountySubmissionLivestreamFeedRecordingStatus",
+          "traits": {
+            "smithy.api#documentation": "Recording lifecycle state.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "recording_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Playback URL for a completed proof recording, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the proof livestream went live, as an ISO 8601 timestamp. `null` before it starts.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current proof thumbnail URL, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display title for the proof livestream.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#BountySubmissionLivestreamFeedRecordingStatus": {
+      "type": "enum",
+      "members": {
+        "RECORDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "recording"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Recording lifecycle state."
+      }
+    },
+    "com.whop.bounties#PublicBountySubmissionStatus": {
+      "type": "enum",
+      "members": {
+        "SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submitted"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Lifecycle state. `submitted` submissions await review; `approved` submissions were accepted and paid; `denied` submissions were rejected. In-progress attempts never appear on the public list."
+      }
+    },
+    "com.whop.bounties#ListPublicBountySubmissionsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.bounties#PublicBountySubmission"
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#ListPublicBountySubmissionsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.bounties#ListPublicBountySubmissionsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.bounties#ListPublicBountySubmissionsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.bounties#ListPublicBountySubmissionsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.bounties#ListPublicBountySubmissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.bounties#ListPublicBountySubmissionsRequest"
+      },
+      "output": {
+        "target": "com.whop.bounties#ListPublicBountySubmissionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.bounties#BadRequest"
+        },
+        {
+          "target": "com.whop.bounties#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/bounties/{bounty_id}/submissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Public Submissions\n\nLists a bounty's publicly visible work — submitted, approved, and denied submissions in the reduced public shape. Authentication is optional; a bounty that is not publicly visible returns `404`.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.bounties#GetPublicBountySubmissionRequest": {
+      "type": "structure",
+      "members": {
+        "bounty_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The bounty the submission belongs to (`bnty_` tag)."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The submission to retrieve (`btys_` tag)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.bounties#GetPublicBountySubmission": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.bounties#GetPublicBountySubmissionRequest"
+      },
+      "output": {
+        "target": "com.whop.bounties#PublicBountySubmission"
+      },
+      "errors": [
+        {
+          "target": "com.whop.bounties#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/bounties/{bounty_id}/submissions/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Public Submission\n\nRetrieves one of a bounty's publicly visible submissions in the reduced public shape — the read behind a shared proof link, whose submission is usually outside the bounty page's capped preview. Authentication is optional; a bounty that is not publicly visible, and a submission that is not publicly visible work on it, both return `404`."
+      }
+    },
+    "com.whop.bounties#GetBountyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Bounty ID (`bnty_` tag)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.bounties#GetBounty": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.bounties#GetBountyRequest"
+      },
+      "output": {
+        "target": "com.whop.bounties#Bounty"
+      },
+      "errors": [
+        {
+          "target": "com.whop.bounties#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/bounties/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Bounty\n\nRetrieves a bounty by ID. Authentication is optional: a request with no credential reads the bounty when it is publicly visible — published or completed, and not restricted to a private experience's members. Bounties outside the caller's scope, and bounties not publicly visible to an anonymous caller, return `404`."
+      }
+    },
+    "com.whop.bounties#UpdateBountyRequestAllowedCountryCodesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Replace the countries whose residents can work the bounty, as ISO 3166 alpha-2 codes. Empty means worldwide."
+      }
+    },
+    "com.whop.bounties#UpdateBountyRequestBusinessGoalType": {
+      "type": "enum",
+      "members": {
+        "CLIPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clipping"
+          }
+        },
+        "POST_ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post_engagement"
+          }
+        },
+        "OWNED_ACCOUNT_GROWTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owned_account_growth"
+          }
+        },
+        "UGC_CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ugc_content"
+          }
+        },
+        "LOCAL_ACTIVATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local_activation"
+          }
+        },
+        "DATA_CAPTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data_capture"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the poster wants the work to achieve, declared once here."
+      }
+    },
+    "com.whop.bounties#UpdateBountyRequestFrequency": {
+      "type": "enum",
+      "members": {
+        "ONCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "once"
+          }
+        },
+        "HOURLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hourly"
+          }
+        },
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scheduled drafts only. How often the schedule creates a new bounty."
+      }
+    },
+    "com.whop.bounties#UpdateBountyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Bounty ID (`bnty_` tag)."
+          }
+        },
+        "accepted_submissions_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Scheduled drafts only. Number of submissions that can be accepted (winner slots).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "accepted_submissions_per_user_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many winner slots one worker can win. Defaults to `1`. Wins plus proofs awaiting review never exceed this number, and a worker runs one attempt at a time. Cannot exceed `accepted_submissions_limit`. Editable while the bounty is still open with nothing under review.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "allowed_country_codes": {
+          "target": "com.whop.bounties#UpdateBountyRequestAllowedCountryCodesList",
+          "traits": {
+            "smithy.api#documentation": "Replace the countries whose residents can work the bounty, as ISO 3166 alpha-2 codes. Empty means worldwide.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "business_goal_type": {
+          "target": "com.whop.bounties#UpdateBountyRequestBusinessGoalType",
+          "traits": {
+            "smithy.api#documentation": "What the poster wants the work to achieve, declared once here."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New full task instructions."
+          }
+        },
+        "frequency": {
+          "target": "com.whop.bounties#UpdateBountyRequestFrequency",
+          "traits": {
+            "smithy.api#documentation": "Scheduled drafts only. How often the schedule creates a new bounty."
+          }
+        },
+        "gross_reward_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Scheduled drafts only. Gross bounty-pool amount (USD) escrowed per accepted submission. The escrowed total (this times accepted_submissions_limit) must stay at least $5.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "publish_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scheduled drafts only. New ISO 8601 time to publish the draft. Must be in the future.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "publish_at_timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scheduled drafts only. IANA timezone for recurring occurrences.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New short name of the task."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.bounties#UpdateBounty": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.bounties#UpdateBountyRequest"
+      },
+      "output": {
+        "target": "com.whop.bounties#Bounty"
+      },
+      "errors": [
+        {
+          "target": "com.whop.bounties#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/bounties/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Bounty\n\nUpdates a bounty. A published bounty accepts title, description, and country targeting while it is still open with nothing under review. A scheduled (not-yet-published) draft additionally accepts the reward, winner slots, and schedule."
+      }
+    },
+    "com.whop.bounties#CancelBountyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Bounty ID (`bnty_` tag)."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.bounties#CancelBounty": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.bounties#CancelBountyRequest"
+      },
+      "output": {
+        "target": "com.whop.bounties#Bounty"
+      },
+      "errors": [
+        {
+          "target": "com.whop.bounties#BadRequest"
+        },
+        {
+          "target": "com.whop.bounties#Forbidden"
+        },
+        {
+          "target": "com.whop.bounties#NotFound"
+        },
+        {
+          "target": "com.whop.bounties#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/bounties/{id}/cancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel\n\nCancels a bounty. With no in-flight work, it cancels immediately and refunds the funder. Otherwise it stops new submissions and cancels once the in-flight work resolves and pays out. Repeating the request is a no-op. A bounty that already paid out every slot returns `400`."
+      }
+    },
+    "com.whop.bounties#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.bounties#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.bounties#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.bounties#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.bounties#Bounties": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.bounties#ListBounties"
+        },
+        {
+          "target": "com.whop.bounties#CreateBounty"
+        },
+        {
+          "target": "com.whop.bounties#ListPublicBountySubmissions"
+        },
+        {
+          "target": "com.whop.bounties#GetPublicBountySubmission"
+        },
+        {
+          "target": "com.whop.bounties#GetBounty"
+        },
+        {
+          "target": "com.whop.bounties#UpdateBounty"
+        },
+        {
+          "target": "com.whop.bounties#CancelBounty"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

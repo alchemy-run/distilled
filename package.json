@@ -2,31 +2,42 @@
   "name": "distilled-v1",
   "version": "0.0.0",
   "private": true,
+  "license": "Apache-2.0",
   "type": "module",
   "scripts": {
     "build": "tsc -b",
     "generate": "bun scripts/generate-all.ts",
-    "specs:sync": "git submodule sync --recursive && git submodule update --force --init --recursive --depth=1",
+    "specs:sync": "git submodule sync && git submodule update --force --init --depth=1",
+    "specs:local": "bun scripts/specs.ts local",
+    "specs:link": "bun scripts/specs.ts link",
+    "specs:check": "bun scripts/specs.ts check",
     "typecheck": "tsc -b",
+    "bench": "pnpm bench:runtime && pnpm bench:bundle && pnpm bench:typecheck",
+    "bench:runtime": "bun benches/runtime/run.ts",
+    "bench:runtime:record": "bun benches/runtime/run.ts --record",
+    "bench:bundle": "bun benches/bundle/run.ts",
+    "bench:typecheck": "bun benches/typecheck/run.ts",
+    "bench:typecheck:record": "bun benches/typecheck/run.ts --record",
     "format": "oxfmt '.'",
-    "format:check": "pnpm format -- --check",
+    "format:check": "oxfmt '.' --check",
     "lint": "oxlint",
     "prepare": "husky",
     "publish:packages": "pnpm publish --recursive --filter './packages/*' --access public",
     "typecheck:ci": "tsc -b --noCheck false"
   },
   "devDependencies": {
-    "@types/bun": "catalog:tooling",
-    "@types/node": "catalog:tooling",
-    "typescript": "catalog:build",
-    "husky": "catalog:tooling",
-    "oxfmt": "catalog:tooling",
-    "oxlint": "catalog:tooling",
-    "changelogithub": "^13.16.1"
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "husky": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "changelogithub": "catalog:"
   },
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@11.25.0",
   "devEngines": {
-    "runtime": [ {
+    "runtime": [
+      {
         "name": "bun",
         "version": "1.3.13",
         "onFail": "warn"
@@ -35,6 +46,7 @@
         "name": "node",
         "version": "24",
         "onFail": "warn"
-      } ]
+      }
+    ]
   }
 }

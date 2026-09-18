@@ -172,7 +172,7 @@ export const CreateAssertionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateAssertionRequest>;
 export type Uuid = string;
 export type AssertionSource = "AI_GENERATED" | "USER" | (string & {});
-export const AssertionSource = /*@__PURE__*/ S.String;
+export const AssertionSource = S.String;
 
 export interface Assertion {
   serviceArn: string;
@@ -317,7 +317,7 @@ export type MultiAzDisasterRecoveryApproach =
   | "PILOT_LIGHT"
   | "BACKUP_AND_RESTORE"
   | (string & {});
-export const MultiAzDisasterRecoveryApproach = /*@__PURE__*/ S.String;
+export const MultiAzDisasterRecoveryApproach = S.String;
 
 export interface MultiAzTargets {
   rtoInMinutes?: number;
@@ -338,7 +338,7 @@ export type MultiRegionDisasterRecoveryApproach =
   | "PILOT_LIGHT"
   | "BACKUP_AND_RESTORE"
   | (string & {});
-export const MultiRegionDisasterRecoveryApproach = /*@__PURE__*/ S.String;
+export const MultiRegionDisasterRecoveryApproach = S.String;
 
 export interface MultiRegionTargets {
   rtoInMinutes?: number;
@@ -441,8 +441,8 @@ export const CreatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreatePolicyResponse",
 }) as any as S.Schema<CreatePolicyResponse>;
-export type ReportType = "FAILURE_MODE" | (string & {});
-export const ReportType = /*@__PURE__*/ S.String;
+export type ReportType = "FAILURE_MODE" | "TESTING" | (string & {});
+export const ReportType = S.String;
 
 export interface CreateReportRequest {
   serviceArn: string;
@@ -472,8 +472,10 @@ export type ReportGenerationStatus =
   | "SUCCEEDED"
   | "FAILED"
   | (string & {});
-export const ReportGenerationStatus = /*@__PURE__*/ S.String;
+export const ReportGenerationStatus = S.String;
 
+export type TestRunId = string;
+export type ServiceOwnedArn = string;
 export interface S3ReportOutput {
   s3ObjectKey: string;
 }
@@ -485,7 +487,7 @@ export type ReportGenerationErrorCode =
   | "CONFIGURATION_ERROR"
   | "INTERNAL_ERROR"
   | (string & {});
-export const ReportGenerationErrorCode = /*@__PURE__*/ S.String;
+export const ReportGenerationErrorCode = S.String;
 
 export interface FailedReportOutput {
   errorCode: ReportGenerationErrorCode;
@@ -511,6 +513,8 @@ export interface ReportGenerationResult {
   status: ReportGenerationStatus;
   serviceArn?: string;
   assessmentId?: string;
+  testRunId?: string;
+  testTemplateArn?: string;
   createdAt?: Date;
   reportOutput?: ReportOutput;
 }
@@ -520,6 +524,8 @@ export const ReportGenerationResult = /*@__PURE__*/ S.suspend(() =>
     status: ReportGenerationStatus,
     serviceArn: S.optional(S.String),
     assessmentId: S.optional(S.String),
+    testRunId: S.optional(S.String),
+    testTemplateArn: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     reportOutput: S.optional(ReportOutput),
   }),
@@ -582,7 +588,7 @@ export const PermissionModel = /*@__PURE__*/ S.suspend(() =>
   identifier: "PermissionModel",
 }) as any as S.Schema<PermissionModel>;
 export type DependencyDiscoveryInput = "ENABLED" | "DISABLED" | (string & {});
-export const DependencyDiscoveryInput = /*@__PURE__*/ S.String;
+export const DependencyDiscoveryInput = S.String;
 
 export type S3BucketPath = string;
 export type AwsAccountId = string;
@@ -655,22 +661,26 @@ export type DependencyDiscoveryStatus =
   | "INITIALIZING"
   | "DISABLED"
   | (string & {});
-export const DependencyDiscoveryStatus = /*@__PURE__*/ S.String;
+export const DependencyDiscoveryStatus = S.String;
 
 export interface DependencyDiscoveryConfig {
   status: DependencyDiscoveryStatus;
   updatedAt?: Date;
+  eligibleResourceCount?: number;
+  message?: string;
 }
 export const DependencyDiscoveryConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: DependencyDiscoveryStatus,
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    eligibleResourceCount: S.optional(S.Number),
+    message: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DependencyDiscoveryConfig",
 }) as any as S.Schema<DependencyDiscoveryConfig>;
 export type PolicyValueSource = "SELF" | "CROSS_ACCOUNT" | (string & {});
-export const PolicyValueSource = /*@__PURE__*/ S.String;
+export const PolicyValueSource = S.String;
 
 export interface SloSource {
   value?: number;
@@ -738,22 +748,24 @@ export type AchievabilityStatus =
   | "ACHIEVABLE"
   | "NOT_ACHIEVABLE"
   | (string & {});
-export const AchievabilityStatus = /*@__PURE__*/ S.String;
+export const AchievabilityStatus = S.String;
 
 export interface Achievability {
   availabilitySlo?: AchievabilityStatus;
   multiAzRtoRpo?: AchievabilityStatus;
   multiRegionRtoRpo?: AchievabilityStatus;
+  dataRecoveryTimeBetweenBackups?: AchievabilityStatus;
 }
 export const Achievability = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     availabilitySlo: S.optional(AchievabilityStatus),
     multiAzRtoRpo: S.optional(AchievabilityStatus),
     multiRegionRtoRpo: S.optional(AchievabilityStatus),
+    dataRecoveryTimeBetweenBackups: S.optional(AchievabilityStatus),
   }),
 ).annotate({ identifier: "Achievability" }) as any as S.Schema<Achievability>;
 export type CostCurrency = "USD" | (string & {});
-export const CostCurrency = /*@__PURE__*/ S.String;
+export const CostCurrency = S.String;
 
 export interface AssessmentCost {
   amount?: number;
@@ -772,7 +784,7 @@ export type ResourceDiscoveryRunStatus =
   | "COMPLETED_WITH_FAILURES"
   | "NOT_STARTED"
   | (string & {});
-export const ResourceDiscoveryRunStatus = /*@__PURE__*/ S.String;
+export const ResourceDiscoveryRunStatus = S.String;
 
 export type ResourceDiscoveryErrorCode =
   | "INVALID_PERMISSIONS"
@@ -783,7 +795,7 @@ export type ResourceDiscoveryErrorCode =
   | "UNSUPPORTED_CLUSTER"
   | "INTERNAL_ERROR"
   | (string & {});
-export const ResourceDiscoveryErrorCode = /*@__PURE__*/ S.String;
+export const ResourceDiscoveryErrorCode = S.String;
 
 export interface ResourceDiscoveryStatus {
   status?: ResourceDiscoveryRunStatus;
@@ -808,7 +820,7 @@ export type AssessmentStatus =
   | "FAILED"
   | "SUCCESS"
   | (string & {});
-export const AssessmentStatus = /*@__PURE__*/ S.String;
+export const AssessmentStatus = S.String;
 
 export type OrganizationId = string;
 export type OuId = string;
@@ -881,7 +893,7 @@ export type ServiceFunctionCriticality =
   | "PRIMARY"
   | "SUPPLEMENTAL"
   | (string & {});
-export const ServiceFunctionCriticality = /*@__PURE__*/ S.String;
+export const ServiceFunctionCriticality = S.String;
 
 export interface CreateServiceFunctionRequest {
   name: string;
@@ -912,7 +924,7 @@ export const CreateServiceFunctionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateServiceFunctionRequest>;
 export type EntityId = string;
 export type ServiceFunctionSource = "AI_GENERATED" | "USER" | (string & {});
-export const ServiceFunctionSource = /*@__PURE__*/ S.String;
+export const ServiceFunctionSource = S.String;
 
 export interface ServiceFunction {
   serviceArn: string;
@@ -1058,6 +1070,126 @@ export const CreateSystemResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateSystemResponse",
 }) as any as S.Schema<CreateSystemResponse>;
+export interface LoggingConfiguration {
+  s3BucketName?: string;
+  cloudWatchLogGroupArn?: string;
+  logSchemaVersion?: string;
+}
+export const LoggingConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    s3BucketName: S.optional(S.String),
+    cloudWatchLogGroupArn: S.optional(S.String),
+    logSchemaVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LoggingConfiguration",
+}) as any as S.Schema<LoggingConfiguration>;
+export type StopConditionSource =
+  | "aws:cloudwatch:alarm"
+  | "none"
+  | (string & {});
+export const StopConditionSource = S.String;
+
+export interface StopCondition {
+  source: StopConditionSource;
+  value: string;
+}
+export const StopCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ source: StopConditionSource, value: S.String }),
+).annotate({ identifier: "StopCondition" }) as any as S.Schema<StopCondition>;
+export type StopConditionList = StopCondition[];
+export const StopConditionList = /*@__PURE__*/ S.Array(StopCondition);
+export type ParameterKey = string;
+export type ParameterValue = string;
+export type StringList = string[];
+export const StringList = /*@__PURE__*/ S.Array(S.String);
+export type TestParameters = { [key: string]: string[] | undefined };
+export const TestParameters = /*@__PURE__*/ S.Record(
+  S.String,
+  StringList.pipe(S.optional),
+);
+export interface CreateTestRequest {
+  serviceArn: string;
+  testTemplateArn: string;
+  loggingConfiguration?: LoggingConfiguration;
+  stopConditions?: StopCondition[];
+  roleName?: string;
+  parameters?: { [key: string]: string[] | undefined };
+}
+export const CreateTestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceArn: S.String,
+    testTemplateArn: S.String,
+    loggingConfiguration: S.optional(LoggingConfiguration),
+    stopConditions: S.optional(StopConditionList),
+    roleName: S.optional(S.String),
+    parameters: S.optional(TestParameters),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/create-test" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateTestRequest",
+}) as any as S.Schema<CreateTestRequest>;
+export type TestId = string;
+export interface TestAction {
+  actionId: string;
+  description?: string;
+  resourceType: string;
+}
+export const TestAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actionId: S.String,
+    description: S.optional(S.String),
+    resourceType: S.String,
+  }),
+).annotate({ identifier: "TestAction" }) as any as S.Schema<TestAction>;
+export type TestActionList = TestAction[];
+export const TestActionList = /*@__PURE__*/ S.Array(TestAction);
+export interface Test {
+  testId: string;
+  testTemplateArn: string;
+  serviceArn: string;
+  name: string;
+  actions?: TestAction[];
+  loggingConfiguration?: LoggingConfiguration;
+  stopConditions?: StopCondition[];
+  roleName?: string;
+  parameters?: { [key: string]: string[] | undefined };
+  totalTestRuns: number;
+  successfulTestRuns: number;
+  creationTime: Date;
+}
+export const Test = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testId: S.String,
+    testTemplateArn: S.String,
+    serviceArn: S.String,
+    name: S.String,
+    actions: S.optional(TestActionList),
+    loggingConfiguration: S.optional(LoggingConfiguration),
+    stopConditions: S.optional(StopConditionList),
+    roleName: S.optional(S.String),
+    parameters: S.optional(TestParameters),
+    totalTestRuns: S.Number,
+    successfulTestRuns: S.Number,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({ identifier: "Test" }) as any as S.Schema<Test>;
+export interface CreateTestResponse {
+  test: Test;
+}
+export const CreateTestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ test: Test }),
+).annotate({
+  identifier: "CreateTestResponse",
+}) as any as S.Schema<CreateTestResponse>;
 export interface CreateUserJourneyRequest {
   systemArn: string;
   name: string;
@@ -1307,6 +1439,93 @@ export const DeleteSystemResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteSystemResponse",
 }) as any as S.Schema<DeleteSystemResponse>;
+export interface DeleteTestRequest {
+  testId: string;
+  serviceArn: string;
+}
+export const DeleteTestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ testId: S.String, serviceArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/delete-test" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteTestRequest",
+}) as any as S.Schema<DeleteTestRequest>;
+export interface DeleteTestResponse {
+  testId: string;
+}
+export const DeleteTestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ testId: S.String }),
+).annotate({
+  identifier: "DeleteTestResponse",
+}) as any as S.Schema<DeleteTestResponse>;
+export type CloudWatchAlarmArn = string;
+export interface SuccessCriteriaAlarmInput {
+  alarmArn: string;
+}
+export const SuccessCriteriaAlarmInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ alarmArn: S.String }),
+).annotate({
+  identifier: "SuccessCriteriaAlarmInput",
+}) as any as S.Schema<SuccessCriteriaAlarmInput>;
+export interface ObservabilityAlarmInput {
+  alarmArn: string;
+}
+export const ObservabilityAlarmInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ alarmArn: S.String }),
+).annotate({
+  identifier: "ObservabilityAlarmInput",
+}) as any as S.Schema<ObservabilityAlarmInput>;
+export type TestSourceInput =
+  | {
+      successCriteriaAlarm: SuccessCriteriaAlarmInput;
+      observabilityAlarm?: never;
+    }
+  | {
+      successCriteriaAlarm?: never;
+      observabilityAlarm: ObservabilityAlarmInput;
+    };
+export const TestSourceInput = /*@__PURE__*/ S.Union([
+  S.Struct({ successCriteriaAlarm: SuccessCriteriaAlarmInput }),
+  S.Struct({ observabilityAlarm: ObservabilityAlarmInput }),
+]);
+export type TestSourceInputList = TestSourceInput[];
+export const TestSourceInputList = /*@__PURE__*/ S.Array(TestSourceInput);
+export interface DeleteTestSourcesRequest {
+  testId: string;
+  serviceArn: string;
+  testSources: TestSourceInput[];
+}
+export const DeleteTestSourcesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testId: S.String,
+    serviceArn: S.String,
+    testSources: TestSourceInputList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/delete-test-sources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteTestSourcesRequest",
+}) as any as S.Schema<DeleteTestSourcesRequest>;
+export interface DeleteTestSourcesResponse {}
+export const DeleteTestSourcesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteTestSourcesResponse",
+}) as any as S.Schema<DeleteTestSourcesResponse>;
 export interface DeleteUserJourneyRequest {
   systemArn: string;
   userJourneyId: string;
@@ -1361,13 +1580,13 @@ export type FailureCategory =
   | "MISCONFIGURATION_AND_BUGS"
   | "SINGLE_POINT_OF_FAILURE"
   | (string & {});
-export const FailureCategory = /*@__PURE__*/ S.String;
+export const FailureCategory = S.String;
 
 export type FindingStatus = "OPEN" | "RESOLVED" | "IRRELEVANT" | (string & {});
-export const FindingStatus = /*@__PURE__*/ S.String;
+export const FindingStatus = S.String;
 
 export type FindingSeverity = "LOW" | "MEDIUM" | "HIGH" | (string & {});
-export const FindingSeverity = /*@__PURE__*/ S.String;
+export const FindingSeverity = S.String;
 
 export type FunctionsList = string[];
 export const FunctionsList = /*@__PURE__*/ S.Array(S.String);
@@ -1377,7 +1596,7 @@ export type PolicyComponent =
   | "MULTI_REGION_DISASTER_RECOVERY"
   | "DATA_RECOVERY"
   | (string & {});
-export const PolicyComponent = /*@__PURE__*/ S.String;
+export const PolicyComponent = S.String;
 
 export type SuggestedChangesList = string[];
 export const SuggestedChangesList = /*@__PURE__*/ S.Array(S.String);
@@ -1537,6 +1756,243 @@ export const GetSystemResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetSystemResponse",
 }) as any as S.Schema<GetSystemResponse>;
+export interface GetTestRequest {
+  testId: string;
+  serviceArn: string;
+}
+export const GetTestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testId: S.String.pipe(T.HttpQuery("testId")),
+    serviceArn: S.String.pipe(T.HttpQuery("serviceArn")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/get-test" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "GetTestRequest" }) as any as S.Schema<GetTestRequest>;
+export interface GetTestResponse {
+  test: Test;
+}
+export const GetTestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ test: Test }),
+).annotate({
+  identifier: "GetTestResponse",
+}) as any as S.Schema<GetTestResponse>;
+export interface GetTestRunRequest {
+  testRunId: string;
+  serviceArn: string;
+}
+export const GetTestRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testRunId: S.String.pipe(T.HttpQuery("testRunId")),
+    serviceArn: S.String.pipe(T.HttpQuery("serviceArn")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/get-test-run" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetTestRunRequest",
+}) as any as S.Schema<GetTestRunRequest>;
+export type TestRunStatus =
+  | "INITIALIZING"
+  | "RUNNING"
+  | "STOPPING"
+  | "PASSED"
+  | "FAILED"
+  | "STOPPED"
+  | "ERROR"
+  | (string & {});
+export const TestRunStatus = S.String;
+
+export interface ExperimentDetails {
+  experimentArn: string;
+  details?: string;
+}
+export const ExperimentDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ experimentArn: S.String, details: S.optional(S.String) }),
+).annotate({
+  identifier: "ExperimentDetails",
+}) as any as S.Schema<ExperimentDetails>;
+export type ExperimentDetailsList = ExperimentDetails[];
+export const ExperimentDetailsList = /*@__PURE__*/ S.Array(ExperimentDetails);
+export interface TestRunReportConfiguration {
+  reportOutput: ReportOutputConfiguration[];
+}
+export const TestRunReportConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ reportOutput: ReportOutputConfigurationList }),
+).annotate({
+  identifier: "TestRunReportConfiguration",
+}) as any as S.Schema<TestRunReportConfiguration>;
+export interface TestRunPolicySnapshot {
+  policyArn?: string;
+  name?: string;
+  availabilitySlo?: AvailabilitySlo;
+  multiAz?: MultiAzTargets;
+  multiRegion?: MultiRegionTargets;
+  dataRecovery?: DataRecoveryTargets;
+}
+export const TestRunPolicySnapshot = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    policyArn: S.optional(S.String),
+    name: S.optional(S.String),
+    availabilitySlo: S.optional(AvailabilitySlo),
+    multiAz: S.optional(MultiAzTargets),
+    multiRegion: S.optional(MultiRegionTargets),
+    dataRecovery: S.optional(DataRecoveryTargets),
+  }),
+).annotate({
+  identifier: "TestRunPolicySnapshot",
+}) as any as S.Schema<TestRunPolicySnapshot>;
+export type RegionSwitchExecutionId = string;
+export type AccountTargeting =
+  | "SINGLE_ACCOUNT"
+  | "MULTI_ACCOUNT"
+  | (string & {});
+export const AccountTargeting = S.String;
+
+export interface TestRun {
+  testRunId: string;
+  testId: string;
+  status: TestRunStatus;
+  serviceArn?: string;
+  startedAt: Date;
+  endedAt?: Date;
+  experiments?: ExperimentDetails[];
+  eventCount?: number;
+  parameters?: { [key: string]: string[] | undefined };
+  errorMessage?: string;
+  stopConditions?: StopCondition[];
+  loggingConfiguration?: LoggingConfiguration;
+  roleName?: string;
+  testTemplateArn: string;
+  reportConfiguration?: TestRunReportConfiguration;
+  policy?: TestRunPolicySnapshot;
+  reportOutput?: ReportGenerationResult;
+  regionSwitchPlanArn?: string;
+  regionSwitchExecutionId?: string;
+  permissionModel?: PermissionModel;
+  regions?: string[];
+  accountTargeting?: AccountTargeting;
+}
+export const TestRun = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testRunId: S.String,
+    testId: S.String,
+    status: TestRunStatus,
+    serviceArn: S.optional(S.String),
+    startedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    experiments: S.optional(ExperimentDetailsList),
+    eventCount: S.optional(S.Number),
+    parameters: S.optional(TestParameters),
+    errorMessage: S.optional(S.String),
+    stopConditions: S.optional(StopConditionList),
+    loggingConfiguration: S.optional(LoggingConfiguration),
+    roleName: S.optional(S.String),
+    testTemplateArn: S.String,
+    reportConfiguration: S.optional(TestRunReportConfiguration),
+    policy: S.optional(TestRunPolicySnapshot),
+    reportOutput: S.optional(ReportGenerationResult),
+    regionSwitchPlanArn: S.optional(S.String),
+    regionSwitchExecutionId: S.optional(S.String),
+    permissionModel: S.optional(PermissionModel),
+    regions: S.optional(RegionList),
+    accountTargeting: S.optional(AccountTargeting),
+  }),
+).annotate({ identifier: "TestRun" }) as any as S.Schema<TestRun>;
+export interface GetTestRunResponse {
+  testRun: TestRun;
+}
+export const GetTestRunResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ testRun: TestRun }),
+).annotate({
+  identifier: "GetTestRunResponse",
+}) as any as S.Schema<GetTestRunResponse>;
+export interface GetTestTemplateRequest {
+  testTemplateArn: string;
+}
+export const GetTestTemplateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testTemplateArn: S.String.pipe(T.HttpQuery("testTemplateArn")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/get-test-template" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetTestTemplateRequest",
+}) as any as S.Schema<GetTestTemplateRequest>;
+export type ParameterType =
+  | "STRING"
+  | "STRING_LIST"
+  | "INTEGER"
+  | (string & {});
+export const ParameterType = S.String;
+
+export interface TestTemplateParameter {
+  name: string;
+  description?: string;
+  type: ParameterType;
+  required: boolean;
+  defaultValue?: string;
+  maxValues?: number;
+}
+export const TestTemplateParameter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    type: ParameterType,
+    required: S.Boolean,
+    defaultValue: S.optional(S.String),
+    maxValues: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "TestTemplateParameter",
+}) as any as S.Schema<TestTemplateParameter>;
+export type TestTemplateParameterList = TestTemplateParameter[];
+export const TestTemplateParameterList = /*@__PURE__*/ S.Array(
+  TestTemplateParameter,
+);
+export interface TestTemplate {
+  testTemplateArn: string;
+  name: string;
+  description?: string;
+  parameters?: TestTemplateParameter[];
+  actions?: TestAction[];
+}
+export const TestTemplate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testTemplateArn: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    parameters: S.optional(TestTemplateParameterList),
+    actions: S.optional(TestActionList),
+  }),
+).annotate({ identifier: "TestTemplate" }) as any as S.Schema<TestTemplate>;
+export interface GetTestTemplateResponse {
+  testTemplate: TestTemplate;
+}
+export const GetTestTemplateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ testTemplate: TestTemplate }),
+).annotate({
+  identifier: "GetTestTemplateResponse",
+}) as any as S.Schema<GetTestTemplateResponse>;
 export interface GetUserJourneyRequest {
   systemArn: string;
   userJourneyId: string;
@@ -1687,7 +2143,7 @@ export const ListAssertionsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListAssertionsResponse",
 }) as any as S.Schema<ListAssertionsResponse>;
 export type QueryGranularity = "HOURLY" | "DAILY" | (string & {});
-export const QueryGranularity = /*@__PURE__*/ S.String;
+export const QueryGranularity = S.String;
 
 export interface ListDependenciesRequest {
   serviceArn?: string;
@@ -1751,7 +2207,7 @@ export const QueryRange = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "QueryRange" }) as any as S.Schema<QueryRange>;
 export type DependencyCriticality = "HARD" | "SOFT" | "UNKNOWN" | (string & {});
-export const DependencyCriticality = /*@__PURE__*/ S.String;
+export const DependencyCriticality = S.String;
 
 export interface DependencySummary {
   dependencyId: string;
@@ -1797,14 +2253,38 @@ export const ListDependenciesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListDependenciesResponse",
 }) as any as S.Schema<ListDependenciesResponse>;
+export type AssessmentStatusList = AssessmentStatus[];
+export const AssessmentStatusList = /*@__PURE__*/ S.Array(AssessmentStatus);
+export type AssessmentSortField = "STARTED_AT" | (string & {});
+export const AssessmentSortField = S.String;
+
+export type SortOrder = "ASC" | "DESC" | (string & {});
+export const SortOrder = S.String;
+
 export interface ListFailureModeAssessmentsRequest {
   serviceArn: string;
+  assessmentStatuses?: AssessmentStatus[];
+  startedAfter?: Date;
+  endedBefore?: Date;
+  sortBy?: AssessmentSortField;
+  sortOrder?: SortOrder;
   maxResults?: number;
   nextToken?: string;
 }
 export const ListFailureModeAssessmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceArn: S.String.pipe(T.HttpQuery("serviceArn")),
+    assessmentStatuses: S.optional(AssessmentStatusList).pipe(
+      T.HttpQuery("assessmentStatuses"),
+    ),
+    startedAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ).pipe(T.HttpQuery("startedAfter")),
+    endedBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ).pipe(T.HttpQuery("endedBefore")),
+    sortBy: S.optional(AssessmentSortField).pipe(T.HttpQuery("sortBy")),
+    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -1821,11 +2301,17 @@ export const ListFailureModeAssessmentsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListFailureModeAssessmentsRequest",
 }) as any as S.Schema<ListFailureModeAssessmentsRequest>;
 export type AssessmentStep =
+  | "TOPOLOGY_GENERATION"
+  | "INPUT_VALIDATION"
+  | "DESIGN_ANALYSIS"
   | "TOPOLOGY_ENHANCEMENT"
   | "SERVICE_FUNCTION_GENERATION"
+  | "POLICY_VALIDATION"
   | "RESILIENCE_ASSESSMENT"
+  | "FAILURE_MODE_FINDINGS_CONSOLIDATION"
+  | "FAILURE_MODE_FINDINGS_ENRICHMENT"
   | (string & {});
-export const AssessmentStep = /*@__PURE__*/ S.String;
+export const AssessmentStep = S.String;
 
 export type AssessmentErrorCode =
   | "INVALID_PERMISSIONS"
@@ -1834,7 +2320,7 @@ export type AssessmentErrorCode =
   | "INTERNAL_ERROR"
   | "DESIGN_FILE_ACCESS_DENIED"
   | (string & {});
-export const AssessmentErrorCode = /*@__PURE__*/ S.String;
+export const AssessmentErrorCode = S.String;
 
 export interface AssessmentSummary {
   assessmentId: string;
@@ -1956,7 +2442,7 @@ export type InputSourceType =
   | "DESIGN_FILE"
   | "MONITORING"
   | (string & {});
-export const InputSourceType = /*@__PURE__*/ S.String;
+export const InputSourceType = S.String;
 
 export interface ListInputSourcesRequest {
   serviceArn: string;
@@ -2083,6 +2569,7 @@ export const ListPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListReportsRequest {
   serviceArn?: string;
   reportType?: ReportType;
+  testRunId?: string;
   maxResults?: number;
   nextToken?: string;
 }
@@ -2090,6 +2577,7 @@ export const ListReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceArn: S.optional(S.String).pipe(T.HttpQuery("serviceArn")),
     reportType: S.optional(ReportType).pipe(T.HttpQuery("reportType")),
+    testRunId: S.optional(S.String).pipe(T.HttpQuery("testRunId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -2121,10 +2609,82 @@ export const ListReportsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListReportsResponse",
 }) as any as S.Schema<ListReportsResponse>;
+export interface ListResolvedTestRunTargetResourcesRequest {
+  testRunId: string;
+  serviceArn: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListResolvedTestRunTargetResourcesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      testRunId: S.String.pipe(T.HttpLabel("testRunId")),
+      serviceArn: S.String.pipe(T.HttpQuery("serviceArn")),
+      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/v2/test-runs/{testRunId}/resolved-target-resources",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "ListResolvedTestRunTargetResourcesRequest",
+  }) as any as S.Schema<ListResolvedTestRunTargetResourcesRequest>;
+export type ResolvedTargetInformationKey = string;
+export type ResolvedTargetInformationValue = string;
+export type ResolvedTargetInformation = { [key: string]: string | undefined };
+export const ResolvedTargetInformation = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface ResolvedTargetResource {
+  resourceType: string;
+  targetName: string;
+  targetInformation: { [key: string]: string | undefined };
+}
+export const ResolvedTargetResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceType: S.String,
+    targetName: S.String,
+    targetInformation: ResolvedTargetInformation,
+  }),
+).annotate({
+  identifier: "ResolvedTargetResource",
+}) as any as S.Schema<ResolvedTargetResource>;
+export type ResolvedTargetResourceList = ResolvedTargetResource[];
+export const ResolvedTargetResourceList = /*@__PURE__*/ S.Array(
+  ResolvedTargetResource,
+);
+export interface ListResolvedTestRunTargetResourcesResponse {
+  resolvedTargetResources: ResolvedTargetResource[];
+  nextToken?: string;
+}
+export const ListResolvedTestRunTargetResourcesResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      resolvedTargetResources: ResolvedTargetResourceList,
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListResolvedTestRunTargetResourcesResponse",
+  }) as any as S.Schema<ListResolvedTestRunTargetResourcesResponse>;
+export type ResourceTypeFilter = string;
+export type ResourceTypeFilterList = string[];
+export const ResourceTypeFilterList = /*@__PURE__*/ S.Array(S.String);
 export interface ListResourcesRequest {
   serviceArn: string;
   serviceFunctionId?: string;
   awsRegion?: string;
+  resourceTypes?: string[];
+  billable?: boolean;
   maxResults?: number;
   nextToken?: string;
 }
@@ -2135,6 +2695,10 @@ export const ListResourcesRequest = /*@__PURE__*/ S.suspend(() =>
       T.HttpQuery("serviceFunctionId"),
     ),
     awsRegion: S.optional(S.String).pipe(T.HttpQuery("awsRegion")),
+    resourceTypes: S.optional(ResourceTypeFilterList).pipe(
+      T.HttpQuery("resourceTypes"),
+    ),
+    billable: S.optional(S.Boolean).pipe(T.HttpQuery("billable")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -2222,7 +2786,7 @@ export type ServiceEventType =
   | "ASSERTION_UPDATED"
   | "ASSERTION_DELETED"
   | (string & {});
-export const ServiceEventType = /*@__PURE__*/ S.String;
+export const ServiceEventType = S.String;
 
 export type ServiceEventTypeList = ServiceEventType[];
 export const ServiceEventTypeList = /*@__PURE__*/ S.Array(ServiceEventType);
@@ -2262,7 +2826,7 @@ export const ListServiceEventsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListServiceEventsRequest",
 }) as any as S.Schema<ListServiceEventsRequest>;
 export type ActorType = "USER" | "SYSTEM" | (string & {});
-export const ActorType = /*@__PURE__*/ S.String;
+export const ActorType = S.String;
 
 export interface EventActor {
   type: ActorType;
@@ -3132,7 +3696,7 @@ export type TopologyType =
   | "OBSERVABILITY"
   | "PERMISSIONS"
   | (string & {});
-export const TopologyType = /*@__PURE__*/ S.String;
+export const TopologyType = S.String;
 
 export interface EdgePropertySummary {
   topologyType?: TopologyType;
@@ -3151,12 +3715,20 @@ export const EdgePropertyList = /*@__PURE__*/ S.Array(EdgePropertySummary);
 export interface ServiceTopologyEdgeSummary {
   sourceResourceIdentifier: string;
   destinationResourceIdentifier: string;
+  sourceRegion?: string;
+  destinationRegion?: string;
+  sourceAccount?: string;
+  destinationAccount?: string;
   properties?: EdgePropertySummary[];
 }
 export const ServiceTopologyEdgeSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sourceResourceIdentifier: S.String,
     destinationResourceIdentifier: S.String,
+    sourceRegion: S.optional(S.String),
+    destinationRegion: S.optional(S.String),
+    sourceAccount: S.optional(S.String),
+    destinationAccount: S.optional(S.String),
     properties: S.optional(EdgePropertyList),
   }),
 ).annotate({
@@ -3189,7 +3761,7 @@ export type SystemEventType =
   | "SYSTEM_POLICY_ASSOCIATED"
   | "SYSTEM_POLICY_DISASSOCIATED"
   | (string & {});
-export const SystemEventType = /*@__PURE__*/ S.String;
+export const SystemEventType = S.String;
 
 export type SystemEventTypeList = SystemEventType[];
 export const SystemEventTypeList = /*@__PURE__*/ S.Array(SystemEventType);
@@ -3615,6 +4187,419 @@ export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export interface ListTestRunEventsRequest {
+  testRunId: string;
+  serviceArn: string;
+  startedAt?: Date;
+  endedAt?: Date;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListTestRunEventsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testRunId: S.String.pipe(T.HttpLabel("testRunId")),
+    serviceArn: S.String.pipe(T.HttpQuery("serviceArn")),
+    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("startedAt"),
+    ),
+    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("endedAt"),
+    ),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/test-runs/{testRunId}/events" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTestRunEventsRequest",
+}) as any as S.Schema<ListTestRunEventsRequest>;
+export type TestRunEventAttributeKey = string;
+export type TestRunEventAttributeValue = string;
+export type TestRunEventAttributes = { [key: string]: string | undefined };
+export const TestRunEventAttributes = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface TestRunEvent {
+  eventId: string;
+  eventType: string;
+  message: string;
+  timestamp: Date;
+  attributes?: { [key: string]: string | undefined };
+}
+export const TestRunEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventId: S.String,
+    eventType: S.String,
+    message: S.String,
+    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    attributes: S.optional(TestRunEventAttributes),
+  }),
+).annotate({ identifier: "TestRunEvent" }) as any as S.Schema<TestRunEvent>;
+export type TestRunEventList = TestRunEvent[];
+export const TestRunEventList = /*@__PURE__*/ S.Array(TestRunEvent);
+export interface ListTestRunEventsResponse {
+  events: TestRunEvent[];
+  nextToken?: string;
+}
+export const ListTestRunEventsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ events: TestRunEventList, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListTestRunEventsResponse",
+}) as any as S.Schema<ListTestRunEventsResponse>;
+export interface ListTestRunsRequest {
+  serviceArn: string;
+  testId?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListTestRunsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceArn: S.String.pipe(T.HttpQuery("serviceArn")),
+    testId: S.optional(S.String).pipe(T.HttpQuery("testId")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/list-test-runs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTestRunsRequest",
+}) as any as S.Schema<ListTestRunsRequest>;
+export interface TestRunSummary {
+  testRunId: string;
+  status: TestRunStatus;
+  startedAt: Date;
+  endedAt?: Date;
+  testTemplateArn: string;
+  serviceArn?: string;
+  errorMessage?: string;
+  accountTargeting?: AccountTargeting;
+}
+export const TestRunSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testRunId: S.String,
+    status: TestRunStatus,
+    startedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    testTemplateArn: S.String,
+    serviceArn: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    accountTargeting: S.optional(AccountTargeting),
+  }),
+).annotate({ identifier: "TestRunSummary" }) as any as S.Schema<TestRunSummary>;
+export type TestRunSummaryList = TestRunSummary[];
+export const TestRunSummaryList = /*@__PURE__*/ S.Array(TestRunSummary);
+export interface ListTestRunsResponse {
+  testRuns: TestRunSummary[];
+  nextToken?: string;
+}
+export const ListTestRunsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ testRuns: TestRunSummaryList, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListTestRunsResponse",
+}) as any as S.Schema<ListTestRunsResponse>;
+export type TestRunSourceType =
+  | "SUCCESS_CRITERIA"
+  | "OBSERVABILITY"
+  | (string & {});
+export const TestRunSourceType = S.String;
+
+export interface ListTestRunSourcesRequest {
+  testRunId: string;
+  serviceArn: string;
+  type?: TestRunSourceType;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListTestRunSourcesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testRunId: S.String.pipe(T.HttpLabel("testRunId")),
+    serviceArn: S.String.pipe(T.HttpQuery("serviceArn")),
+    type: S.optional(TestRunSourceType).pipe(T.HttpQuery("type")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/test-runs/{testRunId}/sources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTestRunSourcesRequest",
+}) as any as S.Schema<ListTestRunSourcesRequest>;
+export type TestSourceOutcome = "PASSED" | "FAILED" | "ERROR" | (string & {});
+export const TestSourceOutcome = S.String;
+
+export interface TestRunSuccessCriteriaAlarmSummary {
+  alarmArn: string;
+  alarmName: string;
+  region: string;
+  accountId: string;
+  outcome?: TestSourceOutcome;
+  outcomeReason?: string;
+}
+export const TestRunSuccessCriteriaAlarmSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alarmArn: S.String,
+    alarmName: S.String,
+    region: S.String,
+    accountId: S.String,
+    outcome: S.optional(TestSourceOutcome),
+    outcomeReason: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TestRunSuccessCriteriaAlarmSummary",
+}) as any as S.Schema<TestRunSuccessCriteriaAlarmSummary>;
+export interface TestRunObservabilityAlarmSummary {
+  alarmArn: string;
+  alarmName: string;
+  region: string;
+  accountId: string;
+}
+export const TestRunObservabilityAlarmSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alarmArn: S.String,
+    alarmName: S.String,
+    region: S.String,
+    accountId: S.String,
+  }),
+).annotate({
+  identifier: "TestRunObservabilityAlarmSummary",
+}) as any as S.Schema<TestRunObservabilityAlarmSummary>;
+export type TestRunSourceSummary =
+  | {
+      successCriteriaAlarm: TestRunSuccessCriteriaAlarmSummary;
+      observabilityAlarm?: never;
+    }
+  | {
+      successCriteriaAlarm?: never;
+      observabilityAlarm: TestRunObservabilityAlarmSummary;
+    };
+export const TestRunSourceSummary = /*@__PURE__*/ S.Union([
+  S.Struct({ successCriteriaAlarm: TestRunSuccessCriteriaAlarmSummary }),
+  S.Struct({ observabilityAlarm: TestRunObservabilityAlarmSummary }),
+]);
+export type TestRunSourceSummaryList = TestRunSourceSummary[];
+export const TestRunSourceSummaryList =
+  /*@__PURE__*/ S.Array(TestRunSourceSummary);
+export interface ListTestRunSourcesResponse {
+  testRunSources: TestRunSourceSummary[];
+  nextToken?: string;
+}
+export const ListTestRunSourcesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testRunSources: TestRunSourceSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListTestRunSourcesResponse",
+}) as any as S.Schema<ListTestRunSourcesResponse>;
+export interface ListTestsRequest {
+  serviceArn: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListTestsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceArn: S.String.pipe(T.HttpQuery("serviceArn")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/list-tests" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTestsRequest",
+}) as any as S.Schema<ListTestsRequest>;
+export interface TestSummary {
+  testId: string;
+  testTemplateArn: string;
+  serviceArn: string;
+  totalTestRuns: number;
+  successfulTestRuns: number;
+  creationTime: Date;
+}
+export const TestSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testId: S.String,
+    testTemplateArn: S.String,
+    serviceArn: S.String,
+    totalTestRuns: S.Number,
+    successfulTestRuns: S.Number,
+    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({ identifier: "TestSummary" }) as any as S.Schema<TestSummary>;
+export type TestSummaryList = TestSummary[];
+export const TestSummaryList = /*@__PURE__*/ S.Array(TestSummary);
+export interface ListTestsResponse {
+  tests: TestSummary[];
+  nextToken?: string;
+}
+export const ListTestsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ tests: TestSummaryList, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListTestsResponse",
+}) as any as S.Schema<ListTestsResponse>;
+export type TestSourceType =
+  | "SUCCESS_CRITERIA"
+  | "OBSERVABILITY"
+  | (string & {});
+export const TestSourceType = S.String;
+
+export interface ListTestSourcesRequest {
+  testId: string;
+  serviceArn: string;
+  type?: TestSourceType;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListTestSourcesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testId: S.String.pipe(T.HttpLabel("testId")),
+    serviceArn: S.String.pipe(T.HttpQuery("serviceArn")),
+    type: S.optional(TestSourceType).pipe(T.HttpQuery("type")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/tests/{testId}/sources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTestSourcesRequest",
+}) as any as S.Schema<ListTestSourcesRequest>;
+export interface SuccessCriteriaAlarmSummary {
+  alarmArn: string;
+  alarmName: string;
+  region: string;
+  accountId: string;
+  createdAt?: Date;
+}
+export const SuccessCriteriaAlarmSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alarmArn: S.String,
+    alarmName: S.String,
+    region: S.String,
+    accountId: S.String,
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "SuccessCriteriaAlarmSummary",
+}) as any as S.Schema<SuccessCriteriaAlarmSummary>;
+export interface ObservabilityAlarmSummary {
+  alarmArn: string;
+  alarmName: string;
+  region: string;
+  accountId: string;
+  createdAt?: Date;
+}
+export const ObservabilityAlarmSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alarmArn: S.String,
+    alarmName: S.String,
+    region: S.String,
+    accountId: S.String,
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "ObservabilityAlarmSummary",
+}) as any as S.Schema<ObservabilityAlarmSummary>;
+export type TestSourceSummary =
+  | {
+      successCriteriaAlarm: SuccessCriteriaAlarmSummary;
+      observabilityAlarm?: never;
+    }
+  | {
+      successCriteriaAlarm?: never;
+      observabilityAlarm: ObservabilityAlarmSummary;
+    };
+export const TestSourceSummary = /*@__PURE__*/ S.Union([
+  S.Struct({ successCriteriaAlarm: SuccessCriteriaAlarmSummary }),
+  S.Struct({ observabilityAlarm: ObservabilityAlarmSummary }),
+]);
+export type TestSourceSummaryList = TestSourceSummary[];
+export const TestSourceSummaryList = /*@__PURE__*/ S.Array(TestSourceSummary);
+export interface ListTestSourcesResponse {
+  testSources: TestSourceSummary[];
+  nextToken?: string;
+}
+export const ListTestSourcesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testSources: TestSourceSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListTestSourcesResponse",
+}) as any as S.Schema<ListTestSourcesResponse>;
+export interface ListTestTemplatesRequest {}
+export const ListTestTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/v2/list-test-templates" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTestTemplatesRequest",
+}) as any as S.Schema<ListTestTemplatesRequest>;
+export interface TestTemplateSummary {
+  testTemplateArn: string;
+  name: string;
+  description: string;
+}
+export const TestTemplateSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testTemplateArn: S.String,
+    name: S.String,
+    description: S.String,
+  }),
+).annotate({
+  identifier: "TestTemplateSummary",
+}) as any as S.Schema<TestTemplateSummary>;
+export type TestTemplateSummaryList = TestTemplateSummary[];
+export const TestTemplateSummaryList =
+  /*@__PURE__*/ S.Array(TestTemplateSummary);
+export interface ListTestTemplatesResponse {
+  testTemplates: TestTemplateSummary[];
+}
+export const ListTestTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ testTemplates: TestTemplateSummaryList }),
+).annotate({
+  identifier: "ListTestTemplatesResponse",
+}) as any as S.Schema<ListTestTemplatesResponse>;
 export interface ListUserJourneysRequest {
   systemArn: string;
   maxResults?: number;
@@ -3668,6 +4653,35 @@ export const ListUserJourneysResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListUserJourneysResponse",
 }) as any as S.Schema<ListUserJourneysResponse>;
+export interface PutTestSourcesRequest {
+  testId: string;
+  serviceArn: string;
+  testSources: TestSourceInput[];
+}
+export const PutTestSourcesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testId: S.String,
+    serviceArn: S.String,
+    testSources: TestSourceInputList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/put-test-sources" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutTestSourcesRequest",
+}) as any as S.Schema<PutTestSourcesRequest>;
+export interface PutTestSourcesResponse {}
+export const PutTestSourcesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "PutTestSourcesResponse",
+}) as any as S.Schema<PutTestSourcesResponse>;
 export interface StartFailureModeAssessmentRequest {
   serviceArn: string;
   clientToken?: string;
@@ -3705,6 +4719,67 @@ export const StartFailureModeAssessmentResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "StartFailureModeAssessmentResponse",
 }) as any as S.Schema<StartFailureModeAssessmentResponse>;
+export interface StartTestRunRequest {
+  testId: string;
+  serviceArn: string;
+}
+export const StartTestRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ testId: S.String, serviceArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/start-test-run" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartTestRunRequest",
+}) as any as S.Schema<StartTestRunRequest>;
+export type ExperimentArnList = string[];
+export const ExperimentArnList = /*@__PURE__*/ S.Array(S.String);
+export interface StartTestRunResponse {
+  testRunId: string;
+  status: TestRunStatus;
+  experimentArns: string[];
+}
+export const StartTestRunResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testRunId: S.String,
+    status: TestRunStatus,
+    experimentArns: ExperimentArnList,
+  }),
+).annotate({
+  identifier: "StartTestRunResponse",
+}) as any as S.Schema<StartTestRunResponse>;
+export interface StopTestRunRequest {
+  testRunId: string;
+  serviceArn: string;
+}
+export const StopTestRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ testRunId: S.String, serviceArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/stop-test-run" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StopTestRunRequest",
+}) as any as S.Schema<StopTestRunRequest>;
+export interface StopTestRunResponse {
+  testRunId: string;
+  status: TestRunStatus;
+}
+export const StopTestRunResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ testRunId: S.String, status: TestRunStatus }),
+).annotate({
+  identifier: "StopTestRunResponse",
+}) as any as S.Schema<StopTestRunResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
@@ -4016,6 +5091,43 @@ export const UpdateSystemResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateSystemResponse",
 }) as any as S.Schema<UpdateSystemResponse>;
+export interface UpdateTestRequest {
+  testId: string;
+  serviceArn: string;
+  loggingConfiguration?: LoggingConfiguration;
+  stopConditions?: StopCondition[];
+  roleName?: string;
+  parameters?: { [key: string]: string[] | undefined };
+}
+export const UpdateTestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    testId: S.String,
+    serviceArn: S.String,
+    loggingConfiguration: S.optional(LoggingConfiguration),
+    stopConditions: S.optional(StopConditionList),
+    roleName: S.optional(S.String),
+    parameters: S.optional(TestParameters),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v2/update-test" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateTestRequest",
+}) as any as S.Schema<UpdateTestRequest>;
+export interface UpdateTestResponse {
+  test: Test;
+}
+export const UpdateTestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ test: Test }),
+).annotate({
+  identifier: "UpdateTestResponse",
+}) as any as S.Schema<UpdateTestResponse>;
 export interface UpdateUserJourneyRequest {
   systemArn: string;
   userJourneyId: string;
@@ -4057,7 +5169,7 @@ export type ValidationExceptionReason =
   | "MISSING_REQUIRED_FIELD"
   | "OTHER"
   | (string & {});
-export const ValidationExceptionReason = /*@__PURE__*/ S.String;
+export const ValidationExceptionReason = S.String;
 
 export interface ValidationExceptionField {
   name: string;
@@ -4326,6 +5438,36 @@ export const createSystem: API.OperationMethod<
   operationName: "CreateSystem",
 }));
 
+export type CreateTestError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a test for a service by configuring a test template. Each service has one test per template.
+ */
+export const createTest: API.OperationMethod<
+  CreateTestRequest,
+  CreateTestResponse,
+  CreateTestError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateTestRequest,
+  output: CreateTestResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateTest",
+}));
+
 export type CreateUserJourneyError =
   | AccessDeniedException
   | ConflictException
@@ -4564,6 +5706,66 @@ export const deleteSystem: API.OperationMethod<
   operationName: "DeleteSystem",
 }));
 
+export type DeleteTestError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a test.
+ */
+export const deleteTest: API.OperationMethod<
+  DeleteTestRequest,
+  DeleteTestResponse,
+  DeleteTestError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteTestRequest,
+  output: DeleteTestResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteTest",
+}));
+
+export type DeleteTestSourcesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Removes monitoring sources from a test. The operation is transactional and idempotent — removing a source that is not attached is a no-op.
+ */
+export const deleteTestSources: API.OperationMethod<
+  DeleteTestSourcesRequest,
+  DeleteTestSourcesResponse,
+  DeleteTestSourcesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteTestSourcesRequest,
+  output: DeleteTestSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteTestSources",
+}));
+
 export type DeleteUserJourneyError =
   | AccessDeniedException
   | ConflictException
@@ -4704,6 +5906,90 @@ export const getSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSystem",
+}));
+
+export type GetTestError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves a test by ID.
+ */
+export const getTest: API.OperationMethod<
+  GetTestRequest,
+  GetTestResponse,
+  GetTestError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetTestRequest,
+  output: GetTestResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetTest",
+}));
+
+export type GetTestRunError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves a test run by ID, including its status, results, and the configuration snapshotted when the run started.
+ */
+export const getTestRun: API.OperationMethod<
+  GetTestRunRequest,
+  GetTestRunResponse,
+  GetTestRunError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetTestRunRequest,
+  output: GetTestRunResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetTestRun",
+}));
+
+export type GetTestTemplateError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves a resilience test template by ARN, including the parameters it accepts and the fault actions it runs.
+ */
+export const getTestTemplate: API.OperationMethod<
+  GetTestTemplateRequest,
+  GetTestTemplateResponse,
+  GetTestTemplateError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetTestTemplateRequest,
+  output: GetTestTemplateResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetTestTemplate",
 }));
 
 export type GetUserJourneyError =
@@ -5035,6 +6321,41 @@ export const listReports: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type ListResolvedTestRunTargetResourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the AWS resources that AWS Fault Injection Service (AWS FIS) resolved as targets for a test run.
+ */
+export const listResolvedTestRunTargetResources: API.PaginatedOperationMethod<
+  ListResolvedTestRunTargetResourcesRequest,
+  ListResolvedTestRunTargetResourcesResponse,
+  ListResolvedTestRunTargetResourcesError,
+  Credentials | HttpClient.HttpClient,
+  ResolvedTargetResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListResolvedTestRunTargetResourcesRequest,
+  output: ListResolvedTestRunTargetResourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListResolvedTestRunTargetResources",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "resolvedTargetResources",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
 export type ListResourcesError =
   | AccessDeniedException
   | InternalServerException
@@ -5292,6 +6613,203 @@ export const listTagsForResource: API.OperationMethod<
   operationName: "ListTagsForResource",
 }));
 
+export type ListTestRunEventsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the events in a test run's timeline.
+ */
+export const listTestRunEvents: API.PaginatedOperationMethod<
+  ListTestRunEventsRequest,
+  ListTestRunEventsResponse,
+  ListTestRunEventsError,
+  Credentials | HttpClient.HttpClient,
+  TestRunEvent
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListTestRunEventsRequest,
+  output: ListTestRunEventsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListTestRunEvents",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "events",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListTestRunsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the runs of a test, or all test runs for a service.
+ */
+export const listTestRuns: API.PaginatedOperationMethod<
+  ListTestRunsRequest,
+  ListTestRunsResponse,
+  ListTestRunsError,
+  Credentials | HttpClient.HttpClient,
+  TestRunSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListTestRunsRequest,
+  output: ListTestRunsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListTestRuns",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "testRuns",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListTestRunSourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the monitoring source snapshots captured for a test run, optionally filtered by type.
+ */
+export const listTestRunSources: API.PaginatedOperationMethod<
+  ListTestRunSourcesRequest,
+  ListTestRunSourcesResponse,
+  ListTestRunSourcesError,
+  Credentials | HttpClient.HttpClient,
+  TestRunSourceSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListTestRunSourcesRequest,
+  output: ListTestRunSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListTestRunSources",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "testRunSources",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListTestsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the tests configured for a service.
+ */
+export const listTests: API.PaginatedOperationMethod<
+  ListTestsRequest,
+  ListTestsResponse,
+  ListTestsError,
+  Credentials | HttpClient.HttpClient,
+  TestSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListTestsRequest,
+  output: ListTestsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListTests",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tests",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListTestSourcesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the monitoring sources attached to a test, optionally filtered by type.
+ */
+export const listTestSources: API.PaginatedOperationMethod<
+  ListTestSourcesRequest,
+  ListTestSourcesResponse,
+  ListTestSourcesError,
+  Credentials | HttpClient.HttpClient,
+  TestSourceSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListTestSourcesRequest,
+  output: ListTestSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListTestSources",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "testSources",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListTestTemplatesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the available resilience test templates. A test template is a pre-configured, AWS recommended test that defines which resilience capability to validate.
+ */
+export const listTestTemplates: API.OperationMethod<
+  ListTestTemplatesRequest,
+  ListTestTemplatesResponse,
+  ListTestTemplatesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListTestTemplatesRequest,
+  output: ListTestTemplatesResponse,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListTestTemplates",
+}));
+
 export type ListUserJourneysError =
   | AccessDeniedException
   | InternalServerException
@@ -5327,6 +6845,38 @@ export const listUserJourneys: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type PutTestSourcesError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Adds or updates the monitoring sources on a test. The operation is transactional — either every source is written or the call fails and nothing is written.
+ */
+export const putTestSources: API.OperationMethod<
+  PutTestSourcesRequest,
+  PutTestSourcesResponse,
+  PutTestSourcesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutTestSourcesRequest,
+  output: PutTestSourcesResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutTestSources",
+}));
+
 export type StartFailureModeAssessmentError =
   | AccessDeniedException
   | ConflictException
@@ -5336,7 +6886,7 @@ export type StartFailureModeAssessmentError =
   | ValidationException
   | CommonErrors;
 /**
- * Start a failure mode assessment.
+ * Starts a failure mode assessment.
  */
 export const startFailureModeAssessment: API.OperationMethod<
   StartFailureModeAssessmentRequest,
@@ -5357,6 +6907,66 @@ export const startFailureModeAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFailureModeAssessment",
+}));
+
+export type StartTestRunError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts a run of a test. Each run scopes to the current resources in the service and produces a pass or fail outcome.
+ */
+export const startTestRun: API.OperationMethod<
+  StartTestRunRequest,
+  StartTestRunResponse,
+  StartTestRunError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: StartTestRunRequest,
+  output: StartTestRunResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartTestRun",
+}));
+
+export type StopTestRunError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Stops an in-progress test run.
+ */
+export const stopTestRun: API.OperationMethod<
+  StopTestRunRequest,
+  StopTestRunResponse,
+  StopTestRunError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: StopTestRunRequest,
+  output: StopTestRunResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StopTestRun",
 }));
 
 export type TagResourceError =
@@ -5629,6 +7239,36 @@ export const updateSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSystem",
+}));
+
+export type UpdateTestError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the configuration of an existing test.
+ */
+export const updateTest: API.OperationMethod<
+  UpdateTestRequest,
+  UpdateTestResponse,
+  UpdateTestError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateTestRequest,
+  output: UpdateTestResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateTest",
 }));
 
 export type UpdateUserJourneyError =

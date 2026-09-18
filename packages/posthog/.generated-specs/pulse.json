@@ -1,0 +1,1287 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.pulse#ListPulseBriefConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.pulse#PaginatedBriefConfigList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.pulse#PaginatedBriefConfigListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#BriefConfig": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name for this brief focus.",
+            "smithy.api#required": {}
+          }
+        },
+        "focus_prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-text focus steering gathering and tone, e.g. \"we're the feature flags team\". Max 2000 characters."
+          }
+        },
+        "anchors": {
+          "target": "com.posthog.pulse#BriefAnchors",
+          "traits": {
+            "smithy.api#documentation": "Anchor resources the brief gathers movements from. Empty anchors fall back to the team's most recently accessed dashboards."
+          }
+        },
+        "settings": {
+          "target": "com.posthog.pulse#BriefSettings",
+          "traits": {
+            "smithy.api#documentation": "Per-config tunables overriding the system defaults. Omitted knobs keep their default."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this config generates briefs."
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Soft-delete flag. Deleted configs are hidden from lists but recoverable by patching this back to false."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.pulse#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "User who created the config.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#BriefAnchors": {
+      "type": "structure",
+      "members": {
+        "dashboards": {
+          "target": "com.posthog.pulse#BriefAnchorsDashboardsList",
+          "traits": {
+            "smithy.api#documentation": "IDs of the dashboards this brief is anchored on."
+          }
+        },
+        "insights": {
+          "target": "com.posthog.pulse#BriefAnchorsInsightsList",
+          "traits": {
+            "smithy.api#documentation": "Short IDs of the insights this brief is anchored on."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#BriefAnchorsDashboardsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "IDs of the dashboards this brief is anchored on."
+      }
+    },
+    "com.posthog.pulse#BriefAnchorsInsightsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Short IDs of the insights this brief is anchored on."
+      }
+    },
+    "com.posthog.pulse#BriefSettings": {
+      "type": "structure",
+      "members": {
+        "min_abs_change_pct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum absolute percent change for a movement to count as significant. Default 20."
+          }
+        },
+        "min_baseline_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum per-sample baseline volume before a movement is considered. Default 10."
+          }
+        },
+        "max_anchor_insights": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum anchor insights gathered per brief. Default 10."
+          }
+        },
+        "fallback_dashboard_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many recent dashboards to pull insights from when no anchors are set. Default 3."
+          }
+        },
+        "confidence_threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum confidence for a section or opportunity to survive the gate. Default 0.6."
+          }
+        },
+        "max_opportunities": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum opportunities kept per brief. Default 3."
+          }
+        },
+        "max_annotations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum annotations gathered as context per brief. Default 20."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#UserBasic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "uuid": {
+          "target": "smithy.api#String"
+        },
+        "distinct_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String"
+        },
+        "last_name": {
+          "target": "smithy.api#String"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "is_email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hedgehog_config": {
+          "target": "com.posthog.pulse#UserBasicHedgehogConfigMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role_at_organization": {
+          "target": "com.posthog.pulse#UserBasicRoleAtOrganization",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#UserBasicHedgehogConfigMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#RoleAtOrganizationEnum": {
+      "type": "enum",
+      "members": {
+        "ENGINEERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engineering"
+          }
+        },
+        "DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data"
+          }
+        },
+        "PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product"
+          }
+        },
+        "FOUNDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "founder"
+          }
+        },
+        "LEADERSHIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leadership"
+          }
+        },
+        "MARKETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marketing"
+          }
+        },
+        "SALES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales"
+          }
+        },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
+      }
+    },
+    "com.posthog.pulse#BlankEnum": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": ""
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#UserBasicRoleAtOrganization": {
+      "type": "union",
+      "members": {
+        "RoleAtOrganizationEnum": {
+          "target": "com.posthog.pulse#RoleAtOrganizationEnum"
+        },
+        "BlankEnum": {
+          "target": "com.posthog.pulse#BlankEnum"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#PaginatedBriefConfigListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.pulse#BriefConfig"
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#ListPulseBriefConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.pulse#ListPulseBriefConfigsRequest"
+      },
+      "output": {
+        "target": "com.posthog.pulse#PaginatedBriefConfigList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/pulse/brief_configs/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.pulse#CreatePulseBriefConfigRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name for this brief focus.",
+            "smithy.api#required": {}
+          }
+        },
+        "focus_prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-text focus steering gathering and tone, e.g. \"we're the feature flags team\". Max 2000 characters."
+          }
+        },
+        "anchors": {
+          "target": "com.posthog.pulse#BriefAnchors",
+          "traits": {
+            "smithy.api#documentation": "Anchor resources the brief gathers movements from. Empty anchors fall back to the team's most recently accessed dashboards."
+          }
+        },
+        "settings": {
+          "target": "com.posthog.pulse#BriefSettings",
+          "traits": {
+            "smithy.api#documentation": "Per-config tunables overriding the system defaults. Omitted knobs keep their default."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this config generates briefs."
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Soft-delete flag. Deleted configs are hidden from lists but recoverable by patching this back to false."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.pulse#CreatePulseBriefConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.pulse#CreatePulseBriefConfigRequest"
+      },
+      "output": {
+        "target": "com.posthog.pulse#BriefConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/pulse/brief_configs/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.pulse#GetPulseBriefConfigRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this brief config."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.pulse#GetPulseBriefConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.pulse#GetPulseBriefConfigRequest"
+      },
+      "output": {
+        "target": "com.posthog.pulse#BriefConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/pulse/brief_configs/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.pulse#UpdatePulseBriefConfigRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this brief config."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name for this brief focus.",
+            "smithy.api#required": {}
+          }
+        },
+        "focus_prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-text focus steering gathering and tone, e.g. \"we're the feature flags team\". Max 2000 characters."
+          }
+        },
+        "anchors": {
+          "target": "com.posthog.pulse#BriefAnchors",
+          "traits": {
+            "smithy.api#documentation": "Anchor resources the brief gathers movements from. Empty anchors fall back to the team's most recently accessed dashboards."
+          }
+        },
+        "settings": {
+          "target": "com.posthog.pulse#BriefSettings",
+          "traits": {
+            "smithy.api#documentation": "Per-config tunables overriding the system defaults. Omitted knobs keep their default."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this config generates briefs."
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Soft-delete flag. Deleted configs are hidden from lists but recoverable by patching this back to false."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.pulse#UpdatePulseBriefConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.pulse#UpdatePulseBriefConfigRequest"
+      },
+      "output": {
+        "target": "com.posthog.pulse#BriefConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/pulse/brief_configs/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.pulse#UpdatePulseBriefConfigsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this brief config."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name for this brief focus."
+          }
+        },
+        "focus_prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-text focus steering gathering and tone, e.g. \"we're the feature flags team\". Max 2000 characters."
+          }
+        },
+        "anchors": {
+          "target": "com.posthog.pulse#BriefAnchors",
+          "traits": {
+            "smithy.api#documentation": "Anchor resources the brief gathers movements from. Empty anchors fall back to the team's most recently accessed dashboards."
+          }
+        },
+        "settings": {
+          "target": "com.posthog.pulse#BriefSettings",
+          "traits": {
+            "smithy.api#documentation": "Per-config tunables overriding the system defaults. Omitted knobs keep their default."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this config generates briefs."
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Soft-delete flag. Deleted configs are hidden from lists but recoverable by patching this back to false."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.pulse#UpdatePulseBriefConfigsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.pulse#UpdatePulseBriefConfigsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.pulse#BriefConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/pulse/brief_configs/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.pulse#PulseBriefConfigsDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this brief config."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.pulse#PulseBriefConfigsDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.pulse#PulseBriefConfigsDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/pulse/brief_configs/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.pulse#ListPulseBriefsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.pulse#PaginatedProductBriefListList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.pulse#PaginatedProductBriefListListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#ProductBriefList": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The brief config this brief was generated for, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.pulse#ProductBriefStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle status: generating, ready, quiet (nothing confident to say), or failed.\n\n* `generating` - Generating\n* `ready` - Ready\n* `quiet` - Quiet\n* `failed` - Failed",
+            "smithy.api#required": {}
+          }
+        },
+        "trigger": {
+          "target": "com.posthog.pulse#ProductBriefTriggerEnum",
+          "traits": {
+            "smithy.api#documentation": "What started the generation: on_demand or scheduled.\n\n* `on_demand` - On Demand\n* `scheduled` - Scheduled",
+            "smithy.api#required": {}
+          }
+        },
+        "period": {
+          "target": "com.posthog.pulse#Period",
+          "traits": {
+            "smithy.api#documentation": "The resolved-at-gather period spec the brief covers.",
+            "smithy.api#required": {}
+          }
+        },
+        "sources_used": {
+          "target": "com.posthog.pulse#ProductBriefListSourcesUsedList",
+          "traits": {
+            "smithy.api#documentation": "Names of the brief sources that contributed items.",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error detail when status is failed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.pulse#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "User who requested the brief.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#ProductBriefStatusEnum": {
+      "type": "enum",
+      "members": {
+        "GENERATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "generating"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "QUIET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quiet"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `generating` - Generating\n* `ready` - Ready\n* `quiet` - Quiet\n* `failed` - Failed"
+      }
+    },
+    "com.posthog.pulse#ProductBriefTriggerEnum": {
+      "type": "enum",
+      "members": {
+        "ON_DEMAND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "on_demand"
+          }
+        },
+        "SCHEDULED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scheduled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `on_demand` - On Demand\n* `scheduled` - Scheduled"
+      }
+    },
+    "com.posthog.pulse#Period": {
+      "type": "structure",
+      "members": {
+        "period_type": {
+          "target": "com.posthog.pulse#PeriodTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "How the brief window is chosen: a fixed lookback (last_n_days) or since the last ready brief.\n\n* `last_n_days` - last_n_days\n* `since_last_run` - since_last_run",
+            "smithy.api#required": {}
+          }
+        },
+        "days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Lookback length in days. Required and used only when period_type is last_n_days."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#PeriodTypeEnum": {
+      "type": "enum",
+      "members": {
+        "LAST_N_DAYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_n_days"
+          }
+        },
+        "SINCE_LAST_RUN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "since_last_run"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `last_n_days` - last_n_days\n* `since_last_run` - since_last_run"
+      }
+    },
+    "com.posthog.pulse#ProductBriefListSourcesUsedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the brief sources that contributed items."
+      }
+    },
+    "com.posthog.pulse#PaginatedProductBriefListListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.pulse#ProductBriefList"
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#ListPulseBriefs": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.pulse#ListPulseBriefsRequest"
+      },
+      "output": {
+        "target": "com.posthog.pulse#PaginatedProductBriefListList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/pulse/briefs/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.pulse#GetPulseBriefRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this product brief."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.pulse#ProductBrief": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The brief config this brief was generated for, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.pulse#ProductBriefStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle status: generating, ready, quiet (nothing confident to say), or failed.\n\n* `generating` - Generating\n* `ready` - Ready\n* `quiet` - Quiet\n* `failed` - Failed",
+            "smithy.api#required": {}
+          }
+        },
+        "trigger": {
+          "target": "com.posthog.pulse#ProductBriefTriggerEnum",
+          "traits": {
+            "smithy.api#documentation": "What started the generation: on_demand or scheduled.\n\n* `on_demand` - On Demand\n* `scheduled` - Scheduled",
+            "smithy.api#required": {}
+          }
+        },
+        "period": {
+          "target": "com.posthog.pulse#Period",
+          "traits": {
+            "smithy.api#documentation": "The resolved-at-gather period spec the brief covers.",
+            "smithy.api#required": {}
+          }
+        },
+        "sections": {
+          "target": "com.posthog.pulse#ProductBriefSectionsList",
+          "traits": {
+            "smithy.api#documentation": "Generated brief sections, most important first.",
+            "smithy.api#required": {}
+          }
+        },
+        "sources_used": {
+          "target": "com.posthog.pulse#ProductBriefSourcesUsedList",
+          "traits": {
+            "smithy.api#documentation": "Names of the brief sources that contributed items.",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error detail when status is failed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.pulse#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "User who requested the brief.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#BriefSection": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Section kind, e.g. what_happened or what_to_build_next.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short section heading.",
+            "smithy.api#required": {}
+          }
+        },
+        "markdown": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Section body rendered as markdown.",
+            "smithy.api#required": {}
+          }
+        },
+        "citations": {
+          "target": "com.posthog.pulse#BriefSectionCitationsList",
+          "traits": {
+            "smithy.api#documentation": "PostHog resources this section cites as evidence.",
+            "smithy.api#required": {}
+          }
+        },
+        "confidence": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Model confidence in this section, 0.0-1.0.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#BriefSectionCitation": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cited resource type, e.g. insight or dashboard.",
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable id of the cited resource within its type.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the cited resource, for display.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deep link into the app, or empty when the resource has no navigable target.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.pulse#BriefSectionCitationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.pulse#BriefSectionCitation"
+      },
+      "traits": {
+        "smithy.api#documentation": "PostHog resources this section cites as evidence."
+      }
+    },
+    "com.posthog.pulse#ProductBriefSectionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.pulse#BriefSection"
+      },
+      "traits": {
+        "smithy.api#documentation": "Generated brief sections, most important first."
+      }
+    },
+    "com.posthog.pulse#ProductBriefSourcesUsedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the brief sources that contributed items."
+      }
+    },
+    "com.posthog.pulse#GetPulseBrief": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.pulse#GetPulseBriefRequest"
+      },
+      "output": {
+        "target": "com.posthog.pulse#ProductBrief"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/pulse/briefs/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.pulse#PulseBriefsGenerateCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "config_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional brief config to generate for. Omit for the zero-config default brief.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "period": {
+          "target": "com.posthog.pulse#Period",
+          "traits": {
+            "smithy.api#documentation": "Period the brief should cover. Defaults to the last 7 days."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.pulse#PulseBriefsGenerateCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.pulse#PulseBriefsGenerateCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.pulse#ProductBrief"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.pulse#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/pulse/briefs/generate/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.pulse#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.posthog.pulse#Pulse": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.pulse#ListPulseBriefConfigs"
+        },
+        {
+          "target": "com.posthog.pulse#CreatePulseBriefConfig"
+        },
+        {
+          "target": "com.posthog.pulse#GetPulseBriefConfig"
+        },
+        {
+          "target": "com.posthog.pulse#UpdatePulseBriefConfig"
+        },
+        {
+          "target": "com.posthog.pulse#UpdatePulseBriefConfigsPartial"
+        },
+        {
+          "target": "com.posthog.pulse#PulseBriefConfigsDestroy"
+        },
+        {
+          "target": "com.posthog.pulse#ListPulseBriefs"
+        },
+        {
+          "target": "com.posthog.pulse#GetPulseBrief"
+        },
+        {
+          "target": "com.posthog.pulse#PulseBriefsGenerateCreate"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

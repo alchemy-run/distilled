@@ -1,0 +1,469 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.workspace#WorkspaceBillingRatesRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.workspace#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.workspace#WorkspaceBillingRatesResponse": {
+      "type": "structure",
+      "members": {
+        "rates": {
+          "target": "com.modal.workspace#StringMap",
+          "traits": {
+            "smithy.api#documentation": "compute rates are per unit per hour, storage rate is per GiB-month"
+          }
+        },
+        "deprecationWarnings": {
+          "target": "com.modal.workspace#StringMap"
+        },
+        "deprecationErrors": {
+          "target": "com.modal.workspace#StringMap"
+        },
+        "formatted": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.workspace#WorkspaceBillingRates": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.workspace#WorkspaceBillingRatesRequest"
+      },
+      "output": {
+        "target": "com.modal.workspace#WorkspaceBillingRatesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/WorkspaceBillingRates",
+          "code": 200
+        },
+        "smithy.api#documentation": "Workspaces"
+      }
+    },
+    "com.modal.workspace#WorkspaceBillingSummaryRequest": {
+      "type": "structure",
+      "members": {
+        "startTimestamp": {
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "smithy.api#documentation": "all query intervals are implicitly one month long (to line up with billing cycles)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.workspace#WorkspaceBillingSummaryResponse": {
+      "type": "structure",
+      "members": {
+        "startTimestamp": {
+          "target": "smithy.api#Timestamp"
+        },
+        "endTimestamp": {
+          "target": "smithy.api#Timestamp"
+        },
+        "meteredCost": {
+          "target": "smithy.api#String"
+        },
+        "billedCost": {
+          "target": "smithy.api#String"
+        },
+        "meteredCostBreakdown": {
+          "target": "com.modal.workspace#StringMap",
+          "traits": {
+            "smithy.api#documentation": "keyed by deployed, ephemeral, volume, notebook, tokens"
+          }
+        },
+        "adjustments": {
+          "target": "com.modal.workspace#StringMap",
+          "traits": {
+            "smithy.api#documentation": "keyed by plan, credits, reservations, storage"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.workspace#WorkspaceBillingSummary": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.workspace#WorkspaceBillingSummaryRequest"
+      },
+      "output": {
+        "target": "com.modal.workspace#WorkspaceBillingSummaryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/WorkspaceBillingSummary",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.workspace#GetWorkspaceDashboardUrlRequest": {
+      "type": "structure",
+      "members": {
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.workspace#GetWorkspaceDashboardUrlResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.workspace#GetWorkspaceDashboardUrl": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.workspace#GetWorkspaceDashboardUrlRequest"
+      },
+      "output": {
+        "target": "com.modal.workspace#GetWorkspaceDashboardUrlResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/WorkspaceDashboardUrlGet",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.workspace#WorkspaceMembersListItem": {
+      "type": "structure",
+      "members": {
+        "memberId": {
+          "target": "smithy.api#String"
+        },
+        "memberDisplayname": {
+          "target": "smithy.api#String"
+        },
+        "memberRole": {
+          "target": "com.modal.workspace#MemberRole"
+        },
+        "joinedAt": {
+          "target": "smithy.api#Double"
+        },
+        "lastActiveAt": {
+          "target": "smithy.api#Double"
+        },
+        "deletedAt": {
+          "target": "smithy.api#Double"
+        },
+        "userId": {
+          "target": "smithy.api#String"
+        },
+        "identityProviderType": {
+          "target": "com.modal.workspace#IdentityProviderType"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "avatarUrl": {
+          "target": "smithy.api#String"
+        },
+        "idpExternalId": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.workspace#MemberRole": {
+      "type": "enum",
+      "members": {
+        "MEMBER_ROLE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MEMBER_ROLE_UNSPECIFIED"
+          }
+        },
+        "MEMBER_ROLE_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MEMBER_ROLE_USER"
+          }
+        },
+        "MEMBER_ROLE_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MEMBER_ROLE_MANAGER"
+          }
+        },
+        "MEMBER_ROLE_OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MEMBER_ROLE_OWNER"
+          }
+        }
+      }
+    },
+    "com.modal.workspace#IdentityProviderType": {
+      "type": "enum",
+      "members": {
+        "IDENTITY_PROVIDER_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IDENTITY_PROVIDER_TYPE_UNSPECIFIED"
+          }
+        },
+        "IDENTITY_PROVIDER_TYPE_GITHUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IDENTITY_PROVIDER_TYPE_GITHUB"
+          }
+        },
+        "IDENTITY_PROVIDER_TYPE_OKTA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IDENTITY_PROVIDER_TYPE_OKTA"
+          }
+        },
+        "IDENTITY_PROVIDER_TYPE_GOOGLE_OAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IDENTITY_PROVIDER_TYPE_GOOGLE_OAUTH"
+          }
+        }
+      }
+    },
+    "com.modal.workspace#WorkspaceMembersListItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.workspace#WorkspaceMembersListItem"
+      }
+    },
+    "com.modal.workspace#ListWorkspaceMembersResponse": {
+      "type": "structure",
+      "members": {
+        "members": {
+          "target": "com.modal.workspace#WorkspaceMembersListItemList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.workspace#ListWorkspaceMembers": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.modal.workspace#ListWorkspaceMembersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/WorkspaceMembersList",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.workspace#LookupWorkspaceNameResponse": {
+      "type": "structure",
+      "members": {
+        "workspaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#deprecated": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.workspace#LookupWorkspaceName": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.modal.workspace#LookupWorkspaceNameResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/WorkspaceNameLookup",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.workspace#WorkspaceSetDefaultEnvironmentRequest": {
+      "type": "structure",
+      "members": {
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.workspace#WorkspaceSetDefaultEnvironment": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.workspace#WorkspaceSetDefaultEnvironmentRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/WorkspaceSetDefaultEnvironment",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.workspace#WorkspaceSetImageBuilderVersionRequest": {
+      "type": "structure",
+      "members": {
+        "newImageBuilderVersion": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.workspace#WorkspaceSetImageBuilderVersionResponse": {
+      "type": "structure",
+      "members": {
+        "imageBuilderVersion": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.workspace#WorkspaceSetImageBuilderVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.workspace#WorkspaceSetImageBuilderVersionRequest"
+      },
+      "output": {
+        "target": "com.modal.workspace#WorkspaceSetImageBuilderVersionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/WorkspaceSetImageBuilderVersion",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.workspace#WorkspaceSettingsResponse": {
+      "type": "structure",
+      "members": {
+        "defaultEnvironmentName": {
+          "target": "smithy.api#String"
+        },
+        "imageBuilderVersion": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.workspace#WorkspaceSettings": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.modal.workspace#WorkspaceSettingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/WorkspaceSettings",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.workspace#WorkspaceService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.workspace#WorkspaceBillingRates"
+        },
+        {
+          "target": "com.modal.workspace#WorkspaceBillingSummary"
+        },
+        {
+          "target": "com.modal.workspace#GetWorkspaceDashboardUrl"
+        },
+        {
+          "target": "com.modal.workspace#ListWorkspaceMembers"
+        },
+        {
+          "target": "com.modal.workspace#LookupWorkspaceName"
+        },
+        {
+          "target": "com.modal.workspace#WorkspaceSetDefaultEnvironment"
+        },
+        {
+          "target": "com.modal.workspace#WorkspaceSetImageBuilderVersion"
+        },
+        {
+          "target": "com.modal.workspace#WorkspaceSettings"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Workspace",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Workspace`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

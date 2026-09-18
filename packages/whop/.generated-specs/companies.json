@@ -1,0 +1,2821 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.companies#Direction": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The direction of the sort."
+      }
+    },
+    "com.whop.companies#ListCompanyRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "parent_company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "parent_company_id"
+          }
+        },
+        "direction": {
+          "target": "com.whop.companies#Direction",
+          "traits": {
+            "smithy.api#httpQuery": "direction"
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before"
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.companies#CompanyListItem": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the company was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A promotional pitch written by the company creator, displayed to potential customers on the store page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "logo": {
+          "target": "com.whop.companies#CompanyListItemLogo",
+          "traits": {
+            "smithy.api#documentation": "The company's logo.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of users who currently hold active memberships across all of this company's products.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.companies#CompanyListItemMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "A key-value JSON object of custom metadata for this company, managed by the platform that created the account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "owner_user": {
+          "target": "com.whop.companies#CompanyListItemOwnerUser",
+          "traits": {
+            "smithy.api#documentation": "The user who owns and has full administrative control over this company.",
+            "smithy.api#required": {}
+          }
+        },
+        "published_reviews_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of published customer reviews across all products for this company.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL slug for the account's store page, e.g. `pickaxe` in whop.com/pickaxe.",
+            "smithy.api#required": {}
+          }
+        },
+        "send_customer_emails": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop sends transactional emails (receipts, updates) to customers on behalf of this company.",
+            "smithy.api#required": {}
+          }
+        },
+        "target_audience": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target audience for the company. Null if not set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the company shown to customers.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the company was last updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this company has been verified by Whop's trust and safety team.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A company is a seller on Whop. Companies own products, manage members, and receive payouts."
+      }
+    },
+    "com.whop.companies#CompanyListItemLogo": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company's logo."
+      }
+    },
+    "com.whop.companies#CompanyListItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "A key-value JSON object of custom metadata for this company, managed by the platform that created the account."
+      }
+    },
+    "com.whop.companies#CompanyListItemOwnerUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who owns and has full administrative control over this company."
+      }
+    },
+    "com.whop.companies#ListCompanyResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.companies#CompanyListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.companies#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.companies#ListCompanyResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.companies#ListCompanyResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.companies#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.companies#ListCompany": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.companies#ListCompanyRequest"
+      },
+      "output": {
+        "target": "com.whop.companies#ListCompanyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.companies#BadRequest"
+        },
+        {
+          "target": "com.whop.companies#Forbidden"
+        },
+        {
+          "target": "com.whop.companies#NotFound"
+        },
+        {
+          "target": "com.whop.companies#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/companies",
+          "code": 200
+        },
+        "smithy.api#documentation": "List companies\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of companies. When parent_company_id is provided, lists connected accounts under that platform. When omitted, lists companies the current user has access to.\n\nRequired permissions:\n - `company:basic:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.companies#Countries": {
+      "type": "enum",
+      "members": {
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "CA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca"
+          }
+        },
+        "GB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gb"
+          }
+        },
+        "AB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ab"
+          }
+        },
+        "AF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "af"
+          }
+        },
+        "AL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "al"
+          }
+        },
+        "DZ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dz"
+          }
+        },
+        "AS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "as"
+          }
+        },
+        "AD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad"
+          }
+        },
+        "AO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ao"
+          }
+        },
+        "AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai"
+          }
+        },
+        "AQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aq"
+          }
+        },
+        "AG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ag"
+          }
+        },
+        "AR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ar"
+          }
+        },
+        "AM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "am"
+          }
+        },
+        "AW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aw"
+          }
+        },
+        "AU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au"
+          }
+        },
+        "AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "at"
+          }
+        },
+        "AZ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "az"
+          }
+        },
+        "BS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bs"
+          }
+        },
+        "BH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bh"
+          }
+        },
+        "BD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bd"
+          }
+        },
+        "BB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bb"
+          }
+        },
+        "BY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "by"
+          }
+        },
+        "BE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "be"
+          }
+        },
+        "BZ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bz"
+          }
+        },
+        "BJ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bj"
+          }
+        },
+        "BM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bm"
+          }
+        },
+        "BT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bt"
+          }
+        },
+        "BO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bo"
+          }
+        },
+        "BA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ba"
+          }
+        },
+        "BW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bw"
+          }
+        },
+        "BR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "br"
+          }
+        },
+        "IO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "io"
+          }
+        },
+        "VG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vg"
+          }
+        },
+        "BN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bn"
+          }
+        },
+        "BG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bg"
+          }
+        },
+        "BF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bf"
+          }
+        },
+        "BI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bi"
+          }
+        },
+        "KH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kh"
+          }
+        },
+        "CM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cm"
+          }
+        },
+        "CV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cv"
+          }
+        },
+        "KY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ky"
+          }
+        },
+        "CF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cf"
+          }
+        },
+        "TD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "td"
+          }
+        },
+        "CL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cl"
+          }
+        },
+        "CN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cn"
+          }
+        },
+        "CX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cx"
+          }
+        },
+        "CC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc"
+          }
+        },
+        "CO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "co"
+          }
+        },
+        "KM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "km"
+          }
+        },
+        "CG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cg"
+          }
+        },
+        "CK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ck"
+          }
+        },
+        "CR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cr"
+          }
+        },
+        "CI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ci"
+          }
+        },
+        "HR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hr"
+          }
+        },
+        "CU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cu"
+          }
+        },
+        "CW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cw"
+          }
+        },
+        "CY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cy"
+          }
+        },
+        "CZ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cz"
+          }
+        },
+        "CD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cd"
+          }
+        },
+        "DK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dk"
+          }
+        },
+        "DJ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dj"
+          }
+        },
+        "DM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dm"
+          }
+        },
+        "DO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "do"
+          }
+        },
+        "EC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ec"
+          }
+        },
+        "EG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eg"
+          }
+        },
+        "SV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sv"
+          }
+        },
+        "GQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gq"
+          }
+        },
+        "EE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ee"
+          }
+        },
+        "ET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "et"
+          }
+        },
+        "FK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fk"
+          }
+        },
+        "FO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fo"
+          }
+        },
+        "FJ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fj"
+          }
+        },
+        "FI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fi"
+          }
+        },
+        "FR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr"
+          }
+        },
+        "GF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gf"
+          }
+        },
+        "PF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pf"
+          }
+        },
+        "GA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ga"
+          }
+        },
+        "GM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gm"
+          }
+        },
+        "GE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ge"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        },
+        "GH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gh"
+          }
+        },
+        "GI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gi"
+          }
+        },
+        "GR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gr"
+          }
+        },
+        "GL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gl"
+          }
+        },
+        "GD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gd"
+          }
+        },
+        "GP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gp"
+          }
+        },
+        "GU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gu"
+          }
+        },
+        "GT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gt"
+          }
+        },
+        "GG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gg"
+          }
+        },
+        "GN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gn"
+          }
+        },
+        "GW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gw"
+          }
+        },
+        "GY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gy"
+          }
+        },
+        "HT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ht"
+          }
+        },
+        "HN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hn"
+          }
+        },
+        "HK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hk"
+          }
+        },
+        "HU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hu"
+          }
+        },
+        "IS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is"
+          }
+        },
+        "IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in"
+          }
+        },
+        "ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id"
+          }
+        },
+        "IQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "iq"
+          }
+        },
+        "IE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ie"
+          }
+        },
+        "IM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "im"
+          }
+        },
+        "IL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "il"
+          }
+        },
+        "IT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it"
+          }
+        },
+        "JM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jm"
+          }
+        },
+        "SJ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sj"
+          }
+        },
+        "JP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jp"
+          }
+        },
+        "JE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "je"
+          }
+        },
+        "JO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jo"
+          }
+        },
+        "KZ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kz"
+          }
+        },
+        "KE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ke"
+          }
+        },
+        "KI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ki"
+          }
+        },
+        "XK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xk"
+          }
+        },
+        "KW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kw"
+          }
+        },
+        "KG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kg"
+          }
+        },
+        "LA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "la"
+          }
+        },
+        "LV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lv"
+          }
+        },
+        "LB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lb"
+          }
+        },
+        "LS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ls"
+          }
+        },
+        "LR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lr"
+          }
+        },
+        "LY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ly"
+          }
+        },
+        "LI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "li"
+          }
+        },
+        "LT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lt"
+          }
+        },
+        "LU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lu"
+          }
+        },
+        "MO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mo"
+          }
+        },
+        "MK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mk"
+          }
+        },
+        "MG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mg"
+          }
+        },
+        "MW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mw"
+          }
+        },
+        "MY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "my"
+          }
+        },
+        "MV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mv"
+          }
+        },
+        "ML": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ml"
+          }
+        },
+        "MT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mt"
+          }
+        },
+        "MH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mh"
+          }
+        },
+        "MQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mq"
+          }
+        },
+        "MR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mr"
+          }
+        },
+        "MU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mu"
+          }
+        },
+        "YT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yt"
+          }
+        },
+        "MX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mx"
+          }
+        },
+        "FM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fm"
+          }
+        },
+        "MD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "md"
+          }
+        },
+        "MC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mc"
+          }
+        },
+        "MN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mn"
+          }
+        },
+        "ME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "me"
+          }
+        },
+        "MS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ms"
+          }
+        },
+        "MA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ma"
+          }
+        },
+        "MZ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mz"
+          }
+        },
+        "MM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mm"
+          }
+        },
+        "NA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "na"
+          }
+        },
+        "NR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nr"
+          }
+        },
+        "NP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "np"
+          }
+        },
+        "NL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl"
+          }
+        },
+        "AN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "an"
+          }
+        },
+        "NC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nc"
+          }
+        },
+        "NZ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nz"
+          }
+        },
+        "NI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ni"
+          }
+        },
+        "NE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ne"
+          }
+        },
+        "NG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng"
+          }
+        },
+        "NU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nu"
+          }
+        },
+        "MP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mp"
+          }
+        },
+        "NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no"
+          }
+        },
+        "OM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "om"
+          }
+        },
+        "PK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pk"
+          }
+        },
+        "PW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pw"
+          }
+        },
+        "PS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ps"
+          }
+        },
+        "PA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pa"
+          }
+        },
+        "PG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pg"
+          }
+        },
+        "PY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "py"
+          }
+        },
+        "PE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pe"
+          }
+        },
+        "PH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ph"
+          }
+        },
+        "PN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pn"
+          }
+        },
+        "PL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl"
+          }
+        },
+        "PT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pt"
+          }
+        },
+        "PR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pr"
+          }
+        },
+        "QA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qa"
+          }
+        },
+        "RE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "re"
+          }
+        },
+        "RO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ro"
+          }
+        },
+        "RU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ru"
+          }
+        },
+        "RW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rw"
+          }
+        },
+        "BL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bl"
+          }
+        },
+        "SH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sh"
+          }
+        },
+        "KN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kn"
+          }
+        },
+        "LC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lc"
+          }
+        },
+        "MF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mf"
+          }
+        },
+        "PM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pm"
+          }
+        },
+        "VC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vc"
+          }
+        },
+        "WS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ws"
+          }
+        },
+        "SM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sm"
+          }
+        },
+        "ST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "st"
+          }
+        },
+        "SA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sa"
+          }
+        },
+        "SN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sn"
+          }
+        },
+        "RS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rs"
+          }
+        },
+        "SC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sc"
+          }
+        },
+        "SL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sl"
+          }
+        },
+        "SG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sg"
+          }
+        },
+        "SX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sx"
+          }
+        },
+        "SK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sk"
+          }
+        },
+        "SI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "si"
+          }
+        },
+        "SB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sb"
+          }
+        },
+        "SO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "so"
+          }
+        },
+        "ZA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "za"
+          }
+        },
+        "KR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr"
+          }
+        },
+        "SS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ss"
+          }
+        },
+        "ES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "es"
+          }
+        },
+        "LK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lk"
+          }
+        },
+        "SD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sd"
+          }
+        },
+        "SR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sr"
+          }
+        },
+        "SZ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sz"
+          }
+        },
+        "SE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "se"
+          }
+        },
+        "CH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ch"
+          }
+        },
+        "TW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tw"
+          }
+        },
+        "TJ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tj"
+          }
+        },
+        "TZ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tz"
+          }
+        },
+        "TH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "th"
+          }
+        },
+        "TL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tl"
+          }
+        },
+        "TG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tg"
+          }
+        },
+        "TK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tk"
+          }
+        },
+        "TO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "to"
+          }
+        },
+        "TT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tt"
+          }
+        },
+        "TN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tn"
+          }
+        },
+        "TR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tr"
+          }
+        },
+        "TM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tm"
+          }
+        },
+        "TC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tc"
+          }
+        },
+        "TV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tv"
+          }
+        },
+        "VI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vi"
+          }
+        },
+        "UG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ug"
+          }
+        },
+        "UA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ua"
+          }
+        },
+        "AE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ae"
+          }
+        },
+        "UM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "um"
+          }
+        },
+        "UY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uy"
+          }
+        },
+        "UZ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uz"
+          }
+        },
+        "VU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vu"
+          }
+        },
+        "VA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "va"
+          }
+        },
+        "VE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ve"
+          }
+        },
+        "VN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vn"
+          }
+        },
+        "WF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wf"
+          }
+        },
+        "EH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eh"
+          }
+        },
+        "YE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ye"
+          }
+        },
+        "ZM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zm"
+          }
+        },
+        "ZW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zw"
+          }
+        },
+        "SY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sy"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The available countries on the platform"
+      }
+    },
+    "com.whop.companies#CreateCompanyRequestLogo": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company's logo image. Accepts PNG, JPEG, or GIF format."
+      }
+    },
+    "com.whop.companies#CreateCompanyRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "A key-value JSON object of custom metadata to store on the company."
+      }
+    },
+    "com.whop.companies#CreateCompanyRequest": {
+      "type": "structure",
+      "members": {
+        "country": {
+          "target": "com.whop.companies#Countries",
+          "traits": {
+            "smithy.api#documentation": "The country the company is located in. Defaults to the parent company's country for connected accounts, or the owner's IP-derived country.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A promotional pitch displayed to potential customers on the company's store page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the user who will own the connected account. Required when parent_company_id is provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logo": {
+          "target": "com.whop.companies#CreateCompanyRequestLogo",
+          "traits": {
+            "smithy.api#documentation": "The company's logo image. Accepts PNG, JPEG, or GIF format.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.companies#CreateCompanyRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "A key-value JSON object of custom metadata to store on the company.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "parent_company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the parent platform company. When provided, creates a connected account under that platform. Omit to create a company for the current user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "send_customer_emails": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop sends transactional emails to customers on behalf of this company. Only applies when creating a connected account.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the company shown to customers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.companies#Company": {
+      "type": "structure",
+      "members": {
+        "affiliate_instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Guidelines and instructions provided to affiliates explaining how to promote this company's products.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the company was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A promotional pitch written by the company creator, displayed to potential customers on the store page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "featured_affiliate_product": {
+          "target": "com.whop.companies#CompanyFeaturedAffiliateProduct",
+          "traits": {
+            "smithy.api#documentation": "The product featured for affiliates to promote on this company's affiliate page. Null if none is configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "logo": {
+          "target": "com.whop.companies#CompanyLogo",
+          "traits": {
+            "smithy.api#documentation": "The company's logo.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of users who currently hold active memberships across all of this company's products.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.companies#CompanyMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "A key-value JSON object of custom metadata for this company, managed by the platform that created the account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "owner_user": {
+          "target": "com.whop.companies#CompanyOwnerUser",
+          "traits": {
+            "smithy.api#documentation": "The user who owns and has full administrative control over this company.",
+            "smithy.api#required": {}
+          }
+        },
+        "published_reviews_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of published customer reviews across all products for this company.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL slug for the account's store page, e.g. `pickaxe` in whop.com/pickaxe.",
+            "smithy.api#required": {}
+          }
+        },
+        "send_customer_emails": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop sends transactional emails (receipts, updates) to customers on behalf of this company.",
+            "smithy.api#required": {}
+          }
+        },
+        "social_links": {
+          "target": "com.whop.companies#CompanySocialLinksList",
+          "traits": {
+            "smithy.api#documentation": "The list of social media accounts and external links associated with this company.",
+            "smithy.api#required": {}
+          }
+        },
+        "target_audience": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target audience for the company. Null if not set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the company shown to customers.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the company was last updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this company has been verified by Whop's trust and safety team.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A company is a seller on Whop. Companies own products, manage members, and receive payouts."
+      }
+    },
+    "com.whop.companies#CompanyFeaturedAffiliateProduct": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the product shown to customers. Maximum 50 characters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The product featured for affiliates to promote on this company's affiliate page. Null if none is configured."
+      }
+    },
+    "com.whop.companies#CompanyLogo": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A pre-optimized URL for rendering this attachment on the client. This should be used for displaying attachments in apps.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company's logo."
+      }
+    },
+    "com.whop.companies#CompanyMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "A key-value JSON object of custom metadata for this company, managed by the platform that created the account."
+      }
+    },
+    "com.whop.companies#CompanyOwnerUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who owns and has full administrative control over this company."
+      }
+    },
+    "com.whop.companies#SocialLinkWebsites": {
+      "type": "enum",
+      "members": {
+        "X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "x"
+          }
+        },
+        "INSTAGRAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram"
+          }
+        },
+        "FACEBOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "facebook"
+          }
+        },
+        "TIKTOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tiktok"
+          }
+        },
+        "YOUTUBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "youtube"
+          }
+        },
+        "LINKEDIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "linkedin"
+          }
+        },
+        "TWITCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twitch"
+          }
+        },
+        "WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The different websites you can have social links for"
+      }
+    },
+    "com.whop.companies#CompanySocialLinksItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the social link.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the social media profile or external link.",
+            "smithy.api#required": {}
+          }
+        },
+        "website": {
+          "target": "com.whop.companies#SocialLinkWebsites",
+          "traits": {
+            "smithy.api#documentation": "The website",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A social link attached to a resource on the site."
+      }
+    },
+    "com.whop.companies#CompanySocialLinksList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.companies#CompanySocialLinksItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of social media accounts and external links associated with this company."
+      }
+    },
+    "com.whop.companies#CreateCompany": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.companies#CreateCompanyRequest"
+      },
+      "output": {
+        "target": "com.whop.companies#Company"
+      },
+      "errors": [
+        {
+          "target": "com.whop.companies#BadRequest"
+        },
+        {
+          "target": "com.whop.companies#Forbidden"
+        },
+        {
+          "target": "com.whop.companies#NotFound"
+        },
+        {
+          "target": "com.whop.companies#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/companies",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create company\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreate a new company. Pass parent_company_id to create a connected account under a platform, or omit it to create a company for the current user.\n\nRequired permissions:\n - `company:create`\n - `company:basic:read`"
+      }
+    },
+    "com.whop.companies#GetCompanyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier or route slug of the company."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.companies#GetCompany": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.companies#GetCompanyRequest"
+      },
+      "output": {
+        "target": "com.whop.companies#Company"
+      },
+      "errors": [
+        {
+          "target": "com.whop.companies#BadRequest"
+        },
+        {
+          "target": "com.whop.companies#Forbidden"
+        },
+        {
+          "target": "com.whop.companies#NotFound"
+        },
+        {
+          "target": "com.whop.companies#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/companies/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve company\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing company.\n\nRequired permissions:\n - `company:basic:read`"
+      }
+    },
+    "com.whop.companies#UpdateCompanyRequestBannerImage": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company's banner image. Accepts PNG or JPEG format."
+      }
+    },
+    "com.whop.companies#UpdateCompanyRequestLogo": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company's logo image. Accepts PNG, JPEG, or GIF format."
+      }
+    },
+    "com.whop.companies#UpdateCompanyRequestSocialLinksItemImage": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an existing file object.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The custom image for the social link"
+      }
+    },
+    "com.whop.companies#UpdateCompanyRequestSocialLinksItem": {
+      "type": "structure",
+      "members": {
+        "image": {
+          "target": "com.whop.companies#UpdateCompanyRequestSocialLinksItemImage",
+          "traits": {
+            "smithy.api#documentation": "The custom image for the social link",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The order of the social link",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the social link",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the social link",
+            "smithy.api#required": {}
+          }
+        },
+        "website": {
+          "target": "com.whop.companies#SocialLinkWebsites",
+          "traits": {
+            "smithy.api#documentation": "The website this link is for",
+            "smithy.api#required": {}
+          }
+        },
+        "website_order": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The order of the website social link",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Input for creating a social link for a company"
+      }
+    },
+    "com.whop.companies#UpdateCompanyRequestSocialLinksList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.companies#UpdateCompanyRequestSocialLinksItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The social media links to display on the company's store page. Pass the full list of desired social links — any existing links not included will be removed."
+      }
+    },
+    "com.whop.companies#UpdateCompanyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the company to update."
+          }
+        },
+        "affiliate_application_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether prospective affiliates must submit an application before they can promote this company.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "affiliate_instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Guidelines and instructions shown to affiliates explaining how to promote this company's products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "banner_image": {
+          "target": "com.whop.companies#UpdateCompanyRequestBannerImage",
+          "traits": {
+            "smithy.api#documentation": "The company's banner image. Accepts PNG or JPEG format.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A promotional pitch displayed to potential customers on the company's store page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "featured_affiliate_product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the product to feature on this company's affiliate page. Pass null to clear.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logo": {
+          "target": "com.whop.companies#UpdateCompanyRequestLogo",
+          "traits": {
+            "smithy.api#documentation": "The company's logo image. Accepts PNG, JPEG, or GIF format.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique URL slug for the company's store page. Must be lowercase and can include hyphens (e.g., 'my-company'). If not provided, the route will remain unchanged.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "send_customer_emails": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop sends transactional emails (receipts, renewals, cancelations) to customers on behalf of this company.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "social_links": {
+          "target": "com.whop.companies#UpdateCompanyRequestSocialLinksList",
+          "traits": {
+            "smithy.api#documentation": "The social media links to display on the company's store page. Pass the full list of desired social links — any existing links not included will be removed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "target_audience": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target audience for this company (e.g., 'beginner day traders aged 18-25 looking to learn options').",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the company shown to customers.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.companies#UpdateCompany": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.companies#UpdateCompanyRequest"
+      },
+      "output": {
+        "target": "com.whop.companies#Company"
+      },
+      "errors": [
+        {
+          "target": "com.whop.companies#BadRequest"
+        },
+        {
+          "target": "com.whop.companies#Forbidden"
+        },
+        {
+          "target": "com.whop.companies#NotFound"
+        },
+        {
+          "target": "com.whop.companies#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/companies/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update company\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUpdate a company's title, description, logo, and other settings.\n\nRequired permissions:\n - `company:update`\n - `company:basic:read`"
+      }
+    },
+    "com.whop.companies#CreateApiKeyCompanyRequestPermissionsItemActionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Actions covered by this statement"
+      }
+    },
+    "com.whop.companies#CreateApiKeyCompanyRequestPermissionsItemResourcesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource identifiers. Can look like 'biz_xxxx' or 'biz_xxx|pass_*|exp_xxx' or 'biz_xxx|app_xxx' or 'biz_xxx|pass_xxx|exp_xxx' or 'biz_xxx|pass_xxx' or 'biz_xxx|pass_*'"
+      }
+    },
+    "com.whop.companies#CreateApiKeyCompanyRequestPermissionsItem": {
+      "type": "structure",
+      "members": {
+        "actions": {
+          "target": "com.whop.companies#CreateApiKeyCompanyRequestPermissionsItemActionsList",
+          "traits": {
+            "smithy.api#documentation": "Actions covered by this statement",
+            "smithy.api#required": {}
+          }
+        },
+        "grant": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the actions are granted or denied",
+            "smithy.api#required": {}
+          }
+        },
+        "resources": {
+          "target": "com.whop.companies#CreateApiKeyCompanyRequestPermissionsItemResourcesList",
+          "traits": {
+            "smithy.api#documentation": "Resource identifiers. Can look like 'biz_xxxx' or 'biz_xxx|pass_*|exp_xxx' or 'biz_xxx|app_xxx' or 'biz_xxx|pass_xxx|exp_xxx' or 'biz_xxx|pass_xxx' or 'biz_xxx|pass_*'",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Input for a single permissions statement"
+      }
+    },
+    "com.whop.companies#CreateApiKeyCompanyRequestPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.companies#CreateApiKeyCompanyRequestPermissionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Granular permission statements defining which actions this API key can perform. Either permissions or role must be provided."
+      }
+    },
+    "com.whop.companies#PermissionSystemRoles": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "MODERATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "moderator"
+          }
+        },
+        "SALES_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales_manager"
+          }
+        },
+        "ADVERTISER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advertiser"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The different system roles that can be assigned."
+      }
+    },
+    "com.whop.companies#CreateApiKeyCompanyRequest": {
+      "type": "structure",
+      "members": {
+        "parent_company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the parent platform company (e.g. 'biz_xxx')."
+          }
+        },
+        "child_company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the connected account to create the API key for (e.g. 'biz_xxx').",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable name for the API key, such as 'Production API Key'.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "permissions": {
+          "target": "com.whop.companies#CreateApiKeyCompanyRequestPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "Granular permission statements defining which actions this API key can perform. Either permissions or role must be provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role": {
+          "target": "com.whop.companies#PermissionSystemRoles",
+          "traits": {
+            "smithy.api#documentation": "A system role to inherit permissions from (e.g. owner, admin, moderator). Either role or permissions must be provided.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.companies#CreateApiKeyCompanyResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the authorized api key.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user set name to identify an API key",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "secret_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The secret key used to authenticate requests. Only returned at creation time.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.companies#CreateApiKeyCompany": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.companies#CreateApiKeyCompanyRequest"
+      },
+      "output": {
+        "target": "com.whop.companies#CreateApiKeyCompanyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.companies#BadRequest"
+        },
+        {
+          "target": "com.whop.companies#Forbidden"
+        },
+        {
+          "target": "com.whop.companies#NotFound"
+        },
+        {
+          "target": "com.whop.companies#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/companies/{parent_company_id}/api_keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create child company API key\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreate an API key for a connected account (child company) owned by a parent company."
+      }
+    },
+    "com.whop.companies#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.companies#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.companies#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.companies#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.companies#Companies": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.companies#ListCompany"
+        },
+        {
+          "target": "com.whop.companies#CreateCompany"
+        },
+        {
+          "target": "com.whop.companies#GetCompany"
+        },
+        {
+          "target": "com.whop.companies#UpdateCompany"
+        },
+        {
+          "target": "com.whop.companies#CreateApiKeyCompany"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

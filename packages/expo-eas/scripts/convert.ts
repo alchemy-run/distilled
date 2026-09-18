@@ -3,7 +3,7 @@
  * convert — turn the EAS GraphQL introspection schema into a Smithy 2.0 JSON
  * model.
  *
- * Input:  specs/eas-cli/packages/eas-cli/graphql.schema.json
+ * Input:  specs/spec-mirror-expo-eas/specs/graphql.schema.json
  *         (the standard `__schema` introspection JSON shipped with eas-cli)
  * Output: .generated-specs/eas.json  (one Smithy model — EAS is a single
  *         GraphQL endpoint at https://api.expo.dev/graphql)
@@ -27,11 +27,13 @@ import {
   PRELUDE,
   readIntrospection,
 } from "@distilled.cloud/core/codegen/graphql";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 
 const ROOT = path.resolve(import.meta.dir, "..");
-const SCHEMA_PATH = path.join(
+const SCHEMA_PATH = resolveSpecPath(
   ROOT,
-  "specs/eas-cli/packages/eas-cli/graphql.schema.json",
+  "specs/spec-mirror-expo-eas/specs/graphql.schema.json",
 );
 const OUT_DIR = path.join(ROOT, ".generated-specs");
 const OUT_FILE = path.join(OUT_DIR, "eas.json");
@@ -85,3 +87,5 @@ console.log(
   `✅ Converted ${result.converted} GraphQL operations (${result.failed} failed, ` +
     `${result.shapeCount} shapes) → ${OUT_FILE}`,
 );
+
+await finalizeConvert({ root: ROOT });

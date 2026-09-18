@@ -14,16 +14,17 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.azure.azuredatatransfer#PipelinesRejectConnection": {
+    "com.azure.azuredatatransfer#RejectPipelineConnection": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#PipelinesRejectConnectionRequest"
+        "target": "com.azure.azuredatatransfer#RejectPipelineConnectionRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#PipelinesRejectConnectionResponse"
+        "target": "com.azure.azuredatatransfer#RejectPipelineConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -36,7 +37,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#PipelinesRejectConnectionResponse": {
+    "com.azure.azuredatatransfer#RejectPipelineConnectionResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -64,7 +65,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#PipelinesRejectConnectionResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#RejectPipelineConnectionResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -83,7 +84,7 @@
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#PipelinesRejectConnectionResponseIdentity",
+          "target": "com.azure.azuredatatransfer#RejectPipelineConnectionResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -93,7 +94,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#PipelinesRejectConnectionResponseIdentity": {
+    "com.azure.azuredatatransfer#RejectPipelineConnectionResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -128,7 +129,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.azuredatatransfer#UserAssignedIdentity"
+        "target": "com.azure.azuredatatransfer#UserAssignedIdentity",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
@@ -681,7 +685,7 @@
         "smithy.api#documentation": "Status of the connection"
       }
     },
-    "com.azure.azuredatatransfer#PipelinesRejectConnectionResponseTagsMap": {
+    "com.azure.azuredatatransfer#RejectPipelineConnectionResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -801,7 +805,7 @@
         "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
-    "com.azure.azuredatatransfer#PipelinesRejectConnectionRequest": {
+    "com.azure.azuredatatransfer#RejectPipelineConnectionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -846,10 +850,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#ListSchemasList": {
+    "com.azure.azuredatatransfer#ListListSchemas": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#ListSchemasListRequest"
+        "target": "com.azure.azuredatatransfer#ListListSchemasRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#SchemasListResult"
@@ -888,7 +892,7 @@
         "smithy.api#documentation": "Schemas array."
       }
     },
-    "com.azure.azuredatatransfer#ListSchemasListRequest": {
+    "com.azure.azuredatatransfer#ListListSchemasRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -968,10 +972,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#ListFlowsByPipelineList": {
+    "com.azure.azuredatatransfer#ListListFlowsByPipeline": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#ListFlowsByPipelineListRequest"
+        "target": "com.azure.azuredatatransfer#ListListFlowsByPipelineRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#ListFlowsByPipelineResult"
@@ -1316,7 +1320,7 @@
         "passphrase": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The passphrase used for SRT streams"
+            "smithy.api#documentation": "The passphrase used for SRT streams (non-secret)"
           }
         },
         "sourceAddresses": {
@@ -1654,7 +1658,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#ListFlowsByPipelineListRequest": {
+    "com.azure.azuredatatransfer#ListListFlowsByPipelineRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1682,7 +1686,7 @@
           }
         },
         "value": {
-          "target": "com.azure.azuredatatransfer#ListFlowsByPipelineListRequestValueList",
+          "target": "com.azure.azuredatatransfer#ListListFlowsByPipelineRequestValueList",
           "traits": {
             "smithy.api#documentation": "Connection ID to target"
           }
@@ -1692,7 +1696,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#ListFlowsByPipelineListRequestValueList": {
+    "com.azure.azuredatatransfer#ListListFlowsByPipelineRequestValueList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -1701,13 +1705,13 @@
         "smithy.api#documentation": "Connection ID to target"
       }
     },
-    "com.azure.azuredatatransfer#PipelinesExecuteAction": {
+    "com.azure.azuredatatransfer#ExecutePipelineAction": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#PipelinesExecuteActionRequest"
+        "target": "com.azure.azuredatatransfer#ExecutePipelineActionRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#PipelinesExecuteActionResponse"
+        "target": "com.azure.azuredatatransfer#ExecutePipelineActionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1720,7 +1724,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#PipelinesExecuteActionResponse": {
+    "com.azure.azuredatatransfer#ExecutePipelineActionResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -1748,7 +1752,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#PipelinesExecuteActionResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#ExecutePipelineActionResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -1767,7 +1771,7 @@
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#PipelinesExecuteActionResponseIdentity",
+          "target": "com.azure.azuredatatransfer#ExecutePipelineActionResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -1777,7 +1781,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#PipelinesExecuteActionResponseIdentity": {
+    "com.azure.azuredatatransfer#ExecutePipelineActionResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -2205,7 +2209,7 @@
         "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
-    "com.azure.azuredatatransfer#PipelinesExecuteActionResponseTagsMap": {
+    "com.azure.azuredatatransfer#ExecutePipelineActionResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2217,7 +2221,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#PipelinesExecuteActionRequest": {
+    "com.azure.azuredatatransfer#ExecutePipelineActionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2259,7 +2263,7 @@
           }
         },
         "targets": {
-          "target": "com.azure.azuredatatransfer#PipelinesExecuteActionRequestTargetsList",
+          "target": "com.azure.azuredatatransfer#ExecutePipelineActionRequestTargetsList",
           "traits": {
             "smithy.api#documentation": "Targets for the action",
             "smithy.api#required": {}
@@ -2276,7 +2280,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#PipelinesExecuteActionRequestTargetsList": {
+    "com.azure.azuredatatransfer#ExecutePipelineActionRequestTargetsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -2331,13 +2335,13 @@
         "smithy.api#documentation": "The type of action to be executed."
       }
     },
-    "com.azure.azuredatatransfer#PipelinesApproveConnection": {
+    "com.azure.azuredatatransfer#ApprovePipelineConnection": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#PipelinesApproveConnectionRequest"
+        "target": "com.azure.azuredatatransfer#ApprovePipelineConnectionRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#PipelinesApproveConnectionResponse"
+        "target": "com.azure.azuredatatransfer#ApprovePipelineConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2350,7 +2354,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#PipelinesApproveConnectionResponse": {
+    "com.azure.azuredatatransfer#ApprovePipelineConnectionResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -2378,7 +2382,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#PipelinesApproveConnectionResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#ApprovePipelineConnectionResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -2397,7 +2401,7 @@
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#PipelinesApproveConnectionResponseIdentity",
+          "target": "com.azure.azuredatatransfer#ApprovePipelineConnectionResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -2407,7 +2411,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#PipelinesApproveConnectionResponseIdentity": {
+    "com.azure.azuredatatransfer#ApprovePipelineConnectionResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -2436,7 +2440,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#PipelinesApproveConnectionResponseTagsMap": {
+    "com.azure.azuredatatransfer#ApprovePipelineConnectionResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2448,7 +2452,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#PipelinesApproveConnectionRequest": {
+    "com.azure.azuredatatransfer#ApprovePipelineConnectionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2493,10 +2497,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#PipelinesDelete": {
+    "com.azure.azuredatatransfer#DeletePipeline": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#PipelinesDeleteRequest"
+        "target": "com.azure.azuredatatransfer#DeletePipelineRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -2512,7 +2516,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#PipelinesDeleteRequest": {
+    "com.azure.azuredatatransfer#DeletePipelineRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2544,13 +2548,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#PipelinesUpdate": {
+    "com.azure.azuredatatransfer#UpdatePipeline": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#PipelinesUpdateRequest"
+        "target": "com.azure.azuredatatransfer#UpdatePipelineRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#PipelinesUpdateResponse"
+        "target": "com.azure.azuredatatransfer#UpdatePipelineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2563,7 +2567,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#PipelinesUpdateResponse": {
+    "com.azure.azuredatatransfer#UpdatePipelineResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -2591,7 +2595,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#PipelinesUpdateResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#UpdatePipelineResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -2610,7 +2614,7 @@
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#PipelinesUpdateResponseIdentity",
+          "target": "com.azure.azuredatatransfer#UpdatePipelineResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -2620,7 +2624,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#PipelinesUpdateResponseIdentity": {
+    "com.azure.azuredatatransfer#UpdatePipelineResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -2649,7 +2653,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#PipelinesUpdateResponseTagsMap": {
+    "com.azure.azuredatatransfer#UpdatePipelineResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2661,7 +2665,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#PipelinesUpdateRequest": {
+    "com.azure.azuredatatransfer#UpdatePipelineRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2695,13 +2699,13 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#PipelinesUpdateRequestTagsMap",
+          "target": "com.azure.azuredatatransfer#UpdatePipelineRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#PipelinesUpdateRequestIdentity",
+          "target": "com.azure.azuredatatransfer#UpdatePipelineRequestIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -2711,7 +2715,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#PipelinesUpdateRequestIdentity": {
+    "com.azure.azuredatatransfer#UpdatePipelineRequestIdentity": {
       "type": "structure",
       "members": {
         "type": {
@@ -2734,7 +2738,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.azuredatatransfer#UserAssignedIdentityInput"
+        "target": "com.azure.azuredatatransfer#UserAssignedIdentityInput",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
@@ -2747,7 +2754,7 @@
         "smithy.api#documentation": "User assigned identity properties"
       }
     },
-    "com.azure.azuredatatransfer#PipelinesUpdateRequestTagsMap": {
+    "com.azure.azuredatatransfer#UpdatePipelineRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -3084,13 +3091,13 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#PipelinesGet": {
+    "com.azure.azuredatatransfer#GetPipeline": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#PipelinesGetRequest"
+        "target": "com.azure.azuredatatransfer#GetPipelineRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#PipelinesGetResponse"
+        "target": "com.azure.azuredatatransfer#GetPipelineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3103,7 +3110,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#PipelinesGetResponse": {
+    "com.azure.azuredatatransfer#GetPipelineResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -3131,7 +3138,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#PipelinesGetResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#GetPipelineResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -3150,7 +3157,7 @@
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#PipelinesGetResponseIdentity",
+          "target": "com.azure.azuredatatransfer#GetPipelineResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -3160,7 +3167,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#PipelinesGetResponseIdentity": {
+    "com.azure.azuredatatransfer#GetPipelineResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -3189,7 +3196,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#PipelinesGetResponseTagsMap": {
+    "com.azure.azuredatatransfer#GetPipelineResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -3201,7 +3208,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#PipelinesGetRequest": {
+    "com.azure.azuredatatransfer#GetPipelineRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -3233,10 +3240,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#PipelinesListByResourceGroup": {
+    "com.azure.azuredatatransfer#ListPipelineByResourceGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#PipelinesListByResourceGroupRequest"
+        "target": "com.azure.azuredatatransfer#ListPipelineByResourceGroupRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#PipelineListResult"
@@ -3380,7 +3387,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#PipelinesListByResourceGroupRequest": {
+    "com.azure.azuredatatransfer#ListPipelineByResourceGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -3404,10 +3411,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#ListPendingFlowsList": {
+    "com.azure.azuredatatransfer#ListListPendingFlows": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#ListPendingFlowsListRequest"
+        "target": "com.azure.azuredatatransfer#ListListPendingFlowsRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#PendingFlowListResult"
@@ -3609,7 +3616,7 @@
         "passphrase": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The passphrase used for SRT streams"
+            "smithy.api#documentation": "The passphrase used for SRT streams (non-secret)"
           }
         },
         "sourceAddresses": {
@@ -3840,7 +3847,7 @@
         "smithy.api#documentation": "Force disablement status of the current flow"
       }
     },
-    "com.azure.azuredatatransfer#ListPendingFlowsListRequest": {
+    "com.azure.azuredatatransfer#ListListPendingFlowsRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -3872,10 +3879,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#ListPendingConnectionsList": {
+    "com.azure.azuredatatransfer#ListListPendingConnections": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#ListPendingConnectionsListRequest"
+        "target": "com.azure.azuredatatransfer#ListListPendingConnectionsRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#PendingConnectionListResult"
@@ -4267,7 +4274,7 @@
         "smithy.api#documentation": "Force disablement status of the current connection"
       }
     },
-    "com.azure.azuredatatransfer#ListPendingConnectionsListRequest": {
+    "com.azure.azuredatatransfer#ListListPendingConnectionsRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -4461,13 +4468,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetSourceAddresses": {
+    "com.azure.azuredatatransfer#SetFlowSourceAddresses": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsSetSourceAddressesRequest"
+        "target": "com.azure.azuredatatransfer#SetFlowSourceAddressesRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#FlowsSetSourceAddressesResponse"
+        "target": "com.azure.azuredatatransfer#SetFlowSourceAddressesResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4480,7 +4487,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetSourceAddressesResponse": {
+    "com.azure.azuredatatransfer#SetFlowSourceAddressesResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -4508,7 +4515,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#FlowsSetSourceAddressesResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#SetFlowSourceAddressesResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -4527,13 +4534,13 @@
           }
         },
         "plan": {
-          "target": "com.azure.azuredatatransfer#FlowsSetSourceAddressesResponsePlan",
+          "target": "com.azure.azuredatatransfer#SetFlowSourceAddressesResponsePlan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#FlowsSetSourceAddressesResponseIdentity",
+          "target": "com.azure.azuredatatransfer#SetFlowSourceAddressesResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -4543,7 +4550,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetSourceAddressesResponseIdentity": {
+    "com.azure.azuredatatransfer#SetFlowSourceAddressesResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -4572,7 +4579,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetSourceAddressesResponsePlan": {
+    "com.azure.azuredatatransfer#SetFlowSourceAddressesResponsePlan": {
       "type": "structure",
       "members": {
         "name": {
@@ -4613,7 +4620,7 @@
         "smithy.api#documentation": "Plan for the resource."
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetSourceAddressesResponseTagsMap": {
+    "com.azure.azuredatatransfer#SetFlowSourceAddressesResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -4625,7 +4632,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetSourceAddressesRequest": {
+    "com.azure.azuredatatransfer#SetFlowSourceAddressesRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -4661,7 +4668,7 @@
           }
         },
         "values": {
-          "target": "com.azure.azuredatatransfer#FlowsSetSourceAddressesRequestValuesList",
+          "target": "com.azure.azuredatatransfer#SetFlowSourceAddressesRequestValuesList",
           "traits": {
             "smithy.api#documentation": "Source addresses"
           }
@@ -4671,7 +4678,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetSourceAddressesRequestValuesList": {
+    "com.azure.azuredatatransfer#SetFlowSourceAddressesRequestValuesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -4680,13 +4687,13 @@
         "smithy.api#documentation": "Source addresses"
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetPassphrase": {
+    "com.azure.azuredatatransfer#SetFlowPassphrase": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsSetPassphraseRequest"
+        "target": "com.azure.azuredatatransfer#SetFlowPassphraseRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#FlowsSetPassphraseResponse"
+        "target": "com.azure.azuredatatransfer#SetFlowPassphraseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4699,7 +4706,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetPassphraseResponse": {
+    "com.azure.azuredatatransfer#SetFlowPassphraseResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -4727,7 +4734,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#FlowsSetPassphraseResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#SetFlowPassphraseResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -4746,13 +4753,13 @@
           }
         },
         "plan": {
-          "target": "com.azure.azuredatatransfer#FlowsSetPassphraseResponsePlan",
+          "target": "com.azure.azuredatatransfer#SetFlowPassphraseResponsePlan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#FlowsSetPassphraseResponseIdentity",
+          "target": "com.azure.azuredatatransfer#SetFlowPassphraseResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -4762,7 +4769,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetPassphraseResponseIdentity": {
+    "com.azure.azuredatatransfer#SetFlowPassphraseResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -4791,7 +4798,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetPassphraseResponsePlan": {
+    "com.azure.azuredatatransfer#SetFlowPassphraseResponsePlan": {
       "type": "structure",
       "members": {
         "name": {
@@ -4832,7 +4839,7 @@
         "smithy.api#documentation": "Plan for the resource."
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetPassphraseResponseTagsMap": {
+    "com.azure.azuredatatransfer#SetFlowPassphraseResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -4844,7 +4851,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetPassphraseRequest": {
+    "com.azure.azuredatatransfer#SetFlowPassphraseRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -4882,7 +4889,7 @@
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The passphrase used for SRT streams"
+            "smithy.api#documentation": "The passphrase used for SRT streams (non-secret)"
           }
         }
       },
@@ -4890,13 +4897,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpoints": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpoints": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpointsRequest"
+        "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpointsRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpointsResponse"
+        "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpointsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4909,7 +4916,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpointsResponse": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpointsResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -4937,7 +4944,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpointsResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpointsResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -4956,13 +4963,13 @@
           }
         },
         "plan": {
-          "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpointsResponsePlan",
+          "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpointsResponsePlan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpointsResponseIdentity",
+          "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpointsResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -4972,7 +4979,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpointsResponseIdentity": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpointsResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -5001,7 +5008,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpointsResponsePlan": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpointsResponsePlan": {
       "type": "structure",
       "members": {
         "name": {
@@ -5042,7 +5049,7 @@
         "smithy.api#documentation": "Plan for the resource."
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpointsResponseTagsMap": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpointsResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -5054,7 +5061,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpointsRequest": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpointsRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -5090,7 +5097,7 @@
           }
         },
         "endpoints": {
-          "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpointsRequestEndpointsList",
+          "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpointsRequestEndpointsList",
           "traits": {
             "smithy.api#documentation": "The specified flow destination endpoints."
           }
@@ -5100,7 +5107,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpointsRequestEndpointsList": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpointsRequestEndpointsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -5109,13 +5116,13 @@
         "smithy.api#documentation": "The specified flow destination endpoints."
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPorts": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpointPorts": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPortsRequest"
+        "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpointPortsRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPortsResponse"
+        "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpointPortsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5128,7 +5135,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPortsResponse": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpointPortsResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -5156,7 +5163,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPortsResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpointPortsResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -5175,13 +5182,13 @@
           }
         },
         "plan": {
-          "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPortsResponsePlan",
+          "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpointPortsResponsePlan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPortsResponseIdentity",
+          "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpointPortsResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -5191,7 +5198,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPortsResponseIdentity": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpointPortsResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -5220,7 +5227,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPortsResponsePlan": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpointPortsResponsePlan": {
       "type": "structure",
       "members": {
         "name": {
@@ -5261,7 +5268,7 @@
         "smithy.api#documentation": "Plan for the resource."
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPortsResponseTagsMap": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpointPortsResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -5273,7 +5280,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPortsRequest": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpointPortsRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -5309,7 +5316,7 @@
           }
         },
         "ports": {
-          "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPortsRequestPortsList",
+          "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpointPortsRequestPortsList",
           "traits": {
             "smithy.api#documentation": "The specified flow destination endpoint ports"
           }
@@ -5319,7 +5326,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPortsRequestPortsList": {
+    "com.azure.azuredatatransfer#SetFlowDestinationEndpointPortsRequestPortsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
@@ -5545,10 +5552,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsGetStreamConnectionString": {
+    "com.azure.azuredatatransfer#GetFlowStreamConnectionString": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsGetStreamConnectionStringRequest"
+        "target": "com.azure.azuredatatransfer#GetFlowStreamConnectionStringRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#GetStreamConnectionStringResult"
@@ -5579,7 +5586,7 @@
         "smithy.api#documentation": "The connection string for the specified streaming flow"
       }
     },
-    "com.azure.azuredatatransfer#FlowsGetStreamConnectionStringRequest": {
+    "com.azure.azuredatatransfer#GetFlowStreamConnectionStringRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -5619,10 +5626,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsGetSourceAddresses": {
+    "com.azure.azuredatatransfer#GetFlowSourceAddresses": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsGetSourceAddressesRequest"
+        "target": "com.azure.azuredatatransfer#GetFlowSourceAddressesRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#StreamSourceAddresses"
@@ -5638,7 +5645,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#FlowsGetSourceAddressesRequest": {
+    "com.azure.azuredatatransfer#GetFlowSourceAddressesRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -5678,10 +5685,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsGetDestinationEndpoints": {
+    "com.azure.azuredatatransfer#GetFlowDestinationEndpoints": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsGetDestinationEndpointsRequest"
+        "target": "com.azure.azuredatatransfer#GetFlowDestinationEndpointsRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#GetDestinationEndpointsResult"
@@ -5720,7 +5727,7 @@
         "smithy.api#documentation": "The destination endpoints for the flow stream"
       }
     },
-    "com.azure.azuredatatransfer#FlowsGetDestinationEndpointsRequest": {
+    "com.azure.azuredatatransfer#GetFlowDestinationEndpointsRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -5760,10 +5767,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsGetDestinationEndpointPorts": {
+    "com.azure.azuredatatransfer#GetFlowDestinationEndpointPorts": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsGetDestinationEndpointPortsRequest"
+        "target": "com.azure.azuredatatransfer#GetFlowDestinationEndpointPortsRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#GetDestinationEndpointPortsResult"
@@ -5802,7 +5809,7 @@
         "smithy.api#documentation": "The destination endpoint port for the flow stream"
       }
     },
-    "com.azure.azuredatatransfer#FlowsGetDestinationEndpointPortsRequest": {
+    "com.azure.azuredatatransfer#GetFlowDestinationEndpointPortsRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -5842,13 +5849,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsGeneratePassphrase": {
+    "com.azure.azuredatatransfer#GenerateFlowPassphrase": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsGeneratePassphraseRequest"
+        "target": "com.azure.azuredatatransfer#GenerateFlowPassphraseRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#FlowsGeneratePassphraseResponse"
+        "target": "com.azure.azuredatatransfer#GenerateFlowPassphraseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5861,7 +5868,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#FlowsGeneratePassphraseResponse": {
+    "com.azure.azuredatatransfer#GenerateFlowPassphraseResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -5889,7 +5896,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#FlowsGeneratePassphraseResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#GenerateFlowPassphraseResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -5908,13 +5915,13 @@
           }
         },
         "plan": {
-          "target": "com.azure.azuredatatransfer#FlowsGeneratePassphraseResponsePlan",
+          "target": "com.azure.azuredatatransfer#GenerateFlowPassphraseResponsePlan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#FlowsGeneratePassphraseResponseIdentity",
+          "target": "com.azure.azuredatatransfer#GenerateFlowPassphraseResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -5924,7 +5931,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsGeneratePassphraseResponseIdentity": {
+    "com.azure.azuredatatransfer#GenerateFlowPassphraseResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -5953,7 +5960,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#FlowsGeneratePassphraseResponsePlan": {
+    "com.azure.azuredatatransfer#GenerateFlowPassphraseResponsePlan": {
       "type": "structure",
       "members": {
         "name": {
@@ -5994,7 +6001,7 @@
         "smithy.api#documentation": "Plan for the resource."
       }
     },
-    "com.azure.azuredatatransfer#FlowsGeneratePassphraseResponseTagsMap": {
+    "com.azure.azuredatatransfer#GenerateFlowPassphraseResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -6006,7 +6013,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#FlowsGeneratePassphraseRequest": {
+    "com.azure.azuredatatransfer#GenerateFlowPassphraseRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -6046,13 +6053,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsEnable": {
+    "com.azure.azuredatatransfer#EnableFlow": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsEnableRequest"
+        "target": "com.azure.azuredatatransfer#EnableFlowRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#FlowsEnableResponse"
+        "target": "com.azure.azuredatatransfer#EnableFlowResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6065,7 +6072,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#FlowsEnableResponse": {
+    "com.azure.azuredatatransfer#EnableFlowResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -6093,7 +6100,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#FlowsEnableResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#EnableFlowResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -6112,13 +6119,13 @@
           }
         },
         "plan": {
-          "target": "com.azure.azuredatatransfer#FlowsEnableResponsePlan",
+          "target": "com.azure.azuredatatransfer#EnableFlowResponsePlan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#FlowsEnableResponseIdentity",
+          "target": "com.azure.azuredatatransfer#EnableFlowResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -6128,7 +6135,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsEnableResponseIdentity": {
+    "com.azure.azuredatatransfer#EnableFlowResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -6157,7 +6164,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#FlowsEnableResponsePlan": {
+    "com.azure.azuredatatransfer#EnableFlowResponsePlan": {
       "type": "structure",
       "members": {
         "name": {
@@ -6198,7 +6205,7 @@
         "smithy.api#documentation": "Plan for the resource."
       }
     },
-    "com.azure.azuredatatransfer#FlowsEnableResponseTagsMap": {
+    "com.azure.azuredatatransfer#EnableFlowResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -6210,7 +6217,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#FlowsEnableRequest": {
+    "com.azure.azuredatatransfer#EnableFlowRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -6250,13 +6257,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsDisable": {
+    "com.azure.azuredatatransfer#DisableFlow": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsDisableRequest"
+        "target": "com.azure.azuredatatransfer#DisableFlowRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#FlowsDisableResponse"
+        "target": "com.azure.azuredatatransfer#DisableFlowResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6269,7 +6276,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#FlowsDisableResponse": {
+    "com.azure.azuredatatransfer#DisableFlowResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -6297,7 +6304,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#FlowsDisableResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#DisableFlowResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -6316,13 +6323,13 @@
           }
         },
         "plan": {
-          "target": "com.azure.azuredatatransfer#FlowsDisableResponsePlan",
+          "target": "com.azure.azuredatatransfer#DisableFlowResponsePlan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#FlowsDisableResponseIdentity",
+          "target": "com.azure.azuredatatransfer#DisableFlowResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -6332,7 +6339,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsDisableResponseIdentity": {
+    "com.azure.azuredatatransfer#DisableFlowResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -6361,7 +6368,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#FlowsDisableResponsePlan": {
+    "com.azure.azuredatatransfer#DisableFlowResponsePlan": {
       "type": "structure",
       "members": {
         "name": {
@@ -6402,7 +6409,7 @@
         "smithy.api#documentation": "Plan for the resource."
       }
     },
-    "com.azure.azuredatatransfer#FlowsDisableResponseTagsMap": {
+    "com.azure.azuredatatransfer#DisableFlowResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -6414,7 +6421,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#FlowsDisableRequest": {
+    "com.azure.azuredatatransfer#DisableFlowRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -6454,10 +6461,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsDelete": {
+    "com.azure.azuredatatransfer#DeleteFlow": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsDeleteRequest"
+        "target": "com.azure.azuredatatransfer#DeleteFlowRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -6473,7 +6480,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#FlowsDeleteRequest": {
+    "com.azure.azuredatatransfer#DeleteFlowRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -6513,13 +6520,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsUpdate": {
+    "com.azure.azuredatatransfer#UpdateFlow": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsUpdateRequest"
+        "target": "com.azure.azuredatatransfer#UpdateFlowRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#FlowsUpdateResponse"
+        "target": "com.azure.azuredatatransfer#UpdateFlowResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6532,7 +6539,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#FlowsUpdateResponse": {
+    "com.azure.azuredatatransfer#UpdateFlowResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -6560,7 +6567,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#FlowsUpdateResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#UpdateFlowResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -6579,13 +6586,13 @@
           }
         },
         "plan": {
-          "target": "com.azure.azuredatatransfer#FlowsUpdateResponsePlan",
+          "target": "com.azure.azuredatatransfer#UpdateFlowResponsePlan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#FlowsUpdateResponseIdentity",
+          "target": "com.azure.azuredatatransfer#UpdateFlowResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -6595,7 +6602,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsUpdateResponseIdentity": {
+    "com.azure.azuredatatransfer#UpdateFlowResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -6624,7 +6631,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#FlowsUpdateResponsePlan": {
+    "com.azure.azuredatatransfer#UpdateFlowResponsePlan": {
       "type": "structure",
       "members": {
         "name": {
@@ -6665,7 +6672,7 @@
         "smithy.api#documentation": "Plan for the resource."
       }
     },
-    "com.azure.azuredatatransfer#FlowsUpdateResponseTagsMap": {
+    "com.azure.azuredatatransfer#UpdateFlowResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -6677,7 +6684,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#FlowsUpdateRequest": {
+    "com.azure.azuredatatransfer#UpdateFlowRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -6713,13 +6720,13 @@
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#FlowsUpdateRequestIdentity",
+          "target": "com.azure.azuredatatransfer#UpdateFlowRequestIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#FlowsUpdateRequestTagsMap",
+          "target": "com.azure.azuredatatransfer#UpdateFlowRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -6729,7 +6736,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsUpdateRequestTagsMap": {
+    "com.azure.azuredatatransfer#UpdateFlowRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -6741,7 +6748,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#FlowsUpdateRequestIdentity": {
+    "com.azure.azuredatatransfer#UpdateFlowRequestIdentity": {
       "type": "structure",
       "members": {
         "type": {
@@ -7165,7 +7172,7 @@
         "passphrase": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The passphrase used for SRT streams"
+            "smithy.api#documentation": "The passphrase used for SRT streams (non-secret)"
           }
         },
         "sourceAddresses": {
@@ -7242,13 +7249,13 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#FlowsGet": {
+    "com.azure.azuredatatransfer#GetFlow": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsGetRequest"
+        "target": "com.azure.azuredatatransfer#GetFlowRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#FlowsGetResponse"
+        "target": "com.azure.azuredatatransfer#GetFlowResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7261,7 +7268,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#FlowsGetResponse": {
+    "com.azure.azuredatatransfer#GetFlowResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -7289,7 +7296,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#FlowsGetResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#GetFlowResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -7308,13 +7315,13 @@
           }
         },
         "plan": {
-          "target": "com.azure.azuredatatransfer#FlowsGetResponsePlan",
+          "target": "com.azure.azuredatatransfer#GetFlowResponsePlan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#FlowsGetResponseIdentity",
+          "target": "com.azure.azuredatatransfer#GetFlowResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -7324,7 +7331,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsGetResponseIdentity": {
+    "com.azure.azuredatatransfer#GetFlowResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -7353,7 +7360,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#FlowsGetResponsePlan": {
+    "com.azure.azuredatatransfer#GetFlowResponsePlan": {
       "type": "structure",
       "members": {
         "name": {
@@ -7394,7 +7401,7 @@
         "smithy.api#documentation": "Plan for the resource."
       }
     },
-    "com.azure.azuredatatransfer#FlowsGetResponseTagsMap": {
+    "com.azure.azuredatatransfer#GetFlowResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -7406,7 +7413,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#FlowsGetRequest": {
+    "com.azure.azuredatatransfer#GetFlowRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -7446,10 +7453,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#FlowsListByConnection": {
+    "com.azure.azuredatatransfer#ListFlowByConnection": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#FlowsListByConnectionRequest"
+        "target": "com.azure.azuredatatransfer#ListFlowByConnectionRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#FlowListResult"
@@ -7495,7 +7502,7 @@
         "smithy.api#documentation": "The Flow items on this page"
       }
     },
-    "com.azure.azuredatatransfer#FlowsListByConnectionRequest": {
+    "com.azure.azuredatatransfer#ListFlowByConnectionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -7527,10 +7534,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsDelete": {
+    "com.azure.azuredatatransfer#DeleteConnection": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#ConnectionsDeleteRequest"
+        "target": "com.azure.azuredatatransfer#DeleteConnectionRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -7546,7 +7553,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsDeleteRequest": {
+    "com.azure.azuredatatransfer#DeleteConnectionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -7578,13 +7585,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsUpdate": {
+    "com.azure.azuredatatransfer#UpdateConnection": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#ConnectionsUpdateRequest"
+        "target": "com.azure.azuredatatransfer#UpdateConnectionRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#ConnectionsUpdateResponse"
+        "target": "com.azure.azuredatatransfer#UpdateConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7597,7 +7604,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsUpdateResponse": {
+    "com.azure.azuredatatransfer#UpdateConnectionResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -7625,7 +7632,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#ConnectionsUpdateResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#UpdateConnectionResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -7644,7 +7651,7 @@
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#ConnectionsUpdateResponseIdentity",
+          "target": "com.azure.azuredatatransfer#UpdateConnectionResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -7654,7 +7661,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsUpdateResponseIdentity": {
+    "com.azure.azuredatatransfer#UpdateConnectionResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -7683,7 +7690,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsUpdateResponseTagsMap": {
+    "com.azure.azuredatatransfer#UpdateConnectionResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -7695,7 +7702,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsUpdateRequest": {
+    "com.azure.azuredatatransfer#UpdateConnectionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -7723,13 +7730,13 @@
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#ConnectionsUpdateRequestIdentity",
+          "target": "com.azure.azuredatatransfer#UpdateConnectionRequestIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#ConnectionsUpdateRequestTagsMap",
+          "target": "com.azure.azuredatatransfer#UpdateConnectionRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -7739,7 +7746,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsUpdateRequestTagsMap": {
+    "com.azure.azuredatatransfer#UpdateConnectionRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -7751,7 +7758,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsUpdateRequestIdentity": {
+    "com.azure.azuredatatransfer#UpdateConnectionRequestIdentity": {
       "type": "structure",
       "members": {
         "type": {
@@ -8097,13 +8104,13 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsGet": {
+    "com.azure.azuredatatransfer#GetConnection": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#ConnectionsGetRequest"
+        "target": "com.azure.azuredatatransfer#GetConnectionRequest"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#ConnectionsGetResponse"
+        "target": "com.azure.azuredatatransfer#GetConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8116,7 +8123,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsGetResponse": {
+    "com.azure.azuredatatransfer#GetConnectionResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -8144,7 +8151,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.azuredatatransfer#ConnectionsGetResponseTagsMap",
+          "target": "com.azure.azuredatatransfer#GetConnectionResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -8163,7 +8170,7 @@
           }
         },
         "identity": {
-          "target": "com.azure.azuredatatransfer#ConnectionsGetResponseIdentity",
+          "target": "com.azure.azuredatatransfer#GetConnectionResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
@@ -8173,7 +8180,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsGetResponseIdentity": {
+    "com.azure.azuredatatransfer#GetConnectionResponseIdentity": {
       "type": "structure",
       "members": {
         "principalId": {
@@ -8202,7 +8209,7 @@
         "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsGetResponseTagsMap": {
+    "com.azure.azuredatatransfer#GetConnectionResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -8214,7 +8221,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsGetRequest": {
+    "com.azure.azuredatatransfer#GetConnectionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -8246,10 +8253,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsListByResourceGroup": {
+    "com.azure.azuredatatransfer#ListConnectionByResourceGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#ConnectionsListByResourceGroupRequest"
+        "target": "com.azure.azuredatatransfer#ListConnectionByResourceGroupRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#ConnectionListResult"
@@ -8393,7 +8400,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsListByResourceGroupRequest": {
+    "com.azure.azuredatatransfer#ListConnectionByResourceGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -8417,10 +8424,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#PipelinesListBySubscription": {
+    "com.azure.azuredatatransfer#ListPipelineBySubscription": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#PipelinesListBySubscriptionRequest"
+        "target": "com.azure.azuredatatransfer#ListPipelineBySubscriptionRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#PipelineListResult"
@@ -8436,7 +8443,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#PipelinesListBySubscriptionRequest": {
+    "com.azure.azuredatatransfer#ListPipelineBySubscriptionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -8452,10 +8459,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsListBySubscription": {
+    "com.azure.azuredatatransfer#ListConnectionBySubscription": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#ConnectionsListBySubscriptionRequest"
+        "target": "com.azure.azuredatatransfer#ListConnectionBySubscriptionRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#ConnectionListResult"
@@ -8471,7 +8478,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#ConnectionsListBySubscriptionRequest": {
+    "com.azure.azuredatatransfer#ListConnectionBySubscriptionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -8487,10 +8494,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#AzureDataTransferValidateSchema": {
+    "com.azure.azuredatatransfer#ValidateAzureDataTransferSchema": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#AzureDataTransferValidateSchemaRequest"
+        "target": "com.azure.azuredatatransfer#ValidateAzureDataTransferSchemaRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#ValidateSchemaResult"
@@ -8546,7 +8553,7 @@
         "smithy.api#documentation": "Validation status of the schema"
       }
     },
-    "com.azure.azuredatatransfer#AzureDataTransferValidateSchemaRequest": {
+    "com.azure.azuredatatransfer#ValidateAzureDataTransferSchemaRequest": {
       "type": "structure",
       "members": {
         "id": {
@@ -8602,13 +8609,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.azuredatatransfer#OperationsList": {
+    "com.azure.azuredatatransfer#ListOperations": {
       "type": "operation",
       "input": {
         "target": "smithy.api#Unit"
       },
       "output": {
-        "target": "com.azure.azuredatatransfer#OperationsListResponse"
+        "target": "com.azure.azuredatatransfer#ListOperationsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8621,11 +8628,11 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#OperationsListResponse": {
+    "com.azure.azuredatatransfer#ListOperationsResponse": {
       "type": "structure",
       "members": {
         "value": {
-          "target": "com.azure.azuredatatransfer#OperationsListResponseValueList",
+          "target": "com.azure.azuredatatransfer#ListOperationsResponseValueList",
           "traits": {
             "smithy.api#documentation": "List of operations supported by the resource provider"
           }
@@ -8641,7 +8648,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azuredatatransfer#OperationsListResponseValueList": {
+    "com.azure.azuredatatransfer#ListOperationsResponseValueList": {
       "type": "list",
       "member": {
         "target": "com.azure.azuredatatransfer#Operation"
@@ -8760,10 +8767,10 @@
         "smithy.api#documentation": "Localized display information for this particular operation."
       }
     },
-    "com.azure.azuredatatransfer#AzureDataTransferListApprovedSchemas": {
+    "com.azure.azuredatatransfer#ListAzureDataTransferApprovedSchemas": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azuredatatransfer#AzureDataTransferListApprovedSchemasRequest"
+        "target": "com.azure.azuredatatransfer#ListAzureDataTransferApprovedSchemasRequest"
       },
       "output": {
         "target": "com.azure.azuredatatransfer#SchemasListResult"
@@ -8779,7 +8786,7 @@
         "com.distilled.openapi#apiVersion": "2025-05-21"
       }
     },
-    "com.azure.azuredatatransfer#AzureDataTransferListApprovedSchemasRequest": {
+    "com.azure.azuredatatransfer#ListAzureDataTransferApprovedSchemasRequest": {
       "type": "structure",
       "members": {
         "pipeline": {
@@ -8804,124 +8811,124 @@
       "version": "1.0",
       "operations": [
         {
-          "target": "com.azure.azuredatatransfer#PipelinesRejectConnection"
+          "target": "com.azure.azuredatatransfer#RejectPipelineConnection"
         },
         {
-          "target": "com.azure.azuredatatransfer#ListSchemasList"
+          "target": "com.azure.azuredatatransfer#ListListSchemas"
         },
         {
-          "target": "com.azure.azuredatatransfer#ListFlowsByPipelineList"
+          "target": "com.azure.azuredatatransfer#ListListFlowsByPipeline"
         },
         {
-          "target": "com.azure.azuredatatransfer#PipelinesExecuteAction"
+          "target": "com.azure.azuredatatransfer#ExecutePipelineAction"
         },
         {
-          "target": "com.azure.azuredatatransfer#PipelinesApproveConnection"
+          "target": "com.azure.azuredatatransfer#ApprovePipelineConnection"
         },
         {
-          "target": "com.azure.azuredatatransfer#PipelinesDelete"
+          "target": "com.azure.azuredatatransfer#DeletePipeline"
         },
         {
-          "target": "com.azure.azuredatatransfer#PipelinesUpdate"
+          "target": "com.azure.azuredatatransfer#UpdatePipeline"
         },
         {
           "target": "com.azure.azuredatatransfer#PipelinesCreateOrUpdate"
         },
         {
-          "target": "com.azure.azuredatatransfer#PipelinesGet"
+          "target": "com.azure.azuredatatransfer#GetPipeline"
         },
         {
-          "target": "com.azure.azuredatatransfer#PipelinesListByResourceGroup"
+          "target": "com.azure.azuredatatransfer#ListPipelineByResourceGroup"
         },
         {
-          "target": "com.azure.azuredatatransfer#ListPendingFlowsList"
+          "target": "com.azure.azuredatatransfer#ListListPendingFlows"
         },
         {
-          "target": "com.azure.azuredatatransfer#ListPendingConnectionsList"
+          "target": "com.azure.azuredatatransfer#ListListPendingConnections"
         },
         {
           "target": "com.azure.azuredatatransfer#ConnectionsLink"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsSetSourceAddresses"
+          "target": "com.azure.azuredatatransfer#SetFlowSourceAddresses"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsSetPassphrase"
+          "target": "com.azure.azuredatatransfer#SetFlowPassphrase"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpoints"
+          "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpoints"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsSetDestinationEndpointPorts"
+          "target": "com.azure.azuredatatransfer#SetFlowDestinationEndpointPorts"
         },
         {
           "target": "com.azure.azuredatatransfer#FlowsLink"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsGetStreamConnectionString"
+          "target": "com.azure.azuredatatransfer#GetFlowStreamConnectionString"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsGetSourceAddresses"
+          "target": "com.azure.azuredatatransfer#GetFlowSourceAddresses"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsGetDestinationEndpoints"
+          "target": "com.azure.azuredatatransfer#GetFlowDestinationEndpoints"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsGetDestinationEndpointPorts"
+          "target": "com.azure.azuredatatransfer#GetFlowDestinationEndpointPorts"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsGeneratePassphrase"
+          "target": "com.azure.azuredatatransfer#GenerateFlowPassphrase"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsEnable"
+          "target": "com.azure.azuredatatransfer#EnableFlow"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsDisable"
+          "target": "com.azure.azuredatatransfer#DisableFlow"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsDelete"
+          "target": "com.azure.azuredatatransfer#DeleteFlow"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsUpdate"
+          "target": "com.azure.azuredatatransfer#UpdateFlow"
         },
         {
           "target": "com.azure.azuredatatransfer#FlowsCreateOrUpdate"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsGet"
+          "target": "com.azure.azuredatatransfer#GetFlow"
         },
         {
-          "target": "com.azure.azuredatatransfer#FlowsListByConnection"
+          "target": "com.azure.azuredatatransfer#ListFlowByConnection"
         },
         {
-          "target": "com.azure.azuredatatransfer#ConnectionsDelete"
+          "target": "com.azure.azuredatatransfer#DeleteConnection"
         },
         {
-          "target": "com.azure.azuredatatransfer#ConnectionsUpdate"
+          "target": "com.azure.azuredatatransfer#UpdateConnection"
         },
         {
           "target": "com.azure.azuredatatransfer#ConnectionsCreateOrUpdate"
         },
         {
-          "target": "com.azure.azuredatatransfer#ConnectionsGet"
+          "target": "com.azure.azuredatatransfer#GetConnection"
         },
         {
-          "target": "com.azure.azuredatatransfer#ConnectionsListByResourceGroup"
+          "target": "com.azure.azuredatatransfer#ListConnectionByResourceGroup"
         },
         {
-          "target": "com.azure.azuredatatransfer#PipelinesListBySubscription"
+          "target": "com.azure.azuredatatransfer#ListPipelineBySubscription"
         },
         {
-          "target": "com.azure.azuredatatransfer#ConnectionsListBySubscription"
+          "target": "com.azure.azuredatatransfer#ListConnectionBySubscription"
         },
         {
-          "target": "com.azure.azuredatatransfer#AzureDataTransferValidateSchema"
+          "target": "com.azure.azuredatatransfer#ValidateAzureDataTransferSchema"
         },
         {
-          "target": "com.azure.azuredatatransfer#OperationsList"
+          "target": "com.azure.azuredatatransfer#ListOperations"
         },
         {
-          "target": "com.azure.azuredatatransfer#AzureDataTransferListApprovedSchemas"
+          "target": "com.azure.azuredatatransfer#ListAzureDataTransferApprovedSchemas"
         }
       ],
       "traits": {

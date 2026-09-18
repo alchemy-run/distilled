@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.scheduled_changes#ScheduledChangesListRequest": {
+    "com.posthog.scheduled_changes#ListScheduledChangesRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -114,7 +115,7 @@
           }
         },
         "model_name": {
-          "target": "com.posthog.scheduled_changes#ModelNameEnum",
+          "target": "com.posthog.scheduled_changes#ScheduledChangeAllowedModelsEnum",
           "traits": {
             "smithy.api#documentation": "The type of record to modify. Currently only \"FeatureFlag\" is supported.\n\n* `FeatureFlag` - feature flag",
             "smithy.api#required": {}
@@ -206,11 +207,19 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "change_request": {
+          "target": "com.posthog.scheduled_changes#ChangeRequestSummary",
+          "traits": {
+            "smithy.api#documentation": "Summary of the approval change request gating this scheduled change. Null when no approval policy applies. The change only applies at its scheduled time if the request is approved by then.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
     },
-    "com.posthog.scheduled_changes#ModelNameEnum": {
+    "com.posthog.scheduled_changes#ScheduledChangeAllowedModelsEnum": {
       "type": "enum",
       "members": {
         "FEATUREFLAG": {
@@ -324,6 +333,12 @@
             "smithy.api#enumValue": "sales"
           }
         },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
         "OTHER": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -332,7 +347,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `other` - Other"
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
       }
     },
     "com.posthog.scheduled_changes#BlankEnum": {
@@ -391,6 +406,72 @@
         "smithy.api#documentation": "* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly\n* `yearly` - yearly"
       }
     },
+    "com.posthog.scheduled_changes#ChangeRequestSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the approval change request. Use it to link to the change request in the UI.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.posthog.scheduled_changes#ChangeRequestStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Current approval state: 'pending' (awaiting approval), 'approved' (awaiting application), 'applied', 'rejected', 'expired', or 'failed'.\n\n* `pending` - Pending\n* `approved` - Approved (awaiting application)\n* `applied` - Applied\n* `rejected` - Rejected\n* `expired` - Expired\n* `failed` - Failed to apply",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Minimal read-only ChangeRequest shape for embedding on resources gated by an approval,\ne.g. the scheduled change that carries it. Exposes just enough to show the approval state\nand link to the change request."
+      }
+    },
+    "com.posthog.scheduled_changes#ChangeRequestStateEnum": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "APPLIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "applied"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `pending` - Pending\n* `approved` - Approved (awaiting application)\n* `applied` - Applied\n* `rejected` - Rejected\n* `expired` - Expired\n* `failed` - Failed to apply"
+      }
+    },
     "com.posthog.scheduled_changes#PaginatedScheduledChangeListResultsList": {
       "type": "list",
       "member": {
@@ -398,10 +479,10 @@
       },
       "traits": {}
     },
-    "com.posthog.scheduled_changes#ScheduledChangesList": {
+    "com.posthog.scheduled_changes#ListScheduledChanges": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.scheduled_changes#ScheduledChangesListRequest"
+        "target": "com.posthog.scheduled_changes#ListScheduledChangesRequest"
       },
       "output": {
         "target": "com.posthog.scheduled_changes#PaginatedScheduledChangeList"
@@ -415,7 +496,7 @@
         "smithy.api#documentation": "Create, read, update and delete scheduled changes."
       }
     },
-    "com.posthog.scheduled_changes#ScheduledChangesCreateRequest": {
+    "com.posthog.scheduled_changes#CreateScheduledChangeRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -434,7 +515,7 @@
           }
         },
         "model_name": {
-          "target": "com.posthog.scheduled_changes#ModelNameEnum",
+          "target": "com.posthog.scheduled_changes#ScheduledChangeAllowedModelsEnum",
           "traits": {
             "smithy.api#documentation": "The type of record to modify. Currently only \"FeatureFlag\" is supported.\n\n* `FeatureFlag` - feature flag",
             "smithy.api#required": {}
@@ -485,10 +566,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.scheduled_changes#ScheduledChangesCreate": {
+    "com.posthog.scheduled_changes#CreateScheduledChange": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.scheduled_changes#ScheduledChangesCreateRequest"
+        "target": "com.posthog.scheduled_changes#CreateScheduledChangeRequest"
       },
       "output": {
         "target": "com.posthog.scheduled_changes#ScheduledChange"
@@ -502,7 +583,7 @@
         "smithy.api#documentation": "Create, read, update and delete scheduled changes."
       }
     },
-    "com.posthog.scheduled_changes#ScheduledChangesRetrieveRequest": {
+    "com.posthog.scheduled_changes#GetScheduledChangeRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -526,10 +607,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.scheduled_changes#ScheduledChangesRetrieve": {
+    "com.posthog.scheduled_changes#GetScheduledChange": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.scheduled_changes#ScheduledChangesRetrieveRequest"
+        "target": "com.posthog.scheduled_changes#GetScheduledChangeRequest"
       },
       "output": {
         "target": "com.posthog.scheduled_changes#ScheduledChange"
@@ -543,7 +624,7 @@
         "smithy.api#documentation": "Create, read, update and delete scheduled changes."
       }
     },
-    "com.posthog.scheduled_changes#ScheduledChangesUpdateRequest": {
+    "com.posthog.scheduled_changes#UpdateScheduledChangeRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -570,7 +651,7 @@
           }
         },
         "model_name": {
-          "target": "com.posthog.scheduled_changes#ModelNameEnum",
+          "target": "com.posthog.scheduled_changes#ScheduledChangeAllowedModelsEnum",
           "traits": {
             "smithy.api#documentation": "The type of record to modify. Currently only \"FeatureFlag\" is supported.\n\n* `FeatureFlag` - feature flag",
             "smithy.api#required": {}
@@ -621,10 +702,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.scheduled_changes#ScheduledChangesUpdate": {
+    "com.posthog.scheduled_changes#UpdateScheduledChange": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.scheduled_changes#ScheduledChangesUpdateRequest"
+        "target": "com.posthog.scheduled_changes#UpdateScheduledChangeRequest"
       },
       "output": {
         "target": "com.posthog.scheduled_changes#ScheduledChange"
@@ -638,7 +719,7 @@
         "smithy.api#documentation": "Create, read, update and delete scheduled changes."
       }
     },
-    "com.posthog.scheduled_changes#ScheduledChangesPartialUpdateRequest": {
+    "com.posthog.scheduled_changes#UpdateScheduledChangesPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -664,7 +745,7 @@
           }
         },
         "model_name": {
-          "target": "com.posthog.scheduled_changes#ModelNameEnum",
+          "target": "com.posthog.scheduled_changes#ScheduledChangeAllowedModelsEnum",
           "traits": {
             "smithy.api#documentation": "The type of record to modify. Currently only \"FeatureFlag\" is supported.\n\n* `FeatureFlag` - feature flag"
           }
@@ -712,10 +793,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.scheduled_changes#ScheduledChangesPartialUpdate": {
+    "com.posthog.scheduled_changes#UpdateScheduledChangesPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.scheduled_changes#ScheduledChangesPartialUpdateRequest"
+        "target": "com.posthog.scheduled_changes#UpdateScheduledChangesPartialRequest"
       },
       "output": {
         "target": "com.posthog.scheduled_changes#ScheduledChange"
@@ -775,19 +856,19 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.scheduled_changes#ScheduledChangesList"
+          "target": "com.posthog.scheduled_changes#ListScheduledChanges"
         },
         {
-          "target": "com.posthog.scheduled_changes#ScheduledChangesCreate"
+          "target": "com.posthog.scheduled_changes#CreateScheduledChange"
         },
         {
-          "target": "com.posthog.scheduled_changes#ScheduledChangesRetrieve"
+          "target": "com.posthog.scheduled_changes#GetScheduledChange"
         },
         {
-          "target": "com.posthog.scheduled_changes#ScheduledChangesUpdate"
+          "target": "com.posthog.scheduled_changes#UpdateScheduledChange"
         },
         {
-          "target": "com.posthog.scheduled_changes#ScheduledChangesPartialUpdate"
+          "target": "com.posthog.scheduled_changes#UpdateScheduledChangesPartial"
         },
         {
           "target": "com.posthog.scheduled_changes#ScheduledChangesDestroy"

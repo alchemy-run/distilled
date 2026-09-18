@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.github.gists#ListRequest": {
@@ -1250,7 +1251,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.github.gists#GistSimpleFilesValue"
+        "target": "com.github.gists#GistSimpleFilesValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -1497,7 +1501,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.github.gists#UpdateRequestFilesValue"
+        "target": "com.github.gists#UpdateRequestFilesValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The gist files to be updated, renamed, or deleted. Each `key` must match the current filename\n(including extension) of the targeted gist file. For example: `hello.py`.\n\nTo delete a file, set the whole file to null. For example: `hello.py : null`. The file will also be\ndeleted if the specified object does not contain at least one of `content` or `filename`."

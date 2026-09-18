@@ -48,10 +48,10 @@ export class Credentials extends Context.Service<
 >()("CoinbaseCredentials") {}
 
 const envConfig = EffectConfig.all({
-  apiKeyId: EffectConfig.option(EffectConfig.string("CDP_API_KEY_ID")),
-  apiKeyName: EffectConfig.option(EffectConfig.string("CDP_API_KEY_NAME")),
-  apiKeySecret: EffectConfig.string("CDP_API_KEY_SECRET"),
-  walletSecret: EffectConfig.option(EffectConfig.string("CDP_WALLET_SECRET")),
+  apiKeyId: EffectConfig.option(EffectConfig.String("CDP_API_KEY_ID")),
+  apiKeyName: EffectConfig.option(EffectConfig.String("CDP_API_KEY_NAME")),
+  apiKeySecret: EffectConfig.String("CDP_API_KEY_SECRET"),
+  walletSecret: EffectConfig.option(EffectConfig.String("CDP_WALLET_SECRET")),
 });
 
 export const CredentialsFromEnv = Layer.succeed(

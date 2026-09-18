@@ -32,8 +32,8 @@ export class Credentials extends Context.Service<
 
 const envConfig = EffectConfig.all({
   // `HF_TOKEN` is what huggingface_hub, huggingface.js and the hf CLI read.
-  token: EffectConfig.string("HF_TOKEN"),
-  apiBaseUrl: EffectConfig.string("HF_API_URL").pipe(
+  token: EffectConfig.String("HF_TOKEN"),
+  apiBaseUrl: EffectConfig.String("HF_API_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
 });

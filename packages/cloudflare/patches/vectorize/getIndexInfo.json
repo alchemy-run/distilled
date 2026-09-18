@@ -1,0 +1,30 @@
+{
+  "description": "Align vectorize#IndexesInfo with distilled cloudflare/vectorize getIndexInfo",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.vectorize#IndexesInfo",
+      "path": "/shapes/com.cloudflare.vectorize#GetIndexInfo"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.vectorize#IndexesInfoRequest",
+      "path": "/shapes/com.cloudflare.vectorize#GetIndexInfoRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.vectorize#GetIndexInfo/input/target",
+      "value": "com.cloudflare.vectorize#GetIndexInfoRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.vectorize#IndexesInfoResponse",
+      "path": "/shapes/com.cloudflare.vectorize#GetIndexInfoResponse"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.vectorize#GetIndexInfo/output/target",
+      "value": "com.cloudflare.vectorize#GetIndexInfoResponse"
+    }
+  ]
+}

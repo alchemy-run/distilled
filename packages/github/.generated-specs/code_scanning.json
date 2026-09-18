@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.github.code_scanning#ListAlertsForOrgRequestDirection": {
@@ -521,6 +522,12 @@
           "traits": {
             "smithy.api#enumValue": "used in tests"
           }
+        },
+        "MITIGATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mitigated"
+          }
         }
       },
       "traits": {
@@ -802,7 +809,10 @@
     "com.github.code_scanning#CodeScanningAlertInstanceClassificationsList": {
       "type": "list",
       "member": {
-        "target": "com.github.code_scanning#CodeScanningAlertClassification"
+        "target": "com.github.code_scanning#CodeScanningAlertClassification",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Classifications that have been applied to the file that triggered the alert.\nFor example identifying it as documentation, or a generated file."
@@ -4358,7 +4368,10 @@
     "com.github.code_scanning#CodeScanningAlertInstanceListClassificationsList": {
       "type": "list",
       "member": {
-        "target": "com.github.code_scanning#CodeScanningAlertClassification"
+        "target": "com.github.code_scanning#CodeScanningAlertClassification",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Classifications that have been applied to the file that triggered the alert.\nFor example identifying it as documentation, or a generated file."

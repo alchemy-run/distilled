@@ -1,0 +1,790 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.shipments#ListShipmentsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "PRE_TRANSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pre_transit"
+          }
+        },
+        "IN_TRANSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_transit"
+          }
+        },
+        "OUT_FOR_DELIVERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "out_for_delivery"
+          }
+        },
+        "DELIVERED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delivered"
+          }
+        },
+        "AVAILABLE_FOR_PICKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available_for_pickup"
+          }
+        },
+        "RETURN_TO_SENDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "return_to_sender"
+          }
+        },
+        "FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failure"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.shipments#ListShipmentsRequestPaymentIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.shipments#ListShipmentsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.shipments#ListShipmentsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.shipments#ListShipmentsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The account to list shipments for. Defaults to the acting account."
+          }
+        },
+        "status": {
+          "target": "com.whop.shipments#ListShipmentsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter to shipments with this delivery status."
+          }
+        },
+        "payment_id": {
+          "target": "com.whop.shipments#ListShipmentsRequestPaymentIdList",
+          "traits": {
+            "smithy.api#httpQuery": "payment_id",
+            "smithy.api#documentation": "Only shipments fulfilling these payments, each prefixed `pay_`. Repeat the parameter to pass several, up to 100 per request — one paginated list covers all of them."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Return shipments created before this ISO 8601 timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Return shipments created after this ISO 8601 timestamp."
+          }
+        },
+        "order": {
+          "target": "com.whop.shipments#ListShipmentsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort by."
+          }
+        },
+        "direction": {
+          "target": "com.whop.shipments#ListShipmentsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "The sort direction."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of shipments to return."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor; returns shipments after this position."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of shipments to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor; returns shipments before this position."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.shipments#Shipment": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account that owns this shipment, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "carrier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The shipping carrier detected for this shipment. Null until a tracking update identifies it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "checkpoints": {
+          "target": "com.whop.shipments#ShipmentCheckpointsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the shipment was created (ISO 8601).",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Shipment ID, prefixed `ship_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payment this shipment fulfills, prefixed `pay_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.shipments#ShipmentStatus",
+          "traits": {
+            "smithy.api#documentation": "The current delivery status of this shipment.",
+            "smithy.api#required": {}
+          }
+        },
+        "tracking_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The carrier-assigned tracking number used to look up shipment progress.",
+            "smithy.api#required": {}
+          }
+        },
+        "tracking_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A customer-facing URL to track this shipment's progress.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the shipment was last updated (ISO 8601).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.shipments#ShipmentCheckpoint": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where the carrier recorded the scan, such as `PHILADELPHIA, PA`. Null when the carrier sent none.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Carrier's description of the scan, such as `Departed USPS Regional Facility`. Null when the carrier sent none.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.shipments#ShipmentCheckpointStatus",
+          "traits": {
+            "smithy.api#documentation": "Delivery status this carrier scan maps to.",
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the carrier recorded the scan, as an ISO 8601 timestamp. Null when the carrier sent no scan time.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.shipments#ShipmentCheckpointStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "PRE_TRANSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pre_transit"
+          }
+        },
+        "IN_TRANSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_transit"
+          }
+        },
+        "OUT_FOR_DELIVERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "out_for_delivery"
+          }
+        },
+        "DELIVERED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delivered"
+          }
+        },
+        "AVAILABLE_FOR_PICKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available_for_pickup"
+          }
+        },
+        "RETURN_TO_SENDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "return_to_sender"
+          }
+        },
+        "FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failure"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Delivery status this carrier scan maps to."
+      }
+    },
+    "com.whop.shipments#ShipmentCheckpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.shipments#ShipmentCheckpoint"
+      },
+      "traits": {}
+    },
+    "com.whop.shipments#ShipmentStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "PRE_TRANSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pre_transit"
+          }
+        },
+        "IN_TRANSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_transit"
+          }
+        },
+        "OUT_FOR_DELIVERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "out_for_delivery"
+          }
+        },
+        "DELIVERED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delivered"
+          }
+        },
+        "AVAILABLE_FOR_PICKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available_for_pickup"
+          }
+        },
+        "RETURN_TO_SENDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "return_to_sender"
+          }
+        },
+        "FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failure"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current delivery status of this shipment."
+      }
+    },
+    "com.whop.shipments#ListShipmentsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.shipments#Shipment"
+      },
+      "traits": {}
+    },
+    "com.whop.shipments#ListShipmentsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.shipments#ListShipmentsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.shipments#ListShipmentsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.shipments#ListShipmentsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.shipments#ListShipments": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.shipments#ListShipmentsRequest"
+      },
+      "output": {
+        "target": "com.whop.shipments#ListShipmentsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.shipments#BadRequest"
+        },
+        {
+          "target": "com.whop.shipments#Forbidden"
+        },
+        {
+          "target": "com.whop.shipments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/shipments",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Shipments\n\nReturns a paginated list of shipments for an account.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.shipments#CreateShipmentRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the account, prefixed `biz_`."
+          }
+        },
+        "payment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payment to attach the shipment to, prefixed `pay_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "tracking_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The carrier-assigned tracking number.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.shipments#CreateShipment": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.shipments#CreateShipmentRequest"
+      },
+      "output": {
+        "target": "com.whop.shipments#Shipment"
+      },
+      "errors": [
+        {
+          "target": "com.whop.shipments#BadRequest"
+        },
+        {
+          "target": "com.whop.shipments#Forbidden"
+        },
+        {
+          "target": "com.whop.shipments#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/shipments",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Shipment\n\nAttaches a carrier tracking number to a payment and begins tracking it."
+      }
+    },
+    "com.whop.shipments#GetShipmentRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The shipment id (`ship_`), or the payment id (`pay_`) it fulfills."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.shipments#GetShipment": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.shipments#GetShipmentRequest"
+      },
+      "output": {
+        "target": "com.whop.shipments#Shipment"
+      },
+      "errors": [
+        {
+          "target": "com.whop.shipments#Forbidden"
+        },
+        {
+          "target": "com.whop.shipments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/shipments/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Shipment\n\nRetrieves a shipment by its id, or by the payment id it fulfills."
+      }
+    },
+    "com.whop.shipments#UpdateShipmentRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The shipment id (`ship_`), or the payment id (`pay_`) it fulfills."
+          }
+        },
+        "tracking_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The new carrier-assigned tracking number.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.shipments#UpdateShipment": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.shipments#UpdateShipmentRequest"
+      },
+      "output": {
+        "target": "com.whop.shipments#Shipment"
+      },
+      "errors": [
+        {
+          "target": "com.whop.shipments#BadRequest"
+        },
+        {
+          "target": "com.whop.shipments#Forbidden"
+        },
+        {
+          "target": "com.whop.shipments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/shipments/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Shipment\n\nUpdates a shipment's tracking number and re-tracks it with the carrier."
+      }
+    },
+    "com.whop.shipments#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.shipments#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.shipments#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.shipments#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.shipments#Shipments": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.shipments#ListShipments"
+        },
+        {
+          "target": "com.whop.shipments#CreateShipment"
+        },
+        {
+          "target": "com.whop.shipments#GetShipment"
+        },
+        {
+          "target": "com.whop.shipments#UpdateShipment"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

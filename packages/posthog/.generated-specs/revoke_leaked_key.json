@@ -1,0 +1,137 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.revoke_leaked_key#RevokeLeakedKeyCreateRequest": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The leaked PostHog personal API key, project secret API key, or OAuth access/refresh token to revoke.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.revoke_leaked_key#LeakedKeyReportResponse": {
+      "type": "structure",
+      "members": {
+        "found": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a matching PostHog key or token was found and revoked.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.posthog.revoke_leaked_key#LeakedKeyReportResponseTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "The type of key that was found and revoked, or null if no match was found.\n\n* `personal_api_key` - personal_api_key\n* `project_secret_api_key` - project_secret_api_key\n* `oauth_access_token` - oauth_access_token\n* `oauth_refresh_token` - oauth_refresh_token",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.revoke_leaked_key#LeakedKeyReportResponseTypeEnum": {
+      "type": "enum",
+      "members": {
+        "PERSONAL_API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "personal_api_key"
+          }
+        },
+        "PROJECT_SECRET_API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_secret_api_key"
+          }
+        },
+        "OAUTH_ACCESS_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oauth_access_token"
+          }
+        },
+        "OAUTH_REFRESH_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oauth_refresh_token"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `personal_api_key` - personal_api_key\n* `project_secret_api_key` - project_secret_api_key\n* `oauth_access_token` - oauth_access_token\n* `oauth_refresh_token` - oauth_refresh_token"
+      }
+    },
+    "com.posthog.revoke_leaked_key#RevokeLeakedKeyCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.revoke_leaked_key#RevokeLeakedKeyCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.revoke_leaked_key#LeakedKeyReportResponse"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.revoke_leaked_key#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/revoke_leaked_key/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Report and revoke a leaked PostHog API key or token\n\nPublic, unauthenticated endpoint for self-service revocation of a leaked PostHog personal API key, project secret API key, or OAuth access/refresh token. If the token matches a real credential, it is revoked immediately and the owner is notified by email. This includes an expired OAuth access token: the paired refresh token it protects may still be live.\n\nThis endpoint only checks the region it is running on. `\"found\": false` does not guarantee the token is safe. If you're not sure which region issued it, check both: https://app.posthog.com/api/revoke_leaked_key and https://eu.posthog.com/api/revoke_leaked_key."
+      }
+    },
+    "com.posthog.revoke_leaked_key#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.revoke_leaked_key#RevokeLeakedKey": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.revoke_leaked_key#RevokeLeakedKeyCreate"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

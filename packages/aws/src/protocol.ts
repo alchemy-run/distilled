@@ -24,7 +24,6 @@
  * rules) is keyed off the operation config's identity, which `API.make`
  * memoizes — so it runs once per operation per process.
  */
-import { AwsV4Signer } from "aws4fetch";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
@@ -46,6 +45,7 @@ import * as Credentials from "./credentials.browser.ts";
 import * as Endpoint from "./endpoint.ts";
 import * as Region from "./region.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
+import * as SigV4 from "./sigv4.ts";
 import {
   getAwsApiService,
   getAwsAuthSigv2,
@@ -372,7 +372,7 @@ const encode = ({
 
     // S3 Control rejects UNSIGNED-PAYLOAD on several routes (access point
     // operations fail with `InvalidRequest: "Request body cannot be
-    // unsigned"`). aws4fetch injects UNSIGNED-PAYLOAD for any service signing
+    // unsigned"`). The signer injects UNSIGNED-PAYLOAD for any service signing
     // as "s3" when the header is absent, so pre-compute the real payload
     // SHA-256 here (matching the official SDK's applyChecksum behavior).
     // Glacier likewise REQUIRES the x-amz-content-sha256 header on
@@ -408,31 +408,24 @@ const encode = ({
       };
     }
 
-    const signer = new AwsV4Signer({
+    const signedRequest = yield* SigV4.sign({
       method: resolvedRequest.method,
       url: `${endpoint}${fullPath}`,
       headers: signingHeaders,
-      // Don't pass body to signer when using unsigned payload
-      body: useUnsignedPayload
-        ? undefined
-        : resolvedRequest.body instanceof Uint8Array
-          ? Buffer.from(resolvedRequest.body)
+      // Don't pass body to signer when using unsigned payload. A streaming
+      // body only reaches here with an explicit x-amz-content-sha256, in
+      // which case the signer never reads the body.
+      body:
+        useUnsignedPayload || resolvedRequest.body instanceof ReadableStream
+          ? undefined
           : resolvedRequest.body,
       accessKeyId: Redacted.value(credentials.accessKeyId),
-      secretAccessKey: Redacted.value(credentials.secretAccessKey),
-      sessionToken: credentials.sessionToken
-        ? Redacted.value(credentials.sessionToken)
-        : undefined,
+      secretAccessKey: credentials.secretAccessKey,
+      sessionToken: credentials.sessionToken,
       service: signingServiceName,
       region: signingRegion,
     });
-    const signedRequest = yield* Effect.promise(() => signer.sign());
-
-    // Build headers object from signed request
-    const signedHeaders: Record<string, string> = {};
-    signedRequest.headers.forEach((value, key) => {
-      signedHeaders[key] = value;
-    });
+    const signedHeaders = signedRequest.headers;
 
     // Get content type from signed headers for body constructor
     const contentType = signedHeaders["content-type"];

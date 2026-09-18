@@ -1,0 +1,621 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.dict#ClearDictRequest": {
+      "type": "structure",
+      "members": {
+        "dictId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.dict#ClearDict": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.dict#ClearDictRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DictClear",
+          "code": 200
+        },
+        "smithy.api#documentation": "Dicts"
+      }
+    },
+    "com.modal.dict#DictContainsRequest": {
+      "type": "structure",
+      "members": {
+        "dictId": {
+          "target": "smithy.api#String"
+        },
+        "key": {
+          "target": "smithy.api#Blob"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.dict#DictContainsResponse": {
+      "type": "structure",
+      "members": {
+        "found": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.dict#DictContains": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.dict#DictContainsRequest"
+      },
+      "output": {
+        "target": "com.modal.dict#DictContainsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DictContains",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.dict#DeleteDictRequest": {
+      "type": "structure",
+      "members": {
+        "dictId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.dict#DeleteDict": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.dict#DeleteDictRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DictDelete",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.dict#GetDictRequest": {
+      "type": "structure",
+      "members": {
+        "dictId": {
+          "target": "smithy.api#String"
+        },
+        "key": {
+          "target": "smithy.api#Blob"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.dict#GetDictResponse": {
+      "type": "structure",
+      "members": {
+        "found": {
+          "target": "smithy.api#Boolean"
+        },
+        "value": {
+          "target": "smithy.api#Blob"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.dict#GetDict": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.dict#GetDictRequest"
+      },
+      "output": {
+        "target": "com.modal.dict#GetDictResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DictGet",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.dict#DictGetByIdRequest": {
+      "type": "structure",
+      "members": {
+        "dictId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.dict#DictMetadata": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "creationInfo": {
+          "target": "com.modal.dict#CreationInfo"
+        }
+      }
+    },
+    "com.modal.dict#CreationInfo": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "This message is used in metadata for resource objects like Dict, Queue, Volume, etc."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of resource creation"
+          }
+        }
+      }
+    },
+    "com.modal.dict#DictGetByIdResponse": {
+      "type": "structure",
+      "members": {
+        "dictId": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.dict#DictMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.dict#DictGetById": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.dict#DictGetByIdRequest"
+      },
+      "output": {
+        "target": "com.modal.dict#DictGetByIdResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DictGetById",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.dict#ObjectCreationType": {
+      "type": "enum",
+      "members": {
+        "OBJECT_CREATION_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_UNSPECIFIED"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_IF_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_IF_MISSING",
+            "smithy.api#documentation": "just lookup"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
+          }
+        },
+        "OBJECT_CREATION_TYPE_EPHEMERAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_EPHEMERAL",
+            "smithy.api#documentation": "deprecate at some point"
+          }
+        }
+      }
+    },
+    "com.modal.dict#DictEntry": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#Blob"
+        },
+        "value": {
+          "target": "smithy.api#Blob"
+        }
+      }
+    },
+    "com.modal.dict#DictEntryList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.dict#DictEntry"
+      }
+    },
+    "com.modal.dict#DictGetOrCreateRequest": {
+      "type": "structure",
+      "members": {
+        "deploymentName": {
+          "target": "smithy.api#String"
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "removed namespace"
+          }
+        },
+        "objectCreationType": {
+          "target": "com.modal.dict#ObjectCreationType"
+        },
+        "data": {
+          "target": "com.modal.dict#DictEntryList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.dict#DictGetOrCreateResponse": {
+      "type": "structure",
+      "members": {
+        "dictId": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.dict#DictMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.dict#DictGetOrCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.dict#DictGetOrCreateRequest"
+      },
+      "output": {
+        "target": "com.modal.dict#DictGetOrCreateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DictGetOrCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.dict#DictHeartbeatRequest": {
+      "type": "structure",
+      "members": {
+        "dictId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.dict#DictHeartbeat": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.dict#DictHeartbeatRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DictHeartbeat",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.dict#DictLenRequest": {
+      "type": "structure",
+      "members": {
+        "dictId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.dict#DictLenResponse": {
+      "type": "structure",
+      "members": {
+        "len": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.dict#DictLen": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.dict#DictLenRequest"
+      },
+      "output": {
+        "target": "com.modal.dict#DictLenResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DictLen",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.dict#ListPagination": {
+      "type": "structure",
+      "members": {
+        "maxObjects": {
+          "target": "smithy.api#Integer"
+        },
+        "createdBefore": {
+          "target": "smithy.api#Double"
+        }
+      }
+    },
+    "com.modal.dict#ListDictRequest": {
+      "type": "structure",
+      "members": {
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "pagination": {
+          "target": "com.modal.dict#ListPagination"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.dict#ListDictResponseDictInfo": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "dictId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Superseded by metadata, used by clients up to 1.1.2"
+          }
+        },
+        "metadata": {
+          "target": "com.modal.dict#DictMetadata"
+        }
+      }
+    },
+    "com.modal.dict#ListDictResponseDictInfoList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.dict#ListDictResponseDictInfo"
+      }
+    },
+    "com.modal.dict#ListDictResponse": {
+      "type": "structure",
+      "members": {
+        "dicts": {
+          "target": "com.modal.dict#ListDictResponseDictInfoList"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.dict#ListDict": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.dict#ListDictRequest"
+      },
+      "output": {
+        "target": "com.modal.dict#ListDictResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DictList",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.dict#DictPopRequest": {
+      "type": "structure",
+      "members": {
+        "dictId": {
+          "target": "smithy.api#String"
+        },
+        "key": {
+          "target": "smithy.api#Blob"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.dict#DictPopResponse": {
+      "type": "structure",
+      "members": {
+        "found": {
+          "target": "smithy.api#Boolean"
+        },
+        "value": {
+          "target": "smithy.api#Blob"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.dict#DictPop": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.dict#DictPopRequest"
+      },
+      "output": {
+        "target": "com.modal.dict#DictPopResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DictPop",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.dict#UpdateDictRequest": {
+      "type": "structure",
+      "members": {
+        "dictId": {
+          "target": "smithy.api#String"
+        },
+        "updates": {
+          "target": "com.modal.dict#DictEntryList"
+        },
+        "ifNotExists": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.dict#UpdateDictResponse": {
+      "type": "structure",
+      "members": {
+        "created": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.dict#UpdateDict": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.dict#UpdateDictRequest"
+      },
+      "output": {
+        "target": "com.modal.dict#UpdateDictResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DictUpdate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.dict#DictService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.dict#ClearDict"
+        },
+        {
+          "target": "com.modal.dict#DictContains"
+        },
+        {
+          "target": "com.modal.dict#DeleteDict"
+        },
+        {
+          "target": "com.modal.dict#GetDict"
+        },
+        {
+          "target": "com.modal.dict#DictGetById"
+        },
+        {
+          "target": "com.modal.dict#DictGetOrCreate"
+        },
+        {
+          "target": "com.modal.dict#DictHeartbeat"
+        },
+        {
+          "target": "com.modal.dict#DictLen"
+        },
+        {
+          "target": "com.modal.dict#ListDict"
+        },
+        {
+          "target": "com.modal.dict#DictPop"
+        },
+        {
+          "target": "com.modal.dict#UpdateDict"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Dict",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Dict`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

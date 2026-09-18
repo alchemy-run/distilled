@@ -1,0 +1,329 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.messaging_suppressions#MessagingSuppressionsAddSuppressionCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address to suppress. Will not receive any messages until removed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.messaging_suppressions#MessageSuppression": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server-assigned UUID for this suppression entry.",
+            "smithy.api#required": {}
+          }
+        },
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Normalized recipient email address. Suppression is keyed on this value, per team.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.posthog.messaging_suppressions#SuppressionSourceEnum",
+          "traits": {
+            "smithy.api#documentation": "How the entry landed on the list: `BOUNCE` for automatic (bounce-driven), `COMPLAINT` for automatic (the recipient reported a message as spam), `MANUAL` for user-added via the UI/API.\n\n* `BOUNCE` - Bounce\n* `MANUAL` - Manual\n* `COMPLAINT` - Complaint",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable reason for the suppression (e.g. 'Auto-suppressed after 5 consecutive soft bounces').",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "transient_bounce_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rolling count of consecutive soft bounces with no successful delivery in between. Reset to 0 on any successful delivery. Ignored for MANUAL entries.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_bounce_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the most recent bounce, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_bounce_diagnostic": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SMTP diagnostic string from the most recent bounce (e.g. '550 5.1.1 user unknown'), kept for visibility.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "suppressed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the address is actively suppressed. A BOUNCE row can exist while still only counting bounces (suppressed=false) before it crosses the threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "suppressed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the address was first suppressed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the row was first created (first bounce or manual add).",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the row was last touched by any write.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.messaging_suppressions#SuppressionSourceEnum": {
+      "type": "enum",
+      "members": {
+        "BOUNCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOUNCE"
+          }
+        },
+        "MANUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MANUAL"
+          }
+        },
+        "COMPLAINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPLAINT"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `BOUNCE` - Bounce\n* `MANUAL` - Manual\n* `COMPLAINT` - Complaint"
+      }
+    },
+    "com.posthog.messaging_suppressions#MessagingSuppressionsAddSuppressionCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.messaging_suppressions#MessagingSuppressionsAddSuppressionCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.messaging_suppressions#MessageSuppression"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/messaging_suppressions/add_suppression/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Manually add an email address to the suppression list\n\nManually suppress an email address so no workflow sends to it."
+      }
+    },
+    "com.posthog.messaging_suppressions#MessagingSuppressionsRemoveSuppressionCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address to suppress. Will not receive any messages until removed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.messaging_suppressions#MessagingSuppressionsRemoveSuppressionCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.messaging_suppressions#MessagingSuppressionsRemoveSuppressionCreateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/messaging_suppressions/remove_suppression/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Remove an email address from the suppression list\n\nRemove an address from the suppression list so it can receive messages again."
+      }
+    },
+    "com.posthog.messaging_suppressions#GetMessagingSuppressionsSuppressionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Case-insensitive substring match on the recipient email address."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.messaging_suppressions#PaginatedMessageSuppression": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of suppressed recipients for the team.",
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL for the next page, or null on the last page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL for the previous page, or null on the first page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.messaging_suppressions#PaginatedMessageSuppressionResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "OpenAPI shape for the paginated suppressions response. Declared so drf-spectacular emits\nthe {count, next, previous, results} envelope on the generated client, rather than a bare\narray — which the frontend actually receives at runtime."
+      }
+    },
+    "com.posthog.messaging_suppressions#PaginatedMessageSuppressionResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.messaging_suppressions#MessageSuppression"
+      },
+      "traits": {}
+    },
+    "com.posthog.messaging_suppressions#GetMessagingSuppressionsSuppression": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.messaging_suppressions#GetMessagingSuppressionsSuppressionRequest"
+      },
+      "output": {
+        "target": "com.posthog.messaging_suppressions#PaginatedMessageSuppression"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/messaging_suppressions/suppressions/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List suppressed email addresses for the team\n\nList suppressed recipients for the team, most recently updated first."
+      }
+    },
+    "com.posthog.messaging_suppressions#MessagingSuppressions": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.messaging_suppressions#MessagingSuppressionsAddSuppressionCreate"
+        },
+        {
+          "target": "com.posthog.messaging_suppressions#MessagingSuppressionsRemoveSuppressionCreate"
+        },
+        {
+          "target": "com.posthog.messaging_suppressions#GetMessagingSuppressionsSuppression"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

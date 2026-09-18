@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.product_tours#ProductToursListRequest": {
+    "com.posthog.product_tours#ListProductToursRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -46,7 +47,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "search",
-            "smithy.api#documentation": "Fuzzy match against product tour `name` and `description` using Postgres trigram word similarity. Supports typos and prefix-as-you-type."
+            "smithy.api#documentation": "Match against product tour `name` and `description`. Returns exact (case-insensitive substring) matches only; if no exact match exists, returns similar (fuzzy trigram — typos, prefix-as-you-type) matches instead. Each result's `search_match_type` is `exact` or `similar`."
           }
         }
       },
@@ -145,7 +146,7 @@
         "search_match_type": {
           "target": "com.posthog.product_tours#SearchMatchTypeEnum",
           "traits": {
-            "smithy.api#documentation": "How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match only). Results are ordered exact-first. Null when the list is not filtered by `search`.",
+            "smithy.api#documentation": "How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -425,6 +426,12 @@
             "smithy.api#enumValue": "sales"
           }
         },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
         "OTHER": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -433,7 +440,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `other` - Other"
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
       }
     },
     "com.posthog.product_tours#UserBasicRoleAtOrganization": {
@@ -473,10 +480,10 @@
       },
       "traits": {}
     },
-    "com.posthog.product_tours#ProductToursList": {
+    "com.posthog.product_tours#ListProductTours": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.product_tours#ProductToursListRequest"
+        "target": "com.posthog.product_tours#ListProductToursRequest"
       },
       "output": {
         "target": "com.posthog.product_tours#PaginatedProductTourList"
@@ -497,7 +504,8 @@
           "method": "GET",
           "uri": "/api/projects/{project_id}/product_tours/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
       }
     },
     "com.posthog.product_tours#ProductTourSerializerCreateUpdateOnlyCreationContextEnum": {
@@ -520,7 +528,7 @@
         "smithy.api#documentation": "* `app` - app\n* `toolbar` - toolbar"
       }
     },
-    "com.posthog.product_tours#ProductToursCreateRequest": {
+    "com.posthog.product_tours#CreateProductTourRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -634,10 +642,10 @@
         "smithy.api#documentation": "Serializer for creating and updating ProductTour."
       }
     },
-    "com.posthog.product_tours#ProductToursCreate": {
+    "com.posthog.product_tours#CreateProductTour": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.product_tours#ProductToursCreateRequest"
+        "target": "com.posthog.product_tours#CreateProductTourRequest"
       },
       "output": {
         "target": "com.posthog.product_tours#ProductTourSerializerCreateUpdateOnlyOutput"
@@ -658,10 +666,11 @@
           "method": "POST",
           "uri": "/api/projects/{project_id}/product_tours/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
       }
     },
-    "com.posthog.product_tours#ProductToursRetrieveRequest": {
+    "com.posthog.product_tours#GetProductTourRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -685,10 +694,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.product_tours#ProductToursRetrieve": {
+    "com.posthog.product_tours#GetProductTour": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.product_tours#ProductToursRetrieveRequest"
+        "target": "com.posthog.product_tours#GetProductTourRequest"
       },
       "output": {
         "target": "com.posthog.product_tours#ProductTour"
@@ -706,10 +715,11 @@
           "method": "GET",
           "uri": "/api/projects/{project_id}/product_tours/{id}/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
       }
     },
-    "com.posthog.product_tours#ProductToursUpdateRequest": {
+    "com.posthog.product_tours#UpdateProductTourRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -760,10 +770,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.product_tours#ProductToursUpdate": {
+    "com.posthog.product_tours#UpdateProductTour": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.product_tours#ProductToursUpdateRequest"
+        "target": "com.posthog.product_tours#UpdateProductTourRequest"
       },
       "output": {
         "target": "com.posthog.product_tours#ProductTour"
@@ -784,10 +794,11 @@
           "method": "PUT",
           "uri": "/api/projects/{project_id}/product_tours/{id}/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
       }
     },
-    "com.posthog.product_tours#ProductToursPartialUpdateRequest": {
+    "com.posthog.product_tours#UpdateProductToursPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -853,10 +864,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.product_tours#ProductToursPartialUpdate": {
+    "com.posthog.product_tours#UpdateProductToursPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.product_tours#ProductToursPartialUpdateRequest"
+        "target": "com.posthog.product_tours#UpdateProductToursPartialRequest"
       },
       "output": {
         "target": "com.posthog.product_tours#ProductTourSerializerCreateUpdateOnlyOutput"
@@ -877,7 +888,8 @@
           "method": "PATCH",
           "uri": "/api/projects/{project_id}/product_tours/{id}/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
       }
     },
     "com.posthog.product_tours#ProductToursDestroyRequest": {
@@ -925,7 +937,8 @@
           "method": "DELETE",
           "uri": "/api/projects/{project_id}/product_tours/{id}/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
       }
     },
     "com.posthog.product_tours#ProductToursDiscardDraftDestroyRequest": {
@@ -977,7 +990,7 @@
         "smithy.api#documentation": "Discard draft content."
       }
     },
-    "com.posthog.product_tours#ProductToursDraftPartialUpdateRequest": {
+    "com.posthog.product_tours#UpdateProductToursDraftPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1043,10 +1056,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.product_tours#ProductToursDraftPartialUpdate": {
+    "com.posthog.product_tours#UpdateProductToursDraftPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.product_tours#ProductToursDraftPartialUpdateRequest"
+        "target": "com.posthog.product_tours#UpdateProductToursDraftPartialRequest"
       },
       "output": {
         "target": "com.posthog.product_tours#ProductTour"
@@ -1071,7 +1084,7 @@
         "smithy.api#documentation": "Save draft content (server-side merge). No side effects triggered."
       }
     },
-    "com.posthog.product_tours#ProductToursDraftStatusRetrieveRequest": {
+    "com.posthog.product_tours#GetProductToursDraftStatusRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1107,10 +1120,10 @@
       },
       "traits": {}
     },
-    "com.posthog.product_tours#ProductToursDraftStatusRetrieve": {
+    "com.posthog.product_tours#GetProductToursDraftStatus": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.product_tours#ProductToursDraftStatusRetrieveRequest"
+        "target": "com.posthog.product_tours#GetProductToursDraftStatusRequest"
       },
       "output": {
         "target": "com.posthog.product_tours#DraftStatusResponse"
@@ -1379,19 +1392,19 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.product_tours#ProductToursList"
+          "target": "com.posthog.product_tours#ListProductTours"
         },
         {
-          "target": "com.posthog.product_tours#ProductToursCreate"
+          "target": "com.posthog.product_tours#CreateProductTour"
         },
         {
-          "target": "com.posthog.product_tours#ProductToursRetrieve"
+          "target": "com.posthog.product_tours#GetProductTour"
         },
         {
-          "target": "com.posthog.product_tours#ProductToursUpdate"
+          "target": "com.posthog.product_tours#UpdateProductTour"
         },
         {
-          "target": "com.posthog.product_tours#ProductToursPartialUpdate"
+          "target": "com.posthog.product_tours#UpdateProductToursPartial"
         },
         {
           "target": "com.posthog.product_tours#ProductToursDestroy"
@@ -1400,10 +1413,10 @@
           "target": "com.posthog.product_tours#ProductToursDiscardDraftDestroy"
         },
         {
-          "target": "com.posthog.product_tours#ProductToursDraftPartialUpdate"
+          "target": "com.posthog.product_tours#UpdateProductToursDraftPartial"
         },
         {
-          "target": "com.posthog.product_tours#ProductToursDraftStatusRetrieve"
+          "target": "com.posthog.product_tours#GetProductToursDraftStatus"
         },
         {
           "target": "com.posthog.product_tours#ProductToursGenerateCreate"

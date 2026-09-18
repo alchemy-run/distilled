@@ -120,16 +120,16 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     code: S.optional(S.Number),
-    details: S.optional(DocumentMapList),
     message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
@@ -137,22 +137,22 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(DocumentMap),
-    error: S.optional(Status),
     done: S.optional(S.Boolean),
-    response: S.optional(DocumentMap),
     name: S.optional(S.String),
+    error: S.optional(Status),
+    response: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -192,222 +192,6 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
 
-/** TimeZone settings of the app. */
-export interface TimeZoneSettings {
-  /** Optional. The time zone of the app from the [time zone database](https://www.iana.org/time-zones), e.g., America/Los_Angeles, Europe/Paris. */
-  timeZone?: string;
-}
-export const TimeZoneSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timeZone: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TimeZoneSettings",
-}) as any as S.Schema<TimeZoneSettings>;
-
-export type AppToolExecutionModeEnum =
-  | "TOOL_EXECUTION_MODE_UNSPECIFIED"
-  | "PARALLEL"
-  | "SEQUENTIAL";
-export const AppToolExecutionModeEnum = /*@__PURE__*/ S.String;
-
-export type Ces_SchemaMap = { [key: string]: Ces_Schema | undefined };
-export const Ces_SchemaMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.suspend(() => Ces_Schema),
-) as any as S.Schema<Ces_SchemaMap>;
-
-export type Ces_SchemaList = Array<Ces_Schema>;
-export const Ces_SchemaList = /*@__PURE__*/ S.Array(
-  S.suspend(() => Ces_Schema),
-) as any as S.Schema<Ces_SchemaList>;
-
-export type Ces_SchemaTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "STRING"
-  | "INTEGER"
-  | "NUMBER"
-  | "BOOLEAN"
-  | "OBJECT"
-  | "ARRAY";
-export const Ces_SchemaTypeEnum = /*@__PURE__*/ S.String;
-
-/** Represents a select subset of an OpenAPI 3.0 schema object. */
-export interface Ces_Schema {
-  /** Optional. Properties of Type.OBJECT. */
-  properties?: Ces_SchemaMap;
-  /** Optional. Indicate the items in the array must be unique. Only applies to TYPE.ARRAY. */
-  uniqueItems?: boolean;
-  /** Optional. Required properties of Type.OBJECT. */
-  required?: StringList;
-  /** Optional. Schema of the elements of Type.ARRAY. */
-  items?: Ces_Schema;
-  /** Optional. Minimum value for Type.INTEGER and Type.NUMBER. */
-  minimum?: number;
-  /** Optional. Default value of the data. */
-  default?: unknown;
-  /** Optional. Allows indirect references between schema nodes. The value should be a valid reference to a child of the root `defs`. For example, the following schema defines a reference to a schema node named "Pet": ``` type: object properties: pet: ref: #/defs/Pet defs: Pet: type: object properties: name: type: string ``` The value of the "pet" property is a reference to the schema node named "Pet". See details in https://json-schema.org/understanding-json-schema/structuring. */
-  ref?: string;
-  /** Optional. Minimum number of the elements for Type.ARRAY. */
-  minItems?: string;
-  /** Optional. Indicates if the value may be null. */
-  nullable?: boolean;
-  /** Optional. The description of the data. */
-  description?: string;
-  /** Optional. Schemas of initial elements of Type.ARRAY. */
-  prefixItems?: Ces_SchemaList;
-  /** Optional. The value should be validated against any (one or more) of the subschemas in the list. */
-  anyOf?: Ces_SchemaList;
-  /** Optional. The title of the schema. */
-  title?: string;
-  /** Optional. Possible values of the element of primitive type with enum format. Examples: 1. We can define direction as : {type:STRING, format:enum, enum:["EAST", NORTH", "SOUTH", "WEST"]} 2. We can define apartment number as : {type:INTEGER, format:enum, enum:["101", "201", "301"]} */
-  enum?: StringList;
-  /** Optional. Can either be a boolean or an object, controls the presence of additional properties. */
-  additionalProperties?: Ces_Schema;
-  /** Required. The type of the data. */
-  type?: Ces_SchemaTypeEnum | (string & {});
-  /** Optional. Maximum number of the elements for Type.ARRAY. */
-  maxItems?: string;
-  /** Optional. A map of definitions for use by `ref`. Only allowed at the root of the schema. */
-  defs?: Ces_SchemaMap;
-  /** Optional. Maximum value for Type.INTEGER and Type.NUMBER. */
-  maximum?: number;
-}
-export const Ces_Schema = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    properties: S.optional(Ces_SchemaMap),
-    uniqueItems: S.optional(S.Boolean),
-    required: S.optional(StringList),
-    items: S.optional(Ces_Schema),
-    minimum: S.optional(S.Number),
-    default: S.optional(S.Unknown),
-    ref: S.optional(S.String),
-    minItems: S.optional(S.String),
-    nullable: S.optional(S.Boolean),
-    description: S.optional(S.String),
-    prefixItems: S.optional(Ces_SchemaList),
-    anyOf: S.optional(Ces_SchemaList),
-    title: S.optional(S.String),
-    enum: S.optional(StringList),
-    additionalProperties: S.optional(Ces_Schema),
-    type: S.optional(Ces_SchemaTypeEnum),
-    maxItems: S.optional(S.String),
-    defs: S.optional(Ces_SchemaMap),
-    maximum: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Ces_Schema" }) as any as S.Schema<Ces_Schema>;
-
-/** Defines the structure and metadata for a variable. */
-export interface AppVariableDeclaration {
-  /** Required. The schema of the variable. */
-  schema?: Ces_Schema;
-  /** Required. The name of the variable. The name must start with a letter or underscore and contain only letters, numbers, or underscores. */
-  name?: string;
-  /** Required. The description of the variable. */
-  description?: string;
-}
-export const AppVariableDeclaration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    schema: S.optional(Ces_Schema),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AppVariableDeclaration",
-}) as any as S.Schema<AppVariableDeclaration>;
-
-export type AppVariableDeclarationList = Array<AppVariableDeclaration>;
-export const AppVariableDeclarationList = /*@__PURE__*/ S.Array(
-  AppVariableDeclaration,
-) as any as S.Schema<AppVariableDeclarationList>;
-
-export type DataStoreSettingsEngineTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "ENGINE_TYPE_SEARCH"
-  | "ENGINE_TYPE_CHAT";
-export const DataStoreSettingsEngineTypeEnum = /*@__PURE__*/ S.String;
-
-/** An engine to which the data stores are connected. See Vertex AI Search: https://cloud.google.com/generative-ai-app-builder/docs/enterprise-search-introduction. */
-export interface DataStoreSettingsEngine {
-  /** Output only. The type of the engine. */
-  type?: DataStoreSettingsEngineTypeEnum | (string & {});
-  /** Output only. The resource name of the engine. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
-  name?: string;
-}
-export const DataStoreSettingsEngine = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(DataStoreSettingsEngineTypeEnum),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DataStoreSettingsEngine",
-}) as any as S.Schema<DataStoreSettingsEngine>;
-
-export type DataStoreSettingsEngineList = Array<DataStoreSettingsEngine>;
-export const DataStoreSettingsEngineList = /*@__PURE__*/ S.Array(
-  DataStoreSettingsEngine,
-) as any as S.Schema<DataStoreSettingsEngineList>;
-
-/** Data store related settings for the app. */
-export interface DataStoreSettings {
-  /** Output only. The engines for the app. */
-  engines?: DataStoreSettingsEngineList;
-}
-export const DataStoreSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    engines: S.optional(DataStoreSettingsEngineList),
-  }),
-).annotate({
-  identifier: "DataStoreSettings",
-}) as any as S.Schema<DataStoreSettings>;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<StringMap>;
-
-/** Language settings of the app. */
-export interface LanguageSettings {
-  /** Optional. Enables multilingual support. If true, agents in the app will use pre-built instructions to improve handling of multilingual input. */
-  enableMultilingualSupport?: boolean;
-  /** Optional. The default language code of the app. */
-  defaultLanguageCode?: string;
-  /** Optional. List of languages codes supported by the app, in addition to the `default_language_code`. */
-  supportedLanguageCodes?: StringList;
-  /** Optional. Deprecated: This feature is no longer supported. Use `enable_multilingual_support` instead to improve handling of multilingual input. The action to perform when an agent receives input in an unsupported language. This can be a predefined action or a custom tool call. Valid values are: - A tool's full resource name, which triggers a specific tool execution. - A predefined system action, such as "escalate" or "exit", which triggers an EndSession signal with corresponding metadata to terminate the conversation. */
-  fallbackAction?: string;
-}
-export const LanguageSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enableMultilingualSupport: S.optional(S.Boolean),
-    defaultLanguageCode: S.optional(S.String),
-    supportedLanguageCodes: S.optional(StringList),
-    fallbackAction: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LanguageSettings",
-}) as any as S.Schema<LanguageSettings>;
-
-/** Configuration to instruct how sensitive data should be handled. */
-export interface RedactionConfig {
-  /** Optional. If true, redaction will be applied in various logging scenarios, including conversation history, Cloud Logging and audio recording. */
-  enableRedaction?: boolean;
-  /** Optional. [DLP](https://cloud.google.com/dlp/docs) inspect template name to configure detection of sensitive data types. Format: `projects/{project}/locations/{location}/inspectTemplates/{inspect_template}` */
-  inspectTemplate?: string;
-  /** Optional. [DLP](https://cloud.google.com/dlp/docs) deidentify template name to instruct on how to de-identify content. Format: `projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}` */
-  deidentifyTemplate?: string;
-}
-export const RedactionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enableRedaction: S.optional(S.Boolean),
-    inspectTemplate: S.optional(S.String),
-    deidentifyTemplate: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RedactionConfig",
-}) as any as S.Schema<RedactionConfig>;
-
 /** Configuration for how the audio interactions should be recorded. */
 export interface AudioRecordingConfig {
   /** Optional. The [Cloud Storage](https://cloud.google.com/storage) bucket to store the session audio recordings. The URI must start with "gs://". Please choose a bucket location that meets your data residency requirements. Note: If the Cloud Storage bucket is in a different project from the app, you should grant `storage.objects.create` permission to the CES service agent `service-@gcp-sa-ces.iam.gserviceaccount.com`. */
@@ -424,18 +208,37 @@ export const AudioRecordingConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "AudioRecordingConfig",
 }) as any as S.Schema<AudioRecordingConfig>;
 
-/** Settings to describe the conversation data collection behaviors for LLM analysis metrics pipeline. */
-export interface MetricAnalysisSettings {
-  /** Optional. Whether to collect conversation data for llm analysis metrics. If true, conversation data will not be collected for llm analysis metrics; otherwise, conversation data will be collected. */
-  llmMetricsOptedOut?: boolean;
+/** Settings to describe the Cloud Logging behaviors for the app. */
+export interface CloudLoggingSettings {
+  /** Optional. Whether to enable Cloud Logging for the sessions. */
+  enableCloudLogging?: boolean;
 }
-export const MetricAnalysisSettings = /*@__PURE__*/ S.suspend(() =>
+export const CloudLoggingSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    llmMetricsOptedOut: S.optional(S.Boolean),
+    enableCloudLogging: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "MetricAnalysisSettings",
-}) as any as S.Schema<MetricAnalysisSettings>;
+  identifier: "CloudLoggingSettings",
+}) as any as S.Schema<CloudLoggingSettings>;
+
+/** Configuration to instruct how sensitive data should be handled. */
+export interface RedactionConfig {
+  /** Optional. [DLP](https://cloud.google.com/dlp/docs) deidentify template name to instruct on how to de-identify content. Format: `projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}` */
+  deidentifyTemplate?: string;
+  /** Optional. If true, redaction will be applied in various logging scenarios, including conversation history, Cloud Logging and audio recording. */
+  enableRedaction?: boolean;
+  /** Optional. [DLP](https://cloud.google.com/dlp/docs) inspect template name to configure detection of sensitive data types. Format: `projects/{project}/locations/{location}/inspectTemplates/{inspect_template}` */
+  inspectTemplate?: string;
+}
+export const RedactionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deidentifyTemplate: S.optional(S.String),
+    enableRedaction: S.optional(S.Boolean),
+    inspectTemplate: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RedactionConfig",
+}) as any as S.Schema<RedactionConfig>;
 
 /** Settings to describe the BigQuery export behaviors for the app. */
 export interface BigQueryExportSettings {
@@ -456,19 +259,6 @@ export const BigQueryExportSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "BigQueryExportSettings",
 }) as any as S.Schema<BigQueryExportSettings>;
 
-/** Settings to describe the Cloud Logging behaviors for the app. */
-export interface CloudLoggingSettings {
-  /** Optional. Whether to enable Cloud Logging for the sessions. */
-  enableCloudLogging?: boolean;
-}
-export const CloudLoggingSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enableCloudLogging: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "CloudLoggingSettings",
-}) as any as S.Schema<CloudLoggingSettings>;
-
 /** Settings to describe the conversation logging behaviors for the app. */
 export interface ConversationLoggingSettings {
   /** Optional. Whether to disable conversation logging for the sessions. */
@@ -485,39 +275,101 @@ export const ConversationLoggingSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConversationLoggingSettings",
 }) as any as S.Schema<ConversationLoggingSettings>;
 
+/** Settings to describe the conversation data collection behaviors for LLM analysis metrics pipeline. */
+export interface MetricAnalysisSettings {
+  /** Optional. Whether to collect conversation data for llm analysis metrics. If true, conversation data will not be collected for llm analysis metrics; otherwise, conversation data will be collected. */
+  llmMetricsOptedOut?: boolean;
+}
+export const MetricAnalysisSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    llmMetricsOptedOut: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "MetricAnalysisSettings",
+}) as any as S.Schema<MetricAnalysisSettings>;
+
 /** Settings to describe the logging behaviors for the app. */
 export interface LoggingSettings {
+  /** Optional. Configures an additional recording of unredacted audio. This can be used to maintain a raw audio copy when audio redaction is enabled, typically for auditing or monitoring purposes. */
+  unredactedAudioRecordingConfig?: AudioRecordingConfig;
+  /** Optional. Settings to describe the Cloud Logging behaviors for the app. */
+  cloudLoggingSettings?: CloudLoggingSettings;
   /** Optional. Configuration for how sensitive data should be redacted. */
   redactionConfig?: RedactionConfig;
-  /** Optional. Configuration for how audio interactions should be recorded for the evaluation. By default, audio recording is not enabled for evaluation sessions. */
-  evaluationAudioRecordingConfig?: AudioRecordingConfig;
-  /** Optional. Settings to describe the conversation data collection behaviors for the LLM analysis pipeline for the app. */
-  metricAnalysisSettings?: MetricAnalysisSettings;
   /** Optional. Configuration for how audio interactions should be recorded. The audio is subject to redaction as configured in RedactionConfig. */
   audioRecordingConfig?: AudioRecordingConfig;
   /** Optional. Configures the BigQuery export behaviors for the app. The conversation data is subject to redaction as configured in RedactionConfig. */
   bigqueryExportSettings?: BigQueryExportSettings;
-  /** Optional. Settings to describe the Cloud Logging behaviors for the app. */
-  cloudLoggingSettings?: CloudLoggingSettings;
-  /** Optional. Configures an additional recording of unredacted audio. This can be used to maintain a raw audio copy when audio redaction is enabled, typically for auditing or monitoring purposes. */
-  unredactedAudioRecordingConfig?: AudioRecordingConfig;
   /** Optional. Settings to describe the conversation logging behaviors for the app. */
   conversationLoggingSettings?: ConversationLoggingSettings;
+  /** Optional. Settings to describe the conversation data collection behaviors for the LLM analysis pipeline for the app. */
+  metricAnalysisSettings?: MetricAnalysisSettings;
+  /** Optional. Configuration for how audio interactions should be recorded for the evaluation. By default, audio recording is not enabled for evaluation sessions. */
+  evaluationAudioRecordingConfig?: AudioRecordingConfig;
+  /** Optional. Configures the BigQuery export behaviors for the app. The unredacted conversation data will be exported to BigQuery tables if it is enabled. */
+  unredactedBigqueryExportSettings?: BigQueryExportSettings;
 }
 export const LoggingSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unredactedAudioRecordingConfig: S.optional(AudioRecordingConfig),
+    cloudLoggingSettings: S.optional(CloudLoggingSettings),
     redactionConfig: S.optional(RedactionConfig),
-    evaluationAudioRecordingConfig: S.optional(AudioRecordingConfig),
-    metricAnalysisSettings: S.optional(MetricAnalysisSettings),
     audioRecordingConfig: S.optional(AudioRecordingConfig),
     bigqueryExportSettings: S.optional(BigQueryExportSettings),
-    cloudLoggingSettings: S.optional(CloudLoggingSettings),
-    unredactedAudioRecordingConfig: S.optional(AudioRecordingConfig),
     conversationLoggingSettings: S.optional(ConversationLoggingSettings),
+    metricAnalysisSettings: S.optional(MetricAnalysisSettings),
+    evaluationAudioRecordingConfig: S.optional(AudioRecordingConfig),
+    unredactedBigqueryExportSettings: S.optional(BigQueryExportSettings),
   }),
 ).annotate({
   identifier: "LoggingSettings",
 }) as any as S.Schema<LoggingSettings>;
+
+export type EvaluationMetricsThresholdsGoldenHallucinationMetricBehaviorEnum =
+  | "HALLUCINATION_METRIC_BEHAVIOR_UNSPECIFIED"
+  | "DISABLED"
+  | "ENABLED";
+export const EvaluationMetricsThresholdsGoldenHallucinationMetricBehaviorEnum =
+  S.String;
+
+export type EvaluationMetricsThresholdsHallucinationMetricBehaviorEnum =
+  | "HALLUCINATION_METRIC_BEHAVIOR_UNSPECIFIED"
+  | "DISABLED"
+  | "ENABLED";
+export const EvaluationMetricsThresholdsHallucinationMetricBehaviorEnum =
+  S.String;
+
+export type EvaluationMetricsThresholdsScenarioHallucinationMetricBehaviorEnum =
+  | "HALLUCINATION_METRIC_BEHAVIOR_UNSPECIFIED"
+  | "DISABLED"
+  | "ENABLED";
+export const EvaluationMetricsThresholdsScenarioHallucinationMetricBehaviorEnum =
+  S.String;
+
+export type EvaluationMetricsThresholdsToolMatchingSettingsExtraToolCallBehaviorEnum =
+  | "EXTRA_TOOL_CALL_BEHAVIOR_UNSPECIFIED"
+  | "FAIL"
+  | "ALLOW";
+export const EvaluationMetricsThresholdsToolMatchingSettingsExtraToolCallBehaviorEnum =
+  S.String;
+
+/** Settings for matching tool calls. */
+export interface EvaluationMetricsThresholdsToolMatchingSettings {
+  /** Optional. Behavior for extra tool calls. Defaults to FAIL. */
+  extraToolCallBehavior?:
+    | EvaluationMetricsThresholdsToolMatchingSettingsExtraToolCallBehaviorEnum
+    | (string & {});
+}
+export const EvaluationMetricsThresholdsToolMatchingSettings =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      extraToolCallBehavior: S.optional(
+        EvaluationMetricsThresholdsToolMatchingSettingsExtraToolCallBehaviorEnum,
+      ),
+    }),
+  ).annotate({
+    identifier: "EvaluationMetricsThresholdsToolMatchingSettings",
+  }) as any as S.Schema<EvaluationMetricsThresholdsToolMatchingSettings>;
 
 /** Expectation level metrics thresholds. */
 export interface EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsExpectationLevelMetricsThresholds {
@@ -535,9 +387,11 @@ export const EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsExpecta
   }) as any as S.Schema<EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsExpectationLevelMetricsThresholds>;
 
 export type EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsTurnLevelMetricsThresholdsSemanticSimilarityChannelEnum =
-  "SEMANTIC_SIMILARITY_CHANNEL_UNSPECIFIED" | "TEXT" | "AUDIO";
+  | "SEMANTIC_SIMILARITY_CHANNEL_UNSPECIFIED"
+  | "TEXT"
+  | "AUDIO";
 export const EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsTurnLevelMetricsThresholdsSemanticSimilarityChannelEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** Turn level metrics thresholds. */
 export interface EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsTurnLevelMetricsThresholds {
@@ -564,211 +418,97 @@ export const EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsTurnLev
       "EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsTurnLevelMetricsThresholds",
   }) as any as S.Schema<EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsTurnLevelMetricsThresholds>;
 
-export type EvaluationMetricsThresholdsToolMatchingSettingsExtraToolCallBehaviorEnum =
-  "EXTRA_TOOL_CALL_BEHAVIOR_UNSPECIFIED" | "FAIL" | "ALLOW";
-export const EvaluationMetricsThresholdsToolMatchingSettingsExtraToolCallBehaviorEnum =
-  /*@__PURE__*/ S.String;
-
-/** Settings for matching tool calls. */
-export interface EvaluationMetricsThresholdsToolMatchingSettings {
-  /** Optional. Behavior for extra tool calls. Defaults to FAIL. */
-  extraToolCallBehavior?:
-    | EvaluationMetricsThresholdsToolMatchingSettingsExtraToolCallBehaviorEnum
-    | (string & {});
-}
-export const EvaluationMetricsThresholdsToolMatchingSettings =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      extraToolCallBehavior: S.optional(
-        EvaluationMetricsThresholdsToolMatchingSettingsExtraToolCallBehaviorEnum,
-      ),
-    }),
-  ).annotate({
-    identifier: "EvaluationMetricsThresholdsToolMatchingSettings",
-  }) as any as S.Schema<EvaluationMetricsThresholdsToolMatchingSettings>;
-
 /** Settings for golden evaluations. */
 export interface EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholds {
+  /** Optional. The tool matching settings. An extra tool call is a tool call that is present in the execution but does not match any tool call in the golden expectation. */
+  toolMatchingSettings?: EvaluationMetricsThresholdsToolMatchingSettings;
   /** Optional. The expectation level metrics thresholds. */
   expectationLevelMetricsThresholds?: EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsExpectationLevelMetricsThresholds;
   /** Optional. The turn level metrics thresholds. */
   turnLevelMetricsThresholds?: EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsTurnLevelMetricsThresholds;
-  /** Optional. The tool matching settings. An extra tool call is a tool call that is present in the execution but does not match any tool call in the golden expectation. */
-  toolMatchingSettings?: EvaluationMetricsThresholdsToolMatchingSettings;
 }
 export const EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholds =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      toolMatchingSettings: S.optional(
+        EvaluationMetricsThresholdsToolMatchingSettings,
+      ),
       expectationLevelMetricsThresholds: S.optional(
         EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsExpectationLevelMetricsThresholds,
       ),
       turnLevelMetricsThresholds: S.optional(
         EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsTurnLevelMetricsThresholds,
       ),
-      toolMatchingSettings: S.optional(
-        EvaluationMetricsThresholdsToolMatchingSettings,
-      ),
     }),
   ).annotate({
     identifier: "EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholds",
   }) as any as S.Schema<EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholds>;
 
-export type EvaluationMetricsThresholdsGoldenHallucinationMetricBehaviorEnum =
-  | "HALLUCINATION_METRIC_BEHAVIOR_UNSPECIFIED"
-  | "DISABLED"
-  | "ENABLED";
-export const EvaluationMetricsThresholdsGoldenHallucinationMetricBehaviorEnum =
-  /*@__PURE__*/ S.String;
-
-export type EvaluationMetricsThresholdsScenarioHallucinationMetricBehaviorEnum =
-  "HALLUCINATION_METRIC_BEHAVIOR_UNSPECIFIED" | "DISABLED" | "ENABLED";
-export const EvaluationMetricsThresholdsScenarioHallucinationMetricBehaviorEnum =
-  /*@__PURE__*/ S.String;
-
-export type EvaluationMetricsThresholdsHallucinationMetricBehaviorEnum =
-  | "HALLUCINATION_METRIC_BEHAVIOR_UNSPECIFIED"
-  | "DISABLED"
-  | "ENABLED";
-export const EvaluationMetricsThresholdsHallucinationMetricBehaviorEnum =
-  /*@__PURE__*/ S.String;
-
 /** Threshold settings for metrics in an Evaluation. */
 export interface EvaluationMetricsThresholds {
-  /** Optional. The golden evaluation metrics thresholds. */
-  goldenEvaluationMetricsThresholds?: EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholds;
   /** Optional. The hallucination metric behavior for golden evaluations. */
   goldenHallucinationMetricBehavior?:
     | EvaluationMetricsThresholdsGoldenHallucinationMetricBehaviorEnum
-    | (string & {});
-  /** Optional. The hallucination metric behavior for scenario evaluations. */
-  scenarioHallucinationMetricBehavior?:
-    | EvaluationMetricsThresholdsScenarioHallucinationMetricBehaviorEnum
     | (string & {});
   /** Optional. Deprecated: Use `golden_hallucination_metric_behavior` instead. The hallucination metric behavior is currently used for golden evaluations. */
   hallucinationMetricBehavior?:
     | EvaluationMetricsThresholdsHallucinationMetricBehaviorEnum
     | (string & {});
+  /** Optional. The hallucination metric behavior for scenario evaluations. */
+  scenarioHallucinationMetricBehavior?:
+    | EvaluationMetricsThresholdsScenarioHallucinationMetricBehaviorEnum
+    | (string & {});
+  /** Optional. The golden evaluation metrics thresholds. */
+  goldenEvaluationMetricsThresholds?: EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholds;
 }
 export const EvaluationMetricsThresholds = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    goldenEvaluationMetricsThresholds: S.optional(
-      EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholds,
-    ),
     goldenHallucinationMetricBehavior: S.optional(
       EvaluationMetricsThresholdsGoldenHallucinationMetricBehaviorEnum,
+    ),
+    hallucinationMetricBehavior: S.optional(
+      EvaluationMetricsThresholdsHallucinationMetricBehaviorEnum,
     ),
     scenarioHallucinationMetricBehavior: S.optional(
       EvaluationMetricsThresholdsScenarioHallucinationMetricBehaviorEnum,
     ),
-    hallucinationMetricBehavior: S.optional(
-      EvaluationMetricsThresholdsHallucinationMetricBehaviorEnum,
+    goldenEvaluationMetricsThresholds: S.optional(
+      EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholds,
     ),
   }),
 ).annotate({
   identifier: "EvaluationMetricsThresholds",
 }) as any as S.Schema<EvaluationMetricsThresholds>;
 
-/** Configuration for how the agent response should be synthesized. */
-export interface SynthesizeSpeechConfig {
-  /** Optional. The name of the voice. If not set, the service will choose a voice based on the other parameters such as language_code. For the list of available voices, please refer to [Supported voices and languages](https://cloud.google.com/text-to-speech/docs/voices) from Cloud Text-to-Speech. */
-  voice?: string;
-  /** Optional. The speaking rate/speed in the range [0.25, 2.0]. 1.0 is the normal native speed supported by the specific voice. 2.0 is twice as fast, and 0.5 is half as fast. Values outside of the range [0.25, 2.0] will return an error. */
-  speakingRate?: number;
-}
-export const SynthesizeSpeechConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    voice: S.optional(S.String),
-    speakingRate: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SynthesizeSpeechConfig",
-}) as any as S.Schema<SynthesizeSpeechConfig>;
-
-export type SynthesizeSpeechConfigMap = {
-  [key: string]: SynthesizeSpeechConfig | undefined;
-};
-export const SynthesizeSpeechConfigMap = /*@__PURE__*/ S.Record(
-  S.String,
-  SynthesizeSpeechConfig,
-) as any as S.Schema<SynthesizeSpeechConfigMap>;
-
-/** Configuration for how the user barge-in activities should be handled. */
-export interface BargeInConfig {
-  /** Optional. Disables user barge-in while the agent is speaking. If true, user input during agent response playback will be ignored. Deprecated: `disable_barge_in` is deprecated in favor of `disable_barge_in_control` in ChannelProfile. */
-  disableBargeIn?: boolean;
-  /** Optional. If enabled, the agent will adapt its next response based on the assumption that the user hasn't heard the full preceding agent message. This should not be used in scenarios where agent responses are displayed visually. */
-  bargeInAwareness?: boolean;
-}
-export const BargeInConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    disableBargeIn: S.optional(S.Boolean),
-    bargeInAwareness: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "BargeInConfig" }) as any as S.Schema<BargeInConfig>;
-
-export type AmbientSoundConfigPrebuiltAmbientNoiseEnum =
-  | "PREBUILT_AMBIENT_NOISE_UNSPECIFIED"
-  | "RETAIL_STORE"
-  | "CONVENTION_HALL"
-  | "OUTDOOR";
-export const AmbientSoundConfigPrebuiltAmbientNoiseEnum =
-  /*@__PURE__*/ S.String;
-
-/** Configuration for the ambient sound to be played with the synthesized agent response, to enhance the naturalness of the conversation. */
-export interface AmbientSoundConfig {
-  /** Optional. Deprecated: `prebuilt_ambient_noise` is deprecated in favor of `prebuilt_ambient_sound`. */
-  prebuiltAmbientNoise?:
-    | AmbientSoundConfigPrebuiltAmbientNoiseEnum
-    | (string & {});
-  /** Optional. Ambient noise as a mono-channel, 16kHz WAV file stored in [Cloud Storage](https://cloud.google.com/storage). Note: Please make sure the CES service agent `service-@gcp-sa-ces.iam.gserviceaccount.com` has `storage.objects.get` permission to the Cloud Storage object. */
-  gcsUri?: string;
-  /** Optional. Volume gain (in dB) of the normal native volume supported by ambient noise, in the range [-96.0, 16.0]. If unset, or set to a value of 0.0 (dB), will play at normal native signal amplitude. A value of -6.0 (dB) will play at approximately half the amplitude of the normal native signal amplitude. A value of +6.0 (dB) will play at approximately twice the amplitude of the normal native signal amplitude. We strongly recommend not to exceed +10 (dB) as there's usually no effective increase in loudness for any value greater than that. */
-  volumeGainDb?: number;
-  /** Optional. Name of the prebuilt ambient sound. Valid values are: - "coffee_shop" - "keyboard" - "keypad" - "hum" - "office_1" - "office_2" - "office_3" - "room_1" - "room_2" - "room_3" - "room_4" - "room_5" - "air_conditioner" */
-  prebuiltAmbientSound?: string;
-}
-export const AmbientSoundConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    prebuiltAmbientNoise: S.optional(
-      AmbientSoundConfigPrebuiltAmbientNoiseEnum,
-    ),
-    gcsUri: S.optional(S.String),
-    volumeGainDb: S.optional(S.Number),
-    prebuiltAmbientSound: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AmbientSoundConfig",
-}) as any as S.Schema<AmbientSoundConfig>;
-
-/** Configuration for how the input and output audio should be processed and delivered. */
-export interface AudioProcessingConfig {
-  /** Optional. Configuration of how the agent response should be synthesized, mapping from the language code to SynthesizeSpeechConfig. If the configuration for the specified language code is not found, the configuration for the root language code will be used. For example, if the map contains "en-us" and "en", and the specified language code is "en-gb", then "en" configuration will be used. Note: Language code is case-insensitive. */
-  synthesizeSpeechConfigs?: SynthesizeSpeechConfigMap;
-  /** Optional. The duration of user inactivity (no speech or interaction) before the agent prompts the user for reengagement. If not set, the agent will not prompt the user for reengagement. */
-  inactivityTimeout?: string;
-  /** Optional. Configures the agent behavior for the user barge-in activities. */
-  bargeInConfig?: BargeInConfig;
-  /** Optional. Configuration for the ambient sound to be played with the synthesized agent response, to enhance the naturalness of the conversation. */
-  ambientSoundConfig?: AmbientSoundConfig;
-}
-export const AudioProcessingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    synthesizeSpeechConfigs: S.optional(SynthesizeSpeechConfigMap),
-    inactivityTimeout: S.optional(S.String),
-    bargeInConfig: S.optional(BargeInConfig),
-    ambientSoundConfig: S.optional(AmbientSoundConfig),
-  }),
-).annotate({
-  identifier: "AudioProcessingConfig",
-}) as any as S.Schema<AudioProcessingConfig>;
-
 export type ErrorHandlingSettingsErrorHandlingStrategyEnum =
   | "ERROR_HANDLING_STRATEGY_UNSPECIFIED"
   | "NONE"
   | "FALLBACK_RESPONSE"
   | "END_SESSION";
-export const ErrorHandlingSettingsErrorHandlingStrategyEnum =
-  /*@__PURE__*/ S.String;
+export const ErrorHandlingSettingsErrorHandlingStrategyEnum = S.String;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StringMap>;
+
+/** Configuration for handling fallback responses. */
+export interface ErrorHandlingSettingsFallbackResponseConfig {
+  /** Optional. The fallback messages in case of system errors (e.g. LLM errors), mapped by [supported language code](https://docs.cloud.google.com/customer-engagement-ai/conversational-agents/ps/reference/language). */
+  customFallbackMessages?: StringMap;
+  /** Optional. The maximum number of fallback attempts to make before the agent emitting EndSession Signal. */
+  maxFallbackAttempts?: number;
+}
+export const ErrorHandlingSettingsFallbackResponseConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      customFallbackMessages: S.optional(StringMap),
+      maxFallbackAttempts: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "ErrorHandlingSettingsFallbackResponseConfig",
+  }) as any as S.Schema<ErrorHandlingSettingsFallbackResponseConfig>;
 
 /** Configuration for ending the session in case of system errors (e.g. LLM errors). */
 export interface ErrorHandlingSettingsEndSessionConfig {
@@ -784,190 +524,140 @@ export const ErrorHandlingSettingsEndSessionConfig = /*@__PURE__*/ S.suspend(
   identifier: "ErrorHandlingSettingsEndSessionConfig",
 }) as any as S.Schema<ErrorHandlingSettingsEndSessionConfig>;
 
-/** Configuration for handling fallback responses. */
-export interface ErrorHandlingSettingsFallbackResponseConfig {
-  /** Optional. The maximum number of fallback attempts to make before the agent emitting EndSession Signal. */
-  maxFallbackAttempts?: number;
-  /** Optional. The fallback messages in case of system errors (e.g. LLM errors), mapped by [supported language code](https://docs.cloud.google.com/customer-engagement-ai/conversational-agents/ps/reference/language). */
-  customFallbackMessages?: StringMap;
-}
-export const ErrorHandlingSettingsFallbackResponseConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      maxFallbackAttempts: S.optional(S.Number),
-      customFallbackMessages: S.optional(StringMap),
-    }),
-  ).annotate({
-    identifier: "ErrorHandlingSettingsFallbackResponseConfig",
-  }) as any as S.Schema<ErrorHandlingSettingsFallbackResponseConfig>;
-
 /** Settings to describe how errors should be handled in the app. */
 export interface ErrorHandlingSettings {
   /** Optional. The strategy to use for error handling. */
   errorHandlingStrategy?:
     | ErrorHandlingSettingsErrorHandlingStrategyEnum
     | (string & {});
-  /** Optional. Configuration for ending the session in case of system errors (e.g. LLM errors). */
-  endSessionConfig?: ErrorHandlingSettingsEndSessionConfig;
   /** Optional. Configuration for handling fallback responses. */
   fallbackResponseConfig?: ErrorHandlingSettingsFallbackResponseConfig;
+  /** Optional. Configuration for ending the session in case of system errors (e.g. LLM errors). */
+  endSessionConfig?: ErrorHandlingSettingsEndSessionConfig;
 }
 export const ErrorHandlingSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     errorHandlingStrategy: S.optional(
       ErrorHandlingSettingsErrorHandlingStrategyEnum,
     ),
-    endSessionConfig: S.optional(ErrorHandlingSettingsEndSessionConfig),
     fallbackResponseConfig: S.optional(
       ErrorHandlingSettingsFallbackResponseConfig,
     ),
+    endSessionConfig: S.optional(ErrorHandlingSettingsEndSessionConfig),
   }),
 ).annotate({
   identifier: "ErrorHandlingSettings",
 }) as any as S.Schema<ErrorHandlingSettings>;
 
-/** VPC-SC settings for the app. */
-export interface VpcScSettings {
-  /** Optional. The allowed HTTP(s) origins that OpenAPI tools in the App are able to directly call when VPC Service Controls are enabled. These strings must match the origin exactly, including the port if specified. For example, "https://example.com" or "https://example.com:443". This list does not yet apply to Python tools that may make direct HTTP calls. */
-  allowedOrigins?: StringList;
+export type Ces_SchemaTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "STRING"
+  | "INTEGER"
+  | "NUMBER"
+  | "BOOLEAN"
+  | "OBJECT"
+  | "ARRAY";
+export const Ces_SchemaTypeEnum = S.String;
+
+export type Ces_SchemaList = Array<Ces_Schema>;
+export const Ces_SchemaList = /*@__PURE__*/ S.Array(
+  S.suspend(() => Ces_Schema),
+) as any as S.Schema<Ces_SchemaList>;
+
+export type Ces_SchemaMap = { [key: string]: Ces_Schema | undefined };
+export const Ces_SchemaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.suspend(() => Ces_Schema),
+) as any as S.Schema<Ces_SchemaMap>;
+
+/** Represents a select subset of an OpenAPI 3.0 schema object. */
+export interface Ces_Schema {
+  /** Optional. The title of the schema. */
+  title?: string;
+  /** Required. The type of the data. */
+  type?: Ces_SchemaTypeEnum | (string & {});
+  /** Optional. Schemas of initial elements of Type.ARRAY. */
+  prefixItems?: Ces_SchemaList;
+  /** Optional. Minimum number of the elements for Type.ARRAY. */
+  minItems?: string;
+  /** Optional. Schema of the elements of Type.ARRAY. */
+  items?: Ces_Schema;
+  /** Optional. Maximum value for Type.INTEGER and Type.NUMBER. */
+  maximum?: number;
+  /** Optional. Properties of Type.OBJECT. */
+  properties?: Ces_SchemaMap;
+  /** Optional. Can either be a boolean or an object, controls the presence of additional properties. */
+  additionalProperties?: Ces_Schema;
+  /** Optional. The description of the data. */
+  description?: string;
+  /** Optional. Minimum value for Type.INTEGER and Type.NUMBER. */
+  minimum?: number;
+  /** Optional. Default value of the data. */
+  default?: unknown;
+  /** Optional. Maximum number of the elements for Type.ARRAY. */
+  maxItems?: string;
+  /** Optional. Indicate the items in the array must be unique. Only applies to TYPE.ARRAY. */
+  uniqueItems?: boolean;
+  /** Optional. Required properties of Type.OBJECT. */
+  required?: StringList;
+  /** Optional. Indicates if the value may be null. */
+  nullable?: boolean;
+  /** Optional. Allows indirect references between schema nodes. The value should be a valid reference to a child of the root `defs`. For example, the following schema defines a reference to a schema node named "Pet": ``` type: object properties: pet: ref: #/defs/Pet defs: Pet: type: object properties: name: type: string ``` The value of the "pet" property is a reference to the schema node named "Pet". See details in https://json-schema.org/understanding-json-schema/structuring. */
+  ref?: string;
+  /** Optional. A map of definitions for use by `ref`. Only allowed at the root of the schema. */
+  defs?: Ces_SchemaMap;
+  /** Optional. Possible values of the element of primitive type with enum format. Examples: 1. We can define direction as : {type:STRING, format:enum, enum:["EAST", NORTH", "SOUTH", "WEST"]} 2. We can define apartment number as : {type:INTEGER, format:enum, enum:["101", "201", "301"]} */
+  enum?: StringList;
+  /** Optional. The value should be validated against any (one or more) of the subschemas in the list. */
+  anyOf?: Ces_SchemaList;
 }
-export const VpcScSettings = /*@__PURE__*/ S.suspend(() =>
+export const Ces_Schema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    allowedOrigins: S.optional(StringList),
+    title: S.optional(S.String),
+    type: S.optional(Ces_SchemaTypeEnum),
+    prefixItems: S.optional(Ces_SchemaList),
+    minItems: S.optional(S.String),
+    items: S.optional(Ces_Schema),
+    maximum: S.optional(S.Number),
+    properties: S.optional(Ces_SchemaMap),
+    additionalProperties: S.optional(Ces_Schema),
+    description: S.optional(S.String),
+    minimum: S.optional(S.Number),
+    default: S.optional(S.Unknown),
+    maxItems: S.optional(S.String),
+    uniqueItems: S.optional(S.Boolean),
+    required: S.optional(StringList),
+    nullable: S.optional(S.Boolean),
+    ref: S.optional(S.String),
+    defs: S.optional(Ces_SchemaMap),
+    enum: S.optional(StringList),
+    anyOf: S.optional(Ces_SchemaList),
   }),
-).annotate({ identifier: "VpcScSettings" }) as any as S.Schema<VpcScSettings>;
+).annotate({ identifier: "Ces_Schema" }) as any as S.Schema<Ces_Schema>;
 
-/** Model settings contains various configurations for the LLM model. */
-export interface ModelSettings {
-  /** Optional. The LLM model that the agent should use. If not set, the agent will inherit the model from its parent agent. */
-  model?: string;
-  /** Optional. If set, this temperature will be used for the LLM model. Temperature controls the randomness of the model's responses. Lower temperatures produce responses that are more predictable. Higher temperatures produce responses that are more creative. */
-  temperature?: number;
+/** Defines the structure and metadata for a variable. */
+export interface AppVariableDeclaration {
+  /** Required. The schema of the variable. */
+  schema?: Ces_Schema;
+  /** Required. The description of the variable. */
+  description?: string;
+  /** Required. The name of the variable. The name must start with a letter or underscore and contain only letters, numbers, or underscores. */
+  name?: string;
 }
-export const ModelSettings = /*@__PURE__*/ S.suspend(() =>
+export const AppVariableDeclaration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    model: S.optional(S.String),
-    temperature: S.optional(S.Number),
-  }),
-).annotate({ identifier: "ModelSettings" }) as any as S.Schema<ModelSettings>;
-
-/** Security settings for the web widget. */
-export interface ChannelProfileWebWidgetConfigSecuritySettings {
-  /** Optional. Indicates whether public access to the web widget is enabled. If `true`, the web widget will be publicly accessible. If `false`, the web widget must be integrated with your own authentication and authorization system to return valid credentials for accessing the CES agent. */
-  enablePublicAccess?: boolean;
-  /** Optional. Indicates whether reCAPTCHA verification for the web widget is enabled. */
-  enableRecaptcha?: boolean;
-  /** Optional. Indicates whether origin check for the web widget is enabled. If `true`, the web widget will check the origin of the website that loads the web widget and only allow it to be loaded in the same origin or any of the allowed origins. */
-  enableOriginCheck?: boolean;
-  /** Optional. The origins that are allowed to host the web widget. An origin is defined by RFC 6454. If empty, all origins are allowed. A maximum of 100 origins is allowed. Example: "https://example.com" */
-  allowedOrigins?: StringList;
-}
-export const ChannelProfileWebWidgetConfigSecuritySettings =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      enablePublicAccess: S.optional(S.Boolean),
-      enableRecaptcha: S.optional(S.Boolean),
-      enableOriginCheck: S.optional(S.Boolean),
-      allowedOrigins: S.optional(StringList),
-    }),
-  ).annotate({
-    identifier: "ChannelProfileWebWidgetConfigSecuritySettings",
-  }) as any as S.Schema<ChannelProfileWebWidgetConfigSecuritySettings>;
-
-export type ChannelProfileWebWidgetConfigModalityEnum =
-  | "MODALITY_UNSPECIFIED"
-  | "CHAT_AND_VOICE"
-  | "VOICE_ONLY"
-  | "CHAT_ONLY"
-  | "CHAT_VOICE_AND_VIDEO";
-export const ChannelProfileWebWidgetConfigModalityEnum = /*@__PURE__*/ S.String;
-
-export type ChannelProfileWebWidgetConfigThemeEnum =
-  | "THEME_UNSPECIFIED"
-  | "LIGHT"
-  | "DARK";
-export const ChannelProfileWebWidgetConfigThemeEnum = /*@__PURE__*/ S.String;
-
-/** Message for configuration for the web widget. */
-export interface ChannelProfileWebWidgetConfig {
-  /** Optional. The security settings of the web widget. */
-  securitySettings?: ChannelProfileWebWidgetConfigSecuritySettings;
-  /** Optional. The modality of the web widget. */
-  modality?: ChannelProfileWebWidgetConfigModalityEnum | (string & {});
-  /** Optional. The theme of the web widget. */
-  theme?: ChannelProfileWebWidgetConfigThemeEnum | (string & {});
-  /** Optional. The title of the web widget. */
-  webWidgetTitle?: string;
-}
-export const ChannelProfileWebWidgetConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    securitySettings: S.optional(ChannelProfileWebWidgetConfigSecuritySettings),
-    modality: S.optional(ChannelProfileWebWidgetConfigModalityEnum),
-    theme: S.optional(ChannelProfileWebWidgetConfigThemeEnum),
-    webWidgetTitle: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ChannelProfileWebWidgetConfig",
-}) as any as S.Schema<ChannelProfileWebWidgetConfig>;
-
-export type ChannelProfileChannelTypeEnum =
-  | "UNKNOWN"
-  | "WEB_UI"
-  | "API"
-  | "TWILIO"
-  | "GOOGLE_TELEPHONY_PLATFORM"
-  | "CONTACT_CENTER_AS_A_SERVICE"
-  | "FIVE9"
-  | "CONTACT_CENTER_INTEGRATION";
-export const ChannelProfileChannelTypeEnum = /*@__PURE__*/ S.String;
-
-export type ChannelProfilePersonaPropertyPersonaEnum =
-  | "UNKNOWN"
-  | "CONCISE"
-  | "CHATTY";
-export const ChannelProfilePersonaPropertyPersonaEnum = /*@__PURE__*/ S.String;
-
-/** Represents the persona property of a channel. */
-export interface ChannelProfilePersonaProperty {
-  /** Optional. The persona of the channel. */
-  persona?: ChannelProfilePersonaPropertyPersonaEnum | (string & {});
-}
-export const ChannelProfilePersonaProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    persona: S.optional(ChannelProfilePersonaPropertyPersonaEnum),
+    schema: S.optional(Ces_Schema),
+    description: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "ChannelProfilePersonaProperty",
-}) as any as S.Schema<ChannelProfilePersonaProperty>;
+  identifier: "AppVariableDeclaration",
+}) as any as S.Schema<AppVariableDeclaration>;
 
-/** A ChannelProfile configures the agent's behavior for a specific communication channel, such as web UI or telephony. */
-export interface ChannelProfile {
-  /** Optional. The configuration for the web widget. */
-  webWidgetConfig?: ChannelProfileWebWidgetConfig;
-  /** Optional. The noise suppression level of the channel profile. Available values are "low", "moderate", "high", "very_high". */
-  noiseSuppressionLevel?: string;
-  /** Optional. The type of the channel profile. */
-  channelType?: ChannelProfileChannelTypeEnum | (string & {});
-  /** Optional. Whether to disable user barge-in control in the conversation. - **true**: User interruptions are disabled while the agent is speaking. - **false**: The agent retains automatic control over when the user can interrupt. */
-  disableBargeInControl?: boolean;
-  /** Optional. The unique identifier of the channel profile. */
-  profileId?: string;
-  /** Optional. The persona property of the channel profile. */
-  personaProperty?: ChannelProfilePersonaProperty;
-  /** Optional. Whether to disable DTMF (dual-tone multi-frequency). */
-  disableDtmf?: boolean;
-}
-export const ChannelProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    webWidgetConfig: S.optional(ChannelProfileWebWidgetConfig),
-    noiseSuppressionLevel: S.optional(S.String),
-    channelType: S.optional(ChannelProfileChannelTypeEnum),
-    disableBargeInControl: S.optional(S.Boolean),
-    profileId: S.optional(S.String),
-    personaProperty: S.optional(ChannelProfilePersonaProperty),
-    disableDtmf: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ChannelProfile" }) as any as S.Schema<ChannelProfile>;
+export type AppVariableDeclarationList = Array<AppVariableDeclaration>;
+export const AppVariableDeclarationList = /*@__PURE__*/ S.Array(
+  AppVariableDeclaration,
+) as any as S.Schema<AppVariableDeclarationList>;
 
 /** Settings for custom client certificates. */
 export interface ClientCertificateSettings {
@@ -988,110 +678,550 @@ export const ClientCertificateSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "ClientCertificateSettings",
 }) as any as S.Schema<ClientCertificateSettings>;
 
+/** Model settings contains various configurations for the LLM model. */
+export interface ModelSettings {
+  /** Optional. The LLM model that the agent should use. If not set, the agent will inherit the model from its parent agent. */
+  model?: string;
+  /** Optional. If set, this temperature will be used for the LLM model. Temperature controls the randomness of the model's responses. Lower temperatures produce responses that are more predictable. Higher temperatures produce responses that are more creative. */
+  temperature?: number;
+}
+export const ModelSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    model: S.optional(S.String),
+    temperature: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ModelSettings" }) as any as S.Schema<ModelSettings>;
+
+export type AppToolExecutionModeEnum =
+  | "TOOL_EXECUTION_MODE_UNSPECIFIED"
+  | "PARALLEL"
+  | "SEQUENTIAL";
+export const AppToolExecutionModeEnum = S.String;
+
+/** Language settings of the app. */
+export interface LanguageSettings {
+  /** Optional. Deprecated: This feature is no longer supported. Use `enable_multilingual_support` instead to improve handling of multilingual input. The action to perform when an agent receives input in an unsupported language. This can be a predefined action or a custom tool call. Valid values are: - A tool's full resource name, which triggers a specific tool execution. - A predefined system action, such as "escalate" or "exit", which triggers an EndSession signal with corresponding metadata to terminate the conversation. */
+  fallbackAction?: string;
+  /** Optional. The default language code of the app. */
+  defaultLanguageCode?: string;
+  /** Optional. Enables multilingual support. If true, agents in the app will use pre-built instructions to improve handling of multilingual input. */
+  enableMultilingualSupport?: boolean;
+  /** Optional. List of languages codes supported by the app, in addition to the `default_language_code`. */
+  supportedLanguageCodes?: StringList;
+}
+export const LanguageSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fallbackAction: S.optional(S.String),
+    defaultLanguageCode: S.optional(S.String),
+    enableMultilingualSupport: S.optional(S.Boolean),
+    supportedLanguageCodes: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "LanguageSettings",
+}) as any as S.Schema<LanguageSettings>;
+
+/** Settings for dashboards associated with the app, that show up in the Monitoring view. */
+export interface DashboardSettings {
+  /** Optional. The resource name of the default Contact Center Insights dashboard associated with the app. This is the dashboard that will be displayed when users navigate to the Monitoring view for the app. Format: `projects/{project}/locations/{location}/dashboards/{dashboard}` */
+  defaultDashboard?: string;
+}
+export const DashboardSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaultDashboard: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DashboardSettings",
+}) as any as S.Schema<DashboardSettings>;
+
+/** Configuration specific to Instagram deployments. */
+export interface ChannelProfileInstagramConfig {
+  /** Output only. The fetched Meta business profile thumbnail URL. */
+  thumbnailUrl?: string;
+  /** Required. The Instagram Account ID. */
+  instagramAccountId?: string;
+  /** Output only. The fetched Meta business page name. */
+  displayName?: string;
+  /** Output only. The description of the Meta business page or profile. */
+  description?: string;
+}
+export const ChannelProfileInstagramConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    thumbnailUrl: S.optional(S.String),
+    instagramAccountId: S.optional(S.String),
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ChannelProfileInstagramConfig",
+}) as any as S.Schema<ChannelProfileInstagramConfig>;
+
+export type ChannelProfileChannelTypeEnum =
+  | "UNKNOWN"
+  | "WEB_UI"
+  | "API"
+  | "TWILIO"
+  | "GOOGLE_TELEPHONY_PLATFORM"
+  | "CONTACT_CENTER_AS_A_SERVICE"
+  | "CONTACT_CENTER_AS_A_SERVICE_CHAT"
+  | "FIVE9"
+  | "CONTACT_CENTER_INTEGRATION"
+  | "WHATSAPP"
+  | "INSTAGRAM";
+export const ChannelProfileChannelTypeEnum = S.String;
+
+/** Configuration specific to WhatsApp deployments. */
+export interface ChannelProfileWhatsAppConfig {
+  /** Output only. The fetched Meta business page name. */
+  displayName?: string;
+  /** Output only. The description of the Meta business page or profile. */
+  description?: string;
+  /** Output only. The fetched Meta business profile thumbnail URL. */
+  thumbnailUrl?: string;
+  /** Optional. The phone number in E.164 format. */
+  phoneNumber?: string;
+  /** Required. The WhatsApp Business Account ID. */
+  wabaId?: string;
+  /** Required. The Meta phone number ID. */
+  phoneNumberId?: string;
+}
+export const ChannelProfileWhatsAppConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+    thumbnailUrl: S.optional(S.String),
+    phoneNumber: S.optional(S.String),
+    wabaId: S.optional(S.String),
+    phoneNumberId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ChannelProfileWhatsAppConfig",
+}) as any as S.Schema<ChannelProfileWhatsAppConfig>;
+
+export type ChannelProfileWebWidgetConfigModalityEnum =
+  | "MODALITY_UNSPECIFIED"
+  | "CHAT_AND_VOICE"
+  | "VOICE_ONLY"
+  | "CHAT_ONLY"
+  | "CHAT_VOICE_AND_VIDEO";
+export const ChannelProfileWebWidgetConfigModalityEnum = S.String;
+
+/** Security settings for the web widget. */
+export interface ChannelProfileWebWidgetConfigSecuritySettings {
+  /** Optional. Indicates whether public access to the web widget is enabled. If `true`, the web widget will be publicly accessible. If `false`, the web widget must be integrated with your own authentication and authorization system to return valid credentials for accessing the CES agent. */
+  enablePublicAccess?: boolean;
+  /** Optional. Indicates whether origin check for the web widget is enabled. If `true`, the web widget will check the origin of the website that loads the web widget and only allow it to be loaded in the same origin or any of the allowed origins. */
+  enableOriginCheck?: boolean;
+  /** Optional. Indicates whether reCAPTCHA verification for the web widget is enabled. */
+  enableRecaptcha?: boolean;
+  /** Optional. The origins that are allowed to host the web widget. An origin is defined by RFC 6454. If empty, all origins are allowed. A maximum of 100 origins is allowed. Example: "https://example.com" */
+  allowedOrigins?: StringList;
+}
+export const ChannelProfileWebWidgetConfigSecuritySettings =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      enablePublicAccess: S.optional(S.Boolean),
+      enableOriginCheck: S.optional(S.Boolean),
+      enableRecaptcha: S.optional(S.Boolean),
+      allowedOrigins: S.optional(StringList),
+    }),
+  ).annotate({
+    identifier: "ChannelProfileWebWidgetConfigSecuritySettings",
+  }) as any as S.Schema<ChannelProfileWebWidgetConfigSecuritySettings>;
+
+export type ChannelProfileWebWidgetConfigThemeEnum =
+  | "THEME_UNSPECIFIED"
+  | "LIGHT"
+  | "DARK";
+export const ChannelProfileWebWidgetConfigThemeEnum = S.String;
+
+/** Message for configuration for the web widget. */
+export interface ChannelProfileWebWidgetConfig {
+  /** Optional. The modality of the web widget. */
+  modality?: ChannelProfileWebWidgetConfigModalityEnum | (string & {});
+  /** Optional. The security settings of the web widget. */
+  securitySettings?: ChannelProfileWebWidgetConfigSecuritySettings;
+  /** Optional. The theme of the web widget. */
+  theme?: ChannelProfileWebWidgetConfigThemeEnum | (string & {});
+  /** Optional. The title of the web widget. */
+  webWidgetTitle?: string;
+}
+export const ChannelProfileWebWidgetConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    modality: S.optional(ChannelProfileWebWidgetConfigModalityEnum),
+    securitySettings: S.optional(ChannelProfileWebWidgetConfigSecuritySettings),
+    theme: S.optional(ChannelProfileWebWidgetConfigThemeEnum),
+    webWidgetTitle: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ChannelProfileWebWidgetConfig",
+}) as any as S.Schema<ChannelProfileWebWidgetConfig>;
+
+export type ChannelProfilePersonaPropertyPersonaEnum =
+  | "UNKNOWN"
+  | "CONCISE"
+  | "CHATTY";
+export const ChannelProfilePersonaPropertyPersonaEnum = S.String;
+
+/** Represents the persona property of a channel. */
+export interface ChannelProfilePersonaProperty {
+  /** Optional. The persona of the channel. */
+  persona?: ChannelProfilePersonaPropertyPersonaEnum | (string & {});
+}
+export const ChannelProfilePersonaProperty = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    persona: S.optional(ChannelProfilePersonaPropertyPersonaEnum),
+  }),
+).annotate({
+  identifier: "ChannelProfilePersonaProperty",
+}) as any as S.Schema<ChannelProfilePersonaProperty>;
+
+/** A ChannelProfile configures the agent's behavior for a specific communication channel, such as web UI or telephony. */
+export interface ChannelProfile {
+  /** Optional. Configuration specific to Instagram deployments. */
+  instagramConfig?: ChannelProfileInstagramConfig;
+  /** Optional. The noise suppression level of the channel profile. Available values are "low", "moderate", "high", "very_high". */
+  noiseSuppressionLevel?: string;
+  /** Optional. The type of the channel profile. */
+  channelType?: ChannelProfileChannelTypeEnum | (string & {});
+  /** Optional. The unique identifier of the channel profile. */
+  profileId?: string;
+  /** Optional. Configuration specific to WhatsApp deployments. */
+  whatsappConfig?: ChannelProfileWhatsAppConfig;
+  /** Optional. The configuration for the web widget. */
+  webWidgetConfig?: ChannelProfileWebWidgetConfig;
+  /** Optional. Whether to disable DTMF (dual-tone multi-frequency). */
+  disableDtmf?: boolean;
+  /** Optional. The persona property of the channel profile. */
+  personaProperty?: ChannelProfilePersonaProperty;
+  /** Optional. Whether to disable user barge-in control in the conversation. - **true**: User interruptions are disabled while the agent is speaking. - **false**: The agent retains automatic control over when the user can interrupt. */
+  disableBargeInControl?: boolean;
+}
+export const ChannelProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instagramConfig: S.optional(ChannelProfileInstagramConfig),
+    noiseSuppressionLevel: S.optional(S.String),
+    channelType: S.optional(ChannelProfileChannelTypeEnum),
+    profileId: S.optional(S.String),
+    whatsappConfig: S.optional(ChannelProfileWhatsAppConfig),
+    webWidgetConfig: S.optional(ChannelProfileWebWidgetConfig),
+    disableDtmf: S.optional(S.Boolean),
+    personaProperty: S.optional(ChannelProfilePersonaProperty),
+    disableBargeInControl: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "ChannelProfile" }) as any as S.Schema<ChannelProfile>;
+
+/** TimeZone settings of the app. */
+export interface TimeZoneSettings {
+  /** Optional. The time zone of the app from the [time zone database](https://www.iana.org/time-zones), e.g., America/Los_Angeles, Europe/Paris. */
+  timeZone?: string;
+}
+export const TimeZoneSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timeZone: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TimeZoneSettings",
+}) as any as S.Schema<TimeZoneSettings>;
+
+export type DataStoreSettingsEngineTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "ENGINE_TYPE_SEARCH"
+  | "ENGINE_TYPE_CHAT";
+export const DataStoreSettingsEngineTypeEnum = S.String;
+
+/** An engine to which the data stores are connected. See Vertex AI Search: https://cloud.google.com/generative-ai-app-builder/docs/enterprise-search-introduction. */
+export interface DataStoreSettingsEngine {
+  /** Output only. The resource name of the engine. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
+  name?: string;
+  /** Output only. The type of the engine. */
+  type?: DataStoreSettingsEngineTypeEnum | (string & {});
+}
+export const DataStoreSettingsEngine = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(DataStoreSettingsEngineTypeEnum),
+  }),
+).annotate({
+  identifier: "DataStoreSettingsEngine",
+}) as any as S.Schema<DataStoreSettingsEngine>;
+
+export type DataStoreSettingsEngineList = Array<DataStoreSettingsEngine>;
+export const DataStoreSettingsEngineList = /*@__PURE__*/ S.Array(
+  DataStoreSettingsEngine,
+) as any as S.Schema<DataStoreSettingsEngineList>;
+
+/** Data store related settings for the app. */
+export interface DataStoreSettings {
+  /** Output only. The engines for the app. */
+  engines?: DataStoreSettingsEngineList;
+}
+export const DataStoreSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    engines: S.optional(DataStoreSettingsEngineList),
+  }),
+).annotate({
+  identifier: "DataStoreSettings",
+}) as any as S.Schema<DataStoreSettings>;
+
+/** VPC-SC settings for the app. */
+export interface VpcScSettings {
+  /** Optional. The allowed HTTP(s) origins that OpenAPI tools in the App are able to directly call when VPC Service Controls are enabled. These strings must match the origin exactly, including the port if specified. For example, "https://example.com" or "https://example.com:443". This list does not yet apply to Python tools that may make direct HTTP calls. */
+  allowedOrigins?: StringList;
+}
+export const VpcScSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedOrigins: S.optional(StringList),
+  }),
+).annotate({ identifier: "VpcScSettings" }) as any as S.Schema<VpcScSettings>;
+
+/** Configuration for how the agent response should be synthesized. */
+export interface SynthesizeSpeechConfig {
+  /** Optional. The instruction used to synthesize speech when using a generative model. */
+  instruction?: string;
+  /** Optional. Deprecated: Use `custom_voice_samples` in AudioProcessingConfig instead. The Cloud Storage URI to the consent audio for voice cloning. */
+  consentAudioGcsUri?: string;
+  /** Optional. Deprecated: Use `custom_voice_samples` in AudioProcessingConfig instead. The Cloud Storage URI to the audio sample for voice cloning. The audio sample should be a mono-channel, 24kHz WAV file. Note: Please make sure the CES service agent `service-@gcp-sa-ces.iam.gserviceaccount.com` has `storage.objects.get` permission to the Cloud Storage object. */
+  voiceSampleGcsUri?: string;
+  /** Optional. The model used to synthesize audio. Currently supported values: - "gemini-3.1-flash-tts-preview" If empty, Chirp3-HD is used. */
+  model?: string;
+  /** Optional. The name of the voice. If not set, the service will choose a voice based on the other parameters such as language_code. For the list of available voices, please refer to [Supported voices and languages](https://cloud.google.com/text-to-speech/docs/voices) from Cloud Text-to-Speech. */
+  voice?: string;
+  /** Optional. The speaking rate/speed in the range [0.25, 2.0]. 1.0 is the normal native speed supported by the specific voice. 2.0 is twice as fast, and 0.5 is half as fast. Values outside of the range [0.25, 2.0] will return an error. */
+  speakingRate?: number;
+}
+export const SynthesizeSpeechConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instruction: S.optional(S.String),
+    consentAudioGcsUri: S.optional(S.String),
+    voiceSampleGcsUri: S.optional(S.String),
+    model: S.optional(S.String),
+    voice: S.optional(S.String),
+    speakingRate: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "SynthesizeSpeechConfig",
+}) as any as S.Schema<SynthesizeSpeechConfig>;
+
+export type SynthesizeSpeechConfigMap = {
+  [key: string]: SynthesizeSpeechConfig | undefined;
+};
+export const SynthesizeSpeechConfigMap = /*@__PURE__*/ S.Record(
+  S.String,
+  SynthesizeSpeechConfig,
+) as any as S.Schema<SynthesizeSpeechConfigMap>;
+
+export type AmbientSoundConfigPrebuiltAmbientNoiseEnum =
+  | "PREBUILT_AMBIENT_NOISE_UNSPECIFIED"
+  | "RETAIL_STORE"
+  | "CONVENTION_HALL"
+  | "OUTDOOR";
+export const AmbientSoundConfigPrebuiltAmbientNoiseEnum = S.String;
+
+/** Configuration for the ambient sound to be played with the synthesized agent response, to enhance the naturalness of the conversation. */
+export interface AmbientSoundConfig {
+  /** Optional. Ambient noise as a mono-channel, 16kHz WAV file stored in [Cloud Storage](https://cloud.google.com/storage). Note: Please make sure the CES service agent `service-@gcp-sa-ces.iam.gserviceaccount.com` has `storage.objects.get` permission to the Cloud Storage object. */
+  gcsUri?: string;
+  /** Optional. Volume gain (in dB) of the normal native volume supported by ambient noise, in the range [-96.0, 16.0]. If unset, or set to a value of 0.0 (dB), will play at normal native signal amplitude. A value of -6.0 (dB) will play at approximately half the amplitude of the normal native signal amplitude. A value of +6.0 (dB) will play at approximately twice the amplitude of the normal native signal amplitude. We strongly recommend not to exceed +10 (dB) as there's usually no effective increase in loudness for any value greater than that. */
+  volumeGainDb?: number;
+  /** Optional. Deprecated: `prebuilt_ambient_noise` is deprecated in favor of `prebuilt_ambient_sound`. */
+  prebuiltAmbientNoise?:
+    | AmbientSoundConfigPrebuiltAmbientNoiseEnum
+    | (string & {});
+  /** Optional. Name of the prebuilt ambient sound. Valid values are: - "coffee_shop" - "keyboard" - "keypad" - "hum" - "office_1" - "office_2" - "office_3" - "room_1" - "room_2" - "room_3" - "room_4" - "room_5" - "air_conditioner" */
+  prebuiltAmbientSound?: string;
+}
+export const AmbientSoundConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gcsUri: S.optional(S.String),
+    volumeGainDb: S.optional(S.Number),
+    prebuiltAmbientNoise: S.optional(
+      AmbientSoundConfigPrebuiltAmbientNoiseEnum,
+    ),
+    prebuiltAmbientSound: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AmbientSoundConfig",
+}) as any as S.Schema<AmbientSoundConfig>;
+
+/** Configuration for a custom voice sample used for voice cloning. */
+export interface CustomVoiceSample {
+  /** Optional. Natural language instructions for voice style, tone, pacing, or pronunciation. */
+  voiceInstruction?: string;
+  /** Optional. The Cloud Storage URI to the audio sample for voice cloning. The audio sample should be a mono-channel, 24kHz WAV file. */
+  voiceSampleGcsUri?: string;
+  /** Optional. Consent audio for voice cloning. */
+  consentAudioGcsUri?: string;
+  /** Optional. The user-defined name for the custom voice sample. */
+  name?: string;
+  /** Output only. Synthesized preview audio for custom voice, formatted as canonical WAV (LINEAR16, 24kHz, 16-bit, mono). */
+  previewAudioContent?: string;
+  /** Optional. Text for synthesizing preview audio for custom voice. */
+  previewText?: string;
+}
+export const CustomVoiceSample = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    voiceInstruction: S.optional(S.String),
+    voiceSampleGcsUri: S.optional(S.String),
+    consentAudioGcsUri: S.optional(S.String),
+    name: S.optional(S.String),
+    previewAudioContent: S.optional(S.String),
+    previewText: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CustomVoiceSample",
+}) as any as S.Schema<CustomVoiceSample>;
+
+export type CustomVoiceSampleList = Array<CustomVoiceSample>;
+export const CustomVoiceSampleList = /*@__PURE__*/ S.Array(
+  CustomVoiceSample,
+) as any as S.Schema<CustomVoiceSampleList>;
+
+/** Configuration for how the user barge-in activities should be handled. */
+export interface BargeInConfig {
+  /** Optional. If enabled, the agent will adapt its next response based on the assumption that the user hasn't heard the full preceding agent message. This should not be used in scenarios where agent responses are displayed visually. */
+  bargeInAwareness?: boolean;
+  /** Optional. Deprecated: `disable_barge_in` is deprecated in favor of `disable_barge_in_control` in ChannelProfile. Disables user barge-in while the agent is speaking. If true, user input during agent response playback will be ignored. */
+  disableBargeIn?: boolean;
+}
+export const BargeInConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bargeInAwareness: S.optional(S.Boolean),
+    disableBargeIn: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "BargeInConfig" }) as any as S.Schema<BargeInConfig>;
+
+/** Configuration for how the input and output audio should be processed and delivered. */
+export interface AudioProcessingConfig {
+  /** Optional. Configuration of how the agent response should be synthesized, mapping from the language code to SynthesizeSpeechConfig. If the configuration for the specified language code is not found, the configuration for the root language code will be used. For example, if the map contains "en-us" and "en", and the specified language code is "en-gb", then "en" configuration will be used. Note: Language code is case-insensitive. */
+  synthesizeSpeechConfigs?: SynthesizeSpeechConfigMap;
+  /** Optional. Configuration for the ambient sound to be played with the synthesized agent response, to enhance the naturalness of the conversation. */
+  ambientSoundConfig?: AmbientSoundConfig;
+  /** Optional. The duration of user inactivity (no speech or interaction) before the agent prompts the user for reengagement. If not set, the agent will not prompt the user for reengagement. */
+  inactivityTimeout?: string;
+  /** Optional. Configures custom voice samples for voice cloning. */
+  customVoiceSamples?: CustomVoiceSampleList;
+  /** Optional. Configures the agent behavior for the user barge-in activities. */
+  bargeInConfig?: BargeInConfig;
+}
+export const AudioProcessingConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    synthesizeSpeechConfigs: S.optional(SynthesizeSpeechConfigMap),
+    ambientSoundConfig: S.optional(AmbientSoundConfig),
+    inactivityTimeout: S.optional(S.String),
+    customVoiceSamples: S.optional(CustomVoiceSampleList),
+    bargeInConfig: S.optional(BargeInConfig),
+  }),
+).annotate({
+  identifier: "AudioProcessingConfig",
+}) as any as S.Schema<AudioProcessingConfig>;
+
 /** An app serves as a top-level container for a group of agents, including the root agent and its sub-agents, along with their associated configurations. These agents work together to achieve specific goals within the app's context. */
 export interface App {
-  /** Optional. The root agent is the entry point of the app. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
-  rootAgent?: string;
-  /** Optional. TimeZone settings of the app. */
-  timeZoneSettings?: TimeZoneSettings;
-  /** Output only. Timestamp when the app was last updated. */
-  updateTime?: string;
-  /** Optional. The tool execution mode for the app. If not provided, will default to PARALLEL. */
-  toolExecutionMode?: AppToolExecutionModeEnum | (string & {});
-  /** Optional. The declarations of the variables. */
-  variableDeclarations?: AppVariableDeclarationList;
-  /** Optional. The data store settings for the app. */
-  dataStoreSettings?: DataStoreSettings;
-  /** Optional. Metadata about the app. This field can be used to store additional information relevant to the app's details or intended usages. */
-  metadata?: StringMap;
-  /** Optional. Language settings of the app. */
-  languageSettings?: LanguageSettings;
   /** Optional. Logging settings of the app. */
   loggingSettings?: LoggingSettings;
+  /** Optional. The root agent is the entry point of the app. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
+  rootAgent?: string;
   /** Optional. The evaluation thresholds for the app. */
   evaluationMetricsThresholds?: EvaluationMetricsThresholds;
-  /** Optional. Human-readable description of the app. */
-  description?: string;
-  /** Optional. Audio processing configuration of the app. */
-  audioProcessingConfig?: AudioProcessingConfig;
-  /** Output only. Etag used to ensure the object hasn't changed during a read-modify-write operation. If the etag is empty, the update will overwrite any concurrent changes. */
-  etag?: string;
   /** Optional. Error handling settings of the app. */
   errorHandlingSettings?: ErrorHandlingSettings;
+  /** Required. Display name of the app. */
+  displayName?: string;
   /** Output only. The declarations of predefined variables for the app. */
   predefinedVariableDeclarations?: AppVariableDeclarationList;
-  /** Optional. VPC-SC settings for the app. */
-  vpcScSettings?: VpcScSettings;
-  /** Output only. Timestamp when the app was created. */
-  createTime?: string;
+  /** Optional. The default client certificate settings for the app. */
+  clientCertificateSettings?: ClientCertificateSettings;
+  /** Optional. Instructions for all the agents in the app. You can use this instruction to set up a stable identity or personality across all the agents. */
+  globalInstruction?: string;
   /** Output only. Number of deployments in the app. */
   deploymentCount?: number;
+  /** Optional. Indicates whether the app is locked for changes. If the app is locked, modifications to the app resources will be rejected. */
+  locked?: boolean;
+  /** Output only. Misconfigurations or warnings in the app. */
+  validationErrors?: StringList;
+  /** Output only. Etag used to ensure the object hasn't changed during a read-modify-write operation. If the etag is empty, the update will overwrite any concurrent changes. */
+  etag?: string;
+  /** Output only. Timestamp when the app was last updated. */
+  updateTime?: string;
   /** Optional. The default LLM model settings for the app. Individual resources (e.g. agents, guardrails) can override these configurations as needed. */
   modelSettings?: ModelSettings;
   /** Identifier. The unique identifier of the app. Format: `projects/{project}/locations/{location}/apps/{app}` */
   name?: string;
-  /** Optional. Instructions for all the agents in the app. You can use this instruction to set up a stable identity or personality across all the agents. */
-  globalInstruction?: string;
-  /** Output only. Misconfigurations or warnings in the app. */
-  validationErrors?: StringList;
-  /** Optional. List of guardrails for the app. Format: `projects/{project}/locations/{location}/apps/{app}/guardrails/{guardrail}` */
-  guardrails?: StringList;
-  /** Optional. Indicates whether the app is locked for changes. If the app is locked, modifications to the app resources will be rejected. */
-  locked?: boolean;
+  /** Optional. Human-readable description of the app. */
+  description?: string;
+  /** Optional. Metadata about the app. This field can be used to store additional information relevant to the app's details or intended usages. */
+  metadata?: StringMap;
   /** Optional. Whether the app is pinned in the app list. */
   pinned?: boolean;
+  /** Optional. The tool execution mode for the app. If not provided, will default to PARALLEL. */
+  toolExecutionMode?: AppToolExecutionModeEnum | (string & {});
+  /** Optional. Language settings of the app. */
+  languageSettings?: LanguageSettings;
+  /** Optional. App-specific dashboard settings for linking and configuring Contact Center Insights dashboards. */
+  dashboardSettings?: DashboardSettings;
+  /** Optional. List of guardrails for the app. Format: `projects/{project}/locations/{location}/apps/{app}/guardrails/{guardrail}` */
+  guardrails?: StringList;
   /** Optional. The default channel profile used by the app. */
   defaultChannelProfile?: ChannelProfile;
-  /** Optional. The default client certificate settings for the app. */
-  clientCertificateSettings?: ClientCertificateSettings;
-  /** Required. Display name of the app. */
-  displayName?: string;
+  /** Optional. TimeZone settings of the app. */
+  timeZoneSettings?: TimeZoneSettings;
+  /** Optional. The data store settings for the app. */
+  dataStoreSettings?: DataStoreSettings;
+  /** Optional. VPC-SC settings for the app. */
+  vpcScSettings?: VpcScSettings;
+  /** Optional. Audio processing configuration of the app. */
+  audioProcessingConfig?: AudioProcessingConfig;
+  /** Output only. Timestamp when the app was created. */
+  createTime?: string;
+  /** Optional. The declarations of the variables. */
+  variableDeclarations?: AppVariableDeclarationList;
 }
 export const App = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rootAgent: S.optional(S.String),
-    timeZoneSettings: S.optional(TimeZoneSettings),
-    updateTime: S.optional(S.String),
-    toolExecutionMode: S.optional(AppToolExecutionModeEnum),
-    variableDeclarations: S.optional(AppVariableDeclarationList),
-    dataStoreSettings: S.optional(DataStoreSettings),
-    metadata: S.optional(StringMap),
-    languageSettings: S.optional(LanguageSettings),
     loggingSettings: S.optional(LoggingSettings),
+    rootAgent: S.optional(S.String),
     evaluationMetricsThresholds: S.optional(EvaluationMetricsThresholds),
-    description: S.optional(S.String),
-    audioProcessingConfig: S.optional(AudioProcessingConfig),
-    etag: S.optional(S.String),
     errorHandlingSettings: S.optional(ErrorHandlingSettings),
+    displayName: S.optional(S.String),
     predefinedVariableDeclarations: S.optional(AppVariableDeclarationList),
-    vpcScSettings: S.optional(VpcScSettings),
-    createTime: S.optional(S.String),
+    clientCertificateSettings: S.optional(ClientCertificateSettings),
+    globalInstruction: S.optional(S.String),
     deploymentCount: S.optional(S.Number),
+    locked: S.optional(S.Boolean),
+    validationErrors: S.optional(StringList),
+    etag: S.optional(S.String),
+    updateTime: S.optional(S.String),
     modelSettings: S.optional(ModelSettings),
     name: S.optional(S.String),
-    globalInstruction: S.optional(S.String),
-    validationErrors: S.optional(StringList),
-    guardrails: S.optional(StringList),
-    locked: S.optional(S.Boolean),
+    description: S.optional(S.String),
+    metadata: S.optional(StringMap),
     pinned: S.optional(S.Boolean),
+    toolExecutionMode: S.optional(AppToolExecutionModeEnum),
+    languageSettings: S.optional(LanguageSettings),
+    dashboardSettings: S.optional(DashboardSettings),
+    guardrails: S.optional(StringList),
     defaultChannelProfile: S.optional(ChannelProfile),
-    clientCertificateSettings: S.optional(ClientCertificateSettings),
-    displayName: S.optional(S.String),
+    timeZoneSettings: S.optional(TimeZoneSettings),
+    dataStoreSettings: S.optional(DataStoreSettings),
+    vpcScSettings: S.optional(VpcScSettings),
+    audioProcessingConfig: S.optional(AudioProcessingConfig),
+    createTime: S.optional(S.String),
+    variableDeclarations: S.optional(AppVariableDeclarationList),
   }),
 ).annotate({ identifier: "App" }) as any as S.Schema<App>;
 
 export interface CreateProjectsLocationsAppsRequest {
-  /** Required. The resource name of the location to create an app in. */
-  parent: string;
   /** Optional. The ID to use for the app, which will become the final component of the app's resource name. If not provided, a unique ID will be automatically assigned for the app. */
   appId?: string;
+  /** Required. The resource name of the location to create an app in. */
+  parent: string;
   /** Request body */
   body?: App;
 }
 export const CreateProjectsLocationsAppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     appId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(App.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1103,6 +1233,117 @@ export const CreateProjectsLocationsAppsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateProjectsLocationsAppsRequest",
 }) as any as S.Schema<CreateProjectsLocationsAppsRequest>;
+
+/** Expression condition based on session state. */
+export interface ExpressionCondition {
+  /** Required. The string representation of cloud.api.Expression condition. */
+  expression?: string;
+}
+export const ExpressionCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expression: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ExpressionCondition",
+}) as any as S.Schema<ExpressionCondition>;
+
+/** A rule that prevents the planner from transferring to the target agent. */
+export interface TransferRuleDisablePlannerTransfer {
+  /** Required. If the condition evaluates to true, planner will not be allowed to transfer to the target agent. */
+  expressionCondition?: ExpressionCondition;
+}
+export const TransferRuleDisablePlannerTransfer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expressionCondition: S.optional(ExpressionCondition),
+  }),
+).annotate({
+  identifier: "TransferRuleDisablePlannerTransfer",
+}) as any as S.Schema<TransferRuleDisablePlannerTransfer>;
+
+export type TransferRuleDirectionEnum =
+  | "DIRECTION_UNSPECIFIED"
+  | "PARENT_TO_CHILD"
+  | "CHILD_TO_PARENT";
+export const TransferRuleDirectionEnum = S.String;
+
+/** Python code block to evaluate the condition. */
+export interface PythonCodeCondition {
+  /** Required. The python code to execute. */
+  pythonCode?: string;
+}
+export const PythonCodeCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pythonCode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PythonCodeCondition",
+}) as any as S.Schema<PythonCodeCondition>;
+
+/** Deterministic transfer rule. When the condition evaluates to true, the transfer occurs. */
+export interface TransferRuleDeterministicTransfer {
+  /** Optional. A rule that uses Python code block to evaluate the conditions. If the condition evaluates to true, the transfer occurs. */
+  pythonCodeCondition?: PythonCodeCondition;
+  /** Optional. A rule that evaluates a session state condition. If the condition evaluates to true, the transfer occurs. */
+  expressionCondition?: ExpressionCondition;
+}
+export const TransferRuleDeterministicTransfer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pythonCodeCondition: S.optional(PythonCodeCondition),
+    expressionCondition: S.optional(ExpressionCondition),
+  }),
+).annotate({
+  identifier: "TransferRuleDeterministicTransfer",
+}) as any as S.Schema<TransferRuleDeterministicTransfer>;
+
+/** Rule for transferring to a specific agent. */
+export interface TransferRule {
+  /** Optional. Rule that prevents the planner from transferring to the target agent. */
+  disablePlannerTransfer?: TransferRuleDisablePlannerTransfer;
+  /** Required. The resource name of the child agent the rule applies to. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
+  childAgent?: string;
+  /** Required. The direction of the transfer. */
+  direction?: TransferRuleDirectionEnum | (string & {});
+  /** Optional. A rule that immediately transfers to the target agent when the condition is met. */
+  deterministicTransfer?: TransferRuleDeterministicTransfer;
+}
+export const TransferRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    disablePlannerTransfer: S.optional(TransferRuleDisablePlannerTransfer),
+    childAgent: S.optional(S.String),
+    direction: S.optional(TransferRuleDirectionEnum),
+    deterministicTransfer: S.optional(TransferRuleDeterministicTransfer),
+  }),
+).annotate({ identifier: "TransferRule" }) as any as S.Schema<TransferRule>;
+
+export type TransferRuleList = Array<TransferRule>;
+export const TransferRuleList = /*@__PURE__*/ S.Array(
+  TransferRule,
+) as any as S.Schema<TransferRuleList>;
+
+/** A callback defines the custom logic to be executed at various stages of agent interaction. */
+export interface Callback {
+  /** Optional. Human-readable description of the callback. */
+  description?: string;
+  /** Optional. If enabled, the callback will also be executed on intermediate model outputs. This setting only affects after model callback. **ENABLE WITH CAUTION**. Typically after model callback only needs to be executed after receiving all model responses. Enabling proactive execution may have negative implication on the execution cost and latency, and should only be enabled in rare situations. */
+  proactiveExecutionEnabled?: boolean;
+  /** Optional. Whether the callback is disabled. Disabled callbacks are ignored by the agent. */
+  disabled?: boolean;
+  /** Required. The python code to execute for the callback. */
+  pythonCode?: string;
+}
+export const Callback = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    proactiveExecutionEnabled: S.optional(S.Boolean),
+    disabled: S.optional(S.Boolean),
+    pythonCode: S.optional(S.String),
+  }),
+).annotate({ identifier: "Callback" }) as any as S.Schema<Callback>;
+
+export type CallbackList = Array<Callback>;
+export const CallbackList = /*@__PURE__*/ S.Array(
+  Callback,
+) as any as S.Schema<CallbackList>;
 
 /** A toolset with a selection of its tools. */
 export interface AgentAgentToolset {
@@ -1125,242 +1366,369 @@ export const AgentAgentToolsetList = /*@__PURE__*/ S.Array(
   AgentAgentToolset,
 ) as any as S.Schema<AgentAgentToolsetList>;
 
-export type TransferRuleDirectionEnum =
-  | "DIRECTION_UNSPECIFIED"
-  | "PARENT_TO_CHILD"
-  | "CHILD_TO_PARENT";
-export const TransferRuleDirectionEnum = /*@__PURE__*/ S.String;
+/** Configurations for authentication with [ID token](https://cloud.google.com/docs/authentication/token-types#id) generated from service agent. */
+export type ServiceAgentIdTokenAuthConfig = CancelOperationRequest;
+export const ServiceAgentIdTokenAuthConfig = CancelOperationRequest;
 
-/** Python code block to evaluate the condition. */
-export interface PythonCodeCondition {
-  /** Required. The python code to execute. */
-  pythonCode?: string;
+export type ApiKeyConfigRequestLocationEnum =
+  | "REQUEST_LOCATION_UNSPECIFIED"
+  | "HEADER"
+  | "QUERY_STRING";
+export const ApiKeyConfigRequestLocationEnum = S.String;
+
+/** Configurations for authentication with API key. */
+export interface ApiKeyConfig {
+  /** Required. The name of the SecretManager secret version resource storing the API key. Format: `projects/{project}/secrets/{secret}/versions/{version}` Note: You should grant `roles/secretmanager.secretAccessor` role to the CES service agent `service-@gcp-sa-ces.iam.gserviceaccount.com`. */
+  apiKeySecretVersion?: string;
+  /** Required. The parameter name or the header name of the API key. E.g., If the API request is "https://example.com/act?X-Api-Key=", "X-Api-Key" would be the parameter name. */
+  keyName?: string;
+  /** Required. Key location in the request. */
+  requestLocation?: ApiKeyConfigRequestLocationEnum | (string & {});
 }
-export const PythonCodeCondition = /*@__PURE__*/ S.suspend(() =>
+export const ApiKeyConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pythonCode: S.optional(S.String),
+    apiKeySecretVersion: S.optional(S.String),
+    keyName: S.optional(S.String),
+    requestLocation: S.optional(ApiKeyConfigRequestLocationEnum),
+  }),
+).annotate({ identifier: "ApiKeyConfig" }) as any as S.Schema<ApiKeyConfig>;
+
+export type OAuthConfigOauthGrantTypeEnum =
+  | "OAUTH_GRANT_TYPE_UNSPECIFIED"
+  | "CLIENT_CREDENTIAL";
+export const OAuthConfigOauthGrantTypeEnum = S.String;
+
+/** Configurations for authentication with OAuth. */
+export interface OAuthConfig {
+  /** Required. The token endpoint in the OAuth provider to exchange for an access token. */
+  tokenEndpoint?: string;
+  /** Required. The client ID from the OAuth provider. */
+  clientId?: string;
+  /** Optional. The OAuth scopes to grant. */
+  scopes?: StringList;
+  /** Required. The name of the SecretManager secret version resource storing the client secret. Format: `projects/{project}/secrets/{secret}/versions/{version}` Note: You should grant `roles/secretmanager.secretAccessor` role to the CES service agent `service-@gcp-sa-ces.iam.gserviceaccount.com`. */
+  clientSecretVersion?: string;
+  /** Required. OAuth grant types. */
+  oauthGrantType?: OAuthConfigOauthGrantTypeEnum | (string & {});
+}
+export const OAuthConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tokenEndpoint: S.optional(S.String),
+    clientId: S.optional(S.String),
+    scopes: S.optional(StringList),
+    clientSecretVersion: S.optional(S.String),
+    oauthGrantType: S.optional(OAuthConfigOauthGrantTypeEnum),
+  }),
+).annotate({ identifier: "OAuthConfig" }) as any as S.Schema<OAuthConfig>;
+
+/** Configurations for authentication using a custom service account. */
+export interface ServiceAccountAuthConfig {
+  /** Required. The email address of the service account used for authentication. CES uses this service account to exchange an access token and the access token is then sent in the `Authorization` header of the request. The service account must have the `roles/iam.serviceAccountTokenCreator` role granted to the CES service agent `service-@gcp-sa-ces.iam.gserviceaccount.com`. */
+  serviceAccount?: string;
+  /** Optional. The OAuth scopes to grant. If not specified, the default scope `https://www.googleapis.com/auth/cloud-platform` is used. */
+  scopes?: StringList;
+}
+export const ServiceAccountAuthConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceAccount: S.optional(S.String),
+    scopes: S.optional(StringList),
   }),
 ).annotate({
-  identifier: "PythonCodeCondition",
-}) as any as S.Schema<PythonCodeCondition>;
+  identifier: "ServiceAccountAuthConfig",
+}) as any as S.Schema<ServiceAccountAuthConfig>;
 
-/** Expression condition based on session state. */
-export interface ExpressionCondition {
-  /** Required. The string representation of cloud.api.Expression condition. */
-  expression?: string;
+/** Configurations for authentication with a bearer token. */
+export interface BearerTokenConfig {
+  /** Required. The bearer token. Must be in the format `$context.variables.`. */
+  token?: string;
 }
-export const ExpressionCondition = /*@__PURE__*/ S.suspend(() =>
+export const BearerTokenConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expression: S.optional(S.String),
+    token: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "ExpressionCondition",
-}) as any as S.Schema<ExpressionCondition>;
+  identifier: "BearerTokenConfig",
+}) as any as S.Schema<BearerTokenConfig>;
 
-/** Deterministic transfer rule. When the condition evaluates to true, the transfer occurs. */
-export interface TransferRuleDeterministicTransfer {
-  /** Optional. A rule that uses Python code block to evaluate the conditions. If the condition evaluates to true, the transfer occurs. */
-  pythonCodeCondition?: PythonCodeCondition;
-  /** Optional. A rule that evaluates a session state condition. If the condition evaluates to true, the transfer occurs. */
-  expressionCondition?: ExpressionCondition;
+/** Authentication information required for API calls. */
+export interface ApiAuthentication {
+  /** Optional. Config for ID token auth generated from CES service agent. */
+  serviceAgentIdTokenAuthConfig?: CancelOperationRequest;
+  /** Optional. Config for API key auth. */
+  apiKeyConfig?: ApiKeyConfig;
+  /** Optional. Config for OAuth. */
+  oauthConfig?: OAuthConfig;
+  /** Optional. Config for service account authentication. */
+  serviceAccountAuthConfig?: ServiceAccountAuthConfig;
+  /** Optional. Config for bearer token auth. */
+  bearerTokenConfig?: BearerTokenConfig;
 }
-export const TransferRuleDeterministicTransfer = /*@__PURE__*/ S.suspend(() =>
+export const ApiAuthentication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pythonCodeCondition: S.optional(PythonCodeCondition),
-    expressionCondition: S.optional(ExpressionCondition),
+    serviceAgentIdTokenAuthConfig: S.optional(CancelOperationRequest),
+    apiKeyConfig: S.optional(ApiKeyConfig),
+    oauthConfig: S.optional(OAuthConfig),
+    serviceAccountAuthConfig: S.optional(ServiceAccountAuthConfig),
+    bearerTokenConfig: S.optional(BearerTokenConfig),
   }),
 ).annotate({
-  identifier: "TransferRuleDeterministicTransfer",
-}) as any as S.Schema<TransferRuleDeterministicTransfer>;
+  identifier: "ApiAuthentication",
+}) as any as S.Schema<ApiAuthentication>;
 
-/** A rule that prevents the planner from transferring to the target agent. */
-export interface TransferRuleDisablePlannerTransfer {
-  /** Required. If the condition evaluates to true, planner will not be allowed to transfer to the target agent. */
-  expressionCondition?: ExpressionCondition;
-}
-export const TransferRuleDisablePlannerTransfer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    expressionCondition: S.optional(ExpressionCondition),
-  }),
-).annotate({
-  identifier: "TransferRuleDisablePlannerTransfer",
-}) as any as S.Schema<TransferRuleDisablePlannerTransfer>;
-
-/** Rule for transferring to a specific agent. */
-export interface TransferRule {
-  /** Required. The direction of the transfer. */
-  direction?: TransferRuleDirectionEnum | (string & {});
-  /** Optional. A rule that immediately transfers to the target agent when the condition is met. */
-  deterministicTransfer?: TransferRuleDeterministicTransfer;
-  /** Required. The resource name of the child agent the rule applies to. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
-  childAgent?: string;
-  /** Optional. Rule that prevents the planner from transferring to the target agent. */
-  disablePlannerTransfer?: TransferRuleDisablePlannerTransfer;
-}
-export const TransferRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    direction: S.optional(TransferRuleDirectionEnum),
-    deterministicTransfer: S.optional(TransferRuleDeterministicTransfer),
-    childAgent: S.optional(S.String),
-    disablePlannerTransfer: S.optional(TransferRuleDisablePlannerTransfer),
-  }),
-).annotate({ identifier: "TransferRule" }) as any as S.Schema<TransferRule>;
-
-export type TransferRuleList = Array<TransferRule>;
-export const TransferRuleList = /*@__PURE__*/ S.Array(
-  TransferRule,
-) as any as S.Schema<TransferRuleList>;
-
-/** A callback defines the custom logic to be executed at various stages of agent interaction. */
-export interface Callback {
-  /** Required. The python code to execute for the callback. */
-  pythonCode?: string;
-  /** Optional. Human-readable description of the callback. */
+/** Represents a distinct capability or function that an agent can perform. */
+export interface AgentSkill {
+  /** Required. A set of keywords describing the skill's capabilities. */
+  tags?: StringList;
+  /** Example prompts or scenarios that this skill can handle. */
+  examples?: StringList;
+  /** Required. A unique identifier for the agent's skill. */
+  id?: string;
+  /** The set of supported input media types for this skill, overriding the agent's defaults. */
+  inputModes?: StringList;
+  /** Required. A detailed description of the skill. */
   description?: string;
-  /** Optional. If enabled, the callback will also be executed on intermediate model outputs. This setting only affects after model callback. **ENABLE WITH CAUTION**. Typically after model callback only needs to be executed after receiving all model responses. Enabling proactive execution may have negative implication on the execution cost and latency, and should only be enabled in rare situations. */
-  proactiveExecutionEnabled?: boolean;
-  /** Optional. Whether the callback is disabled. Disabled callbacks are ignored by the agent. */
-  disabled?: boolean;
+  /** The set of supported output media types for this skill, overriding the agent's defaults. */
+  outputModes?: StringList;
+  /** Required. A human-readable name for the skill. */
+  name?: string;
 }
-export const Callback = /*@__PURE__*/ S.suspend(() =>
+export const AgentSkill = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pythonCode: S.optional(S.String),
+    tags: S.optional(StringList),
+    examples: S.optional(StringList),
+    id: S.optional(S.String),
+    inputModes: S.optional(StringList),
     description: S.optional(S.String),
-    proactiveExecutionEnabled: S.optional(S.Boolean),
-    disabled: S.optional(S.Boolean),
+    outputModes: S.optional(StringList),
+    name: S.optional(S.String),
   }),
-).annotate({ identifier: "Callback" }) as any as S.Schema<Callback>;
+).annotate({ identifier: "AgentSkill" }) as any as S.Schema<AgentSkill>;
 
-export type CallbackList = Array<Callback>;
-export const CallbackList = /*@__PURE__*/ S.Array(
-  Callback,
-) as any as S.Schema<CallbackList>;
+export type AgentSkillList = Array<AgentSkill>;
+export const AgentSkillList = /*@__PURE__*/ S.Array(
+  AgentSkill,
+) as any as S.Schema<AgentSkillList>;
 
-/** The agent which will transfer execution to a remote [Dialogflow CX](https://docs.cloud.google.com/dialogflow/cx/docs/concept/agent) agent. The Dialogflow agent will process subsequent user queries until the session ends or flow ends, and the control is transferred back to the parent CES agent. */
-export interface AgentRemoteDialogflowAgent {
-  /** Optional. The flow ID of the flow in the Dialogflow agent. */
-  flowId?: string;
-  /** Optional. The mapping of the Dialogflow session parameters names to the app variables names to be sent back to the CES agent after the Dialogflow agent execution ends. */
-  outputVariableMapping?: StringMap;
-  /** Optional. The environment ID of the Dialogflow agent to be used for the agent execution. If not specified, the draft environment will be used. */
-  environmentId?: string;
-  /** Optional. Indicates whether to respect the message-level interruption settings configured in the Dialogflow agent. * If false: all response messages from the Dialogflow agent follow the app-level barge-in settings. * If true: only response messages with [`allow_playback_interruption`](https://docs.cloud.google.com/dialogflow/cx/docs/reference/rpc/google.cloud.dialogflow.cx.v3#text) set to true will be interruptable, all other messages follow the app-level barge-in settings. */
-  respectResponseInterruptionSettings?: boolean;
-  /** Optional. The name of the variable that contains the language code to be used for the Dialogflow session. If unspecified, the default language code of the Dialogflow agent will be used. */
-  languageCodeVariable?: string;
-  /** Optional. The mapping of the app variables names to the Dialogflow session parameters names to be sent to the Dialogflow agent as input. */
-  inputVariableMapping?: StringMap;
-  /** Required. The [Dialogflow](https://docs.cloud.google.com/dialogflow/cx/docs/concept/agent) agent resource name. Format: `projects/{project}/locations/{location}/agents/{agent}` */
-  agent?: string;
+/** Declares a combination of a target URL, transport and protocol version for interacting with the agent. This allows agents to expose the same functionality over multiple protocol binding mechanisms. */
+export interface AgentInterface {
+  /** Required. The version of the A2A protocol this interface exposes. Use the latest supported minor version per major version. Examples: "0.3", "1.0" */
+  protocolVersion?: string;
+  /** Required. The URL where this interface is available. Must be a valid absolute HTTPS URL in production. Example: "https://api.example.com/a2a/v1", "https://grpc.example.com/a2a" */
+  url?: string;
+  /** Required. The protocol binding supported at this URL. This is an open form string, to be easily extended for other protocol bindings. The core ones officially supported are `JSONRPC`, `GRPC` and `HTTP+JSON`. */
+  protocolBinding?: string;
+  /** Tenant ID to be used in the request when calling the agent. */
+  tenant?: string;
 }
-export const AgentRemoteDialogflowAgent = /*@__PURE__*/ S.suspend(() =>
+export const AgentInterface = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    flowId: S.optional(S.String),
-    outputVariableMapping: S.optional(StringMap),
-    environmentId: S.optional(S.String),
-    respectResponseInterruptionSettings: S.optional(S.Boolean),
-    languageCodeVariable: S.optional(S.String),
+    protocolVersion: S.optional(S.String),
+    url: S.optional(S.String),
+    protocolBinding: S.optional(S.String),
+    tenant: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentInterface" }) as any as S.Schema<AgentInterface>;
+
+export type AgentInterfaceList = Array<AgentInterface>;
+export const AgentInterfaceList = /*@__PURE__*/ S.Array(
+  AgentInterface,
+) as any as S.Schema<AgentInterfaceList>;
+
+/** AgentCard conveys key information about a remote agent. It is a trimmed version of the AgentCard defined in the A2A protocol https://a2a-protocol.org/dev/specification/#441-agentcard */
+export interface AgentCard {
+  /** Required. Skills represent a unit of ability an agent can perform. This may somewhat abstract but represents a more focused set of actions that the agent is highly likely to succeed at. */
+  skills?: AgentSkillList;
+  /** Required. The version of the agent. */
+  version?: string;
+  /** Required. A human-readable name for the agent. */
+  name?: string;
+  /** Required. Ordered list of supported interfaces. The first entry is preferred. */
+  supportedInterfaces?: AgentInterfaceList;
+  /** Required. A description of the agent's domain of action/solution space. */
+  description?: string;
+}
+export const AgentCard = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    skills: S.optional(AgentSkillList),
+    version: S.optional(S.String),
+    name: S.optional(S.String),
+    supportedInterfaces: S.optional(AgentInterfaceList),
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentCard" }) as any as S.Schema<AgentCard>;
+
+/** Shared configuration for connecting to a remote [A2A](https://github.com/a2aproject/A2A) agent. */
+export interface RemoteA2aConfig {
+  /** Optional. Authentication configuration for calling the remote agent. Optional if the registry reference already handles authentication. */
+  apiAuthentication?: ApiAuthentication;
+  /** Optional. Mapping of input variable names of remote agent to GECX variable names. */
+  inputVariableMapping?: StringMap;
+  /** Optional. Reference to the agent in the Agent Registry. Format: `projects/{project}/locations/{location}/agents/{agent}` */
+  agentRegistry?: string;
+  /** Optional. If not empty, interactions with the remote A2A agent will use this context ID. This context_id field can refer to a session variable like `$context.variables.order_agent_session_id`. */
+  contextId?: string;
+  /** Optional. Mapping of output variable names of remote agent to GECX variable names. */
+  outputVariableMapping?: StringMap;
+  /** Optional. The full agent card defined inline. */
+  agentCard?: AgentCard;
+  /** Optional. Whether streaming is enabled for the remote agent. */
+  streamingEnabled?: boolean;
+}
+export const RemoteA2aConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    apiAuthentication: S.optional(ApiAuthentication),
     inputVariableMapping: S.optional(StringMap),
-    agent: S.optional(S.String),
+    agentRegistry: S.optional(S.String),
+    contextId: S.optional(S.String),
+    outputVariableMapping: S.optional(StringMap),
+    agentCard: S.optional(AgentCard),
+    streamingEnabled: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "AgentRemoteDialogflowAgent",
-}) as any as S.Schema<AgentRemoteDialogflowAgent>;
+  identifier: "RemoteA2aConfig",
+}) as any as S.Schema<RemoteA2aConfig>;
+
+/** The agent which will transfer execution to a remote [A2A](https://github.com/a2aproject/A2A) agent. */
+export interface AgentRemoteA2aAgent {
+  /** Required. The A2A connection configuration. */
+  a2aConfig?: RemoteA2aConfig;
+}
+export const AgentRemoteA2aAgent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    a2aConfig: S.optional(RemoteA2aConfig),
+  }),
+).annotate({
+  identifier: "AgentRemoteA2aAgent",
+}) as any as S.Schema<AgentRemoteA2aAgent>;
 
 /** Default agent type. The agent uses instructions and callbacks specified in the agent to perform the task using a large language model. */
 export type AgentLlmAgent = CancelOperationRequest;
 export const AgentLlmAgent = CancelOperationRequest;
 
+/** The agent which will transfer execution to a remote [Dialogflow CX](https://docs.cloud.google.com/dialogflow/cx/docs/concept/agent) agent. The Dialogflow agent will process subsequent user queries until the session ends or flow ends, and the control is transferred back to the parent CES agent. */
+export interface AgentRemoteDialogflowAgent {
+  /** Required. The [Dialogflow](https://docs.cloud.google.com/dialogflow/cx/docs/concept/agent) agent resource name. Format: `projects/{project}/locations/{location}/agents/{agent}` */
+  agent?: string;
+  /** Optional. Indicates whether to respect the message-level interruption settings configured in the Dialogflow agent. * If false: all response messages from the Dialogflow agent follow the app-level barge-in settings. * If true: only response messages with [`allow_playback_interruption`](https://docs.cloud.google.com/dialogflow/cx/docs/reference/rpc/google.cloud.dialogflow.cx.v3#text) set to true will be interruptable, all other messages follow the app-level barge-in settings. */
+  respectResponseInterruptionSettings?: boolean;
+  /** Optional. The mapping of the Dialogflow session parameters names to the app variables names to be sent back to the CES agent after the Dialogflow agent execution ends. */
+  outputVariableMapping?: StringMap;
+  /** Optional. The mapping of the app variables names to the Dialogflow session parameters names to be sent to the Dialogflow agent as input. */
+  inputVariableMapping?: StringMap;
+  /** Optional. The name of the variable that contains the language code to be used for the Dialogflow session. If unspecified, the default language code of the Dialogflow agent will be used. */
+  languageCodeVariable?: string;
+  /** Optional. The environment ID of the Dialogflow agent to be used for the agent execution. If not specified, the draft environment will be used. */
+  environmentId?: string;
+  /** Optional. The flow ID of the flow in the Dialogflow agent. */
+  flowId?: string;
+}
+export const AgentRemoteDialogflowAgent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agent: S.optional(S.String),
+    respectResponseInterruptionSettings: S.optional(S.Boolean),
+    outputVariableMapping: S.optional(StringMap),
+    inputVariableMapping: S.optional(StringMap),
+    languageCodeVariable: S.optional(S.String),
+    environmentId: S.optional(S.String),
+    flowId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AgentRemoteDialogflowAgent",
+}) as any as S.Schema<AgentRemoteDialogflowAgent>;
+
 /** An agent acts as the fundamental building block that provides instructions to the Large Language Model (LLM) for executing specific tasks. */
 export interface Agent {
-  /** Optional. Configurations for the LLM model. */
-  modelSettings?: ModelSettings;
-  /** Optional. List of toolsets for the agent. */
-  toolsets?: AgentAgentToolsetList;
-  /** Optional. List of child agents in the agent tree. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
-  childAgents?: StringList;
-  /** Identifier. The unique identifier of the agent. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
-  name?: string;
-  /** Optional. List of available tools for the agent. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
-  tools?: StringList;
   /** Optional. Agent transfer rules. If multiple rules match, the first one in the list will be used. */
   transferRules?: TransferRuleList;
+  /** Optional. List of available tools for the agent. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
+  tools?: StringList;
+  /** Optional. The callbacks to execute after the agent is called. The provided callbacks are executed sequentially in the exact order they are given in the list. If a callback returns an overridden response, execution stops and any remaining callbacks are skipped. */
+  afterAgentCallbacks?: CallbackList;
+  /** Required. Display name of the agent. */
+  displayName?: string;
   /** Output only. Timestamp when the agent was created. */
   createTime?: string;
+  /** Optional. List of toolsets for the agent. */
+  toolsets?: AgentAgentToolsetList;
+  /** Optional. The callbacks to execute before the agent is called. The provided callbacks are executed sequentially in the exact order they are given in the list. If a callback returns an overridden response, execution stops and any remaining callbacks are skipped. */
+  beforeAgentCallbacks?: CallbackList;
+  /** Optional. The callbacks to execute before the tool is invoked. If there are multiple tool invocations, the callback will be executed multiple times. The provided callbacks are executed sequentially in the exact order they are given in the list. If a callback returns an overridden response, execution stops and any remaining callbacks are skipped. */
+  beforeToolCallbacks?: CallbackList;
+  /** Optional. The remote [A2A](https://github.com/a2aproject/A2A) agent to be used for the agent execution. */
+  remoteA2aAgent?: AgentRemoteA2aAgent;
+  /** Optional. The default agent type. */
+  llmAgent?: CancelOperationRequest;
   /** Output only. Timestamp when the agent was last updated. */
   updateTime?: string;
   /** Optional. The callbacks to execute after the tool is invoked. If there are multiple tool invocations, the callback will be executed multiple times. The provided callbacks are executed sequentially in the exact order they are given in the list. If a callback returns an overridden response, execution stops and any remaining callbacks are skipped. */
   afterToolCallbacks?: CallbackList;
-  /** Output only. Misconfigurations or errors in the agent that may affect agent quality. */
-  validationErrors?: StringList;
-  /** Optional. List of guardrails for the agent. Format: `projects/{project}/locations/{location}/apps/{app}/guardrails/{guardrail}` */
-  guardrails?: StringList;
-  /** Optional. The remote [Dialogflow](https://cloud.google.com/dialogflow/cx/docs/concept/console-conversational-agents) agent to be used for the agent execution. If this field is set, all other agent level properties will be ignored. Note: If the Dialogflow agent is in a different project from the app, you should grant `roles/dialogflow.client` to the CES service agent `service-@gcp-sa-ces.iam.gserviceaccount.com`. */
-  remoteDialogflowAgent?: AgentRemoteDialogflowAgent;
-  /** Optional. Human-readable description of the agent. */
-  description?: string;
-  /** Optional. The callbacks to execute after the agent is called. The provided callbacks are executed sequentially in the exact order they are given in the list. If a callback returns an overridden response, execution stops and any remaining callbacks are skipped. */
-  afterAgentCallbacks?: CallbackList;
-  /** Optional. The callbacks to execute after the model is called. If there are multiple calls to the model, the callback will be executed multiple times. The provided callbacks are executed sequentially in the exact order they are given in the list. If a callback returns an overridden response, execution stops and any remaining callbacks are skipped. */
-  afterModelCallbacks?: CallbackList;
   /** Optional. Instructions for the LLM model to guide the agent's behavior. */
   instruction?: string;
   /** Optional. The callbacks to execute before the model is called. If there are multiple calls to the model, the callback will be executed multiple times. The provided callbacks are executed sequentially in the exact order they are given in the list. If a callback returns an overridden response, execution stops and any remaining callbacks are skipped. */
   beforeModelCallbacks?: CallbackList;
-  /** Required. Display name of the agent. */
-  displayName?: string;
+  /** Optional. List of guardrails for the agent. Format: `projects/{project}/locations/{location}/apps/{app}/guardrails/{guardrail}` */
+  guardrails?: StringList;
+  /** Identifier. The unique identifier of the agent. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
+  name?: string;
   /** Output only. If the agent is generated by the LLM assistant, this field contains a descriptive summary of the generation. */
   generatedSummary?: string;
-  /** Optional. The callbacks to execute before the agent is called. The provided callbacks are executed sequentially in the exact order they are given in the list. If a callback returns an overridden response, execution stops and any remaining callbacks are skipped. */
-  beforeAgentCallbacks?: CallbackList;
-  /** Optional. The default agent type. */
-  llmAgent?: CancelOperationRequest;
-  /** Optional. The callbacks to execute before the tool is invoked. If there are multiple tool invocations, the callback will be executed multiple times. The provided callbacks are executed sequentially in the exact order they are given in the list. If a callback returns an overridden response, execution stops and any remaining callbacks are skipped. */
-  beforeToolCallbacks?: CallbackList;
+  /** Optional. List of child agents in the agent tree. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
+  childAgents?: StringList;
+  /** Optional. The remote [Dialogflow](https://cloud.google.com/dialogflow/cx/docs/concept/console-conversational-agents) agent to be used for the agent execution. If this field is set, all other agent level properties will be ignored. Note: If the Dialogflow agent is in a different project from the app, you should grant `roles/dialogflow.client` to the CES service agent `service-@gcp-sa-ces.iam.gserviceaccount.com`. */
+  remoteDialogflowAgent?: AgentRemoteDialogflowAgent;
   /** Etag used to ensure the object hasn't changed during a read-modify-write operation. If the etag is empty, the update will overwrite any concurrent changes. */
   etag?: string;
+  /** Output only. Misconfigurations or errors in the agent that may affect agent quality. */
+  validationErrors?: StringList;
+  /** Optional. Human-readable description of the agent. */
+  description?: string;
+  /** Optional. Configurations for the LLM model. */
+  modelSettings?: ModelSettings;
+  /** Optional. The callbacks to execute after the model is called. If there are multiple calls to the model, the callback will be executed multiple times. The provided callbacks are executed sequentially in the exact order they are given in the list. If a callback returns an overridden response, execution stops and any remaining callbacks are skipped. */
+  afterModelCallbacks?: CallbackList;
 }
 export const Agent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    modelSettings: S.optional(ModelSettings),
-    toolsets: S.optional(AgentAgentToolsetList),
-    childAgents: S.optional(StringList),
-    name: S.optional(S.String),
-    tools: S.optional(StringList),
     transferRules: S.optional(TransferRuleList),
+    tools: S.optional(StringList),
+    afterAgentCallbacks: S.optional(CallbackList),
+    displayName: S.optional(S.String),
     createTime: S.optional(S.String),
+    toolsets: S.optional(AgentAgentToolsetList),
+    beforeAgentCallbacks: S.optional(CallbackList),
+    beforeToolCallbacks: S.optional(CallbackList),
+    remoteA2aAgent: S.optional(AgentRemoteA2aAgent),
+    llmAgent: S.optional(CancelOperationRequest),
     updateTime: S.optional(S.String),
     afterToolCallbacks: S.optional(CallbackList),
-    validationErrors: S.optional(StringList),
-    guardrails: S.optional(StringList),
-    remoteDialogflowAgent: S.optional(AgentRemoteDialogflowAgent),
-    description: S.optional(S.String),
-    afterAgentCallbacks: S.optional(CallbackList),
-    afterModelCallbacks: S.optional(CallbackList),
     instruction: S.optional(S.String),
     beforeModelCallbacks: S.optional(CallbackList),
-    displayName: S.optional(S.String),
+    guardrails: S.optional(StringList),
+    name: S.optional(S.String),
     generatedSummary: S.optional(S.String),
-    beforeAgentCallbacks: S.optional(CallbackList),
-    llmAgent: S.optional(CancelOperationRequest),
-    beforeToolCallbacks: S.optional(CallbackList),
+    childAgents: S.optional(StringList),
+    remoteDialogflowAgent: S.optional(AgentRemoteDialogflowAgent),
     etag: S.optional(S.String),
+    validationErrors: S.optional(StringList),
+    description: S.optional(S.String),
+    modelSettings: S.optional(ModelSettings),
+    afterModelCallbacks: S.optional(CallbackList),
   }),
 ).annotate({ identifier: "Agent" }) as any as S.Schema<Agent>;
 
 export interface CreateProjectsLocationsAppsAgentsRequest {
-  /** Required. The resource name of the app to create an agent in. */
-  parent: string;
   /** Optional. The ID to use for the agent, which will become the final component of the agent's resource name. If not provided, a unique ID will be automatically assigned for the agent. */
   agentId?: string;
+  /** Required. The resource name of the app to create an agent in. */
+  parent: string;
   /** Request body */
   body?: Agent;
 }
 export const CreateProjectsLocationsAppsAgentsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       agentId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(Agent.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1373,29 +1741,28 @@ export const CreateProjectsLocationsAppsAgentsRequest = /*@__PURE__*/ S.suspend(
   identifier: "CreateProjectsLocationsAppsAgentsRequest",
 }) as any as S.Schema<CreateProjectsLocationsAppsAgentsRequest>;
 
-export type ExperimentConfigVersionReleaseStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PENDING"
-  | "RUNNING"
-  | "DONE"
-  | "EXPIRED";
-export const ExperimentConfigVersionReleaseStateEnum = /*@__PURE__*/ S.String;
+export type DeploymentModalityEnum =
+  | "MODALITY_UNSPECIFIED"
+  | "MODALITY_TEXT"
+  | "MODALITY_VOICE"
+  | "MODALITY_VIDEO";
+export const DeploymentModalityEnum = S.String;
 
 /** Traffic allocation for the version release. */
 export interface ExperimentConfigVersionReleaseTrafficAllocation {
+  /** Optional. App version of the traffic allocation. Format: `projects/{project}/locations/{location}/apps/{app}/versions/{version}` */
+  appVersion?: string;
   /** Optional. Id of the traffic allocation. Free format string, up to 128 characters. */
   id?: string;
   /** Optional. Traffic percentage of the traffic allocation. Must be between 0 and 100. */
   trafficPercentage?: number;
-  /** Optional. App version of the traffic allocation. Format: `projects/{project}/locations/{location}/apps/{app}/versions/{version}` */
-  appVersion?: string;
 }
 export const ExperimentConfigVersionReleaseTrafficAllocation =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      appVersion: S.optional(S.String),
       id: S.optional(S.String),
       trafficPercentage: S.optional(S.Number),
-      appVersion: S.optional(S.String),
     }),
   ).annotate({
     identifier: "ExperimentConfigVersionReleaseTrafficAllocation",
@@ -1408,19 +1775,27 @@ export const ExperimentConfigVersionReleaseTrafficAllocationList =
     ExperimentConfigVersionReleaseTrafficAllocation,
   ) as any as S.Schema<ExperimentConfigVersionReleaseTrafficAllocationList>;
 
+export type ExperimentConfigVersionReleaseStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PENDING"
+  | "RUNNING"
+  | "DONE"
+  | "EXPIRED";
+export const ExperimentConfigVersionReleaseStateEnum = S.String;
+
 /** Version release for the experiment. */
 export interface ExperimentConfigVersionRelease {
-  /** Optional. State of the version release. */
-  state?: ExperimentConfigVersionReleaseStateEnum | (string & {});
   /** Optional. Traffic allocations for the version release. */
   trafficAllocations?: ExperimentConfigVersionReleaseTrafficAllocationList;
+  /** Optional. State of the version release. */
+  state?: ExperimentConfigVersionReleaseStateEnum | (string & {});
 }
 export const ExperimentConfigVersionRelease = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(ExperimentConfigVersionReleaseStateEnum),
     trafficAllocations: S.optional(
       ExperimentConfigVersionReleaseTrafficAllocationList,
     ),
+    state: S.optional(ExperimentConfigVersionReleaseStateEnum),
   }),
 ).annotate({
   identifier: "ExperimentConfigVersionRelease",
@@ -1439,51 +1814,123 @@ export const ExperimentConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExperimentConfig",
 }) as any as S.Schema<ExperimentConfig>;
 
+/** Ephemeral Meta credentials for WhatsApp native integration. */
+export interface WhatsAppCredentials {
+  /** Optional. The Conversation Profile ID to use for the deployment. */
+  conversationProfileId?: string;
+  /** Required. The phone number to register with WhatsApp. */
+  phoneNumber?: string;
+  /** Required. The Business Account ID to use for the phone number. */
+  businessAccountId?: string;
+  /** Required. The Meta auth code provided by the embedded signup flow. */
+  authCode?: string;
+  /** Required. The WhatsApp Business Account ID. */
+  wabaId?: string;
+  /** Required. The 6-digit PIN created by the user for two-step verification. */
+  pin?: string;
+}
+export const WhatsAppCredentials = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conversationProfileId: S.optional(S.String),
+    phoneNumber: S.optional(S.String),
+    businessAccountId: S.optional(S.String),
+    authCode: S.optional(S.String),
+    wabaId: S.optional(S.String),
+    pin: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WhatsAppCredentials",
+}) as any as S.Schema<WhatsAppCredentials>;
+
+/** Ephemeral Meta credentials for Instagram native integration. */
+export interface InstagramCredentials {
+  /** Optional. The Conversation Profile ID to use for the deployment. */
+  conversationProfileId?: string;
+  /** Required. The Meta auth code provided by the embedded signup flow. */
+  authCode?: string;
+}
+export const InstagramCredentials = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conversationProfileId: S.optional(S.String),
+    authCode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "InstagramCredentials",
+}) as any as S.Schema<InstagramCredentials>;
+
+/** Configuration and status for Agent Registry deployment. */
+export interface AgentRegistryDeployment {
+  /** Optional. Output only. The resource name of the deployed Agent Registry service. Format: `projects/{project}/locations/{location}/services/{service}` */
+  agentRegistryServiceName?: string;
+}
+export const AgentRegistryDeployment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agentRegistryServiceName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AgentRegistryDeployment",
+}) as any as S.Schema<AgentRegistryDeployment>;
+
 /** A deployment represents an immutable, queryable version of the app. It is used to deploy an app version with a specific channel profile. */
 export interface Deployment {
+  /** Optional. The modality of the deployment. Note: Deployment-level modality override is gated behind an allowlist. Contact the CXAS team to enable this field. */
+  modality?: DeploymentModalityEnum | (string & {});
+  /** Required. The channel profile used in the deployment. */
+  channelProfile?: ChannelProfile;
   /** Output only. Timestamp when this deployment was last updated. */
   updateTime?: string;
   /** Output only. Etag used to ensure the object hasn't changed during a read-modify-write operation. If the etag is empty, the update will overwrite any concurrent changes. */
   etag?: string;
-  /** Output only. Timestamp when this deployment was created. */
-  createTime?: string;
   /** Identifier. The resource name of the deployment. Format: `projects/{project}/locations/{location}/apps/{app}/deployments/{deployment}` */
   name?: string;
-  /** Required. The channel profile used in the deployment. */
-  channelProfile?: ChannelProfile;
   /** Optional. Experiment configuration for the deployment. */
   experimentConfig?: ExperimentConfig;
+  /** Optional. Input only. Ephemeral WhatsApp credentials required when configuring a WhatsApp channel profile. */
+  whatsappCredentials?: WhatsAppCredentials;
+  /** Optional. Input only. Ephemeral Instagram credentials required when configuring a Instagram channel profile. */
+  instagramCredentials?: InstagramCredentials;
+  /** Output only. Timestamp when this deployment was created. */
+  createTime?: string;
+  /** Optional. Configuration for deploying this deployment to Agent Registry. If present, this deployment will be published to Agent Registry. */
+  agentRegistryDeployment?: AgentRegistryDeployment;
   /** Optional. The resource name of the app version to deploy. Format: `projects/{project}/locations/{location}/apps/{app}/versions/{version}` Use `projects/{project}/locations/{location}/apps/{app}/versions/-` to use the draft app. */
   appVersion?: string;
+  /** Optional. Model settings for the deployment. Overrides model settings configured at the app/agent levels. Note: Deployment-level model settings override is gated behind an allowlist. Contact the CXAS team to enable this field. */
+  modelSettings?: ModelSettings;
   /** Required. Display name of the deployment. */
   displayName?: string;
 }
 export const Deployment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    modality: S.optional(DeploymentModalityEnum),
+    channelProfile: S.optional(ChannelProfile),
     updateTime: S.optional(S.String),
     etag: S.optional(S.String),
-    createTime: S.optional(S.String),
     name: S.optional(S.String),
-    channelProfile: S.optional(ChannelProfile),
     experimentConfig: S.optional(ExperimentConfig),
+    whatsappCredentials: S.optional(WhatsAppCredentials),
+    instagramCredentials: S.optional(InstagramCredentials),
+    createTime: S.optional(S.String),
+    agentRegistryDeployment: S.optional(AgentRegistryDeployment),
     appVersion: S.optional(S.String),
+    modelSettings: S.optional(ModelSettings),
     displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
 
 export interface CreateProjectsLocationsAppsDeploymentsRequest {
-  /** Optional. The ID to use for the deployment, which will become the final component of the deployment's resource name. If not provided, a unique ID will be automatically assigned for the deployment. */
-  deploymentId?: string;
   /** Required. The parent app. Format: `projects/{project}/locations/{location}/apps/{app}` */
   parent: string;
+  /** Optional. The ID to use for the deployment, which will become the final component of the deployment's resource name. If not provided, a unique ID will be automatically assigned for the deployment. */
+  deploymentId?: string;
   /** Request body */
   body?: Deployment;
 }
 export const CreateProjectsLocationsAppsDeploymentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      deploymentId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      deploymentId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(Deployment.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1495,6 +1942,78 @@ export const CreateProjectsLocationsAppsDeploymentsRequest =
   ).annotate({
     identifier: "CreateProjectsLocationsAppsDeploymentsRequest",
   }) as any as S.Schema<CreateProjectsLocationsAppsDeploymentsRequest>;
+
+/** A tool that is created from a toolset. */
+export interface ToolsetTool {
+  /** Optional. The tool ID to filter the tools to retrieve the schema for. */
+  toolId?: string;
+  /** Required. The resource name of the Toolset from which this tool is derived. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
+  toolset?: string;
+}
+export const ToolsetTool = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    toolId: S.optional(S.String),
+    toolset: S.optional(S.String),
+  }),
+).annotate({ identifier: "ToolsetTool" }) as any as S.Schema<ToolsetTool>;
+
+/** The execution result of a specific tool from the client or the agent. */
+export interface ToolResponse {
+  /** Optional. The name of the tool to execute. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
+  tool?: string;
+  /** Required. The tool execution result in JSON object format. Use "output" key to specify tool response and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as tool execution result. */
+  response?: DocumentMap;
+  /** Optional. The toolset tool that got executed. */
+  toolsetTool?: ToolsetTool;
+  /** Output only. Human-readable name of the agent that issued this call, e.g. "Contract Architect". Empty when the root agent issued it. */
+  agentName?: string;
+  /** Output only. The id of the tool call that caused this one, when it was issued by a sub-agent working on behalf of a parent call. Empty for top-level calls. Lets a client group a sub-agent's work under the call that started it instead of rendering every step as a sibling. */
+  parentToolCallId?: string;
+  /** Output only. Display name of the tool. */
+  displayName?: string;
+  /** Optional. The matching ID of the tool call the response is for. */
+  id?: string;
+}
+export const ToolResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tool: S.optional(S.String),
+    response: S.optional(DocumentMap),
+    toolsetTool: S.optional(ToolsetTool),
+    agentName: S.optional(S.String),
+    parentToolCallId: S.optional(S.String),
+    displayName: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "ToolResponse" }) as any as S.Schema<ToolResponse>;
+
+/** Request for the client or the agent to execute the specified tool. */
+export interface ToolCall {
+  /** Optional. The name of the tool to execute. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
+  tool?: string;
+  /** Optional. The unique identifier of the tool call. If populated, the client should return the execution result with the matching ID in ToolResponse. */
+  id?: string;
+  /** Output only. The id of the tool call that caused this one, when it was issued by a sub-agent working on behalf of a parent call. Empty for top-level calls. Lets a client group a sub-agent's work under the call that started it instead of rendering every step as a sibling. */
+  parentToolCallId?: string;
+  /** Optional. The toolset tool to execute. */
+  toolsetTool?: ToolsetTool;
+  /** Output only. Display name of the tool. */
+  displayName?: string;
+  /** Output only. Human-readable name of the agent that issued this call, e.g. "Contract Architect". Empty when the root agent issued it. */
+  agentName?: string;
+  /** Optional. The input parameters and values for the tool in JSON object format. */
+  args?: DocumentMap;
+}
+export const ToolCall = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tool: S.optional(S.String),
+    id: S.optional(S.String),
+    parentToolCallId: S.optional(S.String),
+    toolsetTool: S.optional(ToolsetTool),
+    displayName: S.optional(S.String),
+    agentName: S.optional(S.String),
+    args: S.optional(DocumentMap),
+  }),
+).annotate({ identifier: "ToolCall" }) as any as S.Schema<ToolCall>;
 
 /** Represents a blob input or output in the conversation. */
 export interface Blob {
@@ -1510,80 +2029,6 @@ export const Blob = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Blob" }) as any as S.Schema<Blob>;
 
-/** A tool that is created from a toolset. */
-export interface ToolsetTool {
-  /** Required. The resource name of the Toolset from which this tool is derived. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
-  toolset?: string;
-  /** Optional. The tool ID to filter the tools to retrieve the schema for. */
-  toolId?: string;
-}
-export const ToolsetTool = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    toolset: S.optional(S.String),
-    toolId: S.optional(S.String),
-  }),
-).annotate({ identifier: "ToolsetTool" }) as any as S.Schema<ToolsetTool>;
-
-/** The execution result of a specific tool from the client or the agent. */
-export interface ToolResponse {
-  /** Output only. Display name of the tool. */
-  displayName?: string;
-  /** Optional. The toolset tool that got executed. */
-  toolsetTool?: ToolsetTool;
-  /** Optional. The name of the tool to execute. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
-  tool?: string;
-  /** Optional. The matching ID of the tool call the response is for. */
-  id?: string;
-  /** Required. The tool execution result in JSON object format. Use "output" key to specify tool response and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as tool execution result. */
-  response?: DocumentMap;
-}
-export const ToolResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayName: S.optional(S.String),
-    toolsetTool: S.optional(ToolsetTool),
-    tool: S.optional(S.String),
-    id: S.optional(S.String),
-    response: S.optional(DocumentMap),
-  }),
-).annotate({ identifier: "ToolResponse" }) as any as S.Schema<ToolResponse>;
-
-/** Request for the client or the agent to execute the specified tool. */
-export interface ToolCall {
-  /** Optional. The toolset tool to execute. */
-  toolsetTool?: ToolsetTool;
-  /** Output only. Display name of the tool. */
-  displayName?: string;
-  /** Optional. The unique identifier of the tool call. If populated, the client should return the execution result with the matching ID in ToolResponse. */
-  id?: string;
-  /** Optional. The input parameters and values for the tool in JSON object format. */
-  args?: DocumentMap;
-  /** Optional. The name of the tool to execute. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
-  tool?: string;
-}
-export const ToolCall = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    toolsetTool: S.optional(ToolsetTool),
-    displayName: S.optional(S.String),
-    id: S.optional(S.String),
-    args: S.optional(DocumentMap),
-    tool: S.optional(S.String),
-  }),
-).annotate({ identifier: "ToolCall" }) as any as S.Schema<ToolCall>;
-
-/** Represents an image input or output in the conversation. */
-export interface Image {
-  /** Required. The IANA standard MIME type of the source data. Supported image types includes: * image/png * image/jpeg * image/webp */
-  mimeType?: string;
-  /** Required. Raw bytes of the image. */
-  data?: string;
-}
-export const Image = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mimeType: S.optional(S.String),
-    data: S.optional(S.String),
-  }),
-).annotate({ identifier: "Image" }) as any as S.Schema<Image>;
-
 /** Represents an event indicating the transfer of a conversation to a different agent. */
 export interface AgentTransfer {
   /** Output only. Display name of the agent. */
@@ -1598,41 +2043,58 @@ export const AgentTransfer = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AgentTransfer" }) as any as S.Schema<AgentTransfer>;
 
+/** Represents an image input or output in the conversation. */
+export interface Image {
+  /** Required. Raw bytes of the image. */
+  data?: string;
+  /** Required. The IANA standard MIME type of the source data. Supported image types includes: * image/png * image/jpeg * image/webp */
+  mimeType?: string;
+  /** Optional. The alternative text for the image. */
+  altText?: string;
+}
+export const Image = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(S.String),
+    mimeType: S.optional(S.String),
+    altText: S.optional(S.String),
+  }),
+).annotate({ identifier: "Image" }) as any as S.Schema<Image>;
+
 /** A chunk of content within a message. */
 export interface Chunk {
   /** A struct represents default variables at the start of the conversation, keyed by variable names. */
   defaultVariables?: DocumentMap;
-  /** Optional. Transcript associated with the audio. */
-  transcript?: string;
-  /** Optional. Blob data. */
-  blob?: Blob;
   /** Optional. Tool execution response. */
   toolResponse?: ToolResponse;
   /** Optional. Tool execution request. */
   toolCall?: ToolCall;
-  /** Optional. Custom payload data. */
-  payload?: DocumentMap;
   /** A struct represents variables that were updated in the conversation, keyed by variable names. */
   updatedVariables?: DocumentMap;
-  /** Optional. Text data. */
-  text?: string;
-  /** Optional. Image data. */
-  image?: Image;
+  /** Optional. Transcript associated with the audio. */
+  transcript?: string;
+  /** Optional. Blob data. */
+  blob?: Blob;
   /** Optional. Agent transfer event. */
   agentTransfer?: AgentTransfer;
+  /** Optional. Text data. */
+  text?: string;
+  /** Optional. Custom payload data. */
+  payload?: DocumentMap;
+  /** Optional. Image data. */
+  image?: Image;
 }
 export const Chunk = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultVariables: S.optional(DocumentMap),
-    transcript: S.optional(S.String),
-    blob: S.optional(Blob),
     toolResponse: S.optional(ToolResponse),
     toolCall: S.optional(ToolCall),
-    payload: S.optional(DocumentMap),
     updatedVariables: S.optional(DocumentMap),
-    text: S.optional(S.String),
-    image: S.optional(Image),
+    transcript: S.optional(S.String),
+    blob: S.optional(Blob),
     agentTransfer: S.optional(AgentTransfer),
+    text: S.optional(S.String),
+    payload: S.optional(DocumentMap),
+    image: S.optional(Image),
   }),
 ).annotate({ identifier: "Chunk" }) as any as S.Schema<Chunk>;
 
@@ -1645,16 +2107,16 @@ export const ChunkList = /*@__PURE__*/ S.Array(
 export interface Message {
   /** Optional. The role within the conversation, e.g., user, agent. */
   role?: string;
-  /** Optional. Content of the message as a series of chunks. */
-  chunks?: ChunkList;
   /** Optional. Timestamp when the message was sent or received. Should not be used if the message is part of an example. */
   eventTime?: string;
+  /** Optional. Content of the message as a series of chunks. */
+  chunks?: ChunkList;
 }
 export const Message = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     role: S.optional(S.String),
-    chunks: S.optional(ChunkList),
     eventTime: S.optional(S.String),
+    chunks: S.optional(ChunkList),
   }),
 ).annotate({ identifier: "Message" }) as any as S.Schema<Message>;
 
@@ -1667,50 +2129,50 @@ export const MessageList = /*@__PURE__*/ S.Array(
 export interface Example {
   /** Required. Display name of the example. */
   displayName?: string;
-  /** Identifier. The unique identifier of the example. Format: `projects/{project}/locations/{location}/apps/{app}/examples/{example}` */
-  name?: string;
+  /** Etag used to ensure the object hasn't changed during a read-modify-write operation. If the etag is empty, the update will overwrite any concurrent changes. */
+  etag?: string;
+  /** Output only. Timestamp when the example was last updated. */
+  updateTime?: string;
+  /** Output only. The example may become invalid if referencing resources are deleted. Invalid examples will not be used as few-shot examples. */
+  invalid?: boolean;
   /** Optional. The agent that initially handles the conversation. If not specified, the example represents a conversation that is handled by the root agent. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
   entryAgent?: string;
+  /** Optional. Human-readable description of the example. */
+  description?: string;
   /** Output only. Timestamp when the example was created. */
   createTime?: string;
   /** Optional. The collection of messages that make up the conversation. */
   messages?: MessageList;
-  /** Output only. Timestamp when the example was last updated. */
-  updateTime?: string;
-  /** Optional. Human-readable description of the example. */
-  description?: string;
-  /** Output only. The example may become invalid if referencing resources are deleted. Invalid examples will not be used as few-shot examples. */
-  invalid?: boolean;
-  /** Etag used to ensure the object hasn't changed during a read-modify-write operation. If the etag is empty, the update will overwrite any concurrent changes. */
-  etag?: string;
+  /** Identifier. The unique identifier of the example. Format: `projects/{project}/locations/{location}/apps/{app}/examples/{example}` */
+  name?: string;
 }
 export const Example = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
-    name: S.optional(S.String),
+    etag: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    invalid: S.optional(S.Boolean),
     entryAgent: S.optional(S.String),
+    description: S.optional(S.String),
     createTime: S.optional(S.String),
     messages: S.optional(MessageList),
-    updateTime: S.optional(S.String),
-    description: S.optional(S.String),
-    invalid: S.optional(S.Boolean),
-    etag: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Example" }) as any as S.Schema<Example>;
 
 export interface CreateProjectsLocationsAppsExamplesRequest {
-  /** Required. The resource name of the app to create an example in. */
-  parent: string;
   /** Optional. The ID to use for the example, which will become the final component of the example's resource name. If not provided, a unique ID will be automatically assigned for the example. */
   exampleId?: string;
+  /** Required. The resource name of the app to create an example in. */
+  parent: string;
   /** Request body */
   body?: Example;
 }
 export const CreateProjectsLocationsAppsExamplesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       exampleId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(Example.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1722,6 +2184,41 @@ export const CreateProjectsLocationsAppsExamplesRequest =
   ).annotate({
     identifier: "CreateProjectsLocationsAppsExamplesRequest",
   }) as any as S.Schema<CreateProjectsLocationsAppsExamplesRequest>;
+
+export type GuardrailLlmPolicyPolicyScopeEnum =
+  | "POLICY_SCOPE_UNSPECIFIED"
+  | "USER_QUERY"
+  | "AGENT_RESPONSE"
+  | "USER_QUERY_AND_AGENT_RESPONSE";
+export const GuardrailLlmPolicyPolicyScopeEnum = S.String;
+
+/** Guardrail that blocks the conversation if the LLM response is considered violating the policy based on the LLM classification. */
+export interface GuardrailLlmPolicy {
+  /** Optional. Model settings. */
+  modelSettings?: ModelSettings;
+  /** Optional. If an error occurs during the policy check, fail open and do not trigger the guardrail. */
+  failOpen?: boolean;
+  /** Optional. When checking this policy, consider the last 'n' messages in the conversation. When not set a default value of 10 will be used. */
+  maxConversationMessages?: number;
+  /** Required. Policy prompt. */
+  prompt?: string;
+  /** Optional. By default, the LLM policy check is bypassed for short utterances. Enabling this setting applies the policy check to all utterances, including those that would normally be skipped. */
+  allowShortUtterance?: boolean;
+  /** Required. Defines when to apply the policy check during the conversation. If set to `POLICY_SCOPE_UNSPECIFIED`, the policy will be applied to the user input. When applying the policy to the agent response, additional latency will be introduced before the agent can respond. */
+  policyScope?: GuardrailLlmPolicyPolicyScopeEnum | (string & {});
+}
+export const GuardrailLlmPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    modelSettings: S.optional(ModelSettings),
+    failOpen: S.optional(S.Boolean),
+    maxConversationMessages: S.optional(S.Number),
+    prompt: S.optional(S.String),
+    allowShortUtterance: S.optional(S.Boolean),
+    policyScope: S.optional(GuardrailLlmPolicyPolicyScopeEnum),
+  }),
+).annotate({
+  identifier: "GuardrailLlmPolicy",
+}) as any as S.Schema<GuardrailLlmPolicy>;
 
 /** Configuration for default system security settings. */
 export interface GuardrailLlmPromptSecurityDefaultSecuritySettings {
@@ -1737,102 +2234,58 @@ export const GuardrailLlmPromptSecurityDefaultSecuritySettings =
     identifier: "GuardrailLlmPromptSecurityDefaultSecuritySettings",
   }) as any as S.Schema<GuardrailLlmPromptSecurityDefaultSecuritySettings>;
 
-export type GuardrailLlmPolicyPolicyScopeEnum =
-  | "POLICY_SCOPE_UNSPECIFIED"
-  | "USER_QUERY"
-  | "AGENT_RESPONSE"
-  | "USER_QUERY_AND_AGENT_RESPONSE";
-export const GuardrailLlmPolicyPolicyScopeEnum = /*@__PURE__*/ S.String;
-
-/** Guardrail that blocks the conversation if the LLM response is considered violating the policy based on the LLM classification. */
-export interface GuardrailLlmPolicy {
-  /** Required. Defines when to apply the policy check during the conversation. If set to `POLICY_SCOPE_UNSPECIFIED`, the policy will be applied to the user input. When applying the policy to the agent response, additional latency will be introduced before the agent can respond. */
-  policyScope?: GuardrailLlmPolicyPolicyScopeEnum | (string & {});
-  /** Optional. When checking this policy, consider the last 'n' messages in the conversation. When not set a default value of 10 will be used. */
-  maxConversationMessages?: number;
-  /** Optional. Model settings. */
-  modelSettings?: ModelSettings;
-  /** Required. Policy prompt. */
-  prompt?: string;
-  /** Optional. If an error occurs during the policy check, fail open and do not trigger the guardrail. */
-  failOpen?: boolean;
-  /** Optional. By default, the LLM policy check is bypassed for short utterances. Enabling this setting applies the policy check to all utterances, including those that would normally be skipped. */
-  allowShortUtterance?: boolean;
-}
-export const GuardrailLlmPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    policyScope: S.optional(GuardrailLlmPolicyPolicyScopeEnum),
-    maxConversationMessages: S.optional(S.Number),
-    modelSettings: S.optional(ModelSettings),
-    prompt: S.optional(S.String),
-    failOpen: S.optional(S.Boolean),
-    allowShortUtterance: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GuardrailLlmPolicy",
-}) as any as S.Schema<GuardrailLlmPolicy>;
-
 /** Guardrail that blocks the conversation if the input is considered unsafe based on the LLM classification. */
 export interface GuardrailLlmPromptSecurity {
-  /** Optional. Use the system's predefined default security settings. To select this mode, include an empty 'default_settings' message in the request. The 'default_prompt_template' field within will be populated by the server in the response. */
-  defaultSettings?: GuardrailLlmPromptSecurityDefaultSecuritySettings;
   /** Optional. Determines the behavior when the guardrail encounters an LLM error. - If true: the guardrail is bypassed. - If false (default): the guardrail triggers/blocks. Note: If a custom policy is provided, this field is ignored in favor of the policy's 'fail_open' configuration. */
   failOpen?: boolean;
   /** Optional. Use a user-defined LlmPolicy to configure the security guardrail. */
   customPolicy?: GuardrailLlmPolicy;
+  /** Optional. Use the system's predefined default security settings. To select this mode, include an empty 'default_settings' message in the request. The 'default_prompt_template' field within will be populated by the server in the response. */
+  defaultSettings?: GuardrailLlmPromptSecurityDefaultSecuritySettings;
 }
 export const GuardrailLlmPromptSecurity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    failOpen: S.optional(S.Boolean),
+    customPolicy: S.optional(GuardrailLlmPolicy),
     defaultSettings: S.optional(
       GuardrailLlmPromptSecurityDefaultSecuritySettings,
     ),
-    failOpen: S.optional(S.Boolean),
-    customPolicy: S.optional(GuardrailLlmPolicy),
   }),
 ).annotate({
   identifier: "GuardrailLlmPromptSecurity",
 }) as any as S.Schema<GuardrailLlmPromptSecurity>;
 
-export type GuardrailContentFilterMatchTypeEnum =
-  | "MATCH_TYPE_UNSPECIFIED"
-  | "SIMPLE_STRING_MATCH"
-  | "WORD_BOUNDARY_STRING_MATCH"
-  | "REGEXP_MATCH";
-export const GuardrailContentFilterMatchTypeEnum = /*@__PURE__*/ S.String;
-
-/** Guardrail that bans certain content from being used in the conversation. */
-export interface GuardrailContentFilter {
-  /** Optional. List of banned phrases. Applies only to user inputs. */
-  bannedContentsInUserInput?: StringList;
-  /** Required. Match type for the content filter. */
-  matchType?: GuardrailContentFilterMatchTypeEnum | (string & {});
-  /** Optional. List of banned phrases. Applies only to agent responses. */
-  bannedContentsInAgentResponse?: StringList;
-  /** Optional. If true, diacritics are ignored during matching. */
-  disregardDiacritics?: boolean;
-  /** Optional. List of banned phrases. Applies to both user inputs and agent responses. */
-  bannedContents?: StringList;
+/** Guardrail that blocks the conversation based on the code callbacks provided. */
+export interface GuardrailCodeCallback {
+  /** Optional. The callback to execute before the agent is called. Each callback function is expected to return a structure (e.g., a dict or object) containing at least: - 'decision': Either 'OK' or 'TRIGGER'. - 'reason': A string explaining the decision. A 'TRIGGER' decision may halt further processing. */
+  beforeAgentCallback?: Callback;
+  /** Optional. The callback to execute after the agent is called. Each callback function is expected to return a structure (e.g., a dict or object) containing at least: - 'decision': Either 'OK' or 'TRIGGER'. - 'reason': A string explaining the decision. A 'TRIGGER' decision may halt further processing. */
+  afterAgentCallback?: Callback;
+  /** Optional. The callback to execute after the model is called. If there are multiple calls to the model, the callback will be executed multiple times. Each callback function is expected to return a structure (e.g., a dict or object) containing at least: - 'decision': Either 'OK' or 'TRIGGER'. - 'reason': A string explaining the decision. A 'TRIGGER' decision may halt further processing. */
+  afterModelCallback?: Callback;
+  /** Optional. The callback to execute before the model is called. If there are multiple calls to the model, the callback will be executed multiple times. Each callback function is expected to return a structure (e.g., a dict or object) containing at least: - 'decision': Either 'OK' or 'TRIGGER'. - 'reason': A string explaining the decision. A 'TRIGGER' decision may halt further processing. */
+  beforeModelCallback?: Callback;
 }
-export const GuardrailContentFilter = /*@__PURE__*/ S.suspend(() =>
+export const GuardrailCodeCallback = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bannedContentsInUserInput: S.optional(StringList),
-    matchType: S.optional(GuardrailContentFilterMatchTypeEnum),
-    bannedContentsInAgentResponse: S.optional(StringList),
-    disregardDiacritics: S.optional(S.Boolean),
-    bannedContents: S.optional(StringList),
+    beforeAgentCallback: S.optional(Callback),
+    afterAgentCallback: S.optional(Callback),
+    afterModelCallback: S.optional(Callback),
+    beforeModelCallback: S.optional(Callback),
   }),
 ).annotate({
-  identifier: "GuardrailContentFilter",
-}) as any as S.Schema<GuardrailContentFilter>;
+  identifier: "GuardrailCodeCallback",
+}) as any as S.Schema<GuardrailCodeCallback>;
 
 export type GuardrailModelSafetySafetySettingCategoryEnum =
   | "HARM_CATEGORY_UNSPECIFIED"
   | "HARM_CATEGORY_HATE_SPEECH"
   | "HARM_CATEGORY_DANGEROUS_CONTENT"
   | "HARM_CATEGORY_HARASSMENT"
-  | "HARM_CATEGORY_SEXUALLY_EXPLICIT";
-export const GuardrailModelSafetySafetySettingCategoryEnum =
-  /*@__PURE__*/ S.String;
+  | "HARM_CATEGORY_SEXUALLY_EXPLICIT"
+  | "HARM_CATEGORY_PROFANITY"
+  | "HARM_CATEGORY_TOXIC";
+export const GuardrailModelSafetySafetySettingCategoryEnum = S.String;
 
 export type GuardrailModelSafetySafetySettingThresholdEnum =
   | "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
@@ -1841,8 +2294,7 @@ export type GuardrailModelSafetySafetySettingThresholdEnum =
   | "BLOCK_ONLY_HIGH"
   | "BLOCK_NONE"
   | "OFF";
-export const GuardrailModelSafetySafetySettingThresholdEnum =
-  /*@__PURE__*/ S.String;
+export const GuardrailModelSafetySafetySettingThresholdEnum = S.String;
 
 /** Safety setting. */
 export interface GuardrailModelSafetySafetySetting {
@@ -1879,65 +2331,17 @@ export const GuardrailModelSafety = /*@__PURE__*/ S.suspend(() =>
   identifier: "GuardrailModelSafety",
 }) as any as S.Schema<GuardrailModelSafety>;
 
-/** Guardrail that blocks the conversation based on the code callbacks provided. */
-export interface GuardrailCodeCallback {
-  /** Optional. The callback to execute before the agent is called. Each callback function is expected to return a structure (e.g., a dict or object) containing at least: - 'decision': Either 'OK' or 'TRIGGER'. - 'reason': A string explaining the decision. A 'TRIGGER' decision may halt further processing. */
-  beforeAgentCallback?: Callback;
-  /** Optional. The callback to execute after the model is called. If there are multiple calls to the model, the callback will be executed multiple times. Each callback function is expected to return a structure (e.g., a dict or object) containing at least: - 'decision': Either 'OK' or 'TRIGGER'. - 'reason': A string explaining the decision. A 'TRIGGER' decision may halt further processing. */
-  afterModelCallback?: Callback;
-  /** Optional. The callback to execute after the agent is called. Each callback function is expected to return a structure (e.g., a dict or object) containing at least: - 'decision': Either 'OK' or 'TRIGGER'. - 'reason': A string explaining the decision. A 'TRIGGER' decision may halt further processing. */
-  afterAgentCallback?: Callback;
-  /** Optional. The callback to execute before the model is called. If there are multiple calls to the model, the callback will be executed multiple times. Each callback function is expected to return a structure (e.g., a dict or object) containing at least: - 'decision': Either 'OK' or 'TRIGGER'. - 'reason': A string explaining the decision. A 'TRIGGER' decision may halt further processing. */
-  beforeModelCallback?: Callback;
-}
-export const GuardrailCodeCallback = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    beforeAgentCallback: S.optional(Callback),
-    afterModelCallback: S.optional(Callback),
-    afterAgentCallback: S.optional(Callback),
-    beforeModelCallback: S.optional(Callback),
-  }),
-).annotate({
-  identifier: "GuardrailCodeCallback",
-}) as any as S.Schema<GuardrailCodeCallback>;
-
-/** The agent will immediately respond with a generative answer. */
-export interface TriggerActionGenerativeAnswer {
-  /** Required. The prompt to use for the generative answer. */
-  prompt?: string;
-}
-export const TriggerActionGenerativeAnswer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    prompt: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TriggerActionGenerativeAnswer",
-}) as any as S.Schema<TriggerActionGenerativeAnswer>;
-
-/** The agent will transfer the conversation to a different agent. */
-export interface TriggerActionTransferAgent {
-  /** Required. The name of the agent to transfer the conversation to. The agent must be in the same app as the current agent. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
-  agent?: string;
-}
-export const TriggerActionTransferAgent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    agent: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TriggerActionTransferAgent",
-}) as any as S.Schema<TriggerActionTransferAgent>;
-
 /** Represents a response from the agent. */
 export interface TriggerActionResponse {
-  /** Optional. Whether the response is disabled. Disabled responses are not used by the agent. */
-  disabled?: boolean;
   /** Required. Text for the agent to respond with. */
   text?: string;
+  /** Optional. Whether the response is disabled. Disabled responses are not used by the agent. */
+  disabled?: boolean;
 }
 export const TriggerActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    disabled: S.optional(S.Boolean),
     text: S.optional(S.String),
+    disabled: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "TriggerActionResponse",
@@ -1961,67 +2365,125 @@ export const TriggerActionRespondImmediately = /*@__PURE__*/ S.suspend(() =>
   identifier: "TriggerActionRespondImmediately",
 }) as any as S.Schema<TriggerActionRespondImmediately>;
 
+/** The agent will transfer the conversation to a different agent. */
+export interface TriggerActionTransferAgent {
+  /** Required. The name of the agent to transfer the conversation to. The agent must be in the same app as the current agent. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
+  agent?: string;
+}
+export const TriggerActionTransferAgent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agent: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TriggerActionTransferAgent",
+}) as any as S.Schema<TriggerActionTransferAgent>;
+
+/** The agent will immediately respond with a generative answer. */
+export interface TriggerActionGenerativeAnswer {
+  /** Required. The prompt to use for the generative answer. */
+  prompt?: string;
+}
+export const TriggerActionGenerativeAnswer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    prompt: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TriggerActionGenerativeAnswer",
+}) as any as S.Schema<TriggerActionGenerativeAnswer>;
+
 /** Action that is taken when a certain precondition is met. */
 export interface TriggerAction {
-  /** Optional. Respond with a generative answer. */
-  generativeAnswer?: TriggerActionGenerativeAnswer;
-  /** Optional. Transfer the conversation to a different agent. */
-  transferAgent?: TriggerActionTransferAgent;
   /** Optional. Immediately respond with a preconfigured response. */
   respondImmediately?: TriggerActionRespondImmediately;
+  /** Optional. Transfer the conversation to a different agent. */
+  transferAgent?: TriggerActionTransferAgent;
+  /** Optional. Respond with a generative answer. */
+  generativeAnswer?: TriggerActionGenerativeAnswer;
 }
 export const TriggerAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    generativeAnswer: S.optional(TriggerActionGenerativeAnswer),
-    transferAgent: S.optional(TriggerActionTransferAgent),
     respondImmediately: S.optional(TriggerActionRespondImmediately),
+    transferAgent: S.optional(TriggerActionTransferAgent),
+    generativeAnswer: S.optional(TriggerActionGenerativeAnswer),
   }),
 ).annotate({ identifier: "TriggerAction" }) as any as S.Schema<TriggerAction>;
 
+export type GuardrailContentFilterMatchTypeEnum =
+  | "MATCH_TYPE_UNSPECIFIED"
+  | "SIMPLE_STRING_MATCH"
+  | "WORD_BOUNDARY_STRING_MATCH"
+  | "REGEXP_MATCH";
+export const GuardrailContentFilterMatchTypeEnum = S.String;
+
+/** Guardrail that bans certain content from being used in the conversation. */
+export interface GuardrailContentFilter {
+  /** Optional. If true, diacritics are ignored during matching. */
+  disregardDiacritics?: boolean;
+  /** Required. Match type for the content filter. */
+  matchType?: GuardrailContentFilterMatchTypeEnum | (string & {});
+  /** Optional. List of banned phrases. Applies to both user inputs and agent responses. */
+  bannedContents?: StringList;
+  /** Optional. List of banned phrases. Applies only to agent responses. */
+  bannedContentsInAgentResponse?: StringList;
+  /** Optional. List of banned phrases. Applies only to user inputs. */
+  bannedContentsInUserInput?: StringList;
+}
+export const GuardrailContentFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    disregardDiacritics: S.optional(S.Boolean),
+    matchType: S.optional(GuardrailContentFilterMatchTypeEnum),
+    bannedContents: S.optional(StringList),
+    bannedContentsInAgentResponse: S.optional(StringList),
+    bannedContentsInUserInput: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "GuardrailContentFilter",
+}) as any as S.Schema<GuardrailContentFilter>;
+
 /** Guardrail contains a list of checks and balances to keep the agents safe and secure. */
 export interface Guardrail {
-  /** Optional. Guardrail that blocks the conversation if the prompt is considered unsafe based on the LLM classification. */
-  llmPromptSecurity?: GuardrailLlmPromptSecurity;
-  /** Optional. Description of the guardrail. */
-  description?: string;
-  /** Optional. Guardrail that bans certain content from being used in the conversation. */
-  contentFilter?: GuardrailContentFilter;
-  /** Output only. Timestamp when the guardrail was last updated. */
-  updateTime?: string;
-  /** Output only. Timestamp when the guardrail was created. */
-  createTime?: string;
-  /** Optional. Whether the guardrail is enabled. */
-  enabled?: boolean;
-  /** Optional. Guardrail that blocks the conversation if the LLM response is considered unsafe based on the model safety settings. */
-  modelSafety?: GuardrailModelSafety;
-  /** Identifier. The unique identifier of the guardrail. Format: `projects/{project}/locations/{location}/apps/{app}/guardrails/{guardrail}` */
-  name?: string;
-  /** Optional. Guardrail that blocks the conversation if the LLM response is considered violating the policy based on the LLM classification. */
-  llmPolicy?: GuardrailLlmPolicy;
-  /** Etag used to ensure the object hasn't changed during a read-modify-write operation. If the etag is empty, the update will overwrite any concurrent changes. */
-  etag?: string;
-  /** Optional. Guardrail that potentially blocks the conversation based on the result of the callback execution. */
-  codeCallback?: GuardrailCodeCallback;
-  /** Optional. Action to take when the guardrail is triggered. */
-  action?: TriggerAction;
   /** Required. Display name of the guardrail. */
   displayName?: string;
+  /** Output only. Timestamp when the guardrail was created. */
+  createTime?: string;
+  /** Optional. Guardrail that blocks the conversation if the prompt is considered unsafe based on the LLM classification. */
+  llmPromptSecurity?: GuardrailLlmPromptSecurity;
+  /** Optional. Guardrail that potentially blocks the conversation based on the result of the callback execution. */
+  codeCallback?: GuardrailCodeCallback;
+  /** Optional. Guardrail that blocks the conversation if the LLM response is considered unsafe based on the model safety settings. */
+  modelSafety?: GuardrailModelSafety;
+  /** Optional. Whether the guardrail is enabled. */
+  enabled?: boolean;
+  /** Output only. Timestamp when the guardrail was last updated. */
+  updateTime?: string;
+  /** Etag used to ensure the object hasn't changed during a read-modify-write operation. If the etag is empty, the update will overwrite any concurrent changes. */
+  etag?: string;
+  /** Optional. Action to take when the guardrail is triggered. */
+  action?: TriggerAction;
+  /** Optional. Guardrail that blocks the conversation if the LLM response is considered violating the policy based on the LLM classification. */
+  llmPolicy?: GuardrailLlmPolicy;
+  /** Optional. Guardrail that bans certain content from being used in the conversation. */
+  contentFilter?: GuardrailContentFilter;
+  /** Optional. Description of the guardrail. */
+  description?: string;
+  /** Identifier. The unique identifier of the guardrail. Format: `projects/{project}/locations/{location}/apps/{app}/guardrails/{guardrail}` */
+  name?: string;
 }
 export const Guardrail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    llmPromptSecurity: S.optional(GuardrailLlmPromptSecurity),
-    description: S.optional(S.String),
-    contentFilter: S.optional(GuardrailContentFilter),
-    updateTime: S.optional(S.String),
-    createTime: S.optional(S.String),
-    enabled: S.optional(S.Boolean),
-    modelSafety: S.optional(GuardrailModelSafety),
-    name: S.optional(S.String),
-    llmPolicy: S.optional(GuardrailLlmPolicy),
-    etag: S.optional(S.String),
-    codeCallback: S.optional(GuardrailCodeCallback),
-    action: S.optional(TriggerAction),
     displayName: S.optional(S.String),
+    createTime: S.optional(S.String),
+    llmPromptSecurity: S.optional(GuardrailLlmPromptSecurity),
+    codeCallback: S.optional(GuardrailCodeCallback),
+    modelSafety: S.optional(GuardrailModelSafety),
+    enabled: S.optional(S.Boolean),
+    updateTime: S.optional(S.String),
+    etag: S.optional(S.String),
+    action: S.optional(TriggerAction),
+    llmPolicy: S.optional(GuardrailLlmPolicy),
+    contentFilter: S.optional(GuardrailContentFilter),
+    description: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Guardrail" }) as any as S.Schema<Guardrail>;
 
@@ -2050,140 +2512,123 @@ export const CreateProjectsLocationsAppsGuardrailsRequest =
     identifier: "CreateProjectsLocationsAppsGuardrailsRequest",
   }) as any as S.Schema<CreateProjectsLocationsAppsGuardrailsRequest>;
 
-export type FileSearchToolCorpusTypeEnum =
-  | "CORPUS_TYPE_UNSPECIFIED"
-  | "USER_OWNED"
-  | "FULLY_MANAGED";
-export const FileSearchToolCorpusTypeEnum = /*@__PURE__*/ S.String;
+export type ActionEntityOperationOperationEnum =
+  | "OPERATION_TYPE_UNSPECIFIED"
+  | "LIST"
+  | "GET"
+  | "CREATE"
+  | "UPDATE"
+  | "DELETE";
+export const ActionEntityOperationOperationEnum = S.String;
 
-/** The file search tool allows the agent to search across the files uploaded by the app/agent developer. It has presets to give relatively good quality search over the uploaded files and summarization of the retrieved results. */
-export interface FileSearchTool {
-  /** Optional. The type of the corpus. Default is FULLY_MANAGED. */
-  corpusType?: FileSearchToolCorpusTypeEnum | (string & {});
-  /** Required. The tool name. */
-  name?: string;
-  /** Optional. The tool description. */
-  description?: string;
-  /** Optional. The corpus where files are stored. Format: projects/{project}/locations/{location}/ragCorpora/{rag_corpus} */
-  fileCorpus?: string;
+/** Entity CRUD operation specification. */
+export interface ActionEntityOperation {
+  /** Required. Operation to perform on the entity. */
+  operation?: ActionEntityOperationOperationEnum | (string & {});
+  /** Required. ID of the entity. */
+  entityId?: string;
 }
-export const FileSearchTool = /*@__PURE__*/ S.suspend(() =>
+export const ActionEntityOperation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    corpusType: S.optional(FileSearchToolCorpusTypeEnum),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    fileCorpus: S.optional(S.String),
-  }),
-).annotate({ identifier: "FileSearchTool" }) as any as S.Schema<FileSearchTool>;
-
-/** A code block to be executed instead of a real tool call. */
-export interface CodeBlock {
-  /** Required. Python code which will be invoked in tool fake mode. Expected Python function signature - To catch all tool calls: def fake_tool_call(tool: Tool, input: dict[str, Any], callback_context: CallbackContext) -> Optional[dict[str, Any]]: To catch a specific tool call: def fake_{tool_id}(tool: Tool, input: dict[str, Any], callback_context: CallbackContext) -> Optional[dict[str, Any]]: If the function returns None, the real tool will be invoked instead. */
-  pythonCode?: string;
-}
-export const CodeBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pythonCode: S.optional(S.String),
-  }),
-).annotate({ identifier: "CodeBlock" }) as any as S.Schema<CodeBlock>;
-
-/** Configuration for tool behavior in fake mode. */
-export interface ToolFakeConfig {
-  /** Optional. Code block which will be executed instead of a real tool call. */
-  codeBlock?: CodeBlock;
-  /** Optional. Whether the tool is using fake mode. */
-  enableFakeMode?: boolean;
-}
-export const ToolFakeConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    codeBlock: S.optional(CodeBlock),
-    enableFakeMode: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ToolFakeConfig" }) as any as S.Schema<ToolFakeConfig>;
-
-/** Configuration for tools using Service Directory. */
-export interface ServiceDirectoryConfig {
-  /** Required. The name of [Service Directory](https://cloud.google.com/service-directory) service. Format: `projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}`. Location of the service directory must be the same as the location of the app. */
-  service?: string;
-}
-export const ServiceDirectoryConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    service: S.optional(S.String),
+    operation: S.optional(ActionEntityOperationOperationEnum),
+    entityId: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "ServiceDirectoryConfig",
-}) as any as S.Schema<ServiceDirectoryConfig>;
+  identifier: "ActionEntityOperation",
+}) as any as S.Schema<ActionEntityOperation>;
 
-/** A Python function tool. */
-export interface PythonFunction {
-  /** Optional. The name of the Python function to execute. Must match a Python function name defined in the python code. Case sensitive. If the name is not provided, the first function defined in the python code will be used. */
-  name?: string;
-  /** Optional. The Python code to execute for the tool. */
-  pythonCode?: string;
-  /** Output only. The description of the Python function, parsed from the python code's docstring. */
-  description?: string;
-  /** Optional. Service Directory configuration for the tool. */
-  serviceDirectoryConfig?: ServiceDirectoryConfig;
+/** Configuration of an Action for the tool to use. Note: This can be either an Action or an Operation. See https://cloud.google.com/integration-connectors/docs/entities-operation-action for details. */
+export interface Action {
+  /** Optional. Entity fields to return from the operation. If no fields are specified, all fields of the Entity will be returned. */
+  outputFields?: StringList;
+  /** Entity operation configuration for the tool to use. */
+  entityOperation?: ActionEntityOperation;
+  /** Optional. Entity fields to use as inputs for the operation. If no fields are specified, all fields of the Entity will be used. */
+  inputFields?: StringList;
+  /** ID of a Connection action for the tool to use. */
+  connectionActionId?: string;
 }
-export const PythonFunction = /*@__PURE__*/ S.suspend(() =>
+export const Action = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    pythonCode: S.optional(S.String),
-    description: S.optional(S.String),
-    serviceDirectoryConfig: S.optional(ServiceDirectoryConfig),
+    outputFields: S.optional(StringList),
+    entityOperation: S.optional(ActionEntityOperation),
+    inputFields: S.optional(StringList),
+    connectionActionId: S.optional(S.String),
   }),
-).annotate({ identifier: "PythonFunction" }) as any as S.Schema<PythonFunction>;
+).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
 
-/** Prompt settings used by the model when processing or summarizing the google search results. */
-export interface GoogleSearchToolPromptConfig {
-  /** Optional. Defines the prompt used for the system instructions when interacting with the agent in voice conversations. If not set, default prompt will be used. */
-  voicePrompt?: string;
-  /** Optional. Defines the prompt used for the system instructions when interacting with the agent in chat conversations. If not set, default prompt will be used. */
-  textPrompt?: string;
+/** Oauth 2.0 Authorization Code authentication configuration. */
+export interface EndUserAuthConfigOauth2AuthCodeConfig {
+  /** Required. Oauth token parameter name to pass through. Must be in the format `$context.variables.`. */
+  oauthToken?: string;
 }
-export const GoogleSearchToolPromptConfig = /*@__PURE__*/ S.suspend(() =>
+export const EndUserAuthConfigOauth2AuthCodeConfig = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      oauthToken: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "EndUserAuthConfigOauth2AuthCodeConfig",
+}) as any as S.Schema<EndUserAuthConfigOauth2AuthCodeConfig>;
+
+/** JWT Profile Oauth 2.0 Authorization Grant authentication configuration. */
+export interface EndUserAuthConfigOauth2JwtBearerConfig {
+  /** Required. Client parameter name to pass through. Must be in the format `$context.variables.`. */
+  clientKey?: string;
+  /** Required. Issuer parameter name to pass through. Must be in the format `$context.variables.`. */
+  issuer?: string;
+  /** Required. Subject parameter name to pass through. Must be in the format `$context.variables.`. */
+  subject?: string;
+}
+export const EndUserAuthConfigOauth2JwtBearerConfig = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      clientKey: S.optional(S.String),
+      issuer: S.optional(S.String),
+      subject: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "EndUserAuthConfigOauth2JwtBearerConfig",
+}) as any as S.Schema<EndUserAuthConfigOauth2JwtBearerConfig>;
+
+/** End-user authentication configuration used for Connection calls. The field values must be the names of context variables in the format `$context.variables.`. */
+export interface EndUserAuthConfig {
+  /** Oauth 2.0 Authorization Code authentication. */
+  oauth2AuthCodeConfig?: EndUserAuthConfigOauth2AuthCodeConfig;
+  /** JWT Profile Oauth 2.0 Authorization Grant authentication. */
+  oauth2JwtBearerConfig?: EndUserAuthConfigOauth2JwtBearerConfig;
+}
+export const EndUserAuthConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    voicePrompt: S.optional(S.String),
-    textPrompt: S.optional(S.String),
+    oauth2AuthCodeConfig: S.optional(EndUserAuthConfigOauth2AuthCodeConfig),
+    oauth2JwtBearerConfig: S.optional(EndUserAuthConfigOauth2JwtBearerConfig),
   }),
 ).annotate({
-  identifier: "GoogleSearchToolPromptConfig",
-}) as any as S.Schema<GoogleSearchToolPromptConfig>;
+  identifier: "EndUserAuthConfig",
+}) as any as S.Schema<EndUserAuthConfig>;
 
-/** Represents a tool to perform Google web searches for grounding. See https://cloud.google.com/customer-engagement-ai/conversational-agents/ps/tool#google-search. */
-export interface GoogleSearchTool {
-  /** Required. The name of the tool. */
-  name?: string;
-  /** Optional. Description of the tool's purpose. */
+/** A ConnectorTool allows connections to different integrations. See: https://cloud.google.com/integration-connectors/docs/overview. */
+export interface ConnectorTool {
+  /** Required. Action for the tool to use. */
+  action?: Action;
+  /** Required. The full resource name of the referenced Integration Connectors Connection. Format: `projects/{project}/locations/{location}/connections/{connection}` */
+  connection?: string;
+  /** Optional. Configures how authentication is handled in Integration Connectors. By default, an admin authentication is passed in the Integration Connectors API requests. You can override it with a different end-user authentication config. **Note**: The Connection must have authentication override enabled in order to specify an EUC configuration here - otherwise, the ConnectorTool creation will fail. See https://cloud.google.com/application-integration/docs/configure-connectors-task#configure-authentication-override for details. */
+  authConfig?: EndUserAuthConfig;
+  /** Optional. The description of the tool that can be used by the Agent to decide whether to call this ConnectorTool. */
   description?: string;
-  /** Optional. Specifies domains to restrict search results to. Example: "example.com", "another.site". A maximum of 20 domains can be specified. */
-  preferredDomains?: StringList;
-  /** Optional. Content will be fetched directly from these URLs for context and grounding. Example: "https://example.com/path.html". A maximum of 20 URLs are allowed. */
-  contextUrls?: StringList;
-  /** Optional. List of domains to be excluded from the search results. Example: "example.com". A maximum of 2000 domains can be excluded. */
-  excludeDomains?: StringList;
-  /** Optional. Prompt instructions passed to planner on how the search results should be processed for text and voice. */
-  promptConfig?: GoogleSearchToolPromptConfig;
+  /** Optional. The name of the tool that can be used by the Agent to decide whether to call this ConnectorTool. */
+  name?: string;
 }
-export const GoogleSearchTool = /*@__PURE__*/ S.suspend(() =>
+export const ConnectorTool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    action: S.optional(Action),
+    connection: S.optional(S.String),
+    authConfig: S.optional(EndUserAuthConfig),
     description: S.optional(S.String),
-    preferredDomains: S.optional(StringList),
-    contextUrls: S.optional(StringList),
-    excludeDomains: S.optional(StringList),
-    promptConfig: S.optional(GoogleSearchToolPromptConfig),
+    name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GoogleSearchTool",
-}) as any as S.Schema<GoogleSearchTool>;
-
-export type McpToolStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "INACTIVE"
-  | "STALE";
-export const McpToolStateEnum = /*@__PURE__*/ S.String;
+).annotate({ identifier: "ConnectorTool" }) as any as S.Schema<ConnectorTool>;
 
 /** The CA certificate. */
 export interface TlsConfigCaCert {
@@ -2217,735 +2662,101 @@ export const TlsConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "TlsConfig" }) as any as S.Schema<TlsConfig>;
 
-export type OAuthConfigOauthGrantTypeEnum =
-  | "OAUTH_GRANT_TYPE_UNSPECIFIED"
-  | "CLIENT_CREDENTIAL";
-export const OAuthConfigOauthGrantTypeEnum = /*@__PURE__*/ S.String;
-
-/** Configurations for authentication with OAuth. */
-export interface OAuthConfig {
-  /** Required. OAuth grant types. */
-  oauthGrantType?: OAuthConfigOauthGrantTypeEnum | (string & {});
-  /** Required. The token endpoint in the OAuth provider to exchange for an access token. */
-  tokenEndpoint?: string;
-  /** Required. The name of the SecretManager secret version resource storing the client secret. Format: `projects/{project}/secrets/{secret}/versions/{version}` Note: You should grant `roles/secretmanager.secretAccessor` role to the CES service agent `service-@gcp-sa-ces.iam.gserviceaccount.com`. */
-  clientSecretVersion?: string;
-  /** Optional. The OAuth scopes to grant. */
-  scopes?: StringList;
-  /** Required. The client ID from the OAuth provider. */
-  clientId?: string;
+/** Configuration for tools using Service Directory. */
+export interface ServiceDirectoryConfig {
+  /** Required. The name of [Service Directory](https://cloud.google.com/service-directory) service. Format: `projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}`. Location of the service directory must be the same as the location of the app. */
+  service?: string;
 }
-export const OAuthConfig = /*@__PURE__*/ S.suspend(() =>
+export const ServiceDirectoryConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    oauthGrantType: S.optional(OAuthConfigOauthGrantTypeEnum),
-    tokenEndpoint: S.optional(S.String),
-    clientSecretVersion: S.optional(S.String),
-    scopes: S.optional(StringList),
-    clientId: S.optional(S.String),
-  }),
-).annotate({ identifier: "OAuthConfig" }) as any as S.Schema<OAuthConfig>;
-
-/** Configurations for authentication with [ID token](https://cloud.google.com/docs/authentication/token-types#id) generated from service agent. */
-export type ServiceAgentIdTokenAuthConfig = CancelOperationRequest;
-export const ServiceAgentIdTokenAuthConfig = CancelOperationRequest;
-
-/** Configurations for authentication using a custom service account. */
-export interface ServiceAccountAuthConfig {
-  /** Required. The email address of the service account used for authentication. CES uses this service account to exchange an access token and the access token is then sent in the `Authorization` header of the request. The service account must have the `roles/iam.serviceAccountTokenCreator` role granted to the CES service agent `service-@gcp-sa-ces.iam.gserviceaccount.com`. */
-  serviceAccount?: string;
-  /** Optional. The OAuth scopes to grant. If not specified, the default scope `https://www.googleapis.com/auth/cloud-platform` is used. */
-  scopes?: StringList;
-}
-export const ServiceAccountAuthConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceAccount: S.optional(S.String),
-    scopes: S.optional(StringList),
+    service: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "ServiceAccountAuthConfig",
-}) as any as S.Schema<ServiceAccountAuthConfig>;
-
-/** Configurations for authentication with a bearer token. */
-export interface BearerTokenConfig {
-  /** Required. The bearer token. Must be in the format `$context.variables.`. */
-  token?: string;
-}
-export const BearerTokenConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    token: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BearerTokenConfig",
-}) as any as S.Schema<BearerTokenConfig>;
-
-export type ApiKeyConfigRequestLocationEnum =
-  | "REQUEST_LOCATION_UNSPECIFIED"
-  | "HEADER"
-  | "QUERY_STRING";
-export const ApiKeyConfigRequestLocationEnum = /*@__PURE__*/ S.String;
-
-/** Configurations for authentication with API key. */
-export interface ApiKeyConfig {
-  /** Required. The name of the SecretManager secret version resource storing the API key. Format: `projects/{project}/secrets/{secret}/versions/{version}` Note: You should grant `roles/secretmanager.secretAccessor` role to the CES service agent `service-@gcp-sa-ces.iam.gserviceaccount.com`. */
-  apiKeySecretVersion?: string;
-  /** Required. The parameter name or the header name of the API key. E.g., If the API request is "https://example.com/act?X-Api-Key=", "X-Api-Key" would be the parameter name. */
-  keyName?: string;
-  /** Required. Key location in the request. */
-  requestLocation?: ApiKeyConfigRequestLocationEnum | (string & {});
-}
-export const ApiKeyConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiKeySecretVersion: S.optional(S.String),
-    keyName: S.optional(S.String),
-    requestLocation: S.optional(ApiKeyConfigRequestLocationEnum),
-  }),
-).annotate({ identifier: "ApiKeyConfig" }) as any as S.Schema<ApiKeyConfig>;
-
-/** Authentication information required for API calls. */
-export interface ApiAuthentication {
-  /** Optional. Config for OAuth. */
-  oauthConfig?: OAuthConfig;
-  /** Optional. Config for ID token auth generated from CES service agent. */
-  serviceAgentIdTokenAuthConfig?: CancelOperationRequest;
-  /** Optional. Config for service account authentication. */
-  serviceAccountAuthConfig?: ServiceAccountAuthConfig;
-  /** Optional. Config for bearer token auth. */
-  bearerTokenConfig?: BearerTokenConfig;
-  /** Optional. Config for API key auth. */
-  apiKeyConfig?: ApiKeyConfig;
-}
-export const ApiAuthentication = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    oauthConfig: S.optional(OAuthConfig),
-    serviceAgentIdTokenAuthConfig: S.optional(CancelOperationRequest),
-    serviceAccountAuthConfig: S.optional(ServiceAccountAuthConfig),
-    bearerTokenConfig: S.optional(BearerTokenConfig),
-    apiKeyConfig: S.optional(ApiKeyConfig),
-  }),
-).annotate({
-  identifier: "ApiAuthentication",
-}) as any as S.Schema<ApiAuthentication>;
-
-/** An MCP tool. See https://modelcontextprotocol.io/specification/2025-06-18/server/tools for more details. */
-export interface McpTool {
-  /** Optional. Service Directory configuration for VPC-SC, used to resolve service names within a perimeter. */
-  serviceDirectoryConfig?: ServiceDirectoryConfig;
-  /** Output only. The dynamic availability state of the tool on the external server. */
-  state?: McpToolStateEnum | (string & {});
-  /** Optional. The TLS configuration. Includes the custom server certificates that the client should trust. */
-  tlsConfig?: TlsConfig;
-  /** Required. The name of the MCP tool. */
-  name?: string;
-  /** Optional. The name override of the MCP tool. This is populated if the name was overridden by a Toolset override. */
-  nameOverride?: string;
-  /** Optional. Authentication information required to execute the tool against the MCP server. For bearer token authentication, the token applies only to tool execution, not to listing tools. This requires that tools can be listed without authentication. */
-  apiAuthentication?: ApiAuthentication;
-  /** Required. The server address of the MCP server, e.g., "https://example.com/mcp/". If the server is built with the MCP SDK, the url should be suffixed with "/mcp/". Only Streamable HTTP transport based servers are supported. This is the same as the server_address in the McpToolset. See https://modelcontextprotocol.io/specification/2025-03-26/basic/transports#streamable-http for more details. */
-  serverAddress?: string;
-  /** Optional. The description of the MCP tool. */
-  description?: string;
-  /** Optional. The schema of the output arguments of the MCP tool. */
-  outputSchema?: Ces_Schema;
-  /** Optional. The custom headers to send in the request to the MCP server. The values must be in the format `$context.variables.` and can be set in the session variables. See https://docs.cloud.google.com/customer-engagement-ai/conversational-agents/ps/tool/open-api#openapi-injection for more details. */
-  customHeaders?: StringMap;
-  /** Optional. The schema of the input arguments of the MCP tool. */
-  inputSchema?: Ces_Schema;
-}
-export const McpTool = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceDirectoryConfig: S.optional(ServiceDirectoryConfig),
-    state: S.optional(McpToolStateEnum),
-    tlsConfig: S.optional(TlsConfig),
-    name: S.optional(S.String),
-    nameOverride: S.optional(S.String),
-    apiAuthentication: S.optional(ApiAuthentication),
-    serverAddress: S.optional(S.String),
-    description: S.optional(S.String),
-    outputSchema: S.optional(Ces_Schema),
-    customHeaders: S.optional(StringMap),
-    inputSchema: S.optional(Ces_Schema),
-  }),
-).annotate({ identifier: "McpTool" }) as any as S.Schema<McpTool>;
-
-/** Declares a combination of a target URL, transport and protocol version for interacting with the agent. This allows agents to expose the same functionality over multiple protocol binding mechanisms. */
-export interface AgentInterface {
-  /** Required. The protocol binding supported at this URL. This is an open form string, to be easily extended for other protocol bindings. The core ones officially supported are `JSONRPC`, `GRPC` and `HTTP+JSON`. */
-  protocolBinding?: string;
-  /** Tenant ID to be used in the request when calling the agent. */
-  tenant?: string;
-  /** Required. The version of the A2A protocol this interface exposes. Use the latest supported minor version per major version. Examples: "0.3", "1.0" */
-  protocolVersion?: string;
-  /** Required. The URL where this interface is available. Must be a valid absolute HTTPS URL in production. Example: "https://api.example.com/a2a/v1", "https://grpc.example.com/a2a" */
-  url?: string;
-}
-export const AgentInterface = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    protocolBinding: S.optional(S.String),
-    tenant: S.optional(S.String),
-    protocolVersion: S.optional(S.String),
-    url: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentInterface" }) as any as S.Schema<AgentInterface>;
-
-export type AgentInterfaceList = Array<AgentInterface>;
-export const AgentInterfaceList = /*@__PURE__*/ S.Array(
-  AgentInterface,
-) as any as S.Schema<AgentInterfaceList>;
-
-/** Represents a distinct capability or function that an agent can perform. */
-export interface AgentSkill {
-  /** The set of supported input media types for this skill, overriding the agent's defaults. */
-  inputModes?: StringList;
-  /** Required. A unique identifier for the agent's skill. */
-  id?: string;
-  /** Required. A human-readable name for the skill. */
-  name?: string;
-  /** Required. A detailed description of the skill. */
-  description?: string;
-  /** Required. A set of keywords describing the skill's capabilities. */
-  tags?: StringList;
-  /** Example prompts or scenarios that this skill can handle. */
-  examples?: StringList;
-  /** The set of supported output media types for this skill, overriding the agent's defaults. */
-  outputModes?: StringList;
-}
-export const AgentSkill = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    inputModes: S.optional(StringList),
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    tags: S.optional(StringList),
-    examples: S.optional(StringList),
-    outputModes: S.optional(StringList),
-  }),
-).annotate({ identifier: "AgentSkill" }) as any as S.Schema<AgentSkill>;
-
-export type AgentSkillList = Array<AgentSkill>;
-export const AgentSkillList = /*@__PURE__*/ S.Array(
-  AgentSkill,
-) as any as S.Schema<AgentSkillList>;
-
-/** AgentCard conveys key information about a remote agent. It is a trimmed version of the AgentCard defined in the A2A protocol https://a2a-protocol.org/dev/specification/#441-agentcard */
-export interface AgentCard {
-  /** Required. Ordered list of supported interfaces. The first entry is preferred. */
-  supportedInterfaces?: AgentInterfaceList;
-  /** Required. A human-readable name for the agent. */
-  name?: string;
-  /** Required. A description of the agent's domain of action/solution space. */
-  description?: string;
-  /** Required. Skills represent a unit of ability an agent can perform. This may somewhat abstract but represents a more focused set of actions that the agent is highly likely to succeed at. */
-  skills?: AgentSkillList;
-  /** Required. The version of the agent. */
-  version?: string;
-}
-export const AgentCard = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    supportedInterfaces: S.optional(AgentInterfaceList),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    skills: S.optional(AgentSkillList),
-    version: S.optional(S.String),
-  }),
-).annotate({ identifier: "AgentCard" }) as any as S.Schema<AgentCard>;
-
-/** Represents a tool that allows the agent to call another remote agent. */
-export interface RemoteAgentTool {
-  /** Required. The name of the tool. */
-  name?: string;
-  /** Required. The description of the tool. */
-  description?: string;
-  /** Required. The agent card of the remote agent that this tool invokes. */
-  agentCard?: AgentCard;
-}
-export const RemoteAgentTool = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    agentCard: S.optional(AgentCard),
-  }),
-).annotate({
-  identifier: "RemoteAgentTool",
-}) as any as S.Schema<RemoteAgentTool>;
-
-export type WidgetToolTextResponseConfigTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "NONE"
-  | "LLM_GENERATED"
-  | "STATIC";
-export const WidgetToolTextResponseConfigTypeEnum = /*@__PURE__*/ S.String;
-
-/** Configuration for the text response returned with the widget. */
-export interface WidgetToolTextResponseConfig {
-  /** Optional. The static text response to return when type is STATIC. */
-  staticText?: string;
-  /** Optional. The strategy for providing the text response. */
-  type?: WidgetToolTextResponseConfigTypeEnum | (string & {});
-  /** Optional. Instruction for the LLM on how to generate the text response. Used as the description for the text response parameter if type is LLM_GENERATED. */
-  textResponseInstruction?: string;
-}
-export const WidgetToolTextResponseConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    staticText: S.optional(S.String),
-    type: S.optional(WidgetToolTextResponseConfigTypeEnum),
-    textResponseInstruction: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "WidgetToolTextResponseConfig",
-}) as any as S.Schema<WidgetToolTextResponseConfig>;
-
-export type WidgetToolDataMappingModeEnum =
-  | "MODE_UNSPECIFIED"
-  | "FIELD_MAPPING"
-  | "PYTHON_SCRIPT";
-export const WidgetToolDataMappingModeEnum = /*@__PURE__*/ S.String;
-
-/** Configuration for mapping data from a source tool to the widget's input parameters. */
-export interface WidgetToolDataMapping {
-  /** Optional. The resource name of the tool that provides the data for the widget (e.g., a search tool or a custom function). Format: `projects/{project}/locations/{location}/agents/{agent}/tools/{tool}` */
-  sourceToolName?: string;
-  /** Optional. A map of widget input parameter fields to the corresponding output fields of the source tool. */
-  fieldMappings?: StringMap;
-  /** Optional. Configuration for a Python function used to transform the source tool's output into the widget's input format. */
-  pythonFunction?: PythonFunction;
-  /** Deprecated: Use `python_function` instead. */
-  pythonScript?: string;
-  /** Optional. The mode of the data mapping. */
-  mode?: WidgetToolDataMappingModeEnum | (string & {});
-}
-export const WidgetToolDataMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceToolName: S.optional(S.String),
-    fieldMappings: S.optional(StringMap),
-    pythonFunction: S.optional(PythonFunction),
-    pythonScript: S.optional(S.String),
-    mode: S.optional(WidgetToolDataMappingModeEnum),
-  }),
-).annotate({
-  identifier: "WidgetToolDataMapping",
-}) as any as S.Schema<WidgetToolDataMapping>;
-
-export type WidgetToolWidgetTypeEnum =
-  | "WIDGET_TYPE_UNSPECIFIED"
-  | "CUSTOM"
-  | "PRODUCT_CAROUSEL"
-  | "PRODUCT_DETAILS"
-  | "QUICK_ACTIONS"
-  | "PRODUCT_COMPARISON"
-  | "ADVANCED_PRODUCT_DETAILS"
-  | "SHORT_FORM"
-  | "OVERALL_SATISFACTION"
-  | "ORDER_SUMMARY"
-  | "APPOINTMENT_DETAILS"
-  | "APPOINTMENT_SCHEDULER"
-  | "CONTACT_FORM";
-export const WidgetToolWidgetTypeEnum = /*@__PURE__*/ S.String;
-
-/** Represents a widget tool that the agent can invoke. When the tool is chosen by the agent, agent will return the widget to the client. The client is responsible for processing the widget and generating the next user query to continue the interaction with the agent. */
-export interface WidgetTool {
-  /** Optional. The input parameters of the widget tool. */
-  parameters?: Ces_Schema;
-  /** Optional. Configuration for always-included text responses. */
-  textResponseConfig?: WidgetToolTextResponseConfig;
-  /** Optional. The mapping that defines how data from a source tool is mapped to the widget's input parameters. */
-  dataMapping?: WidgetToolDataMapping;
-  /** Required. The display name of the widget tool. */
-  name?: string;
-  /** Optional. The description of the widget tool. */
-  description?: string;
-  /** Optional. The type of the widget tool. If not specified, the default type will be CUSTOMIZED. */
-  widgetType?: WidgetToolWidgetTypeEnum | (string & {});
-  /** Optional. Configuration for rendering the widget. */
-  uiConfig?: DocumentMap;
-}
-export const WidgetTool = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parameters: S.optional(Ces_Schema),
-    textResponseConfig: S.optional(WidgetToolTextResponseConfig),
-    dataMapping: S.optional(WidgetToolDataMapping),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    widgetType: S.optional(WidgetToolWidgetTypeEnum),
-    uiConfig: S.optional(DocumentMap),
-  }),
-).annotate({ identifier: "WidgetTool" }) as any as S.Schema<WidgetTool>;
-
-/** Pre-defined system tool. */
-export interface SystemTool {
-  /** Required. The name of the system tool. */
-  name?: string;
-  /** Output only. The description of the system tool. */
-  description?: string;
-}
-export const SystemTool = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({ identifier: "SystemTool" }) as any as S.Schema<SystemTool>;
-
-export type ToolExecutionTypeEnum =
-  | "EXECUTION_TYPE_UNSPECIFIED"
-  | "SYNCHRONOUS"
-  | "ASYNCHRONOUS";
-export const ToolExecutionTypeEnum = /*@__PURE__*/ S.String;
+  identifier: "ServiceDirectoryConfig",
+}) as any as S.Schema<ServiceDirectoryConfig>;
 
 /** A remote API tool defined by an OpenAPI schema. */
 export interface OpenApiTool {
-  /** Optional. Service Directory configuration. */
-  serviceDirectoryConfig?: ServiceDirectoryConfig;
-  /** Optional. If true, the agent will ignore unknown fields in the API response. */
-  ignoreUnknownFields?: boolean;
-  /** Optional. The TLS configuration. Includes the custom server certificates that the client will trust. */
-  tlsConfig?: TlsConfig;
-  /** Optional. The server URL of the Open API schema. This field is only set in tools in the environment dependencies during the export process if the schema contains a server url. During the import process, if this url is present in the environment dependencies and the schema has the $env_var placeholder, it will replace the placeholder in the schema. */
-  url?: string;
-  /** Optional. The name of the tool. If not provided, the name of the tool will be derived from the OpenAPI schema, from `operation.operationId`. */
-  name?: string;
   /** Optional. The description of the tool. If not provided, the description of the tool will be derived from the OpenAPI schema, from `operation.description` or `operation.summary`. */
   description?: string;
+  /** Optional. The TLS configuration. Includes the custom server certificates that the client will trust. */
+  tlsConfig?: TlsConfig;
+  /** Optional. If true, the agent will ignore unknown fields in the API response. */
+  ignoreUnknownFields?: boolean;
+  /** Optional. Service Directory configuration. */
+  serviceDirectoryConfig?: ServiceDirectoryConfig;
+  /** Optional. The name of the tool. If not provided, the name of the tool will be derived from the OpenAPI schema, from `operation.operationId`. */
+  name?: string;
   /** Optional. Authentication information required by the API. */
   apiAuthentication?: ApiAuthentication;
   /** Required. The OpenAPI schema in JSON or YAML format. */
   openApiSchema?: string;
+  /** Optional. The server URL of the Open API schema. This field is only set in tools in the environment dependencies during the export process if the schema contains a server url. During the import process, if this url is present in the environment dependencies and the schema has the $env_var placeholder, it will replace the placeholder in the schema. */
+  url?: string;
 }
 export const OpenApiTool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceDirectoryConfig: S.optional(ServiceDirectoryConfig),
-    ignoreUnknownFields: S.optional(S.Boolean),
-    tlsConfig: S.optional(TlsConfig),
-    url: S.optional(S.String),
-    name: S.optional(S.String),
     description: S.optional(S.String),
+    tlsConfig: S.optional(TlsConfig),
+    ignoreUnknownFields: S.optional(S.Boolean),
+    serviceDirectoryConfig: S.optional(ServiceDirectoryConfig),
+    name: S.optional(S.String),
     apiAuthentication: S.optional(ApiAuthentication),
     openApiSchema: S.optional(S.String),
+    url: S.optional(S.String),
   }),
 ).annotate({ identifier: "OpenApiTool" }) as any as S.Schema<OpenApiTool>;
 
-export type ActionEntityOperationOperationEnum =
-  | "OPERATION_TYPE_UNSPECIFIED"
-  | "LIST"
-  | "GET"
-  | "CREATE"
-  | "UPDATE"
-  | "DELETE";
-export const ActionEntityOperationOperationEnum = /*@__PURE__*/ S.String;
-
-/** Entity CRUD operation specification. */
-export interface ActionEntityOperation {
-  /** Required. ID of the entity. */
-  entityId?: string;
-  /** Required. Operation to perform on the entity. */
-  operation?: ActionEntityOperationOperationEnum | (string & {});
+/** A code block to be executed instead of a real tool call. */
+export interface CodeBlock {
+  /** Required. Python code which will be invoked in tool fake mode. Expected Python function signature - To catch all tool calls: def fake_tool_call(tool: Tool, input: dict[str, Any], callback_context: CallbackContext) -> Optional[dict[str, Any]]: To catch a specific tool call: def fake_{tool_id}(tool: Tool, input: dict[str, Any], callback_context: CallbackContext) -> Optional[dict[str, Any]]: If the function returns None, the real tool will be invoked instead. */
+  pythonCode?: string;
 }
-export const ActionEntityOperation = /*@__PURE__*/ S.suspend(() =>
+export const CodeBlock = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entityId: S.optional(S.String),
-    operation: S.optional(ActionEntityOperationOperationEnum),
+    pythonCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ActionEntityOperation",
-}) as any as S.Schema<ActionEntityOperation>;
+).annotate({ identifier: "CodeBlock" }) as any as S.Schema<CodeBlock>;
 
-/** Configuration of an Action for the tool to use. Note: This can be either an Action or an Operation. See https://cloud.google.com/integration-connectors/docs/entities-operation-action for details. */
-export interface Action {
-  /** Optional. Entity fields to use as inputs for the operation. If no fields are specified, all fields of the Entity will be used. */
-  inputFields?: StringList;
-  /** Optional. Entity fields to return from the operation. If no fields are specified, all fields of the Entity will be returned. */
-  outputFields?: StringList;
-  /** ID of a Connection action for the tool to use. */
-  connectionActionId?: string;
-  /** Entity operation configuration for the tool to use. */
-  entityOperation?: ActionEntityOperation;
+/** Configuration for tool behavior in fake mode. */
+export interface ToolFakeConfig {
+  /** Optional. Code block which will be executed instead of a real tool call. */
+  codeBlock?: CodeBlock;
+  /** Optional. Whether the tool is using fake mode. */
+  enableFakeMode?: boolean;
 }
-export const Action = /*@__PURE__*/ S.suspend(() =>
+export const ToolFakeConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    inputFields: S.optional(StringList),
-    outputFields: S.optional(StringList),
-    connectionActionId: S.optional(S.String),
-    entityOperation: S.optional(ActionEntityOperation),
+    codeBlock: S.optional(CodeBlock),
+    enableFakeMode: S.optional(S.Boolean),
   }),
-).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
+).annotate({ identifier: "ToolFakeConfig" }) as any as S.Schema<ToolFakeConfig>;
 
-/** JWT Profile Oauth 2.0 Authorization Grant authentication configuration. */
-export interface EndUserAuthConfigOauth2JwtBearerConfig {
-  /** Required. Subject parameter name to pass through. Must be in the format `$context.variables.`. */
-  subject?: string;
-  /** Required. Client parameter name to pass through. Must be in the format `$context.variables.`. */
-  clientKey?: string;
-  /** Required. Issuer parameter name to pass through. Must be in the format `$context.variables.`. */
-  issuer?: string;
-}
-export const EndUserAuthConfigOauth2JwtBearerConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subject: S.optional(S.String),
-      clientKey: S.optional(S.String),
-      issuer: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "EndUserAuthConfigOauth2JwtBearerConfig",
-}) as any as S.Schema<EndUserAuthConfigOauth2JwtBearerConfig>;
-
-/** Oauth 2.0 Authorization Code authentication configuration. */
-export interface EndUserAuthConfigOauth2AuthCodeConfig {
-  /** Required. Oauth token parameter name to pass through. Must be in the format `$context.variables.`. */
-  oauthToken?: string;
-}
-export const EndUserAuthConfigOauth2AuthCodeConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      oauthToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "EndUserAuthConfigOauth2AuthCodeConfig",
-}) as any as S.Schema<EndUserAuthConfigOauth2AuthCodeConfig>;
-
-/** End-user authentication configuration used for Connection calls. The field values must be the names of context variables in the format `$context.variables.`. */
-export interface EndUserAuthConfig {
-  /** JWT Profile Oauth 2.0 Authorization Grant authentication. */
-  oauth2JwtBearerConfig?: EndUserAuthConfigOauth2JwtBearerConfig;
-  /** Oauth 2.0 Authorization Code authentication. */
-  oauth2AuthCodeConfig?: EndUserAuthConfigOauth2AuthCodeConfig;
-}
-export const EndUserAuthConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    oauth2JwtBearerConfig: S.optional(EndUserAuthConfigOauth2JwtBearerConfig),
-    oauth2AuthCodeConfig: S.optional(EndUserAuthConfigOauth2AuthCodeConfig),
-  }),
-).annotate({
-  identifier: "EndUserAuthConfig",
-}) as any as S.Schema<EndUserAuthConfig>;
-
-/** A ConnectorTool allows connections to different integrations. See: https://cloud.google.com/integration-connectors/docs/overview. */
-export interface ConnectorTool {
-  /** Optional. The name of the tool that can be used by the Agent to decide whether to call this ConnectorTool. */
-  name?: string;
-  /** Optional. The description of the tool that can be used by the Agent to decide whether to call this ConnectorTool. */
-  description?: string;
-  /** Required. The full resource name of the referenced Integration Connectors Connection. Format: `projects/{project}/locations/{location}/connections/{connection}` */
-  connection?: string;
-  /** Required. Action for the tool to use. */
-  action?: Action;
-  /** Optional. Configures how authentication is handled in Integration Connectors. By default, an admin authentication is passed in the Integration Connectors API requests. You can override it with a different end-user authentication config. **Note**: The Connection must have authentication override enabled in order to specify an EUC configuration here - otherwise, the ConnectorTool creation will fail. See https://cloud.google.com/application-integration/docs/configure-connectors-task#configure-authentication-override for details. */
-  authConfig?: EndUserAuthConfig;
-}
-export const ConnectorTool = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    connection: S.optional(S.String),
-    action: S.optional(Action),
-    authConfig: S.optional(EndUserAuthConfig),
-  }),
-).annotate({ identifier: "ConnectorTool" }) as any as S.Schema<ConnectorTool>;
-
-export type DataStoreTypeEnum =
-  | "DATA_STORE_TYPE_UNSPECIFIED"
-  | "PUBLIC_WEB"
-  | "UNSTRUCTURED"
-  | "FAQ"
-  | "CONNECTOR";
-export const DataStoreTypeEnum = /*@__PURE__*/ S.String;
-
-export type DataStoreDocumentProcessingModeEnum =
-  | "DOCUMENT_PROCESSING_MODE_UNSPECIFIED"
-  | "DOCUMENTS"
-  | "CHUNKS";
-export const DataStoreDocumentProcessingModeEnum = /*@__PURE__*/ S.String;
-
-/** The connector config for the data store connection. */
-export interface DataStoreConnectorConfig {
-  /** Display name of the collection the data store belongs to. */
-  collectionDisplayName?: string;
-  /** The name of the data source. Example: `salesforce`, `jira`, `confluence`, `bigquery`. */
-  dataSource?: string;
-  /** Resource name of the collection the data store belongs to. */
-  collection?: string;
-}
-export const DataStoreConnectorConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    collectionDisplayName: S.optional(S.String),
-    dataSource: S.optional(S.String),
-    collection: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DataStoreConnectorConfig",
-}) as any as S.Schema<DataStoreConnectorConfig>;
-
-/** A DataStore resource in Vertex AI Search. */
-export interface DataStore {
-  /** Required. Full resource name of the DataStore. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{dataStore}` */
-  name?: string;
-  /** Output only. The type of the data store. This field is readonly and populated by the server. */
-  type?: DataStoreTypeEnum | (string & {});
-  /** Output only. The document processing mode for the data store connection. Only set for PUBLIC_WEB and UNSTRUCTURED data stores. */
-  documentProcessingMode?: DataStoreDocumentProcessingModeEnum | (string & {});
-  /** Output only. The display name of the data store. */
-  displayName?: string;
-  /** Output only. The connector config for the data store connection. */
-  connectorConfig?: DataStoreConnectorConfig;
-  /** Output only. Timestamp when the data store was created. */
-  createTime?: string;
-}
-export const DataStore = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    type: S.optional(DataStoreTypeEnum),
-    documentProcessingMode: S.optional(DataStoreDocumentProcessingModeEnum),
-    displayName: S.optional(S.String),
-    connectorConfig: S.optional(DataStoreConnectorConfig),
-    createTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "DataStore" }) as any as S.Schema<DataStore>;
-
-/** Configuration for searching within a specific DataStore. */
-export interface DataStoreToolDataStoreSource {
-  /** Optional. Filter specification for the DataStore. See: https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata */
-  filter?: string;
-  /** Optional. The data store. */
-  dataStore?: DataStore;
-}
-export const DataStoreToolDataStoreSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filter: S.optional(S.String),
-    dataStore: S.optional(DataStore),
-  }),
-).annotate({
-  identifier: "DataStoreToolDataStoreSource",
-}) as any as S.Schema<DataStoreToolDataStoreSource>;
-
-export type DataStoreToolDataStoreSourceList =
-  Array<DataStoreToolDataStoreSource>;
-export const DataStoreToolDataStoreSourceList = /*@__PURE__*/ S.Array(
-  DataStoreToolDataStoreSource,
-) as any as S.Schema<DataStoreToolDataStoreSourceList>;
-
-/** Configuration for searching within an Engine, potentially targeting specific DataStores. */
-export interface DataStoreToolEngineSource {
-  /** Required. Full resource name of the Engine. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
-  engine?: string;
-  /** Optional. Use to target specific DataStores within the Engine. If empty, the search applies to all DataStores associated with the Engine. */
-  dataStoreSources?: DataStoreToolDataStoreSourceList;
-  /** Optional. A filter applied to the search across the Engine. Not relevant and not used if 'data_store_sources' is provided. See: https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata */
-  filter?: string;
-}
-export const DataStoreToolEngineSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    engine: S.optional(S.String),
-    dataStoreSources: S.optional(DataStoreToolDataStoreSourceList),
-    filter: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DataStoreToolEngineSource",
-}) as any as S.Schema<DataStoreToolEngineSource>;
-
-export type DataStoreToolModalityConfigModalityTypeEnum =
-  | "MODALITY_TYPE_UNSPECIFIED"
-  | "TEXT"
-  | "AUDIO";
-export const DataStoreToolModalityConfigModalityTypeEnum =
-  /*@__PURE__*/ S.String;
-
-/** Rewriter configuration. */
-export interface DataStoreToolRewriterConfig {
-  /** Required. Configurations for the LLM model. */
-  modelSettings?: ModelSettings;
-  /** Optional. The prompt definition. If not set, default prompt will be used. */
-  prompt?: string;
-  /** Optional. Whether the rewriter is disabled. */
-  disabled?: boolean;
-}
-export const DataStoreToolRewriterConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelSettings: S.optional(ModelSettings),
-    prompt: S.optional(S.String),
-    disabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "DataStoreToolRewriterConfig",
-}) as any as S.Schema<DataStoreToolRewriterConfig>;
-
-/** Summarization configuration. */
-export interface DataStoreToolSummarizationConfig {
-  /** Optional. Configurations for the LLM model. */
-  modelSettings?: ModelSettings;
-  /** Optional. The prompt definition. If not set, default prompt will be used. */
-  prompt?: string;
-  /** Optional. Whether summarization is disabled. */
-  disabled?: boolean;
-}
-export const DataStoreToolSummarizationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelSettings: S.optional(ModelSettings),
-    prompt: S.optional(S.String),
-    disabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "DataStoreToolSummarizationConfig",
-}) as any as S.Schema<DataStoreToolSummarizationConfig>;
-
-/** Grounding configuration. */
-export interface DataStoreToolGroundingConfig {
-  /** Optional. The groundedness threshold of the answer based on the retrieved sources. The value has a configurable range of [1, 5]. The level is used to threshold the groundedness of the answer, meaning that all responses with a groundedness score below the threshold will fall back to returning relevant snippets only. For example, a level of 3 means that the groundedness score must be 3 or higher for the response to be returned. */
-  groundingLevel?: number;
-  /** Optional. Whether grounding is disabled. */
-  disabled?: boolean;
-}
-export const DataStoreToolGroundingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    groundingLevel: S.optional(S.Number),
-    disabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "DataStoreToolGroundingConfig",
-}) as any as S.Schema<DataStoreToolGroundingConfig>;
-
-/** If specified, will apply the given configuration for the specified modality. */
-export interface DataStoreToolModalityConfig {
-  /** Required. The modality type. */
-  modalityType?: DataStoreToolModalityConfigModalityTypeEnum | (string & {});
-  /** Optional. The rewriter config. */
-  rewriterConfig?: DataStoreToolRewriterConfig;
-  /** Optional. The summarization config. */
-  summarizationConfig?: DataStoreToolSummarizationConfig;
-  /** Optional. The grounding configuration. */
-  groundingConfig?: DataStoreToolGroundingConfig;
-}
-export const DataStoreToolModalityConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modalityType: S.optional(DataStoreToolModalityConfigModalityTypeEnum),
-    rewriterConfig: S.optional(DataStoreToolRewriterConfig),
-    summarizationConfig: S.optional(DataStoreToolSummarizationConfig),
-    groundingConfig: S.optional(DataStoreToolGroundingConfig),
-  }),
-).annotate({
-  identifier: "DataStoreToolModalityConfig",
-}) as any as S.Schema<DataStoreToolModalityConfig>;
-
-export type DataStoreToolModalityConfigList =
-  Array<DataStoreToolModalityConfig>;
-export const DataStoreToolModalityConfigList = /*@__PURE__*/ S.Array(
-  DataStoreToolModalityConfig,
-) as any as S.Schema<DataStoreToolModalityConfigList>;
+export type DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum =
+  | "ATTRIBUTE_TYPE_UNSPECIFIED"
+  | "NUMERICAL"
+  | "FRESHNESS";
+export const DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum =
+  S.String;
 
 export type DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum =
-  "INTERPOLATION_TYPE_UNSPECIFIED" | "LINEAR";
+  | "INTERPOLATION_TYPE_UNSPECIFIED"
+  | "LINEAR";
 export const DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** The control points used to define the curve. The curve defined through these control points can only be monotonically increasing or decreasing(constant values are acceptable). */
 export interface DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecControlPoint {
-  /** Optional. The value between -1 to 1 by which to boost the score if the attribute_value evaluates to the value specified above. */
-  boostAmount?: number;
   /** Optional. Can be one of: 1. The numerical field value. 2. The duration spec for freshness: The value must be formatted as an XSD `dayTimeDuration` value (a restricted subset of an ISO 8601 duration value). The pattern for this is: `nDnM]`. */
   attributeValue?: string;
+  /** Optional. The value between -1 to 1 by which to boost the score if the attribute_value evaluates to the value specified above. */
+  boostAmount?: number;
 }
 export const DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecControlPoint =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      boostAmount: S.optional(S.Number),
       attributeValue: S.optional(S.String),
+      boostAmount: S.optional(S.Number),
     }),
   ).annotate({
     identifier:
@@ -2959,38 +2770,33 @@ export const DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecControlPoin
     DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecControlPoint,
   ) as any as S.Schema<DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecControlPointList>;
 
-export type DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum =
-  "ATTRIBUTE_TYPE_UNSPECIFIED" | "NUMERICAL" | "FRESHNESS";
-export const DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum =
-  /*@__PURE__*/ S.String;
-
 /** Specification for custom ranking based on customer specified attribute value. It provides more controls for customized ranking than the simple (condition, boost) combination above. */
 export interface DataStoreToolBoostSpecConditionBoostSpecBoostControlSpec {
-  /** Optional. The interpolation type to be applied to connect the control points listed below. */
-  interpolationType?:
-    | DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum
-    | (string & {});
-  /** Optional. The control points used to define the curve. The monotonic function (defined through the interpolation_type above) passes through the control points listed here. */
-  controlPoints?: DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecControlPointList;
   /** Optional. The name of the field whose value will be used to determine the boost amount. */
   fieldName?: string;
   /** Optional. The attribute type to be used to determine the boost amount. The attribute value can be derived from the field value of the specified field_name. In the case of numerical it is straightforward i.e. attribute_value = numerical_field_value. In the case of freshness however, attribute_value = (time.now() - datetime_field_value). */
   attributeType?:
     | DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum
     | (string & {});
+  /** Optional. The interpolation type to be applied to connect the control points listed below. */
+  interpolationType?:
+    | DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum
+    | (string & {});
+  /** Optional. The control points used to define the curve. The monotonic function (defined through the interpolation_type above) passes through the control points listed here. */
+  controlPoints?: DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecControlPointList;
 }
 export const DataStoreToolBoostSpecConditionBoostSpecBoostControlSpec =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      fieldName: S.optional(S.String),
+      attributeType: S.optional(
+        DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum,
+      ),
       interpolationType: S.optional(
         DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum,
       ),
       controlPoints: S.optional(
         DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecControlPointList,
-      ),
-      fieldName: S.optional(S.String),
-      attributeType: S.optional(
-        DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum,
       ),
     }),
   ).annotate({
@@ -2999,20 +2805,20 @@ export const DataStoreToolBoostSpecConditionBoostSpecBoostControlSpec =
 
 /** Boost specification for a condition. */
 export interface DataStoreToolBoostSpecConditionBoostSpec {
-  /** Optional. Strength of the boost, which should be in [-1, 1]. Negative boost means demotion. Default is 0.0. Setting to 1.0 gives the suggestions a big promotion. However, it does not necessarily mean that the top result will be a boosted suggestion. Setting to -1.0 gives the suggestions a big demotion. However, other suggestions that are relevant might still be shown. Setting to 0.0 means no boost applied. The boosting condition is ignored. */
-  boost?: number;
   /** Optional. Complex specification for custom ranking based on customer defined attribute value. */
   boostControlSpec?: DataStoreToolBoostSpecConditionBoostSpecBoostControlSpec;
+  /** Optional. Strength of the boost, which should be in [-1, 1]. Negative boost means demotion. Default is 0.0. Setting to 1.0 gives the suggestions a big promotion. However, it does not necessarily mean that the top result will be a boosted suggestion. Setting to -1.0 gives the suggestions a big demotion. However, other suggestions that are relevant might still be shown. Setting to 0.0 means no boost applied. The boosting condition is ignored. */
+  boost?: number;
   /** Required. An expression which specifies a boost condition. The syntax is the same as filter expression syntax. Currently, the only supported condition is a list of BCP-47 lang codes. Example: To boost suggestions in languages en or fr: (lang_code: ANY("en", "fr")) */
   condition?: string;
 }
 export const DataStoreToolBoostSpecConditionBoostSpec = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      boost: S.optional(S.Number),
       boostControlSpec: S.optional(
         DataStoreToolBoostSpecConditionBoostSpecBoostControlSpec,
       ),
+      boost: S.optional(S.Number),
       condition: S.optional(S.String),
     }),
 ).annotate({
@@ -3048,15 +2854,15 @@ export const DataStoreToolBoostSpecList = /*@__PURE__*/ S.Array(
 
 /** Boost specifications to boost certain documents. For more information, please refer to https://cloud.google.com/generative-ai-app-builder/docs/boosting. */
 export interface DataStoreToolBoostSpecs {
-  /** Required. The Data Store where the boosting configuration is applied. Full resource name of DataStore, such as projects/{project}/locations/{location}/collections/{collection}/dataStores/{dataStore}. */
-  dataStores?: StringList;
   /** Required. A list of boosting specifications. */
   spec?: DataStoreToolBoostSpecList;
+  /** Required. The Data Store where the boosting configuration is applied. Full resource name of DataStore, such as projects/{project}/locations/{location}/collections/{collection}/dataStores/{dataStore}. */
+  dataStores?: StringList;
 }
 export const DataStoreToolBoostSpecs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataStores: S.optional(StringList),
     spec: S.optional(DataStoreToolBoostSpecList),
+    dataStores: S.optional(StringList),
   }),
 ).annotate({
   identifier: "DataStoreToolBoostSpecs",
@@ -3067,44 +2873,395 @@ export const DataStoreToolBoostSpecsList = /*@__PURE__*/ S.Array(
   DataStoreToolBoostSpecs,
 ) as any as S.Schema<DataStoreToolBoostSpecsList>;
 
+export type DataStoreTypeEnum =
+  | "DATA_STORE_TYPE_UNSPECIFIED"
+  | "PUBLIC_WEB"
+  | "UNSTRUCTURED"
+  | "FAQ"
+  | "CONNECTOR";
+export const DataStoreTypeEnum = S.String;
+
+export type DataStoreDocumentProcessingModeEnum =
+  | "DOCUMENT_PROCESSING_MODE_UNSPECIFIED"
+  | "DOCUMENTS"
+  | "CHUNKS";
+export const DataStoreDocumentProcessingModeEnum = S.String;
+
+/** The connector config for the data store connection. */
+export interface DataStoreConnectorConfig {
+  /** The name of the data source. Example: `salesforce`, `jira`, `confluence`, `bigquery`. */
+  dataSource?: string;
+  /** Resource name of the collection the data store belongs to. */
+  collection?: string;
+  /** Display name of the collection the data store belongs to. */
+  collectionDisplayName?: string;
+}
+export const DataStoreConnectorConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dataSource: S.optional(S.String),
+    collection: S.optional(S.String),
+    collectionDisplayName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DataStoreConnectorConfig",
+}) as any as S.Schema<DataStoreConnectorConfig>;
+
+/** A DataStore resource in Vertex AI Search. */
+export interface DataStore {
+  /** Output only. The display name of the data store. */
+  displayName?: string;
+  /** Output only. The type of the data store. This field is readonly and populated by the server. */
+  type?: DataStoreTypeEnum | (string & {});
+  /** Required. Full resource name of the DataStore. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{dataStore}` */
+  name?: string;
+  /** Output only. The document processing mode for the data store connection. Only set for PUBLIC_WEB and UNSTRUCTURED data stores. */
+  documentProcessingMode?: DataStoreDocumentProcessingModeEnum | (string & {});
+  /** Output only. The connector config for the data store connection. */
+  connectorConfig?: DataStoreConnectorConfig;
+  /** Output only. Timestamp when the data store was created. */
+  createTime?: string;
+}
+export const DataStore = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    type: S.optional(DataStoreTypeEnum),
+    name: S.optional(S.String),
+    documentProcessingMode: S.optional(DataStoreDocumentProcessingModeEnum),
+    connectorConfig: S.optional(DataStoreConnectorConfig),
+    createTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "DataStore" }) as any as S.Schema<DataStore>;
+
+/** Configuration for searching within a specific DataStore. */
+export interface DataStoreToolDataStoreSource {
+  /** Optional. The data store. */
+  dataStore?: DataStore;
+  /** Optional. Filter specification for the DataStore. See: https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata */
+  filter?: string;
+}
+export const DataStoreToolDataStoreSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dataStore: S.optional(DataStore),
+    filter: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DataStoreToolDataStoreSource",
+}) as any as S.Schema<DataStoreToolDataStoreSource>;
+
+export type DataStoreToolDataStoreSourceList =
+  Array<DataStoreToolDataStoreSource>;
+export const DataStoreToolDataStoreSourceList = /*@__PURE__*/ S.Array(
+  DataStoreToolDataStoreSource,
+) as any as S.Schema<DataStoreToolDataStoreSourceList>;
+
+/** Configuration for searching within an Engine, potentially targeting specific DataStores. */
+export interface DataStoreToolEngineSource {
+  /** Optional. A filter applied to the search across the Engine. Not relevant and not used if 'data_store_sources' is provided. See: https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata */
+  filter?: string;
+  /** Optional. Use to target specific DataStores within the Engine. If empty, the search applies to all DataStores associated with the Engine. */
+  dataStoreSources?: DataStoreToolDataStoreSourceList;
+  /** Required. Full resource name of the Engine. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
+  engine?: string;
+}
+export const DataStoreToolEngineSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    filter: S.optional(S.String),
+    dataStoreSources: S.optional(DataStoreToolDataStoreSourceList),
+    engine: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DataStoreToolEngineSource",
+}) as any as S.Schema<DataStoreToolEngineSource>;
+
 export type DataStoreToolFilterParameterBehaviorEnum =
   | "FILTER_PARAMETER_BEHAVIOR_UNSPECIFIED"
   | "ALWAYS_INCLUDE"
   | "NEVER_INCLUDE";
-export const DataStoreToolFilterParameterBehaviorEnum = /*@__PURE__*/ S.String;
+export const DataStoreToolFilterParameterBehaviorEnum = S.String;
+
+/** Summarization configuration. */
+export interface DataStoreToolSummarizationConfig {
+  /** Optional. Whether summarization is disabled. */
+  disabled?: boolean;
+  /** Optional. Configurations for the LLM model. */
+  modelSettings?: ModelSettings;
+  /** Optional. The prompt definition. If not set, default prompt will be used. */
+  prompt?: string;
+}
+export const DataStoreToolSummarizationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    disabled: S.optional(S.Boolean),
+    modelSettings: S.optional(ModelSettings),
+    prompt: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DataStoreToolSummarizationConfig",
+}) as any as S.Schema<DataStoreToolSummarizationConfig>;
+
+/** Snippets configuration. */
+export interface DataStoreToolSnippetsConfig {
+  /** Optional. Number of snippets to return per query. If unset, returns all snippets from the service by default. */
+  maxSnippets?: number;
+  /** Optional. Whether snippets are enabled. */
+  enableSnippets?: boolean;
+}
+export const DataStoreToolSnippetsConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxSnippets: S.optional(S.Number),
+    enableSnippets: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "DataStoreToolSnippetsConfig",
+}) as any as S.Schema<DataStoreToolSnippetsConfig>;
+
+export type DataStoreToolModalityConfigModalityTypeEnum =
+  | "MODALITY_TYPE_UNSPECIFIED"
+  | "TEXT"
+  | "AUDIO";
+export const DataStoreToolModalityConfigModalityTypeEnum = S.String;
+
+/** Grounding configuration. */
+export interface DataStoreToolGroundingConfig {
+  /** Optional. The groundedness threshold of the answer based on the retrieved sources. The value has a configurable range of [1, 5]. The level is used to threshold the groundedness of the answer, meaning that all responses with a groundedness score below the threshold will fall back to returning relevant snippets only. For example, a level of 3 means that the groundedness score must be 3 or higher for the response to be returned. */
+  groundingLevel?: number;
+  /** Optional. Whether grounding is disabled. */
+  disabled?: boolean;
+}
+export const DataStoreToolGroundingConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groundingLevel: S.optional(S.Number),
+    disabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "DataStoreToolGroundingConfig",
+}) as any as S.Schema<DataStoreToolGroundingConfig>;
+
+/** Rewriter configuration. */
+export interface DataStoreToolRewriterConfig {
+  /** Required. Configurations for the LLM model. */
+  modelSettings?: ModelSettings;
+  /** Optional. Whether the rewriter is disabled. */
+  disabled?: boolean;
+  /** Optional. The prompt definition. If not set, default prompt will be used. */
+  prompt?: string;
+}
+export const DataStoreToolRewriterConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    modelSettings: S.optional(ModelSettings),
+    disabled: S.optional(S.Boolean),
+    prompt: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DataStoreToolRewriterConfig",
+}) as any as S.Schema<DataStoreToolRewriterConfig>;
+
+/** If specified, will apply the given configuration for the specified modality. */
+export interface DataStoreToolModalityConfig {
+  /** Optional. The summarization config. */
+  summarizationConfig?: DataStoreToolSummarizationConfig;
+  /** Optional. The snippets configuration. */
+  snippetsConfig?: DataStoreToolSnippetsConfig;
+  /** Required. The modality type. */
+  modalityType?: DataStoreToolModalityConfigModalityTypeEnum | (string & {});
+  /** Optional. The grounding configuration. */
+  groundingConfig?: DataStoreToolGroundingConfig;
+  /** Optional. The rewriter config. */
+  rewriterConfig?: DataStoreToolRewriterConfig;
+}
+export const DataStoreToolModalityConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    summarizationConfig: S.optional(DataStoreToolSummarizationConfig),
+    snippetsConfig: S.optional(DataStoreToolSnippetsConfig),
+    modalityType: S.optional(DataStoreToolModalityConfigModalityTypeEnum),
+    groundingConfig: S.optional(DataStoreToolGroundingConfig),
+    rewriterConfig: S.optional(DataStoreToolRewriterConfig),
+  }),
+).annotate({
+  identifier: "DataStoreToolModalityConfig",
+}) as any as S.Schema<DataStoreToolModalityConfig>;
+
+export type DataStoreToolModalityConfigList =
+  Array<DataStoreToolModalityConfig>;
+export const DataStoreToolModalityConfigList = /*@__PURE__*/ S.Array(
+  DataStoreToolModalityConfig,
+) as any as S.Schema<DataStoreToolModalityConfigList>;
 
 /** Tool to retrieve from Vertex AI Search datastore or engine for grounding. Accepts either a datastore or an engine, but not both. See Vertex AI Search: https://cloud.google.com/generative-ai-app-builder/docs/enterprise-search-introduction. */
 export interface DataStoreTool {
-  /** Optional. Search within an Engine (potentially across multiple DataStores). */
-  engineSource?: DataStoreToolEngineSource;
-  /** Required. The data store tool name. */
-  name?: string;
   /** Optional. The tool description. */
   description?: string;
-  /** Optional. Search within a single specific DataStore. */
-  dataStoreSource?: DataStoreToolDataStoreSource;
-  /** Optional. The modality configs for the data store. */
-  modalityConfigs?: DataStoreToolModalityConfigList;
   /** Optional. Boost specification to boost certain documents. */
   boostSpecs?: DataStoreToolBoostSpecsList;
+  /** Optional. Search within an Engine (potentially across multiple DataStores). */
+  engineSource?: DataStoreToolEngineSource;
+  /** Optional. Search within a single specific DataStore. */
+  dataStoreSource?: DataStoreToolDataStoreSource;
+  /** Required. The data store tool name. */
+  name?: string;
   /** Optional. The filter parameter behavior. */
   filterParameterBehavior?:
     | DataStoreToolFilterParameterBehaviorEnum
     | (string & {});
+  /** Optional. The modality configs for the data store. */
+  modalityConfigs?: DataStoreToolModalityConfigList;
 }
 export const DataStoreTool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    engineSource: S.optional(DataStoreToolEngineSource),
-    name: S.optional(S.String),
     description: S.optional(S.String),
-    dataStoreSource: S.optional(DataStoreToolDataStoreSource),
-    modalityConfigs: S.optional(DataStoreToolModalityConfigList),
     boostSpecs: S.optional(DataStoreToolBoostSpecsList),
+    engineSource: S.optional(DataStoreToolEngineSource),
+    dataStoreSource: S.optional(DataStoreToolDataStoreSource),
+    name: S.optional(S.String),
     filterParameterBehavior: S.optional(
       DataStoreToolFilterParameterBehaviorEnum,
     ),
+    modalityConfigs: S.optional(DataStoreToolModalityConfigList),
   }),
 ).annotate({ identifier: "DataStoreTool" }) as any as S.Schema<DataStoreTool>;
+
+export type WidgetToolTextResponseConfigTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "NONE"
+  | "LLM_GENERATED"
+  | "STATIC";
+export const WidgetToolTextResponseConfigTypeEnum = S.String;
+
+/** Configuration for the text response returned with the widget. */
+export interface WidgetToolTextResponseConfig {
+  /** Optional. Instruction for the LLM on how to generate the text response. Used as the description for the text response parameter if type is LLM_GENERATED. */
+  textResponseInstruction?: string;
+  /** Optional. The strategy for providing the text response. */
+  type?: WidgetToolTextResponseConfigTypeEnum | (string & {});
+  /** Optional. The static text response to return when type is STATIC. */
+  staticText?: string;
+}
+export const WidgetToolTextResponseConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    textResponseInstruction: S.optional(S.String),
+    type: S.optional(WidgetToolTextResponseConfigTypeEnum),
+    staticText: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WidgetToolTextResponseConfig",
+}) as any as S.Schema<WidgetToolTextResponseConfig>;
+
+export type WidgetToolWidgetTypeEnum =
+  | "WIDGET_TYPE_UNSPECIFIED"
+  | "CUSTOM"
+  | "PRODUCT_CAROUSEL"
+  | "PRODUCT_DETAILS"
+  | "QUICK_ACTIONS"
+  | "PRODUCT_COMPARISON"
+  | "ADVANCED_PRODUCT_DETAILS"
+  | "SHORT_FORM"
+  | "OVERALL_SATISFACTION"
+  | "ORDER_SUMMARY"
+  | "APPOINTMENT_DETAILS"
+  | "APPOINTMENT_SCHEDULER"
+  | "CONTACT_FORM";
+export const WidgetToolWidgetTypeEnum = S.String;
+
+export type WidgetToolDataMappingModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "FIELD_MAPPING"
+  | "PYTHON_SCRIPT";
+export const WidgetToolDataMappingModeEnum = S.String;
+
+/** A Python function tool. */
+export interface PythonFunction {
+  /** Optional. The name of the Python function to execute. Must match a Python function name defined in the python code. Case sensitive. If the name is not provided, the first function defined in the python code will be used. */
+  name?: string;
+  /** Optional. The Python code to execute for the tool. */
+  pythonCode?: string;
+  /** Output only. The description of the Python function, parsed from the python code's docstring. */
+  description?: string;
+  /** Optional. Service Directory configuration for the tool. */
+  serviceDirectoryConfig?: ServiceDirectoryConfig;
+}
+export const PythonFunction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    pythonCode: S.optional(S.String),
+    description: S.optional(S.String),
+    serviceDirectoryConfig: S.optional(ServiceDirectoryConfig),
+  }),
+).annotate({ identifier: "PythonFunction" }) as any as S.Schema<PythonFunction>;
+
+/** Configuration for mapping data from a source tool to the widget's input parameters. */
+export interface WidgetToolDataMapping {
+  /** Deprecated: Use `python_function` instead. */
+  pythonScript?: string;
+  /** Optional. A map of widget input parameter fields to the corresponding output fields of the source tool. */
+  fieldMappings?: StringMap;
+  /** Optional. The mode of the data mapping. */
+  mode?: WidgetToolDataMappingModeEnum | (string & {});
+  /** Optional. The resource name of the tool that provides the data for the widget (e.g., a search tool or a custom function). Format: `projects/{project}/locations/{location}/agents/{agent}/tools/{tool}` */
+  sourceToolName?: string;
+  /** Optional. Configuration for a Python function used to transform the source tool's output into the widget's input format. */
+  pythonFunction?: PythonFunction;
+}
+export const WidgetToolDataMapping = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pythonScript: S.optional(S.String),
+    fieldMappings: S.optional(StringMap),
+    mode: S.optional(WidgetToolDataMappingModeEnum),
+    sourceToolName: S.optional(S.String),
+    pythonFunction: S.optional(PythonFunction),
+  }),
+).annotate({
+  identifier: "WidgetToolDataMapping",
+}) as any as S.Schema<WidgetToolDataMapping>;
+
+/** Represents a widget tool that the agent can invoke. When the tool is chosen by the agent, agent will return the widget to the client. The client is responsible for processing the widget and generating the next user query to continue the interaction with the agent. */
+export interface WidgetTool {
+  /** Optional. Configuration for always-included text responses. */
+  textResponseConfig?: WidgetToolTextResponseConfig;
+  /** Optional. The type of the widget tool. If not specified, the default type will be CUSTOMIZED. */
+  widgetType?: WidgetToolWidgetTypeEnum | (string & {});
+  /** Optional. The description of the widget tool. */
+  description?: string;
+  /** Optional. The mapping that defines how data from a source tool is mapped to the widget's input parameters. */
+  dataMapping?: WidgetToolDataMapping;
+  /** Optional. The input parameters of the widget tool. */
+  parameters?: Ces_Schema;
+  /** Optional. Configuration for rendering the widget. */
+  uiConfig?: DocumentMap;
+  /** Required. The display name of the widget tool. */
+  name?: string;
+}
+export const WidgetTool = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    textResponseConfig: S.optional(WidgetToolTextResponseConfig),
+    widgetType: S.optional(WidgetToolWidgetTypeEnum),
+    description: S.optional(S.String),
+    dataMapping: S.optional(WidgetToolDataMapping),
+    parameters: S.optional(Ces_Schema),
+    uiConfig: S.optional(DocumentMap),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "WidgetTool" }) as any as S.Schema<WidgetTool>;
+
+/** Represents a tool that allows the agent to call another remote agent. */
+export interface RemoteAgentTool {
+  /** Required. The name of the tool. */
+  name?: string;
+  /** Optional. Authentication configuration for calling the remote agent. */
+  apiAuthentication?: ApiAuthentication;
+  /** Required. The agent card of the remote agent that this tool invokes. */
+  agentCard?: AgentCard;
+  /** Required. The description of the tool. */
+  description?: string;
+}
+export const RemoteAgentTool = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    apiAuthentication: S.optional(ApiAuthentication),
+    agentCard: S.optional(AgentCard),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RemoteAgentTool",
+}) as any as S.Schema<RemoteAgentTool>;
 
 /** Represents a tool that allows the agent to call another agent. */
 export interface AgentTool {
@@ -3114,106 +3271,241 @@ export interface AgentTool {
   description?: string;
   /** Optional. The resource name of the agent that is the entry point of the tool. Format: `projects/{project}/locations/{location}/agents/{agent}` */
   agent?: string;
-  /** Optional. Deprecated: Use `agent` instead. The resource name of the root agent that is the entry point of the tool. Format: `projects/{project}/locations/{location}/agents/{agent}` */
-  rootAgent?: string;
 }
 export const AgentTool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     description: S.optional(S.String),
     agent: S.optional(S.String),
-    rootAgent: S.optional(S.String),
   }),
 ).annotate({ identifier: "AgentTool" }) as any as S.Schema<AgentTool>;
 
-/** Represents a client-side function that the agent can invoke. When the tool is chosen by the agent, control is handed off to the client. The client is responsible for executing the function and returning the result as a ToolResponse to continue the interaction with the agent. */
-export interface ClientFunction {
-  /** Required. The function name. */
+export type McpToolStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "INACTIVE"
+  | "STALE";
+export const McpToolStateEnum = S.String;
+
+/** An MCP tool. See https://modelcontextprotocol.io/specification/2025-06-18/server/tools for more details. */
+export interface McpTool {
+  /** Optional. The custom headers to send in the request to the MCP server. The values must be in the format `$context.variables.` and can be set in the session variables. See https://docs.cloud.google.com/customer-engagement-ai/conversational-agents/ps/tool/open-api#openapi-injection for more details. */
+  customHeaders?: StringMap;
+  /** Optional. The name override of the MCP tool. This is populated if the name was overridden by a Toolset override. */
+  nameOverride?: string;
+  /** Optional. The schema of the input arguments of the MCP tool. */
+  inputSchema?: Ces_Schema;
+  /** Required. The name of the MCP tool. */
   name?: string;
-  /** Optional. The function description. */
+  /** Output only. The dynamic availability state of the tool on the external server. */
+  state?: McpToolStateEnum | (string & {});
+  /** Required. The server address of the MCP server, e.g., "https://example.com/mcp/". If the server is built with the MCP SDK, the url should be suffixed with "/mcp/". Only Streamable HTTP transport based servers are supported. This is the same as the server_address in the McpToolset. See https://modelcontextprotocol.io/specification/2025-03-26/basic/transports#streamable-http for more details. */
+  serverAddress?: string;
+  /** Optional. Authentication information required to execute the tool against the MCP server. For bearer token authentication, the token applies only to tool execution, not to listing tools. This requires that tools can be listed without authentication. */
+  apiAuthentication?: ApiAuthentication;
+  /** Optional. Service Directory configuration for VPC-SC, used to resolve service names within a perimeter. */
+  serviceDirectoryConfig?: ServiceDirectoryConfig;
+  /** Optional. The description of the MCP tool. */
   description?: string;
-  /** Optional. The schema of the function parameters. */
-  parameters?: Ces_Schema;
-  /** Optional. The schema of the function response. */
-  response?: Ces_Schema;
+  /** Optional. The TLS configuration. Includes the custom server certificates that the client should trust. */
+  tlsConfig?: TlsConfig;
+  /** Optional. The schema of the output arguments of the MCP tool. */
+  outputSchema?: Ces_Schema;
 }
-export const ClientFunction = /*@__PURE__*/ S.suspend(() =>
+export const McpTool = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    customHeaders: S.optional(StringMap),
+    nameOverride: S.optional(S.String),
+    inputSchema: S.optional(Ces_Schema),
+    name: S.optional(S.String),
+    state: S.optional(McpToolStateEnum),
+    serverAddress: S.optional(S.String),
+    apiAuthentication: S.optional(ApiAuthentication),
+    serviceDirectoryConfig: S.optional(ServiceDirectoryConfig),
+    description: S.optional(S.String),
+    tlsConfig: S.optional(TlsConfig),
+    outputSchema: S.optional(Ces_Schema),
+  }),
+).annotate({ identifier: "McpTool" }) as any as S.Schema<McpTool>;
+
+/** Pre-defined system tool. */
+export interface SystemTool {
+  /** Required. The name of the system tool. */
+  name?: string;
+  /** Output only. The description of the system tool. */
+  description?: string;
+}
+export const SystemTool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     description: S.optional(S.String),
-    parameters: S.optional(Ces_Schema),
+  }),
+).annotate({ identifier: "SystemTool" }) as any as S.Schema<SystemTool>;
+
+export type FileSearchToolCorpusTypeEnum =
+  | "CORPUS_TYPE_UNSPECIFIED"
+  | "USER_OWNED"
+  | "FULLY_MANAGED";
+export const FileSearchToolCorpusTypeEnum = S.String;
+
+/** The file search tool allows the agent to search across the files uploaded by the app/agent developer. It has presets to give relatively good quality search over the uploaded files and summarization of the retrieved results. */
+export interface FileSearchTool {
+  /** Optional. The tool description. */
+  description?: string;
+  /** Required. The tool name. */
+  name?: string;
+  /** Optional. The type of the corpus. Default is FULLY_MANAGED. */
+  corpusType?: FileSearchToolCorpusTypeEnum | (string & {});
+  /** Optional. The corpus where files are stored. Format: projects/{project}/locations/{location}/ragCorpora/{rag_corpus} */
+  fileCorpus?: string;
+}
+export const FileSearchTool = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    name: S.optional(S.String),
+    corpusType: S.optional(FileSearchToolCorpusTypeEnum),
+    fileCorpus: S.optional(S.String),
+  }),
+).annotate({ identifier: "FileSearchTool" }) as any as S.Schema<FileSearchTool>;
+
+/** Represents a client-side function that the agent can invoke. When the tool is chosen by the agent, control is handed off to the client. The client is responsible for executing the function and returning the result as a ToolResponse to continue the interaction with the agent. */
+export interface ClientFunction {
+  /** Optional. The schema of the function response. */
+  response?: Ces_Schema;
+  /** Required. The function name. */
+  name?: string;
+  /** Optional. The schema of the function parameters. */
+  parameters?: Ces_Schema;
+  /** Optional. The function description. */
+  description?: string;
+}
+export const ClientFunction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
     response: S.optional(Ces_Schema),
+    name: S.optional(S.String),
+    parameters: S.optional(Ces_Schema),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "ClientFunction" }) as any as S.Schema<ClientFunction>;
 
+export type ToolExecutionTypeEnum =
+  | "EXECUTION_TYPE_UNSPECIFIED"
+  | "SYNCHRONOUS"
+  | "ASYNCHRONOUS";
+export const ToolExecutionTypeEnum = S.String;
+
+/** Prompt settings used by the model when processing or summarizing the google search results. */
+export interface GoogleSearchToolPromptConfig {
+  /** Optional. Defines the prompt used for the system instructions when interacting with the agent in chat conversations. If not set, default prompt will be used. */
+  textPrompt?: string;
+  /** Optional. Defines the prompt used for the system instructions when interacting with the agent in voice conversations. If not set, default prompt will be used. */
+  voicePrompt?: string;
+}
+export const GoogleSearchToolPromptConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    textPrompt: S.optional(S.String),
+    voicePrompt: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleSearchToolPromptConfig",
+}) as any as S.Schema<GoogleSearchToolPromptConfig>;
+
+/** Represents a tool to perform Google web searches for grounding. See https://cloud.google.com/customer-engagement-ai/conversational-agents/ps/tool#google-search. */
+export interface GoogleSearchTool {
+  /** Optional. Prompt instructions passed to planner on how the search results should be processed for text and voice. */
+  promptConfig?: GoogleSearchToolPromptConfig;
+  /** Required. The name of the tool. */
+  name?: string;
+  /** Optional. Content will be fetched directly from these URLs for context and grounding. Example: "https://example.com/path.html". A maximum of 20 URLs are allowed. */
+  contextUrls?: StringList;
+  /** Optional. List of domains to be excluded from the search results. Example: "example.com". A maximum of 2000 domains can be excluded. */
+  excludeDomains?: StringList;
+  /** Optional. Specifies domains to restrict search results to. Example: "example.com", "another.site". A maximum of 20 domains can be specified. */
+  preferredDomains?: StringList;
+  /** Optional. Description of the tool's purpose. */
+  description?: string;
+}
+export const GoogleSearchTool = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    promptConfig: S.optional(GoogleSearchToolPromptConfig),
+    name: S.optional(S.String),
+    contextUrls: S.optional(StringList),
+    excludeDomains: S.optional(StringList),
+    preferredDomains: S.optional(StringList),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleSearchTool",
+}) as any as S.Schema<GoogleSearchTool>;
+
 /** A tool represents an action that the CES agent can take to achieve certain goals. */
 export interface Tool {
-  /** Optional. The file search tool. */
-  fileSearchTool?: FileSearchTool;
+  /** Optional. The Integration Connector tool. */
+  connectorTool?: ConnectorTool;
+  /** Optional. The timeout for the tool execution. If not set, the default timeout is 30 seconds for `SYNCHRONOUS` tools and 60 seconds for `ASYNCHRONOUS` tools. */
+  timeout?: string;
+  /** Optional. The open API tool. */
+  openApiTool?: OpenApiTool;
   /** Optional. Configuration for tool behavior in fake mode. */
   toolFakeConfig?: ToolFakeConfig;
+  /** Output only. Timestamp when the tool was created. */
+  createTime?: string;
+  /** Output only. If the tool is generated by the LLM assistant, this field contains a descriptive summary of the generation. */
+  generatedSummary?: string;
+  /** Output only. Timestamp when the tool was last updated. */
+  updateTime?: string;
+  /** Optional. The data store tool. */
+  dataStoreTool?: DataStoreTool;
+  /** Optional. The widget tool. */
+  widgetTool?: WidgetTool;
+  /** Optional. The remote agent tool. */
+  remoteAgentTool?: RemoteAgentTool;
+  /** Output only. The display name of the tool, derived based on the tool's type. For example, display name of a ClientFunction is derived from its `name` property. */
+  displayName?: string;
   /** Optional. The python function tool. */
   pythonFunction?: PythonFunction;
+  /** Optional. The agent tool. */
+  agentTool?: AgentTool;
+  /** Optional. The MCP tool. An MCP tool cannot be created or updated directly and is managed by the MCP toolset. */
+  mcpTool?: McpTool;
+  /** Identifier. The resource name of the tool. Format: * `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` for standalone tools. * `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}/tools/{tool}` for tools retrieved from a toolset. These tools are dynamic and output-only; they cannot be referenced directly where a tool is expected. */
+  name?: string;
+  /** Optional. The system tool. */
+  systemTool?: SystemTool;
+  /** Optional. The file search tool. */
+  fileSearchTool?: FileSearchTool;
+  /** Optional. The client function. */
+  clientFunction?: ClientFunction;
+  /** Optional. The execution type of the tool. */
+  executionType?: ToolExecutionTypeEnum | (string & {});
   /** Etag used to ensure the object hasn't changed during a read-modify-write operation. If the etag is empty, the update will overwrite any concurrent changes. */
   etag?: string;
   /** Optional. The google search tool. */
   googleSearchTool?: GoogleSearchTool;
-  /** Optional. The MCP tool. An MCP tool cannot be created or updated directly and is managed by the MCP toolset. */
-  mcpTool?: McpTool;
-  /** Optional. The remote agent tool. */
-  remoteAgentTool?: RemoteAgentTool;
-  /** Output only. If the tool is generated by the LLM assistant, this field contains a descriptive summary of the generation. */
-  generatedSummary?: string;
-  /** Optional. The widget tool. */
-  widgetTool?: WidgetTool;
-  /** Output only. The display name of the tool, derived based on the tool's type. For example, display name of a ClientFunction is derived from its `name` property. */
-  displayName?: string;
-  /** Optional. The system tool. */
-  systemTool?: SystemTool;
-  /** Optional. The execution type of the tool. */
-  executionType?: ToolExecutionTypeEnum | (string & {});
-  /** Optional. The open API tool. */
-  openApiTool?: OpenApiTool;
-  /** Optional. The Integration Connector tool. */
-  connectorTool?: ConnectorTool;
-  /** Optional. The data store tool. */
-  dataStoreTool?: DataStoreTool;
-  /** Optional. The timeout for the tool execution. If not set, the default timeout is 30 seconds for `SYNCHRONOUS` tools and 60 seconds for `ASYNCHRONOUS` tools. */
-  timeout?: string;
-  /** Output only. Timestamp when the tool was created. */
-  createTime?: string;
-  /** Output only. Timestamp when the tool was last updated. */
-  updateTime?: string;
-  /** Optional. The agent tool. */
-  agentTool?: AgentTool;
-  /** Optional. The client function. */
-  clientFunction?: ClientFunction;
-  /** Identifier. The resource name of the tool. Format: * `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` for standalone tools. * `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}/tools/{tool}` for tools retrieved from a toolset. These tools are dynamic and output-only; they cannot be referenced directly where a tool is expected. */
-  name?: string;
 }
 export const Tool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fileSearchTool: S.optional(FileSearchTool),
+    connectorTool: S.optional(ConnectorTool),
+    timeout: S.optional(S.String),
+    openApiTool: S.optional(OpenApiTool),
     toolFakeConfig: S.optional(ToolFakeConfig),
+    createTime: S.optional(S.String),
+    generatedSummary: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    dataStoreTool: S.optional(DataStoreTool),
+    widgetTool: S.optional(WidgetTool),
+    remoteAgentTool: S.optional(RemoteAgentTool),
+    displayName: S.optional(S.String),
     pythonFunction: S.optional(PythonFunction),
+    agentTool: S.optional(AgentTool),
+    mcpTool: S.optional(McpTool),
+    name: S.optional(S.String),
+    systemTool: S.optional(SystemTool),
+    fileSearchTool: S.optional(FileSearchTool),
+    clientFunction: S.optional(ClientFunction),
+    executionType: S.optional(ToolExecutionTypeEnum),
     etag: S.optional(S.String),
     googleSearchTool: S.optional(GoogleSearchTool),
-    mcpTool: S.optional(McpTool),
-    remoteAgentTool: S.optional(RemoteAgentTool),
-    generatedSummary: S.optional(S.String),
-    widgetTool: S.optional(WidgetTool),
-    displayName: S.optional(S.String),
-    systemTool: S.optional(SystemTool),
-    executionType: S.optional(ToolExecutionTypeEnum),
-    openApiTool: S.optional(OpenApiTool),
-    connectorTool: S.optional(ConnectorTool),
-    dataStoreTool: S.optional(DataStoreTool),
-    timeout: S.optional(S.String),
-    createTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    agentTool: S.optional(AgentTool),
-    clientFunction: S.optional(ClientFunction),
-    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Tool" }) as any as S.Schema<Tool>;
 
@@ -3244,107 +3536,29 @@ export const CreateProjectsLocationsAppsToolsRequest = /*@__PURE__*/ S.suspend(
 
 /** A toolset that contains a list of tools that are defined by an OpenAPI schema. */
 export interface OpenApiToolset {
-  /** Optional. Service Directory configuration. */
-  serviceDirectoryConfig?: ServiceDirectoryConfig;
   /** Optional. If true, the agent will ignore unknown fields in the API response for all operations defined in the OpenAPI schema. */
   ignoreUnknownFields?: boolean;
+  /** Required. The OpenAPI schema of the toolset. */
+  openApiSchema?: string;
   /** Optional. The TLS configuration. Includes the custom server certificates */
   tlsConfig?: TlsConfig;
   /** Optional. The server URL of the Open API schema. This field is only set in toolsets in the environment dependencies during the export process if the schema contains a server url. During the import process, if this url is present in the environment dependencies and the schema has the $env_var placeholder, it will replace the placeholder in the schema. */
   url?: string;
-  /** Required. The OpenAPI schema of the toolset. */
-  openApiSchema?: string;
+  /** Optional. Service Directory configuration. */
+  serviceDirectoryConfig?: ServiceDirectoryConfig;
   /** Optional. Authentication information required by the API. */
   apiAuthentication?: ApiAuthentication;
 }
 export const OpenApiToolset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceDirectoryConfig: S.optional(ServiceDirectoryConfig),
     ignoreUnknownFields: S.optional(S.Boolean),
+    openApiSchema: S.optional(S.String),
     tlsConfig: S.optional(TlsConfig),
     url: S.optional(S.String),
-    openApiSchema: S.optional(S.String),
+    serviceDirectoryConfig: S.optional(ServiceDirectoryConfig),
     apiAuthentication: S.optional(ApiAuthentication),
   }),
 ).annotate({ identifier: "OpenApiToolset" }) as any as S.Schema<OpenApiToolset>;
-
-/** Container for a tool's core definition elements that are snapshot. Schemas in the snapshot are used as-is and cannot be overridden. */
-export interface McpToolDefinition {
-  /** Output only. The schema of the output arguments of the MCP tool. */
-  outputSchema?: Ces_Schema;
-  /** Output only. The description of the MCP tool. This can be overridden by `description_override` in `McpToolOverride`. */
-  description?: string;
-  /** Output only. The schema of the input arguments of the MCP tool. */
-  inputSchema?: Ces_Schema;
-}
-export const McpToolDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    outputSchema: S.optional(Ces_Schema),
-    description: S.optional(S.String),
-    inputSchema: S.optional(Ces_Schema),
-  }),
-).annotate({
-  identifier: "McpToolDefinition",
-}) as any as S.Schema<McpToolDefinition>;
-
-/** Overrides associated with a given tool in a Toolset. This enables "pinning" or "overriding" of tool definitions from the external dynamic server. */
-export interface McpToolOverride {
-  /** Output only. If present, this tool is "Pinned" and uses the snapshot values as fallbacks if the server becomes temporarily unavailable or if no Override is present. */
-  snapshot?: McpToolDefinition;
-  /** Required. The original name of the tool as it is emitted by the MCP server. */
-  tool?: string;
-  /** Optional. If present, this tool uses this name in the Agent instead of the original name. This is primarily used as an alias if the MCP server offers poorly named tools. */
-  nameOverride?: string;
-  /** Optional. If present, this tool uses this description instead of the original description from the server. */
-  descriptionOverride?: string;
-}
-export const McpToolOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    snapshot: S.optional(McpToolDefinition),
-    tool: S.optional(S.String),
-    nameOverride: S.optional(S.String),
-    descriptionOverride: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "McpToolOverride",
-}) as any as S.Schema<McpToolOverride>;
-
-export type McpToolOverrideList = Array<McpToolOverride>;
-export const McpToolOverrideList = /*@__PURE__*/ S.Array(
-  McpToolOverride,
-) as any as S.Schema<McpToolOverrideList>;
-
-/** A toolset that contains a list of tools that are offered by the MCP server. */
-export interface McpToolset {
-  /** Required. The address of the MCP server, for example, "https://example.com/mcp/". If the server is built with the MCP SDK, the url should be suffixed with "/mcp/". Only Streamable HTTP transport based servers are supported. See https://modelcontextprotocol.io/specification/2025-03-26/basic/transports#streamable-http for more details. */
-  serverAddress?: string;
-  /** Optional. Overrides for individual tools within this toolset. This allows overriding specific details like descriptions, names, or pinning the tools' states so they aren't fully dynamic. */
-  toolOverrides?: McpToolOverrideList;
-  /** Optional. Authentication information required to access tools and execute a tool against the MCP server. For bearer token authentication, the token applies only to tool execution, not to listing tools. This requires that tools can be listed without authentication. */
-  apiAuthentication?: ApiAuthentication;
-  /** Optional. The custom headers to send in the request to the MCP server. The values must be in the format `$context.variables.` and can be set in the session variables. See https://docs.cloud.google.com/customer-engagement-ai/conversational-agents/ps/tool/open-api#openapi-injection for more details. */
-  customHeaders?: StringMap;
-  /** Optional. Service Directory configuration for VPC-SC, used to resolve service names within a perimeter. */
-  serviceDirectoryConfig?: ServiceDirectoryConfig;
-  /** Optional. The TLS configuration. Includes the custom server certificates that the client should trust. */
-  tlsConfig?: TlsConfig;
-}
-export const McpToolset = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serverAddress: S.optional(S.String),
-    toolOverrides: S.optional(McpToolOverrideList),
-    apiAuthentication: S.optional(ApiAuthentication),
-    customHeaders: S.optional(StringMap),
-    serviceDirectoryConfig: S.optional(ServiceDirectoryConfig),
-    tlsConfig: S.optional(TlsConfig),
-  }),
-).annotate({ identifier: "McpToolset" }) as any as S.Schema<McpToolset>;
-
-export type ToolsetExecutionTypeEnum =
-  | "EXECUTION_TYPE_UNSPECIFIED"
-  | "SYNCHRONOUS"
-  | "ASYNCHRONOUS";
-export const ToolsetExecutionTypeEnum = /*@__PURE__*/ S.String;
 
 export type ActionList = Array<Action>;
 export const ActionList = /*@__PURE__*/ S.Array(
@@ -3370,44 +3584,125 @@ export const ConnectorToolset = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConnectorToolset",
 }) as any as S.Schema<ConnectorToolset>;
 
+export type ToolsetExecutionTypeEnum =
+  | "EXECUTION_TYPE_UNSPECIFIED"
+  | "SYNCHRONOUS"
+  | "ASYNCHRONOUS";
+export const ToolsetExecutionTypeEnum = S.String;
+
+/** Container for a tool's core definition elements that are snapshot. Schemas in the snapshot are used as-is and cannot be overridden. */
+export interface McpToolDefinition {
+  /** Output only. The description of the MCP tool. This can be overridden by `description_override` in `McpToolOverride`. */
+  description?: string;
+  /** Output only. The schema of the output arguments of the MCP tool. */
+  outputSchema?: Ces_Schema;
+  /** Output only. The schema of the input arguments of the MCP tool. */
+  inputSchema?: Ces_Schema;
+}
+export const McpToolDefinition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    outputSchema: S.optional(Ces_Schema),
+    inputSchema: S.optional(Ces_Schema),
+  }),
+).annotate({
+  identifier: "McpToolDefinition",
+}) as any as S.Schema<McpToolDefinition>;
+
+/** Overrides associated with a given tool in a Toolset. This enables "pinning" or "overriding" of tool definitions from the external dynamic server. */
+export interface McpToolOverride {
+  /** Output only. If present, this tool is "Pinned" and uses the snapshot values as fallbacks if the server becomes temporarily unavailable or if no Override is present. */
+  snapshot?: McpToolDefinition;
+  /** Optional. If present, this tool uses this description instead of the original description from the server. */
+  descriptionOverride?: string;
+  /** Required. The original name of the tool as it is emitted by the MCP server. */
+  tool?: string;
+  /** Optional. If present, this tool uses this name in the Agent instead of the original name. This is primarily used as an alias if the MCP server offers poorly named tools. */
+  nameOverride?: string;
+}
+export const McpToolOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    snapshot: S.optional(McpToolDefinition),
+    descriptionOverride: S.optional(S.String),
+    tool: S.optional(S.String),
+    nameOverride: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "McpToolOverride",
+}) as any as S.Schema<McpToolOverride>;
+
+export type McpToolOverrideList = Array<McpToolOverride>;
+export const McpToolOverrideList = /*@__PURE__*/ S.Array(
+  McpToolOverride,
+) as any as S.Schema<McpToolOverrideList>;
+
+/** A toolset that contains a list of tools that are offered by the MCP server. */
+export interface McpToolset {
+  /** Required. The address of the MCP server, for example, "https://example.com/mcp/". If the server is built with the MCP SDK, the url should be suffixed with "/mcp/". Only Streamable HTTP transport based servers are supported. See https://modelcontextprotocol.io/specification/2025-03-26/basic/transports#streamable-http for more details. */
+  serverAddress?: string;
+  /** Optional. Authentication information required to access tools and execute a tool against the MCP server. For bearer token authentication, the token applies only to tool execution, not to listing tools. This requires that tools can be listed without authentication. */
+  apiAuthentication?: ApiAuthentication;
+  /** Optional. Service Directory configuration for VPC-SC, used to resolve service names within a perimeter. */
+  serviceDirectoryConfig?: ServiceDirectoryConfig;
+  /** Optional. The TLS configuration. Includes the custom server certificates that the client should trust. */
+  tlsConfig?: TlsConfig;
+  /** Optional. The custom headers to send in the request to the MCP server. The values must be in the format `$context.variables.` and can be set in the session variables. See https://docs.cloud.google.com/customer-engagement-ai/conversational-agents/ps/tool/open-api#openapi-injection for more details. */
+  customHeaders?: StringMap;
+  /** Optional. Overrides for individual tools within this toolset. This allows overriding specific details like descriptions, names, or pinning the tools' states so they aren't fully dynamic. */
+  toolOverrides?: McpToolOverrideList;
+}
+export const McpToolset = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serverAddress: S.optional(S.String),
+    apiAuthentication: S.optional(ApiAuthentication),
+    serviceDirectoryConfig: S.optional(ServiceDirectoryConfig),
+    tlsConfig: S.optional(TlsConfig),
+    customHeaders: S.optional(StringMap),
+    toolOverrides: S.optional(McpToolOverrideList),
+  }),
+).annotate({ identifier: "McpToolset" }) as any as S.Schema<McpToolset>;
+
 /** A toolset represents a group of dynamically managed tools that can be used by the agent. */
 export interface Toolset {
-  /** Optional. The display name of the toolset. Must be unique within the same app. */
-  displayName?: string;
-  /** Identifier. The unique identifier of the toolset. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
-  name?: string;
+  /** ETag used to ensure the object hasn't changed during a read-modify-write operation. If the etag is empty, the update will overwrite any concurrent changes. */
+  etag?: string;
+  /** Optional. A toolset that contains a list of tools that are defined by an OpenAPI schema. */
+  openApiToolset?: OpenApiToolset;
+  /** Optional. The description of the toolset. */
+  description?: string;
   /** Output only. Timestamp when the toolset was created. */
   createTime?: string;
   /** Output only. Timestamp when the toolset was last updated. */
   updateTime?: string;
-  /** Optional. A toolset that contains a list of tools that are defined by an OpenAPI schema. */
-  openApiToolset?: OpenApiToolset;
-  /** Optional. A toolset that contains a list of tools that are offered by the MCP server. */
-  mcpToolset?: McpToolset;
-  /** Optional. The description of the toolset. */
-  description?: string;
-  /** Optional. The execution type of the tools in the toolset. */
-  executionType?: ToolsetExecutionTypeEnum | (string & {});
-  /** Optional. Configuration for tools behavior in fake mode. */
-  toolFakeConfig?: ToolFakeConfig;
-  /** ETag used to ensure the object hasn't changed during a read-modify-write operation. If the etag is empty, the update will overwrite any concurrent changes. */
-  etag?: string;
   /** Optional. A toolset that generates tools from an Integration Connectors Connection. */
   connectorToolset?: ConnectorToolset;
+  /** Optional. The display name of the toolset. Must be unique within the same app. */
+  displayName?: string;
+  /** Identifier. The unique identifier of the toolset. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
+  name?: string;
+  /** Optional. The timeout for the toolset execution. If not set, the default timeout is 30 seconds for `SYNCHRONOUS` toolsets and 60 seconds for `ASYNCHRONOUS` toolsets. */
+  timeout?: string;
+  /** Optional. Configuration for tools behavior in fake mode. */
+  toolFakeConfig?: ToolFakeConfig;
+  /** Optional. The execution type of the tools in the toolset. */
+  executionType?: ToolsetExecutionTypeEnum | (string & {});
+  /** Optional. A toolset that contains a list of tools that are offered by the MCP server. */
+  mcpToolset?: McpToolset;
 }
 export const Toolset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    name: S.optional(S.String),
+    etag: S.optional(S.String),
+    openApiToolset: S.optional(OpenApiToolset),
+    description: S.optional(S.String),
     createTime: S.optional(S.String),
     updateTime: S.optional(S.String),
-    openApiToolset: S.optional(OpenApiToolset),
-    mcpToolset: S.optional(McpToolset),
-    description: S.optional(S.String),
-    executionType: S.optional(ToolsetExecutionTypeEnum),
-    toolFakeConfig: S.optional(ToolFakeConfig),
-    etag: S.optional(S.String),
     connectorToolset: S.optional(ConnectorToolset),
+    displayName: S.optional(S.String),
+    name: S.optional(S.String),
+    timeout: S.optional(S.String),
+    toolFakeConfig: S.optional(ToolFakeConfig),
+    executionType: S.optional(ToolsetExecutionTypeEnum),
+    mcpToolset: S.optional(McpToolset),
   }),
 ).annotate({ identifier: "Toolset" }) as any as S.Schema<Toolset>;
 
@@ -3436,54 +3731,54 @@ export const CreateProjectsLocationsAppsToolsetsRequest =
     identifier: "CreateProjectsLocationsAppsToolsetsRequest",
   }) as any as S.Schema<CreateProjectsLocationsAppsToolsetsRequest>;
 
-export type ToolList = Array<Tool>;
-export const ToolList = /*@__PURE__*/ S.Array(
-  Tool,
-) as any as S.Schema<ToolList>;
-
 export type ExampleList = Array<Example>;
 export const ExampleList = /*@__PURE__*/ S.Array(
   Example,
 ) as any as S.Schema<ExampleList>;
-
-export type GuardrailList = Array<Guardrail>;
-export const GuardrailList = /*@__PURE__*/ S.Array(
-  Guardrail,
-) as any as S.Schema<GuardrailList>;
 
 export type ToolsetList = Array<Toolset>;
 export const ToolsetList = /*@__PURE__*/ S.Array(
   Toolset,
 ) as any as S.Schema<ToolsetList>;
 
+export type GuardrailList = Array<Guardrail>;
+export const GuardrailList = /*@__PURE__*/ S.Array(
+  Guardrail,
+) as any as S.Schema<GuardrailList>;
+
 export type AgentList = Array<Agent>;
 export const AgentList = /*@__PURE__*/ S.Array(
   Agent,
 ) as any as S.Schema<AgentList>;
 
+export type ToolList = Array<Tool>;
+export const ToolList = /*@__PURE__*/ S.Array(
+  Tool,
+) as any as S.Schema<ToolList>;
+
 /** A snapshot of the app. */
 export interface AppSnapshot {
-  /** Optional. List of tools in the app. */
-  tools?: ToolList;
-  /** Optional. The basic settings for the app. */
-  app?: App;
   /** Optional. List of examples in the app. */
   examples?: ExampleList;
-  /** Optional. List of guardrails in the app. */
-  guardrails?: GuardrailList;
   /** Optional. List of toolsets in the app. */
   toolsets?: ToolsetList;
+  /** Optional. List of guardrails in the app. */
+  guardrails?: GuardrailList;
   /** Optional. List of agents in the app. */
   agents?: AgentList;
+  /** Optional. The basic settings for the app. */
+  app?: App;
+  /** Optional. List of tools in the app. */
+  tools?: ToolList;
 }
 export const AppSnapshot = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tools: S.optional(ToolList),
-    app: S.optional(App),
     examples: S.optional(ExampleList),
-    guardrails: S.optional(GuardrailList),
     toolsets: S.optional(ToolsetList),
+    guardrails: S.optional(GuardrailList),
     agents: S.optional(AgentList),
+    app: S.optional(App),
+    tools: S.optional(ToolList),
   }),
 ).annotate({ identifier: "AppSnapshot" }) as any as S.Schema<AppSnapshot>;
 
@@ -3491,44 +3786,47 @@ export const AppSnapshot = /*@__PURE__*/ S.suspend(() =>
 export interface AppVersion {
   /** Output only. Etag used to ensure the object hasn't changed during a read-modify-write operation. If the etag is empty, the update will overwrite any concurrent changes. */
   etag?: string;
-  /** Output only. Timestamp when the app version was created. */
-  createTime?: string;
-  /** Identifier. The unique identifier of the app version. Format: `projects/{project}/locations/{location}/apps/{app}/versions/{version}` */
-  name?: string;
-  /** Optional. The description of the app version. */
-  description?: string;
-  /** Output only. Email of the user who created the app version. */
-  creator?: string;
-  /** Optional. The display name of the app version. */
-  displayName?: string;
+  /** Output only. Timestamp when the app version was last updated. */
+  updateTime?: string;
   /** Output only. The snapshot of the app when the version is created. */
   snapshot?: AppSnapshot;
+  /** Output only. Timestamp when the app version was created. */
+  createTime?: string;
+  /** Optional. The display name of the app version. */
+  displayName?: string;
+  /** Optional. The description of the app version. */
+  description?: string;
+  /** Identifier. The unique identifier of the app version. Format: `projects/{project}/locations/{location}/apps/{app}/versions/{version}` */
+  name?: string;
+  /** Output only. Email of the user who created the app version. */
+  creator?: string;
 }
 export const AppVersion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     etag: S.optional(S.String),
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    creator: S.optional(S.String),
-    displayName: S.optional(S.String),
+    updateTime: S.optional(S.String),
     snapshot: S.optional(AppSnapshot),
+    createTime: S.optional(S.String),
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+    name: S.optional(S.String),
+    creator: S.optional(S.String),
   }),
 ).annotate({ identifier: "AppVersion" }) as any as S.Schema<AppVersion>;
 
 export interface CreateProjectsLocationsAppsVersionsRequest {
-  /** Required. The resource name of the app to create an app version in. */
-  parent: string;
   /** Optional. The ID to use for the app version, which will become the final component of the app version's resource name. If not provided, a unique ID will be automatically assigned for the app version. */
   appVersionId?: string;
+  /** Required. The resource name of the app to create an app version in. */
+  parent: string;
   /** Request body */
   body?: AppVersion;
 }
 export const CreateProjectsLocationsAppsVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       appVersionId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(AppVersion.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3542,15 +3840,15 @@ export const CreateProjectsLocationsAppsVersionsRequest =
   }) as any as S.Schema<CreateProjectsLocationsAppsVersionsRequest>;
 
 export interface DeleteProjectsLocationsAppsRequest {
-  /** Required. The resource name of the app to delete. */
-  name: string;
   /** Optional. The current etag of the app. If an etag is not provided, the deletion will overwrite any concurrent changes. If an etag is provided and does not match the current etag of the app, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
+  /** Required. The resource name of the app to delete. */
+  name: string;
 }
 export const DeleteProjectsLocationsAppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -3563,18 +3861,18 @@ export const DeleteProjectsLocationsAppsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteProjectsLocationsAppsRequest>;
 
 export interface DeleteProjectsLocationsAppsAgentsRequest {
-  /** Optional. Indicates whether to forcefully delete the agent, even if it is still referenced by other app/agents/examples. * If `force = false`, the deletion fails if other agents/examples reference it. * If `force = true`, delete the agent and remove it from all referencing apps/agents/examples. */
-  force?: boolean;
   /** Required. The resource name of the agent to delete. */
   name: string;
+  /** Optional. Indicates whether to forcefully delete the agent, even if it is still referenced by other app/agents/examples. * If `force = false`, the deletion fails if other agents/examples reference it. * If `force = true`, delete the agent and remove it from all referencing apps/agents/examples. */
+  force?: boolean;
   /** Optional. The current etag of the agent. If an etag is not provided, the deletion will overwrite any concurrent changes. If an etag is provided and does not match the current etag of the agent, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
 }
 export const DeleteProjectsLocationsAppsAgentsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      force: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      force: S.optional(S.Boolean.pipe(T.Query())),
       etag: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -3593,22 +3891,21 @@ export type DeleteProjectsLocationsAppsConversationsSourceEnum =
   | "SIMULATOR"
   | "EVAL"
   | "AGENT_TOOL";
-export const DeleteProjectsLocationsAppsConversationsSourceEnum =
-  /*@__PURE__*/ S.String;
+export const DeleteProjectsLocationsAppsConversationsSourceEnum = S.String;
 
 export interface DeleteProjectsLocationsAppsConversationsRequest {
-  /** Required. The resource name of the conversation to delete. */
-  name: string;
   /** Optional. Indicate the source of the conversation. If not set, Source.Live will be applied by default. */
   source?: DeleteProjectsLocationsAppsConversationsSourceEnum | (string & {});
+  /** Required. The resource name of the conversation to delete. */
+  name: string;
 }
 export const DeleteProjectsLocationsAppsConversationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       source: S.optional(
         DeleteProjectsLocationsAppsConversationsSourceEnum.pipe(T.Query()),
       ),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -3621,16 +3918,16 @@ export const DeleteProjectsLocationsAppsConversationsRequest =
   }) as any as S.Schema<DeleteProjectsLocationsAppsConversationsRequest>;
 
 export interface DeleteProjectsLocationsAppsDeploymentsRequest {
-  /** Required. The name of the deployment to delete. Format: `projects/{project}/locations/{location}/apps/{app}/deployments/{deployment}` */
-  name: string;
   /** Optional. The etag of the deployment. If an etag is provided and does not match the current etag of the deployment, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
+  /** Required. The name of the deployment to delete. Format: `projects/{project}/locations/{location}/apps/{app}/deployments/{deployment}` */
+  name: string;
 }
 export const DeleteProjectsLocationsAppsDeploymentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       etag: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -3665,19 +3962,19 @@ export const DeleteProjectsLocationsAppsExamplesRequest =
   }) as any as S.Schema<DeleteProjectsLocationsAppsExamplesRequest>;
 
 export interface DeleteProjectsLocationsAppsGuardrailsRequest {
-  /** Optional. Indicates whether to forcefully delete the guardrail, even if it is still referenced by app/agents. * If `force = false`, the deletion fails if any apps/agents still reference the guardrail. * If `force = true`, all existing references from apps/agents will be removed and the guardrail will be deleted. */
-  force?: boolean;
-  /** Required. The resource name of the guardrail to delete. */
-  name: string;
   /** Optional. The current etag of the guardrail. If an etag is not provided, the deletion will overwrite any concurrent changes. If an etag is provided and does not match the current etag of the guardrail, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
+  /** Required. The resource name of the guardrail to delete. */
+  name: string;
+  /** Optional. Indicates whether to forcefully delete the guardrail, even if it is still referenced by app/agents. * If `force = false`, the deletion fails if any apps/agents still reference the guardrail. * If `force = true`, all existing references from apps/agents will be removed and the guardrail will be deleted. */
+  force?: boolean;
 }
 export const DeleteProjectsLocationsAppsGuardrailsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      force: S.optional(S.Boolean.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       etag: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      force: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -3690,18 +3987,18 @@ export const DeleteProjectsLocationsAppsGuardrailsRequest =
   }) as any as S.Schema<DeleteProjectsLocationsAppsGuardrailsRequest>;
 
 export interface DeleteProjectsLocationsAppsToolsRequest {
-  /** Optional. Indicates whether to forcefully delete the tool, even if it is still referenced by agents/examples. * If `force = false`, the deletion will fail if any agents still reference the tool. * If `force = true`, all existing references from agents will be removed and the tool will be deleted. */
-  force?: boolean;
   /** Required. The resource name of the tool to delete. */
   name: string;
+  /** Optional. Indicates whether to forcefully delete the tool, even if it is still referenced by agents/examples. * If `force = false`, the deletion will fail if any agents still reference the tool. * If `force = true`, all existing references from agents will be removed and the tool will be deleted. */
+  force?: boolean;
   /** Optional. The current etag of the tool. If an etag is not provided, the deletion will overwrite any concurrent changes. If an etag is provided and does not match the current etag of the tool, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
 }
 export const DeleteProjectsLocationsAppsToolsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      force: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      force: S.optional(S.Boolean.pipe(T.Query())),
       etag: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -3782,24 +4079,24 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
 
 /** A mocked tool call. Expresses the target tool + a pattern to match against that tool's args / inputs. If the pattern matches, then the mock response will be returned. */
 export interface MockedToolCall {
-  /** Optional. The name of the tool to mock. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
-  toolId?: string;
-  /** Optional. The mock response / output to return if the tool call args / inputs match the pattern. */
-  mockResponse?: DocumentMap;
   /** Required. A pattern to match against the args / inputs of all dispatched tool calls. If the tool call inputs match this pattern, then mock output will be returned. */
   expectedArgsPattern?: DocumentMap;
-  /** Optional. The toolset to mock. */
-  toolset?: ToolsetTool;
+  /** Optional. The mock response / output to return if the tool call args / inputs match the pattern. */
+  mockResponse?: DocumentMap;
   /** Optional. Deprecated. Use tool_identifier instead. */
   tool?: string;
+  /** Optional. The name of the tool to mock. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
+  toolId?: string;
+  /** Optional. The toolset to mock. */
+  toolset?: ToolsetTool;
 }
 export const MockedToolCall = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    toolId: S.optional(S.String),
-    mockResponse: S.optional(DocumentMap),
     expectedArgsPattern: S.optional(DocumentMap),
-    toolset: S.optional(ToolsetTool),
+    mockResponse: S.optional(DocumentMap),
     tool: S.optional(S.String),
+    toolId: S.optional(S.String),
+    toolset: S.optional(ToolsetTool),
   }),
 ).annotate({ identifier: "MockedToolCall" }) as any as S.Schema<MockedToolCall>;
 
@@ -3812,7 +4109,7 @@ export type MockConfigUnmatchedToolCallBehaviorEnum =
   | "UNMATCHED_TOOL_CALL_BEHAVIOR_UNSPECIFIED"
   | "FAIL"
   | "PASS_THROUGH";
-export const MockConfigUnmatchedToolCallBehaviorEnum = /*@__PURE__*/ S.String;
+export const MockConfigUnmatchedToolCallBehaviorEnum = S.String;
 
 /** Mock tool calls configuration for the session. */
 export interface MockConfig {
@@ -3834,27 +4131,27 @@ export const MockConfig = /*@__PURE__*/ S.suspend(() =>
 
 /** Request message for ToolService.ExecuteTool. */
 export interface ExecuteToolRequest {
-  /** Optional. The input parameters and values for the tool in JSON object format. */
-  args?: DocumentMap;
-  /** Optional. The variables that are available for the tool execution. */
-  variables?: DocumentMap;
-  /** Optional. Mock configuration for the tool execution. If this field is set, tools that call other tools will be mocked based on the provided patterns and responses. */
-  mockConfig?: MockConfig;
-  /** Optional. The name of the tool to execute. Format: projects/{project}/locations/{location}/apps/{app}/tools/{tool} */
-  tool?: string;
   /** Optional. The [ToolCallContext](https://docs.cloud.google.com/customer-engagement-ai/conversational-agents/ps/tool/python#environment for details) to be passed to the Python tool. */
   context?: DocumentMap;
+  /** Optional. The name of the tool to execute. Format: projects/{project}/locations/{location}/apps/{app}/tools/{tool} */
+  tool?: string;
+  /** Optional. Mock configuration for the tool execution. If this field is set, tools that call other tools will be mocked based on the provided patterns and responses. */
+  mockConfig?: MockConfig;
   /** Optional. The toolset tool to execute. Only one tool should match the predicate from the toolset. Otherwise, an error will be returned. */
   toolsetTool?: ToolsetTool;
+  /** Optional. The variables that are available for the tool execution. */
+  variables?: DocumentMap;
+  /** Optional. The input parameters and values for the tool in JSON object format. */
+  args?: DocumentMap;
 }
 export const ExecuteToolRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    args: S.optional(DocumentMap),
-    variables: S.optional(DocumentMap),
-    mockConfig: S.optional(MockConfig),
-    tool: S.optional(S.String),
     context: S.optional(DocumentMap),
+    tool: S.optional(S.String),
+    mockConfig: S.optional(MockConfig),
     toolsetTool: S.optional(ToolsetTool),
+    variables: S.optional(DocumentMap),
+    args: S.optional(DocumentMap),
   }),
 ).annotate({
   identifier: "ExecuteToolRequest",
@@ -3882,23 +4179,134 @@ export const ExecuteToolProjectsLocationsAppsRequest = /*@__PURE__*/ S.suspend(
   identifier: "ExecuteToolProjectsLocationsAppsRequest",
 }) as any as S.Schema<ExecuteToolProjectsLocationsAppsRequest>;
 
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<IntegerList>;
+
+/** An inline citation in the response text. */
+export interface CitationsInlineCitation {
+  /** The ending index (in bytes) of the text segment in the agent response. */
+  endIndex?: number;
+  /** The indices of the cited chunks that back this text segment. Indices refer to the elements in `cited_chunks`. */
+  citedChunkIndices?: IntegerList;
+  /** The starting index (in bytes) of the text segment in the agent response. */
+  startIndex?: number;
+}
+export const CitationsInlineCitation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endIndex: S.optional(S.Number),
+    citedChunkIndices: S.optional(IntegerList),
+    startIndex: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "CitationsInlineCitation",
+}) as any as S.Schema<CitationsInlineCitation>;
+
+export type CitationsInlineCitationList = Array<CitationsInlineCitation>;
+export const CitationsInlineCitationList = /*@__PURE__*/ S.Array(
+  CitationsInlineCitation,
+) as any as S.Schema<CitationsInlineCitationList>;
+
+/** Piece of cited information. */
+export interface CitationsCitedChunk {
+  /** URI used for citation. */
+  uri?: string;
+  /** Text used for citation. */
+  text?: string;
+  /** Whether this citation requires attribution to be shown to the end users. */
+  requiresAttribution?: boolean;
+  /** Title of the cited document. */
+  title?: string;
+}
+export const CitationsCitedChunk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uri: S.optional(S.String),
+    text: S.optional(S.String),
+    requiresAttribution: S.optional(S.Boolean),
+    title: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CitationsCitedChunk",
+}) as any as S.Schema<CitationsCitedChunk>;
+
+export type CitationsCitedChunkList = Array<CitationsCitedChunk>;
+export const CitationsCitedChunkList = /*@__PURE__*/ S.Array(
+  CitationsCitedChunk,
+) as any as S.Schema<CitationsCitedChunkList>;
+
+/** Citations associated with the agent response. */
+export interface Citations {
+  /** Optional. List of inline citations in the agent response. */
+  inlineCitations?: CitationsInlineCitationList;
+  /** List of cited pieces of information. */
+  citedChunks?: CitationsCitedChunkList;
+}
+export const Citations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    inlineCitations: S.optional(CitationsInlineCitationList),
+    citedChunks: S.optional(CitationsCitedChunkList),
+  }),
+).annotate({ identifier: "Citations" }) as any as S.Schema<Citations>;
+
+/** Represents a single web search query and its associated search uri. */
+export interface WebSearchQuery {
+  /** The URI to the Google Search results page for the query. */
+  uri?: string;
+  /** The search query text. */
+  query?: string;
+}
+export const WebSearchQuery = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uri: S.optional(S.String),
+    query: S.optional(S.String),
+  }),
+).annotate({ identifier: "WebSearchQuery" }) as any as S.Schema<WebSearchQuery>;
+
+export type WebSearchQueryList = Array<WebSearchQuery>;
+export const WebSearchQueryList = /*@__PURE__*/ S.Array(
+  WebSearchQuery,
+) as any as S.Schema<WebSearchQueryList>;
+
+/** Search suggestions from Google Search Tool. */
+export interface GoogleSearchSuggestions {
+  /** List of queries used to perform the google search along with the search result URIs forming the search suggestions. */
+  webSearchQueries?: WebSearchQueryList;
+  /** Compliant HTML and CSS styling for search suggestions. The provided HTML and CSS automatically adapts to your device settings, displaying in either light or dark mode indicated by `@media(prefers-color-scheme)`. */
+  htmls?: StringList;
+}
+export const GoogleSearchSuggestions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    webSearchQueries: S.optional(WebSearchQueryList),
+    htmls: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "GoogleSearchSuggestions",
+}) as any as S.Schema<GoogleSearchSuggestions>;
+
 /** Response message for ToolService.ExecuteTool. */
 export interface ExecuteToolResponse {
-  /** The tool execution result in JSON object format. Use "output" key to specify tool response and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as tool execution result. */
-  response?: DocumentMap;
-  /** The toolset tool that got executed. */
-  toolsetTool?: ToolsetTool;
   /** The variable values at the end of the tool execution. */
   variables?: DocumentMap;
+  /** Citations that provide the source information for the tool's execution. */
+  citations?: Citations;
+  /** The toolset tool that got executed. */
+  toolsetTool?: ToolsetTool;
   /** The name of the tool that got executed. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
   tool?: string;
+  /** The tool execution result in JSON object format. Use "output" key to specify tool response and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as tool execution result. */
+  response?: DocumentMap;
+  /** The suggestions returned from Google Search as a result of invoking the Google Search Tool during the tool execution. */
+  googleSearchSuggestions?: GoogleSearchSuggestions;
 }
 export const ExecuteToolResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    response: S.optional(DocumentMap),
-    toolsetTool: S.optional(ToolsetTool),
     variables: S.optional(DocumentMap),
+    citations: S.optional(Citations),
+    toolsetTool: S.optional(ToolsetTool),
     tool: S.optional(S.String),
+    response: S.optional(DocumentMap),
+    googleSearchSuggestions: S.optional(GoogleSearchSuggestions),
   }),
 ).annotate({
   identifier: "ExecuteToolResponse",
@@ -3908,22 +4316,22 @@ export type ExportAppRequestExportFormatEnum =
   | "EXPORT_FORMAT_UNSPECIFIED"
   | "JSON"
   | "YAML";
-export const ExportAppRequestExportFormatEnum = /*@__PURE__*/ S.String;
+export const ExportAppRequestExportFormatEnum = S.String;
 
 /** Request message for AgentService.ExportApp. */
 export interface ExportAppRequest {
-  /** Required. The format to export the app in. */
-  exportFormat?: ExportAppRequestExportFormatEnum | (string & {});
-  /** Optional. The resource name of the app version to export. Format: `projects/{project}/locations/{location}/apps/{app}/versions/{version}`. */
-  appVersion?: string;
   /** Optional. The [Google Cloud Storage](https://cloud.google.com/storage/docs/) URI to which to export the app. The format of this URI must be `gs:///`. The exported app archive will be written directly to the specified GCS object. */
   gcsUri?: string;
+  /** Optional. The resource name of the app version to export. Format: `projects/{project}/locations/{location}/apps/{app}/versions/{version}`. */
+  appVersion?: string;
+  /** Required. The format to export the app in. */
+  exportFormat?: ExportAppRequestExportFormatEnum | (string & {});
 }
 export const ExportAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exportFormat: S.optional(ExportAppRequestExportFormatEnum),
-    appVersion: S.optional(S.String),
     gcsUri: S.optional(S.String),
+    appVersion: S.optional(S.String),
+    exportFormat: S.optional(ExportAppRequestExportFormatEnum),
   }),
 ).annotate({
   identifier: "ExportAppRequest",
@@ -3994,19 +4402,570 @@ export const GenerateChatTokenProjectsLocationsAppsSessionsRequest =
 
 /** Response message for WidgetService.GenerateChatToken. */
 export interface GenerateChatTokenResponse {
-  /** The session scoped token for chat widget to authenticate with Session APIs. */
-  chatToken?: string;
   /** The time at which the chat token expires. */
   expireTime?: string;
+  /** The session scoped token for chat widget to authenticate with Session APIs. */
+  chatToken?: string;
 }
 export const GenerateChatTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    chatToken: S.optional(S.String),
     expireTime: S.optional(S.String),
+    chatToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GenerateChatTokenResponse",
 }) as any as S.Schema<GenerateChatTokenResponse>;
+
+export interface GetExtendedAgentCardProjectsLocationsAppsRequest {
+  /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
+  tenant: string;
+}
+export const GetExtendedAgentCardProjectsLocationsAppsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      tenant: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+tenant}/extendedAgentCard",
+        baseUrl: "https://ces.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetExtendedAgentCardProjectsLocationsAppsRequest",
+  }) as any as S.Schema<GetExtendedAgentCardProjectsLocationsAppsRequest>;
+
+/** Declares a combination of a target URL, transport and protocol version for interacting with the agent. This allows agents to expose the same functionality over multiple protocol binding mechanisms. */
+export interface LfA2aV1AgentInterface {
+  /** Required. The protocol binding supported at this URL. This is an open form string, to be easily extended for other protocol bindings. The core ones officially supported are `JSONRPC`, `GRPC` and `HTTP+JSON`. */
+  protocolBinding?: string;
+  /** Required. The URL where this interface is available. Must be a valid absolute HTTPS URL in production. Example: "https://api.example.com/a2a/v1", "https://grpc.example.com/a2a" */
+  url?: string;
+  /** Optional. An opaque string used for routing requests to a specific agent or tenant when multiple agents are served behind a single A2A endpoint. When set, clients MUST include this value in the `tenant` field of all request messages sent to this interface. The server is responsible for interpreting the value and routing requests accordingly; the protocol does not define its format or semantics. */
+  tenant?: string;
+  /** Required. The version of the A2A protocol this interface exposes. Use the latest supported minor version per major version. Examples: "0.3", "1.0" */
+  protocolVersion?: string;
+}
+export const LfA2aV1AgentInterface = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    protocolBinding: S.optional(S.String),
+    url: S.optional(S.String),
+    tenant: S.optional(S.String),
+    protocolVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LfA2aV1AgentInterface",
+}) as any as S.Schema<LfA2aV1AgentInterface>;
+
+export type LfA2aV1AgentInterfaceList = Array<LfA2aV1AgentInterface>;
+export const LfA2aV1AgentInterfaceList = /*@__PURE__*/ S.Array(
+  LfA2aV1AgentInterface,
+) as any as S.Schema<LfA2aV1AgentInterfaceList>;
+
+/** Defines configuration details for the OAuth 2.0 Authorization Code flow. */
+export interface LfA2aV1AuthorizationCodeOAuthFlow {
+  /** The URL to be used for obtaining refresh tokens. */
+  refreshUrl?: string;
+  /** Indicates if PKCE (RFC 7636) is required for this flow. PKCE should always be used for public clients and is recommended for all clients. */
+  pkceRequired?: boolean;
+  /** Required. The authorization URL to be used for this flow. */
+  authorizationUrl?: string;
+  /** Required. The token URL to be used for this flow. */
+  tokenUrl?: string;
+  /** Required. The available scopes for the OAuth2 security scheme. */
+  scopes?: StringMap;
+}
+export const LfA2aV1AuthorizationCodeOAuthFlow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    refreshUrl: S.optional(S.String),
+    pkceRequired: S.optional(S.Boolean),
+    authorizationUrl: S.optional(S.String),
+    tokenUrl: S.optional(S.String),
+    scopes: S.optional(StringMap),
+  }),
+).annotate({
+  identifier: "LfA2aV1AuthorizationCodeOAuthFlow",
+}) as any as S.Schema<LfA2aV1AuthorizationCodeOAuthFlow>;
+
+/** Defines configuration details for the OAuth 2.0 Client Credentials flow. */
+export interface LfA2aV1ClientCredentialsOAuthFlow {
+  /** Required. The available scopes for the OAuth2 security scheme. */
+  scopes?: StringMap;
+  /** Required. The token URL to be used for this flow. */
+  tokenUrl?: string;
+  /** The URL to be used for obtaining refresh tokens. */
+  refreshUrl?: string;
+}
+export const LfA2aV1ClientCredentialsOAuthFlow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scopes: S.optional(StringMap),
+    tokenUrl: S.optional(S.String),
+    refreshUrl: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LfA2aV1ClientCredentialsOAuthFlow",
+}) as any as S.Schema<LfA2aV1ClientCredentialsOAuthFlow>;
+
+/** Deprecated: Use Authorization Code + PKCE instead. */
+export interface LfA2aV1ImplicitOAuthFlow {
+  /** The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it. The map MAY be empty. */
+  scopes?: StringMap;
+  /** The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
+  refreshUrl?: string;
+  /** The authorization URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS */
+  authorizationUrl?: string;
+}
+export const LfA2aV1ImplicitOAuthFlow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scopes: S.optional(StringMap),
+    refreshUrl: S.optional(S.String),
+    authorizationUrl: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LfA2aV1ImplicitOAuthFlow",
+}) as any as S.Schema<LfA2aV1ImplicitOAuthFlow>;
+
+/** Deprecated: Use Authorization Code + PKCE or Device Code. */
+export interface LfA2aV1PasswordOAuthFlow {
+  /** The token URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
+  tokenUrl?: string;
+  /** The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
+  refreshUrl?: string;
+  /** The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it. The map MAY be empty. */
+  scopes?: StringMap;
+}
+export const LfA2aV1PasswordOAuthFlow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tokenUrl: S.optional(S.String),
+    refreshUrl: S.optional(S.String),
+    scopes: S.optional(StringMap),
+  }),
+).annotate({
+  identifier: "LfA2aV1PasswordOAuthFlow",
+}) as any as S.Schema<LfA2aV1PasswordOAuthFlow>;
+
+/** Defines configuration details for the OAuth 2.0 Device Code flow (RFC 8628). This flow is designed for input-constrained devices such as IoT devices, and CLI tools where the user authenticates on a separate device. */
+export interface LfA2aV1DeviceCodeOAuthFlow {
+  /** The URL to be used for obtaining refresh tokens. */
+  refreshUrl?: string;
+  /** Required. The token URL to be used for this flow. */
+  tokenUrl?: string;
+  /** Required. The device authorization endpoint URL. */
+  deviceAuthorizationUrl?: string;
+  /** Required. The available scopes for the OAuth2 security scheme. */
+  scopes?: StringMap;
+}
+export const LfA2aV1DeviceCodeOAuthFlow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    refreshUrl: S.optional(S.String),
+    tokenUrl: S.optional(S.String),
+    deviceAuthorizationUrl: S.optional(S.String),
+    scopes: S.optional(StringMap),
+  }),
+).annotate({
+  identifier: "LfA2aV1DeviceCodeOAuthFlow",
+}) as any as S.Schema<LfA2aV1DeviceCodeOAuthFlow>;
+
+/** Defines the configuration for the supported OAuth 2.0 flows. */
+export interface LfA2aV1OAuthFlows {
+  /** Configuration for the OAuth Authorization Code flow. */
+  authorizationCode?: LfA2aV1AuthorizationCodeOAuthFlow;
+  /** Configuration for the OAuth Client Credentials flow. */
+  clientCredentials?: LfA2aV1ClientCredentialsOAuthFlow;
+  /** Deprecated: Use Authorization Code + PKCE instead. */
+  implicit?: LfA2aV1ImplicitOAuthFlow;
+  /** Deprecated: Use Authorization Code + PKCE or Device Code. */
+  password?: LfA2aV1PasswordOAuthFlow;
+  /** Configuration for the OAuth Device Code flow. */
+  deviceCode?: LfA2aV1DeviceCodeOAuthFlow;
+}
+export const LfA2aV1OAuthFlows = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authorizationCode: S.optional(LfA2aV1AuthorizationCodeOAuthFlow),
+    clientCredentials: S.optional(LfA2aV1ClientCredentialsOAuthFlow),
+    implicit: S.optional(LfA2aV1ImplicitOAuthFlow),
+    password: S.optional(LfA2aV1PasswordOAuthFlow),
+    deviceCode: S.optional(LfA2aV1DeviceCodeOAuthFlow),
+  }),
+).annotate({
+  identifier: "LfA2aV1OAuthFlows",
+}) as any as S.Schema<LfA2aV1OAuthFlows>;
+
+/** Defines a security scheme using OAuth 2.0. */
+export interface LfA2aV1OAuth2SecurityScheme {
+  /** Required. An object containing configuration information for the supported OAuth 2.0 flows. */
+  flows?: LfA2aV1OAuthFlows;
+  /** URL to the OAuth2 authorization server metadata [RFC 8414](https://datatracker.ietf.org/doc/html/rfc8414). TLS is required. */
+  oauth2MetadataUrl?: string;
+  /** An optional description for the security scheme. */
+  description?: string;
+}
+export const LfA2aV1OAuth2SecurityScheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    flows: S.optional(LfA2aV1OAuthFlows),
+    oauth2MetadataUrl: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LfA2aV1OAuth2SecurityScheme",
+}) as any as S.Schema<LfA2aV1OAuth2SecurityScheme>;
+
+/** Defines a security scheme using OpenID Connect. */
+export interface LfA2aV1OpenIdConnectSecurityScheme {
+  /** An optional description for the security scheme. */
+  description?: string;
+  /** Required. The [OpenID Connect Discovery URL](https://openid.net/specs/openid-connect-discovery-1_0.html) for the OIDC provider's metadata. */
+  openIdConnectUrl?: string;
+}
+export const LfA2aV1OpenIdConnectSecurityScheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    openIdConnectUrl: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LfA2aV1OpenIdConnectSecurityScheme",
+}) as any as S.Schema<LfA2aV1OpenIdConnectSecurityScheme>;
+
+/** Defines a security scheme using an API key. */
+export interface LfA2aV1APIKeySecurityScheme {
+  /** Required. The name of the header, query, or cookie parameter to be used. */
+  name?: string;
+  /** An optional description for the security scheme. */
+  description?: string;
+  /** Required. The location of the API key. Valid values are "query", "header", or "cookie". */
+  location?: string;
+}
+export const LfA2aV1APIKeySecurityScheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    location: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LfA2aV1APIKeySecurityScheme",
+}) as any as S.Schema<LfA2aV1APIKeySecurityScheme>;
+
+/** Defines a security scheme using HTTP authentication. */
+export interface LfA2aV1HTTPAuthSecurityScheme {
+  /** Required. The name of the HTTP Authentication scheme to be used in the Authorization header, as defined in RFC7235 (e.g., "Bearer"). This value should be registered in the IANA Authentication Scheme registry. */
+  scheme?: string;
+  /** A hint to the client to identify how the bearer token is formatted (e.g., "JWT"). Primarily for documentation purposes. */
+  bearerFormat?: string;
+  /** An optional description for the security scheme. */
+  description?: string;
+}
+export const LfA2aV1HTTPAuthSecurityScheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scheme: S.optional(S.String),
+    bearerFormat: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LfA2aV1HTTPAuthSecurityScheme",
+}) as any as S.Schema<LfA2aV1HTTPAuthSecurityScheme>;
+
+/** Defines a security scheme using mTLS authentication. */
+export interface LfA2aV1MutualTlsSecurityScheme {
+  /** An optional description for the security scheme. */
+  description?: string;
+}
+export const LfA2aV1MutualTlsSecurityScheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LfA2aV1MutualTlsSecurityScheme",
+}) as any as S.Schema<LfA2aV1MutualTlsSecurityScheme>;
+
+/** Defines a security scheme that can be used to secure an agent's endpoints. This is a discriminated union type based on the OpenAPI 3.2 Security Scheme Object. See: https://spec.openapis.org/oas/v3.2.0.html#security-scheme-object */
+export interface LfA2aV1SecurityScheme {
+  /** OAuth 2.0 authentication. */
+  oauth2SecurityScheme?: LfA2aV1OAuth2SecurityScheme;
+  /** OpenID Connect authentication. */
+  openIdConnectSecurityScheme?: LfA2aV1OpenIdConnectSecurityScheme;
+  /** API key-based authentication. */
+  apiKeySecurityScheme?: LfA2aV1APIKeySecurityScheme;
+  /** HTTP authentication (Basic, Bearer, etc.). */
+  httpAuthSecurityScheme?: LfA2aV1HTTPAuthSecurityScheme;
+  /** Mutual TLS authentication. */
+  mtlsSecurityScheme?: LfA2aV1MutualTlsSecurityScheme;
+}
+export const LfA2aV1SecurityScheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    oauth2SecurityScheme: S.optional(LfA2aV1OAuth2SecurityScheme),
+    openIdConnectSecurityScheme: S.optional(LfA2aV1OpenIdConnectSecurityScheme),
+    apiKeySecurityScheme: S.optional(LfA2aV1APIKeySecurityScheme),
+    httpAuthSecurityScheme: S.optional(LfA2aV1HTTPAuthSecurityScheme),
+    mtlsSecurityScheme: S.optional(LfA2aV1MutualTlsSecurityScheme),
+  }),
+).annotate({
+  identifier: "LfA2aV1SecurityScheme",
+}) as any as S.Schema<LfA2aV1SecurityScheme>;
+
+export type LfA2aV1SecuritySchemeMap = {
+  [key: string]: LfA2aV1SecurityScheme | undefined;
+};
+export const LfA2aV1SecuritySchemeMap = /*@__PURE__*/ S.Record(
+  S.String,
+  LfA2aV1SecurityScheme,
+) as any as S.Schema<LfA2aV1SecuritySchemeMap>;
+
+/** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED A list of strings. */
+export interface LfA2aV1StringList {
+  /** The individual string values. */
+  list?: StringList;
+}
+export const LfA2aV1StringList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    list: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "LfA2aV1StringList",
+}) as any as S.Schema<LfA2aV1StringList>;
+
+export type LfA2aV1StringListMap = {
+  [key: string]: LfA2aV1StringList | undefined;
+};
+export const LfA2aV1StringListMap = /*@__PURE__*/ S.Record(
+  S.String,
+  LfA2aV1StringList,
+) as any as S.Schema<LfA2aV1StringListMap>;
+
+/** Defines the security requirements for an agent. */
+export interface LfA2aV1SecurityRequirement {
+  /** A map of security schemes to the required scopes. */
+  schemes?: LfA2aV1StringListMap;
+}
+export const LfA2aV1SecurityRequirement = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    schemes: S.optional(LfA2aV1StringListMap),
+  }),
+).annotate({
+  identifier: "LfA2aV1SecurityRequirement",
+}) as any as S.Schema<LfA2aV1SecurityRequirement>;
+
+export type LfA2aV1SecurityRequirementList = Array<LfA2aV1SecurityRequirement>;
+export const LfA2aV1SecurityRequirementList = /*@__PURE__*/ S.Array(
+  LfA2aV1SecurityRequirement,
+) as any as S.Schema<LfA2aV1SecurityRequirementList>;
+
+/** A declaration of a protocol extension supported by an Agent. */
+export interface LfA2aV1AgentExtension {
+  /** If true, the client must understand and comply with the extension's requirements. */
+  required?: boolean;
+  /** A human-readable description of how this agent uses the extension. */
+  description?: string;
+  /** Optional. Extension-specific configuration parameters. */
+  params?: DocumentMap;
+  /** The unique URI identifying the extension. */
+  uri?: string;
+}
+export const LfA2aV1AgentExtension = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    required: S.optional(S.Boolean),
+    description: S.optional(S.String),
+    params: S.optional(DocumentMap),
+    uri: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LfA2aV1AgentExtension",
+}) as any as S.Schema<LfA2aV1AgentExtension>;
+
+export type LfA2aV1AgentExtensionList = Array<LfA2aV1AgentExtension>;
+export const LfA2aV1AgentExtensionList = /*@__PURE__*/ S.Array(
+  LfA2aV1AgentExtension,
+) as any as S.Schema<LfA2aV1AgentExtensionList>;
+
+/** Defines optional capabilities supported by an agent. */
+export interface LfA2aV1AgentCapabilities {
+  /** Indicates if the agent supports streaming responses. */
+  streaming?: boolean;
+  /** A list of protocol extensions supported by the agent. */
+  extensions?: LfA2aV1AgentExtensionList;
+  /** Indicates if the agent supports sending push notifications for asynchronous task updates. */
+  pushNotifications?: boolean;
+  /** Indicates if the agent supports providing an extended agent card when authenticated. */
+  extendedAgentCard?: boolean;
+}
+export const LfA2aV1AgentCapabilities = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    streaming: S.optional(S.Boolean),
+    extensions: S.optional(LfA2aV1AgentExtensionList),
+    pushNotifications: S.optional(S.Boolean),
+    extendedAgentCard: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "LfA2aV1AgentCapabilities",
+}) as any as S.Schema<LfA2aV1AgentCapabilities>;
+
+/** AgentCardSignature represents a JWS signature of an AgentCard. This follows the JSON format of an RFC 7515 JSON Web Signature (JWS). */
+export interface LfA2aV1AgentCardSignature {
+  /** The unprotected JWS header values. */
+  header?: DocumentMap;
+  /** Required. Required. The protected JWS header for the signature. This is always a base64url-encoded JSON object. */
+  protected?: string;
+  /** Required. The computed signature, base64url-encoded. */
+  signature?: string;
+}
+export const LfA2aV1AgentCardSignature = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    header: S.optional(DocumentMap),
+    protected: S.optional(S.String),
+    signature: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LfA2aV1AgentCardSignature",
+}) as any as S.Schema<LfA2aV1AgentCardSignature>;
+
+export type LfA2aV1AgentCardSignatureList = Array<LfA2aV1AgentCardSignature>;
+export const LfA2aV1AgentCardSignatureList = /*@__PURE__*/ S.Array(
+  LfA2aV1AgentCardSignature,
+) as any as S.Schema<LfA2aV1AgentCardSignatureList>;
+
+/** Represents a distinct capability or function that an agent can perform. */
+export interface LfA2aV1AgentSkill {
+  /** Required. A human-readable name for the skill. */
+  name?: string;
+  /** Example prompts or scenarios that this skill can handle. */
+  examples?: StringList;
+  /** The set of supported input media types for this skill, overriding the agent's defaults. */
+  inputModes?: StringList;
+  /** Required. A detailed description of the skill. */
+  description?: string;
+  /** Required. A unique identifier for the agent's skill. */
+  id?: string;
+  /** Security schemes necessary for this skill. */
+  securityRequirements?: LfA2aV1SecurityRequirementList;
+  /** The set of supported output media types for this skill, overriding the agent's defaults. */
+  outputModes?: StringList;
+  /** Required. A set of keywords describing the skill's capabilities. */
+  tags?: StringList;
+}
+export const LfA2aV1AgentSkill = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    examples: S.optional(StringList),
+    inputModes: S.optional(StringList),
+    description: S.optional(S.String),
+    id: S.optional(S.String),
+    securityRequirements: S.optional(LfA2aV1SecurityRequirementList),
+    outputModes: S.optional(StringList),
+    tags: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "LfA2aV1AgentSkill",
+}) as any as S.Schema<LfA2aV1AgentSkill>;
+
+export type LfA2aV1AgentSkillList = Array<LfA2aV1AgentSkill>;
+export const LfA2aV1AgentSkillList = /*@__PURE__*/ S.Array(
+  LfA2aV1AgentSkill,
+) as any as S.Schema<LfA2aV1AgentSkillList>;
+
+/** Represents the service provider of an agent. */
+export interface LfA2aV1AgentProvider {
+  /** Required. A URL for the agent provider's website or relevant documentation. Example: "https://ai.google.dev" */
+  url?: string;
+  /** Required. The name of the agent provider's organization. Example: "Google" */
+  organization?: string;
+}
+export const LfA2aV1AgentProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.optional(S.String),
+    organization: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LfA2aV1AgentProvider",
+}) as any as S.Schema<LfA2aV1AgentProvider>;
+
+/** A self-describing manifest for an agent. It provides essential metadata including the agent's identity, capabilities, skills, supported communication methods, and security requirements. Next ID: 20 */
+export interface LfA2aV1AgentCard {
+  /** Required. Ordered list of supported interfaces. The first entry is preferred. */
+  supportedInterfaces?: LfA2aV1AgentInterfaceList;
+  /** Required. The media types supported as outputs from this agent. */
+  defaultOutputModes?: StringList;
+  /** The security scheme details used for authenticating with this agent. */
+  securitySchemes?: LfA2aV1SecuritySchemeMap;
+  /** Security requirements for contacting the agent. */
+  securityRequirements?: LfA2aV1SecurityRequirementList;
+  /** Required. protolint:enable REPEATED_FIELD_NAMES_PLURALIZED The set of interaction modes that the agent supports across all skills. This can be overridden per skill. Defined as media types. */
+  defaultInputModes?: StringList;
+  /** Required. A2A Capability set supported by the agent. */
+  capabilities?: LfA2aV1AgentCapabilities;
+  /** Required. The version of the agent. Example: "1.0.0" */
+  version?: string;
+  /** JSON Web Signatures computed for this `AgentCard`. */
+  signatures?: LfA2aV1AgentCardSignatureList;
+  /** Required. A human readable name for the agent. Example: "Recipe Agent" */
+  name?: string;
+  /** A URL providing additional documentation about the agent. */
+  documentationUrl?: string;
+  /** Optional. A URL to an icon for the agent. */
+  iconUrl?: string;
+  /** Required. Skills represent the abilities of an agent. It is largely a descriptive concept but represents a more focused set of behaviors that the agent is likely to succeed at. */
+  skills?: LfA2aV1AgentSkillList;
+  /** Required. A human-readable description of the agent, assisting users and other agents in understanding its purpose. Example: "Agent that helps users with recipes and cooking." */
+  description?: string;
+  /** The service provider of the agent. */
+  provider?: LfA2aV1AgentProvider;
+}
+export const LfA2aV1AgentCard = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    supportedInterfaces: S.optional(LfA2aV1AgentInterfaceList),
+    defaultOutputModes: S.optional(StringList),
+    securitySchemes: S.optional(LfA2aV1SecuritySchemeMap),
+    securityRequirements: S.optional(LfA2aV1SecurityRequirementList),
+    defaultInputModes: S.optional(StringList),
+    capabilities: S.optional(LfA2aV1AgentCapabilities),
+    version: S.optional(S.String),
+    signatures: S.optional(LfA2aV1AgentCardSignatureList),
+    name: S.optional(S.String),
+    documentationUrl: S.optional(S.String),
+    iconUrl: S.optional(S.String),
+    skills: S.optional(LfA2aV1AgentSkillList),
+    description: S.optional(S.String),
+    provider: S.optional(LfA2aV1AgentProvider),
+  }),
+).annotate({
+  identifier: "LfA2aV1AgentCard",
+}) as any as S.Schema<LfA2aV1AgentCard>;
+
+export interface GetExtendedAgentCardProjectsLocationsAppsDeploymentsRequest {
+  /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
+  tenant: string;
+}
+export const GetExtendedAgentCardProjectsLocationsAppsDeploymentsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      tenant: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+tenant}/extendedAgentCard",
+        baseUrl: "https://ces.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetExtendedAgentCardProjectsLocationsAppsDeploymentsRequest",
+  }) as any as S.Schema<GetExtendedAgentCardProjectsLocationsAppsDeploymentsRequest>;
+
+export interface GetExtendedAgentCardProjectsLocationsAppsVersionsRequest {
+  /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
+  tenant: string;
+}
+export const GetExtendedAgentCardProjectsLocationsAppsVersionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      tenant: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+tenant}/extendedAgentCard",
+        baseUrl: "https://ces.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetExtendedAgentCardProjectsLocationsAppsVersionsRequest",
+  }) as any as S.Schema<GetExtendedAgentCardProjectsLocationsAppsVersionsRequest>;
 
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -4032,20 +4991,20 @@ export interface Location {
   metadata?: DocumentMap;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(DocumentMap),
     name: S.optional(S.String),
-    locationId: S.optional(S.String),
     labels: S.optional(StringMap),
     displayName: S.optional(S.String),
+    locationId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -4107,45 +5066,45 @@ export const GetProjectsLocationsAppsChangelogsRequest =
 
 /** Changelogs represent a change made to the app or to an resource within the app. */
 export interface Changelog {
-  /** Output only. The time when the change was made. */
-  createTime?: string;
-  /** Output only. The monotonically increasing sequence number of the changelog. */
-  sequenceNumber?: string;
-  /** Output only. Display name of the change. It typically should be the display name of the resource that was changed. */
-  displayName?: string;
-  /** Output only. The resource that was changed. */
-  resource?: string;
-  /** Output only. Email address of the change author. */
-  author?: string;
-  /** Output only. The dependent resources that were changed. */
-  dependentResources?: DocumentMapList;
-  /** Identifier. The unique identifier of the changelog. Format: `projects/{project}/locations/{location}/apps/{app}/changelogs/{changelog}` */
-  name?: string;
-  /** Output only. The type of the resource that was changed. */
-  resourceType?: string;
-  /** Output only. The original resource before the change. */
-  originalResource?: DocumentMap;
-  /** Output only. The new resource after the change. */
-  newResource?: DocumentMap;
   /** Output only. The action that was performed on the resource. */
   action?: string;
+  /** Output only. The original resource before the change. */
+  originalResource?: DocumentMap;
+  /** Output only. The type of the resource that was changed. */
+  resourceType?: string;
+  /** Identifier. The unique identifier of the changelog. Format: `projects/{project}/locations/{location}/apps/{app}/changelogs/{changelog}` */
+  name?: string;
   /** Output only. Description of the change. which typically captures the changed fields in the resource. */
   description?: string;
+  /** Output only. Email address of the change author. */
+  author?: string;
+  /** Output only. The monotonically increasing sequence number of the changelog. */
+  sequenceNumber?: string;
+  /** Output only. The resource that was changed. */
+  resource?: string;
+  /** Output only. Display name of the change. It typically should be the display name of the resource that was changed. */
+  displayName?: string;
+  /** Output only. The new resource after the change. */
+  newResource?: DocumentMap;
+  /** Output only. The dependent resources that were changed. */
+  dependentResources?: DocumentMapList;
+  /** Output only. The time when the change was made. */
+  createTime?: string;
 }
 export const Changelog = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    sequenceNumber: S.optional(S.String),
-    displayName: S.optional(S.String),
-    resource: S.optional(S.String),
-    author: S.optional(S.String),
-    dependentResources: S.optional(DocumentMapList),
-    name: S.optional(S.String),
-    resourceType: S.optional(S.String),
-    originalResource: S.optional(DocumentMap),
-    newResource: S.optional(DocumentMap),
     action: S.optional(S.String),
+    originalResource: S.optional(DocumentMap),
+    resourceType: S.optional(S.String),
+    name: S.optional(S.String),
     description: S.optional(S.String),
+    author: S.optional(S.String),
+    sequenceNumber: S.optional(S.String),
+    resource: S.optional(S.String),
+    displayName: S.optional(S.String),
+    newResource: S.optional(DocumentMap),
+    dependentResources: S.optional(DocumentMapList),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Changelog" }) as any as S.Schema<Changelog>;
 
@@ -4155,22 +5114,21 @@ export type GetProjectsLocationsAppsConversationsSourceEnum =
   | "SIMULATOR"
   | "EVAL"
   | "AGENT_TOOL";
-export const GetProjectsLocationsAppsConversationsSourceEnum =
-  /*@__PURE__*/ S.String;
+export const GetProjectsLocationsAppsConversationsSourceEnum = S.String;
 
 export interface GetProjectsLocationsAppsConversationsRequest {
-  /** Required. The resource name of the conversation to retrieve. */
-  name: string;
   /** Optional. Indicate the source of the conversation. If not set, all source will be searched. */
   source?: GetProjectsLocationsAppsConversationsSourceEnum | (string & {});
+  /** Required. The resource name of the conversation to retrieve. */
+  name: string;
 }
 export const GetProjectsLocationsAppsConversationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       source: S.optional(
         GetProjectsLocationsAppsConversationsSourceEnum.pipe(T.Query()),
       ),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4188,24 +5146,14 @@ export type ConversationSourceEnum =
   | "SIMULATOR"
   | "EVAL"
   | "AGENT_TOOL";
-export const ConversationSourceEnum = /*@__PURE__*/ S.String;
+export const ConversationSourceEnum = S.String;
 
-export type ConversationInputTypesItemEnum =
-  | "INPUT_TYPE_UNSPECIFIED"
-  | "INPUT_TYPE_TEXT"
-  | "INPUT_TYPE_EVENT"
-  | "INPUT_TYPE_AUDIO"
-  | "INPUT_TYPE_IMAGE"
-  | "INPUT_TYPE_BLOB"
-  | "INPUT_TYPE_TOOL_RESPONSE"
-  | "INPUT_TYPE_VARIABLES";
-export const ConversationInputTypesItemEnum = /*@__PURE__*/ S.String;
-
-export type ConversationInputTypesItemEnumList =
-  Array<ConversationInputTypesItemEnum>;
-export const ConversationInputTypesItemEnumList = /*@__PURE__*/ S.Array(
-  ConversationInputTypesItemEnum,
-) as any as S.Schema<ConversationInputTypesItemEnumList>;
+export type ConversationChannelTypeEnum =
+  | "CHANNEL_TYPE_UNSPECIFIED"
+  | "TEXT"
+  | "AUDIO"
+  | "MULTIMODAL";
+export const ConversationChannelTypeEnum = S.String;
 
 export type SpanList = Array<Span>;
 export const SpanList = /*@__PURE__*/ S.Array(
@@ -4216,25 +5164,25 @@ export const SpanList = /*@__PURE__*/ S.Array(
 export interface Span {
   /** Output only. The duration of the span. */
   duration?: string;
+  /** Output only. Key-value attributes associated with the span. */
+  attributes?: DocumentMap;
+  /** Output only. The start time of the span. */
+  startTime?: string;
+  /** Output only. The child spans that are nested under this span. */
+  childSpans?: SpanList;
   /** Output only. The name of the span. */
   name?: string;
   /** Output only. The end time of the span. */
   endTime?: string;
-  /** Output only. The child spans that are nested under this span. */
-  childSpans?: SpanList;
-  /** Output only. The start time of the span. */
-  startTime?: string;
-  /** Output only. Key-value attributes associated with the span. */
-  attributes?: DocumentMap;
 }
 export const Span = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     duration: S.optional(S.String),
+    attributes: S.optional(DocumentMap),
+    startTime: S.optional(S.String),
+    childSpans: S.optional(SpanList),
     name: S.optional(S.String),
     endTime: S.optional(S.String),
-    childSpans: S.optional(SpanList),
-    startTime: S.optional(S.String),
-    attributes: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Span" }) as any as S.Schema<Span>;
 
@@ -4244,11 +5192,14 @@ export interface ConversationTurn {
   messages?: MessageList;
   /** Optional. The root span of the action processing. */
   rootSpan?: Span;
+  /** Optional. The intended ground-truth text from the Simulated Caller (Polysynth). Only populated when word error rate metrics are enabled. */
+  userIntendedText?: string;
 }
 export const ConversationTurn = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     messages: S.optional(MessageList),
     rootSpan: S.optional(Span),
+    userIntendedText: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ConversationTurn",
@@ -4259,57 +5210,67 @@ export const ConversationTurnList = /*@__PURE__*/ S.Array(
   ConversationTurn,
 ) as any as S.Schema<ConversationTurnList>;
 
-export type ConversationChannelTypeEnum =
-  | "CHANNEL_TYPE_UNSPECIFIED"
-  | "TEXT"
-  | "AUDIO"
-  | "MULTIMODAL";
-export const ConversationChannelTypeEnum = /*@__PURE__*/ S.String;
+export type ConversationInputTypesItemEnum =
+  | "INPUT_TYPE_UNSPECIFIED"
+  | "INPUT_TYPE_TEXT"
+  | "INPUT_TYPE_EVENT"
+  | "INPUT_TYPE_AUDIO"
+  | "INPUT_TYPE_IMAGE"
+  | "INPUT_TYPE_BLOB"
+  | "INPUT_TYPE_TOOL_RESPONSE"
+  | "INPUT_TYPE_VARIABLES";
+export const ConversationInputTypesItemEnum = S.String;
+
+export type ConversationInputTypesItemEnumList =
+  Array<ConversationInputTypesItemEnum>;
+export const ConversationInputTypesItemEnumList = /*@__PURE__*/ S.Array(
+  ConversationInputTypesItemEnum,
+) as any as S.Schema<ConversationInputTypesItemEnumList>;
 
 /** A conversation represents an interaction between an end user and the CES app. */
 export interface Conversation {
-  /** Output only. Indicate the source of the conversation. */
-  source?: ConversationSourceEnum;
-  /** Output only. The deployment of the app used for processing the conversation. Format: `projects/{project}/locations/{location}/apps/{app}/deployments/{deployment}` */
-  deployment?: string;
-  /** Output only. The version of the app used for processing the conversation. Format: `projects/{project}/locations/{location}/apps/{app}/versions/{version}` */
-  appVersion?: string;
-  /** Output only. Timestamp when the conversation was completed. */
-  endTime?: string;
-  /** Output only. The input types of the conversation. */
-  inputTypes?: ConversationInputTypesItemEnumList;
-  /** Output only. The agent that initially handles the conversation. If not specified, the conversation is handled by the root agent. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
-  entryAgent?: string;
   /** Output only. Timestamp when the conversation was created. */
   startTime?: string;
-  /** Deprecated. Use turns instead. */
-  messages?: MessageList;
+  /** Output only. Indicate the source of the conversation. */
+  source?: ConversationSourceEnum;
+  /** Output only. Timestamp when the conversation was completed. */
+  endTime?: string;
+  /** DEPRECATED. Please use input_types instead. */
+  channelType?: ConversationChannelTypeEnum;
   /** Required. The turns in the conversation. */
   turns?: ConversationTurnList;
-  /** Identifier. The unique identifier of the conversation. Format: `projects/{project}/locations/{location}/apps/{app}/conversations/{conversation}` */
-  name?: string;
   /** Output only. The number of turns in the conversation. */
   turnCount?: number;
   /** Output only. The language code of the conversation. */
   languageCode?: string;
-  /** DEPRECATED. Please use input_types instead. */
-  channelType?: ConversationChannelTypeEnum;
+  /** Output only. The agent that initially handles the conversation. If not specified, the conversation is handled by the root agent. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
+  entryAgent?: string;
+  /** Output only. The deployment of the app used for processing the conversation. Format: `projects/{project}/locations/{location}/apps/{app}/deployments/{deployment}` */
+  deployment?: string;
+  /** Deprecated. Use turns instead. */
+  messages?: MessageList;
+  /** Output only. The version of the app used for processing the conversation. Format: `projects/{project}/locations/{location}/apps/{app}/versions/{version}` */
+  appVersion?: string;
+  /** Output only. The input types of the conversation. */
+  inputTypes?: ConversationInputTypesItemEnumList;
+  /** Identifier. The unique identifier of the conversation. Format: `projects/{project}/locations/{location}/apps/{app}/conversations/{conversation}` */
+  name?: string;
 }
 export const Conversation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    source: S.optional(ConversationSourceEnum),
-    deployment: S.optional(S.String),
-    appVersion: S.optional(S.String),
-    endTime: S.optional(S.String),
-    inputTypes: S.optional(ConversationInputTypesItemEnumList),
-    entryAgent: S.optional(S.String),
     startTime: S.optional(S.String),
-    messages: S.optional(MessageList),
+    source: S.optional(ConversationSourceEnum),
+    endTime: S.optional(S.String),
+    channelType: S.optional(ConversationChannelTypeEnum),
     turns: S.optional(ConversationTurnList),
-    name: S.optional(S.String),
     turnCount: S.optional(S.Number),
     languageCode: S.optional(S.String),
-    channelType: S.optional(ConversationChannelTypeEnum),
+    entryAgent: S.optional(S.String),
+    deployment: S.optional(S.String),
+    messages: S.optional(MessageList),
+    appVersion: S.optional(S.String),
+    inputTypes: S.optional(ConversationInputTypesItemEnumList),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Conversation" }) as any as S.Schema<Conversation>;
 
@@ -4446,12 +5407,123 @@ export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   identifier: "GetProjectsLocationsOperationsRequest",
 }) as any as S.Schema<GetProjectsLocationsOperationsRequest>;
 
+/** Request message for ToolService.RetrieveToolSchema. */
+export interface RetrieveToolSchemaRequest {
+  /** Optional. The toolset tool to retrieve the schema for. Only one tool should match the predicate from the toolset. Otherwise, an error will be returned. */
+  toolsetTool?: ToolsetTool;
+  /** Optional. The name of the tool to retrieve the schema for. Format: projects/{project}/locations/{location}/apps/{app}/tools/{tool} */
+  tool?: string;
+}
+export const RetrieveToolSchemaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    toolsetTool: S.optional(ToolsetTool),
+    tool: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RetrieveToolSchemaRequest",
+}) as any as S.Schema<RetrieveToolSchemaRequest>;
+
+export interface GetToolSchemaProjectsLocationsAppsRequest {
+  /** Required. The resource name of the app which the tool/toolset belongs to. Format: `projects/{project}/locations/{location}/apps/{app}` */
+  parent: string;
+  /** Request body */
+  body?: RetrieveToolSchemaRequest;
+}
+export const GetToolSchemaProjectsLocationsAppsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      body: S.optional(RetrieveToolSchemaRequest.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1/{+parent}:retrieveToolSchema",
+        baseUrl: "https://ces.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetToolSchemaProjectsLocationsAppsRequest",
+  }) as any as S.Schema<GetToolSchemaProjectsLocationsAppsRequest>;
+
+/** Response message for ToolService.RetrieveToolSchema. */
+export interface RetrieveToolSchemaResponse {
+  /** The schema of the tool input parameters. */
+  inputSchema?: Ces_Schema;
+  /** The schema of the tool output parameters. */
+  outputSchema?: Ces_Schema;
+  /** The name of the tool that the schema is for. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
+  tool?: string;
+  /** The toolset tool that the schema is for. */
+  toolsetTool?: ToolsetTool;
+}
+export const RetrieveToolSchemaResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    inputSchema: S.optional(Ces_Schema),
+    outputSchema: S.optional(Ces_Schema),
+    tool: S.optional(S.String),
+    toolsetTool: S.optional(ToolsetTool),
+  }),
+).annotate({
+  identifier: "RetrieveToolSchemaResponse",
+}) as any as S.Schema<RetrieveToolSchemaResponse>;
+
+/** Request message for ToolService.RetrieveTools. */
+export interface RetrieveToolsRequest {
+  /** Optional. If true, the returned tools will contain raw descriptions and schemas directly from the server, bypassing any stored persistence configurations (overrides/snapshots). */
+  bypassPersistenceConfig?: boolean;
+  /** Optional. The identifiers of the tools to retrieve from the toolset. If empty, all tools in the toolset will be returned. */
+  toolIds?: StringList;
+}
+export const RetrieveToolsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bypassPersistenceConfig: S.optional(S.Boolean),
+    toolIds: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "RetrieveToolsRequest",
+}) as any as S.Schema<RetrieveToolsRequest>;
+
+export interface GetToolsProjectsLocationsAppsToolsetsRequest {
+  /** Required. The name of the toolset to retrieve the tools for. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
+  toolset: string;
+  /** Request body */
+  body?: RetrieveToolsRequest;
+}
+export const GetToolsProjectsLocationsAppsToolsetsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      toolset: S.String.pipe(T.Label()),
+      body: S.optional(RetrieveToolsRequest.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1/{+toolset}:retrieveTools",
+        baseUrl: "https://ces.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetToolsProjectsLocationsAppsToolsetsRequest",
+  }) as any as S.Schema<GetToolsProjectsLocationsAppsToolsetsRequest>;
+
+/** Response message for ToolService.RetrieveTools. */
+export interface RetrieveToolsResponse {
+  /** The list of tools that are included in the specified toolset. */
+  tools?: ToolList;
+}
+export const RetrieveToolsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tools: S.optional(ToolList),
+  }),
+).annotate({
+  identifier: "RetrieveToolsResponse",
+}) as any as S.Schema<RetrieveToolsResponse>;
+
 export type ImportAppRequestImportOptionsConflictResolutionStrategyEnum =
   | "CONFLICT_RESOLUTION_STRATEGY_UNSPECIFIED"
   | "REPLACE"
   | "OVERWRITE";
 export const ImportAppRequestImportOptionsConflictResolutionStrategyEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** Configuration options for the app import process. These options control how the import behaves, particularly when conflicts arise with existing app data. */
 export interface ImportAppRequestImportOptions {
@@ -4459,12 +5531,15 @@ export interface ImportAppRequestImportOptions {
   conflictResolutionStrategy?:
     | ImportAppRequestImportOptionsConflictResolutionStrategyEnum
     | (string & {});
+  /** Optional. Flag for dry-running the import process. If set to true, the import process will only perform validations and will not make any changes to the existing app or create a new one. */
+  validateOnly?: boolean;
 }
 export const ImportAppRequestImportOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     conflictResolutionStrategy: S.optional(
       ImportAppRequestImportOptionsConflictResolutionStrategyEnum,
     ),
+    validateOnly: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ImportAppRequestImportOptions",
@@ -4472,27 +5547,33 @@ export const ImportAppRequestImportOptions = /*@__PURE__*/ S.suspend(() =>
 
 /** Request message for AgentService.ImportApp. */
 export interface ImportAppRequest {
-  /** Optional. Flag for overriding the app lock during import. If set to true, the import process will ignore the app lock. */
-  ignoreAppLock?: boolean;
-  /** The [Google Cloud Storage](https://cloud.google.com/storage/docs/) URI from which to import app. The format of this URI must be `gs:///`. */
-  gcsUri?: string;
   /** Optional. Options governing the import process for the app. */
   importOptions?: ImportAppRequestImportOptions;
-  /** Raw bytes representing the compressed zip file with the app folder structure. */
-  appContent?: string;
-  /** Optional. The display name of the app to import. * If the app is created on import, and the display name is specified, the imported app will use this display name. If a conflict is detected with an existing app, a timestamp will be appended to the display name to make it unique. * If the app is a reimport, this field should not be set. Providing a display name during reimport will result in an INVALID_ARGUMENT error. */
-  displayName?: string;
+  /** Optional. Flag for overriding the app lock during import. If set to true, the import process will ignore the app lock. */
+  ignoreAppLock?: boolean;
   /** Optional. The ID to use for the imported app. * If not specified, a unique ID will be automatically assigned for the app. * Otherwise, the imported app will use this ID as the final component of its resource name. If an app with the same ID already exists at the specified location in the project, the content of the existing app will be replaced. */
   appId?: string;
+  /** Optional. Patch content as a JSON string. */
+  jsonPatchContent?: string;
+  /** Optional. The display name of the app to import. * If the app is created on import, and the display name is specified, the imported app will use this display name. If a conflict is detected with an existing app, a timestamp will be appended to the display name to make it unique. * If the app is a reimport, this field should not be set. Providing a display name during reimport will result in an INVALID_ARGUMENT error. */
+  displayName?: string;
+  /** Raw bytes representing the compressed zip file with the app folder structure. */
+  appContent?: string;
+  /** Optional. A Cloud Storage URI pointing to a JSON file containing the patches. */
+  jsonPatchGcsUri?: string;
+  /** The [Google Cloud Storage](https://cloud.google.com/storage/docs/) URI from which to import app. The format of this URI must be `gs:///`. */
+  gcsUri?: string;
 }
 export const ImportAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ignoreAppLock: S.optional(S.Boolean),
-    gcsUri: S.optional(S.String),
     importOptions: S.optional(ImportAppRequestImportOptions),
-    appContent: S.optional(S.String),
-    displayName: S.optional(S.String),
+    ignoreAppLock: S.optional(S.Boolean),
     appId: S.optional(S.String),
+    jsonPatchContent: S.optional(S.String),
+    displayName: S.optional(S.String),
+    appContent: S.optional(S.String),
+    jsonPatchGcsUri: S.optional(S.String),
+    gcsUri: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ImportAppRequest",
@@ -4521,24 +5602,24 @@ export const ImportAppProjectsLocationsAppsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ImportAppProjectsLocationsAppsRequest>;
 
 export interface ListProjectsLocationsRequest {
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4572,24 +5653,24 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsAppsRequest {
-  /** Optional. The next_page_token value returned from a previous list AgentService.ListApps call. */
-  pageToken?: string;
-  /** Required. The resource name of the location to list apps from. */
-  parent: string;
-  /** Optional. Filter to be applied when listing the apps. See https://google.aip.dev/160 for more details. */
-  filter?: string;
-  /** Optional. Field to sort by. Only "name" and "create_time" is supported. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Required. The resource name of the location to list apps from. */
+  parent: string;
+  /** Optional. Field to sort by. Only "name" and "create_time" is supported. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string;
+  /** Optional. Filter to be applied when listing the apps. See https://google.aip.dev/160 for more details. */
+  filter?: string;
+  /** Optional. The next_page_token value returned from a previous list AgentService.ListApps call. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsAppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4608,16 +5689,16 @@ export const AppList = /*@__PURE__*/ S.Array(App) as any as S.Schema<AppList>;
 export interface ListAppsResponse {
   /** The list of apps. */
   apps?: AppList;
-  /** A token that can be sent as ListAppsRequest.page_token to retrieve the next page. Absence of this field indicates there are no subsequent pages. */
-  nextPageToken?: string;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList;
+  /** A token that can be sent as ListAppsRequest.page_token to retrieve the next page. Absence of this field indicates there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListAppsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     apps: S.optional(AppList),
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListAppsResponse",
@@ -4630,10 +5711,10 @@ export interface ListProjectsLocationsAppsAgentsRequest {
   orderBy?: string;
   /** Optional. The next_page_token value returned from a previous list AgentService.ListAgents call. */
   pageToken?: string;
-  /** Required. The resource name of the app to list agents from. */
-  parent: string;
   /** Optional. Filter to be applied when listing the agents. See https://google.aip.dev/160 for more details. */
   filter?: string;
+  /** Required. The resource name of the app to list agents from. */
+  parent: string;
 }
 export const ListProjectsLocationsAppsAgentsRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -4641,8 +5722,8 @@ export const ListProjectsLocationsAppsAgentsRequest = /*@__PURE__*/ S.suspend(
       pageSize: S.optional(S.Number.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4671,24 +5752,24 @@ export const ListAgentsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAgentsResponse>;
 
 export interface ListProjectsLocationsAppsChangelogsRequest {
-  /** Optional. The next_page_token value returned from a previous list AgentService.ListChangelogs call. */
-  pageToken?: string;
-  /** Required. The resource name of the app to list changelogs from. */
-  parent: string;
   /** Optional. Filter to be applied when listing the changelogs. See https://google.aip.dev/160 for more details. The filter string can be used to filter by `action`, `resource_type`, `resource_name`, `author`, and `create_time`. The `:` comparator can be used for case-insensitive partial matching on string fields, while `=` performs an exact case-sensitive match. Examples: * `action:update` (case-insensitive partial match) * `action="Create"` (case-sensitive exact match) * `resource_type:agent` * `resource_name:my-agent` * `author:me@example.com` * `create_time > "2025-01-01T00:00:00Z"` * `create_time <= "2025-01-01T00:00:00Z" AND resource_type:tool` */
   filter?: string;
+  /** Required. The resource name of the app to list changelogs from. */
+  parent: string;
   /** Optional. Field to sort by. Only "name" and "create_time" is supported. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
+  /** Optional. The next_page_token value returned from a previous list AgentService.ListChangelogs call. */
+  pageToken?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
 }
 export const ListProjectsLocationsAppsChangelogsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -4708,15 +5789,15 @@ export const ChangelogList = /*@__PURE__*/ S.Array(
 
 /** Response message for AgentService.ListChangelogs. */
 export interface ListChangelogsResponse {
-  /** A token that can be sent as ListChangelogsRequest.page_token to retrieve the next page. Absence of this field indicates there are no subsequent pages. */
-  nextPageToken?: string;
   /** The list of changelogs. */
   changelogs?: ChangelogList;
+  /** A token that can be sent as ListChangelogsRequest.page_token to retrieve the next page. Absence of this field indicates there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListChangelogsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     changelogs: S.optional(ChangelogList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListChangelogsResponse",
@@ -4728,8 +5809,7 @@ export type ListProjectsLocationsAppsConversationsSourceEnum =
   | "SIMULATOR"
   | "EVAL"
   | "AGENT_TOOL";
-export const ListProjectsLocationsAppsConversationsSourceEnum =
-  /*@__PURE__*/ S.String;
+export const ListProjectsLocationsAppsConversationsSourceEnum = S.String;
 
 export type ListProjectsLocationsAppsConversationsSourcesEnum =
   | "SOURCE_UNSPECIFIED"
@@ -4737,8 +5817,7 @@ export type ListProjectsLocationsAppsConversationsSourcesEnum =
   | "SIMULATOR"
   | "EVAL"
   | "AGENT_TOOL";
-export const ListProjectsLocationsAppsConversationsSourcesEnum =
-  /*@__PURE__*/ S.String;
+export const ListProjectsLocationsAppsConversationsSourcesEnum = S.String;
 
 export type ListProjectsLocationsAppsConversationsSourcesEnumList = Array<
   ListProjectsLocationsAppsConversationsSourcesEnum | (string & {})
@@ -4753,10 +5832,10 @@ export interface ListProjectsLocationsAppsConversationsRequest {
   pageSize?: number;
   /** Required. The resource name of the app to list conversations from. */
   parent: string;
-  /** Optional. Filter to be applied when listing the conversations. See https://google.aip.dev/160 for more details. */
-  filter?: string;
   /** Optional. Indicate the source of the conversation. If not set, Source.Live will be applied by default. Will be deprecated in favor of `sources` field. */
   source?: ListProjectsLocationsAppsConversationsSourceEnum | (string & {});
+  /** Optional. Filter to be applied when listing the conversations. See https://google.aip.dev/160 for more details. */
+  filter?: string;
   /** Optional. Indicate the sources of the conversations. If not set, all available sources will be applied by default. */
   sources?: ListProjectsLocationsAppsConversationsSourcesEnumList;
   /** Optional. The next_page_token value returned from a previous list AgentService.ListConversations call. */
@@ -4767,10 +5846,10 @@ export const ListProjectsLocationsAppsConversationsRequest =
     S.Struct({
       pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      filter: S.optional(S.String.pipe(T.Query())),
       source: S.optional(
         ListProjectsLocationsAppsConversationsSourceEnum.pipe(T.Query()),
       ),
+      filter: S.optional(S.String.pipe(T.Query())),
       sources: S.optional(
         ListProjectsLocationsAppsConversationsSourcesEnumList.pipe(T.Query()),
       ),
@@ -4808,22 +5887,22 @@ export const ListConversationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListConversationsResponse>;
 
 export interface ListProjectsLocationsAppsDeploymentsRequest {
-  /** Required. The parent app. Format: `projects/{project}/locations/{location}/apps/{app}` */
-  parent: string;
   /** Optional. Field to sort by. Only "name" and "create_time" is supported. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
-  /** Optional. The maximum number of deployments to return. The service may return fewer than this value. If unspecified, at most 50 deployments will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Optional. A page token, received from a previous `ListDeployments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDeployments` must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. The parent app. Format: `projects/{project}/locations/{location}/apps/{app}` */
+  parent: string;
+  /** Optional. The maximum number of deployments to return. The service may return fewer than this value. If unspecified, at most 50 deployments will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsAppsDeploymentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       orderBy: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4857,25 +5936,25 @@ export const ListDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListDeploymentsResponse>;
 
 export interface ListProjectsLocationsAppsExamplesRequest {
-  /** Required. The resource name of the app to list examples from. */
-  parent: string;
-  /** Optional. Filter to be applied when listing the examples. See https://google.aip.dev/160 for more details. */
-  filter?: string;
-  /** Optional. The next_page_token value returned from a previous list AgentService.ListExamples call. */
-  pageToken?: string;
   /** Optional. Field to sort by. Only "name" and "create_time" is supported. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Optional. Filter to be applied when listing the examples. See https://google.aip.dev/160 for more details. */
+  filter?: string;
+  /** Required. The resource name of the app to list examples from. */
+  parent: string;
+  /** Optional. The next_page_token value returned from a previous list AgentService.ListExamples call. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsAppsExamplesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4889,40 +5968,40 @@ export const ListProjectsLocationsAppsExamplesRequest = /*@__PURE__*/ S.suspend(
 
 /** Response message for AgentService.ListExamples. */
 export interface ListExamplesResponse {
-  /** A token that can be sent as ListExamplesRequest.page_token to retrieve the next page. Absence of this field indicates there are no subsequent pages. */
-  nextPageToken?: string;
   /** The list of examples. */
   examples?: ExampleList;
+  /** A token that can be sent as ListExamplesRequest.page_token to retrieve the next page. Absence of this field indicates there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListExamplesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     examples: S.optional(ExampleList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListExamplesResponse",
 }) as any as S.Schema<ListExamplesResponse>;
 
 export interface ListProjectsLocationsAppsGuardrailsRequest {
-  /** Optional. The next_page_token value returned from a previous list AgentService.ListGuardrails call. */
-  pageToken?: string;
   /** Required. The resource name of the app to list guardrails from. */
   parent: string;
   /** Optional. Filter to be applied when listing the guardrails. See https://google.aip.dev/160 for more details. */
   filter?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
   /** Optional. Field to sort by. Only "name" and "create_time" is supported. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. The next_page_token value returned from a previous list AgentService.ListGuardrails call. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsAppsGuardrailsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4936,40 +6015,40 @@ export const ListProjectsLocationsAppsGuardrailsRequest =
 
 /** Response message for AgentService.ListGuardrails. */
 export interface ListGuardrailsResponse {
-  /** The list of guardrails. */
-  guardrails?: GuardrailList;
   /** A token that can be sent as ListGuardrailsRequest.page_token to retrieve the next page. Absence of this field indicates there are no subsequent pages. */
   nextPageToken?: string;
+  /** The list of guardrails. */
+  guardrails?: GuardrailList;
 }
 export const ListGuardrailsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    guardrails: S.optional(GuardrailList),
     nextPageToken: S.optional(S.String),
+    guardrails: S.optional(GuardrailList),
   }),
 ).annotate({
   identifier: "ListGuardrailsResponse",
 }) as any as S.Schema<ListGuardrailsResponse>;
 
 export interface ListProjectsLocationsAppsToolsRequest {
-  /** Optional. The next_page_token value returned from a previous list AgentService.ListTools call. */
-  pageToken?: string;
-  /** Required. The resource name of the app to list tools from. */
-  parent: string;
   /** Optional. Filter to be applied when listing the tools. Use "include_system_tools=true" to include system tools in the response. See https://google.aip.dev/160 for more details. */
   filter?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
   /** Optional. Field to sort by. Only "name" and "create_time" is supported. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Required. The resource name of the app to list tools from. */
+  parent: string;
+  /** Optional. The next_page_token value returned from a previous list AgentService.ListTools call. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsAppsToolsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4983,40 +6062,40 @@ export const ListProjectsLocationsAppsToolsRequest = /*@__PURE__*/ S.suspend(
 
 /** Response message for AgentService.ListTools. */
 export interface ListToolsResponse {
-  /** The list of tools. */
-  tools?: ToolList;
   /** A token that can be sent as ListToolsRequest.page_token to retrieve the next page. Absence of this field indicates there are no subsequent pages. */
   nextPageToken?: string;
+  /** The list of tools. */
+  tools?: ToolList;
 }
 export const ListToolsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tools: S.optional(ToolList),
     nextPageToken: S.optional(S.String),
+    tools: S.optional(ToolList),
   }),
 ).annotate({
   identifier: "ListToolsResponse",
 }) as any as S.Schema<ListToolsResponse>;
 
 export interface ListProjectsLocationsAppsToolsetsRequest {
-  /** Optional. Field to sort by. Only "name" and "create_time" is supported. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
   /** Optional. The next_page_token value returned from a previous list AgentService.ListToolsets call. */
   pageToken?: string;
   /** Required. The resource name of the app to list toolsets from. */
   parent: string;
+  /** Optional. Field to sort by. Only "name" and "create_time" is supported. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string;
   /** Optional. Filter to be applied when listing the toolsets. See https://google.aip.dev/160 for more details. */
   filter?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsAppsToolsetsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      orderBy: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      orderBy: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5049,21 +6128,21 @@ export interface ListProjectsLocationsAppsVersionsRequest {
   orderBy?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Optional. The next_page_token value returned from a previous list AgentService.ListAppVersions call. */
+  pageToken?: string;
   /** Required. The resource name of the app to list app versions from. */
   parent: string;
   /** Optional. Filter to be applied when listing the app versions. See https://google.aip.dev/160 for more details. */
   filter?: string;
-  /** Optional. The next_page_token value returned from a previous list AgentService.ListAppVersions call. */
-  pageToken?: string;
 }
 export const ListProjectsLocationsAppsVersionsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       orderBy: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5097,24 +6176,24 @@ export const ListAppVersionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAppVersionsResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
   /** The standard list filter. */
   filter?: string;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** The standard list page token. */
+  pageToken?: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -5226,18 +6305,18 @@ export const PatchProjectsLocationsAppsDeploymentsRequest =
   }) as any as S.Schema<PatchProjectsLocationsAppsDeploymentsRequest>;
 
 export interface PatchProjectsLocationsAppsExamplesRequest {
-  /** Identifier. The unique identifier of the example. Format: `projects/{project}/locations/{location}/apps/{app}/examples/{example}` */
-  name: string;
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string;
+  /** Identifier. The unique identifier of the example. Format: `projects/{project}/locations/{location}/apps/{app}/examples/{example}` */
+  name: string;
   /** Request body */
   body?: Example;
 }
 export const PatchProjectsLocationsAppsExamplesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(Example.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -5276,18 +6355,18 @@ export const PatchProjectsLocationsAppsGuardrailsRequest =
   }) as any as S.Schema<PatchProjectsLocationsAppsGuardrailsRequest>;
 
 export interface PatchProjectsLocationsAppsToolsRequest {
-  /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
-  updateMask?: string;
   /** Identifier. The resource name of the tool. Format: * `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` for standalone tools. * `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}/tools/{tool}` for tools retrieved from a toolset. These tools are dynamic and output-only; they cannot be referenced directly where a tool is expected. */
   name: string;
+  /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
+  updateMask?: string;
   /** Request body */
   body?: Tool;
 }
 export const PatchProjectsLocationsAppsToolsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(Tool.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -5325,6 +6404,31 @@ export const PatchProjectsLocationsAppsToolsetsRequest =
     identifier: "PatchProjectsLocationsAppsToolsetsRequest",
   }) as any as S.Schema<PatchProjectsLocationsAppsToolsetsRequest>;
 
+export interface PatchProjectsLocationsAppsVersionsRequest {
+  /** Identifier. The unique identifier of the app version. Format: `projects/{project}/locations/{location}/apps/{app}/versions/{version}` */
+  name: string;
+  /** Optional. The list of fields to update. If empty, fields `display_name` and `description` will be updated. */
+  updateMask?: string;
+  /** Request body */
+  body?: AppVersion;
+}
+export const PatchProjectsLocationsAppsVersionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
+      body: S.optional(AppVersion.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "v1/{+name}",
+        baseUrl: "https://ces.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchProjectsLocationsAppsVersionsRequest",
+  }) as any as S.Schema<PatchProjectsLocationsAppsVersionsRequest>;
+
 /** Request message for AgentService.RestoreAppVersion */
 export type RestoreAppVersionRequest = CancelOperationRequest;
 export const RestoreAppVersionRequest = CancelOperationRequest;
@@ -5351,161 +6455,27 @@ export const RestoreProjectsLocationsAppsVersionsRequest =
     identifier: "RestoreProjectsLocationsAppsVersionsRequest",
   }) as any as S.Schema<RestoreProjectsLocationsAppsVersionsRequest>;
 
-/** Request message for ToolService.RetrieveToolSchema. */
-export interface RetrieveToolSchemaRequest {
-  /** Optional. The name of the tool to retrieve the schema for. Format: projects/{project}/locations/{location}/apps/{app}/tools/{tool} */
-  tool?: string;
-  /** Optional. The toolset tool to retrieve the schema for. Only one tool should match the predicate from the toolset. Otherwise, an error will be returned. */
-  toolsetTool?: ToolsetTool;
-}
-export const RetrieveToolSchemaRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tool: S.optional(S.String),
-    toolsetTool: S.optional(ToolsetTool),
-  }),
-).annotate({
-  identifier: "RetrieveToolSchemaRequest",
-}) as any as S.Schema<RetrieveToolSchemaRequest>;
-
-export interface RetrieveToolSchemaProjectsLocationsAppsRequest {
-  /** Required. The resource name of the app which the tool/toolset belongs to. Format: `projects/{project}/locations/{location}/apps/{app}` */
-  parent: string;
-  /** Request body */
-  body?: RetrieveToolSchemaRequest;
-}
-export const RetrieveToolSchemaProjectsLocationsAppsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      parent: S.String.pipe(T.Label()),
-      body: S.optional(RetrieveToolSchemaRequest.pipe(T.HttpBody())),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "v1/{+parent}:retrieveToolSchema",
-        baseUrl: "https://ces.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "RetrieveToolSchemaProjectsLocationsAppsRequest",
-  }) as any as S.Schema<RetrieveToolSchemaProjectsLocationsAppsRequest>;
-
-/** Response message for ToolService.RetrieveToolSchema. */
-export interface RetrieveToolSchemaResponse {
-  /** The name of the tool that the schema is for. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
-  tool?: string;
-  /** The schema of the tool input parameters. */
-  inputSchema?: Ces_Schema;
-  /** The toolset tool that the schema is for. */
-  toolsetTool?: ToolsetTool;
-  /** The schema of the tool output parameters. */
-  outputSchema?: Ces_Schema;
-}
-export const RetrieveToolSchemaResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tool: S.optional(S.String),
-    inputSchema: S.optional(Ces_Schema),
-    toolsetTool: S.optional(ToolsetTool),
-    outputSchema: S.optional(Ces_Schema),
-  }),
-).annotate({
-  identifier: "RetrieveToolSchemaResponse",
-}) as any as S.Schema<RetrieveToolSchemaResponse>;
-
-/** Request message for ToolService.RetrieveTools. */
-export interface RetrieveToolsRequest {
-  /** Optional. The identifiers of the tools to retrieve from the toolset. If empty, all tools in the toolset will be returned. */
-  toolIds?: StringList;
-  /** Optional. If true, the returned tools will contain raw descriptions and schemas directly from the server, bypassing any stored persistence configurations (overrides/snapshots). */
-  bypassPersistenceConfig?: boolean;
-}
-export const RetrieveToolsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    toolIds: S.optional(StringList),
-    bypassPersistenceConfig: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "RetrieveToolsRequest",
-}) as any as S.Schema<RetrieveToolsRequest>;
-
-export interface RetrieveToolsProjectsLocationsAppsToolsetsRequest {
-  /** Required. The name of the toolset to retrieve the tools for. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
-  toolset: string;
-  /** Request body */
-  body?: RetrieveToolsRequest;
-}
-export const RetrieveToolsProjectsLocationsAppsToolsetsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      toolset: S.String.pipe(T.Label()),
-      body: S.optional(RetrieveToolsRequest.pipe(T.HttpBody())),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "v1/{+toolset}:retrieveTools",
-        baseUrl: "https://ces.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "RetrieveToolsProjectsLocationsAppsToolsetsRequest",
-  }) as any as S.Schema<RetrieveToolsProjectsLocationsAppsToolsetsRequest>;
-
-/** Response message for ToolService.RetrieveTools. */
-export interface RetrieveToolsResponse {
-  /** The list of tools that are included in the specified toolset. */
-  tools?: ToolList;
-}
-export const RetrieveToolsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tools: S.optional(ToolList),
-  }),
-).annotate({
-  identifier: "RetrieveToolsResponse",
-}) as any as S.Schema<RetrieveToolsResponse>;
-
-export type OutputAudioConfigAudioEncodingEnum =
-  | "AUDIO_ENCODING_UNSPECIFIED"
-  | "LINEAR16"
-  | "MULAW"
-  | "ALAW";
-export const OutputAudioConfigAudioEncodingEnum = /*@__PURE__*/ S.String;
-
-/** OutputAudioConfig configures how the CES agent should synthesize outgoing audio responses. */
-export interface OutputAudioConfig {
-  /** Required. The encoding of the output audio data. */
-  audioEncoding?: OutputAudioConfigAudioEncodingEnum | (string & {});
-  /** Required. The sample rate (in Hertz) of the output audio data. */
-  sampleRateHertz?: number;
-}
-export const OutputAudioConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    audioEncoding: S.optional(OutputAudioConfigAudioEncodingEnum),
-    sampleRateHertz: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "OutputAudioConfig",
-}) as any as S.Schema<OutputAudioConfig>;
-
 export type InputAudioConfigAudioEncodingEnum =
   | "AUDIO_ENCODING_UNSPECIFIED"
   | "LINEAR16"
   | "MULAW"
   | "ALAW";
-export const InputAudioConfigAudioEncodingEnum = /*@__PURE__*/ S.String;
+export const InputAudioConfigAudioEncodingEnum = S.String;
 
 /** InputAudioConfig configures how the CES agent should interpret the incoming audio data. */
 export interface InputAudioConfig {
-  /** Required. The encoding of the input audio data. */
-  audioEncoding?: InputAudioConfigAudioEncodingEnum | (string & {});
-  /** Optional. Whether to enable noise suppression on the input audio. Available values are "low", "moderate", "high", "very_high". */
-  noiseSuppressionLevel?: string;
   /** Required. The sample rate (in Hertz) of the input audio data. */
   sampleRateHertz?: number;
+  /** Optional. Whether to enable noise suppression on the input audio. Available values are "low", "moderate", "high", "very_high". */
+  noiseSuppressionLevel?: string;
+  /** Required. The encoding of the input audio data. */
+  audioEncoding?: InputAudioConfigAudioEncodingEnum | (string & {});
 }
 export const InputAudioConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    audioEncoding: S.optional(InputAudioConfigAudioEncodingEnum),
-    noiseSuppressionLevel: S.optional(S.String),
     sampleRateHertz: S.optional(S.Number),
+    noiseSuppressionLevel: S.optional(S.String),
+    audioEncoding: S.optional(InputAudioConfigAudioEncodingEnum),
   }),
 ).annotate({
   identifier: "InputAudioConfig",
@@ -5513,71 +6483,86 @@ export const InputAudioConfig = /*@__PURE__*/ S.suspend(() =>
 
 /** [QueryParameters](https://cloud.google.com/dialogflow/cx/docs/reference/rpc/google.cloud.dialogflow.cx.v3#queryparameters) to send to the remote [Dialogflow](https://cloud.google.com/dialogflow/cx/docs/concept/console-conversational-agents) agent when the session control is transferred to the remote agent. */
 export interface SessionConfigRemoteDialogflowQueryParameters {
-  /** Optional. The payload to be sent in [QueryParameters](https://cloud.google.com/dialogflow/cx/docs/reference/rpc/google.cloud.dialogflow.cx.v3#queryparameters). */
-  payload?: DocumentMap;
   /** Optional. The end user metadata to be sent in [QueryParameters](https://cloud.google.com/dialogflow/cx/docs/reference/rpc/google.cloud.dialogflow.cx.v3#queryparameters). */
   endUserMetadata?: DocumentMap;
+  /** Optional. The payload to be sent in [QueryParameters](https://cloud.google.com/dialogflow/cx/docs/reference/rpc/google.cloud.dialogflow.cx.v3#queryparameters). */
+  payload?: DocumentMap;
   /** Optional. The HTTP headers to be sent as webhook_headers in [QueryParameters](https://cloud.google.com/dialogflow/cx/docs/reference/rpc/google.cloud.dialogflow.cx.v3#queryparameters). */
   webhookHeaders?: StringMap;
 }
 export const SessionConfigRemoteDialogflowQueryParameters =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      payload: S.optional(DocumentMap),
       endUserMetadata: S.optional(DocumentMap),
+      payload: S.optional(DocumentMap),
       webhookHeaders: S.optional(StringMap),
     }),
   ).annotate({
     identifier: "SessionConfigRemoteDialogflowQueryParameters",
   }) as any as S.Schema<SessionConfigRemoteDialogflowQueryParameters>;
 
+export type OutputAudioConfigAudioEncodingEnum =
+  | "AUDIO_ENCODING_UNSPECIFIED"
+  | "LINEAR16"
+  | "MULAW"
+  | "ALAW";
+export const OutputAudioConfigAudioEncodingEnum = S.String;
+
+/** OutputAudioConfig configures how the CES agent should synthesize outgoing audio responses. */
+export interface OutputAudioConfig {
+  /** Required. The sample rate (in Hertz) of the output audio data. */
+  sampleRateHertz?: number;
+  /** Required. The encoding of the output audio data. */
+  audioEncoding?: OutputAudioConfigAudioEncodingEnum | (string & {});
+}
+export const OutputAudioConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sampleRateHertz: S.optional(S.Number),
+    audioEncoding: S.optional(OutputAudioConfigAudioEncodingEnum),
+  }),
+).annotate({
+  identifier: "OutputAudioConfig",
+}) as any as S.Schema<OutputAudioConfig>;
+
 /** The configuration for the session. */
 export interface SessionConfig {
-  /** Optional. The time zone of the user. If provided, the agent will use the time zone for date and time related variables. Otherwise, the agent will use the time zone specified in the App.time_zone_settings. The format is the IANA Time Zone Database time zone, e.g. "America/Los_Angeles". */
-  timeZone?: string;
-  /** Optional. Configuration for generating the output audio. */
-  outputAudioConfig?: OutputAudioConfig;
+  /** Optional. The historical context of the session, including user inputs, agent responses, and other messages. Typically, CES agent would manage session automatically so client doesn't need to explicitly populate this field. However, client can optionally override the historical contexts to force the session start from certain state. */
+  historicalContexts?: MessageList;
+  /** Optional. The entry agent to handle the session. If not specified, the session will be handled by the root agent of the app. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
+  entryAgent?: string;
   /** Optional. The deployment of the app to use for the session. Format: `projects/{project}/locations/{location}/apps/{app}/deployments/{deployment}` */
   deployment?: string;
   /** Optional. Whether to use tool fakes for the session. If this field is set, the agent will attempt use tool fakes instead of calling the real tools. */
   useToolFakes?: boolean;
-  /** Optional. Whether to enable streaming text outputs from the model. By default, text outputs from the model are collected before sending to the client. NOTE: This is only supported for text (non-voice) sessions via StreamRunSession or BidiRunSession. */
-  enableTextStreaming?: boolean;
-  /** Optional. The entry agent to handle the session. If not specified, the session will be handled by the root agent of the app. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
-  entryAgent?: string;
-  /** Optional. The historical context of the session, including user inputs, agent responses, and other messages. Typically, CES agent would manage session automatically so client doesn't need to explicitly populate this field. However, client can optionally override the historical contexts to force the session start from certain state. */
-  historicalContexts?: MessageList;
   /** Optional. Configuration for processing the input audio. */
   inputAudioConfig?: InputAudioConfig;
+  /** Optional. Whether to exclude diagnostic info from the session output. */
+  excludeDiagnosticInfo?: boolean;
   /** Optional. [QueryParameters](https://cloud.google.com/dialogflow/cx/docs/reference/rpc/google.cloud.dialogflow.cx.v3#queryparameters) to send to the remote [Dialogflow](https://cloud.google.com/dialogflow/cx/docs/concept/console-conversational-agents) agent when the session control is transferred to the remote agent. */
   remoteDialogflowQueryParameters?: SessionConfigRemoteDialogflowQueryParameters;
+  /** Optional. Configuration for generating the output audio. */
+  outputAudioConfig?: OutputAudioConfig;
+  /** Optional. The time zone of the user. If provided, the agent will use the time zone for date and time related variables. Otherwise, the agent will use the time zone specified in the App.time_zone_settings. The format is the IANA Time Zone Database time zone, e.g. "America/Los_Angeles". */
+  timeZone?: string;
+  /** Optional. Whether to enable streaming text outputs from the model. By default, text outputs from the model are collected before sending to the client. NOTE: This is only supported for text (non-voice) sessions via StreamRunSession or BidiRunSession. */
+  enableTextStreaming?: boolean;
 }
 export const SessionConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    timeZone: S.optional(S.String),
-    outputAudioConfig: S.optional(OutputAudioConfig),
+    historicalContexts: S.optional(MessageList),
+    entryAgent: S.optional(S.String),
     deployment: S.optional(S.String),
     useToolFakes: S.optional(S.Boolean),
-    enableTextStreaming: S.optional(S.Boolean),
-    entryAgent: S.optional(S.String),
-    historicalContexts: S.optional(MessageList),
     inputAudioConfig: S.optional(InputAudioConfig),
+    excludeDiagnosticInfo: S.optional(S.Boolean),
     remoteDialogflowQueryParameters: S.optional(
       SessionConfigRemoteDialogflowQueryParameters,
     ),
+    outputAudioConfig: S.optional(OutputAudioConfig),
+    timeZone: S.optional(S.String),
+    enableTextStreaming: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "SessionConfig" }) as any as S.Schema<SessionConfig>;
-
-/** Event input. */
-export interface Event {
-  /** Required. The name of the event. */
-  event?: string;
-}
-export const Event = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    event: S.optional(S.String),
-  }),
-).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 
 export type ToolResponseList = Array<ToolResponse>;
 export const ToolResponseList = /*@__PURE__*/ S.Array(
@@ -5595,38 +6580,49 @@ export const ToolResponses = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ToolResponses" }) as any as S.Schema<ToolResponses>;
 
+/** Event input. */
+export interface Event {
+  /** Required. The name of the event. */
+  event?: string;
+}
+export const Event = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    event: S.optional(S.String),
+  }),
+).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
+
 /** Input for the session. */
 export interface SessionInput {
   /** Optional. Audio data from the end user. */
   audio?: string;
-  /** Optional. Contextual variables for the session, keyed by name. Only variables declared in the app will be used by the CES agent. Unrecognized variables will still be sent to the Dialogflow agent as additional session parameters. */
-  variables?: DocumentMap;
-  /** Optional. DTMF digits from the end user. */
-  dtmf?: string;
-  /** Optional. Image data from the end user. */
-  image?: Image;
-  /** Optional. Event input. */
-  event?: Event;
-  /** Optional. Text data from the end user. */
-  text?: string;
   /** Optional. Execution results for the tool calls from the client. */
   toolResponses?: ToolResponses;
-  /** Optional. A flag to indicate if the current message is a fragment of a larger input in the bidi streaming session. When set to `true`, the agent defers processing until it receives a subsequent message where `will_continue` is `false`, or until the system detects an endpoint in the audio input. NOTE: This field does not apply to audio and DTMF inputs, as they are always processed automatically based on the endpointing signal. */
-  willContinue?: boolean;
+  /** Optional. Image data from the end user. */
+  image?: Image;
   /** Optional. Blob data from the end user. */
   blob?: Blob;
+  /** Optional. A flag to indicate if the current message is a fragment of a larger input in the bidi streaming session. When set to `true`, the agent defers processing until it receives a subsequent message where `will_continue` is `false`, or until the system detects an endpoint in the audio input. NOTE: This field does not apply to audio and DTMF inputs, as they are always processed automatically based on the endpointing signal. */
+  willContinue?: boolean;
+  /** Optional. Text data from the end user. */
+  text?: string;
+  /** Optional. DTMF digits from the end user. */
+  dtmf?: string;
+  /** Optional. Contextual variables for the session, keyed by name. Only variables declared in the app will be used by the CES agent. Unrecognized variables will still be sent to the Dialogflow agent as additional session parameters. */
+  variables?: DocumentMap;
+  /** Optional. Event input. */
+  event?: Event;
 }
 export const SessionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     audio: S.optional(S.String),
-    variables: S.optional(DocumentMap),
-    dtmf: S.optional(S.String),
-    image: S.optional(Image),
-    event: S.optional(Event),
-    text: S.optional(S.String),
     toolResponses: S.optional(ToolResponses),
-    willContinue: S.optional(S.Boolean),
+    image: S.optional(Image),
     blob: S.optional(Blob),
+    willContinue: S.optional(S.Boolean),
+    text: S.optional(S.String),
+    dtmf: S.optional(S.String),
+    variables: S.optional(DocumentMap),
+    event: S.optional(Event),
   }),
 ).annotate({ identifier: "SessionInput" }) as any as S.Schema<SessionInput>;
 
@@ -5684,57 +6680,6 @@ export const EndSession = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "EndSession" }) as any as S.Schema<EndSession>;
 
-/** Piece of cited information. */
-export interface CitationsCitedChunk {
-  /** URI used for citation. */
-  uri?: string;
-  /** Title of the cited document. */
-  title?: string;
-  /** Text used for citation. */
-  text?: string;
-}
-export const CitationsCitedChunk = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uri: S.optional(S.String),
-    title: S.optional(S.String),
-    text: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CitationsCitedChunk",
-}) as any as S.Schema<CitationsCitedChunk>;
-
-export type CitationsCitedChunkList = Array<CitationsCitedChunk>;
-export const CitationsCitedChunkList = /*@__PURE__*/ S.Array(
-  CitationsCitedChunk,
-) as any as S.Schema<CitationsCitedChunkList>;
-
-/** Citations associated with the agent response. */
-export interface Citations {
-  /** List of cited pieces of information. */
-  citedChunks?: CitationsCitedChunkList;
-}
-export const Citations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    citedChunks: S.optional(CitationsCitedChunkList),
-  }),
-).annotate({ identifier: "Citations" }) as any as S.Schema<Citations>;
-
-/** Contains execution details during the processing. */
-export interface SessionOutputDiagnosticInfo {
-  /** A trace of the entire request processing, represented as a root span. This span can contain nested child spans for specific operations. */
-  rootSpan?: Span;
-  /** List of the messages that happened during the processing. */
-  messages?: MessageList;
-}
-export const SessionOutputDiagnosticInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    rootSpan: S.optional(Span),
-    messages: S.optional(MessageList),
-  }),
-).annotate({
-  identifier: "SessionOutputDiagnosticInfo",
-}) as any as S.Schema<SessionOutputDiagnosticInfo>;
-
 export type ToolCallList = Array<ToolCall>;
 export const ToolCallList = /*@__PURE__*/ S.Array(
   ToolCall,
@@ -5751,76 +6696,63 @@ export const ToolCalls = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ToolCalls" }) as any as S.Schema<ToolCalls>;
 
-/** Represents a single web search query and its associated search uri. */
-export interface WebSearchQuery {
-  /** The search query text. */
-  query?: string;
-  /** The URI to the Google Search results page for the query. */
-  uri?: string;
+/** Contains execution details during the processing. */
+export interface SessionOutputDiagnosticInfo {
+  /** List of the messages that happened during the processing. */
+  messages?: MessageList;
+  /** A trace of the entire request processing, represented as a root span. This span can contain nested child spans for specific operations. */
+  rootSpan?: Span;
 }
-export const WebSearchQuery = /*@__PURE__*/ S.suspend(() =>
+export const SessionOutputDiagnosticInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    query: S.optional(S.String),
-    uri: S.optional(S.String),
-  }),
-).annotate({ identifier: "WebSearchQuery" }) as any as S.Schema<WebSearchQuery>;
-
-export type WebSearchQueryList = Array<WebSearchQuery>;
-export const WebSearchQueryList = /*@__PURE__*/ S.Array(
-  WebSearchQuery,
-) as any as S.Schema<WebSearchQueryList>;
-
-/** Search suggestions from Google Search Tool. */
-export interface GoogleSearchSuggestions {
-  /** List of queries used to perform the google search along with the search result URIs forming the search suggestions. */
-  webSearchQueries?: WebSearchQueryList;
-  /** Compliant HTML and CSS styling for search suggestions. The provided HTML and CSS automatically adapts to your device settings, displaying in either light or dark mode indicated by `@media(prefers-color-scheme)`. */
-  htmls?: StringList;
-}
-export const GoogleSearchSuggestions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    webSearchQueries: S.optional(WebSearchQueryList),
-    htmls: S.optional(StringList),
+    messages: S.optional(MessageList),
+    rootSpan: S.optional(Span),
   }),
 ).annotate({
-  identifier: "GoogleSearchSuggestions",
-}) as any as S.Schema<GoogleSearchSuggestions>;
+  identifier: "SessionOutputDiagnosticInfo",
+}) as any as S.Schema<SessionOutputDiagnosticInfo>;
 
 /** Output for the session. */
 export interface SessionOutput {
+  /** Context messages for external supervision guardrails. */
+  context?: DocumentMapList;
+  /** Output image from the CES agent. */
+  image?: Image;
+  /** The suggestions returned from Google Search as a result of invoking the GoogleSearchTool. */
+  googleSearchSuggestions?: GoogleSearchSuggestions;
+  /** Output audio from the CES agent. */
+  audio?: string;
+  /** Custom payload with structured output from the CES agent. */
+  payload?: DocumentMap;
   /** Indicates the session has ended. */
   endSession?: EndSession;
-  /** Citations that provide the source information for the agent's generated text. */
-  citations?: Citations;
+  /** If true, the CES agent has detected the end of the current conversation turn and will provide no further output for this turn. */
+  turnCompleted?: boolean;
+  /** Request for the client to execute the tools. */
+  toolCalls?: ToolCalls;
   /** Optional. Diagnostic information contains execution details during the processing of the input. Only populated in the last SessionOutput (with `turn_completed=true`) for each turn. */
   diagnosticInfo?: SessionOutputDiagnosticInfo;
   /** Output text from the CES agent. */
   text?: string;
-  /** Request for the client to execute the tools. */
-  toolCalls?: ToolCalls;
-  /** Custom payload with structured output from the CES agent. */
-  payload?: DocumentMap;
-  /** Output audio from the CES agent. */
-  audio?: string;
+  /** Citations that provide the source information for the agent's generated text. */
+  citations?: Citations;
   /** Indicates the sequential order of conversation turn to which this output belongs to, starting from 1. */
   turnIndex?: number;
-  /** If true, the CES agent has detected the end of the current conversation turn and will provide no further output for this turn. */
-  turnCompleted?: boolean;
-  /** The suggestions returned from Google Search as a result of invoking the GoogleSearchTool. */
-  googleSearchSuggestions?: GoogleSearchSuggestions;
 }
 export const SessionOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    context: S.optional(DocumentMapList),
+    image: S.optional(Image),
+    googleSearchSuggestions: S.optional(GoogleSearchSuggestions),
+    audio: S.optional(S.String),
+    payload: S.optional(DocumentMap),
     endSession: S.optional(EndSession),
-    citations: S.optional(Citations),
+    turnCompleted: S.optional(S.Boolean),
+    toolCalls: S.optional(ToolCalls),
     diagnosticInfo: S.optional(SessionOutputDiagnosticInfo),
     text: S.optional(S.String),
-    toolCalls: S.optional(ToolCalls),
-    payload: S.optional(DocumentMap),
-    audio: S.optional(S.String),
+    citations: S.optional(Citations),
     turnIndex: S.optional(S.Number),
-    turnCompleted: S.optional(S.Boolean),
-    googleSearchSuggestions: S.optional(GoogleSearchSuggestions),
   }),
 ).annotate({ identifier: "SessionOutput" }) as any as S.Schema<SessionOutput>;
 
@@ -5842,6 +6774,78 @@ export const RunSessionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "RunSessionResponse",
 }) as any as S.Schema<RunSessionResponse>;
 
+export type LfA2aV1MessageRoleEnum =
+  | "ROLE_UNSPECIFIED"
+  | "ROLE_USER"
+  | "ROLE_AGENT";
+export const LfA2aV1MessageRoleEnum = S.String;
+
+/** `Part` represents a container for a section of communication content. Parts can be purely textual, some sort of file (image, video, etc) or a structured data blob (i.e. JSON). */
+export interface LfA2aV1Part {
+  /** The string content of the `text` part. */
+  text?: string;
+  /** Arbitrary structured `data` as a JSON value (object, array, string, number, boolean, or null). */
+  data?: unknown;
+  /** Optional. metadata associated with this part. */
+  metadata?: DocumentMap;
+  /** The `raw` byte content of a file. In JSON serialization, this is encoded as a base64 string. */
+  raw?: string;
+  /** The `media_type` (MIME type) of the part content (e.g., "text/plain", "application/json", "image/png"). This field is available for all part types. */
+  mediaType?: string;
+  /** A `url` pointing to the file's content. */
+  url?: string;
+  /** An optional `filename` for the file (e.g., "document.pdf"). */
+  filename?: string;
+}
+export const LfA2aV1Part = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    text: S.optional(S.String),
+    data: S.optional(S.Unknown),
+    metadata: S.optional(DocumentMap),
+    raw: S.optional(S.String),
+    mediaType: S.optional(S.String),
+    url: S.optional(S.String),
+    filename: S.optional(S.String),
+  }),
+).annotate({ identifier: "LfA2aV1Part" }) as any as S.Schema<LfA2aV1Part>;
+
+export type LfA2aV1PartList = Array<LfA2aV1Part>;
+export const LfA2aV1PartList = /*@__PURE__*/ S.Array(
+  LfA2aV1Part,
+) as any as S.Schema<LfA2aV1PartList>;
+
+/** `Message` is one unit of communication between client and server. It can be associated with a context and/or a task. For server messages, `context_id` must be provided, and `task_id` only if a task was created. For client messages, both fields are optional, with the caveat that if both are provided, they have to match (the `context_id` has to be the one that is set on the task). If only `task_id` is provided, the server will infer `context_id` from it. */
+export interface LfA2aV1Message {
+  /** Optional. Any metadata to provide along with the message. */
+  metadata?: DocumentMap;
+  /** Required. Identifies the sender of the message. */
+  role?: LfA2aV1MessageRoleEnum | (string & {});
+  /** Required. Parts is the container of the message content. */
+  parts?: LfA2aV1PartList;
+  /** Optional. The task id of the message. If set, the message will be associated with the given task. */
+  taskId?: string;
+  /** Optional. The context id of the message. If set, the message will be associated with the given context. */
+  contextId?: string;
+  /** The URIs of extensions that are present or contributed to this Message. */
+  extensions?: StringList;
+  /** Required. The unique identifier (e.g. UUID) of the message. This is created by the message creator. */
+  messageId?: string;
+  /** A list of task IDs that this message references for additional context. */
+  referenceTaskIds?: StringList;
+}
+export const LfA2aV1Message = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metadata: S.optional(DocumentMap),
+    role: S.optional(LfA2aV1MessageRoleEnum),
+    parts: S.optional(LfA2aV1PartList),
+    taskId: S.optional(S.String),
+    contextId: S.optional(S.String),
+    extensions: S.optional(StringList),
+    messageId: S.optional(S.String),
+    referenceTaskIds: S.optional(StringList),
+  }),
+).annotate({ identifier: "LfA2aV1Message" }) as any as S.Schema<LfA2aV1Message>;
+
 /** Defines authentication details, used for push notifications. */
 export interface LfA2aV1AuthenticationInfo {
   /** Required. HTTP Authentication Scheme from the [IANA registry](https://www.iana.org/assignments/http-authschemes/). Examples: `Bearer`, `Basic`, `Digest`. Scheme names are case-insensitive per [RFC 9110 Section 11.1](https://www.rfc-editor.org/rfc/rfc9110#section-11.1). */
@@ -5862,25 +6866,25 @@ export const LfA2aV1AuthenticationInfo = /*@__PURE__*/ S.suspend(() =>
 export interface LfA2aV1TaskPushNotificationConfig {
   /** Authentication information required to send the notification. */
   authentication?: LfA2aV1AuthenticationInfo;
-  /** The push notification configuration details. A unique identifier (e.g. UUID) for this push notification configuration. */
-  id?: string;
   /** The ID of the task this configuration is associated with. */
   taskId?: string;
-  /** Required. The URL where the notification should be sent. */
-  url?: string;
   /** A token unique for this task or session. */
   token?: string;
-  /** Optional. Tenant ID. */
+  /** The push notification configuration details. A unique identifier (e.g. UUID) for this push notification configuration. */
+  id?: string;
+  /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
   tenant?: string;
+  /** Required. The URL where the notification should be sent. */
+  url?: string;
 }
 export const LfA2aV1TaskPushNotificationConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     authentication: S.optional(LfA2aV1AuthenticationInfo),
-    id: S.optional(S.String),
     taskId: S.optional(S.String),
-    url: S.optional(S.String),
     token: S.optional(S.String),
+    id: S.optional(S.String),
     tenant: S.optional(S.String),
+    url: S.optional(S.String),
   }),
 ).annotate({
   identifier: "LfA2aV1TaskPushNotificationConfig",
@@ -5888,125 +6892,53 @@ export const LfA2aV1TaskPushNotificationConfig = /*@__PURE__*/ S.suspend(() =>
 
 /** Configuration of a send message request. */
 export interface LfA2aV1SendMessageConfiguration {
-  /** If `true`, the operation returns immediately after creating the task, even if processing is still in progress. If `false` (default), the operation MUST wait until the task reaches a terminal (`COMPLETED`, `FAILED`, `CANCELED`, `REJECTED`) or interrupted (`INPUT_REQUIRED`, `AUTH_REQUIRED`) state before returning. */
-  returnImmediately?: boolean;
   /** Configuration for the agent to send push notifications for task updates. Task id should be empty when sending this configuration in a `SendMessage` request. */
   taskPushNotificationConfig?: LfA2aV1TaskPushNotificationConfig;
-  /** The maximum number of most recent messages from the task's history to retrieve in the response. An unset value means the client does not impose any limit. A value of zero is a request to not include any messages. The server MUST NOT return more messages than the provided value, but MAY apply a lower limit. */
-  historyLength?: number;
   /** A list of media types the client is prepared to accept for response parts. Agents SHOULD use this to tailor their output. */
   acceptedOutputModes?: StringList;
+  /** The maximum number of most recent messages from the task's history to retrieve in the response. An unset value means the client does not impose any limit. A value of zero is a request to not include any messages. The server MUST NOT return more messages than the provided value, but MAY apply a lower limit. */
+  historyLength?: number;
+  /** If `true`, the operation returns immediately after creating the task, even if processing is still in progress. If `false` (default), the operation MUST wait until the task reaches a terminal (`COMPLETED`, `FAILED`, `CANCELED`, `REJECTED`) or interrupted (`INPUT_REQUIRED`, `AUTH_REQUIRED`) state before returning. */
+  returnImmediately?: boolean;
 }
 export const LfA2aV1SendMessageConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    returnImmediately: S.optional(S.Boolean),
     taskPushNotificationConfig: S.optional(LfA2aV1TaskPushNotificationConfig),
-    historyLength: S.optional(S.Number),
     acceptedOutputModes: S.optional(StringList),
+    historyLength: S.optional(S.Number),
+    returnImmediately: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "LfA2aV1SendMessageConfiguration",
 }) as any as S.Schema<LfA2aV1SendMessageConfiguration>;
 
-export type LfA2aV1MessageRoleEnum =
-  | "ROLE_UNSPECIFIED"
-  | "ROLE_USER"
-  | "ROLE_AGENT";
-export const LfA2aV1MessageRoleEnum = /*@__PURE__*/ S.String;
-
-/** `Part` represents a container for a section of communication content. Parts can be purely textual, some sort of file (image, video, etc) or a structured data blob (i.e. JSON). */
-export interface LfA2aV1Part {
-  /** The `media_type` (MIME type) of the part content (e.g., "text/plain", "application/json", "image/png"). This field is available for all part types. */
-  mediaType?: string;
-  /** Optional. metadata associated with this part. */
-  metadata?: DocumentMap;
-  /** A `url` pointing to the file's content. */
-  url?: string;
-  /** Arbitrary structured `data` as a JSON value (object, array, string, number, boolean, or null). */
-  data?: unknown;
-  /** An optional `filename` for the file (e.g., "document.pdf"). */
-  filename?: string;
-  /** The string content of the `text` part. */
-  text?: string;
-  /** The `raw` byte content of a file. In JSON serialization, this is encoded as a base64 string. */
-  raw?: string;
-}
-export const LfA2aV1Part = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mediaType: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
-    url: S.optional(S.String),
-    data: S.optional(S.Unknown),
-    filename: S.optional(S.String),
-    text: S.optional(S.String),
-    raw: S.optional(S.String),
-  }),
-).annotate({ identifier: "LfA2aV1Part" }) as any as S.Schema<LfA2aV1Part>;
-
-export type LfA2aV1PartList = Array<LfA2aV1Part>;
-export const LfA2aV1PartList = /*@__PURE__*/ S.Array(
-  LfA2aV1Part,
-) as any as S.Schema<LfA2aV1PartList>;
-
-/** `Message` is one unit of communication between client and server. It can be associated with a context and/or a task. For server messages, `context_id` must be provided, and `task_id` only if a task was created. For client messages, both fields are optional, with the caveat that if both are provided, they have to match (the `context_id` has to be the one that is set on the task). If only `task_id` is provided, the server will infer `context_id` from it. */
-export interface LfA2aV1Message {
-  /** Required. Identifies the sender of the message. */
-  role?: LfA2aV1MessageRoleEnum | (string & {});
-  /** The URIs of extensions that are present or contributed to this Message. */
-  extensions?: StringList;
-  /** A list of task IDs that this message references for additional context. */
-  referenceTaskIds?: StringList;
-  /** Required. The unique identifier (e.g. UUID) of the message. This is created by the message creator. */
-  messageId?: string;
-  /** Optional. The task id of the message. If set, the message will be associated with the given task. */
-  taskId?: string;
-  /** Optional. The context id of the message. If set, the message will be associated with the given context. */
-  contextId?: string;
-  /** Required. Parts is the container of the message content. */
-  parts?: LfA2aV1PartList;
-  /** Optional. Any metadata to provide along with the message. */
-  metadata?: DocumentMap;
-}
-export const LfA2aV1Message = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    role: S.optional(LfA2aV1MessageRoleEnum),
-    extensions: S.optional(StringList),
-    referenceTaskIds: S.optional(StringList),
-    messageId: S.optional(S.String),
-    taskId: S.optional(S.String),
-    contextId: S.optional(S.String),
-    parts: S.optional(LfA2aV1PartList),
-    metadata: S.optional(DocumentMap),
-  }),
-).annotate({ identifier: "LfA2aV1Message" }) as any as S.Schema<LfA2aV1Message>;
-
 /** Represents a request for the `SendMessage` method. */
 export interface LfA2aV1SendMessageRequest {
+  /** Required. The message to send to the agent. */
+  message?: LfA2aV1Message;
   /** A flexible key-value map for passing additional context or parameters. */
   metadata?: DocumentMap;
   /** Configuration for the send request. */
   configuration?: LfA2aV1SendMessageConfiguration;
-  /** Required. The message to send to the agent. */
-  message?: LfA2aV1Message;
 }
 export const LfA2aV1SendMessageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    message: S.optional(LfA2aV1Message),
     metadata: S.optional(DocumentMap),
     configuration: S.optional(LfA2aV1SendMessageConfiguration),
-    message: S.optional(LfA2aV1Message),
   }),
 ).annotate({
   identifier: "LfA2aV1SendMessageRequest",
 }) as any as S.Schema<LfA2aV1SendMessageRequest>;
 
-export interface SendProjectsLocationsAppsMessageRequest {
-  /** Optional. Tenant ID, provided as a path parameter. */
+export interface SendProjectsLocationsAppsDeploymentsMessageRequest {
+  /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
   tenant: string;
   /** Request body */
   body?: LfA2aV1SendMessageRequest;
 }
-export const SendProjectsLocationsAppsMessageRequest = /*@__PURE__*/ S.suspend(
-  () =>
+export const SendProjectsLocationsAppsDeploymentsMessageRequest =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       tenant: S.String.pipe(T.Label()),
       body: S.optional(LfA2aV1SendMessageRequest.pipe(T.HttpBody())),
@@ -6017,9 +6949,47 @@ export const SendProjectsLocationsAppsMessageRequest = /*@__PURE__*/ S.suspend(
         baseUrl: "https://ces.googleapis.com/",
       }),
     ),
+  ).annotate({
+    identifier: "SendProjectsLocationsAppsDeploymentsMessageRequest",
+  }) as any as S.Schema<SendProjectsLocationsAppsDeploymentsMessageRequest>;
+
+export type LfA2aV1MessageList = Array<LfA2aV1Message>;
+export const LfA2aV1MessageList = /*@__PURE__*/ S.Array(
+  LfA2aV1Message,
+) as any as S.Schema<LfA2aV1MessageList>;
+
+/** Artifacts represent task outputs. */
+export interface LfA2aV1Artifact {
+  /** Required. The content of the artifact. Must contain at least one part. */
+  parts?: LfA2aV1PartList;
+  /** The URIs of extensions that are present or contributed to this Artifact. */
+  extensions?: StringList;
+  /** A human readable name for the artifact. */
+  name?: string;
+  /** Optional. Metadata included with the artifact. */
+  metadata?: DocumentMap;
+  /** Required. Unique identifier (e.g. UUID) for the artifact. It must be unique within a task. */
+  artifactId?: string;
+  /** Optional. A human readable description of the artifact. */
+  description?: string;
+}
+export const LfA2aV1Artifact = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    parts: S.optional(LfA2aV1PartList),
+    extensions: S.optional(StringList),
+    name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    artifactId: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
 ).annotate({
-  identifier: "SendProjectsLocationsAppsMessageRequest",
-}) as any as S.Schema<SendProjectsLocationsAppsMessageRequest>;
+  identifier: "LfA2aV1Artifact",
+}) as any as S.Schema<LfA2aV1Artifact>;
+
+export type LfA2aV1ArtifactList = Array<LfA2aV1Artifact>;
+export const LfA2aV1ArtifactList = /*@__PURE__*/ S.Array(
+  LfA2aV1Artifact,
+) as any as S.Schema<LfA2aV1ArtifactList>;
 
 export type LfA2aV1TaskStatusStateEnum =
   | "TASK_STATE_UNSPECIFIED"
@@ -6031,7 +7001,7 @@ export type LfA2aV1TaskStatusStateEnum =
   | "TASK_STATE_INPUT_REQUIRED"
   | "TASK_STATE_REJECTED"
   | "TASK_STATE_AUTH_REQUIRED";
-export const LfA2aV1TaskStatusStateEnum = /*@__PURE__*/ S.String;
+export const LfA2aV1TaskStatusStateEnum = S.String;
 
 /** A container for the status of a task */
 export interface LfA2aV1TaskStatus {
@@ -6052,54 +7022,16 @@ export const LfA2aV1TaskStatus = /*@__PURE__*/ S.suspend(() =>
   identifier: "LfA2aV1TaskStatus",
 }) as any as S.Schema<LfA2aV1TaskStatus>;
 
-/** Artifacts represent task outputs. */
-export interface LfA2aV1Artifact {
-  /** A human readable name for the artifact. */
-  name?: string;
-  /** Optional. A human readable description of the artifact. */
-  description?: string;
-  /** The URIs of extensions that are present or contributed to this Artifact. */
-  extensions?: StringList;
-  /** Required. Unique identifier (e.g. UUID) for the artifact. It must be unique within a task. */
-  artifactId?: string;
-  /** Required. The content of the artifact. Must contain at least one part. */
-  parts?: LfA2aV1PartList;
-  /** Optional. Metadata included with the artifact. */
-  metadata?: DocumentMap;
-}
-export const LfA2aV1Artifact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    extensions: S.optional(StringList),
-    artifactId: S.optional(S.String),
-    parts: S.optional(LfA2aV1PartList),
-    metadata: S.optional(DocumentMap),
-  }),
-).annotate({
-  identifier: "LfA2aV1Artifact",
-}) as any as S.Schema<LfA2aV1Artifact>;
-
-export type LfA2aV1ArtifactList = Array<LfA2aV1Artifact>;
-export const LfA2aV1ArtifactList = /*@__PURE__*/ S.Array(
-  LfA2aV1Artifact,
-) as any as S.Schema<LfA2aV1ArtifactList>;
-
-export type LfA2aV1MessageList = Array<LfA2aV1Message>;
-export const LfA2aV1MessageList = /*@__PURE__*/ S.Array(
-  LfA2aV1Message,
-) as any as S.Schema<LfA2aV1MessageList>;
-
 /** `Task` is the core unit of action for A2A. It has a current status and when results are created for the task they are stored in the artifact. If there are multiple turns for a task, these are stored in history. */
 export interface LfA2aV1Task {
-  /** Required. The current status of a `Task`, including `state` and a `message`. */
-  status?: LfA2aV1TaskStatus;
-  /** A set of output artifacts for a `Task`. */
-  artifacts?: LfA2aV1ArtifactList;
   /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED The history of interactions from a `Task`. */
   history?: LfA2aV1MessageList;
+  /** A set of output artifacts for a `Task`. */
+  artifacts?: LfA2aV1ArtifactList;
   /** Required. Unique identifier (e.g. UUID) for the task, generated by the server for a new task. */
   id?: string;
+  /** Required. The current status of a `Task`, including `state` and a `message`. */
+  status?: LfA2aV1TaskStatus;
   /** Unique identifier (e.g. UUID) for the contextual collection of interactions (tasks and messages). */
   contextId?: string;
   /** protolint:enable REPEATED_FIELD_NAMES_PLURALIZED A key/value object to store custom metadata about a task. */
@@ -6107,10 +7039,10 @@ export interface LfA2aV1Task {
 }
 export const LfA2aV1Task = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(LfA2aV1TaskStatus),
-    artifacts: S.optional(LfA2aV1ArtifactList),
     history: S.optional(LfA2aV1MessageList),
+    artifacts: S.optional(LfA2aV1ArtifactList),
     id: S.optional(S.String),
+    status: S.optional(LfA2aV1TaskStatus),
     contextId: S.optional(S.String),
     metadata: S.optional(DocumentMap),
   }),
@@ -6131,6 +7063,188 @@ export const LfA2aV1SendMessageResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "LfA2aV1SendMessageResponse",
 }) as any as S.Schema<LfA2aV1SendMessageResponse>;
+
+export interface SendProjectsLocationsAppsMessageRequest {
+  /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
+  tenant: string;
+  /** Request body */
+  body?: LfA2aV1SendMessageRequest;
+}
+export const SendProjectsLocationsAppsMessageRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      tenant: S.String.pipe(T.Label()),
+      body: S.optional(LfA2aV1SendMessageRequest.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1/{+tenant}/message:send",
+        baseUrl: "https://ces.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "SendProjectsLocationsAppsMessageRequest",
+}) as any as S.Schema<SendProjectsLocationsAppsMessageRequest>;
+
+export interface SendProjectsLocationsAppsVersionsMessageRequest {
+  /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
+  tenant: string;
+  /** Request body */
+  body?: LfA2aV1SendMessageRequest;
+}
+export const SendProjectsLocationsAppsVersionsMessageRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      tenant: S.String.pipe(T.Label()),
+      body: S.optional(LfA2aV1SendMessageRequest.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1/{+tenant}/message:send",
+        baseUrl: "https://ces.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "SendProjectsLocationsAppsVersionsMessageRequest",
+  }) as any as S.Schema<SendProjectsLocationsAppsVersionsMessageRequest>;
+
+export interface StreamProjectsLocationsAppsDeploymentsMessageRequest {
+  /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
+  tenant: string;
+  /** Request body */
+  body?: LfA2aV1SendMessageRequest;
+}
+export const StreamProjectsLocationsAppsDeploymentsMessageRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      tenant: S.String.pipe(T.Label()),
+      body: S.optional(LfA2aV1SendMessageRequest.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1/{+tenant}/message:stream",
+        baseUrl: "https://ces.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "StreamProjectsLocationsAppsDeploymentsMessageRequest",
+  }) as any as S.Schema<StreamProjectsLocationsAppsDeploymentsMessageRequest>;
+
+/** An event sent by the agent to notify the client of a change in a task's status. */
+export interface LfA2aV1TaskStatusUpdateEvent {
+  /** Required. The new status of the task. */
+  status?: LfA2aV1TaskStatus;
+  /** Required. The ID of the task that has changed. */
+  taskId?: string;
+  /** Optional. Metadata associated with the task update. */
+  metadata?: DocumentMap;
+  /** Required. The ID of the context that the task belongs to. */
+  contextId?: string;
+}
+export const LfA2aV1TaskStatusUpdateEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(LfA2aV1TaskStatus),
+    taskId: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    contextId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LfA2aV1TaskStatusUpdateEvent",
+}) as any as S.Schema<LfA2aV1TaskStatusUpdateEvent>;
+
+/** A task delta where an artifact has been generated. */
+export interface LfA2aV1TaskArtifactUpdateEvent {
+  /** Required. The ID of the context that this task belongs to. */
+  contextId?: string;
+  /** If true, this is the final chunk of the artifact. */
+  lastChunk?: boolean;
+  /** Optional. Metadata associated with the artifact update. */
+  metadata?: DocumentMap;
+  /** Required. The ID of the task for this artifact. */
+  taskId?: string;
+  /** Required. The artifact that was generated or updated. */
+  artifact?: LfA2aV1Artifact;
+  /** If true, the content of this artifact should be appended to a previously sent artifact with the same ID. */
+  append?: boolean;
+}
+export const LfA2aV1TaskArtifactUpdateEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contextId: S.optional(S.String),
+    lastChunk: S.optional(S.Boolean),
+    metadata: S.optional(DocumentMap),
+    taskId: S.optional(S.String),
+    artifact: S.optional(LfA2aV1Artifact),
+    append: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "LfA2aV1TaskArtifactUpdateEvent",
+}) as any as S.Schema<LfA2aV1TaskArtifactUpdateEvent>;
+
+/** A wrapper object used in streaming operations to encapsulate different types of response data. */
+export interface LfA2aV1StreamResponse {
+  /** A Message object containing a message from the agent. */
+  message?: LfA2aV1Message;
+  /** A Task object containing the current state of the task. */
+  task?: LfA2aV1Task;
+  /** An event indicating a task status update. */
+  statusUpdate?: LfA2aV1TaskStatusUpdateEvent;
+  /** An event indicating a task artifact update. */
+  artifactUpdate?: LfA2aV1TaskArtifactUpdateEvent;
+}
+export const LfA2aV1StreamResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(LfA2aV1Message),
+    task: S.optional(LfA2aV1Task),
+    statusUpdate: S.optional(LfA2aV1TaskStatusUpdateEvent),
+    artifactUpdate: S.optional(LfA2aV1TaskArtifactUpdateEvent),
+  }),
+).annotate({
+  identifier: "LfA2aV1StreamResponse",
+}) as any as S.Schema<LfA2aV1StreamResponse>;
+
+export interface StreamProjectsLocationsAppsMessageRequest {
+  /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
+  tenant: string;
+  /** Request body */
+  body?: LfA2aV1SendMessageRequest;
+}
+export const StreamProjectsLocationsAppsMessageRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      tenant: S.String.pipe(T.Label()),
+      body: S.optional(LfA2aV1SendMessageRequest.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1/{+tenant}/message:stream",
+        baseUrl: "https://ces.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "StreamProjectsLocationsAppsMessageRequest",
+  }) as any as S.Schema<StreamProjectsLocationsAppsMessageRequest>;
+
+export interface StreamProjectsLocationsAppsVersionsMessageRequest {
+  /** Optional. Opaque routing identifier. Must match the `tenant` value from the selected `AgentInterface` in the Agent Card when that field is set. */
+  tenant: string;
+  /** Request body */
+  body?: LfA2aV1SendMessageRequest;
+}
+export const StreamProjectsLocationsAppsVersionsMessageRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      tenant: S.String.pipe(T.Label()),
+      body: S.optional(LfA2aV1SendMessageRequest.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1/{+tenant}/message:stream",
+        baseUrl: "https://ces.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "StreamProjectsLocationsAppsVersionsMessageRequest",
+  }) as any as S.Schema<StreamProjectsLocationsAppsVersionsMessageRequest>;
 
 export interface StreamRunSessionProjectsLocationsAppsSessionsRequest {
   /** Required. The unique identifier of the session. Format: `projects/{project}/locations/{location}/apps/{app}/sessions/{session}` */
@@ -6614,6 +7728,60 @@ export const generateChatTokenProjectsLocationsAppsSessions: API.OperationMethod
   retry: Retry.Retry,
 }));
 
+export type GetExtendedAgentCardProjectsLocationsAppsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Gets the extended agent card for the authenticated agent. */
+export const getExtendedAgentCardProjectsLocationsApps: API.OperationMethod<
+  GetExtendedAgentCardProjectsLocationsAppsRequest,
+  LfA2aV1AgentCard,
+  GetExtendedAgentCardProjectsLocationsAppsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetExtendedAgentCardProjectsLocationsAppsRequest,
+  output: LfA2aV1AgentCard,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetExtendedAgentCardProjectsLocationsAppsDeploymentsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Gets the extended agent card for the authenticated agent. */
+export const getExtendedAgentCardProjectsLocationsAppsDeployments: API.OperationMethod<
+  GetExtendedAgentCardProjectsLocationsAppsDeploymentsRequest,
+  LfA2aV1AgentCard,
+  GetExtendedAgentCardProjectsLocationsAppsDeploymentsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetExtendedAgentCardProjectsLocationsAppsDeploymentsRequest,
+  output: LfA2aV1AgentCard,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetExtendedAgentCardProjectsLocationsAppsVersionsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Gets the extended agent card for the authenticated agent. */
+export const getExtendedAgentCardProjectsLocationsAppsVersions: API.OperationMethod<
+  GetExtendedAgentCardProjectsLocationsAppsVersionsRequest,
+  LfA2aV1AgentCard,
+  GetExtendedAgentCardProjectsLocationsAppsVersionsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetExtendedAgentCardProjectsLocationsAppsVersionsRequest,
+  output: LfA2aV1AgentCard,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
 /** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<
@@ -6820,6 +7988,46 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   input: GetProjectsLocationsOperationsRequest,
   output: Operation,
   errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetToolSchemaProjectsLocationsAppsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Retrieve the schema of the given tool. The schema is computed on the fly for the given instance of the tool. */
+export const getToolSchemaProjectsLocationsApps: API.OperationMethod<
+  GetToolSchemaProjectsLocationsAppsRequest,
+  RetrieveToolSchemaResponse,
+  GetToolSchemaProjectsLocationsAppsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetToolSchemaProjectsLocationsAppsRequest,
+  output: RetrieveToolSchemaResponse,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetToolsProjectsLocationsAppsToolsetsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Retrieve the list of tools included in the specified toolset. */
+export const getToolsProjectsLocationsAppsToolsets: API.OperationMethod<
+  GetToolsProjectsLocationsAppsToolsetsRequest,
+  RetrieveToolsResponse,
+  GetToolsProjectsLocationsAppsToolsetsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetToolsProjectsLocationsAppsToolsetsRequest,
+  output: RetrieveToolsResponse,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7254,6 +8462,26 @@ export const patchProjectsLocationsAppsToolsets: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PatchProjectsLocationsAppsVersionsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Updates the specified app version. */
+export const patchProjectsLocationsAppsVersions: API.OperationMethod<
+  PatchProjectsLocationsAppsVersionsRequest,
+  AppVersion,
+  PatchProjectsLocationsAppsVersionsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchProjectsLocationsAppsVersionsRequest,
+  output: AppVersion,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type RestoreProjectsLocationsAppsVersionsError =
   | NotFound
   | Forbidden
@@ -7269,46 +8497,6 @@ export const restoreProjectsLocationsAppsVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RestoreProjectsLocationsAppsVersionsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RetrieveToolSchemaProjectsLocationsAppsError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Retrieve the schema of the given tool. The schema is computed on the fly for the given instance of the tool. */
-export const retrieveToolSchemaProjectsLocationsApps: API.OperationMethod<
-  RetrieveToolSchemaProjectsLocationsAppsRequest,
-  RetrieveToolSchemaResponse,
-  RetrieveToolSchemaProjectsLocationsAppsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveToolSchemaProjectsLocationsAppsRequest,
-  output: RetrieveToolSchemaResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RetrieveToolsProjectsLocationsAppsToolsetsError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Retrieve the list of tools included in the specified toolset. */
-export const retrieveToolsProjectsLocationsAppsToolsets: API.OperationMethod<
-  RetrieveToolsProjectsLocationsAppsToolsetsRequest,
-  RetrieveToolsResponse,
-  RetrieveToolsProjectsLocationsAppsToolsetsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveToolsProjectsLocationsAppsToolsetsRequest,
-  output: RetrieveToolsResponse,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7334,6 +8522,26 @@ export const runSessionProjectsLocationsAppsSessions: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type SendProjectsLocationsAppsDeploymentsMessageError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Sends a message to an agent. */
+export const sendProjectsLocationsAppsDeploymentsMessage: API.OperationMethod<
+  SendProjectsLocationsAppsDeploymentsMessageRequest,
+  LfA2aV1SendMessageResponse,
+  SendProjectsLocationsAppsDeploymentsMessageError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SendProjectsLocationsAppsDeploymentsMessageRequest,
+  output: LfA2aV1SendMessageResponse,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type SendProjectsLocationsAppsMessageError =
   | NotFound
   | Forbidden
@@ -7349,6 +8557,86 @@ export const sendProjectsLocationsAppsMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SendProjectsLocationsAppsMessageRequest,
   output: LfA2aV1SendMessageResponse,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SendProjectsLocationsAppsVersionsMessageError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Sends a message to an agent. */
+export const sendProjectsLocationsAppsVersionsMessage: API.OperationMethod<
+  SendProjectsLocationsAppsVersionsMessageRequest,
+  LfA2aV1SendMessageResponse,
+  SendProjectsLocationsAppsVersionsMessageError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SendProjectsLocationsAppsVersionsMessageRequest,
+  output: LfA2aV1SendMessageResponse,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type StreamProjectsLocationsAppsDeploymentsMessageError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Sends a streaming message to an agent, allowing for real-time interaction and status updates. Streaming version of `SendMessage` */
+export const streamProjectsLocationsAppsDeploymentsMessage: API.OperationMethod<
+  StreamProjectsLocationsAppsDeploymentsMessageRequest,
+  LfA2aV1StreamResponse,
+  StreamProjectsLocationsAppsDeploymentsMessageError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: StreamProjectsLocationsAppsDeploymentsMessageRequest,
+  output: LfA2aV1StreamResponse,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type StreamProjectsLocationsAppsMessageError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Sends a streaming message to an agent, allowing for real-time interaction and status updates. Streaming version of `SendMessage` */
+export const streamProjectsLocationsAppsMessage: API.OperationMethod<
+  StreamProjectsLocationsAppsMessageRequest,
+  LfA2aV1StreamResponse,
+  StreamProjectsLocationsAppsMessageError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: StreamProjectsLocationsAppsMessageRequest,
+  output: LfA2aV1StreamResponse,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type StreamProjectsLocationsAppsVersionsMessageError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Sends a streaming message to an agent, allowing for real-time interaction and status updates. Streaming version of `SendMessage` */
+export const streamProjectsLocationsAppsVersionsMessage: API.OperationMethod<
+  StreamProjectsLocationsAppsVersionsMessageRequest,
+  LfA2aV1StreamResponse,
+  StreamProjectsLocationsAppsVersionsMessageError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: StreamProjectsLocationsAppsVersionsMessageRequest,
+  output: LfA2aV1StreamResponse,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,

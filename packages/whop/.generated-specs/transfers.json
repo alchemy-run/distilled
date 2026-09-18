@@ -1,0 +1,1987 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.transfers#ListTransferRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "AMOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amount"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#ListTransferRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#ListTransferRequest": {
+      "type": "structure",
+      "members": {
+        "origin_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "origin_id",
+            "smithy.api#documentation": "Filter to transfers sent from this account. Provide this or destination_id."
+          }
+        },
+        "destination_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "destination_id",
+            "smithy.api#documentation": "Filter to transfers received by this account. Provide this or origin_id."
+          }
+        },
+        "order": {
+          "target": "com.whop.transfers#ListTransferRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort column. Defaults to created_at."
+          }
+        },
+        "direction": {
+          "target": "com.whop.transfers#ListTransferRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction. Defaults to desc."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only transfers created strictly before this ISO 8601 timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only transfers created strictly after this ISO 8601 timestamp."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of transfers to return from the start of the window."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of transfers to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.transfers#ListTransferResponseDataItemCreatedByUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User display name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User's username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who initiated the transfer, such as the team member who sent a manual payout. Null if the creator is unavailable."
+      }
+    },
+    "com.whop.transfers#ListTransferResponseDataItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom metadata attached to the transfer."
+      }
+    },
+    "com.whop.transfers#ListTransferResponseDataItemObject": {
+      "type": "enum",
+      "members": {
+        "TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type."
+      }
+    },
+    "com.whop.transfers#ListTransferResponseDataItemStatus": {
+      "type": "enum",
+      "members": {
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`."
+      }
+    },
+    "com.whop.transfers#ListTransferResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Transfer amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transfer was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by_user": {
+          "target": "com.whop.transfers#ListTransferResponseDataItemCreatedByUser",
+          "traits": {
+            "smithy.api#documentation": "The user who initiated the transfer, such as the team member who sent a manual payout. Null if the creator is unavailable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Transfer currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination_ledger_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination ledger account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "failed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transfer failed, as an ISO 8601 timestamp. Null unless the transfer has failed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failure_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Machine-readable code for why the transfer failed. Null unless the transfer has failed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failure_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable explanation of why the transfer failed. Null unless the transfer has failed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fee_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Fee charged for the transfer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Transfer ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.transfers#ListTransferResponseDataItemMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom metadata attached to the transfer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Transfer note.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.transfers#ListTransferResponseDataItemObject",
+          "traits": {
+            "smithy.api#documentation": "The object type.",
+            "smithy.api#required": {}
+          }
+        },
+        "origin_ledger_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source ledger account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.transfers#ListTransferResponseDataItemStatus",
+          "traits": {
+            "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A transfer of credit between two ledger accounts."
+      }
+    },
+    "com.whop.transfers#ListTransferResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.transfers#ListTransferResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#ListTransferResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#ListTransferResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.transfers#ListTransferResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.transfers#ListTransferResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.transfers#ListTransfer": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.transfers#ListTransferRequest"
+      },
+      "output": {
+        "target": "com.whop.transfers#ListTransferResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.transfers#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transfers",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Transfers\n\nLists an account's transfers.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.transfers#CreateTransferRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ledger transfers only. Custom key-value pairs attached to the transfer. Max 50 keys, 100 chars per key, 500 chars per string value."
+      }
+    },
+    "com.whop.transfers#CreateTransferRequestType": {
+      "type": "enum",
+      "members": {
+        "LEDGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ledger"
+          }
+        },
+        "WALLET_SEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet_send"
+          }
+        },
+        "CLAIM_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claim_link"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The kind of money movement, which decides what comes back. Defaults to ledger. `ledger` moves credit between two Whop balances and returns a `transfer`; `wallet_send` sends USDT from the origin account's Ethereum wallet and returns a `send`; `claim_link` funds a shareable link anyone with the URL can redeem and returns a `claim_link`. A `ledger` transfer from a stablecoin-rails account settles on-chain when covered, and still returns a `transfer`."
+      }
+    },
+    "com.whop.transfers#CreateTransferRequest": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount to move, in the transfer currency. For example 25.00.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency, such as `usd`. Required for ledger transfers."
+          }
+        },
+        "destination_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The recipient. Required for ledger and wallet_send (a user_/biz_/ldgr_ ID, or — for sends — an email). Omit for claim_link."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "claim_link only. Link expiry as an ISO 8601 timestamp. Defaults to 24 hours from creation.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotence_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ledger transfers and wallet sends. A unique key that makes retries safe. Retrying with the same key returns the original transfer, or attaches to the original wallet send, instead of moving money twice.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.transfers#CreateTransferRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Ledger transfers only. Custom key-value pairs attached to the transfer. Max 50 keys, 100 chars per key, 500 chars per string value.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ledger transfers only. A short note describing the transfer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "origin_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account sending the funds. A user ID (user_xxx), account ID (biz_xxx), or ledger account ID (ldgr_xxx).",
+            "smithy.api#required": {}
+          }
+        },
+        "redeemable_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "claim_link only. How many different users can claim the link. Defaults to 1."
+          }
+        },
+        "type": {
+          "target": "com.whop.transfers#CreateTransferRequestType",
+          "traits": {
+            "smithy.api#documentation": "The kind of money movement, which decides what comes back. Defaults to ledger. `ledger` moves credit between two Whop balances and returns a `transfer`; `wallet_send` sends USDT from the origin account's Ethereum wallet and returns a `send`; `claim_link` funds a shareable link anyone with the URL can redeem and returns a `claim_link`. A `ledger` transfer from a stablecoin-rails account settles on-chain when covered, and still returns a `transfer`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0CreatedByUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User display name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User's username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who initiated the transfer, such as the team member who sent a manual payout. Null if the creator is unavailable."
+      }
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0DestinationCase0Typename": {
+      "type": "enum",
+      "members": {
+        "COMPANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Company"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0DestinationCase0": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account route.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account display name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "typename": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0DestinationCase0Typename",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0DestinationCase1Typename": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "User"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0DestinationCase1": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User display name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "typename": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0DestinationCase1Typename",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User's username."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0Destination": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0DestinationCase0"
+        },
+        "Case1": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0DestinationCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Account or user receiving funds."
+      }
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0MetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom metadata attached to the transfer."
+      }
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0Object": {
+      "type": "enum",
+      "members": {
+        "TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type. Discriminates the create response from a send or a claim link."
+      }
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0OriginCase0Typename": {
+      "type": "enum",
+      "members": {
+        "COMPANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Company"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0OriginCase0": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account route.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account display name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "typename": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0OriginCase0Typename",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0OriginCase1Typename": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "User"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0OriginCase1": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User display name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "typename": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0OriginCase1Typename",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User's username."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0Origin": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0OriginCase0"
+        },
+        "Case1": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0OriginCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Account or user sending funds."
+      }
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0Status": {
+      "type": "enum",
+      "members": {
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`."
+      }
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase0": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Transfer amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transfer was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by_user": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0CreatedByUser",
+          "traits": {
+            "smithy.api#documentation": "The user who initiated the transfer, such as the team member who sent a manual payout. Null if the creator is unavailable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Transfer currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0Destination",
+          "traits": {
+            "smithy.api#documentation": "Account or user receiving funds.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination_ledger_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination ledger account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "failed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transfer failed, as an ISO 8601 timestamp. Null unless the transfer has failed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failure_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Machine-readable code for why the transfer failed. Null unless the transfer has failed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failure_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable explanation of why the transfer failed. Null unless the transfer has failed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fee_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Fee charged for the transfer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Transfer ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0MetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom metadata attached to the transfer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Transfer note.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0Object",
+          "traits": {
+            "smithy.api#documentation": "The object type. Discriminates the create response from a send or a claim link.",
+            "smithy.api#required": {}
+          }
+        },
+        "origin": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0Origin",
+          "traits": {
+            "smithy.api#documentation": "Account or user sending funds.",
+            "smithy.api#required": {}
+          }
+        },
+        "origin_ledger_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source ledger account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0Status",
+          "traits": {
+            "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A transfer of credit between two ledger accounts."
+      }
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase1Destination": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase1Object": {
+      "type": "enum",
+      "members": {
+        "SEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "send"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase1Source": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase1": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "destination": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase1Destination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase1Object",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase1Source",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tx_hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Returned for a wallet_send: an onchain USDT send to a recipient."
+      }
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase2Object": {
+      "type": "enum",
+      "members": {
+        "CLAIM_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claim_link"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase2Source": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase2Status": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A newly funded claim link is always `pending` — it stays claimable until it is fully claimed, canceled, or expires."
+      }
+    },
+    "com.whop.transfers#CreateTransferResponseBodyCase2": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "claim_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase2Object",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "redeemable_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase2Source",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase2Status",
+          "traits": {
+            "smithy.api#documentation": "A newly funded claim link is always `pending` — it stays claimable until it is fully claimed, canceled, or expires.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Returned for a claim_link: a shareable URL anyone can open to claim the funds."
+      }
+    },
+    "com.whop.transfers#CreateTransferResponseBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase0"
+        },
+        "Case1": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase1"
+        },
+        "Case2": {
+          "target": "com.whop.transfers#CreateTransferResponseBodyCase2"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#CreateTransferResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.whop.transfers#CreateTransferResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.transfers#CreateTransfer": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.transfers#CreateTransferRequest"
+      },
+      "output": {
+        "target": "com.whop.transfers#CreateTransferResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.transfers#BadRequest"
+        },
+        {
+          "target": "com.whop.transfers#Forbidden"
+        },
+        {
+          "target": "com.whop.transfers#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/transfers",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Transfer\n\nMoves money between accounts, or into a claim link anyone with the URL can redeem."
+      }
+    },
+    "com.whop.transfers#ListTransferRecipientsRequest": {
+      "type": "structure",
+      "members": {
+        "origin_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "origin_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account sending the money: a company account ID (`biz_`), or a user ID (`user_`) for that user's own personal balance."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "Search anyone on Whop by name or username, plus your own accounts by name or ID. Omit it to get the team around the balance, the people you follow, and your own accounts. The list is the same whether the balance belongs to a company or to you. Searching from a `biz_` origin additionally requires the member:basic:read scope. A credential scoped to a single company is the exception to the search itself: it only ever sees that company's own people. Complete email addresses return no matches."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of recipients per page. Search queries preserve the dashboard's 20-result maximum."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.transfers#ListTransferRecipientsResponseDataItemCase0Object": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#ListTransferRecipientsResponseDataItemCase0": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.transfers#ListTransferRecipientsResponseDataItemCase0Object",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "profile_picture_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User profile image URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User's username.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#ListTransferRecipientsResponseDataItemCase1Object": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#ListTransferRecipientsResponseDataItemCase1": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "logo_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account logo URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.transfers#ListTransferRecipientsResponseDataItemCase1Object",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account route.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#ListTransferRecipientsResponseDataItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.transfers#ListTransferRecipientsResponseDataItemCase0"
+        },
+        "Case1": {
+          "target": "com.whop.transfers#ListTransferRecipientsResponseDataItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#ListTransferRecipientsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.transfers#ListTransferRecipientsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#ListTransferRecipientsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#ListTransferRecipientsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.transfers#ListTransferRecipientsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.transfers#ListTransferRecipientsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.transfers#ListTransferRecipients": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.transfers#ListTransferRecipientsRequest"
+      },
+      "output": {
+        "target": "com.whop.transfers#ListTransferRecipientsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.transfers#BadRequest"
+        },
+        {
+          "target": "com.whop.transfers#Forbidden"
+        },
+        {
+          "target": "com.whop.transfers#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transfers/recipients",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Transfer Recipients\n\nLists the people and accounts you can send money to.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.transfers#GetTransferRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The transfer ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.transfers#GetTransferResponseCreatedByUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User display name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User's username.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who initiated the transfer, such as the team member who sent a manual payout. Null if the creator is unavailable."
+      }
+    },
+    "com.whop.transfers#GetTransferResponseDestinationCase0Typename": {
+      "type": "enum",
+      "members": {
+        "COMPANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Company"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#GetTransferResponseDestinationCase0": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account route.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account display name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "typename": {
+          "target": "com.whop.transfers#GetTransferResponseDestinationCase0Typename",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#GetTransferResponseDestinationCase1Typename": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "User"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#GetTransferResponseDestinationCase1": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User display name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "typename": {
+          "target": "com.whop.transfers#GetTransferResponseDestinationCase1Typename",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User's username."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#GetTransferResponseDestination": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.transfers#GetTransferResponseDestinationCase0"
+        },
+        "Case1": {
+          "target": "com.whop.transfers#GetTransferResponseDestinationCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Account or user receiving funds."
+      }
+    },
+    "com.whop.transfers#GetTransferResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom metadata attached to the transfer."
+      }
+    },
+    "com.whop.transfers#GetTransferResponseObject": {
+      "type": "enum",
+      "members": {
+        "TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type. Discriminates the create response from a send or a claim link."
+      }
+    },
+    "com.whop.transfers#GetTransferResponseOriginCase0Typename": {
+      "type": "enum",
+      "members": {
+        "COMPANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Company"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#GetTransferResponseOriginCase0": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account route.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account display name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "typename": {
+          "target": "com.whop.transfers#GetTransferResponseOriginCase0Typename",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#GetTransferResponseOriginCase1Typename": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "User"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#GetTransferResponseOriginCase1": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User display name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "typename": {
+          "target": "com.whop.transfers#GetTransferResponseOriginCase1Typename",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User's username."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.transfers#GetTransferResponseOrigin": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.transfers#GetTransferResponseOriginCase0"
+        },
+        "Case1": {
+          "target": "com.whop.transfers#GetTransferResponseOriginCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Account or user sending funds."
+      }
+    },
+    "com.whop.transfers#GetTransferResponseStatus": {
+      "type": "enum",
+      "members": {
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`."
+      }
+    },
+    "com.whop.transfers#GetTransferResponse": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Transfer amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transfer was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by_user": {
+          "target": "com.whop.transfers#GetTransferResponseCreatedByUser",
+          "traits": {
+            "smithy.api#documentation": "The user who initiated the transfer, such as the team member who sent a manual payout. Null if the creator is unavailable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Transfer currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination": {
+          "target": "com.whop.transfers#GetTransferResponseDestination",
+          "traits": {
+            "smithy.api#documentation": "Account or user receiving funds.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination_ledger_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination ledger account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "failed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the transfer failed, as an ISO 8601 timestamp. Null unless the transfer has failed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failure_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Machine-readable code for why the transfer failed. Null unless the transfer has failed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failure_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable explanation of why the transfer failed. Null unless the transfer has failed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fee_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Fee charged for the transfer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Transfer ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.transfers#GetTransferResponseMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom metadata attached to the transfer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Transfer note.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.transfers#GetTransferResponseObject",
+          "traits": {
+            "smithy.api#documentation": "The object type. Discriminates the create response from a send or a claim link.",
+            "smithy.api#required": {}
+          }
+        },
+        "origin": {
+          "target": "com.whop.transfers#GetTransferResponseOrigin",
+          "traits": {
+            "smithy.api#documentation": "Account or user sending funds.",
+            "smithy.api#required": {}
+          }
+        },
+        "origin_ledger_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source ledger account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.transfers#GetTransferResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.transfers#GetTransfer": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.transfers#GetTransferRequest"
+      },
+      "output": {
+        "target": "com.whop.transfers#GetTransferResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.transfers#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transfers/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Transfer\n\nRetrieves a single transfer."
+      }
+    },
+    "com.whop.transfers#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.transfers#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.transfers#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.transfers#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.transfers#Transfers": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.transfers#ListTransfer"
+        },
+        {
+          "target": "com.whop.transfers#CreateTransfer"
+        },
+        {
+          "target": "com.whop.transfers#ListTransferRecipients"
+        },
+        {
+          "target": "com.whop.transfers#GetTransfer"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

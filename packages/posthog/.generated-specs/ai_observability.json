@@ -14,12 +14,50 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.ai_observability#LlmAnalyticsPersonalSpendListRequest": {
+    "com.posthog.ai_observability#ListLlmAnalyticsPersonalSpendRequestBucketMinutes": {
+      "type": "intEnum",
+      "members": {
+        "_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 5
+          }
+        },
+        "_15": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 15
+          }
+        },
+        "_30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 30
+          }
+        },
+        "_60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 60
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#ListLlmAnalyticsPersonalSpendRequest": {
       "type": "structure",
       "members": {
+        "bucket_minutes": {
+          "target": "com.posthog.ai_observability#ListLlmAnalyticsPersonalSpendRequestBucketMinutes",
+          "traits": {
+            "smithy.api#httpQuery": "bucket_minutes",
+            "smithy.api#documentation": "When set, additionally return a `by_bucket` breakdown: a time-ascending UTC cost series for the scoped product at this bucket size in minutes, with per-bucket cost split into uncached input / output / cache read / cache creation components plus the matching token sums. Supported bucket sizes: 5, 15, 30, 60. The window may span at most 600 buckets of the chosen size (e.g. 50 hours at 5-minute buckets).\n\n* `5` - 5\n* `15` - 15\n* `30` - 30\n* `60` - 60"
+          }
+        },
         "date_from": {
           "target": "smithy.api#String",
           "traits": {
@@ -90,6 +128,26 @@
           "traits": {
             "smithy.api#documentation": "Spend grouped by `$ai_model`. Scoped to `product` when set.",
             "smithy.api#required": {}
+          }
+        },
+        "by_day": {
+          "target": "com.posthog.ai_observability#DayBreakdown",
+          "traits": {
+            "smithy.api#documentation": "Spend grouped by UTC day, ordered ascending. Scoped to `product`. Not subject to `limit`.",
+            "smithy.api#required": {}
+          }
+        },
+        "by_day_model": {
+          "target": "com.posthog.ai_observability#PersonalSpendAnalysisResponseByDayModelList",
+          "traits": {
+            "smithy.api#documentation": "Daily model spend for the scoped product, ordered by day and cost. Includes the six highest-cost models in the selected window plus a null-model row for the remaining models.",
+            "smithy.api#required": {}
+          }
+        },
+        "by_bucket": {
+          "target": "com.posthog.ai_observability#BucketBreakdown",
+          "traits": {
+            "smithy.api#documentation": "Spend grouped by UTC time bucket with per-bucket cost/token components, ordered ascending. Scoped to `product`. Only present when the request set `bucket_minutes`."
           }
         },
         "top_traces": {
@@ -358,6 +416,253 @@
         "smithy.api#documentation": "Rows of spend by model, ordered by cost descending."
       }
     },
+    "com.posthog.ai_observability#DayBreakdown": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.posthog.ai_observability#DayBreakdownItemsList",
+          "traits": {
+            "smithy.api#documentation": "One row per UTC day that has events, ordered by day ascending. Days with no events are omitted — zero-fill client-side when rendering a continuous series.",
+            "smithy.api#required": {}
+          }
+        },
+        "truncated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Effectively always false: `by_day` ignores `limit` because truncating a time series by cost would be meaningless, and the 90-day window cap already bounds the series length.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#DayBreakdownRow": {
+      "type": "structure",
+      "members": {
+        "day": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTC calendar day the events fall on (`toDate(timestamp)`).",
+            "smithy.api#required": {}
+          }
+        },
+        "event_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of $ai_generation + $ai_embedding events on this day for the scoped product.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total cost in USD on this day for the scoped product.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sum of `$ai_input_tokens` on this day for the scoped product.",
+            "smithy.api#required": {}
+          }
+        },
+        "output_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sum of `$ai_output_tokens` on this day for the scoped product.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#DayBreakdownItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.ai_observability#DayBreakdownRow"
+      },
+      "traits": {
+        "smithy.api#documentation": "One row per UTC day that has events, ordered by day ascending. Days with no events are omitted — zero-fill client-side when rendering a continuous series."
+      }
+    },
+    "com.posthog.ai_observability#DayModelBreakdownRow": {
+      "type": "structure",
+      "members": {
+        "day": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTC calendar day the events fall on (`toDate(timestamp)`).",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model name for one of the highest-cost models in the selected window. Null is the aggregate of all remaining models, including events without a model.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total cost in USD for this model on this day.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sum of `$ai_input_tokens` for this model on this day.",
+            "smithy.api#required": {}
+          }
+        },
+        "output_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sum of `$ai_output_tokens` for this model on this day.",
+            "smithy.api#required": {}
+          }
+        },
+        "generation_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of $ai_generation + $ai_embedding events for this model on this day.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#PersonalSpendAnalysisResponseByDayModelList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.ai_observability#DayModelBreakdownRow"
+      },
+      "traits": {
+        "smithy.api#documentation": "Daily model spend for the scoped product, ordered by day and cost. Includes the six highest-cost models in the selected window plus a null-model row for the remaining models."
+      }
+    },
+    "com.posthog.ai_observability#BucketBreakdown": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.posthog.ai_observability#BucketBreakdownItemsList",
+          "traits": {
+            "smithy.api#documentation": "One row per UTC time bucket that has events, ordered by bucket start ascending. Buckets with no events are omitted; zero-fill client-side when rendering a continuous series.",
+            "smithy.api#required": {}
+          }
+        },
+        "bucket_minutes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Bucket size in minutes the series was computed at; echoes the request `bucket_minutes`.",
+            "smithy.api#required": {}
+          }
+        },
+        "truncated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Effectively always false: `by_bucket` ignores `limit` because truncating a time series by cost would be meaningless, and the 600-bucket window cap already bounds the series length.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#BucketBreakdownRow": {
+      "type": "structure",
+      "members": {
+        "bucket_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTC start of the time bucket the events fall in (`toStartOfInterval(timestamp, ...)`).",
+            "smithy.api#required": {}
+          }
+        },
+        "event_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of $ai_generation + $ai_embedding events in this bucket for the scoped product.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total cost in USD in this bucket (sum of `$ai_total_cost_usd`). Authoritative: the component columns below can sum to less than this when the cost breakdown was unavailable for some events; render any remainder as uncategorized rather than assuming the components reconcile.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_cost_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost of uncached (full-price) input tokens in USD, derived per event as `$ai_input_cost_usd` minus the cache read/write costs (the stored input cost includes them), clamped at zero. The four component columns are disjoint: they sum to `cost_usd` when the full breakdown is present, so they can be stacked without double counting cache costs.",
+            "smithy.api#required": {}
+          }
+        },
+        "output_cost_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost of output tokens in USD (sum of `$ai_output_cost_usd`).",
+            "smithy.api#required": {}
+          }
+        },
+        "cache_read_cost_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost of prompt-cache reads in USD (sum of `$ai_cache_read_cost_usd`).",
+            "smithy.api#required": {}
+          }
+        },
+        "cache_creation_cost_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost of prompt-cache writes in USD (sum of `$ai_cache_creation_cost_usd`). A spike here with near-zero cache reads is the signature of a cold session being revived: the full conversation context is re-written to the cache at the cache-write rate instead of being read back cheaply.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sum of `$ai_input_tokens` in this bucket. Whether cached tokens are included follows the provider's reporting (`$ai_cache_reporting_exclusive`): Anthropic-style events exclude them, OpenAI-style events include them, so don't stack this with the cache token sums.",
+            "smithy.api#required": {}
+          }
+        },
+        "output_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sum of `$ai_output_tokens` in this bucket.",
+            "smithy.api#required": {}
+          }
+        },
+        "cache_read_input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sum of `$ai_cache_read_input_tokens` (prompt tokens served from cache) in this bucket.",
+            "smithy.api#required": {}
+          }
+        },
+        "cache_creation_input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sum of `$ai_cache_creation_input_tokens` (prompt tokens written to cache) in this bucket.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#BucketBreakdownItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.ai_observability#BucketBreakdownRow"
+      },
+      "traits": {
+        "smithy.api#documentation": "One row per UTC time bucket that has events, ordered by bucket start ascending. Buckets with no events are omitted; zero-fill client-side when rendering a continuous series."
+      }
+    },
     "com.posthog.ai_observability#TopTraces": {
       "type": "structure",
       "members": {
@@ -423,18 +728,18 @@
         "smithy.api#documentation": "Rows of top traces by cost, ordered by cost descending."
       }
     },
-    "com.posthog.ai_observability#LlmAnalyticsPersonalSpendListResponseBodyList": {
+    "com.posthog.ai_observability#ListLlmAnalyticsPersonalSpendResponseBodyList": {
       "type": "list",
       "member": {
         "target": "com.posthog.ai_observability#PersonalSpendAnalysisResponse"
       },
       "traits": {}
     },
-    "com.posthog.ai_observability#LlmAnalyticsPersonalSpendListResponse": {
+    "com.posthog.ai_observability#ListLlmAnalyticsPersonalSpendResponse": {
       "type": "structure",
       "members": {
         "body": {
-          "target": "com.posthog.ai_observability#LlmAnalyticsPersonalSpendListResponseBodyList",
+          "target": "com.posthog.ai_observability#ListLlmAnalyticsPersonalSpendResponseBodyList",
           "traits": {
             "com.distilled.openapi#rawResponse": {},
             "smithy.api#required": {}
@@ -445,13 +750,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.posthog.ai_observability#LlmAnalyticsPersonalSpendList": {
+    "com.posthog.ai_observability#ListLlmAnalyticsPersonalSpend": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.ai_observability#LlmAnalyticsPersonalSpendListRequest"
+        "target": "com.posthog.ai_observability#ListLlmAnalyticsPersonalSpendRequest"
       },
       "output": {
-        "target": "com.posthog.ai_observability#LlmAnalyticsPersonalSpendListResponse"
+        "target": "com.posthog.ai_observability#ListLlmAnalyticsPersonalSpendResponse"
       },
       "errors": [
         {
@@ -470,51 +775,10 @@
           "uri": "/api/llm_analytics/@me/spend/",
           "code": 200
         },
-        "smithy.api#documentation": "Return a structured personal LLM spend analysis for the requesting user. Pass `date_from` / `date_to` (absolute like `2026-04-23` or relative like `-7d`) to bound the window — defaults to the last 30 days, max 90 days. The `product=<ai_product>` query param is required and scopes the tool / model / trace breakdowns to a single product; supported values: posthog_code. `by_product` is always returned for cross-product visibility. Use `refresh=true` to bypass the 5-minute response cache."
+        "smithy.api#documentation": "Return a structured personal LLM spend analysis for the requesting user. Pass `date_from` / `date_to` (absolute like `2026-04-23` or relative like `-7d`) to bound the window — defaults to the last 30 days, max 90 days. The `product=<ai_product>` query param is required and scopes the tool / model / day / trace breakdowns to a single product; supported values: posthog_code. `by_product` is always returned for cross-product visibility. `by_day` returns a day-ascending spend series for the scoped product. Pass `bucket_minutes` (5, 15, 30, or 60; the window may span at most 600 buckets) to additionally get `by_bucket`, a time-ascending series with per-bucket cost split into uncached input / output / cache read / cache creation components. Use `refresh=true` to bypass the 5-minute response cache."
       }
     },
-    "com.posthog.ai_observability#FilterEnum": {
-      "type": "enum",
-      "members": {
-        "ALL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "all"
-          }
-        },
-        "PASS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "pass"
-          }
-        },
-        "FAIL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "fail"
-          }
-        },
-        "NA": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "na"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "* `all` - all\n* `pass` - pass\n* `fail` - fail\n* `na` - na"
-      }
-    },
-    "com.posthog.ai_observability#LlmAnalyticsEvaluationSummaryCreateRequestGenerationIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Optional: specific generation IDs to include in summary (max 250)"
-      }
-    },
-    "com.posthog.ai_observability#LlmAnalyticsEvaluationSummaryCreateRequest": {
+    "com.posthog.ai_observability#GetAiObservabilityInstrumentationChecklistRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -525,28 +789,11 @@
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
           }
         },
-        "evaluation_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "UUID of the evaluation config to summarize"
-          }
-        },
-        "filter": {
-          "target": "com.posthog.ai_observability#FilterEnum",
-          "traits": {
-            "smithy.api#documentation": "Filter type to apply ('all', 'pass', 'fail', or 'na')\n\n* `all` - all\n* `pass` - pass\n* `fail` - fail\n* `na` - na"
-          }
-        },
-        "generation_ids": {
-          "target": "com.posthog.ai_observability#LlmAnalyticsEvaluationSummaryCreateRequestGenerationIdsList",
-          "traits": {
-            "smithy.api#documentation": "Optional: specific generation IDs to include in summary (max 250)"
-          }
-        },
-        "force_refresh": {
+        "refresh": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If true, bypass cache and generate a fresh summary"
+            "smithy.api#httpQuery": "refresh",
+            "smithy.api#documentation": "Grade the checks against a fresh read instead of a recent cached one. Use it after changing instrumentation, when a cached verdict would still describe the old code."
           }
         }
       },
@@ -554,108 +801,698 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.ai_observability#EvaluationSummaryResponse": {
+    "com.posthog.ai_observability#InstrumentationChecklist": {
       "type": "structure",
       "members": {
-        "overall_assessment": {
-          "target": "smithy.api#String"
+        "window_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Length in days of the event window the checks were graded over.",
+            "smithy.api#required": {}
+          }
         },
-        "pass_patterns": {
-          "target": "com.posthog.ai_observability#EvaluationSummaryResponsePassPatternsList"
-        },
-        "fail_patterns": {
-          "target": "com.posthog.ai_observability#EvaluationSummaryResponseFailPatternsList"
-        },
-        "na_patterns": {
-          "target": "com.posthog.ai_observability#EvaluationSummaryResponseNaPatternsList"
-        },
-        "recommendations": {
-          "target": "com.posthog.ai_observability#EvaluationSummaryResponseRecommendationsList"
-        },
-        "statistics": {
-          "target": "com.posthog.ai_observability#EvaluationSummaryStatistics"
+        "checks": {
+          "target": "com.posthog.ai_observability#InstrumentationChecklistChecksList",
+          "traits": {
+            "smithy.api#documentation": "Every check, graded. Checks are always all returned, including the ones that pass.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
     },
-    "com.posthog.ai_observability#EvaluationPattern": {
+    "com.posthog.ai_observability#InstrumentationCheck": {
       "type": "structure",
       "members": {
+        "key": {
+          "target": "com.posthog.ai_observability#AIObservabilityInstrumentationCheckEnum",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the check. Stable across statuses, so a surface can key its own copy off it.\n\n* `sessions` - sessions\n* `tool_calls` - tool_calls\n* `user_identity` - user_identity\n* `trace_structure` - trace_structure",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.ai_observability#InstrumentationCheckStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "How the check graded: 'ok' when the instrumentation is present, 'warning' when it is absent, 'pending' when the project has too little traffic to judge, and 'dismissed' when someone on the team marked the check as not applicable.\n\n* `ok` - ok\n* `warning` - warning\n* `pending` - pending\n* `dismissed` - dismissed",
+            "smithy.api#required": {}
+          }
+        },
         "title": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short label for the check, the same for every status.",
+            "smithy.api#required": {}
+          }
         },
-        "description": {
-          "target": "smithy.api#String"
+        "detail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sentence explaining what the counts mean and, for a warning, what to send. A dismissed check keeps the sentence its counts earned.",
+            "smithy.api#required": {}
+          }
         },
-        "frequency": {
-          "target": "smithy.api#String"
+        "docs_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Documentation page covering how to send the missing instrumentation.",
+            "smithy.api#required": {}
+          }
         },
-        "example_generation_ids": {
-          "target": "com.posthog.ai_observability#EvaluationPatternExampleGenerationIdsList"
+        "stats": {
+          "target": "com.posthog.ai_observability#InstrumentationCheckStatsMap",
+          "traits": {
+            "smithy.api#documentation": "Counts this check was graded from, over the same window. Which counts appear depends on the check.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
     },
-    "com.posthog.ai_observability#EvaluationPatternExampleGenerationIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.ai_observability#EvaluationSummaryResponsePassPatternsList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.ai_observability#EvaluationPattern"
-      },
-      "traits": {}
-    },
-    "com.posthog.ai_observability#EvaluationSummaryResponseFailPatternsList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.ai_observability#EvaluationPattern"
-      },
-      "traits": {}
-    },
-    "com.posthog.ai_observability#EvaluationSummaryResponseNaPatternsList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.ai_observability#EvaluationPattern"
-      },
-      "traits": {}
-    },
-    "com.posthog.ai_observability#EvaluationSummaryResponseRecommendationsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.ai_observability#EvaluationSummaryStatistics": {
-      "type": "structure",
+    "com.posthog.ai_observability#AIObservabilityInstrumentationCheckEnum": {
+      "type": "enum",
       "members": {
-        "total_analyzed": {
-          "target": "smithy.api#Integer"
+        "SESSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sessions"
+          }
         },
-        "pass_count": {
-          "target": "smithy.api#Integer"
+        "TOOL_CALLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tool_calls"
+          }
         },
-        "fail_count": {
-          "target": "smithy.api#Integer"
+        "USER_IDENTITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_identity"
+          }
         },
-        "na_count": {
-          "target": "smithy.api#Integer"
+        "TRACE_STRUCTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trace_structure"
+          }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "* `sessions` - sessions\n* `tool_calls` - tool_calls\n* `user_identity` - user_identity\n* `trace_structure` - trace_structure"
+      }
     },
-    "com.posthog.ai_observability#LlmAnalyticsEvaluationSummaryCreate": {
+    "com.posthog.ai_observability#InstrumentationCheckStatusEnum": {
+      "type": "enum",
+      "members": {
+        "OK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ok"
+          }
+        },
+        "WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "DISMISSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dismissed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `ok` - ok\n* `warning` - warning\n* `pending` - pending\n* `dismissed` - dismissed"
+      }
+    },
+    "com.posthog.ai_observability#InstrumentationCheckStatsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Counts this check was graded from, over the same window. Which counts appear depends on the check."
+      }
+    },
+    "com.posthog.ai_observability#InstrumentationChecklistChecksList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.ai_observability#InstrumentationCheck"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every check, graded. Checks are always all returned, including the ones that pass."
+      }
+    },
+    "com.posthog.ai_observability#GetAiObservabilityInstrumentationChecklist": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.ai_observability#LlmAnalyticsEvaluationSummaryCreateRequest"
+        "target": "com.posthog.ai_observability#GetAiObservabilityInstrumentationChecklistRequest"
       },
       "output": {
-        "target": "com.posthog.ai_observability#EvaluationSummaryResponse"
+        "target": "com.posthog.ai_observability#InstrumentationChecklist"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/ai_observability/instrumentation_checklist/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Grade every instrumentation check for this project."
+      }
+    },
+    "com.posthog.ai_observability#CreateAiObservabilityInstrumentationChecklistDismissRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "check": {
+          "target": "com.posthog.ai_observability#AIObservabilityInstrumentationCheckEnum",
+          "traits": {
+            "smithy.api#documentation": "Key of the check to dismiss or restore.\n\n* `sessions` - sessions\n* `tool_calls` - tool_calls\n* `user_identity` - user_identity\n* `trace_structure` - trace_structure",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#CreateAiObservabilityInstrumentationChecklistDismiss": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#CreateAiObservabilityInstrumentationChecklistDismissRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#InstrumentationChecklist"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/ai_observability/instrumentation_checklist/dismiss/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mark a check as not applicable to this project."
+      }
+    },
+    "com.posthog.ai_observability#AiObservabilityInstrumentationChecklistRestoreCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "check": {
+          "target": "com.posthog.ai_observability#AIObservabilityInstrumentationCheckEnum",
+          "traits": {
+            "smithy.api#documentation": "Key of the check to dismiss or restore.\n\n* `sessions` - sessions\n* `tool_calls` - tool_calls\n* `user_identity` - user_identity\n* `trace_structure` - trace_structure",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#AiObservabilityInstrumentationChecklistRestoreCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#AiObservabilityInstrumentationChecklistRestoreCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#InstrumentationChecklist"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/ai_observability/instrumentation_checklist/restore/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Bring a dismissed check back into grading."
+      }
+    },
+    "com.posthog.ai_observability#ListDatasetItemsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "archived": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "archived",
+            "smithy.api#documentation": "Return archived items instead of active items."
+          }
+        },
+        "dataset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "dataset",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Dataset whose items should be returned."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "revision",
+            "smithy.api#documentation": "Return the exact dataset snapshot at this revision."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#PaginatedDatasetItemReadList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.ai_observability#PaginatedDatasetItemReadListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#DatasetItemRead": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable dataset item ID shared by every version.",
+            "smithy.api#required": {}
+          }
+        },
+        "dataset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dataset that owns the item.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_item_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional caller-owned stable key that cannot be changed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of this immutable item version.",
+            "smithy.api#required": {}
+          }
+        },
+        "dataset_revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Dataset revision that introduced this item version.",
+            "smithy.api#required": {}
+          }
+        },
+        "dataset_revision_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the dataset revision that introduced this item version.",
+            "smithy.api#required": {}
+          }
+        },
+        "archived": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "input": {
+          "target": "com.posthog.ai_observability#DatasetJSONValue",
+          "traits": {
+            "smithy.api#documentation": "Input supplied to the system under test.",
+            "smithy.api#required": {}
+          }
+        },
+        "expected_output": {
+          "target": "com.posthog.ai_observability#DatasetJSONValue",
+          "traits": {
+            "smithy.api#documentation": "Optional user-authored expected output.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_output": {
+          "target": "com.posthog.ai_observability#DatasetJSONValue",
+          "traits": {
+            "smithy.api#documentation": "Optional actual output captured from the source trace.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.posthog.ai_observability#DatasetItemReadMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "JSON object with item metadata.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_trace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_event_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the stable item was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the item last received a new version.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.ai_observability#UserBasic",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version_created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this immutable version was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "version_created_by": {
+          "target": "com.posthog.ai_observability#UserBasic",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "team_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Project that owns the item.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#DatasetJSONValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.ai_observability#DatasetJSONValueCase0Map"
+        },
+        "Case1": {
+          "target": "com.posthog.ai_observability#DatasetJSONValueCase1List"
+        },
+        "Case2": {
+          "target": "smithy.api#String"
+        },
+        "Case3": {
+          "target": "smithy.api#Double"
+        },
+        "Case4": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#DatasetJSONValueCase0Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#DatasetJSONValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#DatasetItemReadMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "JSON object with item metadata."
+      }
+    },
+    "com.posthog.ai_observability#UserBasic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "uuid": {
+          "target": "smithy.api#String"
+        },
+        "distinct_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String"
+        },
+        "last_name": {
+          "target": "smithy.api#String"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "is_email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hedgehog_config": {
+          "target": "com.posthog.ai_observability#UserBasicHedgehogConfigMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role_at_organization": {
+          "target": "com.posthog.ai_observability#UserBasicRoleAtOrganization",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#UserBasicHedgehogConfigMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#RoleAtOrganizationEnum": {
+      "type": "enum",
+      "members": {
+        "ENGINEERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engineering"
+          }
+        },
+        "DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data"
+          }
+        },
+        "PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product"
+          }
+        },
+        "FOUNDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "founder"
+          }
+        },
+        "LEADERSHIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leadership"
+          }
+        },
+        "MARKETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marketing"
+          }
+        },
+        "SALES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales"
+          }
+        },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
+      }
+    },
+    "com.posthog.ai_observability#BlankEnum": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": ""
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#UserBasicRoleAtOrganization": {
+      "type": "union",
+      "members": {
+        "RoleAtOrganizationEnum": {
+          "target": "com.posthog.ai_observability#RoleAtOrganizationEnum"
+        },
+        "BlankEnum": {
+          "target": "com.posthog.ai_observability#BlankEnum"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#PaginatedDatasetItemReadListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.ai_observability#DatasetItemRead"
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#ListDatasetItems": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#ListDatasetItemsRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#PaginatedDatasetItemReadList"
       },
       "errors": [
         {
@@ -670,14 +1507,1436 @@
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/llm_analytics/evaluation_summary/",
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/dataset_items/",
           "code": 200
         },
-        "smithy.api#documentation": "Generate an AI-powered summary of evaluation results.\n\nThis endpoint analyzes evaluation runs and identifies patterns in passing\nand failing evaluations, providing actionable recommendations.\n\nData is fetched server-side by evaluation ID to ensure data integrity.\n\n**Use Cases:**\n- Understand why evaluations are passing or failing\n- Identify systematic issues in LLM responses\n- Get recommendations for improving response quality\n- Review patterns across many evaluation runs at once"
+        "smithy.api#documentation": "List a dataset's current items or its exact contents at a prior revision."
       }
     },
-    "com.posthog.ai_observability#LlmAnalyticsOfflineEvaluationsExperimentItemsCreateRequest": {
+    "com.posthog.ai_observability#CreateDatasetItemRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional JSON object with item metadata."
+      }
+    },
+    "com.posthog.ai_observability#CreateDatasetItemRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "dataset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dataset that will own the item.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_item_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional case-sensitive stable key used for idempotent creates. It cannot be changed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "input": {
+          "target": "com.posthog.ai_observability#DatasetJSONValue",
+          "traits": {
+            "smithy.api#documentation": "Input supplied to the system under test. Any non-null JSON value is accepted.",
+            "smithy.api#required": {}
+          }
+        },
+        "expected_output": {
+          "target": "com.posthog.ai_observability#DatasetJSONValue",
+          "traits": {
+            "smithy.api#documentation": "Optional user-authored expected output.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_output": {
+          "target": "com.posthog.ai_observability#DatasetJSONValue",
+          "traits": {
+            "smithy.api#documentation": "Optional actual output captured from the source trace.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.posthog.ai_observability#CreateDatasetItemRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Optional JSON object with item metadata."
+          }
+        },
+        "source_trace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Trace ID copied from the source event.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_event_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Event ID copied from the source trace.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp needed to retrieve the event-backed source trace.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#CreateDatasetItem": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#CreateDatasetItemRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#DatasetItemRead"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.ai_observability#BadRequest"
+        },
+        {
+          "target": "com.posthog.ai_observability#Forbidden"
+        },
+        {
+          "target": "com.posthog.ai_observability#NotFound"
+        },
+        {
+          "target": "com.posthog.ai_observability#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/dataset_items/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an item and its first immutable version. An identical client item ID retry returns the existing item. A different payload or an archived match returns a conflict."
+      }
+    },
+    "com.posthog.ai_observability#GetDatasetItemRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "dataset_item_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "revision",
+            "smithy.api#documentation": "Return the item as it appeared at this exact dataset revision."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#GetDatasetItem": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#GetDatasetItemRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#DatasetItemRead"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/dataset_items/{dataset_item_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve the current item version or the version visible at an exact dataset revision."
+      }
+    },
+    "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestInputCase0Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestInputCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestInput": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestInputCase0Map"
+        },
+        "Case1": {
+          "target": "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestInputCase1List"
+        },
+        "Case2": {
+          "target": "smithy.api#String"
+        },
+        "Case3": {
+          "target": "smithy.api#Double"
+        },
+        "Case4": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Replacement input. Omit to keep the current value."
+      }
+    },
+    "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestExpectedOutputCase0Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestExpectedOutputCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestExpectedOutput": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestExpectedOutputCase0Map"
+        },
+        "Case1": {
+          "target": "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestExpectedOutputCase1List"
+        },
+        "Case2": {
+          "target": "smithy.api#String"
+        },
+        "Case3": {
+          "target": "smithy.api#Double"
+        },
+        "Case4": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Replacement expected output. Send null to clear it."
+      }
+    },
+    "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Replacement metadata object. Send an empty object to clear it."
+      }
+    },
+    "com.posthog.ai_observability#UpdateDatasetItemsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "dataset_item_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "base_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Current item version observed by the caller.",
+            "smithy.api#required": {}
+          }
+        },
+        "input": {
+          "target": "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestInput",
+          "traits": {
+            "smithy.api#documentation": "Replacement input. Omit to keep the current value."
+          }
+        },
+        "expected_output": {
+          "target": "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestExpectedOutput",
+          "traits": {
+            "smithy.api#documentation": "Replacement expected output. Send null to clear it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.posthog.ai_observability#UpdateDatasetItemsPartialRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Replacement metadata object. Send an empty object to clear it."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#UpdateDatasetItemsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#UpdateDatasetItemsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#DatasetItemRead"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.ai_observability#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/dataset_items/{dataset_item_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new immutable item version from editable fields."
+      }
+    },
+    "com.posthog.ai_observability#ArchiveDatasetItemRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "dataset_item_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "base_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Current item version observed by the caller.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#ArchiveDatasetItem": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#ArchiveDatasetItemRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#DatasetItemRead"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.ai_observability#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/dataset_items/{dataset_item_id}/archive/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Archive an active item by creating a new immutable version."
+      }
+    },
+    "com.posthog.ai_observability#RestoreDatasetItemRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "dataset_item_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "base_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Current item version observed by the caller.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Historical version to copy. Omit to restore the archived version's content.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#RestoreDatasetItem": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#RestoreDatasetItemRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#DatasetItemRead"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.ai_observability#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/dataset_items/{dataset_item_id}/restore/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Restore an archived item by copying content into a new immutable version."
+      }
+    },
+    "com.posthog.ai_observability#ListDatasetItemsVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "dataset_item_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#ListDatasetItemsVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#ListDatasetItemsVersionsRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#PaginatedDatasetItemReadList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/dataset_items/{dataset_item_id}/versions/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List every immutable version of an item, newest first."
+      }
+    },
+    "com.posthog.ai_observability#ListDatasetsRequestIdInList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#ListDatasetsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "CREATED_AT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-created_at"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        },
+        "UPDATED_AT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-updated_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#ListDatasetsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "archived": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "archived",
+            "smithy.api#documentation": "Return archived datasets instead of active datasets."
+          }
+        },
+        "id__in": {
+          "target": "com.posthog.ai_observability#ListDatasetsRequestIdInList",
+          "traits": {
+            "smithy.api#httpQuery": "id__in",
+            "smithy.api#documentation": "Filter to these dataset IDs. Repeat the parameter or pass one comma-separated list, up to 100 IDs."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "order_by": {
+          "target": "com.posthog.ai_observability#ListDatasetsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Field and direction used to order results.\n\n* `created_at` - created_at\n* `-created_at` - -created_at\n* `updated_at` - updated_at\n* `-updated_at` - -updated_at"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Search dataset names, descriptions, and metadata."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#PaginatedDatasetReadList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.ai_observability#PaginatedDatasetReadListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#DatasetRead": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.posthog.ai_observability#DatasetReadMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "JSON object with descriptive dataset metadata.",
+            "smithy.api#required": {}
+          }
+        },
+        "archived": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "current_revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Latest dataset revision, or null before the first item is added.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "current_revision_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the latest committed dataset revision.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.ai_observability#UserBasic",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "team_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Project that owns the dataset.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_access_level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The effective access level the user has for this object",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Mixin for serializers to add user access control fields"
+      }
+    },
+    "com.posthog.ai_observability#DatasetReadMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "JSON object with descriptive dataset metadata."
+      }
+    },
+    "com.posthog.ai_observability#PaginatedDatasetReadListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.ai_observability#DatasetRead"
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#ListDatasets": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#ListDatasetsRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#PaginatedDatasetReadList"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.ai_observability#BadRequest"
+        },
+        {
+          "target": "com.posthog.ai_observability#Forbidden"
+        },
+        {
+          "target": "com.posthog.ai_observability#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/datasets/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List active datasets by default, or archived datasets when requested."
+      }
+    },
+    "com.posthog.ai_observability#CreateDatasetRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional JSON object with descriptive dataset metadata."
+      }
+    },
+    "com.posthog.ai_observability#CreateDatasetRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dataset name. Names are unique within a project.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description of what the dataset contains."
+          }
+        },
+        "metadata": {
+          "target": "com.posthog.ai_observability#CreateDatasetRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Optional JSON object with descriptive dataset metadata."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#CreateDataset": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#CreateDatasetRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#DatasetRead"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.ai_observability#BadRequest"
+        },
+        {
+          "target": "com.posthog.ai_observability#Forbidden"
+        },
+        {
+          "target": "com.posthog.ai_observability#NotFound"
+        },
+        {
+          "target": "com.posthog.ai_observability#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/datasets/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an empty dataset. Its first revision is created with its first item."
+      }
+    },
+    "com.posthog.ai_observability#GetDatasetRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this dataset."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#GetDataset": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#GetDatasetRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#DatasetRead"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.ai_observability#Forbidden"
+        },
+        {
+          "target": "com.posthog.ai_observability#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/datasets/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve an active or archived dataset."
+      }
+    },
+    "com.posthog.ai_observability#UpdateDatasetsPartialRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Replacement JSON object for descriptive dataset metadata."
+      }
+    },
+    "com.posthog.ai_observability#UpdateDatasetsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this dataset."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New dataset name. Names are unique within a project."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New dataset description."
+          }
+        },
+        "metadata": {
+          "target": "com.posthog.ai_observability#UpdateDatasetsPartialRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Replacement JSON object for descriptive dataset metadata."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#UpdateDatasetsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#UpdateDatasetsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#DatasetRead"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.ai_observability#BadRequest"
+        },
+        {
+          "target": "com.posthog.ai_observability#Forbidden"
+        },
+        {
+          "target": "com.posthog.ai_observability#NotFound"
+        },
+        {
+          "target": "com.posthog.ai_observability#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/datasets/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update descriptive dataset fields without changing its revision."
+      }
+    },
+    "com.posthog.ai_observability#ArchiveDatasetRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this dataset."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#ArchiveDataset": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#ArchiveDatasetRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#DatasetRead"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/datasets/{id}/archive/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Archive a dataset. Archived datasets remain readable and reject item mutations."
+      }
+    },
+    "com.posthog.ai_observability#CreateDatasetsExportRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this dataset."
+          }
+        },
+        "revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Dataset revision to export. Defaults to the latest revision when the export is created."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#DatasetExportRead": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Export ID used to check status and download the file.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.ai_observability#DatasetExportReadStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Current export state: pending, complete, or failed.",
+            "smithy.api#required": {}
+          }
+        },
+        "dataset_revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Immutable dataset revision included in the export.",
+            "smithy.api#required": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generated JSONL filename.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the export was requested.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the generated file expires.",
+            "smithy.api#required": {}
+          }
+        },
+        "exception": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reason the export failed, or null while it is pending or complete.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#DatasetExportReadStatusEnum": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#CreateDatasetsExport": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#CreateDatasetsExportRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#DatasetExportRead"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.ai_observability#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/datasets/{id}/exports/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an asynchronous JSONL export pinned to an immutable dataset revision."
+      }
+    },
+    "com.posthog.ai_observability#GetDatasetsExportRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this dataset."
+          }
+        },
+        "export_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#GetDatasetsExport": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#GetDatasetsExportRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#DatasetExportRead"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/datasets/{id}/exports/{export_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Check the status of a dataset export created by the current user."
+      }
+    },
+    "com.posthog.ai_observability#GetDatasetsExportsContentRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this dataset."
+          }
+        },
+        "export_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#GetDatasetsExportsContent": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#GetDatasetsExportsContentRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.ai_observability#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/datasets/{id}/exports/{export_id}/content/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Download a completed dataset JSONL export."
+      }
+    },
+    "com.posthog.ai_observability#RestoreDatasetRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this dataset."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#RestoreDataset": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#RestoreDatasetRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#DatasetRead"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/datasets/{id}/restore/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Restore an archived dataset without changing its item states."
+      }
+    },
+    "com.posthog.ai_observability#ListDatasetsRevisionsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this dataset."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.ai_observability#PaginatedDatasetRevisionReadList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.ai_observability#PaginatedDatasetRevisionReadListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#DatasetRevisionRead": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dataset_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dataset this revision belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.ai_observability#UserBasic",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "team_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Project that owns the revision.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#PaginatedDatasetRevisionReadListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.ai_observability#DatasetRevisionRead"
+      },
+      "traits": {}
+    },
+    "com.posthog.ai_observability#ListDatasetsRevisions": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.ai_observability#ListDatasetsRevisionsRequest"
+      },
+      "output": {
+        "target": "com.posthog.ai_observability#PaginatedDatasetRevisionReadList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/datasets/{id}/revisions/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List immutable dataset revisions, newest first."
+      }
+    },
+    "com.posthog.ai_observability#CreateLlmAnalyticsOfflineEvaluationsExperimentItemRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -743,10 +3002,10 @@
         "smithy.api#documentation": "Tuple-positional rows; positions match `RawOfflineExperimentMetricRow` in the frontend."
       }
     },
-    "com.posthog.ai_observability#LlmAnalyticsOfflineEvaluationsExperimentItemsCreate": {
+    "com.posthog.ai_observability#CreateLlmAnalyticsOfflineEvaluationsExperimentItem": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.ai_observability#LlmAnalyticsOfflineEvaluationsExperimentItemsCreateRequest"
+        "target": "com.posthog.ai_observability#CreateLlmAnalyticsOfflineEvaluationsExperimentItemRequest"
       },
       "output": {
         "target": "com.posthog.ai_observability#OfflineExperimentItemsResponse"
@@ -804,7 +3063,7 @@
         "smithy.api#documentation": "* `minimal` - minimal\n* `detailed` - detailed"
       }
     },
-    "com.posthog.ai_observability#LlmAnalyticsSummarizationCreateRequest": {
+    "com.posthog.ai_observability#CreateLlmAnalyticsSummarizationRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -973,10 +3232,10 @@
         "smithy.api#documentation": "Interesting notes (0-2 for minimal, more for detailed)"
       }
     },
-    "com.posthog.ai_observability#LlmAnalyticsSummarizationCreate": {
+    "com.posthog.ai_observability#CreateLlmAnalyticsSummarization": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.ai_observability#LlmAnalyticsSummarizationCreateRequest"
+        "target": "com.posthog.ai_observability#CreateLlmAnalyticsSummarizationRequest"
       },
       "output": {
         "target": "com.posthog.ai_observability#SummarizeResponse"
@@ -998,7 +3257,7 @@
         "smithy.api#documentation": "Generate an AI-powered summary of an LLM trace or event.\n\nThis endpoint analyzes the provided trace/event, generates a line-numbered text\nrepresentation, and uses an LLM to create a concise summary with line references.\n\n**Two ways to use this endpoint:**\n\n1. **By ID (recommended):** Pass `trace_id` or `generation_id` with an optional `date_from`/`date_to`.\n   The backend fetches the data automatically. `summarize_type` is inferred.\n2. **By data:** Pass the full trace/event data blob in `data` with `summarize_type`.\n   This is how the frontend uses it.\n\n**Summary Format:**\n- Title (concise, max 10 words)\n- Mermaid flow diagram showing the main flow\n- 3-10 summary bullets with line references\n- \"Interesting Notes\" section for failures, successes, or unusual patterns\n- Line references in [L45] or [L45-52] format pointing to relevant sections\n\nThe response includes the structured summary, the text representation, and metadata."
       }
     },
-    "com.posthog.ai_observability#LlmAnalyticsSummarizationBatchCheckCreateRequestTraceIdsList": {
+    "com.posthog.ai_observability#CreateLlmAnalyticsSummarizationBatchCheckRequestTraceIdsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -1007,7 +3266,7 @@
         "smithy.api#documentation": "List of trace IDs to check for cached summaries"
       }
     },
-    "com.posthog.ai_observability#LlmAnalyticsSummarizationBatchCheckCreateRequest": {
+    "com.posthog.ai_observability#CreateLlmAnalyticsSummarizationBatchCheckRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1019,7 +3278,7 @@
           }
         },
         "trace_ids": {
-          "target": "com.posthog.ai_observability#LlmAnalyticsSummarizationBatchCheckCreateRequestTraceIdsList",
+          "target": "com.posthog.ai_observability#CreateLlmAnalyticsSummarizationBatchCheckRequestTraceIdsList",
           "traits": {
             "smithy.api#documentation": "List of trace IDs to check for cached summaries"
           }
@@ -1073,10 +3332,10 @@
       },
       "traits": {}
     },
-    "com.posthog.ai_observability#LlmAnalyticsSummarizationBatchCheckCreate": {
+    "com.posthog.ai_observability#CreateLlmAnalyticsSummarizationBatchCheck": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.ai_observability#LlmAnalyticsSummarizationBatchCheckCreateRequest"
+        "target": "com.posthog.ai_observability#CreateLlmAnalyticsSummarizationBatchCheckRequest"
       },
       "output": {
         "target": "com.posthog.ai_observability#BatchCheckResponse"
@@ -1196,7 +3455,7 @@
       },
       "traits": {}
     },
-    "com.posthog.ai_observability#LlmAnalyticsTextReprCreateRequest": {
+    "com.posthog.ai_observability#CreateLlmAnalyticsTextReprRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1275,10 +3534,10 @@
       },
       "traits": {}
     },
-    "com.posthog.ai_observability#LlmAnalyticsTextReprCreate": {
+    "com.posthog.ai_observability#CreateLlmAnalyticsTextRepr": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.ai_observability#LlmAnalyticsTextReprCreateRequest"
+        "target": "com.posthog.ai_observability#CreateLlmAnalyticsTextReprRequest"
       },
       "output": {
         "target": "com.posthog.ai_observability#TextReprResponse"
@@ -1336,27 +3595,97 @@
         ]
       }
     },
+    "com.posthog.ai_observability#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
     "com.posthog.ai_observability#AiObservability": {
       "type": "service",
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.ai_observability#LlmAnalyticsPersonalSpendList"
+          "target": "com.posthog.ai_observability#ListLlmAnalyticsPersonalSpend"
         },
         {
-          "target": "com.posthog.ai_observability#LlmAnalyticsEvaluationSummaryCreate"
+          "target": "com.posthog.ai_observability#GetAiObservabilityInstrumentationChecklist"
         },
         {
-          "target": "com.posthog.ai_observability#LlmAnalyticsOfflineEvaluationsExperimentItemsCreate"
+          "target": "com.posthog.ai_observability#CreateAiObservabilityInstrumentationChecklistDismiss"
         },
         {
-          "target": "com.posthog.ai_observability#LlmAnalyticsSummarizationCreate"
+          "target": "com.posthog.ai_observability#AiObservabilityInstrumentationChecklistRestoreCreate"
         },
         {
-          "target": "com.posthog.ai_observability#LlmAnalyticsSummarizationBatchCheckCreate"
+          "target": "com.posthog.ai_observability#ListDatasetItems"
         },
         {
-          "target": "com.posthog.ai_observability#LlmAnalyticsTextReprCreate"
+          "target": "com.posthog.ai_observability#CreateDatasetItem"
+        },
+        {
+          "target": "com.posthog.ai_observability#GetDatasetItem"
+        },
+        {
+          "target": "com.posthog.ai_observability#UpdateDatasetItemsPartial"
+        },
+        {
+          "target": "com.posthog.ai_observability#ArchiveDatasetItem"
+        },
+        {
+          "target": "com.posthog.ai_observability#RestoreDatasetItem"
+        },
+        {
+          "target": "com.posthog.ai_observability#ListDatasetItemsVersions"
+        },
+        {
+          "target": "com.posthog.ai_observability#ListDatasets"
+        },
+        {
+          "target": "com.posthog.ai_observability#CreateDataset"
+        },
+        {
+          "target": "com.posthog.ai_observability#GetDataset"
+        },
+        {
+          "target": "com.posthog.ai_observability#UpdateDatasetsPartial"
+        },
+        {
+          "target": "com.posthog.ai_observability#ArchiveDataset"
+        },
+        {
+          "target": "com.posthog.ai_observability#CreateDatasetsExport"
+        },
+        {
+          "target": "com.posthog.ai_observability#GetDatasetsExport"
+        },
+        {
+          "target": "com.posthog.ai_observability#GetDatasetsExportsContent"
+        },
+        {
+          "target": "com.posthog.ai_observability#RestoreDataset"
+        },
+        {
+          "target": "com.posthog.ai_observability#ListDatasetsRevisions"
+        },
+        {
+          "target": "com.posthog.ai_observability#CreateLlmAnalyticsOfflineEvaluationsExperimentItem"
+        },
+        {
+          "target": "com.posthog.ai_observability#CreateLlmAnalyticsSummarization"
+        },
+        {
+          "target": "com.posthog.ai_observability#CreateLlmAnalyticsSummarizationBatchCheck"
+        },
+        {
+          "target": "com.posthog.ai_observability#CreateLlmAnalyticsTextRepr"
         }
       ],
       "traits": {

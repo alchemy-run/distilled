@@ -40,6 +40,23 @@ export class HyperdriveConfigNotFound
     [{ code: 2006 }, { status: 404 }],
   ) {}
 
+export class HyperdriveOriginUnavailable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<HyperdriveOriginUnavailable>()(
+      "HyperdriveOriginUnavailable",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [
+      {
+        status: 400,
+        message: { includes: "Failed to connect to upstream database" },
+      },
+    ],
+  ) {}
+
 export class InvalidHyperdriveConfig
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidHyperdriveConfig>()(
@@ -92,8 +109,7 @@ export type ConfigsCreateRequestOriginPublicDatabaseScheme =
   | "postgres"
   | "postgresql"
   | "mysql";
-export const ConfigsCreateRequestOriginPublicDatabaseScheme =
-  /*@__PURE__*/ S.String;
+export const ConfigsCreateRequestOriginPublicDatabaseScheme = S.String;
 
 export interface ConfigsCreateRequestOriginPublicDatabase {
   /** Set the name of your origin database. */
@@ -124,9 +140,11 @@ export const ConfigsCreateRequestOriginPublicDatabase = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ConfigsCreateRequestOriginPublicDatabase>;
 
 export type ConfigsCreateRequestOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  "postgres" | "postgresql" | "mysql";
+  | "postgres"
+  | "postgresql"
+  | "mysql";
 export const ConfigsCreateRequestOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsCreateRequestOriginAccessProtectedDatabaseBehindCloudflareTunnel {
   /** Defines the Client ID of the Access token to use when connecting to the origin database. */
@@ -164,9 +182,11 @@ export const ConfigsCreateRequestOriginAccessProtectedDatabaseBehindCloudflareTu
   }) as any as S.Schema<ConfigsCreateRequestOriginAccessProtectedDatabaseBehindCloudflareTunnel>;
 
 export type ConfigsCreateRequestOriginDatabaseReachableThroughAWorkersVPCScheme =
-  "postgres" | "postgresql" | "mysql";
+  | "postgres"
+  | "postgresql"
+  | "mysql";
 export const ConfigsCreateRequestOriginDatabaseReachableThroughAWorkersVPCScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsCreateRequestOriginDatabaseReachableThroughAWorkersVPC {
   /** Set the name of your origin database. */
@@ -314,8 +334,7 @@ export type ConfigsCreateResponseOriginPublicDatabaseScheme =
   | "postgres"
   | "postgresql"
   | "mysql";
-export const ConfigsCreateResponseOriginPublicDatabaseScheme =
-  /*@__PURE__*/ S.String;
+export const ConfigsCreateResponseOriginPublicDatabaseScheme = S.String;
 
 export interface ConfigsCreateResponseOriginPublicDatabase {
   /** Set the name of your origin database. */
@@ -343,9 +362,11 @@ export const ConfigsCreateResponseOriginPublicDatabase =
   }) as any as S.Schema<ConfigsCreateResponseOriginPublicDatabase>;
 
 export type ConfigsCreateResponseOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  "postgres" | "postgresql" | "mysql";
+  | "postgres"
+  | "postgresql"
+  | "mysql";
 export const ConfigsCreateResponseOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsCreateResponseOriginAccessProtectedDatabaseBehindCloudflareTunnel {
   /** Defines the Client ID of the Access token to use when connecting to the origin database. */
@@ -378,9 +399,11 @@ export const ConfigsCreateResponseOriginAccessProtectedDatabaseBehindCloudflareT
   }) as any as S.Schema<ConfigsCreateResponseOriginAccessProtectedDatabaseBehindCloudflareTunnel>;
 
 export type ConfigsCreateResponseOriginDatabaseReachableThroughAWorkersVPCScheme =
-  "postgres" | "postgresql" | "mysql";
+  | "postgres"
+  | "postgresql"
+  | "mysql";
 export const ConfigsCreateResponseOriginDatabaseReachableThroughAWorkersVPCScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsCreateResponseOriginDatabaseReachableThroughAWorkersVPC {
   /** Set the name of your origin database. */
@@ -505,6 +528,8 @@ export interface CreateConfigResponse {
   mtls?: ConfigsCreateResponseMtls | null;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number | null;
+  /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
+  restartedOn?: string | null;
 }
 export const CreateConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -518,6 +543,7 @@ export const CreateConfigResponse = /*@__PURE__*/ S.suspend(() =>
     originConnectionLimit: S.optional(
       S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
     ),
+    restartedOn: S.optional(S.NullOr(S.String).pipe(T.Body("restarted_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateConfigResponse",
@@ -580,8 +606,7 @@ export type ConfigsGetResponseOriginPublicDatabaseScheme =
   | "postgres"
   | "postgresql"
   | "mysql";
-export const ConfigsGetResponseOriginPublicDatabaseScheme =
-  /*@__PURE__*/ S.String;
+export const ConfigsGetResponseOriginPublicDatabaseScheme = S.String;
 
 export interface ConfigsGetResponseOriginPublicDatabase {
   /** Set the name of your origin database. */
@@ -609,9 +634,11 @@ export const ConfigsGetResponseOriginPublicDatabase = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ConfigsGetResponseOriginPublicDatabase>;
 
 export type ConfigsGetResponseOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  "postgres" | "postgresql" | "mysql";
+  | "postgres"
+  | "postgresql"
+  | "mysql";
 export const ConfigsGetResponseOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsGetResponseOriginAccessProtectedDatabaseBehindCloudflareTunnel {
   /** Defines the Client ID of the Access token to use when connecting to the origin database. */
@@ -648,7 +675,7 @@ export type ConfigsGetResponseOriginDatabaseReachableThroughAWorkersVPCScheme =
   | "postgresql"
   | "mysql";
 export const ConfigsGetResponseOriginDatabaseReachableThroughAWorkersVPCScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsGetResponseOriginDatabaseReachableThroughAWorkersVPC {
   /** Set the name of your origin database. */
@@ -727,6 +754,8 @@ export interface GetConfigResponse {
   mtls?: ConfigsCreateResponseMtls | null;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number | null;
+  /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
+  restartedOn?: string | null;
 }
 export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -740,6 +769,7 @@ export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
     originConnectionLimit: S.optional(
       S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
     ),
+    restartedOn: S.optional(S.NullOr(S.String).pipe(T.Body("restarted_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetConfigResponse",
@@ -748,10 +778,16 @@ export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListConfigsRequest {
   /** Define configurations using a unique string identifier. */
   accountId: string;
+  /** Page number of paginated results. */
+  page?: number;
+  /** Maximum number of results per page. */
+  perPage?: number;
 }
 export const ListConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    page: S.optional(S.Number.pipe(T.Query())),
+    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
     .pipe(
       T.Http({
@@ -769,8 +805,7 @@ export type ConfigsListResultItemOriginPublicDatabaseScheme =
   | "postgres"
   | "postgresql"
   | "mysql";
-export const ConfigsListResultItemOriginPublicDatabaseScheme =
-  /*@__PURE__*/ S.String;
+export const ConfigsListResultItemOriginPublicDatabaseScheme = S.String;
 
 export interface ConfigsListResultItemOriginPublicDatabase {
   /** Set the name of your origin database. */
@@ -798,9 +833,11 @@ export const ConfigsListResultItemOriginPublicDatabase =
   }) as any as S.Schema<ConfigsListResultItemOriginPublicDatabase>;
 
 export type ConfigsListResultItemOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  "postgres" | "postgresql" | "mysql";
+  | "postgres"
+  | "postgresql"
+  | "mysql";
 export const ConfigsListResultItemOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsListResultItemOriginAccessProtectedDatabaseBehindCloudflareTunnel {
   /** Defines the Client ID of the Access token to use when connecting to the origin database. */
@@ -833,9 +870,11 @@ export const ConfigsListResultItemOriginAccessProtectedDatabaseBehindCloudflareT
   }) as any as S.Schema<ConfigsListResultItemOriginAccessProtectedDatabaseBehindCloudflareTunnel>;
 
 export type ConfigsListResultItemOriginDatabaseReachableThroughAWorkersVPCScheme =
-  "postgres" | "postgresql" | "mysql";
+  | "postgres"
+  | "postgresql"
+  | "mysql";
 export const ConfigsListResultItemOriginDatabaseReachableThroughAWorkersVPCScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsListResultItemOriginDatabaseReachableThroughAWorkersVPC {
   /** Set the name of your origin database. */
@@ -915,6 +954,8 @@ export interface ConfigsListResultItem {
   mtls?: ConfigsCreateResponseMtls | null;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number | null;
+  /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
+  restartedOn?: string | null;
 }
 export const ConfigsListResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -928,6 +969,7 @@ export const ConfigsListResultItem = /*@__PURE__*/ S.suspend(() =>
     originConnectionLimit: S.optional(
       S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
     ),
+    restartedOn: S.optional(S.NullOr(S.String).pipe(T.Body("restarted_on"))),
   }),
 ).annotate({
   identifier: "ConfigsListResultItem",
@@ -978,7 +1020,7 @@ export type ConfigsEditRequestOriginHyperdriveHyperdriveDatabaseScheme =
   | "postgresql"
   | "mysql";
 export const ConfigsEditRequestOriginHyperdriveHyperdriveDatabaseScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsEditRequestOriginHyperdriveHyperdriveDatabase {
   /** Set the name of your origin database. */
@@ -1111,8 +1153,7 @@ export type ConfigsEditResponseOriginPublicDatabaseScheme =
   | "postgres"
   | "postgresql"
   | "mysql";
-export const ConfigsEditResponseOriginPublicDatabaseScheme =
-  /*@__PURE__*/ S.String;
+export const ConfigsEditResponseOriginPublicDatabaseScheme = S.String;
 
 export interface ConfigsEditResponseOriginPublicDatabase {
   /** Set the name of your origin database. */
@@ -1140,9 +1181,11 @@ export const ConfigsEditResponseOriginPublicDatabase = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ConfigsEditResponseOriginPublicDatabase>;
 
 export type ConfigsEditResponseOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  "postgres" | "postgresql" | "mysql";
+  | "postgres"
+  | "postgresql"
+  | "mysql";
 export const ConfigsEditResponseOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsEditResponseOriginAccessProtectedDatabaseBehindCloudflareTunnel {
   /** Defines the Client ID of the Access token to use when connecting to the origin database. */
@@ -1175,9 +1218,11 @@ export const ConfigsEditResponseOriginAccessProtectedDatabaseBehindCloudflareTun
   }) as any as S.Schema<ConfigsEditResponseOriginAccessProtectedDatabaseBehindCloudflareTunnel>;
 
 export type ConfigsEditResponseOriginDatabaseReachableThroughAWorkersVPCScheme =
-  "postgres" | "postgresql" | "mysql";
+  | "postgres"
+  | "postgresql"
+  | "mysql";
 export const ConfigsEditResponseOriginDatabaseReachableThroughAWorkersVPCScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsEditResponseOriginDatabaseReachableThroughAWorkersVPC {
   /** Set the name of your origin database. */
@@ -1257,6 +1302,8 @@ export interface PatchConfigResponse {
   mtls?: ConfigsCreateResponseMtls | null;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number | null;
+  /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
+  restartedOn?: string | null;
 }
 export const PatchConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1270,6 +1317,7 @@ export const PatchConfigResponse = /*@__PURE__*/ S.suspend(() =>
     originConnectionLimit: S.optional(
       S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
     ),
+    restartedOn: S.optional(S.NullOr(S.String).pipe(T.Body("restarted_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "PatchConfigResponse",
@@ -1279,8 +1327,7 @@ export type ConfigsUpdateRequestOriginPublicDatabaseScheme =
   | "postgres"
   | "postgresql"
   | "mysql";
-export const ConfigsUpdateRequestOriginPublicDatabaseScheme =
-  /*@__PURE__*/ S.String;
+export const ConfigsUpdateRequestOriginPublicDatabaseScheme = S.String;
 
 export interface ConfigsUpdateRequestOriginPublicDatabase {
   /** Set the name of your origin database. */
@@ -1311,9 +1358,11 @@ export const ConfigsUpdateRequestOriginPublicDatabase = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ConfigsUpdateRequestOriginPublicDatabase>;
 
 export type ConfigsUpdateRequestOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  "postgres" | "postgresql" | "mysql";
+  | "postgres"
+  | "postgresql"
+  | "mysql";
 export const ConfigsUpdateRequestOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsUpdateRequestOriginAccessProtectedDatabaseBehindCloudflareTunnel {
   /** Defines the Client ID of the Access token to use when connecting to the origin database. */
@@ -1351,9 +1400,11 @@ export const ConfigsUpdateRequestOriginAccessProtectedDatabaseBehindCloudflareTu
   }) as any as S.Schema<ConfigsUpdateRequestOriginAccessProtectedDatabaseBehindCloudflareTunnel>;
 
 export type ConfigsUpdateRequestOriginDatabaseReachableThroughAWorkersVPCScheme =
-  "postgres" | "postgresql" | "mysql";
+  | "postgres"
+  | "postgresql"
+  | "mysql";
 export const ConfigsUpdateRequestOriginDatabaseReachableThroughAWorkersVPCScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsUpdateRequestOriginDatabaseReachableThroughAWorkersVPC {
   /** Set the name of your origin database. */
@@ -1465,8 +1516,7 @@ export type ConfigsUpdateResponseOriginPublicDatabaseScheme =
   | "postgres"
   | "postgresql"
   | "mysql";
-export const ConfigsUpdateResponseOriginPublicDatabaseScheme =
-  /*@__PURE__*/ S.String;
+export const ConfigsUpdateResponseOriginPublicDatabaseScheme = S.String;
 
 export interface ConfigsUpdateResponseOriginPublicDatabase {
   /** Set the name of your origin database. */
@@ -1494,9 +1544,11 @@ export const ConfigsUpdateResponseOriginPublicDatabase =
   }) as any as S.Schema<ConfigsUpdateResponseOriginPublicDatabase>;
 
 export type ConfigsUpdateResponseOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  "postgres" | "postgresql" | "mysql";
+  | "postgres"
+  | "postgresql"
+  | "mysql";
 export const ConfigsUpdateResponseOriginAccessProtectedDatabaseBehindCloudflareTunnelScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsUpdateResponseOriginAccessProtectedDatabaseBehindCloudflareTunnel {
   /** Defines the Client ID of the Access token to use when connecting to the origin database. */
@@ -1529,9 +1581,11 @@ export const ConfigsUpdateResponseOriginAccessProtectedDatabaseBehindCloudflareT
   }) as any as S.Schema<ConfigsUpdateResponseOriginAccessProtectedDatabaseBehindCloudflareTunnel>;
 
 export type ConfigsUpdateResponseOriginDatabaseReachableThroughAWorkersVPCScheme =
-  "postgres" | "postgresql" | "mysql";
+  | "postgres"
+  | "postgresql"
+  | "mysql";
 export const ConfigsUpdateResponseOriginDatabaseReachableThroughAWorkersVPCScheme =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ConfigsUpdateResponseOriginDatabaseReachableThroughAWorkersVPC {
   /** Set the name of your origin database. */
@@ -1612,6 +1666,8 @@ export interface UpdateConfigResponse {
   mtls?: ConfigsCreateResponseMtls | null;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number | null;
+  /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
+  restartedOn?: string | null;
 }
 export const UpdateConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1625,6 +1681,7 @@ export const UpdateConfigResponse = /*@__PURE__*/ S.suspend(() =>
     originConnectionLimit: S.optional(
       S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
     ),
+    restartedOn: S.optional(S.NullOr(S.String).pipe(T.Body("restarted_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateConfigResponse",
@@ -1634,6 +1691,7 @@ export type CreateConfigError =
   | PrivateHostNotAllowed
   | InvalidHyperdriveConfig
   | InvalidObjectIdentifier
+  | HyperdriveOriginUnavailable
   | CloudflareOpError;
 /** Creates and returns a new Hyperdrive configuration. */
 export const createConfig: API.OperationMethod<
@@ -1648,6 +1706,7 @@ export const createConfig: API.OperationMethod<
     PrivateHostNotAllowed,
     InvalidHyperdriveConfig,
     InvalidObjectIdentifier,
+    HyperdriveOriginUnavailable,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -1740,8 +1799,9 @@ export type PatchConfigError =
   | HyperdriveConfigNotFound
   | InvalidObjectIdentifier
   | MethodNotAllowed
+  | HyperdriveOriginUnavailable
   | CloudflareOpError;
-/** Patches and returns the specified Hyperdrive configuration. Custom caching settings are not kept if caching is disabled. */
+/** Updates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled. */
 export const patchConfig: API.OperationMethod<
   PatchConfigRequest,
   PatchConfigResponse,
@@ -1755,6 +1815,7 @@ export const patchConfig: API.OperationMethod<
     HyperdriveConfigNotFound,
     InvalidObjectIdentifier,
     MethodNotAllowed,
+    HyperdriveOriginUnavailable,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -1767,8 +1828,9 @@ export type UpdateConfigError =
   | HyperdriveConfigNotFound
   | InvalidObjectIdentifier
   | MethodNotAllowed
+  | HyperdriveOriginUnavailable
   | CloudflareOpError;
-/** Updates and returns the specified Hyperdrive configuration. */
+/** Replaces and returns the specified Hyperdrive configuration. The request must include the name and complete origin connection details. Omitted caching settings are reset to their defaults, while omitted mTLS settings and origin connection limits are preserved. Use the update operation to modify only selected fields. */
 export const updateConfig: API.OperationMethod<
   UpdateConfigRequest,
   UpdateConfigResponse,
@@ -1782,6 +1844,7 @@ export const updateConfig: API.OperationMethod<
     HyperdriveConfigNotFound,
     InvalidObjectIdentifier,
     MethodNotAllowed,
+    HyperdriveOriginUnavailable,
     CloudflareRateLimited,
     CloudflareError,
   ],

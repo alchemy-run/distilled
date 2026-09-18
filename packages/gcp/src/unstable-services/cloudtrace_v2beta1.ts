@@ -80,16 +80,16 @@ export const OutputConfig = /*@__PURE__*/ S.suspend(() =>
 export interface TraceSink {
   /** Identifier. The canonical sink resource name, unique within the project. Must be of the form: projects/[PROJECT_NUMBER]/traceSinks/[SINK_ID]. E.g.: `"projects/12345/traceSinks/my-project-trace-sink"`. Sink identifiers are limited to 256 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, and periods. */
   name?: string;
-  /** Required. The export destination. */
-  outputConfig?: OutputConfig;
   /** Output only. A service account name for exporting the data. This field is set by sinks.create and sinks.update. The service account will need to be granted write access to the destination specified in the output configuration, see [Granting access for a resource](/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). To create tables and to write data, this account needs the `dataEditor` role. Read more about roles in the [BigQuery documentation](https://cloud.google.com/bigquery/docs/access-control). E.g.: "service-00000001@00000002.iam.gserviceaccount.com" */
   writerIdentity?: string;
+  /** Required. The export destination. */
+  outputConfig?: OutputConfig;
 }
 export const TraceSink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    outputConfig: S.optional(OutputConfig),
     writerIdentity: S.optional(S.String),
+    outputConfig: S.optional(OutputConfig),
   }),
 ).annotate({ identifier: "TraceSink" }) as any as S.Schema<TraceSink>;
 
@@ -159,16 +159,16 @@ export const GetProjectsTraceSinksRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsTraceSinksRequest {
   /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
   pageToken?: string;
-  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. */
-  pageSize?: number;
   /** Required. The parent resource whose sinks are to be listed (currently only project parent resources are supported): "projects/[PROJECT_ID]" */
   parent: string;
+  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. */
+  pageSize?: number;
 }
 export const ListProjectsTraceSinksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -202,17 +202,17 @@ export const ListTraceSinksResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListTraceSinksResponse>;
 
 export interface PatchProjectsTraceSinksRequest {
-  /** Required. Field mask that specifies the fields in `trace_sink` that are to be updated. A sink field is overwritten if, and only if, it is in the update mask. `name` and `writer_identity` fields cannot be updated. An empty `update_mask` is considered an error. For a detailed `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask Example: `updateMask=output_config`. */
-  updateMask?: string;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_NUMBER]/traceSinks/[SINK_ID]" Example: `"projects/12345/traceSinks/my-sink-id"`. */
   name: string;
+  /** Required. Field mask that specifies the fields in `trace_sink` that are to be updated. A sink field is overwritten if, and only if, it is in the update mask. `name` and `writer_identity` fields cannot be updated. An empty `update_mask` is considered an error. For a detailed `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask Example: `updateMask=output_config`. */
+  updateMask?: string;
   /** Request body */
   body?: TraceSink;
 }
 export const PatchProjectsTraceSinksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(TraceSink.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

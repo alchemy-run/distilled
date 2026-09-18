@@ -14,13 +14,14 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.azure.servicenetworking#SecurityPoliciesInterfaceDelete": {
+    "com.azure.servicenetworking#DeleteSecurityPoliciesInterface": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceDeleteRequest"
+        "target": "com.azure.servicenetworking#DeleteSecurityPoliciesInterfaceRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -30,13 +31,13 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies/{securityPolicyName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Delete a SecurityPolicy",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#SecurityPoliciesInterfaceDeleteRequest": {
+    "com.azure.servicenetworking#DeleteSecurityPoliciesInterfaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -76,26 +77,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#SecurityPoliciesInterfaceUpdate": {
+    "com.azure.servicenetworking#UpdateSecurityPoliciesInterface": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceUpdateRequest"
+        "target": "com.azure.servicenetworking#UpdateSecurityPoliciesInterfaceRequest"
       },
       "output": {
-        "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceUpdateResponse"
+        "target": "com.azure.servicenetworking#UpdateSecurityPoliciesInterfaceResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies/{securityPolicyName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Update a SecurityPolicy",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#SecurityPoliciesInterfaceUpdateResponse": {
+    "com.azure.servicenetworking#UpdateSecurityPoliciesInterfaceResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -123,7 +124,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceUpdateResponseTagsMap",
+          "target": "com.azure.servicenetworking#UpdateSecurityPoliciesInterfaceResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -159,6 +160,12 @@
           "target": "com.azure.servicenetworking#WafPolicy",
           "traits": {
             "smithy.api#documentation": "Web Application Firewall Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set."
+          }
+        },
+        "ipAccessRulesPolicy": {
+          "target": "com.azure.servicenetworking#IpAccessRulesPolicy",
+          "traits": {
+            "smithy.api#documentation": "Ip Access Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set."
           }
         },
         "provisioningState": {
@@ -222,6 +229,94 @@
         "smithy.api#documentation": "Resource Provisioning State Enum"
       }
     },
+    "com.azure.servicenetworking#IpAccessRulesPolicy": {
+      "type": "structure",
+      "members": {
+        "rules": {
+          "target": "com.azure.servicenetworking#IpAccessRulesPolicyRulesList",
+          "traits": {
+            "smithy.api#documentation": "Ip Access Policy Rules List"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Ip Access Policy"
+      }
+    },
+    "com.azure.servicenetworking#IpAccessRulesPolicyRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.servicenetworking#IpAccessRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ip Access Policy Rules List"
+      }
+    },
+    "com.azure.servicenetworking#IpAccessRule": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Ip Access Rule",
+            "smithy.api#required": {}
+          }
+        },
+        "priority": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The priority of the rule. The value can be between 1 and 500. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "sourceAddressPrefixes": {
+          "target": "com.azure.servicenetworking#IpAccessRuleSourceAddressPrefixesList",
+          "traits": {
+            "smithy.api#documentation": "Source Address Prefixed Applied by the Rule. Asterisk '*' can also be used to match all source IPs.",
+            "smithy.api#required": {}
+          }
+        },
+        "action": {
+          "target": "com.azure.servicenetworking#IpAccessRuleAction",
+          "traits": {
+            "smithy.api#documentation": "Action of the Rule",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Ip Access Policy Rules"
+      }
+    },
+    "com.azure.servicenetworking#IpAccessRuleAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deny"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Action of Ip Access Rule"
+      }
+    },
+    "com.azure.servicenetworking#IpAccessRuleSourceAddressPrefixesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Source Address Prefixed Applied by the Rule. Asterisk '*' can also be used to match all source IPs."
+      }
+    },
     "com.azure.servicenetworking#WafPolicy": {
       "type": "structure",
       "members": {
@@ -245,13 +340,19 @@
           "traits": {
             "smithy.api#enumValue": "waf"
           }
+        },
+        "IPACCESSRULES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ipAccessRules"
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Policy Type of the Security Policy"
       }
     },
-    "com.azure.servicenetworking#SecurityPoliciesInterfaceUpdateResponseTagsMap": {
+    "com.azure.servicenetworking#UpdateSecurityPoliciesInterfaceResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -371,7 +472,7 @@
         "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
-    "com.azure.servicenetworking#SecurityPoliciesInterfaceUpdateRequest": {
+    "com.azure.servicenetworking#UpdateSecurityPoliciesInterfaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -407,7 +508,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceUpdateRequestTagsMap",
+          "target": "com.azure.servicenetworking#UpdateSecurityPoliciesInterfaceRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -431,6 +532,12 @@
           "traits": {
             "smithy.api#documentation": "Web Application Firewall Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set."
           }
+        },
+        "ipAccessRulesPolicy": {
+          "target": "com.azure.servicenetworking#IpAccessRulesPolicy",
+          "traits": {
+            "smithy.api#documentation": "Ip Access Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set."
+          }
         }
       },
       "traits": {
@@ -451,7 +558,7 @@
         "smithy.api#documentation": "Web Application Firewall Policy"
       }
     },
-    "com.azure.servicenetworking#SecurityPoliciesInterfaceUpdateRequestTagsMap": {
+    "com.azure.servicenetworking#UpdateSecurityPoliciesInterfaceRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -476,10 +583,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies/{securityPolicyName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Create a SecurityPolicy",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
     "com.azure.servicenetworking#SecurityPoliciesInterfaceCreateOrUpdateResponse": {
@@ -612,6 +719,12 @@
           "traits": {
             "smithy.api#documentation": "Web Application Firewall Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set."
           }
+        },
+        "ipAccessRulesPolicy": {
+          "target": "com.azure.servicenetworking#IpAccessRulesPolicy",
+          "traits": {
+            "smithy.api#documentation": "Ip Access Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set."
+          }
         }
       },
       "traits": {
@@ -630,26 +743,26 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#SecurityPoliciesInterfaceGet": {
+    "com.azure.servicenetworking#GetSecurityPoliciesInterface": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceGetRequest"
+        "target": "com.azure.servicenetworking#GetSecurityPoliciesInterfaceRequest"
       },
       "output": {
-        "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceGetResponse"
+        "target": "com.azure.servicenetworking#GetSecurityPoliciesInterfaceResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies/{securityPolicyName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Get a SecurityPolicy",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#SecurityPoliciesInterfaceGetResponse": {
+    "com.azure.servicenetworking#GetSecurityPoliciesInterfaceResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -677,7 +790,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceGetResponseTagsMap",
+          "target": "com.azure.servicenetworking#GetSecurityPoliciesInterfaceResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -700,7 +813,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.servicenetworking#SecurityPoliciesInterfaceGetResponseTagsMap": {
+    "com.azure.servicenetworking#GetSecurityPoliciesInterfaceResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -712,7 +825,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#SecurityPoliciesInterfaceGetRequest": {
+    "com.azure.servicenetworking#GetSecurityPoliciesInterfaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -752,10 +865,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#SecurityPoliciesInterfaceListByTrafficController": {
+    "com.azure.servicenetworking#ListSecurityPoliciesInterfaceByTrafficController": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceListByTrafficControllerRequest"
+        "target": "com.azure.servicenetworking#ListSecurityPoliciesInterfaceByTrafficControllerRequest"
       },
       "output": {
         "target": "com.azure.servicenetworking#SecurityPolicyListResult"
@@ -765,10 +878,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "List SecurityPolicy resources by TrafficController",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
     "com.azure.servicenetworking#SecurityPolicyListResult": {
@@ -864,7 +977,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#SecurityPoliciesInterfaceListByTrafficControllerRequest": {
+    "com.azure.servicenetworking#ListSecurityPoliciesInterfaceByTrafficControllerRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -896,10 +1009,768 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#FrontendsInterfaceDelete": {
+    "com.azure.servicenetworking#GetPrivateLinkResourcesInterface": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#FrontendsInterfaceDeleteRequest"
+        "target": "com.azure.servicenetworking#GetPrivateLinkResourcesInterfaceRequest"
+      },
+      "output": {
+        "target": "com.azure.servicenetworking#GetPrivateLinkResourcesInterfaceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/privateLinkResources/{privateLinkResourceName}",
+          "code": 200,
+          "apiVersion": "2026-03-01"
+        },
+        "smithy.api#documentation": "Get a PrivateLinkResource",
+        "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.servicenetworking#GetPrivateLinkResourcesInterfaceResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.servicenetworking#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "properties": {
+          "target": "com.azure.servicenetworking#PrivateLinkResourceProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicenetworking#PrivateLinkResourceProperties": {
+      "type": "structure",
+      "members": {
+        "groupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The private link resource group ID."
+          }
+        },
+        "requiredMembers": {
+          "target": "com.azure.servicenetworking#PrivateLinkResourcePropertiesRequiredMembersList",
+          "traits": {
+            "smithy.api#documentation": "The private link resource required member names."
+          }
+        },
+        "requiredZoneNames": {
+          "target": "com.azure.servicenetworking#PrivateLinkResourcePropertiesRequiredZoneNamesList",
+          "traits": {
+            "smithy.api#documentation": "The private link resource private DNS zone names."
+          }
+        },
+        "provisioningState": {
+          "target": "com.azure.servicenetworking#ProvisioningState",
+          "traits": {
+            "smithy.api#documentation": "The status of the last operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Properties of a private link resource."
+      }
+    },
+    "com.azure.servicenetworking#PrivateLinkResourcePropertiesRequiredZoneNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The private link resource private DNS zone names."
+      }
+    },
+    "com.azure.servicenetworking#PrivateLinkResourcePropertiesRequiredMembersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The private link resource required member names."
+      }
+    },
+    "com.azure.servicenetworking#GetPrivateLinkResourcesInterfaceRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "trafficControllerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "traffic controller name for path"
+          }
+        },
+        "privateLinkResourceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Private Link Resource"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicenetworking#ListPrivateLinkResourcesInterfaceByTrafficController": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicenetworking#ListPrivateLinkResourcesInterfaceByTrafficControllerRequest"
+      },
+      "output": {
+        "target": "com.azure.servicenetworking#PrivateLinkResourceListResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/privateLinkResources",
+          "code": 200,
+          "apiVersion": "2026-03-01"
+        },
+        "smithy.api#documentation": "List PrivateLinkResource resources by TrafficController",
+        "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.servicenetworking#PrivateLinkResourceListResult": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.servicenetworking#PrivateLinkResourceListResultValueList",
+          "traits": {
+            "smithy.api#documentation": "The PrivateLinkResource items on this page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response of a PrivateLinkResource list operation."
+      }
+    },
+    "com.azure.servicenetworking#PrivateLinkResourceListResultValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.servicenetworking#PrivateLinkResource"
+      },
+      "traits": {
+        "smithy.api#documentation": "The PrivateLinkResource items on this page"
+      }
+    },
+    "com.azure.servicenetworking#PrivateLinkResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.servicenetworking#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "properties": {
+          "target": "com.azure.servicenetworking#PrivateLinkResourceProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A private link resource."
+      }
+    },
+    "com.azure.servicenetworking#ListPrivateLinkResourcesInterfaceByTrafficControllerRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "trafficControllerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "traffic controller name for path"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicenetworking#DeletePrivateEndpointConnectionsInterface": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicenetworking#DeletePrivateEndpointConnectionsInterfaceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/privateEndpointConnections/{privateEndpointConnectionName}",
+          "code": 200,
+          "apiVersion": "2026-03-01"
+        },
+        "smithy.api#documentation": "Delete a PrivateEndpointConnection",
+        "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.servicenetworking#DeletePrivateEndpointConnectionsInterfaceRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "trafficControllerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "traffic controller name for path"
+          }
+        },
+        "privateEndpointConnectionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Private Endpoint Connection"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicenetworking#UpdatePrivateEndpointConnectionsInterface": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicenetworking#UpdatePrivateEndpointConnectionsInterfaceRequest"
+      },
+      "output": {
+        "target": "com.azure.servicenetworking#UpdatePrivateEndpointConnectionsInterfaceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/privateEndpointConnections/{privateEndpointConnectionName}",
+          "code": 200,
+          "apiVersion": "2026-03-01"
+        },
+        "smithy.api#documentation": "Create a PrivateEndpointConnection",
+        "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.servicenetworking#UpdatePrivateEndpointConnectionsInterfaceResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.servicenetworking#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "properties": {
+          "target": "com.azure.servicenetworking#PrivateEndpointConnectionProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicenetworking#PrivateEndpointConnectionProperties": {
+      "type": "structure",
+      "members": {
+        "privateEndpoint": {
+          "target": "com.azure.servicenetworking#PrivateEndpointReference",
+          "traits": {
+            "smithy.api#documentation": "The private endpoint resource."
+          }
+        },
+        "privateLinkServiceConnectionState": {
+          "target": "com.azure.servicenetworking#PrivateLinkServiceConnectionState",
+          "traits": {
+            "smithy.api#documentation": "The connection state of the private endpoint connection.",
+            "smithy.api#required": {}
+          }
+        },
+        "provisioningState": {
+          "target": "com.azure.servicenetworking#ProvisioningState",
+          "traits": {
+            "smithy.api#documentation": "Provisioning state of the private endpoint connection."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Properties of a Private Endpoint Connection."
+      }
+    },
+    "com.azure.servicenetworking#PrivateLinkServiceConnectionState": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.azure.servicenetworking#PrivateLinkServiceConnectionStatus",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reason for approval/rejection of the connection."
+          }
+        },
+        "actionsRequired": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A message indicating if changes on the service provider require any updates on the consumer."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The state of a private link service connection."
+      }
+    },
+    "com.azure.servicenetworking#PrivateLinkServiceConnectionStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Pending"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Approved"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Rejected"
+          }
+        },
+        "DISCONNECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Disconnected"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The private endpoint connection status."
+      }
+    },
+    "com.azure.servicenetworking#PrivateEndpointReference": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource ID of the private endpoint."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Reference to a private endpoint resource."
+      }
+    },
+    "com.azure.servicenetworking#UpdatePrivateEndpointConnectionsInterfaceRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "trafficControllerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "traffic controller name for path"
+          }
+        },
+        "privateEndpointConnectionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Private Endpoint Connection"
+          }
+        },
+        "properties": {
+          "target": "com.azure.servicenetworking#PrivateEndpointConnectionPropertiesInput",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicenetworking#PrivateEndpointConnectionPropertiesInput": {
+      "type": "structure",
+      "members": {
+        "privateLinkServiceConnectionState": {
+          "target": "com.azure.servicenetworking#PrivateLinkServiceConnectionState",
+          "traits": {
+            "smithy.api#documentation": "The connection state of the private endpoint connection.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Properties of a Private Endpoint Connection."
+      }
+    },
+    "com.azure.servicenetworking#GetPrivateEndpointConnectionsInterface": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicenetworking#GetPrivateEndpointConnectionsInterfaceRequest"
+      },
+      "output": {
+        "target": "com.azure.servicenetworking#GetPrivateEndpointConnectionsInterfaceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/privateEndpointConnections/{privateEndpointConnectionName}",
+          "code": 200,
+          "apiVersion": "2026-03-01"
+        },
+        "smithy.api#documentation": "Get a PrivateEndpointConnection",
+        "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.servicenetworking#GetPrivateEndpointConnectionsInterfaceResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.servicenetworking#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "properties": {
+          "target": "com.azure.servicenetworking#PrivateEndpointConnectionProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.servicenetworking#GetPrivateEndpointConnectionsInterfaceRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "trafficControllerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "traffic controller name for path"
+          }
+        },
+        "privateEndpointConnectionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Private Endpoint Connection"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicenetworking#ListPrivateEndpointConnectionsInterfaceByTrafficController": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicenetworking#ListPrivateEndpointConnectionsInterfaceByTrafficControllerRequest"
+      },
+      "output": {
+        "target": "com.azure.servicenetworking#PrivateEndpointConnectionListResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/privateEndpointConnections",
+          "code": 200,
+          "apiVersion": "2026-03-01"
+        },
+        "smithy.api#documentation": "List PrivateEndpointConnection resources by TrafficController",
+        "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.servicenetworking#PrivateEndpointConnectionListResult": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.servicenetworking#PrivateEndpointConnectionListResultValueList",
+          "traits": {
+            "smithy.api#documentation": "The PrivateEndpointConnection items on this page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response of a PrivateEndpointConnection list operation."
+      }
+    },
+    "com.azure.servicenetworking#PrivateEndpointConnectionListResultValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.servicenetworking#PrivateEndpointConnection"
+      },
+      "traits": {
+        "smithy.api#documentation": "The PrivateEndpointConnection items on this page"
+      }
+    },
+    "com.azure.servicenetworking#PrivateEndpointConnection": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the resource"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or \"Microsoft.Storage/storageAccounts\""
+          }
+        },
+        "systemData": {
+          "target": "com.azure.servicenetworking#SystemData",
+          "traits": {
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
+          }
+        },
+        "properties": {
+          "target": "com.azure.servicenetworking#PrivateEndpointConnectionProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Private Endpoint Connection resource of Traffic Controller."
+      }
+    },
+    "com.azure.servicenetworking#ListPrivateEndpointConnectionsInterfaceByTrafficControllerRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "trafficControllerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "traffic controller name for path"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.servicenetworking#DeleteFrontendsInterface": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.servicenetworking#DeleteFrontendsInterfaceRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -909,13 +1780,13 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends/{frontendName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Delete a Frontend",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#FrontendsInterfaceDeleteRequest": {
+    "com.azure.servicenetworking#DeleteFrontendsInterfaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -955,26 +1826,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#FrontendsInterfaceUpdate": {
+    "com.azure.servicenetworking#UpdateFrontendsInterface": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#FrontendsInterfaceUpdateRequest"
+        "target": "com.azure.servicenetworking#UpdateFrontendsInterfaceRequest"
       },
       "output": {
-        "target": "com.azure.servicenetworking#FrontendsInterfaceUpdateResponse"
+        "target": "com.azure.servicenetworking#UpdateFrontendsInterfaceResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends/{frontendName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Update a Frontend",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#FrontendsInterfaceUpdateResponse": {
+    "com.azure.servicenetworking#UpdateFrontendsInterfaceResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -1002,7 +1873,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.servicenetworking#FrontendsInterfaceUpdateResponseTagsMap",
+          "target": "com.azure.servicenetworking#UpdateFrontendsInterfaceResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -1034,6 +1905,24 @@
             "smithy.api#documentation": "The Fully Qualified Domain Name of the DNS record associated to a Traffic Controller frontend."
           }
         },
+        "publicNetworkAccess": {
+          "target": "com.azure.servicenetworking#PublicNetworkAccess",
+          "traits": {
+            "smithy.api#documentation": "Whether public network access is allowed for the frontend. Enabled indicates a public frontend; Disabled indicates a private frontend."
+          }
+        },
+        "association": {
+          "target": "com.azure.servicenetworking#FrontendAssociation",
+          "traits": {
+            "smithy.api#documentation": "Reference to an Association resource that contains the subnet where the private frontend should be deployed."
+          }
+        },
+        "securityPolicyConfigurations": {
+          "target": "com.azure.servicenetworking#SecurityPolicyConfigurations",
+          "traits": {
+            "smithy.api#documentation": "Frontend Security Policy Configuration"
+          }
+        },
         "provisioningState": {
           "target": "com.azure.servicenetworking#ProvisioningState",
           "traits": {
@@ -1045,7 +1934,92 @@
         "smithy.api#documentation": "Frontend Properties."
       }
     },
-    "com.azure.servicenetworking#FrontendsInterfaceUpdateResponseTagsMap": {
+    "com.azure.servicenetworking#SecurityPolicyConfigurations": {
+      "type": "structure",
+      "members": {
+        "wafSecurityPolicy": {
+          "target": "com.azure.servicenetworking#WafSecurityPolicy",
+          "traits": {
+            "smithy.api#documentation": "Contains reference to a WAF-type security policy."
+          }
+        },
+        "ipAccessRulesSecurityPolicy": {
+          "target": "com.azure.servicenetworking#IpAccessRulesSecurityPolicy",
+          "traits": {
+            "smithy.api#documentation": "Contains reference to a IpAccessRules-type security policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "SecurityPolicyConfigurations Subresource of Traffic Controller."
+      }
+    },
+    "com.azure.servicenetworking#IpAccessRulesSecurityPolicy": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource ID of the Ip Access Rules Security Policy",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "IpAccessRules Security Policy"
+      }
+    },
+    "com.azure.servicenetworking#WafSecurityPolicy": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource ID of the Waf Security Policy",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Web Application Firewall Security Policy"
+      }
+    },
+    "com.azure.servicenetworking#FrontendAssociation": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource ID of the Association.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Reference to an Association resource."
+      }
+    },
+    "com.azure.servicenetworking#PublicNetworkAccess": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether public network access is allowed for the frontend."
+      }
+    },
+    "com.azure.servicenetworking#UpdateFrontendsInterfaceResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1057,7 +2031,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#FrontendsInterfaceUpdateRequest": {
+    "com.azure.servicenetworking#UpdateFrontendsInterfaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1093,9 +2067,15 @@
           }
         },
         "tags": {
-          "target": "com.azure.servicenetworking#FrontendsInterfaceUpdateRequestTagsMap",
+          "target": "com.azure.servicenetworking#UpdateFrontendsInterfaceRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "properties": {
+          "target": "com.azure.servicenetworking#FrontendUpdateProperties",
+          "traits": {
+            "smithy.api#documentation": "The resource-specific properties for this resource."
           }
         }
       },
@@ -1103,7 +2083,95 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#FrontendsInterfaceUpdateRequestTagsMap": {
+    "com.azure.servicenetworking#FrontendUpdateProperties": {
+      "type": "structure",
+      "members": {
+        "publicNetworkAccess": {
+          "target": "com.azure.servicenetworking#PublicNetworkAccess",
+          "traits": {
+            "smithy.api#documentation": "Whether public network access is allowed for the frontend. Enabled indicates a public frontend; Disabled indicates a private frontend."
+          }
+        },
+        "association": {
+          "target": "com.azure.servicenetworking#FrontendAssociationUpdate",
+          "traits": {
+            "smithy.api#documentation": "Reference to an Association resource that contains the subnet where the private frontend should be deployed."
+          }
+        },
+        "securityPolicyConfigurations": {
+          "target": "com.azure.servicenetworking#SecurityPolicyConfigurationsUpdate",
+          "traits": {
+            "smithy.api#documentation": "Frontend Security Policy Configuration"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The updatable properties of the Frontend."
+      }
+    },
+    "com.azure.servicenetworking#SecurityPolicyConfigurationsUpdate": {
+      "type": "structure",
+      "members": {
+        "wafSecurityPolicy": {
+          "target": "com.azure.servicenetworking#WafSecurityPolicyUpdate",
+          "traits": {
+            "smithy.api#documentation": "Contains reference to a WAF-type security policy."
+          }
+        },
+        "ipAccessRulesSecurityPolicy": {
+          "target": "com.azure.servicenetworking#IpAccessRulesSecurityPolicyUpdate",
+          "traits": {
+            "smithy.api#documentation": "Contains reference to a IpAccessRules-type security policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "SecurityPolicyConfigurations Subresource of Traffic Controller."
+      }
+    },
+    "com.azure.servicenetworking#IpAccessRulesSecurityPolicyUpdate": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource ID of the Ip Access Rules Security Policy"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "IpAccessRules Security Policy"
+      }
+    },
+    "com.azure.servicenetworking#WafSecurityPolicyUpdate": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource ID of the Waf Security Policy"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Web Application Firewall Security Policy"
+      }
+    },
+    "com.azure.servicenetworking#FrontendAssociationUpdate": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource ID of the Association."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Reference to an Association resource."
+      }
+    },
+    "com.azure.servicenetworking#UpdateFrontendsInterfaceRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1128,10 +2196,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends/{frontendName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Create a Frontend",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
     "com.azure.servicenetworking#FrontendsInterfaceCreateOrUpdateResponse": {
@@ -1258,7 +2326,26 @@
     },
     "com.azure.servicenetworking#FrontendPropertiesInput": {
       "type": "structure",
-      "members": {},
+      "members": {
+        "publicNetworkAccess": {
+          "target": "com.azure.servicenetworking#PublicNetworkAccess",
+          "traits": {
+            "smithy.api#documentation": "Whether public network access is allowed for the frontend. Enabled indicates a public frontend; Disabled indicates a private frontend."
+          }
+        },
+        "association": {
+          "target": "com.azure.servicenetworking#FrontendAssociation",
+          "traits": {
+            "smithy.api#documentation": "Reference to an Association resource that contains the subnet where the private frontend should be deployed."
+          }
+        },
+        "securityPolicyConfigurations": {
+          "target": "com.azure.servicenetworking#SecurityPolicyConfigurations",
+          "traits": {
+            "smithy.api#documentation": "Frontend Security Policy Configuration"
+          }
+        }
+      },
       "traits": {
         "smithy.api#documentation": "Frontend Properties."
       }
@@ -1275,26 +2362,26 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#FrontendsInterfaceGet": {
+    "com.azure.servicenetworking#GetFrontendsInterface": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#FrontendsInterfaceGetRequest"
+        "target": "com.azure.servicenetworking#GetFrontendsInterfaceRequest"
       },
       "output": {
-        "target": "com.azure.servicenetworking#FrontendsInterfaceGetResponse"
+        "target": "com.azure.servicenetworking#GetFrontendsInterfaceResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends/{frontendName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Get a Frontend",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#FrontendsInterfaceGetResponse": {
+    "com.azure.servicenetworking#GetFrontendsInterfaceResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -1322,7 +2409,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.servicenetworking#FrontendsInterfaceGetResponseTagsMap",
+          "target": "com.azure.servicenetworking#GetFrontendsInterfaceResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -1345,7 +2432,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.servicenetworking#FrontendsInterfaceGetResponseTagsMap": {
+    "com.azure.servicenetworking#GetFrontendsInterfaceResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1357,7 +2444,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#FrontendsInterfaceGetRequest": {
+    "com.azure.servicenetworking#GetFrontendsInterfaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1397,10 +2484,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#FrontendsInterfaceListByTrafficController": {
+    "com.azure.servicenetworking#ListFrontendsInterfaceByTrafficController": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#FrontendsInterfaceListByTrafficControllerRequest"
+        "target": "com.azure.servicenetworking#ListFrontendsInterfaceByTrafficControllerRequest"
       },
       "output": {
         "target": "com.azure.servicenetworking#FrontendListResult"
@@ -1410,10 +2497,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "List Frontend resources by TrafficController",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
     "com.azure.servicenetworking#FrontendListResult": {
@@ -1509,7 +2596,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#FrontendsInterfaceListByTrafficControllerRequest": {
+    "com.azure.servicenetworking#ListFrontendsInterfaceByTrafficControllerRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1541,10 +2628,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#AssociationsInterfaceDelete": {
+    "com.azure.servicenetworking#DeleteAssociationsInterface": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#AssociationsInterfaceDeleteRequest"
+        "target": "com.azure.servicenetworking#DeleteAssociationsInterfaceRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -1554,13 +2641,13 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Delete a Association",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#AssociationsInterfaceDeleteRequest": {
+    "com.azure.servicenetworking#DeleteAssociationsInterfaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1600,26 +2687,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#AssociationsInterfaceUpdate": {
+    "com.azure.servicenetworking#UpdateAssociationsInterface": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#AssociationsInterfaceUpdateRequest"
+        "target": "com.azure.servicenetworking#UpdateAssociationsInterfaceRequest"
       },
       "output": {
-        "target": "com.azure.servicenetworking#AssociationsInterfaceUpdateResponse"
+        "target": "com.azure.servicenetworking#UpdateAssociationsInterfaceResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Update a Association",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#AssociationsInterfaceUpdateResponse": {
+    "com.azure.servicenetworking#UpdateAssociationsInterfaceResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -1647,7 +2734,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.servicenetworking#AssociationsInterfaceUpdateResponseTagsMap",
+          "target": "com.azure.servicenetworking#UpdateAssociationsInterfaceResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -1726,7 +2813,7 @@
         "smithy.api#documentation": "Association Type Enum"
       }
     },
-    "com.azure.servicenetworking#AssociationsInterfaceUpdateResponseTagsMap": {
+    "com.azure.servicenetworking#UpdateAssociationsInterfaceResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1738,7 +2825,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#AssociationsInterfaceUpdateRequest": {
+    "com.azure.servicenetworking#UpdateAssociationsInterfaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1774,7 +2861,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.servicenetworking#AssociationsInterfaceUpdateRequestTagsMap",
+          "target": "com.azure.servicenetworking#UpdateAssociationsInterfaceRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -1824,7 +2911,7 @@
         "smithy.api#documentation": "Association Subnet."
       }
     },
-    "com.azure.servicenetworking#AssociationsInterfaceUpdateRequestTagsMap": {
+    "com.azure.servicenetworking#UpdateAssociationsInterfaceRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1849,10 +2936,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Create a Association",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
     "com.azure.servicenetworking#AssociationsInterfaceCreateOrUpdateResponse": {
@@ -2010,26 +3097,26 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#AssociationsInterfaceGet": {
+    "com.azure.servicenetworking#GetAssociationsInterface": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#AssociationsInterfaceGetRequest"
+        "target": "com.azure.servicenetworking#GetAssociationsInterfaceRequest"
       },
       "output": {
-        "target": "com.azure.servicenetworking#AssociationsInterfaceGetResponse"
+        "target": "com.azure.servicenetworking#GetAssociationsInterfaceResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Get a Association",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#AssociationsInterfaceGetResponse": {
+    "com.azure.servicenetworking#GetAssociationsInterfaceResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -2057,7 +3144,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.servicenetworking#AssociationsInterfaceGetResponseTagsMap",
+          "target": "com.azure.servicenetworking#GetAssociationsInterfaceResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -2080,7 +3167,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.servicenetworking#AssociationsInterfaceGetResponseTagsMap": {
+    "com.azure.servicenetworking#GetAssociationsInterfaceResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2092,7 +3179,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#AssociationsInterfaceGetRequest": {
+    "com.azure.servicenetworking#GetAssociationsInterfaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2132,10 +3219,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#AssociationsInterfaceListByTrafficController": {
+    "com.azure.servicenetworking#ListAssociationsInterfaceByTrafficController": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#AssociationsInterfaceListByTrafficControllerRequest"
+        "target": "com.azure.servicenetworking#ListAssociationsInterfaceByTrafficControllerRequest"
       },
       "output": {
         "target": "com.azure.servicenetworking#AssociationListResult"
@@ -2145,10 +3232,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "List Association resources by TrafficController",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
     "com.azure.servicenetworking#AssociationListResult": {
@@ -2244,7 +3331,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#AssociationsInterfaceListByTrafficControllerRequest": {
+    "com.azure.servicenetworking#ListAssociationsInterfaceByTrafficControllerRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2276,10 +3363,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceDelete": {
+    "com.azure.servicenetworking#DeleteTrafficControllerInterface": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#TrafficControllerInterfaceDeleteRequest"
+        "target": "com.azure.servicenetworking#DeleteTrafficControllerInterfaceRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -2289,13 +3376,13 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Delete a TrafficController",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceDeleteRequest": {
+    "com.azure.servicenetworking#DeleteTrafficControllerInterfaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2327,26 +3414,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceUpdate": {
+    "com.azure.servicenetworking#UpdateTrafficControllerInterface": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#TrafficControllerInterfaceUpdateRequest"
+        "target": "com.azure.servicenetworking#UpdateTrafficControllerInterfaceRequest"
       },
       "output": {
-        "target": "com.azure.servicenetworking#TrafficControllerInterfaceUpdateResponse"
+        "target": "com.azure.servicenetworking#UpdateTrafficControllerInterfaceResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Update a TrafficController",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceUpdateResponse": {
+    "com.azure.servicenetworking#UpdateTrafficControllerInterfaceResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -2374,7 +3461,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.servicenetworking#TrafficControllerInterfaceUpdateResponseTagsMap",
+          "target": "com.azure.servicenetworking#UpdateTrafficControllerInterfaceResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -2424,6 +3511,12 @@
             "smithy.api#documentation": "Security Policies References List"
           }
         },
+        "privateEndpointConnections": {
+          "target": "com.azure.servicenetworking#TrafficControllerPropertiesPrivateEndpointConnectionsList",
+          "traits": {
+            "smithy.api#documentation": "Private Endpoint Connections List"
+          }
+        },
         "securityPolicyConfigurations": {
           "target": "com.azure.servicenetworking#SecurityPolicyConfigurations",
           "traits": {
@@ -2441,42 +3534,13 @@
         "smithy.api#documentation": "Traffic Controller Properties."
       }
     },
-    "com.azure.servicenetworking#SecurityPolicyConfigurations": {
-      "type": "structure",
-      "members": {
-        "wafSecurityPolicy": {
-          "target": "com.azure.servicenetworking#WafSecurityPolicy",
-          "traits": {
-            "smithy.api#documentation": "Contains reference to a WAF-type security policy."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "SecurityPolicyConfigurations Subresource of Traffic Controller."
-      }
-    },
-    "com.azure.servicenetworking#WafSecurityPolicy": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Resource ID of the Waf Security Policy",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Web Application Firewall Security Policy"
-      }
-    },
-    "com.azure.servicenetworking#TrafficControllerPropertiesSecurityPoliciesList": {
+    "com.azure.servicenetworking#TrafficControllerPropertiesPrivateEndpointConnectionsList": {
       "type": "list",
       "member": {
         "target": "com.azure.servicenetworking#ResourceId"
       },
       "traits": {
-        "smithy.api#documentation": "Security Policies References List"
+        "smithy.api#documentation": "Private Endpoint Connections List"
       }
     },
     "com.azure.servicenetworking#ResourceId": {
@@ -2492,6 +3556,15 @@
       },
       "traits": {
         "smithy.api#documentation": "Resource ID definition used by parent to reference child resources."
+      }
+    },
+    "com.azure.servicenetworking#TrafficControllerPropertiesSecurityPoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.servicenetworking#ResourceId"
+      },
+      "traits": {
+        "smithy.api#documentation": "Security Policies References List"
       }
     },
     "com.azure.servicenetworking#TrafficControllerPropertiesAssociationsList": {
@@ -2521,7 +3594,7 @@
         "smithy.api#documentation": "Configuration Endpoints."
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceUpdateResponseTagsMap": {
+    "com.azure.servicenetworking#UpdateTrafficControllerInterfaceResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2533,7 +3606,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceUpdateRequest": {
+    "com.azure.servicenetworking#UpdateTrafficControllerInterfaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2561,7 +3634,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.servicenetworking#TrafficControllerInterfaceUpdateRequestTagsMap",
+          "target": "com.azure.servicenetworking#UpdateTrafficControllerInterfaceRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -2591,35 +3664,7 @@
         "smithy.api#documentation": "The updatable properties of the TrafficController."
       }
     },
-    "com.azure.servicenetworking#SecurityPolicyConfigurationsUpdate": {
-      "type": "structure",
-      "members": {
-        "wafSecurityPolicy": {
-          "target": "com.azure.servicenetworking#WafSecurityPolicyUpdate",
-          "traits": {
-            "smithy.api#documentation": "Contains reference to a WAF-type security policy."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "SecurityPolicyConfigurations Subresource of Traffic Controller."
-      }
-    },
-    "com.azure.servicenetworking#WafSecurityPolicyUpdate": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Resource ID of the Waf Security Policy"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Web Application Firewall Security Policy"
-      }
-    },
-    "com.azure.servicenetworking#TrafficControllerInterfaceUpdateRequestTagsMap": {
+    "com.azure.servicenetworking#UpdateTrafficControllerInterfaceRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2644,10 +3689,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Create a TrafficController",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
     "com.azure.servicenetworking#TrafficControllerInterfaceCreateOrUpdateResponse": {
@@ -2790,26 +3835,26 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceGet": {
+    "com.azure.servicenetworking#GetTrafficControllerInterface": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#TrafficControllerInterfaceGetRequest"
+        "target": "com.azure.servicenetworking#GetTrafficControllerInterfaceRequest"
       },
       "output": {
-        "target": "com.azure.servicenetworking#TrafficControllerInterfaceGetResponse"
+        "target": "com.azure.servicenetworking#GetTrafficControllerInterfaceResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "Get a TrafficController",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceGetResponse": {
+    "com.azure.servicenetworking#GetTrafficControllerInterfaceResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -2837,7 +3882,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.servicenetworking#TrafficControllerInterfaceGetResponseTagsMap",
+          "target": "com.azure.servicenetworking#GetTrafficControllerInterfaceResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -2860,7 +3905,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceGetResponseTagsMap": {
+    "com.azure.servicenetworking#GetTrafficControllerInterfaceResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2872,7 +3917,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceGetRequest": {
+    "com.azure.servicenetworking#GetTrafficControllerInterfaceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2904,10 +3949,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceListByResourceGroup": {
+    "com.azure.servicenetworking#ListTrafficControllerInterfaceByResourceGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#TrafficControllerInterfaceListByResourceGroupRequest"
+        "target": "com.azure.servicenetworking#ListTrafficControllerInterfaceByResourceGroupRequest"
       },
       "output": {
         "target": "com.azure.servicenetworking#TrafficControllerListResult"
@@ -2917,10 +3962,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "List TrafficController resources by resource group",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
     "com.azure.servicenetworking#TrafficControllerListResult": {
@@ -3016,7 +4061,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceListByResourceGroupRequest": {
+    "com.azure.servicenetworking#ListTrafficControllerInterfaceByResourceGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -3040,10 +4085,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceListBySubscription": {
+    "com.azure.servicenetworking#ListTrafficControllerInterfaceBySubscription": {
       "type": "operation",
       "input": {
-        "target": "com.azure.servicenetworking#TrafficControllerInterfaceListBySubscriptionRequest"
+        "target": "com.azure.servicenetworking#ListTrafficControllerInterfaceBySubscriptionRequest"
       },
       "output": {
         "target": "com.azure.servicenetworking#TrafficControllerListResult"
@@ -3053,13 +4098,13 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceNetworking/trafficControllers",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "List TrafficController resources by subscription ID",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#TrafficControllerInterfaceListBySubscriptionRequest": {
+    "com.azure.servicenetworking#ListTrafficControllerInterfaceBySubscriptionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -3075,30 +4120,30 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.servicenetworking#OperationsList": {
+    "com.azure.servicenetworking#ListOperations": {
       "type": "operation",
       "input": {
         "target": "smithy.api#Unit"
       },
       "output": {
-        "target": "com.azure.servicenetworking#OperationsListResponse"
+        "target": "com.azure.servicenetworking#ListOperationsResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/providers/Microsoft.ServiceNetworking/operations",
           "code": 200,
-          "apiVersion": "2025-01-01"
+          "apiVersion": "2026-03-01"
         },
         "smithy.api#documentation": "List the operations for the provider",
-        "com.distilled.openapi#apiVersion": "2025-01-01"
+        "com.distilled.openapi#apiVersion": "2026-03-01"
       }
     },
-    "com.azure.servicenetworking#OperationsListResponse": {
+    "com.azure.servicenetworking#ListOperationsResponse": {
       "type": "structure",
       "members": {
         "value": {
-          "target": "com.azure.servicenetworking#OperationsListResponseValueList",
+          "target": "com.azure.servicenetworking#ListOperationsResponseValueList",
           "traits": {
             "smithy.api#documentation": "List of operations supported by the resource provider"
           }
@@ -3114,7 +4159,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.servicenetworking#OperationsListResponseValueList": {
+    "com.azure.servicenetworking#ListOperationsResponseValueList": {
       "type": "list",
       "member": {
         "target": "com.azure.servicenetworking#Operation"
@@ -3238,70 +4283,88 @@
       "version": "1.0",
       "operations": [
         {
-          "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceDelete"
+          "target": "com.azure.servicenetworking#DeleteSecurityPoliciesInterface"
         },
         {
-          "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceUpdate"
+          "target": "com.azure.servicenetworking#UpdateSecurityPoliciesInterface"
         },
         {
           "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceCreateOrUpdate"
         },
         {
-          "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceGet"
+          "target": "com.azure.servicenetworking#GetSecurityPoliciesInterface"
         },
         {
-          "target": "com.azure.servicenetworking#SecurityPoliciesInterfaceListByTrafficController"
+          "target": "com.azure.servicenetworking#ListSecurityPoliciesInterfaceByTrafficController"
         },
         {
-          "target": "com.azure.servicenetworking#FrontendsInterfaceDelete"
+          "target": "com.azure.servicenetworking#GetPrivateLinkResourcesInterface"
         },
         {
-          "target": "com.azure.servicenetworking#FrontendsInterfaceUpdate"
+          "target": "com.azure.servicenetworking#ListPrivateLinkResourcesInterfaceByTrafficController"
+        },
+        {
+          "target": "com.azure.servicenetworking#DeletePrivateEndpointConnectionsInterface"
+        },
+        {
+          "target": "com.azure.servicenetworking#UpdatePrivateEndpointConnectionsInterface"
+        },
+        {
+          "target": "com.azure.servicenetworking#GetPrivateEndpointConnectionsInterface"
+        },
+        {
+          "target": "com.azure.servicenetworking#ListPrivateEndpointConnectionsInterfaceByTrafficController"
+        },
+        {
+          "target": "com.azure.servicenetworking#DeleteFrontendsInterface"
+        },
+        {
+          "target": "com.azure.servicenetworking#UpdateFrontendsInterface"
         },
         {
           "target": "com.azure.servicenetworking#FrontendsInterfaceCreateOrUpdate"
         },
         {
-          "target": "com.azure.servicenetworking#FrontendsInterfaceGet"
+          "target": "com.azure.servicenetworking#GetFrontendsInterface"
         },
         {
-          "target": "com.azure.servicenetworking#FrontendsInterfaceListByTrafficController"
+          "target": "com.azure.servicenetworking#ListFrontendsInterfaceByTrafficController"
         },
         {
-          "target": "com.azure.servicenetworking#AssociationsInterfaceDelete"
+          "target": "com.azure.servicenetworking#DeleteAssociationsInterface"
         },
         {
-          "target": "com.azure.servicenetworking#AssociationsInterfaceUpdate"
+          "target": "com.azure.servicenetworking#UpdateAssociationsInterface"
         },
         {
           "target": "com.azure.servicenetworking#AssociationsInterfaceCreateOrUpdate"
         },
         {
-          "target": "com.azure.servicenetworking#AssociationsInterfaceGet"
+          "target": "com.azure.servicenetworking#GetAssociationsInterface"
         },
         {
-          "target": "com.azure.servicenetworking#AssociationsInterfaceListByTrafficController"
+          "target": "com.azure.servicenetworking#ListAssociationsInterfaceByTrafficController"
         },
         {
-          "target": "com.azure.servicenetworking#TrafficControllerInterfaceDelete"
+          "target": "com.azure.servicenetworking#DeleteTrafficControllerInterface"
         },
         {
-          "target": "com.azure.servicenetworking#TrafficControllerInterfaceUpdate"
+          "target": "com.azure.servicenetworking#UpdateTrafficControllerInterface"
         },
         {
           "target": "com.azure.servicenetworking#TrafficControllerInterfaceCreateOrUpdate"
         },
         {
-          "target": "com.azure.servicenetworking#TrafficControllerInterfaceGet"
+          "target": "com.azure.servicenetworking#GetTrafficControllerInterface"
         },
         {
-          "target": "com.azure.servicenetworking#TrafficControllerInterfaceListByResourceGroup"
+          "target": "com.azure.servicenetworking#ListTrafficControllerInterfaceByResourceGroup"
         },
         {
-          "target": "com.azure.servicenetworking#TrafficControllerInterfaceListBySubscription"
+          "target": "com.azure.servicenetworking#ListTrafficControllerInterfaceBySubscription"
         },
         {
-          "target": "com.azure.servicenetworking#OperationsList"
+          "target": "com.azure.servicenetworking#ListOperations"
         }
       ],
       "traits": {

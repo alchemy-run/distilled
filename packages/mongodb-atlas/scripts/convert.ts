@@ -3,7 +3,7 @@
  * convert — the MongoDB Atlas Admin API v2 OpenAPI spec → a Smithy JSON
  * model in .generated-specs/.
  *
- * Input:  specs/distilled-spec-mongodb-atlas/specs/openapi.json (submodule)
+ * Input:  specs/spec-mirror-mongodb-atlas/specs/openapi.json (submodule)
  *         patches/*.patch.json (RFC-6902 patches to the OpenAPI document —
  *         none exist for Atlas; v0 shipped zero patches)
  * Output: .generated-specs/atlas.json
@@ -116,7 +116,7 @@ await runOpenApiConvert({
   specs: [
     {
       name: "atlas",
-      specPath: "specs/distilled-spec-mongodb-atlas/specs/openapi.json",
+      specPath: "specs/spec-mirror-mongodb-atlas/specs/openapi.json",
       preprocess,
     },
   ],

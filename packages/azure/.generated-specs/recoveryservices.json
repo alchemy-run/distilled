@@ -14,13 +14,14 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.azure.recoveryservices#UsagesListByVaults": {
+    "com.azure.recoveryservices#ListUsageByVaults": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#UsagesListByVaultsRequest"
+        "target": "com.azure.recoveryservices#ListUsageByVaultsRequest"
       },
       "output": {
         "target": "com.azure.recoveryservices#VaultUsageList"
@@ -30,10 +31,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/usages",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Fetches the usages of the vault.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.recoveryservices#VaultUsageList": {
@@ -170,7 +171,7 @@
         "smithy.api#documentation": "Unit of the usage."
       }
     },
-    "com.azure.recoveryservices#UsagesListByVaultsRequest": {
+    "com.azure.recoveryservices#ListUsageByVaultsRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -202,10 +203,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#ReplicationUsagesList": {
+    "com.azure.recoveryservices#ListReplicationUsages": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#ReplicationUsagesListRequest"
+        "target": "com.azure.recoveryservices#ListReplicationUsagesRequest"
       },
       "output": {
         "target": "com.azure.recoveryservices#ReplicationUsageList"
@@ -215,10 +216,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/replicationUsages",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Fetches the replication usages of the vault.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.recoveryservices#ReplicationUsageList": {
@@ -361,7 +362,7 @@
         "smithy.api#documentation": "Summary of the replication monitoring data for this vault."
       }
     },
-    "com.azure.recoveryservices#ReplicationUsagesListRequest": {
+    "com.azure.recoveryservices#ListReplicationUsagesRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -393,10 +394,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#RegisteredIdentitiesDelete": {
+    "com.azure.recoveryservices#DeleteRegisteredIdentity": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#RegisteredIdentitiesDeleteRequest"
+        "target": "com.azure.recoveryservices#DeleteRegisteredIdentityRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -406,13 +407,13 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/registeredIdentities/{identityName}",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Unregisters the given container from your Recovery Services vault.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.recoveryservices#RegisteredIdentitiesDeleteRequest": {
+    "com.azure.recoveryservices#DeleteRegisteredIdentityRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -452,26 +453,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#PrivateLinkResourcesGet": {
+    "com.azure.recoveryservices#GetPrivateLinkResource": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#PrivateLinkResourcesGetRequest"
+        "target": "com.azure.recoveryservices#GetPrivateLinkResourceRequest"
       },
       "output": {
-        "target": "com.azure.recoveryservices#PrivateLinkResourcesGetResponse"
+        "target": "com.azure.recoveryservices#GetPrivateLinkResourceResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources/{privateLinkResourceName}",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Returns a specified private link resource that need to be created for Backup and SiteRecovery",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.recoveryservices#PrivateLinkResourcesGetResponse": {
+    "com.azure.recoveryservices#GetPrivateLinkResourceResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -661,7 +662,7 @@
         "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
-    "com.azure.recoveryservices#PrivateLinkResourcesGetRequest": {
+    "com.azure.recoveryservices#GetPrivateLinkResourceRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -700,10 +701,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#PrivateLinkResourcesList": {
+    "com.azure.recoveryservices#ListPrivateLinkResources": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#PrivateLinkResourcesListRequest"
+        "target": "com.azure.recoveryservices#ListPrivateLinkResourcesRequest"
       },
       "output": {
         "target": "com.azure.recoveryservices#PrivateLinkResources"
@@ -713,10 +714,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Returns the list of private link resources that need to be created for Backup and SiteRecovery",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.recoveryservices#PrivateLinkResources": {
@@ -787,7 +788,7 @@
         "smithy.api#documentation": "Information of the private link resource."
       }
     },
-    "com.azure.recoveryservices#PrivateLinkResourcesListRequest": {
+    "com.azure.recoveryservices#ListPrivateLinkResourcesRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -832,10 +833,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/operationStatus/{operationId}",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Gets the operation status for a resource.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.recoveryservices#OperationResource": {
@@ -1010,10 +1011,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/operationResults/{operationId}",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Gets the operation result for a resource.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.recoveryservices#GetOperationResultResponse": {
@@ -1351,11 +1352,55 @@
           "traits": {
             "smithy.api#documentation": "ResourceGuardOperationRequests on which LAC check will be performed"
           }
+        },
+        "regionOfChoiceSettings": {
+          "target": "com.azure.recoveryservices#RegionOfChoiceSettings",
+          "traits": {
+            "smithy.api#documentation": "Region of choice settings for this vault."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Properties of the vault."
       }
+    },
+    "com.azure.recoveryservices#RegionOfChoiceSettings": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.azure.recoveryservices#State",
+          "traits": {
+            "smithy.api#documentation": "The status of region of choice settings - Enabled or Disabled."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Region of choice settings at vault level.\nThis setting allows customers to configure backups for datasources from different region."
+      }
+    },
+    "com.azure.recoveryservices#State": {
+      "type": "enum",
+      "members": {
+        "INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Invalid"
+          }
+        },
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Disabled"
+          }
+        }
+      },
+      "traits": {}
     },
     "com.azure.recoveryservices#VaultPropertiesResourceGuardOperationRequestsList": {
       "type": "list",
@@ -1518,30 +1563,6 @@
       "traits": {
         "smithy.api#documentation": "Identity type that should be used for an operation."
       }
-    },
-    "com.azure.recoveryservices#State": {
-      "type": "enum",
-      "members": {
-        "INVALID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Invalid"
-          }
-        },
-        "ENABLED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Enabled"
-          }
-        },
-        "DISABLED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Disabled"
-          }
-        }
-      },
-      "traits": {}
     },
     "com.azure.recoveryservices#MultiUserAuthorization": {
       "type": "enum",
@@ -2594,26 +2615,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#VaultExtendedInfoUpdate": {
+    "com.azure.recoveryservices#UpdateVaultExtendedInfo": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#VaultExtendedInfoUpdateRequest"
+        "target": "com.azure.recoveryservices#UpdateVaultExtendedInfoRequest"
       },
       "output": {
-        "target": "com.azure.recoveryservices#VaultExtendedInfoUpdateResponse"
+        "target": "com.azure.recoveryservices#UpdateVaultExtendedInfoResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Update vault extended info.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.recoveryservices#VaultExtendedInfoUpdateResponse": {
+    "com.azure.recoveryservices#UpdateVaultExtendedInfoResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -2689,7 +2710,7 @@
         "smithy.api#documentation": "Vault extended information."
       }
     },
-    "com.azure.recoveryservices#VaultExtendedInfoUpdateRequest": {
+    "com.azure.recoveryservices#UpdateVaultExtendedInfoRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2746,10 +2767,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Create vault extended info.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.recoveryservices#VaultExtendedInfoCreateOrUpdateResponse": {
@@ -2840,26 +2861,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#VaultExtendedInfoGet": {
+    "com.azure.recoveryservices#GetVaultExtendedInfo": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#VaultExtendedInfoGetRequest"
+        "target": "com.azure.recoveryservices#GetVaultExtendedInfoRequest"
       },
       "output": {
-        "target": "com.azure.recoveryservices#VaultExtendedInfoGetResponse"
+        "target": "com.azure.recoveryservices#GetVaultExtendedInfoResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get the vault extended info.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.recoveryservices#VaultExtendedInfoGetResponse": {
+    "com.azure.recoveryservices#GetVaultExtendedInfoResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -2903,7 +2924,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.recoveryservices#VaultExtendedInfoGetRequest": {
+    "com.azure.recoveryservices#GetVaultExtendedInfoRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -2935,10 +2956,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#VaultCertificatesCreate": {
+    "com.azure.recoveryservices#CreateVaultCertificate": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#VaultCertificatesCreateRequest"
+        "target": "com.azure.recoveryservices#CreateVaultCertificateRequest"
       },
       "output": {
         "target": "com.azure.recoveryservices#VaultCertificateResponse"
@@ -2948,10 +2969,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/certificates/{certificateName}",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Uploads a certificate for a resource.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.recoveryservices#VaultCertificateResponse": {
@@ -3049,7 +3070,7 @@
         "smithy.api#documentation": "Certificate details representing the Vault credentials."
       }
     },
-    "com.azure.recoveryservices#VaultCertificatesCreateRequest": {
+    "com.azure.recoveryservices#CreateVaultCertificateRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -3153,10 +3174,10 @@
         "smithy.api#documentation": "Specifies the authentication type."
       }
     },
-    "com.azure.recoveryservices#VaultsDelete": {
+    "com.azure.recoveryservices#DeleteVault": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#VaultsDeleteRequest"
+        "target": "com.azure.recoveryservices#DeleteVaultRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -3166,13 +3187,13 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Deletes a vault.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.recoveryservices#VaultsDeleteRequest": {
+    "com.azure.recoveryservices#DeleteVaultRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -3204,26 +3225,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#VaultsUpdate": {
+    "com.azure.recoveryservices#UpdateVault": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#VaultsUpdateRequest"
+        "target": "com.azure.recoveryservices#UpdateVaultRequest"
       },
       "output": {
-        "target": "com.azure.recoveryservices#VaultsUpdateResponse"
+        "target": "com.azure.recoveryservices#UpdateVaultResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Updates the vault.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.recoveryservices#VaultsUpdateResponse": {
+    "com.azure.recoveryservices#UpdateVaultResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -3251,7 +3272,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.recoveryservices#VaultsUpdateResponseTagsMap",
+          "target": "com.azure.recoveryservices#UpdateVaultResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -3292,7 +3313,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.recoveryservices#VaultsUpdateResponseTagsMap": {
+    "com.azure.recoveryservices#UpdateVaultResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -3304,7 +3325,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.recoveryservices#VaultsUpdateRequest": {
+    "com.azure.recoveryservices#UpdateVaultRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -3338,7 +3359,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.recoveryservices#VaultsUpdateRequestTagsMap",
+          "target": "com.azure.recoveryservices#UpdateVaultRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -3474,6 +3495,12 @@
           "traits": {
             "smithy.api#documentation": "ResourceGuardOperationRequests on which LAC check will be performed"
           }
+        },
+        "regionOfChoiceSettings": {
+          "target": "com.azure.recoveryservices#RegionOfChoiceSettings",
+          "traits": {
+            "smithy.api#documentation": "Region of choice settings for this vault."
+          }
         }
       },
       "traits": {
@@ -3503,7 +3530,7 @@
         "smithy.api#documentation": "Details for upgrading vault."
       }
     },
-    "com.azure.recoveryservices#VaultsUpdateRequestTagsMap": {
+    "com.azure.recoveryservices#UpdateVaultRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -3528,10 +3555,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Creates or updates a Recovery Services vault.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.recoveryservices#VaultsCreateOrUpdateResponse": {
@@ -3696,26 +3723,26 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.recoveryservices#VaultsGet": {
+    "com.azure.recoveryservices#GetVault": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#VaultsGetRequest"
+        "target": "com.azure.recoveryservices#GetVaultRequest"
       },
       "output": {
-        "target": "com.azure.recoveryservices#VaultsGetResponse"
+        "target": "com.azure.recoveryservices#GetVaultResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get the Vault details.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.recoveryservices#VaultsGetResponse": {
+    "com.azure.recoveryservices#GetVaultResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -3743,7 +3770,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.recoveryservices#VaultsGetResponseTagsMap",
+          "target": "com.azure.recoveryservices#GetVaultResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -3784,7 +3811,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.recoveryservices#VaultsGetResponseTagsMap": {
+    "com.azure.recoveryservices#GetVaultResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -3796,7 +3823,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.recoveryservices#VaultsGetRequest": {
+    "com.azure.recoveryservices#GetVaultRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -3828,10 +3855,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#VaultsListByResourceGroup": {
+    "com.azure.recoveryservices#ListVaultByResourceGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#VaultsListByResourceGroupRequest"
+        "target": "com.azure.recoveryservices#ListVaultByResourceGroupRequest"
       },
       "output": {
         "target": "com.azure.recoveryservices#VaultList"
@@ -3841,10 +3868,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Retrieve a list of Vaults.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.recoveryservices#VaultList": {
@@ -3958,7 +3985,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.recoveryservices#VaultsListByResourceGroupRequest": {
+    "com.azure.recoveryservices#ListVaultByResourceGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -3982,10 +4009,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#RecoveryServicesCheckNameAvailability": {
+    "com.azure.recoveryservices#CheckRecoveryServiceNameAvailability": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#RecoveryServicesCheckNameAvailabilityRequest"
+        "target": "com.azure.recoveryservices#CheckRecoveryServiceNameAvailabilityRequest"
       },
       "output": {
         "target": "com.azure.recoveryservices#CheckNameAvailabilityResult"
@@ -3995,10 +4022,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/locations/{location}/checkNameAvailability",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "API to check for resource name availability.\nA name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type\nor if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago\n\nAPI to check for resource name availability.\nA name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type\nor if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.recoveryservices#CheckNameAvailabilityResult": {
@@ -4018,7 +4045,7 @@
         "smithy.api#documentation": "Response for check name availability API. Resource provider will set availability as true | false."
       }
     },
-    "com.azure.recoveryservices#RecoveryServicesCheckNameAvailabilityRequest": {
+    "com.azure.recoveryservices#CheckRecoveryServiceNameAvailabilityRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -4062,10 +4089,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#VaultsListBySubscriptionId": {
+    "com.azure.recoveryservices#ListVaultBySubscriptionId": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#VaultsListBySubscriptionIdRequest"
+        "target": "com.azure.recoveryservices#ListVaultBySubscriptionIdRequest"
       },
       "output": {
         "target": "com.azure.recoveryservices#VaultList"
@@ -4075,13 +4102,13 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/vaults",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Fetches all the resources of the specified type in the subscription.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.recoveryservices#VaultsListBySubscriptionIdRequest": {
+    "com.azure.recoveryservices#ListVaultBySubscriptionIdRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -4097,26 +4124,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#DeletedVaultsUndelete": {
+    "com.azure.recoveryservices#UndeleteDeletedVault": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#DeletedVaultsUndeleteRequest"
+        "target": "com.azure.recoveryservices#UndeleteDeletedVaultRequest"
       },
       "output": {
-        "target": "com.azure.recoveryservices#DeletedVaultsUndeleteResponse"
+        "target": "com.azure.recoveryservices#UndeleteDeletedVaultResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/deletedVaults/{deletedVaultName}/undelete",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Start undelete of a deleted vault.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.recoveryservices#DeletedVaultsUndeleteResponse": {
+    "com.azure.recoveryservices#UndeleteDeletedVaultResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -4180,7 +4207,7 @@
         "smithy.api#documentation": "Properties of the DeletedVault."
       }
     },
-    "com.azure.recoveryservices#DeletedVaultsUndeleteRequest": {
+    "com.azure.recoveryservices#UndeleteDeletedVaultRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -4234,10 +4261,10 @@
         "smithy.api#documentation": "Input definition for DeletedVault undelete properties."
       }
     },
-    "com.azure.recoveryservices#DeletedVaultsGetOperationStatus": {
+    "com.azure.recoveryservices#GetDeletedVaultOperationStatus": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#DeletedVaultsGetOperationStatusRequest"
+        "target": "com.azure.recoveryservices#GetDeletedVaultOperationStatusRequest"
       },
       "output": {
         "target": "com.azure.recoveryservices#OperationResource"
@@ -4247,13 +4274,13 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/deletedVaults/{deletedVaultName}/operations/{operationId}",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get the operation status of a deleted vault.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.recoveryservices#DeletedVaultsGetOperationStatusRequest": {
+    "com.azure.recoveryservices#GetDeletedVaultOperationStatusRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -4292,26 +4319,26 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#DeletedVaultsGet": {
+    "com.azure.recoveryservices#GetDeletedVault": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#DeletedVaultsGetRequest"
+        "target": "com.azure.recoveryservices#GetDeletedVaultRequest"
       },
       "output": {
-        "target": "com.azure.recoveryservices#DeletedVaultsGetResponse"
+        "target": "com.azure.recoveryservices#GetDeletedVaultResponse"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/deletedVaults/{deletedVaultName}",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "Get a specific deleted vault.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.recoveryservices#DeletedVaultsGetResponse": {
+    "com.azure.recoveryservices#GetDeletedVaultResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -4349,7 +4376,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.recoveryservices#DeletedVaultsGetRequest": {
+    "com.azure.recoveryservices#GetDeletedVaultRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -4381,10 +4408,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.recoveryservices#DeletedVaultsListBySubscriptionId": {
+    "com.azure.recoveryservices#ListDeletedVaultBySubscriptionId": {
       "type": "operation",
       "input": {
-        "target": "com.azure.recoveryservices#DeletedVaultsListBySubscriptionIdRequest"
+        "target": "com.azure.recoveryservices#ListDeletedVaultBySubscriptionIdRequest"
       },
       "output": {
         "target": "com.azure.recoveryservices#DeletedVaultList"
@@ -4394,10 +4421,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/deletedVaults",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "List deleted vaults in a subscription.",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.recoveryservices#DeletedVaultList": {
@@ -4468,7 +4495,7 @@
         "smithy.api#documentation": "DeletedVault information as returned by the resource provider."
       }
     },
-    "com.azure.recoveryservices#DeletedVaultsListBySubscriptionIdRequest": {
+    "com.azure.recoveryservices#ListDeletedVaultBySubscriptionIdRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -4505,10 +4532,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/capabilities",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "API to get details about capabilities provided by Microsoft.RecoveryServices RP\n\nAPI to get details about capabilities provided by Microsoft.RecoveryServices RP",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.recoveryservices#RecoveryServicesCapabilitiesResponse": {
@@ -4648,7 +4675,7 @@
         "smithy.api#documentation": "DNSZone information"
       }
     },
-    "com.azure.recoveryservices#OperationsList": {
+    "com.azure.recoveryservices#ListOperations": {
       "type": "operation",
       "input": {
         "target": "smithy.api#Unit"
@@ -4661,10 +4688,10 @@
           "method": "GET",
           "uri": "/providers/Microsoft.RecoveryServices/operations",
           "code": 200,
-          "apiVersion": "2026-05-01"
+          "apiVersion": "2026-07-01"
         },
         "smithy.api#documentation": "List the operations for the provider",
-        "com.distilled.openapi#apiVersion": "2026-05-01"
+        "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
     "com.azure.recoveryservices#ClientDiscoveryResponse": {
@@ -4829,19 +4856,19 @@
       "version": "1.0",
       "operations": [
         {
-          "target": "com.azure.recoveryservices#UsagesListByVaults"
+          "target": "com.azure.recoveryservices#ListUsageByVaults"
         },
         {
-          "target": "com.azure.recoveryservices#ReplicationUsagesList"
+          "target": "com.azure.recoveryservices#ListReplicationUsages"
         },
         {
-          "target": "com.azure.recoveryservices#RegisteredIdentitiesDelete"
+          "target": "com.azure.recoveryservices#DeleteRegisteredIdentity"
         },
         {
-          "target": "com.azure.recoveryservices#PrivateLinkResourcesGet"
+          "target": "com.azure.recoveryservices#GetPrivateLinkResource"
         },
         {
-          "target": "com.azure.recoveryservices#PrivateLinkResourcesList"
+          "target": "com.azure.recoveryservices#ListPrivateLinkResources"
         },
         {
           "target": "com.azure.recoveryservices#GetOperationStatus"
@@ -4850,55 +4877,55 @@
           "target": "com.azure.recoveryservices#GetOperationResult"
         },
         {
-          "target": "com.azure.recoveryservices#VaultExtendedInfoUpdate"
+          "target": "com.azure.recoveryservices#UpdateVaultExtendedInfo"
         },
         {
           "target": "com.azure.recoveryservices#VaultExtendedInfoCreateOrUpdate"
         },
         {
-          "target": "com.azure.recoveryservices#VaultExtendedInfoGet"
+          "target": "com.azure.recoveryservices#GetVaultExtendedInfo"
         },
         {
-          "target": "com.azure.recoveryservices#VaultCertificatesCreate"
+          "target": "com.azure.recoveryservices#CreateVaultCertificate"
         },
         {
-          "target": "com.azure.recoveryservices#VaultsDelete"
+          "target": "com.azure.recoveryservices#DeleteVault"
         },
         {
-          "target": "com.azure.recoveryservices#VaultsUpdate"
+          "target": "com.azure.recoveryservices#UpdateVault"
         },
         {
           "target": "com.azure.recoveryservices#VaultsCreateOrUpdate"
         },
         {
-          "target": "com.azure.recoveryservices#VaultsGet"
+          "target": "com.azure.recoveryservices#GetVault"
         },
         {
-          "target": "com.azure.recoveryservices#VaultsListByResourceGroup"
+          "target": "com.azure.recoveryservices#ListVaultByResourceGroup"
         },
         {
-          "target": "com.azure.recoveryservices#RecoveryServicesCheckNameAvailability"
+          "target": "com.azure.recoveryservices#CheckRecoveryServiceNameAvailability"
         },
         {
-          "target": "com.azure.recoveryservices#VaultsListBySubscriptionId"
+          "target": "com.azure.recoveryservices#ListVaultBySubscriptionId"
         },
         {
-          "target": "com.azure.recoveryservices#DeletedVaultsUndelete"
+          "target": "com.azure.recoveryservices#UndeleteDeletedVault"
         },
         {
-          "target": "com.azure.recoveryservices#DeletedVaultsGetOperationStatus"
+          "target": "com.azure.recoveryservices#GetDeletedVaultOperationStatus"
         },
         {
-          "target": "com.azure.recoveryservices#DeletedVaultsGet"
+          "target": "com.azure.recoveryservices#GetDeletedVault"
         },
         {
-          "target": "com.azure.recoveryservices#DeletedVaultsListBySubscriptionId"
+          "target": "com.azure.recoveryservices#ListDeletedVaultBySubscriptionId"
         },
         {
           "target": "com.azure.recoveryservices#RecoveryServicesCapabilities"
         },
         {
-          "target": "com.azure.recoveryservices#OperationsList"
+          "target": "com.azure.recoveryservices#ListOperations"
         }
       ],
       "traits": {

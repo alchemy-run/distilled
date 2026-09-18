@@ -2,8 +2,8 @@
 /**
  * convert — Google Discovery documents → Smithy 2.0 JSON models.
  *
- * Input:  specs/distilled-spec-gcp/specs/_manifest.json (drives the run)
- *         specs/distilled-spec-gcp/specs/{filename}     (one discovery doc per entry)
+ * Input:  specs/spec-mirror-gcp/specs/_manifest.json (drives the run)
+ *         specs/spec-mirror-gcp/specs/{filename}     (one discovery doc per entry)
  * Output: .generated-specs/stable/<name>_<version>.json   (manifest `preferred: true`)
  *         .generated-specs/unstable/<name>_<version>.json (everything else)
  *
@@ -45,6 +45,8 @@
 
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 // =============================================================================
 // Discovery document types (the subset the converter reads)
@@ -693,7 +695,7 @@ const versionFilter = args.includes("--version")
   : undefined;
 
 const root = path.resolve(import.meta.dir, "..");
-const specsDir = path.join(root, "specs", "distilled-spec-gcp", "specs");
+const specsDir = resolveSpecPath(root, "specs/spec-mirror-gcp/specs");
 const manifestPath = path.join(specsDir, "_manifest.json");
 
 if (!fs.existsSync(manifestPath)) {
@@ -740,6 +742,7 @@ fs.mkdirSync(UNSTABLE_DIR, { recursive: true });
 
 let converted = 0;
 let failed = 0;
+const written = new Set<string>();
 for (const entry of entries) {
   try {
     const doc: DiscoveryDoc = JSON.parse(
@@ -753,6 +756,7 @@ for (const entry of entries) {
       JSON.stringify(model, null, 2) + "\n",
       "utf-8",
     );
+    written.add(outName.replace(/\.json$/, ""));
     converted++;
   } catch (err) {
     failed++;
@@ -763,4 +767,19 @@ console.log(
   `✅ Converted ${converted} discovery documents to Smithy models` +
     (failed ? ` (${failed} failed)` : ""),
 );
+// A filtered run only rewrites the matching models; skip already-finalized
+// siblings or finalizeConvert throws (it is not idempotent).
+const include = serviceFilter
+  ? (resource: string) => written.has(resource)
+  : undefined;
+await finalizeConvert({
+  root,
+  outDir: ".generated-specs/stable",
+  include,
+});
+await finalizeConvert({
+  root,
+  outDir: ".generated-specs/unstable",
+  include,
+});
 if (failed) process.exit(1);

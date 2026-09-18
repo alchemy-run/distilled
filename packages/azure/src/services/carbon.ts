@@ -51,7 +51,7 @@ export type ReportTypeEnum =
   | "TopItemsSummaryReport"
   | "TopItemsMonthlySummaryReport"
   | "ItemDetailsReport";
-export const ReportTypeEnum = /*@__PURE__*/ S.String;
+export const ReportTypeEnum = S.String;
 
 /** Date range to be used with QueryParameter, it should be within 12 months between start and end date. In certain cases, start and end dates must be the same date. */
 export interface DateRange {
@@ -101,7 +101,7 @@ export const CarbonServiceQueryCarbonEmissionReportsRequestLocationListList =
 
 /** Supported carbon emission scopes to be used with QueryParameter, as defined by the GHG Protocol. At least one scope must be specified. The output will return a total of all specified scopes. */
 export type EmissionScopeEnum = "Scope1" | "Scope2" | "Scope3";
-export const EmissionScopeEnum = /*@__PURE__*/ S.String;
+export const EmissionScopeEnum = S.String;
 
 /** List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes. */
 export type CarbonServiceQueryCarbonEmissionReportsRequestCarbonScopeListList =
@@ -170,7 +170,7 @@ export type ResponseDataTypeEnum =
   | "ItemDetailsData"
   | "ResourceItemDetailsData"
   | "ResourceGroupItemDetailsData";
-export const ResponseDataTypeEnum = /*@__PURE__*/ S.String;
+export const ResponseDataTypeEnum = S.String;
 
 /** The basic response for different query report, all query report result will have these information */
 export interface CarbonEmissionData {
@@ -205,7 +205,7 @@ export const CarbonEmissionDataListResultValueList = /*@__PURE__*/ S.Array(
 
 /** Enum for Access Decision */
 export type AccessDecisionEnum = "Allowed" | "Denied";
-export const AccessDecisionEnum = /*@__PURE__*/ S.String;
+export const AccessDecisionEnum = S.String;
 
 /** Access Decision for each Subscription */
 export interface SubscriptionAccessDecision {
@@ -255,8 +255,8 @@ export const CarbonEmissionDataListResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "CarbonEmissionDataListResult",
 }) as any as S.Schema<CarbonEmissionDataListResult>;
 
-export interface OperationsListRequest {}
-export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
+export interface ListOperationsRequest {}
+export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
     T.Http({
       method: "GET",
@@ -266,8 +266,8 @@ export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "OperationsListRequest",
-}) as any as S.Schema<OperationsListRequest>;
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -293,11 +293,11 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
-export const OperationOrigin = /*@__PURE__*/ S.String;
+export const OperationOrigin = S.String;
 
 /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 export type OperationActionType = "Internal";
-export const OperationActionType = /*@__PURE__*/ S.String;
+export const OperationActionType = S.String;
 
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
@@ -323,25 +323,25 @@ export const Operation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
 /** List of operations supported by the resource provider */
-export type OperationsListResponseValueList = Array<Operation>;
-export const OperationsListResponseValueList = /*@__PURE__*/ S.Array(
+export type ListOperationsResponseValueList = Array<Operation>;
+export const ListOperationsResponseValueList = /*@__PURE__*/ S.Array(
   Operation,
-) as any as S.Schema<OperationsListResponseValueList>;
+) as any as S.Schema<ListOperationsResponseValueList>;
 
-export interface OperationsListResponse {
+export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: OperationsListResponseValueList;
+  value?: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string;
 }
-export const OperationsListResponse = /*@__PURE__*/ S.suspend(() =>
+export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(OperationsListResponseValueList),
+    value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "OperationsListResponse",
-}) as any as S.Schema<OperationsListResponse>;
+  identifier: "ListOperationsResponse",
+}) as any as S.Schema<ListOperationsResponse>;
 
 export type CarbonServiceQueryCarbonEmissionDataAvailableDateRangeError =
   AzureOpError;
@@ -374,16 +374,16 @@ export const CarbonServiceQueryCarbonEmissionReports: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type OperationsListError = AzureOpError;
+export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const OperationsList: API.OperationMethod<
-  OperationsListRequest,
-  OperationsListResponse,
-  OperationsListError,
+export const ListOperations: API.OperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse,
+  ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: OperationsListRequest,
-  output: OperationsListResponse,
+  input: ListOperationsRequest,
+  output: ListOperationsResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

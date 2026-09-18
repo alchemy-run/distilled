@@ -38,11 +38,13 @@ import {
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dir, "..");
-const specPath = path.join(
+const specPath = resolveSpecPath(
   rootDir,
-  "specs/rest-api-description/descriptions/api.github.com/api.github.com.json",
+  "specs/spec-mirror-github/specs/api.github.com.json",
 );
 const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
@@ -191,3 +193,5 @@ for (const slug of [...tagBuckets.keys()].sort()) {
 }
 
 console.log(`✅ ${written} Smithy models (${totalOps} operations) → ${outDir}`);
+
+await finalizeConvert({ root: rootDir });

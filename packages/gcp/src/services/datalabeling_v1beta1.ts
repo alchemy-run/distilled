@@ -672,10 +672,10 @@ export const GoogleCloudDatalabelingV1beta1TextClassificationConfig =
   }) as any as S.Schema<GoogleCloudDatalabelingV1beta1TextClassificationConfig>;
 
 export type GoogleCloudDatalabelingV1beta1ImageClassificationConfigAnswerAggregationTypeEnum =
-    | "STRING_AGGREGATION_TYPE_UNSPECIFIED"
-    | "MAJORITY_VOTE"
-    | "UNANIMOUS_VOTE"
-    | "NO_AGGREGATION";
+  | "STRING_AGGREGATION_TYPE_UNSPECIFIED"
+  | "MAJORITY_VOTE"
+  | "UNANIMOUS_VOTE"
+  | "NO_AGGREGATION";
 export const GoogleCloudDatalabelingV1beta1ImageClassificationConfigAnswerAggregationTypeEnum =
   /*@__PURE__*/ S.String;
 
@@ -1487,7 +1487,8 @@ export const GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata =
   }) as any as S.Schema<GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata>;
 
 export type GoogleCloudDatalabelingV1beta1AnnotatedDatasetAnnotationSourceEnum =
-  "ANNOTATION_SOURCE_UNSPECIFIED" | "OPERATOR";
+  | "ANNOTATION_SOURCE_UNSPECIFIED"
+  | "OPERATOR";
 export const GoogleCloudDatalabelingV1beta1AnnotatedDatasetAnnotationSourceEnum =
   /*@__PURE__*/ S.String;
 
@@ -3739,7 +3740,11 @@ export const createProjectsDatasets: API.OperationMethod<
 }));
 
 export type CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Create a FeedbackMessage object. */
 export const createProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.OperationMethod<
   CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
@@ -3876,7 +3881,11 @@ export const deleteProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.Operati
 }));
 
 export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError =
-  NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
 /** Delete a FeedbackMessage. */
 export const deleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.OperationMethod<
   DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
@@ -4078,7 +4087,9 @@ export const getProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.OperationM
 }));
 
 export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 /** Get a FeedbackMessage object. */
 export const getProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.OperationMethod<
   GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
@@ -4391,7 +4402,9 @@ export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.Paginated
 })) as any;
 
 export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError =
-  NotFound | Forbidden | GcpOpError;
+  | NotFound
+  | Forbidden
+  | GcpOpError;
 /** List FeedbackMessages with pagination. */
 export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.PaginatedOperationMethod<
   ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,

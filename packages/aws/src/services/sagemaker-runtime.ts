@@ -161,6 +161,7 @@ export type InferenceId = string;
 export type EnableExplanationsHeader = string;
 export type InferenceComponentHeader = string;
 export type SessionIdOrNewSessionConstantHeader = string;
+export type PrefixAwareIdHeader = string;
 export interface InvokeEndpointInput {
   EndpointName: string;
   Body?: T.StreamingInputBody;
@@ -174,6 +175,7 @@ export interface InvokeEndpointInput {
   EnableExplanations?: string;
   InferenceComponentName?: string;
   SessionId?: string;
+  PrefixAwareId?: string;
 }
 export const InvokeEndpointInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -204,6 +206,9 @@ export const InvokeEndpointInput = /*@__PURE__*/ S.suspend(() =>
     ),
     SessionId: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-SageMaker-Session-Id"),
+    ),
+    PrefixAwareId: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-Prefix-Aware-Id"),
     ),
   }).pipe(
     T.all(
@@ -340,6 +345,7 @@ export interface InvokeEndpointWithResponseStreamInput {
   InferenceId?: string;
   InferenceComponentName?: string;
   SessionId?: string;
+  PrefixAwareId?: string;
 }
 export const InvokeEndpointWithResponseStreamInput = /*@__PURE__*/ S.suspend(
   () =>
@@ -367,6 +373,9 @@ export const InvokeEndpointWithResponseStreamInput = /*@__PURE__*/ S.suspend(
       ),
       SessionId: S.optional(S.String).pipe(
         T.HttpHeader("X-Amzn-SageMaker-Session-Id"),
+      ),
+      PrefixAwareId: S.optional(S.String).pipe(
+        T.HttpHeader("X-Amzn-SageMaker-Prefix-Aware-Id"),
       ),
     }).pipe(
       T.all(

@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.experiment_holdouts#ExperimentHoldoutsListRequest": {
+    "com.posthog.experiment_holdouts#ListExperimentHoldoutsRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -191,7 +192,7 @@
         "type": {
           "target": "com.posthog.experiment_holdouts#PropertyGroupTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Property filter type. Common values are 'person' and 'cohort'.\n\n* `cohort` - cohort\n* `person` - person\n* `group` - group"
+            "smithy.api#documentation": "Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties.\n\n* `cohort` - cohort\n* `person` - person\n* `group` - group"
           }
         },
         "cohort_name": {
@@ -204,7 +205,7 @@
         "group_type_index": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Group type index when using group-based filters.",
+            "smithy.api#documentation": "Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -217,7 +218,7 @@
         "operator": {
           "target": "com.posthog.experiment_holdouts#FeatureFlagFilterPropertyGenericSchemaOperatorEnum",
           "traits": {
-            "smithy.api#documentation": "Operator used to compare the property value.\n\n* `exact` - exact\n* `is_not` - is_not\n* `icontains` - icontains\n* `not_icontains` - not_icontains\n* `regex` - regex\n* `not_regex` - not_regex\n* `gt` - gt\n* `gte` - gte\n* `lt` - lt\n* `lte` - lte"
+            "smithy.api#documentation": "Operator used to compare the property value.\n\n* `exact` - exact\n* `is_not` - is_not\n* `icontains` - icontains\n* `not_icontains` - not_icontains\n* `starts_with` - starts_with\n* `not_starts_with` - not_starts_with\n* `ends_with` - ends_with\n* `not_ends_with` - not_ends_with\n* `regex` - regex\n* `not_regex` - not_regex\n* `gt` - gt\n* `gte` - gte\n* `lt` - lt\n* `lte` - lte"
           }
         }
       },
@@ -276,6 +277,30 @@
             "smithy.api#enumValue": "not_icontains"
           }
         },
+        "STARTS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starts_with"
+          }
+        },
+        "NOT_STARTS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_starts_with"
+          }
+        },
+        "ENDS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ends_with"
+          }
+        },
+        "NOT_ENDS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_ends_with"
+          }
+        },
         "REGEX": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -314,7 +339,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `exact` - exact\n* `is_not` - is_not\n* `icontains` - icontains\n* `not_icontains` - not_icontains\n* `regex` - regex\n* `not_regex` - not_regex\n* `gt` - gt\n* `gte` - gte\n* `lt` - lt\n* `lte` - lte"
+        "smithy.api#documentation": "* `exact` - exact\n* `is_not` - is_not\n* `icontains` - icontains\n* `not_icontains` - not_icontains\n* `starts_with` - starts_with\n* `not_starts_with` - not_starts_with\n* `ends_with` - ends_with\n* `not_ends_with` - not_ends_with\n* `regex` - regex\n* `not_regex` - not_regex\n* `gt` - gt\n* `gte` - gte\n* `lt` - lt\n* `lte` - lte"
       }
     },
     "com.posthog.experiment_holdouts#FeatureFlagFilterPropertyExistsSchema": {
@@ -329,7 +354,7 @@
         "type": {
           "target": "com.posthog.experiment_holdouts#PropertyGroupTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Property filter type. Common values are 'person' and 'cohort'.\n\n* `cohort` - cohort\n* `person` - person\n* `group` - group"
+            "smithy.api#documentation": "Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties.\n\n* `cohort` - cohort\n* `person` - person\n* `group` - group"
           }
         },
         "cohort_name": {
@@ -342,7 +367,7 @@
         "group_type_index": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Group type index when using group-based filters.",
+            "smithy.api#documentation": "Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -393,7 +418,7 @@
         "type": {
           "target": "com.posthog.experiment_holdouts#PropertyGroupTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Property filter type. Common values are 'person' and 'cohort'.\n\n* `cohort` - cohort\n* `person` - person\n* `group` - group"
+            "smithy.api#documentation": "Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties.\n\n* `cohort` - cohort\n* `person` - person\n* `group` - group"
           }
         },
         "cohort_name": {
@@ -406,7 +431,7 @@
         "group_type_index": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Group type index when using group-based filters.",
+            "smithy.api#documentation": "Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -463,7 +488,7 @@
         "type": {
           "target": "com.posthog.experiment_holdouts#PropertyGroupTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Property filter type. Common values are 'person' and 'cohort'.\n\n* `cohort` - cohort\n* `person` - person\n* `group` - group"
+            "smithy.api#documentation": "Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties.\n\n* `cohort` - cohort\n* `person` - person\n* `group` - group"
           }
         },
         "cohort_name": {
@@ -476,7 +501,7 @@
         "group_type_index": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Group type index when using group-based filters.",
+            "smithy.api#documentation": "Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -569,7 +594,7 @@
         "type": {
           "target": "com.posthog.experiment_holdouts#PropertyGroupTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Property filter type. Common values are 'person' and 'cohort'.\n\n* `cohort` - cohort\n* `person` - person\n* `group` - group"
+            "smithy.api#documentation": "Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties.\n\n* `cohort` - cohort\n* `person` - person\n* `group` - group"
           }
         },
         "cohort_name": {
@@ -582,7 +607,7 @@
         "group_type_index": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Group type index when using group-based filters.",
+            "smithy.api#documentation": "Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -655,7 +680,7 @@
         "group_type_index": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Group type index when using group-based filters.",
+            "smithy.api#documentation": "Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -733,7 +758,7 @@
         "group_type_index": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Group type index when using group-based filters.",
+            "smithy.api#documentation": "Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -898,6 +923,12 @@
             "smithy.api#enumValue": "sales"
           }
         },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
         "OTHER": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -906,7 +937,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `other` - Other"
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
       }
     },
     "com.posthog.experiment_holdouts#BlankEnum": {
@@ -940,10 +971,10 @@
       },
       "traits": {}
     },
-    "com.posthog.experiment_holdouts#ExperimentHoldoutsList": {
+    "com.posthog.experiment_holdouts#ListExperimentHoldouts": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsListRequest"
+        "target": "com.posthog.experiment_holdouts#ListExperimentHoldoutsRequest"
       },
       "output": {
         "target": "com.posthog.experiment_holdouts#PaginatedExperimentHoldoutList"
@@ -967,7 +998,7 @@
         }
       }
     },
-    "com.posthog.experiment_holdouts#ExperimentHoldoutsCreateRequestFiltersList": {
+    "com.posthog.experiment_holdouts#CreateExperimentHoldoutRequestFiltersList": {
       "type": "list",
       "member": {
         "target": "com.posthog.experiment_holdouts#FeatureFlagConditionGroupSchema"
@@ -976,7 +1007,7 @@
         "smithy.api#documentation": "Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0–100, may be fractional) is the **exclusion** percentage — the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout."
       }
     },
-    "com.posthog.experiment_holdouts#ExperimentHoldoutsCreateRequest": {
+    "com.posthog.experiment_holdouts#CreateExperimentHoldoutRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1001,7 +1032,7 @@
           }
         },
         "filters": {
-          "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsCreateRequestFiltersList",
+          "target": "com.posthog.experiment_holdouts#CreateExperimentHoldoutRequestFiltersList",
           "traits": {
             "smithy.api#documentation": "Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0–100, may be fractional) is the **exclusion** percentage — the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout."
           }
@@ -1011,10 +1042,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.experiment_holdouts#ExperimentHoldoutsCreate": {
+    "com.posthog.experiment_holdouts#CreateExperimentHoldout": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsCreateRequest"
+        "target": "com.posthog.experiment_holdouts#CreateExperimentHoldoutRequest"
       },
       "output": {
         "target": "com.posthog.experiment_holdouts#ExperimentHoldout"
@@ -1038,7 +1069,7 @@
         }
       }
     },
-    "com.posthog.experiment_holdouts#ExperimentHoldoutsRetrieveRequest": {
+    "com.posthog.experiment_holdouts#GetExperimentHoldoutRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1062,10 +1093,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.experiment_holdouts#ExperimentHoldoutsRetrieve": {
+    "com.posthog.experiment_holdouts#GetExperimentHoldout": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsRetrieveRequest"
+        "target": "com.posthog.experiment_holdouts#GetExperimentHoldoutRequest"
       },
       "output": {
         "target": "com.posthog.experiment_holdouts#ExperimentHoldout"
@@ -1086,7 +1117,7 @@
         }
       }
     },
-    "com.posthog.experiment_holdouts#ExperimentHoldoutsUpdateRequestFiltersList": {
+    "com.posthog.experiment_holdouts#UpdateExperimentHoldoutRequestFiltersList": {
       "type": "list",
       "member": {
         "target": "com.posthog.experiment_holdouts#FeatureFlagConditionGroupSchema"
@@ -1095,7 +1126,7 @@
         "smithy.api#documentation": "Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0–100, may be fractional) is the **exclusion** percentage — the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout."
       }
     },
-    "com.posthog.experiment_holdouts#ExperimentHoldoutsUpdateRequest": {
+    "com.posthog.experiment_holdouts#UpdateExperimentHoldoutRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1128,7 +1159,7 @@
           }
         },
         "filters": {
-          "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsUpdateRequestFiltersList",
+          "target": "com.posthog.experiment_holdouts#UpdateExperimentHoldoutRequestFiltersList",
           "traits": {
             "smithy.api#documentation": "Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0–100, may be fractional) is the **exclusion** percentage — the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout."
           }
@@ -1138,10 +1169,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.experiment_holdouts#ExperimentHoldoutsUpdate": {
+    "com.posthog.experiment_holdouts#UpdateExperimentHoldout": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsUpdateRequest"
+        "target": "com.posthog.experiment_holdouts#UpdateExperimentHoldoutRequest"
       },
       "output": {
         "target": "com.posthog.experiment_holdouts#ExperimentHoldout"
@@ -1165,7 +1196,7 @@
         }
       }
     },
-    "com.posthog.experiment_holdouts#ExperimentHoldoutsPartialUpdateRequestFiltersList": {
+    "com.posthog.experiment_holdouts#UpdateExperimentHoldoutsPartialRequestFiltersList": {
       "type": "list",
       "member": {
         "target": "com.posthog.experiment_holdouts#FeatureFlagConditionGroupSchema"
@@ -1174,7 +1205,7 @@
         "smithy.api#documentation": "Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0–100, may be fractional) is the **exclusion** percentage — the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout."
       }
     },
-    "com.posthog.experiment_holdouts#ExperimentHoldoutsPartialUpdateRequest": {
+    "com.posthog.experiment_holdouts#UpdateExperimentHoldoutsPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1207,7 +1238,7 @@
           }
         },
         "filters": {
-          "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsPartialUpdateRequestFiltersList",
+          "target": "com.posthog.experiment_holdouts#UpdateExperimentHoldoutsPartialRequestFiltersList",
           "traits": {
             "smithy.api#documentation": "Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0–100, may be fractional) is the **exclusion** percentage — the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout."
           }
@@ -1217,10 +1248,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.experiment_holdouts#ExperimentHoldoutsPartialUpdate": {
+    "com.posthog.experiment_holdouts#UpdateExperimentHoldoutsPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsPartialUpdateRequest"
+        "target": "com.posthog.experiment_holdouts#UpdateExperimentHoldoutsPartialRequest"
       },
       "output": {
         "target": "com.posthog.experiment_holdouts#ExperimentHoldout"
@@ -1336,19 +1367,19 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsList"
+          "target": "com.posthog.experiment_holdouts#ListExperimentHoldouts"
         },
         {
-          "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsCreate"
+          "target": "com.posthog.experiment_holdouts#CreateExperimentHoldout"
         },
         {
-          "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsRetrieve"
+          "target": "com.posthog.experiment_holdouts#GetExperimentHoldout"
         },
         {
-          "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsUpdate"
+          "target": "com.posthog.experiment_holdouts#UpdateExperimentHoldout"
         },
         {
-          "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsPartialUpdate"
+          "target": "com.posthog.experiment_holdouts#UpdateExperimentHoldoutsPartial"
         },
         {
           "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsDestroy"

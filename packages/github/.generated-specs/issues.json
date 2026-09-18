@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.github.issues#ListRequestFilter": {
@@ -3443,6 +3444,12 @@
           "traits": {
             "smithy.api#documentation": "The name of the issue type to associate with this issue. _NOTE: Only users with push access can set the type for new issues. The type is silently dropped otherwise._",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "parent_issue_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The id of the parent issue to add this issue to as a sub-issue. _NOTE: Only users with triage access to both the parent issue's repository and this repository can set the parent issue._"
           }
         }
       },
@@ -11764,6 +11771,9 @@
           "target": "com.github.issues#BadRequest"
         },
         {
+          "target": "com.github.issues#Forbidden"
+        },
+        {
           "target": "com.github.issues#NotFound"
         }
       ],
@@ -12746,6 +12756,12 @@
         },
         "BlockingRemovedIssueEvent": {
           "target": "com.github.issues#BlockingRemovedIssueEvent"
+        },
+        "TimelineConnectedEvent": {
+          "target": "com.github.issues#TimelineConnectedEvent"
+        },
+        "TimelineDisconnectedEvent": {
+          "target": "com.github.issues#TimelineDisconnectedEvent"
         }
       },
       "traits": {
@@ -13944,6 +13960,136 @@
         "smithy.api#documentation": "State Change Issue Event"
       }
     },
+    "com.github.issues#TimelineConnectedEvent": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "actor": {
+          "target": "com.github.issues#SimpleUser",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "commit_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commit_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "performed_via_github_app": {
+          "target": "com.github.issues#NullableIntegration",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Timeline Connected Event"
+      }
+    },
+    "com.github.issues#TimelineDisconnectedEvent": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "actor": {
+          "target": "com.github.issues#SimpleUser",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "commit_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commit_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "performed_via_github_app": {
+          "target": "com.github.issues#NullableIntegration",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Timeline Disconnected Event"
+      }
+    },
     "com.github.issues#ListEventsForTimelineResponseBodyList": {
       "type": "list",
       "member": {
@@ -14239,6 +14385,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "A short description of the label. Must be 100 characters or fewer."
+          }
+        },
+        "archived": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to archive or unarchive the label. Archived labels cannot be added to issues or pull requests. For more information, see \"[Archiving labels](https://docs.github.com/issues/organizing-your-work-with-labels/managing-labels).\""
           }
         }
       },

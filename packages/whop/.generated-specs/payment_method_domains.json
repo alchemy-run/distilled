@@ -1,0 +1,651 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.payment_method_domains#ListPaymentMethodDomainsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "VERIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verified"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_method_domains#ListPaymentMethodDomainsRequestProvider": {
+      "type": "enum",
+      "members": {
+        "APPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_method_domains#ListPaymentMethodDomainsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_method_domains#ListPaymentMethodDomainsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_method_domains#ListPaymentMethodDomainsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Only domains registered for this account (`biz_` tag). Defaults to the caller's account plus its connected accounts."
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "hostname",
+            "smithy.api#documentation": "Only the domain with this exact hostname."
+          }
+        },
+        "status": {
+          "target": "com.whop.payment_method_domains#ListPaymentMethodDomainsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only domains with this verification status."
+          }
+        },
+        "provider": {
+          "target": "com.whop.payment_method_domains#ListPaymentMethodDomainsRequestProvider",
+          "traits": {
+            "smithy.api#httpQuery": "provider",
+            "smithy.api#documentation": "Only domains registered with this wallet provider."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only domains created before this ISO 8601 timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only domains created after this ISO 8601 timestamp."
+          }
+        },
+        "order": {
+          "target": "com.whop.payment_method_domains#ListPaymentMethodDomainsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort field."
+          }
+        },
+        "direction": {
+          "target": "com.whop.payment_method_domains#ListPaymentMethodDomainsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of domains to return from the start of the window."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to paginate forwards from."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of domains to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to paginate backwards from."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_method_domains#PaymentMethodDomain": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the account the domain is registered for, prefixed `biz_`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the domain was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hostname the checkout is served from (e.g. `checkout.example.com`).",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payment method domain ID, prefixed `pmd_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "com.whop.payment_method_domains#PaymentMethodDomainProvider",
+          "traits": {
+            "smithy.api#documentation": "Wallet provider the domain is registered with.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.payment_method_domains#PaymentMethodDomainStatus",
+          "traits": {
+            "smithy.api#documentation": "Verification status. `pending` means the provider could not fetch the domain-association file yet; only `verified` domains show wallet payment methods at checkout.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the domain was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_method_domains#PaymentMethodDomainProvider": {
+      "type": "enum",
+      "members": {
+        "APPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Wallet provider the domain is registered with."
+      }
+    },
+    "com.whop.payment_method_domains#PaymentMethodDomainStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "VERIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verified"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Verification status. `pending` means the provider could not fetch the domain-association file yet; only `verified` domains show wallet payment methods at checkout."
+      }
+    },
+    "com.whop.payment_method_domains#ListPaymentMethodDomainsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.payment_method_domains#PaymentMethodDomain"
+      },
+      "traits": {}
+    },
+    "com.whop.payment_method_domains#ListPaymentMethodDomainsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.payment_method_domains#ListPaymentMethodDomainsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.payment_method_domains#ListPaymentMethodDomainsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.payment_method_domains#ListPaymentMethodDomainsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payment_method_domains#ListPaymentMethodDomains": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_method_domains#ListPaymentMethodDomainsRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_method_domains#ListPaymentMethodDomainsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_method_domains#BadRequest"
+        },
+        {
+          "target": "com.whop.payment_method_domains#Forbidden"
+        },
+        {
+          "target": "com.whop.payment_method_domains#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payment_method_domains",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Payment Method Domains\n\nLists payment method domains. Without `account_id`, returns the caller's own domains and those of every connected account.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.payment_method_domains#CreatePaymentMethodDomainRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account to register the domain for (`biz_` tag). Defaults to the caller's account."
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hostname to register (e.g. `checkout.shinetime.example`).",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_method_domains#CreatePaymentMethodDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_method_domains#CreatePaymentMethodDomainRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_method_domains#PaymentMethodDomain"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_method_domains#BadRequest"
+        },
+        {
+          "target": "com.whop.payment_method_domains#Forbidden"
+        },
+        {
+          "target": "com.whop.payment_method_domains#NotFound"
+        },
+        {
+          "target": "com.whop.payment_method_domains#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/payment_method_domains",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Payment Method Domain\n\nRegisters a hostname with the wallet provider and attempts verification inline. Returns `verified` when the provider fetched the domain-association file (for Apple Pay, `/.well-known/apple-developer-merchantid-domain-association`), or `pending` when it could not — host the file, then retry with the verify endpoint."
+      }
+    },
+    "com.whop.payment_method_domains#GetPaymentMethodDomainRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the payment method domain, prefixed `pmd_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_method_domains#GetPaymentMethodDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_method_domains#GetPaymentMethodDomainRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_method_domains#PaymentMethodDomain"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_method_domains#Forbidden"
+        },
+        {
+          "target": "com.whop.payment_method_domains#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/payment_method_domains/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Payment Method Domain\n\nRetrieves a payment method domain to check its verification status."
+      }
+    },
+    "com.whop.payment_method_domains#DeletePaymentMethodDomainRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the payment method domain, prefixed `pmd_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_method_domains#DeletePaymentMethodDomainResponse": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.payment_method_domains#DeletePaymentMethodDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_method_domains#DeletePaymentMethodDomainRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_method_domains#DeletePaymentMethodDomainResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_method_domains#Forbidden"
+        },
+        {
+          "target": "com.whop.payment_method_domains#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/payment_method_domains/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete Payment Method Domain\n\nUnregisters a payment method domain so its wallet payment methods stop rendering there."
+      }
+    },
+    "com.whop.payment_method_domains#VerifyPaymentMethodDomainRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the payment method domain, prefixed `pmd_`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.payment_method_domains#VerifyPaymentMethodDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.payment_method_domains#VerifyPaymentMethodDomainRequest"
+      },
+      "output": {
+        "target": "com.whop.payment_method_domains#PaymentMethodDomain"
+      },
+      "errors": [
+        {
+          "target": "com.whop.payment_method_domains#BadRequest"
+        },
+        {
+          "target": "com.whop.payment_method_domains#Forbidden"
+        },
+        {
+          "target": "com.whop.payment_method_domains#NotFound"
+        },
+        {
+          "target": "com.whop.payment_method_domains#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/payment_method_domains/{id}/verify",
+          "code": 200
+        },
+        "smithy.api#documentation": "Verify Payment Method Domain\n\nRe-attempts provider verification of a pending domain once the association file is hosted. Fails with a `bad_request` explaining what to fix; verifying an already `verified` domain is a no-op."
+      }
+    },
+    "com.whop.payment_method_domains#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.payment_method_domains#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.payment_method_domains#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.payment_method_domains#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.payment_method_domains#PaymentMethodDomains": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.payment_method_domains#ListPaymentMethodDomains"
+        },
+        {
+          "target": "com.whop.payment_method_domains#CreatePaymentMethodDomain"
+        },
+        {
+          "target": "com.whop.payment_method_domains#GetPaymentMethodDomain"
+        },
+        {
+          "target": "com.whop.payment_method_domains#DeletePaymentMethodDomain"
+        },
+        {
+          "target": "com.whop.payment_method_domains#VerifyPaymentMethodDomain"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

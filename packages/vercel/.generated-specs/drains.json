@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.vercel.drains#GetDrainsRequest": {
@@ -107,6 +108,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "feature-not-available"
+          }
+        },
+        "LIMITS_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limits-exceeded"
           }
         }
       },
@@ -1177,6 +1184,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "feature-not-available"
+          }
+        },
+        "LIMITS_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limits-exceeded"
           }
         }
       },
@@ -3201,6 +3214,12 @@
           "traits": {
             "smithy.api#enumValue": "feature-not-available"
           }
+        },
+        "LIMITS_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limits-exceeded"
+          }
         }
       },
       "traits": {}
@@ -4263,6 +4282,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "feature-not-available"
+          }
+        },
+        "LIMITS_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limits-exceeded"
           }
         }
       },
@@ -5544,6 +5569,12 @@
           "traits": {
             "smithy.api#enumValue": "feature-not-available"
           }
+        },
+        "LIMITS_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limits-exceeded"
+          }
         }
       },
       "traits": {}
@@ -6606,6 +6637,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "feature-not-available"
+          }
+        },
+        "LIMITS_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limits-exceeded"
           }
         }
       },
@@ -8664,6 +8701,12 @@
           "traits": {
             "smithy.api#enumValue": "feature-not-available"
           }
+        },
+        "LIMITS_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limits-exceeded"
+          }
         }
       },
       "traits": {}
@@ -9726,6 +9769,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "feature-not-available"
+          }
+        },
+        "LIMITS_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limits-exceeded"
           }
         }
       },

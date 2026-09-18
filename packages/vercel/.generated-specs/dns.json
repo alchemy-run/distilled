@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.vercel.dns#GetRecordsRequest": {
@@ -607,10 +608,7 @@
       "type": "structure",
       "members": {
         "uid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "updated": {
           "target": "smithy.api#Double",
@@ -1153,7 +1151,7 @@
         }
       }
     },
-    "com.vercel.dns#GetDomainsRecordsByRecordIdRequest": {
+    "com.vercel.dns#GetDomainsRecordRequest": {
       "type": "structure",
       "members": {
         "recordId": {
@@ -1169,7 +1167,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.dns#GetDomainsRecordsByRecordIdResponseType": {
+    "com.vercel.dns#GetDomainsRecordResponseType": {
       "type": "enum",
       "members": {
         "A": {
@@ -1235,7 +1233,7 @@
       },
       "traits": {}
     },
-    "com.vercel.dns#GetDomainsRecordsByRecordIdResponseRecordType": {
+    "com.vercel.dns#GetDomainsRecordResponseRecordType": {
       "type": "enum",
       "members": {
         "A": {
@@ -1301,11 +1299,11 @@
       },
       "traits": {}
     },
-    "com.vercel.dns#GetDomainsRecordsByRecordIdResponse": {
+    "com.vercel.dns#GetDomainsRecordResponse": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.vercel.dns#GetDomainsRecordsByRecordIdResponseType",
+          "target": "com.vercel.dns#GetDomainsRecordResponseType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1347,7 +1345,7 @@
           "target": "smithy.api#String"
         },
         "recordType": {
-          "target": "com.vercel.dns#GetDomainsRecordsByRecordIdResponseRecordType",
+          "target": "com.vercel.dns#GetDomainsRecordResponseRecordType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1363,13 +1361,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.vercel.dns#GetDomainsRecordsByRecordId": {
+    "com.vercel.dns#GetDomainsRecord": {
       "type": "operation",
       "input": {
-        "target": "com.vercel.dns#GetDomainsRecordsByRecordIdRequest"
+        "target": "com.vercel.dns#GetDomainsRecordRequest"
       },
       "output": {
-        "target": "com.vercel.dns#GetDomainsRecordsByRecordIdResponse"
+        "target": "com.vercel.dns#GetDomainsRecordResponse"
       },
       "errors": [
         {
@@ -1551,7 +1549,7 @@
           "target": "com.vercel.dns#ReplaceDomainsByDomainRecords"
         },
         {
-          "target": "com.vercel.dns#GetDomainsRecordsByRecordId"
+          "target": "com.vercel.dns#GetDomainsRecord"
         },
         {
           "target": "com.vercel.dns#RemoveRecord"

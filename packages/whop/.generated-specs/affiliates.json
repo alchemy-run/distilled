@@ -1,0 +1,1893 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.affiliates#Direction": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The direction of the sort."
+      }
+    },
+    "com.whop.affiliates#AffiliatesSortableColumns": {
+      "type": "enum",
+      "members": {
+        "ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id"
+          }
+        },
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "CACHED_TOTAL_REFERRALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cached_total_referrals"
+          }
+        },
+        "CACHED_TOTAL_REWARDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cached_total_rewards"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which columns can be used to sort."
+      }
+    },
+    "com.whop.affiliates#Status": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Statuses for resources"
+      }
+    },
+    "com.whop.affiliates#ListAffiliateRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id",
+            "smithy.api#required": {}
+          }
+        },
+        "direction": {
+          "target": "com.whop.affiliates#Direction",
+          "traits": {
+            "smithy.api#httpQuery": "direction"
+          }
+        },
+        "order": {
+          "target": "com.whop.affiliates#AffiliatesSortableColumns",
+          "traits": {
+            "smithy.api#httpQuery": "order"
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query"
+          }
+        },
+        "status": {
+          "target": "com.whop.affiliates#Status",
+          "traits": {
+            "smithy.api#httpQuery": "status"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.affiliates#AffiliateListItem": {
+      "type": "structure",
+      "members": {
+        "active_members_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total active members of the affiliate",
+            "smithy.api#required": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.affiliates#AffiliateListItemCompany",
+          "traits": {
+            "smithy.api#documentation": "The company attached to this affiliate",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the affiliate was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "customer_retention_rate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The percentage of referred customers who are still active members",
+            "smithy.api#required": {}
+          }
+        },
+        "customer_retention_rate_ninety_days": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The percentage of referred customers who remained active over the last 90 days",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the affiliate.",
+            "smithy.api#required": {}
+          }
+        },
+        "monthly_recurring_revenue_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The monthly recurring revenue generated by this affiliate's referrals, formatted as a USD currency string",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.affiliates#Status",
+          "traits": {
+            "smithy.api#documentation": "The status of the affiliate",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_overrides_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total count of all overrides for this affiliate",
+            "smithy.api#required": {}
+          }
+        },
+        "total_referral_earnings_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total commission earnings paid to this affiliate, formatted as a USD currency string",
+            "smithy.api#required": {}
+          }
+        },
+        "total_referrals_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total referrals of the affiliate",
+            "smithy.api#required": {}
+          }
+        },
+        "total_revenue_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total revenue generated from this affiliate's referrals, formatted as a USD currency string",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the affiliate was last updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.affiliates#AffiliateListItemUser",
+          "traits": {
+            "smithy.api#documentation": "The user attached to this affiliate",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An affiliate tracks a user's referral performance and commission earnings for a company, including retention rates, revenue metrics, and payout configurations."
+      }
+    },
+    "com.whop.affiliates#AffiliateListItemCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The written name of the company.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company attached to this affiliate"
+      }
+    },
+    "com.whop.affiliates#AffiliateListItemUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name set on the user's Whop profile. Null if the user has not set a name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique username chosen by the user for their Whop profile. Null if the user has not set a username.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user attached to this affiliate"
+      }
+    },
+    "com.whop.affiliates#ListAffiliateResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.affiliates#AffiliateListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.affiliates#PageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating forwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, are there more items?",
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When paginating backwards, the cursor to continue.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about pagination in a connection."
+      }
+    },
+    "com.whop.affiliates#ListAffiliateResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.affiliates#ListAffiliateResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.affiliates#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.affiliates#ListAffiliate": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.affiliates#ListAffiliateRequest"
+      },
+      "output": {
+        "target": "com.whop.affiliates#ListAffiliateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.affiliates#BadRequest"
+        },
+        {
+          "target": "com.whop.affiliates#Forbidden"
+        },
+        {
+          "target": "com.whop.affiliates#NotFound"
+        },
+        {
+          "target": "com.whop.affiliates#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/affiliates",
+          "code": 200
+        },
+        "smithy.api#documentation": "List affiliates\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of affiliates for the actor in context, with optional filtering by status, search, and sorting.\n\nRequired permissions:\n - `affiliate:basic:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.affiliates#CreateAffiliateRequest": {
+      "type": "structure",
+      "members": {
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the company to create the affiliate for.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user identifier (username, email, user ID, or Discord ID).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.affiliates#Affiliate": {
+      "type": "structure",
+      "members": {
+        "active_members_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total active members of the affiliate",
+            "smithy.api#required": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.affiliates#AffiliateCompany",
+          "traits": {
+            "smithy.api#documentation": "The company attached to this affiliate",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the affiliate was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "customer_retention_rate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The percentage of referred customers who are still active members",
+            "smithy.api#required": {}
+          }
+        },
+        "customer_retention_rate_ninety_days": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The percentage of referred customers who remained active over the last 90 days",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the affiliate.",
+            "smithy.api#required": {}
+          }
+        },
+        "monthly_recurring_revenue_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The monthly recurring revenue generated by this affiliate's referrals, formatted as a USD currency string",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.affiliates#Status",
+          "traits": {
+            "smithy.api#documentation": "The status of the affiliate",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_overrides_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total count of all overrides for this affiliate",
+            "smithy.api#required": {}
+          }
+        },
+        "total_referral_earnings_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total commission earnings paid to this affiliate, formatted as a USD currency string",
+            "smithy.api#required": {}
+          }
+        },
+        "total_referrals_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total referrals of the affiliate",
+            "smithy.api#required": {}
+          }
+        },
+        "total_revenue_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total revenue generated from this affiliate's referrals, formatted as a USD currency string",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the affiliate was last updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.affiliates#AffiliateUser",
+          "traits": {
+            "smithy.api#documentation": "The user attached to this affiliate",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An affiliate tracks a user's referral performance and commission earnings for a company, including retention rates, revenue metrics, and payout configurations."
+      }
+    },
+    "com.whop.affiliates#AffiliateCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The written name of the company.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company attached to this affiliate"
+      }
+    },
+    "com.whop.affiliates#AffiliateUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name set on the user's Whop profile. Null if the user has not set a name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique username chosen by the user for their Whop profile. Null if the user has not set a username.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user attached to this affiliate"
+      }
+    },
+    "com.whop.affiliates#CreateAffiliate": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.affiliates#CreateAffiliateRequest"
+      },
+      "output": {
+        "target": "com.whop.affiliates#Affiliate"
+      },
+      "errors": [
+        {
+          "target": "com.whop.affiliates#BadRequest"
+        },
+        {
+          "target": "com.whop.affiliates#Forbidden"
+        },
+        {
+          "target": "com.whop.affiliates#NotFound"
+        },
+        {
+          "target": "com.whop.affiliates#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/affiliates",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create affiliate\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreates or finds an affiliate for a company and user.\n\nRequired permissions:\n - `affiliate:create`"
+      }
+    },
+    "com.whop.affiliates#GetAffiliateRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the affiliate."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.affiliates#GetAffiliate": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.affiliates#GetAffiliateRequest"
+      },
+      "output": {
+        "target": "com.whop.affiliates#Affiliate"
+      },
+      "errors": [
+        {
+          "target": "com.whop.affiliates#BadRequest"
+        },
+        {
+          "target": "com.whop.affiliates#Forbidden"
+        },
+        {
+          "target": "com.whop.affiliates#NotFound"
+        },
+        {
+          "target": "com.whop.affiliates#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/affiliates/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve affiliate\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of an existing affiliate.\n\nRequired permissions:\n - `affiliate:basic:read`"
+      }
+    },
+    "com.whop.affiliates#ArchiveAffiliateRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The internal ID of the affiliate to archive."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.affiliates#ArchiveAffiliateResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.affiliates#ArchiveAffiliate": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.affiliates#ArchiveAffiliateRequest"
+      },
+      "output": {
+        "target": "com.whop.affiliates#ArchiveAffiliateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.affiliates#BadRequest"
+        },
+        {
+          "target": "com.whop.affiliates#Forbidden"
+        },
+        {
+          "target": "com.whop.affiliates#NotFound"
+        },
+        {
+          "target": "com.whop.affiliates#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/affiliates/{id}/archive",
+          "code": 200
+        },
+        "smithy.api#documentation": "Archive affiliate\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nArchives an existing Affiliate\n\nRequired permissions:\n - `affiliate:update`"
+      }
+    },
+    "com.whop.affiliates#AffiliateOverrideRoles": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "REV_SHARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rev_share"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The role of an affiliate override (standard or rev_share)"
+      }
+    },
+    "com.whop.affiliates#ListOverridesAffiliateRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The affiliate ID."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before"
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first"
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last"
+          }
+        },
+        "override_type": {
+          "target": "com.whop.affiliates#AffiliateOverrideRoles",
+          "traits": {
+            "smithy.api#httpQuery": "override_type"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.affiliates#AffiliateAppliesToPayments": {
+      "type": "enum",
+      "members": {
+        "FIRST_PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_payment"
+          }
+        },
+        "ALL_PAYMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all_payments"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the affiliate commission applies to the first payment or all payments"
+      }
+    },
+    "com.whop.affiliates#AffiliateAppliesToProducts": {
+      "type": "enum",
+      "members": {
+        "SINGLE_PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "single_product"
+          }
+        },
+        "ALL_PRODUCTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all_products"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether a rev-share override applies to a single product or all products"
+      }
+    },
+    "com.whop.affiliates#AffiliatePayoutTypes": {
+      "type": "enum",
+      "members": {
+        "PERCENTAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percentage"
+          }
+        },
+        "FLAT_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flat_fee"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The types of payouts an affiliate can have"
+      }
+    },
+    "com.whop.affiliates#AffiliateRevenueBases": {
+      "type": "enum",
+      "members": {
+        "PRE_FEES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pre_fees"
+          }
+        },
+        "POST_FEES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post_fees"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The calculation method for affiliate rev-share percentages"
+      }
+    },
+    "com.whop.affiliates#ListOverridesAffiliateResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "applies_to_payments": {
+          "target": "com.whop.affiliates#AffiliateAppliesToPayments",
+          "traits": {
+            "smithy.api#documentation": "Whether the commission applies to the first payment only or all payments (standard overrides only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "applies_to_products": {
+          "target": "com.whop.affiliates#AffiliateAppliesToProducts",
+          "traits": {
+            "smithy.api#documentation": "Whether this rev-share override applies to a single product or all products (rev-share only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "checkout_direct_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The checkout direct link for referrals (standard overrides only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commission_type": {
+          "target": "com.whop.affiliates#AffiliatePayoutTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of commission (percentage or flat_fee).",
+            "smithy.api#required": {}
+          }
+        },
+        "commission_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The commission amount. A percentage (1-100) when commission_type is percentage, or a dollar amount when flat_fee.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the affiliate override.",
+            "smithy.api#required": {}
+          }
+        },
+        "override_type": {
+          "target": "com.whop.affiliates#AffiliateOverrideRoles",
+          "traits": {
+            "smithy.api#documentation": "The type of override (standard or rev_share).",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan ID (for standard overrides).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_direct_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product page direct link for referrals (standard overrides only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product ID (for rev-share overrides).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "revenue_basis": {
+          "target": "com.whop.affiliates#AffiliateRevenueBases",
+          "traits": {
+            "smithy.api#documentation": "The revenue calculation basis (pre_fees or post_fees).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_referral_earnings_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The total earnings paid to this affiliate for referrals to this specific plan, in USD.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A commission configuration for an affiliate, defining payout terms for a specific plan or revenue share"
+      }
+    },
+    "com.whop.affiliates#ListOverridesAffiliateResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.affiliates#ListOverridesAffiliateResponseDataItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of nodes."
+      }
+    },
+    "com.whop.affiliates#ListOverridesAffiliateResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.affiliates#ListOverridesAffiliateResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.affiliates#PageInfo",
+          "traits": {
+            "smithy.api#documentation": "Information to aid in pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.affiliates#ListOverridesAffiliate": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.affiliates#ListOverridesAffiliateRequest"
+      },
+      "output": {
+        "target": "com.whop.affiliates#ListOverridesAffiliateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.affiliates#BadRequest"
+        },
+        {
+          "target": "com.whop.affiliates#Forbidden"
+        },
+        {
+          "target": "com.whop.affiliates#NotFound"
+        },
+        {
+          "target": "com.whop.affiliates#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/affiliates/{id}/overrides",
+          "code": 200
+        },
+        "smithy.api#documentation": "List overrides\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReturns a paginated list of overrides for an affiliate.\n\nRequired permissions:\n - `affiliate:basic:read`",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.affiliates#CreateOverrideAffiliateRequestBodyCase0": {
+      "type": "structure",
+      "members": {
+        "applies_to_payments": {
+          "target": "com.whop.affiliates#AffiliateAppliesToPayments",
+          "traits": {
+            "smithy.api#documentation": "Whether commission applies to first payment or all payments (standard only).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commission_type": {
+          "target": "com.whop.affiliates#AffiliatePayoutTypes",
+          "traits": {
+            "smithy.api#documentation": "The commission type (percentage or flat_fee).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commission_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The commission value (percentage 1-100 or flat fee).",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The affiliate ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "override_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan ID (required for standard overrides).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of CreateAffiliateOverride"
+      }
+    },
+    "com.whop.affiliates#CreateOverrideAffiliateRequestBodyCase1": {
+      "type": "structure",
+      "members": {
+        "commission_type": {
+          "target": "com.whop.affiliates#AffiliatePayoutTypes",
+          "traits": {
+            "smithy.api#documentation": "The commission type (percentage or flat_fee).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commission_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The commission value (percentage 1-100 or flat fee).",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The affiliate ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "override_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product ID (for rev-share overrides, omit for company-wide).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "revenue_basis": {
+          "target": "com.whop.affiliates#AffiliateRevenueBases",
+          "traits": {
+            "smithy.api#documentation": "The revenue calculation basis for rev-share overrides. Defaults to post_fees.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Autogenerated input type of CreateAffiliateOverride"
+      }
+    },
+    "com.whop.affiliates#CreateOverrideAffiliateRequestBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.affiliates#CreateOverrideAffiliateRequestBodyCase0"
+        },
+        "Case1": {
+          "target": "com.whop.affiliates#CreateOverrideAffiliateRequestBodyCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Parameters for CreateAffiliateOverride"
+      }
+    },
+    "com.whop.affiliates#CreateOverrideAffiliateRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The affiliate ID."
+          }
+        },
+        "body": {
+          "target": "com.whop.affiliates#CreateOverrideAffiliateRequestBody",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.affiliates#CreateOverrideAffiliateResponse": {
+      "type": "structure",
+      "members": {
+        "applies_to_payments": {
+          "target": "com.whop.affiliates#AffiliateAppliesToPayments",
+          "traits": {
+            "smithy.api#documentation": "Whether the commission applies to the first payment only or all payments (standard overrides only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "applies_to_products": {
+          "target": "com.whop.affiliates#AffiliateAppliesToProducts",
+          "traits": {
+            "smithy.api#documentation": "Whether this rev-share override applies to a single product or all products (rev-share only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "checkout_direct_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The checkout direct link for referrals (standard overrides only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commission_type": {
+          "target": "com.whop.affiliates#AffiliatePayoutTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of commission (percentage or flat_fee).",
+            "smithy.api#required": {}
+          }
+        },
+        "commission_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The commission amount. A percentage (1-100) when commission_type is percentage, or a dollar amount when flat_fee.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the affiliate override.",
+            "smithy.api#required": {}
+          }
+        },
+        "override_type": {
+          "target": "com.whop.affiliates#AffiliateOverrideRoles",
+          "traits": {
+            "smithy.api#documentation": "The type of override (standard or rev_share).",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan ID (for standard overrides).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_direct_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product page direct link for referrals (standard overrides only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product ID (for rev-share overrides).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "revenue_basis": {
+          "target": "com.whop.affiliates#AffiliateRevenueBases",
+          "traits": {
+            "smithy.api#documentation": "The revenue calculation basis (pre_fees or post_fees).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_referral_earnings_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The total earnings paid to this affiliate for referrals to this specific plan, in USD.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.affiliates#CreateOverrideAffiliate": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.affiliates#CreateOverrideAffiliateRequest"
+      },
+      "output": {
+        "target": "com.whop.affiliates#CreateOverrideAffiliateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.affiliates#BadRequest"
+        },
+        {
+          "target": "com.whop.affiliates#Forbidden"
+        },
+        {
+          "target": "com.whop.affiliates#NotFound"
+        },
+        {
+          "target": "com.whop.affiliates#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/affiliates/{id}/overrides",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create override\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nCreates a commission override for an affiliate.\n\nRequired permissions:\n - `affiliate:create`"
+      }
+    },
+    "com.whop.affiliates#GetOverrideAffiliateRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The affiliate ID."
+          }
+        },
+        "override_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The override ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.affiliates#GetOverrideAffiliateResponse": {
+      "type": "structure",
+      "members": {
+        "applies_to_payments": {
+          "target": "com.whop.affiliates#AffiliateAppliesToPayments",
+          "traits": {
+            "smithy.api#documentation": "Whether the commission applies to the first payment only or all payments (standard overrides only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "applies_to_products": {
+          "target": "com.whop.affiliates#AffiliateAppliesToProducts",
+          "traits": {
+            "smithy.api#documentation": "Whether this rev-share override applies to a single product or all products (rev-share only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "checkout_direct_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The checkout direct link for referrals (standard overrides only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commission_type": {
+          "target": "com.whop.affiliates#AffiliatePayoutTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of commission (percentage or flat_fee).",
+            "smithy.api#required": {}
+          }
+        },
+        "commission_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The commission amount. A percentage (1-100) when commission_type is percentage, or a dollar amount when flat_fee.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the affiliate override.",
+            "smithy.api#required": {}
+          }
+        },
+        "override_type": {
+          "target": "com.whop.affiliates#AffiliateOverrideRoles",
+          "traits": {
+            "smithy.api#documentation": "The type of override (standard or rev_share).",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan ID (for standard overrides).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_direct_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product page direct link for referrals (standard overrides only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product ID (for rev-share overrides).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "revenue_basis": {
+          "target": "com.whop.affiliates#AffiliateRevenueBases",
+          "traits": {
+            "smithy.api#documentation": "The revenue calculation basis (pre_fees or post_fees).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_referral_earnings_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The total earnings paid to this affiliate for referrals to this specific plan, in USD.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.affiliates#GetOverrideAffiliate": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.affiliates#GetOverrideAffiliateRequest"
+      },
+      "output": {
+        "target": "com.whop.affiliates#GetOverrideAffiliateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.affiliates#BadRequest"
+        },
+        {
+          "target": "com.whop.affiliates#Forbidden"
+        },
+        {
+          "target": "com.whop.affiliates#NotFound"
+        },
+        {
+          "target": "com.whop.affiliates#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/affiliates/{id}/overrides/{override_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve override\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRetrieves the details of a specific affiliate override.\n\nRequired permissions:\n - `affiliate:basic:read`"
+      }
+    },
+    "com.whop.affiliates#UpdateOverrideAffiliateRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The affiliate ID."
+          }
+        },
+        "override_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The override ID."
+          }
+        },
+        "applies_to_payments": {
+          "target": "com.whop.affiliates#AffiliateAppliesToPayments",
+          "traits": {
+            "smithy.api#documentation": "Whether commission applies to first payment or all payments (standard only).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commission_type": {
+          "target": "com.whop.affiliates#AffiliatePayoutTypes",
+          "traits": {
+            "smithy.api#documentation": "The commission type (percentage or flat_fee).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commission_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The commission value (percentage 1-100 or flat fee in dollars).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "revenue_basis": {
+          "target": "com.whop.affiliates#AffiliateRevenueBases",
+          "traits": {
+            "smithy.api#documentation": "The revenue calculation basis (rev-share only).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.affiliates#UpdateOverrideAffiliateResponse": {
+      "type": "structure",
+      "members": {
+        "applies_to_payments": {
+          "target": "com.whop.affiliates#AffiliateAppliesToPayments",
+          "traits": {
+            "smithy.api#documentation": "Whether the commission applies to the first payment only or all payments (standard overrides only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "applies_to_products": {
+          "target": "com.whop.affiliates#AffiliateAppliesToProducts",
+          "traits": {
+            "smithy.api#documentation": "Whether this rev-share override applies to a single product or all products (rev-share only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "checkout_direct_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The checkout direct link for referrals (standard overrides only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commission_type": {
+          "target": "com.whop.affiliates#AffiliatePayoutTypes",
+          "traits": {
+            "smithy.api#documentation": "The type of commission (percentage or flat_fee).",
+            "smithy.api#required": {}
+          }
+        },
+        "commission_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The commission amount. A percentage (1-100) when commission_type is percentage, or a dollar amount when flat_fee.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the affiliate override.",
+            "smithy.api#required": {}
+          }
+        },
+        "override_type": {
+          "target": "com.whop.affiliates#AffiliateOverrideRoles",
+          "traits": {
+            "smithy.api#documentation": "The type of override (standard or rev_share).",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan ID (for standard overrides).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_direct_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product page direct link for referrals (standard overrides only).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product ID (for rev-share overrides).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "revenue_basis": {
+          "target": "com.whop.affiliates#AffiliateRevenueBases",
+          "traits": {
+            "smithy.api#documentation": "The revenue calculation basis (pre_fees or post_fees).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_referral_earnings_usd": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The total earnings paid to this affiliate for referrals to this specific plan, in USD.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.affiliates#UpdateOverrideAffiliate": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.affiliates#UpdateOverrideAffiliateRequest"
+      },
+      "output": {
+        "target": "com.whop.affiliates#UpdateOverrideAffiliateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.affiliates#BadRequest"
+        },
+        {
+          "target": "com.whop.affiliates#Forbidden"
+        },
+        {
+          "target": "com.whop.affiliates#NotFound"
+        },
+        {
+          "target": "com.whop.affiliates#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/affiliates/{id}/overrides/{override_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update override\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUpdates an existing affiliate override.\n\nRequired permissions:\n - `affiliate:update`"
+      }
+    },
+    "com.whop.affiliates#DeleteOverrideAffiliateRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The affiliate ID."
+          }
+        },
+        "override_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The override ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.affiliates#DeleteOverrideAffiliateResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.affiliates#DeleteOverrideAffiliate": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.affiliates#DeleteOverrideAffiliateRequest"
+      },
+      "output": {
+        "target": "com.whop.affiliates#DeleteOverrideAffiliateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.affiliates#BadRequest"
+        },
+        {
+          "target": "com.whop.affiliates#Forbidden"
+        },
+        {
+          "target": "com.whop.affiliates#NotFound"
+        },
+        {
+          "target": "com.whop.affiliates#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/affiliates/{id}/overrides/{override_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete override\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nDeletes an affiliate override.\n\nRequired permissions:\n - `affiliate:update`"
+      }
+    },
+    "com.whop.affiliates#UnarchiveAffiliateRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The internal ID of the affiliate to archive."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.affiliates#UnarchiveAffiliateResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.affiliates#UnarchiveAffiliate": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.affiliates#UnarchiveAffiliateRequest"
+      },
+      "output": {
+        "target": "com.whop.affiliates#UnarchiveAffiliateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.affiliates#BadRequest"
+        },
+        {
+          "target": "com.whop.affiliates#Forbidden"
+        },
+        {
+          "target": "com.whop.affiliates#NotFound"
+        },
+        {
+          "target": "com.whop.affiliates#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/affiliates/{id}/unarchive",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unarchive affiliate\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUnarchives an existing Affiliate\n\nRequired permissions:\n - `affiliate:update`"
+      }
+    },
+    "com.whop.affiliates#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.affiliates#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.affiliates#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.affiliates#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.affiliates#Affiliates": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.affiliates#ListAffiliate"
+        },
+        {
+          "target": "com.whop.affiliates#CreateAffiliate"
+        },
+        {
+          "target": "com.whop.affiliates#GetAffiliate"
+        },
+        {
+          "target": "com.whop.affiliates#ArchiveAffiliate"
+        },
+        {
+          "target": "com.whop.affiliates#ListOverridesAffiliate"
+        },
+        {
+          "target": "com.whop.affiliates#CreateOverrideAffiliate"
+        },
+        {
+          "target": "com.whop.affiliates#GetOverrideAffiliate"
+        },
+        {
+          "target": "com.whop.affiliates#UpdateOverrideAffiliate"
+        },
+        {
+          "target": "com.whop.affiliates#DeleteOverrideAffiliate"
+        },
+        {
+          "target": "com.whop.affiliates#UnarchiveAffiliate"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

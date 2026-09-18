@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // Hand-written — always check it for real.
+    "noCheck": false,
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "composite": false,
+    "types": ["bun"]
+  },
+  "include": ["run.ts", "src/**/*.ts"]
+}

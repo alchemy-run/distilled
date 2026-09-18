@@ -1,0 +1,1701 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.products#ListProductsRequestPlanTypesItem": {
+      "type": "enum",
+      "members": {
+        "RENEWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renewal"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.products#ListProductsRequestPlanTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.products#ListProductsRequestPlanTypesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.products#ListProductsRequestVisibilitiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.products#ListProductsRequestAccessPassTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.products#ListProductsRequestLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.products#ListProductsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.products#ListProductsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The unique identifier of the account to list products for. Omit to search the public marketplace."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "Ranked search against product title and headline. Omit to browse by recency."
+          }
+        },
+        "marketplace_category_route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "marketplace_category_route",
+            "smithy.api#documentation": "Only return marketplace products assigned to this category route, such as `trading`."
+          }
+        },
+        "plan_types": {
+          "target": "com.whop.products#ListProductsRequestPlanTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "plan_types",
+            "smithy.api#documentation": "Filter to products with a buyable plan of these billing models, such as `one_time` or `renewal`."
+          }
+        },
+        "price_minimum": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "price_minimum",
+            "smithy.api#documentation": "Only return products whose advertised buyable plan has a displayed price of at least this amount. Recurring plans use renewal price."
+          }
+        },
+        "price_maximum": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "price_maximum",
+            "smithy.api#documentation": "Only return products whose advertised buyable plan has a displayed price of at most this amount. Recurring plans use renewal price."
+          }
+        },
+        "visibilities": {
+          "target": "com.whop.products#ListProductsRequestVisibilitiesList",
+          "traits": {
+            "smithy.api#httpQuery": "visibilities",
+            "smithy.api#documentation": "Filter to only products matching these visibility states. Ignored on the public marketplace list, which only returns visible products."
+          }
+        },
+        "access_pass_types": {
+          "target": "com.whop.products#ListProductsRequestAccessPassTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "access_pass_types",
+            "smithy.api#documentation": "Filter to only products matching these types."
+          }
+        },
+        "labels": {
+          "target": "com.whop.products#ListProductsRequestLabelsList",
+          "traits": {
+            "smithy.api#httpQuery": "labels",
+            "smithy.api#documentation": "Filter to only products carrying all of these labels. Labels are matched lowercased."
+          }
+        },
+        "direction": {
+          "target": "com.whop.products#ListProductsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "The sort direction for results. Defaults to descending."
+          }
+        },
+        "order": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort results by. Account lists default to `created_at`. Marketplace lists default to `discoverable_at` and accept `created_at` or `discoverable_at`. Cannot be combined with `query`."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of products to return (default and max 100)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor; returns products after this position."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of products to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor; returns products before this position."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return products created after this ISO 8601 timestamp."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only return products created before this ISO 8601 timestamp."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.products#ProductListItem": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Account that sells this product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the product was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "default_plan": {
+          "target": "com.whop.products#ProductPublicPlan",
+          "traits": {
+            "smithy.api#documentation": "Buyable plan to show and check out with. The configured default when that plan is buyable, otherwise the first buyable plan in product-page order. `null` when none is buyable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Written description displayed on the product page. `null` if none is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "external_identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "External identifier stored on the product for your own reference.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gallery_images": {
+          "target": "com.whop.products#ProductListItemGalleryImagesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "headline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short marketing headline displayed on product page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Product ID, prefixed `prod_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.whop.products#ProductListItemLabelsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "member_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Active memberships for this product; 0 if public member counts are disabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs stored on the product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "published_reviews_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Published customer reviews for this product.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL slug for the product's public link.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Product display name shown to customers.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the product was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the product has been verified by Whop.",
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether the product is publicly visible, hidden, or archived.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.products#ProductPublicPlan": {
+      "type": "structure",
+      "members": {
+        "billing_period": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of days between recurring charges, such as 30 for monthly or 365 for annual. `null` for one-time plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_days": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Access duration in days for expiration-based plans. `null` for plans without an expiration.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan ID, prefixed `plan_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "initial_price": {
+          "target": "com.whop.products#Money",
+          "traits": {
+            "smithy.api#documentation": "What checkout charges up front. `amount` is `\"0.00\"` when the first charge is free, such as a trial.",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_type": {
+          "target": "com.whop.products#ProductPublicPlanPlanType",
+          "traits": {
+            "smithy.api#documentation": "Billing model for this plan: `one_time` or `renewal`.",
+            "smithy.api#required": {}
+          }
+        },
+        "renewal_price": {
+          "target": "com.whop.products#Money",
+          "traits": {
+            "smithy.api#documentation": "The recurring charge every `billing_period` days. `amount` is `\"0.00\"` for one-time plans.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan display name shown to customers. `null` if no title has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unlimited_stock": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan has unlimited stock.",
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.products#ProductPublicPlanVisibility",
+          "traits": {
+            "smithy.api#documentation": "Where this plan can be seen. `visible` plans appear on the product page.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.products#Money": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount in major units, as an exact decimal string — `\"10.00\"` is ten dollars. A string so no float rounds it in transit.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO 4217 currency code, lowercase.",
+            "smithy.api#required": {}
+          }
+        },
+        "decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places the amount CARRIES — the precision the charge itself runs at.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_decimals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.products#ProductPublicPlanPlanType": {
+      "type": "enum",
+      "members": {
+        "RENEWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renewal"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Billing model for this plan: `one_time` or `renewal`."
+      }
+    },
+    "com.whop.products#ProductPublicPlanVisibility": {
+      "type": "enum",
+      "members": {
+        "VISIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visible"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "QUICK_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quick_link"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where this plan can be seen. `visible` plans appear on the product page."
+      }
+    },
+    "com.whop.products#ProductGalleryImage": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uploaded file MIME type, such as image/jpeg.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gallery image ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Pre-optimized URL for rendering this image on the client.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.products#ProductListItemGalleryImagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.products#ProductGalleryImage"
+      },
+      "traits": {}
+    },
+    "com.whop.products#ProductListItemLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.products#ListProductsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.products#ProductListItem"
+      },
+      "traits": {}
+    },
+    "com.whop.products#ListProductsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.products#ListProductsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.products#ListProductsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.products#ListProductsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.products#ListProducts": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.products#ListProductsRequest"
+      },
+      "output": {
+        "target": "com.whop.products#ListProductsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.products#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/products",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Products\n\nReturns a paginated list of products. Omit `account_id` to search the public marketplace.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.products#CreateProductRequestCustomCta": {
+      "type": "enum",
+      "members": {
+        "GET_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_access"
+          }
+        },
+        "JOIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "join"
+          }
+        },
+        "ORDER_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "order_now"
+          }
+        },
+        "SHOP_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shop_now"
+          }
+        },
+        "CALL_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "call_now"
+          }
+        },
+        "DONATE_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "donate_now"
+          }
+        },
+        "CONTACT_US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contact_us"
+          }
+        },
+        "SIGN_UP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sign_up"
+          }
+        },
+        "SUBSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscribe"
+          }
+        },
+        "PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purchase"
+          }
+        },
+        "GET_OFFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_offer"
+          }
+        },
+        "APPLY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apply_now"
+          }
+        },
+        "COMPLETE_ORDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete_order"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The call-to-action button label."
+      }
+    },
+    "com.whop.products#CreateProductRequestGlobalAffiliateStatus": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The enrollment status in the global affiliate program."
+      }
+    },
+    "com.whop.products#CreateProductRequestLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels used to group products into collections. Stored lowercased and de-duplicated. Maximum 20 labels, 50 characters each."
+      }
+    },
+    "com.whop.products#CreateProductRequestMemberAffiliateStatus": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The enrollment status in the member affiliate program."
+      }
+    },
+    "com.whop.products#CreateProductRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the account to create this product for."
+          }
+        },
+        "collect_shipping_address": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to collect a shipping address at checkout.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_cta": {
+          "target": "com.whop.products#CreateProductRequestCustomCta",
+          "traits": {
+            "smithy.api#documentation": "The call-to-action button label.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_cta_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL the call-to-action button links to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_statement_descriptor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom bank statement descriptor. Must start with WHOP*.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A written description displayed on the product page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "global_affiliate_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The commission rate affiliates earn.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "global_affiliate_status": {
+          "target": "com.whop.products#CreateProductRequestGlobalAffiliateStatus",
+          "traits": {
+            "smithy.api#documentation": "The enrollment status in the global affiliate program."
+          }
+        },
+        "headline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short marketing headline for the product page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "labels": {
+          "target": "com.whop.products#CreateProductRequestLabelsList",
+          "traits": {
+            "smithy.api#documentation": "Labels used to group products into collections. Stored lowercased and de-duplicated. Maximum 20 labels, 50 characters each.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_affiliate_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The commission rate members earn.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_affiliate_status": {
+          "target": "com.whop.products#CreateProductRequestMemberAffiliateStatus",
+          "traits": {
+            "smithy.api#documentation": "The enrollment status in the member affiliate program."
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs to store on the product.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_tax_code_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the tax classification code. See the available [product categories](https://docs.numeral.com/essentials/product-categories).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "redirect_purchase_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL to redirect the customer to after purchase.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL slug for the product's public link.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "send_welcome_message": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to send an automated welcome message via support chat when a user joins this product. Defaults to true.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the product. Maximum 80 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether the product is visible to customers."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.products#Product": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Account that sells this product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the product was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_cta": {
+          "target": "com.whop.products#ProductCustomCta",
+          "traits": {
+            "smithy.api#documentation": "Call-to-action button label shown on the product purchase page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_cta_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL the call-to-action button links to instead of checkout.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_statement_descriptor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom text label on customer's bank statement.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "default_plan": {
+          "target": "com.whop.products#ProductPublicPlan",
+          "traits": {
+            "smithy.api#documentation": "Buyable plan to show and check out with. The configured default when that plan is buyable, otherwise the first buyable plan in product-page order. `null` when none is buyable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Written description displayed on the product page. `null` if none is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "external_identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "External identifier stored on the product for your own reference.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gallery_images": {
+          "target": "com.whop.products#ProductGalleryImagesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "global_affiliate_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Commission rate affiliates earn through the global affiliate program.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "global_affiliate_status": {
+          "target": "com.whop.products#ProductGlobalAffiliateStatus",
+          "traits": {
+            "smithy.api#documentation": "Enrollment status in the global affiliate program.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "headline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short marketing headline displayed on product page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Product ID, prefixed `prod_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.whop.products#ProductLabelsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "marketplace_status": {
+          "target": "com.whop.products#ProductMarketplaceStatus",
+          "traits": {
+            "smithy.api#documentation": "Listing state on the whop.com marketplace. `pending_review` means submitted and awaiting review; `live_marketplace` means approved and discoverable.",
+            "smithy.api#required": {}
+          }
+        },
+        "member_affiliate_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Commission rate members earn through the member affiliate program.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_affiliate_status": {
+          "target": "com.whop.products#ProductMemberAffiliateStatus",
+          "traits": {
+            "smithy.api#documentation": "Enrollment status in the member affiliate program.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Active memberships for this product; 0 if public member counts are disabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs stored on the product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "owner_user": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "User who owns the account selling this product.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_tax_code": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Tax classification code for this product, or `null` if no tax code is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "published_reviews_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Published customer reviews for this product.",
+            "smithy.api#required": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL slug for the product's public link.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Product display name shown to customers.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the product was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the product has been verified by Whop.",
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether the product is publicly visible, hidden, or archived.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.products#ProductCustomCta": {
+      "type": "enum",
+      "members": {
+        "GET_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_access"
+          }
+        },
+        "JOIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "join"
+          }
+        },
+        "ORDER_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "order_now"
+          }
+        },
+        "SHOP_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shop_now"
+          }
+        },
+        "CALL_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "call_now"
+          }
+        },
+        "DONATE_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "donate_now"
+          }
+        },
+        "CONTACT_US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contact_us"
+          }
+        },
+        "SIGN_UP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sign_up"
+          }
+        },
+        "SUBSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscribe"
+          }
+        },
+        "PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purchase"
+          }
+        },
+        "GET_OFFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get_offer"
+          }
+        },
+        "APPLY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apply_now"
+          }
+        },
+        "COMPLETE_ORDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete_order"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Call-to-action button label shown on the product purchase page."
+      }
+    },
+    "com.whop.products#ProductGalleryImagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.products#ProductGalleryImage"
+      },
+      "traits": {}
+    },
+    "com.whop.products#ProductGlobalAffiliateStatus": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Enrollment status in the global affiliate program."
+      }
+    },
+    "com.whop.products#ProductLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.products#ProductMarketplaceStatus": {
+      "type": "enum",
+      "members": {
+        "NOT_AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_available"
+          }
+        },
+        "PENDING_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_review"
+          }
+        },
+        "LIVE_MARKETPLACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "live_marketplace"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Listing state on the whop.com marketplace. `pending_review` means submitted and awaiting review; `live_marketplace` means approved and discoverable."
+      }
+    },
+    "com.whop.products#ProductMemberAffiliateStatus": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Enrollment status in the member affiliate program."
+      }
+    },
+    "com.whop.products#CreateProduct": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.products#CreateProductRequest"
+      },
+      "output": {
+        "target": "com.whop.products#Product"
+      },
+      "errors": [
+        {
+          "target": "com.whop.products#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/products",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Product\n\nCreates a new product for an account."
+      }
+    },
+    "com.whop.products#GetProductRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the product."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.products#GetProduct": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.products#GetProductRequest"
+      },
+      "output": {
+        "target": "com.whop.products#Product"
+      },
+      "errors": [
+        {
+          "target": "com.whop.products#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/products/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Product\n\nRetrieves a product. Public — no credentials."
+      }
+    },
+    "com.whop.products#UpdateProductRequestBannerImage": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed id of a completed direct upload."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tag of an already-uploaded attachment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A wide image for the product, shown on the product page and on listing cards. Pass `{ id }` for an existing attachment or `{ direct_upload_id }` for a completed direct upload; `null` removes it."
+      }
+    },
+    "com.whop.products#UpdateProductRequestLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels used to group products into collections. Replaces the existing labels. Send an empty array to clear them."
+      }
+    },
+    "com.whop.products#UpdateProductRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the product."
+          }
+        },
+        "banner_image": {
+          "target": "com.whop.products#UpdateProductRequestBannerImage",
+          "traits": {
+            "smithy.api#documentation": "A wide image for the product, shown on the product page and on listing cards. Pass `{ id }` for an existing attachment or `{ direct_upload_id }` for a completed direct upload; `null` removes it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A written description displayed on the product page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "headline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short marketing headline for the product page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "labels": {
+          "target": "com.whop.products#UpdateProductRequestLabelsList",
+          "traits": {
+            "smithy.api#documentation": "Labels used to group products into collections. Replaces the existing labels. Send an empty array to clear them.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs to store on the product.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_tax_code_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the tax classification code. See the available [product categories](https://docs.numeral.com/essentials/product-categories).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "send_welcome_message": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to send an automated welcome message via support chat when a user joins this product.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the product."
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether the product is visible to customers."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.products#UpdateProduct": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.products#UpdateProductRequest"
+      },
+      "output": {
+        "target": "com.whop.products#Product"
+      },
+      "errors": [
+        {
+          "target": "com.whop.products#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/products/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Product\n\nUpdates an existing product."
+      }
+    },
+    "com.whop.products#DeleteProductRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the product."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.products#DeleteProductResponse": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always true.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the deleted product.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.products#DeleteProduct": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.products#DeleteProductRequest"
+      },
+      "output": {
+        "target": "com.whop.products#DeleteProductResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.products#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/products/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete Product\n\nDeletes a product. Only products with no memberships, entries, reviews, or invoices can be deleted."
+      }
+    },
+    "com.whop.products#PublishProductRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the product, prefixed `prod_`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.products#PublishProduct": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.products#PublishProductRequest"
+      },
+      "output": {
+        "target": "com.whop.products#Product"
+      },
+      "errors": [
+        {
+          "target": "com.whop.products#NotFound"
+        },
+        {
+          "target": "com.whop.products#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/products/{id}/publish",
+          "code": 200
+        },
+        "smithy.api#documentation": "Publish Product\n\nSubmits a product to the whop.com marketplace for review. The product moves to `pending_review`; a Whop reviewer approves it before it goes live."
+      }
+    },
+    "com.whop.products#UnpublishProductRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the product, prefixed `prod_`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.products#UnpublishProduct": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.products#UnpublishProductRequest"
+      },
+      "output": {
+        "target": "com.whop.products#Product"
+      },
+      "errors": [
+        {
+          "target": "com.whop.products#NotFound"
+        },
+        {
+          "target": "com.whop.products#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/products/{id}/unpublish",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unpublish Product\n\nRemoves a product from the whop.com marketplace. The product moves to `not_available`."
+      }
+    },
+    "com.whop.products#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.products#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.products#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.products#Products": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.products#ListProducts"
+        },
+        {
+          "target": "com.whop.products#CreateProduct"
+        },
+        {
+          "target": "com.whop.products#GetProduct"
+        },
+        {
+          "target": "com.whop.products#UpdateProduct"
+        },
+        {
+          "target": "com.whop.products#DeleteProduct"
+        },
+        {
+          "target": "com.whop.products#PublishProduct"
+        },
+        {
+          "target": "com.whop.products#UnpublishProduct"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

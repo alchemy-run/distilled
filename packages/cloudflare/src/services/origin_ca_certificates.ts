@@ -88,7 +88,7 @@ export type CreateRequestRequestType =
   | "origin-rsa"
   | "origin-ecc"
   | "keyless-certificate";
-export const CreateRequestRequestType = /*@__PURE__*/ S.String;
+export const CreateRequestRequestType = S.String;
 
 export type CreateRequestRequestedValidity =
   | 7
@@ -98,12 +98,12 @@ export type CreateRequestRequestedValidity =
   | 730
   | 1095
   | 5475;
-export const CreateRequestRequestedValidity = /*@__PURE__*/ S.Number;
+export const CreateRequestRequestedValidity = S.Number;
 
 export interface CreateOriginCaCertificateRequest {
   /** The Certificate Signing Request (CSR). Must be newline-encoded. */
   csr: string;
-  /** Array of hostnames or wildcard names bound to the certificate. */
+  /** Array of hostnames or wildcard names bound to the certificate. Hostnames must be fully qualified domain names (FQDNs) belonging to zones on your account (e.g., `example.com` or `sub.example.com`). Wildcards are supported only as a `*.` prefix for a single level (e.g., `*.example.com`). Double wildcards (`*.*.example.com`) and interior wildcards (`foo.*.example.com`) are not allowed. The wildcard suffix must be a multi-label domain (`*.example.com` is valid, but `*.com` is not). Unicode/IDN hostnames are accepted and automatically converted to punycode. */
   hostnames: CreateRequestHostnamesList;
   /** Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers). */
   requestType: CreateRequestRequestType | (string & {});
@@ -134,7 +134,7 @@ export type CreateResponseRequestType =
   | "origin-rsa"
   | "origin-ecc"
   | "keyless-certificate";
-export const CreateResponseRequestType = /*@__PURE__*/ S.String;
+export const CreateResponseRequestType = S.String;
 
 export type CreateResponseRequestedValidity =
   | 7
@@ -144,13 +144,13 @@ export type CreateResponseRequestedValidity =
   | 730
   | 1095
   | 5475;
-export const CreateResponseRequestedValidity = /*@__PURE__*/ S.Number;
+export const CreateResponseRequestedValidity = S.Number;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateOriginCaCertificateResponse {
   /** The Certificate Signing Request (CSR). Must be newline-encoded. */
   csr: string;
-  /** Array of hostnames or wildcard names bound to the certificate. */
+  /** Array of hostnames or wildcard names bound to the certificate. Hostnames must be fully qualified domain names (FQDNs) belonging to zones on your account (e.g., `example.com` or `sub.example.com`). Wildcards are supported only as a `*.` prefix for a single level (e.g., `*.example.com`). Double wildcards (`*.*.example.com`) and interior wildcards (`foo.*.example.com`) are not allowed. The wildcard suffix must be a multi-label domain (`*.example.com` is valid, but `*.com` is not). Unicode/IDN hostnames are accepted and automatically converted to punycode. */
   hostnames: CreateResponseHostnamesList;
   /** Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers). */
   requestType: CreateResponseRequestType;
@@ -247,7 +247,7 @@ export type GetResponseRequestType =
   | "origin-rsa"
   | "origin-ecc"
   | "keyless-certificate";
-export const GetResponseRequestType = /*@__PURE__*/ S.String;
+export const GetResponseRequestType = S.String;
 
 export type GetResponseRequestedValidity =
   | 7
@@ -257,13 +257,13 @@ export type GetResponseRequestedValidity =
   | 730
   | 1095
   | 5475;
-export const GetResponseRequestedValidity = /*@__PURE__*/ S.Number;
+export const GetResponseRequestedValidity = S.Number;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetOriginCaCertificateResponse {
   /** The Certificate Signing Request (CSR). Must be newline-encoded. */
   csr: string;
-  /** Array of hostnames or wildcard names bound to the certificate. */
+  /** Array of hostnames or wildcard names bound to the certificate. Hostnames must be fully qualified domain names (FQDNs) belonging to zones on your account (e.g., `example.com` or `sub.example.com`). Wildcards are supported only as a `*.` prefix for a single level (e.g., `*.example.com`). Double wildcards (`*.*.example.com`) and interior wildcards (`foo.*.example.com`) are not allowed. The wildcard suffix must be a multi-label domain (`*.example.com` is valid, but `*.com` is not). Unicode/IDN hostnames are accepted and automatically converted to punycode. */
   hostnames: GetResponseHostnamesList;
   /** Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers). */
   requestType: GetResponseRequestType;
@@ -330,7 +330,7 @@ export type ListResultItemRequestType =
   | "origin-rsa"
   | "origin-ecc"
   | "keyless-certificate";
-export const ListResultItemRequestType = /*@__PURE__*/ S.String;
+export const ListResultItemRequestType = S.String;
 
 export type ListResultItemRequestedValidity =
   | 7
@@ -340,12 +340,12 @@ export type ListResultItemRequestedValidity =
   | 730
   | 1095
   | 5475;
-export const ListResultItemRequestedValidity = /*@__PURE__*/ S.Number;
+export const ListResultItemRequestedValidity = S.Number;
 
 export interface ListResultItem {
   /** The Certificate Signing Request (CSR). Must be newline-encoded. */
   csr: string;
-  /** Array of hostnames or wildcard names bound to the certificate. */
+  /** Array of hostnames or wildcard names bound to the certificate. Hostnames must be fully qualified domain names (FQDNs) belonging to zones on your account (e.g., `example.com` or `sub.example.com`). Wildcards are supported only as a `*.` prefix for a single level (e.g., `*.example.com`). Double wildcards (`*.*.example.com`) and interior wildcards (`foo.*.example.com`) are not allowed. The wildcard suffix must be a multi-label domain (`*.example.com` is valid, but `*.com` is not). Unicode/IDN hostnames are accepted and automatically converted to punycode. */
   hostnames: ListResultItemHostnamesList;
   /** Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers). */
   requestType: ListResultItemRequestType;

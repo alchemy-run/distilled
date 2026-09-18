@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.quota_limits#QuotaLimitsListRequest": {
+    "com.posthog.quota_limits#ListQuotaLimitsRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -39,7 +40,14 @@
         "limited": {
           "target": "com.posthog.quota_limits#QuotaLimitsResponseLimitedMap",
           "traits": {
-            "smithy.api#documentation": "Per-resource limit state keyed by `QuotaResource` value. Currently only `ai_credits` is reported; additional resources may be added.",
+            "smithy.api#documentation": "Per-resource limit state for every `QuotaResource` value, e.g. `ai_credits`, `posthog_code_credits`. Also carries the informational Desktop component resources (`posthog_code_token_credits`, `sandbox_compute_credits`, `sandbox_compute_cpu_millicore_seconds`, `sandbox_compute_memory_mib_seconds`) with usage in their native units, a null limit, and `limited` always false — they are never quota-enforced; only the combined `posthog_code_credits` is.",
+            "smithy.api#required": {}
+          }
+        },
+        "code_usage_billing_active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the team's organization pays for PostHog Desktop usage: billing grants the `posthog_code_usage` product feature only on the Desktop usage product's paid plan, synced into the organization's available features. Consumers gate paid-tier Desktop behavior on this; an org unknown to billing reads as not paying. Always false for deactivated organizations.",
             "smithy.api#required": {}
           }
         }
@@ -52,8 +60,24 @@
         "limited": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "True when the team is currently over its quota for this resource and limits are in effect.",
+            "smithy.api#documentation": "True when the team is currently over its quota for this resource and limits are in effect. A deactivated organization additionally reads as limited on the two credit buckets `ai_credits` and `posthog_code_credits`, regardless of usage.",
             "smithy.api#required": {}
+          }
+        },
+        "usage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Units of this resource the organization has used so far this billing period, in the resource's native unit (credits for credit buckets). Null when billing hasn't synced usage for the resource.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The organization's limit for this resource in the same unit. Null when unlimited or unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -68,21 +92,21 @@
         "target": "com.posthog.quota_limits#QuotaResourceLimit"
       },
       "traits": {
-        "smithy.api#documentation": "Per-resource limit state keyed by `QuotaResource` value. Currently only `ai_credits` is reported; additional resources may be added."
+        "smithy.api#documentation": "Per-resource limit state for every `QuotaResource` value, e.g. `ai_credits`, `posthog_code_credits`. Also carries the informational Desktop component resources (`posthog_code_token_credits`, `sandbox_compute_credits`, `sandbox_compute_cpu_millicore_seconds`, `sandbox_compute_memory_mib_seconds`) with usage in their native units, a null limit, and `limited` always false — they are never quota-enforced; only the combined `posthog_code_credits` is."
       }
     },
-    "com.posthog.quota_limits#QuotaLimitsListResponseBodyList": {
+    "com.posthog.quota_limits#ListQuotaLimitsResponseBodyList": {
       "type": "list",
       "member": {
         "target": "com.posthog.quota_limits#QuotaLimitsResponse"
       },
       "traits": {}
     },
-    "com.posthog.quota_limits#QuotaLimitsListResponse": {
+    "com.posthog.quota_limits#ListQuotaLimitsResponse": {
       "type": "structure",
       "members": {
         "body": {
-          "target": "com.posthog.quota_limits#QuotaLimitsListResponseBodyList",
+          "target": "com.posthog.quota_limits#ListQuotaLimitsResponseBodyList",
           "traits": {
             "com.distilled.openapi#rawResponse": {},
             "smithy.api#required": {}
@@ -93,13 +117,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.posthog.quota_limits#QuotaLimitsList": {
+    "com.posthog.quota_limits#ListQuotaLimits": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.quota_limits#QuotaLimitsListRequest"
+        "target": "com.posthog.quota_limits#ListQuotaLimitsRequest"
       },
       "output": {
-        "target": "com.posthog.quota_limits#QuotaLimitsListResponse"
+        "target": "com.posthog.quota_limits#ListQuotaLimitsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -115,7 +139,7 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.quota_limits#QuotaLimitsList"
+          "target": "com.posthog.quota_limits#ListQuotaLimits"
         }
       ],
       "traits": {

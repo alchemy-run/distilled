@@ -115,21 +115,21 @@ export const GetEntitlementsPublicationsReadersRequest =
 
 /** A single entitlement for a publication reader */
 export interface Entitlement {
-  /** Required. Expiration time of the entitlement. Entitlements that have expired over 30 days will be purged. The max expire_time is 398 days from now(). */
-  expireTime?: string;
-  /** The detail field can carry a description of the SKU that corresponds to what the user has been granted access to. This description, which is opaque to Google, can be displayed in the Google user subscription console for users who linked the subscription to a Google Account. Max 80 character limit. */
-  detail?: string;
-  /** Required. The publication's product ID that the user has access to. This is the same product ID as can be found in Schema.org markup (http://schema.org/productID). E.g. "dailybugle.com:basic" */
-  productId?: string;
   /** A source-specific subscription token. This is an opaque string that the publisher provides to Google. This token is opaque and has no meaning to Google. */
   subscriptionToken?: string;
+  /** The detail field can carry a description of the SKU that corresponds to what the user has been granted access to. This description, which is opaque to Google, can be displayed in the Google user subscription console for users who linked the subscription to a Google Account. Max 80 character limit. */
+  detail?: string;
+  /** Optional. Expiration time of the entitlement. If unset, the entitlement does not expire (indefinite entitlement). We need to support indefinite entitlements for platform publishers. dd: go/rrm-sl-notedotcom Entitlements that have expired over 30 days will be purged. */
+  expireTime?: string;
+  /** Required. The publication's product ID that the user has access to. This is the same product ID as can be found in Schema.org markup (http://schema.org/productID). E.g. "dailybugle.com:basic" */
+  productId?: string;
 }
 export const Entitlement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expireTime: S.optional(S.String),
-    detail: S.optional(S.String),
-    productId: S.optional(S.String),
     subscriptionToken: S.optional(S.String),
+    detail: S.optional(S.String),
+    expireTime: S.optional(S.String),
+    productId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Entitlement" }) as any as S.Schema<Entitlement>;
 
@@ -140,15 +140,15 @@ export const EntitlementList = /*@__PURE__*/ S.Array(
 
 /** A singleton containing all of a reader's entitlements for a publication. */
 export interface ReaderEntitlements {
-  /** All of the entitlements for a publication reader. */
-  entitlements?: EntitlementList;
   /** Output only. The resource name of the singleton. */
   name?: string;
+  /** All of the entitlements for a publication reader. */
+  entitlements?: EntitlementList;
 }
 export const ReaderEntitlements = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entitlements: S.optional(EntitlementList),
     name: S.optional(S.String),
+    entitlements: S.optional(EntitlementList),
   }),
 ).annotate({
   identifier: "ReaderEntitlements",
@@ -174,40 +174,40 @@ export const GetPublicationsReadersRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A reader of a publication. */
 export interface Reader {
-  /** Output only. The SwG publication id that the reader's subscription linking was originating from. */
-  originatingPublicationId?: string;
-  /** Output only. The SwG publication id that the reader has linked their subscription to. */
-  publicationId?: string;
-  /** Output only. Time the publication reader was created and associated with a Google user. */
-  createTime?: string;
   /** Output only. The resource name of the reader. The last part of ppid in the resource name is the publisher provided id. */
   name?: string;
   /** Output only. The publisher provided id of the reader. */
   ppid?: string;
+  /** Output only. Time the publication reader was created and associated with a Google user. */
+  createTime?: string;
+  /** Output only. The SwG publication id that the reader has linked their subscription to. */
+  publicationId?: string;
+  /** Output only. The SwG publication id that the reader's subscription linking was originating from. */
+  originatingPublicationId?: string;
 }
 export const Reader = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    originatingPublicationId: S.optional(S.String),
-    publicationId: S.optional(S.String),
-    createTime: S.optional(S.String),
     name: S.optional(S.String),
     ppid: S.optional(S.String),
+    createTime: S.optional(S.String),
+    publicationId: S.optional(S.String),
+    originatingPublicationId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Reader" }) as any as S.Schema<Reader>;
 
 export interface UpdateEntitlementsPublicationsReadersRequest {
-  /** Output only. The resource name of the singleton. */
-  name: string;
   /** Optional. The list of fields to update. Defaults to all fields. */
   updateMask?: string;
+  /** Output only. The resource name of the singleton. */
+  name: string;
   /** Request body */
   body?: ReaderEntitlements;
 }
 export const UpdateEntitlementsPublicationsReadersRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(ReaderEntitlements.pipe(T.HttpBody())),
     }).pipe(
       T.Http({

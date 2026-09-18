@@ -35,17 +35,6 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.cloudflare.api_gateway#CreateUserSchemaRequest/members/validationEnabled",
-      "value": {
-        "target": "smithy.api#Boolean",
-        "traits": {
-          "smithy.api#jsonName": "validation_enabled",
-          "smithy.api#documentation": "Flag whether schema is enabled for validation."
-        }
-      }
-    },
-    {
-      "op": "add",
       "path": "/shapes/com.cloudflare.api_gateway#CreateUserSchema/traits/smithy.api#http/contentType",
       "value": "multipart"
     }

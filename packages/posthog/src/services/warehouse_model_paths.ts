@@ -11,29 +11,26 @@ import * as Retry from "../retry.ts";
 
 export type { PosthogOpError, PosthogOpContext };
 
-export interface WarehouseModelPathsListRequest {
+export interface GetWarehouseModelPathRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Number of results to return per page. */
-  limit?: number;
-  /** The initial index from which to return the results. */
-  offset?: number;
+  /** A UUID string identifying this data warehouse model path. */
+  id: string;
 }
-export const WarehouseModelPathsListRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetWarehouseModelPathRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-    limit: S.optional(S.Number.pipe(T.Query())),
-    offset: S.optional(S.Number.pipe(T.Query())),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/api/projects/{project_id}/warehouse_model_paths/",
+      uri: "/api/projects/{project_id}/warehouse_model_paths/{id}/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "WarehouseModelPathsListRequest",
-}) as any as S.Schema<WarehouseModelPathsListRequest>;
+  identifier: "GetWarehouseModelPathRequest",
+}) as any as S.Schema<GetWarehouseModelPathRequest>;
 
 export type DataWarehouseModelPathPathList = Array<string>;
 export const DataWarehouseModelPathPathList = /*@__PURE__*/ S.Array(
@@ -46,7 +43,7 @@ export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<UserBasicHedgehogConfigMap>;
 
-/** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `other` - Other */
+/** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
 export type RoleAtOrganizationEnum =
   | "engineering"
   | "data"
@@ -55,15 +52,16 @@ export type RoleAtOrganizationEnum =
   | "leadership"
   | "marketing"
   | "sales"
+  | "student"
   | "other";
-export const RoleAtOrganizationEnum = /*@__PURE__*/ S.String;
+export const RoleAtOrganizationEnum = S.String;
 
 export type BlankEnum = "";
-export const BlankEnum = /*@__PURE__*/ S.String;
+export const BlankEnum = S.String;
 
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export const UserBasicRoleAtOrganization =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<UserBasicRoleAtOrganization>;
+  S.Unknown as any as S.Schema<UserBasicRoleAtOrganization>;
 
 export interface UserBasic {
   id?: number;
@@ -115,6 +113,30 @@ export const DataWarehouseModelPath = /*@__PURE__*/ S.suspend(() =>
   identifier: "DataWarehouseModelPath",
 }) as any as S.Schema<DataWarehouseModelPath>;
 
+export interface ListWarehouseModelPathsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Number of results to return per page. */
+  limit?: number;
+  /** The initial index from which to return the results. */
+  offset?: number;
+}
+export const ListWarehouseModelPathsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/warehouse_model_paths/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListWarehouseModelPathsRequest",
+}) as any as S.Schema<ListWarehouseModelPathsRequest>;
+
 export type PaginatedDataWarehouseModelPathListResultsList =
   Array<DataWarehouseModelPath>;
 export const PaginatedDataWarehouseModelPathListResultsList =
@@ -139,50 +161,29 @@ export const PaginatedDataWarehouseModelPathList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedDataWarehouseModelPathList",
 }) as any as S.Schema<PaginatedDataWarehouseModelPathList>;
 
-export interface WarehouseModelPathsRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this data warehouse model path. */
-  id: string;
-}
-export const WarehouseModelPathsRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/warehouse_model_paths/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "WarehouseModelPathsRetrieveRequest",
-}) as any as S.Schema<WarehouseModelPathsRetrieveRequest>;
-
-export type WarehouseModelPathsListError = PosthogOpError;
-export const warehouseModelPathsList: API.OperationMethod<
-  WarehouseModelPathsListRequest,
-  PaginatedDataWarehouseModelPathList,
-  WarehouseModelPathsListError,
+export type GetWarehouseModelPathError = PosthogOpError;
+export const getWarehouseModelPath: API.OperationMethod<
+  GetWarehouseModelPathRequest,
+  DataWarehouseModelPath,
+  GetWarehouseModelPathError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: WarehouseModelPathsListRequest,
-  output: PaginatedDataWarehouseModelPathList,
+  input: GetWarehouseModelPathRequest,
+  output: DataWarehouseModelPath,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type WarehouseModelPathsRetrieveError = PosthogOpError;
-export const warehouseModelPathsRetrieve: API.OperationMethod<
-  WarehouseModelPathsRetrieveRequest,
-  DataWarehouseModelPath,
-  WarehouseModelPathsRetrieveError,
+export type ListWarehouseModelPathsError = PosthogOpError;
+export const listWarehouseModelPaths: API.OperationMethod<
+  ListWarehouseModelPathsRequest,
+  PaginatedDataWarehouseModelPathList,
+  ListWarehouseModelPathsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: WarehouseModelPathsRetrieveRequest,
-  output: DataWarehouseModelPath,
+  input: ListWarehouseModelPathsRequest,
+  output: PaginatedDataWarehouseModelPathList,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

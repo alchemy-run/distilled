@@ -4,7 +4,7 @@
  * .generated-specs.
  *
  * Hugging Face publishes ONE OpenAPI 3.1 document (downloaded to
- * `specs/openapi.json` by `scripts/download-spec.ts`) covering ~314 operations
+ * `specs/spec-mirror-huggingface/specs/openapi.json` by `scripts/download-spec.ts`) covering ~314 operations
  * across 27 tags; the v1 layout wants one Smithy model — one service module —
  * per tag. Following the Vercel pipeline, the ordering is load-bearing:
  *
@@ -32,9 +32,14 @@ import {
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dir, "..");
-const specPath = path.join(rootDir, "specs/openapi.json");
+const specPath = resolveSpecPath(
+  rootDir,
+  "specs/spec-mirror-huggingface/specs/openapi.json",
+);
 const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
 
@@ -145,6 +150,7 @@ const OPERATION_NAMES: Readonly<Record<string, string>> = {
   "POST /api/collections/{namespace}/{slug}/items/batch":
     "batchUpdateItemsBySlug",
   "DELETE /api/collections/{namespace}/{slug}/items/{slug}": "deleteItemBySlug",
+  "PATCH /api/collections/{namespace}/{slug}/items/{slug}": "updateItemBySlug",
   "GET /api/collections/{namespace}/{slug}/resource-group":
     "getCollectionResourceGroupBySlug",
   "POST /api/collections/{namespace}/{slug}/resource-group":
@@ -346,3 +352,5 @@ for (const slug of [...tagBuckets.keys()].sort()) {
 }
 
 console.log(`✅ ${written} Smithy models (${totalOps} operations) → ${outDir}`);
+
+await finalizeConvert({ root: rootDir });

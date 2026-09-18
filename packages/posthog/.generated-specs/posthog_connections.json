@@ -1,0 +1,261 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.posthog_connections#PostHogConnectionForwardMethodEnum": {
+      "type": "enum",
+      "members": {
+        "GET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET"
+          }
+        },
+        "POST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "POST"
+          }
+        },
+        "PUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PUT"
+          }
+        },
+        "PATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PATCH"
+          }
+        },
+        "DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `GET` - GET\n* `POST` - POST\n* `PUT` - PUT\n* `PATCH` - PATCH\n* `DELETE` - DELETE"
+      }
+    },
+    "com.posthog.posthog_connections#CreatePosthogConnectionsForwardRequestQueryMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Query parameters to send to the target."
+      }
+    },
+    "com.posthog.posthog_connections#CreatePosthogConnectionsForwardRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "method": {
+          "target": "com.posthog.posthog_connections#PostHogConnectionForwardMethodEnum",
+          "traits": {
+            "smithy.api#documentation": "HTTP method to use against the target project's API.\n\n* `GET` - GET\n* `POST` - POST\n* `PUT` - PUT\n* `PATCH` - PATCH\n* `DELETE` - DELETE",
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Relative target API path with no host or scheme, e.g. `api/projects/2/insights/`.",
+            "smithy.api#required": {}
+          }
+        },
+        "query": {
+          "target": "com.posthog.posthog_connections#CreatePosthogConnectionsForwardRequestQueryMap",
+          "traits": {
+            "smithy.api#documentation": "Query parameters to send to the target."
+          }
+        },
+        "data": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "JSON request body for write methods."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.posthog_connections#PostHogConnectionForwardResponse": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "HTTP status the target project returned.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The target project's response body, passed through.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.posthog_connections#CreatePosthogConnectionsForward": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.posthog_connections#CreatePosthogConnectionsForwardRequest"
+      },
+      "output": {
+        "target": "com.posthog.posthog_connections#PostHogConnectionForwardResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/posthog_connections/{id}/forward/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Forward a request through a PostHog connection\n\nReplay an API request against the connected PostHog project. The server injects the connection's token; the response is passed through."
+      }
+    },
+    "com.posthog.posthog_connections#GetPosthogConnectionsTargetRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.posthog_connections#PostHogConnectionTarget": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Project id to use in target API paths. It is the connected project's id, not this one's.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the connected project.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the organization the connected project belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the organization the connected project belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloud region the connected project lives in, e.g. `US` or `EU`.",
+            "smithy.api#required": {}
+          }
+        },
+        "base_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Base URL requests through this connection are sent to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.posthog_connections#GetPosthogConnectionsTarget": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.posthog_connections#GetPosthogConnectionsTargetRequest"
+      },
+      "output": {
+        "target": "com.posthog.posthog_connections#PostHogConnectionTarget"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/posthog_connections/{id}/target/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Read the connected project's identity\n\nResolve which project, organization and region a PostHog connection points at, so callers can build target API paths without reading `api/users/@me/` through the connection first."
+      }
+    },
+    "com.posthog.posthog_connections#PosthogConnections": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.posthog_connections#CreatePosthogConnectionsForward"
+        },
+        {
+          "target": "com.posthog.posthog_connections#GetPosthogConnectionsTarget"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

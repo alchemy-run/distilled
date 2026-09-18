@@ -11,7 +11,113 @@ import * as Retry from "../retry.ts";
 
 export type { PosthogOpError, PosthogOpContext };
 
-export interface DataModelingJobsListRequest {
+export interface GetDataModelingJobRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this data modeling job. */
+  id: string;
+}
+export const GetDataModelingJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/data_modeling_jobs/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetDataModelingJobRequest",
+}) as any as S.Schema<GetDataModelingJobRequest>;
+
+/** * `Cancelled` - Cancelled * `Completed` - Completed * `Failed` - Failed * `Running` - Running * `Skipped` - Skipped */
+export type DataModelingJobStatusEnum =
+  | "Cancelled"
+  | "Completed"
+  | "Failed"
+  | "Running"
+  | "Skipped";
+export const DataModelingJobStatusEnum = S.String;
+
+/** * `full_refresh` - Full refresh * `incremental` - Incremental */
+export type DataModelingJobRunModeEnum = "full_refresh" | "incremental";
+export const DataModelingJobRunModeEnum = S.String;
+
+export interface DataModelingJob {
+  id: string;
+  saved_query_id: string | null;
+  status: DataModelingJobStatusEnum;
+  /** What this run wrote: full_refresh rebuilt the whole table, so rows_materialized is the table's size; incremental wrote only its window, so rows_materialized counts just the rows synced. Null for runs from before modes were recorded, or that failed before the plan resolved. * `full_refresh` - Full refresh * `incremental` - Incremental */
+  run_mode: DataModelingJobRunModeEnum | null;
+  rows_materialized: number;
+  error: string | null;
+  created_at: string;
+  last_run_at: string;
+  /** When the job row last changed. For finished jobs this is when the run reached its terminal status. */
+  updated_at: string;
+  workflow_id: string | null;
+  workflow_run_id: string | null;
+  /** Total rows expected to be materialized */
+  rows_expected: number | null;
+}
+export const DataModelingJob = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    saved_query_id: S.NullOr(S.String),
+    status: DataModelingJobStatusEnum,
+    run_mode: S.NullOr(DataModelingJobRunModeEnum),
+    rows_materialized: S.Number,
+    error: S.NullOr(S.String),
+    created_at: S.String,
+    last_run_at: S.String,
+    updated_at: S.String,
+    workflow_id: S.NullOr(S.String),
+    workflow_run_id: S.NullOr(S.String),
+    rows_expected: S.NullOr(S.Number),
+  }),
+).annotate({
+  identifier: "DataModelingJob",
+}) as any as S.Schema<DataModelingJob>;
+
+export interface GetDataModelingJobsRecentRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export const GetDataModelingJobsRecentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/data_modeling_jobs/recent/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetDataModelingJobsRecentRequest",
+}) as any as S.Schema<GetDataModelingJobsRecentRequest>;
+
+export interface GetDataModelingJobsRunningRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export const GetDataModelingJobsRunningRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/data_modeling_jobs/running/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetDataModelingJobsRunningRequest",
+}) as any as S.Schema<GetDataModelingJobsRunningRequest>;
+
+export interface ListDataModelingJobsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
@@ -20,7 +126,7 @@ export interface DataModelingJobsListRequest {
   offset?: number;
   saved_query_id?: string;
 }
-export const DataModelingJobsListRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListDataModelingJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
@@ -34,46 +140,8 @@ export const DataModelingJobsListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "DataModelingJobsListRequest",
-}) as any as S.Schema<DataModelingJobsListRequest>;
-
-/** * `Cancelled` - Cancelled * `Completed` - Completed * `Failed` - Failed * `Running` - Running */
-export type DataModelingJobStatusEnum =
-  | "Cancelled"
-  | "Completed"
-  | "Failed"
-  | "Running";
-export const DataModelingJobStatusEnum = /*@__PURE__*/ S.String;
-
-export interface DataModelingJob {
-  id: string;
-  saved_query_id: string | null;
-  status: DataModelingJobStatusEnum;
-  rows_materialized: number;
-  error: string | null;
-  created_at: string;
-  last_run_at: string;
-  workflow_id: string | null;
-  workflow_run_id: string | null;
-  /** Total rows expected to be materialized */
-  rows_expected: number | null;
-}
-export const DataModelingJob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    saved_query_id: S.NullOr(S.String),
-    status: DataModelingJobStatusEnum,
-    rows_materialized: S.Number,
-    error: S.NullOr(S.String),
-    created_at: S.String,
-    last_run_at: S.String,
-    workflow_id: S.NullOr(S.String),
-    workflow_run_id: S.NullOr(S.String),
-    rows_expected: S.NullOr(S.Number),
-  }),
-).annotate({
-  identifier: "DataModelingJob",
-}) as any as S.Schema<DataModelingJob>;
+  identifier: "ListDataModelingJobsRequest",
+}) as any as S.Schema<ListDataModelingJobsRequest>;
 
 export type PaginatedDataModelingJobListResultsList = Array<DataModelingJob>;
 export const PaginatedDataModelingJobListResultsList = /*@__PURE__*/ S.Array(
@@ -97,120 +165,61 @@ export const PaginatedDataModelingJobList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedDataModelingJobList",
 }) as any as S.Schema<PaginatedDataModelingJobList>;
 
-export interface DataModelingJobsRecentRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-}
-export const DataModelingJobsRecentRetrieveRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      project_id: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/api/projects/{project_id}/data_modeling_jobs/recent/",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "DataModelingJobsRecentRetrieveRequest",
-}) as any as S.Schema<DataModelingJobsRecentRetrieveRequest>;
-
-export interface DataModelingJobsRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this data modeling job. */
-  id: string;
-}
-export const DataModelingJobsRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/data_modeling_jobs/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DataModelingJobsRetrieveRequest",
-}) as any as S.Schema<DataModelingJobsRetrieveRequest>;
-
-export interface DataModelingJobsRunningRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-}
-export const DataModelingJobsRunningRetrieveRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      project_id: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/api/projects/{project_id}/data_modeling_jobs/running/",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "DataModelingJobsRunningRetrieveRequest",
-}) as any as S.Schema<DataModelingJobsRunningRetrieveRequest>;
-
-export type DataModelingJobsListError = PosthogOpError;
+export type GetDataModelingJobError = PosthogOpError;
 /** List data modeling jobs which are "runs" for our saved queries. */
-export const dataModelingJobsList: API.OperationMethod<
-  DataModelingJobsListRequest,
-  PaginatedDataModelingJobList,
-  DataModelingJobsListError,
+export const getDataModelingJob: API.OperationMethod<
+  GetDataModelingJobRequest,
+  DataModelingJob,
+  GetDataModelingJobError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: DataModelingJobsListRequest,
-  output: PaginatedDataModelingJobList,
+  input: GetDataModelingJobRequest,
+  output: DataModelingJob,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type DataModelingJobsRecentRetrieveError = PosthogOpError;
+export type GetDataModelingJobsRecentError = PosthogOpError;
 /** Get the most recent non-running job for each saved query from the v2 backend. */
-export const dataModelingJobsRecentRetrieve: API.OperationMethod<
-  DataModelingJobsRecentRetrieveRequest,
+export const getDataModelingJobsRecent: API.OperationMethod<
+  GetDataModelingJobsRecentRequest,
   DataModelingJob,
-  DataModelingJobsRecentRetrieveError,
+  GetDataModelingJobsRecentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: DataModelingJobsRecentRetrieveRequest,
+  input: GetDataModelingJobsRecentRequest,
   output: DataModelingJob,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type DataModelingJobsRetrieveError = PosthogOpError;
-/** List data modeling jobs which are "runs" for our saved queries. */
-export const dataModelingJobsRetrieve: API.OperationMethod<
-  DataModelingJobsRetrieveRequest,
-  DataModelingJob,
-  DataModelingJobsRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DataModelingJobsRetrieveRequest,
-  output: DataModelingJob,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type DataModelingJobsRunningRetrieveError = PosthogOpError;
+export type GetDataModelingJobsRunningError = PosthogOpError;
 /** Get all currently running jobs from the v2 backend. */
-export const dataModelingJobsRunningRetrieve: API.OperationMethod<
-  DataModelingJobsRunningRetrieveRequest,
+export const getDataModelingJobsRunning: API.OperationMethod<
+  GetDataModelingJobsRunningRequest,
   DataModelingJob,
-  DataModelingJobsRunningRetrieveError,
+  GetDataModelingJobsRunningError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: DataModelingJobsRunningRetrieveRequest,
+  input: GetDataModelingJobsRunningRequest,
   output: DataModelingJob,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListDataModelingJobsError = PosthogOpError;
+/** List data modeling jobs which are "runs" for our saved queries. */
+export const listDataModelingJobs: API.OperationMethod<
+  ListDataModelingJobsRequest,
+  PaginatedDataModelingJobList,
+  ListDataModelingJobsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListDataModelingJobsRequest,
+  output: PaginatedDataModelingJobList,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

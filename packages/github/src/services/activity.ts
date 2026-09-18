@@ -253,6 +253,104 @@ export const RepositorySubscription = /*@__PURE__*/ S.suspend(() =>
   identifier: "RepositorySubscription",
 }) as any as S.Schema<RepositorySubscription>;
 
+export interface GetStargazerCountForRepoRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+}
+export const GetStargazerCountForRepoRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/repos/{owner}/{repo}/stargazers/count",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetStargazerCountForRepoRequest",
+}) as any as S.Schema<GetStargazerCountForRepoRequest>;
+
+export interface GetStargazerCountForRepoResponse {
+  count: number;
+}
+export const GetStargazerCountForRepoResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+  }),
+).annotate({
+  identifier: "GetStargazerCountForRepoResponse",
+}) as any as S.Schema<GetStargazerCountForRepoResponse>;
+
+export interface GetStargazerHistoryForRepoRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number of results per page (max 30). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  per_page?: number;
+  /** The page number of the results to fetch (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  page?: number;
+}
+export const GetStargazerHistoryForRepoRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/repos/{owner}/{repo}/stargazers/history",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetStargazerHistoryForRepoRequest",
+}) as any as S.Schema<GetStargazerHistoryForRepoRequest>;
+
+/** The number of stars created on each day of the week, starting on Sunday. */
+export type StargazerHistoryDaysList = Array<number>;
+export const StargazerHistoryDaysList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<StargazerHistoryDaysList>;
+
+/** Stargazer History */
+export interface StargazerHistory {
+  /** The number of stars created on each day of the week, starting on Sunday. */
+  days: StargazerHistoryDaysList;
+  /** The number of stars created during the week. */
+  total: number;
+  /** The start of the week, given as a Unix timestamp. */
+  week: number;
+}
+export const StargazerHistory = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    days: StargazerHistoryDaysList,
+    total: S.Number,
+    week: S.Number,
+  }),
+).annotate({
+  identifier: "StargazerHistory",
+}) as any as S.Schema<StargazerHistory>;
+
+export type GetStargazerHistoryForRepoResponseBodyList =
+  Array<StargazerHistory>;
+export const GetStargazerHistoryForRepoResponseBodyList = /*@__PURE__*/ S.Array(
+  StargazerHistory,
+) as any as S.Schema<GetStargazerHistoryForRepoResponseBodyList>;
+
+export type GetStargazerHistoryForRepoResponse =
+  GetStargazerHistoryForRepoResponseBodyList;
+export const GetStargazerHistoryForRepoResponse = /*@__PURE__*/ S.suspend(() =>
+  GetStargazerHistoryForRepoResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetStargazerHistoryForRepoResponse",
+}) as any as S.Schema<GetStargazerHistoryForRepoResponse>;
+
 export interface GetThreadRequest {
   /** The unique identifier of the notification thread. This corresponds to the value returned in the `id` field when you retrieve notifications (for example with the [`GET /notifications` operation](https://docs.github.com/rest/activity/notifications#list-notifications-for-the-authenticated-user)). */
   thread_id: number;
@@ -332,8 +430,7 @@ export const MinimalRepositoryTopicsList = /*@__PURE__*/ S.Array(
 export type MinimalRepositoryPullRequestCreationPolicy =
   | "all"
   | "collaborators_only";
-export const MinimalRepositoryPullRequestCreationPolicy =
-  /*@__PURE__*/ S.String;
+export const MinimalRepositoryPullRequestCreationPolicy = S.String;
 
 export interface MinimalRepositoryPermissions {
   admin?: boolean;
@@ -392,7 +489,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
-export const SecurityAndAnalysisAdvancedSecurityStatus = /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
 
 /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
 export interface SecurityAndAnalysisAdvancedSecurity {
@@ -407,7 +504,7 @@ export const SecurityAndAnalysisAdvancedSecurity = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SecurityAndAnalysisAdvancedSecurity>;
 
 export type SecurityAndAnalysisCodeSecurityStatus = "enabled" | "disabled";
-export const SecurityAndAnalysisCodeSecurityStatus = /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisCodeSecurityStatus = S.String;
 
 export interface SecurityAndAnalysisCodeSecurity {
   status?: SecurityAndAnalysisCodeSecurityStatus;
@@ -424,8 +521,7 @@ export const SecurityAndAnalysisCodeSecurity = /*@__PURE__*/ S.suspend(() =>
 export type SecurityAndAnalysisDependabotSecurityUpdatesStatus =
   | "enabled"
   | "disabled";
-export const SecurityAndAnalysisDependabotSecurityUpdatesStatus =
-  /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisDependabotSecurityUpdatesStatus = S.String;
 
 /** Enable or disable Dependabot security updates for the repository. */
 export interface SecurityAndAnalysisDependabotSecurityUpdates {
@@ -442,7 +538,7 @@ export const SecurityAndAnalysisDependabotSecurityUpdates =
   }) as any as S.Schema<SecurityAndAnalysisDependabotSecurityUpdates>;
 
 export type SecurityAndAnalysisSecretScanningStatus = "enabled" | "disabled";
-export const SecurityAndAnalysisSecretScanningStatus = /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisSecretScanningStatus = S.String;
 
 export interface SecurityAndAnalysisSecretScanning {
   status?: SecurityAndAnalysisSecretScanningStatus;
@@ -458,8 +554,7 @@ export const SecurityAndAnalysisSecretScanning = /*@__PURE__*/ S.suspend(() =>
 export type SecurityAndAnalysisSecretScanningPushProtectionStatus =
   | "enabled"
   | "disabled";
-export const SecurityAndAnalysisSecretScanningPushProtectionStatus =
-  /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisSecretScanningPushProtectionStatus = S.String;
 
 export interface SecurityAndAnalysisSecretScanningPushProtection {
   status?: SecurityAndAnalysisSecretScanningPushProtectionStatus;
@@ -477,7 +572,7 @@ export type SecurityAndAnalysisSecretScanningNonProviderPatternsStatus =
   | "enabled"
   | "disabled";
 export const SecurityAndAnalysisSecretScanningNonProviderPatternsStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SecurityAndAnalysisSecretScanningNonProviderPatterns {
   status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus;
@@ -496,8 +591,7 @@ export const SecurityAndAnalysisSecretScanningNonProviderPatterns =
 export type SecurityAndAnalysisSecretScanningAiDetectionStatus =
   | "enabled"
   | "disabled";
-export const SecurityAndAnalysisSecretScanningAiDetectionStatus =
-  /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisSecretScanningAiDetectionStatus = S.String;
 
 export interface SecurityAndAnalysisSecretScanningAiDetection {
   status?: SecurityAndAnalysisSecretScanningAiDetectionStatus;
@@ -515,7 +609,7 @@ export type SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus =
   | "enabled"
   | "disabled";
 export const SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SecurityAndAnalysisSecretScanningDelegatedAlertDismissal {
   status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus;
@@ -534,8 +628,7 @@ export const SecurityAndAnalysisSecretScanningDelegatedAlertDismissal =
 export type SecurityAndAnalysisSecretScanningDelegatedBypassStatus =
   | "enabled"
   | "disabled";
-export const SecurityAndAnalysisSecretScanningDelegatedBypassStatus =
-  /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisSecretScanningDelegatedBypassStatus = S.String;
 
 export interface SecurityAndAnalysisSecretScanningDelegatedBypass {
   status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus;
@@ -553,15 +646,17 @@ export const SecurityAndAnalysisSecretScanningDelegatedBypass =
 
 /** The type of the bypass reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
-  "TEAM" | "ROLE";
+  | "TEAM"
+  | "ROLE";
 export const SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** The bypass mode for the reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode =
-  "ALWAYS" | "EXEMPT";
+  | "ALWAYS"
+  | "EXEMPT";
 export const SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItem {
   /** The ID of the team or role selected as a bypass reviewer */
@@ -1031,7 +1126,7 @@ export const DeleteEvent = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DeleteEvent" }) as any as S.Schema<DeleteEvent>;
 
 export type DiscussionAnswerChosenByType = "Bot" | "User" | "Organization";
-export const DiscussionAnswerChosenByType = /*@__PURE__*/ S.String;
+export const DiscussionAnswerChosenByType = S.String;
 
 export interface DiscussionAnswerChosenBy {
   avatar_url?: string;
@@ -1096,7 +1191,7 @@ export type DiscussionAuthorAssociation =
   | "MEMBER"
   | "NONE"
   | "OWNER";
-export const DiscussionAuthorAssociation = /*@__PURE__*/ S.String;
+export const DiscussionAuthorAssociation = S.String;
 
 export interface DiscussionCategory {
   created_at: string;
@@ -1163,7 +1258,7 @@ export type DiscussionState =
   | "locked"
   | "converting"
   | "transferring";
-export const DiscussionState = /*@__PURE__*/ S.String;
+export const DiscussionState = S.String;
 
 /** The reason for the current state */
 export type DiscussionStateReason =
@@ -1171,10 +1266,10 @@ export type DiscussionStateReason =
   | "outdated"
   | "duplicate"
   | "reopened";
-export const DiscussionStateReason = /*@__PURE__*/ S.String;
+export const DiscussionStateReason = S.String;
 
 export type DiscussionUserType = "Bot" | "User" | "Organization";
-export const DiscussionUserType = /*@__PURE__*/ S.String;
+export const DiscussionUserType = S.String;
 
 export interface DiscussionUser {
   avatar_url?: string;
@@ -1336,7 +1431,7 @@ export type IssueStateReason =
   | "reopened"
   | "not_planned"
   | "duplicate";
-export const IssueStateReason = /*@__PURE__*/ S.String;
+export const IssueStateReason = S.String;
 
 /** A GitHub user. */
 export type NullableSimpleUser = SimpleUser;
@@ -1366,8 +1461,7 @@ export const IssueLabelsItemCase1 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IssueLabelsItemCase1>;
 
 export type IssueLabelsItem = string | IssueLabelsItemCase1;
-export const IssueLabelsItem =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<IssueLabelsItem>;
+export const IssueLabelsItem = S.Unknown as any as S.Schema<IssueLabelsItem>;
 
 /** Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
 export type IssueLabelsList = Array<IssueLabelsItem>;
@@ -1382,7 +1476,7 @@ export const IssueAssigneesList = /*@__PURE__*/ S.Array(
 
 /** The state of the milestone. */
 export type NullableMilestoneState = "open" | "closed";
-export const NullableMilestoneState = /*@__PURE__*/ S.String;
+export const NullableMilestoneState = S.String;
 
 /** A collection of related issues and pull requests. */
 export interface NullableMilestone {
@@ -1458,7 +1552,7 @@ export type IssueTypeColor =
   | "red"
   | "pink"
   | "purple";
-export const IssueTypeColor = /*@__PURE__*/ S.String;
+export const IssueTypeColor = S.String;
 
 /** The type assigned to the issue. This is only present for issues in repositories where issue types are supported. */
 export interface IssueType {
@@ -1540,28 +1634,28 @@ export const RepositoryTopicsList = /*@__PURE__*/ S.Array(
 
 /** The policy controlling who can create pull requests: all or collaborators_only. */
 export type RepositoryPullRequestCreationPolicy = "all" | "collaborators_only";
-export const RepositoryPullRequestCreationPolicy = /*@__PURE__*/ S.String;
+export const RepositoryPullRequestCreationPolicy = S.String;
 
 /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
 export type RepositorySquashMergeCommitTitle =
   | "PR_TITLE"
   | "COMMIT_OR_PR_TITLE";
-export const RepositorySquashMergeCommitTitle = /*@__PURE__*/ S.String;
+export const RepositorySquashMergeCommitTitle = S.String;
 
 /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
 export type RepositorySquashMergeCommitMessage =
   | "PR_BODY"
   | "COMMIT_MESSAGES"
   | "BLANK";
-export const RepositorySquashMergeCommitMessage = /*@__PURE__*/ S.String;
+export const RepositorySquashMergeCommitMessage = S.String;
 
 /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
 export type RepositoryMergeCommitTitle = "PR_TITLE" | "MERGE_MESSAGE";
-export const RepositoryMergeCommitTitle = /*@__PURE__*/ S.String;
+export const RepositoryMergeCommitTitle = S.String;
 
 /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
 export type RepositoryMergeCommitMessage = "PR_BODY" | "PR_TITLE" | "BLANK";
-export const RepositoryMergeCommitMessage = /*@__PURE__*/ S.String;
+export const RepositoryMergeCommitMessage = S.String;
 
 /** The status of the code search index for this repository */
 export interface RepositoryCodeSearchIndexStatus {
@@ -1849,7 +1943,7 @@ export const Enterprise = /*@__PURE__*/ S.suspend(() =>
 
 export type NullableIntegrationOwner = SimpleUser | Enterprise;
 export const NullableIntegrationOwner =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<NullableIntegrationOwner>;
+  S.Unknown as any as S.Schema<NullableIntegrationOwner>;
 
 /** The set of permissions for the GitHub app */
 export interface NullableIntegrationPermissions {
@@ -1931,7 +2025,7 @@ export type AuthorAssociation =
   | "MEMBER"
   | "NONE"
   | "OWNER";
-export const AuthorAssociation = /*@__PURE__*/ S.String;
+export const AuthorAssociation = S.String;
 
 export interface ReactionRollup {
   url: string;
@@ -2071,12 +2165,12 @@ export type IssueFieldValueDataType =
   | "multi_select"
   | "number"
   | "date";
-export const IssueFieldValueDataType = /*@__PURE__*/ S.String;
+export const IssueFieldValueDataType = S.String;
 
 /** The value of the issue field */
 export type IssueFieldValueValue = string | number | number;
 export const IssueFieldValueValue =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<IssueFieldValueValue>;
+  S.Unknown as any as S.Schema<IssueFieldValueValue>;
 
 /** Details about the selected option (only present for single_select fields) */
 export interface IssueFieldValueSingleSelectOption {
@@ -2296,7 +2390,7 @@ export const IssueCommentEvent = /*@__PURE__*/ S.suspend(() =>
 export type ForkEventForkeePullRequestCreationPolicy =
   | "all"
   | "collaborators_only";
-export const ForkEventForkeePullRequestCreationPolicy = /*@__PURE__*/ S.String;
+export const ForkEventForkeePullRequestCreationPolicy = S.String;
 
 export type ForkEventForkeeTopicsList = Array<string>;
 export const ForkEventForkeeTopicsList = /*@__PURE__*/ S.Array(
@@ -2645,8 +2739,7 @@ export type PullRequestReviewCommentEventCommentUserType =
   | "Bot"
   | "User"
   | "Organization";
-export const PullRequestReviewCommentEventCommentUserType =
-  /*@__PURE__*/ S.String;
+export const PullRequestReviewCommentEventCommentUserType = S.String;
 
 export interface PullRequestReviewCommentEventCommentUser {
   avatar_url?: string;
@@ -2954,7 +3047,7 @@ export const CommitCommentEvent = /*@__PURE__*/ S.suspend(() =>
 
 /** State of the release asset. */
 export type ReleaseAssetState = "uploaded" | "open";
-export const ReleaseAssetState = /*@__PURE__*/ S.String;
+export const ReleaseAssetState = S.String;
 
 /** Data related to a release. */
 export interface ReleaseAsset {
@@ -3105,8 +3198,7 @@ export type EventPayload =
   | CommitCommentEvent
   | ReleaseEvent
   | WatchEvent;
-export const EventPayload =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<EventPayload>;
+export const EventPayload = S.Unknown as any as S.Schema<EventPayload>;
 
 /** Event */
 export interface Event {
@@ -3546,14 +3638,12 @@ export const ListRepoNotificationsForAuthenticatedUserResponse =
 export type ListReposStarredByAuthenticatedUserRequestSort =
   | "created"
   | "updated";
-export const ListReposStarredByAuthenticatedUserRequestSort =
-  /*@__PURE__*/ S.String;
+export const ListReposStarredByAuthenticatedUserRequestSort = S.String;
 
 export type ListReposStarredByAuthenticatedUserRequestDirection =
   | "asc"
   | "desc";
-export const ListReposStarredByAuthenticatedUserRequestDirection =
-  /*@__PURE__*/ S.String;
+export const ListReposStarredByAuthenticatedUserRequestDirection = S.String;
 
 export interface ListReposStarredByAuthenticatedUserRequest {
   /** The property to sort the results by. `created` means when the repository was starred. `updated` means when the repository was last pushed to. */
@@ -3602,10 +3692,10 @@ export const ListReposStarredByAuthenticatedUserResponse =
   }) as any as S.Schema<ListReposStarredByAuthenticatedUserResponse>;
 
 export type ListReposStarredByUserRequestSort = "created" | "updated";
-export const ListReposStarredByUserRequestSort = /*@__PURE__*/ S.String;
+export const ListReposStarredByUserRequestSort = S.String;
 
 export type ListReposStarredByUserRequestDirection = "asc" | "desc";
-export const ListReposStarredByUserRequestDirection = /*@__PURE__*/ S.String;
+export const ListReposStarredByUserRequestDirection = S.String;
 
 export interface ListReposStarredByUserRequest {
   /** The handle for the GitHub user account. */
@@ -3666,7 +3756,7 @@ export type ListReposStarredByUserResponseBody =
   | ListReposStarredByUserResponseBodyCase0List
   | ListReposStarredByUserResponseBodyCase1List;
 export const ListReposStarredByUserResponseBody =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<ListReposStarredByUserResponseBody>;
+  S.Unknown as any as S.Schema<ListReposStarredByUserResponseBody>;
 
 export type ListReposStarredByUserResponse = ListReposStarredByUserResponseBody;
 export const ListReposStarredByUserResponse = /*@__PURE__*/ S.suspend(() =>
@@ -3765,7 +3855,7 @@ export type ListStargazersForRepoResponseBody =
   | ListStargazersForRepoResponseBodyCase0List
   | ListStargazersForRepoResponseBodyCase1List;
 export const ListStargazersForRepoResponseBody =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<ListStargazersForRepoResponseBody>;
+  S.Unknown as any as S.Schema<ListStargazersForRepoResponseBody>;
 
 export type ListStargazersForRepoResponse = ListStargazersForRepoResponseBody;
 export const ListStargazersForRepoResponse = /*@__PURE__*/ S.suspend(() =>
@@ -3847,59 +3937,6 @@ export const ListWatchersForRepoResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListWatchersForRepoResponse",
 }) as any as S.Schema<ListWatchersForRepoResponse>;
 
-export interface MarkNotificationsAsReadRequest {
-  /** Describes the last point that notifications were checked. Anything updated since this time will not be marked as read. If you omit this parameter, all notifications are marked as read. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Default: The current timestamp. */
-  last_read_at?: string;
-  /** Whether the notification has been read. */
-  read?: boolean;
-}
-export const MarkNotificationsAsReadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    last_read_at: S.optional(S.String),
-    read: S.optional(S.Boolean),
-  }).pipe(T.Http({ method: "PUT", uri: "/notifications", code: 200 })),
-).annotate({
-  identifier: "MarkNotificationsAsReadRequest",
-}) as any as S.Schema<MarkNotificationsAsReadRequest>;
-
-export interface MarkNotificationsAsReadResponse {}
-export const MarkNotificationsAsReadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "MarkNotificationsAsReadResponse",
-}) as any as S.Schema<MarkNotificationsAsReadResponse>;
-
-export interface MarkRepoNotificationsAsReadRequest {
-  /** The account owner of the repository. The name is not case sensitive. */
-  owner: string;
-  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
-  repo: string;
-  /** Describes the last point that notifications were checked. Anything updated since this time will not be marked as read. If you omit this parameter, all notifications are marked as read. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Default: The current timestamp. */
-  last_read_at?: string;
-}
-export const MarkRepoNotificationsAsReadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    owner: S.String.pipe(T.Label()),
-    repo: S.String.pipe(T.Label()),
-    last_read_at: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/notifications",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MarkRepoNotificationsAsReadRequest",
-}) as any as S.Schema<MarkRepoNotificationsAsReadRequest>;
-
-export interface MarkRepoNotificationsAsReadResponse {}
-export const MarkRepoNotificationsAsReadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "MarkRepoNotificationsAsReadResponse",
-}) as any as S.Schema<MarkRepoNotificationsAsReadResponse>;
-
 export interface MarkThreadAsDoneRequest {
   /** The unique identifier of the notification thread. This corresponds to the value returned in the `id` field when you retrieve notifications (for example with the [`GET /notifications` operation](https://docs.github.com/rest/activity/notifications#list-notifications-for-the-authenticated-user)). */
   thread_id: number;
@@ -3925,11 +3962,64 @@ export const MarkThreadAsDoneResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "MarkThreadAsDoneResponse",
 }) as any as S.Schema<MarkThreadAsDoneResponse>;
 
-export interface MarkThreadAsReadRequest {
+export interface ReadMarkNotificationsAsRequest {
+  /** Describes the last point that notifications were checked. Anything updated since this time will not be marked as read. If you omit this parameter, all notifications are marked as read. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Default: The current timestamp. */
+  last_read_at?: string;
+  /** Whether the notification has been read. */
+  read?: boolean;
+}
+export const ReadMarkNotificationsAsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    last_read_at: S.optional(S.String),
+    read: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "PUT", uri: "/notifications", code: 200 })),
+).annotate({
+  identifier: "ReadMarkNotificationsAsRequest",
+}) as any as S.Schema<ReadMarkNotificationsAsRequest>;
+
+export interface ReadMarkNotificationsAsResponse {}
+export const ReadMarkNotificationsAsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "ReadMarkNotificationsAsResponse",
+}) as any as S.Schema<ReadMarkNotificationsAsResponse>;
+
+export interface ReadMarkRepoNotificationsAsRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** Describes the last point that notifications were checked. Anything updated since this time will not be marked as read. If you omit this parameter, all notifications are marked as read. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Default: The current timestamp. */
+  last_read_at?: string;
+}
+export const ReadMarkRepoNotificationsAsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    last_read_at: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/repos/{owner}/{repo}/notifications",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ReadMarkRepoNotificationsAsRequest",
+}) as any as S.Schema<ReadMarkRepoNotificationsAsRequest>;
+
+export interface ReadMarkRepoNotificationsAsResponse {}
+export const ReadMarkRepoNotificationsAsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "ReadMarkRepoNotificationsAsResponse",
+}) as any as S.Schema<ReadMarkRepoNotificationsAsResponse>;
+
+export interface ReadMarkThreadAsRequest {
   /** The unique identifier of the notification thread. This corresponds to the value returned in the `id` field when you retrieve notifications (for example with the [`GET /notifications` operation](https://docs.github.com/rest/activity/notifications#list-notifications-for-the-authenticated-user)). */
   thread_id: number;
 }
-export const MarkThreadAsReadRequest = /*@__PURE__*/ S.suspend(() =>
+export const ReadMarkThreadAsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     thread_id: S.Number.pipe(T.Label()),
   }).pipe(
@@ -3940,15 +4030,15 @@ export const MarkThreadAsReadRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "MarkThreadAsReadRequest",
-}) as any as S.Schema<MarkThreadAsReadRequest>;
+  identifier: "ReadMarkThreadAsRequest",
+}) as any as S.Schema<ReadMarkThreadAsRequest>;
 
-export interface MarkThreadAsReadResponse {}
-export const MarkThreadAsReadResponse = /*@__PURE__*/ S.suspend(() =>
+export interface ReadMarkThreadAsResponse {}
+export const ReadMarkThreadAsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}),
 ).annotate({
-  identifier: "MarkThreadAsReadResponse",
-}) as any as S.Schema<MarkThreadAsReadResponse>;
+  identifier: "ReadMarkThreadAsResponse",
+}) as any as S.Schema<ReadMarkThreadAsResponse>;
 
 export interface SetRepoSubscriptionRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -4125,6 +4215,38 @@ export const getRepoSubscription: API.OperationMethod<
   input: GetRepoSubscriptionRequest,
   output: RepositorySubscription,
   errors: [Forbidden, NotFound],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetStargazerCountForRepoError = NotFound | GithubOpError;
+/** Get stargazer count Gets the current number of users who have starred the repository. Users who previously starred the repository but later removed their star are not included. */
+export const getStargazerCountForRepo: API.OperationMethod<
+  GetStargazerCountForRepoRequest,
+  GetStargazerCountForRepoResponse,
+  GetStargazerCountForRepoError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetStargazerCountForRepoRequest,
+  output: GetStargazerCountForRepoResponse,
+  errors: [NotFound],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetStargazerHistoryForRepoError =
+  | UnprocessableEntity
+  | GithubOpError;
+/** Get repository star history Returns repository stars grouped by calendar weeks, most recent first. Pages move backward toward the repository's creation week, and weeks within a page are ordered newest to oldest, so concatenating pages produces one continuous series. Weeks without stars contain zero counts. Week and day boundaries are not guaranteed to align with UTC. The `days` array contains the number of stars created on each day of the week, starting on Sunday. */
+export const getStargazerHistoryForRepo: API.OperationMethod<
+  GetStargazerHistoryForRepoRequest,
+  GetStargazerHistoryForRepoResponse,
+  GetStargazerHistoryForRepoError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetStargazerHistoryForRepoRequest,
+  output: GetStargazerHistoryForRepoResponse,
+  errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -4350,7 +4472,7 @@ export const listReposStarredByAuthenticatedUser: API.OperationMethod<
 }));
 
 export type ListReposStarredByUserError = GithubOpError;
-/** List repositories starred by a user Lists repositories a user has starred. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.star+json`**: Includes a timestamp of when the star was created. */
+/** List repositories starred by a user Lists repositories a user has starred. If the specified user has a [private profile](https://docs.github.com/account-and-profile/concepts/personal-profile#private-profiles), this endpoint returns an empty list unless the request is authenticated as that user. A request authenticated as the specified user returns starred repositories visible to the token even if the token has no OAuth scopes. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.star+json`**: Includes a timestamp of when the star was created. */
 export const listReposStarredByUser: API.OperationMethod<
   ListReposStarredByUserRequest,
   ListReposStarredByUserResponse,
@@ -4426,36 +4548,6 @@ export const listWatchersForRepo: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type MarkNotificationsAsReadError = Forbidden | GithubOpError;
-/** Mark notifications as read Marks all notifications as "read" for the current user. If the number of notifications is too large to complete in one request, you will receive a `202 Accepted` status and GitHub will run an asynchronous process to mark notifications as "read." To check whether any "unread" notifications remain, you can use the [List notifications for the authenticated user](https://docs.github.com/rest/activity/notifications#list-notifications-for-the-authenticated-user) endpoint and pass the query parameter `all=false`. */
-export const markNotificationsAsRead: API.OperationMethod<
-  MarkNotificationsAsReadRequest,
-  MarkNotificationsAsReadResponse,
-  MarkNotificationsAsReadError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: MarkNotificationsAsReadRequest,
-  output: MarkNotificationsAsReadResponse,
-  errors: [Forbidden],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type MarkRepoNotificationsAsReadError = GithubOpError;
-/** Mark repository notifications as read Marks all notifications in a repository as "read" for the current user. If the number of notifications is too large to complete in one request, you will receive a `202 Accepted` status and GitHub will run an asynchronous process to mark notifications as "read." To check whether any "unread" notifications remain, you can use the [List repository notifications for the authenticated user](https://docs.github.com/rest/activity/notifications#list-repository-notifications-for-the-authenticated-user) endpoint and pass the query parameter `all=false`. */
-export const markRepoNotificationsAsRead: API.OperationMethod<
-  MarkRepoNotificationsAsReadRequest,
-  MarkRepoNotificationsAsReadResponse,
-  MarkRepoNotificationsAsReadError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: MarkRepoNotificationsAsReadRequest,
-  output: MarkRepoNotificationsAsReadResponse,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
 export type MarkThreadAsDoneError = GithubOpError;
 /** Mark a thread as done Marks a thread as "done." Marking a thread as "done" is equivalent to marking a notification in your notification inbox on GitHub as done: https://github.com/notifications. */
 export const markThreadAsDone: API.OperationMethod<
@@ -4471,16 +4563,46 @@ export const markThreadAsDone: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type MarkThreadAsReadError = Forbidden | GithubOpError;
-/** Mark a thread as read Marks a thread as "read." Marking a thread as "read" is equivalent to clicking a notification in your notification inbox on GitHub: https://github.com/notifications. */
-export const markThreadAsRead: API.OperationMethod<
-  MarkThreadAsReadRequest,
-  MarkThreadAsReadResponse,
-  MarkThreadAsReadError,
+export type ReadMarkNotificationsAsError = Forbidden | GithubOpError;
+/** Mark notifications as read Marks all notifications as "read" for the current user. If the number of notifications is too large to complete in one request, you will receive a `202 Accepted` status and GitHub will run an asynchronous process to mark notifications as "read." To check whether any "unread" notifications remain, you can use the [List notifications for the authenticated user](https://docs.github.com/rest/activity/notifications#list-notifications-for-the-authenticated-user) endpoint and pass the query parameter `all=false`. */
+export const readMarkNotificationsAs: API.OperationMethod<
+  ReadMarkNotificationsAsRequest,
+  ReadMarkNotificationsAsResponse,
+  ReadMarkNotificationsAsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: MarkThreadAsReadRequest,
-  output: MarkThreadAsReadResponse,
+  input: ReadMarkNotificationsAsRequest,
+  output: ReadMarkNotificationsAsResponse,
+  errors: [Forbidden],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadMarkRepoNotificationsAsError = GithubOpError;
+/** Mark repository notifications as read Marks all notifications in a repository as "read" for the current user. If the number of notifications is too large to complete in one request, you will receive a `202 Accepted` status and GitHub will run an asynchronous process to mark notifications as "read." To check whether any "unread" notifications remain, you can use the [List repository notifications for the authenticated user](https://docs.github.com/rest/activity/notifications#list-repository-notifications-for-the-authenticated-user) endpoint and pass the query parameter `all=false`. */
+export const readMarkRepoNotificationsAs: API.OperationMethod<
+  ReadMarkRepoNotificationsAsRequest,
+  ReadMarkRepoNotificationsAsResponse,
+  ReadMarkRepoNotificationsAsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadMarkRepoNotificationsAsRequest,
+  output: ReadMarkRepoNotificationsAsResponse,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadMarkThreadAsError = Forbidden | GithubOpError;
+/** Mark a thread as read Marks a thread as "read." Marking a thread as "read" is equivalent to clicking a notification in your notification inbox on GitHub: https://github.com/notifications. */
+export const readMarkThreadAs: API.OperationMethod<
+  ReadMarkThreadAsRequest,
+  ReadMarkThreadAsResponse,
+  ReadMarkThreadAsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadMarkThreadAsRequest,
+  output: ReadMarkThreadAsResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,

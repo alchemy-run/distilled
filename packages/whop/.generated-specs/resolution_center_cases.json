@@ -1,0 +1,2196 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "RESPONSE_DUE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "response_due_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestStatusItem": {
+      "type": "enum",
+      "members": {
+        "AWAITING_MERCHANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_merchant"
+          }
+        },
+        "AWAITING_CUSTOMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_customer"
+          }
+        },
+        "UNDER_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "under_review"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestStatusItem"
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestReasonItem": {
+      "type": "enum",
+      "members": {
+        "FRAUDULENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fraudulent"
+          }
+        },
+        "PRODUCT_NOT_RECEIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_not_received"
+          }
+        },
+        "NOT_AS_DESCRIBED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_as_described"
+          }
+        },
+        "PRODUCT_UNACCEPTABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_unacceptable"
+          }
+        },
+        "SUBSCRIPTION_CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription_canceled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestReasonList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestReasonItem"
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestOutcomeItem": {
+      "type": "enum",
+      "members": {
+        "CUSTOMER_WON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_won"
+          }
+        },
+        "MERCHANT_WON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "merchant_won"
+          }
+        },
+        "WITHDRAWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawn"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestOutcomeList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestOutcomeItem"
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCasesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Only cases filed against this account (`biz_` tag). With read access to the account this lists its whole queue; without, only the cases you opened against it."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "Only cases opened by this customer — a `user_` tag, or `me` for the calling user. It narrows what you can already read, so `me` lists the cases you opened without the ones on accounts you are a team member of."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of cases to return (default 20, max 100)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor; returns cases after this position."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of cases to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor; returns cases before this position."
+          }
+        },
+        "order": {
+          "target": "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort cases by."
+          }
+        },
+        "direction": {
+          "target": "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        },
+        "status": {
+          "target": "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only cases in these statuses. Repeat the parameter to pass several — one paginated list covers all of them."
+          }
+        },
+        "reason": {
+          "target": "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestReasonList",
+          "traits": {
+            "smithy.api#httpQuery": "reason",
+            "smithy.api#documentation": "Only cases opened for these reasons. Repeat the parameter to pass several."
+          }
+        },
+        "outcome": {
+          "target": "com.whop.resolution_center_cases#ListResolutionCenterCasesRequestOutcomeList",
+          "traits": {
+            "smithy.api#httpQuery": "outcome",
+            "smithy.api#documentation": "Only closed cases that ended these ways. Repeat the parameter to pass several."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only cases created before this ISO 8601 timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only cases created after this ISO 8601 timestamp."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.resolution_center_cases#ResolutionCenterCase": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "com.whop.resolution_center_cases#AccountSummary",
+          "traits": {
+            "smithy.api#documentation": "The account the case was filed against.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount in question, in whole units of `currency`.",
+            "smithy.api#required": {}
+          }
+        },
+        "available_actions": {
+          "target": "com.whop.resolution_center_cases#ResolutionCenterCaseAvailableActionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "buyer": {
+          "target": "com.whop.resolution_center_cases#ResolutionBuyer",
+          "traits": {
+            "smithy.api#documentation": "The customer who opened the case.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the case was opened, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO currency code of the amount.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_appealed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the customer has appealed a decision on this case.",
+            "smithy.api#required": {}
+          }
+        },
+        "escalated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop is involved — either reviewing the case, or waiting on the side named by `status` for something it asked for while reviewing.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resolution center case ID, prefixed `reso_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "outcome": {
+          "target": "com.whop.resolution_center_cases#ResolutionCenterCaseOutcome",
+          "traits": {
+            "smithy.api#documentation": "Who prevailed on the claim. `null` until the case closes. Read `refund` for whether any money actually moved.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment": {
+          "target": "com.whop.resolution_center_cases#ResolutionPayment",
+          "traits": {
+            "smithy.api#documentation": "The payment the case was opened against.",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan the payment was made on, prefixed `plan_`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product the payment was for, prefixed `prod_`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reason": {
+          "target": "com.whop.resolution_center_cases#ResolutionCenterCaseReason",
+          "traits": {
+            "smithy.api#documentation": "What the customer says went wrong. Shares the `/disputes` vocabulary, so a case that later becomes a chargeback reports the same complaint.",
+            "smithy.api#required": {}
+          }
+        },
+        "refund": {
+          "target": "com.whop.resolution_center_cases#ResolutionCenterCaseRefund",
+          "traits": {
+            "smithy.api#documentation": "Whether money moved and off whose balance: `none`, `merchant`, or `platform` (Whop refunded the customer and the merchant kept the funds). Independent of `outcome` — a case the merchant won can still carry a platform refund. `null` while the case is open, and on older closed cases that predate this being recorded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "response_due_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the next response is due, as an ISO 8601 timestamp.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.resolution_center_cases#ResolutionCenterCaseStatus",
+          "traits": {
+            "smithy.api#documentation": "Who the case is waiting on. `awaiting_merchant` and `awaiting_customer` name the side that owes a response, `under_review` means Whop is deciding, and `closed` means it is settled — read `outcome` for how.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the case was last changed, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#AccountSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account display name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ResolutionCenterCaseAvailableActionsItem": {
+      "type": "enum",
+      "members": {
+        "ACCEPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accept"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deny"
+          }
+        },
+        "REQUEST_INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "request_info"
+          }
+        },
+        "REPLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reply"
+          }
+        },
+        "APPEAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "appeal"
+          }
+        },
+        "WITHDRAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdraw"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What you can do to this case right now, named for the endpoint that does it. Resolved for the calling credential, so a merchant and a customer reading the same case see their own options."
+      }
+    },
+    "com.whop.resolution_center_cases#ResolutionCenterCaseAvailableActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#ResolutionCenterCaseAvailableActionsItem"
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ResolutionBuyer": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's email address. Requires the `member:email:read` scope; `null` without it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's member row on the account, prefixed `mem_`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's display name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's user ID, prefixed `user_`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's Whop username.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ResolutionCenterCaseOutcome": {
+      "type": "enum",
+      "members": {
+        "CUSTOMER_WON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_won"
+          }
+        },
+        "MERCHANT_WON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "merchant_won"
+          }
+        },
+        "WITHDRAWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawn"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Who prevailed on the claim. `null` until the case closes. Read `refund` for whether any money actually moved."
+      }
+    },
+    "com.whop.resolution_center_cases#ResolutionPayment": {
+      "type": "structure",
+      "members": {
+        "card_brand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Card brand, when the customer paid by card.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "card_last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last four digits of the card, when the customer paid by card.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the payment was made, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payment ID, prefixed `pay_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the customer paid, such as `card` or `paypal`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ResolutionCenterCaseReason": {
+      "type": "enum",
+      "members": {
+        "FRAUDULENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fraudulent"
+          }
+        },
+        "PRODUCT_NOT_RECEIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_not_received"
+          }
+        },
+        "NOT_AS_DESCRIBED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_as_described"
+          }
+        },
+        "PRODUCT_UNACCEPTABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_unacceptable"
+          }
+        },
+        "SUBSCRIPTION_CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription_canceled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the customer says went wrong. Shares the `/disputes` vocabulary, so a case that later becomes a chargeback reports the same complaint."
+      }
+    },
+    "com.whop.resolution_center_cases#ResolutionCenterCaseRefund": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "MERCHANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "merchant"
+          }
+        },
+        "PLATFORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether money moved and off whose balance: `none`, `merchant`, or `platform` (Whop refunded the customer and the merchant kept the funds). Independent of `outcome` — a case the merchant won can still carry a platform refund. `null` while the case is open, and on older closed cases that predate this being recorded."
+      }
+    },
+    "com.whop.resolution_center_cases#ResolutionCenterCaseStatus": {
+      "type": "enum",
+      "members": {
+        "AWAITING_MERCHANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_merchant"
+          }
+        },
+        "AWAITING_CUSTOMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_customer"
+          }
+        },
+        "UNDER_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "under_review"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Who the case is waiting on. `awaiting_merchant` and `awaiting_customer` name the side that owes a response, `under_review` means Whop is deciding, and `closed` means it is settled — read `outcome` for how."
+      }
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCasesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#ResolutionCenterCase"
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCasesResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCasesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.resolution_center_cases#ListResolutionCenterCasesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.resolution_center_cases#ListResolutionCenterCasesResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCases": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.resolution_center_cases#ListResolutionCenterCasesRequest"
+      },
+      "output": {
+        "target": "com.whop.resolution_center_cases#ListResolutionCenterCasesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.resolution_center_cases#Forbidden"
+        },
+        {
+          "target": "com.whop.resolution_center_cases#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/resolution_center_cases",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Resolution Center Cases\n\nLists resolution center cases. Without `account_id` you get every case you can read — the ones you opened as a buyer and every account you are a team member of; the filters narrow that list.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.resolution_center_cases#CreateResolutionCenterCaseRequestAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#CreateResolutionCenterCaseRequestAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#CreateResolutionCenterCaseRequestAttachmentsItem"
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#CreateResolutionCenterCaseRequestReason": {
+      "type": "enum",
+      "members": {
+        "FRAUDULENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fraudulent"
+          }
+        },
+        "PRODUCT_NOT_RECEIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_not_received"
+          }
+        },
+        "NOT_AS_DESCRIBED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_as_described"
+          }
+        },
+        "PRODUCT_UNACCEPTABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_unacceptable"
+          }
+        },
+        "SUBSCRIPTION_CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription_canceled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What went wrong. Uses the same vocabulary as `/disputes`."
+      }
+    },
+    "com.whop.resolution_center_cases#CreateResolutionCenterCaseRequest": {
+      "type": "structure",
+      "members": {
+        "attachments": {
+          "target": "com.whop.resolution_center_cases#CreateResolutionCenterCaseRequestAttachmentsList"
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer's explanation.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "com.whop.resolution_center_cases#CreateResolutionCenterCaseRequestReason",
+          "traits": {
+            "smithy.api#documentation": "What went wrong. Uses the same vocabulary as `/disputes`.",
+            "smithy.api#required": {}
+          }
+        },
+        "receipt_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payment to open the case against (`pay_` tag).",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.resolution_center_cases#CreateResolutionCenterCase": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.resolution_center_cases#CreateResolutionCenterCaseRequest"
+      },
+      "output": {
+        "target": "com.whop.resolution_center_cases#ResolutionCenterCase"
+      },
+      "errors": [
+        {
+          "target": "com.whop.resolution_center_cases#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/resolution_center_cases",
+          "code": 200
+        },
+        "smithy.api#documentation": "Open a Case as the Customer\n\nOpens a case, as the customer, against one of your own payments. Provide the payment (`receipt_id`), the `reason`, and a `message`."
+      }
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestGroupsItem": {
+      "type": "enum",
+      "members": {
+        "STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status"
+          }
+        },
+        "REASON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reason"
+          }
+        },
+        "OUTCOME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "outcome"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestGroupsItem"
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestStatusItem": {
+      "type": "enum",
+      "members": {
+        "AWAITING_MERCHANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_merchant"
+          }
+        },
+        "AWAITING_CUSTOMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_customer"
+          }
+        },
+        "UNDER_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "under_review"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestStatusItem"
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestReasonItem": {
+      "type": "enum",
+      "members": {
+        "FRAUDULENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fraudulent"
+          }
+        },
+        "PRODUCT_NOT_RECEIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_not_received"
+          }
+        },
+        "NOT_AS_DESCRIBED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_as_described"
+          }
+        },
+        "PRODUCT_UNACCEPTABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_unacceptable"
+          }
+        },
+        "SUBSCRIPTION_CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription_canceled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestReasonList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestReasonItem"
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestOutcomeItem": {
+      "type": "enum",
+      "members": {
+        "CUSTOMER_WON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_won"
+          }
+        },
+        "MERCHANT_WON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "merchant_won"
+          }
+        },
+        "WITHDRAWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawn"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestOutcomeList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestOutcomeItem"
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequest": {
+      "type": "structure",
+      "members": {
+        "groups": {
+          "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestGroupsList",
+          "traits": {
+            "smithy.api#httpQuery": "groups",
+            "smithy.api#documentation": "Which breakdowns to return, keyed by these names under `groups`. Repeat the parameter to ask for several; omit it for all of them."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The account to summarize cases for (`biz_` tag)."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "Only cases opened by this customer — a `user_` tag, or `me` for the calling user."
+          }
+        },
+        "status": {
+          "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only cases in these statuses."
+          }
+        },
+        "reason": {
+          "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestReasonList",
+          "traits": {
+            "smithy.api#httpQuery": "reason",
+            "smithy.api#documentation": "Only cases opened for these reasons."
+          }
+        },
+        "outcome": {
+          "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequestOutcomeList",
+          "traits": {
+            "smithy.api#httpQuery": "outcome",
+            "smithy.api#documentation": "Only closed cases that ended these ways."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only count cases created before this ISO 8601 timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only count cases created after this ISO 8601 timestamp."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryResponseGroupsOutcome": {
+      "type": "structure",
+      "members": {
+        "customer_won": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "merchant_won": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "withdrawn": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How many of the matching cases ended each way. Every outcome is present, including those with a count of zero; open cases are counted in none of them."
+      }
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryResponseGroupsReason": {
+      "type": "structure",
+      "members": {
+        "fraudulent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "not_as_described": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "product_not_received": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "product_unacceptable": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subscription_canceled": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How many of the matching cases were opened for each reason. Every reason is present, including those with a count of zero."
+      }
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryResponseGroupsStatus": {
+      "type": "structure",
+      "members": {
+        "awaiting_customer": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "awaiting_merchant": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "closed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "under_review": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How many of the matching cases are in each status. Every status is present, including those with a count of zero."
+      }
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryResponseGroups": {
+      "type": "structure",
+      "members": {
+        "outcome": {
+          "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryResponseGroupsOutcome",
+          "traits": {
+            "smithy.api#documentation": "How many of the matching cases ended each way. Every outcome is present, including those with a count of zero; open cases are counted in none of them."
+          }
+        },
+        "reason": {
+          "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryResponseGroupsReason",
+          "traits": {
+            "smithy.api#documentation": "How many of the matching cases were opened for each reason. Every reason is present, including those with a count of zero."
+          }
+        },
+        "status": {
+          "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryResponseGroupsStatus",
+          "traits": {
+            "smithy.api#documentation": "How many of the matching cases are in each status. Every status is present, including those with a count of zero."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One entry per requested breakdown, keyed by the field it groups on. A field you did not ask for is absent."
+      }
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryResponse": {
+      "type": "structure",
+      "members": {
+        "groups": {
+          "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryResponseGroups",
+          "traits": {
+            "smithy.api#documentation": "One entry per requested breakdown, keyed by the field it groups on. A field you did not ask for is absent.",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many cases match the filters.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseSummary": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryRequest"
+      },
+      "output": {
+        "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummaryResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.resolution_center_cases#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/resolution_center_cases/summary",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Resolution Center Case Summary\n\nAggregates the same cases `GET /resolution_center_cases` lists, using the same filters. Use it to build status tabs and issue filters without paging the whole list."
+      }
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCaseRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The resolution center case ID (`reso_` tag)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.resolution_center_cases#GetResolutionCenterCase": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseRequest"
+      },
+      "output": {
+        "target": "com.whop.resolution_center_cases#ResolutionCenterCase"
+      },
+      "errors": [
+        {
+          "target": "com.whop.resolution_center_cases#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/resolution_center_cases/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Resolution Center Case\n\nRetrieves a single resolution center case with its full event timeline."
+      }
+    },
+    "com.whop.resolution_center_cases#AcceptResolutionCenterCaseRequestAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#AcceptResolutionCenterCaseRequestAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#AcceptResolutionCenterCaseRequestAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 3 evidence files, by existing file `id` or `direct_upload_id`."
+      }
+    },
+    "com.whop.resolution_center_cases#AcceptResolutionCenterCaseRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The resolution center case ID (`reso_` tag)."
+          }
+        },
+        "attachments": {
+          "target": "com.whop.resolution_center_cases#AcceptResolutionCenterCaseRequestAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "Up to 3 evidence files, by existing file `id` or `direct_upload_id`."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An optional note to the customer, recorded on the case timeline."
+          }
+        },
+        "terminate_membership": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to also terminate the customer's membership."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.resolution_center_cases#AcceptResolutionCenterCase": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.resolution_center_cases#AcceptResolutionCenterCaseRequest"
+      },
+      "output": {
+        "target": "com.whop.resolution_center_cases#ResolutionCenterCase"
+      },
+      "errors": [
+        {
+          "target": "com.whop.resolution_center_cases#Forbidden"
+        },
+        {
+          "target": "com.whop.resolution_center_cases#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/resolution_center_cases/{id}/accept",
+          "code": 200
+        },
+        "smithy.api#documentation": "Accept a Case\n\nAccepts the case in the customer's favor, as the merchant: refunds the payment in full and closes the case."
+      }
+    },
+    "com.whop.resolution_center_cases#AppealResolutionCenterCaseRequestAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#AppealResolutionCenterCaseRequestAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#AppealResolutionCenterCaseRequestAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 3 evidence files, by existing file `id` or `direct_upload_id`."
+      }
+    },
+    "com.whop.resolution_center_cases#AppealResolutionCenterCaseRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The resolution center case ID (`reso_` tag)."
+          }
+        },
+        "attachments": {
+          "target": "com.whop.resolution_center_cases#AppealResolutionCenterCaseRequestAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "Up to 3 evidence files, by existing file `id` or `direct_upload_id`."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why you are appealing the decision.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.resolution_center_cases#AppealResolutionCenterCase": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.resolution_center_cases#AppealResolutionCenterCaseRequest"
+      },
+      "output": {
+        "target": "com.whop.resolution_center_cases#ResolutionCenterCase"
+      },
+      "errors": [
+        {
+          "target": "com.whop.resolution_center_cases#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/resolution_center_cases/{id}/appeal",
+          "code": 200
+        },
+        "smithy.api#documentation": "Appeal a Case\n\nAppeals a decision, as the customer, on a case that closed in the merchant's favor. Escalates the case to Whop for platform review. A case can be appealed once."
+      }
+    },
+    "com.whop.resolution_center_cases#DenyResolutionCenterCaseRequestAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#DenyResolutionCenterCaseRequestAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#DenyResolutionCenterCaseRequestAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 3 evidence files, by existing file `id` or `direct_upload_id`."
+      }
+    },
+    "com.whop.resolution_center_cases#DenyResolutionCenterCaseRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The resolution center case ID (`reso_` tag)."
+          }
+        },
+        "attachments": {
+          "target": "com.whop.resolution_center_cases#DenyResolutionCenterCaseRequestAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "Up to 3 evidence files, by existing file `id` or `direct_upload_id`."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the claim is being denied. Shown to the customer.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.resolution_center_cases#DenyResolutionCenterCase": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.resolution_center_cases#DenyResolutionCenterCaseRequest"
+      },
+      "output": {
+        "target": "com.whop.resolution_center_cases#ResolutionCenterCase"
+      },
+      "errors": [
+        {
+          "target": "com.whop.resolution_center_cases#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/resolution_center_cases/{id}/deny",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deny a Case\n\nDenies the case, as the merchant: rejects the claim and closes the case with no refund."
+      }
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCaseEventsRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The resolution center case ID (`reso_` tag)."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of events to return (default 20, max 100)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor; returns events after this position."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of events to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor; returns events before this position."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.resolution_center_cases#ResolutionEvent": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.whop.resolution_center_cases#ResolutionEventAction",
+          "traits": {
+            "smithy.api#documentation": "The action recorded in this event.",
+            "smithy.api#required": {}
+          }
+        },
+        "attachments": {
+          "target": "com.whop.resolution_center_cases#ResolutionEventAttachmentsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the event occurred, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "details": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The message body or additional context provided with the event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the event, prefixed `revt_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "reporter_type": {
+          "target": "com.whop.resolution_center_cases#ResolutionEventReporterType",
+          "traits": {
+            "smithy.api#documentation": "The party that performed the action.",
+            "smithy.api#required": {}
+          }
+        },
+        "viewable_by_customer": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the customer can see this event in the timeline.",
+            "smithy.api#required": {}
+          }
+        },
+        "viewable_by_merchant": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the merchant can see this event in the timeline.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ResolutionEventAction": {
+      "type": "enum",
+      "members": {
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "RESPONDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "responded"
+          }
+        },
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        },
+        "APPEALED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "appealed"
+          }
+        },
+        "WITHDREW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrew"
+          }
+        },
+        "REQUESTED_MORE_INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested_more_info"
+          }
+        },
+        "ESCALATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "escalated"
+          }
+        },
+        "DISPUTE_OPENED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dispute_opened"
+          }
+        },
+        "DISPUTE_CUSTOMER_WON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dispute_customer_won"
+          }
+        },
+        "DISPUTE_MERCHANT_WON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dispute_merchant_won"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The action recorded in this event."
+      }
+    },
+    "com.whop.resolution_center_cases#ResolutionAttachment": {
+      "type": "structure",
+      "members": {
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file's MIME type.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The original file name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the attachment, prefixed `att_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL to view or download the file.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ResolutionEventAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#ResolutionAttachment"
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ResolutionEventReporterType": {
+      "type": "enum",
+      "members": {
+        "MERCHANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "merchant"
+          }
+        },
+        "CUSTOMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer"
+          }
+        },
+        "PLATFORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The party that performed the action."
+      }
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCaseEventsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#ResolutionEvent"
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCaseEventsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCaseEventsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.resolution_center_cases#ListResolutionCenterCaseEventsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.resolution_center_cases#ListResolutionCenterCaseEventsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.resolution_center_cases#ListResolutionCenterCaseEvents": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.resolution_center_cases#ListResolutionCenterCaseEventsRequest"
+      },
+      "output": {
+        "target": "com.whop.resolution_center_cases#ListResolutionCenterCaseEventsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.resolution_center_cases#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/resolution_center_cases/{id}/events",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Resolution Center Case Events\n\nLists the case timeline, newest first. Events the viewer is not allowed to see are omitted — a customer reads the customer-visible timeline, the merchant reads the full one.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.resolution_center_cases#ReplyToResolutionCenterCaseRequestAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#ReplyToResolutionCenterCaseRequestAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#ReplyToResolutionCenterCaseRequestAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 3 evidence files, by existing file `id` or `direct_upload_id`."
+      }
+    },
+    "com.whop.resolution_center_cases#ReplyToResolutionCenterCaseRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The resolution center case ID (`reso_` tag)."
+          }
+        },
+        "attachments": {
+          "target": "com.whop.resolution_center_cases#ReplyToResolutionCenterCaseRequestAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "Up to 3 evidence files, by existing file `id` or `direct_upload_id`."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reply to add to the case.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.resolution_center_cases#ReplyToResolutionCenterCase": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.resolution_center_cases#ReplyToResolutionCenterCaseRequest"
+      },
+      "output": {
+        "target": "com.whop.resolution_center_cases#ResolutionCenterCase"
+      },
+      "errors": [
+        {
+          "target": "com.whop.resolution_center_cases#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/resolution_center_cases/{id}/reply",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reply to a Case\n\nReplies to an open request for information on the case. As the merchant this answers Whop's request (valid while the case awaits your information); as the customer it provides the information requested from you. The actor is resolved from the credential."
+      }
+    },
+    "com.whop.resolution_center_cases#RequestResolutionCenterCaseInfoRequestAttachmentsItem": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.resolution_center_cases#RequestResolutionCenterCaseInfoRequestAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.resolution_center_cases#RequestResolutionCenterCaseInfoRequestAttachmentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 3 evidence files, by existing file `id` or `direct_upload_id`."
+      }
+    },
+    "com.whop.resolution_center_cases#RequestResolutionCenterCaseInfoRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The resolution center case ID (`reso_` tag)."
+          }
+        },
+        "attachments": {
+          "target": "com.whop.resolution_center_cases#RequestResolutionCenterCaseInfoRequestAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "Up to 3 evidence files, by existing file `id` or `direct_upload_id`."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What you need from the customer."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.resolution_center_cases#RequestResolutionCenterCaseInfo": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.resolution_center_cases#RequestResolutionCenterCaseInfoRequest"
+      },
+      "output": {
+        "target": "com.whop.resolution_center_cases#ResolutionCenterCase"
+      },
+      "errors": [
+        {
+          "target": "com.whop.resolution_center_cases#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/resolution_center_cases/{id}/request_info",
+          "code": 200
+        },
+        "smithy.api#documentation": "Request Information from the Customer\n\nAsks the customer for more information, as the merchant. Allowed up to 3 times per case before you must accept or deny it."
+      }
+    },
+    "com.whop.resolution_center_cases#WithdrawResolutionCenterCaseRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The resolution center case ID (`reso_` tag)."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.resolution_center_cases#WithdrawResolutionCenterCase": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.resolution_center_cases#WithdrawResolutionCenterCaseRequest"
+      },
+      "output": {
+        "target": "com.whop.resolution_center_cases#ResolutionCenterCase"
+      },
+      "errors": [
+        {
+          "target": "com.whop.resolution_center_cases#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/resolution_center_cases/{id}/withdraw",
+          "code": 200
+        },
+        "smithy.api#documentation": "Withdraw a Case\n\nWithdraws (cancels) a case you opened, as the customer. Only possible while the case is still open."
+      }
+    },
+    "com.whop.resolution_center_cases#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.resolution_center_cases#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.resolution_center_cases#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.resolution_center_cases#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.resolution_center_cases#ResolutionCenterCases": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.resolution_center_cases#ListResolutionCenterCases"
+        },
+        {
+          "target": "com.whop.resolution_center_cases#CreateResolutionCenterCase"
+        },
+        {
+          "target": "com.whop.resolution_center_cases#GetResolutionCenterCaseSummary"
+        },
+        {
+          "target": "com.whop.resolution_center_cases#GetResolutionCenterCase"
+        },
+        {
+          "target": "com.whop.resolution_center_cases#AcceptResolutionCenterCase"
+        },
+        {
+          "target": "com.whop.resolution_center_cases#AppealResolutionCenterCase"
+        },
+        {
+          "target": "com.whop.resolution_center_cases#DenyResolutionCenterCase"
+        },
+        {
+          "target": "com.whop.resolution_center_cases#ListResolutionCenterCaseEvents"
+        },
+        {
+          "target": "com.whop.resolution_center_cases#ReplyToResolutionCenterCase"
+        },
+        {
+          "target": "com.whop.resolution_center_cases#RequestResolutionCenterCaseInfo"
+        },
+        {
+          "target": "com.whop.resolution_center_cases#WithdrawResolutionCenterCase"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

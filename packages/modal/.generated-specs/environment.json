@@ -1,0 +1,965 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.environment#EnvironmentBillingSummaryRequest": {
+      "type": "structure",
+      "members": {
+        "startTimestamp": {
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "smithy.api#documentation": "all query intervals are implicitly one month long (to line up with billing cycles)"
+          }
+        },
+        "environmentId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.environment#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.environment#EnvironmentBillingSummaryResponse": {
+      "type": "structure",
+      "members": {
+        "startTimestamp": {
+          "target": "smithy.api#Timestamp"
+        },
+        "endTimestamp": {
+          "target": "smithy.api#Timestamp"
+        },
+        "meteredCost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "not showing credits, reservations, etc as those are applied at the workspace level"
+          }
+        },
+        "meteredCostBreakdown": {
+          "target": "com.modal.environment#StringMap",
+          "traits": {
+            "smithy.api#documentation": "keyed by deployed, ephemeral, volume, notebook"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.environment#EnvironmentBillingSummary": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.environment#EnvironmentBillingSummaryRequest"
+      },
+      "output": {
+        "target": "com.modal.environment#EnvironmentBillingSummaryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EnvironmentBillingSummary",
+          "code": 200
+        },
+        "smithy.api#documentation": "Environments"
+      }
+    },
+    "com.modal.environment#EnvironmentSettings": {
+      "type": "structure",
+      "members": {
+        "imageBuilderVersion": {
+          "target": "smithy.api#String"
+        },
+        "webhookSuffix": {
+          "target": "smithy.api#String"
+        },
+        "maxConcurrentGpus": {
+          "target": "smithy.api#Integer"
+        },
+        "maxConcurrentTasks": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment-scoped settings, with workspace-level defaults. Note that we use MergeFrom to combine workspace / environment settings, which will *append* any `repeated` fields!"
+      }
+    },
+    "com.modal.environment#EnvironmentType": {
+      "type": "enum",
+      "members": {
+        "ENVIRONMENT_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_TYPE_UNSPECIFIED"
+          }
+        },
+        "ENVIRONMENT_TYPE_PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_TYPE_PUBLIC"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Creation-time environment classification. Captures whether an environment is public. is_managed and machine_generated may be folded in as future values."
+      }
+    },
+    "com.modal.environment#EnvironmentRole": {
+      "type": "enum",
+      "members": {
+        "ENVIRONMENT_ROLE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_ROLE_UNSPECIFIED"
+          }
+        },
+        "ENVIRONMENT_ROLE_VIEWER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_ROLE_VIEWER"
+          }
+        },
+        "ENVIRONMENT_ROLE_CONTRIBUTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_ROLE_CONTRIBUTOR"
+          }
+        },
+        "ENVIRONMENT_ROLE_NO_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_ROLE_NO_ACCESS"
+          }
+        }
+      }
+    },
+    "com.modal.environment#CreateEnvironmentRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "isManaged": {
+          "target": "smithy.api#Boolean"
+        },
+        "settings": {
+          "target": "com.modal.environment#EnvironmentSettings"
+        },
+        "environmentType": {
+          "target": "com.modal.environment#EnvironmentType"
+        },
+        "defaultMemberRole": {
+          "target": "com.modal.environment#EnvironmentRole"
+        },
+        "defaultMemberRoleStr": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.environment#CreateEnvironment": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.environment#CreateEnvironmentRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EnvironmentCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.environment#DeleteEnvironmentRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.environment#DeleteEnvironment": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.environment#DeleteEnvironmentRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EnvironmentDelete",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.environment#EnvironmentGetBudgetRequest": {
+      "type": "structure",
+      "members": {
+        "environmentId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.environment#EnvironmentGetBudgetResponse": {
+      "type": "structure",
+      "members": {
+        "cycleBudgetDollars": {
+          "target": "smithy.api#Double"
+        },
+        "effectiveCycleSpendLimit": {
+          "target": "smithy.api#Double"
+        },
+        "currentCycleUsage": {
+          "target": "smithy.api#Double"
+        },
+        "spendLimitReached": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.environment#EnvironmentGetBudget": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.environment#EnvironmentGetBudgetRequest"
+      },
+      "output": {
+        "target": "com.modal.environment#EnvironmentGetBudgetResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EnvironmentGetBudget",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.environment#EnvironmentGetManagedRequest": {
+      "type": "structure",
+      "members": {
+        "environmentId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.environment#EnvironmentGetManagedResponsePrincipalEnvRole": {
+      "type": "structure",
+      "members": {
+        "userId": {
+          "target": "smithy.api#String"
+        },
+        "serviceUserId": {
+          "target": "smithy.api#String"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "avatarUrl": {
+          "target": "smithy.api#String"
+        },
+        "serviceUserName": {
+          "target": "smithy.api#String"
+        },
+        "role": {
+          "target": "com.modal.environment#EnvironmentRole"
+        },
+        "memberRole": {
+          "target": "com.modal.environment#MemberRole"
+        },
+        "userName": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.environment#MemberRole": {
+      "type": "enum",
+      "members": {
+        "MEMBER_ROLE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MEMBER_ROLE_UNSPECIFIED"
+          }
+        },
+        "MEMBER_ROLE_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MEMBER_ROLE_USER"
+          }
+        },
+        "MEMBER_ROLE_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MEMBER_ROLE_MANAGER"
+          }
+        },
+        "MEMBER_ROLE_OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MEMBER_ROLE_OWNER"
+          }
+        }
+      }
+    },
+    "com.modal.environment#EnvironmentGetManagedResponsePrincipalEnvRoleList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.environment#EnvironmentGetManagedResponsePrincipalEnvRole"
+      }
+    },
+    "com.modal.environment#EnvironmentGetManagedResponse": {
+      "type": "structure",
+      "members": {
+        "environmentId": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "principalRoles": {
+          "target": "com.modal.environment#EnvironmentGetManagedResponsePrincipalEnvRoleList"
+        },
+        "additionalRoles": {
+          "target": "com.modal.environment#EnvironmentGetManagedResponsePrincipalEnvRoleList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.environment#EnvironmentGetManaged": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.environment#EnvironmentGetManagedRequest"
+      },
+      "output": {
+        "target": "com.modal.environment#EnvironmentGetManagedResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EnvironmentGetManaged",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.environment#ObjectCreationType": {
+      "type": "enum",
+      "members": {
+        "OBJECT_CREATION_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_UNSPECIFIED"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_IF_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_IF_MISSING",
+            "smithy.api#documentation": "just lookup"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
+          }
+        },
+        "OBJECT_CREATION_TYPE_EPHEMERAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_EPHEMERAL",
+            "smithy.api#documentation": "deprecate at some point"
+          }
+        }
+      }
+    },
+    "com.modal.environment#EnvironmentGetOrCreateRequest": {
+      "type": "structure",
+      "members": {
+        "deploymentName": {
+          "target": "smithy.api#String"
+        },
+        "objectCreationType": {
+          "target": "com.modal.environment#ObjectCreationType"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.environment#EnvironmentMetadata": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "settings": {
+          "target": "com.modal.environment#EnvironmentSettings"
+        },
+        "environmentType": {
+          "target": "com.modal.environment#EnvironmentType"
+        }
+      }
+    },
+    "com.modal.environment#EnvironmentGetOrCreateResponse": {
+      "type": "structure",
+      "members": {
+        "environmentId": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.environment#EnvironmentMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.environment#EnvironmentGetOrCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.environment#EnvironmentGetOrCreateRequest"
+      },
+      "output": {
+        "target": "com.modal.environment#EnvironmentGetOrCreateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EnvironmentGetOrCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.environment#EnvironmentGetRolesRequest": {
+      "type": "structure",
+      "members": {
+        "environmentId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.environment#EnvironmentGetRolesResponsePrincipal": {
+      "type": "structure",
+      "members": {
+        "userId": {
+          "target": "smithy.api#String"
+        },
+        "serviceUserId": {
+          "target": "smithy.api#String"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "avatarUrl": {
+          "target": "smithy.api#String"
+        },
+        "userName": {
+          "target": "smithy.api#String"
+        },
+        "serviceUserName": {
+          "target": "smithy.api#String"
+        },
+        "role": {
+          "target": "com.modal.environment#EnvironmentRole"
+        },
+        "roleStr": {
+          "target": "smithy.api#String"
+        },
+        "choosableRoles": {
+          "target": "com.modal.environment#EnvironmentRoleList",
+          "traits": {
+            "smithy.api#documentation": "String representation for the CLI"
+          }
+        },
+        "memberRole": {
+          "target": "com.modal.environment#MemberRole"
+        },
+        "inheritsDefaultMemberRole": {
+          "target": "smithy.api#Boolean"
+        },
+        "hasRoleAssignment": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.modal.environment#EnvironmentRoleList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.environment#EnvironmentRole"
+      }
+    },
+    "com.modal.environment#EnvironmentGetRolesResponsePrincipalList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.environment#EnvironmentGetRolesResponsePrincipal"
+      }
+    },
+    "com.modal.environment#EnvironmentGetRolesResponse": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "principalRoles": {
+          "target": "com.modal.environment#EnvironmentGetRolesResponsePrincipalList"
+        },
+        "defaultMemberRole": {
+          "target": "com.modal.environment#EnvironmentRole"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.environment#EnvironmentGetRoles": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.environment#EnvironmentGetRolesRequest"
+      },
+      "output": {
+        "target": "com.modal.environment#EnvironmentGetRolesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EnvironmentGetRoles",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.environment#EnvironmentListItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "webhookSuffix": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "default": {
+          "target": "smithy.api#Boolean"
+        },
+        "isManaged": {
+          "target": "smithy.api#Boolean"
+        },
+        "environmentId": {
+          "target": "smithy.api#String"
+        },
+        "maxConcurrentTasks": {
+          "target": "smithy.api#Integer"
+        },
+        "maxConcurrentGpus": {
+          "target": "smithy.api#Integer"
+        },
+        "currentConcurrentTasks": {
+          "target": "smithy.api#Integer"
+        },
+        "currentConcurrentGpus": {
+          "target": "smithy.api#Integer"
+        },
+        "cycleBudgetDollars": {
+          "target": "smithy.api#Double"
+        },
+        "effectiveCycleSpendLimit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "manager-set"
+          }
+        },
+        "currentCycleUsage": {
+          "target": "smithy.api#Double"
+        },
+        "spendLimitReached": {
+          "target": "smithy.api#Boolean"
+        },
+        "environmentType": {
+          "target": "com.modal.environment#EnvironmentType"
+        },
+        "defaultMemberRole": {
+          "target": "com.modal.environment#EnvironmentRole"
+        }
+      }
+    },
+    "com.modal.environment#EnvironmentListItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.environment#EnvironmentListItem"
+      }
+    },
+    "com.modal.environment#ListEnvironmentResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.modal.environment#EnvironmentListItemList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.environment#ListEnvironment": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.modal.environment#ListEnvironmentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EnvironmentList",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.environment#SetEnvironmentRoleRequest": {
+      "type": "structure",
+      "members": {
+        "environmentId": {
+          "target": "smithy.api#String"
+        },
+        "userId": {
+          "target": "smithy.api#String"
+        },
+        "serviceUserId": {
+          "target": "smithy.api#String"
+        },
+        "role": {
+          "target": "com.modal.environment#EnvironmentRole"
+        },
+        "roleStr": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.environment#SetEnvironmentRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.environment#SetEnvironmentRoleRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EnvironmentRoleSet",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.environment#EnvironmentSetBudgetRequest": {
+      "type": "structure",
+      "members": {
+        "environmentId": {
+          "target": "smithy.api#String"
+        },
+        "cycleBudgetDollars": {
+          "target": "smithy.api#Double"
+        },
+        "clearBudget": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.environment#EnvironmentSetBudget": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.environment#EnvironmentSetBudgetRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EnvironmentSetBudget",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.environment#EnvironmentSetDefaultMemberRoleRequest": {
+      "type": "structure",
+      "members": {
+        "environmentId": {
+          "target": "smithy.api#String"
+        },
+        "defaultMemberRole": {
+          "target": "com.modal.environment#EnvironmentRole"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.environment#EnvironmentSetDefaultMemberRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.environment#EnvironmentSetDefaultMemberRoleRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EnvironmentSetDefaultMemberRole",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.environment#EnvironmentSetManagedRequest": {
+      "type": "structure",
+      "members": {
+        "environmentId": {
+          "target": "smithy.api#String"
+        },
+        "managed": {
+          "target": "smithy.api#Boolean"
+        },
+        "defaultMemberRole": {
+          "target": "com.modal.environment#EnvironmentRole"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.environment#EnvironmentSetManaged": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.environment#EnvironmentSetManagedRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EnvironmentSetManaged",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.environment#UpdateEnvironmentRequest": {
+      "type": "structure",
+      "members": {
+        "currentName": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "webSuffix": {
+          "target": "smithy.api#String"
+        },
+        "maxConcurrentTasks": {
+          "target": "smithy.api#Integer"
+        },
+        "maxConcurrentGpus": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.environment#UpdateEnvironmentResponse": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "webhookSuffix": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "default": {
+          "target": "smithy.api#Boolean"
+        },
+        "isManaged": {
+          "target": "smithy.api#Boolean"
+        },
+        "environmentId": {
+          "target": "smithy.api#String"
+        },
+        "maxConcurrentTasks": {
+          "target": "smithy.api#Integer"
+        },
+        "maxConcurrentGpus": {
+          "target": "smithy.api#Integer"
+        },
+        "currentConcurrentTasks": {
+          "target": "smithy.api#Integer"
+        },
+        "currentConcurrentGpus": {
+          "target": "smithy.api#Integer"
+        },
+        "cycleBudgetDollars": {
+          "target": "smithy.api#Double"
+        },
+        "effectiveCycleSpendLimit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "manager-set"
+          }
+        },
+        "currentCycleUsage": {
+          "target": "smithy.api#Double"
+        },
+        "spendLimitReached": {
+          "target": "smithy.api#Boolean"
+        },
+        "environmentType": {
+          "target": "com.modal.environment#EnvironmentType"
+        },
+        "defaultMemberRole": {
+          "target": "com.modal.environment#EnvironmentRole"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.environment#UpdateEnvironment": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.environment#UpdateEnvironmentRequest"
+      },
+      "output": {
+        "target": "com.modal.environment#UpdateEnvironmentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/EnvironmentUpdate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.environment#EnvironmentService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.environment#EnvironmentBillingSummary"
+        },
+        {
+          "target": "com.modal.environment#CreateEnvironment"
+        },
+        {
+          "target": "com.modal.environment#DeleteEnvironment"
+        },
+        {
+          "target": "com.modal.environment#EnvironmentGetBudget"
+        },
+        {
+          "target": "com.modal.environment#EnvironmentGetManaged"
+        },
+        {
+          "target": "com.modal.environment#EnvironmentGetOrCreate"
+        },
+        {
+          "target": "com.modal.environment#EnvironmentGetRoles"
+        },
+        {
+          "target": "com.modal.environment#ListEnvironment"
+        },
+        {
+          "target": "com.modal.environment#SetEnvironmentRole"
+        },
+        {
+          "target": "com.modal.environment#EnvironmentSetBudget"
+        },
+        {
+          "target": "com.modal.environment#EnvironmentSetDefaultMemberRole"
+        },
+        {
+          "target": "com.modal.environment#EnvironmentSetManaged"
+        },
+        {
+          "target": "com.modal.environment#UpdateEnvironment"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Environment",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Environment`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

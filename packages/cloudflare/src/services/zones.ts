@@ -302,7 +302,7 @@ export const CreateEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
 export interface CreateHoldRequest {
   /** Identifier. */
   zoneId: string;
-  /** If provided, the zone hold will extend to block any subdomain of the given zone, as well */
+  /** If provided, the zone hold will extend to block any subdomain of the given zone, as well as SSL4SaaS Custom Hostnames. For example, a zone hold on a zone with the hostname 'example.com' and include_subdomains=true will block 'example.com', 'staging.example.com', 'api.staging.example.com', etc. */
   includeSubdomains?: boolean;
 }
 export const CreateHoldRequest = /*@__PURE__*/ S.suspend(() =>
@@ -341,7 +341,7 @@ export type SubscriptionsCreateRequestFrequency =
   | "monthly"
   | "quarterly"
   | "yearly";
-export const SubscriptionsCreateRequestFrequency = /*@__PURE__*/ S.String;
+export const SubscriptionsCreateRequestFrequency = S.String;
 
 export type SubscriptionsCreateRequestRatePlanId =
   | "free"
@@ -354,7 +354,7 @@ export type SubscriptionsCreateRequestRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
-export const SubscriptionsCreateRequestRatePlanId = /*@__PURE__*/ S.String;
+export const SubscriptionsCreateRequestRatePlanId = S.String;
 
 export type SubscriptionsCreateRequestRatePlanSetsList = Array<string>;
 export const SubscriptionsCreateRequestRatePlanSetsList = /*@__PURE__*/ S.Array(
@@ -425,7 +425,7 @@ export type SubscriptionsCreateResponseFrequency =
   | "quarterly"
   | "yearly"
   | "not-applicable";
-export const SubscriptionsCreateResponseFrequency = /*@__PURE__*/ S.String;
+export const SubscriptionsCreateResponseFrequency = S.String;
 
 export type SubscriptionsCreateResponseRatePlanId =
   | "free"
@@ -438,7 +438,7 @@ export type SubscriptionsCreateResponseRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
-export const SubscriptionsCreateResponseRatePlanId = /*@__PURE__*/ S.String;
+export const SubscriptionsCreateResponseRatePlanId = S.String;
 
 export type SubscriptionsCreateResponseRatePlanSetsList = Array<string>;
 export const SubscriptionsCreateResponseRatePlanSetsList =
@@ -486,7 +486,7 @@ export type SubscriptionsCreateResponseState =
   | "Cancelled"
   | "Failed"
   | "Expired";
-export const SubscriptionsCreateResponseState = /*@__PURE__*/ S.String;
+export const SubscriptionsCreateResponseState = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSubscriptionResponse {
@@ -541,13 +541,13 @@ export const CreateRequestAccount = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateRequestAccount>;
 
 export type CreateRequestType = "full" | "partial" | "secondary" | "internal";
-export const CreateRequestType = /*@__PURE__*/ S.String;
+export const CreateRequestType = S.String;
 
 export interface CreateZoneRequest {
   account: CreateRequestAccount;
   /** The domain name. Per [RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035#section-2.3.4) the overall zone name can be up to 253 characters, with each segment ("label") not exceeding 63 characters. */
   name: string;
-  /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is */
+  /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. */
   type?: CreateRequestType | (string & {});
 }
 export const CreateZoneRequest = /*@__PURE__*/ S.suspend(() =>
@@ -695,7 +695,7 @@ export type CreateResponseStatus =
   | "pending"
   | "active"
   | "moved";
-export const CreateResponseStatus = /*@__PURE__*/ S.String;
+export const CreateResponseStatus = S.String;
 
 export interface CreateResponseTenant {
   /** Identifier */
@@ -725,7 +725,7 @@ export const CreateResponseTenantUnit = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateResponseTenantUnit>;
 
 export type CreateResponseType = "full" | "partial" | "secondary" | "internal";
-export const CreateResponseType = /*@__PURE__*/ S.String;
+export const CreateResponseType = S.String;
 
 export type CreateResponseVanityNameServersList = Array<string>;
 export const CreateResponseVanityNameServersList = /*@__PURE__*/ S.Array(
@@ -738,11 +738,11 @@ export interface CreateZoneResponse {
   id: string;
   /** The account the zone belongs to. */
   account: CreateResponseAccount;
-  /** The last time proof of ownership was detected and the zone was made */
+  /** The last time proof of ownership was detected and the zone was made active. */
   activatedOn: string;
   /** When the zone was created. */
   createdOn: string;
-  /** The interval (in seconds) from when development mode expires */
+  /** The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is 0. */
   developmentMode: number;
   /** Metadata about the zone. */
   meta: CreateResponseMeta;
@@ -760,13 +760,13 @@ export interface CreateZoneResponse {
   originalRegistrar: string;
   /** The owner of the zone. */
   owner: CreateResponseOwner;
-  /** A Zones subscription information. */
+  /** Please use the `/zones/{zone_id}/subscription` API to update a zone's plan. Changing this value will create/cancel associated subscriptions. To view available plans for this zone, see [Zone Plans](https://developers.cloudflare.com/api/resources/zones/subresources/plans/). */
   plan: CreateResponsePlan;
-  /** Allows the customer to use a custom apex. */
+  /** Allows the customer to use a custom apex. *Tenants Only Configuration*. */
   cnameSuffix?: string | null;
-  /** Indicates whether the zone is only using Cloudflare DNS services. A */
+  /** Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits. */
   paused?: boolean | null;
-  /** Legacy permissions based on legacy user membership information. */
+  /** This has been replaced by Account memberships. */
   permissions?: CreateResponsePermissionsList | null;
   /** The zone status on Cloudflare. */
   status?: CreateResponseStatus | null;
@@ -774,7 +774,7 @@ export interface CreateZoneResponse {
   tenant?: CreateResponseTenant | null;
   /** The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization). */
   tenantUnit?: CreateResponseTenantUnit | null;
-  /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is */
+  /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. */
   type?: CreateResponseType | null;
   /** An array of domains used for custom name servers. This is only available for Business and Enterprise plans. */
   vanityNameServers?: CreateResponseVanityNameServersList | null;
@@ -873,7 +873,7 @@ export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteHoldRequest {
   /** Identifier. */
   zoneId: string;
-  /** If `hold_after` is provided, the hold will be temporarily disabled, */
+  /** If `hold_after` is provided, the hold will be temporarily disabled, then automatically re-enabled by the system at the time specified in this RFC3339-formatted timestamp. Otherwise, the hold will be disabled indefinitely. `hold_after` cannot be provided for CDN-only zones. */
   holdAfter?: string;
 }
 export const DeleteHoldRequest = /*@__PURE__*/ S.suspend(() =>
@@ -932,6 +932,177 @@ export const DeleteZoneResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteZoneResponse",
 }) as any as S.Schema<DeleteZoneResponse>;
 
+export interface EditNelRequestValue {
+  /** Whether Network Error Logging is enabled for the zone. When enabled, browsers report network errors to Cloudflare's NEL endpoint. */
+  enabled: boolean;
+}
+export const EditNelRequestValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+  }),
+).annotate({
+  identifier: "EditNelRequestValue",
+}) as any as S.Schema<EditNelRequestValue>;
+
+export interface EditNelRequest {
+  /** Identifier of the zone. */
+  zoneId: string;
+  /** The NEL configuration value. */
+  value: EditNelRequestValue;
+}
+export const EditNelRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+    value: EditNelRequestValue,
+  })
+    .pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/zones/{zone_id}/settings/nel",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "EditNelRequest" }) as any as S.Schema<EditNelRequest>;
+
+export type EditNelResponseId = "nel";
+export const EditNelResponseId = S.String;
+
+export type EditNelResponseValue = EditNelRequestValue;
+export const EditNelResponseValue = EditNelRequestValue;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface EditNelResponse {
+  /** Zone setting identifier. */
+  id: EditNelResponseId;
+  /** Whether the setting is editable. This is false when the zone's plan does not include NEL or the NEL product feature is not enabled. */
+  editable: boolean;
+  /** When the setting was last modified. A zero value (0001-01-01T00:00:00Z) indicates the setting has never been explicitly set and is using the default value. */
+  modifiedOn: string;
+  /** The NEL configuration value. */
+  value: EditNelRequestValue;
+}
+export const EditNelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: EditNelResponseId,
+    editable: S.Boolean,
+    modifiedOn: S.String.pipe(T.Body("modified_on")),
+    value: EditNelRequestValue,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "EditNelResponse",
+}) as any as S.Schema<EditNelResponse>;
+
+export interface EditTransformationsAllowedOriginRequest {
+  /** Identifier. */
+  zoneId: string;
+  /** Comma-separated list of allowed origin domains for image and video transformations. Use "*" to allow all origins (default). */
+  value: string;
+}
+export const EditTransformationsAllowedOriginRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      zoneId: S.String.pipe(T.Label("zone_id")),
+      value: S.String,
+    })
+      .pipe(
+        T.Http({
+          method: "PATCH",
+          uri: "/zones/{zone_id}/settings/transformations_allowed_origins",
+          code: 200,
+        }),
+      )
+      .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "EditTransformationsAllowedOriginRequest",
+}) as any as S.Schema<EditTransformationsAllowedOriginRequest>;
+
+export type EditTransformationsAllowedOriginResponseId =
+  "image_resizing_allowed_origins";
+export const EditTransformationsAllowedOriginResponseId = S.String;
+
+export type EditTransformationsAllowedOriginResponseValue = "on" | "off";
+export const EditTransformationsAllowedOriginResponseValue = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface EditTransformationsAllowedOriginResponse {
+  /** ID of the zone setting. */
+  id?: EditTransformationsAllowedOriginResponseId | null;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+  /** Comma-separated list of allowed origin domains for image and video transformations. Use "*" to allow all origins (default). */
+  value?: EditTransformationsAllowedOriginResponseValue | null;
+}
+export const EditTransformationsAllowedOriginResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.NullOr(EditTransformationsAllowedOriginResponseId)),
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+      value: S.optional(
+        S.NullOr(EditTransformationsAllowedOriginResponseValue),
+      ),
+    }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "EditTransformationsAllowedOriginResponse",
+}) as any as S.Schema<EditTransformationsAllowedOriginResponse>;
+
+export type EditTransformationsC2paRequestValue = "off" | "on";
+export const EditTransformationsC2paRequestValue = S.String;
+
+export interface EditTransformationsC2paRequest {
+  /** Identifier. */
+  zoneId: string;
+  /** Whether C2PA signing is enabled for image transformations. */
+  value: EditTransformationsC2paRequestValue | (string & {});
+}
+export const EditTransformationsC2paRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+    value: EditTransformationsC2paRequestValue,
+  })
+    .pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/zones/{zone_id}/settings/transformations_c2pa",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "EditTransformationsC2paRequest",
+}) as any as S.Schema<EditTransformationsC2paRequest>;
+
+export type EditTransformationsC2paResponseId = "image_resizing_c2pa";
+export const EditTransformationsC2paResponseId = S.String;
+
+export type EditTransformationsC2paResponseValue = "on" | "off";
+export const EditTransformationsC2paResponseValue = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface EditTransformationsC2paResponse {
+  /** ID of the zone setting. */
+  id?: EditTransformationsC2paResponseId | null;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+  /** Current value of the zone setting. */
+  value?: EditTransformationsC2paResponseValue | null;
+}
+export const EditTransformationsC2paResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.NullOr(EditTransformationsC2paResponseId)),
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    value: S.optional(S.NullOr(EditTransformationsC2paResponseValue)),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "EditTransformationsC2paResponse",
+}) as any as S.Schema<EditTransformationsC2paResponse>;
+
 export interface GetCtAlertingRequest {
   /** Identifier. */
   zoneId: string;
@@ -957,7 +1128,7 @@ export const CtAlertingGetResponseEmailsList = /*@__PURE__*/ S.Array(
 export interface GetCtAlertingResponse {
   /** Whether CT alerting is enabled for the zone. */
   enabled: boolean;
-  /** Email addresses that receive CT alert notifications. Only present and configurable for Business and Enterprise zones. Maximum of 10 addresses. For Free and Pro zones, notifications are sent to all users with SSL permissions on the zone. */
+  /** Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma. */
   emails?: CtAlertingGetResponseEmailsList | null;
 }
 export const GetCtAlertingResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1031,6 +1202,50 @@ export const GetHoldResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetHoldResponse",
 }) as any as S.Schema<GetHoldResponse>;
 
+export interface GetNelRequest {
+  /** Identifier of the zone. */
+  zoneId: string;
+}
+export const GetNelRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/zones/{zone_id}/settings/nel",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "GetNelRequest" }) as any as S.Schema<GetNelRequest>;
+
+export type GetNelResponseId = "nel";
+export const GetNelResponseId = S.String;
+
+export type GetNelResponseValue = EditNelRequestValue;
+export const GetNelResponseValue = EditNelRequestValue;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetNelResponse {
+  /** Zone setting identifier. */
+  id: GetNelResponseId;
+  /** Whether the setting is editable. This is false when the zone's plan does not include NEL or the NEL product feature is not enabled. */
+  editable: boolean;
+  /** When the setting was last modified. A zero value (0001-01-01T00:00:00Z) indicates the setting has never been explicitly set and is using the default value. */
+  modifiedOn: string;
+  /** The NEL configuration value. */
+  value: EditNelRequestValue;
+}
+export const GetNelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: GetNelResponseId,
+    editable: S.Boolean,
+    modifiedOn: S.String.pipe(T.Body("modified_on")),
+    value: EditNelRequestValue,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "GetNelResponse" }) as any as S.Schema<GetNelResponse>;
+
 export interface GetPlanRequest {
   /** Identifier */
   zoneId: string;
@@ -1057,7 +1272,7 @@ export type PlansGetResponseFrequency =
   | "monthly"
   | "quarterly"
   | "yearly";
-export const PlansGetResponseFrequency = /*@__PURE__*/ S.String;
+export const PlansGetResponseFrequency = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPlanResponse {
@@ -1073,8 +1288,6 @@ export interface GetPlanResponse {
   frequency?: PlansGetResponseFrequency | null;
   /** Indicates whether you are currently subscribed to this plan. */
   isSubscribed?: boolean | null;
-  /** Indicates whether this plan has a legacy discount applied. */
-  legacyDiscount?: boolean | null;
   /** The legacy identifier for this rate plan, if any. */
   legacyId?: string | null;
   /** The plan name. */
@@ -1092,9 +1305,6 @@ export const GetPlanResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     frequency: S.optional(S.NullOr(PlansGetResponseFrequency)),
     isSubscribed: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_subscribed"))),
-    legacyDiscount: S.optional(
-      S.NullOr(S.Boolean).pipe(T.Body("legacy_discount")),
-    ),
     legacyId: S.optional(S.NullOr(S.String).pipe(T.Body("legacy_id"))),
     name: S.optional(S.NullOr(S.String)),
     price: S.optional(S.NullOr(S.Number)),
@@ -1128,14 +1338,14 @@ export type RatePlansGetResultItemComponentsItemName =
   | "page_rules"
   | "dedicated_certificates"
   | "dedicated_certificates_custom";
-export const RatePlansGetResultItemComponentsItemName = /*@__PURE__*/ S.String;
+export const RatePlansGetResultItemComponentsItemName = S.String;
 
 export interface RatePlansGetResultItemComponentsItem {
   /** The default amount allocated. */
   default?: number | null;
   /** The unique component. */
   name?: RatePlansGetResultItemComponentsItemName | null;
-  /** The unit price of the addon. */
+  /** The unit price of the component. */
   unitPrice?: number | null;
 }
 export const RatePlansGetResultItemComponentsItem = /*@__PURE__*/ S.suspend(
@@ -1160,7 +1370,7 @@ export type RatePlansGetResultItemFrequency =
   | "monthly"
   | "quarterly"
   | "yearly";
-export const RatePlansGetResultItemFrequency = /*@__PURE__*/ S.String;
+export const RatePlansGetResultItemFrequency = S.String;
 
 export interface RatePlansGetResultItem {
   /** Plan identifier tag. */
@@ -1233,10 +1443,10 @@ export const GetSettingRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSettingRequest>;
 
 export type SettingsGetResultZeroRTTId = "0rtt";
-export const SettingsGetResultZeroRTTId = /*@__PURE__*/ S.String;
+export const SettingsGetResultZeroRTTId = S.String;
 
 export type SettingsGetResultZeroRTTValue = "on" | "off";
-export const SettingsGetResultZeroRTTValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultZeroRTTValue = S.String;
 
 export interface SettingsGetResultZeroRTT {
   /** ID of the zone setting. */
@@ -1260,10 +1470,10 @@ export const SettingsGetResultZeroRTT = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultZeroRTT>;
 
 export type SettingsGetResultAdvancedDDoSId = "advanced_ddos";
-export const SettingsGetResultAdvancedDDoSId = /*@__PURE__*/ S.String;
+export const SettingsGetResultAdvancedDDoSId = S.String;
 
 export type SettingsGetResultAdvancedDDoSValue = "on" | "off";
-export const SettingsGetResultAdvancedDDoSValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultAdvancedDDoSValue = S.String;
 
 export interface SettingsGetResultAdvancedDDoS {
   /** ID of the zone setting. */
@@ -1287,7 +1497,7 @@ export const SettingsGetResultAdvancedDDoS = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultAdvancedDDoS>;
 
 export type SettingsGetResultZonesCacheRulesAegisId = "aegis";
-export const SettingsGetResultZonesCacheRulesAegisId = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesCacheRulesAegisId = S.String;
 
 export interface SettingsGetResultZonesCacheRulesAegisValue {
   /** Whether the feature is enabled or not. */
@@ -1325,10 +1535,10 @@ export const SettingsGetResultZonesCacheRulesAegis = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsGetResultZonesCacheRulesAegis>;
 
 export type SettingsGetResultAlwaysOnlineId = "always_online";
-export const SettingsGetResultAlwaysOnlineId = /*@__PURE__*/ S.String;
+export const SettingsGetResultAlwaysOnlineId = S.String;
 
 export type SettingsGetResultAlwaysOnlineValue = "on" | "off";
-export const SettingsGetResultAlwaysOnlineValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultAlwaysOnlineValue = S.String;
 
 export interface SettingsGetResultAlwaysOnline {
   /** ID of the zone setting. */
@@ -1351,74 +1561,68 @@ export const SettingsGetResultAlwaysOnline = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsGetResultAlwaysOnline",
 }) as any as S.Schema<SettingsGetResultAlwaysOnline>;
 
-export type SettingsGetResultZonesSchemasAlwaysUseHTTPSId = "always_use_https";
-export const SettingsGetResultZonesSchemasAlwaysUseHTTPSId =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesAlwaysUseHTTPS2Id = "always_use_https";
+export const SettingsGetResultZonesAlwaysUseHTTPS2Id = S.String;
 
-export type SettingsGetResultZonesSchemasAlwaysUseHTTPSValue = "on" | "off";
-export const SettingsGetResultZonesSchemasAlwaysUseHTTPSValue =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesAlwaysUseHTTPS2Value = "on" | "off";
+export const SettingsGetResultZonesAlwaysUseHTTPS2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasAlwaysUseHTTPS {
+export interface SettingsGetResultZonesAlwaysUseHTTPS2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasAlwaysUseHTTPSId;
+  id: SettingsGetResultZonesAlwaysUseHTTPS2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasAlwaysUseHTTPSValue;
+  value: SettingsGetResultZonesAlwaysUseHTTPS2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasAlwaysUseHTTPS =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsGetResultZonesAlwaysUseHTTPS2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsGetResultZonesSchemasAlwaysUseHTTPSId,
-      value: SettingsGetResultZonesSchemasAlwaysUseHTTPSValue,
+      id: SettingsGetResultZonesAlwaysUseHTTPS2Id,
+      value: SettingsGetResultZonesAlwaysUseHTTPS2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsGetResultZonesSchemasAlwaysUseHTTPS",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasAlwaysUseHTTPS>;
+).annotate({
+  identifier: "SettingsGetResultZonesAlwaysUseHTTPS2",
+}) as any as S.Schema<SettingsGetResultZonesAlwaysUseHTTPS2>;
 
-export type SettingsGetResultZonesSchemasAutomaticHTTPSRewritesId =
+export type SettingsGetResultZonesAutomaticHTTPSRewrites2Id =
   "automatic_https_rewrites";
-export const SettingsGetResultZonesSchemasAutomaticHTTPSRewritesId =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesAutomaticHTTPSRewrites2Id = S.String;
 
-export type SettingsGetResultZonesSchemasAutomaticHTTPSRewritesValue =
-  | "on"
-  | "off";
-export const SettingsGetResultZonesSchemasAutomaticHTTPSRewritesValue =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesAutomaticHTTPSRewrites2Value = "on" | "off";
+export const SettingsGetResultZonesAutomaticHTTPSRewrites2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasAutomaticHTTPSRewrites {
+export interface SettingsGetResultZonesAutomaticHTTPSRewrites2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasAutomaticHTTPSRewritesId;
+  id: SettingsGetResultZonesAutomaticHTTPSRewrites2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasAutomaticHTTPSRewritesValue;
+  value: SettingsGetResultZonesAutomaticHTTPSRewrites2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasAutomaticHTTPSRewrites =
+export const SettingsGetResultZonesAutomaticHTTPSRewrites2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsGetResultZonesSchemasAutomaticHTTPSRewritesId,
-      value: SettingsGetResultZonesSchemasAutomaticHTTPSRewritesValue,
+      id: SettingsGetResultZonesAutomaticHTTPSRewrites2Id,
+      value: SettingsGetResultZonesAutomaticHTTPSRewrites2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsGetResultZonesSchemasAutomaticHTTPSRewrites",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasAutomaticHTTPSRewrites>;
+    identifier: "SettingsGetResultZonesAutomaticHTTPSRewrites2",
+  }) as any as S.Schema<SettingsGetResultZonesAutomaticHTTPSRewrites2>;
 
 export type SettingsGetResultBrotliId = "brotli";
-export const SettingsGetResultBrotliId = /*@__PURE__*/ S.String;
+export const SettingsGetResultBrotliId = S.String;
 
 export type SettingsGetResultBrotliValue = "off" | "on";
-export const SettingsGetResultBrotliValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultBrotliValue = S.String;
 
 export interface SettingsGetResultBrotli {
   /** ID of the zone setting. */
@@ -1441,14 +1645,12 @@ export const SettingsGetResultBrotli = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsGetResultBrotli",
 }) as any as S.Schema<SettingsGetResultBrotli>;
 
-export type SettingsGetResultZonesSchemasBrowserCacheTTLId =
-  "browser_cache_ttl";
-export const SettingsGetResultZonesSchemasBrowserCacheTTLId =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesBrowserCacheTTL2Id = "browser_cache_ttl";
+export const SettingsGetResultZonesBrowserCacheTTL2Id = S.String;
 
-export interface SettingsGetResultZonesSchemasBrowserCacheTTL {
+export interface SettingsGetResultZonesBrowserCacheTTL2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasBrowserCacheTTLId;
+  id: SettingsGetResultZonesBrowserCacheTTL2Id;
   /** Current value of the zone setting. */
   value: number;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
@@ -1456,82 +1658,77 @@ export interface SettingsGetResultZonesSchemasBrowserCacheTTL {
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasBrowserCacheTTL =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsGetResultZonesBrowserCacheTTL2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsGetResultZonesSchemasBrowserCacheTTLId,
+      id: SettingsGetResultZonesBrowserCacheTTL2Id,
       value: S.Number,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsGetResultZonesSchemasBrowserCacheTTL",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasBrowserCacheTTL>;
+).annotate({
+  identifier: "SettingsGetResultZonesBrowserCacheTTL2",
+}) as any as S.Schema<SettingsGetResultZonesBrowserCacheTTL2>;
 
-export type SettingsGetResultZonesSchemasBrowserCheckId = "browser_check";
-export const SettingsGetResultZonesSchemasBrowserCheckId =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesBrowserCheck2Id = "browser_check";
+export const SettingsGetResultZonesBrowserCheck2Id = S.String;
 
-export type SettingsGetResultZonesSchemasBrowserCheckValue = "on" | "off";
-export const SettingsGetResultZonesSchemasBrowserCheckValue =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesBrowserCheck2Value = "on" | "off";
+export const SettingsGetResultZonesBrowserCheck2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasBrowserCheck {
+export interface SettingsGetResultZonesBrowserCheck2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasBrowserCheckId;
+  id: SettingsGetResultZonesBrowserCheck2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasBrowserCheckValue;
+  value: SettingsGetResultZonesBrowserCheck2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasBrowserCheck =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsGetResultZonesSchemasBrowserCheckId,
-      value: SettingsGetResultZonesSchemasBrowserCheckValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsGetResultZonesSchemasBrowserCheck",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasBrowserCheck>;
+export const SettingsGetResultZonesBrowserCheck2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsGetResultZonesBrowserCheck2Id,
+    value: SettingsGetResultZonesBrowserCheck2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "SettingsGetResultZonesBrowserCheck2",
+}) as any as S.Schema<SettingsGetResultZonesBrowserCheck2>;
 
-export type SettingsGetResultZonesSchemasCacheLevelId = "cache_level";
-export const SettingsGetResultZonesSchemasCacheLevelId = /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesCacheLevel2Id = "cache_level";
+export const SettingsGetResultZonesCacheLevel2Id = S.String;
 
-export type SettingsGetResultZonesSchemasCacheLevelValue =
+export type SettingsGetResultZonesCacheLevel2Value =
   | "aggressive"
   | "basic"
   | "simplified";
-export const SettingsGetResultZonesSchemasCacheLevelValue =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesCacheLevel2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasCacheLevel {
+export interface SettingsGetResultZonesCacheLevel2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasCacheLevelId;
+  id: SettingsGetResultZonesCacheLevel2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasCacheLevelValue;
+  value: SettingsGetResultZonesCacheLevel2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasCacheLevel = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsGetResultZonesSchemasCacheLevelId,
-      value: SettingsGetResultZonesSchemasCacheLevelValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
+export const SettingsGetResultZonesCacheLevel2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsGetResultZonesCacheLevel2Id,
+    value: SettingsGetResultZonesCacheLevel2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
 ).annotate({
-  identifier: "SettingsGetResultZonesSchemasCacheLevel",
-}) as any as S.Schema<SettingsGetResultZonesSchemasCacheLevel>;
+  identifier: "SettingsGetResultZonesCacheLevel2",
+}) as any as S.Schema<SettingsGetResultZonesCacheLevel2>;
 
 export type SettingsGetResultChallengeTTLId = "challenge_ttl";
-export const SettingsGetResultChallengeTTLId = /*@__PURE__*/ S.String;
+export const SettingsGetResultChallengeTTLId = S.String;
 
 export type SettingsGetResultChallengeTTLValue =
   | 300
@@ -1548,7 +1745,7 @@ export type SettingsGetResultChallengeTTLValue =
   | 604800
   | 2592000
   | 31536000;
-export const SettingsGetResultChallengeTTLValue = /*@__PURE__*/ S.Number;
+export const SettingsGetResultChallengeTTLValue = S.Number;
 
 export interface SettingsGetResultChallengeTTL {
   /** ID of the zone setting. */
@@ -1573,12 +1770,10 @@ export const SettingsGetResultChallengeTTL = /*@__PURE__*/ S.suspend(() =>
 
 export type SettingsGetResultZonesChinaNetworkEnabledId =
   "china_network_enabled";
-export const SettingsGetResultZonesChinaNetworkEnabledId =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesChinaNetworkEnabledId = S.String;
 
 export type SettingsGetResultZonesChinaNetworkEnabledValue = "on" | "off";
-export const SettingsGetResultZonesChinaNetworkEnabledValue =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesChinaNetworkEnabledValue = S.String;
 
 export interface SettingsGetResultZonesChinaNetworkEnabled {
   /** ID of the zone setting. */
@@ -1603,11 +1798,10 @@ export const SettingsGetResultZonesChinaNetworkEnabled =
   }) as any as S.Schema<SettingsGetResultZonesChinaNetworkEnabled>;
 
 export type SettingsGetResultZonesContentConverterId = "content_converter";
-export const SettingsGetResultZonesContentConverterId = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesContentConverterId = S.String;
 
 export type SettingsGetResultZonesContentConverterValue = "off" | "on";
-export const SettingsGetResultZonesContentConverterValue =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesContentConverterValue = S.String;
 
 export interface SettingsGetResultZonesContentConverter {
   /** ID of the zone setting. */
@@ -1632,7 +1826,7 @@ export const SettingsGetResultZonesContentConverter = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsGetResultZonesContentConverter>;
 
 export type SettingsGetResultCiphersId = "ciphers";
-export const SettingsGetResultCiphersId = /*@__PURE__*/ S.String;
+export const SettingsGetResultCiphersId = S.String;
 
 export type SettingsGetResultCiphersValueList = Array<string>;
 export const SettingsGetResultCiphersValueList = /*@__PURE__*/ S.Array(
@@ -1661,18 +1855,17 @@ export const SettingsGetResultCiphers = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultCiphers>;
 
 export type SettingsGetResultZonesCNAMEFlatteningId = "cname_flattening";
-export const SettingsGetResultZonesCNAMEFlatteningId = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesCNAMEFlatteningId = S.String;
 
 export type SettingsGetResultZonesCNAMEFlatteningValue =
   | "flatten_at_root"
   | "flatten_all";
-export const SettingsGetResultZonesCNAMEFlatteningValue =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesCNAMEFlatteningValue = S.String;
 
 export interface SettingsGetResultZonesCNAMEFlattening {
   /** How to flatten the cname destination. */
   id: SettingsGetResultZonesCNAMEFlatteningId;
-  /** Current value of the zone setting. */
+  /** This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21 */
   value: SettingsGetResultZonesCNAMEFlatteningValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
@@ -1692,10 +1885,10 @@ export const SettingsGetResultZonesCNAMEFlattening = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsGetResultZonesCNAMEFlattening>;
 
 export type SettingsGetResultDevelopmentModeId = "development_mode";
-export const SettingsGetResultDevelopmentModeId = /*@__PURE__*/ S.String;
+export const SettingsGetResultDevelopmentModeId = S.String;
 
 export type SettingsGetResultDevelopmentModeValue = "on" | "off";
-export const SettingsGetResultDevelopmentModeValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultDevelopmentModeValue = S.String;
 
 export interface SettingsGetResultDevelopmentMode {
   /** ID of the zone setting. */
@@ -1706,7 +1899,7 @@ export interface SettingsGetResultDevelopmentMode {
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
-  /** Value of the zone setting. */
+  /** Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false. */
   timeRemaining?: number | null;
 }
 export const SettingsGetResultDevelopmentMode = /*@__PURE__*/ S.suspend(() =>
@@ -1724,10 +1917,10 @@ export const SettingsGetResultDevelopmentMode = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultDevelopmentMode>;
 
 export type SettingsGetResultEarlyHintsId = "early_hints";
-export const SettingsGetResultEarlyHintsId = /*@__PURE__*/ S.String;
+export const SettingsGetResultEarlyHintsId = S.String;
 
 export type SettingsGetResultEarlyHintsValue = "on" | "off";
-export const SettingsGetResultEarlyHintsValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultEarlyHintsValue = S.String;
 
 export interface SettingsGetResultEarlyHints {
   /** ID of the zone setting. */
@@ -1750,11 +1943,10 @@ export const SettingsGetResultEarlyHints = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsGetResultEarlyHints",
 }) as any as S.Schema<SettingsGetResultEarlyHints>;
 
-export type SettingsGetResultZonesSchemasEdgeCacheTTLId = "edge_cache_ttl";
-export const SettingsGetResultZonesSchemasEdgeCacheTTLId =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesEdgeCacheTTL2Id = "edge_cache_ttl";
+export const SettingsGetResultZonesEdgeCacheTTL2Id = S.String;
 
-export type SettingsGetResultZonesSchemasEdgeCacheTTLValue =
+export type SettingsGetResultZonesEdgeCacheTTL2Value =
   | 30
   | 60
   | 300
@@ -1776,67 +1968,62 @@ export type SettingsGetResultZonesSchemasEdgeCacheTTLValue =
   | 432000
   | 518400
   | 604800;
-export const SettingsGetResultZonesSchemasEdgeCacheTTLValue =
-  /*@__PURE__*/ S.Number;
+export const SettingsGetResultZonesEdgeCacheTTL2Value = S.Number;
 
-export interface SettingsGetResultZonesSchemasEdgeCacheTTL {
+export interface SettingsGetResultZonesEdgeCacheTTL2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasEdgeCacheTTLId;
+  id: SettingsGetResultZonesEdgeCacheTTL2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasEdgeCacheTTLValue;
+  value: SettingsGetResultZonesEdgeCacheTTL2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasEdgeCacheTTL =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsGetResultZonesSchemasEdgeCacheTTLId,
-      value: SettingsGetResultZonesSchemasEdgeCacheTTLValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsGetResultZonesSchemasEdgeCacheTTL",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasEdgeCacheTTL>;
+export const SettingsGetResultZonesEdgeCacheTTL2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsGetResultZonesEdgeCacheTTL2Id,
+    value: SettingsGetResultZonesEdgeCacheTTL2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "SettingsGetResultZonesEdgeCacheTTL2",
+}) as any as S.Schema<SettingsGetResultZonesEdgeCacheTTL2>;
 
-export type SettingsGetResultZonesSchemasEmailObfuscationId =
-  "email_obfuscation";
-export const SettingsGetResultZonesSchemasEmailObfuscationId =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesEmailObfuscation2Id = "email_obfuscation";
+export const SettingsGetResultZonesEmailObfuscation2Id = S.String;
 
-export type SettingsGetResultZonesSchemasEmailObfuscationValue = "on" | "off";
-export const SettingsGetResultZonesSchemasEmailObfuscationValue =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesEmailObfuscation2Value = "on" | "off";
+export const SettingsGetResultZonesEmailObfuscation2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasEmailObfuscation {
+export interface SettingsGetResultZonesEmailObfuscation2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasEmailObfuscationId;
+  id: SettingsGetResultZonesEmailObfuscation2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasEmailObfuscationValue;
+  value: SettingsGetResultZonesEmailObfuscation2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasEmailObfuscation =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsGetResultZonesEmailObfuscation2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsGetResultZonesSchemasEmailObfuscationId,
-      value: SettingsGetResultZonesSchemasEmailObfuscationValue,
+      id: SettingsGetResultZonesEmailObfuscation2Id,
+      value: SettingsGetResultZonesEmailObfuscation2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsGetResultZonesSchemasEmailObfuscation",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasEmailObfuscation>;
+).annotate({
+  identifier: "SettingsGetResultZonesEmailObfuscation2",
+}) as any as S.Schema<SettingsGetResultZonesEmailObfuscation2>;
 
 export type SettingsGetResultH2PrioritizationId = "h2_prioritization";
-export const SettingsGetResultH2PrioritizationId = /*@__PURE__*/ S.String;
+export const SettingsGetResultH2PrioritizationId = S.String;
 
 export type SettingsGetResultH2PrioritizationValue = "on" | "off" | "custom";
-export const SettingsGetResultH2PrioritizationValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultH2PrioritizationValue = S.String;
 
 export interface SettingsGetResultH2Prioritization {
   /** ID of the zone setting. */
@@ -1860,10 +2047,10 @@ export const SettingsGetResultH2Prioritization = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultH2Prioritization>;
 
 export type SettingsGetResultHotlinkProtectionId = "hotlink_protection";
-export const SettingsGetResultHotlinkProtectionId = /*@__PURE__*/ S.String;
+export const SettingsGetResultHotlinkProtectionId = S.String;
 
 export type SettingsGetResultHotlinkProtectionValue = "on" | "off";
-export const SettingsGetResultHotlinkProtectionValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultHotlinkProtectionValue = S.String;
 
 export interface SettingsGetResultHotlinkProtection {
   /** ID of the zone setting. */
@@ -1887,10 +2074,10 @@ export const SettingsGetResultHotlinkProtection = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultHotlinkProtection>;
 
 export type SettingsGetResultHTTP2Id = "http2";
-export const SettingsGetResultHTTP2Id = /*@__PURE__*/ S.String;
+export const SettingsGetResultHTTP2Id = S.String;
 
 export type SettingsGetResultHTTP2Value = "on" | "off";
-export const SettingsGetResultHTTP2Value = /*@__PURE__*/ S.String;
+export const SettingsGetResultHTTP2Value = S.String;
 
 export interface SettingsGetResultHTTP2 {
   /** ID of the zone setting. */
@@ -1914,10 +2101,10 @@ export const SettingsGetResultHTTP2 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultHTTP2>;
 
 export type SettingsGetResultHTTP3Id = "http3";
-export const SettingsGetResultHTTP3Id = /*@__PURE__*/ S.String;
+export const SettingsGetResultHTTP3Id = S.String;
 
 export type SettingsGetResultHTTP3Value = "on" | "off";
-export const SettingsGetResultHTTP3Value = /*@__PURE__*/ S.String;
+export const SettingsGetResultHTTP3Value = S.String;
 
 export interface SettingsGetResultHTTP3 {
   /** ID of the zone setting. */
@@ -1941,10 +2128,10 @@ export const SettingsGetResultHTTP3 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultHTTP3>;
 
 export type SettingsGetResultImageResizingId = "image_resizing";
-export const SettingsGetResultImageResizingId = /*@__PURE__*/ S.String;
+export const SettingsGetResultImageResizingId = S.String;
 
 export type SettingsGetResultImageResizingValue = "on" | "off" | "open";
-export const SettingsGetResultImageResizingValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultImageResizingValue = S.String;
 
 export interface SettingsGetResultImageResizing {
   /** ID of the zone setting. */
@@ -1967,41 +2154,39 @@ export const SettingsGetResultImageResizing = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsGetResultImageResizing",
 }) as any as S.Schema<SettingsGetResultImageResizing>;
 
-export type SettingsGetResultZonesSchemasIPGeolocationId = "ip_geolocation";
-export const SettingsGetResultZonesSchemasIPGeolocationId =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesIPGeolocation2Id = "ip_geolocation";
+export const SettingsGetResultZonesIPGeolocation2Id = S.String;
 
-export type SettingsGetResultZonesSchemasIPGeolocationValue = "on" | "off";
-export const SettingsGetResultZonesSchemasIPGeolocationValue =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesIPGeolocation2Value = "on" | "off";
+export const SettingsGetResultZonesIPGeolocation2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasIPGeolocation {
+export interface SettingsGetResultZonesIPGeolocation2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasIPGeolocationId;
+  id: SettingsGetResultZonesIPGeolocation2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasIPGeolocationValue;
+  value: SettingsGetResultZonesIPGeolocation2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasIPGeolocation =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsGetResultZonesIPGeolocation2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsGetResultZonesSchemasIPGeolocationId,
-      value: SettingsGetResultZonesSchemasIPGeolocationValue,
+      id: SettingsGetResultZonesIPGeolocation2Id,
+      value: SettingsGetResultZonesIPGeolocation2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsGetResultZonesSchemasIPGeolocation",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasIPGeolocation>;
+).annotate({
+  identifier: "SettingsGetResultZonesIPGeolocation2",
+}) as any as S.Schema<SettingsGetResultZonesIPGeolocation2>;
 
 export type SettingsGetResultIPV6Id = "ipv6";
-export const SettingsGetResultIPV6Id = /*@__PURE__*/ S.String;
+export const SettingsGetResultIPV6Id = S.String;
 
 export type SettingsGetResultIPV6Value = "off" | "on";
-export const SettingsGetResultIPV6Value = /*@__PURE__*/ S.String;
+export const SettingsGetResultIPV6Value = S.String;
 
 export interface SettingsGetResultIPV6 {
   /** ID of the zone setting. */
@@ -2025,7 +2210,7 @@ export const SettingsGetResultIPV6 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultIPV6>;
 
 export type SettingsGetResultZonesMaxUploadId = "max_upload";
-export const SettingsGetResultZonesMaxUploadId = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesMaxUploadId = S.String;
 
 export type SettingsGetResultZonesMaxUploadValue =
   | 100
@@ -2045,8 +2230,16 @@ export type SettingsGetResultZonesMaxUploadValue =
   | 450
   | 475
   | 500
-  | 1000;
-export const SettingsGetResultZonesMaxUploadValue = /*@__PURE__*/ S.Number;
+  | 1000
+  | 1500
+  | 2000
+  | 2500
+  | 3000
+  | 3500
+  | 4000
+  | 4500
+  | 5000;
+export const SettingsGetResultZonesMaxUploadValue = S.Number;
 
 export interface SettingsGetResultZonesMaxUpload {
   /** identifier of the zone setting. */
@@ -2070,10 +2263,10 @@ export const SettingsGetResultZonesMaxUpload = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultZonesMaxUpload>;
 
 export type SettingsGetResultMinTLSVersionId = "min_tls_version";
-export const SettingsGetResultMinTLSVersionId = /*@__PURE__*/ S.String;
+export const SettingsGetResultMinTLSVersionId = S.String;
 
 export type SettingsGetResultMinTLSVersionValue = "1.0" | "1.1" | "1.2" | "1.3";
-export const SettingsGetResultMinTLSVersionValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultMinTLSVersionValue = S.String;
 
 export interface SettingsGetResultMinTLSVersion {
   /** ID of the zone setting. */
@@ -2096,35 +2289,35 @@ export const SettingsGetResultMinTLSVersion = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsGetResultMinTLSVersion",
 }) as any as S.Schema<SettingsGetResultMinTLSVersion>;
 
-export type SettingsGetResultZonesSchemasMirageId = "mirage";
-export const SettingsGetResultZonesSchemasMirageId = /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesMirage2Id = "mirage";
+export const SettingsGetResultZonesMirage2Id = S.String;
 
-export type SettingsGetResultZonesSchemasMirageValue = "on" | "off";
-export const SettingsGetResultZonesSchemasMirageValue = /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesMirage2Value = "on" | "off";
+export const SettingsGetResultZonesMirage2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasMirage {
+export interface SettingsGetResultZonesMirage2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasMirageId;
-  /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasMirageValue;
+  id: SettingsGetResultZonesMirage2Id;
+  /** Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/ */
+  value: SettingsGetResultZonesMirage2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasMirage = /*@__PURE__*/ S.suspend(() =>
+export const SettingsGetResultZonesMirage2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: SettingsGetResultZonesSchemasMirageId,
-    value: SettingsGetResultZonesSchemasMirageValue,
+    id: SettingsGetResultZonesMirage2Id,
+    value: SettingsGetResultZonesMirage2Value,
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
 ).annotate({
-  identifier: "SettingsGetResultZonesSchemasMirage",
-}) as any as S.Schema<SettingsGetResultZonesSchemasMirage>;
+  identifier: "SettingsGetResultZonesMirage2",
+}) as any as S.Schema<SettingsGetResultZonesMirage2>;
 
 export type SettingsGetResultNELId = "nel";
-export const SettingsGetResultNELId = /*@__PURE__*/ S.String;
+export const SettingsGetResultNELId = S.String;
 
 export interface SettingsGetResultNELValue {
   enabled?: boolean | null;
@@ -2158,44 +2351,40 @@ export const SettingsGetResultNEL = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsGetResultNEL",
 }) as any as S.Schema<SettingsGetResultNEL>;
 
-export type SettingsGetResultZonesSchemasOpportunisticEncryptionId =
+export type SettingsGetResultZonesOpportunisticEncryption2Id =
   "opportunistic_encryption";
-export const SettingsGetResultZonesSchemasOpportunisticEncryptionId =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesOpportunisticEncryption2Id = S.String;
 
-export type SettingsGetResultZonesSchemasOpportunisticEncryptionValue =
-  | "on"
-  | "off";
-export const SettingsGetResultZonesSchemasOpportunisticEncryptionValue =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesOpportunisticEncryption2Value = "on" | "off";
+export const SettingsGetResultZonesOpportunisticEncryption2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasOpportunisticEncryption {
+export interface SettingsGetResultZonesOpportunisticEncryption2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasOpportunisticEncryptionId;
+  id: SettingsGetResultZonesOpportunisticEncryption2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasOpportunisticEncryptionValue;
+  value: SettingsGetResultZonesOpportunisticEncryption2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasOpportunisticEncryption =
+export const SettingsGetResultZonesOpportunisticEncryption2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsGetResultZonesSchemasOpportunisticEncryptionId,
-      value: SettingsGetResultZonesSchemasOpportunisticEncryptionValue,
+      id: SettingsGetResultZonesOpportunisticEncryption2Id,
+      value: SettingsGetResultZonesOpportunisticEncryption2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsGetResultZonesSchemasOpportunisticEncryption",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasOpportunisticEncryption>;
+    identifier: "SettingsGetResultZonesOpportunisticEncryption2",
+  }) as any as S.Schema<SettingsGetResultZonesOpportunisticEncryption2>;
 
 export type SettingsGetResultOpportunisticOnionId = "opportunistic_onion";
-export const SettingsGetResultOpportunisticOnionId = /*@__PURE__*/ S.String;
+export const SettingsGetResultOpportunisticOnionId = S.String;
 
 export type SettingsGetResultOpportunisticOnionValue = "on" | "off";
-export const SettingsGetResultOpportunisticOnionValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultOpportunisticOnionValue = S.String;
 
 export interface SettingsGetResultOpportunisticOnion {
   /** ID of the zone setting. */
@@ -2219,15 +2408,15 @@ export const SettingsGetResultOpportunisticOnion = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultOpportunisticOnion>;
 
 export type SettingsGetResultOrangeToOrangeId = "orange_to_orange";
-export const SettingsGetResultOrangeToOrangeId = /*@__PURE__*/ S.String;
+export const SettingsGetResultOrangeToOrangeId = S.String;
 
 export type SettingsGetResultOrangeToOrangeValue = "on" | "off";
-export const SettingsGetResultOrangeToOrangeValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultOrangeToOrangeValue = S.String;
 
 export interface SettingsGetResultOrangeToOrange {
   /** ID of the zone setting. */
   id: SettingsGetResultOrangeToOrangeId;
-  /** Current value of the zone setting. */
+  /** This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/ */
   value: SettingsGetResultOrangeToOrangeValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
@@ -2245,43 +2434,38 @@ export const SettingsGetResultOrangeToOrange = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsGetResultOrangeToOrange",
 }) as any as S.Schema<SettingsGetResultOrangeToOrange>;
 
-export type SettingsGetResultZonesSchemasOriginErrorPagePassThruId =
+export type SettingsGetResultZonesOriginErrorPagePassThru2Id =
   "origin_error_page_pass_thru";
-export const SettingsGetResultZonesSchemasOriginErrorPagePassThruId =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesOriginErrorPagePassThru2Id = S.String;
 
-export type SettingsGetResultZonesSchemasOriginErrorPagePassThruValue =
-  | "on"
-  | "off";
-export const SettingsGetResultZonesSchemasOriginErrorPagePassThruValue =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesOriginErrorPagePassThru2Value = "on" | "off";
+export const SettingsGetResultZonesOriginErrorPagePassThru2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasOriginErrorPagePassThru {
+export interface SettingsGetResultZonesOriginErrorPagePassThru2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasOriginErrorPagePassThruId;
+  id: SettingsGetResultZonesOriginErrorPagePassThru2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasOriginErrorPagePassThruValue;
+  value: SettingsGetResultZonesOriginErrorPagePassThru2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasOriginErrorPagePassThru =
+export const SettingsGetResultZonesOriginErrorPagePassThru2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsGetResultZonesSchemasOriginErrorPagePassThruId,
-      value: SettingsGetResultZonesSchemasOriginErrorPagePassThruValue,
+      id: SettingsGetResultZonesOriginErrorPagePassThru2Id,
+      value: SettingsGetResultZonesOriginErrorPagePassThru2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsGetResultZonesSchemasOriginErrorPagePassThru",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasOriginErrorPagePassThru>;
+    identifier: "SettingsGetResultZonesOriginErrorPagePassThru2",
+  }) as any as S.Schema<SettingsGetResultZonesOriginErrorPagePassThru2>;
 
 export type SettingsGetResultZonesCacheRulesOriginH2MaxStreamsId =
   "origin_h2_max_streams";
-export const SettingsGetResultZonesCacheRulesOriginH2MaxStreamsId =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesCacheRulesOriginH2MaxStreamsId = S.String;
 
 export interface SettingsGetResultZonesCacheRulesOriginH2MaxStreams {
   /** Value of the zone setting. */
@@ -2304,14 +2488,13 @@ export const SettingsGetResultZonesCacheRulesOriginH2MaxStreams =
 
 export type SettingsGetResultZonesCacheRulesOriginMaxHTTPVersionId =
   "origin_max_http_version";
-export const SettingsGetResultZonesCacheRulesOriginMaxHTTPVersionId =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesCacheRulesOriginMaxHTTPVersionId = S.String;
 
 export type SettingsGetResultZonesCacheRulesOriginMaxHTTPVersionValue =
   | "2"
   | "1";
 export const SettingsGetResultZonesCacheRulesOriginMaxHTTPVersionValue =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsGetResultZonesCacheRulesOriginMaxHTTPVersion {
   /** Value of the zone setting. */
@@ -2334,41 +2517,38 @@ export const SettingsGetResultZonesCacheRulesOriginMaxHTTPVersion =
     identifier: "SettingsGetResultZonesCacheRulesOriginMaxHTTPVersion",
   }) as any as S.Schema<SettingsGetResultZonesCacheRulesOriginMaxHTTPVersion>;
 
-export type SettingsGetResultZonesSchemasPolishId = "polish";
-export const SettingsGetResultZonesSchemasPolishId = /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesPolish2Id = "polish";
+export const SettingsGetResultZonesPolish2Id = S.String;
 
-export type SettingsGetResultZonesSchemasPolishValue =
-  | "off"
-  | "lossless"
-  | "lossy";
-export const SettingsGetResultZonesSchemasPolishValue = /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesPolish2Value = "off" | "lossless" | "lossy";
+export const SettingsGetResultZonesPolish2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasPolish {
+export interface SettingsGetResultZonesPolish2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasPolishId;
+  id: SettingsGetResultZonesPolish2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasPolishValue;
+  value: SettingsGetResultZonesPolish2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasPolish = /*@__PURE__*/ S.suspend(() =>
+export const SettingsGetResultZonesPolish2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: SettingsGetResultZonesSchemasPolishId,
-    value: SettingsGetResultZonesSchemasPolishValue,
+    id: SettingsGetResultZonesPolish2Id,
+    value: SettingsGetResultZonesPolish2Value,
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
 ).annotate({
-  identifier: "SettingsGetResultZonesSchemasPolish",
-}) as any as S.Schema<SettingsGetResultZonesSchemasPolish>;
+  identifier: "SettingsGetResultZonesPolish2",
+}) as any as S.Schema<SettingsGetResultZonesPolish2>;
 
 export type SettingsGetResultPrefetchPreloadId = "prefetch_preload";
-export const SettingsGetResultPrefetchPreloadId = /*@__PURE__*/ S.String;
+export const SettingsGetResultPrefetchPreloadId = S.String;
 
 export type SettingsGetResultPrefetchPreloadValue = "on" | "off";
-export const SettingsGetResultPrefetchPreloadValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultPrefetchPreloadValue = S.String;
 
 export interface SettingsGetResultPrefetchPreload {
   /** ID of the zone setting. */
@@ -2391,16 +2571,43 @@ export const SettingsGetResultPrefetchPreload = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsGetResultPrefetchPreload",
 }) as any as S.Schema<SettingsGetResultPrefetchPreload>;
 
+export type SettingsGetResultZonesPreRenderId = "pre_render";
+export const SettingsGetResultZonesPreRenderId = S.String;
+
+export type SettingsGetResultZonesPreRenderValue = "off" | "on";
+export const SettingsGetResultZonesPreRenderValue = S.String;
+
+export interface SettingsGetResultZonesPreRender {
+  /** ID of the zone setting. */
+  id: SettingsGetResultZonesPreRenderId;
+  /** Current value of the zone setting. */
+  value: SettingsGetResultZonesPreRenderValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const SettingsGetResultZonesPreRender = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsGetResultZonesPreRenderId,
+    value: SettingsGetResultZonesPreRenderValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "SettingsGetResultZonesPreRender",
+}) as any as S.Schema<SettingsGetResultZonesPreRender>;
+
 export type SettingsGetResultZonesPrivacyPassId = "privacy_pass";
-export const SettingsGetResultZonesPrivacyPassId = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesPrivacyPassId = S.String;
 
 export type SettingsGetResultZonesPrivacyPassValue = "on" | "off";
-export const SettingsGetResultZonesPrivacyPassValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesPrivacyPassValue = S.String;
 
 export interface SettingsGetResultZonesPrivacyPass {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesPrivacyPassId;
-  /** Current value of the zone setting. */
+  /** Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31) */
   value: SettingsGetResultZonesPrivacyPassValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
@@ -2419,7 +2626,7 @@ export const SettingsGetResultZonesPrivacyPass = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultZonesPrivacyPass>;
 
 export type SettingsGetResultProxyReadTimeoutId = "proxy_read_timeout";
-export const SettingsGetResultProxyReadTimeoutId = /*@__PURE__*/ S.String;
+export const SettingsGetResultProxyReadTimeoutId = S.String;
 
 export interface SettingsGetResultProxyReadTimeout {
   /** ID of the zone setting. */
@@ -2443,13 +2650,13 @@ export const SettingsGetResultProxyReadTimeout = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultProxyReadTimeout>;
 
 export type SettingsGetResultPseudoIPV4Id = "pseudo_ipv4";
-export const SettingsGetResultPseudoIPV4Id = /*@__PURE__*/ S.String;
+export const SettingsGetResultPseudoIPV4Id = S.String;
 
 export type SettingsGetResultPseudoIPV4Value =
   | "off"
   | "add_header"
   | "overwrite_header";
-export const SettingsGetResultPseudoIPV4Value = /*@__PURE__*/ S.String;
+export const SettingsGetResultPseudoIPV4Value = S.String;
 
 export interface SettingsGetResultPseudoIPV4 {
   /** Value of the Pseudo IPv4 setting. */
@@ -2474,12 +2681,10 @@ export const SettingsGetResultPseudoIPV4 = /*@__PURE__*/ S.suspend(() =>
 
 export type SettingsGetResultZonesRedirectsForAITrainingId =
   "redirects_for_ai_training";
-export const SettingsGetResultZonesRedirectsForAITrainingId =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesRedirectsForAITrainingId = S.String;
 
 export type SettingsGetResultZonesRedirectsForAITrainingValue = "off" | "on";
-export const SettingsGetResultZonesRedirectsForAITrainingValue =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesRedirectsForAITrainingValue = S.String;
 
 export interface SettingsGetResultZonesRedirectsForAITraining {
   /** ID of the zone setting. */
@@ -2504,11 +2709,10 @@ export const SettingsGetResultZonesRedirectsForAITraining =
   }) as any as S.Schema<SettingsGetResultZonesRedirectsForAITraining>;
 
 export type SettingsGetResultZonesReplaceInsecureJSId = "replace_insecure_js";
-export const SettingsGetResultZonesReplaceInsecureJSId = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesReplaceInsecureJSId = S.String;
 
 export type SettingsGetResultZonesReplaceInsecureJSValue = "on" | "off";
-export const SettingsGetResultZonesReplaceInsecureJSValue =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesReplaceInsecureJSValue = S.String;
 
 export interface SettingsGetResultZonesReplaceInsecureJS {
   /** ID of the zone setting. */
@@ -2532,71 +2736,65 @@ export const SettingsGetResultZonesReplaceInsecureJS = /*@__PURE__*/ S.suspend(
   identifier: "SettingsGetResultZonesReplaceInsecureJS",
 }) as any as S.Schema<SettingsGetResultZonesReplaceInsecureJS>;
 
-export type SettingsGetResultZonesSchemasResponseBufferingId =
-  "response_buffering";
-export const SettingsGetResultZonesSchemasResponseBufferingId =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesResponseBuffering2Id = "response_buffering";
+export const SettingsGetResultZonesResponseBuffering2Id = S.String;
 
-export type SettingsGetResultZonesSchemasResponseBufferingValue = "on" | "off";
-export const SettingsGetResultZonesSchemasResponseBufferingValue =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesResponseBuffering2Value = "on" | "off";
+export const SettingsGetResultZonesResponseBuffering2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasResponseBuffering {
+export interface SettingsGetResultZonesResponseBuffering2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasResponseBufferingId;
+  id: SettingsGetResultZonesResponseBuffering2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasResponseBufferingValue;
+  value: SettingsGetResultZonesResponseBuffering2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasResponseBuffering =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsGetResultZonesResponseBuffering2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsGetResultZonesSchemasResponseBufferingId,
-      value: SettingsGetResultZonesSchemasResponseBufferingValue,
+      id: SettingsGetResultZonesResponseBuffering2Id,
+      value: SettingsGetResultZonesResponseBuffering2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsGetResultZonesSchemasResponseBuffering",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasResponseBuffering>;
+).annotate({
+  identifier: "SettingsGetResultZonesResponseBuffering2",
+}) as any as S.Schema<SettingsGetResultZonesResponseBuffering2>;
 
-export type SettingsGetResultZonesSchemasRocketLoaderId = "rocket_loader";
-export const SettingsGetResultZonesSchemasRocketLoaderId =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesRocketLoader2Id = "rocket_loader";
+export const SettingsGetResultZonesRocketLoader2Id = S.String;
 
-export type SettingsGetResultZonesSchemasRocketLoaderValue = "on" | "off";
-export const SettingsGetResultZonesSchemasRocketLoaderValue =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesRocketLoader2Value = "on" | "off";
+export const SettingsGetResultZonesRocketLoader2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasRocketLoader {
+export interface SettingsGetResultZonesRocketLoader2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasRocketLoaderId;
+  id: SettingsGetResultZonesRocketLoader2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasRocketLoaderValue;
+  value: SettingsGetResultZonesRocketLoader2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasRocketLoader =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsGetResultZonesSchemasRocketLoaderId,
-      value: SettingsGetResultZonesSchemasRocketLoaderValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsGetResultZonesSchemasRocketLoader",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasRocketLoader>;
+export const SettingsGetResultZonesRocketLoader2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsGetResultZonesRocketLoader2Id,
+    value: SettingsGetResultZonesRocketLoader2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "SettingsGetResultZonesRocketLoader2",
+}) as any as S.Schema<SettingsGetResultZonesRocketLoader2>;
 
 export type SettingsGetResultZonesSchemasAutomaticPlatformOptimizationId =
   "automatic_platform_optimization";
 export const SettingsGetResultZonesSchemasAutomaticPlatformOptimizationId =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type SettingsGetResultZonesSchemasAutomaticPlatformOptimizationValueHostnamesList =
   Array<string>;
@@ -2658,11 +2856,10 @@ export const SettingsGetResultZonesSchemasAutomaticPlatformOptimization =
   }) as any as S.Schema<SettingsGetResultZonesSchemasAutomaticPlatformOptimization>;
 
 export type SettingsGetResultZonesSearchForAgentsId = "search_for_agents";
-export const SettingsGetResultZonesSearchForAgentsId = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesSearchForAgentsId = S.String;
 
 export type SettingsGetResultZonesSearchForAgentsValue = "off" | "on";
-export const SettingsGetResultZonesSearchForAgentsValue =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesSearchForAgentsValue = S.String;
 
 export interface SettingsGetResultZonesSearchForAgents {
   /** ID of the zone setting. */
@@ -2687,7 +2884,7 @@ export const SettingsGetResultZonesSearchForAgents = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsGetResultZonesSearchForAgents>;
 
 export type SettingsGetResultSecurityHeadersId = "security_header";
-export const SettingsGetResultSecurityHeadersId = /*@__PURE__*/ S.String;
+export const SettingsGetResultSecurityHeadersId = S.String;
 
 export interface SettingsGetResultSecurityHeadersValueStrictTransportSecurity {
   /** Whether or not strict transport security is enabled. */
@@ -2754,47 +2951,45 @@ export const SettingsGetResultSecurityHeaders = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsGetResultSecurityHeaders",
 }) as any as S.Schema<SettingsGetResultSecurityHeaders>;
 
-export type SettingsGetResultZonesSchemasSecurityLevelId = "security_level";
-export const SettingsGetResultZonesSchemasSecurityLevelId =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesSecurityLevel2Id = "security_level";
+export const SettingsGetResultZonesSecurityLevel2Id = S.String;
 
-export type SettingsGetResultZonesSchemasSecurityLevelValue =
+export type SettingsGetResultZonesSecurityLevel2Value =
   | "off"
   | "essentially_off"
   | "low"
   | "medium"
   | "high"
   | "under_attack";
-export const SettingsGetResultZonesSchemasSecurityLevelValue =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesSecurityLevel2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasSecurityLevel {
+export interface SettingsGetResultZonesSecurityLevel2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasSecurityLevelId;
+  id: SettingsGetResultZonesSecurityLevel2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasSecurityLevelValue;
+  value: SettingsGetResultZonesSecurityLevel2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasSecurityLevel =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsGetResultZonesSecurityLevel2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsGetResultZonesSchemasSecurityLevelId,
-      value: SettingsGetResultZonesSchemasSecurityLevelValue,
+      id: SettingsGetResultZonesSecurityLevel2Id,
+      value: SettingsGetResultZonesSecurityLevel2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsGetResultZonesSchemasSecurityLevel",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasSecurityLevel>;
+).annotate({
+  identifier: "SettingsGetResultZonesSecurityLevel2",
+}) as any as S.Schema<SettingsGetResultZonesSecurityLevel2>;
 
 export type SettingsGetResultServerSideExcludesId = "server_side_exclude";
-export const SettingsGetResultServerSideExcludesId = /*@__PURE__*/ S.String;
+export const SettingsGetResultServerSideExcludesId = S.String;
 
 export type SettingsGetResultServerSideExcludesValue = "on" | "off";
-export const SettingsGetResultServerSideExcludesValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultServerSideExcludesValue = S.String;
 
 export interface SettingsGetResultServerSideExcludes {
   /** ID of the zone setting. */
@@ -2818,10 +3013,10 @@ export const SettingsGetResultServerSideExcludes = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultServerSideExcludes>;
 
 export type SettingsGetResultZonesSha1SupportId = "sha1_support";
-export const SettingsGetResultZonesSha1SupportId = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesSha1SupportId = S.String;
 
 export type SettingsGetResultZonesSha1SupportValue = "off" | "on";
-export const SettingsGetResultZonesSha1SupportValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesSha1SupportValue = S.String;
 
 export interface SettingsGetResultZonesSha1Support {
   /** Zone setting identifier. */
@@ -2844,72 +3039,68 @@ export const SettingsGetResultZonesSha1Support = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsGetResultZonesSha1Support",
 }) as any as S.Schema<SettingsGetResultZonesSha1Support>;
 
-export type SettingsGetResultZonesSchemasSortQueryStringForCacheId =
+export type SettingsGetResultZonesSortQueryStringForCache2Id =
   "sort_query_string_for_cache";
-export const SettingsGetResultZonesSchemasSortQueryStringForCacheId =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesSortQueryStringForCache2Id = S.String;
 
-export type SettingsGetResultZonesSchemasSortQueryStringForCacheValue =
-  | "on"
-  | "off";
-export const SettingsGetResultZonesSchemasSortQueryStringForCacheValue =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesSortQueryStringForCache2Value = "on" | "off";
+export const SettingsGetResultZonesSortQueryStringForCache2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasSortQueryStringForCache {
+export interface SettingsGetResultZonesSortQueryStringForCache2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasSortQueryStringForCacheId;
+  id: SettingsGetResultZonesSortQueryStringForCache2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasSortQueryStringForCacheValue;
+  value: SettingsGetResultZonesSortQueryStringForCache2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasSortQueryStringForCache =
+export const SettingsGetResultZonesSortQueryStringForCache2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsGetResultZonesSchemasSortQueryStringForCacheId,
-      value: SettingsGetResultZonesSchemasSortQueryStringForCacheValue,
+      id: SettingsGetResultZonesSortQueryStringForCache2Id,
+      value: SettingsGetResultZonesSortQueryStringForCache2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsGetResultZonesSchemasSortQueryStringForCache",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasSortQueryStringForCache>;
+    identifier: "SettingsGetResultZonesSortQueryStringForCache2",
+  }) as any as S.Schema<SettingsGetResultZonesSortQueryStringForCache2>;
 
-export type SettingsGetResultZonesSchemasSSLId = "ssl";
-export const SettingsGetResultZonesSchemasSSLId = /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesSSL2Id = "ssl";
+export const SettingsGetResultZonesSSL2Id = S.String;
 
-export type SettingsGetResultZonesSchemasSSLValue =
+export type SettingsGetResultZonesSSL2Value =
   | "off"
   | "flexible"
   | "full"
   | "strict";
-export const SettingsGetResultZonesSchemasSSLValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesSSL2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasSSL {
+export interface SettingsGetResultZonesSSL2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasSSLId;
+  id: SettingsGetResultZonesSSL2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasSSLValue;
+  value: SettingsGetResultZonesSSL2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasSSL = /*@__PURE__*/ S.suspend(() =>
+export const SettingsGetResultZonesSSL2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: SettingsGetResultZonesSchemasSSLId,
-    value: SettingsGetResultZonesSchemasSSLValue,
+    id: SettingsGetResultZonesSSL2Id,
+    value: SettingsGetResultZonesSSL2Value,
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
 ).annotate({
-  identifier: "SettingsGetResultZonesSchemasSSL",
-}) as any as S.Schema<SettingsGetResultZonesSchemasSSL>;
+  identifier: "SettingsGetResultZonesSSL2",
+}) as any as S.Schema<SettingsGetResultZonesSSL2>;
 
 export type SettingsGetResultSSLRecommenderId = "ssl_recommender";
-export const SettingsGetResultSSLRecommenderId = /*@__PURE__*/ S.String;
+export const SettingsGetResultSSLRecommenderId = S.String;
 
 export interface SettingsGetResultSSLRecommender {
   /** Enrollment value for SSL/TLS Recommender. */
@@ -2927,10 +3118,10 @@ export const SettingsGetResultSSLRecommender = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultSSLRecommender>;
 
 export type SettingsGetResultZonesTLS12OnlyId = "tls_1_2_only";
-export const SettingsGetResultZonesTLS12OnlyId = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesTLS12OnlyId = S.String;
 
 export type SettingsGetResultZonesTLS12OnlyValue = "off" | "on";
-export const SettingsGetResultZonesTLS12OnlyValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesTLS12OnlyValue = S.String;
 
 export interface SettingsGetResultZonesTLS12Only {
   /** Zone setting identifier. */
@@ -2954,10 +3145,10 @@ export const SettingsGetResultZonesTLS12Only = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultZonesTLS12Only>;
 
 export type SettingsGetResultTLS13Id = "tls_1_3";
-export const SettingsGetResultTLS13Id = /*@__PURE__*/ S.String;
+export const SettingsGetResultTLS13Id = S.String;
 
 export type SettingsGetResultTLS13Value = "on" | "off" | "zrt";
-export const SettingsGetResultTLS13Value = /*@__PURE__*/ S.String;
+export const SettingsGetResultTLS13Value = S.String;
 
 export interface SettingsGetResultTLS13 {
   /** ID of the zone setting. */
@@ -2981,10 +3172,10 @@ export const SettingsGetResultTLS13 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultTLS13>;
 
 export type SettingsGetResultTLSClientAuthId = "tls_client_auth";
-export const SettingsGetResultTLSClientAuthId = /*@__PURE__*/ S.String;
+export const SettingsGetResultTLSClientAuthId = S.String;
 
 export type SettingsGetResultTLSClientAuthValue = "on" | "off";
-export const SettingsGetResultTLSClientAuthValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultTLSClientAuthValue = S.String;
 
 export interface SettingsGetResultTLSClientAuth {
   /** ID of the zone setting. */
@@ -3008,11 +3199,10 @@ export const SettingsGetResultTLSClientAuth = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultTLSClientAuth>;
 
 export type SettingsGetResultZonesTransformationsId = "transformations";
-export const SettingsGetResultZonesTransformationsId = /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesTransformationsId = S.String;
 
 export type SettingsGetResultZonesTransformationsValue = "on" | "off" | "open";
-export const SettingsGetResultZonesTransformationsValue =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesTransformationsValue = S.String;
 
 export interface SettingsGetResultZonesTransformations {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
@@ -3038,8 +3228,7 @@ export const SettingsGetResultZonesTransformations = /*@__PURE__*/ S.suspend(
 
 export type SettingsGetResultZonesTransformationsAllowedOriginsId =
   "transformations_allowed_origins";
-export const SettingsGetResultZonesTransformationsAllowedOriginsId =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesTransformationsAllowedOriginsId = S.String;
 
 export interface SettingsGetResultZonesTransformationsAllowedOrigins {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
@@ -3063,69 +3252,118 @@ export const SettingsGetResultZonesTransformationsAllowedOrigins =
     identifier: "SettingsGetResultZonesTransformationsAllowedOrigins",
   }) as any as S.Schema<SettingsGetResultZonesTransformationsAllowedOrigins>;
 
-export type SettingsGetResultZonesSchemasTrueClientIPHeaderId =
+export type SettingsGetResultZonesTrueClientIPHeader2Id =
   "true_client_ip_header";
-export const SettingsGetResultZonesSchemasTrueClientIPHeaderId =
-  /*@__PURE__*/ S.String;
+export const SettingsGetResultZonesTrueClientIPHeader2Id = S.String;
 
-export type SettingsGetResultZonesSchemasTrueClientIPHeaderValue = "on" | "off";
-export const SettingsGetResultZonesSchemasTrueClientIPHeaderValue =
-  /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesTrueClientIPHeader2Value = "on" | "off";
+export const SettingsGetResultZonesTrueClientIPHeader2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasTrueClientIPHeader {
+export interface SettingsGetResultZonesTrueClientIPHeader2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasTrueClientIPHeaderId;
+  id: SettingsGetResultZonesTrueClientIPHeader2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasTrueClientIPHeaderValue;
+  value: SettingsGetResultZonesTrueClientIPHeader2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasTrueClientIPHeader =
+export const SettingsGetResultZonesTrueClientIPHeader2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsGetResultZonesSchemasTrueClientIPHeaderId,
-      value: SettingsGetResultZonesSchemasTrueClientIPHeaderValue,
+      id: SettingsGetResultZonesTrueClientIPHeader2Id,
+      value: SettingsGetResultZonesTrueClientIPHeader2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsGetResultZonesSchemasTrueClientIPHeader",
-  }) as any as S.Schema<SettingsGetResultZonesSchemasTrueClientIPHeader>;
+    identifier: "SettingsGetResultZonesTrueClientIPHeader2",
+  }) as any as S.Schema<SettingsGetResultZonesTrueClientIPHeader2>;
 
-export type SettingsGetResultZonesSchemasWAFId = "waf";
-export const SettingsGetResultZonesSchemasWAFId = /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesWAF2Id = "waf";
+export const SettingsGetResultZonesWAF2Id = S.String;
 
-export type SettingsGetResultZonesSchemasWAFValue = "on" | "off";
-export const SettingsGetResultZonesSchemasWAFValue = /*@__PURE__*/ S.String;
+export type SettingsGetResultZonesWAF2Value = "on" | "off";
+export const SettingsGetResultZonesWAF2Value = S.String;
 
-export interface SettingsGetResultZonesSchemasWAF {
+export interface SettingsGetResultZonesWAF2 {
   /** ID of the zone setting. */
-  id: SettingsGetResultZonesSchemasWAFId;
+  id: SettingsGetResultZonesWAF2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSchemasWAFValue;
+  value: SettingsGetResultZonesWAF2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsGetResultZonesSchemasWAF = /*@__PURE__*/ S.suspend(() =>
+export const SettingsGetResultZonesWAF2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: SettingsGetResultZonesSchemasWAFId,
-    value: SettingsGetResultZonesSchemasWAFValue,
+    id: SettingsGetResultZonesWAF2Id,
+    value: SettingsGetResultZonesWAF2Value,
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
 ).annotate({
-  identifier: "SettingsGetResultZonesSchemasWAF",
-}) as any as S.Schema<SettingsGetResultZonesSchemasWAF>;
+  identifier: "SettingsGetResultZonesWAF2",
+}) as any as S.Schema<SettingsGetResultZonesWAF2>;
+
+export type SettingsGetResultZonesWebmcpEnabledId = "webmcp_enabled";
+export const SettingsGetResultZonesWebmcpEnabledId = S.String;
+
+export type SettingsGetResultZonesWebmcpEnabledValue = "off" | "on";
+export const SettingsGetResultZonesWebmcpEnabledValue = S.String;
+
+export interface SettingsGetResultZonesWebmcpEnabled {
+  /** ID of the zone setting. */
+  id: SettingsGetResultZonesWebmcpEnabledId;
+  /** Current value of the zone setting. */
+  value: SettingsGetResultZonesWebmcpEnabledValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const SettingsGetResultZonesWebmcpEnabled = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsGetResultZonesWebmcpEnabledId,
+    value: SettingsGetResultZonesWebmcpEnabledValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "SettingsGetResultZonesWebmcpEnabled",
+}) as any as S.Schema<SettingsGetResultZonesWebmcpEnabled>;
+
+export type SettingsGetResultZonesWebmcpPacksId = "webmcp_packs";
+export const SettingsGetResultZonesWebmcpPacksId = S.String;
+
+export interface SettingsGetResultZonesWebmcpPacks {
+  /** ID of the zone setting. */
+  id: SettingsGetResultZonesWebmcpPacksId;
+  /** Current value of the zone setting. */
+  value: string;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const SettingsGetResultZonesWebmcpPacks = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsGetResultZonesWebmcpPacksId,
+    value: S.String,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "SettingsGetResultZonesWebmcpPacks",
+}) as any as S.Schema<SettingsGetResultZonesWebmcpPacks>;
 
 export type SettingsGetResultWebPId = "webp";
-export const SettingsGetResultWebPId = /*@__PURE__*/ S.String;
+export const SettingsGetResultWebPId = S.String;
 
 export type SettingsGetResultWebPValue = "off" | "on";
-export const SettingsGetResultWebPValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultWebPValue = S.String;
 
 export interface SettingsGetResultWebP {
   /** ID of the zone setting. */
@@ -3149,10 +3387,10 @@ export const SettingsGetResultWebP = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsGetResultWebP>;
 
 export type SettingsGetResultWebsocketId = "websockets";
-export const SettingsGetResultWebsocketId = /*@__PURE__*/ S.String;
+export const SettingsGetResultWebsocketId = S.String;
 
 export type SettingsGetResultWebsocketValue = "off" | "on";
-export const SettingsGetResultWebsocketValue = /*@__PURE__*/ S.String;
+export const SettingsGetResultWebsocketValue = S.String;
 
 export interface SettingsGetResultWebsocket {
   /** ID of the zone setting. */
@@ -3180,12 +3418,12 @@ export type SettingsGetResult =
   | SettingsGetResultAdvancedDDoS
   | SettingsGetResultZonesCacheRulesAegis
   | SettingsGetResultAlwaysOnline
-  | SettingsGetResultZonesSchemasAlwaysUseHTTPS
-  | SettingsGetResultZonesSchemasAutomaticHTTPSRewrites
+  | SettingsGetResultZonesAlwaysUseHTTPS2
+  | SettingsGetResultZonesAutomaticHTTPSRewrites2
   | SettingsGetResultBrotli
-  | SettingsGetResultZonesSchemasBrowserCacheTTL
-  | SettingsGetResultZonesSchemasBrowserCheck
-  | SettingsGetResultZonesSchemasCacheLevel
+  | SettingsGetResultZonesBrowserCacheTTL2
+  | SettingsGetResultZonesBrowserCheck2
+  | SettingsGetResultZonesCacheLevel2
   | SettingsGetResultChallengeTTL
   | SettingsGetResultZonesChinaNetworkEnabled
   | SettingsGetResultZonesContentConverter
@@ -3193,118 +3431,197 @@ export type SettingsGetResult =
   | SettingsGetResultZonesCNAMEFlattening
   | SettingsGetResultDevelopmentMode
   | SettingsGetResultEarlyHints
-  | SettingsGetResultZonesSchemasEdgeCacheTTL
-  | SettingsGetResultZonesSchemasEmailObfuscation
+  | SettingsGetResultZonesEdgeCacheTTL2
+  | SettingsGetResultZonesEmailObfuscation2
   | SettingsGetResultH2Prioritization
   | SettingsGetResultHotlinkProtection
   | SettingsGetResultHTTP2
   | SettingsGetResultHTTP3
   | SettingsGetResultImageResizing
-  | SettingsGetResultZonesSchemasIPGeolocation
+  | SettingsGetResultZonesIPGeolocation2
   | SettingsGetResultIPV6
   | SettingsGetResultZonesMaxUpload
   | SettingsGetResultMinTLSVersion
-  | SettingsGetResultZonesSchemasMirage
+  | SettingsGetResultZonesMirage2
   | SettingsGetResultNEL
-  | SettingsGetResultZonesSchemasOpportunisticEncryption
+  | SettingsGetResultZonesOpportunisticEncryption2
   | SettingsGetResultOpportunisticOnion
   | SettingsGetResultOrangeToOrange
-  | SettingsGetResultZonesSchemasOriginErrorPagePassThru
+  | SettingsGetResultZonesOriginErrorPagePassThru2
   | SettingsGetResultZonesCacheRulesOriginH2MaxStreams
   | SettingsGetResultZonesCacheRulesOriginMaxHTTPVersion
-  | SettingsGetResultZonesSchemasPolish
+  | SettingsGetResultZonesPolish2
   | SettingsGetResultPrefetchPreload
+  | SettingsGetResultZonesPreRender
   | SettingsGetResultZonesPrivacyPass
   | SettingsGetResultProxyReadTimeout
   | SettingsGetResultPseudoIPV4
   | SettingsGetResultZonesRedirectsForAITraining
   | SettingsGetResultZonesReplaceInsecureJS
-  | SettingsGetResultZonesSchemasResponseBuffering
-  | SettingsGetResultZonesSchemasRocketLoader
+  | SettingsGetResultZonesResponseBuffering2
+  | SettingsGetResultZonesRocketLoader2
   | SettingsGetResultZonesSchemasAutomaticPlatformOptimization
   | SettingsGetResultZonesSearchForAgents
   | SettingsGetResultSecurityHeaders
-  | SettingsGetResultZonesSchemasSecurityLevel
+  | SettingsGetResultZonesSecurityLevel2
   | SettingsGetResultServerSideExcludes
   | SettingsGetResultZonesSha1Support
-  | SettingsGetResultZonesSchemasSortQueryStringForCache
-  | SettingsGetResultZonesSchemasSSL
+  | SettingsGetResultZonesSortQueryStringForCache2
+  | SettingsGetResultZonesSSL2
   | SettingsGetResultSSLRecommender
   | SettingsGetResultZonesTLS12Only
   | SettingsGetResultTLS13
   | SettingsGetResultTLSClientAuth
   | SettingsGetResultZonesTransformations
   | SettingsGetResultZonesTransformationsAllowedOrigins
-  | SettingsGetResultZonesSchemasTrueClientIPHeader
-  | SettingsGetResultZonesSchemasWAF
+  | SettingsGetResultZonesTrueClientIPHeader2
+  | SettingsGetResultZonesWAF2
+  | SettingsGetResultZonesWebmcpEnabled
+  | SettingsGetResultZonesWebmcpPacks
   | SettingsGetResultWebP
   | SettingsGetResultWebsocket;
 export const SettingsGetResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "modifiedOn", "value"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn", "timeRemaining"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "modifiedOn", "value"],
-    ["id", "modifiedOn", "value"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "enabled"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-  ]),
+  T.UnionCases(
+    [
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "modifiedOn", "value"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn", "timeRemaining"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "modifiedOn", "value"],
+      ["id", "modifiedOn", "value"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "enabled"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+    ],
+    {
+      key: "id",
+      values: [
+        "0rtt",
+        "advanced_ddos",
+        "aegis",
+        "always_online",
+        "always_use_https",
+        "automatic_https_rewrites",
+        "brotli",
+        "browser_cache_ttl",
+        "browser_check",
+        "cache_level",
+        "challenge_ttl",
+        "china_network_enabled",
+        "content_converter",
+        "ciphers",
+        "cname_flattening",
+        "development_mode",
+        "early_hints",
+        "edge_cache_ttl",
+        "email_obfuscation",
+        "h2_prioritization",
+        "hotlink_protection",
+        "http2",
+        "http3",
+        "image_resizing",
+        "ip_geolocation",
+        "ipv6",
+        "max_upload",
+        "min_tls_version",
+        "mirage",
+        "nel",
+        "opportunistic_encryption",
+        "opportunistic_onion",
+        "orange_to_orange",
+        "origin_error_page_pass_thru",
+        "origin_h2_max_streams",
+        "origin_max_http_version",
+        "polish",
+        "prefetch_preload",
+        "pre_render",
+        "privacy_pass",
+        "proxy_read_timeout",
+        "pseudo_ipv4",
+        "redirects_for_ai_training",
+        "replace_insecure_js",
+        "response_buffering",
+        "rocket_loader",
+        "automatic_platform_optimization",
+        "search_for_agents",
+        "security_header",
+        "security_level",
+        "server_side_exclude",
+        "sha1_support",
+        "sort_query_string_for_cache",
+        "ssl",
+        "ssl_recommender",
+        "tls_1_2_only",
+        "tls_1_3",
+        "tls_client_auth",
+        "transformations",
+        "transformations_allowed_origins",
+        "true_client_ip_header",
+        "waf",
+        "webmcp_enabled",
+        "webmcp_packs",
+        "webp",
+        "websockets",
+      ],
+    },
+  ),
 );
 
 export type GetSettingResponse = SettingsGetResult;
@@ -3343,7 +3660,7 @@ export type SubscriptionsGetResponseFrequency =
   | "quarterly"
   | "yearly"
   | "not-applicable";
-export const SubscriptionsGetResponseFrequency = /*@__PURE__*/ S.String;
+export const SubscriptionsGetResponseFrequency = S.String;
 
 export type SubscriptionsGetResponseRatePlanId =
   | "free"
@@ -3356,7 +3673,7 @@ export type SubscriptionsGetResponseRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
-export const SubscriptionsGetResponseRatePlanId = /*@__PURE__*/ S.String;
+export const SubscriptionsGetResponseRatePlanId = S.String;
 
 export type SubscriptionsGetResponseRatePlanSetsList = Array<string>;
 export const SubscriptionsGetResponseRatePlanSetsList = /*@__PURE__*/ S.Array(
@@ -3403,7 +3720,7 @@ export type SubscriptionsGetResponseState =
   | "Cancelled"
   | "Failed"
   | "Expired";
-export const SubscriptionsGetResponseState = /*@__PURE__*/ S.String;
+export const SubscriptionsGetResponseState = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSubscriptionResponse {
@@ -3445,6 +3762,105 @@ export const GetSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetSubscriptionResponse",
 }) as any as S.Schema<GetSubscriptionResponse>;
 
+export interface GetTransformationsAllowedOriginRequest {
+  /** Identifier. */
+  zoneId: string;
+}
+export const GetTransformationsAllowedOriginRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      zoneId: S.String.pipe(T.Label("zone_id")),
+    })
+      .pipe(
+        T.Http({
+          method: "GET",
+          uri: "/zones/{zone_id}/settings/transformations_allowed_origins",
+          code: 200,
+        }),
+      )
+      .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetTransformationsAllowedOriginRequest",
+}) as any as S.Schema<GetTransformationsAllowedOriginRequest>;
+
+export type GetTransformationsAllowedOriginResponseId =
+  "image_resizing_allowed_origins";
+export const GetTransformationsAllowedOriginResponseId = S.String;
+
+export type GetTransformationsAllowedOriginResponseValue = "on" | "off";
+export const GetTransformationsAllowedOriginResponseValue = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetTransformationsAllowedOriginResponse {
+  /** ID of the zone setting. */
+  id?: GetTransformationsAllowedOriginResponseId | null;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+  /** Comma-separated list of allowed origin domains for image and video transformations. Use "*" to allow all origins (default). */
+  value?: GetTransformationsAllowedOriginResponseValue | null;
+}
+export const GetTransformationsAllowedOriginResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.NullOr(GetTransformationsAllowedOriginResponseId)),
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+      value: S.optional(S.NullOr(GetTransformationsAllowedOriginResponseValue)),
+    }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetTransformationsAllowedOriginResponse",
+}) as any as S.Schema<GetTransformationsAllowedOriginResponse>;
+
+export interface GetTransformationsC2paRequest {
+  /** Identifier. */
+  zoneId: string;
+}
+export const GetTransformationsC2paRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/zones/{zone_id}/settings/transformations_c2pa",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetTransformationsC2paRequest",
+}) as any as S.Schema<GetTransformationsC2paRequest>;
+
+export type GetTransformationsC2paResponseId = "image_resizing_c2pa";
+export const GetTransformationsC2paResponseId = S.String;
+
+export type GetTransformationsC2paResponseValue = "on" | "off";
+export const GetTransformationsC2paResponseValue = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetTransformationsC2paResponse {
+  /** ID of the zone setting. */
+  id?: GetTransformationsC2paResponseId | null;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+  /** Current value of the zone setting. */
+  value?: GetTransformationsC2paResponseValue | null;
+}
+export const GetTransformationsC2paResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.NullOr(GetTransformationsC2paResponseId)),
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    value: S.optional(S.NullOr(GetTransformationsC2paResponseValue)),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetTransformationsC2paResponse",
+}) as any as S.Schema<GetTransformationsC2paResponse>;
+
 export interface GetZoneRequest {
   /** Identifier */
   zoneId: string;
@@ -3485,7 +3901,7 @@ export const GetResponsePermissionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GetResponsePermissionsList>;
 
 export type GetResponseStatus = "initializing" | "pending" | "active" | "moved";
-export const GetResponseStatus = /*@__PURE__*/ S.String;
+export const GetResponseStatus = S.String;
 
 export type GetResponseTenant = CreateResponseTenant;
 export const GetResponseTenant = CreateResponseTenant;
@@ -3494,7 +3910,7 @@ export type GetResponseTenantUnit = CreateResponseTenantUnit;
 export const GetResponseTenantUnit = CreateResponseTenantUnit;
 
 export type GetResponseType = "full" | "partial" | "secondary" | "internal";
-export const GetResponseType = /*@__PURE__*/ S.String;
+export const GetResponseType = S.String;
 
 export type GetResponseVanityNameServersList = Array<string>;
 export const GetResponseVanityNameServersList = /*@__PURE__*/ S.Array(
@@ -3507,11 +3923,11 @@ export interface GetZoneResponse {
   id: string;
   /** The account the zone belongs to. */
   account: CreateResponseAccount;
-  /** The last time proof of ownership was detected and the zone was made */
+  /** The last time proof of ownership was detected and the zone was made active. */
   activatedOn: string;
   /** When the zone was created. */
   createdOn: string;
-  /** The interval (in seconds) from when development mode expires */
+  /** The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is 0. */
   developmentMode: number;
   /** Metadata about the zone. */
   meta: CreateResponseMeta;
@@ -3529,13 +3945,13 @@ export interface GetZoneResponse {
   originalRegistrar: string;
   /** The owner of the zone. */
   owner: CreateResponseOwner;
-  /** A Zones subscription information. */
+  /** Please use the `/zones/{zone_id}/subscription` API to update a zone's plan. Changing this value will create/cancel associated subscriptions. To view available plans for this zone, see [Zone Plans](https://developers.cloudflare.com/api/resources/zones/subresources/plans/). */
   plan: CreateResponsePlan;
-  /** Allows the customer to use a custom apex. */
+  /** Allows the customer to use a custom apex. *Tenants Only Configuration*. */
   cnameSuffix?: string | null;
-  /** Indicates whether the zone is only using Cloudflare DNS services. A */
+  /** Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits. */
   paused?: boolean | null;
-  /** Legacy permissions based on legacy user membership information. */
+  /** This has been replaced by Account memberships. */
   permissions?: GetResponsePermissionsList | null;
   /** The zone status on Cloudflare. */
   status?: GetResponseStatus | null;
@@ -3543,7 +3959,7 @@ export interface GetZoneResponse {
   tenant?: CreateResponseTenant | null;
   /** The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization). */
   tenantUnit?: CreateResponseTenantUnit | null;
-  /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is */
+  /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. */
   type?: GetResponseType | null;
   /** An array of domains used for custom name servers. This is only available for Business and Enterprise plans. */
   vanityNameServers?: GetResponseVanityNameServersList | null;
@@ -3662,7 +4078,7 @@ export type PlansListResultItemFrequency =
   | "monthly"
   | "quarterly"
   | "yearly";
-export const PlansListResultItemFrequency = /*@__PURE__*/ S.String;
+export const PlansListResultItemFrequency = S.String;
 
 export interface PlansListResultItem {
   /** Identifier */
@@ -3677,8 +4093,6 @@ export interface PlansListResultItem {
   frequency?: PlansListResultItemFrequency | null;
   /** Indicates whether you are currently subscribed to this plan. */
   isSubscribed?: boolean | null;
-  /** Indicates whether this plan has a legacy discount applied. */
-  legacyDiscount?: boolean | null;
   /** The legacy identifier for this rate plan, if any. */
   legacyId?: string | null;
   /** The plan name. */
@@ -3696,9 +4110,6 @@ export const PlansListResultItem = /*@__PURE__*/ S.suspend(() =>
     ),
     frequency: S.optional(S.NullOr(PlansListResultItemFrequency)),
     isSubscribed: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_subscribed"))),
-    legacyDiscount: S.optional(
-      S.NullOr(S.Boolean).pipe(T.Body("legacy_discount")),
-    ),
     legacyId: S.optional(S.NullOr(S.String).pipe(T.Body("legacy_id"))),
     name: S.optional(S.NullOr(S.String)),
     price: S.optional(S.NullOr(S.Number)),
@@ -3727,6 +4138,2191 @@ export const ListPlansResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListPlansResponse",
 }) as any as S.Schema<ListPlansResponse>;
 
+export interface ListSettingsRequest {
+  /** Identifier */
+  zoneId: string;
+}
+export const ListSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/settings", code: 200 }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListSettingsRequest",
+}) as any as S.Schema<ListSettingsRequest>;
+
+export type ListSettingsResultItemZeroRTTId = "0rtt";
+export const ListSettingsResultItemZeroRTTId = S.String;
+
+export type ListSettingsResultItemZeroRTTValue = "on" | "off";
+export const ListSettingsResultItemZeroRTTValue = S.String;
+
+export interface ListSettingsResultItemZeroRTT {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZeroRTTId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZeroRTTValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZeroRTT = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemZeroRTTId,
+    value: ListSettingsResultItemZeroRTTValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemZeroRTT",
+}) as any as S.Schema<ListSettingsResultItemZeroRTT>;
+
+export type ListSettingsResultItemAdvancedDDoSId = "advanced_ddos";
+export const ListSettingsResultItemAdvancedDDoSId = S.String;
+
+export type ListSettingsResultItemAdvancedDDoSValue = "on" | "off";
+export const ListSettingsResultItemAdvancedDDoSValue = S.String;
+
+export interface ListSettingsResultItemAdvancedDDoS {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemAdvancedDDoSId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemAdvancedDDoSValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemAdvancedDDoS = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemAdvancedDDoSId,
+    value: ListSettingsResultItemAdvancedDDoSValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemAdvancedDDoS",
+}) as any as S.Schema<ListSettingsResultItemAdvancedDDoS>;
+
+export type ListSettingsResultItemZonesCacheRulesAegisId = "aegis";
+export const ListSettingsResultItemZonesCacheRulesAegisId = S.String;
+
+export type ListSettingsResultItemZonesCacheRulesAegisValue =
+  SettingsGetResultZonesCacheRulesAegisValue;
+export const ListSettingsResultItemZonesCacheRulesAegisValue =
+  SettingsGetResultZonesCacheRulesAegisValue;
+
+export interface ListSettingsResultItemZonesCacheRulesAegis {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesCacheRulesAegisId;
+  /** Last time this setting was modified. */
+  modifiedOn?: string | null;
+  /** Value of the zone setting. */
+  value?: SettingsGetResultZonesCacheRulesAegisValue | null;
+}
+export const ListSettingsResultItemZonesCacheRulesAegis =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesCacheRulesAegisId,
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+      value: S.optional(S.NullOr(SettingsGetResultZonesCacheRulesAegisValue)),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesCacheRulesAegis",
+  }) as any as S.Schema<ListSettingsResultItemZonesCacheRulesAegis>;
+
+export type ListSettingsResultItemAlwaysOnlineId = "always_online";
+export const ListSettingsResultItemAlwaysOnlineId = S.String;
+
+export type ListSettingsResultItemAlwaysOnlineValue = "on" | "off";
+export const ListSettingsResultItemAlwaysOnlineValue = S.String;
+
+export interface ListSettingsResultItemAlwaysOnline {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemAlwaysOnlineId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemAlwaysOnlineValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemAlwaysOnline = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemAlwaysOnlineId,
+    value: ListSettingsResultItemAlwaysOnlineValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemAlwaysOnline",
+}) as any as S.Schema<ListSettingsResultItemAlwaysOnline>;
+
+export type ListSettingsResultItemZonesAlwaysUseHTTPS2Id = "always_use_https";
+export const ListSettingsResultItemZonesAlwaysUseHTTPS2Id = S.String;
+
+export type ListSettingsResultItemZonesAlwaysUseHTTPS2Value = "on" | "off";
+export const ListSettingsResultItemZonesAlwaysUseHTTPS2Value = S.String;
+
+export interface ListSettingsResultItemZonesAlwaysUseHTTPS2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesAlwaysUseHTTPS2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesAlwaysUseHTTPS2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesAlwaysUseHTTPS2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesAlwaysUseHTTPS2Id,
+      value: ListSettingsResultItemZonesAlwaysUseHTTPS2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesAlwaysUseHTTPS2",
+  }) as any as S.Schema<ListSettingsResultItemZonesAlwaysUseHTTPS2>;
+
+export type ListSettingsResultItemZonesAutomaticHTTPSRewrites2Id =
+  "automatic_https_rewrites";
+export const ListSettingsResultItemZonesAutomaticHTTPSRewrites2Id = S.String;
+
+export type ListSettingsResultItemZonesAutomaticHTTPSRewrites2Value =
+  | "on"
+  | "off";
+export const ListSettingsResultItemZonesAutomaticHTTPSRewrites2Value = S.String;
+
+export interface ListSettingsResultItemZonesAutomaticHTTPSRewrites2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesAutomaticHTTPSRewrites2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesAutomaticHTTPSRewrites2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesAutomaticHTTPSRewrites2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesAutomaticHTTPSRewrites2Id,
+      value: ListSettingsResultItemZonesAutomaticHTTPSRewrites2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesAutomaticHTTPSRewrites2",
+  }) as any as S.Schema<ListSettingsResultItemZonesAutomaticHTTPSRewrites2>;
+
+export type ListSettingsResultItemBrotliId = "brotli";
+export const ListSettingsResultItemBrotliId = S.String;
+
+export type ListSettingsResultItemBrotliValue = "off" | "on";
+export const ListSettingsResultItemBrotliValue = S.String;
+
+export interface ListSettingsResultItemBrotli {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemBrotliId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemBrotliValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemBrotli = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemBrotliId,
+    value: ListSettingsResultItemBrotliValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemBrotli",
+}) as any as S.Schema<ListSettingsResultItemBrotli>;
+
+export type ListSettingsResultItemZonesBrowserCacheTTL2Id = "browser_cache_ttl";
+export const ListSettingsResultItemZonesBrowserCacheTTL2Id = S.String;
+
+export interface ListSettingsResultItemZonesBrowserCacheTTL2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesBrowserCacheTTL2Id;
+  /** Current value of the zone setting. */
+  value: number;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesBrowserCacheTTL2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesBrowserCacheTTL2Id,
+      value: S.Number,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesBrowserCacheTTL2",
+  }) as any as S.Schema<ListSettingsResultItemZonesBrowserCacheTTL2>;
+
+export type ListSettingsResultItemZonesBrowserCheck2Id = "browser_check";
+export const ListSettingsResultItemZonesBrowserCheck2Id = S.String;
+
+export type ListSettingsResultItemZonesBrowserCheck2Value = "on" | "off";
+export const ListSettingsResultItemZonesBrowserCheck2Value = S.String;
+
+export interface ListSettingsResultItemZonesBrowserCheck2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesBrowserCheck2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesBrowserCheck2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesBrowserCheck2 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemZonesBrowserCheck2Id,
+      value: ListSettingsResultItemZonesBrowserCheck2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesBrowserCheck2",
+}) as any as S.Schema<ListSettingsResultItemZonesBrowserCheck2>;
+
+export type ListSettingsResultItemZonesCacheLevel2Id = "cache_level";
+export const ListSettingsResultItemZonesCacheLevel2Id = S.String;
+
+export type ListSettingsResultItemZonesCacheLevel2Value =
+  | "aggressive"
+  | "basic"
+  | "simplified";
+export const ListSettingsResultItemZonesCacheLevel2Value = S.String;
+
+export interface ListSettingsResultItemZonesCacheLevel2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesCacheLevel2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesCacheLevel2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesCacheLevel2 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemZonesCacheLevel2Id,
+      value: ListSettingsResultItemZonesCacheLevel2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesCacheLevel2",
+}) as any as S.Schema<ListSettingsResultItemZonesCacheLevel2>;
+
+export type ListSettingsResultItemChallengeTTLId = "challenge_ttl";
+export const ListSettingsResultItemChallengeTTLId = S.String;
+
+export type ListSettingsResultItemChallengeTTLValue =
+  | 300
+  | 900
+  | 1800
+  | 2700
+  | 3600
+  | 7200
+  | 10800
+  | 14400
+  | 28800
+  | 57600
+  | 86400
+  | 604800
+  | 2592000
+  | 31536000;
+export const ListSettingsResultItemChallengeTTLValue = S.Number;
+
+export interface ListSettingsResultItemChallengeTTL {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemChallengeTTLId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemChallengeTTLValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemChallengeTTL = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemChallengeTTLId,
+    value: ListSettingsResultItemChallengeTTLValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemChallengeTTL",
+}) as any as S.Schema<ListSettingsResultItemChallengeTTL>;
+
+export type ListSettingsResultItemCiphersId = "ciphers";
+export const ListSettingsResultItemCiphersId = S.String;
+
+export type ListSettingsResultItemCiphersValueList = Array<string>;
+export const ListSettingsResultItemCiphersValueList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListSettingsResultItemCiphersValueList>;
+
+export interface ListSettingsResultItemCiphers {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemCiphersId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemCiphersValueList;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemCiphers = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemCiphersId,
+    value: ListSettingsResultItemCiphersValueList,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemCiphers",
+}) as any as S.Schema<ListSettingsResultItemCiphers>;
+
+export type ListSettingsResultItemZonesContentConverterId = "content_converter";
+export const ListSettingsResultItemZonesContentConverterId = S.String;
+
+export type ListSettingsResultItemZonesContentConverterValue = "off" | "on";
+export const ListSettingsResultItemZonesContentConverterValue = S.String;
+
+export interface ListSettingsResultItemZonesContentConverter {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesContentConverterId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesContentConverterValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesContentConverter =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesContentConverterId,
+      value: ListSettingsResultItemZonesContentConverterValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesContentConverter",
+  }) as any as S.Schema<ListSettingsResultItemZonesContentConverter>;
+
+export type ListSettingsResultItemZonesCNAMEFlatteningId = "cname_flattening";
+export const ListSettingsResultItemZonesCNAMEFlatteningId = S.String;
+
+export type ListSettingsResultItemZonesCNAMEFlatteningValue =
+  | "flatten_at_root"
+  | "flatten_all";
+export const ListSettingsResultItemZonesCNAMEFlatteningValue = S.String;
+
+export interface ListSettingsResultItemZonesCNAMEFlattening {
+  /** How to flatten the cname destination. */
+  id: ListSettingsResultItemZonesCNAMEFlatteningId;
+  /** This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21 */
+  value: ListSettingsResultItemZonesCNAMEFlatteningValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesCNAMEFlattening =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesCNAMEFlatteningId,
+      value: ListSettingsResultItemZonesCNAMEFlatteningValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesCNAMEFlattening",
+  }) as any as S.Schema<ListSettingsResultItemZonesCNAMEFlattening>;
+
+export type ListSettingsResultItemDevelopmentModeId = "development_mode";
+export const ListSettingsResultItemDevelopmentModeId = S.String;
+
+export type ListSettingsResultItemDevelopmentModeValue = "on" | "off";
+export const ListSettingsResultItemDevelopmentModeValue = S.String;
+
+export interface ListSettingsResultItemDevelopmentMode {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemDevelopmentModeId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemDevelopmentModeValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+  /** Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false. */
+  timeRemaining?: number | null;
+}
+export const ListSettingsResultItemDevelopmentMode = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemDevelopmentModeId,
+      value: ListSettingsResultItemDevelopmentModeValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+      timeRemaining: S.optional(
+        S.NullOr(S.Number).pipe(T.Body("time_remaining")),
+      ),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemDevelopmentMode",
+}) as any as S.Schema<ListSettingsResultItemDevelopmentMode>;
+
+export type ListSettingsResultItemEarlyHintsId = "early_hints";
+export const ListSettingsResultItemEarlyHintsId = S.String;
+
+export type ListSettingsResultItemEarlyHintsValue = "on" | "off";
+export const ListSettingsResultItemEarlyHintsValue = S.String;
+
+export interface ListSettingsResultItemEarlyHints {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemEarlyHintsId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemEarlyHintsValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemEarlyHints = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemEarlyHintsId,
+    value: ListSettingsResultItemEarlyHintsValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemEarlyHints",
+}) as any as S.Schema<ListSettingsResultItemEarlyHints>;
+
+export type ListSettingsResultItemZonesEdgeCacheTTL2Id = "edge_cache_ttl";
+export const ListSettingsResultItemZonesEdgeCacheTTL2Id = S.String;
+
+export type ListSettingsResultItemZonesEdgeCacheTTL2Value =
+  | 30
+  | 60
+  | 300
+  | 1200
+  | 1800
+  | 3600
+  | 7200
+  | 10800
+  | 14400
+  | 18000
+  | 28800
+  | 43200
+  | 57600
+  | 72000
+  | 86400
+  | 172800
+  | 259200
+  | 345600
+  | 432000
+  | 518400
+  | 604800;
+export const ListSettingsResultItemZonesEdgeCacheTTL2Value = S.Number;
+
+export interface ListSettingsResultItemZonesEdgeCacheTTL2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesEdgeCacheTTL2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesEdgeCacheTTL2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesEdgeCacheTTL2 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemZonesEdgeCacheTTL2Id,
+      value: ListSettingsResultItemZonesEdgeCacheTTL2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesEdgeCacheTTL2",
+}) as any as S.Schema<ListSettingsResultItemZonesEdgeCacheTTL2>;
+
+export type ListSettingsResultItemZonesEmailObfuscation2Id =
+  "email_obfuscation";
+export const ListSettingsResultItemZonesEmailObfuscation2Id = S.String;
+
+export type ListSettingsResultItemZonesEmailObfuscation2Value = "on" | "off";
+export const ListSettingsResultItemZonesEmailObfuscation2Value = S.String;
+
+export interface ListSettingsResultItemZonesEmailObfuscation2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesEmailObfuscation2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesEmailObfuscation2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesEmailObfuscation2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesEmailObfuscation2Id,
+      value: ListSettingsResultItemZonesEmailObfuscation2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesEmailObfuscation2",
+  }) as any as S.Schema<ListSettingsResultItemZonesEmailObfuscation2>;
+
+export type ListSettingsResultItemH2PrioritizationId = "h2_prioritization";
+export const ListSettingsResultItemH2PrioritizationId = S.String;
+
+export type ListSettingsResultItemH2PrioritizationValue =
+  | "on"
+  | "off"
+  | "custom";
+export const ListSettingsResultItemH2PrioritizationValue = S.String;
+
+export interface ListSettingsResultItemH2Prioritization {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemH2PrioritizationId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemH2PrioritizationValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemH2Prioritization = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemH2PrioritizationId,
+      value: ListSettingsResultItemH2PrioritizationValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemH2Prioritization",
+}) as any as S.Schema<ListSettingsResultItemH2Prioritization>;
+
+export type ListSettingsResultItemHotlinkProtectionId = "hotlink_protection";
+export const ListSettingsResultItemHotlinkProtectionId = S.String;
+
+export type ListSettingsResultItemHotlinkProtectionValue = "on" | "off";
+export const ListSettingsResultItemHotlinkProtectionValue = S.String;
+
+export interface ListSettingsResultItemHotlinkProtection {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemHotlinkProtectionId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemHotlinkProtectionValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemHotlinkProtection = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemHotlinkProtectionId,
+      value: ListSettingsResultItemHotlinkProtectionValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemHotlinkProtection",
+}) as any as S.Schema<ListSettingsResultItemHotlinkProtection>;
+
+export type ListSettingsResultItemHTTP2Id = "http2";
+export const ListSettingsResultItemHTTP2Id = S.String;
+
+export type ListSettingsResultItemHTTP2Value = "on" | "off";
+export const ListSettingsResultItemHTTP2Value = S.String;
+
+export interface ListSettingsResultItemHTTP2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemHTTP2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemHTTP2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemHTTP2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemHTTP2Id,
+    value: ListSettingsResultItemHTTP2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemHTTP2",
+}) as any as S.Schema<ListSettingsResultItemHTTP2>;
+
+export type ListSettingsResultItemHTTP3Id = "http3";
+export const ListSettingsResultItemHTTP3Id = S.String;
+
+export type ListSettingsResultItemHTTP3Value = "on" | "off";
+export const ListSettingsResultItemHTTP3Value = S.String;
+
+export interface ListSettingsResultItemHTTP3 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemHTTP3Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemHTTP3Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemHTTP3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemHTTP3Id,
+    value: ListSettingsResultItemHTTP3Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemHTTP3",
+}) as any as S.Schema<ListSettingsResultItemHTTP3>;
+
+export type ListSettingsResultItemImageResizingId = "image_resizing";
+export const ListSettingsResultItemImageResizingId = S.String;
+
+export type ListSettingsResultItemImageResizingValue = "on" | "off" | "open";
+export const ListSettingsResultItemImageResizingValue = S.String;
+
+export interface ListSettingsResultItemImageResizing {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemImageResizingId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemImageResizingValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemImageResizing = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemImageResizingId,
+    value: ListSettingsResultItemImageResizingValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemImageResizing",
+}) as any as S.Schema<ListSettingsResultItemImageResizing>;
+
+export type ListSettingsResultItemZonesIPGeolocation2Id = "ip_geolocation";
+export const ListSettingsResultItemZonesIPGeolocation2Id = S.String;
+
+export type ListSettingsResultItemZonesIPGeolocation2Value = "on" | "off";
+export const ListSettingsResultItemZonesIPGeolocation2Value = S.String;
+
+export interface ListSettingsResultItemZonesIPGeolocation2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesIPGeolocation2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesIPGeolocation2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesIPGeolocation2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesIPGeolocation2Id,
+      value: ListSettingsResultItemZonesIPGeolocation2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesIPGeolocation2",
+  }) as any as S.Schema<ListSettingsResultItemZonesIPGeolocation2>;
+
+export type ListSettingsResultItemIPV6Id = "ipv6";
+export const ListSettingsResultItemIPV6Id = S.String;
+
+export type ListSettingsResultItemIPV6Value = "off" | "on";
+export const ListSettingsResultItemIPV6Value = S.String;
+
+export interface ListSettingsResultItemIPV6 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemIPV6Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemIPV6Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemIPV6 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemIPV6Id,
+    value: ListSettingsResultItemIPV6Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemIPV6",
+}) as any as S.Schema<ListSettingsResultItemIPV6>;
+
+export type ListSettingsResultItemZonesMaxUploadId = "max_upload";
+export const ListSettingsResultItemZonesMaxUploadId = S.String;
+
+export type ListSettingsResultItemZonesMaxUploadValue =
+  | 100
+  | 125
+  | 150
+  | 175
+  | 200
+  | 225
+  | 250
+  | 275
+  | 300
+  | 325
+  | 350
+  | 375
+  | 400
+  | 425
+  | 450
+  | 475
+  | 500
+  | 1000
+  | 1500
+  | 2000
+  | 2500
+  | 3000
+  | 3500
+  | 4000
+  | 4500
+  | 5000;
+export const ListSettingsResultItemZonesMaxUploadValue = S.Number;
+
+export interface ListSettingsResultItemZonesMaxUpload {
+  /** identifier of the zone setting. */
+  id: ListSettingsResultItemZonesMaxUploadId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesMaxUploadValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesMaxUpload = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemZonesMaxUploadId,
+      value: ListSettingsResultItemZonesMaxUploadValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesMaxUpload",
+}) as any as S.Schema<ListSettingsResultItemZonesMaxUpload>;
+
+export type ListSettingsResultItemMinTLSVersionId = "min_tls_version";
+export const ListSettingsResultItemMinTLSVersionId = S.String;
+
+export type ListSettingsResultItemMinTLSVersionValue =
+  | "1.0"
+  | "1.1"
+  | "1.2"
+  | "1.3";
+export const ListSettingsResultItemMinTLSVersionValue = S.String;
+
+export interface ListSettingsResultItemMinTLSVersion {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemMinTLSVersionId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemMinTLSVersionValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemMinTLSVersion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemMinTLSVersionId,
+    value: ListSettingsResultItemMinTLSVersionValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemMinTLSVersion",
+}) as any as S.Schema<ListSettingsResultItemMinTLSVersion>;
+
+export type ListSettingsResultItemZonesMirage2Id = "mirage";
+export const ListSettingsResultItemZonesMirage2Id = S.String;
+
+export type ListSettingsResultItemZonesMirage2Value = "on" | "off";
+export const ListSettingsResultItemZonesMirage2Value = S.String;
+
+export interface ListSettingsResultItemZonesMirage2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesMirage2Id;
+  /** Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/ */
+  value: ListSettingsResultItemZonesMirage2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesMirage2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemZonesMirage2Id,
+    value: ListSettingsResultItemZonesMirage2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesMirage2",
+}) as any as S.Schema<ListSettingsResultItemZonesMirage2>;
+
+export type ListSettingsResultItemNELId = "nel";
+export const ListSettingsResultItemNELId = S.String;
+
+export type ListSettingsResultItemNELValue = SettingsGetResultNELValue;
+export const ListSettingsResultItemNELValue = SettingsGetResultNELValue;
+
+export interface ListSettingsResultItemNEL {
+  /** Zone setting identifier. */
+  id: ListSettingsResultItemNELId;
+  /** Current value of the zone setting. */
+  value: SettingsGetResultNELValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemNEL = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemNELId,
+    value: SettingsGetResultNELValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemNEL",
+}) as any as S.Schema<ListSettingsResultItemNEL>;
+
+export type ListSettingsResultItemZonesOpportunisticEncryption2Id =
+  "opportunistic_encryption";
+export const ListSettingsResultItemZonesOpportunisticEncryption2Id = S.String;
+
+export type ListSettingsResultItemZonesOpportunisticEncryption2Value =
+  | "on"
+  | "off";
+export const ListSettingsResultItemZonesOpportunisticEncryption2Value =
+  S.String;
+
+export interface ListSettingsResultItemZonesOpportunisticEncryption2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesOpportunisticEncryption2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesOpportunisticEncryption2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesOpportunisticEncryption2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesOpportunisticEncryption2Id,
+      value: ListSettingsResultItemZonesOpportunisticEncryption2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesOpportunisticEncryption2",
+  }) as any as S.Schema<ListSettingsResultItemZonesOpportunisticEncryption2>;
+
+export type ListSettingsResultItemOpportunisticOnionId = "opportunistic_onion";
+export const ListSettingsResultItemOpportunisticOnionId = S.String;
+
+export type ListSettingsResultItemOpportunisticOnionValue = "on" | "off";
+export const ListSettingsResultItemOpportunisticOnionValue = S.String;
+
+export interface ListSettingsResultItemOpportunisticOnion {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemOpportunisticOnionId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemOpportunisticOnionValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemOpportunisticOnion = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemOpportunisticOnionId,
+      value: ListSettingsResultItemOpportunisticOnionValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemOpportunisticOnion",
+}) as any as S.Schema<ListSettingsResultItemOpportunisticOnion>;
+
+export type ListSettingsResultItemOrangeToOrangeId = "orange_to_orange";
+export const ListSettingsResultItemOrangeToOrangeId = S.String;
+
+export type ListSettingsResultItemOrangeToOrangeValue = "on" | "off";
+export const ListSettingsResultItemOrangeToOrangeValue = S.String;
+
+export interface ListSettingsResultItemOrangeToOrange {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemOrangeToOrangeId;
+  /** This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/ */
+  value: ListSettingsResultItemOrangeToOrangeValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemOrangeToOrange = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemOrangeToOrangeId,
+      value: ListSettingsResultItemOrangeToOrangeValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemOrangeToOrange",
+}) as any as S.Schema<ListSettingsResultItemOrangeToOrange>;
+
+export type ListSettingsResultItemZonesOriginErrorPagePassThru2Id =
+  "origin_error_page_pass_thru";
+export const ListSettingsResultItemZonesOriginErrorPagePassThru2Id = S.String;
+
+export type ListSettingsResultItemZonesOriginErrorPagePassThru2Value =
+  | "on"
+  | "off";
+export const ListSettingsResultItemZonesOriginErrorPagePassThru2Value =
+  S.String;
+
+export interface ListSettingsResultItemZonesOriginErrorPagePassThru2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesOriginErrorPagePassThru2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesOriginErrorPagePassThru2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesOriginErrorPagePassThru2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesOriginErrorPagePassThru2Id,
+      value: ListSettingsResultItemZonesOriginErrorPagePassThru2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesOriginErrorPagePassThru2",
+  }) as any as S.Schema<ListSettingsResultItemZonesOriginErrorPagePassThru2>;
+
+export type ListSettingsResultItemZonesCacheRulesOriginH2MaxStreamsId =
+  "origin_h2_max_streams";
+export const ListSettingsResultItemZonesCacheRulesOriginH2MaxStreamsId =
+  S.String;
+
+export interface ListSettingsResultItemZonesCacheRulesOriginH2MaxStreams {
+  /** Value of the zone setting. */
+  id: ListSettingsResultItemZonesCacheRulesOriginH2MaxStreamsId;
+  /** Last time this setting was modified. */
+  modifiedOn?: string | null;
+  /** Value of the Origin H2 Max Streams Setting. */
+  value?: number | null;
+}
+export const ListSettingsResultItemZonesCacheRulesOriginH2MaxStreams =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesCacheRulesOriginH2MaxStreamsId,
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+      value: S.optional(S.NullOr(S.Number)),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesCacheRulesOriginH2MaxStreams",
+  }) as any as S.Schema<ListSettingsResultItemZonesCacheRulesOriginH2MaxStreams>;
+
+export type ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersionId =
+  "origin_max_http_version";
+export const ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersionId =
+  S.String;
+
+export type ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersionValue =
+  | "2"
+  | "1";
+export const ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersionValue =
+  S.String;
+
+export interface ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersion {
+  /** Value of the zone setting. */
+  id: ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersionId;
+  /** Last time this setting was modified. */
+  modifiedOn?: string | null;
+  /** Value of the Origin Max HTTP Version Setting. */
+  value?: ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersionValue | null;
+}
+export const ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersion =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersionId,
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+      value: S.optional(
+        S.NullOr(
+          ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersionValue,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersion",
+  }) as any as S.Schema<ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersion>;
+
+export type ListSettingsResultItemZonesPolish2Id = "polish";
+export const ListSettingsResultItemZonesPolish2Id = S.String;
+
+export type ListSettingsResultItemZonesPolish2Value =
+  | "off"
+  | "lossless"
+  | "lossy";
+export const ListSettingsResultItemZonesPolish2Value = S.String;
+
+export interface ListSettingsResultItemZonesPolish2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesPolish2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesPolish2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesPolish2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemZonesPolish2Id,
+    value: ListSettingsResultItemZonesPolish2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesPolish2",
+}) as any as S.Schema<ListSettingsResultItemZonesPolish2>;
+
+export type ListSettingsResultItemPrefetchPreloadId = "prefetch_preload";
+export const ListSettingsResultItemPrefetchPreloadId = S.String;
+
+export type ListSettingsResultItemPrefetchPreloadValue = "on" | "off";
+export const ListSettingsResultItemPrefetchPreloadValue = S.String;
+
+export interface ListSettingsResultItemPrefetchPreload {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemPrefetchPreloadId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemPrefetchPreloadValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemPrefetchPreload = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemPrefetchPreloadId,
+      value: ListSettingsResultItemPrefetchPreloadValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemPrefetchPreload",
+}) as any as S.Schema<ListSettingsResultItemPrefetchPreload>;
+
+export type ListSettingsResultItemZonesPreRenderId = "pre_render";
+export const ListSettingsResultItemZonesPreRenderId = S.String;
+
+export type ListSettingsResultItemZonesPreRenderValue = "off" | "on";
+export const ListSettingsResultItemZonesPreRenderValue = S.String;
+
+export interface ListSettingsResultItemZonesPreRender {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesPreRenderId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesPreRenderValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesPreRender = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemZonesPreRenderId,
+      value: ListSettingsResultItemZonesPreRenderValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesPreRender",
+}) as any as S.Schema<ListSettingsResultItemZonesPreRender>;
+
+export type ListSettingsResultItemZonesPrivacyPassId = "privacy_pass";
+export const ListSettingsResultItemZonesPrivacyPassId = S.String;
+
+export type ListSettingsResultItemZonesPrivacyPassValue = "on" | "off";
+export const ListSettingsResultItemZonesPrivacyPassValue = S.String;
+
+export interface ListSettingsResultItemZonesPrivacyPass {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesPrivacyPassId;
+  /** Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31) */
+  value: ListSettingsResultItemZonesPrivacyPassValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesPrivacyPass = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemZonesPrivacyPassId,
+      value: ListSettingsResultItemZonesPrivacyPassValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesPrivacyPass",
+}) as any as S.Schema<ListSettingsResultItemZonesPrivacyPass>;
+
+export type ListSettingsResultItemProxyReadTimeoutId = "proxy_read_timeout";
+export const ListSettingsResultItemProxyReadTimeoutId = S.String;
+
+export interface ListSettingsResultItemProxyReadTimeout {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemProxyReadTimeoutId;
+  /** Current value of the zone setting. */
+  value: number;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemProxyReadTimeout = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemProxyReadTimeoutId,
+      value: S.Number,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemProxyReadTimeout",
+}) as any as S.Schema<ListSettingsResultItemProxyReadTimeout>;
+
+export type ListSettingsResultItemPseudoIPV4Id = "pseudo_ipv4";
+export const ListSettingsResultItemPseudoIPV4Id = S.String;
+
+export type ListSettingsResultItemPseudoIPV4Value =
+  | "off"
+  | "add_header"
+  | "overwrite_header";
+export const ListSettingsResultItemPseudoIPV4Value = S.String;
+
+export interface ListSettingsResultItemPseudoIPV4 {
+  /** Value of the Pseudo IPv4 setting. */
+  id: ListSettingsResultItemPseudoIPV4Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemPseudoIPV4Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemPseudoIPV4 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemPseudoIPV4Id,
+    value: ListSettingsResultItemPseudoIPV4Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemPseudoIPV4",
+}) as any as S.Schema<ListSettingsResultItemPseudoIPV4>;
+
+export type ListSettingsResultItemZonesRedirectsForAITrainingId =
+  "redirects_for_ai_training";
+export const ListSettingsResultItemZonesRedirectsForAITrainingId = S.String;
+
+export type ListSettingsResultItemZonesRedirectsForAITrainingValue =
+  | "off"
+  | "on";
+export const ListSettingsResultItemZonesRedirectsForAITrainingValue = S.String;
+
+export interface ListSettingsResultItemZonesRedirectsForAITraining {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesRedirectsForAITrainingId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesRedirectsForAITrainingValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesRedirectsForAITraining =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesRedirectsForAITrainingId,
+      value: ListSettingsResultItemZonesRedirectsForAITrainingValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesRedirectsForAITraining",
+  }) as any as S.Schema<ListSettingsResultItemZonesRedirectsForAITraining>;
+
+export type ListSettingsResultItemZonesReplaceInsecureJSId =
+  "replace_insecure_js";
+export const ListSettingsResultItemZonesReplaceInsecureJSId = S.String;
+
+export type ListSettingsResultItemZonesReplaceInsecureJSValue = "on" | "off";
+export const ListSettingsResultItemZonesReplaceInsecureJSValue = S.String;
+
+export interface ListSettingsResultItemZonesReplaceInsecureJS {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesReplaceInsecureJSId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesReplaceInsecureJSValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesReplaceInsecureJS =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesReplaceInsecureJSId,
+      value: ListSettingsResultItemZonesReplaceInsecureJSValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesReplaceInsecureJS",
+  }) as any as S.Schema<ListSettingsResultItemZonesReplaceInsecureJS>;
+
+export type ListSettingsResultItemZonesResponseBuffering2Id =
+  "response_buffering";
+export const ListSettingsResultItemZonesResponseBuffering2Id = S.String;
+
+export type ListSettingsResultItemZonesResponseBuffering2Value = "on" | "off";
+export const ListSettingsResultItemZonesResponseBuffering2Value = S.String;
+
+export interface ListSettingsResultItemZonesResponseBuffering2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesResponseBuffering2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesResponseBuffering2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesResponseBuffering2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesResponseBuffering2Id,
+      value: ListSettingsResultItemZonesResponseBuffering2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesResponseBuffering2",
+  }) as any as S.Schema<ListSettingsResultItemZonesResponseBuffering2>;
+
+export type ListSettingsResultItemZonesRocketLoader2Id = "rocket_loader";
+export const ListSettingsResultItemZonesRocketLoader2Id = S.String;
+
+export type ListSettingsResultItemZonesRocketLoader2Value = "on" | "off";
+export const ListSettingsResultItemZonesRocketLoader2Value = S.String;
+
+export interface ListSettingsResultItemZonesRocketLoader2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesRocketLoader2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesRocketLoader2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesRocketLoader2 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemZonesRocketLoader2Id,
+      value: ListSettingsResultItemZonesRocketLoader2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesRocketLoader2",
+}) as any as S.Schema<ListSettingsResultItemZonesRocketLoader2>;
+
+export type ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationId =
+  "automatic_platform_optimization";
+export const ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationId =
+  S.String;
+
+export type ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList =
+  Array<string>;
+export const ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList>;
+
+export interface ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValue {
+  /** Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled. */
+  cacheByDeviceType: boolean;
+  /** Indicates whether or not Cloudflare proxy is enabled. */
+  cf: boolean;
+  /** Indicates whether or not Automatic Platform Optimization is enabled. */
+  enabled: boolean;
+  /** An array of hostnames where Automatic Platform Optimization for WordPress is activated. */
+  hostnames: ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList;
+  /** Indicates whether or not site is powered by WordPress. */
+  wordpress: boolean;
+  /** Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed. */
+  wpPlugin: boolean;
+}
+export const ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValue =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      cacheByDeviceType: S.Boolean.pipe(T.Body("cache_by_device_type")),
+      cf: S.Boolean,
+      enabled: S.Boolean,
+      hostnames:
+        ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList,
+      wordpress: S.Boolean,
+      wpPlugin: S.Boolean.pipe(T.Body("wp_plugin")),
+    }),
+  ).annotate({
+    identifier:
+      "ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValue",
+  }) as any as S.Schema<ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValue>;
+
+export interface ListSettingsResultItemZonesSchemasAutomaticPlatformOptimization {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesSchemasAutomaticPlatformOptimization =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationId,
+      value:
+        ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier:
+      "ListSettingsResultItemZonesSchemasAutomaticPlatformOptimization",
+  }) as any as S.Schema<ListSettingsResultItemZonesSchemasAutomaticPlatformOptimization>;
+
+export type ListSettingsResultItemZonesSearchForAgentsId = "search_for_agents";
+export const ListSettingsResultItemZonesSearchForAgentsId = S.String;
+
+export type ListSettingsResultItemZonesSearchForAgentsValue = "off" | "on";
+export const ListSettingsResultItemZonesSearchForAgentsValue = S.String;
+
+export interface ListSettingsResultItemZonesSearchForAgents {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesSearchForAgentsId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesSearchForAgentsValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesSearchForAgents =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesSearchForAgentsId,
+      value: ListSettingsResultItemZonesSearchForAgentsValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesSearchForAgents",
+  }) as any as S.Schema<ListSettingsResultItemZonesSearchForAgents>;
+
+export type ListSettingsResultItemSecurityHeadersId = "security_header";
+export const ListSettingsResultItemSecurityHeadersId = S.String;
+
+export type ListSettingsResultItemSecurityHeadersValueStrictTransportSecurity =
+  SettingsGetResultSecurityHeadersValueStrictTransportSecurity;
+export const ListSettingsResultItemSecurityHeadersValueStrictTransportSecurity =
+  SettingsGetResultSecurityHeadersValueStrictTransportSecurity;
+
+export type ListSettingsResultItemSecurityHeadersValue =
+  SettingsGetResultSecurityHeadersValue;
+export const ListSettingsResultItemSecurityHeadersValue =
+  SettingsGetResultSecurityHeadersValue;
+
+export interface ListSettingsResultItemSecurityHeaders {
+  /** ID of the zone's security header. */
+  id: ListSettingsResultItemSecurityHeadersId;
+  /** Current value of the zone setting. */
+  value: SettingsGetResultSecurityHeadersValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemSecurityHeaders = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemSecurityHeadersId,
+      value: SettingsGetResultSecurityHeadersValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemSecurityHeaders",
+}) as any as S.Schema<ListSettingsResultItemSecurityHeaders>;
+
+export type ListSettingsResultItemZonesSecurityLevel2Id = "security_level";
+export const ListSettingsResultItemZonesSecurityLevel2Id = S.String;
+
+export type ListSettingsResultItemZonesSecurityLevel2Value =
+  | "off"
+  | "essentially_off"
+  | "low"
+  | "medium"
+  | "high"
+  | "under_attack";
+export const ListSettingsResultItemZonesSecurityLevel2Value = S.String;
+
+export interface ListSettingsResultItemZonesSecurityLevel2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesSecurityLevel2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesSecurityLevel2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesSecurityLevel2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesSecurityLevel2Id,
+      value: ListSettingsResultItemZonesSecurityLevel2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesSecurityLevel2",
+  }) as any as S.Schema<ListSettingsResultItemZonesSecurityLevel2>;
+
+export type ListSettingsResultItemServerSideExcludesId = "server_side_exclude";
+export const ListSettingsResultItemServerSideExcludesId = S.String;
+
+export type ListSettingsResultItemServerSideExcludesValue = "on" | "off";
+export const ListSettingsResultItemServerSideExcludesValue = S.String;
+
+export interface ListSettingsResultItemServerSideExcludes {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemServerSideExcludesId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemServerSideExcludesValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemServerSideExcludes = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemServerSideExcludesId,
+      value: ListSettingsResultItemServerSideExcludesValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemServerSideExcludes",
+}) as any as S.Schema<ListSettingsResultItemServerSideExcludes>;
+
+export type ListSettingsResultItemZonesSha1SupportId = "sha1_support";
+export const ListSettingsResultItemZonesSha1SupportId = S.String;
+
+export type ListSettingsResultItemZonesSha1SupportValue = "off" | "on";
+export const ListSettingsResultItemZonesSha1SupportValue = S.String;
+
+export interface ListSettingsResultItemZonesSha1Support {
+  /** Zone setting identifier. */
+  id: ListSettingsResultItemZonesSha1SupportId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesSha1SupportValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesSha1Support = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemZonesSha1SupportId,
+      value: ListSettingsResultItemZonesSha1SupportValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesSha1Support",
+}) as any as S.Schema<ListSettingsResultItemZonesSha1Support>;
+
+export type ListSettingsResultItemZonesSortQueryStringForCache2Id =
+  "sort_query_string_for_cache";
+export const ListSettingsResultItemZonesSortQueryStringForCache2Id = S.String;
+
+export type ListSettingsResultItemZonesSortQueryStringForCache2Value =
+  | "on"
+  | "off";
+export const ListSettingsResultItemZonesSortQueryStringForCache2Value =
+  S.String;
+
+export interface ListSettingsResultItemZonesSortQueryStringForCache2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesSortQueryStringForCache2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesSortQueryStringForCache2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesSortQueryStringForCache2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesSortQueryStringForCache2Id,
+      value: ListSettingsResultItemZonesSortQueryStringForCache2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesSortQueryStringForCache2",
+  }) as any as S.Schema<ListSettingsResultItemZonesSortQueryStringForCache2>;
+
+export type ListSettingsResultItemZonesSSL2Id = "ssl";
+export const ListSettingsResultItemZonesSSL2Id = S.String;
+
+export type ListSettingsResultItemZonesSSL2Value =
+  | "off"
+  | "flexible"
+  | "full"
+  | "strict";
+export const ListSettingsResultItemZonesSSL2Value = S.String;
+
+export interface ListSettingsResultItemZonesSSL2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesSSL2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesSSL2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesSSL2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemZonesSSL2Id,
+    value: ListSettingsResultItemZonesSSL2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesSSL2",
+}) as any as S.Schema<ListSettingsResultItemZonesSSL2>;
+
+export type ListSettingsResultItemSSLRecommenderId = "ssl_recommender";
+export const ListSettingsResultItemSSLRecommenderId = S.String;
+
+export interface ListSettingsResultItemSSLRecommender {
+  /** Enrollment value for SSL/TLS Recommender. */
+  id?: ListSettingsResultItemSSLRecommenderId | null;
+  /** ssl-recommender enrollment setting. */
+  enabled?: boolean | null;
+}
+export const ListSettingsResultItemSSLRecommender = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.NullOr(ListSettingsResultItemSSLRecommenderId)),
+      enabled: S.optional(S.NullOr(S.Boolean)),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemSSLRecommender",
+}) as any as S.Schema<ListSettingsResultItemSSLRecommender>;
+
+export type ListSettingsResultItemZonesTLS12OnlyId = "tls_1_2_only";
+export const ListSettingsResultItemZonesTLS12OnlyId = S.String;
+
+export type ListSettingsResultItemZonesTLS12OnlyValue = "off" | "on";
+export const ListSettingsResultItemZonesTLS12OnlyValue = S.String;
+
+export interface ListSettingsResultItemZonesTLS12Only {
+  /** Zone setting identifier. */
+  id: ListSettingsResultItemZonesTLS12OnlyId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesTLS12OnlyValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesTLS12Only = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemZonesTLS12OnlyId,
+      value: ListSettingsResultItemZonesTLS12OnlyValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesTLS12Only",
+}) as any as S.Schema<ListSettingsResultItemZonesTLS12Only>;
+
+export type ListSettingsResultItemTLS13Id = "tls_1_3";
+export const ListSettingsResultItemTLS13Id = S.String;
+
+export type ListSettingsResultItemTLS13Value = "on" | "off" | "zrt";
+export const ListSettingsResultItemTLS13Value = S.String;
+
+export interface ListSettingsResultItemTLS13 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemTLS13Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemTLS13Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemTLS13 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemTLS13Id,
+    value: ListSettingsResultItemTLS13Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemTLS13",
+}) as any as S.Schema<ListSettingsResultItemTLS13>;
+
+export type ListSettingsResultItemTLSClientAuthId = "tls_client_auth";
+export const ListSettingsResultItemTLSClientAuthId = S.String;
+
+export type ListSettingsResultItemTLSClientAuthValue = "on" | "off";
+export const ListSettingsResultItemTLSClientAuthValue = S.String;
+
+export interface ListSettingsResultItemTLSClientAuth {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemTLSClientAuthId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemTLSClientAuthValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemTLSClientAuth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemTLSClientAuthId,
+    value: ListSettingsResultItemTLSClientAuthValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemTLSClientAuth",
+}) as any as S.Schema<ListSettingsResultItemTLSClientAuth>;
+
+export type ListSettingsResultItemZonesTransformationsId = "transformations";
+export const ListSettingsResultItemZonesTransformationsId = S.String;
+
+export type ListSettingsResultItemZonesTransformationsValue =
+  | "on"
+  | "off"
+  | "open";
+export const ListSettingsResultItemZonesTransformationsValue = S.String;
+
+export interface ListSettingsResultItemZonesTransformations {
+  /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
+  id: ListSettingsResultItemZonesTransformationsId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesTransformationsValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesTransformations =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesTransformationsId,
+      value: ListSettingsResultItemZonesTransformationsValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesTransformations",
+  }) as any as S.Schema<ListSettingsResultItemZonesTransformations>;
+
+export type ListSettingsResultItemZonesTransformationsAllowedOriginsId =
+  "transformations_allowed_origins";
+export const ListSettingsResultItemZonesTransformationsAllowedOriginsId =
+  S.String;
+
+export interface ListSettingsResultItemZonesTransformationsAllowedOrigins {
+  /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
+  id: ListSettingsResultItemZonesTransformationsAllowedOriginsId;
+  /** Current value of the zone setting. */
+  value: string;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesTransformationsAllowedOrigins =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesTransformationsAllowedOriginsId,
+      value: S.String,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesTransformationsAllowedOrigins",
+  }) as any as S.Schema<ListSettingsResultItemZonesTransformationsAllowedOrigins>;
+
+export type ListSettingsResultItemZonesTrueClientIPHeader2Id =
+  "true_client_ip_header";
+export const ListSettingsResultItemZonesTrueClientIPHeader2Id = S.String;
+
+export type ListSettingsResultItemZonesTrueClientIPHeader2Value = "on" | "off";
+export const ListSettingsResultItemZonesTrueClientIPHeader2Value = S.String;
+
+export interface ListSettingsResultItemZonesTrueClientIPHeader2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesTrueClientIPHeader2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesTrueClientIPHeader2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesTrueClientIPHeader2 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: ListSettingsResultItemZonesTrueClientIPHeader2Id,
+      value: ListSettingsResultItemZonesTrueClientIPHeader2Value,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "ListSettingsResultItemZonesTrueClientIPHeader2",
+  }) as any as S.Schema<ListSettingsResultItemZonesTrueClientIPHeader2>;
+
+export type ListSettingsResultItemZonesWAF2Id = "waf";
+export const ListSettingsResultItemZonesWAF2Id = S.String;
+
+export type ListSettingsResultItemZonesWAF2Value = "on" | "off";
+export const ListSettingsResultItemZonesWAF2Value = S.String;
+
+export interface ListSettingsResultItemZonesWAF2 {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesWAF2Id;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesWAF2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesWAF2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemZonesWAF2Id,
+    value: ListSettingsResultItemZonesWAF2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesWAF2",
+}) as any as S.Schema<ListSettingsResultItemZonesWAF2>;
+
+export type ListSettingsResultItemZonesWebmcpEnabledId = "webmcp_enabled";
+export const ListSettingsResultItemZonesWebmcpEnabledId = S.String;
+
+export type ListSettingsResultItemZonesWebmcpEnabledValue = "off" | "on";
+export const ListSettingsResultItemZonesWebmcpEnabledValue = S.String;
+
+export interface ListSettingsResultItemZonesWebmcpEnabled {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesWebmcpEnabledId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemZonesWebmcpEnabledValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesWebmcpEnabled = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemZonesWebmcpEnabledId,
+      value: ListSettingsResultItemZonesWebmcpEnabledValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesWebmcpEnabled",
+}) as any as S.Schema<ListSettingsResultItemZonesWebmcpEnabled>;
+
+export type ListSettingsResultItemZonesWebmcpPacksId = "webmcp_packs";
+export const ListSettingsResultItemZonesWebmcpPacksId = S.String;
+
+export interface ListSettingsResultItemZonesWebmcpPacks {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesWebmcpPacksId;
+  /** Current value of the zone setting. */
+  value: string;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemZonesWebmcpPacks = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: ListSettingsResultItemZonesWebmcpPacksId,
+      value: S.String,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "ListSettingsResultItemZonesWebmcpPacks",
+}) as any as S.Schema<ListSettingsResultItemZonesWebmcpPacks>;
+
+export type ListSettingsResultItemWebPId = "webp";
+export const ListSettingsResultItemWebPId = S.String;
+
+export type ListSettingsResultItemWebPValue = "off" | "on";
+export const ListSettingsResultItemWebPValue = S.String;
+
+export interface ListSettingsResultItemWebP {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemWebPId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemWebPValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemWebP = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemWebPId,
+    value: ListSettingsResultItemWebPValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemWebP",
+}) as any as S.Schema<ListSettingsResultItemWebP>;
+
+export type ListSettingsResultItemWebsocketId = "websockets";
+export const ListSettingsResultItemWebsocketId = S.String;
+
+export type ListSettingsResultItemWebsocketValue = "off" | "on";
+export const ListSettingsResultItemWebsocketValue = S.String;
+
+export interface ListSettingsResultItemWebsocket {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemWebsocketId;
+  /** Current value of the zone setting. */
+  value: ListSettingsResultItemWebsocketValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const ListSettingsResultItemWebsocket = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: ListSettingsResultItemWebsocketId,
+    value: ListSettingsResultItemWebsocketValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "ListSettingsResultItemWebsocket",
+}) as any as S.Schema<ListSettingsResultItemWebsocket>;
+
+export type ListSettingsResultItem =
+  | ListSettingsResultItemZeroRTT
+  | ListSettingsResultItemAdvancedDDoS
+  | ListSettingsResultItemZonesCacheRulesAegis
+  | ListSettingsResultItemAlwaysOnline
+  | ListSettingsResultItemZonesAlwaysUseHTTPS2
+  | ListSettingsResultItemZonesAutomaticHTTPSRewrites2
+  | ListSettingsResultItemBrotli
+  | ListSettingsResultItemZonesBrowserCacheTTL2
+  | ListSettingsResultItemZonesBrowserCheck2
+  | ListSettingsResultItemZonesCacheLevel2
+  | ListSettingsResultItemChallengeTTL
+  | ListSettingsResultItemCiphers
+  | ListSettingsResultItemZonesContentConverter
+  | ListSettingsResultItemZonesCNAMEFlattening
+  | ListSettingsResultItemDevelopmentMode
+  | ListSettingsResultItemEarlyHints
+  | ListSettingsResultItemZonesEdgeCacheTTL2
+  | ListSettingsResultItemZonesEmailObfuscation2
+  | ListSettingsResultItemH2Prioritization
+  | ListSettingsResultItemHotlinkProtection
+  | ListSettingsResultItemHTTP2
+  | ListSettingsResultItemHTTP3
+  | ListSettingsResultItemImageResizing
+  | ListSettingsResultItemZonesIPGeolocation2
+  | ListSettingsResultItemIPV6
+  | ListSettingsResultItemZonesMaxUpload
+  | ListSettingsResultItemMinTLSVersion
+  | ListSettingsResultItemZonesMirage2
+  | ListSettingsResultItemNEL
+  | ListSettingsResultItemZonesOpportunisticEncryption2
+  | ListSettingsResultItemOpportunisticOnion
+  | ListSettingsResultItemOrangeToOrange
+  | ListSettingsResultItemZonesOriginErrorPagePassThru2
+  | ListSettingsResultItemZonesCacheRulesOriginH2MaxStreams
+  | ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersion
+  | ListSettingsResultItemZonesPolish2
+  | ListSettingsResultItemPrefetchPreload
+  | ListSettingsResultItemZonesPreRender
+  | ListSettingsResultItemZonesPrivacyPass
+  | ListSettingsResultItemProxyReadTimeout
+  | ListSettingsResultItemPseudoIPV4
+  | ListSettingsResultItemZonesRedirectsForAITraining
+  | ListSettingsResultItemZonesReplaceInsecureJS
+  | ListSettingsResultItemZonesResponseBuffering2
+  | ListSettingsResultItemZonesRocketLoader2
+  | ListSettingsResultItemZonesSchemasAutomaticPlatformOptimization
+  | ListSettingsResultItemZonesSearchForAgents
+  | ListSettingsResultItemSecurityHeaders
+  | ListSettingsResultItemZonesSecurityLevel2
+  | ListSettingsResultItemServerSideExcludes
+  | ListSettingsResultItemZonesSha1Support
+  | ListSettingsResultItemZonesSortQueryStringForCache2
+  | ListSettingsResultItemZonesSSL2
+  | ListSettingsResultItemSSLRecommender
+  | ListSettingsResultItemZonesTLS12Only
+  | ListSettingsResultItemTLS13
+  | ListSettingsResultItemTLSClientAuth
+  | ListSettingsResultItemZonesTransformations
+  | ListSettingsResultItemZonesTransformationsAllowedOrigins
+  | ListSettingsResultItemZonesTrueClientIPHeader2
+  | ListSettingsResultItemZonesWAF2
+  | ListSettingsResultItemZonesWebmcpEnabled
+  | ListSettingsResultItemZonesWebmcpPacks
+  | ListSettingsResultItemWebP
+  | ListSettingsResultItemWebsocket;
+export const ListSettingsResultItem = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases(
+    [
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "modifiedOn", "value"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn", "timeRemaining"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "modifiedOn", "value"],
+      ["id", "modifiedOn", "value"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "enabled"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+    ],
+    {
+      key: "id",
+      values: [
+        "0rtt",
+        "advanced_ddos",
+        "aegis",
+        "always_online",
+        "always_use_https",
+        "automatic_https_rewrites",
+        "brotli",
+        "browser_cache_ttl",
+        "browser_check",
+        "cache_level",
+        "challenge_ttl",
+        "ciphers",
+        "content_converter",
+        "cname_flattening",
+        "development_mode",
+        "early_hints",
+        "edge_cache_ttl",
+        "email_obfuscation",
+        "h2_prioritization",
+        "hotlink_protection",
+        "http2",
+        "http3",
+        "image_resizing",
+        "ip_geolocation",
+        "ipv6",
+        "max_upload",
+        "min_tls_version",
+        "mirage",
+        "nel",
+        "opportunistic_encryption",
+        "opportunistic_onion",
+        "orange_to_orange",
+        "origin_error_page_pass_thru",
+        "origin_h2_max_streams",
+        "origin_max_http_version",
+        "polish",
+        "prefetch_preload",
+        "pre_render",
+        "privacy_pass",
+        "proxy_read_timeout",
+        "pseudo_ipv4",
+        "redirects_for_ai_training",
+        "replace_insecure_js",
+        "response_buffering",
+        "rocket_loader",
+        "automatic_platform_optimization",
+        "search_for_agents",
+        "security_header",
+        "security_level",
+        "server_side_exclude",
+        "sha1_support",
+        "sort_query_string_for_cache",
+        "ssl",
+        "ssl_recommender",
+        "tls_1_2_only",
+        "tls_1_3",
+        "tls_client_auth",
+        "transformations",
+        "transformations_allowed_origins",
+        "true_client_ip_header",
+        "waf",
+        "webmcp_enabled",
+        "webmcp_packs",
+        "webp",
+        "websockets",
+      ],
+    },
+  ),
+);
+
+export type ListSettingsResultList = Array<ListSettingsResultItem>;
+export const ListSettingsResultList = /*@__PURE__*/ S.Array(
+  ListSettingsResultItem,
+) as any as S.Schema<ListSettingsResultList>;
+
+export type ListSettingsResponse = ListSettingsResultList;
+export const ListSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListSettingsResultList.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
+).annotate({
+  identifier: "ListSettingsResponse",
+}) as any as S.Schema<ListSettingsResponse>;
+
 export interface ListRequestAccount {
   /** Filter by an account ID. */
   id?: string;
@@ -3743,10 +6339,10 @@ export const ListRequestAccount = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListRequestAccount>;
 
 export type ListRequestDirection = "asc" | "desc";
-export const ListRequestDirection = /*@__PURE__*/ S.String;
+export const ListRequestDirection = S.String;
 
 export type ListRequestMatch = "any" | "all";
-export const ListRequestMatch = /*@__PURE__*/ S.String;
+export const ListRequestMatch = S.String;
 
 export type ListRequestOrder =
   | "name"
@@ -3754,13 +6350,13 @@ export type ListRequestOrder =
   | "account.id"
   | "account.name"
   | "plan.id";
-export const ListRequestOrder = /*@__PURE__*/ S.String;
+export const ListRequestOrder = S.String;
 
 export type ListRequestStatus = "initializing" | "pending" | "active" | "moved";
-export const ListRequestStatus = /*@__PURE__*/ S.String;
+export const ListRequestStatus = S.String;
 
 export type ListRequestType = "full" | "partial" | "secondary" | "internal";
-export const ListRequestType = /*@__PURE__*/ S.String;
+export const ListRequestType = S.String;
 
 export type ListRequestTypeList = Array<ListRequestType | (string & {})>;
 export const ListRequestTypeList = /*@__PURE__*/ S.Array(
@@ -3836,7 +6432,7 @@ export type ListResultItemStatus =
   | "pending"
   | "active"
   | "moved";
-export const ListResultItemStatus = /*@__PURE__*/ S.String;
+export const ListResultItemStatus = S.String;
 
 export type ListResultItemTenant = CreateResponseTenant;
 export const ListResultItemTenant = CreateResponseTenant;
@@ -3845,7 +6441,7 @@ export type ListResultItemTenantUnit = CreateResponseTenantUnit;
 export const ListResultItemTenantUnit = CreateResponseTenantUnit;
 
 export type ListResultItemType = "full" | "partial" | "secondary" | "internal";
-export const ListResultItemType = /*@__PURE__*/ S.String;
+export const ListResultItemType = S.String;
 
 export type ListResultItemVanityNameServersList = Array<string>;
 export const ListResultItemVanityNameServersList = /*@__PURE__*/ S.Array(
@@ -3857,11 +6453,11 @@ export interface ListResultItem {
   id: string;
   /** The account the zone belongs to. */
   account: CreateResponseAccount;
-  /** The last time proof of ownership was detected and the zone was made */
+  /** The last time proof of ownership was detected and the zone was made active. */
   activatedOn: string;
   /** When the zone was created. */
   createdOn: string;
-  /** The interval (in seconds) from when development mode expires */
+  /** The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is 0. */
   developmentMode: number;
   /** Metadata about the zone. */
   meta: CreateResponseMeta;
@@ -3879,13 +6475,13 @@ export interface ListResultItem {
   originalRegistrar: string;
   /** The owner of the zone. */
   owner: CreateResponseOwner;
-  /** A Zones subscription information. */
+  /** Please use the `/zones/{zone_id}/subscription` API to update a zone's plan. Changing this value will create/cancel associated subscriptions. To view available plans for this zone, see [Zone Plans](https://developers.cloudflare.com/api/resources/zones/subresources/plans/). */
   plan: CreateResponsePlan;
-  /** Allows the customer to use a custom apex. */
+  /** Allows the customer to use a custom apex. *Tenants Only Configuration*. */
   cnameSuffix?: string | null;
-  /** Indicates whether the zone is only using Cloudflare DNS services. A */
+  /** Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits. */
   paused?: boolean | null;
-  /** Legacy permissions based on legacy user membership information. */
+  /** This has been replaced by Account memberships. */
   permissions?: ListResultItemPermissionsList | null;
   /** The zone status on Cloudflare. */
   status?: ListResultItemStatus | null;
@@ -3893,7 +6489,7 @@ export interface ListResultItem {
   tenant?: CreateResponseTenant | null;
   /** The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization). */
   tenantUnit?: CreateResponseTenantUnit | null;
-  /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is */
+  /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. */
   type?: ListResultItemType | null;
   /** An array of domains used for custom name servers. This is only available for Business and Enterprise plans. */
   vanityNameServers?: ListResultItemVanityNameServersList | null;
@@ -3968,7 +6564,7 @@ export interface PatchCtAlertingRequest {
   zoneId: string;
   /** Whether CT alerting is enabled for the zone. */
   enabled: boolean;
-  /** Email addresses that receive CT alert notifications. Only present and configurable for Business and Enterprise zones. Maximum of 10 addresses. For Free and Pro zones, notifications are sent to all users with SSL permissions on the zone. */
+  /** Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma. */
   emails?: CtAlertingEditRequestEmailsList;
 }
 export const PatchCtAlertingRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3998,7 +6594,7 @@ export const CtAlertingEditResponseEmailsList = /*@__PURE__*/ S.Array(
 export interface PatchCtAlertingResponse {
   /** Whether CT alerting is enabled for the zone. */
   enabled: boolean;
-  /** Email addresses that receive CT alert notifications. Only present and configurable for Business and Enterprise zones. Maximum of 10 addresses. For Free and Pro zones, notifications are sent to all users with SSL permissions on the zone. */
+  /** Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma. */
   emails?: CtAlertingEditResponseEmailsList | null;
 }
 export const PatchCtAlertingResponse = /*@__PURE__*/ S.suspend(() =>
@@ -4078,9 +6674,9 @@ export const PatchEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
 export interface PatchHoldRequest {
   /** Identifier. */
   zoneId: string;
-  /** If `hold_after` is provided and future-dated, the hold will be temporarily disabled, */
+  /** If `hold_after` is provided and future-dated, the hold will be temporarily disabled, then automatically re-enabled by the system at the time specified in this RFC3339-formatted timestamp. A past-dated `hold_after` value will have no effect on an existing, enabled hold. Providing an empty string will set its value to the current time. Providing `null` will disable the hold indefinitely. */
   holdAfter?: string;
-  /** If `true`, the zone hold will extend to block any subdomain of the given zone, as well */
+  /** If `true`, the zone hold will extend to block any subdomain of the given zone, as well as SSL4SaaS Custom Hostnames. For example, a zone hold on a zone with the hostname 'example.com' and include_subdomains=true will block 'example.com', 'staging.example.com', 'api.staging.example.com', etc. */
   includeSubdomains?: boolean;
 }
 export const PatchHoldRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4143,10 +6739,10 @@ export const PatchSettingRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchSettingRequest>;
 
 export type SettingsEditResultZeroRTTId = "0rtt";
-export const SettingsEditResultZeroRTTId = /*@__PURE__*/ S.String;
+export const SettingsEditResultZeroRTTId = S.String;
 
 export type SettingsEditResultZeroRTTValue = "on" | "off";
-export const SettingsEditResultZeroRTTValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultZeroRTTValue = S.String;
 
 export interface SettingsEditResultZeroRTT {
   /** ID of the zone setting. */
@@ -4170,10 +6766,10 @@ export const SettingsEditResultZeroRTT = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultZeroRTT>;
 
 export type SettingsEditResultAdvancedDDoSId = "advanced_ddos";
-export const SettingsEditResultAdvancedDDoSId = /*@__PURE__*/ S.String;
+export const SettingsEditResultAdvancedDDoSId = S.String;
 
 export type SettingsEditResultAdvancedDDoSValue = "on" | "off";
-export const SettingsEditResultAdvancedDDoSValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultAdvancedDDoSValue = S.String;
 
 export interface SettingsEditResultAdvancedDDoS {
   /** ID of the zone setting. */
@@ -4197,7 +6793,7 @@ export const SettingsEditResultAdvancedDDoS = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultAdvancedDDoS>;
 
 export type SettingsEditResultZonesCacheRulesAegisId = "aegis";
-export const SettingsEditResultZonesCacheRulesAegisId = /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesCacheRulesAegisId = S.String;
 
 export type SettingsEditResultZonesCacheRulesAegisValue =
   SettingsGetResultZonesCacheRulesAegisValue;
@@ -4224,10 +6820,10 @@ export const SettingsEditResultZonesCacheRulesAegis = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsEditResultZonesCacheRulesAegis>;
 
 export type SettingsEditResultAlwaysOnlineId = "always_online";
-export const SettingsEditResultAlwaysOnlineId = /*@__PURE__*/ S.String;
+export const SettingsEditResultAlwaysOnlineId = S.String;
 
 export type SettingsEditResultAlwaysOnlineValue = "on" | "off";
-export const SettingsEditResultAlwaysOnlineValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultAlwaysOnlineValue = S.String;
 
 export interface SettingsEditResultAlwaysOnline {
   /** ID of the zone setting. */
@@ -4250,74 +6846,68 @@ export const SettingsEditResultAlwaysOnline = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsEditResultAlwaysOnline",
 }) as any as S.Schema<SettingsEditResultAlwaysOnline>;
 
-export type SettingsEditResultZonesSchemasAlwaysUseHTTPSId = "always_use_https";
-export const SettingsEditResultZonesSchemasAlwaysUseHTTPSId =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesAlwaysUseHTTPS2Id = "always_use_https";
+export const SettingsEditResultZonesAlwaysUseHTTPS2Id = S.String;
 
-export type SettingsEditResultZonesSchemasAlwaysUseHTTPSValue = "on" | "off";
-export const SettingsEditResultZonesSchemasAlwaysUseHTTPSValue =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesAlwaysUseHTTPS2Value = "on" | "off";
+export const SettingsEditResultZonesAlwaysUseHTTPS2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasAlwaysUseHTTPS {
+export interface SettingsEditResultZonesAlwaysUseHTTPS2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasAlwaysUseHTTPSId;
+  id: SettingsEditResultZonesAlwaysUseHTTPS2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasAlwaysUseHTTPSValue;
+  value: SettingsEditResultZonesAlwaysUseHTTPS2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasAlwaysUseHTTPS =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsEditResultZonesAlwaysUseHTTPS2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasAlwaysUseHTTPSId,
-      value: SettingsEditResultZonesSchemasAlwaysUseHTTPSValue,
+      id: SettingsEditResultZonesAlwaysUseHTTPS2Id,
+      value: SettingsEditResultZonesAlwaysUseHTTPS2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsEditResultZonesSchemasAlwaysUseHTTPS",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasAlwaysUseHTTPS>;
+).annotate({
+  identifier: "SettingsEditResultZonesAlwaysUseHTTPS2",
+}) as any as S.Schema<SettingsEditResultZonesAlwaysUseHTTPS2>;
 
-export type SettingsEditResultZonesSchemasAutomaticHTTPSRewritesId =
+export type SettingsEditResultZonesAutomaticHTTPSRewrites2Id =
   "automatic_https_rewrites";
-export const SettingsEditResultZonesSchemasAutomaticHTTPSRewritesId =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesAutomaticHTTPSRewrites2Id = S.String;
 
-export type SettingsEditResultZonesSchemasAutomaticHTTPSRewritesValue =
-  | "on"
-  | "off";
-export const SettingsEditResultZonesSchemasAutomaticHTTPSRewritesValue =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesAutomaticHTTPSRewrites2Value = "on" | "off";
+export const SettingsEditResultZonesAutomaticHTTPSRewrites2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasAutomaticHTTPSRewrites {
+export interface SettingsEditResultZonesAutomaticHTTPSRewrites2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasAutomaticHTTPSRewritesId;
+  id: SettingsEditResultZonesAutomaticHTTPSRewrites2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasAutomaticHTTPSRewritesValue;
+  value: SettingsEditResultZonesAutomaticHTTPSRewrites2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasAutomaticHTTPSRewrites =
+export const SettingsEditResultZonesAutomaticHTTPSRewrites2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasAutomaticHTTPSRewritesId,
-      value: SettingsEditResultZonesSchemasAutomaticHTTPSRewritesValue,
+      id: SettingsEditResultZonesAutomaticHTTPSRewrites2Id,
+      value: SettingsEditResultZonesAutomaticHTTPSRewrites2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsEditResultZonesSchemasAutomaticHTTPSRewrites",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasAutomaticHTTPSRewrites>;
+    identifier: "SettingsEditResultZonesAutomaticHTTPSRewrites2",
+  }) as any as S.Schema<SettingsEditResultZonesAutomaticHTTPSRewrites2>;
 
 export type SettingsEditResultBrotliId = "brotli";
-export const SettingsEditResultBrotliId = /*@__PURE__*/ S.String;
+export const SettingsEditResultBrotliId = S.String;
 
 export type SettingsEditResultBrotliValue = "off" | "on";
-export const SettingsEditResultBrotliValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultBrotliValue = S.String;
 
 export interface SettingsEditResultBrotli {
   /** ID of the zone setting. */
@@ -4340,14 +6930,12 @@ export const SettingsEditResultBrotli = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsEditResultBrotli",
 }) as any as S.Schema<SettingsEditResultBrotli>;
 
-export type SettingsEditResultZonesSchemasBrowserCacheTTLId =
-  "browser_cache_ttl";
-export const SettingsEditResultZonesSchemasBrowserCacheTTLId =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesBrowserCacheTTL2Id = "browser_cache_ttl";
+export const SettingsEditResultZonesBrowserCacheTTL2Id = S.String;
 
-export interface SettingsEditResultZonesSchemasBrowserCacheTTL {
+export interface SettingsEditResultZonesBrowserCacheTTL2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasBrowserCacheTTLId;
+  id: SettingsEditResultZonesBrowserCacheTTL2Id;
   /** Current value of the zone setting. */
   value: number;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
@@ -4355,83 +6943,78 @@ export interface SettingsEditResultZonesSchemasBrowserCacheTTL {
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasBrowserCacheTTL =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsEditResultZonesBrowserCacheTTL2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasBrowserCacheTTLId,
+      id: SettingsEditResultZonesBrowserCacheTTL2Id,
       value: S.Number,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsEditResultZonesSchemasBrowserCacheTTL",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasBrowserCacheTTL>;
+).annotate({
+  identifier: "SettingsEditResultZonesBrowserCacheTTL2",
+}) as any as S.Schema<SettingsEditResultZonesBrowserCacheTTL2>;
 
-export type SettingsEditResultZonesSchemasBrowserCheckId = "browser_check";
-export const SettingsEditResultZonesSchemasBrowserCheckId =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesBrowserCheck2Id = "browser_check";
+export const SettingsEditResultZonesBrowserCheck2Id = S.String;
 
-export type SettingsEditResultZonesSchemasBrowserCheckValue = "on" | "off";
-export const SettingsEditResultZonesSchemasBrowserCheckValue =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesBrowserCheck2Value = "on" | "off";
+export const SettingsEditResultZonesBrowserCheck2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasBrowserCheck {
+export interface SettingsEditResultZonesBrowserCheck2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasBrowserCheckId;
+  id: SettingsEditResultZonesBrowserCheck2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasBrowserCheckValue;
+  value: SettingsEditResultZonesBrowserCheck2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasBrowserCheck =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsEditResultZonesSchemasBrowserCheckId,
-      value: SettingsEditResultZonesSchemasBrowserCheckValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsEditResultZonesSchemasBrowserCheck",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasBrowserCheck>;
-
-export type SettingsEditResultZonesSchemasCacheLevelId = "cache_level";
-export const SettingsEditResultZonesSchemasCacheLevelId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsEditResultZonesSchemasCacheLevelValue =
-  | "aggressive"
-  | "basic"
-  | "simplified";
-export const SettingsEditResultZonesSchemasCacheLevelValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsEditResultZonesSchemasCacheLevel {
-  /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasCacheLevelId;
-  /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasCacheLevelValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsEditResultZonesSchemasCacheLevel = /*@__PURE__*/ S.suspend(
+export const SettingsEditResultZonesBrowserCheck2 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasCacheLevelId,
-      value: SettingsEditResultZonesSchemasCacheLevelValue,
+      id: SettingsEditResultZonesBrowserCheck2Id,
+      value: SettingsEditResultZonesBrowserCheck2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
 ).annotate({
-  identifier: "SettingsEditResultZonesSchemasCacheLevel",
-}) as any as S.Schema<SettingsEditResultZonesSchemasCacheLevel>;
+  identifier: "SettingsEditResultZonesBrowserCheck2",
+}) as any as S.Schema<SettingsEditResultZonesBrowserCheck2>;
+
+export type SettingsEditResultZonesCacheLevel2Id = "cache_level";
+export const SettingsEditResultZonesCacheLevel2Id = S.String;
+
+export type SettingsEditResultZonesCacheLevel2Value =
+  | "aggressive"
+  | "basic"
+  | "simplified";
+export const SettingsEditResultZonesCacheLevel2Value = S.String;
+
+export interface SettingsEditResultZonesCacheLevel2 {
+  /** ID of the zone setting. */
+  id: SettingsEditResultZonesCacheLevel2Id;
+  /** Current value of the zone setting. */
+  value: SettingsEditResultZonesCacheLevel2Value;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const SettingsEditResultZonesCacheLevel2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsEditResultZonesCacheLevel2Id,
+    value: SettingsEditResultZonesCacheLevel2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "SettingsEditResultZonesCacheLevel2",
+}) as any as S.Schema<SettingsEditResultZonesCacheLevel2>;
 
 export type SettingsEditResultChallengeTTLId = "challenge_ttl";
-export const SettingsEditResultChallengeTTLId = /*@__PURE__*/ S.String;
+export const SettingsEditResultChallengeTTLId = S.String;
 
 export type SettingsEditResultChallengeTTLValue =
   | 300
@@ -4448,7 +7031,7 @@ export type SettingsEditResultChallengeTTLValue =
   | 604800
   | 2592000
   | 31536000;
-export const SettingsEditResultChallengeTTLValue = /*@__PURE__*/ S.Number;
+export const SettingsEditResultChallengeTTLValue = S.Number;
 
 export interface SettingsEditResultChallengeTTL {
   /** ID of the zone setting. */
@@ -4473,12 +7056,10 @@ export const SettingsEditResultChallengeTTL = /*@__PURE__*/ S.suspend(() =>
 
 export type SettingsEditResultZonesChinaNetworkEnabledId =
   "china_network_enabled";
-export const SettingsEditResultZonesChinaNetworkEnabledId =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesChinaNetworkEnabledId = S.String;
 
 export type SettingsEditResultZonesChinaNetworkEnabledValue = "on" | "off";
-export const SettingsEditResultZonesChinaNetworkEnabledValue =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesChinaNetworkEnabledValue = S.String;
 
 export interface SettingsEditResultZonesChinaNetworkEnabled {
   /** ID of the zone setting. */
@@ -4503,11 +7084,10 @@ export const SettingsEditResultZonesChinaNetworkEnabled =
   }) as any as S.Schema<SettingsEditResultZonesChinaNetworkEnabled>;
 
 export type SettingsEditResultZonesContentConverterId = "content_converter";
-export const SettingsEditResultZonesContentConverterId = /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesContentConverterId = S.String;
 
 export type SettingsEditResultZonesContentConverterValue = "off" | "on";
-export const SettingsEditResultZonesContentConverterValue =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesContentConverterValue = S.String;
 
 export interface SettingsEditResultZonesContentConverter {
   /** ID of the zone setting. */
@@ -4532,7 +7112,7 @@ export const SettingsEditResultZonesContentConverter = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsEditResultZonesContentConverter>;
 
 export type SettingsEditResultCiphersId = "ciphers";
-export const SettingsEditResultCiphersId = /*@__PURE__*/ S.String;
+export const SettingsEditResultCiphersId = S.String;
 
 export type SettingsEditResultCiphersValueList = Array<string>;
 export const SettingsEditResultCiphersValueList = /*@__PURE__*/ S.Array(
@@ -4561,18 +7141,17 @@ export const SettingsEditResultCiphers = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultCiphers>;
 
 export type SettingsEditResultZonesCNAMEFlatteningId = "cname_flattening";
-export const SettingsEditResultZonesCNAMEFlatteningId = /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesCNAMEFlatteningId = S.String;
 
 export type SettingsEditResultZonesCNAMEFlatteningValue =
   | "flatten_at_root"
   | "flatten_all";
-export const SettingsEditResultZonesCNAMEFlatteningValue =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesCNAMEFlatteningValue = S.String;
 
 export interface SettingsEditResultZonesCNAMEFlattening {
   /** How to flatten the cname destination. */
   id: SettingsEditResultZonesCNAMEFlatteningId;
-  /** Current value of the zone setting. */
+  /** This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21 */
   value: SettingsEditResultZonesCNAMEFlatteningValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
@@ -4592,10 +7171,10 @@ export const SettingsEditResultZonesCNAMEFlattening = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsEditResultZonesCNAMEFlattening>;
 
 export type SettingsEditResultDevelopmentModeId = "development_mode";
-export const SettingsEditResultDevelopmentModeId = /*@__PURE__*/ S.String;
+export const SettingsEditResultDevelopmentModeId = S.String;
 
 export type SettingsEditResultDevelopmentModeValue = "on" | "off";
-export const SettingsEditResultDevelopmentModeValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultDevelopmentModeValue = S.String;
 
 export interface SettingsEditResultDevelopmentMode {
   /** ID of the zone setting. */
@@ -4606,7 +7185,7 @@ export interface SettingsEditResultDevelopmentMode {
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
-  /** Value of the zone setting. */
+  /** Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false. */
   timeRemaining?: number | null;
 }
 export const SettingsEditResultDevelopmentMode = /*@__PURE__*/ S.suspend(() =>
@@ -4624,10 +7203,10 @@ export const SettingsEditResultDevelopmentMode = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultDevelopmentMode>;
 
 export type SettingsEditResultEarlyHintsId = "early_hints";
-export const SettingsEditResultEarlyHintsId = /*@__PURE__*/ S.String;
+export const SettingsEditResultEarlyHintsId = S.String;
 
 export type SettingsEditResultEarlyHintsValue = "on" | "off";
-export const SettingsEditResultEarlyHintsValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultEarlyHintsValue = S.String;
 
 export interface SettingsEditResultEarlyHints {
   /** ID of the zone setting. */
@@ -4650,11 +7229,10 @@ export const SettingsEditResultEarlyHints = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsEditResultEarlyHints",
 }) as any as S.Schema<SettingsEditResultEarlyHints>;
 
-export type SettingsEditResultZonesSchemasEdgeCacheTTLId = "edge_cache_ttl";
-export const SettingsEditResultZonesSchemasEdgeCacheTTLId =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesEdgeCacheTTL2Id = "edge_cache_ttl";
+export const SettingsEditResultZonesEdgeCacheTTL2Id = S.String;
 
-export type SettingsEditResultZonesSchemasEdgeCacheTTLValue =
+export type SettingsEditResultZonesEdgeCacheTTL2Value =
   | 30
   | 60
   | 300
@@ -4676,67 +7254,63 @@ export type SettingsEditResultZonesSchemasEdgeCacheTTLValue =
   | 432000
   | 518400
   | 604800;
-export const SettingsEditResultZonesSchemasEdgeCacheTTLValue =
-  /*@__PURE__*/ S.Number;
+export const SettingsEditResultZonesEdgeCacheTTL2Value = S.Number;
 
-export interface SettingsEditResultZonesSchemasEdgeCacheTTL {
+export interface SettingsEditResultZonesEdgeCacheTTL2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasEdgeCacheTTLId;
+  id: SettingsEditResultZonesEdgeCacheTTL2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasEdgeCacheTTLValue;
+  value: SettingsEditResultZonesEdgeCacheTTL2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasEdgeCacheTTL =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsEditResultZonesEdgeCacheTTL2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasEdgeCacheTTLId,
-      value: SettingsEditResultZonesSchemasEdgeCacheTTLValue,
+      id: SettingsEditResultZonesEdgeCacheTTL2Id,
+      value: SettingsEditResultZonesEdgeCacheTTL2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsEditResultZonesSchemasEdgeCacheTTL",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasEdgeCacheTTL>;
+).annotate({
+  identifier: "SettingsEditResultZonesEdgeCacheTTL2",
+}) as any as S.Schema<SettingsEditResultZonesEdgeCacheTTL2>;
 
-export type SettingsEditResultZonesSchemasEmailObfuscationId =
-  "email_obfuscation";
-export const SettingsEditResultZonesSchemasEmailObfuscationId =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesEmailObfuscation2Id = "email_obfuscation";
+export const SettingsEditResultZonesEmailObfuscation2Id = S.String;
 
-export type SettingsEditResultZonesSchemasEmailObfuscationValue = "on" | "off";
-export const SettingsEditResultZonesSchemasEmailObfuscationValue =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesEmailObfuscation2Value = "on" | "off";
+export const SettingsEditResultZonesEmailObfuscation2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasEmailObfuscation {
+export interface SettingsEditResultZonesEmailObfuscation2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasEmailObfuscationId;
+  id: SettingsEditResultZonesEmailObfuscation2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasEmailObfuscationValue;
+  value: SettingsEditResultZonesEmailObfuscation2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasEmailObfuscation =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsEditResultZonesEmailObfuscation2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasEmailObfuscationId,
-      value: SettingsEditResultZonesSchemasEmailObfuscationValue,
+      id: SettingsEditResultZonesEmailObfuscation2Id,
+      value: SettingsEditResultZonesEmailObfuscation2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsEditResultZonesSchemasEmailObfuscation",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasEmailObfuscation>;
+).annotate({
+  identifier: "SettingsEditResultZonesEmailObfuscation2",
+}) as any as S.Schema<SettingsEditResultZonesEmailObfuscation2>;
 
 export type SettingsEditResultH2PrioritizationId = "h2_prioritization";
-export const SettingsEditResultH2PrioritizationId = /*@__PURE__*/ S.String;
+export const SettingsEditResultH2PrioritizationId = S.String;
 
 export type SettingsEditResultH2PrioritizationValue = "on" | "off" | "custom";
-export const SettingsEditResultH2PrioritizationValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultH2PrioritizationValue = S.String;
 
 export interface SettingsEditResultH2Prioritization {
   /** ID of the zone setting. */
@@ -4760,10 +7334,10 @@ export const SettingsEditResultH2Prioritization = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultH2Prioritization>;
 
 export type SettingsEditResultHotlinkProtectionId = "hotlink_protection";
-export const SettingsEditResultHotlinkProtectionId = /*@__PURE__*/ S.String;
+export const SettingsEditResultHotlinkProtectionId = S.String;
 
 export type SettingsEditResultHotlinkProtectionValue = "on" | "off";
-export const SettingsEditResultHotlinkProtectionValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultHotlinkProtectionValue = S.String;
 
 export interface SettingsEditResultHotlinkProtection {
   /** ID of the zone setting. */
@@ -4787,10 +7361,10 @@ export const SettingsEditResultHotlinkProtection = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultHotlinkProtection>;
 
 export type SettingsEditResultHTTP2Id = "http2";
-export const SettingsEditResultHTTP2Id = /*@__PURE__*/ S.String;
+export const SettingsEditResultHTTP2Id = S.String;
 
 export type SettingsEditResultHTTP2Value = "on" | "off";
-export const SettingsEditResultHTTP2Value = /*@__PURE__*/ S.String;
+export const SettingsEditResultHTTP2Value = S.String;
 
 export interface SettingsEditResultHTTP2 {
   /** ID of the zone setting. */
@@ -4814,10 +7388,10 @@ export const SettingsEditResultHTTP2 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultHTTP2>;
 
 export type SettingsEditResultHTTP3Id = "http3";
-export const SettingsEditResultHTTP3Id = /*@__PURE__*/ S.String;
+export const SettingsEditResultHTTP3Id = S.String;
 
 export type SettingsEditResultHTTP3Value = "on" | "off";
-export const SettingsEditResultHTTP3Value = /*@__PURE__*/ S.String;
+export const SettingsEditResultHTTP3Value = S.String;
 
 export interface SettingsEditResultHTTP3 {
   /** ID of the zone setting. */
@@ -4841,10 +7415,10 @@ export const SettingsEditResultHTTP3 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultHTTP3>;
 
 export type SettingsEditResultImageResizingId = "image_resizing";
-export const SettingsEditResultImageResizingId = /*@__PURE__*/ S.String;
+export const SettingsEditResultImageResizingId = S.String;
 
 export type SettingsEditResultImageResizingValue = "on" | "off" | "open";
-export const SettingsEditResultImageResizingValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultImageResizingValue = S.String;
 
 export interface SettingsEditResultImageResizing {
   /** ID of the zone setting. */
@@ -4867,41 +7441,39 @@ export const SettingsEditResultImageResizing = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsEditResultImageResizing",
 }) as any as S.Schema<SettingsEditResultImageResizing>;
 
-export type SettingsEditResultZonesSchemasIPGeolocationId = "ip_geolocation";
-export const SettingsEditResultZonesSchemasIPGeolocationId =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesIPGeolocation2Id = "ip_geolocation";
+export const SettingsEditResultZonesIPGeolocation2Id = S.String;
 
-export type SettingsEditResultZonesSchemasIPGeolocationValue = "on" | "off";
-export const SettingsEditResultZonesSchemasIPGeolocationValue =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesIPGeolocation2Value = "on" | "off";
+export const SettingsEditResultZonesIPGeolocation2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasIPGeolocation {
+export interface SettingsEditResultZonesIPGeolocation2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasIPGeolocationId;
+  id: SettingsEditResultZonesIPGeolocation2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasIPGeolocationValue;
+  value: SettingsEditResultZonesIPGeolocation2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasIPGeolocation =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsEditResultZonesIPGeolocation2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasIPGeolocationId,
-      value: SettingsEditResultZonesSchemasIPGeolocationValue,
+      id: SettingsEditResultZonesIPGeolocation2Id,
+      value: SettingsEditResultZonesIPGeolocation2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsEditResultZonesSchemasIPGeolocation",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasIPGeolocation>;
+).annotate({
+  identifier: "SettingsEditResultZonesIPGeolocation2",
+}) as any as S.Schema<SettingsEditResultZonesIPGeolocation2>;
 
 export type SettingsEditResultIPV6Id = "ipv6";
-export const SettingsEditResultIPV6Id = /*@__PURE__*/ S.String;
+export const SettingsEditResultIPV6Id = S.String;
 
 export type SettingsEditResultIPV6Value = "off" | "on";
-export const SettingsEditResultIPV6Value = /*@__PURE__*/ S.String;
+export const SettingsEditResultIPV6Value = S.String;
 
 export interface SettingsEditResultIPV6 {
   /** ID of the zone setting. */
@@ -4925,7 +7497,7 @@ export const SettingsEditResultIPV6 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultIPV6>;
 
 export type SettingsEditResultZonesMaxUploadId = "max_upload";
-export const SettingsEditResultZonesMaxUploadId = /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesMaxUploadId = S.String;
 
 export type SettingsEditResultZonesMaxUploadValue =
   | 100
@@ -4945,8 +7517,16 @@ export type SettingsEditResultZonesMaxUploadValue =
   | 450
   | 475
   | 500
-  | 1000;
-export const SettingsEditResultZonesMaxUploadValue = /*@__PURE__*/ S.Number;
+  | 1000
+  | 1500
+  | 2000
+  | 2500
+  | 3000
+  | 3500
+  | 4000
+  | 4500
+  | 5000;
+export const SettingsEditResultZonesMaxUploadValue = S.Number;
 
 export interface SettingsEditResultZonesMaxUpload {
   /** identifier of the zone setting. */
@@ -4970,14 +7550,14 @@ export const SettingsEditResultZonesMaxUpload = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultZonesMaxUpload>;
 
 export type SettingsEditResultMinTLSVersionId = "min_tls_version";
-export const SettingsEditResultMinTLSVersionId = /*@__PURE__*/ S.String;
+export const SettingsEditResultMinTLSVersionId = S.String;
 
 export type SettingsEditResultMinTLSVersionValue =
   | "1.0"
   | "1.1"
   | "1.2"
   | "1.3";
-export const SettingsEditResultMinTLSVersionValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultMinTLSVersionValue = S.String;
 
 export interface SettingsEditResultMinTLSVersion {
   /** ID of the zone setting. */
@@ -5000,36 +7580,35 @@ export const SettingsEditResultMinTLSVersion = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsEditResultMinTLSVersion",
 }) as any as S.Schema<SettingsEditResultMinTLSVersion>;
 
-export type SettingsEditResultZonesSchemasMirageId = "mirage";
-export const SettingsEditResultZonesSchemasMirageId = /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesMirage2Id = "mirage";
+export const SettingsEditResultZonesMirage2Id = S.String;
 
-export type SettingsEditResultZonesSchemasMirageValue = "on" | "off";
-export const SettingsEditResultZonesSchemasMirageValue = /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesMirage2Value = "on" | "off";
+export const SettingsEditResultZonesMirage2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasMirage {
+export interface SettingsEditResultZonesMirage2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasMirageId;
-  /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasMirageValue;
+  id: SettingsEditResultZonesMirage2Id;
+  /** Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/ */
+  value: SettingsEditResultZonesMirage2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasMirage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsEditResultZonesSchemasMirageId,
-      value: SettingsEditResultZonesSchemasMirageValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
+export const SettingsEditResultZonesMirage2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsEditResultZonesMirage2Id,
+    value: SettingsEditResultZonesMirage2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
 ).annotate({
-  identifier: "SettingsEditResultZonesSchemasMirage",
-}) as any as S.Schema<SettingsEditResultZonesSchemasMirage>;
+  identifier: "SettingsEditResultZonesMirage2",
+}) as any as S.Schema<SettingsEditResultZonesMirage2>;
 
 export type SettingsEditResultNELId = "nel";
-export const SettingsEditResultNELId = /*@__PURE__*/ S.String;
+export const SettingsEditResultNELId = S.String;
 
 export type SettingsEditResultNELValue = SettingsGetResultNELValue;
 export const SettingsEditResultNELValue = SettingsGetResultNELValue;
@@ -5055,44 +7634,40 @@ export const SettingsEditResultNEL = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsEditResultNEL",
 }) as any as S.Schema<SettingsEditResultNEL>;
 
-export type SettingsEditResultZonesSchemasOpportunisticEncryptionId =
+export type SettingsEditResultZonesOpportunisticEncryption2Id =
   "opportunistic_encryption";
-export const SettingsEditResultZonesSchemasOpportunisticEncryptionId =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesOpportunisticEncryption2Id = S.String;
 
-export type SettingsEditResultZonesSchemasOpportunisticEncryptionValue =
-  | "on"
-  | "off";
-export const SettingsEditResultZonesSchemasOpportunisticEncryptionValue =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesOpportunisticEncryption2Value = "on" | "off";
+export const SettingsEditResultZonesOpportunisticEncryption2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasOpportunisticEncryption {
+export interface SettingsEditResultZonesOpportunisticEncryption2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasOpportunisticEncryptionId;
+  id: SettingsEditResultZonesOpportunisticEncryption2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasOpportunisticEncryptionValue;
+  value: SettingsEditResultZonesOpportunisticEncryption2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasOpportunisticEncryption =
+export const SettingsEditResultZonesOpportunisticEncryption2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasOpportunisticEncryptionId,
-      value: SettingsEditResultZonesSchemasOpportunisticEncryptionValue,
+      id: SettingsEditResultZonesOpportunisticEncryption2Id,
+      value: SettingsEditResultZonesOpportunisticEncryption2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsEditResultZonesSchemasOpportunisticEncryption",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasOpportunisticEncryption>;
+    identifier: "SettingsEditResultZonesOpportunisticEncryption2",
+  }) as any as S.Schema<SettingsEditResultZonesOpportunisticEncryption2>;
 
 export type SettingsEditResultOpportunisticOnionId = "opportunistic_onion";
-export const SettingsEditResultOpportunisticOnionId = /*@__PURE__*/ S.String;
+export const SettingsEditResultOpportunisticOnionId = S.String;
 
 export type SettingsEditResultOpportunisticOnionValue = "on" | "off";
-export const SettingsEditResultOpportunisticOnionValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultOpportunisticOnionValue = S.String;
 
 export interface SettingsEditResultOpportunisticOnion {
   /** ID of the zone setting. */
@@ -5117,15 +7692,15 @@ export const SettingsEditResultOpportunisticOnion = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsEditResultOpportunisticOnion>;
 
 export type SettingsEditResultOrangeToOrangeId = "orange_to_orange";
-export const SettingsEditResultOrangeToOrangeId = /*@__PURE__*/ S.String;
+export const SettingsEditResultOrangeToOrangeId = S.String;
 
 export type SettingsEditResultOrangeToOrangeValue = "on" | "off";
-export const SettingsEditResultOrangeToOrangeValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultOrangeToOrangeValue = S.String;
 
 export interface SettingsEditResultOrangeToOrange {
   /** ID of the zone setting. */
   id: SettingsEditResultOrangeToOrangeId;
-  /** Current value of the zone setting. */
+  /** This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/ */
   value: SettingsEditResultOrangeToOrangeValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
@@ -5143,43 +7718,38 @@ export const SettingsEditResultOrangeToOrange = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsEditResultOrangeToOrange",
 }) as any as S.Schema<SettingsEditResultOrangeToOrange>;
 
-export type SettingsEditResultZonesSchemasOriginErrorPagePassThruId =
+export type SettingsEditResultZonesOriginErrorPagePassThru2Id =
   "origin_error_page_pass_thru";
-export const SettingsEditResultZonesSchemasOriginErrorPagePassThruId =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesOriginErrorPagePassThru2Id = S.String;
 
-export type SettingsEditResultZonesSchemasOriginErrorPagePassThruValue =
-  | "on"
-  | "off";
-export const SettingsEditResultZonesSchemasOriginErrorPagePassThruValue =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesOriginErrorPagePassThru2Value = "on" | "off";
+export const SettingsEditResultZonesOriginErrorPagePassThru2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasOriginErrorPagePassThru {
+export interface SettingsEditResultZonesOriginErrorPagePassThru2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasOriginErrorPagePassThruId;
+  id: SettingsEditResultZonesOriginErrorPagePassThru2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasOriginErrorPagePassThruValue;
+  value: SettingsEditResultZonesOriginErrorPagePassThru2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasOriginErrorPagePassThru =
+export const SettingsEditResultZonesOriginErrorPagePassThru2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasOriginErrorPagePassThruId,
-      value: SettingsEditResultZonesSchemasOriginErrorPagePassThruValue,
+      id: SettingsEditResultZonesOriginErrorPagePassThru2Id,
+      value: SettingsEditResultZonesOriginErrorPagePassThru2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsEditResultZonesSchemasOriginErrorPagePassThru",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasOriginErrorPagePassThru>;
+    identifier: "SettingsEditResultZonesOriginErrorPagePassThru2",
+  }) as any as S.Schema<SettingsEditResultZonesOriginErrorPagePassThru2>;
 
 export type SettingsEditResultZonesCacheRulesOriginH2MaxStreamsId =
   "origin_h2_max_streams";
-export const SettingsEditResultZonesCacheRulesOriginH2MaxStreamsId =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesCacheRulesOriginH2MaxStreamsId = S.String;
 
 export interface SettingsEditResultZonesCacheRulesOriginH2MaxStreams {
   /** Value of the zone setting. */
@@ -5202,14 +7772,13 @@ export const SettingsEditResultZonesCacheRulesOriginH2MaxStreams =
 
 export type SettingsEditResultZonesCacheRulesOriginMaxHTTPVersionId =
   "origin_max_http_version";
-export const SettingsEditResultZonesCacheRulesOriginMaxHTTPVersionId =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesCacheRulesOriginMaxHTTPVersionId = S.String;
 
 export type SettingsEditResultZonesCacheRulesOriginMaxHTTPVersionValue =
   | "2"
   | "1";
 export const SettingsEditResultZonesCacheRulesOriginMaxHTTPVersionValue =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsEditResultZonesCacheRulesOriginMaxHTTPVersion {
   /** Value of the zone setting. */
@@ -5232,42 +7801,38 @@ export const SettingsEditResultZonesCacheRulesOriginMaxHTTPVersion =
     identifier: "SettingsEditResultZonesCacheRulesOriginMaxHTTPVersion",
   }) as any as S.Schema<SettingsEditResultZonesCacheRulesOriginMaxHTTPVersion>;
 
-export type SettingsEditResultZonesSchemasPolishId = "polish";
-export const SettingsEditResultZonesSchemasPolishId = /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesPolish2Id = "polish";
+export const SettingsEditResultZonesPolish2Id = S.String;
 
-export type SettingsEditResultZonesSchemasPolishValue =
-  | "off"
-  | "lossless"
-  | "lossy";
-export const SettingsEditResultZonesSchemasPolishValue = /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesPolish2Value = "off" | "lossless" | "lossy";
+export const SettingsEditResultZonesPolish2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasPolish {
+export interface SettingsEditResultZonesPolish2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasPolishId;
+  id: SettingsEditResultZonesPolish2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasPolishValue;
+  value: SettingsEditResultZonesPolish2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasPolish = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsEditResultZonesSchemasPolishId,
-      value: SettingsEditResultZonesSchemasPolishValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
+export const SettingsEditResultZonesPolish2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsEditResultZonesPolish2Id,
+    value: SettingsEditResultZonesPolish2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
 ).annotate({
-  identifier: "SettingsEditResultZonesSchemasPolish",
-}) as any as S.Schema<SettingsEditResultZonesSchemasPolish>;
+  identifier: "SettingsEditResultZonesPolish2",
+}) as any as S.Schema<SettingsEditResultZonesPolish2>;
 
 export type SettingsEditResultPrefetchPreloadId = "prefetch_preload";
-export const SettingsEditResultPrefetchPreloadId = /*@__PURE__*/ S.String;
+export const SettingsEditResultPrefetchPreloadId = S.String;
 
 export type SettingsEditResultPrefetchPreloadValue = "on" | "off";
-export const SettingsEditResultPrefetchPreloadValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultPrefetchPreloadValue = S.String;
 
 export interface SettingsEditResultPrefetchPreload {
   /** ID of the zone setting. */
@@ -5290,16 +7855,43 @@ export const SettingsEditResultPrefetchPreload = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsEditResultPrefetchPreload",
 }) as any as S.Schema<SettingsEditResultPrefetchPreload>;
 
+export type SettingsEditResultZonesPreRenderId = "pre_render";
+export const SettingsEditResultZonesPreRenderId = S.String;
+
+export type SettingsEditResultZonesPreRenderValue = "off" | "on";
+export const SettingsEditResultZonesPreRenderValue = S.String;
+
+export interface SettingsEditResultZonesPreRender {
+  /** ID of the zone setting. */
+  id: SettingsEditResultZonesPreRenderId;
+  /** Current value of the zone setting. */
+  value: SettingsEditResultZonesPreRenderValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const SettingsEditResultZonesPreRender = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsEditResultZonesPreRenderId,
+    value: SettingsEditResultZonesPreRenderValue,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "SettingsEditResultZonesPreRender",
+}) as any as S.Schema<SettingsEditResultZonesPreRender>;
+
 export type SettingsEditResultZonesPrivacyPassId = "privacy_pass";
-export const SettingsEditResultZonesPrivacyPassId = /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesPrivacyPassId = S.String;
 
 export type SettingsEditResultZonesPrivacyPassValue = "on" | "off";
-export const SettingsEditResultZonesPrivacyPassValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesPrivacyPassValue = S.String;
 
 export interface SettingsEditResultZonesPrivacyPass {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesPrivacyPassId;
-  /** Current value of the zone setting. */
+  /** Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31) */
   value: SettingsEditResultZonesPrivacyPassValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
@@ -5318,7 +7910,7 @@ export const SettingsEditResultZonesPrivacyPass = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultZonesPrivacyPass>;
 
 export type SettingsEditResultProxyReadTimeoutId = "proxy_read_timeout";
-export const SettingsEditResultProxyReadTimeoutId = /*@__PURE__*/ S.String;
+export const SettingsEditResultProxyReadTimeoutId = S.String;
 
 export interface SettingsEditResultProxyReadTimeout {
   /** ID of the zone setting. */
@@ -5342,13 +7934,13 @@ export const SettingsEditResultProxyReadTimeout = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultProxyReadTimeout>;
 
 export type SettingsEditResultPseudoIPV4Id = "pseudo_ipv4";
-export const SettingsEditResultPseudoIPV4Id = /*@__PURE__*/ S.String;
+export const SettingsEditResultPseudoIPV4Id = S.String;
 
 export type SettingsEditResultPseudoIPV4Value =
   | "off"
   | "add_header"
   | "overwrite_header";
-export const SettingsEditResultPseudoIPV4Value = /*@__PURE__*/ S.String;
+export const SettingsEditResultPseudoIPV4Value = S.String;
 
 export interface SettingsEditResultPseudoIPV4 {
   /** Value of the Pseudo IPv4 setting. */
@@ -5373,12 +7965,10 @@ export const SettingsEditResultPseudoIPV4 = /*@__PURE__*/ S.suspend(() =>
 
 export type SettingsEditResultZonesRedirectsForAITrainingId =
   "redirects_for_ai_training";
-export const SettingsEditResultZonesRedirectsForAITrainingId =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesRedirectsForAITrainingId = S.String;
 
 export type SettingsEditResultZonesRedirectsForAITrainingValue = "off" | "on";
-export const SettingsEditResultZonesRedirectsForAITrainingValue =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesRedirectsForAITrainingValue = S.String;
 
 export interface SettingsEditResultZonesRedirectsForAITraining {
   /** ID of the zone setting. */
@@ -5403,12 +7993,10 @@ export const SettingsEditResultZonesRedirectsForAITraining =
   }) as any as S.Schema<SettingsEditResultZonesRedirectsForAITraining>;
 
 export type SettingsEditResultZonesReplaceInsecureJSId = "replace_insecure_js";
-export const SettingsEditResultZonesReplaceInsecureJSId =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesReplaceInsecureJSId = S.String;
 
 export type SettingsEditResultZonesReplaceInsecureJSValue = "on" | "off";
-export const SettingsEditResultZonesReplaceInsecureJSValue =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesReplaceInsecureJSValue = S.String;
 
 export interface SettingsEditResultZonesReplaceInsecureJS {
   /** ID of the zone setting. */
@@ -5432,71 +8020,66 @@ export const SettingsEditResultZonesReplaceInsecureJS = /*@__PURE__*/ S.suspend(
   identifier: "SettingsEditResultZonesReplaceInsecureJS",
 }) as any as S.Schema<SettingsEditResultZonesReplaceInsecureJS>;
 
-export type SettingsEditResultZonesSchemasResponseBufferingId =
-  "response_buffering";
-export const SettingsEditResultZonesSchemasResponseBufferingId =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesResponseBuffering2Id = "response_buffering";
+export const SettingsEditResultZonesResponseBuffering2Id = S.String;
 
-export type SettingsEditResultZonesSchemasResponseBufferingValue = "on" | "off";
-export const SettingsEditResultZonesSchemasResponseBufferingValue =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesResponseBuffering2Value = "on" | "off";
+export const SettingsEditResultZonesResponseBuffering2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasResponseBuffering {
+export interface SettingsEditResultZonesResponseBuffering2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasResponseBufferingId;
+  id: SettingsEditResultZonesResponseBuffering2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasResponseBufferingValue;
+  value: SettingsEditResultZonesResponseBuffering2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasResponseBuffering =
+export const SettingsEditResultZonesResponseBuffering2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasResponseBufferingId,
-      value: SettingsEditResultZonesSchemasResponseBufferingValue,
+      id: SettingsEditResultZonesResponseBuffering2Id,
+      value: SettingsEditResultZonesResponseBuffering2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsEditResultZonesSchemasResponseBuffering",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasResponseBuffering>;
+    identifier: "SettingsEditResultZonesResponseBuffering2",
+  }) as any as S.Schema<SettingsEditResultZonesResponseBuffering2>;
 
-export type SettingsEditResultZonesSchemasRocketLoaderId = "rocket_loader";
-export const SettingsEditResultZonesSchemasRocketLoaderId =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesRocketLoader2Id = "rocket_loader";
+export const SettingsEditResultZonesRocketLoader2Id = S.String;
 
-export type SettingsEditResultZonesSchemasRocketLoaderValue = "on" | "off";
-export const SettingsEditResultZonesSchemasRocketLoaderValue =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesRocketLoader2Value = "on" | "off";
+export const SettingsEditResultZonesRocketLoader2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasRocketLoader {
+export interface SettingsEditResultZonesRocketLoader2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasRocketLoaderId;
+  id: SettingsEditResultZonesRocketLoader2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasRocketLoaderValue;
+  value: SettingsEditResultZonesRocketLoader2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasRocketLoader =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsEditResultZonesRocketLoader2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasRocketLoaderId,
-      value: SettingsEditResultZonesSchemasRocketLoaderValue,
+      id: SettingsEditResultZonesRocketLoader2Id,
+      value: SettingsEditResultZonesRocketLoader2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsEditResultZonesSchemasRocketLoader",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasRocketLoader>;
+).annotate({
+  identifier: "SettingsEditResultZonesRocketLoader2",
+}) as any as S.Schema<SettingsEditResultZonesRocketLoader2>;
 
 export type SettingsEditResultZonesSchemasAutomaticPlatformOptimizationId =
   "automatic_platform_optimization";
 export const SettingsEditResultZonesSchemasAutomaticPlatformOptimizationId =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type SettingsEditResultZonesSchemasAutomaticPlatformOptimizationValueHostnamesList =
   Array<string>;
@@ -5558,11 +8141,10 @@ export const SettingsEditResultZonesSchemasAutomaticPlatformOptimization =
   }) as any as S.Schema<SettingsEditResultZonesSchemasAutomaticPlatformOptimization>;
 
 export type SettingsEditResultZonesSearchForAgentsId = "search_for_agents";
-export const SettingsEditResultZonesSearchForAgentsId = /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesSearchForAgentsId = S.String;
 
 export type SettingsEditResultZonesSearchForAgentsValue = "off" | "on";
-export const SettingsEditResultZonesSearchForAgentsValue =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesSearchForAgentsValue = S.String;
 
 export interface SettingsEditResultZonesSearchForAgents {
   /** ID of the zone setting. */
@@ -5587,7 +8169,7 @@ export const SettingsEditResultZonesSearchForAgents = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsEditResultZonesSearchForAgents>;
 
 export type SettingsEditResultSecurityHeadersId = "security_header";
-export const SettingsEditResultSecurityHeadersId = /*@__PURE__*/ S.String;
+export const SettingsEditResultSecurityHeadersId = S.String;
 
 export type SettingsEditResultSecurityHeadersValueStrictTransportSecurity =
   SettingsGetResultSecurityHeadersValueStrictTransportSecurity;
@@ -5620,47 +8202,45 @@ export const SettingsEditResultSecurityHeaders = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsEditResultSecurityHeaders",
 }) as any as S.Schema<SettingsEditResultSecurityHeaders>;
 
-export type SettingsEditResultZonesSchemasSecurityLevelId = "security_level";
-export const SettingsEditResultZonesSchemasSecurityLevelId =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesSecurityLevel2Id = "security_level";
+export const SettingsEditResultZonesSecurityLevel2Id = S.String;
 
-export type SettingsEditResultZonesSchemasSecurityLevelValue =
+export type SettingsEditResultZonesSecurityLevel2Value =
   | "off"
   | "essentially_off"
   | "low"
   | "medium"
   | "high"
   | "under_attack";
-export const SettingsEditResultZonesSchemasSecurityLevelValue =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesSecurityLevel2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasSecurityLevel {
+export interface SettingsEditResultZonesSecurityLevel2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasSecurityLevelId;
+  id: SettingsEditResultZonesSecurityLevel2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasSecurityLevelValue;
+  value: SettingsEditResultZonesSecurityLevel2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasSecurityLevel =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsEditResultZonesSecurityLevel2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasSecurityLevelId,
-      value: SettingsEditResultZonesSchemasSecurityLevelValue,
+      id: SettingsEditResultZonesSecurityLevel2Id,
+      value: SettingsEditResultZonesSecurityLevel2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsEditResultZonesSchemasSecurityLevel",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasSecurityLevel>;
+).annotate({
+  identifier: "SettingsEditResultZonesSecurityLevel2",
+}) as any as S.Schema<SettingsEditResultZonesSecurityLevel2>;
 
 export type SettingsEditResultServerSideExcludesId = "server_side_exclude";
-export const SettingsEditResultServerSideExcludesId = /*@__PURE__*/ S.String;
+export const SettingsEditResultServerSideExcludesId = S.String;
 
 export type SettingsEditResultServerSideExcludesValue = "on" | "off";
-export const SettingsEditResultServerSideExcludesValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultServerSideExcludesValue = S.String;
 
 export interface SettingsEditResultServerSideExcludes {
   /** ID of the zone setting. */
@@ -5685,10 +8265,10 @@ export const SettingsEditResultServerSideExcludes = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsEditResultServerSideExcludes>;
 
 export type SettingsEditResultZonesSha1SupportId = "sha1_support";
-export const SettingsEditResultZonesSha1SupportId = /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesSha1SupportId = S.String;
 
 export type SettingsEditResultZonesSha1SupportValue = "off" | "on";
-export const SettingsEditResultZonesSha1SupportValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesSha1SupportValue = S.String;
 
 export interface SettingsEditResultZonesSha1Support {
   /** Zone setting identifier. */
@@ -5711,72 +8291,68 @@ export const SettingsEditResultZonesSha1Support = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsEditResultZonesSha1Support",
 }) as any as S.Schema<SettingsEditResultZonesSha1Support>;
 
-export type SettingsEditResultZonesSchemasSortQueryStringForCacheId =
+export type SettingsEditResultZonesSortQueryStringForCache2Id =
   "sort_query_string_for_cache";
-export const SettingsEditResultZonesSchemasSortQueryStringForCacheId =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesSortQueryStringForCache2Id = S.String;
 
-export type SettingsEditResultZonesSchemasSortQueryStringForCacheValue =
-  | "on"
-  | "off";
-export const SettingsEditResultZonesSchemasSortQueryStringForCacheValue =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesSortQueryStringForCache2Value = "on" | "off";
+export const SettingsEditResultZonesSortQueryStringForCache2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasSortQueryStringForCache {
+export interface SettingsEditResultZonesSortQueryStringForCache2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasSortQueryStringForCacheId;
+  id: SettingsEditResultZonesSortQueryStringForCache2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasSortQueryStringForCacheValue;
+  value: SettingsEditResultZonesSortQueryStringForCache2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasSortQueryStringForCache =
+export const SettingsEditResultZonesSortQueryStringForCache2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasSortQueryStringForCacheId,
-      value: SettingsEditResultZonesSchemasSortQueryStringForCacheValue,
+      id: SettingsEditResultZonesSortQueryStringForCache2Id,
+      value: SettingsEditResultZonesSortQueryStringForCache2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsEditResultZonesSchemasSortQueryStringForCache",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasSortQueryStringForCache>;
+    identifier: "SettingsEditResultZonesSortQueryStringForCache2",
+  }) as any as S.Schema<SettingsEditResultZonesSortQueryStringForCache2>;
 
-export type SettingsEditResultZonesSchemasSSLId = "ssl";
-export const SettingsEditResultZonesSchemasSSLId = /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesSSL2Id = "ssl";
+export const SettingsEditResultZonesSSL2Id = S.String;
 
-export type SettingsEditResultZonesSchemasSSLValue =
+export type SettingsEditResultZonesSSL2Value =
   | "off"
   | "flexible"
   | "full"
   | "strict";
-export const SettingsEditResultZonesSchemasSSLValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesSSL2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasSSL {
+export interface SettingsEditResultZonesSSL2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasSSLId;
+  id: SettingsEditResultZonesSSL2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasSSLValue;
+  value: SettingsEditResultZonesSSL2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasSSL = /*@__PURE__*/ S.suspend(() =>
+export const SettingsEditResultZonesSSL2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: SettingsEditResultZonesSchemasSSLId,
-    value: SettingsEditResultZonesSchemasSSLValue,
+    id: SettingsEditResultZonesSSL2Id,
+    value: SettingsEditResultZonesSSL2Value,
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
 ).annotate({
-  identifier: "SettingsEditResultZonesSchemasSSL",
-}) as any as S.Schema<SettingsEditResultZonesSchemasSSL>;
+  identifier: "SettingsEditResultZonesSSL2",
+}) as any as S.Schema<SettingsEditResultZonesSSL2>;
 
 export type SettingsEditResultSSLRecommenderId = "ssl_recommender";
-export const SettingsEditResultSSLRecommenderId = /*@__PURE__*/ S.String;
+export const SettingsEditResultSSLRecommenderId = S.String;
 
 export interface SettingsEditResultSSLRecommender {
   /** Enrollment value for SSL/TLS Recommender. */
@@ -5794,10 +8370,10 @@ export const SettingsEditResultSSLRecommender = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultSSLRecommender>;
 
 export type SettingsEditResultZonesTLS12OnlyId = "tls_1_2_only";
-export const SettingsEditResultZonesTLS12OnlyId = /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesTLS12OnlyId = S.String;
 
 export type SettingsEditResultZonesTLS12OnlyValue = "off" | "on";
-export const SettingsEditResultZonesTLS12OnlyValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesTLS12OnlyValue = S.String;
 
 export interface SettingsEditResultZonesTLS12Only {
   /** Zone setting identifier. */
@@ -5821,10 +8397,10 @@ export const SettingsEditResultZonesTLS12Only = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultZonesTLS12Only>;
 
 export type SettingsEditResultTLS13Id = "tls_1_3";
-export const SettingsEditResultTLS13Id = /*@__PURE__*/ S.String;
+export const SettingsEditResultTLS13Id = S.String;
 
 export type SettingsEditResultTLS13Value = "on" | "off" | "zrt";
-export const SettingsEditResultTLS13Value = /*@__PURE__*/ S.String;
+export const SettingsEditResultTLS13Value = S.String;
 
 export interface SettingsEditResultTLS13 {
   /** ID of the zone setting. */
@@ -5848,10 +8424,10 @@ export const SettingsEditResultTLS13 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultTLS13>;
 
 export type SettingsEditResultTLSClientAuthId = "tls_client_auth";
-export const SettingsEditResultTLSClientAuthId = /*@__PURE__*/ S.String;
+export const SettingsEditResultTLSClientAuthId = S.String;
 
 export type SettingsEditResultTLSClientAuthValue = "on" | "off";
-export const SettingsEditResultTLSClientAuthValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultTLSClientAuthValue = S.String;
 
 export interface SettingsEditResultTLSClientAuth {
   /** ID of the zone setting. */
@@ -5875,11 +8451,10 @@ export const SettingsEditResultTLSClientAuth = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultTLSClientAuth>;
 
 export type SettingsEditResultZonesTransformationsId = "transformations";
-export const SettingsEditResultZonesTransformationsId = /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesTransformationsId = S.String;
 
 export type SettingsEditResultZonesTransformationsValue = "on" | "off" | "open";
-export const SettingsEditResultZonesTransformationsValue =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesTransformationsValue = S.String;
 
 export interface SettingsEditResultZonesTransformations {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
@@ -5905,8 +8480,7 @@ export const SettingsEditResultZonesTransformations = /*@__PURE__*/ S.suspend(
 
 export type SettingsEditResultZonesTransformationsAllowedOriginsId =
   "transformations_allowed_origins";
-export const SettingsEditResultZonesTransformationsAllowedOriginsId =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesTransformationsAllowedOriginsId = S.String;
 
 export interface SettingsEditResultZonesTransformationsAllowedOrigins {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
@@ -5930,71 +8504,119 @@ export const SettingsEditResultZonesTransformationsAllowedOrigins =
     identifier: "SettingsEditResultZonesTransformationsAllowedOrigins",
   }) as any as S.Schema<SettingsEditResultZonesTransformationsAllowedOrigins>;
 
-export type SettingsEditResultZonesSchemasTrueClientIPHeaderId =
+export type SettingsEditResultZonesTrueClientIPHeader2Id =
   "true_client_ip_header";
-export const SettingsEditResultZonesSchemasTrueClientIPHeaderId =
-  /*@__PURE__*/ S.String;
+export const SettingsEditResultZonesTrueClientIPHeader2Id = S.String;
 
-export type SettingsEditResultZonesSchemasTrueClientIPHeaderValue =
-  | "on"
-  | "off";
-export const SettingsEditResultZonesSchemasTrueClientIPHeaderValue =
-  /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesTrueClientIPHeader2Value = "on" | "off";
+export const SettingsEditResultZonesTrueClientIPHeader2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasTrueClientIPHeader {
+export interface SettingsEditResultZonesTrueClientIPHeader2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasTrueClientIPHeaderId;
+  id: SettingsEditResultZonesTrueClientIPHeader2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasTrueClientIPHeaderValue;
+  value: SettingsEditResultZonesTrueClientIPHeader2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasTrueClientIPHeader =
+export const SettingsEditResultZonesTrueClientIPHeader2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsEditResultZonesSchemasTrueClientIPHeaderId,
-      value: SettingsEditResultZonesSchemasTrueClientIPHeaderValue,
+      id: SettingsEditResultZonesTrueClientIPHeader2Id,
+      value: SettingsEditResultZonesTrueClientIPHeader2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsEditResultZonesSchemasTrueClientIPHeader",
-  }) as any as S.Schema<SettingsEditResultZonesSchemasTrueClientIPHeader>;
+    identifier: "SettingsEditResultZonesTrueClientIPHeader2",
+  }) as any as S.Schema<SettingsEditResultZonesTrueClientIPHeader2>;
 
-export type SettingsEditResultZonesSchemasWAFId = "waf";
-export const SettingsEditResultZonesSchemasWAFId = /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesWAF2Id = "waf";
+export const SettingsEditResultZonesWAF2Id = S.String;
 
-export type SettingsEditResultZonesSchemasWAFValue = "on" | "off";
-export const SettingsEditResultZonesSchemasWAFValue = /*@__PURE__*/ S.String;
+export type SettingsEditResultZonesWAF2Value = "on" | "off";
+export const SettingsEditResultZonesWAF2Value = S.String;
 
-export interface SettingsEditResultZonesSchemasWAF {
+export interface SettingsEditResultZonesWAF2 {
   /** ID of the zone setting. */
-  id: SettingsEditResultZonesSchemasWAFId;
+  id: SettingsEditResultZonesWAF2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSchemasWAFValue;
+  value: SettingsEditResultZonesWAF2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsEditResultZonesSchemasWAF = /*@__PURE__*/ S.suspend(() =>
+export const SettingsEditResultZonesWAF2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: SettingsEditResultZonesSchemasWAFId,
-    value: SettingsEditResultZonesSchemasWAFValue,
+    id: SettingsEditResultZonesWAF2Id,
+    value: SettingsEditResultZonesWAF2Value,
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
 ).annotate({
-  identifier: "SettingsEditResultZonesSchemasWAF",
-}) as any as S.Schema<SettingsEditResultZonesSchemasWAF>;
+  identifier: "SettingsEditResultZonesWAF2",
+}) as any as S.Schema<SettingsEditResultZonesWAF2>;
+
+export type SettingsEditResultZonesWebmcpEnabledId = "webmcp_enabled";
+export const SettingsEditResultZonesWebmcpEnabledId = S.String;
+
+export type SettingsEditResultZonesWebmcpEnabledValue = "off" | "on";
+export const SettingsEditResultZonesWebmcpEnabledValue = S.String;
+
+export interface SettingsEditResultZonesWebmcpEnabled {
+  /** ID of the zone setting. */
+  id: SettingsEditResultZonesWebmcpEnabledId;
+  /** Current value of the zone setting. */
+  value: SettingsEditResultZonesWebmcpEnabledValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const SettingsEditResultZonesWebmcpEnabled = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: SettingsEditResultZonesWebmcpEnabledId,
+      value: SettingsEditResultZonesWebmcpEnabledValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "SettingsEditResultZonesWebmcpEnabled",
+}) as any as S.Schema<SettingsEditResultZonesWebmcpEnabled>;
+
+export type SettingsEditResultZonesWebmcpPacksId = "webmcp_packs";
+export const SettingsEditResultZonesWebmcpPacksId = S.String;
+
+export interface SettingsEditResultZonesWebmcpPacks {
+  /** ID of the zone setting. */
+  id: SettingsEditResultZonesWebmcpPacksId;
+  /** Current value of the zone setting. */
+  value: string;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const SettingsEditResultZonesWebmcpPacks = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsEditResultZonesWebmcpPacksId,
+    value: S.String,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "SettingsEditResultZonesWebmcpPacks",
+}) as any as S.Schema<SettingsEditResultZonesWebmcpPacks>;
 
 export type SettingsEditResultWebPId = "webp";
-export const SettingsEditResultWebPId = /*@__PURE__*/ S.String;
+export const SettingsEditResultWebPId = S.String;
 
 export type SettingsEditResultWebPValue = "off" | "on";
-export const SettingsEditResultWebPValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultWebPValue = S.String;
 
 export interface SettingsEditResultWebP {
   /** ID of the zone setting. */
@@ -6018,10 +8640,10 @@ export const SettingsEditResultWebP = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsEditResultWebP>;
 
 export type SettingsEditResultWebsocketId = "websockets";
-export const SettingsEditResultWebsocketId = /*@__PURE__*/ S.String;
+export const SettingsEditResultWebsocketId = S.String;
 
 export type SettingsEditResultWebsocketValue = "off" | "on";
-export const SettingsEditResultWebsocketValue = /*@__PURE__*/ S.String;
+export const SettingsEditResultWebsocketValue = S.String;
 
 export interface SettingsEditResultWebsocket {
   /** ID of the zone setting. */
@@ -6049,12 +8671,12 @@ export type SettingsEditResult =
   | SettingsEditResultAdvancedDDoS
   | SettingsEditResultZonesCacheRulesAegis
   | SettingsEditResultAlwaysOnline
-  | SettingsEditResultZonesSchemasAlwaysUseHTTPS
-  | SettingsEditResultZonesSchemasAutomaticHTTPSRewrites
+  | SettingsEditResultZonesAlwaysUseHTTPS2
+  | SettingsEditResultZonesAutomaticHTTPSRewrites2
   | SettingsEditResultBrotli
-  | SettingsEditResultZonesSchemasBrowserCacheTTL
-  | SettingsEditResultZonesSchemasBrowserCheck
-  | SettingsEditResultZonesSchemasCacheLevel
+  | SettingsEditResultZonesBrowserCacheTTL2
+  | SettingsEditResultZonesBrowserCheck2
+  | SettingsEditResultZonesCacheLevel2
   | SettingsEditResultChallengeTTL
   | SettingsEditResultZonesChinaNetworkEnabled
   | SettingsEditResultZonesContentConverter
@@ -6062,118 +8684,197 @@ export type SettingsEditResult =
   | SettingsEditResultZonesCNAMEFlattening
   | SettingsEditResultDevelopmentMode
   | SettingsEditResultEarlyHints
-  | SettingsEditResultZonesSchemasEdgeCacheTTL
-  | SettingsEditResultZonesSchemasEmailObfuscation
+  | SettingsEditResultZonesEdgeCacheTTL2
+  | SettingsEditResultZonesEmailObfuscation2
   | SettingsEditResultH2Prioritization
   | SettingsEditResultHotlinkProtection
   | SettingsEditResultHTTP2
   | SettingsEditResultHTTP3
   | SettingsEditResultImageResizing
-  | SettingsEditResultZonesSchemasIPGeolocation
+  | SettingsEditResultZonesIPGeolocation2
   | SettingsEditResultIPV6
   | SettingsEditResultZonesMaxUpload
   | SettingsEditResultMinTLSVersion
-  | SettingsEditResultZonesSchemasMirage
+  | SettingsEditResultZonesMirage2
   | SettingsEditResultNEL
-  | SettingsEditResultZonesSchemasOpportunisticEncryption
+  | SettingsEditResultZonesOpportunisticEncryption2
   | SettingsEditResultOpportunisticOnion
   | SettingsEditResultOrangeToOrange
-  | SettingsEditResultZonesSchemasOriginErrorPagePassThru
+  | SettingsEditResultZonesOriginErrorPagePassThru2
   | SettingsEditResultZonesCacheRulesOriginH2MaxStreams
   | SettingsEditResultZonesCacheRulesOriginMaxHTTPVersion
-  | SettingsEditResultZonesSchemasPolish
+  | SettingsEditResultZonesPolish2
   | SettingsEditResultPrefetchPreload
+  | SettingsEditResultZonesPreRender
   | SettingsEditResultZonesPrivacyPass
   | SettingsEditResultProxyReadTimeout
   | SettingsEditResultPseudoIPV4
   | SettingsEditResultZonesRedirectsForAITraining
   | SettingsEditResultZonesReplaceInsecureJS
-  | SettingsEditResultZonesSchemasResponseBuffering
-  | SettingsEditResultZonesSchemasRocketLoader
+  | SettingsEditResultZonesResponseBuffering2
+  | SettingsEditResultZonesRocketLoader2
   | SettingsEditResultZonesSchemasAutomaticPlatformOptimization
   | SettingsEditResultZonesSearchForAgents
   | SettingsEditResultSecurityHeaders
-  | SettingsEditResultZonesSchemasSecurityLevel
+  | SettingsEditResultZonesSecurityLevel2
   | SettingsEditResultServerSideExcludes
   | SettingsEditResultZonesSha1Support
-  | SettingsEditResultZonesSchemasSortQueryStringForCache
-  | SettingsEditResultZonesSchemasSSL
+  | SettingsEditResultZonesSortQueryStringForCache2
+  | SettingsEditResultZonesSSL2
   | SettingsEditResultSSLRecommender
   | SettingsEditResultZonesTLS12Only
   | SettingsEditResultTLS13
   | SettingsEditResultTLSClientAuth
   | SettingsEditResultZonesTransformations
   | SettingsEditResultZonesTransformationsAllowedOrigins
-  | SettingsEditResultZonesSchemasTrueClientIPHeader
-  | SettingsEditResultZonesSchemasWAF
+  | SettingsEditResultZonesTrueClientIPHeader2
+  | SettingsEditResultZonesWAF2
+  | SettingsEditResultZonesWebmcpEnabled
+  | SettingsEditResultZonesWebmcpPacks
   | SettingsEditResultWebP
   | SettingsEditResultWebsocket;
 export const SettingsEditResult = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "modifiedOn", "value"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn", "timeRemaining"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "modifiedOn", "value"],
-    ["id", "modifiedOn", "value"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "enabled"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-  ]),
+  T.UnionCases(
+    [
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "modifiedOn", "value"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn", "timeRemaining"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "modifiedOn", "value"],
+      ["id", "modifiedOn", "value"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "enabled"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+    ],
+    {
+      key: "id",
+      values: [
+        "0rtt",
+        "advanced_ddos",
+        "aegis",
+        "always_online",
+        "always_use_https",
+        "automatic_https_rewrites",
+        "brotli",
+        "browser_cache_ttl",
+        "browser_check",
+        "cache_level",
+        "challenge_ttl",
+        "china_network_enabled",
+        "content_converter",
+        "ciphers",
+        "cname_flattening",
+        "development_mode",
+        "early_hints",
+        "edge_cache_ttl",
+        "email_obfuscation",
+        "h2_prioritization",
+        "hotlink_protection",
+        "http2",
+        "http3",
+        "image_resizing",
+        "ip_geolocation",
+        "ipv6",
+        "max_upload",
+        "min_tls_version",
+        "mirage",
+        "nel",
+        "opportunistic_encryption",
+        "opportunistic_onion",
+        "orange_to_orange",
+        "origin_error_page_pass_thru",
+        "origin_h2_max_streams",
+        "origin_max_http_version",
+        "polish",
+        "prefetch_preload",
+        "pre_render",
+        "privacy_pass",
+        "proxy_read_timeout",
+        "pseudo_ipv4",
+        "redirects_for_ai_training",
+        "replace_insecure_js",
+        "response_buffering",
+        "rocket_loader",
+        "automatic_platform_optimization",
+        "search_for_agents",
+        "security_header",
+        "security_level",
+        "server_side_exclude",
+        "sha1_support",
+        "sort_query_string_for_cache",
+        "ssl",
+        "ssl_recommender",
+        "tls_1_2_only",
+        "tls_1_3",
+        "tls_client_auth",
+        "transformations",
+        "transformations_allowed_origins",
+        "true_client_ip_header",
+        "waf",
+        "webmcp_enabled",
+        "webmcp_packs",
+        "webp",
+        "websockets",
+      ],
+    },
+  ),
 );
 
 export type PatchSettingResponse = SettingsEditResult;
@@ -6187,7 +8888,7 @@ export const PatchSettingResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchSettingResponse>;
 
 export type EditRequestType = "full" | "partial" | "secondary" | "internal";
-export const EditRequestType = /*@__PURE__*/ S.String;
+export const EditRequestType = S.String;
 
 export type EditRequestVanityNameServersList = Array<string>;
 export const EditRequestVanityNameServersList = /*@__PURE__*/ S.Array(
@@ -6197,11 +8898,11 @@ export const EditRequestVanityNameServersList = /*@__PURE__*/ S.Array(
 export interface PatchZoneRequest {
   /** Identifier */
   zoneId: string;
-  /** Indicates whether the zone is only using Cloudflare DNS services. A */
+  /** Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits. */
   paused?: boolean;
-  /** A full zone implies that DNS is hosted with Cloudflare. A partial */
+  /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. This parameter is only available to Enterprise customers or if it has been explicitly enabled on a zone. */
   type?: EditRequestType | (string & {});
-  /** An array of domains used for custom name servers. This is only */
+  /** An array of domains used for custom name servers. This is only available for Business and Enterprise plans. */
   vanityNameServers?: EditRequestVanityNameServersList;
 }
 export const PatchZoneRequest = /*@__PURE__*/ S.suspend(() =>
@@ -6251,7 +8952,7 @@ export type EditResponseStatus =
   | "pending"
   | "active"
   | "moved";
-export const EditResponseStatus = /*@__PURE__*/ S.String;
+export const EditResponseStatus = S.String;
 
 export type EditResponseTenant = CreateResponseTenant;
 export const EditResponseTenant = CreateResponseTenant;
@@ -6260,7 +8961,7 @@ export type EditResponseTenantUnit = CreateResponseTenantUnit;
 export const EditResponseTenantUnit = CreateResponseTenantUnit;
 
 export type EditResponseType = "full" | "partial" | "secondary" | "internal";
-export const EditResponseType = /*@__PURE__*/ S.String;
+export const EditResponseType = S.String;
 
 export type EditResponseVanityNameServersList = Array<string>;
 export const EditResponseVanityNameServersList = /*@__PURE__*/ S.Array(
@@ -6273,11 +8974,11 @@ export interface PatchZoneResponse {
   id: string;
   /** The account the zone belongs to. */
   account: CreateResponseAccount;
-  /** The last time proof of ownership was detected and the zone was made */
+  /** The last time proof of ownership was detected and the zone was made active. */
   activatedOn: string;
   /** When the zone was created. */
   createdOn: string;
-  /** The interval (in seconds) from when development mode expires */
+  /** The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is 0. */
   developmentMode: number;
   /** Metadata about the zone. */
   meta: CreateResponseMeta;
@@ -6295,13 +8996,13 @@ export interface PatchZoneResponse {
   originalRegistrar: string;
   /** The owner of the zone. */
   owner: CreateResponseOwner;
-  /** A Zones subscription information. */
+  /** Please use the `/zones/{zone_id}/subscription` API to update a zone's plan. Changing this value will create/cancel associated subscriptions. To view available plans for this zone, see [Zone Plans](https://developers.cloudflare.com/api/resources/zones/subresources/plans/). */
   plan: CreateResponsePlan;
-  /** Allows the customer to use a custom apex. */
+  /** Allows the customer to use a custom apex. *Tenants Only Configuration*. */
   cnameSuffix?: string | null;
-  /** Indicates whether the zone is only using Cloudflare DNS services. A */
+  /** Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits. */
   paused?: boolean | null;
-  /** Legacy permissions based on legacy user membership information. */
+  /** This has been replaced by Account memberships. */
   permissions?: EditResponsePermissionsList | null;
   /** The zone status on Cloudflare. */
   status?: EditResponseStatus | null;
@@ -6309,7 +9010,7 @@ export interface PatchZoneResponse {
   tenant?: CreateResponseTenant | null;
   /** The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization). */
   tenantUnit?: CreateResponseTenantUnit | null;
-  /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is */
+  /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. */
   type?: EditResponseType | null;
   /** An array of domains used for custom name servers. This is only available for Business and Enterprise plans. */
   vanityNameServers?: EditResponseVanityNameServersList | null;
@@ -6449,11 +9150,10 @@ export const RollbackEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RollbackEnvironmentResponse>;
 
 export type SettingsBulkEditRequestBodyItemZeroRTTId = "0rtt";
-export const SettingsBulkEditRequestBodyItemZeroRTTId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZeroRTTId = S.String;
 
 export type SettingsBulkEditRequestBodyItemZeroRTTValue = "on" | "off";
-export const SettingsBulkEditRequestBodyItemZeroRTTValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZeroRTTValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemZeroRTT {
   /** ID of the zone setting. */
@@ -6478,12 +9178,10 @@ export const SettingsBulkEditRequestBodyItemZeroRTT = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsBulkEditRequestBodyItemZeroRTT>;
 
 export type SettingsBulkEditRequestBodyItemAdvancedDDoSId = "advanced_ddos";
-export const SettingsBulkEditRequestBodyItemAdvancedDDoSId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemAdvancedDDoSId = S.String;
 
 export type SettingsBulkEditRequestBodyItemAdvancedDDoSValue = "on" | "off";
-export const SettingsBulkEditRequestBodyItemAdvancedDDoSValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemAdvancedDDoSValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemAdvancedDDoS {
   /** ID of the zone setting. */
@@ -6508,8 +9206,7 @@ export const SettingsBulkEditRequestBodyItemAdvancedDDoS =
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemAdvancedDDoS>;
 
 export type SettingsBulkEditRequestBodyItemZonesCacheRulesAegisId = "aegis";
-export const SettingsBulkEditRequestBodyItemZonesCacheRulesAegisId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesCacheRulesAegisId = S.String;
 
 export interface SettingsBulkEditRequestBodyItemZonesCacheRulesAegisValue {
   /** Whether the feature is enabled or not. */
@@ -6549,12 +9246,10 @@ export const SettingsBulkEditRequestBodyItemZonesCacheRulesAegis =
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesCacheRulesAegis>;
 
 export type SettingsBulkEditRequestBodyItemAlwaysOnlineId = "always_online";
-export const SettingsBulkEditRequestBodyItemAlwaysOnlineId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemAlwaysOnlineId = S.String;
 
 export type SettingsBulkEditRequestBodyItemAlwaysOnlineValue = "on" | "off";
-export const SettingsBulkEditRequestBodyItemAlwaysOnlineValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemAlwaysOnlineValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemAlwaysOnline {
   /** ID of the zone setting. */
@@ -6578,83 +9273,80 @@ export const SettingsBulkEditRequestBodyItemAlwaysOnline =
     identifier: "SettingsBulkEditRequestBodyItemAlwaysOnline",
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemAlwaysOnline>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasAlwaysUseHTTPSId =
+export type SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2Id =
   "always_use_https";
-export const SettingsBulkEditRequestBodyItemZonesSchemasAlwaysUseHTTPSId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2Id = S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasAlwaysUseHTTPSValue =
+export type SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2Value =
   | "on"
   | "off";
-export const SettingsBulkEditRequestBodyItemZonesSchemasAlwaysUseHTTPSValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2Value =
+  S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasAlwaysUseHTTPS {
+export interface SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasAlwaysUseHTTPSId;
+  id: SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2Id;
   /** Current value of the zone setting. */
   value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasAlwaysUseHTTPSValue
+    | SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2Value
     | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasAlwaysUseHTTPS =
+export const SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasAlwaysUseHTTPSId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasAlwaysUseHTTPSValue,
+      id: SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2Id,
+      value: SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasAlwaysUseHTTPS",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasAlwaysUseHTTPS>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasAutomaticHTTPSRewritesId =
+export type SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2Id =
   "automatic_https_rewrites";
-export const SettingsBulkEditRequestBodyItemZonesSchemasAutomaticHTTPSRewritesId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2Id =
+  S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasAutomaticHTTPSRewritesValue =
-  "on" | "off";
-export const SettingsBulkEditRequestBodyItemZonesSchemasAutomaticHTTPSRewritesValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2Value =
+  | "on"
+  | "off";
+export const SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2Value =
+  S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasAutomaticHTTPSRewrites {
+export interface SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasAutomaticHTTPSRewritesId;
+  id: SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2Id;
   /** Current value of the zone setting. */
   value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasAutomaticHTTPSRewritesValue
+    | SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2Value
     | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasAutomaticHTTPSRewrites =
+export const SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasAutomaticHTTPSRewritesId,
-      value:
-        SettingsBulkEditRequestBodyItemZonesSchemasAutomaticHTTPSRewritesValue,
+      id: SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2Id,
+      value: SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier:
-      "SettingsBulkEditRequestBodyItemZonesSchemasAutomaticHTTPSRewrites",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasAutomaticHTTPSRewrites>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2>;
 
 export type SettingsBulkEditRequestBodyItemBrotliId = "brotli";
-export const SettingsBulkEditRequestBodyItemBrotliId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemBrotliId = S.String;
 
 export type SettingsBulkEditRequestBodyItemBrotliValue = "off" | "on";
-export const SettingsBulkEditRequestBodyItemBrotliValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemBrotliValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemBrotli {
   /** ID of the zone setting. */
@@ -6678,14 +9370,13 @@ export const SettingsBulkEditRequestBodyItemBrotli = /*@__PURE__*/ S.suspend(
   identifier: "SettingsBulkEditRequestBodyItemBrotli",
 }) as any as S.Schema<SettingsBulkEditRequestBodyItemBrotli>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasBrowserCacheTTLId =
+export type SettingsBulkEditRequestBodyItemZonesBrowserCacheTTL2Id =
   "browser_cache_ttl";
-export const SettingsBulkEditRequestBodyItemZonesSchemasBrowserCacheTTLId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesBrowserCacheTTL2Id = S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasBrowserCacheTTL {
+export interface SettingsBulkEditRequestBodyItemZonesBrowserCacheTTL2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasBrowserCacheTTLId;
+  id: SettingsBulkEditRequestBodyItemZonesBrowserCacheTTL2Id;
   /** Current value of the zone setting. */
   value: number;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
@@ -6693,92 +9384,82 @@ export interface SettingsBulkEditRequestBodyItemZonesSchemasBrowserCacheTTL {
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasBrowserCacheTTL =
+export const SettingsBulkEditRequestBodyItemZonesBrowserCacheTTL2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasBrowserCacheTTLId,
+      id: SettingsBulkEditRequestBodyItemZonesBrowserCacheTTL2Id,
       value: S.Number,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasBrowserCacheTTL",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasBrowserCacheTTL>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesBrowserCacheTTL2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesBrowserCacheTTL2>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasBrowserCheckId =
+export type SettingsBulkEditRequestBodyItemZonesBrowserCheck2Id =
   "browser_check";
-export const SettingsBulkEditRequestBodyItemZonesSchemasBrowserCheckId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesBrowserCheck2Id = S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasBrowserCheckValue =
+export type SettingsBulkEditRequestBodyItemZonesBrowserCheck2Value =
   | "on"
   | "off";
-export const SettingsBulkEditRequestBodyItemZonesSchemasBrowserCheckValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesBrowserCheck2Value = S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasBrowserCheck {
+export interface SettingsBulkEditRequestBodyItemZonesBrowserCheck2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasBrowserCheckId;
+  id: SettingsBulkEditRequestBodyItemZonesBrowserCheck2Id;
   /** Current value of the zone setting. */
-  value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasBrowserCheckValue
-    | (string & {});
+  value: SettingsBulkEditRequestBodyItemZonesBrowserCheck2Value | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasBrowserCheck =
+export const SettingsBulkEditRequestBodyItemZonesBrowserCheck2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasBrowserCheckId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasBrowserCheckValue,
+      id: SettingsBulkEditRequestBodyItemZonesBrowserCheck2Id,
+      value: SettingsBulkEditRequestBodyItemZonesBrowserCheck2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasBrowserCheck",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasBrowserCheck>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesBrowserCheck2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesBrowserCheck2>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasCacheLevelId =
-  "cache_level";
-export const SettingsBulkEditRequestBodyItemZonesSchemasCacheLevelId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditRequestBodyItemZonesCacheLevel2Id = "cache_level";
+export const SettingsBulkEditRequestBodyItemZonesCacheLevel2Id = S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasCacheLevelValue =
+export type SettingsBulkEditRequestBodyItemZonesCacheLevel2Value =
   | "aggressive"
   | "basic"
   | "simplified";
-export const SettingsBulkEditRequestBodyItemZonesSchemasCacheLevelValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesCacheLevel2Value = S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasCacheLevel {
+export interface SettingsBulkEditRequestBodyItemZonesCacheLevel2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasCacheLevelId;
+  id: SettingsBulkEditRequestBodyItemZonesCacheLevel2Id;
   /** Current value of the zone setting. */
-  value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasCacheLevelValue
-    | (string & {});
+  value: SettingsBulkEditRequestBodyItemZonesCacheLevel2Value | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasCacheLevel =
+export const SettingsBulkEditRequestBodyItemZonesCacheLevel2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasCacheLevelId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasCacheLevelValue,
+      id: SettingsBulkEditRequestBodyItemZonesCacheLevel2Id,
+      value: SettingsBulkEditRequestBodyItemZonesCacheLevel2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasCacheLevel",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasCacheLevel>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesCacheLevel2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesCacheLevel2>;
 
 export type SettingsBulkEditRequestBodyItemChallengeTTLId = "challenge_ttl";
-export const SettingsBulkEditRequestBodyItemChallengeTTLId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemChallengeTTLId = S.String;
 
 export type SettingsBulkEditRequestBodyItemChallengeTTLValue =
   | 300
@@ -6795,8 +9476,7 @@ export type SettingsBulkEditRequestBodyItemChallengeTTLValue =
   | 604800
   | 2592000
   | 31536000;
-export const SettingsBulkEditRequestBodyItemChallengeTTLValue =
-  /*@__PURE__*/ S.Number;
+export const SettingsBulkEditRequestBodyItemChallengeTTLValue = S.Number;
 
 export interface SettingsBulkEditRequestBodyItemChallengeTTL {
   /** ID of the zone setting. */
@@ -6823,13 +9503,13 @@ export const SettingsBulkEditRequestBodyItemChallengeTTL =
 export type SettingsBulkEditRequestBodyItemZonesChinaNetworkEnabledId =
   "china_network_enabled";
 export const SettingsBulkEditRequestBodyItemZonesChinaNetworkEnabledId =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type SettingsBulkEditRequestBodyItemZonesChinaNetworkEnabledValue =
   | "on"
   | "off";
 export const SettingsBulkEditRequestBodyItemZonesChinaNetworkEnabledValue =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsBulkEditRequestBodyItemZonesChinaNetworkEnabled {
   /** ID of the zone setting. */
@@ -6857,14 +9537,13 @@ export const SettingsBulkEditRequestBodyItemZonesChinaNetworkEnabled =
 
 export type SettingsBulkEditRequestBodyItemZonesContentConverterId =
   "content_converter";
-export const SettingsBulkEditRequestBodyItemZonesContentConverterId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesContentConverterId = S.String;
 
 export type SettingsBulkEditRequestBodyItemZonesContentConverterValue =
   | "off"
   | "on";
 export const SettingsBulkEditRequestBodyItemZonesContentConverterValue =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsBulkEditRequestBodyItemZonesContentConverter {
   /** ID of the zone setting. */
@@ -6891,7 +9570,7 @@ export const SettingsBulkEditRequestBodyItemZonesContentConverter =
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesContentConverter>;
 
 export type SettingsBulkEditRequestBodyItemCiphersId = "ciphers";
-export const SettingsBulkEditRequestBodyItemCiphersId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemCiphersId = S.String;
 
 export type SettingsBulkEditRequestBodyItemCiphersValueList = Array<string>;
 export const SettingsBulkEditRequestBodyItemCiphersValueList =
@@ -6923,19 +9602,18 @@ export const SettingsBulkEditRequestBodyItemCiphers = /*@__PURE__*/ S.suspend(
 
 export type SettingsBulkEditRequestBodyItemZonesCNAMEFlatteningId =
   "cname_flattening";
-export const SettingsBulkEditRequestBodyItemZonesCNAMEFlatteningId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesCNAMEFlatteningId = S.String;
 
 export type SettingsBulkEditRequestBodyItemZonesCNAMEFlatteningValue =
   | "flatten_at_root"
   | "flatten_all";
 export const SettingsBulkEditRequestBodyItemZonesCNAMEFlatteningValue =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsBulkEditRequestBodyItemZonesCNAMEFlattening {
   /** How to flatten the cname destination. */
   id: SettingsBulkEditRequestBodyItemZonesCNAMEFlatteningId;
-  /** Current value of the zone setting. */
+  /** This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21 */
   value:
     | SettingsBulkEditRequestBodyItemZonesCNAMEFlatteningValue
     | (string & {});
@@ -6958,12 +9636,10 @@ export const SettingsBulkEditRequestBodyItemZonesCNAMEFlattening =
 
 export type SettingsBulkEditRequestBodyItemDevelopmentModeId =
   "development_mode";
-export const SettingsBulkEditRequestBodyItemDevelopmentModeId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemDevelopmentModeId = S.String;
 
 export type SettingsBulkEditRequestBodyItemDevelopmentModeValue = "on" | "off";
-export const SettingsBulkEditRequestBodyItemDevelopmentModeValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemDevelopmentModeValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemDevelopmentMode {
   /** ID of the zone setting. */
@@ -6974,7 +9650,7 @@ export interface SettingsBulkEditRequestBodyItemDevelopmentMode {
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
-  /** Value of the zone setting. */
+  /** Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false. */
   timeRemaining?: number;
 }
 export const SettingsBulkEditRequestBodyItemDevelopmentMode =
@@ -6991,12 +9667,10 @@ export const SettingsBulkEditRequestBodyItemDevelopmentMode =
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemDevelopmentMode>;
 
 export type SettingsBulkEditRequestBodyItemEarlyHintsId = "early_hints";
-export const SettingsBulkEditRequestBodyItemEarlyHintsId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemEarlyHintsId = S.String;
 
 export type SettingsBulkEditRequestBodyItemEarlyHintsValue = "on" | "off";
-export const SettingsBulkEditRequestBodyItemEarlyHintsValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemEarlyHintsValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemEarlyHints {
   /** ID of the zone setting. */
@@ -7020,12 +9694,11 @@ export const SettingsBulkEditRequestBodyItemEarlyHints =
     identifier: "SettingsBulkEditRequestBodyItemEarlyHints",
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemEarlyHints>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTLId =
+export type SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2Id =
   "edge_cache_ttl";
-export const SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTLId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2Id = S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTLValue =
+export type SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2Value =
   | 30
   | 60
   | 300
@@ -7047,79 +9720,73 @@ export type SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTLValue =
   | 432000
   | 518400
   | 604800;
-export const SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTLValue =
-  /*@__PURE__*/ S.Number;
+export const SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2Value = S.Number;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTL {
+export interface SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTLId;
+  id: SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2Id;
   /** Current value of the zone setting. */
-  value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTLValue
-    | (number & {});
+  value: SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2Value | (number & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTL =
+export const SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTLId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTLValue,
+      id: SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2Id,
+      value: SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTL",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTL>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasEmailObfuscationId =
+export type SettingsBulkEditRequestBodyItemZonesEmailObfuscation2Id =
   "email_obfuscation";
-export const SettingsBulkEditRequestBodyItemZonesSchemasEmailObfuscationId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesEmailObfuscation2Id = S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasEmailObfuscationValue =
+export type SettingsBulkEditRequestBodyItemZonesEmailObfuscation2Value =
   | "on"
   | "off";
-export const SettingsBulkEditRequestBodyItemZonesSchemasEmailObfuscationValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesEmailObfuscation2Value =
+  S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasEmailObfuscation {
+export interface SettingsBulkEditRequestBodyItemZonesEmailObfuscation2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasEmailObfuscationId;
+  id: SettingsBulkEditRequestBodyItemZonesEmailObfuscation2Id;
   /** Current value of the zone setting. */
   value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasEmailObfuscationValue
+    | SettingsBulkEditRequestBodyItemZonesEmailObfuscation2Value
     | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasEmailObfuscation =
+export const SettingsBulkEditRequestBodyItemZonesEmailObfuscation2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasEmailObfuscationId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasEmailObfuscationValue,
+      id: SettingsBulkEditRequestBodyItemZonesEmailObfuscation2Id,
+      value: SettingsBulkEditRequestBodyItemZonesEmailObfuscation2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasEmailObfuscation",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasEmailObfuscation>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesEmailObfuscation2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesEmailObfuscation2>;
 
 export type SettingsBulkEditRequestBodyItemH2PrioritizationId =
   "h2_prioritization";
-export const SettingsBulkEditRequestBodyItemH2PrioritizationId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemH2PrioritizationId = S.String;
 
 export type SettingsBulkEditRequestBodyItemH2PrioritizationValue =
   | "on"
   | "off"
   | "custom";
-export const SettingsBulkEditRequestBodyItemH2PrioritizationValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemH2PrioritizationValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemH2Prioritization {
   /** ID of the zone setting. */
@@ -7145,14 +9812,12 @@ export const SettingsBulkEditRequestBodyItemH2Prioritization =
 
 export type SettingsBulkEditRequestBodyItemHotlinkProtectionId =
   "hotlink_protection";
-export const SettingsBulkEditRequestBodyItemHotlinkProtectionId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemHotlinkProtectionId = S.String;
 
 export type SettingsBulkEditRequestBodyItemHotlinkProtectionValue =
   | "on"
   | "off";
-export const SettingsBulkEditRequestBodyItemHotlinkProtectionValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemHotlinkProtectionValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemHotlinkProtection {
   /** ID of the zone setting. */
@@ -7177,10 +9842,10 @@ export const SettingsBulkEditRequestBodyItemHotlinkProtection =
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemHotlinkProtection>;
 
 export type SettingsBulkEditRequestBodyItemHTTP2Id = "http2";
-export const SettingsBulkEditRequestBodyItemHTTP2Id = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemHTTP2Id = S.String;
 
 export type SettingsBulkEditRequestBodyItemHTTP2Value = "on" | "off";
-export const SettingsBulkEditRequestBodyItemHTTP2Value = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemHTTP2Value = S.String;
 
 export interface SettingsBulkEditRequestBodyItemHTTP2 {
   /** ID of the zone setting. */
@@ -7205,10 +9870,10 @@ export const SettingsBulkEditRequestBodyItemHTTP2 = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsBulkEditRequestBodyItemHTTP2>;
 
 export type SettingsBulkEditRequestBodyItemHTTP3Id = "http3";
-export const SettingsBulkEditRequestBodyItemHTTP3Id = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemHTTP3Id = S.String;
 
 export type SettingsBulkEditRequestBodyItemHTTP3Value = "on" | "off";
-export const SettingsBulkEditRequestBodyItemHTTP3Value = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemHTTP3Value = S.String;
 
 export interface SettingsBulkEditRequestBodyItemHTTP3 {
   /** ID of the zone setting. */
@@ -7232,46 +9897,44 @@ export const SettingsBulkEditRequestBodyItemHTTP3 = /*@__PURE__*/ S.suspend(
   identifier: "SettingsBulkEditRequestBodyItemHTTP3",
 }) as any as S.Schema<SettingsBulkEditRequestBodyItemHTTP3>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasIPGeolocationId =
+export type SettingsBulkEditRequestBodyItemZonesIPGeolocation2Id =
   "ip_geolocation";
-export const SettingsBulkEditRequestBodyItemZonesSchemasIPGeolocationId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesIPGeolocation2Id = S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasIPGeolocationValue =
+export type SettingsBulkEditRequestBodyItemZonesIPGeolocation2Value =
   | "on"
   | "off";
-export const SettingsBulkEditRequestBodyItemZonesSchemasIPGeolocationValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesIPGeolocation2Value = S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasIPGeolocation {
+export interface SettingsBulkEditRequestBodyItemZonesIPGeolocation2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasIPGeolocationId;
+  id: SettingsBulkEditRequestBodyItemZonesIPGeolocation2Id;
   /** Current value of the zone setting. */
   value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasIPGeolocationValue
+    | SettingsBulkEditRequestBodyItemZonesIPGeolocation2Value
     | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasIPGeolocation =
+export const SettingsBulkEditRequestBodyItemZonesIPGeolocation2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasIPGeolocationId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasIPGeolocationValue,
+      id: SettingsBulkEditRequestBodyItemZonesIPGeolocation2Id,
+      value: SettingsBulkEditRequestBodyItemZonesIPGeolocation2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasIPGeolocation",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasIPGeolocation>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesIPGeolocation2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesIPGeolocation2>;
 
 export type SettingsBulkEditRequestBodyItemIPV6Id = "ipv6";
-export const SettingsBulkEditRequestBodyItemIPV6Id = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemIPV6Id = S.String;
 
 export type SettingsBulkEditRequestBodyItemIPV6Value = "off" | "on";
-export const SettingsBulkEditRequestBodyItemIPV6Value = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemIPV6Value = S.String;
 
 export interface SettingsBulkEditRequestBodyItemIPV6 {
   /** ID of the zone setting. */
@@ -7295,8 +9958,7 @@ export const SettingsBulkEditRequestBodyItemIPV6 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsBulkEditRequestBodyItemIPV6>;
 
 export type SettingsBulkEditRequestBodyItemZonesMaxUploadId = "max_upload";
-export const SettingsBulkEditRequestBodyItemZonesMaxUploadId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesMaxUploadId = S.String;
 
 export type SettingsBulkEditRequestBodyItemZonesMaxUploadValue =
   | 100
@@ -7316,9 +9978,16 @@ export type SettingsBulkEditRequestBodyItemZonesMaxUploadValue =
   | 450
   | 475
   | 500
-  | 1000;
-export const SettingsBulkEditRequestBodyItemZonesMaxUploadValue =
-  /*@__PURE__*/ S.Number;
+  | 1000
+  | 1500
+  | 2000
+  | 2500
+  | 3000
+  | 3500
+  | 4000
+  | 4500
+  | 5000;
+export const SettingsBulkEditRequestBodyItemZonesMaxUploadValue = S.Number;
 
 export interface SettingsBulkEditRequestBodyItemZonesMaxUpload {
   /** identifier of the zone setting. */
@@ -7343,16 +10012,14 @@ export const SettingsBulkEditRequestBodyItemZonesMaxUpload =
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesMaxUpload>;
 
 export type SettingsBulkEditRequestBodyItemMinTLSVersionId = "min_tls_version";
-export const SettingsBulkEditRequestBodyItemMinTLSVersionId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemMinTLSVersionId = S.String;
 
 export type SettingsBulkEditRequestBodyItemMinTLSVersionValue =
   | "1.0"
   | "1.1"
   | "1.2"
   | "1.3";
-export const SettingsBulkEditRequestBodyItemMinTLSVersionValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemMinTLSVersionValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemMinTLSVersion {
   /** ID of the zone setting. */
@@ -7376,40 +10043,36 @@ export const SettingsBulkEditRequestBodyItemMinTLSVersion =
     identifier: "SettingsBulkEditRequestBodyItemMinTLSVersion",
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemMinTLSVersion>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasMirageId = "mirage";
-export const SettingsBulkEditRequestBodyItemZonesSchemasMirageId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditRequestBodyItemZonesMirage2Id = "mirage";
+export const SettingsBulkEditRequestBodyItemZonesMirage2Id = S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasMirageValue =
-  | "on"
-  | "off";
-export const SettingsBulkEditRequestBodyItemZonesSchemasMirageValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditRequestBodyItemZonesMirage2Value = "on" | "off";
+export const SettingsBulkEditRequestBodyItemZonesMirage2Value = S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasMirage {
+export interface SettingsBulkEditRequestBodyItemZonesMirage2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasMirageId;
-  /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesSchemasMirageValue | (string & {});
+  id: SettingsBulkEditRequestBodyItemZonesMirage2Id;
+  /** Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/ */
+  value: SettingsBulkEditRequestBodyItemZonesMirage2Value | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasMirage =
+export const SettingsBulkEditRequestBodyItemZonesMirage2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasMirageId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasMirageValue,
+      id: SettingsBulkEditRequestBodyItemZonesMirage2Id,
+      value: SettingsBulkEditRequestBodyItemZonesMirage2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasMirage",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasMirage>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesMirage2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesMirage2>;
 
 export type SettingsBulkEditRequestBodyItemNELId = "nel";
-export const SettingsBulkEditRequestBodyItemNELId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemNELId = S.String;
 
 export interface SettingsBulkEditRequestBodyItemNELValue {
   enabled?: boolean;
@@ -7444,52 +10107,49 @@ export const SettingsBulkEditRequestBodyItemNEL = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsBulkEditRequestBodyItemNEL",
 }) as any as S.Schema<SettingsBulkEditRequestBodyItemNEL>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasOpportunisticEncryptionId =
+export type SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2Id =
   "opportunistic_encryption";
-export const SettingsBulkEditRequestBodyItemZonesSchemasOpportunisticEncryptionId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2Id =
+  S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasOpportunisticEncryptionValue =
-  "on" | "off";
-export const SettingsBulkEditRequestBodyItemZonesSchemasOpportunisticEncryptionValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2Value =
+  | "on"
+  | "off";
+export const SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2Value =
+  S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasOpportunisticEncryption {
+export interface SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasOpportunisticEncryptionId;
+  id: SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2Id;
   /** Current value of the zone setting. */
   value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasOpportunisticEncryptionValue
+    | SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2Value
     | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasOpportunisticEncryption =
+export const SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasOpportunisticEncryptionId,
-      value:
-        SettingsBulkEditRequestBodyItemZonesSchemasOpportunisticEncryptionValue,
+      id: SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2Id,
+      value: SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier:
-      "SettingsBulkEditRequestBodyItemZonesSchemasOpportunisticEncryption",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasOpportunisticEncryption>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2>;
 
 export type SettingsBulkEditRequestBodyItemOpportunisticOnionId =
   "opportunistic_onion";
-export const SettingsBulkEditRequestBodyItemOpportunisticOnionId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemOpportunisticOnionId = S.String;
 
 export type SettingsBulkEditRequestBodyItemOpportunisticOnionValue =
   | "on"
   | "off";
-export const SettingsBulkEditRequestBodyItemOpportunisticOnionValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemOpportunisticOnionValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemOpportunisticOnion {
   /** ID of the zone setting. */
@@ -7515,17 +10175,15 @@ export const SettingsBulkEditRequestBodyItemOpportunisticOnion =
 
 export type SettingsBulkEditRequestBodyItemOrangeToOrangeId =
   "orange_to_orange";
-export const SettingsBulkEditRequestBodyItemOrangeToOrangeId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemOrangeToOrangeId = S.String;
 
 export type SettingsBulkEditRequestBodyItemOrangeToOrangeValue = "on" | "off";
-export const SettingsBulkEditRequestBodyItemOrangeToOrangeValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemOrangeToOrangeValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemOrangeToOrange {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemOrangeToOrangeId;
-  /** Current value of the zone setting. */
+  /** This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/ */
   value: SettingsBulkEditRequestBodyItemOrangeToOrangeValue | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
@@ -7544,46 +10202,45 @@ export const SettingsBulkEditRequestBodyItemOrangeToOrange =
     identifier: "SettingsBulkEditRequestBodyItemOrangeToOrange",
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemOrangeToOrange>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasOriginErrorPagePassThruId =
+export type SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2Id =
   "origin_error_page_pass_thru";
-export const SettingsBulkEditRequestBodyItemZonesSchemasOriginErrorPagePassThruId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2Id =
+  S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasOriginErrorPagePassThruValue =
-  "on" | "off";
-export const SettingsBulkEditRequestBodyItemZonesSchemasOriginErrorPagePassThruValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2Value =
+  | "on"
+  | "off";
+export const SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2Value =
+  S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasOriginErrorPagePassThru {
+export interface SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasOriginErrorPagePassThruId;
+  id: SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2Id;
   /** Current value of the zone setting. */
   value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasOriginErrorPagePassThruValue
+    | SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2Value
     | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasOriginErrorPagePassThru =
+export const SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasOriginErrorPagePassThruId,
-      value:
-        SettingsBulkEditRequestBodyItemZonesSchemasOriginErrorPagePassThruValue,
+      id: SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2Id,
+      value: SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier:
-      "SettingsBulkEditRequestBodyItemZonesSchemasOriginErrorPagePassThru",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasOriginErrorPagePassThru>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2>;
 
 export type SettingsBulkEditRequestBodyItemZonesCacheRulesOriginH2MaxStreamsId =
   "origin_h2_max_streams";
 export const SettingsBulkEditRequestBodyItemZonesCacheRulesOriginH2MaxStreamsId =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsBulkEditRequestBodyItemZonesCacheRulesOriginH2MaxStreams {
   /** Value of the zone setting. */
@@ -7608,12 +10265,13 @@ export const SettingsBulkEditRequestBodyItemZonesCacheRulesOriginH2MaxStreams =
 export type SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVersionId =
   "origin_max_http_version";
 export const SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVersionId =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVersionValue =
-  "2" | "1";
+  | "2"
+  | "1";
 export const SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVersionValue =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVersion {
   /** Value of the zone setting. */
@@ -7639,47 +10297,43 @@ export const SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVersion 
       "SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVersion",
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVersion>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasPolishId = "polish";
-export const SettingsBulkEditRequestBodyItemZonesSchemasPolishId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditRequestBodyItemZonesPolish2Id = "polish";
+export const SettingsBulkEditRequestBodyItemZonesPolish2Id = S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasPolishValue =
+export type SettingsBulkEditRequestBodyItemZonesPolish2Value =
   | "off"
   | "lossless"
   | "lossy";
-export const SettingsBulkEditRequestBodyItemZonesSchemasPolishValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesPolish2Value = S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasPolish {
+export interface SettingsBulkEditRequestBodyItemZonesPolish2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasPolishId;
+  id: SettingsBulkEditRequestBodyItemZonesPolish2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesSchemasPolishValue | (string & {});
+  value: SettingsBulkEditRequestBodyItemZonesPolish2Value | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasPolish =
+export const SettingsBulkEditRequestBodyItemZonesPolish2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasPolishId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasPolishValue,
+      id: SettingsBulkEditRequestBodyItemZonesPolish2Id,
+      value: SettingsBulkEditRequestBodyItemZonesPolish2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasPolish",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasPolish>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesPolish2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesPolish2>;
 
 export type SettingsBulkEditRequestBodyItemPrefetchPreloadId =
   "prefetch_preload";
-export const SettingsBulkEditRequestBodyItemPrefetchPreloadId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemPrefetchPreloadId = S.String;
 
 export type SettingsBulkEditRequestBodyItemPrefetchPreloadValue = "on" | "off";
-export const SettingsBulkEditRequestBodyItemPrefetchPreloadValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemPrefetchPreloadValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemPrefetchPreload {
   /** ID of the zone setting. */
@@ -7703,18 +10357,44 @@ export const SettingsBulkEditRequestBodyItemPrefetchPreload =
     identifier: "SettingsBulkEditRequestBodyItemPrefetchPreload",
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemPrefetchPreload>;
 
+export type SettingsBulkEditRequestBodyItemZonesPreRenderId = "pre_render";
+export const SettingsBulkEditRequestBodyItemZonesPreRenderId = S.String;
+
+export type SettingsBulkEditRequestBodyItemZonesPreRenderValue = "off" | "on";
+export const SettingsBulkEditRequestBodyItemZonesPreRenderValue = S.String;
+
+export interface SettingsBulkEditRequestBodyItemZonesPreRender {
+  /** ID of the zone setting. */
+  id: SettingsBulkEditRequestBodyItemZonesPreRenderId;
+  /** Current value of the zone setting. */
+  value: SettingsBulkEditRequestBodyItemZonesPreRenderValue | (string & {});
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean;
+  /** last time this setting was modified. */
+  modifiedOn?: string;
+}
+export const SettingsBulkEditRequestBodyItemZonesPreRender =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: SettingsBulkEditRequestBodyItemZonesPreRenderId,
+      value: SettingsBulkEditRequestBodyItemZonesPreRenderValue,
+      editable: S.optional(S.Boolean),
+      modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "SettingsBulkEditRequestBodyItemZonesPreRender",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesPreRender>;
+
 export type SettingsBulkEditRequestBodyItemZonesPrivacyPassId = "privacy_pass";
-export const SettingsBulkEditRequestBodyItemZonesPrivacyPassId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesPrivacyPassId = S.String;
 
 export type SettingsBulkEditRequestBodyItemZonesPrivacyPassValue = "on" | "off";
-export const SettingsBulkEditRequestBodyItemZonesPrivacyPassValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesPrivacyPassValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemZonesPrivacyPass {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesPrivacyPassId;
-  /** Current value of the zone setting. */
+  /** Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31) */
   value: SettingsBulkEditRequestBodyItemZonesPrivacyPassValue | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
@@ -7735,8 +10415,7 @@ export const SettingsBulkEditRequestBodyItemZonesPrivacyPass =
 
 export type SettingsBulkEditRequestBodyItemProxyReadTimeoutId =
   "proxy_read_timeout";
-export const SettingsBulkEditRequestBodyItemProxyReadTimeoutId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemProxyReadTimeoutId = S.String;
 
 export interface SettingsBulkEditRequestBodyItemProxyReadTimeout {
   /** ID of the zone setting. */
@@ -7761,15 +10440,13 @@ export const SettingsBulkEditRequestBodyItemProxyReadTimeout =
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemProxyReadTimeout>;
 
 export type SettingsBulkEditRequestBodyItemPseudoIPV4Id = "pseudo_ipv4";
-export const SettingsBulkEditRequestBodyItemPseudoIPV4Id =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemPseudoIPV4Id = S.String;
 
 export type SettingsBulkEditRequestBodyItemPseudoIPV4Value =
   | "off"
   | "add_header"
   | "overwrite_header";
-export const SettingsBulkEditRequestBodyItemPseudoIPV4Value =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemPseudoIPV4Value = S.String;
 
 export interface SettingsBulkEditRequestBodyItemPseudoIPV4 {
   /** Value of the Pseudo IPv4 setting. */
@@ -7796,13 +10473,13 @@ export const SettingsBulkEditRequestBodyItemPseudoIPV4 =
 export type SettingsBulkEditRequestBodyItemZonesRedirectsForAITrainingId =
   "redirects_for_ai_training";
 export const SettingsBulkEditRequestBodyItemZonesRedirectsForAITrainingId =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type SettingsBulkEditRequestBodyItemZonesRedirectsForAITrainingValue =
   | "off"
   | "on";
 export const SettingsBulkEditRequestBodyItemZonesRedirectsForAITrainingValue =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsBulkEditRequestBodyItemZonesRedirectsForAITraining {
   /** ID of the zone setting. */
@@ -7830,14 +10507,13 @@ export const SettingsBulkEditRequestBodyItemZonesRedirectsForAITraining =
 
 export type SettingsBulkEditRequestBodyItemZonesReplaceInsecureJSId =
   "replace_insecure_js";
-export const SettingsBulkEditRequestBodyItemZonesReplaceInsecureJSId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesReplaceInsecureJSId = S.String;
 
 export type SettingsBulkEditRequestBodyItemZonesReplaceInsecureJSValue =
   | "on"
   | "off";
 export const SettingsBulkEditRequestBodyItemZonesReplaceInsecureJSValue =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsBulkEditRequestBodyItemZonesReplaceInsecureJS {
   /** ID of the zone setting. */
@@ -7863,80 +10539,76 @@ export const SettingsBulkEditRequestBodyItemZonesReplaceInsecureJS =
     identifier: "SettingsBulkEditRequestBodyItemZonesReplaceInsecureJS",
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesReplaceInsecureJS>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasResponseBufferingId =
+export type SettingsBulkEditRequestBodyItemZonesResponseBuffering2Id =
   "response_buffering";
-export const SettingsBulkEditRequestBodyItemZonesSchemasResponseBufferingId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesResponseBuffering2Id =
+  S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasResponseBufferingValue =
+export type SettingsBulkEditRequestBodyItemZonesResponseBuffering2Value =
   | "on"
   | "off";
-export const SettingsBulkEditRequestBodyItemZonesSchemasResponseBufferingValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesResponseBuffering2Value =
+  S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasResponseBuffering {
+export interface SettingsBulkEditRequestBodyItemZonesResponseBuffering2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasResponseBufferingId;
+  id: SettingsBulkEditRequestBodyItemZonesResponseBuffering2Id;
   /** Current value of the zone setting. */
   value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasResponseBufferingValue
+    | SettingsBulkEditRequestBodyItemZonesResponseBuffering2Value
     | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasResponseBuffering =
+export const SettingsBulkEditRequestBodyItemZonesResponseBuffering2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasResponseBufferingId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasResponseBufferingValue,
+      id: SettingsBulkEditRequestBodyItemZonesResponseBuffering2Id,
+      value: SettingsBulkEditRequestBodyItemZonesResponseBuffering2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasResponseBuffering",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasResponseBuffering>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesResponseBuffering2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesResponseBuffering2>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasRocketLoaderId =
+export type SettingsBulkEditRequestBodyItemZonesRocketLoader2Id =
   "rocket_loader";
-export const SettingsBulkEditRequestBodyItemZonesSchemasRocketLoaderId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesRocketLoader2Id = S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasRocketLoaderValue =
+export type SettingsBulkEditRequestBodyItemZonesRocketLoader2Value =
   | "on"
   | "off";
-export const SettingsBulkEditRequestBodyItemZonesSchemasRocketLoaderValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesRocketLoader2Value = S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasRocketLoader {
+export interface SettingsBulkEditRequestBodyItemZonesRocketLoader2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasRocketLoaderId;
+  id: SettingsBulkEditRequestBodyItemZonesRocketLoader2Id;
   /** Current value of the zone setting. */
-  value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasRocketLoaderValue
-    | (string & {});
+  value: SettingsBulkEditRequestBodyItemZonesRocketLoader2Value | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasRocketLoader =
+export const SettingsBulkEditRequestBodyItemZonesRocketLoader2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasRocketLoaderId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasRocketLoaderValue,
+      id: SettingsBulkEditRequestBodyItemZonesRocketLoader2Id,
+      value: SettingsBulkEditRequestBodyItemZonesRocketLoader2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasRocketLoader",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasRocketLoader>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesRocketLoader2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesRocketLoader2>;
 
 export type SettingsBulkEditRequestBodyItemZonesSchemasAutomaticPlatformOptimizationId =
   "automatic_platform_optimization";
 export const SettingsBulkEditRequestBodyItemZonesSchemasAutomaticPlatformOptimizationId =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type SettingsBulkEditRequestBodyItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList =
   Array<string>;
@@ -8001,14 +10673,13 @@ export const SettingsBulkEditRequestBodyItemZonesSchemasAutomaticPlatformOptimiz
 
 export type SettingsBulkEditRequestBodyItemZonesSearchForAgentsId =
   "search_for_agents";
-export const SettingsBulkEditRequestBodyItemZonesSearchForAgentsId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesSearchForAgentsId = S.String;
 
 export type SettingsBulkEditRequestBodyItemZonesSearchForAgentsValue =
   | "off"
   | "on";
 export const SettingsBulkEditRequestBodyItemZonesSearchForAgentsValue =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsBulkEditRequestBodyItemZonesSearchForAgents {
   /** ID of the zone setting. */
@@ -8036,8 +10707,7 @@ export const SettingsBulkEditRequestBodyItemZonesSearchForAgents =
 
 export type SettingsBulkEditRequestBodyItemSecurityHeadersId =
   "security_header";
-export const SettingsBulkEditRequestBodyItemSecurityHeadersId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemSecurityHeadersId = S.String;
 
 export interface SettingsBulkEditRequestBodyItemSecurityHeadersValueStrictTransportSecurity {
   /** Whether or not strict transport security is enabled. */
@@ -8106,55 +10776,51 @@ export const SettingsBulkEditRequestBodyItemSecurityHeaders =
     identifier: "SettingsBulkEditRequestBodyItemSecurityHeaders",
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemSecurityHeaders>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasSecurityLevelId =
+export type SettingsBulkEditRequestBodyItemZonesSecurityLevel2Id =
   "security_level";
-export const SettingsBulkEditRequestBodyItemZonesSchemasSecurityLevelId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesSecurityLevel2Id = S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasSecurityLevelValue =
+export type SettingsBulkEditRequestBodyItemZonesSecurityLevel2Value =
   | "off"
   | "essentially_off"
   | "low"
   | "medium"
   | "high"
   | "under_attack";
-export const SettingsBulkEditRequestBodyItemZonesSchemasSecurityLevelValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesSecurityLevel2Value = S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasSecurityLevel {
+export interface SettingsBulkEditRequestBodyItemZonesSecurityLevel2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasSecurityLevelId;
+  id: SettingsBulkEditRequestBodyItemZonesSecurityLevel2Id;
   /** Current value of the zone setting. */
   value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasSecurityLevelValue
+    | SettingsBulkEditRequestBodyItemZonesSecurityLevel2Value
     | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasSecurityLevel =
+export const SettingsBulkEditRequestBodyItemZonesSecurityLevel2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasSecurityLevelId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasSecurityLevelValue,
+      id: SettingsBulkEditRequestBodyItemZonesSecurityLevel2Id,
+      value: SettingsBulkEditRequestBodyItemZonesSecurityLevel2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasSecurityLevel",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasSecurityLevel>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesSecurityLevel2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSecurityLevel2>;
 
 export type SettingsBulkEditRequestBodyItemServerSideExcludesId =
   "server_side_exclude";
-export const SettingsBulkEditRequestBodyItemServerSideExcludesId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemServerSideExcludesId = S.String;
 
 export type SettingsBulkEditRequestBodyItemServerSideExcludesValue =
   | "on"
   | "off";
-export const SettingsBulkEditRequestBodyItemServerSideExcludesValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemServerSideExcludesValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemServerSideExcludes {
   /** ID of the zone setting. */
@@ -8179,12 +10845,10 @@ export const SettingsBulkEditRequestBodyItemServerSideExcludes =
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemServerSideExcludes>;
 
 export type SettingsBulkEditRequestBodyItemZonesSha1SupportId = "sha1_support";
-export const SettingsBulkEditRequestBodyItemZonesSha1SupportId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesSha1SupportId = S.String;
 
 export type SettingsBulkEditRequestBodyItemZonesSha1SupportValue = "off" | "on";
-export const SettingsBulkEditRequestBodyItemZonesSha1SupportValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesSha1SupportValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemZonesSha1Support {
   /** Zone setting identifier. */
@@ -8208,79 +10872,75 @@ export const SettingsBulkEditRequestBodyItemZonesSha1Support =
     identifier: "SettingsBulkEditRequestBodyItemZonesSha1Support",
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSha1Support>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasSortQueryStringForCacheId =
+export type SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2Id =
   "sort_query_string_for_cache";
-export const SettingsBulkEditRequestBodyItemZonesSchemasSortQueryStringForCacheId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2Id =
+  S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasSortQueryStringForCacheValue =
-  "on" | "off";
-export const SettingsBulkEditRequestBodyItemZonesSchemasSortQueryStringForCacheValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2Value =
+  | "on"
+  | "off";
+export const SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2Value =
+  S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasSortQueryStringForCache {
+export interface SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasSortQueryStringForCacheId;
+  id: SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2Id;
   /** Current value of the zone setting. */
   value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasSortQueryStringForCacheValue
+    | SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2Value
     | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasSortQueryStringForCache =
+export const SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasSortQueryStringForCacheId,
-      value:
-        SettingsBulkEditRequestBodyItemZonesSchemasSortQueryStringForCacheValue,
+      id: SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2Id,
+      value: SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier:
-      "SettingsBulkEditRequestBodyItemZonesSchemasSortQueryStringForCache",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasSortQueryStringForCache>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasSSLId = "ssl";
-export const SettingsBulkEditRequestBodyItemZonesSchemasSSLId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditRequestBodyItemZonesSSL2Id = "ssl";
+export const SettingsBulkEditRequestBodyItemZonesSSL2Id = S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasSSLValue =
+export type SettingsBulkEditRequestBodyItemZonesSSL2Value =
   | "off"
   | "flexible"
   | "full"
   | "strict";
-export const SettingsBulkEditRequestBodyItemZonesSchemasSSLValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesSSL2Value = S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasSSL {
+export interface SettingsBulkEditRequestBodyItemZonesSSL2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasSSLId;
+  id: SettingsBulkEditRequestBodyItemZonesSSL2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesSchemasSSLValue | (string & {});
+  value: SettingsBulkEditRequestBodyItemZonesSSL2Value | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasSSL =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsBulkEditRequestBodyItemZonesSSL2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasSSLId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasSSLValue,
+      id: SettingsBulkEditRequestBodyItemZonesSSL2Id,
+      value: SettingsBulkEditRequestBodyItemZonesSSL2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasSSL",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasSSL>;
+).annotate({
+  identifier: "SettingsBulkEditRequestBodyItemZonesSSL2",
+}) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSSL2>;
 
 export type SettingsBulkEditRequestBodyItemSSLRecommenderId = "ssl_recommender";
-export const SettingsBulkEditRequestBodyItemSSLRecommenderId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemSSLRecommenderId = S.String;
 
 export interface SettingsBulkEditRequestBodyItemSSLRecommender {
   /** Enrollment value for SSL/TLS Recommender. */
@@ -8299,12 +10959,10 @@ export const SettingsBulkEditRequestBodyItemSSLRecommender =
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemSSLRecommender>;
 
 export type SettingsBulkEditRequestBodyItemZonesTLS12OnlyId = "tls_1_2_only";
-export const SettingsBulkEditRequestBodyItemZonesTLS12OnlyId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesTLS12OnlyId = S.String;
 
 export type SettingsBulkEditRequestBodyItemZonesTLS12OnlyValue = "off" | "on";
-export const SettingsBulkEditRequestBodyItemZonesTLS12OnlyValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesTLS12OnlyValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemZonesTLS12Only {
   /** Zone setting identifier. */
@@ -8329,10 +10987,10 @@ export const SettingsBulkEditRequestBodyItemZonesTLS12Only =
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesTLS12Only>;
 
 export type SettingsBulkEditRequestBodyItemTLS13Id = "tls_1_3";
-export const SettingsBulkEditRequestBodyItemTLS13Id = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemTLS13Id = S.String;
 
 export type SettingsBulkEditRequestBodyItemTLS13Value = "on" | "off" | "zrt";
-export const SettingsBulkEditRequestBodyItemTLS13Value = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemTLS13Value = S.String;
 
 export interface SettingsBulkEditRequestBodyItemTLS13 {
   /** ID of the zone setting. */
@@ -8357,12 +11015,10 @@ export const SettingsBulkEditRequestBodyItemTLS13 = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsBulkEditRequestBodyItemTLS13>;
 
 export type SettingsBulkEditRequestBodyItemTLSClientAuthId = "tls_client_auth";
-export const SettingsBulkEditRequestBodyItemTLSClientAuthId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemTLSClientAuthId = S.String;
 
 export type SettingsBulkEditRequestBodyItemTLSClientAuthValue = "on" | "off";
-export const SettingsBulkEditRequestBodyItemTLSClientAuthValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemTLSClientAuthValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemTLSClientAuth {
   /** ID of the zone setting. */
@@ -8386,75 +11042,130 @@ export const SettingsBulkEditRequestBodyItemTLSClientAuth =
     identifier: "SettingsBulkEditRequestBodyItemTLSClientAuth",
   }) as any as S.Schema<SettingsBulkEditRequestBodyItemTLSClientAuth>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasTrueClientIPHeaderId =
+export type SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2Id =
   "true_client_ip_header";
-export const SettingsBulkEditRequestBodyItemZonesSchemasTrueClientIPHeaderId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2Id =
+  S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasTrueClientIPHeaderValue =
-  "on" | "off";
-export const SettingsBulkEditRequestBodyItemZonesSchemasTrueClientIPHeaderValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2Value =
+  | "on"
+  | "off";
+export const SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2Value =
+  S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasTrueClientIPHeader {
+export interface SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasTrueClientIPHeaderId;
+  id: SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2Id;
   /** Current value of the zone setting. */
   value:
-    | SettingsBulkEditRequestBodyItemZonesSchemasTrueClientIPHeaderValue
+    | SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2Value
     | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasTrueClientIPHeader =
+export const SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasTrueClientIPHeaderId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasTrueClientIPHeaderValue,
+      id: SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2Id,
+      value: SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2Value,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasTrueClientIPHeader",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasTrueClientIPHeader>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2>;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasWAFId = "waf";
-export const SettingsBulkEditRequestBodyItemZonesSchemasWAFId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditRequestBodyItemZonesWAF2Id = "waf";
+export const SettingsBulkEditRequestBodyItemZonesWAF2Id = S.String;
 
-export type SettingsBulkEditRequestBodyItemZonesSchemasWAFValue = "on" | "off";
-export const SettingsBulkEditRequestBodyItemZonesSchemasWAFValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditRequestBodyItemZonesWAF2Value = "on" | "off";
+export const SettingsBulkEditRequestBodyItemZonesWAF2Value = S.String;
 
-export interface SettingsBulkEditRequestBodyItemZonesSchemasWAF {
+export interface SettingsBulkEditRequestBodyItemZonesWAF2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditRequestBodyItemZonesSchemasWAFId;
+  id: SettingsBulkEditRequestBodyItemZonesWAF2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesSchemasWAFValue | (string & {});
+  value: SettingsBulkEditRequestBodyItemZonesWAF2Value | (string & {});
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean;
   /** last time this setting was modified. */
   modifiedOn?: string;
 }
-export const SettingsBulkEditRequestBodyItemZonesSchemasWAF =
+export const SettingsBulkEditRequestBodyItemZonesWAF2 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: SettingsBulkEditRequestBodyItemZonesWAF2Id,
+      value: SettingsBulkEditRequestBodyItemZonesWAF2Value,
+      editable: S.optional(S.Boolean),
+      modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "SettingsBulkEditRequestBodyItemZonesWAF2",
+}) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesWAF2>;
+
+export type SettingsBulkEditRequestBodyItemZonesWebmcpEnabledId =
+  "webmcp_enabled";
+export const SettingsBulkEditRequestBodyItemZonesWebmcpEnabledId = S.String;
+
+export type SettingsBulkEditRequestBodyItemZonesWebmcpEnabledValue =
+  | "off"
+  | "on";
+export const SettingsBulkEditRequestBodyItemZonesWebmcpEnabledValue = S.String;
+
+export interface SettingsBulkEditRequestBodyItemZonesWebmcpEnabled {
+  /** ID of the zone setting. */
+  id: SettingsBulkEditRequestBodyItemZonesWebmcpEnabledId;
+  /** Current value of the zone setting. */
+  value: SettingsBulkEditRequestBodyItemZonesWebmcpEnabledValue | (string & {});
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean;
+  /** last time this setting was modified. */
+  modifiedOn?: string;
+}
+export const SettingsBulkEditRequestBodyItemZonesWebmcpEnabled =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditRequestBodyItemZonesSchemasWAFId,
-      value: SettingsBulkEditRequestBodyItemZonesSchemasWAFValue,
+      id: SettingsBulkEditRequestBodyItemZonesWebmcpEnabledId,
+      value: SettingsBulkEditRequestBodyItemZonesWebmcpEnabledValue,
       editable: S.optional(S.Boolean),
       modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditRequestBodyItemZonesSchemasWAF",
-  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesSchemasWAF>;
+    identifier: "SettingsBulkEditRequestBodyItemZonesWebmcpEnabled",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesWebmcpEnabled>;
+
+export type SettingsBulkEditRequestBodyItemZonesWebmcpPacksId = "webmcp_packs";
+export const SettingsBulkEditRequestBodyItemZonesWebmcpPacksId = S.String;
+
+export interface SettingsBulkEditRequestBodyItemZonesWebmcpPacks {
+  /** ID of the zone setting. */
+  id: SettingsBulkEditRequestBodyItemZonesWebmcpPacksId;
+  /** Current value of the zone setting. */
+  value: string;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean;
+  /** last time this setting was modified. */
+  modifiedOn?: string;
+}
+export const SettingsBulkEditRequestBodyItemZonesWebmcpPacks =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: SettingsBulkEditRequestBodyItemZonesWebmcpPacksId,
+      value: S.String,
+      editable: S.optional(S.Boolean),
+      modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "SettingsBulkEditRequestBodyItemZonesWebmcpPacks",
+  }) as any as S.Schema<SettingsBulkEditRequestBodyItemZonesWebmcpPacks>;
 
 export type SettingsBulkEditRequestBodyItemWebPId = "webp";
-export const SettingsBulkEditRequestBodyItemWebPId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemWebPId = S.String;
 
 export type SettingsBulkEditRequestBodyItemWebPValue = "off" | "on";
-export const SettingsBulkEditRequestBodyItemWebPValue = /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemWebPValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemWebP {
   /** ID of the zone setting. */
@@ -8478,12 +11189,10 @@ export const SettingsBulkEditRequestBodyItemWebP = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsBulkEditRequestBodyItemWebP>;
 
 export type SettingsBulkEditRequestBodyItemWebsocketId = "websockets";
-export const SettingsBulkEditRequestBodyItemWebsocketId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemWebsocketId = S.String;
 
 export type SettingsBulkEditRequestBodyItemWebsocketValue = "off" | "on";
-export const SettingsBulkEditRequestBodyItemWebsocketValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditRequestBodyItemWebsocketValue = S.String;
 
 export interface SettingsBulkEditRequestBodyItemWebsocket {
   /** ID of the zone setting. */
@@ -8512,12 +11221,12 @@ export type SettingsBulkEditRequestBodyItem =
   | SettingsBulkEditRequestBodyItemAdvancedDDoS
   | SettingsBulkEditRequestBodyItemZonesCacheRulesAegis
   | SettingsBulkEditRequestBodyItemAlwaysOnline
-  | SettingsBulkEditRequestBodyItemZonesSchemasAlwaysUseHTTPS
-  | SettingsBulkEditRequestBodyItemZonesSchemasAutomaticHTTPSRewrites
+  | SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2
+  | SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2
   | SettingsBulkEditRequestBodyItemBrotli
-  | SettingsBulkEditRequestBodyItemZonesSchemasBrowserCacheTTL
-  | SettingsBulkEditRequestBodyItemZonesSchemasBrowserCheck
-  | SettingsBulkEditRequestBodyItemZonesSchemasCacheLevel
+  | SettingsBulkEditRequestBodyItemZonesBrowserCacheTTL2
+  | SettingsBulkEditRequestBodyItemZonesBrowserCheck2
+  | SettingsBulkEditRequestBodyItemZonesCacheLevel2
   | SettingsBulkEditRequestBodyItemChallengeTTL
   | SettingsBulkEditRequestBodyItemZonesChinaNetworkEnabled
   | SettingsBulkEditRequestBodyItemZonesContentConverter
@@ -8525,112 +11234,188 @@ export type SettingsBulkEditRequestBodyItem =
   | SettingsBulkEditRequestBodyItemZonesCNAMEFlattening
   | SettingsBulkEditRequestBodyItemDevelopmentMode
   | SettingsBulkEditRequestBodyItemEarlyHints
-  | SettingsBulkEditRequestBodyItemZonesSchemasEdgeCacheTTL
-  | SettingsBulkEditRequestBodyItemZonesSchemasEmailObfuscation
+  | SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2
+  | SettingsBulkEditRequestBodyItemZonesEmailObfuscation2
   | SettingsBulkEditRequestBodyItemH2Prioritization
   | SettingsBulkEditRequestBodyItemHotlinkProtection
   | SettingsBulkEditRequestBodyItemHTTP2
   | SettingsBulkEditRequestBodyItemHTTP3
-  | SettingsBulkEditRequestBodyItemZonesSchemasIPGeolocation
+  | SettingsBulkEditRequestBodyItemZonesIPGeolocation2
   | SettingsBulkEditRequestBodyItemIPV6
   | SettingsBulkEditRequestBodyItemZonesMaxUpload
   | SettingsBulkEditRequestBodyItemMinTLSVersion
-  | SettingsBulkEditRequestBodyItemZonesSchemasMirage
+  | SettingsBulkEditRequestBodyItemZonesMirage2
   | SettingsBulkEditRequestBodyItemNEL
-  | SettingsBulkEditRequestBodyItemZonesSchemasOpportunisticEncryption
+  | SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2
   | SettingsBulkEditRequestBodyItemOpportunisticOnion
   | SettingsBulkEditRequestBodyItemOrangeToOrange
-  | SettingsBulkEditRequestBodyItemZonesSchemasOriginErrorPagePassThru
+  | SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2
   | SettingsBulkEditRequestBodyItemZonesCacheRulesOriginH2MaxStreams
   | SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVersion
-  | SettingsBulkEditRequestBodyItemZonesSchemasPolish
+  | SettingsBulkEditRequestBodyItemZonesPolish2
   | SettingsBulkEditRequestBodyItemPrefetchPreload
+  | SettingsBulkEditRequestBodyItemZonesPreRender
   | SettingsBulkEditRequestBodyItemZonesPrivacyPass
   | SettingsBulkEditRequestBodyItemProxyReadTimeout
   | SettingsBulkEditRequestBodyItemPseudoIPV4
   | SettingsBulkEditRequestBodyItemZonesRedirectsForAITraining
   | SettingsBulkEditRequestBodyItemZonesReplaceInsecureJS
-  | SettingsBulkEditRequestBodyItemZonesSchemasResponseBuffering
-  | SettingsBulkEditRequestBodyItemZonesSchemasRocketLoader
+  | SettingsBulkEditRequestBodyItemZonesResponseBuffering2
+  | SettingsBulkEditRequestBodyItemZonesRocketLoader2
   | SettingsBulkEditRequestBodyItemZonesSchemasAutomaticPlatformOptimization
   | SettingsBulkEditRequestBodyItemZonesSearchForAgents
   | SettingsBulkEditRequestBodyItemSecurityHeaders
-  | SettingsBulkEditRequestBodyItemZonesSchemasSecurityLevel
+  | SettingsBulkEditRequestBodyItemZonesSecurityLevel2
   | SettingsBulkEditRequestBodyItemServerSideExcludes
   | SettingsBulkEditRequestBodyItemZonesSha1Support
-  | SettingsBulkEditRequestBodyItemZonesSchemasSortQueryStringForCache
-  | SettingsBulkEditRequestBodyItemZonesSchemasSSL
+  | SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2
+  | SettingsBulkEditRequestBodyItemZonesSSL2
   | SettingsBulkEditRequestBodyItemSSLRecommender
   | SettingsBulkEditRequestBodyItemZonesTLS12Only
   | SettingsBulkEditRequestBodyItemTLS13
   | SettingsBulkEditRequestBodyItemTLSClientAuth
-  | SettingsBulkEditRequestBodyItemZonesSchemasTrueClientIPHeader
-  | SettingsBulkEditRequestBodyItemZonesSchemasWAF
+  | SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2
+  | SettingsBulkEditRequestBodyItemZonesWAF2
+  | SettingsBulkEditRequestBodyItemZonesWebmcpEnabled
+  | SettingsBulkEditRequestBodyItemZonesWebmcpPacks
   | SettingsBulkEditRequestBodyItemWebP
   | SettingsBulkEditRequestBodyItemWebsocket;
 export const SettingsBulkEditRequestBodyItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "modifiedOn", "value"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn", "timeRemaining"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "modifiedOn", "value"],
-    ["id", "modifiedOn", "value"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "enabled"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-  ]),
+  T.UnionCases(
+    [
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "modifiedOn", "value"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn", "timeRemaining"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "modifiedOn", "value"],
+      ["id", "modifiedOn", "value"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "enabled"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+    ],
+    {
+      key: "id",
+      values: [
+        "0rtt",
+        "advanced_ddos",
+        "aegis",
+        "always_online",
+        "always_use_https",
+        "automatic_https_rewrites",
+        "brotli",
+        "browser_cache_ttl",
+        "browser_check",
+        "cache_level",
+        "challenge_ttl",
+        "china_network_enabled",
+        "content_converter",
+        "ciphers",
+        "cname_flattening",
+        "development_mode",
+        "early_hints",
+        "edge_cache_ttl",
+        "email_obfuscation",
+        "h2_prioritization",
+        "hotlink_protection",
+        "http2",
+        "http3",
+        "ip_geolocation",
+        "ipv6",
+        "max_upload",
+        "min_tls_version",
+        "mirage",
+        "nel",
+        "opportunistic_encryption",
+        "opportunistic_onion",
+        "orange_to_orange",
+        "origin_error_page_pass_thru",
+        "origin_h2_max_streams",
+        "origin_max_http_version",
+        "polish",
+        "prefetch_preload",
+        "pre_render",
+        "privacy_pass",
+        "proxy_read_timeout",
+        "pseudo_ipv4",
+        "redirects_for_ai_training",
+        "replace_insecure_js",
+        "response_buffering",
+        "rocket_loader",
+        "automatic_platform_optimization",
+        "search_for_agents",
+        "security_header",
+        "security_level",
+        "server_side_exclude",
+        "sha1_support",
+        "sort_query_string_for_cache",
+        "ssl",
+        "ssl_recommender",
+        "tls_1_2_only",
+        "tls_1_3",
+        "tls_client_auth",
+        "true_client_ip_header",
+        "waf",
+        "webmcp_enabled",
+        "webmcp_packs",
+        "webp",
+        "websockets",
+      ],
+    },
+  ),
 );
 
 export type SettingsBulkEditRequestBodyList =
@@ -8658,10 +11443,10 @@ export const SettingsBulkEditRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsBulkEditRequest>;
 
 export type SettingsBulkEditResultItemZeroRTTId = "0rtt";
-export const SettingsBulkEditResultItemZeroRTTId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZeroRTTId = S.String;
 
 export type SettingsBulkEditResultItemZeroRTTValue = "on" | "off";
-export const SettingsBulkEditResultItemZeroRTTValue = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZeroRTTValue = S.String;
 
 export interface SettingsBulkEditResultItemZeroRTT {
   /** ID of the zone setting. */
@@ -8685,11 +11470,10 @@ export const SettingsBulkEditResultItemZeroRTT = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsBulkEditResultItemZeroRTT>;
 
 export type SettingsBulkEditResultItemAdvancedDDoSId = "advanced_ddos";
-export const SettingsBulkEditResultItemAdvancedDDoSId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemAdvancedDDoSId = S.String;
 
 export type SettingsBulkEditResultItemAdvancedDDoSValue = "on" | "off";
-export const SettingsBulkEditResultItemAdvancedDDoSValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemAdvancedDDoSValue = S.String;
 
 export interface SettingsBulkEditResultItemAdvancedDDoS {
   /** ID of the zone setting. */
@@ -8714,8 +11498,7 @@ export const SettingsBulkEditResultItemAdvancedDDoS = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsBulkEditResultItemAdvancedDDoS>;
 
 export type SettingsBulkEditResultItemZonesCacheRulesAegisId = "aegis";
-export const SettingsBulkEditResultItemZonesCacheRulesAegisId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesCacheRulesAegisId = S.String;
 
 export type SettingsBulkEditResultItemZonesCacheRulesAegisValue =
   SettingsGetResultZonesCacheRulesAegisValue;
@@ -8742,11 +11525,10 @@ export const SettingsBulkEditResultItemZonesCacheRulesAegis =
   }) as any as S.Schema<SettingsBulkEditResultItemZonesCacheRulesAegis>;
 
 export type SettingsBulkEditResultItemAlwaysOnlineId = "always_online";
-export const SettingsBulkEditResultItemAlwaysOnlineId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemAlwaysOnlineId = S.String;
 
 export type SettingsBulkEditResultItemAlwaysOnlineValue = "on" | "off";
-export const SettingsBulkEditResultItemAlwaysOnlineValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemAlwaysOnlineValue = S.String;
 
 export interface SettingsBulkEditResultItemAlwaysOnline {
   /** ID of the zone setting. */
@@ -8770,77 +11552,73 @@ export const SettingsBulkEditResultItemAlwaysOnline = /*@__PURE__*/ S.suspend(
   identifier: "SettingsBulkEditResultItemAlwaysOnline",
 }) as any as S.Schema<SettingsBulkEditResultItemAlwaysOnline>;
 
-export type SettingsBulkEditResultItemZonesSchemasAlwaysUseHTTPSId =
+export type SettingsBulkEditResultItemZonesAlwaysUseHTTPS2Id =
   "always_use_https";
-export const SettingsBulkEditResultItemZonesSchemasAlwaysUseHTTPSId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesAlwaysUseHTTPS2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasAlwaysUseHTTPSValue =
-  | "on"
-  | "off";
-export const SettingsBulkEditResultItemZonesSchemasAlwaysUseHTTPSValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesAlwaysUseHTTPS2Value = "on" | "off";
+export const SettingsBulkEditResultItemZonesAlwaysUseHTTPS2Value = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasAlwaysUseHTTPS {
+export interface SettingsBulkEditResultItemZonesAlwaysUseHTTPS2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasAlwaysUseHTTPSId;
+  id: SettingsBulkEditResultItemZonesAlwaysUseHTTPS2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasAlwaysUseHTTPSValue;
+  value: SettingsBulkEditResultItemZonesAlwaysUseHTTPS2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasAlwaysUseHTTPS =
+export const SettingsBulkEditResultItemZonesAlwaysUseHTTPS2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasAlwaysUseHTTPSId,
-      value: SettingsBulkEditResultItemZonesSchemasAlwaysUseHTTPSValue,
+      id: SettingsBulkEditResultItemZonesAlwaysUseHTTPS2Id,
+      value: SettingsBulkEditResultItemZonesAlwaysUseHTTPS2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasAlwaysUseHTTPS",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasAlwaysUseHTTPS>;
+    identifier: "SettingsBulkEditResultItemZonesAlwaysUseHTTPS2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesAlwaysUseHTTPS2>;
 
-export type SettingsBulkEditResultItemZonesSchemasAutomaticHTTPSRewritesId =
+export type SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2Id =
   "automatic_https_rewrites";
-export const SettingsBulkEditResultItemZonesSchemasAutomaticHTTPSRewritesId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2Id =
+  S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasAutomaticHTTPSRewritesValue =
+export type SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2Value =
   | "on"
   | "off";
-export const SettingsBulkEditResultItemZonesSchemasAutomaticHTTPSRewritesValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2Value =
+  S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasAutomaticHTTPSRewrites {
+export interface SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasAutomaticHTTPSRewritesId;
+  id: SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasAutomaticHTTPSRewritesValue;
+  value: SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasAutomaticHTTPSRewrites =
+export const SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasAutomaticHTTPSRewritesId,
-      value: SettingsBulkEditResultItemZonesSchemasAutomaticHTTPSRewritesValue,
+      id: SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2Id,
+      value: SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasAutomaticHTTPSRewrites",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasAutomaticHTTPSRewrites>;
+    identifier: "SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2>;
 
 export type SettingsBulkEditResultItemBrotliId = "brotli";
-export const SettingsBulkEditResultItemBrotliId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemBrotliId = S.String;
 
 export type SettingsBulkEditResultItemBrotliValue = "off" | "on";
-export const SettingsBulkEditResultItemBrotliValue = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemBrotliValue = S.String;
 
 export interface SettingsBulkEditResultItemBrotli {
   /** ID of the zone setting. */
@@ -8863,14 +11641,13 @@ export const SettingsBulkEditResultItemBrotli = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsBulkEditResultItemBrotli",
 }) as any as S.Schema<SettingsBulkEditResultItemBrotli>;
 
-export type SettingsBulkEditResultItemZonesSchemasBrowserCacheTTLId =
+export type SettingsBulkEditResultItemZonesBrowserCacheTTL2Id =
   "browser_cache_ttl";
-export const SettingsBulkEditResultItemZonesSchemasBrowserCacheTTLId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesBrowserCacheTTL2Id = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasBrowserCacheTTL {
+export interface SettingsBulkEditResultItemZonesBrowserCacheTTL2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasBrowserCacheTTLId;
+  id: SettingsBulkEditResultItemZonesBrowserCacheTTL2Id;
   /** Current value of the zone setting. */
   value: number;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
@@ -8878,86 +11655,79 @@ export interface SettingsBulkEditResultItemZonesSchemasBrowserCacheTTL {
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasBrowserCacheTTL =
+export const SettingsBulkEditResultItemZonesBrowserCacheTTL2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasBrowserCacheTTLId,
+      id: SettingsBulkEditResultItemZonesBrowserCacheTTL2Id,
       value: S.Number,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasBrowserCacheTTL",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasBrowserCacheTTL>;
+    identifier: "SettingsBulkEditResultItemZonesBrowserCacheTTL2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesBrowserCacheTTL2>;
 
-export type SettingsBulkEditResultItemZonesSchemasBrowserCheckId =
-  "browser_check";
-export const SettingsBulkEditResultItemZonesSchemasBrowserCheckId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesBrowserCheck2Id = "browser_check";
+export const SettingsBulkEditResultItemZonesBrowserCheck2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasBrowserCheckValue =
-  | "on"
-  | "off";
-export const SettingsBulkEditResultItemZonesSchemasBrowserCheckValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesBrowserCheck2Value = "on" | "off";
+export const SettingsBulkEditResultItemZonesBrowserCheck2Value = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasBrowserCheck {
+export interface SettingsBulkEditResultItemZonesBrowserCheck2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasBrowserCheckId;
+  id: SettingsBulkEditResultItemZonesBrowserCheck2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasBrowserCheckValue;
+  value: SettingsBulkEditResultItemZonesBrowserCheck2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasBrowserCheck =
+export const SettingsBulkEditResultItemZonesBrowserCheck2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasBrowserCheckId,
-      value: SettingsBulkEditResultItemZonesSchemasBrowserCheckValue,
+      id: SettingsBulkEditResultItemZonesBrowserCheck2Id,
+      value: SettingsBulkEditResultItemZonesBrowserCheck2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasBrowserCheck",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasBrowserCheck>;
+    identifier: "SettingsBulkEditResultItemZonesBrowserCheck2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesBrowserCheck2>;
 
-export type SettingsBulkEditResultItemZonesSchemasCacheLevelId = "cache_level";
-export const SettingsBulkEditResultItemZonesSchemasCacheLevelId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesCacheLevel2Id = "cache_level";
+export const SettingsBulkEditResultItemZonesCacheLevel2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasCacheLevelValue =
+export type SettingsBulkEditResultItemZonesCacheLevel2Value =
   | "aggressive"
   | "basic"
   | "simplified";
-export const SettingsBulkEditResultItemZonesSchemasCacheLevelValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesCacheLevel2Value = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasCacheLevel {
+export interface SettingsBulkEditResultItemZonesCacheLevel2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasCacheLevelId;
+  id: SettingsBulkEditResultItemZonesCacheLevel2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasCacheLevelValue;
+  value: SettingsBulkEditResultItemZonesCacheLevel2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasCacheLevel =
+export const SettingsBulkEditResultItemZonesCacheLevel2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasCacheLevelId,
-      value: SettingsBulkEditResultItemZonesSchemasCacheLevelValue,
+      id: SettingsBulkEditResultItemZonesCacheLevel2Id,
+      value: SettingsBulkEditResultItemZonesCacheLevel2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasCacheLevel",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasCacheLevel>;
+    identifier: "SettingsBulkEditResultItemZonesCacheLevel2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesCacheLevel2>;
 
 export type SettingsBulkEditResultItemChallengeTTLId = "challenge_ttl";
-export const SettingsBulkEditResultItemChallengeTTLId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemChallengeTTLId = S.String;
 
 export type SettingsBulkEditResultItemChallengeTTLValue =
   | 300
@@ -8974,8 +11744,7 @@ export type SettingsBulkEditResultItemChallengeTTLValue =
   | 604800
   | 2592000
   | 31536000;
-export const SettingsBulkEditResultItemChallengeTTLValue =
-  /*@__PURE__*/ S.Number;
+export const SettingsBulkEditResultItemChallengeTTLValue = S.Number;
 
 export interface SettingsBulkEditResultItemChallengeTTL {
   /** ID of the zone setting. */
@@ -9000,7 +11769,7 @@ export const SettingsBulkEditResultItemChallengeTTL = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsBulkEditResultItemChallengeTTL>;
 
 export type SettingsBulkEditResultItemCiphersId = "ciphers";
-export const SettingsBulkEditResultItemCiphersId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemCiphersId = S.String;
 
 export type SettingsBulkEditResultItemCiphersValueList = Array<string>;
 export const SettingsBulkEditResultItemCiphersValueList = /*@__PURE__*/ S.Array(
@@ -9030,12 +11799,10 @@ export const SettingsBulkEditResultItemCiphers = /*@__PURE__*/ S.suspend(() =>
 
 export type SettingsBulkEditResultItemZonesContentConverterId =
   "content_converter";
-export const SettingsBulkEditResultItemZonesContentConverterId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesContentConverterId = S.String;
 
 export type SettingsBulkEditResultItemZonesContentConverterValue = "off" | "on";
-export const SettingsBulkEditResultItemZonesContentConverterValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesContentConverterValue = S.String;
 
 export interface SettingsBulkEditResultItemZonesContentConverter {
   /** ID of the zone setting. */
@@ -9061,19 +11828,17 @@ export const SettingsBulkEditResultItemZonesContentConverter =
 
 export type SettingsBulkEditResultItemZonesCNAMEFlatteningId =
   "cname_flattening";
-export const SettingsBulkEditResultItemZonesCNAMEFlatteningId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesCNAMEFlatteningId = S.String;
 
 export type SettingsBulkEditResultItemZonesCNAMEFlatteningValue =
   | "flatten_at_root"
   | "flatten_all";
-export const SettingsBulkEditResultItemZonesCNAMEFlatteningValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesCNAMEFlatteningValue = S.String;
 
 export interface SettingsBulkEditResultItemZonesCNAMEFlattening {
   /** How to flatten the cname destination. */
   id: SettingsBulkEditResultItemZonesCNAMEFlatteningId;
-  /** Current value of the zone setting. */
+  /** This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21 */
   value: SettingsBulkEditResultItemZonesCNAMEFlatteningValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
@@ -9093,12 +11858,10 @@ export const SettingsBulkEditResultItemZonesCNAMEFlattening =
   }) as any as S.Schema<SettingsBulkEditResultItemZonesCNAMEFlattening>;
 
 export type SettingsBulkEditResultItemDevelopmentModeId = "development_mode";
-export const SettingsBulkEditResultItemDevelopmentModeId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemDevelopmentModeId = S.String;
 
 export type SettingsBulkEditResultItemDevelopmentModeValue = "on" | "off";
-export const SettingsBulkEditResultItemDevelopmentModeValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemDevelopmentModeValue = S.String;
 
 export interface SettingsBulkEditResultItemDevelopmentMode {
   /** ID of the zone setting. */
@@ -9109,7 +11872,7 @@ export interface SettingsBulkEditResultItemDevelopmentMode {
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
-  /** Value of the zone setting. */
+  /** Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false. */
   timeRemaining?: number | null;
 }
 export const SettingsBulkEditResultItemDevelopmentMode =
@@ -9128,10 +11891,10 @@ export const SettingsBulkEditResultItemDevelopmentMode =
   }) as any as S.Schema<SettingsBulkEditResultItemDevelopmentMode>;
 
 export type SettingsBulkEditResultItemEarlyHintsId = "early_hints";
-export const SettingsBulkEditResultItemEarlyHintsId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemEarlyHintsId = S.String;
 
 export type SettingsBulkEditResultItemEarlyHintsValue = "on" | "off";
-export const SettingsBulkEditResultItemEarlyHintsValue = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemEarlyHintsValue = S.String;
 
 export interface SettingsBulkEditResultItemEarlyHints {
   /** ID of the zone setting. */
@@ -9155,12 +11918,10 @@ export const SettingsBulkEditResultItemEarlyHints = /*@__PURE__*/ S.suspend(
   identifier: "SettingsBulkEditResultItemEarlyHints",
 }) as any as S.Schema<SettingsBulkEditResultItemEarlyHints>;
 
-export type SettingsBulkEditResultItemZonesSchemasEdgeCacheTTLId =
-  "edge_cache_ttl";
-export const SettingsBulkEditResultItemZonesSchemasEdgeCacheTTLId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesEdgeCacheTTL2Id = "edge_cache_ttl";
+export const SettingsBulkEditResultItemZonesEdgeCacheTTL2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasEdgeCacheTTLValue =
+export type SettingsBulkEditResultItemZonesEdgeCacheTTL2Value =
   | 30
   | 60
   | 300
@@ -9182,74 +11943,69 @@ export type SettingsBulkEditResultItemZonesSchemasEdgeCacheTTLValue =
   | 432000
   | 518400
   | 604800;
-export const SettingsBulkEditResultItemZonesSchemasEdgeCacheTTLValue =
-  /*@__PURE__*/ S.Number;
+export const SettingsBulkEditResultItemZonesEdgeCacheTTL2Value = S.Number;
 
-export interface SettingsBulkEditResultItemZonesSchemasEdgeCacheTTL {
+export interface SettingsBulkEditResultItemZonesEdgeCacheTTL2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasEdgeCacheTTLId;
+  id: SettingsBulkEditResultItemZonesEdgeCacheTTL2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasEdgeCacheTTLValue;
+  value: SettingsBulkEditResultItemZonesEdgeCacheTTL2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasEdgeCacheTTL =
+export const SettingsBulkEditResultItemZonesEdgeCacheTTL2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasEdgeCacheTTLId,
-      value: SettingsBulkEditResultItemZonesSchemasEdgeCacheTTLValue,
+      id: SettingsBulkEditResultItemZonesEdgeCacheTTL2Id,
+      value: SettingsBulkEditResultItemZonesEdgeCacheTTL2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasEdgeCacheTTL",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasEdgeCacheTTL>;
+    identifier: "SettingsBulkEditResultItemZonesEdgeCacheTTL2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesEdgeCacheTTL2>;
 
-export type SettingsBulkEditResultItemZonesSchemasEmailObfuscationId =
+export type SettingsBulkEditResultItemZonesEmailObfuscation2Id =
   "email_obfuscation";
-export const SettingsBulkEditResultItemZonesSchemasEmailObfuscationId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesEmailObfuscation2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasEmailObfuscationValue =
+export type SettingsBulkEditResultItemZonesEmailObfuscation2Value =
   | "on"
   | "off";
-export const SettingsBulkEditResultItemZonesSchemasEmailObfuscationValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesEmailObfuscation2Value = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasEmailObfuscation {
+export interface SettingsBulkEditResultItemZonesEmailObfuscation2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasEmailObfuscationId;
+  id: SettingsBulkEditResultItemZonesEmailObfuscation2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasEmailObfuscationValue;
+  value: SettingsBulkEditResultItemZonesEmailObfuscation2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasEmailObfuscation =
+export const SettingsBulkEditResultItemZonesEmailObfuscation2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasEmailObfuscationId,
-      value: SettingsBulkEditResultItemZonesSchemasEmailObfuscationValue,
+      id: SettingsBulkEditResultItemZonesEmailObfuscation2Id,
+      value: SettingsBulkEditResultItemZonesEmailObfuscation2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasEmailObfuscation",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasEmailObfuscation>;
+    identifier: "SettingsBulkEditResultItemZonesEmailObfuscation2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesEmailObfuscation2>;
 
 export type SettingsBulkEditResultItemH2PrioritizationId = "h2_prioritization";
-export const SettingsBulkEditResultItemH2PrioritizationId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemH2PrioritizationId = S.String;
 
 export type SettingsBulkEditResultItemH2PrioritizationValue =
   | "on"
   | "off"
   | "custom";
-export const SettingsBulkEditResultItemH2PrioritizationValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemH2PrioritizationValue = S.String;
 
 export interface SettingsBulkEditResultItemH2Prioritization {
   /** ID of the zone setting. */
@@ -9275,12 +12031,10 @@ export const SettingsBulkEditResultItemH2Prioritization =
 
 export type SettingsBulkEditResultItemHotlinkProtectionId =
   "hotlink_protection";
-export const SettingsBulkEditResultItemHotlinkProtectionId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemHotlinkProtectionId = S.String;
 
 export type SettingsBulkEditResultItemHotlinkProtectionValue = "on" | "off";
-export const SettingsBulkEditResultItemHotlinkProtectionValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemHotlinkProtectionValue = S.String;
 
 export interface SettingsBulkEditResultItemHotlinkProtection {
   /** ID of the zone setting. */
@@ -9305,10 +12059,10 @@ export const SettingsBulkEditResultItemHotlinkProtection =
   }) as any as S.Schema<SettingsBulkEditResultItemHotlinkProtection>;
 
 export type SettingsBulkEditResultItemHTTP2Id = "http2";
-export const SettingsBulkEditResultItemHTTP2Id = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemHTTP2Id = S.String;
 
 export type SettingsBulkEditResultItemHTTP2Value = "on" | "off";
-export const SettingsBulkEditResultItemHTTP2Value = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemHTTP2Value = S.String;
 
 export interface SettingsBulkEditResultItemHTTP2 {
   /** ID of the zone setting. */
@@ -9332,10 +12086,10 @@ export const SettingsBulkEditResultItemHTTP2 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsBulkEditResultItemHTTP2>;
 
 export type SettingsBulkEditResultItemHTTP3Id = "http3";
-export const SettingsBulkEditResultItemHTTP3Id = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemHTTP3Id = S.String;
 
 export type SettingsBulkEditResultItemHTTP3Value = "on" | "off";
-export const SettingsBulkEditResultItemHTTP3Value = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemHTTP3Value = S.String;
 
 export interface SettingsBulkEditResultItemHTTP3 {
   /** ID of the zone setting. */
@@ -9359,14 +12113,13 @@ export const SettingsBulkEditResultItemHTTP3 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsBulkEditResultItemHTTP3>;
 
 export type SettingsBulkEditResultItemImageResizingId = "image_resizing";
-export const SettingsBulkEditResultItemImageResizingId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemImageResizingId = S.String;
 
 export type SettingsBulkEditResultItemImageResizingValue =
   | "on"
   | "off"
   | "open";
-export const SettingsBulkEditResultItemImageResizingValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemImageResizingValue = S.String;
 
 export interface SettingsBulkEditResultItemImageResizing {
   /** ID of the zone setting. */
@@ -9390,44 +12143,39 @@ export const SettingsBulkEditResultItemImageResizing = /*@__PURE__*/ S.suspend(
   identifier: "SettingsBulkEditResultItemImageResizing",
 }) as any as S.Schema<SettingsBulkEditResultItemImageResizing>;
 
-export type SettingsBulkEditResultItemZonesSchemasIPGeolocationId =
-  "ip_geolocation";
-export const SettingsBulkEditResultItemZonesSchemasIPGeolocationId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesIPGeolocation2Id = "ip_geolocation";
+export const SettingsBulkEditResultItemZonesIPGeolocation2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasIPGeolocationValue =
-  | "on"
-  | "off";
-export const SettingsBulkEditResultItemZonesSchemasIPGeolocationValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesIPGeolocation2Value = "on" | "off";
+export const SettingsBulkEditResultItemZonesIPGeolocation2Value = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasIPGeolocation {
+export interface SettingsBulkEditResultItemZonesIPGeolocation2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasIPGeolocationId;
+  id: SettingsBulkEditResultItemZonesIPGeolocation2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasIPGeolocationValue;
+  value: SettingsBulkEditResultItemZonesIPGeolocation2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasIPGeolocation =
+export const SettingsBulkEditResultItemZonesIPGeolocation2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasIPGeolocationId,
-      value: SettingsBulkEditResultItemZonesSchemasIPGeolocationValue,
+      id: SettingsBulkEditResultItemZonesIPGeolocation2Id,
+      value: SettingsBulkEditResultItemZonesIPGeolocation2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasIPGeolocation",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasIPGeolocation>;
+    identifier: "SettingsBulkEditResultItemZonesIPGeolocation2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesIPGeolocation2>;
 
 export type SettingsBulkEditResultItemIPV6Id = "ipv6";
-export const SettingsBulkEditResultItemIPV6Id = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemIPV6Id = S.String;
 
 export type SettingsBulkEditResultItemIPV6Value = "off" | "on";
-export const SettingsBulkEditResultItemIPV6Value = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemIPV6Value = S.String;
 
 export interface SettingsBulkEditResultItemIPV6 {
   /** ID of the zone setting. */
@@ -9451,8 +12199,7 @@ export const SettingsBulkEditResultItemIPV6 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsBulkEditResultItemIPV6>;
 
 export type SettingsBulkEditResultItemZonesMaxUploadId = "max_upload";
-export const SettingsBulkEditResultItemZonesMaxUploadId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesMaxUploadId = S.String;
 
 export type SettingsBulkEditResultItemZonesMaxUploadValue =
   | 100
@@ -9472,9 +12219,16 @@ export type SettingsBulkEditResultItemZonesMaxUploadValue =
   | 450
   | 475
   | 500
-  | 1000;
-export const SettingsBulkEditResultItemZonesMaxUploadValue =
-  /*@__PURE__*/ S.Number;
+  | 1000
+  | 1500
+  | 2000
+  | 2500
+  | 3000
+  | 3500
+  | 4000
+  | 4500
+  | 5000;
+export const SettingsBulkEditResultItemZonesMaxUploadValue = S.Number;
 
 export interface SettingsBulkEditResultItemZonesMaxUpload {
   /** identifier of the zone setting. */
@@ -9499,15 +12253,14 @@ export const SettingsBulkEditResultItemZonesMaxUpload = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsBulkEditResultItemZonesMaxUpload>;
 
 export type SettingsBulkEditResultItemMinTLSVersionId = "min_tls_version";
-export const SettingsBulkEditResultItemMinTLSVersionId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemMinTLSVersionId = S.String;
 
 export type SettingsBulkEditResultItemMinTLSVersionValue =
   | "1.0"
   | "1.1"
   | "1.2"
   | "1.3";
-export const SettingsBulkEditResultItemMinTLSVersionValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemMinTLSVersionValue = S.String;
 
 export interface SettingsBulkEditResultItemMinTLSVersion {
   /** ID of the zone setting. */
@@ -9531,38 +12284,36 @@ export const SettingsBulkEditResultItemMinTLSVersion = /*@__PURE__*/ S.suspend(
   identifier: "SettingsBulkEditResultItemMinTLSVersion",
 }) as any as S.Schema<SettingsBulkEditResultItemMinTLSVersion>;
 
-export type SettingsBulkEditResultItemZonesSchemasMirageId = "mirage";
-export const SettingsBulkEditResultItemZonesSchemasMirageId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesMirage2Id = "mirage";
+export const SettingsBulkEditResultItemZonesMirage2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasMirageValue = "on" | "off";
-export const SettingsBulkEditResultItemZonesSchemasMirageValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesMirage2Value = "on" | "off";
+export const SettingsBulkEditResultItemZonesMirage2Value = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasMirage {
+export interface SettingsBulkEditResultItemZonesMirage2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasMirageId;
-  /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasMirageValue;
+  id: SettingsBulkEditResultItemZonesMirage2Id;
+  /** Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/ */
+  value: SettingsBulkEditResultItemZonesMirage2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasMirage =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsBulkEditResultItemZonesMirage2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasMirageId,
-      value: SettingsBulkEditResultItemZonesSchemasMirageValue,
+      id: SettingsBulkEditResultItemZonesMirage2Id,
+      value: SettingsBulkEditResultItemZonesMirage2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasMirage",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasMirage>;
+).annotate({
+  identifier: "SettingsBulkEditResultItemZonesMirage2",
+}) as any as S.Schema<SettingsBulkEditResultItemZonesMirage2>;
 
 export type SettingsBulkEditResultItemNELId = "nel";
-export const SettingsBulkEditResultItemNELId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemNELId = S.String;
 
 export type SettingsBulkEditResultItemNELValue = SettingsGetResultNELValue;
 export const SettingsBulkEditResultItemNELValue = SettingsGetResultNELValue;
@@ -9588,46 +12339,45 @@ export const SettingsBulkEditResultItemNEL = /*@__PURE__*/ S.suspend(() =>
   identifier: "SettingsBulkEditResultItemNEL",
 }) as any as S.Schema<SettingsBulkEditResultItemNEL>;
 
-export type SettingsBulkEditResultItemZonesSchemasOpportunisticEncryptionId =
+export type SettingsBulkEditResultItemZonesOpportunisticEncryption2Id =
   "opportunistic_encryption";
-export const SettingsBulkEditResultItemZonesSchemasOpportunisticEncryptionId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesOpportunisticEncryption2Id =
+  S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasOpportunisticEncryptionValue =
-  "on" | "off";
-export const SettingsBulkEditResultItemZonesSchemasOpportunisticEncryptionValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesOpportunisticEncryption2Value =
+  | "on"
+  | "off";
+export const SettingsBulkEditResultItemZonesOpportunisticEncryption2Value =
+  S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasOpportunisticEncryption {
+export interface SettingsBulkEditResultItemZonesOpportunisticEncryption2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasOpportunisticEncryptionId;
+  id: SettingsBulkEditResultItemZonesOpportunisticEncryption2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasOpportunisticEncryptionValue;
+  value: SettingsBulkEditResultItemZonesOpportunisticEncryption2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasOpportunisticEncryption =
+export const SettingsBulkEditResultItemZonesOpportunisticEncryption2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasOpportunisticEncryptionId,
-      value: SettingsBulkEditResultItemZonesSchemasOpportunisticEncryptionValue,
+      id: SettingsBulkEditResultItemZonesOpportunisticEncryption2Id,
+      value: SettingsBulkEditResultItemZonesOpportunisticEncryption2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasOpportunisticEncryption",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasOpportunisticEncryption>;
+    identifier: "SettingsBulkEditResultItemZonesOpportunisticEncryption2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesOpportunisticEncryption2>;
 
 export type SettingsBulkEditResultItemOpportunisticOnionId =
   "opportunistic_onion";
-export const SettingsBulkEditResultItemOpportunisticOnionId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemOpportunisticOnionId = S.String;
 
 export type SettingsBulkEditResultItemOpportunisticOnionValue = "on" | "off";
-export const SettingsBulkEditResultItemOpportunisticOnionValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemOpportunisticOnionValue = S.String;
 
 export interface SettingsBulkEditResultItemOpportunisticOnion {
   /** ID of the zone setting. */
@@ -9652,17 +12402,15 @@ export const SettingsBulkEditResultItemOpportunisticOnion =
   }) as any as S.Schema<SettingsBulkEditResultItemOpportunisticOnion>;
 
 export type SettingsBulkEditResultItemOrangeToOrangeId = "orange_to_orange";
-export const SettingsBulkEditResultItemOrangeToOrangeId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemOrangeToOrangeId = S.String;
 
 export type SettingsBulkEditResultItemOrangeToOrangeValue = "on" | "off";
-export const SettingsBulkEditResultItemOrangeToOrangeValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemOrangeToOrangeValue = S.String;
 
 export interface SettingsBulkEditResultItemOrangeToOrange {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemOrangeToOrangeId;
-  /** Current value of the zone setting. */
+  /** This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/ */
   value: SettingsBulkEditResultItemOrangeToOrangeValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
@@ -9681,42 +12429,43 @@ export const SettingsBulkEditResultItemOrangeToOrange = /*@__PURE__*/ S.suspend(
   identifier: "SettingsBulkEditResultItemOrangeToOrange",
 }) as any as S.Schema<SettingsBulkEditResultItemOrangeToOrange>;
 
-export type SettingsBulkEditResultItemZonesSchemasOriginErrorPagePassThruId =
+export type SettingsBulkEditResultItemZonesOriginErrorPagePassThru2Id =
   "origin_error_page_pass_thru";
-export const SettingsBulkEditResultItemZonesSchemasOriginErrorPagePassThruId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesOriginErrorPagePassThru2Id =
+  S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasOriginErrorPagePassThruValue =
-  "on" | "off";
-export const SettingsBulkEditResultItemZonesSchemasOriginErrorPagePassThruValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesOriginErrorPagePassThru2Value =
+  | "on"
+  | "off";
+export const SettingsBulkEditResultItemZonesOriginErrorPagePassThru2Value =
+  S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasOriginErrorPagePassThru {
+export interface SettingsBulkEditResultItemZonesOriginErrorPagePassThru2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasOriginErrorPagePassThruId;
+  id: SettingsBulkEditResultItemZonesOriginErrorPagePassThru2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasOriginErrorPagePassThruValue;
+  value: SettingsBulkEditResultItemZonesOriginErrorPagePassThru2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasOriginErrorPagePassThru =
+export const SettingsBulkEditResultItemZonesOriginErrorPagePassThru2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasOriginErrorPagePassThruId,
-      value: SettingsBulkEditResultItemZonesSchemasOriginErrorPagePassThruValue,
+      id: SettingsBulkEditResultItemZonesOriginErrorPagePassThru2Id,
+      value: SettingsBulkEditResultItemZonesOriginErrorPagePassThru2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasOriginErrorPagePassThru",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasOriginErrorPagePassThru>;
+    identifier: "SettingsBulkEditResultItemZonesOriginErrorPagePassThru2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesOriginErrorPagePassThru2>;
 
 export type SettingsBulkEditResultItemZonesCacheRulesOriginH2MaxStreamsId =
   "origin_h2_max_streams";
 export const SettingsBulkEditResultItemZonesCacheRulesOriginH2MaxStreamsId =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsBulkEditResultItemZonesCacheRulesOriginH2MaxStreams {
   /** Value of the zone setting. */
@@ -9740,12 +12489,13 @@ export const SettingsBulkEditResultItemZonesCacheRulesOriginH2MaxStreams =
 export type SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersionId =
   "origin_max_http_version";
 export const SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersionId =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersionValue =
-  "2" | "1";
+  | "2"
+  | "1";
 export const SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersionValue =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersion {
   /** Value of the zone setting. */
@@ -9770,46 +12520,42 @@ export const SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersion =
     identifier: "SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersion",
   }) as any as S.Schema<SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersion>;
 
-export type SettingsBulkEditResultItemZonesSchemasPolishId = "polish";
-export const SettingsBulkEditResultItemZonesSchemasPolishId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesPolish2Id = "polish";
+export const SettingsBulkEditResultItemZonesPolish2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasPolishValue =
+export type SettingsBulkEditResultItemZonesPolish2Value =
   | "off"
   | "lossless"
   | "lossy";
-export const SettingsBulkEditResultItemZonesSchemasPolishValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesPolish2Value = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasPolish {
+export interface SettingsBulkEditResultItemZonesPolish2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasPolishId;
+  id: SettingsBulkEditResultItemZonesPolish2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasPolishValue;
+  value: SettingsBulkEditResultItemZonesPolish2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasPolish =
-  /*@__PURE__*/ S.suspend(() =>
+export const SettingsBulkEditResultItemZonesPolish2 = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasPolishId,
-      value: SettingsBulkEditResultItemZonesSchemasPolishValue,
+      id: SettingsBulkEditResultItemZonesPolish2Id,
+      value: SettingsBulkEditResultItemZonesPolish2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
-  ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasPolish",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasPolish>;
+).annotate({
+  identifier: "SettingsBulkEditResultItemZonesPolish2",
+}) as any as S.Schema<SettingsBulkEditResultItemZonesPolish2>;
 
 export type SettingsBulkEditResultItemPrefetchPreloadId = "prefetch_preload";
-export const SettingsBulkEditResultItemPrefetchPreloadId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemPrefetchPreloadId = S.String;
 
 export type SettingsBulkEditResultItemPrefetchPreloadValue = "on" | "off";
-export const SettingsBulkEditResultItemPrefetchPreloadValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemPrefetchPreloadValue = S.String;
 
 export interface SettingsBulkEditResultItemPrefetchPreload {
   /** ID of the zone setting. */
@@ -9833,18 +12579,44 @@ export const SettingsBulkEditResultItemPrefetchPreload =
     identifier: "SettingsBulkEditResultItemPrefetchPreload",
   }) as any as S.Schema<SettingsBulkEditResultItemPrefetchPreload>;
 
+export type SettingsBulkEditResultItemZonesPreRenderId = "pre_render";
+export const SettingsBulkEditResultItemZonesPreRenderId = S.String;
+
+export type SettingsBulkEditResultItemZonesPreRenderValue = "off" | "on";
+export const SettingsBulkEditResultItemZonesPreRenderValue = S.String;
+
+export interface SettingsBulkEditResultItemZonesPreRender {
+  /** ID of the zone setting. */
+  id: SettingsBulkEditResultItemZonesPreRenderId;
+  /** Current value of the zone setting. */
+  value: SettingsBulkEditResultItemZonesPreRenderValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const SettingsBulkEditResultItemZonesPreRender = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: SettingsBulkEditResultItemZonesPreRenderId,
+      value: SettingsBulkEditResultItemZonesPreRenderValue,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+).annotate({
+  identifier: "SettingsBulkEditResultItemZonesPreRender",
+}) as any as S.Schema<SettingsBulkEditResultItemZonesPreRender>;
+
 export type SettingsBulkEditResultItemZonesPrivacyPassId = "privacy_pass";
-export const SettingsBulkEditResultItemZonesPrivacyPassId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesPrivacyPassId = S.String;
 
 export type SettingsBulkEditResultItemZonesPrivacyPassValue = "on" | "off";
-export const SettingsBulkEditResultItemZonesPrivacyPassValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesPrivacyPassValue = S.String;
 
 export interface SettingsBulkEditResultItemZonesPrivacyPass {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesPrivacyPassId;
-  /** Current value of the zone setting. */
+  /** Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31) */
   value: SettingsBulkEditResultItemZonesPrivacyPassValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
@@ -9864,8 +12636,7 @@ export const SettingsBulkEditResultItemZonesPrivacyPass =
   }) as any as S.Schema<SettingsBulkEditResultItemZonesPrivacyPass>;
 
 export type SettingsBulkEditResultItemProxyReadTimeoutId = "proxy_read_timeout";
-export const SettingsBulkEditResultItemProxyReadTimeoutId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemProxyReadTimeoutId = S.String;
 
 export interface SettingsBulkEditResultItemProxyReadTimeout {
   /** ID of the zone setting. */
@@ -9890,13 +12661,13 @@ export const SettingsBulkEditResultItemProxyReadTimeout =
   }) as any as S.Schema<SettingsBulkEditResultItemProxyReadTimeout>;
 
 export type SettingsBulkEditResultItemPseudoIPV4Id = "pseudo_ipv4";
-export const SettingsBulkEditResultItemPseudoIPV4Id = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemPseudoIPV4Id = S.String;
 
 export type SettingsBulkEditResultItemPseudoIPV4Value =
   | "off"
   | "add_header"
   | "overwrite_header";
-export const SettingsBulkEditResultItemPseudoIPV4Value = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemPseudoIPV4Value = S.String;
 
 export interface SettingsBulkEditResultItemPseudoIPV4 {
   /** Value of the Pseudo IPv4 setting. */
@@ -9922,14 +12693,13 @@ export const SettingsBulkEditResultItemPseudoIPV4 = /*@__PURE__*/ S.suspend(
 
 export type SettingsBulkEditResultItemZonesRedirectsForAITrainingId =
   "redirects_for_ai_training";
-export const SettingsBulkEditResultItemZonesRedirectsForAITrainingId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesRedirectsForAITrainingId = S.String;
 
 export type SettingsBulkEditResultItemZonesRedirectsForAITrainingValue =
   | "off"
   | "on";
 export const SettingsBulkEditResultItemZonesRedirectsForAITrainingValue =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsBulkEditResultItemZonesRedirectsForAITraining {
   /** ID of the zone setting. */
@@ -9955,14 +12725,12 @@ export const SettingsBulkEditResultItemZonesRedirectsForAITraining =
 
 export type SettingsBulkEditResultItemZonesReplaceInsecureJSId =
   "replace_insecure_js";
-export const SettingsBulkEditResultItemZonesReplaceInsecureJSId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesReplaceInsecureJSId = S.String;
 
 export type SettingsBulkEditResultItemZonesReplaceInsecureJSValue =
   | "on"
   | "off";
-export const SettingsBulkEditResultItemZonesReplaceInsecureJSValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesReplaceInsecureJSValue = S.String;
 
 export interface SettingsBulkEditResultItemZonesReplaceInsecureJS {
   /** ID of the zone setting. */
@@ -9986,76 +12754,69 @@ export const SettingsBulkEditResultItemZonesReplaceInsecureJS =
     identifier: "SettingsBulkEditResultItemZonesReplaceInsecureJS",
   }) as any as S.Schema<SettingsBulkEditResultItemZonesReplaceInsecureJS>;
 
-export type SettingsBulkEditResultItemZonesSchemasResponseBufferingId =
+export type SettingsBulkEditResultItemZonesResponseBuffering2Id =
   "response_buffering";
-export const SettingsBulkEditResultItemZonesSchemasResponseBufferingId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesResponseBuffering2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasResponseBufferingValue =
+export type SettingsBulkEditResultItemZonesResponseBuffering2Value =
   | "on"
   | "off";
-export const SettingsBulkEditResultItemZonesSchemasResponseBufferingValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesResponseBuffering2Value = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasResponseBuffering {
+export interface SettingsBulkEditResultItemZonesResponseBuffering2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasResponseBufferingId;
+  id: SettingsBulkEditResultItemZonesResponseBuffering2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasResponseBufferingValue;
+  value: SettingsBulkEditResultItemZonesResponseBuffering2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasResponseBuffering =
+export const SettingsBulkEditResultItemZonesResponseBuffering2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasResponseBufferingId,
-      value: SettingsBulkEditResultItemZonesSchemasResponseBufferingValue,
+      id: SettingsBulkEditResultItemZonesResponseBuffering2Id,
+      value: SettingsBulkEditResultItemZonesResponseBuffering2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasResponseBuffering",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasResponseBuffering>;
+    identifier: "SettingsBulkEditResultItemZonesResponseBuffering2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesResponseBuffering2>;
 
-export type SettingsBulkEditResultItemZonesSchemasRocketLoaderId =
-  "rocket_loader";
-export const SettingsBulkEditResultItemZonesSchemasRocketLoaderId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesRocketLoader2Id = "rocket_loader";
+export const SettingsBulkEditResultItemZonesRocketLoader2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasRocketLoaderValue =
-  | "on"
-  | "off";
-export const SettingsBulkEditResultItemZonesSchemasRocketLoaderValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesRocketLoader2Value = "on" | "off";
+export const SettingsBulkEditResultItemZonesRocketLoader2Value = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasRocketLoader {
+export interface SettingsBulkEditResultItemZonesRocketLoader2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasRocketLoaderId;
+  id: SettingsBulkEditResultItemZonesRocketLoader2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasRocketLoaderValue;
+  value: SettingsBulkEditResultItemZonesRocketLoader2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasRocketLoader =
+export const SettingsBulkEditResultItemZonesRocketLoader2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasRocketLoaderId,
-      value: SettingsBulkEditResultItemZonesSchemasRocketLoaderValue,
+      id: SettingsBulkEditResultItemZonesRocketLoader2Id,
+      value: SettingsBulkEditResultItemZonesRocketLoader2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasRocketLoader",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasRocketLoader>;
+    identifier: "SettingsBulkEditResultItemZonesRocketLoader2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesRocketLoader2>;
 
 export type SettingsBulkEditResultItemZonesSchemasAutomaticPlatformOptimizationId =
   "automatic_platform_optimization";
 export const SettingsBulkEditResultItemZonesSchemasAutomaticPlatformOptimizationId =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type SettingsBulkEditResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList =
   Array<string>;
@@ -10120,12 +12881,10 @@ export const SettingsBulkEditResultItemZonesSchemasAutomaticPlatformOptimization
 
 export type SettingsBulkEditResultItemZonesSearchForAgentsId =
   "search_for_agents";
-export const SettingsBulkEditResultItemZonesSearchForAgentsId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesSearchForAgentsId = S.String;
 
 export type SettingsBulkEditResultItemZonesSearchForAgentsValue = "off" | "on";
-export const SettingsBulkEditResultItemZonesSearchForAgentsValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesSearchForAgentsValue = S.String;
 
 export interface SettingsBulkEditResultItemZonesSearchForAgents {
   /** ID of the zone setting. */
@@ -10150,8 +12909,7 @@ export const SettingsBulkEditResultItemZonesSearchForAgents =
   }) as any as S.Schema<SettingsBulkEditResultItemZonesSearchForAgents>;
 
 export type SettingsBulkEditResultItemSecurityHeadersId = "security_header";
-export const SettingsBulkEditResultItemSecurityHeadersId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemSecurityHeadersId = S.String;
 
 export type SettingsBulkEditResultItemSecurityHeadersValueStrictTransportSecurity =
   SettingsGetResultSecurityHeadersValueStrictTransportSecurity;
@@ -10185,51 +12943,46 @@ export const SettingsBulkEditResultItemSecurityHeaders =
     identifier: "SettingsBulkEditResultItemSecurityHeaders",
   }) as any as S.Schema<SettingsBulkEditResultItemSecurityHeaders>;
 
-export type SettingsBulkEditResultItemZonesSchemasSecurityLevelId =
-  "security_level";
-export const SettingsBulkEditResultItemZonesSchemasSecurityLevelId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesSecurityLevel2Id = "security_level";
+export const SettingsBulkEditResultItemZonesSecurityLevel2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasSecurityLevelValue =
+export type SettingsBulkEditResultItemZonesSecurityLevel2Value =
   | "off"
   | "essentially_off"
   | "low"
   | "medium"
   | "high"
   | "under_attack";
-export const SettingsBulkEditResultItemZonesSchemasSecurityLevelValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesSecurityLevel2Value = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasSecurityLevel {
+export interface SettingsBulkEditResultItemZonesSecurityLevel2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasSecurityLevelId;
+  id: SettingsBulkEditResultItemZonesSecurityLevel2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasSecurityLevelValue;
+  value: SettingsBulkEditResultItemZonesSecurityLevel2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasSecurityLevel =
+export const SettingsBulkEditResultItemZonesSecurityLevel2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasSecurityLevelId,
-      value: SettingsBulkEditResultItemZonesSchemasSecurityLevelValue,
+      id: SettingsBulkEditResultItemZonesSecurityLevel2Id,
+      value: SettingsBulkEditResultItemZonesSecurityLevel2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasSecurityLevel",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasSecurityLevel>;
+    identifier: "SettingsBulkEditResultItemZonesSecurityLevel2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesSecurityLevel2>;
 
 export type SettingsBulkEditResultItemServerSideExcludesId =
   "server_side_exclude";
-export const SettingsBulkEditResultItemServerSideExcludesId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemServerSideExcludesId = S.String;
 
 export type SettingsBulkEditResultItemServerSideExcludesValue = "on" | "off";
-export const SettingsBulkEditResultItemServerSideExcludesValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemServerSideExcludesValue = S.String;
 
 export interface SettingsBulkEditResultItemServerSideExcludes {
   /** ID of the zone setting. */
@@ -10254,12 +13007,10 @@ export const SettingsBulkEditResultItemServerSideExcludes =
   }) as any as S.Schema<SettingsBulkEditResultItemServerSideExcludes>;
 
 export type SettingsBulkEditResultItemZonesSha1SupportId = "sha1_support";
-export const SettingsBulkEditResultItemZonesSha1SupportId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesSha1SupportId = S.String;
 
 export type SettingsBulkEditResultItemZonesSha1SupportValue = "off" | "on";
-export const SettingsBulkEditResultItemZonesSha1SupportValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesSha1SupportValue = S.String;
 
 export interface SettingsBulkEditResultItemZonesSha1Support {
   /** Zone setting identifier. */
@@ -10283,75 +13034,72 @@ export const SettingsBulkEditResultItemZonesSha1Support =
     identifier: "SettingsBulkEditResultItemZonesSha1Support",
   }) as any as S.Schema<SettingsBulkEditResultItemZonesSha1Support>;
 
-export type SettingsBulkEditResultItemZonesSchemasSortQueryStringForCacheId =
+export type SettingsBulkEditResultItemZonesSortQueryStringForCache2Id =
   "sort_query_string_for_cache";
-export const SettingsBulkEditResultItemZonesSchemasSortQueryStringForCacheId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesSortQueryStringForCache2Id =
+  S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasSortQueryStringForCacheValue =
-  "on" | "off";
-export const SettingsBulkEditResultItemZonesSchemasSortQueryStringForCacheValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesSortQueryStringForCache2Value =
+  | "on"
+  | "off";
+export const SettingsBulkEditResultItemZonesSortQueryStringForCache2Value =
+  S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasSortQueryStringForCache {
+export interface SettingsBulkEditResultItemZonesSortQueryStringForCache2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasSortQueryStringForCacheId;
+  id: SettingsBulkEditResultItemZonesSortQueryStringForCache2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasSortQueryStringForCacheValue;
+  value: SettingsBulkEditResultItemZonesSortQueryStringForCache2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasSortQueryStringForCache =
+export const SettingsBulkEditResultItemZonesSortQueryStringForCache2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasSortQueryStringForCacheId,
-      value: SettingsBulkEditResultItemZonesSchemasSortQueryStringForCacheValue,
+      id: SettingsBulkEditResultItemZonesSortQueryStringForCache2Id,
+      value: SettingsBulkEditResultItemZonesSortQueryStringForCache2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasSortQueryStringForCache",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasSortQueryStringForCache>;
+    identifier: "SettingsBulkEditResultItemZonesSortQueryStringForCache2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesSortQueryStringForCache2>;
 
-export type SettingsBulkEditResultItemZonesSchemasSSLId = "ssl";
-export const SettingsBulkEditResultItemZonesSchemasSSLId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesSSL2Id = "ssl";
+export const SettingsBulkEditResultItemZonesSSL2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasSSLValue =
+export type SettingsBulkEditResultItemZonesSSL2Value =
   | "off"
   | "flexible"
   | "full"
   | "strict";
-export const SettingsBulkEditResultItemZonesSchemasSSLValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesSSL2Value = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasSSL {
+export interface SettingsBulkEditResultItemZonesSSL2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasSSLId;
+  id: SettingsBulkEditResultItemZonesSSL2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasSSLValue;
+  value: SettingsBulkEditResultItemZonesSSL2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasSSL =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasSSLId,
-      value: SettingsBulkEditResultItemZonesSchemasSSLValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasSSL",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasSSL>;
+export const SettingsBulkEditResultItemZonesSSL2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsBulkEditResultItemZonesSSL2Id,
+    value: SettingsBulkEditResultItemZonesSSL2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "SettingsBulkEditResultItemZonesSSL2",
+}) as any as S.Schema<SettingsBulkEditResultItemZonesSSL2>;
 
 export type SettingsBulkEditResultItemSSLRecommenderId = "ssl_recommender";
-export const SettingsBulkEditResultItemSSLRecommenderId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemSSLRecommenderId = S.String;
 
 export interface SettingsBulkEditResultItemSSLRecommender {
   /** Enrollment value for SSL/TLS Recommender. */
@@ -10370,12 +13118,10 @@ export const SettingsBulkEditResultItemSSLRecommender = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsBulkEditResultItemSSLRecommender>;
 
 export type SettingsBulkEditResultItemZonesTLS12OnlyId = "tls_1_2_only";
-export const SettingsBulkEditResultItemZonesTLS12OnlyId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesTLS12OnlyId = S.String;
 
 export type SettingsBulkEditResultItemZonesTLS12OnlyValue = "off" | "on";
-export const SettingsBulkEditResultItemZonesTLS12OnlyValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesTLS12OnlyValue = S.String;
 
 export interface SettingsBulkEditResultItemZonesTLS12Only {
   /** Zone setting identifier. */
@@ -10400,10 +13146,10 @@ export const SettingsBulkEditResultItemZonesTLS12Only = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SettingsBulkEditResultItemZonesTLS12Only>;
 
 export type SettingsBulkEditResultItemTLS13Id = "tls_1_3";
-export const SettingsBulkEditResultItemTLS13Id = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemTLS13Id = S.String;
 
 export type SettingsBulkEditResultItemTLS13Value = "on" | "off" | "zrt";
-export const SettingsBulkEditResultItemTLS13Value = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemTLS13Value = S.String;
 
 export interface SettingsBulkEditResultItemTLS13 {
   /** ID of the zone setting. */
@@ -10427,11 +13173,10 @@ export const SettingsBulkEditResultItemTLS13 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsBulkEditResultItemTLS13>;
 
 export type SettingsBulkEditResultItemTLSClientAuthId = "tls_client_auth";
-export const SettingsBulkEditResultItemTLSClientAuthId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemTLSClientAuthId = S.String;
 
 export type SettingsBulkEditResultItemTLSClientAuthValue = "on" | "off";
-export const SettingsBulkEditResultItemTLSClientAuthValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemTLSClientAuthValue = S.String;
 
 export interface SettingsBulkEditResultItemTLSClientAuth {
   /** ID of the zone setting. */
@@ -10457,15 +13202,13 @@ export const SettingsBulkEditResultItemTLSClientAuth = /*@__PURE__*/ S.suspend(
 
 export type SettingsBulkEditResultItemZonesTransformationsId =
   "transformations";
-export const SettingsBulkEditResultItemZonesTransformationsId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesTransformationsId = S.String;
 
 export type SettingsBulkEditResultItemZonesTransformationsValue =
   | "on"
   | "off"
   | "open";
-export const SettingsBulkEditResultItemZonesTransformationsValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesTransformationsValue = S.String;
 
 export interface SettingsBulkEditResultItemZonesTransformations {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
@@ -10492,7 +13235,7 @@ export const SettingsBulkEditResultItemZonesTransformations =
 export type SettingsBulkEditResultItemZonesTransformationsAllowedOriginsId =
   "transformations_allowed_origins";
 export const SettingsBulkEditResultItemZonesTransformationsAllowedOriginsId =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SettingsBulkEditResultItemZonesTransformationsAllowedOrigins {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
@@ -10516,74 +13259,122 @@ export const SettingsBulkEditResultItemZonesTransformationsAllowedOrigins =
     identifier: "SettingsBulkEditResultItemZonesTransformationsAllowedOrigins",
   }) as any as S.Schema<SettingsBulkEditResultItemZonesTransformationsAllowedOrigins>;
 
-export type SettingsBulkEditResultItemZonesSchemasTrueClientIPHeaderId =
+export type SettingsBulkEditResultItemZonesTrueClientIPHeader2Id =
   "true_client_ip_header";
-export const SettingsBulkEditResultItemZonesSchemasTrueClientIPHeaderId =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesTrueClientIPHeader2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasTrueClientIPHeaderValue =
+export type SettingsBulkEditResultItemZonesTrueClientIPHeader2Value =
   | "on"
   | "off";
-export const SettingsBulkEditResultItemZonesSchemasTrueClientIPHeaderValue =
-  /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemZonesTrueClientIPHeader2Value = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasTrueClientIPHeader {
+export interface SettingsBulkEditResultItemZonesTrueClientIPHeader2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasTrueClientIPHeaderId;
+  id: SettingsBulkEditResultItemZonesTrueClientIPHeader2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasTrueClientIPHeaderValue;
+  value: SettingsBulkEditResultItemZonesTrueClientIPHeader2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasTrueClientIPHeader =
+export const SettingsBulkEditResultItemZonesTrueClientIPHeader2 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasTrueClientIPHeaderId,
-      value: SettingsBulkEditResultItemZonesSchemasTrueClientIPHeaderValue,
+      id: SettingsBulkEditResultItemZonesTrueClientIPHeader2Id,
+      value: SettingsBulkEditResultItemZonesTrueClientIPHeader2Value,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasTrueClientIPHeader",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasTrueClientIPHeader>;
+    identifier: "SettingsBulkEditResultItemZonesTrueClientIPHeader2",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesTrueClientIPHeader2>;
 
-export type SettingsBulkEditResultItemZonesSchemasWAFId = "waf";
-export const SettingsBulkEditResultItemZonesSchemasWAFId =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesWAF2Id = "waf";
+export const SettingsBulkEditResultItemZonesWAF2Id = S.String;
 
-export type SettingsBulkEditResultItemZonesSchemasWAFValue = "on" | "off";
-export const SettingsBulkEditResultItemZonesSchemasWAFValue =
-  /*@__PURE__*/ S.String;
+export type SettingsBulkEditResultItemZonesWAF2Value = "on" | "off";
+export const SettingsBulkEditResultItemZonesWAF2Value = S.String;
 
-export interface SettingsBulkEditResultItemZonesSchemasWAF {
+export interface SettingsBulkEditResultItemZonesWAF2 {
   /** ID of the zone setting. */
-  id: SettingsBulkEditResultItemZonesSchemasWAFId;
+  id: SettingsBulkEditResultItemZonesWAF2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSchemasWAFValue;
+  value: SettingsBulkEditResultItemZonesWAF2Value;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
   editable?: boolean | null;
   /** last time this setting was modified. */
   modifiedOn?: string | null;
 }
-export const SettingsBulkEditResultItemZonesSchemasWAF =
+export const SettingsBulkEditResultItemZonesWAF2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: SettingsBulkEditResultItemZonesWAF2Id,
+    value: SettingsBulkEditResultItemZonesWAF2Value,
+    editable: S.optional(S.NullOr(S.Boolean)),
+    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+  }),
+).annotate({
+  identifier: "SettingsBulkEditResultItemZonesWAF2",
+}) as any as S.Schema<SettingsBulkEditResultItemZonesWAF2>;
+
+export type SettingsBulkEditResultItemZonesWebmcpEnabledId = "webmcp_enabled";
+export const SettingsBulkEditResultItemZonesWebmcpEnabledId = S.String;
+
+export type SettingsBulkEditResultItemZonesWebmcpEnabledValue = "off" | "on";
+export const SettingsBulkEditResultItemZonesWebmcpEnabledValue = S.String;
+
+export interface SettingsBulkEditResultItemZonesWebmcpEnabled {
+  /** ID of the zone setting. */
+  id: SettingsBulkEditResultItemZonesWebmcpEnabledId;
+  /** Current value of the zone setting. */
+  value: SettingsBulkEditResultItemZonesWebmcpEnabledValue;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const SettingsBulkEditResultItemZonesWebmcpEnabled =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: SettingsBulkEditResultItemZonesSchemasWAFId,
-      value: SettingsBulkEditResultItemZonesSchemasWAFValue,
+      id: SettingsBulkEditResultItemZonesWebmcpEnabledId,
+      value: SettingsBulkEditResultItemZonesWebmcpEnabledValue,
       editable: S.optional(S.NullOr(S.Boolean)),
       modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     }),
   ).annotate({
-    identifier: "SettingsBulkEditResultItemZonesSchemasWAF",
-  }) as any as S.Schema<SettingsBulkEditResultItemZonesSchemasWAF>;
+    identifier: "SettingsBulkEditResultItemZonesWebmcpEnabled",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesWebmcpEnabled>;
+
+export type SettingsBulkEditResultItemZonesWebmcpPacksId = "webmcp_packs";
+export const SettingsBulkEditResultItemZonesWebmcpPacksId = S.String;
+
+export interface SettingsBulkEditResultItemZonesWebmcpPacks {
+  /** ID of the zone setting. */
+  id: SettingsBulkEditResultItemZonesWebmcpPacksId;
+  /** Current value of the zone setting. */
+  value: string;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+export const SettingsBulkEditResultItemZonesWebmcpPacks =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: SettingsBulkEditResultItemZonesWebmcpPacksId,
+      value: S.String,
+      editable: S.optional(S.NullOr(S.Boolean)),
+      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+    }),
+  ).annotate({
+    identifier: "SettingsBulkEditResultItemZonesWebmcpPacks",
+  }) as any as S.Schema<SettingsBulkEditResultItemZonesWebmcpPacks>;
 
 export type SettingsBulkEditResultItemWebPId = "webp";
-export const SettingsBulkEditResultItemWebPId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemWebPId = S.String;
 
 export type SettingsBulkEditResultItemWebPValue = "off" | "on";
-export const SettingsBulkEditResultItemWebPValue = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemWebPValue = S.String;
 
 export interface SettingsBulkEditResultItemWebP {
   /** ID of the zone setting. */
@@ -10607,10 +13398,10 @@ export const SettingsBulkEditResultItemWebP = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SettingsBulkEditResultItemWebP>;
 
 export type SettingsBulkEditResultItemWebsocketId = "websockets";
-export const SettingsBulkEditResultItemWebsocketId = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemWebsocketId = S.String;
 
 export type SettingsBulkEditResultItemWebsocketValue = "off" | "on";
-export const SettingsBulkEditResultItemWebsocketValue = /*@__PURE__*/ S.String;
+export const SettingsBulkEditResultItemWebsocketValue = S.String;
 
 export interface SettingsBulkEditResultItemWebsocket {
   /** ID of the zone setting. */
@@ -10638,129 +13429,207 @@ export type SettingsBulkEditResultItem =
   | SettingsBulkEditResultItemAdvancedDDoS
   | SettingsBulkEditResultItemZonesCacheRulesAegis
   | SettingsBulkEditResultItemAlwaysOnline
-  | SettingsBulkEditResultItemZonesSchemasAlwaysUseHTTPS
-  | SettingsBulkEditResultItemZonesSchemasAutomaticHTTPSRewrites
+  | SettingsBulkEditResultItemZonesAlwaysUseHTTPS2
+  | SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2
   | SettingsBulkEditResultItemBrotli
-  | SettingsBulkEditResultItemZonesSchemasBrowserCacheTTL
-  | SettingsBulkEditResultItemZonesSchemasBrowserCheck
-  | SettingsBulkEditResultItemZonesSchemasCacheLevel
+  | SettingsBulkEditResultItemZonesBrowserCacheTTL2
+  | SettingsBulkEditResultItemZonesBrowserCheck2
+  | SettingsBulkEditResultItemZonesCacheLevel2
   | SettingsBulkEditResultItemChallengeTTL
   | SettingsBulkEditResultItemCiphers
   | SettingsBulkEditResultItemZonesContentConverter
   | SettingsBulkEditResultItemZonesCNAMEFlattening
   | SettingsBulkEditResultItemDevelopmentMode
   | SettingsBulkEditResultItemEarlyHints
-  | SettingsBulkEditResultItemZonesSchemasEdgeCacheTTL
-  | SettingsBulkEditResultItemZonesSchemasEmailObfuscation
+  | SettingsBulkEditResultItemZonesEdgeCacheTTL2
+  | SettingsBulkEditResultItemZonesEmailObfuscation2
   | SettingsBulkEditResultItemH2Prioritization
   | SettingsBulkEditResultItemHotlinkProtection
   | SettingsBulkEditResultItemHTTP2
   | SettingsBulkEditResultItemHTTP3
   | SettingsBulkEditResultItemImageResizing
-  | SettingsBulkEditResultItemZonesSchemasIPGeolocation
+  | SettingsBulkEditResultItemZonesIPGeolocation2
   | SettingsBulkEditResultItemIPV6
   | SettingsBulkEditResultItemZonesMaxUpload
   | SettingsBulkEditResultItemMinTLSVersion
-  | SettingsBulkEditResultItemZonesSchemasMirage
+  | SettingsBulkEditResultItemZonesMirage2
   | SettingsBulkEditResultItemNEL
-  | SettingsBulkEditResultItemZonesSchemasOpportunisticEncryption
+  | SettingsBulkEditResultItemZonesOpportunisticEncryption2
   | SettingsBulkEditResultItemOpportunisticOnion
   | SettingsBulkEditResultItemOrangeToOrange
-  | SettingsBulkEditResultItemZonesSchemasOriginErrorPagePassThru
+  | SettingsBulkEditResultItemZonesOriginErrorPagePassThru2
   | SettingsBulkEditResultItemZonesCacheRulesOriginH2MaxStreams
   | SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersion
-  | SettingsBulkEditResultItemZonesSchemasPolish
+  | SettingsBulkEditResultItemZonesPolish2
   | SettingsBulkEditResultItemPrefetchPreload
+  | SettingsBulkEditResultItemZonesPreRender
   | SettingsBulkEditResultItemZonesPrivacyPass
   | SettingsBulkEditResultItemProxyReadTimeout
   | SettingsBulkEditResultItemPseudoIPV4
   | SettingsBulkEditResultItemZonesRedirectsForAITraining
   | SettingsBulkEditResultItemZonesReplaceInsecureJS
-  | SettingsBulkEditResultItemZonesSchemasResponseBuffering
-  | SettingsBulkEditResultItemZonesSchemasRocketLoader
+  | SettingsBulkEditResultItemZonesResponseBuffering2
+  | SettingsBulkEditResultItemZonesRocketLoader2
   | SettingsBulkEditResultItemZonesSchemasAutomaticPlatformOptimization
   | SettingsBulkEditResultItemZonesSearchForAgents
   | SettingsBulkEditResultItemSecurityHeaders
-  | SettingsBulkEditResultItemZonesSchemasSecurityLevel
+  | SettingsBulkEditResultItemZonesSecurityLevel2
   | SettingsBulkEditResultItemServerSideExcludes
   | SettingsBulkEditResultItemZonesSha1Support
-  | SettingsBulkEditResultItemZonesSchemasSortQueryStringForCache
-  | SettingsBulkEditResultItemZonesSchemasSSL
+  | SettingsBulkEditResultItemZonesSortQueryStringForCache2
+  | SettingsBulkEditResultItemZonesSSL2
   | SettingsBulkEditResultItemSSLRecommender
   | SettingsBulkEditResultItemZonesTLS12Only
   | SettingsBulkEditResultItemTLS13
   | SettingsBulkEditResultItemTLSClientAuth
   | SettingsBulkEditResultItemZonesTransformations
   | SettingsBulkEditResultItemZonesTransformationsAllowedOrigins
-  | SettingsBulkEditResultItemZonesSchemasTrueClientIPHeader
-  | SettingsBulkEditResultItemZonesSchemasWAF
+  | SettingsBulkEditResultItemZonesTrueClientIPHeader2
+  | SettingsBulkEditResultItemZonesWAF2
+  | SettingsBulkEditResultItemZonesWebmcpEnabled
+  | SettingsBulkEditResultItemZonesWebmcpPacks
   | SettingsBulkEditResultItemWebP
   | SettingsBulkEditResultItemWebsocket;
 export const SettingsBulkEditResultItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "modifiedOn", "value"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn", "timeRemaining"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "modifiedOn", "value"],
-    ["id", "modifiedOn", "value"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "enabled"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-  ]),
+  T.UnionCases(
+    [
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "modifiedOn", "value"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn", "timeRemaining"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "modifiedOn", "value"],
+      ["id", "modifiedOn", "value"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "enabled"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+      ["id", "value", "editable", "modifiedOn"],
+    ],
+    {
+      key: "id",
+      values: [
+        "0rtt",
+        "advanced_ddos",
+        "aegis",
+        "always_online",
+        "always_use_https",
+        "automatic_https_rewrites",
+        "brotli",
+        "browser_cache_ttl",
+        "browser_check",
+        "cache_level",
+        "challenge_ttl",
+        "ciphers",
+        "content_converter",
+        "cname_flattening",
+        "development_mode",
+        "early_hints",
+        "edge_cache_ttl",
+        "email_obfuscation",
+        "h2_prioritization",
+        "hotlink_protection",
+        "http2",
+        "http3",
+        "image_resizing",
+        "ip_geolocation",
+        "ipv6",
+        "max_upload",
+        "min_tls_version",
+        "mirage",
+        "nel",
+        "opportunistic_encryption",
+        "opportunistic_onion",
+        "orange_to_orange",
+        "origin_error_page_pass_thru",
+        "origin_h2_max_streams",
+        "origin_max_http_version",
+        "polish",
+        "prefetch_preload",
+        "pre_render",
+        "privacy_pass",
+        "proxy_read_timeout",
+        "pseudo_ipv4",
+        "redirects_for_ai_training",
+        "replace_insecure_js",
+        "response_buffering",
+        "rocket_loader",
+        "automatic_platform_optimization",
+        "search_for_agents",
+        "security_header",
+        "security_level",
+        "server_side_exclude",
+        "sha1_support",
+        "sort_query_string_for_cache",
+        "ssl",
+        "ssl_recommender",
+        "tls_1_2_only",
+        "tls_1_3",
+        "tls_client_auth",
+        "transformations",
+        "transformations_allowed_origins",
+        "true_client_ip_header",
+        "waf",
+        "webmcp_enabled",
+        "webmcp_packs",
+        "webp",
+        "websockets",
+      ],
+    },
+  ),
 );
 
 export type SettingsBulkEditResultList = Array<SettingsBulkEditResultItem>;
@@ -10777,2095 +13646,6 @@ export const SettingsBulkEditResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SettingsBulkEditResponse",
 }) as any as S.Schema<SettingsBulkEditResponse>;
-
-export interface SettingsListRequest {
-  /** Identifier */
-  zoneId: string;
-}
-export const SettingsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    zoneId: S.String.pipe(T.Label("zone_id")),
-  })
-    .pipe(
-      T.Http({ method: "GET", uri: "/zones/{zone_id}/settings", code: 200 }),
-    )
-    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SettingsListRequest",
-}) as any as S.Schema<SettingsListRequest>;
-
-export type SettingsListResultItemZeroRTTId = "0rtt";
-export const SettingsListResultItemZeroRTTId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZeroRTTValue = "on" | "off";
-export const SettingsListResultItemZeroRTTValue = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZeroRTT {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZeroRTTId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZeroRTTValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZeroRTT = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemZeroRTTId,
-    value: SettingsListResultItemZeroRTTValue,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemZeroRTT",
-}) as any as S.Schema<SettingsListResultItemZeroRTT>;
-
-export type SettingsListResultItemAdvancedDDoSId = "advanced_ddos";
-export const SettingsListResultItemAdvancedDDoSId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemAdvancedDDoSValue = "on" | "off";
-export const SettingsListResultItemAdvancedDDoSValue = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemAdvancedDDoS {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemAdvancedDDoSId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemAdvancedDDoSValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemAdvancedDDoS = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemAdvancedDDoSId,
-    value: SettingsListResultItemAdvancedDDoSValue,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemAdvancedDDoS",
-}) as any as S.Schema<SettingsListResultItemAdvancedDDoS>;
-
-export type SettingsListResultItemZonesCacheRulesAegisId = "aegis";
-export const SettingsListResultItemZonesCacheRulesAegisId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesCacheRulesAegisValue =
-  SettingsGetResultZonesCacheRulesAegisValue;
-export const SettingsListResultItemZonesCacheRulesAegisValue =
-  SettingsGetResultZonesCacheRulesAegisValue;
-
-export interface SettingsListResultItemZonesCacheRulesAegis {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesCacheRulesAegisId;
-  /** Last time this setting was modified. */
-  modifiedOn?: string | null;
-  /** Value of the zone setting. */
-  value?: SettingsGetResultZonesCacheRulesAegisValue | null;
-}
-export const SettingsListResultItemZonesCacheRulesAegis =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesCacheRulesAegisId,
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-      value: S.optional(S.NullOr(SettingsGetResultZonesCacheRulesAegisValue)),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesCacheRulesAegis",
-  }) as any as S.Schema<SettingsListResultItemZonesCacheRulesAegis>;
-
-export type SettingsListResultItemAlwaysOnlineId = "always_online";
-export const SettingsListResultItemAlwaysOnlineId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemAlwaysOnlineValue = "on" | "off";
-export const SettingsListResultItemAlwaysOnlineValue = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemAlwaysOnline {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemAlwaysOnlineId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemAlwaysOnlineValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemAlwaysOnline = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemAlwaysOnlineId,
-    value: SettingsListResultItemAlwaysOnlineValue,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemAlwaysOnline",
-}) as any as S.Schema<SettingsListResultItemAlwaysOnline>;
-
-export type SettingsListResultItemZonesSchemasAlwaysUseHTTPSId =
-  "always_use_https";
-export const SettingsListResultItemZonesSchemasAlwaysUseHTTPSId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasAlwaysUseHTTPSValue =
-  | "on"
-  | "off";
-export const SettingsListResultItemZonesSchemasAlwaysUseHTTPSValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasAlwaysUseHTTPS {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasAlwaysUseHTTPSId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasAlwaysUseHTTPSValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasAlwaysUseHTTPS =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasAlwaysUseHTTPSId,
-      value: SettingsListResultItemZonesSchemasAlwaysUseHTTPSValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasAlwaysUseHTTPS",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasAlwaysUseHTTPS>;
-
-export type SettingsListResultItemZonesSchemasAutomaticHTTPSRewritesId =
-  "automatic_https_rewrites";
-export const SettingsListResultItemZonesSchemasAutomaticHTTPSRewritesId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasAutomaticHTTPSRewritesValue =
-  | "on"
-  | "off";
-export const SettingsListResultItemZonesSchemasAutomaticHTTPSRewritesValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasAutomaticHTTPSRewrites {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasAutomaticHTTPSRewritesId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasAutomaticHTTPSRewritesValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasAutomaticHTTPSRewrites =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasAutomaticHTTPSRewritesId,
-      value: SettingsListResultItemZonesSchemasAutomaticHTTPSRewritesValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasAutomaticHTTPSRewrites",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasAutomaticHTTPSRewrites>;
-
-export type SettingsListResultItemBrotliId = "brotli";
-export const SettingsListResultItemBrotliId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemBrotliValue = "off" | "on";
-export const SettingsListResultItemBrotliValue = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemBrotli {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemBrotliId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemBrotliValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemBrotli = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemBrotliId,
-    value: SettingsListResultItemBrotliValue,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemBrotli",
-}) as any as S.Schema<SettingsListResultItemBrotli>;
-
-export type SettingsListResultItemZonesSchemasBrowserCacheTTLId =
-  "browser_cache_ttl";
-export const SettingsListResultItemZonesSchemasBrowserCacheTTLId =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasBrowserCacheTTL {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasBrowserCacheTTLId;
-  /** Current value of the zone setting. */
-  value: number;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasBrowserCacheTTL =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasBrowserCacheTTLId,
-      value: S.Number,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasBrowserCacheTTL",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasBrowserCacheTTL>;
-
-export type SettingsListResultItemZonesSchemasBrowserCheckId = "browser_check";
-export const SettingsListResultItemZonesSchemasBrowserCheckId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasBrowserCheckValue = "on" | "off";
-export const SettingsListResultItemZonesSchemasBrowserCheckValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasBrowserCheck {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasBrowserCheckId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasBrowserCheckValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasBrowserCheck =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasBrowserCheckId,
-      value: SettingsListResultItemZonesSchemasBrowserCheckValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasBrowserCheck",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasBrowserCheck>;
-
-export type SettingsListResultItemZonesSchemasCacheLevelId = "cache_level";
-export const SettingsListResultItemZonesSchemasCacheLevelId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasCacheLevelValue =
-  | "aggressive"
-  | "basic"
-  | "simplified";
-export const SettingsListResultItemZonesSchemasCacheLevelValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasCacheLevel {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasCacheLevelId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasCacheLevelValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasCacheLevel =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasCacheLevelId,
-      value: SettingsListResultItemZonesSchemasCacheLevelValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasCacheLevel",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasCacheLevel>;
-
-export type SettingsListResultItemChallengeTTLId = "challenge_ttl";
-export const SettingsListResultItemChallengeTTLId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemChallengeTTLValue =
-  | 300
-  | 900
-  | 1800
-  | 2700
-  | 3600
-  | 7200
-  | 10800
-  | 14400
-  | 28800
-  | 57600
-  | 86400
-  | 604800
-  | 2592000
-  | 31536000;
-export const SettingsListResultItemChallengeTTLValue = /*@__PURE__*/ S.Number;
-
-export interface SettingsListResultItemChallengeTTL {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemChallengeTTLId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemChallengeTTLValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemChallengeTTL = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemChallengeTTLId,
-    value: SettingsListResultItemChallengeTTLValue,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemChallengeTTL",
-}) as any as S.Schema<SettingsListResultItemChallengeTTL>;
-
-export type SettingsListResultItemCiphersId = "ciphers";
-export const SettingsListResultItemCiphersId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemCiphersValueList = Array<string>;
-export const SettingsListResultItemCiphersValueList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<SettingsListResultItemCiphersValueList>;
-
-export interface SettingsListResultItemCiphers {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemCiphersId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemCiphersValueList;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemCiphers = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemCiphersId,
-    value: SettingsListResultItemCiphersValueList,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemCiphers",
-}) as any as S.Schema<SettingsListResultItemCiphers>;
-
-export type SettingsListResultItemZonesContentConverterId = "content_converter";
-export const SettingsListResultItemZonesContentConverterId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesContentConverterValue = "off" | "on";
-export const SettingsListResultItemZonesContentConverterValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesContentConverter {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesContentConverterId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesContentConverterValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesContentConverter =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesContentConverterId,
-      value: SettingsListResultItemZonesContentConverterValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesContentConverter",
-  }) as any as S.Schema<SettingsListResultItemZonesContentConverter>;
-
-export type SettingsListResultItemZonesCNAMEFlatteningId = "cname_flattening";
-export const SettingsListResultItemZonesCNAMEFlatteningId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesCNAMEFlatteningValue =
-  | "flatten_at_root"
-  | "flatten_all";
-export const SettingsListResultItemZonesCNAMEFlatteningValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesCNAMEFlattening {
-  /** How to flatten the cname destination. */
-  id: SettingsListResultItemZonesCNAMEFlatteningId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesCNAMEFlatteningValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesCNAMEFlattening =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesCNAMEFlatteningId,
-      value: SettingsListResultItemZonesCNAMEFlatteningValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesCNAMEFlattening",
-  }) as any as S.Schema<SettingsListResultItemZonesCNAMEFlattening>;
-
-export type SettingsListResultItemDevelopmentModeId = "development_mode";
-export const SettingsListResultItemDevelopmentModeId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemDevelopmentModeValue = "on" | "off";
-export const SettingsListResultItemDevelopmentModeValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemDevelopmentMode {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemDevelopmentModeId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemDevelopmentModeValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-  /** Value of the zone setting. */
-  timeRemaining?: number | null;
-}
-export const SettingsListResultItemDevelopmentMode = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemDevelopmentModeId,
-      value: SettingsListResultItemDevelopmentModeValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-      timeRemaining: S.optional(
-        S.NullOr(S.Number).pipe(T.Body("time_remaining")),
-      ),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemDevelopmentMode",
-}) as any as S.Schema<SettingsListResultItemDevelopmentMode>;
-
-export type SettingsListResultItemEarlyHintsId = "early_hints";
-export const SettingsListResultItemEarlyHintsId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemEarlyHintsValue = "on" | "off";
-export const SettingsListResultItemEarlyHintsValue = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemEarlyHints {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemEarlyHintsId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemEarlyHintsValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemEarlyHints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemEarlyHintsId,
-    value: SettingsListResultItemEarlyHintsValue,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemEarlyHints",
-}) as any as S.Schema<SettingsListResultItemEarlyHints>;
-
-export type SettingsListResultItemZonesSchemasEdgeCacheTTLId = "edge_cache_ttl";
-export const SettingsListResultItemZonesSchemasEdgeCacheTTLId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasEdgeCacheTTLValue =
-  | 30
-  | 60
-  | 300
-  | 1200
-  | 1800
-  | 3600
-  | 7200
-  | 10800
-  | 14400
-  | 18000
-  | 28800
-  | 43200
-  | 57600
-  | 72000
-  | 86400
-  | 172800
-  | 259200
-  | 345600
-  | 432000
-  | 518400
-  | 604800;
-export const SettingsListResultItemZonesSchemasEdgeCacheTTLValue =
-  /*@__PURE__*/ S.Number;
-
-export interface SettingsListResultItemZonesSchemasEdgeCacheTTL {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasEdgeCacheTTLId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasEdgeCacheTTLValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasEdgeCacheTTL =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasEdgeCacheTTLId,
-      value: SettingsListResultItemZonesSchemasEdgeCacheTTLValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasEdgeCacheTTL",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasEdgeCacheTTL>;
-
-export type SettingsListResultItemZonesSchemasEmailObfuscationId =
-  "email_obfuscation";
-export const SettingsListResultItemZonesSchemasEmailObfuscationId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasEmailObfuscationValue =
-  | "on"
-  | "off";
-export const SettingsListResultItemZonesSchemasEmailObfuscationValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasEmailObfuscation {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasEmailObfuscationId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasEmailObfuscationValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasEmailObfuscation =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasEmailObfuscationId,
-      value: SettingsListResultItemZonesSchemasEmailObfuscationValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasEmailObfuscation",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasEmailObfuscation>;
-
-export type SettingsListResultItemH2PrioritizationId = "h2_prioritization";
-export const SettingsListResultItemH2PrioritizationId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemH2PrioritizationValue =
-  | "on"
-  | "off"
-  | "custom";
-export const SettingsListResultItemH2PrioritizationValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemH2Prioritization {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemH2PrioritizationId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemH2PrioritizationValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemH2Prioritization = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemH2PrioritizationId,
-      value: SettingsListResultItemH2PrioritizationValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemH2Prioritization",
-}) as any as S.Schema<SettingsListResultItemH2Prioritization>;
-
-export type SettingsListResultItemHotlinkProtectionId = "hotlink_protection";
-export const SettingsListResultItemHotlinkProtectionId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemHotlinkProtectionValue = "on" | "off";
-export const SettingsListResultItemHotlinkProtectionValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemHotlinkProtection {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemHotlinkProtectionId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemHotlinkProtectionValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemHotlinkProtection = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemHotlinkProtectionId,
-      value: SettingsListResultItemHotlinkProtectionValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemHotlinkProtection",
-}) as any as S.Schema<SettingsListResultItemHotlinkProtection>;
-
-export type SettingsListResultItemHTTP2Id = "http2";
-export const SettingsListResultItemHTTP2Id = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemHTTP2Value = "on" | "off";
-export const SettingsListResultItemHTTP2Value = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemHTTP2 {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemHTTP2Id;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemHTTP2Value;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemHTTP2 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemHTTP2Id,
-    value: SettingsListResultItemHTTP2Value,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemHTTP2",
-}) as any as S.Schema<SettingsListResultItemHTTP2>;
-
-export type SettingsListResultItemHTTP3Id = "http3";
-export const SettingsListResultItemHTTP3Id = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemHTTP3Value = "on" | "off";
-export const SettingsListResultItemHTTP3Value = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemHTTP3 {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemHTTP3Id;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemHTTP3Value;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemHTTP3 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemHTTP3Id,
-    value: SettingsListResultItemHTTP3Value,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemHTTP3",
-}) as any as S.Schema<SettingsListResultItemHTTP3>;
-
-export type SettingsListResultItemImageResizingId = "image_resizing";
-export const SettingsListResultItemImageResizingId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemImageResizingValue = "on" | "off" | "open";
-export const SettingsListResultItemImageResizingValue = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemImageResizing {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemImageResizingId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemImageResizingValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemImageResizing = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemImageResizingId,
-    value: SettingsListResultItemImageResizingValue,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemImageResizing",
-}) as any as S.Schema<SettingsListResultItemImageResizing>;
-
-export type SettingsListResultItemZonesSchemasIPGeolocationId =
-  "ip_geolocation";
-export const SettingsListResultItemZonesSchemasIPGeolocationId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasIPGeolocationValue = "on" | "off";
-export const SettingsListResultItemZonesSchemasIPGeolocationValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasIPGeolocation {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasIPGeolocationId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasIPGeolocationValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasIPGeolocation =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasIPGeolocationId,
-      value: SettingsListResultItemZonesSchemasIPGeolocationValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasIPGeolocation",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasIPGeolocation>;
-
-export type SettingsListResultItemIPV6Id = "ipv6";
-export const SettingsListResultItemIPV6Id = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemIPV6Value = "off" | "on";
-export const SettingsListResultItemIPV6Value = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemIPV6 {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemIPV6Id;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemIPV6Value;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemIPV6 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemIPV6Id,
-    value: SettingsListResultItemIPV6Value,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemIPV6",
-}) as any as S.Schema<SettingsListResultItemIPV6>;
-
-export type SettingsListResultItemZonesMaxUploadId = "max_upload";
-export const SettingsListResultItemZonesMaxUploadId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesMaxUploadValue =
-  | 100
-  | 125
-  | 150
-  | 175
-  | 200
-  | 225
-  | 250
-  | 275
-  | 300
-  | 325
-  | 350
-  | 375
-  | 400
-  | 425
-  | 450
-  | 475
-  | 500
-  | 1000;
-export const SettingsListResultItemZonesMaxUploadValue = /*@__PURE__*/ S.Number;
-
-export interface SettingsListResultItemZonesMaxUpload {
-  /** identifier of the zone setting. */
-  id: SettingsListResultItemZonesMaxUploadId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesMaxUploadValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesMaxUpload = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemZonesMaxUploadId,
-      value: SettingsListResultItemZonesMaxUploadValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemZonesMaxUpload",
-}) as any as S.Schema<SettingsListResultItemZonesMaxUpload>;
-
-export type SettingsListResultItemMinTLSVersionId = "min_tls_version";
-export const SettingsListResultItemMinTLSVersionId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemMinTLSVersionValue =
-  | "1.0"
-  | "1.1"
-  | "1.2"
-  | "1.3";
-export const SettingsListResultItemMinTLSVersionValue = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemMinTLSVersion {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemMinTLSVersionId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemMinTLSVersionValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemMinTLSVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemMinTLSVersionId,
-    value: SettingsListResultItemMinTLSVersionValue,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemMinTLSVersion",
-}) as any as S.Schema<SettingsListResultItemMinTLSVersion>;
-
-export type SettingsListResultItemZonesSchemasMirageId = "mirage";
-export const SettingsListResultItemZonesSchemasMirageId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasMirageValue = "on" | "off";
-export const SettingsListResultItemZonesSchemasMirageValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasMirage {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasMirageId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasMirageValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasMirage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasMirageId,
-      value: SettingsListResultItemZonesSchemasMirageValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemZonesSchemasMirage",
-}) as any as S.Schema<SettingsListResultItemZonesSchemasMirage>;
-
-export type SettingsListResultItemNELId = "nel";
-export const SettingsListResultItemNELId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemNELValue = SettingsGetResultNELValue;
-export const SettingsListResultItemNELValue = SettingsGetResultNELValue;
-
-export interface SettingsListResultItemNEL {
-  /** Zone setting identifier. */
-  id: SettingsListResultItemNELId;
-  /** Current value of the zone setting. */
-  value: SettingsGetResultNELValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemNEL = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemNELId,
-    value: SettingsGetResultNELValue,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemNEL",
-}) as any as S.Schema<SettingsListResultItemNEL>;
-
-export type SettingsListResultItemZonesSchemasOpportunisticEncryptionId =
-  "opportunistic_encryption";
-export const SettingsListResultItemZonesSchemasOpportunisticEncryptionId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasOpportunisticEncryptionValue =
-  | "on"
-  | "off";
-export const SettingsListResultItemZonesSchemasOpportunisticEncryptionValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasOpportunisticEncryption {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasOpportunisticEncryptionId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasOpportunisticEncryptionValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasOpportunisticEncryption =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasOpportunisticEncryptionId,
-      value: SettingsListResultItemZonesSchemasOpportunisticEncryptionValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasOpportunisticEncryption",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasOpportunisticEncryption>;
-
-export type SettingsListResultItemOpportunisticOnionId = "opportunistic_onion";
-export const SettingsListResultItemOpportunisticOnionId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemOpportunisticOnionValue = "on" | "off";
-export const SettingsListResultItemOpportunisticOnionValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemOpportunisticOnion {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemOpportunisticOnionId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemOpportunisticOnionValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemOpportunisticOnion = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemOpportunisticOnionId,
-      value: SettingsListResultItemOpportunisticOnionValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemOpportunisticOnion",
-}) as any as S.Schema<SettingsListResultItemOpportunisticOnion>;
-
-export type SettingsListResultItemOrangeToOrangeId = "orange_to_orange";
-export const SettingsListResultItemOrangeToOrangeId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemOrangeToOrangeValue = "on" | "off";
-export const SettingsListResultItemOrangeToOrangeValue = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemOrangeToOrange {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemOrangeToOrangeId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemOrangeToOrangeValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemOrangeToOrange = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemOrangeToOrangeId,
-      value: SettingsListResultItemOrangeToOrangeValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemOrangeToOrange",
-}) as any as S.Schema<SettingsListResultItemOrangeToOrange>;
-
-export type SettingsListResultItemZonesSchemasOriginErrorPagePassThruId =
-  "origin_error_page_pass_thru";
-export const SettingsListResultItemZonesSchemasOriginErrorPagePassThruId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasOriginErrorPagePassThruValue =
-  | "on"
-  | "off";
-export const SettingsListResultItemZonesSchemasOriginErrorPagePassThruValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasOriginErrorPagePassThru {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasOriginErrorPagePassThruId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasOriginErrorPagePassThruValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasOriginErrorPagePassThru =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasOriginErrorPagePassThruId,
-      value: SettingsListResultItemZonesSchemasOriginErrorPagePassThruValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasOriginErrorPagePassThru",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasOriginErrorPagePassThru>;
-
-export type SettingsListResultItemZonesCacheRulesOriginH2MaxStreamsId =
-  "origin_h2_max_streams";
-export const SettingsListResultItemZonesCacheRulesOriginH2MaxStreamsId =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesCacheRulesOriginH2MaxStreams {
-  /** Value of the zone setting. */
-  id: SettingsListResultItemZonesCacheRulesOriginH2MaxStreamsId;
-  /** Last time this setting was modified. */
-  modifiedOn?: string | null;
-  /** Value of the Origin H2 Max Streams Setting. */
-  value?: number | null;
-}
-export const SettingsListResultItemZonesCacheRulesOriginH2MaxStreams =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesCacheRulesOriginH2MaxStreamsId,
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-      value: S.optional(S.NullOr(S.Number)),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesCacheRulesOriginH2MaxStreams",
-  }) as any as S.Schema<SettingsListResultItemZonesCacheRulesOriginH2MaxStreams>;
-
-export type SettingsListResultItemZonesCacheRulesOriginMaxHTTPVersionId =
-  "origin_max_http_version";
-export const SettingsListResultItemZonesCacheRulesOriginMaxHTTPVersionId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesCacheRulesOriginMaxHTTPVersionValue =
-  | "2"
-  | "1";
-export const SettingsListResultItemZonesCacheRulesOriginMaxHTTPVersionValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesCacheRulesOriginMaxHTTPVersion {
-  /** Value of the zone setting. */
-  id: SettingsListResultItemZonesCacheRulesOriginMaxHTTPVersionId;
-  /** Last time this setting was modified. */
-  modifiedOn?: string | null;
-  /** Value of the Origin Max HTTP Version Setting. */
-  value?: SettingsListResultItemZonesCacheRulesOriginMaxHTTPVersionValue | null;
-}
-export const SettingsListResultItemZonesCacheRulesOriginMaxHTTPVersion =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesCacheRulesOriginMaxHTTPVersionId,
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-      value: S.optional(
-        S.NullOr(
-          SettingsListResultItemZonesCacheRulesOriginMaxHTTPVersionValue,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesCacheRulesOriginMaxHTTPVersion",
-  }) as any as S.Schema<SettingsListResultItemZonesCacheRulesOriginMaxHTTPVersion>;
-
-export type SettingsListResultItemZonesSchemasPolishId = "polish";
-export const SettingsListResultItemZonesSchemasPolishId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasPolishValue =
-  | "off"
-  | "lossless"
-  | "lossy";
-export const SettingsListResultItemZonesSchemasPolishValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasPolish {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasPolishId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasPolishValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasPolish = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasPolishId,
-      value: SettingsListResultItemZonesSchemasPolishValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemZonesSchemasPolish",
-}) as any as S.Schema<SettingsListResultItemZonesSchemasPolish>;
-
-export type SettingsListResultItemPrefetchPreloadId = "prefetch_preload";
-export const SettingsListResultItemPrefetchPreloadId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemPrefetchPreloadValue = "on" | "off";
-export const SettingsListResultItemPrefetchPreloadValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemPrefetchPreload {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemPrefetchPreloadId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemPrefetchPreloadValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemPrefetchPreload = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemPrefetchPreloadId,
-      value: SettingsListResultItemPrefetchPreloadValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemPrefetchPreload",
-}) as any as S.Schema<SettingsListResultItemPrefetchPreload>;
-
-export type SettingsListResultItemZonesPrivacyPassId = "privacy_pass";
-export const SettingsListResultItemZonesPrivacyPassId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesPrivacyPassValue = "on" | "off";
-export const SettingsListResultItemZonesPrivacyPassValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesPrivacyPass {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesPrivacyPassId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesPrivacyPassValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesPrivacyPass = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemZonesPrivacyPassId,
-      value: SettingsListResultItemZonesPrivacyPassValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemZonesPrivacyPass",
-}) as any as S.Schema<SettingsListResultItemZonesPrivacyPass>;
-
-export type SettingsListResultItemProxyReadTimeoutId = "proxy_read_timeout";
-export const SettingsListResultItemProxyReadTimeoutId = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemProxyReadTimeout {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemProxyReadTimeoutId;
-  /** Current value of the zone setting. */
-  value: number;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemProxyReadTimeout = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemProxyReadTimeoutId,
-      value: S.Number,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemProxyReadTimeout",
-}) as any as S.Schema<SettingsListResultItemProxyReadTimeout>;
-
-export type SettingsListResultItemPseudoIPV4Id = "pseudo_ipv4";
-export const SettingsListResultItemPseudoIPV4Id = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemPseudoIPV4Value =
-  | "off"
-  | "add_header"
-  | "overwrite_header";
-export const SettingsListResultItemPseudoIPV4Value = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemPseudoIPV4 {
-  /** Value of the Pseudo IPv4 setting. */
-  id: SettingsListResultItemPseudoIPV4Id;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemPseudoIPV4Value;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemPseudoIPV4 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemPseudoIPV4Id,
-    value: SettingsListResultItemPseudoIPV4Value,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemPseudoIPV4",
-}) as any as S.Schema<SettingsListResultItemPseudoIPV4>;
-
-export type SettingsListResultItemZonesRedirectsForAITrainingId =
-  "redirects_for_ai_training";
-export const SettingsListResultItemZonesRedirectsForAITrainingId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesRedirectsForAITrainingValue =
-  | "off"
-  | "on";
-export const SettingsListResultItemZonesRedirectsForAITrainingValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesRedirectsForAITraining {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesRedirectsForAITrainingId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesRedirectsForAITrainingValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesRedirectsForAITraining =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesRedirectsForAITrainingId,
-      value: SettingsListResultItemZonesRedirectsForAITrainingValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesRedirectsForAITraining",
-  }) as any as S.Schema<SettingsListResultItemZonesRedirectsForAITraining>;
-
-export type SettingsListResultItemZonesReplaceInsecureJSId =
-  "replace_insecure_js";
-export const SettingsListResultItemZonesReplaceInsecureJSId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesReplaceInsecureJSValue = "on" | "off";
-export const SettingsListResultItemZonesReplaceInsecureJSValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesReplaceInsecureJS {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesReplaceInsecureJSId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesReplaceInsecureJSValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesReplaceInsecureJS =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesReplaceInsecureJSId,
-      value: SettingsListResultItemZonesReplaceInsecureJSValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesReplaceInsecureJS",
-  }) as any as S.Schema<SettingsListResultItemZonesReplaceInsecureJS>;
-
-export type SettingsListResultItemZonesSchemasResponseBufferingId =
-  "response_buffering";
-export const SettingsListResultItemZonesSchemasResponseBufferingId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasResponseBufferingValue =
-  | "on"
-  | "off";
-export const SettingsListResultItemZonesSchemasResponseBufferingValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasResponseBuffering {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasResponseBufferingId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasResponseBufferingValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasResponseBuffering =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasResponseBufferingId,
-      value: SettingsListResultItemZonesSchemasResponseBufferingValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasResponseBuffering",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasResponseBuffering>;
-
-export type SettingsListResultItemZonesSchemasRocketLoaderId = "rocket_loader";
-export const SettingsListResultItemZonesSchemasRocketLoaderId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasRocketLoaderValue = "on" | "off";
-export const SettingsListResultItemZonesSchemasRocketLoaderValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasRocketLoader {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasRocketLoaderId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasRocketLoaderValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasRocketLoader =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasRocketLoaderId,
-      value: SettingsListResultItemZonesSchemasRocketLoaderValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasRocketLoader",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasRocketLoader>;
-
-export type SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationId =
-  "automatic_platform_optimization";
-export const SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList =
-  Array<string>;
-export const SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList>;
-
-export interface SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationValue {
-  /** Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled. */
-  cacheByDeviceType: boolean;
-  /** Indicates whether or not Cloudflare proxy is enabled. */
-  cf: boolean;
-  /** Indicates whether or not Automatic Platform Optimization is enabled. */
-  enabled: boolean;
-  /** An array of hostnames where Automatic Platform Optimization for WordPress is activated. */
-  hostnames: SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList;
-  /** Indicates whether or not site is powered by WordPress. */
-  wordpress: boolean;
-  /** Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed. */
-  wpPlugin: boolean;
-}
-export const SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationValue =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      cacheByDeviceType: S.Boolean.pipe(T.Body("cache_by_device_type")),
-      cf: S.Boolean,
-      enabled: S.Boolean,
-      hostnames:
-        SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList,
-      wordpress: S.Boolean,
-      wpPlugin: S.Boolean.pipe(T.Body("wp_plugin")),
-    }),
-  ).annotate({
-    identifier:
-      "SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationValue",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationValue>;
-
-export interface SettingsListResultItemZonesSchemasAutomaticPlatformOptimization {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasAutomaticPlatformOptimization =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationId,
-      value:
-        SettingsListResultItemZonesSchemasAutomaticPlatformOptimizationValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier:
-      "SettingsListResultItemZonesSchemasAutomaticPlatformOptimization",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasAutomaticPlatformOptimization>;
-
-export type SettingsListResultItemZonesSearchForAgentsId = "search_for_agents";
-export const SettingsListResultItemZonesSearchForAgentsId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSearchForAgentsValue = "off" | "on";
-export const SettingsListResultItemZonesSearchForAgentsValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSearchForAgents {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSearchForAgentsId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSearchForAgentsValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSearchForAgents =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSearchForAgentsId,
-      value: SettingsListResultItemZonesSearchForAgentsValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSearchForAgents",
-  }) as any as S.Schema<SettingsListResultItemZonesSearchForAgents>;
-
-export type SettingsListResultItemSecurityHeadersId = "security_header";
-export const SettingsListResultItemSecurityHeadersId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemSecurityHeadersValueStrictTransportSecurity =
-  SettingsGetResultSecurityHeadersValueStrictTransportSecurity;
-export const SettingsListResultItemSecurityHeadersValueStrictTransportSecurity =
-  SettingsGetResultSecurityHeadersValueStrictTransportSecurity;
-
-export type SettingsListResultItemSecurityHeadersValue =
-  SettingsGetResultSecurityHeadersValue;
-export const SettingsListResultItemSecurityHeadersValue =
-  SettingsGetResultSecurityHeadersValue;
-
-export interface SettingsListResultItemSecurityHeaders {
-  /** ID of the zone's security header. */
-  id: SettingsListResultItemSecurityHeadersId;
-  /** Current value of the zone setting. */
-  value: SettingsGetResultSecurityHeadersValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemSecurityHeaders = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemSecurityHeadersId,
-      value: SettingsGetResultSecurityHeadersValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemSecurityHeaders",
-}) as any as S.Schema<SettingsListResultItemSecurityHeaders>;
-
-export type SettingsListResultItemZonesSchemasSecurityLevelId =
-  "security_level";
-export const SettingsListResultItemZonesSchemasSecurityLevelId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasSecurityLevelValue =
-  | "off"
-  | "essentially_off"
-  | "low"
-  | "medium"
-  | "high"
-  | "under_attack";
-export const SettingsListResultItemZonesSchemasSecurityLevelValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasSecurityLevel {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasSecurityLevelId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasSecurityLevelValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasSecurityLevel =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasSecurityLevelId,
-      value: SettingsListResultItemZonesSchemasSecurityLevelValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasSecurityLevel",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasSecurityLevel>;
-
-export type SettingsListResultItemServerSideExcludesId = "server_side_exclude";
-export const SettingsListResultItemServerSideExcludesId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemServerSideExcludesValue = "on" | "off";
-export const SettingsListResultItemServerSideExcludesValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemServerSideExcludes {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemServerSideExcludesId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemServerSideExcludesValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemServerSideExcludes = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemServerSideExcludesId,
-      value: SettingsListResultItemServerSideExcludesValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemServerSideExcludes",
-}) as any as S.Schema<SettingsListResultItemServerSideExcludes>;
-
-export type SettingsListResultItemZonesSha1SupportId = "sha1_support";
-export const SettingsListResultItemZonesSha1SupportId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSha1SupportValue = "off" | "on";
-export const SettingsListResultItemZonesSha1SupportValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSha1Support {
-  /** Zone setting identifier. */
-  id: SettingsListResultItemZonesSha1SupportId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSha1SupportValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSha1Support = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemZonesSha1SupportId,
-      value: SettingsListResultItemZonesSha1SupportValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemZonesSha1Support",
-}) as any as S.Schema<SettingsListResultItemZonesSha1Support>;
-
-export type SettingsListResultItemZonesSchemasSortQueryStringForCacheId =
-  "sort_query_string_for_cache";
-export const SettingsListResultItemZonesSchemasSortQueryStringForCacheId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasSortQueryStringForCacheValue =
-  | "on"
-  | "off";
-export const SettingsListResultItemZonesSchemasSortQueryStringForCacheValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasSortQueryStringForCache {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasSortQueryStringForCacheId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasSortQueryStringForCacheValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasSortQueryStringForCache =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasSortQueryStringForCacheId,
-      value: SettingsListResultItemZonesSchemasSortQueryStringForCacheValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasSortQueryStringForCache",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasSortQueryStringForCache>;
-
-export type SettingsListResultItemZonesSchemasSSLId = "ssl";
-export const SettingsListResultItemZonesSchemasSSLId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasSSLValue =
-  | "off"
-  | "flexible"
-  | "full"
-  | "strict";
-export const SettingsListResultItemZonesSchemasSSLValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasSSL {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasSSLId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasSSLValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasSSL = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasSSLId,
-      value: SettingsListResultItemZonesSchemasSSLValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemZonesSchemasSSL",
-}) as any as S.Schema<SettingsListResultItemZonesSchemasSSL>;
-
-export type SettingsListResultItemSSLRecommenderId = "ssl_recommender";
-export const SettingsListResultItemSSLRecommenderId = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemSSLRecommender {
-  /** Enrollment value for SSL/TLS Recommender. */
-  id?: SettingsListResultItemSSLRecommenderId | null;
-  /** ssl-recommender enrollment setting. */
-  enabled?: boolean | null;
-}
-export const SettingsListResultItemSSLRecommender = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.optional(S.NullOr(SettingsListResultItemSSLRecommenderId)),
-      enabled: S.optional(S.NullOr(S.Boolean)),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemSSLRecommender",
-}) as any as S.Schema<SettingsListResultItemSSLRecommender>;
-
-export type SettingsListResultItemZonesTLS12OnlyId = "tls_1_2_only";
-export const SettingsListResultItemZonesTLS12OnlyId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesTLS12OnlyValue = "off" | "on";
-export const SettingsListResultItemZonesTLS12OnlyValue = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesTLS12Only {
-  /** Zone setting identifier. */
-  id: SettingsListResultItemZonesTLS12OnlyId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesTLS12OnlyValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesTLS12Only = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemZonesTLS12OnlyId,
-      value: SettingsListResultItemZonesTLS12OnlyValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemZonesTLS12Only",
-}) as any as S.Schema<SettingsListResultItemZonesTLS12Only>;
-
-export type SettingsListResultItemTLS13Id = "tls_1_3";
-export const SettingsListResultItemTLS13Id = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemTLS13Value = "on" | "off" | "zrt";
-export const SettingsListResultItemTLS13Value = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemTLS13 {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemTLS13Id;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemTLS13Value;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemTLS13 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemTLS13Id,
-    value: SettingsListResultItemTLS13Value,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemTLS13",
-}) as any as S.Schema<SettingsListResultItemTLS13>;
-
-export type SettingsListResultItemTLSClientAuthId = "tls_client_auth";
-export const SettingsListResultItemTLSClientAuthId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemTLSClientAuthValue = "on" | "off";
-export const SettingsListResultItemTLSClientAuthValue = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemTLSClientAuth {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemTLSClientAuthId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemTLSClientAuthValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemTLSClientAuth = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemTLSClientAuthId,
-    value: SettingsListResultItemTLSClientAuthValue,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemTLSClientAuth",
-}) as any as S.Schema<SettingsListResultItemTLSClientAuth>;
-
-export type SettingsListResultItemZonesTransformationsId = "transformations";
-export const SettingsListResultItemZonesTransformationsId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesTransformationsValue =
-  | "on"
-  | "off"
-  | "open";
-export const SettingsListResultItemZonesTransformationsValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesTransformations {
-  /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
-  id: SettingsListResultItemZonesTransformationsId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesTransformationsValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesTransformations =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesTransformationsId,
-      value: SettingsListResultItemZonesTransformationsValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesTransformations",
-  }) as any as S.Schema<SettingsListResultItemZonesTransformations>;
-
-export type SettingsListResultItemZonesTransformationsAllowedOriginsId =
-  "transformations_allowed_origins";
-export const SettingsListResultItemZonesTransformationsAllowedOriginsId =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesTransformationsAllowedOrigins {
-  /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
-  id: SettingsListResultItemZonesTransformationsAllowedOriginsId;
-  /** Current value of the zone setting. */
-  value: string;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesTransformationsAllowedOrigins =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesTransformationsAllowedOriginsId,
-      value: S.String,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesTransformationsAllowedOrigins",
-  }) as any as S.Schema<SettingsListResultItemZonesTransformationsAllowedOrigins>;
-
-export type SettingsListResultItemZonesSchemasTrueClientIPHeaderId =
-  "true_client_ip_header";
-export const SettingsListResultItemZonesSchemasTrueClientIPHeaderId =
-  /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasTrueClientIPHeaderValue =
-  | "on"
-  | "off";
-export const SettingsListResultItemZonesSchemasTrueClientIPHeaderValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasTrueClientIPHeader {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasTrueClientIPHeaderId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasTrueClientIPHeaderValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasTrueClientIPHeader =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasTrueClientIPHeaderId,
-      value: SettingsListResultItemZonesSchemasTrueClientIPHeaderValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-  ).annotate({
-    identifier: "SettingsListResultItemZonesSchemasTrueClientIPHeader",
-  }) as any as S.Schema<SettingsListResultItemZonesSchemasTrueClientIPHeader>;
-
-export type SettingsListResultItemZonesSchemasWAFId = "waf";
-export const SettingsListResultItemZonesSchemasWAFId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemZonesSchemasWAFValue = "on" | "off";
-export const SettingsListResultItemZonesSchemasWAFValue =
-  /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemZonesSchemasWAF {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemZonesSchemasWAFId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemZonesSchemasWAFValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemZonesSchemasWAF = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: SettingsListResultItemZonesSchemasWAFId,
-      value: SettingsListResultItemZonesSchemasWAFValue,
-      editable: S.optional(S.NullOr(S.Boolean)),
-      modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-    }),
-).annotate({
-  identifier: "SettingsListResultItemZonesSchemasWAF",
-}) as any as S.Schema<SettingsListResultItemZonesSchemasWAF>;
-
-export type SettingsListResultItemWebPId = "webp";
-export const SettingsListResultItemWebPId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemWebPValue = "off" | "on";
-export const SettingsListResultItemWebPValue = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemWebP {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemWebPId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemWebPValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemWebP = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemWebPId,
-    value: SettingsListResultItemWebPValue,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemWebP",
-}) as any as S.Schema<SettingsListResultItemWebP>;
-
-export type SettingsListResultItemWebsocketId = "websockets";
-export const SettingsListResultItemWebsocketId = /*@__PURE__*/ S.String;
-
-export type SettingsListResultItemWebsocketValue = "off" | "on";
-export const SettingsListResultItemWebsocketValue = /*@__PURE__*/ S.String;
-
-export interface SettingsListResultItemWebsocket {
-  /** ID of the zone setting. */
-  id: SettingsListResultItemWebsocketId;
-  /** Current value of the zone setting. */
-  value: SettingsListResultItemWebsocketValue;
-  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
-  /** last time this setting was modified. */
-  modifiedOn?: string | null;
-}
-export const SettingsListResultItemWebsocket = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: SettingsListResultItemWebsocketId,
-    value: SettingsListResultItemWebsocketValue,
-    editable: S.optional(S.NullOr(S.Boolean)),
-    modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-  }),
-).annotate({
-  identifier: "SettingsListResultItemWebsocket",
-}) as any as S.Schema<SettingsListResultItemWebsocket>;
-
-export type SettingsListResultItem =
-  | SettingsListResultItemZeroRTT
-  | SettingsListResultItemAdvancedDDoS
-  | SettingsListResultItemZonesCacheRulesAegis
-  | SettingsListResultItemAlwaysOnline
-  | SettingsListResultItemZonesSchemasAlwaysUseHTTPS
-  | SettingsListResultItemZonesSchemasAutomaticHTTPSRewrites
-  | SettingsListResultItemBrotli
-  | SettingsListResultItemZonesSchemasBrowserCacheTTL
-  | SettingsListResultItemZonesSchemasBrowserCheck
-  | SettingsListResultItemZonesSchemasCacheLevel
-  | SettingsListResultItemChallengeTTL
-  | SettingsListResultItemCiphers
-  | SettingsListResultItemZonesContentConverter
-  | SettingsListResultItemZonesCNAMEFlattening
-  | SettingsListResultItemDevelopmentMode
-  | SettingsListResultItemEarlyHints
-  | SettingsListResultItemZonesSchemasEdgeCacheTTL
-  | SettingsListResultItemZonesSchemasEmailObfuscation
-  | SettingsListResultItemH2Prioritization
-  | SettingsListResultItemHotlinkProtection
-  | SettingsListResultItemHTTP2
-  | SettingsListResultItemHTTP3
-  | SettingsListResultItemImageResizing
-  | SettingsListResultItemZonesSchemasIPGeolocation
-  | SettingsListResultItemIPV6
-  | SettingsListResultItemZonesMaxUpload
-  | SettingsListResultItemMinTLSVersion
-  | SettingsListResultItemZonesSchemasMirage
-  | SettingsListResultItemNEL
-  | SettingsListResultItemZonesSchemasOpportunisticEncryption
-  | SettingsListResultItemOpportunisticOnion
-  | SettingsListResultItemOrangeToOrange
-  | SettingsListResultItemZonesSchemasOriginErrorPagePassThru
-  | SettingsListResultItemZonesCacheRulesOriginH2MaxStreams
-  | SettingsListResultItemZonesCacheRulesOriginMaxHTTPVersion
-  | SettingsListResultItemZonesSchemasPolish
-  | SettingsListResultItemPrefetchPreload
-  | SettingsListResultItemZonesPrivacyPass
-  | SettingsListResultItemProxyReadTimeout
-  | SettingsListResultItemPseudoIPV4
-  | SettingsListResultItemZonesRedirectsForAITraining
-  | SettingsListResultItemZonesReplaceInsecureJS
-  | SettingsListResultItemZonesSchemasResponseBuffering
-  | SettingsListResultItemZonesSchemasRocketLoader
-  | SettingsListResultItemZonesSchemasAutomaticPlatformOptimization
-  | SettingsListResultItemZonesSearchForAgents
-  | SettingsListResultItemSecurityHeaders
-  | SettingsListResultItemZonesSchemasSecurityLevel
-  | SettingsListResultItemServerSideExcludes
-  | SettingsListResultItemZonesSha1Support
-  | SettingsListResultItemZonesSchemasSortQueryStringForCache
-  | SettingsListResultItemZonesSchemasSSL
-  | SettingsListResultItemSSLRecommender
-  | SettingsListResultItemZonesTLS12Only
-  | SettingsListResultItemTLS13
-  | SettingsListResultItemTLSClientAuth
-  | SettingsListResultItemZonesTransformations
-  | SettingsListResultItemZonesTransformationsAllowedOrigins
-  | SettingsListResultItemZonesSchemasTrueClientIPHeader
-  | SettingsListResultItemZonesSchemasWAF
-  | SettingsListResultItemWebP
-  | SettingsListResultItemWebsocket;
-export const SettingsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "modifiedOn", "value"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn", "timeRemaining"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "modifiedOn", "value"],
-    ["id", "modifiedOn", "value"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "enabled"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-    ["id", "value", "editable", "modifiedOn"],
-  ]),
-);
-
-export type SettingsListResultList = Array<SettingsListResultItem>;
-export const SettingsListResultList = /*@__PURE__*/ S.Array(
-  SettingsListResultItem,
-) as any as S.Schema<SettingsListResultList>;
-
-export type SettingsListResponse = SettingsListResultList;
-export const SettingsListResponse = /*@__PURE__*/ S.suspend(() =>
-  SettingsListResultList.pipe(
-    T.EnvelopePayloadRoot(),
-    T.KeyDictionary(KEY_DICTIONARY),
-  ),
-).annotate({
-  identifier: "SettingsListResponse",
-}) as any as S.Schema<SettingsListResponse>;
 
 export interface TriggerActivationCheckRequest {
   /** Identifier. */
@@ -12970,7 +13750,7 @@ export type SubscriptionsUpdateRequestFrequency =
   | "monthly"
   | "quarterly"
   | "yearly";
-export const SubscriptionsUpdateRequestFrequency = /*@__PURE__*/ S.String;
+export const SubscriptionsUpdateRequestFrequency = S.String;
 
 export type SubscriptionsUpdateRequestRatePlanId =
   | "free"
@@ -12983,7 +13763,7 @@ export type SubscriptionsUpdateRequestRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
-export const SubscriptionsUpdateRequestRatePlanId = /*@__PURE__*/ S.String;
+export const SubscriptionsUpdateRequestRatePlanId = S.String;
 
 export type SubscriptionsUpdateRequestRatePlanSetsList = Array<string>;
 export const SubscriptionsUpdateRequestRatePlanSetsList = /*@__PURE__*/ S.Array(
@@ -13054,7 +13834,7 @@ export type SubscriptionsUpdateResponseFrequency =
   | "quarterly"
   | "yearly"
   | "not-applicable";
-export const SubscriptionsUpdateResponseFrequency = /*@__PURE__*/ S.String;
+export const SubscriptionsUpdateResponseFrequency = S.String;
 
 export type SubscriptionsUpdateResponseRatePlanId =
   | "free"
@@ -13067,7 +13847,7 @@ export type SubscriptionsUpdateResponseRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
-export const SubscriptionsUpdateResponseRatePlanId = /*@__PURE__*/ S.String;
+export const SubscriptionsUpdateResponseRatePlanId = S.String;
 
 export type SubscriptionsUpdateResponseRatePlanSetsList = Array<string>;
 export const SubscriptionsUpdateResponseRatePlanSetsList =
@@ -13115,7 +13895,7 @@ export type SubscriptionsUpdateResponseState =
   | "Cancelled"
   | "Failed"
   | "Expired";
-export const SubscriptionsUpdateResponseState = /*@__PURE__*/ S.String;
+export const SubscriptionsUpdateResponseState = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateSubscriptionResponse {
@@ -13158,7 +13938,7 @@ export const UpdateSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSubscriptionResponse>;
 
 export type CreateEnvironmentError = CloudflareOpError;
-/** Create zone environments */
+/** Creates environments for a zone. */
 export const createEnvironment: API.OperationMethod<
   CreateEnvironmentRequest,
   CreateEnvironmentResponse,
@@ -13219,7 +13999,7 @@ export type CreateZoneError =
   | DomainNotRegistered
   | SubdomainNotAllowed
   | CloudflareOpError;
-/** Create Zone */
+/** Creates a new zone (domain) in your Cloudflare account. The zone is created in a pending state and must be activated by updating your domain's nameservers to point to Cloudflare, or by completing the verification process for partial (CNAME) setups. */
 export const createZone: API.OperationMethod<
   CreateZoneRequest,
   CreateZoneResponse,
@@ -13242,7 +14022,7 @@ export const createZone: API.OperationMethod<
 }));
 
 export type DeleteEnvironmentError = CloudflareOpError;
-/** Delete zone environment */
+/** Deletes a zone environment by reference identifier. */
 export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentRequest,
   DeleteEnvironmentResponse,
@@ -13294,8 +14074,53 @@ export const deleteZone: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type EditNelError = CloudflareOpError;
+/** Updates the Network Error Logging (NEL) setting for a zone. Requires the NEL product feature to be enabled for the zone. The setting controls whether browsers report network errors to Cloudflare's NEL endpoint. */
+export const editNel: API.OperationMethod<
+  EditNelRequest,
+  EditNelResponse,
+  EditNelError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EditNelRequest,
+  output: EditNelResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EditTransformationsAllowedOriginError = CloudflareOpError;
+/** Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare's network to requests originating from specified domains. Refer to the Image Transformations and Video Transformations documentation for more information. */
+export const editTransformationsAllowedOrigin: API.OperationMethod<
+  EditTransformationsAllowedOriginRequest,
+  EditTransformationsAllowedOriginResponse,
+  EditTransformationsAllowedOriginError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EditTransformationsAllowedOriginRequest,
+  output: EditTransformationsAllowedOriginResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EditTransformationsC2paError = CloudflareOpError;
+/** C2PA (Coalition for Content Provenance and Authenticity) signing adds cryptographic metadata to images processed through Cloudflare Image Transformations, enabling verification of image authenticity and provenance. */
+export const editTransformationsC2pa: API.OperationMethod<
+  EditTransformationsC2paRequest,
+  EditTransformationsC2paResponse,
+  EditTransformationsC2paError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EditTransformationsC2paRequest,
+  output: EditTransformationsC2paResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetCtAlertingError = CloudflareOpError;
-/** Retrieve the Certificate Transparency alerting subscription settings for a zone. Returns whether CT monitoring is enabled and, for Business and Enterprise zones, the list of email addresses that receive alerts. */
+/** Retrieve the Certificate Transparency alerting subscription settings for a zone. Returns whether CT monitoring is enabled and the list of email addresses that receive alerts, if any have been configured. */
 export const getCtAlerting: API.OperationMethod<
   GetCtAlertingRequest,
   GetCtAlertingResponse,
@@ -13351,6 +14176,21 @@ export const getHold: API.OperationMethod<
     CloudflareRateLimited,
     CloudflareError,
   ],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetNelError = CloudflareOpError;
+/** Fetches the Network Error Logging (NEL) setting for a zone. NEL allows browsers to report network errors to a configured endpoint. The setting is enabled by default for free and pro zones, and disabled by default for business and enterprise zones unless the NEL product feature is enabled. */
+export const getNel: API.OperationMethod<
+  GetNelRequest,
+  GetNelResponse,
+  GetNelError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetNelRequest,
+  output: GetNelResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -13428,8 +14268,38 @@ export const getSubscription: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetTransformationsAllowedOriginError = CloudflareOpError;
+/** Media Transformations Allowed Origins restricts transformations for images and video served through Cloudflare's network to requests originating from specified domains. Refer to the Image Transformations and Video Transformations documentation for more information. */
+export const getTransformationsAllowedOrigin: API.OperationMethod<
+  GetTransformationsAllowedOriginRequest,
+  GetTransformationsAllowedOriginResponse,
+  GetTransformationsAllowedOriginError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetTransformationsAllowedOriginRequest,
+  output: GetTransformationsAllowedOriginResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetTransformationsC2paError = CloudflareOpError;
+/** C2PA (Coalition for Content Provenance and Authenticity) signing adds cryptographic metadata to images processed through Cloudflare Image Transformations, enabling verification of image authenticity and provenance. */
+export const getTransformationsC2pa: API.OperationMethod<
+  GetTransformationsC2paRequest,
+  GetTransformationsC2paResponse,
+  GetTransformationsC2paError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetTransformationsC2paRequest,
+  output: GetTransformationsC2paResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetZoneError = InvalidZoneIdentifier | CloudflareOpError;
-/** Zone Details */
+/** Retrieves detailed information about a specific zone identified by its zone ID. Returns zone configuration, status, nameservers, and associated metadata. */
 export const getZone: API.OperationMethod<
   GetZoneRequest,
   GetZoneResponse,
@@ -13444,7 +14314,7 @@ export const getZone: API.OperationMethod<
 }));
 
 export type ListEnvironmentsError = CloudflareOpError;
-/** List zone environments */
+/** Lists configured environments for a zone. */
 export const listEnvironments: API.OperationMethod<
   ListEnvironmentsRequest,
   ListEnvironmentsResponse,
@@ -13478,6 +14348,21 @@ export const listPlans: API.PaginatedOperationMethod<
   cloudflarePaginate,
 ) as any;
 
+export type ListSettingsError = CloudflareOpError;
+/** Available settings for your user in relation to a zone. */
+export const listSettings: API.OperationMethod<
+  ListSettingsRequest,
+  ListSettingsResponse,
+  ListSettingsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSettingsRequest,
+  output: ListSettingsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListZonesError = CloudflareOpError;
 /** Lists, searches, sorts, and filters your zones. Listing zones across more than 500 accounts is currently not allowed. */
 export const listZones: API.PaginatedOperationMethod<
@@ -13505,7 +14390,7 @@ export const listZones: API.PaginatedOperationMethod<
 ) as any;
 
 export type PatchCtAlertingError = CloudflareOpError;
-/** Create or update the Certificate Transparency alerting subscription for a zone. Enables or disables email notifications when certificates are issued for the zone's domains. For Free and Pro zones, the subscription is toggled on or off using the enabled field. Notification emails are sent to all users with SSL permissions on the zone. For Business and Enterprise zones, the emails field is required and controls which addresses receive alerts. Setting emails to an empty list disables the subscription regardless of the enabled field. A maximum of 10 email addresses may be configured. */
+/** Create or update the Certificate Transparency alerting subscription for a zone. Enables or disables email notifications when certificates are issued for the zone's domains. The `enabled` field is required on every request and controls whether the subscription is active. The `emails` field is optional and, when provided, replaces the stored recipient list for the zone. When `emails` is omitted, the stored recipient list is preserved and only the enabled state is toggled. A maximum of 100 email addresses may be configured per zone. Requests that omit `enabled` are rejected with error code 1008. Subscribe and unsubscribe notification emails are only sent for recipients whose effective subscription state changes. Idempotent requests (no state change) send no notification email. */
 export const patchCtAlerting: API.OperationMethod<
   PatchCtAlertingRequest,
   PatchCtAlertingResponse,
@@ -13520,7 +14405,7 @@ export const patchCtAlerting: API.OperationMethod<
 }));
 
 export type PatchEnvironmentError = CloudflareOpError;
-/** Partially update zone environments */
+/** Applies partial updates to zone environments. */
 export const patchEnvironment: API.OperationMethod<
   PatchEnvironmentRequest,
   PatchEnvironmentResponse,
@@ -13630,7 +14515,7 @@ export const putCustomNameserver: API.PaginatedOperationMethod<
 ) as any;
 
 export type RollbackEnvironmentError = CloudflareOpError;
-/** Roll back zone environment */
+/** Rolls a zone environment back to its previous version. */
 export const rollbackEnvironment: API.OperationMethod<
   RollbackEnvironmentRequest,
   RollbackEnvironmentResponse,
@@ -13659,21 +14544,6 @@ export const settingsBulkEdit: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type SettingsListError = CloudflareOpError;
-/** Available settings for your user in relation to a zone. */
-export const settingsList: API.OperationMethod<
-  SettingsListRequest,
-  SettingsListResponse,
-  SettingsListError,
-  CloudflareOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SettingsListRequest,
-  output: SettingsListResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
-  protocol: CloudflareProtocol,
-  retry: Retry.Retry,
-}));
-
 export type TriggerActivationCheckError = CloudflareOpError;
 /** Triggeres a new activation check for a PENDING Zone. This can be triggered every 5 min for paygo/ent customers, every hour for FREE Zones. */
 export const triggerActivationCheck: API.OperationMethod<
@@ -13690,7 +14560,7 @@ export const triggerActivationCheck: API.OperationMethod<
 }));
 
 export type UpdateEnvironmentError = CloudflareOpError;
-/** Upsert zone environments */
+/** Replaces the full environment configuration for a zone. */
 export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentRequest,
   UpdateEnvironmentResponse,

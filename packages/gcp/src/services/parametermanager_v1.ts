@@ -65,21 +65,12 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Output-only policy member strings of a Google Cloud resource's built-in identity. */
-export interface ResourcePolicyMember {
-  /** Output only. IAM policy binding member referring to a Google Cloud resource by user-assigned name (https://google.aip.dev/122). If a resource is deleted and recreated with the same name, the binding will be applicable to the new resource. Example: `principal://parametermanager.googleapis.com/projects/12345/name/locations/us-central1-a/parameters/my-parameter` */
-  iamPolicyNamePrincipal?: string;
-  /** Output only. IAM policy binding member referring to a Google Cloud resource by system-assigned unique identifier (https://google.aip.dev/148#uid). If a resource is deleted and recreated with the same name, the binding will not be applicable to the new resource Example: `principal://parametermanager.googleapis.com/projects/12345/uid/locations/us-central1-a/parameters/a918fed5` */
-  iamPolicyUidPrincipal?: string;
-}
-export const ResourcePolicyMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    iamPolicyNamePrincipal: S.optional(S.String),
-    iamPolicyUidPrincipal: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResourcePolicyMember",
-}) as any as S.Schema<ResourcePolicyMember>;
+export type ParameterFormatEnum =
+  | "PARAMETER_FORMAT_UNSPECIFIED"
+  | "UNFORMATTED"
+  | "YAML"
+  | "JSON";
+export const ParameterFormatEnum = S.String;
 
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(
@@ -87,58 +78,67 @@ export const StringMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<StringMap>;
 
-export type ParameterFormatEnum =
-  | "PARAMETER_FORMAT_UNSPECIFIED"
-  | "UNFORMATTED"
-  | "YAML"
-  | "JSON";
-export const ParameterFormatEnum = /*@__PURE__*/ S.String;
+/** Output-only policy member strings of a Google Cloud resource's built-in identity. */
+export interface ResourcePolicyMember {
+  /** Output only. IAM policy binding member referring to a Google Cloud resource by system-assigned unique identifier (https://google.aip.dev/148#uid). If a resource is deleted and recreated with the same name, the binding will not be applicable to the new resource Example: `principal://parametermanager.googleapis.com/projects/12345/uid/locations/us-central1-a/parameters/a918fed5` */
+  iamPolicyUidPrincipal?: string;
+  /** Output only. IAM policy binding member referring to a Google Cloud resource by user-assigned name (https://google.aip.dev/122). If a resource is deleted and recreated with the same name, the binding will be applicable to the new resource. Example: `principal://parametermanager.googleapis.com/projects/12345/name/locations/us-central1-a/parameters/my-parameter` */
+  iamPolicyNamePrincipal?: string;
+}
+export const ResourcePolicyMember = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    iamPolicyUidPrincipal: S.optional(S.String),
+    iamPolicyNamePrincipal: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResourcePolicyMember",
+}) as any as S.Schema<ResourcePolicyMember>;
 
 /** Message describing Parameter resource */
 export interface Parameter {
-  /** Identifier. [Output only] The resource name of the Parameter in the format `projects/*\/locations/*\/parameters/*`. */
-  name?: string;
-  /** Output only. [Output only] Update time stamp */
-  updateTime?: string;
-  /** Output only. [Output-only] policy member strings of a Google Cloud resource. */
-  policyMember?: ResourcePolicyMember;
-  /** Optional. Customer managed encryption key (CMEK) to use for encrypting the Parameter Versions. If not set, the default Google-managed encryption key will be used. Cloud KMS CryptoKeys must reside in the same location as the Parameter. The expected format is `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
-  kmsKey?: string;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap;
   /** Optional. Specifies the format of a Parameter. */
   format?: ParameterFormatEnum | (string & {});
   /** Output only. [Output only] Create time stamp */
   createTime?: string;
+  /** Identifier. [Output only] The resource name of the Parameter in the format `projects/*\/locations/*\/parameters/*`. */
+  name?: string;
+  /** Optional. Customer managed encryption key (CMEK) to use for encrypting the Parameter Versions. If not set, the default Google-managed encryption key will be used. Cloud KMS CryptoKeys must reside in the same location as the Parameter. The expected format is `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  kmsKey?: string;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap;
+  /** Output only. [Output only] Update time stamp */
+  updateTime?: string;
+  /** Output only. [Output-only] policy member strings of a Google Cloud resource. */
+  policyMember?: ResourcePolicyMember;
 }
 export const Parameter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    policyMember: S.optional(ResourcePolicyMember),
-    kmsKey: S.optional(S.String),
-    labels: S.optional(StringMap),
     format: S.optional(ParameterFormatEnum),
     createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    kmsKey: S.optional(S.String),
+    labels: S.optional(StringMap),
+    updateTime: S.optional(S.String),
+    policyMember: S.optional(ResourcePolicyMember),
   }),
 ).annotate({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
 
 export interface CreateProjectsLocationsParametersRequest {
-  /** Required. Value for parent in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Id of the Parameter resource */
   parameterId?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Required. Value for parent in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Request body */
   body?: Parameter;
 }
 export const CreateProjectsLocationsParametersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      requestId: S.optional(S.String.pipe(T.Query())),
       parameterId: S.optional(S.String.pipe(T.Query())),
+      requestId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(Parameter.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -166,48 +166,48 @@ export const ParameterVersionPayload = /*@__PURE__*/ S.suspend(() =>
 
 /** Message describing ParameterVersion resource */
 export interface ParameterVersion {
-  /** Optional. Disabled boolean to determine if a ParameterVersion acts as a metadata only resource (payload is never returned if disabled is true). If true any calls will always default to BASIC view even if the user explicitly passes FULL view as part of the request. A render call on a disabled resource fails with an error. Default value is False. */
-  disabled?: boolean;
-  /** Identifier. [Output only] The resource name of the ParameterVersion in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
-  name?: string;
   /** Output only. [Output only] Update time stamp */
   updateTime?: string;
-  /** Required. Immutable. Payload content of a ParameterVersion resource. This is only returned when the request provides the View value of FULL (default for GET request). */
-  payload?: ParameterVersionPayload;
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string;
+  /** Optional. Disabled boolean to determine if a ParameterVersion acts as a metadata only resource (payload is never returned if disabled is true). If true any calls will always default to BASIC view even if the user explicitly passes FULL view as part of the request. A render call on a disabled resource fails with an error. Default value is False. */
+  disabled?: boolean;
   /** Optional. Output only. [Output only] The resource name of the KMS key version used to encrypt the ParameterVersion payload. This field is populated only if the Parameter resource has customer managed encryption key (CMEK) configured. */
   kmsKeyVersion?: string;
+  /** Required. Immutable. Payload content of a ParameterVersion resource. This is only returned when the request provides the View value of FULL (default for GET request). */
+  payload?: ParameterVersionPayload;
+  /** Identifier. [Output only] The resource name of the ParameterVersion in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
+  name?: string;
+  /** Output only. [Output only] Create time stamp */
+  createTime?: string;
 }
 export const ParameterVersion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    disabled: S.optional(S.Boolean),
-    name: S.optional(S.String),
     updateTime: S.optional(S.String),
-    payload: S.optional(ParameterVersionPayload),
-    createTime: S.optional(S.String),
+    disabled: S.optional(S.Boolean),
     kmsKeyVersion: S.optional(S.String),
+    payload: S.optional(ParameterVersionPayload),
+    name: S.optional(S.String),
+    createTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ParameterVersion",
 }) as any as S.Schema<ParameterVersion>;
 
 export interface CreateProjectsLocationsParametersVersionsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Required. Value for parent in the format `projects/*\/locations/*\/parameters/*`. */
   parent: string;
   /** Required. Id of the ParameterVersion resource */
   parameterVersionId?: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Request body */
   body?: ParameterVersion;
 }
 export const CreateProjectsLocationsParametersVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      requestId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       parameterVersionId: S.optional(S.String.pipe(T.Query())),
-      requestId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(ParameterVersion.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -219,6 +219,120 @@ export const CreateProjectsLocationsParametersVersionsRequest =
   ).annotate({
     identifier: "CreateProjectsLocationsParametersVersionsRequest",
   }) as any as S.Schema<CreateProjectsLocationsParametersVersionsRequest>;
+
+export type TemplateFormatEnum =
+  | "TEMPLATE_FORMAT_UNSPECIFIED"
+  | "TEMPLATE_FORMAT_YAML"
+  | "TEMPLATE_FORMAT_JSON";
+export const TemplateFormatEnum = S.String;
+
+/** Message describing Template resource */
+export interface Template {
+  /** Optional. Specifies the format of a Template. */
+  format?: TemplateFormatEnum | (string & {});
+  /** Output only. Update time stamp */
+  updateTime?: string;
+  /** Identifier. The resource name of the Template in the format `projects/*\/locations/*\/templates/*`. */
+  name?: string;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap;
+  /** Output only. Create time stamp */
+  createTime?: string;
+}
+export const Template = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    format: S.optional(TemplateFormatEnum),
+    updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    labels: S.optional(StringMap),
+    createTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "Template" }) as any as S.Schema<Template>;
+
+export interface CreateProjectsLocationsTemplatesRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Required. Id of the Template resource */
+  templateId?: string;
+  /** Required. Value for parent in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Request body */
+  body?: Template;
+}
+export const CreateProjectsLocationsTemplatesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      requestId: S.optional(S.String.pipe(T.Query())),
+      templateId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      body: S.optional(Template.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1/{+parent}/templates",
+        baseUrl: "https://parametermanager.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "CreateProjectsLocationsTemplatesRequest",
+}) as any as S.Schema<CreateProjectsLocationsTemplatesRequest>;
+
+/** Message for storing a TemplateVersion resource's payload data */
+export type TemplateVersionPayload = ParameterVersionPayload;
+export const TemplateVersionPayload = ParameterVersionPayload;
+
+/** Message describing TemplateVersion resource */
+export interface TemplateVersion {
+  /** Optional. Disabled boolean to determine if a TemplateVersion acts as a metadata only resource (payload is never returned if disabled is true). */
+  disabled?: boolean;
+  /** Output only. Update time stamp */
+  updateTime?: string;
+  /** Output only. Create time stamp */
+  createTime?: string;
+  /** Identifier. The resource name of the TemplateVersion in the format `projects/*\/locations/*\/templates/*\/versions/*`. */
+  name?: string;
+  /** Required. Immutable. Payload content of a TemplateVersion resource. */
+  payload?: ParameterVersionPayload;
+}
+export const TemplateVersion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    disabled: S.optional(S.Boolean),
+    updateTime: S.optional(S.String),
+    createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    payload: S.optional(ParameterVersionPayload),
+  }),
+).annotate({
+  identifier: "TemplateVersion",
+}) as any as S.Schema<TemplateVersion>;
+
+export interface CreateProjectsLocationsTemplatesVersionsRequest {
+  /** Required. Value for parent in the format `projects/*\/locations/*\/templates/*`. */
+  parent: string;
+  /** Required. Id of the TemplateVersion resource */
+  templateVersionId?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Request body */
+  body?: TemplateVersion;
+}
+export const CreateProjectsLocationsTemplatesVersionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      templateVersionId: S.optional(S.String.pipe(T.Query())),
+      requestId: S.optional(S.String.pipe(T.Query())),
+      body: S.optional(TemplateVersion.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1/{+parent}/versions",
+        baseUrl: "https://parametermanager.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "CreateProjectsLocationsTemplatesVersionsRequest",
+  }) as any as S.Schema<CreateProjectsLocationsTemplatesVersionsRequest>;
 
 export interface DeleteProjectsLocationsParametersRequest {
   /** Required. Name of the resource in the format `projects/*\/locations/*\/parameters/*`. */
@@ -270,6 +384,50 @@ export const DeleteProjectsLocationsParametersVersionsRequest =
     identifier: "DeleteProjectsLocationsParametersVersionsRequest",
   }) as any as S.Schema<DeleteProjectsLocationsParametersVersionsRequest>;
 
+export interface DeleteProjectsLocationsTemplatesRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Required. Name of the resource in the format `projects/*\/locations/*\/templates/*`. */
+  name: string;
+}
+export const DeleteProjectsLocationsTemplatesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      requestId: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "v1/{+name}",
+        baseUrl: "https://parametermanager.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "DeleteProjectsLocationsTemplatesRequest",
+}) as any as S.Schema<DeleteProjectsLocationsTemplatesRequest>;
+
+export interface DeleteProjectsLocationsTemplatesVersionsRequest {
+  /** Required. Name of the resource in the format `projects/*\/locations/*\/templates/*\/versions/*`. */
+  name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+}
+export const DeleteProjectsLocationsTemplatesVersionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      requestId: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "v1/{+name}",
+        baseUrl: "https://parametermanager.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteProjectsLocationsTemplatesVersionsRequest",
+  }) as any as S.Schema<DeleteProjectsLocationsTemplatesVersionsRequest>;
+
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -296,24 +454,24 @@ export const DocumentMap = /*@__PURE__*/ S.Record(
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    labels: S.optional(StringMap),
     metadata: S.optional(DocumentMap),
+    displayName: S.optional(S.String),
     name: S.optional(S.String),
     locationId: S.optional(S.String),
-    displayName: S.optional(S.String),
-    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -340,22 +498,21 @@ export type GetProjectsLocationsParametersVersionsViewEnum =
   | "VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export const GetProjectsLocationsParametersVersionsViewEnum =
-  /*@__PURE__*/ S.String;
+export const GetProjectsLocationsParametersVersionsViewEnum = S.String;
 
 export interface GetProjectsLocationsParametersVersionsRequest {
-  /** Optional. View of the ParameterVersion. In the default FULL view, all metadata & payload associated with the ParameterVersion will be returned. */
-  view?: GetProjectsLocationsParametersVersionsViewEnum | (string & {});
   /** Required. Name of the resource in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
   name: string;
+  /** Optional. View of the ParameterVersion. In the default FULL view, all metadata & payload associated with the ParameterVersion will be returned. */
+  view?: GetProjectsLocationsParametersVersionsViewEnum | (string & {});
 }
 export const GetProjectsLocationsParametersVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      name: S.String.pipe(T.Label()),
       view: S.optional(
         GetProjectsLocationsParametersVersionsViewEnum.pipe(T.Query()),
       ),
-      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -367,30 +524,79 @@ export const GetProjectsLocationsParametersVersionsRequest =
     identifier: "GetProjectsLocationsParametersVersionsRequest",
   }) as any as S.Schema<GetProjectsLocationsParametersVersionsRequest>;
 
+export interface GetProjectsLocationsTemplatesRequest {
+  /** Required. Name of the resource in the format `projects/*\/locations/*\/templates/*`. */
+  name: string;
+}
+export const GetProjectsLocationsTemplatesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+name}",
+        baseUrl: "https://parametermanager.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "GetProjectsLocationsTemplatesRequest",
+}) as any as S.Schema<GetProjectsLocationsTemplatesRequest>;
+
+export type GetProjectsLocationsTemplatesVersionsViewEnum =
+  | "VIEW_UNSPECIFIED"
+  | "BASIC"
+  | "FULL";
+export const GetProjectsLocationsTemplatesVersionsViewEnum = S.String;
+
+export interface GetProjectsLocationsTemplatesVersionsRequest {
+  /** Required. Name of the resource in the format `projects/*\/locations/*\/templates/*\/versions/*`. */
+  name: string;
+  /** Optional. Specifies the view of the TemplateVersion to return. In the default FULL view, all metadata & payload associated with the TemplateVersion will be returned. */
+  view?: GetProjectsLocationsTemplatesVersionsViewEnum | (string & {});
+}
+export const GetProjectsLocationsTemplatesVersionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      view: S.optional(
+        GetProjectsLocationsTemplatesVersionsViewEnum.pipe(T.Query()),
+      ),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+name}",
+        baseUrl: "https://parametermanager.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetProjectsLocationsTemplatesVersionsRequest",
+  }) as any as S.Schema<GetProjectsLocationsTemplatesVersionsRequest>;
+
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<StringList>;
 
 export interface ListProjectsLocationsRequest {
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -424,12 +630,12 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsParametersRequest {
-  /** Required. Parent value for ListParametersRequest in the format `projects/*\/locations/*`. */
-  parent: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
   /** Optional. Filtering results */
   filter?: string;
+  /** Required. Parent value for ListParametersRequest in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Optional. Hint for how to order the results */
   orderBy?: string;
   /** Optional. A page token, received from a previous `ListParameters` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListParameters` must match the call that provided the page token. */
@@ -438,9 +644,9 @@ export interface ListProjectsLocationsParametersRequest {
 export const ListProjectsLocationsParametersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       orderBy: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
@@ -461,18 +667,18 @@ export const ParameterList = /*@__PURE__*/ S.Array(
 
 /** Message for response to listing Parameters */
 export interface ListParametersResponse {
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList;
   /** The list of Parameters */
   parameters?: ParameterList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
 }
 export const ListParametersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachable: S.optional(StringList),
     parameters: S.optional(ParameterList),
     nextPageToken: S.optional(S.String),
-    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListParametersResponse",
@@ -481,12 +687,12 @@ export const ListParametersResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsParametersVersionsRequest {
   /** Required. Parent value for ListParameterVersionsRequest in the format `projects/*\/locations/*\/parameters/*`. */
   parent: string;
+  /** Optional. A page token, received from a previous `ListParameterVersions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListParameterVersions` must match the call that provided the page token. */
+  pageToken?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
   /** Optional. Filtering results */
   filter?: string;
-  /** Optional. A page token, received from a previous `ListParameterVersions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListParameterVersions` must match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. Hint for how to order the results */
   orderBy?: string;
 }
@@ -494,9 +700,9 @@ export const ListProjectsLocationsParametersVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -518,28 +724,138 @@ export const ParameterVersionList = /*@__PURE__*/ S.Array(
 export interface ListParameterVersionsResponse {
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
   /** The list of ParameterVersions */
   parameterVersions?: ParameterVersionList;
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListParameterVersionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    unreachable: S.optional(StringList),
     parameterVersions: S.optional(ParameterVersionList),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListParameterVersionsResponse",
 }) as any as S.Schema<ListParameterVersionsResponse>;
 
+export interface ListProjectsLocationsTemplatesRequest {
+  /** Optional. Hint for how to order the results */
+  orderBy?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Required. Parent value for ListTemplatesRequest in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Optional. A page token, received from a previous `ListTemplates` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTemplates` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. Filtering results */
+  filter?: string;
+}
+export const ListProjectsLocationsTemplatesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+parent}/templates",
+        baseUrl: "https://parametermanager.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "ListProjectsLocationsTemplatesRequest",
+}) as any as S.Schema<ListProjectsLocationsTemplatesRequest>;
+
+export type TemplateList = Array<Template>;
+export const TemplateList = /*@__PURE__*/ S.Array(
+  Template,
+) as any as S.Schema<TemplateList>;
+
+/** Message for response to listing Templates */
+export interface ListTemplatesResponse {
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
+  /** The list of Templates */
+  templates?: TemplateList;
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList;
+}
+export const ListTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextPageToken: S.optional(S.String),
+    templates: S.optional(TemplateList),
+    unreachable: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "ListTemplatesResponse",
+}) as any as S.Schema<ListTemplatesResponse>;
+
+export interface ListProjectsLocationsTemplatesVersionsRequest {
+  /** Optional. A page token, received from a previous `ListTemplateVersions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTemplateVersions` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string;
+  /** Required. Parent value for ListTemplateVersionsRequest in the format `projects/*\/locations/*\/templates/*`. */
+  parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Filtering results */
+  filter?: string;
+}
+export const ListProjectsLocationsTemplatesVersionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+parent}/versions",
+        baseUrl: "https://parametermanager.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "ListProjectsLocationsTemplatesVersionsRequest",
+  }) as any as S.Schema<ListProjectsLocationsTemplatesVersionsRequest>;
+
+export type TemplateVersionList = Array<TemplateVersion>;
+export const TemplateVersionList = /*@__PURE__*/ S.Array(
+  TemplateVersion,
+) as any as S.Schema<TemplateVersionList>;
+
+/** Message for response to listing TemplateVersions */
+export interface ListTemplateVersionsResponse {
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
+  /** The list of TemplateVersions */
+  templateVersions?: TemplateVersionList;
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList;
+}
+export const ListTemplateVersionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextPageToken: S.optional(S.String),
+    templateVersions: S.optional(TemplateVersionList),
+    unreachable: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "ListTemplateVersionsResponse",
+}) as any as S.Schema<ListTemplateVersionsResponse>;
+
 export interface PatchProjectsLocationsParametersRequest {
   /** Identifier. [Output only] The resource name of the Parameter in the format `projects/*\/locations/*\/parameters/*`. */
   name: string;
-  /** Optional. Field mask is used to specify the fields to be overwritten in the Parameter resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A mutable field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
-  updateMask?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the Parameter resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A mutable field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: Parameter;
 }
@@ -547,8 +863,8 @@ export const PatchProjectsLocationsParametersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       name: S.String.pipe(T.Label()),
-      updateMask: S.optional(S.String.pipe(T.Query())),
       requestId: S.optional(S.String.pipe(T.Query())),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(Parameter.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -562,21 +878,21 @@ export const PatchProjectsLocationsParametersRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PatchProjectsLocationsParametersRequest>;
 
 export interface PatchProjectsLocationsParametersVersionsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Identifier. [Output only] The resource name of the ParameterVersion in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ParameterVersion resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A mutable field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
   updateMask?: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Request body */
   body?: ParameterVersion;
 }
 export const PatchProjectsLocationsParametersVersionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      requestId: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
-      requestId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(ParameterVersion.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -588,6 +904,62 @@ export const PatchProjectsLocationsParametersVersionsRequest =
   ).annotate({
     identifier: "PatchProjectsLocationsParametersVersionsRequest",
   }) as any as S.Schema<PatchProjectsLocationsParametersVersionsRequest>;
+
+export interface PatchProjectsLocationsTemplatesRequest {
+  /** Optional. Field mask is used to specify the fields to be overwritten in the Template resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A mutable field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
+  updateMask?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Identifier. The resource name of the Template in the format `projects/*\/locations/*\/templates/*`. */
+  name: string;
+  /** Request body */
+  body?: Template;
+}
+export const PatchProjectsLocationsTemplatesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      updateMask: S.optional(S.String.pipe(T.Query())),
+      requestId: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      body: S.optional(Template.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "v1/{+name}",
+        baseUrl: "https://parametermanager.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "PatchProjectsLocationsTemplatesRequest",
+}) as any as S.Schema<PatchProjectsLocationsTemplatesRequest>;
+
+export interface PatchProjectsLocationsTemplatesVersionsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Identifier. The resource name of the TemplateVersion in the format `projects/*\/locations/*\/templates/*\/versions/*`. */
+  name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the TemplateVersion resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A mutable field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
+  updateMask?: string;
+  /** Request body */
+  body?: TemplateVersion;
+}
+export const PatchProjectsLocationsTemplatesVersionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      requestId: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
+      body: S.optional(TemplateVersion.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "v1/{+name}",
+        baseUrl: "https://parametermanager.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchProjectsLocationsTemplatesVersionsRequest",
+  }) as any as S.Schema<PatchProjectsLocationsTemplatesVersionsRequest>;
 
 export interface RenderProjectsLocationsParametersVersionsRequest {
   /** Required. Name of the resource */
@@ -610,22 +982,75 @@ export const RenderProjectsLocationsParametersVersionsRequest =
 
 /** Message describing RenderParameterVersionResponse resource */
 export interface RenderParameterVersionResponse {
+  /** Output only. Server generated rendered version of the user provided payload data (ParameterVersionPayload) which has substitutions of all (if any) references to a SecretManager SecretVersion resources. This substitution only works for a Parameter which is in JSON or YAML format. */
+  renderedPayload?: string;
   /** Output only. Resource identifier of a ParameterVersion in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
   parameterVersion?: string;
   /** Payload content of a ParameterVersion resource. */
   payload?: ParameterVersionPayload;
-  /** Output only. Server generated rendered version of the user provided payload data (ParameterVersionPayload) which has substitutions of all (if any) references to a SecretManager SecretVersion resources. This substitution only works for a Parameter which is in JSON or YAML format. */
-  renderedPayload?: string;
 }
 export const RenderParameterVersionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    renderedPayload: S.optional(S.String),
     parameterVersion: S.optional(S.String),
     payload: S.optional(ParameterVersionPayload),
-    renderedPayload: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RenderParameterVersionResponse",
 }) as any as S.Schema<RenderParameterVersionResponse>;
+
+export interface RenderProjectsLocationsTemplatesVersionsRequest {
+  /** Required. Name of the resource */
+  name: string;
+  /** Required. Parameter version used to render the template version. */
+  parameterVersion?: string;
+}
+export const RenderProjectsLocationsTemplatesVersionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      parameterVersion: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1/{+name}:render",
+        baseUrl: "https://parametermanager.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "RenderProjectsLocationsTemplatesVersionsRequest",
+  }) as any as S.Schema<RenderProjectsLocationsTemplatesVersionsRequest>;
+
+export type RenderTemplateVersionResponseTemplateFormatEnum =
+  | "TEMPLATE_FORMAT_UNSPECIFIED"
+  | "TEMPLATE_FORMAT_YAML"
+  | "TEMPLATE_FORMAT_JSON";
+export const RenderTemplateVersionResponseTemplateFormatEnum = S.String;
+
+/** Message describing RenderTemplateVersionResponse resource */
+export interface RenderTemplateVersionResponse {
+  /** Output only. Format of the template version. */
+  templateFormat?: RenderTemplateVersionResponseTemplateFormatEnum;
+  /** Payload content of a TemplateVersion resource. */
+  payload?: ParameterVersionPayload;
+  /** Output only. The resource name of the ParameterVersion used to render the template version in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
+  parameterVersion?: string;
+  /** Output only. Server generated rendered version of the user provided payload data (TemplateVersionPayload) which has all the variables resolved using the provided parameter version. */
+  renderedPayload?: string;
+  /** Resource identifier of a TemplateVersion in the format `projects/*\/locations/*\/templates/*\/versions/*`. */
+  templateVersion?: string;
+}
+export const RenderTemplateVersionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    templateFormat: S.optional(RenderTemplateVersionResponseTemplateFormatEnum),
+    payload: S.optional(ParameterVersionPayload),
+    parameterVersion: S.optional(S.String),
+    renderedPayload: S.optional(S.String),
+    templateVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RenderTemplateVersionResponse",
+}) as any as S.Schema<RenderTemplateVersionResponse>;
 
 export type CreateProjectsLocationsParametersError =
   | NotFound
@@ -667,6 +1092,46 @@ export const createProjectsLocationsParametersVersions: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateProjectsLocationsTemplatesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Creates a new Template in a given project and location. */
+export const createProjectsLocationsTemplates: API.OperationMethod<
+  CreateProjectsLocationsTemplatesRequest,
+  Template,
+  CreateProjectsLocationsTemplatesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsTemplatesRequest,
+  output: Template,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateProjectsLocationsTemplatesVersionsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Creates a new TemplateVersion in a given project, location, and template. */
+export const createProjectsLocationsTemplatesVersions: API.OperationMethod<
+  CreateProjectsLocationsTemplatesVersionsRequest,
+  TemplateVersion,
+  CreateProjectsLocationsTemplatesVersionsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsTemplatesVersionsRequest,
+  output: TemplateVersion,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteProjectsLocationsParametersError =
   | NotFound
   | Forbidden
@@ -701,6 +1166,46 @@ export const deleteProjectsLocationsParametersVersions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsParametersVersionsRequest,
+  output: Empty,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteProjectsLocationsTemplatesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Deletes a single Template. */
+export const deleteProjectsLocationsTemplates: API.OperationMethod<
+  DeleteProjectsLocationsTemplatesRequest,
+  Empty,
+  DeleteProjectsLocationsTemplatesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsTemplatesRequest,
+  output: Empty,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteProjectsLocationsTemplatesVersionsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Deletes a single TemplateVersion. */
+export const deleteProjectsLocationsTemplatesVersions: API.OperationMethod<
+  DeleteProjectsLocationsTemplatesVersionsRequest,
+  Empty,
+  DeleteProjectsLocationsTemplatesVersionsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsTemplatesVersionsRequest,
   output: Empty,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -753,6 +1258,42 @@ export const getProjectsLocationsParametersVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsParametersVersionsRequest,
   output: ParameterVersion,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetProjectsLocationsTemplatesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Gets details of a single Template. */
+export const getProjectsLocationsTemplates: API.OperationMethod<
+  GetProjectsLocationsTemplatesRequest,
+  Template,
+  GetProjectsLocationsTemplatesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsTemplatesRequest,
+  output: Template,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetProjectsLocationsTemplatesVersionsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Gets details of a single TemplateVersion. */
+export const getProjectsLocationsTemplatesVersions: API.OperationMethod<
+  GetProjectsLocationsTemplatesVersionsRequest,
+  TemplateVersion,
+  GetProjectsLocationsTemplatesVersionsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsTemplatesVersionsRequest,
+  output: TemplateVersion,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -824,6 +1365,52 @@ export const listProjectsLocationsParametersVersions: API.PaginatedOperationMeth
   } as const,
 })) as any;
 
+export type ListProjectsLocationsTemplatesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Lists Templates in a given project and location. */
+export const listProjectsLocationsTemplates: API.PaginatedOperationMethod<
+  ListProjectsLocationsTemplatesRequest,
+  ListTemplatesResponse,
+  ListProjectsLocationsTemplatesError,
+  GcpOpContext,
+  ListTemplatesResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsTemplatesRequest,
+  output: ListTemplatesResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  } as const,
+})) as any;
+
+export type ListProjectsLocationsTemplatesVersionsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Lists TemplateVersions in a given project, location, and template. */
+export const listProjectsLocationsTemplatesVersions: API.PaginatedOperationMethod<
+  ListProjectsLocationsTemplatesVersionsRequest,
+  ListTemplateVersionsResponse,
+  ListProjectsLocationsTemplatesVersionsError,
+  GcpOpContext,
+  ListTemplateVersionsResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsTemplatesVersionsRequest,
+  output: ListTemplateVersionsResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  } as const,
+})) as any;
+
 export type PatchProjectsLocationsParametersError =
   | NotFound
   | Forbidden
@@ -864,6 +1451,46 @@ export const patchProjectsLocationsParametersVersions: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PatchProjectsLocationsTemplatesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Updates a single Template. */
+export const patchProjectsLocationsTemplates: API.OperationMethod<
+  PatchProjectsLocationsTemplatesRequest,
+  Template,
+  PatchProjectsLocationsTemplatesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchProjectsLocationsTemplatesRequest,
+  output: Template,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PatchProjectsLocationsTemplatesVersionsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Updates a single TemplateVersion. */
+export const patchProjectsLocationsTemplatesVersions: API.OperationMethod<
+  PatchProjectsLocationsTemplatesVersionsRequest,
+  TemplateVersion,
+  PatchProjectsLocationsTemplatesVersionsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchProjectsLocationsTemplatesVersionsRequest,
+  output: TemplateVersion,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type RenderProjectsLocationsParametersVersionsError =
   | NotFound
   | Forbidden
@@ -877,6 +1504,24 @@ export const renderProjectsLocationsParametersVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RenderProjectsLocationsParametersVersionsRequest,
   output: RenderParameterVersionResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RenderProjectsLocationsTemplatesVersionsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Gets rendered version of a TemplateVersion. */
+export const renderProjectsLocationsTemplatesVersions: API.OperationMethod<
+  RenderProjectsLocationsTemplatesVersionsRequest,
+  RenderTemplateVersionResponse,
+  RenderProjectsLocationsTemplatesVersionsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RenderProjectsLocationsTemplatesVersionsRequest,
+  output: RenderTemplateVersionResponse,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,

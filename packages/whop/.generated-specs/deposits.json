@@ -1,0 +1,748 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.deposits#CreateDepositRequestDestinationCase1Network": {
+      "type": "enum",
+      "members": {
+        "ETHEREUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ethereum"
+          }
+        },
+        "POLYGON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "polygon"
+          }
+        },
+        "BASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "base"
+          }
+        },
+        "SOLANA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "solana"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Destination wallet network."
+      }
+    },
+    "com.whop.deposits#CreateDepositRequestDestinationCase1": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination account ID."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination wallet address."
+          }
+        },
+        "network": {
+          "target": "com.whop.deposits#CreateDepositRequestDestinationCase1Network",
+          "traits": {
+            "smithy.api#documentation": "Destination wallet network."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.deposits#CreateDepositRequestDestination": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.whop.deposits#CreateDepositRequestDestinationCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Destination account ID or wallet address. Object form is supported for compatibility. Any business resolves by its account ID without authentication; a user account resolves only for that same authenticated user."
+      }
+    },
+    "com.whop.deposits#CreateDepositRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata to include with the deposit response."
+      }
+    },
+    "com.whop.deposits#CreateDepositRequestNetwork": {
+      "type": "enum",
+      "members": {
+        "ETHEREUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ethereum"
+          }
+        },
+        "POLYGON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "polygon"
+          }
+        },
+        "BASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "base"
+          }
+        },
+        "SOLANA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "solana"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Destination network override. Defaults to the destination wallet's own network."
+      }
+    },
+    "com.whop.deposits#CreateDepositRequest": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Amount to prefill on hosted deposit page."
+          }
+        },
+        "destination": {
+          "target": "com.whop.deposits#CreateDepositRequestDestination",
+          "traits": {
+            "smithy.api#documentation": "Destination account ID or wallet address. Object form is supported for compatibility. Any business resolves by its account ID without authentication; a user account resolves only for that same authenticated user.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.deposits#CreateDepositRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Metadata to include with the deposit response."
+          }
+        },
+        "network": {
+          "target": "com.whop.deposits#CreateDepositRequestNetwork",
+          "traits": {
+            "smithy.api#documentation": "Destination network override. Defaults to the destination wallet's own network.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.deposits#CreateDepositResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata from the request."
+      }
+    },
+    "com.whop.deposits#CreateDepositResponseMethodsBankCurrenciesItemRailsItem": {
+      "type": "enum",
+      "members": {
+        "ACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ach"
+          }
+        },
+        "WIRE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wire"
+          }
+        },
+        "SEPA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sepa"
+          }
+        },
+        "FPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fps"
+          }
+        },
+        "CHAPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chaps"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.deposits#CreateDepositResponseMethodsBankCurrenciesItemRailsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.deposits#CreateDepositResponseMethodsBankCurrenciesItemRailsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Active deposit rails for this currency."
+      }
+    },
+    "com.whop.deposits#CreateDepositResponseMethodsBankCurrenciesItem": {
+      "type": "structure",
+      "members": {
+        "account_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Bank account number for deposits in this currency.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency supported by these bank instructions.",
+            "smithy.api#required": {}
+          }
+        },
+        "deposit_bank_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Receiving bank address.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deposit_bank_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Receiving bank name.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deposit_beneficiary_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Beneficiary name to use for transfer.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deposit_reference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reference to include with bank transfer.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rails": {
+          "target": "com.whop.deposits#CreateDepositResponseMethodsBankCurrenciesItemRailsList",
+          "traits": {
+            "smithy.api#documentation": "Active deposit rails for this currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "routing_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Bank routing number for deposits in this currency.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "swift_bic": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SWIFT/BIC code for international wires, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.deposits#CreateDepositResponseMethodsBankCurrenciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.deposits#CreateDepositResponseMethodsBankCurrenciesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Bank transfer currencies available for this deposit."
+      }
+    },
+    "com.whop.deposits#CreateDepositResponseMethodsBank": {
+      "type": "structure",
+      "members": {
+        "currencies": {
+          "target": "com.whop.deposits#CreateDepositResponseMethodsBankCurrenciesList",
+          "traits": {
+            "smithy.api#documentation": "Bank transfer currencies available for this deposit.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Bank deposit details. Only present when bank deposits are active for the destination account."
+      }
+    },
+    "com.whop.deposits#CreateDepositResponseMethodsCryptoItemName": {
+      "type": "enum",
+      "members": {
+        "ETHEREUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Ethereum"
+          }
+        },
+        "SOLANA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Solana"
+          }
+        },
+        "BASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Base"
+          }
+        },
+        "BNB_SMART_CHAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BNB Smart Chain"
+          }
+        },
+        "HYPERLIQUID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Hyperliquid"
+          }
+        },
+        "HYPERCORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Hypercore"
+          }
+        },
+        "MEGAETH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MegaETH"
+          }
+        },
+        "POLYGON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Polygon"
+          }
+        },
+        "PLASMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Plasma"
+          }
+        },
+        "ARBITRUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Arbitrum"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network display name."
+      }
+    },
+    "com.whop.deposits#CreateDepositResponseMethodsCryptoItemSupportedCurrenciesItemName": {
+      "type": "enum",
+      "members": {
+        "ARB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ARB"
+          }
+        },
+        "BNB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BNB"
+          }
+        },
+        "ETH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ETH"
+          }
+        },
+        "EURC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EURC"
+          }
+        },
+        "HYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HYPE"
+          }
+        },
+        "PYUSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PYUSD"
+          }
+        },
+        "SOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SOL"
+          }
+        },
+        "USD1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USD1"
+          }
+        },
+        "USDC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USDC"
+          }
+        },
+        "USDC_E": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USDC.e"
+          }
+        },
+        "USDG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USDG"
+          }
+        },
+        "USDT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USDT"
+          }
+        },
+        "USDT0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USDT0"
+          }
+        },
+        "USDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USDe"
+          }
+        },
+        "USDM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USDm"
+          }
+        },
+        "XO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "XO"
+          }
+        },
+        "XPL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "XPL"
+          }
+        },
+        "PUSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pUSD"
+          }
+        },
+        "WETH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wETH"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Token symbol."
+      }
+    },
+    "com.whop.deposits#CreateDepositResponseMethodsCryptoItemSupportedCurrenciesItem": {
+      "type": "structure",
+      "members": {
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token icon URL. Null when no icon is available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "com.whop.deposits#CreateDepositResponseMethodsCryptoItemSupportedCurrenciesItemName",
+          "traits": {
+            "smithy.api#documentation": "Token symbol.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.deposits#CreateDepositResponseMethodsCryptoItemSupportedCurrenciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.deposits#CreateDepositResponseMethodsCryptoItemSupportedCurrenciesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tokens accepted for deposit on this network."
+      }
+    },
+    "com.whop.deposits#CreateDepositResponseMethodsCryptoItem": {
+      "type": "structure",
+      "members": {
+        "deposit_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Address to send funds to on this network. Null when the provider has not issued one yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Network icon URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "com.whop.deposits#CreateDepositResponseMethodsCryptoItemName",
+          "traits": {
+            "smithy.api#documentation": "Network display name.",
+            "smithy.api#required": {}
+          }
+        },
+        "supported_currencies": {
+          "target": "com.whop.deposits#CreateDepositResponseMethodsCryptoItemSupportedCurrenciesList",
+          "traits": {
+            "smithy.api#documentation": "Tokens accepted for deposit on this network.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.deposits#CreateDepositResponseMethodsCryptoList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.deposits#CreateDepositResponseMethodsCryptoItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Crypto networks available for this deposit, each with its on-chain deposit address and the tokens accepted on that network."
+      }
+    },
+    "com.whop.deposits#CreateDepositResponseMethods": {
+      "type": "structure",
+      "members": {
+        "bank": {
+          "target": "com.whop.deposits#CreateDepositResponseMethodsBank",
+          "traits": {
+            "smithy.api#documentation": "Bank deposit details. Only present when bank deposits are active for the destination account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "crypto": {
+          "target": "com.whop.deposits#CreateDepositResponseMethodsCryptoList",
+          "traits": {
+            "smithy.api#documentation": "Crypto networks available for this deposit, each with its on-chain deposit address and the tokens accepted on that network.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Available deposit methods for destination."
+      }
+    },
+    "com.whop.deposits#CreateDepositResponseObject": {
+      "type": "enum",
+      "members": {
+        "DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deposit"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.deposits#CreateDepositResponse": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID of the destination owner. Null for raw wallet address destinations.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Requested deposit amount."
+          }
+        },
+        "hosted_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the hosted deposit page. Only present for business destinations.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.deposits#CreateDepositResponseMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Metadata from the request.",
+            "smithy.api#required": {}
+          }
+        },
+        "methods": {
+          "target": "com.whop.deposits#CreateDepositResponseMethods",
+          "traits": {
+            "smithy.api#documentation": "Available deposit methods for destination.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.deposits#CreateDepositResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.deposits#CreateDeposit": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.deposits#CreateDepositRequest"
+      },
+      "output": {
+        "target": "com.whop.deposits#CreateDepositResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.deposits#BadRequest"
+        },
+        {
+          "target": "com.whop.deposits#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/deposits",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Deposit\n\nRetrieve the deposit methods for an account, including crypto and bank transfer."
+      }
+    },
+    "com.whop.deposits#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.deposits#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.deposits#Deposits": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.deposits#CreateDeposit"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

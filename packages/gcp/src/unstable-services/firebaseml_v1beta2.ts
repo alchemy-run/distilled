@@ -67,18 +67,18 @@ export class NotFound
 
 /** Information that is specific to TfLite models. */
 export interface TfLiteModel {
-  /** Output only. The size of the TFLite model */
-  sizeBytes?: string;
-  /** The TfLite file containing the model. (Stored in Google Cloud). The gcs_tflite_uri should have form: gs://some-bucket/some-model.tflite Note: If you update the file in the original location, it is necessary to call UpdateModel for ML to pick up and validate the updated file. */
-  gcsTfliteUri?: string;
   /** The AutoML model id referencing a model you created with the AutoML API. The name should have format 'projects//locations//models/' (This is the model resource name returned from the AutoML API) */
   automlModel?: string;
+  /** The TfLite file containing the model. (Stored in Google Cloud). The gcs_tflite_uri should have form: gs://some-bucket/some-model.tflite Note: If you update the file in the original location, it is necessary to call UpdateModel for ML to pick up and validate the updated file. */
+  gcsTfliteUri?: string;
+  /** Output only. The size of the TFLite model */
+  sizeBytes?: string;
 }
 export const TfLiteModel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sizeBytes: S.optional(S.String),
-    gcsTfliteUri: S.optional(S.String),
     automlModel: S.optional(S.String),
+    gcsTfliteUri: S.optional(S.String),
+    sizeBytes: S.optional(S.String),
   }),
 ).annotate({ identifier: "TfLiteModel" }) as any as S.Schema<TfLiteModel>;
 
@@ -95,60 +95,41 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    code: S.optional(S.Number),
     details: S.optional(DocumentMapList),
+    code: S.optional(S.Number),
     message: S.optional(S.String),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
-/** State common to all model types. Includes publishing and validation information. */
-export interface ModelState {
-  /** Output only. Indicates the latest validation error on the model if any. A model may have validation errors if there were problems during the model creation/update. e.g. in the case of a TfLiteModel, if a tflite model file was missing or in the wrong format. This field will be empty for valid models. */
-  validationError?: Status;
-  /** Indicates if this model has been published. */
-  published?: boolean;
-}
-export const ModelState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    validationError: S.optional(Status),
-    published: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ModelState" }) as any as S.Schema<ModelState>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
-
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    error: S.optional(Status),
-    response: S.optional(DocumentMap),
     name: S.optional(S.String),
     done: S.optional(S.Boolean),
+    error: S.optional(Status),
     metadata: S.optional(DocumentMap),
+    response: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -157,41 +138,60 @@ export const OperationList = /*@__PURE__*/ S.Array(
   Operation,
 ) as any as S.Schema<OperationList>;
 
+/** State common to all model types. Includes publishing and validation information. */
+export interface ModelState {
+  /** Indicates if this model has been published. */
+  published?: boolean;
+  /** Output only. Indicates the latest validation error on the model if any. A model may have validation errors if there were problems during the model creation/update. e.g. in the case of a TfLiteModel, if a tflite model file was missing or in the wrong format. This field will be empty for valid models. */
+  validationError?: Status;
+}
+export const ModelState = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    published: S.optional(S.Boolean),
+    validationError: S.optional(Status),
+  }),
+).annotate({ identifier: "ModelState" }) as any as S.Schema<ModelState>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
 /** An ML model hosted in Firebase ML */
 export interface Model {
-  /** Output only. Timestamp when this model was created in Firebase ML. */
-  createTime?: string;
   /** A TFLite Model */
   tfliteModel?: TfLiteModel;
-  /** Output only. The model_hash will change if a new file is available for download. */
-  modelHash?: string;
-  /** State common to all model types. Includes publishing and validation information. */
-  state?: ModelState;
-  /** Output only. See RFC7232 https://tools.ietf.org/html/rfc7232#section-2.3 */
-  etag?: string;
-  /** The resource name of the Model. Model names have the form `projects/{project_id}/models/{model_id}` The name is ignored when creating a model. */
-  name?: string;
-  /** Required. The name of the model to create. The name can be up to 32 characters long and can consist only of ASCII Latin letters A-Z and a-z, underscores(_) and ASCII digits 0-9. It must start with a letter. */
-  displayName?: string;
-  /** User defined tags which can be used to group/filter models during listing */
-  tags?: StringList;
   /** Output only. Lists operation ids associated with this model whose status is NOT done. */
   activeOperations?: OperationList;
+  /** State common to all model types. Includes publishing and validation information. */
+  state?: ModelState;
+  /** Output only. Timestamp when this model was created in Firebase ML. */
+  createTime?: string;
+  /** Required. The name of the model to create. The name can be up to 32 characters long and can consist only of ASCII Latin letters A-Z and a-z, underscores(_) and ASCII digits 0-9. It must start with a letter. */
+  displayName?: string;
   /** Output only. Timestamp when this model was updated in Firebase ML. */
   updateTime?: string;
+  /** The resource name of the Model. Model names have the form `projects/{project_id}/models/{model_id}` The name is ignored when creating a model. */
+  name?: string;
+  /** Output only. The model_hash will change if a new file is available for download. */
+  modelHash?: string;
+  /** User defined tags which can be used to group/filter models during listing */
+  tags?: StringList;
+  /** Output only. See RFC7232 https://tools.ietf.org/html/rfc7232#section-2.3 */
+  etag?: string;
 }
 export const Model = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
     tfliteModel: S.optional(TfLiteModel),
-    modelHash: S.optional(S.String),
-    state: S.optional(ModelState),
-    etag: S.optional(S.String),
-    name: S.optional(S.String),
-    displayName: S.optional(S.String),
-    tags: S.optional(StringList),
     activeOperations: S.optional(OperationList),
+    state: S.optional(ModelState),
+    createTime: S.optional(S.String),
+    displayName: S.optional(S.String),
     updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    modelHash: S.optional(S.String),
+    tags: S.optional(StringList),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Model" }) as any as S.Schema<Model>;
 
@@ -261,25 +261,25 @@ export const DownloadProjectsModelsRequest = /*@__PURE__*/ S.suspend(() =>
 export type DownloadModelResponseModelFormatEnum =
   | "MODEL_FORMAT_UNSPECIFIED"
   | "TFLITE";
-export const DownloadModelResponseModelFormatEnum = /*@__PURE__*/ S.String;
+export const DownloadModelResponseModelFormatEnum = S.String;
 
 /** The response for downloading a model to device. */
 export interface DownloadModelResponse {
-  /** Output only. The format of the model being downloaded. */
-  modelFormat?: DownloadModelResponseModelFormatEnum;
-  /** Output only. A download URI for the model/zip file. */
-  downloadUri?: string;
   /** Output only. The time that the download URI link expires. If the link has expired, the REST call must be repeated. */
   expireTime?: string;
+  /** Output only. The format of the model being downloaded. */
+  modelFormat?: DownloadModelResponseModelFormatEnum;
   /** Output only. The size of the file(s), if this information is available. */
   sizeBytes?: string;
+  /** Output only. A download URI for the model/zip file. */
+  downloadUri?: string;
 }
 export const DownloadModelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    modelFormat: S.optional(DownloadModelResponseModelFormatEnum),
-    downloadUri: S.optional(S.String),
     expireTime: S.optional(S.String),
+    modelFormat: S.optional(DownloadModelResponseModelFormatEnum),
     sizeBytes: S.optional(S.String),
+    downloadUri: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DownloadModelResponse",
@@ -322,20 +322,20 @@ export const GetProjectsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProjectsOperationsRequest>;
 
 export interface ListProjectsModelsRequest {
-  /** Required. The name of the parent to list models for. The parent must have the form `projects/{project_id}' */
-  parent: string;
-  /** A filter for the list e.g. 'tags: abc' to list models which are tagged with "abc" */
-  filter?: string;
   /** The maximum number of items to return */
   pageSize?: number;
+  /** A filter for the list e.g. 'tags: abc' to list models which are tagged with "abc" */
+  filter?: string;
+  /** Required. The name of the parent to list models for. The parent must have the form `projects/{project_id}' */
+  parent: string;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
 }
 export const ListProjectsModelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -355,15 +355,15 @@ export const ModelList = /*@__PURE__*/ S.Array(
 
 /** The response for list models */
 export interface ListModelsResponse {
-  /** The list of models */
-  models?: ModelList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
+  /** The list of models */
+  models?: ModelList;
 }
 export const ListModelsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    models: S.optional(ModelList),
     nextPageToken: S.optional(S.String),
+    models: S.optional(ModelList),
   }),
 ).annotate({
   identifier: "ListModelsResponse",

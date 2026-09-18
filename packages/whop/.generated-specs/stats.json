@@ -1,0 +1,2075 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.stats#ListMetricsResponseDataItemPropertiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The properties you can use with this metric — pass one as a filter (property=value) to narrow the series, or as breakdown_by=property to split it."
+      }
+    },
+    "com.whop.stats#ListMetricsResponseDataItemUnit": {
+      "type": "enum",
+      "members": {
+        "COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "count"
+          }
+        },
+        "CURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "currency"
+          }
+        },
+        "PERCENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How to read the metric's values: count is an integer, currency is a decimal amount, and percent is a number where 1.6 means 1.6%."
+      }
+    },
+    "com.whop.stats#ListMetricsResponseDataItemWindowsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Snapshot metrics only: the trailing windows you can pass as snapshot_window, for example 30d. Absent on live metrics, which use from/to instead."
+      }
+    },
+    "com.whop.stats#ListMetricsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short description of what the metric measures.",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The metric's key. Pass it to GET /stats/{metric} to query its values.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable display name for the metric.",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.whop.stats#ListMetricsResponseDataItemPropertiesList",
+          "traits": {
+            "smithy.api#documentation": "The properties you can use with this metric — pass one as a filter (property=value) to narrow the series, or as breakdown_by=property to split it.",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "com.whop.stats#ListMetricsResponseDataItemUnit",
+          "traits": {
+            "smithy.api#documentation": "How to read the metric's values: count is an integer, currency is a decimal amount, and percent is a number where 1.6 means 1.6%.",
+            "smithy.api#required": {}
+          }
+        },
+        "windows": {
+          "target": "com.whop.stats#ListMetricsResponseDataItemWindowsList",
+          "traits": {
+            "smithy.api#documentation": "Snapshot metrics only: the trailing windows you can pass as snapshot_window, for example 30d. Absent on live metrics, which use from/to instead."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.stats#ListMetricsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.stats#ListMetricsResponseDataItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The available metrics."
+      }
+    },
+    "com.whop.stats#ListMetricsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.stats#ListMetricsResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "The available metrics.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.stats#ListMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.whop.stats#ListMetricsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/stats",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Metrics\n\nLists every metric you can query, with its unit and the properties you can filter or break it down by."
+      }
+    },
+    "com.whop.stats#GetMetricRequestInterval": {
+      "type": "enum",
+      "members": {
+        "MINUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minute"
+          }
+        },
+        "FIVE_MINUTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "five_minutes"
+          }
+        },
+        "THIRTY_MINUTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thirty_minutes"
+          }
+        },
+        "HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hour"
+          }
+        },
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        },
+        "WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "week"
+          }
+        },
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        },
+        "YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "year"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.stats#GetMetricRequestEventType": {
+      "type": "enum",
+      "members": {
+        "PAGE_VIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "page_view"
+          }
+        },
+        "CHECKOUT_START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkout_start"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.stats#GetMetricRequestAdCampaignIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.stats#GetMetricRequestAdGroupIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.stats#GetMetricRequestAdIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.stats#GetMetricRequestSnapshotWindow": {
+      "type": "enum",
+      "members": {
+        "_7D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "7d"
+          }
+        },
+        "_28D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "28d"
+          }
+        },
+        "_30D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "30d"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.stats#GetMetricRequest": {
+      "type": "structure",
+      "members": {
+        "metric": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The metric to retrieve, for example net_revenue. Use GET /stats to see every metric key. The metric sets the unit and the properties you can filter or break down by."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The account this query concerns, for example biz_AbC123."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "The user this query concerns, for example user_AbC123. Available on metrics that support user subjects, such as account_balance."
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start of the range — a date (YYYY-MM-DD), expanded to the start of that day, or an ISO 8601 timestamp (for example 2026-07-16T16:37:00Z), used exactly."
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "End of the range — a date (YYYY-MM-DD), expanded to the end of that day, or an ISO 8601 timestamp (for example 2026-07-17T16:37:00Z), used exactly."
+          }
+        },
+        "interval": {
+          "target": "com.whop.stats#GetMetricRequestInterval",
+          "traits": {
+            "smithy.api#httpQuery": "interval",
+            "smithy.api#documentation": "How wide each point is. Defaults to day. Snapshot metrics are day-only."
+          }
+        },
+        "breakdown_by": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "breakdown_by",
+            "smithy.api#documentation": "Split the metric out by one of its properties — each point gets a breakdown array. For example breakdown_by=currency returns an entry for usd, an entry for eur, and so on."
+          }
+        },
+        "convert_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "convert_to",
+            "smithy.api#documentation": "Display currency for money metrics — every amount is converted into this ISO currency using the exchange rate on each period's date. Defaults to usd. For the ads metrics (ad_spend, ad_delivery), pass the account's ads reporting currency to match the ad entity endpoints. On transaction metrics, it is ignored when you filter or break down by currency (those report the original transaction currency, unconverted)."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "currency",
+            "smithy.api#documentation": "Select the source currency or asset on metrics that list currency. For transaction metrics, for example currency=eur, values are reported without conversion. For market_prices, use btc or xaut and convert_to=usd. Pair with breakdown_by=currency to split a metric by currency."
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "time_zone",
+            "smithy.api#documentation": "IANA time zone to bucket the series in, for example America/New_York. Defaults to UTC. Not accepted by snapshot metrics, which are UTC only."
+          }
+        },
+        "payment_method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "payment_method",
+            "smithy.api#documentation": "Filter to a single payment method, for example card or crypto. Available on metrics that list payment_method."
+          }
+        },
+        "card_network": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "card_network",
+            "smithy.api#documentation": "Filter to a single card brand, for example visa. A refinement of payment_method=card. Available on metrics that list card_network."
+          }
+        },
+        "dispute_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "dispute_reason",
+            "smithy.api#documentation": "Filter disputes to a normalized reason, for example product_not_received. Pair with breakdown_by=dispute_reason to split dispute counts by reason."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "source",
+            "smithy.api#documentation": "Filter to a single GMV source, for example payments — or, on the traffic metrics, a visit source (whop_ads, direct, or a utm_source value). Pair with breakdown_by=source to split by source. Available on metrics that list source."
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "hostname",
+            "smithy.api#documentation": "Filter traffic metrics to one website hostname, for example shop.example.com. Pair with breakdown_by=hostname to split by website."
+          }
+        },
+        "page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Filter traffic metrics to one page — a hostname plus normalized path, for example shop.example.com/pricing. Pair with breakdown_by=page to split by page."
+          }
+        },
+        "device_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "device_type",
+            "smithy.api#documentation": "Filter traffic metrics to one device type: desktop, mobile, tablet, or unknown. Pair with breakdown_by=device_type to split by device."
+          }
+        },
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "country_code",
+            "smithy.api#documentation": "Filter traffic metrics to one visitor country (uppercase ISO 3166-1 alpha-2, for example US). Pair with breakdown_by=country_code to split by country."
+          }
+        },
+        "event_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "event_name",
+            "smithy.api#documentation": "Filter the events metric to one tracked event name, for example pixel.page or pixel.custom. Pair with breakdown_by=event_name to split by event."
+          }
+        },
+        "event_type": {
+          "target": "com.whop.stats#GetMetricRequestEventType",
+          "traits": {
+            "smithy.api#httpQuery": "event_type",
+            "smithy.api#documentation": "Filter the events metric to a canonical group of events: page_view (pixel page views plus whop.com store views), checkout_start (hosted and embedded checkout views), or other. Pair with breakdown_by=event_type to split by group."
+          }
+        },
+        "custom_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "custom_name",
+            "smithy.api#documentation": "Filter the events metric to one merchant-defined custom event name. Only valid alongside event_name=pixel.custom. Pair with breakdown_by=custom_name to split custom events by name."
+          }
+        },
+        "segment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "segment",
+            "smithy.api#documentation": "Filter to a single wallet-balance segment, for example available. Pair with breakdown_by=segment to split the balance. Available on metrics that list segment."
+          }
+        },
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "category",
+            "smithy.api#documentation": "Filter to a single balance-activity category, for example payments. Pair with breakdown_by=category to split the activity. Available on metrics that list category."
+          }
+        },
+        "merchant": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "merchant",
+            "smithy.api#documentation": "Filter to a single cashback merchant bucket, for example whop-ads. Pair with breakdown_by=merchant to split cashback by merchant. Available on metrics that list merchant."
+          }
+        },
+        "fee_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "fee_type",
+            "smithy.api#documentation": "Filter to a single fee type. Pair with breakdown_by=fee_type to split fees by type. Available on metrics that list fee_type."
+          }
+        },
+        "product": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "product",
+            "smithy.api#documentation": "Filter to a single product (access pass id), for example prod_AbC123. Pair with breakdown_by=product. Available on metrics that list product."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter to a single membership status. Pair with breakdown_by=status. Available on metrics that list status."
+          }
+        },
+        "access_level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "access_level",
+            "smithy.api#documentation": "Filter to a single access level. Pair with breakdown_by=access_level. Available on metrics that list access_level."
+          }
+        },
+        "most_recent_action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "most_recent_action",
+            "smithy.api#documentation": "Filter to a single most-recent member action. Pair with breakdown_by=most_recent_action. Available on metrics that list most_recent_action."
+          }
+        },
+        "referred_user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "referred_user_id",
+            "smithy.api#documentation": "Filter a referral metric to the businesses attributed to one person you referred, for example user_AbC123. Available on metrics that list referred_user_id."
+          }
+        },
+        "ad_campaign_ids": {
+          "target": "com.whop.stats#GetMetricRequestAdCampaignIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "ad_campaign_ids",
+            "smithy.api#documentation": "Ad campaign ids (adcamp_...) to scope the report to; stats are summed across them. Available on metrics that list ad_campaign_ids."
+          }
+        },
+        "ad_group_ids": {
+          "target": "com.whop.stats#GetMetricRequestAdGroupIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "ad_group_ids",
+            "smithy.api#documentation": "Ad group ids (adgrp_...) to scope the report to; stats are summed across them. Available on metrics that list ad_group_ids."
+          }
+        },
+        "ad_ids": {
+          "target": "com.whop.stats#GetMetricRequestAdIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "ad_ids",
+            "smithy.api#documentation": "Ad ids (ad_...) to scope the report to; stats are summed across them. Available on metrics that list ad_ids."
+          }
+        },
+        "snapshot_window": {
+          "target": "com.whop.stats#GetMetricRequestSnapshotWindow",
+          "traits": {
+            "smithy.api#httpQuery": "snapshot_window",
+            "smithy.api#documentation": "Window used by a snapshot metric. Ordinary snapshots accept 30d as their trailing activity window. Cohorted dispute metrics accept 7d or 28d as the sales-transaction pool; their attribution window is fixed in the metric name. Each metric lists its accepted values in the catalog."
+          }
+        },
+        "event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "event",
+            "smithy.api#documentation": "Filter the events metric to one or more full event names, for example payment.completed or pixel.lead. Comma-separate several to break the metric down by each event. Available on metrics that list event."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.stats#GetMetricResponseDataPointsItemBreakdownItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The property value, for example usd or visa.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The metric's value for this entry.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.stats#GetMetricResponseDataPointsItemBreakdownList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.stats#GetMetricResponseDataPointsItemBreakdownItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Present only when broken down: one entry per property value in this period."
+      }
+    },
+    "com.whop.stats#GetMetricResponseDataPointsItem": {
+      "type": "structure",
+      "members": {
+        "breakdown": {
+          "target": "com.whop.stats#GetMetricResponseDataPointsItemBreakdownList",
+          "traits": {
+            "smithy.api#documentation": "Present only when broken down: one entry per property value in this period."
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (seconds) of the period start.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The metric's value for this period, in the metric's unit.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.stats#GetMetricResponseDataPointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.stats#GetMetricResponseDataPointsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "One entry per period, oldest first."
+      }
+    },
+    "com.whop.stats#GetMetricResponseDataTotalsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The property value this total is for, or the metric's name when it isn't split by a property.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The metric's whole-window value for this entry.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.stats#GetMetricResponseDataTotalsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.stats#GetMetricResponseDataTotalsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Whole-window aggregates, present when the metric computes them. Don't derive these from `points`: a rate is measured across the whole window, not averaged across its points, and unique-people counts exist only at window level."
+      }
+    },
+    "com.whop.stats#GetMetricResponseData": {
+      "type": "structure",
+      "members": {
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO currency the values are denominated in. Present for currency-unit metrics: the convert_to currency, or usd.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "points": {
+          "target": "com.whop.stats#GetMetricResponseDataPointsList",
+          "traits": {
+            "smithy.api#documentation": "One entry per period, oldest first.",
+            "smithy.api#required": {}
+          }
+        },
+        "totals": {
+          "target": "com.whop.stats#GetMetricResponseDataTotalsList",
+          "traits": {
+            "smithy.api#documentation": "Whole-window aggregates, present when the metric computes them. Don't derive these from `points`: a rate is measured across the whole window, not averaged across its points, and unique-people counts exist only at window level.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.stats#GetMetricResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.stats#GetMetricResponseData",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.stats#GetMetric": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.stats#GetMetricRequest"
+      },
+      "output": {
+        "target": "com.whop.stats#GetMetricResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.stats#BadRequest"
+        },
+        {
+          "target": "com.whop.stats#Forbidden"
+        },
+        {
+          "target": "com.whop.stats#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/stats/{metric}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Metric\n\nRetrieves a metric as a time series of points for an account or user over a time range. The `market_prices` metric is public and requires no authentication."
+      }
+    },
+    "com.whop.stats#DescribeStatsRequest": {
+      "type": "structure",
+      "members": {
+        "resource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resource"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id"
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase0Debug": {
+      "type": "structure",
+      "members": {
+        "request_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique request identifier for debugging.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Debug information."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase0MetricsItemSupportedEnginesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Query engines that support this metric."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase0MetricsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The metric name.",
+            "smithy.api#required": {}
+          }
+        },
+        "node_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The node path this metric operates on.",
+            "smithy.api#required": {}
+          }
+        },
+        "supported_engines": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase0MetricsItemSupportedEnginesList",
+          "traits": {
+            "smithy.api#documentation": "Query engines that support this metric.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A metric available for querying."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase0MetricsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.stats#DescribeStatsResponseBodyCase0MetricsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available metrics."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase0NodesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available root nodes."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase0ViewsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available API resource views."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase0": {
+      "type": "structure",
+      "members": {
+        "debug": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase0Debug",
+          "traits": {
+            "smithy.api#documentation": "Debug information.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metrics": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase0MetricsList",
+          "traits": {
+            "smithy.api#documentation": "Available metrics.",
+            "smithy.api#required": {}
+          }
+        },
+        "nodes": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase0NodesList",
+          "traits": {
+            "smithy.api#documentation": "Available root nodes.",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        },
+        "views": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase0ViewsList",
+          "traits": {
+            "smithy.api#documentation": "Available API resource views.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Root schema description showing available nodes, views, and metrics."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase1AssociationsItem": {
+      "type": "structure",
+      "members": {
+        "event_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event name (for event type).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The associated model class name (for model associations).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The association name.",
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full path (for event associations).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type (belongs_to, has_many, has_one, event, namespace).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An association or child path available for navigation."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase1AssociationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.stats#DescribeStatsResponseBodyCase1AssociationsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available associations or child paths."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase1ColumnsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available columns."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase1Debug": {
+      "type": "structure",
+      "members": {
+        "request_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique request identifier for debugging.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Debug information."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase1MetricsItemSupportedEnginesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Query engines that support this metric."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase1MetricsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The metric name.",
+            "smithy.api#required": {}
+          }
+        },
+        "node_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The node path this metric operates on.",
+            "smithy.api#required": {}
+          }
+        },
+        "supported_engines": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase1MetricsItemSupportedEnginesList",
+          "traits": {
+            "smithy.api#documentation": "Query engines that support this metric.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A metric available for querying."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase1MetricsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.stats#DescribeStatsResponseBodyCase1MetricsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available metrics for this node."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase1SampleItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents untyped JSON"
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase1SampleList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.stats#DescribeStatsResponseBodyCase1SampleItemMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Sample data rows."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase1SortableColumnsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Columns that can be used for sorting."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase1": {
+      "type": "structure",
+      "members": {
+        "associations": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase1AssociationsList",
+          "traits": {
+            "smithy.api#documentation": "Available associations or child paths.",
+            "smithy.api#required": {}
+          }
+        },
+        "columns": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase1ColumnsList",
+          "traits": {
+            "smithy.api#documentation": "Available columns.",
+            "smithy.api#required": {}
+          }
+        },
+        "debug": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase1Debug",
+          "traits": {
+            "smithy.api#documentation": "Debug information.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "engine": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The query engine being used.",
+            "smithy.api#required": {}
+          }
+        },
+        "metrics": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase1MetricsList",
+          "traits": {
+            "smithy.api#documentation": "Available metrics for this node.",
+            "smithy.api#required": {}
+          }
+        },
+        "node": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The node path being described.",
+            "smithy.api#required": {}
+          }
+        },
+        "sample": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase1SampleList",
+          "traits": {
+            "smithy.api#documentation": "Sample data rows.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sortable_columns": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase1SortableColumnsList",
+          "traits": {
+            "smithy.api#documentation": "Columns that can be used for sorting.",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Description of a node (model) including its columns and associations."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase2BreakdownableColumnsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Columns that can be used for breakdowns."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase2Debug": {
+      "type": "structure",
+      "members": {
+        "request_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique request identifier for debugging.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Debug information."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase2FilterableColumnsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Columns that can be used for filtering."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase2SupportedEnginesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Query engines that support this metric."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase2": {
+      "type": "structure",
+      "members": {
+        "breakdownable_columns": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase2BreakdownableColumnsList",
+          "traits": {
+            "smithy.api#documentation": "Columns that can be used for breakdowns.",
+            "smithy.api#required": {}
+          }
+        },
+        "debug": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase2Debug",
+          "traits": {
+            "smithy.api#documentation": "Debug information.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "engine": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The query engine being used.",
+            "smithy.api#required": {}
+          }
+        },
+        "filterable_columns": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase2FilterableColumnsList",
+          "traits": {
+            "smithy.api#documentation": "Columns that can be used for filtering.",
+            "smithy.api#required": {}
+          }
+        },
+        "metric": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The metric name.",
+            "smithy.api#required": {}
+          }
+        },
+        "node": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The node path this metric operates on.",
+            "smithy.api#required": {}
+          }
+        },
+        "sql": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The generated SQL query.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "supported_engines": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase2SupportedEnginesList",
+          "traits": {
+            "smithy.api#documentation": "Query engines that support this metric.",
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp_column": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp column used for time filtering.",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Description of a metric including its configuration and SQL."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase3AssociationsItem": {
+      "type": "structure",
+      "members": {
+        "event_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event name (for event type).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The associated model class name (for model associations).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The association name.",
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full path (for event associations).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type (belongs_to, has_many, has_one, event, namespace).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An association or child path available for navigation."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase3AssociationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.stats#DescribeStatsResponseBodyCase3AssociationsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available associations."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase3ColumnsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available columns."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase3Debug": {
+      "type": "structure",
+      "members": {
+        "request_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique request identifier for debugging.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Debug information."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase3MetricsItemSupportedEnginesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Query engines that support this metric."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase3MetricsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The metric name.",
+            "smithy.api#required": {}
+          }
+        },
+        "node_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The node path this metric operates on.",
+            "smithy.api#required": {}
+          }
+        },
+        "supported_engines": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase3MetricsItemSupportedEnginesList",
+          "traits": {
+            "smithy.api#documentation": "Query engines that support this metric.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A metric available for querying."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase3MetricsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.stats#DescribeStatsResponseBodyCase3MetricsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available metrics."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase3SampleItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents untyped JSON"
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase3SampleList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.stats#DescribeStatsResponseBodyCase3SampleItemMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Sample data rows."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase3SortableColumnsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Columns that can be used for sorting."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBodyCase3": {
+      "type": "structure",
+      "members": {
+        "associations": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase3AssociationsList",
+          "traits": {
+            "smithy.api#documentation": "Available associations.",
+            "smithy.api#required": {}
+          }
+        },
+        "columns": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase3ColumnsList",
+          "traits": {
+            "smithy.api#documentation": "Available columns.",
+            "smithy.api#required": {}
+          }
+        },
+        "debug": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase3Debug",
+          "traits": {
+            "smithy.api#documentation": "Debug information.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "engine": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The query engine being used.",
+            "smithy.api#required": {}
+          }
+        },
+        "metrics": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase3MetricsList",
+          "traits": {
+            "smithy.api#documentation": "Available metrics.",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The underlying model class.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The API resource name.",
+            "smithy.api#required": {}
+          }
+        },
+        "sample": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase3SampleList",
+          "traits": {
+            "smithy.api#documentation": "Sample data rows.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sortable_columns": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase3SortableColumnsList",
+          "traits": {
+            "smithy.api#documentation": "Columns that can be used for sorting.",
+            "smithy.api#required": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        },
+        "view": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The view name being described.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Description of an API resource view including its columns and associations."
+      }
+    },
+    "com.whop.stats#DescribeStatsResponseBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase0"
+        },
+        "Case1": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase1"
+        },
+        "Case2": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase2"
+        },
+        "Case3": {
+          "target": "com.whop.stats#DescribeStatsResponseBodyCase3"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.stats#DescribeStatsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.whop.stats#DescribeStatsResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.stats#DescribeStats": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.stats#DescribeStatsRequest"
+      },
+      "output": {
+        "target": "com.whop.stats#DescribeStatsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.stats#BadRequest"
+        },
+        {
+          "target": "com.whop.stats#Forbidden"
+        },
+        {
+          "target": "com.whop.stats#NotFound"
+        },
+        {
+          "target": "com.whop.stats#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/stats/describe",
+          "code": 200
+        },
+        "smithy.api#documentation": "Describe stats\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nDescribe available stats schema. Without resource returns root nodes and metrics. With resource returns node columns, associations, and available metrics.\n\nRequired permissions:\n - `stats:read`"
+      }
+    },
+    "com.whop.stats#MetricStatsRequestBreakdownsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Columns to break down the metric by."
+      }
+    },
+    "com.whop.stats#MetricStatsRequestFiltersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value pairs to filter the data."
+      }
+    },
+    "com.whop.stats#MetricStatsRequest": {
+      "type": "structure",
+      "members": {
+        "resource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resource",
+            "smithy.api#required": {}
+          }
+        },
+        "granularity": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "granularity"
+          }
+        },
+        "breakdowns": {
+          "target": "com.whop.stats#MetricStatsRequestBreakdownsList",
+          "traits": {
+            "smithy.api#httpQuery": "breakdowns"
+          }
+        },
+        "filters": {
+          "target": "com.whop.stats#MetricStatsRequestFiltersMap",
+          "traits": {
+            "smithy.api#httpQuery": "filters"
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "time_zone"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id"
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.stats#MetricStatsResponseColumnsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Column names in the order they appear in each data row."
+      }
+    },
+    "com.whop.stats#MetricStatsResponseDataItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents untyped JSON"
+      }
+    },
+    "com.whop.stats#MetricStatsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.stats#MetricStatsResponseDataItemMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of data rows, where each row is an array of values matching the columns order."
+      }
+    },
+    "com.whop.stats#MetricStatsResponseDebug": {
+      "type": "structure",
+      "members": {
+        "engine": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The query engine used.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "request_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique request identifier for debugging.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sql": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The generated SQL query (with IDs sanitized).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Debug information including engine and SQL."
+      }
+    },
+    "com.whop.stats#MetricStatsResponsePagination": {
+      "type": "structure",
+      "members": {
+        "next_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cursor for the next page of results.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pagination information."
+      }
+    },
+    "com.whop.stats#MetricStatsResponse": {
+      "type": "structure",
+      "members": {
+        "columns": {
+          "target": "com.whop.stats#MetricStatsResponseColumnsList",
+          "traits": {
+            "smithy.api#documentation": "Column names in the order they appear in each data row.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "data": {
+          "target": "com.whop.stats#MetricStatsResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "Array of data rows, where each row is an array of values matching the columns order.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "debug": {
+          "target": "com.whop.stats#MetricStatsResponseDebug",
+          "traits": {
+            "smithy.api#documentation": "Debug information including engine and SQL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "node": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The node path that was queried.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pagination": {
+          "target": "com.whop.stats#MetricStatsResponsePagination",
+          "traits": {
+            "smithy.api#documentation": "Pagination information.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "typename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The typename of this object",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.stats#MetricStats": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.stats#MetricStatsRequest"
+      },
+      "output": {
+        "target": "com.whop.stats#MetricStatsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.stats#BadRequest"
+        },
+        {
+          "target": "com.whop.stats#Forbidden"
+        },
+        {
+          "target": "com.whop.stats#NotFound"
+        },
+        {
+          "target": "com.whop.stats#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/stats/metric",
+          "code": 200
+        },
+        "smithy.api#documentation": "Metric stats\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nQuery an aggregated metric. Returns data grouped by period with optional breakdowns.\n\nRequired permissions:\n - `stats:read`"
+      }
+    },
+    "com.whop.stats#Direction": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The direction of the sort."
+      }
+    },
+    "com.whop.stats#RawStatsRequest": {
+      "type": "structure",
+      "members": {
+        "resource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resource",
+            "smithy.api#required": {}
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "sort": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "sort"
+          }
+        },
+        "sort_direction": {
+          "target": "com.whop.stats#Direction",
+          "traits": {
+            "smithy.api#httpQuery": "sort_direction"
+          }
+        },
+        "company_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "company_id"
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.stats#RawStatsResponseColumnsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Column names in the order they appear in each data row."
+      }
+    },
+    "com.whop.stats#RawStatsResponseDataItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents untyped JSON"
+      }
+    },
+    "com.whop.stats#RawStatsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.stats#RawStatsResponseDataItemMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of data rows, where each row is an array of values matching the columns order."
+      }
+    },
+    "com.whop.stats#RawStatsResponseDebug": {
+      "type": "structure",
+      "members": {
+        "engine": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The query engine used.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "request_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique request identifier for debugging.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sql": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The generated SQL query (with IDs sanitized).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Debug information including engine and SQL."
+      }
+    },
+    "com.whop.stats#RawStatsResponsePagination": {
+      "type": "structure",
+      "members": {
+        "next_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cursor for the next page of results.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pagination information."
+      }
+    },
+    "com.whop.stats#RawStatsResponse": {
+      "type": "structure",
+      "members": {
+        "columns": {
+          "target": "com.whop.stats#RawStatsResponseColumnsList",
+          "traits": {
+            "smithy.api#documentation": "Column names in the order they appear in each data row.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "data": {
+          "target": "com.whop.stats#RawStatsResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "Array of data rows, where each row is an array of values matching the columns order.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "debug": {
+          "target": "com.whop.stats#RawStatsResponseDebug",
+          "traits": {
+            "smithy.api#documentation": "Debug information including engine and SQL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "node": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The node path that was queried.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pagination": {
+          "target": "com.whop.stats#RawStatsResponsePagination",
+          "traits": {
+            "smithy.api#documentation": "Pagination information.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.stats#RawStats": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.stats#RawStatsRequest"
+      },
+      "output": {
+        "target": "com.whop.stats#RawStatsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.stats#BadRequest"
+        },
+        {
+          "target": "com.whop.stats#Forbidden"
+        },
+        {
+          "target": "com.whop.stats#NotFound"
+        },
+        {
+          "target": "com.whop.stats#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/stats/raw",
+          "code": 200
+        },
+        "smithy.api#documentation": "Raw stats\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nQuery raw data from a resource. Returns paginated rows with all columns.\n\nRequired permissions:\n - `stats:read`"
+      }
+    },
+    "com.whop.stats#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.stats#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.stats#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.stats#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.stats#Stats": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.stats#ListMetrics"
+        },
+        {
+          "target": "com.whop.stats#GetMetric"
+        },
+        {
+          "target": "com.whop.stats#DescribeStats"
+        },
+        {
+          "target": "com.whop.stats#MetricStats"
+        },
+        {
+          "target": "com.whop.stats#RawStats"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

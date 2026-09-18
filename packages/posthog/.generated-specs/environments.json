@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.environments#EnvironmentsActivityRetrieveRequest": {
+    "com.posthog.environments#GetEnvironmentsActivityRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -41,10 +42,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.environments#EnvironmentsActivityRetrieve": {
+    "com.posthog.environments#GetEnvironmentsActivity": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.environments#EnvironmentsActivityRetrieveRequest"
+        "target": "com.posthog.environments#GetEnvironmentsActivityRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -69,7 +70,10 @@
     "com.posthog.environments#EnvironmentsAddProductIntentPartialUpdateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -3681,7 +3685,10 @@
     "com.posthog.environments#EnvironmentsAddProductIntentPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -3747,7 +3754,10 @@
     "com.posthog.environments#EnvironmentsAddProductIntentPartialUpdateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -3777,6 +3787,18 @@
         "smithy.api#documentation": "* `0` - Disabled\n* `1` - Stateless\n* `2` - Stateful"
       }
     },
+    "com.posthog.environments#TeamFeatureFlagPolicyConfig": {
+      "type": "structure",
+      "members": {
+        "require_tags": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When enabled, a new feature flag needs at least one tag, and a tagged flag cannot lose its last one. A create that declares it comes from a survey, experiment, early access feature, product tour, or web experiment is exempt, because those forms have no tag input. The caller sets that declaration, so a flag can still be created without a tag."
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.posthog.environments#TeamRevenueAnalyticsConfig": {
       "type": "structure",
       "members": {
@@ -3784,9 +3806,6 @@
           "target": "com.posthog.environments#BaseCurrencyEnum"
         },
         "events": {
-          "target": "smithy.api#Document"
-        },
-        "goals": {
           "target": "smithy.api#Document"
         },
         "filter_test_accounts": {
@@ -4719,25 +4738,2793 @@
       "type": "structure",
       "members": {
         "sources_map": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.environments#MarketingAnalyticsSourceMapping",
+          "traits": {
+            "smithy.api#documentation": "Column mapping per external data source, keyed by source id. Tells marketing analytics which column holds campaign, source, cost, clicks and impressions for that source."
+          }
         },
         "conversion_goals": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.environments#MarketingAnalyticsConversionGoalList",
+          "traits": {
+            "smithy.api#documentation": "Conversion goals to attribute against, in display order. Each goal points at an event, an action or a data warehouse table, and carries a schema_map describing which fields hold the UTM parameters, the timestamp and the distinct id. Replaces the whole list on write."
+          }
         },
         "attribution_window_days": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many days back a touchpoint can be credited for a conversion. Between 1 and 90."
+          }
         },
         "attribution_mode": {
-          "target": "com.posthog.environments#AttributionModeEnum"
+          "target": "com.posthog.environments#AttributionModeEnum",
+          "traits": {
+            "smithy.api#documentation": "How credit is split across touchpoints when a person saw several campaigns before converting.\n\n* `first_touch` - First Touch\n* `last_touch` - Last Touch\n* `linear` - Linear\n* `time_decay` - Time Decay\n* `position_based` - Position Based"
+          }
         },
         "campaign_name_mappings": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.environments#MarketingAnalyticsCampaignNameMappings",
+          "traits": {
+            "smithy.api#documentation": "Manual campaign name aliases, keyed by integration type then by canonical campaign name, with the list of names that should be folded into it. Applied before automatic matching."
+          }
         },
         "custom_source_mappings": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.environments#MarketingAnalyticsCustomSourceMappings",
+          "traits": {
+            "smithy.api#documentation": "Custom UTM source values to fold into an integration, keyed by integration type. A UTM source can only belong to one integration."
+          }
         },
         "campaign_field_preferences": {
+          "target": "com.posthog.environments#MarketingAnalyticsCampaignFieldPreferences",
+          "traits": {
+            "smithy.api#documentation": "Which field to match campaigns on per integration type, campaign_name or campaign_id. Manual mappings in campaign_name_mappings still take precedence."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsSourceMapping": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.environments#SourceMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Mapping of external data source id to that source's column mapping."
+      }
+    },
+    "com.posthog.environments#SourceMap": {
+      "type": "structure",
+      "members": {
+        "ad_group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_group_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "campaign": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "clicks": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "impressions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reported_conversion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reported_conversion_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsConversionGoalList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.environments#MarketingAnalyticsConversionGoalListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The conversion goals configured for marketing analytics, in display order."
+      }
+    },
+    "com.posthog.environments#MarketingAnalyticsEventConversionGoal": {
+      "type": "structure",
+      "members": {
+        "conversion_goal_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conversion_goal_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "counts_as_customer": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Marks this goal as customer-defining: a conversion here means the person became a customer (e.g. a payment or subscription), not an intermediate step like a sign up. It gates customer-based metrics such as CAC, whose denominator is this goal's conversions — its count, or its unique converters under dau math. That equals new customers only for a once-per-person moment: a repeatable event such as a monthly payment counts every time and understates cost per customer, and dedup under dau is per result row, so someone converting under two sources counts twice at channel level. Defaults to false.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "counts_as_revenue": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Marks this goal as revenue-bearing: the value of a conversion is a monetary amount, not a count or an arbitrary numeric property. It gates revenue metrics such as ROAS and LTV:CAC. The amount itself comes from math_property, and its currency from math_property_revenue_currency, the same shape Revenue analytics uses for revenue events. Independent of counts_as_customer: a purchase is usually both, a trial signup neither. Defaults to false.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event or `null` for all events.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math": {
+          "target": "com.posthog.environments#MarketingAnalyticsEventConversionGoalMath",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_group_type_index": {
+          "target": "com.posthog.environments#MathGroupTypeIndex",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_hogql": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_multiplier": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_property": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_property_revenue_currency": {
+          "target": "com.posthog.environments#RevenueCurrencyPropertyConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_property_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "optionalInFunnel": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "orderBy": {
+          "target": "com.posthog.environments#MarketingAnalyticsEventConversionGoalOrderByList",
+          "traits": {
+            "smithy.api#documentation": "Columns to order by",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "properties": {
+          "target": "com.posthog.environments#MarketingAnalyticsEventConversionGoalPropertiesList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "response": {
+          "target": "com.posthog.environments#MarketingAnalyticsEventConversionGoalResponseMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "schema_map": {
+          "target": "com.posthog.environments#MarketingAnalyticsEventConversionGoalSchemaMapMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "version of the node, used for schema migrations",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A conversion goal counted from events."
+      }
+    },
+    "com.posthog.environments#BaseMathType": {
+      "type": "enum",
+      "members": {
+        "TOTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total"
+          }
+        },
+        "DAU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dau"
+          }
+        },
+        "WEEKLY_ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly_active"
+          }
+        },
+        "MONTHLY_ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly_active"
+          }
+        },
+        "UNIQUE_SESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unique_session"
+          }
+        },
+        "FIRST_TIME_FOR_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_time_for_user"
+          }
+        },
+        "FIRST_MATCHING_EVENT_FOR_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_matching_event_for_user"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#FunnelMathType": {
+      "type": "enum",
+      "members": {
+        "TOTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total"
+          }
+        },
+        "FIRST_TIME_FOR_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_time_for_user"
+          }
+        },
+        "FIRST_TIME_FOR_USER_WITH_FILTERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_time_for_user_with_filters"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#PropertyMathType": {
+      "type": "enum",
+      "members": {
+        "AVG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "avg"
+          }
+        },
+        "SUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sum"
+          }
+        },
+        "MIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "min"
+          }
+        },
+        "MAX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max"
+          }
+        },
+        "MEDIAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "median"
+          }
+        },
+        "P75": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p75"
+          }
+        },
+        "P90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p90"
+          }
+        },
+        "P95": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p95"
+          }
+        },
+        "P99": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p99"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#CountPerActorMathType": {
+      "type": "enum",
+      "members": {
+        "AVG_COUNT_PER_ACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "avg_count_per_actor"
+          }
+        },
+        "MIN_COUNT_PER_ACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "min_count_per_actor"
+          }
+        },
+        "MAX_COUNT_PER_ACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max_count_per_actor"
+          }
+        },
+        "MEDIAN_COUNT_PER_ACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "median_count_per_actor"
+          }
+        },
+        "P75_COUNT_PER_ACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p75_count_per_actor"
+          }
+        },
+        "P90_COUNT_PER_ACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p90_count_per_actor"
+          }
+        },
+        "P95_COUNT_PER_ACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p95_count_per_actor"
+          }
+        },
+        "P99_COUNT_PER_ACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "p99_count_per_actor"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#GroupMathType": {
+      "type": "enum",
+      "members": {
+        "UNIQUE_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unique_group"
+          }
+        },
+        "FIRST_TIME_FOR_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_time_for_group"
+          }
+        },
+        "FIRST_MATCHING_EVENT_FOR_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_matching_event_for_group"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#ExperimentMetricMathType": {
+      "type": "enum",
+      "members": {
+        "TOTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total"
+          }
+        },
+        "SUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sum"
+          }
+        },
+        "UNIQUE_SESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unique_session"
+          }
+        },
+        "MIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "min"
+          }
+        },
+        "MAX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max"
+          }
+        },
+        "AVG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "avg"
+          }
+        },
+        "DAU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dau"
+          }
+        },
+        "UNIQUE_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unique_group"
+          }
+        },
+        "HOGQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hogql"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#CalendarHeatmapMathType": {
+      "type": "enum",
+      "members": {
+        "TOTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total"
+          }
+        },
+        "DAU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dau"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsEventConversionGoalMath": {
+      "type": "union",
+      "members": {
+        "BaseMathType": {
+          "target": "com.posthog.environments#BaseMathType"
+        },
+        "FunnelMathType": {
+          "target": "com.posthog.environments#FunnelMathType"
+        },
+        "PropertyMathType": {
+          "target": "com.posthog.environments#PropertyMathType"
+        },
+        "CountPerActorMathType": {
+          "target": "com.posthog.environments#CountPerActorMathType"
+        },
+        "GroupMathType": {
+          "target": "com.posthog.environments#GroupMathType"
+        },
+        "ExperimentMetricMathType": {
+          "target": "com.posthog.environments#ExperimentMetricMathType"
+        },
+        "CalendarHeatmapMathType": {
+          "target": "com.posthog.environments#CalendarHeatmapMathType"
+        },
+        "Case7": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MathGroupTypeIndex": {
+      "type": "intEnum",
+      "members": {
+        "_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 0
+          }
+        },
+        "_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 1
+          }
+        },
+        "_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 2
+          }
+        },
+        "_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 3
+          }
+        },
+        "_4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 4
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#RevenueCurrencyPropertyConfig": {
+      "type": "structure",
+      "members": {
+        "property": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "static": {
+          "target": "com.posthog.environments#CurrencyCode",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#CurrencyCode": {
+      "type": "enum",
+      "members": {
+        "AED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AED"
+          }
+        },
+        "AFN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AFN"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ALL"
+          }
+        },
+        "AMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AMD"
+          }
+        },
+        "ANG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ANG"
+          }
+        },
+        "AOA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AOA"
+          }
+        },
+        "ARS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ARS"
+          }
+        },
+        "AUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUD"
+          }
+        },
+        "AWG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AWG"
+          }
+        },
+        "AZN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AZN"
+          }
+        },
+        "BAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BAM"
+          }
+        },
+        "BBD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BBD"
+          }
+        },
+        "BDT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BDT"
+          }
+        },
+        "BGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BGN"
+          }
+        },
+        "BHD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BHD"
+          }
+        },
+        "BIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BIF"
+          }
+        },
+        "BMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BMD"
+          }
+        },
+        "BND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BND"
+          }
+        },
+        "BOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOB"
+          }
+        },
+        "BRL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BRL"
+          }
+        },
+        "BSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BSD"
+          }
+        },
+        "BTC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BTC"
+          }
+        },
+        "BTN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BTN"
+          }
+        },
+        "BWP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BWP"
+          }
+        },
+        "BYN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BYN"
+          }
+        },
+        "BZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BZD"
+          }
+        },
+        "CAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CAD"
+          }
+        },
+        "CDF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CDF"
+          }
+        },
+        "CHF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CHF"
+          }
+        },
+        "CLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLP"
+          }
+        },
+        "CNY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CNY"
+          }
+        },
+        "COP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COP"
+          }
+        },
+        "CRC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CRC"
+          }
+        },
+        "CVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CVE"
+          }
+        },
+        "CZK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CZK"
+          }
+        },
+        "DJF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DJF"
+          }
+        },
+        "DKK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DKK"
+          }
+        },
+        "DOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOP"
+          }
+        },
+        "DZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DZD"
+          }
+        },
+        "EGP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EGP"
+          }
+        },
+        "ERN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERN"
+          }
+        },
+        "ETB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ETB"
+          }
+        },
+        "EUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EUR"
+          }
+        },
+        "FJD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FJD"
+          }
+        },
+        "GBP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GBP"
+          }
+        },
+        "GEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GEL"
+          }
+        },
+        "GHS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GHS"
+          }
+        },
+        "GIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GIP"
+          }
+        },
+        "GMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GMD"
+          }
+        },
+        "GNF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GNF"
+          }
+        },
+        "GTQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GTQ"
+          }
+        },
+        "GYD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GYD"
+          }
+        },
+        "HKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HKD"
+          }
+        },
+        "HNL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HNL"
+          }
+        },
+        "HRK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HRK"
+          }
+        },
+        "HTG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HTG"
+          }
+        },
+        "HUF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HUF"
+          }
+        },
+        "IDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IDR"
+          }
+        },
+        "ILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ILS"
+          }
+        },
+        "INR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INR"
+          }
+        },
+        "IQD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IQD"
+          }
+        },
+        "IRR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IRR"
+          }
+        },
+        "ISK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ISK"
+          }
+        },
+        "JMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JMD"
+          }
+        },
+        "JOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JOD"
+          }
+        },
+        "JPY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JPY"
+          }
+        },
+        "KES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "KES"
+          }
+        },
+        "KGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "KGS"
+          }
+        },
+        "KHR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "KHR"
+          }
+        },
+        "KMF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "KMF"
+          }
+        },
+        "KRW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "KRW"
+          }
+        },
+        "KWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "KWD"
+          }
+        },
+        "KYD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "KYD"
+          }
+        },
+        "KZT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "KZT"
+          }
+        },
+        "LAK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LAK"
+          }
+        },
+        "LBP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LBP"
+          }
+        },
+        "LKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LKR"
+          }
+        },
+        "LRD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LRD"
+          }
+        },
+        "LTL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LTL"
+          }
+        },
+        "LVL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LVL"
+          }
+        },
+        "LSL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LSL"
+          }
+        },
+        "LYD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LYD"
+          }
+        },
+        "MAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MAD"
+          }
+        },
+        "MDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MDL"
+          }
+        },
+        "MGA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MGA"
+          }
+        },
+        "MKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MKD"
+          }
+        },
+        "MMK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MMK"
+          }
+        },
+        "MNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MNT"
+          }
+        },
+        "MOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MOP"
+          }
+        },
+        "MRU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MRU"
+          }
+        },
+        "MTL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MTL"
+          }
+        },
+        "MUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MUR"
+          }
+        },
+        "MVR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MVR"
+          }
+        },
+        "MWK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MWK"
+          }
+        },
+        "MXN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MXN"
+          }
+        },
+        "MYR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MYR"
+          }
+        },
+        "MZN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MZN"
+          }
+        },
+        "NAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NAD"
+          }
+        },
+        "NGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NGN"
+          }
+        },
+        "NIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NIO"
+          }
+        },
+        "NOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NOK"
+          }
+        },
+        "NPR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NPR"
+          }
+        },
+        "NZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NZD"
+          }
+        },
+        "OMR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OMR"
+          }
+        },
+        "PAB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PAB"
+          }
+        },
+        "PEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PEN"
+          }
+        },
+        "PGK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PGK"
+          }
+        },
+        "PHP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PHP"
+          }
+        },
+        "PKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PKR"
+          }
+        },
+        "PLN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PLN"
+          }
+        },
+        "PYG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PYG"
+          }
+        },
+        "QAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "QAR"
+          }
+        },
+        "RON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RON"
+          }
+        },
+        "RSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RSD"
+          }
+        },
+        "RUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RUB"
+          }
+        },
+        "RWF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RWF"
+          }
+        },
+        "SAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SAR"
+          }
+        },
+        "SBD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SBD"
+          }
+        },
+        "SCR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCR"
+          }
+        },
+        "SDG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SDG"
+          }
+        },
+        "SEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEK"
+          }
+        },
+        "SGD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SGD"
+          }
+        },
+        "SRD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SRD"
+          }
+        },
+        "SSP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SSP"
+          }
+        },
+        "STN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STN"
+          }
+        },
+        "SYP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYP"
+          }
+        },
+        "SZL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SZL"
+          }
+        },
+        "THB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "THB"
+          }
+        },
+        "TJS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TJS"
+          }
+        },
+        "TMT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TMT"
+          }
+        },
+        "TND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TND"
+          }
+        },
+        "TOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TOP"
+          }
+        },
+        "TRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TRY"
+          }
+        },
+        "TTD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TTD"
+          }
+        },
+        "TWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TWD"
+          }
+        },
+        "TZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TZS"
+          }
+        },
+        "UAH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UAH"
+          }
+        },
+        "UGX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UGX"
+          }
+        },
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USD"
+          }
+        },
+        "UYU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UYU"
+          }
+        },
+        "UZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UZS"
+          }
+        },
+        "VES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VES"
+          }
+        },
+        "VND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VND"
+          }
+        },
+        "VUV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VUV"
+          }
+        },
+        "WST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WST"
+          }
+        },
+        "XAF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "XAF"
+          }
+        },
+        "XCD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "XCD"
+          }
+        },
+        "XOF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "XOF"
+          }
+        },
+        "XPF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "XPF"
+          }
+        },
+        "YER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "YER"
+          }
+        },
+        "ZAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ZAR"
+          }
+        },
+        "ZMW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ZMW"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsEventConversionGoalOrderByList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#EventPropertyFilter": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "operator": {
+          "target": "com.posthog.environments#PropertyOperator",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Event properties"
+          }
+        },
+        "value": {
+          "target": "com.posthog.environments#EventPropertyFilterValue",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#PropertyOperator": {
+      "type": "enum",
+      "members": {
+        "EXACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exact"
+          }
+        },
+        "IS_NOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_not"
+          }
+        },
+        "ICONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "icontains"
+          }
+        },
+        "NOT_ICONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_icontains"
+          }
+        },
+        "STARTS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starts_with"
+          }
+        },
+        "NOT_STARTS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_starts_with"
+          }
+        },
+        "ENDS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ends_with"
+          }
+        },
+        "NOT_ENDS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_ends_with"
+          }
+        },
+        "REGEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "regex"
+          }
+        },
+        "NOT_REGEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_regex"
+          }
+        },
+        "GT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gt"
+          }
+        },
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lt"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        },
+        "IS_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_set"
+          }
+        },
+        "IS_NOT_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_not_set"
+          }
+        },
+        "IS_DATE_EXACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_date_exact"
+          }
+        },
+        "IS_DATE_BEFORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_date_before"
+          }
+        },
+        "IS_DATE_AFTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_date_after"
+          }
+        },
+        "BETWEEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "between"
+          }
+        },
+        "NOT_BETWEEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_between"
+          }
+        },
+        "MIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "min"
+          }
+        },
+        "MAX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max"
+          }
+        },
+        "IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in"
+          }
+        },
+        "NOT_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_in"
+          }
+        },
+        "IS_CLEANED_PATH_EXACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_cleaned_path_exact"
+          }
+        },
+        "FLAG_EVALUATES_TO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flag_evaluates_to"
+          }
+        },
+        "SEMVER_EQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "semver_eq"
+          }
+        },
+        "SEMVER_NEQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "semver_neq"
+          }
+        },
+        "SEMVER_GT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "semver_gt"
+          }
+        },
+        "SEMVER_GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "semver_gte"
+          }
+        },
+        "SEMVER_LT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "semver_lt"
+          }
+        },
+        "SEMVER_LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "semver_lte"
+          }
+        },
+        "SEMVER_TILDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "semver_tilde"
+          }
+        },
+        "SEMVER_CARET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "semver_caret"
+          }
+        },
+        "SEMVER_WILDCARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "semver_wildcard"
+          }
+        },
+        "ICONTAINS_MULTI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "icontains_multi"
+          }
+        },
+        "NOT_ICONTAINS_MULTI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_icontains_multi"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#EventPropertyFilterValueCase0Item": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#EventPropertyFilterValueCase0List": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.environments#EventPropertyFilterValueCase0Item"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#EventPropertyFilterValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.environments#EventPropertyFilterValueCase0List"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        },
+        "Case2": {
+          "target": "smithy.api#Double"
+        },
+        "Case3": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#PersonPropertyFilter": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "operator": {
+          "target": "com.posthog.environments#PropertyOperator"
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Person properties"
+          }
+        },
+        "value": {
+          "target": "com.posthog.environments#PersonPropertyFilterValue",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#PersonPropertyFilterValueCase0Item": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#PersonPropertyFilterValueCase0List": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.environments#PersonPropertyFilterValueCase0Item"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#PersonPropertyFilterValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.environments#PersonPropertyFilterValueCase0List"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        },
+        "Case2": {
+          "target": "smithy.api#Double"
+        },
+        "Case3": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#CohortPropertyFilter": {
+      "type": "structure",
+      "members": {
+        "cohort_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "operator": {
+          "target": "com.posthog.environments#PropertyOperator",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#ElementPropertyFilter": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "com.posthog.environments#Key10"
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "operator": {
+          "target": "com.posthog.environments#PropertyOperator"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.posthog.environments#ElementPropertyFilterValue",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#Key10": {
+      "type": "enum",
+      "members": {
+        "TAG_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tag_name"
+          }
+        },
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        },
+        "HREF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "href"
+          }
+        },
+        "SELECTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "selector"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#ElementPropertyFilterValueCase0Item": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#ElementPropertyFilterValueCase0List": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.environments#ElementPropertyFilterValueCase0Item"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#ElementPropertyFilterValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.environments#ElementPropertyFilterValueCase0List"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        },
+        "Case2": {
+          "target": "smithy.api#Double"
+        },
+        "Case3": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#HogQLPropertyFilter": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.posthog.environments#HogQLPropertyFilterValue",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#HogQLPropertyFilterValueCase0Item": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#HogQLPropertyFilterValueCase0List": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.environments#HogQLPropertyFilterValueCase0Item"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#HogQLPropertyFilterValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.environments#HogQLPropertyFilterValueCase0List"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        },
+        "Case2": {
+          "target": "smithy.api#Double"
+        },
+        "Case3": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#DataWarehousePropertyFilter": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "operator": {
+          "target": "com.posthog.environments#PropertyOperator"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.posthog.environments#DataWarehousePropertyFilterValue",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#DataWarehousePropertyFilterValueCase0Item": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#DataWarehousePropertyFilterValueCase0List": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.environments#DataWarehousePropertyFilterValueCase0Item"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#DataWarehousePropertyFilterValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.environments#DataWarehousePropertyFilterValueCase0List"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        },
+        "Case2": {
+          "target": "smithy.api#Double"
+        },
+        "Case3": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsEventConversionGoalPropertiesItem": {
+      "type": "union",
+      "members": {
+        "EventPropertyFilter": {
+          "target": "com.posthog.environments#EventPropertyFilter"
+        },
+        "PersonPropertyFilter": {
+          "target": "com.posthog.environments#PersonPropertyFilter"
+        },
+        "CohortPropertyFilter": {
+          "target": "com.posthog.environments#CohortPropertyFilter"
+        },
+        "ElementPropertyFilter": {
+          "target": "com.posthog.environments#ElementPropertyFilter"
+        },
+        "HogQLPropertyFilter": {
+          "target": "com.posthog.environments#HogQLPropertyFilter"
+        },
+        "DataWarehousePropertyFilter": {
+          "target": "com.posthog.environments#DataWarehousePropertyFilter"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsEventConversionGoalPropertiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.environments#MarketingAnalyticsEventConversionGoalPropertiesItem"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsEventConversionGoalResponseMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsEventConversionGoalSchemaMapValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
           "target": "smithy.api#Document"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsEventConversionGoalSchemaMapMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.environments#MarketingAnalyticsEventConversionGoalSchemaMapValue"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsActionConversionGoal": {
+      "type": "structure",
+      "members": {
+        "conversion_goal_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conversion_goal_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "counts_as_customer": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Marks this goal as customer-defining: a conversion here means the person became a customer (e.g. a payment or subscription), not an intermediate step like a sign up. It gates customer-based metrics such as CAC, whose denominator is this goal's conversions — its count, or its unique converters under dau math. That equals new customers only for a once-per-person moment: a repeatable event such as a monthly payment counts every time and understates cost per customer, and dedup under dau is per result row, so someone converting under two sources counts twice at channel level. Defaults to false.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "counts_as_revenue": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Marks this goal as revenue-bearing: the value of a conversion is a monetary amount, not a count or an arbitrary numeric property. It gates revenue metrics such as ROAS and LTV:CAC. The amount itself comes from math_property, and its currency from math_property_revenue_currency, the same shape Revenue analytics uses for revenue events. Independent of counts_as_customer: a purchase is usually both, a trial signup neither. Defaults to false.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "math": {
+          "target": "com.posthog.environments#MarketingAnalyticsActionConversionGoalMath",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_group_type_index": {
+          "target": "com.posthog.environments#MathGroupTypeIndex",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_hogql": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_multiplier": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_property": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_property_revenue_currency": {
+          "target": "com.posthog.environments#RevenueCurrencyPropertyConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_property_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "optionalInFunnel": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "properties": {
+          "target": "com.posthog.environments#MarketingAnalyticsActionConversionGoalPropertiesList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "response": {
+          "target": "com.posthog.environments#MarketingAnalyticsActionConversionGoalResponseMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "schema_map": {
+          "target": "com.posthog.environments#MarketingAnalyticsActionConversionGoalSchemaMapMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "version of the node, used for schema migrations",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A conversion goal counted from an action."
+      }
+    },
+    "com.posthog.environments#MarketingAnalyticsActionConversionGoalMath": {
+      "type": "union",
+      "members": {
+        "BaseMathType": {
+          "target": "com.posthog.environments#BaseMathType"
+        },
+        "FunnelMathType": {
+          "target": "com.posthog.environments#FunnelMathType"
+        },
+        "PropertyMathType": {
+          "target": "com.posthog.environments#PropertyMathType"
+        },
+        "CountPerActorMathType": {
+          "target": "com.posthog.environments#CountPerActorMathType"
+        },
+        "GroupMathType": {
+          "target": "com.posthog.environments#GroupMathType"
+        },
+        "ExperimentMetricMathType": {
+          "target": "com.posthog.environments#ExperimentMetricMathType"
+        },
+        "CalendarHeatmapMathType": {
+          "target": "com.posthog.environments#CalendarHeatmapMathType"
+        },
+        "Case7": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsActionConversionGoalPropertiesItem": {
+      "type": "union",
+      "members": {
+        "EventPropertyFilter": {
+          "target": "com.posthog.environments#EventPropertyFilter"
+        },
+        "PersonPropertyFilter": {
+          "target": "com.posthog.environments#PersonPropertyFilter"
+        },
+        "CohortPropertyFilter": {
+          "target": "com.posthog.environments#CohortPropertyFilter"
+        },
+        "ElementPropertyFilter": {
+          "target": "com.posthog.environments#ElementPropertyFilter"
+        },
+        "HogQLPropertyFilter": {
+          "target": "com.posthog.environments#HogQLPropertyFilter"
+        },
+        "DataWarehousePropertyFilter": {
+          "target": "com.posthog.environments#DataWarehousePropertyFilter"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsActionConversionGoalPropertiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.environments#MarketingAnalyticsActionConversionGoalPropertiesItem"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsActionConversionGoalResponseMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsActionConversionGoalSchemaMapValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsActionConversionGoalSchemaMapMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.environments#MarketingAnalyticsActionConversionGoalSchemaMapValue"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoal": {
+      "type": "structure",
+      "members": {
+        "conversion_goal_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conversion_goal_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "counts_as_customer": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Marks this goal as customer-defining: a conversion here means the person became a customer (e.g. a payment or subscription), not an intermediate step like a sign up. It gates customer-based metrics such as CAC, whose denominator is this goal's conversions — its count, or its unique converters under dau math. That equals new customers only for a once-per-person moment: a repeatable event such as a monthly payment counts every time and understates cost per customer, and dedup under dau is per result row, so someone converting under two sources counts twice at channel level. Defaults to false.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "counts_as_revenue": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Marks this goal as revenue-bearing: the value of a conversion is a monetary amount, not a count or an arbitrary numeric property. It gates revenue metrics such as ROAS and LTV:CAC. The amount itself comes from math_property, and its currency from math_property_revenue_currency, the same shape Revenue analytics uses for revenue events. Independent of counts_as_customer: a purchase is usually both, a trial signup neither. Defaults to false.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "distinct_id_field": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dw_source_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id_field": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "math": {
+          "target": "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoalMath",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_group_type_index": {
+          "target": "com.posthog.environments#MathGroupTypeIndex",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_hogql": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_multiplier": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_property": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_property_revenue_currency": {
+          "target": "com.posthog.environments#RevenueCurrencyPropertyConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_property_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "optionalInFunnel": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "properties": {
+          "target": "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoalPropertiesList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "response": {
+          "target": "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoalResponseMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "schema_map": {
+          "target": "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoalSchemaMapMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "table_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp_field": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "version of the node, used for schema migrations",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A conversion goal counted from a data warehouse table."
+      }
+    },
+    "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoalMath": {
+      "type": "union",
+      "members": {
+        "BaseMathType": {
+          "target": "com.posthog.environments#BaseMathType"
+        },
+        "FunnelMathType": {
+          "target": "com.posthog.environments#FunnelMathType"
+        },
+        "PropertyMathType": {
+          "target": "com.posthog.environments#PropertyMathType"
+        },
+        "CountPerActorMathType": {
+          "target": "com.posthog.environments#CountPerActorMathType"
+        },
+        "GroupMathType": {
+          "target": "com.posthog.environments#GroupMathType"
+        },
+        "ExperimentMetricMathType": {
+          "target": "com.posthog.environments#ExperimentMetricMathType"
+        },
+        "CalendarHeatmapMathType": {
+          "target": "com.posthog.environments#CalendarHeatmapMathType"
+        },
+        "Case7": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoalPropertiesItem": {
+      "type": "union",
+      "members": {
+        "EventPropertyFilter": {
+          "target": "com.posthog.environments#EventPropertyFilter"
+        },
+        "PersonPropertyFilter": {
+          "target": "com.posthog.environments#PersonPropertyFilter"
+        },
+        "CohortPropertyFilter": {
+          "target": "com.posthog.environments#CohortPropertyFilter"
+        },
+        "ElementPropertyFilter": {
+          "target": "com.posthog.environments#ElementPropertyFilter"
+        },
+        "HogQLPropertyFilter": {
+          "target": "com.posthog.environments#HogQLPropertyFilter"
+        },
+        "DataWarehousePropertyFilter": {
+          "target": "com.posthog.environments#DataWarehousePropertyFilter"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoalPropertiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoalPropertiesItem"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoalResponseMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoalSchemaMapValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoalSchemaMapMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoalSchemaMapValue"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsConversionGoalListItem": {
+      "type": "union",
+      "members": {
+        "MarketingAnalyticsEventConversionGoal": {
+          "target": "com.posthog.environments#MarketingAnalyticsEventConversionGoal"
+        },
+        "MarketingAnalyticsActionConversionGoal": {
+          "target": "com.posthog.environments#MarketingAnalyticsActionConversionGoal"
+        },
+        "MarketingAnalyticsWarehouseConversionGoal": {
+          "target": "com.posthog.environments#MarketingAnalyticsWarehouseConversionGoal"
         }
       },
       "traits": {}
@@ -4779,6 +7566,96 @@
       "traits": {
         "smithy.api#documentation": "* `first_touch` - First Touch\n* `last_touch` - Last Touch\n* `linear` - Linear\n* `time_decay` - Time Decay\n* `position_based` - Position Based"
       }
+    },
+    "com.posthog.environments#MarketingAnalyticsCampaignNameMappings": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.environments#MarketingAnalyticsCampaignNameMappingsValueMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Mapping of integration type to canonical campaign name to the aliases folded into it."
+      }
+    },
+    "com.posthog.environments#MarketingAnalyticsCampaignNameMappingsValueValueList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsCampaignNameMappingsValueMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.environments#MarketingAnalyticsCampaignNameMappingsValueValueList"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsCustomSourceMappings": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.environments#MarketingAnalyticsCustomSourceMappingsValueList"
+      },
+      "traits": {
+        "smithy.api#documentation": "Mapping of integration type to the custom UTM source values folded into it."
+      }
+    },
+    "com.posthog.environments#MarketingAnalyticsCustomSourceMappingsValueList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MarketingAnalyticsCampaignFieldPreferences": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.environments#CampaignFieldPreference"
+      },
+      "traits": {
+        "smithy.api#documentation": "Mapping of integration type to the campaign field used when matching campaigns."
+      }
+    },
+    "com.posthog.environments#CampaignFieldPreference": {
+      "type": "structure",
+      "members": {
+        "match_field": {
+          "target": "com.posthog.environments#MatchField",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#MatchField": {
+      "type": "enum",
+      "members": {
+        "CAMPAIGN_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "campaign_name"
+          }
+        },
+        "CAMPAIGN_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "campaign_id"
+          }
+        }
+      },
+      "traits": {}
     },
     "com.posthog.environments#TeamCustomerAnalyticsConfig": {
       "type": "structure",
@@ -4883,9 +7760,41 @@
           "traits": {
             "smithy.api#documentation": "When enabled, workflows engagement activity (email sends, opens, clicks, bounces, spam reports, unsubscribes) is captured as standard PostHog events ($workflows_email_*) alongside the existing workflow metrics."
           }
+        },
+        "email_tracking_consent_mode": {
+          "target": "com.posthog.environments#EmailTrackingConsentModeEnum",
+          "traits": {
+            "smithy.api#documentation": "Recipient-consent enforcement for open/click tracking on marketing workflow emails. 'off': no enforcement, tracking follows each email step's own setting. 'opt_out': track by default but not recipients who have opted out. 'opt_in': only track recipients who have explicitly opted in. Transactional emails are exempt from consent enforcement.\n\n* `off` - Off\n* `opt_out` - Opt Out\n* `opt_in` - Opt In"
+          }
         }
       },
       "traits": {}
+    },
+    "com.posthog.environments#EmailTrackingConsentModeEnum": {
+      "type": "enum",
+      "members": {
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        },
+        "OPT_OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "opt_out"
+          }
+        },
+        "OPT_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "opt_in"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `off` - Off\n* `opt_out` - Opt Out\n* `opt_in` - Opt In"
+      }
     },
     "com.posthog.environments#EnvironmentsAddProductIntentPartialUpdateRequest": {
       "type": "structure",
@@ -4924,7 +7833,7 @@
         "test_account_filters": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"icontains\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"regex\",\n            \"not_regex\", \"gt\", \"lt\", \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
+            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"ends_with\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"starts_with\",\n            \"not_starts_with\", \"ends_with\", \"not_ends_with\", \"regex\", \"not_regex\", \"gt\", \"lt\",\n            \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
           }
         },
         "test_account_filters_default_checked": {
@@ -5151,6 +8060,9 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "feature_flag_policy_config": {
+          "target": "com.posthog.environments#TeamFeatureFlagPolicyConfig"
+        },
         "capture_dead_clicks": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -5248,56 +8160,65 @@
         "smithy.api#documentation": "Deprecated: use /api/environments/{id}/ instead."
       }
     },
-    "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestAppUrlsList": {
+    "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestAppUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestPersonDisplayNamePropertiesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestPersonDisplayNamePropertiesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestSessionRecordingUrlTriggerConfigList": {
+    "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestSessionRecordingUrlTriggerConfigList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Document"
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestSessionRecordingUrlBlocklistConfigList": {
+    "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestSessionRecordingUrlBlocklistConfigList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Document"
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
+    "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestSessionRecordingEventTriggerConfigList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestLiveEventsColumnsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestLiveEventsColumnsList": {
+    "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestRecordingDomainsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestBusinessModel": {
+    "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestBusinessModel": {
       "type": "union",
       "members": {
         "BusinessModelEnum": {
@@ -5311,7 +8232,7 @@
         "smithy.api#documentation": "Whether this project serves B2B or B2C customers, used to optimize the UI layout.\n\n* `b2b` - B2B\n* `b2c` - B2C\n* `other` - Other"
       }
     },
-    "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequest": {
+    "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -5337,7 +8258,7 @@
           "target": "smithy.api#Boolean"
         },
         "app_urls": {
-          "target": "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestAppUrlsList"
+          "target": "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestAppUrlsList"
         },
         "anonymize_ips": {
           "target": "smithy.api#Boolean"
@@ -5348,7 +8269,7 @@
         "test_account_filters": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"icontains\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"regex\",\n            \"not_regex\", \"gt\", \"lt\", \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
+            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"ends_with\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"starts_with\",\n            \"not_starts_with\", \"ends_with\", \"not_ends_with\", \"regex\", \"not_regex\", \"gt\", \"lt\",\n            \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
           }
         },
         "test_account_filters_default_checked": {
@@ -5370,7 +8291,7 @@
           "target": "smithy.api#Document"
         },
         "person_display_name_properties": {
-          "target": "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestPersonDisplayNamePropertiesList",
+          "target": "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestPersonDisplayNamePropertiesList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
@@ -5442,19 +8363,19 @@
           "target": "smithy.api#Document"
         },
         "session_recording_url_trigger_config": {
-          "target": "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestSessionRecordingUrlTriggerConfigList",
+          "target": "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestSessionRecordingUrlTriggerConfigList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
         },
         "session_recording_url_blocklist_config": {
-          "target": "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestSessionRecordingUrlBlocklistConfigList",
+          "target": "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestSessionRecordingUrlBlocklistConfigList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
         },
         "session_recording_event_trigger_config": {
-          "target": "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestSessionRecordingEventTriggerConfigList",
+          "target": "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestSessionRecordingEventTriggerConfigList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
@@ -5493,13 +8414,13 @@
           }
         },
         "live_events_columns": {
-          "target": "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestLiveEventsColumnsList",
+          "target": "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestLiveEventsColumnsList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
         },
         "recording_domains": {
-          "target": "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestRecordingDomainsList",
+          "target": "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestRecordingDomainsList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
@@ -5575,6 +8496,9 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "feature_flag_policy_config": {
+          "target": "com.posthog.environments#TeamFeatureFlagPolicyConfig"
+        },
         "capture_dead_clicks": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -5615,7 +8539,7 @@
           }
         },
         "business_model": {
-          "target": "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequestBusinessModel",
+          "target": "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestBusinessModel",
           "traits": {
             "smithy.api#documentation": "Whether this project serves B2B or B2C customers, used to optimize the UI layout.\n\n* `b2b` - B2B\n* `b2c` - B2C\n* `other` - Other",
             "com.distilled.openapi#nullable": {}
@@ -5644,10 +8568,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdate": {
+    "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdateRequest"
+        "target": "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -5672,1005 +8596,13 @@
         "smithy.api#documentation": "Deprecated: use /api/environments/{id}/ instead."
       }
     },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsRetrieveRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "A unique integer value identifying this environment (aka team)."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsRetrieve": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsRetrieveRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.posthog.environments#Forbidden"
-        },
-        {
-          "target": "com.posthog.environments#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/environments/{id}/default_evaluation_contexts/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Manage default evaluation contexts for a team."
-      }
-    },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestAppUrlsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestPersonDisplayNamePropertiesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestSessionRecordingUrlTriggerConfigList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestSessionRecordingUrlBlocklistConfigList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestSessionRecordingEventTriggerConfigList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestLiveEventsColumnsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestRecordingDomainsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestBusinessModel": {
-      "type": "union",
-      "members": {
-        "BusinessModelEnum": {
-          "target": "com.posthog.environments#BusinessModelEnum"
-        },
-        "BlankEnum": {
-          "target": "com.posthog.environments#BlankEnum"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Whether this project serves B2B or B2C customers, used to optimize the UI layout.\n\n* `b2b` - B2B\n* `b2c` - B2C\n* `other` - Other"
-      }
-    },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "A unique integer value identifying this environment (aka team)."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String"
-        },
-        "access_control": {
-          "target": "smithy.api#Boolean"
-        },
-        "app_urls": {
-          "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestAppUrlsList"
-        },
-        "anonymize_ips": {
-          "target": "smithy.api#Boolean"
-        },
-        "completed_snippet_onboarding": {
-          "target": "smithy.api#Boolean"
-        },
-        "test_account_filters": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"icontains\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"regex\",\n            \"not_regex\", \"gt\", \"lt\", \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
-          }
-        },
-        "test_account_filters_default_checked": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "path_cleaning_filters": {
-          "target": "smithy.api#Document"
-        },
-        "is_demo": {
-          "target": "smithy.api#Boolean"
-        },
-        "timezone": {
-          "target": "com.posthog.environments#TimezoneEnum"
-        },
-        "data_attributes": {
-          "target": "smithy.api#Document"
-        },
-        "person_display_name_properties": {
-          "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestPersonDisplayNamePropertiesList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "correlation_config": {
-          "target": "smithy.api#Document"
-        },
-        "autocapture_opt_out": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "autocapture_exceptions_opt_in": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "autocapture_web_vitals_opt_in": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "autocapture_web_vitals_allowed_metrics": {
-          "target": "smithy.api#Document"
-        },
-        "autocapture_exceptions_errors_to_ignore": {
-          "target": "smithy.api#Document"
-        },
-        "capture_console_log_opt_in": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "logs_settings": {
-          "target": "smithy.api#Document"
-        },
-        "capture_performance_opt_in": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_opt_in": {
-          "target": "smithy.api#Boolean"
-        },
-        "session_recording_sample_rate": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_minimum_duration_milliseconds": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_linked_flag": {
-          "target": "smithy.api#Document"
-        },
-        "session_recording_network_payload_capture_config": {
-          "target": "smithy.api#Document"
-        },
-        "session_recording_masking_config": {
-          "target": "smithy.api#Document"
-        },
-        "session_recording_url_trigger_config": {
-          "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestSessionRecordingUrlTriggerConfigList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_url_blocklist_config": {
-          "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestSessionRecordingUrlBlocklistConfigList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_event_trigger_config": {
-          "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestSessionRecordingEventTriggerConfigList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_trigger_match_type_config": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_trigger_groups": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields."
-          }
-        },
-        "session_recording_retention_period": {
-          "target": "com.posthog.environments#SessionRecordingRetentionPeriodEnum"
-        },
-        "session_replay_config": {
-          "target": "smithy.api#Document"
-        },
-        "survey_config": {
-          "target": "smithy.api#Document"
-        },
-        "week_start_day": {
-          "target": "com.posthog.environments#WeekStartDayEnum",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "primary_dashboard": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "live_events_columns": {
-          "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestLiveEventsColumnsList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "recording_domains": {
-          "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestRecordingDomainsList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "cookieless_server_hash_mode": {
-          "target": "com.posthog.environments#CookielessServerHashModeEnum",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "human_friendly_comparison_periods": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "inject_web_apps": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "extra_settings": {
-          "target": "smithy.api#Document"
-        },
-        "modifiers": {
-          "target": "smithy.api#Document"
-        },
-        "has_completed_onboarding_for": {
-          "target": "smithy.api#Document"
-        },
-        "surveys_opt_in": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "heatmaps_opt_in": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "flags_persistence_default": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "feature_flag_confirmation_enabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "feature_flag_confirmation_message": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "default_evaluation_contexts_enabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to automatically apply default evaluation contexts to new feature flags",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "require_evaluation_contexts": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to require at least one evaluation context tag when creating new feature flags",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "capture_dead_clicks": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "default_data_theme": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "revenue_analytics_config": {
-          "target": "com.posthog.environments#TeamRevenueAnalyticsConfig"
-        },
-        "marketing_analytics_config": {
-          "target": "com.posthog.environments#TeamMarketingAnalyticsConfig"
-        },
-        "customer_analytics_config": {
-          "target": "com.posthog.environments#TeamCustomerAnalyticsConfig"
-        },
-        "onboarding_tasks": {
-          "target": "smithy.api#Document"
-        },
-        "base_currency": {
-          "target": "com.posthog.environments#BaseCurrencyEnum"
-        },
-        "web_analytics_pre_aggregated_tables_enabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "receive_org_level_activity_logs": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "business_model": {
-          "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequestBusinessModel",
-          "traits": {
-            "smithy.api#documentation": "Whether this project serves B2B or B2C customers, used to optimize the UI layout.\n\n* `b2b` - B2B\n* `b2c` - B2C\n* `other` - Other",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "conversations_enabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "conversations_settings": {
-          "target": "smithy.api#Document"
-        },
-        "proactive_tasks_enabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "workflows_config": {
-          "target": "com.posthog.environments#TeamWorkflowsConfig"
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreate": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreateRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.posthog.environments#BadRequest"
-        },
-        {
-          "target": "com.posthog.environments#Forbidden"
-        },
-        {
-          "target": "com.posthog.environments#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/environments/{id}/default_evaluation_contexts/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Manage default evaluation contexts for a team."
-      }
-    },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsDestroyRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "A unique integer value identifying this environment (aka team)."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.environments#EnvironmentsDefaultEvaluationContextsDestroy": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsDestroyRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.posthog.environments#Forbidden"
-        },
-        {
-          "target": "com.posthog.environments#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/environments/{id}/default_evaluation_contexts/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Manage default evaluation contexts for a team."
-      }
-    },
-    "com.posthog.environments#EnvironmentsDefaultReleaseConditionsRetrieveRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "A unique integer value identifying this environment (aka team)."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.environments#EnvironmentsDefaultReleaseConditionsRetrieve": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.environments#EnvironmentsDefaultReleaseConditionsRetrieveRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.posthog.environments#Forbidden"
-        },
-        {
-          "target": "com.posthog.environments#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/environments/{id}/default_release_conditions/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Manage default release conditions for new feature flags in this team."
-      }
-    },
-    "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestAppUrlsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestPersonDisplayNamePropertiesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestSessionRecordingUrlTriggerConfigList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestSessionRecordingUrlBlocklistConfigList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestSessionRecordingEventTriggerConfigList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestLiveEventsColumnsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestRecordingDomainsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestBusinessModel": {
-      "type": "union",
-      "members": {
-        "BusinessModelEnum": {
-          "target": "com.posthog.environments#BusinessModelEnum"
-        },
-        "BlankEnum": {
-          "target": "com.posthog.environments#BlankEnum"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Whether this project serves B2B or B2C customers, used to optimize the UI layout.\n\n* `b2b` - B2B\n* `b2c` - B2C\n* `other` - Other"
-      }
-    },
-    "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "A unique integer value identifying this environment (aka team)."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String"
-        },
-        "access_control": {
-          "target": "smithy.api#Boolean"
-        },
-        "app_urls": {
-          "target": "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestAppUrlsList"
-        },
-        "anonymize_ips": {
-          "target": "smithy.api#Boolean"
-        },
-        "completed_snippet_onboarding": {
-          "target": "smithy.api#Boolean"
-        },
-        "test_account_filters": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"icontains\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"regex\",\n            \"not_regex\", \"gt\", \"lt\", \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
-          }
-        },
-        "test_account_filters_default_checked": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "path_cleaning_filters": {
-          "target": "smithy.api#Document"
-        },
-        "is_demo": {
-          "target": "smithy.api#Boolean"
-        },
-        "timezone": {
-          "target": "com.posthog.environments#TimezoneEnum"
-        },
-        "data_attributes": {
-          "target": "smithy.api#Document"
-        },
-        "person_display_name_properties": {
-          "target": "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestPersonDisplayNamePropertiesList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "correlation_config": {
-          "target": "smithy.api#Document"
-        },
-        "autocapture_opt_out": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "autocapture_exceptions_opt_in": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "autocapture_web_vitals_opt_in": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "autocapture_web_vitals_allowed_metrics": {
-          "target": "smithy.api#Document"
-        },
-        "autocapture_exceptions_errors_to_ignore": {
-          "target": "smithy.api#Document"
-        },
-        "capture_console_log_opt_in": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "logs_settings": {
-          "target": "smithy.api#Document"
-        },
-        "capture_performance_opt_in": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_opt_in": {
-          "target": "smithy.api#Boolean"
-        },
-        "session_recording_sample_rate": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_minimum_duration_milliseconds": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_linked_flag": {
-          "target": "smithy.api#Document"
-        },
-        "session_recording_network_payload_capture_config": {
-          "target": "smithy.api#Document"
-        },
-        "session_recording_masking_config": {
-          "target": "smithy.api#Document"
-        },
-        "session_recording_url_trigger_config": {
-          "target": "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestSessionRecordingUrlTriggerConfigList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_url_blocklist_config": {
-          "target": "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestSessionRecordingUrlBlocklistConfigList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_event_trigger_config": {
-          "target": "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestSessionRecordingEventTriggerConfigList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_trigger_match_type_config": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "session_recording_trigger_groups": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields."
-          }
-        },
-        "session_recording_retention_period": {
-          "target": "com.posthog.environments#SessionRecordingRetentionPeriodEnum"
-        },
-        "session_replay_config": {
-          "target": "smithy.api#Document"
-        },
-        "survey_config": {
-          "target": "smithy.api#Document"
-        },
-        "week_start_day": {
-          "target": "com.posthog.environments#WeekStartDayEnum",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "primary_dashboard": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "live_events_columns": {
-          "target": "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestLiveEventsColumnsList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "recording_domains": {
-          "target": "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestRecordingDomainsList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "cookieless_server_hash_mode": {
-          "target": "com.posthog.environments#CookielessServerHashModeEnum",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "human_friendly_comparison_periods": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "inject_web_apps": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "extra_settings": {
-          "target": "smithy.api#Document"
-        },
-        "modifiers": {
-          "target": "smithy.api#Document"
-        },
-        "has_completed_onboarding_for": {
-          "target": "smithy.api#Document"
-        },
-        "surveys_opt_in": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "heatmaps_opt_in": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "flags_persistence_default": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "feature_flag_confirmation_enabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "feature_flag_confirmation_message": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "default_evaluation_contexts_enabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to automatically apply default evaluation contexts to new feature flags",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "require_evaluation_contexts": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to require at least one evaluation context tag when creating new feature flags",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "capture_dead_clicks": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "default_data_theme": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "revenue_analytics_config": {
-          "target": "com.posthog.environments#TeamRevenueAnalyticsConfig"
-        },
-        "marketing_analytics_config": {
-          "target": "com.posthog.environments#TeamMarketingAnalyticsConfig"
-        },
-        "customer_analytics_config": {
-          "target": "com.posthog.environments#TeamCustomerAnalyticsConfig"
-        },
-        "onboarding_tasks": {
-          "target": "smithy.api#Document"
-        },
-        "base_currency": {
-          "target": "com.posthog.environments#BaseCurrencyEnum"
-        },
-        "web_analytics_pre_aggregated_tables_enabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "receive_org_level_activity_logs": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "business_model": {
-          "target": "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequestBusinessModel",
-          "traits": {
-            "smithy.api#documentation": "Whether this project serves B2B or B2C customers, used to optimize the UI layout.\n\n* `b2b` - B2B\n* `b2c` - B2C\n* `other` - Other",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "conversations_enabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "conversations_settings": {
-          "target": "smithy.api#Document"
-        },
-        "proactive_tasks_enabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "workflows_config": {
-          "target": "com.posthog.environments#TeamWorkflowsConfig"
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdate": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdateRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.posthog.environments#BadRequest"
-        },
-        {
-          "target": "com.posthog.environments#Forbidden"
-        },
-        {
-          "target": "com.posthog.environments#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/environments/{id}/default_release_conditions/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Manage default release conditions for new feature flags in this team."
-      }
-    },
     "com.posthog.environments#EnvironmentsDeleteSecretTokenBackupPartialUpdateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -6698,7 +8630,10 @@
     "com.posthog.environments#EnvironmentsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -6712,7 +8647,10 @@
     "com.posthog.environments#EnvironmentsDeleteSecretTokenBackupPartialUpdateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -6767,7 +8705,7 @@
         "test_account_filters": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"icontains\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"regex\",\n            \"not_regex\", \"gt\", \"lt\", \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
+            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"ends_with\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"starts_with\",\n            \"not_starts_with\", \"ends_with\", \"not_ends_with\", \"regex\", \"not_regex\", \"gt\", \"lt\",\n            \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
           }
         },
         "test_account_filters_default_checked": {
@@ -6994,6 +8932,9 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "feature_flag_policy_config": {
+          "target": "com.posthog.environments#TeamFeatureFlagPolicyConfig"
+        },
         "capture_dead_clicks": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -7091,7 +9032,7 @@
         "smithy.api#documentation": "Deprecated: use /api/environments/{id}/ instead."
       }
     },
-    "com.posthog.environments#EnvironmentsEvaluationContextSuggestionsCreateRequest": {
+    "com.posthog.environments#CreateEnvironmentsEvaluationContextSuggestionRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -7149,10 +9090,10 @@
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsEvaluationContextSuggestionsCreate": {
+    "com.posthog.environments#CreateEnvironmentsEvaluationContextSuggestion": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.environments#EnvironmentsEvaluationContextSuggestionsCreateRequest"
+        "target": "com.posthog.environments#CreateEnvironmentsEvaluationContextSuggestionRequest"
       },
       "output": {
         "target": "com.posthog.environments#EvaluationContextSuggestionResponse"
@@ -7215,7 +9156,7 @@
         "smithy.api#documentation": "Hide an evaluation context name from the flag editor's suggestion list, or restore it.\n\nPOST hides the name; DELETE restores it. The underlying context row and any flags already\nusing it are never modified — this only controls what gets suggested."
       }
     },
-    "com.posthog.environments#EnvironmentsEventIngestionRestrictionsRetrieveRequest": {
+    "com.posthog.environments#ListEnvironmentsEventIngestionRestrictionsRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -7239,13 +9180,204 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.environments#EnvironmentsEventIngestionRestrictionsRetrieve": {
+    "com.posthog.environments#EventIngestionRestriction": {
+      "type": "structure",
+      "members": {
+        "restriction_type": {
+          "target": "com.posthog.environments#RestrictionTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "What happens to matching events: dropped, sent to the overflow lane, or ingested without person processing.\n\n* `skip_person_processing` - Skip Person Processing\n* `drop_event_from_ingestion` - Drop Event From Ingestion\n* `force_overflow_from_ingestion` - Force Overflow From Ingestion\n* `redirect_to_dlq` - Redirect To Dlq\n* `redirect_to_topic` - Redirect To Topic",
+            "smithy.api#required": {}
+          }
+        },
+        "distinct_ids": {
+          "target": "com.posthog.environments#EventIngestionRestrictionDistinctIdsList",
+          "traits": {
+            "smithy.api#documentation": "Distinct IDs the restriction applies to. Empty means it is not filtered by distinct ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "session_ids": {
+          "target": "com.posthog.environments#EventIngestionRestrictionSessionIdsList",
+          "traits": {
+            "smithy.api#documentation": "Session IDs the restriction applies to. Empty means it is not filtered by session ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "event_names": {
+          "target": "com.posthog.environments#EventIngestionRestrictionEventNamesList",
+          "traits": {
+            "smithy.api#documentation": "Event names the restriction applies to. Empty means it is not filtered by event name.",
+            "smithy.api#required": {}
+          }
+        },
+        "event_uuids": {
+          "target": "com.posthog.environments#EventIngestionRestrictionEventUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Event UUIDs the restriction applies to. Empty means it is not filtered by event UUID.",
+            "smithy.api#required": {}
+          }
+        },
+        "pipelines": {
+          "target": "com.posthog.environments#EventIngestionRestrictionPipelinesList",
+          "traits": {
+            "smithy.api#documentation": "Ingestion pipelines the restriction applies to. Filters combine with AND; values within a filter combine with OR.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#RestrictionTypeEnum": {
+      "type": "enum",
+      "members": {
+        "SKIP_PERSON_PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skip_person_processing"
+          }
+        },
+        "DROP_EVENT_FROM_INGESTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "drop_event_from_ingestion"
+          }
+        },
+        "FORCE_OVERFLOW_FROM_INGESTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "force_overflow_from_ingestion"
+          }
+        },
+        "REDIRECT_TO_DLQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redirect_to_dlq"
+          }
+        },
+        "REDIRECT_TO_TOPIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redirect_to_topic"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `skip_person_processing` - Skip Person Processing\n* `drop_event_from_ingestion` - Drop Event From Ingestion\n* `force_overflow_from_ingestion` - Force Overflow From Ingestion\n* `redirect_to_dlq` - Redirect To Dlq\n* `redirect_to_topic` - Redirect To Topic"
+      }
+    },
+    "com.posthog.environments#EventIngestionRestrictionDistinctIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Distinct IDs the restriction applies to. Empty means it is not filtered by distinct ID."
+      }
+    },
+    "com.posthog.environments#EventIngestionRestrictionSessionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Session IDs the restriction applies to. Empty means it is not filtered by session ID."
+      }
+    },
+    "com.posthog.environments#EventIngestionRestrictionEventNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Event names the restriction applies to. Empty means it is not filtered by event name."
+      }
+    },
+    "com.posthog.environments#EventIngestionRestrictionEventUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Event UUIDs the restriction applies to. Empty means it is not filtered by event UUID."
+      }
+    },
+    "com.posthog.environments#IngestionPipelineEnum": {
+      "type": "enum",
+      "members": {
+        "ANALYTICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analytics"
+          }
+        },
+        "SESSION_RECORDINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "session_recordings"
+          }
+        },
+        "ERRORTRACKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "errortracking"
+          }
+        },
+        "CLIENTWARNINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clientwarnings"
+          }
+        },
+        "AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `analytics` - Analytics\n* `session_recordings` - Session Recordings\n* `errortracking` - Errortracking\n* `clientwarnings` - Clientwarnings\n* `ai` - Ai"
+      }
+    },
+    "com.posthog.environments#EventIngestionRestrictionPipelinesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.environments#IngestionPipelineEnum"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ingestion pipelines the restriction applies to. Filters combine with AND; values within a filter combine with OR."
+      }
+    },
+    "com.posthog.environments#ListEnvironmentsEventIngestionRestrictionsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.environments#EventIngestionRestriction"
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#ListEnvironmentsEventIngestionRestrictionsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.environments#ListEnvironmentsEventIngestionRestrictionsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.environments#ListEnvironmentsEventIngestionRestrictions": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.environments#EnvironmentsEventIngestionRestrictionsRetrieveRequest"
+        "target": "com.posthog.environments#ListEnvironmentsEventIngestionRestrictionsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.environments#ListEnvironmentsEventIngestionRestrictionsResponse"
       },
       "errors": [
         {
@@ -7264,7 +9396,7 @@
         "smithy.api#documentation": "Deprecated: use /api/environments/{id}/ instead."
       }
     },
-    "com.posthog.environments#EnvironmentsExperimentsConfigRetrieveRequest": {
+    "com.posthog.environments#GetEnvironmentsExperimentsConfigRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -7288,10 +9420,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.environments#EnvironmentsExperimentsConfigRetrieve": {
+    "com.posthog.environments#GetEnvironmentsExperimentsConfig": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.environments#EnvironmentsExperimentsConfigRetrieveRequest"
+        "target": "com.posthog.environments#GetEnvironmentsExperimentsConfigRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -7313,56 +9445,65 @@
         "smithy.api#documentation": "Manage experiment configuration for this environment."
       }
     },
-    "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestAppUrlsList": {
+    "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestAppUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestPersonDisplayNamePropertiesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestPersonDisplayNamePropertiesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestSessionRecordingUrlTriggerConfigList": {
+    "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestSessionRecordingUrlTriggerConfigList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Document"
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestSessionRecordingUrlBlocklistConfigList": {
+    "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestSessionRecordingUrlBlocklistConfigList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Document"
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
+    "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestSessionRecordingEventTriggerConfigList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestLiveEventsColumnsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestLiveEventsColumnsList": {
+    "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestRecordingDomainsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestBusinessModel": {
+    "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestBusinessModel": {
       "type": "union",
       "members": {
         "BusinessModelEnum": {
@@ -7376,7 +9517,7 @@
         "smithy.api#documentation": "Whether this project serves B2B or B2C customers, used to optimize the UI layout.\n\n* `b2b` - B2B\n* `b2c` - B2C\n* `other` - Other"
       }
     },
-    "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequest": {
+    "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -7402,7 +9543,7 @@
           "target": "smithy.api#Boolean"
         },
         "app_urls": {
-          "target": "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestAppUrlsList"
+          "target": "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestAppUrlsList"
         },
         "anonymize_ips": {
           "target": "smithy.api#Boolean"
@@ -7413,7 +9554,7 @@
         "test_account_filters": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"icontains\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"regex\",\n            \"not_regex\", \"gt\", \"lt\", \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
+            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"ends_with\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"starts_with\",\n            \"not_starts_with\", \"ends_with\", \"not_ends_with\", \"regex\", \"not_regex\", \"gt\", \"lt\",\n            \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
           }
         },
         "test_account_filters_default_checked": {
@@ -7435,7 +9576,7 @@
           "target": "smithy.api#Document"
         },
         "person_display_name_properties": {
-          "target": "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestPersonDisplayNamePropertiesList",
+          "target": "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestPersonDisplayNamePropertiesList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
@@ -7507,19 +9648,19 @@
           "target": "smithy.api#Document"
         },
         "session_recording_url_trigger_config": {
-          "target": "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestSessionRecordingUrlTriggerConfigList",
+          "target": "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestSessionRecordingUrlTriggerConfigList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
         },
         "session_recording_url_blocklist_config": {
-          "target": "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestSessionRecordingUrlBlocklistConfigList",
+          "target": "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestSessionRecordingUrlBlocklistConfigList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
         },
         "session_recording_event_trigger_config": {
-          "target": "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestSessionRecordingEventTriggerConfigList",
+          "target": "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestSessionRecordingEventTriggerConfigList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
@@ -7558,13 +9699,13 @@
           }
         },
         "live_events_columns": {
-          "target": "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestLiveEventsColumnsList",
+          "target": "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestLiveEventsColumnsList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
         },
         "recording_domains": {
-          "target": "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestRecordingDomainsList",
+          "target": "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestRecordingDomainsList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
@@ -7640,6 +9781,9 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "feature_flag_policy_config": {
+          "target": "com.posthog.environments#TeamFeatureFlagPolicyConfig"
+        },
         "capture_dead_clicks": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -7680,7 +9824,7 @@
           }
         },
         "business_model": {
-          "target": "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequestBusinessModel",
+          "target": "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestBusinessModel",
           "traits": {
             "smithy.api#documentation": "Whether this project serves B2B or B2C customers, used to optimize the UI layout.\n\n* `b2b` - B2B\n* `b2c` - B2C\n* `other` - Other",
             "com.distilled.openapi#nullable": {}
@@ -7709,10 +9853,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdate": {
+    "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdateRequest"
+        "target": "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -7740,7 +9884,10 @@
     "com.posthog.environments#EnvironmentsGenerateConversationsPublicTokenCreateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -7768,7 +9915,10 @@
     "com.posthog.environments#EnvironmentsGenerateConversationsPublicTokenCreateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -7782,7 +9932,10 @@
     "com.posthog.environments#EnvironmentsGenerateConversationsPublicTokenCreateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -7837,7 +9990,7 @@
         "test_account_filters": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"icontains\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"regex\",\n            \"not_regex\", \"gt\", \"lt\", \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
+            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"ends_with\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"starts_with\",\n            \"not_starts_with\", \"ends_with\", \"not_ends_with\", \"regex\", \"not_regex\", \"gt\", \"lt\",\n            \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
           }
         },
         "test_account_filters_default_checked": {
@@ -8064,6 +10217,9 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "feature_flag_policy_config": {
+          "target": "com.posthog.environments#TeamFeatureFlagPolicyConfig"
+        },
         "capture_dead_clicks": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -8161,7 +10317,7 @@
         "smithy.api#documentation": "Deprecated: use /api/environments/{id}/ instead."
       }
     },
-    "com.posthog.environments#EnvironmentsIsGeneratingDemoDataRetrieveRequest": {
+    "com.posthog.environments#GetEnvironmentsIsGeneratingDemoDataRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -8185,10 +10341,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.environments#EnvironmentsIsGeneratingDemoDataRetrieve": {
+    "com.posthog.environments#GetEnvironmentsIsGeneratingDemoData": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.environments#EnvironmentsIsGeneratingDemoDataRetrieveRequest"
+        "target": "com.posthog.environments#GetEnvironmentsIsGeneratingDemoDataRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -8210,7 +10366,7 @@
         "smithy.api#documentation": "Deprecated: use /api/environments/{id}/ instead."
       }
     },
-    "com.posthog.environments#EnvironmentsLogsConfigRetrieveRequest": {
+    "com.posthog.environments#GetEnvironmentsLogsConfigRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -8234,10 +10390,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.environments#EnvironmentsLogsConfigRetrieve": {
+    "com.posthog.environments#GetEnvironmentsLogsConfig": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.environments#EnvironmentsLogsConfigRetrieveRequest"
+        "target": "com.posthog.environments#GetEnvironmentsLogsConfigRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -8248,59 +10404,68 @@
           "uri": "/api/projects/{project_id}/environments/{id}/logs_config/",
           "code": 200
         },
-        "smithy.api#documentation": "Manage logs product configuration for this environment."
+        "smithy.api#documentation": "Manage logs product configuration for this environment. Members can read;\nwriting requires project admin, matching the admin-only settings UI."
       }
     },
-    "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestAppUrlsList": {
+    "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestAppUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestPersonDisplayNamePropertiesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestPersonDisplayNamePropertiesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestSessionRecordingUrlTriggerConfigList": {
+    "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestSessionRecordingUrlTriggerConfigList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Document"
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestSessionRecordingUrlBlocklistConfigList": {
+    "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestSessionRecordingUrlBlocklistConfigList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Document"
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
+    "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestSessionRecordingEventTriggerConfigList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestLiveEventsColumnsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestLiveEventsColumnsList": {
+    "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
-    "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestRecordingDomainsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestBusinessModel": {
+    "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestBusinessModel": {
       "type": "union",
       "members": {
         "BusinessModelEnum": {
@@ -8314,7 +10479,7 @@
         "smithy.api#documentation": "Whether this project serves B2B or B2C customers, used to optimize the UI layout.\n\n* `b2b` - B2B\n* `b2c` - B2C\n* `other` - Other"
       }
     },
-    "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequest": {
+    "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -8340,7 +10505,7 @@
           "target": "smithy.api#Boolean"
         },
         "app_urls": {
-          "target": "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestAppUrlsList"
+          "target": "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestAppUrlsList"
         },
         "anonymize_ips": {
           "target": "smithy.api#Boolean"
@@ -8351,7 +10516,7 @@
         "test_account_filters": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"icontains\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"regex\",\n            \"not_regex\", \"gt\", \"lt\", \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
+            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"ends_with\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"starts_with\",\n            \"not_starts_with\", \"ends_with\", \"not_ends_with\", \"regex\", \"not_regex\", \"gt\", \"lt\",\n            \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
           }
         },
         "test_account_filters_default_checked": {
@@ -8373,7 +10538,7 @@
           "target": "smithy.api#Document"
         },
         "person_display_name_properties": {
-          "target": "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestPersonDisplayNamePropertiesList",
+          "target": "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestPersonDisplayNamePropertiesList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
@@ -8445,19 +10610,19 @@
           "target": "smithy.api#Document"
         },
         "session_recording_url_trigger_config": {
-          "target": "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestSessionRecordingUrlTriggerConfigList",
+          "target": "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestSessionRecordingUrlTriggerConfigList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
         },
         "session_recording_url_blocklist_config": {
-          "target": "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestSessionRecordingUrlBlocklistConfigList",
+          "target": "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestSessionRecordingUrlBlocklistConfigList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
         },
         "session_recording_event_trigger_config": {
-          "target": "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestSessionRecordingEventTriggerConfigList",
+          "target": "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestSessionRecordingEventTriggerConfigList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
@@ -8496,13 +10661,13 @@
           }
         },
         "live_events_columns": {
-          "target": "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestLiveEventsColumnsList",
+          "target": "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestLiveEventsColumnsList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
         },
         "recording_domains": {
-          "target": "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestRecordingDomainsList",
+          "target": "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestRecordingDomainsList",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
@@ -8578,6 +10743,9 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "feature_flag_policy_config": {
+          "target": "com.posthog.environments#TeamFeatureFlagPolicyConfig"
+        },
         "capture_dead_clicks": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -8618,7 +10786,7 @@
           }
         },
         "business_model": {
-          "target": "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequestBusinessModel",
+          "target": "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestBusinessModel",
           "traits": {
             "smithy.api#documentation": "Whether this project serves B2B or B2C customers, used to optimize the UI layout.\n\n* `b2b` - B2B\n* `b2c` - B2C\n* `other` - Other",
             "com.distilled.openapi#nullable": {}
@@ -8647,10 +10815,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.environments#EnvironmentsLogsConfigPartialUpdate": {
+    "com.posthog.environments#UpdateEnvironmentsLogsConfigPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.environments#EnvironmentsLogsConfigPartialUpdateRequest"
+        "target": "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -8661,13 +10829,16 @@
           "uri": "/api/projects/{project_id}/environments/{id}/logs_config/",
           "code": 200
         },
-        "smithy.api#documentation": "Manage logs product configuration for this environment."
+        "smithy.api#documentation": "Manage logs product configuration for this environment. Members can read;\nwriting requires project admin, matching the admin-only settings UI."
       }
     },
     "com.posthog.environments#EnvironmentsResetTokenPartialUpdateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -8695,7 +10866,10 @@
     "com.posthog.environments#EnvironmentsResetTokenPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -8709,7 +10883,10 @@
     "com.posthog.environments#EnvironmentsResetTokenPartialUpdateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -8764,7 +10941,7 @@
         "test_account_filters": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"icontains\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"regex\",\n            \"not_regex\", \"gt\", \"lt\", \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
+            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"ends_with\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"starts_with\",\n            \"not_starts_with\", \"ends_with\", \"not_ends_with\", \"regex\", \"not_regex\", \"gt\", \"lt\",\n            \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
           }
         },
         "test_account_filters_default_checked": {
@@ -8991,6 +11168,9 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "feature_flag_policy_config": {
+          "target": "com.posthog.environments#TeamFeatureFlagPolicyConfig"
+        },
         "capture_dead_clicks": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -9091,7 +11271,10 @@
     "com.posthog.environments#EnvironmentsRotateSecretTokenPartialUpdateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -9119,7 +11302,10 @@
     "com.posthog.environments#EnvironmentsRotateSecretTokenPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -9133,7 +11319,10 @@
     "com.posthog.environments#EnvironmentsRotateSecretTokenPartialUpdateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -9188,7 +11377,7 @@
         "test_account_filters": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"icontains\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"regex\",\n            \"not_regex\", \"gt\", \"lt\", \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
+            "smithy.api#documentation": "Filters used to identify internal/test users. Each entry is a property filter.\n\n            Supported entry types and the exact shape each accepts:\n\n            # Person property — match (or exclude) by a person property\n            {\"key\": \"email\", \"type\": \"person\", \"value\": \"@example.com\", \"operator\": \"ends_with\"}\n\n            # Event property — match by an event property\n            {\"key\": \"$host\", \"type\": \"event\", \"value\": \"localhost\", \"operator\": \"icontains\"}\n\n            # Cohort membership — match (or exclude) members of a cohort.\n            # Use operator \"in\" for inclusion and \"not_in\" for exclusion. Do NOT use a\n            # `negation` field here — `negation` is specific to cohort *definitions*\n            # (the inner sub-filters that build a cohort) and is rejected by the\n            # property-filter schema.\n            {\"key\": \"id\", \"type\": \"cohort\", \"value\": 8814, \"operator\": \"not_in\"}\n\n            Common operators: \"exact\", \"is_not\", \"icontains\", \"not_icontains\", \"starts_with\",\n            \"not_starts_with\", \"ends_with\", \"not_ends_with\", \"regex\", \"not_regex\", \"gt\", \"lt\",\n            \"gte\", \"lte\", \"is_set\", \"is_not_set\", \"in\", \"not_in\"."
           }
         },
         "test_account_filters_default_checked": {
@@ -9415,6 +11604,9 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "feature_flag_policy_config": {
+          "target": "com.posthog.environments#TeamFeatureFlagPolicyConfig"
+        },
         "capture_dead_clicks": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -9512,7 +11704,7 @@
         "smithy.api#documentation": "Deprecated: use /api/environments/{id}/ instead."
       }
     },
-    "com.posthog.environments#EnvironmentsSettingsAsOfRetrieveRequest": {
+    "com.posthog.environments#GetEnvironmentsSettingsAsOfRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -9536,10 +11728,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.environments#EnvironmentsSettingsAsOfRetrieve": {
+    "com.posthog.environments#GetEnvironmentsSettingsAsOf": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.environments#EnvironmentsSettingsAsOfRetrieveRequest"
+        "target": "com.posthog.environments#GetEnvironmentsSettingsAsOfRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -9605,58 +11797,43 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.environments#EnvironmentsActivityRetrieve"
+          "target": "com.posthog.environments#GetEnvironmentsActivity"
         },
         {
           "target": "com.posthog.environments#EnvironmentsAddProductIntentPartialUpdate"
         },
         {
-          "target": "com.posthog.environments#EnvironmentsCompleteProductOnboardingPartialUpdate"
-        },
-        {
-          "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsRetrieve"
-        },
-        {
-          "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsCreate"
-        },
-        {
-          "target": "com.posthog.environments#EnvironmentsDefaultEvaluationContextsDestroy"
-        },
-        {
-          "target": "com.posthog.environments#EnvironmentsDefaultReleaseConditionsRetrieve"
-        },
-        {
-          "target": "com.posthog.environments#EnvironmentsDefaultReleaseConditionsUpdate"
+          "target": "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartial"
         },
         {
           "target": "com.posthog.environments#EnvironmentsDeleteSecretTokenBackupPartialUpdate"
         },
         {
-          "target": "com.posthog.environments#EnvironmentsEvaluationContextSuggestionsCreate"
+          "target": "com.posthog.environments#CreateEnvironmentsEvaluationContextSuggestion"
         },
         {
           "target": "com.posthog.environments#EnvironmentsEvaluationContextSuggestionsDestroy"
         },
         {
-          "target": "com.posthog.environments#EnvironmentsEventIngestionRestrictionsRetrieve"
+          "target": "com.posthog.environments#ListEnvironmentsEventIngestionRestrictions"
         },
         {
-          "target": "com.posthog.environments#EnvironmentsExperimentsConfigRetrieve"
+          "target": "com.posthog.environments#GetEnvironmentsExperimentsConfig"
         },
         {
-          "target": "com.posthog.environments#EnvironmentsExperimentsConfigPartialUpdate"
+          "target": "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartial"
         },
         {
           "target": "com.posthog.environments#EnvironmentsGenerateConversationsPublicTokenCreate"
         },
         {
-          "target": "com.posthog.environments#EnvironmentsIsGeneratingDemoDataRetrieve"
+          "target": "com.posthog.environments#GetEnvironmentsIsGeneratingDemoData"
         },
         {
-          "target": "com.posthog.environments#EnvironmentsLogsConfigRetrieve"
+          "target": "com.posthog.environments#GetEnvironmentsLogsConfig"
         },
         {
-          "target": "com.posthog.environments#EnvironmentsLogsConfigPartialUpdate"
+          "target": "com.posthog.environments#UpdateEnvironmentsLogsConfigPartial"
         },
         {
           "target": "com.posthog.environments#EnvironmentsResetTokenPartialUpdate"
@@ -9665,7 +11842,7 @@
           "target": "com.posthog.environments#EnvironmentsRotateSecretTokenPartialUpdate"
         },
         {
-          "target": "com.posthog.environments#EnvironmentsSettingsAsOfRetrieve"
+          "target": "com.posthog.environments#GetEnvironmentsSettingsAsOf"
         }
       ],
       "traits": {

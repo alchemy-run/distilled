@@ -1,0 +1,2186 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.people#ListPeopleRequestSourceList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleRequestAttributionModel": {
+      "type": "enum",
+      "members": {
+        "LAST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_touch"
+          }
+        },
+        "FIRST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_touch"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleRequestEventNameList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleRequestOrder": {
+      "type": "enum",
+      "members": {
+        "FIRST_SEEN_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_seen_at"
+          }
+        },
+        "LAST_SEEN_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_seen_at"
+          }
+        },
+        "FIRST_PURCHASE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_purchase_at"
+          }
+        },
+        "LAST_PURCHASE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_purchase_at"
+          }
+        },
+        "PURCHASE_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purchase_count"
+          }
+        },
+        "EVENT_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "event_count"
+          }
+        },
+        "LTV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ltv"
+          }
+        },
+        "AOV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aov"
+          }
+        },
+        "NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name"
+          }
+        },
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Account ID, prefixed `biz_`. Optional for account API keys; required for credentials that can access multiple accounts."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "Search people by name, email, phone, or whop user ID (case-insensitive substring match)."
+          }
+        },
+        "source": {
+          "target": "com.whop.people#ListPeopleRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source",
+            "smithy.api#documentation": "Only include people acquired from any of these sources — canonical paths (whop:<campaign>:<group>:<ad>, ext:<platform>:..., referrer:<domain>, direct, other), exact or with a trailing :* prefix. The same vocabulary the events / people metrics use."
+          }
+        },
+        "attribution_model": {
+          "target": "com.whop.people#ListPeopleRequestAttributionModel",
+          "traits": {
+            "smithy.api#httpQuery": "attribution_model",
+            "smithy.api#documentation": "Attribution model the source filter matches against (defaults to last_touch)."
+          }
+        },
+        "event_name": {
+          "target": "com.whop.people#ListPeopleRequestEventNameList",
+          "traits": {
+            "smithy.api#httpQuery": "event_name",
+            "smithy.api#documentation": "Only include people who fired any of these events, e.g. payment.completed or page.checkout.view."
+          }
+        },
+        "custom_event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "custom_event",
+            "smithy.api#documentation": "Only include people who fired this custom pixel event."
+          }
+        },
+        "event_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "event_from",
+            "smithy.api#documentation": "With event_to plus an event or source filter, switches to exact-population mode: person ids are resolved and paginated on the events side within this window (the same query the people metric counts), then hydrated per page."
+          }
+        },
+        "event_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "event_to",
+            "smithy.api#documentation": "The inclusive end of the event window for exact-population mode."
+          }
+        },
+        "audience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "audience_id",
+            "smithy.api#documentation": "Only include people in this audience. An audience that keeps itself up to date resolves to the People filters that define it, so this always reflects who matches now; uploaded lists and point-in-time snapshots match their recorded members."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "Only include the person linked to this whop user ID."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "email",
+            "smithy.api#documentation": "Only include the person linked to this email address."
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "phone",
+            "smithy.api#documentation": "Only include the person linked to this phone number."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "country",
+            "smithy.api#documentation": "Only include people whose most recent visit came from this ISO 3166-1 alpha-2 country code."
+          }
+        },
+        "has_purchased": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "has_purchased",
+            "smithy.api#documentation": "true for customers only, false for people who have never purchased."
+          }
+        },
+        "contactable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "contactable",
+            "smithy.api#documentation": "true for people who have an email address or phone number — the ones an ad platform can match."
+          }
+        },
+        "first_seen_within_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first_seen_within_days",
+            "smithy.api#documentation": "Only include people first seen within this many days, as a rolling window."
+          }
+        },
+        "last_seen_within_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last_seen_within_days",
+            "smithy.api#documentation": "Only include people last seen within this many days, as a rolling window."
+          }
+        },
+        "first_seen_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "first_seen_after",
+            "smithy.api#documentation": "Only include people first seen at or after this ISO 8601 timestamp."
+          }
+        },
+        "first_seen_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "first_seen_before",
+            "smithy.api#documentation": "Only include people first seen before this ISO 8601 timestamp."
+          }
+        },
+        "last_seen_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "last_seen_after",
+            "smithy.api#documentation": "Only include people last seen at or after this ISO 8601 timestamp."
+          }
+        },
+        "last_seen_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "last_seen_before",
+            "smithy.api#documentation": "Only include people last seen before this ISO 8601 timestamp."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of people to return (default 100, max 100)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for fetching people after a previous page."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor for fetching people before a later page."
+          }
+        },
+        "order": {
+          "target": "com.whop.people#ListPeopleRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Column to sort by. Defaults to last_seen_at."
+          }
+        },
+        "direction": {
+          "target": "com.whop.people#ListPeopleRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction. Defaults to desc."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.people#ListPeopleResponseDataItemDevice": {
+      "type": "structure",
+      "members": {
+        "browser": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "device": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "os": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleResponseDataItemFirstSourceAd": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleResponseDataItemFirstSourceAdGroup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleResponseDataItemFirstSourceCampaign": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleResponseDataItemFirstSourceType": {
+      "type": "enum",
+      "members": {
+        "AD_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_click"
+          }
+        },
+        "LEAD_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead_form"
+          }
+        },
+        "EXTERNAL_AD_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_ad_click"
+          }
+        },
+        "REFERRER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "referrer"
+          }
+        },
+        "UTM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "utm"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleResponseDataItemFirstSource": {
+      "type": "structure",
+      "members": {
+        "ad": {
+          "target": "com.whop.people#ListPeopleResponseDataItemFirstSourceAd",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_group": {
+          "target": "com.whop.people#ListPeopleResponseDataItemFirstSourceAdGroup",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "campaign": {
+          "target": "com.whop.people#ListPeopleResponseDataItemFirstSourceCampaign",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "occurred_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "platform": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.people#ListPeopleResponseDataItemFirstSourceType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "utm_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site."
+      }
+    },
+    "com.whop.people#ListPeopleResponseDataItemLastSourceAd": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleResponseDataItemLastSourceAdGroup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleResponseDataItemLastSourceCampaign": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleResponseDataItemLastSourceType": {
+      "type": "enum",
+      "members": {
+        "AD_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_click"
+          }
+        },
+        "LEAD_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead_form"
+          }
+        },
+        "EXTERNAL_AD_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_ad_click"
+          }
+        },
+        "REFERRER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "referrer"
+          }
+        },
+        "UTM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "utm"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleResponseDataItemLastSource": {
+      "type": "structure",
+      "members": {
+        "ad": {
+          "target": "com.whop.people#ListPeopleResponseDataItemLastSourceAd",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_group": {
+          "target": "com.whop.people#ListPeopleResponseDataItemLastSourceAdGroup",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "campaign": {
+          "target": "com.whop.people#ListPeopleResponseDataItemLastSourceCampaign",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "occurred_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "platform": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.people#ListPeopleResponseDataItemLastSourceType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "utm_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site."
+      }
+    },
+    "com.whop.people#ListPeopleResponseDataItemLocation": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "continent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleResponseDataItemMember": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "joined_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "usd_total_spend": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user's member record at this account, when they are a member of it."
+      }
+    },
+    "com.whop.people#ListPeopleResponseDataItemUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_pic_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The person's primary whop user, when one of their identities is a whop account."
+      }
+    },
+    "com.whop.people#ListPeopleResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "aov": {
+          "target": "smithy.api#Double"
+        },
+        "device": {
+          "target": "com.whop.people#ListPeopleResponseDataItemDevice"
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email from the person's most recent event that carried one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "event_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_purchase_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_seen_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_source": {
+          "target": "com.whop.people#ListPeopleResponseDataItemFirstSource",
+          "traits": {
+            "smithy.api#documentation": "Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_purchase_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_seen_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_source": {
+          "target": "com.whop.people#ListPeopleResponseDataItemLastSource",
+          "traits": {
+            "smithy.api#documentation": "Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "location": {
+          "target": "com.whop.people#ListPeopleResponseDataItemLocation"
+        },
+        "ltv": {
+          "target": "smithy.api#Double"
+        },
+        "member": {
+          "target": "com.whop.people#ListPeopleResponseDataItemMember",
+          "traits": {
+            "smithy.api#documentation": "The user's member record at this account, when they are a member of it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name from the person's most recent event that carried one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The phone from the person's most recent event that carried one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "purchase_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.people#ListPeopleResponseDataItemUser",
+          "traits": {
+            "smithy.api#documentation": "The person's primary whop user, when one of their identities is a whop account.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.people#ListPeopleResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#ListPeopleResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.people#ListPeopleResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.people#ListPeopleResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.people#ListPeople": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.people#ListPeopleRequest"
+      },
+      "output": {
+        "target": "com.whop.people#ListPeopleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.people#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/people",
+          "code": 200
+        },
+        "smithy.api#documentation": "List People\n\nLists the people (visitors and customers) of an account: the identity-linked person profiles aggregated from every pixel, payment, and platform event — identities, purchases and LTV, geo/device profile, traffic sources, and first/last marketing touches.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.people#GetPersonRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The person ID, user ID, email address, or phone number to look up."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Account ID, prefixed `biz_`. Optional for account API keys; required for credentials that can access multiple accounts."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.people#GetPersonResponseAudienceIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseCustomEventNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseDevice": {
+      "type": "structure",
+      "members": {
+        "browser": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "device": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "os": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseEmailsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every linked email, primary first."
+      }
+    },
+    "com.whop.people#GetPersonResponseEventNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseFirstSourceAd": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseFirstSourceAdGroup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseFirstSourceCampaign": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseFirstSourceType": {
+      "type": "enum",
+      "members": {
+        "AD_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_click"
+          }
+        },
+        "LEAD_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead_form"
+          }
+        },
+        "EXTERNAL_AD_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_ad_click"
+          }
+        },
+        "REFERRER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "referrer"
+          }
+        },
+        "UTM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "utm"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseFirstSource": {
+      "type": "structure",
+      "members": {
+        "ad": {
+          "target": "com.whop.people#GetPersonResponseFirstSourceAd",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_group": {
+          "target": "com.whop.people#GetPersonResponseFirstSourceAdGroup",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "campaign": {
+          "target": "com.whop.people#GetPersonResponseFirstSourceCampaign",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "occurred_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "platform": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.people#GetPersonResponseFirstSourceType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "utm_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site."
+      }
+    },
+    "com.whop.people#GetPersonResponseLastSourceAd": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseLastSourceAdGroup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseLastSourceCampaign": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseLastSourceType": {
+      "type": "enum",
+      "members": {
+        "AD_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_click"
+          }
+        },
+        "LEAD_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead_form"
+          }
+        },
+        "EXTERNAL_AD_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_ad_click"
+          }
+        },
+        "REFERRER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "referrer"
+          }
+        },
+        "UTM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "utm"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseLastSource": {
+      "type": "structure",
+      "members": {
+        "ad": {
+          "target": "com.whop.people#GetPersonResponseLastSourceAd",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_group": {
+          "target": "com.whop.people#GetPersonResponseLastSourceAdGroup",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "campaign": {
+          "target": "com.whop.people#GetPersonResponseLastSourceCampaign",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "occurred_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "platform": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.people#GetPersonResponseLastSourceType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "utm_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site."
+      }
+    },
+    "com.whop.people#GetPersonResponseLocation": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "continent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseMember": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "joined_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "usd_total_spend": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user's member record at this account, when they are a member of it."
+      }
+    },
+    "com.whop.people#GetPersonResponseNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every name the person's linked identities carried, primary first."
+      }
+    },
+    "com.whop.people#GetPersonResponsePhonesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every linked phone, primary first."
+      }
+    },
+    "com.whop.people#GetPersonResponsePurchasesItem": {
+      "type": "structure",
+      "members": {
+        "event_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "occurred_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "usd_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponsePurchasesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.people#GetPersonResponsePurchasesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseSourcesItemAd": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseSourcesItemAdGroup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseSourcesItemCampaign": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseSourcesItemType": {
+      "type": "enum",
+      "members": {
+        "AD_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_click"
+          }
+        },
+        "LEAD_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead_form"
+          }
+        },
+        "EXTERNAL_AD_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_ad_click"
+          }
+        },
+        "REFERRER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "referrer"
+          }
+        },
+        "UTM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "utm"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseSourcesItem": {
+      "type": "structure",
+      "members": {
+        "ad": {
+          "target": "com.whop.people#GetPersonResponseSourcesItemAd",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_group": {
+          "target": "com.whop.people#GetPersonResponseSourcesItemAdGroup",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "campaign": {
+          "target": "com.whop.people#GetPersonResponseSourcesItemCampaign",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "occurred_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "platform": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.people#GetPersonResponseSourcesItemType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "utm_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site."
+      }
+    },
+    "com.whop.people#GetPersonResponseSourcesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.people#GetPersonResponseSourcesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every distinct acquisition signal the person ever carried, ad entities hydrated."
+      }
+    },
+    "com.whop.people#GetPersonResponseUsageBrowserItem": {
+      "type": "structure",
+      "members": {
+        "events": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageBrowserList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.people#GetPersonResponseUsageBrowserItem"
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageCityItem": {
+      "type": "structure",
+      "members": {
+        "events": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageCityList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.people#GetPersonResponseUsageCityItem"
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageCountryItem": {
+      "type": "structure",
+      "members": {
+        "events": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageCountryList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.people#GetPersonResponseUsageCountryItem"
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageDeviceItem": {
+      "type": "structure",
+      "members": {
+        "events": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageDeviceList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.people#GetPersonResponseUsageDeviceItem"
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageIpItem": {
+      "type": "structure",
+      "members": {
+        "events": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageIpList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.people#GetPersonResponseUsageIpItem"
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageOsItem": {
+      "type": "structure",
+      "members": {
+        "events": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageOsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.people#GetPersonResponseUsageOsItem"
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageReferrerItem": {
+      "type": "structure",
+      "members": {
+        "events": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageReferrerList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.people#GetPersonResponseUsageReferrerItem"
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageTimezoneItem": {
+      "type": "structure",
+      "members": {
+        "events": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsageTimezoneList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.people#GetPersonResponseUsageTimezoneItem"
+      },
+      "traits": {}
+    },
+    "com.whop.people#GetPersonResponseUsage": {
+      "type": "structure",
+      "members": {
+        "browser": {
+          "target": "com.whop.people#GetPersonResponseUsageBrowserList"
+        },
+        "city": {
+          "target": "com.whop.people#GetPersonResponseUsageCityList"
+        },
+        "country": {
+          "target": "com.whop.people#GetPersonResponseUsageCountryList"
+        },
+        "device": {
+          "target": "com.whop.people#GetPersonResponseUsageDeviceList"
+        },
+        "ip": {
+          "target": "com.whop.people#GetPersonResponseUsageIpList"
+        },
+        "os": {
+          "target": "com.whop.people#GetPersonResponseUsageOsList"
+        },
+        "referrer": {
+          "target": "com.whop.people#GetPersonResponseUsageReferrerList"
+        },
+        "timezone": {
+          "target": "com.whop.people#GetPersonResponseUsageTimezoneList"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Exact usage breakdowns for the person's browser traffic (distinct events per value)."
+      }
+    },
+    "com.whop.people#GetPersonResponseUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_pic_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The person's primary whop user, when one of their identities is a whop account."
+      }
+    },
+    "com.whop.people#GetPersonResponseUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every linked whop account, the most used one first."
+      }
+    },
+    "com.whop.people#GetPersonResponse": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "aov": {
+          "target": "smithy.api#Double"
+        },
+        "audience_ids": {
+          "target": "com.whop.people#GetPersonResponseAudienceIdsList"
+        },
+        "custom_event_names": {
+          "target": "com.whop.people#GetPersonResponseCustomEventNamesList"
+        },
+        "device": {
+          "target": "com.whop.people#GetPersonResponseDevice"
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email from the person's most recent event that carried one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "emails": {
+          "target": "com.whop.people#GetPersonResponseEmailsList",
+          "traits": {
+            "smithy.api#documentation": "Every linked email, primary first."
+          }
+        },
+        "event_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "event_names": {
+          "target": "com.whop.people#GetPersonResponseEventNamesList"
+        },
+        "first_purchase_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_seen_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_source": {
+          "target": "com.whop.people#GetPersonResponseFirstSource",
+          "traits": {
+            "smithy.api#documentation": "Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_purchase_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_seen_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_source": {
+          "target": "com.whop.people#GetPersonResponseLastSource",
+          "traits": {
+            "smithy.api#documentation": "Where a visit came from: a whop ad click, a lead form, an external ad, or a referring site.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "location": {
+          "target": "com.whop.people#GetPersonResponseLocation"
+        },
+        "ltv": {
+          "target": "smithy.api#Double"
+        },
+        "member": {
+          "target": "com.whop.people#GetPersonResponseMember",
+          "traits": {
+            "smithy.api#documentation": "The user's member record at this account, when they are a member of it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name from the person's most recent event that carried one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "names": {
+          "target": "com.whop.people#GetPersonResponseNamesList",
+          "traits": {
+            "smithy.api#documentation": "Every name the person's linked identities carried, primary first."
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The phone from the person's most recent event that carried one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phones": {
+          "target": "com.whop.people#GetPersonResponsePhonesList",
+          "traits": {
+            "smithy.api#documentation": "Every linked phone, primary first."
+          }
+        },
+        "purchase_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "purchases": {
+          "target": "com.whop.people#GetPersonResponsePurchasesList"
+        },
+        "roles": {
+          "target": "com.whop.people#GetPersonResponseRolesList"
+        },
+        "sources": {
+          "target": "com.whop.people#GetPersonResponseSourcesList",
+          "traits": {
+            "smithy.api#documentation": "Every distinct acquisition signal the person ever carried, ad entities hydrated."
+          }
+        },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "usage": {
+          "target": "com.whop.people#GetPersonResponseUsage",
+          "traits": {
+            "smithy.api#documentation": "Exact usage breakdowns for the person's browser traffic (distinct events per value)."
+          }
+        },
+        "user": {
+          "target": "com.whop.people#GetPersonResponseUser",
+          "traits": {
+            "smithy.api#documentation": "The person's primary whop user, when one of their identities is a whop account.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_ids": {
+          "target": "com.whop.people#GetPersonResponseUserIdsList",
+          "traits": {
+            "smithy.api#documentation": "Every linked whop account, the most used one first."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.people#GetPerson": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.people#GetPersonRequest"
+      },
+      "output": {
+        "target": "com.whop.people#GetPersonResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.people#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/people/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Person\n\nRetrieves one person for an account. The identifier can be a person ID (prefixed `prsn_`), a user ID (prefixed `user_`), an email address, or a phone number — merged people resolve to the surviving profile."
+      }
+    },
+    "com.whop.people#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.people#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.people#People": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.people#ListPeople"
+        },
+        {
+          "target": "com.whop.people#GetPerson"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

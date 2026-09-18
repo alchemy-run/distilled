@@ -1,0 +1,1220 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.exports#ListExportsRequestResource": {
+      "type": "enum",
+      "members": {
+        "AD_CAMPAIGNS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaigns"
+          }
+        },
+        "AD_GROUPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_groups"
+          }
+        },
+        "ADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ads"
+          }
+        },
+        "APPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apps"
+          }
+        },
+        "AUDIENCES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audiences"
+          }
+        },
+        "BOUNTIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounties"
+          }
+        },
+        "BOUNTY_SUBMISSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounty_submissions"
+          }
+        },
+        "CARD_TRANSACTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_transactions"
+          }
+        },
+        "CHECKOUT_CONFIGURATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkout_configurations"
+          }
+        },
+        "DISPUTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disputes"
+          }
+        },
+        "EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "events"
+          }
+        },
+        "FINANCIAL_ACTIVITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial-activity"
+          }
+        },
+        "PAYOUT_METHODS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout_methods"
+          }
+        },
+        "PAYOUTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payouts"
+          }
+        },
+        "PEOPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "people"
+          }
+        },
+        "PLANS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plans"
+          }
+        },
+        "PRODUCTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "products"
+          }
+        },
+        "RESOLUTION_CENTER_CASES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resolution_center_cases"
+          }
+        },
+        "SHIPMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shipments"
+          }
+        },
+        "SOCIAL_ACCOUNTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "social_accounts"
+          }
+        },
+        "TEAM_MEMBERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team_members"
+          }
+        },
+        "TRANSFERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfers"
+          }
+        },
+        "WEBHOOKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhooks"
+          }
+        },
+        "MEMBERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "members"
+          }
+        },
+        "RECEIPTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "receipts"
+          }
+        },
+        "UNCLAIMED_MEMBERSHIPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unclaimed_memberships"
+          }
+        },
+        "MEMBERSHIPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "memberships"
+          }
+        },
+        "TRACKING_LINKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracking_links"
+          }
+        },
+        "PROMO_CODES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promo_codes"
+          }
+        },
+        "RESOLUTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resolutions"
+          }
+        },
+        "ENTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "entries"
+          }
+        },
+        "LEADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leads"
+          }
+        },
+        "CONTENT_REWARDS_SUBMISSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_rewards_submissions"
+          }
+        },
+        "INVOICES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoices"
+          }
+        },
+        "CANCELATION_REASONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelation_reasons"
+          }
+        },
+        "CHILD_COMPANIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "child_companies"
+          }
+        },
+        "LEDGER_LINES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ledger_lines"
+          }
+        },
+        "WITHDRAWAL_LINES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_lines"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.exports#ListExportsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.exports#ListExportsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.exports#ListExportsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.exports#ListExportsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The account to list exports for, prefixed `biz_`. Defaults to the credential's account."
+          }
+        },
+        "resource": {
+          "target": "com.whop.exports#ListExportsRequestResource",
+          "traits": {
+            "smithy.api#httpQuery": "resource",
+            "smithy.api#documentation": "Only return exports of this resource."
+          }
+        },
+        "status": {
+          "target": "com.whop.exports#ListExportsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only return exports in this status."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return exports created at or after this ISO 8601 timestamp."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only return exports created at or before this ISO 8601 timestamp."
+          }
+        },
+        "order": {
+          "target": "com.whop.exports#ListExportsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort by."
+          }
+        },
+        "direction": {
+          "target": "com.whop.exports#ListExportsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "The sort direction."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.exports#Export": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the export was requested, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "download_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A short-lived link to download the finished CSV. `null` until `status` is `completed`, and again once the export has expired.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the CSV is deleted and the export moves to `expired`, as an ISO 8601 timestamp. Exports are retained for 30 days.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Export ID, prefixed `exprt_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "progress_percent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Estimated completion percentage from 0 to 100.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resource": {
+          "target": "com.whop.exports#ExportResource",
+          "traits": {
+            "smithy.api#documentation": "The resource that was exported, e.g. `receipts`, `members`, or `payouts`.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.exports#ExportStatus",
+          "traits": {
+            "smithy.api#documentation": "`pending` or `processing` while the CSV is generated, `completed` when the download is ready, `failed` if it errored, `expired` once the CSV has been deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the export last changed, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.exports#ExportResource": {
+      "type": "enum",
+      "members": {
+        "AD_CAMPAIGNS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaigns"
+          }
+        },
+        "AD_GROUPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_groups"
+          }
+        },
+        "ADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ads"
+          }
+        },
+        "APPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apps"
+          }
+        },
+        "AUDIENCES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audiences"
+          }
+        },
+        "BOUNTIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounties"
+          }
+        },
+        "BOUNTY_SUBMISSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounty_submissions"
+          }
+        },
+        "CARD_TRANSACTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_transactions"
+          }
+        },
+        "CHECKOUT_CONFIGURATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkout_configurations"
+          }
+        },
+        "DISPUTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disputes"
+          }
+        },
+        "EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "events"
+          }
+        },
+        "FINANCIAL_ACTIVITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial-activity"
+          }
+        },
+        "PAYOUT_METHODS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout_methods"
+          }
+        },
+        "PAYOUTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payouts"
+          }
+        },
+        "PEOPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "people"
+          }
+        },
+        "PLANS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plans"
+          }
+        },
+        "PRODUCTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "products"
+          }
+        },
+        "RESOLUTION_CENTER_CASES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resolution_center_cases"
+          }
+        },
+        "SHIPMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shipments"
+          }
+        },
+        "SOCIAL_ACCOUNTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "social_accounts"
+          }
+        },
+        "TEAM_MEMBERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team_members"
+          }
+        },
+        "TRANSFERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfers"
+          }
+        },
+        "WEBHOOKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhooks"
+          }
+        },
+        "MEMBERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "members"
+          }
+        },
+        "RECEIPTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "receipts"
+          }
+        },
+        "UNCLAIMED_MEMBERSHIPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unclaimed_memberships"
+          }
+        },
+        "MEMBERSHIPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "memberships"
+          }
+        },
+        "TRACKING_LINKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracking_links"
+          }
+        },
+        "PROMO_CODES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promo_codes"
+          }
+        },
+        "RESOLUTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resolutions"
+          }
+        },
+        "ENTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "entries"
+          }
+        },
+        "LEADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leads"
+          }
+        },
+        "CONTENT_REWARDS_SUBMISSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_rewards_submissions"
+          }
+        },
+        "INVOICES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoices"
+          }
+        },
+        "CANCELATION_REASONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelation_reasons"
+          }
+        },
+        "CHILD_COMPANIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "child_companies"
+          }
+        },
+        "LEDGER_LINES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ledger_lines"
+          }
+        },
+        "WITHDRAWAL_LINES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_lines"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The resource that was exported, e.g. `receipts`, `members`, or `payouts`."
+      }
+    },
+    "com.whop.exports#ExportStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`pending` or `processing` while the CSV is generated, `completed` when the download is ready, `failed` if it errored, `expired` once the CSV has been deleted."
+      }
+    },
+    "com.whop.exports#ListExportsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.exports#Export"
+      },
+      "traits": {}
+    },
+    "com.whop.exports#ListExportsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.exports#ListExportsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.exports#ListExportsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.exports#ListExportsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.exports#ListExports": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.exports#ListExportsRequest"
+      },
+      "output": {
+        "target": "com.whop.exports#ListExportsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.exports#BadRequest"
+        },
+        {
+          "target": "com.whop.exports#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/exports",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Exports\n\nLists the exports requested for an account, newest first. Only exports of resources the credential is allowed to export are returned."
+      }
+    },
+    "com.whop.exports#CreateExportRequestColumnsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Column keys to include. Empty means all columns for the resource."
+      }
+    },
+    "com.whop.exports#CreateExportRequestResource": {
+      "type": "enum",
+      "members": {
+        "AD_CAMPAIGNS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaigns"
+          }
+        },
+        "AD_GROUPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_groups"
+          }
+        },
+        "ADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ads"
+          }
+        },
+        "APPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apps"
+          }
+        },
+        "AUDIENCES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audiences"
+          }
+        },
+        "BOUNTIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounties"
+          }
+        },
+        "BOUNTY_SUBMISSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bounty_submissions"
+          }
+        },
+        "CARD_TRANSACTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_transactions"
+          }
+        },
+        "CHECKOUT_CONFIGURATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkout_configurations"
+          }
+        },
+        "DISPUTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disputes"
+          }
+        },
+        "EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "events"
+          }
+        },
+        "FINANCIAL_ACTIVITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial-activity"
+          }
+        },
+        "PAYOUT_METHODS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout_methods"
+          }
+        },
+        "PAYOUTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payouts"
+          }
+        },
+        "PEOPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "people"
+          }
+        },
+        "PLANS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plans"
+          }
+        },
+        "PRODUCTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "products"
+          }
+        },
+        "RESOLUTION_CENTER_CASES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resolution_center_cases"
+          }
+        },
+        "SHIPMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shipments"
+          }
+        },
+        "SOCIAL_ACCOUNTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "social_accounts"
+          }
+        },
+        "TEAM_MEMBERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team_members"
+          }
+        },
+        "TRANSFERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfers"
+          }
+        },
+        "WEBHOOKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhooks"
+          }
+        },
+        "MEMBERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "members"
+          }
+        },
+        "RECEIPTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "receipts"
+          }
+        },
+        "UNCLAIMED_MEMBERSHIPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unclaimed_memberships"
+          }
+        },
+        "MEMBERSHIPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "memberships"
+          }
+        },
+        "TRACKING_LINKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracking_links"
+          }
+        },
+        "PROMO_CODES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promo_codes"
+          }
+        },
+        "RESOLUTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resolutions"
+          }
+        },
+        "ENTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "entries"
+          }
+        },
+        "LEADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leads"
+          }
+        },
+        "CONTENT_REWARDS_SUBMISSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_rewards_submissions"
+          }
+        },
+        "INVOICES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoices"
+          }
+        },
+        "CANCELATION_REASONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelation_reasons"
+          }
+        },
+        "CHILD_COMPANIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "child_companies"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The resource to export, e.g. `payouts`, `receipts`, or `members`."
+      }
+    },
+    "com.whop.exports#CreateExportRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account to export from, prefixed `biz_`. Defaults to the credential's account."
+          }
+        },
+        "columns": {
+          "target": "com.whop.exports#CreateExportRequestColumnsList",
+          "traits": {
+            "smithy.api#documentation": "Column keys to include. Empty means all columns for the resource."
+          }
+        },
+        "filters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Resource-specific filters. For native REST resources (`payouts`, `transfers`, `products`) these are the resource's own list query params; for dashboard tables they mirror the dashboard table filters.\n\n<details>\n<summary>Filters by resource (25)</summary>\n\n<details>\n<summary>ad_campaigns (4)</summary>\n\nMirrors the filtering query params of `GET /api/v1/ad_campaigns`.\n\n- `created_after` `string` — Only return campaigns created after this timestamp.\n- `created_before` `string` — Only return campaigns created before this timestamp.\n- `query` `string` — Filter campaigns by a title or ID substring.\n- `status` `string` — Only return campaigns with this status. One of `draft`, `active`, `paused`, `payment_failed`.\n\n</details>\n<details>\n<summary>ad_groups (6)</summary>\n\nMirrors the filtering query params of `GET /api/v1/ad_groups`.\n\n- `ad_campaign_id` `string` — Filter to ad groups in this campaign.\n- `ad_campaign_ids` `string[]` — Filter to ad groups in these campaigns (max 100). Repeat the parameter for each id (ad_campaign_ids=a&ad_campaign_ids=b).\n- `created_after` `string` — Only return ad groups created after this timestamp.\n- `created_before` `string` — Only return ad groups created before this timestamp.\n- `query` `string` — Filter ad groups by a title or ID substring.\n- `status` `string` — Filter to ad groups with this status. One of `active`, `paused`, `rejected`, `duplicating`.\n\n</details>\n<details>\n<summary>ads (8)</summary>\n\nMirrors the filtering query params of `GET /api/v1/ads`.\n\n- `ad_campaign_id` `string` — Only return ads in this ad campaign.\n- `ad_campaign_ids` `string[]` — Only return ads in these ad campaigns (max 100). Repeat the parameter for each id (ad_campaign_ids=a&ad_campaign_ids=b).\n- `ad_group_id` `string` — Only return ads in this ad group.\n- `ad_group_ids` `string[]` — Only return ads in these ad groups (max 100). Repeat the parameter for each id (ad_group_ids=a&ad_group_ids=b).\n- `created_after` `string` — Only return ads created after this timestamp.\n- `created_before` `string` — Only return ads created before this timestamp.\n- `query` `string` — Filter ads by a title or ID substring.\n- `status` `string` — Only return ads with this status. One of `active`, `paused`, `in_review`, `rejected`.\n\n</details>\n<details>\n<summary>apps (6)</summary>\n\nMirrors the filtering query params of `GET /api/v1/apps`.\n\n- `app_type` `string` — Filter apps by the type of end-user they are built for. Apps of type `website` are left out unless you ask for them by name. One of `b2b_app`, `b2c_app`, `company_app`, `component`, `website`.\n- `query` `string` — A search string matched against app names.\n- `recommended` `boolean` — Only return apps Whop recommends (or, with `false`, only those it does not), independently of verification status.\n- `verified` `boolean` — Only return apps whose Whop verification status matches this value. Omit this filter to include every verification status the caller can see.\n- `verified_apps_only` `boolean` — Legacy compatibility filter. Use `verified` for field equality. `true` returns verified apps; clients pinned before `2026-08-25-2` retain the earlier public website discovery behavior.\n- `view_type` `string` — Only return apps supporting this view type, such as `dashboard` or `hub`. One of `hub`, `discover`, `dash`, `dashboard`, `analytics`, `skills`, `openapi`.\n\n</details>\n<details>\n<summary>audiences (3)</summary>\n\nMirrors the filtering query params of `GET /api/v1/audiences`.\n\n- `audience_id` `string` — Audience ID, prefixed `adaud_`, used to filter the response to one audience.\n- `audience_type` `string` — Filter by audience type: `custom` (uploaded lists) or `lookalike`. One of `custom`, `lookalike`.\n- `source_type` `string` — Filter by member source: `csv_upload` (uploaded lists) or `people_filter` (automatic audiences built from saved People filters). One of `csv_upload`, `people_filter`.\n\n</details>\n<details>\n<summary>bounties (8)</summary>\n\nMirrors the filtering query params of `GET /api/v1/bounties`.\n\n- `business_goal_type` `string` — Filter by the poster's declared goal. Bounties created before the goal taxonomy carry no goal and never match this filter. One of `clipping`, `post_engagement`, `owned_account_growth`, `ugc_content`, `local_activation`, `data_capture`, `other`.\n- `country` `string` — Only bounties workable from this country, as an ISO 3166-1 alpha-2 code. Bounties with no country targeting are workable worldwide and always match.\n- `created_after` `string` — Only bounties created after this ISO 8601 timestamp.\n- `created_before` `string` — Only bounties created before this ISO 8601 timestamp.\n- `experience_id` `string` — Only bounties posted to this forum experience, prefixed `exp_`. An unknown experience, or one outside the caller's scope, matches nothing.\n- `query` `string` — Substring match on the bounty title or ID.\n- `status` `string` — Filter by lifecycle state. One of `scheduled`, `open`, `closed`, `completed`, `canceled`.\n- `user_id` `string` — List the bounties this user participated in (`user_` tag). Must be the authenticated user.\n\n</details>\n<details>\n<summary>bounty_submissions (4)</summary>\n\nMirrors the filtering query params of `GET /api/v1/bounty_submissions`.\n\n- `bounty_id` `string` — Only submissions on this bounty (`bnty_` tag).\n- `created_after` `string` — Only submissions created after this ISO 8601 timestamp.\n- `created_before` `string` — Only submissions created before this ISO 8601 timestamp.\n- `status` `string` — Filter by lifecycle state. One of `in_progress`, `submitted`, `approved`, `denied`.\n\n</details>\n<details>\n<summary>card_transactions (6)</summary>\n\nMirrors the filtering query params of `GET /api/v1/card_transactions`.\n\n- `card_id` `string[]` — Return only transactions charged to these cards, each prefixed `icrd_`.\n- `cardholder_id` `string[]` — Return only transactions on cards assigned to these users, each prefixed `user_`.\n- `created_after` `string` — Return only transactions authorized at or after this ISO 8601 timestamp.\n- `created_before` `string` — Return only transactions authorized at or before this ISO 8601 timestamp.\n- `status` `string` — Return only transactions with this status. One of `pending`, `completed`, `reversed`, `declined`.\n- `transaction_ids` `string[]` — Return only these card transactions, each prefixed `citx_`. Repeat the parameter, or pass one comma-separated value.\n\n</details>\n<details>\n<summary>checkout_configurations (3)</summary>\n\nMirrors the filtering query params of `GET /api/v1/checkout_configurations`.\n\n- `created_after` `string` — Only return checkout configurations created after this ISO 8601 timestamp.\n- `created_before` `string` — Only return checkout configurations created before this ISO 8601 timestamp.\n- `plan_id` `string` — Only return checkout configurations for this plan ID, prefixed `plan_`.\n\n</details>\n<details>\n<summary>disputes (4)</summary>\n\nMirrors the filtering query params of `GET /api/v1/disputes`.\n\n- `created_after` `string` — Only disputes opened after this ISO 8601 timestamp.\n- `created_before` `string` — Only disputes opened before this ISO 8601 timestamp.\n- `currency` `string` — Only disputes in this three-letter ISO currency.\n- `status` `string[]` — Only disputes in these statuses. Repeat the parameter to pass several — one paginated list covers all of them. Covers both chargebacks and inquiries at each stage. A `needs_response` dispute whose evidence deadline has passed reports and filters as `under_review` instead.\n\n</details>\n<details>\n<summary>events (14)</summary>\n\nMirrors the filtering query params of `GET /api/v1/events`.\n\n- `attribution_model` `string` — Attribution model for the source filter (defaults to last_touch). One of `last_touch`, `first_touch`.\n- `browser` `string` — Browser families to filter by, comma-separated (e.g. Chrome, Mobile Safari).\n- `city` `string` — Cities to filter by, comma-separated.\n- `country` `string` — Country codes to filter by, comma-separated.\n- `device` `string` — Device families to filter by, comma-separated (e.g. iPhone, Mac).\n- `event` `string` — Full event names to filter by, comma-separated (payment.completed, pixel.lead, pixel.page, pixel.custom:<name>) — the same vocabulary the events / people metrics use.\n- `from` `string` — Start of the time range as an ISO 8601 timestamp. Required when identifier is omitted.\n- `hostname` `string` — Page hostnames to filter by, comma-separated.\n- `identifier` `string` — Any hard identifier of the person: a person ID (prsn_*), user ID, email, phone number, or a tracking cookie value (wuid, anonymous ID, fbp/fbc/ttp/ga). Omit to list recent events for the account.\n- `os` `string` — Operating system families to filter by, comma-separated (e.g. iOS, Windows).\n- `page` `string` — Page paths to filter by, comma-separated.\n- `source` `string` — Canonical source path, exact or with a trailing :* prefix (whop:<campaign>:*, ext:meta:*, referrer:<domain>, direct). Restricts the list to conversion targets attributed to that source — the debuggability twin of a metric cell's source parameter.\n- `to` `string` — End of the time range as an ISO 8601 timestamp. Required when identifier is omitted; otherwise defaults to now.\n- `utm_source` `string` — utm_source values to filter by, comma-separated.\n\n</details>\n<details>\n<summary>financial-activity (9)</summary>\n\nMirrors the filtering query params of `GET /api/v1/financial-activity`.\n\n- `available_after` `string` — Only include rows whose funds became withdrawable on or after this `YYYY-MM-DD` settlement date (UTC), distinct from posted_at. Requires currency.\n- `available_before` `string` — Only include rows whose funds became withdrawable on or before this `YYYY-MM-DD` settlement date (UTC). Set equal to available_after for a single day. Requires currency.\n- `currency` `string` — Optional currency code filter, for example `usd`.\n- `include_owned_accounts` `boolean` — When true, aggregates the authenticated user's personal ledger with the businesses they own (owner role with balance read) into one feed. Requires user_id to be the authenticated user; cannot be combined with account_id or the settlement-date filters. Each returned row includes the owning `account`.\n- `include_resource` `boolean` — Whether to include the `resource` field in the response or not. Consider passing `false` if you need a fast response without as many rich details.\n- `line_types` `string[]` — Optional ledger line categories to include. Some categories (for example `onchain_deposit`, which covers inbound crypto deposits such as MoonPay onramps) are only returned when explicitly requested here.\n- `posted_after` `string` — Only include rows posted after this ISO 8601 timestamp.\n- `posted_before` `string` — Only include rows posted before this ISO 8601 timestamp.\n- `user_id` `string` — The owning user ID (a user_ identifier). Provide this or account_id.\n\n</details>\n<details>\n<summary>members (5)</summary>\n\nMirrors the filtering query params of `GET /api/v1/members`.\n\n- `access_level` `string` — Filter by what the member can reach on the account. One of `no_access`, `admin`, `customer`.\n- `created_after` `string` — Only members who joined after this ISO 8601 timestamp.\n- `created_before` `string` — Only members who joined before this ISO 8601 timestamp.\n- `query` `string` — Search members by name or username. An exact email address also matches when the credential holds the member:email:read scope.\n- `status` `string` — Filter by whether the member is still part of the account. One of `joined`, `left`.\n\n</details>\n<details>\n<summary>memberships (6)</summary>\n\nMirrors the filtering query params of `GET /api/v1/memberships`.\n\n- `created_after` `string` — Only memberships created after this ISO 8601 timestamp.\n- `created_before` `string` — Only memberships created before this ISO 8601 timestamp.\n- `plan_id` `string` — Filter to memberships of this plan (`plan_` tag). Repeat as plan_ids[] for several.\n- `product_id` `string` — Filter to memberships of this product (`prod_` tag). Repeat as product_ids[] for several.\n- `status` `string` — Filter by billing state. `canceling` matches active memberships set to cancel at period end; `paused` matches memberships with payment collection paused. One of `active`, `trialing`, `past_due`, `completed`, `canceled`, `expired`, `canceling`, `paused`.\n- `user_id` `string` — Narrow to one user's memberships (`user_` tag, or `me` for the caller). A user outside the caller's visible set returns an empty list.\n\n</details>\n<details>\n<summary>payouts (7)</summary>\n\nMirrors the filtering query params of `GET /api/v1/payouts`.\n\n- `created_after` `string` — Only payouts created at or after this ISO 8601 time (inclusive).\n- `created_before` `string` — Only payouts created before this ISO 8601 time (exclusive).\n- `currency` `string` — Optional currency code filter, for example `usd`.\n- `payout_method_id` `string` — Filter to payouts sent to one saved payout method (a pytk_ identifier). An unknown id matches nothing.\n- `source` `string` — Filter by how the payout was created. Payouts created before source tracking or through internal tooling carry no source and never match. One of `api`, `dashboard`, `automatic`.\n- `status` `string` — Filter to payouts whose `status` reads this word, matching exactly what this version displays — `reversed` finds settled payouts the bank later returned. Requires Api-Version-Date 2026-08-21 or later. One of `requested`, `in_review`, `processing`, `completed`, `reversed`, `canceled`, `failed`, `denied`.\n- `user_id` `string` — The owning user ID (a user_ identifier). Provide this or account_id.\n\n</details>\n<details>\n<summary>people (20)</summary>\n\nMirrors the filtering query params of `GET /api/v1/people`.\n\n- `attribution_model` `string` — Attribution model the source filter matches against (defaults to last_touch). One of `last_touch`, `first_touch`.\n- `audience_id` `string` — Only include people in this audience. An audience that keeps itself up to date resolves to the People filters that define it, so this always reflects who matches now; uploaded lists and point-in-time snapshots match their recorded members.\n- `contactable` `boolean` — true for people who have an email address or phone number — the ones an ad platform can match.\n- `country` `string` — Only include people whose most recent visit came from this ISO 3166-1 alpha-2 country code.\n- `custom_event` `string` — Only include people who fired this custom pixel event.\n- `email` `string` — Only include the person linked to this email address.\n- `event_from` `string` — With event_to plus an event or source filter, switches to exact-population mode: person ids are resolved and paginated on the events side within this window (the same query the people metric counts), then hydrated per page.\n- `event_name` `string[]` — Only include people who fired any of these events, e.g. payment.completed or page.checkout.view.\n- `event_to` `string` — The inclusive end of the event window for exact-population mode.\n- `first_seen_after` `string` — Only include people first seen at or after this ISO 8601 timestamp.\n- `first_seen_before` `string` — Only include people first seen before this ISO 8601 timestamp.\n- `first_seen_within_days` `integer` — Only include people first seen within this many days, as a rolling window.\n- `has_purchased` `boolean` — true for customers only, false for people who have never purchased.\n- `last_seen_after` `string` — Only include people last seen at or after this ISO 8601 timestamp.\n- `last_seen_before` `string` — Only include people last seen before this ISO 8601 timestamp.\n- `last_seen_within_days` `integer` — Only include people last seen within this many days, as a rolling window.\n- `phone` `string` — Only include the person linked to this phone number.\n- `query` `string` — Search people by name, email, phone, or whop user ID (case-insensitive substring match).\n- `source` `string[]` — Only include people acquired from any of these sources — canonical paths (whop:<campaign>:<group>:<ad>, ext:<platform>:..., referrer:<domain>, direct, other), exact or with a trailing :* prefix. The same vocabulary the events / people metrics use.\n- `user_id` `string` — Only include the person linked to this whop user ID.\n\n</details>\n<details>\n<summary>plans (6)</summary>\n\nMirrors the filtering query params of `GET /api/v1/plans`.\n\n- `created_after` `string` — Only return plans created after this timestamp.\n- `created_before` `string` — Only return plans created before this timestamp.\n- `plan_types` `string[]` — Filter to only plans matching these billing types.\n- `product_ids` `string[]` — Filter to only plans belonging to these product identifiers. When `account_id` is omitted, this is required and the response is publicly readable: only visible, non-invoice plans are returned.\n- `release_methods` `string[]` — Filter to only plans matching these release methods.\n- `visibilities` `string[]` — Filter to only plans matching these visibility states.\n\n</details>\n<details>\n<summary>products (10)</summary>\n\nMirrors the filtering query params of `GET /api/v1/products`.\n\n- `access_pass_types` `string[]` — Filter to only products matching these types.\n- `created_after` `string` — Only return products created after this ISO 8601 timestamp.\n- `created_before` `string` — Only return products created before this ISO 8601 timestamp.\n- `labels` `string[]` — Filter to only products carrying all of these labels. Labels are matched lowercased.\n- `marketplace_category_route` `string` — Only return marketplace products assigned to this category route, such as `trading`.\n- `plan_types` `string[]` — Filter to products with a buyable plan of these billing models, such as `one_time` or `renewal`.\n- `price_maximum` `number` — Only return products whose advertised buyable plan has a displayed price of at most this amount. Recurring plans use renewal price.\n- `price_minimum` `number` — Only return products whose advertised buyable plan has a displayed price of at least this amount. Recurring plans use renewal price.\n- `query` `string` — Ranked search against product title and headline. Omit to browse by recency.\n- `visibilities` `string[]` — Filter to only products matching these visibility states. Ignored on the public marketplace list, which only returns visible products.\n\n</details>\n<details>\n<summary>promo_codes (5)</summary>\n\nMirrors the filtering query params of `GET /api/v1/promo_codes`.\n\n- `created_after` `string` — Only promo codes created after this ISO 8601 timestamp.\n- `created_before` `string` — Only promo codes created before this ISO 8601 timestamp.\n- `plan_ids` `string[]` — Only promo codes scoped to these plan IDs.\n- `product_ids` `string[]` — Only promo codes scoped to these product IDs.\n- `status` `string` — Promo-code status. `expired` groups inactive and archived codes. One of `active`, `inactive`, `archived`, `expired`.\n\n</details>\n<details>\n<summary>resolution_center_cases (6)</summary>\n\nMirrors the filtering query params of `GET /api/v1/resolution_center_cases`.\n\n- `created_after` `string` — Only cases created after this ISO 8601 timestamp.\n- `created_before` `string` — Only cases created before this ISO 8601 timestamp.\n- `outcome` `string[]` — Only closed cases that ended these ways. Repeat the parameter to pass several.\n- `reason` `string[]` — Only cases opened for these reasons. Repeat the parameter to pass several.\n- `status` `string[]` — Only cases in these statuses. Repeat the parameter to pass several — one paginated list covers all of them.\n- `user_id` `string` — Only cases opened by this customer — a `user_` tag, or `me` for the calling user. It narrows what you can already read, so `me` lists the cases you opened without the ones on accounts you are a team member of.\n\n</details>\n<details>\n<summary>shipments (4)</summary>\n\nMirrors the filtering query params of `GET /api/v1/shipments`.\n\n- `created_after` `string` — Return shipments created after this ISO 8601 timestamp.\n- `created_before` `string` — Return shipments created before this ISO 8601 timestamp.\n- `payment_id` `string[]` — Only shipments fulfilling these payments, each prefixed `pay_`. Repeat the parameter to pass several, up to 100 per request — one paginated list covers all of them.\n- `status` `string` — Filter to shipments with this delivery status. One of `unknown`, `pre_transit`, `in_transit`, `out_for_delivery`, `delivered`, `available_for_pickup`, `return_to_sender`, `failure`, `cancelled`, `error`.\n\n</details>\n<details>\n<summary>social_accounts (4)</summary>\n\nMirrors the filtering query params of `GET /api/v1/social_accounts`.\n\n- `platform` `string` — Only return social accounts for the platform that is specified. One of `x`, `instagram`, `youtube`, `tiktok`, `facebook`, `discord`, `telegram`.\n- `scopes` `string[]` — Only return social accounts that have these scopes.\n- `user_id` `string` — The User that the social accounts are connected to. Provide either this or account_id.\n- `verified` `boolean` — Only return social accounts that are verified on the platform.\n\n</details>\n<details>\n<summary>team_members (5)</summary>\n\nMirrors the filtering query params of `GET /api/v1/team_members`.\n\n- `created_after` `string` — Only return members added after this ISO 8601 timestamp.\n- `created_before` `string` — Only return members added before this ISO 8601 timestamp.\n- `role` `string` — Only return members with this role. `custom` matches members on a dashboard-managed custom role. One of `owner`, `admin`, `sales_manager`, `moderator`, `advertiser`, `app_manager`, `support`, `manager`, `workforce`, `custom`.\n- `status` `string` — Only return members with this status: `joined` (accepted members) or `pending` (pending invites). Both are returned by default. One of `joined`, `pending`.\n- `user_id` `string` — Only return the membership for this user ID, prefixed `user_`.\n\n</details>\n<details>\n<summary>transfers (4)</summary>\n\nMirrors the filtering query params of `GET /api/v1/transfers`.\n\n- `created_after` `string` — Only transfers created strictly after this ISO 8601 timestamp.\n- `created_before` `string` — Only transfers created strictly before this ISO 8601 timestamp.\n- `destination_id` `string` — Filter to transfers received by this account. Provide this or origin_id.\n- `origin_id` `string` — Filter to transfers sent from this account. Provide this or destination_id.\n\n</details>\n<details>\n<summary>webhooks (3)</summary>\n\nMirrors the filtering query params of `GET /api/v1/webhooks`.\n\n- `app_id` `string` — Only return webhooks attached to this app. Omit to list the account's own webhooks.\n- `has_failures` `boolean` — Only return webhooks whose endpoint is currently failing — every delivery since the current failure streak began has been rejected. Clears as soon as a delivery succeeds.\n- `include_app_webhooks` `boolean` — Also return webhooks attached to the account's apps, not just the account's own. Cannot be combined with `app_id`.\n\n</details>\n</details>"
+          }
+        },
+        "resource": {
+          "target": "com.whop.exports#CreateExportRequestResource",
+          "traits": {
+            "smithy.api#documentation": "The resource to export, e.g. `payouts`, `receipts`, or `members`.",
+            "smithy.api#required": {}
+          }
+        },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IANA timezone for date columns, e.g. `America/New_York`. Defaults to `UTC`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.exports#CreateExport": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.exports#CreateExportRequest"
+      },
+      "output": {
+        "target": "com.whop.exports#Export"
+      },
+      "errors": [
+        {
+          "target": "com.whop.exports#BadRequest"
+        },
+        {
+          "target": "com.whop.exports#Forbidden"
+        },
+        {
+          "target": "com.whop.exports#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/exports",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Export\n\nStarts an asynchronous CSV export of a resource for an account. Returns the export in `pending`; poll `GET /exports/{id}` until `download_url` is set."
+      }
+    },
+    "com.whop.exports#GetExportRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The export ID, prefixed `exprt_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.exports#GetExport": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.exports#GetExportRequest"
+      },
+      "output": {
+        "target": "com.whop.exports#Export"
+      },
+      "errors": [
+        {
+          "target": "com.whop.exports#Forbidden"
+        },
+        {
+          "target": "com.whop.exports#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/exports/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Export\n\nFetches an export's status and, once complete, its download link."
+      }
+    },
+    "com.whop.exports#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.exports#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.exports#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.exports#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.exports#Exports": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.exports#ListExports"
+        },
+        {
+          "target": "com.whop.exports#CreateExport"
+        },
+        {
+          "target": "com.whop.exports#GetExport"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

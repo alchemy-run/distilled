@@ -251,6 +251,116 @@ export const AssociateTimeSeriesToAssetPropertyResponse =
     identifier: "AssociateTimeSeriesToAssetPropertyResponse",
   }) as any as S.Schema<AssociateTimeSeriesToAssetPropertyResponse>;
 export type ID = string;
+export type WorkspaceName = string;
+export type TimeSeriesId = string;
+export type TimeInSeconds = number;
+export type OffsetInNanos = number;
+export interface TimeInNanos {
+  timeInSeconds: number;
+  offsetInNanos?: number;
+}
+export const TimeInNanos = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ timeInSeconds: S.Number, offsetInNanos: S.optional(S.Number) }),
+).annotate({ identifier: "TimeInNanos" }) as any as S.Schema<TimeInNanos>;
+export interface AssociateDataSegmentEntry {
+  sourceDatasetId: string;
+  timeSeriesId: string;
+  startTimestamp: TimeInNanos;
+  endTimestamp: TimeInNanos;
+}
+export const AssociateDataSegmentEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sourceDatasetId: S.String,
+    timeSeriesId: S.String,
+    startTimestamp: TimeInNanos,
+    endTimestamp: TimeInNanos,
+  }),
+).annotate({
+  identifier: "AssociateDataSegmentEntry",
+}) as any as S.Schema<AssociateDataSegmentEntry>;
+export type AssociateDataSegmentEntries = AssociateDataSegmentEntry[];
+export const AssociateDataSegmentEntries = /*@__PURE__*/ S.Array(
+  AssociateDataSegmentEntry,
+);
+export interface BatchAssociateDataSegmentsToDatasetRequest {
+  datasetId: string;
+  workspaceName: string;
+  associateDataSegmentEntries: AssociateDataSegmentEntry[];
+  clientToken?: string;
+}
+export const BatchAssociateDataSegmentsToDatasetRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+      workspaceName: S.String,
+      associateDataSegmentEntries: AssociateDataSegmentEntries,
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/datasets/{datasetId}/data-segments/associate",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "BatchAssociateDataSegmentsToDatasetRequest",
+  }) as any as S.Schema<BatchAssociateDataSegmentsToDatasetRequest>;
+export type Version = string;
+export type DataSegmentErrorCode =
+  | "INTERNAL_FAILURE"
+  | "VALIDATION_ERROR"
+  | "RESOURCE_NOT_FOUND"
+  | "LIMIT_EXCEEDED"
+  | "CONFLICTING_OPERATION"
+  | (string & {});
+export const DataSegmentErrorCode = S.String;
+
+export type DataSegmentErrorMessage = string;
+export interface FailedDataSegmentAssociation {
+  sourceDatasetId: string;
+  timeSeriesId: string;
+  startTimestamp: TimeInNanos;
+  endTimestamp: TimeInNanos;
+  errorCode: DataSegmentErrorCode;
+  errorMessage: string;
+}
+export const FailedDataSegmentAssociation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sourceDatasetId: S.String,
+    timeSeriesId: S.String,
+    startTimestamp: TimeInNanos,
+    endTimestamp: TimeInNanos,
+    errorCode: DataSegmentErrorCode,
+    errorMessage: S.String,
+  }),
+).annotate({
+  identifier: "FailedDataSegmentAssociation",
+}) as any as S.Schema<FailedDataSegmentAssociation>;
+export type FailedDataSegmentAssociations = FailedDataSegmentAssociation[];
+export const FailedDataSegmentAssociations = /*@__PURE__*/ S.Array(
+  FailedDataSegmentAssociation,
+);
+export interface BatchAssociateDataSegmentsToDatasetResponse {
+  datasetId: string;
+  datasetVersion: string;
+  failedAssociations: FailedDataSegmentAssociation[];
+}
+export const BatchAssociateDataSegmentsToDatasetResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      datasetId: S.String,
+      datasetVersion: S.String,
+      failedAssociations: FailedDataSegmentAssociations,
+    }),
+  ).annotate({
+    identifier: "BatchAssociateDataSegmentsToDatasetResponse",
+  }) as any as S.Schema<BatchAssociateDataSegmentsToDatasetResponse>;
 export type IDs = string[];
 export const IDs = /*@__PURE__*/ S.Array(S.String);
 export interface BatchAssociateProjectAssetsRequest {
@@ -277,7 +387,7 @@ export const BatchAssociateProjectAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchAssociateProjectAssetsRequest",
 }) as any as S.Schema<BatchAssociateProjectAssetsRequest>;
 export type AssetErrorCode = "INTERNAL_FAILURE" | (string & {});
-export const AssetErrorCode = /*@__PURE__*/ S.String;
+export const AssetErrorCode = S.String;
 
 export type AssetErrorMessage = string;
 export interface AssetErrorDetails {
@@ -301,6 +411,179 @@ export const BatchAssociateProjectAssetsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BatchAssociateProjectAssetsResponse",
 }) as any as S.Schema<BatchAssociateProjectAssetsResponse>;
+export interface DeleteDataSegmentEntry {
+  timeSeriesId: string;
+  startTimestamp: TimeInNanos;
+  endTimestamp: TimeInNanos;
+}
+export const DeleteDataSegmentEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timeSeriesId: S.String,
+    startTimestamp: TimeInNanos,
+    endTimestamp: TimeInNanos,
+  }),
+).annotate({
+  identifier: "DeleteDataSegmentEntry",
+}) as any as S.Schema<DeleteDataSegmentEntry>;
+export type DeleteDataSegmentEntries = DeleteDataSegmentEntry[];
+export const DeleteDataSegmentEntries = /*@__PURE__*/ S.Array(
+  DeleteDataSegmentEntry,
+);
+export interface BatchDeleteDatasetDataSegmentsRequest {
+  datasetId: string;
+  workspaceName: string;
+  deleteDataSegmentEntries: DeleteDataSegmentEntry[];
+  clientToken?: string;
+}
+export const BatchDeleteDatasetDataSegmentsRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+      workspaceName: S.String,
+      deleteDataSegmentEntries: DeleteDataSegmentEntries,
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/datasets/{datasetId}/data-segments/batch-delete",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "BatchDeleteDatasetDataSegmentsRequest",
+}) as any as S.Schema<BatchDeleteDatasetDataSegmentsRequest>;
+export interface FailedDataSegmentDeletion {
+  timeSeriesId: string;
+  startTimestamp: TimeInNanos;
+  endTimestamp: TimeInNanos;
+  errorCode: DataSegmentErrorCode;
+  errorMessage: string;
+}
+export const FailedDataSegmentDeletion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timeSeriesId: S.String,
+    startTimestamp: TimeInNanos,
+    endTimestamp: TimeInNanos,
+    errorCode: DataSegmentErrorCode,
+    errorMessage: S.String,
+  }),
+).annotate({
+  identifier: "FailedDataSegmentDeletion",
+}) as any as S.Schema<FailedDataSegmentDeletion>;
+export type FailedDataSegmentDeletions = FailedDataSegmentDeletion[];
+export const FailedDataSegmentDeletions = /*@__PURE__*/ S.Array(
+  FailedDataSegmentDeletion,
+);
+export interface BatchDeleteDatasetDataSegmentsResponse {
+  datasetId: string;
+  datasetVersion: string;
+  errors: FailedDataSegmentDeletion[];
+}
+export const BatchDeleteDatasetDataSegmentsResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      datasetId: S.String,
+      datasetVersion: S.String,
+      errors: FailedDataSegmentDeletions,
+    }),
+).annotate({
+  identifier: "BatchDeleteDatasetDataSegmentsResponse",
+}) as any as S.Schema<BatchDeleteDatasetDataSegmentsResponse>;
+export interface DisassociateDataSegmentEntry {
+  sourceDatasetId: string;
+  timeSeriesId: string;
+  startTimestamp: TimeInNanos;
+  endTimestamp: TimeInNanos;
+}
+export const DisassociateDataSegmentEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sourceDatasetId: S.String,
+    timeSeriesId: S.String,
+    startTimestamp: TimeInNanos,
+    endTimestamp: TimeInNanos,
+  }),
+).annotate({
+  identifier: "DisassociateDataSegmentEntry",
+}) as any as S.Schema<DisassociateDataSegmentEntry>;
+export type DisassociateDataSegmentEntries = DisassociateDataSegmentEntry[];
+export const DisassociateDataSegmentEntries = /*@__PURE__*/ S.Array(
+  DisassociateDataSegmentEntry,
+);
+export interface BatchDisassociateDataSegmentsFromDatasetRequest {
+  datasetId: string;
+  workspaceName: string;
+  disassociateDataSegmentEntries: DisassociateDataSegmentEntry[];
+  clientToken?: string;
+}
+export const BatchDisassociateDataSegmentsFromDatasetRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+      workspaceName: S.String,
+      disassociateDataSegmentEntries: DisassociateDataSegmentEntries,
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/datasets/{datasetId}/data-segments/disassociate",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "BatchDisassociateDataSegmentsFromDatasetRequest",
+  }) as any as S.Schema<BatchDisassociateDataSegmentsFromDatasetRequest>;
+export interface FailedDataSegmentDisassociation {
+  sourceDatasetId: string;
+  timeSeriesId: string;
+  startTimestamp: TimeInNanos;
+  endTimestamp: TimeInNanos;
+  errorCode: DataSegmentErrorCode;
+  errorMessage: string;
+}
+export const FailedDataSegmentDisassociation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sourceDatasetId: S.String,
+    timeSeriesId: S.String,
+    startTimestamp: TimeInNanos,
+    endTimestamp: TimeInNanos,
+    errorCode: DataSegmentErrorCode,
+    errorMessage: S.String,
+  }),
+).annotate({
+  identifier: "FailedDataSegmentDisassociation",
+}) as any as S.Schema<FailedDataSegmentDisassociation>;
+export type FailedDataSegmentDisassociations =
+  FailedDataSegmentDisassociation[];
+export const FailedDataSegmentDisassociations = /*@__PURE__*/ S.Array(
+  FailedDataSegmentDisassociation,
+);
+export interface BatchDisassociateDataSegmentsFromDatasetResponse {
+  datasetId: string;
+  datasetVersion: string;
+  failedDisassociations: FailedDataSegmentDisassociation[];
+}
+export const BatchDisassociateDataSegmentsFromDatasetResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      datasetId: S.String,
+      datasetVersion: S.String,
+      failedDisassociations: FailedDataSegmentDisassociations,
+    }),
+  ).annotate({
+    identifier: "BatchDisassociateDataSegmentsFromDatasetResponse",
+  }) as any as S.Schema<BatchDisassociateDataSegmentsFromDatasetResponse>;
 export interface BatchDisassociateProjectAssetsRequest {
   projectId: string;
   assetIds: string[];
@@ -349,18 +632,18 @@ export type AggregateType =
   | "SUM"
   | "STANDARD_DEVIATION"
   | (string & {});
-export const AggregateType = /*@__PURE__*/ S.String;
+export const AggregateType = S.String;
 
 export type AggregateTypes = AggregateType[];
 export const AggregateTypes = /*@__PURE__*/ S.Array(AggregateType);
 export type Resolution = string;
 export type Quality = "GOOD" | "BAD" | "UNCERTAIN" | (string & {});
-export const Quality = /*@__PURE__*/ S.String;
+export const Quality = S.String;
 
 export type Qualities = Quality[];
 export const Qualities = /*@__PURE__*/ S.Array(Quality);
 export type TimeOrdering = "ASCENDING" | "DESCENDING" | (string & {});
-export const TimeOrdering = /*@__PURE__*/ S.String;
+export const TimeOrdering = S.String;
 
 export interface BatchGetAssetPropertyAggregatesEntry {
   entryId: string;
@@ -427,7 +710,7 @@ export type BatchGetAssetPropertyAggregatesErrorCode =
   | "InvalidRequestException"
   | "AccessDeniedException"
   | (string & {});
-export const BatchGetAssetPropertyAggregatesErrorCode = /*@__PURE__*/ S.String;
+export const BatchGetAssetPropertyAggregatesErrorCode = S.String;
 
 export type ErrorMessage = string;
 export interface BatchGetAssetPropertyAggregatesErrorEntry {
@@ -499,7 +782,7 @@ export type BatchGetAssetPropertyAggregatesSuccessEntries =
 export const BatchGetAssetPropertyAggregatesSuccessEntries =
   /*@__PURE__*/ S.Array(BatchGetAssetPropertyAggregatesSuccessEntry);
 export type BatchEntryCompletionStatus = "SUCCESS" | "ERROR" | (string & {});
-export const BatchEntryCompletionStatus = /*@__PURE__*/ S.String;
+export const BatchEntryCompletionStatus = S.String;
 
 export interface BatchGetAssetPropertyAggregatesErrorInfo {
   errorCode: BatchGetAssetPropertyAggregatesErrorCode;
@@ -597,7 +880,7 @@ export type BatchGetAssetPropertyValueErrorCode =
   | "InvalidRequestException"
   | "AccessDeniedException"
   | (string & {});
-export const BatchGetAssetPropertyValueErrorCode = /*@__PURE__*/ S.String;
+export const BatchGetAssetPropertyValueErrorCode = S.String;
 
 export interface BatchGetAssetPropertyValueErrorEntry {
   errorCode: BatchGetAssetPropertyValueErrorCode;
@@ -624,7 +907,7 @@ export type PropertyValueIntegerValue = number;
 export type PropertyValueDoubleValue = number;
 export type PropertyValueBooleanValue = boolean;
 export type RawValueType = "D" | "B" | "S" | "I" | "U" | (string & {});
-export const RawValueType = /*@__PURE__*/ S.String;
+export const RawValueType = S.String;
 
 export interface PropertyValueNullValue {
   valueType: RawValueType;
@@ -650,15 +933,6 @@ export const Variant = /*@__PURE__*/ S.suspend(() =>
     nullValue: S.optional(PropertyValueNullValue),
   }),
 ).annotate({ identifier: "Variant" }) as any as S.Schema<Variant>;
-export type TimeInSeconds = number;
-export type OffsetInNanos = number;
-export interface TimeInNanos {
-  timeInSeconds: number;
-  offsetInNanos?: number;
-}
-export const TimeInNanos = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ timeInSeconds: S.Number, offsetInNanos: S.optional(S.Number) }),
-).annotate({ identifier: "TimeInNanos" }) as any as S.Schema<TimeInNanos>;
 export interface AssetPropertyValue {
   value: Variant;
   timestamp: TimeInNanos;
@@ -799,8 +1073,7 @@ export type BatchGetAssetPropertyValueHistoryErrorCode =
   | "InvalidRequestException"
   | "AccessDeniedException"
   | (string & {});
-export const BatchGetAssetPropertyValueHistoryErrorCode =
-  /*@__PURE__*/ S.String;
+export const BatchGetAssetPropertyValueHistoryErrorCode = S.String;
 
 export interface BatchGetAssetPropertyValueHistoryErrorEntry {
   errorCode: BatchGetAssetPropertyValueHistoryErrorCode;
@@ -946,7 +1219,7 @@ export type BatchPutAssetPropertyValueErrorCode =
   | "TimestampOutOfRangeException"
   | "AccessDeniedException"
   | (string & {});
-export const BatchPutAssetPropertyValueErrorCode = /*@__PURE__*/ S.String;
+export const BatchPutAssetPropertyValueErrorCode = S.String;
 
 export type Timestamps = TimeInNanos[];
 export const Timestamps = /*@__PURE__*/ S.Array(TimeInNanos);
@@ -990,6 +1263,141 @@ export const BatchPutAssetPropertyValueResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BatchPutAssetPropertyValueResponse",
 }) as any as S.Schema<BatchPutAssetPropertyValueResponse>;
+export interface CancelEnrichmentJobRequest {
+  workspaceName: string;
+  jobId: string;
+}
+export const CancelEnrichmentJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{workspaceName}/enrichment-jobs/{jobId}/cancel",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CancelEnrichmentJobRequest",
+}) as any as S.Schema<CancelEnrichmentJobRequest>;
+export type EnrichmentJobStatus =
+  | "PENDING"
+  | "RUNNING"
+  | "COMPLETED"
+  | "FAILED"
+  | "TIMED_OUT"
+  | "CANCELLED"
+  | (string & {});
+export const EnrichmentJobStatus = S.String;
+
+export interface CancelEnrichmentJobResponse {
+  jobId: string;
+  status: EnrichmentJobStatus;
+}
+export const CancelEnrichmentJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ jobId: S.String, status: EnrichmentJobStatus }),
+).annotate({
+  identifier: "CancelEnrichmentJobResponse",
+}) as any as S.Schema<CancelEnrichmentJobResponse>;
+export type ResourceName = string;
+export type CancelPipelineExecutionRequestReasonString = string;
+export interface CancelPipelineExecutionRequest {
+  workspaceName: string;
+  pipelineName: string;
+  pipelineExecutionId: string;
+  reason?: string;
+}
+export const CancelPipelineExecutionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    pipelineName: S.String.pipe(T.HttpLabel("pipelineName")),
+    pipelineExecutionId: S.String.pipe(T.HttpLabel("pipelineExecutionId")),
+    reason: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{workspaceName}/pipelines/{pipelineName}/executions/{pipelineExecutionId}/cancel",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CancelPipelineExecutionRequest",
+}) as any as S.Schema<CancelPipelineExecutionRequest>;
+export type PipelineExecutionState =
+  | "NOT_STARTED"
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "CANCELLING"
+  | "CANCELLED"
+  | (string & {});
+export const PipelineExecutionState = S.String;
+
+export interface CancelPipelineExecutionResponse {
+  state: PipelineExecutionState;
+}
+export const CancelPipelineExecutionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ state: PipelineExecutionState }),
+).annotate({
+  identifier: "CancelPipelineExecutionResponse",
+}) as any as S.Schema<CancelPipelineExecutionResponse>;
+export type QueryId = string;
+export interface CancelQueryRequest {
+  workspaceName: string;
+  queryId: string;
+}
+export const CancelQueryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    queryId: S.String.pipe(T.HttpLabel("queryId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{workspaceName}/queries/{queryId}/cancel",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CancelQueryRequest",
+}) as any as S.Schema<CancelQueryRequest>;
+export type QueryStatus =
+  | "SUBMITTED"
+  | "RUNNING"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELED"
+  | "CANCELING"
+  | (string & {});
+export const QueryStatus = S.String;
+
+export interface CancelQueryResponse {
+  queryId: string;
+  status: QueryStatus;
+}
+export const CancelQueryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ queryId: S.String, status: QueryStatus }),
+).annotate({
+  identifier: "CancelQueryResponse",
+}) as any as S.Schema<CancelQueryResponse>;
 export type IdentityId = string;
 export interface UserIdentity {
   id: string;
@@ -1059,7 +1467,7 @@ export const Resource = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type Permission = "ADMINISTRATOR" | "VIEWER" | (string & {});
-export const Permission = /*@__PURE__*/ S.String;
+export const Permission = S.String;
 
 export type TagKey = string;
 export type TagValue = string;
@@ -1105,9 +1513,66 @@ export const CreateAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateAccessPolicyResponse",
 }) as any as S.Schema<CreateAccessPolicyResponse>;
+export type ApplicationName = string;
+export type Description = string;
+export interface CreateApplicationRequest {
+  clientToken?: string;
+  idcInstanceArn: string;
+  workspaceName: string;
+  name: string;
+  description?: string;
+  tags?: { [key: string]: string | undefined };
+}
+export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    idcInstanceArn: S.String,
+    workspaceName: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    tags: S.optional(TagMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateApplicationRequest",
+}) as any as S.Schema<CreateApplicationRequest>;
+export type ApplicationId = string;
+export type DnsSubdomain = string;
+export type ApplicationStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "DELETING"
+  | (string & {});
+export const ApplicationStatus = S.String;
+
+export interface CreateApplicationResponse {
+  arn: string;
+  id: string;
+  dnsSubdomain: string;
+  name: string;
+  status: ApplicationStatus;
+}
+export const CreateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    id: S.String,
+    dnsSubdomain: S.String,
+    name: S.String,
+    status: ApplicationStatus,
+  }),
+).annotate({
+  identifier: "CreateApplicationResponse",
+}) as any as S.Schema<CreateApplicationResponse>;
 export type Name = string;
 export type ExternalId = string;
-export type Description = string;
 export interface CreateAssetRequest {
   assetName: string;
   assetModelId: string;
@@ -1146,16 +1611,16 @@ export type AssetState =
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const AssetState = /*@__PURE__*/ S.String;
+export const AssetState = S.String;
 
 export type ErrorCode = "VALIDATION_ERROR" | "INTERNAL_FAILURE" | (string & {});
-export const ErrorCode = /*@__PURE__*/ S.String;
+export const ErrorCode = S.String;
 
 export type DetailedErrorCode =
   | "INCOMPATIBLE_COMPUTE_LOCATION"
   | "INCOMPATIBLE_FORWARDING_CONFIGURATION"
   | (string & {});
-export const DetailedErrorCode = /*@__PURE__*/ S.String;
+export const DetailedErrorCode = S.String;
 
 export type DetailedErrorMessage = string;
 export interface DetailedError {
@@ -1201,7 +1666,7 @@ export type AssetModelType =
   | "COMPONENT_MODEL"
   | "INTERFACE"
   | (string & {});
-export const AssetModelType = /*@__PURE__*/ S.String;
+export const AssetModelType = S.String;
 
 export type PropertyDataType =
   | "STRING"
@@ -1209,8 +1674,11 @@ export type PropertyDataType =
   | "DOUBLE"
   | "BOOLEAN"
   | "STRUCT"
+  | "VIDEO"
+  | "ANNOTATION"
+  | "JSON"
   | (string & {});
-export const PropertyDataType = /*@__PURE__*/ S.String;
+export const PropertyDataType = S.String;
 
 export type PropertyUnit = string;
 export type DefaultValue = string;
@@ -1221,7 +1689,7 @@ export const Attribute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ defaultValue: S.optional(S.String) }),
 ).annotate({ identifier: "Attribute" }) as any as S.Schema<Attribute>;
 export type ForwardingConfigState = "DISABLED" | "ENABLED" | (string & {});
-export const ForwardingConfigState = /*@__PURE__*/ S.String;
+export const ForwardingConfigState = S.String;
 
 export interface ForwardingConfig {
   state: ForwardingConfigState;
@@ -1285,7 +1753,7 @@ export const ExpressionVariable = /*@__PURE__*/ S.suspend(() =>
 export type ExpressionVariables = ExpressionVariable[];
 export const ExpressionVariables = /*@__PURE__*/ S.Array(ExpressionVariable);
 export type ComputeLocation = "EDGE" | "CLOUD" | (string & {});
-export const ComputeLocation = /*@__PURE__*/ S.String;
+export const ComputeLocation = S.String;
 
 export interface TransformProcessingConfig {
   computeLocation: ComputeLocation;
@@ -1478,7 +1946,7 @@ export type AssetModelState =
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const AssetModelState = /*@__PURE__*/ S.String;
+export const AssetModelState = S.String;
 
 export interface AssetModelStatus {
   state: AssetModelState;
@@ -1506,7 +1974,7 @@ export const CreateAssetModelResponse = /*@__PURE__*/ S.suspend(() =>
 export type ETag = string;
 export type SelectAll = string;
 export type AssetModelVersionType = "LATEST" | "ACTIVE" | (string & {});
-export const AssetModelVersionType = /*@__PURE__*/ S.String;
+export const AssetModelVersionType = S.String;
 
 export interface CreateAssetModelCompositeModelRequest {
   assetModelId: string;
@@ -1577,6 +2045,7 @@ export interface CreateAssetModelCompositeModelResponse {
   assetModelCompositeModelId: string;
   assetModelCompositeModelPath: AssetModelCompositeModelPathSegment[];
   assetModelStatus: AssetModelStatus;
+  assetModelId?: string;
 }
 export const CreateAssetModelCompositeModelResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1584,34 +2053,13 @@ export const CreateAssetModelCompositeModelResponse = /*@__PURE__*/ S.suspend(
       assetModelCompositeModelId: S.String,
       assetModelCompositeModelPath: AssetModelCompositeModelPath,
       assetModelStatus: AssetModelStatus,
+      assetModelId: S.optional(S.String),
     }),
 ).annotate({
   identifier: "CreateAssetModelCompositeModelResponse",
 }) as any as S.Schema<CreateAssetModelCompositeModelResponse>;
+export type BulkImportJobName = string;
 export type Bucket = string;
-export interface File {
-  bucket: string;
-  key: string;
-  versionId?: string;
-}
-export const File = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucket: S.String,
-    key: S.String,
-    versionId: S.optional(S.String),
-  }),
-).annotate({ identifier: "File" }) as any as S.Schema<File>;
-export type Files = File[];
-export const Files = /*@__PURE__*/ S.Array(File);
-export interface ErrorReportLocation {
-  bucket: string;
-  prefix: string;
-}
-export const ErrorReportLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucket: S.String, prefix: S.String }),
-).annotate({
-  identifier: "ErrorReportLocation",
-}) as any as S.Schema<ErrorReportLocation>;
 export type ColumnName =
   | "ALIAS"
   | "ASSET_ID"
@@ -1622,7 +2070,7 @@ export type ColumnName =
   | "QUALITY"
   | "VALUE"
   | (string & {});
-export const ColumnName = /*@__PURE__*/ S.String;
+export const ColumnName = S.String;
 
 export type ColumnNames = ColumnName[];
 export const ColumnNames = /*@__PURE__*/ S.Array(ColumnName);
@@ -1636,18 +2084,62 @@ export interface Parquet {}
 export const Parquet = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Parquet",
 }) as any as S.Schema<Parquet>;
+export interface Mp4 {}
+export const Mp4 = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "Mp4",
+}) as any as S.Schema<Mp4>;
+export interface Annotation {}
+export const Annotation = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "Annotation",
+}) as any as S.Schema<Annotation>;
 export interface FileFormat {
   csv?: Csv;
   parquet?: Parquet;
+  mp4?: Mp4;
+  annotation?: Annotation;
 }
 export const FileFormat = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ csv: S.optional(Csv), parquet: S.optional(Parquet) }),
+  S.Struct({
+    csv: S.optional(Csv),
+    parquet: S.optional(Parquet),
+    mp4: S.optional(Mp4),
+    annotation: S.optional(Annotation),
+  }),
 ).annotate({ identifier: "FileFormat" }) as any as S.Schema<FileFormat>;
+export interface File {
+  bucket: string;
+  key: string;
+  versionId?: string;
+  alias?: string;
+  startTime?: TimeInNanos;
+  fileFormat?: FileFormat;
+}
+export const File = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bucket: S.String,
+    key: S.String,
+    versionId: S.optional(S.String),
+    alias: S.optional(S.String),
+    startTime: S.optional(TimeInNanos),
+    fileFormat: S.optional(FileFormat),
+  }),
+).annotate({ identifier: "File" }) as any as S.Schema<File>;
+export type Files = File[];
+export const Files = /*@__PURE__*/ S.Array(File);
+export interface ErrorReportLocation {
+  bucket: string;
+  prefix: string;
+}
+export const ErrorReportLocation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ bucket: S.String, prefix: S.String }),
+).annotate({
+  identifier: "ErrorReportLocation",
+}) as any as S.Schema<ErrorReportLocation>;
 export interface JobConfiguration {
-  fileFormat: FileFormat;
+  fileFormat?: FileFormat;
 }
 export const JobConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ fileFormat: FileFormat }),
+  S.Struct({ fileFormat: S.optional(FileFormat) }),
 ).annotate({
   identifier: "JobConfiguration",
 }) as any as S.Schema<JobConfiguration>;
@@ -1658,9 +2150,11 @@ export interface CreateBulkImportJobRequest {
   jobRoleArn: string;
   files: File[];
   errorReportLocation: ErrorReportLocation;
-  jobConfiguration: JobConfiguration;
+  jobConfiguration?: JobConfiguration;
   adaptiveIngestion?: boolean;
   deleteFilesAfterImport?: boolean;
+  datasetId?: string;
+  workspaceName?: string;
 }
 export const CreateBulkImportJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1668,9 +2162,11 @@ export const CreateBulkImportJobRequest = /*@__PURE__*/ S.suspend(() =>
     jobRoleArn: S.String,
     files: Files,
     errorReportLocation: ErrorReportLocation,
-    jobConfiguration: JobConfiguration,
+    jobConfiguration: S.optional(JobConfiguration),
     adaptiveIngestion: S.optional(S.Boolean),
     deleteFilesAfterImport: S.optional(S.Boolean),
+    datasetId: S.optional(S.String),
+    workspaceName: S.optional(S.String),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/jobs" }),
@@ -1692,7 +2188,7 @@ export type JobStatus =
   | "FAILED"
   | "COMPLETED_WITH_FAILURES"
   | (string & {});
-export const JobStatus = /*@__PURE__*/ S.String;
+export const JobStatus = S.String;
 
 export interface CreateBulkImportJobResponse {
   jobId: string;
@@ -1822,7 +2318,7 @@ export type ComputationModelState =
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const ComputationModelState = /*@__PURE__*/ S.String;
+export const ComputationModelState = S.String;
 
 export interface ComputationModelStatus {
   state: ComputationModelState;
@@ -1886,11 +2382,44 @@ export const CreateDashboardResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateDashboardResponse",
 }) as any as S.Schema<CreateDashboardResponse>;
-export type DatasetSourceType = "KENDRA" | (string & {});
-export const DatasetSourceType = /*@__PURE__*/ S.String;
+export type DatasetTypeEnum =
+  | "SESSION"
+  | "CURATED"
+  | "EXTERNAL"
+  | (string & {});
+export const DatasetTypeEnum = S.String;
 
-export type DatasetSourceFormat = "KNOWLEDGE_BASE" | (string & {});
-export const DatasetSourceFormat = /*@__PURE__*/ S.String;
+export interface SessionConfig {
+  sessionStartTimestamp: TimeInNanos;
+  sessionEndTimestamp: TimeInNanos;
+}
+export const SessionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sessionStartTimestamp: TimeInNanos,
+    sessionEndTimestamp: TimeInNanos,
+  }),
+).annotate({ identifier: "SessionConfig" }) as any as S.Schema<SessionConfig>;
+export interface DatasetConfig {
+  session?: SessionConfig;
+}
+export const DatasetConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ session: S.optional(SessionConfig) }),
+).annotate({ identifier: "DatasetConfig" }) as any as S.Schema<DatasetConfig>;
+export type MetadataKey = string;
+export type MetadataValue = string;
+export type Metadata = { [key: string]: string | undefined };
+export const Metadata = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export type DatasetSourceType = "KENDRA" | "SITEWISE" | (string & {});
+export const DatasetSourceType = S.String;
+
+export type DatasetSourceFormat =
+  | "KNOWLEDGE_BASE"
+  | "TIMESERIES"
+  | (string & {});
+export const DatasetSourceFormat = S.String;
 
 export interface KendraSourceDetail {
   knowledgeBaseArn: string;
@@ -1923,6 +2452,10 @@ export interface CreateDatasetRequest {
   datasetId?: string;
   datasetName: string;
   datasetDescription?: string;
+  datasetType?: DatasetTypeEnum;
+  datasetConfig?: DatasetConfig;
+  workspaceName?: string;
+  metadata?: { [key: string]: string | undefined };
   datasetSource: DatasetSource;
   clientToken?: string;
   tags?: { [key: string]: string | undefined };
@@ -1932,6 +2465,10 @@ export const CreateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     datasetId: S.optional(S.String),
     datasetName: S.String,
     datasetDescription: S.optional(S.String),
+    datasetType: S.optional(DatasetTypeEnum),
+    datasetConfig: S.optional(DatasetConfig),
+    workspaceName: S.optional(S.String),
+    metadata: S.optional(Metadata),
     datasetSource: DatasetSource,
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagMap),
@@ -1955,7 +2492,7 @@ export type DatasetState =
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const DatasetState = /*@__PURE__*/ S.String;
+export const DatasetState = S.String;
 
 export interface DatasetStatus {
   state: DatasetState;
@@ -1978,6 +2515,187 @@ export const CreateDatasetResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateDatasetResponse",
 }) as any as S.Schema<CreateDatasetResponse>;
+export type S3Uri = string;
+export interface TrimSettings {
+  startTime: TimeInNanos;
+  endTime: TimeInNanos;
+}
+export const TrimSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ startTime: TimeInNanos, endTime: TimeInNanos }),
+).annotate({ identifier: "TrimSettings" }) as any as S.Schema<TrimSettings>;
+export type PositiveInteger = number;
+export interface FormatSettings {
+  framesPerSecond?: number;
+  widthInPixels?: number;
+  heightInPixels?: number;
+}
+export const FormatSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    framesPerSecond: S.optional(S.Number),
+    widthInPixels: S.optional(S.Number),
+    heightInPixels: S.optional(S.Number),
+  }),
+).annotate({ identifier: "FormatSettings" }) as any as S.Schema<FormatSettings>;
+export interface TimeseriesItem {
+  timeSeriesId?: string;
+  propertyAlias?: string;
+  trimSettings?: TrimSettings;
+  formatSettings?: FormatSettings;
+}
+export const TimeseriesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timeSeriesId: S.optional(S.String),
+    propertyAlias: S.optional(S.String),
+    trimSettings: S.optional(TrimSettings),
+    formatSettings: S.optional(FormatSettings),
+  }),
+).annotate({ identifier: "TimeseriesItem" }) as any as S.Schema<TimeseriesItem>;
+export type TimeseriesList = TimeseriesItem[];
+export const TimeseriesList = /*@__PURE__*/ S.Array(TimeseriesItem);
+export type DatasetId = string;
+export type ExportDataType =
+  | "VIDEO"
+  | "TELEMETRY"
+  | "ANNOTATION"
+  | (string & {});
+export const ExportDataType = S.String;
+
+export type ExportDataTypeList = ExportDataType[];
+export const ExportDataTypeList = /*@__PURE__*/ S.Array(ExportDataType);
+export interface DatasetItem {
+  datasetId: string;
+  trimSettings?: TrimSettings;
+  exportDataTypes?: ExportDataType[];
+}
+export const DatasetItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    datasetId: S.String,
+    trimSettings: S.optional(TrimSettings),
+    exportDataTypes: S.optional(ExportDataTypeList),
+  }),
+).annotate({ identifier: "DatasetItem" }) as any as S.Schema<DatasetItem>;
+export type ProcessingInput =
+  | { timeseries: TimeseriesItem[]; dataset?: never }
+  | { timeseries?: never; dataset: DatasetItem };
+export const ProcessingInput = /*@__PURE__*/ S.Union([
+  S.Struct({ timeseries: TimeseriesList }),
+  S.Struct({ dataset: DatasetItem }),
+]);
+export interface ExportErrorReportLocation {
+  s3Uri: string;
+}
+export const ExportErrorReportLocation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ s3Uri: S.String }),
+).annotate({
+  identifier: "ExportErrorReportLocation",
+}) as any as S.Schema<ExportErrorReportLocation>;
+export interface CreateDatasetExportJobRequest {
+  workspaceName: string;
+  clientToken?: string;
+  destinationS3Uri: string;
+  input: ProcessingInput;
+  errorReportLocation: ExportErrorReportLocation;
+}
+export const CreateDatasetExportJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    destinationS3Uri: S.String,
+    input: ProcessingInput,
+    errorReportLocation: ExportErrorReportLocation,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{workspaceName}/dataset-export-jobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateDatasetExportJobRequest",
+}) as any as S.Schema<CreateDatasetExportJobRequest>;
+export type DatasetExportJobId = string;
+export interface CreateDatasetExportJobResponse {
+  jobId: string;
+  workspaceName: string;
+}
+export const CreateDatasetExportJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ jobId: S.String, workspaceName: S.String }),
+).annotate({
+  identifier: "CreateDatasetExportJobResponse",
+}) as any as S.Schema<CreateDatasetExportJobResponse>;
+export interface EnrichmentTrimSettings {
+  startTime: TimeInNanos;
+  endTime: TimeInNanos;
+}
+export const EnrichmentTrimSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ startTime: TimeInNanos, endTime: TimeInNanos }),
+).annotate({
+  identifier: "EnrichmentTrimSettings",
+}) as any as S.Schema<EnrichmentTrimSettings>;
+export interface EventDetection {
+  datasetId: string;
+  timeSeriesId?: string;
+  propertyAlias?: string;
+  trimSettings: EnrichmentTrimSettings;
+}
+export const EventDetection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    datasetId: S.String,
+    timeSeriesId: S.optional(S.String),
+    propertyAlias: S.optional(S.String),
+    trimSettings: EnrichmentTrimSettings,
+  }),
+).annotate({ identifier: "EventDetection" }) as any as S.Schema<EventDetection>;
+export type EnrichmentJobConfiguration = { eventDetection: EventDetection };
+export const EnrichmentJobConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ eventDetection: EventDetection }),
+]);
+export interface CreateEnrichmentJobRequest {
+  workspaceName: string;
+  jobConfiguration: EnrichmentJobConfiguration;
+  clientToken?: string;
+}
+export const CreateEnrichmentJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    jobConfiguration: EnrichmentJobConfiguration,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{workspaceName}/enrichment-jobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateEnrichmentJobRequest",
+}) as any as S.Schema<CreateEnrichmentJobRequest>;
+export interface CreateEnrichmentJobResponse {
+  jobId: string;
+  status: EnrichmentJobStatus;
+  createdAt: Date;
+}
+export const CreateEnrichmentJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    jobId: S.String,
+    status: EnrichmentJobStatus,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "CreateEnrichmentJobResponse",
+}) as any as S.Schema<CreateEnrichmentJobResponse>;
 export type GatewayName = string;
 export interface Greengrass {
   groupArn: string;
@@ -1991,7 +2709,7 @@ export type CoreDeviceOperatingSystem =
   | "LINUX_AMD64"
   | "WINDOWS_AMD64"
   | (string & {});
-export const CoreDeviceOperatingSystem = /*@__PURE__*/ S.String;
+export const CoreDeviceOperatingSystem = S.String;
 
 export interface GreengrassV2 {
   coreDeviceThingName: string;
@@ -2059,10 +2777,117 @@ export const CreateGatewayResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateGatewayResponse",
 }) as any as S.Schema<CreateGatewayResponse>;
+export type EnvironmentVariableName = string;
+export type EnvironmentVariableValue = string;
+export type EnvironmentVariablesMap = { [key: string]: string | undefined };
+export const EnvironmentVariablesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export type ComputeNodeNameList = string[];
+export const ComputeNodeNameList = /*@__PURE__*/ S.Array(S.String);
+export interface ComputeNode {
+  computeNodeName: string;
+  taskName: string;
+  environmentVariables?: { [key: string]: string | undefined };
+  dependsOn?: string[];
+}
+export const ComputeNode = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    computeNodeName: S.String,
+    taskName: S.String,
+    environmentVariables: S.optional(EnvironmentVariablesMap),
+    dependsOn: S.optional(ComputeNodeNameList),
+  }),
+).annotate({ identifier: "ComputeNode" }) as any as S.Schema<ComputeNode>;
+export type ComputeNodeList = ComputeNode[];
+export const ComputeNodeList = /*@__PURE__*/ S.Array(ComputeNode);
+export interface CreatePipelineRequest {
+  workspaceName: string;
+  pipelineName: string;
+  description?: string;
+  environmentVariables?: { [key: string]: string | undefined };
+  computations: ComputeNode[];
+  tags?: { [key: string]: string | undefined };
+  clientToken?: string;
+}
+export const CreatePipelineRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    pipelineName: S.String,
+    description: S.optional(S.String),
+    environmentVariables: S.optional(EnvironmentVariablesMap),
+    computations: ComputeNodeList,
+    tags: S.optional(TagMap),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/workspaces/{workspaceName}/pipelines" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreatePipelineRequest",
+}) as any as S.Schema<CreatePipelineRequest>;
+export type ResourceErrorCode =
+  | "VALIDATION_ERROR"
+  | "INTERNAL_FAILURE"
+  | (string & {});
+export const ResourceErrorCode = S.String;
+
+export interface ResourceError {
+  code?: ResourceErrorCode;
+  message?: string;
+}
+export const ResourceError = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.optional(ResourceErrorCode),
+    message: S.optional(S.String),
+  }),
+).annotate({ identifier: "ResourceError" }) as any as S.Schema<ResourceError>;
+export type ResourceState =
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "FAILED"
+  | (string & {});
+export const ResourceState = S.String;
+
+export interface ResourceStatus {
+  error?: ResourceError;
+  state?: ResourceState;
+}
+export const ResourceStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    error: S.optional(ResourceError),
+    state: S.optional(ResourceState),
+  }),
+).annotate({ identifier: "ResourceStatus" }) as any as S.Schema<ResourceStatus>;
+export interface CreatePipelineResponse {
+  pipelineName: string;
+  pipelineArn: string;
+  version: string;
+  status: ResourceStatus;
+}
+export const CreatePipelineResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pipelineName: S.String,
+    pipelineArn: S.String,
+    version: S.String,
+    status: ResourceStatus,
+  }),
+).annotate({
+  identifier: "CreatePipelineResponse",
+}) as any as S.Schema<CreatePipelineResponse>;
 export type Email = string | redacted.Redacted<string>;
 export type ImageFileData = Uint8Array;
 export type ImageFileType = "PNG" | (string & {});
-export const ImageFileType = /*@__PURE__*/ S.String;
+export const ImageFileType = S.String;
 
 export interface ImageFile {
   data: Uint8Array;
@@ -2072,7 +2897,7 @@ export const ImageFile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ data: T.Blob, type: ImageFileType }),
 ).annotate({ identifier: "ImageFile" }) as any as S.Schema<ImageFile>;
 export type AuthMode = "IAM" | "SSO" | (string & {});
-export const AuthMode = /*@__PURE__*/ S.String;
+export const AuthMode = S.String;
 
 export interface Alarms {
   alarmRoleArn: string;
@@ -2088,7 +2913,7 @@ export type PortalType =
   | "SITEWISE_PORTAL_V1"
   | "SITEWISE_PORTAL_V2"
   | (string & {});
-export const PortalType = /*@__PURE__*/ S.String;
+export const PortalType = S.String;
 
 export type PortalTypeKey = string;
 export type PortalTools = string[];
@@ -2158,14 +2983,14 @@ export type PortalState =
   | "ACTIVE"
   | "FAILED"
   | (string & {});
-export const PortalState = /*@__PURE__*/ S.String;
+export const PortalState = S.String;
 
 export type MonitorErrorCode =
   | "INTERNAL_FAILURE"
   | "VALIDATION_ERROR"
   | "LIMIT_EXCEEDED"
   | (string & {});
-export const MonitorErrorCode = /*@__PURE__*/ S.String;
+export const MonitorErrorCode = S.String;
 
 export type MonitorErrorMessage = string;
 export interface MonitorErrorDetails {
@@ -2242,6 +3067,192 @@ export const CreateProjectResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateProjectResponse",
 }) as any as S.Schema<CreateProjectResponse>;
+export type EcrUri = string | redacted.Redacted<string>;
+export type IamRoleArn = string | redacted.Redacted<string>;
+export type ProcessingType =
+  | "GENERIC_COMPUTE_PROCESSING"
+  | "HARDWARE_ACCELERATED_PROCESSING"
+  | (string & {});
+export const ProcessingType = S.String;
+
+export type ProcessingUnit =
+  | "UNITS_2"
+  | "UNITS_4"
+  | "UNITS_8"
+  | "UNITS_12"
+  | "UNITS_16"
+  | "UNITS_24"
+  | "UNITS_32"
+  | "UNITS_36"
+  | "UNITS_48"
+  | "UNITS_60"
+  | "UNITS_64"
+  | "UNITS_72"
+  | "UNITS_84"
+  | "UNITS_96"
+  | (string & {});
+export const ProcessingUnit = S.String;
+
+export type CommandList = string[];
+export const CommandList = /*@__PURE__*/ S.Array(S.String);
+export type TimeoutSeconds = number;
+export interface ContainerTaskConfiguration {
+  ecrUri: string | redacted.Redacted<string>;
+  taskExecutionRole: string | redacted.Redacted<string>;
+  processingType: ProcessingType;
+  processingUnit: ProcessingUnit;
+  command?: string[];
+  timeoutSeconds?: number;
+  environmentVariables?: { [key: string]: string | undefined };
+}
+export const ContainerTaskConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ecrUri: SensitiveString,
+    taskExecutionRole: SensitiveString,
+    processingType: ProcessingType,
+    processingUnit: ProcessingUnit,
+    command: S.optional(CommandList),
+    timeoutSeconds: S.optional(S.Number),
+    environmentVariables: S.optional(EnvironmentVariablesMap),
+  }),
+).annotate({
+  identifier: "ContainerTaskConfiguration",
+}) as any as S.Schema<ContainerTaskConfiguration>;
+export type TaskConfiguration = {
+  containerTaskConfiguration: ContainerTaskConfiguration;
+};
+export const TaskConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ containerTaskConfiguration: ContainerTaskConfiguration }),
+]);
+export interface CreateTaskRequest {
+  workspaceName: string;
+  taskName: string;
+  description?: string;
+  taskConfiguration: TaskConfiguration;
+  tags?: { [key: string]: string | undefined };
+  clientToken?: string;
+}
+export const CreateTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    taskName: S.String,
+    description: S.optional(S.String),
+    taskConfiguration: TaskConfiguration,
+    tags: S.optional(TagMap),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/workspaces/{workspaceName}/tasks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateTaskRequest",
+}) as any as S.Schema<CreateTaskRequest>;
+export interface CreateTaskResponse {
+  taskName: string;
+  taskArn: string;
+  version: string;
+  status: ResourceStatus;
+}
+export const CreateTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    taskName: S.String,
+    taskArn: S.String,
+    version: S.String,
+    status: ResourceStatus,
+  }),
+).annotate({
+  identifier: "CreateTaskResponse",
+}) as any as S.Schema<CreateTaskResponse>;
+export type EncryptionType =
+  | "SITEWISE_DEFAULT_ENCRYPTION"
+  | "KMS_BASED_ENCRYPTION"
+  | (string & {});
+export const EncryptionType = S.String;
+
+export type KmsKeyId = string;
+export interface WorkspaceEncryptionConfiguration {
+  encryptionType: EncryptionType;
+  kmsKeyId?: string;
+}
+export const WorkspaceEncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ encryptionType: EncryptionType, kmsKeyId: S.optional(S.String) }),
+).annotate({
+  identifier: "WorkspaceEncryptionConfiguration",
+}) as any as S.Schema<WorkspaceEncryptionConfiguration>;
+export interface CreateWorkspaceRequest {
+  workspaceName: string;
+  workspaceDescription?: string;
+  encryptionConfiguration: WorkspaceEncryptionConfiguration;
+  tags?: { [key: string]: string | undefined };
+  clientToken?: string;
+}
+export const CreateWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String,
+    workspaceDescription: S.optional(S.String),
+    encryptionConfiguration: WorkspaceEncryptionConfiguration,
+    tags: S.optional(TagMap),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/workspaces" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateWorkspaceRequest",
+}) as any as S.Schema<CreateWorkspaceRequest>;
+export type WorkspaceState =
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "FAILED"
+  | (string & {});
+export const WorkspaceState = S.String;
+
+export interface WorkspaceErrorDetails {
+  code: ErrorCode;
+  message: string;
+}
+export const WorkspaceErrorDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ code: ErrorCode, message: S.String }),
+).annotate({
+  identifier: "WorkspaceErrorDetails",
+}) as any as S.Schema<WorkspaceErrorDetails>;
+export interface WorkspaceStatus {
+  state: WorkspaceState;
+  error?: WorkspaceErrorDetails;
+}
+export const WorkspaceStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ state: WorkspaceState, error: S.optional(WorkspaceErrorDetails) }),
+).annotate({
+  identifier: "WorkspaceStatus",
+}) as any as S.Schema<WorkspaceStatus>;
+export interface CreateWorkspaceResponse {
+  workspaceName: string;
+  workspaceArn: string;
+  workspaceStatus: WorkspaceStatus;
+}
+export const CreateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String,
+    workspaceArn: S.String,
+    workspaceStatus: WorkspaceStatus,
+  }),
+).annotate({
+  identifier: "CreateWorkspaceResponse",
+}) as any as S.Schema<CreateWorkspaceResponse>;
 export interface DeleteAccessPolicyRequest {
   accessPolicyId: string;
   clientToken?: string;
@@ -2272,6 +3283,36 @@ export const DeleteAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteAccessPolicyResponse",
 }) as any as S.Schema<DeleteAccessPolicyResponse>;
+export interface DeleteApplicationRequest {
+  workspaceName: string;
+  id: string;
+}
+export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    id: S.String.pipe(T.HttpLabel("id")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/workspaces/{workspaceName}/applications/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteApplicationRequest",
+}) as any as S.Schema<DeleteApplicationRequest>;
+export interface DeleteApplicationResponse {}
+export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteApplicationResponse",
+}) as any as S.Schema<DeleteApplicationResponse>;
 export interface DeleteAssetRequest {
   assetId: string;
   clientToken?: string;
@@ -2297,10 +3338,11 @@ export const DeleteAssetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAssetRequest",
 }) as any as S.Schema<DeleteAssetRequest>;
 export interface DeleteAssetResponse {
+  assetId?: string;
   assetStatus: AssetStatus;
 }
 export const DeleteAssetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ assetStatus: AssetStatus }),
+  S.Struct({ assetId: S.optional(S.String), assetStatus: AssetStatus }),
 ).annotate({
   identifier: "DeleteAssetResponse",
 }) as any as S.Schema<DeleteAssetResponse>;
@@ -2337,10 +3379,14 @@ export const DeleteAssetModelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAssetModelRequest",
 }) as any as S.Schema<DeleteAssetModelRequest>;
 export interface DeleteAssetModelResponse {
+  assetModelId?: string;
   assetModelStatus: AssetModelStatus;
 }
 export const DeleteAssetModelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ assetModelStatus: AssetModelStatus }),
+  S.Struct({
+    assetModelId: S.optional(S.String),
+    assetModelStatus: AssetModelStatus,
+  }),
 ).annotate({
   identifier: "DeleteAssetModelResponse",
 }) as any as S.Schema<DeleteAssetModelResponse>;
@@ -2386,9 +3432,14 @@ export const DeleteAssetModelCompositeModelRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<DeleteAssetModelCompositeModelRequest>;
 export interface DeleteAssetModelCompositeModelResponse {
   assetModelStatus: AssetModelStatus;
+  assetModelId?: string;
 }
 export const DeleteAssetModelCompositeModelResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ assetModelStatus: AssetModelStatus }),
+  () =>
+    S.Struct({
+      assetModelStatus: AssetModelStatus,
+      assetModelId: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "DeleteAssetModelCompositeModelResponse",
 }) as any as S.Schema<DeleteAssetModelCompositeModelResponse>;
@@ -2508,11 +3559,13 @@ export const DeleteDashboardResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteDashboardResponse>;
 export interface DeleteDatasetRequest {
   datasetId: string;
+  workspaceName?: string;
   clientToken?: string;
 }
 export const DeleteDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+    workspaceName: S.optional(S.String).pipe(T.HttpQuery("workspaceName")),
     clientToken: S.optional(S.String).pipe(
       T.HttpQuery("clientToken"),
       T.IdempotencyToken(),
@@ -2561,6 +3614,38 @@ export const DeleteGatewayResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteGatewayResponse",
 }) as any as S.Schema<DeleteGatewayResponse>;
+export interface DeletePipelineRequest {
+  workspaceName: string;
+  pipelineName: string;
+}
+export const DeletePipelineRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    pipelineName: S.String.pipe(T.HttpLabel("pipelineName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/workspaces/{workspaceName}/pipelines/{pipelineName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeletePipelineRequest",
+}) as any as S.Schema<DeletePipelineRequest>;
+export interface DeletePipelineResponse {
+  status: ResourceStatus;
+}
+export const DeletePipelineResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ status: ResourceStatus }),
+).annotate({
+  identifier: "DeletePipelineResponse",
+}) as any as S.Schema<DeletePipelineResponse>;
 export interface DeletePortalRequest {
   portalId: string;
   clientToken?: string;
@@ -2623,11 +3708,44 @@ export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteProjectResponse",
 }) as any as S.Schema<DeleteProjectResponse>;
+export interface DeleteTaskRequest {
+  workspaceName: string;
+  taskName: string;
+}
+export const DeleteTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    taskName: S.String.pipe(T.HttpLabel("taskName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/workspaces/{workspaceName}/tasks/{taskName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteTaskRequest",
+}) as any as S.Schema<DeleteTaskRequest>;
+export interface DeleteTaskResponse {
+  status: ResourceStatus;
+}
+export const DeleteTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ status: ResourceStatus }),
+).annotate({
+  identifier: "DeleteTaskResponse",
+}) as any as S.Schema<DeleteTaskResponse>;
 export interface DeleteTimeSeriesRequest {
   alias?: string;
   assetId?: string;
   propertyId?: string;
   clientToken?: string;
+  workspaceName?: string;
 }
 export const DeleteTimeSeriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2635,6 +3753,7 @@ export const DeleteTimeSeriesRequest = /*@__PURE__*/ S.suspend(() =>
     assetId: S.optional(S.String).pipe(T.HttpQuery("assetId")),
     propertyId: S.optional(S.String).pipe(T.HttpQuery("propertyId")),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    workspaceName: S.optional(S.String).pipe(T.HttpQuery("workspaceName")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/timeseries/delete" }),
@@ -2654,6 +3773,38 @@ export const DeleteTimeSeriesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteTimeSeriesResponse",
 }) as any as S.Schema<DeleteTimeSeriesResponse>;
+export interface DeleteWorkspaceRequest {
+  workspaceName: string;
+  clientToken?: string;
+}
+export const DeleteWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    clientToken: S.optional(S.String).pipe(
+      T.HttpQuery("clientToken"),
+      T.IdempotencyToken(),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/workspaces/{workspaceName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteWorkspaceRequest",
+}) as any as S.Schema<DeleteWorkspaceRequest>;
+export interface DeleteWorkspaceResponse {
+  workspaceStatus: WorkspaceStatus;
+}
+export const DeleteWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ workspaceStatus: WorkspaceStatus }),
+).annotate({
+  identifier: "DeleteWorkspaceResponse",
+}) as any as S.Schema<DeleteWorkspaceResponse>;
 export interface DescribeAccessPolicyRequest {
   accessPolicyId: string;
 }
@@ -2755,6 +3906,59 @@ export const DescribeActionResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeActionResponse",
 }) as any as S.Schema<DescribeActionResponse>;
+export interface DescribeApplicationRequest {
+  workspaceName: string;
+  id: string;
+}
+export const DescribeApplicationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    id: S.String.pipe(T.HttpLabel("id")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{workspaceName}/applications/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeApplicationRequest",
+}) as any as S.Schema<DescribeApplicationRequest>;
+export type ApplicationDescription = string;
+export interface DescribeApplicationResponse {
+  arn: string;
+  createdAt: Date;
+  dnsSubdomain: string;
+  description?: string;
+  id: string;
+  idcApplicationArn: string;
+  name: string;
+  status: ApplicationStatus;
+  updatedAt: Date;
+  workspaceName: string;
+}
+export const DescribeApplicationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    dnsSubdomain: S.String,
+    description: S.optional(S.String),
+    id: S.String,
+    idcApplicationArn: S.String,
+    name: S.String,
+    status: ApplicationStatus,
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    workspaceName: S.String,
+  }),
+).annotate({
+  identifier: "DescribeApplicationResponse",
+}) as any as S.Schema<DescribeApplicationResponse>;
 export type ExcludeProperties = boolean;
 export interface DescribeAssetRequest {
   assetId: string;
@@ -2781,7 +3985,7 @@ export const DescribeAssetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeAssetRequest>;
 export type PropertyNotificationTopic = string;
 export type PropertyNotificationState = "ENABLED" | "DISABLED" | (string & {});
-export const PropertyNotificationState = /*@__PURE__*/ S.String;
+export const PropertyNotificationState = S.String;
 
 export interface PropertyNotification {
   topic: string;
@@ -3127,7 +4331,6 @@ export type AssetModelCompositeModelSummaries =
 export const AssetModelCompositeModelSummaries = /*@__PURE__*/ S.Array(
   AssetModelCompositeModelSummary,
 );
-export type Version = string;
 export interface InterfaceRelationship {
   id: string;
 }
@@ -3422,9 +4625,13 @@ export const DescribeAssetPropertyResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeAssetPropertyResponse>;
 export interface DescribeBulkImportJobRequest {
   jobId: string;
+  workspaceName?: string;
 }
 export const DescribeBulkImportJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String.pipe(T.HttpLabel("jobId")) }).pipe(
+  S.Struct({
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    workspaceName: S.optional(S.String).pipe(T.HttpQuery("workspaceName")),
+  }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/jobs/{jobId}" }),
       svc,
@@ -3444,11 +4651,13 @@ export interface DescribeBulkImportJobResponse {
   jobRoleArn: string;
   files: File[];
   errorReportLocation: ErrorReportLocation;
-  jobConfiguration: JobConfiguration;
+  jobConfiguration?: JobConfiguration;
   jobCreationDate: Date;
   jobLastUpdateDate: Date;
   adaptiveIngestion?: boolean;
   deleteFilesAfterImport?: boolean;
+  datasetId?: string;
+  workspaceName?: string;
 }
 export const DescribeBulkImportJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3458,11 +4667,13 @@ export const DescribeBulkImportJobResponse = /*@__PURE__*/ S.suspend(() =>
     jobRoleArn: S.String,
     files: Files,
     errorReportLocation: ErrorReportLocation,
-    jobConfiguration: JobConfiguration,
+    jobConfiguration: S.optional(JobConfiguration),
     jobCreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     jobLastUpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     adaptiveIngestion: S.optional(S.Boolean),
     deleteFilesAfterImport: S.optional(S.Boolean),
+    datasetId: S.optional(S.String),
+    workspaceName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DescribeBulkImportJobResponse",
@@ -3531,7 +4742,7 @@ export const DescribeComputationModelResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeComputationModelResponse",
 }) as any as S.Schema<DescribeComputationModelResponse>;
 export type ResolveToResourceType = "ASSET" | (string & {});
-export const ResolveToResourceType = /*@__PURE__*/ S.String;
+export const ResolveToResourceType = S.String;
 
 export interface DescribeComputationModelExecutionSummaryRequest {
   computationModelId: string;
@@ -3631,9 +4842,15 @@ export const DescribeDashboardResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeDashboardResponse>;
 export interface DescribeDatasetRequest {
   datasetId: string;
+  workspaceName?: string;
+  datasetVersion?: string;
 }
 export const DescribeDatasetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ datasetId: S.String.pipe(T.HttpLabel("datasetId")) }).pipe(
+  S.Struct({
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+    workspaceName: S.optional(S.String).pipe(T.HttpQuery("workspaceName")),
+    datasetVersion: S.optional(S.String).pipe(T.HttpQuery("datasetVersion")),
+  }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/datasets/{datasetId}" }),
       svc,
@@ -3646,16 +4863,48 @@ export const DescribeDatasetRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeDatasetRequest",
 }) as any as S.Schema<DescribeDatasetRequest>;
+export type DatasetEnrichmentStatus =
+  | "FULLY_ENRICHED"
+  | "PARTIALLY_ENRICHED"
+  | "NOT_ENRICHED"
+  | (string & {});
+export const DatasetEnrichmentStatus = S.String;
+
+export interface DatasetEnrichmentEntry {
+  status: DatasetEnrichmentStatus;
+  lastEnrichedAt?: Date;
+}
+export const DatasetEnrichmentEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: DatasetEnrichmentStatus,
+    lastEnrichedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "DatasetEnrichmentEntry",
+}) as any as S.Schema<DatasetEnrichmentEntry>;
+export interface DatasetEnrichment {
+  video?: DatasetEnrichmentEntry;
+}
+export const DatasetEnrichment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ video: S.optional(DatasetEnrichmentEntry) }),
+).annotate({
+  identifier: "DatasetEnrichment",
+}) as any as S.Schema<DatasetEnrichment>;
 export interface DescribeDatasetResponse {
   datasetId: string;
   datasetArn: string;
   datasetName: string;
   datasetDescription: string;
+  datasetType?: DatasetTypeEnum;
+  datasetConfig?: DatasetConfig;
+  workspaceName?: string;
+  metadata?: { [key: string]: string | undefined };
   datasetSource: DatasetSource;
   datasetStatus: DatasetStatus;
   datasetCreationDate: Date;
   datasetLastUpdateDate: Date;
   datasetVersion?: string;
+  enrichmentStatus?: DatasetEnrichment;
 }
 export const DescribeDatasetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3663,15 +4912,77 @@ export const DescribeDatasetResponse = /*@__PURE__*/ S.suspend(() =>
     datasetArn: S.String,
     datasetName: S.String,
     datasetDescription: S.String,
+    datasetType: S.optional(DatasetTypeEnum),
+    datasetConfig: S.optional(DatasetConfig),
+    workspaceName: S.optional(S.String),
+    metadata: S.optional(Metadata),
     datasetSource: DatasetSource,
     datasetStatus: DatasetStatus,
     datasetCreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     datasetLastUpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     datasetVersion: S.optional(S.String),
+    enrichmentStatus: S.optional(DatasetEnrichment),
   }),
 ).annotate({
   identifier: "DescribeDatasetResponse",
 }) as any as S.Schema<DescribeDatasetResponse>;
+export interface DescribeDatasetExportJobRequest {
+  workspaceName: string;
+  jobId: string;
+}
+export const DescribeDatasetExportJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{workspaceName}/dataset-export-jobs/{jobId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeDatasetExportJobRequest",
+}) as any as S.Schema<DescribeDatasetExportJobRequest>;
+export type DatasetExportJobStatus =
+  | "SUBMITTED"
+  | "RUNNING"
+  | "COMPLETED"
+  | "COMPLETED_WITH_ERRORS"
+  | "FAILED"
+  | (string & {});
+export const DatasetExportJobStatus = S.String;
+
+export interface DescribeDatasetExportJobResponse {
+  jobId: string;
+  workspaceName: string;
+  status: DatasetExportJobStatus;
+  startedAt: Date;
+  completedAt?: Date;
+  destinationS3Uri: string;
+  errorReportLocation: ExportErrorReportLocation;
+  input: ProcessingInput;
+}
+export const DescribeDatasetExportJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    jobId: S.String,
+    workspaceName: S.String,
+    status: DatasetExportJobStatus,
+    startedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    destinationS3Uri: S.String,
+    errorReportLocation: ExportErrorReportLocation,
+    input: ProcessingInput,
+  }),
+).annotate({
+  identifier: "DescribeDatasetExportJobResponse",
+}) as any as S.Schema<DescribeDatasetExportJobResponse>;
 export interface DescribeDefaultEncryptionConfigurationRequest {}
 export const DescribeDefaultEncryptionConfigurationRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -3688,18 +4999,12 @@ export const DescribeDefaultEncryptionConfigurationRequest =
   ).annotate({
     identifier: "DescribeDefaultEncryptionConfigurationRequest",
   }) as any as S.Schema<DescribeDefaultEncryptionConfigurationRequest>;
-export type EncryptionType =
-  | "SITEWISE_DEFAULT_ENCRYPTION"
-  | "KMS_BASED_ENCRYPTION"
-  | (string & {});
-export const EncryptionType = /*@__PURE__*/ S.String;
-
 export type ConfigurationState =
   | "ACTIVE"
   | "UPDATE_IN_PROGRESS"
   | "UPDATE_FAILED"
   | (string & {});
-export const ConfigurationState = /*@__PURE__*/ S.String;
+export const ConfigurationState = S.String;
 
 export interface ConfigurationErrorDetails {
   code: ErrorCode;
@@ -3737,6 +5042,61 @@ export const DescribeDefaultEncryptionConfigurationResponse =
   ).annotate({
     identifier: "DescribeDefaultEncryptionConfigurationResponse",
   }) as any as S.Schema<DescribeDefaultEncryptionConfigurationResponse>;
+export interface DescribeEnrichmentJobRequest {
+  workspaceName: string;
+  jobId: string;
+}
+export const DescribeEnrichmentJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{workspaceName}/enrichment-jobs/{jobId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeEnrichmentJobRequest",
+}) as any as S.Schema<DescribeEnrichmentJobRequest>;
+export type JobType = "EVENT_DETECTION" | (string & {});
+export const JobType = S.String;
+
+export interface DescribeEnrichmentJobResponse {
+  jobId: string;
+  status: EnrichmentJobStatus;
+  workspaceName: string;
+  jobType: JobType;
+  jobConfiguration: EnrichmentJobConfiguration;
+  createdAt: Date;
+  updatedAt?: Date;
+  completedAt?: Date;
+  cancelledAt?: Date;
+  failureMessage?: string;
+}
+export const DescribeEnrichmentJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    jobId: S.String,
+    status: EnrichmentJobStatus,
+    workspaceName: S.String,
+    jobType: JobType,
+    jobConfiguration: EnrichmentJobConfiguration,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    cancelledAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    failureMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeEnrichmentJobResponse",
+}) as any as S.Schema<DescribeEnrichmentJobResponse>;
 export interface DescribeExecutionRequest {
   executionId: string;
 }
@@ -3755,7 +5115,7 @@ export const DescribeExecutionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeExecutionRequest",
 }) as any as S.Schema<DescribeExecutionRequest>;
 export type ExecutionState = "RUNNING" | "COMPLETED" | "FAILED" | (string & {});
-export const ExecutionState = /*@__PURE__*/ S.String;
+export const ExecutionState = S.String;
 
 export interface ExecutionStatus {
   state: ExecutionState;
@@ -3836,7 +5196,7 @@ export type CapabilitySyncStatus =
   | "UNKNOWN"
   | "NOT_APPLICABLE"
   | (string & {});
-export const CapabilitySyncStatus = /*@__PURE__*/ S.String;
+export const CapabilitySyncStatus = S.String;
 
 export interface GatewayCapabilitySummary {
   capabilityNamespace: string;
@@ -3921,9 +5281,13 @@ export const DescribeGatewayCapabilityConfigurationResponse =
   ).annotate({
     identifier: "DescribeGatewayCapabilityConfigurationResponse",
   }) as any as S.Schema<DescribeGatewayCapabilityConfigurationResponse>;
-export interface DescribeLoggingOptionsRequest {}
+export interface DescribeLoggingOptionsRequest {
+  workspaceName?: string;
+}
 export const DescribeLoggingOptionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
+  S.Struct({
+    workspaceName: S.optional(S.String).pipe(T.HttpQuery("workspaceName")),
+  }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/logging" }),
       svc,
@@ -3937,7 +5301,7 @@ export const DescribeLoggingOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeLoggingOptionsRequest",
 }) as any as S.Schema<DescribeLoggingOptionsRequest>;
 export type LoggingLevel = "ERROR" | "INFO" | "OFF" | (string & {});
-export const LoggingLevel = /*@__PURE__*/ S.String;
+export const LoggingLevel = S.String;
 
 export interface LoggingOptions {
   level: LoggingLevel;
@@ -3953,6 +5317,279 @@ export const DescribeLoggingOptionsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeLoggingOptionsResponse",
 }) as any as S.Schema<DescribeLoggingOptionsResponse>;
+export interface DescribePipelineRequest {
+  workspaceName: string;
+  pipelineName: string;
+  pipelineVersion?: string;
+}
+export const DescribePipelineRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    pipelineName: S.String.pipe(T.HttpLabel("pipelineName")),
+    pipelineVersion: S.optional(S.String).pipe(T.HttpQuery("version")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{workspaceName}/pipelines/{pipelineName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribePipelineRequest",
+}) as any as S.Schema<DescribePipelineRequest>;
+export interface DescribePipelineResponse {
+  pipelineName: string;
+  workspaceName: string;
+  description?: string;
+  pipelineArn: string;
+  version: string;
+  environmentVariables?: { [key: string]: string | undefined };
+  computations: ComputeNode[];
+  status: ResourceStatus;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const DescribePipelineResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pipelineName: S.String,
+    workspaceName: S.String,
+    description: S.optional(S.String),
+    pipelineArn: S.String,
+    version: S.String,
+    environmentVariables: S.optional(EnvironmentVariablesMap),
+    computations: ComputeNodeList,
+    status: ResourceStatus,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "DescribePipelineResponse",
+}) as any as S.Schema<DescribePipelineResponse>;
+export type PaginationToken = string;
+export type DescribePipelineExecutionRequestMaxResultsInteger = number;
+export interface DescribePipelineExecutionRequest {
+  workspaceName: string;
+  pipelineName: string;
+  pipelineExecutionId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const DescribePipelineExecutionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    pipelineName: S.String.pipe(T.HttpLabel("pipelineName")),
+    pipelineExecutionId: S.String.pipe(T.HttpLabel("pipelineExecutionId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{workspaceName}/pipelines/{pipelineName}/executions/{pipelineExecutionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribePipelineExecutionRequest",
+}) as any as S.Schema<DescribePipelineExecutionRequest>;
+export type PipelineErrorCode =
+  | "VALIDATION_ERROR"
+  | "INTERNAL_FAILURE"
+  | "EXECUTION_ERROR"
+  | "TIMED_OUT"
+  | (string & {});
+export const PipelineErrorCode = S.String;
+
+export type DetailedPipelineErrorCode =
+  | "VALIDATION_ERROR"
+  | "INTERNAL_FAILURE"
+  | "EXECUTION_ERROR"
+  | "TIMED_OUT"
+  | (string & {});
+export const DetailedPipelineErrorCode = S.String;
+
+export interface DetailedPipelineError {
+  code: DetailedPipelineErrorCode;
+  message: string;
+}
+export const DetailedPipelineError = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ code: DetailedPipelineErrorCode, message: S.String }),
+).annotate({
+  identifier: "DetailedPipelineError",
+}) as any as S.Schema<DetailedPipelineError>;
+export type DetailedErrorList = DetailedPipelineError[];
+export const DetailedErrorList = /*@__PURE__*/ S.Array(DetailedPipelineError);
+export interface PipelineExecutionStateDetails {
+  code?: PipelineErrorCode;
+  message: string;
+  details?: DetailedPipelineError[];
+}
+export const PipelineExecutionStateDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.optional(PipelineErrorCode),
+    message: S.String,
+    details: S.optional(DetailedErrorList),
+  }),
+).annotate({
+  identifier: "PipelineExecutionStateDetails",
+}) as any as S.Schema<PipelineExecutionStateDetails>;
+export interface PipelineExecutionStatus {
+  state: PipelineExecutionState;
+  stateDetails?: PipelineExecutionStateDetails;
+}
+export const PipelineExecutionStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: PipelineExecutionState,
+    stateDetails: S.optional(PipelineExecutionStateDetails),
+  }),
+).annotate({
+  identifier: "PipelineExecutionStatus",
+}) as any as S.Schema<PipelineExecutionStatus>;
+export type ComputeNodeEnvironmentVariablesMap = {
+  [key: string]: { [key: string]: string | undefined } | undefined;
+};
+export const ComputeNodeEnvironmentVariablesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  EnvironmentVariablesMap.pipe(S.optional),
+);
+export interface ExecutionEnvironmentVariables {
+  global?: { [key: string]: string | undefined };
+  computeNodes?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
+}
+export const ExecutionEnvironmentVariables = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    global: S.optional(EnvironmentVariablesMap),
+    computeNodes: S.optional(ComputeNodeEnvironmentVariablesMap),
+  }),
+).annotate({
+  identifier: "ExecutionEnvironmentVariables",
+}) as any as S.Schema<ExecutionEnvironmentVariables>;
+export type ExecutionPriority = number;
+export type ComputeNodeExecutionState =
+  | "NOT_STARTED"
+  | "QUEUED"
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | (string & {});
+export const ComputeNodeExecutionState = S.String;
+
+export type ComputeNodeErrorCode =
+  | "VALIDATION_ERROR"
+  | "INTERNAL_FAILURE"
+  | "EXECUTION_ERROR"
+  | "TIMED_OUT"
+  | (string & {});
+export const ComputeNodeErrorCode = S.String;
+
+export interface ComputeNodeExecutionStateDetails {
+  code: ComputeNodeErrorCode;
+  message: string;
+  details?: DetailedPipelineError[];
+}
+export const ComputeNodeExecutionStateDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: ComputeNodeErrorCode,
+    message: S.String,
+    details: S.optional(DetailedErrorList),
+  }),
+).annotate({
+  identifier: "ComputeNodeExecutionStateDetails",
+}) as any as S.Schema<ComputeNodeExecutionStateDetails>;
+export interface ComputeNodeExecutionStatus {
+  state: ComputeNodeExecutionState;
+  stateDetails?: ComputeNodeExecutionStateDetails;
+}
+export const ComputeNodeExecutionStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: ComputeNodeExecutionState,
+    stateDetails: S.optional(ComputeNodeExecutionStateDetails),
+  }),
+).annotate({
+  identifier: "ComputeNodeExecutionStatus",
+}) as any as S.Schema<ComputeNodeExecutionStatus>;
+export type ExecutionEnvironmentVariablesMapKeyString = string;
+export type ExecutionEnvironmentVariablesMapValueString = string;
+export type ExecutionEnvironmentVariablesMap = {
+  [key: string]: string | undefined;
+};
+export const ExecutionEnvironmentVariablesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface ComputeNodeExecutionDetails {
+  computeNodeName: string;
+  taskName: string;
+  taskArn: string;
+  taskVersion: string;
+  dependsOn: string[];
+  status: ComputeNodeExecutionStatus;
+  startTime?: Date;
+  endTime?: Date;
+  executionEnvironmentVariables?: { [key: string]: string | undefined };
+}
+export const ComputeNodeExecutionDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    computeNodeName: S.String,
+    taskName: S.String,
+    taskArn: S.String,
+    taskVersion: S.String,
+    dependsOn: ComputeNodeNameList,
+    status: ComputeNodeExecutionStatus,
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    executionEnvironmentVariables: S.optional(ExecutionEnvironmentVariablesMap),
+  }),
+).annotate({
+  identifier: "ComputeNodeExecutionDetails",
+}) as any as S.Schema<ComputeNodeExecutionDetails>;
+export type ComputeNodeExecutionDetailsList = ComputeNodeExecutionDetails[];
+export const ComputeNodeExecutionDetailsList = /*@__PURE__*/ S.Array(
+  ComputeNodeExecutionDetails,
+);
+export interface DescribePipelineExecutionResponse {
+  pipelineExecutionId: string;
+  pipelineName: string;
+  workspaceName: string;
+  pipelineVersion: string;
+  status: PipelineExecutionStatus;
+  startTime?: Date;
+  endTime?: Date;
+  requestEnvironmentVariables: ExecutionEnvironmentVariables;
+  executionPriority?: number;
+  computeNodeExecutionDetails: ComputeNodeExecutionDetails[];
+  nextToken?: string;
+}
+export const DescribePipelineExecutionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pipelineExecutionId: S.String,
+    pipelineName: S.String,
+    workspaceName: S.String,
+    pipelineVersion: S.String,
+    status: PipelineExecutionStatus,
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    requestEnvironmentVariables: ExecutionEnvironmentVariables,
+    executionPriority: S.optional(S.Number),
+    computeNodeExecutionDetails: ComputeNodeExecutionDetailsList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribePipelineExecutionResponse",
+}) as any as S.Schema<DescribePipelineExecutionResponse>;
 export interface DescribePortalRequest {
   portalId: string;
 }
@@ -4059,6 +5696,127 @@ export const DescribeProjectResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeProjectResponse",
 }) as any as S.Schema<DescribeProjectResponse>;
+export interface DescribeQueryRequest {
+  workspaceName: string;
+  queryId: string;
+}
+export const DescribeQueryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    queryId: S.String.pipe(T.HttpLabel("queryId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{workspaceName}/queries/{queryId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeQueryRequest",
+}) as any as S.Schema<DescribeQueryRequest>;
+export interface QueryStatistics {
+  rowCount: number;
+  bytesScanned: number;
+  executionTimeInMillis: number;
+}
+export const QueryStatistics = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rowCount: S.Number,
+    bytesScanned: S.Number,
+    executionTimeInMillis: S.Number,
+  }),
+).annotate({
+  identifier: "QueryStatistics",
+}) as any as S.Schema<QueryStatistics>;
+export type QueryErrorMessage = string;
+export interface DescribeQueryResponse {
+  queryId: string;
+  status: QueryStatus;
+  submittedAt: Date;
+  completedAt?: Date;
+  statistics?: QueryStatistics;
+  errorMessage?: string;
+}
+export const DescribeQueryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    queryId: S.String,
+    status: QueryStatus,
+    submittedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    statistics: S.optional(QueryStatistics),
+    errorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeQueryResponse",
+}) as any as S.Schema<DescribeQueryResponse>;
+export type SearchId = string;
+export interface DescribeSearchRequest {
+  workspaceName: string;
+  searchId: string;
+}
+export const DescribeSearchRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    searchId: S.String.pipe(T.HttpLabel("searchId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{workspaceName}/searches/{searchId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeSearchRequest",
+}) as any as S.Schema<DescribeSearchRequest>;
+export type SearchStatus =
+  | "QUEUED"
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "FAILED"
+  | (string & {});
+export const SearchStatus = S.String;
+
+export type SearchQueryStatement = string | redacted.Redacted<string>;
+export type SearchType = "DEEP" | "QUICK" | (string & {});
+export const SearchType = S.String;
+
+export type GroupId = string;
+export interface DescribeSearchResponse {
+  searchId: string;
+  workspaceName: string;
+  status: SearchStatus;
+  queryStatement: string | redacted.Redacted<string>;
+  searchType: SearchType;
+  statusReason?: string;
+  startedAt?: Date;
+  groupId?: string;
+}
+export const DescribeSearchResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    searchId: S.String,
+    workspaceName: S.String,
+    status: SearchStatus,
+    queryStatement: SensitiveString,
+    searchType: SearchType,
+    statusReason: S.optional(S.String),
+    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    groupId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeSearchResponse",
+}) as any as S.Schema<DescribeSearchResponse>;
 export interface DescribeStorageConfigurationRequest {}
 export const DescribeStorageConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
@@ -4078,7 +5836,7 @@ export type StorageType =
   | "SITEWISE_DEFAULT_STORAGE"
   | "MULTI_LAYER_STORAGE"
   | (string & {});
-export const StorageType = /*@__PURE__*/ S.String;
+export const StorageType = S.String;
 
 export interface CustomerManagedS3Storage {
   s3ResourceArn: string;
@@ -4101,7 +5859,7 @@ export type DisassociatedDataStorageState =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const DisassociatedDataStorageState = /*@__PURE__*/ S.String;
+export const DisassociatedDataStorageState = S.String;
 
 export type NumberOfDays = number;
 export type Unlimited = boolean;
@@ -4118,7 +5876,7 @@ export const RetentionPeriod = /*@__PURE__*/ S.suspend(() =>
   identifier: "RetentionPeriod",
 }) as any as S.Schema<RetentionPeriod>;
 export type WarmTierState = "ENABLED" | "DISABLED" | (string & {});
-export const WarmTierState = /*@__PURE__*/ S.String;
+export const WarmTierState = S.String;
 
 export interface WarmTierRetentionPeriod {
   numberOfDays?: number;
@@ -4162,16 +5920,70 @@ export const DescribeStorageConfigurationResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "DescribeStorageConfigurationResponse",
 }) as any as S.Schema<DescribeStorageConfigurationResponse>;
+export interface DescribeTaskRequest {
+  workspaceName: string;
+  taskName: string;
+  taskVersion?: string;
+}
+export const DescribeTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    taskName: S.String.pipe(T.HttpLabel("taskName")),
+    taskVersion: S.optional(S.String).pipe(T.HttpQuery("version")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{workspaceName}/tasks/{taskName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeTaskRequest",
+}) as any as S.Schema<DescribeTaskRequest>;
+export interface DescribeTaskResponse {
+  workspaceName: string;
+  taskName: string;
+  description?: string;
+  taskArn: string;
+  version: string;
+  taskConfiguration: TaskConfiguration;
+  status: ResourceStatus;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const DescribeTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String,
+    taskName: S.String,
+    description: S.optional(S.String),
+    taskArn: S.String,
+    version: S.String,
+    taskConfiguration: TaskConfiguration,
+    status: ResourceStatus,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "DescribeTaskResponse",
+}) as any as S.Schema<DescribeTaskResponse>;
 export interface DescribeTimeSeriesRequest {
   alias?: string;
   assetId?: string;
   propertyId?: string;
+  workspaceName?: string;
 }
 export const DescribeTimeSeriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     alias: S.optional(S.String).pipe(T.HttpQuery("alias")),
     assetId: S.optional(S.String).pipe(T.HttpQuery("assetId")),
     propertyId: S.optional(S.String).pipe(T.HttpQuery("propertyId")),
+    workspaceName: S.optional(S.String).pipe(T.HttpQuery("workspaceName")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/timeseries/describe" }),
@@ -4185,7 +5997,6 @@ export const DescribeTimeSeriesRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeTimeSeriesRequest",
 }) as any as S.Schema<DescribeTimeSeriesRequest>;
-export type TimeSeriesId = string;
 export interface DescribeTimeSeriesResponse {
   assetId?: string;
   propertyId?: string;
@@ -4196,6 +6007,7 @@ export interface DescribeTimeSeriesResponse {
   timeSeriesCreationDate: Date;
   timeSeriesLastUpdateDate: Date;
   timeSeriesArn: string;
+  workspaceName?: string;
 }
 export const DescribeTimeSeriesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4208,10 +6020,63 @@ export const DescribeTimeSeriesResponse = /*@__PURE__*/ S.suspend(() =>
     timeSeriesCreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     timeSeriesLastUpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     timeSeriesArn: S.String,
+    workspaceName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DescribeTimeSeriesResponse",
 }) as any as S.Schema<DescribeTimeSeriesResponse>;
+export interface DescribeWorkspaceRequest {
+  workspaceName: string;
+}
+export const DescribeWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ workspaceName: S.String.pipe(T.HttpLabel("workspaceName")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workspaces/{workspaceName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DescribeWorkspaceRequest",
+}) as any as S.Schema<DescribeWorkspaceRequest>;
+export interface WorkspaceEncryptionConfigurationInfo {
+  encryptionType: EncryptionType;
+  kmsKeyArn?: string;
+}
+export const WorkspaceEncryptionConfigurationInfo = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      encryptionType: EncryptionType,
+      kmsKeyArn: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "WorkspaceEncryptionConfigurationInfo",
+}) as any as S.Schema<WorkspaceEncryptionConfigurationInfo>;
+export interface DescribeWorkspaceResponse {
+  workspaceArn: string;
+  workspaceName: string;
+  workspaceDescription?: string;
+  workspaceStatus: WorkspaceStatus;
+  encryptionConfiguration?: WorkspaceEncryptionConfigurationInfo;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const DescribeWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceArn: S.String,
+    workspaceName: S.String,
+    workspaceDescription: S.optional(S.String),
+    workspaceStatus: WorkspaceStatus,
+    encryptionConfiguration: S.optional(WorkspaceEncryptionConfigurationInfo),
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "DescribeWorkspaceResponse",
+}) as any as S.Schema<DescribeWorkspaceResponse>;
 export interface DisassociateAssetsRequest {
   assetId: string;
   hierarchyId: string;
@@ -4309,18 +6174,18 @@ export const ExecuteActionResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ExecuteActionResponse",
 }) as any as S.Schema<ExecuteActionResponse>;
-export type QueryStatement = string;
+export type QueryStatement = string | redacted.Redacted<string>;
 export type ExecuteQueryNextToken = string;
 export type ExecuteQueryMaxResults = number;
 export interface ExecuteQueryRequest {
-  queryStatement: string;
+  queryStatement: string | redacted.Redacted<string>;
   nextToken?: string;
   maxResults?: number;
   clientToken?: string;
 }
 export const ExecuteQueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queryStatement: S.String,
+    queryStatement: SensitiveString,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -4344,7 +6209,7 @@ export type ScalarType =
   | "TIMESTAMP"
   | "STRING"
   | (string & {});
-export const ScalarType = /*@__PURE__*/ S.String;
+export const ScalarType = S.String;
 
 export interface ColumnType {
   scalarType?: ScalarType;
@@ -4550,6 +6415,63 @@ export const GetAssetPropertyValueHistoryResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "GetAssetPropertyValueHistoryResponse",
 }) as any as S.Schema<GetAssetPropertyValueHistoryResponse>;
+export type GetCaptureDataNextToken = string;
+export interface GetCaptureDataRequest {
+  workspaceName: string;
+  startTime: TimeInNanos;
+  endTime: TimeInNanos;
+  timeSeriesId?: string;
+  propertyAlias?: string;
+  formatSettings?: FormatSettings;
+  nextToken?: string;
+}
+export const GetCaptureDataRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    startTime: TimeInNanos,
+    endTime: TimeInNanos,
+    timeSeriesId: S.optional(S.String),
+    propertyAlias: S.optional(S.String),
+    formatSettings: S.optional(FormatSettings),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{workspaceName}/get-capture-data",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetCaptureDataRequest",
+}) as any as S.Schema<GetCaptureDataRequest>;
+export type CaptureBlob = Uint8Array;
+export type VideoDataType = "VIDEO-MP4" | (string & {});
+export const VideoDataType = S.String;
+
+export interface GetCaptureDataResponse {
+  data: Uint8Array;
+  startTime: TimeInNanos;
+  endTime: TimeInNanos;
+  dataType: VideoDataType;
+  nextToken?: string;
+}
+export const GetCaptureDataResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: T.Blob,
+    startTime: TimeInNanos,
+    endTime: TimeInNanos,
+    dataType: VideoDataType,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetCaptureDataResponse",
+}) as any as S.Schema<GetCaptureDataResponse>;
 export type IntervalInSeconds = number;
 export type MaxInterpolatedResults = number;
 export type InterpolationType = string;
@@ -4630,6 +6552,133 @@ export const GetInterpolatedAssetPropertyValuesResponse =
   ).annotate({
     identifier: "GetInterpolatedAssetPropertyValuesResponse",
   }) as any as S.Schema<GetInterpolatedAssetPropertyValuesResponse>;
+export type QueryMaxResults = number;
+export type QueryNextToken = string;
+export interface GetQueryResultsRequest {
+  workspaceName: string;
+  queryId: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const GetQueryResultsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    queryId: S.String.pipe(T.HttpLabel("queryId")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{workspaceName}/queries/{queryId}/results",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetQueryResultsRequest",
+}) as any as S.Schema<GetQueryResultsRequest>;
+export type ColumnLabel = string;
+export type ColumnDataType = string;
+export interface ColumnInformation {
+  name: string;
+  type: string;
+}
+export const ColumnInformation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ name: S.String, type: S.String }),
+).annotate({
+  identifier: "ColumnInformation",
+}) as any as S.Schema<ColumnInformation>;
+export type ColumnInformationList = ColumnInformation[];
+export const ColumnInformationList = /*@__PURE__*/ S.Array(ColumnInformation);
+export type ColumnValue = string;
+export type Result = string[];
+export const Result = /*@__PURE__*/ S.Array(S.String).pipe(T.Sparse());
+export type RowList = string[][];
+export const RowList = /*@__PURE__*/ S.Array(Result);
+export interface GetQueryResultsResponse {
+  columnInfo?: ColumnInformation[];
+  rows?: string[][];
+  nextToken?: string;
+}
+export const GetQueryResultsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    columnInfo: S.optional(ColumnInformationList),
+    rows: S.optional(RowList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetQueryResultsResponse",
+}) as any as S.Schema<GetQueryResultsResponse>;
+export type GetSearchResultsRequestMaxResultsInteger = number;
+export interface GetSearchResultsRequest {
+  searchId: string;
+  workspaceName: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const GetSearchResultsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    searchId: S.String.pipe(T.HttpLabel("searchId")),
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{workspaceName}/searches/{searchId}/results",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetSearchResultsRequest",
+}) as any as S.Schema<GetSearchResultsRequest>;
+export interface SearchResult {
+  searchId: string;
+  workspaceName: string;
+  datasetId: string;
+  timeSeriesId: string;
+  startTimestamp: TimeInNanos;
+  endTimestamp: TimeInNanos;
+  topTimestamp: TimeInNanos;
+  score: number;
+}
+export const SearchResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    searchId: S.String,
+    workspaceName: S.String,
+    datasetId: S.String,
+    timeSeriesId: S.String,
+    startTimestamp: TimeInNanos,
+    endTimestamp: TimeInNanos,
+    topTimestamp: TimeInNanos,
+    score: S.Number,
+  }),
+).annotate({ identifier: "SearchResult" }) as any as S.Schema<SearchResult>;
+export type SearchResultList = SearchResult[];
+export const SearchResultList = /*@__PURE__*/ S.Array(SearchResult);
+export interface GetSearchResultsResponse {
+  searchResults: SearchResult[];
+  nextToken?: string;
+}
+export const GetSearchResultsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    searchResults: SearchResultList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetSearchResultsResponse",
+}) as any as S.Schema<GetSearchResultsResponse>;
 export type ConversationId = string;
 export type MessageInput = string | redacted.Redacted<string>;
 export interface InvokeAssistantRequest {
@@ -4871,10 +6920,10 @@ export const InvokeAssistantResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "InvokeAssistantResponse",
 }) as any as S.Schema<InvokeAssistantResponse>;
 export type IdentityType = "USER" | "GROUP" | "IAM" | (string & {});
-export const IdentityType = /*@__PURE__*/ S.String;
+export const IdentityType = S.String;
 
 export type ResourceType = "PORTAL" | "PROJECT" | (string & {});
-export const ResourceType = /*@__PURE__*/ S.String;
+export const ResourceType = S.String;
 
 export type MaxResults = number;
 export interface ListAccessPoliciesRequest {
@@ -4943,7 +6992,7 @@ export const ListAccessPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListAccessPoliciesResponse",
 }) as any as S.Schema<ListAccessPoliciesResponse>;
 export type TargetResourceType = "ASSET" | "COMPUTATION_MODEL" | (string & {});
-export const TargetResourceType = /*@__PURE__*/ S.String;
+export const TargetResourceType = S.String;
 
 export interface ListActionsRequest {
   targetResourceType: TargetResourceType;
@@ -5005,6 +7054,58 @@ export const ListActionsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListActionsResponse",
 }) as any as S.Schema<ListActionsResponse>;
+export interface ListApplicationsRequest {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListApplicationsRequest",
+}) as any as S.Schema<ListApplicationsRequest>;
+export interface ApplicationSummary {
+  arn: string;
+  id: string;
+  name: string;
+  status: ApplicationStatus;
+  createdAt: Date;
+  workspaceName: string;
+}
+export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    id: S.String,
+    name: S.String,
+    status: ApplicationStatus,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    workspaceName: S.String,
+  }),
+).annotate({
+  identifier: "ApplicationSummary",
+}) as any as S.Schema<ApplicationSummary>;
+export type ApplicationList = ApplicationSummary[];
+export const ApplicationList = /*@__PURE__*/ S.Array(ApplicationSummary);
+export interface ListApplicationsResponse {
+  nextToken?: string;
+  applications: ApplicationSummary[];
+}
+export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String), applications: ApplicationList }),
+).annotate({
+  identifier: "ListApplicationsResponse",
+}) as any as S.Schema<ListApplicationsResponse>;
 export interface ListAssetModelCompositeModelsRequest {
   assetModelId: string;
   nextToken?: string;
@@ -5050,7 +7151,7 @@ export const ListAssetModelCompositeModelsResponse = /*@__PURE__*/ S.suspend(
   identifier: "ListAssetModelCompositeModelsResponse",
 }) as any as S.Schema<ListAssetModelCompositeModelsResponse>;
 export type ListAssetModelPropertiesFilter = "ALL" | "BASE" | (string & {});
-export const ListAssetModelPropertiesFilter = /*@__PURE__*/ S.String;
+export const ListAssetModelPropertiesFilter = S.String;
 
 export interface ListAssetModelPropertiesRequest {
   assetModelId: string;
@@ -5215,7 +7316,7 @@ export const ListAssetModelsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListAssetModelsResponse",
 }) as any as S.Schema<ListAssetModelsResponse>;
 export type ListAssetPropertiesFilter = "ALL" | "BASE" | (string & {});
-export const ListAssetPropertiesFilter = /*@__PURE__*/ S.String;
+export const ListAssetPropertiesFilter = S.String;
 
 export interface ListAssetPropertiesRequest {
   assetId: string;
@@ -5280,7 +7381,7 @@ export const ListAssetPropertiesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListAssetPropertiesResponse",
 }) as any as S.Schema<ListAssetPropertiesResponse>;
 export type TraversalType = "PATH_TO_ROOT" | (string & {});
-export const TraversalType = /*@__PURE__*/ S.String;
+export const TraversalType = S.String;
 
 export interface ListAssetRelationshipsRequest {
   assetId: string;
@@ -5320,7 +7421,7 @@ export const AssetHierarchyInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssetHierarchyInfo",
 }) as any as S.Schema<AssetHierarchyInfo>;
 export type AssetRelationshipType = "HIERARCHY" | (string & {});
-export const AssetRelationshipType = /*@__PURE__*/ S.String;
+export const AssetRelationshipType = S.String;
 
 export interface AssetRelationshipSummary {
   hierarchyInfo?: AssetHierarchyInfo;
@@ -5351,7 +7452,7 @@ export const ListAssetRelationshipsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListAssetRelationshipsResponse",
 }) as any as S.Schema<ListAssetRelationshipsResponse>;
 export type ListAssetsFilter = "ALL" | "TOP_LEVEL" | (string & {});
-export const ListAssetsFilter = /*@__PURE__*/ S.String;
+export const ListAssetsFilter = S.String;
 
 export interface ListAssetsRequest {
   nextToken?: string;
@@ -5416,7 +7517,7 @@ export const ListAssetsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListAssetsResponse",
 }) as any as S.Schema<ListAssetsResponse>;
 export type TraversalDirection = "PARENT" | "CHILD" | (string & {});
-export const TraversalDirection = /*@__PURE__*/ S.String;
+export const TraversalDirection = S.String;
 
 export interface ListAssociatedAssetsRequest {
   assetId: string;
@@ -5500,18 +7601,20 @@ export type ListBulkImportJobsFilter =
   | "COMPLETED_WITH_FAILURES"
   | "COMPLETED"
   | (string & {});
-export const ListBulkImportJobsFilter = /*@__PURE__*/ S.String;
+export const ListBulkImportJobsFilter = S.String;
 
 export interface ListBulkImportJobsRequest {
   nextToken?: string;
   maxResults?: number;
   filter?: ListBulkImportJobsFilter;
+  workspaceName?: string;
 }
 export const ListBulkImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     filter: S.optional(ListBulkImportJobsFilter).pipe(T.HttpQuery("filter")),
+    workspaceName: S.optional(S.String).pipe(T.HttpQuery("workspaceName")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/jobs" }),
@@ -5786,7 +7889,7 @@ export const ListComputationModelResolveToResourcesResponse =
     identifier: "ListComputationModelResolveToResourcesResponse",
   }) as any as S.Schema<ListComputationModelResolveToResourcesResponse>;
 export type ComputationModelType = "ANOMALY_DETECTION" | (string & {});
-export const ComputationModelType = /*@__PURE__*/ S.String;
+export const ComputationModelType = S.String;
 
 export interface ListComputationModelsRequest {
   computationModelType?: ComputationModelType;
@@ -5910,14 +8013,229 @@ export const ListDashboardsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListDashboardsResponse",
 }) as any as S.Schema<ListDashboardsResponse>;
+export interface ListDatasetDataSegmentRelationshipsRequest {
+  datasetId: string;
+  workspaceName: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListDatasetDataSegmentRelationshipsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+      workspaceName: S.String.pipe(T.HttpQuery("workspaceName")),
+      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/datasets/{datasetId}/data-segment-relationships",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "ListDatasetDataSegmentRelationshipsRequest",
+  }) as any as S.Schema<ListDatasetDataSegmentRelationshipsRequest>;
+export interface DataSegmentRelationshipSummary {
+  targetDatasetId: string;
+  sourceDatasetId: string;
+  timeSeriesId: string;
+  startTimestamp: TimeInNanos;
+  endTimestamp: TimeInNanos;
+}
+export const DataSegmentRelationshipSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    targetDatasetId: S.String,
+    sourceDatasetId: S.String,
+    timeSeriesId: S.String,
+    startTimestamp: TimeInNanos,
+    endTimestamp: TimeInNanos,
+  }),
+).annotate({
+  identifier: "DataSegmentRelationshipSummary",
+}) as any as S.Schema<DataSegmentRelationshipSummary>;
+export type DataSegmentRelationshipSummaries = DataSegmentRelationshipSummary[];
+export const DataSegmentRelationshipSummaries = /*@__PURE__*/ S.Array(
+  DataSegmentRelationshipSummary,
+);
+export interface ListDatasetDataSegmentRelationshipsResponse {
+  dataSegmentRelationshipSummaries: DataSegmentRelationshipSummary[];
+  nextToken?: string;
+}
+export const ListDatasetDataSegmentRelationshipsResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      dataSegmentRelationshipSummaries: DataSegmentRelationshipSummaries,
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListDatasetDataSegmentRelationshipsResponse",
+  }) as any as S.Schema<ListDatasetDataSegmentRelationshipsResponse>;
+export interface ListDatasetDataSegmentsRequest {
+  datasetId: string;
+  workspaceName: string;
+  datasetVersion?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListDatasetDataSegmentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+    workspaceName: S.String.pipe(T.HttpQuery("workspaceName")),
+    datasetVersion: S.optional(S.String).pipe(T.HttpQuery("datasetVersion")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/datasets/{datasetId}/data-segments" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListDatasetDataSegmentsRequest",
+}) as any as S.Schema<ListDatasetDataSegmentsRequest>;
+export type EnrichmentStatus = "ENRICHED" | "NOT_ENRICHED" | (string & {});
+export const EnrichmentStatus = S.String;
+
+export interface DataSegmentEnrichment {
+  status: EnrichmentStatus;
+  lastEnrichedAt?: Date;
+}
+export const DataSegmentEnrichment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: EnrichmentStatus,
+    lastEnrichedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "DataSegmentEnrichment",
+}) as any as S.Schema<DataSegmentEnrichment>;
+export interface DataSegmentSummary {
+  sourceDatasetId: string;
+  timeSeriesId: string;
+  startTimestamp: TimeInNanos;
+  endTimestamp: TimeInNanos;
+  alias: string;
+  dataType: PropertyDataType;
+  enrichment?: DataSegmentEnrichment;
+}
+export const DataSegmentSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sourceDatasetId: S.String,
+    timeSeriesId: S.String,
+    startTimestamp: TimeInNanos,
+    endTimestamp: TimeInNanos,
+    alias: S.String,
+    dataType: PropertyDataType,
+    enrichment: S.optional(DataSegmentEnrichment),
+  }),
+).annotate({
+  identifier: "DataSegmentSummary",
+}) as any as S.Schema<DataSegmentSummary>;
+export type DataSegmentSummaries = DataSegmentSummary[];
+export const DataSegmentSummaries = /*@__PURE__*/ S.Array(DataSegmentSummary);
+export interface ListDatasetDataSegmentsResponse {
+  dataSegments: DataSegmentSummary[];
+  nextToken?: string;
+}
+export const ListDatasetDataSegmentsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dataSegments: DataSegmentSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListDatasetDataSegmentsResponse",
+}) as any as S.Schema<ListDatasetDataSegmentsResponse>;
+export type DatasetExportJobFilter =
+  | "ALL"
+  | "SUBMITTED"
+  | "RUNNING"
+  | "COMPLETED"
+  | "COMPLETED_WITH_ERRORS"
+  | "FAILED"
+  | (string & {});
+export const DatasetExportJobFilter = S.String;
+
+export type ListExportJobsMaxResults = number;
+export type ListExportJobsNextToken = string;
+export interface ListDatasetExportJobsRequest {
+  workspaceName: string;
+  filter?: DatasetExportJobFilter;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListDatasetExportJobsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    filter: S.optional(DatasetExportJobFilter).pipe(T.HttpQuery("filter")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{workspaceName}/dataset-export-jobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListDatasetExportJobsRequest",
+}) as any as S.Schema<ListDatasetExportJobsRequest>;
+export interface ExportJobSummary {
+  jobId: string;
+  status: DatasetExportJobStatus;
+  startedAt: Date;
+  completedAt?: Date;
+  destinationS3Uri: string;
+}
+export const ExportJobSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    jobId: S.String,
+    status: DatasetExportJobStatus,
+    startedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    destinationS3Uri: S.String,
+  }),
+).annotate({
+  identifier: "ExportJobSummary",
+}) as any as S.Schema<ExportJobSummary>;
+export type ExportJobSummaryList = ExportJobSummary[];
+export const ExportJobSummaryList = /*@__PURE__*/ S.Array(ExportJobSummary);
+export interface ListDatasetExportJobsResponse {
+  jobs: ExportJobSummary[];
+  nextToken?: string;
+}
+export const ListDatasetExportJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ jobs: ExportJobSummaryList, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListDatasetExportJobsResponse",
+}) as any as S.Schema<ListDatasetExportJobsResponse>;
 export interface ListDatasetsRequest {
   sourceType: DatasetSourceType;
+  workspaceName?: string;
+  datasetType?: DatasetTypeEnum;
   nextToken?: string;
   maxResults?: number;
 }
 export const ListDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sourceType: DatasetSourceType.pipe(T.HttpQuery("sourceType")),
+    workspaceName: S.optional(S.String).pipe(T.HttpQuery("workspaceName")),
+    datasetType: S.optional(DatasetTypeEnum).pipe(T.HttpQuery("datasetType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -5938,9 +8256,12 @@ export interface DatasetSummary {
   arn: string;
   name: string;
   description: string;
+  sourceType?: DatasetSourceType;
+  datasetType?: DatasetTypeEnum;
   creationDate: Date;
   lastUpdateDate: Date;
   status: DatasetStatus;
+  enrichmentStatus?: DatasetEnrichment;
 }
 export const DatasetSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5948,9 +8269,12 @@ export const DatasetSummary = /*@__PURE__*/ S.suspend(() =>
     arn: S.String,
     name: S.String,
     description: S.String,
+    sourceType: S.optional(DatasetSourceType),
+    datasetType: S.optional(DatasetTypeEnum),
     creationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastUpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     status: DatasetStatus,
+    enrichmentStatus: S.optional(DatasetEnrichment),
   }),
 ).annotate({ identifier: "DatasetSummary" }) as any as S.Schema<DatasetSummary>;
 export type DatasetSummaries = DatasetSummary[];
@@ -5958,15 +8282,99 @@ export const DatasetSummaries = /*@__PURE__*/ S.Array(DatasetSummary);
 export interface ListDatasetsResponse {
   datasetSummaries: DatasetSummary[];
   nextToken?: string;
+  workspaceName?: string;
 }
 export const ListDatasetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     datasetSummaries: DatasetSummaries,
     nextToken: S.optional(S.String),
+    workspaceName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListDatasetsResponse",
 }) as any as S.Schema<ListDatasetsResponse>;
+export interface ListEnrichmentJobsRequest {
+  workspaceName: string;
+  datasetId?: string;
+  propertyAlias?: string;
+  timeSeriesId?: string;
+  status?: EnrichmentJobStatus;
+  jobType?: JobType;
+  startDate?: Date;
+  endDate?: Date;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListEnrichmentJobsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    datasetId: S.optional(S.String).pipe(T.HttpQuery("datasetId")),
+    propertyAlias: S.optional(S.String).pipe(T.HttpQuery("propertyAlias")),
+    timeSeriesId: S.optional(S.String).pipe(T.HttpQuery("timeSeriesId")),
+    status: S.optional(EnrichmentJobStatus).pipe(T.HttpQuery("status")),
+    jobType: S.optional(JobType).pipe(T.HttpQuery("jobType")),
+    startDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("startDate"),
+    ),
+    endDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("endDate"),
+    ),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{workspaceName}/enrichment-jobs",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListEnrichmentJobsRequest",
+}) as any as S.Schema<ListEnrichmentJobsRequest>;
+export interface EnrichmentJobSummary {
+  jobId: string;
+  status: EnrichmentJobStatus;
+  workspaceName: string;
+  jobType: JobType;
+  datasetId: string;
+  propertyAlias?: string;
+  timeSeriesId?: string;
+  createdAt: Date;
+  updatedAt?: Date;
+}
+export const EnrichmentJobSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    jobId: S.String,
+    status: EnrichmentJobStatus,
+    workspaceName: S.String,
+    jobType: JobType,
+    datasetId: S.String,
+    propertyAlias: S.optional(S.String),
+    timeSeriesId: S.optional(S.String),
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "EnrichmentJobSummary",
+}) as any as S.Schema<EnrichmentJobSummary>;
+export type EnrichmentJobSummaries = EnrichmentJobSummary[];
+export const EnrichmentJobSummaries =
+  /*@__PURE__*/ S.Array(EnrichmentJobSummary);
+export interface ListEnrichmentJobsResponse {
+  jobs: EnrichmentJobSummary[];
+  nextToken?: string;
+}
+export const ListEnrichmentJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ jobs: EnrichmentJobSummaries, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListEnrichmentJobsResponse",
+}) as any as S.Schema<ListEnrichmentJobsResponse>;
 export interface ListExecutionsRequest {
   targetResourceType: TargetResourceType;
   targetResourceId: string;
@@ -6151,6 +8559,149 @@ export const ListInterfaceRelationshipsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListInterfaceRelationshipsResponse",
 }) as any as S.Schema<ListInterfaceRelationshipsResponse>;
+export type ListPipelineExecutionsRequestMaxResultsInteger = number;
+export interface ListPipelineExecutionsRequest {
+  workspaceName: string;
+  pipelineName: string;
+  nextToken?: string;
+  maxResults?: number;
+  state?: PipelineExecutionState;
+  startTimeAfter?: Date;
+  startTimeBefore?: Date;
+  endTimeAfter?: Date;
+  endTimeBefore?: Date;
+}
+export const ListPipelineExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    pipelineName: S.String.pipe(T.HttpLabel("pipelineName")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    state: S.optional(PipelineExecutionState).pipe(T.HttpQuery("state")),
+    startTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ).pipe(T.HttpQuery("startTimeAfter")),
+    startTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ).pipe(T.HttpQuery("startTimeBefore")),
+    endTimeAfter: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ).pipe(T.HttpQuery("endTimeAfter")),
+    endTimeBefore: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ).pipe(T.HttpQuery("endTimeBefore")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/workspaces/{workspaceName}/pipelines/{pipelineName}/executions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPipelineExecutionsRequest",
+}) as any as S.Schema<ListPipelineExecutionsRequest>;
+export interface PipelineExecutionSummary {
+  pipelineExecutionId: string;
+  pipelineVersion: string;
+  status: PipelineExecutionStatus;
+  executionPriority?: number;
+  startTime?: Date;
+  endTime?: Date;
+}
+export const PipelineExecutionSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pipelineExecutionId: S.String,
+    pipelineVersion: S.String,
+    status: PipelineExecutionStatus,
+    executionPriority: S.optional(S.Number),
+    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "PipelineExecutionSummary",
+}) as any as S.Schema<PipelineExecutionSummary>;
+export type PipelineExecutionSummaryList = PipelineExecutionSummary[];
+export const PipelineExecutionSummaryList = /*@__PURE__*/ S.Array(
+  PipelineExecutionSummary,
+);
+export interface ListPipelineExecutionsResponse {
+  pipelineExecutionSummaries: PipelineExecutionSummary[];
+  nextToken?: string;
+}
+export const ListPipelineExecutionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pipelineExecutionSummaries: PipelineExecutionSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListPipelineExecutionsResponse",
+}) as any as S.Schema<ListPipelineExecutionsResponse>;
+export type ListPipelinesRequestMaxResultsInteger = number;
+export interface ListPipelinesRequest {
+  workspaceName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListPipelinesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workspaces/{workspaceName}/pipelines" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListPipelinesRequest",
+}) as any as S.Schema<ListPipelinesRequest>;
+export interface PipelineSummary {
+  pipelineName: string;
+  description?: string;
+  pipelineArn: string;
+  version: string;
+  status: ResourceStatus;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const PipelineSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pipelineName: S.String,
+    description: S.optional(S.String),
+    pipelineArn: S.String,
+    version: S.String,
+    status: ResourceStatus,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "PipelineSummary",
+}) as any as S.Schema<PipelineSummary>;
+export type PipelineSummaries = PipelineSummary[];
+export const PipelineSummaries = /*@__PURE__*/ S.Array(PipelineSummary);
+export interface ListPipelinesResponse {
+  pipelineSummaries: PipelineSummary[];
+  nextToken?: string;
+}
+export const ListPipelinesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pipelineSummaries: PipelineSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListPipelinesResponse",
+}) as any as S.Schema<ListPipelinesResponse>;
 export interface ListPortalsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -6297,6 +8848,147 @@ export const ListProjectsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListProjectsResponse",
 }) as any as S.Schema<ListProjectsResponse>;
+export type QueryFilter = string;
+export type QueryListNextToken = string;
+export interface ListQueriesRequest {
+  workspaceName: string;
+  filter?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListQueriesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    filter: S.optional(S.String).pipe(T.HttpQuery("filter")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workspaces/{workspaceName}/queries" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListQueriesRequest",
+}) as any as S.Schema<ListQueriesRequest>;
+export interface QuerySummary {
+  queryId: string;
+  status: QueryStatus;
+  submittedAt: Date;
+  completedAt?: Date;
+}
+export const QuerySummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    queryId: S.String,
+    status: QueryStatus,
+    submittedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({ identifier: "QuerySummary" }) as any as S.Schema<QuerySummary>;
+export type QuerySummaryList = QuerySummary[];
+export const QuerySummaryList = /*@__PURE__*/ S.Array(QuerySummary);
+export interface ListQueriesResponse {
+  queries: QuerySummary[];
+  nextToken?: string;
+}
+export const ListQueriesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ queries: QuerySummaryList, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListQueriesResponse",
+}) as any as S.Schema<ListQueriesResponse>;
+export type ListSearchesRequestMaxResultsInteger = number;
+export type SearchStatusFilterList = SearchStatus[];
+export const SearchStatusFilterList = /*@__PURE__*/ S.Array(SearchStatus);
+export type GroupIdFilterList = string[];
+export const GroupIdFilterList = /*@__PURE__*/ S.Array(S.String);
+export type SearchTypeFilterList = SearchType[];
+export const SearchTypeFilterList = /*@__PURE__*/ S.Array(SearchType);
+export interface ListSearchesFilters {
+  statusFilter?: SearchStatus[];
+  startedAfter?: Date;
+  startedBefore?: Date;
+  groupIdFilter?: string[];
+  searchTypeFilter?: SearchType[];
+}
+export const ListSearchesFilters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    statusFilter: S.optional(SearchStatusFilterList),
+    startedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    startedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    groupIdFilter: S.optional(GroupIdFilterList),
+    searchTypeFilter: S.optional(SearchTypeFilterList),
+  }),
+).annotate({
+  identifier: "ListSearchesFilters",
+}) as any as S.Schema<ListSearchesFilters>;
+export interface ListSearchesRequest {
+  workspaceName: string;
+  maxResults?: number;
+  nextToken?: string;
+  listSearchesFilters?: ListSearchesFilters;
+}
+export const ListSearchesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+    listSearchesFilters: S.optional(ListSearchesFilters),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{workspaceName}/searches/list",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListSearchesRequest",
+}) as any as S.Schema<ListSearchesRequest>;
+export interface SearchSummary {
+  searchId: string;
+  workspaceName: string;
+  status: SearchStatus;
+  queryStatement: string | redacted.Redacted<string>;
+  searchType: SearchType;
+  statusReason?: string;
+  startedAt?: Date;
+  groupId?: string;
+}
+export const SearchSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    searchId: S.String,
+    workspaceName: S.String,
+    status: SearchStatus,
+    queryStatement: SensitiveString,
+    searchType: SearchType,
+    statusReason: S.optional(S.String),
+    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    groupId: S.optional(S.String),
+  }),
+).annotate({ identifier: "SearchSummary" }) as any as S.Schema<SearchSummary>;
+export type SearchSummaries = SearchSummary[];
+export const SearchSummaries = /*@__PURE__*/ S.Array(SearchSummary);
+export interface ListSearchesResponse {
+  searchSummaries: SearchSummary[];
+  nextToken?: string;
+}
+export const ListSearchesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    searchSummaries: SearchSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListSearchesResponse",
+}) as any as S.Schema<ListSearchesResponse>;
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -6323,8 +9015,63 @@ export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
+export type ListTasksRequestMaxResultsInteger = number;
+export interface ListTasksRequest {
+  workspaceName: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListTasksRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workspaces/{workspaceName}/tasks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListTasksRequest",
+}) as any as S.Schema<ListTasksRequest>;
+export interface TaskSummary {
+  taskName: string;
+  description?: string;
+  taskArn: string;
+  version: string;
+  status: ResourceStatus;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const TaskSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    taskName: S.String,
+    description: S.optional(S.String),
+    taskArn: S.String,
+    version: S.String,
+    status: ResourceStatus,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({ identifier: "TaskSummary" }) as any as S.Schema<TaskSummary>;
+export type TaskSummaries = TaskSummary[];
+export const TaskSummaries = /*@__PURE__*/ S.Array(TaskSummary);
+export interface ListTasksResponse {
+  taskSummaries: TaskSummary[];
+  nextToken?: string;
+}
+export const ListTasksResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ taskSummaries: TaskSummaries, nextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListTasksResponse",
+}) as any as S.Schema<ListTasksResponse>;
 export type ListTimeSeriesType = "ASSOCIATED" | "DISASSOCIATED" | (string & {});
-export const ListTimeSeriesType = /*@__PURE__*/ S.String;
+export const ListTimeSeriesType = S.String;
 
 export interface ListTimeSeriesRequest {
   nextToken?: string;
@@ -6332,6 +9079,7 @@ export interface ListTimeSeriesRequest {
   assetId?: string;
   aliasPrefix?: string;
   timeSeriesType?: ListTimeSeriesType;
+  workspaceName?: string;
 }
 export const ListTimeSeriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6342,6 +9090,7 @@ export const ListTimeSeriesRequest = /*@__PURE__*/ S.suspend(() =>
     timeSeriesType: S.optional(ListTimeSeriesType).pipe(
       T.HttpQuery("timeSeriesType"),
     ),
+    workspaceName: S.optional(S.String).pipe(T.HttpQuery("workspaceName")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/timeseries" }),
@@ -6386,15 +9135,70 @@ export const TimeSeriesSummaries = /*@__PURE__*/ S.Array(TimeSeriesSummary);
 export interface ListTimeSeriesResponse {
   TimeSeriesSummaries: TimeSeriesSummary[];
   nextToken?: string;
+  workspaceName?: string;
 }
 export const ListTimeSeriesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TimeSeriesSummaries: TimeSeriesSummaries,
     nextToken: S.optional(S.String),
+    workspaceName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListTimeSeriesResponse",
 }) as any as S.Schema<ListTimeSeriesResponse>;
+export interface ListWorkspacesRequest {
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListWorkspacesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/workspaces" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListWorkspacesRequest",
+}) as any as S.Schema<ListWorkspacesRequest>;
+export interface WorkspaceSummary {
+  name: string;
+  arn: string;
+  status: WorkspaceStatus;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export const WorkspaceSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    arn: S.String,
+    status: WorkspaceStatus,
+    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "WorkspaceSummary",
+}) as any as S.Schema<WorkspaceSummary>;
+export type WorkspaceSummaries = WorkspaceSummary[];
+export const WorkspaceSummaries = /*@__PURE__*/ S.Array(WorkspaceSummary);
+export interface ListWorkspacesResponse {
+  workspaceSummaries: WorkspaceSummary[];
+  nextToken?: string;
+}
+export const ListWorkspacesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceSummaries: WorkspaceSummaries,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListWorkspacesResponse",
+}) as any as S.Schema<ListWorkspacesResponse>;
 export type MatchByPropertyName = boolean;
 export type CreateMissingProperty = boolean;
 export interface PropertyMappingConfiguration {
@@ -6459,7 +9263,6 @@ export const PutAssetModelInterfaceRelationshipResponse =
   ).annotate({
     identifier: "PutAssetModelInterfaceRelationshipResponse",
   }) as any as S.Schema<PutAssetModelInterfaceRelationshipResponse>;
-export type KmsKeyId = string;
 export interface PutDefaultEncryptionConfigurationRequest {
   encryptionType: EncryptionType;
   kmsKeyId?: string;
@@ -6499,9 +9302,13 @@ export const PutDefaultEncryptionConfigurationResponse =
   }) as any as S.Schema<PutDefaultEncryptionConfigurationResponse>;
 export interface PutLoggingOptionsRequest {
   loggingOptions: LoggingOptions;
+  workspaceName?: string;
 }
 export const PutLoggingOptionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ loggingOptions: LoggingOptions }).pipe(
+  S.Struct({
+    loggingOptions: LoggingOptions,
+    workspaceName: S.optional(S.String),
+  }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/logging" }),
       svc,
@@ -6575,6 +9382,149 @@ export const PutStorageConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PutStorageConfigurationResponse",
 }) as any as S.Schema<PutStorageConfigurationResponse>;
+export interface StartPipelineExecutionRequest {
+  workspaceName: string;
+  pipelineName: string;
+  executionEnvironmentVariableOverrides?: ExecutionEnvironmentVariables;
+  executionPriority?: number;
+  clientToken?: string;
+}
+export const StartPipelineExecutionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    pipelineName: S.String.pipe(T.HttpLabel("pipelineName")),
+    executionEnvironmentVariableOverrides: S.optional(
+      ExecutionEnvironmentVariables,
+    ),
+    executionPriority: S.optional(S.Number),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/workspaces/{workspaceName}/pipelines/{pipelineName}/executions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartPipelineExecutionRequest",
+}) as any as S.Schema<StartPipelineExecutionRequest>;
+export interface StartPipelineExecutionResponse {
+  pipelineExecutionId: string;
+}
+export const StartPipelineExecutionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ pipelineExecutionId: S.String }),
+).annotate({
+  identifier: "StartPipelineExecutionResponse",
+}) as any as S.Schema<StartPipelineExecutionResponse>;
+export type QueryString = string | redacted.Redacted<string>;
+export interface StartQueryRequest {
+  clientToken?: string;
+  workspaceName: string;
+  queryStatement: string | redacted.Redacted<string>;
+}
+export const StartQueryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    queryStatement: SensitiveString,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/workspaces/{workspaceName}/queries" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartQueryRequest",
+}) as any as S.Schema<StartQueryRequest>;
+export interface StartQueryResponse {
+  queryId: string;
+  status: QueryStatus;
+}
+export const StartQueryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ queryId: S.String, status: QueryStatus }),
+).annotate({
+  identifier: "StartQueryResponse",
+}) as any as S.Schema<StartQueryResponse>;
+export type TimeSeriesIdList = string[];
+export const TimeSeriesIdList = /*@__PURE__*/ S.Array(S.String);
+export type DataSetIdList = string[];
+export const DataSetIdList = /*@__PURE__*/ S.Array(S.String);
+export interface TimeInterval {
+  startTime: TimeInNanos;
+  endTime: TimeInNanos;
+}
+export const TimeInterval = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ startTime: TimeInNanos, endTime: TimeInNanos }),
+).annotate({ identifier: "TimeInterval" }) as any as S.Schema<TimeInterval>;
+export type TimeIntervalList = TimeInterval[];
+export const TimeIntervalList = /*@__PURE__*/ S.Array(TimeInterval);
+export interface SearchFilters {
+  timeSeriesIds?: string[];
+  datasetIds?: string[];
+  timeIntervals?: TimeInterval[];
+}
+export const SearchFilters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timeSeriesIds: S.optional(TimeSeriesIdList),
+    datasetIds: S.optional(DataSetIdList),
+    timeIntervals: S.optional(TimeIntervalList),
+  }),
+).annotate({ identifier: "SearchFilters" }) as any as S.Schema<SearchFilters>;
+export interface StartSearchRequest {
+  workspaceName: string;
+  queryStatement: string | redacted.Redacted<string>;
+  clientToken?: string;
+  searchType?: SearchType;
+  searchFilters?: SearchFilters;
+  groupId?: string;
+}
+export const StartSearchRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    queryStatement: SensitiveString,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    searchType: S.optional(SearchType),
+    searchFilters: S.optional(SearchFilters),
+    groupId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/workspaces/{workspaceName}/searches" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "StartSearchRequest",
+}) as any as S.Schema<StartSearchRequest>;
+export interface StartSearchResponse {
+  searchId: string;
+  workspaceName: string;
+  status: SearchStatus;
+  groupId?: string;
+}
+export const StartSearchResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    searchId: S.String,
+    workspaceName: S.String,
+    status: SearchStatus,
+    groupId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "StartSearchResponse",
+}) as any as S.Schema<StartSearchResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
@@ -6692,10 +9642,11 @@ export const UpdateAssetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateAssetRequest",
 }) as any as S.Schema<UpdateAssetRequest>;
 export interface UpdateAssetResponse {
+  assetId?: string;
   assetStatus: AssetStatus;
 }
 export const UpdateAssetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ assetStatus: AssetStatus }),
+  S.Struct({ assetId: S.optional(S.String), assetStatus: AssetStatus }),
 ).annotate({
   identifier: "UpdateAssetResponse",
 }) as any as S.Schema<UpdateAssetResponse>;
@@ -6741,10 +9692,14 @@ export const UpdateAssetModelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateAssetModelRequest",
 }) as any as S.Schema<UpdateAssetModelRequest>;
 export interface UpdateAssetModelResponse {
+  assetModelId?: string;
   assetModelStatus: AssetModelStatus;
 }
 export const UpdateAssetModelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ assetModelStatus: AssetModelStatus }),
+  S.Struct({
+    assetModelId: S.optional(S.String),
+    assetModelStatus: AssetModelStatus,
+  }),
 ).annotate({
   identifier: "UpdateAssetModelResponse",
 }) as any as S.Schema<UpdateAssetModelResponse>;
@@ -6796,12 +9751,14 @@ export const UpdateAssetModelCompositeModelRequest = /*@__PURE__*/ S.suspend(
 export interface UpdateAssetModelCompositeModelResponse {
   assetModelCompositeModelPath: AssetModelCompositeModelPathSegment[];
   assetModelStatus: AssetModelStatus;
+  assetModelId?: string;
 }
 export const UpdateAssetModelCompositeModelResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       assetModelCompositeModelPath: AssetModelCompositeModelPath,
       assetModelStatus: AssetModelStatus,
+      assetModelId: S.optional(S.String),
     }),
 ).annotate({
   identifier: "UpdateAssetModelCompositeModelResponse",
@@ -6921,16 +9878,22 @@ export const UpdateDashboardResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDashboardResponse>;
 export interface UpdateDatasetRequest {
   datasetId: string;
+  workspaceName?: string;
   datasetName: string;
   datasetDescription?: string;
+  datasetConfig?: DatasetConfig;
+  metadata?: { [key: string]: string | undefined };
   datasetSource: DatasetSource;
   clientToken?: string;
 }
 export const UpdateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+    workspaceName: S.optional(S.String),
     datasetName: S.String,
     datasetDescription: S.optional(S.String),
+    datasetConfig: S.optional(DatasetConfig),
+    metadata: S.optional(Metadata),
     datasetSource: DatasetSource,
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
@@ -7027,6 +9990,45 @@ export const UpdateGatewayCapabilityConfigurationResponse =
   ).annotate({
     identifier: "UpdateGatewayCapabilityConfigurationResponse",
   }) as any as S.Schema<UpdateGatewayCapabilityConfigurationResponse>;
+export interface UpdatePipelineRequest {
+  workspaceName: string;
+  pipelineName: string;
+  description?: string;
+  environmentVariables?: { [key: string]: string | undefined };
+  computations?: ComputeNode[];
+}
+export const UpdatePipelineRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    pipelineName: S.String.pipe(T.HttpLabel("pipelineName")),
+    description: S.optional(S.String),
+    environmentVariables: S.optional(EnvironmentVariablesMap),
+    computations: S.optional(ComputeNodeList),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/workspaces/{workspaceName}/pipelines/{pipelineName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdatePipelineRequest",
+}) as any as S.Schema<UpdatePipelineRequest>;
+export interface UpdatePipelineResponse {
+  version: string;
+  status: ResourceStatus;
+}
+export const UpdatePipelineResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ version: S.String, status: ResourceStatus }),
+).annotate({
+  identifier: "UpdatePipelineResponse",
+}) as any as S.Schema<UpdatePipelineResponse>;
 export interface Image {
   id?: string;
   file?: ImageFile;
@@ -7112,6 +10114,76 @@ export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateProjectResponse",
 }) as any as S.Schema<UpdateProjectResponse>;
+export interface UpdateTaskRequest {
+  workspaceName: string;
+  taskName: string;
+  description?: string;
+  taskConfiguration?: TaskConfiguration;
+}
+export const UpdateTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    taskName: S.String.pipe(T.HttpLabel("taskName")),
+    description: S.optional(S.String),
+    taskConfiguration: S.optional(TaskConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/workspaces/{workspaceName}/tasks/{taskName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateTaskRequest",
+}) as any as S.Schema<UpdateTaskRequest>;
+export interface UpdateTaskResponse {
+  version: string;
+  status: ResourceStatus;
+}
+export const UpdateTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ version: S.String, status: ResourceStatus }),
+).annotate({
+  identifier: "UpdateTaskResponse",
+}) as any as S.Schema<UpdateTaskResponse>;
+export interface UpdateWorkspaceRequest {
+  workspaceName: string;
+  workspaceDescription?: string;
+  encryptionConfiguration?: WorkspaceEncryptionConfiguration;
+  clientToken?: string;
+}
+export const UpdateWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workspaceName: S.String.pipe(T.HttpLabel("workspaceName")),
+    workspaceDescription: S.optional(S.String),
+    encryptionConfiguration: S.optional(WorkspaceEncryptionConfiguration),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/workspaces/{workspaceName}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateWorkspaceRequest",
+}) as any as S.Schema<UpdateWorkspaceRequest>;
+export interface UpdateWorkspaceResponse {
+  workspaceStatus: WorkspaceStatus;
+}
+export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ workspaceStatus: WorkspaceStatus }),
+).annotate({
+  identifier: "UpdateWorkspaceResponse",
+}) as any as S.Schema<UpdateWorkspaceResponse>;
 export type ExceptionMessage = string;
 export type AssociateAssetsError =
   | ConflictingOperationException
@@ -7181,6 +10253,42 @@ export const associateTimeSeriesToAssetProperty: API.OperationMethod<
   endpointHostPrefix: "api.",
 }));
 
+export type BatchAssociateDataSegmentsToDatasetError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Associates a batch of data segments with a curated dataset. Data segments are
+ * time-bounded slices of time series data selected from source session datasets. Data segments
+ * that belong to the same time series can't overlap in time, regardless of which dataset they
+ * belong to.
+ */
+export const batchAssociateDataSegmentsToDataset: API.OperationMethod<
+  BatchAssociateDataSegmentsToDatasetRequest,
+  BatchAssociateDataSegmentsToDatasetResponse,
+  BatchAssociateDataSegmentsToDatasetError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: BatchAssociateDataSegmentsToDatasetRequest,
+  output: BatchAssociateDataSegmentsToDatasetResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "BatchAssociateDataSegmentsToDataset",
+  endpointHostPrefix: "api.",
+}));
+
 export type BatchAssociateProjectAssetsError =
   | InternalFailureException
   | InvalidRequestException
@@ -7189,6 +10297,11 @@ export type BatchAssociateProjectAssetsError =
   | ThrottlingException
   | CommonErrors;
 /**
+ * The IoT SiteWise Monitor feature will no longer be open to new
+ * customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can
+ * continue to use the service as normal. For more information, see
+ * IoT SiteWise Monitor availability change.
+ *
  * Associates a group (batch) of assets with an IoT SiteWise Monitor project.
  */
 export const batchAssociateProjectAssets: API.OperationMethod<
@@ -7210,6 +10323,70 @@ export const batchAssociateProjectAssets: API.OperationMethod<
   retry: Retry,
   operationName: "BatchAssociateProjectAssets",
   endpointHostPrefix: "monitor.",
+}));
+
+export type BatchDeleteDatasetDataSegmentsError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Deletes a batch of data segments from a session dataset. Deleting a data segment deletes
+ * the underlying time series data for the segment's time range.
+ */
+export const batchDeleteDatasetDataSegments: API.OperationMethod<
+  BatchDeleteDatasetDataSegmentsRequest,
+  BatchDeleteDatasetDataSegmentsResponse,
+  BatchDeleteDatasetDataSegmentsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: BatchDeleteDatasetDataSegmentsRequest,
+  output: BatchDeleteDatasetDataSegmentsResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "BatchDeleteDatasetDataSegments",
+  endpointHostPrefix: "api.",
+}));
+
+export type BatchDisassociateDataSegmentsFromDatasetError =
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Disassociates a batch of data segments from a curated dataset. Disassociating a data
+ * segment doesn't delete the underlying data in the source session dataset.
+ */
+export const batchDisassociateDataSegmentsFromDataset: API.OperationMethod<
+  BatchDisassociateDataSegmentsFromDatasetRequest,
+  BatchDisassociateDataSegmentsFromDatasetResponse,
+  BatchDisassociateDataSegmentsFromDatasetError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: BatchDisassociateDataSegmentsFromDatasetRequest,
+  output: BatchDisassociateDataSegmentsFromDatasetResponse,
+  errors: [
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "BatchDisassociateDataSegmentsFromDataset",
+  endpointHostPrefix: "api.",
 }));
 
 export type BatchDisassociateProjectAssetsError =
@@ -7403,6 +10580,145 @@ export const batchPutAssetPropertyValue: API.OperationMethod<
   endpointHostPrefix: "data.",
 }));
 
+export type CancelEnrichmentJobError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Cancels a running or pending enrichment job. This is an idempotent operation—calling it multiple
+ * times with the same jobId is safe and returns the current status.
+ *
+ * Behavior
+ *
+ * - Jobs in PENDING or RUNNING status transition to CANCELLED
+ *
+ * - Jobs in RUNNING state may not be cancellable once they have progressed to certain processing stages
+ *
+ * - Jobs already in terminal states (COMPLETED, FAILED, TIMED_OUT) cannot be cancelled;
+ * the operation returns a ConflictingOperationException
+ *
+ * - Cancelling an already-CANCELLED job is a no-op and returns the current status (idempotent behavior)
+ *
+ * - The API responds immediately after recording the cancellation
+ *
+ * - Cleanup of job resources happens asynchronously in the background
+ *
+ * When to Cancel
+ *
+ * Cancel a job when:
+ *
+ * - The job is taking longer than expected
+ *
+ * - The job was created with incorrect parameters
+ *
+ * - You no longer need the results
+ *
+ * Idempotency
+ *
+ * You can safely retry cancellation requests. Calling CancelEnrichmentJob multiple times for the same
+ * job returns the current status without error as long as the job is not in a terminal state other
+ * than CANCELLED.
+ */
+export const cancelEnrichmentJob: API.OperationMethod<
+  CancelEnrichmentJobRequest,
+  CancelEnrichmentJobResponse,
+  CancelEnrichmentJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelEnrichmentJobRequest,
+  output: CancelEnrichmentJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CancelEnrichmentJob",
+  endpointHostPrefix: "data.",
+}));
+
+export type CancelPipelineExecutionError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Cancels a pipeline execution in the specified workspace. If the execution
+ * is not in a terminal state (such as NOT_STARTED or RUNNING), it transitions to
+ * CANCELLING and asynchronously to CANCELLED. This operation is idempotent: calling
+ * it on an execution that is already CANCELLING or CANCELLED returns success with
+ * the current state. Calling it on a terminal execution (SUCCEEDED or FAILED)
+ * returns a conflict error. You can optionally provide a reason; it is returned in
+ * the stateDetails field when you describe the execution.
+ */
+export const cancelPipelineExecution: API.OperationMethod<
+  CancelPipelineExecutionRequest,
+  CancelPipelineExecutionResponse,
+  CancelPipelineExecutionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelPipelineExecutionRequest,
+  output: CancelPipelineExecutionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CancelPipelineExecution",
+  endpointHostPrefix: "data.",
+}));
+
+export type CancelQueryError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Cancels a running query.
+ */
+export const cancelQuery: API.OperationMethod<
+  CancelQueryRequest,
+  CancelQueryResponse,
+  CancelQueryError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelQueryRequest,
+  output: CancelQueryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CancelQuery",
+  endpointHostPrefix: "data.",
+}));
+
 export type CreateAccessPolicyError =
   | InternalFailureException
   | InvalidRequestException
@@ -7411,6 +10727,11 @@ export type CreateAccessPolicyError =
   | ThrottlingException
   | CommonErrors;
 /**
+ * The IoT SiteWise Monitor feature will no longer be open to new
+ * customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can
+ * continue to use the service as normal. For more information, see
+ * IoT SiteWise Monitor availability change.
+ *
  * Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or
  * IAM user) access to the specified IoT SiteWise Monitor portal or project resource.
  *
@@ -7435,6 +10756,41 @@ export const createAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAccessPolicy",
   endpointHostPrefix: "monitor.",
+}));
+
+export type CreateApplicationError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Creates a new application for the workspace and IdC application provided
+ */
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
+  CreateApplicationResponse,
+  CreateApplicationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateApplicationRequest,
+  output: CreateApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateApplication",
+  endpointHostPrefix: "api.",
 }));
 
 export type CreateAssetError =
@@ -7596,8 +10952,12 @@ export type CreateBulkImportJobError =
  * Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a
  * bulk import job (CLI) in the *Amazon Simple Storage Service User Guide*.
  *
- * Before you create a bulk import job, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier.
- * For more information about how to configure storage settings, see PutStorageConfiguration.
+ * Before you create a bulk import job that ingests data into time series outside of a
+ * workspace, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how
+ * to configure storage settings, see PutStorageConfiguration. This requirement doesn't apply to bulk import jobs that
+ * ingest data into a session dataset in a workspace (jobs that specify a
+ * `workspaceName` and `datasetId`). Those jobs don't use IoT SiteWise warm or
+ * cold tier storage.
  *
  * Bulk import is designed to store historical data to IoT SiteWise.
  *
@@ -7674,6 +11034,11 @@ export type CreateDashboardError =
   | ThrottlingException
   | CommonErrors;
 /**
+ * The IoT SiteWise Monitor feature will no longer be open to new
+ * customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can
+ * continue to use the service as normal. For more information, see
+ * IoT SiteWise Monitor availability change.
+ *
  * Creates a dashboard in an IoT SiteWise Monitor project.
  */
 export const createDashboard: API.OperationMethod<
@@ -7707,7 +11072,7 @@ export type CreateDatasetError =
   | ThrottlingException
   | CommonErrors;
 /**
- * Creates a dataset to connect an external datasource.
+ * Creates a dataset. Session and curated datasets are created in a workspace. A session dataset contains data segments of time series data, and a curated dataset curates data segments selected from source session datasets. A dataset that connects to an external datasource is created outside of a workspace.
  */
 export const createDataset: API.OperationMethod<
   CreateDatasetRequest,
@@ -7730,6 +11095,116 @@ export const createDataset: API.OperationMethod<
   retry: Retry,
   operationName: "CreateDataset",
   endpointHostPrefix: "api.",
+}));
+
+export type CreateDatasetExportJobError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Starts an asynchronous job that exports dataset and time-series data from a workspace to Amazon
+ * S3. The operation returns a jobId immediately; poll DescribeDatasetExportJob to track progress and
+ * ListDatasetExportJobs to enumerate a workspace's jobs.
+ */
+export const createDatasetExportJob: API.OperationMethod<
+  CreateDatasetExportJobRequest,
+  CreateDatasetExportJobResponse,
+  CreateDatasetExportJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateDatasetExportJobRequest,
+  output: CreateDatasetExportJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateDatasetExportJob",
+  endpointHostPrefix: "data.",
+}));
+
+export type CreateEnrichmentJobError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Creates an asynchronous enrichment job to analyze time-series sensor data. The operation returns
+ * immediately with job details while processing continues in the background.
+ *
+ * Idempotency
+ *
+ * Include a clientToken to make the operation idempotent. If you submit the same request with the same
+ * token within the idempotency window, you receive the original job details without creating a duplicate.
+ *
+ * Prerequisites
+ *
+ * Before creating a job, ensure:
+ *
+ * - The workspace is in ACTIVE state (not being deleted)
+ *
+ * - You have IAM permissions for the workspace, dataset, and time-series resources
+ *
+ * - You have KMS Decrypt permission on the workspace's customer-managed encryption key
+ *
+ * - No duplicate job (same workspace, dataset, property, and job type) is currently running
+ *
+ * Workflow
+ *
+ * - Submit the job with configuration specifying which video data to analyze and the time range
+ *
+ * - Capture the jobId from the response
+ *
+ * - Use DescribeEnrichmentJob to monitor progress and check job status
+ *
+ * - When status reaches a terminal state (COMPLETED, FAILED, TIMED_OUT, CANCELLED), check results
+ *
+ * - For COMPLETED jobs, query IoT SiteWise for semantic search on video events
+ *
+ * Error Handling
+ *
+ * - ConflictingOperationException: A duplicate job is already running for the same configuration
+ *
+ * - InvalidRequestException: Invalid parameters (e.g., both timeSeriesId and propertyAlias specified)
+ *
+ * - AccessDeniedException: Insufficient IAM or KMS permissions
+ *
+ * - LimitExceededException: Too many concurrent jobs or requests
+ */
+export const createEnrichmentJob: API.OperationMethod<
+  CreateEnrichmentJobRequest,
+  CreateEnrichmentJobResponse,
+  CreateEnrichmentJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateEnrichmentJobRequest,
+  output: CreateEnrichmentJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateEnrichmentJob",
+  endpointHostPrefix: "data.",
 }));
 
 export type CreateGatewayError =
@@ -7765,6 +11240,48 @@ export const createGateway: API.OperationMethod<
   endpointHostPrefix: "api.",
 }));
 
+export type CreatePipelineError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Creates a new pipeline in the specified workspace. A pipeline defines a
+ * directed acyclic graph (DAG) of compute nodes, where each node references a task
+ * and can declare dependencies on other nodes. Cyclic dependencies are not
+ * allowed. Nodes without dependencies run in parallel, while nodes with dependencies
+ * wait for all upstream nodes to complete successfully before starting.
+ *
+ * You can set environment variables at the pipeline level that are shared across all
+ * compute nodes, and override them at the individual compute node level.
+ */
+export const createPipeline: API.OperationMethod<
+  CreatePipelineRequest,
+  CreatePipelineResponse,
+  CreatePipelineError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePipelineRequest,
+  output: CreatePipelineResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreatePipeline",
+  endpointHostPrefix: "api.",
+}));
+
 export type CreatePortalError =
   | InternalFailureException
   | InvalidRequestException
@@ -7773,6 +11290,11 @@ export type CreatePortalError =
   | ThrottlingException
   | CommonErrors;
 /**
+ * The IoT SiteWise Monitor feature will no longer be open to new
+ * customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can
+ * continue to use the service as normal. For more information, see
+ * IoT SiteWise Monitor availability change.
+ *
  * Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM Identity Center or IAM
  * to authenticate portal users and manage user permissions.
  *
@@ -7809,6 +11331,11 @@ export type CreateProjectError =
   | ThrottlingException
   | CommonErrors;
 /**
+ * The IoT SiteWise Monitor feature will no longer be open to new
+ * customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can
+ * continue to use the service as normal. For more information, see
+ * IoT SiteWise Monitor availability change.
+ *
  * Creates a project in the specified portal.
  *
  * Make sure that the project name and description don't contain confidential
@@ -7833,6 +11360,83 @@ export const createProject: API.OperationMethod<
   retry: Retry,
   operationName: "CreateProject",
   endpointHostPrefix: "monitor.",
+}));
+
+export type CreateTaskError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Creates a new task in the specified workspace. A task defines a reusable
+ * containerized compute workload that can be referenced by one or more pipeline compute nodes.
+ *
+ * Specify a `containerTaskConfiguration` for custom container workloads with
+ * configurable ECR image, processing type, processing unit, and environment variables.
+ */
+export const createTask: API.OperationMethod<
+  CreateTaskRequest,
+  CreateTaskResponse,
+  CreateTaskError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateTaskRequest,
+  output: CreateTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateTask",
+  endpointHostPrefix: "api.",
+}));
+
+export type CreateWorkspaceError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Creates a workspace in IoT SiteWise. A workspace isolates its resources, such as datasets, time
+ * series, pipelines, and tasks, and their data from other workspaces, and has its own quotas
+ * and throttling limits. You must specify an encryption configuration when you create
+ * a workspace. The operation returns immediately with the workspace in the
+ * `CREATING` state. Provisioning completes asynchronously, after which the workspace
+ * state is `ACTIVE`, or `FAILED` if provisioning doesn't complete.
+ */
+export const createWorkspace: API.OperationMethod<
+  CreateWorkspaceRequest,
+  CreateWorkspaceResponse,
+  CreateWorkspaceError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateWorkspaceRequest,
+  output: CreateWorkspaceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateWorkspace",
+  endpointHostPrefix: "api.",
 }));
 
 export type DeleteAccessPolicyError =
@@ -7864,6 +11468,39 @@ export const deleteAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAccessPolicy",
   endpointHostPrefix: "monitor.",
+}));
+
+export type DeleteApplicationError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Deletes an application by ID
+ */
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
+  DeleteApplicationResponse,
+  DeleteApplicationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteApplicationRequest,
+  output: DeleteApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteApplication",
+  endpointHostPrefix: "api.",
 }));
 
 export type DeleteAssetError =
@@ -8075,7 +11712,7 @@ export type DeleteDatasetError =
   | ThrottlingException
   | CommonErrors;
 /**
- * Deletes a dataset. This cannot be undone.
+ * Deletes a dataset. This can't be undone. Deleting a session dataset also deletes the underlying time series data in the session. You can't delete a session dataset while a curated dataset references its data segments. First delete the curated dataset or disassociate the data segments. Deleting a curated dataset doesn't delete the underlying data in the source session datasets.
  */
 export const deleteDataset: API.OperationMethod<
   DeleteDatasetRequest,
@@ -8127,6 +11764,42 @@ export const deleteGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
+  endpointHostPrefix: "api.",
+}));
+
+export type DeletePipelineError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Deletes a pipeline from the specified workspace. A pipeline cannot be
+ * deleted if it has any active executions. Wait for all executions to complete before
+ * attempting to delete the pipeline, or use CancelPipelineExecution to stop a running
+ * execution.
+ */
+export const deletePipeline: API.OperationMethod<
+  DeletePipelineRequest,
+  DeletePipelineResponse,
+  DeletePipelineError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeletePipelineRequest,
+  output: DeletePipelineResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeletePipeline",
   endpointHostPrefix: "api.",
 }));
 
@@ -8190,6 +11863,41 @@ export const deleteProject: API.OperationMethod<
   endpointHostPrefix: "monitor.",
 }));
 
+export type DeleteTaskError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Deletes a task from the specified workspace. A task cannot be deleted
+ * if it is currently referenced by any existing pipeline. Remove the task from all
+ * pipelines before attempting to delete it.
+ */
+export const deleteTask: API.OperationMethod<
+  DeleteTaskRequest,
+  DeleteTaskResponse,
+  DeleteTaskError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteTaskRequest,
+  output: DeleteTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteTask",
+  endpointHostPrefix: "api.",
+}));
+
 export type DeleteTimeSeriesError =
   | ConflictingOperationException
   | InternalFailureException
@@ -8200,7 +11908,8 @@ export type DeleteTimeSeriesError =
 /**
  * Deletes a time series (data stream). If you delete a time series that's associated with an
  * asset property, the asset property still exists, but the time series will no longer be
- * associated with this asset property.
+ * associated with this asset property. You can't delete a time series until all of its data
+ * segments have been deleted from session datasets.
  *
  * To identify a time series, do one of the following:
  *
@@ -8232,6 +11941,41 @@ export const deleteTimeSeries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTimeSeries",
+  endpointHostPrefix: "api.",
+}));
+
+export type DeleteWorkspaceError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Deletes a workspace. Before you delete a workspace, you must delete all resources
+ * contained in or associated with the workspace, such as datasets, time series, pipelines,
+ * and tasks.
+ */
+export const deleteWorkspace: API.OperationMethod<
+  DeleteWorkspaceRequest,
+  DeleteWorkspaceResponse,
+  DeleteWorkspaceError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteWorkspaceRequest,
+  output: DeleteWorkspaceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteWorkspace",
   endpointHostPrefix: "api.",
 }));
 
@@ -8291,6 +12035,37 @@ export const describeAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAction",
+  endpointHostPrefix: "api.",
+}));
+
+export type DescribeApplicationError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves Application details based on the ID
+ */
+export const describeApplication: API.OperationMethod<
+  DescribeApplicationRequest,
+  DescribeApplicationResponse,
+  DescribeApplicationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribeApplicationRequest,
+  output: DescribeApplicationResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeApplication",
   endpointHostPrefix: "api.",
 }));
 
@@ -8629,9 +12404,41 @@ export const describeDataset: API.OperationMethod<
   endpointHostPrefix: "api.",
 }));
 
+export type DescribeDatasetExportJobError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves information about a dataset export job.
+ */
+export const describeDatasetExportJob: API.OperationMethod<
+  DescribeDatasetExportJobRequest,
+  DescribeDatasetExportJobResponse,
+  DescribeDatasetExportJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribeDatasetExportJobRequest,
+  output: DescribeDatasetExportJobResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeDatasetExportJob",
+  endpointHostPrefix: "data.",
+}));
+
 export type DescribeDefaultEncryptionConfigurationError =
   | InternalFailureException
   | InvalidRequestException
+  | ResourceNotFoundException
   | ThrottlingException
   | CommonErrors;
 /**
@@ -8650,12 +12457,85 @@ export const describeDefaultEncryptionConfiguration: API.OperationMethod<
   errors: [
     InternalFailureException,
     InvalidRequestException,
+    ResourceNotFoundException,
     ThrottlingException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDefaultEncryptionConfiguration",
   endpointHostPrefix: "api.",
+}));
+
+export type DescribeEnrichmentJobError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves detailed information about a specific enrichment job, including its current status,
+ * configuration, and timestamps.
+ *
+ * Use Cases
+ *
+ * - Monitor job progress by checking status updates with DescribeEnrichmentJob
+ *
+ * - Retrieve the complete job configuration submitted during creation
+ *
+ * - Debug failed jobs by examining the failureMessage field
+ *
+ * - Track job lifecycle with creation, update, completion, and cancellation timestamps
+ *
+ * Status Monitoring
+ *
+ * Jobs progress through statuses: PENDING → RUNNING → terminal state
+ *
+ * Terminal states:
+ *
+ * - COMPLETED: Job finished successfully; query IoT SiteWise for semantic search results
+ *
+ * - FAILED: Job encountered an error; check failureMessage for details
+ *
+ * - TIMED_OUT: Job exceeded maximum processing time
+ *
+ * - CANCELLED: Job was cancelled via CancelEnrichmentJob
+ *
+ * Response Fields
+ *
+ * The response includes:
+ *
+ * - Current job status and type
+ *
+ * - Full job configuration as originally submitted
+ *
+ * - Lifecycle timestamps (created, updated, completed, cancelled)
+ *
+ * - Failure details if status is FAILED
+ */
+export const describeEnrichmentJob: API.OperationMethod<
+  DescribeEnrichmentJobRequest,
+  DescribeEnrichmentJobResponse,
+  DescribeEnrichmentJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribeEnrichmentJobRequest,
+  output: DescribeEnrichmentJobResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeEnrichmentJob",
+  endpointHostPrefix: "data.",
 }));
 
 export type DescribeExecutionError =
@@ -8786,6 +12666,78 @@ export const describeLoggingOptions: API.OperationMethod<
   endpointHostPrefix: "api.",
 }));
 
+export type DescribePipelineError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves detailed information about a specific pipeline in a workspace.
+ */
+export const describePipeline: API.OperationMethod<
+  DescribePipelineRequest,
+  DescribePipelineResponse,
+  DescribePipelineError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribePipelineRequest,
+  output: DescribePipelineResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribePipeline",
+  endpointHostPrefix: "api.",
+}));
+
+export type DescribePipelineExecutionError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves detailed information about a specific pipeline execution, including the
+ * overall execution status and the status of each individual compute node. Use this
+ * operation to monitor execution progress and inspect per-node results, environment
+ * variables, and error details.
+ */
+export const describePipelineExecution: API.PaginatedOperationMethod<
+  DescribePipelineExecutionRequest,
+  DescribePipelineExecutionResponse,
+  DescribePipelineExecutionError,
+  Credentials | HttpClient.HttpClient,
+  ComputeNodeExecutionDetails
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: DescribePipelineExecutionRequest,
+  output: DescribePipelineExecutionResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribePipelineExecution",
+  endpointHostPrefix: "data.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "computeNodeExecutionDetails",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
 export type DescribePortalError =
   | InternalFailureException
   | InvalidRequestException
@@ -8844,6 +12796,71 @@ export const describeProject: API.OperationMethod<
   endpointHostPrefix: "monitor.",
 }));
 
+export type DescribeQueryError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves information about a query, including its status.
+ */
+export const describeQuery: API.OperationMethod<
+  DescribeQueryRequest,
+  DescribeQueryResponse,
+  DescribeQueryError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribeQueryRequest,
+  output: DescribeQueryResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeQuery",
+  endpointHostPrefix: "data.",
+}));
+
+export type DescribeSearchError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Returns the current status and metadata of a single search, including the query that was
+ * submitted, the search type, and — when the search has failed — the reason. Use this to poll a
+ * search started with `StartSearch` until it reaches a terminal status (`SUCCEEDED` or
+ * `FAILED`).
+ */
+export const describeSearch: API.OperationMethod<
+  DescribeSearchRequest,
+  DescribeSearchResponse,
+  DescribeSearchError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribeSearchRequest,
+  output: DescribeSearchResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeSearch",
+  endpointHostPrefix: "data.",
+}));
+
 export type DescribeStorageConfigurationError =
   | ConflictingOperationException
   | InternalFailureException
@@ -8874,6 +12891,37 @@ export const describeStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStorageConfiguration",
+  endpointHostPrefix: "api.",
+}));
+
+export type DescribeTaskError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves detailed information about a specific task in a workspace.
+ */
+export const describeTask: API.OperationMethod<
+  DescribeTaskRequest,
+  DescribeTaskResponse,
+  DescribeTaskError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribeTaskRequest,
+  output: DescribeTaskResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeTask",
   endpointHostPrefix: "api.",
 }));
 
@@ -8915,6 +12963,37 @@ export const describeTimeSeries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTimeSeries",
+  endpointHostPrefix: "api.",
+}));
+
+export type DescribeWorkspaceError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves information about a workspace.
+ */
+export const describeWorkspace: API.OperationMethod<
+  DescribeWorkspaceRequest,
+  DescribeWorkspaceResponse,
+  DescribeWorkspaceError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribeWorkspaceRequest,
+  output: DescribeWorkspaceResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeWorkspace",
   endpointHostPrefix: "api.",
 }));
 
@@ -9188,6 +13267,37 @@ export const getAssetPropertyValueHistory: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type GetCaptureDataError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves video data for a specific time range.
+ */
+export const getCaptureData: API.OperationMethod<
+  GetCaptureDataRequest,
+  GetCaptureDataResponse,
+  GetCaptureDataError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCaptureDataRequest,
+  output: GetCaptureDataResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetCaptureData",
+  endpointHostPrefix: "data.",
+}));
+
 export type GetInterpolatedAssetPropertyValuesError =
   | InternalFailureException
   | InvalidRequestException
@@ -9234,6 +13344,86 @@ export const getInterpolatedAssetPropertyValues: API.PaginatedOperationMethod<
     inputToken: "nextToken",
     outputToken: "nextToken",
     items: "interpolatedAssetPropertyValues",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type GetQueryResultsError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves the paginated results of a query. Returns empty rows if the query is not yet complete.
+ */
+export const getQueryResults: API.PaginatedOperationMethod<
+  GetQueryResultsRequest,
+  GetQueryResultsResponse,
+  GetQueryResultsError,
+  Credentials | HttpClient.HttpClient,
+  ColumnValue[]
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: GetQueryResultsRequest,
+  output: GetQueryResultsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetQueryResults",
+  endpointHostPrefix: "data.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "rows",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type GetSearchResultsError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves the ranked results of a search, ordered by descending relevance score. Results are
+ * available only after the search has reached the `SUCCEEDED` status. Calling this on a search
+ * that exists but has not yet completed returns `InvalidRequestException`, while calling it on a
+ * search that does not exist returns `ResourceNotFoundException`. The response is paginated: when
+ * `nextToken` is present, pass it on a subsequent call to retrieve the next page.
+ */
+export const getSearchResults: API.PaginatedOperationMethod<
+  GetSearchResultsRequest,
+  GetSearchResultsResponse,
+  GetSearchResultsError,
+  Credentials | HttpClient.HttpClient,
+  SearchResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: GetSearchResultsRequest,
+  output: GetSearchResultsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetSearchResults",
+  endpointHostPrefix: "data.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "searchResults",
     pageSize: "maxResults",
   } as const,
 })) as any;
@@ -9344,6 +13534,44 @@ export const listActions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type ListApplicationsError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of existing applications
+ */
+export const listApplications: API.PaginatedOperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  ListApplicationsError,
+  Credentials | HttpClient.HttpClient,
+  ApplicationSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListApplicationsRequest,
+  output: ListApplicationsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListApplications",
+  endpointHostPrefix: "api.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "applications",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
 export type ListAssetModelCompositeModelsError =
   | InternalFailureException
   | InvalidRequestException
@@ -9421,6 +13649,7 @@ export const listAssetModelProperties: API.PaginatedOperationMethod<
 export type ListAssetModelsError =
   | InternalFailureException
   | InvalidRequestException
+  | ResourceNotFoundException
   | ThrottlingException
   | CommonErrors;
 /**
@@ -9438,6 +13667,7 @@ export const listAssetModels: API.PaginatedOperationMethod<
   errors: [
     InternalFailureException,
     InvalidRequestException,
+    ResourceNotFoundException,
     ThrottlingException,
   ],
   protocol: AwsProtocol,
@@ -9831,9 +14061,122 @@ export const listDashboards: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type ListDatasetDataSegmentRelationshipsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of data segment relationships for a session dataset. Use this
+ * operation to find the curated datasets that reference data segments of the specified session
+ * dataset. Use the `nextToken` parameter to retrieve additional results.
+ */
+export const listDatasetDataSegmentRelationships: API.PaginatedOperationMethod<
+  ListDatasetDataSegmentRelationshipsRequest,
+  ListDatasetDataSegmentRelationshipsResponse,
+  ListDatasetDataSegmentRelationshipsError,
+  Credentials | HttpClient.HttpClient,
+  DataSegmentRelationshipSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetDataSegmentRelationshipsRequest,
+  output: ListDatasetDataSegmentRelationshipsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListDatasetDataSegmentRelationships",
+  endpointHostPrefix: "api.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataSegmentRelationshipSummaries",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListDatasetDataSegmentsError =
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of data segments associated with a dataset. Use the `nextToken` parameter to retrieve additional results.
+ */
+export const listDatasetDataSegments: API.PaginatedOperationMethod<
+  ListDatasetDataSegmentsRequest,
+  ListDatasetDataSegmentsResponse,
+  ListDatasetDataSegmentsError,
+  Credentials | HttpClient.HttpClient,
+  DataSegmentSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetDataSegmentsRequest,
+  output: ListDatasetDataSegmentsResponse,
+  errors: [
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListDatasetDataSegments",
+  endpointHostPrefix: "api.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "dataSegments",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListDatasetExportJobsError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of dataset export jobs for a workspace.
+ */
+export const listDatasetExportJobs: API.PaginatedOperationMethod<
+  ListDatasetExportJobsRequest,
+  ListDatasetExportJobsResponse,
+  ListDatasetExportJobsError,
+  Credentials | HttpClient.HttpClient,
+  ExportJobSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListDatasetExportJobsRequest,
+  output: ListDatasetExportJobsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListDatasetExportJobs",
+  endpointHostPrefix: "data.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobs",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
 export type ListDatasetsError =
   | InternalFailureException
   | InvalidRequestException
+  | ResourceNotFoundException
   | ThrottlingException
   | CommonErrors;
 /**
@@ -9851,6 +14194,7 @@ export const listDatasets: API.PaginatedOperationMethod<
   errors: [
     InternalFailureException,
     InvalidRequestException,
+    ResourceNotFoundException,
     ThrottlingException,
   ],
   protocol: AwsProtocol,
@@ -9861,6 +14205,92 @@ export const listDatasets: API.PaginatedOperationMethod<
     inputToken: "nextToken",
     outputToken: "nextToken",
     items: "datasetSummaries",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListEnrichmentJobsError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Lists enrichment jobs within a workspace with optional filtering and pagination. Results are ordered
+ * by createdAt timestamp descending (newest first).
+ *
+ * Filtering
+ *
+ * Combine filters to narrow results:
+ *
+ * - datasetId: Filter by dataset
+ *
+ * - propertyAlias OR timeSeriesId: Filter by time series (specify one, not both)
+ *
+ * - status: Filter by job status (e.g., RUNNING to find active jobs)
+ *
+ * - jobType: Filter by enrichment type (currently only EVENT_DETECTION)
+ *
+ * - startDate and endDate: Filter by job creation time range
+ *
+ * Important Constraints
+ *
+ * - You must specify either propertyAlias OR timeSeriesId, but not both
+ *
+ * - Attempting to specify both results in an InvalidRequestException
+ *
+ * - Date filters use ISO 8601 format
+ *
+ * - startDate is exclusive, endDate is inclusive
+ *
+ * Pagination
+ *
+ * The operation returns up to maxResults jobs per page (default 50). If more results exist, the
+ * response includes a nextToken. Submit this token in a subsequent request to retrieve the next page.
+ *
+ * Common Use Cases
+ *
+ * - Find all running jobs: Filter by status=RUNNING
+ *
+ * - List recent jobs for a dataset: Filter by datasetId with optional date range
+ *
+ * - Monitor jobs for a specific sensor: Filter by propertyAlias or timeSeriesId
+ *
+ * - Track all event detection jobs: Filter by jobType=EVENT_DETECTION
+ *
+ * Performance
+ *
+ * Performance is optimal when filtering by supported fields (datasetId, propertyAlias, timeSeriesId, status, jobType).
+ */
+export const listEnrichmentJobs: API.PaginatedOperationMethod<
+  ListEnrichmentJobsRequest,
+  ListEnrichmentJobsResponse,
+  ListEnrichmentJobsError,
+  Credentials | HttpClient.HttpClient,
+  EnrichmentJobSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListEnrichmentJobsRequest,
+  output: ListEnrichmentJobsResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListEnrichmentJobs",
+  endpointHostPrefix: "data.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "jobs",
     pageSize: "maxResults",
   } as const,
 })) as any;
@@ -9972,6 +14402,88 @@ export const listInterfaceRelationships: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type ListPipelineExecutionsError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Lists pipeline executions for a specific pipeline in a workspace.
+ * Supports filtering by state and time range. State can be combined with either
+ * startTime or endTime filters. Time range filters are grouped: use startTime filters
+ * (startTimeAfter, startTimeBefore) or endTime filters (endTimeAfter, endTimeBefore),
+ * but not both. Combining startTime and endTime filters returns an InvalidRequestException.
+ * Note: endTime filters only return executions in terminal states, as in-progress
+ * executions have no endTime.
+ */
+export const listPipelineExecutions: API.PaginatedOperationMethod<
+  ListPipelineExecutionsRequest,
+  ListPipelineExecutionsResponse,
+  ListPipelineExecutionsError,
+  Credentials | HttpClient.HttpClient,
+  PipelineExecutionSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelineExecutionsRequest,
+  output: ListPipelineExecutionsResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListPipelineExecutions",
+  endpointHostPrefix: "data.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "pipelineExecutionSummaries",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListPipelinesError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Lists pipelines in a workspace. To get complete details about a pipeline, use DescribePipeline.
+ */
+export const listPipelines: API.PaginatedOperationMethod<
+  ListPipelinesRequest,
+  ListPipelinesResponse,
+  ListPipelinesError,
+  Credentials | HttpClient.HttpClient,
+  PipelineSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListPipelinesRequest,
+  output: ListPipelinesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListPipelines",
+  endpointHostPrefix: "api.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "pipelineSummaries",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
 export type ListPortalsError =
   | InternalFailureException
   | InvalidRequestException
@@ -10074,6 +14586,84 @@ export const listProjects: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type ListQueriesError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of queries for a workspace.
+ */
+export const listQueries: API.PaginatedOperationMethod<
+  ListQueriesRequest,
+  ListQueriesResponse,
+  ListQueriesError,
+  Credentials | HttpClient.HttpClient,
+  QuerySummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListQueriesRequest,
+  output: ListQueriesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListQueries",
+  endpointHostPrefix: "data.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "queries",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListSearchesError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Lists the searches in a workspace, most recently started first. Results can be narrowed with
+ * optional filters (status, search type, group, and started-at time range) and are paginated: when
+ * `nextToken` is present, pass it on a subsequent call to retrieve the next page.
+ */
+export const listSearches: API.PaginatedOperationMethod<
+  ListSearchesRequest,
+  ListSearchesResponse,
+  ListSearchesError,
+  Credentials | HttpClient.HttpClient,
+  SearchSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListSearchesRequest,
+  output: ListSearchesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListSearches",
+  endpointHostPrefix: "data.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "searchSummaries",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
 export type ListTagsForResourceError =
   | ConflictingOperationException
   | InternalFailureException
@@ -10109,6 +14699,44 @@ export const listTagsForResource: API.OperationMethod<
   endpointHostPrefix: "api.",
 }));
 
+export type ListTasksError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Lists tasks in a workspace. To get complete details about a task, use DescribeTask.
+ */
+export const listTasks: API.PaginatedOperationMethod<
+  ListTasksRequest,
+  ListTasksResponse,
+  ListTasksError,
+  Credentials | HttpClient.HttpClient,
+  TaskSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListTasksRequest,
+  output: ListTasksResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListTasks",
+  endpointHostPrefix: "api.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "taskSummaries",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
 export type ListTimeSeriesError =
   | InternalFailureException
   | InvalidRequestException
@@ -10141,6 +14769,42 @@ export const listTimeSeries: API.PaginatedOperationMethod<
     inputToken: "nextToken",
     outputToken: "nextToken",
     items: "TimeSeriesSummaries",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListWorkspacesError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves a paginated list of workspaces. Use the `nextToken` parameter to retrieve additional results.
+ */
+export const listWorkspaces: API.PaginatedOperationMethod<
+  ListWorkspacesRequest,
+  ListWorkspacesResponse,
+  ListWorkspacesError,
+  Credentials | HttpClient.HttpClient,
+  WorkspaceSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListWorkspacesRequest,
+  output: ListWorkspacesResponse,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidRequestException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListWorkspaces",
+  endpointHostPrefix: "api.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "workspaceSummaries",
     pageSize: "maxResults",
   } as const,
 })) as any;
@@ -10184,6 +14848,7 @@ export type PutDefaultEncryptionConfigurationError =
   | InternalFailureException
   | InvalidRequestException
   | LimitExceededException
+  | ResourceNotFoundException
   | ThrottlingException
   | CommonErrors;
 /**
@@ -10204,6 +14869,7 @@ export const putDefaultEncryptionConfiguration: API.OperationMethod<
     InternalFailureException,
     InvalidRequestException,
     LimitExceededException,
+    ResourceNotFoundException,
     ThrottlingException,
   ],
   protocol: AwsProtocol,
@@ -10276,6 +14942,119 @@ export const putStorageConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "PutStorageConfiguration",
   endpointHostPrefix: "api.",
+}));
+
+export type StartPipelineExecutionError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Starts execution of a pipeline in the specified workspace. Each compute node runs
+ * according to the DAG dependency order defined in the pipeline. Nodes without
+ * dependencies start immediately, while dependent nodes wait for all upstream nodes
+ * to complete successfully.
+ *
+ * You can provide runtime environment variable overrides that take the highest priority
+ * in the environment variable hierarchy, without modifying the pipeline definition.
+ */
+export const startPipelineExecution: API.OperationMethod<
+  StartPipelineExecutionRequest,
+  StartPipelineExecutionResponse,
+  StartPipelineExecutionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: StartPipelineExecutionRequest,
+  output: StartPipelineExecutionResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartPipelineExecution",
+  endpointHostPrefix: "data.",
+}));
+
+export type StartQueryError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Starts an asynchronous SQL query against workspace telemetry, annotations, data segment, and dataset data.
+ */
+export const startQuery: API.OperationMethod<
+  StartQueryRequest,
+  StartQueryResponse,
+  StartQueryError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: StartQueryRequest,
+  output: StartQueryResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartQuery",
+  endpointHostPrefix: "data.",
+}));
+
+export type StartSearchError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Starts an asynchronous search over the data in a workspace. The search runs in the background;
+ * the response returns immediately with a `searchId` and an initial status of `QUEUED`. Use
+ * `DescribeSearch` to poll for completion and `GetSearchResults` to retrieve the results once the
+ * search reaches `SUCCEEDED`. The request is idempotent on `clientToken`: repeating a call with the
+ * same token returns the original search instead of starting a new one.
+ */
+export const startSearch: API.OperationMethod<
+  StartSearchRequest,
+  StartSearchResponse,
+  StartSearchError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: StartSearchRequest,
+  output: StartSearchResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartSearch",
+  endpointHostPrefix: "data.",
 }));
 
 export type TagResourceError =
@@ -10358,6 +15137,11 @@ export type UpdateAccessPolicyError =
   | ThrottlingException
   | CommonErrors;
 /**
+ * The IoT SiteWise Monitor feature will no longer be open to new
+ * customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can
+ * continue to use the service as normal. For more information, see
+ * IoT SiteWise Monitor availability change.
+ *
  * Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor
  * portal or project resource.
  */
@@ -10598,6 +15382,11 @@ export type UpdateDashboardError =
   | ThrottlingException
   | CommonErrors;
 /**
+ * The IoT SiteWise Monitor feature will no longer be open to new
+ * customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can
+ * continue to use the service as normal. For more information, see
+ * IoT SiteWise Monitor availability change.
+ *
  * Updates an IoT SiteWise Monitor dashboard.
  */
 export const updateDashboard: API.OperationMethod<
@@ -10625,6 +15414,7 @@ export type UpdateDatasetError =
   | InternalFailureException
   | InvalidRequestException
   | LimitExceededException
+  | ResourceAlreadyExistsException
   | ResourceNotFoundException
   | ThrottlingException
   | CommonErrors;
@@ -10644,6 +15434,7 @@ export const updateDataset: API.OperationMethod<
     InternalFailureException,
     InvalidRequestException,
     LimitExceededException,
+    ResourceAlreadyExistsException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
@@ -10733,6 +15524,44 @@ export const updateGatewayCapabilityConfiguration: API.OperationMethod<
   endpointHostPrefix: "api.",
 }));
 
+export type UpdatePipelineError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Updates an existing pipeline in the specified workspace. Only the fields
+ * provided in the request are updated; fields not included in the request are preserved
+ * unchanged. You can update the pipeline description, environment variables, and the
+ * list of compute nodes independently.
+ */
+export const updatePipeline: API.OperationMethod<
+  UpdatePipelineRequest,
+  UpdatePipelineResponse,
+  UpdatePipelineError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdatePipelineRequest,
+  output: UpdatePipelineResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdatePipeline",
+  endpointHostPrefix: "api.",
+}));
+
 export type UpdatePortalError =
   | ConflictingOperationException
   | InternalFailureException
@@ -10741,6 +15570,11 @@ export type UpdatePortalError =
   | ThrottlingException
   | CommonErrors;
 /**
+ * The IoT SiteWise Monitor feature will no longer be open to new
+ * customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can
+ * continue to use the service as normal. For more information, see
+ * IoT SiteWise Monitor availability change.
+ *
  * Updates an IoT SiteWise Monitor portal.
  */
 export const updatePortal: API.OperationMethod<
@@ -10771,6 +15605,11 @@ export type UpdateProjectError =
   | ThrottlingException
   | CommonErrors;
 /**
+ * The IoT SiteWise Monitor feature will no longer be open to new
+ * customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can
+ * continue to use the service as normal. For more information, see
+ * IoT SiteWise Monitor availability change.
+ *
  * Updates an IoT SiteWise Monitor project.
  */
 export const updateProject: API.OperationMethod<
@@ -10791,4 +15630,75 @@ export const updateProject: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateProject",
   endpointHostPrefix: "monitor.",
+}));
+
+export type UpdateTaskError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Updates an existing task in the specified workspace. Only the fields
+ * provided in the request are updated; fields not included in the request are preserved
+ * unchanged.
+ */
+export const updateTask: API.OperationMethod<
+  UpdateTaskRequest,
+  UpdateTaskResponse,
+  UpdateTaskError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateTaskRequest,
+  output: UpdateTaskResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateTask",
+  endpointHostPrefix: "api.",
+}));
+
+export type UpdateWorkspaceError =
+  | AccessDeniedException
+  | ConflictingOperationException
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Updates a workspace. You can update only workspaces in the `ACTIVE` or
+ * `FAILED` state. Fields that you omit from the request are left unchanged. To
+ * recover a workspace in the `FAILED` state, call this operation and supply its
+ * encryption configuration again.
+ */
+export const updateWorkspace: API.OperationMethod<
+  UpdateWorkspaceRequest,
+  UpdateWorkspaceResponse,
+  UpdateWorkspaceError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateWorkspaceRequest,
+  output: UpdateWorkspaceResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictingOperationException,
+    InternalFailureException,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateWorkspace",
+  endpointHostPrefix: "api.",
 }));

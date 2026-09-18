@@ -1,0 +1,456 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.attempt#AttemptAwaitRequest": {
+      "type": "structure",
+      "members": {
+        "attemptToken": {
+          "target": "smithy.api#String"
+        },
+        "requestedAt": {
+          "target": "smithy.api#Double"
+        },
+        "timeoutSecs": {
+          "target": "smithy.api#Float",
+          "traits": {
+            "smithy.api#documentation": "Used for waypoints."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.attempt#FunctionGetOutputsItem": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.modal.attempt#GenericResult"
+        },
+        "idx": {
+          "target": "smithy.api#Integer"
+        },
+        "inputId": {
+          "target": "smithy.api#String"
+        },
+        "dataFormat": {
+          "target": "com.modal.attempt#DataFormat"
+        },
+        "taskId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "for result.data_oneof"
+          }
+        },
+        "inputStartedAt": {
+          "target": "smithy.api#Double"
+        },
+        "outputCreatedAt": {
+          "target": "smithy.api#Double"
+        },
+        "retryCount": {
+          "target": "smithy.api#Integer"
+        },
+        "fcTraceTag": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How long to sleep before requesting another input."
+      }
+    },
+    "com.modal.attempt#GenericResult": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.modal.attempt#GenericResultGenericStatus"
+        },
+        "exception": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status of the task or function output."
+          }
+        },
+        "exitcode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Exception message for failures, if available."
+          }
+        },
+        "traceback": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly."
+          }
+        },
+        "serializedTb": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "String value of the Python traceback."
+          }
+        },
+        "tbLineCache": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "Pickled traceback object."
+          }
+        },
+        "data": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "Pickled line cache for traceback object."
+          }
+        },
+        "dataBlobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inline data of the result."
+          }
+        },
+        "propagationReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Blob ID for large data."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "sub-type for generic types like lists"
+      }
+    },
+    "com.modal.attempt#GenericResultGenericStatus": {
+      "type": "enum",
+      "members": {
+        "GENERIC_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_UNSPECIFIED"
+          }
+        },
+        "GENERIC_STATUS_SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_SUCCESS"
+          }
+        },
+        "GENERIC_STATUS_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_FAILURE"
+          }
+        },
+        "GENERIC_STATUS_TERMINATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_TERMINATED",
+            "smithy.api#documentation": "Used when a task was killed using an external signal."
+          }
+        },
+        "GENERIC_STATUS_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_TIMEOUT"
+          }
+        },
+        "GENERIC_STATUS_INIT_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_INIT_FAILURE",
+            "smithy.api#documentation": "Used when the user's function fails to initialize (ex. S3 mount failed due to invalid credentials). Terminates the function and all remaining inputs."
+          }
+        },
+        "GENERIC_STATUS_INTERNAL_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_INTERNAL_FAILURE"
+          }
+        },
+        "GENERIC_STATUS_IDLE_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_IDLE_TIMEOUT",
+            "smithy.api#documentation": "Used when sandboxes are terminated due to idle_timeout"
+          }
+        },
+        "GENERIC_STATUS_MEMORY_MANAGER_EVICTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GENERIC_STATUS_MEMORY_MANAGER_EVICTION",
+            "smithy.api#documentation": "Used when a task was killed because it was evicted by the memory manager when the worker was under memory pressure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Used for both tasks and function outputs"
+      }
+    },
+    "com.modal.attempt#DataFormat": {
+      "type": "enum",
+      "members": {
+        "DATA_FORMAT_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_UNSPECIFIED"
+          }
+        },
+        "DATA_FORMAT_PICKLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_PICKLE"
+          }
+        },
+        "DATA_FORMAT_ASGI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_ASGI",
+            "smithy.api#documentation": "Cloudpickle"
+          }
+        },
+        "DATA_FORMAT_GENERATOR_DONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_GENERATOR_DONE",
+            "smithy.api#documentation": "\"Asgi\" protobuf message"
+          }
+        },
+        "DATA_FORMAT_CBOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_FORMAT_CBOR",
+            "smithy.api#documentation": "\"GeneratorDone\" protobuf message"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which data format a binary message is encoded with."
+      }
+    },
+    "com.modal.attempt#AttemptAwaitResponse": {
+      "type": "structure",
+      "members": {
+        "output": {
+          "target": "com.modal.attempt#FunctionGetOutputsItem"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.attempt#AttemptAwait": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.attempt#AttemptAwaitRequest"
+      },
+      "output": {
+        "target": "com.modal.attempt#AttemptAwaitResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AttemptAwait",
+          "code": 200
+        },
+        "smithy.api#documentation": "Input Plane"
+      }
+    },
+    "com.modal.attempt#FunctionPutInputsItem": {
+      "type": "structure",
+      "members": {
+        "idx": {
+          "target": "smithy.api#Integer"
+        },
+        "input": {
+          "target": "com.modal.attempt#FunctionInput"
+        },
+        "r2Failed": {
+          "target": "smithy.api#Boolean"
+        },
+        "r2ThroughputBytesS": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "r2_latency_ms"
+          }
+        }
+      }
+    },
+    "com.modal.attempt#FunctionInput": {
+      "type": "structure",
+      "members": {
+        "args": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "serialized (args, kwargs)."
+          }
+        },
+        "argsBlobId": {
+          "target": "smithy.api#String"
+        },
+        "finalInput": {
+          "target": "smithy.api#Boolean"
+        },
+        "dataFormat": {
+          "target": "com.modal.attempt#DataFormat"
+        },
+        "methodName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For args_oneof."
+          }
+        }
+      }
+    },
+    "com.modal.attempt#RetryAttemptRequest": {
+      "type": "structure",
+      "members": {
+        "functionId": {
+          "target": "smithy.api#String"
+        },
+        "parentInputId": {
+          "target": "smithy.api#String"
+        },
+        "input": {
+          "target": "com.modal.attempt#FunctionPutInputsItem"
+        },
+        "attemptToken": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.attempt#RetryAttemptResponse": {
+      "type": "structure",
+      "members": {
+        "attemptToken": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.attempt#RetryAttempt": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.attempt#RetryAttemptRequest"
+      },
+      "output": {
+        "target": "com.modal.attempt#RetryAttemptResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AttemptRetry",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.attempt#StartAttemptRequest": {
+      "type": "structure",
+      "members": {
+        "functionId": {
+          "target": "smithy.api#String"
+        },
+        "parentInputId": {
+          "target": "smithy.api#String"
+        },
+        "input": {
+          "target": "com.modal.attempt#FunctionPutInputsItem"
+        },
+        "proxied": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.attempt#FunctionRetryPolicy": {
+      "type": "structure",
+      "members": {
+        "backoffCoefficient": {
+          "target": "smithy.api#Float"
+        },
+        "initialDelayMs": {
+          "target": "smithy.api#Integer"
+        },
+        "maxDelayMs": {
+          "target": "smithy.api#Integer"
+        },
+        "retries": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "NOTE: two-byte field number not used for special reason. copy-paste error. Ref: PR #2542"
+          }
+        }
+      }
+    },
+    "com.modal.attempt#StartAttemptResponse": {
+      "type": "structure",
+      "members": {
+        "attemptToken": {
+          "target": "smithy.api#String"
+        },
+        "retryPolicy": {
+          "target": "com.modal.attempt#FunctionRetryPolicy"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.attempt#StartAttempt": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.attempt#StartAttemptRequest"
+      },
+      "output": {
+        "target": "com.modal.attempt#StartAttemptResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AttemptStart",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.attempt#AttemptService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.attempt#AttemptAwait"
+        },
+        {
+          "target": "com.modal.attempt#RetryAttempt"
+        },
+        {
+          "target": "com.modal.attempt#StartAttempt"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Attempt",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Attempt`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

@@ -208,6 +208,12 @@ export class ComplianceTypeCountLimitExceededException
       httpResponseCode: 400,
     }),
   ) {}
+export class ConflictException
+  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
+    "ConflictException",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
+  ) {}
 export class CustomSchemaCountLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<CustomSchemaCountLimitExceededException>()(
     "CustomSchemaCountLimitExceededException",
@@ -1209,8 +1215,9 @@ export type ResourceTypeForTagging =
   | "OpsMetadata"
   | "Automation"
   | "Association"
+  | "CloudConnector"
   | (string & {});
-export const ResourceTypeForTagging = /*@__PURE__*/ S.String;
+export const ResourceTypeForTagging = S.String;
 
 export type ResourceId = string;
 export type TagKey = string;
@@ -1480,10 +1487,10 @@ export type AssociationComplianceSeverity =
   | "LOW"
   | "UNSPECIFIED"
   | (string & {});
-export const AssociationComplianceSeverity = /*@__PURE__*/ S.String;
+export const AssociationComplianceSeverity = S.String;
 
 export type AssociationSyncCompliance = "AUTO" | "MANUAL" | (string & {});
-export const AssociationSyncCompliance = /*@__PURE__*/ S.String;
+export const AssociationSyncCompliance = S.String;
 
 export type ApplyOnlyAtCronInterval = boolean;
 export type CalendarNameOrARN = string;
@@ -1520,6 +1527,8 @@ export const AlarmConfiguration = /*@__PURE__*/ S.suspend(() =>
 export type ExcludeAccount = string;
 export type ExcludeAccounts = string[];
 export const ExcludeAccounts = /*@__PURE__*/ S.Array(S.String);
+export type AutomationTargets = Target[];
+export const AutomationTargets = /*@__PURE__*/ S.Array(Target);
 export interface TargetLocation {
   Accounts?: string[];
   Regions?: string[];
@@ -1543,7 +1552,7 @@ export const TargetLocation = /*@__PURE__*/ S.suspend(() =>
     TargetLocationAlarmConfiguration: S.optional(AlarmConfiguration),
     IncludeChildOrganizationUnits: S.optional(S.Boolean),
     ExcludeAccounts: S.optional(ExcludeAccounts),
-    Targets: S.optional(Targets),
+    Targets: S.optional(AutomationTargets),
     TargetsMaxConcurrency: S.optional(S.String),
     TargetsMaxErrors: S.optional(S.String),
   }),
@@ -1632,7 +1641,7 @@ export type AssociationStatusName =
   | "Success"
   | "Failed"
   | (string & {});
-export const AssociationStatusName = /*@__PURE__*/ S.String;
+export const AssociationStatusName = S.String;
 
 export type StatusMessage = string;
 export type StatusAdditionalInfo = string;
@@ -1679,7 +1688,7 @@ export const AssociationOverview = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AssociationOverview>;
 export type AssociationId = string;
 export type ExternalAlarmState = "UNKNOWN" | "ALARM" | (string & {});
-export const ExternalAlarmState = /*@__PURE__*/ S.String;
+export const ExternalAlarmState = S.String;
 
 export interface AlarmStateInformation {
   Name: string;
@@ -1863,7 +1872,7 @@ export const AssociationDescriptionList = /*@__PURE__*/ S.Array(
 );
 export type BatchErrorMessage = string;
 export type Fault = "Client" | "Server" | "Unknown" | (string & {});
-export const Fault = /*@__PURE__*/ S.String;
+export const Fault = S.String;
 
 export interface FailedCreateAssociation {
   Entry?: CreateAssociationBatchRequestEntry;
@@ -1897,6 +1906,94 @@ export const CreateAssociationBatchResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateAssociationBatchResult",
 }) as any as S.Schema<CreateAssociationBatchResult>;
+export type DisplayName = string;
+export type CloudConnectorIamRoleArn = string;
+export type CloudConnectorDescription = string;
+export type AzureTenantId = string;
+export type AzureTenantDisplayName = string;
+export type AzureApplicationId = string;
+export type AzureApplicationDisplayName = string;
+export type AzureSubscriptionId = string;
+export type AzureSubscriptionDisplayName = string;
+export interface AzureSubscription {
+  Id: string;
+  DisplayName?: string;
+}
+export const AzureSubscription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.String, DisplayName: S.optional(S.String) }),
+).annotate({
+  identifier: "AzureSubscription",
+}) as any as S.Schema<AzureSubscription>;
+export type AzureSubscriptionList = AzureSubscription[];
+export const AzureSubscriptionList = /*@__PURE__*/ S.Array(AzureSubscription);
+export type ConfigurationTargets = { Subscriptions: AzureSubscription[] };
+export const ConfigurationTargets = /*@__PURE__*/ S.Union([
+  S.Struct({ Subscriptions: AzureSubscriptionList }),
+]);
+export interface AzureConfiguration {
+  TenantId: string;
+  TenantDisplayName?: string;
+  ApplicationId: string;
+  ApplicationDisplayName?: string;
+  Targets?: ConfigurationTargets;
+}
+export const AzureConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TenantId: S.String,
+    TenantDisplayName: S.optional(S.String),
+    ApplicationId: S.String,
+    ApplicationDisplayName: S.optional(S.String),
+    Targets: S.optional(ConfigurationTargets),
+  }),
+).annotate({
+  identifier: "AzureConfiguration",
+}) as any as S.Schema<AzureConfiguration>;
+export type CloudConnectorConfiguration = {
+  AzureConfiguration: AzureConfiguration;
+};
+export const CloudConnectorConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ AzureConfiguration: AzureConfiguration }),
+]);
+export type ConfigConnectorArn = string;
+export interface CreateCloudConnectorRequest {
+  DisplayName: string;
+  RoleArn: string;
+  Description?: string;
+  Configuration: CloudConnectorConfiguration;
+  ConfigConnectorArn: string;
+  Tags?: Tag[];
+}
+export const CreateCloudConnectorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DisplayName: S.String,
+    RoleArn: S.String,
+    Description: S.optional(S.String),
+    Configuration: CloudConnectorConfiguration,
+    ConfigConnectorArn: S.String,
+    Tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateCloudConnectorRequest",
+}) as any as S.Schema<CreateCloudConnectorRequest>;
+export type CloudConnectorId = string;
+export interface CreateCloudConnectorResult {
+  CloudConnectorId?: string;
+}
+export const CreateCloudConnectorResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ CloudConnectorId: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "CreateCloudConnectorResult",
+}) as any as S.Schema<CreateCloudConnectorResult>;
 export type DocumentContent = string;
 export type RequireType = string;
 export type DocumentVersionName = string;
@@ -1923,7 +2020,7 @@ export type AttachmentsSourceKey =
   | "S3FileUrl"
   | "AttachmentReference"
   | (string & {});
-export const AttachmentsSourceKey = /*@__PURE__*/ S.String;
+export const AttachmentsSourceKey = S.String;
 
 export type AttachmentsSourceValue = string;
 export type AttachmentsSourceValues = string[];
@@ -1966,10 +2063,10 @@ export type DocumentType =
   | "ManualApprovalPolicy"
   | "AutoApprovalPolicy"
   | (string & {});
-export const DocumentType = /*@__PURE__*/ S.String;
+export const DocumentType = S.String;
 
 export type DocumentFormat = "YAML" | "JSON" | "TEXT" | (string & {});
-export const DocumentFormat = /*@__PURE__*/ S.String;
+export const DocumentFormat = S.String;
 
 export type TargetType = string;
 export interface CreateDocumentRequest {
@@ -2013,7 +2110,7 @@ export const CreateDocumentRequest = /*@__PURE__*/ S.suspend(() =>
 export type DocumentSha1 = string;
 export type DocumentHash = string;
 export type DocumentHashType = "Sha256" | "Sha1" | (string & {});
-export const DocumentHashType = /*@__PURE__*/ S.String;
+export const DocumentHashType = S.String;
 
 export type DocumentOwner = string;
 export type DocumentStatus =
@@ -2023,13 +2120,13 @@ export type DocumentStatus =
   | "Deleting"
   | "Failed"
   | (string & {});
-export const DocumentStatus = /*@__PURE__*/ S.String;
+export const DocumentStatus = S.String;
 
 export type DocumentStatusInformation = string;
 export type DescriptionInDocument = string;
 export type DocumentParameterName = string;
 export type DocumentParameterType = "String" | "StringList" | (string & {});
-export const DocumentParameterType = /*@__PURE__*/ S.String;
+export const DocumentParameterType = S.String;
 
 export type DocumentParameterDescrption = string;
 export type DocumentParameterDefaultValue = string;
@@ -2056,7 +2153,7 @@ export const DocumentParameterList = /*@__PURE__*/ S.Array(
   }),
 );
 export type PlatformType = "Windows" | "Linux" | "MacOS" | (string & {});
-export const PlatformType = /*@__PURE__*/ S.String;
+export const PlatformType = S.String;
 
 export type PlatformTypeList = PlatformType[];
 export const PlatformTypeList = /*@__PURE__*/ S.Array(
@@ -2085,7 +2182,7 @@ export type ReviewStatus =
   | "PENDING"
   | "REJECTED"
   | (string & {});
-export const ReviewStatus = /*@__PURE__*/ S.String;
+export const ReviewStatus = S.String;
 
 export type Reviewer = string;
 export interface ReviewInformation {
@@ -2255,7 +2352,7 @@ export type OpsItemType = string;
 export type OpsItemDataKey = string;
 export type OpsItemDataValueString = string;
 export type OpsItemDataType = "SearchableString" | "String" | (string & {});
-export const OpsItemDataType = /*@__PURE__*/ S.String;
+export const OpsItemDataType = S.String;
 
 export interface OpsItemDataValue {
   Value?: string;
@@ -2428,7 +2525,7 @@ export type OperatingSystem =
   | "ALMA_LINUX"
   | "AMAZON_LINUX_2023"
   | (string & {});
-export const OperatingSystem = /*@__PURE__*/ S.String;
+export const OperatingSystem = S.String;
 
 export type BaselineName = string;
 export type PatchFilterKey =
@@ -2452,7 +2549,7 @@ export type PatchFilterKey =
   | "SECURITY"
   | "VERSION"
   | (string & {});
-export const PatchFilterKey = /*@__PURE__*/ S.String;
+export const PatchFilterKey = S.String;
 
 export type PatchFilterValue = string;
 export type PatchFilterValueList = string[];
@@ -2482,7 +2579,7 @@ export type PatchComplianceLevel =
   | "INFORMATIONAL"
   | "UNSPECIFIED"
   | (string & {});
-export const PatchComplianceLevel = /*@__PURE__*/ S.String;
+export const PatchComplianceLevel = S.String;
 
 export type ApproveAfterDays = number;
 export type PatchStringDateTime = string;
@@ -2514,7 +2611,7 @@ export type PatchId = string;
 export type PatchIdList = string[];
 export const PatchIdList = /*@__PURE__*/ S.Array(S.String);
 export type PatchAction = "ALLOW_AS_DEPENDENCY" | "BLOCK" | (string & {});
-export const PatchAction = /*@__PURE__*/ S.String;
+export const PatchAction = S.String;
 
 export type BaselineDescription = string;
 export type PatchSourceName = string;
@@ -2540,7 +2637,7 @@ export type PatchComplianceStatus =
   | "COMPLIANT"
   | "NON_COMPLIANT"
   | (string & {});
-export const PatchComplianceStatus = /*@__PURE__*/ S.String;
+export const PatchComplianceStatus = S.String;
 
 export interface CreatePatchBaselineRequest {
   OperatingSystem?: OperatingSystem;
@@ -2601,7 +2698,7 @@ export type ResourceDataSyncName = string;
 export type ResourceDataSyncS3BucketName = string;
 export type ResourceDataSyncS3Prefix = string;
 export type ResourceDataSyncS3Format = "JsonSerDe" | (string & {});
-export const ResourceDataSyncS3Format = /*@__PURE__*/ S.String;
+export const ResourceDataSyncS3Format = S.String;
 
 export type ResourceDataSyncS3Region = string;
 export type ResourceDataSyncAWSKMSKeyARN = string;
@@ -2773,6 +2870,32 @@ export const DeleteAssociationResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteAssociationResult",
 }) as any as S.Schema<DeleteAssociationResult>;
+export interface DeleteCloudConnectorRequest {
+  CloudConnectorId: string;
+}
+export const DeleteCloudConnectorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ CloudConnectorId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteCloudConnectorRequest",
+}) as any as S.Schema<DeleteCloudConnectorRequest>;
+export interface DeleteCloudConnectorResult {
+  CloudConnectorId?: string;
+}
+export const DeleteCloudConnectorResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ CloudConnectorId: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "DeleteCloudConnectorResult",
+}) as any as S.Schema<DeleteCloudConnectorResult>;
 export interface DeleteDocumentRequest {
   Name: string;
   DocumentVersion?: string;
@@ -2810,7 +2933,7 @@ export type InventorySchemaDeleteOption =
   | "DisableSchema"
   | "DeleteSchema"
   | (string & {});
-export const InventorySchemaDeleteOption = /*@__PURE__*/ S.String;
+export const InventorySchemaDeleteOption = S.String;
 
 export type DryRun = boolean;
 export type UUID = string;
@@ -3242,7 +3365,7 @@ export type DescribeActivationsFilterKeys =
   | "DefaultInstanceName"
   | "IamRole"
   | (string & {});
-export const DescribeActivationsFilterKeys = /*@__PURE__*/ S.String;
+export const DescribeActivationsFilterKeys = S.String;
 
 export type StringList = string[];
 export const StringList = /*@__PURE__*/ S.Array(S.String);
@@ -3371,7 +3494,7 @@ export type AssociationExecutionFilterKey =
   | "Status"
   | "CreatedTime"
   | (string & {});
-export const AssociationExecutionFilterKey = /*@__PURE__*/ S.String;
+export const AssociationExecutionFilterKey = S.String;
 
 export type AssociationExecutionFilterValue = string;
 export type AssociationFilterOperatorType =
@@ -3379,7 +3502,7 @@ export type AssociationFilterOperatorType =
   | "LESS_THAN"
   | "GREATER_THAN"
   | (string & {});
-export const AssociationFilterOperatorType = /*@__PURE__*/ S.String;
+export const AssociationFilterOperatorType = S.String;
 
 export interface AssociationExecutionFilter {
   Key: AssociationExecutionFilterKey;
@@ -3483,7 +3606,7 @@ export type AssociationExecutionTargetsFilterKey =
   | "ResourceId"
   | "ResourceType"
   | (string & {});
-export const AssociationExecutionTargetsFilterKey = /*@__PURE__*/ S.String;
+export const AssociationExecutionTargetsFilterKey = S.String;
 
 export type AssociationExecutionTargetsFilterValue = string;
 export interface AssociationExecutionTargetsFilter {
@@ -3606,7 +3729,7 @@ export type AutomationExecutionFilterKey =
   | "AutomationSubtype"
   | "OpsItemId"
   | (string & {});
-export const AutomationExecutionFilterKey = /*@__PURE__*/ S.String;
+export const AutomationExecutionFilterKey = S.String;
 
 export type AutomationExecutionFilterValue = string;
 export type AutomationExecutionFilterValueList = string[];
@@ -3675,7 +3798,7 @@ export type AutomationExecutionStatus =
   | "CompletedWithFailure"
   | "Exited"
   | (string & {});
-export const AutomationExecutionStatus = /*@__PURE__*/ S.String;
+export const AutomationExecutionStatus = S.String;
 
 export type AutomationParameterKey = string;
 export type AutomationParameterValue = string;
@@ -3687,7 +3810,7 @@ export const AutomationParameterMap = /*@__PURE__*/ S.Record(
   AutomationParameterValueList.pipe(S.optional),
 );
 export type ExecutionMode = "Auto" | "Interactive" | (string & {});
-export const ExecutionMode = /*@__PURE__*/ S.String;
+export const ExecutionMode = S.String;
 
 export type TargetParameterList = string[];
 export const TargetParameterList = /*@__PURE__*/ S.Array(S.String);
@@ -3704,14 +3827,14 @@ export const ResolvedTargets = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResolvedTargets",
 }) as any as S.Schema<ResolvedTargets>;
 export type AutomationType = "CrossAccount" | "Local" | (string & {});
-export const AutomationType = /*@__PURE__*/ S.String;
+export const AutomationType = S.String;
 
 export type TargetLocationsURL = string;
 export type AutomationSubtype =
   | "ChangeRequest"
   | "AccessRequest"
   | (string & {});
-export const AutomationSubtype = /*@__PURE__*/ S.String;
+export const AutomationSubtype = S.String;
 
 export interface Runbook {
   DocumentName: string;
@@ -3755,6 +3878,7 @@ export interface AutomationExecutionMetadata {
   CurrentStepName?: string;
   CurrentAction?: string;
   FailureMessage?: string;
+  WarningMessage?: string;
   TargetParameterName?: string;
   Targets?: Target[];
   TargetMaps?: { [key: string]: string[] | undefined }[];
@@ -3793,6 +3917,7 @@ export const AutomationExecutionMetadata = /*@__PURE__*/ S.suspend(() =>
     CurrentStepName: S.optional(S.String),
     CurrentAction: S.optional(S.String),
     FailureMessage: S.optional(S.String),
+    WarningMessage: S.optional(S.String),
     TargetParameterName: S.optional(S.String),
     Targets: S.optional(Targets),
     TargetMaps: S.optional(TargetMaps),
@@ -3843,7 +3968,7 @@ export type StepExecutionFilterKey =
   | "ParentStepIteration"
   | "ParentStepIteratorValue"
   | (string & {});
-export const StepExecutionFilterKey = /*@__PURE__*/ S.String;
+export const StepExecutionFilterKey = S.String;
 
 export type StepExecutionFilterValue = string;
 export type StepExecutionFilterValueList = string[];
@@ -3945,6 +4070,7 @@ export interface StepExecution {
   Outputs?: { [key: string]: string[] | undefined };
   Response?: string;
   FailureMessage?: string;
+  WarningMessage?: string;
   FailureDetails?: FailureDetails;
   StepExecutionId?: string;
   OverriddenParameters?: { [key: string]: string[] | undefined };
@@ -3976,6 +4102,7 @@ export const StepExecution = /*@__PURE__*/ S.suspend(() =>
     Outputs: S.optional(AutomationParameterMap),
     Response: S.optional(S.String),
     FailureMessage: S.optional(S.String),
+    WarningMessage: S.optional(S.String),
     FailureDetails: S.optional(FailureDetails),
     StepExecutionId: S.optional(S.String),
     OverriddenParameters: S.optional(AutomationParameterMap),
@@ -4175,7 +4302,7 @@ export const DescribeDocumentResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeDocumentResult",
 }) as any as S.Schema<DescribeDocumentResult>;
 export type DocumentPermissionType = "Share" | (string & {});
-export const DocumentPermissionType = /*@__PURE__*/ S.String;
+export const DocumentPermissionType = S.String;
 
 export type DocumentPermissionMaxResults = number;
 export interface DescribeDocumentPermissionRequest {
@@ -4331,7 +4458,7 @@ export type PatchDeploymentStatus =
   | "EXPLICIT_APPROVED"
   | "EXPLICIT_REJECTED"
   | (string & {});
-export const PatchDeploymentStatus = /*@__PURE__*/ S.String;
+export const PatchDeploymentStatus = S.String;
 
 export interface PatchStatus {
   DeploymentStatus?: PatchDeploymentStatus;
@@ -4470,7 +4597,7 @@ export type InstanceInformationFilterKey =
   | "ResourceType"
   | "AssociationStatus"
   | (string & {});
-export const InstanceInformationFilterKey = /*@__PURE__*/ S.String;
+export const InstanceInformationFilterKey = S.String;
 
 export type InstanceInformationFilterValue = string;
 export type InstanceInformationFilterValueSet = string[];
@@ -4544,11 +4671,11 @@ export type PingStatus =
   | "ConnectionLost"
   | "Inactive"
   | (string & {});
-export const PingStatus = /*@__PURE__*/ S.String;
+export const PingStatus = S.String;
 
 export type Version = string;
 export type ResourceType = "ManagedInstance" | "EC2Instance" | (string & {});
-export const ResourceType = /*@__PURE__*/ S.String;
+export const ResourceType = S.String;
 
 export type IPAddress = string | redacted.Redacted<string>;
 export type ComputerName = string;
@@ -4581,9 +4708,11 @@ export type SourceType =
   | "AWS::EC2::Instance"
   | "AWS::IoT::Thing"
   | "AWS::SSM::ManagedInstance"
+  | "Microsoft.Compute/virtualMachines"
   | (string & {});
-export const SourceType = /*@__PURE__*/ S.String;
+export const SourceType = S.String;
 
+export type SourceLocation = string;
 export interface InstanceInformation {
   InstanceId?: string;
   PingStatus?: PingStatus;
@@ -4606,6 +4735,7 @@ export interface InstanceInformation {
   AssociationOverview?: InstanceAggregatedAssociationOverview;
   SourceId?: string;
   SourceType?: SourceType;
+  SourceLocation?: string;
 }
 export const InstanceInformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4638,6 +4768,7 @@ export const InstanceInformation = /*@__PURE__*/ S.suspend(() =>
     AssociationOverview: S.optional(InstanceAggregatedAssociationOverview),
     SourceId: S.optional(S.String),
     SourceType: S.optional(SourceType),
+    SourceLocation: S.optional(S.String),
   }),
 ).annotate({
   identifier: "InstanceInformation",
@@ -4697,7 +4828,7 @@ export type PatchComplianceDataState =
   | "FAILED"
   | "AVAILABLE_SECURITY_UPDATE"
   | (string & {});
-export const PatchComplianceDataState = /*@__PURE__*/ S.String;
+export const PatchComplianceDataState = S.String;
 
 export type PatchCVEIds = string;
 export interface PatchComplianceData {
@@ -4774,10 +4905,10 @@ export type PatchUnreportedNotApplicableCount = number;
 export type PatchNotApplicableCount = number;
 export type PatchAvailableSecurityUpdateCount = number;
 export type PatchOperationType = "Scan" | "Install" | (string & {});
-export const PatchOperationType = /*@__PURE__*/ S.String;
+export const PatchOperationType = S.String;
 
 export type RebootOption = "RebootIfNeeded" | "NoReboot" | (string & {});
-export const RebootOption = /*@__PURE__*/ S.String;
+export const RebootOption = S.String;
 
 export type PatchCriticalNonCompliantCount = number;
 export type PatchSecurityNonCompliantCount = number;
@@ -4862,7 +4993,7 @@ export type InstancePatchStateOperatorType =
   | "LessThan"
   | "GreaterThan"
   | (string & {});
-export const InstancePatchStateOperatorType = /*@__PURE__*/ S.String;
+export const InstancePatchStateOperatorType = S.String;
 
 export interface InstancePatchStateFilter {
   Key: string;
@@ -4936,7 +5067,7 @@ export type InstancePropertyFilterKey =
   | "ResourceType"
   | "AssociationStatus"
   | (string & {});
-export const InstancePropertyFilterKey = /*@__PURE__*/ S.String;
+export const InstancePropertyFilterKey = S.String;
 
 export type InstancePropertyFilterValue = string;
 export type InstancePropertyFilterValueSet = string[];
@@ -4969,7 +5100,7 @@ export type InstancePropertyFilterOperator =
   | "LessThan"
   | "GreaterThan"
   | (string & {});
-export const InstancePropertyFilterOperator = /*@__PURE__*/ S.String;
+export const InstancePropertyFilterOperator = S.String;
 
 export interface InstancePropertyStringFilter {
   Key: string;
@@ -5026,6 +5157,7 @@ export type InstanceState = string;
 export type Architecture = string;
 export type PlatformName = string;
 export type PlatformVersion = string;
+export type AvailabilityZone = string;
 export interface InstanceProperty {
   Name?: string;
   InstanceId?: string;
@@ -5053,6 +5185,8 @@ export interface InstanceProperty {
   AssociationOverview?: InstanceAggregatedAssociationOverview;
   SourceId?: string;
   SourceType?: SourceType;
+  SourceLocation?: string;
+  AvailabilityZone?: string;
 }
 export const InstanceProperty = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5090,6 +5224,8 @@ export const InstanceProperty = /*@__PURE__*/ S.suspend(() =>
     AssociationOverview: S.optional(InstanceAggregatedAssociationOverview),
     SourceId: S.optional(S.String),
     SourceType: S.optional(SourceType),
+    SourceLocation: S.optional(S.String),
+    AvailabilityZone: S.optional(S.String),
   }),
 ).annotate({
   identifier: "InstanceProperty",
@@ -5138,7 +5274,7 @@ export const DescribeInventoryDeletionsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeInventoryDeletionsRequest>;
 export type InventoryDeletionStartTime = Date;
 export type InventoryDeletionStatus = "InProgress" | "Complete" | (string & {});
-export const InventoryDeletionStatus = /*@__PURE__*/ S.String;
+export const InventoryDeletionStatus = S.String;
 
 export type InventoryDeletionLastStatusMessage = string;
 export type InventoryDeletionLastStatusUpdateTime = Date;
@@ -5242,7 +5378,7 @@ export type MaintenanceWindowExecutionStatus =
   | "CANCELLED"
   | "SKIPPED_OVERLAPPING"
   | (string & {});
-export const MaintenanceWindowExecutionStatus = /*@__PURE__*/ S.String;
+export const MaintenanceWindowExecutionStatus = S.String;
 
 export type MaintenanceWindowExecutionStatusDetails = string;
 export interface MaintenanceWindowExecution {
@@ -5320,7 +5456,7 @@ export type MaintenanceWindowTaskType =
   | "STEP_FUNCTIONS"
   | "LAMBDA"
   | (string & {});
-export const MaintenanceWindowTaskType = /*@__PURE__*/ S.String;
+export const MaintenanceWindowTaskType = S.String;
 
 export type MaintenanceWindowExecutionTaskInvocationParameters =
   | string
@@ -5532,7 +5668,7 @@ export type MaintenanceWindowResourceType =
   | "INSTANCE"
   | "RESOURCE_GROUP"
   | (string & {});
-export const MaintenanceWindowResourceType = /*@__PURE__*/ S.String;
+export const MaintenanceWindowResourceType = S.String;
 
 export type MaintenanceWindowSearchMaxResults = number;
 export interface DescribeMaintenanceWindowScheduleRequest {
@@ -5788,7 +5924,7 @@ export type MaintenanceWindowTaskCutoffBehavior =
   | "CONTINUE_TASK"
   | "CANCEL_TASK"
   | (string & {});
-export const MaintenanceWindowTaskCutoffBehavior = /*@__PURE__*/ S.String;
+export const MaintenanceWindowTaskCutoffBehavior = S.String;
 
 export interface MaintenanceWindowTask {
   WindowId?: string;
@@ -5886,7 +6022,7 @@ export type OpsItemFilterKey =
   | "InsightByType"
   | "AccountId"
   | (string & {});
-export const OpsItemFilterKey = /*@__PURE__*/ S.String;
+export const OpsItemFilterKey = S.String;
 
 export type OpsItemFilterValue = string;
 export type OpsItemFilterValues = string[];
@@ -5897,7 +6033,7 @@ export type OpsItemFilterOperator =
   | "GreaterThan"
   | "LessThan"
   | (string & {});
-export const OpsItemFilterOperator = /*@__PURE__*/ S.String;
+export const OpsItemFilterOperator = S.String;
 
 export interface OpsItemFilter {
   Key: OpsItemFilterKey;
@@ -5960,7 +6096,7 @@ export type OpsItemStatus =
   | "Rejected"
   | "Closed"
   | (string & {});
-export const OpsItemStatus = /*@__PURE__*/ S.String;
+export const OpsItemStatus = S.String;
 
 export interface OpsItemSummary {
   CreatedBy?: string;
@@ -6023,7 +6159,7 @@ export const DescribeOpsItemsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeOpsItemsResponse",
 }) as any as S.Schema<DescribeOpsItemsResponse>;
 export type ParametersFilterKey = "Name" | "Type" | "KeyId" | (string & {});
-export const ParametersFilterKey = /*@__PURE__*/ S.String;
+export const ParametersFilterKey = S.String;
 
 export type ParametersFilterValue = string;
 export type ParametersFilterValueList = string[];
@@ -6095,7 +6231,7 @@ export type ParameterType =
   | "StringList"
   | "SecureString"
   | (string & {});
-export const ParameterType = /*@__PURE__*/ S.String;
+export const ParameterType = S.String;
 
 export type ParameterKeyId = string;
 export type ParameterDescription = string;
@@ -6106,7 +6242,7 @@ export type ParameterTier =
   | "Advanced"
   | "Intelligent-Tiering"
   | (string & {});
-export const ParameterTier = /*@__PURE__*/ S.String;
+export const ParameterTier = S.String;
 
 export interface ParameterInlinePolicy {
   PolicyText?: string;
@@ -6346,10 +6482,10 @@ export type PatchProperty =
   | "PRIORITY"
   | "SEVERITY"
   | (string & {});
-export const PatchProperty = /*@__PURE__*/ S.String;
+export const PatchProperty = S.String;
 
 export type PatchSet = "OS" | "APPLICATION" | (string & {});
-export const PatchSet = /*@__PURE__*/ S.String;
+export const PatchSet = S.String;
 
 export interface DescribePatchPropertiesRequest {
   OperatingSystem: OperatingSystem;
@@ -6401,7 +6537,7 @@ export const DescribePatchPropertiesResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribePatchPropertiesResult",
 }) as any as S.Schema<DescribePatchPropertiesResult>;
 export type SessionState = "Active" | "History" | (string & {});
-export const SessionState = /*@__PURE__*/ S.String;
+export const SessionState = S.String;
 
 export type SessionMaxResults = number;
 export type SessionFilterKey =
@@ -6413,7 +6549,7 @@ export type SessionFilterKey =
   | "SessionId"
   | "AccessType"
   | (string & {});
-export const SessionFilterKey = /*@__PURE__*/ S.String;
+export const SessionFilterKey = S.String;
 
 export type SessionFilterValue = string;
 export interface SessionFilter {
@@ -6461,7 +6597,7 @@ export type SessionStatus =
   | "Terminating"
   | "Failed"
   | (string & {});
-export const SessionStatus = /*@__PURE__*/ S.String;
+export const SessionStatus = S.String;
 
 export type SessionOwner = string;
 export type SessionReason = string;
@@ -6482,7 +6618,7 @@ export const SessionManagerOutputUrl = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SessionManagerOutputUrl>;
 export type MaxSessionDuration = string;
 export type AccessType = "Standard" | "JustInTime" | (string & {});
-export const AccessType = /*@__PURE__*/ S.String;
+export const AccessType = S.String;
 
 export interface Session {
   SessionId?: string;
@@ -6597,7 +6733,7 @@ export type AccessRequestStatus =
   | "Expired"
   | "Pending"
   | (string & {});
-export const AccessRequestStatus = /*@__PURE__*/ S.String;
+export const AccessRequestStatus = S.String;
 
 export interface GetAccessTokenResponse {
   Credentials?: Credentials;
@@ -6659,6 +6795,7 @@ export interface AutomationExecution {
   Parameters?: { [key: string]: string[] | undefined };
   Outputs?: { [key: string]: string[] | undefined };
   FailureMessage?: string;
+  WarningMessage?: string;
   Mode?: ExecutionMode;
   ParentAutomationExecutionId?: string;
   ExecutedBy?: string;
@@ -6701,6 +6838,7 @@ export const AutomationExecution = /*@__PURE__*/ S.suspend(() =>
     Parameters: S.optional(AutomationParameterMap),
     Outputs: S.optional(AutomationParameterMap),
     FailureMessage: S.optional(S.String),
+    WarningMessage: S.optional(S.String),
     Mode: S.optional(ExecutionMode),
     ParentAutomationExecutionId: S.optional(S.String),
     ExecutedBy: S.optional(S.String),
@@ -6761,7 +6899,7 @@ export const GetCalendarStateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCalendarStateRequest",
 }) as any as S.Schema<GetCalendarStateRequest>;
 export type CalendarState = "OPEN" | "CLOSED" | (string & {});
-export const CalendarState = /*@__PURE__*/ S.String;
+export const CalendarState = S.String;
 
 export interface GetCalendarStateResponse {
   State?: CalendarState;
@@ -6777,6 +6915,49 @@ export const GetCalendarStateResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetCalendarStateResponse",
 }) as any as S.Schema<GetCalendarStateResponse>;
+export interface GetCloudConnectorRequest {
+  CloudConnectorId: string;
+}
+export const GetCloudConnectorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ CloudConnectorId: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetCloudConnectorRequest",
+}) as any as S.Schema<GetCloudConnectorRequest>;
+export type CloudConnectorArn = string;
+export interface GetCloudConnectorResult {
+  CloudConnectorArn?: string;
+  DisplayName?: string;
+  Description?: string;
+  RoleArn?: string;
+  Configuration?: CloudConnectorConfiguration;
+  ConfigConnectorArn?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const GetCloudConnectorResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CloudConnectorArn: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Description: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    Configuration: S.optional(CloudConnectorConfiguration),
+    ConfigConnectorArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetCloudConnectorResult",
+}) as any as S.Schema<GetCloudConnectorResult>;
 export type CommandPluginName = string;
 export interface GetCommandInvocationRequest {
   CommandId: string;
@@ -6815,7 +6996,7 @@ export type CommandInvocationStatus =
   | "Failed"
   | "Cancelling"
   | (string & {});
-export const CommandInvocationStatus = /*@__PURE__*/ S.String;
+export const CommandInvocationStatus = S.String;
 
 export type StatusDetails = string;
 export type StandardOutputContent = string;
@@ -6895,7 +7076,7 @@ export const GetConnectionStatusRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetConnectionStatusRequest",
 }) as any as S.Schema<GetConnectionStatusRequest>;
 export type ConnectionStatus = "connected" | "notconnected" | (string & {});
-export const ConnectionStatus = /*@__PURE__*/ S.String;
+export const ConnectionStatus = S.String;
 
 export interface GetConnectionStatusResponse {
   Target?: string;
@@ -7042,7 +7223,7 @@ export const GetDocumentRequest = /*@__PURE__*/ S.suspend(() =>
 export type ContentLength = number;
 export type AttachmentHash = string;
 export type AttachmentHashType = "Sha256" | (string & {});
-export const AttachmentHashType = /*@__PURE__*/ S.String;
+export const AttachmentHashType = S.String;
 
 export type AttachmentUrl = string;
 export interface AttachmentContent {
@@ -7128,14 +7309,14 @@ export type ExecutionPreviewStatus =
   | "Success"
   | "Failed"
   | (string & {});
-export const ExecutionPreviewStatus = /*@__PURE__*/ S.String;
+export const ExecutionPreviewStatus = S.String;
 
 export type ImpactType =
   | "Mutating"
   | "NonMutating"
   | "Undetermined"
   | (string & {});
-export const ImpactType = /*@__PURE__*/ S.String;
+export const ImpactType = S.String;
 
 export type StepPreviewMap = { [key in ImpactType]?: number };
 export const StepPreviewMap = /*@__PURE__*/ S.Record(
@@ -7205,7 +7386,7 @@ export type InventoryQueryOperatorType =
   | "GreaterThan"
   | "Exists"
   | (string & {});
-export const InventoryQueryOperatorType = /*@__PURE__*/ S.String;
+export const InventoryQueryOperatorType = S.String;
 
 export interface InventoryFilter {
   Key: string;
@@ -7409,7 +7590,7 @@ export const GetInventorySchemaRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetInventorySchemaRequest>;
 export type InventoryItemAttributeName = string;
 export type InventoryAttributeDataType = "string" | "number" | (string & {});
-export const InventoryAttributeDataType = /*@__PURE__*/ S.String;
+export const InventoryAttributeDataType = S.String;
 
 export interface InventoryItemAttribute {
   Name: string;
@@ -7710,12 +7891,12 @@ export type NotificationEvent =
   | "Cancelled"
   | "Failed"
   | (string & {});
-export const NotificationEvent = /*@__PURE__*/ S.String;
+export const NotificationEvent = S.String;
 
 export type NotificationEventList = NotificationEvent[];
 export const NotificationEventList = /*@__PURE__*/ S.Array(NotificationEvent);
 export type NotificationType = "Command" | "Invocation" | (string & {});
-export const NotificationType = /*@__PURE__*/ S.String;
+export const NotificationType = S.String;
 
 export interface NotificationConfig {
   NotificationArn?: string;
@@ -8009,7 +8190,7 @@ export type OpsFilterOperatorType =
   | "GreaterThan"
   | "Exists"
   | (string & {});
-export const OpsFilterOperatorType = /*@__PURE__*/ S.String;
+export const OpsFilterOperatorType = S.String;
 
 export interface OpsFilter {
   Key: string;
@@ -8618,8 +8799,9 @@ export type AssociationFilterKey =
   | "LastExecutedAfter"
   | "AssociationName"
   | "ResourceGroupName"
+  | "CloudConnectorId"
   | (string & {});
-export const AssociationFilterKey = /*@__PURE__*/ S.String;
+export const AssociationFilterKey = S.String;
 
 export type AssociationFilterValue = string;
 export interface AssociationFilter {
@@ -8803,6 +8985,91 @@ export const ListAssociationVersionsResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListAssociationVersionsResult",
 }) as any as S.Schema<ListAssociationVersionsResult>;
+export type CloudConnectorMaxResults = number;
+export type CloudConnectorFilterKey =
+  | "SubscriptionId"
+  | "TenantId"
+  | (string & {});
+export const CloudConnectorFilterKey = S.String;
+
+export type CloudConnectorFilterValue = string;
+export type CloudConnectorFilterValues = string[];
+export const CloudConnectorFilterValues = /*@__PURE__*/ S.Array(S.String);
+export interface CloudConnectorFilter {
+  FilterKey?: CloudConnectorFilterKey;
+  FilterValues?: string[];
+}
+export const CloudConnectorFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    FilterKey: S.optional(CloudConnectorFilterKey),
+    FilterValues: S.optional(CloudConnectorFilterValues),
+  }),
+).annotate({
+  identifier: "CloudConnectorFilter",
+}) as any as S.Schema<CloudConnectorFilter>;
+export type CloudConnectorFilterList = CloudConnectorFilter[];
+export const CloudConnectorFilterList =
+  /*@__PURE__*/ S.Array(CloudConnectorFilter);
+export interface ListCloudConnectorsRequest {
+  MaxResults?: number;
+  NextToken?: string;
+  Filters?: CloudConnectorFilter[];
+}
+export const ListCloudConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+    Filters: S.optional(CloudConnectorFilterList),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListCloudConnectorsRequest",
+}) as any as S.Schema<ListCloudConnectorsRequest>;
+export interface CloudConnectorSummary {
+  CloudConnectorId?: string;
+  DisplayName?: string;
+  Description?: string;
+  RoleArn?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const CloudConnectorSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CloudConnectorId: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Description: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "CloudConnectorSummary",
+}) as any as S.Schema<CloudConnectorSummary>;
+export type CloudConnectorSummaryList = CloudConnectorSummary[];
+export const CloudConnectorSummaryList = /*@__PURE__*/ S.Array(
+  CloudConnectorSummary,
+);
+export interface ListCloudConnectorsResult {
+  CloudConnectors?: CloudConnectorSummary[];
+  NextToken?: string;
+}
+export const ListCloudConnectorsResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CloudConnectors: S.optional(CloudConnectorSummaryList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListCloudConnectorsResult",
+}) as any as S.Schema<ListCloudConnectorsResult>;
 export type CommandMaxResults = number;
 export type CommandFilterKey =
   | "InvokedAfter"
@@ -8811,7 +9078,7 @@ export type CommandFilterKey =
   | "ExecutionStage"
   | "DocumentName"
   | (string & {});
-export const CommandFilterKey = /*@__PURE__*/ S.String;
+export const CommandFilterKey = S.String;
 
 export type CommandFilterValue = string;
 export interface CommandFilter {
@@ -8863,7 +9130,7 @@ export type CommandPluginStatus =
   | "Cancelled"
   | "Failed"
   | (string & {});
-export const CommandPluginStatus = /*@__PURE__*/ S.String;
+export const CommandPluginStatus = S.String;
 
 export type CommandPluginOutput = string;
 export interface CommandPlugin {
@@ -8995,7 +9262,7 @@ export type CommandStatus =
   | "TimedOut"
   | "Cancelling"
   | (string & {});
-export const CommandStatus = /*@__PURE__*/ S.String;
+export const CommandStatus = S.String;
 
 export type TargetCount = number;
 export type CompletedCount = number;
@@ -9088,7 +9355,7 @@ export type ComplianceQueryOperatorType =
   | "LESS_THAN"
   | "GREATER_THAN"
   | (string & {});
-export const ComplianceQueryOperatorType = /*@__PURE__*/ S.String;
+export const ComplianceQueryOperatorType = S.String;
 
 export interface ComplianceStringFilter {
   Key?: string;
@@ -9148,7 +9415,7 @@ export type ComplianceTypeName = string;
 export type ComplianceItemId = string;
 export type ComplianceItemTitle = string;
 export type ComplianceStatus = "COMPLIANT" | "NON_COMPLIANT" | (string & {});
-export const ComplianceStatus = /*@__PURE__*/ S.String;
+export const ComplianceStatus = S.String;
 
 export type ComplianceSeverity =
   | "CRITICAL"
@@ -9158,7 +9425,7 @@ export type ComplianceSeverity =
   | "INFORMATIONAL"
   | "UNSPECIFIED"
   | (string & {});
-export const ComplianceSeverity = /*@__PURE__*/ S.String;
+export const ComplianceSeverity = S.String;
 
 export type ComplianceExecutionId = string;
 export type ComplianceExecutionType = string;
@@ -9325,7 +9592,7 @@ export const ListComplianceSummariesResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListComplianceSummariesResult",
 }) as any as S.Schema<ListComplianceSummariesResult>;
 export type DocumentMetadataEnum = "DocumentReviews" | (string & {});
-export const DocumentMetadataEnum = /*@__PURE__*/ S.String;
+export const DocumentMetadataEnum = S.String;
 
 export interface ListDocumentMetadataHistoryRequest {
   Name: string;
@@ -9356,7 +9623,7 @@ export const ListDocumentMetadataHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListDocumentMetadataHistoryRequest",
 }) as any as S.Schema<ListDocumentMetadataHistoryRequest>;
 export type DocumentReviewCommentType = "Comment" | (string & {});
-export const DocumentReviewCommentType = /*@__PURE__*/ S.String;
+export const DocumentReviewCommentType = S.String;
 
 export type DocumentReviewComment = string;
 export interface DocumentReviewCommentSource {
@@ -9429,7 +9696,7 @@ export type DocumentFilterKey =
   | "PlatformTypes"
   | "DocumentType"
   | (string & {});
-export const DocumentFilterKey = /*@__PURE__*/ S.String;
+export const DocumentFilterKey = S.String;
 
 export type DocumentFilterValue = string;
 export interface DocumentFilter {
@@ -9677,8 +9944,13 @@ export type NodeFilterKey =
   | "OrganizationalUnitPath"
   | "Region"
   | "AccountId"
+  | "SourceType"
+  | "SourceId"
+  | "SourceLocation"
+  | "AvailabilityZone"
+  | "AvailabilityZoneId"
   | (string & {});
-export const NodeFilterKey = /*@__PURE__*/ S.String;
+export const NodeFilterKey = S.String;
 
 export type NodeFilterValue = string;
 export type NodeFilterValueList = string[];
@@ -9690,7 +9962,7 @@ export type NodeFilterOperatorType =
   | "NotEqual"
   | "BeginWith"
   | (string & {});
-export const NodeFilterOperatorType = /*@__PURE__*/ S.String;
+export const NodeFilterOperatorType = S.String;
 
 export interface NodeFilter {
   Key: NodeFilterKey;
@@ -9758,8 +10030,10 @@ export type AgentType = string;
 export type AgentVersion = string;
 export type InstanceStatus = string;
 export type ManagedStatus = "All" | "Managed" | "Unmanaged" | (string & {});
-export const ManagedStatus = /*@__PURE__*/ S.String;
+export const ManagedStatus = S.String;
 
+export type NodeName = string;
+export type AvailabilityZoneId = string;
 export interface InstanceInfo {
   AgentType?: string;
   AgentVersion?: string;
@@ -9767,10 +10041,16 @@ export interface InstanceInfo {
   InstanceStatus?: string;
   IpAddress?: string | redacted.Redacted<string>;
   ManagedStatus?: ManagedStatus;
+  Name?: string;
   PlatformType?: PlatformType;
   PlatformName?: string;
   PlatformVersion?: string;
   ResourceType?: ResourceType;
+  SourceType?: SourceType;
+  SourceId?: string;
+  SourceLocation?: string;
+  AvailabilityZone?: string;
+  AvailabilityZoneId?: string;
 }
 export const InstanceInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9780,10 +10060,16 @@ export const InstanceInfo = /*@__PURE__*/ S.suspend(() =>
     InstanceStatus: S.optional(S.String),
     IpAddress: S.optional(SensitiveString),
     ManagedStatus: S.optional(ManagedStatus),
+    Name: S.optional(S.String),
     PlatformType: S.optional(PlatformType),
     PlatformName: S.optional(S.String),
     PlatformVersion: S.optional(S.String),
     ResourceType: S.optional(ResourceType),
+    SourceType: S.optional(SourceType),
+    SourceId: S.optional(S.String),
+    SourceLocation: S.optional(S.String),
+    AvailabilityZone: S.optional(S.String),
+    AvailabilityZoneId: S.optional(S.String),
   }),
 ).annotate({ identifier: "InstanceInfo" }) as any as S.Schema<InstanceInfo>;
 export type NodeType = { Instance: InstanceInfo };
@@ -9821,10 +10107,10 @@ export const ListNodesResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListNodesResult",
 }) as any as S.Schema<ListNodesResult>;
 export type NodeAggregatorType = "Count" | (string & {});
-export const NodeAggregatorType = /*@__PURE__*/ S.String;
+export const NodeAggregatorType = S.String;
 
 export type NodeTypeName = "Instance" | (string & {});
-export const NodeTypeName = /*@__PURE__*/ S.String;
+export const NodeTypeName = S.String;
 
 export type NodeAttributeName =
   | "AgentVersion"
@@ -9833,8 +10119,10 @@ export type NodeAttributeName =
   | "PlatformVersion"
   | "Region"
   | "ResourceType"
+  | "SourceType"
+  | "AvailabilityZone"
   | (string & {});
-export const NodeAttributeName = /*@__PURE__*/ S.String;
+export const NodeAttributeName = S.String;
 
 export interface NodeAggregator {
   AggregatorType: NodeAggregatorType;
@@ -9909,13 +10197,13 @@ export const ListNodesSummaryResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListNodesSummaryResult",
 }) as any as S.Schema<ListNodesSummaryResult>;
 export type OpsItemEventFilterKey = "OpsItemId" | (string & {});
-export const OpsItemEventFilterKey = /*@__PURE__*/ S.String;
+export const OpsItemEventFilterKey = S.String;
 
 export type OpsItemEventFilterValue = string;
 export type OpsItemEventFilterValues = string[];
 export const OpsItemEventFilterValues = /*@__PURE__*/ S.Array(S.String);
 export type OpsItemEventFilterOperator = "Equal" | (string & {});
-export const OpsItemEventFilterOperator = /*@__PURE__*/ S.String;
+export const OpsItemEventFilterOperator = S.String;
 
 export interface OpsItemEventFilter {
   Key: OpsItemEventFilterKey;
@@ -10007,13 +10295,13 @@ export type OpsItemRelatedItemsFilterKey =
   | "AssociationId"
   | "ResourceUri"
   | (string & {});
-export const OpsItemRelatedItemsFilterKey = /*@__PURE__*/ S.String;
+export const OpsItemRelatedItemsFilterKey = S.String;
 
 export type OpsItemRelatedItemsFilterValue = string;
 export type OpsItemRelatedItemsFilterValues = string[];
 export const OpsItemRelatedItemsFilterValues = /*@__PURE__*/ S.Array(S.String);
 export type OpsItemRelatedItemsFilterOperator = "Equal" | (string & {});
-export const OpsItemRelatedItemsFilterOperator = /*@__PURE__*/ S.String;
+export const OpsItemRelatedItemsFilterOperator = S.String;
 
 export interface OpsItemRelatedItemsFilter {
   Key: OpsItemRelatedItemsFilterKey;
@@ -10299,7 +10587,7 @@ export type LastResourceDataSyncStatus =
   | "Failed"
   | "InProgress"
   | (string & {});
-export const LastResourceDataSyncStatus = /*@__PURE__*/ S.String;
+export const LastResourceDataSyncStatus = S.String;
 
 export type ResourceDataSyncCreatedTime = Date;
 export type LastResourceDataSyncMessage = string;
@@ -10436,7 +10724,7 @@ export const ComplianceItemEntryList =
   /*@__PURE__*/ S.Array(ComplianceItemEntry);
 export type ComplianceItemContentHash = string;
 export type ComplianceUploadType = "COMPLETE" | "PARTIAL" | (string & {});
-export const ComplianceUploadType = /*@__PURE__*/ S.String;
+export const ComplianceUploadType = S.String;
 
 export interface PutComplianceItemsRequest {
   ResourceId: string;
@@ -10888,7 +11176,7 @@ export type SignalType =
   | "Resume"
   | "Revoke"
   | (string & {});
-export const SignalType = /*@__PURE__*/ S.String;
+export const SignalType = S.String;
 
 export interface SendAutomationSignalRequest {
   AutomationExecutionId: string;
@@ -11066,7 +11354,7 @@ export const StartAutomationExecutionRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String),
     Mode: S.optional(ExecutionMode),
     TargetParameterName: S.optional(S.String),
-    Targets: S.optional(Targets),
+    Targets: S.optional(AutomationTargets),
     TargetMaps: S.optional(TargetMaps),
     MaxConcurrency: S.optional(S.String),
     MaxErrors: S.optional(S.String),
@@ -11159,7 +11447,7 @@ export const AutomationExecutionInputs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Parameters: S.optional(AutomationParameterMap),
     TargetParameterName: S.optional(S.String),
-    Targets: S.optional(Targets),
+    Targets: S.optional(AutomationTargets),
     TargetMaps: S.optional(TargetMaps),
     TargetLocations: S.optional(TargetLocations),
     TargetLocationsURL: S.optional(S.String),
@@ -11253,7 +11541,7 @@ export const StartSessionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartSessionResponse",
 }) as any as S.Schema<StartSessionResponse>;
 export type StopType = "Complete" | "Cancel" | (string & {});
-export const StopType = /*@__PURE__*/ S.String;
+export const StopType = S.String;
 
 export interface StopAutomationExecutionRequest {
   AutomationExecutionId: string;
@@ -11451,6 +11739,40 @@ export const UpdateAssociationStatusResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateAssociationStatusResult",
 }) as any as S.Schema<UpdateAssociationStatusResult>;
+export interface UpdateCloudConnectorRequest {
+  CloudConnectorId: string;
+  DisplayName?: string;
+  Configuration?: CloudConnectorConfiguration;
+  Description?: string;
+}
+export const UpdateCloudConnectorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CloudConnectorId: S.String,
+    DisplayName: S.optional(S.String),
+    Configuration: S.optional(CloudConnectorConfiguration),
+    Description: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateCloudConnectorRequest",
+}) as any as S.Schema<UpdateCloudConnectorRequest>;
+export interface UpdateCloudConnectorResult {
+  CloudConnectorId?: string;
+}
+export const UpdateCloudConnectorResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ CloudConnectorId: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "UpdateCloudConnectorResult",
+}) as any as S.Schema<UpdateCloudConnectorResult>;
 export interface UpdateDocumentRequest {
   Content: string;
   Attachments?: AttachmentsSource[];
@@ -11543,7 +11865,7 @@ export type DocumentReviewAction =
   | "Approve"
   | "Reject"
   | (string & {});
-export const DocumentReviewAction = /*@__PURE__*/ S.String;
+export const DocumentReviewAction = S.String;
 
 export interface DocumentReviews {
   Action: DocumentReviewAction;
@@ -12070,6 +12392,97 @@ export const UpdateServiceSettingResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateServiceSettingResult",
 }) as any as S.Schema<UpdateServiceSettingResult>;
+export type ValidateCloudConnectorMaxResults = number;
+export interface ValidateCloudConnectorRequest {
+  CloudConnectorId: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ValidateCloudConnectorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CloudConnectorId: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ValidateCloudConnectorRequest",
+}) as any as S.Schema<ValidateCloudConnectorRequest>;
+export type ValidationFindingType = "INFO" | "WARN" | "ERROR" | (string & {});
+export const ValidationFindingType = S.String;
+
+export type ValidationFindingCode =
+  | "TargetInaccessible"
+  | "TargetUnusable"
+  | "TargetStateWarning"
+  | "AwsRoleAssumptionFailed"
+  | "WebIdentityTokenFailed"
+  | "OutboundWebIdentityFederationDisabled"
+  | "ProviderCredentialCreationFailed"
+  | "TenantSummary"
+  | "SubscriptionAccessible"
+  | (string & {});
+export const ValidationFindingCode = S.String;
+
+export type ValidationFindingScopeType =
+  | "azure:tenant"
+  | "azure:subscription"
+  | (string & {});
+export const ValidationFindingScopeType = S.String;
+
+export interface ValidationFindingScope {
+  Type?: ValidationFindingScopeType;
+  Id?: string;
+}
+export const ValidationFindingScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Type: S.optional(ValidationFindingScopeType),
+    Id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ValidationFindingScope",
+}) as any as S.Schema<ValidationFindingScope>;
+export interface ValidationFinding {
+  Type?: ValidationFindingType;
+  Code?: ValidationFindingCode;
+  Message?: string;
+  ProviderMessage?: string;
+  Scope?: ValidationFindingScope;
+}
+export const ValidationFinding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Type: S.optional(ValidationFindingType),
+    Code: S.optional(ValidationFindingCode),
+    Message: S.optional(S.String),
+    ProviderMessage: S.optional(S.String),
+    Scope: S.optional(ValidationFindingScope),
+  }),
+).annotate({
+  identifier: "ValidationFinding",
+}) as any as S.Schema<ValidationFinding>;
+export type ValidationFindingList = ValidationFinding[];
+export const ValidationFindingList = /*@__PURE__*/ S.Array(ValidationFinding);
+export interface ValidateCloudConnectorResult {
+  ValidationFindings?: ValidationFinding[];
+  NextToken?: string;
+}
+export const ValidateCloudConnectorResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ValidationFindings: S.optional(ValidationFindingList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ValidateCloudConnectorResult",
+}) as any as S.Schema<ValidateCloudConnectorResult>;
 export type OpsItemParameterNamesList = string[];
 export const OpsItemParameterNamesList = /*@__PURE__*/ S.Array(S.String);
 export type ResourcePolicyParameterNamesList = string[];
@@ -12355,6 +12768,33 @@ export const createAssociationBatch: API.OperationMethod<
   operationName: "CreateAssociationBatch",
 }));
 
+export type CreateCloudConnectorError =
+  | ConflictException
+  | InternalServerError
+  | ServiceQuotaExceededException
+  | CommonErrors;
+/**
+ * Creates a cloud connector that establishes a connection between Systems Manager and a third-party
+ * cloud environment.
+ */
+export const createCloudConnector: API.OperationMethod<
+  CreateCloudConnectorRequest,
+  CreateCloudConnectorResult,
+  CreateCloudConnectorError,
+  Creds | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCloudConnectorRequest,
+  output: CreateCloudConnectorResult,
+  errors: [
+    ConflictException,
+    InternalServerError,
+    ServiceQuotaExceededException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateCloudConnector",
+}));
+
 export type CreateDocumentError =
   | DocumentAlreadyExists
   | DocumentLimitExceeded
@@ -12638,6 +13078,28 @@ export const deleteAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssociation",
+}));
+
+export type DeleteCloudConnectorError =
+  | ConflictException
+  | InternalServerError
+  | ResourceNotFoundException
+  | CommonErrors;
+/**
+ * Deletes a cloud connector.
+ */
+export const deleteCloudConnector: API.OperationMethod<
+  DeleteCloudConnectorRequest,
+  DeleteCloudConnectorResult,
+  DeleteCloudConnectorError,
+  Creds | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteCloudConnectorRequest,
+  output: DeleteCloudConnectorResult,
+  errors: [ConflictException, InternalServerError, ResourceNotFoundException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteCloudConnector",
 }));
 
 export type DeleteDocumentError =
@@ -14219,6 +14681,27 @@ export const getCalendarState: API.OperationMethod<
   operationName: "GetCalendarState",
 }));
 
+export type GetCloudConnectorError =
+  | InternalServerError
+  | ResourceNotFoundException
+  | CommonErrors;
+/**
+ * Returns detailed information about a cloud connector.
+ */
+export const getCloudConnector: API.OperationMethod<
+  GetCloudConnectorRequest,
+  GetCloudConnectorResult,
+  GetCloudConnectorError,
+  Creds | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCloudConnectorRequest,
+  output: GetCloudConnectorResult,
+  errors: [InternalServerError, ResourceNotFoundException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetCloudConnector",
+}));
+
 export type GetCommandInvocationError =
   | InternalServerError
   | InvalidCommandId
@@ -14676,6 +15159,20 @@ export type GetParameterError =
  * between characters, the request fails with a `ValidationException` error.
  *
  * To get information about more than one parameter at a time, use the GetParameters operation.
+ *
+ * Parameter Store throughput defines the number of API transactions per second (TPS) that
+ * Systems Manager can process. This applies to `GetParameter`,
+ * `GetParameters`, and `PutParameter` API calls for your Amazon Web Services account and
+ * Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable
+ * for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently
+ * or operate at smaller scale can use this default setting without additional cost.
+ *
+ * For higher-volume workloads, you can enable higher throughput. This increases the maximum
+ * number of supported transactions per second for your account and Region. Increased throughput
+ * supports applications and workloads that need concurrent access to multiple parameters. If you
+ * experience `ThrottlingException: Rate exceeded` errors, enable higher throughput. For
+ * more information, see Changing Parameter Store
+ * throughput.
  */
 export const getParameter: API.OperationMethod<
   GetParameterRequest,
@@ -14752,6 +15249,20 @@ export type GetParametersError =
  * Parameter names can't contain spaces. The service removes any spaces specified for the
  * beginning or end of a parameter name. If the specified name for a parameter contains spaces
  * between characters, the request fails with a `ValidationException` error.
+ *
+ * Parameter Store throughput defines the number of API transactions per second (TPS) that
+ * Systems Manager can process. This applies to `GetParameter`,
+ * `GetParameters`, and `PutParameter` API calls for your Amazon Web Services account and
+ * Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable
+ * for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently
+ * or operate at smaller scale can use this default setting without additional cost.
+ *
+ * For higher-volume workloads, you can enable higher throughput. This increases the maximum
+ * number of supported transactions per second for your account and Region. Increased throughput
+ * supports applications and workloads that need concurrent access to multiple parameters. If you
+ * experience `ThrottlingException: Rate exceeded` errors, enable higher throughput. For
+ * more information, see Changing Parameter Store
+ * throughput.
  */
 export const getParameters: API.OperationMethod<
   GetParametersRequest,
@@ -15042,6 +15553,31 @@ export const listAssociationVersions: API.PaginatedOperationMethod<
     inputToken: "NextToken",
     outputToken: "NextToken",
     items: "AssociationVersions",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
+
+export type ListCloudConnectorsError = InternalServerError | CommonErrors;
+/**
+ * Returns a list of cloud connectors in the current Amazon Web Services account and Amazon Web Services Region.
+ */
+export const listCloudConnectors: API.PaginatedOperationMethod<
+  ListCloudConnectorsRequest,
+  ListCloudConnectorsResult,
+  ListCloudConnectorsError,
+  Creds | HttpClient.HttpClient,
+  CloudConnectorSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListCloudConnectorsRequest,
+  output: ListCloudConnectorsResult,
+  errors: [InternalServerError],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListCloudConnectors",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CloudConnectors",
     pageSize: "MaxResults",
   } as const,
 })) as any;
@@ -15761,6 +16297,20 @@ export type PutParameterError =
   | CommonErrors;
 /**
  * Create or update a parameter in Parameter Store.
+ *
+ * Parameter Store throughput defines the number of API transactions per second (TPS) that
+ * Systems Manager can process. This applies to `GetParameter`,
+ * `GetParameters`, and `PutParameter` API calls for your Amazon Web Services account and
+ * Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable
+ * for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently
+ * or operate at smaller scale can use this default setting without additional cost.
+ *
+ * For higher-volume workloads, you can enable higher throughput. This increases the maximum
+ * number of supported transactions per second for your account and Region. Increased throughput
+ * supports applications and workloads that need concurrent access to multiple parameters. If you
+ * experience `ThrottlingException: Rate exceeded` errors, enable higher throughput. For
+ * more information, see Changing Parameter Store
+ * throughput.
  */
 export const putParameter: API.OperationMethod<
   PutParameterRequest,
@@ -16488,6 +17038,28 @@ export const updateAssociationStatus: API.OperationMethod<
   operationName: "UpdateAssociationStatus",
 }));
 
+export type UpdateCloudConnectorError =
+  | ConflictException
+  | InternalServerError
+  | ResourceNotFoundException
+  | CommonErrors;
+/**
+ * Updates an existing cloud connector with new configuration details.
+ */
+export const updateCloudConnector: API.OperationMethod<
+  UpdateCloudConnectorRequest,
+  UpdateCloudConnectorResult,
+  UpdateCloudConnectorError,
+  Creds | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateCloudConnectorRequest,
+  output: UpdateCloudConnectorResult,
+  errors: [ConflictException, InternalServerError, ResourceNotFoundException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateCloudConnector",
+}));
+
 export type UpdateDocumentError =
   | DocumentVersionLimitExceeded
   | DuplicateDocumentContent
@@ -16905,3 +17477,31 @@ export const updateServiceSetting: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateServiceSetting",
 }));
+
+export type ValidateCloudConnectorError =
+  | InternalServerError
+  | ResourceNotFoundException
+  | CommonErrors;
+/**
+ * Validates the configuration and connectivity of a cloud connector.
+ */
+export const validateCloudConnector: API.PaginatedOperationMethod<
+  ValidateCloudConnectorRequest,
+  ValidateCloudConnectorResult,
+  ValidateCloudConnectorError,
+  Creds | HttpClient.HttpClient,
+  ValidationFinding
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ValidateCloudConnectorRequest,
+  output: ValidateCloudConnectorResult,
+  errors: [InternalServerError, ResourceNotFoundException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ValidateCloudConnector",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ValidationFindings",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;

@@ -39,17 +39,17 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type ElementsCreateRequestAttrClassList = Array<string>;
-export const ElementsCreateRequestAttrClassList = /*@__PURE__*/ S.Array(
+export type CreateElementRequestAttrClassList = Array<string>;
+export const CreateElementRequestAttrClassList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<ElementsCreateRequestAttrClassList>;
+) as any as S.Schema<CreateElementRequestAttrClassList>;
 
-export interface ElementsCreateRequest {
+export interface CreateElementRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   text?: string | null;
   tag_name?: string | null;
-  attr_class?: ElementsCreateRequestAttrClassList | null;
+  attr_class?: CreateElementRequestAttrClassList | null;
   href?: string | null;
   attr_id?: string | null;
   nth_child?: number | null;
@@ -57,12 +57,12 @@ export interface ElementsCreateRequest {
   attributes?: unknown;
   order?: number | null;
 }
-export const ElementsCreateRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateElementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     text: S.optional(S.NullOr(S.String)),
     tag_name: S.optional(S.NullOr(S.String)),
-    attr_class: S.optional(S.NullOr(ElementsCreateRequestAttrClassList)),
+    attr_class: S.optional(S.NullOr(CreateElementRequestAttrClassList)),
     href: S.optional(S.NullOr(S.String)),
     attr_id: S.optional(S.NullOr(S.String)),
     nth_child: S.optional(S.NullOr(S.Number)),
@@ -77,8 +77,8 @@ export const ElementsCreateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "ElementsCreateRequest",
-}) as any as S.Schema<ElementsCreateRequest>;
+  identifier: "CreateElementRequest",
+}) as any as S.Schema<CreateElementRequest>;
 
 export type ElementAttrClassList = Array<string>;
 export const ElementAttrClassList = /*@__PURE__*/ S.Array(
@@ -138,7 +138,127 @@ export const ElementsDestroyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ElementsDestroyResponse",
 }) as any as S.Schema<ElementsDestroyResponse>;
 
-export interface ElementsListRequest {
+export interface GetElementRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this element. */
+  id: number;
+}
+export const GetElementRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.Number.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/elements/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetElementRequest",
+}) as any as S.Schema<GetElementRequest>;
+
+export type GetElementsStatRequestIncludeList = Array<string>;
+export const GetElementsStatRequestIncludeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetElementsStatRequestIncludeList>;
+
+export interface GetElementsStatRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Comma-separated data attribute names (wildcards allowed, e.g. data-*). When provided, each element's attributes map is filtered to matching attr__* keys, shrinking the response. */
+  data_attributes?: string;
+  /** Start of the date range (e.g. -7d, 2024-01-01). Defaults to last 7 days. */
+  date_from?: string;
+  /** End of the date range (e.g. 2024-01-31). Defaults to now. */
+  date_to?: string;
+  /** When true, applies the project's internal-and-test-account filters to the underlying events. Pass the lowercase string true; other truthy spellings are ignored. */
+  filter_test_accounts?: boolean;
+  /** Event types to include: $autocapture, $rageclick, $dead_click. Defaults to all three. Accepts repeated parameters, a JSON array, or a comma-separated list. */
+  include?: GetElementsStatRequestIncludeList;
+  /** Maximum rows per page */
+  limit?: number;
+  /** Pagination offset */
+  offset?: number;
+  /** JSON-encoded list of property filters to apply to the underlying events, e.g. [{"key": "$current_url", "value": "https://example.com/page"}] or [{"key": "email", "value": "@posthog.com", "operator": "icontains", "type": "person"}]. Supports event, person, cohort, element, and HogQL property filter types. */
+  properties?: string;
+  /** Sampling factor between 0 and 1 */
+  sampling_factor?: number;
+}
+export const GetElementsStatRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    data_attributes: S.optional(S.String.pipe(T.Query())),
+    date_from: S.optional(S.String.pipe(T.Query())),
+    date_to: S.optional(S.String.pipe(T.Query())),
+    filter_test_accounts: S.optional(S.Boolean.pipe(T.Query())),
+    include: S.optional(GetElementsStatRequestIncludeList.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
+    properties: S.optional(S.String.pipe(T.Query())),
+    sampling_factor: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/elements/stats/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetElementsStatRequest",
+}) as any as S.Schema<GetElementsStatRequest>;
+
+/** Parsed elements of the chain, clicked element first */
+export type ElementStatsElementsList = Array<Element>;
+export const ElementStatsElementsList = /*@__PURE__*/ S.Array(
+  Element,
+) as any as S.Schema<ElementStatsElementsList>;
+
+export interface ElementStats {
+  /** Number of events matching this element chain */
+  count: number;
+  /** Hash of the chain as the server grouped it; combine with type to deduplicate rows across pages */
+  hash: string | null;
+  /** Event type: $autocapture, $rageclick, or $dead_click */
+  type: string;
+  /** Parsed elements of the chain, clicked element first */
+  elements: ElementStatsElementsList;
+}
+export const ElementStats = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    hash: S.NullOr(S.String),
+    type: S.String,
+    elements: ElementStatsElementsList,
+  }),
+).annotate({ identifier: "ElementStats" }) as any as S.Schema<ElementStats>;
+
+/** Element chains with event counts, ordered by count */
+export type ElementStatsResponseResultsList = Array<ElementStats>;
+export const ElementStatsResponseResultsList = /*@__PURE__*/ S.Array(
+  ElementStats,
+) as any as S.Schema<ElementStatsResponseResultsList>;
+
+export interface ElementStatsResponse {
+  /** Element chains with event counts, ordered by count */
+  results: ElementStatsResponseResultsList;
+  /** URL for the next page of results, if any */
+  next: string | null;
+  /** URL for the previous page of results, if any */
+  previous: string | null;
+}
+export const ElementStatsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: ElementStatsResponseResultsList,
+    next: S.NullOr(S.String),
+    previous: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "ElementStatsResponse",
+}) as any as S.Schema<ElementStatsResponse>;
+
+export interface ListElementsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
@@ -146,7 +266,7 @@ export interface ElementsListRequest {
   /** The initial index from which to return the results. */
   offset?: number;
 }
-export const ElementsListRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListElementsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
@@ -159,8 +279,8 @@ export const ElementsListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "ElementsListRequest",
-}) as any as S.Schema<ElementsListRequest>;
+  identifier: "ListElementsRequest",
+}) as any as S.Schema<ListElementsRequest>;
 
 export type PaginatedElementListResultsList = Array<Element>;
 export const PaginatedElementListResultsList = /*@__PURE__*/ S.Array(
@@ -184,19 +304,65 @@ export const PaginatedElementList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedElementList",
 }) as any as S.Schema<PaginatedElementList>;
 
-export type ElementsPartialUpdateRequestAttrClassList = Array<string>;
-export const ElementsPartialUpdateRequestAttrClassList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ElementsPartialUpdateRequestAttrClassList>;
+export interface ListElementsValuesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Element property to list values for: tag_name, text, href, or attr_id. */
+  key: string;
+  /** Optional substring to filter values by (case-sensitive contains match). */
+  value?: string;
+}
+export const ListElementsValuesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    key: S.String.pipe(T.Query()),
+    value: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/elements/values/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListElementsValuesRequest",
+}) as any as S.Schema<ListElementsValuesRequest>;
 
-export interface ElementsPartialUpdateRequest {
+export interface ElementValue {
+  /** A distinct value of the requested element property */
+  name: string;
+}
+export const ElementValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+  }),
+).annotate({ identifier: "ElementValue" }) as any as S.Schema<ElementValue>;
+
+export type ListElementsValuesResponseBodyList = Array<ElementValue>;
+export const ListElementsValuesResponseBodyList = /*@__PURE__*/ S.Array(
+  ElementValue,
+) as any as S.Schema<ListElementsValuesResponseBodyList>;
+
+export type ListElementsValuesResponse = ListElementsValuesResponseBodyList;
+export const ListElementsValuesResponse = /*@__PURE__*/ S.suspend(() =>
+  ListElementsValuesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListElementsValuesResponse",
+}) as any as S.Schema<ListElementsValuesResponse>;
+
+export type UpdateElementRequestAttrClassList = Array<string>;
+export const UpdateElementRequestAttrClassList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateElementRequestAttrClassList>;
+
+export interface UpdateElementRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this element. */
   id: number;
   text?: string | null;
   tag_name?: string | null;
-  attr_class?: ElementsPartialUpdateRequestAttrClassList | null;
+  attr_class?: UpdateElementRequestAttrClassList | null;
   href?: string | null;
   attr_id?: string | null;
   nth_child?: number | null;
@@ -204,103 +370,13 @@ export interface ElementsPartialUpdateRequest {
   attributes?: unknown;
   order?: number | null;
 }
-export const ElementsPartialUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateElementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
     text: S.optional(S.NullOr(S.String)),
     tag_name: S.optional(S.NullOr(S.String)),
-    attr_class: S.optional(S.NullOr(ElementsPartialUpdateRequestAttrClassList)),
-    href: S.optional(S.NullOr(S.String)),
-    attr_id: S.optional(S.NullOr(S.String)),
-    nth_child: S.optional(S.NullOr(S.Number)),
-    nth_of_type: S.optional(S.NullOr(S.Number)),
-    attributes: S.optional(S.Unknown),
-    order: S.optional(S.NullOr(S.Number)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/elements/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ElementsPartialUpdateRequest",
-}) as any as S.Schema<ElementsPartialUpdateRequest>;
-
-export interface ElementsRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A unique integer value identifying this element. */
-  id: number;
-}
-export const ElementsRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/elements/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ElementsRetrieveRequest",
-}) as any as S.Schema<ElementsRetrieveRequest>;
-
-export interface ElementsStatsRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-}
-export const ElementsStatsRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/elements/stats/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ElementsStatsRetrieveRequest",
-}) as any as S.Schema<ElementsStatsRetrieveRequest>;
-
-export interface ElementsStatsRetrieveResponse {}
-export const ElementsStatsRetrieveResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ElementsStatsRetrieveResponse",
-}) as any as S.Schema<ElementsStatsRetrieveResponse>;
-
-export type ElementsUpdateRequestAttrClassList = Array<string>;
-export const ElementsUpdateRequestAttrClassList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ElementsUpdateRequestAttrClassList>;
-
-export interface ElementsUpdateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A unique integer value identifying this element. */
-  id: number;
-  text?: string | null;
-  tag_name?: string | null;
-  attr_class?: ElementsUpdateRequestAttrClassList | null;
-  href?: string | null;
-  attr_id?: string | null;
-  nth_child?: number | null;
-  nth_of_type?: number | null;
-  attributes?: unknown;
-  order?: number | null;
-}
-export const ElementsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.Number.pipe(T.Label()),
-    text: S.optional(S.NullOr(S.String)),
-    tag_name: S.optional(S.NullOr(S.String)),
-    attr_class: S.optional(S.NullOr(ElementsUpdateRequestAttrClassList)),
+    attr_class: S.optional(S.NullOr(UpdateElementRequestAttrClassList)),
     href: S.optional(S.NullOr(S.String)),
     attr_id: S.optional(S.NullOr(S.String)),
     nth_child: S.optional(S.NullOr(S.Number)),
@@ -315,46 +391,65 @@ export const ElementsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "ElementsUpdateRequest",
-}) as any as S.Schema<ElementsUpdateRequest>;
+  identifier: "UpdateElementRequest",
+}) as any as S.Schema<UpdateElementRequest>;
 
-export interface ElementsValuesRetrieveRequest {
+export type UpdateElementsPartialRequestAttrClassList = Array<string>;
+export const UpdateElementsPartialRequestAttrClassList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateElementsPartialRequestAttrClassList>;
+
+export interface UpdateElementsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** A unique integer value identifying this element. */
+  id: number;
+  text?: string | null;
+  tag_name?: string | null;
+  attr_class?: UpdateElementsPartialRequestAttrClassList | null;
+  href?: string | null;
+  attr_id?: string | null;
+  nth_child?: number | null;
+  nth_of_type?: number | null;
+  attributes?: unknown;
+  order?: number | null;
 }
-export const ElementsValuesRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateElementsPartialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    id: S.Number.pipe(T.Label()),
+    text: S.optional(S.NullOr(S.String)),
+    tag_name: S.optional(S.NullOr(S.String)),
+    attr_class: S.optional(S.NullOr(UpdateElementsPartialRequestAttrClassList)),
+    href: S.optional(S.NullOr(S.String)),
+    attr_id: S.optional(S.NullOr(S.String)),
+    nth_child: S.optional(S.NullOr(S.Number)),
+    nth_of_type: S.optional(S.NullOr(S.Number)),
+    attributes: S.optional(S.Unknown),
+    order: S.optional(S.NullOr(S.Number)),
   }).pipe(
     T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/elements/values/",
+      method: "PATCH",
+      uri: "/api/projects/{project_id}/elements/{id}/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "ElementsValuesRetrieveRequest",
-}) as any as S.Schema<ElementsValuesRetrieveRequest>;
+  identifier: "UpdateElementsPartialRequest",
+}) as any as S.Schema<UpdateElementsPartialRequest>;
 
-export interface ElementsValuesRetrieveResponse {}
-export const ElementsValuesRetrieveResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ElementsValuesRetrieveResponse",
-}) as any as S.Schema<ElementsValuesRetrieveResponse>;
-
-export type ElementsCreateError =
+export type CreateElementError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const elementsCreate: API.OperationMethod<
-  ElementsCreateRequest,
+export const createElement: API.OperationMethod<
+  CreateElementRequest,
   Element,
-  ElementsCreateError,
+  CreateElementError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ElementsCreateRequest,
+  input: CreateElementRequest,
   output: Element,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
@@ -375,99 +470,99 @@ export const elementsDestroy: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ElementsListError =
+export type GetElementError = Forbidden | NotFound | PosthogOpError;
+export const getElement: API.OperationMethod<
+  GetElementRequest,
+  Element,
+  GetElementError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetElementRequest,
+  output: Element,
+  errors: [Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetElementsStatError = Forbidden | NotFound | PosthogOpError;
+/** Counts of $autocapture, $rageclick, and $dead_click events grouped by the element chain they occurred on, ordered by count. Defaults to all three event types; narrow with the include parameter. */
+export const getElementsStat: API.OperationMethod<
+  GetElementsStatRequest,
+  ElementStatsResponse,
+  GetElementsStatError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetElementsStatRequest,
+  output: ElementStatsResponse,
+  errors: [Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListElementsError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const elementsList: API.OperationMethod<
-  ElementsListRequest,
+export const listElements: API.OperationMethod<
+  ListElementsRequest,
   PaginatedElementList,
-  ElementsListError,
+  ListElementsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ElementsListRequest,
+  input: ListElementsRequest,
   output: PaginatedElementList,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type ElementsPartialUpdateError =
+export type ListElementsValuesError = Forbidden | NotFound | PosthogOpError;
+export const listElementsValues: API.OperationMethod<
+  ListElementsValuesRequest,
+  ListElementsValuesResponse,
+  ListElementsValuesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListElementsValuesRequest,
+  output: ListElementsValuesResponse,
+  errors: [Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateElementError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const elementsPartialUpdate: API.OperationMethod<
-  ElementsPartialUpdateRequest,
+export const updateElement: API.OperationMethod<
+  UpdateElementRequest,
   Element,
-  ElementsPartialUpdateError,
+  UpdateElementError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ElementsPartialUpdateRequest,
+  input: UpdateElementRequest,
   output: Element,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type ElementsRetrieveError = Forbidden | NotFound | PosthogOpError;
-export const elementsRetrieve: API.OperationMethod<
-  ElementsRetrieveRequest,
-  Element,
-  ElementsRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ElementsRetrieveRequest,
-  output: Element,
-  errors: [Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ElementsStatsRetrieveError = Forbidden | NotFound | PosthogOpError;
-/** The original version of this API always and only returned $autocapture elements If no include query parameter is sent this remains true. Now, you can pass a combination of include query parameters to get different types of elements Currently only $autocapture and $rageclick and $dead_click are supported */
-export const elementsStatsRetrieve: API.OperationMethod<
-  ElementsStatsRetrieveRequest,
-  ElementsStatsRetrieveResponse,
-  ElementsStatsRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ElementsStatsRetrieveRequest,
-  output: ElementsStatsRetrieveResponse,
-  errors: [Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ElementsUpdateError =
+export type UpdateElementsPartialError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const elementsUpdate: API.OperationMethod<
-  ElementsUpdateRequest,
+export const updateElementsPartial: API.OperationMethod<
+  UpdateElementsPartialRequest,
   Element,
-  ElementsUpdateError,
+  UpdateElementsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ElementsUpdateRequest,
+  input: UpdateElementsPartialRequest,
   output: Element,
   errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ElementsValuesRetrieveError = Forbidden | NotFound | PosthogOpError;
-export const elementsValuesRetrieve: API.OperationMethod<
-  ElementsValuesRetrieveRequest,
-  ElementsValuesRetrieveResponse,
-  ElementsValuesRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ElementsValuesRetrieveRequest,
-  output: ElementsValuesRetrieveResponse,
-  errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));

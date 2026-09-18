@@ -2,7 +2,7 @@
  * ZeroSSL credentials — hand-written.
  *
  * ZeroSSL's REST API authenticates with the account's access key, sent as
- * the `access_key` query parameter on every request. The `Credentials`
+ * the `Authorization: ApiKey` header on every request. The `Credentials`
  * service holds an *effect* that resolves the current credentials so the
  * protocol picks up rotations per request.
  *
@@ -27,8 +27,8 @@ export class Credentials extends Context.Service<
   Effect.Effect<Config>
 >()("ZeroSslCredentials") {}
 
-const envConfig = EffectConfig.redacted("ZEROSSL_ACCESS_KEY").pipe(
-  EffectConfig.orElse(() => EffectConfig.redacted("ZERO_SSL_KEY")),
+const envConfig = EffectConfig.Redacted("ZEROSSL_ACCESS_KEY").pipe(
+  EffectConfig.orElse(() => EffectConfig.Redacted("ZERO_SSL_KEY")),
 );
 
 export const CredentialsFromEnv = Layer.succeed(

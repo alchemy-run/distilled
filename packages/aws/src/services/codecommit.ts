@@ -1029,6 +1029,11 @@ export class TooManyTagsException
     "TooManyTagsException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
+export class ValidationException
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+    "ValidationException",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ) {}
 export type ApprovalRuleTemplateName = string;
 export type RepositoryName = string;
 export interface AssociateApprovalRuleTemplateWithRepositoryInput {
@@ -1126,7 +1131,7 @@ export type MergeOptionTypeEnum =
   | "SQUASH_MERGE"
   | "THREE_WAY_MERGE"
   | (string & {});
-export const MergeOptionTypeEnum = /*@__PURE__*/ S.String;
+export const MergeOptionTypeEnum = S.String;
 
 export type MaxResults = number;
 export type Path = string;
@@ -1136,7 +1141,7 @@ export type ConflictDetailLevelTypeEnum =
   | "FILE_LEVEL"
   | "LINE_LEVEL"
   | (string & {});
-export const ConflictDetailLevelTypeEnum = /*@__PURE__*/ S.String;
+export const ConflictDetailLevelTypeEnum = S.String;
 
 export type ConflictResolutionStrategyTypeEnum =
   | "NONE"
@@ -1144,7 +1149,7 @@ export type ConflictResolutionStrategyTypeEnum =
   | "ACCEPT_DESTINATION"
   | "AUTOMERGE"
   | (string & {});
-export const ConflictResolutionStrategyTypeEnum = /*@__PURE__*/ S.String;
+export const ConflictResolutionStrategyTypeEnum = S.String;
 
 export type NextToken = string;
 export interface BatchDescribeMergeConflictsInput {
@@ -1203,7 +1208,7 @@ export type FileModeTypeEnum =
   | "NORMAL"
   | "SYMLINK"
   | (string & {});
-export const FileModeTypeEnum = /*@__PURE__*/ S.String;
+export const FileModeTypeEnum = S.String;
 
 export interface FileModes {
   source?: FileModeTypeEnum;
@@ -1223,7 +1228,7 @@ export type ObjectTypeEnum =
   | "GIT_LINK"
   | "SYMBOLIC_LINK"
   | (string & {});
-export const ObjectTypeEnum = /*@__PURE__*/ S.String;
+export const ObjectTypeEnum = S.String;
 
 export interface ObjectTypes {
   source?: ObjectTypeEnum;
@@ -1255,7 +1260,7 @@ export type IsContentConflict = boolean;
 export type IsFileModeConflict = boolean;
 export type IsObjectTypeConflict = boolean;
 export type ChangeTypeEnum = "A" | "M" | "D" | (string & {});
-export const ChangeTypeEnum = /*@__PURE__*/ S.String;
+export const ChangeTypeEnum = S.String;
 
 export interface MergeOperations {
   source?: ChangeTypeEnum;
@@ -1599,7 +1604,7 @@ export type BatchGetRepositoriesErrorCodeEnum =
   | "EncryptionKeyUnavailableException"
   | "RepositoryDoesNotExistException"
   | (string & {});
-export const BatchGetRepositoriesErrorCodeEnum = /*@__PURE__*/ S.String;
+export const BatchGetRepositoriesErrorCodeEnum = S.String;
 
 export interface BatchGetRepositoriesError_ {
   repositoryId?: string;
@@ -1893,7 +1898,7 @@ export const CreatePullRequestInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatePullRequestInput>;
 export type PullRequestId = string;
 export type PullRequestStatusEnum = "OPEN" | "CLOSED" | (string & {});
-export const PullRequestStatusEnum = /*@__PURE__*/ S.String;
+export const PullRequestStatusEnum = S.String;
 
 export type IsMerged = boolean;
 export interface MergeMetadata {
@@ -2093,7 +2098,7 @@ export type ReplacementTypeEnum =
   | "KEEP_DESTINATION"
   | "USE_NEW_CONTENT"
   | (string & {});
-export const ReplacementTypeEnum = /*@__PURE__*/ S.String;
+export const ReplacementTypeEnum = S.String;
 
 export interface ReplaceContentEntry {
   filePath: string;
@@ -2478,7 +2483,7 @@ export type PullRequestEventType =
   | "PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN"
   | "PULL_REQUEST_APPROVAL_STATE_CHANGED"
   | (string & {});
-export const PullRequestEventType = /*@__PURE__*/ S.String;
+export const PullRequestEventType = S.String;
 
 export interface DescribePullRequestEventsInput {
   pullRequestId: string;
@@ -2580,7 +2585,7 @@ export const ApprovalRuleEventMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApprovalRuleEventMetadata",
 }) as any as S.Schema<ApprovalRuleEventMetadata>;
 export type ApprovalState = "APPROVE" | "REVOKE" | (string & {});
-export const ApprovalState = /*@__PURE__*/ S.String;
+export const ApprovalState = S.String;
 
 export interface ApprovalStateChangedEventMetadata {
   revisionId?: string;
@@ -2595,7 +2600,7 @@ export const ApprovalStateChangedEventMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApprovalStateChangedEventMetadata",
 }) as any as S.Schema<ApprovalStateChangedEventMetadata>;
 export type OverrideStatus = "OVERRIDE" | "REVOKE" | (string & {});
-export const OverrideStatus = /*@__PURE__*/ S.String;
+export const OverrideStatus = S.String;
 
 export interface ApprovalRuleOverriddenEventMetadata {
   revisionId?: string;
@@ -2790,6 +2795,98 @@ export interface GetBlobOutput {
 export const GetBlobOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ content: T.Blob }).pipe(ns),
 ).annotate({ identifier: "GetBlobOutput" }) as any as S.Schema<GetBlobOutput>;
+export type DiffContext = number;
+export type IgnoreWhiteSpaces = boolean;
+export type Limit = number;
+export interface GetBlobDifferencesInput {
+  repositoryName: string;
+  afterBlobId: string;
+  beforeBlobId?: string;
+  contextLines?: number;
+  ignoreWhitespace?: boolean;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const GetBlobDifferencesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repositoryName: S.String,
+    afterBlobId: S.String,
+    beforeBlobId: S.optional(S.String),
+    contextLines: S.optional(S.Number),
+    ignoreWhitespace: S.optional(S.Boolean),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetBlobDifferencesInput",
+}) as any as S.Schema<GetBlobDifferencesInput>;
+export type DiffChangeType = "CONTEXT" | "ADD" | "DELETE" | (string & {});
+export const DiffChangeType = S.String;
+
+export type LineContent = string;
+export interface DiffChange {
+  type?: DiffChangeType;
+  beforeLineNumber?: number;
+  afterLineNumber?: number;
+  content?: string;
+}
+export const DiffChange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(DiffChangeType),
+    beforeLineNumber: S.optional(S.Number),
+    afterLineNumber: S.optional(S.Number),
+    content: S.optional(S.String),
+  }),
+).annotate({ identifier: "DiffChange" }) as any as S.Schema<DiffChange>;
+export type DiffChangeList = DiffChange[];
+export const DiffChangeList = /*@__PURE__*/ S.Array(DiffChange);
+export interface DiffHunk {
+  beforeStartLine?: number;
+  beforeLineCount?: number;
+  afterStartLine?: number;
+  afterLineCount?: number;
+  changes?: DiffChange[];
+}
+export const DiffHunk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    beforeStartLine: S.optional(S.Number),
+    beforeLineCount: S.optional(S.Number),
+    afterStartLine: S.optional(S.Number),
+    afterLineCount: S.optional(S.Number),
+    changes: S.optional(DiffChangeList),
+  }),
+).annotate({ identifier: "DiffHunk" }) as any as S.Schema<DiffHunk>;
+export type DiffHunkList = DiffHunk[];
+export const DiffHunkList = /*@__PURE__*/ S.Array(DiffHunk);
+export type ObjectSize = number;
+export interface GetBlobDifferencesOutput {
+  hunks: DiffHunk[];
+  isBinary: boolean;
+  beforeBlobSize?: number;
+  afterBlobSize: number;
+  NextToken?: string;
+}
+export const GetBlobDifferencesOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hunks: DiffHunkList,
+    isBinary: S.Boolean,
+    beforeBlobSize: S.optional(S.Number),
+    afterBlobSize: S.Number,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetBlobDifferencesOutput",
+}) as any as S.Schema<GetBlobDifferencesOutput>;
 export interface GetBranchInput {
   repositoryName?: string;
   branchName?: string;
@@ -2948,7 +3045,7 @@ export const GetCommentsForComparedCommitInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCommentsForComparedCommitInput>;
 export type Position = number;
 export type RelativeFileVersionEnum = "BEFORE" | "AFTER" | (string & {});
-export const RelativeFileVersionEnum = /*@__PURE__*/ S.String;
+export const RelativeFileVersionEnum = S.String;
 
 export interface Location {
   filePath?: string;
@@ -3097,7 +3194,6 @@ export const GetCommitOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetCommitOutput",
 }) as any as S.Schema<GetCommitOutput>;
-export type Limit = number;
 export interface GetDifferencesInput {
   repositoryName: string;
   beforeCommitSpecifier?: string;
@@ -3191,7 +3287,6 @@ export const GetFileInput = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({ identifier: "GetFileInput" }) as any as S.Schema<GetFileInput>;
-export type ObjectSize = number;
 export interface GetFileOutput {
   commitId: string;
   blobId: string;
@@ -3612,7 +3707,7 @@ export type RepositoryTriggerEventEnum =
   | "createReference"
   | "deleteReference"
   | (string & {});
-export const RepositoryTriggerEventEnum = /*@__PURE__*/ S.String;
+export const RepositoryTriggerEventEnum = S.String;
 
 export type RepositoryTriggerEventList = RepositoryTriggerEventEnum[];
 export const RepositoryTriggerEventList = /*@__PURE__*/ S.Array(
@@ -3855,10 +3950,10 @@ export const ListPullRequestsOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListPullRequestsOutput",
 }) as any as S.Schema<ListPullRequestsOutput>;
 export type SortByEnum = "repositoryName" | "lastModifiedDate" | (string & {});
-export const SortByEnum = /*@__PURE__*/ S.String;
+export const SortByEnum = S.String;
 
 export type OrderEnum = "ascending" | "descending" | (string & {});
-export const OrderEnum = /*@__PURE__*/ S.String;
+export const OrderEnum = S.String;
 
 export interface ListRepositoriesInput {
   nextToken?: string;
@@ -6256,6 +6351,70 @@ export const getBlob: API.OperationMethod<
   operationName: "GetBlob",
 }));
 
+export type GetBlobDifferencesError =
+  | BlobIdDoesNotExistException
+  | BlobIdRequiredException
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | FileTooLargeException
+  | InvalidBlobIdException
+  | InvalidContinuationTokenException
+  | InvalidMaxResultsException
+  | InvalidRepositoryNameException
+  | RepositoryDoesNotExistException
+  | RepositoryNameRequiredException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns a structured, line-level diff between two blob versions in a repository. The
+ * diff is returned as an ordered list of hunks, where each hunk represents a contiguous
+ * run of changed lines together with any surrounding unchanged context lines.
+ *
+ * Results are paginated. Use `MaxResults` and `NextToken` to
+ * retrieve additional pages.
+ *
+ * For the typical usage workflow, see GetDifferences.
+ */
+export const getBlobDifferences: API.PaginatedOperationMethod<
+  GetBlobDifferencesInput,
+  GetBlobDifferencesOutput,
+  GetBlobDifferencesError,
+  Credentials | HttpClient.HttpClient,
+  DiffHunk
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: GetBlobDifferencesInput,
+  output: GetBlobDifferencesOutput,
+  errors: [
+    BlobIdDoesNotExistException,
+    BlobIdRequiredException,
+    EncryptionIntegrityChecksFailedException,
+    EncryptionKeyAccessDeniedException,
+    EncryptionKeyDisabledException,
+    EncryptionKeyNotFoundException,
+    EncryptionKeyUnavailableException,
+    FileTooLargeException,
+    InvalidBlobIdException,
+    InvalidContinuationTokenException,
+    InvalidMaxResultsException,
+    InvalidRepositoryNameException,
+    RepositoryDoesNotExistException,
+    RepositoryNameRequiredException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetBlobDifferences",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "hunks",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
+
 export type GetBranchError =
   | BranchDoesNotExistException
   | BranchNameRequiredException
@@ -6561,6 +6720,9 @@ export type GetDifferencesError =
  * Returns information about the differences in a valid commit specifier (such as a
  * branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be
  * limited to a specified path.
+ *
+ * For line-level diff details, pass the `beforeBlob.blobId` and
+ * `afterBlob.blobId` values from a `Difference` object to GetBlobDifferences.
  */
 export const getDifferences: API.PaginatedOperationMethod<
   GetDifferencesInput,

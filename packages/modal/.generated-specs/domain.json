@@ -1,0 +1,256 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.domain#VerifyDomainCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "domainId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.domain#Domain": {
+      "type": "structure",
+      "members": {
+        "domainId": {
+          "target": "smithy.api#String"
+        },
+        "domainName": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "certificateStatus": {
+          "target": "com.modal.domain#CertificateStatus"
+        },
+        "dnsRecords": {
+          "target": "com.modal.domain#DNSRecordList"
+        }
+      }
+    },
+    "com.modal.domain#CertificateStatus": {
+      "type": "enum",
+      "members": {
+        "CERTIFICATE_STATUS_PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CERTIFICATE_STATUS_PENDING"
+          }
+        },
+        "CERTIFICATE_STATUS_ISSUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CERTIFICATE_STATUS_ISSUED"
+          }
+        },
+        "CERTIFICATE_STATUS_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CERTIFICATE_STATUS_FAILED"
+          }
+        },
+        "CERTIFICATE_STATUS_REVOKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CERTIFICATE_STATUS_REVOKED"
+          }
+        }
+      }
+    },
+    "com.modal.domain#DNSRecord": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.modal.domain#DNSRecordType"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.domain#DNSRecordType": {
+      "type": "enum",
+      "members": {
+        "DNS_RECORD_TYPE_A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DNS_RECORD_TYPE_A"
+          }
+        },
+        "DNS_RECORD_TYPE_TXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DNS_RECORD_TYPE_TXT"
+          }
+        },
+        "DNS_RECORD_TYPE_CNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DNS_RECORD_TYPE_CNAME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "now unused internal experimental values"
+      }
+    },
+    "com.modal.domain#DNSRecordList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.domain#DNSRecord"
+      }
+    },
+    "com.modal.domain#VerifyDomainCertificateResponse": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "com.modal.domain#Domain"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.domain#VerifyDomainCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.domain#VerifyDomainCertificateRequest"
+      },
+      "output": {
+        "target": "com.modal.domain#VerifyDomainCertificateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DomainCertificateVerify",
+          "code": 200
+        },
+        "smithy.api#documentation": "Domains"
+      }
+    },
+    "com.modal.domain#CreateDomainRequest": {
+      "type": "structure",
+      "members": {
+        "domainName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.domain#CreateDomainResponse": {
+      "type": "structure",
+      "members": {
+        "domainId": {
+          "target": "smithy.api#String"
+        },
+        "dnsRecords": {
+          "target": "com.modal.domain#DNSRecordList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.domain#CreateDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.domain#CreateDomainRequest"
+      },
+      "output": {
+        "target": "com.modal.domain#CreateDomainResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DomainCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.domain#ListDomainRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.domain#DomainList2": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.domain#Domain"
+      }
+    },
+    "com.modal.domain#ListDomainResponse": {
+      "type": "structure",
+      "members": {
+        "domains": {
+          "target": "com.modal.domain#DomainList2"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.domain#ListDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.domain#ListDomainRequest"
+      },
+      "output": {
+        "target": "com.modal.domain#ListDomainResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DomainList",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.domain#DomainService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.domain#VerifyDomainCertificate"
+        },
+        {
+          "target": "com.modal.domain#CreateDomain"
+        },
+        {
+          "target": "com.modal.domain#ListDomain"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Domain",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Domain`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

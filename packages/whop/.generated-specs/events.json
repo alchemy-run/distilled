@@ -1,0 +1,2660 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.events#ListEventsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsRequestAttributionModel": {
+      "type": "enum",
+      "members": {
+        "LAST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_touch"
+          }
+        },
+        "FIRST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_touch"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsRequest": {
+      "type": "structure",
+      "members": {
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "identifier",
+            "smithy.api#documentation": "Any hard identifier of the person: a person ID (prsn_*), user ID, email, phone number, or a tracking cookie value (wuid, anonymous ID, fbp/fbc/ttp/ga). Omit to list recent events for the account."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Account ID, prefixed `biz_`. Optional for account API keys; required for credentials that can access multiple accounts."
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#documentation": "Start of the time range as an ISO 8601 timestamp. Required when identifier is omitted."
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#documentation": "End of the time range as an ISO 8601 timestamp. Required when identifier is omitted; otherwise defaults to now."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of events to return."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for fetching events after a previous page."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor for fetching events before a later page."
+          }
+        },
+        "direction": {
+          "target": "com.whop.events#ListEventsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "The order events are returned in by time. Defaults to desc (most recent first); asc reads a journey forwards from where it starts. after and before always page forwards and backwards through that order."
+          }
+        },
+        "event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "event",
+            "smithy.api#documentation": "Full event names to filter by, comma-separated (payment.completed, pixel.lead, pixel.page, pixel.custom:<name>) — the same vocabulary the events / people metrics use."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "source",
+            "smithy.api#documentation": "Canonical source path, exact or with a trailing :* prefix (whop:<campaign>:*, ext:meta:*, referrer:<domain>, direct). Restricts the list to conversion targets attributed to that source — the debuggability twin of a metric cell's source parameter."
+          }
+        },
+        "attribution_model": {
+          "target": "com.whop.events#ListEventsRequestAttributionModel",
+          "traits": {
+            "smithy.api#httpQuery": "attribution_model",
+            "smithy.api#documentation": "Attribution model for the source filter (defaults to last_touch)."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "country",
+            "smithy.api#documentation": "Country codes to filter by, comma-separated."
+          }
+        },
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "city",
+            "smithy.api#documentation": "Cities to filter by, comma-separated."
+          }
+        },
+        "device": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "device",
+            "smithy.api#documentation": "Device families to filter by, comma-separated (e.g. iPhone, Mac)."
+          }
+        },
+        "browser": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "browser",
+            "smithy.api#documentation": "Browser families to filter by, comma-separated (e.g. Chrome, Mobile Safari)."
+          }
+        },
+        "os": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "os",
+            "smithy.api#documentation": "Operating system families to filter by, comma-separated (e.g. iOS, Windows)."
+          }
+        },
+        "utm_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "utm_source",
+            "smithy.api#documentation": "utm_source values to filter by, comma-separated."
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "hostname",
+            "smithy.api#documentation": "Page hostnames to filter by, comma-separated."
+          }
+        },
+        "page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page paths to filter by, comma-separated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.events#ListEventsResponseDataItemContextSourceType": {
+      "type": "enum",
+      "members": {
+        "AD_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_click"
+          }
+        },
+        "LEAD_FORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead_form"
+          }
+        },
+        "EXTERNAL_AD_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_ad_click"
+          }
+        },
+        "REFERRER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "referrer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How this event counts as an acquisition touch, using the same rule attribution credits a conversion with. `ad_click` and `lead_form` resolved to a Whop ad; `external_ad_click` is a paid click on a campaign run outside Whop; `referrer` is organic. Null when the event is not a touch."
+      }
+    },
+    "com.whop.events#ListEventsResponseDataItemContext": {
+      "type": "structure",
+      "members": {
+        "ad_campaign_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_click_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable identity for the ad click this event belongs to. Every event from one click carries the same value, so events group into clicks without re-deriving them.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_click_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the ad click was identified: the network's click-id param (`fbclid`, `ttclid`, `gclid`, `gbraid`, `wbraid`, `twclid`) or `synthetic` when the click carried none.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_set_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_type": {
+          "target": "com.whop.events#ListEventsResponseDataItemContextSourceType",
+          "traits": {
+            "smithy.api#documentation": "How this event counts as an acquisition touch, using the same rule attribution credits a conversion with. `ad_click` and `lead_form` resolved to a Whop ad; `external_ad_click` is a paid click on a campaign run outside Whop; `referrer` is organic. Null when the event is not a touch.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "utm_campaign": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "utm_content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "utm_medium": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "utm_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "utm_term": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItemQuestionsItemOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItemQuestionsItem": {
+      "type": "structure",
+      "members": {
+        "answer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "options": {
+          "target": "com.whop.events#ListEventsResponseDataItemQuestionsItemOptionsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "question": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItemQuestionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.events#ListEventsResponseDataItemQuestionsItem"
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItemRelatedAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "logo_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItemRelatedAd": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Whop ad this event's click resolved to."
+      }
+    },
+    "com.whop.events#ListEventsResponseDataItemRelatedAdCampaign": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "platform": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Whop ad campaign this event's click resolved to, read from the ad entity tree rather than the click's url params."
+      }
+    },
+    "com.whop.events#ListEventsResponseDataItemRelatedAdGroup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Whop ad group this event's click resolved to."
+      }
+    },
+    "com.whop.events#ListEventsResponseDataItemRelatedApp": {
+      "type": "structure",
+      "members": {
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItemRelatedAudienceAudienceType": {
+      "type": "enum",
+      "members": {
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "LOOKALIKE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lookalike"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItemRelatedAudienceSourceType": {
+      "type": "enum",
+      "members": {
+        "CSV_UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "csv_upload"
+          }
+        },
+        "PEOPLE_FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "people_filter"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItemRelatedAudience": {
+      "type": "structure",
+      "members": {
+        "audience_type": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelatedAudienceAudienceType",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "file_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "source_type": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelatedAudienceSourceType",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The saved audience this event came from. Present on the identify events an audience ingest writes for each of its members."
+      }
+    },
+    "com.whop.events#ListEventsResponseDataItemRelatedPayment": {
+      "type": "structure",
+      "members": {
+        "card_brand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "card_last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItemRelatedPlan": {
+      "type": "structure",
+      "members": {
+        "billing_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItemRelatedProduct": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItemRelatedUser": {
+      "type": "structure",
+      "members": {
+        "avatar_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItemRelated": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelatedAccount",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelatedAd",
+          "traits": {
+            "smithy.api#documentation": "The Whop ad this event's click resolved to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_campaign": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelatedAdCampaign",
+          "traits": {
+            "smithy.api#documentation": "The Whop ad campaign this event's click resolved to, read from the ad entity tree rather than the click's url params.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_group": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelatedAdGroup",
+          "traits": {
+            "smithy.api#documentation": "The Whop ad group this event's click resolved to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "app": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelatedApp",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "audience": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelatedAudience",
+          "traits": {
+            "smithy.api#documentation": "The saved audience this event came from. Present on the identify events an audience ingest writes for each of its members.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelatedPayment",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelatedPlan",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelatedProduct",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelatedUser",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Hydrated details for the records this event references. Only present keys resolved."
+      }
+    },
+    "com.whop.events#ListEventsResponseDataItemUser": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "context": {
+          "target": "com.whop.events#ListEventsResponseDataItemContext",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "event_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "event_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "event_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "person_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "questions": {
+          "target": "com.whop.events#ListEventsResponseDataItemQuestionsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "recommended_action_chain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "recommended_action_shown_position": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "referrer_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "related": {
+          "target": "com.whop.events#ListEventsResponseDataItemRelated",
+          "traits": {
+            "smithy.api#documentation": "Hydrated details for the records this event references. Only present keys resolved.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_usd_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.events#ListEventsResponseDataItemUser",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.events#ListEventsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#ListEventsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.events#ListEventsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.events#ListEventsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.events#ListEvents": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.events#ListEventsRequest"
+      },
+      "output": {
+        "target": "com.whop.events#ListEventsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.events#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/events",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Events\n\nLists identity-linked events, most recent first by default. Pass identifier for one person's journey, or omit it to list events for an account within an explicit time range. Pass direction=asc to read a journey forwards from where it starts. Events are shaped like the POST /events intake: attribution in context, identity in user.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.events#CreateEventRequestActionSource": {
+      "type": "enum",
+      "members": {
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email"
+          }
+        },
+        "WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website"
+          }
+        },
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app"
+          }
+        },
+        "PHONE_CALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "phone_call"
+          }
+        },
+        "CHAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chat"
+          }
+        },
+        "PHYSICAL_STORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "physical_store"
+          }
+        },
+        "SYSTEM_GENERATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system_generated"
+          }
+        },
+        "BUSINESS_MESSAGING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "business_messaging"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The channel where an event originated"
+      }
+    },
+    "com.whop.events#CreateEventRequestContext": {
+      "type": "structure",
+      "members": {
+        "ad_campaign_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ad campaign ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ad ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ad_set_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ad set ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fbc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Facebook click cookie (_fbc, format fb.1.{timestamp}.{fbclid}).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fbclid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Facebook click ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fbp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Facebook browser pixel ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fingerprint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client-side device fingerprint.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fingerprint_confidence": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Confidence score (0-1) for the device fingerprint.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ga": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Google Analytics client ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gbraid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Google Ads gbraid click ID (iOS privacy).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gclid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Google click ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ig_sid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Instagram session ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ip_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IP address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Browser language (e.g. en-US).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "li_fat_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "LinkedIn click ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "msclkid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Microsoft Advertising (Bing) click ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rdt_cid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reddit click ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sccid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapchat click ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "screen_resolution": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Screen resolution (e.g. 1920x1080).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IANA timezone (e.g. America/New_York).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ttclid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "TikTok click ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ttp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "TikTok pixel ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "twclid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "X (Twitter) click ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_agent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Browser user agent string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "utm_campaign": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTM campaign parameter.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "utm_content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTM content parameter.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "utm_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTM ID parameter.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "utm_medium": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTM medium parameter.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "utm_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTM source parameter.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "utm_term": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTM term parameter.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "wbraid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Google Ads wbraid click ID (iOS privacy).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Tracking and attribution context."
+      }
+    },
+    "com.whop.events#CreateEventRequestCurrency": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usd"
+          }
+        },
+        "SGD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sgd"
+          }
+        },
+        "INR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inr"
+          }
+        },
+        "AUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aud"
+          }
+        },
+        "BRL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brl"
+          }
+        },
+        "CAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cad"
+          }
+        },
+        "DKK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dkk"
+          }
+        },
+        "EUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eur"
+          }
+        },
+        "NOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nok"
+          }
+        },
+        "GBP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gbp"
+          }
+        },
+        "SEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sek"
+          }
+        },
+        "CHF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chf"
+          }
+        },
+        "HKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hkd"
+          }
+        },
+        "HUF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "huf"
+          }
+        },
+        "JPY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jpy"
+          }
+        },
+        "MXN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mxn"
+          }
+        },
+        "MYR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "myr"
+          }
+        },
+        "PLN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pln"
+          }
+        },
+        "CZK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "czk"
+          }
+        },
+        "NZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nzd"
+          }
+        },
+        "AED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aed"
+          }
+        },
+        "ETH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eth"
+          }
+        },
+        "APE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ape"
+          }
+        },
+        "COP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cop"
+          }
+        },
+        "RON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ron"
+          }
+        },
+        "THB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thb"
+          }
+        },
+        "BGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bgn"
+          }
+        },
+        "IDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "idr"
+          }
+        },
+        "DOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dop"
+          }
+        },
+        "PHP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "php"
+          }
+        },
+        "TRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "try"
+          }
+        },
+        "KRW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "krw"
+          }
+        },
+        "TWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twd"
+          }
+        },
+        "VND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vnd"
+          }
+        },
+        "PKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pkr"
+          }
+        },
+        "CLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clp"
+          }
+        },
+        "UYU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uyu"
+          }
+        },
+        "ARS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ars"
+          }
+        },
+        "ZAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zar"
+          }
+        },
+        "DZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dzd"
+          }
+        },
+        "TND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tnd"
+          }
+        },
+        "MAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mad"
+          }
+        },
+        "KES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kes"
+          }
+        },
+        "KWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kwd"
+          }
+        },
+        "JOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jod"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "XCD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xcd"
+          }
+        },
+        "AMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amd"
+          }
+        },
+        "BSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd"
+          }
+        },
+        "BHD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bhd"
+          }
+        },
+        "BOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bob"
+          }
+        },
+        "BAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bam"
+          }
+        },
+        "KHR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "khr"
+          }
+        },
+        "CRC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crc"
+          }
+        },
+        "XOF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xof"
+          }
+        },
+        "EGP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egp"
+          }
+        },
+        "ETB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "etb"
+          }
+        },
+        "GMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gmd"
+          }
+        },
+        "GHS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ghs"
+          }
+        },
+        "GTQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gtq"
+          }
+        },
+        "GYD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gyd"
+          }
+        },
+        "ILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ils"
+          }
+        },
+        "JMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jmd"
+          }
+        },
+        "MOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mop"
+          }
+        },
+        "MGA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mga"
+          }
+        },
+        "MUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mur"
+          }
+        },
+        "MDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mdl"
+          }
+        },
+        "MNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mnt"
+          }
+        },
+        "NAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nad"
+          }
+        },
+        "NGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ngn"
+          }
+        },
+        "MKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mkd"
+          }
+        },
+        "OMR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "omr"
+          }
+        },
+        "PYG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pyg"
+          }
+        },
+        "PEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pen"
+          }
+        },
+        "QAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qar"
+          }
+        },
+        "RWF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rwf"
+          }
+        },
+        "SAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sar"
+          }
+        },
+        "RSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsd"
+          }
+        },
+        "LKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lkr"
+          }
+        },
+        "TZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tzs"
+          }
+        },
+        "TTD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ttd"
+          }
+        },
+        "UZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uzs"
+          }
+        },
+        "RUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rub"
+          }
+        },
+        "BTC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "btc"
+          }
+        },
+        "CNY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cny"
+          }
+        },
+        "USDT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usdt"
+          }
+        },
+        "KZT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kzt"
+          }
+        },
+        "AWG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awg"
+          }
+        },
+        "WHOP_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whop_usd"
+          }
+        },
+        "XAU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xau"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The available currencies on the platform"
+      }
+    },
+    "com.whop.events#CreateEventRequestUserGender": {
+      "type": "enum",
+      "members": {
+        "MALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "male"
+          }
+        },
+        "FEMALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "female"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Gender"
+      }
+    },
+    "com.whop.events#CreateEventRequestUser": {
+      "type": "structure",
+      "members": {
+        "anonymous_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An anonymous identifier for the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "birthdate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of birth (YYYY-MM-DD).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "City.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Country.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "external_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An external identifier for the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gender": {
+          "target": "com.whop.events#CreateEventRequestUserGender",
+          "traits": {
+            "smithy.api#documentation": "Gender.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "linked_anonymous_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A second anonymous identifier to link to this user (e.g. captured across an iframe boundary).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "linked_wuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A wuid from a linked frame, captured across an iframe boundary.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Whop member ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "membership_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Whop membership ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full display name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Phone number.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal code.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State or region.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Whop user ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Username.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "User identity and profile data."
+      }
+    },
+    "com.whop.events#CreateEventRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account to associate with this event.",
+            "smithy.api#required": {}
+          }
+        },
+        "action_source": {
+          "target": "com.whop.events#CreateEventRequestActionSource",
+          "traits": {
+            "smithy.api#documentation": "Where the event originated.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "app_build_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The build of the hosted app that served the page where the event occurred.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "app_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The hosted app that served the page where the event occurred.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "context": {
+          "target": "com.whop.events#CreateEventRequestContext",
+          "traits": {
+            "smithy.api#documentation": "Tracking and attribution context.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "com.whop.events#CreateEventRequestCurrency",
+          "traits": {
+            "smithy.api#documentation": "ISO 4217 currency code.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom event name when event_name is 'custom'. Maximum 35 chars for this value.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "duration": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "For 'leave' events: milliseconds the visitor spent on the page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "event_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client-provided identifier for deduplication. Generated if omitted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "event_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of event.\n\nUse a standard event (lead, submit_application, contact, complete_registration, schedule, view_content, add_to_cart) or pass your own name directly for a custom event.",
+            "smithy.api#required": {}
+          }
+        },
+        "event_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the event occurred. Defaults to now.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan associated with the event.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product associated with the event.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "referrer_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The referring URL.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resumed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "For 'page' events: true when the page was restored from the back/forward cache.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For 'identify' events: where the identity was captured (url, form, manual, iframe).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For 'page' events: the document title.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL where the event occurred.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.events#CreateEventRequestUser",
+          "traits": {
+            "smithy.api#documentation": "User identity and profile data.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Monetary value associated with the event.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.events#CreateEventResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.events#CreateEvent": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.events#CreateEventRequest"
+      },
+      "output": {
+        "target": "com.whop.events#CreateEventResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.events#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/events",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Event\n\nTracks a conversion or engagement event for an account."
+      }
+    },
+    "com.whop.events#GetPulseRequest": {
+      "type": "structure",
+      "members": {
+        "event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "event",
+            "smithy.api#documentation": "Filter to one or more types, comma separated — for example `purchase,card_spend`. These are the item's `type`, not its `event_name`: several types share the `ledger_line.created` event name. Omit for every type in the feed. Values outside the feed's own set are rejected."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of events to return."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for fetching events after a previous page."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor for fetching events before a later page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.events#GetPulseResponseDataItemEventName": {
+      "type": "enum",
+      "members": {
+        "LEDGER_LINE_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ledger_line.created"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The underlying event recorded. Every movement on this feed is a ledger line, so switch on `type` rather than this."
+      }
+    },
+    "com.whop.events#GetPulseResponseDataItemType": {
+      "type": "enum",
+      "members": {
+        "PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purchase"
+          }
+        },
+        "AFFILIATE_COMMISSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affiliate_commission"
+          }
+        },
+        "CARD_SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_spend"
+          }
+        },
+        "AD_SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_spend"
+          }
+        },
+        "APP_REVENUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_revenue"
+          }
+        },
+        "OFF_PLATFORM_SALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off_platform_sale"
+          }
+        },
+        "DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deposit"
+          }
+        },
+        "CARD_LOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_load"
+          }
+        },
+        "AIRDROP_CLAIM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "airdrop_claim"
+          }
+        },
+        "TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer"
+          }
+        },
+        "REFERRAL_BONUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "referral_bonus"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What moved: a purchase, an affiliate commission, Whop card spend, ad spend, app revenue, an off-platform sale, a wallet deposit, a card load, a claimed drop, a transfer between accounts, or a referral bonus."
+      }
+    },
+    "com.whop.events#GetPulseResponseDataItemUser": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "City name. Omitted when unknown."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 3166-1 alpha-2 country code. Omitted when unknown."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Coarse location, shaped like the event `user` block. It belongs to the owner of the wallet the money moved into or out of — the party the event is about, never their counterparty. Omitted entirely when nothing is known."
+      }
+    },
+    "com.whop.events#GetPulseResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "event_name": {
+          "target": "com.whop.events#GetPulseResponseDataItemEventName",
+          "traits": {
+            "smithy.api#documentation": "The underlying event recorded. Every movement on this feed is a ledger line, so switch on `type` rather than this.",
+            "smithy.api#required": {}
+          }
+        },
+        "event_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the event happened, coarsened to the start of the minute.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_usd_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The USD amount of the event.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.events#GetPulseResponseDataItemType",
+          "traits": {
+            "smithy.api#documentation": "What moved: a purchase, an affiliate commission, Whop card spend, ad spend, app revenue, an off-platform sale, a wallet deposit, a card load, a claimed drop, a transfer between accounts, or a referral bonus.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.events#GetPulseResponseDataItemUser",
+          "traits": {
+            "smithy.api#documentation": "Coarse location, shaped like the event `user` block. It belongs to the owner of the wallet the money moved into or out of — the party the event is about, never their counterparty. Omitted entirely when nothing is known."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#GetPulseResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.events#GetPulseResponseDataItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Recent anonymized money-movement events, newest first."
+      }
+    },
+    "com.whop.events#GetPulseResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#GetPulseResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.events#GetPulseResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "Recent anonymized money-movement events, newest first.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.events#GetPulseResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.events#GetPulse": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.events#GetPulseRequest"
+      },
+      "output": {
+        "target": "com.whop.events#GetPulseResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.events#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/events/pulse",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve the pulse feed\n\nReturns a fully anonymized feed of recent platform-wide money movement, most recent first: purchases, affiliate commissions, card and ad spend, app revenue, off-platform sales, wallet deposits, card loads, claimed drops, transfers between accounts, and referral bonuses. Items carry only a `type`, the underlying event name, a USD amount, a coarse location under `user`, and a timestamp coarsened to the start of the minute; missing fields are omitted, not nulled. The payload is identical for every caller; no auth is required.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.events#ValidatePixelRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account to check. Defaults to the authenticated account."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A page to read for the pixel, e.g. an ad destination. Omit it to check the account from its events alone."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.events#PixelValidation": {
+      "type": "structure",
+      "members": {
+        "firing_data_ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "False when the event lookup failed, meaning `host_events` and `last_seen_days` are incomplete.",
+            "smithy.api#required": {}
+          }
+        },
+        "host_events": {
+          "target": "com.whop.events#PixelValidationHostEventsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "installed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the pixel was seen. Without a `url` this answers for the whole account: true when it has sent events recently. With a `url` it answers for THAT page only — true when the page is hosted on Whop, when the page itself has sent events recently, or when the pixel was found in its source. Events the account sent from other pages do not make a given `url` installed.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_fired_days": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Event name to whole days since that event last fired, e.g. `{ \"lead\": 3 }`. Carries events that fired too long ago to count as installed, so you can prompt to re-check rather than report them missing.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_seen_days": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Days since the pixel last sent an event, within a 30-day window. `null` when it hasn't sent one in that window — which includes a pixel installed moments ago.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "native_tracking": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when `url` is hosted on Whop, so no pixel snippet is required.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_events": {
+          "target": "com.whop.events#PixelValidationPageEventsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reachable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the page could be loaded. `null` when the request included no URL, and `true` when events settled the answer without a fetch.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL that was checked, after normalization. `null` when the request didn't include one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.events#PixelValidationHostEventsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.events#PixelValidationPageEventsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.events#ValidatePixel": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.events#ValidatePixelRequest"
+      },
+      "output": {
+        "target": "com.whop.events#PixelValidation"
+      },
+      "errors": [
+        {
+          "target": "com.whop.events#Forbidden"
+        },
+        {
+          "target": "com.whop.events#NotFound"
+        },
+        {
+          "target": "com.whop.events#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/events/validate_pixel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Validate Pixel\n\nChecks whether the Whop pixel is installed for an account. Recent pixel events count as proof on their own, so an account that has sent data lately comes back installed without a `url`. Pass a `url` and events from that page settle it; conversion events are also read across the hostname because they commonly fire on a later confirmation page. If the requested page hasn't sent any events lately, it is fetched and read for the pixel and conversion events wired on it. `installed` is only true when the pixel was actually seen — in the account's events or in the page."
+      }
+    },
+    "com.whop.events#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.events#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.events#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.events#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.events#Events": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.events#ListEvents"
+        },
+        {
+          "target": "com.whop.events#CreateEvent"
+        },
+        {
+          "target": "com.whop.events#GetPulse"
+        },
+        {
+          "target": "com.whop.events#ValidatePixel"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

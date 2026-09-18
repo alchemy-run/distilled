@@ -171,7 +171,7 @@ export const AcceptMarketplaceRegistrationOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AcceptMarketplaceRegistrationOutput>;
 export type RoleArn = string;
 export type SupportedAwsIntegration = "KmsTde" | (string & {});
-export const SupportedAwsIntegration = /*@__PURE__*/ S.String;
+export const SupportedAwsIntegration = S.String;
 
 export type Arn = string;
 export interface AssociateIamRoleToResourceInput {
@@ -197,35 +197,75 @@ export const AssociateIamRoleToResourceOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssociateIamRoleToResourceOutput",
 }) as any as S.Schema<AssociateIamRoleToResourceOutput>;
 export type ResourceIdOrArn = string;
+export interface AssociateVirtualMachinesToExadbVmClusterInput {
+  exadbVmClusterId: string;
+  desiredNodeCount: number;
+}
+export const AssociateVirtualMachinesToExadbVmClusterInput =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({ exadbVmClusterId: S.String, desiredNodeCount: S.Number }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "AssociateVirtualMachinesToExadbVmClusterInput",
+  }) as any as S.Schema<AssociateVirtualMachinesToExadbVmClusterInput>;
+export type ResourceStatus =
+  | "AVAILABLE"
+  | "FAILED"
+  | "PROVISIONING"
+  | "TERMINATED"
+  | "TERMINATING"
+  | "UPDATING"
+  | "MAINTENANCE_IN_PROGRESS"
+  | (string & {});
+export const ResourceStatus = S.String;
+
+export interface AssociateVirtualMachinesToExadbVmClusterOutput {
+  displayName?: string;
+  status?: ResourceStatus;
+  statusReason?: string;
+  exadbVmClusterId: string;
+}
+export const AssociateVirtualMachinesToExadbVmClusterOutput =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      displayName: S.optional(S.String),
+      status: S.optional(ResourceStatus),
+      statusReason: S.optional(S.String),
+      exadbVmClusterId: S.String,
+    }),
+  ).annotate({
+    identifier: "AssociateVirtualMachinesToExadbVmClusterOutput",
+  }) as any as S.Schema<AssociateVirtualMachinesToExadbVmClusterOutput>;
 export type ResourceDisplayName = string;
 export type SensitiveString = string | redacted.Redacted<string>;
 export type DbWorkload = "OLTP" | "AJD" | "APEX" | "LH" | (string & {});
-export const DbWorkload = /*@__PURE__*/ S.String;
+export const DbWorkload = S.String;
 
 export type LicenseModel =
   | "BRING_YOUR_OWN_LICENSE"
   | "LICENSE_INCLUDED"
   | (string & {});
-export const LicenseModel = /*@__PURE__*/ S.String;
+export const LicenseModel = S.String;
 
 export type DatabaseEdition =
   | "STANDARD_EDITION"
   | "ENTERPRISE_EDITION"
   | (string & {});
-export const DatabaseEdition = /*@__PURE__*/ S.String;
+export const DatabaseEdition = S.String;
 
 export type StandbyAllowlistedIpsSource =
   | "PRIMARY"
   | "SEPARATE"
   | "NOT_APPLICABLE"
   | (string & {});
-export const StandbyAllowlistedIpsSource = /*@__PURE__*/ S.String;
+export const StandbyAllowlistedIpsSource = S.String;
 
 export type AutonomousMaintenanceScheduleType =
   | "EARLY"
   | "REGULAR"
   | (string & {});
-export const AutonomousMaintenanceScheduleType = /*@__PURE__*/ S.String;
+export const AutonomousMaintenanceScheduleType = S.String;
 
 export interface CustomerContact {
   email?: string | redacted.Redacted<string>;
@@ -266,7 +306,7 @@ export type DayOfWeekName =
   | "SATURDAY"
   | "SUNDAY"
   | (string & {});
-export const DayOfWeekName = /*@__PURE__*/ S.String;
+export const DayOfWeekName = S.String;
 
 export interface DayOfWeek {
   name?: DayOfWeekName;
@@ -327,10 +367,10 @@ export type SourceType =
   | "CROSS_REGION_DISASTER_RECOVERY"
   | "CLONE_TO_REFRESHABLE"
   | (string & {});
-export const SourceType = /*@__PURE__*/ S.String;
+export const SourceType = S.String;
 
 export type CloneType = "FULL" | "METADATA" | "PARTIAL" | (string & {});
-export const CloneType = /*@__PURE__*/ S.String;
+export const CloneType = S.String;
 
 export interface DatabaseCloneConfiguration {
   sourceAutonomousDatabaseId: string;
@@ -386,7 +426,7 @@ export const CrossRegionDataGuardConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "CrossRegionDataGuardConfiguration",
 }) as any as S.Schema<CrossRegionDataGuardConfiguration>;
 export type DisasterRecoveryType = "ADG" | "BACKUP_BASED" | (string & {});
-export const DisasterRecoveryType = /*@__PURE__*/ S.String;
+export const DisasterRecoveryType = S.String;
 
 export interface CrossRegionDisasterRecoveryConfiguration {
   sourceAutonomousDatabaseArn: string;
@@ -404,10 +444,10 @@ export const CrossRegionDisasterRecoveryConfiguration = /*@__PURE__*/ S.suspend(
   identifier: "CrossRegionDisasterRecoveryConfiguration",
 }) as any as S.Schema<CrossRegionDisasterRecoveryConfiguration>;
 export type RefreshableMode = "AUTOMATIC" | "MANUAL" | (string & {});
-export const RefreshableMode = /*@__PURE__*/ S.String;
+export const RefreshableMode = S.String;
 
 export type OpenMode = "READ_ONLY" | "READ_WRITE" | (string & {});
-export const OpenMode = /*@__PURE__*/ S.String;
+export const OpenMode = S.String;
 
 export interface CloneToRefreshableConfiguration {
   sourceAutonomousDatabaseId: string;
@@ -496,14 +536,14 @@ export type EncryptionKeyProviderInput =
   | "ORACLE_MANAGED"
   | "AWS_KMS"
   | (string & {});
-export const EncryptionKeyProviderInput = /*@__PURE__*/ S.String;
+export const EncryptionKeyProviderInput = S.String;
 
 export type ExternalIdType =
   | "database_ocid"
   | "compartment_ocid"
   | "tenant_ocid"
   | (string & {});
-export const ExternalIdType = /*@__PURE__*/ S.String;
+export const ExternalIdType = S.String;
 
 export type KmsKeyIdOrArn = string;
 export interface AwsEncryptionKeyConfigurationInput {
@@ -525,6 +565,36 @@ export type EncryptionKeyConfigurationInput = {
 };
 export const EncryptionKeyConfigurationInput = /*@__PURE__*/ S.Union([
   S.Struct({ awsEncryptionKey: AwsEncryptionKeyConfigurationInput }),
+]);
+export type AdminPasswordSource =
+  | "CUSTOMER_MANAGED_AWS_SECRET"
+  | "API_REQUEST_PARAMETER"
+  | (string & {});
+export const AdminPasswordSource = S.String;
+
+export type SecretIdOrArn = string;
+export interface CustomerManagedAwsSecretConfigurationInput {
+  secretId?: string;
+  iamRoleArn?: string;
+  externalIdType?: ExternalIdType;
+}
+export const CustomerManagedAwsSecretConfigurationInput =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      secretId: S.optional(S.String),
+      iamRoleArn: S.optional(S.String),
+      externalIdType: S.optional(ExternalIdType),
+    }),
+  ).annotate({
+    identifier: "CustomerManagedAwsSecretConfigurationInput",
+  }) as any as S.Schema<CustomerManagedAwsSecretConfigurationInput>;
+export type AdminPasswordSourceConfigurationInput = {
+  customerManagedAwsSecret: CustomerManagedAwsSecretConfigurationInput;
+};
+export const AdminPasswordSourceConfigurationInput = /*@__PURE__*/ S.Union([
+  S.Struct({
+    customerManagedAwsSecret: CustomerManagedAwsSecretConfigurationInput,
+  }),
 ]);
 export type GeneralInputString = string;
 export type TagKey = string;
@@ -572,6 +642,8 @@ export interface CreateAutonomousDatabaseInput {
   sourceConfiguration?: SourceConfiguration;
   encryptionKeyProvider?: EncryptionKeyProviderInput;
   encryptionKeyConfiguration?: EncryptionKeyConfigurationInput;
+  adminPasswordSource?: AdminPasswordSource;
+  adminPasswordSourceConfiguration?: AdminPasswordSourceConfigurationInput;
   clientToken?: string;
   tags?: { [key: string]: string | undefined };
 }
@@ -616,6 +688,10 @@ export const CreateAutonomousDatabaseInput = /*@__PURE__*/ S.suspend(() =>
     sourceConfiguration: S.optional(SourceConfiguration),
     encryptionKeyProvider: S.optional(EncryptionKeyProviderInput),
     encryptionKeyConfiguration: S.optional(EncryptionKeyConfigurationInput),
+    adminPasswordSource: S.optional(AdminPasswordSource),
+    adminPasswordSourceConfiguration: S.optional(
+      AdminPasswordSourceConfigurationInput,
+    ),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(RequestTagMap),
   }).pipe(
@@ -648,7 +724,7 @@ export type AutonomousDatabaseResourceStatus =
   | "INACCESSIBLE"
   | "STANDBY"
   | (string & {});
-export const AutonomousDatabaseResourceStatus = /*@__PURE__*/ S.String;
+export const AutonomousDatabaseResourceStatus = S.String;
 
 export interface CreateAutonomousDatabaseOutput {
   autonomousDatabaseId: string;
@@ -686,17 +762,6 @@ export const CreateAutonomousDatabaseBackupInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateAutonomousDatabaseBackupInput",
 }) as any as S.Schema<CreateAutonomousDatabaseBackupInput>;
-export type ResourceStatus =
-  | "AVAILABLE"
-  | "FAILED"
-  | "PROVISIONING"
-  | "TERMINATED"
-  | "TERMINATING"
-  | "UPDATING"
-  | "MAINTENANCE_IN_PROGRESS"
-  | (string & {});
-export const ResourceStatus = /*@__PURE__*/ S.String;
-
 export interface CreateAutonomousDatabaseBackupOutput {
   displayName?: string;
   status?: ResourceStatus;
@@ -715,19 +780,39 @@ export const CreateAutonomousDatabaseBackupOutput = /*@__PURE__*/ S.suspend(
   identifier: "CreateAutonomousDatabaseBackupOutput",
 }) as any as S.Schema<CreateAutonomousDatabaseBackupOutput>;
 export type WalletType = "REGIONAL" | "INSTANCE" | (string & {});
-export const WalletType = /*@__PURE__*/ S.String;
+export const WalletType = S.String;
 
+export type WalletPasswordSource =
+  | "CUSTOMER_MANAGED_AWS_SECRET"
+  | "API_REQUEST_PARAMETER"
+  | (string & {});
+export const WalletPasswordSource = S.String;
+
+export type WalletPasswordSourceConfigurationInput = {
+  customerManagedAwsSecret: CustomerManagedAwsSecretConfigurationInput;
+};
+export const WalletPasswordSourceConfigurationInput = /*@__PURE__*/ S.Union([
+  S.Struct({
+    customerManagedAwsSecret: CustomerManagedAwsSecretConfigurationInput,
+  }),
+]);
 export interface CreateAutonomousDatabaseWalletInput {
   autonomousDatabaseId: string;
   walletType?: WalletType;
-  password: string | redacted.Redacted<string>;
+  password?: string | redacted.Redacted<string>;
+  passwordSource?: WalletPasswordSource;
+  passwordSourceConfiguration?: WalletPasswordSourceConfigurationInput;
   clientToken?: string;
 }
 export const CreateAutonomousDatabaseWalletInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     autonomousDatabaseId: S.String,
     walletType: S.optional(WalletType),
-    password: SensitiveString,
+    password: S.optional(SensitiveString),
+    passwordSource: S.optional(WalletPasswordSource),
+    passwordSourceConfiguration: S.optional(
+      WalletPasswordSourceConfigurationInput,
+    ),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -764,7 +849,7 @@ export type MonthName =
   | "NOVEMBER"
   | "DECEMBER"
   | (string & {});
-export const MonthName = /*@__PURE__*/ S.String;
+export const MonthName = S.String;
 
 export interface Month {
   name?: MonthName;
@@ -775,13 +860,13 @@ export const Month = /*@__PURE__*/ S.suspend(() =>
 export type Months = Month[];
 export const Months = /*@__PURE__*/ S.Array(Month);
 export type PatchingModeType = "ROLLING" | "NONROLLING" | (string & {});
-export const PatchingModeType = /*@__PURE__*/ S.String;
+export const PatchingModeType = S.String;
 
 export type PreferenceType =
   | "NO_PREFERENCE"
   | "CUSTOM_PREFERENCE"
   | (string & {});
-export const PreferenceType = /*@__PURE__*/ S.String;
+export const PreferenceType = S.String;
 
 export type WeeksOfMonth = number[];
 export const WeeksOfMonth = /*@__PURE__*/ S.Array(S.Number);
@@ -1010,8 +1095,127 @@ export const CreateCloudVmClusterOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateCloudVmClusterOutput",
 }) as any as S.Schema<CreateCloudVmClusterOutput>;
+export type ShapeAttribute = "SMART_STORAGE" | "BLOCK_STORAGE" | (string & {});
+export const ShapeAttribute = S.String;
+
+export interface CreateExadbVmClusterInput {
+  displayName: string;
+  enabledEcpuCount: number;
+  exascaleDbStorageVaultId: string;
+  gridImageId: string;
+  hostname: string;
+  nodeCount: number;
+  odbNetworkId: string;
+  shape: string;
+  sshPublicKeys: string[];
+  totalEcpuCount: number;
+  vmFileSystemStorageTotalSizeInGBs: number;
+  clusterName?: string;
+  dataCollectionOptions?: DataCollectionOptions;
+  licenseModel?: LicenseModel;
+  scanListenerPortTcp?: number;
+  scanListenerPortTcpSsl?: number;
+  shapeAttribute?: ShapeAttribute;
+  systemVersion?: string;
+  tags?: { [key: string]: string | undefined };
+  timeZone?: string;
+  clientToken?: string;
+}
+export const CreateExadbVmClusterInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.String,
+    enabledEcpuCount: S.Number,
+    exascaleDbStorageVaultId: S.String,
+    gridImageId: S.String,
+    hostname: S.String,
+    nodeCount: S.Number,
+    odbNetworkId: S.String,
+    shape: S.String,
+    sshPublicKeys: StringList,
+    totalEcpuCount: S.Number,
+    vmFileSystemStorageTotalSizeInGBs: S.Number,
+    clusterName: S.optional(S.String),
+    dataCollectionOptions: S.optional(DataCollectionOptions),
+    licenseModel: S.optional(LicenseModel),
+    scanListenerPortTcp: S.optional(S.Number),
+    scanListenerPortTcpSsl: S.optional(S.Number),
+    shapeAttribute: S.optional(ShapeAttribute),
+    systemVersion: S.optional(S.String),
+    tags: S.optional(RequestTagMap),
+    timeZone: S.optional(S.String),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "CreateExadbVmClusterInput",
+}) as any as S.Schema<CreateExadbVmClusterInput>;
+export interface CreateExadbVmClusterOutput {
+  displayName?: string;
+  status?: ResourceStatus;
+  statusReason?: string;
+  exadbVmClusterId: string;
+}
+export const CreateExadbVmClusterOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    status: S.optional(ResourceStatus),
+    statusReason: S.optional(S.String),
+    exadbVmClusterId: S.String,
+  }),
+).annotate({
+  identifier: "CreateExadbVmClusterOutput",
+}) as any as S.Schema<CreateExadbVmClusterOutput>;
+export interface CreateExascaleDbStorageVaultInput {
+  displayName: string;
+  highCapacityDatabaseStorageTotalSizeInGBs: number;
+  additionalFlashCacheInPercent?: number;
+  autoscaleLimitInGBs?: number;
+  availabilityZoneId?: string;
+  availabilityZone?: string;
+  description?: string;
+  isAutoscaleEnabled?: boolean;
+  tags?: { [key: string]: string | undefined };
+  timeZone?: string;
+  clientToken?: string;
+}
+export const CreateExascaleDbStorageVaultInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.String,
+    highCapacityDatabaseStorageTotalSizeInGBs: S.Number,
+    additionalFlashCacheInPercent: S.optional(S.Number),
+    autoscaleLimitInGBs: S.optional(S.Number),
+    availabilityZoneId: S.optional(S.String),
+    availabilityZone: S.optional(S.String),
+    description: S.optional(S.String),
+    isAutoscaleEnabled: S.optional(S.Boolean),
+    tags: S.optional(RequestTagMap),
+    timeZone: S.optional(S.String),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "CreateExascaleDbStorageVaultInput",
+}) as any as S.Schema<CreateExascaleDbStorageVaultInput>;
+export interface CreateExascaleDbStorageVaultOutput {
+  displayName?: string;
+  status?: ResourceStatus;
+  statusReason?: string;
+  exascaleDbStorageVaultId: string;
+}
+export const CreateExascaleDbStorageVaultOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    status: S.optional(ResourceStatus),
+    statusReason: S.optional(S.String),
+    exascaleDbStorageVaultId: S.String,
+  }),
+).annotate({
+  identifier: "CreateExascaleDbStorageVaultOutput",
+}) as any as S.Schema<CreateExascaleDbStorageVaultOutput>;
 export type Access = "ENABLED" | "DISABLED" | (string & {});
-export const Access = /*@__PURE__*/ S.String;
+export const Access = S.String;
 
 export type PolicyDocument = string;
 export interface CreateOdbNetworkInput {
@@ -1218,6 +1422,38 @@ export const DeleteCloudVmClusterOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteCloudVmClusterOutput",
 }) as any as S.Schema<DeleteCloudVmClusterOutput>;
+export interface DeleteExadbVmClusterInput {
+  exadbVmClusterId: string;
+}
+export const DeleteExadbVmClusterInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ exadbVmClusterId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteExadbVmClusterInput",
+}) as any as S.Schema<DeleteExadbVmClusterInput>;
+export interface DeleteExadbVmClusterOutput {}
+export const DeleteExadbVmClusterOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteExadbVmClusterOutput",
+}) as any as S.Schema<DeleteExadbVmClusterOutput>;
+export interface DeleteExascaleDbStorageVaultInput {
+  exascaleDbStorageVaultId: string;
+}
+export const DeleteExascaleDbStorageVaultInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ exascaleDbStorageVaultId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteExascaleDbStorageVaultInput",
+}) as any as S.Schema<DeleteExascaleDbStorageVaultInput>;
+export interface DeleteExascaleDbStorageVaultOutput {}
+export const DeleteExascaleDbStorageVaultOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteExascaleDbStorageVaultOutput",
+}) as any as S.Schema<DeleteExascaleDbStorageVaultOutput>;
 export interface DeleteOdbNetworkInput {
   odbNetworkId: string;
   deleteAssociatedResources: boolean;
@@ -1281,6 +1517,37 @@ export const DisassociateIamRoleFromResourceOutput = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "DisassociateIamRoleFromResourceOutput",
 }) as any as S.Schema<DisassociateIamRoleFromResourceOutput>;
+export type ResourceIdList = string[];
+export const ResourceIdList = /*@__PURE__*/ S.Array(S.String);
+export interface DisassociateVirtualMachinesFromExadbVmClusterInput {
+  exadbVmClusterId: string;
+  dbNodeIds: string[];
+}
+export const DisassociateVirtualMachinesFromExadbVmClusterInput =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({ exadbVmClusterId: S.String, dbNodeIds: ResourceIdList }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DisassociateVirtualMachinesFromExadbVmClusterInput",
+  }) as any as S.Schema<DisassociateVirtualMachinesFromExadbVmClusterInput>;
+export interface DisassociateVirtualMachinesFromExadbVmClusterOutput {
+  displayName?: string;
+  status?: ResourceStatus;
+  statusReason?: string;
+  exadbVmClusterId: string;
+}
+export const DisassociateVirtualMachinesFromExadbVmClusterOutput =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      displayName: S.optional(S.String),
+      status: S.optional(ResourceStatus),
+      statusReason: S.optional(S.String),
+      exadbVmClusterId: S.String,
+    }),
+  ).annotate({
+    identifier: "DisassociateVirtualMachinesFromExadbVmClusterOutput",
+  }) as any as S.Schema<DisassociateVirtualMachinesFromExadbVmClusterOutput>;
 export type ResourceArn = string;
 export interface FailoverAutonomousDatabaseInput {
   autonomousDatabaseId: string;
@@ -1325,13 +1592,13 @@ export const GetAutonomousDatabaseInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetAutonomousDatabaseInput",
 }) as any as S.Schema<GetAutonomousDatabaseInput>;
 export type DatabaseType = "REGULAR" | "CLONE" | (string & {});
-export const DatabaseType = /*@__PURE__*/ S.String;
+export const DatabaseType = S.String;
 
 export type PermissionLevel = "RESTRICTED" | "UNRESTRICTED" | (string & {});
-export const PermissionLevel = /*@__PURE__*/ S.String;
+export const PermissionLevel = S.String;
 
 export type NetServicesArchitecture = "DEDICATED" | "SHARED" | (string & {});
-export const NetServicesArchitecture = /*@__PURE__*/ S.String;
+export const NetServicesArchitecture = S.String;
 
 export type DatabaseConnectionStringMap = { [key: string]: string | undefined };
 export const DatabaseConnectionStringMap = /*@__PURE__*/ S.Record(
@@ -1442,7 +1709,7 @@ export type DataSafeStatus =
   | "NOT_REGISTERED"
   | "FAILED"
   | (string & {});
-export const DataSafeStatus = /*@__PURE__*/ S.String;
+export const DataSafeStatus = S.String;
 
 export type DatabaseManagementStatus =
   | "ENABLING"
@@ -1452,7 +1719,7 @@ export type DatabaseManagementStatus =
   | "FAILED_ENABLING"
   | "FAILED_DISABLING"
   | (string & {});
-export const DatabaseManagementStatus = /*@__PURE__*/ S.String;
+export const DatabaseManagementStatus = S.String;
 
 export type OperationsInsightsStatus =
   | "ENABLING"
@@ -1462,7 +1729,7 @@ export type OperationsInsightsStatus =
   | "FAILED_ENABLING"
   | "FAILED_DISABLING"
   | (string & {});
-export const OperationsInsightsStatus = /*@__PURE__*/ S.String;
+export const OperationsInsightsStatus = S.String;
 
 export interface AutonomousDatabaseConnectionUrls {
   apexUrl?: string;
@@ -1491,7 +1758,7 @@ export const AutonomousDatabaseConnectionUrls = /*@__PURE__*/ S.suspend(() =>
   identifier: "AutonomousDatabaseConnectionUrls",
 }) as any as S.Schema<AutonomousDatabaseConnectionUrls>;
 export type ComputeModel = "ECPU" | "OCPU" | (string & {});
-export const ComputeModel = /*@__PURE__*/ S.String;
+export const ComputeModel = S.String;
 
 export type DataGuardRole =
   | "PRIMARY"
@@ -1500,7 +1767,7 @@ export type DataGuardRole =
   | "BACKUP_COPY"
   | "SNAPSHOT_STANDBY"
   | (string & {});
-export const DataGuardRole = /*@__PURE__*/ S.String;
+export const DataGuardRole = S.String;
 
 export interface DisasterRecoveryConfiguration {
   disasterRecoveryType?: DisasterRecoveryType;
@@ -1521,7 +1788,7 @@ export const DisasterRecoveryConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "DisasterRecoveryConfiguration",
 }) as any as S.Schema<DisasterRecoveryConfiguration>;
 export type RefreshableStatus = "REFRESHING" | "NOT_REFRESHING" | (string & {});
-export const RefreshableStatus = /*@__PURE__*/ S.String;
+export const RefreshableStatus = S.String;
 
 export type RepeatCadence =
   | "ONE_TIME"
@@ -1529,7 +1796,7 @@ export type RepeatCadence =
   | "MONTHLY"
   | "YEARLY"
   | (string & {});
-export const RepeatCadence = /*@__PURE__*/ S.String;
+export const RepeatCadence = S.String;
 
 export interface LongTermBackupSchedule {
   isDisabled?: boolean;
@@ -1555,7 +1822,7 @@ export type EncryptionKeyProvider =
   | "OKV"
   | "OCI"
   | (string & {});
-export const EncryptionKeyProvider = /*@__PURE__*/ S.String;
+export const EncryptionKeyProvider = S.String;
 
 export interface AwsEncryptionKeyConfiguration {
   iamRoleArn?: string;
@@ -1631,6 +1898,41 @@ export const EncryptionSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "EncryptionSummary",
 }) as any as S.Schema<EncryptionSummary>;
+export interface CustomerManagedAwsSecretConfiguration {
+  iamRoleArn?: string;
+  secretId?: string;
+  externalIdType?: ExternalIdType;
+}
+export const CustomerManagedAwsSecretConfiguration = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      iamRoleArn: S.optional(S.String),
+      secretId: S.optional(S.String),
+      externalIdType: S.optional(ExternalIdType),
+    }),
+).annotate({
+  identifier: "CustomerManagedAwsSecretConfiguration",
+}) as any as S.Schema<CustomerManagedAwsSecretConfiguration>;
+export type AdminPasswordSourceConfiguration = {
+  customerManagedAwsSecret: CustomerManagedAwsSecretConfiguration;
+};
+export const AdminPasswordSourceConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ customerManagedAwsSecret: CustomerManagedAwsSecretConfiguration }),
+]);
+export interface AdminPasswordSourceSummary {
+  adminPasswordSource?: AdminPasswordSource;
+  adminPasswordSourceConfiguration?: AdminPasswordSourceConfiguration;
+}
+export const AdminPasswordSourceSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    adminPasswordSource: S.optional(AdminPasswordSource),
+    adminPasswordSourceConfiguration: S.optional(
+      AdminPasswordSourceConfiguration,
+    ),
+  }),
+).annotate({
+  identifier: "AdminPasswordSourceSummary",
+}) as any as S.Schema<AdminPasswordSourceSummary>;
 export interface AutonomousDatabase {
   autonomousDatabaseId?: string;
   autonomousDatabaseArn?: string;
@@ -1735,6 +2037,7 @@ export interface AutonomousDatabase {
   timeUntilReconnectCloneEnabled?: Date;
   nextLongTermBackupTimeStamp?: Date;
   timeUndeleted?: Date;
+  adminPasswordSourceSummary?: AdminPasswordSourceSummary;
 }
 export const AutonomousDatabase = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1881,6 +2184,7 @@ export const AutonomousDatabase = /*@__PURE__*/ S.suspend(() =>
     timeUndeleted: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
+    adminPasswordSourceSummary: S.optional(AdminPasswordSourceSummary),
   }),
 ).annotate({
   identifier: "AutonomousDatabase",
@@ -1914,7 +2218,7 @@ export type AutonomousDatabaseBackupStatus =
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const AutonomousDatabaseBackupStatus = /*@__PURE__*/ S.String;
+export const AutonomousDatabaseBackupStatus = S.String;
 
 export type AutonomousDatabaseBackupType =
   | "INCREMENTAL"
@@ -1924,7 +2228,7 @@ export type AutonomousDatabaseBackupType =
   | "CUMULATIVE_INCREMENTAL"
   | "ROLL_FORWARD_IMAGE_COPY"
   | (string & {});
-export const AutonomousDatabaseBackupType = /*@__PURE__*/ S.String;
+export const AutonomousDatabaseBackupType = S.String;
 
 export interface AutonomousDatabaseBackup {
   autonomousDatabaseBackupId?: string;
@@ -1993,11 +2297,30 @@ export type AutonomousDatabaseWalletStatus =
   | "ACTIVE"
   | "UPDATING"
   | (string & {});
-export const AutonomousDatabaseWalletStatus = /*@__PURE__*/ S.String;
+export const AutonomousDatabaseWalletStatus = S.String;
 
+export type WalletPasswordSourceConfiguration = {
+  customerManagedAwsSecret: CustomerManagedAwsSecretConfiguration;
+};
+export const WalletPasswordSourceConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ customerManagedAwsSecret: CustomerManagedAwsSecretConfiguration }),
+]);
+export interface WalletPasswordSourceSummary {
+  passwordSource?: WalletPasswordSource;
+  passwordSourceConfiguration?: WalletPasswordSourceConfiguration;
+}
+export const WalletPasswordSourceSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    passwordSource: S.optional(WalletPasswordSource),
+    passwordSourceConfiguration: S.optional(WalletPasswordSourceConfiguration),
+  }),
+).annotate({
+  identifier: "WalletPasswordSourceSummary",
+}) as any as S.Schema<WalletPasswordSourceSummary>;
 export interface AutonomousDatabaseWalletDetails {
   status?: AutonomousDatabaseWalletStatus;
   timeRotated?: Date;
+  passwordSourceSummary?: WalletPasswordSourceSummary;
 }
 export const AutonomousDatabaseWalletDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2005,6 +2328,7 @@ export const AutonomousDatabaseWalletDetails = /*@__PURE__*/ S.suspend(() =>
     timeRotated: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
+    passwordSourceSummary: S.optional(WalletPasswordSourceSummary),
   }),
 ).annotate({
   identifier: "AutonomousDatabaseWalletDetails",
@@ -2043,7 +2367,7 @@ export type IamRoleStatus =
   | "PARTIALLY_CONNECTED"
   | "UNKNOWN"
   | (string & {});
-export const IamRoleStatus = /*@__PURE__*/ S.String;
+export const IamRoleStatus = S.String;
 
 export interface IamRole {
   iamRoleArn?: string;
@@ -2382,7 +2706,7 @@ export const GetCloudVmClusterInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCloudVmClusterInput",
 }) as any as S.Schema<GetCloudVmClusterInput>;
 export type DiskRedundancy = "HIGH" | "NORMAL" | (string & {});
-export const DiskRedundancy = /*@__PURE__*/ S.String;
+export const DiskRedundancy = S.String;
 
 export interface DbIormConfig {
   dbName?: string;
@@ -2405,7 +2729,7 @@ export type IormLifecycleState =
   | "FAILED"
   | "UPDATING"
   | (string & {});
-export const IormLifecycleState = /*@__PURE__*/ S.String;
+export const IormLifecycleState = S.String;
 
 export type Objective =
   | "AUTO"
@@ -2414,7 +2738,7 @@ export type Objective =
   | "HIGH_THROUGHPUT"
   | "LOW_LATENCY"
   | (string & {});
-export const Objective = /*@__PURE__*/ S.String;
+export const Objective = S.String;
 
 export interface ExadataIormConfig {
   dbPlans?: DbIormConfig[];
@@ -2537,12 +2861,14 @@ export const GetCloudVmClusterOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCloudVmClusterOutput",
 }) as any as S.Schema<GetCloudVmClusterOutput>;
 export interface GetDbNodeInput {
-  cloudVmClusterId: string;
+  cloudVmClusterId?: string;
+  exadbVmClusterId?: string;
   dbNodeId: string;
 }
 export const GetDbNodeInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+    cloudVmClusterId: S.optional(S.String),
+    exadbVmClusterId: S.optional(S.String),
     dbNodeId: S.String.pipe(T.HttpLabel("dbNodeId")),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -2559,10 +2885,10 @@ export type DbNodeResourceStatus =
   | "STOPPED"
   | "STARTING"
   | (string & {});
-export const DbNodeResourceStatus = /*@__PURE__*/ S.String;
+export const DbNodeResourceStatus = S.String;
 
 export type DbNodeMaintenanceType = "VMDB_REBOOT_MIGRATION" | (string & {});
-export const DbNodeMaintenanceType = /*@__PURE__*/ S.String;
+export const DbNodeMaintenanceType = S.String;
 
 export interface DbNode {
   dbNodeId?: string;
@@ -2658,7 +2984,7 @@ export type DbServerPatchingStatus =
   | "MAINTENANCE_IN_PROGRESS"
   | "SCHEDULED"
   | (string & {});
-export const DbServerPatchingStatus = /*@__PURE__*/ S.String;
+export const DbServerPatchingStatus = S.String;
 
 export interface DbServerPatchingDetails {
   estimatedPatchDuration?: number;
@@ -2732,6 +3058,219 @@ export const GetDbServerOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetDbServerOutput",
 }) as any as S.Schema<GetDbServerOutput>;
+export interface GetExadbVmClusterInput {
+  exadbVmClusterId: string;
+}
+export const GetExadbVmClusterInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ exadbVmClusterId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetExadbVmClusterInput",
+}) as any as S.Schema<GetExadbVmClusterInput>;
+export type GridImageType = "RELEASE_UPDATE" | "CUSTOM_IMAGE" | (string & {});
+export const GridImageType = S.String;
+
+export interface ExadbVmClusterStorageDetails {
+  totalSizeInGBs?: number;
+}
+export const ExadbVmClusterStorageDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ totalSizeInGBs: S.optional(S.Number) }),
+).annotate({
+  identifier: "ExadbVmClusterStorageDetails",
+}) as any as S.Schema<ExadbVmClusterStorageDetails>;
+export interface ExadbVmCluster {
+  exadbVmClusterId: string;
+  clusterName?: string;
+  createdAt?: Date;
+  dataCollectionOptions?: DataCollectionOptions;
+  displayName?: string;
+  domain?: string;
+  enabledEcpuCount?: number;
+  exadbVmClusterArn?: string;
+  exascaleDbStorageVaultArn?: string;
+  exascaleDbStorageVaultId?: string;
+  giVersion?: string;
+  gridImageId?: string;
+  gridImageType?: GridImageType;
+  hostname?: string;
+  iamRoles?: IamRole[];
+  iormConfigCache?: ExadataIormConfig;
+  lastUpdateHistoryEntryId?: string;
+  licenseModel?: LicenseModel;
+  listenerPort?: number;
+  memorySizeInGBs?: number;
+  nodeCount?: number;
+  ocid?: string;
+  ociResourceAnchorName?: string;
+  ociUrl?: string;
+  odbNetworkArn?: string;
+  odbNetworkId?: string;
+  percentProgress?: number;
+  scanDnsName?: string;
+  scanDnsRecordId?: string;
+  scanIpIds?: string[];
+  scanListenerPortTcp?: number;
+  scanListenerPortTcpSsl?: number;
+  shape?: string;
+  shapeAttribute?: ShapeAttribute;
+  snapshotFileSystemStorage?: ExadbVmClusterStorageDetails;
+  sshPublicKeys?: string[];
+  status?: ResourceStatus;
+  statusReason?: string;
+  systemVersion?: string;
+  timeZone?: string;
+  totalEcpuCount?: number;
+  totalFileSystemStorage?: ExadbVmClusterStorageDetails;
+  vipIds?: string[];
+  vmFileSystemStorage?: ExadbVmClusterStorageDetails;
+}
+export const ExadbVmCluster = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exadbVmClusterId: S.String,
+    clusterName: S.optional(S.String),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    dataCollectionOptions: S.optional(DataCollectionOptions),
+    displayName: S.optional(S.String),
+    domain: S.optional(S.String),
+    enabledEcpuCount: S.optional(S.Number),
+    exadbVmClusterArn: S.optional(S.String),
+    exascaleDbStorageVaultArn: S.optional(S.String),
+    exascaleDbStorageVaultId: S.optional(S.String),
+    giVersion: S.optional(S.String),
+    gridImageId: S.optional(S.String),
+    gridImageType: S.optional(GridImageType),
+    hostname: S.optional(S.String),
+    iamRoles: S.optional(IamRoleList),
+    iormConfigCache: S.optional(ExadataIormConfig),
+    lastUpdateHistoryEntryId: S.optional(S.String),
+    licenseModel: S.optional(LicenseModel),
+    listenerPort: S.optional(S.Number),
+    memorySizeInGBs: S.optional(S.Number),
+    nodeCount: S.optional(S.Number),
+    ocid: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    ociUrl: S.optional(S.String),
+    odbNetworkArn: S.optional(S.String),
+    odbNetworkId: S.optional(S.String),
+    percentProgress: S.optional(S.Number),
+    scanDnsName: S.optional(S.String),
+    scanDnsRecordId: S.optional(S.String),
+    scanIpIds: S.optional(StringList),
+    scanListenerPortTcp: S.optional(S.Number),
+    scanListenerPortTcpSsl: S.optional(S.Number),
+    shape: S.optional(S.String),
+    shapeAttribute: S.optional(ShapeAttribute),
+    snapshotFileSystemStorage: S.optional(ExadbVmClusterStorageDetails),
+    sshPublicKeys: S.optional(StringList),
+    status: S.optional(ResourceStatus),
+    statusReason: S.optional(S.String),
+    systemVersion: S.optional(S.String),
+    timeZone: S.optional(S.String),
+    totalEcpuCount: S.optional(S.Number),
+    totalFileSystemStorage: S.optional(ExadbVmClusterStorageDetails),
+    vipIds: S.optional(StringList),
+    vmFileSystemStorage: S.optional(ExadbVmClusterStorageDetails),
+  }),
+).annotate({ identifier: "ExadbVmCluster" }) as any as S.Schema<ExadbVmCluster>;
+export interface GetExadbVmClusterOutput {
+  exadbVmCluster: ExadbVmCluster;
+}
+export const GetExadbVmClusterOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ exadbVmCluster: ExadbVmCluster }),
+).annotate({
+  identifier: "GetExadbVmClusterOutput",
+}) as any as S.Schema<GetExadbVmClusterOutput>;
+export interface GetExascaleDbStorageVaultInput {
+  exascaleDbStorageVaultId: string;
+}
+export const GetExascaleDbStorageVaultInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ exascaleDbStorageVaultId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetExascaleDbStorageVaultInput",
+}) as any as S.Schema<GetExascaleDbStorageVaultInput>;
+export type ShapeAttributeList = ShapeAttribute[];
+export const ShapeAttributeList = /*@__PURE__*/ S.Array(ShapeAttribute);
+export type ResourceArnList = string[];
+export const ResourceArnList = /*@__PURE__*/ S.Array(S.String);
+export interface ExascaleDbStorageDetails {
+  availableSizeInGBs?: number;
+  totalSizeInGBs?: number;
+}
+export const ExascaleDbStorageDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    availableSizeInGBs: S.optional(S.Number),
+    totalSizeInGBs: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ExascaleDbStorageDetails",
+}) as any as S.Schema<ExascaleDbStorageDetails>;
+export interface ExascaleDbStorageVault {
+  exascaleDbStorageVaultId: string;
+  additionalFlashCacheInPercent?: number;
+  attachedShapeAttributes?: ShapeAttribute[];
+  autoscaleLimitInGBs?: number;
+  availabilityZone?: string;
+  availabilityZoneId?: string;
+  createdAt?: Date;
+  description?: string;
+  displayName?: string;
+  vmClusterArns?: string[];
+  vmClusterCount?: number;
+  vmClusterIds?: string[];
+  exascaleDbStorageVaultArn?: string;
+  highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
+  isAutoscaleEnabled?: boolean;
+  ocid?: string;
+  ociResourceAnchorName?: string;
+  ociUrl?: string;
+  percentProgress?: number;
+  status?: ResourceStatus;
+  statusReason?: string;
+  timeZone?: string;
+}
+export const ExascaleDbStorageVault = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exascaleDbStorageVaultId: S.String,
+    additionalFlashCacheInPercent: S.optional(S.Number),
+    attachedShapeAttributes: S.optional(ShapeAttributeList),
+    autoscaleLimitInGBs: S.optional(S.Number),
+    availabilityZone: S.optional(S.String),
+    availabilityZoneId: S.optional(S.String),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    description: S.optional(S.String),
+    displayName: S.optional(S.String),
+    vmClusterArns: S.optional(ResourceArnList),
+    vmClusterCount: S.optional(S.Number),
+    vmClusterIds: S.optional(ResourceIdList),
+    exascaleDbStorageVaultArn: S.optional(S.String),
+    highCapacityDatabaseStorage: S.optional(ExascaleDbStorageDetails),
+    isAutoscaleEnabled: S.optional(S.Boolean),
+    ocid: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    ociUrl: S.optional(S.String),
+    percentProgress: S.optional(S.Number),
+    status: S.optional(ResourceStatus),
+    statusReason: S.optional(S.String),
+    timeZone: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ExascaleDbStorageVault",
+}) as any as S.Schema<ExascaleDbStorageVault>;
+export interface GetExascaleDbStorageVaultOutput {
+  exascaleDbStorageVault: ExascaleDbStorageVault;
+}
+export const GetExascaleDbStorageVaultOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ exascaleDbStorageVault: ExascaleDbStorageVault }),
+).annotate({
+  identifier: "GetExascaleDbStorageVaultOutput",
+}) as any as S.Schema<GetExascaleDbStorageVaultOutput>;
 export interface GetOciOnboardingStatusInput {}
 export const GetOciOnboardingStatusInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
@@ -2754,7 +3293,7 @@ export type OciOnboardingStatus =
   | "SUSPENDED"
   | "CANCELED"
   | (string & {});
-export const OciOnboardingStatus = /*@__PURE__*/ S.String;
+export const OciOnboardingStatus = S.String;
 
 export interface OciIdentityDomain {
   ociIdentityDomainId?: string;
@@ -2776,17 +3315,30 @@ export const OciIdentityDomain = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "OciIdentityDomain",
 }) as any as S.Schema<OciIdentityDomain>;
-export type OciAwsIntegration = "KmsTde" | (string & {});
-export const OciAwsIntegration = /*@__PURE__*/ S.String;
+export type OciAwsIntegration = "KmsTde" | "SecretsManager" | (string & {});
+export const OciAwsIntegration = S.String;
+
+export type OciIamRoleStatus =
+  | "PROVISIONING"
+  | "AVAILABLE"
+  | "PROVISION_FAILED"
+  | "TERMINATING"
+  | "TERMINATE_FAILED"
+  | (string & {});
+export const OciIamRoleStatus = S.String;
 
 export interface OciIamRole {
   iamRoleArn?: string;
   awsIntegration?: OciAwsIntegration;
+  status?: OciIamRoleStatus;
+  statusReason?: string;
 }
 export const OciIamRole = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamRoleArn: S.optional(S.String),
     awsIntegration: S.optional(OciAwsIntegration),
+    status: S.optional(OciIamRoleStatus),
+    statusReason: S.optional(S.String),
   }),
 ).annotate({ identifier: "OciIamRole" }) as any as S.Schema<OciIamRole>;
 export type OciIamRoleList = OciIamRole[];
@@ -2852,7 +3404,7 @@ export const OciDnsForwardingConfigList = /*@__PURE__*/ S.Array(
   OciDnsForwardingConfig,
 );
 export type VpcEndpointType = "SERVICENETWORK" | (string & {});
-export const VpcEndpointType = /*@__PURE__*/ S.String;
+export const VpcEndpointType = S.String;
 
 export interface ServiceNetworkEndpoint {
   vpcEndpointId?: string;
@@ -2872,7 +3424,7 @@ export type ManagedResourceStatus =
   | "DISABLED"
   | "DISABLING"
   | (string & {});
-export const ManagedResourceStatus = /*@__PURE__*/ S.String;
+export const ManagedResourceStatus = S.String;
 
 export interface ManagedS3BackupAccess {
   status?: ManagedResourceStatus;
@@ -2987,8 +3539,6 @@ export const ManagedServices = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ManagedServices",
 }) as any as S.Schema<ManagedServices>;
-export type ResourceIdList = string[];
-export const ResourceIdList = /*@__PURE__*/ S.Array(S.String);
 export interface OdbNetwork {
   odbNetworkId: string;
   displayName?: string;
@@ -3105,9 +3655,13 @@ export const GetOdbPeeringConnectionOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetOdbPeeringConnectionOutput>;
 export interface InitializeServiceInput {
   ociIdentityDomain?: boolean;
+  autonomousDatabaseOciAwsSecretsManagerIntegration?: Access;
 }
 export const InitializeServiceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ociIdentityDomain: S.optional(S.Boolean) }).pipe(
+  S.Struct({
+    ociIdentityDomain: S.optional(S.Boolean),
+    autonomousDatabaseOciAwsSecretsManagerIntegration: S.optional(Access),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -3200,7 +3754,7 @@ export const ListAutonomousDatabaseBackupsOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListAutonomousDatabaseBackupsOutput",
 }) as any as S.Schema<ListAutonomousDatabaseBackupsOutput>;
 export type CharacterSetType = "DATABASE" | "NATIONAL" | (string & {});
-export const CharacterSetType = /*@__PURE__*/ S.String;
+export const CharacterSetType = S.String;
 
 export interface ListAutonomousDatabaseCharacterSetsInput {
   maxResults?: number;
@@ -3365,6 +3919,7 @@ export interface AutonomousDatabaseSummary {
   timeUntilReconnectCloneEnabled?: Date;
   nextLongTermBackupTimeStamp?: Date;
   timeUndeleted?: Date;
+  adminPasswordSourceSummary?: AdminPasswordSourceSummary;
 }
 export const AutonomousDatabaseSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3511,6 +4066,7 @@ export const AutonomousDatabaseSummary = /*@__PURE__*/ S.suspend(() =>
     timeUndeleted: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
+    adminPasswordSourceSummary: S.optional(AdminPasswordSourceSummary),
   }),
 ).annotate({
   identifier: "AutonomousDatabaseSummary",
@@ -4118,13 +4674,15 @@ export const ListCloudVmClustersOutput = /*@__PURE__*/ S.suspend(() =>
 export interface ListDbNodesInput {
   maxResults?: number;
   nextToken?: string;
-  cloudVmClusterId: string;
+  cloudVmClusterId?: string;
+  exadbVmClusterId?: string;
 }
 export const ListDbNodesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+    cloudVmClusterId: S.optional(S.String),
+    exadbVmClusterId: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -4286,6 +4844,7 @@ export interface ListDbSystemShapesInput {
   nextToken?: string;
   availabilityZone?: string;
   availabilityZoneId?: string;
+  shapeFamily?: string;
 }
 export const ListDbSystemShapesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4293,6 +4852,7 @@ export const ListDbSystemShapesInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     availabilityZone: S.optional(S.String),
     availabilityZoneId: S.optional(S.String),
+    shapeFamily: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -4305,7 +4865,7 @@ export type ShapeType =
   | "INTEL_FLEX_X9"
   | "AMPERE_FLEX_A1"
   | (string & {});
-export const ShapeType = /*@__PURE__*/ S.String;
+export const ShapeType = S.String;
 
 export interface DbSystemShapeSummary {
   availableCoreCount?: number;
@@ -4329,6 +4889,7 @@ export interface DbSystemShapeSummary {
   runtimeMinimumCoreCount?: number;
   shapeFamily?: string;
   shapeType?: ShapeType;
+  shapeAttributes?: ShapeAttribute[];
   name?: string;
   computeModel?: ComputeModel;
   areServerTypesSupported?: boolean;
@@ -4356,6 +4917,7 @@ export const DbSystemShapeSummary = /*@__PURE__*/ S.suspend(() =>
     runtimeMinimumCoreCount: S.optional(S.Number),
     shapeFamily: S.optional(S.String),
     shapeType: S.optional(ShapeType),
+    shapeAttributes: S.optional(ShapeAttributeList),
     name: S.optional(S.String),
     computeModel: S.optional(ComputeModel),
     areServerTypesSupported: S.optional(S.Boolean),
@@ -4377,6 +4939,265 @@ export const ListDbSystemShapesOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListDbSystemShapesOutput",
 }) as any as S.Schema<ListDbSystemShapesOutput>;
+export interface ListExadbVmClustersInput {
+  exascaleDbStorageVaultId?: string;
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListExadbVmClustersInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exascaleDbStorageVaultId: S.optional(S.String).pipe(
+      T.HttpQuery("exascaleDbStorageVaultId"),
+    ),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListExadbVmClustersInput",
+}) as any as S.Schema<ListExadbVmClustersInput>;
+export interface ExadbVmClusterSummary {
+  exadbVmClusterId: string;
+  clusterName?: string;
+  createdAt?: Date;
+  dataCollectionOptions?: DataCollectionOptions;
+  displayName?: string;
+  domain?: string;
+  enabledEcpuCount?: number;
+  exadbVmClusterArn?: string;
+  exascaleDbStorageVaultArn?: string;
+  exascaleDbStorageVaultId?: string;
+  giVersion?: string;
+  gridImageId?: string;
+  gridImageType?: GridImageType;
+  hostname?: string;
+  iamRoles?: IamRole[];
+  iormConfigCache?: ExadataIormConfig;
+  lastUpdateHistoryEntryId?: string;
+  licenseModel?: LicenseModel;
+  listenerPort?: number;
+  memorySizeInGBs?: number;
+  nodeCount?: number;
+  ocid?: string;
+  ociResourceAnchorName?: string;
+  ociUrl?: string;
+  odbNetworkArn?: string;
+  odbNetworkId?: string;
+  percentProgress?: number;
+  scanDnsName?: string;
+  scanDnsRecordId?: string;
+  scanIpIds?: string[];
+  scanListenerPortTcp?: number;
+  scanListenerPortTcpSsl?: number;
+  shape?: string;
+  shapeAttribute?: ShapeAttribute;
+  snapshotFileSystemStorage?: ExadbVmClusterStorageDetails;
+  sshPublicKeys?: string[];
+  status?: ResourceStatus;
+  statusReason?: string;
+  systemVersion?: string;
+  timeZone?: string;
+  totalEcpuCount?: number;
+  totalFileSystemStorage?: ExadbVmClusterStorageDetails;
+  vipIds?: string[];
+  vmFileSystemStorage?: ExadbVmClusterStorageDetails;
+}
+export const ExadbVmClusterSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exadbVmClusterId: S.String,
+    clusterName: S.optional(S.String),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    dataCollectionOptions: S.optional(DataCollectionOptions),
+    displayName: S.optional(S.String),
+    domain: S.optional(S.String),
+    enabledEcpuCount: S.optional(S.Number),
+    exadbVmClusterArn: S.optional(S.String),
+    exascaleDbStorageVaultArn: S.optional(S.String),
+    exascaleDbStorageVaultId: S.optional(S.String),
+    giVersion: S.optional(S.String),
+    gridImageId: S.optional(S.String),
+    gridImageType: S.optional(GridImageType),
+    hostname: S.optional(S.String),
+    iamRoles: S.optional(IamRoleList),
+    iormConfigCache: S.optional(ExadataIormConfig),
+    lastUpdateHistoryEntryId: S.optional(S.String),
+    licenseModel: S.optional(LicenseModel),
+    listenerPort: S.optional(S.Number),
+    memorySizeInGBs: S.optional(S.Number),
+    nodeCount: S.optional(S.Number),
+    ocid: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    ociUrl: S.optional(S.String),
+    odbNetworkArn: S.optional(S.String),
+    odbNetworkId: S.optional(S.String),
+    percentProgress: S.optional(S.Number),
+    scanDnsName: S.optional(S.String),
+    scanDnsRecordId: S.optional(S.String),
+    scanIpIds: S.optional(StringList),
+    scanListenerPortTcp: S.optional(S.Number),
+    scanListenerPortTcpSsl: S.optional(S.Number),
+    shape: S.optional(S.String),
+    shapeAttribute: S.optional(ShapeAttribute),
+    snapshotFileSystemStorage: S.optional(ExadbVmClusterStorageDetails),
+    sshPublicKeys: S.optional(StringList),
+    status: S.optional(ResourceStatus),
+    statusReason: S.optional(S.String),
+    systemVersion: S.optional(S.String),
+    timeZone: S.optional(S.String),
+    totalEcpuCount: S.optional(S.Number),
+    totalFileSystemStorage: S.optional(ExadbVmClusterStorageDetails),
+    vipIds: S.optional(StringList),
+    vmFileSystemStorage: S.optional(ExadbVmClusterStorageDetails),
+  }),
+).annotate({
+  identifier: "ExadbVmClusterSummary",
+}) as any as S.Schema<ExadbVmClusterSummary>;
+export type ExadbVmClusterList = ExadbVmClusterSummary[];
+export const ExadbVmClusterList = /*@__PURE__*/ S.Array(ExadbVmClusterSummary);
+export interface ListExadbVmClustersOutput {
+  nextToken?: string;
+  exadbVmClusters: ExadbVmClusterSummary[];
+}
+export const ListExadbVmClustersOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    exadbVmClusters: ExadbVmClusterList,
+  }),
+).annotate({
+  identifier: "ListExadbVmClustersOutput",
+}) as any as S.Schema<ListExadbVmClustersOutput>;
+export interface ListExascaleDbStorageVaultsInput {
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListExascaleDbStorageVaultsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListExascaleDbStorageVaultsInput",
+}) as any as S.Schema<ListExascaleDbStorageVaultsInput>;
+export interface ExascaleDbStorageVaultSummary {
+  exascaleDbStorageVaultId: string;
+  additionalFlashCacheInPercent?: number;
+  attachedShapeAttributes?: ShapeAttribute[];
+  autoscaleLimitInGBs?: number;
+  availabilityZone?: string;
+  availabilityZoneId?: string;
+  createdAt?: Date;
+  description?: string;
+  displayName?: string;
+  vmClusterArns?: string[];
+  vmClusterCount?: number;
+  vmClusterIds?: string[];
+  exascaleDbStorageVaultArn?: string;
+  highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
+  isAutoscaleEnabled?: boolean;
+  ocid?: string;
+  ociResourceAnchorName?: string;
+  ociUrl?: string;
+  percentProgress?: number;
+  status?: ResourceStatus;
+  statusReason?: string;
+  timeZone?: string;
+}
+export const ExascaleDbStorageVaultSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exascaleDbStorageVaultId: S.String,
+    additionalFlashCacheInPercent: S.optional(S.Number),
+    attachedShapeAttributes: S.optional(ShapeAttributeList),
+    autoscaleLimitInGBs: S.optional(S.Number),
+    availabilityZone: S.optional(S.String),
+    availabilityZoneId: S.optional(S.String),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    description: S.optional(S.String),
+    displayName: S.optional(S.String),
+    vmClusterArns: S.optional(ResourceArnList),
+    vmClusterCount: S.optional(S.Number),
+    vmClusterIds: S.optional(ResourceIdList),
+    exascaleDbStorageVaultArn: S.optional(S.String),
+    highCapacityDatabaseStorage: S.optional(ExascaleDbStorageDetails),
+    isAutoscaleEnabled: S.optional(S.Boolean),
+    ocid: S.optional(S.String),
+    ociResourceAnchorName: S.optional(S.String),
+    ociUrl: S.optional(S.String),
+    percentProgress: S.optional(S.Number),
+    status: S.optional(ResourceStatus),
+    statusReason: S.optional(S.String),
+    timeZone: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ExascaleDbStorageVaultSummary",
+}) as any as S.Schema<ExascaleDbStorageVaultSummary>;
+export type ExascaleDbStorageVaultList = ExascaleDbStorageVaultSummary[];
+export const ExascaleDbStorageVaultList = /*@__PURE__*/ S.Array(
+  ExascaleDbStorageVaultSummary,
+);
+export interface ListExascaleDbStorageVaultsOutput {
+  nextToken?: string;
+  exascaleDbStorageVaults: ExascaleDbStorageVaultSummary[];
+}
+export const ListExascaleDbStorageVaultsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    exascaleDbStorageVaults: ExascaleDbStorageVaultList,
+  }),
+).annotate({
+  identifier: "ListExascaleDbStorageVaultsOutput",
+}) as any as S.Schema<ListExascaleDbStorageVaultsOutput>;
+export interface ListGiMinorVersionsInput {
+  giVersion: string;
+  maxResults?: number;
+  nextToken?: string;
+  shapeFamily?: string;
+  availabilityZone?: string;
+  availabilityZoneId?: string;
+}
+export const ListGiMinorVersionsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    giVersion: S.String,
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+    shapeFamily: S.optional(S.String),
+    availabilityZone: S.optional(S.String),
+    availabilityZoneId: S.optional(S.String),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListGiMinorVersionsInput",
+}) as any as S.Schema<ListGiMinorVersionsInput>;
+export interface GiMinorVersionSummary {
+  version: string;
+  gridImageId?: string;
+}
+export const GiMinorVersionSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ version: S.String, gridImageId: S.optional(S.String) }),
+).annotate({
+  identifier: "GiMinorVersionSummary",
+}) as any as S.Schema<GiMinorVersionSummary>;
+export type GiMinorVersionList = GiMinorVersionSummary[];
+export const GiMinorVersionList = /*@__PURE__*/ S.Array(GiMinorVersionSummary);
+export interface ListGiMinorVersionsOutput {
+  nextToken?: string;
+  giMinorVersions: GiMinorVersionSummary[];
+}
+export const ListGiMinorVersionsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    giMinorVersions: GiMinorVersionList,
+  }),
+).annotate({
+  identifier: "ListGiMinorVersionsOutput",
+}) as any as S.Schema<ListGiMinorVersionsOutput>;
 export interface ListGiVersionsInput {
   maxResults?: number;
   nextToken?: string;
@@ -4655,12 +5476,14 @@ export const RebootAutonomousDatabaseOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "RebootAutonomousDatabaseOutput",
 }) as any as S.Schema<RebootAutonomousDatabaseOutput>;
 export interface RebootDbNodeInput {
-  cloudVmClusterId: string;
+  cloudVmClusterId?: string;
+  exadbVmClusterId?: string;
   dbNodeId: string;
 }
 export const RebootDbNodeInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+    cloudVmClusterId: S.optional(S.String),
+    exadbVmClusterId: S.optional(S.String),
     dbNodeId: S.String.pipe(T.HttpLabel("dbNodeId")),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -4765,12 +5588,14 @@ export const StartAutonomousDatabaseOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartAutonomousDatabaseOutput",
 }) as any as S.Schema<StartAutonomousDatabaseOutput>;
 export interface StartDbNodeInput {
-  cloudVmClusterId: string;
+  cloudVmClusterId?: string;
+  exadbVmClusterId?: string;
   dbNodeId: string;
 }
 export const StartDbNodeInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+    cloudVmClusterId: S.optional(S.String),
+    exadbVmClusterId: S.optional(S.String),
     dbNodeId: S.String.pipe(T.HttpLabel("dbNodeId")),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -4819,12 +5644,14 @@ export const StopAutonomousDatabaseOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopAutonomousDatabaseOutput",
 }) as any as S.Schema<StopAutonomousDatabaseOutput>;
 export interface StopDbNodeInput {
-  cloudVmClusterId: string;
+  cloudVmClusterId?: string;
+  exadbVmClusterId?: string;
   dbNodeId: string;
 }
 export const StopDbNodeInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+    cloudVmClusterId: S.optional(S.String),
+    exadbVmClusterId: S.optional(S.String),
     dbNodeId: S.String.pipe(T.HttpLabel("dbNodeId")),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -4959,6 +5786,8 @@ export interface UpdateAutonomousDatabaseInput {
   timeOfAutoRefreshStart?: Date;
   encryptionKeyProvider?: EncryptionKeyProviderInput;
   encryptionKeyConfiguration?: EncryptionKeyConfigurationInput;
+  adminPasswordSource?: AdminPasswordSource;
+  adminPasswordSourceConfiguration?: AdminPasswordSourceConfigurationInput;
 }
 export const UpdateAutonomousDatabaseInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5009,6 +5838,10 @@ export const UpdateAutonomousDatabaseInput = /*@__PURE__*/ S.suspend(() =>
     ),
     encryptionKeyProvider: S.optional(EncryptionKeyProviderInput),
     encryptionKeyConfiguration: S.optional(EncryptionKeyConfigurationInput),
+    adminPasswordSource: S.optional(AdminPasswordSource),
+    adminPasswordSourceConfiguration: S.optional(
+      AdminPasswordSourceConfigurationInput,
+    ),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -5098,6 +5931,102 @@ export const UpdateCloudExadataInfrastructureOutput = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "UpdateCloudExadataInfrastructureOutput",
 }) as any as S.Schema<UpdateCloudExadataInfrastructureOutput>;
+export type UpdateAction =
+  | "ROLLING_APPLY"
+  | "NON_ROLLING_APPLY"
+  | "PRECHECK"
+  | "ROLLBACK"
+  | (string & {});
+export const UpdateAction = S.String;
+
+export interface UpdateExadbVmClusterInput {
+  exadbVmClusterId: string;
+  dataCollectionOptions?: DataCollectionOptions;
+  displayName?: string;
+  enabledEcpuCount?: number;
+  gridImageId?: string;
+  licenseModel?: LicenseModel;
+  sshPublicKeys?: string[];
+  systemVersion?: string;
+  totalEcpuCount?: number;
+  updateAction?: UpdateAction;
+  vmFileSystemStorageTotalSizeInGBs?: number;
+}
+export const UpdateExadbVmClusterInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exadbVmClusterId: S.String,
+    dataCollectionOptions: S.optional(DataCollectionOptions),
+    displayName: S.optional(S.String),
+    enabledEcpuCount: S.optional(S.Number),
+    gridImageId: S.optional(S.String),
+    licenseModel: S.optional(LicenseModel),
+    sshPublicKeys: S.optional(StringList),
+    systemVersion: S.optional(S.String),
+    totalEcpuCount: S.optional(S.Number),
+    updateAction: S.optional(UpdateAction),
+    vmFileSystemStorageTotalSizeInGBs: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UpdateExadbVmClusterInput",
+}) as any as S.Schema<UpdateExadbVmClusterInput>;
+export interface UpdateExadbVmClusterOutput {
+  displayName?: string;
+  status?: ResourceStatus;
+  statusReason?: string;
+  exadbVmClusterId: string;
+}
+export const UpdateExadbVmClusterOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    status: S.optional(ResourceStatus),
+    statusReason: S.optional(S.String),
+    exadbVmClusterId: S.String,
+  }),
+).annotate({
+  identifier: "UpdateExadbVmClusterOutput",
+}) as any as S.Schema<UpdateExadbVmClusterOutput>;
+export interface UpdateExascaleDbStorageVaultInput {
+  exascaleDbStorageVaultId: string;
+  additionalFlashCacheInPercent?: number;
+  autoscaleLimitInGBs?: number;
+  description?: string;
+  displayName?: string;
+  highCapacityDatabaseStorageTotalSizeInGBs?: number;
+  isAutoscaleEnabled?: boolean;
+}
+export const UpdateExascaleDbStorageVaultInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exascaleDbStorageVaultId: S.String,
+    additionalFlashCacheInPercent: S.optional(S.Number),
+    autoscaleLimitInGBs: S.optional(S.Number),
+    description: S.optional(S.String),
+    displayName: S.optional(S.String),
+    highCapacityDatabaseStorageTotalSizeInGBs: S.optional(S.Number),
+    isAutoscaleEnabled: S.optional(S.Boolean),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "UpdateExascaleDbStorageVaultInput",
+}) as any as S.Schema<UpdateExascaleDbStorageVaultInput>;
+export interface UpdateExascaleDbStorageVaultOutput {
+  displayName?: string;
+  status?: ResourceStatus;
+  statusReason?: string;
+  exascaleDbStorageVaultId: string;
+}
+export const UpdateExascaleDbStorageVaultOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    status: S.optional(ResourceStatus),
+    statusReason: S.optional(S.String),
+    exascaleDbStorageVaultId: S.String,
+  }),
+).annotate({
+  identifier: "UpdateExascaleDbStorageVaultOutput",
+}) as any as S.Schema<UpdateExascaleDbStorageVaultOutput>;
 export interface UpdateOdbNetworkInput {
   odbNetworkId: string;
   displayName?: string;
@@ -5192,7 +6121,7 @@ export type ValidationExceptionReason =
   | "fieldValidationFailed"
   | "other"
   | (string & {});
-export const ValidationExceptionReason = /*@__PURE__*/ S.String;
+export const ValidationExceptionReason = S.String;
 
 export interface ValidationExceptionField {
   name: string;
@@ -5267,6 +6196,40 @@ export const associateIamRoleToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateIamRoleToResource",
+}));
+
+export type AssociateVirtualMachinesToExadbVmClusterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Adds virtual machines to the specified Exascale VM cluster.
+ */
+export const associateVirtualMachinesToExadbVmCluster: API.OperationMethod<
+  AssociateVirtualMachinesToExadbVmClusterInput,
+  AssociateVirtualMachinesToExadbVmClusterOutput,
+  AssociateVirtualMachinesToExadbVmClusterError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: AssociateVirtualMachinesToExadbVmClusterInput,
+  output: AssociateVirtualMachinesToExadbVmClusterOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "AssociateVirtualMachinesToExadbVmCluster",
 }));
 
 export type CreateAutonomousDatabaseError =
@@ -5465,6 +6428,72 @@ export const createCloudVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudVmCluster",
+}));
+
+export type CreateExadbVmClusterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an Exascale VM cluster.
+ */
+export const createExadbVmCluster: API.OperationMethod<
+  CreateExadbVmClusterInput,
+  CreateExadbVmClusterOutput,
+  CreateExadbVmClusterError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateExadbVmClusterInput,
+  output: CreateExadbVmClusterOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateExadbVmCluster",
+}));
+
+export type CreateExascaleDbStorageVaultError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an Exascale storage vault.
+ */
+export const createExascaleDbStorageVault: API.OperationMethod<
+  CreateExascaleDbStorageVaultInput,
+  CreateExascaleDbStorageVaultOutput,
+  CreateExascaleDbStorageVaultError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateExascaleDbStorageVaultInput,
+  output: CreateExascaleDbStorageVaultOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateExascaleDbStorageVault",
 }));
 
 export type CreateOdbNetworkError =
@@ -5689,6 +6718,70 @@ export const deleteCloudVmCluster: API.OperationMethod<
   operationName: "DeleteCloudVmCluster",
 }));
 
+export type DeleteExadbVmClusterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes the specified Exascale VM cluster.
+ */
+export const deleteExadbVmCluster: API.OperationMethod<
+  DeleteExadbVmClusterInput,
+  DeleteExadbVmClusterOutput,
+  DeleteExadbVmClusterError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteExadbVmClusterInput,
+  output: DeleteExadbVmClusterOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteExadbVmCluster",
+}));
+
+export type DeleteExascaleDbStorageVaultError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes the specified Exascale storage vault.
+ */
+export const deleteExascaleDbStorageVault: API.OperationMethod<
+  DeleteExascaleDbStorageVaultInput,
+  DeleteExascaleDbStorageVaultOutput,
+  DeleteExascaleDbStorageVaultError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteExascaleDbStorageVaultInput,
+  output: DeleteExascaleDbStorageVaultOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteExascaleDbStorageVault",
+}));
+
 export type DeleteOdbNetworkError =
   | AccessDeniedException
   | InternalServerException
@@ -5781,6 +6874,38 @@ export const disassociateIamRoleFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateIamRoleFromResource",
+}));
+
+export type DisassociateVirtualMachinesFromExadbVmClusterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Removes virtual machines from the specified Exascale VM cluster.
+ */
+export const disassociateVirtualMachinesFromExadbVmCluster: API.OperationMethod<
+  DisassociateVirtualMachinesFromExadbVmClusterInput,
+  DisassociateVirtualMachinesFromExadbVmClusterOutput,
+  DisassociateVirtualMachinesFromExadbVmClusterError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DisassociateVirtualMachinesFromExadbVmClusterInput,
+  output: DisassociateVirtualMachinesFromExadbVmClusterOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DisassociateVirtualMachinesFromExadbVmCluster",
 }));
 
 export type FailoverAutonomousDatabaseError =
@@ -6083,6 +7208,66 @@ export const getDbServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbServer",
+}));
+
+export type GetExadbVmClusterError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns information about the specified Exascale VM cluster.
+ */
+export const getExadbVmCluster: API.OperationMethod<
+  GetExadbVmClusterInput,
+  GetExadbVmClusterOutput,
+  GetExadbVmClusterError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetExadbVmClusterInput,
+  output: GetExadbVmClusterOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetExadbVmCluster",
+}));
+
+export type GetExascaleDbStorageVaultError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns information about the specified Exascale storage vault.
+ */
+export const getExascaleDbStorageVault: API.OperationMethod<
+  GetExascaleDbStorageVaultInput,
+  GetExascaleDbStorageVaultOutput,
+  GetExascaleDbStorageVaultError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetExascaleDbStorageVaultInput,
+  output: GetExascaleDbStorageVaultOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetExascaleDbStorageVault",
 }));
 
 export type GetOciOnboardingStatusError =
@@ -6672,6 +7857,113 @@ export const listDbSystemShapes: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type ListExadbVmClustersError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns information about the Exascale VM clusters owned by your Amazon Web Services account.
+ */
+export const listExadbVmClusters: API.PaginatedOperationMethod<
+  ListExadbVmClustersInput,
+  ListExadbVmClustersOutput,
+  ListExadbVmClustersError,
+  Credentials | HttpClient.HttpClient,
+  ExadbVmClusterSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListExadbVmClustersInput,
+  output: ListExadbVmClustersOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListExadbVmClusters",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "exadbVmClusters",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListExascaleDbStorageVaultsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns information about the Exascale storage vaults owned by your Amazon Web Services account.
+ */
+export const listExascaleDbStorageVaults: API.PaginatedOperationMethod<
+  ListExascaleDbStorageVaultsInput,
+  ListExascaleDbStorageVaultsOutput,
+  ListExascaleDbStorageVaultsError,
+  Credentials | HttpClient.HttpClient,
+  ExascaleDbStorageVaultSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListExascaleDbStorageVaultsInput,
+  output: ListExascaleDbStorageVaultsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListExascaleDbStorageVaults",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "exascaleDbStorageVaults",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListGiMinorVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns a list of the Oracle Grid Infrastructure (GI) minor versions for the specified major version.
+ */
+export const listGiMinorVersions: API.PaginatedOperationMethod<
+  ListGiMinorVersionsInput,
+  ListGiMinorVersionsOutput,
+  ListGiMinorVersionsError,
+  Credentials | HttpClient.HttpClient,
+  GiMinorVersionSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListGiMinorVersionsInput,
+  output: ListGiMinorVersionsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListGiMinorVersions",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "giMinorVersions",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
 export type ListGiVersionsError =
   | AccessDeniedException
   | InternalServerException
@@ -7249,6 +8541,70 @@ export const updateCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudExadataInfrastructure",
+}));
+
+export type UpdateExadbVmClusterError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the specified Exascale VM cluster.
+ */
+export const updateExadbVmCluster: API.OperationMethod<
+  UpdateExadbVmClusterInput,
+  UpdateExadbVmClusterOutput,
+  UpdateExadbVmClusterError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateExadbVmClusterInput,
+  output: UpdateExadbVmClusterOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateExadbVmCluster",
+}));
+
+export type UpdateExascaleDbStorageVaultError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the specified Exascale storage vault.
+ */
+export const updateExascaleDbStorageVault: API.OperationMethod<
+  UpdateExascaleDbStorageVaultInput,
+  UpdateExascaleDbStorageVaultOutput,
+  UpdateExascaleDbStorageVaultError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateExascaleDbStorageVaultInput,
+  output: UpdateExascaleDbStorageVaultOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateExascaleDbStorageVault",
 }));
 
 export type UpdateOdbNetworkError =

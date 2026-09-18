@@ -2008,7 +2008,11 @@ export const AgentApplicationsRevisionsCreateRequestSpecModelsCase0 =
 
 /** Per-model reasoning effort override (else the spec default). */
 export type AgentApplicationsRevisionsCreateRequestSpecModelsCase1ModelsItemReasoning =
-  "minimal" | "low" | "medium" | "high" | "xhigh";
+  | "minimal"
+  | "low"
+  | "medium"
+  | "high"
+  | "xhigh";
 export const AgentApplicationsRevisionsCreateRequestSpecModelsCase1ModelsItemReasoning =
   /*@__PURE__*/ S.String;
 
@@ -2085,8 +2089,8 @@ export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase0ConfigT
   ) as any as S.Schema<AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase0ConfigTrustedWorkspacesCase0List>;
 
 export type AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase0ConfigTrustedWorkspaces =
-    | AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase0ConfigTrustedWorkspacesCase0List
-    | string;
+  | AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase0ConfigTrustedWorkspacesCase0List
+  | string;
 export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase0ConfigTrustedWorkspaces =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase0ConfigTrustedWorkspaces>;
 
@@ -2149,7 +2153,8 @@ export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase1AuthMod
   ) as any as S.Schema<AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase1AuthModesItemCase1ScopesList>;
 
 export type AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase1AuthModesItemCase1Audience =
-  "project" | "organization";
+  | "project"
+  | "organization";
 export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase1AuthModesItemCase1Audience =
   /*@__PURE__*/ S.String;
 
@@ -2192,11 +2197,11 @@ export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase1AuthMod
   AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 
 export type AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase1AuthModesItem =
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
-    | AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase1AuthModesItemCase1
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
+  | AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase1AuthModesItemCase1
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase1AuthModesItem =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase1AuthModesItem>;
 
@@ -2239,7 +2244,9 @@ export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase1 =
   }) as any as S.Schema<AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase1>;
 
 export type AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase2ConfigCatchUp =
-  "all" | "most_recent" | "skip";
+  | "all"
+  | "most_recent"
+  | "skip";
 export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase2ConfigCatchUp =
   /*@__PURE__*/ S.String;
 
@@ -2305,7 +2312,8 @@ export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase3AuthMod
   ) as any as S.Schema<AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase3AuthModesItemCase1ScopesList>;
 
 export type AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase3AuthModesItemCase1Audience =
-  "project" | "organization";
+  | "project"
+  | "organization";
 export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase3AuthModesItemCase1Audience =
   /*@__PURE__*/ S.String;
 
@@ -2348,11 +2356,11 @@ export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase3AuthMod
   AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 
 export type AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase3AuthModesItem =
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
-    | AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase3AuthModesItemCase1
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
+  | AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase3AuthModesItemCase1
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase3AuthModesItem =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase3AuthModesItem>;
 
@@ -2412,7 +2420,8 @@ export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase4AuthMod
   ) as any as S.Schema<AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase4AuthModesItemCase1ScopesList>;
 
 export type AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase4AuthModesItemCase1Audience =
-  "project" | "organization";
+  | "project"
+  | "organization";
 export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase4AuthModesItemCase1Audience =
   /*@__PURE__*/ S.String;
 
@@ -2455,11 +2464,11 @@ export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase4AuthMod
   AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 
 export type AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase4AuthModesItem =
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
-    | AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase4AuthModesItemCase1
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
+  | AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase4AuthModesItemCase1
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 export const AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase4AuthModesItem =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsCreateRequestSpecTriggersItemCase4AuthModesItem>;
 
@@ -2518,7 +2527,8 @@ export const AgentApplicationsRevisionsCreateRequestSpecTriggersList =
   ) as any as S.Schema<AgentApplicationsRevisionsCreateRequestSpecTriggersList>;
 
 export type AgentApplicationsRevisionsCreateRequestSpecToolsItemCase0ApprovalPolicyType =
-  "principal" | "agent";
+  | "principal"
+  | "agent";
 export const AgentApplicationsRevisionsCreateRequestSpecToolsItemCase0ApprovalPolicyType =
   /*@__PURE__*/ S.String;
 
@@ -2564,7 +2574,8 @@ export const AgentApplicationsRevisionsCreateRequestSpecToolsItemCase0 =
   }) as any as S.Schema<AgentApplicationsRevisionsCreateRequestSpecToolsItemCase0>;
 
 export type AgentApplicationsRevisionsCreateRequestSpecToolsItemCase1ApprovalPolicyType =
-  "principal" | "agent";
+  | "principal"
+  | "agent";
 export const AgentApplicationsRevisionsCreateRequestSpecToolsItemCase1ApprovalPolicyType =
   /*@__PURE__*/ S.String;
 
@@ -2660,7 +2671,8 @@ export const AgentApplicationsRevisionsCreateRequestSpecMcpsItemHeadersMap =
   ) as any as S.Schema<AgentApplicationsRevisionsCreateRequestSpecMcpsItemHeadersMap>;
 
 export type AgentApplicationsRevisionsCreateRequestSpecMcpsItemToolsItemCase1ApprovalPolicyType =
-  "principal" | "agent";
+  | "principal"
+  | "agent";
 export const AgentApplicationsRevisionsCreateRequestSpecMcpsItemToolsItemCase1ApprovalPolicyType =
   /*@__PURE__*/ S.String;
 
@@ -2913,11 +2925,11 @@ export const AgentApplicationsRevisionsCreateRequestSpecReasoning =
   /*@__PURE__*/ S.String;
 
 export type AgentApplicationsRevisionsCreateRequestSpecFrameworkPromptOmitItem =
-    | "meta_tool_guidance"
-    | "state_contract"
-    | "tool_failure_guidance"
-    | "approval_guidance"
-    | "reasoning_hint";
+  | "meta_tool_guidance"
+  | "state_contract"
+  | "tool_failure_guidance"
+  | "approval_guidance"
+  | "reasoning_hint";
 export const AgentApplicationsRevisionsCreateRequestSpecFrameworkPromptOmitItem =
   /*@__PURE__*/ S.String;
 
@@ -3224,19 +3236,26 @@ export const AgentApplicationsRevisionsNewDraftCreateRequest =
 
 /** Quality/cost tier (auto). low = cheapest, for short, formulaic, no-reasoning jobs (lookups, FAQ bots); medium = balanced default, for multi-step but bounded work; high = top-tier, for long, branching, reasoning-heavy work. Resolved to a priority-ordered cross-provider list at session start. */
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecModelsCase0Level =
-  "low" | "medium" | "high";
+  | "low"
+  | "medium"
+  | "high";
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecModelsCase0Level =
   /*@__PURE__*/ S.String;
 
 /** Reasoning/thinking effort budget. minimal = no deliberation (fastest, cheapest) … xhigh = maximal (research-grade, ~5-10x the per-turn cost). Omit for the provider/spec default. */
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecModelsCase0Reasoning =
-  "minimal" | "low" | "medium" | "high" | "xhigh";
+  | "minimal"
+  | "low"
+  | "medium"
+  | "high"
+  | "xhigh";
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecModelsCase0Reasoning =
   /*@__PURE__*/ S.String;
 
 /** Session model stability vs. resilience. `cost` (default): the first turn picks a working model and PINS it for the whole session — keeps the provider's prompt cache warm (cache reads are ~0.1-0.5x of full input) and never fails over mid-session; if the pinned model is down the turn fails rather than re-reading the whole context cold on another provider. `availability`: fail over to the next model when the session's model fails — survives an outage at the cost of a one-time cold re-read. Prefer `cost` for long/expensive sessions, `availability` where uptime matters more than spend. */
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecModelsCase0OptimizeFor =
-  "cost" | "availability";
+  | "cost"
+  | "availability";
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecModelsCase0OptimizeFor =
   /*@__PURE__*/ S.String;
 
@@ -3275,7 +3294,11 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecModelsCase0 =
 
 /** Per-model reasoning effort override (else the spec default). */
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecModelsCase1ModelsItemReasoning =
-  "minimal" | "low" | "medium" | "high" | "xhigh";
+  | "minimal"
+  | "low"
+  | "medium"
+  | "high"
+  | "xhigh";
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecModelsCase1ModelsItemReasoning =
   /*@__PURE__*/ S.String;
 
@@ -3310,7 +3333,8 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecModelsCase1Models
 
 /** Session model stability vs. resilience. `cost` (default): pin the first working model for the whole session (warm prompt cache, no mid-session failover). `availability`: fail over down this list when the session's model fails (survives outages, re-reads context cold). */
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecModelsCase1OptimizeFor =
-  "cost" | "availability";
+  | "cost"
+  | "availability";
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecModelsCase1OptimizeFor =
   /*@__PURE__*/ S.String;
 
@@ -3352,8 +3376,8 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase0
   ) as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase0ConfigTrustedWorkspacesCase0List>;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase0ConfigTrustedWorkspaces =
-    | AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase0ConfigTrustedWorkspacesCase0List
-    | string;
+  | AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase0ConfigTrustedWorkspacesCase0List
+  | string;
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase0ConfigTrustedWorkspaces =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase0ConfigTrustedWorkspaces>;
 
@@ -3417,7 +3441,8 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase1
   ) as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase1AuthModesItemCase1ScopesList>;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase1AuthModesItemCase1Audience =
-  "project" | "organization";
+  | "project"
+  | "organization";
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase1AuthModesItemCase1Audience =
   /*@__PURE__*/ S.String;
 
@@ -3460,11 +3485,11 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase1
   AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase1AuthModesItem =
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
-    | AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase1AuthModesItemCase1
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
+  | AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase1AuthModesItemCase1
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase1AuthModesItem =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase1AuthModesItem>;
 
@@ -3508,7 +3533,9 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase1
   }) as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase1>;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase2ConfigCatchUp =
-  "all" | "most_recent" | "skip";
+  | "all"
+  | "most_recent"
+  | "skip";
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase2ConfigCatchUp =
   /*@__PURE__*/ S.String;
 
@@ -3575,7 +3602,8 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase3
   ) as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase3AuthModesItemCase1ScopesList>;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase3AuthModesItemCase1Audience =
-  "project" | "organization";
+  | "project"
+  | "organization";
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase3AuthModesItemCase1Audience =
   /*@__PURE__*/ S.String;
 
@@ -3618,11 +3646,11 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase3
   AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase3AuthModesItem =
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
-    | AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase3AuthModesItemCase1
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
+  | AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase3AuthModesItemCase1
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase3AuthModesItem =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase3AuthModesItem>;
 
@@ -3683,7 +3711,8 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase4
   ) as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase4AuthModesItemCase1ScopesList>;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase4AuthModesItemCase1Audience =
-  "project" | "organization";
+  | "project"
+  | "organization";
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase4AuthModesItemCase1Audience =
   /*@__PURE__*/ S.String;
 
@@ -3726,11 +3755,11 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase4
   AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase4AuthModesItem =
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
-    | AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase4AuthModesItemCase1
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
+  | AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase4AuthModesItemCase1
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase4AuthModesItem =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersItemCase4AuthModesItem>;
 
@@ -3790,7 +3819,8 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersList =
   ) as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecTriggersList>;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecToolsItemCase0ApprovalPolicyType =
-  "principal" | "agent";
+  | "principal"
+  | "agent";
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecToolsItemCase0ApprovalPolicyType =
   /*@__PURE__*/ S.String;
 
@@ -3837,7 +3867,8 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecToolsItemCase0 =
   }) as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecToolsItemCase0>;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecToolsItemCase1ApprovalPolicyType =
-  "principal" | "agent";
+  | "principal"
+  | "agent";
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecToolsItemCase1ApprovalPolicyType =
   /*@__PURE__*/ S.String;
 
@@ -3933,7 +3964,8 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecMcpsItemHeadersMa
   ) as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecMcpsItemHeadersMap>;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecMcpsItemToolsItemCase1ApprovalPolicyType =
-  "principal" | "agent";
+  | "principal"
+  | "agent";
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecMcpsItemToolsItemCase1ApprovalPolicyType =
   /*@__PURE__*/ S.String;
 
@@ -3978,8 +4010,8 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecMcpsItemToolsItem
   }) as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecMcpsItemToolsItemCase1>;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecMcpsItemToolsItem =
-    | string
-    | AgentApplicationsRevisionsPartialUpdateRequestSpecMcpsItemToolsItemCase1;
+  | string
+  | AgentApplicationsRevisionsPartialUpdateRequestSpecMcpsItemToolsItemCase1;
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecMcpsItemToolsItem =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecMcpsItemToolsItem>;
 
@@ -4124,8 +4156,8 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecIdentityProviders
   }) as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecIdentityProvidersItemCase1>;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecIdentityProvidersItem =
-    | AgentApplicationsRevisionsPartialUpdateRequestSpecIdentityProvidersItemCase0
-    | AgentApplicationsRevisionsPartialUpdateRequestSpecIdentityProvidersItemCase1;
+  | AgentApplicationsRevisionsPartialUpdateRequestSpecIdentityProvidersItemCase0
+  | AgentApplicationsRevisionsPartialUpdateRequestSpecIdentityProvidersItemCase1;
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecIdentityProvidersItem =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsPartialUpdateRequestSpecIdentityProvidersItem>;
 
@@ -4187,11 +4219,11 @@ export const AgentApplicationsRevisionsPartialUpdateRequestSpecReasoning =
   /*@__PURE__*/ S.String;
 
 export type AgentApplicationsRevisionsPartialUpdateRequestSpecFrameworkPromptOmitItem =
-    | "meta_tool_guidance"
-    | "state_contract"
-    | "tool_failure_guidance"
-    | "approval_guidance"
-    | "reasoning_hint";
+  | "meta_tool_guidance"
+  | "state_contract"
+  | "tool_failure_guidance"
+  | "approval_guidance"
+  | "reasoning_hint";
 export const AgentApplicationsRevisionsPartialUpdateRequestSpecFrameworkPromptOmitItem =
   /*@__PURE__*/ S.String;
 
@@ -4679,7 +4711,11 @@ export const AgentApplicationsRevisionsUpdateRequestSpecModelsCase0 =
 
 /** Per-model reasoning effort override (else the spec default). */
 export type AgentApplicationsRevisionsUpdateRequestSpecModelsCase1ModelsItemReasoning =
-  "minimal" | "low" | "medium" | "high" | "xhigh";
+  | "minimal"
+  | "low"
+  | "medium"
+  | "high"
+  | "xhigh";
 export const AgentApplicationsRevisionsUpdateRequestSpecModelsCase1ModelsItemReasoning =
   /*@__PURE__*/ S.String;
 
@@ -4756,8 +4792,8 @@ export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase0ConfigT
   ) as any as S.Schema<AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase0ConfigTrustedWorkspacesCase0List>;
 
 export type AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase0ConfigTrustedWorkspaces =
-    | AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase0ConfigTrustedWorkspacesCase0List
-    | string;
+  | AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase0ConfigTrustedWorkspacesCase0List
+  | string;
 export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase0ConfigTrustedWorkspaces =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase0ConfigTrustedWorkspaces>;
 
@@ -4820,7 +4856,8 @@ export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase1AuthMod
   ) as any as S.Schema<AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase1AuthModesItemCase1ScopesList>;
 
 export type AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase1AuthModesItemCase1Audience =
-  "project" | "organization";
+  | "project"
+  | "organization";
 export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase1AuthModesItemCase1Audience =
   /*@__PURE__*/ S.String;
 
@@ -4863,11 +4900,11 @@ export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase1AuthMod
   AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 
 export type AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase1AuthModesItem =
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
-    | AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase1AuthModesItemCase1
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
+  | AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase1AuthModesItemCase1
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase1AuthModesItem =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase1AuthModesItem>;
 
@@ -4910,7 +4947,9 @@ export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase1 =
   }) as any as S.Schema<AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase1>;
 
 export type AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase2ConfigCatchUp =
-  "all" | "most_recent" | "skip";
+  | "all"
+  | "most_recent"
+  | "skip";
 export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase2ConfigCatchUp =
   /*@__PURE__*/ S.String;
 
@@ -4976,7 +5015,8 @@ export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase3AuthMod
   ) as any as S.Schema<AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase3AuthModesItemCase1ScopesList>;
 
 export type AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase3AuthModesItemCase1Audience =
-  "project" | "organization";
+  | "project"
+  | "organization";
 export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase3AuthModesItemCase1Audience =
   /*@__PURE__*/ S.String;
 
@@ -5019,11 +5059,11 @@ export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase3AuthMod
   AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 
 export type AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase3AuthModesItem =
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
-    | AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase3AuthModesItemCase1
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
+  | AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase3AuthModesItemCase1
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase3AuthModesItem =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase3AuthModesItem>;
 
@@ -5083,7 +5123,8 @@ export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase4AuthMod
   ) as any as S.Schema<AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase4AuthModesItemCase1ScopesList>;
 
 export type AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase4AuthModesItemCase1Audience =
-  "project" | "organization";
+  | "project"
+  | "organization";
 export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase4AuthModesItemCase1Audience =
   /*@__PURE__*/ S.String;
 
@@ -5126,11 +5167,11 @@ export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase4AuthMod
   AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 
 export type AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase4AuthModesItem =
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
-    | AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase4AuthModesItemCase1
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
-    | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase0
+  | AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase4AuthModesItemCase1
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase2
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase3
+  | AgentRevisionSpecTriggersItemCase1AuthModesItemCase4;
 export const AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase4AuthModesItem =
   /*@__PURE__*/ S.Unknown as any as S.Schema<AgentApplicationsRevisionsUpdateRequestSpecTriggersItemCase4AuthModesItem>;
 
@@ -5189,7 +5230,8 @@ export const AgentApplicationsRevisionsUpdateRequestSpecTriggersList =
   ) as any as S.Schema<AgentApplicationsRevisionsUpdateRequestSpecTriggersList>;
 
 export type AgentApplicationsRevisionsUpdateRequestSpecToolsItemCase0ApprovalPolicyType =
-  "principal" | "agent";
+  | "principal"
+  | "agent";
 export const AgentApplicationsRevisionsUpdateRequestSpecToolsItemCase0ApprovalPolicyType =
   /*@__PURE__*/ S.String;
 
@@ -5235,7 +5277,8 @@ export const AgentApplicationsRevisionsUpdateRequestSpecToolsItemCase0 =
   }) as any as S.Schema<AgentApplicationsRevisionsUpdateRequestSpecToolsItemCase0>;
 
 export type AgentApplicationsRevisionsUpdateRequestSpecToolsItemCase1ApprovalPolicyType =
-  "principal" | "agent";
+  | "principal"
+  | "agent";
 export const AgentApplicationsRevisionsUpdateRequestSpecToolsItemCase1ApprovalPolicyType =
   /*@__PURE__*/ S.String;
 
@@ -5331,7 +5374,8 @@ export const AgentApplicationsRevisionsUpdateRequestSpecMcpsItemHeadersMap =
   ) as any as S.Schema<AgentApplicationsRevisionsUpdateRequestSpecMcpsItemHeadersMap>;
 
 export type AgentApplicationsRevisionsUpdateRequestSpecMcpsItemToolsItemCase1ApprovalPolicyType =
-  "principal" | "agent";
+  | "principal"
+  | "agent";
 export const AgentApplicationsRevisionsUpdateRequestSpecMcpsItemToolsItemCase1ApprovalPolicyType =
   /*@__PURE__*/ S.String;
 
@@ -5584,11 +5628,11 @@ export const AgentApplicationsRevisionsUpdateRequestSpecReasoning =
   /*@__PURE__*/ S.String;
 
 export type AgentApplicationsRevisionsUpdateRequestSpecFrameworkPromptOmitItem =
-    | "meta_tool_guidance"
-    | "state_contract"
-    | "tool_failure_guidance"
-    | "approval_guidance"
-    | "reasoning_hint";
+  | "meta_tool_guidance"
+  | "state_contract"
+  | "tool_failure_guidance"
+  | "approval_guidance"
+  | "reasoning_hint";
 export const AgentApplicationsRevisionsUpdateRequestSpecFrameworkPromptOmitItem =
   /*@__PURE__*/ S.String;
 

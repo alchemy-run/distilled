@@ -1,0 +1,2102 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Account ID, prefixed `biz_`."
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "plan_id",
+            "smithy.api#documentation": "Only return checkout configurations for this plan ID, prefixed `plan_`."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only return checkout configurations created before this ISO 8601 timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return checkout configurations created after this ISO 8601 timestamp."
+          }
+        },
+        "order": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Field used to sort checkout configurations."
+          }
+        },
+        "direction": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction. Defaults to `desc`."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of checkout configurations to return."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor for the next page of results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly disabled."
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly enabled."
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly disabled."
+          }
+        },
+        "enabled": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly enabled."
+          }
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether platform default payment methods are included."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The configuration governing a checkout mounted from this configuration, resolved through every layer (its own overrides, the plan's, and the account's) — the shape a session's `payment_method_configuration` carries. Apply it over the payment method types catalogue for the offerable set. `null` means platform defaults; `payment_method_configuration` stays this configuration's own editable override."
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemMode": {
+      "type": "enum",
+      "members": {
+        "PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment"
+          }
+        },
+        "SETUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "setup"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls whether checkout charges the buyer immediately or saves payment details for later."
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly disabled for checkout."
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly enabled for checkout."
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly disabled for checkout."
+          }
+        },
+        "enabled": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly enabled for checkout."
+          }
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether platform default payment methods are included."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment method overrides for this checkout. `null` when it uses the plan or platform defaults."
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPlanPlanType": {
+      "type": "enum",
+      "members": {
+        "RENEWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renewal"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Billing model for the plan."
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPlanReleaseMethod": {
+      "type": "enum",
+      "members": {
+        "BUY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buy_now"
+          }
+        },
+        "WAITLIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waitlist"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sales method for the plan."
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPlanThreeDsLevel": {
+      "type": "enum",
+      "members": {
+        "MANDATE_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_challenge"
+          }
+        },
+        "FRICTIONLESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "3D Secure behavior for this plan, or `null` to use the account default."
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPlanVisibility": {
+      "type": "enum",
+      "members": {
+        "VISIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visible"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "QUICK_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quick_link"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the plan is visible to customers or hidden from public view."
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPlan": {
+      "type": "structure",
+      "members": {
+        "adaptive_pricing_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this plan accepts local currency payments via adaptive pricing.",
+            "smithy.api#required": {}
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Recurring billing interval in days, such as 30 for monthly or 365 for annual. `null` for one-time plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO currency code for the plan's prices.",
+            "smithy.api#required": {}
+          }
+        },
+        "expiration_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Access duration in days for expiration-based plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan ID, prefixed `plan_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Initial purchase price in the plan currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_type": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPlanPlanType",
+          "traits": {
+            "smithy.api#documentation": "Billing model for the plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "release_method": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPlanReleaseMethod",
+          "traits": {
+            "smithy.api#documentation": "Sales method for the plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Recurring price charged each billing period.",
+            "smithy.api#required": {}
+          }
+        },
+        "three_ds_level": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPlanThreeDsLevel",
+          "traits": {
+            "smithy.api#documentation": "3D Secure behavior for this plan, or `null` to use the account default.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trial_period_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Free trial days before the first renewal charge.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPlanVisibility",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan is visible to customers or hidden from public view.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Plan used for payment checkout. `null` in setup mode."
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemThreeDsLevel": {
+      "type": "enum",
+      "members": {
+        "MANDATE_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_challenge"
+          }
+        },
+        "FRICTIONLESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "3D Secure behavior for this checkout, or `null` to use the account default."
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "affiliate_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Affiliate code applied at checkout, or `null` when none is set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the checkout configuration was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency used for setup-mode payment method availability; defaults to `usd` when omitted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "effective_payment_method_configuration": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemEffectivePaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "The configuration governing a checkout mounted from this configuration, resolved through every layer (its own overrides, the plan's, and the account's) — the shape a session's `payment_method_configuration` carries. Apply it over the payment method types catalogue for the offerable set. `null` means platform defaults; `payment_method_configuration` stays this configuration's own editable override.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Checkout configuration ID, prefixed `ch_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value metadata copied to payments and memberships. `null` without the `checkout_configuration:basic:read` scope.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mode": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemMode",
+          "traits": {
+            "smithy.api#documentation": "Controls whether checkout charges the buyer immediately or saves payment details for later.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_configuration": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "Payment method overrides for this checkout. `null` when it uses the plan or platform defaults.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemPlan",
+          "traits": {
+            "smithy.api#documentation": "Plan used for payment checkout. `null` in setup mode.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "purchase_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Checkout URL you can send to customers.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "redirect_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL customers are sent to after checkout, or `null` when no redirect is configured.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "three_ds_level": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItemThreeDsLevel",
+          "traits": {
+            "smithy.api#documentation": "3D Secure behavior for this checkout, or `null` to use the account default.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the checkout configuration was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurationsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.checkout_configurations#ListCheckoutConfigurations": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsRequest"
+      },
+      "output": {
+        "target": "com.whop.checkout_configurations#ListCheckoutConfigurationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.checkout_configurations#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/checkout_configurations",
+          "code": 200
+        },
+        "smithy.api#documentation": "List checkout configurations\n\nLists checkout configurations for an account.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestMode": {
+      "type": "enum",
+      "members": {
+        "PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment"
+          }
+        },
+        "SETUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "setup"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls whether checkout charges the buyer immediately or saves payment details for later. Defaults to `payment`."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly disabled for checkout."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly enabled for checkout."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly disabled for checkout."
+          }
+        },
+        "enabled": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly enabled for checkout."
+          }
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether platform default payment methods are included."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment method overrides for this checkout. `null` uses the plan or platform defaults."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly disabled for this plan."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly enabled for this plan."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanPaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly disabled for this plan."
+          }
+        },
+        "enabled": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanPaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly enabled for this plan."
+          }
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether platform default payment methods are included."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment method overrides for the inline plan. `null` uses platform defaults."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanPlanType": {
+      "type": "enum",
+      "members": {
+        "RENEWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renewal"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Billing model for the plan."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanReleaseMethod": {
+      "type": "enum",
+      "members": {
+        "BUY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buy_now"
+          }
+        },
+        "WAITLIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waitlist"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sales method for the plan."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanThreeDsLevel": {
+      "type": "enum",
+      "members": {
+        "MANDATE_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_challenge"
+          }
+        },
+        "FRICTIONLESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "3D Secure behavior for the inline plan, or `null` to use the account default."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanVisibility": {
+      "type": "enum",
+      "members": {
+        "VISIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visible"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "QUICK_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quick_link"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the plan is visible to customers or hidden from public view."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlan": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID for the inline plan, prefixed `biz_`. Defaults to the account resolved from the request.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Recurring billing interval in days, such as 30 for monthly or 365 for annual.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO currency code for the plan's prices.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer-visible plan description.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Access duration in days for expiration-based plans.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "force_create_new_plan": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to create a new plan instead of reusing a matching one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Initial purchase price in the plan currency.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value metadata stored on the plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "override_tax_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tax classification override for this plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_configuration": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanPaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "Payment method overrides for the inline plan. `null` uses platform defaults.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_type": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanPlanType",
+          "traits": {
+            "smithy.api#documentation": "Billing model for the plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Product ID the inline plan should belong to, prefixed `prod_`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "release_method": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanReleaseMethod",
+          "traits": {
+            "smithy.api#documentation": "Sales method for the plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Recurring price charged each billing period.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stock": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Units available for purchase.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "three_ds_level": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanThreeDsLevel",
+          "traits": {
+            "smithy.api#documentation": "3D Secure behavior for the inline plan, or `null` to use the account default.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan display name shown to customers.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trial_period_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Free trial days before the first renewal charge.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unlimited_stock": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan has unlimited stock.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlanVisibility",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan is visible to customers or hidden from public view.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Plan attributes used to create or find a plan for this checkout configuration. Mutually exclusive with `plan_id`."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestThreeDsLevel": {
+      "type": "enum",
+      "members": {
+        "MANDATE_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_challenge"
+          }
+        },
+        "FRICTIONLESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "3D Secure behavior for this checkout."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`."
+          }
+        },
+        "affiliate_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Affiliate code to apply to the checkout.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency used for setup-mode payment method availability.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value metadata copied to payments and memberships.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mode": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestMode",
+          "traits": {
+            "smithy.api#documentation": "Controls whether checkout charges the buyer immediately or saves payment details for later. Defaults to `payment`."
+          }
+        },
+        "payment_method_configuration": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "Payment method overrides for this checkout. `null` uses the plan or platform defaults.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestPlan",
+          "traits": {
+            "smithy.api#documentation": "Plan attributes used to create or find a plan for this checkout configuration. Mutually exclusive with `plan_id`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Existing plan ID, prefixed `plan_`. Mutually exclusive with `plan`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "redirect_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL customers are sent to after checkout.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "three_ds_level": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequestThreeDsLevel",
+          "traits": {
+            "smithy.api#documentation": "3D Secure behavior for this checkout.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponseEffectivePaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly disabled."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponseEffectivePaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly enabled."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponseEffectivePaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponseEffectivePaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly disabled."
+          }
+        },
+        "enabled": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponseEffectivePaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly enabled."
+          }
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether platform default payment methods are included."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The configuration governing a checkout mounted from this configuration, resolved through every layer (its own overrides, the plan's, and the account's) — the shape a session's `payment_method_configuration` carries. Apply it over the payment method types catalogue for the offerable set. `null` means platform defaults; `payment_method_configuration` stays this configuration's own editable override."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponseMode": {
+      "type": "enum",
+      "members": {
+        "PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment"
+          }
+        },
+        "SETUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "setup"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls whether checkout charges the buyer immediately or saves payment details for later."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly disabled for checkout."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly enabled for checkout."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly disabled for checkout."
+          }
+        },
+        "enabled": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly enabled for checkout."
+          }
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether platform default payment methods are included."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment method overrides for this checkout. `null` when it uses the plan or platform defaults."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePlanPlanType": {
+      "type": "enum",
+      "members": {
+        "RENEWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renewal"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Billing model for the plan."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePlanReleaseMethod": {
+      "type": "enum",
+      "members": {
+        "BUY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buy_now"
+          }
+        },
+        "WAITLIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waitlist"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sales method for the plan."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePlanThreeDsLevel": {
+      "type": "enum",
+      "members": {
+        "MANDATE_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_challenge"
+          }
+        },
+        "FRICTIONLESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "3D Secure behavior for this plan, or `null` to use the account default."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePlanVisibility": {
+      "type": "enum",
+      "members": {
+        "VISIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visible"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "QUICK_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quick_link"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the plan is visible to customers or hidden from public view."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePlan": {
+      "type": "structure",
+      "members": {
+        "adaptive_pricing_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this plan accepts local currency payments via adaptive pricing.",
+            "smithy.api#required": {}
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Recurring billing interval in days, such as 30 for monthly or 365 for annual. `null` for one-time plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO currency code for the plan's prices.",
+            "smithy.api#required": {}
+          }
+        },
+        "expiration_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Access duration in days for expiration-based plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan ID, prefixed `plan_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Initial purchase price in the plan currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_type": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePlanPlanType",
+          "traits": {
+            "smithy.api#documentation": "Billing model for the plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "release_method": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePlanReleaseMethod",
+          "traits": {
+            "smithy.api#documentation": "Sales method for the plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Recurring price charged each billing period.",
+            "smithy.api#required": {}
+          }
+        },
+        "three_ds_level": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePlanThreeDsLevel",
+          "traits": {
+            "smithy.api#documentation": "3D Secure behavior for this plan, or `null` to use the account default.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trial_period_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Free trial days before the first renewal charge.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePlanVisibility",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan is visible to customers or hidden from public view.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Plan used for payment checkout. `null` in setup mode."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponseThreeDsLevel": {
+      "type": "enum",
+      "members": {
+        "MANDATE_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_challenge"
+          }
+        },
+        "FRICTIONLESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "3D Secure behavior for this checkout, or `null` to use the account default."
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfigurationResponse": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "affiliate_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Affiliate code applied at checkout, or `null` when none is set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the checkout configuration was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency used for setup-mode payment method availability; defaults to `usd` when omitted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "effective_payment_method_configuration": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponseEffectivePaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "The configuration governing a checkout mounted from this configuration, resolved through every layer (its own overrides, the plan's, and the account's) — the shape a session's `payment_method_configuration` carries. Apply it over the payment method types catalogue for the offerable set. `null` means platform defaults; `payment_method_configuration` stays this configuration's own editable override.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Checkout configuration ID, prefixed `ch_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value metadata copied to payments and memberships. `null` without the `checkout_configuration:basic:read` scope.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mode": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponseMode",
+          "traits": {
+            "smithy.api#documentation": "Controls whether checkout charges the buyer immediately or saves payment details for later.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_configuration": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "Payment method overrides for this checkout. `null` when it uses the plan or platform defaults.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponsePlan",
+          "traits": {
+            "smithy.api#documentation": "Plan used for payment checkout. `null` in setup mode.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "purchase_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Checkout URL you can send to customers.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "redirect_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL customers are sent to after checkout, or `null` when no redirect is configured.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "three_ds_level": {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponseThreeDsLevel",
+          "traits": {
+            "smithy.api#documentation": "3D Secure behavior for this checkout, or `null` to use the account default.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the checkout configuration was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.checkout_configurations#CreateCheckoutConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationRequest"
+      },
+      "output": {
+        "target": "com.whop.checkout_configurations#CreateCheckoutConfigurationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.checkout_configurations#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/checkout_configurations",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a checkout configuration\n\nCreates a reusable checkout configuration for an existing or inline plan."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the checkout configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponseEffectivePaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly disabled."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponseEffectivePaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly enabled."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponseEffectivePaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponseEffectivePaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly disabled."
+          }
+        },
+        "enabled": {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponseEffectivePaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly enabled."
+          }
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether platform default payment methods are included."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The configuration governing a checkout mounted from this configuration, resolved through every layer (its own overrides, the plan's, and the account's) — the shape a session's `payment_method_configuration` carries. Apply it over the payment method types catalogue for the offerable set. `null` means platform defaults; `payment_method_configuration` stays this configuration's own editable override."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponseMode": {
+      "type": "enum",
+      "members": {
+        "PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment"
+          }
+        },
+        "SETUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "setup"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls whether checkout charges the buyer immediately or saves payment details for later."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly disabled for checkout."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment methods explicitly enabled for checkout."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly disabled for checkout."
+          }
+        },
+        "enabled": {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#documentation": "Payment methods explicitly enabled for checkout."
+          }
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether platform default payment methods are included."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment method overrides for this checkout. `null` when it uses the plan or platform defaults."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePlanPlanType": {
+      "type": "enum",
+      "members": {
+        "RENEWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renewal"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Billing model for the plan."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePlanReleaseMethod": {
+      "type": "enum",
+      "members": {
+        "BUY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buy_now"
+          }
+        },
+        "WAITLIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waitlist"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sales method for the plan."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePlanThreeDsLevel": {
+      "type": "enum",
+      "members": {
+        "MANDATE_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_challenge"
+          }
+        },
+        "FRICTIONLESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "3D Secure behavior for this plan, or `null` to use the account default."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePlanVisibility": {
+      "type": "enum",
+      "members": {
+        "VISIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visible"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "QUICK_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quick_link"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the plan is visible to customers or hidden from public view."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePlan": {
+      "type": "structure",
+      "members": {
+        "adaptive_pricing_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this plan accepts local currency payments via adaptive pricing.",
+            "smithy.api#required": {}
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Recurring billing interval in days, such as 30 for monthly or 365 for annual. `null` for one-time plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO currency code for the plan's prices.",
+            "smithy.api#required": {}
+          }
+        },
+        "expiration_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Access duration in days for expiration-based plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan ID, prefixed `plan_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Initial purchase price in the plan currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_type": {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePlanPlanType",
+          "traits": {
+            "smithy.api#documentation": "Billing model for the plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "release_method": {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePlanReleaseMethod",
+          "traits": {
+            "smithy.api#documentation": "Sales method for the plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Recurring price charged each billing period.",
+            "smithy.api#required": {}
+          }
+        },
+        "three_ds_level": {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePlanThreeDsLevel",
+          "traits": {
+            "smithy.api#documentation": "3D Secure behavior for this plan, or `null` to use the account default.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trial_period_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Free trial days before the first renewal charge.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePlanVisibility",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan is visible to customers or hidden from public view.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Plan used for payment checkout. `null` in setup mode."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponseThreeDsLevel": {
+      "type": "enum",
+      "members": {
+        "MANDATE_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_challenge"
+          }
+        },
+        "FRICTIONLESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "3D Secure behavior for this checkout, or `null` to use the account default."
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfigurationResponse": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "affiliate_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Affiliate code applied at checkout, or `null` when none is set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the checkout configuration was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Currency used for setup-mode payment method availability; defaults to `usd` when omitted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "effective_payment_method_configuration": {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponseEffectivePaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "The configuration governing a checkout mounted from this configuration, resolved through every layer (its own overrides, the plan's, and the account's) — the shape a session's `payment_method_configuration` carries. Apply it over the payment method types catalogue for the offerable set. `null` means platform defaults; `payment_method_configuration` stays this configuration's own editable override.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Checkout configuration ID, prefixed `ch_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value metadata copied to payments and memberships. `null` without the `checkout_configuration:basic:read` scope.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mode": {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponseMode",
+          "traits": {
+            "smithy.api#documentation": "Controls whether checkout charges the buyer immediately or saves payment details for later.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method_configuration": {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "Payment method overrides for this checkout. `null` when it uses the plan or platform defaults.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan": {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponsePlan",
+          "traits": {
+            "smithy.api#documentation": "Plan used for payment checkout. `null` in setup mode.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "purchase_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Checkout URL you can send to customers.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "redirect_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL customers are sent to after checkout, or `null` when no redirect is configured.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "three_ds_level": {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponseThreeDsLevel",
+          "traits": {
+            "smithy.api#documentation": "3D Secure behavior for this checkout, or `null` to use the account default.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the checkout configuration was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.checkout_configurations#GetCheckoutConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.checkout_configurations#GetCheckoutConfigurationRequest"
+      },
+      "output": {
+        "target": "com.whop.checkout_configurations#GetCheckoutConfigurationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.checkout_configurations#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/checkout_configurations/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a checkout configuration\n\nRetrieves a checkout configuration by ID. This endpoint is public so a checkout page can load from the configuration URL."
+      }
+    },
+    "com.whop.checkout_configurations#DeleteCheckoutConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the checkout configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.checkout_configurations#DeleteCheckoutConfigurationResponse": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always true.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the deleted checkout configuration.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.checkout_configurations#DeleteCheckoutConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.checkout_configurations#DeleteCheckoutConfigurationRequest"
+      },
+      "output": {
+        "target": "com.whop.checkout_configurations#DeleteCheckoutConfigurationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.checkout_configurations#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/checkout_configurations/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a checkout configuration\n\nDeletes a checkout configuration so its checkout URL can no longer be used."
+      }
+    },
+    "com.whop.checkout_configurations#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.checkout_configurations#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.checkout_configurations#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.checkout_configurations#CheckoutConfigurations": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.checkout_configurations#ListCheckoutConfigurations"
+        },
+        {
+          "target": "com.whop.checkout_configurations#CreateCheckoutConfiguration"
+        },
+        {
+          "target": "com.whop.checkout_configurations#GetCheckoutConfiguration"
+        },
+        {
+          "target": "com.whop.checkout_configurations#DeleteCheckoutConfiguration"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

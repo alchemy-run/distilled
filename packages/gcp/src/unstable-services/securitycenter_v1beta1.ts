@@ -99,14 +99,14 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 }) as any as S.Schema<Empty>;
 
 export interface Source {
-  name?: string;
   displayName?: string;
+  name?: string;
   description?: string;
 }
 export const Source = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     displayName: S.optional(S.String),
+    name: S.optional(S.String),
     description: S.optional(S.String),
   }),
 ).annotate({ identifier: "Source" }) as any as S.Schema<Source>;
@@ -131,6 +131,18 @@ export const CreateOrganizationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateOrganizationsSourcesRequest",
 }) as any as S.Schema<CreateOrganizationsSourcesRequest>;
 
+export type GoogleCloudSecuritycenterV1beta1FindingStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "INACTIVE";
+export const GoogleCloudSecuritycenterV1beta1FindingStateEnum = S.String;
+
+export type DocumentMap = { [key: string]: unknown | undefined };
+export const DocumentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DocumentMap>;
+
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -151,60 +163,47 @@ export const GoogleCloudSecuritycenterV1beta1SecurityMarks =
     identifier: "GoogleCloudSecuritycenterV1beta1SecurityMarks",
   }) as any as S.Schema<GoogleCloudSecuritycenterV1beta1SecurityMarks>;
 
-export type DocumentMap = { [key: string]: unknown | undefined };
-export const DocumentMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<DocumentMap>;
-
-export type GoogleCloudSecuritycenterV1beta1FindingStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "INACTIVE";
-export const GoogleCloudSecuritycenterV1beta1FindingStateEnum =
-  /*@__PURE__*/ S.String;
-
 export interface GoogleCloudSecuritycenterV1beta1Finding {
-  resourceName?: string;
-  createTime?: string;
-  eventTime?: string;
-  securityMarks?: GoogleCloudSecuritycenterV1beta1SecurityMarks;
-  name?: string;
-  sourceProperties?: DocumentMap;
-  category?: string;
-  parent?: string;
   state?: GoogleCloudSecuritycenterV1beta1FindingStateEnum | (string & {});
   externalUri?: string;
+  sourceProperties?: DocumentMap;
+  parent?: string;
+  eventTime?: string;
+  name?: string;
+  createTime?: string;
+  resourceName?: string;
+  securityMarks?: GoogleCloudSecuritycenterV1beta1SecurityMarks;
+  category?: string;
 }
 export const GoogleCloudSecuritycenterV1beta1Finding = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      resourceName: S.optional(S.String),
-      createTime: S.optional(S.String),
-      eventTime: S.optional(S.String),
-      securityMarks: S.optional(GoogleCloudSecuritycenterV1beta1SecurityMarks),
-      name: S.optional(S.String),
-      sourceProperties: S.optional(DocumentMap),
-      category: S.optional(S.String),
-      parent: S.optional(S.String),
       state: S.optional(GoogleCloudSecuritycenterV1beta1FindingStateEnum),
       externalUri: S.optional(S.String),
+      sourceProperties: S.optional(DocumentMap),
+      parent: S.optional(S.String),
+      eventTime: S.optional(S.String),
+      name: S.optional(S.String),
+      createTime: S.optional(S.String),
+      resourceName: S.optional(S.String),
+      securityMarks: S.optional(GoogleCloudSecuritycenterV1beta1SecurityMarks),
+      category: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleCloudSecuritycenterV1beta1Finding",
 }) as any as S.Schema<GoogleCloudSecuritycenterV1beta1Finding>;
 
 export interface CreateOrganizationsSourcesFindingsRequest {
-  findingId?: string;
   parent: string;
+  findingId?: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1beta1Finding;
 }
 export const CreateOrganizationsSourcesFindingsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      findingId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      findingId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(
         GoogleCloudSecuritycenterV1beta1Finding.pipe(T.HttpBody()),
       ),
@@ -286,29 +285,29 @@ export const StringList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<StringList>;
 
 export interface Expr {
-  expression?: string;
-  title?: string;
   location?: string;
+  title?: string;
   description?: string;
+  expression?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expression: S.optional(S.String),
-    title: S.optional(S.String),
     location: S.optional(S.String),
+    title: S.optional(S.String),
     description: S.optional(S.String),
+    expression: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
 export interface Binding {
-  role?: string;
   members?: StringList;
+  role?: string;
   condition?: Expr;
 }
 export const Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    role: S.optional(S.String),
     members: S.optional(StringList),
+    role: S.optional(S.String),
     condition: S.optional(Expr),
   }),
 ).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
@@ -323,16 +322,16 @@ export type AuditLogConfigLogTypeEnum =
   | "ADMIN_READ"
   | "DATA_WRITE"
   | "DATA_READ";
-export const AuditLogConfigLogTypeEnum = /*@__PURE__*/ S.String;
+export const AuditLogConfigLogTypeEnum = S.String;
 
 export interface AuditLogConfig {
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
   exemptedMembers?: StringList;
+  logType?: AuditLogConfigLogTypeEnum | (string & {});
 }
 export const AuditLogConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    logType: S.optional(AuditLogConfigLogTypeEnum),
     exemptedMembers: S.optional(StringList),
+    logType: S.optional(AuditLogConfigLogTypeEnum),
   }),
 ).annotate({ identifier: "AuditLogConfig" }) as any as S.Schema<AuditLogConfig>;
 
@@ -358,17 +357,17 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AuditConfigList>;
 
 export interface Policy {
+  version?: number;
   bindings?: BindingList;
   auditConfigs?: AuditConfigList;
   etag?: string;
-  version?: number;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    version: S.optional(S.Number),
     bindings: S.optional(BindingList),
     auditConfigs: S.optional(AuditConfigList),
     etag: S.optional(S.String),
-    version: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
@@ -394,31 +393,31 @@ export type AssetDiscoveryConfigInclusionModeEnum =
   | "INCLUSION_MODE_UNSPECIFIED"
   | "INCLUDE_ONLY"
   | "EXCLUDE";
-export const AssetDiscoveryConfigInclusionModeEnum = /*@__PURE__*/ S.String;
+export const AssetDiscoveryConfigInclusionModeEnum = S.String;
 
 export interface AssetDiscoveryConfig {
-  projectIds?: StringList;
   inclusionMode?: AssetDiscoveryConfigInclusionModeEnum | (string & {});
+  projectIds?: StringList;
 }
 export const AssetDiscoveryConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    projectIds: S.optional(StringList),
     inclusionMode: S.optional(AssetDiscoveryConfigInclusionModeEnum),
+    projectIds: S.optional(StringList),
   }),
 ).annotate({
   identifier: "AssetDiscoveryConfig",
 }) as any as S.Schema<AssetDiscoveryConfig>;
 
 export interface OrganizationSettings {
-  name?: string;
-  assetDiscoveryConfig?: AssetDiscoveryConfig;
   enableAssetDiscovery?: boolean;
+  assetDiscoveryConfig?: AssetDiscoveryConfig;
+  name?: string;
 }
 export const OrganizationSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    assetDiscoveryConfig: S.optional(AssetDiscoveryConfig),
     enableAssetDiscovery: S.optional(S.Boolean),
+    assetDiscoveryConfig: S.optional(AssetDiscoveryConfig),
+    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "OrganizationSettings",
@@ -448,31 +447,31 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 export interface Status {
   message?: string;
-  code?: number;
   details?: DocumentMapList;
+  code?: number;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
-    code: S.optional(S.Number),
     details: S.optional(DocumentMapList),
+    code: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 export interface Operation {
+  name?: string;
   response?: DocumentMap;
+  error?: Status;
   metadata?: DocumentMap;
   done?: boolean;
-  name?: string;
-  error?: Status;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
     response: S.optional(DocumentMap),
+    error: S.optional(Status),
     metadata: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    error: S.optional(Status),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -494,20 +493,20 @@ export const GetOrganizationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetOrganizationsSourcesRequest>;
 
 export interface GroupAssetsRequest {
-  compareDuration?: string;
   pageSize?: number;
   readTime?: string;
-  pageToken?: string;
+  compareDuration?: string;
   filter?: string;
+  pageToken?: string;
   groupBy?: string;
 }
 export const GroupAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    compareDuration: S.optional(S.String),
     pageSize: S.optional(S.Number),
     readTime: S.optional(S.String),
-    pageToken: S.optional(S.String),
+    compareDuration: S.optional(S.String),
     filter: S.optional(S.String),
+    pageToken: S.optional(S.String),
     groupBy: S.optional(S.String),
   }),
 ).annotate({
@@ -551,34 +550,34 @@ export const GroupResultList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GroupResultList>;
 
 export interface GroupAssetsResponse {
-  nextPageToken?: string;
-  groupByResults?: GroupResultList;
   readTime?: string;
+  groupByResults?: GroupResultList;
+  nextPageToken?: string;
 }
 export const GroupAssetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    groupByResults: S.optional(GroupResultList),
     readTime: S.optional(S.String),
+    groupByResults: S.optional(GroupResultList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GroupAssetsResponse",
 }) as any as S.Schema<GroupAssetsResponse>;
 
 export interface GroupFindingsRequest {
-  readTime?: string;
-  pageToken?: string;
   groupBy?: string;
   filter?: string;
+  readTime?: string;
   pageSize?: number;
+  pageToken?: string;
 }
 export const GroupFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    readTime: S.optional(S.String),
-    pageToken: S.optional(S.String),
     groupBy: S.optional(S.String),
     filter: S.optional(S.String),
+    readTime: S.optional(S.String),
     pageSize: S.optional(S.Number),
+    pageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GroupFindingsRequest",
@@ -606,14 +605,14 @@ export const GroupOrganizationsSourcesFindingsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GroupOrganizationsSourcesFindingsRequest>;
 
 export interface GroupFindingsResponse {
-  nextPageToken?: string;
   groupByResults?: GroupResultList;
+  nextPageToken?: string;
   readTime?: string;
 }
 export const GroupFindingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     groupByResults: S.optional(GroupResultList),
+    nextPageToken: S.optional(S.String),
     readTime: S.optional(S.String),
   }),
 ).annotate({
@@ -621,25 +620,25 @@ export const GroupFindingsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GroupFindingsResponse>;
 
 export interface ListOrganizationsAssetsRequest {
+  compareDuration?: string;
+  pageSize?: number;
+  parent: string;
+  orderBy?: string;
   readTime?: string;
   fieldMask?: string;
   pageToken?: string;
   filter?: string;
-  parent: string;
-  compareDuration?: string;
-  orderBy?: string;
-  pageSize?: number;
 }
 export const ListOrganizationsAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    compareDuration: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     readTime: S.optional(S.String.pipe(T.Query())),
     fieldMask: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    compareDuration: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -651,60 +650,60 @@ export const ListOrganizationsAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListOrganizationsAssetsRequest",
 }) as any as S.Schema<ListOrganizationsAssetsRequest>;
 
-export type ListAssetsResultStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "UNUSED"
-  | "ADDED"
-  | "REMOVED"
-  | "ACTIVE";
-export const ListAssetsResultStateEnum = /*@__PURE__*/ S.String;
-
 export interface SecurityCenterProperties {
   resourceProject?: string;
-  resourceOwners?: StringList;
   resourceName?: string;
   resourceParent?: string;
   resourceType?: string;
+  resourceOwners?: StringList;
 }
 export const SecurityCenterProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceProject: S.optional(S.String),
-    resourceOwners: S.optional(StringList),
     resourceName: S.optional(S.String),
     resourceParent: S.optional(S.String),
     resourceType: S.optional(S.String),
+    resourceOwners: S.optional(StringList),
   }),
 ).annotate({
   identifier: "SecurityCenterProperties",
 }) as any as S.Schema<SecurityCenterProperties>;
 
 export interface Asset {
-  name?: string;
   securityCenterProperties?: SecurityCenterProperties;
+  createTime?: string;
+  name?: string;
   securityMarks?: GoogleCloudSecuritycenterV1beta1SecurityMarks;
   updateTime?: string;
   resourceProperties?: DocumentMap;
-  createTime?: string;
 }
 export const Asset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     securityCenterProperties: S.optional(SecurityCenterProperties),
+    createTime: S.optional(S.String),
+    name: S.optional(S.String),
     securityMarks: S.optional(GoogleCloudSecuritycenterV1beta1SecurityMarks),
     updateTime: S.optional(S.String),
     resourceProperties: S.optional(DocumentMap),
-    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Asset" }) as any as S.Schema<Asset>;
 
+export type ListAssetsResultStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "UNUSED"
+  | "ADDED"
+  | "REMOVED"
+  | "ACTIVE";
+export const ListAssetsResultStateEnum = S.String;
+
 export interface ListAssetsResult {
-  state?: ListAssetsResultStateEnum;
   asset?: Asset;
+  state?: ListAssetsResultStateEnum;
 }
 export const ListAssetsResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(ListAssetsResultStateEnum),
     asset: S.optional(Asset),
+    state: S.optional(ListAssetsResultStateEnum),
   }),
 ).annotate({
   identifier: "ListAssetsResult",
@@ -716,36 +715,36 @@ export const ListAssetsResultList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ListAssetsResultList>;
 
 export interface ListAssetsResponse {
-  nextPageToken?: string;
   totalSize?: number;
-  listAssetsResults?: ListAssetsResultList;
+  nextPageToken?: string;
   readTime?: string;
+  listAssetsResults?: ListAssetsResultList;
 }
 export const ListAssetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     totalSize: S.optional(S.Number),
-    listAssetsResults: S.optional(ListAssetsResultList),
+    nextPageToken: S.optional(S.String),
     readTime: S.optional(S.String),
+    listAssetsResults: S.optional(ListAssetsResultList),
   }),
 ).annotate({
   identifier: "ListAssetsResponse",
 }) as any as S.Schema<ListAssetsResponse>;
 
 export interface ListOrganizationsOperationsRequest {
+  pageToken?: string;
+  name: string;
+  filter?: string;
   pageSize?: number;
   returnPartialSuccess?: boolean;
-  name: string;
-  pageToken?: string;
-  filter?: string;
 }
 export const ListOrganizationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -763,29 +762,29 @@ export const OperationList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<OperationList>;
 
 export interface ListOperationsResponse {
+  operations?: OperationList;
   unreachable?: StringList;
   nextPageToken?: string;
-  operations?: OperationList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    operations: S.optional(OperationList),
     unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
-    operations: S.optional(OperationList),
   }),
 ).annotate({
   identifier: "ListOperationsResponse",
 }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListOrganizationsSourcesRequest {
-  parent: string;
   pageToken?: string;
+  parent: string;
   pageSize?: number;
 }
 export const ListOrganizationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -804,37 +803,37 @@ export const SourceList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<SourceList>;
 
 export interface ListSourcesResponse {
-  nextPageToken?: string;
   sources?: SourceList;
+  nextPageToken?: string;
 }
 export const ListSourcesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     sources: S.optional(SourceList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListSourcesResponse",
 }) as any as S.Schema<ListSourcesResponse>;
 
 export interface ListOrganizationsSourcesFindingsRequest {
-  readTime?: string;
+  filter?: string;
+  orderBy?: string;
   fieldMask?: string;
   pageToken?: string;
-  filter?: string;
-  parent: string;
   pageSize?: number;
-  orderBy?: string;
+  parent: string;
+  readTime?: string;
 }
 export const ListOrganizationsSourcesFindingsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      readTime: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
       fieldMask: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      orderBy: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      readTime: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -855,31 +854,31 @@ export const GoogleCloudSecuritycenterV1beta1FindingList =
 
 export interface ListFindingsResponse {
   nextPageToken?: string;
-  findings?: GoogleCloudSecuritycenterV1beta1FindingList;
   readTime?: string;
   totalSize?: number;
+  findings?: GoogleCloudSecuritycenterV1beta1FindingList;
 }
 export const ListFindingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    findings: S.optional(GoogleCloudSecuritycenterV1beta1FindingList),
     readTime: S.optional(S.String),
     totalSize: S.optional(S.Number),
+    findings: S.optional(GoogleCloudSecuritycenterV1beta1FindingList),
   }),
 ).annotate({
   identifier: "ListFindingsResponse",
 }) as any as S.Schema<ListFindingsResponse>;
 
 export interface PatchOrganizationsSourcesRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: Source;
 }
 export const PatchOrganizationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(Source.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -893,16 +892,16 @@ export const PatchOrganizationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchOrganizationsSourcesRequest>;
 
 export interface PatchOrganizationsSourcesFindingsRequest {
-  name: string;
   updateMask?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1beta1Finding;
 }
 export const PatchOrganizationsSourcesFindingsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(
         GoogleCloudSecuritycenterV1beta1Finding.pipe(T.HttpBody()),
       ),
@@ -942,13 +941,13 @@ export const RunDiscoveryOrganizationsAssetsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<RunDiscoveryOrganizationsAssetsRequest>;
 
 export interface SetIamPolicyRequest {
-  updateMask?: string;
   policy?: Policy;
+  updateMask?: string;
 }
 export const SetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String),
     policy: S.optional(Policy),
+    updateMask: S.optional(S.String),
   }),
 ).annotate({
   identifier: "SetIamPolicyRequest",
@@ -979,16 +978,16 @@ export type SetFindingStateRequestStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
   | "INACTIVE";
-export const SetFindingStateRequestStateEnum = /*@__PURE__*/ S.String;
+export const SetFindingStateRequestStateEnum = S.String;
 
 export interface SetFindingStateRequest {
-  state?: SetFindingStateRequestStateEnum | (string & {});
   startTime?: string;
+  state?: SetFindingStateRequestStateEnum | (string & {});
 }
 export const SetFindingStateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(SetFindingStateRequestStateEnum),
     startTime: S.optional(S.String),
+    state: S.optional(SetFindingStateRequestStateEnum),
   }),
 ).annotate({
   identifier: "SetFindingStateRequest",
@@ -1059,16 +1058,16 @@ export const TestIamPermissionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TestIamPermissionsResponse>;
 
 export interface UpdateOrganizationSettingsOrganizationsRequest {
-  updateMask?: string;
   name: string;
+  updateMask?: string;
   /** Request body */
   body?: OrganizationSettings;
 }
 export const UpdateOrganizationSettingsOrganizationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(OrganizationSettings.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1082,18 +1081,18 @@ export const UpdateOrganizationSettingsOrganizationsRequest =
   }) as any as S.Schema<UpdateOrganizationSettingsOrganizationsRequest>;
 
 export interface UpdateSecurityMarksOrganizationsAssetsRequest {
-  name: string;
   updateMask?: string;
   startTime?: string;
+  name: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1beta1SecurityMarks;
 }
 export const UpdateSecurityMarksOrganizationsAssetsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
       startTime: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(
         GoogleCloudSecuritycenterV1beta1SecurityMarks.pipe(T.HttpBody()),
       ),
@@ -1109,8 +1108,8 @@ export const UpdateSecurityMarksOrganizationsAssetsRequest =
   }) as any as S.Schema<UpdateSecurityMarksOrganizationsAssetsRequest>;
 
 export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest {
-  updateMask?: string;
   startTime?: string;
+  updateMask?: string;
   name: string;
   /** Request body */
   body?: GoogleCloudSecuritycenterV1beta1SecurityMarks;
@@ -1118,8 +1117,8 @@ export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest {
 export const UpdateSecurityMarksOrganizationsSourcesFindingsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       startTime: S.optional(S.String.pipe(T.Query())),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
       body: S.optional(
         GoogleCloudSecuritycenterV1beta1SecurityMarks.pipe(T.HttpBody()),

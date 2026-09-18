@@ -3,7 +3,7 @@
  * convert — turn the PlanetScale Swagger 2.0 spec into a Smithy 2.0 JSON
  * model.
  *
- * Input:  specs/distilled-spec-planetscale/specs/openapi.json  (spec
+ * Input:  specs/spec-mirror-planetscale/specs/openapi.json  (spec
  *         submodule; Swagger 2.0 — `/definitions`, `x-nullable`)
  *         patches/*.patch.json  (RFC-6902 patches to the Swagger document —
  *         ported verbatim from distilled v0; nullability fixes, observed
@@ -23,7 +23,7 @@ await runOpenApiConvert({
   specs: [
     {
       name: "planetscale",
-      specPath: "specs/distilled-spec-planetscale/specs/openapi.json",
+      specPath: "specs/spec-mirror-planetscale/specs/openapi.json",
     },
   ],
   // Swagger-document patches (v0 layout: flat patches/*.patch.json). The

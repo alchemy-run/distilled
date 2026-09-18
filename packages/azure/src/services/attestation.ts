@@ -13,20 +13,20 @@ import * as Retry from "../retry.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** The tags that will be assigned to the attestation provider. */
-export type AttestationProvidersCreateRequestTagsMap = {
+export type CreateAttestationProviderRequestTagsMap = {
   [key: string]: string | undefined;
 };
-export const AttestationProvidersCreateRequestTagsMap = /*@__PURE__*/ S.Record(
+export const CreateAttestationProviderRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<AttestationProvidersCreateRequestTagsMap>;
+) as any as S.Schema<CreateAttestationProviderRequestTagsMap>;
 
 /** Controls whether traffic from the public network is allowed to access the Attestation Provider APIs. */
 export type AttestationServiceCreationSpecificParamsPublicNetworkAccess =
   | "Enabled"
   | "Disabled";
 export const AttestationServiceCreationSpecificParamsPublicNetworkAccess =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** The "x5c" (X.509 certificate chain) parameter contains a chain of one or more PKIX certificates [RFC5280]. The certificate chain is represented as a JSON array of certificate value strings. Each string in the array is a base64-encoded (Section 4 of [RFC4648] -- not base64url-encoded) DER [ITU.X690.1994] PKIX certificate value. The PKIX certificate containing the key value MUST be the first certificate. */
 export type JsonWebKeyX5cList = Array<string>;
@@ -110,9 +110,10 @@ export const JsonWebKeySet = /*@__PURE__*/ S.suspend(() =>
 
 /** The setting that controls whether authentication is enabled or disabled for TPM Attestation REST APIs. */
 export type AttestationServiceCreationSpecificParamsTpmAttestationAuthentication =
-  "Enabled" | "Disabled";
+  | "Enabled"
+  | "Disabled";
 export const AttestationServiceCreationSpecificParamsTpmAttestationAuthentication =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** Client supplied parameters used to create a new attestation provider. */
 export interface AttestationServiceCreationSpecificParams {
@@ -142,7 +143,7 @@ export const AttestationServiceCreationSpecificParams = /*@__PURE__*/ S.suspend(
   identifier: "AttestationServiceCreationSpecificParams",
 }) as any as S.Schema<AttestationServiceCreationSpecificParams>;
 
-export interface AttestationProvidersCreateRequest {
+export interface CreateAttestationProviderRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -152,17 +153,17 @@ export interface AttestationProvidersCreateRequest {
   /** The supported Azure location where the attestation provider should be created. */
   location: string;
   /** The tags that will be assigned to the attestation provider. */
-  tags?: AttestationProvidersCreateRequestTagsMap;
+  tags?: CreateAttestationProviderRequestTagsMap;
   /** Properties of the attestation provider */
   properties: AttestationServiceCreationSpecificParams;
 }
-export const AttestationProvidersCreateRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateAttestationProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     providerName: S.String.pipe(T.Label()),
     location: S.String,
-    tags: S.optional(AttestationProvidersCreateRequestTagsMap),
+    tags: S.optional(CreateAttestationProviderRequestTagsMap),
     properties: AttestationServiceCreationSpecificParams,
   }).pipe(
     T.Http({
@@ -173,8 +174,8 @@ export const AttestationProvidersCreateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "AttestationProvidersCreateRequest",
-}) as any as S.Schema<AttestationProvidersCreateRequest>;
+  identifier: "CreateAttestationProviderRequest",
+}) as any as S.Schema<CreateAttestationProviderRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType =
@@ -182,7 +183,7 @@ export type SystemDataCreatedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const SystemDataCreatedByType = /*@__PURE__*/ S.String;
+export const SystemDataCreatedByType = S.String;
 
 /** The type of identity that last modified the resource. */
 export type SystemDataLastModifiedByType =
@@ -190,7 +191,7 @@ export type SystemDataLastModifiedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const SystemDataLastModifiedByType = /*@__PURE__*/ S.String;
+export const SystemDataLastModifiedByType = S.String;
 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
@@ -219,21 +220,21 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type AttestationProvidersCreateResponseTagsMap = {
+export type CreateAttestationProviderResponseTagsMap = {
   [key: string]: string | undefined;
 };
-export const AttestationProvidersCreateResponseTagsMap = /*@__PURE__*/ S.Record(
+export const CreateAttestationProviderResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<AttestationProvidersCreateResponseTagsMap>;
+) as any as S.Schema<CreateAttestationProviderResponseTagsMap>;
 
 /** Status of attestation service. */
 export type AttestationServiceStatus = "Ready" | "NotReady" | "Error";
-export const AttestationServiceStatus = /*@__PURE__*/ S.String;
+export const AttestationServiceStatus = S.String;
 
 /** Controls whether traffic from the public network is allowed to access the Attestation Provider APIs. */
 export type StatusResultPublicNetworkAccess = "Enabled" | "Disabled";
-export const StatusResultPublicNetworkAccess = /*@__PURE__*/ S.String;
+export const StatusResultPublicNetworkAccess = S.String;
 
 /** The Private Endpoint resource. */
 export interface PrivateEndpoint {
@@ -253,7 +254,7 @@ export type PrivateEndpointServiceConnectionStatus =
   | "Pending"
   | "Approved"
   | "Rejected";
-export const PrivateEndpointServiceConnectionStatus = /*@__PURE__*/ S.String;
+export const PrivateEndpointServiceConnectionStatus = S.String;
 
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
@@ -280,8 +281,7 @@ export type PrivateEndpointConnectionProvisioningState =
   | "Creating"
   | "Deleting"
   | "Failed";
-export const PrivateEndpointConnectionProvisioningState =
-  /*@__PURE__*/ S.String;
+export const PrivateEndpointConnectionProvisioningState = S.String;
 
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionProperties {
@@ -337,7 +337,7 @@ export const StatusResultPrivateEndpointConnectionsList = /*@__PURE__*/ S.Array(
 
 /** The setting that controls whether authentication is enabled or disabled for TPM Attestation REST APIs. */
 export type StatusResultTpmAttestationAuthentication = "Enabled" | "Disabled";
-export const StatusResultTpmAttestationAuthentication = /*@__PURE__*/ S.String;
+export const StatusResultTpmAttestationAuthentication = S.String;
 
 /** Status of attestation service. */
 export interface StatusResult {
@@ -369,7 +369,7 @@ export const StatusResult = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "StatusResult" }) as any as S.Schema<StatusResult>;
 
-export interface AttestationProvidersCreateResponse {
+export interface CreateAttestationProviderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -379,27 +379,109 @@ export interface AttestationProvidersCreateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   /** Resource tags. */
-  tags?: AttestationProvidersCreateResponseTagsMap;
+  tags?: CreateAttestationProviderResponseTagsMap;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Attestation service status. */
   properties?: StatusResult;
 }
-export const AttestationProvidersCreateResponse = /*@__PURE__*/ S.suspend(() =>
+export const CreateAttestationProviderResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
-    tags: S.optional(AttestationProvidersCreateResponseTagsMap),
+    tags: S.optional(CreateAttestationProviderResponseTagsMap),
     location: S.String,
     properties: S.optional(StatusResult),
   }),
 ).annotate({
-  identifier: "AttestationProvidersCreateResponse",
-}) as any as S.Schema<AttestationProvidersCreateResponse>;
+  identifier: "CreateAttestationProviderResponse",
+}) as any as S.Schema<CreateAttestationProviderResponse>;
 
-export interface AttestationProvidersDeleteRequest {
+/** The Private Endpoint resource. */
+export interface PrivateEndpointInput {}
+export const PrivateEndpointInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "PrivateEndpointInput",
+}) as any as S.Schema<PrivateEndpointInput>;
+
+/** Properties of the PrivateEndpointConnectProperties. */
+export interface PrivateEndpointConnectionPropertiesInput {
+  /** The resource of private end point. */
+  privateEndpoint?: PrivateEndpointInput;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+}
+export const PrivateEndpointConnectionPropertiesInput = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      privateEndpoint: S.optional(PrivateEndpointInput),
+      privateLinkServiceConnectionState: PrivateLinkServiceConnectionState,
+    }),
+).annotate({
+  identifier: "PrivateEndpointConnectionPropertiesInput",
+}) as any as S.Schema<PrivateEndpointConnectionPropertiesInput>;
+
+export interface CreatePrivateEndpointConnectionRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the attestation provider. */
+  providerName: string;
+  /** The name of the private endpoint connection associated with the Azure resource */
+  privateEndpointConnectionName: string;
+  /** Resource properties. */
+  properties?: PrivateEndpointConnectionPropertiesInput;
+}
+export const CreatePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      providerName: S.String.pipe(T.Label()),
+      privateEndpointConnectionName: S.String.pipe(T.Label()),
+      properties: S.optional(PrivateEndpointConnectionPropertiesInput),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Attestation/attestationProviders/{providerName}/privateEndpointConnections/{privateEndpointConnectionName}",
+        code: 200,
+        apiVersion: "2021-06-01",
+      }),
+    ),
+).annotate({
+  identifier: "CreatePrivateEndpointConnectionRequest",
+}) as any as S.Schema<CreatePrivateEndpointConnectionRequest>;
+
+export interface CreatePrivateEndpointConnectionResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource properties. */
+  properties?: PrivateEndpointConnectionProperties;
+}
+export const CreatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: S.optional(PrivateEndpointConnectionProperties),
+    }),
+).annotate({
+  identifier: "CreatePrivateEndpointConnectionResponse",
+}) as any as S.Schema<CreatePrivateEndpointConnectionResponse>;
+
+export interface DeleteAttestationProviderRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -407,7 +489,7 @@ export interface AttestationProvidersDeleteRequest {
   /** Name of the attestation provider. */
   providerName: string;
 }
-export const AttestationProvidersDeleteRequest = /*@__PURE__*/ S.suspend(() =>
+export const DeleteAttestationProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -421,17 +503,53 @@ export const AttestationProvidersDeleteRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "AttestationProvidersDeleteRequest",
-}) as any as S.Schema<AttestationProvidersDeleteRequest>;
+  identifier: "DeleteAttestationProviderRequest",
+}) as any as S.Schema<DeleteAttestationProviderRequest>;
 
-export interface AttestationProvidersDeleteResponse {}
-export const AttestationProvidersDeleteResponse = /*@__PURE__*/ S.suspend(() =>
+export interface DeleteAttestationProviderResponse {}
+export const DeleteAttestationProviderResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}),
 ).annotate({
-  identifier: "AttestationProvidersDeleteResponse",
-}) as any as S.Schema<AttestationProvidersDeleteResponse>;
+  identifier: "DeleteAttestationProviderResponse",
+}) as any as S.Schema<DeleteAttestationProviderResponse>;
 
-export interface AttestationProvidersGetRequest {
+export interface DeletePrivateEndpointConnectionRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the attestation provider. */
+  providerName: string;
+  /** The name of the private endpoint connection associated with the Azure resource */
+  privateEndpointConnectionName: string;
+}
+export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      providerName: S.String.pipe(T.Label()),
+      privateEndpointConnectionName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Attestation/attestationProviders/{providerName}/privateEndpointConnections/{privateEndpointConnectionName}",
+        code: 200,
+        apiVersion: "2021-06-01",
+      }),
+    ),
+).annotate({
+  identifier: "DeletePrivateEndpointConnectionRequest",
+}) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
+
+export interface DeletePrivateEndpointConnectionResponse {}
+export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "DeletePrivateEndpointConnectionResponse",
+}) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
+
+export interface GetAttestationProviderRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -439,7 +557,7 @@ export interface AttestationProvidersGetRequest {
   /** Name of the attestation provider. */
   providerName: string;
 }
-export const AttestationProvidersGetRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetAttestationProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
@@ -453,19 +571,19 @@ export const AttestationProvidersGetRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "AttestationProvidersGetRequest",
-}) as any as S.Schema<AttestationProvidersGetRequest>;
+  identifier: "GetAttestationProviderRequest",
+}) as any as S.Schema<GetAttestationProviderRequest>;
 
 /** Resource tags. */
-export type AttestationProvidersGetResponseTagsMap = {
+export type GetAttestationProviderResponseTagsMap = {
   [key: string]: string | undefined;
 };
-export const AttestationProvidersGetResponseTagsMap = /*@__PURE__*/ S.Record(
+export const GetAttestationProviderResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<AttestationProvidersGetResponseTagsMap>;
+) as any as S.Schema<GetAttestationProviderResponseTagsMap>;
 
-export interface AttestationProvidersGetResponse {
+export interface GetAttestationProviderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -475,33 +593,33 @@ export interface AttestationProvidersGetResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   /** Resource tags. */
-  tags?: AttestationProvidersGetResponseTagsMap;
+  tags?: GetAttestationProviderResponseTagsMap;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Attestation service status. */
   properties?: StatusResult;
 }
-export const AttestationProvidersGetResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetAttestationProviderResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
-    tags: S.optional(AttestationProvidersGetResponseTagsMap),
+    tags: S.optional(GetAttestationProviderResponseTagsMap),
     location: S.String,
     properties: S.optional(StatusResult),
   }),
 ).annotate({
-  identifier: "AttestationProvidersGetResponse",
-}) as any as S.Schema<AttestationProvidersGetResponse>;
+  identifier: "GetAttestationProviderResponse",
+}) as any as S.Schema<GetAttestationProviderResponse>;
 
-export interface AttestationProvidersGetDefaultByLocationRequest {
+export interface GetAttestationProviderDefaultByLocationRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of Azure region. */
   location: string;
 }
-export const AttestationProvidersGetDefaultByLocationRequest =
+export const GetAttestationProviderDefaultByLocationRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -515,20 +633,20 @@ export const AttestationProvidersGetDefaultByLocationRequest =
       }),
     ),
   ).annotate({
-    identifier: "AttestationProvidersGetDefaultByLocationRequest",
-  }) as any as S.Schema<AttestationProvidersGetDefaultByLocationRequest>;
+    identifier: "GetAttestationProviderDefaultByLocationRequest",
+  }) as any as S.Schema<GetAttestationProviderDefaultByLocationRequest>;
 
 /** Resource tags. */
-export type AttestationProvidersGetDefaultByLocationResponseTagsMap = {
+export type GetAttestationProviderDefaultByLocationResponseTagsMap = {
   [key: string]: string | undefined;
 };
-export const AttestationProvidersGetDefaultByLocationResponseTagsMap =
+export const GetAttestationProviderDefaultByLocationResponseTagsMap =
   /*@__PURE__*/ S.Record(
     S.String,
     S.String,
-  ) as any as S.Schema<AttestationProvidersGetDefaultByLocationResponseTagsMap>;
+  ) as any as S.Schema<GetAttestationProviderDefaultByLocationResponseTagsMap>;
 
-export interface AttestationProvidersGetDefaultByLocationResponse {
+export interface GetAttestationProviderDefaultByLocationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
   /** The name of the resource */
@@ -538,45 +656,102 @@ export interface AttestationProvidersGetDefaultByLocationResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   /** Resource tags. */
-  tags?: AttestationProvidersGetDefaultByLocationResponseTagsMap;
+  tags?: GetAttestationProviderDefaultByLocationResponseTagsMap;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Attestation service status. */
   properties?: StatusResult;
 }
-export const AttestationProvidersGetDefaultByLocationResponse =
+export const GetAttestationProviderDefaultByLocationResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.optional(S.String),
       name: S.optional(S.String),
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
-      tags: S.optional(AttestationProvidersGetDefaultByLocationResponseTagsMap),
+      tags: S.optional(GetAttestationProviderDefaultByLocationResponseTagsMap),
       location: S.String,
       properties: S.optional(StatusResult),
     }),
   ).annotate({
-    identifier: "AttestationProvidersGetDefaultByLocationResponse",
-  }) as any as S.Schema<AttestationProvidersGetDefaultByLocationResponse>;
+    identifier: "GetAttestationProviderDefaultByLocationResponse",
+  }) as any as S.Schema<GetAttestationProviderDefaultByLocationResponse>;
 
-export interface AttestationProvidersListRequest {
+export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the attestation provider. */
+  providerName: string;
+  /** The name of the private endpoint connection associated with the Azure resource */
+  privateEndpointConnectionName: string;
 }
-export const AttestationProvidersListRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetPrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    providerName: S.String.pipe(T.Label()),
+    privateEndpointConnectionName: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Attestation/attestationProviders",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Attestation/attestationProviders/{providerName}/privateEndpointConnections/{privateEndpointConnectionName}",
       code: 200,
       apiVersion: "2021-06-01",
     }),
   ),
 ).annotate({
-  identifier: "AttestationProvidersListRequest",
-}) as any as S.Schema<AttestationProvidersListRequest>;
+  identifier: "GetPrivateEndpointConnectionRequest",
+}) as any as S.Schema<GetPrivateEndpointConnectionRequest>;
+
+export interface GetPrivateEndpointConnectionResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource properties. */
+  properties?: PrivateEndpointConnectionProperties;
+}
+export const GetPrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(SystemData),
+      properties: S.optional(PrivateEndpointConnectionProperties),
+    }),
+).annotate({
+  identifier: "GetPrivateEndpointConnectionResponse",
+}) as any as S.Schema<GetPrivateEndpointConnectionResponse>;
+
+export interface ListAttestationProviderByResourceGroupRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+}
+export const ListAttestationProviderByResourceGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Attestation/attestationProviders",
+        code: 200,
+        apiVersion: "2021-06-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "ListAttestationProviderByResourceGroupRequest",
+  }) as any as S.Schema<ListAttestationProviderByResourceGroupRequest>;
 
 /** The type of identity that created the resource. */
 export type AttestationProviderListResultSystemDataCreatedByType =
@@ -584,8 +759,7 @@ export type AttestationProviderListResultSystemDataCreatedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const AttestationProviderListResultSystemDataCreatedByType =
-  /*@__PURE__*/ S.String;
+export const AttestationProviderListResultSystemDataCreatedByType = S.String;
 
 /** The type of identity that last modified the resource. */
 export type AttestationProviderListResultSystemDataLastModifiedByType =
@@ -594,7 +768,7 @@ export type AttestationProviderListResultSystemDataLastModifiedByType =
   | "ManagedIdentity"
   | "Key";
 export const AttestationProviderListResultSystemDataLastModifiedByType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface AttestationProviderListResultSystemData {
@@ -689,34 +863,11 @@ export const AttestationProviderListResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "AttestationProviderListResult",
 }) as any as S.Schema<AttestationProviderListResult>;
 
-export interface AttestationProvidersListByResourceGroupRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-}
-export const AttestationProvidersListByResourceGroupRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Attestation/attestationProviders",
-        code: 200,
-        apiVersion: "2021-06-01",
-      }),
-    ),
-  ).annotate({
-    identifier: "AttestationProvidersListByResourceGroupRequest",
-  }) as any as S.Schema<AttestationProvidersListByResourceGroupRequest>;
-
-export interface AttestationProvidersListDefaultRequest {
+export interface ListAttestationProviderDefaultRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
 }
-export const AttestationProvidersListDefaultRequest = /*@__PURE__*/ S.suspend(
+export const ListAttestationProviderDefaultRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -729,129 +880,30 @@ export const AttestationProvidersListDefaultRequest = /*@__PURE__*/ S.suspend(
       }),
     ),
 ).annotate({
-  identifier: "AttestationProvidersListDefaultRequest",
-}) as any as S.Schema<AttestationProvidersListDefaultRequest>;
+  identifier: "ListAttestationProviderDefaultRequest",
+}) as any as S.Schema<ListAttestationProviderDefaultRequest>;
 
-/** The tags that will be assigned to the attestation provider. */
-export type AttestationProvidersUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
-export const AttestationProvidersUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<AttestationProvidersUpdateRequestTagsMap>;
-
-/** Controls whether traffic from the public network is allowed to access the Attestation Provider APIs. */
-export type AttestationServicePatchSpecificParamsPublicNetworkAccess =
-  | "Enabled"
-  | "Disabled";
-export const AttestationServicePatchSpecificParamsPublicNetworkAccess =
-  /*@__PURE__*/ S.String;
-
-/** The setting that controls whether authentication is enabled or disabled for TPM Attestation REST APIs. */
-export type AttestationServicePatchSpecificParamsTpmAttestationAuthentication =
-  | "Enabled"
-  | "Disabled";
-export const AttestationServicePatchSpecificParamsTpmAttestationAuthentication =
-  /*@__PURE__*/ S.String;
-
-/** Client supplied parameters used to patch an existing attestation provider. */
-export interface AttestationServicePatchSpecificParams {
-  /** Controls whether traffic from the public network is allowed to access the Attestation Provider APIs. */
-  publicNetworkAccess?:
-    | AttestationServicePatchSpecificParamsPublicNetworkAccess
-    | (string & {});
-  /** The setting that controls whether authentication is enabled or disabled for TPM Attestation REST APIs. */
-  tpmAttestationAuthentication?:
-    | AttestationServicePatchSpecificParamsTpmAttestationAuthentication
-    | (string & {});
-}
-export const AttestationServicePatchSpecificParams = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      publicNetworkAccess: S.optional(
-        AttestationServicePatchSpecificParamsPublicNetworkAccess,
-      ),
-      tpmAttestationAuthentication: S.optional(
-        AttestationServicePatchSpecificParamsTpmAttestationAuthentication,
-      ),
-    }),
-).annotate({
-  identifier: "AttestationServicePatchSpecificParams",
-}) as any as S.Schema<AttestationServicePatchSpecificParams>;
-
-export interface AttestationProvidersUpdateRequest {
+export interface ListAttestationProvidersRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of the attestation provider. */
-  providerName: string;
-  /** The tags that will be assigned to the attestation provider. */
-  tags?: AttestationProvidersUpdateRequestTagsMap;
-  /** Properties of the attestation provider */
-  properties?: AttestationServicePatchSpecificParams;
 }
-export const AttestationProvidersUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListAttestationProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
-    resourceGroupName: S.String.pipe(T.Label()),
-    providerName: S.String.pipe(T.Label()),
-    tags: S.optional(AttestationProvidersUpdateRequestTagsMap),
-    properties: S.optional(AttestationServicePatchSpecificParams),
   }).pipe(
     T.Http({
-      method: "PATCH",
-      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Attestation/attestationProviders/{providerName}",
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Attestation/attestationProviders",
       code: 200,
       apiVersion: "2021-06-01",
     }),
   ),
 ).annotate({
-  identifier: "AttestationProvidersUpdateRequest",
-}) as any as S.Schema<AttestationProvidersUpdateRequest>;
+  identifier: "ListAttestationProvidersRequest",
+}) as any as S.Schema<ListAttestationProvidersRequest>;
 
-/** Resource tags. */
-export type AttestationProvidersUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
-export const AttestationProvidersUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<AttestationProvidersUpdateResponseTagsMap>;
-
-export interface AttestationProvidersUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource tags. */
-  tags?: AttestationProvidersUpdateResponseTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  /** Describes Attestation service status. */
-  properties?: StatusResult;
-}
-export const AttestationProvidersUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    systemData: S.optional(SystemData),
-    tags: S.optional(AttestationProvidersUpdateResponseTagsMap),
-    location: S.String,
-    properties: S.optional(StatusResult),
-  }),
-).annotate({
-  identifier: "AttestationProvidersUpdateResponse",
-}) as any as S.Schema<AttestationProvidersUpdateResponse>;
-
-export interface OperationsListRequest {}
-export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
+export interface ListOperationsRequest {}
+export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
     T.Http({
       method: "GET",
@@ -861,8 +913,8 @@ export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "OperationsListRequest",
-}) as any as S.Schema<OperationsListRequest>;
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
 
 /** The type of identity that created the resource. */
 export type OperationListSystemDataCreatedByType =
@@ -870,7 +922,7 @@ export type OperationListSystemDataCreatedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const OperationListSystemDataCreatedByType = /*@__PURE__*/ S.String;
+export const OperationListSystemDataCreatedByType = S.String;
 
 /** The type of identity that last modified the resource. */
 export type OperationListSystemDataLastModifiedByType =
@@ -878,7 +930,7 @@ export type OperationListSystemDataLastModifiedByType =
   | "Application"
   | "ManagedIdentity"
   | "Key";
-export const OperationListSystemDataLastModifiedByType = /*@__PURE__*/ S.String;
+export const OperationListSystemDataLastModifiedByType = S.String;
 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface OperationListSystemData {
@@ -1017,179 +1069,7 @@ export const OperationList = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "OperationList" }) as any as S.Schema<OperationList>;
 
-/** The Private Endpoint resource. */
-export interface PrivateEndpointInput {}
-export const PrivateEndpointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PrivateEndpointInput",
-}) as any as S.Schema<PrivateEndpointInput>;
-
-/** Properties of the PrivateEndpointConnectProperties. */
-export interface PrivateEndpointConnectionPropertiesInput {
-  /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpointInput;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-}
-export const PrivateEndpointConnectionPropertiesInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      privateEndpoint: S.optional(PrivateEndpointInput),
-      privateLinkServiceConnectionState: PrivateLinkServiceConnectionState,
-    }),
-).annotate({
-  identifier: "PrivateEndpointConnectionPropertiesInput",
-}) as any as S.Schema<PrivateEndpointConnectionPropertiesInput>;
-
-export interface PrivateEndpointConnectionsCreateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of the attestation provider. */
-  providerName: string;
-  /** The name of the private endpoint connection associated with the Azure resource */
-  privateEndpointConnectionName: string;
-  /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
-}
-export const PrivateEndpointConnectionsCreateRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      providerName: S.String.pipe(T.Label()),
-      privateEndpointConnectionName: S.String.pipe(T.Label()),
-      properties: S.optional(PrivateEndpointConnectionPropertiesInput),
-    }).pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Attestation/attestationProviders/{providerName}/privateEndpointConnections/{privateEndpointConnectionName}",
-        code: 200,
-        apiVersion: "2021-06-01",
-      }),
-    ),
-).annotate({
-  identifier: "PrivateEndpointConnectionsCreateRequest",
-}) as any as S.Schema<PrivateEndpointConnectionsCreateRequest>;
-
-export interface PrivateEndpointConnectionsCreateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
-}
-export const PrivateEndpointConnectionsCreateResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      systemData: S.optional(SystemData),
-      properties: S.optional(PrivateEndpointConnectionProperties),
-    }),
-).annotate({
-  identifier: "PrivateEndpointConnectionsCreateResponse",
-}) as any as S.Schema<PrivateEndpointConnectionsCreateResponse>;
-
-export interface PrivateEndpointConnectionsDeleteRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of the attestation provider. */
-  providerName: string;
-  /** The name of the private endpoint connection associated with the Azure resource */
-  privateEndpointConnectionName: string;
-}
-export const PrivateEndpointConnectionsDeleteRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      providerName: S.String.pipe(T.Label()),
-      privateEndpointConnectionName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Attestation/attestationProviders/{providerName}/privateEndpointConnections/{privateEndpointConnectionName}",
-        code: 200,
-        apiVersion: "2021-06-01",
-      }),
-    ),
-).annotate({
-  identifier: "PrivateEndpointConnectionsDeleteRequest",
-}) as any as S.Schema<PrivateEndpointConnectionsDeleteRequest>;
-
-export interface PrivateEndpointConnectionsDeleteResponse {}
-export const PrivateEndpointConnectionsDeleteResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "PrivateEndpointConnectionsDeleteResponse",
-}) as any as S.Schema<PrivateEndpointConnectionsDeleteResponse>;
-
-export interface PrivateEndpointConnectionsGetRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of the attestation provider. */
-  providerName: string;
-  /** The name of the private endpoint connection associated with the Azure resource */
-  privateEndpointConnectionName: string;
-}
-export const PrivateEndpointConnectionsGetRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptionId: S.String.pipe(T.Label()),
-      resourceGroupName: S.String.pipe(T.Label()),
-      providerName: S.String.pipe(T.Label()),
-      privateEndpointConnectionName: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Attestation/attestationProviders/{providerName}/privateEndpointConnections/{privateEndpointConnectionName}",
-        code: 200,
-        apiVersion: "2021-06-01",
-      }),
-    ),
-).annotate({
-  identifier: "PrivateEndpointConnectionsGetRequest",
-}) as any as S.Schema<PrivateEndpointConnectionsGetRequest>;
-
-export interface PrivateEndpointConnectionsGetResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
-}
-export const PrivateEndpointConnectionsGetResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      systemData: S.optional(SystemData),
-      properties: S.optional(PrivateEndpointConnectionProperties),
-    }),
-).annotate({
-  identifier: "PrivateEndpointConnectionsGetResponse",
-}) as any as S.Schema<PrivateEndpointConnectionsGetResponse>;
-
-export interface PrivateEndpointConnectionsListRequest {
+export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -1197,7 +1077,7 @@ export interface PrivateEndpointConnectionsListRequest {
   /** Name of the attestation provider. */
   providerName: string;
 }
-export const PrivateEndpointConnectionsListRequest = /*@__PURE__*/ S.suspend(
+export const ListPrivateEndpointConnectionsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
@@ -1212,8 +1092,8 @@ export const PrivateEndpointConnectionsListRequest = /*@__PURE__*/ S.suspend(
       }),
     ),
 ).annotate({
-  identifier: "PrivateEndpointConnectionsListRequest",
-}) as any as S.Schema<PrivateEndpointConnectionsListRequest>;
+  identifier: "ListPrivateEndpointConnectionsRequest",
+}) as any as S.Schema<ListPrivateEndpointConnectionsRequest>;
 
 /** The Private Endpoint Connection resource. */
 export type PrivateEndpointConnectionListResultValueItem =
@@ -1245,7 +1125,7 @@ export const PrivateEndpointConnectionListResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "PrivateEndpointConnectionListResult",
 }) as any as S.Schema<PrivateEndpointConnectionListResult>;
 
-export interface PrivateLinkResourcesListByProviderRequest {
+export interface ListPrivateLinkResourceByProviderRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
@@ -1253,8 +1133,8 @@ export interface PrivateLinkResourcesListByProviderRequest {
   /** Name of the attestation provider. */
   providerName: string;
 }
-export const PrivateLinkResourcesListByProviderRequest =
-  /*@__PURE__*/ S.suspend(() =>
+export const ListPrivateLinkResourceByProviderRequest = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
       subscriptionId: S.String.pipe(T.Label()),
       resourceGroupName: S.String.pipe(T.Label()),
@@ -1267,9 +1147,9 @@ export const PrivateLinkResourcesListByProviderRequest =
         apiVersion: "2021-06-01",
       }),
     ),
-  ).annotate({
-    identifier: "PrivateLinkResourcesListByProviderRequest",
-  }) as any as S.Schema<PrivateLinkResourcesListByProviderRequest>;
+).annotate({
+  identifier: "ListPrivateLinkResourceByProviderRequest",
+}) as any as S.Schema<ListPrivateLinkResourceByProviderRequest>;
 
 /** The private link resource required member names. */
 export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
@@ -1357,211 +1237,329 @@ export const PrivateLinkResourceListResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "PrivateLinkResourceListResult",
 }) as any as S.Schema<PrivateLinkResourceListResult>;
 
-export type AttestationProvidersCreateError = AzureOpError;
+/** The tags that will be assigned to the attestation provider. */
+export type UpdateAttestationProviderRequestTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateAttestationProviderRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateAttestationProviderRequestTagsMap>;
+
+/** Controls whether traffic from the public network is allowed to access the Attestation Provider APIs. */
+export type AttestationServicePatchSpecificParamsPublicNetworkAccess =
+  | "Enabled"
+  | "Disabled";
+export const AttestationServicePatchSpecificParamsPublicNetworkAccess =
+  S.String;
+
+/** The setting that controls whether authentication is enabled or disabled for TPM Attestation REST APIs. */
+export type AttestationServicePatchSpecificParamsTpmAttestationAuthentication =
+  | "Enabled"
+  | "Disabled";
+export const AttestationServicePatchSpecificParamsTpmAttestationAuthentication =
+  S.String;
+
+/** Client supplied parameters used to patch an existing attestation provider. */
+export interface AttestationServicePatchSpecificParams {
+  /** Controls whether traffic from the public network is allowed to access the Attestation Provider APIs. */
+  publicNetworkAccess?:
+    | AttestationServicePatchSpecificParamsPublicNetworkAccess
+    | (string & {});
+  /** The setting that controls whether authentication is enabled or disabled for TPM Attestation REST APIs. */
+  tpmAttestationAuthentication?:
+    | AttestationServicePatchSpecificParamsTpmAttestationAuthentication
+    | (string & {});
+}
+export const AttestationServicePatchSpecificParams = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      publicNetworkAccess: S.optional(
+        AttestationServicePatchSpecificParamsPublicNetworkAccess,
+      ),
+      tpmAttestationAuthentication: S.optional(
+        AttestationServicePatchSpecificParamsTpmAttestationAuthentication,
+      ),
+    }),
+).annotate({
+  identifier: "AttestationServicePatchSpecificParams",
+}) as any as S.Schema<AttestationServicePatchSpecificParams>;
+
+export interface UpdateAttestationProviderRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of the attestation provider. */
+  providerName: string;
+  /** The tags that will be assigned to the attestation provider. */
+  tags?: UpdateAttestationProviderRequestTagsMap;
+  /** Properties of the attestation provider */
+  properties?: AttestationServicePatchSpecificParams;
+}
+export const UpdateAttestationProviderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    providerName: S.String.pipe(T.Label()),
+    tags: S.optional(UpdateAttestationProviderRequestTagsMap),
+    properties: S.optional(AttestationServicePatchSpecificParams),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Attestation/attestationProviders/{providerName}",
+      code: 200,
+      apiVersion: "2021-06-01",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateAttestationProviderRequest",
+}) as any as S.Schema<UpdateAttestationProviderRequest>;
+
+/** Resource tags. */
+export type UpdateAttestationProviderResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateAttestationProviderResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateAttestationProviderResponseTagsMap>;
+
+export interface UpdateAttestationProviderResponse {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: UpdateAttestationProviderResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** Describes Attestation service status. */
+  properties?: StatusResult;
+}
+export const UpdateAttestationProviderResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(UpdateAttestationProviderResponseTagsMap),
+    location: S.String,
+    properties: S.optional(StatusResult),
+  }),
+).annotate({
+  identifier: "UpdateAttestationProviderResponse",
+}) as any as S.Schema<UpdateAttestationProviderResponse>;
+
+export type CreateAttestationProviderError = AzureOpError;
 /** Creates or updates an Attestation Provider. */
-export const AttestationProvidersCreate: API.OperationMethod<
-  AttestationProvidersCreateRequest,
-  AttestationProvidersCreateResponse,
-  AttestationProvidersCreateError,
+export const CreateAttestationProvider: API.OperationMethod<
+  CreateAttestationProviderRequest,
+  CreateAttestationProviderResponse,
+  CreateAttestationProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttestationProvidersCreateRequest,
-  output: AttestationProvidersCreateResponse,
+  input: CreateAttestationProviderRequest,
+  output: CreateAttestationProviderResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type AttestationProvidersDeleteError = AzureOpError;
+export type CreatePrivateEndpointConnectionError = AzureOpError;
+/** Update the state of specified private endpoint connection associated with the attestation provider. */
+export const CreatePrivateEndpointConnection: API.OperationMethod<
+  CreatePrivateEndpointConnectionRequest,
+  CreatePrivateEndpointConnectionResponse,
+  CreatePrivateEndpointConnectionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePrivateEndpointConnectionRequest,
+  output: CreatePrivateEndpointConnectionResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteAttestationProviderError = AzureOpError;
 /** Delete Attestation Service. */
-export const AttestationProvidersDelete: API.OperationMethod<
-  AttestationProvidersDeleteRequest,
-  AttestationProvidersDeleteResponse,
-  AttestationProvidersDeleteError,
+export const DeleteAttestationProvider: API.OperationMethod<
+  DeleteAttestationProviderRequest,
+  DeleteAttestationProviderResponse,
+  DeleteAttestationProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttestationProvidersDeleteRequest,
-  output: AttestationProvidersDeleteResponse,
+  input: DeleteAttestationProviderRequest,
+  output: DeleteAttestationProviderResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type AttestationProvidersGetError = AzureOpError;
+export type DeletePrivateEndpointConnectionError = AzureOpError;
+/** Deletes the specified private endpoint connection associated with the attestation provider. */
+export const DeletePrivateEndpointConnection: API.OperationMethod<
+  DeletePrivateEndpointConnectionRequest,
+  DeletePrivateEndpointConnectionResponse,
+  DeletePrivateEndpointConnectionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeletePrivateEndpointConnectionRequest,
+  output: DeletePrivateEndpointConnectionResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAttestationProviderError = AzureOpError;
 /** Get the status of Attestation Provider. */
-export const AttestationProvidersGet: API.OperationMethod<
-  AttestationProvidersGetRequest,
-  AttestationProvidersGetResponse,
-  AttestationProvidersGetError,
+export const GetAttestationProvider: API.OperationMethod<
+  GetAttestationProviderRequest,
+  GetAttestationProviderResponse,
+  GetAttestationProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttestationProvidersGetRequest,
-  output: AttestationProvidersGetResponse,
+  input: GetAttestationProviderRequest,
+  output: GetAttestationProviderResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type AttestationProvidersGetDefaultByLocationError = AzureOpError;
+export type GetAttestationProviderDefaultByLocationError = AzureOpError;
 /** Get the default provider by location. */
-export const AttestationProvidersGetDefaultByLocation: API.OperationMethod<
-  AttestationProvidersGetDefaultByLocationRequest,
-  AttestationProvidersGetDefaultByLocationResponse,
-  AttestationProvidersGetDefaultByLocationError,
+export const GetAttestationProviderDefaultByLocation: API.OperationMethod<
+  GetAttestationProviderDefaultByLocationRequest,
+  GetAttestationProviderDefaultByLocationResponse,
+  GetAttestationProviderDefaultByLocationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttestationProvidersGetDefaultByLocationRequest,
-  output: AttestationProvidersGetDefaultByLocationResponse,
+  input: GetAttestationProviderDefaultByLocationRequest,
+  output: GetAttestationProviderDefaultByLocationResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type AttestationProvidersListError = AzureOpError;
-/** Returns a list of attestation providers in a subscription. */
-export const AttestationProvidersList: API.OperationMethod<
-  AttestationProvidersListRequest,
-  AttestationProviderListResult,
-  AttestationProvidersListError,
+export type GetPrivateEndpointConnectionError = AzureOpError;
+/** Gets the specified private endpoint connection associated with the attestation provider. */
+export const GetPrivateEndpointConnection: API.OperationMethod<
+  GetPrivateEndpointConnectionRequest,
+  GetPrivateEndpointConnectionResponse,
+  GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttestationProvidersListRequest,
-  output: AttestationProviderListResult,
+  input: GetPrivateEndpointConnectionRequest,
+  output: GetPrivateEndpointConnectionResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type AttestationProvidersListByResourceGroupError = AzureOpError;
+export type ListAttestationProviderByResourceGroupError = AzureOpError;
 /** Returns attestation providers list in a resource group. */
-export const AttestationProvidersListByResourceGroup: API.OperationMethod<
-  AttestationProvidersListByResourceGroupRequest,
+export const ListAttestationProviderByResourceGroup: API.OperationMethod<
+  ListAttestationProviderByResourceGroupRequest,
   AttestationProviderListResult,
-  AttestationProvidersListByResourceGroupError,
+  ListAttestationProviderByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttestationProvidersListByResourceGroupRequest,
+  input: ListAttestationProviderByResourceGroupRequest,
   output: AttestationProviderListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type AttestationProvidersListDefaultError = AzureOpError;
+export type ListAttestationProviderDefaultError = AzureOpError;
 /** Get the default provider */
-export const AttestationProvidersListDefault: API.OperationMethod<
-  AttestationProvidersListDefaultRequest,
+export const ListAttestationProviderDefault: API.OperationMethod<
+  ListAttestationProviderDefaultRequest,
   AttestationProviderListResult,
-  AttestationProvidersListDefaultError,
+  ListAttestationProviderDefaultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttestationProvidersListDefaultRequest,
+  input: ListAttestationProviderDefaultRequest,
   output: AttestationProviderListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type AttestationProvidersUpdateError = AzureOpError;
-/** Updates the Attestation Provider. */
-export const AttestationProvidersUpdate: API.OperationMethod<
-  AttestationProvidersUpdateRequest,
-  AttestationProvidersUpdateResponse,
-  AttestationProvidersUpdateError,
+export type ListAttestationProvidersError = AzureOpError;
+/** Returns a list of attestation providers in a subscription. */
+export const ListAttestationProviders: API.OperationMethod<
+  ListAttestationProvidersRequest,
+  AttestationProviderListResult,
+  ListAttestationProvidersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttestationProvidersUpdateRequest,
-  output: AttestationProvidersUpdateResponse,
+  input: ListAttestationProvidersRequest,
+  output: AttestationProviderListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type OperationsListError = AzureOpError;
+export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const OperationsList: API.OperationMethod<
-  OperationsListRequest,
+export const ListOperations: API.OperationMethod<
+  ListOperationsRequest,
   OperationList,
-  OperationsListError,
+  ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: OperationsListRequest,
+  input: ListOperationsRequest,
   output: OperationList,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type PrivateEndpointConnectionsCreateError = AzureOpError;
-/** Update the state of specified private endpoint connection associated with the attestation provider. */
-export const PrivateEndpointConnectionsCreate: API.OperationMethod<
-  PrivateEndpointConnectionsCreateRequest,
-  PrivateEndpointConnectionsCreateResponse,
-  PrivateEndpointConnectionsCreateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PrivateEndpointConnectionsCreateRequest,
-  output: PrivateEndpointConnectionsCreateResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PrivateEndpointConnectionsDeleteError = AzureOpError;
-/** Deletes the specified private endpoint connection associated with the attestation provider. */
-export const PrivateEndpointConnectionsDelete: API.OperationMethod<
-  PrivateEndpointConnectionsDeleteRequest,
-  PrivateEndpointConnectionsDeleteResponse,
-  PrivateEndpointConnectionsDeleteError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PrivateEndpointConnectionsDeleteRequest,
-  output: PrivateEndpointConnectionsDeleteResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PrivateEndpointConnectionsGetError = AzureOpError;
-/** Gets the specified private endpoint connection associated with the attestation provider. */
-export const PrivateEndpointConnectionsGet: API.OperationMethod<
-  PrivateEndpointConnectionsGetRequest,
-  PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsGetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PrivateEndpointConnectionsGetRequest,
-  output: PrivateEndpointConnectionsGetResponse,
-  errors: [UnknownAzureError],
-  protocol: AzureProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PrivateEndpointConnectionsListError = AzureOpError;
+export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** List all the private endpoint connections associated with the attestation provider. */
-export const PrivateEndpointConnectionsList: API.OperationMethod<
-  PrivateEndpointConnectionsListRequest,
+export const ListPrivateEndpointConnections: API.OperationMethod<
+  ListPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionListResult,
-  PrivateEndpointConnectionsListError,
+  ListPrivateEndpointConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: PrivateEndpointConnectionsListRequest,
+  input: ListPrivateEndpointConnectionsRequest,
   output: PrivateEndpointConnectionListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
 }));
 
-export type PrivateLinkResourcesListByProviderError = AzureOpError;
+export type ListPrivateLinkResourceByProviderError = AzureOpError;
 /** Gets the private link resources supported for the attestation provider. */
-export const PrivateLinkResourcesListByProvider: API.OperationMethod<
-  PrivateLinkResourcesListByProviderRequest,
+export const ListPrivateLinkResourceByProvider: API.OperationMethod<
+  ListPrivateLinkResourceByProviderRequest,
   PrivateLinkResourceListResult,
-  PrivateLinkResourcesListByProviderError,
+  ListPrivateLinkResourceByProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: PrivateLinkResourcesListByProviderRequest,
+  input: ListPrivateLinkResourceByProviderRequest,
   output: PrivateLinkResourceListResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateAttestationProviderError = AzureOpError;
+/** Updates the Attestation Provider. */
+export const UpdateAttestationProvider: API.OperationMethod<
+  UpdateAttestationProviderRequest,
+  UpdateAttestationProviderResponse,
+  UpdateAttestationProviderError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateAttestationProviderRequest,
+  output: UpdateAttestationProviderResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

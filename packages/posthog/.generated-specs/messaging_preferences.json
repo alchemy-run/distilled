@@ -1,0 +1,564 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.messaging_preferences#MessagingPreferencesAddOptOutCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The recipient identifier to opt out (e.g. email address).",
+            "smithy.api#required": {}
+          }
+        },
+        "category_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional message category key. If omitted, the recipient is opted out of all marketing messages."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.messaging_preferences#MessagePreferences": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server-assigned UUID for this recipient's preference record.",
+            "smithy.api#required": {}
+          }
+        },
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The recipient identifier (e.g. email address).",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the preference was last updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "preferences": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Map of category ID to preference status (`OPTED_IN`, `OPTED_OUT` or `NO_PREFERENCE`). The reserved `$all` key covers every marketing message.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.messaging_preferences#MessagingPreferencesAddOptOutCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.messaging_preferences#MessagingPreferencesAddOptOutCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.messaging_preferences#MessagePreferences"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/messaging_preferences/add_opt_out/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Manually add a recipient to the opt-out list\n\nManually add a recipient to the opt-out list for a specific category or all marketing messages."
+      }
+    },
+    "com.posthog.messaging_preferences#BulkOptOutEntry": {
+      "type": "structure",
+      "members": {
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The recipient identifier to opt out (e.g. email address).",
+            "smithy.api#required": {}
+          }
+        },
+        "category_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Message category key for this recipient. Overrides the request-level category_key."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.messaging_preferences#MessagingPreferencesBulkAddOptOutsCreateRequestOptOutsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.messaging_preferences#BulkOptOutEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Recipients to opt out, at most 1000 per request."
+      }
+    },
+    "com.posthog.messaging_preferences#MessagingPreferencesBulkAddOptOutsCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "opt_outs": {
+          "target": "com.posthog.messaging_preferences#MessagingPreferencesBulkAddOptOutsCreateRequestOptOutsList",
+          "traits": {
+            "smithy.api#documentation": "Recipients to opt out, at most 1000 per request.",
+            "smithy.api#required": {}
+          }
+        },
+        "category_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Message category key applied to entries without their own. If omitted, recipients are opted out of all marketing messages."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.messaging_preferences#BulkAddOptOutsResult": {
+      "type": "structure",
+      "members": {
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of opt-out entries received.",
+            "smithy.api#required": {}
+          }
+        },
+        "opted_out": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of recipient and category pairs recorded as opted out.",
+            "smithy.api#required": {}
+          }
+        },
+        "skipped": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of entries skipped because their category_key doesn't exist.",
+            "smithy.api#required": {}
+          }
+        },
+        "errors": {
+          "target": "com.posthog.messaging_preferences#BulkAddOptOutsResultErrorsList",
+          "traits": {
+            "smithy.api#documentation": "The first few entry-level problems, so the caller can fix their list.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.messaging_preferences#BulkAddOptOutsResultErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The first few entry-level problems, so the caller can fix their list."
+      }
+    },
+    "com.posthog.messaging_preferences#MessagingPreferencesBulkAddOptOutsCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.messaging_preferences#MessagingPreferencesBulkAddOptOutsCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.messaging_preferences#BulkAddOptOutsResult"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.messaging_preferences#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/messaging_preferences/bulk_add_opt_outs/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add multiple recipients to the opt-out list\n\nOpt every recipient in the list out of the category named on their entry, or a default category."
+      }
+    },
+    "com.posthog.messaging_preferences#MessagingPreferencesExportOptOutsCsvRetrieveRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "category_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "category_key",
+            "smithy.api#documentation": "Message category key to export. If omitted, exports recipients opted out of all marketing messages."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.messaging_preferences#MessagingPreferencesExportOptOutsCsvRetrieve": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.messaging_preferences#MessagingPreferencesExportOptOutsCsvRetrieveRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.messaging_preferences#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/messaging_preferences/export_opt_outs_csv/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Download the opt-out list as a CSV file\n\nStream the opt-out list for a category as a CSV file that can be re-imported as-is."
+      }
+    },
+    "com.posthog.messaging_preferences#MessagingPreferencesGenerateLinkCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "recipient": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Recipient to generate the link for. Defaults to the requesting user's own email address."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.messaging_preferences#PreferencesLink": {
+      "type": "structure",
+      "members": {
+        "preferences_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token-gated URL where the recipient can manage their preferences.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.messaging_preferences#MessagingPreferencesGenerateLinkCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.messaging_preferences#MessagingPreferencesGenerateLinkCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.messaging_preferences#PreferencesLink"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/messaging_preferences/generate_link/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Generate a preferences page link for a recipient\n\nGenerate an unsubscribe link for the current user's email address"
+      }
+    },
+    "com.posthog.messaging_preferences#GetMessagingPreferencesOptOutRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "category_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "category_key",
+            "smithy.api#documentation": "Message category key to list opt-outs for. If omitted, lists recipients opted out of all marketing messages."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Case-insensitive substring match on the recipient identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.messaging_preferences#PaginatedOptOuts": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of opted-out recipients for the category.",
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL for the next page, or null on the last page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL for the previous page, or null on the first page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.messaging_preferences#PaginatedOptOutsResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "OpenAPI shape for the paginated opt-outs response, so the generated clients get the\n{count, next, previous, results} envelope instead of an untyped object."
+      }
+    },
+    "com.posthog.messaging_preferences#PaginatedOptOutsResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.messaging_preferences#MessagePreferences"
+      },
+      "traits": {}
+    },
+    "com.posthog.messaging_preferences#GetMessagingPreferencesOptOut": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.messaging_preferences#GetMessagingPreferencesOptOutRequest"
+      },
+      "output": {
+        "target": "com.posthog.messaging_preferences#PaginatedOptOuts"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.messaging_preferences#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/messaging_preferences/opt_outs/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List recipients opted out of a message category\n\nGet opt-outs filtered by category or overall opt-outs if no category specified"
+      }
+    },
+    "com.posthog.messaging_preferences#MessagingPreferencesRemoveOptOutCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The recipient identifier to opt back in (e.g. email address).",
+            "smithy.api#required": {}
+          }
+        },
+        "category_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional message category key. If omitted, the recipient is opted back in to all marketing messages."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.messaging_preferences#MessagingPreferencesRemoveOptOutCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.messaging_preferences#MessagingPreferencesRemoveOptOutCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.messaging_preferences#MessagePreferences"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/messaging_preferences/remove_opt_out/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Remove a recipient from the opt-out list\n\nOpt a recipient back in to a specific category, or to all marketing messages."
+      }
+    },
+    "com.posthog.messaging_preferences#GetMessagingPreferencesWebhookUrlRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.messaging_preferences#WebhookUrl": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to register in Customer.io so it posts subscription changes to PostHog.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.messaging_preferences#GetMessagingPreferencesWebhookUrl": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.messaging_preferences#GetMessagingPreferencesWebhookUrlRequest"
+      },
+      "output": {
+        "target": "com.posthog.messaging_preferences#WebhookUrl"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/messaging_preferences/webhook_url/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the Customer.io webhook URL for the team\n\nReturn the webhook URL for Customer.io integration setup."
+      }
+    },
+    "com.posthog.messaging_preferences#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.posthog.messaging_preferences#MessagingPreferences": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.messaging_preferences#MessagingPreferencesAddOptOutCreate"
+        },
+        {
+          "target": "com.posthog.messaging_preferences#MessagingPreferencesBulkAddOptOutsCreate"
+        },
+        {
+          "target": "com.posthog.messaging_preferences#MessagingPreferencesExportOptOutsCsvRetrieve"
+        },
+        {
+          "target": "com.posthog.messaging_preferences#MessagingPreferencesGenerateLinkCreate"
+        },
+        {
+          "target": "com.posthog.messaging_preferences#GetMessagingPreferencesOptOut"
+        },
+        {
+          "target": "com.posthog.messaging_preferences#MessagingPreferencesRemoveOptOutCreate"
+        },
+        {
+          "target": "com.posthog.messaging_preferences#GetMessagingPreferencesWebhookUrl"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

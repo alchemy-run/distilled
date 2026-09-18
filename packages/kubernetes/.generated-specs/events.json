@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.kubernetes.events#IoK8sApimachineryPkgApisMetaV1APIGroup": {
@@ -419,7 +420,7 @@
         "metadata": {
           "target": "com.kubernetes.events#IoK8sApimachineryPkgApisMetaV1ListMeta",
           "traits": {
-            "smithy.api#documentation": "Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         }
       },
@@ -433,7 +434,8 @@
         "action": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "action is what action was taken/failed regarding to the regarding object. It is machine-readable. This field cannot be empty for new Events and it can have at most 128 characters."
+            "smithy.api#documentation": "action is what action was taken/failed regarding to the regarding object. It is machine-readable. This field cannot be empty for new Events and it can have at most 128 characters.",
+            "smithy.api#required": {}
           }
         },
         "apiVersion": {
@@ -482,7 +484,7 @@
         "metadata": {
           "target": "com.kubernetes.events#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "note": {
@@ -494,7 +496,8 @@
         "reason": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "reason is why the action was taken. It is human-readable. This field cannot be empty for new Events and it can have at most 128 characters."
+            "smithy.api#documentation": "reason is why the action was taken. It is human-readable. This field cannot be empty for new Events and it can have at most 128 characters.",
+            "smithy.api#required": {}
           }
         },
         "regarding": {
@@ -512,13 +515,15 @@
         "reportingController": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "reportingController is the name of the controller that emitted this Event, e.g. `kubernetes.io/kubelet`. This field cannot be empty for new Events."
+            "smithy.api#documentation": "reportingController is the name of the controller that emitted this Event, e.g. `kubernetes.io/kubelet`. This field cannot be empty for new Events.",
+            "smithy.api#required": {}
           }
         },
         "reportingInstance": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "reportingInstance is the ID of the controller instance, e.g. `kubelet-xyzf`. This field cannot be empty for new Events and it can have at most 128 characters."
+            "smithy.api#documentation": "reportingInstance is the ID of the controller instance, e.g. `kubelet-xyzf`. This field cannot be empty for new Events and it can have at most 128 characters.",
+            "smithy.api#required": {}
           }
         },
         "series": {
@@ -530,7 +535,8 @@
         "type": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "type is the type of this event (Normal, Warning), new types could be added in the future. It is machine-readable. This field cannot be empty for new Events."
+            "smithy.api#documentation": "type is the type of this event (Normal, Warning), new types could be added in the future. It is machine-readable. This field cannot be empty for new Events.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -1115,7 +1121,8 @@
         "action": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "action is what action was taken/failed regarding to the regarding object. It is machine-readable. This field cannot be empty for new Events and it can have at most 128 characters."
+            "smithy.api#documentation": "action is what action was taken/failed regarding to the regarding object. It is machine-readable. This field cannot be empty for new Events and it can have at most 128 characters.",
+            "smithy.api#required": {}
           }
         },
         "apiVersion": {
@@ -1164,7 +1171,7 @@
         "metadata": {
           "target": "com.kubernetes.events#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "note": {
@@ -1176,7 +1183,8 @@
         "reason": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "reason is why the action was taken. It is human-readable. This field cannot be empty for new Events and it can have at most 128 characters."
+            "smithy.api#documentation": "reason is why the action was taken. It is human-readable. This field cannot be empty for new Events and it can have at most 128 characters.",
+            "smithy.api#required": {}
           }
         },
         "regarding": {
@@ -1194,13 +1202,15 @@
         "reportingController": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "reportingController is the name of the controller that emitted this Event, e.g. `kubernetes.io/kubelet`. This field cannot be empty for new Events."
+            "smithy.api#documentation": "reportingController is the name of the controller that emitted this Event, e.g. `kubernetes.io/kubelet`. This field cannot be empty for new Events.",
+            "smithy.api#required": {}
           }
         },
         "reportingInstance": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "reportingInstance is the ID of the controller instance, e.g. `kubelet-xyzf`. This field cannot be empty for new Events and it can have at most 128 characters."
+            "smithy.api#documentation": "reportingInstance is the ID of the controller instance, e.g. `kubelet-xyzf`. This field cannot be empty for new Events and it can have at most 128 characters.",
+            "smithy.api#required": {}
           }
         },
         "series": {
@@ -1212,7 +1222,8 @@
         "type": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "type is the type of this event (Normal, Warning), new types could be added in the future. It is machine-readable. This field cannot be empty for new Events."
+            "smithy.api#documentation": "type is the type of this event (Normal, Warning), new types could be added in the future. It is machine-readable. This field cannot be empty for new Events.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -1668,7 +1679,8 @@
         "action": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "action is what action was taken/failed regarding to the regarding object. It is machine-readable. This field cannot be empty for new Events and it can have at most 128 characters."
+            "smithy.api#documentation": "action is what action was taken/failed regarding to the regarding object. It is machine-readable. This field cannot be empty for new Events and it can have at most 128 characters.",
+            "smithy.api#required": {}
           }
         },
         "apiVersion": {
@@ -1717,7 +1729,7 @@
         "metadata": {
           "target": "com.kubernetes.events#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "note": {
@@ -1729,7 +1741,8 @@
         "reason": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "reason is why the action was taken. It is human-readable. This field cannot be empty for new Events and it can have at most 128 characters."
+            "smithy.api#documentation": "reason is why the action was taken. It is human-readable. This field cannot be empty for new Events and it can have at most 128 characters.",
+            "smithy.api#required": {}
           }
         },
         "regarding": {
@@ -1747,13 +1760,15 @@
         "reportingController": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "reportingController is the name of the controller that emitted this Event, e.g. `kubernetes.io/kubelet`. This field cannot be empty for new Events."
+            "smithy.api#documentation": "reportingController is the name of the controller that emitted this Event, e.g. `kubernetes.io/kubelet`. This field cannot be empty for new Events.",
+            "smithy.api#required": {}
           }
         },
         "reportingInstance": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "reportingInstance is the ID of the controller instance, e.g. `kubelet-xyzf`. This field cannot be empty for new Events and it can have at most 128 characters."
+            "smithy.api#documentation": "reportingInstance is the ID of the controller instance, e.g. `kubelet-xyzf`. This field cannot be empty for new Events and it can have at most 128 characters.",
+            "smithy.api#required": {}
           }
         },
         "series": {
@@ -1765,7 +1780,8 @@
         "type": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "type is the type of this event (Normal, Warning), new types could be added in the future. It is machine-readable. This field cannot be empty for new Events."
+            "smithy.api#documentation": "type is the type of this event (Normal, Warning), new types could be added in the future. It is machine-readable. This field cannot be empty for new Events.",
+            "smithy.api#required": {}
           }
         }
       },

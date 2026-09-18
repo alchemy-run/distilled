@@ -1,0 +1,289 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.mount#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.mount#MountBatchedCheckExistenceRequest": {
+      "type": "structure",
+      "members": {
+        "sha256HexHashes": {
+          "target": "com.modal.mount#StringList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.mount#MountBatchedCheckExistenceResponse": {
+      "type": "structure",
+      "members": {
+        "missingSha256HexHashes": {
+          "target": "com.modal.mount#StringList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.mount#MountBatchedCheckExistence": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.mount#MountBatchedCheckExistenceRequest"
+      },
+      "output": {
+        "target": "com.modal.mount#MountBatchedCheckExistenceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/MountBatchedCheckExistence",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mounts"
+      }
+    },
+    "com.modal.mount#DeploymentNamespace": {
+      "type": "enum",
+      "members": {
+        "DEPLOYMENT_NAMESPACE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEPLOYMENT_NAMESPACE_UNSPECIFIED"
+          }
+        },
+        "DEPLOYMENT_NAMESPACE_WORKSPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEPLOYMENT_NAMESPACE_WORKSPACE"
+          }
+        },
+        "DEPLOYMENT_NAMESPACE_GLOBAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEPLOYMENT_NAMESPACE_GLOBAL"
+          }
+        }
+      }
+    },
+    "com.modal.mount#ObjectCreationType": {
+      "type": "enum",
+      "members": {
+        "OBJECT_CREATION_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_UNSPECIFIED"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_IF_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_IF_MISSING",
+            "smithy.api#documentation": "just lookup"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS"
+          }
+        },
+        "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
+          }
+        },
+        "OBJECT_CREATION_TYPE_EPHEMERAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OBJECT_CREATION_TYPE_EPHEMERAL",
+            "smithy.api#documentation": "deprecate at some point"
+          }
+        }
+      }
+    },
+    "com.modal.mount#MountFile": {
+      "type": "structure",
+      "members": {
+        "filename": {
+          "target": "smithy.api#String"
+        },
+        "sha256Hex": {
+          "target": "smithy.api#String"
+        },
+        "size": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SHA-256 checksum of the file."
+          }
+        },
+        "mode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size of the file in bytes — ignored in MountBuild()."
+          }
+        }
+      }
+    },
+    "com.modal.mount#MountFileList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.mount#MountFile"
+      }
+    },
+    "com.modal.mount#MountGetOrCreateRequest": {
+      "type": "structure",
+      "members": {
+        "deploymentName": {
+          "target": "smithy.api#String"
+        },
+        "namespace": {
+          "target": "com.modal.mount#DeploymentNamespace"
+        },
+        "environmentName": {
+          "target": "smithy.api#String"
+        },
+        "objectCreationType": {
+          "target": "com.modal.mount#ObjectCreationType"
+        },
+        "files": {
+          "target": "com.modal.mount#MountFileList"
+        },
+        "appId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.mount#MountHandleMetadata": {
+      "type": "structure",
+      "members": {
+        "contentChecksumSha256Hex": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.mount#MountGetOrCreateResponse": {
+      "type": "structure",
+      "members": {
+        "mountId": {
+          "target": "smithy.api#String"
+        },
+        "handleMetadata": {
+          "target": "com.modal.mount#MountHandleMetadata"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.mount#MountGetOrCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.mount#MountGetOrCreateRequest"
+      },
+      "output": {
+        "target": "com.modal.mount#MountGetOrCreateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/MountGetOrCreate",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.mount#MountPutFileRequest": {
+      "type": "structure",
+      "members": {
+        "sha256Hex": {
+          "target": "smithy.api#String"
+        },
+        "data": {
+          "target": "smithy.api#Blob"
+        },
+        "dataBlobId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.mount#MountPutFileResponse": {
+      "type": "structure",
+      "members": {
+        "exists": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.mount#MountPutFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.mount#MountPutFileRequest"
+      },
+      "output": {
+        "target": "com.modal.mount#MountPutFileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/MountPutFile",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.mount#MountService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.mount#MountBatchedCheckExistence"
+        },
+        {
+          "target": "com.modal.mount#MountGetOrCreate"
+        },
+        {
+          "target": "com.modal.mount#MountPutFile"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Mount",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Mount`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

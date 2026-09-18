@@ -364,6 +364,7 @@ export const DeleteAlarmsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteAlarmsResponse",
 }) as any as S.Schema<DeleteAlarmsResponse>;
+export type AnomalyDetectorId = string;
 export type Namespace = string;
 export type MetricName = string;
 export type DimensionName = string;
@@ -441,7 +442,7 @@ export type StandardUnit =
   | "Count/Second"
   | "None"
   | (string & {});
-export const StandardUnit = /*@__PURE__*/ S.String;
+export const StandardUnit = S.String;
 
 export interface MetricStat {
   Metric?: Metric;
@@ -493,6 +494,7 @@ export const MetricMathAnomalyDetector = /*@__PURE__*/ S.suspend(() =>
   identifier: "MetricMathAnomalyDetector",
 }) as any as S.Schema<MetricMathAnomalyDetector>;
 export interface DeleteAnomalyDetectorInput {
+  AnomalyDetectorId?: string;
   Namespace?: string;
   MetricName?: string;
   Dimensions?: Dimension[];
@@ -502,6 +504,7 @@ export interface DeleteAnomalyDetectorInput {
 }
 export const DeleteAnomalyDetectorInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    AnomalyDetectorId: S.optional(S.String),
     Namespace: S.optional(S.String),
     MetricName: S.optional(S.String),
     Dimensions: S.optional(Dimensions),
@@ -702,7 +705,7 @@ export type AlarmType =
   | "MetricAlarm"
   | "LogAlarm"
   | (string & {});
-export const AlarmType = /*@__PURE__*/ S.String;
+export const AlarmType = S.String;
 
 export type AlarmTypes = AlarmType[];
 export const AlarmTypes = /*@__PURE__*/ S.Array(AlarmType);
@@ -713,14 +716,14 @@ export type HistoryItemType =
   | "AlarmContributorStateUpdate"
   | "AlarmContributorAction"
   | (string & {});
-export const HistoryItemType = /*@__PURE__*/ S.String;
+export const HistoryItemType = S.String;
 
 export type MaxRecords = number;
 export type ScanBy =
   | "TimestampDescending"
   | "TimestampAscending"
   | (string & {});
-export const ScanBy = /*@__PURE__*/ S.String;
+export const ScanBy = S.String;
 
 export interface DescribeAlarmHistoryInput {
   AlarmName?: string;
@@ -800,7 +803,7 @@ export const DescribeAlarmHistoryOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeAlarmHistoryOutput>;
 export type AlarmNamePrefix = string;
 export type StateValue = "OK" | "ALARM" | "INSUFFICIENT_DATA" | (string & {});
-export const StateValue = /*@__PURE__*/ S.String;
+export const StateValue = S.String;
 
 export type ActionPrefix = string;
 export interface DescribeAlarmsInput {
@@ -852,7 +855,7 @@ export type ActionsSuppressedBy =
   | "ExtensionPeriod"
   | "Alarm"
   | (string & {});
-export const ActionsSuppressedBy = /*@__PURE__*/ S.String;
+export const ActionsSuppressedBy = S.String;
 
 export type ActionsSuppressedReason = string;
 export type SuppressorPeriod = number;
@@ -915,7 +918,7 @@ export type Statistic =
   | "Minimum"
   | "Maximum"
   | (string & {});
-export const Statistic = /*@__PURE__*/ S.String;
+export const Statistic = S.String;
 
 export type ExtendedStatistic = string;
 export type EvaluationPeriods = number;
@@ -930,7 +933,7 @@ export type ComparisonOperator =
   | "LessThanLowerThreshold"
   | "GreaterThanUpperThreshold"
   | (string & {});
-export const ComparisonOperator = /*@__PURE__*/ S.String;
+export const ComparisonOperator = S.String;
 
 export type TreatMissingData = string;
 export type EvaluateLowSampleCountPercentile = string;
@@ -939,8 +942,42 @@ export type EvaluationState =
   | "EVALUATION_FAILURE"
   | "EVALUATION_ERROR"
   | (string & {});
-export const EvaluationState = /*@__PURE__*/ S.String;
+export const EvaluationState = S.String;
 
+export type Timezone = string;
+export interface WallClockWindow {
+  Timezone?: string;
+}
+export const WallClockWindow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Timezone: S.optional(S.String) }),
+).annotate({
+  identifier: "WallClockWindow",
+}) as any as S.Schema<WallClockWindow>;
+export interface SlidingWindow {}
+export const SlidingWindow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({ identifier: "SlidingWindow" }) as any as S.Schema<SlidingWindow>;
+export type EvaluationWindow =
+  | { WallClockWindow: WallClockWindow; SlidingWindow?: never }
+  | { WallClockWindow?: never; SlidingWindow: SlidingWindow };
+export const EvaluationWindow = /*@__PURE__*/ S.Union([
+  S.Struct({ WallClockWindow: WallClockWindow }),
+  S.Struct({ SlidingWindow: SlidingWindow }),
+]);
+export type WarmUpPeriodDurationInMinutes = number;
+export type OnlyStartEvaluatingAfterWarmUpPeriodEnds = boolean;
+export interface WarmUpConfiguration {
+  WarmUpPeriodDurationInMinutes?: number;
+  OnlyStartEvaluatingAfterWarmUpPeriodEnds?: boolean;
+}
+export const WarmUpConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    WarmUpPeriodDurationInMinutes: S.optional(S.Number),
+    OnlyStartEvaluatingAfterWarmUpPeriodEnds: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "WarmUpConfiguration",
+}) as any as S.Schema<WarmUpConfiguration>;
 export type Query = string;
 export type PendingPeriod = number;
 export type RecoveryPeriod = number;
@@ -993,6 +1030,8 @@ export interface MetricAlarm {
   ThresholdMetricId?: string;
   EvaluationState?: EvaluationState;
   StateTransitionedTimestamp?: Date;
+  EvaluationWindow?: EvaluationWindow;
+  WarmUpConfiguration?: WarmUpConfiguration;
   EvaluationCriteria?: EvaluationCriteria;
   EvaluationInterval?: number;
 }
@@ -1033,6 +1072,8 @@ export const MetricAlarm = /*@__PURE__*/ S.suspend(() =>
     StateTransitionedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
+    EvaluationWindow: S.optional(EvaluationWindow),
+    WarmUpConfiguration: S.optional(WarmUpConfiguration),
     EvaluationCriteria: S.optional(EvaluationCriteria),
     EvaluationInterval: S.optional(S.Number),
   }),
@@ -1121,6 +1162,7 @@ export interface LogAlarm {
   EvaluationState?: EvaluationState;
   ActionLogLineCount?: number;
   ActionLogLineRoleArn?: string;
+  WarmUpConfiguration?: WarmUpConfiguration;
 }
 export const LogAlarm = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1152,6 +1194,7 @@ export const LogAlarm = /*@__PURE__*/ S.suspend(() =>
     EvaluationState: S.optional(EvaluationState),
     ActionLogLineCount: S.optional(S.Number),
     ActionLogLineRoleArn: S.optional(S.String),
+    WarmUpConfiguration: S.optional(WarmUpConfiguration),
   }),
 ).annotate({ identifier: "LogAlarm" }) as any as S.Schema<LogAlarm>;
 export type LogAlarms = LogAlarm[];
@@ -1173,6 +1216,9 @@ export interface DescribeAlarmsOutput {
         Stat: Stat;
       };
     })[];
+    WarmUpConfiguration: WarmUpConfiguration & {
+      WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
+    };
   })[];
   LogAlarms?: (LogAlarm & {
     ScheduledQueryConfiguration: ScheduledQueryConfiguration & {
@@ -1180,9 +1226,13 @@ export interface DescribeAlarmsOutput {
       ScheduledQueryRoleARN: AmazonResourceName;
       ScheduleConfiguration: ScheduleConfiguration & {
         ScheduleExpression: ScheduleExpression;
+        StartTimeOffset: StartTimeOffset;
       };
       AggregationExpression: AggregationExpression;
       Tags: (Tag & { Key: TagKey; Value: TagValue })[];
+    };
+    WarmUpConfiguration: WarmUpConfiguration & {
+      WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
     };
   })[];
   NextToken?: string;
@@ -1245,6 +1295,9 @@ export interface DescribeAlarmsForMetricOutput {
         Stat: Stat;
       };
     })[];
+    WarmUpConfiguration: WarmUpConfiguration & {
+      WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
+    };
   })[];
 }
 export const DescribeAlarmsForMetricOutput = /*@__PURE__*/ S.suspend(() =>
@@ -1252,16 +1305,19 @@ export const DescribeAlarmsForMetricOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeAlarmsForMetricOutput",
 }) as any as S.Schema<DescribeAlarmsForMetricOutput>;
+export type AnomalyDetectorIds = string[];
+export const AnomalyDetectorIds = /*@__PURE__*/ S.Array(S.String);
 export type MaxReturnedResultsCount = number;
 export type AnomalyDetectorType =
   | "SINGLE_METRIC"
   | "METRIC_MATH"
   | (string & {});
-export const AnomalyDetectorType = /*@__PURE__*/ S.String;
+export const AnomalyDetectorType = S.String;
 
 export type AnomalyDetectorTypes = AnomalyDetectorType[];
 export const AnomalyDetectorTypes = /*@__PURE__*/ S.Array(AnomalyDetectorType);
 export interface DescribeAnomalyDetectorsInput {
+  AnomalyDetectorIds?: string[];
   NextToken?: string;
   MaxResults?: number;
   Namespace?: string;
@@ -1271,6 +1327,7 @@ export interface DescribeAnomalyDetectorsInput {
 }
 export const DescribeAnomalyDetectorsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    AnomalyDetectorIds: S.optional(AnomalyDetectorIds),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Namespace: S.optional(S.String),
@@ -1321,7 +1378,7 @@ export type AnomalyDetectorStateValue =
   | "TRAINED_INSUFFICIENT_DATA"
   | "TRAINED"
   | (string & {});
-export const AnomalyDetectorStateValue = /*@__PURE__*/ S.String;
+export const AnomalyDetectorStateValue = S.String;
 
 export type PeriodicSpikes = boolean;
 export interface MetricCharacteristics {
@@ -1333,6 +1390,7 @@ export const MetricCharacteristics = /*@__PURE__*/ S.suspend(() =>
   identifier: "MetricCharacteristics",
 }) as any as S.Schema<MetricCharacteristics>;
 export interface AnomalyDetector {
+  AnomalyDetectorId?: string;
   Namespace?: string;
   MetricName?: string;
   Dimensions?: Dimension[];
@@ -1345,6 +1403,7 @@ export interface AnomalyDetector {
 }
 export const AnomalyDetector = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    AnomalyDetectorId: S.optional(S.String),
     Namespace: S.optional(S.String),
     MetricName: S.optional(S.String),
     Dimensions: S.optional(Dimensions),
@@ -1608,7 +1667,6 @@ export const GetAlarmMuteRuleInput = /*@__PURE__*/ S.suspend(() =>
 export type Arn = string;
 export type Expression = string;
 export type Duration = string;
-export type Timezone = string;
 export interface Schedule {
   Expression?: string;
   Duration?: string;
@@ -1640,7 +1698,7 @@ export type AlarmMuteRuleStatus =
   | "ACTIVE"
   | "EXPIRED"
   | (string & {});
-export const AlarmMuteRuleStatus = /*@__PURE__*/ S.String;
+export const AlarmMuteRuleStatus = S.String;
 
 export type MuteType = string;
 export interface GetAlarmMuteRuleOutput {
@@ -1932,7 +1990,7 @@ export type StatusCode =
   | "PartialData"
   | "Forbidden"
   | (string & {});
-export const StatusCode = /*@__PURE__*/ S.String;
+export const StatusCode = S.String;
 
 export type MessageDataCode = string;
 export type MessageDataValue = string;
@@ -2102,7 +2160,7 @@ export type MetricStreamOutputFormat =
   | "opentelemetry0.7"
   | "opentelemetry1.0"
   | (string & {});
-export const MetricStreamOutputFormat = /*@__PURE__*/ S.String;
+export const MetricStreamOutputFormat = S.String;
 
 export interface MetricStreamStatisticsMetric {
   Namespace?: string;
@@ -2234,7 +2292,7 @@ export const GetOTelEnrichmentInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetOTelEnrichmentInput",
 }) as any as S.Schema<GetOTelEnrichmentInput>;
 export type OTelEnrichmentStatus = "Running" | "Stopped" | (string & {});
-export const OTelEnrichmentStatus = /*@__PURE__*/ S.String;
+export const OTelEnrichmentStatus = S.String;
 
 export interface GetOTelEnrichmentOutput {
   Status: OTelEnrichmentStatus;
@@ -2441,7 +2499,7 @@ export const DimensionFilter = /*@__PURE__*/ S.suspend(() =>
 export type DimensionFilters = DimensionFilter[];
 export const DimensionFilters = /*@__PURE__*/ S.Array(DimensionFilter);
 export type RecentlyActive = "PT3H" | (string & {});
-export const RecentlyActive = /*@__PURE__*/ S.String;
+export const RecentlyActive = S.String;
 
 export type IncludeLinkedAccounts = boolean;
 export interface ListMetricsInput {
@@ -2653,9 +2711,11 @@ export const PutAnomalyDetectorInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PutAnomalyDetectorInput",
 }) as any as S.Schema<PutAnomalyDetectorInput>;
-export interface PutAnomalyDetectorOutput {}
+export interface PutAnomalyDetectorOutput {
+  AnomalyDetectorId?: string;
+}
 export const PutAnomalyDetectorOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
+  S.Struct({ AnomalyDetectorId: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "PutAnomalyDetectorOutput",
 }) as any as S.Schema<PutAnomalyDetectorOutput>;
@@ -2804,6 +2864,7 @@ export interface PutLogAlarmInput {
   ComparisonOperator?: ComparisonOperator;
   TreatMissingData?: string;
   Tags?: Tag[];
+  WarmUpConfiguration?: WarmUpConfiguration;
 }
 export const PutLogAlarmInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2822,6 +2883,7 @@ export const PutLogAlarmInput = /*@__PURE__*/ S.suspend(() =>
     ComparisonOperator: S.optional(ComparisonOperator),
     TreatMissingData: S.optional(S.String),
     Tags: S.optional(TagList),
+    WarmUpConfiguration: S.optional(WarmUpConfiguration),
   }).pipe(
     T.all(
       ns,
@@ -2905,6 +2967,8 @@ export interface PutMetricAlarmInput {
   Metrics?: MetricDataQuery[];
   Tags?: Tag[];
   ThresholdMetricId?: string;
+  EvaluationWindow?: EvaluationWindow;
+  WarmUpConfiguration?: WarmUpConfiguration;
   EvaluationCriteria?: EvaluationCriteria;
   EvaluationInterval?: number;
 }
@@ -2932,6 +2996,8 @@ export const PutMetricAlarmInput = /*@__PURE__*/ S.suspend(() =>
     Metrics: S.optional(MetricDataQueries),
     Tags: S.optional(TagList),
     ThresholdMetricId: S.optional(S.String),
+    EvaluationWindow: S.optional(EvaluationWindow),
+    WarmUpConfiguration: S.optional(WarmUpConfiguration),
     EvaluationCriteria: S.optional(EvaluationCriteria),
     EvaluationInterval: S.optional(S.Number),
   }).pipe(
@@ -3320,9 +3386,16 @@ export type AssociateDatasetKmsKeyError =
  * calling this operation.
  *
  * You can call `AssociateDatasetKmsKey` on a dataset that is already
- * associated with a KMS key to replace the existing key with a different one. To replace
- * a key, the caller must have `kms:Decrypt` permission on both the current
- * key and the new key.
+ * associated with a KMS key to replace the existing key with a different one. The
+ * caller must have `kms:Decrypt` permission on both the current key and
+ * the new key.
+ *
+ * If the currently associated key has been deleted, is scheduled for deletion,
+ * is pending import, is unavailable, or has been disabled, Amazon CloudWatch
+ * does not require `kms:Decrypt` permission on the current key and
+ * the rotation proceeds. If the key was only disabled, consider re-enabling it
+ * instead of rotating, because re-enabling allows Amazon CloudWatch to
+ * resume decrypting your existing metric data encrypted with that key.
  *
  * The KMS key that you specify must meet all of the following requirements:
  *
@@ -3354,14 +3427,15 @@ export type AssociateDatasetKmsKeyError =
  * checks include `kms:DescribeKey`, `kms:GenerateDataKey`,
  * `kms:Encrypt`, `kms:Decrypt`, and `kms:ReEncrypt*`.
  * After those succeed, a `kms:Decrypt` dry-run is run with the caller's
- * credentials to verify that the calling principal can use the key. When you are
- * replacing an existing key, the caller's `kms:Decrypt` dry-run is run on
- * the current key first, and only then on the new key.
+ * credentials to verify that the calling principal can use the new key. When you are
+ * replacing an existing key, the caller's `kms:Decrypt` dry-run is also run
+ * on the current key.
  *
- * If any of these checks fails, the operation fails and the existing key association
- * (if any) remains unchanged. Common failure causes include the key being disabled, the
- * key policy not granting the required permissions to Amazon CloudWatch, or the
- * caller lacking `kms:Decrypt` permission on the key.
+ * If any of these checks on the new key fails, the operation fails and the existing
+ * key association (if any) remains unchanged. Common failure causes include the new key
+ * being disabled, the key policy not granting the required permissions to
+ * Amazon CloudWatch, or the caller lacking `kms:Decrypt` permission on
+ * the new key.
  *
  * For more information about using customer managed keys with Amazon CloudWatch,
  * see Encryption at rest
@@ -3807,18 +3881,24 @@ export type DisassociateDatasetKmsKeyError =
  * dataset has no associated KMS key, the operation fails with
  * `ResourceNotFoundException`.
  *
- * Amazon CloudWatch performs a dry-run `kms:Decrypt` call on the key
- * as part of this operation. This verifies that the caller is authorized to use the
- * currently associated key. The caller must have `kms:Decrypt` permission on
- * the currently associated key, and the key must be enabled and accessible. If the key
- * has been disabled or scheduled for deletion, you must first re-enable or restore it
- * before you can disassociate it from the dataset.
+ * Amazon CloudWatch performs a dry-run `kms:Decrypt` call on the
+ * currently associated key as part of this operation. The caller must have
+ * `kms:Decrypt` permission on the currently associated key. If the key is
+ * accessible but the caller lacks `kms:Decrypt` permission, the operation
+ * fails with `AccessDeniedException`.
+ *
+ * If the currently associated key has been deleted, is scheduled for deletion,
+ * is pending import, is unavailable, or has been disabled, Amazon CloudWatch
+ * does not require `kms:Decrypt` permission on that key and the
+ * disassociation proceeds. If the key was only disabled, consider re-enabling it
+ * instead of disassociating, because re-enabling allows Amazon CloudWatch to
+ * resume decrypting your existing metric data.
  *
  * Disassociating a KMS key from a dataset does not immediately remove the
  * `kms:Decrypt` requirement on data plane operations. For up to three
  * hours after disassociation, callers must continue to have
  * `kms:Decrypt` permission on the previously associated key. Some data
- * may still be encrypted with that key during this window. After this enforcement
+ * might still be encrypted with that key during this window. After this enforcement
  * window elapses, the `kms:Decrypt` requirement is lifted.
  *
  * For more information about using customer managed keys with Amazon CloudWatch,

@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/kubernetes",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
@@ -80,18 +80,18 @@
     "convert": "bun scripts/convert.ts",
     "generate": "bun scripts/convert.ts && bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "specs:fetch": "git submodule update --force --init --recursive --depth=1 specs/kubernetes && git -C specs/kubernetes checkout -- .",
-    "specs:update": "git -C specs/kubernetes fetch && git -C specs/kubernetes checkout master && git -C specs/kubernetes pull"
+    "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-kubernetes",
+    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-kubernetes"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:tooling",
-    "@types/node": "catalog:tooling",
-    "@effect/platform-bun": "catalog:effect"
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "@effect/platform-bun": "catalog:"
   },
   "peerDependencies": {
-    "effect": "catalog:effect"
+    "effect": "catalog:"
   }
 }

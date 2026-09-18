@@ -11,37 +11,98 @@ import * as Retry from "../retry.ts";
 
 export type { PosthogOpError, PosthogOpContext };
 
-/** * `text` - text * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean */
+/** * `text` - text * `link` - link * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean * `select` - select */
 export type CustomPropertyDisplayTypeEnum =
   | "text"
+  | "link"
   | "number"
   | "currency"
   | "percent"
   | "date"
   | "datetime"
-  | "boolean";
-export const CustomPropertyDisplayTypeEnum = /*@__PURE__*/ S.String;
+  | "boolean"
+  | "select";
+export const CustomPropertyDisplayTypeEnum = S.String;
 
-export interface CustomPropertyDefinitionsCreateRequest {
+/** * `account` - account * `person` - person * `group` - group */
+export type CustomPropertyDefinitionTargetTypeEnum =
+  | "account"
+  | "person"
+  | "group";
+export const CustomPropertyDefinitionTargetTypeEnum = S.String;
+
+/** * `preset-1` - preset-1 * `preset-2` - preset-2 * `preset-3` - preset-3 * `preset-4` - preset-4 * `preset-5` - preset-5 * `preset-6` - preset-6 * `preset-7` - preset-7 * `preset-8` - preset-8 * `preset-9` - preset-9 * `preset-10` - preset-10 */
+export type CustomPropertyOptionColorEnum =
+  | "preset-1"
+  | "preset-2"
+  | "preset-3"
+  | "preset-4"
+  | "preset-5"
+  | "preset-6"
+  | "preset-7"
+  | "preset-8"
+  | "preset-9"
+  | "preset-10";
+export const CustomPropertyOptionColorEnum = S.String;
+
+/** An allowed value of a select custom property. */
+export interface CustomPropertyOption {
+  /** Server-assigned stable id of the option. Omit for new options; send it back unchanged when editing so renames and removals can be told apart. */
+  id?: string | null;
+  /** Display label of the option. Stored as the account's value when picked. */
+  label: string;
+  /** Preset color token used to render the option ('preset-1' through 'preset-10'). * `preset-1` - preset-1 * `preset-2` - preset-2 * `preset-3` - preset-3 * `preset-4` - preset-4 * `preset-5` - preset-5 * `preset-6` - preset-6 * `preset-7` - preset-7 * `preset-8` - preset-8 * `preset-9` - preset-9 * `preset-10` - preset-10 */
+  color: CustomPropertyOptionColorEnum | (string & {});
+}
+export const CustomPropertyOption = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.NullOr(S.String)),
+    label: S.String,
+    color: CustomPropertyOptionColorEnum,
+  }),
+).annotate({
+  identifier: "CustomPropertyOption",
+}) as any as S.Schema<CustomPropertyOption>;
+
+/** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
+export type CreateCustomPropertyDefinitionRequestOptionsList =
+  Array<CustomPropertyOption>;
+export const CreateCustomPropertyDefinitionRequestOptionsList =
+  /*@__PURE__*/ S.Array(
+    CustomPropertyOption,
+  ) as any as S.Schema<CreateCustomPropertyDefinitionRequestOptionsList>;
+
+export interface CreateCustomPropertyDefinitionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Human-readable name of the custom property. Unique within the team. */
   name: string;
   /** Optional description of what the property represents. */
   description?: string | null;
-  /** How the property is interpreted and rendered: 'text', 'number', 'currency', 'percent', 'date', 'datetime', or 'boolean'. * `text` - text * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean */
+  /** How the property is interpreted and rendered: 'text', 'link', 'number', 'currency', 'percent', 'date', 'datetime', 'boolean', or 'select'. Links require an HTTP or HTTPS URL. * `text` - text * `link` - link * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean * `select` - select */
   display_type: CustomPropertyDisplayTypeEnum | (string & {});
+  /** What entity this property is attached to: 'account' (default), 'person', or 'group'. Person and group properties are populated from a warehouse schema and become usable like any other person/group property (feature flags, cohorts, insights). * `account` - account * `person` - person * `group` - group */
+  target_type?: CustomPropertyDefinitionTargetTypeEnum | (string & {});
+  /** For 'group' targets only: which group type (0-4) the property attaches to. Required when target_type is 'group'; must be omitted otherwise. Create-only. */
+  group_type_index?: number | null;
   /** Abbreviate large numbers (e.g. 10,000 → 10K). Only applies to numeric properties. */
   is_big_number?: boolean;
+  /** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
+  options?: CreateCustomPropertyDefinitionRequestOptionsList | null;
 }
-export const CustomPropertyDefinitionsCreateRequest = /*@__PURE__*/ S.suspend(
+export const CreateCustomPropertyDefinitionRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       project_id: S.String.pipe(T.Label()),
       name: S.String,
       description: S.optional(S.NullOr(S.String)),
       display_type: CustomPropertyDisplayTypeEnum,
+      target_type: S.optional(CustomPropertyDefinitionTargetTypeEnum),
+      group_type_index: S.optional(S.NullOr(S.Number)),
       is_big_number: S.optional(S.Boolean),
+      options: S.optional(
+        S.NullOr(CreateCustomPropertyDefinitionRequestOptionsList),
+      ),
     }).pipe(
       T.Http({
         method: "POST",
@@ -50,23 +111,215 @@ export const CustomPropertyDefinitionsCreateRequest = /*@__PURE__*/ S.suspend(
       }),
     ),
 ).annotate({
-  identifier: "CustomPropertyDefinitionsCreateRequest",
-}) as any as S.Schema<CustomPropertyDefinitionsCreateRequest>;
+  identifier: "CreateCustomPropertyDefinitionRequest",
+}) as any as S.Schema<CreateCustomPropertyDefinitionRequest>;
 
-/** A team-scoped definition of a custom account property — the attribute side of the model. Holds only the property's shape (name, display type, big-number flag). Per-account values are stored separately, so this serializer never reads or writes account values. The numeric-only big-number rule and the unique-name conflict are enforced behind the facade. */
+/** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
+export type CustomPropertyDefinitionOptionsList = Array<CustomPropertyOption>;
+export const CustomPropertyDefinitionOptionsList = /*@__PURE__*/ S.Array(
+  CustomPropertyOption,
+) as any as S.Schema<CustomPropertyDefinitionOptionsList>;
+
+/** * `tracked` - tracked * `ignored` - ignored */
+export type SyncSegmentEnum = "tracked" | "ignored";
+export const SyncSegmentEnum = S.String;
+
+/** * `staging` - staging * `dispatching` - dispatching * `syncing` - syncing * `completed` - completed */
+export type SyncPhaseEnum = "staging" | "dispatching" | "syncing" | "completed";
+export const SyncPhaseEnum = S.String;
+
+/** One warehouse-backed custom property sync run. */
+export interface CustomPropertySyncRun {
+  id: string;
+  /** Warehouse import or materialization job associated with the run, if any. */
+  job_id: string | null;
+  /** Account segment processed by this run. Person and group property runs return null. * `tracked` - tracked * `ignored` - ignored */
+  account_segment: SyncSegmentEnum | null;
+  /** Current account sync phase. Person and group property runs return null. * `staging` - staging * `dispatching` - dispatching * `syncing` - syncing * `completed` - completed */
+  sync_phase: SyncPhaseEnum | null;
+  /** Latest Temporal activity attempt for the current account sync phase. */
+  attempt: number | null;
+  /** Temporal workflow identifier associated with the current account sync phase. */
+  workflow_id: string | null;
+  /** Temporal run identifier associated with the current account sync phase. */
+  workflow_run_id: string | null;
+  /** Staff-only link to this run in Temporal. Null for non-staff users and runs without a Temporal ID. */
+  temporal_url: string | null;
+  /** What started the run: 'scheduled' (rode a warehouse sync), 'sync' (a warehouse sync started from the UI), 'manual' (a backfill started from the UI), or 'backfill' (the automatic backfill run when a mapping is created or re-enabled). */
+  trigger: string;
+  /** Run status: 'running', 'completed', or 'failed'. */
+  status: string;
+  /** When the run began. */
+  started_at: string | null;
+  /** When the run ended, or null while running. */
+  finished_at: string | null;
+  /** Warehouse rows scanned this run. */
+  rows_read: number;
+  /** Rows whose mapped values changed since the last run. */
+  changed: number;
+  /** Changed rows that matched an existing account, person, or group. */
+  existing: number;
+  /** Property updates written or produced to the ingestion pipeline. */
+  produced: number;
+  /** Changed rows skipped because no existing account, person, or group matched the key column value. */
+  skipped_missing_person: number;
+  /** Error summary if the run failed, else null. */
+  error: string | null;
+  /** When the run row was recorded. */
+  created_at: string;
+}
+export const CustomPropertySyncRun = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    job_id: S.NullOr(S.String),
+    account_segment: S.NullOr(SyncSegmentEnum),
+    sync_phase: S.NullOr(SyncPhaseEnum),
+    attempt: S.NullOr(S.Number),
+    workflow_id: S.NullOr(S.String),
+    workflow_run_id: S.NullOr(S.String),
+    temporal_url: S.NullOr(S.String),
+    trigger: S.String,
+    status: S.String,
+    started_at: S.NullOr(S.String),
+    finished_at: S.NullOr(S.String),
+    rows_read: S.Number,
+    changed: S.Number,
+    existing: S.Number,
+    produced: S.Number,
+    skipped_missing_person: S.Number,
+    error: S.NullOr(S.String),
+    created_at: S.String,
+  }),
+).annotate({
+  identifier: "CustomPropertySyncRun",
+}) as any as S.Schema<CustomPropertySyncRun>;
+
+/** Binds warehouse columns to a custom property definition. Account sources read a materialized view column and sync onto matching accounts; person and group sources read either an imported warehouse table or a materialized view, and sync onto matching persons or groups on every warehouse run of what they read. */
+export interface CustomPropertySource {
+  id: string;
+  /** UUID of the custom property definition this source feeds. One source per definition. */
+  definition: string;
+  /** UUID of the data-warehouse saved query to read from. Required for an account source. For a person or group source it must be a materialized view, and is one of the two binding options. Mutually exclusive with external_data_schema. */
+  saved_query?: string | null;
+  /** Person and group sources only: UUID of the warehouse schema (an imported table) to read from. Mutually exclusive with saved_query; a person or group source sets exactly one. */
+  external_data_schema?: string | null;
+  /** Account sources only: column in the view whose value is written to the property. */
+  source_column?: string | null;
+  /** Person and group sources only: {warehouse_column: property_name} mapping the columns this source writes onto the person or group. */
+  column_property_map?: unknown;
+  /** Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. Create-only. */
+  column_descriptions?: unknown;
+  /** Column whose value identifies the target: an account's external_id for account sources, the person's distinct_id for person sources, or the group key for group sources. */
+  key_column: string;
+  /** Whether the source syncs. Auto-disabled after repeated failures or a missing view; re-enabling resets the failure count. */
+  is_enabled?: boolean;
+  /** Consecutive failed sync runs; the source auto-disables at the cap. */
+  consecutive_failures: number;
+  /** When the most recent sync run finished. */
+  last_synced_at: string | null;
+  /** Error summary from the last run, or null if it succeeded. */
+  last_sync_error: string | null;
+  created_at: string;
+  created_by: number | null;
+  updated_at: string | null;
+  /** Person and group sources only: how often the bound table or view runs, in seconds. Null for account sources, or when the schedule is unavailable — including a view whose frequency is set on its data-modeling DAG. */
+  sync_frequency_interval_seconds: number | null;
+  /** Person and group sources only: approximate time of the next scheduled run (last run + interval). Approximate — drifts if the schedule was paused. Null for account sources, if never run, or when the interval is unavailable. */
+  next_sync_at: string | null;
+  /** Person and group sources only: the most recent sync/backfill run, or null if none yet. */
+  latest_run: CustomPropertySyncRun | null;
+  /** Table-bound person and group sources only: UUID of the warehouse source owning the schema, so the UI can link to the table. Null for account sources, view-bound sources, or when unavailable. */
+  external_data_source: string | null;
+  /** Person and group sources only: what this source reads, as it is named in HogQL — the imported table, or the view. Null for account sources or when unavailable. */
+  table_name: string | null;
+  /** View-bound person and group sources only: the materialized view's name, so the UI can tell a view-backed source from a table-backed one. Null for account and table-bound sources. */
+  saved_query_name: string | null;
+}
+export const CustomPropertySource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    definition: S.String,
+    saved_query: S.optional(S.NullOr(S.String)),
+    external_data_schema: S.optional(S.NullOr(S.String)),
+    source_column: S.optional(S.NullOr(S.String)),
+    column_property_map: S.optional(S.Unknown),
+    column_descriptions: S.optional(S.Unknown),
+    key_column: S.String,
+    is_enabled: S.optional(S.Boolean),
+    consecutive_failures: S.Number,
+    last_synced_at: S.NullOr(S.String),
+    last_sync_error: S.NullOr(S.String),
+    created_at: S.String,
+    created_by: S.NullOr(S.Number),
+    updated_at: S.NullOr(S.String),
+    sync_frequency_interval_seconds: S.NullOr(S.Number),
+    next_sync_at: S.NullOr(S.String),
+    latest_run: S.NullOr(CustomPropertySyncRun),
+    external_data_source: S.NullOr(S.String),
+    table_name: S.NullOr(S.String),
+    saved_query_name: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "CustomPropertySource",
+}) as any as S.Schema<CustomPropertySource>;
+
+/** A place that uses a custom property definition (read-only). */
+export interface CustomPropertyReference {
+  /** Id of the referring entity (e.g. the workflow id). */
+  id: string;
+  /** Display name of the referring entity. */
+  name: string;
+  /** Status of the referring entity (e.g. workflow status). */
+  status: string;
+  /** Kind of reference. Currently always 'workflow'. */
+  type: string;
+}
+export const CustomPropertyReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    status: S.String,
+    type: S.String,
+  }),
+).annotate({
+  identifier: "CustomPropertyReference",
+}) as any as S.Schema<CustomPropertyReference>;
+
+/** Workflows that use this property, resolved by definition id when the caller can view workflows. */
+export type CustomPropertyDefinitionReferencesList =
+  Array<CustomPropertyReference>;
+export const CustomPropertyDefinitionReferencesList = /*@__PURE__*/ S.Array(
+  CustomPropertyReference,
+) as any as S.Schema<CustomPropertyDefinitionReferencesList>;
+
+/** A team-scoped definition of a custom account property — the attribute side of the model. Holds only the property's shape (name, display type, big-number flag). Per-account values are stored separately, so this serializer never reads or writes account values. */
 export interface CustomPropertyDefinition {
   id: string;
   /** Human-readable name of the custom property. Unique within the team. */
   name: string;
   /** Optional description of what the property represents. */
   description?: string | null;
-  /** How the property is interpreted and rendered: 'text', 'number', 'currency', 'percent', 'date', 'datetime', or 'boolean'. * `text` - text * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean */
+  /** How the property is interpreted and rendered: 'text', 'link', 'number', 'currency', 'percent', 'date', 'datetime', 'boolean', or 'select'. Links require an HTTP or HTTPS URL. * `text` - text * `link` - link * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean * `select` - select */
   display_type: CustomPropertyDisplayTypeEnum;
+  /** What entity this property is attached to: 'account' (default), 'person', or 'group'. Person and group properties are populated from a warehouse schema and become usable like any other person/group property (feature flags, cohorts, insights). * `account` - account * `person` - person * `group` - group */
+  target_type?: CustomPropertyDefinitionTargetTypeEnum;
+  /** For 'group' targets only: which group type (0-4) the property attaches to. Required when target_type is 'group'; must be omitted otherwise. Create-only. */
+  group_type_index?: number | null;
   /** Abbreviate large numbers (e.g. 10,000 → 10K). Only applies to numeric properties. */
   is_big_number?: boolean;
+  /** True when PostHog writes this property itself. Its name and display type are fixed — an update changing either is rejected. */
+  is_canonical: boolean;
+  /** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
+  options?: CustomPropertyDefinitionOptionsList | null;
+  /** The data-warehouse view-sync binding feeding this property, or null when values are set manually. */
+  source: CustomPropertySource | null;
   created_at: string;
   created_by: number | null;
   updated_at: string | null;
+  /** Workflows that use this property, resolved by definition id when the caller can view workflows. */
+  references: CustomPropertyDefinitionReferencesList;
+  /** Whether a workflow updates this property. Always returned, even when workflow details are hidden. */
+  has_workflow_reference: boolean;
 }
 export const CustomPropertyDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -74,10 +327,17 @@ export const CustomPropertyDefinition = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.NullOr(S.String)),
     display_type: CustomPropertyDisplayTypeEnum,
+    target_type: S.optional(CustomPropertyDefinitionTargetTypeEnum),
+    group_type_index: S.optional(S.NullOr(S.Number)),
     is_big_number: S.optional(S.Boolean),
+    is_canonical: S.Boolean,
+    options: S.optional(S.NullOr(CustomPropertyDefinitionOptionsList)),
+    source: S.NullOr(CustomPropertySource),
     created_at: S.String,
     created_by: S.NullOr(S.Number),
     updated_at: S.NullOr(S.String),
+    references: CustomPropertyDefinitionReferencesList,
+    has_workflow_reference: S.Boolean,
   }),
 ).annotate({
   identifier: "CustomPropertyDefinition",
@@ -111,7 +371,90 @@ export const CustomPropertyDefinitionsDestroyResponse = /*@__PURE__*/ S.suspend(
   identifier: "CustomPropertyDefinitionsDestroyResponse",
 }) as any as S.Schema<CustomPropertyDefinitionsDestroyResponse>;
 
-export interface CustomPropertyDefinitionsListRequest {
+export interface GetCustomPropertyDefinitionRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+export const GetCustomPropertyDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/custom_property_definitions/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetCustomPropertyDefinitionRequest",
+}) as any as S.Schema<GetCustomPropertyDefinitionRequest>;
+
+export interface GetCustomPropertyDefinitionsValueRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Id of the custom property definition to suggest values for. */
+  key: string;
+  /** Case-insensitive substring to narrow the suggestions. */
+  value?: string;
+}
+export const GetCustomPropertyDefinitionsValueRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      key: S.String.pipe(T.Query()),
+      value: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/api/projects/{project_id}/custom_property_definitions/values/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetCustomPropertyDefinitionsValueRequest",
+}) as any as S.Schema<GetCustomPropertyDefinitionsValueRequest>;
+
+/** One suggested filter value for a custom property. */
+export interface CustomPropertyValueSuggestion {
+  /** A suggested value for the custom property. */
+  name: string;
+}
+export const CustomPropertyValueSuggestion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+  }),
+).annotate({
+  identifier: "CustomPropertyValueSuggestion",
+}) as any as S.Schema<CustomPropertyValueSuggestion>;
+
+/** Suggested values matching the search input. */
+export type CustomPropertyValueSuggestionsResponseResultsList =
+  Array<CustomPropertyValueSuggestion>;
+export const CustomPropertyValueSuggestionsResponseResultsList =
+  /*@__PURE__*/ S.Array(
+    CustomPropertyValueSuggestion,
+  ) as any as S.Schema<CustomPropertyValueSuggestionsResponseResultsList>;
+
+/** Response shape of the custom property value-suggestions endpoint. Matches the contract of the shared property-values picker (``propertyDefinitionsModel`` on the frontend), which expects ``{results: [{name}], refreshing}``. */
+export interface CustomPropertyValueSuggestionsResponse {
+  /** Suggested values matching the search input. */
+  results: CustomPropertyValueSuggestionsResponseResultsList;
+  /** Always false — present for compatibility with the property-values consumer. */
+  refreshing: boolean;
+}
+export const CustomPropertyValueSuggestionsResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      results: CustomPropertyValueSuggestionsResponseResultsList,
+      refreshing: S.Boolean,
+    }),
+).annotate({
+  identifier: "CustomPropertyValueSuggestionsResponse",
+}) as any as S.Schema<CustomPropertyValueSuggestionsResponse>;
+
+export interface ListCustomPropertyDefinitionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
@@ -119,7 +462,7 @@ export interface CustomPropertyDefinitionsListRequest {
   /** The initial index from which to return the results. */
   offset?: number;
 }
-export const CustomPropertyDefinitionsListRequest = /*@__PURE__*/ S.suspend(
+export const ListCustomPropertyDefinitionsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       project_id: S.String.pipe(T.Label()),
@@ -133,8 +476,8 @@ export const CustomPropertyDefinitionsListRequest = /*@__PURE__*/ S.suspend(
       }),
     ),
 ).annotate({
-  identifier: "CustomPropertyDefinitionsListRequest",
-}) as any as S.Schema<CustomPropertyDefinitionsListRequest>;
+  identifier: "ListCustomPropertyDefinitionsRequest",
+}) as any as S.Schema<ListCustomPropertyDefinitionsRequest>;
 
 export type PaginatedCustomPropertyDefinitionListResultsList =
   Array<CustomPropertyDefinition>;
@@ -161,61 +504,15 @@ export const PaginatedCustomPropertyDefinitionList = /*@__PURE__*/ S.suspend(
   identifier: "PaginatedCustomPropertyDefinitionList",
 }) as any as S.Schema<PaginatedCustomPropertyDefinitionList>;
 
-export interface CustomPropertyDefinitionsPartialUpdateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  id: string;
-  /** Human-readable name of the custom property. Unique within the team. */
-  name?: string;
-  /** Optional description of what the property represents. */
-  description?: string | null;
-  /** How the property is interpreted and rendered: 'text', 'number', 'currency', 'percent', 'date', 'datetime', or 'boolean'. * `text` - text * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean */
-  display_type?: CustomPropertyDisplayTypeEnum | (string & {});
-  /** Abbreviate large numbers (e.g. 10,000 → 10K). Only applies to numeric properties. */
-  is_big_number?: boolean;
-}
-export const CustomPropertyDefinitionsPartialUpdateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      project_id: S.String.pipe(T.Label()),
-      id: S.String.pipe(T.Label()),
-      name: S.optional(S.String),
-      description: S.optional(S.NullOr(S.String)),
-      display_type: S.optional(CustomPropertyDisplayTypeEnum),
-      is_big_number: S.optional(S.Boolean),
-    }).pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/api/projects/{project_id}/custom_property_definitions/{id}/",
-        code: 200,
-      }),
-    ),
-  ).annotate({
-    identifier: "CustomPropertyDefinitionsPartialUpdateRequest",
-  }) as any as S.Schema<CustomPropertyDefinitionsPartialUpdateRequest>;
+/** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
+export type UpdateCustomPropertyDefinitionRequestOptionsList =
+  Array<CustomPropertyOption>;
+export const UpdateCustomPropertyDefinitionRequestOptionsList =
+  /*@__PURE__*/ S.Array(
+    CustomPropertyOption,
+  ) as any as S.Schema<UpdateCustomPropertyDefinitionRequestOptionsList>;
 
-export interface CustomPropertyDefinitionsRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  id: string;
-}
-export const CustomPropertyDefinitionsRetrieveRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      project_id: S.String.pipe(T.Label()),
-      id: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/api/projects/{project_id}/custom_property_definitions/{id}/",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "CustomPropertyDefinitionsRetrieveRequest",
-}) as any as S.Schema<CustomPropertyDefinitionsRetrieveRequest>;
-
-export interface CustomPropertyDefinitionsUpdateRequest {
+export interface UpdateCustomPropertyDefinitionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
@@ -223,12 +520,18 @@ export interface CustomPropertyDefinitionsUpdateRequest {
   name: string;
   /** Optional description of what the property represents. */
   description?: string | null;
-  /** How the property is interpreted and rendered: 'text', 'number', 'currency', 'percent', 'date', 'datetime', or 'boolean'. * `text` - text * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean */
+  /** How the property is interpreted and rendered: 'text', 'link', 'number', 'currency', 'percent', 'date', 'datetime', 'boolean', or 'select'. Links require an HTTP or HTTPS URL. * `text` - text * `link` - link * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean * `select` - select */
   display_type: CustomPropertyDisplayTypeEnum | (string & {});
+  /** What entity this property is attached to: 'account' (default), 'person', or 'group'. Person and group properties are populated from a warehouse schema and become usable like any other person/group property (feature flags, cohorts, insights). * `account` - account * `person` - person * `group` - group */
+  target_type?: CustomPropertyDefinitionTargetTypeEnum | (string & {});
+  /** For 'group' targets only: which group type (0-4) the property attaches to. Required when target_type is 'group'; must be omitted otherwise. Create-only. */
+  group_type_index?: number | null;
   /** Abbreviate large numbers (e.g. 10,000 → 10K). Only applies to numeric properties. */
   is_big_number?: boolean;
+  /** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
+  options?: UpdateCustomPropertyDefinitionRequestOptionsList | null;
 }
-export const CustomPropertyDefinitionsUpdateRequest = /*@__PURE__*/ S.suspend(
+export const UpdateCustomPropertyDefinitionRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       project_id: S.String.pipe(T.Label()),
@@ -236,7 +539,12 @@ export const CustomPropertyDefinitionsUpdateRequest = /*@__PURE__*/ S.suspend(
       name: S.String,
       description: S.optional(S.NullOr(S.String)),
       display_type: CustomPropertyDisplayTypeEnum,
+      target_type: S.optional(CustomPropertyDefinitionTargetTypeEnum),
+      group_type_index: S.optional(S.NullOr(S.Number)),
       is_big_number: S.optional(S.Boolean),
+      options: S.optional(
+        S.NullOr(UpdateCustomPropertyDefinitionRequestOptionsList),
+      ),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -245,17 +553,69 @@ export const CustomPropertyDefinitionsUpdateRequest = /*@__PURE__*/ S.suspend(
       }),
     ),
 ).annotate({
-  identifier: "CustomPropertyDefinitionsUpdateRequest",
-}) as any as S.Schema<CustomPropertyDefinitionsUpdateRequest>;
+  identifier: "UpdateCustomPropertyDefinitionRequest",
+}) as any as S.Schema<UpdateCustomPropertyDefinitionRequest>;
 
-export type CustomPropertyDefinitionsCreateError = PosthogOpError;
-export const customPropertyDefinitionsCreate: API.OperationMethod<
-  CustomPropertyDefinitionsCreateRequest,
+/** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
+export type UpdateCustomPropertyDefinitionsPartialRequestOptionsList =
+  Array<CustomPropertyOption>;
+export const UpdateCustomPropertyDefinitionsPartialRequestOptionsList =
+  /*@__PURE__*/ S.Array(
+    CustomPropertyOption,
+  ) as any as S.Schema<UpdateCustomPropertyDefinitionsPartialRequestOptionsList>;
+
+export interface UpdateCustomPropertyDefinitionsPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Human-readable name of the custom property. Unique within the team. */
+  name?: string;
+  /** Optional description of what the property represents. */
+  description?: string | null;
+  /** How the property is interpreted and rendered: 'text', 'link', 'number', 'currency', 'percent', 'date', 'datetime', 'boolean', or 'select'. Links require an HTTP or HTTPS URL. * `text` - text * `link` - link * `number` - number * `currency` - currency * `percent` - percent * `date` - date * `datetime` - datetime * `boolean` - boolean * `select` - select */
+  display_type?: CustomPropertyDisplayTypeEnum | (string & {});
+  /** What entity this property is attached to: 'account' (default), 'person', or 'group'. Person and group properties are populated from a warehouse schema and become usable like any other person/group property (feature flags, cohorts, insights). * `account` - account * `person` - person * `group` - group */
+  target_type?: CustomPropertyDefinitionTargetTypeEnum | (string & {});
+  /** For 'group' targets only: which group type (0-4) the property attaches to. Required when target_type is 'group'; must be omitted otherwise. Create-only. */
+  group_type_index?: number | null;
+  /** Abbreviate large numbers (e.g. 10,000 → 10K). Only applies to numeric properties. */
+  is_big_number?: boolean;
+  /** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
+  options?: UpdateCustomPropertyDefinitionsPartialRequestOptionsList | null;
+}
+export const UpdateCustomPropertyDefinitionsPartialRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+      name: S.optional(S.String),
+      description: S.optional(S.NullOr(S.String)),
+      display_type: S.optional(CustomPropertyDisplayTypeEnum),
+      target_type: S.optional(CustomPropertyDefinitionTargetTypeEnum),
+      group_type_index: S.optional(S.NullOr(S.Number)),
+      is_big_number: S.optional(S.Boolean),
+      options: S.optional(
+        S.NullOr(UpdateCustomPropertyDefinitionsPartialRequestOptionsList),
+      ),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/api/projects/{project_id}/custom_property_definitions/{id}/",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "UpdateCustomPropertyDefinitionsPartialRequest",
+  }) as any as S.Schema<UpdateCustomPropertyDefinitionsPartialRequest>;
+
+export type CreateCustomPropertyDefinitionError = PosthogOpError;
+export const createCustomPropertyDefinition: API.OperationMethod<
+  CreateCustomPropertyDefinitionRequest,
   CustomPropertyDefinition,
-  CustomPropertyDefinitionsCreateError,
+  CreateCustomPropertyDefinitionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: CustomPropertyDefinitionsCreateRequest,
+  input: CreateCustomPropertyDefinitionRequest,
   output: CustomPropertyDefinition,
   errors: [],
   protocol: PosthogProtocol,
@@ -276,56 +636,70 @@ export const customPropertyDefinitionsDestroy: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CustomPropertyDefinitionsListError = PosthogOpError;
-export const customPropertyDefinitionsList: API.OperationMethod<
-  CustomPropertyDefinitionsListRequest,
-  PaginatedCustomPropertyDefinitionList,
-  CustomPropertyDefinitionsListError,
+export type GetCustomPropertyDefinitionError = PosthogOpError;
+export const getCustomPropertyDefinition: API.OperationMethod<
+  GetCustomPropertyDefinitionRequest,
+  CustomPropertyDefinition,
+  GetCustomPropertyDefinitionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: CustomPropertyDefinitionsListRequest,
+  input: GetCustomPropertyDefinitionRequest,
+  output: CustomPropertyDefinition,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCustomPropertyDefinitionsValueError = PosthogOpError;
+export const getCustomPropertyDefinitionsValue: API.OperationMethod<
+  GetCustomPropertyDefinitionsValueRequest,
+  CustomPropertyValueSuggestionsResponse,
+  GetCustomPropertyDefinitionsValueError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCustomPropertyDefinitionsValueRequest,
+  output: CustomPropertyValueSuggestionsResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListCustomPropertyDefinitionsError = PosthogOpError;
+export const listCustomPropertyDefinitions: API.OperationMethod<
+  ListCustomPropertyDefinitionsRequest,
+  PaginatedCustomPropertyDefinitionList,
+  ListCustomPropertyDefinitionsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListCustomPropertyDefinitionsRequest,
   output: PaginatedCustomPropertyDefinitionList,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type CustomPropertyDefinitionsPartialUpdateError = PosthogOpError;
-export const customPropertyDefinitionsPartialUpdate: API.OperationMethod<
-  CustomPropertyDefinitionsPartialUpdateRequest,
+export type UpdateCustomPropertyDefinitionError = PosthogOpError;
+export const updateCustomPropertyDefinition: API.OperationMethod<
+  UpdateCustomPropertyDefinitionRequest,
   CustomPropertyDefinition,
-  CustomPropertyDefinitionsPartialUpdateError,
+  UpdateCustomPropertyDefinitionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: CustomPropertyDefinitionsPartialUpdateRequest,
+  input: UpdateCustomPropertyDefinitionRequest,
   output: CustomPropertyDefinition,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type CustomPropertyDefinitionsRetrieveError = PosthogOpError;
-export const customPropertyDefinitionsRetrieve: API.OperationMethod<
-  CustomPropertyDefinitionsRetrieveRequest,
+export type UpdateCustomPropertyDefinitionsPartialError = PosthogOpError;
+export const updateCustomPropertyDefinitionsPartial: API.OperationMethod<
+  UpdateCustomPropertyDefinitionsPartialRequest,
   CustomPropertyDefinition,
-  CustomPropertyDefinitionsRetrieveError,
+  UpdateCustomPropertyDefinitionsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: CustomPropertyDefinitionsRetrieveRequest,
-  output: CustomPropertyDefinition,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type CustomPropertyDefinitionsUpdateError = PosthogOpError;
-export const customPropertyDefinitionsUpdate: API.OperationMethod<
-  CustomPropertyDefinitionsUpdateRequest,
-  CustomPropertyDefinition,
-  CustomPropertyDefinitionsUpdateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CustomPropertyDefinitionsUpdateRequest,
+  input: UpdateCustomPropertyDefinitionsPartialRequest,
   output: CustomPropertyDefinition,
   errors: [],
   protocol: PosthogProtocol,

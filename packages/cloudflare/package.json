@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/cloudflare",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
@@ -41,6 +41,13 @@
       "worker": "./src/pagination.ts",
       "workerd": "./src/pagination.ts",
       "default": "./lib/pagination.js"
+    },
+    "./Retry": {
+      "types": "./lib/retry.d.ts",
+      "bun": "./src/retry.ts",
+      "worker": "./src/retry.ts",
+      "workerd": "./src/retry.ts",
+      "default": "./lib/retry.js"
     },
     "./abuse-reports": {
       "types": "./lib/services/abuse_reports.d.ts",
@@ -496,26 +503,34 @@
       "worker": "./src/services/*.ts",
       "workerd": "./src/services/*.ts",
       "default": "./lib/services/*.js"
+    },
+    "./Protocol": {
+      "types": "./lib/protocol.d.ts",
+      "bun": "./src/protocol.ts",
+      "worker": "./src/protocol.ts",
+      "workerd": "./src/protocol.ts",
+      "default": "./lib/protocol.js"
     }
   },
   "scripts": {
     "build": "tsc -b",
-    "download-api-docs": "bun scripts/download-api-docs.ts",
     "convert": "bun scripts/spec-to-smithy.ts",
     "spec-to-smithy": "bun scripts/spec-to-smithy.ts",
     "generate": "bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "typecheck:strict": "tsc -p tsconfig.strict.json"
+    "typecheck:strict": "tsc -p tsconfig.strict.json",
+    "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-cloudflare",
+    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-cloudflare"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:tooling",
-    "@types/node": "catalog:tooling",
-    "@effect/platform-bun": "catalog:effect"
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "@effect/platform-bun": "catalog:"
   },
   "peerDependencies": {
-    "effect": "catalog:effect"
+    "effect": "catalog:"
   }
 }

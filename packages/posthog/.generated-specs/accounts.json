@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.accounts#AccountsListRequestOrdering": {
+    "com.posthog.accounts#ListAccountsRequestOrdering": {
       "type": "enum",
       "members": {
         "CREATED_AT": {
@@ -59,7 +60,7 @@
       },
       "traits": {}
     },
-    "com.posthog.accounts#AccountsListRequest": {
+    "com.posthog.accounts#ListAccountsRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -70,32 +71,25 @@
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
           }
         },
-        "account_executive": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "account_executive",
-            "smithy.api#documentation": "Filter by account executive. Use 'unassigned' or an integer user id."
-          }
-        },
-        "account_owner": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "account_owner",
-            "smithy.api#documentation": "Filter by account owner. Use 'unassigned' or an integer user id."
-          }
-        },
         "all_roles_unassigned": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "all_roles_unassigned",
-            "smithy.api#documentation": "When true, returns only accounts where CSM, account executive, and account owner are all unset."
+            "smithy.api#documentation": "When true, returns only accounts where no user actively holds any relationship."
           }
         },
-        "csm": {
-          "target": "smithy.api#String",
+        "include_churned": {
+          "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#httpQuery": "csm",
-            "smithy.api#documentation": "Filter by CSM. Use 'unassigned' for accounts with no CSM, or an integer user id."
+            "smithy.api#httpQuery": "include_churned",
+            "smithy.api#documentation": "Include churned accounts. Churned accounts are hidden by default."
+          }
+        },
+        "include_ignored": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_ignored",
+            "smithy.api#documentation": "Include ignored accounts. Ignored accounts are hidden by default."
           }
         },
         "limit": {
@@ -113,7 +107,7 @@
           }
         },
         "ordering": {
-          "target": "com.posthog.accounts#AccountsListRequestOrdering",
+          "target": "com.posthog.accounts#ListAccountsRequestOrdering",
           "traits": {
             "smithy.api#httpQuery": "ordering",
             "smithy.api#documentation": "Sort order. Defaults to '-created_at'."
@@ -123,7 +117,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "search",
-            "smithy.api#documentation": "Case-insensitive substring search across account name and external ID."
+            "smithy.api#documentation": "Case-insensitive substring search across account name and external ID. A query holding an email address also matches accounts that list it as a known email, and a query holding a domain matches accounts that own that email domain."
           }
         },
         "tags": {
@@ -194,7 +188,7 @@
         "properties": {
           "target": "com.posthog.accounts#AccountProperties",
           "traits": {
-            "smithy.api#documentation": "Typed account properties: assignment fields (csm, account_executive, account_owner) and external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link). Defaults to an empty object. Unknown keys are rejected.",
+            "smithy.api#documentation": "Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -209,6 +203,28 @@
           "traits": {
             "smithy.api#documentation": "Short IDs of the internal notebooks linked to this account, used to persist investigations, call notes, and other free-form context. Empty list if no notebooks have been created for the account.",
             "smithy.api#required": {}
+          }
+        },
+        "slack_summary_cadence": {
+          "target": "com.posthog.accounts#SlackSummaryCadenceEnum",
+          "traits": {
+            "smithy.api#documentation": "How often to generate an AI summary of the account's bound Slack channel (daily, weekly, or monthly). Null means summaries are off.\n\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "churned_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the account churned. Null means the account has not churned.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ignored_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When Track Rules ignored the account. Null means the account is tracked.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "created_at": {
@@ -236,79 +252,44 @@
         "smithy.api#documentation": "A Customer Analytics account — a logical grouping used to assign customer-success ownership."
       }
     },
-    "com.posthog.accounts#AccountPropertiesCsm": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
+    "com.posthog.accounts#AccountPropertiesEmailDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Email domains owned by this account's company, used to match inbound touchpoints to the account."
+      }
     },
-    "com.posthog.accounts#AccountPropertiesAccountExecutive": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
+    "com.posthog.accounts#AccountPropertiesKnownEmailsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
-      "traits": {}
-    },
-    "com.posthog.accounts#AccountPropertiesAccountOwner": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Individual email addresses pinned to this account, matched before the domain fallback."
+      }
     },
     "com.posthog.accounts#AccountProperties": {
       "type": "structure",
       "members": {
-        "csm": {
-          "target": "com.posthog.accounts#AccountPropertiesCsm",
+        "website_domain": {
+          "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Primary company website hostname used for account identity and logo lookup.",
             "com.distilled.openapi#nullable": {}
           }
         },
-        "account_executive": {
-          "target": "com.posthog.accounts#AccountPropertiesAccountExecutive",
+        "email_domains": {
+          "target": "com.posthog.accounts#AccountPropertiesEmailDomainsList",
           "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "Email domains owned by this account's company, used to match inbound touchpoints to the account."
           }
         },
-        "account_owner": {
-          "target": "com.posthog.accounts#AccountPropertiesAccountOwner",
+        "known_emails": {
+          "target": "com.posthog.accounts#AccountPropertiesKnownEmailsList",
           "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "Individual email addresses pinned to this account, matched before the domain fallback."
           }
         },
         "stripe_customer_id": {
@@ -352,10 +333,16 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "metabase_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Typed account properties: assignment fields (csm, account_executive, account_owner) and external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link). Defaults to an empty object. Unknown keys are rejected."
+        "smithy.api#documentation": "Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here."
       }
     },
     "com.posthog.accounts#AccountTagsList": {
@@ -376,6 +363,32 @@
         "smithy.api#documentation": "Short IDs of the internal notebooks linked to this account, used to persist investigations, call notes, and other free-form context. Empty list if no notebooks have been created for the account."
       }
     },
+    "com.posthog.accounts#SlackSummaryCadenceEnum": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly"
+      }
+    },
     "com.posthog.accounts#PaginatedAccountListResultsList": {
       "type": "list",
       "member": {
@@ -383,10 +396,10 @@
       },
       "traits": {}
     },
-    "com.posthog.accounts#AccountsList": {
+    "com.posthog.accounts#ListAccounts": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.accounts#AccountsListRequest"
+        "target": "com.posthog.accounts#ListAccountsRequest"
       },
       "output": {
         "target": "com.posthog.accounts#PaginatedAccountList"
@@ -399,79 +412,44 @@
         }
       }
     },
-    "com.posthog.accounts#AccountsCreateRequestPropertiesCsm": {
+    "com.posthog.accounts#CreateAccountRequestPropertiesEmailDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Email domains owned by this account's company, used to match inbound touchpoints to the account."
+      }
+    },
+    "com.posthog.accounts#CreateAccountRequestPropertiesKnownEmailsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Individual email addresses pinned to this account, matched before the domain fallback."
+      }
+    },
+    "com.posthog.accounts#CreateAccountRequestProperties": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "email": {
+        "website_domain": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts#AccountsCreateRequestPropertiesAccountExecutive": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts#AccountsCreateRequestPropertiesAccountOwner": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts#AccountsCreateRequestProperties": {
-      "type": "structure",
-      "members": {
-        "csm": {
-          "target": "com.posthog.accounts#AccountsCreateRequestPropertiesCsm",
-          "traits": {
+            "smithy.api#documentation": "Primary company website hostname used for account identity and logo lookup.",
             "com.distilled.openapi#nullable": {}
           }
         },
-        "account_executive": {
-          "target": "com.posthog.accounts#AccountsCreateRequestPropertiesAccountExecutive",
+        "email_domains": {
+          "target": "com.posthog.accounts#CreateAccountRequestPropertiesEmailDomainsList",
           "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "Email domains owned by this account's company, used to match inbound touchpoints to the account."
           }
         },
-        "account_owner": {
-          "target": "com.posthog.accounts#AccountsCreateRequestPropertiesAccountOwner",
+        "known_emails": {
+          "target": "com.posthog.accounts#CreateAccountRequestPropertiesKnownEmailsList",
           "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "Individual email addresses pinned to this account, matched before the domain fallback."
           }
         },
         "stripe_customer_id": {
@@ -515,13 +493,19 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "metabase_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Typed account properties: assignment fields (csm, account_executive, account_owner) and external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link). Defaults to an empty object. Unknown keys are rejected."
+        "smithy.api#documentation": "Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here."
       }
     },
-    "com.posthog.accounts#AccountsCreateRequestTagsList": {
+    "com.posthog.accounts#CreateAccountRequestTagsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -530,7 +514,7 @@
         "smithy.api#documentation": "Tag names attached to the account. Pass a list to replace existing tags."
       }
     },
-    "com.posthog.accounts#AccountsCreateRequest": {
+    "com.posthog.accounts#CreateAccountRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -556,16 +540,30 @@
           }
         },
         "properties": {
-          "target": "com.posthog.accounts#AccountsCreateRequestProperties",
+          "target": "com.posthog.accounts#CreateAccountRequestProperties",
           "traits": {
-            "smithy.api#documentation": "Typed account properties: assignment fields (csm, account_executive, account_owner) and external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link). Defaults to an empty object. Unknown keys are rejected.",
+            "smithy.api#documentation": "Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "tags": {
-          "target": "com.posthog.accounts#AccountsCreateRequestTagsList",
+          "target": "com.posthog.accounts#CreateAccountRequestTagsList",
           "traits": {
             "smithy.api#documentation": "Tag names attached to the account. Pass a list to replace existing tags."
+          }
+        },
+        "slack_summary_cadence": {
+          "target": "com.posthog.accounts#SlackSummaryCadenceEnum",
+          "traits": {
+            "smithy.api#documentation": "How often to generate an AI summary of the account's bound Slack channel (daily, weekly, or monthly). Null means summaries are off.\n\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "churned_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the account churned. Null means the account has not churned.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -573,10 +571,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.accounts#AccountsCreate": {
+    "com.posthog.accounts#CreateAccount": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.accounts#AccountsCreateRequest"
+        "target": "com.posthog.accounts#CreateAccountRequest"
       },
       "output": {
         "target": "com.posthog.accounts#Account"
@@ -589,7 +587,7 @@
         }
       }
     },
-    "com.posthog.accounts#AccountsRetrieveRequest": {
+    "com.posthog.accounts#GetAccountRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -613,10 +611,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.accounts#AccountsRetrieve": {
+    "com.posthog.accounts#GetAccount": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.accounts#AccountsRetrieveRequest"
+        "target": "com.posthog.accounts#GetAccountRequest"
       },
       "output": {
         "target": "com.posthog.accounts#Account"
@@ -629,79 +627,44 @@
         }
       }
     },
-    "com.posthog.accounts#AccountsUpdateRequestPropertiesCsm": {
+    "com.posthog.accounts#UpdateAccountRequestPropertiesEmailDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Email domains owned by this account's company, used to match inbound touchpoints to the account."
+      }
+    },
+    "com.posthog.accounts#UpdateAccountRequestPropertiesKnownEmailsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Individual email addresses pinned to this account, matched before the domain fallback."
+      }
+    },
+    "com.posthog.accounts#UpdateAccountRequestProperties": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "email": {
+        "website_domain": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts#AccountsUpdateRequestPropertiesAccountExecutive": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts#AccountsUpdateRequestPropertiesAccountOwner": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts#AccountsUpdateRequestProperties": {
-      "type": "structure",
-      "members": {
-        "csm": {
-          "target": "com.posthog.accounts#AccountsUpdateRequestPropertiesCsm",
-          "traits": {
+            "smithy.api#documentation": "Primary company website hostname used for account identity and logo lookup.",
             "com.distilled.openapi#nullable": {}
           }
         },
-        "account_executive": {
-          "target": "com.posthog.accounts#AccountsUpdateRequestPropertiesAccountExecutive",
+        "email_domains": {
+          "target": "com.posthog.accounts#UpdateAccountRequestPropertiesEmailDomainsList",
           "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "Email domains owned by this account's company, used to match inbound touchpoints to the account."
           }
         },
-        "account_owner": {
-          "target": "com.posthog.accounts#AccountsUpdateRequestPropertiesAccountOwner",
+        "known_emails": {
+          "target": "com.posthog.accounts#UpdateAccountRequestPropertiesKnownEmailsList",
           "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "Individual email addresses pinned to this account, matched before the domain fallback."
           }
         },
         "stripe_customer_id": {
@@ -745,13 +708,19 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "metabase_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Typed account properties: assignment fields (csm, account_executive, account_owner) and external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link). Defaults to an empty object. Unknown keys are rejected."
+        "smithy.api#documentation": "Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here."
       }
     },
-    "com.posthog.accounts#AccountsUpdateRequestTagsList": {
+    "com.posthog.accounts#UpdateAccountRequestTagsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -760,7 +729,7 @@
         "smithy.api#documentation": "Tag names attached to the account. Pass a list to replace existing tags."
       }
     },
-    "com.posthog.accounts#AccountsUpdateRequest": {
+    "com.posthog.accounts#UpdateAccountRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -794,16 +763,30 @@
           }
         },
         "properties": {
-          "target": "com.posthog.accounts#AccountsUpdateRequestProperties",
+          "target": "com.posthog.accounts#UpdateAccountRequestProperties",
           "traits": {
-            "smithy.api#documentation": "Typed account properties: assignment fields (csm, account_executive, account_owner) and external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link). Defaults to an empty object. Unknown keys are rejected.",
+            "smithy.api#documentation": "Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "tags": {
-          "target": "com.posthog.accounts#AccountsUpdateRequestTagsList",
+          "target": "com.posthog.accounts#UpdateAccountRequestTagsList",
           "traits": {
             "smithy.api#documentation": "Tag names attached to the account. Pass a list to replace existing tags."
+          }
+        },
+        "slack_summary_cadence": {
+          "target": "com.posthog.accounts#SlackSummaryCadenceEnum",
+          "traits": {
+            "smithy.api#documentation": "How often to generate an AI summary of the account's bound Slack channel (daily, weekly, or monthly). Null means summaries are off.\n\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "churned_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the account churned. Null means the account has not churned.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -811,10 +794,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.accounts#AccountsUpdate": {
+    "com.posthog.accounts#UpdateAccount": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.accounts#AccountsUpdateRequest"
+        "target": "com.posthog.accounts#UpdateAccountRequest"
       },
       "output": {
         "target": "com.posthog.accounts#Account"
@@ -827,79 +810,44 @@
         }
       }
     },
-    "com.posthog.accounts#AccountsPartialUpdateRequestPropertiesCsm": {
+    "com.posthog.accounts#UpdateAccountsPartialRequestPropertiesEmailDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Email domains owned by this account's company, used to match inbound touchpoints to the account."
+      }
+    },
+    "com.posthog.accounts#UpdateAccountsPartialRequestPropertiesKnownEmailsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Individual email addresses pinned to this account, matched before the domain fallback."
+      }
+    },
+    "com.posthog.accounts#UpdateAccountsPartialRequestProperties": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "email": {
+        "website_domain": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts#AccountsPartialUpdateRequestPropertiesAccountExecutive": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts#AccountsPartialUpdateRequestPropertiesAccountOwner": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts#AccountsPartialUpdateRequestProperties": {
-      "type": "structure",
-      "members": {
-        "csm": {
-          "target": "com.posthog.accounts#AccountsPartialUpdateRequestPropertiesCsm",
-          "traits": {
+            "smithy.api#documentation": "Primary company website hostname used for account identity and logo lookup.",
             "com.distilled.openapi#nullable": {}
           }
         },
-        "account_executive": {
-          "target": "com.posthog.accounts#AccountsPartialUpdateRequestPropertiesAccountExecutive",
+        "email_domains": {
+          "target": "com.posthog.accounts#UpdateAccountsPartialRequestPropertiesEmailDomainsList",
           "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "Email domains owned by this account's company, used to match inbound touchpoints to the account."
           }
         },
-        "account_owner": {
-          "target": "com.posthog.accounts#AccountsPartialUpdateRequestPropertiesAccountOwner",
+        "known_emails": {
+          "target": "com.posthog.accounts#UpdateAccountsPartialRequestPropertiesKnownEmailsList",
           "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "Individual email addresses pinned to this account, matched before the domain fallback."
           }
         },
         "stripe_customer_id": {
@@ -943,13 +891,19 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "metabase_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Typed account properties: assignment fields (csm, account_executive, account_owner) and external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link). Defaults to an empty object. Unknown keys are rejected."
+        "smithy.api#documentation": "Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here."
       }
     },
-    "com.posthog.accounts#AccountsPartialUpdateRequestTagsList": {
+    "com.posthog.accounts#UpdateAccountsPartialRequestTagsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -958,7 +912,7 @@
         "smithy.api#documentation": "Tag names attached to the account. Pass a list to replace existing tags."
       }
     },
-    "com.posthog.accounts#AccountsPartialUpdateRequest": {
+    "com.posthog.accounts#UpdateAccountsPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -991,16 +945,30 @@
           }
         },
         "properties": {
-          "target": "com.posthog.accounts#AccountsPartialUpdateRequestProperties",
+          "target": "com.posthog.accounts#UpdateAccountsPartialRequestProperties",
           "traits": {
-            "smithy.api#documentation": "Typed account properties: assignment fields (csm, account_executive, account_owner) and external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link). Defaults to an empty object. Unknown keys are rejected.",
+            "smithy.api#documentation": "Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "tags": {
-          "target": "com.posthog.accounts#AccountsPartialUpdateRequestTagsList",
+          "target": "com.posthog.accounts#UpdateAccountsPartialRequestTagsList",
           "traits": {
             "smithy.api#documentation": "Tag names attached to the account. Pass a list to replace existing tags."
+          }
+        },
+        "slack_summary_cadence": {
+          "target": "com.posthog.accounts#SlackSummaryCadenceEnum",
+          "traits": {
+            "smithy.api#documentation": "How often to generate an AI summary of the account's bound Slack channel (daily, weekly, or monthly). Null means summaries are off.\n\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "churned_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the account churned. Null means the account has not churned.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -1008,10 +976,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.accounts#AccountsPartialUpdate": {
+    "com.posthog.accounts#UpdateAccountsPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.accounts#AccountsPartialUpdateRequest"
+        "target": "com.posthog.accounts#UpdateAccountsPartialRequest"
       },
       "output": {
         "target": "com.posthog.accounts#Account"
@@ -1064,27 +1032,1261 @@
         }
       }
     },
+    "com.posthog.accounts#ListAccountsEmailThreadsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this account."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.accounts#PaginatedAccountEmailThreadList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.accounts#PaginatedAccountEmailThreadListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#AccountEmailThread": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the captured email thread.",
+            "smithy.api#required": {}
+          }
+        },
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email thread subject.",
+            "smithy.api#required": {}
+          }
+        },
+        "preview": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plain-text preview of the latest captured message.",
+            "smithy.api#required": {}
+          }
+        },
+        "first_message_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source timestamp of the first captured message.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_message": {
+          "target": "com.posthog.accounts#ConversationMessageSummary",
+          "traits": {
+            "smithy.api#documentation": "Sender, timestamp, and direction of the first captured message, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_message_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source timestamp of the latest captured message.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_message": {
+          "target": "com.posthog.accounts#ConversationMessageSummary",
+          "traits": {
+            "smithy.api#documentation": "Sender, timestamp, and direction of the latest captured message, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of captured messages in the thread.",
+            "smithy.api#required": {}
+          }
+        },
+        "participants": {
+          "target": "com.posthog.accounts#AccountEmailThreadParticipantsList",
+          "traits": {
+            "smithy.api#documentation": "Participants included in the email thread.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#ConversationMessageSummary": {
+      "type": "structure",
+      "members": {
+        "sender": {
+          "target": "com.posthog.accounts#ConversationMessageSender",
+          "traits": {
+            "smithy.api#documentation": "Sender of the message.",
+            "smithy.api#required": {}
+          }
+        },
+        "sent_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp from the message source.",
+            "smithy.api#required": {}
+          }
+        },
+        "direction": {
+          "target": "com.posthog.accounts#EmailThreadMessageDirectionEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether PostHog received or sent the message.\n\n* `inbound` - Inbound\n* `outbound` - Outbound",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#ConversationMessageSender": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the message sender.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the message sender, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "person_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the matched PostHog person, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "distinct_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Distinct ID of the sender, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#EmailThreadMessageDirectionEnum": {
+      "type": "enum",
+      "members": {
+        "INBOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inbound"
+          }
+        },
+        "OUTBOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "outbound"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `inbound` - Inbound\n* `outbound` - Outbound"
+      }
+    },
+    "com.posthog.accounts#AccountEmailThreadParticipant": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the thread participant.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name from the captured email headers.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.posthog.accounts#EmailThreadParticipantKindEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether the participant belongs to the PostHog organization or the customer.\n\n* `internal` - Internal\n* `customer` - Customer",
+            "smithy.api#required": {}
+          }
+        },
+        "person_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the matched PostHog person for a customer participant, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#EmailThreadParticipantKindEnum": {
+      "type": "enum",
+      "members": {
+        "INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal"
+          }
+        },
+        "CUSTOMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `internal` - Internal\n* `customer` - Customer"
+      }
+    },
+    "com.posthog.accounts#AccountEmailThreadParticipantsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#AccountEmailThreadParticipant"
+      },
+      "traits": {
+        "smithy.api#documentation": "Participants included in the email thread."
+      }
+    },
+    "com.posthog.accounts#PaginatedAccountEmailThreadListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#AccountEmailThread"
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#ListAccountsEmailThreads": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.accounts#ListAccountsEmailThreadsRequest"
+      },
+      "output": {
+        "target": "com.posthog.accounts#PaginatedAccountEmailThreadList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/accounts/{id}/email_threads/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.accounts#ListAccountsEmailThreadMessagesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this account."
+          }
+        },
+        "thread_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.accounts#PaginatedAccountEmailThreadMessageList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.accounts#PaginatedAccountEmailThreadMessageListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#AccountEmailThreadMessage": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the captured email message.",
+            "smithy.api#required": {}
+          }
+        },
+        "sent_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp from the source email.",
+            "smithy.api#required": {}
+          }
+        },
+        "sender": {
+          "target": "com.posthog.accounts#AccountEmailThreadAddress",
+          "traits": {
+            "smithy.api#documentation": "Sender from the email From header.",
+            "smithy.api#required": {}
+          }
+        },
+        "to_recipients": {
+          "target": "com.posthog.accounts#AccountEmailThreadMessageToRecipientsList",
+          "traits": {
+            "smithy.api#documentation": "Recipients from the email To header.",
+            "smithy.api#required": {}
+          }
+        },
+        "cc_recipients": {
+          "target": "com.posthog.accounts#AccountEmailThreadMessageCcRecipientsList",
+          "traits": {
+            "smithy.api#documentation": "Recipients from the email Cc header.",
+            "smithy.api#required": {}
+          }
+        },
+        "sender_authenticated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Mailgun authentication verified the sender domain.",
+            "smithy.api#required": {}
+          }
+        },
+        "direction": {
+          "target": "com.posthog.accounts#EmailThreadMessageDirectionEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether PostHog received or sent the message.\n\n* `inbound` - Inbound\n* `outbound` - Outbound",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plain-text email content.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#AccountEmailThreadAddress": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name from the email header.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address from the email header.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#AccountEmailThreadMessageToRecipientsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#AccountEmailThreadAddress"
+      },
+      "traits": {
+        "smithy.api#documentation": "Recipients from the email To header."
+      }
+    },
+    "com.posthog.accounts#AccountEmailThreadMessageCcRecipientsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#AccountEmailThreadAddress"
+      },
+      "traits": {
+        "smithy.api#documentation": "Recipients from the email Cc header."
+      }
+    },
+    "com.posthog.accounts#PaginatedAccountEmailThreadMessageListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#AccountEmailThreadMessage"
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#ListAccountsEmailThreadMessages": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.accounts#ListAccountsEmailThreadMessagesRequest"
+      },
+      "output": {
+        "target": "com.posthog.accounts#PaginatedAccountEmailThreadMessageList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/accounts/{id}/email_threads/{thread_id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.accounts#ListAccountsMeetingsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this account."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Filter meetings by title or attendee email/name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.accounts#PaginatedMeetingList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.accounts#PaginatedMeetingListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#Meeting": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the meeting.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Meeting title; may be empty.",
+            "smithy.api#required": {}
+          }
+        },
+        "gong_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gong call URL matched through the calendar event id; null when no Gong call is available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the meeting starts.",
+            "smithy.api#required": {}
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the meeting ends.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "organizer_email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the meeting organizer; may be empty.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Meeting status: 'confirmed', 'tentative', or 'cancelled'.",
+            "smithy.api#required": {}
+          }
+        },
+        "participants": {
+          "target": "com.posthog.accounts#MeetingParticipantsList",
+          "traits": {
+            "smithy.api#documentation": "Attendees of the meeting.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A calendar meeting synced from a connected employee calendar (read-only)."
+      }
+    },
+    "com.posthog.accounts#MeetingParticipant": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the attendee.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name from the calendar event; may be empty.",
+            "smithy.api#required": {}
+          }
+        },
+        "response_status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The attendee's RSVP: 'needs_action', 'accepted', 'declined', or 'tentative'.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_organizer": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this attendee organized the meeting.",
+            "smithy.api#required": {}
+          }
+        },
+        "person_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the PostHog person resolved for this attendee, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One attendee of a synced calendar meeting (read-only)."
+      }
+    },
+    "com.posthog.accounts#MeetingParticipantsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#MeetingParticipant"
+      },
+      "traits": {
+        "smithy.api#documentation": "Attendees of the meeting."
+      }
+    },
+    "com.posthog.accounts#PaginatedMeetingListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#Meeting"
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#ListAccountsMeetings": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.accounts#ListAccountsMeetingsRequest"
+      },
+      "output": {
+        "target": "com.posthog.accounts#PaginatedMeetingList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/accounts/{id}/meetings/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.accounts#ListAccountsSummariesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this account."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.accounts#PaginatedAccountChannelSummaryList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.accounts#PaginatedAccountChannelSummaryListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#AccountChannelSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the summary.",
+            "smithy.api#required": {}
+          }
+        },
+        "slack_channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel the summary covered — kept even if the account is later rebound.",
+            "smithy.api#required": {}
+          }
+        },
+        "cadence": {
+          "target": "com.posthog.accounts#SlackSummaryCadenceEnum",
+          "traits": {
+            "smithy.api#documentation": "Cadence the summarized period belongs to (daily, weekly, or monthly).\n\n* `daily` - daily\n* `weekly` - weekly\n* `monthly` - monthly",
+            "smithy.api#required": {}
+          }
+        },
+        "period_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the summarized period (inclusive).",
+            "smithy.api#required": {}
+          }
+        },
+        "period_end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End of the summarized period (exclusive).",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Markdown summary citing the original Slack messages with permalinks.",
+            "smithy.api#required": {}
+          }
+        },
+        "message_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of channel messages the summary covered.",
+            "smithy.api#required": {}
+          }
+        },
+        "messages": {
+          "target": "com.posthog.accounts#AccountChannelSummaryMessagesList",
+          "traits": {
+            "smithy.api#documentation": "The messages the summary covered, in transcript order — metadata only, no message text.",
+            "smithy.api#required": {}
+          }
+        },
+        "generated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the summary was generated.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An AI summary of one closed period of the account's bound Slack channel (read-only)."
+      }
+    },
+    "com.posthog.accounts#ChannelSummaryMessage": {
+      "type": "structure",
+      "members": {
+        "author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the message author.",
+            "smithy.api#required": {}
+          }
+        },
+        "sent_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the message was sent.",
+            "smithy.api#required": {}
+          }
+        },
+        "permalink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack permalink to the message.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata for one message a channel summary covered — never the message text."
+      }
+    },
+    "com.posthog.accounts#AccountChannelSummaryMessagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#ChannelSummaryMessage"
+      },
+      "traits": {
+        "smithy.api#documentation": "The messages the summary covered, in transcript order — metadata only, no message text."
+      }
+    },
+    "com.posthog.accounts#PaginatedAccountChannelSummaryListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#AccountChannelSummary"
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#ListAccountsSummaries": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.accounts#ListAccountsSummariesRequest"
+      },
+      "output": {
+        "target": "com.posthog.accounts#PaginatedAccountChannelSummaryList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/accounts/{id}/summaries/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.accounts#ListAccountsSupportTicketsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.accounts#SupportTicket": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the support ticket.",
+            "smithy.api#required": {}
+          }
+        },
+        "ticket_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Human-readable ticket number.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current status of the ticket (e.g. 'new', 'open').",
+            "smithy.api#required": {}
+          }
+        },
+        "last_message_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the most recent message was sent on this ticket.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_message_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Truncated preview of the most recent message.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_message": {
+          "target": "com.posthog.accounts#ConversationMessageSummary",
+          "traits": {
+            "smithy.api#documentation": "Sender, timestamp, and direction of the latest public message, when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deep_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Absolute URL to open this ticket in the app.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the ticket conversation started.",
+            "smithy.api#required": {}
+          }
+        },
+        "started_by": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the customer who started the ticket.",
+            "smithy.api#required": {}
+          }
+        },
+        "distinct_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Distinct ID of the customer who started the ticket.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A support ticket linked to an account, sourced from the conversations product (read-only)."
+      }
+    },
+    "com.posthog.accounts#ListAccountsSupportTicketsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#SupportTicket"
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#ListAccountsSupportTicketsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.accounts#ListAccountsSupportTicketsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.accounts#ListAccountsSupportTickets": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.accounts#ListAccountsSupportTicketsRequest"
+      },
+      "output": {
+        "target": "com.posthog.accounts#ListAccountsSupportTicketsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/accounts/{id}/support_tickets/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.accounts#ListAccountsSupportTicketMessagesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this account."
+          }
+        },
+        "ticket_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.accounts#PaginatedAccountSupportTicketMessageList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.accounts#PaginatedAccountSupportTicketMessageListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#AccountSupportTicketMessage": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the support ticket message.",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plain-text message content.",
+            "smithy.api#required": {}
+          }
+        },
+        "author_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the message author.",
+            "smithy.api#required": {}
+          }
+        },
+        "direction": {
+          "target": "com.posthog.accounts#EmailThreadMessageDirectionEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether PostHog received or sent the message.\n\n* `inbound` - Inbound\n* `outbound` - Outbound",
+            "smithy.api#required": {}
+          }
+        },
+        "is_private": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the message is an internal note hidden from the customer.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the message was created.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#PaginatedAccountSupportTicketMessageListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#AccountSupportTicketMessage"
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#ListAccountsSupportTicketMessages": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.accounts#ListAccountsSupportTicketMessagesRequest"
+      },
+      "output": {
+        "target": "com.posthog.accounts#PaginatedAccountSupportTicketMessageList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/accounts/{id}/support_tickets/{ticket_id}/",
+          "code": 200
+        }
+      }
+    },
     "com.posthog.accounts#Accounts": {
       "type": "service",
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.accounts#AccountsList"
+          "target": "com.posthog.accounts#ListAccounts"
         },
         {
-          "target": "com.posthog.accounts#AccountsCreate"
+          "target": "com.posthog.accounts#CreateAccount"
         },
         {
-          "target": "com.posthog.accounts#AccountsRetrieve"
+          "target": "com.posthog.accounts#GetAccount"
         },
         {
-          "target": "com.posthog.accounts#AccountsUpdate"
+          "target": "com.posthog.accounts#UpdateAccount"
         },
         {
-          "target": "com.posthog.accounts#AccountsPartialUpdate"
+          "target": "com.posthog.accounts#UpdateAccountsPartial"
         },
         {
           "target": "com.posthog.accounts#AccountsDestroy"
+        },
+        {
+          "target": "com.posthog.accounts#ListAccountsEmailThreads"
+        },
+        {
+          "target": "com.posthog.accounts#ListAccountsEmailThreadMessages"
+        },
+        {
+          "target": "com.posthog.accounts#ListAccountsMeetings"
+        },
+        {
+          "target": "com.posthog.accounts#ListAccountsSummaries"
+        },
+        {
+          "target": "com.posthog.accounts#ListAccountsSupportTickets"
+        },
+        {
+          "target": "com.posthog.accounts#ListAccountsSupportTicketMessages"
         }
       ],
       "traits": {

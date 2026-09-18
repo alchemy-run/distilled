@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.llm_prompts#LlmPromptsListRequestContent": {
+    "com.posthog.llm_prompts#ListLlmPromptsRequestContent": {
       "type": "enum",
       "members": {
         "FULL": {
@@ -41,7 +42,109 @@
       },
       "traits": {}
     },
-    "com.posthog.llm_prompts#LlmPromptsListRequest": {
+    "com.posthog.llm_prompts#ListLlmPromptsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name"
+          }
+        },
+        "NAME_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-name"
+          }
+        },
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "CREATED_AT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-created_at"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        },
+        "UPDATED_AT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-updated_at"
+          }
+        },
+        "VERSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "version"
+          }
+        },
+        "VERSION_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-version"
+          }
+        },
+        "LATEST_VERSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "latest_version"
+          }
+        },
+        "LATEST_VERSION_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-latest_version"
+          }
+        },
+        "VERSION_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "version_count"
+          }
+        },
+        "VERSION_COUNT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-version_count"
+          }
+        },
+        "FIRST_VERSION_CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_version_created_at"
+          }
+        },
+        "FIRST_VERSION_CREATED_AT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-first_version_created_at"
+          }
+        },
+        "PROMPT_SIZE_BYTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "prompt_size_bytes"
+          }
+        },
+        "PROMPT_SIZE_BYTES_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-prompt_size_bytes"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_prompts#ListLlmPromptsRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -53,10 +156,10 @@
           }
         },
         "content": {
-          "target": "com.posthog.llm_prompts#LlmPromptsListRequestContent",
+          "target": "com.posthog.llm_prompts#ListLlmPromptsRequestContent",
           "traits": {
             "smithy.api#httpQuery": "content",
-            "smithy.api#documentation": "Controls how much prompt content is included in the response. 'full' includes the full prompt, 'preview' includes a short prompt_preview, and 'none' omits prompt content entirely. The outline field is always included.\n\n* `full` - full\n* `preview` - preview\n* `none` - none"
+            "smithy.api#documentation": "Controls how much prompt content is included in the response. 'full' includes the full prompt, 'preview' includes a short prompt_preview, and 'none' omits prompt content entirely. The config field is only included with 'full'. The outline field is always included.\n\n* `full` - full\n* `preview` - preview\n* `none` - none"
           }
         },
         "created_by_id": {
@@ -78,6 +181,13 @@
           "traits": {
             "smithy.api#httpQuery": "offset",
             "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "order_by": {
+          "target": "com.posthog.llm_prompts#ListLlmPromptsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Field to sort the prompt list by. Prefix with '-' for descending order.\n\n* `name` - name\n* `-name` - -name\n* `created_at` - created_at\n* `-created_at` - -created_at\n* `updated_at` - updated_at\n* `-updated_at` - -updated_at\n* `version` - version\n* `-version` - -version\n* `latest_version` - latest_version\n* `-latest_version` - -latest_version\n* `version_count` - version_count\n* `-version_count` - -version_count\n* `first_version_created_at` - first_version_created_at\n* `-first_version_created_at` - -first_version_created_at\n* `prompt_size_bytes` - prompt_size_bytes\n* `-prompt_size_bytes` - -prompt_size_bytes"
           }
         },
         "search": {
@@ -134,8 +244,22 @@
             "smithy.api#documentation": "Prompt payload as JSON or string data."
           }
         },
+        "config": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Optional JSON object with model parameters or any agent configuration (e.g. model, temperature, tools). Versioned with the prompt and returned as-is when fetching it. Don't store secrets here: config is returned to anyone who can read the prompt.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "version": {
           "target": "smithy.api#Integer"
+        },
+        "version_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing what changed in this version. Set when the version is published.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "created_by": {
           "target": "com.posthog.llm_prompts#UserBasic",
@@ -167,11 +291,26 @@
         "outline": {
           "target": "com.posthog.llm_prompts#LLMPromptListOutlineList"
         },
+        "labels": {
+          "target": "com.posthog.llm_prompts#LLMPromptListLabelsList",
+          "traits": {
+            "smithy.api#documentation": "Names of the labels currently pointing at this version."
+          }
+        },
+        "activity_item_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key for this prompt's rows in the activity log, e.g. for the History tab. Derived from the name, at most 72 characters."
+          }
+        },
         "prompt_preview": {
           "target": "smithy.api#String"
         },
         "prompt_size_bytes": {
           "target": "smithy.api#Integer"
+        },
+        "all_labels": {
+          "target": "com.posthog.llm_prompts#LLMPromptListAllLabelsList"
         }
       },
       "traits": {}
@@ -276,6 +415,12 @@
             "smithy.api#enumValue": "sales"
           }
         },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
         "OTHER": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -284,7 +429,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `other` - Other"
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
       }
     },
     "com.posthog.llm_prompts#BlankEnum": {
@@ -336,6 +481,42 @@
       },
       "traits": {}
     },
+    "com.posthog.llm_prompts#LLMPromptListLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the labels currently pointing at this version."
+      }
+    },
+    "com.posthog.llm_prompts#LLMPromptLabelSummary": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Label name, e.g. 'production'.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Prompt version this label currently points to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_prompts#LLMPromptListAllLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.llm_prompts#LLMPromptLabelSummary"
+      },
+      "traits": {}
+    },
     "com.posthog.llm_prompts#PaginatedLLMPromptListListResultsList": {
       "type": "list",
       "member": {
@@ -343,10 +524,10 @@
       },
       "traits": {}
     },
-    "com.posthog.llm_prompts#LlmPromptsList": {
+    "com.posthog.llm_prompts#ListLlmPrompts": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.llm_prompts#LlmPromptsListRequest"
+        "target": "com.posthog.llm_prompts#ListLlmPromptsRequest"
       },
       "output": {
         "target": "com.posthog.llm_prompts#PaginatedLLMPromptListList"
@@ -359,7 +540,7 @@
         }
       }
     },
-    "com.posthog.llm_prompts#LlmPromptsCreateRequest": {
+    "com.posthog.llm_prompts#CreateLlmPromptRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -380,6 +561,20 @@
           "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Prompt payload as JSON or string data."
+          }
+        },
+        "config": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Optional JSON object with model parameters or any agent configuration (e.g. model, temperature, tools). Versioned with the prompt and returned as-is when fetching it. Don't store secrets here: config is returned to anyone who can read the prompt.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing what changed in this version. Set when the version is published.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -405,8 +600,22 @@
             "smithy.api#documentation": "Prompt payload as JSON or string data."
           }
         },
+        "config": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Optional JSON object with model parameters or any agent configuration (e.g. model, temperature, tools). Versioned with the prompt and returned as-is when fetching it. Don't store secrets here: config is returned to anyone who can read the prompt.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "version": {
           "target": "smithy.api#Integer"
+        },
+        "version_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing what changed in this version. Set when the version is published.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "created_by": {
           "target": "com.posthog.llm_prompts#UserBasic",
@@ -437,6 +646,18 @@
         },
         "outline": {
           "target": "com.posthog.llm_prompts#LLMPromptOutlineList"
+        },
+        "labels": {
+          "target": "com.posthog.llm_prompts#LLMPromptLabelsList",
+          "traits": {
+            "smithy.api#documentation": "Names of the labels currently pointing at this version."
+          }
+        },
+        "activity_item_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key for this prompt's rows in the activity log, e.g. for the History tab. Derived from the name, at most 72 characters."
+          }
         }
       },
       "traits": {}
@@ -448,10 +669,19 @@
       },
       "traits": {}
     },
-    "com.posthog.llm_prompts#LlmPromptsCreate": {
+    "com.posthog.llm_prompts#LLMPromptLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the labels currently pointing at this version."
+      }
+    },
+    "com.posthog.llm_prompts#CreateLlmPrompt": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.llm_prompts#LlmPromptsCreateRequest"
+        "target": "com.posthog.llm_prompts#CreateLlmPromptRequest"
       },
       "output": {
         "target": "com.posthog.llm_prompts#LLMPrompt"
@@ -464,7 +694,7 @@
         }
       }
     },
-    "com.posthog.llm_prompts#LlmPromptsNameRetrieveRequestContent": {
+    "com.posthog.llm_prompts#GetLlmPromptsNameRequestContent": {
       "type": "enum",
       "members": {
         "FULL": {
@@ -488,7 +718,7 @@
       },
       "traits": {}
     },
-    "com.posthog.llm_prompts#LlmPromptsNameRetrieveRequest": {
+    "com.posthog.llm_prompts#GetLlmPromptsNameRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -507,10 +737,17 @@
           }
         },
         "content": {
-          "target": "com.posthog.llm_prompts#LlmPromptsNameRetrieveRequestContent",
+          "target": "com.posthog.llm_prompts#GetLlmPromptsNameRequestContent",
           "traits": {
             "smithy.api#httpQuery": "content",
-            "smithy.api#documentation": "Controls how much prompt content is included in the response. 'full' includes the full prompt, 'preview' includes a short prompt_preview, and 'none' omits prompt content entirely. The outline field is always included.\n\n* `full` - full\n* `preview` - preview\n* `none` - none"
+            "smithy.api#documentation": "Controls how much prompt content is included in the response. 'full' includes the full prompt, 'preview' includes a short prompt_preview, and 'none' omits prompt content entirely. The config field is only included with 'full'. The outline field is always included.\n\n* `full` - full\n* `preview` - preview\n* `none` - none"
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "label",
+            "smithy.api#documentation": "Fetch the version this label currently points to, e.g. 'production'. Lowercase letters, numbers, dots, hyphens and underscores. Mutually exclusive with version."
           }
         },
         "version": {
@@ -540,6 +777,13 @@
             "smithy.api#documentation": "Full prompt content. Omitted when 'content=preview' or 'content=none'."
           }
         },
+        "config": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "JSON object with model parameters or any agent configuration stored with this version, or null when the version has none. Omitted when 'content=preview' or 'content=none'.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "prompt_preview": {
           "target": "smithy.api#String",
           "traits": {
@@ -554,6 +798,12 @@
         },
         "version": {
           "target": "smithy.api#Integer"
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The label this prompt was fetched by. Only present when fetching with the label parameter."
+          }
         },
         "created_at": {
           "target": "smithy.api#String"
@@ -588,10 +838,10 @@
         "smithy.api#documentation": "Flat list of markdown headings parsed from the prompt. Useful as a lightweight table of contents."
       }
     },
-    "com.posthog.llm_prompts#LlmPromptsNameRetrieve": {
+    "com.posthog.llm_prompts#GetLlmPromptsName": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.llm_prompts#LlmPromptsNameRetrieveRequest"
+        "target": "com.posthog.llm_prompts#GetLlmPromptsNameRequest"
       },
       "output": {
         "target": "com.posthog.llm_prompts#LLMPromptPublic"
@@ -622,7 +872,7 @@
       },
       "traits": {}
     },
-    "com.posthog.llm_prompts#LlmPromptsNamePartialUpdateRequestEditsList": {
+    "com.posthog.llm_prompts#UpdateLlmPromptsNamePartialRequestEditsList": {
       "type": "list",
       "member": {
         "target": "com.posthog.llm_prompts#LLMPromptEditOperation"
@@ -631,7 +881,7 @@
         "smithy.api#documentation": "List of find/replace operations to apply to the current prompt version. Each edit's 'old' text must match exactly once. Edits are applied sequentially. Mutually exclusive with prompt."
       }
     },
-    "com.posthog.llm_prompts#LlmPromptsNamePartialUpdateRequest": {
+    "com.posthog.llm_prompts#UpdateLlmPromptsNamePartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -656,9 +906,16 @@
           }
         },
         "edits": {
-          "target": "com.posthog.llm_prompts#LlmPromptsNamePartialUpdateRequestEditsList",
+          "target": "com.posthog.llm_prompts#UpdateLlmPromptsNamePartialRequestEditsList",
           "traits": {
             "smithy.api#documentation": "List of find/replace operations to apply to the current prompt version. Each edit's 'old' text must match exactly once. Edits are applied sequentially. Mutually exclusive with prompt."
+          }
+        },
+        "config": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "JSON object with model parameters or any agent configuration to store with this version. If omitted, the current version's config is carried forward; pass null to clear it. Can be combined with either prompt or edits. Don't store secrets here: config is returned to anyone who can read the prompt.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "base_version": {
@@ -666,16 +923,22 @@
           "traits": {
             "smithy.api#documentation": "Latest version you are editing from. Used for optimistic concurrency checks."
           }
+        },
+        "version_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing what changed in this version. Shown in the version history."
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.llm_prompts#LlmPromptsNamePartialUpdate": {
+    "com.posthog.llm_prompts#UpdateLlmPromptsNamePartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.llm_prompts#LlmPromptsNamePartialUpdateRequest"
+        "target": "com.posthog.llm_prompts#UpdateLlmPromptsNamePartialRequest"
       },
       "output": {
         "target": "com.posthog.llm_prompts#LLMPrompt"
@@ -705,18 +968,6 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Unique prompt name using letters, numbers, hyphens, and underscores only."
-          }
-        },
-        "prompt": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Prompt payload as JSON or string data."
-          }
         }
       },
       "traits": {
@@ -729,7 +980,7 @@
         "target": "com.posthog.llm_prompts#LlmPromptsNameArchiveCreateRequest"
       },
       "output": {
-        "target": "com.posthog.llm_prompts#LLMPrompt"
+        "target": "smithy.api#Unit"
       },
       "traits": {
         "smithy.api#http": {
@@ -784,7 +1035,156 @@
         }
       }
     },
-    "com.posthog.llm_prompts#LlmPromptsResolveNameRetrieveRequest": {
+    "com.posthog.llm_prompts#UpdateLlmPromptsNameLabelRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "prompt_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "label_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Prompt version this label should point to. If the label already exists on another version of the prompt, it is moved there.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.llm_prompts#LLMPromptLabel": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Label name, e.g. 'production'. Points to exactly one version of the prompt.",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the prompt this label belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.llm_prompts#UserBasic",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_prompts#UpdateLlmPromptsNameLabel": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.llm_prompts#UpdateLlmPromptsNameLabelRequest"
+      },
+      "output": {
+        "target": "com.posthog.llm_prompts#LLMPromptLabel"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/llm_prompts/name/{prompt_name}/labels/{label_name}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.llm_prompts#LlmPromptsNameLabelsDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "prompt_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "label_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.llm_prompts#LlmPromptsNameLabelsDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.llm_prompts#LlmPromptsNameLabelsDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/llm_prompts/name/{prompt_name}/labels/{label_name}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.llm_prompts#GetLlmPromptsResolveNameRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -853,6 +1253,12 @@
         },
         "has_more": {
           "target": "smithy.api#Boolean"
+        },
+        "labels": {
+          "target": "com.posthog.llm_prompts#LLMPromptResolveResponseLabelsList",
+          "traits": {
+            "smithy.api#documentation": "All labels on this prompt with the version each one currently points to, across all versions (not just the returned page)."
+          }
         }
       },
       "traits": {}
@@ -866,6 +1272,12 @@
         "version": {
           "target": "smithy.api#Integer"
         },
+        "version_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "created_by": {
           "target": "com.posthog.llm_prompts#UserBasic",
           "traits": {
@@ -877,9 +1289,24 @@
         },
         "is_latest": {
           "target": "smithy.api#Boolean"
+        },
+        "labels": {
+          "target": "com.posthog.llm_prompts#LLMPromptVersionSummaryLabelsList",
+          "traits": {
+            "smithy.api#documentation": "Names of the labels currently pointing at this version."
+          }
         }
       },
       "traits": {}
+    },
+    "com.posthog.llm_prompts#LLMPromptVersionSummaryLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the labels currently pointing at this version."
+      }
     },
     "com.posthog.llm_prompts#LLMPromptResolveResponseVersionsList": {
       "type": "list",
@@ -888,10 +1315,19 @@
       },
       "traits": {}
     },
-    "com.posthog.llm_prompts#LlmPromptsResolveNameRetrieve": {
+    "com.posthog.llm_prompts#LLMPromptResolveResponseLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.llm_prompts#LLMPromptLabel"
+      },
+      "traits": {
+        "smithy.api#documentation": "All labels on this prompt with the version each one currently points to, across all versions (not just the returned page)."
+      }
+    },
+    "com.posthog.llm_prompts#GetLlmPromptsResolveName": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.llm_prompts#LlmPromptsResolveNameRetrieveRequest"
+        "target": "com.posthog.llm_prompts#GetLlmPromptsResolveNameRequest"
       },
       "output": {
         "target": "com.posthog.llm_prompts#LLMPromptResolveResponse"
@@ -909,16 +1345,16 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.llm_prompts#LlmPromptsList"
+          "target": "com.posthog.llm_prompts#ListLlmPrompts"
         },
         {
-          "target": "com.posthog.llm_prompts#LlmPromptsCreate"
+          "target": "com.posthog.llm_prompts#CreateLlmPrompt"
         },
         {
-          "target": "com.posthog.llm_prompts#LlmPromptsNameRetrieve"
+          "target": "com.posthog.llm_prompts#GetLlmPromptsName"
         },
         {
-          "target": "com.posthog.llm_prompts#LlmPromptsNamePartialUpdate"
+          "target": "com.posthog.llm_prompts#UpdateLlmPromptsNamePartial"
         },
         {
           "target": "com.posthog.llm_prompts#LlmPromptsNameArchiveCreate"
@@ -927,7 +1363,13 @@
           "target": "com.posthog.llm_prompts#LlmPromptsNameDuplicateCreate"
         },
         {
-          "target": "com.posthog.llm_prompts#LlmPromptsResolveNameRetrieve"
+          "target": "com.posthog.llm_prompts#UpdateLlmPromptsNameLabel"
+        },
+        {
+          "target": "com.posthog.llm_prompts#LlmPromptsNameLabelsDestroy"
+        },
+        {
+          "target": "com.posthog.llm_prompts#GetLlmPromptsResolveName"
         }
       ],
       "traits": {

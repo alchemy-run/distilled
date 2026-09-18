@@ -1,0 +1,3548 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.plans#ListPlansRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.plans#ListPlansRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id"
+          }
+        },
+        "ACTIVE_MEMBERS_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active_members_count"
+          }
+        },
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "INTERNAL_NOTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_notes"
+          }
+        },
+        "EXPIRATION_DAYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expiration_days"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.plans#ListPlansRequestReleaseMethodsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.plans#ListPlansRequestVisibilitiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.plans#ListPlansRequestPlanTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.plans#ListPlansRequestProductIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.plans#ListPlansRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "The unique identifier of the account to list plans for. Required unless `product_ids` is provided for a public product-plan read."
+          }
+        },
+        "direction": {
+          "target": "com.whop.plans#ListPlansRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "The sort direction for results. Defaults to descending."
+          }
+        },
+        "order": {
+          "target": "com.whop.plans#ListPlansRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort results by. Defaults to created_at."
+          }
+        },
+        "release_methods": {
+          "target": "com.whop.plans#ListPlansRequestReleaseMethodsList",
+          "traits": {
+            "smithy.api#httpQuery": "release_methods",
+            "smithy.api#documentation": "Filter to only plans matching these release methods."
+          }
+        },
+        "visibilities": {
+          "target": "com.whop.plans#ListPlansRequestVisibilitiesList",
+          "traits": {
+            "smithy.api#httpQuery": "visibilities",
+            "smithy.api#documentation": "Filter to only plans matching these visibility states."
+          }
+        },
+        "plan_types": {
+          "target": "com.whop.plans#ListPlansRequestPlanTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "plan_types",
+            "smithy.api#documentation": "Filter to only plans matching these billing types."
+          }
+        },
+        "product_ids": {
+          "target": "com.whop.plans#ListPlansRequestProductIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "product_ids",
+            "smithy.api#documentation": "Filter to only plans belonging to these product identifiers. When `account_id` is omitted, this is required and the response is publicly readable: only visible, non-invoice plans are returned."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only return plans created before this timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return plans created after this timestamp."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of plans to return (default and max 100)."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor; returns plans after this position."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of plans to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor; returns plans before this position."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.plans#PlanListItem": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "com.whop.plans#AccountSummary",
+          "traits": {
+            "smithy.api#documentation": "Account that sells this plan; `null` for standalone invoice plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adaptive_pricing_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether adaptive pricing is enabled for this plan. Raw setting — does not check processor compatibility or feature flags.",
+            "smithy.api#required": {}
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of days between recurring charges, such as 30 for monthly or 365 for annual. `null` for one-time plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancel_discount_intervals": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Billing intervals the cancellation discount applies to (`0` forever, `1` first payment, or a month count). `null` when none is offered or the actor lacks the `plan:basic:read` scope.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancel_discount_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cancellation discount as a whole-number percentage. `null` when none is offered or the actor lacks the `plan:basic:read` scope.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "checkout_styling": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Plan-level checkout styling (`background_color`, `button_color`, `font_family`, `border_style`); `null` inherits the account default.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the plan was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO currency code for this plan's prices.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_fields": {
+          "target": "com.whop.plans#PlanListItemCustomFieldsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer-visible plan description. Maximum 1000 characters. `null` if no description is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_days": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Access duration in days for expiration-based plans, such as 365 for a one-year pass. `null` for plans without an expiration.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "formatted_price": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable price for display (currency + interval), e.g. \"$10 / month\".",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan ID, prefixed `plan_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "image": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Pricing-tier image (`url`, `blurhash`) shown on the product page; `null` when no image is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Initial purchase price in plan currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "internal_notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private notes not shown to customers. `null` unless the actor has the `plan:basic:read` scope on the plan's account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "invoice": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Invoice this plan was generated for; `null` unless created for an invoice.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Active memberships through this plan. `null` unless the actor has the `plan:basic:read` scope on the plan's account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs stored on the plan. Included in webhook payloads for payment and membership events. Maximum 50 keys, 100 characters per key, 500 characters per value. The reserved keys `custom_cta` and `custom_cta_url`, when set, override the product's checkout call to action for this plan.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "offer_cancel_discount": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a cancellation discount is offered. `null` unless the actor has the `plan:basic:read` scope on the plan's account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_configuration": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Payment method configuration (`enabled`, `disabled`, `include_platform_defaults`); `null` when plan uses default settings.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_type": {
+          "target": "com.whop.plans#PlanListItemPlanType",
+          "traits": {
+            "smithy.api#documentation": "Billing model for this plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "product": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Product this plan belongs to; `null` for standalone plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "purchase_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL where customers can purchase this plan directly.",
+            "smithy.api#required": {}
+          }
+        },
+        "release_method": {
+          "target": "com.whop.plans#PlanListItemReleaseMethod",
+          "traits": {
+            "smithy.api#documentation": "Sales method for this plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Recurring price charged every billing period.",
+            "smithy.api#required": {}
+          }
+        },
+        "split_pay_required_payments": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Installment payments required before the subscription pauses. Must be greater than 1. `null` if split pay is not configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stock": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Units available for purchase. `null` unless the actor has the `plan:basic:read` scope on the plan's account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "strike_through_initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Original initial price shown with a strikethrough, in the plan's currency. `null` when no strikethrough is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "strike_through_renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Original renewal price shown with a strikethrough, in the plan's currency. `null` when no strikethrough is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "three_ds_level": {
+          "target": "com.whop.plans#PlanListItemThreeDsLevel",
+          "traits": {
+            "smithy.api#documentation": "3D Secure behavior for this plan; `null` inherits the account default.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan display name shown to customers. Maximum 30 characters. `null` if no title has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trial_period_days": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Free trial days before the first renewal charge. `null` if no trial is configured or the user has already used a trial for this plan.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unlimited_stock": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan has unlimited stock. When `true`, the `stock` field is ignored; waitlist plans always report `true`.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the plan was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.plans#PlanListItemVisibility",
+          "traits": {
+            "smithy.api#documentation": "Controls where this plan can be seen. When `hidden`, the plan is reachable only by its direct link.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.plans#AccountSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account display name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.plans#PlanCustomField": {
+      "type": "structure",
+      "members": {
+        "field_type": {
+          "target": "com.whop.plans#PlanCustomFieldFieldType",
+          "traits": {
+            "smithy.api#documentation": "Custom field input type.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom field ID, prefixed `field_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Field label shown to customer at checkout.",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Field position on checkout form.",
+            "smithy.api#required": {}
+          }
+        },
+        "placeholder": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Placeholder text shown in the empty field. `null` if none is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the customer must complete this field to check out.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.plans#PlanCustomFieldFieldType": {
+      "type": "enum",
+      "members": {
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom field input type."
+      }
+    },
+    "com.whop.plans#PlanListItemCustomFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.plans#PlanCustomField"
+      },
+      "traits": {}
+    },
+    "com.whop.plans#PlanListItemPlanType": {
+      "type": "enum",
+      "members": {
+        "RENEWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renewal"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Billing model for this plan."
+      }
+    },
+    "com.whop.plans#PlanListItemReleaseMethod": {
+      "type": "enum",
+      "members": {
+        "BUY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buy_now"
+          }
+        },
+        "WAITLIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waitlist"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sales method for this plan."
+      }
+    },
+    "com.whop.plans#PlanListItemThreeDsLevel": {
+      "type": "enum",
+      "members": {
+        "MANDATE_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_challenge"
+          }
+        },
+        "FRICTIONLESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "3D Secure behavior for this plan; `null` inherits the account default."
+      }
+    },
+    "com.whop.plans#PlanListItemVisibility": {
+      "type": "enum",
+      "members": {
+        "VISIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visible"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "QUICK_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quick_link"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls where this plan can be seen. When `hidden`, the plan is reachable only by its direct link."
+      }
+    },
+    "com.whop.plans#ListPlansResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.plans#PlanListItem"
+      },
+      "traits": {}
+    },
+    "com.whop.plans#ListPlansResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.plans#ListPlansResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.plans#ListPlansResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.plans#ListPlansResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.plans#ListPlans": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.plans#ListPlansRequest"
+      },
+      "output": {
+        "target": "com.whop.plans#ListPlansResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.plans#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/plans",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Plans\n\nReturns a paginated list of plans. Omit `account_id` and pass `product_ids` to list a product's public buyable plans.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.plans#CreatePlanRequestCustomFieldsItemFieldType": {
+      "type": "enum",
+      "members": {
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the custom field."
+      }
+    },
+    "com.whop.plans#CreatePlanRequestCustomFieldsItem": {
+      "type": "structure",
+      "members": {
+        "field_type": {
+          "target": "com.whop.plans#CreatePlanRequestCustomFieldsItemFieldType",
+          "traits": {
+            "smithy.api#documentation": "The type of the custom field."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the custom field (if being updated)."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the custom field."
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The order of the field."
+          }
+        },
+        "placeholder": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An example response displayed in the input field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not the field is required."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.plans#CreatePlanRequestCustomFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.plans#CreatePlanRequestCustomFieldsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of custom field definitions to collect from customers at checkout. Omitting this field clears existing custom fields."
+      }
+    },
+    "com.whop.plans#CreatePlanRequestImage": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An image displayed on the product page to represent this plan."
+      }
+    },
+    "com.whop.plans#CreatePlanRequestPaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.plans#CreatePlanRequestPaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.plans#CreatePlanRequestPaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.plans#CreatePlanRequestPaymentMethodConfigurationDisabledList"
+        },
+        "enabled": {
+          "target": "com.whop.plans#CreatePlanRequestPaymentMethodConfigurationEnabledList"
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Explicit payment method configuration for the plan. When not provided, the account's defaults apply."
+      }
+    },
+    "com.whop.plans#CreatePlanRequestThreeDsLevel": {
+      "type": "enum",
+      "members": {
+        "MANDATE_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_challenge"
+          }
+        },
+        "FRICTIONLESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "3D Secure behavior for this plan. Send `null` to inherit the account default."
+      }
+    },
+    "com.whop.plans#CreatePlanRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the account to create this plan for. Defaults to the caller's account."
+          }
+        },
+        "adaptive_pricing_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this plan accepts local currency payments via adaptive pricing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Recurring billing interval in days, such as 30 for monthly or 365 for annual.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "checkout_styling": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Checkout styling overrides for this plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The three-letter ISO currency code for the plan's pricing. Defaults to USD."
+          }
+        },
+        "custom_fields": {
+          "target": "com.whop.plans#CreatePlanRequestCustomFieldsList",
+          "traits": {
+            "smithy.api#documentation": "An array of custom field definitions to collect from customers at checkout. Omitting this field clears existing custom fields.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A text description of the plan displayed to customers on the product page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Access duration in days before the membership expires.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "image": {
+          "target": "com.whop.plans#CreatePlanRequestImage",
+          "traits": {
+            "smithy.api#documentation": "An image displayed on the product page to represent this plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Initial amount charged in the plan's currency, e.g. 10.43 for $10.43.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "internal_notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private notes visible only to the account owner. Not shown to customers.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs to store on the plan. Included in webhook payloads for payment and membership events. Max 50 keys, 100 chars per key, 500 chars per string value. The reserved keys `custom_cta` (a checkout call-to-action button label — one of the product custom CTA values, e.g. `subscribe`, `get_offer`) and `custom_cta_url` (a URL the button links to; web or `tel:`) override the product's call to action for this plan and are validated on save.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "override_tax_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Override the default tax classification for this specific plan."
+          }
+        },
+        "payment_method_configuration": {
+          "target": "com.whop.plans#CreatePlanRequestPaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "Explicit payment method configuration for the plan. When not provided, the account's defaults apply.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan billing type, such as `one_time` or `renewal`."
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the product to attach this plan to."
+          }
+        },
+        "release_method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sales method for this plan."
+          }
+        },
+        "renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount charged each billing period for recurring plans, in the plan's currency.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "split_pay_required_payments": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Installment payments required before the subscription pauses.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stock": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of units available for purchase. Ignored when unlimited_stock is true.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "three_ds_level": {
+          "target": "com.whop.plans#CreatePlanRequestThreeDsLevel",
+          "traits": {
+            "smithy.api#documentation": "3D Secure behavior for this plan. Send `null` to inherit the account default.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the plan shown to customers on the product page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trial_period_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Free trial duration before the first recurring charge.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unlimited_stock": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan has unlimited stock. When true, the stock field is ignored.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan is visible to customers or hidden from public view."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.plans#Plan": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "com.whop.plans#AccountSummary",
+          "traits": {
+            "smithy.api#documentation": "Account that sells this plan; `null` for standalone invoice plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adaptive_pricing_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether adaptive pricing is enabled for this plan. Raw setting — does not check processor compatibility or feature flags.",
+            "smithy.api#required": {}
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of days between recurring charges, such as 30 for monthly or 365 for annual. `null` for one-time plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancel_discount_intervals": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Billing intervals the cancellation discount applies to (`0` forever, `1` first payment, or a month count). `null` when none is offered or the actor lacks the `plan:basic:read` scope.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancel_discount_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cancellation discount as a whole-number percentage. `null` when none is offered or the actor lacks the `plan:basic:read` scope.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "checkout_styling": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Plan-level checkout styling (`background_color`, `button_color`, `font_family`, `border_style`); `null` inherits the account default.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "collect_tax": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether tax is collected on purchases of this plan, based on the account's tax configuration.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the plan was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.whop.plans#PlanCurrency",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO currency code for this plan's prices.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_fields": {
+          "target": "com.whop.plans#PlanCustomFieldsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deletable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan can be deleted (it has no memberships or waitlist entries). `null` unless the actor has the `plan:basic:read` scope on the plan's account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer-visible plan description. Maximum 1000 characters. `null` if no description is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "effective_payment_method_configuration": {
+          "target": "com.whop.plans#CheckoutSessionPaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "The configuration governing a checkout for this plan, resolved through every layer (the plan's own and the account's) — the shape a session's `payment_method_configuration` carries. Apply it over the payment method types catalogue for the offerable set. `null` means platform defaults; `payment_method_configuration` stays the plan's own editable override.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_days": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Access duration in days for expiration-based plans, such as 365 for a one-year pass. `null` for plans without an expiration.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "formatted_price": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable price for display (currency + interval), e.g. \"$10 / month\".",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan ID, prefixed `plan_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "image": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Pricing-tier image (`url`, `blurhash`) shown on the product page; `null` when no image is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Initial purchase price in plan currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "internal_notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private notes not shown to customers. `null` unless the actor has the `plan:basic:read` scope on the plan's account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "invoice": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Invoice this plan was generated for; `null` unless created for an invoice.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Active memberships through this plan. `null` unless the actor has the `plan:basic:read` scope on the plan's account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs stored on the plan. Included in webhook payloads for payment and membership events. Maximum 50 keys, 100 characters per key, 500 characters per value. The reserved keys `custom_cta` and `custom_cta_url`, when set, override the product's checkout call to action for this plan.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "offer_cancel_discount": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a cancellation discount is offered. `null` unless the actor has the `plan:basic:read` scope on the plan's account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_configuration": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Payment method configuration (`enabled`, `disabled`, `include_platform_defaults`); `null` when plan uses default settings.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_type": {
+          "target": "com.whop.plans#PlanPlanType",
+          "traits": {
+            "smithy.api#documentation": "Billing model for this plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "product": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Product this plan belongs to; `null` for standalone plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "purchase_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL where customers can purchase this plan directly.",
+            "smithy.api#required": {}
+          }
+        },
+        "release_method": {
+          "target": "com.whop.plans#PlanReleaseMethod",
+          "traits": {
+            "smithy.api#documentation": "Sales method for this plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Recurring price charged every billing period.",
+            "smithy.api#required": {}
+          }
+        },
+        "split_pay_required_payments": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Installment payments required before the subscription pauses. Must be greater than 1. `null` if split pay is not configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stock": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Units available for purchase. `null` unless the actor has the `plan:basic:read` scope on the plan's account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "strike_through_initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Original initial price shown with a strikethrough, in the plan's currency. `null` when no strikethrough is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "strike_through_renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Original renewal price shown with a strikethrough, in the plan's currency. `null` when no strikethrough is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tax_type": {
+          "target": "com.whop.plans#PlanTaxType",
+          "traits": {
+            "smithy.api#documentation": "How tax is handled for this plan, including whether tax is included in the price, added at checkout, or not configured.",
+            "smithy.api#required": {}
+          }
+        },
+        "three_ds_level": {
+          "target": "com.whop.plans#PlanThreeDsLevel",
+          "traits": {
+            "smithy.api#documentation": "3D Secure behavior for this plan; `null` inherits the account default.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan display name shown to customers. Maximum 30 characters. `null` if no title has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trial_period_days": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Free trial days before the first renewal charge. `null` if no trial is configured or the user has already used a trial for this plan.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unlimited_stock": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan has unlimited stock. When `true`, the `stock` field is ignored; waitlist plans always report `true`.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the plan was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.plans#PlanVisibility",
+          "traits": {
+            "smithy.api#documentation": "Controls where this plan can be seen. When `hidden`, the plan is reachable only by its direct link.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.plans#PlanCurrency": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usd"
+          }
+        },
+        "SGD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sgd"
+          }
+        },
+        "INR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inr"
+          }
+        },
+        "AUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aud"
+          }
+        },
+        "BRL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brl"
+          }
+        },
+        "CAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cad"
+          }
+        },
+        "DKK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dkk"
+          }
+        },
+        "EUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eur"
+          }
+        },
+        "NOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nok"
+          }
+        },
+        "GBP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gbp"
+          }
+        },
+        "SEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sek"
+          }
+        },
+        "CHF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chf"
+          }
+        },
+        "HKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hkd"
+          }
+        },
+        "HUF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "huf"
+          }
+        },
+        "JPY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jpy"
+          }
+        },
+        "MXN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mxn"
+          }
+        },
+        "MYR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "myr"
+          }
+        },
+        "PLN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pln"
+          }
+        },
+        "CZK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "czk"
+          }
+        },
+        "NZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nzd"
+          }
+        },
+        "AED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aed"
+          }
+        },
+        "ETH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eth"
+          }
+        },
+        "APE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ape"
+          }
+        },
+        "COP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cop"
+          }
+        },
+        "RON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ron"
+          }
+        },
+        "THB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thb"
+          }
+        },
+        "BGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bgn"
+          }
+        },
+        "IDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "idr"
+          }
+        },
+        "DOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dop"
+          }
+        },
+        "PHP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "php"
+          }
+        },
+        "TRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "try"
+          }
+        },
+        "KRW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "krw"
+          }
+        },
+        "TWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twd"
+          }
+        },
+        "VND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vnd"
+          }
+        },
+        "PKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pkr"
+          }
+        },
+        "CLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clp"
+          }
+        },
+        "UYU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uyu"
+          }
+        },
+        "ARS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ars"
+          }
+        },
+        "ZAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zar"
+          }
+        },
+        "DZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dzd"
+          }
+        },
+        "TND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tnd"
+          }
+        },
+        "MAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mad"
+          }
+        },
+        "KES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kes"
+          }
+        },
+        "KWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kwd"
+          }
+        },
+        "JOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jod"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "XCD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xcd"
+          }
+        },
+        "AMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amd"
+          }
+        },
+        "BSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd"
+          }
+        },
+        "BHD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bhd"
+          }
+        },
+        "BOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bob"
+          }
+        },
+        "BAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bam"
+          }
+        },
+        "KHR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "khr"
+          }
+        },
+        "CRC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crc"
+          }
+        },
+        "XOF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xof"
+          }
+        },
+        "EGP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egp"
+          }
+        },
+        "ETB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "etb"
+          }
+        },
+        "GMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gmd"
+          }
+        },
+        "GHS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ghs"
+          }
+        },
+        "GTQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gtq"
+          }
+        },
+        "GYD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gyd"
+          }
+        },
+        "ILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ils"
+          }
+        },
+        "JMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jmd"
+          }
+        },
+        "MOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mop"
+          }
+        },
+        "MGA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mga"
+          }
+        },
+        "MUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mur"
+          }
+        },
+        "MDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mdl"
+          }
+        },
+        "MNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mnt"
+          }
+        },
+        "NAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nad"
+          }
+        },
+        "NGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ngn"
+          }
+        },
+        "MKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mkd"
+          }
+        },
+        "OMR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "omr"
+          }
+        },
+        "PYG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pyg"
+          }
+        },
+        "PEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pen"
+          }
+        },
+        "QAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qar"
+          }
+        },
+        "RWF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rwf"
+          }
+        },
+        "SAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sar"
+          }
+        },
+        "RSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsd"
+          }
+        },
+        "LKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lkr"
+          }
+        },
+        "TZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tzs"
+          }
+        },
+        "TTD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ttd"
+          }
+        },
+        "UZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uzs"
+          }
+        },
+        "RUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rub"
+          }
+        },
+        "BTC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "btc"
+          }
+        },
+        "CNY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cny"
+          }
+        },
+        "USDT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usdt"
+          }
+        },
+        "KZT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kzt"
+          }
+        },
+        "AWG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awg"
+          }
+        },
+        "WHOP_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whop_usd"
+          }
+        },
+        "XAU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xau"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Three-letter ISO currency code for this plan's prices."
+      }
+    },
+    "com.whop.plans#PlanCustomFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.plans#PlanCustomField"
+      },
+      "traits": {}
+    },
+    "com.whop.plans#CheckoutSessionPaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.plans#CheckoutSessionPaymentMethodConfigurationDisabledList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "com.whop.plans#CheckoutSessionPaymentMethodConfigurationEnabledList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop's default set is the starting point. When `false`, only `enabled` is offered.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.plans#CheckoutSessionPaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.plans#CheckoutSessionPaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.plans#PlanPlanType": {
+      "type": "enum",
+      "members": {
+        "RENEWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renewal"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Billing model for this plan."
+      }
+    },
+    "com.whop.plans#PlanReleaseMethod": {
+      "type": "enum",
+      "members": {
+        "BUY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buy_now"
+          }
+        },
+        "WAITLIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waitlist"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sales method for this plan."
+      }
+    },
+    "com.whop.plans#PlanTaxType": {
+      "type": "enum",
+      "members": {
+        "INCLUSIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inclusive"
+          }
+        },
+        "EXCLUSIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exclusive"
+          }
+        },
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unspecified"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How tax is handled for this plan, including whether tax is included in the price, added at checkout, or not configured."
+      }
+    },
+    "com.whop.plans#PlanThreeDsLevel": {
+      "type": "enum",
+      "members": {
+        "MANDATE_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_challenge"
+          }
+        },
+        "FRICTIONLESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "3D Secure behavior for this plan; `null` inherits the account default."
+      }
+    },
+    "com.whop.plans#PlanVisibility": {
+      "type": "enum",
+      "members": {
+        "VISIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visible"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "QUICK_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quick_link"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls where this plan can be seen. When `hidden`, the plan is reachable only by its direct link."
+      }
+    },
+    "com.whop.plans#CreatePlan": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.plans#CreatePlanRequest"
+      },
+      "output": {
+        "target": "com.whop.plans#Plan"
+      },
+      "errors": [
+        {
+          "target": "com.whop.plans#BadRequest"
+        },
+        {
+          "target": "com.whop.plans#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/plans",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Plan\n\nCreate a new pricing plan for a product. The plan defines the billing interval, price, and availability for customers."
+      }
+    },
+    "com.whop.plans#GetPlanRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Plan ID, prefixed `plan_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.plans#GetPlan": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.plans#GetPlanRequest"
+      },
+      "output": {
+        "target": "com.whop.plans#Plan"
+      },
+      "errors": [
+        {
+          "target": "com.whop.plans#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/plans/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Plan\n\nRetrieves the details of an existing plan."
+      }
+    },
+    "com.whop.plans#UpdatePlanRequestCustomFieldsItemFieldType": {
+      "type": "enum",
+      "members": {
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the custom field."
+      }
+    },
+    "com.whop.plans#UpdatePlanRequestCustomFieldsItem": {
+      "type": "structure",
+      "members": {
+        "field_type": {
+          "target": "com.whop.plans#UpdatePlanRequestCustomFieldsItemFieldType",
+          "traits": {
+            "smithy.api#documentation": "The type of the custom field."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the custom field (if being updated)."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the custom field."
+          }
+        },
+        "order": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The order of the field."
+          }
+        },
+        "placeholder": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An example response displayed in the input field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not the field is required."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.plans#UpdatePlanRequestCustomFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.plans#UpdatePlanRequestCustomFieldsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of custom field definitions to collect from customers at checkout. Omitting this field clears existing custom fields."
+      }
+    },
+    "com.whop.plans#UpdatePlanRequestImage": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An image displayed on the product page to represent this plan."
+      }
+    },
+    "com.whop.plans#UpdatePlanRequestPaymentMethodConfigurationDisabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.plans#UpdatePlanRequestPaymentMethodConfigurationEnabledList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.plans#UpdatePlanRequestPaymentMethodConfiguration": {
+      "type": "structure",
+      "members": {
+        "disabled": {
+          "target": "com.whop.plans#UpdatePlanRequestPaymentMethodConfigurationDisabledList"
+        },
+        "enabled": {
+          "target": "com.whop.plans#UpdatePlanRequestPaymentMethodConfigurationEnabledList"
+        },
+        "include_platform_defaults": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Explicit payment method configuration for the plan. When not provided, the account's defaults apply."
+      }
+    },
+    "com.whop.plans#UpdatePlanRequestThreeDsLevel": {
+      "type": "enum",
+      "members": {
+        "MANDATE_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_challenge"
+          }
+        },
+        "FRICTIONLESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "3D Secure behavior for this plan. Send `null` to inherit the account default."
+      }
+    },
+    "com.whop.plans#UpdatePlanRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Plan ID, prefixed `plan_`."
+          }
+        },
+        "adaptive_pricing_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this plan accepts local currency payments via adaptive pricing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Recurring billing interval in days, such as 30 for monthly or 365 for annual.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancel_discount_intervals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many renewals the retention discount applies to. Required when `offer_cancel_discount` is true.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancel_discount_percentage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Percentage taken off each discounted renewal. Required when `offer_cancel_discount` is true.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "checkout_styling": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Checkout styling overrides for this plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The three-letter ISO currency code for the plan's pricing. Defaults to USD."
+          }
+        },
+        "custom_fields": {
+          "target": "com.whop.plans#UpdatePlanRequestCustomFieldsList",
+          "traits": {
+            "smithy.api#documentation": "An array of custom field definitions to collect from customers at checkout. Omitting this field clears existing custom fields.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A text description of the plan displayed to customers on the product page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Access duration in days before the membership expires.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "image": {
+          "target": "com.whop.plans#UpdatePlanRequestImage",
+          "traits": {
+            "smithy.api#documentation": "An image displayed on the product page to represent this plan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Initial amount charged in the plan's currency, e.g. 10.43 for $10.43.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "internal_notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private notes visible only to the account owner. Not shown to customers.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs to store on the plan. Included in webhook payloads for payment and membership events. Max 50 keys, 100 chars per key, 500 chars per string value. The reserved keys `custom_cta` (a checkout call-to-action button label — one of the product custom CTA values, e.g. `subscribe`, `get_offer`) and `custom_cta_url` (a URL the button links to; web or `tel:`) override the product's call to action for this plan and are validated on save.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "offer_cancel_discount": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to offer a retention discount when a customer attempts to cancel.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "override_tax_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Override the default tax classification for this specific plan."
+          }
+        },
+        "payment_method_configuration": {
+          "target": "com.whop.plans#UpdatePlanRequestPaymentMethodConfiguration",
+          "traits": {
+            "smithy.api#documentation": "Explicit payment method configuration for the plan. When not provided, the account's defaults apply.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "release_method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sales method for this plan."
+          }
+        },
+        "renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount charged each billing period for recurring plans, in the plan's currency.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stock": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of units available for purchase. Ignored when unlimited_stock is true.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "strike_through_initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A comparison price displayed with a strikethrough for the initial price.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "strike_through_renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A comparison price displayed with a strikethrough for the renewal price.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "three_ds_level": {
+          "target": "com.whop.plans#UpdatePlanRequestThreeDsLevel",
+          "traits": {
+            "smithy.api#documentation": "3D Secure behavior for this plan. Send `null` to inherit the account default.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the plan shown to customers on the product page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trial_period_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Free trial duration before the first recurring charge.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unlimited_stock": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan has unlimited stock. When true, the stock field is ignored.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan is visible to customers or hidden from public view."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.plans#UpdatePlan": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.plans#UpdatePlanRequest"
+      },
+      "output": {
+        "target": "com.whop.plans#Plan"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/plans/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Plan\n\nUpdate a plan's pricing, billing interval, visibility, stock, and other settings."
+      }
+    },
+    "com.whop.plans#DeletePlanRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Plan ID, prefixed `plan_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.plans#DeletePlanResponse": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always true.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the deleted plan.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.plans#DeletePlan": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.plans#DeletePlanRequest"
+      },
+      "output": {
+        "target": "com.whop.plans#DeletePlanResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.plans#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/plans/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete Plan\n\nPermanently delete a plan from a product. Existing memberships on this plan will not be affected."
+      }
+    },
+    "com.whop.plans#CalculatePlanTaxRequestAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "City name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 3166-1 alpha-2 country code, such as `US`, `DE`, or `GB`.",
+            "smithy.api#required": {}
+          }
+        },
+        "line1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Second line of the street address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region code, such as `CA`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Buyer billing address used for tax calculation. Provide either `address.country` or `ip_address`; include state and postal code when available for more accurate results."
+      }
+    },
+    "com.whop.plans#CalculatePlanTaxRequestTaxIdsItemType": {
+      "type": "enum",
+      "members": {
+        "AD_NRT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_nrt"
+          }
+        },
+        "AO_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ao_tin"
+          }
+        },
+        "AR_CUIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ar_cuit"
+          }
+        },
+        "AL_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "al_tin"
+          }
+        },
+        "AM_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "am_tin"
+          }
+        },
+        "AW_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aw_tin"
+          }
+        },
+        "AU_ABN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_abn"
+          }
+        },
+        "AU_ARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "au_arn"
+          }
+        },
+        "EU_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu_vat"
+          }
+        },
+        "AZ_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "az_tin"
+          }
+        },
+        "BS_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bs_tin"
+          }
+        },
+        "BH_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bh_vat"
+          }
+        },
+        "BD_BIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bd_bin"
+          }
+        },
+        "BB_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bb_tin"
+          }
+        },
+        "BY_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "by_tin"
+          }
+        },
+        "BJ_IFU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bj_ifu"
+          }
+        },
+        "BO_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bo_tin"
+          }
+        },
+        "BA_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ba_tin"
+          }
+        },
+        "BR_CNPJ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "br_cnpj"
+          }
+        },
+        "BR_CPF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "br_cpf"
+          }
+        },
+        "BG_UIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bg_uic"
+          }
+        },
+        "BF_IFU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bf_ifu"
+          }
+        },
+        "KH_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kh_tin"
+          }
+        },
+        "CM_NIU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cm_niu"
+          }
+        },
+        "CA_BN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_bn"
+          }
+        },
+        "CA_GST_HST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_gst_hst"
+          }
+        },
+        "CA_PST_BC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_pst_bc"
+          }
+        },
+        "CA_PST_MB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_pst_mb"
+          }
+        },
+        "CA_PST_SK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_pst_sk"
+          }
+        },
+        "CA_QST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ca_qst"
+          }
+        },
+        "CV_NIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cv_nif"
+          }
+        },
+        "CL_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cl_tin"
+          }
+        },
+        "CN_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cn_tin"
+          }
+        },
+        "CO_NIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "co_nit"
+          }
+        },
+        "CD_NIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cd_nif"
+          }
+        },
+        "CR_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cr_tin"
+          }
+        },
+        "HR_OIB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hr_oib"
+          }
+        },
+        "DO_RCN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "do_rcn"
+          }
+        },
+        "EC_RUC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ec_ruc"
+          }
+        },
+        "EG_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eg_tin"
+          }
+        },
+        "SV_NIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sv_nit"
+          }
+        },
+        "ET_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "et_tin"
+          }
+        },
+        "EU_OSS_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu_oss_vat"
+          }
+        },
+        "GE_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ge_vat"
+          }
+        },
+        "GH_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gh_tin"
+          }
+        },
+        "DE_STN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de_stn"
+          }
+        },
+        "GB_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gb_vat"
+          }
+        },
+        "GN_NIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gn_nif"
+          }
+        },
+        "HK_BR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hk_br"
+          }
+        },
+        "HU_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hu_tin"
+          }
+        },
+        "IS_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_vat"
+          }
+        },
+        "IN_GST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_gst"
+          }
+        },
+        "ID_NPWP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id_npwp"
+          }
+        },
+        "IL_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "il_vat"
+          }
+        },
+        "JP_CN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jp_cn"
+          }
+        },
+        "JP_RN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jp_rn"
+          }
+        },
+        "JP_TRN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jp_trn"
+          }
+        },
+        "KZ_BIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kz_bin"
+          }
+        },
+        "KE_PIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ke_pin"
+          }
+        },
+        "KG_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kg_tin"
+          }
+        },
+        "LA_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "la_tin"
+          }
+        },
+        "LI_UID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "li_uid"
+          }
+        },
+        "LI_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "li_vat"
+          }
+        },
+        "MY_FRP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "my_frp"
+          }
+        },
+        "MY_ITN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "my_itn"
+          }
+        },
+        "MY_SST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "my_sst"
+          }
+        },
+        "MR_NIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mr_nif"
+          }
+        },
+        "MX_RFC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mx_rfc"
+          }
+        },
+        "MD_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "md_vat"
+          }
+        },
+        "ME_PIB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "me_pib"
+          }
+        },
+        "MA_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ma_vat"
+          }
+        },
+        "NP_PAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "np_pan"
+          }
+        },
+        "NZ_GST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nz_gst"
+          }
+        },
+        "NG_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ng_tin"
+          }
+        },
+        "MK_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mk_vat"
+          }
+        },
+        "NO_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_vat"
+          }
+        },
+        "NO_VOEC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_voec"
+          }
+        },
+        "OM_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "om_vat"
+          }
+        },
+        "PE_RUC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pe_ruc"
+          }
+        },
+        "PH_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ph_tin"
+          }
+        },
+        "RO_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ro_tin"
+          }
+        },
+        "RU_INN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ru_inn"
+          }
+        },
+        "RU_KPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ru_kpp"
+          }
+        },
+        "SA_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sa_vat"
+          }
+        },
+        "SN_NINEA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sn_ninea"
+          }
+        },
+        "RS_PIB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rs_pib"
+          }
+        },
+        "SG_GST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sg_gst"
+          }
+        },
+        "SG_UEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sg_uen"
+          }
+        },
+        "SI_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "si_tin"
+          }
+        },
+        "ZA_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "za_vat"
+          }
+        },
+        "KR_BRN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kr_brn"
+          }
+        },
+        "ES_CIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "es_cif"
+          }
+        },
+        "CH_UID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ch_uid"
+          }
+        },
+        "CH_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ch_vat"
+          }
+        },
+        "TW_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tw_vat"
+          }
+        },
+        "TJ_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tj_tin"
+          }
+        },
+        "TZ_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tz_vat"
+          }
+        },
+        "TH_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "th_vat"
+          }
+        },
+        "TR_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tr_tin"
+          }
+        },
+        "UG_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ug_tin"
+          }
+        },
+        "UA_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ua_vat"
+          }
+        },
+        "AE_TRN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ae_trn"
+          }
+        },
+        "US_EIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us_ein"
+          }
+        },
+        "UY_RUC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uy_ruc"
+          }
+        },
+        "UZ_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uz_tin"
+          }
+        },
+        "UZ_VAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uz_vat"
+          }
+        },
+        "VE_RIF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ve_rif"
+          }
+        },
+        "VN_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vn_tin"
+          }
+        },
+        "ZM_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zm_tin"
+          }
+        },
+        "ZW_TIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zw_tin"
+          }
+        },
+        "SR_FIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sr_fin"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Tax ID type, such as `eu_vat` for an EU VAT number."
+      }
+    },
+    "com.whop.plans#CalculatePlanTaxRequestTaxIdsItem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.whop.plans#CalculatePlanTaxRequestTaxIdsItemType",
+          "traits": {
+            "smithy.api#documentation": "Tax ID type, such as `eu_vat` for an EU VAT number."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tax ID value, for example `DE123456789`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.plans#CalculatePlanTaxRequestTaxIdsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.plans#CalculatePlanTaxRequestTaxIdsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional buyer tax ID for B2B exemptions. At most one entry is supported."
+      }
+    },
+    "com.whop.plans#CalculatePlanTaxRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Plan ID, prefixed `plan_`."
+          }
+        },
+        "address": {
+          "target": "com.whop.plans#CalculatePlanTaxRequestAddress",
+          "traits": {
+            "smithy.api#documentation": "Buyer billing address used for tax calculation. Provide either `address.country` or `ip_address`; include state and postal code when available for more accurate results.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ip_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Buyer IP address used to infer location when no billing address is provided."
+          }
+        },
+        "tax_ids": {
+          "target": "com.whop.plans#CalculatePlanTaxRequestTaxIdsList",
+          "traits": {
+            "smithy.api#documentation": "Optional buyer tax ID for B2B exemptions. At most one entry is supported.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.plans#CalculatePlanTaxResponseStatus": {
+      "type": "enum",
+      "members": {
+        "CALCULATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "calculated"
+          }
+        },
+        "NOT_CALCULATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_calculated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether Whop calculated tax for this preview. `not_calculated` means no tax could be determined, so `tax_amount` is 0 and `total` equals `subtotal`."
+      }
+    },
+    "com.whop.plans#CalculatePlanTaxResponseTaxBehavior": {
+      "type": "enum",
+      "members": {
+        "EXCLUSIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exclusive"
+          }
+        },
+        "INCLUSIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inclusive"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether tax is added on top of the plan price or already included in it for this buyer's location."
+      }
+    },
+    "com.whop.plans#CalculatePlanTaxResponse": {
+      "type": "structure",
+      "members": {
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO 4217 currency code for the returned amounts.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.plans#CalculatePlanTaxResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop calculated tax for this preview. `not_calculated` means no tax could be determined, so `tax_amount` is 0 and `total` equals `subtotal`.",
+            "smithy.api#required": {}
+          }
+        },
+        "subtotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Plan price in the currency's smallest unit, for example cents. For exclusive tax, this is the pre-tax amount; for inclusive tax, it already includes tax and equals the total.",
+            "smithy.api#required": {}
+          }
+        },
+        "tax_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Calculated tax amount in the currency's smallest unit. For exclusive tax, this is added on top of the subtotal; for inclusive tax, it is the portion of the subtotal that is tax.",
+            "smithy.api#required": {}
+          }
+        },
+        "tax_behavior": {
+          "target": "com.whop.plans#CalculatePlanTaxResponseTaxBehavior",
+          "traits": {
+            "smithy.api#documentation": "Whether tax is added on top of the plan price or already included in it for this buyer's location.",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Amount the buyer would pay in the currency's smallest unit.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.plans#CalculatePlanTax": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.plans#CalculatePlanTaxRequest"
+      },
+      "output": {
+        "target": "com.whop.plans#CalculatePlanTaxResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.plans#BadRequest"
+        },
+        {
+          "target": "com.whop.plans#Forbidden"
+        },
+        {
+          "target": "com.whop.plans#NotFound"
+        },
+        {
+          "target": "com.whop.plans#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/plans/{id}/calculate_tax",
+          "code": 200
+        },
+        "smithy.api#documentation": "Calculate Tax\n\nPreviews tax for a plan before checkout, based on the buyer's location."
+      }
+    },
+    "com.whop.plans#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.plans#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.plans#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.plans#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.plans#Plans": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.plans#ListPlans"
+        },
+        {
+          "target": "com.whop.plans#CreatePlan"
+        },
+        {
+          "target": "com.whop.plans#GetPlan"
+        },
+        {
+          "target": "com.whop.plans#UpdatePlan"
+        },
+        {
+          "target": "com.whop.plans#DeletePlan"
+        },
+        {
+          "target": "com.whop.plans#CalculatePlanTax"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

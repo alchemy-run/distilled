@@ -70,6 +70,15 @@ export class SnippetRulesNotFound
     [{ status: 404 }],
   ) {}
 
+export class SnippetZoneNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SnippetZoneNotFound>()("SnippetZoneNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 400, message: "requested zone not found" }],
+  ) {}
+
 export interface DeleteRuleRequest {
   /** Use this field to specify the unique ID of the zone. */
   zoneId: string;
@@ -157,31 +166,6 @@ export const GetContentResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetContentResponse",
 }) as any as S.Schema<GetContentResponse>;
 
-export interface GetRuleRequest {
-  /** Use this field to specify the unique ID of the zone. */
-  zoneId: string;
-}
-export const GetRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    zoneId: S.String.pipe(T.Label("zone_id")),
-  })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/snippets/snippet_rules",
-        code: 200,
-      }),
-    )
-    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({ identifier: "GetRuleRequest" }) as any as S.Schema<GetRuleRequest>;
-
-export type GetRuleResponse = unknown;
-export const GetRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRuleResponse",
-}) as any as S.Schema<GetRuleResponse>;
-
 export interface GetSnippetRequest {
   /** Use this field to specify the unique ID of the zone. */
   zoneId: string;
@@ -223,6 +207,33 @@ export const GetSnippetResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetSnippetResponse",
 }) as any as S.Schema<GetSnippetResponse>;
+
+export interface ListRulesRequest {
+  /** Use this field to specify the unique ID of the zone. */
+  zoneId: string;
+}
+export const ListRulesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/zones/{zone_id}/snippets/snippet_rules",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListRulesRequest",
+}) as any as S.Schema<ListRulesRequest>;
+
+export type ListRulesResponse = unknown;
+export const ListRulesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListRulesResponse",
+}) as any as S.Schema<ListRulesResponse>;
 
 export interface ListSnippetsRequest {
   /** Use this field to specify the unique ID of the zone. */
@@ -385,36 +396,10 @@ export const PutSnippetResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutSnippetResponse",
 }) as any as S.Schema<PutSnippetResponse>;
 
-export interface RulesListRequest {
-  /** Use this field to specify the unique ID of the zone. */
-  zoneId: string;
-}
-export const RulesListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    zoneId: S.String.pipe(T.Label("zone_id")),
-  })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/snippets/snippet_rules",
-        code: 200,
-      }),
-    )
-    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RulesListRequest",
-}) as any as S.Schema<RulesListRequest>;
-
-export type RulesListResponse = unknown;
-export const RulesListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RulesListResponse",
-}) as any as S.Schema<RulesListResponse>;
-
 export type DeleteRuleError =
   | SnippetRulesNotFound
   | Forbidden
+  | SnippetZoneNotFound
   | CloudflareOpError;
 /** Deletes all snippet rules belonging to the zone. */
 export const deleteRule: API.OperationMethod<
@@ -428,6 +413,7 @@ export const deleteRule: API.OperationMethod<
   errors: [
     SnippetRulesNotFound,
     Forbidden,
+    SnippetZoneNotFound,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -439,7 +425,7 @@ export type DeleteSnippetError =
   | SnippetNotFound
   | SnippetInUse
   | CloudflareOpError;
-/** Deletes a snippet belonging to the zone. */
+/** Deletes a snippet belonging to the zone. Returns a 4XX response if the zone or snippet no longer exists. */
 export const deleteSnippet: API.OperationMethod<
   DeleteSnippetRequest,
   DeleteSnippetResponse,
@@ -473,26 +459,6 @@ export const getContent: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetRuleError = SnippetRulesNotFound | Forbidden | CloudflareOpError;
-/** Fetches all snippet rules belonging to the zone. */
-export const getRule: API.OperationMethod<
-  GetRuleRequest,
-  GetRuleResponse,
-  GetRuleError,
-  CloudflareOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetRuleRequest,
-  output: GetRuleResponse,
-  errors: [
-    SnippetRulesNotFound,
-    Forbidden,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
-  protocol: CloudflareProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GetSnippetError = SnippetNotFound | CloudflareOpError;
 /** Fetches a snippet belonging to the zone. */
 export const getSnippet: API.OperationMethod<
@@ -504,6 +470,29 @@ export const getSnippet: API.OperationMethod<
   input: GetSnippetRequest,
   output: GetSnippetResponse,
   errors: [SnippetNotFound, CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListRulesError =
+  | SnippetRulesNotFound
+  | Forbidden
+  | CloudflareOpError;
+/** Fetches all snippet rules belonging to the zone. */
+export const listRules: API.OperationMethod<
+  ListRulesRequest,
+  ListRulesResponse,
+  ListRulesError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListRulesRequest,
+  output: ListRulesResponse,
+  errors: [
+    SnippetRulesNotFound,
+    Forbidden,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -563,24 +552,3 @@ export const putSnippet: API.OperationMethod<
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
-
-export type RulesListError = CloudflareOpError;
-/** Fetches all snippet rules belonging to the zone. */
-export const rulesList: API.OperationMethod<
-  RulesListRequest,
-  RulesListResponse,
-  RulesListError,
-  CloudflareOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RulesListRequest,
-  output: RulesListResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
-  protocol: CloudflareProtocol,
-  retry: Retry.Retry,
-}));
-
-// Alias of getRule (same route, alternate export name upstream).
-export const listRules = getRule;
-export type ListRulesRequest = GetRuleRequest;
-export type ListRulesResponse = GetRuleResponse;
-export type ListRulesError = GetRuleError;

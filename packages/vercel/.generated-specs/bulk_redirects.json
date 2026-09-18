@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.vercel.bulk_redirects#GetRedirectsRequestDiffCase1": {
@@ -297,10 +298,7 @@
       "type": "structure",
       "members": {
         "version": {
-          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1Version",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1Version"
         },
         "redirects": {
           "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1RedirectsList",
@@ -314,49 +312,6 @@
             "smithy.api#required": {}
           }
         }
-      },
-      "traits": {}
-    },
-    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2RedirectsItem": {
-      "type": "structure",
-      "members": {
-        "statusCode": {
-          "target": "smithy.api#Double"
-        },
-        "permanent": {
-          "target": "smithy.api#Boolean"
-        },
-        "sensitive": {
-          "target": "smithy.api#Boolean"
-        },
-        "caseSensitive": {
-          "target": "smithy.api#Boolean"
-        },
-        "query": {
-          "target": "smithy.api#Boolean"
-        },
-        "preserveQueryParams": {
-          "target": "smithy.api#Boolean"
-        },
-        "destination": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "source": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2RedirectsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2RedirectsItem"
       },
       "traits": {}
     },
@@ -422,6 +377,49 @@
       },
       "traits": {}
     },
+    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2RedirectsItem": {
+      "type": "structure",
+      "members": {
+        "statusCode": {
+          "target": "smithy.api#Double"
+        },
+        "permanent": {
+          "target": "smithy.api#Boolean"
+        },
+        "sensitive": {
+          "target": "smithy.api#Boolean"
+        },
+        "caseSensitive": {
+          "target": "smithy.api#Boolean"
+        },
+        "query": {
+          "target": "smithy.api#Boolean"
+        },
+        "preserveQueryParams": {
+          "target": "smithy.api#Boolean"
+        },
+        "destination": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2RedirectsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2RedirectsItem"
+      },
+      "traits": {}
+    },
     "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2Pagination": {
       "type": "structure",
       "members": {
@@ -449,14 +447,17 @@
     "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2": {
       "type": "structure",
       "members": {
+        "version": {
+          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2Version",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "redirects": {
           "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2RedirectsList",
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "version": {
-          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2Version"
         },
         "pagination": {
           "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2Pagination",

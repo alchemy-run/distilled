@@ -1,0 +1,698 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.data_quality_checks#ListDataQualityChecksRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_quality_checks#PaginatedDataQualityOverviewCheckList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.data_quality_checks#PaginatedDataQualityOverviewCheckListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_quality_checks#DataQualityOverviewCheck": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional identifier-safe handle, unique per project. Omit to address the check by id."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why this check exists and what a failure means."
+          }
+        },
+        "subject_type": {
+          "target": "com.posthog.data_quality_checks#SubjectTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Kind of catalog object being checked: 'table' (a synced warehouse table) or 'view' (a saved query).\n\n* `table` - table\n* `view` - view",
+            "smithy.api#required": {}
+          }
+        },
+        "subject_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the table or view being checked -- the parent resource in the URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subject_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Queryable name of the subject, refreshed on every run.",
+            "smithy.api#required": {}
+          }
+        },
+        "subject_status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "'orphaned' once the subject stops resolving. Orphaned checks are skipped, not deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "column_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Column the check applies to. Omit for table-scoped types like row_count."
+          }
+        },
+        "check_type": {
+          "target": "com.posthog.data_quality_checks#CheckTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Which assertion to make. Determines the shape of config; see /check_types/.\n\n* `not_null` - not_null\n* `unique` - unique\n* `accepted_values` - accepted_values\n* `relationships` - relationships\n* `row_count` - row_count\n* `freshness` - freshness\n* `custom_sql` - custom_sql",
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "com.posthog.data_quality_checks#DataQualityOverviewCheckConfigMap",
+          "traits": {
+            "smithy.api#documentation": "Type-specific configuration, validated against the check type's JSON schema."
+          }
+        },
+        "severity": {
+          "target": "com.posthog.data_quality_checks#DataQualityCheckSeverityEnum",
+          "traits": {
+            "smithy.api#documentation": "'error' failures mark the subject failing and notify; 'warn' failures only surface.\n\n* `error` - error\n* `warn` - warn"
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disabled checks are never run by any trigger."
+          }
+        },
+        "tags": {
+          "target": "com.posthog.data_quality_checks#DataQualityOverviewCheckTagsList",
+          "traits": {
+            "smithy.api#documentation": "Free-form string labels for grouping and filtering."
+          }
+        },
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the human accountable for this check, or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_run_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the check last executed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Outcome of the newest run: passed, failed, errored, skipped, or empty if never run.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_succeeded_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the check last passed. Read failing_since for how long a failing check has been failing. Null means it has not passed within the run retention window.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failing_since": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the current streak of failing runs started, so a failing check can say how long it has been failing. Null when the check is not failing.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fingerprint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "sha256 of the subject, type, column, and config. Re-creating the same check upserts.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_source": {
+          "target": "com.posthog.data_quality_checks#CreatedSourceEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether a human ('user') or an agent ('ai_generated') authored this check.\n\n* `user` - user\n* `ai_generated` - ai_generated"
+          }
+        },
+        "ai_model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model that generated the check, if AI-authored."
+          }
+        },
+        "confidence": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "AI author's confidence in the check, 0-1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reasoning": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AI author's reasoning, surfaced as review context."
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.data_quality_checks#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "User who first created this check.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subject_node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Data modeling node of the view this check audits, or null when it is on no DAG or the subject is a table.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subject_source_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Warehouse source of the table this check audits, or null when the subject is a view.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subject_schema_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Warehouse source schema of the table this check audits, or null when the subject is a view.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A check plus where its subject can be opened, for the project-wide list.\n\nThe per-subject surfaces already know their parent; only this one lists checks across every\ntable and view, so only this one needs to say where each subject lives. The ids are resolved\nfor a whole page at once and handed in through ``subject_locations`` in the context."
+      }
+    },
+    "com.posthog.data_quality_checks#SubjectTypeEnum": {
+      "type": "enum",
+      "members": {
+        "TABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "table"
+          }
+        },
+        "VIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `table` - table\n* `view` - view"
+      }
+    },
+    "com.posthog.data_quality_checks#CheckTypeEnum": {
+      "type": "enum",
+      "members": {
+        "NOT_NULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_null"
+          }
+        },
+        "UNIQUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unique"
+          }
+        },
+        "ACCEPTED_VALUES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted_values"
+          }
+        },
+        "RELATIONSHIPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "relationships"
+          }
+        },
+        "ROW_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "row_count"
+          }
+        },
+        "FRESHNESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "freshness"
+          }
+        },
+        "CUSTOM_SQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom_sql"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `not_null` - not_null\n* `unique` - unique\n* `accepted_values` - accepted_values\n* `relationships` - relationships\n* `row_count` - row_count\n* `freshness` - freshness\n* `custom_sql` - custom_sql"
+      }
+    },
+    "com.posthog.data_quality_checks#DataQualityOverviewCheckConfigMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Type-specific configuration, validated against the check type's JSON schema."
+      }
+    },
+    "com.posthog.data_quality_checks#DataQualityCheckSeverityEnum": {
+      "type": "enum",
+      "members": {
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "WARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warn"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `error` - error\n* `warn` - warn"
+      }
+    },
+    "com.posthog.data_quality_checks#DataQualityOverviewCheckTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Free-form string labels for grouping and filtering."
+      }
+    },
+    "com.posthog.data_quality_checks#CreatedSourceEnum": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "AI_GENERATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai_generated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `user` - user\n* `ai_generated` - ai_generated"
+      }
+    },
+    "com.posthog.data_quality_checks#UserBasic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "uuid": {
+          "target": "smithy.api#String"
+        },
+        "distinct_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String"
+        },
+        "last_name": {
+          "target": "smithy.api#String"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "is_email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hedgehog_config": {
+          "target": "com.posthog.data_quality_checks#UserBasicHedgehogConfigMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role_at_organization": {
+          "target": "com.posthog.data_quality_checks#UserBasicRoleAtOrganization",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_quality_checks#UserBasicHedgehogConfigMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.data_quality_checks#RoleAtOrganizationEnum": {
+      "type": "enum",
+      "members": {
+        "ENGINEERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engineering"
+          }
+        },
+        "DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data"
+          }
+        },
+        "PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product"
+          }
+        },
+        "FOUNDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "founder"
+          }
+        },
+        "LEADERSHIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leadership"
+          }
+        },
+        "MARKETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marketing"
+          }
+        },
+        "SALES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales"
+          }
+        },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
+      }
+    },
+    "com.posthog.data_quality_checks#BlankEnum": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": ""
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_quality_checks#UserBasicRoleAtOrganization": {
+      "type": "union",
+      "members": {
+        "RoleAtOrganizationEnum": {
+          "target": "com.posthog.data_quality_checks#RoleAtOrganizationEnum"
+        },
+        "BlankEnum": {
+          "target": "com.posthog.data_quality_checks#BlankEnum"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_quality_checks#PaginatedDataQualityOverviewCheckListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.data_quality_checks#DataQualityOverviewCheck"
+      },
+      "traits": {}
+    },
+    "com.posthog.data_quality_checks#ListDataQualityChecks": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_quality_checks#ListDataQualityChecksRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_quality_checks#PaginatedDataQualityOverviewCheckList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_quality_checks/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Every check in the project, and the health of every subject that has one.\n\nThe per-subject surfaces answer \"what is wrong with this table\". This answers \"what is wrong\nacross the project\", which they cannot: each is nested under one parent. Read-only -- authoring\nstill happens against the subject that owns the check."
+      }
+    },
+    "com.posthog.data_quality_checks#ListDataQualityChecksHealthRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_quality_checks#DataQualitySubjectHealth": {
+      "type": "structure",
+      "members": {
+        "subject_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "'table' or 'view'.",
+            "smithy.api#required": {}
+          }
+        },
+        "subject_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the table or view.",
+            "smithy.api#required": {}
+          }
+        },
+        "health": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "failing (an error-severity check failed), erroring (a check could not run), warn (only warn-severity failures), healthy, or unknown (nothing has run yet).",
+            "smithy.api#required": {}
+          }
+        },
+        "checks_total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many enabled, non-deleted checks cover this subject.",
+            "smithy.api#required": {}
+          }
+        },
+        "checks_failing": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many of those checks last reported a failure.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-subject rollup, the same rule the information_schema.data_quality_health table uses."
+      }
+    },
+    "com.posthog.data_quality_checks#ListDataQualityChecksHealthResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.data_quality_checks#DataQualitySubjectHealth"
+      },
+      "traits": {}
+    },
+    "com.posthog.data_quality_checks#ListDataQualityChecksHealthResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.data_quality_checks#ListDataQualityChecksHealthResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.data_quality_checks#ListDataQualityChecksHealth": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_quality_checks#ListDataQualityChecksHealthRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_quality_checks#ListDataQualityChecksHealthResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_quality_checks/health/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Health rollup for every table and view in the project that has checks."
+      }
+    },
+    "com.posthog.data_quality_checks#DataQualityChecks": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.data_quality_checks#ListDataQualityChecks"
+        },
+        {
+          "target": "com.posthog.data_quality_checks#ListDataQualityChecksHealth"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

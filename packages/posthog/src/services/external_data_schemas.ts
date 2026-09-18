@@ -40,14 +40,14 @@ export class NotFound
   ) {}
 
 /** * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-export type SyncTypeEnum =
+export type ExternalDataSchemaSyncTypeEnum =
   | "full_refresh"
   | "incremental"
   | "append"
   | "webhook"
   | "cdc"
   | "xmin";
-export const SyncTypeEnum = /*@__PURE__*/ S.String;
+export const ExternalDataSchemaSyncTypeEnum = S.String;
 
 /** * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
 export type IncrementalFieldTypeEnum =
@@ -58,12 +58,11 @@ export type IncrementalFieldTypeEnum =
   | "timestamp"
   | "objectid"
   | "xid";
-export const IncrementalFieldTypeEnum = /*@__PURE__*/ S.String;
+export const IncrementalFieldTypeEnum = S.String;
 
-/** * `never` - never * `1min` - 1min * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-export type SyncFrequencyEnum =
+/** * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
+export type ExternalDataSchemaSyncFrequencyEnum =
   | "never"
-  | "1min"
   | "5min"
   | "15min"
   | "30min"
@@ -73,36 +72,36 @@ export type SyncFrequencyEnum =
   | "24hour"
   | "7day"
   | "30day";
-export const SyncFrequencyEnum = /*@__PURE__*/ S.String;
+export const ExternalDataSchemaSyncFrequencyEnum = S.String;
 
 /** Column names for primary key deduplication. */
-export type ExternalDataSchemasCancelCreateRequestPrimaryKeyColumnsList =
+export type CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList =
   Array<string>;
-export const ExternalDataSchemasCancelCreateRequestPrimaryKeyColumnsList =
+export const CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<ExternalDataSchemasCancelCreateRequestPrimaryKeyColumnsList>;
+  ) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList>;
 
 /** * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
 export type CdcTableModeEnum = "consolidated" | "cdc_only" | "both";
-export const CdcTableModeEnum = /*@__PURE__*/ S.String;
+export const CdcTableModeEnum = S.String;
 
 /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-export type ExternalDataSchemasCancelCreateRequestEnabledColumnsList =
+export type CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList =
   Array<string>;
-export const ExternalDataSchemasCancelCreateRequestEnabledColumnsList =
+export const CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<ExternalDataSchemasCancelCreateRequestEnabledColumnsList>;
+  ) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList>;
 
-export interface ExternalDataSchemasCancelCreateRequestRowFiltersItem {
+export interface CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem {
   column: string;
   /** One of: > >= < <= = != IN "NOT IN". */
   operator: string;
   /** Comparison value; must match the column's type. For `IN` / `NOT IN`, a comma-separated list (e.g. `1, 2, 3` or `'a','b'`). */
   value: unknown;
 }
-export const ExternalDataSchemasCancelCreateRequestRowFiltersItem =
+export const CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       column: S.String,
@@ -110,314 +109,158 @@ export const ExternalDataSchemasCancelCreateRequestRowFiltersItem =
       value: S.Unknown,
     }),
   ).annotate({
-    identifier: "ExternalDataSchemasCancelCreateRequestRowFiltersItem",
-  }) as any as S.Schema<ExternalDataSchemasCancelCreateRequestRowFiltersItem>;
+    identifier:
+      "CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem",
+  }) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem>;
 
 /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-export type ExternalDataSchemasCancelCreateRequestRowFiltersList =
-  Array<ExternalDataSchemasCancelCreateRequestRowFiltersItem>;
-export const ExternalDataSchemasCancelCreateRequestRowFiltersList =
+export type CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList =
+  Array<CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem>;
+export const CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList =
   /*@__PURE__*/ S.Array(
-    ExternalDataSchemasCancelCreateRequestRowFiltersItem,
-  ) as any as S.Schema<ExternalDataSchemasCancelCreateRequestRowFiltersList>;
+    CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem,
+  ) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList>;
 
-export interface ExternalDataSchemasCancelCreateRequest {
+export interface CreateExternalDataSchemasIncrementalFieldRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this external data schema. */
   id: string;
   should_sync?: boolean;
   /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: SyncTypeEnum | (string & {}) | null;
+  sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null;
   /** Column name used to track sync progress. */
   incremental_field?: string | null;
   /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
   incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null;
   /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
   incremental_field_lookback_seconds?: number | null;
-  /** How often to sync. * `never` - never * `1min` - 1min * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: SyncFrequencyEnum | (string & {}) | null;
+  /** How often to sync. The fastest sync frequency is 5 minutes. * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
+  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | (string & {}) | null;
   /** UTC time of day to run the sync (HH:MM:SS). */
   sync_time_of_day?: string | null;
   /** Column names for primary key deduplication. */
-  primary_key_columns?: ExternalDataSchemasCancelCreateRequestPrimaryKeyColumnsList | null;
+  primary_key_columns?: CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList | null;
   /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
   cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: ExternalDataSchemasCancelCreateRequestEnabledColumnsList | null;
+  enabled_columns?: CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList | null;
   /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-  row_filters?: ExternalDataSchemasCancelCreateRequestRowFiltersList | null;
+  row_filters?: CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList | null;
+  /** Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas. */
+  api_version?: string | null;
 }
-export const ExternalDataSchemasCancelCreateRequest = /*@__PURE__*/ S.suspend(
-  () =>
+export const CreateExternalDataSchemasIncrementalFieldRequest =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       project_id: S.String.pipe(T.Label()),
       id: S.String.pipe(T.Label()),
       should_sync: S.optional(S.Boolean),
-      sync_type: S.optional(S.NullOr(SyncTypeEnum)),
+      sync_type: S.optional(S.NullOr(ExternalDataSchemaSyncTypeEnum)),
       incremental_field: S.optional(S.NullOr(S.String)),
       incremental_field_type: S.optional(S.NullOr(IncrementalFieldTypeEnum)),
       incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
-      sync_frequency: S.optional(S.NullOr(SyncFrequencyEnum)),
+      sync_frequency: S.optional(S.NullOr(ExternalDataSchemaSyncFrequencyEnum)),
       sync_time_of_day: S.optional(S.NullOr(S.String)),
       primary_key_columns: S.optional(
-        S.NullOr(ExternalDataSchemasCancelCreateRequestPrimaryKeyColumnsList),
+        S.NullOr(
+          CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList,
+        ),
       ),
       cdc_table_mode: S.optional(S.NullOr(CdcTableModeEnum)),
       enabled_columns: S.optional(
-        S.NullOr(ExternalDataSchemasCancelCreateRequestEnabledColumnsList),
+        S.NullOr(
+          CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList,
+        ),
       ),
       row_filters: S.optional(
-        S.NullOr(ExternalDataSchemasCancelCreateRequestRowFiltersList),
+        S.NullOr(
+          CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList,
+        ),
       ),
+      api_version: S.optional(S.NullOr(S.String)),
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/api/projects/{project_id}/external_data_schemas/{id}/cancel/",
+        uri: "/api/projects/{project_id}/external_data_schemas/{id}/incremental_fields/",
         code: 200,
       }),
     ),
-).annotate({
-  identifier: "ExternalDataSchemasCancelCreateRequest",
-}) as any as S.Schema<ExternalDataSchemasCancelCreateRequest>;
+  ).annotate({
+    identifier: "CreateExternalDataSchemasIncrementalFieldRequest",
+  }) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldRequest>;
 
-export interface ExternalDataSchemasCancelCreateResponse {}
-export const ExternalDataSchemasCancelCreateResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "ExternalDataSchemasCancelCreateResponse",
-}) as any as S.Schema<ExternalDataSchemasCancelCreateResponse>;
+export interface CreateExternalDataSchemasIncrementalFieldResponse {}
+export const CreateExternalDataSchemasIncrementalFieldResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "CreateExternalDataSchemasIncrementalFieldResponse",
+  }) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldResponse>;
 
-/** Column names for primary key deduplication. */
-export type ExternalDataSchemasCreateRequestPrimaryKeyColumnsList =
-  Array<string>;
-export const ExternalDataSchemasCreateRequestPrimaryKeyColumnsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ExternalDataSchemasCreateRequestPrimaryKeyColumnsList>;
-
-/** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-export type ExternalDataSchemasCreateRequestEnabledColumnsList = Array<string>;
-export const ExternalDataSchemasCreateRequestEnabledColumnsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ExternalDataSchemasCreateRequestEnabledColumnsList>;
-
-export type ExternalDataSchemasCreateRequestRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
-export const ExternalDataSchemasCreateRequestRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
-
-/** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-export type ExternalDataSchemasCreateRequestRowFiltersList =
-  Array<ExternalDataSchemasCancelCreateRequestRowFiltersItem>;
-export const ExternalDataSchemasCreateRequestRowFiltersList =
-  /*@__PURE__*/ S.Array(
-    ExternalDataSchemasCancelCreateRequestRowFiltersItem,
-  ) as any as S.Schema<ExternalDataSchemasCreateRequestRowFiltersList>;
-
-export interface ExternalDataSchemasCreateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  should_sync?: boolean;
-  /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: SyncTypeEnum | (string & {}) | null;
-  /** Column name used to track sync progress. */
-  incremental_field?: string | null;
-  /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
-  incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null;
-  /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
-  incremental_field_lookback_seconds?: number | null;
-  /** How often to sync. * `never` - never * `1min` - 1min * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: SyncFrequencyEnum | (string & {}) | null;
-  /** UTC time of day to run the sync (HH:MM:SS). */
-  sync_time_of_day?: string | null;
-  /** Column names for primary key deduplication. */
-  primary_key_columns?: ExternalDataSchemasCreateRequestPrimaryKeyColumnsList | null;
-  /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
-  /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: ExternalDataSchemasCreateRequestEnabledColumnsList | null;
-  /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-  row_filters?: ExternalDataSchemasCreateRequestRowFiltersList | null;
-}
-export const ExternalDataSchemasCreateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    should_sync: S.optional(S.Boolean),
-    sync_type: S.optional(S.NullOr(SyncTypeEnum)),
-    incremental_field: S.optional(S.NullOr(S.String)),
-    incremental_field_type: S.optional(S.NullOr(IncrementalFieldTypeEnum)),
-    incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
-    sync_frequency: S.optional(S.NullOr(SyncFrequencyEnum)),
-    sync_time_of_day: S.optional(S.NullOr(S.String)),
-    primary_key_columns: S.optional(
-      S.NullOr(ExternalDataSchemasCreateRequestPrimaryKeyColumnsList),
-    ),
-    cdc_table_mode: S.optional(S.NullOr(CdcTableModeEnum)),
-    enabled_columns: S.optional(
-      S.NullOr(ExternalDataSchemasCreateRequestEnabledColumnsList),
-    ),
-    row_filters: S.optional(
-      S.NullOr(ExternalDataSchemasCreateRequestRowFiltersList),
-    ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/external_data_schemas/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ExternalDataSchemasCreateRequest",
-}) as any as S.Schema<ExternalDataSchemasCreateRequest>;
-
-export type ExternalDataSchemaTableMap = { [key: string]: unknown | undefined };
-export const ExternalDataSchemaTableMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<ExternalDataSchemaTableMap>;
-
-/** Column names for primary key deduplication. */
-export type ExternalDataSchemaPrimaryKeyColumnsList = Array<string>;
-export const ExternalDataSchemaPrimaryKeyColumnsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ExternalDataSchemaPrimaryKeyColumnsList>;
-
-/** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-export type ExternalDataSchemaEnabledColumnsList = Array<string>;
-export const ExternalDataSchemaEnabledColumnsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ExternalDataSchemaEnabledColumnsList>;
-
-export type ExternalDataSchemaRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
-export const ExternalDataSchemaRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
-
-/** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-export type ExternalDataSchemaRowFiltersList =
-  Array<ExternalDataSchemasCancelCreateRequestRowFiltersItem>;
-export const ExternalDataSchemaRowFiltersList = /*@__PURE__*/ S.Array(
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem,
-) as any as S.Schema<ExternalDataSchemaRowFiltersList>;
-
-export interface ExternalDataSchemaAvailableColumnsItem {
-  name: string;
-  data_type?: string;
-  is_nullable?: boolean;
-}
-export const ExternalDataSchemaAvailableColumnsItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      data_type: S.optional(S.String),
-      is_nullable: S.optional(S.Boolean),
-    }),
-).annotate({
-  identifier: "ExternalDataSchemaAvailableColumnsItem",
-}) as any as S.Schema<ExternalDataSchemaAvailableColumnsItem>;
-
-/** Column metadata (name, data type, nullable) for this schema. For SQL sources this is the source-side schema discovered via `refresh_schemas`; for other sources (and once synced) it falls back to the synced table's columns. Empty only before the first successful sync/refresh. */
-export type ExternalDataSchemaAvailableColumnsList =
-  Array<ExternalDataSchemaAvailableColumnsItem>;
-export const ExternalDataSchemaAvailableColumnsList = /*@__PURE__*/ S.Array(
-  ExternalDataSchemaAvailableColumnsItem,
-) as any as S.Schema<ExternalDataSchemaAvailableColumnsList>;
-
-/** Lightweight parent-source summary (id, source_type, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint — `null` elsewhere — so read-only views can render without fetching the full source and all its schemas. */
-export interface ExternalDataSchemaSource {
-  id?: string;
-  source_type?: string;
-  supports_column_selection?: boolean;
-  user_access_level?: string | null;
-}
-export const ExternalDataSchemaSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    source_type: S.optional(S.String),
-    supports_column_selection: S.optional(S.Boolean),
-    user_access_level: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "ExternalDataSchemaSource",
-}) as any as S.Schema<ExternalDataSchemaSource>;
-
-export interface ExternalDataSchema {
-  id?: string;
-  name?: string;
-  label?: string | null;
-  table?: ExternalDataSchemaTableMap | null;
-  should_sync?: boolean;
-  last_synced_at?: string | null;
-  /** The latest error that occurred when syncing this schema. */
-  latest_error?: string | null;
-  incremental?: boolean;
-  status?: string | null;
-  /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: SyncTypeEnum | null;
-  /** Column name used to track sync progress. */
-  incremental_field?: string | null;
-  /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
-  incremental_field_type?: IncrementalFieldTypeEnum | null;
-  /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
-  incremental_field_lookback_seconds?: number | null;
-  /** How often to sync. * `never` - never * `1min` - 1min * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: SyncFrequencyEnum | null;
-  /** UTC time of day to run the sync (HH:MM:SS). */
-  sync_time_of_day?: string | null;
-  description?: string | null;
-  /** Column names for primary key deduplication. */
-  primary_key_columns?: ExternalDataSchemaPrimaryKeyColumnsList | null;
-  /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-  cdc_table_mode?: CdcTableModeEnum | null;
-  /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: ExternalDataSchemaEnabledColumnsList | null;
-  /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-  row_filters?: ExternalDataSchemaRowFiltersList | null;
-  /** Column metadata (name, data type, nullable) for this schema. For SQL sources this is the source-side schema discovered via `refresh_schemas`; for other sources (and once synced) it falls back to the synced table's columns. Empty only before the first successful sync/refresh. */
-  available_columns?: ExternalDataSchemaAvailableColumnsList;
-  /** Lightweight parent-source summary (id, source_type, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint — `null` elsewhere — so read-only views can render without fetching the full source and all its schemas. */
-  source?: ExternalDataSchemaSource | null;
-}
-export const ExternalDataSchema = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    label: S.optional(S.NullOr(S.String)),
-    table: S.optional(S.NullOr(ExternalDataSchemaTableMap)),
-    should_sync: S.optional(S.Boolean),
-    last_synced_at: S.optional(S.NullOr(S.String)),
-    latest_error: S.optional(S.NullOr(S.String)),
-    incremental: S.optional(S.Boolean),
-    status: S.optional(S.NullOr(S.String)),
-    sync_type: S.optional(S.NullOr(SyncTypeEnum)),
-    incremental_field: S.optional(S.NullOr(S.String)),
-    incremental_field_type: S.optional(S.NullOr(IncrementalFieldTypeEnum)),
-    incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
-    sync_frequency: S.optional(S.NullOr(SyncFrequencyEnum)),
-    sync_time_of_day: S.optional(S.NullOr(S.String)),
-    description: S.optional(S.NullOr(S.String)),
-    primary_key_columns: S.optional(
-      S.NullOr(ExternalDataSchemaPrimaryKeyColumnsList),
-    ),
-    cdc_table_mode: S.optional(S.NullOr(CdcTableModeEnum)),
-    enabled_columns: S.optional(S.NullOr(ExternalDataSchemaEnabledColumnsList)),
-    row_filters: S.optional(S.NullOr(ExternalDataSchemaRowFiltersList)),
-    available_columns: S.optional(ExternalDataSchemaAvailableColumnsList),
-    source: S.optional(S.NullOr(ExternalDataSchemaSource)),
-  }),
-).annotate({
-  identifier: "ExternalDataSchema",
-}) as any as S.Schema<ExternalDataSchema>;
-
-export interface ExternalDataSchemasDeleteDataDestroyRequest {
+export interface CreateExternalDataSchemasReloadRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this external data schema. */
   id: string;
 }
-export const ExternalDataSchemasDeleteDataDestroyRequest =
+export const CreateExternalDataSchemasReloadRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/api/projects/{project_id}/external_data_schemas/{id}/reload/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "CreateExternalDataSchemasReloadRequest",
+}) as any as S.Schema<CreateExternalDataSchemasReloadRequest>;
+
+export interface CreateExternalDataSchemasReloadResponse {}
+export const CreateExternalDataSchemasReloadResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "CreateExternalDataSchemasReloadResponse",
+}) as any as S.Schema<CreateExternalDataSchemasReloadResponse>;
+
+export interface CreateExternalDataSchemasResyncRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this external data schema. */
+  id: string;
+}
+export const CreateExternalDataSchemasResyncRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/api/projects/{project_id}/external_data_schemas/{id}/resync/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "CreateExternalDataSchemasResyncRequest",
+}) as any as S.Schema<CreateExternalDataSchemasResyncRequest>;
+
+export interface CreateExternalDataSchemasResyncResponse {}
+export const CreateExternalDataSchemasResyncResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "CreateExternalDataSchemasResyncResponse",
+}) as any as S.Schema<CreateExternalDataSchemasResyncResponse>;
+
+export interface DeleteExternalDataSchemaDataDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this external data schema. */
+  id: string;
+}
+export const DeleteExternalDataSchemaDataDestroyRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       project_id: S.String.pipe(T.Label()),
@@ -430,14 +273,48 @@ export const ExternalDataSchemasDeleteDataDestroyRequest =
       }),
     ),
   ).annotate({
-    identifier: "ExternalDataSchemasDeleteDataDestroyRequest",
-  }) as any as S.Schema<ExternalDataSchemasDeleteDataDestroyRequest>;
+    identifier: "DeleteExternalDataSchemaDataDestroyRequest",
+  }) as any as S.Schema<DeleteExternalDataSchemaDataDestroyRequest>;
 
-export interface ExternalDataSchemasDeleteDataDestroyResponse {}
-export const ExternalDataSchemasDeleteDataDestroyResponse =
+export interface DeleteExternalDataSchemaDataDestroyResponse {}
+export const DeleteExternalDataSchemaDataDestroyResponse =
   /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "ExternalDataSchemasDeleteDataDestroyResponse",
-  }) as any as S.Schema<ExternalDataSchemasDeleteDataDestroyResponse>;
+    identifier: "DeleteExternalDataSchemaDataDestroyResponse",
+  }) as any as S.Schema<DeleteExternalDataSchemaDataDestroyResponse>;
+
+export interface ExternalDataSchemasCancelCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this external data schema. */
+  id: string;
+}
+export const ExternalDataSchemasCancelCreateRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/api/projects/{project_id}/external_data_schemas/{id}/cancel/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "ExternalDataSchemasCancelCreateRequest",
+}) as any as S.Schema<ExternalDataSchemasCancelCreateRequest>;
+
+export interface ExternalDataSchemasCancelCreateResponse {
+  detail?: string;
+}
+export const ExternalDataSchemasCancelCreateResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      detail: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "ExternalDataSchemasCancelCreateResponse",
+}) as any as S.Schema<ExternalDataSchemasCancelCreateResponse>;
 
 export interface ExternalDataSchemasDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -467,108 +344,321 @@ export const ExternalDataSchemasDestroyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExternalDataSchemasDestroyResponse",
 }) as any as S.Schema<ExternalDataSchemasDestroyResponse>;
 
-/** Column names for primary key deduplication. */
-export type ExternalDataSchemasIncrementalFieldsCreateRequestPrimaryKeyColumnsList =
-  Array<string>;
-export const ExternalDataSchemasIncrementalFieldsCreateRequestPrimaryKeyColumnsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ExternalDataSchemasIncrementalFieldsCreateRequestPrimaryKeyColumnsList>;
-
-/** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-export type ExternalDataSchemasIncrementalFieldsCreateRequestEnabledColumnsList =
-  Array<string>;
-export const ExternalDataSchemasIncrementalFieldsCreateRequestEnabledColumnsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ExternalDataSchemasIncrementalFieldsCreateRequestEnabledColumnsList>;
-
-export type ExternalDataSchemasIncrementalFieldsCreateRequestRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
-export const ExternalDataSchemasIncrementalFieldsCreateRequestRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
-
-/** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-export type ExternalDataSchemasIncrementalFieldsCreateRequestRowFiltersList =
-  Array<ExternalDataSchemasCancelCreateRequestRowFiltersItem>;
-export const ExternalDataSchemasIncrementalFieldsCreateRequestRowFiltersList =
-  /*@__PURE__*/ S.Array(
-    ExternalDataSchemasCancelCreateRequestRowFiltersItem,
-  ) as any as S.Schema<ExternalDataSchemasIncrementalFieldsCreateRequestRowFiltersList>;
-
-export interface ExternalDataSchemasIncrementalFieldsCreateRequest {
+export interface GetExternalDataSchemaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this external data schema. */
   id: string;
+}
+export const GetExternalDataSchemaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/external_data_schemas/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetExternalDataSchemaRequest",
+}) as any as S.Schema<GetExternalDataSchemaRequest>;
+
+export type ExternalDataSchemaTableMap = { [key: string]: unknown | undefined };
+export const ExternalDataSchemaTableMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ExternalDataSchemaTableMap>;
+
+/** Column names for primary key deduplication. */
+export type ExternalDataSchemaPrimaryKeyColumnsList = Array<string>;
+export const ExternalDataSchemaPrimaryKeyColumnsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ExternalDataSchemaPrimaryKeyColumnsList>;
+
+/** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
+export type ExternalDataSchemaEnabledColumnsList = Array<string>;
+export const ExternalDataSchemaEnabledColumnsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ExternalDataSchemaEnabledColumnsList>;
+
+export type ExternalDataSchemaRowFiltersItem =
+  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem;
+export const ExternalDataSchemaRowFiltersItem =
+  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem;
+
+/** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
+export type ExternalDataSchemaRowFiltersList =
+  Array<CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem>;
+export const ExternalDataSchemaRowFiltersList = /*@__PURE__*/ S.Array(
+  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem,
+) as any as S.Schema<ExternalDataSchemaRowFiltersList>;
+
+export interface ExternalDataSchemaAvailableColumnsItem {
+  name: string;
+  data_type?: string;
+  is_nullable?: boolean;
+}
+export const ExternalDataSchemaAvailableColumnsItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      data_type: S.optional(S.String),
+      is_nullable: S.optional(S.Boolean),
+    }),
+).annotate({
+  identifier: "ExternalDataSchemaAvailableColumnsItem",
+}) as any as S.Schema<ExternalDataSchemaAvailableColumnsItem>;
+
+/** Column metadata (name, data type, nullable) for this schema. For SQL sources this is the source-side schema discovered via `refresh_schemas`; for other sources (and once synced) it falls back to the synced table's columns. Empty only before the first successful sync/refresh. */
+export type ExternalDataSchemaAvailableColumnsList =
+  Array<ExternalDataSchemaAvailableColumnsItem>;
+export const ExternalDataSchemaAvailableColumnsList = /*@__PURE__*/ S.Array(
+  ExternalDataSchemaAvailableColumnsItem,
+) as any as S.Schema<ExternalDataSchemaAvailableColumnsList>;
+
+export type ExternalDataSchemaSourceSupportedApiVersionsList = Array<string>;
+export const ExternalDataSchemaSourceSupportedApiVersionsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ExternalDataSchemaSourceSupportedApiVersionsList>;
+
+/** Lightweight parent-source summary (id, source_type, access_method, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint — `null` elsewhere — so read-only views can render without fetching the full source and all its schemas. */
+export interface ExternalDataSchemaSource {
+  id?: string;
+  source_type?: string;
+  access_method?: string;
+  supports_column_selection?: boolean;
+  supports_row_filters?: boolean;
+  requires_exact_column_metadata?: boolean;
+  user_access_level?: string | null;
+  api_version?: string | null;
+  supported_api_versions?: ExternalDataSchemaSourceSupportedApiVersionsList;
+}
+export const ExternalDataSchemaSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    source_type: S.optional(S.String),
+    access_method: S.optional(S.String),
+    supports_column_selection: S.optional(S.Boolean),
+    supports_row_filters: S.optional(S.Boolean),
+    requires_exact_column_metadata: S.optional(S.Boolean),
+    user_access_level: S.optional(S.NullOr(S.String)),
+    api_version: S.optional(S.NullOr(S.String)),
+    supported_api_versions: S.optional(
+      ExternalDataSchemaSourceSupportedApiVersionsList,
+    ),
+  }),
+).annotate({
+  identifier: "ExternalDataSchemaSource",
+}) as any as S.Schema<ExternalDataSchemaSource>;
+
+export interface ExternalDataSourceApiVersionDeprecation {
+  /** The deprecated vendor API version this source is pinned to. */
+  version: string;
+  /** Date the vendor stops serving this version; null if not announced. */
+  sunset_at: string | null;
+  /** The source's current default vendor API version — the migration target. */
+  default_version: string;
+}
+export const ExternalDataSourceApiVersionDeprecation = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      version: S.String,
+      sunset_at: S.NullOr(S.String),
+      default_version: S.String,
+    }),
+).annotate({
+  identifier: "ExternalDataSourceApiVersionDeprecation",
+}) as any as S.Schema<ExternalDataSourceApiVersionDeprecation>;
+
+/** A schema of an external data source: its sync configuration and the warehouse table it syncs into. */
+export interface ExternalDataSchema {
+  id?: string;
+  name?: string;
+  label?: string | null;
+  table?: ExternalDataSchemaTableMap | null;
   should_sync?: boolean;
+  last_synced_at?: string | null;
+  /** The latest error that occurred when syncing this schema. */
+  latest_error?: string | null;
+  incremental?: boolean;
+  status?: string | null;
   /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: SyncTypeEnum | (string & {}) | null;
+  sync_type?: ExternalDataSchemaSyncTypeEnum | null;
   /** Column name used to track sync progress. */
   incremental_field?: string | null;
   /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
-  incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null;
+  incremental_field_type?: IncrementalFieldTypeEnum | null;
   /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
   incremental_field_lookback_seconds?: number | null;
-  /** How often to sync. * `never` - never * `1min` - 1min * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: SyncFrequencyEnum | (string & {}) | null;
+  /** How often to sync. The fastest sync frequency is 5 minutes. * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
+  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | null;
   /** UTC time of day to run the sync (HH:MM:SS). */
   sync_time_of_day?: string | null;
+  description?: string | null;
   /** Column names for primary key deduplication. */
-  primary_key_columns?: ExternalDataSchemasIncrementalFieldsCreateRequestPrimaryKeyColumnsList | null;
+  primary_key_columns?: ExternalDataSchemaPrimaryKeyColumnsList | null;
   /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
+  cdc_table_mode?: CdcTableModeEnum | null;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: ExternalDataSchemasIncrementalFieldsCreateRequestEnabledColumnsList | null;
+  enabled_columns?: ExternalDataSchemaEnabledColumnsList | null;
   /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-  row_filters?: ExternalDataSchemasIncrementalFieldsCreateRequestRowFiltersList | null;
+  row_filters?: ExternalDataSchemaRowFiltersList | null;
+  /** Column metadata (name, data type, nullable) for this schema. For SQL sources this is the source-side schema discovered via `refresh_schemas`; for other sources (and once synced) it falls back to the synced table's columns. Empty only before the first successful sync/refresh. */
+  available_columns?: ExternalDataSchemaAvailableColumnsList;
+  /** Whether exact source-side column metadata is available for safe source-query projection. */
+  source_column_metadata_available?: boolean;
+  /** Lightweight parent-source summary (id, source_type, access_method, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint — `null` elsewhere — so read-only views can render without fetching the full source and all its schemas. */
+  source?: ExternalDataSchemaSource | null;
+  /** Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas. */
+  api_version?: string | null;
+  /** Set when this schema's version override is deprecated by the vendor; null when there is no override or it is not deprecated. The source-level field covers the source pin. */
+  api_version_deprecation?: ExternalDataSourceApiVersionDeprecation | null;
+  /** The effective access level the user has for this object */
+  user_access_level?: string | null;
 }
-export const ExternalDataSchemasIncrementalFieldsCreateRequest =
-  /*@__PURE__*/ S.suspend(() =>
+export const ExternalDataSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    label: S.optional(S.NullOr(S.String)),
+    table: S.optional(S.NullOr(ExternalDataSchemaTableMap)),
+    should_sync: S.optional(S.Boolean),
+    last_synced_at: S.optional(S.NullOr(S.String)),
+    latest_error: S.optional(S.NullOr(S.String)),
+    incremental: S.optional(S.Boolean),
+    status: S.optional(S.NullOr(S.String)),
+    sync_type: S.optional(S.NullOr(ExternalDataSchemaSyncTypeEnum)),
+    incremental_field: S.optional(S.NullOr(S.String)),
+    incremental_field_type: S.optional(S.NullOr(IncrementalFieldTypeEnum)),
+    incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
+    sync_frequency: S.optional(S.NullOr(ExternalDataSchemaSyncFrequencyEnum)),
+    sync_time_of_day: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.NullOr(S.String)),
+    primary_key_columns: S.optional(
+      S.NullOr(ExternalDataSchemaPrimaryKeyColumnsList),
+    ),
+    cdc_table_mode: S.optional(S.NullOr(CdcTableModeEnum)),
+    enabled_columns: S.optional(S.NullOr(ExternalDataSchemaEnabledColumnsList)),
+    row_filters: S.optional(S.NullOr(ExternalDataSchemaRowFiltersList)),
+    available_columns: S.optional(ExternalDataSchemaAvailableColumnsList),
+    source_column_metadata_available: S.optional(S.Boolean),
+    source: S.optional(S.NullOr(ExternalDataSchemaSource)),
+    api_version: S.optional(S.NullOr(S.String)),
+    api_version_deprecation: S.optional(
+      S.NullOr(ExternalDataSourceApiVersionDeprecation),
+    ),
+    user_access_level: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ExternalDataSchema",
+}) as any as S.Schema<ExternalDataSchema>;
+
+export interface GetExternalDataSchemasDestinationRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this external data schema. */
+  id: string;
+}
+export const GetExternalDataSchemasDestinationRequest = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
       project_id: S.String.pipe(T.Label()),
       id: S.String.pipe(T.Label()),
-      should_sync: S.optional(S.Boolean),
-      sync_type: S.optional(S.NullOr(SyncTypeEnum)),
-      incremental_field: S.optional(S.NullOr(S.String)),
-      incremental_field_type: S.optional(S.NullOr(IncrementalFieldTypeEnum)),
-      incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
-      sync_frequency: S.optional(S.NullOr(SyncFrequencyEnum)),
-      sync_time_of_day: S.optional(S.NullOr(S.String)),
-      primary_key_columns: S.optional(
-        S.NullOr(
-          ExternalDataSchemasIncrementalFieldsCreateRequestPrimaryKeyColumnsList,
-        ),
-      ),
-      cdc_table_mode: S.optional(S.NullOr(CdcTableModeEnum)),
-      enabled_columns: S.optional(
-        S.NullOr(
-          ExternalDataSchemasIncrementalFieldsCreateRequestEnabledColumnsList,
-        ),
-      ),
-      row_filters: S.optional(
-        S.NullOr(
-          ExternalDataSchemasIncrementalFieldsCreateRequestRowFiltersList,
-        ),
-      ),
     }).pipe(
       T.Http({
-        method: "POST",
-        uri: "/api/projects/{project_id}/external_data_schemas/{id}/incremental_fields/",
+        method: "GET",
+        uri: "/api/projects/{project_id}/external_data_schemas/{id}/destinations/",
         code: 200,
       }),
     ),
-  ).annotate({
-    identifier: "ExternalDataSchemasIncrementalFieldsCreateRequest",
-  }) as any as S.Schema<ExternalDataSchemasIncrementalFieldsCreateRequest>;
+).annotate({
+  identifier: "GetExternalDataSchemasDestinationRequest",
+}) as any as S.Schema<GetExternalDataSchemasDestinationRequest>;
 
-export interface ExternalDataSchemasIncrementalFieldsCreateResponse {}
-export const ExternalDataSchemasIncrementalFieldsCreateResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "ExternalDataSchemasIncrementalFieldsCreateResponse",
-  }) as any as S.Schema<ExternalDataSchemasIncrementalFieldsCreateResponse>;
+/** The table's own destinations, or null when it follows its source. */
+export type SchemaDestinationsDestinationIdsList = Array<string>;
+export const SchemaDestinationsDestinationIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SchemaDestinationsDestinationIdsList>;
 
-export interface ExternalDataSchemasListRequest {
+/** Where the table actually syncs, after inheritance is resolved. */
+export type SchemaDestinationsEffectiveDestinationIdsList = Array<string>;
+export const SchemaDestinationsEffectiveDestinationIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<SchemaDestinationsEffectiveDestinationIdsList>;
+
+/** Response shape for a table's destination override. */
+export interface SchemaDestinations {
+  /** The table's own destinations, or null when it follows its source. */
+  destination_ids: SchemaDestinationsDestinationIdsList | null;
+  /** Whether this table follows its source rather than having its own destinations. */
+  inherits_from_source: boolean;
+  /** Where the table actually syncs, after inheritance is resolved. */
+  effective_destination_ids?: SchemaDestinationsEffectiveDestinationIdsList;
+}
+export const SchemaDestinations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    destination_ids: S.NullOr(SchemaDestinationsDestinationIdsList),
+    inherits_from_source: S.Boolean,
+    effective_destination_ids: S.optional(
+      SchemaDestinationsEffectiveDestinationIdsList,
+    ),
+  }),
+).annotate({
+  identifier: "SchemaDestinations",
+}) as any as S.Schema<SchemaDestinations>;
+
+export interface GetExternalDataSchemasLogRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this external data schema. */
+  id: string;
+  /** Only return entries after this ISO 8601 timestamp. Defaults to 7 days ago; pass an explicit value to read further back. */
+  after?: string;
+  /** Only return entries before this ISO 8601 timestamp. */
+  before?: string;
+  /** Filter logs to a specific execution instance. */
+  instance_id?: string;
+  /** Comma-separated log levels to include, e.g. 'WARN,ERROR'. Valid levels: DEBUG, LOG, INFO, WARN, ERROR. */
+  level?: string;
+  /** Maximum number of log entries to return (1-500, default 50). */
+  limit?: number;
+  /** Case-insensitive substring search across log messages. */
+  search?: string;
+}
+export const GetExternalDataSchemasLogRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    after: S.optional(S.String.pipe(T.Query())),
+    before: S.optional(S.String.pipe(T.Query())),
+    instance_id: S.optional(S.String.pipe(T.Query())),
+    level: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/external_data_schemas/{id}/logs/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetExternalDataSchemasLogRequest",
+}) as any as S.Schema<GetExternalDataSchemasLogRequest>;
+
+export interface GetExternalDataSchemasLogResponse {}
+export const GetExternalDataSchemasLogResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "GetExternalDataSchemasLogResponse",
+}) as any as S.Schema<GetExternalDataSchemasLogResponse>;
+
+export interface ListExternalDataSchemasRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
@@ -578,7 +668,7 @@ export interface ExternalDataSchemasListRequest {
   /** A search term. */
   search?: string;
 }
-export const ExternalDataSchemasListRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListExternalDataSchemasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
@@ -592,8 +682,8 @@ export const ExternalDataSchemasListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "ExternalDataSchemasListRequest",
-}) as any as S.Schema<ExternalDataSchemasListRequest>;
+  identifier: "ListExternalDataSchemasRequest",
+}) as any as S.Schema<ListExternalDataSchemasRequest>;
 
 export type PaginatedExternalDataSchemaListResultsList =
   Array<ExternalDataSchema>;
@@ -618,431 +708,85 @@ export const PaginatedExternalDataSchemaList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedExternalDataSchemaList",
 }) as any as S.Schema<PaginatedExternalDataSchemaList>;
 
-export interface ExternalDataSchemasLogsRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this external data schema. */
-  id: string;
-  /** Only return entries after this ISO 8601 timestamp. */
-  after?: string;
-  /** Only return entries before this ISO 8601 timestamp. */
-  before?: string;
-  /** Filter logs to a specific execution instance. */
-  instance_id?: string;
-  /** Comma-separated log levels to include, e.g. 'WARN,ERROR'. Valid levels: DEBUG, LOG, INFO, WARN, ERROR. */
-  level?: string;
-  /** Maximum number of log entries to return (1-500, default 50). */
-  limit?: number;
-  /** Case-insensitive substring search across log messages. */
-  search?: string;
-}
-export const ExternalDataSchemasLogsRetrieveRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      project_id: S.String.pipe(T.Label()),
-      id: S.String.pipe(T.Label()),
-      after: S.optional(S.String.pipe(T.Query())),
-      before: S.optional(S.String.pipe(T.Query())),
-      instance_id: S.optional(S.String.pipe(T.Query())),
-      level: S.optional(S.String.pipe(T.Query())),
-      limit: S.optional(S.Number.pipe(T.Query())),
-      search: S.optional(S.String.pipe(T.Query())),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/api/projects/{project_id}/external_data_schemas/{id}/logs/",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "ExternalDataSchemasLogsRetrieveRequest",
-}) as any as S.Schema<ExternalDataSchemasLogsRetrieveRequest>;
-
-export interface ExternalDataSchemasLogsRetrieveResponse {}
-export const ExternalDataSchemasLogsRetrieveResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "ExternalDataSchemasLogsRetrieveResponse",
-}) as any as S.Schema<ExternalDataSchemasLogsRetrieveResponse>;
-
 /** Column names for primary key deduplication. */
-export type ExternalDataSchemasPartialUpdateRequestPrimaryKeyColumnsList =
+export type UpdateExternalDataSchemaRequestPrimaryKeyColumnsList =
   Array<string>;
-export const ExternalDataSchemasPartialUpdateRequestPrimaryKeyColumnsList =
+export const UpdateExternalDataSchemaRequestPrimaryKeyColumnsList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<ExternalDataSchemasPartialUpdateRequestPrimaryKeyColumnsList>;
+  ) as any as S.Schema<UpdateExternalDataSchemaRequestPrimaryKeyColumnsList>;
 
 /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-export type ExternalDataSchemasPartialUpdateRequestEnabledColumnsList =
-  Array<string>;
-export const ExternalDataSchemasPartialUpdateRequestEnabledColumnsList =
+export type UpdateExternalDataSchemaRequestEnabledColumnsList = Array<string>;
+export const UpdateExternalDataSchemaRequestEnabledColumnsList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<ExternalDataSchemasPartialUpdateRequestEnabledColumnsList>;
+  ) as any as S.Schema<UpdateExternalDataSchemaRequestEnabledColumnsList>;
 
-export type ExternalDataSchemasPartialUpdateRequestRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
-export const ExternalDataSchemasPartialUpdateRequestRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
+export type UpdateExternalDataSchemaRequestRowFiltersItem =
+  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem;
+export const UpdateExternalDataSchemaRequestRowFiltersItem =
+  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem;
 
 /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-export type ExternalDataSchemasPartialUpdateRequestRowFiltersList =
-  Array<ExternalDataSchemasCancelCreateRequestRowFiltersItem>;
-export const ExternalDataSchemasPartialUpdateRequestRowFiltersList =
+export type UpdateExternalDataSchemaRequestRowFiltersList =
+  Array<CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem>;
+export const UpdateExternalDataSchemaRequestRowFiltersList =
   /*@__PURE__*/ S.Array(
-    ExternalDataSchemasCancelCreateRequestRowFiltersItem,
-  ) as any as S.Schema<ExternalDataSchemasPartialUpdateRequestRowFiltersList>;
+    CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem,
+  ) as any as S.Schema<UpdateExternalDataSchemaRequestRowFiltersList>;
 
-export interface ExternalDataSchemasPartialUpdateRequest {
+export interface UpdateExternalDataSchemaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this external data schema. */
   id: string;
   should_sync?: boolean;
   /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: SyncTypeEnum | (string & {}) | null;
+  sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null;
   /** Column name used to track sync progress. */
   incremental_field?: string | null;
   /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
   incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null;
   /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
   incremental_field_lookback_seconds?: number | null;
-  /** How often to sync. * `never` - never * `1min` - 1min * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: SyncFrequencyEnum | (string & {}) | null;
+  /** How often to sync. The fastest sync frequency is 5 minutes. * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
+  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | (string & {}) | null;
   /** UTC time of day to run the sync (HH:MM:SS). */
   sync_time_of_day?: string | null;
   /** Column names for primary key deduplication. */
-  primary_key_columns?: ExternalDataSchemasPartialUpdateRequestPrimaryKeyColumnsList | null;
+  primary_key_columns?: UpdateExternalDataSchemaRequestPrimaryKeyColumnsList | null;
   /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
   cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: ExternalDataSchemasPartialUpdateRequestEnabledColumnsList | null;
+  enabled_columns?: UpdateExternalDataSchemaRequestEnabledColumnsList | null;
   /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-  row_filters?: ExternalDataSchemasPartialUpdateRequestRowFiltersList | null;
+  row_filters?: UpdateExternalDataSchemaRequestRowFiltersList | null;
+  /** Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas. */
+  api_version?: string | null;
 }
-export const ExternalDataSchemasPartialUpdateRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      project_id: S.String.pipe(T.Label()),
-      id: S.String.pipe(T.Label()),
-      should_sync: S.optional(S.Boolean),
-      sync_type: S.optional(S.NullOr(SyncTypeEnum)),
-      incremental_field: S.optional(S.NullOr(S.String)),
-      incremental_field_type: S.optional(S.NullOr(IncrementalFieldTypeEnum)),
-      incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
-      sync_frequency: S.optional(S.NullOr(SyncFrequencyEnum)),
-      sync_time_of_day: S.optional(S.NullOr(S.String)),
-      primary_key_columns: S.optional(
-        S.NullOr(ExternalDataSchemasPartialUpdateRequestPrimaryKeyColumnsList),
-      ),
-      cdc_table_mode: S.optional(S.NullOr(CdcTableModeEnum)),
-      enabled_columns: S.optional(
-        S.NullOr(ExternalDataSchemasPartialUpdateRequestEnabledColumnsList),
-      ),
-      row_filters: S.optional(
-        S.NullOr(ExternalDataSchemasPartialUpdateRequestRowFiltersList),
-      ),
-    }).pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/api/projects/{project_id}/external_data_schemas/{id}/",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "ExternalDataSchemasPartialUpdateRequest",
-}) as any as S.Schema<ExternalDataSchemasPartialUpdateRequest>;
-
-/** Column names for primary key deduplication. */
-export type ExternalDataSchemasReloadCreateRequestPrimaryKeyColumnsList =
-  Array<string>;
-export const ExternalDataSchemasReloadCreateRequestPrimaryKeyColumnsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ExternalDataSchemasReloadCreateRequestPrimaryKeyColumnsList>;
-
-/** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-export type ExternalDataSchemasReloadCreateRequestEnabledColumnsList =
-  Array<string>;
-export const ExternalDataSchemasReloadCreateRequestEnabledColumnsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ExternalDataSchemasReloadCreateRequestEnabledColumnsList>;
-
-export type ExternalDataSchemasReloadCreateRequestRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
-export const ExternalDataSchemasReloadCreateRequestRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
-
-/** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-export type ExternalDataSchemasReloadCreateRequestRowFiltersList =
-  Array<ExternalDataSchemasCancelCreateRequestRowFiltersItem>;
-export const ExternalDataSchemasReloadCreateRequestRowFiltersList =
-  /*@__PURE__*/ S.Array(
-    ExternalDataSchemasCancelCreateRequestRowFiltersItem,
-  ) as any as S.Schema<ExternalDataSchemasReloadCreateRequestRowFiltersList>;
-
-export interface ExternalDataSchemasReloadCreateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this external data schema. */
-  id: string;
-  should_sync?: boolean;
-  /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: SyncTypeEnum | (string & {}) | null;
-  /** Column name used to track sync progress. */
-  incremental_field?: string | null;
-  /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
-  incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null;
-  /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
-  incremental_field_lookback_seconds?: number | null;
-  /** How often to sync. * `never` - never * `1min` - 1min * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: SyncFrequencyEnum | (string & {}) | null;
-  /** UTC time of day to run the sync (HH:MM:SS). */
-  sync_time_of_day?: string | null;
-  /** Column names for primary key deduplication. */
-  primary_key_columns?: ExternalDataSchemasReloadCreateRequestPrimaryKeyColumnsList | null;
-  /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
-  /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: ExternalDataSchemasReloadCreateRequestEnabledColumnsList | null;
-  /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-  row_filters?: ExternalDataSchemasReloadCreateRequestRowFiltersList | null;
-}
-export const ExternalDataSchemasReloadCreateRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      project_id: S.String.pipe(T.Label()),
-      id: S.String.pipe(T.Label()),
-      should_sync: S.optional(S.Boolean),
-      sync_type: S.optional(S.NullOr(SyncTypeEnum)),
-      incremental_field: S.optional(S.NullOr(S.String)),
-      incremental_field_type: S.optional(S.NullOr(IncrementalFieldTypeEnum)),
-      incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
-      sync_frequency: S.optional(S.NullOr(SyncFrequencyEnum)),
-      sync_time_of_day: S.optional(S.NullOr(S.String)),
-      primary_key_columns: S.optional(
-        S.NullOr(ExternalDataSchemasReloadCreateRequestPrimaryKeyColumnsList),
-      ),
-      cdc_table_mode: S.optional(S.NullOr(CdcTableModeEnum)),
-      enabled_columns: S.optional(
-        S.NullOr(ExternalDataSchemasReloadCreateRequestEnabledColumnsList),
-      ),
-      row_filters: S.optional(
-        S.NullOr(ExternalDataSchemasReloadCreateRequestRowFiltersList),
-      ),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/api/projects/{project_id}/external_data_schemas/{id}/reload/",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "ExternalDataSchemasReloadCreateRequest",
-}) as any as S.Schema<ExternalDataSchemasReloadCreateRequest>;
-
-export interface ExternalDataSchemasReloadCreateResponse {}
-export const ExternalDataSchemasReloadCreateResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "ExternalDataSchemasReloadCreateResponse",
-}) as any as S.Schema<ExternalDataSchemasReloadCreateResponse>;
-
-/** Column names for primary key deduplication. */
-export type ExternalDataSchemasResyncCreateRequestPrimaryKeyColumnsList =
-  Array<string>;
-export const ExternalDataSchemasResyncCreateRequestPrimaryKeyColumnsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ExternalDataSchemasResyncCreateRequestPrimaryKeyColumnsList>;
-
-/** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-export type ExternalDataSchemasResyncCreateRequestEnabledColumnsList =
-  Array<string>;
-export const ExternalDataSchemasResyncCreateRequestEnabledColumnsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ExternalDataSchemasResyncCreateRequestEnabledColumnsList>;
-
-export type ExternalDataSchemasResyncCreateRequestRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
-export const ExternalDataSchemasResyncCreateRequestRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
-
-/** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-export type ExternalDataSchemasResyncCreateRequestRowFiltersList =
-  Array<ExternalDataSchemasCancelCreateRequestRowFiltersItem>;
-export const ExternalDataSchemasResyncCreateRequestRowFiltersList =
-  /*@__PURE__*/ S.Array(
-    ExternalDataSchemasCancelCreateRequestRowFiltersItem,
-  ) as any as S.Schema<ExternalDataSchemasResyncCreateRequestRowFiltersList>;
-
-export interface ExternalDataSchemasResyncCreateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this external data schema. */
-  id: string;
-  should_sync?: boolean;
-  /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: SyncTypeEnum | (string & {}) | null;
-  /** Column name used to track sync progress. */
-  incremental_field?: string | null;
-  /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
-  incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null;
-  /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
-  incremental_field_lookback_seconds?: number | null;
-  /** How often to sync. * `never` - never * `1min` - 1min * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: SyncFrequencyEnum | (string & {}) | null;
-  /** UTC time of day to run the sync (HH:MM:SS). */
-  sync_time_of_day?: string | null;
-  /** Column names for primary key deduplication. */
-  primary_key_columns?: ExternalDataSchemasResyncCreateRequestPrimaryKeyColumnsList | null;
-  /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
-  /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: ExternalDataSchemasResyncCreateRequestEnabledColumnsList | null;
-  /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-  row_filters?: ExternalDataSchemasResyncCreateRequestRowFiltersList | null;
-}
-export const ExternalDataSchemasResyncCreateRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      project_id: S.String.pipe(T.Label()),
-      id: S.String.pipe(T.Label()),
-      should_sync: S.optional(S.Boolean),
-      sync_type: S.optional(S.NullOr(SyncTypeEnum)),
-      incremental_field: S.optional(S.NullOr(S.String)),
-      incremental_field_type: S.optional(S.NullOr(IncrementalFieldTypeEnum)),
-      incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
-      sync_frequency: S.optional(S.NullOr(SyncFrequencyEnum)),
-      sync_time_of_day: S.optional(S.NullOr(S.String)),
-      primary_key_columns: S.optional(
-        S.NullOr(ExternalDataSchemasResyncCreateRequestPrimaryKeyColumnsList),
-      ),
-      cdc_table_mode: S.optional(S.NullOr(CdcTableModeEnum)),
-      enabled_columns: S.optional(
-        S.NullOr(ExternalDataSchemasResyncCreateRequestEnabledColumnsList),
-      ),
-      row_filters: S.optional(
-        S.NullOr(ExternalDataSchemasResyncCreateRequestRowFiltersList),
-      ),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/api/projects/{project_id}/external_data_schemas/{id}/resync/",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "ExternalDataSchemasResyncCreateRequest",
-}) as any as S.Schema<ExternalDataSchemasResyncCreateRequest>;
-
-export interface ExternalDataSchemasResyncCreateResponse {}
-export const ExternalDataSchemasResyncCreateResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "ExternalDataSchemasResyncCreateResponse",
-}) as any as S.Schema<ExternalDataSchemasResyncCreateResponse>;
-
-export interface ExternalDataSchemasRetrieveRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this external data schema. */
-  id: string;
-}
-export const ExternalDataSchemasRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/external_data_schemas/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ExternalDataSchemasRetrieveRequest",
-}) as any as S.Schema<ExternalDataSchemasRetrieveRequest>;
-
-/** Column names for primary key deduplication. */
-export type ExternalDataSchemasUpdateRequestPrimaryKeyColumnsList =
-  Array<string>;
-export const ExternalDataSchemasUpdateRequestPrimaryKeyColumnsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ExternalDataSchemasUpdateRequestPrimaryKeyColumnsList>;
-
-/** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-export type ExternalDataSchemasUpdateRequestEnabledColumnsList = Array<string>;
-export const ExternalDataSchemasUpdateRequestEnabledColumnsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ExternalDataSchemasUpdateRequestEnabledColumnsList>;
-
-export type ExternalDataSchemasUpdateRequestRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
-export const ExternalDataSchemasUpdateRequestRowFiltersItem =
-  ExternalDataSchemasCancelCreateRequestRowFiltersItem;
-
-/** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-export type ExternalDataSchemasUpdateRequestRowFiltersList =
-  Array<ExternalDataSchemasCancelCreateRequestRowFiltersItem>;
-export const ExternalDataSchemasUpdateRequestRowFiltersList =
-  /*@__PURE__*/ S.Array(
-    ExternalDataSchemasCancelCreateRequestRowFiltersItem,
-  ) as any as S.Schema<ExternalDataSchemasUpdateRequestRowFiltersList>;
-
-export interface ExternalDataSchemasUpdateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this external data schema. */
-  id: string;
-  should_sync?: boolean;
-  /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: SyncTypeEnum | (string & {}) | null;
-  /** Column name used to track sync progress. */
-  incremental_field?: string | null;
-  /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
-  incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null;
-  /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
-  incremental_field_lookback_seconds?: number | null;
-  /** How often to sync. * `never` - never * `1min` - 1min * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: SyncFrequencyEnum | (string & {}) | null;
-  /** UTC time of day to run the sync (HH:MM:SS). */
-  sync_time_of_day?: string | null;
-  /** Column names for primary key deduplication. */
-  primary_key_columns?: ExternalDataSchemasUpdateRequestPrimaryKeyColumnsList | null;
-  /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
-  /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: ExternalDataSchemasUpdateRequestEnabledColumnsList | null;
-  /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-  row_filters?: ExternalDataSchemasUpdateRequestRowFiltersList | null;
-}
-export const ExternalDataSchemasUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateExternalDataSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
     should_sync: S.optional(S.Boolean),
-    sync_type: S.optional(S.NullOr(SyncTypeEnum)),
+    sync_type: S.optional(S.NullOr(ExternalDataSchemaSyncTypeEnum)),
     incremental_field: S.optional(S.NullOr(S.String)),
     incremental_field_type: S.optional(S.NullOr(IncrementalFieldTypeEnum)),
     incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
-    sync_frequency: S.optional(S.NullOr(SyncFrequencyEnum)),
+    sync_frequency: S.optional(S.NullOr(ExternalDataSchemaSyncFrequencyEnum)),
     sync_time_of_day: S.optional(S.NullOr(S.String)),
     primary_key_columns: S.optional(
-      S.NullOr(ExternalDataSchemasUpdateRequestPrimaryKeyColumnsList),
+      S.NullOr(UpdateExternalDataSchemaRequestPrimaryKeyColumnsList),
     ),
     cdc_table_mode: S.optional(S.NullOr(CdcTableModeEnum)),
     enabled_columns: S.optional(
-      S.NullOr(ExternalDataSchemasUpdateRequestEnabledColumnsList),
+      S.NullOr(UpdateExternalDataSchemaRequestEnabledColumnsList),
     ),
     row_filters: S.optional(
-      S.NullOr(ExternalDataSchemasUpdateRequestRowFiltersList),
+      S.NullOr(UpdateExternalDataSchemaRequestRowFiltersList),
     ),
+    api_version: S.optional(S.NullOr(S.String)),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -1051,8 +795,208 @@ export const ExternalDataSchemasUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "ExternalDataSchemasUpdateRequest",
-}) as any as S.Schema<ExternalDataSchemasUpdateRequest>;
+  identifier: "UpdateExternalDataSchemaRequest",
+}) as any as S.Schema<UpdateExternalDataSchemaRequest>;
+
+/** Destinations to sync to. On a table, null clears the override so the table follows its source again. */
+export type UpdateExternalDataSchemasDestinationsPartialRequestDestinationIdsList =
+  Array<string>;
+export const UpdateExternalDataSchemasDestinationsPartialRequestDestinationIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateExternalDataSchemasDestinationsPartialRequestDestinationIdsList>;
+
+export interface UpdateExternalDataSchemasDestinationsPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this external data schema. */
+  id: string;
+  /** Destinations to sync to. On a table, null clears the override so the table follows its source again. */
+  destination_ids?: UpdateExternalDataSchemasDestinationsPartialRequestDestinationIdsList | null;
+}
+export const UpdateExternalDataSchemasDestinationsPartialRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+      destination_ids: S.optional(
+        S.NullOr(
+          UpdateExternalDataSchemasDestinationsPartialRequestDestinationIdsList,
+        ),
+      ),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/api/projects/{project_id}/external_data_schemas/{id}/destinations/",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "UpdateExternalDataSchemasDestinationsPartialRequest",
+  }) as any as S.Schema<UpdateExternalDataSchemasDestinationsPartialRequest>;
+
+/** Column names for primary key deduplication. */
+export type UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList =
+  Array<string>;
+export const UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList>;
+
+/** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
+export type UpdateExternalDataSchemasPartialRequestEnabledColumnsList =
+  Array<string>;
+export const UpdateExternalDataSchemasPartialRequestEnabledColumnsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateExternalDataSchemasPartialRequestEnabledColumnsList>;
+
+export type UpdateExternalDataSchemasPartialRequestRowFiltersItem =
+  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem;
+export const UpdateExternalDataSchemasPartialRequestRowFiltersItem =
+  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem;
+
+/** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
+export type UpdateExternalDataSchemasPartialRequestRowFiltersList =
+  Array<CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem>;
+export const UpdateExternalDataSchemasPartialRequestRowFiltersList =
+  /*@__PURE__*/ S.Array(
+    CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem,
+  ) as any as S.Schema<UpdateExternalDataSchemasPartialRequestRowFiltersList>;
+
+export interface UpdateExternalDataSchemasPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this external data schema. */
+  id: string;
+  should_sync?: boolean;
+  /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
+  sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null;
+  /** Column name used to track sync progress. */
+  incremental_field?: string | null;
+  /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
+  incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null;
+  /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
+  incremental_field_lookback_seconds?: number | null;
+  /** How often to sync. The fastest sync frequency is 5 minutes. * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
+  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | (string & {}) | null;
+  /** UTC time of day to run the sync (HH:MM:SS). */
+  sync_time_of_day?: string | null;
+  /** Column names for primary key deduplication. */
+  primary_key_columns?: UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList | null;
+  /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
+  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
+  /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
+  enabled_columns?: UpdateExternalDataSchemasPartialRequestEnabledColumnsList | null;
+  /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
+  row_filters?: UpdateExternalDataSchemasPartialRequestRowFiltersList | null;
+  /** Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas. */
+  api_version?: string | null;
+}
+export const UpdateExternalDataSchemasPartialRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      project_id: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+      should_sync: S.optional(S.Boolean),
+      sync_type: S.optional(S.NullOr(ExternalDataSchemaSyncTypeEnum)),
+      incremental_field: S.optional(S.NullOr(S.String)),
+      incremental_field_type: S.optional(S.NullOr(IncrementalFieldTypeEnum)),
+      incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
+      sync_frequency: S.optional(S.NullOr(ExternalDataSchemaSyncFrequencyEnum)),
+      sync_time_of_day: S.optional(S.NullOr(S.String)),
+      primary_key_columns: S.optional(
+        S.NullOr(UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList),
+      ),
+      cdc_table_mode: S.optional(S.NullOr(CdcTableModeEnum)),
+      enabled_columns: S.optional(
+        S.NullOr(UpdateExternalDataSchemasPartialRequestEnabledColumnsList),
+      ),
+      row_filters: S.optional(
+        S.NullOr(UpdateExternalDataSchemasPartialRequestRowFiltersList),
+      ),
+      api_version: S.optional(S.NullOr(S.String)),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/api/projects/{project_id}/external_data_schemas/{id}/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "UpdateExternalDataSchemasPartialRequest",
+}) as any as S.Schema<UpdateExternalDataSchemasPartialRequest>;
+
+export type CreateExternalDataSchemasIncrementalFieldError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const createExternalDataSchemasIncrementalField: API.OperationMethod<
+  CreateExternalDataSchemasIncrementalFieldRequest,
+  CreateExternalDataSchemasIncrementalFieldResponse,
+  CreateExternalDataSchemasIncrementalFieldError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateExternalDataSchemasIncrementalFieldRequest,
+  output: CreateExternalDataSchemasIncrementalFieldResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateExternalDataSchemasReloadError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const createExternalDataSchemasReload: API.OperationMethod<
+  CreateExternalDataSchemasReloadRequest,
+  CreateExternalDataSchemasReloadResponse,
+  CreateExternalDataSchemasReloadError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateExternalDataSchemasReloadRequest,
+  output: CreateExternalDataSchemasReloadResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateExternalDataSchemasResyncError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const createExternalDataSchemasResync: API.OperationMethod<
+  CreateExternalDataSchemasResyncRequest,
+  CreateExternalDataSchemasResyncResponse,
+  CreateExternalDataSchemasResyncError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateExternalDataSchemasResyncRequest,
+  output: CreateExternalDataSchemasResyncResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteExternalDataSchemaDataDestroyError =
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const deleteExternalDataSchemaDataDestroy: API.OperationMethod<
+  DeleteExternalDataSchemaDataDestroyRequest,
+  DeleteExternalDataSchemaDataDestroyResponse,
+  DeleteExternalDataSchemaDataDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteExternalDataSchemaDataDestroyRequest,
+  output: DeleteExternalDataSchemaDataDestroyResponse,
+  errors: [Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
 
 export type ExternalDataSchemasCancelCreateError =
   | BadRequest
@@ -1068,41 +1012,6 @@ export const externalDataSchemasCancelCreate: API.OperationMethod<
   input: ExternalDataSchemasCancelCreateRequest,
   output: ExternalDataSchemasCancelCreateResponse,
   errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ExternalDataSchemasCreateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const externalDataSchemasCreate: API.OperationMethod<
-  ExternalDataSchemasCreateRequest,
-  ExternalDataSchema,
-  ExternalDataSchemasCreateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExternalDataSchemasCreateRequest,
-  output: ExternalDataSchema,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ExternalDataSchemasDeleteDataDestroyError =
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const externalDataSchemasDeleteDataDestroy: API.OperationMethod<
-  ExternalDataSchemasDeleteDataDestroyRequest,
-  ExternalDataSchemasDeleteDataDestroyResponse,
-  ExternalDataSchemasDeleteDataDestroyError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExternalDataSchemasDeleteDataDestroyRequest,
-  output: ExternalDataSchemasDeleteDataDestroyResponse,
-  errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -1124,139 +1033,112 @@ export const externalDataSchemasDestroy: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ExternalDataSchemasIncrementalFieldsCreateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const externalDataSchemasIncrementalFieldsCreate: API.OperationMethod<
-  ExternalDataSchemasIncrementalFieldsCreateRequest,
-  ExternalDataSchemasIncrementalFieldsCreateResponse,
-  ExternalDataSchemasIncrementalFieldsCreateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExternalDataSchemasIncrementalFieldsCreateRequest,
-  output: ExternalDataSchemasIncrementalFieldsCreateResponse,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ExternalDataSchemasListError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const externalDataSchemasList: API.OperationMethod<
-  ExternalDataSchemasListRequest,
-  PaginatedExternalDataSchemaList,
-  ExternalDataSchemasListError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExternalDataSchemasListRequest,
-  output: PaginatedExternalDataSchemaList,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ExternalDataSchemasLogsRetrieveError = PosthogOpError;
-export const externalDataSchemasLogsRetrieve: API.OperationMethod<
-  ExternalDataSchemasLogsRetrieveRequest,
-  ExternalDataSchemasLogsRetrieveResponse,
-  ExternalDataSchemasLogsRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExternalDataSchemasLogsRetrieveRequest,
-  output: ExternalDataSchemasLogsRetrieveResponse,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ExternalDataSchemasPartialUpdateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const externalDataSchemasPartialUpdate: API.OperationMethod<
-  ExternalDataSchemasPartialUpdateRequest,
+export type GetExternalDataSchemaError = Forbidden | NotFound | PosthogOpError;
+export const getExternalDataSchema: API.OperationMethod<
+  GetExternalDataSchemaRequest,
   ExternalDataSchema,
-  ExternalDataSchemasPartialUpdateError,
+  GetExternalDataSchemaError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExternalDataSchemasPartialUpdateRequest,
-  output: ExternalDataSchema,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ExternalDataSchemasReloadCreateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const externalDataSchemasReloadCreate: API.OperationMethod<
-  ExternalDataSchemasReloadCreateRequest,
-  ExternalDataSchemasReloadCreateResponse,
-  ExternalDataSchemasReloadCreateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExternalDataSchemasReloadCreateRequest,
-  output: ExternalDataSchemasReloadCreateResponse,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ExternalDataSchemasResyncCreateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const externalDataSchemasResyncCreate: API.OperationMethod<
-  ExternalDataSchemasResyncCreateRequest,
-  ExternalDataSchemasResyncCreateResponse,
-  ExternalDataSchemasResyncCreateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExternalDataSchemasResyncCreateRequest,
-  output: ExternalDataSchemasResyncCreateResponse,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ExternalDataSchemasRetrieveError =
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-export const externalDataSchemasRetrieve: API.OperationMethod<
-  ExternalDataSchemasRetrieveRequest,
-  ExternalDataSchema,
-  ExternalDataSchemasRetrieveError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExternalDataSchemasRetrieveRequest,
+  input: GetExternalDataSchemaRequest,
   output: ExternalDataSchema,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
 
-export type ExternalDataSchemasUpdateError =
+export type GetExternalDataSchemasDestinationError = PosthogOpError;
+/** Read or replace this table's destination override. Send `destination_ids: null` to clear the override so the table follows its source again. */
+export const getExternalDataSchemasDestination: API.OperationMethod<
+  GetExternalDataSchemasDestinationRequest,
+  SchemaDestinations,
+  GetExternalDataSchemasDestinationError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetExternalDataSchemasDestinationRequest,
+  output: SchemaDestinations,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetExternalDataSchemasLogError = PosthogOpError;
+export const getExternalDataSchemasLog: API.OperationMethod<
+  GetExternalDataSchemasLogRequest,
+  GetExternalDataSchemasLogResponse,
+  GetExternalDataSchemasLogError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetExternalDataSchemasLogRequest,
+  output: GetExternalDataSchemasLogResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListExternalDataSchemasError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const externalDataSchemasUpdate: API.OperationMethod<
-  ExternalDataSchemasUpdateRequest,
-  ExternalDataSchema,
-  ExternalDataSchemasUpdateError,
+export const listExternalDataSchemas: API.OperationMethod<
+  ListExternalDataSchemasRequest,
+  PaginatedExternalDataSchemaList,
+  ListExternalDataSchemasError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExternalDataSchemasUpdateRequest,
+  input: ListExternalDataSchemasRequest,
+  output: PaginatedExternalDataSchemaList,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateExternalDataSchemaError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const updateExternalDataSchema: API.OperationMethod<
+  UpdateExternalDataSchemaRequest,
+  ExternalDataSchema,
+  UpdateExternalDataSchemaError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateExternalDataSchemaRequest,
+  output: ExternalDataSchema,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateExternalDataSchemasDestinationsPartialError = PosthogOpError;
+/** Read or replace this table's destination override. Send `destination_ids: null` to clear the override so the table follows its source again. */
+export const updateExternalDataSchemasDestinationsPartial: API.OperationMethod<
+  UpdateExternalDataSchemasDestinationsPartialRequest,
+  SchemaDestinations,
+  UpdateExternalDataSchemasDestinationsPartialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateExternalDataSchemasDestinationsPartialRequest,
+  output: SchemaDestinations,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateExternalDataSchemasPartialError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const updateExternalDataSchemasPartial: API.OperationMethod<
+  UpdateExternalDataSchemasPartialRequest,
+  ExternalDataSchema,
+  UpdateExternalDataSchemasPartialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateExternalDataSchemasPartialRequest,
   output: ExternalDataSchema,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,

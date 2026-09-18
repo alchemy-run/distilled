@@ -1777,6 +1777,7 @@ export class VpcEncryptionControlViolationException
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
+export type IAMRoleArn = string;
 export interface AddRoleToDBClusterMessage {
   DBClusterIdentifier?: string;
   RoleArn?: string;
@@ -2193,7 +2194,7 @@ export const CancelExportTaskMessage = /*@__PURE__*/ S.suspend(() =>
 export type StringList = string[];
 export const StringList = /*@__PURE__*/ S.Array(S.String);
 export type ExportSourceType = "SNAPSHOT" | "CLUSTER" | (string & {});
-export const ExportSourceType = /*@__PURE__*/ S.String;
+export const ExportSourceType = S.String;
 
 export interface ExportTask {
   ExportTaskIdentifier?: string;
@@ -2331,7 +2332,7 @@ export type StorageEncryptionType =
   | "sse-kms"
   | "sse-rds"
   | (string & {});
-export const StorageEncryptionType = /*@__PURE__*/ S.String;
+export const StorageEncryptionType = S.String;
 
 export interface DBClusterSnapshot {
   AvailabilityZones?: string[];
@@ -2582,6 +2583,7 @@ export interface DBSnapshot {
   DedicatedLogVolume?: boolean;
   AdditionalStorageVolumes?: AdditionalStorageVolume[];
   SnapshotAvailabilityZone?: string;
+  FullSnapshotSizeInBytes?: number;
 }
 export const DBSnapshot = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2634,6 +2636,7 @@ export const DBSnapshot = /*@__PURE__*/ S.suspend(() =>
     DedicatedLogVolume: S.optional(S.Boolean),
     AdditionalStorageVolumes: S.optional(AdditionalStorageVolumesList),
     SnapshotAvailabilityZone: S.optional(S.String),
+    FullSnapshotSizeInBytes: S.optional(S.Number),
   }),
 ).annotate({ identifier: "DBSnapshot" }) as any as S.Schema<DBSnapshot>;
 export interface CopyDBSnapshotResult {
@@ -3184,7 +3187,7 @@ export const ScalingConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "ScalingConfiguration",
 }) as any as S.Schema<ScalingConfiguration>;
 export type ReplicaMode = "open-read-only" | "mounted" | (string & {});
-export const ReplicaMode = /*@__PURE__*/ S.String;
+export const ReplicaMode = S.String;
 
 export interface RdsCustomClusterConfiguration {
   InterconnectSubnetId?: string;
@@ -3216,10 +3219,10 @@ export const ServerlessV2ScalingConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "ServerlessV2ScalingConfiguration",
 }) as any as S.Schema<ServerlessV2ScalingConfiguration>;
 export type DatabaseInsightsMode = "standard" | "advanced" | (string & {});
-export const DatabaseInsightsMode = /*@__PURE__*/ S.String;
+export const DatabaseInsightsMode = S.String;
 
 export type ClusterScalabilityType = "standard" | "limitless" | (string & {});
-export const ClusterScalabilityType = /*@__PURE__*/ S.String;
+export const ClusterScalabilityType = S.String;
 
 export interface TagSpecification {
   ResourceType?: string;
@@ -3240,8 +3243,23 @@ export type MasterUserAuthenticationType =
   | "password"
   | "iam-db-auth"
   | (string & {});
-export const MasterUserAuthenticationType = /*@__PURE__*/ S.String;
+export const MasterUserAuthenticationType = S.String;
 
+export interface DBClusterAssociatedRole {
+  RoleArn: string;
+  FeatureName?: string;
+}
+export const DBClusterAssociatedRole = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ RoleArn: S.String, FeatureName: S.optional(S.String) }),
+).annotate({
+  identifier: "DBClusterAssociatedRole",
+}) as any as S.Schema<DBClusterAssociatedRole>;
+export type DBClusterAssociatedRoles = DBClusterAssociatedRole[];
+export const DBClusterAssociatedRoles = /*@__PURE__*/ S.Array(
+  DBClusterAssociatedRole.pipe(T.XmlName("DBClusterAssociatedRole")).annotate({
+    identifier: "DBClusterAssociatedRole",
+  }),
+);
 export interface CreateDBClusterMessage {
   AvailabilityZones?: string[];
   BackupRetentionPeriod?: number;
@@ -3302,6 +3320,7 @@ export interface CreateDBClusterMessage {
   TagSpecifications?: TagSpecification[];
   MasterUserAuthenticationType?: MasterUserAuthenticationType;
   WithExpressConfiguration?: boolean;
+  AssociatedRoles?: DBClusterAssociatedRole[];
 }
 export const CreateDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3366,6 +3385,7 @@ export const CreateDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
     TagSpecifications: S.optional(TagSpecificationList),
     MasterUserAuthenticationType: S.optional(MasterUserAuthenticationType),
     WithExpressConfiguration: S.optional(S.Boolean),
+    AssociatedRoles: S.optional(DBClusterAssociatedRoles),
   }).pipe(
     T.all(
       ns,
@@ -3399,7 +3419,7 @@ export const DBClusterOptionGroupMemberships = /*@__PURE__*/ S.Array(
   }),
 );
 export type UpgradeRolloutOrder = "first" | "second" | "last" | (string & {});
-export const UpgradeRolloutOrder = /*@__PURE__*/ S.String;
+export const UpgradeRolloutOrder = S.String;
 
 export type ReadReplicaIdentifierList = string[];
 export const ReadReplicaIdentifierList = /*@__PURE__*/ S.Array(
@@ -3544,7 +3564,7 @@ export const ScalingConfigurationInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "ScalingConfigurationInfo",
 }) as any as S.Schema<ScalingConfigurationInfo>;
 export type ActivityStreamMode = "sync" | "async" | (string & {});
-export const ActivityStreamMode = /*@__PURE__*/ S.String;
+export const ActivityStreamMode = S.String;
 
 export type ActivityStreamStatus =
   | "stopped"
@@ -3552,7 +3572,7 @@ export type ActivityStreamStatus =
   | "started"
   | "stopping"
   | (string & {});
-export const ActivityStreamStatus = /*@__PURE__*/ S.String;
+export const ActivityStreamStatus = S.String;
 
 export interface DomainMembership {
   Domain?: string;
@@ -3589,7 +3609,7 @@ export type WriteForwardingStatus =
   | "disabling"
   | "unknown"
   | (string & {});
-export const WriteForwardingStatus = /*@__PURE__*/ S.String;
+export const WriteForwardingStatus = S.String;
 
 export interface ServerlessV2ScalingConfigurationInfo {
   MinCapacity?: number;
@@ -3627,7 +3647,7 @@ export type LocalWriteForwardingStatus =
   | "disabling"
   | "requested"
   | (string & {});
-export const LocalWriteForwardingStatus = /*@__PURE__*/ S.String;
+export const LocalWriteForwardingStatus = S.String;
 
 export type LimitlessDatabaseStatus =
   | "active"
@@ -3639,7 +3659,7 @@ export type LimitlessDatabaseStatus =
   | "modifying-max-capacity"
   | "error"
   | (string & {});
-export const LimitlessDatabaseStatus = /*@__PURE__*/ S.String;
+export const LimitlessDatabaseStatus = S.String;
 
 export interface LimitlessDatabase {
   Status?: LimitlessDatabaseStatus;
@@ -4225,7 +4245,7 @@ export const DBSubnetGroup = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "DBSubnetGroup" }) as any as S.Schema<DBSubnetGroup>;
 export type AutomationMode = "full" | "all-paused" | (string & {});
-export const AutomationMode = /*@__PURE__*/ S.String;
+export const AutomationMode = S.String;
 
 export interface PendingModifiedValues {
   DBInstanceClass?: string;
@@ -4370,11 +4390,13 @@ export type ActivityStreamPolicyStatus =
   | "locking-policy"
   | "unlocking-policy"
   | (string & {});
-export const ActivityStreamPolicyStatus = /*@__PURE__*/ S.String;
+export const ActivityStreamPolicyStatus = S.String;
 
 export interface AdditionalStorageVolumeOutput {
   VolumeName?: string;
   StorageVolumeStatus?: string;
+  StorageOperationStatus?: string;
+  StorageOperationPercentProgress?: number;
   AllocatedStorage?: number;
   IOPS?: number;
   MaxAllocatedStorage?: number;
@@ -4385,6 +4407,8 @@ export const AdditionalStorageVolumeOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     VolumeName: S.optional(S.String),
     StorageVolumeStatus: S.optional(S.String),
+    StorageOperationStatus: S.optional(S.String),
+    StorageOperationPercentProgress: S.optional(S.Number),
     AllocatedStorage: S.optional(S.Number),
     IOPS: S.optional(S.Number),
     MaxAllocatedStorage: S.optional(S.Number),
@@ -4491,6 +4515,8 @@ export interface DBInstance {
   EngineLifecycleSupport?: string;
   AdditionalStorageVolumes?: AdditionalStorageVolumeOutput[];
   StorageVolumeStatus?: string;
+  StorageOperationStatus?: string;
+  StorageOperationPercentProgress?: number;
 }
 export const DBInstance = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4599,6 +4625,8 @@ export const DBInstance = /*@__PURE__*/ S.suspend(() =>
     EngineLifecycleSupport: S.optional(S.String),
     AdditionalStorageVolumes: S.optional(AdditionalStorageVolumesOutputList),
     StorageVolumeStatus: S.optional(S.String),
+    StorageOperationStatus: S.optional(S.String),
+    StorageOperationPercentProgress: S.optional(S.Number),
   }),
 ).annotate({ identifier: "DBInstance" }) as any as S.Schema<DBInstance>;
 export interface CreateDBInstanceResult {
@@ -4781,18 +4809,18 @@ export const CreateDBParameterGroupResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateDBParameterGroupResult>;
 export type DBProxyName = string;
 export type EngineFamily = "MYSQL" | "POSTGRESQL" | "SQLSERVER" | (string & {});
-export const EngineFamily = /*@__PURE__*/ S.String;
+export const EngineFamily = S.String;
 
 export type DefaultAuthScheme = "IAM_AUTH" | "NONE" | (string & {});
-export const DefaultAuthScheme = /*@__PURE__*/ S.String;
+export const DefaultAuthScheme = S.String;
 
 export type AuthUserName = string;
 export type AuthScheme = "SECRETS" | (string & {});
-export const AuthScheme = /*@__PURE__*/ S.String;
+export const AuthScheme = S.String;
 
 export type Arn = string;
 export type IAMAuthMode = "DISABLED" | "REQUIRED" | "ENABLED" | (string & {});
-export const IAMAuthMode = /*@__PURE__*/ S.String;
+export const IAMAuthMode = S.String;
 
 export type ClientPasswordAuthType =
   | "MYSQL_NATIVE_PASSWORD"
@@ -4801,7 +4829,7 @@ export type ClientPasswordAuthType =
   | "POSTGRES_MD5"
   | "SQL_SERVER_AUTHENTICATION"
   | (string & {});
-export const ClientPasswordAuthType = /*@__PURE__*/ S.String;
+export const ClientPasswordAuthType = S.String;
 
 export interface UserAuthConfig {
   Description?: string;
@@ -4824,10 +4852,10 @@ export const UserAuthConfig = /*@__PURE__*/ S.suspend(() =>
 export type UserAuthConfigList = UserAuthConfig[];
 export const UserAuthConfigList = /*@__PURE__*/ S.Array(UserAuthConfig);
 export type EndpointNetworkType = "IPV4" | "IPV6" | "DUAL" | (string & {});
-export const EndpointNetworkType = /*@__PURE__*/ S.String;
+export const EndpointNetworkType = S.String;
 
 export type TargetConnectionNetworkType = "IPV4" | "IPV6" | (string & {});
-export const TargetConnectionNetworkType = /*@__PURE__*/ S.String;
+export const TargetConnectionNetworkType = S.String;
 
 export interface CreateDBProxyRequest {
   DBProxyName?: string;
@@ -4884,7 +4912,7 @@ export type DBProxyStatus =
   | "suspending"
   | "reactivating"
   | (string & {});
-export const DBProxyStatus = /*@__PURE__*/ S.String;
+export const DBProxyStatus = S.String;
 
 export interface UserAuthConfigInfo {
   Description?: string;
@@ -4967,7 +4995,7 @@ export type DBProxyEndpointTargetRole =
   | "READ_WRITE"
   | "READ_ONLY"
   | (string & {});
-export const DBProxyEndpointTargetRole = /*@__PURE__*/ S.String;
+export const DBProxyEndpointTargetRole = S.String;
 
 export interface CreateDBProxyEndpointRequest {
   DBProxyName?: string;
@@ -5009,7 +5037,7 @@ export type DBProxyEndpointStatus =
   | "creating"
   | "deleting"
   | (string & {});
-export const DBProxyEndpointStatus = /*@__PURE__*/ S.String;
+export const DBProxyEndpointStatus = S.String;
 
 export interface DBProxyEndpoint {
   DBProxyEndpointName?: string;
@@ -5302,7 +5330,7 @@ export type GlobalClusterMemberSynchronizationStatus =
   | "connected"
   | "pending-resync"
   | (string & {});
-export const GlobalClusterMemberSynchronizationStatus = /*@__PURE__*/ S.String;
+export const GlobalClusterMemberSynchronizationStatus = S.String;
 
 export interface GlobalClusterMember {
   DBClusterArn?: string;
@@ -5333,7 +5361,7 @@ export type FailoverStatus =
   | "failing-over"
   | "cancelling"
   | (string & {});
-export const FailoverStatus = /*@__PURE__*/ S.String;
+export const FailoverStatus = S.String;
 
 export interface FailoverState {
   Status?: FailoverStatus;
@@ -5446,7 +5474,7 @@ export type IntegrationStatus =
   | "syncing"
   | "needs_attention"
   | (string & {});
-export const IntegrationStatus = /*@__PURE__*/ S.String;
+export const IntegrationStatus = S.String;
 
 export interface IntegrationError {
   ErrorCode?: string;
@@ -6773,7 +6801,7 @@ export const DescribeDBClusterParametersMessage = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeDBClusterParametersMessage>;
 export type PotentiallySensitiveParameterValue = string;
 export type ApplyMethod = "immediate" | "pending-reboot" | (string & {});
-export const ApplyMethod = /*@__PURE__*/ S.String;
+export const ApplyMethod = S.String;
 
 export interface Parameter {
   ParameterName?: string;
@@ -7240,7 +7268,7 @@ export type LifecycleSupportName =
   | "open-source-rds-standard-support"
   | "open-source-rds-extended-support"
   | (string & {});
-export const LifecycleSupportName = /*@__PURE__*/ S.String;
+export const LifecycleSupportName = S.String;
 
 export interface SupportedEngineLifecycle {
   LifecycleSupportName?: LifecycleSupportName;
@@ -7593,10 +7621,10 @@ export type TargetType =
   | "RDS_SERVERLESS_ENDPOINT"
   | "TRACKED_CLUSTER"
   | (string & {});
-export const TargetType = /*@__PURE__*/ S.String;
+export const TargetType = S.String;
 
 export type TargetRole = "READ_WRITE" | "READ_ONLY" | "UNKNOWN" | (string & {});
-export const TargetRole = /*@__PURE__*/ S.String;
+export const TargetRole = S.String;
 
 export type TargetState =
   | "REGISTERING"
@@ -7604,7 +7632,7 @@ export type TargetState =
   | "UNAVAILABLE"
   | "UNUSED"
   | (string & {});
-export const TargetState = /*@__PURE__*/ S.String;
+export const TargetState = S.String;
 
 export type TargetHealthReason =
   | "UNREACHABLE"
@@ -7614,7 +7642,7 @@ export type TargetHealthReason =
   | "INVALID_REPLICATION_STATE"
   | "PROMOTED"
   | (string & {});
-export const TargetHealthReason = /*@__PURE__*/ S.String;
+export const TargetHealthReason = S.String;
 
 export interface TargetHealth {
   State?: TargetState;
@@ -8411,7 +8439,7 @@ export type SourceType =
   | "db-shard-group"
   | "zero-etl"
   | (string & {});
-export const SourceType = /*@__PURE__*/ S.String;
+export const SourceType = S.String;
 
 export interface DescribeEventsMessage {
   SourceIdentifier?: string;
@@ -9827,7 +9855,7 @@ export const TagListMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
 ).annotate({ identifier: "TagListMessage" }) as any as S.Schema<TagListMessage>;
 export type AuditPolicyState = "locked" | "unlocked" | (string & {});
-export const AuditPolicyState = /*@__PURE__*/ S.String;
+export const AuditPolicyState = S.String;
 
 export interface ModifyActivityStreamRequest {
   ResourceArn?: string;
@@ -9951,7 +9979,7 @@ export type CustomEngineVersionStatus =
   | "inactive"
   | "inactive-except-restore"
   | (string & {});
-export const CustomEngineVersionStatus = /*@__PURE__*/ S.String;
+export const CustomEngineVersionStatus = S.String;
 
 export interface ModifyCustomDBEngineVersionMessage {
   Engine?: string;
@@ -10040,6 +10068,7 @@ export interface ModifyDBClusterMessage {
   EnableLimitlessDatabase?: boolean;
   CACertificateIdentifier?: string;
   MasterUserAuthenticationType?: MasterUserAuthenticationType;
+  EngineLifecycleSupport?: string;
 }
 export const ModifyDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10094,6 +10123,7 @@ export const ModifyDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
     EnableLimitlessDatabase: S.optional(S.Boolean),
     CACertificateIdentifier: S.optional(S.String),
     MasterUserAuthenticationType: S.optional(MasterUserAuthenticationType),
+    EngineLifecycleSupport: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -10305,6 +10335,7 @@ export interface ModifyDBInstanceMessage {
   AdditionalStorageVolumes?: ModifyAdditionalStorageVolume[];
   TagSpecifications?: TagSpecification[];
   MasterUserAuthenticationType?: MasterUserAuthenticationType;
+  EngineLifecycleSupport?: string;
 }
 export const ModifyDBInstanceMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10374,6 +10405,7 @@ export const ModifyDBInstanceMessage = /*@__PURE__*/ S.suspend(() =>
     AdditionalStorageVolumes: S.optional(ModifyAdditionalStorageVolumesList),
     TagSpecifications: S.optional(TagSpecificationList),
     MasterUserAuthenticationType: S.optional(MasterUserAuthenticationType),
+    EngineLifecycleSupport: S.optional(S.String),
   }).pipe(
     T.all(
       ns,
@@ -11398,6 +11430,7 @@ export interface RestoreDBClusterFromS3Message {
   MasterUserSecretKmsKeyId?: string;
   EngineLifecycleSupport?: string;
   TagSpecifications?: TagSpecification[];
+  AssociatedRoles?: DBClusterAssociatedRole[];
 }
 export const RestoreDBClusterFromS3Message = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11441,6 +11474,7 @@ export const RestoreDBClusterFromS3Message = /*@__PURE__*/ S.suspend(() =>
     MasterUserSecretKmsKeyId: S.optional(S.String),
     EngineLifecycleSupport: S.optional(S.String),
     TagSpecifications: S.optional(TagSpecificationList),
+    AssociatedRoles: S.optional(DBClusterAssociatedRoles),
   }).pipe(
     T.all(
       ns,
@@ -11504,6 +11538,7 @@ export interface RestoreDBClusterFromSnapshotMessage {
   TagSpecifications?: TagSpecification[];
   EnableVPCNetworking?: boolean;
   EnableInternetAccessGateway?: boolean;
+  AssociatedRoles?: DBClusterAssociatedRole[];
 }
 export const RestoreDBClusterFromSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11549,6 +11584,7 @@ export const RestoreDBClusterFromSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
     TagSpecifications: S.optional(TagSpecificationList),
     EnableVPCNetworking: S.optional(S.Boolean),
     EnableInternetAccessGateway: S.optional(S.Boolean),
+    AssociatedRoles: S.optional(DBClusterAssociatedRoles),
   }).pipe(
     T.all(
       ns,
@@ -11612,6 +11648,7 @@ export interface RestoreDBClusterToPointInTimeMessage {
   TagSpecifications?: TagSpecification[];
   EnableVPCNetworking?: boolean;
   EnableInternetAccessGateway?: boolean;
+  AssociatedRoles?: DBClusterAssociatedRole[];
 }
 export const RestoreDBClusterToPointInTimeMessage = /*@__PURE__*/ S.suspend(
   () =>
@@ -11660,6 +11697,7 @@ export const RestoreDBClusterToPointInTimeMessage = /*@__PURE__*/ S.suspend(
       TagSpecifications: S.optional(TagSpecificationList),
       EnableVPCNetworking: S.optional(S.Boolean),
       EnableInternetAccessGateway: S.optional(S.Boolean),
+      AssociatedRoles: S.optional(DBClusterAssociatedRoles),
     }).pipe(
       T.all(
         ns,
@@ -13032,6 +13070,7 @@ export type CreateDBClusterError =
   | DBClusterNotFoundFault
   | DBClusterParameterGroupNotFoundFault
   | DBClusterQuotaExceededFault
+  | DBClusterRoleQuotaExceededFault
   | DBInstanceNotFoundFault
   | DBSubnetGroupDoesNotCoverEnoughAZs
   | DBSubnetGroupNotFoundFault
@@ -13065,6 +13104,8 @@ export type CreateDBClusterError =
  * You can also use the `ReplicationSourceIdentifier` parameter to create a Multi-AZ DB cluster read replica with an RDS for MySQL or PostgreSQL DB instance as the source. For more information about Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  *
  * You can use the `WithExpressConfiguration` parameter to create an Aurora DB Cluster with express configuration and create cluster in seconds. Express configuration provides a cluster with a writer instance and feature specific values set to all other input parameters of this API.
+ *
+ * You can use the `AssociatedRoles` parameter to associate one or more Amazon Web Services Identity and Access Management (IAM) roles with an Aurora DB cluster. Each associated role lets the DB cluster access other Amazon Web Services on your behalf, such as Amazon S3 for data import and export, or Amazon Web Services Lambda for invoking functions.
  */
 export const createDBCluster: API.OperationMethod<
   CreateDBClusterMessage,
@@ -13079,6 +13120,7 @@ export const createDBCluster: API.OperationMethod<
     DBClusterNotFoundFault,
     DBClusterParameterGroupNotFoundFault,
     DBClusterQuotaExceededFault,
+    DBClusterRoleQuotaExceededFault,
     DBInstanceNotFoundFault,
     DBSubnetGroupDoesNotCoverEnoughAZs,
     DBSubnetGroupNotFoundFault,
@@ -14638,7 +14680,9 @@ export const describeDBClusterSnapshots: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDBEngineVersionsError = CommonErrors;
+export type DescribeDBEngineVersionsError =
+  | InvalidParameterCombination
+  | CommonErrors;
 /**
  * Describes the properties of specific versions of DB engines.
  */
@@ -14651,7 +14695,7 @@ export const describeDBEngineVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeDBEngineVersionsMessage,
   output: DBEngineVersionMessage,
-  errors: [],
+  errors: [InvalidParameterCombination],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBEngineVersions",
@@ -16966,6 +17010,7 @@ export type RestoreDBClusterFromS3Error =
   | DBClusterNotFoundFault
   | DBClusterParameterGroupNotFoundFault
   | DBClusterQuotaExceededFault
+  | DBClusterRoleQuotaExceededFault
   | DBSubnetGroupNotFoundFault
   | DomainNotFoundFault
   | InsufficientStorageClusterCapacityFault
@@ -16987,6 +17032,8 @@ export type RestoreDBClusterFromS3Error =
  * For more information on Amazon Aurora, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
  *
  * This operation only applies to Aurora DB clusters. The source DB engine must be MySQL.
+ *
+ * You can use the `AssociatedRoles` parameter to associate one or more Amazon Web Services Identity and Access Management (IAM) roles with the Aurora DB cluster when you restore it from Amazon S3.
  */
 export const restoreDBClusterFromS3: API.OperationMethod<
   RestoreDBClusterFromS3Message,
@@ -17001,6 +17048,7 @@ export const restoreDBClusterFromS3: API.OperationMethod<
     DBClusterNotFoundFault,
     DBClusterParameterGroupNotFoundFault,
     DBClusterQuotaExceededFault,
+    DBClusterRoleQuotaExceededFault,
     DBSubnetGroupNotFoundFault,
     DomainNotFoundFault,
     InsufficientStorageClusterCapacityFault,
@@ -17023,6 +17071,7 @@ export type RestoreDBClusterFromSnapshotError =
   | DBClusterAlreadyExistsFault
   | DBClusterParameterGroupNotFoundFault
   | DBClusterQuotaExceededFault
+  | DBClusterRoleQuotaExceededFault
   | DBClusterSnapshotNotFoundFault
   | DBSnapshotNotFoundFault
   | DBSubnetGroupDoesNotCoverEnoughAZs
@@ -17051,6 +17100,8 @@ export type RestoreDBClusterFromSnapshotError =
  *
  * You can use the `EnableVPCNetworking` and `EnableInternetAccessGateway` parameters together to restore an Aurora PostgreSQL cluster without VPC networking and with internet-based connectivity. These two parameters must always be specified together. Set `EnableVPCNetworking` to `false` to disable the VPC network interface (ENI) for the cluster. `EnableInternetAccessGateway` enables internet-based connectivity through an internet access gateway. IAM database authentication is required and must be enabled using `EnableIAMDatabaseAuthentication`. Once the cluster is restored, you need to modify the DB cluster to update `MasterUserAuthenticationType` to `iam-db-auth`.
  *
+ * You can use the `AssociatedRoles` parameter to associate one or more Amazon Web Services Identity and Access Management (IAM) roles with an Aurora DB cluster when you restore it from a snapshot.
+ *
  * This operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the `CreateDBInstance` operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in `DBClusterIdentifier`. You can create DB instances only after the `RestoreDBClusterFromSnapshot` operation has completed and the DB cluster is available.
  *
  * For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
@@ -17069,6 +17120,7 @@ export const restoreDBClusterFromSnapshot: API.OperationMethod<
     DBClusterAlreadyExistsFault,
     DBClusterParameterGroupNotFoundFault,
     DBClusterQuotaExceededFault,
+    DBClusterRoleQuotaExceededFault,
     DBClusterSnapshotNotFoundFault,
     DBSnapshotNotFoundFault,
     DBSubnetGroupDoesNotCoverEnoughAZs,
@@ -17101,6 +17153,7 @@ export type RestoreDBClusterToPointInTimeError =
   | DBClusterNotFoundFault
   | DBClusterParameterGroupNotFoundFault
   | DBClusterQuotaExceededFault
+  | DBClusterRoleQuotaExceededFault
   | DBClusterSnapshotNotFoundFault
   | DBSubnetGroupNotFoundFault
   | DomainNotFoundFault
@@ -17125,6 +17178,8 @@ export type RestoreDBClusterToPointInTimeError =
  *
  * You can use the `EnableVPCNetworking` and `EnableInternetAccessGateway` parameters together to restore an Aurora PostgreSQL cluster without VPC networking and with internet-based connectivity. These two parameters must always be specified together. Set `EnableVPCNetworking` to `false` to disable the VPC network interface (ENI) for the cluster. `EnableInternetAccessGateway` enables internet-based connectivity through an internet access gateway. IAM database authentication is required and must be enabled using `EnableIAMDatabaseAuthentication`. Once the cluster is restored, you need to modify the DB cluster to update `MasterUserAuthenticationType` to `iam-db-auth`.
  *
+ * You can use the `AssociatedRoles` parameter to associate one or more Amazon Web Services Identity and Access Management (IAM) roles with an Aurora DB cluster when you restore it to a point in time.
+ *
  * For Aurora, this operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the `CreateDBInstance` operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in `DBClusterIdentifier`. You can create DB instances only after the `RestoreDBClusterToPointInTime` operation has completed and the DB cluster is available.
  *
  * For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
@@ -17145,6 +17200,7 @@ export const restoreDBClusterToPointInTime: API.OperationMethod<
     DBClusterNotFoundFault,
     DBClusterParameterGroupNotFoundFault,
     DBClusterQuotaExceededFault,
+    DBClusterRoleQuotaExceededFault,
     DBClusterSnapshotNotFoundFault,
     DBSubnetGroupNotFoundFault,
     DomainNotFoundFault,

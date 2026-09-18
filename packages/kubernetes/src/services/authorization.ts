@@ -431,8 +431,8 @@ export const IoK8sApiAuthorizationV1SubjectAccessReviewSpec =
 
 /** SubjectAccessReviewStatus */
 export interface IoK8sApiAuthorizationV1SubjectAccessReviewStatus {
-  /** allowed is required. True if the action would be allowed, false otherwise. */
-  allowed: boolean;
+  /** allowed is set to true if the action is allowed, and should be set to false otherwise. */
+  allowed?: boolean;
   /** denied is optional. True if the action would be denied, otherwise false. If both allowed is false and denied is false, then the authorizer has no opinion on whether to authorize the action. Denied may not be true if Allowed is true. */
   denied?: boolean;
   /** evaluationError is an indication that some error occurred during the authorization check. It is entirely possible to get an error and be able to continue determine authorization status in spite of it. For instance, RBAC can be missing a role, but enough roles are still present and bound to reason about the request. */
@@ -443,7 +443,7 @@ export interface IoK8sApiAuthorizationV1SubjectAccessReviewStatus {
 export const IoK8sApiAuthorizationV1SubjectAccessReviewStatus =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      allowed: S.Boolean,
+      allowed: S.optional(S.Boolean),
       denied: S.optional(S.Boolean),
       evaluationError: S.optional(S.String),
       reason: S.optional(S.String),
@@ -616,12 +616,12 @@ export const IoK8sApiAuthorizationV1SelfSubjectAccessReview =
 /** SelfSubjectRulesReviewSpec defines the specification for SelfSubjectRulesReview. */
 export interface IoK8sApiAuthorizationV1SelfSubjectRulesReviewSpec {
   /** namespace to evaluate rules for. Required. */
-  namespace?: string;
+  namespace: string;
 }
 export const IoK8sApiAuthorizationV1SelfSubjectRulesReviewSpec =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      namespace: S.optional(S.String),
+      namespace: S.String,
     }),
   ).annotate({
     identifier: "IoK8sApiAuthorizationV1SelfSubjectRulesReviewSpec",
@@ -647,7 +647,7 @@ export interface IoK8sApiAuthorizationV1NonResourceRule {
   /** nonResourceURLs is a set of partial urls that a user should have access to. *s are allowed, but only as the full, final step in the path. "*" means all. */
   nonResourceURLs?: IoK8sApiAuthorizationV1NonResourceRuleNonResourceURLsList;
   /** verbs is a list of kubernetes non-resource API verbs, like: get, post, put, delete, patch, head, options. "*" means all. */
-  verbs: IoK8sApiAuthorizationV1NonResourceRuleVerbsList;
+  verbs?: IoK8sApiAuthorizationV1NonResourceRuleVerbsList;
 }
 export const IoK8sApiAuthorizationV1NonResourceRule = /*@__PURE__*/ S.suspend(
   () =>
@@ -655,7 +655,7 @@ export const IoK8sApiAuthorizationV1NonResourceRule = /*@__PURE__*/ S.suspend(
       nonResourceURLs: S.optional(
         IoK8sApiAuthorizationV1NonResourceRuleNonResourceURLsList,
       ),
-      verbs: IoK8sApiAuthorizationV1NonResourceRuleVerbsList,
+      verbs: S.optional(IoK8sApiAuthorizationV1NonResourceRuleVerbsList),
     }),
 ).annotate({
   identifier: "IoK8sApiAuthorizationV1NonResourceRule",
@@ -707,7 +707,7 @@ export interface IoK8sApiAuthorizationV1ResourceRule {
   /** resources is a list of resources this rule applies to. "*" means all in the specified apiGroups. "*\/foo" represents the subresource 'foo' for all resources in the specified apiGroups. */
   resources?: IoK8sApiAuthorizationV1ResourceRuleResourcesList;
   /** verbs is a list of kubernetes resource API verbs, like: get, list, watch, create, update, delete, proxy. "*" means all. */
-  verbs: IoK8sApiAuthorizationV1ResourceRuleVerbsList;
+  verbs?: IoK8sApiAuthorizationV1ResourceRuleVerbsList;
 }
 export const IoK8sApiAuthorizationV1ResourceRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -716,7 +716,7 @@ export const IoK8sApiAuthorizationV1ResourceRule = /*@__PURE__*/ S.suspend(() =>
       IoK8sApiAuthorizationV1ResourceRuleResourceNamesList,
     ),
     resources: S.optional(IoK8sApiAuthorizationV1ResourceRuleResourcesList),
-    verbs: IoK8sApiAuthorizationV1ResourceRuleVerbsList,
+    verbs: S.optional(IoK8sApiAuthorizationV1ResourceRuleVerbsList),
   }),
 ).annotate({
   identifier: "IoK8sApiAuthorizationV1ResourceRule",
@@ -735,21 +735,23 @@ export interface IoK8sApiAuthorizationV1SubjectRulesReviewStatus {
   /** evaluationError can appear in combination with Rules. It indicates an error occurred during rule evaluation, such as an authorizer that doesn't support rule evaluation, and that ResourceRules and/or NonResourceRules may be incomplete. */
   evaluationError?: string;
   /** incomplete is true when the rules returned by this call are incomplete. This is most commonly encountered when an authorizer, such as an external authorizer, doesn't support rules evaluation. */
-  incomplete: boolean;
+  incomplete?: boolean;
   /** nonResourceRules is the list of actions the subject is allowed to perform on non-resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete. */
-  nonResourceRules: IoK8sApiAuthorizationV1SubjectRulesReviewStatusNonResourceRulesList;
+  nonResourceRules?: IoK8sApiAuthorizationV1SubjectRulesReviewStatusNonResourceRulesList;
   /** resourceRules is the list of actions the subject is allowed to perform on resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete. */
-  resourceRules: IoK8sApiAuthorizationV1SubjectRulesReviewStatusResourceRulesList;
+  resourceRules?: IoK8sApiAuthorizationV1SubjectRulesReviewStatusResourceRulesList;
 }
 export const IoK8sApiAuthorizationV1SubjectRulesReviewStatus =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       evaluationError: S.optional(S.String),
-      incomplete: S.Boolean,
-      nonResourceRules:
+      incomplete: S.optional(S.Boolean),
+      nonResourceRules: S.optional(
         IoK8sApiAuthorizationV1SubjectRulesReviewStatusNonResourceRulesList,
-      resourceRules:
+      ),
+      resourceRules: S.optional(
         IoK8sApiAuthorizationV1SubjectRulesReviewStatusResourceRulesList,
+      ),
     }),
   ).annotate({
     identifier: "IoK8sApiAuthorizationV1SubjectRulesReviewStatus",

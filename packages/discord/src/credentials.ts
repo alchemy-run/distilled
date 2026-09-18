@@ -43,13 +43,13 @@ export class Credentials extends Context.Service<
 const envConfig = EffectConfig.all({
   // DISCORD_BOT_TOKEN is the spelling discord.js and most hosting platforms
   // use; DISCORD_TOKEN is the fallback.
-  token: EffectConfig.string("DISCORD_BOT_TOKEN").pipe(
-    EffectConfig.orElse(() => EffectConfig.string("DISCORD_TOKEN")),
+  token: EffectConfig.String("DISCORD_BOT_TOKEN").pipe(
+    EffectConfig.orElse(() => EffectConfig.String("DISCORD_TOKEN")),
   ),
-  tokenType: EffectConfig.string("DISCORD_TOKEN_TYPE").pipe(
+  tokenType: EffectConfig.String("DISCORD_TOKEN_TYPE").pipe(
     EffectConfig.withDefault("Bot"),
   ),
-  apiBaseUrl: EffectConfig.string("DISCORD_API_URL").pipe(
+  apiBaseUrl: EffectConfig.String("DISCORD_API_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
 });

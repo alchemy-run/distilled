@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.huggingface.repos#DuplicateRepositoryRequestRepoType": {
@@ -463,6 +464,13 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "filesCopyPending": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the repo's LFS/Xet files are still being copied in the background; poll `…/duplicate/status`",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -484,6 +492,103 @@
           "code": 200
         },
         "smithy.api#documentation": "Duplicate a repository"
+      }
+    },
+    "com.huggingface.repos#DuplicationStatusRequestRepoType": {
+      "type": "enum",
+      "members": {
+        "MODELS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "models"
+          }
+        },
+        "DATASETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "datasets"
+          }
+        },
+        "SPACES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spaces"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.repos#DuplicationStatusRequest": {
+      "type": "structure",
+      "members": {
+        "repoType": {
+          "target": "com.huggingface.repos#DuplicationStatusRequestRepoType",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.repos#DuplicationStatusResponse": {
+      "type": "structure",
+      "members": {
+        "pending": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True while the LFS/Xet files are still being copied",
+            "smithy.api#required": {}
+          }
+        },
+        "filesTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of LFS/Xet files the duplicate references"
+          }
+        },
+        "filesCopied": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of files copied so far"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.huggingface.repos#DuplicationStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.repos#DuplicationStatusRequest"
+      },
+      "output": {
+        "target": "com.huggingface.repos#DuplicationStatusResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/{repoType}/{namespace}/{repo}/duplicate/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "Duplication status"
       }
     },
     "com.huggingface.repos#CreateNewRepositoryRequestRegion": {
@@ -1586,6 +1691,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "filesCopyPending": {
+          "target": "smithy.api#Boolean"
         }
       },
       "traits": {
@@ -1709,6 +1817,9 @@
       "operations": [
         {
           "target": "com.huggingface.repos#DuplicateRepository"
+        },
+        {
+          "target": "com.huggingface.repos#DuplicationStatus"
         },
         {
           "target": "com.huggingface.repos#CreateNewRepository"

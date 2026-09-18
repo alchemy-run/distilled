@@ -57,6 +57,211 @@ export class UnprocessableEntity
     [{ status: 422 }],
   ) {}
 
+/** An ordered list of pull request numbers to append to the stack, from the current top upward. */
+export type AddPullRequestStackRequestPullRequestsList = Array<number>;
+export const AddPullRequestStackRequestPullRequestsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<AddPullRequestStackRequestPullRequestsList>;
+
+export interface AddPullRequestStackRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the pull request stack. */
+  stack_number: number;
+  /** An ordered list of pull request numbers to append to the stack, from the current top upward. */
+  pull_requests: AddPullRequestStackRequestPullRequestsList;
+}
+export const AddPullRequestStackRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    stack_number: S.Number.pipe(T.Label()),
+    pull_requests: AddPullRequestStackRequestPullRequestsList,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/repos/{owner}/{repo}/stacks/{stack_number}/add",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "AddPullRequestStackRequest",
+}) as any as S.Schema<AddPullRequestStackRequest>;
+
+export interface AddPullRequestStackResponseBase {
+  ref: string;
+}
+export const AddPullRequestStackResponseBase = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ref: S.String,
+  }),
+).annotate({
+  identifier: "AddPullRequestStackResponseBase",
+}) as any as S.Schema<AddPullRequestStackResponseBase>;
+
+export interface PullRequestStackPullRequestHeadRepo {
+  id: number;
+  url: string;
+  name: string;
+}
+export const PullRequestStackPullRequestHeadRepo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    url: S.String,
+    name: S.String,
+  }),
+).annotate({
+  identifier: "PullRequestStackPullRequestHeadRepo",
+}) as any as S.Schema<PullRequestStackPullRequestHeadRepo>;
+
+export interface PullRequestStackPullRequestHead {
+  ref: string;
+  sha: string;
+  repo: PullRequestStackPullRequestHeadRepo;
+}
+export const PullRequestStackPullRequestHead = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ref: S.String,
+    sha: S.String,
+    repo: PullRequestStackPullRequestHeadRepo,
+  }),
+).annotate({
+  identifier: "PullRequestStackPullRequestHead",
+}) as any as S.Schema<PullRequestStackPullRequestHead>;
+
+export type PullRequestStackPullRequestBaseRepo =
+  PullRequestStackPullRequestHeadRepo;
+export const PullRequestStackPullRequestBaseRepo =
+  PullRequestStackPullRequestHeadRepo;
+
+export type PullRequestStackPullRequestBase = PullRequestStackPullRequestHead;
+export const PullRequestStackPullRequestBase = PullRequestStackPullRequestHead;
+
+export type PullRequestStackPullRequestState = "open" | "closed";
+export const PullRequestStackPullRequestState = S.String;
+
+/** A GitHub user. */
+export interface NullableSimpleUser {
+  name?: string | null;
+  email?: string | null;
+  login: string;
+  id: number;
+  node_id: string;
+  avatar_url: string;
+  gravatar_id: string | null;
+  url: string;
+  html_url: string;
+  followers_url: string;
+  following_url: string;
+  gists_url: string;
+  starred_url: string;
+  subscriptions_url: string;
+  organizations_url: string;
+  repos_url: string;
+  events_url: string;
+  received_events_url: string;
+  type: string;
+  site_admin: boolean;
+  starred_at?: string;
+  user_view_type?: string;
+}
+export const NullableSimpleUser = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.NullOr(S.String)),
+    email: S.optional(S.NullOr(S.String)),
+    login: S.String,
+    id: S.Number,
+    node_id: S.String,
+    avatar_url: S.String,
+    gravatar_id: S.NullOr(S.String),
+    url: S.String,
+    html_url: S.String,
+    followers_url: S.String,
+    following_url: S.String,
+    gists_url: S.String,
+    starred_url: S.String,
+    subscriptions_url: S.String,
+    organizations_url: S.String,
+    repos_url: S.String,
+    events_url: S.String,
+    received_events_url: S.String,
+    type: S.String,
+    site_admin: S.Boolean,
+    starred_at: S.optional(S.String),
+    user_view_type: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "NullableSimpleUser",
+}) as any as S.Schema<NullableSimpleUser>;
+
+export interface PullRequestStackPullRequest {
+  id: number;
+  number: number;
+  url: string;
+  head: PullRequestStackPullRequestHead;
+  base: PullRequestStackPullRequestHead;
+  node_id: string;
+  title: string;
+  state: PullRequestStackPullRequestState;
+  merged_at: string | null;
+  draft: boolean;
+  html_url: string;
+  user: NullableSimpleUser | null;
+}
+export const PullRequestStackPullRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    number: S.Number,
+    url: S.String,
+    head: PullRequestStackPullRequestHead,
+    base: PullRequestStackPullRequestHead,
+    node_id: S.String,
+    title: S.String,
+    state: PullRequestStackPullRequestState,
+    merged_at: S.NullOr(S.String),
+    draft: S.Boolean,
+    html_url: S.String,
+    user: S.NullOr(NullableSimpleUser),
+  }),
+).annotate({
+  identifier: "PullRequestStackPullRequest",
+}) as any as S.Schema<PullRequestStackPullRequest>;
+
+export type AddPullRequestStackResponsePullRequestsList =
+  Array<PullRequestStackPullRequest>;
+export const AddPullRequestStackResponsePullRequestsList =
+  /*@__PURE__*/ S.Array(
+    PullRequestStackPullRequest,
+  ) as any as S.Schema<AddPullRequestStackResponsePullRequestsList>;
+
+export interface AddPullRequestStackResponse {
+  id: number;
+  number: number;
+  node_id: string;
+  url: string;
+  base: AddPullRequestStackResponseBase;
+  /** Whether the stack has any open pull request. False when all pull requests are merged or closed. */
+  open: boolean;
+  created_at: string;
+  pull_requests: AddPullRequestStackResponsePullRequestsList;
+}
+export const AddPullRequestStackResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    number: S.Number,
+    node_id: S.String,
+    url: S.String,
+    base: AddPullRequestStackResponseBase,
+    open: S.Boolean,
+    created_at: S.String,
+    pull_requests: AddPullRequestStackResponsePullRequestsList,
+  }),
+).annotate({
+  identifier: "AddPullRequestStackResponse",
+}) as any as S.Schema<AddPullRequestStackResponse>;
+
 export interface CheckIfMergedRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -129,59 +334,11 @@ export const CreateRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** State of this Pull Request. Either `open` or `closed`. */
 export type PullRequestState = "open" | "closed";
-export const PullRequestState = /*@__PURE__*/ S.String;
+export const PullRequestState = S.String;
 
 /** A GitHub user. */
-export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
-  login: string;
-  id: number;
-  node_id: string;
-  avatar_url: string;
-  gravatar_id: string | null;
-  url: string;
-  html_url: string;
-  followers_url: string;
-  following_url: string;
-  gists_url: string;
-  starred_url: string;
-  subscriptions_url: string;
-  organizations_url: string;
-  repos_url: string;
-  events_url: string;
-  received_events_url: string;
-  type: string;
-  site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
-}
-export const SimpleUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.NullOr(S.String)),
-    email: S.optional(S.NullOr(S.String)),
-    login: S.String,
-    id: S.Number,
-    node_id: S.String,
-    avatar_url: S.String,
-    gravatar_id: S.NullOr(S.String),
-    url: S.String,
-    html_url: S.String,
-    followers_url: S.String,
-    following_url: S.String,
-    gists_url: S.String,
-    starred_url: S.String,
-    subscriptions_url: S.String,
-    organizations_url: S.String,
-    repos_url: S.String,
-    events_url: S.String,
-    received_events_url: S.String,
-    type: S.String,
-    site_admin: S.Boolean,
-    starred_at: S.optional(S.String),
-    user_view_type: S.optional(S.String),
-  }),
-).annotate({ identifier: "SimpleUser" }) as any as S.Schema<SimpleUser>;
+export type SimpleUser = NullableSimpleUser;
+export const SimpleUser = NullableSimpleUser;
 
 export interface PullRequestLabelsItem {
   id: number;
@@ -213,11 +370,7 @@ export const PullRequestLabelsList = /*@__PURE__*/ S.Array(
 
 /** The state of the milestone. */
 export type NullableMilestoneState = "open" | "closed";
-export const NullableMilestoneState = /*@__PURE__*/ S.String;
-
-/** A GitHub user. */
-export type NullableSimpleUser = SimpleUser;
-export const NullableSimpleUser = SimpleUser;
+export const NullableMilestoneState = S.String;
 
 /** A collection of related issues and pull requests. */
 export interface NullableMilestone {
@@ -233,7 +386,7 @@ export interface NullableMilestone {
   /** The title of the milestone. */
   title: string;
   description: string | null;
-  creator: SimpleUser | null;
+  creator: NullableSimpleUser | null;
   open_issues: number;
   closed_issues: number;
   created_at: string;
@@ -252,7 +405,7 @@ export const NullableMilestone = /*@__PURE__*/ S.suspend(() =>
     state: NullableMilestoneState,
     title: S.String,
     description: S.NullOr(S.String),
-    creator: S.NullOr(SimpleUser),
+    creator: S.NullOr(NullableSimpleUser),
     open_issues: S.Number,
     closed_issues: S.Number,
     created_at: S.String,
@@ -264,19 +417,19 @@ export const NullableMilestone = /*@__PURE__*/ S.suspend(() =>
   identifier: "NullableMilestone",
 }) as any as S.Schema<NullableMilestone>;
 
-export type PullRequestAssigneesList = Array<SimpleUser>;
+export type PullRequestAssigneesList = Array<NullableSimpleUser>;
 export const PullRequestAssigneesList = /*@__PURE__*/ S.Array(
-  SimpleUser,
+  NullableSimpleUser,
 ) as any as S.Schema<PullRequestAssigneesList>;
 
-export type PullRequestRequestedReviewersList = Array<SimpleUser>;
+export type PullRequestRequestedReviewersList = Array<NullableSimpleUser>;
 export const PullRequestRequestedReviewersList = /*@__PURE__*/ S.Array(
-  SimpleUser,
+  NullableSimpleUser,
 ) as any as S.Schema<PullRequestRequestedReviewersList>;
 
 /** The ownership type of the team */
 export type TeamSimpleType = "enterprise" | "organization";
-export const TeamSimpleType = /*@__PURE__*/ S.String;
+export const TeamSimpleType = S.String;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface TeamSimple {
@@ -382,28 +535,28 @@ export const RepositoryTopicsList = /*@__PURE__*/ S.Array(
 
 /** The policy controlling who can create pull requests: all or collaborators_only. */
 export type RepositoryPullRequestCreationPolicy = "all" | "collaborators_only";
-export const RepositoryPullRequestCreationPolicy = /*@__PURE__*/ S.String;
+export const RepositoryPullRequestCreationPolicy = S.String;
 
 /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
 export type RepositorySquashMergeCommitTitle =
   | "PR_TITLE"
   | "COMMIT_OR_PR_TITLE";
-export const RepositorySquashMergeCommitTitle = /*@__PURE__*/ S.String;
+export const RepositorySquashMergeCommitTitle = S.String;
 
 /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
 export type RepositorySquashMergeCommitMessage =
   | "PR_BODY"
   | "COMMIT_MESSAGES"
   | "BLANK";
-export const RepositorySquashMergeCommitMessage = /*@__PURE__*/ S.String;
+export const RepositorySquashMergeCommitMessage = S.String;
 
 /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
 export type RepositoryMergeCommitTitle = "PR_TITLE" | "MERGE_MESSAGE";
-export const RepositoryMergeCommitTitle = /*@__PURE__*/ S.String;
+export const RepositoryMergeCommitTitle = S.String;
 
 /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
 export type RepositoryMergeCommitMessage = "PR_BODY" | "PR_TITLE" | "BLANK";
-export const RepositoryMergeCommitMessage = /*@__PURE__*/ S.String;
+export const RepositoryMergeCommitMessage = S.String;
 
 /** The status of the code search index for this repository */
 export interface RepositoryCodeSearchIndexStatus {
@@ -430,7 +583,7 @@ export interface Repository {
   license: NullableLicenseSimple | null;
   forks: number;
   permissions?: RepositoryPermissions;
-  owner: SimpleUser;
+  owner: NullableSimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
   html_url: string;
@@ -560,7 +713,7 @@ export const Repository = /*@__PURE__*/ S.suspend(() =>
     license: S.NullOr(NullableLicenseSimple),
     forks: S.Number,
     permissions: S.optional(RepositoryPermissions),
-    owner: SimpleUser,
+    owner: NullableSimpleUser,
     private: S.Boolean,
     html_url: S.String,
     description: S.NullOr(S.String),
@@ -661,7 +814,7 @@ export interface PullRequestHead {
   ref: string;
   repo: Repository;
   sha: string;
-  user: SimpleUser;
+  user: NullableSimpleUser;
 }
 export const PullRequestHead = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -669,7 +822,7 @@ export const PullRequestHead = /*@__PURE__*/ S.suspend(() =>
     ref: S.String,
     repo: Repository,
     sha: S.String,
-    user: SimpleUser,
+    user: NullableSimpleUser,
   }),
 ).annotate({
   identifier: "PullRequestHead",
@@ -723,15 +876,15 @@ export type AuthorAssociation =
   | "MEMBER"
   | "NONE"
   | "OWNER";
-export const AuthorAssociation = /*@__PURE__*/ S.String;
+export const AuthorAssociation = S.String;
 
 /** The merge method to use. */
 export type AutoMergeMergeMethod = "merge" | "squash" | "rebase";
-export const AutoMergeMergeMethod = /*@__PURE__*/ S.String;
+export const AutoMergeMergeMethod = S.String;
 
 /** The status of auto merging a pull request. */
 export interface AutoMerge {
-  enabled_by: SimpleUser;
+  enabled_by: NullableSimpleUser;
   /** The merge method to use. */
   merge_method: AutoMergeMergeMethod;
   /** Title for the merge commit message. */
@@ -741,7 +894,7 @@ export interface AutoMerge {
 }
 export const AutoMerge = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled_by: SimpleUser,
+    enabled_by: NullableSimpleUser,
     merge_method: AutoMergeMergeMethod,
     commit_title: S.String,
     commit_message: S.String,
@@ -808,7 +961,7 @@ export interface PullRequest {
   locked: boolean;
   /** The title of the pull request. */
   title: string;
-  user: SimpleUser;
+  user: NullableSimpleUser;
   body: string | null;
   labels: PullRequestLabelsList;
   milestone: NullableMilestone | null;
@@ -818,7 +971,7 @@ export interface PullRequest {
   closed_at: string | null;
   merged_at: string | null;
   merge_commit_sha: string | null;
-  assignee: SimpleUser | null;
+  assignee: NullableSimpleUser | null;
   assignees?: PullRequestAssigneesList;
   requested_reviewers?: PullRequestRequestedReviewersList;
   requested_teams?: PullRequestRequestedTeamsList;
@@ -834,7 +987,7 @@ export interface PullRequest {
   mergeable: boolean | null;
   rebaseable?: boolean | null;
   mergeable_state: string;
-  merged_by: SimpleUser | null;
+  merged_by: NullableSimpleUser | null;
   comments: number;
   review_comments: number;
   /** Indicates whether maintainers can modify the pull request. */
@@ -862,7 +1015,7 @@ export const PullRequest = /*@__PURE__*/ S.suspend(() =>
     state: PullRequestState,
     locked: S.Boolean,
     title: S.String,
-    user: SimpleUser,
+    user: NullableSimpleUser,
     body: S.NullOr(S.String),
     labels: PullRequestLabelsList,
     milestone: S.NullOr(NullableMilestone),
@@ -872,7 +1025,7 @@ export const PullRequest = /*@__PURE__*/ S.suspend(() =>
     closed_at: S.NullOr(S.String),
     merged_at: S.NullOr(S.String),
     merge_commit_sha: S.NullOr(S.String),
-    assignee: S.NullOr(SimpleUser),
+    assignee: S.NullOr(NullableSimpleUser),
     assignees: S.optional(PullRequestAssigneesList),
     requested_reviewers: S.optional(PullRequestRequestedReviewersList),
     requested_teams: S.optional(PullRequestRequestedTeamsList),
@@ -887,7 +1040,7 @@ export const PullRequest = /*@__PURE__*/ S.suspend(() =>
     mergeable: S.NullOr(S.Boolean),
     rebaseable: S.optional(S.NullOr(S.Boolean)),
     mergeable_state: S.String,
-    merged_by: S.NullOr(SimpleUser),
+    merged_by: S.NullOr(NullableSimpleUser),
     comments: S.Number,
     review_comments: S.Number,
     maintainer_can_modify: S.Boolean,
@@ -897,6 +1050,71 @@ export const PullRequest = /*@__PURE__*/ S.suspend(() =>
     changed_files: S.Number,
   }),
 ).annotate({ identifier: "PullRequest" }) as any as S.Schema<PullRequest>;
+
+/** An ordered list of pull request numbers forming the stack from bottom to top. */
+export type CreatePullRequestStackRequestPullRequestsList = Array<number>;
+export const CreatePullRequestStackRequestPullRequestsList =
+  /*@__PURE__*/ S.Array(
+    S.Number,
+  ) as any as S.Schema<CreatePullRequestStackRequestPullRequestsList>;
+
+export interface CreatePullRequestStackRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** An ordered list of pull request numbers forming the stack from bottom to top. */
+  pull_requests: CreatePullRequestStackRequestPullRequestsList;
+}
+export const CreatePullRequestStackRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    pull_requests: CreatePullRequestStackRequestPullRequestsList,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/stacks", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreatePullRequestStackRequest",
+}) as any as S.Schema<CreatePullRequestStackRequest>;
+
+export type CreatePullRequestStackResponseBase =
+  AddPullRequestStackResponseBase;
+export const CreatePullRequestStackResponseBase =
+  AddPullRequestStackResponseBase;
+
+export type CreatePullRequestStackResponsePullRequestsList =
+  Array<PullRequestStackPullRequest>;
+export const CreatePullRequestStackResponsePullRequestsList =
+  /*@__PURE__*/ S.Array(
+    PullRequestStackPullRequest,
+  ) as any as S.Schema<CreatePullRequestStackResponsePullRequestsList>;
+
+export interface CreatePullRequestStackResponse {
+  id: number;
+  number: number;
+  node_id: string;
+  url: string;
+  base: AddPullRequestStackResponseBase;
+  /** Whether the stack has any open pull request. False when all pull requests are merged or closed. */
+  open: boolean;
+  created_at: string;
+  pull_requests: CreatePullRequestStackResponsePullRequestsList;
+}
+export const CreatePullRequestStackResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    number: S.Number,
+    node_id: S.String,
+    url: S.String,
+    base: AddPullRequestStackResponseBase,
+    open: S.Boolean,
+    created_at: S.String,
+    pull_requests: CreatePullRequestStackResponsePullRequestsList,
+  }),
+).annotate({
+  identifier: "CreatePullRequestStackResponse",
+}) as any as S.Schema<CreatePullRequestStackResponse>;
 
 export interface CreateReplyForReviewCommentRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -954,15 +1172,15 @@ export const PullRequestReviewCommentLinks = /*@__PURE__*/ S.suspend(() =>
 
 /** The side of the first line of the range for a multi-line comment. */
 export type PullRequestReviewCommentStartSide = "LEFT" | "RIGHT";
-export const PullRequestReviewCommentStartSide = /*@__PURE__*/ S.String;
+export const PullRequestReviewCommentStartSide = S.String;
 
 /** The side of the diff to which the comment applies. The side of the last line of the range for a multi-line comment */
 export type PullRequestReviewCommentSide = "LEFT" | "RIGHT";
-export const PullRequestReviewCommentSide = /*@__PURE__*/ S.String;
+export const PullRequestReviewCommentSide = S.String;
 
 /** The level at which the comment is targeted, can be a diff line or a file. */
 export type PullRequestReviewCommentSubjectType = "line" | "file";
-export const PullRequestReviewCommentSubjectType = /*@__PURE__*/ S.String;
+export const PullRequestReviewCommentSubjectType = S.String;
 
 export interface ReactionRollup {
   url: string;
@@ -1015,7 +1233,7 @@ export interface PullRequestReviewComment {
   original_commit_id: string;
   /** The comment ID to reply to. */
   in_reply_to_id?: number;
-  user: SimpleUser | null;
+  user: NullableSimpleUser | null;
   /** The text of the comment. */
   body: string;
   created_at: string;
@@ -1057,7 +1275,7 @@ export const PullRequestReviewComment = /*@__PURE__*/ S.suspend(() =>
     commit_id: S.String,
     original_commit_id: S.String,
     in_reply_to_id: S.optional(S.Number),
-    user: S.NullOr(SimpleUser),
+    user: S.NullOr(NullableSimpleUser),
     body: S.String,
     created_at: S.String,
     updated_at: S.String,
@@ -1085,7 +1303,7 @@ export type CreateReviewRequestEvent =
   | "APPROVE"
   | "REQUEST_CHANGES"
   | "COMMENT";
-export const CreateReviewRequestEvent = /*@__PURE__*/ S.String;
+export const CreateReviewRequestEvent = S.String;
 
 export interface CreateReviewRequestCommentsItem {
   /** The relative path to the file that necessitates a review comment. */
@@ -1180,7 +1398,7 @@ export interface PullRequestReview {
   /** Unique identifier of the review */
   id: number;
   node_id: string;
-  user: SimpleUser | null;
+  user: NullableSimpleUser | null;
   /** The text of the review. */
   body: string;
   state: string;
@@ -1198,7 +1416,7 @@ export const PullRequestReview = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number,
     node_id: S.String,
-    user: S.NullOr(SimpleUser),
+    user: S.NullOr(NullableSimpleUser),
     body: S.String,
     state: S.String,
     html_url: S.String,
@@ -1216,15 +1434,15 @@ export const PullRequestReview = /*@__PURE__*/ S.suspend(() =>
 
 /** In a split diff view, the side of the diff that the pull request's changes appear on. Can be `LEFT` or `RIGHT`. Use `LEFT` for deletions that appear in red. Use `RIGHT` for additions that appear in green or unchanged lines that appear in white and are shown for context. For a multi-line comment, side represents whether the last line of the comment range is a deletion or addition. For more information, see "[Diff view options](https://docs.github.com/articles/about-comparing-branches-in-pull-requests#diff-view-options)" in the GitHub Help documentation. */
 export type CreateReviewCommentRequestSide = "LEFT" | "RIGHT";
-export const CreateReviewCommentRequestSide = /*@__PURE__*/ S.String;
+export const CreateReviewCommentRequestSide = S.String;
 
 /** **Required when using multi-line comments unless using `in_reply_to`**. The `start_side` is the starting side of the diff that the comment applies to. Can be `LEFT` or `RIGHT`. To learn more about multi-line comments, see "[Commenting on a pull request](https://docs.github.com/articles/commenting-on-a-pull-request#adding-line-comments-to-a-pull-request)" in the GitHub Help documentation. See `side` in this table for additional context. */
 export type CreateReviewCommentRequestStartSide = "LEFT" | "RIGHT" | "side";
-export const CreateReviewCommentRequestStartSide = /*@__PURE__*/ S.String;
+export const CreateReviewCommentRequestStartSide = S.String;
 
 /** The level at which the comment is targeted. */
 export type CreateReviewCommentRequestSubjectType = "line" | "file";
-export const CreateReviewCommentRequestSubjectType = /*@__PURE__*/ S.String;
+export const CreateReviewCommentRequestSubjectType = S.String;
 
 export interface CreateReviewCommentRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1339,7 +1557,7 @@ export const DeleteReviewCommentResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteReviewCommentResponse>;
 
 export type DismissReviewRequestEvent = "DISMISS";
-export const DismissReviewRequestEvent = /*@__PURE__*/ S.String;
+export const DismissReviewRequestEvent = S.String;
 
 export interface DismissReviewRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1427,22 +1645,20 @@ export type PullRequestMergeAsyncResultStatus =
   | "merged"
   | "enqueued"
   | "failed";
-export const PullRequestMergeAsyncResultStatus = /*@__PURE__*/ S.String;
+export const PullRequestMergeAsyncResultStatus = S.String;
 
 export type PullRequestMergeAsyncResultDetailsCase0MergeMethod =
   | "default"
   | "merge"
   | "squash"
   | "rebase";
-export const PullRequestMergeAsyncResultDetailsCase0MergeMethod =
-  /*@__PURE__*/ S.String;
+export const PullRequestMergeAsyncResultDetailsCase0MergeMethod = S.String;
 
 export type PullRequestMergeAsyncResultDetailsCase0MergeAction =
   | "default"
   | "merge_queue"
   | "direct_merge";
-export const PullRequestMergeAsyncResultDetailsCase0MergeAction =
-  /*@__PURE__*/ S.String;
+export const PullRequestMergeAsyncResultDetailsCase0MergeAction = S.String;
 
 /** When an asynchronous merge request was created or already existed */
 export interface PullRequestMergeAsyncResultDetailsCase0 {
@@ -1499,7 +1715,7 @@ export type PullRequestMergeAsyncResultDetails =
   | PullRequestMergeAsyncResultDetailsCase1
   | PullRequestMergeAsyncResultDetailsCase2;
 export const PullRequestMergeAsyncResultDetails =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<PullRequestMergeAsyncResultDetails>;
+  S.Unknown as any as S.Schema<PullRequestMergeAsyncResultDetails>;
 
 /** Pull Request Merge Async Result */
 export interface PullRequestMergeAsyncResult {
@@ -1514,6 +1730,66 @@ export const PullRequestMergeAsyncResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PullRequestMergeAsyncResult",
 }) as any as S.Schema<PullRequestMergeAsyncResult>;
+
+export interface GetPullRequestStackRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the pull request stack. */
+  stack_number: number;
+}
+export const GetPullRequestStackRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    stack_number: S.Number.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/repos/{owner}/{repo}/stacks/{stack_number}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetPullRequestStackRequest",
+}) as any as S.Schema<GetPullRequestStackRequest>;
+
+export type GetPullRequestStackResponseBase = AddPullRequestStackResponseBase;
+export const GetPullRequestStackResponseBase = AddPullRequestStackResponseBase;
+
+export type GetPullRequestStackResponsePullRequestsList =
+  Array<PullRequestStackPullRequest>;
+export const GetPullRequestStackResponsePullRequestsList =
+  /*@__PURE__*/ S.Array(
+    PullRequestStackPullRequest,
+  ) as any as S.Schema<GetPullRequestStackResponsePullRequestsList>;
+
+export interface GetPullRequestStackResponse {
+  id: number;
+  number: number;
+  node_id: string;
+  url: string;
+  base: AddPullRequestStackResponseBase;
+  /** Whether the stack has any open pull request. False when all pull requests are merged or closed. */
+  open: boolean;
+  created_at: string;
+  pull_requests: GetPullRequestStackResponsePullRequestsList;
+}
+export const GetPullRequestStackResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    number: S.Number,
+    node_id: S.String,
+    url: S.String,
+    base: AddPullRequestStackResponseBase,
+    open: S.Boolean,
+    created_at: S.String,
+    pull_requests: GetPullRequestStackResponsePullRequestsList,
+  }),
+).annotate({
+  identifier: "GetPullRequestStackResponse",
+}) as any as S.Schema<GetPullRequestStackResponse>;
 
 export interface GetReviewRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1567,17 +1843,17 @@ export const GetReviewCommentRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetReviewCommentRequest>;
 
 export type ListRequestState = "open" | "closed" | "all";
-export const ListRequestState = /*@__PURE__*/ S.String;
+export const ListRequestState = S.String;
 
 export type ListRequestSort =
   | "created"
   | "updated"
   | "popularity"
   | "long-running";
-export const ListRequestSort = /*@__PURE__*/ S.String;
+export const ListRequestSort = S.String;
 
 export type ListRequestDirection = "asc" | "desc";
-export const ListRequestDirection = /*@__PURE__*/ S.String;
+export const ListRequestDirection = S.String;
 
 export interface ListRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1643,14 +1919,14 @@ export const PullRequestSimpleLabelsList = /*@__PURE__*/ S.Array(
   PullRequestSimpleLabelsItem,
 ) as any as S.Schema<PullRequestSimpleLabelsList>;
 
-export type PullRequestSimpleAssigneesList = Array<SimpleUser>;
+export type PullRequestSimpleAssigneesList = Array<NullableSimpleUser>;
 export const PullRequestSimpleAssigneesList = /*@__PURE__*/ S.Array(
-  SimpleUser,
+  NullableSimpleUser,
 ) as any as S.Schema<PullRequestSimpleAssigneesList>;
 
-export type PullRequestSimpleRequestedReviewersList = Array<SimpleUser>;
+export type PullRequestSimpleRequestedReviewersList = Array<NullableSimpleUser>;
 export const PullRequestSimpleRequestedReviewersList = /*@__PURE__*/ S.Array(
-  SimpleUser,
+  NullableSimpleUser,
 ) as any as S.Schema<PullRequestSimpleRequestedReviewersList>;
 
 export interface TeamPermissions {
@@ -1674,15 +1950,15 @@ export const TeamPermissions = /*@__PURE__*/ S.suspend(() =>
 
 /** The ownership type of the team */
 export type TeamType = "enterprise" | "organization";
-export const TeamType = /*@__PURE__*/ S.String;
+export const TeamType = S.String;
 
 /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
 export type TeamAccessSource = "direct" | "organization" | "enterprise";
-export const TeamAccessSource = /*@__PURE__*/ S.String;
+export const TeamAccessSource = S.String;
 
 /** The ownership type of the team */
 export type NullableTeamSimpleType = "enterprise" | "organization";
-export const NullableTeamSimpleType = /*@__PURE__*/ S.String;
+export const NullableTeamSimpleType = S.String;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface NullableTeamSimple {
@@ -1795,7 +2071,7 @@ export interface PullRequestSimpleHead {
   ref: string;
   repo: Repository;
   sha: string;
-  user: SimpleUser | null;
+  user: NullableSimpleUser | null;
 }
 export const PullRequestSimpleHead = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1803,7 +2079,7 @@ export const PullRequestSimpleHead = /*@__PURE__*/ S.suspend(() =>
     ref: S.String,
     repo: Repository,
     sha: S.String,
-    user: S.NullOr(SimpleUser),
+    user: S.NullOr(NullableSimpleUser),
   }),
 ).annotate({
   identifier: "PullRequestSimpleHead",
@@ -1833,7 +2109,7 @@ export interface PullRequestSimple {
   state: string;
   locked: boolean;
   title: string;
-  user: SimpleUser | null;
+  user: NullableSimpleUser | null;
   body: string | null;
   labels: PullRequestSimpleLabelsList;
   milestone: NullableMilestone | null;
@@ -1843,7 +2119,7 @@ export interface PullRequestSimple {
   closed_at: string | null;
   merged_at: string | null;
   merge_commit_sha: string | null;
-  assignee: SimpleUser | null;
+  assignee: NullableSimpleUser | null;
   assignees?: PullRequestSimpleAssigneesList;
   requested_reviewers?: PullRequestSimpleRequestedReviewersList;
   requested_teams?: PullRequestSimpleRequestedTeamsList;
@@ -1874,7 +2150,7 @@ export const PullRequestSimple = /*@__PURE__*/ S.suspend(() =>
     state: S.String,
     locked: S.Boolean,
     title: S.String,
-    user: S.NullOr(SimpleUser),
+    user: S.NullOr(NullableSimpleUser),
     body: S.NullOr(S.String),
     labels: PullRequestSimpleLabelsList,
     milestone: S.NullOr(NullableMilestone),
@@ -1884,7 +2160,7 @@ export const PullRequestSimple = /*@__PURE__*/ S.suspend(() =>
     closed_at: S.NullOr(S.String),
     merged_at: S.NullOr(S.String),
     merge_commit_sha: S.NullOr(S.String),
-    assignee: S.NullOr(SimpleUser),
+    assignee: S.NullOr(NullableSimpleUser),
     assignees: S.optional(PullRequestSimpleAssigneesList),
     requested_reviewers: S.optional(PullRequestSimpleRequestedReviewersList),
     requested_teams: S.optional(PullRequestSimpleRequestedTeamsList),
@@ -1948,15 +2224,15 @@ export const ReviewCommentLinks = PullRequestReviewCommentLinks;
 
 /** The side of the first line of the range for a multi-line comment. */
 export type ReviewCommentSide = "LEFT" | "RIGHT";
-export const ReviewCommentSide = /*@__PURE__*/ S.String;
+export const ReviewCommentSide = S.String;
 
 /** The side of the first line of the range for a multi-line comment. */
 export type ReviewCommentStartSide = "LEFT" | "RIGHT";
-export const ReviewCommentStartSide = /*@__PURE__*/ S.String;
+export const ReviewCommentStartSide = S.String;
 
 /** The level at which the comment is targeted, can be a diff line or a file. */
 export type ReviewCommentSubjectType = "line" | "file";
-export const ReviewCommentSubjectType = /*@__PURE__*/ S.String;
+export const ReviewCommentSubjectType = S.String;
 
 /** Legacy Review Comment */
 export interface ReviewComment {
@@ -1971,7 +2247,7 @@ export interface ReviewComment {
   commit_id: string;
   original_commit_id: string;
   in_reply_to_id?: number;
-  user: SimpleUser | null;
+  user: NullableSimpleUser | null;
   body: string;
   created_at: string;
   updated_at: string;
@@ -2010,7 +2286,7 @@ export const ReviewComment = /*@__PURE__*/ S.suspend(() =>
     commit_id: S.String,
     original_commit_id: S.String,
     in_reply_to_id: S.optional(S.Number),
-    user: S.NullOr(SimpleUser),
+    user: S.NullOr(NullableSimpleUser),
     body: S.String,
     created_at: S.String,
     updated_at: S.String,
@@ -2141,13 +2417,11 @@ export const CommitCommit = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "CommitCommit" }) as any as S.Schema<CommitCommit>;
 
-export type CommitAuthor = SimpleUser | unknown;
-export const CommitAuthor =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<CommitAuthor>;
+export type CommitAuthor = NullableSimpleUser | unknown;
+export const CommitAuthor = S.Unknown as any as S.Schema<CommitAuthor>;
 
-export type CommitCommitter = SimpleUser | unknown;
-export const CommitCommitter =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<CommitCommitter>;
+export type CommitCommitter = NullableSimpleUser | unknown;
+export const CommitCommitter = S.Unknown as any as S.Schema<CommitCommitter>;
 
 export interface CommitParentsItem {
   sha: string;
@@ -2190,7 +2464,7 @@ export type DiffEntryStatus =
   | "copied"
   | "changed"
   | "unchanged";
-export const DiffEntryStatus = /*@__PURE__*/ S.String;
+export const DiffEntryStatus = S.String;
 
 /** Diff Entry */
 export interface DiffEntry {
@@ -2311,6 +2585,118 @@ export const ListFilesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListFilesResponse",
 }) as any as S.Schema<ListFilesResponse>;
 
+export interface ListPullRequestStacksRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** Filter to the stack containing this repository pull request number. */
+  pull_request?: number;
+  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  per_page?: number;
+  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  page?: number;
+}
+export const ListPullRequestStacksRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    pull_request: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/stacks", code: 200 }),
+  ),
+).annotate({
+  identifier: "ListPullRequestStacksRequest",
+}) as any as S.Schema<ListPullRequestStacksRequest>;
+
+export type PullRequestStackMinimalBase = AddPullRequestStackResponseBase;
+export const PullRequestStackMinimalBase = AddPullRequestStackResponseBase;
+
+export type PullRequestStackMinimalPullRequestsItemState = "open" | "closed";
+export const PullRequestStackMinimalPullRequestsItemState = S.String;
+
+export interface PullRequestStackMinimalPullRequestsItemHead {
+  ref: string;
+  sha: string;
+}
+export const PullRequestStackMinimalPullRequestsItemHead =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ref: S.String,
+      sha: S.String,
+    }),
+  ).annotate({
+    identifier: "PullRequestStackMinimalPullRequestsItemHead",
+  }) as any as S.Schema<PullRequestStackMinimalPullRequestsItemHead>;
+
+export interface PullRequestStackMinimalPullRequestsItem {
+  number: number;
+  state: PullRequestStackMinimalPullRequestsItemState;
+  draft: boolean;
+  merged_at: string | null;
+  head: PullRequestStackMinimalPullRequestsItemHead;
+}
+export const PullRequestStackMinimalPullRequestsItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      number: S.Number,
+      state: PullRequestStackMinimalPullRequestsItemState,
+      draft: S.Boolean,
+      merged_at: S.NullOr(S.String),
+      head: PullRequestStackMinimalPullRequestsItemHead,
+    }),
+).annotate({
+  identifier: "PullRequestStackMinimalPullRequestsItem",
+}) as any as S.Schema<PullRequestStackMinimalPullRequestsItem>;
+
+export type PullRequestStackMinimalPullRequestsList =
+  Array<PullRequestStackMinimalPullRequestsItem>;
+export const PullRequestStackMinimalPullRequestsList = /*@__PURE__*/ S.Array(
+  PullRequestStackMinimalPullRequestsItem,
+) as any as S.Schema<PullRequestStackMinimalPullRequestsList>;
+
+export interface PullRequestStackMinimal {
+  id: number;
+  number: number;
+  node_id: string;
+  url: string;
+  base: AddPullRequestStackResponseBase;
+  /** Whether the stack has any open pull request. False when all pull requests are merged or closed. */
+  open: boolean;
+  created_at: string;
+  pull_requests: PullRequestStackMinimalPullRequestsList;
+}
+export const PullRequestStackMinimal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    number: S.Number,
+    node_id: S.String,
+    url: S.String,
+    base: AddPullRequestStackResponseBase,
+    open: S.Boolean,
+    created_at: S.String,
+    pull_requests: PullRequestStackMinimalPullRequestsList,
+  }),
+).annotate({
+  identifier: "PullRequestStackMinimal",
+}) as any as S.Schema<PullRequestStackMinimal>;
+
+export type ListPullRequestStacksResponseBodyList =
+  Array<PullRequestStackMinimal>;
+export const ListPullRequestStacksResponseBodyList = /*@__PURE__*/ S.Array(
+  PullRequestStackMinimal,
+) as any as S.Schema<ListPullRequestStacksResponseBodyList>;
+
+export type ListPullRequestStacksResponse =
+  ListPullRequestStacksResponseBodyList;
+export const ListPullRequestStacksResponse = /*@__PURE__*/ S.suspend(() =>
+  ListPullRequestStacksResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListPullRequestStacksResponse",
+}) as any as S.Schema<ListPullRequestStacksResponse>;
+
 export interface ListRequestedReviewersRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -2335,9 +2721,9 @@ export const ListRequestedReviewersRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListRequestedReviewersRequest",
 }) as any as S.Schema<ListRequestedReviewersRequest>;
 
-export type PullRequestReviewRequestUsersList = Array<SimpleUser>;
+export type PullRequestReviewRequestUsersList = Array<NullableSimpleUser>;
 export const PullRequestReviewRequestUsersList = /*@__PURE__*/ S.Array(
-  SimpleUser,
+  NullableSimpleUser,
 ) as any as S.Schema<PullRequestReviewRequestUsersList>;
 
 export type PullRequestReviewRequestTeamsList = Array<Team>;
@@ -2360,10 +2746,10 @@ export const PullRequestReviewRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PullRequestReviewRequest>;
 
 export type ListReviewCommentsRequestSort = "created" | "updated";
-export const ListReviewCommentsRequestSort = /*@__PURE__*/ S.String;
+export const ListReviewCommentsRequestSort = S.String;
 
 export type ListReviewCommentsRequestDirection = "asc" | "desc";
-export const ListReviewCommentsRequestDirection = /*@__PURE__*/ S.String;
+export const ListReviewCommentsRequestDirection = S.String;
 
 export interface ListReviewCommentsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2421,10 +2807,10 @@ export type ListReviewCommentsForRepoRequestSort =
   | "created"
   | "updated"
   | "created_at";
-export const ListReviewCommentsForRepoRequestSort = /*@__PURE__*/ S.String;
+export const ListReviewCommentsForRepoRequestSort = S.String;
 
 export type ListReviewCommentsForRepoRequestDirection = "asc" | "desc";
-export const ListReviewCommentsForRepoRequestDirection = /*@__PURE__*/ S.String;
+export const ListReviewCommentsForRepoRequestDirection = S.String;
 
 export interface ListReviewCommentsForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2521,7 +2907,7 @@ export const ListReviewsResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The merge method to use. */
 export type MergeRequestMergeMethod = "merge" | "squash" | "rebase";
-export const MergeRequestMergeMethod = /*@__PURE__*/ S.String;
+export const MergeRequestMergeMethod = S.String;
 
 export interface MergeRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2575,14 +2961,14 @@ export const PullRequestMergeResult = /*@__PURE__*/ S.suspend(() =>
 
 /** The merge method to use. */
 export type MergeAsyncRequestMergeMethod = "merge" | "squash" | "rebase";
-export const MergeAsyncRequestMergeMethod = /*@__PURE__*/ S.String;
+export const MergeAsyncRequestMergeMethod = S.String;
 
 /** The action that will be taken to merge the pull request. `direct_merge` merges the pull request directly without using a merge queue; `merge_queue` adds the pull request to a merge queue; `default` selects the most appropriate option. */
 export type MergeAsyncRequestMergeAction =
   | "default"
   | "direct_merge"
   | "merge_queue";
-export const MergeAsyncRequestMergeAction = /*@__PURE__*/ S.String;
+export const MergeAsyncRequestMergeAction = S.String;
 
 export interface MergeAsyncRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2623,397 +3009,6 @@ export const MergeAsyncRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "MergeAsyncRequest",
 }) as any as S.Schema<MergeAsyncRequest>;
 
-/** An ordered list of pull request numbers to append to the stack, from the current top upward. */
-export type PullRequestStacksAddRequestPullRequestsList = Array<number>;
-export const PullRequestStacksAddRequestPullRequestsList =
-  /*@__PURE__*/ S.Array(
-    S.Number,
-  ) as any as S.Schema<PullRequestStacksAddRequestPullRequestsList>;
-
-export interface PullRequestStacksAddRequest {
-  /** The account owner of the repository. The name is not case sensitive. */
-  owner: string;
-  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
-  repo: string;
-  /** The number that identifies the pull request stack. */
-  stack_number: number;
-  /** An ordered list of pull request numbers to append to the stack, from the current top upward. */
-  pull_requests: PullRequestStacksAddRequestPullRequestsList;
-}
-export const PullRequestStacksAddRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    owner: S.String.pipe(T.Label()),
-    repo: S.String.pipe(T.Label()),
-    stack_number: S.Number.pipe(T.Label()),
-    pull_requests: PullRequestStacksAddRequestPullRequestsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/stacks/{stack_number}/add",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PullRequestStacksAddRequest",
-}) as any as S.Schema<PullRequestStacksAddRequest>;
-
-export interface PullRequestStacksAddResponseBase {
-  ref: string;
-}
-export const PullRequestStacksAddResponseBase = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ref: S.String,
-  }),
-).annotate({
-  identifier: "PullRequestStacksAddResponseBase",
-}) as any as S.Schema<PullRequestStacksAddResponseBase>;
-
-export interface PullRequestStackPullRequestHeadRepo {
-  id: number;
-  url: string;
-  name: string;
-}
-export const PullRequestStackPullRequestHeadRepo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.Number,
-    url: S.String,
-    name: S.String,
-  }),
-).annotate({
-  identifier: "PullRequestStackPullRequestHeadRepo",
-}) as any as S.Schema<PullRequestStackPullRequestHeadRepo>;
-
-export interface PullRequestStackPullRequestHead {
-  ref: string;
-  sha: string;
-  repo: PullRequestStackPullRequestHeadRepo;
-}
-export const PullRequestStackPullRequestHead = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ref: S.String,
-    sha: S.String,
-    repo: PullRequestStackPullRequestHeadRepo,
-  }),
-).annotate({
-  identifier: "PullRequestStackPullRequestHead",
-}) as any as S.Schema<PullRequestStackPullRequestHead>;
-
-export type PullRequestStackPullRequestBaseRepo =
-  PullRequestStackPullRequestHeadRepo;
-export const PullRequestStackPullRequestBaseRepo =
-  PullRequestStackPullRequestHeadRepo;
-
-export type PullRequestStackPullRequestBase = PullRequestStackPullRequestHead;
-export const PullRequestStackPullRequestBase = PullRequestStackPullRequestHead;
-
-export type PullRequestStackPullRequestState = "open" | "closed";
-export const PullRequestStackPullRequestState = /*@__PURE__*/ S.String;
-
-export interface PullRequestStackPullRequest {
-  id: number;
-  number: number;
-  url: string;
-  head: PullRequestStackPullRequestHead;
-  base: PullRequestStackPullRequestHead;
-  node_id: string;
-  title: string;
-  state: PullRequestStackPullRequestState;
-  merged_at: string | null;
-  draft: boolean;
-  html_url: string;
-  user: SimpleUser | null;
-}
-export const PullRequestStackPullRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.Number,
-    number: S.Number,
-    url: S.String,
-    head: PullRequestStackPullRequestHead,
-    base: PullRequestStackPullRequestHead,
-    node_id: S.String,
-    title: S.String,
-    state: PullRequestStackPullRequestState,
-    merged_at: S.NullOr(S.String),
-    draft: S.Boolean,
-    html_url: S.String,
-    user: S.NullOr(SimpleUser),
-  }),
-).annotate({
-  identifier: "PullRequestStackPullRequest",
-}) as any as S.Schema<PullRequestStackPullRequest>;
-
-export type PullRequestStacksAddResponsePullRequestsList =
-  Array<PullRequestStackPullRequest>;
-export const PullRequestStacksAddResponsePullRequestsList =
-  /*@__PURE__*/ S.Array(
-    PullRequestStackPullRequest,
-  ) as any as S.Schema<PullRequestStacksAddResponsePullRequestsList>;
-
-export interface PullRequestStacksAddResponse {
-  id: number;
-  number: number;
-  node_id: string;
-  url: string;
-  base: PullRequestStacksAddResponseBase;
-  /** Whether the stack has any open pull request. False when all pull requests are merged or closed. */
-  open: boolean;
-  created_at: string;
-  pull_requests: PullRequestStacksAddResponsePullRequestsList;
-}
-export const PullRequestStacksAddResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.Number,
-    number: S.Number,
-    node_id: S.String,
-    url: S.String,
-    base: PullRequestStacksAddResponseBase,
-    open: S.Boolean,
-    created_at: S.String,
-    pull_requests: PullRequestStacksAddResponsePullRequestsList,
-  }),
-).annotate({
-  identifier: "PullRequestStacksAddResponse",
-}) as any as S.Schema<PullRequestStacksAddResponse>;
-
-/** An ordered list of pull request numbers forming the stack from bottom to top. */
-export type PullRequestStacksCreateRequestPullRequestsList = Array<number>;
-export const PullRequestStacksCreateRequestPullRequestsList =
-  /*@__PURE__*/ S.Array(
-    S.Number,
-  ) as any as S.Schema<PullRequestStacksCreateRequestPullRequestsList>;
-
-export interface PullRequestStacksCreateRequest {
-  /** The account owner of the repository. The name is not case sensitive. */
-  owner: string;
-  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
-  repo: string;
-  /** An ordered list of pull request numbers forming the stack from bottom to top. */
-  pull_requests: PullRequestStacksCreateRequestPullRequestsList;
-}
-export const PullRequestStacksCreateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    owner: S.String.pipe(T.Label()),
-    repo: S.String.pipe(T.Label()),
-    pull_requests: PullRequestStacksCreateRequestPullRequestsList,
-  }).pipe(
-    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/stacks", code: 200 }),
-  ),
-).annotate({
-  identifier: "PullRequestStacksCreateRequest",
-}) as any as S.Schema<PullRequestStacksCreateRequest>;
-
-export type PullRequestStacksCreateResponseBase =
-  PullRequestStacksAddResponseBase;
-export const PullRequestStacksCreateResponseBase =
-  PullRequestStacksAddResponseBase;
-
-export type PullRequestStacksCreateResponsePullRequestsList =
-  Array<PullRequestStackPullRequest>;
-export const PullRequestStacksCreateResponsePullRequestsList =
-  /*@__PURE__*/ S.Array(
-    PullRequestStackPullRequest,
-  ) as any as S.Schema<PullRequestStacksCreateResponsePullRequestsList>;
-
-export interface PullRequestStacksCreateResponse {
-  id: number;
-  number: number;
-  node_id: string;
-  url: string;
-  base: PullRequestStacksAddResponseBase;
-  /** Whether the stack has any open pull request. False when all pull requests are merged or closed. */
-  open: boolean;
-  created_at: string;
-  pull_requests: PullRequestStacksCreateResponsePullRequestsList;
-}
-export const PullRequestStacksCreateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.Number,
-    number: S.Number,
-    node_id: S.String,
-    url: S.String,
-    base: PullRequestStacksAddResponseBase,
-    open: S.Boolean,
-    created_at: S.String,
-    pull_requests: PullRequestStacksCreateResponsePullRequestsList,
-  }),
-).annotate({
-  identifier: "PullRequestStacksCreateResponse",
-}) as any as S.Schema<PullRequestStacksCreateResponse>;
-
-export interface PullRequestStacksGetRequest {
-  /** The account owner of the repository. The name is not case sensitive. */
-  owner: string;
-  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
-  repo: string;
-  /** The number that identifies the pull request stack. */
-  stack_number: number;
-}
-export const PullRequestStacksGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    owner: S.String.pipe(T.Label()),
-    repo: S.String.pipe(T.Label()),
-    stack_number: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/stacks/{stack_number}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PullRequestStacksGetRequest",
-}) as any as S.Schema<PullRequestStacksGetRequest>;
-
-export type PullRequestStacksGetResponseBase = PullRequestStacksAddResponseBase;
-export const PullRequestStacksGetResponseBase =
-  PullRequestStacksAddResponseBase;
-
-export type PullRequestStacksGetResponsePullRequestsList =
-  Array<PullRequestStackPullRequest>;
-export const PullRequestStacksGetResponsePullRequestsList =
-  /*@__PURE__*/ S.Array(
-    PullRequestStackPullRequest,
-  ) as any as S.Schema<PullRequestStacksGetResponsePullRequestsList>;
-
-export interface PullRequestStacksGetResponse {
-  id: number;
-  number: number;
-  node_id: string;
-  url: string;
-  base: PullRequestStacksAddResponseBase;
-  /** Whether the stack has any open pull request. False when all pull requests are merged or closed. */
-  open: boolean;
-  created_at: string;
-  pull_requests: PullRequestStacksGetResponsePullRequestsList;
-}
-export const PullRequestStacksGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.Number,
-    number: S.Number,
-    node_id: S.String,
-    url: S.String,
-    base: PullRequestStacksAddResponseBase,
-    open: S.Boolean,
-    created_at: S.String,
-    pull_requests: PullRequestStacksGetResponsePullRequestsList,
-  }),
-).annotate({
-  identifier: "PullRequestStacksGetResponse",
-}) as any as S.Schema<PullRequestStacksGetResponse>;
-
-export interface PullRequestStacksListRequest {
-  /** The account owner of the repository. The name is not case sensitive. */
-  owner: string;
-  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
-  repo: string;
-  /** Filter to the stack containing this repository pull request number. */
-  pull_request?: number;
-  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
-  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
-}
-export const PullRequestStacksListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    owner: S.String.pipe(T.Label()),
-    repo: S.String.pipe(T.Label()),
-    pull_request: S.optional(S.Number.pipe(T.Query())),
-    per_page: S.optional(S.Number.pipe(T.Query())),
-    page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/stacks", code: 200 }),
-  ),
-).annotate({
-  identifier: "PullRequestStacksListRequest",
-}) as any as S.Schema<PullRequestStacksListRequest>;
-
-export type PullRequestStackMinimalBase = PullRequestStacksAddResponseBase;
-export const PullRequestStackMinimalBase = PullRequestStacksAddResponseBase;
-
-export type PullRequestStackMinimalPullRequestsItemState = "open" | "closed";
-export const PullRequestStackMinimalPullRequestsItemState =
-  /*@__PURE__*/ S.String;
-
-export interface PullRequestStackMinimalPullRequestsItemHead {
-  ref: string;
-  sha: string;
-}
-export const PullRequestStackMinimalPullRequestsItemHead =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ref: S.String,
-      sha: S.String,
-    }),
-  ).annotate({
-    identifier: "PullRequestStackMinimalPullRequestsItemHead",
-  }) as any as S.Schema<PullRequestStackMinimalPullRequestsItemHead>;
-
-export interface PullRequestStackMinimalPullRequestsItem {
-  number: number;
-  state: PullRequestStackMinimalPullRequestsItemState;
-  draft: boolean;
-  merged_at: string | null;
-  head: PullRequestStackMinimalPullRequestsItemHead;
-}
-export const PullRequestStackMinimalPullRequestsItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      number: S.Number,
-      state: PullRequestStackMinimalPullRequestsItemState,
-      draft: S.Boolean,
-      merged_at: S.NullOr(S.String),
-      head: PullRequestStackMinimalPullRequestsItemHead,
-    }),
-).annotate({
-  identifier: "PullRequestStackMinimalPullRequestsItem",
-}) as any as S.Schema<PullRequestStackMinimalPullRequestsItem>;
-
-export type PullRequestStackMinimalPullRequestsList =
-  Array<PullRequestStackMinimalPullRequestsItem>;
-export const PullRequestStackMinimalPullRequestsList = /*@__PURE__*/ S.Array(
-  PullRequestStackMinimalPullRequestsItem,
-) as any as S.Schema<PullRequestStackMinimalPullRequestsList>;
-
-export interface PullRequestStackMinimal {
-  id: number;
-  number: number;
-  node_id: string;
-  url: string;
-  base: PullRequestStacksAddResponseBase;
-  /** Whether the stack has any open pull request. False when all pull requests are merged or closed. */
-  open: boolean;
-  created_at: string;
-  pull_requests: PullRequestStackMinimalPullRequestsList;
-}
-export const PullRequestStackMinimal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.Number,
-    number: S.Number,
-    node_id: S.String,
-    url: S.String,
-    base: PullRequestStacksAddResponseBase,
-    open: S.Boolean,
-    created_at: S.String,
-    pull_requests: PullRequestStackMinimalPullRequestsList,
-  }),
-).annotate({
-  identifier: "PullRequestStackMinimal",
-}) as any as S.Schema<PullRequestStackMinimal>;
-
-export type PullRequestStacksListResponseBodyList =
-  Array<PullRequestStackMinimal>;
-export const PullRequestStacksListResponseBodyList = /*@__PURE__*/ S.Array(
-  PullRequestStackMinimal,
-) as any as S.Schema<PullRequestStacksListResponseBodyList>;
-
-export type PullRequestStacksListResponse =
-  PullRequestStacksListResponseBodyList;
-export const PullRequestStacksListResponse = /*@__PURE__*/ S.suspend(() =>
-  PullRequestStacksListResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "PullRequestStacksListResponse",
-}) as any as S.Schema<PullRequestStacksListResponse>;
-
 export interface PullRequestStacksUnstackRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -3039,9 +3034,9 @@ export const PullRequestStacksUnstackRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PullRequestStacksUnstackRequest>;
 
 export type PullRequestStacksUnstackResponseBase =
-  PullRequestStacksAddResponseBase;
+  AddPullRequestStackResponseBase;
 export const PullRequestStacksUnstackResponseBase =
-  PullRequestStacksAddResponseBase;
+  AddPullRequestStackResponseBase;
 
 export type PullRequestStacksUnstackResponsePullRequestsList =
   Array<PullRequestStackPullRequest>;
@@ -3055,7 +3050,7 @@ export interface PullRequestStacksUnstackResponse {
   number: number;
   node_id: string;
   url: string;
-  base: PullRequestStacksAddResponseBase;
+  base: AddPullRequestStackResponseBase;
   /** Whether the stack has any open pull request. False when all pull requests are merged or closed. */
   open: boolean;
   created_at: string;
@@ -3067,7 +3062,7 @@ export const PullRequestStacksUnstackResponse = /*@__PURE__*/ S.suspend(() =>
     number: S.Number,
     node_id: S.String,
     url: S.String,
-    base: PullRequestStacksAddResponseBase,
+    base: AddPullRequestStackResponseBase,
     open: S.Boolean,
     created_at: S.String,
     pull_requests: PullRequestStacksUnstackResponsePullRequestsList,
@@ -3169,7 +3164,7 @@ export type SubmitReviewRequestEvent =
   | "APPROVE"
   | "REQUEST_CHANGES"
   | "COMMENT";
-export const SubmitReviewRequestEvent = /*@__PURE__*/ S.String;
+export const SubmitReviewRequestEvent = S.String;
 
 export interface SubmitReviewRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -3206,7 +3201,7 @@ export const SubmitReviewRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** State of this Pull Request. Either `open` or `closed`. */
 export type UpdateRequestState = "open" | "closed";
-export const UpdateRequestState = /*@__PURE__*/ S.String;
+export const UpdateRequestState = S.String;
 
 export interface UpdateRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -3336,6 +3331,25 @@ export const UpdateReviewCommentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateReviewCommentRequest",
 }) as any as S.Schema<UpdateReviewCommentRequest>;
 
+export type AddPullRequestStackError =
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | GithubOpError;
+/** Add pull requests to a pull request stack Appends an ordered list of pull request numbers onto the top of an existing stack. Provide only the pull requests you want to add, from the current top of the stack upward. The first new pull request's base ref must match the current top pull request's head ref. */
+export const addPullRequestStack: API.OperationMethod<
+  AddPullRequestStackRequest,
+  AddPullRequestStackResponse,
+  AddPullRequestStackError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AddPullRequestStackRequest,
+  output: AddPullRequestStackResponse,
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CheckIfMergedError = NotFound | GithubOpError;
 /** Check if a pull request has been merged Checks if a pull request has been merged into the base branch. The HTTP status of the response indicates whether or not the pull request has been merged; the response body is empty. */
 export const checkIfMerged: API.OperationMethod<
@@ -3362,6 +3376,24 @@ export const create: API.OperationMethod<
   input: CreateRequest,
   output: PullRequest,
   errors: [Forbidden, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreatePullRequestStackError =
+  | NotFound
+  | UnprocessableEntity
+  | GithubOpError;
+/** Create a pull request stack Creates a stack from an ordered list of pull request numbers. Provide the pull request numbers from the bottom of the stack to the top. Each pull request's base ref must match the previous pull request's head ref. */
+export const createPullRequestStack: API.OperationMethod<
+  CreatePullRequestStackRequest,
+  CreatePullRequestStackResponse,
+  CreatePullRequestStackError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePullRequestStackRequest,
+  output: CreatePullRequestStackResponse,
+  errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -3492,6 +3524,21 @@ export const getMergeAsyncResult: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetPullRequestStackError = NotFound | GithubOpError;
+/** Get a pull request stack Gets a pull request stack by providing its stack number. */
+export const getPullRequestStack: API.OperationMethod<
+  GetPullRequestStackRequest,
+  GetPullRequestStackResponse,
+  GetPullRequestStackError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPullRequestStackRequest,
+  output: GetPullRequestStackResponse,
+  errors: [NotFound],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetReviewError = NotFound | GithubOpError;
 /** Get a review for a pull request Retrieves a pull request review by its ID. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github-commitcomment.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github-commitcomment.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github-commitcomment.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github-commitcomment.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
 export const getReview: API.OperationMethod<
@@ -3578,6 +3625,24 @@ export const listFiles: API.OperationMethod<
   input: ListFilesRequest,
   output: ListFilesResponse,
   errors: [UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListPullRequestStacksError =
+  | NotFound
+  | UnprocessableEntity
+  | GithubOpError;
+/** List pull request stacks Lists pull request stacks in a repository. */
+export const listPullRequestStacks: API.OperationMethod<
+  ListPullRequestStacksRequest,
+  ListPullRequestStacksResponse,
+  ListPullRequestStacksError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListPullRequestStacksRequest,
+  output: ListPullRequestStacksResponse,
+  errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -3679,76 +3744,6 @@ export const mergeAsync: API.OperationMethod<
   input: MergeAsyncRequest,
   output: PullRequestMergeAsyncResult,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PullRequestStacksAddError =
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | GithubOpError;
-/** Add pull requests to a pull request stack Appends an ordered list of pull request numbers onto the top of an existing stack. Provide only the pull requests you want to add, from the current top of the stack upward. The first new pull request's base ref must match the current top pull request's head ref. */
-export const pullRequestStacksAdd: API.OperationMethod<
-  PullRequestStacksAddRequest,
-  PullRequestStacksAddResponse,
-  PullRequestStacksAddError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PullRequestStacksAddRequest,
-  output: PullRequestStacksAddResponse,
-  errors: [NotFound, Conflict, UnprocessableEntity],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PullRequestStacksCreateError =
-  | NotFound
-  | UnprocessableEntity
-  | GithubOpError;
-/** Create a pull request stack Creates a stack from an ordered list of pull request numbers. Provide the pull request numbers from the bottom of the stack to the top. Each pull request's base ref must match the previous pull request's head ref. */
-export const pullRequestStacksCreate: API.OperationMethod<
-  PullRequestStacksCreateRequest,
-  PullRequestStacksCreateResponse,
-  PullRequestStacksCreateError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PullRequestStacksCreateRequest,
-  output: PullRequestStacksCreateResponse,
-  errors: [NotFound, UnprocessableEntity],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PullRequestStacksGetError = NotFound | GithubOpError;
-/** Get a pull request stack Gets a pull request stack by providing its stack number. */
-export const pullRequestStacksGet: API.OperationMethod<
-  PullRequestStacksGetRequest,
-  PullRequestStacksGetResponse,
-  PullRequestStacksGetError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PullRequestStacksGetRequest,
-  output: PullRequestStacksGetResponse,
-  errors: [NotFound],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PullRequestStacksListError =
-  | NotFound
-  | UnprocessableEntity
-  | GithubOpError;
-/** List pull request stacks Lists pull request stacks in a repository. */
-export const pullRequestStacksList: API.OperationMethod<
-  PullRequestStacksListRequest,
-  PullRequestStacksListResponse,
-  PullRequestStacksListError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PullRequestStacksListRequest,
-  output: PullRequestStacksListResponse,
-  errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));

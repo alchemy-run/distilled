@@ -58,580 +58,6 @@ export class UnprocessableEntity
     [{ status: 422 }],
   ) {}
 
-export type ApiInsightsGetRouteStatsByActorRequestActorType =
-  | "installation"
-  | "classic_pat"
-  | "fine_grained_pat"
-  | "oauth_app"
-  | "github_app_user_to_server";
-export const ApiInsightsGetRouteStatsByActorRequestActorType =
-  /*@__PURE__*/ S.String;
-
-export type ApiInsightsGetRouteStatsByActorRequestDirection = "asc" | "desc";
-export const ApiInsightsGetRouteStatsByActorRequestDirection =
-  /*@__PURE__*/ S.String;
-
-export type ApiInsightsGetRouteStatsByActorRequestSortItem =
-  | "last_rate_limited_timestamp"
-  | "last_request_timestamp"
-  | "rate_limited_request_count"
-  | "http_method"
-  | "api_route"
-  | "total_request_count";
-export const ApiInsightsGetRouteStatsByActorRequestSortItem =
-  /*@__PURE__*/ S.String;
-
-export type ApiInsightsGetRouteStatsByActorRequestSortList = Array<
-  ApiInsightsGetRouteStatsByActorRequestSortItem | (string & {})
->;
-export const ApiInsightsGetRouteStatsByActorRequestSortList =
-  /*@__PURE__*/ S.Array(
-    ApiInsightsGetRouteStatsByActorRequestSortItem,
-  ) as any as S.Schema<ApiInsightsGetRouteStatsByActorRequestSortList>;
-
-export interface ApiInsightsGetRouteStatsByActorRequest {
-  /** The organization name. The name is not case sensitive. */
-  org: string;
-  /** The type of the actor */
-  actor_type: ApiInsightsGetRouteStatsByActorRequestActorType | (string & {});
-  /** The ID of the actor */
-  actor_id: number;
-  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  min_timestamp: string;
-  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
-  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
-  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
-  /** The direction to sort the results by. */
-  direction?: ApiInsightsGetRouteStatsByActorRequestDirection | (string & {});
-  /** The property to sort the results by. */
-  sort?: ApiInsightsGetRouteStatsByActorRequestSortList;
-  /** Providing a substring will filter results where the API route contains the substring. This is a case-insensitive search. */
-  api_route_substring?: string;
-}
-export const ApiInsightsGetRouteStatsByActorRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      org: S.String.pipe(T.Label()),
-      actor_type: ApiInsightsGetRouteStatsByActorRequestActorType.pipe(
-        T.Label(),
-      ),
-      actor_id: S.Number.pipe(T.Label()),
-      min_timestamp: S.String.pipe(T.Query()),
-      max_timestamp: S.optional(S.String.pipe(T.Query())),
-      page: S.optional(S.Number.pipe(T.Query())),
-      per_page: S.optional(S.Number.pipe(T.Query())),
-      direction: S.optional(
-        ApiInsightsGetRouteStatsByActorRequestDirection.pipe(T.Query()),
-      ),
-      sort: S.optional(
-        ApiInsightsGetRouteStatsByActorRequestSortList.pipe(T.Query()),
-      ),
-      api_route_substring: S.optional(S.String.pipe(T.Query())),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/orgs/{org}/insights/api/route-stats/{actor_type}/{actor_id}",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "ApiInsightsGetRouteStatsByActorRequest",
-}) as any as S.Schema<ApiInsightsGetRouteStatsByActorRequest>;
-
-export interface ApiInsightsRouteStatsItem {
-  /** The HTTP method */
-  http_method?: string;
-  /** The API path's route template */
-  api_route?: string;
-  /** The total number of requests within the queried time period */
-  total_request_count?: number;
-  /** The total number of requests that were rate limited within the queried time period */
-  rate_limited_request_count?: number;
-  last_rate_limited_timestamp?: string | null;
-  last_request_timestamp?: string;
-}
-export const ApiInsightsRouteStatsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    http_method: S.optional(S.String),
-    api_route: S.optional(S.String),
-    total_request_count: S.optional(S.Number),
-    rate_limited_request_count: S.optional(S.Number),
-    last_rate_limited_timestamp: S.optional(S.NullOr(S.String)),
-    last_request_timestamp: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ApiInsightsRouteStatsItem",
-}) as any as S.Schema<ApiInsightsRouteStatsItem>;
-
-/** API Insights usage route stats for an actor */
-export type ApiInsightsRouteStats = Array<ApiInsightsRouteStatsItem>;
-export const ApiInsightsRouteStats = /*@__PURE__*/ S.Array(
-  ApiInsightsRouteStatsItem,
-) as any as S.Schema<ApiInsightsRouteStats>;
-
-export type ApiInsightsGetRouteStatsByActorResponse = ApiInsightsRouteStats;
-export const ApiInsightsGetRouteStatsByActorResponse = /*@__PURE__*/ S.suspend(
-  () => ApiInsightsRouteStats.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ApiInsightsGetRouteStatsByActorResponse",
-}) as any as S.Schema<ApiInsightsGetRouteStatsByActorResponse>;
-
-export type ApiInsightsGetSubjectStatsRequestDirection = "asc" | "desc";
-export const ApiInsightsGetSubjectStatsRequestDirection =
-  /*@__PURE__*/ S.String;
-
-export type ApiInsightsGetSubjectStatsRequestSortItem =
-  | "last_rate_limited_timestamp"
-  | "last_request_timestamp"
-  | "rate_limited_request_count"
-  | "subject_name"
-  | "total_request_count";
-export const ApiInsightsGetSubjectStatsRequestSortItem = /*@__PURE__*/ S.String;
-
-export type ApiInsightsGetSubjectStatsRequestSortList = Array<
-  ApiInsightsGetSubjectStatsRequestSortItem | (string & {})
->;
-export const ApiInsightsGetSubjectStatsRequestSortList = /*@__PURE__*/ S.Array(
-  ApiInsightsGetSubjectStatsRequestSortItem,
-) as any as S.Schema<ApiInsightsGetSubjectStatsRequestSortList>;
-
-export interface ApiInsightsGetSubjectStatsRequest {
-  /** The organization name. The name is not case sensitive. */
-  org: string;
-  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  min_timestamp: string;
-  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
-  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
-  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
-  /** The direction to sort the results by. */
-  direction?: ApiInsightsGetSubjectStatsRequestDirection | (string & {});
-  /** The property to sort the results by. */
-  sort?: ApiInsightsGetSubjectStatsRequestSortList;
-  /** Providing a substring will filter results where the subject name contains the substring. This is a case-insensitive search. */
-  subject_name_substring?: string;
-}
-export const ApiInsightsGetSubjectStatsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    org: S.String.pipe(T.Label()),
-    min_timestamp: S.String.pipe(T.Query()),
-    max_timestamp: S.optional(S.String.pipe(T.Query())),
-    page: S.optional(S.Number.pipe(T.Query())),
-    per_page: S.optional(S.Number.pipe(T.Query())),
-    direction: S.optional(
-      ApiInsightsGetSubjectStatsRequestDirection.pipe(T.Query()),
-    ),
-    sort: S.optional(ApiInsightsGetSubjectStatsRequestSortList.pipe(T.Query())),
-    subject_name_substring: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/insights/api/subject-stats",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ApiInsightsGetSubjectStatsRequest",
-}) as any as S.Schema<ApiInsightsGetSubjectStatsRequest>;
-
-export interface ApiInsightsSubjectStatsItem {
-  subject_type?: string;
-  subject_name?: string;
-  subject_id?: number;
-  total_request_count?: number;
-  rate_limited_request_count?: number;
-  last_rate_limited_timestamp?: string | null;
-  last_request_timestamp?: string;
-}
-export const ApiInsightsSubjectStatsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subject_type: S.optional(S.String),
-    subject_name: S.optional(S.String),
-    subject_id: S.optional(S.Number),
-    total_request_count: S.optional(S.Number),
-    rate_limited_request_count: S.optional(S.Number),
-    last_rate_limited_timestamp: S.optional(S.NullOr(S.String)),
-    last_request_timestamp: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ApiInsightsSubjectStatsItem",
-}) as any as S.Schema<ApiInsightsSubjectStatsItem>;
-
-/** API Insights usage subject stats for an organization */
-export type ApiInsightsSubjectStats = Array<ApiInsightsSubjectStatsItem>;
-export const ApiInsightsSubjectStats = /*@__PURE__*/ S.Array(
-  ApiInsightsSubjectStatsItem,
-) as any as S.Schema<ApiInsightsSubjectStats>;
-
-export type ApiInsightsGetSubjectStatsResponse = ApiInsightsSubjectStats;
-export const ApiInsightsGetSubjectStatsResponse = /*@__PURE__*/ S.suspend(() =>
-  ApiInsightsSubjectStats.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ApiInsightsGetSubjectStatsResponse",
-}) as any as S.Schema<ApiInsightsGetSubjectStatsResponse>;
-
-export interface ApiInsightsGetSummaryStatsRequest {
-  /** The organization name. The name is not case sensitive. */
-  org: string;
-  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  min_timestamp: string;
-  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
-}
-export const ApiInsightsGetSummaryStatsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    org: S.String.pipe(T.Label()),
-    min_timestamp: S.String.pipe(T.Query()),
-    max_timestamp: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/insights/api/summary-stats",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ApiInsightsGetSummaryStatsRequest",
-}) as any as S.Schema<ApiInsightsGetSummaryStatsRequest>;
-
-/** API Insights usage summary stats for an organization */
-export interface ApiInsightsSummaryStats {
-  /** The total number of requests within the queried time period */
-  total_request_count?: number;
-  /** The total number of requests that were rate limited within the queried time period */
-  rate_limited_request_count?: number;
-}
-export const ApiInsightsSummaryStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    total_request_count: S.optional(S.Number),
-    rate_limited_request_count: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ApiInsightsSummaryStats",
-}) as any as S.Schema<ApiInsightsSummaryStats>;
-
-export type ApiInsightsGetSummaryStatsByActorRequestActorType =
-  | "installation"
-  | "classic_pat"
-  | "fine_grained_pat"
-  | "oauth_app"
-  | "github_app_user_to_server";
-export const ApiInsightsGetSummaryStatsByActorRequestActorType =
-  /*@__PURE__*/ S.String;
-
-export interface ApiInsightsGetSummaryStatsByActorRequest {
-  /** The organization name. The name is not case sensitive. */
-  org: string;
-  /** The type of the actor */
-  actor_type: ApiInsightsGetSummaryStatsByActorRequestActorType | (string & {});
-  /** The ID of the actor */
-  actor_id: number;
-  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  min_timestamp: string;
-  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
-}
-export const ApiInsightsGetSummaryStatsByActorRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      org: S.String.pipe(T.Label()),
-      actor_type: ApiInsightsGetSummaryStatsByActorRequestActorType.pipe(
-        T.Label(),
-      ),
-      actor_id: S.Number.pipe(T.Label()),
-      min_timestamp: S.String.pipe(T.Query()),
-      max_timestamp: S.optional(S.String.pipe(T.Query())),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/orgs/{org}/insights/api/summary-stats/{actor_type}/{actor_id}",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "ApiInsightsGetSummaryStatsByActorRequest",
-}) as any as S.Schema<ApiInsightsGetSummaryStatsByActorRequest>;
-
-export interface ApiInsightsGetSummaryStatsByUserRequest {
-  /** The organization name. The name is not case sensitive. */
-  org: string;
-  /** The ID of the user to query for stats */
-  user_id: string;
-  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  min_timestamp: string;
-  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
-}
-export const ApiInsightsGetSummaryStatsByUserRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      org: S.String.pipe(T.Label()),
-      user_id: S.String.pipe(T.Label()),
-      min_timestamp: S.String.pipe(T.Query()),
-      max_timestamp: S.optional(S.String.pipe(T.Query())),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/orgs/{org}/insights/api/summary-stats/users/{user_id}",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "ApiInsightsGetSummaryStatsByUserRequest",
-}) as any as S.Schema<ApiInsightsGetSummaryStatsByUserRequest>;
-
-export interface ApiInsightsGetTimeStatsRequest {
-  /** The organization name. The name is not case sensitive. */
-  org: string;
-  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  min_timestamp: string;
-  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
-  /** The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
-  timestamp_increment: string;
-}
-export const ApiInsightsGetTimeStatsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    org: S.String.pipe(T.Label()),
-    min_timestamp: S.String.pipe(T.Query()),
-    max_timestamp: S.optional(S.String.pipe(T.Query())),
-    timestamp_increment: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/insights/api/time-stats",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ApiInsightsGetTimeStatsRequest",
-}) as any as S.Schema<ApiInsightsGetTimeStatsRequest>;
-
-export interface ApiInsightsTimeStatsItem {
-  timestamp?: string;
-  total_request_count?: number;
-  rate_limited_request_count?: number;
-}
-export const ApiInsightsTimeStatsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timestamp: S.optional(S.String),
-    total_request_count: S.optional(S.Number),
-    rate_limited_request_count: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ApiInsightsTimeStatsItem",
-}) as any as S.Schema<ApiInsightsTimeStatsItem>;
-
-/** API Insights usage time stats for an organization */
-export type ApiInsightsTimeStats = Array<ApiInsightsTimeStatsItem>;
-export const ApiInsightsTimeStats = /*@__PURE__*/ S.Array(
-  ApiInsightsTimeStatsItem,
-) as any as S.Schema<ApiInsightsTimeStats>;
-
-export type ApiInsightsGetTimeStatsResponse = ApiInsightsTimeStats;
-export const ApiInsightsGetTimeStatsResponse = /*@__PURE__*/ S.suspend(() =>
-  ApiInsightsTimeStats.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ApiInsightsGetTimeStatsResponse",
-}) as any as S.Schema<ApiInsightsGetTimeStatsResponse>;
-
-export type ApiInsightsGetTimeStatsByActorRequestActorType =
-  | "installation"
-  | "classic_pat"
-  | "fine_grained_pat"
-  | "oauth_app"
-  | "github_app_user_to_server";
-export const ApiInsightsGetTimeStatsByActorRequestActorType =
-  /*@__PURE__*/ S.String;
-
-export interface ApiInsightsGetTimeStatsByActorRequest {
-  /** The organization name. The name is not case sensitive. */
-  org: string;
-  /** The type of the actor */
-  actor_type: ApiInsightsGetTimeStatsByActorRequestActorType | (string & {});
-  /** The ID of the actor */
-  actor_id: number;
-  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  min_timestamp: string;
-  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
-  /** The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
-  timestamp_increment: string;
-}
-export const ApiInsightsGetTimeStatsByActorRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      org: S.String.pipe(T.Label()),
-      actor_type: ApiInsightsGetTimeStatsByActorRequestActorType.pipe(
-        T.Label(),
-      ),
-      actor_id: S.Number.pipe(T.Label()),
-      min_timestamp: S.String.pipe(T.Query()),
-      max_timestamp: S.optional(S.String.pipe(T.Query())),
-      timestamp_increment: S.String.pipe(T.Query()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/orgs/{org}/insights/api/time-stats/{actor_type}/{actor_id}",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "ApiInsightsGetTimeStatsByActorRequest",
-}) as any as S.Schema<ApiInsightsGetTimeStatsByActorRequest>;
-
-export type ApiInsightsGetTimeStatsByActorResponse = ApiInsightsTimeStats;
-export const ApiInsightsGetTimeStatsByActorResponse = /*@__PURE__*/ S.suspend(
-  () => ApiInsightsTimeStats.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ApiInsightsGetTimeStatsByActorResponse",
-}) as any as S.Schema<ApiInsightsGetTimeStatsByActorResponse>;
-
-export interface ApiInsightsGetTimeStatsByUserRequest {
-  /** The organization name. The name is not case sensitive. */
-  org: string;
-  /** The ID of the user to query for stats */
-  user_id: string;
-  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  min_timestamp: string;
-  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
-  /** The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
-  timestamp_increment: string;
-}
-export const ApiInsightsGetTimeStatsByUserRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      org: S.String.pipe(T.Label()),
-      user_id: S.String.pipe(T.Label()),
-      min_timestamp: S.String.pipe(T.Query()),
-      max_timestamp: S.optional(S.String.pipe(T.Query())),
-      timestamp_increment: S.String.pipe(T.Query()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/orgs/{org}/insights/api/time-stats/users/{user_id}",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "ApiInsightsGetTimeStatsByUserRequest",
-}) as any as S.Schema<ApiInsightsGetTimeStatsByUserRequest>;
-
-export type ApiInsightsGetTimeStatsByUserResponse = ApiInsightsTimeStats;
-export const ApiInsightsGetTimeStatsByUserResponse = /*@__PURE__*/ S.suspend(
-  () => ApiInsightsTimeStats.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ApiInsightsGetTimeStatsByUserResponse",
-}) as any as S.Schema<ApiInsightsGetTimeStatsByUserResponse>;
-
-export type ApiInsightsGetUserStatsRequestDirection = "asc" | "desc";
-export const ApiInsightsGetUserStatsRequestDirection = /*@__PURE__*/ S.String;
-
-export type ApiInsightsGetUserStatsRequestSortItem =
-  | "last_rate_limited_timestamp"
-  | "last_request_timestamp"
-  | "rate_limited_request_count"
-  | "subject_name"
-  | "total_request_count";
-export const ApiInsightsGetUserStatsRequestSortItem = /*@__PURE__*/ S.String;
-
-export type ApiInsightsGetUserStatsRequestSortList = Array<
-  ApiInsightsGetUserStatsRequestSortItem | (string & {})
->;
-export const ApiInsightsGetUserStatsRequestSortList = /*@__PURE__*/ S.Array(
-  ApiInsightsGetUserStatsRequestSortItem,
-) as any as S.Schema<ApiInsightsGetUserStatsRequestSortList>;
-
-export interface ApiInsightsGetUserStatsRequest {
-  /** The organization name. The name is not case sensitive. */
-  org: string;
-  /** The ID of the user to query for stats */
-  user_id: string;
-  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  min_timestamp: string;
-  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  max_timestamp?: string;
-  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
-  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
-  /** The direction to sort the results by. */
-  direction?: ApiInsightsGetUserStatsRequestDirection | (string & {});
-  /** The property to sort the results by. */
-  sort?: ApiInsightsGetUserStatsRequestSortList;
-  /** Providing a substring will filter results where the actor name contains the substring. This is a case-insensitive search. */
-  actor_name_substring?: string;
-}
-export const ApiInsightsGetUserStatsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    org: S.String.pipe(T.Label()),
-    user_id: S.String.pipe(T.Label()),
-    min_timestamp: S.String.pipe(T.Query()),
-    max_timestamp: S.optional(S.String.pipe(T.Query())),
-    page: S.optional(S.Number.pipe(T.Query())),
-    per_page: S.optional(S.Number.pipe(T.Query())),
-    direction: S.optional(
-      ApiInsightsGetUserStatsRequestDirection.pipe(T.Query()),
-    ),
-    sort: S.optional(ApiInsightsGetUserStatsRequestSortList.pipe(T.Query())),
-    actor_name_substring: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/insights/api/user-stats/{user_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ApiInsightsGetUserStatsRequest",
-}) as any as S.Schema<ApiInsightsGetUserStatsRequest>;
-
-export interface ApiInsightsUserStatsItem {
-  actor_type?: string;
-  actor_name?: string;
-  actor_id?: number;
-  integration_id?: number | null;
-  oauth_application_id?: number | null;
-  total_request_count?: number;
-  rate_limited_request_count?: number;
-  last_rate_limited_timestamp?: string | null;
-  last_request_timestamp?: string;
-}
-export const ApiInsightsUserStatsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    actor_type: S.optional(S.String),
-    actor_name: S.optional(S.String),
-    actor_id: S.optional(S.Number),
-    integration_id: S.optional(S.NullOr(S.Number)),
-    oauth_application_id: S.optional(S.NullOr(S.Number)),
-    total_request_count: S.optional(S.Number),
-    rate_limited_request_count: S.optional(S.Number),
-    last_rate_limited_timestamp: S.optional(S.NullOr(S.String)),
-    last_request_timestamp: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ApiInsightsUserStatsItem",
-}) as any as S.Schema<ApiInsightsUserStatsItem>;
-
-/** API Insights usage stats for a user */
-export type ApiInsightsUserStats = Array<ApiInsightsUserStatsItem>;
-export const ApiInsightsUserStats = /*@__PURE__*/ S.Array(
-  ApiInsightsUserStatsItem,
-) as any as S.Schema<ApiInsightsUserStats>;
-
-export type ApiInsightsGetUserStatsResponse = ApiInsightsUserStats;
-export const ApiInsightsGetUserStatsResponse = /*@__PURE__*/ S.suspend(() =>
-  ApiInsightsUserStats.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ApiInsightsGetUserStatsResponse",
-}) as any as S.Schema<ApiInsightsGetUserStatsResponse>;
-
 export interface AssignTeamToOrgRoleRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -717,6 +143,54 @@ export const BlockUserResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BlockUserResponse",
 }) as any as S.Schema<BlockUserResponse>;
+
+/** Unique identifiers of the requests for access via fine-grained personal access token. Must be formed of between 1 and 100 `pat_request_id` values. */
+export type BulkReviewPatGrantRequestsInRequestPatRequestIdsList =
+  Array<number>;
+export const BulkReviewPatGrantRequestsInRequestPatRequestIdsList =
+  /*@__PURE__*/ S.Array(
+    S.Number,
+  ) as any as S.Schema<BulkReviewPatGrantRequestsInRequestPatRequestIdsList>;
+
+/** Action to apply to the requests. */
+export type BulkReviewPatGrantRequestsInRequestAction = "approve" | "deny";
+export const BulkReviewPatGrantRequestsInRequestAction = S.String;
+
+export interface BulkReviewPatGrantRequestsInRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** Unique identifiers of the requests for access via fine-grained personal access token. Must be formed of between 1 and 100 `pat_request_id` values. */
+  pat_request_ids?: BulkReviewPatGrantRequestsInRequestPatRequestIdsList;
+  /** Action to apply to the requests. */
+  action: BulkReviewPatGrantRequestsInRequestAction | (string & {});
+  /** Reason for approving or denying the requests. Max 1024 characters. */
+  reason?: string | null;
+}
+export const BulkReviewPatGrantRequestsInRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org: S.String.pipe(T.Label()),
+    pat_request_ids: S.optional(
+      BulkReviewPatGrantRequestsInRequestPatRequestIdsList,
+    ),
+    action: BulkReviewPatGrantRequestsInRequestAction,
+    reason: S.optional(S.NullOr(S.String)),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/orgs/{org}/personal-access-token-requests",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "BulkReviewPatGrantRequestsInRequest",
+}) as any as S.Schema<BulkReviewPatGrantRequestsInRequest>;
+
+export interface BulkReviewPatGrantRequestsInResponse {}
+export const BulkReviewPatGrantRequestsInResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "BulkReviewPatGrantRequestsInResponse",
+}) as any as S.Schema<BulkReviewPatGrantRequestsInResponse>;
 
 export interface CancelInvitationRequest {
   /** The organization name. The name is not case sensitive. */
@@ -857,8 +331,7 @@ export const ConvertMemberToOutsideCollaboratorResponse =
 export type CreateArtifactDeploymentRecordRequestStatus =
   | "deployed"
   | "decommissioned";
-export const CreateArtifactDeploymentRecordRequestStatus =
-  /*@__PURE__*/ S.String;
+export const CreateArtifactDeploymentRecordRequestStatus = S.String;
 
 /** The tags associated with the deployment. */
 export type CreateArtifactDeploymentRecordRequestTagsMap = {
@@ -875,8 +348,7 @@ export type CreateArtifactDeploymentRecordRequestRuntimeRisksItem =
   | "internet-exposed"
   | "lateral-movement"
   | "sensitive-data";
-export const CreateArtifactDeploymentRecordRequestRuntimeRisksItem =
-  /*@__PURE__*/ S.String;
+export const CreateArtifactDeploymentRecordRequestRuntimeRisksItem = S.String;
 
 /** A list of runtime risks associated with the deployment. */
 export type CreateArtifactDeploymentRecordRequestRuntimeRisksList = Array<
@@ -957,7 +429,7 @@ export type ArtifactDeploymentRecordRuntimeRisksItem =
   | "internet-exposed"
   | "lateral-movement"
   | "sensitive-data";
-export const ArtifactDeploymentRecordRuntimeRisksItem = /*@__PURE__*/ S.String;
+export const ArtifactDeploymentRecordRuntimeRisksItem = S.String;
 
 /** A list of runtime risks associated with the deployment. */
 export type ArtifactDeploymentRecordRuntimeRisksList =
@@ -1029,7 +501,7 @@ export type CreateArtifactStorageRecordRequestStatus =
   | "active"
   | "eol"
   | "deleted";
-export const CreateArtifactStorageRecordRequestStatus = /*@__PURE__*/ S.String;
+export const CreateArtifactStorageRecordRequestStatus = S.String;
 
 export interface CreateArtifactStorageRecordRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1134,7 +606,7 @@ export type CreateClusterDeploymentRecordsJobRequestDeploymentsItemStatus =
   | "deployed"
   | "decommissioned";
 export const CreateClusterDeploymentRecordsJobRequestDeploymentsItemStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** Key-value pairs to tag the deployment record. */
 export type CreateClusterDeploymentRecordsJobRequestDeploymentsItemTagsMap = {
@@ -1147,12 +619,12 @@ export const CreateClusterDeploymentRecordsJobRequestDeploymentsItemTagsMap =
   ) as any as S.Schema<CreateClusterDeploymentRecordsJobRequestDeploymentsItemTagsMap>;
 
 export type CreateClusterDeploymentRecordsJobRequestDeploymentsItemRuntimeRisksItem =
-    | "critical-resource"
-    | "internet-exposed"
-    | "lateral-movement"
-    | "sensitive-data";
+  | "critical-resource"
+  | "internet-exposed"
+  | "lateral-movement"
+  | "sensitive-data";
 export const CreateClusterDeploymentRecordsJobRequestDeploymentsItemRuntimeRisksItem =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** A list of runtime risks associated with the deployment. */
 export type CreateClusterDeploymentRecordsJobRequestDeploymentsItemRuntimeRisksList =
@@ -1258,7 +730,7 @@ export type CreateInvitationRequestRole =
   | "direct_member"
   | "billing_manager"
   | "reinstate";
-export const CreateInvitationRequestRole = /*@__PURE__*/ S.String;
+export const CreateInvitationRequestRole = S.String;
 
 /** Specify IDs for the teams you want to invite new members to. */
 export type CreateInvitationRequestTeamIdsList = Array<number>;
@@ -1385,13 +857,13 @@ export type CreateIssueFieldRequestDataType =
   | "single_select"
   | "multi_select"
   | "number";
-export const CreateIssueFieldRequestDataType = /*@__PURE__*/ S.String;
+export const CreateIssueFieldRequestDataType = S.String;
 
 /** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). Only used when the visibility settings feature is enabled. Defaults to `organization_members_only`. */
 export type CreateIssueFieldRequestVisibility =
   | "organization_members_only"
   | "all";
-export const CreateIssueFieldRequestVisibility = /*@__PURE__*/ S.String;
+export const CreateIssueFieldRequestVisibility = S.String;
 
 /** Color for the option. */
 export type CreateIssueFieldRequestOptionsItemColor =
@@ -1403,7 +875,7 @@ export type CreateIssueFieldRequestOptionsItemColor =
   | "red"
   | "pink"
   | "purple";
-export const CreateIssueFieldRequestOptionsItemColor = /*@__PURE__*/ S.String;
+export const CreateIssueFieldRequestOptionsItemColor = S.String;
 
 export interface CreateIssueFieldRequestOptionsItem {
   /** Name of the option. */
@@ -1469,11 +941,11 @@ export type IssueFieldDataType =
   | "single_select"
   | "multi_select"
   | "number";
-export const IssueFieldDataType = /*@__PURE__*/ S.String;
+export const IssueFieldDataType = S.String;
 
 /** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). */
 export type IssueFieldVisibility = "organization_members_only" | "all";
-export const IssueFieldVisibility = /*@__PURE__*/ S.String;
+export const IssueFieldVisibility = S.String;
 
 /** The color of the option. */
 export type IssueFieldOptionsItemColor =
@@ -1485,7 +957,7 @@ export type IssueFieldOptionsItemColor =
   | "red"
   | "pink"
   | "purple";
-export const IssueFieldOptionsItemColor = /*@__PURE__*/ S.String;
+export const IssueFieldOptionsItemColor = S.String;
 
 export interface IssueFieldOptionsItem {
   /** The unique identifier of the option. */
@@ -1568,7 +1040,7 @@ export type CreateIssueTypeRequestColor =
   | "red"
   | "pink"
   | "purple";
-export const CreateIssueTypeRequestColor = /*@__PURE__*/ S.String;
+export const CreateIssueTypeRequestColor = S.String;
 
 export interface CreateIssueTypeRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1606,7 +1078,7 @@ export type IssueTypeColor =
   | "red"
   | "pink"
   | "purple";
-export const IssueTypeColor = /*@__PURE__*/ S.String;
+export const IssueTypeColor = S.String;
 
 /** The type assigned to the issue. This is only present for issues in repositories where issue types are supported. */
 export interface IssueType {
@@ -1642,7 +1114,7 @@ export const IssueType = /*@__PURE__*/ S.suspend(() =>
 
 export type WebhookConfigInsecureSsl = string | number;
 export const WebhookConfigInsecureSsl =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<WebhookConfigInsecureSsl>;
+  S.Unknown as any as S.Schema<WebhookConfigInsecureSsl>;
 
 /** Key/value pairs to provide settings for this webhook. */
 export interface CreateWebhookRequestConfig {
@@ -1748,9 +1220,13 @@ export const OrgHook = /*@__PURE__*/ S.suspend(() =>
 
 /** The type of the value for the property */
 export type CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestValueType =
-  "string" | "single_select" | "multi_select" | "true_false" | "url";
+  | "string"
+  | "single_select"
+  | "multi_select"
+  | "true_false"
+  | "url";
 export const CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestValueType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestDefaultValueCase1List =
   Array<string>;
@@ -1761,10 +1237,10 @@ export const CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequest
 
 /** Default value of the property */
 export type CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestDefaultValue =
-    | string
-    | CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestDefaultValueCase1List;
+  | string
+  | CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestDefaultValueCase1List;
 export const CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestDefaultValue =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestDefaultValue>;
+  S.Unknown as any as S.Schema<CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestDefaultValue>;
 
 /** An ordered list of the allowed values of the property. The property can have up to 200 allowed values. */
 export type CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestAllowedValuesList =
@@ -1776,9 +1252,10 @@ export const CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequest
 
 /** Who can edit the values of the property */
 export type CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestValuesEditableBy =
-  "org_actors" | "org_and_repo_actors";
+  | "org_actors"
+  | "org_and_repo_actors";
 export const CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequestValuesEditableBy =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1844,7 +1321,7 @@ export const CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequest
 
 /** The source type of the property */
 export type CustomPropertySourceType = "organization" | "enterprise";
-export const CustomPropertySourceType = /*@__PURE__*/ S.String;
+export const CustomPropertySourceType = S.String;
 
 /** The type of the value for the property */
 export type CustomPropertyValueType =
@@ -1853,7 +1330,7 @@ export type CustomPropertyValueType =
   | "multi_select"
   | "true_false"
   | "url";
-export const CustomPropertyValueType = /*@__PURE__*/ S.String;
+export const CustomPropertyValueType = S.String;
 
 export type CustomPropertyDefaultValueCase1List = Array<string>;
 export const CustomPropertyDefaultValueCase1List = /*@__PURE__*/ S.Array(
@@ -1865,7 +1342,7 @@ export type CustomPropertyDefaultValue =
   | string
   | CustomPropertyDefaultValueCase1List;
 export const CustomPropertyDefaultValue =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<CustomPropertyDefaultValue>;
+  S.Unknown as any as S.Schema<CustomPropertyDefaultValue>;
 
 /** An ordered list of the allowed values of the property. The property can have up to 200 allowed values. */
 export type CustomPropertyAllowedValuesList = Array<string>;
@@ -1877,7 +1354,7 @@ export const CustomPropertyAllowedValuesList = /*@__PURE__*/ S.Array(
 export type CustomPropertyValuesEditableBy =
   | "org_actors"
   | "org_and_repo_actors";
-export const CustomPropertyValuesEditableBy = /*@__PURE__*/ S.String;
+export const CustomPropertyValuesEditableBy = S.String;
 
 /** Custom property defined on an organization */
 export interface CustomProperty {
@@ -1986,7 +1463,7 @@ export type CustomPropertyValueValue =
   | string
   | CustomPropertyValueValueCase1List;
 export const CustomPropertyValueValue =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<CustomPropertyValueValue>;
+  S.Unknown as any as S.Schema<CustomPropertyValueValue>;
 
 /** Custom property name and associated value */
 export interface CustomPropertyValue {
@@ -2268,7 +1745,7 @@ export type DeleteAttestationsBulkRequestBody =
   | DeleteAttestationsBulkRequestBodyCase0
   | DeleteAttestationsBulkRequestBodyCase1;
 export const DeleteAttestationsBulkRequestBody =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<DeleteAttestationsBulkRequestBody>;
+  S.Unknown as any as S.Schema<DeleteAttestationsBulkRequestBody>;
 
 export interface DeleteAttestationsBulkRequest {
   /** The organization name. The name is not case sensitive. */
@@ -2534,10 +2011,10 @@ export interface OrganizationFull {
   avatar_url: string;
   description: string | null;
   name?: string;
-  company?: string;
-  blog?: string;
-  location?: string;
-  email?: string;
+  company?: string | null;
+  blog?: string | null;
+  location?: string | null;
+  email?: string | null;
   twitter_username?: string | null;
   is_verified?: boolean;
   has_organization_projects: boolean;
@@ -2615,10 +2092,10 @@ export const OrganizationFull = /*@__PURE__*/ S.suspend(() =>
     avatar_url: S.String,
     description: S.NullOr(S.String),
     name: S.optional(S.String),
-    company: S.optional(S.String),
-    blog: S.optional(S.String),
-    location: S.optional(S.String),
-    email: S.optional(S.String),
+    company: S.optional(S.NullOr(S.String)),
+    blog: S.optional(S.NullOr(S.String)),
+    location: S.optional(S.NullOr(S.String)),
+    email: S.optional(S.NullOr(S.String)),
     twitter_username: S.optional(S.NullOr(S.String)),
     is_verified: S.optional(S.Boolean),
     has_organization_projects: S.Boolean,
@@ -2678,6 +2155,571 @@ export const OrganizationFull = /*@__PURE__*/ S.suspend(() =>
   identifier: "OrganizationFull",
 }) as any as S.Schema<OrganizationFull>;
 
+export type GetApiInsightRouteStatsByActorRequestActorType =
+  | "installation"
+  | "classic_pat"
+  | "fine_grained_pat"
+  | "oauth_app"
+  | "github_app_user_to_server";
+export const GetApiInsightRouteStatsByActorRequestActorType = S.String;
+
+export type GetApiInsightRouteStatsByActorRequestDirection = "asc" | "desc";
+export const GetApiInsightRouteStatsByActorRequestDirection = S.String;
+
+export type GetApiInsightRouteStatsByActorRequestSortItem =
+  | "last_rate_limited_timestamp"
+  | "last_request_timestamp"
+  | "rate_limited_request_count"
+  | "http_method"
+  | "api_route"
+  | "total_request_count";
+export const GetApiInsightRouteStatsByActorRequestSortItem = S.String;
+
+export type GetApiInsightRouteStatsByActorRequestSortList = Array<
+  GetApiInsightRouteStatsByActorRequestSortItem | (string & {})
+>;
+export const GetApiInsightRouteStatsByActorRequestSortList =
+  /*@__PURE__*/ S.Array(
+    GetApiInsightRouteStatsByActorRequestSortItem,
+  ) as any as S.Schema<GetApiInsightRouteStatsByActorRequestSortList>;
+
+export interface GetApiInsightRouteStatsByActorRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The type of the actor */
+  actor_type: GetApiInsightRouteStatsByActorRequestActorType | (string & {});
+  /** The ID of the actor */
+  actor_id: number;
+  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  min_timestamp: string;
+  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  max_timestamp?: string;
+  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  page?: number;
+  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  per_page?: number;
+  /** The direction to sort the results by. */
+  direction?: GetApiInsightRouteStatsByActorRequestDirection | (string & {});
+  /** The property to sort the results by. */
+  sort?: GetApiInsightRouteStatsByActorRequestSortList;
+  /** Providing a substring will filter results where the API route contains the substring. This is a case-insensitive search. */
+  api_route_substring?: string;
+}
+export const GetApiInsightRouteStatsByActorRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      org: S.String.pipe(T.Label()),
+      actor_type: GetApiInsightRouteStatsByActorRequestActorType.pipe(
+        T.Label(),
+      ),
+      actor_id: S.Number.pipe(T.Label()),
+      min_timestamp: S.String.pipe(T.Query()),
+      max_timestamp: S.optional(S.String.pipe(T.Query())),
+      page: S.optional(S.Number.pipe(T.Query())),
+      per_page: S.optional(S.Number.pipe(T.Query())),
+      direction: S.optional(
+        GetApiInsightRouteStatsByActorRequestDirection.pipe(T.Query()),
+      ),
+      sort: S.optional(
+        GetApiInsightRouteStatsByActorRequestSortList.pipe(T.Query()),
+      ),
+      api_route_substring: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/orgs/{org}/insights/api/route-stats/{actor_type}/{actor_id}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetApiInsightRouteStatsByActorRequest",
+}) as any as S.Schema<GetApiInsightRouteStatsByActorRequest>;
+
+export interface ApiInsightsRouteStatsItem {
+  /** The HTTP method */
+  http_method?: string;
+  /** The API path's route template */
+  api_route?: string;
+  /** The total number of requests within the queried time period */
+  total_request_count?: number;
+  /** The total number of requests that were rate limited within the queried time period */
+  rate_limited_request_count?: number;
+  last_rate_limited_timestamp?: string | null;
+  last_request_timestamp?: string;
+}
+export const ApiInsightsRouteStatsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    http_method: S.optional(S.String),
+    api_route: S.optional(S.String),
+    total_request_count: S.optional(S.Number),
+    rate_limited_request_count: S.optional(S.Number),
+    last_rate_limited_timestamp: S.optional(S.NullOr(S.String)),
+    last_request_timestamp: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApiInsightsRouteStatsItem",
+}) as any as S.Schema<ApiInsightsRouteStatsItem>;
+
+/** API Insights usage route stats for an actor */
+export type ApiInsightsRouteStats = Array<ApiInsightsRouteStatsItem>;
+export const ApiInsightsRouteStats = /*@__PURE__*/ S.Array(
+  ApiInsightsRouteStatsItem,
+) as any as S.Schema<ApiInsightsRouteStats>;
+
+export type GetApiInsightRouteStatsByActorResponse = ApiInsightsRouteStats;
+export const GetApiInsightRouteStatsByActorResponse = /*@__PURE__*/ S.suspend(
+  () => ApiInsightsRouteStats.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetApiInsightRouteStatsByActorResponse",
+}) as any as S.Schema<GetApiInsightRouteStatsByActorResponse>;
+
+export type GetApiInsightSubjectStatsRequestDirection = "asc" | "desc";
+export const GetApiInsightSubjectStatsRequestDirection = S.String;
+
+export type GetApiInsightSubjectStatsRequestSortItem =
+  | "last_rate_limited_timestamp"
+  | "last_request_timestamp"
+  | "rate_limited_request_count"
+  | "subject_name"
+  | "total_request_count";
+export const GetApiInsightSubjectStatsRequestSortItem = S.String;
+
+export type GetApiInsightSubjectStatsRequestSortList = Array<
+  GetApiInsightSubjectStatsRequestSortItem | (string & {})
+>;
+export const GetApiInsightSubjectStatsRequestSortList = /*@__PURE__*/ S.Array(
+  GetApiInsightSubjectStatsRequestSortItem,
+) as any as S.Schema<GetApiInsightSubjectStatsRequestSortList>;
+
+export interface GetApiInsightSubjectStatsRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  min_timestamp: string;
+  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  max_timestamp?: string;
+  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  page?: number;
+  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  per_page?: number;
+  /** The direction to sort the results by. */
+  direction?: GetApiInsightSubjectStatsRequestDirection | (string & {});
+  /** The property to sort the results by. */
+  sort?: GetApiInsightSubjectStatsRequestSortList;
+  /** Providing a substring will filter results where the subject name contains the substring. This is a case-insensitive search. */
+  subject_name_substring?: string;
+}
+export const GetApiInsightSubjectStatsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org: S.String.pipe(T.Label()),
+    min_timestamp: S.String.pipe(T.Query()),
+    max_timestamp: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    direction: S.optional(
+      GetApiInsightSubjectStatsRequestDirection.pipe(T.Query()),
+    ),
+    sort: S.optional(GetApiInsightSubjectStatsRequestSortList.pipe(T.Query())),
+    subject_name_substring: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/orgs/{org}/insights/api/subject-stats",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetApiInsightSubjectStatsRequest",
+}) as any as S.Schema<GetApiInsightSubjectStatsRequest>;
+
+export interface ApiInsightsSubjectStatsItem {
+  subject_type?: string;
+  subject_name?: string;
+  subject_id?: number;
+  total_request_count?: number;
+  rate_limited_request_count?: number;
+  last_rate_limited_timestamp?: string | null;
+  last_request_timestamp?: string;
+}
+export const ApiInsightsSubjectStatsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subject_type: S.optional(S.String),
+    subject_name: S.optional(S.String),
+    subject_id: S.optional(S.Number),
+    total_request_count: S.optional(S.Number),
+    rate_limited_request_count: S.optional(S.Number),
+    last_rate_limited_timestamp: S.optional(S.NullOr(S.String)),
+    last_request_timestamp: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApiInsightsSubjectStatsItem",
+}) as any as S.Schema<ApiInsightsSubjectStatsItem>;
+
+/** API Insights usage subject stats for an organization */
+export type ApiInsightsSubjectStats = Array<ApiInsightsSubjectStatsItem>;
+export const ApiInsightsSubjectStats = /*@__PURE__*/ S.Array(
+  ApiInsightsSubjectStatsItem,
+) as any as S.Schema<ApiInsightsSubjectStats>;
+
+export type GetApiInsightSubjectStatsResponse = ApiInsightsSubjectStats;
+export const GetApiInsightSubjectStatsResponse = /*@__PURE__*/ S.suspend(() =>
+  ApiInsightsSubjectStats.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetApiInsightSubjectStatsResponse",
+}) as any as S.Schema<GetApiInsightSubjectStatsResponse>;
+
+export interface GetApiInsightSummaryStatsRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  min_timestamp: string;
+  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  max_timestamp?: string;
+}
+export const GetApiInsightSummaryStatsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org: S.String.pipe(T.Label()),
+    min_timestamp: S.String.pipe(T.Query()),
+    max_timestamp: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/orgs/{org}/insights/api/summary-stats",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetApiInsightSummaryStatsRequest",
+}) as any as S.Schema<GetApiInsightSummaryStatsRequest>;
+
+/** API Insights usage summary stats for an organization */
+export interface ApiInsightsSummaryStats {
+  /** The total number of requests within the queried time period */
+  total_request_count?: number;
+  /** The total number of requests that were rate limited within the queried time period */
+  rate_limited_request_count?: number;
+}
+export const ApiInsightsSummaryStats = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    total_request_count: S.optional(S.Number),
+    rate_limited_request_count: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ApiInsightsSummaryStats",
+}) as any as S.Schema<ApiInsightsSummaryStats>;
+
+export type GetApiInsightSummaryStatsByActorRequestActorType =
+  | "installation"
+  | "classic_pat"
+  | "fine_grained_pat"
+  | "oauth_app"
+  | "github_app_user_to_server";
+export const GetApiInsightSummaryStatsByActorRequestActorType = S.String;
+
+export interface GetApiInsightSummaryStatsByActorRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The type of the actor */
+  actor_type: GetApiInsightSummaryStatsByActorRequestActorType | (string & {});
+  /** The ID of the actor */
+  actor_id: number;
+  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  min_timestamp: string;
+  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  max_timestamp?: string;
+}
+export const GetApiInsightSummaryStatsByActorRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      org: S.String.pipe(T.Label()),
+      actor_type: GetApiInsightSummaryStatsByActorRequestActorType.pipe(
+        T.Label(),
+      ),
+      actor_id: S.Number.pipe(T.Label()),
+      min_timestamp: S.String.pipe(T.Query()),
+      max_timestamp: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/orgs/{org}/insights/api/summary-stats/{actor_type}/{actor_id}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetApiInsightSummaryStatsByActorRequest",
+}) as any as S.Schema<GetApiInsightSummaryStatsByActorRequest>;
+
+export interface GetApiInsightSummaryStatsByUserRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The ID of the user to query for stats */
+  user_id: string;
+  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  min_timestamp: string;
+  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  max_timestamp?: string;
+}
+export const GetApiInsightSummaryStatsByUserRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      org: S.String.pipe(T.Label()),
+      user_id: S.String.pipe(T.Label()),
+      min_timestamp: S.String.pipe(T.Query()),
+      max_timestamp: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/orgs/{org}/insights/api/summary-stats/users/{user_id}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetApiInsightSummaryStatsByUserRequest",
+}) as any as S.Schema<GetApiInsightSummaryStatsByUserRequest>;
+
+export interface GetApiInsightTimeStatsRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  min_timestamp: string;
+  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  max_timestamp?: string;
+  /** The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
+  timestamp_increment: string;
+}
+export const GetApiInsightTimeStatsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org: S.String.pipe(T.Label()),
+    min_timestamp: S.String.pipe(T.Query()),
+    max_timestamp: S.optional(S.String.pipe(T.Query())),
+    timestamp_increment: S.String.pipe(T.Query()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/orgs/{org}/insights/api/time-stats",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetApiInsightTimeStatsRequest",
+}) as any as S.Schema<GetApiInsightTimeStatsRequest>;
+
+export interface ApiInsightsTimeStatsItem {
+  timestamp?: string;
+  total_request_count?: number;
+  rate_limited_request_count?: number;
+}
+export const ApiInsightsTimeStatsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.optional(S.String),
+    total_request_count: S.optional(S.Number),
+    rate_limited_request_count: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ApiInsightsTimeStatsItem",
+}) as any as S.Schema<ApiInsightsTimeStatsItem>;
+
+/** API Insights usage time stats for an organization */
+export type ApiInsightsTimeStats = Array<ApiInsightsTimeStatsItem>;
+export const ApiInsightsTimeStats = /*@__PURE__*/ S.Array(
+  ApiInsightsTimeStatsItem,
+) as any as S.Schema<ApiInsightsTimeStats>;
+
+export type GetApiInsightTimeStatsResponse = ApiInsightsTimeStats;
+export const GetApiInsightTimeStatsResponse = /*@__PURE__*/ S.suspend(() =>
+  ApiInsightsTimeStats.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetApiInsightTimeStatsResponse",
+}) as any as S.Schema<GetApiInsightTimeStatsResponse>;
+
+export type GetApiInsightTimeStatsByActorRequestActorType =
+  | "installation"
+  | "classic_pat"
+  | "fine_grained_pat"
+  | "oauth_app"
+  | "github_app_user_to_server";
+export const GetApiInsightTimeStatsByActorRequestActorType = S.String;
+
+export interface GetApiInsightTimeStatsByActorRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The type of the actor */
+  actor_type: GetApiInsightTimeStatsByActorRequestActorType | (string & {});
+  /** The ID of the actor */
+  actor_id: number;
+  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  min_timestamp: string;
+  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  max_timestamp?: string;
+  /** The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
+  timestamp_increment: string;
+}
+export const GetApiInsightTimeStatsByActorRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      org: S.String.pipe(T.Label()),
+      actor_type: GetApiInsightTimeStatsByActorRequestActorType.pipe(T.Label()),
+      actor_id: S.Number.pipe(T.Label()),
+      min_timestamp: S.String.pipe(T.Query()),
+      max_timestamp: S.optional(S.String.pipe(T.Query())),
+      timestamp_increment: S.String.pipe(T.Query()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/orgs/{org}/insights/api/time-stats/{actor_type}/{actor_id}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetApiInsightTimeStatsByActorRequest",
+}) as any as S.Schema<GetApiInsightTimeStatsByActorRequest>;
+
+export type GetApiInsightTimeStatsByActorResponse = ApiInsightsTimeStats;
+export const GetApiInsightTimeStatsByActorResponse = /*@__PURE__*/ S.suspend(
+  () => ApiInsightsTimeStats.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetApiInsightTimeStatsByActorResponse",
+}) as any as S.Schema<GetApiInsightTimeStatsByActorResponse>;
+
+export interface GetApiInsightTimeStatsByUserRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The ID of the user to query for stats */
+  user_id: string;
+  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  min_timestamp: string;
+  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  max_timestamp?: string;
+  /** The increment of time used to breakdown the query results (5m, 10m, 1h, etc.) */
+  timestamp_increment: string;
+}
+export const GetApiInsightTimeStatsByUserRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org: S.String.pipe(T.Label()),
+    user_id: S.String.pipe(T.Label()),
+    min_timestamp: S.String.pipe(T.Query()),
+    max_timestamp: S.optional(S.String.pipe(T.Query())),
+    timestamp_increment: S.String.pipe(T.Query()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/orgs/{org}/insights/api/time-stats/users/{user_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetApiInsightTimeStatsByUserRequest",
+}) as any as S.Schema<GetApiInsightTimeStatsByUserRequest>;
+
+export type GetApiInsightTimeStatsByUserResponse = ApiInsightsTimeStats;
+export const GetApiInsightTimeStatsByUserResponse = /*@__PURE__*/ S.suspend(
+  () => ApiInsightsTimeStats.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetApiInsightTimeStatsByUserResponse",
+}) as any as S.Schema<GetApiInsightTimeStatsByUserResponse>;
+
+export type GetApiInsightUserStatsRequestDirection = "asc" | "desc";
+export const GetApiInsightUserStatsRequestDirection = S.String;
+
+export type GetApiInsightUserStatsRequestSortItem =
+  | "last_rate_limited_timestamp"
+  | "last_request_timestamp"
+  | "rate_limited_request_count"
+  | "subject_name"
+  | "total_request_count";
+export const GetApiInsightUserStatsRequestSortItem = S.String;
+
+export type GetApiInsightUserStatsRequestSortList = Array<
+  GetApiInsightUserStatsRequestSortItem | (string & {})
+>;
+export const GetApiInsightUserStatsRequestSortList = /*@__PURE__*/ S.Array(
+  GetApiInsightUserStatsRequestSortItem,
+) as any as S.Schema<GetApiInsightUserStatsRequestSortList>;
+
+export interface GetApiInsightUserStatsRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The ID of the user to query for stats */
+  user_id: string;
+  /** The minimum timestamp to query for stats. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  min_timestamp: string;
+  /** The maximum timestamp to query for stats. Defaults to the time 30 days ago. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
+  max_timestamp?: string;
+  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  page?: number;
+  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  per_page?: number;
+  /** The direction to sort the results by. */
+  direction?: GetApiInsightUserStatsRequestDirection | (string & {});
+  /** The property to sort the results by. */
+  sort?: GetApiInsightUserStatsRequestSortList;
+  /** Providing a substring will filter results where the actor name contains the substring. This is a case-insensitive search. */
+  actor_name_substring?: string;
+}
+export const GetApiInsightUserStatsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    org: S.String.pipe(T.Label()),
+    user_id: S.String.pipe(T.Label()),
+    min_timestamp: S.String.pipe(T.Query()),
+    max_timestamp: S.optional(S.String.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    direction: S.optional(
+      GetApiInsightUserStatsRequestDirection.pipe(T.Query()),
+    ),
+    sort: S.optional(GetApiInsightUserStatsRequestSortList.pipe(T.Query())),
+    actor_name_substring: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/orgs/{org}/insights/api/user-stats/{user_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetApiInsightUserStatsRequest",
+}) as any as S.Schema<GetApiInsightUserStatsRequest>;
+
+export interface ApiInsightsUserStatsItem {
+  actor_type?: string;
+  actor_name?: string;
+  actor_id?: number;
+  integration_id?: number | null;
+  oauth_application_id?: number | null;
+  total_request_count?: number;
+  rate_limited_request_count?: number;
+  last_rate_limited_timestamp?: string | null;
+  last_request_timestamp?: string;
+}
+export const ApiInsightsUserStatsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actor_type: S.optional(S.String),
+    actor_name: S.optional(S.String),
+    actor_id: S.optional(S.Number),
+    integration_id: S.optional(S.NullOr(S.Number)),
+    oauth_application_id: S.optional(S.NullOr(S.Number)),
+    total_request_count: S.optional(S.Number),
+    rate_limited_request_count: S.optional(S.Number),
+    last_rate_limited_timestamp: S.optional(S.NullOr(S.String)),
+    last_request_timestamp: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApiInsightsUserStatsItem",
+}) as any as S.Schema<ApiInsightsUserStatsItem>;
+
+/** API Insights usage stats for a user */
+export type ApiInsightsUserStats = Array<ApiInsightsUserStatsItem>;
+export const ApiInsightsUserStats = /*@__PURE__*/ S.Array(
+  ApiInsightsUserStatsItem,
+) as any as S.Schema<ApiInsightsUserStats>;
+
+export type GetApiInsightUserStatsResponse = ApiInsightsUserStats;
+export const GetApiInsightUserStatsResponse = /*@__PURE__*/ S.suspend(() =>
+  ApiInsightsUserStats.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetApiInsightUserStatsResponse",
+}) as any as S.Schema<GetApiInsightUserStatsResponse>;
+
 export interface GetClusterDeploymentRecordsJobRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -2709,8 +2751,7 @@ export type GetClusterDeploymentRecordsJobResponseStatus =
   | "processing"
   | "completed"
   | "failed";
-export const GetClusterDeploymentRecordsJobResponseStatus =
-  /*@__PURE__*/ S.String;
+export const GetClusterDeploymentRecordsJobResponseStatus = S.String;
 
 /** Processing errors (only present when completed or failed). */
 export type GetClusterDeploymentRecordsJobResponseErrorsList = Array<unknown>;
@@ -2768,7 +2809,7 @@ export type ImmutableReleasesOrganizationSettingsEnforcedRepositories =
   | "none"
   | "selected";
 export const ImmutableReleasesOrganizationSettingsEnforcedRepositories =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** Check immutable releases settings for an organization. */
 export interface ImmutableReleasesOrganizationSettings {
@@ -2822,8 +2863,7 @@ export const MinimalRepositoryTopicsList = /*@__PURE__*/ S.Array(
 export type MinimalRepositoryPullRequestCreationPolicy =
   | "all"
   | "collaborators_only";
-export const MinimalRepositoryPullRequestCreationPolicy =
-  /*@__PURE__*/ S.String;
+export const MinimalRepositoryPullRequestCreationPolicy = S.String;
 
 export interface MinimalRepositoryPermissions {
   admin?: boolean;
@@ -2882,7 +2922,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
-export const SecurityAndAnalysisAdvancedSecurityStatus = /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
 
 /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
 export interface SecurityAndAnalysisAdvancedSecurity {
@@ -2897,7 +2937,7 @@ export const SecurityAndAnalysisAdvancedSecurity = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SecurityAndAnalysisAdvancedSecurity>;
 
 export type SecurityAndAnalysisCodeSecurityStatus = "enabled" | "disabled";
-export const SecurityAndAnalysisCodeSecurityStatus = /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisCodeSecurityStatus = S.String;
 
 export interface SecurityAndAnalysisCodeSecurity {
   status?: SecurityAndAnalysisCodeSecurityStatus;
@@ -2914,8 +2954,7 @@ export const SecurityAndAnalysisCodeSecurity = /*@__PURE__*/ S.suspend(() =>
 export type SecurityAndAnalysisDependabotSecurityUpdatesStatus =
   | "enabled"
   | "disabled";
-export const SecurityAndAnalysisDependabotSecurityUpdatesStatus =
-  /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisDependabotSecurityUpdatesStatus = S.String;
 
 /** Enable or disable Dependabot security updates for the repository. */
 export interface SecurityAndAnalysisDependabotSecurityUpdates {
@@ -2932,7 +2971,7 @@ export const SecurityAndAnalysisDependabotSecurityUpdates =
   }) as any as S.Schema<SecurityAndAnalysisDependabotSecurityUpdates>;
 
 export type SecurityAndAnalysisSecretScanningStatus = "enabled" | "disabled";
-export const SecurityAndAnalysisSecretScanningStatus = /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisSecretScanningStatus = S.String;
 
 export interface SecurityAndAnalysisSecretScanning {
   status?: SecurityAndAnalysisSecretScanningStatus;
@@ -2948,8 +2987,7 @@ export const SecurityAndAnalysisSecretScanning = /*@__PURE__*/ S.suspend(() =>
 export type SecurityAndAnalysisSecretScanningPushProtectionStatus =
   | "enabled"
   | "disabled";
-export const SecurityAndAnalysisSecretScanningPushProtectionStatus =
-  /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisSecretScanningPushProtectionStatus = S.String;
 
 export interface SecurityAndAnalysisSecretScanningPushProtection {
   status?: SecurityAndAnalysisSecretScanningPushProtectionStatus;
@@ -2967,7 +3005,7 @@ export type SecurityAndAnalysisSecretScanningNonProviderPatternsStatus =
   | "enabled"
   | "disabled";
 export const SecurityAndAnalysisSecretScanningNonProviderPatternsStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SecurityAndAnalysisSecretScanningNonProviderPatterns {
   status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus;
@@ -2986,8 +3024,7 @@ export const SecurityAndAnalysisSecretScanningNonProviderPatterns =
 export type SecurityAndAnalysisSecretScanningAiDetectionStatus =
   | "enabled"
   | "disabled";
-export const SecurityAndAnalysisSecretScanningAiDetectionStatus =
-  /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisSecretScanningAiDetectionStatus = S.String;
 
 export interface SecurityAndAnalysisSecretScanningAiDetection {
   status?: SecurityAndAnalysisSecretScanningAiDetectionStatus;
@@ -3005,7 +3042,7 @@ export type SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus =
   | "enabled"
   | "disabled";
 export const SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SecurityAndAnalysisSecretScanningDelegatedAlertDismissal {
   status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus;
@@ -3024,8 +3061,7 @@ export const SecurityAndAnalysisSecretScanningDelegatedAlertDismissal =
 export type SecurityAndAnalysisSecretScanningDelegatedBypassStatus =
   | "enabled"
   | "disabled";
-export const SecurityAndAnalysisSecretScanningDelegatedBypassStatus =
-  /*@__PURE__*/ S.String;
+export const SecurityAndAnalysisSecretScanningDelegatedBypassStatus = S.String;
 
 export interface SecurityAndAnalysisSecretScanningDelegatedBypass {
   status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus;
@@ -3043,15 +3079,17 @@ export const SecurityAndAnalysisSecretScanningDelegatedBypass =
 
 /** The type of the bypass reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
-  "TEAM" | "ROLE";
+  | "TEAM"
+  | "ROLE";
 export const SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** The bypass mode for the reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode =
-  "ALWAYS" | "EXEMPT";
+  | "ALWAYS"
+  | "EXEMPT";
 export const SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItem {
   /** The ID of the team or role selected as a bypass reviewer */
@@ -3387,11 +3425,11 @@ export const GetMembershipForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(
 
 /** The state of the member in the organization. The `pending` state indicates the user has not yet accepted an invitation. */
 export type OrgMembershipState = "active" | "pending";
-export const OrgMembershipState = /*@__PURE__*/ S.String;
+export const OrgMembershipState = S.String;
 
 /** The user's membership type in the organization. */
 export type OrgMembershipRole = "admin" | "member" | "billing_manager";
-export const OrgMembershipRole = /*@__PURE__*/ S.String;
+export const OrgMembershipRole = S.String;
 
 /** The slugs of the enterprise teams providing the user with indirect membership in the organization. A limit of 100 enterprise team slugs is returned. */
 export type OrgMembershipEnterpriseTeamsProvidingIndirectMembershipList =
@@ -3531,14 +3569,14 @@ export type OrganizationRoleBaseRole =
   | "write"
   | "maintain"
   | "admin";
-export const OrganizationRoleBaseRole = /*@__PURE__*/ S.String;
+export const OrganizationRoleBaseRole = S.String;
 
 /** Source answers the question, "where did this role come from?" */
 export type OrganizationRoleSource =
   | "Organization"
   | "Enterprise"
   | "Predefined";
-export const OrganizationRoleSource = /*@__PURE__*/ S.String;
+export const OrganizationRoleSource = S.String;
 
 /** A list of permissions included in this role. */
 export type OrganizationRolePermissionsList = Array<string>;
@@ -3971,240 +4009,232 @@ export const Enterprise = /*@__PURE__*/ S.suspend(() =>
 
 export type InstallationAccount = SimpleUser | Enterprise;
 export const InstallationAccount =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<InstallationAccount>;
+  S.Unknown as any as S.Schema<InstallationAccount>;
 
 /** Describe whether all repositories have been selected or there's a selection involved */
 export type InstallationRepositorySelection = "all" | "selected";
-export const InstallationRepositorySelection = /*@__PURE__*/ S.String;
+export const InstallationRepositorySelection = S.String;
 
 /** The level of permission to grant the access token for GitHub Actions workflows, workflow runs, and artifacts. */
 export type AppPermissionsActions = "read" | "write";
-export const AppPermissionsActions = /*@__PURE__*/ S.String;
+export const AppPermissionsActions = S.String;
 
 /** The level of permission to grant the access token for repository creation, deletion, settings, teams, and collaborators creation. */
 export type AppPermissionsAdministration = "read" | "write";
-export const AppPermissionsAdministration = /*@__PURE__*/ S.String;
+export const AppPermissionsAdministration = S.String;
 
 /** The level of permission to grant the access token to create and retrieve build artifact metadata records. */
 export type AppPermissionsArtifactMetadata = "read" | "write";
-export const AppPermissionsArtifactMetadata = /*@__PURE__*/ S.String;
+export const AppPermissionsArtifactMetadata = S.String;
 
 /** The level of permission to create and retrieve the access token for repository attestations. */
 export type AppPermissionsAttestations = "read" | "write";
-export const AppPermissionsAttestations = /*@__PURE__*/ S.String;
+export const AppPermissionsAttestations = S.String;
 
 /** The level of permission to grant the access token for checks on code. */
 export type AppPermissionsChecks = "read" | "write";
-export const AppPermissionsChecks = /*@__PURE__*/ S.String;
+export const AppPermissionsChecks = S.String;
 
 /** The level of permission to grant the access token to view and manage code quality data. */
 export type AppPermissionsCodeQuality = "read" | "write";
-export const AppPermissionsCodeQuality = /*@__PURE__*/ S.String;
+export const AppPermissionsCodeQuality = S.String;
 
 /** The level of permission to grant the access token to create, edit, delete, and list Codespaces. */
 export type AppPermissionsCodespaces = "read" | "write";
-export const AppPermissionsCodespaces = /*@__PURE__*/ S.String;
+export const AppPermissionsCodespaces = S.String;
 
 /** The level of permission to grant the access token for repository contents, commits, branches, downloads, releases, and merges. */
 export type AppPermissionsContents = "read" | "write";
-export const AppPermissionsContents = /*@__PURE__*/ S.String;
+export const AppPermissionsContents = S.String;
 
 /** The level of permission to grant the access token to manage Dependabot secrets. */
 export type AppPermissionsDependabotSecrets = "read" | "write";
-export const AppPermissionsDependabotSecrets = /*@__PURE__*/ S.String;
+export const AppPermissionsDependabotSecrets = S.String;
 
 /** The level of permission to grant the access token for deployments and deployment statuses. */
 export type AppPermissionsDeployments = "read" | "write";
-export const AppPermissionsDeployments = /*@__PURE__*/ S.String;
+export const AppPermissionsDeployments = S.String;
 
 /** The level of permission to grant the access token for discussions and related comments and labels. */
 export type AppPermissionsDiscussions = "read" | "write";
-export const AppPermissionsDiscussions = /*@__PURE__*/ S.String;
+export const AppPermissionsDiscussions = S.String;
 
 /** The level of permission to grant the access token for managing repository environments. */
 export type AppPermissionsEnvironments = "read" | "write";
-export const AppPermissionsEnvironments = /*@__PURE__*/ S.String;
+export const AppPermissionsEnvironments = S.String;
 
 /** The level of permission to grant the access token for issues and related comments, assignees, labels, and milestones. */
 export type AppPermissionsIssues = "read" | "write";
-export const AppPermissionsIssues = /*@__PURE__*/ S.String;
+export const AppPermissionsIssues = S.String;
 
 /** The level of permission to grant the access token to manage the merge queues for a repository. */
 export type AppPermissionsMergeQueues = "read" | "write";
-export const AppPermissionsMergeQueues = /*@__PURE__*/ S.String;
+export const AppPermissionsMergeQueues = S.String;
 
 /** The level of permission to grant the access token to search repositories, list collaborators, and access repository metadata. */
 export type AppPermissionsMetadata = "read" | "write";
-export const AppPermissionsMetadata = /*@__PURE__*/ S.String;
+export const AppPermissionsMetadata = S.String;
 
 /** The level of permission to grant the access token for packages published to GitHub Packages. */
 export type AppPermissionsPackages = "read" | "write";
-export const AppPermissionsPackages = /*@__PURE__*/ S.String;
+export const AppPermissionsPackages = S.String;
 
 /** The level of permission to grant the access token to retrieve Pages statuses, configuration, and builds, as well as create new builds. */
 export type AppPermissionsPages = "read" | "write";
-export const AppPermissionsPages = /*@__PURE__*/ S.String;
+export const AppPermissionsPages = S.String;
 
 /** The level of permission to grant the access token for pull requests and related comments, assignees, labels, milestones, and merges. */
 export type AppPermissionsPullRequests = "read" | "write";
-export const AppPermissionsPullRequests = /*@__PURE__*/ S.String;
+export const AppPermissionsPullRequests = S.String;
 
 /** The level of permission to grant the access token to view and edit custom properties for a repository, when allowed by the property. */
 export type AppPermissionsRepositoryCustomProperties = "read" | "write";
-export const AppPermissionsRepositoryCustomProperties = /*@__PURE__*/ S.String;
+export const AppPermissionsRepositoryCustomProperties = S.String;
 
 /** The level of permission to grant the access token to manage the post-receive hooks for a repository. */
 export type AppPermissionsRepositoryHooks = "read" | "write";
-export const AppPermissionsRepositoryHooks = /*@__PURE__*/ S.String;
+export const AppPermissionsRepositoryHooks = S.String;
 
 /** The level of permission to grant the access token to manage repository projects, columns, and cards. */
 export type AppPermissionsRepositoryProjects = "read" | "write" | "admin";
-export const AppPermissionsRepositoryProjects = /*@__PURE__*/ S.String;
+export const AppPermissionsRepositoryProjects = S.String;
 
 /** The level of permission to grant the access token to view and manage secret scanning alerts. */
 export type AppPermissionsSecretScanningAlerts = "read" | "write";
-export const AppPermissionsSecretScanningAlerts = /*@__PURE__*/ S.String;
+export const AppPermissionsSecretScanningAlerts = S.String;
 
 /** The level of permission to grant the access token to manage repository secrets. */
 export type AppPermissionsSecrets = "read" | "write";
-export const AppPermissionsSecrets = /*@__PURE__*/ S.String;
+export const AppPermissionsSecrets = S.String;
 
 /** The level of permission to grant the access token to view and manage security events like code scanning alerts. */
 export type AppPermissionsSecurityEvents = "read" | "write";
-export const AppPermissionsSecurityEvents = /*@__PURE__*/ S.String;
+export const AppPermissionsSecurityEvents = S.String;
 
 /** The level of permission to grant the access token to manage just a single file. */
 export type AppPermissionsSingleFile = "read" | "write";
-export const AppPermissionsSingleFile = /*@__PURE__*/ S.String;
+export const AppPermissionsSingleFile = S.String;
 
 /** The level of permission to grant the access token for commit statuses. */
 export type AppPermissionsStatuses = "read" | "write";
-export const AppPermissionsStatuses = /*@__PURE__*/ S.String;
+export const AppPermissionsStatuses = S.String;
 
 /** The level of permission to grant the access token to manage Dependabot alerts. */
 export type AppPermissionsVulnerabilityAlerts = "read" | "write";
-export const AppPermissionsVulnerabilityAlerts = /*@__PURE__*/ S.String;
+export const AppPermissionsVulnerabilityAlerts = S.String;
 
 /** The level of permission to grant the access token to update GitHub Actions workflow files. */
 export type AppPermissionsWorkflows = "write";
-export const AppPermissionsWorkflows = /*@__PURE__*/ S.String;
+export const AppPermissionsWorkflows = S.String;
 
 /** The level of permission to grant the access token to view and edit custom properties for an organization, when allowed by the property. */
 export type AppPermissionsCustomPropertiesForOrganizations = "read" | "write";
-export const AppPermissionsCustomPropertiesForOrganizations =
-  /*@__PURE__*/ S.String;
+export const AppPermissionsCustomPropertiesForOrganizations = S.String;
 
 /** The level of permission to grant the access token for organization teams and members. */
 export type AppPermissionsMembers = "read" | "write";
-export const AppPermissionsMembers = /*@__PURE__*/ S.String;
+export const AppPermissionsMembers = S.String;
 
 /** The level of permission to grant the access token to manage access to an organization. */
 export type AppPermissionsOrganizationAdministration = "read" | "write";
-export const AppPermissionsOrganizationAdministration = /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationAdministration = S.String;
 
 /** The level of permission to grant the access token for custom repository roles management. */
 export type AppPermissionsOrganizationCustomRoles = "read" | "write";
-export const AppPermissionsOrganizationCustomRoles = /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationCustomRoles = S.String;
 
 /** The level of permission to grant the access token for custom organization roles management. */
 export type AppPermissionsOrganizationCustomOrgRoles = "read" | "write";
-export const AppPermissionsOrganizationCustomOrgRoles = /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationCustomOrgRoles = S.String;
 
 /** The level of permission to grant the access token for repository custom properties management at the organization level. */
 export type AppPermissionsOrganizationCustomProperties =
   | "read"
   | "write"
   | "admin";
-export const AppPermissionsOrganizationCustomProperties =
-  /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationCustomProperties = S.String;
 
 /** The level of permission to grant the access token for managing access to GitHub Copilot for members of an organization with a Copilot Business subscription. This property is in public preview and is subject to change. */
 export type AppPermissionsOrganizationCopilotSeatManagement = "read" | "write";
-export const AppPermissionsOrganizationCopilotSeatManagement =
-  /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationCopilotSeatManagement = S.String;
 
 /** The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization. */
 export type AppPermissionsOrganizationCopilotAgentSettings = "read" | "write";
-export const AppPermissionsOrganizationCopilotAgentSettings =
-  /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationCopilotAgentSettings = S.String;
 
 /** The level of permission to grant the access token to view and manage announcement banners for an organization. */
 export type AppPermissionsOrganizationAnnouncementBanners = "read" | "write";
-export const AppPermissionsOrganizationAnnouncementBanners =
-  /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationAnnouncementBanners = S.String;
 
 /** The level of permission to grant the access token to view events triggered by an activity in an organization. */
 export type AppPermissionsOrganizationEvents = "read";
-export const AppPermissionsOrganizationEvents = /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationEvents = S.String;
 
 /** The level of permission to grant the access token to manage the post-receive hooks for an organization. */
 export type AppPermissionsOrganizationHooks = "read" | "write";
-export const AppPermissionsOrganizationHooks = /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationHooks = S.String;
 
 /** The level of permission to grant the access token for viewing and managing fine-grained personal access token requests to an organization. */
 export type AppPermissionsOrganizationPersonalAccessTokens = "read" | "write";
-export const AppPermissionsOrganizationPersonalAccessTokens =
-  /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationPersonalAccessTokens = S.String;
 
 /** The level of permission to grant the access token for viewing and managing fine-grained personal access tokens that have been approved by an organization. */
 export type AppPermissionsOrganizationPersonalAccessTokenRequests =
   | "read"
   | "write";
-export const AppPermissionsOrganizationPersonalAccessTokenRequests =
-  /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationPersonalAccessTokenRequests = S.String;
 
 /** The level of permission to grant the access token for viewing an organization's plan. */
 export type AppPermissionsOrganizationPlan = "read";
-export const AppPermissionsOrganizationPlan = /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationPlan = S.String;
 
 /** The level of permission to grant the access token to manage organization projects and projects public preview (where available). */
 export type AppPermissionsOrganizationProjects = "read" | "write" | "admin";
-export const AppPermissionsOrganizationProjects = /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationProjects = S.String;
 
 /** The level of permission to grant the access token for organization packages published to GitHub Packages. */
 export type AppPermissionsOrganizationPackages = "read" | "write";
-export const AppPermissionsOrganizationPackages = /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationPackages = S.String;
 
 /** The level of permission to grant the access token to manage organization secrets. */
 export type AppPermissionsOrganizationSecrets = "read" | "write";
-export const AppPermissionsOrganizationSecrets = /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationSecrets = S.String;
 
 /** The level of permission to grant the access token to view and manage GitHub Actions self-hosted runners available to an organization. */
 export type AppPermissionsOrganizationSelfHostedRunners = "read" | "write";
-export const AppPermissionsOrganizationSelfHostedRunners =
-  /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationSelfHostedRunners = S.String;
 
 /** The level of permission to grant the access token to view and manage users blocked by the organization. */
 export type AppPermissionsOrganizationUserBlocking = "read" | "write";
-export const AppPermissionsOrganizationUserBlocking = /*@__PURE__*/ S.String;
+export const AppPermissionsOrganizationUserBlocking = S.String;
 
 /** The level of permission to grant the access token to manage the email addresses belonging to a user. */
 export type AppPermissionsEmailAddresses = "read" | "write";
-export const AppPermissionsEmailAddresses = /*@__PURE__*/ S.String;
+export const AppPermissionsEmailAddresses = S.String;
 
 /** The level of permission to grant the access token to manage the followers belonging to a user. */
 export type AppPermissionsFollowers = "read" | "write";
-export const AppPermissionsFollowers = /*@__PURE__*/ S.String;
+export const AppPermissionsFollowers = S.String;
 
 /** The level of permission to grant the access token to manage git SSH keys. */
 export type AppPermissionsGitSshKeys = "read" | "write";
-export const AppPermissionsGitSshKeys = /*@__PURE__*/ S.String;
+export const AppPermissionsGitSshKeys = S.String;
 
 /** The level of permission to grant the access token to view and manage GPG keys belonging to a user. */
 export type AppPermissionsGpgKeys = "read" | "write";
-export const AppPermissionsGpgKeys = /*@__PURE__*/ S.String;
+export const AppPermissionsGpgKeys = S.String;
 
 /** The level of permission to grant the access token to view and manage interaction limits on a repository. */
 export type AppPermissionsInteractionLimits = "read" | "write";
-export const AppPermissionsInteractionLimits = /*@__PURE__*/ S.String;
+export const AppPermissionsInteractionLimits = S.String;
 
 /** The level of permission to grant the access token to manage the profile settings belonging to a user. */
 export type AppPermissionsProfile = "write";
-export const AppPermissionsProfile = /*@__PURE__*/ S.String;
+export const AppPermissionsProfile = S.String;
 
 /** The level of permission to grant the access token to list and manage repositories a user is starring. */
 export type AppPermissionsStarring = "read" | "write";
-export const AppPermissionsStarring = /*@__PURE__*/ S.String;
+export const AppPermissionsStarring = S.String;
 
 /** The level of permission to grant the access token for organization custom properties management at the enterprise level. */
 export type AppPermissionsEnterpriseCustomPropertiesForOrganizations =
@@ -4212,7 +4242,7 @@ export type AppPermissionsEnterpriseCustomPropertiesForOrganizations =
   | "write"
   | "admin";
 export const AppPermissionsEnterpriseCustomPropertiesForOrganizations =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** The permissions granted to the fine-grained access token. */
 export interface AppPermissions {
@@ -4892,12 +4922,13 @@ export const ListAttestationsBulkResponseAttestationsSubjectDigestsValueList =
 export type ListAttestationsBulkResponseAttestationsSubjectDigestsMap = {
   [key: string]:
     | ListAttestationsBulkResponseAttestationsSubjectDigestsValueList
+    | null
     | undefined;
 };
 export const ListAttestationsBulkResponseAttestationsSubjectDigestsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ListAttestationsBulkResponseAttestationsSubjectDigestsValueList,
+    S.NullOr(ListAttestationsBulkResponseAttestationsSubjectDigestsValueList),
   ) as any as S.Schema<ListAttestationsBulkResponseAttestationsSubjectDigestsMap>;
 
 /** Information about the current page. */
@@ -5111,15 +5142,15 @@ export const TeamPermissions = /*@__PURE__*/ S.suspend(() =>
 
 /** The ownership type of the team */
 export type TeamType = "enterprise" | "organization";
-export const TeamType = /*@__PURE__*/ S.String;
+export const TeamType = S.String;
 
 /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
 export type TeamAccessSource = "direct" | "organization" | "enterprise";
-export const TeamAccessSource = /*@__PURE__*/ S.String;
+export const TeamAccessSource = S.String;
 
 /** The ownership type of the team */
 export type NullableTeamSimpleType = "enterprise" | "organization";
-export const NullableTeamSimpleType = /*@__PURE__*/ S.String;
+export const NullableTeamSimpleType = S.String;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface NullableTeamSimple {
@@ -5248,9 +5279,9 @@ export const ListIssueFieldsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListIssueFieldsRequest",
 }) as any as S.Schema<ListIssueFieldsRequest>;
 
-export type ListIssueFieldsResponseBodyList = Array<IssueField>;
+export type ListIssueFieldsResponseBodyList = Array<IssueField | null>;
 export const ListIssueFieldsResponseBodyList = /*@__PURE__*/ S.Array(
-  IssueField,
+  S.NullOr(IssueField),
 ) as any as S.Schema<ListIssueFieldsResponseBodyList>;
 
 export type ListIssueFieldsResponse = ListIssueFieldsResponseBodyList;
@@ -5272,9 +5303,9 @@ export const ListIssueTypesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListIssueTypesRequest",
 }) as any as S.Schema<ListIssueTypesRequest>;
 
-export type ListIssueTypesResponseBodyList = Array<IssueType>;
+export type ListIssueTypesResponseBodyList = Array<IssueType | null>;
 export const ListIssueTypesResponseBodyList = /*@__PURE__*/ S.Array(
-  IssueType,
+  S.NullOr(IssueType),
 ) as any as S.Schema<ListIssueTypesResponseBodyList>;
 
 export type ListIssueTypesResponse = ListIssueTypesResponseBodyList;
@@ -5285,10 +5316,10 @@ export const ListIssueTypesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListIssueTypesResponse>;
 
 export type ListMembersRequestFilter = "2fa_disabled" | "2fa_insecure" | "all";
-export const ListMembersRequestFilter = /*@__PURE__*/ S.String;
+export const ListMembersRequestFilter = S.String;
 
 export type ListMembersRequestRole = "all" | "admin" | "member";
-export const ListMembersRequestRole = /*@__PURE__*/ S.String;
+export const ListMembersRequestRole = S.String;
 
 export interface ListMembersRequest {
   /** The organization name. The name is not case sensitive. */
@@ -5329,8 +5360,7 @@ export const ListMembersResponse = /*@__PURE__*/ S.suspend(() =>
 export type ListMembershipsForAuthenticatedUserRequestState =
   | "active"
   | "pending";
-export const ListMembershipsForAuthenticatedUserRequestState =
-  /*@__PURE__*/ S.String;
+export const ListMembershipsForAuthenticatedUserRequestState = S.String;
 
 export interface ListMembershipsForAuthenticatedUserRequest {
   /** Indicates the state of the memberships to return. If not specified, the API returns both active and pending memberships. */
@@ -5437,14 +5467,14 @@ export const ListOrgRoleTeamsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Determines if the team has a direct, indirect, or mixed relationship to a role */
 export type TeamRoleAssignmentAssignment = "direct" | "indirect" | "mixed";
-export const TeamRoleAssignmentAssignment = /*@__PURE__*/ S.String;
+export const TeamRoleAssignmentAssignment = S.String;
 
 export type TeamRoleAssignmentPermissions = TeamPermissions;
 export const TeamRoleAssignmentPermissions = TeamPermissions;
 
 /** The ownership type of the team */
 export type TeamRoleAssignmentType = "enterprise" | "organization";
-export const TeamRoleAssignmentType = /*@__PURE__*/ S.String;
+export const TeamRoleAssignmentType = S.String;
 
 /** The Relationship a Team has with a role. */
 export interface TeamRoleAssignment {
@@ -5538,11 +5568,11 @@ export const ListOrgRoleUsersRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Determines if the user has a direct, indirect, or mixed relationship to a role */
 export type UserRoleAssignmentAssignment = "direct" | "indirect" | "mixed";
-export const UserRoleAssignmentAssignment = /*@__PURE__*/ S.String;
+export const UserRoleAssignmentAssignment = S.String;
 
 /** The ownership type of the team */
 export type TeamSimpleType = "enterprise" | "organization";
-export const TeamSimpleType = /*@__PURE__*/ S.String;
+export const TeamSimpleType = S.String;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface TeamSimple {
@@ -5678,7 +5708,7 @@ export type ListOutsideCollaboratorsRequestFilter =
   | "2fa_disabled"
   | "2fa_insecure"
   | "all";
-export const ListOutsideCollaboratorsRequestFilter = /*@__PURE__*/ S.String;
+export const ListOutsideCollaboratorsRequestFilter = S.String;
 
 export interface ListOutsideCollaboratorsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -5805,10 +5835,10 @@ export const ListPatGrantRequestRepositoriesResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ListPatGrantRequestRepositoriesResponse>;
 
 export type ListPatGrantRequestsRequestSort = "created_at";
-export const ListPatGrantRequestsRequestSort = /*@__PURE__*/ S.String;
+export const ListPatGrantRequestsRequestSort = S.String;
 
 export type ListPatGrantRequestsRequestDirection = "asc" | "desc";
-export const ListPatGrantRequestsRequestDirection = /*@__PURE__*/ S.String;
+export const ListPatGrantRequestsRequestDirection = S.String;
 
 export type ListPatGrantRequestsRequestOwnerList = Array<string>;
 export const ListPatGrantRequestsRequestOwnerList = /*@__PURE__*/ S.Array(
@@ -5876,7 +5906,7 @@ export type OrganizationProgrammaticAccessGrantRequestRepositorySelection =
   | "all"
   | "subset";
 export const OrganizationProgrammaticAccessGrantRequestRepositorySelection =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type OrganizationProgrammaticAccessGrantRequestPermissionsOrganizationMap =
   { [key: string]: string | undefined };
@@ -5987,10 +6017,10 @@ export const ListPatGrantRequestsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListPatGrantRequestsResponse>;
 
 export type ListPatGrantsRequestSort = "created_at";
-export const ListPatGrantsRequestSort = /*@__PURE__*/ S.String;
+export const ListPatGrantsRequestSort = S.String;
 
 export type ListPatGrantsRequestDirection = "asc" | "desc";
-export const ListPatGrantsRequestDirection = /*@__PURE__*/ S.String;
+export const ListPatGrantsRequestDirection = S.String;
 
 export type ListPatGrantsRequestOwnerList = Array<string>;
 export const ListPatGrantsRequestOwnerList = /*@__PURE__*/ S.Array(
@@ -6055,8 +6085,7 @@ export type OrganizationProgrammaticAccessGrantRepositorySelection =
   | "none"
   | "all"
   | "subset";
-export const OrganizationProgrammaticAccessGrantRepositorySelection =
-  /*@__PURE__*/ S.String;
+export const OrganizationProgrammaticAccessGrantRepositorySelection = S.String;
 
 export type OrganizationProgrammaticAccessGrantPermissionsOrganizationMap = {
   [key: string]: string | undefined;
@@ -6168,14 +6197,13 @@ export type ListPendingInvitationsRequestRole =
   | "direct_member"
   | "billing_manager"
   | "hiring_manager";
-export const ListPendingInvitationsRequestRole = /*@__PURE__*/ S.String;
+export const ListPendingInvitationsRequestRole = S.String;
 
 export type ListPendingInvitationsRequestInvitationSource =
   | "all"
   | "member"
   | "scim";
-export const ListPendingInvitationsRequestInvitationSource =
-  /*@__PURE__*/ S.String;
+export const ListPendingInvitationsRequestInvitationSource = S.String;
 
 export interface ListPendingInvitationsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -6252,7 +6280,7 @@ export const ListPublicMembersResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListPublicMembersResponse>;
 
 export type ListWebhookDeliveriesRequestStatus = "success" | "failure";
-export const ListWebhookDeliveriesRequestStatus = /*@__PURE__*/ S.String;
+export const ListWebhookDeliveriesRequestStatus = S.String;
 
 export interface ListWebhookDeliveriesRequest {
   /** The organization name. The name is not case sensitive. */
@@ -6545,7 +6573,7 @@ export const RemovePublicMembershipForAuthenticatedUserResponse =
 
 /** Action to apply to the request. */
 export type ReviewPatGrantRequestRequestAction = "approve" | "deny";
-export const ReviewPatGrantRequestRequestAction = /*@__PURE__*/ S.String;
+export const ReviewPatGrantRequestRequestAction = S.String;
 
 export interface ReviewPatGrantRequestRequest {
   /** The organization name. The name is not case sensitive. */
@@ -6580,54 +6608,6 @@ export const ReviewPatGrantRequestResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ReviewPatGrantRequestResponse",
 }) as any as S.Schema<ReviewPatGrantRequestResponse>;
-
-/** Unique identifiers of the requests for access via fine-grained personal access token. Must be formed of between 1 and 100 `pat_request_id` values. */
-export type ReviewPatGrantRequestsInBulkRequestPatRequestIdsList =
-  Array<number>;
-export const ReviewPatGrantRequestsInBulkRequestPatRequestIdsList =
-  /*@__PURE__*/ S.Array(
-    S.Number,
-  ) as any as S.Schema<ReviewPatGrantRequestsInBulkRequestPatRequestIdsList>;
-
-/** Action to apply to the requests. */
-export type ReviewPatGrantRequestsInBulkRequestAction = "approve" | "deny";
-export const ReviewPatGrantRequestsInBulkRequestAction = /*@__PURE__*/ S.String;
-
-export interface ReviewPatGrantRequestsInBulkRequest {
-  /** The organization name. The name is not case sensitive. */
-  org: string;
-  /** Unique identifiers of the requests for access via fine-grained personal access token. Must be formed of between 1 and 100 `pat_request_id` values. */
-  pat_request_ids?: ReviewPatGrantRequestsInBulkRequestPatRequestIdsList;
-  /** Action to apply to the requests. */
-  action: ReviewPatGrantRequestsInBulkRequestAction | (string & {});
-  /** Reason for approving or denying the requests. Max 1024 characters. */
-  reason?: string | null;
-}
-export const ReviewPatGrantRequestsInBulkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    org: S.String.pipe(T.Label()),
-    pat_request_ids: S.optional(
-      ReviewPatGrantRequestsInBulkRequestPatRequestIdsList,
-    ),
-    action: ReviewPatGrantRequestsInBulkRequestAction,
-    reason: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/personal-access-token-requests",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReviewPatGrantRequestsInBulkRequest",
-}) as any as S.Schema<ReviewPatGrantRequestsInBulkRequest>;
-
-export interface ReviewPatGrantRequestsInBulkResponse {}
-export const ReviewPatGrantRequestsInBulkResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "ReviewPatGrantRequestsInBulkResponse",
-}) as any as S.Schema<ReviewPatGrantRequestsInBulkResponse>;
 
 export interface RevokeAllOrgRolesTeamRequest {
   /** The organization name. The name is not case sensitive. */
@@ -6751,8 +6731,7 @@ export const RevokeOrgRoleUserResponse = /*@__PURE__*/ S.suspend(() =>
 export type SetClusterDeploymentRecordsRequestDeploymentsItemStatus =
   | "deployed"
   | "decommissioned";
-export const SetClusterDeploymentRecordsRequestDeploymentsItemStatus =
-  /*@__PURE__*/ S.String;
+export const SetClusterDeploymentRecordsRequestDeploymentsItemStatus = S.String;
 
 /** Key-value pairs to tag the deployment record. */
 export type SetClusterDeploymentRecordsRequestDeploymentsItemTagsMap = {
@@ -6770,7 +6749,7 @@ export type SetClusterDeploymentRecordsRequestDeploymentsItemRuntimeRisksItem =
   | "lateral-movement"
   | "sensitive-data";
 export const SetClusterDeploymentRecordsRequestDeploymentsItemRuntimeRisksItem =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 /** A list of runtime risks associated with the deployment. */
 export type SetClusterDeploymentRecordsRequestDeploymentsItemRuntimeRisksList =
@@ -6897,8 +6876,7 @@ export type SetImmutableReleasesSettingsRequestEnforcedRepositories =
   | "all"
   | "none"
   | "selected";
-export const SetImmutableReleasesSettingsRequestEnforcedRepositories =
-  /*@__PURE__*/ S.String;
+export const SetImmutableReleasesSettingsRequestEnforcedRepositories = S.String;
 
 /** An array of repository ids for which immutable releases enforcement should be applied. You can only provide a list of repository ids when the `enforced_repositories` is set to `selected`. You can add and remove individual repositories using the [Enable a selected repository for immutable releases in an organization](https://docs.github.com/rest/orgs/orgs#enable-a-selected-repository-for-immutable-releases-in-an-organization) and [Disable a selected repository for immutable releases in an organization](https://docs.github.com/rest/orgs/orgs#disable-a-selected-repository-for-immutable-releases-in-an-organization) endpoints. */
 export type SetImmutableReleasesSettingsRequestSelectedRepositoryIdsList =
@@ -6983,7 +6961,7 @@ export const SetImmutableReleasesSettingsRepositoriesResponse =
 
 /** The role to give the user in the organization. Can be one of: * `admin` - The user will become an owner of the organization. * `member` - The user will become a non-owner member of the organization. */
 export type SetMembershipForUserRequestRole = "admin" | "member";
-export const SetMembershipForUserRequestRole = /*@__PURE__*/ S.String;
+export const SetMembershipForUserRequestRole = S.String;
 
 export interface SetMembershipForUserRequest {
   /** The organization name. The name is not case sensitive. */
@@ -7071,15 +7049,14 @@ export type UpdateRequestDefaultRepositoryPermission =
   | "write"
   | "admin"
   | "none";
-export const UpdateRequestDefaultRepositoryPermission = /*@__PURE__*/ S.String;
+export const UpdateRequestDefaultRepositoryPermission = S.String;
 
 /** Specifies which types of repositories non-admin organization members can create. `private` is only available to repositories that are part of an organization on GitHub Enterprise Cloud. **Note:** This parameter is closing down and will be removed in the future. Its return value ignores internal repositories. Using this parameter overrides values set in `members_can_create_repositories`. See the parameter deprecation notice in the operation description for details. */
 export type UpdateRequestMembersAllowedRepositoryCreationType =
   | "all"
   | "private"
   | "none";
-export const UpdateRequestMembersAllowedRepositoryCreationType =
-  /*@__PURE__*/ S.String;
+export const UpdateRequestMembersAllowedRepositoryCreationType = S.String;
 
 export interface UpdateRequest {
   /** The organization name. The name is not case sensitive. */
@@ -7196,7 +7173,7 @@ export const UpdateRequest = /*@__PURE__*/ S.suspend(() =>
 export type UpdateIssueFieldRequestVisibility =
   | "organization_members_only"
   | "all";
-export const UpdateIssueFieldRequestVisibility = /*@__PURE__*/ S.String;
+export const UpdateIssueFieldRequestVisibility = S.String;
 
 /** Color for the option. */
 export type UpdateIssueFieldRequestOptionsItemColor =
@@ -7208,7 +7185,7 @@ export type UpdateIssueFieldRequestOptionsItemColor =
   | "red"
   | "pink"
   | "purple";
-export const UpdateIssueFieldRequestOptionsItemColor = /*@__PURE__*/ S.String;
+export const UpdateIssueFieldRequestOptionsItemColor = S.String;
 
 export interface UpdateIssueFieldRequestOptionsItem {
   /** The id of an existing option to retain or update. Omit this when creating a new option. */
@@ -7284,7 +7261,7 @@ export type UpdateIssueTypeRequestColor =
   | "red"
   | "pink"
   | "purple";
-export const UpdateIssueTypeRequestColor = /*@__PURE__*/ S.String;
+export const UpdateIssueTypeRequestColor = S.String;
 
 export interface UpdateIssueTypeRequest {
   /** The organization name. The name is not case sensitive. */
@@ -7321,8 +7298,7 @@ export const UpdateIssueTypeRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The state that the membership should be in. Only `"active"` will be accepted. */
 export type UpdateMembershipForAuthenticatedUserRequestState = "active";
-export const UpdateMembershipForAuthenticatedUserRequestState =
-  /*@__PURE__*/ S.String;
+export const UpdateMembershipForAuthenticatedUserRequestState = S.String;
 
 export interface UpdateMembershipForAuthenticatedUserRequest {
   /** The organization name. The name is not case sensitive. */
@@ -7348,7 +7324,7 @@ export const UpdateMembershipForAuthenticatedUserRequest =
 
 /** Action to apply to the fine-grained personal access token. */
 export type UpdatePatAccessRequestAction = "revoke";
-export const UpdatePatAccessRequestAction = /*@__PURE__*/ S.String;
+export const UpdatePatAccessRequestAction = S.String;
 
 export interface UpdatePatAccessRequest {
   /** The organization name. The name is not case sensitive. */
@@ -7383,7 +7359,7 @@ export const UpdatePatAccessResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Action to apply to the fine-grained personal access token. */
 export type UpdatePatAccessesRequestAction = "revoke";
-export const UpdatePatAccessesRequestAction = /*@__PURE__*/ S.String;
+export const UpdatePatAccessesRequestAction = S.String;
 
 /** The IDs of the fine-grained personal access tokens. */
 export type UpdatePatAccessesRequestPatIdsList = Array<number>;
@@ -7503,141 +7479,6 @@ export const UpdateWebhookConfigForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateWebhookConfigForOrgRequest",
 }) as any as S.Schema<UpdateWebhookConfigForOrgRequest>;
 
-export type ApiInsightsGetRouteStatsByActorError = GithubOpError;
-/** Get route stats by actor Get API request count statistics for an actor broken down by route within a specified time frame. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
-export const apiInsightsGetRouteStatsByActor: API.OperationMethod<
-  ApiInsightsGetRouteStatsByActorRequest,
-  ApiInsightsGetRouteStatsByActorResponse,
-  ApiInsightsGetRouteStatsByActorError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ApiInsightsGetRouteStatsByActorRequest,
-  output: ApiInsightsGetRouteStatsByActorResponse,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ApiInsightsGetSubjectStatsError = GithubOpError;
-/** Get subject stats Get API request statistics for all subjects within an organization within a specified time frame. Subjects can be users or GitHub Apps. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
-export const apiInsightsGetSubjectStats: API.OperationMethod<
-  ApiInsightsGetSubjectStatsRequest,
-  ApiInsightsGetSubjectStatsResponse,
-  ApiInsightsGetSubjectStatsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ApiInsightsGetSubjectStatsRequest,
-  output: ApiInsightsGetSubjectStatsResponse,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ApiInsightsGetSummaryStatsError = GithubOpError;
-/** Get summary stats Get overall statistics of API requests made within an organization by all users and apps within a specified time frame. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
-export const apiInsightsGetSummaryStats: API.OperationMethod<
-  ApiInsightsGetSummaryStatsRequest,
-  ApiInsightsSummaryStats,
-  ApiInsightsGetSummaryStatsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ApiInsightsGetSummaryStatsRequest,
-  output: ApiInsightsSummaryStats,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ApiInsightsGetSummaryStatsByActorError = GithubOpError;
-/** Get summary stats by actor Get overall statistics of API requests within the organization made by a specific actor. Actors can be GitHub App installations, OAuth apps or other tokens on behalf of a user. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
-export const apiInsightsGetSummaryStatsByActor: API.OperationMethod<
-  ApiInsightsGetSummaryStatsByActorRequest,
-  ApiInsightsSummaryStats,
-  ApiInsightsGetSummaryStatsByActorError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ApiInsightsGetSummaryStatsByActorRequest,
-  output: ApiInsightsSummaryStats,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ApiInsightsGetSummaryStatsByUserError = GithubOpError;
-/** Get summary stats by user Get overall statistics of API requests within the organization for a user. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
-export const apiInsightsGetSummaryStatsByUser: API.OperationMethod<
-  ApiInsightsGetSummaryStatsByUserRequest,
-  ApiInsightsSummaryStats,
-  ApiInsightsGetSummaryStatsByUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ApiInsightsGetSummaryStatsByUserRequest,
-  output: ApiInsightsSummaryStats,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ApiInsightsGetTimeStatsError = GithubOpError;
-/** Get time stats Get the number of API requests and rate-limited requests made within an organization over a specified time period. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
-export const apiInsightsGetTimeStats: API.OperationMethod<
-  ApiInsightsGetTimeStatsRequest,
-  ApiInsightsGetTimeStatsResponse,
-  ApiInsightsGetTimeStatsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ApiInsightsGetTimeStatsRequest,
-  output: ApiInsightsGetTimeStatsResponse,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ApiInsightsGetTimeStatsByActorError = GithubOpError;
-/** Get time stats by actor Get the number of API requests and rate-limited requests made within an organization by a specific actor within a specified time period. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
-export const apiInsightsGetTimeStatsByActor: API.OperationMethod<
-  ApiInsightsGetTimeStatsByActorRequest,
-  ApiInsightsGetTimeStatsByActorResponse,
-  ApiInsightsGetTimeStatsByActorError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ApiInsightsGetTimeStatsByActorRequest,
-  output: ApiInsightsGetTimeStatsByActorResponse,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ApiInsightsGetTimeStatsByUserError = GithubOpError;
-/** Get time stats by user Get the number of API requests and rate-limited requests made within an organization by a specific user over a specified time period. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
-export const apiInsightsGetTimeStatsByUser: API.OperationMethod<
-  ApiInsightsGetTimeStatsByUserRequest,
-  ApiInsightsGetTimeStatsByUserResponse,
-  ApiInsightsGetTimeStatsByUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ApiInsightsGetTimeStatsByUserRequest,
-  output: ApiInsightsGetTimeStatsByUserResponse,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ApiInsightsGetUserStatsError = GithubOpError;
-/** Get user stats Get API usage statistics within an organization for a user broken down by the type of access. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
-export const apiInsightsGetUserStats: API.OperationMethod<
-  ApiInsightsGetUserStatsRequest,
-  ApiInsightsGetUserStatsResponse,
-  ApiInsightsGetUserStatsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ApiInsightsGetUserStatsRequest,
-  output: ApiInsightsGetUserStatsResponse,
-  errors: [],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
 export type AssignTeamToOrgRoleError =
   | NotFound
   | UnprocessableEntity
@@ -7685,6 +7526,25 @@ export const blockUser: API.OperationMethod<
   input: BlockUserRequest,
   output: BlockUserResponse,
   errors: [UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type BulkReviewPatGrantRequestsInError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | GithubOpError;
+/** Review requests to access organization resources with fine-grained personal access tokens Approves or denies multiple pending requests to access organization resources via a fine-grained personal access token. Only GitHub Apps can use this endpoint. */
+export const bulkReviewPatGrantRequestsIn: API.OperationMethod<
+  BulkReviewPatGrantRequestsInRequest,
+  BulkReviewPatGrantRequestsInResponse,
+  BulkReviewPatGrantRequestsInError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BulkReviewPatGrantRequestsInRequest,
+  output: BulkReviewPatGrantRequestsInResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -7914,7 +7774,9 @@ export const customPropertiesForReposCreateOrUpdateOrganizationDefinition: API.O
 }));
 
 export type CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsError =
-  Forbidden | NotFound | GithubOpError;
+  | Forbidden
+  | NotFound
+  | GithubOpError;
 /** Create or update custom properties for an organization Creates new or updates existing custom properties defined for an organization in a batch. If the property already exists, the existing property will be replaced with the new values. Missing optional values will fall back to default values, previous values will be overwritten. E.g. if a property exists with `values_editable_by: org_and_repo_actors` and it's updated without specifying `values_editable_by`, it will be updated to default value `org_actors`. To use this endpoint, the authenticated user must be one of: - An administrator for the organization. - A user, or a user on a team, with the fine-grained permission of `custom_properties_org_definitions_manager` in the organization. */
 export const customPropertiesForReposCreateOrUpdateOrganizationDefinitions: API.OperationMethod<
   CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsRequest,
@@ -8174,6 +8036,141 @@ export const get: API.OperationMethod<
   input: GetRequest,
   output: OrganizationFull,
   errors: [NotFound],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetApiInsightRouteStatsByActorError = GithubOpError;
+/** Get route stats by actor Get API request count statistics for an actor broken down by route within a specified time frame. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
+export const getApiInsightRouteStatsByActor: API.OperationMethod<
+  GetApiInsightRouteStatsByActorRequest,
+  GetApiInsightRouteStatsByActorResponse,
+  GetApiInsightRouteStatsByActorError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetApiInsightRouteStatsByActorRequest,
+  output: GetApiInsightRouteStatsByActorResponse,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetApiInsightSubjectStatsError = GithubOpError;
+/** Get subject stats Get API request statistics for all subjects within an organization within a specified time frame. Subjects can be users or GitHub Apps. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
+export const getApiInsightSubjectStats: API.OperationMethod<
+  GetApiInsightSubjectStatsRequest,
+  GetApiInsightSubjectStatsResponse,
+  GetApiInsightSubjectStatsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetApiInsightSubjectStatsRequest,
+  output: GetApiInsightSubjectStatsResponse,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetApiInsightSummaryStatsError = GithubOpError;
+/** Get summary stats Get overall statistics of API requests made within an organization by all users and apps within a specified time frame. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
+export const getApiInsightSummaryStats: API.OperationMethod<
+  GetApiInsightSummaryStatsRequest,
+  ApiInsightsSummaryStats,
+  GetApiInsightSummaryStatsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetApiInsightSummaryStatsRequest,
+  output: ApiInsightsSummaryStats,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetApiInsightSummaryStatsByActorError = GithubOpError;
+/** Get summary stats by actor Get overall statistics of API requests within the organization made by a specific actor. Actors can be GitHub App installations, OAuth apps or other tokens on behalf of a user. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
+export const getApiInsightSummaryStatsByActor: API.OperationMethod<
+  GetApiInsightSummaryStatsByActorRequest,
+  ApiInsightsSummaryStats,
+  GetApiInsightSummaryStatsByActorError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetApiInsightSummaryStatsByActorRequest,
+  output: ApiInsightsSummaryStats,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetApiInsightSummaryStatsByUserError = GithubOpError;
+/** Get summary stats by user Get overall statistics of API requests within the organization for a user. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
+export const getApiInsightSummaryStatsByUser: API.OperationMethod<
+  GetApiInsightSummaryStatsByUserRequest,
+  ApiInsightsSummaryStats,
+  GetApiInsightSummaryStatsByUserError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetApiInsightSummaryStatsByUserRequest,
+  output: ApiInsightsSummaryStats,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetApiInsightTimeStatsError = GithubOpError;
+/** Get time stats Get the number of API requests and rate-limited requests made within an organization over a specified time period. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
+export const getApiInsightTimeStats: API.OperationMethod<
+  GetApiInsightTimeStatsRequest,
+  GetApiInsightTimeStatsResponse,
+  GetApiInsightTimeStatsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetApiInsightTimeStatsRequest,
+  output: GetApiInsightTimeStatsResponse,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetApiInsightTimeStatsByActorError = GithubOpError;
+/** Get time stats by actor Get the number of API requests and rate-limited requests made within an organization by a specific actor within a specified time period. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
+export const getApiInsightTimeStatsByActor: API.OperationMethod<
+  GetApiInsightTimeStatsByActorRequest,
+  GetApiInsightTimeStatsByActorResponse,
+  GetApiInsightTimeStatsByActorError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetApiInsightTimeStatsByActorRequest,
+  output: GetApiInsightTimeStatsByActorResponse,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetApiInsightTimeStatsByUserError = GithubOpError;
+/** Get time stats by user Get the number of API requests and rate-limited requests made within an organization by a specific user over a specified time period. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
+export const getApiInsightTimeStatsByUser: API.OperationMethod<
+  GetApiInsightTimeStatsByUserRequest,
+  GetApiInsightTimeStatsByUserResponse,
+  GetApiInsightTimeStatsByUserError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetApiInsightTimeStatsByUserRequest,
+  output: GetApiInsightTimeStatsByUserResponse,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetApiInsightUserStatsError = GithubOpError;
+/** Get user stats Get API usage statistics within an organization for a user broken down by the type of access. Under normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up. */
+export const getApiInsightUserStats: API.OperationMethod<
+  GetApiInsightUserStatsRequest,
+  GetApiInsightUserStatsResponse,
+  GetApiInsightUserStatsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetApiInsightUserStatsRequest,
+  output: GetApiInsightUserStatsResponse,
+  errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -8904,25 +8901,6 @@ export const reviewPatGrantRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ReviewPatGrantRequestRequest,
   output: ReviewPatGrantRequestResponse,
-  errors: [Forbidden, NotFound, UnprocessableEntity],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ReviewPatGrantRequestsInBulkError =
-  | Forbidden
-  | NotFound
-  | UnprocessableEntity
-  | GithubOpError;
-/** Review requests to access organization resources with fine-grained personal access tokens Approves or denies multiple pending requests to access organization resources via a fine-grained personal access token. Only GitHub Apps can use this endpoint. */
-export const reviewPatGrantRequestsInBulk: API.OperationMethod<
-  ReviewPatGrantRequestsInBulkRequest,
-  ReviewPatGrantRequestsInBulkResponse,
-  ReviewPatGrantRequestsInBulkError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ReviewPatGrantRequestsInBulkRequest,
-  output: ReviewPatGrantRequestsInBulkResponse,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,

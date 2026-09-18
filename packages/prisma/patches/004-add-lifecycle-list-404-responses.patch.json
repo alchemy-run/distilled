@@ -1,0 +1,69 @@
+{
+  "description": "Type 404 responses when the project filter references a deleted project, so service and environment-variable cleanup can remain idempotent.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1services/get/responses/404",
+      "value": {
+        "description": "Project referenced by the projectId filter not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "hint": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["code", "message"]
+                }
+              },
+              "required": ["error"]
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1v1~1environment-variables/get/responses/404",
+      "value": {
+        "description": "Project referenced by the projectId filter not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "hint": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["code", "message"]
+                }
+              },
+              "required": ["error"]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

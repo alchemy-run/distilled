@@ -4,62 +4,10 @@
     "service": "firebasestorage",
     "version": "v1beta",
     "title": "Cloud Storage for Firebase API",
-    "baseUrl": "https://firebasestorage.googleapis.com/"
+    "baseUrl": "https://firebasestorage.googleapis.com/",
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.firebasestorage_v1beta#DefaultBucket": {
-      "type": "structure",
-      "members": {
-        "location": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Immutable. Location of the default bucket."
-          }
-        },
-        "bucket": {
-          "target": "com.gcp.firebasestorage_v1beta#Bucket",
-          "traits": {
-            "smithy.api#documentation": "Output only. Underlying bucket resource."
-          }
-        },
-        "storageClass": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Immutable. Storage class of the default bucket. Supported values are available at https://cloud.google.com/storage/docs/storage-classes#classes."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifier. Resource name of the default bucket."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Spark tier-eligible Cloud Storage bucket. One per project. This resource exists if the underlying Cloud Storage bucket exists and it is linked to your Firebase project. See https://firebase.google.com/pricing for pricing details."
-      }
-    },
-    "com.gcp.firebasestorage_v1beta#Empty": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
-      }
-    },
-    "com.gcp.firebasestorage_v1beta#Bucket": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Resource name of the bucket."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A storage bucket and its relation to a parent Firebase project."
-      }
-    },
     "com.gcp.firebasestorage_v1beta#ListBucketsResponse": {
       "type": "structure",
       "members": {
@@ -86,18 +34,71 @@
         "target": "com.gcp.firebasestorage_v1beta#Bucket"
       }
     },
-    "com.gcp.firebasestorage_v1beta#AddFirebaseRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "The request used to link a Google Cloud Storage bucket to a Firebase project."
-      }
-    },
     "com.gcp.firebasestorage_v1beta#RemoveFirebaseRequest": {
       "type": "structure",
       "members": {},
       "traits": {
         "smithy.api#documentation": "The request used to unlink a Google Cloud Storage bucket from a Firebase project."
+      }
+    },
+    "com.gcp.firebasestorage_v1beta#DefaultBucket": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. Resource name of the default bucket."
+          }
+        },
+        "storageClass": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Immutable. Storage class of the default bucket. Supported values are available at https://cloud.google.com/storage/docs/storage-classes#classes."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Immutable. Location of the default bucket."
+          }
+        },
+        "bucket": {
+          "target": "com.gcp.firebasestorage_v1beta#Bucket",
+          "traits": {
+            "smithy.api#documentation": "Output only. Underlying bucket resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Spark tier-eligible Cloud Storage bucket. One per project. This resource exists if the underlying Cloud Storage bucket exists and it is linked to your Firebase project. See https://firebase.google.com/pricing for pricing details."
+      }
+    },
+    "com.gcp.firebasestorage_v1beta#Bucket": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Resource name of the bucket."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A storage bucket and its relation to a parent Firebase project."
+      }
+    },
+    "com.gcp.firebasestorage_v1beta#Empty": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+      }
+    },
+    "com.gcp.firebasestorage_v1beta#AddFirebaseRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "The request used to link a Google Cloud Storage bucket to a Firebase project."
       }
     },
     "com.gcp.firebasestorage_v1beta#GetDefaultBucketProjectsRequest": {
@@ -232,14 +233,64 @@
         "smithy.api#documentation": "Unlinks and deletes the default bucket."
       }
     },
+    "com.gcp.firebasestorage_v1beta#RemoveFirebaseProjectsBucketsRequest": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Resource name of the bucket, mirrors the ID of the underlying Google Cloud Storage bucket, `projects/{project_id_or_number}/buckets/{bucket_id}`.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.firebasestorage_v1beta#RemoveFirebaseRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.firebasestorage_v1beta#RemoveFirebaseProjectsBuckets": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.firebasestorage_v1beta#RemoveFirebaseProjectsBucketsRequest"
+      },
+      "output": {
+        "target": "com.gcp.firebasestorage_v1beta#Empty"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.firebasestorage_v1beta#NotFound"
+        },
+        {
+          "target": "com.gcp.firebasestorage_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebasestorage_v1beta#BadRequest"
+        },
+        {
+          "target": "com.gcp.firebasestorage_v1beta#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1beta/{+bucket}:removeFirebase"
+        },
+        "smithy.api#documentation": "Unlinks a linked Google Cloud Storage bucket from a Firebase project."
+      }
+    },
     "com.gcp.firebasestorage_v1beta#ListProjectsBucketsRequest": {
       "type": "structure",
       "members": {
-        "pageToken": {
-          "target": "smithy.api#String",
+        "pageSize": {
+          "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "A page token, received from a previous `ListBuckets` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBuckets` must match the call that provided the page token.",
-            "smithy.api#httpQuery": "pageToken"
+            "smithy.api#documentation": "The maximum number of buckets to return. If not set, the server will use a reasonable default.",
+            "smithy.api#httpQuery": "pageSize"
           }
         },
         "parent": {
@@ -250,11 +301,11 @@
             "smithy.api#required": {}
           }
         },
-        "pageSize": {
-          "target": "smithy.api#Integer",
+        "pageToken": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The maximum number of buckets to return. If not set, the server will use a reasonable default.",
-            "smithy.api#httpQuery": "pageSize"
+            "smithy.api#documentation": "A page token, received from a previous `ListBuckets` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBuckets` must match the call that provided the page token.",
+            "smithy.api#httpQuery": "pageToken"
           }
         }
       }
@@ -285,6 +336,43 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.firebasestorage_v1beta#GetProjectsBucketsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Resource name of the bucket, mirrors the ID of the underlying Google Cloud Storage bucket, `projects/{project_id_or_number}/buckets/{bucket_id}`.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.firebasestorage_v1beta#GetProjectsBuckets": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.firebasestorage_v1beta#GetProjectsBucketsRequest"
+      },
+      "output": {
+        "target": "com.gcp.firebasestorage_v1beta#Bucket"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.firebasestorage_v1beta#NotFound"
+        },
+        {
+          "target": "com.gcp.firebasestorage_v1beta#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1beta/{+name}"
+        },
+        "smithy.api#documentation": "Gets a single linked storage bucket."
       }
     },
     "com.gcp.firebasestorage_v1beta#AddFirebaseProjectsBucketsRequest": {
@@ -335,93 +423,6 @@
           "uri": "v1beta/{+bucket}:addFirebase"
         },
         "smithy.api#documentation": "Links a Google Cloud Storage bucket to a Firebase project."
-      }
-    },
-    "com.gcp.firebasestorage_v1beta#GetProjectsBucketsRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Resource name of the bucket, mirrors the ID of the underlying Google Cloud Storage bucket, `projects/{project_id_or_number}/buckets/{bucket_id}`.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.firebasestorage_v1beta#GetProjectsBuckets": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.firebasestorage_v1beta#GetProjectsBucketsRequest"
-      },
-      "output": {
-        "target": "com.gcp.firebasestorage_v1beta#Bucket"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.firebasestorage_v1beta#NotFound"
-        },
-        {
-          "target": "com.gcp.firebasestorage_v1beta#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1beta/{+name}"
-        },
-        "smithy.api#documentation": "Gets a single linked storage bucket."
-      }
-    },
-    "com.gcp.firebasestorage_v1beta#RemoveFirebaseProjectsBucketsRequest": {
-      "type": "structure",
-      "members": {
-        "bucket": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Resource name of the bucket, mirrors the ID of the underlying Google Cloud Storage bucket, `projects/{project_id_or_number}/buckets/{bucket_id}`.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.firebasestorage_v1beta#RemoveFirebaseRequest",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
-      }
-    },
-    "com.gcp.firebasestorage_v1beta#RemoveFirebaseProjectsBuckets": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.firebasestorage_v1beta#RemoveFirebaseProjectsBucketsRequest"
-      },
-      "output": {
-        "target": "com.gcp.firebasestorage_v1beta#Empty"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.firebasestorage_v1beta#NotFound"
-        },
-        {
-          "target": "com.gcp.firebasestorage_v1beta#Forbidden"
-        },
-        {
-          "target": "com.gcp.firebasestorage_v1beta#BadRequest"
-        },
-        {
-          "target": "com.gcp.firebasestorage_v1beta#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "v1beta/{+bucket}:removeFirebase"
-        },
-        "smithy.api#documentation": "Unlinks a linked Google Cloud Storage bucket from a Firebase project."
       }
     },
     "com.gcp.firebasestorage_v1beta#CreateProjectsDefaultBucketRequest": {

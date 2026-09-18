@@ -113,18 +113,18 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    code: S.optional(S.Number),
-    details: S.optional(DocumentMapList),
     message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
+    code: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
@@ -132,39 +132,39 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
-    response: S.optional(DocumentMap),
     error: S.optional(Status),
+    metadata: S.optional(DocumentMap),
+    response: S.optional(DocumentMap),
+    done: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
 /** Request message for AuthorizeEnvironment. */
 export interface AuthorizeEnvironmentRequest {
-  /** The OAuth access token that should be sent to the environment. */
-  accessToken?: string;
-  /** The OAuth ID token that should be sent to the environment. */
-  idToken?: string;
   /** The time when the credentials expire. If not set, defaults to one hour from when the server received the request. */
   expireTime?: string;
+  /** The OAuth ID token that should be sent to the environment. */
+  idToken?: string;
+  /** The OAuth access token that should be sent to the environment. */
+  accessToken?: string;
 }
 export const AuthorizeEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accessToken: S.optional(S.String),
-    idToken: S.optional(S.String),
     expireTime: S.optional(S.String),
+    idToken: S.optional(S.String),
+    accessToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AuthorizeEnvironmentRequest",
@@ -318,72 +318,72 @@ export const GetUsersEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetUsersEnvironmentsRequest",
 }) as any as S.Schema<GetUsersEnvironmentsRequest>;
 
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
 export type EnvironmentStateEnum =
   | "STATE_UNSPECIFIED"
   | "SUSPENDED"
   | "PENDING"
   | "RUNNING"
   | "DELETING";
-export const EnvironmentStateEnum = /*@__PURE__*/ S.String;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
+export const EnvironmentStateEnum = S.String;
 
 /** A Cloud Shell environment, which is defined as the combination of a Docker image specifying what is installed on the environment and a home directory containing the user's data that will remain across sessions. Each user has at least an environment with the ID "default". */
 export interface Environment {
-  /** Immutable. Full name of this resource, in the format `users/{owner_email}/environments/{environment_id}`. `{owner_email}` is the email address of the user to whom this environment belongs, and `{environment_id}` is the identifier of this environment. For example, `users/someone@example.com/environments/default`. */
-  name?: string;
-  /** Output only. The environment's identifier, unique among the user's environments. */
-  id?: string;
+  /** Output only. Public keys associated with the environment. Clients can connect to this environment via SSH only if they possess a private key corresponding to at least one of these public keys. Keys can be added to or removed from the environment using the AddPublicKey and RemovePublicKey methods. */
+  publicKeys?: StringList;
+  /** Output only. Host to which clients can connect to initiate HTTPS or WSS connections with the environment. */
+  webHost?: string;
   /** Output only. Host to which clients can connect to initiate SSH sessions with the environment. */
   sshHost?: string;
   /** Output only. Current execution state of this environment. */
   state?: EnvironmentStateEnum;
-  /** Output only. Host to which clients can connect to initiate HTTPS or WSS connections with the environment. */
-  webHost?: string;
-  /** Required. Immutable. Full path to the Docker image used to run this environment, e.g. "gcr.io/dev-con/cloud-devshell:latest". */
-  dockerImage?: string;
-  /** Output only. Username that clients should use when initiating SSH sessions with the environment. */
-  sshUsername?: string;
-  /** Output only. Public keys associated with the environment. Clients can connect to this environment via SSH only if they possess a private key corresponding to at least one of these public keys. Keys can be added to or removed from the environment using the AddPublicKey and RemovePublicKey methods. */
-  publicKeys?: StringList;
   /** Output only. Port to which clients can connect to initiate SSH sessions with the environment. */
   sshPort?: number;
+  /** Output only. Username that clients should use when initiating SSH sessions with the environment. */
+  sshUsername?: string;
+  /** Required. Immutable. Full path to the Docker image used to run this environment, e.g. "gcr.io/dev-con/cloud-devshell:latest". */
+  dockerImage?: string;
+  /** Output only. The environment's identifier, unique among the user's environments. */
+  id?: string;
+  /** Immutable. Full name of this resource, in the format `users/{owner_email}/environments/{environment_id}`. `{owner_email}` is the email address of the user to whom this environment belongs, and `{environment_id}` is the identifier of this environment. For example, `users/someone@example.com/environments/default`. */
+  name?: string;
 }
 export const Environment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    id: S.optional(S.String),
+    publicKeys: S.optional(StringList),
+    webHost: S.optional(S.String),
     sshHost: S.optional(S.String),
     state: S.optional(EnvironmentStateEnum),
-    webHost: S.optional(S.String),
-    dockerImage: S.optional(S.String),
-    sshUsername: S.optional(S.String),
-    publicKeys: S.optional(StringList),
     sshPort: S.optional(S.Number),
+    sshUsername: S.optional(S.String),
+    dockerImage: S.optional(S.String),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Environment" }) as any as S.Schema<Environment>;
 
 export interface ListOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
+  /** The name of the operation's parent resource. */
+  name: string;
   /** The standard list filter. */
   filter?: string;
+  /** The standard list page token. */
+  pageToken?: string;
   /** The standard list page size. */
   pageSize?: number;
 }
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -405,16 +405,16 @@ export const OperationList = /*@__PURE__*/ S.Array(
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operations: S.optional(OperationList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListOperationsResponse",
@@ -457,15 +457,15 @@ export const RemovePublicKeyUsersEnvironmentsRequest = /*@__PURE__*/ S.suspend(
 
 /** Request message for StartEnvironment. */
 export interface StartEnvironmentRequest {
-  /** The initial access token passed to the environment. If this is present and valid, the environment will be pre-authenticated with gcloud so that the user can run gcloud commands in Cloud Shell without having to log in. This code can be updated later by calling AuthorizeEnvironment. */
-  accessToken?: string;
   /** Public keys that should be added to the environment before it is started. */
   publicKeys?: StringList;
+  /** The initial access token passed to the environment. If this is present and valid, the environment will be pre-authenticated with gcloud so that the user can run gcloud commands in Cloud Shell without having to log in. This code can be updated later by calling AuthorizeEnvironment. */
+  accessToken?: string;
 }
 export const StartEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accessToken: S.optional(S.String),
     publicKeys: S.optional(StringList),
+    accessToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "StartEnvironmentRequest",

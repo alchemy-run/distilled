@@ -1,0 +1,661 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.announcements#ListAnnouncementsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.announcements#PaginatedAnnouncementListOutput": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.announcements#PaginatedAnnouncementListOutputResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.announcements#AnnouncementOutput": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short human-friendly identifier for the announcement.",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Message body to send, rendered as Slack mrkdwn.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.announcements#AnnouncementStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Overall status: pending, sending, sent, partially_failed, or failed.\n\n* `pending` - Pending\n* `sending` - Sending\n* `sent` - Sent\n* `partially_failed` - Partially failed\n* `failed` - Failed",
+            "smithy.api#required": {}
+          }
+        },
+        "total_channels": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of channels this announcement targets.",
+            "smithy.api#required": {}
+          }
+        },
+        "sent_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of channels the message was successfully delivered to.",
+            "smithy.api#required": {}
+          }
+        },
+        "failed_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of channels delivery failed for.",
+            "smithy.api#required": {}
+          }
+        },
+        "sent_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When delivery finished (all channels resolved). Null while pending/sending.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the announcement was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.announcements#UserBasic",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deliveries": {
+          "target": "com.posthog.announcements#AnnouncementOutputDeliveriesList",
+          "traits": {
+            "smithy.api#documentation": "Per-channel delivery rows, one per selected Slack channel.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.announcements#AnnouncementStatusEnum": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "SENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sending"
+          }
+        },
+        "SENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sent"
+          }
+        },
+        "PARTIALLY_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partially_failed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `pending` - Pending\n* `sending` - Sending\n* `sent` - Sent\n* `partially_failed` - Partially failed\n* `failed` - Failed"
+      }
+    },
+    "com.posthog.announcements#UserBasic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "uuid": {
+          "target": "smithy.api#String"
+        },
+        "distinct_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String"
+        },
+        "last_name": {
+          "target": "smithy.api#String"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "is_email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hedgehog_config": {
+          "target": "com.posthog.announcements#UserBasicHedgehogConfigMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role_at_organization": {
+          "target": "com.posthog.announcements#UserBasicRoleAtOrganization",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.announcements#UserBasicHedgehogConfigMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.announcements#RoleAtOrganizationEnum": {
+      "type": "enum",
+      "members": {
+        "ENGINEERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engineering"
+          }
+        },
+        "DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data"
+          }
+        },
+        "PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product"
+          }
+        },
+        "FOUNDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "founder"
+          }
+        },
+        "LEADERSHIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leadership"
+          }
+        },
+        "MARKETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marketing"
+          }
+        },
+        "SALES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales"
+          }
+        },
+        "STUDENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "student"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `engineering` - Engineering\n* `data` - Data\n* `product` - Product Management\n* `founder` - Founder\n* `leadership` - Leadership\n* `marketing` - Marketing\n* `sales` - Sales / Success\n* `student` - Student\n* `other` - Other"
+      }
+    },
+    "com.posthog.announcements#BlankEnum": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": ""
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.announcements#UserBasicRoleAtOrganization": {
+      "type": "union",
+      "members": {
+        "RoleAtOrganizationEnum": {
+          "target": "com.posthog.announcements#RoleAtOrganizationEnum"
+        },
+        "BlankEnum": {
+          "target": "com.posthog.announcements#BlankEnum"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.announcements#AnnouncementDelivery": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "slack_channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel ID the message was sent to (e.g. C0123ABCD).",
+            "smithy.api#required": {}
+          }
+        },
+        "slack_channel_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel display name at send time (without the leading #).",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.announcements#AnnouncementDeliveryStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Per-channel delivery status: pending, sent, or failed.\n\n* `pending` - Pending\n* `sent` - Sent\n* `failed` - Failed",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack error code when delivery to this channel failed; empty otherwise.",
+            "smithy.api#required": {}
+          }
+        },
+        "slack_message_ts": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp ID of the posted Slack message, when delivery succeeded.",
+            "smithy.api#required": {}
+          }
+        },
+        "sent_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the message was delivered to this channel. Null until sent.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.announcements#AnnouncementDeliveryStatusEnum": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "SENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sent"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `pending` - Pending\n* `sent` - Sent\n* `failed` - Failed"
+      }
+    },
+    "com.posthog.announcements#AnnouncementOutputDeliveriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.announcements#AnnouncementDelivery"
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-channel delivery rows, one per selected Slack channel."
+      }
+    },
+    "com.posthog.announcements#PaginatedAnnouncementListOutputResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.announcements#AnnouncementOutput"
+      },
+      "traits": {}
+    },
+    "com.posthog.announcements#ListAnnouncements": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.announcements#ListAnnouncementsRequest"
+      },
+      "output": {
+        "target": "com.posthog.announcements#PaginatedAnnouncementListOutput"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/announcements/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.announcements#CreateAnnouncementRequestChannelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Slack channel IDs to send to. Each must be a channel the SupportHog bot is a member of; names are resolved server-side."
+      }
+    },
+    "com.posthog.announcements#CreateAnnouncementRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Message body to send, rendered as Slack mrkdwn.",
+            "smithy.api#required": {}
+          }
+        },
+        "channels": {
+          "target": "com.posthog.announcements#CreateAnnouncementRequestChannelsList",
+          "traits": {
+            "smithy.api#documentation": "Slack channel IDs to send to. Each must be a channel the SupportHog bot is a member of; names are resolved server-side.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.announcements#CreateAnnouncement": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.announcements#CreateAnnouncementRequest"
+      },
+      "output": {
+        "target": "com.posthog.announcements#AnnouncementOutput"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/announcements/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.announcements#GetAnnouncementRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.announcements#GetAnnouncement": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.announcements#GetAnnouncementRequest"
+      },
+      "output": {
+        "target": "com.posthog.announcements#AnnouncementOutput"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/announcements/{short_id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.announcements#ListAnnouncementsChannelsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.announcements#AnnouncementChannel": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel ID (e.g. C0123ABCD).",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel display name (without the leading #).",
+            "smithy.api#required": {}
+          }
+        },
+        "is_member": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the SupportHog bot is a member of this channel.",
+            "smithy.api#required": {}
+          }
+        },
+        "customer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the customer account whose slack_channel_id points at this channel, or null if unmapped.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.announcements#ListAnnouncementsChannelsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.announcements#AnnouncementChannel"
+      },
+      "traits": {}
+    },
+    "com.posthog.announcements#ListAnnouncementsChannelsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.announcements#ListAnnouncementsChannelsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.announcements#ListAnnouncementsChannels": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.announcements#ListAnnouncementsChannelsRequest"
+      },
+      "output": {
+        "target": "com.posthog.announcements#ListAnnouncementsChannelsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/announcements/channels/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Slack channels the SupportHog bot can post to, labeled by customer account name."
+      }
+    },
+    "com.posthog.announcements#Announcements": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.announcements#ListAnnouncements"
+        },
+        {
+          "target": "com.posthog.announcements#CreateAnnouncement"
+        },
+        {
+          "target": "com.posthog.announcements#GetAnnouncement"
+        },
+        {
+          "target": "com.posthog.announcements#ListAnnouncementsChannels"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

@@ -902,6 +902,8 @@ export interface IoK8sApiCoreV1HTTPGetAction {
   path?: string;
   /** Name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
   port: string;
+  /** Protocol selects the wire protocol for the probe connection. Nil defaults to HTTP/1.1. */
+  protocol?: string;
   /** Scheme to use for connecting to the host. Defaults to HTTP. */
   scheme?: string;
 }
@@ -911,6 +913,7 @@ export const IoK8sApiCoreV1HTTPGetAction = /*@__PURE__*/ S.suspend(() =>
     httpHeaders: S.optional(IoK8sApiCoreV1HTTPGetActionHttpHeadersList),
     path: S.optional(S.String),
     port: S.String,
+    protocol: S.optional(S.String),
     scheme: S.optional(S.String),
   }),
 ).annotate({
@@ -989,6 +992,8 @@ export const IoK8sApiCoreV1Lifecycle = /*@__PURE__*/ S.suspend(() =>
 
 /** GRPCAction specifies an action involving a GRPC service. */
 export interface IoK8sApiCoreV1GRPCAction {
+  /** mode specifies the connection mode for the gRPC health probe. Set to "TLS" to use TLS without certificate verification. Set to "Plaintext" to use a plaintext (insecure) connection explicitly. If not specified, the probe uses a plaintext (insecure) connection. */
+  mode?: string;
   /** Port number of the gRPC service. Number must be in the range 1 to 65535. */
   port: number;
   /** Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). If this is not specified, the default behavior is defined by gRPC. */
@@ -996,6 +1001,7 @@ export interface IoK8sApiCoreV1GRPCAction {
 }
 export const IoK8sApiCoreV1GRPCAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    mode: S.optional(S.String),
     port: S.Number,
     service: S.optional(S.String),
   }),
@@ -1386,8 +1392,17 @@ export const IoK8sApiCoreV1ContainerVolumeDevicesList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1VolumeDevice,
 ) as any as S.Schema<IoK8sApiCoreV1ContainerVolumeDevicesList>;
 
+/** bindMountOptions is the list of additional bind mount options to apply when mounting this volume into the container. Allowed values are noexec, nodev, and nosuid. These are Linux mount options and have no effect on Windows nodes. This field is not supported with image volumes. This is an alpha field and requires enabling the VolumeBindMountOptions feature gate. */
+export type IoK8sApiCoreV1VolumeMountBindMountOptionsList = Array<string>;
+export const IoK8sApiCoreV1VolumeMountBindMountOptionsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IoK8sApiCoreV1VolumeMountBindMountOptionsList>;
+
 /** VolumeMount describes a mounting of a Volume within a container. */
 export interface IoK8sApiCoreV1VolumeMount {
+  /** bindMountOptions is the list of additional bind mount options to apply when mounting this volume into the container. Allowed values are noexec, nodev, and nosuid. These are Linux mount options and have no effect on Windows nodes. This field is not supported with image volumes. This is an alpha field and requires enabling the VolumeBindMountOptions feature gate. */
+  bindMountOptions?: IoK8sApiCoreV1VolumeMountBindMountOptionsList;
   /** Path within the container at which the volume should be mounted. */
   mountPath: string;
   /** mountPropagation determines how mounts are propagated from the host to container and the other way around. When not set, MountPropagationNone is used. This field is beta in 1.10. When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified (which defaults to None). */
@@ -1405,6 +1420,7 @@ export interface IoK8sApiCoreV1VolumeMount {
 }
 export const IoK8sApiCoreV1VolumeMount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    bindMountOptions: S.optional(IoK8sApiCoreV1VolumeMountBindMountOptionsList),
     mountPath: S.String,
     mountPropagation: S.optional(S.String),
     name: S.String,
@@ -1738,6 +1754,30 @@ export const IoK8sApiCoreV1PodSpecEphemeralContainersList =
   /*@__PURE__*/ S.Array(
     IoK8sApiCoreV1EphemeralContainer,
   ) as any as S.Schema<IoK8sApiCoreV1PodSpecEphemeralContainersList>;
+
+/** EvictionResponder allows you to specify the responder reacting to an Eviction. Responders should observe and communicate through the Eviction Resource API to help with the graceful eviction of a target (e.g. termination of a pod). */
+export interface IoK8sApiCoreV1EvictionResponder {
+  /** name allows you to identify the responder responding to the Eviction. It must be a valid domain-prefixed key (such as "acme.io/foo"). Domain names *.k8s.io and *.kubernetes.io are reserved. This field must be unique for each responder. This field is required. */
+  name: string;
+  /** priority for this responder. Higher priorities are selected first by the evictionrequest-controller. If there are responders with the same priority, the responder whose domain name comes first in the alphabetical higher domain order, will be picked. This means that the top domain labels are compared alphabetically first, followed by the lower domain labels. The key is compared last. The responder that is the managing controller of the pod should set the value of this field to 10000 to allow both for preemption or fallback registration by other responders. The minimum value is 0 and the maximum value is 100000. The interval 0-999 is reserved for responders with *.k8s.io suffix. This field is required. */
+  priority: number;
+}
+export const IoK8sApiCoreV1EvictionResponder = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    priority: S.Number,
+  }),
+).annotate({
+  identifier: "IoK8sApiCoreV1EvictionResponder",
+}) as any as S.Schema<IoK8sApiCoreV1EvictionResponder>;
+
+/** evictionResponders reference responders that react to Evictions based on EvictionRequests. Responders should observe and communicate through the Eviction Resource API to help with the graceful termination of a pod. The responders are selected sequentially, according to their specified priority. Responders should periodically report on an eviction progress by updating the .status.responders[].heartbeatTime field of the Eviction object. If this field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there is no other responder, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource). The maximum length of the responders list is 10. Responders are not supported when the pod is part of a PodGroup (.spec.schedulingGroup is set). This field can only be set on creation and is immutable afterwards. */
+export type IoK8sApiCoreV1PodSpecEvictionRespondersList =
+  Array<IoK8sApiCoreV1EvictionResponder>;
+export const IoK8sApiCoreV1PodSpecEvictionRespondersList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiCoreV1EvictionResponder,
+  ) as any as S.Schema<IoK8sApiCoreV1PodSpecEvictionRespondersList>;
 
 /** Hostnames for the above IP address. */
 export type IoK8sApiCoreV1HostAliasHostnamesList = Array<string>;
@@ -2208,12 +2248,15 @@ export interface IoK8sApiCoreV1KeyToPath {
   mode?: number;
   /** path is the relative path of the file to map the key to. May not be an absolute path. May not contain the path element '..'. May not start with the string '..'. */
   path: string;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
 }
 export const IoK8sApiCoreV1KeyToPath = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.String,
     mode: S.optional(S.Number),
     path: S.String,
+    user: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "IoK8sApiCoreV1KeyToPath",
@@ -2231,6 +2274,8 @@ export const IoK8sApiCoreV1ConfigMapVolumeSourceItemsList =
 export interface IoK8sApiCoreV1ConfigMapVolumeSource {
   /** defaultMode is optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number;
   /** items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
   items?: IoK8sApiCoreV1ConfigMapVolumeSourceItemsList;
   /** Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
@@ -2241,6 +2286,7 @@ export interface IoK8sApiCoreV1ConfigMapVolumeSource {
 export const IoK8sApiCoreV1ConfigMapVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultMode: S.optional(S.Number),
+    defaultUser: S.optional(S.Number),
     items: S.optional(IoK8sApiCoreV1ConfigMapVolumeSourceItemsList),
     name: S.optional(S.String),
     optional: S.optional(S.Boolean),
@@ -2296,6 +2342,8 @@ export interface IoK8sApiCoreV1DownwardAPIVolumeFile {
   path: string;
   /** Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported. */
   resourceFieldRef?: IoK8sApiCoreV1ResourceFieldSelector;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
 }
 export const IoK8sApiCoreV1DownwardAPIVolumeFile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2303,6 +2351,7 @@ export const IoK8sApiCoreV1DownwardAPIVolumeFile = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(S.Number),
     path: S.String,
     resourceFieldRef: S.optional(IoK8sApiCoreV1ResourceFieldSelector),
+    user: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "IoK8sApiCoreV1DownwardAPIVolumeFile",
@@ -2320,6 +2369,8 @@ export const IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList =
 export interface IoK8sApiCoreV1DownwardAPIVolumeSource {
   /** Optional: mode bits to use on created files by default. Must be a Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number;
   /** Items is a list of downward API volume file */
   items?: IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList;
 }
@@ -2327,6 +2378,7 @@ export const IoK8sApiCoreV1DownwardAPIVolumeSource = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       defaultMode: S.optional(S.Number),
+      defaultUser: S.optional(S.Number),
       items: S.optional(IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList),
     }),
 ).annotate({
@@ -2337,12 +2389,15 @@ export const IoK8sApiCoreV1DownwardAPIVolumeSource = /*@__PURE__*/ S.suspend(
 export interface IoK8sApiCoreV1EmptyDirVolumeSource {
   /** medium represents what type of storage medium should back this directory. The default is "" which means to use the node's default medium. Must be an empty string (default) or Memory. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir */
   medium?: string;
+  /** mode specifies the permission bits for the emptyDir directory, in numeric notation (e.g., 0755, 01777). Must be a value between 0000 and 01777. If not specified, defaults to 0777. This might be in conflict with other options that affect the file mode, like fsGroup. If fsGroup is specified, the fsGroup permissions will override the mode specified here. This field has no effect on Windows. This field is alpha and requires EmptyDirVolumeMode featuregate to be enabled. */
+  mode?: number;
   /** sizeLimit is the total amount of local storage required for this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir */
   sizeLimit?: string;
 }
 export const IoK8sApiCoreV1EmptyDirVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     medium: S.optional(S.String),
+    mode: S.optional(S.Number),
     sizeLimit: S.optional(S.String),
   }),
 ).annotate({
@@ -2821,6 +2876,8 @@ export interface IoK8sApiCoreV1ClusterTrustBundleProjection {
   path: string;
   /** Select all ClusterTrustBundles that match this signer name. Mutually-exclusive with name. The contents of all selected ClusterTrustBundles will be unified and deduplicated. */
   signerName?: string;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
 }
 export const IoK8sApiCoreV1ClusterTrustBundleProjection =
   /*@__PURE__*/ S.suspend(() =>
@@ -2830,6 +2887,7 @@ export const IoK8sApiCoreV1ClusterTrustBundleProjection =
       optional: S.optional(S.Boolean),
       path: S.String,
       signerName: S.optional(S.String),
+      user: S.optional(S.Number),
     }),
   ).annotate({
     identifier: "IoK8sApiCoreV1ClusterTrustBundleProjection",
@@ -2906,6 +2964,8 @@ export interface IoK8sApiCoreV1PodCertificateProjection {
   maxExpirationSeconds?: number;
   /** Kubelet's generated CSRs will be addressed to this signer. */
   signerName: string;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
   /** userAnnotations allow pod authors to pass additional information to the signer implementation. Kubernetes does not restrict or validate this metadata in any way. These values are copied verbatim into the `spec.unverifiedUserAnnotations` field of the PodCertificateRequest objects that Kubelet creates. Entries are subject to the same validation as object metadata annotations, with the addition that all keys must be domain-prefixed. No restrictions are placed on values, except an overall size limitation on the entire field. Signers should document the keys and values they support. Signers should deny requests that contain keys they do not recognize. */
   userAnnotations?: IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap;
 }
@@ -2918,6 +2978,7 @@ export const IoK8sApiCoreV1PodCertificateProjection = /*@__PURE__*/ S.suspend(
       keyType: S.String,
       maxExpirationSeconds: S.optional(S.Number),
       signerName: S.String,
+      user: S.optional(S.Number),
       userAnnotations: S.optional(
         IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap,
       ),
@@ -2960,6 +3021,8 @@ export interface IoK8sApiCoreV1ServiceAccountTokenProjection {
   expirationSeconds?: number;
   /** path is the path relative to the mount point of the file to project the token into. */
   path: string;
+  /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  user?: number;
 }
 export const IoK8sApiCoreV1ServiceAccountTokenProjection =
   /*@__PURE__*/ S.suspend(() =>
@@ -2967,6 +3030,7 @@ export const IoK8sApiCoreV1ServiceAccountTokenProjection =
       audience: S.optional(S.String),
       expirationSeconds: S.optional(S.Number),
       path: S.String,
+      user: S.optional(S.Number),
     }),
   ).annotate({
     identifier: "IoK8sApiCoreV1ServiceAccountTokenProjection",
@@ -3014,12 +3078,15 @@ export const IoK8sApiCoreV1ProjectedVolumeSourceSourcesList =
 export interface IoK8sApiCoreV1ProjectedVolumeSource {
   /** defaultMode are the mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number;
   /** sources is the list of volume projections. Each entry in this list handles one source. */
   sources?: IoK8sApiCoreV1ProjectedVolumeSourceSourcesList;
 }
 export const IoK8sApiCoreV1ProjectedVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultMode: S.optional(S.Number),
+    defaultUser: S.optional(S.Number),
     sources: S.optional(IoK8sApiCoreV1ProjectedVolumeSourceSourcesList),
   }),
 ).annotate({
@@ -3145,6 +3212,8 @@ export const IoK8sApiCoreV1SecretVolumeSourceItemsList = /*@__PURE__*/ S.Array(
 export interface IoK8sApiCoreV1SecretVolumeSource {
   /** defaultMode is Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
+  /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
+  defaultUser?: number;
   /** items If unspecified, each key-value pair in the Data field of the referenced Secret will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the Secret, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
   items?: IoK8sApiCoreV1SecretVolumeSourceItemsList;
   /** optional field specify whether the Secret or its keys must be defined */
@@ -3155,6 +3224,7 @@ export interface IoK8sApiCoreV1SecretVolumeSource {
 export const IoK8sApiCoreV1SecretVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultMode: S.optional(S.Number),
+    defaultUser: S.optional(S.Number),
     items: S.optional(IoK8sApiCoreV1SecretVolumeSourceItemsList),
     optional: S.optional(S.Boolean),
     secretName: S.optional(S.String),
@@ -3344,6 +3414,8 @@ export interface IoK8sApiCoreV1PodSpec {
   enableServiceLinks?: boolean;
   /** List of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource. */
   ephemeralContainers?: IoK8sApiCoreV1PodSpecEphemeralContainersList;
+  /** evictionResponders reference responders that react to Evictions based on EvictionRequests. Responders should observe and communicate through the Eviction Resource API to help with the graceful termination of a pod. The responders are selected sequentially, according to their specified priority. Responders should periodically report on an eviction progress by updating the .status.responders[].heartbeatTime field of the Eviction object. If this field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there is no other responder, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource). The maximum length of the responders list is 10. Responders are not supported when the pod is part of a PodGroup (.spec.schedulingGroup is set). This field can only be set on creation and is immutable afterwards. */
+  evictionResponders?: IoK8sApiCoreV1PodSpecEvictionRespondersList;
   /** HostAliases is an optional list of hosts and IPs that will be injected into the pod's hosts file if specified. */
   hostAliases?: IoK8sApiCoreV1PodSpecHostAliasesList;
   /** Use the host's ipc namespace. Optional: Default to false. */
@@ -3356,7 +3428,7 @@ export interface IoK8sApiCoreV1PodSpec {
   hostUsers?: boolean;
   /** Specifies the hostname of the Pod If not specified, the pod's hostname will be set to a system-defined value. */
   hostname?: string;
-  /** HostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false. This field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters. Requires the HostnameOverride feature gate to be enabled. */
+  /** HostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false. This field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters. */
   hostnameOverride?: string;
   /** ImagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod */
   imagePullSecrets?: IoK8sApiCoreV1PodSpecImagePullSecretsList;
@@ -3425,6 +3497,7 @@ export const IoK8sApiCoreV1PodSpec = /*@__PURE__*/ S.suspend(() =>
     ephemeralContainers: S.optional(
       IoK8sApiCoreV1PodSpecEphemeralContainersList,
     ),
+    evictionResponders: S.optional(IoK8sApiCoreV1PodSpecEvictionRespondersList),
     hostAliases: S.optional(IoK8sApiCoreV1PodSpecHostAliasesList),
     hostIPC: S.optional(S.Boolean),
     hostNetwork: S.optional(S.Boolean),
@@ -4191,6 +4264,51 @@ export const IoK8sApiCoreV1PersistentVolumeClaimStatusConditionsList =
     IoK8sApiCoreV1PersistentVolumeClaimCondition,
   ) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaimStatusConditionsList>;
 
+/** VolumeHealthCondition represents an adverse health condition reported for a volume. */
+export interface IoK8sApiCoreV1VolumeHealthCondition {
+  /** message is a human-readable description. Maximum permitted length of a message is 1024 bytes. */
+  message?: string;
+  /** reason is a brief CamelCase machine-parseable reason. Together with status it forms the unique identity of a condition entry. Maximum permitted length of a reason is 256 bytes. */
+  reason: string;
+  /** status is the machine-parseable health category. Possible values: - "Inaccessible": the volume cannot be accessed. - "DataLoss": data loss has been detected on the volume. - "Degraded": the volume is functioning with reduced capability. */
+  status: string;
+}
+export const IoK8sApiCoreV1VolumeHealthCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    reason: S.String,
+    status: S.String,
+  }),
+).annotate({
+  identifier: "IoK8sApiCoreV1VolumeHealthCondition",
+}) as any as S.Schema<IoK8sApiCoreV1VolumeHealthCondition>;
+
+/** conditions is the set of adverse conditions reported by the CSI controller plugin. An empty list means no adverse condition. At most 16 conditions may be reported. */
+export type IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList =
+  Array<IoK8sApiCoreV1VolumeHealthCondition>;
+export const IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiCoreV1VolumeHealthCondition,
+  ) as any as S.Schema<IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList>;
+
+/** VolumeHealthStatus contains health information for a volume reported by the CSI controller plugin. */
+export interface IoK8sApiCoreV1VolumeHealthStatus {
+  /** conditions is the set of adverse conditions reported by the CSI controller plugin. An empty list means no adverse condition. At most 16 conditions may be reported. */
+  healthConditions?: IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList;
+  /** lastTransitionTime is when the current set of conditions first appeared. */
+  lastTransitionTime?: string;
+}
+export const IoK8sApiCoreV1VolumeHealthStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    healthConditions: S.optional(
+      IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList,
+    ),
+    lastTransitionTime: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IoK8sApiCoreV1VolumeHealthStatus",
+}) as any as S.Schema<IoK8sApiCoreV1VolumeHealthStatus>;
+
 /** ModifyVolumeStatus represents the status object of ControllerModifyVolume operation */
 export interface IoK8sApiCoreV1ModifyVolumeStatus {
   /** status is the status of the ControllerModifyVolume operation. It can be in any of following states: - Pending Pending indicates that the PersistentVolumeClaim cannot be modified due to unmet requirements, such as the specified VolumeAttributesClass not existing. - InProgress InProgress indicates that the volume is being modified. - Infeasible Infeasible indicates that the request has been rejected as invalid by the CSI driver. To resolve the error, a valid VolumeAttributesClass needs to be specified. Note: New statuses can be added in the future. Consumers should check for unknown statuses and fail appropriately. */
@@ -4221,6 +4339,8 @@ export interface IoK8sApiCoreV1PersistentVolumeClaimStatus {
   conditions?: IoK8sApiCoreV1PersistentVolumeClaimStatusConditionsList;
   /** currentVolumeAttributesClassName is the current name of the VolumeAttributesClass the PVC is using. When unset, there is no VolumeAttributeClass applied to this PersistentVolumeClaim */
   currentVolumeAttributesClassName?: string;
+  /** healthStatus contains the latest controller-reported health information for the volume bound to this claim. */
+  healthStatus?: IoK8sApiCoreV1VolumeHealthStatus;
   /** ModifyVolumeStatus represents the status object of ControllerModifyVolume operation. When this is unset, there is no ModifyVolume operation being attempted. */
   modifyVolumeStatus?: IoK8sApiCoreV1ModifyVolumeStatus;
   /** phase represents the current phase of PersistentVolumeClaim. */
@@ -4245,6 +4365,7 @@ export const IoK8sApiCoreV1PersistentVolumeClaimStatus =
         IoK8sApiCoreV1PersistentVolumeClaimStatusConditionsList,
       ),
       currentVolumeAttributesClassName: S.optional(S.String),
+      healthStatus: S.optional(IoK8sApiCoreV1VolumeHealthStatus),
       modifyVolumeStatus: S.optional(IoK8sApiCoreV1ModifyVolumeStatus),
       phase: S.optional(S.String),
     }),

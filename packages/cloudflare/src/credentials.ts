@@ -205,10 +205,10 @@ const fromConfigError = (message: string) => () =>
   });
 
 const envConfig = Config.all({
-  apiToken: Config.option(Config.string("CLOUDFLARE_API_TOKEN")),
-  apiKey: Config.option(Config.string("CLOUDFLARE_API_KEY")),
-  email: Config.option(Config.string("CLOUDFLARE_EMAIL")),
-  apiBaseUrl: Config.string("CLOUDFLARE_API_BASE_URL").pipe(
+  apiToken: Config.option(Config.String("CLOUDFLARE_API_TOKEN")),
+  apiKey: Config.option(Config.String("CLOUDFLARE_API_KEY")),
+  email: Config.option(Config.String("CLOUDFLARE_EMAIL")),
+  apiBaseUrl: Config.String("CLOUDFLARE_API_BASE_URL").pipe(
     Config.withDefault(DEFAULT_API_BASE_URL),
   ),
 });

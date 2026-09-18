@@ -14,7 +14,8 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
     "com.vercel.feature_flags#ListFlagsV2RequestState": {
@@ -160,21 +161,6 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "maintainerIds": {
-          "target": "com.vercel.feature_flags#FlagMaintainerIdsList"
-        },
-        "permanent": {
-          "target": "smithy.api#Boolean"
-        },
-        "tags": {
-          "target": "com.vercel.feature_flags#FlagTagsList"
-        },
-        "experiment": {
-          "target": "com.vercel.feature_flags#FlagExperiment"
-        },
-        "updatedBy": {
-          "target": "smithy.api#String"
-        },
         "variants": {
           "target": "com.vercel.feature_flags#FlagVariantsList",
           "traits": {
@@ -217,6 +203,15 @@
             "smithy.api#required": {}
           }
         },
+        "maintainerIds": {
+          "target": "com.vercel.feature_flags#FlagMaintainerIdsList"
+        },
+        "permanent": {
+          "target": "smithy.api#Boolean"
+        },
+        "tags": {
+          "target": "com.vercel.feature_flags#FlagTagsList"
+        },
         "slug": {
           "target": "smithy.api#String",
           "traits": {
@@ -234,6 +229,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "updatedBy": {
+          "target": "smithy.api#String"
         },
         "createdBy": {
           "target": "smithy.api#String",
@@ -261,415 +259,6 @@
         },
         "metadata": {
           "target": "com.vercel.feature_flags#FlagMetadata"
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagMaintainerIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentGuardrailMetricsItemMetricType": {
-      "type": "enum",
-      "members": {
-        "COUNT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "count"
-          }
-        },
-        "CURRENCY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "currency"
-          }
-        },
-        "PERCENTAGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "percentage"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentGuardrailMetricsItemMetricUnit": {
-      "type": "enum",
-      "members": {
-        "SESSION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "session"
-          }
-        },
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "user"
-          }
-        },
-        "VISITOR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "visitor"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentGuardrailMetricsItemDirectionality": {
-      "type": "enum",
-      "members": {
-        "DECREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "decreaseIsGood"
-          }
-        },
-        "INCREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "increaseIsGood"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentGuardrailMetricsItem": {
-      "type": "structure",
-      "members": {
-        "description": {
-          "target": "smithy.api#String"
-        },
-        "metricFormula": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricType": {
-          "target": "com.vercel.feature_flags#FlagExperimentGuardrailMetricsItemMetricType",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricUnit": {
-          "target": "com.vercel.feature_flags#FlagExperimentGuardrailMetricsItemMetricUnit",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "directionality": {
-          "target": "com.vercel.feature_flags#FlagExperimentGuardrailMetricsItemDirectionality",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentGuardrailMetricsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.feature_flags#FlagExperimentGuardrailMetricsItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentDevice": {
-      "type": "enum",
-      "members": {
-        "ANDROID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "android"
-          }
-        },
-        "DESKTOP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "desktop"
-          }
-        },
-        "IOS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ios"
-          }
-        },
-        "MWEB": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "mweb"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentDurationUnit": {
-      "type": "enum",
-      "members": {
-        "DAYS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "days"
-          }
-        },
-        "EXPOSURES": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "exposures"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentAllocationUnit": {
-      "type": "enum",
-      "members": {
-        "COOKIEID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cookieId"
-          }
-        },
-        "USERID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "userId"
-          }
-        },
-        "VISITORID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "visitorId"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentPrimaryMetricsItemMetricType": {
-      "type": "enum",
-      "members": {
-        "COUNT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "count"
-          }
-        },
-        "CURRENCY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "currency"
-          }
-        },
-        "PERCENTAGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "percentage"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentPrimaryMetricsItemMetricUnit": {
-      "type": "enum",
-      "members": {
-        "SESSION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "session"
-          }
-        },
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "user"
-          }
-        },
-        "VISITOR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "visitor"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentPrimaryMetricsItemDirectionality": {
-      "type": "enum",
-      "members": {
-        "DECREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "decreaseIsGood"
-          }
-        },
-        "INCREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "increaseIsGood"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentPrimaryMetricsItem": {
-      "type": "structure",
-      "members": {
-        "description": {
-          "target": "smithy.api#String"
-        },
-        "metricFormula": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricType": {
-          "target": "com.vercel.feature_flags#FlagExperimentPrimaryMetricsItemMetricType",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricUnit": {
-          "target": "com.vercel.feature_flags#FlagExperimentPrimaryMetricsItemMetricUnit",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "directionality": {
-          "target": "com.vercel.feature_flags#FlagExperimentPrimaryMetricsItemDirectionality",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentPrimaryMetricsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.feature_flags#FlagExperimentPrimaryMetricsItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperimentStatus": {
-      "type": "enum",
-      "members": {
-        "CLOSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "closed"
-          }
-        },
-        "DRAFT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "draft"
-          }
-        },
-        "PAUSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "paused"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#FlagExperiment": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String"
-        },
-        "numVariants": {
-          "target": "smithy.api#Double"
-        },
-        "surfaceArea": {
-          "target": "smithy.api#String"
-        },
-        "stickyRequirement": {
-          "target": "smithy.api#Boolean"
-        },
-        "layer": {
-          "target": "smithy.api#String"
-        },
-        "guardrailMetrics": {
-          "target": "com.vercel.feature_flags#FlagExperimentGuardrailMetricsList"
-        },
-        "hypothesis": {
-          "target": "smithy.api#String"
-        },
-        "device": {
-          "target": "com.vercel.feature_flags#FlagExperimentDevice"
-        },
-        "controlVariantId": {
-          "target": "smithy.api#String"
-        },
-        "startedAt": {
-          "target": "smithy.api#Double"
-        },
-        "endedAt": {
-          "target": "smithy.api#Double"
-        },
-        "decision": {
-          "target": "smithy.api#String"
-        },
-        "decisionReason": {
-          "target": "smithy.api#String"
-        },
-        "duration": {
-          "target": "smithy.api#Double"
-        },
-        "durationUnit": {
-          "target": "com.vercel.feature_flags#FlagExperimentDurationUnit"
-        },
-        "allocationPercent": {
-          "target": "smithy.api#Double"
-        },
-        "allocationUnit": {
-          "target": "com.vercel.feature_flags#FlagExperimentAllocationUnit",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "primaryMetrics": {
-          "target": "com.vercel.feature_flags#FlagExperimentPrimaryMetricsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "status": {
-          "target": "com.vercel.feature_flags#FlagExperimentStatus",
-          "traits": {
-            "smithy.api#required": {}
-          }
         }
       },
       "traits": {}
@@ -1020,6 +609,30 @@
       },
       "traits": {}
     },
+    "com.vercel.feature_flags#FlagEnvironmentsValueFallthroughCase3Type": {
+      "type": "enum",
+      "members": {
+        "EXPERIMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experiment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#FlagEnvironmentsValueFallthroughCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.feature_flags#FlagEnvironmentsValueFallthroughCase3Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.feature_flags#FlagEnvironmentsValueFallthrough": {
       "type": "union",
       "members": {
@@ -1031,6 +644,9 @@
         },
         "Case2": {
           "target": "com.vercel.feature_flags#FlagEnvironmentsValueFallthroughCase2"
+        },
+        "Case3": {
+          "target": "com.vercel.feature_flags#FlagEnvironmentsValueFallthroughCase3"
         }
       },
       "traits": {}
@@ -1274,6 +890,30 @@
       },
       "traits": {}
     },
+    "com.vercel.feature_flags#FlagEnvironmentsValueRulesItemOutcomeCase3Type": {
+      "type": "enum",
+      "members": {
+        "EXPERIMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experiment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#FlagEnvironmentsValueRulesItemOutcomeCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.feature_flags#FlagEnvironmentsValueRulesItemOutcomeCase3Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.feature_flags#FlagEnvironmentsValueRulesItemOutcome": {
       "type": "union",
       "members": {
@@ -1285,6 +925,9 @@
         },
         "Case2": {
           "target": "com.vercel.feature_flags#FlagEnvironmentsValueRulesItemOutcomeCase2"
+        },
+        "Case3": {
+          "target": "com.vercel.feature_flags#FlagEnvironmentsValueRulesItemOutcomeCase3"
         }
       },
       "traits": {}
@@ -1818,6 +1461,20 @@
             "smithy.api#enumValue": "archived"
           }
         }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#FlagMaintainerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#FlagTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -3429,415 +3086,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.feature_flags#CreateFlagResponseMaintainerIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentGuardrailMetricsItemMetricType": {
-      "type": "enum",
-      "members": {
-        "COUNT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "count"
-          }
-        },
-        "CURRENCY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "currency"
-          }
-        },
-        "PERCENTAGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "percentage"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentGuardrailMetricsItemMetricUnit": {
-      "type": "enum",
-      "members": {
-        "SESSION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "session"
-          }
-        },
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "user"
-          }
-        },
-        "VISITOR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "visitor"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentGuardrailMetricsItemDirectionality": {
-      "type": "enum",
-      "members": {
-        "DECREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "decreaseIsGood"
-          }
-        },
-        "INCREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "increaseIsGood"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentGuardrailMetricsItem": {
-      "type": "structure",
-      "members": {
-        "description": {
-          "target": "smithy.api#String"
-        },
-        "metricFormula": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricType": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseExperimentGuardrailMetricsItemMetricType",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricUnit": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseExperimentGuardrailMetricsItemMetricUnit",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "directionality": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseExperimentGuardrailMetricsItemDirectionality",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentGuardrailMetricsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.feature_flags#CreateFlagResponseExperimentGuardrailMetricsItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentDevice": {
-      "type": "enum",
-      "members": {
-        "ANDROID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "android"
-          }
-        },
-        "DESKTOP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "desktop"
-          }
-        },
-        "IOS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ios"
-          }
-        },
-        "MWEB": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "mweb"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentDurationUnit": {
-      "type": "enum",
-      "members": {
-        "DAYS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "days"
-          }
-        },
-        "EXPOSURES": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "exposures"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentAllocationUnit": {
-      "type": "enum",
-      "members": {
-        "COOKIEID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cookieId"
-          }
-        },
-        "USERID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "userId"
-          }
-        },
-        "VISITORID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "visitorId"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentPrimaryMetricsItemMetricType": {
-      "type": "enum",
-      "members": {
-        "COUNT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "count"
-          }
-        },
-        "CURRENCY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "currency"
-          }
-        },
-        "PERCENTAGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "percentage"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentPrimaryMetricsItemMetricUnit": {
-      "type": "enum",
-      "members": {
-        "SESSION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "session"
-          }
-        },
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "user"
-          }
-        },
-        "VISITOR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "visitor"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentPrimaryMetricsItemDirectionality": {
-      "type": "enum",
-      "members": {
-        "DECREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "decreaseIsGood"
-          }
-        },
-        "INCREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "increaseIsGood"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentPrimaryMetricsItem": {
-      "type": "structure",
-      "members": {
-        "description": {
-          "target": "smithy.api#String"
-        },
-        "metricFormula": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricType": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseExperimentPrimaryMetricsItemMetricType",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricUnit": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseExperimentPrimaryMetricsItemMetricUnit",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "directionality": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseExperimentPrimaryMetricsItemDirectionality",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentPrimaryMetricsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.feature_flags#CreateFlagResponseExperimentPrimaryMetricsItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperimentStatus": {
-      "type": "enum",
-      "members": {
-        "CLOSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "closed"
-          }
-        },
-        "DRAFT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "draft"
-          }
-        },
-        "PAUSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "paused"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#CreateFlagResponseExperiment": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String"
-        },
-        "numVariants": {
-          "target": "smithy.api#Double"
-        },
-        "surfaceArea": {
-          "target": "smithy.api#String"
-        },
-        "stickyRequirement": {
-          "target": "smithy.api#Boolean"
-        },
-        "layer": {
-          "target": "smithy.api#String"
-        },
-        "guardrailMetrics": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseExperimentGuardrailMetricsList"
-        },
-        "hypothesis": {
-          "target": "smithy.api#String"
-        },
-        "device": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseExperimentDevice"
-        },
-        "controlVariantId": {
-          "target": "smithy.api#String"
-        },
-        "startedAt": {
-          "target": "smithy.api#Double"
-        },
-        "endedAt": {
-          "target": "smithy.api#Double"
-        },
-        "decision": {
-          "target": "smithy.api#String"
-        },
-        "decisionReason": {
-          "target": "smithy.api#String"
-        },
-        "duration": {
-          "target": "smithy.api#Double"
-        },
-        "durationUnit": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseExperimentDurationUnit"
-        },
-        "allocationPercent": {
-          "target": "smithy.api#Double"
-        },
-        "allocationUnit": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseExperimentAllocationUnit",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "primaryMetrics": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseExperimentPrimaryMetricsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "status": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseExperimentStatus",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.feature_flags#CreateFlagResponseVariantsList": {
       "type": "list",
       "member": {
@@ -4184,6 +3432,30 @@
       },
       "traits": {}
     },
+    "com.vercel.feature_flags#CreateFlagResponseEnvironmentsValueFallthroughCase3Type": {
+      "type": "enum",
+      "members": {
+        "EXPERIMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experiment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#CreateFlagResponseEnvironmentsValueFallthroughCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.feature_flags#CreateFlagResponseEnvironmentsValueFallthroughCase3Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.feature_flags#CreateFlagResponseEnvironmentsValueFallthrough": {
       "type": "union",
       "members": {
@@ -4195,6 +3467,9 @@
         },
         "Case2": {
           "target": "com.vercel.feature_flags#CreateFlagResponseEnvironmentsValueFallthroughCase2"
+        },
+        "Case3": {
+          "target": "com.vercel.feature_flags#CreateFlagResponseEnvironmentsValueFallthroughCase3"
         }
       },
       "traits": {}
@@ -4438,6 +3713,30 @@
       },
       "traits": {}
     },
+    "com.vercel.feature_flags#CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase3Type": {
+      "type": "enum",
+      "members": {
+        "EXPERIMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experiment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.feature_flags#CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase3Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.feature_flags#CreateFlagResponseEnvironmentsValueRulesItemOutcome": {
       "type": "union",
       "members": {
@@ -4449,6 +3748,9 @@
         },
         "Case2": {
           "target": "com.vercel.feature_flags#CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase2"
+        },
+        "Case3": {
+          "target": "com.vercel.feature_flags#CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase3"
         }
       },
       "traits": {}
@@ -4985,6 +4287,20 @@
       },
       "traits": {}
     },
+    "com.vercel.feature_flags#CreateFlagResponseMaintainerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#CreateFlagResponseTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.vercel.feature_flags#CreateFlagResponseTypeName": {
       "type": "enum",
       "members": {
@@ -5001,21 +4317,6 @@
       "type": "structure",
       "members": {
         "description": {
-          "target": "smithy.api#String"
-        },
-        "maintainerIds": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseMaintainerIdsList"
-        },
-        "permanent": {
-          "target": "smithy.api#Boolean"
-        },
-        "tags": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseTagsList"
-        },
-        "experiment": {
-          "target": "com.vercel.feature_flags#CreateFlagResponseExperiment"
-        },
-        "updatedBy": {
           "target": "smithy.api#String"
         },
         "variants": {
@@ -5060,6 +4361,15 @@
             "smithy.api#required": {}
           }
         },
+        "maintainerIds": {
+          "target": "com.vercel.feature_flags#CreateFlagResponseMaintainerIdsList"
+        },
+        "permanent": {
+          "target": "smithy.api#Boolean"
+        },
+        "tags": {
+          "target": "com.vercel.feature_flags#CreateFlagResponseTagsList"
+        },
         "slug": {
           "target": "smithy.api#String",
           "traits": {
@@ -5077,6 +4387,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "updatedBy": {
+          "target": "smithy.api#String"
         },
         "createdBy": {
           "target": "smithy.api#String",
@@ -6404,415 +5717,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0MaintainerIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0TagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentGuardrailMetricsItemMetricType": {
-      "type": "enum",
-      "members": {
-        "COUNT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "count"
-          }
-        },
-        "CURRENCY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "currency"
-          }
-        },
-        "PERCENTAGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "percentage"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentGuardrailMetricsItemMetricUnit": {
-      "type": "enum",
-      "members": {
-        "SESSION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "session"
-          }
-        },
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "user"
-          }
-        },
-        "VISITOR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "visitor"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentGuardrailMetricsItemDirectionality": {
-      "type": "enum",
-      "members": {
-        "DECREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "decreaseIsGood"
-          }
-        },
-        "INCREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "increaseIsGood"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentGuardrailMetricsItem": {
-      "type": "structure",
-      "members": {
-        "description": {
-          "target": "smithy.api#String"
-        },
-        "metricFormula": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricType": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentGuardrailMetricsItemMetricType",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricUnit": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentGuardrailMetricsItemMetricUnit",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "directionality": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentGuardrailMetricsItemDirectionality",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentGuardrailMetricsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentGuardrailMetricsItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentDevice": {
-      "type": "enum",
-      "members": {
-        "ANDROID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "android"
-          }
-        },
-        "DESKTOP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "desktop"
-          }
-        },
-        "IOS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ios"
-          }
-        },
-        "MWEB": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "mweb"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentDurationUnit": {
-      "type": "enum",
-      "members": {
-        "DAYS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "days"
-          }
-        },
-        "EXPOSURES": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "exposures"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentAllocationUnit": {
-      "type": "enum",
-      "members": {
-        "COOKIEID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cookieId"
-          }
-        },
-        "USERID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "userId"
-          }
-        },
-        "VISITORID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "visitorId"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentPrimaryMetricsItemMetricType": {
-      "type": "enum",
-      "members": {
-        "COUNT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "count"
-          }
-        },
-        "CURRENCY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "currency"
-          }
-        },
-        "PERCENTAGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "percentage"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentPrimaryMetricsItemMetricUnit": {
-      "type": "enum",
-      "members": {
-        "SESSION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "session"
-          }
-        },
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "user"
-          }
-        },
-        "VISITOR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "visitor"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentPrimaryMetricsItemDirectionality": {
-      "type": "enum",
-      "members": {
-        "DECREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "decreaseIsGood"
-          }
-        },
-        "INCREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "increaseIsGood"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentPrimaryMetricsItem": {
-      "type": "structure",
-      "members": {
-        "description": {
-          "target": "smithy.api#String"
-        },
-        "metricFormula": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricType": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentPrimaryMetricsItemMetricType",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricUnit": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentPrimaryMetricsItemMetricUnit",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "directionality": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentPrimaryMetricsItemDirectionality",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentPrimaryMetricsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentPrimaryMetricsItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentStatus": {
-      "type": "enum",
-      "members": {
-        "CLOSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "closed"
-          }
-        },
-        "DRAFT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "draft"
-          }
-        },
-        "PAUSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "paused"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0Experiment": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String"
-        },
-        "numVariants": {
-          "target": "smithy.api#Double"
-        },
-        "surfaceArea": {
-          "target": "smithy.api#String"
-        },
-        "stickyRequirement": {
-          "target": "smithy.api#Boolean"
-        },
-        "layer": {
-          "target": "smithy.api#String"
-        },
-        "guardrailMetrics": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentGuardrailMetricsList"
-        },
-        "hypothesis": {
-          "target": "smithy.api#String"
-        },
-        "device": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentDevice"
-        },
-        "controlVariantId": {
-          "target": "smithy.api#String"
-        },
-        "startedAt": {
-          "target": "smithy.api#Double"
-        },
-        "endedAt": {
-          "target": "smithy.api#Double"
-        },
-        "decision": {
-          "target": "smithy.api#String"
-        },
-        "decisionReason": {
-          "target": "smithy.api#String"
-        },
-        "duration": {
-          "target": "smithy.api#Double"
-        },
-        "durationUnit": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentDurationUnit"
-        },
-        "allocationPercent": {
-          "target": "smithy.api#Double"
-        },
-        "allocationUnit": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentAllocationUnit",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "primaryMetrics": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentPrimaryMetricsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "status": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0ExperimentStatus",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.feature_flags#UpdateFlagResponseBodyCase0VariantsList": {
       "type": "list",
       "member": {
@@ -7159,6 +6063,30 @@
       },
       "traits": {}
     },
+    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase3Type": {
+      "type": "enum",
+      "members": {
+        "EXPERIMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experiment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase3Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.feature_flags#UpdateFlagResponseBodyCase0EnvironmentsValueFallthrough": {
       "type": "union",
       "members": {
@@ -7170,6 +6098,9 @@
         },
         "Case2": {
           "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase2"
+        },
+        "Case3": {
+          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0EnvironmentsValueFallthroughCase3"
         }
       },
       "traits": {}
@@ -7413,6 +6344,30 @@
       },
       "traits": {}
     },
+    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase3Type": {
+      "type": "enum",
+      "members": {
+        "EXPERIMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experiment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase3Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.feature_flags#UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcome": {
       "type": "union",
       "members": {
@@ -7424,6 +6379,9 @@
         },
         "Case2": {
           "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase2"
+        },
+        "Case3": {
+          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0EnvironmentsValueRulesItemOutcomeCase3"
         }
       },
       "traits": {}
@@ -7960,6 +6918,20 @@
       },
       "traits": {}
     },
+    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0MaintainerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0TagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.vercel.feature_flags#UpdateFlagResponseBodyCase0TypeName": {
       "type": "enum",
       "members": {
@@ -7976,21 +6948,6 @@
       "type": "structure",
       "members": {
         "description": {
-          "target": "smithy.api#String"
-        },
-        "maintainerIds": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0MaintainerIdsList"
-        },
-        "permanent": {
-          "target": "smithy.api#Boolean"
-        },
-        "tags": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0TagsList"
-        },
-        "experiment": {
-          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0Experiment"
-        },
-        "updatedBy": {
           "target": "smithy.api#String"
         },
         "variants": {
@@ -8035,6 +6992,15 @@
             "smithy.api#required": {}
           }
         },
+        "maintainerIds": {
+          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0MaintainerIdsList"
+        },
+        "permanent": {
+          "target": "smithy.api#Boolean"
+        },
+        "tags": {
+          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0TagsList"
+        },
         "slug": {
           "target": "smithy.api#String",
           "traits": {
@@ -8052,6 +7018,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "updatedBy": {
+          "target": "smithy.api#String"
         },
         "createdBy": {
           "target": "smithy.api#String",
@@ -8290,412 +7259,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataMaintainerIdsList": {
+    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemChangedEnvironmentsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentGuardrailMetricsItemMetricType": {
-      "type": "enum",
-      "members": {
-        "COUNT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "count"
-          }
-        },
-        "CURRENCY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "currency"
-          }
-        },
-        "PERCENTAGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "percentage"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentGuardrailMetricsItemMetricUnit": {
-      "type": "enum",
-      "members": {
-        "SESSION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "session"
-          }
-        },
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "user"
-          }
-        },
-        "VISITOR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "visitor"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentGuardrailMetricsItemDirectionality": {
-      "type": "enum",
-      "members": {
-        "DECREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "decreaseIsGood"
-          }
-        },
-        "INCREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "increaseIsGood"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentGuardrailMetricsItem": {
-      "type": "structure",
-      "members": {
-        "description": {
-          "target": "smithy.api#String"
-        },
-        "metricFormula": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricType": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentGuardrailMetricsItemMetricType",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricUnit": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentGuardrailMetricsItemMetricUnit",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "directionality": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentGuardrailMetricsItemDirectionality",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentGuardrailMetricsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentGuardrailMetricsItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentDevice": {
-      "type": "enum",
-      "members": {
-        "ANDROID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "android"
-          }
-        },
-        "DESKTOP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "desktop"
-          }
-        },
-        "IOS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ios"
-          }
-        },
-        "MWEB": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "mweb"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentDurationUnit": {
-      "type": "enum",
-      "members": {
-        "DAYS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "days"
-          }
-        },
-        "EXPOSURES": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "exposures"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentAllocationUnit": {
-      "type": "enum",
-      "members": {
-        "COOKIEID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cookieId"
-          }
-        },
-        "USERID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "userId"
-          }
-        },
-        "VISITORID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "visitorId"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentPrimaryMetricsItemMetricType": {
-      "type": "enum",
-      "members": {
-        "COUNT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "count"
-          }
-        },
-        "CURRENCY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "currency"
-          }
-        },
-        "PERCENTAGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "percentage"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentPrimaryMetricsItemMetricUnit": {
-      "type": "enum",
-      "members": {
-        "SESSION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "session"
-          }
-        },
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "user"
-          }
-        },
-        "VISITOR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "visitor"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentPrimaryMetricsItemDirectionality": {
-      "type": "enum",
-      "members": {
-        "DECREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "decreaseIsGood"
-          }
-        },
-        "INCREASEISGOOD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "increaseIsGood"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentPrimaryMetricsItem": {
-      "type": "structure",
-      "members": {
-        "description": {
-          "target": "smithy.api#String"
-        },
-        "metricFormula": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricType": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentPrimaryMetricsItemMetricType",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "metricUnit": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentPrimaryMetricsItemMetricUnit",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "directionality": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentPrimaryMetricsItemDirectionality",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentPrimaryMetricsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentPrimaryMetricsItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentStatus": {
-      "type": "enum",
-      "members": {
-        "CLOSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "closed"
-          }
-        },
-        "DRAFT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "draft"
-          }
-        },
-        "PAUSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "paused"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperiment": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String"
-        },
-        "numVariants": {
-          "target": "smithy.api#Double"
-        },
-        "surfaceArea": {
-          "target": "smithy.api#String"
-        },
-        "stickyRequirement": {
-          "target": "smithy.api#Boolean"
-        },
-        "layer": {
-          "target": "smithy.api#String"
-        },
-        "guardrailMetrics": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentGuardrailMetricsList"
-        },
-        "hypothesis": {
-          "target": "smithy.api#String"
-        },
-        "device": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentDevice"
-        },
-        "controlVariantId": {
-          "target": "smithy.api#String"
-        },
-        "startedAt": {
-          "target": "smithy.api#Double"
-        },
-        "endedAt": {
-          "target": "smithy.api#Double"
-        },
-        "decision": {
-          "target": "smithy.api#String"
-        },
-        "decisionReason": {
-          "target": "smithy.api#String"
-        },
-        "duration": {
-          "target": "smithy.api#Double"
-        },
-        "durationUnit": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentDurationUnit"
-        },
-        "allocationPercent": {
-          "target": "smithy.api#Double"
-        },
-        "allocationUnit": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentAllocationUnit",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "primaryMetrics": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentPrimaryMetricsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "status": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperimentStatus",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
       },
       "traits": {}
     },
@@ -9045,6 +7612,30 @@
       },
       "traits": {}
     },
+    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase3Type": {
+      "type": "enum",
+      "members": {
+        "EXPERIMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experiment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase3Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthrough": {
       "type": "union",
       "members": {
@@ -9056,6 +7647,9 @@
         },
         "Case2": {
           "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase2"
+        },
+        "Case3": {
+          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase3"
         }
       },
       "traits": {}
@@ -9299,6 +7893,30 @@
       },
       "traits": {}
     },
+    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase3Type": {
+      "type": "enum",
+      "members": {
+        "EXPERIMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "experiment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase3Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcome": {
       "type": "union",
       "members": {
@@ -9310,6 +7928,9 @@
         },
         "Case2": {
           "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase2"
+        },
+        "Case3": {
+          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase3"
         }
       },
       "traits": {}
@@ -9816,23 +8437,25 @@
       },
       "traits": {}
     },
+    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataMaintainerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemData": {
       "type": "structure",
       "members": {
         "description": {
           "target": "smithy.api#String"
-        },
-        "maintainerIds": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataMaintainerIdsList"
-        },
-        "permanent": {
-          "target": "smithy.api#Boolean"
-        },
-        "tags": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataTagsList"
-        },
-        "experiment": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataExperiment"
         },
         "variants": {
           "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataVariantsList",
@@ -9857,14 +8480,16 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "maintainerIds": {
+          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataMaintainerIdsList"
+        },
+        "permanent": {
+          "target": "smithy.api#Boolean"
+        },
+        "tags": {
+          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataTagsList"
         }
-      },
-      "traits": {}
-    },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemChangedEnvironmentsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -9898,18 +8523,6 @@
     "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItem": {
       "type": "structure",
       "members": {
-        "createdBy": {
-          "target": "smithy.api#String"
-        },
-        "message": {
-          "target": "smithy.api#String"
-        },
-        "data": {
-          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemData",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -9928,6 +8541,12 @@
             "smithy.api#required": {}
           }
         },
+        "createdBy": {
+          "target": "smithy.api#String"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
         "flagId": {
           "target": "smithy.api#String",
           "traits": {
@@ -9936,6 +8555,12 @@
         },
         "changedEnvironments": {
           "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemChangedEnvironmentsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemData",
           "traits": {
             "smithy.api#required": {}
           }
@@ -15757,7 +14382,7 @@
         "tokenValue": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cleartext value of the Edge Config token, when the project has an Edge Config connection."
+            "smithy.api#documentation": "Cleartext value of the Global Config token, when the project has a Global Config connection."
           }
         }
       },

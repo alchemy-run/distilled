@@ -66,18 +66,18 @@ export class NotFound
   ) {}
 
 export type GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequestFeaturesItemEnum =
-    | "FEATURE_UNSPECIFIED"
-    | "LABEL_DETECTION"
-    | "SHOT_CHANGE_DETECTION"
-    | "EXPLICIT_CONTENT_DETECTION"
-    | "FACE_DETECTION"
-    | "SPEECH_TRANSCRIPTION"
-    | "TEXT_DETECTION"
-    | "OBJECT_TRACKING"
-    | "LOGO_RECOGNITION"
-    | "PERSON_DETECTION";
+  | "FEATURE_UNSPECIFIED"
+  | "LABEL_DETECTION"
+  | "SHOT_CHANGE_DETECTION"
+  | "EXPLICIT_CONTENT_DETECTION"
+  | "FACE_DETECTION"
+  | "SPEECH_TRANSCRIPTION"
+  | "TEXT_DETECTION"
+  | "OBJECT_TRACKING"
+  | "LOGO_RECOGNITION"
+  | "PERSON_DETECTION";
 export const GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequestFeaturesItemEnum =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export type GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequestFeaturesItemEnumList =
   Array<
@@ -89,57 +89,25 @@ export const GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequestFeaturesIte
     GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequestFeaturesItemEnum,
   ) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequestFeaturesItemEnumList>;
 
-/** Video segment. */
-export interface GoogleCloudVideointelligenceV1beta2_VideoSegment {
-  /** Time-offset, relative to the beginning of the video, corresponding to the start of the segment (inclusive). */
-  startTimeOffset?: string;
-  /** Time-offset, relative to the beginning of the video, corresponding to the end of the segment (inclusive). */
-  endTimeOffset?: string;
+/** Config for PERSON_DETECTION. */
+export interface GoogleCloudVideointelligenceV1beta2_PersonDetectionConfig {
+  /** Whether to enable pose landmarks detection. Ignored if 'include_bounding_boxes' is set to false. */
+  includePoseLandmarks?: boolean;
+  /** Whether bounding boxes are included in the person detection annotation output. */
+  includeBoundingBoxes?: boolean;
+  /** Whether to enable person attributes detection, such as cloth color (black, blue, etc), type (coat, dress, etc), pattern (plain, floral, etc), hair, etc. Ignored if 'include_bounding_boxes' is set to false. */
+  includeAttributes?: boolean;
 }
-export const GoogleCloudVideointelligenceV1beta2_VideoSegment =
+export const GoogleCloudVideointelligenceV1beta2_PersonDetectionConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      startTimeOffset: S.optional(S.String),
-      endTimeOffset: S.optional(S.String),
+      includePoseLandmarks: S.optional(S.Boolean),
+      includeBoundingBoxes: S.optional(S.Boolean),
+      includeAttributes: S.optional(S.Boolean),
     }),
   ).annotate({
-    identifier: "GoogleCloudVideointelligenceV1beta2_VideoSegment",
-  }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_VideoSegment>;
-
-export type GoogleCloudVideointelligenceV1beta2_VideoSegmentList =
-  Array<GoogleCloudVideointelligenceV1beta2_VideoSegment>;
-export const GoogleCloudVideointelligenceV1beta2_VideoSegmentList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudVideointelligenceV1beta2_VideoSegment,
-  ) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_VideoSegmentList>;
-
-/** Config for OBJECT_TRACKING. */
-export interface GoogleCloudVideointelligenceV1beta2_ObjectTrackingConfig {
-  /** Model to use for object tracking. Supported values: "builtin/stable" (the default if unset) and "builtin/latest". */
-  model?: string;
-}
-export const GoogleCloudVideointelligenceV1beta2_ObjectTrackingConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      model: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudVideointelligenceV1beta2_ObjectTrackingConfig",
-  }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_ObjectTrackingConfig>;
-
-/** Config for SHOT_CHANGE_DETECTION. */
-export interface GoogleCloudVideointelligenceV1beta2_ShotChangeDetectionConfig {
-  /** Model to use for shot change detection. Supported values: "builtin/stable" (the default if unset), "builtin/latest", and "builtin/legacy". */
-  model?: string;
-}
-export const GoogleCloudVideointelligenceV1beta2_ShotChangeDetectionConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      model: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudVideointelligenceV1beta2_ShotChangeDetectionConfig",
-  }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_ShotChangeDetectionConfig>;
+    identifier: "GoogleCloudVideointelligenceV1beta2_PersonDetectionConfig",
+  }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_PersonDetectionConfig>;
 
 /** Config for FACE_DETECTION. */
 export interface GoogleCloudVideointelligenceV1beta2_FaceDetectionConfig {
@@ -161,15 +129,93 @@ export const GoogleCloudVideointelligenceV1beta2_FaceDetectionConfig =
     identifier: "GoogleCloudVideointelligenceV1beta2_FaceDetectionConfig",
   }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_FaceDetectionConfig>;
 
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(
-  S.Number,
-) as any as S.Schema<IntegerList>;
+export type GoogleCloudVideointelligenceV1beta2_LabelDetectionConfigLabelDetectionModeEnum =
+  | "LABEL_DETECTION_MODE_UNSPECIFIED"
+  | "SHOT_MODE"
+  | "FRAME_MODE"
+  | "SHOT_AND_FRAME_MODE";
+export const GoogleCloudVideointelligenceV1beta2_LabelDetectionConfigLabelDetectionModeEnum =
+  S.String;
+
+/** Config for LABEL_DETECTION. */
+export interface GoogleCloudVideointelligenceV1beta2_LabelDetectionConfig {
+  /** Model to use for label detection. Supported values: "builtin/stable" (the default if unset) and "builtin/latest". */
+  model?: string;
+  /** What labels should be detected with LABEL_DETECTION, in addition to video-level labels or segment-level labels. If unspecified, defaults to `SHOT_MODE`. */
+  labelDetectionMode?:
+    | GoogleCloudVideointelligenceV1beta2_LabelDetectionConfigLabelDetectionModeEnum
+    | (string & {});
+  /** The confidence threshold we perform filtering on the labels from video-level and shot-level detections. If not set, it's set to 0.3 by default. The valid range for this threshold is [0.1, 0.9]. Any value set outside of this range will be clipped. Note: For best results, follow the default threshold. We will update the default threshold everytime when we release a new model. */
+  videoConfidenceThreshold?: number;
+  /** Whether the video has been shot from a stationary (i.e., non-moving) camera. When set to true, might improve detection accuracy for moving objects. Should be used with `SHOT_AND_FRAME_MODE` enabled. */
+  stationaryCamera?: boolean;
+  /** The confidence threshold we perform filtering on the labels from frame-level detection. If not set, it is set to 0.4 by default. The valid range for this threshold is [0.1, 0.9]. Any value set outside of this range will be clipped. Note: For best results, follow the default threshold. We will update the default threshold everytime when we release a new model. */
+  frameConfidenceThreshold?: number;
+}
+export const GoogleCloudVideointelligenceV1beta2_LabelDetectionConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      model: S.optional(S.String),
+      labelDetectionMode: S.optional(
+        GoogleCloudVideointelligenceV1beta2_LabelDetectionConfigLabelDetectionModeEnum,
+      ),
+      videoConfidenceThreshold: S.optional(S.Number),
+      stationaryCamera: S.optional(S.Boolean),
+      frameConfidenceThreshold: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_LabelDetectionConfig",
+  }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_LabelDetectionConfig>;
+
+/** Config for SHOT_CHANGE_DETECTION. */
+export interface GoogleCloudVideointelligenceV1beta2_ShotChangeDetectionConfig {
+  /** Model to use for shot change detection. Supported values: "builtin/stable" (the default if unset), "builtin/latest", and "builtin/legacy". */
+  model?: string;
+}
+export const GoogleCloudVideointelligenceV1beta2_ShotChangeDetectionConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      model: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_ShotChangeDetectionConfig",
+  }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_ShotChangeDetectionConfig>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<StringList>;
+
+/** Config for TEXT_DETECTION. */
+export interface GoogleCloudVideointelligenceV1beta2_TextDetectionConfig {
+  /** Language hint can be specified if the language to be detected is known a priori. It can increase the accuracy of the detection. Language hint must be language code in BCP-47 format. Automatic language detection is performed if no hint is provided. */
+  languageHints?: StringList;
+  /** Model to use for text detection. Supported values: "builtin/stable" (the default if unset) and "builtin/latest". */
+  model?: string;
+}
+export const GoogleCloudVideointelligenceV1beta2_TextDetectionConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      languageHints: S.optional(StringList),
+      model: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_TextDetectionConfig",
+  }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_TextDetectionConfig>;
+
+/** Config for OBJECT_TRACKING. */
+export interface GoogleCloudVideointelligenceV1beta2_ObjectTrackingConfig {
+  /** Model to use for object tracking. Supported values: "builtin/stable" (the default if unset) and "builtin/latest". */
+  model?: string;
+}
+export const GoogleCloudVideointelligenceV1beta2_ObjectTrackingConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      model: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_ObjectTrackingConfig",
+  }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_ObjectTrackingConfig>;
 
 /** Provides "hints" to the speech recognizer to favor specific words and phrases in the results. */
 export interface GoogleCloudVideointelligenceV1beta2_SpeechContext {
@@ -192,123 +238,53 @@ export const GoogleCloudVideointelligenceV1beta2_SpeechContextList =
     GoogleCloudVideointelligenceV1beta2_SpeechContext,
   ) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_SpeechContextList>;
 
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<IntegerList>;
+
 /** Config for SPEECH_TRANSCRIPTION. */
 export interface GoogleCloudVideointelligenceV1beta2_SpeechTranscriptionConfig {
-  /** Optional. If `true`, the top result includes a list of words and the confidence for those words. If `false`, no word-level confidence information is returned. The default is `false`. */
-  enableWordConfidence?: boolean;
-  /** Required. *Required* The language of the supplied audio as a [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag. Example: "en-US". See [Language Support](https://cloud.google.com/speech/docs/languages) for a list of the currently supported language codes. */
-  languageCode?: string;
-  /** Optional. If set to `true`, the server will attempt to filter out profanities, replacing all but the initial character in each filtered word with asterisks, e.g. "f***". If set to `false` or omitted, profanities won't be filtered out. */
-  filterProfanity?: boolean;
   /** Optional. Legacy field. This field must be a Cloud Storage URI prefix. (e.g., `gs://bucket/path/`). */
   audioOutputUriPrefix?: string;
-  /** Optional. If set, specifies the estimated number of speakers in the conversation. If not set, defaults to '2'. Ignored unless enable_speaker_diarization is set to true. */
-  diarizationSpeakerCount?: number;
-  /** Optional. For file formats, such as MXF or MKV, supporting multiple audio tracks, specify up to two tracks. Default: track 0. */
-  audioTracks?: IntegerList;
   /** Optional. Maximum number of recognition hypotheses to be returned. Specifically, the maximum number of `SpeechRecognitionAlternative` messages within each `SpeechTranscription`. The server may return fewer than `max_alternatives`. Valid values are `0`-`30`. A value of `0` or `1` will return a maximum of one. If omitted, will return a maximum of one. */
   maxAlternatives?: number;
-  /** Optional. If 'true', adds punctuation to recognition result hypotheses. This feature is only available in select languages. Setting this for requests in other languages has no effect at all. The default 'false' value does not add punctuation to result hypotheses. NOTE: "This is currently offered as an experimental service, complimentary to all users. In the future this may be exclusively available as a premium feature." */
-  enableAutomaticPunctuation?: boolean;
-  /** Optional. If 'true', enables speaker detection for each recognized word in the top alternative of the recognition result using a speaker_tag provided in the WordInfo. Note: When this is true, we send all the words from the beginning of the audio for the top alternative in every consecutive response. This is done in order to improve our speaker tags as our models learn to identify the speakers in the conversation over time. */
-  enableSpeakerDiarization?: boolean;
   /** Optional. A means to provide context to assist the speech recognition. */
   speechContexts?: GoogleCloudVideointelligenceV1beta2_SpeechContextList;
+  /** Optional. For file formats, such as MXF or MKV, supporting multiple audio tracks, specify up to two tracks. Default: track 0. */
+  audioTracks?: IntegerList;
+  /** Optional. If set, specifies the estimated number of speakers in the conversation. If not set, defaults to '2'. Ignored unless enable_speaker_diarization is set to true. */
+  diarizationSpeakerCount?: number;
+  /** Optional. If `true`, the top result includes a list of words and the confidence for those words. If `false`, no word-level confidence information is returned. The default is `false`. */
+  enableWordConfidence?: boolean;
+  /** Optional. If 'true', enables speaker detection for each recognized word in the top alternative of the recognition result using a speaker_tag provided in the WordInfo. Note: When this is true, we send all the words from the beginning of the audio for the top alternative in every consecutive response. This is done in order to improve our speaker tags as our models learn to identify the speakers in the conversation over time. */
+  enableSpeakerDiarization?: boolean;
+  /** Optional. If set to `true`, the server will attempt to filter out profanities, replacing all but the initial character in each filtered word with asterisks, e.g. "f***". If set to `false` or omitted, profanities won't be filtered out. */
+  filterProfanity?: boolean;
+  /** Optional. If 'true', adds punctuation to recognition result hypotheses. This feature is only available in select languages. Setting this for requests in other languages has no effect at all. The default 'false' value does not add punctuation to result hypotheses. NOTE: "This is currently offered as an experimental service, complimentary to all users. In the future this may be exclusively available as a premium feature." */
+  enableAutomaticPunctuation?: boolean;
+  /** Required. *Required* The language of the supplied audio as a [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag. Example: "en-US". See [Language Support](https://cloud.google.com/speech/docs/languages) for a list of the currently supported language codes. */
+  languageCode?: string;
 }
 export const GoogleCloudVideointelligenceV1beta2_SpeechTranscriptionConfig =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      enableWordConfidence: S.optional(S.Boolean),
-      languageCode: S.optional(S.String),
-      filterProfanity: S.optional(S.Boolean),
       audioOutputUriPrefix: S.optional(S.String),
-      diarizationSpeakerCount: S.optional(S.Number),
-      audioTracks: S.optional(IntegerList),
       maxAlternatives: S.optional(S.Number),
-      enableAutomaticPunctuation: S.optional(S.Boolean),
-      enableSpeakerDiarization: S.optional(S.Boolean),
       speechContexts: S.optional(
         GoogleCloudVideointelligenceV1beta2_SpeechContextList,
       ),
+      audioTracks: S.optional(IntegerList),
+      diarizationSpeakerCount: S.optional(S.Number),
+      enableWordConfidence: S.optional(S.Boolean),
+      enableSpeakerDiarization: S.optional(S.Boolean),
+      filterProfanity: S.optional(S.Boolean),
+      enableAutomaticPunctuation: S.optional(S.Boolean),
+      languageCode: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudVideointelligenceV1beta2_SpeechTranscriptionConfig",
   }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_SpeechTranscriptionConfig>;
-
-/** Config for PERSON_DETECTION. */
-export interface GoogleCloudVideointelligenceV1beta2_PersonDetectionConfig {
-  /** Whether bounding boxes are included in the person detection annotation output. */
-  includeBoundingBoxes?: boolean;
-  /** Whether to enable person attributes detection, such as cloth color (black, blue, etc), type (coat, dress, etc), pattern (plain, floral, etc), hair, etc. Ignored if 'include_bounding_boxes' is set to false. */
-  includeAttributes?: boolean;
-  /** Whether to enable pose landmarks detection. Ignored if 'include_bounding_boxes' is set to false. */
-  includePoseLandmarks?: boolean;
-}
-export const GoogleCloudVideointelligenceV1beta2_PersonDetectionConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      includeBoundingBoxes: S.optional(S.Boolean),
-      includeAttributes: S.optional(S.Boolean),
-      includePoseLandmarks: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudVideointelligenceV1beta2_PersonDetectionConfig",
-  }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_PersonDetectionConfig>;
-
-/** Config for TEXT_DETECTION. */
-export interface GoogleCloudVideointelligenceV1beta2_TextDetectionConfig {
-  /** Language hint can be specified if the language to be detected is known a priori. It can increase the accuracy of the detection. Language hint must be language code in BCP-47 format. Automatic language detection is performed if no hint is provided. */
-  languageHints?: StringList;
-  /** Model to use for text detection. Supported values: "builtin/stable" (the default if unset) and "builtin/latest". */
-  model?: string;
-}
-export const GoogleCloudVideointelligenceV1beta2_TextDetectionConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      languageHints: S.optional(StringList),
-      model: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudVideointelligenceV1beta2_TextDetectionConfig",
-  }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_TextDetectionConfig>;
-
-export type GoogleCloudVideointelligenceV1beta2_LabelDetectionConfigLabelDetectionModeEnum =
-    | "LABEL_DETECTION_MODE_UNSPECIFIED"
-    | "SHOT_MODE"
-    | "FRAME_MODE"
-    | "SHOT_AND_FRAME_MODE";
-export const GoogleCloudVideointelligenceV1beta2_LabelDetectionConfigLabelDetectionModeEnum =
-  /*@__PURE__*/ S.String;
-
-/** Config for LABEL_DETECTION. */
-export interface GoogleCloudVideointelligenceV1beta2_LabelDetectionConfig {
-  /** Model to use for label detection. Supported values: "builtin/stable" (the default if unset) and "builtin/latest". */
-  model?: string;
-  /** Whether the video has been shot from a stationary (i.e., non-moving) camera. When set to true, might improve detection accuracy for moving objects. Should be used with `SHOT_AND_FRAME_MODE` enabled. */
-  stationaryCamera?: boolean;
-  /** The confidence threshold we perform filtering on the labels from frame-level detection. If not set, it is set to 0.4 by default. The valid range for this threshold is [0.1, 0.9]. Any value set outside of this range will be clipped. Note: For best results, follow the default threshold. We will update the default threshold everytime when we release a new model. */
-  frameConfidenceThreshold?: number;
-  /** The confidence threshold we perform filtering on the labels from video-level and shot-level detections. If not set, it's set to 0.3 by default. The valid range for this threshold is [0.1, 0.9]. Any value set outside of this range will be clipped. Note: For best results, follow the default threshold. We will update the default threshold everytime when we release a new model. */
-  videoConfidenceThreshold?: number;
-  /** What labels should be detected with LABEL_DETECTION, in addition to video-level labels or segment-level labels. If unspecified, defaults to `SHOT_MODE`. */
-  labelDetectionMode?:
-    | GoogleCloudVideointelligenceV1beta2_LabelDetectionConfigLabelDetectionModeEnum
-    | (string & {});
-}
-export const GoogleCloudVideointelligenceV1beta2_LabelDetectionConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      model: S.optional(S.String),
-      stationaryCamera: S.optional(S.Boolean),
-      frameConfidenceThreshold: S.optional(S.Number),
-      videoConfidenceThreshold: S.optional(S.Number),
-      labelDetectionMode: S.optional(
-        GoogleCloudVideointelligenceV1beta2_LabelDetectionConfigLabelDetectionModeEnum,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudVideointelligenceV1beta2_LabelDetectionConfig",
-  }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_LabelDetectionConfig>;
 
 /** Config for EXPLICIT_CONTENT_DETECTION. */
 export interface GoogleCloudVideointelligenceV1beta2_ExplicitContentDetectionConfig {
@@ -325,56 +301,80 @@ export const GoogleCloudVideointelligenceV1beta2_ExplicitContentDetectionConfig 
       "GoogleCloudVideointelligenceV1beta2_ExplicitContentDetectionConfig",
   }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_ExplicitContentDetectionConfig>;
 
+/** Video segment. */
+export interface GoogleCloudVideointelligenceV1beta2_VideoSegment {
+  /** Time-offset, relative to the beginning of the video, corresponding to the end of the segment (inclusive). */
+  endTimeOffset?: string;
+  /** Time-offset, relative to the beginning of the video, corresponding to the start of the segment (inclusive). */
+  startTimeOffset?: string;
+}
+export const GoogleCloudVideointelligenceV1beta2_VideoSegment =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endTimeOffset: S.optional(S.String),
+      startTimeOffset: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVideointelligenceV1beta2_VideoSegment",
+  }) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_VideoSegment>;
+
+export type GoogleCloudVideointelligenceV1beta2_VideoSegmentList =
+  Array<GoogleCloudVideointelligenceV1beta2_VideoSegment>;
+export const GoogleCloudVideointelligenceV1beta2_VideoSegmentList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudVideointelligenceV1beta2_VideoSegment,
+  ) as any as S.Schema<GoogleCloudVideointelligenceV1beta2_VideoSegmentList>;
+
 /** Video context and/or feature-specific parameters. */
 export interface GoogleCloudVideointelligenceV1beta2_VideoContext {
-  /** Video segments to annotate. The segments may overlap and are not required to be contiguous or span the whole video. If unspecified, each video is treated as a single segment. */
-  segments?: GoogleCloudVideointelligenceV1beta2_VideoSegmentList;
-  /** Config for OBJECT_TRACKING. */
-  objectTrackingConfig?: GoogleCloudVideointelligenceV1beta2_ObjectTrackingConfig;
-  /** Config for SHOT_CHANGE_DETECTION. */
-  shotChangeDetectionConfig?: GoogleCloudVideointelligenceV1beta2_ShotChangeDetectionConfig;
-  /** Config for FACE_DETECTION. */
-  faceDetectionConfig?: GoogleCloudVideointelligenceV1beta2_FaceDetectionConfig;
-  /** Config for SPEECH_TRANSCRIPTION. */
-  speechTranscriptionConfig?: GoogleCloudVideointelligenceV1beta2_SpeechTranscriptionConfig;
   /** Config for PERSON_DETECTION. */
   personDetectionConfig?: GoogleCloudVideointelligenceV1beta2_PersonDetectionConfig;
-  /** Config for TEXT_DETECTION. */
-  textDetectionConfig?: GoogleCloudVideointelligenceV1beta2_TextDetectionConfig;
+  /** Config for FACE_DETECTION. */
+  faceDetectionConfig?: GoogleCloudVideointelligenceV1beta2_FaceDetectionConfig;
   /** Config for LABEL_DETECTION. */
   labelDetectionConfig?: GoogleCloudVideointelligenceV1beta2_LabelDetectionConfig;
+  /** Config for SHOT_CHANGE_DETECTION. */
+  shotChangeDetectionConfig?: GoogleCloudVideointelligenceV1beta2_ShotChangeDetectionConfig;
+  /** Config for TEXT_DETECTION. */
+  textDetectionConfig?: GoogleCloudVideointelligenceV1beta2_TextDetectionConfig;
+  /** Config for OBJECT_TRACKING. */
+  objectTrackingConfig?: GoogleCloudVideointelligenceV1beta2_ObjectTrackingConfig;
+  /** Config for SPEECH_TRANSCRIPTION. */
+  speechTranscriptionConfig?: GoogleCloudVideointelligenceV1beta2_SpeechTranscriptionConfig;
   /** Config for EXPLICIT_CONTENT_DETECTION. */
   explicitContentDetectionConfig?: GoogleCloudVideointelligenceV1beta2_ExplicitContentDetectionConfig;
+  /** Video segments to annotate. The segments may overlap and are not required to be contiguous or span the whole video. If unspecified, each video is treated as a single segment. */
+  segments?: GoogleCloudVideointelligenceV1beta2_VideoSegmentList;
 }
 export const GoogleCloudVideointelligenceV1beta2_VideoContext =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      segments: S.optional(
-        GoogleCloudVideointelligenceV1beta2_VideoSegmentList,
-      ),
-      objectTrackingConfig: S.optional(
-        GoogleCloudVideointelligenceV1beta2_ObjectTrackingConfig,
-      ),
-      shotChangeDetectionConfig: S.optional(
-        GoogleCloudVideointelligenceV1beta2_ShotChangeDetectionConfig,
+      personDetectionConfig: S.optional(
+        GoogleCloudVideointelligenceV1beta2_PersonDetectionConfig,
       ),
       faceDetectionConfig: S.optional(
         GoogleCloudVideointelligenceV1beta2_FaceDetectionConfig,
       ),
-      speechTranscriptionConfig: S.optional(
-        GoogleCloudVideointelligenceV1beta2_SpeechTranscriptionConfig,
+      labelDetectionConfig: S.optional(
+        GoogleCloudVideointelligenceV1beta2_LabelDetectionConfig,
       ),
-      personDetectionConfig: S.optional(
-        GoogleCloudVideointelligenceV1beta2_PersonDetectionConfig,
+      shotChangeDetectionConfig: S.optional(
+        GoogleCloudVideointelligenceV1beta2_ShotChangeDetectionConfig,
       ),
       textDetectionConfig: S.optional(
         GoogleCloudVideointelligenceV1beta2_TextDetectionConfig,
       ),
-      labelDetectionConfig: S.optional(
-        GoogleCloudVideointelligenceV1beta2_LabelDetectionConfig,
+      objectTrackingConfig: S.optional(
+        GoogleCloudVideointelligenceV1beta2_ObjectTrackingConfig,
+      ),
+      speechTranscriptionConfig: S.optional(
+        GoogleCloudVideointelligenceV1beta2_SpeechTranscriptionConfig,
       ),
       explicitContentDetectionConfig: S.optional(
         GoogleCloudVideointelligenceV1beta2_ExplicitContentDetectionConfig,
+      ),
+      segments: S.optional(
+        GoogleCloudVideointelligenceV1beta2_VideoSegmentList,
       ),
     }),
   ).annotate({
@@ -383,32 +383,32 @@ export const GoogleCloudVideointelligenceV1beta2_VideoContext =
 
 /** Video annotation request. */
 export interface GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequest {
-  /** Required. Requested video annotation features. */
-  features?: GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequestFeaturesItemEnumList;
-  /** The video data bytes. If unset, the input video(s) should be specified via the `input_uri`. If set, `input_uri` must be unset. */
-  inputContent?: string;
   /** Optional. Cloud region where annotation should take place. Supported cloud regions are: `us-east1`, `us-west1`, `europe-west1`, `asia-east1`. If no region is specified, the region will be determined based on video file location. */
   locationId?: string;
+  /** The video data bytes. If unset, the input video(s) should be specified via the `input_uri`. If set, `input_uri` must be unset. */
+  inputContent?: string;
+  /** Optional. Location where the output (in JSON format) should be stored. Currently, only [Cloud Storage](https://cloud.google.com/storage/) URIs are supported. These must be specified in the following format: `gs://bucket-id/object-id` (other URI formats return google.rpc.Code.INVALID_ARGUMENT). For more information, see [Request URIs](https://cloud.google.com/storage/docs/request-endpoints). */
+  outputUri?: string;
+  /** Required. Requested video annotation features. */
+  features?: GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequestFeaturesItemEnumList;
   /** Additional video context and/or feature-specific parameters. */
   videoContext?: GoogleCloudVideointelligenceV1beta2_VideoContext;
   /** Input video location. Currently, only [Cloud Storage](https://cloud.google.com/storage/) URIs are supported. URIs must be specified in the following format: `gs://bucket-id/object-id` (other URI formats return google.rpc.Code.INVALID_ARGUMENT). For more information, see [Request URIs](https://cloud.google.com/storage/docs/request-endpoints). To identify multiple videos, a video URI may include wildcards in the `object-id`. Supported wildcards: '*' to match 0 or more characters; '?' to match 1 character. If unset, the input video should be embedded in the request as `input_content`. If set, `input_content` must be unset. */
   inputUri?: string;
-  /** Optional. Location where the output (in JSON format) should be stored. Currently, only [Cloud Storage](https://cloud.google.com/storage/) URIs are supported. These must be specified in the following format: `gs://bucket-id/object-id` (other URI formats return google.rpc.Code.INVALID_ARGUMENT). For more information, see [Request URIs](https://cloud.google.com/storage/docs/request-endpoints). */
-  outputUri?: string;
 }
 export const GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      locationId: S.optional(S.String),
+      inputContent: S.optional(S.String),
+      outputUri: S.optional(S.String),
       features: S.optional(
         GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequestFeaturesItemEnumList,
       ),
-      inputContent: S.optional(S.String),
-      locationId: S.optional(S.String),
       videoContext: S.optional(
         GoogleCloudVideointelligenceV1beta2_VideoContext,
       ),
       inputUri: S.optional(S.String),
-      outputUri: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequest",
@@ -449,17 +449,17 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpc_Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
 }
 export const GoogleRpc_Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
     code: S.optional(S.Number),
+    message: S.optional(S.String),
     details: S.optional(DocumentMapList),
   }),
 ).annotate({
@@ -468,24 +468,24 @@ export const GoogleRpc_Status = /*@__PURE__*/ S.suspend(() =>
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunning_Operation {
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: GoogleRpc_Status;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: GoogleRpc_Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
 }
 export const GoogleLongrunning_Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    response: S.optional(DocumentMap),
-    metadata: S.optional(DocumentMap),
-    error: S.optional(GoogleRpc_Status),
     name: S.optional(S.String),
+    error: S.optional(GoogleRpc_Status),
+    response: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
+    metadata: S.optional(DocumentMap),
   }),
 ).annotate({
   identifier: "GoogleLongrunning_Operation",

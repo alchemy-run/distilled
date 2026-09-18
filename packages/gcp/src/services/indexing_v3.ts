@@ -87,22 +87,22 @@ export type UrlNotificationTypeEnum =
   | "URL_NOTIFICATION_TYPE_UNSPECIFIED"
   | "URL_UPDATED"
   | "URL_DELETED";
-export const UrlNotificationTypeEnum = /*@__PURE__*/ S.String;
+export const UrlNotificationTypeEnum = S.String;
 
 /** `UrlNotification` is the resource used in all Indexing API calls. It describes one event in the life cycle of a Web Document. */
 export interface UrlNotification {
+  /** The object of this notification. The URL must be owned by the publisher of this notification and, in case of `URL_UPDATED` notifications, it _must_ be crawlable by Google. */
+  url?: string;
   /** Creation timestamp for this notification. Users should _not_ specify it, the field is ignored at the request time. */
   notifyTime?: string;
   /** The URL life cycle event that Google is being notified about. */
   type?: UrlNotificationTypeEnum | (string & {});
-  /** The object of this notification. The URL must be owned by the publisher of this notification and, in case of `URL_UPDATED` notifications, it _must_ be crawlable by Google. */
-  url?: string;
 }
 export const UrlNotification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    url: S.optional(S.String),
     notifyTime: S.optional(S.String),
     type: S.optional(UrlNotificationTypeEnum),
-    url: S.optional(S.String),
   }),
 ).annotate({
   identifier: "UrlNotification",
@@ -110,18 +110,18 @@ export const UrlNotification = /*@__PURE__*/ S.suspend(() =>
 
 /** Summary of the most recent Indexing API notifications successfully received, for a given URL. */
 export interface UrlNotificationMetadata {
-  /** Latest notification received with type `URL_UPDATED`. */
-  latestUpdate?: UrlNotification;
   /** URL to which this metadata refers. */
   url?: string;
   /** Latest notification received with type `URL_REMOVED`. */
   latestRemove?: UrlNotification;
+  /** Latest notification received with type `URL_UPDATED`. */
+  latestUpdate?: UrlNotification;
 }
 export const UrlNotificationMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    latestUpdate: S.optional(UrlNotification),
     url: S.optional(S.String),
     latestRemove: S.optional(UrlNotification),
+    latestUpdate: S.optional(UrlNotification),
   }),
 ).annotate({
   identifier: "UrlNotificationMetadata",

@@ -76,7 +76,7 @@ const spec: SdkSpec = {
   // runtime case discrimination is needed.
   union: ({ name, caseTargets, tsRef }) => [
     `export type ${name} = ${caseTargets.map(tsRef).join(" | ") || "unknown"};`,
-    `export const ${name} = /*@__PURE__*/ S.Unknown as any as S.Schema<${name}>;\n`,
+    `export const ${name} = S.Unknown as any as S.Schema<${name}>;\n`,
   ],
 
   // One pagination profile: Hetzner's page-number mode (inputToken `page`,
@@ -90,7 +90,8 @@ const spec: SdkSpec = {
     },
   },
 
-  sourceNote: ".generated-specs (specs/cloud.spec.json)",
+  sourceNote:
+    ".generated-specs (specs/spec-mirror-hetzner/specs/cloud.spec.json)",
 
   operationDecl: {
     contextType: "HetznerOpContext",

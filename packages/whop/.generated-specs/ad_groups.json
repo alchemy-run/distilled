@@ -1,0 +1,5231 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.ad_groups#ListAdGroupsRequestAdCampaignIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#ListAdGroupsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "DUPLICATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duplicating"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#ListAdGroupsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        },
+        "SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spend"
+          }
+        },
+        "IMPRESSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "impressions"
+          }
+        },
+        "REACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reach"
+          }
+        },
+        "CLICKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clicks"
+          }
+        },
+        "UNIQUE_CLICKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unique_clicks"
+          }
+        },
+        "FREQUENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frequency"
+          }
+        },
+        "CLICK_THROUGH_RATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "click_through_rate"
+          }
+        },
+        "RESULTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "results"
+          }
+        },
+        "COST_PER_MILLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cost_per_mille"
+          }
+        },
+        "COST_PER_CLICK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cost_per_click"
+          }
+        },
+        "COST_PER_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cost_per_result"
+          }
+        },
+        "RETURN_ON_AD_SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "return_on_ad_spend"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#ListAdGroupsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#ListAdGroupsRequestAttributionModel": {
+      "type": "enum",
+      "members": {
+        "LAST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_touch"
+          }
+        },
+        "FIRST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_touch"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#ListAdGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Account whose ad groups to list. Defaults to the authenticated account."
+          }
+        },
+        "ad_campaign_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "ad_campaign_id",
+            "smithy.api#documentation": "Filter to ad groups in this campaign."
+          }
+        },
+        "ad_campaign_ids": {
+          "target": "com.whop.ad_groups#ListAdGroupsRequestAdCampaignIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "ad_campaign_ids",
+            "smithy.api#documentation": "Filter to ad groups in these campaigns (max 100). Repeat the parameter for each id (ad_campaign_ids=a&ad_campaign_ids=b)."
+          }
+        },
+        "status": {
+          "target": "com.whop.ad_groups#ListAdGroupsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter to ad groups with this status."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "Filter ad groups by a title or ID substring."
+          }
+        },
+        "order": {
+          "target": "com.whop.ad_groups#ListAdGroupsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort by. Defaults to created_at. Stat columns (spend, impressions, …) rank over the stats_from/stats_to window across the whole list, not just the current page. results, cost_per_result and return_on_ad_spend rank by the same Whop pixel-attributed values the response reports."
+          }
+        },
+        "direction": {
+          "target": "com.whop.ad_groups#ListAdGroupsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "The sort direction. Defaults to desc."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only return ad groups created before this timestamp."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return ad groups created after this timestamp."
+          }
+        },
+        "stats_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "stats_from",
+            "smithy.api#documentation": "Start of the stats window. Defaults to all-time."
+          }
+        },
+        "stats_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "stats_to",
+            "smithy.api#documentation": "End of the stats window. Defaults to now."
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "time_zone",
+            "smithy.api#documentation": "IANA timezone (e.g. America/New_York) the stats window is interpreted in. Bare stats_from/stats_to dates resolve to day boundaries on this clock. Defaults to UTC."
+          }
+        },
+        "attribution_model": {
+          "target": "com.whop.ad_groups#ListAdGroupsRequestAttributionModel",
+          "traits": {
+            "smithy.api#httpQuery": "attribution_model",
+            "smithy.api#documentation": "Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "The number of ad groups to return."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "The number of ad groups to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_groups#AdGroup": {
+      "type": "structure",
+      "members": {
+        "ad_campaign": {
+          "target": "com.whop.ad_groups#AdEntityReference",
+          "traits": {
+            "smithy.api#documentation": "The ad campaign this ad group belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "added_to_cart_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to add-to-cart events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "added_to_carts": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed add-to-cart events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "audiences": {
+          "target": "com.whop.ad_groups#AdGroupAudiences",
+          "traits": {
+            "smithy.api#documentation": "Saved audiences this ad group delivers to or excludes.",
+            "smithy.api#required": {}
+          }
+        },
+        "bid_type": {
+          "target": "com.whop.ad_groups#AdGroupBidType",
+          "traits": {
+            "smithy.api#documentation": "How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "budget_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "This ad group's budget, in the ad account's currency. `null` when the budget is set on the campaign instead.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "budget_type": {
+          "target": "com.whop.ad_groups#AdGroupBudgetType",
+          "traits": {
+            "smithy.api#documentation": "Whether `budget_amount` is spent per day (`daily`) or over the ad group's full run (`lifetime`).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "click_through_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Clicks divided by impressions, between 0 and 1.",
+            "smithy.api#required": {}
+          }
+        },
+        "clicks": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of clicks.",
+            "smithy.api#required": {}
+          }
+        },
+        "completed_registration_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to complete-registration events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "completed_registrations": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed complete-registration events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "contact_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to contact events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "contacts": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed contact events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "conversion_event": {
+          "target": "com.whop.ad_groups#ConversionEvent",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "conversion_location": {
+          "target": "com.whop.ad_groups#AdGroupConversionLocation",
+          "traits": {
+            "smithy.api#documentation": "Where the outcome being optimized for occurs, such as a website visit, social-profile visit, messaging conversation, ad interaction, or lead-form submission.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_added_to_cart": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed add-to-cart events; null when they are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_click": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by clicks; 0 when there are no clicks.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_per_completed_registration": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed complete-registration events; null when they are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_contact": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed contact events; null when contacts are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_lead": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed leads; null when leads are not a goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_mille": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend per 1,000 impressions; 0 when there are no impressions.",
+            "smithy.api#required": {}
+          }
+        },
+        "cost_per_purchase": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed purchases; null when purchases are not a goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_result": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by Whop pixel-attributed results; null when nothing Whop-attributable is being optimized for.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_schedule": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed schedule events; null when schedules are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_submitted_application": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed submit-application events; null when they are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_unique_click": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by unique clicks; null when there are no unique clicks.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cost_per_viewed_content": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Spend divided by attributed view-content events; null when they are not the goal and none are attributed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the ad group was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_conversions": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed custom (merchant-defined) conversion events, last-click, across all custom event names.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_event_counts": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed custom conversions, keyed by your event name with its last-click count as the value. Empty when no named custom events are attributed. Custom events fired without a name are counted in custom_conversions but omitted here, so these values sum to at most custom_conversions.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_event_values": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Conversion value attributed to each custom event, keyed by event name like custom_event_counts. Sums the value passed to whop.track, normalized to USD; events fired without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "delivery_status": {
+          "target": "com.whop.ad_groups#AdGroupDeliveryStatus",
+          "traits": {
+            "smithy.api#documentation": "Whether ads in this ad group are delivering right now, and if not, why. When several states apply at once, the highest-precedence one is returned.",
+            "smithy.api#required": {}
+          }
+        },
+        "demographics": {
+          "target": "com.whop.ad_groups#AdGroupDemographics",
+          "traits": {
+            "smithy.api#documentation": "Age, gender, and automatic-audience targeting.",
+            "smithy.api#required": {}
+          }
+        },
+        "desired_cost_per_result": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost per result to aim for (`average_target`) or never exceed (`maximum_target`). `null` for `minimum_cost` bidding.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "detailed_targeting": {
+          "target": "com.whop.ad_groups#AdGroupDetailedTargeting",
+          "traits": {
+            "smithy.api#documentation": "Interest, behavior, and demographic targeting, using categories from the ad platform's targeting taxonomy. Entries across interests, behaviors, and demographics are OR'd together (anyone matching any entry is reached), matching Ads Manager's detailed-targeting box. Can't be combined with automatic audience targeting. Special ad category campaigns are limited to approved interests.",
+            "smithy.api#required": {}
+          }
+        },
+        "devices": {
+          "target": "com.whop.ad_groups#AdGroupDevices",
+          "traits": {
+            "smithy.api#documentation": "Device platforms and operating systems targeted.",
+            "smithy.api#required": {}
+          }
+        },
+        "dynamic_creative": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the ad platform automatically mixes and matches this ad group's creatives and copy to find the best-performing combinations."
+          }
+        },
+        "ends_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the ad group stops delivering, as an ISO 8601 timestamp. `null` when it runs until paused.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frequency": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Platform-reported impressions divided by reach.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frequency_cap": {
+          "target": "com.whop.ad_groups#AdGroupFrequencyCap",
+          "traits": {
+            "smithy.api#documentation": "Cap on how often one person sees ads from this ad group. Only available on campaigns with the `awareness` objective; `null` when uncapped.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the ad group, prefixed `adgrp_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "impressions": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of impressions.",
+            "smithy.api#required": {}
+          }
+        },
+        "issues": {
+          "target": "com.whop.ad_groups#AdGroupIssuesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "languages": {
+          "target": "com.whop.ad_groups#AdGroupLanguagesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "lead_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to lead events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "leads": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed leads, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "message_apps": {
+          "target": "com.whop.ad_groups#AdGroupMessageAppsList"
+        },
+        "minimum_daily_spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum the ad group tries to spend each day. `null` when no floor is set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "optimization_goal": {
+          "target": "com.whop.ad_groups#AdGroupOptimizationGoal",
+          "traits": {
+            "smithy.api#documentation": "The result the ad group's delivery is optimized to get the most of.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "placements": {
+          "target": "com.whop.ad_groups#AdGroupPlacementsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "purchase_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value of pixel-attributed purchases.",
+            "smithy.api#required": {}
+          }
+        },
+        "purchases": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed purchases, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "reach": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of unique people who saw this.",
+            "smithy.api#required": {}
+          }
+        },
+        "regions": {
+          "target": "com.whop.ad_groups#AdGroupRegions",
+          "traits": {
+            "smithy.api#documentation": "Locations targeted and excluded.",
+            "smithy.api#required": {}
+          }
+        },
+        "result_event": {
+          "target": "com.whop.ad_groups#AdGroupResultEvent",
+          "traits": {
+            "smithy.api#documentation": "The Whop pixel conversion event whose attributed count represents results — the optimization goal, or the highest-volume attributed event for campaigns that budget per ad group. Null when the goal isn't a Whop-attributed event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_event_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The merchant-defined event name when result_event is custom; null for the standard events.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The Whop pixel-attributed count behind result_event. When a campaign's ad groups optimize different goals there is no single result_event (it is null), and this is instead the sum of each ad group's own attributed results. Null when nothing Whop-attributable is being optimized for.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "return_on_ad_spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Purchase value divided by spend, both in USD (a currency-neutral ratio); 0 when there is no spend.",
+            "smithy.api#required": {}
+          }
+        },
+        "schedule_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to schedule events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "schedules": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed schedule events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount charged, in spend_currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "spend_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 4217 currency code of all monetary metrics.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "starts_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the ad group starts delivering, as an ISO 8601 timestamp. `null` when it starts as soon as it's active.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.ad_groups#AdGroupStatus",
+          "traits": {
+            "smithy.api#documentation": "Whether the ad group is enabled. `active` and `paused` are set by you; `rejected` means it failed ad review; `duplicating` is a copy still being filled in.",
+            "smithy.api#required": {}
+          }
+        },
+        "submitted_application_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to submit-application events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "submitted_applications": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed submit-application events, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the ad group.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unique_click_through_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Unique clicks divided by impressions, between 0 and 1.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unique_clicks": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "People who clicked, reported by the Whop pixel, counted once per person.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the ad group was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "viewed_content_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "USD value attributed to view-content events. Sums the value sent with each event, normalized to USD; events without a value contribute 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "viewed_contents": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Whop pixel-attributed view-content events, last-click.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdEntityReference": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The referenced entity's id.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupAudiences": {
+      "type": "structure",
+      "members": {
+        "exclude": {
+          "target": "com.whop.ad_groups#AdGroupAudiencesExcludeList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "include": {
+          "target": "com.whop.ad_groups#AdGroupAudiencesIncludeList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupAudiencesExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupAudiencesIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupBidType": {
+      "type": "enum",
+      "members": {
+        "MINIMUM_COST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minimum_cost"
+          }
+        },
+        "AVERAGE_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "average_target"
+          }
+        },
+        "MAXIMUM_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "maximum_target"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`."
+      }
+    },
+    "com.whop.ad_groups#AdGroupBudgetType": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "LIFETIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lifetime"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether `budget_amount` is spent per day (`daily`) or over the ad group's full run (`lifetime`)."
+      }
+    },
+    "com.whop.ad_groups#ConversionEvent": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.ad_groups#ConversionEventCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The pixel event optimized for. A standard event, or any custom pixel event name."
+      }
+    },
+    "com.whop.ad_groups#ConversionEventCase0": {
+      "type": "enum",
+      "members": {
+        "PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purchase"
+          }
+        },
+        "ADD_TO_CART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add_to_cart"
+          }
+        },
+        "INITIATED_CHECKOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "initiated_checkout"
+          }
+        },
+        "ADD_PAYMENT_INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add_payment_info"
+          }
+        },
+        "COMPLETE_REGISTRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete_registration"
+          }
+        },
+        "LEAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead"
+          }
+        },
+        "CONTENT_VIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_view"
+          }
+        },
+        "SEARCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "search"
+          }
+        },
+        "CONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contact"
+          }
+        },
+        "CUSTOMIZE_PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customize_product"
+          }
+        },
+        "DONATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "donate"
+          }
+        },
+        "FIND_LOCATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "find_location"
+          }
+        },
+        "SCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule"
+          }
+        },
+        "START_TRIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start_trial"
+          }
+        },
+        "SUBMIT_APPLICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submit_application"
+          }
+        },
+        "SUBSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscribe"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupConversionLocation": {
+      "type": "enum",
+      "members": {
+        "WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website"
+          }
+        },
+        "PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "profile"
+          }
+        },
+        "INSTAGRAM_AND_FACEBOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram_and_facebook"
+          }
+        },
+        "INSTAGRAM_PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram_profile"
+          }
+        },
+        "MESSAGING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messaging"
+          }
+        },
+        "ON_AD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "on_ad"
+          }
+        },
+        "INSTANT_FORMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instant_forms"
+          }
+        },
+        "INSTANT_FORMS_AND_MESSENGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instant_forms_and_messenger"
+          }
+        },
+        "WEBSITE_AND_INSTANT_FORMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website_and_instant_forms"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where the outcome being optimized for occurs, such as a website visit, social-profile visit, messaging conversation, ad interaction, or lead-form submission."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDeliveryStatus": {
+      "type": "enum",
+      "members": {
+        "ALL_ADS_REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all_ads_rejected"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "NO_ADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_ads"
+          }
+        },
+        "CAMPAIGN_PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "campaign_paused"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "ISSUES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "issues"
+          }
+        },
+        "SCHEDULED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scheduled"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "ADS_OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ads_off"
+          }
+        },
+        "LEARNING_LIMITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "learning_limited"
+          }
+        },
+        "LEARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "learning"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether ads in this ad group are delivering right now, and if not, why. When several states apply at once, the highest-precedence one is returned."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDemographics": {
+      "type": "structure",
+      "members": {
+        "automatic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether automatic audience targeting is on (Advantage+ on Meta). When `true`, the platform can deliver beyond the ages, genders, and detailed targeting you set, treating them as suggestions.",
+            "smithy.api#required": {}
+          }
+        },
+        "gender": {
+          "target": "com.whop.ad_groups#AdGroupDemographicsGender",
+          "traits": {
+            "smithy.api#documentation": "Gender targeted.",
+            "smithy.api#required": {}
+          }
+        },
+        "maximum_age": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Oldest age targeted. `null` when no maximum is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minimum_age": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Youngest age targeted. `null` when no minimum is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupDemographicsGender": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "MALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "male"
+          }
+        },
+        "FEMALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "female"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Gender targeted."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDetailedTargeting": {
+      "type": "structure",
+      "members": {
+        "behaviors": {
+          "target": "com.whop.ad_groups#AdGroupDetailedTargetingBehaviorsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "demographics": {
+          "target": "com.whop.ad_groups#AdGroupDetailedTargetingDemographicsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "interests": {
+          "target": "com.whop.ad_groups#AdGroupDetailedTargetingInterestsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupBehaviorCategory": {
+      "type": "structure",
+      "members": {
+        "behavior_type": {
+          "target": "com.whop.ad_groups#AdGroupBehaviorCategoryBehaviorType",
+          "traits": {
+            "smithy.api#documentation": "On ad platforms that scope behavior categories, what this one is measured on. Send back the value the targeting_options endpoint returned alongside the id. Absent on platforms that don't scope them."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad platform's ID for the category in its targeting taxonomy.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category name, such as `Frequent travelers`."
+          }
+        },
+        "period": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "On ad platforms that scope behavior categories, how many days of activity the category covers. Absent on platforms that don't scope them."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupBehaviorCategoryBehaviorType": {
+      "type": "enum",
+      "members": {
+        "VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video"
+          }
+        },
+        "CREATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creator"
+          }
+        },
+        "HASHTAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hashtag"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "On ad platforms that scope behavior categories, what this one is measured on. Send back the value the targeting_options endpoint returned alongside the id. Absent on platforms that don't scope them."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDetailedTargetingBehaviorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupBehaviorCategory"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupDemographicCategory": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad platform's ID for the category in its targeting taxonomy.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category name, such as `Recently moved`."
+          }
+        },
+        "type": {
+          "target": "com.whop.ad_groups#AdGroupDemographicCategoryType",
+          "traits": {
+            "smithy.api#documentation": "Kind of demographic the category belongs to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupDemographicCategoryType": {
+      "type": "enum",
+      "members": {
+        "LIFE_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "life_events"
+          }
+        },
+        "INDUSTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "industries"
+          }
+        },
+        "INCOME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "income"
+          }
+        },
+        "FAMILY_STATUSES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "family_statuses"
+          }
+        },
+        "WORK_EMPLOYERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "work_employers"
+          }
+        },
+        "WORK_POSITIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "work_positions"
+          }
+        },
+        "EDUCATION_SCHOOLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "education_schools"
+          }
+        },
+        "EDUCATION_MAJORS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "education_majors"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Kind of demographic the category belongs to."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDetailedTargetingDemographicsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupDemographicCategory"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupTargetingCategory": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad platform's ID for the category in its targeting taxonomy.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category name, such as `Movies`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupDetailedTargetingInterestsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupTargetingCategory"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupDevices": {
+      "type": "structure",
+      "members": {
+        "operating_systems": {
+          "target": "com.whop.ad_groups#AdGroupDevicesOperatingSystemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "platforms": {
+          "target": "com.whop.ad_groups#AdGroupDevicesPlatformsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupOperatingSystem": {
+      "type": "structure",
+      "members": {
+        "minimum_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Lowest OS version targeted, such as `18.0`. Absent when any version qualifies."
+          }
+        },
+        "os": {
+          "target": "com.whop.ad_groups#AdGroupOperatingSystemOs",
+          "traits": {
+            "smithy.api#documentation": "Operating system targeted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupOperatingSystemOs": {
+      "type": "enum",
+      "members": {
+        "IOS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ios"
+          }
+        },
+        "ANDROID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "android"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Operating system targeted."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDevicesOperatingSystemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupOperatingSystem"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupDevicesPlatformsItem": {
+      "type": "enum",
+      "members": {
+        "MOBILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobile"
+          }
+        },
+        "DESKTOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desktop"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Device types targeted. Empty targets all devices."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDevicesPlatformsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupDevicesPlatformsItem"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupFrequencyCap": {
+      "type": "structure",
+      "members": {
+        "maximum_impressions": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Most times one person can be shown ads from this ad group within the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "per_days": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Length of the rolling window, in days.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdPlatformIssue": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the issue.",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A description of what the issue is and how it can be resolved.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the campaign, ad group, or ad the issue is attached to.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resource_type": {
+          "target": "com.whop.ad_groups#AdPlatformIssueResourceType",
+          "traits": {
+            "smithy.api#documentation": "The type of resource the issue is attached to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdPlatformIssueResourceType": {
+      "type": "enum",
+      "members": {
+        "AD_CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign"
+          }
+        },
+        "AD_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_group"
+          }
+        },
+        "AD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of resource the issue is attached to."
+      }
+    },
+    "com.whop.ad_groups#AdGroupIssuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdPlatformIssue"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupLanguagesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupMessageAppsItem": {
+      "type": "enum",
+      "members": {
+        "MESSENGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messenger"
+          }
+        },
+        "INSTAGRAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram"
+          }
+        },
+        "WHATSAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whatsapp"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Apps the conversation opens in when `conversion_location` is `messaging`. Empty for other conversion locations."
+      }
+    },
+    "com.whop.ad_groups#AdGroupMessageAppsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupMessageAppsItem"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupOptimizationGoal": {
+      "type": "enum",
+      "members": {
+        "CONVERSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "conversions"
+          }
+        },
+        "LINK_CLICKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link_clicks"
+          }
+        },
+        "LANDING_PAGE_VIEWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "landing_page_views"
+          }
+        },
+        "REACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reach"
+          }
+        },
+        "IMPRESSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "impressions"
+          }
+        },
+        "ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engagement"
+          }
+        },
+        "CONVERSATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "conversations"
+          }
+        },
+        "VIDEO_VIEWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video_views"
+          }
+        },
+        "TWO_SECOND_VIEWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "two_second_views"
+          }
+        },
+        "PAGE_LIKES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "page_likes"
+          }
+        },
+        "SOCIAL_PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "social_profile"
+          }
+        },
+        "AD_RECALL_LIFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_recall_lift"
+          }
+        },
+        "EVENT_RESPONSES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "event_responses"
+          }
+        },
+        "REMINDERS_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reminders_set"
+          }
+        },
+        "LEAD_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead_generation"
+          }
+        },
+        "QUALITY_LEAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quality_lead"
+          }
+        },
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "value"
+          }
+        },
+        "PROFILE_AND_PAGE_ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "profile_and_page_engagement"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The result the ad group's delivery is optimized to get the most of."
+      }
+    },
+    "com.whop.ad_groups#AdGroupPlacement": {
+      "type": "structure",
+      "members": {
+        "platform": {
+          "target": "com.whop.ad_groups#AdGroupPlacementPlatform",
+          "traits": {
+            "smithy.api#documentation": "Publisher platform where the ad is eligible to appear.",
+            "smithy.api#required": {}
+          }
+        },
+        "positions": {
+          "target": "com.whop.ad_groups#AdGroupPlacementPositionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupPlacementPlatform": {
+      "type": "enum",
+      "members": {
+        "FACEBOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "facebook"
+          }
+        },
+        "INSTAGRAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram"
+          }
+        },
+        "MESSENGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messenger"
+          }
+        },
+        "AUDIENCE_NETWORK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audience_network"
+          }
+        },
+        "THREADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "threads"
+          }
+        },
+        "WHATSAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whatsapp"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Publisher platform where the ad is eligible to appear."
+      }
+    },
+    "com.whop.ad_groups#AdGroupPlacementPositionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupPlacementsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupPlacement"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupRegions": {
+      "type": "structure",
+      "members": {
+        "exclude": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocations",
+          "traits": {
+            "smithy.api#documentation": "Locations excluded from targeting. Country groups can't be excluded.",
+            "smithy.api#required": {}
+          }
+        },
+        "include": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocations",
+          "traits": {
+            "smithy.api#documentation": "Locations the ad group targets.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupGeoLocations": {
+      "type": "structure",
+      "members": {
+        "cities": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsCitiesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "countries": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsCountriesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "country_groups": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsCountryGroupsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "custom_locations": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsCustomLocationsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "regions": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsRegionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "zips": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsZipsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupCity": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad platform's key for the city in its location taxonomy.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "City name, such as `Austin`. Absent when the platform doesn't return one."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsCitiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupCity"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsCountriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsCountryGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupCustomLocation": {
+      "type": "structure",
+      "members": {
+        "distance_unit": {
+          "target": "com.whop.ad_groups#AdGroupCustomLocationDistanceUnit",
+          "traits": {
+            "smithy.api#documentation": "Unit for `radius`.",
+            "smithy.api#required": {}
+          }
+        },
+        "latitude": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Latitude of the center point.",
+            "smithy.api#required": {}
+          }
+        },
+        "longitude": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Longitude of the center point.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Label for the location, such as a city or address. Absent when the location has no label."
+          }
+        },
+        "radius": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Radius around the center point, in `distance_unit`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupCustomLocationDistanceUnit": {
+      "type": "enum",
+      "members": {
+        "MILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mile"
+          }
+        },
+        "KILOMETER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kilometer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Unit for `radius`."
+      }
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsCustomLocationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupCustomLocation"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsRegionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsZipsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupResultEvent": {
+      "type": "enum",
+      "members": {
+        "PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purchase"
+          }
+        },
+        "LEAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead"
+          }
+        },
+        "SCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule"
+          }
+        },
+        "SUBMIT_APPLICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "submit_application"
+          }
+        },
+        "CONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contact"
+          }
+        },
+        "COMPLETE_REGISTRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete_registration"
+          }
+        },
+        "VIEW_CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view_content"
+          }
+        },
+        "ADD_TO_CART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add_to_cart"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "MESSAGING_CONVERSATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messaging_conversation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Whop pixel conversion event whose attributed count represents results — the optimization goal, or the highest-volume attributed event for campaigns that budget per ad group. Null when the goal isn't a Whop-attributed event."
+      }
+    },
+    "com.whop.ad_groups#AdGroupStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "DUPLICATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duplicating"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the ad group is enabled. `active` and `paused` are set by you; `rejected` means it failed ad review; `duplicating` is a copy still being filled in."
+      }
+    },
+    "com.whop.ad_groups#ListAdGroupsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroup"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#ListAdGroupsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#ListAdGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.ad_groups#ListAdGroupsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.ad_groups#ListAdGroupsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ad_groups#ListAdGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_groups#ListAdGroupsRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_groups#ListAdGroupsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ad_groups",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Ad Groups\n\nLists ad groups for the account, newest first.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.ad_groups#AdGroupAudiencesBody": {
+      "type": "structure",
+      "members": {
+        "exclude": {
+          "target": "com.whop.ad_groups#AdGroupAudiencesBodyExcludeList",
+          "traits": {
+            "smithy.api#documentation": "IDs of saved audiences to exclude from delivery, prefixed `adaud_`."
+          }
+        },
+        "include": {
+          "target": "com.whop.ad_groups#AdGroupAudiencesBodyIncludeList",
+          "traits": {
+            "smithy.api#documentation": "IDs of saved audiences to deliver to, prefixed `adaud_`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Saved audiences to deliver to or exclude. Can't be combined with demographics.automatic."
+      }
+    },
+    "com.whop.ad_groups#AdGroupAudiencesBodyExcludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IDs of saved audiences to exclude from delivery, prefixed `adaud_`."
+      }
+    },
+    "com.whop.ad_groups#AdGroupAudiencesBodyIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IDs of saved audiences to deliver to, prefixed `adaud_`."
+      }
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestBidType": {
+      "type": "enum",
+      "members": {
+        "MINIMUM_COST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minimum_cost"
+          }
+        },
+        "AVERAGE_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "average_target"
+          }
+        },
+        "MAXIMUM_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "maximum_target"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`."
+      }
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestBudgetType": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "LIFETIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lifetime"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether budget_amount is spent per day (`daily`) or over the ad group's full run (`lifetime`)."
+      }
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestConversionLocation": {
+      "type": "enum",
+      "members": {
+        "WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website"
+          }
+        },
+        "PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "profile"
+          }
+        },
+        "INSTAGRAM_AND_FACEBOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram_and_facebook"
+          }
+        },
+        "INSTAGRAM_PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram_profile"
+          }
+        },
+        "MESSAGING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messaging"
+          }
+        },
+        "ON_AD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "on_ad"
+          }
+        },
+        "INSTANT_FORMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instant_forms"
+          }
+        },
+        "INSTANT_FORMS_AND_MESSENGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instant_forms_and_messenger"
+          }
+        },
+        "WEBSITE_AND_INSTANT_FORMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website_and_instant_forms"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where the outcome being optimized for occurs, such as a website visit, social-profile visit, messaging conversation, ad interaction, or lead-form submission. The lead form itself is set on the ad."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDemographicsBody": {
+      "type": "structure",
+      "members": {
+        "automatic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Turn on automatic audience targeting (Advantage+ on Meta): the platform can deliver beyond the ages, genders, and detailed targeting you set, treating them as suggestions."
+          }
+        },
+        "gender": {
+          "target": "com.whop.ad_groups#AdGroupDemographicsBodyGender",
+          "traits": {
+            "smithy.api#documentation": "Gender to target."
+          }
+        },
+        "maximum_age": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Oldest age to target."
+          }
+        },
+        "minimum_age": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Youngest age to target."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Age, gender, and automatic-audience targeting."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDemographicsBodyGender": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "MALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "male"
+          }
+        },
+        "FEMALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "female"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Gender to target."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDetailedTargetingBody": {
+      "type": "structure",
+      "members": {
+        "behaviors": {
+          "target": "com.whop.ad_groups#AdGroupDetailedTargetingBodyBehaviorsList",
+          "traits": {
+            "smithy.api#documentation": "Behavior categories to target, such as frequent travelers."
+          }
+        },
+        "demographics": {
+          "target": "com.whop.ad_groups#AdGroupDetailedTargetingBodyDemographicsList",
+          "traits": {
+            "smithy.api#documentation": "Demographic categories to target, such as life events, industries, work employers, job titles, schools, or majors."
+          }
+        },
+        "interests": {
+          "target": "com.whop.ad_groups#AdGroupDetailedTargetingBodyInterestsList",
+          "traits": {
+            "smithy.api#documentation": "Interest categories to target, such as an interest in movies."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Interest, behavior, and demographic targeting, using categories from the ad platform's targeting taxonomy. Entries across interests, behaviors, and demographics are OR'd together (anyone matching any entry is reached), matching Ads Manager's detailed-targeting box. At most 100 entries per section. Can't be combined with demographics.automatic, and unavailable to campaigns with special_ad_categories."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDetailedTargetingBodyBehaviorsItemBehaviorType": {
+      "type": "enum",
+      "members": {
+        "VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video"
+          }
+        },
+        "CREATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creator"
+          }
+        },
+        "HASHTAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hashtag"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "On ad platforms that scope behavior categories, what this one is measured on. Send back the value the targeting_options endpoint returned alongside the id."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDetailedTargetingBodyBehaviorsItem": {
+      "type": "structure",
+      "members": {
+        "behavior_type": {
+          "target": "com.whop.ad_groups#AdGroupDetailedTargetingBodyBehaviorsItemBehaviorType",
+          "traits": {
+            "smithy.api#documentation": "On ad platforms that scope behavior categories, what this one is measured on. Send back the value the targeting_options endpoint returned alongside the id."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad platform's ID for the category in its targeting taxonomy.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category name, such as `Frequent travelers`."
+          }
+        },
+        "period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "On ad platforms that scope behavior categories, how many days of activity the category covers."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupDetailedTargetingBodyBehaviorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupDetailedTargetingBodyBehaviorsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Behavior categories to target, such as frequent travelers."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDetailedTargetingBodyDemographicsItemType": {
+      "type": "enum",
+      "members": {
+        "LIFE_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "life_events"
+          }
+        },
+        "INDUSTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "industries"
+          }
+        },
+        "INCOME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "income"
+          }
+        },
+        "FAMILY_STATUSES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "family_statuses"
+          }
+        },
+        "WORK_EMPLOYERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "work_employers"
+          }
+        },
+        "WORK_POSITIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "work_positions"
+          }
+        },
+        "EDUCATION_SCHOOLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "education_schools"
+          }
+        },
+        "EDUCATION_MAJORS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "education_majors"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Kind of demographic the category belongs to."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDetailedTargetingBodyDemographicsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad platform's ID for the category in its targeting taxonomy.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category name, such as `Recently moved`."
+          }
+        },
+        "type": {
+          "target": "com.whop.ad_groups#AdGroupDetailedTargetingBodyDemographicsItemType",
+          "traits": {
+            "smithy.api#documentation": "Kind of demographic the category belongs to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupDetailedTargetingBodyDemographicsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupDetailedTargetingBodyDemographicsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Demographic categories to target, such as life events, industries, work employers, job titles, schools, or majors."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDetailedTargetingBodyInterestsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad platform's ID for the category in its targeting taxonomy.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category name, such as `Movies`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupDetailedTargetingBodyInterestsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupDetailedTargetingBodyInterestsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Interest categories to target, such as an interest in movies."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDevicesBody": {
+      "type": "structure",
+      "members": {
+        "operating_systems": {
+          "target": "com.whop.ad_groups#AdGroupDevicesBodyOperatingSystemsList",
+          "traits": {
+            "smithy.api#documentation": "Operating systems to target. Empty targets all operating systems."
+          }
+        },
+        "platforms": {
+          "target": "com.whop.ad_groups#AdGroupDevicesBodyPlatformsList",
+          "traits": {
+            "smithy.api#documentation": "Device types to target. Empty targets all devices."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Device platforms and operating systems to target."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDevicesBodyOperatingSystemsItemOs": {
+      "type": "enum",
+      "members": {
+        "IOS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ios"
+          }
+        },
+        "ANDROID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "android"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Operating system to target."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDevicesBodyOperatingSystemsItem": {
+      "type": "structure",
+      "members": {
+        "minimum_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Lowest OS version to target, such as `18.0`. Omit to target any version."
+          }
+        },
+        "os": {
+          "target": "com.whop.ad_groups#AdGroupDevicesBodyOperatingSystemsItemOs",
+          "traits": {
+            "smithy.api#documentation": "Operating system to target.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupDevicesBodyOperatingSystemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupDevicesBodyOperatingSystemsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Operating systems to target. Empty targets all operating systems."
+      }
+    },
+    "com.whop.ad_groups#AdGroupDevicesBodyPlatformsItem": {
+      "type": "enum",
+      "members": {
+        "MOBILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobile"
+          }
+        },
+        "DESKTOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desktop"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupDevicesBodyPlatformsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupDevicesBodyPlatformsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Device types to target. Empty targets all devices."
+      }
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestFrequencyCap": {
+      "type": "structure",
+      "members": {
+        "maximum_impressions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Most times one person can be shown ads from this ad group within the window."
+          }
+        },
+        "per_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Length of the rolling window, in days."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Cap on how often one person sees ads from this ad group. Only available on campaigns with the `awareness` objective."
+      }
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestLanguagesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages."
+      }
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestMessageAppsItem": {
+      "type": "enum",
+      "members": {
+        "MESSENGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messenger"
+          }
+        },
+        "INSTAGRAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram"
+          }
+        },
+        "WHATSAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whatsapp"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestMessageAppsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#CreateAdGroupRequestMessageAppsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Apps the conversation opens in. Required when setting `conversion_location` to `messaging`, and rejected unless the ad group's conversion location is `messaging`."
+      }
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestOptimizationGoal": {
+      "type": "enum",
+      "members": {
+        "CONVERSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "conversions"
+          }
+        },
+        "LINK_CLICKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link_clicks"
+          }
+        },
+        "LANDING_PAGE_VIEWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "landing_page_views"
+          }
+        },
+        "REACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reach"
+          }
+        },
+        "IMPRESSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "impressions"
+          }
+        },
+        "ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engagement"
+          }
+        },
+        "CONVERSATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "conversations"
+          }
+        },
+        "VIDEO_VIEWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video_views"
+          }
+        },
+        "TWO_SECOND_VIEWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "two_second_views"
+          }
+        },
+        "PAGE_LIKES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "page_likes"
+          }
+        },
+        "SOCIAL_PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "social_profile"
+          }
+        },
+        "AD_RECALL_LIFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_recall_lift"
+          }
+        },
+        "EVENT_RESPONSES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "event_responses"
+          }
+        },
+        "REMINDERS_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reminders_set"
+          }
+        },
+        "LEAD_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead_generation"
+          }
+        },
+        "QUALITY_LEAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quality_lead"
+          }
+        },
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "value"
+          }
+        },
+        "PROFILE_AND_PAGE_ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "profile_and_page_engagement"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The result the ad group's delivery is optimized to get the most of."
+      }
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestPlacementsCase0": {
+      "type": "enum",
+      "members": {
+        "AUTOMATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "automatic"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestPlacementsCase1ItemPlatform": {
+      "type": "enum",
+      "members": {
+        "FACEBOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "facebook"
+          }
+        },
+        "INSTAGRAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram"
+          }
+        },
+        "MESSENGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messenger"
+          }
+        },
+        "AUDIENCE_NETWORK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audience_network"
+          }
+        },
+        "THREADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "threads"
+          }
+        },
+        "WHATSAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whatsapp"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Platform the ads run on."
+      }
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestPlacementsCase1ItemPositionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Positions to target within the platform, such as `feed` or `story`. Omit to target all of the platform's positions."
+      }
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestPlacementsCase1Item": {
+      "type": "structure",
+      "members": {
+        "platform": {
+          "target": "com.whop.ad_groups#CreateAdGroupRequestPlacementsCase1ItemPlatform",
+          "traits": {
+            "smithy.api#documentation": "Platform the ads run on.",
+            "smithy.api#required": {}
+          }
+        },
+        "positions": {
+          "target": "com.whop.ad_groups#CreateAdGroupRequestPlacementsCase1ItemPositionsList",
+          "traits": {
+            "smithy.api#documentation": "Positions to target within the platform, such as `feed` or `story`. Omit to target all of the platform's positions."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestPlacementsCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#CreateAdGroupRequestPlacementsCase1Item"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestPlacements": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.ad_groups#CreateAdGroupRequestPlacementsCase0"
+        },
+        "Case1": {
+          "target": "com.whop.ad_groups#CreateAdGroupRequestPlacementsCase1List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`automatic` to let the ad platform choose placements, or the list of platforms and positions to target. Omit a platform's positions to target all of them.\n\nValid positions per platform:\n\n- `facebook`: `feed`, `right_hand_column`, `marketplace`, `search`, `profile_feed`, `notification`, `story`, `instream_video`, `facebook_reels`, `facebook_reels_overlay`, `biz_disco_feed`\n- `instagram`: `stream`, `story`, `explore`, `explore_home`, `reels`, `profile_feed`, `profile_reels`, `ig_search`\n- `messenger`: `story`\n- `audience_network`: `classic`, `rewarded_video`\n- `threads`: `threads_stream`\n- `whatsapp`: `status`"
+      }
+    },
+    "com.whop.ad_groups#AdGroupRegionsBody": {
+      "type": "structure",
+      "members": {
+        "exclude": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsBody",
+          "traits": {
+            "smithy.api#documentation": "Locations excluded from targeting. Country groups can't be excluded."
+          }
+        },
+        "include": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsBody",
+          "traits": {
+            "smithy.api#documentation": "Locations the ad group targets."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Locations to target and exclude."
+      }
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsBody": {
+      "type": "structure",
+      "members": {
+        "cities": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsBodyCitiesList",
+          "traits": {
+            "smithy.api#documentation": "Cities, keyed by the ad platform's location taxonomy."
+          }
+        },
+        "countries": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsBodyCountriesList",
+          "traits": {
+            "smithy.api#documentation": "Countries, as ISO 3166-1 alpha-2 codes such as `US`."
+          }
+        },
+        "country_groups": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsBodyCountryGroupsList",
+          "traits": {
+            "smithy.api#documentation": "Multi-country groups such as `worldwide` or `europe`. Include-only — groups can't be excluded."
+          }
+        },
+        "custom_locations": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsBodyCustomLocationsList",
+          "traits": {
+            "smithy.api#documentation": "Circular areas, each a coordinate plus a radius. At most 200 across include and exclude."
+          }
+        },
+        "regions": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsBodyRegionsList",
+          "traits": {
+            "smithy.api#documentation": "US states and DC, as ISO 3166-2 codes such as `US-CA`. US territories (`PR`, `GU`, `VI`, `AS`, `MP`) and everywhere outside the US are targeted through `countries`."
+          }
+        },
+        "zips": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsBodyZipsList",
+          "traits": {
+            "smithy.api#documentation": "ZIP and postal codes, keyed by the ad platform's location taxonomy. Meta keys these `COUNTRY:CODE`, as `US:78756` — a bare code is ambiguous, because the same one exists in several countries. TikTok takes the bare code."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsBodyCitiesItem": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad platform's key for the city in its location taxonomy.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "City name, such as `Austin`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsBodyCitiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupGeoLocationsBodyCitiesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Cities, keyed by the ad platform's location taxonomy."
+      }
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsBodyCountriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Countries, as ISO 3166-1 alpha-2 codes such as `US`."
+      }
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsBodyCountryGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Multi-country groups such as `worldwide` or `europe`. Include-only — groups can't be excluded."
+      }
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsBodyCustomLocationsItemDistanceUnit": {
+      "type": "enum",
+      "members": {
+        "MILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mile"
+          }
+        },
+        "KILOMETER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kilometer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Unit for `radius`. Defaults to `mile`."
+      }
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsBodyCustomLocationsItem": {
+      "type": "structure",
+      "members": {
+        "distance_unit": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsBodyCustomLocationsItemDistanceUnit",
+          "traits": {
+            "smithy.api#documentation": "Unit for `radius`. Defaults to `mile`."
+          }
+        },
+        "latitude": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Latitude of the center point.",
+            "smithy.api#required": {}
+          }
+        },
+        "longitude": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Longitude of the center point.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Label for the location, such as a city or address."
+          }
+        },
+        "radius": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Radius around the center point: 1-50 miles or 1-80 kilometers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsBodyCustomLocationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupGeoLocationsBodyCustomLocationsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Circular areas, each a coordinate plus a radius. At most 200 across include and exclude."
+      }
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsBodyRegionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "US states and DC, as ISO 3166-2 codes such as `US-CA`. US territories (`PR`, `GU`, `VI`, `AS`, `MP`) and everywhere outside the US are targeted through `countries`."
+      }
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsBodyZipsItemCase1": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad platform's key for the ZIP or postal code.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsBodyZipsItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.whop.ad_groups#AdGroupGeoLocationsBodyZipsItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#AdGroupGeoLocationsBodyZipsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroupGeoLocationsBodyZipsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "ZIP and postal codes, keyed by the ad platform's location taxonomy. Meta keys these `COUNTRY:CODE`, as `US:78756` — a bare code is ambiguous, because the same one exists in several countries. TikTok takes the bare code."
+      }
+    },
+    "com.whop.ad_groups#CreateAdGroupRequestStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Initial status (default: `active`)."
+      }
+    },
+    "com.whop.ad_groups#CreateAdGroupRequest": {
+      "type": "structure",
+      "members": {
+        "ad_campaign_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad campaign to create the ad group in, prefixed `adcamp_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "audiences": {
+          "target": "com.whop.ad_groups#AdGroupAudiencesBody",
+          "traits": {
+            "smithy.api#documentation": "Saved audiences to deliver to or exclude. Can't be combined with demographics.automatic."
+          }
+        },
+        "bid_type": {
+          "target": "com.whop.ad_groups#CreateAdGroupRequestBidType",
+          "traits": {
+            "smithy.api#documentation": "How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`."
+          }
+        },
+        "budget_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "This ad group's budget, in the ad account's currency. Omit when the budget is set on the campaign instead."
+          }
+        },
+        "budget_type": {
+          "target": "com.whop.ad_groups#CreateAdGroupRequestBudgetType",
+          "traits": {
+            "smithy.api#documentation": "Whether budget_amount is spent per day (`daily`) or over the ad group's full run (`lifetime`)."
+          }
+        },
+        "conversion_event": {
+          "target": "com.whop.ad_groups#ConversionEvent",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "conversion_location": {
+          "target": "com.whop.ad_groups#CreateAdGroupRequestConversionLocation",
+          "traits": {
+            "smithy.api#documentation": "Where the outcome being optimized for occurs, such as a website visit, social-profile visit, messaging conversation, ad interaction, or lead-form submission. The lead form itself is set on the ad."
+          }
+        },
+        "demographics": {
+          "target": "com.whop.ad_groups#AdGroupDemographicsBody",
+          "traits": {
+            "smithy.api#documentation": "Age, gender, and automatic-audience targeting."
+          }
+        },
+        "desired_cost_per_result": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost per result to aim for (`average_target`) or never exceed (`maximum_target`)."
+          }
+        },
+        "detailed_targeting": {
+          "target": "com.whop.ad_groups#AdGroupDetailedTargetingBody",
+          "traits": {
+            "smithy.api#documentation": "Interest, behavior, and demographic targeting, using categories from the ad platform's targeting taxonomy. Entries across interests, behaviors, and demographics are OR'd together (anyone matching any entry is reached), matching Ads Manager's detailed-targeting box. At most 100 entries per section. Can't be combined with demographics.automatic, and unavailable to campaigns with special_ad_categories. Send the complete intended state — a section you omit is cleared."
+          }
+        },
+        "devices": {
+          "target": "com.whop.ad_groups#AdGroupDevicesBody",
+          "traits": {
+            "smithy.api#documentation": "Device platforms and operating systems to target."
+          }
+        },
+        "dynamic_creative": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Let the ad platform automatically mix and match this ad group's creatives and copy to find the best-performing combinations. Set at creation; can't be changed afterward."
+          }
+        },
+        "ends_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the ad group stops delivering, as an ISO 8601 timestamp. Omit to run until paused."
+          }
+        },
+        "frequency_cap": {
+          "target": "com.whop.ad_groups#CreateAdGroupRequestFrequencyCap",
+          "traits": {
+            "smithy.api#documentation": "Cap on how often one person sees ads from this ad group. Only available on campaigns with the `awareness` objective."
+          }
+        },
+        "languages": {
+          "target": "com.whop.ad_groups#CreateAdGroupRequestLanguagesList",
+          "traits": {
+            "smithy.api#documentation": "Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages."
+          }
+        },
+        "message_apps": {
+          "target": "com.whop.ad_groups#CreateAdGroupRequestMessageAppsList",
+          "traits": {
+            "smithy.api#documentation": "Apps the conversation opens in. Required when setting `conversion_location` to `messaging`, and rejected unless the ad group's conversion location is `messaging`."
+          }
+        },
+        "minimum_daily_spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum the ad group tries to spend each day."
+          }
+        },
+        "optimization_goal": {
+          "target": "com.whop.ad_groups#CreateAdGroupRequestOptimizationGoal",
+          "traits": {
+            "smithy.api#documentation": "The result the ad group's delivery is optimized to get the most of."
+          }
+        },
+        "placements": {
+          "target": "com.whop.ad_groups#CreateAdGroupRequestPlacements",
+          "traits": {
+            "smithy.api#documentation": "`automatic` to let the ad platform choose placements, or the list of platforms and positions to target. Omit a platform's positions to target all of them.\n\nValid positions per platform:\n\n- `facebook`: `feed`, `right_hand_column`, `marketplace`, `search`, `profile_feed`, `notification`, `story`, `instream_video`, `facebook_reels`, `facebook_reels_overlay`, `biz_disco_feed`\n- `instagram`: `stream`, `story`, `explore`, `explore_home`, `reels`, `profile_feed`, `profile_reels`, `ig_search`\n- `messenger`: `story`\n- `audience_network`: `classic`, `rewarded_video`\n- `threads`: `threads_stream`\n- `whatsapp`: `status`"
+          }
+        },
+        "regions": {
+          "target": "com.whop.ad_groups#AdGroupRegionsBody",
+          "traits": {
+            "smithy.api#documentation": "Locations to target and exclude."
+          }
+        },
+        "starts_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the ad group starts delivering, as an ISO 8601 timestamp. Omit to start as soon as it's active."
+          }
+        },
+        "status": {
+          "target": "com.whop.ad_groups#CreateAdGroupRequestStatus",
+          "traits": {
+            "smithy.api#documentation": "Initial status (default: `active`)."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the ad group."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_groups#CreateAdGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_groups#CreateAdGroupRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_groups#AdGroup"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_groups#NotFound"
+        },
+        {
+          "target": "com.whop.ad_groups#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ad_groups",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an Ad Group\n\nCreates an ad group (ad set) in a campaign."
+      }
+    },
+    "com.whop.ad_groups#EstimateAdGroupReachRequestLanguagesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages."
+      }
+    },
+    "com.whop.ad_groups#EstimateAdGroupReachRequestPlatform": {
+      "type": "enum",
+      "members": {
+        "META": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The ad network the estimate runs on."
+      }
+    },
+    "com.whop.ad_groups#EstimateAdGroupReachRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account to estimate on behalf of. Defaults to the authenticated account."
+          }
+        },
+        "audiences": {
+          "target": "com.whop.ad_groups#AdGroupAudiencesBody",
+          "traits": {
+            "smithy.api#documentation": "Saved audiences to deliver to or exclude. Can't be combined with demographics.automatic."
+          }
+        },
+        "demographics": {
+          "target": "com.whop.ad_groups#AdGroupDemographicsBody",
+          "traits": {
+            "smithy.api#documentation": "Age, gender, and automatic-audience targeting."
+          }
+        },
+        "detailed_targeting": {
+          "target": "com.whop.ad_groups#AdGroupDetailedTargetingBody",
+          "traits": {
+            "smithy.api#documentation": "Interest, behavior, and demographic targeting, using categories from the ad platform's targeting taxonomy. At most 100 entries per section."
+          }
+        },
+        "devices": {
+          "target": "com.whop.ad_groups#AdGroupDevicesBody",
+          "traits": {
+            "smithy.api#documentation": "Device platforms and operating systems to target."
+          }
+        },
+        "languages": {
+          "target": "com.whop.ad_groups#EstimateAdGroupReachRequestLanguagesList",
+          "traits": {
+            "smithy.api#documentation": "Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages."
+          }
+        },
+        "platform": {
+          "target": "com.whop.ad_groups#EstimateAdGroupReachRequestPlatform",
+          "traits": {
+            "smithy.api#documentation": "The ad network the estimate runs on.",
+            "smithy.api#required": {}
+          }
+        },
+        "regions": {
+          "target": "com.whop.ad_groups#AdGroupRegionsBody",
+          "traits": {
+            "smithy.api#documentation": "Locations to target and exclude."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_groups#ReachEstimate": {
+      "type": "structure",
+      "members": {
+        "users_lower_bound": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Low end of how many people the targeting can reach. Null when the platform couldn't produce an estimate.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "users_upper_bound": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "High end of how many people the targeting can reach. Null when the platform couldn't produce an estimate.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#EstimateAdGroupReach": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_groups#EstimateAdGroupReachRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_groups#ReachEstimate"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_groups#BadRequest"
+        },
+        {
+          "target": "com.whop.ad_groups#Forbidden"
+        },
+        {
+          "target": "com.whop.ad_groups#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ad_groups/estimate_reach",
+          "code": 200
+        },
+        "smithy.api#documentation": "Estimate Ad Group Reach\n\nEstimates how many people a draft targeting spec can reach, before an ad group is created. The body takes the same targeting fields as creating an ad group — `regions`, `demographics`, `detailed_targeting`, `audiences`, `languages`, and `devices` — and nothing is persisted."
+      }
+    },
+    "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestPlatform": {
+      "type": "enum",
+      "members": {
+        "META": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meta"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestTypesItem": {
+      "type": "enum",
+      "members": {
+        "INTERESTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "interests"
+          }
+        },
+        "BEHAVIORS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "behaviors"
+          }
+        },
+        "LIFE_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "life_events"
+          }
+        },
+        "INDUSTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "industries"
+          }
+        },
+        "INCOME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "income"
+          }
+        },
+        "FAMILY_STATUSES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "family_statuses"
+          }
+        },
+        "WORK_EMPLOYERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "work_employers"
+          }
+        },
+        "WORK_POSITIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "work_positions"
+          }
+        },
+        "EDUCATION_SCHOOLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "education_schools"
+          }
+        },
+        "EDUCATION_MAJORS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "education_majors"
+          }
+        },
+        "LANGUAGES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "languages"
+          }
+        },
+        "LOCATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locations"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestTypesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestLocationTypesItem": {
+      "type": "enum",
+      "members": {
+        "COUNTRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "country"
+          }
+        },
+        "REGION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "region"
+          }
+        },
+        "CITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "city"
+          }
+        },
+        "ZIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zip"
+          }
+        },
+        "NEIGHBORHOOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "neighborhood"
+          }
+        },
+        "SUBCITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subcity"
+          }
+        },
+        "MEDIUM_GEO_AREA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium_geo_area"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestLocationTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestLocationTypesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestSpecialAdCategoriesItem": {
+      "type": "enum",
+      "members": {
+        "HOUSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "housing"
+          }
+        },
+        "EMPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "employment"
+          }
+        },
+        "FINANCIAL_PRODUCTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial_products"
+          }
+        },
+        "POLITICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "politics"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestSpecialAdCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestSpecialAdCategoriesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Account to search on behalf of. Defaults to the authenticated account."
+          }
+        },
+        "platform": {
+          "target": "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestPlatform",
+          "traits": {
+            "smithy.api#httpQuery": "platform",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad network whose targeting taxonomy to search."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "The search term. Blank browses the fixed lists; interests, work employers, job titles, schools, majors, and locations return nothing without one."
+          }
+        },
+        "types": {
+          "target": "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "types",
+            "smithy.api#documentation": "Kinds of targeting options to search. Defaults to all of them."
+          }
+        },
+        "location_types": {
+          "target": "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestLocationTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "location_types",
+            "smithy.api#documentation": "Narrow location results to these kinds of places. Only applies when `types` includes `locations`."
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "country",
+            "smithy.api#documentation": "Narrow location results to one country, as an ISO 3166-1 code such as `US`. Only applies when `types` includes `locations`."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of results per requested type."
+          }
+        },
+        "special_ad_categories": {
+          "target": "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequestSpecialAdCategoriesList",
+          "traits": {
+            "smithy.api#httpQuery": "special_ad_categories",
+            "smithy.api#documentation": "The campaign's declared special ad categories. Under `housing`, `employment`, or `financial_products` the ad platform allows interests only, drawn from a short approved list, so results are narrowed to what such a campaign can launch with and other kinds return nothing. Blank `query` browses that approved list instead of the usual fixed lists."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_groups#TargetingOption": {
+      "type": "union",
+      "members": {
+        "DetailedTargetingOption": {
+          "target": "com.whop.ad_groups#DetailedTargetingOption"
+        },
+        "LanguageTargetingOption": {
+          "target": "com.whop.ad_groups#LanguageTargetingOption"
+        },
+        "LocationTargetingOption": {
+          "target": "com.whop.ad_groups#LocationTargetingOption"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One result from the ad-group targeting-options search. `type` picks the shape: detailed-targeting taxonomy options carry the ad platform's `id`, languages carry an ISO 639 `code`, and locations carry the platform `key` plus geographic context."
+      }
+    },
+    "com.whop.ad_groups#DetailedTargetingOption": {
+      "type": "structure",
+      "members": {
+        "audience_size_lower_bound": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Low end of the ad platform's estimate of how many people this option can reach. Null when the platform doesn't publish one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "audience_size_upper_bound": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "High end of the ad platform's estimate of how many people this option can reach. Null when the platform doesn't publish one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "behavior_type": {
+          "target": "com.whop.ad_groups#DetailedTargetingOptionBehaviorType",
+          "traits": {
+            "smithy.api#documentation": "What a behavior category is measured on, on ad platforms that scope them. Send it back on the `detailed_targeting.behaviors` entry alongside the id. Null for options that aren't scoped.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad platform's description of who the option covers, when it publishes one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad platform's ID for the option in its targeting taxonomy. Use it as the `id` of a `detailed_targeting` entry.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name, such as `Movies`.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.ad_groups#DetailedTargetingOptionType",
+          "traits": {
+            "smithy.api#documentation": "Which detailed-targeting field the option belongs in: `interests` and `behaviors` go in the matching `detailed_targeting` field; demographic categories (`life_events`, `industries`, `income`, `family_statuses`, `work_employers`, `work_positions`, `education_schools`, `education_majors`) go in `detailed_targeting.demographics` with this value as the entry's `type`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#DetailedTargetingOptionBehaviorType": {
+      "type": "enum",
+      "members": {
+        "VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video"
+          }
+        },
+        "CREATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creator"
+          }
+        },
+        "HASHTAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hashtag"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What a behavior category is measured on, on ad platforms that scope them. Send it back on the `detailed_targeting.behaviors` entry alongside the id. Null for options that aren't scoped."
+      }
+    },
+    "com.whop.ad_groups#DetailedTargetingOptionType": {
+      "type": "enum",
+      "members": {
+        "INTERESTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "interests"
+          }
+        },
+        "BEHAVIORS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "behaviors"
+          }
+        },
+        "LIFE_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "life_events"
+          }
+        },
+        "INDUSTRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "industries"
+          }
+        },
+        "INCOME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "income"
+          }
+        },
+        "FAMILY_STATUSES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "family_statuses"
+          }
+        },
+        "WORK_EMPLOYERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "work_employers"
+          }
+        },
+        "WORK_POSITIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "work_positions"
+          }
+        },
+        "EDUCATION_SCHOOLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "education_schools"
+          }
+        },
+        "EDUCATION_MAJORS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "education_majors"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which detailed-targeting field the option belongs in: `interests` and `behaviors` go in the matching `detailed_targeting` field; demographic categories (`life_events`, `industries`, `income`, `family_statuses`, `work_employers`, `work_positions`, `education_schools`, `education_majors`) go in `detailed_targeting.demographics` with this value as the entry's `type`."
+      }
+    },
+    "com.whop.ad_groups#LanguageTargetingOption": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 639 code the ad-group `languages` field takes, such as `en`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name, such as `English`.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.ad_groups#LanguageTargetingOptionType",
+          "traits": {
+            "smithy.api#documentation": "Always `languages`. The option goes in the ad-group `languages` field.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#LanguageTargetingOptionType": {
+      "type": "enum",
+      "members": {
+        "LANGUAGES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "languages"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `languages`. The option goes in the ad-group `languages` field."
+      }
+    },
+    "com.whop.ad_groups#LocationTargetingOption": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standardized code the ad-group `regions` field takes: an ISO 3166-1 code for countries (`US`) or an ISO 3166-2 code for states and provinces (`US-CA`, `CA-ON`). Null for a location that has no standard code, such as a city or a metro area — target those by `key` in the `regions` cities list instead.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 3166-1 code of the country the location sits in.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the country the location sits in.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ad platform's key for the location in its location taxonomy. Use it as the `key` of a `regions` city or zip entry.",
+            "smithy.api#required": {}
+          }
+        },
+        "location_type": {
+          "target": "com.whop.ad_groups#LocationTargetingOptionLocationType",
+          "traits": {
+            "smithy.api#documentation": "Granularity of the location. Which of these an ad platform reports depends on how finely it divides its location taxonomy.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name, such as `California`.",
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the state or province a city sits in. Null for everything but cities.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.ad_groups#LocationTargetingOptionType",
+          "traits": {
+            "smithy.api#documentation": "Always `locations`. The option goes in the ad-group `regions` field.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#LocationTargetingOptionLocationType": {
+      "type": "enum",
+      "members": {
+        "COUNTRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "country"
+          }
+        },
+        "REGION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "region"
+          }
+        },
+        "CITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "city"
+          }
+        },
+        "ZIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zip"
+          }
+        },
+        "NEIGHBORHOOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "neighborhood"
+          }
+        },
+        "SUBCITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subcity"
+          }
+        },
+        "MEDIUM_GEO_AREA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium_geo_area"
+          }
+        },
+        "DISTRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "district"
+          }
+        },
+        "DMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dma"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Granularity of the location. Which of these an ad platform reports depends on how finely it divides its location taxonomy."
+      }
+    },
+    "com.whop.ad_groups#LocationTargetingOptionType": {
+      "type": "enum",
+      "members": {
+        "LOCATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locations"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `locations`. The option goes in the ad-group `regions` field."
+      }
+    },
+    "com.whop.ad_groups#SearchAdGroupTargetingOptionsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#TargetingOption"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#SearchAdGroupTargetingOptionsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.ad_groups#SearchAdGroupTargetingOptionsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ad_groups#SearchAdGroupTargetingOptions": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_groups#SearchAdGroupTargetingOptionsRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_groups#SearchAdGroupTargetingOptionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_groups#BadRequest"
+        },
+        {
+          "target": "com.whop.ad_groups#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ad_groups/targeting_options",
+          "code": 200
+        },
+        "smithy.api#documentation": "Search Targeting Options\n\nSearches the ad platform's targeting taxonomy for options to target an ad group with. Each result comes back in the exact shape the ad-group body accepts for its `type`, so it can be used in `detailed_targeting`, `regions`, or `languages` as-is. A blank `query` browses the small fixed lists (behaviors, browse demographic categories, languages); interests, work employers, job titles, schools, majors, and locations need a search term."
+      }
+    },
+    "com.whop.ad_groups#GetAdGroupRequestAttributionModel": {
+      "type": "enum",
+      "members": {
+        "LAST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_touch"
+          }
+        },
+        "FIRST_TOUCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_touch"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#GetAdGroupRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad group ID."
+          }
+        },
+        "stats_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "stats_from",
+            "smithy.api#documentation": "Start of the stats window."
+          }
+        },
+        "stats_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "stats_to",
+            "smithy.api#documentation": "End of the stats window."
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "time_zone",
+            "smithy.api#documentation": "IANA timezone the stats window is interpreted in. Defaults to UTC."
+          }
+        },
+        "attribution_model": {
+          "target": "com.whop.ad_groups#GetAdGroupRequestAttributionModel",
+          "traits": {
+            "smithy.api#httpQuery": "attribution_model",
+            "smithy.api#documentation": "Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_groups#GetAdGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_groups#GetAdGroupRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_groups#AdGroup"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_groups#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ad_groups/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve an Ad Group\n\nRetrieves a single ad group."
+      }
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestBidType": {
+      "type": "enum",
+      "members": {
+        "MINIMUM_COST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minimum_cost"
+          }
+        },
+        "AVERAGE_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "average_target"
+          }
+        },
+        "MAXIMUM_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "maximum_target"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`."
+      }
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestBudgetType": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "LIFETIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lifetime"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether budget_amount is spent per day (`daily`) or over the ad group's full run (`lifetime`)."
+      }
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestConversionLocation": {
+      "type": "enum",
+      "members": {
+        "WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website"
+          }
+        },
+        "PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "profile"
+          }
+        },
+        "INSTAGRAM_AND_FACEBOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram_and_facebook"
+          }
+        },
+        "INSTAGRAM_PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram_profile"
+          }
+        },
+        "MESSAGING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messaging"
+          }
+        },
+        "ON_AD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "on_ad"
+          }
+        },
+        "INSTANT_FORMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instant_forms"
+          }
+        },
+        "INSTANT_FORMS_AND_MESSENGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instant_forms_and_messenger"
+          }
+        },
+        "WEBSITE_AND_INSTANT_FORMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "website_and_instant_forms"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where the outcome being optimized for occurs, such as a website visit, social-profile visit, messaging conversation, ad interaction, or lead-form submission. The lead form itself is set on the ad."
+      }
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestFrequencyCap": {
+      "type": "structure",
+      "members": {
+        "maximum_impressions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Most times one person can be shown ads from this ad group within the window."
+          }
+        },
+        "per_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Length of the rolling window, in days."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Cap on how often one person sees ads from this ad group. Only available on campaigns with the `awareness` objective."
+      }
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestLanguagesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages."
+      }
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestMessageAppsItem": {
+      "type": "enum",
+      "members": {
+        "MESSENGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messenger"
+          }
+        },
+        "INSTAGRAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram"
+          }
+        },
+        "WHATSAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whatsapp"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestMessageAppsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#UpdateAdGroupRequestMessageAppsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Apps the conversation opens in. Required when setting `conversion_location` to `messaging`, and rejected unless the ad group's conversion location is `messaging`."
+      }
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestOptimizationGoal": {
+      "type": "enum",
+      "members": {
+        "CONVERSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "conversions"
+          }
+        },
+        "LINK_CLICKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link_clicks"
+          }
+        },
+        "LANDING_PAGE_VIEWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "landing_page_views"
+          }
+        },
+        "REACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reach"
+          }
+        },
+        "IMPRESSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "impressions"
+          }
+        },
+        "ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engagement"
+          }
+        },
+        "CONVERSATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "conversations"
+          }
+        },
+        "VIDEO_VIEWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video_views"
+          }
+        },
+        "TWO_SECOND_VIEWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "two_second_views"
+          }
+        },
+        "PAGE_LIKES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "page_likes"
+          }
+        },
+        "SOCIAL_PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "social_profile"
+          }
+        },
+        "AD_RECALL_LIFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_recall_lift"
+          }
+        },
+        "EVENT_RESPONSES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "event_responses"
+          }
+        },
+        "REMINDERS_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reminders_set"
+          }
+        },
+        "LEAD_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lead_generation"
+          }
+        },
+        "QUALITY_LEAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quality_lead"
+          }
+        },
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "value"
+          }
+        },
+        "PROFILE_AND_PAGE_ENGAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "profile_and_page_engagement"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The result the ad group's delivery is optimized to get the most of."
+      }
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestPlacementsCase0": {
+      "type": "enum",
+      "members": {
+        "AUTOMATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "automatic"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestPlacementsCase1ItemPlatform": {
+      "type": "enum",
+      "members": {
+        "FACEBOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "facebook"
+          }
+        },
+        "INSTAGRAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instagram"
+          }
+        },
+        "MESSENGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messenger"
+          }
+        },
+        "AUDIENCE_NETWORK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audience_network"
+          }
+        },
+        "THREADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "threads"
+          }
+        },
+        "WHATSAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whatsapp"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Platform the ads run on."
+      }
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestPlacementsCase1ItemPositionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Positions to target within the platform, such as `feed` or `story`. Omit to target all of the platform's positions."
+      }
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestPlacementsCase1Item": {
+      "type": "structure",
+      "members": {
+        "platform": {
+          "target": "com.whop.ad_groups#UpdateAdGroupRequestPlacementsCase1ItemPlatform",
+          "traits": {
+            "smithy.api#documentation": "Platform the ads run on.",
+            "smithy.api#required": {}
+          }
+        },
+        "positions": {
+          "target": "com.whop.ad_groups#UpdateAdGroupRequestPlacementsCase1ItemPositionsList",
+          "traits": {
+            "smithy.api#documentation": "Positions to target within the platform, such as `feed` or `story`. Omit to target all of the platform's positions."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestPlacementsCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#UpdateAdGroupRequestPlacementsCase1Item"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestPlacements": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.whop.ad_groups#UpdateAdGroupRequestPlacementsCase0"
+        },
+        "Case1": {
+          "target": "com.whop.ad_groups#UpdateAdGroupRequestPlacementsCase1List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`automatic` to let the ad platform choose placements, or the list of platforms and positions to target. Omit a platform's positions to target all of them.\n\nValid positions per platform:\n\n- `facebook`: `feed`, `right_hand_column`, `marketplace`, `search`, `profile_feed`, `notification`, `story`, `instream_video`, `facebook_reels`, `facebook_reels_overlay`, `biz_disco_feed`\n- `instagram`: `stream`, `story`, `explore`, `explore_home`, `reels`, `profile_feed`, `profile_reels`, `ig_search`\n- `messenger`: `story`\n- `audience_network`: `classic`, `rewarded_video`\n- `threads`: `threads_stream`\n- `whatsapp`: `status`"
+      }
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequestStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Initial status (default: `active`)."
+      }
+    },
+    "com.whop.ad_groups#UpdateAdGroupRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad group ID."
+          }
+        },
+        "audiences": {
+          "target": "com.whop.ad_groups#AdGroupAudiencesBody",
+          "traits": {
+            "smithy.api#documentation": "Saved audiences to deliver to or exclude. Can't be combined with demographics.automatic."
+          }
+        },
+        "bid_type": {
+          "target": "com.whop.ad_groups#UpdateAdGroupRequestBidType",
+          "traits": {
+            "smithy.api#documentation": "How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`."
+          }
+        },
+        "budget_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "This ad group's budget, in the ad account's currency. Omit when the budget is set on the campaign instead."
+          }
+        },
+        "budget_type": {
+          "target": "com.whop.ad_groups#UpdateAdGroupRequestBudgetType",
+          "traits": {
+            "smithy.api#documentation": "Whether budget_amount is spent per day (`daily`) or over the ad group's full run (`lifetime`)."
+          }
+        },
+        "conversion_event": {
+          "target": "com.whop.ad_groups#ConversionEvent",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "conversion_location": {
+          "target": "com.whop.ad_groups#UpdateAdGroupRequestConversionLocation",
+          "traits": {
+            "smithy.api#documentation": "Where the outcome being optimized for occurs, such as a website visit, social-profile visit, messaging conversation, ad interaction, or lead-form submission. The lead form itself is set on the ad."
+          }
+        },
+        "demographics": {
+          "target": "com.whop.ad_groups#AdGroupDemographicsBody",
+          "traits": {
+            "smithy.api#documentation": "Age, gender, and automatic-audience targeting."
+          }
+        },
+        "desired_cost_per_result": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost per result to aim for (`average_target`) or never exceed (`maximum_target`)."
+          }
+        },
+        "detailed_targeting": {
+          "target": "com.whop.ad_groups#AdGroupDetailedTargetingBody",
+          "traits": {
+            "smithy.api#documentation": "Interest, behavior, and demographic targeting, using categories from the ad platform's targeting taxonomy. Entries across interests, behaviors, and demographics are OR'd together (anyone matching any entry is reached), matching Ads Manager's detailed-targeting box. At most 100 entries per section. Can't be combined with demographics.automatic, and unavailable to campaigns with special_ad_categories. Send the complete intended state — a section you omit is cleared."
+          }
+        },
+        "devices": {
+          "target": "com.whop.ad_groups#AdGroupDevicesBody",
+          "traits": {
+            "smithy.api#documentation": "Device platforms and operating systems to target."
+          }
+        },
+        "ends_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the ad group stops delivering, as an ISO 8601 timestamp. Omit to run until paused."
+          }
+        },
+        "frequency_cap": {
+          "target": "com.whop.ad_groups#UpdateAdGroupRequestFrequencyCap",
+          "traits": {
+            "smithy.api#documentation": "Cap on how often one person sees ads from this ad group. Only available on campaigns with the `awareness` objective."
+          }
+        },
+        "languages": {
+          "target": "com.whop.ad_groups#UpdateAdGroupRequestLanguagesList",
+          "traits": {
+            "smithy.api#documentation": "Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages."
+          }
+        },
+        "message_apps": {
+          "target": "com.whop.ad_groups#UpdateAdGroupRequestMessageAppsList",
+          "traits": {
+            "smithy.api#documentation": "Apps the conversation opens in. Required when setting `conversion_location` to `messaging`, and rejected unless the ad group's conversion location is `messaging`."
+          }
+        },
+        "minimum_daily_spend": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum the ad group tries to spend each day."
+          }
+        },
+        "optimization_goal": {
+          "target": "com.whop.ad_groups#UpdateAdGroupRequestOptimizationGoal",
+          "traits": {
+            "smithy.api#documentation": "The result the ad group's delivery is optimized to get the most of."
+          }
+        },
+        "placements": {
+          "target": "com.whop.ad_groups#UpdateAdGroupRequestPlacements",
+          "traits": {
+            "smithy.api#documentation": "`automatic` to let the ad platform choose placements, or the list of platforms and positions to target. Omit a platform's positions to target all of them.\n\nValid positions per platform:\n\n- `facebook`: `feed`, `right_hand_column`, `marketplace`, `search`, `profile_feed`, `notification`, `story`, `instream_video`, `facebook_reels`, `facebook_reels_overlay`, `biz_disco_feed`\n- `instagram`: `stream`, `story`, `explore`, `explore_home`, `reels`, `profile_feed`, `profile_reels`, `ig_search`\n- `messenger`: `story`\n- `audience_network`: `classic`, `rewarded_video`\n- `threads`: `threads_stream`\n- `whatsapp`: `status`"
+          }
+        },
+        "regions": {
+          "target": "com.whop.ad_groups#AdGroupRegionsBody",
+          "traits": {
+            "smithy.api#documentation": "Locations to target and exclude."
+          }
+        },
+        "starts_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the ad group starts delivering, as an ISO 8601 timestamp. Omit to start as soon as it's active."
+          }
+        },
+        "status": {
+          "target": "com.whop.ad_groups#UpdateAdGroupRequestStatus",
+          "traits": {
+            "smithy.api#documentation": "Initial status (default: `active`)."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the ad group."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_groups#UpdateAdGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_groups#UpdateAdGroupRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_groups#AdGroup"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/ad_groups/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update an Ad Group\n\nUpdates an ad group's editable fields. Only the keys you send are changed."
+      }
+    },
+    "com.whop.ad_groups#DeleteAdGroupRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad group ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_groups#DeleteAdGroupResponse": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always true.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the deleted ad group.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ad_groups#DeleteAdGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_groups#DeleteAdGroupRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_groups#DeleteAdGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_groups#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/ad_groups/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete an Ad Group\n\nDeletes an ad group."
+      }
+    },
+    "com.whop.ad_groups#DuplicateAdGroupRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad group ID."
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of copies to create (1-10). Defaults to 1."
+          }
+        },
+        "preserve_engagement": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the copied ads keep the original posts' engagement (likes, comments, shares). Defaults to false."
+          }
+        },
+        "target_ad_campaign_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Campaign to duplicate into. Defaults to the ad group's own campaign."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_groups#DuplicateAdGroupResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ad_groups#AdGroup"
+      },
+      "traits": {}
+    },
+    "com.whop.ad_groups#DuplicateAdGroupResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.ad_groups#DuplicateAdGroupResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ad_groups#DuplicateAdGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_groups#DuplicateAdGroupRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_groups#DuplicateAdGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_groups#BadRequest"
+        },
+        {
+          "target": "com.whop.ad_groups#NotFound"
+        },
+        {
+          "target": "com.whop.ad_groups#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ad_groups/{id}/duplicate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Duplicate an Ad Group\n\nCreates copies of the ad group in `duplicating` status and returns them — into its own campaign, or into target_ad_campaign_id (which must belong to the same account and be compatible with the ad group's targeting and goals); each copy transitions to its final status (matching the source's active/paused state) once duplication completes. Poll each returned ad group until it leaves `duplicating` — a copy that could not be completed is deleted and returns 404."
+      }
+    },
+    "com.whop.ad_groups#PauseAdGroupRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad group ID."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_groups#PauseAdGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_groups#PauseAdGroupRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_groups#AdGroup"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_groups#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ad_groups/{id}/pause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Pause an Ad Group\n\nPauses delivery of an ad group."
+      }
+    },
+    "com.whop.ad_groups#UnpauseAdGroupRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ad group ID."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ad_groups#UnpauseAdGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ad_groups#UnpauseAdGroupRequest"
+      },
+      "output": {
+        "target": "com.whop.ad_groups#AdGroup"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ad_groups#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ad_groups/{id}/unpause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unpause an Ad Group\n\nResumes delivery of a paused ad group."
+      }
+    },
+    "com.whop.ad_groups#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.ad_groups#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.ad_groups#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.ad_groups#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.ad_groups#AdGroups": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.ad_groups#ListAdGroups"
+        },
+        {
+          "target": "com.whop.ad_groups#CreateAdGroup"
+        },
+        {
+          "target": "com.whop.ad_groups#EstimateAdGroupReach"
+        },
+        {
+          "target": "com.whop.ad_groups#SearchAdGroupTargetingOptions"
+        },
+        {
+          "target": "com.whop.ad_groups#GetAdGroup"
+        },
+        {
+          "target": "com.whop.ad_groups#UpdateAdGroup"
+        },
+        {
+          "target": "com.whop.ad_groups#DeleteAdGroup"
+        },
+        {
+          "target": "com.whop.ad_groups#DuplicateAdGroup"
+        },
+        {
+          "target": "com.whop.ad_groups#PauseAdGroup"
+        },
+        {
+          "target": "com.whop.ad_groups#UnpauseAdGroup"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

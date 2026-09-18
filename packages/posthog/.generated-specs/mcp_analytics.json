@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.mcp_analytics#McpAnalyticsFeedbackListRequest": {
+    "com.posthog.mcp_analytics#ListMcpAnalyticsFeedbackRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -216,10 +217,10 @@
       },
       "traits": {}
     },
-    "com.posthog.mcp_analytics#McpAnalyticsFeedbackList": {
+    "com.posthog.mcp_analytics#ListMcpAnalyticsFeedback": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.mcp_analytics#McpAnalyticsFeedbackListRequest"
+        "target": "com.posthog.mcp_analytics#ListMcpAnalyticsFeedbackRequest"
       },
       "output": {
         "target": "com.posthog.mcp_analytics#PaginatedMCPAnalyticsSubmissionList"
@@ -233,7 +234,7 @@
         "smithy.api#documentation": "List MCP feedback submissions for the current project, newest first."
       }
     },
-    "com.posthog.mcp_analytics#MCPFeedbackCreateCategoryEnum": {
+    "com.posthog.mcp_analytics#MCPAnalyticsSubmissionFeedbackCategoryEnum": {
       "type": "enum",
       "members": {
         "RESULTS": {
@@ -271,7 +272,7 @@
         "smithy.api#documentation": "* `results` - Results\n* `usability` - Usability\n* `bug` - Bug\n* `docs` - Docs\n* `other` - Other"
       }
     },
-    "com.posthog.mcp_analytics#McpAnalyticsFeedbackCreateRequest": {
+    "com.posthog.mcp_analytics#CreateMcpAnalyticsFeedbackRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -339,7 +340,7 @@
           }
         },
         "category": {
-          "target": "com.posthog.mcp_analytics#MCPFeedbackCreateCategoryEnum",
+          "target": "com.posthog.mcp_analytics#MCPAnalyticsSubmissionFeedbackCategoryEnum",
           "traits": {
             "smithy.api#documentation": "High-level category for the feedback.\n\n* `results` - Results\n* `usability` - Usability\n* `bug` - Bug\n* `docs` - Docs\n* `other` - Other"
           }
@@ -349,10 +350,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.mcp_analytics#McpAnalyticsFeedbackCreate": {
+    "com.posthog.mcp_analytics#CreateMcpAnalyticsFeedback": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.mcp_analytics#McpAnalyticsFeedbackCreateRequest"
+        "target": "com.posthog.mcp_analytics#CreateMcpAnalyticsFeedbackRequest"
       },
       "output": {
         "target": "com.posthog.mcp_analytics#MCPAnalyticsSubmission"
@@ -366,7 +367,7 @@
         "smithy.api#documentation": "Create a new MCP feedback submission for the current project."
       }
     },
-    "com.posthog.mcp_analytics#McpAnalyticsIntentClustersRetrieveRequest": {
+    "com.posthog.mcp_analytics#GetMcpAnalyticsIntentClusterRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -375,6 +376,13 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "tool": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "tool",
+            "smithy.api#documentation": "Narrow the response to one tool: its pivot entry, the clusters it serves or switches with, and the overlap pairs it belongs to. Coverage meta stays whole-snapshot. Use this for single-tool views so they don't download every cluster and pivot to render one row. An unknown tool returns empty sections, not a 404."
           }
         }
       },
@@ -421,10 +429,24 @@
             "smithy.api#required": {}
           }
         },
+        "tools": {
+          "target": "com.posthog.mcp_analytics#MCPIntentClusterSnapshotToolsList",
+          "traits": {
+            "smithy.api#documentation": "Tool-centric pivot of the clusters: per tool, the intents it serves, capture per cluster, contested score, discovery rate, and description fit. Empty on snapshots computed before the per-call pipeline; recompute to populate.",
+            "smithy.api#required": {}
+          }
+        },
+        "tool_overlaps": {
+          "target": "com.posthog.mcp_analytics#MCPIntentClusterSnapshotToolOverlapsList",
+          "traits": {
+            "smithy.api#documentation": "Tool pairs competing for the same intent clusters, by contested call volume desc, capped at 50.",
+            "smithy.api#required": {}
+          }
+        },
         "computed_with": {
           "target": "com.posthog.mcp_analytics#MCPIntentClusterSnapshotMeta",
           "traits": {
-            "smithy.api#documentation": "Settings used to produce the snapshot. Null when no snapshot has been computed yet.",
+            "smithy.api#documentation": "Settings and coverage of the snapshot's corpus. Null when no snapshot has been computed yet.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -537,6 +559,20 @@
             "smithy.api#documentation": "Top Sankey-shaped paths the agents took within this cluster. Each path is up to four ordered tool calls plus a completed/error outcome. Null when journey data is unavailable.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "switches": {
+          "target": "com.posthog.mcp_analytics#MCPIntentClusterSwitchesList",
+          "traits": {
+            "smithy.api#documentation": "Errored call immediately followed by a different tool for the same intent: the strongest evidence agents mix the tools up. Top 10 by count.",
+            "smithy.api#required": {}
+          }
+        },
+        "self_retries": {
+          "target": "com.posthog.mcp_analytics#MCPIntentClusterSelfRetriesList",
+          "traits": {
+            "smithy.api#documentation": "Errored call immediately retried with the same tool. Top 5 by count.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -659,7 +695,10 @@
     "com.posthog.mcp_analytics#MCPIntentClusterJourneyPathStepsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Ordered tool names called during the path. Length is fixed; null entries indicate the session ended before this step."
@@ -694,6 +733,71 @@
         "smithy.api#documentation": "Top paths by session count, capped at MAX_JOURNEY_PATHS_PER_CLUSTER."
       }
     },
+    "com.posthog.mcp_analytics#MCPClusterSwitch": {
+      "type": "structure",
+      "members": {
+        "from_tool": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tool whose errored call the agent abandoned.",
+            "smithy.api#required": {}
+          }
+        },
+        "to_tool": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Different tool the agent tried immediately after.",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many times this exact error-then-switch happened within the cluster.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_analytics#MCPIntentClusterSwitchesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_analytics#MCPClusterSwitch"
+      },
+      "traits": {
+        "smithy.api#documentation": "Errored call immediately followed by a different tool for the same intent: the strongest evidence agents mix the tools up. Top 10 by count."
+      }
+    },
+    "com.posthog.mcp_analytics#MCPClusterSelfRetry": {
+      "type": "structure",
+      "members": {
+        "tool": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tool the agent retried immediately after its own error.",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of immediate same-tool retries after an error.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_analytics#MCPIntentClusterSelfRetriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_analytics#MCPClusterSelfRetry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Errored call immediately retried with the same tool. Top 5 by count."
+      }
+    },
     "com.posthog.mcp_analytics#MCPIntentClusterSnapshotClustersList": {
       "type": "list",
       "member": {
@@ -701,6 +805,237 @@
       },
       "traits": {
         "smithy.api#documentation": "All clusters in the snapshot."
+      }
+    },
+    "com.posthog.mcp_analytics#MCPToolPivot": {
+      "type": "structure",
+      "members": {
+        "tool": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Effective MCP tool name.",
+            "smithy.api#required": {}
+          }
+        },
+        "call_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Intent-attributed calls to this tool across the sampled corpus, counting every cluster the run produced — including clusters the snapshot's cluster cap left out.",
+            "smithy.api#required": {}
+          }
+        },
+        "error_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Errored attributed calls across the corpus.",
+            "smithy.api#required": {}
+          }
+        },
+        "session_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sampled sessions with at least one intent-attributed call to this tool. Same population as call_count.",
+            "smithy.api#required": {}
+          }
+        },
+        "contested_score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Call-weighted mean routing entropy of the clusters this tool serves, 0-1. High means the tool's intents are regularly split with other tools. Null when the tool has no attributed calls.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "advertised_sessions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sampled sessions whose tools-list catalog included this tool. Only sessions with an observed $mcp_tools_list event count.",
+            "smithy.api#required": {}
+          }
+        },
+        "called_when_advertised": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Of the advertised sessions, how many actually called the tool.",
+            "smithy.api#required": {}
+          }
+        },
+        "discovery_rate_pct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "called_when_advertised / advertised_sessions as a percentage. Null when the tool was advertised in fewer than 5 sampled sessions, which is not enough signal to compute a rate.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Latest description observed for the tool (clipped to 512 characters). Null when calls never carried one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "n_clusters_served": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many intent clusters this tool serves in total, before the per-tool entry cap. Compare against len(clusters) to tell whether the entry list below is complete.",
+            "smithy.api#required": {}
+          }
+        },
+        "clusters": {
+          "target": "com.posthog.mcp_analytics#MCPToolPivotClustersList",
+          "traits": {
+            "smithy.api#documentation": "Intent clusters this tool serves, by call volume desc, capped at 20 and limited to clusters the snapshot carries. Use n_clusters_served for the true count.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_analytics#MCPToolPivotClusterEntry": {
+      "type": "structure",
+      "members": {
+        "cluster_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Cluster this entry refers to, within the snapshot. The cluster's own label, totals, and entropy live on that cluster — join on this id rather than expecting them here.",
+            "smithy.api#required": {}
+          }
+        },
+        "calls": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Calls routed to this tool for this intent cluster.",
+            "smithy.api#required": {}
+          }
+        },
+        "capture_pct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of the cluster's calls this tool captured, 0-100. Low capture on a well-fitting description suggests agents are not finding the tool for this intent.",
+            "smithy.api#required": {}
+          }
+        },
+        "rank": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "This tool's position in the cluster's tool distribution; 1 is the cluster's top tool.",
+            "smithy.api#required": {}
+          }
+        },
+        "description_fit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cosine similarity between the tool's description embedding and the cluster centroid, -1 to 1. Null when no description has been captured for the tool.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "top_competitor": {
+          "target": "com.posthog.mcp_analytics#MCPToolPivotCompetitor",
+          "traits": {
+            "smithy.api#documentation": "The strongest other tool in this cluster. Null when this tool is the only one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_analytics#MCPToolPivotCompetitor": {
+      "type": "structure",
+      "members": {
+        "tool": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The other tool with the largest share of this cluster's calls.",
+            "smithy.api#required": {}
+          }
+        },
+        "pct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "That competitor's share of the cluster's calls, 0-100.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_analytics#MCPToolPivotClustersList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_analytics#MCPToolPivotClusterEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Intent clusters this tool serves, by call volume desc, capped at 20 and limited to clusters the snapshot carries. Use n_clusters_served for the true count."
+      }
+    },
+    "com.posthog.mcp_analytics#MCPIntentClusterSnapshotToolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_analytics#MCPToolPivot"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tool-centric pivot of the clusters: per tool, the intents it serves, capture per cluster, contested score, discovery rate, and description fit. Empty on snapshots computed before the per-call pipeline; recompute to populate."
+      }
+    },
+    "com.posthog.mcp_analytics#MCPToolOverlap": {
+      "type": "structure",
+      "members": {
+        "tool_a": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First tool of the pair (lexicographic order).",
+            "smithy.api#required": {}
+          }
+        },
+        "tool_b": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Second tool of the pair.",
+            "smithy.api#required": {}
+          }
+        },
+        "contested_calls": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sum over shared clusters of the smaller tool's calls: the volume both tools plausibly compete for.",
+            "smithy.api#required": {}
+          }
+        },
+        "sessions_with_both": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sampled sessions that called both tools. High relative to sessions_with_either suggests the pair is a workflow, not confusion.",
+            "smithy.api#required": {}
+          }
+        },
+        "sessions_with_either": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sampled sessions that called at least one of the pair.",
+            "smithy.api#required": {}
+          }
+        },
+        "top_cluster_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The cluster contributing the most contested calls for this pair.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_analytics#MCPIntentClusterSnapshotToolOverlapsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_analytics#MCPToolOverlap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tool pairs competing for the same intent clusters, by contested call volume desc, capped at 50."
       }
     },
     "com.posthog.mcp_analytics#MCPIntentClusterSnapshotMeta": {
@@ -733,22 +1068,126 @@
             "smithy.api#documentation": "Number of clusters produced by the run.",
             "smithy.api#required": {}
           }
+        },
+        "corpus": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Corpus granularity. 'per_call' when each call was attributed to its own intent; null on snapshots computed before the per-call pipeline.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sampled_sessions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sessions sampled into the corpus. Null on pre-v2 snapshots.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "window_sessions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total sessions with tool calls in the lookback window (unsampled).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "session_coverage_pct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "sampled_sessions / window_sessions as a percentage: how much of the window the corpus represents.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "intent_coverage_pct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of the window's calls that carried an $mcp_intent. Low coverage makes capture rates less reliable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "imputed_call_pct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of attributed calls whose intent was carried forward from an earlier call in the session rather than stated on the call itself.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unattributed_call_pct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of sampled calls with no attributable intent (before the session's first stated intent). These calls are excluded from clusters.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "corpus_call_coverage_pct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of attributed calls whose intent made the top-N cut that feeds clustering.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "advertisement_coverage_pct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of sampled sessions with an observed $mcp_tools_list catalog. Discovery rates only draw on those sessions.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "n_tools": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tools included in the tool pivot.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dropped_tools": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tools dropped from the pivot by the volume cap. Zero means the pivot is complete.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dropped_overlap_pairs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Overlap pairs dropped by the pair cap.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description_coverage_pct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of pivot tools with a captured description. Description fit is only available for those.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
     },
-    "com.posthog.mcp_analytics#McpAnalyticsIntentClustersRetrieveResponseBodyList": {
+    "com.posthog.mcp_analytics#GetMcpAnalyticsIntentClusterResponseBodyList": {
       "type": "list",
       "member": {
         "target": "com.posthog.mcp_analytics#MCPIntentClusterSnapshot"
       },
       "traits": {}
     },
-    "com.posthog.mcp_analytics#McpAnalyticsIntentClustersRetrieveResponse": {
+    "com.posthog.mcp_analytics#GetMcpAnalyticsIntentClusterResponse": {
       "type": "structure",
       "members": {
         "body": {
-          "target": "com.posthog.mcp_analytics#McpAnalyticsIntentClustersRetrieveResponseBodyList",
+          "target": "com.posthog.mcp_analytics#GetMcpAnalyticsIntentClusterResponseBodyList",
           "traits": {
             "com.distilled.openapi#rawResponse": {},
             "smithy.api#required": {}
@@ -759,13 +1198,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.posthog.mcp_analytics#McpAnalyticsIntentClustersRetrieve": {
+    "com.posthog.mcp_analytics#GetMcpAnalyticsIntentCluster": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.mcp_analytics#McpAnalyticsIntentClustersRetrieveRequest"
+        "target": "com.posthog.mcp_analytics#GetMcpAnalyticsIntentClusterRequest"
       },
       "output": {
-        "target": "com.posthog.mcp_analytics#McpAnalyticsIntentClustersRetrieveResponse"
+        "target": "com.posthog.mcp_analytics#GetMcpAnalyticsIntentClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -809,7 +1248,7 @@
         "smithy.api#documentation": "Trigger an asynchronous recompute of the intent cluster snapshot. The task runs in the background; poll the GET endpoint for progress (status transitions to 'idle' or 'error')."
       }
     },
-    "com.posthog.mcp_analytics#McpAnalyticsMissingCapabilitiesListRequest": {
+    "com.posthog.mcp_analytics#ListMcpAnalyticsMissingCapabilitiesRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -839,10 +1278,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.mcp_analytics#McpAnalyticsMissingCapabilitiesList": {
+    "com.posthog.mcp_analytics#ListMcpAnalyticsMissingCapabilities": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.mcp_analytics#McpAnalyticsMissingCapabilitiesListRequest"
+        "target": "com.posthog.mcp_analytics#ListMcpAnalyticsMissingCapabilitiesRequest"
       },
       "output": {
         "target": "com.posthog.mcp_analytics#PaginatedMCPAnalyticsSubmissionList"
@@ -856,7 +1295,7 @@
         "smithy.api#documentation": "List missing capability reports for the current project, newest first."
       }
     },
-    "com.posthog.mcp_analytics#McpAnalyticsMissingCapabilitiesCreateRequest": {
+    "com.posthog.mcp_analytics#CreateMcpAnalyticsMissingCapabilityRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -934,10 +1373,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.mcp_analytics#McpAnalyticsMissingCapabilitiesCreate": {
+    "com.posthog.mcp_analytics#CreateMcpAnalyticsMissingCapability": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.mcp_analytics#McpAnalyticsMissingCapabilitiesCreateRequest"
+        "target": "com.posthog.mcp_analytics#CreateMcpAnalyticsMissingCapabilityRequest"
       },
       "output": {
         "target": "com.posthog.mcp_analytics#MCPAnalyticsSubmission"
@@ -951,7 +1390,7 @@
         "smithy.api#documentation": "Create a new missing capability report for the current project."
       }
     },
-    "com.posthog.mcp_analytics#McpAnalyticsSessionsListRequest": {
+    "com.posthog.mcp_analytics#ListMcpAnalyticsSessionsRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -980,14 +1419,14 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "limit",
-            "smithy.api#documentation": "Number of results to return per page."
+            "smithy.api#documentation": "Maximum number of sessions to return per page. Defaults to 100; values above 500 are rejected."
           }
         },
         "offset": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "offset",
-            "smithy.api#documentation": "The initial index from which to return the results."
+            "smithy.api#documentation": "Number of sessions to skip before returning results. Combine with limit to page through sessions; the response's has_next flag indicates whether more remain."
           }
         },
         "order_by": {
@@ -1127,10 +1566,10 @@
       },
       "traits": {}
     },
-    "com.posthog.mcp_analytics#McpAnalyticsSessionsList": {
+    "com.posthog.mcp_analytics#ListMcpAnalyticsSessions": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.mcp_analytics#McpAnalyticsSessionsListRequest"
+        "target": "com.posthog.mcp_analytics#ListMcpAnalyticsSessionsRequest"
       },
       "output": {
         "target": "com.posthog.mcp_analytics#PaginatedMCPSessionList"
@@ -1144,7 +1583,7 @@
         "smithy.api#documentation": "List MCP sessions for the current project, derived by grouping $mcp_tool_call events by $mcp_session_id. Ordered by newest session start first by default."
       }
     },
-    "com.posthog.mcp_analytics#McpAnalyticsSessionsGenerateIntentRequest": {
+    "com.posthog.mcp_analytics#GenerateMcpAnalyticsSessionIntentRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1195,10 +1634,10 @@
       },
       "traits": {}
     },
-    "com.posthog.mcp_analytics#McpAnalyticsSessionsGenerateIntent": {
+    "com.posthog.mcp_analytics#GenerateMcpAnalyticsSessionIntent": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.mcp_analytics#McpAnalyticsSessionsGenerateIntentRequest"
+        "target": "com.posthog.mcp_analytics#GenerateMcpAnalyticsSessionIntentRequest"
       },
       "output": {
         "target": "com.posthog.mcp_analytics#MCPSessionIntent"
@@ -1235,21 +1674,21 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "date_from",
-            "smithy.api#documentation": "Absolute ISO timestamp lower bound for the event scan — pass the session's start so older sessions resolve. Defaults to a 7-day lookback when omitted."
+            "smithy.api#documentation": "Absolute ISO timestamp lower bound for the event scan — pass the session's start so older sessions resolve. Defaults to a 7-day lookback when omitted or unparseable."
           }
         },
         "limit": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "limit",
-            "smithy.api#documentation": "Number of results to return per page."
+            "smithy.api#documentation": "Maximum tool calls to return per page (1–500). Defaults to 500 — the whole page — so a session's calls come back in one request; pass a smaller value for a lighter response. Values above the cap are rejected."
           }
         },
         "offset": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "offset",
-            "smithy.api#documentation": "The initial index from which to return the results."
+            "smithy.api#documentation": "Number of tool calls to skip before returning results. Combine with limit to page through a session's calls; the response's has_next flag indicates whether more remain."
           }
         }
       },
@@ -1353,7 +1792,382 @@
           "uri": "/api/projects/{project_id}/mcp_analytics/sessions/{id}/tool_calls/",
           "code": 200
         },
-        "smithy.api#documentation": "List all $mcp_tool_call events that belong to a given $session_id, in chronological order."
+        "smithy.api#documentation": "List a page of the $mcp_tool_call events that belong to a given $session_id, in chronological order."
+      }
+    },
+    "com.posthog.mcp_analytics#McpAnalyticsSessionsActivityOverviewRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_analytics#MCPActivityOverview": {
+      "type": "structure",
+      "members": {
+        "stats": {
+          "target": "com.posthog.mcp_analytics#MCPActivityStats",
+          "traits": {
+            "smithy.api#documentation": "Aggregate counters over the last 30 days.",
+            "smithy.api#required": {}
+          }
+        },
+        "top_tools": {
+          "target": "com.posthog.mcp_analytics#MCPActivityOverviewTopToolsList",
+          "traits": {
+            "smithy.api#documentation": "Most-called tools in the window, top 5 by call count.",
+            "smithy.api#required": {}
+          }
+        },
+        "clients": {
+          "target": "com.posthog.mcp_analytics#MCPActivityOverviewClientsList",
+          "traits": {
+            "smithy.api#documentation": "Agent clients in the window, top 6 by call count.",
+            "smithy.api#required": {}
+          }
+        },
+        "recent_calls": {
+          "target": "com.posthog.mcp_analytics#MCPActivityOverviewRecentCallsList",
+          "traits": {
+            "smithy.api#documentation": "The 20 most recent tool calls, newest first.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_analytics#MCPActivityStats": {
+      "type": "structure",
+      "members": {
+        "total_calls": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "$mcp_tool_call events captured in the last 30 days.",
+            "smithy.api#required": {}
+          }
+        },
+        "distinct_tools": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Distinct tools ($mcp_tool_name) called in the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "distinct_sessions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Distinct $session_ids seen on tool calls in the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "distinct_clients": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Distinct agent clients ($mcp_client_name) seen in the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "calls_with_intent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tool calls that carried an $mcp_intent, for intent-coverage checks.",
+            "smithy.api#required": {}
+          }
+        },
+        "error_calls": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tool calls flagged as errors ($mcp_is_error) in the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "missing_capability_reports": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "$mcp_missing_capability events captured in the window.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_analytics#MCPActivityToolRow": {
+      "type": "structure",
+      "members": {
+        "tool": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MCP tool name ($mcp_tool_name).",
+            "smithy.api#required": {}
+          }
+        },
+        "calls": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tool calls in the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "errors": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Of those calls, how many errored.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_analytics#MCPActivityOverviewTopToolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_analytics#MCPActivityToolRow"
+      },
+      "traits": {
+        "smithy.api#documentation": "Most-called tools in the window, top 5 by call count."
+      }
+    },
+    "com.posthog.mcp_analytics#MCPActivityClientRow": {
+      "type": "structure",
+      "members": {
+        "client": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Agent client name ($mcp_client_name). Empty when the SDK did not capture it.",
+            "smithy.api#required": {}
+          }
+        },
+        "calls": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tool calls from this client in the window.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_analytics#MCPActivityOverviewClientsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_analytics#MCPActivityClientRow"
+      },
+      "traits": {
+        "smithy.api#documentation": "Agent clients in the window, top 6 by call count."
+      }
+    },
+    "com.posthog.mcp_analytics#MCPActivityRecentCall": {
+      "type": "structure",
+      "members": {
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the tool call was captured.",
+            "smithy.api#required": {}
+          }
+        },
+        "tool": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tool that was invoked ($mcp_tool_name).",
+            "smithy.api#required": {}
+          }
+        },
+        "intent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Agent intent for this tool call ($mcp_intent). Null when the SDK did not capture context.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the tool call resulted in an error.",
+            "smithy.api#required": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable error extracted from the tool's response when is_error is true, otherwise null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "duration_ms": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Duration of the tool call in milliseconds when captured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "client_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Agent client name ($mcp_client_name) when captured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_analytics#MCPActivityOverviewRecentCallsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_analytics#MCPActivityRecentCall"
+      },
+      "traits": {
+        "smithy.api#documentation": "The 20 most recent tool calls, newest first."
+      }
+    },
+    "com.posthog.mcp_analytics#McpAnalyticsSessionsActivityOverview": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_analytics#McpAnalyticsSessionsActivityOverviewRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_analytics#MCPActivityOverview"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/mcp_analytics/sessions/activity_overview/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Aggregate counters, top tools, agent clients, and the most recent tool calls for the last 30 days, computed in one request. Powers the dashboard's activity view; always computed fresh so polling callers watch data arrive."
+      }
+    },
+    "com.posthog.mcp_analytics#McpAnalyticsSessionsIntentDigestRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.mcp_analytics#MCPIntentDigest": {
+      "type": "structure",
+      "members": {
+        "digest": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "LLM-generated one-sentence summary of what agents are trying to do with this MCP server, derived from the most recent recorded $mcp_intents across all sessions. Null when the project has no recorded intents yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "intent_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many recorded intents (the most recent, capped at 100) the digest was derived from.",
+            "smithy.api#required": {}
+          }
+        },
+        "themes": {
+          "target": "com.posthog.mcp_analytics#MCPIntentDigestThemesList",
+          "traits": {
+            "smithy.api#documentation": "Up to 5 semantic groupings of the analysed intents, largest first. May be empty when the digest is null, or when none of the LLM's groupings resolved to recorded intents.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_analytics#MCPIntentTheme": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short sentence-case name for this group of intents.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "One concrete sentence describing what agents in this theme are doing.",
+            "smithy.api#required": {}
+          }
+        },
+        "intent_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many of the analysed intents the LLM assigned to this theme, counted from the corpus rather than reported by the LLM. Each intent belongs to at most one theme, so these never sum to more than the digest's intent_count.",
+            "smithy.api#required": {}
+          }
+        },
+        "example_intent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "One of this theme's intents, verbatim from the corpus.",
+            "smithy.api#required": {}
+          }
+        },
+        "tools": {
+          "target": "com.posthog.mcp_analytics#MCPIntentThemeToolsList",
+          "traits": {
+            "smithy.api#documentation": "The MCP tool names recorded alongside this theme's intents, sorted, taken from the corpus.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_analytics#MCPIntentThemeToolsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The MCP tool names recorded alongside this theme's intents, sorted, taken from the corpus."
+      }
+    },
+    "com.posthog.mcp_analytics#MCPIntentDigestThemesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.mcp_analytics#MCPIntentTheme"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 5 semantic groupings of the analysed intents, largest first. May be empty when the digest is null, or when none of the LLM's groupings resolved to recorded intents."
+      }
+    },
+    "com.posthog.mcp_analytics#McpAnalyticsSessionsIntentDigest": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.mcp_analytics#McpAnalyticsSessionsIntentDigestRequest"
+      },
+      "output": {
+        "target": "com.posthog.mcp_analytics#MCPIntentDigest"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/mcp_analytics/sessions/intent_digest/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Generate (or return the cached) LLM digest of what agents are trying to do with this MCP server, derived from the most recent recorded $mcp_intents across all sessions: a one-sentence summary plus semantic themes, each sized and attributed to tools from the intents themselves. Cached by intent corpus and by recency, so repeated calls are cheap and a busy server regenerates at a bounded rate. Powers the dashboard's activity tab."
       }
     },
     "com.posthog.mcp_analytics#McpAnalytics": {
@@ -1361,31 +2175,37 @@
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.mcp_analytics#McpAnalyticsFeedbackList"
+          "target": "com.posthog.mcp_analytics#ListMcpAnalyticsFeedback"
         },
         {
-          "target": "com.posthog.mcp_analytics#McpAnalyticsFeedbackCreate"
+          "target": "com.posthog.mcp_analytics#CreateMcpAnalyticsFeedback"
         },
         {
-          "target": "com.posthog.mcp_analytics#McpAnalyticsIntentClustersRetrieve"
+          "target": "com.posthog.mcp_analytics#GetMcpAnalyticsIntentCluster"
         },
         {
           "target": "com.posthog.mcp_analytics#McpAnalyticsIntentClustersRecompute"
         },
         {
-          "target": "com.posthog.mcp_analytics#McpAnalyticsMissingCapabilitiesList"
+          "target": "com.posthog.mcp_analytics#ListMcpAnalyticsMissingCapabilities"
         },
         {
-          "target": "com.posthog.mcp_analytics#McpAnalyticsMissingCapabilitiesCreate"
+          "target": "com.posthog.mcp_analytics#CreateMcpAnalyticsMissingCapability"
         },
         {
-          "target": "com.posthog.mcp_analytics#McpAnalyticsSessionsList"
+          "target": "com.posthog.mcp_analytics#ListMcpAnalyticsSessions"
         },
         {
-          "target": "com.posthog.mcp_analytics#McpAnalyticsSessionsGenerateIntent"
+          "target": "com.posthog.mcp_analytics#GenerateMcpAnalyticsSessionIntent"
         },
         {
           "target": "com.posthog.mcp_analytics#McpAnalyticsSessionsToolCalls"
+        },
+        {
+          "target": "com.posthog.mcp_analytics#McpAnalyticsSessionsActivityOverview"
+        },
+        {
+          "target": "com.posthog.mcp_analytics#McpAnalyticsSessionsIntentDigest"
         }
       ],
       "traits": {

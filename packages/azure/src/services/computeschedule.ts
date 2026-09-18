@@ -12,8 +12,8 @@ import * as Retry from "../retry.ts";
 
 export type { AzureOpError, AzureOpContext };
 
-export interface OperationsListRequest {}
-export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
+export interface ListOperationsRequest {}
+export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
     T.Http({
       method: "GET",
@@ -23,8 +23,8 @@ export const OperationsListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "OperationsListRequest",
-}) as any as S.Schema<OperationsListRequest>;
+  identifier: "ListOperationsRequest",
+}) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -50,11 +50,11 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
-export const OperationOrigin = /*@__PURE__*/ S.String;
+export const OperationOrigin = S.String;
 
 /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 export type OperationActionType = "Internal";
-export const OperationActionType = /*@__PURE__*/ S.String;
+export const OperationActionType = S.String;
 
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
@@ -80,25 +80,25 @@ export const Operation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
 /** List of operations supported by the resource provider */
-export type OperationsListResponseValueList = Array<Operation>;
-export const OperationsListResponseValueList = /*@__PURE__*/ S.Array(
+export type ListOperationsResponseValueList = Array<Operation>;
+export const ListOperationsResponseValueList = /*@__PURE__*/ S.Array(
   Operation,
-) as any as S.Schema<OperationsListResponseValueList>;
+) as any as S.Schema<ListOperationsResponseValueList>;
 
-export interface OperationsListResponse {
+export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: OperationsListResponseValueList;
+  value?: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string;
 }
-export const OperationsListResponse = /*@__PURE__*/ S.suspend(() =>
+export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(OperationsListResponseValueList),
+    value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "OperationsListResponse",
-}) as any as S.Schema<OperationsListResponse>;
+  identifier: "ListOperationsResponse",
+}) as any as S.Schema<ListOperationsResponse>;
 
 /** The list of operation ids to cancel operations on */
 export type ScheduledActionsVirtualMachinesCancelOperationsRequestOperationIdsList =
@@ -144,14 +144,14 @@ export type ResourceOperationDetailsOpType =
   | "Start"
   | "Deallocate"
   | "Hibernate";
-export const ResourceOperationDetailsOpType = /*@__PURE__*/ S.String;
+export const ResourceOperationDetailsOpType = S.String;
 
 /** Type of deadline of the operation */
 export type ResourceOperationDetailsDeadlineType =
   | "Unknown"
   | "InitiateAt"
   | "CompleteBy";
-export const ResourceOperationDetailsDeadlineType = /*@__PURE__*/ S.String;
+export const ResourceOperationDetailsDeadlineType = S.String;
 
 /** Current state of the operation */
 export type ResourceOperationDetailsState =
@@ -164,7 +164,7 @@ export type ResourceOperationDetailsState =
   | "Failed"
   | "Cancelled"
   | "Blocked";
-export const ResourceOperationDetailsState = /*@__PURE__*/ S.String;
+export const ResourceOperationDetailsState = S.String;
 
 /** These describe errors that occur at the resource level */
 export interface ResourceOperationError {
@@ -338,7 +338,7 @@ export type OptimizationPreference =
   | "Cost"
   | "Availability"
   | "CostAvailabilityBalanced";
-export const OptimizationPreference = /*@__PURE__*/ S.String;
+export const OptimizationPreference = S.String;
 
 /** Extra details needed to run the user's request */
 export interface ExecutionParameters {
@@ -863,7 +863,7 @@ export const GetOperationStatusResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The deadlinetype of the operation, this can either be InitiateAt or CompleteBy */
 export type ScheduleDeadlineType = "Unknown" | "InitiateAt" | "CompleteBy";
-export const ScheduleDeadlineType = /*@__PURE__*/ S.String;
+export const ScheduleDeadlineType = S.String;
 
 /** The schedule details for the user request */
 export interface Schedule {
@@ -993,16 +993,16 @@ export const ScheduledActionsVirtualMachinesSubmitStartRequest =
     identifier: "ScheduledActionsVirtualMachinesSubmitStartRequest",
   }) as any as S.Schema<ScheduledActionsVirtualMachinesSubmitStartRequest>;
 
-export type OperationsListError = AzureOpError;
+export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const OperationsList: API.OperationMethod<
-  OperationsListRequest,
-  OperationsListResponse,
-  OperationsListError,
+export const ListOperations: API.OperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse,
+  ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: OperationsListRequest,
-  output: OperationsListResponse,
+  input: ListOperationsRequest,
+  output: ListOperationsResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

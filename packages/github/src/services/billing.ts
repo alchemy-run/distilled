@@ -48,7 +48,7 @@ export class UnprocessableEntity
     [{ status: 422 }],
   ) {}
 
-/** Array of user login names who will receive alerts */
+/** Array of user login names who will receive alerts. Rejected for user-scope as alerting is always disabled for them. */
 export type CreateOrganizationBudgetRequestBudgetAlertingAlertRecipientsList =
   Array<string>;
 export const CreateOrganizationBudgetRequestBudgetAlertingAlertRecipientsList =
@@ -57,9 +57,9 @@ export const CreateOrganizationBudgetRequestBudgetAlertingAlertRecipientsList =
   ) as any as S.Schema<CreateOrganizationBudgetRequestBudgetAlertingAlertRecipientsList>;
 
 export interface CreateOrganizationBudgetRequestBudgetAlerting {
-  /** Whether alerts are enabled for this budget */
+  /** Whether alerts are enabled for this budget. Rejected for user-scope as alerting is always disabled for them. */
   will_alert?: boolean;
-  /** Array of user login names who will receive alerts */
+  /** Array of user login names who will receive alerts. Rejected for user-scope as alerting is always disabled for them. */
   alert_recipients?: CreateOrganizationBudgetRequestBudgetAlertingAlertRecipientsList;
 }
 export const CreateOrganizationBudgetRequestBudgetAlerting =
@@ -80,20 +80,16 @@ export type CreateOrganizationBudgetRequestBudgetScope =
   | "repository"
   | "multi_user_customer"
   | "user";
-export const CreateOrganizationBudgetRequestBudgetScope =
-  /*@__PURE__*/ S.String;
+export const CreateOrganizationBudgetRequestBudgetScope = S.String;
 
 export type CreateOrganizationBudgetRequestBudgetTypeCase0 = "BundlePricing";
-export const CreateOrganizationBudgetRequestBudgetTypeCase0 =
-  /*@__PURE__*/ S.String;
+export const CreateOrganizationBudgetRequestBudgetTypeCase0 = S.String;
 
 export type CreateOrganizationBudgetRequestBudgetTypeCase1 = "ProductPricing";
-export const CreateOrganizationBudgetRequestBudgetTypeCase1 =
-  /*@__PURE__*/ S.String;
+export const CreateOrganizationBudgetRequestBudgetTypeCase1 = S.String;
 
 export type CreateOrganizationBudgetRequestBudgetTypeCase2 = "SkuPricing";
-export const CreateOrganizationBudgetRequestBudgetTypeCase2 =
-  /*@__PURE__*/ S.String;
+export const CreateOrganizationBudgetRequestBudgetTypeCase2 = S.String;
 
 /** The type of pricing model used by the budget. Determines how `budget_product_sku` is interpreted. - `BundlePricing`: Covers all AI credit SKUs. Set `budget_product_sku` to `ai_credits`. - `ProductPricing`: Covers all SKUs that belong to a product. Set `budget_product_sku` to a product such as `actions` or `packages`. - `SkuPricing`: Covers a single, specific SKU. Set `budget_product_sku` to a SKU such as `actions_linux`. */
 export type CreateOrganizationBudgetRequestBudgetType =
@@ -101,7 +97,7 @@ export type CreateOrganizationBudgetRequestBudgetType =
   | CreateOrganizationBudgetRequestBudgetTypeCase1
   | CreateOrganizationBudgetRequestBudgetTypeCase2;
 export const CreateOrganizationBudgetRequestBudgetType =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<CreateOrganizationBudgetRequestBudgetType>;
+  S.Unknown as any as S.Schema<CreateOrganizationBudgetRequestBudgetType>;
 
 export interface CreateOrganizationBudgetRequest {
   /** The organization name. The name is not case sensitive. */
@@ -121,6 +117,8 @@ export interface CreateOrganizationBudgetRequest {
   budget_product_sku?: string;
   /** The username of the user for `user` scope budgets. This field is required when `budget_scope` is `user`. */
   user?: string;
+  /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not provided, the budget will not expire. Only supported for budgets with `budget_scope` of `user` */
+  expires_at?: string;
 }
 export const CreateOrganizationBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -133,6 +131,7 @@ export const CreateOrganizationBudgetRequest = /*@__PURE__*/ S.suspend(() =>
     budget_type: S.optional(CreateOrganizationBudgetRequestBudgetType),
     budget_product_sku: S.optional(S.String),
     user: S.optional(S.String),
+    expires_at: S.optional(S.String),
   }).pipe(
     T.Http({
       method: "POST",
@@ -153,22 +152,22 @@ export type CreateBudgetBudgetBudgetScope =
   | "multi_user_customer"
   | "multi_user_cost_center"
   | "user";
-export const CreateBudgetBudgetBudgetScope = /*@__PURE__*/ S.String;
+export const CreateBudgetBudgetBudgetScope = S.String;
 
 export type CreateBudgetBudgetBudgetTypeCase0 = "ProductPricing";
-export const CreateBudgetBudgetBudgetTypeCase0 = /*@__PURE__*/ S.String;
+export const CreateBudgetBudgetBudgetTypeCase0 = S.String;
 
 export type CreateBudgetBudgetBudgetTypeCase1 = "SkuPricing";
-export const CreateBudgetBudgetBudgetTypeCase1 = /*@__PURE__*/ S.String;
+export const CreateBudgetBudgetBudgetTypeCase1 = S.String;
 
 /** The type of pricing for the budget */
 export type CreateBudgetBudgetBudgetType =
   | CreateBudgetBudgetBudgetTypeCase0
   | CreateBudgetBudgetBudgetTypeCase1;
 export const CreateBudgetBudgetBudgetType =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<CreateBudgetBudgetBudgetType>;
+  S.Unknown as any as S.Schema<CreateBudgetBudgetBudgetType>;
 
-/** Array of user login names who will receive alerts */
+/** Array of user login names who will receive alerts. Rejected for user-scope as alerting is always disabled for them. */
 export type CreateBudgetBudgetBudgetAlertingAlertRecipientsList = Array<string>;
 export const CreateBudgetBudgetBudgetAlertingAlertRecipientsList =
   /*@__PURE__*/ S.Array(
@@ -176,9 +175,9 @@ export const CreateBudgetBudgetBudgetAlertingAlertRecipientsList =
   ) as any as S.Schema<CreateBudgetBudgetBudgetAlertingAlertRecipientsList>;
 
 export interface CreateBudgetBudgetBudgetAlerting {
-  /** Whether alerts are enabled for this budget */
+  /** Whether alerts are enabled for this budget. Rejected for user-scope as alerting is always disabled for them. */
   will_alert?: boolean;
-  /** Array of user login names who will receive alerts */
+  /** Array of user login names who will receive alerts. Rejected for user-scope as alerting is always disabled for them. */
   alert_recipients?: CreateBudgetBudgetBudgetAlertingAlertRecipientsList;
 }
 export const CreateBudgetBudgetBudgetAlerting = /*@__PURE__*/ S.suspend(() =>
@@ -208,6 +207,8 @@ export interface CreateBudgetBudget {
   /** The type of pricing for the budget */
   budget_type?: CreateBudgetBudgetBudgetType;
   budget_alerting?: CreateBudgetBudgetBudgetAlerting;
+  /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not provided, the budget will not expire. Only supported for budgets with `budget_scope` of `user` */
+  expires_at?: string;
 }
 export const CreateBudgetBudget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -219,6 +220,7 @@ export const CreateBudgetBudget = /*@__PURE__*/ S.suspend(() =>
     budget_product_sku: S.optional(S.String),
     budget_type: S.optional(CreateBudgetBudgetBudgetType),
     budget_alerting: S.optional(CreateBudgetBudgetBudgetAlerting),
+    expires_at: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CreateBudgetBudget",
@@ -277,7 +279,7 @@ export type GetAllBudgetsOrgRequestScope =
   | "cost_center"
   | "multi_user_customer"
   | "user";
-export const GetAllBudgetsOrgRequestScope = /*@__PURE__*/ S.String;
+export const GetAllBudgetsOrgRequestScope = S.String;
 
 export interface GetAllBudgetsOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -310,15 +312,14 @@ export const GetAllBudgetsOrgRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAllBudgetsOrgRequest>;
 
 export type BudgetBudgetTypeCase0 = "SkuPricing";
-export const BudgetBudgetTypeCase0 = /*@__PURE__*/ S.String;
+export const BudgetBudgetTypeCase0 = S.String;
 
 export type BudgetBudgetTypeCase1 = "ProductPricing";
-export const BudgetBudgetTypeCase1 = /*@__PURE__*/ S.String;
+export const BudgetBudgetTypeCase1 = S.String;
 
 /** The type of pricing for the budget */
 export type BudgetBudgetType = BudgetBudgetTypeCase0 | BudgetBudgetTypeCase1;
-export const BudgetBudgetType =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<BudgetBudgetType>;
+export const BudgetBudgetType = S.Unknown as any as S.Schema<BudgetBudgetType>;
 
 /** The scope of the budget */
 export type BudgetBudgetScope =
@@ -329,18 +330,18 @@ export type BudgetBudgetScope =
   | "multi_user_customer"
   | "multi_user_cost_center"
   | "user";
-export const BudgetBudgetScope = /*@__PURE__*/ S.String;
+export const BudgetBudgetScope = S.String;
 
-/** Array of user login names who will receive alerts */
+/** Array of user login names who will receive alerts. Ignored for user-scope as alerting is disabled for them. */
 export type BudgetBudgetAlertingAlertRecipientsList = Array<string>;
 export const BudgetBudgetAlertingAlertRecipientsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<BudgetBudgetAlertingAlertRecipientsList>;
 
 export interface BudgetBudgetAlerting {
-  /** Whether alerts are enabled for this budget */
+  /** Whether alerts are enabled for this budget. Ignored for user-scope as alerting is disabled for them. */
   will_alert: boolean;
-  /** Array of user login names who will receive alerts */
+  /** Array of user login names who will receive alerts. Ignored for user-scope as alerting is disabled for them. */
   alert_recipients: BudgetBudgetAlertingAlertRecipientsList;
 }
 export const BudgetBudgetAlerting = /*@__PURE__*/ S.suspend(() =>
@@ -372,6 +373,8 @@ export interface Budget {
   /** A single product or sku to apply the budget to. */
   budget_product_sku: string;
   budget_alerting: BudgetBudgetAlerting;
+  /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not provided, the budget will not expire. Only supported for budgets with `budget_scope` of `user` */
+  expires_at?: string;
 }
 export const Budget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -385,6 +388,7 @@ export const Budget = /*@__PURE__*/ S.suspend(() =>
     consumed_amount: S.optional(S.Number),
     budget_product_sku: S.String,
     budget_alerting: BudgetBudgetAlerting,
+    expires_at: S.optional(S.String),
   }),
 ).annotate({ identifier: "Budget" }) as any as S.Schema<Budget>;
 
@@ -465,31 +469,31 @@ export type GetBudgetBudgetScope =
   | "multi_user_customer"
   | "multi_user_cost_center"
   | "user";
-export const GetBudgetBudgetScope = /*@__PURE__*/ S.String;
+export const GetBudgetBudgetScope = S.String;
 
 export type GetBudgetBudgetTypeCase0 = "ProductPricing";
-export const GetBudgetBudgetTypeCase0 = /*@__PURE__*/ S.String;
+export const GetBudgetBudgetTypeCase0 = S.String;
 
 export type GetBudgetBudgetTypeCase1 = "SkuPricing";
-export const GetBudgetBudgetTypeCase1 = /*@__PURE__*/ S.String;
+export const GetBudgetBudgetTypeCase1 = S.String;
 
 /** The type of pricing for the budget */
 export type GetBudgetBudgetType =
   | GetBudgetBudgetTypeCase0
   | GetBudgetBudgetTypeCase1;
 export const GetBudgetBudgetType =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<GetBudgetBudgetType>;
+  S.Unknown as any as S.Schema<GetBudgetBudgetType>;
 
-/** Array of user login names who will receive alerts */
+/** Array of user login names who will receive alerts. Present but not applicable for user-scope as alerting is always disabled for them. */
 export type GetBudgetBudgetAlertingAlertRecipientsList = Array<string>;
 export const GetBudgetBudgetAlertingAlertRecipientsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<GetBudgetBudgetAlertingAlertRecipientsList>;
 
 export interface GetBudgetBudgetAlerting {
-  /** Whether alerts are enabled for this budget */
+  /** Whether alerts are enabled for this budget. Present but not applicable for user-scope as alerting is always disabled for them. */
   will_alert?: boolean;
-  /** Array of user login names who will receive alerts */
+  /** Array of user login names who will receive alerts. Present but not applicable for user-scope as alerting is always disabled for them. */
   alert_recipients?: GetBudgetBudgetAlertingAlertRecipientsList;
 }
 export const GetBudgetBudgetAlerting = /*@__PURE__*/ S.suspend(() =>
@@ -1255,7 +1259,7 @@ export const BillingUsageSummaryReportUser = /*@__PURE__*/ S.suspend(() =>
   identifier: "BillingUsageSummaryReportUser",
 }) as any as S.Schema<BillingUsageSummaryReportUser>;
 
-/** Array of user login names who will receive alerts */
+/** Array of user login names who will receive alerts. Ignored for user-scopes as alerting is always disabled for them. */
 export type UpdateBudgetOrgRequestBudgetAlertingAlertRecipientsList =
   Array<string>;
 export const UpdateBudgetOrgRequestBudgetAlertingAlertRecipientsList =
@@ -1264,9 +1268,9 @@ export const UpdateBudgetOrgRequestBudgetAlertingAlertRecipientsList =
   ) as any as S.Schema<UpdateBudgetOrgRequestBudgetAlertingAlertRecipientsList>;
 
 export interface UpdateBudgetOrgRequestBudgetAlerting {
-  /** Whether alerts are enabled for this budget */
+  /** Whether alerts are enabled for this budget. Ignored for user-scopes as alerting is always disabled for them. */
   will_alert?: boolean;
-  /** Array of user login names who will receive alerts */
+  /** Array of user login names who will receive alerts. Ignored for user-scopes as alerting is always disabled for them. */
   alert_recipients?: UpdateBudgetOrgRequestBudgetAlertingAlertRecipientsList;
 }
 export const UpdateBudgetOrgRequestBudgetAlerting = /*@__PURE__*/ S.suspend(
@@ -1289,16 +1293,16 @@ export type UpdateBudgetOrgRequestBudgetScope =
   | "cost_center"
   | "multi_user_customer"
   | "user";
-export const UpdateBudgetOrgRequestBudgetScope = /*@__PURE__*/ S.String;
+export const UpdateBudgetOrgRequestBudgetScope = S.String;
 
 export type UpdateBudgetOrgRequestBudgetTypeCase0 = "BundlePricing";
-export const UpdateBudgetOrgRequestBudgetTypeCase0 = /*@__PURE__*/ S.String;
+export const UpdateBudgetOrgRequestBudgetTypeCase0 = S.String;
 
 export type UpdateBudgetOrgRequestBudgetTypeCase1 = "ProductPricing";
-export const UpdateBudgetOrgRequestBudgetTypeCase1 = /*@__PURE__*/ S.String;
+export const UpdateBudgetOrgRequestBudgetTypeCase1 = S.String;
 
 export type UpdateBudgetOrgRequestBudgetTypeCase2 = "SkuPricing";
-export const UpdateBudgetOrgRequestBudgetTypeCase2 = /*@__PURE__*/ S.String;
+export const UpdateBudgetOrgRequestBudgetTypeCase2 = S.String;
 
 /** The type of pricing model used by the budget. Determines how `budget_product_sku` is interpreted. - `BundlePricing`: Covers all AI credit SKUs. Set `budget_product_sku` to `ai_credits`. - `ProductPricing`: Covers all SKUs that belong to a product. Set `budget_product_sku` to a product such as `actions` or `packages`. - `SkuPricing`: Covers a single, specific SKU. Set `budget_product_sku` to a SKU such as `actions_linux`. */
 export type UpdateBudgetOrgRequestBudgetType =
@@ -1306,7 +1310,17 @@ export type UpdateBudgetOrgRequestBudgetType =
   | UpdateBudgetOrgRequestBudgetTypeCase1
   | UpdateBudgetOrgRequestBudgetTypeCase2;
 export const UpdateBudgetOrgRequestBudgetType =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<UpdateBudgetOrgRequestBudgetType>;
+  S.Unknown as any as S.Schema<UpdateBudgetOrgRequestBudgetType>;
+
+export type UpdateBudgetOrgRequestExpiresAtCase1 = 0;
+export const UpdateBudgetOrgRequestExpiresAtCase1 = S.Number;
+
+/** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set. Only supported for budgets with `budget_scope` of `user` */
+export type UpdateBudgetOrgRequestExpiresAt =
+  | string
+  | UpdateBudgetOrgRequestExpiresAtCase1;
+export const UpdateBudgetOrgRequestExpiresAt =
+  S.Unknown as any as S.Schema<UpdateBudgetOrgRequestExpiresAt>;
 
 export interface UpdateBudgetOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1328,6 +1342,8 @@ export interface UpdateBudgetOrgRequest {
   budget_product_sku?: string;
   /** The username of the user for `user` scope budgets. */
   user?: string;
+  /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set. Only supported for budgets with `budget_scope` of `user` */
+  expires_at?: UpdateBudgetOrgRequestExpiresAt;
 }
 export const UpdateBudgetOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1341,6 +1357,7 @@ export const UpdateBudgetOrgRequest = /*@__PURE__*/ S.suspend(() =>
     budget_type: S.optional(UpdateBudgetOrgRequestBudgetType),
     budget_product_sku: S.optional(S.String),
     user: S.optional(S.String),
+    expires_at: S.optional(UpdateBudgetOrgRequestExpiresAt),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -1361,22 +1378,22 @@ export type UpdateBudgetBudgetBudgetScope =
   | "multi_user_customer"
   | "multi_user_cost_center"
   | "user";
-export const UpdateBudgetBudgetBudgetScope = /*@__PURE__*/ S.String;
+export const UpdateBudgetBudgetBudgetScope = S.String;
 
 export type UpdateBudgetBudgetBudgetTypeCase0 = "ProductPricing";
-export const UpdateBudgetBudgetBudgetTypeCase0 = /*@__PURE__*/ S.String;
+export const UpdateBudgetBudgetBudgetTypeCase0 = S.String;
 
 export type UpdateBudgetBudgetBudgetTypeCase1 = "SkuPricing";
-export const UpdateBudgetBudgetBudgetTypeCase1 = /*@__PURE__*/ S.String;
+export const UpdateBudgetBudgetBudgetTypeCase1 = S.String;
 
 /** The type of pricing for the budget */
 export type UpdateBudgetBudgetBudgetType =
   | UpdateBudgetBudgetBudgetTypeCase0
   | UpdateBudgetBudgetBudgetTypeCase1;
 export const UpdateBudgetBudgetBudgetType =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<UpdateBudgetBudgetBudgetType>;
+  S.Unknown as any as S.Schema<UpdateBudgetBudgetBudgetType>;
 
-/** Array of user login names who will receive alerts */
+/** Array of user login names who will receive alerts. Ignored for user-scope as alerting is always disabled for them. */
 export type UpdateBudgetBudgetBudgetAlertingAlertRecipientsList = Array<string>;
 export const UpdateBudgetBudgetBudgetAlertingAlertRecipientsList =
   /*@__PURE__*/ S.Array(
@@ -1384,9 +1401,9 @@ export const UpdateBudgetBudgetBudgetAlertingAlertRecipientsList =
   ) as any as S.Schema<UpdateBudgetBudgetBudgetAlertingAlertRecipientsList>;
 
 export interface UpdateBudgetBudgetBudgetAlerting {
-  /** Whether alerts are enabled for this budget */
+  /** Whether alerts are enabled for this budget. Ignored for user-scope as alerting is always disabled for them. */
   will_alert?: boolean;
-  /** Array of user login names who will receive alerts */
+  /** Array of user login names who will receive alerts. Ignored for user-scope as alerting is always disabled for them. */
   alert_recipients?: UpdateBudgetBudgetBudgetAlertingAlertRecipientsList;
 }
 export const UpdateBudgetBudgetBudgetAlerting = /*@__PURE__*/ S.suspend(() =>
@@ -1420,6 +1437,8 @@ export interface UpdateBudgetBudget {
   /** The type of pricing for the budget */
   budget_type?: UpdateBudgetBudgetBudgetType;
   budget_alerting?: UpdateBudgetBudgetBudgetAlerting;
+  /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not provided, the budget will not expire. Only supported for budgets with `budget_scope` of `user` */
+  expires_at?: string;
 }
 export const UpdateBudgetBudget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1433,6 +1452,7 @@ export const UpdateBudgetBudget = /*@__PURE__*/ S.suspend(() =>
     budget_product_sku: S.optional(S.String),
     budget_type: S.optional(UpdateBudgetBudgetBudgetType),
     budget_alerting: S.optional(UpdateBudgetBudgetBudgetAlerting),
+    expires_at: S.optional(S.String),
   }),
 ).annotate({
   identifier: "UpdateBudgetBudget",

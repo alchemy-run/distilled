@@ -39,7 +39,10 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type ActivityLogListRequestScope =
+export type ListActivityLogRequestOrdering = "-created_at" | "created_at";
+export const ListActivityLogRequestOrdering = S.String;
+
+export type ListActivityLogRequestScope =
   | "Cohort"
   | "FeatureFlag"
   | "Person"
@@ -53,6 +56,7 @@ export type ActivityLogListRequestScope =
   | "EventDefinition"
   | "PropertyDefinition"
   | "Notebook"
+  | "Canvas"
   | "Endpoint"
   | "EndpointVersion"
   | "Dashboard"
@@ -67,10 +71,12 @@ export type ActivityLogListRequestScope =
   | "Team"
   | "Project"
   | "ErrorTrackingIssue"
+  | "DataWarehouseExpression"
   | "DataWarehouseSavedQuery"
   | "LegalDocument"
   | "Organization"
   | "OrganizationDomain"
+  | "IdentityProviderConfig"
   | "OrganizationMembership"
   | "Role"
   | "UserGroup"
@@ -93,21 +99,35 @@ export type ActivityLogListRequestScope =
   | "ExternalDataSource"
   | "ExternalDataSchema"
   | "Evaluation"
+  | "EvaluationDirectory"
+  | "LLMPrompt"
+  | "LLMPromptLabel"
   | "LLMTrace"
+  | "AIGatewayCredit"
   | "WebAnalyticsFilterPreset"
   | "CustomerProfileConfig"
   | "Log"
   | "LogsAlertConfiguration"
   | "LogsExclusionRule"
+  | "LogsRetentionRule"
   | "DashboardWidget"
   | "ProductTour"
   | "Ticket"
   | "InstanceSetting"
-  | "SignalScoutConfig";
-export const ActivityLogListRequestScope = /*@__PURE__*/ S.String;
+  | "SignalReport"
+  | "SignalScoutConfig"
+  | "SignalTeamConfig"
+  | "StreamlitApp"
+  | "Metric"
+  | "TableCertification"
+  | "DataQualityCheck"
+  | "Billing"
+  | "Loop"
+  | "StamphogRepoConfig";
+export const ListActivityLogRequestScope = S.String;
 
-/** * `Cohort` - Cohort * `FeatureFlag` - FeatureFlag * `Person` - Person * `Group` - Group * `Insight` - Insight * `Plugin` - Plugin * `PluginConfig` - PluginConfig * `HogFunction` - HogFunction * `HogFlow` - HogFlow * `DataManagement` - DataManagement * `EventDefinition` - EventDefinition * `PropertyDefinition` - PropertyDefinition * `Notebook` - Notebook * `Endpoint` - Endpoint * `EndpointVersion` - EndpointVersion * `Dashboard` - Dashboard * `Replay` - Replay * `Experiment` - Experiment * `ExperimentHoldout` - ExperimentHoldout * `ExperimentSavedMetric` - ExperimentSavedMetric * `Survey` - Survey * `EarlyAccessFeature` - EarlyAccessFeature * `SessionRecordingPlaylist` - SessionRecordingPlaylist * `Comment` - Comment * `Team` - Team * `Project` - Project * `ErrorTrackingIssue` - ErrorTrackingIssue * `DataWarehouseSavedQuery` - DataWarehouseSavedQuery * `LegalDocument` - LegalDocument * `Organization` - Organization * `OrganizationDomain` - OrganizationDomain * `OrganizationMembership` - OrganizationMembership * `Role` - Role * `UserGroup` - UserGroup * `BatchExport` - BatchExport * `BatchImport` - BatchImport * `ExportedAsset` - ExportedAsset * `Integration` - Integration * `Annotation` - Annotation * `Tag` - Tag * `TaggedItem` - TaggedItem * `Subscription` - Subscription * `PersonalAPIKey` - PersonalAPIKey * `ProjectSecretAPIKey` - ProjectSecretAPIKey * `OAuthApplication` - OAuthApplication * `User` - User * `Action` - Action * `AlertConfiguration` - AlertConfiguration * `Threshold` - Threshold * `AlertSubscription` - AlertSubscription * `ExternalDataSource` - ExternalDataSource * `ExternalDataSchema` - ExternalDataSchema * `Evaluation` - Evaluation * `LLMTrace` - LLMTrace * `WebAnalyticsFilterPreset` - WebAnalyticsFilterPreset * `CustomerProfileConfig` - CustomerProfileConfig * `Log` - Log * `LogsAlertConfiguration` - LogsAlertConfiguration * `LogsExclusionRule` - LogsExclusionRule * `DashboardWidget` - DashboardWidget * `ProductTour` - ProductTour * `Ticket` - Ticket * `InstanceSetting` - InstanceSetting * `SignalScoutConfig` - SignalScoutConfig */
-export type ActivityLogListRequestScopesItem =
+/** * `Cohort` - Cohort * `FeatureFlag` - FeatureFlag * `Person` - Person * `Group` - Group * `Insight` - Insight * `Plugin` - Plugin * `PluginConfig` - PluginConfig * `HogFunction` - HogFunction * `HogFlow` - HogFlow * `DataManagement` - DataManagement * `EventDefinition` - EventDefinition * `PropertyDefinition` - PropertyDefinition * `Notebook` - Notebook * `Canvas` - Canvas * `Endpoint` - Endpoint * `EndpointVersion` - EndpointVersion * `Dashboard` - Dashboard * `Replay` - Replay * `Experiment` - Experiment * `ExperimentHoldout` - ExperimentHoldout * `ExperimentSavedMetric` - ExperimentSavedMetric * `Survey` - Survey * `EarlyAccessFeature` - EarlyAccessFeature * `SessionRecordingPlaylist` - SessionRecordingPlaylist * `Comment` - Comment * `Team` - Team * `Project` - Project * `ErrorTrackingIssue` - ErrorTrackingIssue * `DataWarehouseExpression` - DataWarehouseExpression * `DataWarehouseSavedQuery` - DataWarehouseSavedQuery * `LegalDocument` - LegalDocument * `Organization` - Organization * `OrganizationDomain` - OrganizationDomain * `IdentityProviderConfig` - IdentityProviderConfig * `OrganizationMembership` - OrganizationMembership * `Role` - Role * `UserGroup` - UserGroup * `BatchExport` - BatchExport * `BatchImport` - BatchImport * `ExportedAsset` - ExportedAsset * `Integration` - Integration * `Annotation` - Annotation * `Tag` - Tag * `TaggedItem` - TaggedItem * `Subscription` - Subscription * `PersonalAPIKey` - PersonalAPIKey * `ProjectSecretAPIKey` - ProjectSecretAPIKey * `OAuthApplication` - OAuthApplication * `User` - User * `Action` - Action * `AlertConfiguration` - AlertConfiguration * `Threshold` - Threshold * `AlertSubscription` - AlertSubscription * `ExternalDataSource` - ExternalDataSource * `ExternalDataSchema` - ExternalDataSchema * `Evaluation` - Evaluation * `EvaluationDirectory` - EvaluationDirectory * `LLMPrompt` - LLMPrompt * `LLMPromptLabel` - LLMPromptLabel * `LLMTrace` - LLMTrace * `AIGatewayCredit` - AIGatewayCredit * `WebAnalyticsFilterPreset` - WebAnalyticsFilterPreset * `CustomerProfileConfig` - CustomerProfileConfig * `Log` - Log * `LogsAlertConfiguration` - LogsAlertConfiguration * `LogsExclusionRule` - LogsExclusionRule * `LogsRetentionRule` - LogsRetentionRule * `DashboardWidget` - DashboardWidget * `ProductTour` - ProductTour * `Ticket` - Ticket * `InstanceSetting` - InstanceSetting * `SignalReport` - SignalReport * `SignalScoutConfig` - SignalScoutConfig * `SignalTeamConfig` - SignalTeamConfig * `StreamlitApp` - StreamlitApp * `Metric` - Metric * `TableCertification` - TableCertification * `DataQualityCheck` - DataQualityCheck * `Billing` - Billing * `Loop` - Loop * `StamphogRepoConfig` - StamphogRepoConfig */
+export type ListActivityLogRequestScopesItem =
   | "Cohort"
   | "FeatureFlag"
   | "Person"
@@ -121,6 +141,7 @@ export type ActivityLogListRequestScopesItem =
   | "EventDefinition"
   | "PropertyDefinition"
   | "Notebook"
+  | "Canvas"
   | "Endpoint"
   | "EndpointVersion"
   | "Dashboard"
@@ -135,10 +156,12 @@ export type ActivityLogListRequestScopesItem =
   | "Team"
   | "Project"
   | "ErrorTrackingIssue"
+  | "DataWarehouseExpression"
   | "DataWarehouseSavedQuery"
   | "LegalDocument"
   | "Organization"
   | "OrganizationDomain"
+  | "IdentityProviderConfig"
   | "OrganizationMembership"
   | "Role"
   | "UserGroup"
@@ -161,50 +184,67 @@ export type ActivityLogListRequestScopesItem =
   | "ExternalDataSource"
   | "ExternalDataSchema"
   | "Evaluation"
+  | "EvaluationDirectory"
+  | "LLMPrompt"
+  | "LLMPromptLabel"
   | "LLMTrace"
+  | "AIGatewayCredit"
   | "WebAnalyticsFilterPreset"
   | "CustomerProfileConfig"
   | "Log"
   | "LogsAlertConfiguration"
   | "LogsExclusionRule"
+  | "LogsRetentionRule"
   | "DashboardWidget"
   | "ProductTour"
   | "Ticket"
   | "InstanceSetting"
-  | "SignalScoutConfig";
-export const ActivityLogListRequestScopesItem = /*@__PURE__*/ S.String;
+  | "SignalReport"
+  | "SignalScoutConfig"
+  | "SignalTeamConfig"
+  | "StreamlitApp"
+  | "Metric"
+  | "TableCertification"
+  | "DataQualityCheck"
+  | "Billing"
+  | "Loop"
+  | "StamphogRepoConfig";
+export const ListActivityLogRequestScopesItem = S.String;
 
-export type ActivityLogListRequestScopesList = Array<
-  ActivityLogListRequestScopesItem | (string & {})
+export type ListActivityLogRequestScopesList = Array<
+  ListActivityLogRequestScopesItem | (string & {})
 >;
-export const ActivityLogListRequestScopesList = /*@__PURE__*/ S.Array(
-  ActivityLogListRequestScopesItem,
-) as any as S.Schema<ActivityLogListRequestScopesList>;
+export const ListActivityLogRequestScopesList = /*@__PURE__*/ S.Array(
+  ListActivityLogRequestScopesItem,
+) as any as S.Schema<ListActivityLogRequestScopesList>;
 
-export interface ActivityLogListRequest {
+export interface ListActivityLogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter by the ID of the affected resource. */
   item_id?: string;
+  /** Sort by when the entry was created. Defaults to newest first. Use created_at for oldest first when polling for new entries, so a saved cursor picks up where the last request stopped. * `-created_at` - -created_at * `created_at` - created_at */
+  ordering?: ListActivityLogRequestOrdering | (string & {});
   /** Page number for pagination. When provided, uses page-based pagination ordered by most recent first. */
   page?: number;
-  /** Number of results per page (default: 100, max: 1000). Only used with page-based pagination. */
+  /** Number of results per page (default: 100, max: 1000). */
   page_size?: number;
-  /** Filter by a single activity scope, e.g. "FeatureFlag", "Insight", "Dashboard", "Experiment". * `Cohort` - Cohort * `FeatureFlag` - FeatureFlag * `Person` - Person * `Group` - Group * `Insight` - Insight * `Plugin` - Plugin * `PluginConfig` - PluginConfig * `HogFunction` - HogFunction * `HogFlow` - HogFlow * `DataManagement` - DataManagement * `EventDefinition` - EventDefinition * `PropertyDefinition` - PropertyDefinition * `Notebook` - Notebook * `Endpoint` - Endpoint * `EndpointVersion` - EndpointVersion * `Dashboard` - Dashboard * `Replay` - Replay * `Experiment` - Experiment * `ExperimentHoldout` - ExperimentHoldout * `ExperimentSavedMetric` - ExperimentSavedMetric * `Survey` - Survey * `EarlyAccessFeature` - EarlyAccessFeature * `SessionRecordingPlaylist` - SessionRecordingPlaylist * `Comment` - Comment * `Team` - Team * `Project` - Project * `ErrorTrackingIssue` - ErrorTrackingIssue * `DataWarehouseSavedQuery` - DataWarehouseSavedQuery * `LegalDocument` - LegalDocument * `Organization` - Organization * `OrganizationDomain` - OrganizationDomain * `OrganizationMembership` - OrganizationMembership * `Role` - Role * `UserGroup` - UserGroup * `BatchExport` - BatchExport * `BatchImport` - BatchImport * `ExportedAsset` - ExportedAsset * `Integration` - Integration * `Annotation` - Annotation * `Tag` - Tag * `TaggedItem` - TaggedItem * `Subscription` - Subscription * `PersonalAPIKey` - PersonalAPIKey * `ProjectSecretAPIKey` - ProjectSecretAPIKey * `OAuthApplication` - OAuthApplication * `User` - User * `Action` - Action * `AlertConfiguration` - AlertConfiguration * `Threshold` - Threshold * `AlertSubscription` - AlertSubscription * `ExternalDataSource` - ExternalDataSource * `ExternalDataSchema` - ExternalDataSchema * `Evaluation` - Evaluation * `LLMTrace` - LLMTrace * `WebAnalyticsFilterPreset` - WebAnalyticsFilterPreset * `CustomerProfileConfig` - CustomerProfileConfig * `Log` - Log * `LogsAlertConfiguration` - LogsAlertConfiguration * `LogsExclusionRule` - LogsExclusionRule * `DashboardWidget` - DashboardWidget * `ProductTour` - ProductTour * `Ticket` - Ticket * `InstanceSetting` - InstanceSetting * `SignalScoutConfig` - SignalScoutConfig */
-  scope?: ActivityLogListRequestScope | (string & {});
+  /** Filter by a single activity scope, e.g. "FeatureFlag", "Insight", "Dashboard", "Experiment". * `Cohort` - Cohort * `FeatureFlag` - FeatureFlag * `Person` - Person * `Group` - Group * `Insight` - Insight * `Plugin` - Plugin * `PluginConfig` - PluginConfig * `HogFunction` - HogFunction * `HogFlow` - HogFlow * `DataManagement` - DataManagement * `EventDefinition` - EventDefinition * `PropertyDefinition` - PropertyDefinition * `Notebook` - Notebook * `Canvas` - Canvas * `Endpoint` - Endpoint * `EndpointVersion` - EndpointVersion * `Dashboard` - Dashboard * `Replay` - Replay * `Experiment` - Experiment * `ExperimentHoldout` - ExperimentHoldout * `ExperimentSavedMetric` - ExperimentSavedMetric * `Survey` - Survey * `EarlyAccessFeature` - EarlyAccessFeature * `SessionRecordingPlaylist` - SessionRecordingPlaylist * `Comment` - Comment * `Team` - Team * `Project` - Project * `ErrorTrackingIssue` - ErrorTrackingIssue * `DataWarehouseExpression` - DataWarehouseExpression * `DataWarehouseSavedQuery` - DataWarehouseSavedQuery * `LegalDocument` - LegalDocument * `Organization` - Organization * `OrganizationDomain` - OrganizationDomain * `IdentityProviderConfig` - IdentityProviderConfig * `OrganizationMembership` - OrganizationMembership * `Role` - Role * `UserGroup` - UserGroup * `BatchExport` - BatchExport * `BatchImport` - BatchImport * `ExportedAsset` - ExportedAsset * `Integration` - Integration * `Annotation` - Annotation * `Tag` - Tag * `TaggedItem` - TaggedItem * `Subscription` - Subscription * `PersonalAPIKey` - PersonalAPIKey * `ProjectSecretAPIKey` - ProjectSecretAPIKey * `OAuthApplication` - OAuthApplication * `User` - User * `Action` - Action * `AlertConfiguration` - AlertConfiguration * `Threshold` - Threshold * `AlertSubscription` - AlertSubscription * `ExternalDataSource` - ExternalDataSource * `ExternalDataSchema` - ExternalDataSchema * `Evaluation` - Evaluation * `EvaluationDirectory` - EvaluationDirectory * `LLMPrompt` - LLMPrompt * `LLMPromptLabel` - LLMPromptLabel * `LLMTrace` - LLMTrace * `AIGatewayCredit` - AIGatewayCredit * `WebAnalyticsFilterPreset` - WebAnalyticsFilterPreset * `CustomerProfileConfig` - CustomerProfileConfig * `Log` - Log * `LogsAlertConfiguration` - LogsAlertConfiguration * `LogsExclusionRule` - LogsExclusionRule * `LogsRetentionRule` - LogsRetentionRule * `DashboardWidget` - DashboardWidget * `ProductTour` - ProductTour * `Ticket` - Ticket * `InstanceSetting` - InstanceSetting * `SignalReport` - SignalReport * `SignalScoutConfig` - SignalScoutConfig * `SignalTeamConfig` - SignalTeamConfig * `StreamlitApp` - StreamlitApp * `Metric` - Metric * `TableCertification` - TableCertification * `DataQualityCheck` - DataQualityCheck * `Billing` - Billing * `Loop` - Loop * `StamphogRepoConfig` - StamphogRepoConfig */
+  scope?: ListActivityLogRequestScope | (string & {});
   /** Filter by multiple activity scopes, comma-separated. Values must be valid ActivityScope enum values. E.g. "FeatureFlag,Insight". */
-  scopes?: ActivityLogListRequestScopesList;
+  scopes?: ListActivityLogRequestScopesList;
   /** Filter by user UUID who performed the action. */
   user?: string;
 }
-export const ActivityLogListRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListActivityLogRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     item_id: S.optional(S.String.pipe(T.Query())),
+    ordering: S.optional(ListActivityLogRequestOrdering.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
-    scope: S.optional(ActivityLogListRequestScope.pipe(T.Query())),
-    scopes: S.optional(ActivityLogListRequestScopesList.pipe(T.Query())),
+    scope: S.optional(ListActivityLogRequestScope.pipe(T.Query())),
+    scopes: S.optional(ListActivityLogRequestScopesList.pipe(T.Query())),
     user: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -214,8 +254,8 @@ export const ActivityLogListRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "ActivityLogListRequest",
-}) as any as S.Schema<ActivityLogListRequest>;
+  identifier: "ListActivityLogRequest",
+}) as any as S.Schema<ListActivityLogRequest>;
 
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
@@ -223,7 +263,7 @@ export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<UserBasicHedgehogConfigMap>;
 
-/** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `other` - Other */
+/** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
 export type RoleAtOrganizationEnum =
   | "engineering"
   | "data"
@@ -232,15 +272,16 @@ export type RoleAtOrganizationEnum =
   | "leadership"
   | "marketing"
   | "sales"
+  | "student"
   | "other";
-export const RoleAtOrganizationEnum = /*@__PURE__*/ S.String;
+export const RoleAtOrganizationEnum = S.String;
 
 export type BlankEnum = "";
-export const BlankEnum = /*@__PURE__*/ S.String;
+export const BlankEnum = S.String;
 
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export const UserBasicRoleAtOrganization =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<UserBasicRoleAtOrganization>;
+  S.Unknown as any as S.Schema<UserBasicRoleAtOrganization>;
 
 export interface UserBasic {
   id?: number;
@@ -309,34 +350,34 @@ export const PaginatedActivityLogListResultsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<PaginatedActivityLogListResultsList>;
 
 export interface PaginatedActivityLogList {
-  count?: number;
   next?: string | null;
   previous?: string | null;
   results?: PaginatedActivityLogListResultsList;
+  count?: number;
 }
 export const PaginatedActivityLogList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    count: S.optional(S.Number),
     next: S.optional(S.NullOr(S.String)),
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedActivityLogListResultsList),
+    count: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "PaginatedActivityLogList",
 }) as any as S.Schema<PaginatedActivityLogList>;
 
-export type ActivityLogListError =
+export type ListActivityLogError =
   | BadRequest
   | Forbidden
   | NotFound
   | PosthogOpError;
-export const activityLogList: API.OperationMethod<
-  ActivityLogListRequest,
+export const listActivityLog: API.OperationMethod<
+  ListActivityLogRequest,
   PaginatedActivityLogList,
-  ActivityLogListError,
+  ListActivityLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ActivityLogListRequest,
+  input: ListActivityLogRequest,
   output: PaginatedActivityLogList,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,

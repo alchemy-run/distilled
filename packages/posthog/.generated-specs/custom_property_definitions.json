@@ -14,10 +14,11 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.custom_property_definitions#CustomPropertyDefinitionsListRequest": {
+    "com.posthog.custom_property_definitions#ListCustomPropertyDefinitionsRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -103,14 +104,49 @@
         "display_type": {
           "target": "com.posthog.custom_property_definitions#CustomPropertyDisplayTypeEnum",
           "traits": {
-            "smithy.api#documentation": "How the property is interpreted and rendered: 'text', 'number', 'currency', 'percent', 'date', 'datetime', or 'boolean'.\n\n* `text` - text\n* `number` - number\n* `currency` - currency\n* `percent` - percent\n* `date` - date\n* `datetime` - datetime\n* `boolean` - boolean",
+            "smithy.api#documentation": "How the property is interpreted and rendered: 'text', 'link', 'number', 'currency', 'percent', 'date', 'datetime', 'boolean', or 'select'. Links require an HTTP or HTTPS URL.\n\n* `text` - text\n* `link` - link\n* `number` - number\n* `currency` - currency\n* `percent` - percent\n* `date` - date\n* `datetime` - datetime\n* `boolean` - boolean\n* `select` - select",
             "smithy.api#required": {}
+          }
+        },
+        "target_type": {
+          "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionTargetTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "What entity this property is attached to: 'account' (default), 'person', or 'group'. Person and group properties are populated from a warehouse schema and become usable like any other person/group property (feature flags, cohorts, insights).\n\n* `account` - account\n* `person` - person\n* `group` - group"
+          }
+        },
+        "group_type_index": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "For 'group' targets only: which group type (0-4) the property attaches to. Required when target_type is 'group'; must be omitted otherwise. Create-only.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "is_big_number": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Abbreviate large numbers (e.g. 10,000 → 10K). Only applies to numeric properties."
+          }
+        },
+        "is_canonical": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when PostHog writes this property itself. Its name and display type are fixed — an update changing either is rejected.",
+            "smithy.api#required": {}
+          }
+        },
+        "options": {
+          "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionOptionsList",
+          "traits": {
+            "smithy.api#documentation": "For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.posthog.custom_property_definitions#CustomPropertySource",
+          "traits": {
+            "smithy.api#documentation": "The data-warehouse view-sync binding feeding this property, or null when values are set manually.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "created_at": {
@@ -132,10 +168,24 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "references": {
+          "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionReferencesList",
+          "traits": {
+            "smithy.api#documentation": "Workflows that use this property, resolved by definition id when the caller can view workflows.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_workflow_reference": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a workflow updates this property. Always returned, even when workflow details are hidden.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A team-scoped definition of a custom account property — the attribute side of the model.\n\nHolds only the property's shape (name, display type, big-number flag). Per-account values are\nstored separately, so this serializer never reads or writes account values. The numeric-only\nbig-number rule and the unique-name conflict are enforced behind the facade."
+        "smithy.api#documentation": "A team-scoped definition of a custom account property — the attribute side of the model.\n\nHolds only the property's shape (name, display type, big-number flag). Per-account values are\nstored separately, so this serializer never reads or writes account values."
       }
     },
     "com.posthog.custom_property_definitions#CustomPropertyDisplayTypeEnum": {
@@ -145,6 +195,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "text"
+          }
+        },
+        "LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link"
           }
         },
         "NUMBER": {
@@ -182,10 +238,553 @@
           "traits": {
             "smithy.api#enumValue": "boolean"
           }
+        },
+        "SELECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "select"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `text` - text\n* `number` - number\n* `currency` - currency\n* `percent` - percent\n* `date` - date\n* `datetime` - datetime\n* `boolean` - boolean"
+        "smithy.api#documentation": "* `text` - text\n* `link` - link\n* `number` - number\n* `currency` - currency\n* `percent` - percent\n* `date` - date\n* `datetime` - datetime\n* `boolean` - boolean\n* `select` - select"
+      }
+    },
+    "com.posthog.custom_property_definitions#CustomPropertyDefinitionTargetTypeEnum": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "PERSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "person"
+          }
+        },
+        "GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `account` - account\n* `person` - person\n* `group` - group"
+      }
+    },
+    "com.posthog.custom_property_definitions#CustomPropertyOption": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server-assigned stable id of the option. Omit for new options; send it back unchanged when editing so renames and removals can be told apart.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display label of the option. Stored as the account's value when picked.",
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.posthog.custom_property_definitions#CustomPropertyOptionColorEnum",
+          "traits": {
+            "smithy.api#documentation": "Preset color token used to render the option ('preset-1' through 'preset-10').\n\n* `preset-1` - preset-1\n* `preset-2` - preset-2\n* `preset-3` - preset-3\n* `preset-4` - preset-4\n* `preset-5` - preset-5\n* `preset-6` - preset-6\n* `preset-7` - preset-7\n* `preset-8` - preset-8\n* `preset-9` - preset-9\n* `preset-10` - preset-10",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An allowed value of a select custom property."
+      }
+    },
+    "com.posthog.custom_property_definitions#CustomPropertyOptionColorEnum": {
+      "type": "enum",
+      "members": {
+        "PRESET_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preset-1"
+          }
+        },
+        "PRESET_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preset-2"
+          }
+        },
+        "PRESET_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preset-3"
+          }
+        },
+        "PRESET_4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preset-4"
+          }
+        },
+        "PRESET_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preset-5"
+          }
+        },
+        "PRESET_6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preset-6"
+          }
+        },
+        "PRESET_7": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preset-7"
+          }
+        },
+        "PRESET_8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preset-8"
+          }
+        },
+        "PRESET_9": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preset-9"
+          }
+        },
+        "PRESET_10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preset-10"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `preset-1` - preset-1\n* `preset-2` - preset-2\n* `preset-3` - preset-3\n* `preset-4` - preset-4\n* `preset-5` - preset-5\n* `preset-6` - preset-6\n* `preset-7` - preset-7\n* `preset-8` - preset-8\n* `preset-9` - preset-9\n* `preset-10` - preset-10"
+      }
+    },
+    "com.posthog.custom_property_definitions#CustomPropertyDefinitionOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.custom_property_definitions#CustomPropertyOption"
+      },
+      "traits": {
+        "smithy.api#documentation": "For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types."
+      }
+    },
+    "com.posthog.custom_property_definitions#CustomPropertySource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "definition": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the custom property definition this source feeds. One source per definition.",
+            "smithy.api#required": {}
+          }
+        },
+        "saved_query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the data-warehouse saved query to read from. Required for an account source. For a person or group source it must be a materialized view, and is one of the two binding options. Mutually exclusive with external_data_schema.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "external_data_schema": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Person and group sources only: UUID of the warehouse schema (an imported table) to read from. Mutually exclusive with saved_query; a person or group source sets exactly one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_column": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account sources only: column in the view whose value is written to the property.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "column_property_map": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Person and group sources only: {warehouse_column: property_name} mapping the columns this source writes onto the person or group."
+          }
+        },
+        "column_descriptions": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. Create-only."
+          }
+        },
+        "key_column": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Column whose value identifies the target: an account's external_id for account sources, the person's distinct_id for person sources, or the group key for group sources.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the source syncs. Auto-disabled after repeated failures or a missing view; re-enabling resets the failure count."
+          }
+        },
+        "consecutive_failures": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Consecutive failed sync runs; the source auto-disables at the cap.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_synced_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the most recent sync run finished.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_sync_error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error summary from the last run, or null if it succeeded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sync_frequency_interval_seconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Person and group sources only: how often the bound table or view runs, in seconds. Null for account sources, or when the schedule is unavailable — including a view whose frequency is set on its data-modeling DAG.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "next_sync_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Person and group sources only: approximate time of the next scheduled run (last run + interval). Approximate — drifts if the schedule was paused. Null for account sources, if never run, or when the interval is unavailable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "latest_run": {
+          "target": "com.posthog.custom_property_definitions#CustomPropertySyncRun",
+          "traits": {
+            "smithy.api#documentation": "Person and group sources only: the most recent sync/backfill run, or null if none yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "external_data_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Table-bound person and group sources only: UUID of the warehouse source owning the schema, so the UI can link to the table. Null for account sources, view-bound sources, or when unavailable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "table_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Person and group sources only: what this source reads, as it is named in HogQL — the imported table, or the view. Null for account sources or when unavailable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "saved_query_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "View-bound person and group sources only: the materialized view's name, so the UI can tell a view-backed source from a table-backed one. Null for account and table-bound sources.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Binds warehouse columns to a custom property definition. Account sources read a materialized\nview column and sync onto matching accounts; person and group sources read either an imported\nwarehouse table or a materialized view, and sync onto matching persons or groups on every\nwarehouse run of what they read."
+      }
+    },
+    "com.posthog.custom_property_definitions#CustomPropertySyncRun": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Warehouse import or materialization job associated with the run, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "account_segment": {
+          "target": "com.posthog.custom_property_definitions#SyncSegmentEnum",
+          "traits": {
+            "smithy.api#documentation": "Account segment processed by this run. Person and group property runs return null.\n\n* `tracked` - tracked\n* `ignored` - ignored",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sync_phase": {
+          "target": "com.posthog.custom_property_definitions#SyncPhaseEnum",
+          "traits": {
+            "smithy.api#documentation": "Current account sync phase. Person and group property runs return null.\n\n* `staging` - staging\n* `dispatching` - dispatching\n* `syncing` - syncing\n* `completed` - completed",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Latest Temporal activity attempt for the current account sync phase.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "workflow_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporal workflow identifier associated with the current account sync phase.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "workflow_run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporal run identifier associated with the current account sync phase.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "temporal_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Staff-only link to this run in Temporal. Null for non-staff users and runs without a Temporal ID.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trigger": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What started the run: 'scheduled' (rode a warehouse sync), 'sync' (a warehouse sync started from the UI), 'manual' (a backfill started from the UI), or 'backfill' (the automatic backfill run when a mapping is created or re-enabled).",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Run status: 'running', 'completed', or 'failed'.",
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the run began.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the run ended, or null while running.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rows_read": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Warehouse rows scanned this run.",
+            "smithy.api#required": {}
+          }
+        },
+        "changed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rows whose mapped values changed since the last run.",
+            "smithy.api#required": {}
+          }
+        },
+        "existing": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Changed rows that matched an existing account, person, or group.",
+            "smithy.api#required": {}
+          }
+        },
+        "produced": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Property updates written or produced to the ingestion pipeline.",
+            "smithy.api#required": {}
+          }
+        },
+        "skipped_missing_person": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Changed rows skipped because no existing account, person, or group matched the key column value.",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error summary if the run failed, else null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the run row was recorded.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One warehouse-backed custom property sync run."
+      }
+    },
+    "com.posthog.custom_property_definitions#SyncSegmentEnum": {
+      "type": "enum",
+      "members": {
+        "TRACKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tracked"
+          }
+        },
+        "IGNORED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ignored"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `tracked` - tracked\n* `ignored` - ignored"
+      }
+    },
+    "com.posthog.custom_property_definitions#SyncPhaseEnum": {
+      "type": "enum",
+      "members": {
+        "STAGING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "staging"
+          }
+        },
+        "DISPATCHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dispatching"
+          }
+        },
+        "SYNCING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "syncing"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `staging` - staging\n* `dispatching` - dispatching\n* `syncing` - syncing\n* `completed` - completed"
+      }
+    },
+    "com.posthog.custom_property_definitions#CustomPropertyReference": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the referring entity (e.g. the workflow id).",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the referring entity.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status of the referring entity (e.g. workflow status).",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Kind of reference. Currently always 'workflow'.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A place that uses a custom property definition (read-only)."
+      }
+    },
+    "com.posthog.custom_property_definitions#CustomPropertyDefinitionReferencesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.custom_property_definitions#CustomPropertyReference"
+      },
+      "traits": {
+        "smithy.api#documentation": "Workflows that use this property, resolved by definition id when the caller can view workflows."
       }
     },
     "com.posthog.custom_property_definitions#PaginatedCustomPropertyDefinitionListResultsList": {
@@ -195,10 +794,10 @@
       },
       "traits": {}
     },
-    "com.posthog.custom_property_definitions#CustomPropertyDefinitionsList": {
+    "com.posthog.custom_property_definitions#ListCustomPropertyDefinitions": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionsListRequest"
+        "target": "com.posthog.custom_property_definitions#ListCustomPropertyDefinitionsRequest"
       },
       "output": {
         "target": "com.posthog.custom_property_definitions#PaginatedCustomPropertyDefinitionList"
@@ -211,7 +810,16 @@
         }
       }
     },
-    "com.posthog.custom_property_definitions#CustomPropertyDefinitionsCreateRequest": {
+    "com.posthog.custom_property_definitions#CreateCustomPropertyDefinitionRequestOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.custom_property_definitions#CustomPropertyOption"
+      },
+      "traits": {
+        "smithy.api#documentation": "For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types."
+      }
+    },
+    "com.posthog.custom_property_definitions#CreateCustomPropertyDefinitionRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -239,8 +847,21 @@
         "display_type": {
           "target": "com.posthog.custom_property_definitions#CustomPropertyDisplayTypeEnum",
           "traits": {
-            "smithy.api#documentation": "How the property is interpreted and rendered: 'text', 'number', 'currency', 'percent', 'date', 'datetime', or 'boolean'.\n\n* `text` - text\n* `number` - number\n* `currency` - currency\n* `percent` - percent\n* `date` - date\n* `datetime` - datetime\n* `boolean` - boolean",
+            "smithy.api#documentation": "How the property is interpreted and rendered: 'text', 'link', 'number', 'currency', 'percent', 'date', 'datetime', 'boolean', or 'select'. Links require an HTTP or HTTPS URL.\n\n* `text` - text\n* `link` - link\n* `number` - number\n* `currency` - currency\n* `percent` - percent\n* `date` - date\n* `datetime` - datetime\n* `boolean` - boolean\n* `select` - select",
             "smithy.api#required": {}
+          }
+        },
+        "target_type": {
+          "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionTargetTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "What entity this property is attached to: 'account' (default), 'person', or 'group'. Person and group properties are populated from a warehouse schema and become usable like any other person/group property (feature flags, cohorts, insights).\n\n* `account` - account\n* `person` - person\n* `group` - group"
+          }
+        },
+        "group_type_index": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "For 'group' targets only: which group type (0-4) the property attaches to. Required when target_type is 'group'; must be omitted otherwise. Create-only.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "is_big_number": {
@@ -248,16 +869,23 @@
           "traits": {
             "smithy.api#documentation": "Abbreviate large numbers (e.g. 10,000 → 10K). Only applies to numeric properties."
           }
+        },
+        "options": {
+          "target": "com.posthog.custom_property_definitions#CreateCustomPropertyDefinitionRequestOptionsList",
+          "traits": {
+            "smithy.api#documentation": "For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.custom_property_definitions#CustomPropertyDefinitionsCreate": {
+    "com.posthog.custom_property_definitions#CreateCustomPropertyDefinition": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionsCreateRequest"
+        "target": "com.posthog.custom_property_definitions#CreateCustomPropertyDefinitionRequest"
       },
       "output": {
         "target": "com.posthog.custom_property_definitions#CustomPropertyDefinition"
@@ -270,7 +898,7 @@
         }
       }
     },
-    "com.posthog.custom_property_definitions#CustomPropertyDefinitionsRetrieveRequest": {
+    "com.posthog.custom_property_definitions#GetCustomPropertyDefinitionRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -293,10 +921,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.custom_property_definitions#CustomPropertyDefinitionsRetrieve": {
+    "com.posthog.custom_property_definitions#GetCustomPropertyDefinition": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionsRetrieveRequest"
+        "target": "com.posthog.custom_property_definitions#GetCustomPropertyDefinitionRequest"
       },
       "output": {
         "target": "com.posthog.custom_property_definitions#CustomPropertyDefinition"
@@ -309,7 +937,16 @@
         }
       }
     },
-    "com.posthog.custom_property_definitions#CustomPropertyDefinitionsUpdateRequest": {
+    "com.posthog.custom_property_definitions#UpdateCustomPropertyDefinitionRequestOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.custom_property_definitions#CustomPropertyOption"
+      },
+      "traits": {
+        "smithy.api#documentation": "For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types."
+      }
+    },
+    "com.posthog.custom_property_definitions#UpdateCustomPropertyDefinitionRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -344,8 +981,21 @@
         "display_type": {
           "target": "com.posthog.custom_property_definitions#CustomPropertyDisplayTypeEnum",
           "traits": {
-            "smithy.api#documentation": "How the property is interpreted and rendered: 'text', 'number', 'currency', 'percent', 'date', 'datetime', or 'boolean'.\n\n* `text` - text\n* `number` - number\n* `currency` - currency\n* `percent` - percent\n* `date` - date\n* `datetime` - datetime\n* `boolean` - boolean",
+            "smithy.api#documentation": "How the property is interpreted and rendered: 'text', 'link', 'number', 'currency', 'percent', 'date', 'datetime', 'boolean', or 'select'. Links require an HTTP or HTTPS URL.\n\n* `text` - text\n* `link` - link\n* `number` - number\n* `currency` - currency\n* `percent` - percent\n* `date` - date\n* `datetime` - datetime\n* `boolean` - boolean\n* `select` - select",
             "smithy.api#required": {}
+          }
+        },
+        "target_type": {
+          "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionTargetTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "What entity this property is attached to: 'account' (default), 'person', or 'group'. Person and group properties are populated from a warehouse schema and become usable like any other person/group property (feature flags, cohorts, insights).\n\n* `account` - account\n* `person` - person\n* `group` - group"
+          }
+        },
+        "group_type_index": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "For 'group' targets only: which group type (0-4) the property attaches to. Required when target_type is 'group'; must be omitted otherwise. Create-only.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "is_big_number": {
@@ -353,16 +1003,23 @@
           "traits": {
             "smithy.api#documentation": "Abbreviate large numbers (e.g. 10,000 → 10K). Only applies to numeric properties."
           }
+        },
+        "options": {
+          "target": "com.posthog.custom_property_definitions#UpdateCustomPropertyDefinitionRequestOptionsList",
+          "traits": {
+            "smithy.api#documentation": "For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.custom_property_definitions#CustomPropertyDefinitionsUpdate": {
+    "com.posthog.custom_property_definitions#UpdateCustomPropertyDefinition": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionsUpdateRequest"
+        "target": "com.posthog.custom_property_definitions#UpdateCustomPropertyDefinitionRequest"
       },
       "output": {
         "target": "com.posthog.custom_property_definitions#CustomPropertyDefinition"
@@ -375,7 +1032,16 @@
         }
       }
     },
-    "com.posthog.custom_property_definitions#CustomPropertyDefinitionsPartialUpdateRequest": {
+    "com.posthog.custom_property_definitions#UpdateCustomPropertyDefinitionsPartialRequestOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.custom_property_definitions#CustomPropertyOption"
+      },
+      "traits": {
+        "smithy.api#documentation": "For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types."
+      }
+    },
+    "com.posthog.custom_property_definitions#UpdateCustomPropertyDefinitionsPartialRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -409,7 +1075,20 @@
         "display_type": {
           "target": "com.posthog.custom_property_definitions#CustomPropertyDisplayTypeEnum",
           "traits": {
-            "smithy.api#documentation": "How the property is interpreted and rendered: 'text', 'number', 'currency', 'percent', 'date', 'datetime', or 'boolean'.\n\n* `text` - text\n* `number` - number\n* `currency` - currency\n* `percent` - percent\n* `date` - date\n* `datetime` - datetime\n* `boolean` - boolean"
+            "smithy.api#documentation": "How the property is interpreted and rendered: 'text', 'link', 'number', 'currency', 'percent', 'date', 'datetime', 'boolean', or 'select'. Links require an HTTP or HTTPS URL.\n\n* `text` - text\n* `link` - link\n* `number` - number\n* `currency` - currency\n* `percent` - percent\n* `date` - date\n* `datetime` - datetime\n* `boolean` - boolean\n* `select` - select"
+          }
+        },
+        "target_type": {
+          "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionTargetTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "What entity this property is attached to: 'account' (default), 'person', or 'group'. Person and group properties are populated from a warehouse schema and become usable like any other person/group property (feature flags, cohorts, insights).\n\n* `account` - account\n* `person` - person\n* `group` - group"
+          }
+        },
+        "group_type_index": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "For 'group' targets only: which group type (0-4) the property attaches to. Required when target_type is 'group'; must be omitted otherwise. Create-only.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "is_big_number": {
@@ -417,16 +1096,23 @@
           "traits": {
             "smithy.api#documentation": "Abbreviate large numbers (e.g. 10,000 → 10K). Only applies to numeric properties."
           }
+        },
+        "options": {
+          "target": "com.posthog.custom_property_definitions#UpdateCustomPropertyDefinitionsPartialRequestOptionsList",
+          "traits": {
+            "smithy.api#documentation": "For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.custom_property_definitions#CustomPropertyDefinitionsPartialUpdate": {
+    "com.posthog.custom_property_definitions#UpdateCustomPropertyDefinitionsPartial": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionsPartialUpdateRequest"
+        "target": "com.posthog.custom_property_definitions#UpdateCustomPropertyDefinitionsPartialRequest"
       },
       "output": {
         "target": "com.posthog.custom_property_definitions#CustomPropertyDefinition"
@@ -478,27 +1164,123 @@
         }
       }
     },
+    "com.posthog.custom_property_definitions#GetCustomPropertyDefinitionsValueRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "key",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Id of the custom property definition to suggest values for."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "value",
+            "smithy.api#documentation": "Case-insensitive substring to narrow the suggestions."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.custom_property_definitions#CustomPropertyValueSuggestionsResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.custom_property_definitions#CustomPropertyValueSuggestionsResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "Suggested values matching the search input.",
+            "smithy.api#required": {}
+          }
+        },
+        "refreshing": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always false — present for compatibility with the property-values consumer.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response shape of the custom property value-suggestions endpoint.\n\nMatches the contract of the shared property-values picker (``propertyDefinitionsModel``\non the frontend), which expects ``{results: [{name}], refreshing}``."
+      }
+    },
+    "com.posthog.custom_property_definitions#CustomPropertyValueSuggestion": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A suggested value for the custom property.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One suggested filter value for a custom property."
+      }
+    },
+    "com.posthog.custom_property_definitions#CustomPropertyValueSuggestionsResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.custom_property_definitions#CustomPropertyValueSuggestion"
+      },
+      "traits": {
+        "smithy.api#documentation": "Suggested values matching the search input."
+      }
+    },
+    "com.posthog.custom_property_definitions#GetCustomPropertyDefinitionsValue": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.custom_property_definitions#GetCustomPropertyDefinitionsValueRequest"
+      },
+      "output": {
+        "target": "com.posthog.custom_property_definitions#CustomPropertyValueSuggestionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/custom_property_definitions/values/",
+          "code": 200
+        }
+      }
+    },
     "com.posthog.custom_property_definitions#CustomPropertyDefinitions": {
       "type": "service",
       "version": "1.0.0",
       "operations": [
         {
-          "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionsList"
+          "target": "com.posthog.custom_property_definitions#ListCustomPropertyDefinitions"
         },
         {
-          "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionsCreate"
+          "target": "com.posthog.custom_property_definitions#CreateCustomPropertyDefinition"
         },
         {
-          "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionsRetrieve"
+          "target": "com.posthog.custom_property_definitions#GetCustomPropertyDefinition"
         },
         {
-          "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionsUpdate"
+          "target": "com.posthog.custom_property_definitions#UpdateCustomPropertyDefinition"
         },
         {
-          "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionsPartialUpdate"
+          "target": "com.posthog.custom_property_definitions#UpdateCustomPropertyDefinitionsPartial"
         },
         {
           "target": "com.posthog.custom_property_definitions#CustomPropertyDefinitionsDestroy"
+        },
+        {
+          "target": "com.posthog.custom_property_definitions#GetCustomPropertyDefinitionsValue"
         }
       ],
       "traits": {

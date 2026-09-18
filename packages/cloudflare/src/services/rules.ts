@@ -61,7 +61,7 @@ export class ListNotFound
   ) {}
 
 export type ListsCreateRequestKind = "ip" | "redirect" | "hostname" | "asn";
-export const ListsCreateRequestKind = /*@__PURE__*/ S.String;
+export const ListsCreateRequestKind = S.String;
 
 export interface CreateListRequest {
   /** The Account ID for this resource. */
@@ -93,7 +93,7 @@ export const CreateListRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateListRequest>;
 
 export type ListsCreateResponseKind = "ip" | "redirect" | "hostname" | "asn";
-export const ListsCreateResponseKind = /*@__PURE__*/ S.String;
+export const ListsCreateResponseKind = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateListResponse {
@@ -109,7 +109,7 @@ export interface CreateListResponse {
   name: string;
   /** The number of items in the list. */
   numItems: number;
-  /** The number of [filters](/api/resources/filters/) referencing the list. */
+  /** The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
   description?: string | null;
@@ -146,9 +146,12 @@ export const ListsItemsCreateRequestBodyItemListsListItemIPComment =
   }) as any as S.Schema<ListsItemsCreateRequestBodyItemListsListItemIPComment>;
 
 export type ListsItemsCreateRequestBodyItemListsListItemRedirectCommentRedirectStatusCode =
-  301 | 302 | 307 | 308;
+  | 301
+  | 302
+  | 307
+  | 308;
 export const ListsItemsCreateRequestBodyItemListsListItemRedirectCommentRedirectStatusCode =
-  /*@__PURE__*/ S.Number;
+  S.Number;
 
 export interface ListsItemsCreateRequestBodyItemListsListItemRedirectCommentRedirect {
   sourceUrl: string;
@@ -206,7 +209,7 @@ export const ListsItemsCreateRequestBodyItemListsListItemRedirectComment =
 
 export interface ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname {
   urlHostname: string;
-  /** Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked. */
+  /** Only applies to wildcard hostnames (e.g., *.example.com). When true (default), the rule blocks only subdomains. When false, the rule blocks both the root domain and subdomains. */
   excludeExactHostname?: boolean;
 }
 export const ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname =
@@ -223,7 +226,7 @@ export const ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname
   }) as any as S.Schema<ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname>;
 
 export interface ListsItemsCreateRequestBodyItemListsListItemHostnameComment {
-  /** Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-). */
+  /** Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-). */
   hostname: ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname;
   /** Defines an informative summary of the list item. */
   comment?: string;
@@ -427,7 +430,7 @@ export const GetListRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetListRequest" }) as any as S.Schema<GetListRequest>;
 
 export type ListsGetResponseKind = "ip" | "redirect" | "hostname" | "asn";
-export const ListsGetResponseKind = /*@__PURE__*/ S.String;
+export const ListsGetResponseKind = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetListResponse {
@@ -443,7 +446,7 @@ export interface GetListResponse {
   name: string;
   /** The number of items in the list. */
   numItems: number;
-  /** The number of [filters](/api/resources/filters/) referencing the list. */
+  /** The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
   description?: string | null;
@@ -487,9 +490,10 @@ export const GetListBulkOperationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetListBulkOperationRequest>;
 
 export type ListsBulkOperationsGetResultListsBulkOperationPendingOrRunningStatus =
-  "pending" | "running";
+  | "pending"
+  | "running";
 export const ListsBulkOperationsGetResultListsBulkOperationPendingOrRunningStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ListsBulkOperationsGetResultListsBulkOperationPendingOrRunning {
   /** The unique operation ID of the asynchronous action. */
@@ -512,7 +516,7 @@ export const ListsBulkOperationsGetResultListsBulkOperationPendingOrRunning =
 export type ListsBulkOperationsGetResultListsBulkOperationCompletedStatus =
   "completed";
 export const ListsBulkOperationsGetResultListsBulkOperationCompletedStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ListsBulkOperationsGetResultListsBulkOperationCompleted {
   /** The unique operation ID of the asynchronous action. */
@@ -536,7 +540,7 @@ export const ListsBulkOperationsGetResultListsBulkOperationCompleted =
 export type ListsBulkOperationsGetResultListsBulkOperationFailedStatus =
   "failed";
 export const ListsBulkOperationsGetResultListsBulkOperationFailedStatus =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface ListsBulkOperationsGetResultListsBulkOperationFailed {
   /** The unique operation ID of the asynchronous action. */
@@ -635,7 +639,7 @@ export const ListsItemsGetResultListsListItemIPFull = /*@__PURE__*/ S.suspend(
 
 export interface ListsItemsGetResultListsListItemHostnameFullHostname {
   urlHostname: string;
-  /** Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked. */
+  /** Only applies to wildcard hostnames (e.g., *.example.com). When true (default), the rule blocks only subdomains. When false, the rule blocks both the root domain and subdomains. */
   excludeExactHostname?: boolean | null;
 }
 export const ListsItemsGetResultListsListItemHostnameFullHostname =
@@ -655,7 +659,7 @@ export interface ListsItemsGetResultListsListItemHostnameFull {
   id: string;
   /** The RFC 3339 timestamp of when the list was created. */
   createdOn: string;
-  /** Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-). */
+  /** Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-). */
   hostname: ListsItemsGetResultListsListItemHostnameFullHostname;
   /** The RFC 3339 timestamp of when the list was last modified. */
   modifiedOn: string;
@@ -681,7 +685,7 @@ export type ListsItemsGetResultListsListItemRedirectFullRedirectStatusCode =
   | 307
   | 308;
 export const ListsItemsGetResultListsListItemRedirectFullRedirectStatusCode =
-  /*@__PURE__*/ S.Number;
+  S.Number;
 
 export interface ListsItemsGetResultListsListItemRedirectFullRedirect {
   sourceUrl: string;
@@ -798,7 +802,7 @@ export interface ListListItemsRequest {
   accountId: string;
   /** The unique ID of the list. */
   listId: string;
-  /** The pagination cursor. An opaque string token indicating the position from which to continue when requesting the next/previous set of records. Cursor values are provided under `result_info.cursors` in the response. You should make no assumptions about a cursor's content or length. */
+  /** The pagination cursor. An opaque string token that indicates where to continue when requesting the next/previous set of records. The response provides cursor values under `result_info.cursors`. You should make no assumptions about a cursor's content or length. */
   cursor?: string;
   /** Amount of results to include in each paginated response. A non-negative 32 bit integer. */
   perPage?: number;
@@ -841,9 +845,12 @@ export const ListsItemsListResultItemListsListItemHostnameFull =
   ListsItemsGetResultListsListItemHostnameFull;
 
 export type ListsItemsListResultItemListsListItemRedirectFullRedirectStatusCode =
-  301 | 302 | 307 | 308;
+  | 301
+  | 302
+  | 307
+  | 308;
 export const ListsItemsListResultItemListsListItemRedirectFullRedirectStatusCode =
-  /*@__PURE__*/ S.Number;
+  S.Number;
 
 export interface ListsItemsListResultItemListsListItemRedirectFullRedirect {
   sourceUrl: string;
@@ -966,7 +973,7 @@ export const ListListsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListListsRequest>;
 
 export type ListsListResultItemKind = "ip" | "redirect" | "hostname" | "asn";
-export const ListsListResultItemKind = /*@__PURE__*/ S.String;
+export const ListsListResultItemKind = S.String;
 
 export interface ListsListResultItem {
   /** The unique ID of the list. */
@@ -981,7 +988,7 @@ export interface ListsListResultItem {
   name: string;
   /** The number of items in the list. */
   numItems: number;
-  /** The number of [filters](/api/resources/filters/) referencing the list. */
+  /** The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
   description?: string | null;
@@ -1048,7 +1055,7 @@ export const UpdateListRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateListRequest>;
 
 export type ListsUpdateResponseKind = "ip" | "redirect" | "hostname" | "asn";
-export const ListsUpdateResponseKind = /*@__PURE__*/ S.String;
+export const ListsUpdateResponseKind = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateListResponse {
@@ -1064,7 +1071,7 @@ export interface UpdateListResponse {
   name: string;
   /** The number of items in the list. */
   numItems: number;
-  /** The number of [filters](/api/resources/filters/) referencing the list. */
+  /** The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
   description?: string | null;
@@ -1090,9 +1097,12 @@ export const ListsItemsUpdateRequestBodyItemListsListItemIPComment =
   ListsItemsCreateRequestBodyItemListsListItemIPComment;
 
 export type ListsItemsUpdateRequestBodyItemListsListItemRedirectCommentRedirectStatusCode =
-  301 | 302 | 307 | 308;
+  | 301
+  | 302
+  | 307
+  | 308;
 export const ListsItemsUpdateRequestBodyItemListsListItemRedirectCommentRedirectStatusCode =
-  /*@__PURE__*/ S.Number;
+  S.Number;
 
 export interface ListsItemsUpdateRequestBodyItemListsListItemRedirectCommentRedirect {
   sourceUrl: string;

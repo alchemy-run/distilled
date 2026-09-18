@@ -1,0 +1,2133 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.loops#ListLoopsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.loops#PaginatedLoopDTOList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.loops#PaginatedLoopDTOListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "max_loops_per_team": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Hard cap on non-deleted loops per project. Creating a loop beyond this returns a 429 with `error: loop_safety_limit`. Authoritative — read this rather than assuming a value."
+          }
+        },
+        "total_loop_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Current number of non-deleted, user-facing loops in this project, counted against `max_loops_per_team`. At or above the cap, creation is blocked."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopDTO": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "team_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_by_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "runtime_adapter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reasoning_effort": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "repositories": {
+          "target": "com.posthog.loops#LoopDTORepositoriesList",
+          "traits": {
+            "smithy.api#documentation": "Repositories this loop operates on.",
+            "smithy.api#required": {}
+          }
+        },
+        "sandbox_environment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "disabled_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "overlap_policy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "behaviors": {
+          "target": "com.posthog.loops#LoopBehaviorsDTO",
+          "traits": {
+            "smithy.api#documentation": "PR / CI-follow-up behavior configuration.",
+            "smithy.api#required": {}
+          }
+        },
+        "connectors": {
+          "target": "com.posthog.loops#LoopConnectorsDTO",
+          "traits": {
+            "smithy.api#documentation": "MCP connector configuration for this loop's runs.",
+            "smithy.api#required": {}
+          }
+        },
+        "notifications": {
+          "target": "com.posthog.loops#LoopNotificationsDTO",
+          "traits": {
+            "smithy.api#documentation": "Per-channel notification configuration.",
+            "smithy.api#required": {}
+          }
+        },
+        "context_target": {
+          "target": "com.posthog.loops#LoopContextTargetDTO",
+          "traits": {
+            "smithy.api#documentation": "Context this loop is attached to, or null when unattached.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "internal": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "origin_product": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_run_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_run_status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "consecutive_failures": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "triggers": {
+          "target": "com.posthog.loops#LoopDTOTriggersList",
+          "traits": {
+            "smithy.api#documentation": "Triggers attached to this loop.",
+            "smithy.api#required": {}
+          }
+        },
+        "skill_bundles": {
+          "target": "com.posthog.loops#LoopDTOSkillBundlesList",
+          "traits": {
+            "smithy.api#documentation": "Skill bundles attached to this loop, seeded into every fired run.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Detail/create/update response for a loop, including its triggers."
+      }
+    },
+    "com.posthog.loops#LoopRepositoryEntryDTO": {
+      "type": "structure",
+      "members": {
+        "github_integration_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "full_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopDTORepositoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.loops#LoopRepositoryEntryDTO"
+      },
+      "traits": {
+        "smithy.api#documentation": "Repositories this loop operates on."
+      }
+    },
+    "com.posthog.loops#LoopBehaviorsDTO": {
+      "type": "structure",
+      "members": {
+        "create_prs": {
+          "target": "smithy.api#Boolean"
+        },
+        "watch_ci": {
+          "target": "smithy.api#Boolean"
+        },
+        "fix_review_comments": {
+          "target": "smithy.api#Boolean"
+        },
+        "max_fix_iterations": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopConnectorsDTO": {
+      "type": "structure",
+      "members": {
+        "mcp_installation_ids": {
+          "target": "com.posthog.loops#LoopConnectorsDTOMcpInstallationIdsList"
+        },
+        "posthog_mcp_scopes": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopConnectorsDTOMcpInstallationIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopNotificationsDTO": {
+      "type": "structure",
+      "members": {
+        "push": {
+          "target": "com.posthog.loops#LoopNotificationChannelDTO",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "com.posthog.loops#LoopNotificationChannelDTO",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "slack": {
+          "target": "com.posthog.loops#LoopNotificationChannelDTO",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopNotificationChannelDTO": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "events": {
+          "target": "com.posthog.loops#LoopNotificationChannelDTOEventsList"
+        },
+        "params": {
+          "target": "com.posthog.loops#LoopNotificationChannelDTOParamsMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopNotificationChannelDTOEventsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopNotificationChannelDTOParamsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopContextTargetDTO": {
+      "type": "structure",
+      "members": {
+        "outputs": {
+          "target": "com.posthog.loops#LoopContextOutputsDTO",
+          "traits": {
+            "smithy.api#documentation": "What the loop maintains in this context each run.",
+            "smithy.api#required": {}
+          }
+        },
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopContextOutputsDTO": {
+      "type": "structure",
+      "members": {
+        "post_to_feed": {
+          "target": "smithy.api#Boolean"
+        },
+        "update_context": {
+          "target": "smithy.api#Boolean"
+        },
+        "canvas_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopTriggerDTO": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "loop_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "com.posthog.loops#LoopTriggerDTOConfigMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "schedule_sync_status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_fired_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Read response for a single loop trigger."
+      }
+    },
+    "com.posthog.loops#LoopTriggerDTOConfigMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopDTOTriggersList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.loops#LoopTriggerDTO"
+      },
+      "traits": {
+        "smithy.api#documentation": "Triggers attached to this loop."
+      }
+    },
+    "com.posthog.loops#LoopSkillBundleDTO": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skill_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skill_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "content_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uploaded_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopDTOSkillBundlesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.loops#LoopSkillBundleDTO"
+      },
+      "traits": {
+        "smithy.api#documentation": "Skill bundles attached to this loop, seeded into every fired run."
+      }
+    },
+    "com.posthog.loops#PaginatedLoopDTOListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.loops#LoopDTO"
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#ListLoops": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.loops#ListLoopsRequest"
+      },
+      "output": {
+        "target": "com.posthog.loops#PaginatedLoopDTOList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/loops/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List loops\n\nList loops visible to the caller: personal loops they own, plus every team loop. The response also carries `max_loops_per_team` and `total_loop_count` so a client can show remaining capacity and disable creation at the cap without hardcoding the limit."
+      }
+    },
+    "com.posthog.loops#VisibilityEnum": {
+      "type": "enum",
+      "members": {
+        "PERSONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "personal"
+          }
+        },
+        "TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `personal` - personal\n* `team` - team"
+      }
+    },
+    "com.posthog.loops#RuntimeAdapterEnum": {
+      "type": "enum",
+      "members": {
+        "CLAUDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claude"
+          }
+        },
+        "CODEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "codex"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `claude` - claude\n* `codex` - codex"
+      }
+    },
+    "com.posthog.loops#ReasoningEffortEnum": {
+      "type": "enum",
+      "members": {
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        },
+        "XHIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xhigh"
+          }
+        },
+        "MAX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max"
+          }
+        },
+        "ULTRACODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ultracode"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `low` - low\n* `medium` - medium\n* `high` - high\n* `xhigh` - xhigh\n* `max` - max\n* `ultracode` - ultracode"
+      }
+    },
+    "com.posthog.loops#LoopRepositoryEntry": {
+      "type": "structure",
+      "members": {
+        "github_integration_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "GitHub integration id this repository is accessed through.",
+            "smithy.api#required": {}
+          }
+        },
+        "full_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository in `organization/repo` format, e.g. `posthog/posthog`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#CreateLoopRequestRepositoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.loops#LoopRepositoryEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Repositories this loop operates on, ordered. Capped at 1 until multi-repo execution ships. May be empty for report-only loops."
+      }
+    },
+    "com.posthog.loops#OverlapPolicyEnum": {
+      "type": "enum",
+      "members": {
+        "SKIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skip"
+          }
+        },
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "CANCEL_PREVIOUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancel_previous"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `skip` - skip\n* `allow` - allow\n* `cancel_previous` - cancel_previous"
+      }
+    },
+    "com.posthog.loops#LoopBehaviors": {
+      "type": "structure",
+      "members": {
+        "create_prs": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the agent may push branches and open PRs. False makes this a report-only loop."
+          }
+        },
+        "watch_ci": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to watch CI on loop-created PRs and report status."
+          }
+        },
+        "fix_review_comments": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to automatically address review comments on loop-created PRs."
+          }
+        },
+        "max_fix_iterations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Ceiling on automatic CI/review-comment fix iterations, capped at 10."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopConnectors": {
+      "type": "structure",
+      "members": {
+        "mcp_installation_ids": {
+          "target": "com.posthog.loops#LoopConnectorsMcpInstallationIdsList",
+          "traits": {
+            "smithy.api#documentation": "MCP Store installation ids (Slack, Linear, etc.) available to this loop's runs."
+          }
+        },
+        "posthog_mcp_scopes": {
+          "target": "com.posthog.loops#PosthogMcpScopesEnum",
+          "traits": {
+            "smithy.api#documentation": "Scope of the PostHog MCP access injected into this loop's runs.\n\n* `read_only` - read_only\n* `full` - full"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopConnectorsMcpInstallationIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "MCP Store installation ids (Slack, Linear, etc.) available to this loop's runs."
+      }
+    },
+    "com.posthog.loops#PosthogMcpScopesEnum": {
+      "type": "enum",
+      "members": {
+        "READ_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read_only"
+          }
+        },
+        "FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `read_only` - read_only\n* `full` - full"
+      }
+    },
+    "com.posthog.loops#LoopNotifications": {
+      "type": "structure",
+      "members": {
+        "push": {
+          "target": "com.posthog.loops#LoopNotificationChannel",
+          "traits": {
+            "smithy.api#documentation": "Push notification settings."
+          }
+        },
+        "email": {
+          "target": "com.posthog.loops#LoopNotificationChannel",
+          "traits": {
+            "smithy.api#documentation": "Email notification settings."
+          }
+        },
+        "slack": {
+          "target": "com.posthog.loops#LoopNotificationChannel",
+          "traits": {
+            "smithy.api#documentation": "Slack notification settings."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopNotificationChannel": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this channel is active."
+          }
+        },
+        "events": {
+          "target": "com.posthog.loops#LoopNotificationChannelEventsList",
+          "traits": {
+            "smithy.api#documentation": "Event kinds this channel notifies on. One or more of: run_completed, run_failed, pr_created, needs_attention."
+          }
+        },
+        "params": {
+          "target": "com.posthog.loops#LoopNotificationChannelParamsMap",
+          "traits": {
+            "smithy.api#documentation": "Channel-specific parameters, e.g. Slack's `integration_id` and `channel`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#EventsEnum": {
+      "type": "enum",
+      "members": {
+        "RUN_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "run_completed"
+          }
+        },
+        "RUN_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "run_failed"
+          }
+        },
+        "PR_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pr_created"
+          }
+        },
+        "NEEDS_ATTENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_attention"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `run_completed` - run_completed\n* `run_failed` - run_failed\n* `pr_created` - pr_created\n* `needs_attention` - needs_attention"
+      }
+    },
+    "com.posthog.loops#LoopNotificationChannelEventsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.loops#EventsEnum"
+      },
+      "traits": {
+        "smithy.api#documentation": "Event kinds this channel notifies on. One or more of: run_completed, run_failed, pr_created, needs_attention."
+      }
+    },
+    "com.posthog.loops#LoopNotificationChannelParamsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Channel-specific parameters, e.g. Slack's `integration_id` and `channel`."
+      }
+    },
+    "com.posthog.loops#LoopContextTargetWrite": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the channel (context) this loop is attached to.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the context, shown in the loop's publish prompt.",
+            "smithy.api#required": {}
+          }
+        },
+        "outputs": {
+          "target": "com.posthog.loops#LoopContextOutputsWrite",
+          "traits": {
+            "smithy.api#documentation": "What the loop maintains in this context each run."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopContextOutputsWrite": {
+      "type": "structure",
+      "members": {
+        "post_to_feed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether each run is filed into the context's feed as a card (sets the run's channel)."
+          }
+        },
+        "update_context": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether each run reads and republishes the context's context.md to reflect the latest state."
+          }
+        },
+        "canvas_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of a canvas in this context the loop keeps up to date each run, or null to maintain none.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopTriggerWrite": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Existing trigger id to update in place. Omit to create a new trigger."
+          }
+        },
+        "type": {
+          "target": "com.posthog.loops#LoopTriggerTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Trigger type: `schedule` (cron or one-time), `github` (repo webhook events), or `api` (POST to `trigger/`).\n\n* `schedule` - schedule\n* `github` - github\n* `api` - api",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this trigger is active. Disabling pauses only this trigger."
+          }
+        },
+        "config": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Trigger configuration, shape validated per `type`: schedule takes `{cron_expression, timezone}` or `{run_at}` for a one-time run; github takes `{github_integration_id, repository, events, filters}` where `events` is one or more of `issues`, `issue_comment`, `pull_request`, `push` (`event.action` shorthand like `issues.opened` is folded into an `actions` filter, one event per trigger) and `filters` takes `{actions, branches, labels, payload}`. Use `actions` for the event action; `payload` is for anything else in the webhook body, as a list of `{path, equals}` conditions where `path` is a dot-path of object keys and `equals` is a string or list of strings, e.g. `[{\"path\": \"requested_team.slug\", \"equals\": \"team-security\"}]` to run only when that team is asked to review. All filters must match. API triggers take no config."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopTriggerTypeEnum": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "schedule"
+          }
+        },
+        "GITHUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "github"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `schedule` - schedule\n* `github` - github\n* `api` - api"
+      }
+    },
+    "com.posthog.loops#CreateLoopRequestTriggersList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.loops#LoopTriggerWrite"
+      },
+      "traits": {
+        "smithy.api#documentation": "Full desired trigger list, id-stable: entries with a matching `id` are updated in place, entries without one are created, and existing triggers absent from this list are deleted. Omit the field entirely to leave triggers untouched. At most 25 triggers per loop."
+      }
+    },
+    "com.posthog.loops#CreateLoopRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name for the loop.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-form description of what this loop does."
+          }
+        },
+        "take_ownership": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "On a team loop, claim ownership as part of this update so you can edit identity-bearing config (instructions, model, triggers, ...) that only the owner may change. Ignored on personal loops and on create."
+          }
+        },
+        "visibility": {
+          "target": "com.posthog.loops#VisibilityEnum",
+          "traits": {
+            "smithy.api#documentation": "`personal` (owner-only) or `team` (visible and fireable by any team member).\n\n* `personal` - personal\n* `team` - team"
+          }
+        },
+        "instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The prompt delivered to the agent on every run.",
+            "smithy.api#required": {}
+          }
+        },
+        "runtime_adapter": {
+          "target": "com.posthog.loops#RuntimeAdapterEnum",
+          "traits": {
+            "smithy.api#documentation": "Runtime adapter: 'claude' or 'codex'.\n\n* `claude` - claude\n* `codex` - codex",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "LLM model identifier, validated against `runtime_adapter`'s catalog. Leave blank to let PostHog pick a sensible default at run time."
+          }
+        },
+        "reasoning_effort": {
+          "target": "com.posthog.loops#ReasoningEffortEnum",
+          "traits": {
+            "smithy.api#documentation": "Reasoning effort, validated against `runtime_adapter`/`model`'s supported set.\n\n* `low` - low\n* `medium` - medium\n* `high` - high\n* `xhigh` - xhigh\n* `max` - max\n* `ultracode` - ultracode",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "repositories": {
+          "target": "com.posthog.loops#CreateLoopRequestRepositoriesList",
+          "traits": {
+            "smithy.api#documentation": "Repositories this loop operates on, ordered. Capped at 1 until multi-repo execution ships. May be empty for report-only loops."
+          }
+        },
+        "sandbox_environment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sandbox environment carrying encrypted env vars and the network allowlist into every run.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the loop's triggers are active. Pausing disables all triggers."
+          }
+        },
+        "overlap_policy": {
+          "target": "com.posthog.loops#OverlapPolicyEnum",
+          "traits": {
+            "smithy.api#documentation": "What happens when a trigger fires while a run is already active: 'skip', 'allow', or 'cancel_previous'.\n\n* `skip` - skip\n* `allow` - allow\n* `cancel_previous` - cancel_previous"
+          }
+        },
+        "behaviors": {
+          "target": "com.posthog.loops#LoopBehaviors",
+          "traits": {
+            "smithy.api#documentation": "PR / CI-follow-up behavior configuration."
+          }
+        },
+        "connectors": {
+          "target": "com.posthog.loops#LoopConnectors",
+          "traits": {
+            "smithy.api#documentation": "MCP connector configuration for this loop's runs."
+          }
+        },
+        "notifications": {
+          "target": "com.posthog.loops#LoopNotifications",
+          "traits": {
+            "smithy.api#documentation": "Per-channel notification configuration."
+          }
+        },
+        "context_target": {
+          "target": "com.posthog.loops#LoopContextTargetWrite",
+          "traits": {
+            "smithy.api#documentation": "Context (channel) this loop is attached to, or null to detach. Drives feed placement and the context.md / canvas it keeps up to date.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "triggers": {
+          "target": "com.posthog.loops#CreateLoopRequestTriggersList",
+          "traits": {
+            "smithy.api#documentation": "Full desired trigger list, id-stable: entries with a matching `id` are updated in place, entries without one are created, and existing triggers absent from this list are deleted. Omit the field entirely to leave triggers untouched. At most 25 triggers per loop."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.loops#CreateLoop": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.loops#CreateLoopRequest"
+      },
+      "output": {
+        "target": "com.posthog.loops#LoopDTO"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/loops/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a loop\n\nAPI for managing loops — named, cloud-executed agent automations triggered by\nschedule, GitHub events or authenticated API calls. See `products/tasks/docs/LOOPS.md`."
+      }
+    },
+    "com.posthog.loops#GetLoopRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.loops#GetLoop": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.loops#GetLoopRequest"
+      },
+      "output": {
+        "target": "com.posthog.loops#LoopDTO"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.loops#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/loops/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a loop\n\nAPI for managing loops — named, cloud-executed agent automations triggered by\nschedule, GitHub events or authenticated API calls. See `products/tasks/docs/LOOPS.md`."
+      }
+    },
+    "com.posthog.loops#UpdateLoopsPartialRequestRepositoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.loops#LoopRepositoryEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Repositories this loop operates on, ordered. Capped at 1 until multi-repo execution ships. May be empty for report-only loops."
+      }
+    },
+    "com.posthog.loops#UpdateLoopsPartialRequestTriggersList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.loops#LoopTriggerWrite"
+      },
+      "traits": {
+        "smithy.api#documentation": "Full desired trigger list, id-stable: entries with a matching `id` are updated in place, entries without one are created, and existing triggers absent from this list are deleted. Omit the field entirely to leave triggers untouched. At most 25 triggers per loop."
+      }
+    },
+    "com.posthog.loops#UpdateLoopsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name for the loop."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-form description of what this loop does."
+          }
+        },
+        "take_ownership": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "On a team loop, claim ownership as part of this update so you can edit identity-bearing config (instructions, model, triggers, ...) that only the owner may change. Ignored on personal loops and on create."
+          }
+        },
+        "visibility": {
+          "target": "com.posthog.loops#VisibilityEnum",
+          "traits": {
+            "smithy.api#documentation": "`personal` (owner-only) or `team` (visible and fireable by any team member).\n\n* `personal` - personal\n* `team` - team"
+          }
+        },
+        "instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The prompt delivered to the agent on every run."
+          }
+        },
+        "runtime_adapter": {
+          "target": "com.posthog.loops#RuntimeAdapterEnum",
+          "traits": {
+            "smithy.api#documentation": "Runtime adapter: 'claude' or 'codex'.\n\n* `claude` - claude\n* `codex` - codex"
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "LLM model identifier, validated against `runtime_adapter`'s catalog. Leave blank to let PostHog pick a sensible default at run time."
+          }
+        },
+        "reasoning_effort": {
+          "target": "com.posthog.loops#ReasoningEffortEnum",
+          "traits": {
+            "smithy.api#documentation": "Reasoning effort, validated against `runtime_adapter`/`model`'s supported set.\n\n* `low` - low\n* `medium` - medium\n* `high` - high\n* `xhigh` - xhigh\n* `max` - max\n* `ultracode` - ultracode",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "repositories": {
+          "target": "com.posthog.loops#UpdateLoopsPartialRequestRepositoriesList",
+          "traits": {
+            "smithy.api#documentation": "Repositories this loop operates on, ordered. Capped at 1 until multi-repo execution ships. May be empty for report-only loops."
+          }
+        },
+        "sandbox_environment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sandbox environment carrying encrypted env vars and the network allowlist into every run.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the loop's triggers are active. Pausing disables all triggers."
+          }
+        },
+        "overlap_policy": {
+          "target": "com.posthog.loops#OverlapPolicyEnum",
+          "traits": {
+            "smithy.api#documentation": "What happens when a trigger fires while a run is already active: 'skip', 'allow', or 'cancel_previous'.\n\n* `skip` - skip\n* `allow` - allow\n* `cancel_previous` - cancel_previous"
+          }
+        },
+        "behaviors": {
+          "target": "com.posthog.loops#LoopBehaviors",
+          "traits": {
+            "smithy.api#documentation": "PR / CI-follow-up behavior configuration."
+          }
+        },
+        "connectors": {
+          "target": "com.posthog.loops#LoopConnectors",
+          "traits": {
+            "smithy.api#documentation": "MCP connector configuration for this loop's runs."
+          }
+        },
+        "notifications": {
+          "target": "com.posthog.loops#LoopNotifications",
+          "traits": {
+            "smithy.api#documentation": "Per-channel notification configuration."
+          }
+        },
+        "context_target": {
+          "target": "com.posthog.loops#LoopContextTargetWrite",
+          "traits": {
+            "smithy.api#documentation": "Context (channel) this loop is attached to, or null to detach. Drives feed placement and the context.md / canvas it keeps up to date.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "triggers": {
+          "target": "com.posthog.loops#UpdateLoopsPartialRequestTriggersList",
+          "traits": {
+            "smithy.api#documentation": "Full desired trigger list, id-stable: entries with a matching `id` are updated in place, entries without one are created, and existing triggers absent from this list are deleted. Omit the field entirely to leave triggers untouched. At most 25 triggers per loop."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.loops#UpdateLoopsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.loops#UpdateLoopsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.loops#LoopDTO"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.loops#Forbidden"
+        },
+        {
+          "target": "com.posthog.loops#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/loops/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a loop\n\nPartial update. Identity-bearing fields (instructions, repositories, connectors, behaviors, model config, triggers) are owner-only on team loops; name, description, notifications and enable/pause are editable by any team member."
+      }
+    },
+    "com.posthog.loops#LoopsDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.loops#LoopsDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.loops#LoopsDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.loops#Forbidden"
+        },
+        {
+          "target": "com.posthog.loops#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/loops/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a loop\n\nSoft delete. Pauses every trigger's schedule. Owner or a project admin only."
+      }
+    },
+    "com.posthog.loops#CreateLoopsPreviewRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "trigger_type": {
+          "target": "com.posthog.loops#LoopTriggerTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Trigger type to simulate. Defaults to a synthetic schedule fire.\n\n* `schedule` - schedule\n* `github` - github\n* `api` - api"
+          }
+        },
+        "payload": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Sample trigger payload, e.g. a GitHub webhook body or an API trigger body, to render into context."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.loops#LoopPreviewDTO": {
+      "type": "structure",
+      "members": {
+        "instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "trigger_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "trigger_context": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#CreateLoopsPreview": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.loops#CreateLoopsPreviewRequest"
+      },
+      "output": {
+        "target": "com.posthog.loops#LoopPreviewDTO"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.loops#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/loops/{id}/preview/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Preview a loop fire\n\nDry run: renders the assembled instructions and trigger context for a supplied sample payload (or a synthetic schedule fire when omitted), without creating a task, run, or any other side effect."
+      }
+    },
+    "com.posthog.loops#CreateLoopsRunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.loops#LoopFireResult": {
+      "type": "structure",
+      "members": {
+        "created": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "com.posthog.loops#LoopFireResultReasonEnum",
+          "traits": {
+            "smithy.api#documentation": "Outcome of the fire attempt.\n\n* `created` - created\n* `deduped` - deduped\n* `overlap_skipped` - overlap_skipped\n* `rate_capped` - rate_capped\n* `team_rate_capped` - team_rate_capped\n* `disabled` - disabled\n* `gate_blocked` - gate_blocked\n* `owner_inactive` - owner_inactive\n* `owner_changed` - owner_changed",
+            "smithy.api#required": {}
+          }
+        },
+        "task_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the created task, when `created` is true.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "task_run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the created task run, when `created` is true.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response for a manual (`run/`) or external (`trigger/`) fire."
+      }
+    },
+    "com.posthog.loops#LoopFireResultReasonEnum": {
+      "type": "enum",
+      "members": {
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "DEDUPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deduped"
+          }
+        },
+        "OVERLAP_SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "overlap_skipped"
+          }
+        },
+        "RATE_CAPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rate_capped"
+          }
+        },
+        "TEAM_RATE_CAPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team_rate_capped"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "GATE_BLOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gate_blocked"
+          }
+        },
+        "OWNER_INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner_inactive"
+          }
+        },
+        "OWNER_CHANGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner_changed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `created` - created\n* `deduped` - deduped\n* `overlap_skipped` - overlap_skipped\n* `rate_capped` - rate_capped\n* `team_rate_capped` - team_rate_capped\n* `disabled` - disabled\n* `gate_blocked` - gate_blocked\n* `owner_inactive` - owner_inactive\n* `owner_changed` - owner_changed"
+      }
+    },
+    "com.posthog.loops#CreateLoopsRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.loops#CreateLoopsRunRequest"
+      },
+      "output": {
+        "target": "com.posthog.loops#LoopFireResult"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.loops#Forbidden"
+        },
+        {
+          "target": "com.posthog.loops#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/loops/{id}/run/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Run a loop manually\n\nManual fire from the UI. Owner-only for personal loops; any team member for team loops."
+      }
+    },
+    "com.posthog.loops#GetLoopsRunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Opaque pagination cursor from a previous response's `next_cursor`."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Max results per page (default 50, max 100)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.loops#LoopRunPage": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.loops#LoopRunPageResultsList",
+          "traits": {
+            "smithy.api#documentation": "Run history entries, newest first.",
+            "smithy.api#required": {}
+          }
+        },
+        "next_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opaque cursor for the next page, or null when there are no more results.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopRunDTO": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "task_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "loop_trigger_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "output": {
+          "target": "com.posthog.loops#LoopRunDTOOutputMap",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single entry in a loop's run history."
+      }
+    },
+    "com.posthog.loops#LoopRunDTOOutputMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopRunPageResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.loops#LoopRunDTO"
+      },
+      "traits": {
+        "smithy.api#documentation": "Run history entries, newest first."
+      }
+    },
+    "com.posthog.loops#GetLoopsRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.loops#GetLoopsRunRequest"
+      },
+      "output": {
+        "target": "com.posthog.loops#LoopRunPage"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.loops#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/loops/{id}/runs/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List loop runs\n\nRun history for a loop, newest first, cursor-paginated."
+      }
+    },
+    "com.posthog.loops#LoopSkillBundleUpload": {
+      "type": "structure",
+      "members": {
+        "file_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "File name for the stored bundle, e.g. `my-skill.zip`.",
+            "smithy.api#required": {}
+          }
+        },
+        "skill_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the skill inside the bundle.",
+            "smithy.api#required": {}
+          }
+        },
+        "skill_source": {
+          "target": "com.posthog.loops#SkillSourceEnum",
+          "traits": {
+            "smithy.api#documentation": "Local source the bundle was built from, such as user or repo.\n\n* `user` - user\n* `repo` - repo\n* `marketplace` - marketplace\n* `codex` - codex",
+            "smithy.api#required": {}
+          }
+        },
+        "content_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SHA-256 hex digest of the bundle bytes.",
+            "smithy.api#required": {}
+          }
+        },
+        "bundle_format": {
+          "target": "com.posthog.loops#BundleFormatEnum",
+          "traits": {
+            "smithy.api#documentation": "Archive format used for the bundle.\n\n* `zip` - zip",
+            "smithy.api#required": {}
+          }
+        },
+        "content_base64": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Base64-encoded bundle bytes.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One zipped local skill in a skill-bundle replace request."
+      }
+    },
+    "com.posthog.loops#SkillSourceEnum": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "REPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "repo"
+          }
+        },
+        "MARKETPLACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marketplace"
+          }
+        },
+        "CODEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "codex"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `user` - user\n* `repo` - repo\n* `marketplace` - marketplace\n* `codex` - codex"
+      }
+    },
+    "com.posthog.loops#BundleFormatEnum": {
+      "type": "enum",
+      "members": {
+        "ZIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zip"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `zip` - zip"
+      }
+    },
+    "com.posthog.loops#UpdateLoopsSkillBundleRequestBundlesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.loops#LoopSkillBundleUpload"
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#UpdateLoopsSkillBundleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "bundles": {
+          "target": "com.posthog.loops#UpdateLoopsSkillBundleRequestBundlesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.loops#UpdateLoopsSkillBundle": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.loops#UpdateLoopsSkillBundleRequest"
+      },
+      "output": {
+        "target": "com.posthog.loops#LoopDTO"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.loops#Forbidden"
+        },
+        {
+          "target": "com.posthog.loops#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/loops/{id}/skill_bundles/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace a loop's skill bundles\n\nReplaces the loop's attached skill bundles wholesale: zipped local skills whose contents are seeded into every fired run's sandbox. Send an empty list to detach every skill. Owner-only on team loops, like other identity-bearing configuration."
+      }
+    },
+    "com.posthog.loops#LoopsTriggerCreateRequestBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.loops#LoopsTriggerCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.posthog.loops#LoopsTriggerCreateRequestBodyMap",
+          "traits": {
+            "smithy.api#httpPayload": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.loops#LoopsTriggerCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.loops#LoopsTriggerCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.loops#LoopFireResult"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.loops#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/loops/{id}/trigger/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fire a loop externally\n\nAuthenticated POST trigger for `type=api` triggers. Project secret API key auth (`loop:write` scope), project-wide. Request body (JSON, capped at 64 KB) becomes run context. Send an `Idempotency-Key` header to dedupe retries."
+      }
+    },
+    "com.posthog.loops#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.posthog.loops#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.loops#Loops": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.loops#ListLoops"
+        },
+        {
+          "target": "com.posthog.loops#CreateLoop"
+        },
+        {
+          "target": "com.posthog.loops#GetLoop"
+        },
+        {
+          "target": "com.posthog.loops#UpdateLoopsPartial"
+        },
+        {
+          "target": "com.posthog.loops#LoopsDestroy"
+        },
+        {
+          "target": "com.posthog.loops#CreateLoopsPreview"
+        },
+        {
+          "target": "com.posthog.loops#CreateLoopsRun"
+        },
+        {
+          "target": "com.posthog.loops#GetLoopsRun"
+        },
+        {
+          "target": "com.posthog.loops#UpdateLoopsSkillBundle"
+        },
+        {
+          "target": "com.posthog.loops#LoopsTriggerCreate"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

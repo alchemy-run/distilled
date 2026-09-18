@@ -14,16 +14,17 @@
         "id": "UnreferencedShape",
         "namespace": "*"
       }
-    ]
+    ],
+    "distilled.finalized": true
   },
   "shapes": {
-    "com.azure.applicationinsights#WorkbooksRevisionGet": {
+    "com.azure.applicationinsights#GetWorkbooksRevision": {
       "type": "operation",
       "input": {
-        "target": "com.azure.applicationinsights#WorkbooksRevisionGetRequest"
+        "target": "com.azure.applicationinsights#GetWorkbooksRevisionRequest"
       },
       "output": {
-        "target": "com.azure.applicationinsights#WorkbooksRevisionGetResponse"
+        "target": "com.azure.applicationinsights#GetWorkbooksRevisionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -36,13 +37,13 @@
         "com.distilled.openapi#apiVersion": "2023-06-01"
       }
     },
-    "com.azure.applicationinsights#WorkbooksRevisionGetResponse": {
+    "com.azure.applicationinsights#GetWorkbooksRevisionResponse": {
       "type": "structure",
       "members": {
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
           }
         },
         "name": {
@@ -64,7 +65,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.applicationinsights#WorkbooksRevisionGetResponseTagsMap",
+          "target": "com.azure.applicationinsights#GetWorkbooksRevisionResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -141,10 +142,7 @@
           }
         },
         "userAssignedIdentities": {
-          "target": "com.azure.applicationinsights#UserAssignedIdentities",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
+          "target": "com.azure.applicationinsights#UserAssignedIdentities"
         }
       },
       "traits": {
@@ -157,7 +155,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.applicationinsights#UserAssignedIdentity"
+        "target": "com.azure.applicationinsights#UserAssignedIdentity",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
@@ -305,7 +306,7 @@
         "smithy.api#documentation": "Being deprecated, please use the other tags field"
       }
     },
-    "com.azure.applicationinsights#WorkbooksRevisionGetResponseTagsMap": {
+    "com.azure.applicationinsights#GetWorkbooksRevisionResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -425,7 +426,7 @@
         "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
-    "com.azure.applicationinsights#WorkbooksRevisionGetRequest": {
+    "com.azure.applicationinsights#GetWorkbooksRevisionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -433,7 +434,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -465,10 +466,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.applicationinsights#WorkbooksRevisionsList": {
+    "com.azure.applicationinsights#ListWorkbooksRevisions": {
       "type": "operation",
       "input": {
-        "target": "com.azure.applicationinsights#WorkbooksRevisionsListRequest"
+        "target": "com.azure.applicationinsights#ListWorkbooksRevisionsRequest"
       },
       "output": {
         "target": "com.azure.applicationinsights#WorkbooksListResult"
@@ -519,7 +520,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
           }
         },
         "name": {
@@ -594,7 +595,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.applicationinsights#WorkbooksRevisionsListRequest": {
+    "com.azure.applicationinsights#ListWorkbooksRevisionsRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -602,7 +603,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -626,10 +627,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.applicationinsights#WorkbooksDelete": {
+    "com.azure.applicationinsights#DeleteWorkbook": {
       "type": "operation",
       "input": {
-        "target": "com.azure.applicationinsights#WorkbooksDeleteRequest"
+        "target": "com.azure.applicationinsights#DeleteWorkbookRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -645,7 +646,7 @@
         "com.distilled.openapi#apiVersion": "2023-06-01"
       }
     },
-    "com.azure.applicationinsights#WorkbooksDeleteRequest": {
+    "com.azure.applicationinsights#DeleteWorkbookRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -653,7 +654,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -677,13 +678,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.applicationinsights#WorkbooksUpdate": {
+    "com.azure.applicationinsights#UpdateWorkbook": {
       "type": "operation",
       "input": {
-        "target": "com.azure.applicationinsights#WorkbooksUpdateRequest"
+        "target": "com.azure.applicationinsights#UpdateWorkbookRequest"
       },
       "output": {
-        "target": "com.azure.applicationinsights#WorkbooksUpdateResponse"
+        "target": "com.azure.applicationinsights#UpdateWorkbookResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -696,13 +697,13 @@
         "com.distilled.openapi#apiVersion": "2023-06-01"
       }
     },
-    "com.azure.applicationinsights#WorkbooksUpdateResponse": {
+    "com.azure.applicationinsights#UpdateWorkbookResponse": {
       "type": "structure",
       "members": {
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
           }
         },
         "name": {
@@ -724,7 +725,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.applicationinsights#WorkbooksUpdateResponseTagsMap",
+          "target": "com.azure.applicationinsights#UpdateWorkbookResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -765,7 +766,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.applicationinsights#WorkbooksUpdateResponseTagsMap": {
+    "com.azure.applicationinsights#UpdateWorkbookResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -777,7 +778,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.applicationinsights#WorkbooksUpdateRequest": {
+    "com.azure.applicationinsights#UpdateWorkbookRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -785,7 +786,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -818,7 +819,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.applicationinsights#WorkbooksUpdateRequestTagsMap",
+          "target": "com.azure.applicationinsights#UpdateWorkbookRequestTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -889,7 +890,7 @@
         "smithy.api#documentation": "A list of 0 or more tags that are associated with this workbook definition"
       }
     },
-    "com.azure.applicationinsights#WorkbooksUpdateRequestTagsMap": {
+    "com.azure.applicationinsights#UpdateWorkbookRequestTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -940,7 +941,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
           }
         },
         "name": {
@@ -1023,7 +1024,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -1101,10 +1102,7 @@
           }
         },
         "userAssignedIdentities": {
-          "target": "com.azure.applicationinsights#UserAssignedIdentitiesInput",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
+          "target": "com.azure.applicationinsights#UserAssignedIdentitiesInput"
         }
       },
       "traits": {
@@ -1117,7 +1115,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.applicationinsights#UserAssignedIdentityInput"
+        "target": "com.azure.applicationinsights#UserAssignedIdentityInput",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
@@ -1213,13 +1214,13 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.applicationinsights#WorkbooksGet": {
+    "com.azure.applicationinsights#GetWorkbook": {
       "type": "operation",
       "input": {
-        "target": "com.azure.applicationinsights#WorkbooksGetRequest"
+        "target": "com.azure.applicationinsights#GetWorkbookRequest"
       },
       "output": {
-        "target": "com.azure.applicationinsights#WorkbooksGetResponse"
+        "target": "com.azure.applicationinsights#GetWorkbookResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1232,13 +1233,13 @@
         "com.distilled.openapi#apiVersion": "2023-06-01"
       }
     },
-    "com.azure.applicationinsights#WorkbooksGetResponse": {
+    "com.azure.applicationinsights#GetWorkbookResponse": {
       "type": "structure",
       "members": {
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+            "smithy.api#documentation": "Fully qualified resource ID for the resource. E.g. \"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}\""
           }
         },
         "name": {
@@ -1260,7 +1261,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.applicationinsights#WorkbooksGetResponseTagsMap",
+          "target": "com.azure.applicationinsights#GetWorkbookResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
@@ -1301,7 +1302,7 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.applicationinsights#WorkbooksGetResponseTagsMap": {
+    "com.azure.applicationinsights#GetWorkbookResponseTagsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1313,7 +1314,7 @@
         "smithy.api#documentation": "Resource tags."
       }
     },
-    "com.azure.applicationinsights#WorkbooksGetRequest": {
+    "com.azure.applicationinsights#GetWorkbookRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1321,7 +1322,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -1352,10 +1353,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.applicationinsights#WorkbooksListByResourceGroup": {
+    "com.azure.applicationinsights#ListWorkbookByResourceGroup": {
       "type": "operation",
       "input": {
-        "target": "com.azure.applicationinsights#WorkbooksListByResourceGroupRequest"
+        "target": "com.azure.applicationinsights#ListWorkbookByResourceGroupRequest"
       },
       "output": {
         "target": "com.azure.applicationinsights#WorkbooksListResult"
@@ -1371,7 +1372,7 @@
         "com.distilled.openapi#apiVersion": "2023-06-01"
       }
     },
-    "com.azure.applicationinsights#WorkbooksListByResourceGroupRequest": {
+    "com.azure.applicationinsights#ListWorkbookByResourceGroupRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1379,7 +1380,7 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "resourceGroupName": {
@@ -1391,7 +1392,7 @@
           }
         },
         "category": {
-          "target": "com.azure.applicationinsights#WorkbooksListByResourceGroupRequestCategory",
+          "target": "com.azure.applicationinsights#ListWorkbookByResourceGroupRequestCategory",
           "traits": {
             "smithy.api#httpQuery": "category",
             "smithy.api#required": {},
@@ -1399,7 +1400,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.applicationinsights#WorkbooksListByResourceGroupRequestTagsList",
+          "target": "com.azure.applicationinsights#ListWorkbookByResourceGroupRequestTagsList",
           "traits": {
             "smithy.api#httpQuery": "tags",
             "smithy.api#documentation": "Tags presents on each workbook returned."
@@ -1424,14 +1425,14 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.applicationinsights#WorkbooksListByResourceGroupRequestTagsList": {
+    "com.azure.applicationinsights#ListWorkbookByResourceGroupRequestTagsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.azure.applicationinsights#WorkbooksListByResourceGroupRequestCategory": {
+    "com.azure.applicationinsights#ListWorkbookByResourceGroupRequestCategory": {
       "type": "enum",
       "members": {
         "WORKBOOK": {
@@ -1461,10 +1462,10 @@
       },
       "traits": {}
     },
-    "com.azure.applicationinsights#WorkbooksListBySubscription": {
+    "com.azure.applicationinsights#ListWorkbookBySubscription": {
       "type": "operation",
       "input": {
-        "target": "com.azure.applicationinsights#WorkbooksListBySubscriptionRequest"
+        "target": "com.azure.applicationinsights#ListWorkbookBySubscriptionRequest"
       },
       "output": {
         "target": "com.azure.applicationinsights#WorkbooksListResult"
@@ -1480,7 +1481,7 @@
         "com.distilled.openapi#apiVersion": "2023-06-01"
       }
     },
-    "com.azure.applicationinsights#WorkbooksListBySubscriptionRequest": {
+    "com.azure.applicationinsights#ListWorkbookBySubscriptionRequest": {
       "type": "structure",
       "members": {
         "subscriptionId": {
@@ -1488,11 +1489,11 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the target subscription."
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
           }
         },
         "category": {
-          "target": "com.azure.applicationinsights#WorkbooksListBySubscriptionRequestCategory",
+          "target": "com.azure.applicationinsights#ListWorkbookBySubscriptionRequestCategory",
           "traits": {
             "smithy.api#httpQuery": "category",
             "smithy.api#required": {},
@@ -1500,7 +1501,7 @@
           }
         },
         "tags": {
-          "target": "com.azure.applicationinsights#WorkbooksListBySubscriptionRequestTagsList",
+          "target": "com.azure.applicationinsights#ListWorkbookBySubscriptionRequestTagsList",
           "traits": {
             "smithy.api#httpQuery": "tags",
             "smithy.api#documentation": "Tags presents on each workbook returned."
@@ -1518,14 +1519,14 @@
         "smithy.api#input": {}
       }
     },
-    "com.azure.applicationinsights#WorkbooksListBySubscriptionRequestTagsList": {
+    "com.azure.applicationinsights#ListWorkbookBySubscriptionRequestTagsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.azure.applicationinsights#WorkbooksListBySubscriptionRequestCategory": {
+    "com.azure.applicationinsights#ListWorkbookBySubscriptionRequestCategory": {
       "type": "enum",
       "members": {
         "WORKBOOK": {
@@ -1560,28 +1561,28 @@
       "version": "1.0",
       "operations": [
         {
-          "target": "com.azure.applicationinsights#WorkbooksRevisionGet"
+          "target": "com.azure.applicationinsights#GetWorkbooksRevision"
         },
         {
-          "target": "com.azure.applicationinsights#WorkbooksRevisionsList"
+          "target": "com.azure.applicationinsights#ListWorkbooksRevisions"
         },
         {
-          "target": "com.azure.applicationinsights#WorkbooksDelete"
+          "target": "com.azure.applicationinsights#DeleteWorkbook"
         },
         {
-          "target": "com.azure.applicationinsights#WorkbooksUpdate"
+          "target": "com.azure.applicationinsights#UpdateWorkbook"
         },
         {
           "target": "com.azure.applicationinsights#WorkbooksCreateOrUpdate"
         },
         {
-          "target": "com.azure.applicationinsights#WorkbooksGet"
+          "target": "com.azure.applicationinsights#GetWorkbook"
         },
         {
-          "target": "com.azure.applicationinsights#WorkbooksListByResourceGroup"
+          "target": "com.azure.applicationinsights#ListWorkbookByResourceGroup"
         },
         {
-          "target": "com.azure.applicationinsights#WorkbooksListBySubscription"
+          "target": "com.azure.applicationinsights#ListWorkbookBySubscription"
         }
       ],
       "traits": {

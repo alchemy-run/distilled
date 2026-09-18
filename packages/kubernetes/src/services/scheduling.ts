@@ -209,11 +209,280 @@ export const IoK8sApimachineryPkgApisMetaV1ObjectMeta = /*@__PURE__*/ S.suspend(
   identifier: "IoK8sApimachineryPkgApisMetaV1ObjectMeta",
 }) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1ObjectMeta>;
 
+/** CompositeDisruptionMode defines how individual entities within a composite pod group can be disrupted. Exactly one mode must be set. */
+export interface IoK8sApiSchedulingV1alpha3CompositeDisruptionMode {
+  /** all specifies that all children groups can only be disrupted together. */
+  all?: unknown;
+  /** single specifies that children groups can be disrupted independently from each other. */
+  single?: unknown;
+}
+export const IoK8sApiSchedulingV1alpha3CompositeDisruptionMode =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      all: S.optional(S.Unknown),
+      single: S.optional(S.Unknown),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3CompositeDisruptionMode",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositeDisruptionMode>;
+
+/** TopologyConstraint defines a topology constraint for a PodGroup. */
+export interface IoK8sApiSchedulingV1alpha3TopologyConstraint {
+  /** key specifies the key of the node label representing the topology domain. All pods within the PodGroup must be colocated within the same domain instance. Different PodGroups can land on different domain instances even if they derive from the same PodGroupTemplate. Examples: "topology.kubernetes.io/rack" */
+  key: string;
+}
+export const IoK8sApiSchedulingV1alpha3TopologyConstraint =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      key: S.String,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3TopologyConstraint",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3TopologyConstraint>;
+
+/** topology defines the topology constraints for the composite pod group. Currently only a single topology constraint can be specified. This may change in the future. */
+export type IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraintsTopologyList =
+  Array<IoK8sApiSchedulingV1alpha3TopologyConstraint>;
+export const IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraintsTopologyList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1alpha3TopologyConstraint,
+  ) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraintsTopologyList>;
+
+/** CompositePodGroupSchedulingConstraints defines scheduling constraints (e.g. topology) for a CompositePodGroup. */
+export interface IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints {
+  /** topology defines the topology constraints for the composite pod group. Currently only a single topology constraint can be specified. This may change in the future. */
+  topology?: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraintsTopologyList;
+}
+export const IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      topology: S.optional(
+        IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraintsTopologyList,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints>;
+
+/** CompositeGangSchedulingPolicy indicates that the groups belonging to the composite group should be scheduled using all-or-nothing semantics. */
+export interface IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy {
+  /** minGroupCount is the minimum number of child groups that must be schedulable or scheduled at the same time for the scheduler to admit the entire group. It must be a positive integer. */
+  minGroupCount: number;
+}
+export const IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      minGroupCount: S.Number,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy>;
+
+/** CompositePodGroupSchedulingPolicy defines the scheduling configuration for a CompositePodGroup. Exactly one policy must be set. */
+export interface IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy {
+  /** basic specifies that the groups of this composite group should be scheduled independently. This field is immutable. */
+  basic?: unknown;
+  /** gang specifies that the groups of this composite group should be scheduled using all-or-nothing semantics. */
+  gang?: IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy;
+}
+export const IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      basic: S.optional(S.Unknown),
+      gang: S.optional(IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy>;
+
+/** WorkloadReference references the Workload object together with the template that was used to create a particular PodGroup. */
+export interface IoK8sApiSchedulingV1alpha3WorkloadReference {
+  /** templateName is the name of a template within the Workload object that was used to create a pod group. It must be a DNS label. This field is required. */
+  templateName: string;
+  /** workloadName is the name of the Workload object that contains a template that was used when creating a pod group. It must be a DNS name. This field is required. */
+  workloadName: string;
+}
+export const IoK8sApiSchedulingV1alpha3WorkloadReference =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      templateName: S.String,
+      workloadName: S.String,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3WorkloadReference",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3WorkloadReference>;
+
+/** CompositePodGroupSpec defines the desired state of CompositePodGroup. */
+export interface IoK8sApiSchedulingV1alpha3CompositePodGroupSpec {
+  /** disruptionMode defines the mode in which a given CompositePodGroup can be disrupted. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. One of Single, All. Defaults to Single if unset. This field is immutable. */
+  disruptionMode?: IoK8sApiSchedulingV1alpha3CompositeDisruptionMode;
+  /** parentCompositePodGroupName contains the name of the parent composite pod group within the same namespace as this composite pod group. It must be a DNS name. If it's nil, then this composite pod group is a root of a workload's hierarchy. This field is immutable. */
+  parentCompositePodGroupName?: string;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
+  preemptionPolicy?: string;
+  /** priority is the value of priority of this composite pod group. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable. */
+  priority?: number;
+  /** priorityClassName defines the priority that should be considered when scheduling this CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. If left unspecified, it is validated and resolved similarly to the PriorityClassName field in Pods (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the composite pod group's priority will be zero). This field is immutable. */
+  priorityClassName?: string;
+  /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. This field is immutable. */
+  schedulingConstraints?: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints;
+  /** schedulingPolicy defines the scheduling policy for this instance of the CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. This field is immutable. */
+  schedulingPolicy: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy;
+  /** workloadRef references an optional CompositePodGroup template within the Workload object that was used to create the CompositePodGroup. This field is required. This field is immutable. */
+  workloadRef: IoK8sApiSchedulingV1alpha3WorkloadReference;
+}
+export const IoK8sApiSchedulingV1alpha3CompositePodGroupSpec =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      disruptionMode: S.optional(
+        IoK8sApiSchedulingV1alpha3CompositeDisruptionMode,
+      ),
+      parentCompositePodGroupName: S.optional(S.String),
+      preemptionPolicy: S.optional(S.String),
+      priority: S.optional(S.Number),
+      priorityClassName: S.optional(S.String),
+      schedulingConstraints: S.optional(
+        IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints,
+      ),
+      schedulingPolicy:
+        IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy,
+      workloadRef: IoK8sApiSchedulingV1alpha3WorkloadReference,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupSpec",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupSpec>;
+
+/** Condition contains details for one aspect of the current state of this API Resource. */
+export interface IoK8sApimachineryPkgApisMetaV1Condition {
+  /** lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed. If that is not known, then using the time when the API field changed is acceptable. */
+  lastTransitionTime: string;
+  /** message is a human readable message indicating details about the transition. This may be an empty string. */
+  message?: string;
+  /** observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance. */
+  observedGeneration?: number;
+  /** reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty. */
+  reason: string;
+  /** status of the condition, one of True, False, Unknown. */
+  status: string;
+  /** type of condition in CamelCase or in foo.example.com/CamelCase. */
+  type: string;
+}
+export const IoK8sApimachineryPkgApisMetaV1Condition = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      lastTransitionTime: S.String,
+      message: S.optional(S.String),
+      observedGeneration: S.optional(S.Number),
+      reason: S.String,
+      status: S.String,
+      type: S.String,
+    }),
+).annotate({
+  identifier: "IoK8sApimachineryPkgApisMetaV1Condition",
+}) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Condition>;
+
+/** conditions represent the latest observations of the CompositePodGroup's state. Known condition types: - "CompositePodGroupInitiallyScheduled": Indicates whether the overall scheduling requirement for the subtree under this CompositePodGroup has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently deleted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the CompositePodGroup is about to be terminated due to disruption such as preemption. Known reasons for the CompositePodGroupInitiallyScheduled condition: - "Unschedulable": The CompositePodGroup's subtree could not be placed due to resource constraints, affinity/anti-affinity, or topological constraints. - "SchedulerError": The CompositePodGroup cannot be scheduled due to some internal error that occurred during scheduling. - "Invalid": Set to True when kube-scheduler detects an invalid group layout during runtime validation. The `message` field details the specific layout violation (such as a detected cycle, exceeding the maximum depth of 4, or referencing multiple distinct Workloads). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The CompositePodGroup was targeted by the scheduler's preemption loop to free up capacity for higher-priority preemptors. */
+export type IoK8sApiSchedulingV1alpha3CompositePodGroupStatusConditionsList =
+  Array<IoK8sApimachineryPkgApisMetaV1Condition>;
+export const IoK8sApiSchedulingV1alpha3CompositePodGroupStatusConditionsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApimachineryPkgApisMetaV1Condition,
+  ) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupStatusConditionsList>;
+
+/** CompositePodGroupStatus represents information about the status of a composite pod group. */
+export interface IoK8sApiSchedulingV1alpha3CompositePodGroupStatus {
+  /** conditions represent the latest observations of the CompositePodGroup's state. Known condition types: - "CompositePodGroupInitiallyScheduled": Indicates whether the overall scheduling requirement for the subtree under this CompositePodGroup has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently deleted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the CompositePodGroup is about to be terminated due to disruption such as preemption. Known reasons for the CompositePodGroupInitiallyScheduled condition: - "Unschedulable": The CompositePodGroup's subtree could not be placed due to resource constraints, affinity/anti-affinity, or topological constraints. - "SchedulerError": The CompositePodGroup cannot be scheduled due to some internal error that occurred during scheduling. - "Invalid": Set to True when kube-scheduler detects an invalid group layout during runtime validation. The `message` field details the specific layout violation (such as a detected cycle, exceeding the maximum depth of 4, or referencing multiple distinct Workloads). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The CompositePodGroup was targeted by the scheduler's preemption loop to free up capacity for higher-priority preemptors. */
+  conditions?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatusConditionsList;
+}
+export const IoK8sApiSchedulingV1alpha3CompositePodGroupStatus =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      conditions: S.optional(
+        IoK8sApiSchedulingV1alpha3CompositePodGroupStatusConditionsList,
+      ),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupStatus",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupStatus>;
+
+export interface CreateSchedulingV1alpha3NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the desired state of the CompositePodGroup. */
+  spec: IoK8sApiSchedulingV1alpha3CompositePodGroupSpec;
+  /** status represents the current observed state of the CompositePodGroup. */
+  status?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatus;
+}
+export const CreateSchedulingV1alpha3NamespacedCompositePodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiSchedulingV1alpha3CompositePodGroupSpec,
+      status: S.optional(IoK8sApiSchedulingV1alpha3CompositePodGroupStatus),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "CreateSchedulingV1alpha3NamespacedCompositePodGroupRequest",
+  }) as any as S.Schema<CreateSchedulingV1alpha3NamespacedCompositePodGroupRequest>;
+
+/** CompositePodGroup represents a runtime instance of pod groups grouped together. CompositePodGroups are created by workload controllers (LWS, JobSet, etc...) from Workload.compositePodGroupTemplates. CompositePodGroup API enablement is toggled by the CompositePodGroup feature gate. */
+export interface IoK8sApiSchedulingV1alpha3CompositePodGroup {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the desired state of the CompositePodGroup. */
+  spec: IoK8sApiSchedulingV1alpha3CompositePodGroupSpec;
+  /** status represents the current observed state of the CompositePodGroup. */
+  status?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatus;
+}
+export const IoK8sApiSchedulingV1alpha3CompositePodGroup =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiSchedulingV1alpha3CompositePodGroupSpec,
+      status: S.optional(IoK8sApiSchedulingV1alpha3CompositePodGroupStatus),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroup",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroup>;
+
 /** DisruptionMode defines how individual entities within a group can be disrupted. Exactly one mode can be set. */
 export interface IoK8sApiSchedulingV1alpha3DisruptionMode {
-  /** All specifies that all children can only be disrupted together. */
+  /** all specifies that all children can only be disrupted together. */
   all?: unknown;
-  /** Single specifies that children can be disrupted independently from each other. */
+  /** single specifies that children can be disrupted independently from each other. */
   single?: unknown;
 }
 export const IoK8sApiSchedulingV1alpha3DisruptionMode = /*@__PURE__*/ S.suspend(
@@ -226,46 +495,13 @@ export const IoK8sApiSchedulingV1alpha3DisruptionMode = /*@__PURE__*/ S.suspend(
   identifier: "IoK8sApiSchedulingV1alpha3DisruptionMode",
 }) as any as S.Schema<IoK8sApiSchedulingV1alpha3DisruptionMode>;
 
-/** WorkloadPodGroupTemplateReference references the PodGroupTemplate within the Workload object. */
-export interface IoK8sApiSchedulingV1alpha3WorkloadPodGroupTemplateReference {
-  /** PodGroupTemplateName defines the PodGroupTemplate name within the Workload object. */
-  podGroupTemplateName: string;
-  /** WorkloadName defines the name of the Workload object. */
-  workloadName: string;
-}
-export const IoK8sApiSchedulingV1alpha3WorkloadPodGroupTemplateReference =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      podGroupTemplateName: S.String,
-      workloadName: S.String,
-    }),
-  ).annotate({
-    identifier: "IoK8sApiSchedulingV1alpha3WorkloadPodGroupTemplateReference",
-  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3WorkloadPodGroupTemplateReference>;
-
-/** PodGroupTemplateReference references a PodGroup template defined in some object (e.g. Workload). Exactly one reference must be set. */
-export interface IoK8sApiSchedulingV1alpha3PodGroupTemplateReference {
-  /** Workload references the PodGroupTemplate within the Workload object that was used to create the PodGroup. */
-  workload?: IoK8sApiSchedulingV1alpha3WorkloadPodGroupTemplateReference;
-}
-export const IoK8sApiSchedulingV1alpha3PodGroupTemplateReference =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      workload: S.optional(
-        IoK8sApiSchedulingV1alpha3WorkloadPodGroupTemplateReference,
-      ),
-    }),
-  ).annotate({
-    identifier: "IoK8sApiSchedulingV1alpha3PodGroupTemplateReference",
-  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroupTemplateReference>;
-
 /** PodGroupResourceClaim references exactly one ResourceClaim, either directly or by naming a ResourceClaimTemplate which is then turned into a ResourceClaim for the PodGroup. It adds a name to it that uniquely identifies the ResourceClaim inside the PodGroup. Pods that need access to the ResourceClaim define a matching reference in its own Spec.ResourceClaims. The Pod's claim must match all fields of the PodGroup's claim exactly. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupResourceClaim {
-  /** Name uniquely identifies this resource claim inside the PodGroup. This must be a DNS_LABEL. */
+  /** name uniquely identifies this resource claim inside the PodGroup. This must be a DNS_LABEL. */
   name: string;
-  /** ResourceClaimName is the name of a ResourceClaim object in the same namespace as this PodGroup. The ResourceClaim will be reserved for the PodGroup instead of its individual pods. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set. */
+  /** resourceClaimName is the name of a ResourceClaim object in the same namespace as this PodGroup. The ResourceClaim will be reserved for the PodGroup instead of its individual pods. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set. */
   resourceClaimName?: string;
-  /** ResourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace as this PodGroup. The template will be used to create a new ResourceClaim, which will be bound to this PodGroup. When this PodGroup is deleted, the ResourceClaim will also be deleted. The PodGroup name and resource name, along with a generated component, will be used to form a unique name for the ResourceClaim, which will be recorded in podgroup.status.resourceClaimStatuses. This field is immutable and no changes will be made to the corresponding ResourceClaim by the control plane after creating the ResourceClaim. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set. */
+  /** resourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace as this PodGroup. The template will be used to create a new ResourceClaim, which will be bound to this PodGroup. When this PodGroup is deleted, the ResourceClaim will also be deleted. The PodGroup name and resource name, along with a generated component, will be used to form a unique name for the ResourceClaim, which will be recorded in podgroup.status.resourceClaimStatuses. This field is immutable and no changes will be made to the corresponding ResourceClaim by the control plane after creating the ResourceClaim. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set. */
   resourceClaimTemplateName?: string;
 }
 export const IoK8sApiSchedulingV1alpha3PodGroupResourceClaim =
@@ -279,7 +515,7 @@ export const IoK8sApiSchedulingV1alpha3PodGroupResourceClaim =
     identifier: "IoK8sApiSchedulingV1alpha3PodGroupResourceClaim",
   }) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroupResourceClaim>;
 
-/** ResourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is an alpha-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
+/** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
 export type IoK8sApiSchedulingV1alpha3PodGroupSpecResourceClaimsList =
   Array<IoK8sApiSchedulingV1alpha3PodGroupResourceClaim>;
 export const IoK8sApiSchedulingV1alpha3PodGroupSpecResourceClaimsList =
@@ -287,21 +523,7 @@ export const IoK8sApiSchedulingV1alpha3PodGroupSpecResourceClaimsList =
     IoK8sApiSchedulingV1alpha3PodGroupResourceClaim,
   ) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroupSpecResourceClaimsList>;
 
-/** TopologyConstraint defines a topology constraint for a PodGroup. */
-export interface IoK8sApiSchedulingV1alpha3TopologyConstraint {
-  /** Key specifies the key of the node label representing the topology domain. All pods within the PodGroup must be colocated within the same domain instance. Different PodGroups can land on different domain instances even if they derive from the same PodGroupTemplate. Examples: "topology.kubernetes.io/rack" */
-  key: string;
-}
-export const IoK8sApiSchedulingV1alpha3TopologyConstraint =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      key: S.String,
-    }),
-  ).annotate({
-    identifier: "IoK8sApiSchedulingV1alpha3TopologyConstraint",
-  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3TopologyConstraint>;
-
-/** Topology defines the topology constraints for the pod group. Currently only a single topology constraint can be specified. This may change in the future. */
+/** topology defines the topology constraints for the pod group. Currently only a single topology constraint can be specified. This may change in the future. */
 export type IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraintsTopologyList =
   Array<IoK8sApiSchedulingV1alpha3TopologyConstraint>;
 export const IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraintsTopologyList =
@@ -311,7 +533,7 @@ export const IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraintsTopologyList
 
 /** PodGroupSchedulingConstraints defines scheduling constraints (e.g. topology) for a PodGroup. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraints {
-  /** Topology defines the topology constraints for the pod group. Currently only a single topology constraint can be specified. This may change in the future. */
+  /** topology defines the topology constraints for the pod group. Currently only a single topology constraint can be specified. This may change in the future. */
   topology?: IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraintsTopologyList;
 }
 export const IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraints =
@@ -327,7 +549,7 @@ export const IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraints =
 
 /** GangSchedulingPolicy defines the parameters for gang scheduling. */
 export interface IoK8sApiSchedulingV1alpha3GangSchedulingPolicy {
-  /** MinCount is the minimum number of pods that must be schedulable or scheduled at the same time for the scheduler to admit the entire group. It must be a positive integer. This field is mutable to support workload scaling. Note that the scheduler operates on an eventually consistent model. Updates to minCount may not be immediately reflected in scheduling decisions due to propagation delays. If minCount is updated while a scheduling cycle is in progress for that group, the new value may not take effect until the next cycle. Moreover, minCount is only enforced during scheduling, meaning that modifications to this field do not affect already-scheduled pods, applying only to those evaluated in future cycles. */
+  /** minCount is the minimum number of pods that must be schedulable or scheduled at the same time for the scheduler to admit the entire group. It must be a positive integer. This field is mutable to support workload scaling. Note that the scheduler operates on an eventually consistent model. Updates to minCount may not be immediately reflected in scheduling decisions due to propagation delays. If minCount is updated while a scheduling cycle is in progress for that group, the new value may not take effect until the next cycle. Moreover, minCount is only enforced during scheduling, meaning that modifications to this field do not affect already-scheduled pods, applying only to those evaluated in future cycles. */
   minCount: number;
 }
 export const IoK8sApiSchedulingV1alpha3GangSchedulingPolicy =
@@ -341,9 +563,9 @@ export const IoK8sApiSchedulingV1alpha3GangSchedulingPolicy =
 
 /** PodGroupSchedulingPolicy defines the scheduling configuration for a PodGroup. Exactly one policy must be set. The policy is chosen at creation time by setting either the Basic or Gang field. The PodGroup may not change policy after creation. Fields within chosen policy may be updated after creation when their individual fields allow it. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy {
-  /** Basic specifies that the pods in this group should be scheduled using standard Kubernetes scheduling behavior. Setting this field at group creation time opts this group to basic scheduling; this field cannot be changed afterward. */
+  /** basic specifies that the pods in this group should be scheduled using standard Kubernetes scheduling behavior. Setting this field at group creation time opts this group to basic scheduling; this field cannot be changed afterward. */
   basic?: unknown;
-  /** Gang specifies that the pods in this group should be scheduled using all-or-nothing semantics. Setting this field at group creation time opts this group to gang scheduling; this field cannot be set or unset afterward. The minCount field within Gang scheduling policy remains mutable after group creation. */
+  /** gang specifies that the pods in this group should be scheduled using all-or-nothing semantics. Setting this field at group creation time opts this group to gang scheduling; this field cannot be set or unset afterward. The minCount field within Gang scheduling policy remains mutable after group creation. */
   gang?: IoK8sApiSchedulingV1alpha3GangSchedulingPolicy;
 }
 export const IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy =
@@ -358,28 +580,31 @@ export const IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy =
 
 /** PodGroupSpec defines the desired state of a PodGroup. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupSpec {
-  /** DisruptionMode defines the mode in which a given PodGroup can be disrupted. Controllers are expected to fill this field by copying it from a PodGroupTemplate. One of Single, All. Defaults to Single if unset. This field is immutable. */
+  /** disruptionMode defines the mode in which a given PodGroup can be disrupted. Controllers are expected to fill this field by copying it from a PodGroupTemplate. One of Single, All. Defaults to Single if unset. This field is immutable. */
   disruptionMode?: IoK8sApiSchedulingV1alpha3DisruptionMode;
-  /** PodGroupTemplateRef references an optional PodGroup template within other object (e.g. Workload) that was used to create the PodGroup. This field is immutable. */
-  podGroupTemplateRef?: IoK8sApiSchedulingV1alpha3PodGroupTemplateReference;
-  /** Priority is the value of priority of this pod group. Various system components use this field to find the priority of the pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable. */
+  /** parentCompositePodGroupName contains the name of the parent composite pod group within the same namespace as this pod group. If it's nil, then this pod group is a root of a workload's hierarchy. This field is used only when the CompositePodGroup feature gate is enabled. This field is immutable. */
+  parentCompositePodGroupName?: string;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
+  preemptionPolicy?: string;
+  /** priority is the value of priority of this pod group. Various system components use this field to find the priority of the pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable. */
   priority?: number;
-  /** PriorityClassName defines the priority that should be considered when scheduling this pod group. Controllers are expected to fill this field by copying it from a PodGroupTemplate. Otherwise, it is validated and resolved similarly to the PriorityClassName on PodGroupTemplate (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the pod group's priority will be zero). This field is immutable. */
+  /** priorityClassName defines the priority that should be considered when scheduling this pod group. Controllers are expected to fill this field by copying it from a PodGroupTemplate. Otherwise, it is validated and resolved similarly to the PriorityClassName on PodGroupTemplate (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the pod group's priority will be zero). This field is immutable. */
   priorityClassName?: string;
-  /** ResourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is an alpha-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
+  /** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
   resourceClaims?: IoK8sApiSchedulingV1alpha3PodGroupSpecResourceClaimsList;
-  /** SchedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. This field is immutable. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled. */
+  /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. This field is immutable. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled. */
   schedulingConstraints?: IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraints;
-  /** SchedulingPolicy defines the scheduling policy for this instance of the PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. */
+  /** schedulingPolicy defines the scheduling policy for this instance of the PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. */
   schedulingPolicy: IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy;
+  /** workloadRef references an optional PodGroup template within the Workload object that was used to create the PodGroup. This field is immutable. */
+  workloadRef?: IoK8sApiSchedulingV1alpha3WorkloadReference;
 }
 export const IoK8sApiSchedulingV1alpha3PodGroupSpec = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       disruptionMode: S.optional(IoK8sApiSchedulingV1alpha3DisruptionMode),
-      podGroupTemplateRef: S.optional(
-        IoK8sApiSchedulingV1alpha3PodGroupTemplateReference,
-      ),
+      parentCompositePodGroupName: S.optional(S.String),
+      preemptionPolicy: S.optional(S.String),
       priority: S.optional(S.Number),
       priorityClassName: S.optional(S.String),
       resourceClaims: S.optional(
@@ -389,41 +614,13 @@ export const IoK8sApiSchedulingV1alpha3PodGroupSpec = /*@__PURE__*/ S.suspend(
         IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraints,
       ),
       schedulingPolicy: IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy,
+      workloadRef: S.optional(IoK8sApiSchedulingV1alpha3WorkloadReference),
     }),
 ).annotate({
   identifier: "IoK8sApiSchedulingV1alpha3PodGroupSpec",
 }) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroupSpec>;
 
-/** Condition contains details for one aspect of the current state of this API Resource. */
-export interface IoK8sApimachineryPkgApisMetaV1Condition {
-  /** lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed. If that is not known, then using the time when the API field changed is acceptable. */
-  lastTransitionTime: string;
-  /** message is a human readable message indicating details about the transition. This may be an empty string. */
-  message: string;
-  /** observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance. */
-  observedGeneration?: number;
-  /** reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty. */
-  reason: string;
-  /** status of the condition, one of True, False, Unknown. */
-  status: string;
-  /** type of condition in CamelCase or in foo.example.com/CamelCase. */
-  type: string;
-}
-export const IoK8sApimachineryPkgApisMetaV1Condition = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      lastTransitionTime: S.String,
-      message: S.String,
-      observedGeneration: S.optional(S.Number),
-      reason: S.String,
-      status: S.String,
-      type: S.String,
-    }),
-).annotate({
-  identifier: "IoK8sApimachineryPkgApisMetaV1Condition",
-}) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Condition>;
-
-/** Conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority PodGroups or Pods. */
+/** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority PodGroups or Pods. */
 export type IoK8sApiSchedulingV1alpha3PodGroupStatusConditionsList =
   Array<IoK8sApimachineryPkgApisMetaV1Condition>;
 export const IoK8sApiSchedulingV1alpha3PodGroupStatusConditionsList =
@@ -433,9 +630,9 @@ export const IoK8sApiSchedulingV1alpha3PodGroupStatusConditionsList =
 
 /** PodGroupResourceClaimStatus is stored in the PodGroupStatus for each PodGroupResourceClaim which references a ResourceClaimTemplate. It stores the generated name for the corresponding ResourceClaim. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupResourceClaimStatus {
-  /** Name uniquely identifies this resource claim inside the PodGroup. This must match the name of an entry in podgroup.spec.resourceClaims, which implies that the string must be a DNS_LABEL. */
+  /** name uniquely identifies this resource claim inside the PodGroup. This must match the name of an entry in podgroup.spec.resourceClaims, which implies that the string must be a DNS_LABEL. */
   name: string;
-  /** ResourceClaimName is the name of the ResourceClaim that was generated for the PodGroup in the namespace of the PodGroup. If this is unset, then generating a ResourceClaim was not necessary. The podgroup.spec.resourceClaims entry can be ignored in this case. */
+  /** resourceClaimName is the name of the ResourceClaim that was generated for the PodGroup in the namespace of the PodGroup. If this is unset, then generating a ResourceClaim was not necessary. The podgroup.spec.resourceClaims entry can be ignored in this case. */
   resourceClaimName?: string;
 }
 export const IoK8sApiSchedulingV1alpha3PodGroupResourceClaimStatus =
@@ -448,7 +645,7 @@ export const IoK8sApiSchedulingV1alpha3PodGroupResourceClaimStatus =
     identifier: "IoK8sApiSchedulingV1alpha3PodGroupResourceClaimStatus",
   }) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroupResourceClaimStatus>;
 
-/** Status of resource claims. */
+/** resourceClaimStatuses is status of resource claims. */
 export type IoK8sApiSchedulingV1alpha3PodGroupStatusResourceClaimStatusesList =
   Array<IoK8sApiSchedulingV1alpha3PodGroupResourceClaimStatus>;
 export const IoK8sApiSchedulingV1alpha3PodGroupStatusResourceClaimStatusesList =
@@ -458,9 +655,9 @@ export const IoK8sApiSchedulingV1alpha3PodGroupStatusResourceClaimStatusesList =
 
 /** PodGroupStatus represents information about the status of a pod group. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupStatus {
-  /** Conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority PodGroups or Pods. */
+  /** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority PodGroups or Pods. */
   conditions?: IoK8sApiSchedulingV1alpha3PodGroupStatusConditionsList;
-  /** Status of resource claims. */
+  /** resourceClaimStatuses is status of resource claims. */
   resourceClaimStatuses?: IoK8sApiSchedulingV1alpha3PodGroupStatusResourceClaimStatusesList;
 }
 export const IoK8sApiSchedulingV1alpha3PodGroupStatus = /*@__PURE__*/ S.suspend(
@@ -492,11 +689,11 @@ export interface CreateSchedulingV1alpha3NamespacedPodGroupRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the desired state of the PodGroup. */
+  /** spec defines the desired state of the PodGroup. */
   spec: IoK8sApiSchedulingV1alpha3PodGroupSpec;
-  /** Status represents the current observed state of the PodGroup. */
+  /** status represents the current observed state of the PodGroup. */
   status?: IoK8sApiSchedulingV1alpha3PodGroupStatus;
 }
 export const CreateSchedulingV1alpha3NamespacedPodGroupRequest =
@@ -529,11 +726,11 @@ export interface IoK8sApiSchedulingV1alpha3PodGroup {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the desired state of the PodGroup. */
+  /** spec defines the desired state of the PodGroup. */
   spec: IoK8sApiSchedulingV1alpha3PodGroupSpec;
-  /** Status represents the current observed state of the PodGroup. */
+  /** status represents the current observed state of the PodGroup. */
   status?: IoK8sApiSchedulingV1alpha3PodGroupStatus;
 }
 export const IoK8sApiSchedulingV1alpha3PodGroup = /*@__PURE__*/ S.suspend(() =>
@@ -548,27 +745,15 @@ export const IoK8sApiSchedulingV1alpha3PodGroup = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiSchedulingV1alpha3PodGroup",
 }) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroup>;
 
-/** TypedLocalObjectReference allows to reference typed object inside the same namespace. */
-export interface IoK8sApiSchedulingV1alpha3TypedLocalObjectReference {
-  /** APIGroup is the group for the resource being referenced. If APIGroup is empty, the specified Kind must be in the core API group. For any other third-party types, setting APIGroup is required. It must be a DNS subdomain. */
-  apiGroup?: string;
-  /** Kind is the type of resource being referenced. It must be a path segment name. */
-  kind: string;
-  /** Name is the name of resource being referenced. It must be a path segment name. */
-  name: string;
-}
-export const IoK8sApiSchedulingV1alpha3TypedLocalObjectReference =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      apiGroup: S.optional(S.String),
-      kind: S.String,
-      name: S.String,
-    }),
-  ).annotate({
-    identifier: "IoK8sApiSchedulingV1alpha3TypedLocalObjectReference",
-  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3TypedLocalObjectReference>;
+/** compositePodGroupTemplates is the list of templates for children CompositePodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
+export type IoK8sApiSchedulingV1alpha3CompositePodGroupTemplateCompositePodGroupTemplatesList =
+  Array<IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate>;
+export const IoK8sApiSchedulingV1alpha3CompositePodGroupTemplateCompositePodGroupTemplatesList =
+  /*@__PURE__*/ S.Array(
+    S.suspend(() => IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate),
+  ) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupTemplateCompositePodGroupTemplatesList>;
 
-/** ResourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is an alpha-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
+/** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
 export type IoK8sApiSchedulingV1alpha3PodGroupTemplateResourceClaimsList =
   Array<IoK8sApiSchedulingV1alpha3PodGroupResourceClaim>;
 export const IoK8sApiSchedulingV1alpha3PodGroupTemplateResourceClaimsList =
@@ -578,19 +763,21 @@ export const IoK8sApiSchedulingV1alpha3PodGroupTemplateResourceClaimsList =
 
 /** PodGroupTemplate represents a template for a set of pods with a scheduling policy. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupTemplate {
-  /** DisruptionMode defines the mode in which a given PodGroup can be disrupted. One of Single, All. This field is immutable. */
+  /** disruptionMode defines the mode in which a given PodGroup can be disrupted. One of Single, All. This field is immutable. */
   disruptionMode?: IoK8sApiSchedulingV1alpha3DisruptionMode;
-  /** Name is a unique identifier for the PodGroupTemplate within the Workload. It must be a DNS label. This field is immutable. */
+  /** name is a unique identifier for the PodGroupTemplate within the Workload. It must be a DNS label. This field is immutable. */
   name: string;
-  /** Priority is the value of priority of pod groups created from this template. Various system components use this field to find the priority of the pod group. The higher the value, the higher the priority. This field is immutable. */
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
+  preemptionPolicy?: string;
+  /** priority is the value of priority of pod groups created from this template. Various system components use this field to find the priority of the pod group. The higher the value, the higher the priority. This field is immutable. */
   priority?: number;
-  /** PriorityClassName indicates the priority that should be considered when scheduling a pod group created from this template. This field is immutable. */
+  /** priorityClassName indicates the priority that should be considered when scheduling a pod group created from this template. This field is immutable. */
   priorityClassName?: string;
-  /** ResourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is an alpha-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
+  /** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
   resourceClaims?: IoK8sApiSchedulingV1alpha3PodGroupTemplateResourceClaimsList;
-  /** SchedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroupTemplate. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled. This field is immutable. */
+  /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroupTemplate. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled. This field is immutable. */
   schedulingConstraints?: IoK8sApiSchedulingV1alpha3PodGroupSchedulingConstraints;
-  /** SchedulingPolicy defines the scheduling policy for this PodGroupTemplate. */
+  /** schedulingPolicy defines the scheduling policy for this PodGroupTemplate. */
   schedulingPolicy: IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy;
 }
 export const IoK8sApiSchedulingV1alpha3PodGroupTemplate =
@@ -598,6 +785,7 @@ export const IoK8sApiSchedulingV1alpha3PodGroupTemplate =
     S.Struct({
       disruptionMode: S.optional(IoK8sApiSchedulingV1alpha3DisruptionMode),
       name: S.String,
+      preemptionPolicy: S.optional(S.String),
       priority: S.optional(S.Number),
       priorityClassName: S.optional(S.String),
       resourceClaims: S.optional(
@@ -612,7 +800,90 @@ export const IoK8sApiSchedulingV1alpha3PodGroupTemplate =
     identifier: "IoK8sApiSchedulingV1alpha3PodGroupTemplate",
   }) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroupTemplate>;
 
-/** PodGroupTemplates is the list of templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. */
+/** podGroupTemplates is the list of templates for children PodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
+export type IoK8sApiSchedulingV1alpha3CompositePodGroupTemplatePodGroupTemplatesList =
+  Array<IoK8sApiSchedulingV1alpha3PodGroupTemplate>;
+export const IoK8sApiSchedulingV1alpha3CompositePodGroupTemplatePodGroupTemplatesList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1alpha3PodGroupTemplate,
+  ) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupTemplatePodGroupTemplatesList>;
+
+/** CompositePodGroupTemplate represents a template for a CompositePodGroup with a scheduling policy. */
+export interface IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate {
+  /** compositePodGroupTemplates is the list of templates for children CompositePodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
+  compositePodGroupTemplates?: IoK8sApiSchedulingV1alpha3CompositePodGroupTemplateCompositePodGroupTemplatesList;
+  /** disruptionMode defines the mode in which a given CompositePodGroup can be disrupted. One of Single, All. This field is immutable. */
+  disruptionMode?: IoK8sApiSchedulingV1alpha3CompositeDisruptionMode;
+  /** name is a unique identifier for the CompositePodGroupTemplate within the Workload. It must be a DNS label. This field is required. */
+  name: string;
+  /** podGroupTemplates is the list of templates for children PodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
+  podGroupTemplates?: IoK8sApiSchedulingV1alpha3CompositePodGroupTemplatePodGroupTemplatesList;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
+  preemptionPolicy?: string;
+  /** priority is the value of priority of composite pod groups created from this template. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable. */
+  priority?: number;
+  /** priorityClassName indicates the priority that should be considered when scheduling a composite pod group created from this template. If no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, composite pod groups created from this template will have the priority set to zero. This field is immutable. */
+  priorityClassName?: string;
+  /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this CompositePodGroupTemplate. This field is immutable. */
+  schedulingConstraints?: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints;
+  /** schedulingPolicy defines the scheduling policy for this template. */
+  schedulingPolicy: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy;
+}
+export const IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      compositePodGroupTemplates: S.optional(
+        IoK8sApiSchedulingV1alpha3CompositePodGroupTemplateCompositePodGroupTemplatesList,
+      ),
+      disruptionMode: S.optional(
+        IoK8sApiSchedulingV1alpha3CompositeDisruptionMode,
+      ),
+      name: S.String,
+      podGroupTemplates: S.optional(
+        IoK8sApiSchedulingV1alpha3CompositePodGroupTemplatePodGroupTemplatesList,
+      ),
+      preemptionPolicy: S.optional(S.String),
+      priority: S.optional(S.Number),
+      priorityClassName: S.optional(S.String),
+      schedulingConstraints: S.optional(
+        IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints,
+      ),
+      schedulingPolicy:
+        IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate>;
+
+/** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. This field is immutable. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
+export type IoK8sApiSchedulingV1alpha3WorkloadSpecCompositePodGroupTemplatesList =
+  Array<IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate>;
+export const IoK8sApiSchedulingV1alpha3WorkloadSpecCompositePodGroupTemplatesList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate,
+  ) as any as S.Schema<IoK8sApiSchedulingV1alpha3WorkloadSpecCompositePodGroupTemplatesList>;
+
+/** TypedLocalObjectReference allows to reference typed object inside the same namespace. */
+export interface IoK8sApiSchedulingV1alpha3TypedLocalObjectReference {
+  /** apiGroup is the group for the resource being referenced. If APIGroup is empty, the specified Kind must be in the core API group. For any other third-party types, setting APIGroup is required. It must be a DNS subdomain. */
+  apiGroup?: string;
+  /** kind is the type of resource being referenced. It must be a path segment name. */
+  kind: string;
+  /** name is the name of resource being referenced. It must be a path segment name. */
+  name: string;
+}
+export const IoK8sApiSchedulingV1alpha3TypedLocalObjectReference =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      apiGroup: S.optional(S.String),
+      kind: S.String,
+      name: S.String,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3TypedLocalObjectReference",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3TypedLocalObjectReference>;
+
+/** podGroupTemplates is the list of templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. */
 export type IoK8sApiSchedulingV1alpha3WorkloadSpecPodGroupTemplatesList =
   Array<IoK8sApiSchedulingV1alpha3PodGroupTemplate>;
 export const IoK8sApiSchedulingV1alpha3WorkloadSpecPodGroupTemplatesList =
@@ -622,19 +893,25 @@ export const IoK8sApiSchedulingV1alpha3WorkloadSpecPodGroupTemplatesList =
 
 /** WorkloadSpec defines the desired state of a Workload. */
 export interface IoK8sApiSchedulingV1alpha3WorkloadSpec {
-  /** ControllerRef is an optional reference to the controlling object, such as a Deployment or Job. This field is intended for use by tools like CLIs to provide a link back to the original workload definition. This field is immutable. */
+  /** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. This field is immutable. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
+  compositePodGroupTemplates?: IoK8sApiSchedulingV1alpha3WorkloadSpecCompositePodGroupTemplatesList;
+  /** controllerRef is an optional reference to the controlling object, such as a Deployment or Job. This field is intended for use by tools like CLIs to provide a link back to the original workload definition. This field is immutable. */
   controllerRef?: IoK8sApiSchedulingV1alpha3TypedLocalObjectReference;
-  /** PodGroupTemplates is the list of templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. */
-  podGroupTemplates: IoK8sApiSchedulingV1alpha3WorkloadSpecPodGroupTemplatesList;
+  /** podGroupTemplates is the list of templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. */
+  podGroupTemplates?: IoK8sApiSchedulingV1alpha3WorkloadSpecPodGroupTemplatesList;
 }
 export const IoK8sApiSchedulingV1alpha3WorkloadSpec = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      compositePodGroupTemplates: S.optional(
+        IoK8sApiSchedulingV1alpha3WorkloadSpecCompositePodGroupTemplatesList,
+      ),
       controllerRef: S.optional(
         IoK8sApiSchedulingV1alpha3TypedLocalObjectReference,
       ),
-      podGroupTemplates:
+      podGroupTemplates: S.optional(
         IoK8sApiSchedulingV1alpha3WorkloadSpecPodGroupTemplatesList,
+      ),
     }),
 ).annotate({
   identifier: "IoK8sApiSchedulingV1alpha3WorkloadSpec",
@@ -655,9 +932,9 @@ export interface CreateSchedulingV1alpha3NamespacedWorkloadRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the desired behavior of a Workload. */
+  /** spec defines the desired behavior of a Workload. */
   spec: IoK8sApiSchedulingV1alpha3WorkloadSpec;
 }
 export const CreateSchedulingV1alpha3NamespacedWorkloadRequest =
@@ -689,9 +966,9 @@ export interface IoK8sApiSchedulingV1alpha3Workload {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the desired behavior of a Workload. */
+  /** spec defines the desired behavior of a Workload. */
   spec: IoK8sApiSchedulingV1alpha3WorkloadSpec;
 }
 export const IoK8sApiSchedulingV1alpha3Workload = /*@__PURE__*/ S.suspend(() =>
@@ -704,6 +981,510 @@ export const IoK8sApiSchedulingV1alpha3Workload = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "IoK8sApiSchedulingV1alpha3Workload",
 }) as any as S.Schema<IoK8sApiSchedulingV1alpha3Workload>;
+
+/** DisruptionMode defines how individual entities within a group can be disrupted. Exactly one mode can be set. */
+export type IoK8sApiSchedulingV1beta1DisruptionMode =
+  IoK8sApiSchedulingV1alpha3DisruptionMode;
+export const IoK8sApiSchedulingV1beta1DisruptionMode =
+  IoK8sApiSchedulingV1alpha3DisruptionMode;
+
+/** PodGroupResourceClaim references exactly one ResourceClaim, either directly or by naming a ResourceClaimTemplate which is then turned into a ResourceClaim for the PodGroup. It adds a name to it that uniquely identifies the ResourceClaim inside the PodGroup. Pods that need access to the ResourceClaim define a matching reference in its own Spec.ResourceClaims. The Pod's claim must match all fields of the PodGroup's claim exactly. */
+export type IoK8sApiSchedulingV1beta1PodGroupResourceClaim =
+  IoK8sApiSchedulingV1alpha3PodGroupResourceClaim;
+export const IoK8sApiSchedulingV1beta1PodGroupResourceClaim =
+  IoK8sApiSchedulingV1alpha3PodGroupResourceClaim;
+
+/** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
+export type IoK8sApiSchedulingV1beta1PodGroupSpecResourceClaimsList =
+  Array<IoK8sApiSchedulingV1alpha3PodGroupResourceClaim>;
+export const IoK8sApiSchedulingV1beta1PodGroupSpecResourceClaimsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1alpha3PodGroupResourceClaim,
+  ) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupSpecResourceClaimsList>;
+
+/** TopologyConstraint defines a topology constraint for a PodGroup. */
+export type IoK8sApiSchedulingV1beta1TopologyConstraint =
+  IoK8sApiSchedulingV1alpha3TopologyConstraint;
+export const IoK8sApiSchedulingV1beta1TopologyConstraint =
+  IoK8sApiSchedulingV1alpha3TopologyConstraint;
+
+/** topology defines the topology constraints for the pod group. Currently only a single topology constraint can be specified. This may change in the future. */
+export type IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraintsTopologyList =
+  Array<IoK8sApiSchedulingV1alpha3TopologyConstraint>;
+export const IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraintsTopologyList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1alpha3TopologyConstraint,
+  ) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraintsTopologyList>;
+
+/** PodGroupSchedulingConstraints defines scheduling constraints (e.g. topology) for a PodGroup. */
+export interface IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraints {
+  /** topology defines the topology constraints for the pod group. Currently only a single topology constraint can be specified. This may change in the future. */
+  topology?: IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraintsTopologyList;
+}
+export const IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraints =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      topology: S.optional(
+        IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraintsTopologyList,
+      ),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraints",
+  }) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraints>;
+
+/** GangSchedulingPolicy defines the parameters for gang scheduling. */
+export type IoK8sApiSchedulingV1beta1GangSchedulingPolicy =
+  IoK8sApiSchedulingV1alpha3GangSchedulingPolicy;
+export const IoK8sApiSchedulingV1beta1GangSchedulingPolicy =
+  IoK8sApiSchedulingV1alpha3GangSchedulingPolicy;
+
+/** PodGroupSchedulingPolicy defines the scheduling configuration for a PodGroup. Exactly one policy must be set. The policy is chosen at creation time by setting either the Basic or Gang field. The PodGroup may not change policy after creation. Fields within chosen policy may be updated after creation when their individual fields allow it. */
+export type IoK8sApiSchedulingV1beta1PodGroupSchedulingPolicy =
+  IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy;
+export const IoK8sApiSchedulingV1beta1PodGroupSchedulingPolicy =
+  IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy;
+
+/** WorkloadReference references the Workload object together with the template that was used to create a particular PodGroup. */
+export type IoK8sApiSchedulingV1beta1WorkloadReference =
+  IoK8sApiSchedulingV1alpha3WorkloadReference;
+export const IoK8sApiSchedulingV1beta1WorkloadReference =
+  IoK8sApiSchedulingV1alpha3WorkloadReference;
+
+/** PodGroupSpec defines the desired state of a PodGroup. */
+export interface IoK8sApiSchedulingV1beta1PodGroupSpec {
+  /** disruptionMode defines the mode in which a given PodGroup can be disrupted. Controllers are expected to fill this field by copying it from a PodGroupTemplate. One of Single, All. Defaults to Single if unset. This field is immutable. */
+  disruptionMode?: IoK8sApiSchedulingV1alpha3DisruptionMode;
+  /** parentCompositePodGroupName contains the name of the parent composite pod group within the same namespace as this pod group. If it's nil, then this pod group is a root of a workload's hierarchy. This field is used only when the CompositePodGroup feature gate is enabled. This field is immutable. */
+  parentCompositePodGroupName?: string;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
+  preemptionPolicy?: string;
+  /** priority is the value of priority of this pod group. Various system components use this field to find the priority of the pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable. */
+  priority?: number;
+  /** priorityClassName defines the priority that should be considered when scheduling this pod group. Controllers are expected to fill this field by copying it from a PodGroupTemplate. Otherwise, it is validated and resolved similarly to the PriorityClassName on PodGroupTemplate (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the pod group's priority will be zero). This field is immutable. */
+  priorityClassName?: string;
+  /** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
+  resourceClaims?: IoK8sApiSchedulingV1beta1PodGroupSpecResourceClaimsList;
+  /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. This field is immutable. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled. */
+  schedulingConstraints?: IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraints;
+  /** schedulingPolicy defines the scheduling policy for this instance of the PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. */
+  schedulingPolicy: IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy;
+  /** workloadRef references an optional PodGroup template within the Workload object that was used to create the PodGroup. This field is immutable. */
+  workloadRef?: IoK8sApiSchedulingV1alpha3WorkloadReference;
+}
+export const IoK8sApiSchedulingV1beta1PodGroupSpec = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      disruptionMode: S.optional(IoK8sApiSchedulingV1alpha3DisruptionMode),
+      parentCompositePodGroupName: S.optional(S.String),
+      preemptionPolicy: S.optional(S.String),
+      priority: S.optional(S.Number),
+      priorityClassName: S.optional(S.String),
+      resourceClaims: S.optional(
+        IoK8sApiSchedulingV1beta1PodGroupSpecResourceClaimsList,
+      ),
+      schedulingConstraints: S.optional(
+        IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraints,
+      ),
+      schedulingPolicy: IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy,
+      workloadRef: S.optional(IoK8sApiSchedulingV1alpha3WorkloadReference),
+    }),
+).annotate({
+  identifier: "IoK8sApiSchedulingV1beta1PodGroupSpec",
+}) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupSpec>;
+
+/** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority PodGroups or Pods. */
+export type IoK8sApiSchedulingV1beta1PodGroupStatusConditionsList =
+  Array<IoK8sApimachineryPkgApisMetaV1Condition>;
+export const IoK8sApiSchedulingV1beta1PodGroupStatusConditionsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApimachineryPkgApisMetaV1Condition,
+  ) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupStatusConditionsList>;
+
+/** PodGroupResourceClaimStatus is stored in the PodGroupStatus for each PodGroupResourceClaim which references a ResourceClaimTemplate. It stores the generated name for the corresponding ResourceClaim. */
+export type IoK8sApiSchedulingV1beta1PodGroupResourceClaimStatus =
+  IoK8sApiSchedulingV1alpha3PodGroupResourceClaimStatus;
+export const IoK8sApiSchedulingV1beta1PodGroupResourceClaimStatus =
+  IoK8sApiSchedulingV1alpha3PodGroupResourceClaimStatus;
+
+/** resourceClaimStatuses is status of resource claims. */
+export type IoK8sApiSchedulingV1beta1PodGroupStatusResourceClaimStatusesList =
+  Array<IoK8sApiSchedulingV1alpha3PodGroupResourceClaimStatus>;
+export const IoK8sApiSchedulingV1beta1PodGroupStatusResourceClaimStatusesList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1alpha3PodGroupResourceClaimStatus,
+  ) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupStatusResourceClaimStatusesList>;
+
+/** PodGroupStatus represents information about the status of a pod group. */
+export interface IoK8sApiSchedulingV1beta1PodGroupStatus {
+  /** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority PodGroups or Pods. */
+  conditions?: IoK8sApiSchedulingV1beta1PodGroupStatusConditionsList;
+  /** resourceClaimStatuses is status of resource claims. */
+  resourceClaimStatuses?: IoK8sApiSchedulingV1beta1PodGroupStatusResourceClaimStatusesList;
+}
+export const IoK8sApiSchedulingV1beta1PodGroupStatus = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      conditions: S.optional(
+        IoK8sApiSchedulingV1beta1PodGroupStatusConditionsList,
+      ),
+      resourceClaimStatuses: S.optional(
+        IoK8sApiSchedulingV1beta1PodGroupStatusResourceClaimStatusesList,
+      ),
+    }),
+).annotate({
+  identifier: "IoK8sApiSchedulingV1beta1PodGroupStatus",
+}) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupStatus>;
+
+export interface CreateSchedulingV1beta1NamespacedPodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the desired state of the PodGroup. */
+  spec: IoK8sApiSchedulingV1beta1PodGroupSpec;
+  /** status represents the current observed state of the PodGroup. */
+  status?: IoK8sApiSchedulingV1beta1PodGroupStatus;
+}
+export const CreateSchedulingV1beta1NamespacedPodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiSchedulingV1beta1PodGroupSpec,
+      status: S.optional(IoK8sApiSchedulingV1beta1PodGroupStatus),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "CreateSchedulingV1beta1NamespacedPodGroupRequest",
+  }) as any as S.Schema<CreateSchedulingV1beta1NamespacedPodGroupRequest>;
+
+/** PodGroup represents a runtime instance of pods grouped together. PodGroups are created by workload controllers (Job, LWS, JobSet, etc...) from Workload.podGroupTemplates. PodGroup API enablement is toggled by the GenericWorkload feature gate. */
+export interface IoK8sApiSchedulingV1beta1PodGroup {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the desired state of the PodGroup. */
+  spec: IoK8sApiSchedulingV1beta1PodGroupSpec;
+  /** status represents the current observed state of the PodGroup. */
+  status?: IoK8sApiSchedulingV1beta1PodGroupStatus;
+}
+export const IoK8sApiSchedulingV1beta1PodGroup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    apiVersion: S.optional(S.String),
+    kind: S.optional(S.String),
+    metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+    spec: IoK8sApiSchedulingV1beta1PodGroupSpec,
+    status: S.optional(IoK8sApiSchedulingV1beta1PodGroupStatus),
+  }),
+).annotate({
+  identifier: "IoK8sApiSchedulingV1beta1PodGroup",
+}) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroup>;
+
+/** compositePodGroupTemplates is the list of templates for children CompositePodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
+export type IoK8sApiSchedulingV1beta1CompositePodGroupTemplateCompositePodGroupTemplatesList =
+  Array<IoK8sApiSchedulingV1beta1CompositePodGroupTemplate>;
+export const IoK8sApiSchedulingV1beta1CompositePodGroupTemplateCompositePodGroupTemplatesList =
+  /*@__PURE__*/ S.Array(
+    S.suspend(() => IoK8sApiSchedulingV1beta1CompositePodGroupTemplate),
+  ) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroupTemplateCompositePodGroupTemplatesList>;
+
+/** CompositeDisruptionMode defines how individual entities within a composite pod group can be disrupted. Exactly one mode must be set. */
+export type IoK8sApiSchedulingV1beta1CompositeDisruptionMode =
+  IoK8sApiSchedulingV1alpha3CompositeDisruptionMode;
+export const IoK8sApiSchedulingV1beta1CompositeDisruptionMode =
+  IoK8sApiSchedulingV1alpha3CompositeDisruptionMode;
+
+/** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
+export type IoK8sApiSchedulingV1beta1PodGroupTemplateResourceClaimsList =
+  Array<IoK8sApiSchedulingV1alpha3PodGroupResourceClaim>;
+export const IoK8sApiSchedulingV1beta1PodGroupTemplateResourceClaimsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1alpha3PodGroupResourceClaim,
+  ) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupTemplateResourceClaimsList>;
+
+/** PodGroupTemplate represents a template for a set of pods with a scheduling policy. */
+export interface IoK8sApiSchedulingV1beta1PodGroupTemplate {
+  /** disruptionMode defines the mode in which a given PodGroup can be disrupted. One of Single, All. This field is immutable. */
+  disruptionMode?: IoK8sApiSchedulingV1alpha3DisruptionMode;
+  /** name is a unique identifier for the PodGroupTemplate within the Workload. It must be a DNS label. This field is immutable. */
+  name: string;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
+  preemptionPolicy?: string;
+  /** priority is the value of priority of pod groups created from this template. Various system components use this field to find the priority of the pod group. The higher the value, the higher the priority. This field is immutable. */
+  priority?: number;
+  /** priorityClassName indicates the priority that should be considered when scheduling a pod group created from this template. This field is immutable. */
+  priorityClassName?: string;
+  /** resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled. This field is immutable. */
+  resourceClaims?: IoK8sApiSchedulingV1beta1PodGroupTemplateResourceClaimsList;
+  /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroupTemplate. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled. This field is immutable. */
+  schedulingConstraints?: IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraints;
+  /** schedulingPolicy defines the scheduling policy for this PodGroupTemplate. */
+  schedulingPolicy: IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy;
+}
+export const IoK8sApiSchedulingV1beta1PodGroupTemplate =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      disruptionMode: S.optional(IoK8sApiSchedulingV1alpha3DisruptionMode),
+      name: S.String,
+      preemptionPolicy: S.optional(S.String),
+      priority: S.optional(S.Number),
+      priorityClassName: S.optional(S.String),
+      resourceClaims: S.optional(
+        IoK8sApiSchedulingV1beta1PodGroupTemplateResourceClaimsList,
+      ),
+      schedulingConstraints: S.optional(
+        IoK8sApiSchedulingV1beta1PodGroupSchedulingConstraints,
+      ),
+      schedulingPolicy: IoK8sApiSchedulingV1alpha3PodGroupSchedulingPolicy,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1beta1PodGroupTemplate",
+  }) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupTemplate>;
+
+/** podGroupTemplates is the list of templates for children PodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
+export type IoK8sApiSchedulingV1beta1CompositePodGroupTemplatePodGroupTemplatesList =
+  Array<IoK8sApiSchedulingV1beta1PodGroupTemplate>;
+export const IoK8sApiSchedulingV1beta1CompositePodGroupTemplatePodGroupTemplatesList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1beta1PodGroupTemplate,
+  ) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroupTemplatePodGroupTemplatesList>;
+
+/** topology defines the topology constraints for the composite pod group. Currently only a single topology constraint can be specified. This may change in the future. */
+export type IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraintsTopologyList =
+  Array<IoK8sApiSchedulingV1alpha3TopologyConstraint>;
+export const IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraintsTopologyList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1alpha3TopologyConstraint,
+  ) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraintsTopologyList>;
+
+/** CompositePodGroupSchedulingConstraints defines scheduling constraints (e.g. topology) for a CompositePodGroup. */
+export interface IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraints {
+  /** topology defines the topology constraints for the composite pod group. Currently only a single topology constraint can be specified. This may change in the future. */
+  topology?: IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraintsTopologyList;
+}
+export const IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraints =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      topology: S.optional(
+        IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraintsTopologyList,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraints",
+  }) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraints>;
+
+/** CompositeGangSchedulingPolicy indicates that the groups belonging to the composite group should be scheduled using all-or-nothing semantics. */
+export type IoK8sApiSchedulingV1beta1CompositeGangSchedulingPolicy =
+  IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy;
+export const IoK8sApiSchedulingV1beta1CompositeGangSchedulingPolicy =
+  IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy;
+
+/** CompositePodGroupSchedulingPolicy defines the scheduling configuration for a CompositePodGroup. Exactly one policy must be set. */
+export type IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingPolicy =
+  IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy;
+export const IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingPolicy =
+  IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy;
+
+/** CompositePodGroupTemplate represents a template for a CompositePodGroup with a scheduling policy. */
+export interface IoK8sApiSchedulingV1beta1CompositePodGroupTemplate {
+  /** compositePodGroupTemplates is the list of templates for children CompositePodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
+  compositePodGroupTemplates?: IoK8sApiSchedulingV1beta1CompositePodGroupTemplateCompositePodGroupTemplatesList;
+  /** disruptionMode defines the mode in which a given CompositePodGroup can be disrupted. One of Single, All. This field is immutable. */
+  disruptionMode?: IoK8sApiSchedulingV1alpha3CompositeDisruptionMode;
+  /** name is a unique identifier for the CompositePodGroupTemplate within the Workload. It must be a DNS label. This field is required. */
+  name: string;
+  /** podGroupTemplates is the list of templates for children PodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set. */
+  podGroupTemplates?: IoK8sApiSchedulingV1beta1CompositePodGroupTemplatePodGroupTemplatesList;
+  /** preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled. */
+  preemptionPolicy?: string;
+  /** priority is the value of priority of composite pod groups created from this template. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable. */
+  priority?: number;
+  /** priorityClassName indicates the priority that should be considered when scheduling a composite pod group created from this template. If no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, composite pod groups created from this template will have the priority set to zero. This field is immutable. */
+  priorityClassName?: string;
+  /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this CompositePodGroupTemplate. This field is immutable. */
+  schedulingConstraints?: IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraints;
+  /** schedulingPolicy defines the scheduling policy for this template. */
+  schedulingPolicy: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy;
+}
+export const IoK8sApiSchedulingV1beta1CompositePodGroupTemplate =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      compositePodGroupTemplates: S.optional(
+        IoK8sApiSchedulingV1beta1CompositePodGroupTemplateCompositePodGroupTemplatesList,
+      ),
+      disruptionMode: S.optional(
+        IoK8sApiSchedulingV1alpha3CompositeDisruptionMode,
+      ),
+      name: S.String,
+      podGroupTemplates: S.optional(
+        IoK8sApiSchedulingV1beta1CompositePodGroupTemplatePodGroupTemplatesList,
+      ),
+      preemptionPolicy: S.optional(S.String),
+      priority: S.optional(S.Number),
+      priorityClassName: S.optional(S.String),
+      schedulingConstraints: S.optional(
+        IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingConstraints,
+      ),
+      schedulingPolicy:
+        IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1beta1CompositePodGroupTemplate",
+  }) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroupTemplate>;
+
+/** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. This field is immutable. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
+export type IoK8sApiSchedulingV1beta1WorkloadSpecCompositePodGroupTemplatesList =
+  Array<IoK8sApiSchedulingV1beta1CompositePodGroupTemplate>;
+export const IoK8sApiSchedulingV1beta1WorkloadSpecCompositePodGroupTemplatesList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1beta1CompositePodGroupTemplate,
+  ) as any as S.Schema<IoK8sApiSchedulingV1beta1WorkloadSpecCompositePodGroupTemplatesList>;
+
+/** TypedLocalObjectReference allows to reference typed object inside the same namespace. */
+export interface IoK8sApiSchedulingV1beta1TypedLocalObjectReference {
+  /** apiGroup is the group for the resource being referenced. If apiGroup is empty, the specified Kind must be in the core API group. For any other third-party types, setting apiGroup is required. It must be a DNS subdomain. */
+  apiGroup?: string;
+  /** kind is the type of resource being referenced. It must be a path segment name. */
+  kind: string;
+  /** name is the name of resource being referenced. It must be a path segment name. */
+  name: string;
+}
+export const IoK8sApiSchedulingV1beta1TypedLocalObjectReference =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      apiGroup: S.optional(S.String),
+      kind: S.String,
+      name: S.String,
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1beta1TypedLocalObjectReference",
+  }) as any as S.Schema<IoK8sApiSchedulingV1beta1TypedLocalObjectReference>;
+
+/** podGroupTemplates is the list of templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. */
+export type IoK8sApiSchedulingV1beta1WorkloadSpecPodGroupTemplatesList =
+  Array<IoK8sApiSchedulingV1beta1PodGroupTemplate>;
+export const IoK8sApiSchedulingV1beta1WorkloadSpecPodGroupTemplatesList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1beta1PodGroupTemplate,
+  ) as any as S.Schema<IoK8sApiSchedulingV1beta1WorkloadSpecPodGroupTemplatesList>;
+
+/** WorkloadSpec defines the desired state of a Workload. */
+export interface IoK8sApiSchedulingV1beta1WorkloadSpec {
+  /** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. This field is immutable. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
+  compositePodGroupTemplates?: IoK8sApiSchedulingV1beta1WorkloadSpecCompositePodGroupTemplatesList;
+  /** controllerRef is an optional reference to the controlling object, such as a Deployment or Job. This field is intended for use by tools like CLIs to provide a link back to the original workload definition. This field is immutable. */
+  controllerRef?: IoK8sApiSchedulingV1beta1TypedLocalObjectReference;
+  /** podGroupTemplates is the list of templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. */
+  podGroupTemplates?: IoK8sApiSchedulingV1beta1WorkloadSpecPodGroupTemplatesList;
+}
+export const IoK8sApiSchedulingV1beta1WorkloadSpec = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      compositePodGroupTemplates: S.optional(
+        IoK8sApiSchedulingV1beta1WorkloadSpecCompositePodGroupTemplatesList,
+      ),
+      controllerRef: S.optional(
+        IoK8sApiSchedulingV1beta1TypedLocalObjectReference,
+      ),
+      podGroupTemplates: S.optional(
+        IoK8sApiSchedulingV1beta1WorkloadSpecPodGroupTemplatesList,
+      ),
+    }),
+).annotate({
+  identifier: "IoK8sApiSchedulingV1beta1WorkloadSpec",
+}) as any as S.Schema<IoK8sApiSchedulingV1beta1WorkloadSpec>;
+
+export interface CreateSchedulingV1beta1NamespacedWorkloadRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the desired behavior of a Workload. */
+  spec: IoK8sApiSchedulingV1beta1WorkloadSpec;
+}
+export const CreateSchedulingV1beta1NamespacedWorkloadRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiSchedulingV1beta1WorkloadSpec,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/workloads",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "CreateSchedulingV1beta1NamespacedWorkloadRequest",
+  }) as any as S.Schema<CreateSchedulingV1beta1NamespacedWorkloadRequest>;
+
+/** Workload allows for expressing scheduling constraints that should be used when managing the lifecycle of workloads from the scheduling perspective, including scheduling, preemption, eviction and other phases. Workload API enablement is toggled by the GenericWorkload feature gate. */
+export interface IoK8sApiSchedulingV1beta1Workload {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the desired behavior of a Workload. */
+  spec: IoK8sApiSchedulingV1beta1WorkloadSpec;
+}
+export const IoK8sApiSchedulingV1beta1Workload = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    apiVersion: S.optional(S.String),
+    kind: S.optional(S.String),
+    metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+    spec: IoK8sApiSchedulingV1beta1WorkloadSpec,
+  }),
+).annotate({
+  identifier: "IoK8sApiSchedulingV1beta1Workload",
+}) as any as S.Schema<IoK8sApiSchedulingV1beta1Workload>;
 
 export interface CreateSchedulingV1PriorityClassRequest {
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
@@ -722,7 +1503,7 @@ export interface CreateSchedulingV1PriorityClassRequest {
   globalDefault?: boolean;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** preemptionPolicy is the Policy for preempting pods with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. */
   preemptionPolicy?: string;
@@ -764,7 +1545,7 @@ export interface IoK8sApiSchedulingV1PriorityClass {
   globalDefault?: boolean;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** preemptionPolicy is the Policy for preempting pods with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. */
   preemptionPolicy?: string;
@@ -802,7 +1583,7 @@ export const IoK8sApimachineryPkgApisMetaV1Preconditions =
     identifier: "IoK8sApimachineryPkgApisMetaV1Preconditions",
   }) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Preconditions>;
 
-export interface DeleteSchedulingV1alpha3CollectionNamespacedPodGroupRequest {
+export interface DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
@@ -842,7 +1623,7 @@ export interface DeleteSchedulingV1alpha3CollectionNamespacedPodGroupRequest {
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
   preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
 }
-export const DeleteSchedulingV1alpha3CollectionNamespacedPodGroupRequest =
+export const DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroupRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       namespace: S.String.pipe(T.Label()),
@@ -869,13 +1650,14 @@ export const DeleteSchedulingV1alpha3CollectionNamespacedPodGroupRequest =
     }).pipe(
       T.Http({
         method: "DELETE",
-        uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/podgroups",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups",
         code: 200,
       }),
     ),
   ).annotate({
-    identifier: "DeleteSchedulingV1alpha3CollectionNamespacedPodGroupRequest",
-  }) as any as S.Schema<DeleteSchedulingV1alpha3CollectionNamespacedPodGroupRequest>;
+    identifier:
+      "DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroupRequest",
+  }) as any as S.Schema<DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroupRequest>;
 
 /** StatusCause provides more information about an api.Status failure, including cases when multiple errors are encountered. */
 export interface IoK8sApimachineryPkgApisMetaV1StatusCause {
@@ -1009,6 +1791,81 @@ export const IoK8sApimachineryPkgApisMetaV1Status = /*@__PURE__*/ S.suspend(
   identifier: "IoK8sApimachineryPkgApisMetaV1Status",
 }) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>;
 
+export interface DeleteSchedulingV1alpha3CollectionNamespacedPodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteSchedulingV1alpha3CollectionNamespacedPodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/podgroups",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteSchedulingV1alpha3CollectionNamespacedPodGroupRequest",
+  }) as any as S.Schema<DeleteSchedulingV1alpha3CollectionNamespacedPodGroupRequest>;
+
 export interface DeleteSchedulingV1alpha3CollectionNamespacedWorkloadRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -1083,6 +1940,57 @@ export const DeleteSchedulingV1alpha3CollectionNamespacedWorkloadRequest =
   ).annotate({
     identifier: "DeleteSchedulingV1alpha3CollectionNamespacedWorkloadRequest",
   }) as any as S.Schema<DeleteSchedulingV1alpha3CollectionNamespacedWorkloadRequest>;
+
+export interface DeleteSchedulingV1alpha3NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteSchedulingV1alpha3NamespacedCompositePodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteSchedulingV1alpha3NamespacedCompositePodGroupRequest",
+  }) as any as S.Schema<DeleteSchedulingV1alpha3NamespacedCompositePodGroupRequest>;
 
 export interface DeleteSchedulingV1alpha3NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1185,6 +2093,258 @@ export const DeleteSchedulingV1alpha3NamespacedWorkloadRequest =
   ).annotate({
     identifier: "DeleteSchedulingV1alpha3NamespacedWorkloadRequest",
   }) as any as S.Schema<DeleteSchedulingV1alpha3NamespacedWorkloadRequest>;
+
+export interface DeleteSchedulingV1beta1CollectionNamespacedPodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteSchedulingV1beta1CollectionNamespacedPodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteSchedulingV1beta1CollectionNamespacedPodGroupRequest",
+  }) as any as S.Schema<DeleteSchedulingV1beta1CollectionNamespacedPodGroupRequest>;
+
+export interface DeleteSchedulingV1beta1CollectionNamespacedWorkloadRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteSchedulingV1beta1CollectionNamespacedWorkloadRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/workloads",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteSchedulingV1beta1CollectionNamespacedWorkloadRequest",
+  }) as any as S.Schema<DeleteSchedulingV1beta1CollectionNamespacedWorkloadRequest>;
+
+export interface DeleteSchedulingV1beta1NamespacedPodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the PodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteSchedulingV1beta1NamespacedPodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteSchedulingV1beta1NamespacedPodGroupRequest",
+  }) as any as S.Schema<DeleteSchedulingV1beta1NamespacedPodGroupRequest>;
+
+export interface DeleteSchedulingV1beta1NamespacedWorkloadRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the Workload */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
+  gracePeriodSeconds?: number;
+  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
+  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean;
+  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
+  orphanDependents?: boolean;
+  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
+  propagationPolicy?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
+  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions;
+}
+export const DeleteSchedulingV1beta1NamespacedWorkloadRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+      ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(
+        S.Boolean.pipe(T.Query()),
+      ),
+      orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+      propagationPolicy: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/workloads/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteSchedulingV1beta1NamespacedWorkloadRequest",
+  }) as any as S.Schema<DeleteSchedulingV1beta1NamespacedWorkloadRequest>;
 
 export interface DeleteSchedulingV1CollectionPriorityClassRequest {
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
@@ -1520,6 +2680,159 @@ export const GetSchedulingV1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetSchedulingV1APIResourcesRequest",
 }) as any as S.Schema<GetSchedulingV1APIResourcesRequest>;
 
+export interface GetSchedulingV1beta1APIResourcesRequest {}
+export const GetSchedulingV1beta1APIResourcesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({}).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetSchedulingV1beta1APIResourcesRequest",
+}) as any as S.Schema<GetSchedulingV1beta1APIResourcesRequest>;
+
+export interface ListSchedulingV1alpha3CompositePodGroupForAllNamespacesRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const ListSchedulingV1alpha3CompositePodGroupForAllNamespacesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/compositepodgroups",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "ListSchedulingV1alpha3CompositePodGroupForAllNamespacesRequest",
+  }) as any as S.Schema<ListSchedulingV1alpha3CompositePodGroupForAllNamespacesRequest>;
+
+/** Items is the list of CompositePodGroups. */
+export type IoK8sApiSchedulingV1alpha3CompositePodGroupListItemsList =
+  Array<IoK8sApiSchedulingV1alpha3CompositePodGroup>;
+export const IoK8sApiSchedulingV1alpha3CompositePodGroupListItemsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  ) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupListItemsList>;
+
+/** CompositePodGroupList contains a list of CompositePodGroup resources. */
+export interface IoK8sApiSchedulingV1alpha3CompositePodGroupList {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Items is the list of CompositePodGroups. */
+  items: IoK8sApiSchedulingV1alpha3CompositePodGroupListItemsList;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Standard list metadata. */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+}
+export const IoK8sApiSchedulingV1alpha3CompositePodGroupList =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      apiVersion: S.optional(S.String),
+      items: IoK8sApiSchedulingV1alpha3CompositePodGroupListItemsList,
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ListMeta),
+    }),
+  ).annotate({
+    identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupList",
+  }) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupList>;
+
+export interface ListSchedulingV1alpha3NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const ListSchedulingV1alpha3NamespacedCompositePodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListSchedulingV1alpha3NamespacedCompositePodGroupRequest",
+  }) as any as S.Schema<ListSchedulingV1alpha3NamespacedCompositePodGroupRequest>;
+
 export interface ListSchedulingV1alpha3NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -1796,6 +3109,282 @@ export const ListSchedulingV1alpha3WorkloadForAllNamespacesRequest =
     identifier: "ListSchedulingV1alpha3WorkloadForAllNamespacesRequest",
   }) as any as S.Schema<ListSchedulingV1alpha3WorkloadForAllNamespacesRequest>;
 
+export interface ListSchedulingV1beta1NamespacedPodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const ListSchedulingV1beta1NamespacedPodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListSchedulingV1beta1NamespacedPodGroupRequest",
+  }) as any as S.Schema<ListSchedulingV1beta1NamespacedPodGroupRequest>;
+
+/** Items is the list of PodGroups. */
+export type IoK8sApiSchedulingV1beta1PodGroupListItemsList =
+  Array<IoK8sApiSchedulingV1beta1PodGroup>;
+export const IoK8sApiSchedulingV1beta1PodGroupListItemsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1beta1PodGroup,
+  ) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupListItemsList>;
+
+/** PodGroupList contains a list of PodGroup resources. */
+export interface IoK8sApiSchedulingV1beta1PodGroupList {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Items is the list of PodGroups. */
+  items: IoK8sApiSchedulingV1beta1PodGroupListItemsList;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** Standard list metadata. */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+}
+export const IoK8sApiSchedulingV1beta1PodGroupList = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      apiVersion: S.optional(S.String),
+      items: IoK8sApiSchedulingV1beta1PodGroupListItemsList,
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ListMeta),
+    }),
+).annotate({
+  identifier: "IoK8sApiSchedulingV1beta1PodGroupList",
+}) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupList>;
+
+export interface ListSchedulingV1beta1NamespacedWorkloadRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const ListSchedulingV1beta1NamespacedWorkloadRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/workloads",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListSchedulingV1beta1NamespacedWorkloadRequest",
+  }) as any as S.Schema<ListSchedulingV1beta1NamespacedWorkloadRequest>;
+
+/** items is the list of Workloads. */
+export type IoK8sApiSchedulingV1beta1WorkloadListItemsList =
+  Array<IoK8sApiSchedulingV1beta1Workload>;
+export const IoK8sApiSchedulingV1beta1WorkloadListItemsList =
+  /*@__PURE__*/ S.Array(
+    IoK8sApiSchedulingV1beta1Workload,
+  ) as any as S.Schema<IoK8sApiSchedulingV1beta1WorkloadListItemsList>;
+
+/** WorkloadList contains a list of Workload resources. */
+export interface IoK8sApiSchedulingV1beta1WorkloadList {
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** items is the list of Workloads. */
+  items: IoK8sApiSchedulingV1beta1WorkloadListItemsList;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard list metadata. */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
+}
+export const IoK8sApiSchedulingV1beta1WorkloadList = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      apiVersion: S.optional(S.String),
+      items: IoK8sApiSchedulingV1beta1WorkloadListItemsList,
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ListMeta),
+    }),
+).annotate({
+  identifier: "IoK8sApiSchedulingV1beta1WorkloadList",
+}) as any as S.Schema<IoK8sApiSchedulingV1beta1WorkloadList>;
+
+export interface ListSchedulingV1beta1PodGroupForAllNamespacesRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const ListSchedulingV1beta1PodGroupForAllNamespacesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/podgroups",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListSchedulingV1beta1PodGroupForAllNamespacesRequest",
+  }) as any as S.Schema<ListSchedulingV1beta1PodGroupForAllNamespacesRequest>;
+
+export interface ListSchedulingV1beta1WorkloadForAllNamespacesRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const ListSchedulingV1beta1WorkloadForAllNamespacesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/workloads",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListSchedulingV1beta1WorkloadForAllNamespacesRequest",
+  }) as any as S.Schema<ListSchedulingV1beta1WorkloadForAllNamespacesRequest>;
+
 export interface ListSchedulingV1PriorityClassRequest {
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
   pretty?: string;
@@ -1878,6 +3467,81 @@ export const IoK8sApiSchedulingV1PriorityClassList = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "IoK8sApiSchedulingV1PriorityClassList",
 }) as any as S.Schema<IoK8sApiSchedulingV1PriorityClassList>;
+
+export interface PatchSchedulingV1alpha3NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchSchedulingV1alpha3NamespacedCompositePodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchSchedulingV1alpha3NamespacedCompositePodGroupRequest",
+  }) as any as S.Schema<PatchSchedulingV1alpha3NamespacedCompositePodGroupRequest>;
+
+export interface PatchSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "PatchSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest",
+  }) as any as S.Schema<PatchSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest>;
 
 export interface PatchSchedulingV1alpha3NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1990,6 +3654,117 @@ export const PatchSchedulingV1alpha3NamespacedWorkloadRequest =
     identifier: "PatchSchedulingV1alpha3NamespacedWorkloadRequest",
   }) as any as S.Schema<PatchSchedulingV1alpha3NamespacedWorkloadRequest>;
 
+export interface PatchSchedulingV1beta1NamespacedPodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the PodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchSchedulingV1beta1NamespacedPodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchSchedulingV1beta1NamespacedPodGroupRequest",
+  }) as any as S.Schema<PatchSchedulingV1beta1NamespacedPodGroupRequest>;
+
+export interface PatchSchedulingV1beta1NamespacedPodGroupStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the PodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchSchedulingV1beta1NamespacedPodGroupStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchSchedulingV1beta1NamespacedPodGroupStatusRequest",
+  }) as any as S.Schema<PatchSchedulingV1beta1NamespacedPodGroupStatusRequest>;
+
+export interface PatchSchedulingV1beta1NamespacedWorkloadRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the Workload */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
+  force?: boolean;
+}
+export const PatchSchedulingV1beta1NamespacedWorkloadRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      force: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/workloads/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "PatchSchedulingV1beta1NamespacedWorkloadRequest",
+  }) as any as S.Schema<PatchSchedulingV1beta1NamespacedWorkloadRequest>;
+
 export interface PatchSchedulingV1PriorityClassRequest {
   /** name of the PriorityClass */
   name: string;
@@ -2023,6 +3798,57 @@ export const PatchSchedulingV1PriorityClassRequest = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "PatchSchedulingV1PriorityClassRequest",
 }) as any as S.Schema<PatchSchedulingV1PriorityClassRequest>;
+
+export interface ReadSchedulingV1alpha3NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadSchedulingV1alpha3NamespacedCompositePodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReadSchedulingV1alpha3NamespacedCompositePodGroupRequest",
+  }) as any as S.Schema<ReadSchedulingV1alpha3NamespacedCompositePodGroupRequest>;
+
+export interface ReadSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "ReadSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest",
+  }) as any as S.Schema<ReadSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest>;
 
 export interface ReadSchedulingV1alpha3NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2099,6 +3925,81 @@ export const ReadSchedulingV1alpha3NamespacedWorkloadRequest =
     identifier: "ReadSchedulingV1alpha3NamespacedWorkloadRequest",
   }) as any as S.Schema<ReadSchedulingV1alpha3NamespacedWorkloadRequest>;
 
+export interface ReadSchedulingV1beta1NamespacedPodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the PodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadSchedulingV1beta1NamespacedPodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReadSchedulingV1beta1NamespacedPodGroupRequest",
+  }) as any as S.Schema<ReadSchedulingV1beta1NamespacedPodGroupRequest>;
+
+export interface ReadSchedulingV1beta1NamespacedPodGroupStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the PodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadSchedulingV1beta1NamespacedPodGroupStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReadSchedulingV1beta1NamespacedPodGroupStatusRequest",
+  }) as any as S.Schema<ReadSchedulingV1beta1NamespacedPodGroupStatusRequest>;
+
+export interface ReadSchedulingV1beta1NamespacedWorkloadRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the Workload */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+}
+export const ReadSchedulingV1beta1NamespacedWorkloadRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/workloads/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReadSchedulingV1beta1NamespacedWorkloadRequest",
+  }) as any as S.Schema<ReadSchedulingV1beta1NamespacedWorkloadRequest>;
+
 export interface ReadSchedulingV1PriorityClassRequest {
   /** name of the PriorityClass */
   name: string;
@@ -2121,6 +4022,105 @@ export const ReadSchedulingV1PriorityClassRequest = /*@__PURE__*/ S.suspend(
   identifier: "ReadSchedulingV1PriorityClassRequest",
 }) as any as S.Schema<ReadSchedulingV1PriorityClassRequest>;
 
+export interface ReplaceSchedulingV1alpha3NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the desired state of the CompositePodGroup. */
+  spec: IoK8sApiSchedulingV1alpha3CompositePodGroupSpec;
+  /** status represents the current observed state of the CompositePodGroup. */
+  status?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatus;
+}
+export const ReplaceSchedulingV1alpha3NamespacedCompositePodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiSchedulingV1alpha3CompositePodGroupSpec,
+      status: S.optional(IoK8sApiSchedulingV1alpha3CompositePodGroupStatus),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReplaceSchedulingV1alpha3NamespacedCompositePodGroupRequest",
+  }) as any as S.Schema<ReplaceSchedulingV1alpha3NamespacedCompositePodGroupRequest>;
+
+export interface ReplaceSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the desired state of the CompositePodGroup. */
+  spec: IoK8sApiSchedulingV1alpha3CompositePodGroupSpec;
+  /** status represents the current observed state of the CompositePodGroup. */
+  status?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatus;
+}
+export const ReplaceSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiSchedulingV1alpha3CompositePodGroupSpec,
+      status: S.optional(IoK8sApiSchedulingV1alpha3CompositePodGroupStatus),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/namespaces/{namespace}/compositepodgroups/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "ReplaceSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest",
+  }) as any as S.Schema<ReplaceSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest>;
+
 export interface ReplaceSchedulingV1alpha3NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -2138,11 +4138,11 @@ export interface ReplaceSchedulingV1alpha3NamespacedPodGroupRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the desired state of the PodGroup. */
+  /** spec defines the desired state of the PodGroup. */
   spec: IoK8sApiSchedulingV1alpha3PodGroupSpec;
-  /** Status represents the current observed state of the PodGroup. */
+  /** status represents the current observed state of the PodGroup. */
   status?: IoK8sApiSchedulingV1alpha3PodGroupStatus;
 }
 export const ReplaceSchedulingV1alpha3NamespacedPodGroupRequest =
@@ -2187,11 +4187,11 @@ export interface ReplaceSchedulingV1alpha3NamespacedPodGroupStatusRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the desired state of the PodGroup. */
+  /** spec defines the desired state of the PodGroup. */
   spec: IoK8sApiSchedulingV1alpha3PodGroupSpec;
-  /** Status represents the current observed state of the PodGroup. */
+  /** status represents the current observed state of the PodGroup. */
   status?: IoK8sApiSchedulingV1alpha3PodGroupStatus;
 }
 export const ReplaceSchedulingV1alpha3NamespacedPodGroupStatusRequest =
@@ -2236,9 +4236,9 @@ export interface ReplaceSchedulingV1alpha3NamespacedWorkloadRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the desired behavior of a Workload. */
+  /** spec defines the desired behavior of a Workload. */
   spec: IoK8sApiSchedulingV1alpha3WorkloadSpec;
 }
 export const ReplaceSchedulingV1alpha3NamespacedWorkloadRequest =
@@ -2265,6 +4265,150 @@ export const ReplaceSchedulingV1alpha3NamespacedWorkloadRequest =
     identifier: "ReplaceSchedulingV1alpha3NamespacedWorkloadRequest",
   }) as any as S.Schema<ReplaceSchedulingV1alpha3NamespacedWorkloadRequest>;
 
+export interface ReplaceSchedulingV1beta1NamespacedPodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the PodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the desired state of the PodGroup. */
+  spec: IoK8sApiSchedulingV1beta1PodGroupSpec;
+  /** status represents the current observed state of the PodGroup. */
+  status?: IoK8sApiSchedulingV1beta1PodGroupStatus;
+}
+export const ReplaceSchedulingV1beta1NamespacedPodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiSchedulingV1beta1PodGroupSpec,
+      status: S.optional(IoK8sApiSchedulingV1beta1PodGroupStatus),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReplaceSchedulingV1beta1NamespacedPodGroupRequest",
+  }) as any as S.Schema<ReplaceSchedulingV1beta1NamespacedPodGroupRequest>;
+
+export interface ReplaceSchedulingV1beta1NamespacedPodGroupStatusRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the PodGroup */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the desired state of the PodGroup. */
+  spec: IoK8sApiSchedulingV1beta1PodGroupSpec;
+  /** status represents the current observed state of the PodGroup. */
+  status?: IoK8sApiSchedulingV1beta1PodGroupStatus;
+}
+export const ReplaceSchedulingV1beta1NamespacedPodGroupStatusRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiSchedulingV1beta1PodGroupSpec,
+      status: S.optional(IoK8sApiSchedulingV1beta1PodGroupStatus),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/podgroups/{name}/status",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReplaceSchedulingV1beta1NamespacedPodGroupStatusRequest",
+  }) as any as S.Schema<ReplaceSchedulingV1beta1NamespacedPodGroupStatusRequest>;
+
+export interface ReplaceSchedulingV1beta1NamespacedWorkloadRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the Workload */
+  name: string;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
+  dryRun?: string;
+  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
+  fieldManager?: string;
+  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
+  fieldValidation?: string;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  /** spec defines the desired behavior of a Workload. */
+  spec: IoK8sApiSchedulingV1beta1WorkloadSpec;
+}
+export const ReplaceSchedulingV1beta1NamespacedWorkloadRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      dryRun: S.optional(S.String.pipe(T.Query())),
+      fieldManager: S.optional(S.String.pipe(T.Query())),
+      fieldValidation: S.optional(S.String.pipe(T.Query())),
+      apiVersion: S.optional(S.String),
+      kind: S.optional(S.String),
+      metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
+      spec: IoK8sApiSchedulingV1beta1WorkloadSpec,
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/apis/scheduling.k8s.io/v1beta1/namespaces/{namespace}/workloads/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ReplaceSchedulingV1beta1NamespacedWorkloadRequest",
+  }) as any as S.Schema<ReplaceSchedulingV1beta1NamespacedWorkloadRequest>;
+
 export interface ReplaceSchedulingV1PriorityClassRequest {
   /** name of the PriorityClass */
   name: string;
@@ -2284,7 +4428,7 @@ export interface ReplaceSchedulingV1PriorityClassRequest {
   globalDefault?: boolean;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** preemptionPolicy is the Policy for preempting pods with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. */
   preemptionPolicy?: string;
@@ -2316,6 +4460,188 @@ export const ReplaceSchedulingV1PriorityClassRequest = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "ReplaceSchedulingV1PriorityClassRequest",
 }) as any as S.Schema<ReplaceSchedulingV1PriorityClassRequest>;
+
+export interface WatchSchedulingV1alpha3CompositePodGroupListForAllNamespacesRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchSchedulingV1alpha3CompositePodGroupListForAllNamespacesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/watch/compositepodgroups",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "WatchSchedulingV1alpha3CompositePodGroupListForAllNamespacesRequest",
+  }) as any as S.Schema<WatchSchedulingV1alpha3CompositePodGroupListForAllNamespacesRequest>;
+
+/** Event represents a single event to a watched resource. */
+export interface IoK8sApimachineryPkgApisMetaV1WatchEvent {
+  /** Object is: * If Type is Added or Modified: the new state of the object. * If Type is Deleted: the state of the object immediately before deletion. * If Type is Error: *Status is recommended; other types may make sense depending on context. */
+  object: unknown;
+  type: string;
+}
+export const IoK8sApimachineryPkgApisMetaV1WatchEvent = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      object: S.Unknown,
+      type: S.String,
+    }),
+).annotate({
+  identifier: "IoK8sApimachineryPkgApisMetaV1WatchEvent",
+}) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>;
+
+export interface WatchSchedulingV1alpha3NamespacedCompositePodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the CompositePodGroup */
+  name: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchSchedulingV1alpha3NamespacedCompositePodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/watch/namespaces/{namespace}/compositepodgroups/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchSchedulingV1alpha3NamespacedCompositePodGroupRequest",
+  }) as any as S.Schema<WatchSchedulingV1alpha3NamespacedCompositePodGroupRequest>;
+
+export interface WatchSchedulingV1alpha3NamespacedCompositePodGroupListRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchSchedulingV1alpha3NamespacedCompositePodGroupListRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1alpha3/watch/namespaces/{namespace}/compositepodgroups",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchSchedulingV1alpha3NamespacedCompositePodGroupListRequest",
+  }) as any as S.Schema<WatchSchedulingV1alpha3NamespacedCompositePodGroupListRequest>;
 
 export interface WatchSchedulingV1alpha3NamespacedPodGroupRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2374,22 +4700,6 @@ export const WatchSchedulingV1alpha3NamespacedPodGroupRequest =
   ).annotate({
     identifier: "WatchSchedulingV1alpha3NamespacedPodGroupRequest",
   }) as any as S.Schema<WatchSchedulingV1alpha3NamespacedPodGroupRequest>;
-
-/** Event represents a single event to a watched resource. */
-export interface IoK8sApimachineryPkgApisMetaV1WatchEvent {
-  /** Object is: * If Type is Added or Modified: the new state of the object. * If Type is Deleted: the state of the object immediately before deletion. * If Type is Error: *Status is recommended; other types may make sense depending on context. */
-  object: unknown;
-  type: string;
-}
-export const IoK8sApimachineryPkgApisMetaV1WatchEvent = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      object: S.Unknown,
-      type: S.String,
-    }),
-).annotate({
-  identifier: "IoK8sApimachineryPkgApisMetaV1WatchEvent",
-}) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>;
 
 export interface WatchSchedulingV1alpha3NamespacedPodGroupListRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2663,6 +4973,336 @@ export const WatchSchedulingV1alpha3WorkloadListForAllNamespacesRequest =
     identifier: "WatchSchedulingV1alpha3WorkloadListForAllNamespacesRequest",
   }) as any as S.Schema<WatchSchedulingV1alpha3WorkloadListForAllNamespacesRequest>;
 
+export interface WatchSchedulingV1beta1NamespacedPodGroupRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the PodGroup */
+  name: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchSchedulingV1beta1NamespacedPodGroupRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/watch/namespaces/{namespace}/podgroups/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchSchedulingV1beta1NamespacedPodGroupRequest",
+  }) as any as S.Schema<WatchSchedulingV1beta1NamespacedPodGroupRequest>;
+
+export interface WatchSchedulingV1beta1NamespacedPodGroupListRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchSchedulingV1beta1NamespacedPodGroupListRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/watch/namespaces/{namespace}/podgroups",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchSchedulingV1beta1NamespacedPodGroupListRequest",
+  }) as any as S.Schema<WatchSchedulingV1beta1NamespacedPodGroupListRequest>;
+
+export interface WatchSchedulingV1beta1NamespacedWorkloadRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** name of the Workload */
+  name: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchSchedulingV1beta1NamespacedWorkloadRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      name: S.String.pipe(T.Label()),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/watch/namespaces/{namespace}/workloads/{name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchSchedulingV1beta1NamespacedWorkloadRequest",
+  }) as any as S.Schema<WatchSchedulingV1beta1NamespacedWorkloadRequest>;
+
+export interface WatchSchedulingV1beta1NamespacedWorkloadListRequest {
+  /** object name and auth scope, such as for teams and projects */
+  namespace: string;
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchSchedulingV1beta1NamespacedWorkloadListRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespace: S.String.pipe(T.Label()),
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/watch/namespaces/{namespace}/workloads",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchSchedulingV1beta1NamespacedWorkloadListRequest",
+  }) as any as S.Schema<WatchSchedulingV1beta1NamespacedWorkloadListRequest>;
+
+export interface WatchSchedulingV1beta1PodGroupListForAllNamespacesRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchSchedulingV1beta1PodGroupListForAllNamespacesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/watch/podgroups",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchSchedulingV1beta1PodGroupListForAllNamespacesRequest",
+  }) as any as S.Schema<WatchSchedulingV1beta1PodGroupListForAllNamespacesRequest>;
+
+export interface WatchSchedulingV1beta1WorkloadListForAllNamespacesRequest {
+  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
+  allowWatchBookmarks?: boolean;
+  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
+  continue?: string;
+  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
+  fieldSelector?: string;
+  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
+  labelSelector?: string;
+  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
+  limit?: number;
+  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
+  pretty?: string;
+  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersion?: string;
+  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
+  resourceVersionMatch?: string;
+  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
+  sendInitialEvents?: boolean;
+  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is an alpha field and requires enabling the ShardedListAndWatch feature gate. */
+  shardSelector?: string;
+  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
+  timeoutSeconds?: number;
+  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
+  watch?: boolean;
+}
+export const WatchSchedulingV1beta1WorkloadListForAllNamespacesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+      continue: S.optional(S.String.pipe(T.Query())),
+      fieldSelector: S.optional(S.String.pipe(T.Query())),
+      labelSelector: S.optional(S.String.pipe(T.Query())),
+      limit: S.optional(S.Number.pipe(T.Query())),
+      pretty: S.optional(S.String.pipe(T.Query())),
+      resourceVersion: S.optional(S.String.pipe(T.Query())),
+      resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+      sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+      shardSelector: S.optional(S.String.pipe(T.Query())),
+      timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+      watch: S.optional(S.Boolean.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/apis/scheduling.k8s.io/v1beta1/watch/workloads",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WatchSchedulingV1beta1WorkloadListForAllNamespacesRequest",
+  }) as any as S.Schema<WatchSchedulingV1beta1WorkloadListForAllNamespacesRequest>;
+
 export interface WatchSchedulingV1PriorityClassRequest {
   /** name of the PriorityClass */
   name: string;
@@ -2770,6 +5410,22 @@ export const WatchSchedulingV1PriorityClassListRequest =
     identifier: "WatchSchedulingV1PriorityClassListRequest",
   }) as any as S.Schema<WatchSchedulingV1PriorityClassListRequest>;
 
+export type CreateSchedulingV1alpha3NamespacedCompositePodGroupError =
+  KubernetesOpError;
+/** create a CompositePodGroup */
+export const createSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMethod<
+  CreateSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  CreateSchedulingV1alpha3NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  output: IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateSchedulingV1alpha3NamespacedPodGroupError = KubernetesOpError;
 /** create a PodGroup */
 export const createSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
@@ -2800,6 +5456,36 @@ export const createSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
+/** create a PodGroup */
+export const createSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
+  CreateSchedulingV1beta1NamespacedPodGroupRequest,
+  IoK8sApiSchedulingV1beta1PodGroup,
+  CreateSchedulingV1beta1NamespacedPodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateSchedulingV1beta1NamespacedPodGroupRequest,
+  output: IoK8sApiSchedulingV1beta1PodGroup,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
+/** create a Workload */
+export const createSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
+  CreateSchedulingV1beta1NamespacedWorkloadRequest,
+  IoK8sApiSchedulingV1beta1Workload,
+  CreateSchedulingV1beta1NamespacedWorkloadError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateSchedulingV1beta1NamespacedWorkloadRequest,
+  output: IoK8sApiSchedulingV1beta1Workload,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateSchedulingV1PriorityClassError =
   | Conflict
   | UnprocessableEntity
@@ -2814,6 +5500,22 @@ export const createSchedulingV1PriorityClass: API.OperationMethod<
   input: CreateSchedulingV1PriorityClassRequest,
   output: IoK8sApiSchedulingV1PriorityClass,
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroupError =
+  KubernetesOpError;
+/** delete collection of CompositePodGroup */
+export const deleteSchedulingV1alpha3CollectionNamespacedCompositePodGroup: API.OperationMethod<
+  DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroupRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroupRequest,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
 }));
@@ -2850,6 +5552,22 @@ export const deleteSchedulingV1alpha3CollectionNamespacedWorkload: API.Operation
   retry: Retry.Retry,
 }));
 
+export type DeleteSchedulingV1alpha3NamespacedCompositePodGroupError =
+  KubernetesOpError;
+/** delete a CompositePodGroup */
+export const deleteSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMethod<
+  DeleteSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteSchedulingV1alpha3NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteSchedulingV1alpha3NamespacedPodGroupError = KubernetesOpError;
 /** delete a PodGroup */
 export const deleteSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
@@ -2874,6 +5592,68 @@ export const deleteSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSchedulingV1alpha3NamespacedWorkloadRequest,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSchedulingV1beta1CollectionNamespacedPodGroupError =
+  KubernetesOpError;
+/** delete collection of PodGroup */
+export const deleteSchedulingV1beta1CollectionNamespacedPodGroup: API.OperationMethod<
+  DeleteSchedulingV1beta1CollectionNamespacedPodGroupRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteSchedulingV1beta1CollectionNamespacedPodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSchedulingV1beta1CollectionNamespacedPodGroupRequest,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSchedulingV1beta1CollectionNamespacedWorkloadError =
+  KubernetesOpError;
+/** delete collection of Workload */
+export const deleteSchedulingV1beta1CollectionNamespacedWorkload: API.OperationMethod<
+  DeleteSchedulingV1beta1CollectionNamespacedWorkloadRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteSchedulingV1beta1CollectionNamespacedWorkloadError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSchedulingV1beta1CollectionNamespacedWorkloadRequest,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
+/** delete a PodGroup */
+export const deleteSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
+  DeleteSchedulingV1beta1NamespacedPodGroupRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteSchedulingV1beta1NamespacedPodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSchedulingV1beta1NamespacedPodGroupRequest,
+  output: IoK8sApimachineryPkgApisMetaV1Status,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
+/** delete a Workload */
+export const deleteSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
+  DeleteSchedulingV1beta1NamespacedWorkloadRequest,
+  IoK8sApimachineryPkgApisMetaV1Status,
+  DeleteSchedulingV1beta1NamespacedWorkloadError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSchedulingV1beta1NamespacedWorkloadRequest,
   output: IoK8sApimachineryPkgApisMetaV1Status,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
@@ -2958,6 +5738,53 @@ export const getSchedulingV1APIResources: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetSchedulingV1beta1APIResourcesError = KubernetesOpError;
+/** get available resources */
+export const getSchedulingV1beta1APIResources: API.OperationMethod<
+  GetSchedulingV1beta1APIResourcesRequest,
+  IoK8sApimachineryPkgApisMetaV1APIResourceList,
+  GetSchedulingV1beta1APIResourcesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSchedulingV1beta1APIResourcesRequest,
+  output: IoK8sApimachineryPkgApisMetaV1APIResourceList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSchedulingV1alpha3CompositePodGroupForAllNamespacesError =
+  KubernetesOpError;
+/** list or watch objects of kind CompositePodGroup */
+export const listSchedulingV1alpha3CompositePodGroupForAllNamespaces: API.OperationMethod<
+  ListSchedulingV1alpha3CompositePodGroupForAllNamespacesRequest,
+  IoK8sApiSchedulingV1alpha3CompositePodGroupList,
+  ListSchedulingV1alpha3CompositePodGroupForAllNamespacesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSchedulingV1alpha3CompositePodGroupForAllNamespacesRequest,
+  output: IoK8sApiSchedulingV1alpha3CompositePodGroupList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSchedulingV1alpha3NamespacedCompositePodGroupError =
+  KubernetesOpError;
+/** list or watch objects of kind CompositePodGroup */
+export const listSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMethod<
+  ListSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  IoK8sApiSchedulingV1alpha3CompositePodGroupList,
+  ListSchedulingV1alpha3NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  output: IoK8sApiSchedulingV1alpha3CompositePodGroupList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListSchedulingV1alpha3NamespacedPodGroupError = KubernetesOpError;
 /** list or watch objects of kind PodGroup */
 export const listSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
@@ -3020,6 +5847,68 @@ export const listSchedulingV1alpha3WorkloadForAllNamespaces: API.OperationMethod
   retry: Retry.Retry,
 }));
 
+export type ListSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
+/** list or watch objects of kind PodGroup */
+export const listSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
+  ListSchedulingV1beta1NamespacedPodGroupRequest,
+  IoK8sApiSchedulingV1beta1PodGroupList,
+  ListSchedulingV1beta1NamespacedPodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSchedulingV1beta1NamespacedPodGroupRequest,
+  output: IoK8sApiSchedulingV1beta1PodGroupList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
+/** list or watch objects of kind Workload */
+export const listSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
+  ListSchedulingV1beta1NamespacedWorkloadRequest,
+  IoK8sApiSchedulingV1beta1WorkloadList,
+  ListSchedulingV1beta1NamespacedWorkloadError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSchedulingV1beta1NamespacedWorkloadRequest,
+  output: IoK8sApiSchedulingV1beta1WorkloadList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSchedulingV1beta1PodGroupForAllNamespacesError =
+  KubernetesOpError;
+/** list or watch objects of kind PodGroup */
+export const listSchedulingV1beta1PodGroupForAllNamespaces: API.OperationMethod<
+  ListSchedulingV1beta1PodGroupForAllNamespacesRequest,
+  IoK8sApiSchedulingV1beta1PodGroupList,
+  ListSchedulingV1beta1PodGroupForAllNamespacesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSchedulingV1beta1PodGroupForAllNamespacesRequest,
+  output: IoK8sApiSchedulingV1beta1PodGroupList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSchedulingV1beta1WorkloadForAllNamespacesError =
+  KubernetesOpError;
+/** list or watch objects of kind Workload */
+export const listSchedulingV1beta1WorkloadForAllNamespaces: API.OperationMethod<
+  ListSchedulingV1beta1WorkloadForAllNamespacesRequest,
+  IoK8sApiSchedulingV1beta1WorkloadList,
+  ListSchedulingV1beta1WorkloadForAllNamespacesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSchedulingV1beta1WorkloadForAllNamespacesRequest,
+  output: IoK8sApiSchedulingV1beta1WorkloadList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListSchedulingV1PriorityClassError = KubernetesOpError;
 /** list or watch objects of kind PriorityClass */
 export const listSchedulingV1PriorityClass: API.OperationMethod<
@@ -3030,6 +5919,38 @@ export const listSchedulingV1PriorityClass: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListSchedulingV1PriorityClassRequest,
   output: IoK8sApiSchedulingV1PriorityClassList,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PatchSchedulingV1alpha3NamespacedCompositePodGroupError =
+  KubernetesOpError;
+/** partially update the specified CompositePodGroup */
+export const patchSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMethod<
+  PatchSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  PatchSchedulingV1alpha3NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  output: IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PatchSchedulingV1alpha3NamespacedCompositePodGroupStatusError =
+  KubernetesOpError;
+/** partially update status of the specified CompositePodGroup */
+export const patchSchedulingV1alpha3NamespacedCompositePodGroupStatus: API.OperationMethod<
+  PatchSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest,
+  IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  PatchSchedulingV1alpha3NamespacedCompositePodGroupStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest,
+  output: IoK8sApiSchedulingV1alpha3CompositePodGroup,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -3081,6 +6002,52 @@ export const patchSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type PatchSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
+/** partially update the specified PodGroup */
+export const patchSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
+  PatchSchedulingV1beta1NamespacedPodGroupRequest,
+  IoK8sApiSchedulingV1beta1PodGroup,
+  PatchSchedulingV1beta1NamespacedPodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchSchedulingV1beta1NamespacedPodGroupRequest,
+  output: IoK8sApiSchedulingV1beta1PodGroup,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PatchSchedulingV1beta1NamespacedPodGroupStatusError =
+  KubernetesOpError;
+/** partially update status of the specified PodGroup */
+export const patchSchedulingV1beta1NamespacedPodGroupStatus: API.OperationMethod<
+  PatchSchedulingV1beta1NamespacedPodGroupStatusRequest,
+  IoK8sApiSchedulingV1beta1PodGroup,
+  PatchSchedulingV1beta1NamespacedPodGroupStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchSchedulingV1beta1NamespacedPodGroupStatusRequest,
+  output: IoK8sApiSchedulingV1beta1PodGroup,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PatchSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
+/** partially update the specified Workload */
+export const patchSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
+  PatchSchedulingV1beta1NamespacedWorkloadRequest,
+  IoK8sApiSchedulingV1beta1Workload,
+  PatchSchedulingV1beta1NamespacedWorkloadError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PatchSchedulingV1beta1NamespacedWorkloadRequest,
+  output: IoK8sApiSchedulingV1beta1Workload,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PatchSchedulingV1PriorityClassError =
   | NotFound
   | Conflict
@@ -3096,6 +6063,38 @@ export const patchSchedulingV1PriorityClass: API.OperationMethod<
   input: PatchSchedulingV1PriorityClassRequest,
   output: IoK8sApiSchedulingV1PriorityClass,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadSchedulingV1alpha3NamespacedCompositePodGroupError =
+  KubernetesOpError;
+/** read the specified CompositePodGroup */
+export const readSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMethod<
+  ReadSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  ReadSchedulingV1alpha3NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  output: IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadSchedulingV1alpha3NamespacedCompositePodGroupStatusError =
+  KubernetesOpError;
+/** read status of the specified CompositePodGroup */
+export const readSchedulingV1alpha3NamespacedCompositePodGroupStatus: API.OperationMethod<
+  ReadSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest,
+  IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  ReadSchedulingV1alpha3NamespacedCompositePodGroupStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest,
+  output: IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
 }));
@@ -3146,6 +6145,52 @@ export const readSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ReadSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
+/** read the specified PodGroup */
+export const readSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
+  ReadSchedulingV1beta1NamespacedPodGroupRequest,
+  IoK8sApiSchedulingV1beta1PodGroup,
+  ReadSchedulingV1beta1NamespacedPodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadSchedulingV1beta1NamespacedPodGroupRequest,
+  output: IoK8sApiSchedulingV1beta1PodGroup,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadSchedulingV1beta1NamespacedPodGroupStatusError =
+  KubernetesOpError;
+/** read status of the specified PodGroup */
+export const readSchedulingV1beta1NamespacedPodGroupStatus: API.OperationMethod<
+  ReadSchedulingV1beta1NamespacedPodGroupStatusRequest,
+  IoK8sApiSchedulingV1beta1PodGroup,
+  ReadSchedulingV1beta1NamespacedPodGroupStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadSchedulingV1beta1NamespacedPodGroupStatusRequest,
+  output: IoK8sApiSchedulingV1beta1PodGroup,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
+/** read the specified Workload */
+export const readSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
+  ReadSchedulingV1beta1NamespacedWorkloadRequest,
+  IoK8sApiSchedulingV1beta1Workload,
+  ReadSchedulingV1beta1NamespacedWorkloadError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadSchedulingV1beta1NamespacedWorkloadRequest,
+  output: IoK8sApiSchedulingV1beta1Workload,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ReadSchedulingV1PriorityClassError = NotFound | KubernetesOpError;
 /** read the specified PriorityClass */
 export const readSchedulingV1PriorityClass: API.OperationMethod<
@@ -3157,6 +6202,38 @@ export const readSchedulingV1PriorityClass: API.OperationMethod<
   input: ReadSchedulingV1PriorityClassRequest,
   output: IoK8sApiSchedulingV1PriorityClass,
   errors: [NotFound, UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReplaceSchedulingV1alpha3NamespacedCompositePodGroupError =
+  KubernetesOpError;
+/** replace the specified CompositePodGroup */
+export const replaceSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMethod<
+  ReplaceSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  ReplaceSchedulingV1alpha3NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  output: IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReplaceSchedulingV1alpha3NamespacedCompositePodGroupStatusError =
+  KubernetesOpError;
+/** replace status of the specified CompositePodGroup */
+export const replaceSchedulingV1alpha3NamespacedCompositePodGroupStatus: API.OperationMethod<
+  ReplaceSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest,
+  IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  ReplaceSchedulingV1alpha3NamespacedCompositePodGroupStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceSchedulingV1alpha3NamespacedCompositePodGroupStatusRequest,
+  output: IoK8sApiSchedulingV1alpha3CompositePodGroup,
+  errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
 }));
@@ -3209,6 +6286,52 @@ export const replaceSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ReplaceSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
+/** replace the specified PodGroup */
+export const replaceSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
+  ReplaceSchedulingV1beta1NamespacedPodGroupRequest,
+  IoK8sApiSchedulingV1beta1PodGroup,
+  ReplaceSchedulingV1beta1NamespacedPodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceSchedulingV1beta1NamespacedPodGroupRequest,
+  output: IoK8sApiSchedulingV1beta1PodGroup,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReplaceSchedulingV1beta1NamespacedPodGroupStatusError =
+  KubernetesOpError;
+/** replace status of the specified PodGroup */
+export const replaceSchedulingV1beta1NamespacedPodGroupStatus: API.OperationMethod<
+  ReplaceSchedulingV1beta1NamespacedPodGroupStatusRequest,
+  IoK8sApiSchedulingV1beta1PodGroup,
+  ReplaceSchedulingV1beta1NamespacedPodGroupStatusError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceSchedulingV1beta1NamespacedPodGroupStatusRequest,
+  output: IoK8sApiSchedulingV1beta1PodGroup,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReplaceSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
+/** replace the specified Workload */
+export const replaceSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
+  ReplaceSchedulingV1beta1NamespacedWorkloadRequest,
+  IoK8sApiSchedulingV1beta1Workload,
+  ReplaceSchedulingV1beta1NamespacedWorkloadError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReplaceSchedulingV1beta1NamespacedWorkloadRequest,
+  output: IoK8sApiSchedulingV1beta1Workload,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ReplaceSchedulingV1PriorityClassError =
   | NotFound
   | Conflict
@@ -3224,6 +6347,54 @@ export const replaceSchedulingV1PriorityClass: API.OperationMethod<
   input: ReplaceSchedulingV1PriorityClassRequest,
   output: IoK8sApiSchedulingV1PriorityClass,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchSchedulingV1alpha3CompositePodGroupListForAllNamespacesError =
+  KubernetesOpError;
+/** watch individual changes to a list of CompositePodGroup. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchSchedulingV1alpha3CompositePodGroupListForAllNamespaces: API.OperationMethod<
+  WatchSchedulingV1alpha3CompositePodGroupListForAllNamespacesRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchSchedulingV1alpha3CompositePodGroupListForAllNamespacesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchSchedulingV1alpha3CompositePodGroupListForAllNamespacesRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchSchedulingV1alpha3NamespacedCompositePodGroupError =
+  KubernetesOpError;
+/** watch changes to an object of kind CompositePodGroup. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter. */
+export const watchSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMethod<
+  WatchSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchSchedulingV1alpha3NamespacedCompositePodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchSchedulingV1alpha3NamespacedCompositePodGroupRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchSchedulingV1alpha3NamespacedCompositePodGroupListError =
+  KubernetesOpError;
+/** watch individual changes to a list of CompositePodGroup. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchSchedulingV1alpha3NamespacedCompositePodGroupList: API.OperationMethod<
+  WatchSchedulingV1alpha3NamespacedCompositePodGroupListRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchSchedulingV1alpha3NamespacedCompositePodGroupListError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchSchedulingV1alpha3NamespacedCompositePodGroupListRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
 }));
@@ -3316,6 +6487,100 @@ export const watchSchedulingV1alpha3WorkloadListForAllNamespaces: API.OperationM
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: WatchSchedulingV1alpha3WorkloadListForAllNamespacesRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
+/** watch changes to an object of kind PodGroup. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter. */
+export const watchSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
+  WatchSchedulingV1beta1NamespacedPodGroupRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchSchedulingV1beta1NamespacedPodGroupError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchSchedulingV1beta1NamespacedPodGroupRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchSchedulingV1beta1NamespacedPodGroupListError =
+  KubernetesOpError;
+/** watch individual changes to a list of PodGroup. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchSchedulingV1beta1NamespacedPodGroupList: API.OperationMethod<
+  WatchSchedulingV1beta1NamespacedPodGroupListRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchSchedulingV1beta1NamespacedPodGroupListError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchSchedulingV1beta1NamespacedPodGroupListRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
+/** watch changes to an object of kind Workload. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter. */
+export const watchSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
+  WatchSchedulingV1beta1NamespacedWorkloadRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchSchedulingV1beta1NamespacedWorkloadError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchSchedulingV1beta1NamespacedWorkloadRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchSchedulingV1beta1NamespacedWorkloadListError =
+  KubernetesOpError;
+/** watch individual changes to a list of Workload. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchSchedulingV1beta1NamespacedWorkloadList: API.OperationMethod<
+  WatchSchedulingV1beta1NamespacedWorkloadListRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchSchedulingV1beta1NamespacedWorkloadListError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchSchedulingV1beta1NamespacedWorkloadListRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchSchedulingV1beta1PodGroupListForAllNamespacesError =
+  KubernetesOpError;
+/** watch individual changes to a list of PodGroup. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchSchedulingV1beta1PodGroupListForAllNamespaces: API.OperationMethod<
+  WatchSchedulingV1beta1PodGroupListForAllNamespacesRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchSchedulingV1beta1PodGroupListForAllNamespacesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchSchedulingV1beta1PodGroupListForAllNamespacesRequest,
+  output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  errors: [UnknownKubernetesError],
+  protocol: KubernetesProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WatchSchedulingV1beta1WorkloadListForAllNamespacesError =
+  KubernetesOpError;
+/** watch individual changes to a list of Workload. deprecated: use the 'watch' parameter with a list operation instead. */
+export const watchSchedulingV1beta1WorkloadListForAllNamespaces: API.OperationMethod<
+  WatchSchedulingV1beta1WorkloadListForAllNamespacesRequest,
+  IoK8sApimachineryPkgApisMetaV1WatchEvent,
+  WatchSchedulingV1beta1WorkloadListForAllNamespacesError,
+  KubernetesOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WatchSchedulingV1beta1WorkloadListForAllNamespacesRequest,
   output: IoK8sApimachineryPkgApisMetaV1WatchEvent,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,

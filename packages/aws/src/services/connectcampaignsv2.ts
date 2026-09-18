@@ -198,11 +198,40 @@ export const ProgressiveConfig = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ProgressiveConfig",
 }) as any as S.Schema<ProgressiveConfig>;
+export type TargetRate = number;
+export type ConnectionStartPoint = string;
+export type EvaluationWindow = string;
+export interface AbandonmentRatePacingConfig {
+  targetRate: number;
+  connectionStartPoint: string;
+  connectionThresholdSeconds: number;
+  evaluationWindow: string;
+}
+export const AbandonmentRatePacingConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    targetRate: S.Number,
+    connectionStartPoint: S.String,
+    connectionThresholdSeconds: S.Number,
+    evaluationWindow: S.String,
+  }),
+).annotate({
+  identifier: "AbandonmentRatePacingConfig",
+}) as any as S.Schema<AbandonmentRatePacingConfig>;
+export type PacingStrategy = { abandonmentRate: AbandonmentRatePacingConfig };
+export const PacingStrategy = /*@__PURE__*/ S.Union([
+  S.Struct({ abandonmentRate: AbandonmentRatePacingConfig }),
+]);
+export type PacingStrategyList = PacingStrategy[];
+export const PacingStrategyList = /*@__PURE__*/ S.Array(PacingStrategy);
 export interface PredictiveConfig {
   bandwidthAllocation: number;
+  pacingStrategies?: PacingStrategy[];
 }
 export const PredictiveConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bandwidthAllocation: S.Number }),
+  S.Struct({
+    bandwidthAllocation: S.Number,
+    pacingStrategies: S.optional(PacingStrategyList),
+  }),
 ).annotate({
   identifier: "PredictiveConfig",
 }) as any as S.Schema<PredictiveConfig>;

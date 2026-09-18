@@ -39,26 +39,12 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type ListWebfontsSortEnum =
-  | "SORT_UNDEFINED"
-  | "ALPHA"
-  | "DATE"
-  | "POPULARITY"
-  | "STYLE"
-  | "TRENDING";
-export const ListWebfontsSortEnum = /*@__PURE__*/ S.String;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
-
 export type ListWebfontsCapabilityEnum =
   | "CAPABILITY_UNSPECIFIED"
   | "WOFF2"
   | "VF"
   | "FAMILY_TAGS";
-export const ListWebfontsCapabilityEnum = /*@__PURE__*/ S.String;
+export const ListWebfontsCapabilityEnum = S.String;
 
 export type ListWebfontsCapabilityEnumList = Array<
   ListWebfontsCapabilityEnum | (string & {})
@@ -67,25 +53,39 @@ export const ListWebfontsCapabilityEnumList = /*@__PURE__*/ S.Array(
   ListWebfontsCapabilityEnum,
 ) as any as S.Schema<ListWebfontsCapabilityEnumList>;
 
+export type ListWebfontsSortEnum =
+  | "SORT_UNDEFINED"
+  | "ALPHA"
+  | "DATE"
+  | "POPULARITY"
+  | "STYLE"
+  | "TRENDING";
+export const ListWebfontsSortEnum = S.String;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
 export interface ListWebfontsRequest {
-  /** Enables sorting of the list. */
-  sort?: ListWebfontsSortEnum | (string & {});
-  /** Filters by Webfont.category, if category is found in Webfont.categories. If not set, returns all families. */
-  category?: string;
-  /** Filters by Webfont.subset, if subset is found in Webfont.subsets. If not set, returns all families. */
-  subset?: string;
-  /** Filters by Webfont.family, using literal match. If not set, returns all families */
-  family?: StringList;
   /** Controls the font urls in `Webfont.files`, by default, static ttf fonts are sent. */
   capability?: ListWebfontsCapabilityEnumList;
+  /** Enables sorting of the list. */
+  sort?: ListWebfontsSortEnum | (string & {});
+  /** Filters by Webfont.subset, if subset is found in Webfont.subsets. If not set, returns all families. */
+  subset?: string;
+  /** Filters by Webfont.category, if category is found in Webfont.categories. If not set, returns all families. */
+  category?: string;
+  /** Filters by Webfont.family, using literal match. If not set, returns all families */
+  family?: StringList;
 }
 export const ListWebfontsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sort: S.optional(ListWebfontsSortEnum.pipe(T.Query())),
-    category: S.optional(S.String.pipe(T.Query())),
-    subset: S.optional(S.String.pipe(T.Query())),
-    family: S.optional(StringList.pipe(T.Query())),
     capability: S.optional(ListWebfontsCapabilityEnumList.pipe(T.Query())),
+    sort: S.optional(ListWebfontsSortEnum.pipe(T.Query())),
+    subset: S.optional(S.String.pipe(T.Query())),
+    category: S.optional(S.String.pipe(T.Query())),
+    family: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -101,16 +101,16 @@ export const ListWebfontsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface Axis {
   /** maximum value */
   end?: number;
-  /** tag name. */
-  tag?: string;
   /** minimum value */
   start?: number;
+  /** tag name. */
+  tag?: string;
 }
 export const Axis = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     end: S.optional(S.Number),
-    tag: S.optional(S.String),
     start: S.optional(S.Number),
+    tag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Axis" }) as any as S.Schema<Axis>;
 
@@ -144,45 +144,45 @@ export const StringMap = /*@__PURE__*/ S.Record(
 
 /** Metadata describing a family of fonts. */
 export interface Webfont {
+  /** The color format(s) available for this family. */
+  colorCapabilities?: StringList;
+  /** The name of the font. */
+  family?: string;
+  /** The scripts supported by the font. */
+  subsets?: StringList;
+  /** Axis for variable fonts. */
+  axes?: AxisList;
+  /** The tags that apply to this family. */
+  tags?: TagList;
+  /** This kind represents a webfont object in the webfonts service. */
+  kind?: string;
+  /** The font files (with all supported scripts) for each one of the available variants, as a key : value map. */
+  files?: StringMap;
   /** The font version. */
   version?: string;
+  /** The category of the font. */
+  category?: string;
   /** The date (format "yyyy-MM-dd") the font was modified for the last time. */
   lastModified?: string;
   /** Font URL for menu subset, a subset of the font that is enough to display the font name */
   menu?: string;
-  /** This kind represents a webfont object in the webfonts service. */
-  kind?: string;
-  /** The category of the font. */
-  category?: string;
-  /** Axis for variable fonts. */
-  axes?: AxisList;
-  /** The scripts supported by the font. */
-  subsets?: StringList;
-  /** The name of the font. */
-  family?: string;
   /** The available variants for the font. */
   variants?: StringList;
-  /** The color format(s) available for this family. */
-  colorCapabilities?: StringList;
-  /** The tags that apply to this family. */
-  tags?: TagList;
-  /** The font files (with all supported scripts) for each one of the available variants, as a key : value map. */
-  files?: StringMap;
 }
 export const Webfont = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    colorCapabilities: S.optional(StringList),
+    family: S.optional(S.String),
+    subsets: S.optional(StringList),
+    axes: S.optional(AxisList),
+    tags: S.optional(TagList),
+    kind: S.optional(S.String),
+    files: S.optional(StringMap),
     version: S.optional(S.String),
+    category: S.optional(S.String),
     lastModified: S.optional(S.String),
     menu: S.optional(S.String),
-    kind: S.optional(S.String),
-    category: S.optional(S.String),
-    axes: S.optional(AxisList),
-    subsets: S.optional(StringList),
-    family: S.optional(S.String),
     variants: S.optional(StringList),
-    colorCapabilities: S.optional(StringList),
-    tags: S.optional(TagList),
-    files: S.optional(StringMap),
   }),
 ).annotate({ identifier: "Webfont" }) as any as S.Schema<Webfont>;
 
@@ -193,15 +193,15 @@ export const WebfontList_ = /*@__PURE__*/ S.Array(
 
 /** Response containing the list of fonts currently served by the Google Fonts API. */
 export interface WebfontList {
-  /** The list of fonts currently served by the Google Fonts API. */
-  items?: WebfontList_;
   /** This kind represents a list of webfont objects in the webfonts service. */
   kind?: string;
+  /** The list of fonts currently served by the Google Fonts API. */
+  items?: WebfontList_;
 }
 export const WebfontList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(WebfontList_),
     kind: S.optional(S.String),
+    items: S.optional(WebfontList_),
   }),
 ).annotate({ identifier: "WebfontList" }) as any as S.Schema<WebfontList>;
 

@@ -71,7 +71,7 @@ export type AddEmailForAuthenticatedUserRequestBody =
   | AddEmailForAuthenticatedUserRequestBodyCase1List
   | string;
 export const AddEmailForAuthenticatedUserRequestBody =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<AddEmailForAuthenticatedUserRequestBody>;
+  S.Unknown as any as S.Schema<AddEmailForAuthenticatedUserRequestBody>;
 
 export interface AddEmailForAuthenticatedUserRequest {
   body?: AddEmailForAuthenticatedUserRequestBody;
@@ -499,7 +499,7 @@ export type DeleteAttestationsBulkRequestBody =
   | DeleteAttestationsBulkRequestBodyCase0
   | DeleteAttestationsBulkRequestBodyCase1;
 export const DeleteAttestationsBulkRequestBody =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<DeleteAttestationsBulkRequestBody>;
+  S.Unknown as any as S.Schema<DeleteAttestationsBulkRequestBody>;
 
 export interface DeleteAttestationsBulkRequest {
   /** The handle for the GitHub user account. */
@@ -617,7 +617,7 @@ export type DeleteEmailForAuthenticatedUserRequestBody =
   | DeleteEmailForAuthenticatedUserRequestBodyCase1List
   | string;
 export const DeleteEmailForAuthenticatedUserRequestBody =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<DeleteEmailForAuthenticatedUserRequestBody>;
+  S.Unknown as any as S.Schema<DeleteEmailForAuthenticatedUserRequestBody>;
 
 export interface DeleteEmailForAuthenticatedUserRequest {
   body?: DeleteEmailForAuthenticatedUserRequestBody;
@@ -970,7 +970,7 @@ export const PublicUser = /*@__PURE__*/ S.suspend(() =>
 
 export type GetAuthenticatedResponseBody = PrivateUser | PublicUser;
 export const GetAuthenticatedResponseBody =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<GetAuthenticatedResponseBody>;
+  S.Unknown as any as S.Schema<GetAuthenticatedResponseBody>;
 
 export type GetAuthenticatedResponse = GetAuthenticatedResponseBody;
 export const GetAuthenticatedResponse = /*@__PURE__*/ S.suspend(() =>
@@ -991,7 +991,7 @@ export const GetByIdRequest = /*@__PURE__*/ S.suspend(() =>
 
 export type GetByIdResponseBody = PrivateUser | PublicUser;
 export const GetByIdResponseBody =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<GetByIdResponseBody>;
+  S.Unknown as any as S.Schema<GetByIdResponseBody>;
 
 export type GetByIdResponse = GetByIdResponseBody;
 export const GetByIdResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1014,7 +1014,7 @@ export const GetByUsernameRequest = /*@__PURE__*/ S.suspend(() =>
 
 export type GetByUsernameResponseBody = PrivateUser | PublicUser;
 export const GetByUsernameResponseBody =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<GetByUsernameResponseBody>;
+  S.Unknown as any as S.Schema<GetByUsernameResponseBody>;
 
 export type GetByUsernameResponse = GetByUsernameResponseBody;
 export const GetByUsernameResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1028,7 +1028,7 @@ export type GetContextForUserRequestSubjectType =
   | "repository"
   | "issue"
   | "pull_request";
-export const GetContextForUserRequestSubjectType = /*@__PURE__*/ S.String;
+export const GetContextForUserRequestSubjectType = S.String;
 
 export interface GetContextForUserRequest {
   /** The handle for the GitHub user account. */
@@ -1418,12 +1418,13 @@ export const ListAttestationsBulkResponseAttestationsSubjectDigestsValueList =
 export type ListAttestationsBulkResponseAttestationsSubjectDigestsMap = {
   [key: string]:
     | ListAttestationsBulkResponseAttestationsSubjectDigestsValueList
+    | null
     | undefined;
 };
 export const ListAttestationsBulkResponseAttestationsSubjectDigestsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ListAttestationsBulkResponseAttestationsSubjectDigestsValueList,
+    S.NullOr(ListAttestationsBulkResponseAttestationsSubjectDigestsValueList),
   ) as any as S.Schema<ListAttestationsBulkResponseAttestationsSubjectDigestsMap>;
 
 /** Information about the current page. */
@@ -1980,7 +1981,7 @@ export type SetPrimaryEmailVisibilityForAuthenticatedUserRequestVisibility =
   | "public"
   | "private";
 export const SetPrimaryEmailVisibilityForAuthenticatedUserRequestVisibility =
-  /*@__PURE__*/ S.String;
+  S.String;
 
 export interface SetPrimaryEmailVisibilityForAuthenticatedUserRequest {
   /** Denotes whether an email is publicly visible. */
@@ -2411,7 +2412,7 @@ export const follow: API.OperationMethod<
 }));
 
 export type GetAuthenticatedError = Forbidden | GithubOpError;
-/** Get the authenticated user OAuth app tokens and personal access tokens (classic) need the `user` scope in order for the response to include private profile information. */
+/** Get the authenticated user OAuth app tokens and personal access tokens (classic) need the `read:user` scope, or the broader `user` scope, for this endpoint to return the private user response. The private user response includes additional fields such as `private_gists`, `total_private_repos`, `owned_private_repos`, `disk_usage`, `collaborators`, and `two_factor_authentication`. Tokens without these scopes receive the public user response. The private and public user response types are unrelated to the [private profile](https://docs.github.com/account-and-profile/concepts/personal-profile#private-profiles) setting. A token without scopes still authenticates as the token's owner, so values subject to private profile visibility, such as `followers` and `following`, may differ from an unauthenticated response. */
 export const getAuthenticated: API.OperationMethod<
   GetAuthenticatedRequest,
   GetAuthenticatedResponse,
@@ -2441,7 +2442,7 @@ export const getById: API.OperationMethod<
 }));
 
 export type GetByUsernameError = NotFound | GithubOpError;
-/** Get a user Provides publicly available information about someone with a GitHub account. If you are requesting information about an [Enterprise Managed User](https://docs.github.com/enterprise-cloud@latest/admin/managing-iam/understanding-iam-for-enterprises/about-enterprise-managed-users), or a GitHub App bot that is installed in an organization that uses Enterprise Managed Users, your requests must be authenticated as a user or GitHub App that has access to the organization to view that account's information. If you are not authorized, the request will return a `404 Not Found` status. The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be public which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#authentication). The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see [Emails API](https://docs.github.com/rest/users/emails). */
+/** Get a user Provides publicly available information about someone with a GitHub account. If the specified user has a [private profile](https://docs.github.com/account-and-profile/concepts/personal-profile#private-profiles), the `followers` and `following` values are `0` unless the request is authenticated as that user. A request authenticated as the specified user returns the actual values even if the token has no OAuth scopes. The `events_url` value is a URI template. Replace `{/privacy}` with `/public` to retrieve only public events. Omit it to retrieve public events and, when authenticated as the user, private events. For more information, see "[List events for the authenticated user](https://docs.github.com/rest/activity/events#list-events-for-the-authenticated-user)." If you are requesting information about an [Enterprise Managed User](https://docs.github.com/enterprise-cloud@latest/admin/managing-iam/understanding-iam-for-enterprises/about-enterprise-managed-users), or a GitHub App bot that is installed in an organization that uses Enterprise Managed Users, your requests must be authenticated as a user or GitHub App that has access to the organization to view that account's information. If you are not authorized, the request will return a `404 Not Found` status. The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be public which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#authentication). The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see [Emails API](https://docs.github.com/rest/users/emails). */
 export const getByUsername: API.OperationMethod<
   GetByUsernameRequest,
   GetByUsernameResponse,
@@ -2639,7 +2640,7 @@ export const listFollowersForAuthenticatedUser: API.OperationMethod<
 }));
 
 export type ListFollowersForUserError = GithubOpError;
-/** List followers of a user Lists the people following the specified user. */
+/** List followers of a user Lists the people following the specified user. If the specified user has a [private profile](https://docs.github.com/account-and-profile/concepts/personal-profile#private-profiles), this endpoint returns an empty list unless the request is authenticated as that user. A request authenticated as the specified user returns the list even if the token has no OAuth scopes. */
 export const listFollowersForUser: API.OperationMethod<
   ListFollowersForUserRequest,
   ListFollowersForUserResponse,
@@ -2654,7 +2655,7 @@ export const listFollowersForUser: API.OperationMethod<
 }));
 
 export type ListFollowingForUserError = GithubOpError;
-/** List the people a user follows Lists the people who the specified user follows. */
+/** List the people a user follows Lists the people who the specified user follows. If the specified user has a [private profile](https://docs.github.com/account-and-profile/concepts/personal-profile#private-profiles), this endpoint returns an empty list unless the request is authenticated as that user. A request authenticated as the specified user returns the list even if the token has no OAuth scopes. */
 export const listFollowingForUser: API.OperationMethod<
   ListFollowingForUserRequest,
   ListFollowingForUserResponse,

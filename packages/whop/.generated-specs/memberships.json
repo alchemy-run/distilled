@@ -1,0 +1,2387 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.memberships#ListMembershipsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "TRIALING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trialing"
+          }
+        },
+        "PAST_DUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "past_due"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "CANCELING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceling"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.memberships#ListMembershipsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.memberships#ListMembershipsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.memberships#ListMembershipsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Narrow to one account (`biz_` tag). With read access to the account this lists all of its memberships; without, only the caller's own memberships in it."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user_id",
+            "smithy.api#documentation": "Narrow to one user's memberships (`user_` tag, or `me` for the caller). A user outside the caller's visible set returns an empty list."
+          }
+        },
+        "status": {
+          "target": "com.whop.memberships#ListMembershipsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by billing state. `canceling` matches active memberships set to cancel at period end; `paused` matches memberships with payment collection paused."
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "product_id",
+            "smithy.api#documentation": "Filter to memberships of this product (`prod_` tag). Repeat as product_ids[] for several."
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "plan_id",
+            "smithy.api#documentation": "Filter to memberships of this plan (`plan_` tag). Repeat as plan_ids[] for several."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only memberships created after this ISO 8601 timestamp."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only memberships created before this ISO 8601 timestamp."
+          }
+        },
+        "order": {
+          "target": "com.whop.memberships#ListMembershipsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort field."
+          }
+        },
+        "direction": {
+          "target": "com.whop.memberships#ListMembershipsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of memberships to return from the start of the window."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor to paginate forwards from."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of memberships to return from the end of the window."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor to paginate backwards from."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#Membership": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "com.whop.memberships#MembershipAccount",
+          "traits": {
+            "smithy.api#documentation": "The account (seller) this membership belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "cancel_at_period_end": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the membership is set to cancel when the current billing period ends. Only meaningful for recurring plans.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the membership was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "current_period_end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the current billing period renews, or when a non-renewing membership expires, as an ISO 8601 timestamp. `null` for one-time purchases with no expiration.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Membership ID, prefixed `mem_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "license_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The software license key for this membership. Only present when the product includes a software licensing experience.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member": {
+          "target": "com.whop.memberships#MembershipMember",
+          "traits": {
+            "smithy.api#documentation": "The caller's member row on the account. Present only when the membership belongs to the caller; `null` on seller-side reads.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs stored on the membership, commonly used for software licensing.",
+            "smithy.api#required": {}
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plan the buyer purchased, prefixed `plan_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product this membership grants access to, prefixed `prod_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.memberships#MembershipStatus",
+          "traits": {
+            "smithy.api#documentation": "Billing state of the membership. `active`/`trialing` memberships grant access; `past_due` is the grace period after a failed payment; `completed` one-time purchases keep access; `canceled`/`expired` do not.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The buyer, prefixed `user_`. `null` when the buyer is another business or the membership is unclaimed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.memberships#MembershipAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "logo_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account logo image URL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "route": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account public route identifier — the `whop.com/{route}` storefront path.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account display name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.memberships#MembershipMember": {
+      "type": "structure",
+      "members": {
+        "access_level": {
+          "target": "com.whop.memberships#MembershipMemberAccessLevel",
+          "traits": {
+            "smithy.api#documentation": "What the member can reach on the account: `customer` for paying members, `admin` for team members, `no_access` once every grant has lapsed.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_accessed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the member last opened the account's content, as an ISO 8601 timestamp. `null` if they never have.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "position": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The member's sort position in the buyer's own account list. `null` until they arrange it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.memberships#MembershipMemberAccessLevel": {
+      "type": "enum",
+      "members": {
+        "NO_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_access"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "CUSTOMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the member can reach on the account: `customer` for paying members, `admin` for team members, `no_access` once every grant has lapsed."
+      }
+    },
+    "com.whop.memberships#MembershipStatus": {
+      "type": "enum",
+      "members": {
+        "TRIALING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trialing"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAST_DUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "past_due"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "UNRESOLVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unresolved"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Billing state of the membership. `active`/`trialing` memberships grant access; `past_due` is the grace period after a failed payment; `completed` one-time purchases keep access; `canceled`/`expired` do not."
+      }
+    },
+    "com.whop.memberships#ListMembershipsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.memberships#Membership"
+      },
+      "traits": {}
+    },
+    "com.whop.memberships#ListMembershipsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.memberships#ListMembershipsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.memberships#ListMembershipsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.memberships#ListMembershipsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.memberships#ListMemberships": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#ListMembershipsRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#ListMembershipsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#BadRequest"
+        },
+        {
+          "target": "com.whop.memberships#Forbidden"
+        },
+        {
+          "target": "com.whop.memberships#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/memberships",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Memberships\n\nLists every membership the caller can read: an account API key its account's; a user credential their own plus those of every account they manage. `account_id` and `user_id` only narrow that list — values outside the caller's reach return fewer results, not an error.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.memberships#InviteMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Recipient email address. Mutually exclusive with `user_id`."
+          }
+        },
+        "plan_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free plan whose membership the recipient is invited to, prefixed `plan_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Recipient user ID, prefixed `user_`. Mutually exclusive with `email`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#InviteMembershipResponse": {
+      "type": "structure",
+      "members": {
+        "invitation_sent": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.memberships#InviteMembership": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#InviteMembershipRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#InviteMembershipResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#BadRequest"
+        },
+        {
+          "target": "com.whop.memberships#Forbidden"
+        },
+        {
+          "target": "com.whop.memberships#NotFound"
+        },
+        {
+          "target": "com.whop.memberships#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/memberships/invite",
+          "code": 200
+        },
+        "smithy.api#documentation": "Invite to a Membership\n\nSends an email inviting one recipient to join the account through a free plan. Identify the recipient by exactly one of `user_id` or `email`. The invitation is bound to that recipient; after signing in, accepting it immediately grants the membership without checkout. This Experimental endpoint is available only to accounts enabled for membership invitations."
+      }
+    },
+    "com.whop.memberships#GetMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Membership ID (`mem_` tag), or a software license key."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#GetMembership": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#GetMembershipRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#Membership"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#Forbidden"
+        },
+        {
+          "target": "com.whop.memberships#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/memberships/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Membership\n\nRetrieves a membership by ID or license key. Accessible to the account and to the membership's own user."
+      }
+    },
+    "com.whop.memberships#UpdateMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Membership ID (`mem_` tag), or a software license key."
+          }
+        },
+        "cancel_at_period_end": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "`true` cancels at the end of the current billing period (the customer keeps access until then); `false` reverses a pending cancellation."
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Key-value pairs to merge into the membership's metadata. Pass an empty object to clear it."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#UpdateMembership": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#UpdateMembershipRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#Membership"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#BadRequest"
+        },
+        {
+          "target": "com.whop.memberships#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/memberships/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Membership\n\nUpdates a membership: merge metadata key-value pairs, or toggle `cancel_at_period_end` — `true` schedules the cancellation for the end of the current billing period, `false` reverses a pending one."
+      }
+    },
+    "com.whop.memberships#CancelMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Membership ID (`mem_` tag)."
+          }
+        },
+        "cancel_at_period_end": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "`true` stops auto-renewal and keeps access until the current billing period ends. Omit or `false` revokes access immediately."
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-form note recording why the membership was canceled."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#CancelMembership": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#CancelMembershipRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#Membership"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#Forbidden"
+        },
+        {
+          "target": "com.whop.memberships#NotFound"
+        },
+        {
+          "target": "com.whop.memberships#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/memberships/{id}/cancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel Membership\n\nCancels a membership. Pass `cancel_at_period_end: true` to stop auto-renewal and keep access until the current billing period ends. Omit it (or pass `false`) to revoke access immediately. Buyers cannot cancel buy-now-pay-later (`splitit`, `sezzle`) or non-trial split-pay memberships."
+      }
+    },
+    "com.whop.memberships#ExtendMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Membership ID (`mem_` tag)."
+          }
+        },
+        "days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of free days to add (1-1095).",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#ExtendMembership": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#ExtendMembershipRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#Membership"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#BadRequest"
+        },
+        {
+          "target": "com.whop.memberships#Forbidden"
+        },
+        {
+          "target": "com.whop.memberships#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/memberships/{id}/extend",
+          "code": 200
+        },
+        "smithy.api#documentation": "Extend Membership\n\nAdds free days to a membership, extending its current billing period, expiration date, or trial depending on the plan type."
+      }
+    },
+    "com.whop.memberships#PauseMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Membership ID (`mem_` tag)."
+          }
+        },
+        "until": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 time to automatically resume payment collection. Must be in the future; only supported for memberships billed by Whop."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#PauseMembership": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#PauseMembershipRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#Membership"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#BadRequest"
+        },
+        {
+          "target": "com.whop.memberships#Forbidden"
+        },
+        {
+          "target": "com.whop.memberships#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/memberships/{id}/pause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Pause Membership\n\nPauses a membership's recurring payment collection. The customer keeps access but is not charged until the membership is resumed."
+      }
+    },
+    "com.whop.memberships#ResumeMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Membership ID (`mem_` tag)."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#ResumeMembership": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#ResumeMembershipRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#Membership"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#BadRequest"
+        },
+        {
+          "target": "com.whop.memberships#Forbidden"
+        },
+        {
+          "target": "com.whop.memberships#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/memberships/{id}/resume",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resume Membership\n\nResumes a previously paused membership's recurring payment collection. Billing resumes on the next cycle."
+      }
+    },
+    "com.whop.memberships#TransferMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Membership ID (`mem_` tag)."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#TransferMembershipResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "One-use URL the destination account opens to claim the membership.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.memberships#TransferMembership": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#TransferMembershipRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#TransferMembershipResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#BadRequest"
+        },
+        {
+          "target": "com.whop.memberships#Forbidden"
+        },
+        {
+          "target": "com.whop.memberships#NotFound"
+        },
+        {
+          "target": "com.whop.memberships#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/memberships/{id}/transfer",
+          "code": 200
+        },
+        "smithy.api#documentation": "Transfer Membership\n\nCreates a one-use transfer URL for a membership. Opening the URL while logged into a different Whop account claims the membership onto that account. The membership's buyer can generate a link for their own membership with `membership:transfer` when the product allows transfers and the membership is `trialing`, `active`, or `completed`. An account credential with `membership:update` bypasses both restrictions."
+      }
+    },
+    "com.whop.memberships#AddFreeDaysMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the membership."
+          }
+        },
+        "free_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of free days to add (1-1095). Extends the billing period, expiration date, or Stripe trial depending on plan type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#LegacyMembership": {
+      "type": "structure",
+      "members": {
+        "cancel_at_period_end": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this membership is set to cancel at the end of the current billing cycle. Only applies to memberships with a recurring plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "cancel_option": {
+          "target": "com.whop.memberships#CancelOptions",
+          "traits": {
+            "smithy.api#documentation": "The category selected for why the member canceled (e.g. too_expensive, switching, missing_features).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancelation_status": {
+          "target": "com.whop.memberships#CancelationStatus",
+          "traits": {
+            "smithy.api#documentation": "Whether the customer is canceling, left, or was won back. Null if the membership has no cancellation reason or its cancellation state is indeterminate.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "canceled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time the customer initiated cancellation of this membership. As a Unix timestamp. Null if the membership has not been canceled.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancellation_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-text explanation provided by the customer when canceling. Null if the customer did not provide a reason.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "checkout_configuration_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the checkout session/configuration that produced this membership, if any. Use this to map memberships back to the checkout configuration that created them.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "company": {
+          "target": "com.whop.memberships#LegacyMembershipCompany",
+          "traits": {
+            "smithy.api#documentation": "The company this membership belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the membership was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.whop.memberships#Currencies",
+          "traits": {
+            "smithy.api#documentation": "The three-letter ISO currency code for this membership's billing. Null if the membership is free.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_field_responses": {
+          "target": "com.whop.memberships#LegacyMembershipCustomFieldResponsesList",
+          "traits": {
+            "smithy.api#documentation": "The customer's responses to custom checkout questions configured on the product at the time of purchase.",
+            "smithy.api#required": {}
+          }
+        },
+        "formatted_renewal_price": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The recurring renewal price for this membership, formatted with currency symbol and billing interval. Null if the membership is not recurring.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the membership.",
+            "smithy.api#required": {}
+          }
+        },
+        "initial_price_paid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount the customer paid when first purchasing this membership, formatted with currency symbol.",
+            "smithy.api#required": {}
+          }
+        },
+        "joined_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time the user first joined the company associated with this membership. As a Unix timestamp. Null if the member record does not exist.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "license_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The software license key associated with this membership. Only present if the product includes a Whop Software Licensing experience. Null otherwise.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "manage_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL where the customer can view and manage this membership, including cancellation and plan changes. Null if no member record exists.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member": {
+          "target": "com.whop.memberships#LegacyMembershipMember",
+          "traits": {
+            "smithy.api#documentation": "The member record linking the user to the company for this membership. Null if the member record has not been created yet.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.memberships#LegacyMembershipMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs for the membership (commonly used for software licensing, e.g., HWID). Max 50 keys, 100 chars per key, 500 chars per string value.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_collection_paused": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether recurring payment collection for this membership is temporarily paused by the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "plan": {
+          "target": "com.whop.memberships#LegacyMembershipPlan",
+          "traits": {
+            "smithy.api#documentation": "The plan the customer purchased to create this membership.",
+            "smithy.api#required": {}
+          }
+        },
+        "product": {
+          "target": "com.whop.memberships#LegacyMembershipProduct",
+          "traits": {
+            "smithy.api#documentation": "The product this membership grants access to.",
+            "smithy.api#required": {}
+          }
+        },
+        "promo_code": {
+          "target": "com.whop.memberships#LegacyMembershipPromoCode",
+          "traits": {
+            "smithy.api#documentation": "The promotional code currently applied to this membership's billing. Null if no promo code is active.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "renewal_period_end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end of the current billing period for this recurring membership. As a Unix timestamp. Null if the membership is not recurring.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "renewal_period_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start of the current billing period for this recurring membership. As a Unix timestamp. Null if the membership is not recurring.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.memberships#MembershipStatus2",
+          "traits": {
+            "smithy.api#documentation": "The current lifecycle status of the membership (e.g., active, trialing, past_due, canceled, expired, completed).",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datetime the membership was last updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.whop.memberships#LegacyMembershipUser",
+          "traits": {
+            "smithy.api#documentation": "The user who owns this membership. Null if the user account has been deleted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A membership represents an active relationship between a user and a product. It tracks the user's access, billing status, and renewal schedule."
+      }
+    },
+    "com.whop.memberships#CancelOptions": {
+      "type": "enum",
+      "members": {
+        "TOO_EXPENSIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "too_expensive"
+          }
+        },
+        "SWITCHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "switching"
+          }
+        },
+        "MISSING_FEATURES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "missing_features"
+          }
+        },
+        "TECHNICAL_ISSUES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "technical_issues"
+          }
+        },
+        "BAD_EXPERIENCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bad_experience"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        },
+        "TESTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "testing"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The different reasons a user can choose for why they are canceling their membership."
+      }
+    },
+    "com.whop.memberships#CancelationStatus": {
+      "type": "enum",
+      "members": {
+        "WON_BACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "won_back"
+          }
+        },
+        "LEFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "left"
+          }
+        },
+        "CANCELING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceling"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The state of a membership after a customer provides a cancelation reason."
+      }
+    },
+    "com.whop.memberships#LegacyMembershipCompany": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the company.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the company shown to customers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The company this membership belongs to."
+      }
+    },
+    "com.whop.memberships#Currencies": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usd"
+          }
+        },
+        "SGD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sgd"
+          }
+        },
+        "INR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inr"
+          }
+        },
+        "AUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aud"
+          }
+        },
+        "BRL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brl"
+          }
+        },
+        "CAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cad"
+          }
+        },
+        "DKK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dkk"
+          }
+        },
+        "EUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eur"
+          }
+        },
+        "NOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nok"
+          }
+        },
+        "GBP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gbp"
+          }
+        },
+        "SEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sek"
+          }
+        },
+        "CHF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chf"
+          }
+        },
+        "HKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hkd"
+          }
+        },
+        "HUF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "huf"
+          }
+        },
+        "JPY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jpy"
+          }
+        },
+        "MXN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mxn"
+          }
+        },
+        "MYR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "myr"
+          }
+        },
+        "PLN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pln"
+          }
+        },
+        "CZK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "czk"
+          }
+        },
+        "NZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nzd"
+          }
+        },
+        "AED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aed"
+          }
+        },
+        "ETH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eth"
+          }
+        },
+        "APE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ape"
+          }
+        },
+        "COP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cop"
+          }
+        },
+        "RON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ron"
+          }
+        },
+        "THB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thb"
+          }
+        },
+        "BGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bgn"
+          }
+        },
+        "IDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "idr"
+          }
+        },
+        "DOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dop"
+          }
+        },
+        "PHP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "php"
+          }
+        },
+        "TRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "try"
+          }
+        },
+        "KRW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "krw"
+          }
+        },
+        "TWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twd"
+          }
+        },
+        "VND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vnd"
+          }
+        },
+        "PKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pkr"
+          }
+        },
+        "CLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clp"
+          }
+        },
+        "UYU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uyu"
+          }
+        },
+        "ARS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ars"
+          }
+        },
+        "ZAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zar"
+          }
+        },
+        "DZD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dzd"
+          }
+        },
+        "TND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tnd"
+          }
+        },
+        "MAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mad"
+          }
+        },
+        "KES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kes"
+          }
+        },
+        "KWD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kwd"
+          }
+        },
+        "JOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jod"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "XCD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xcd"
+          }
+        },
+        "AMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amd"
+          }
+        },
+        "BSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bsd"
+          }
+        },
+        "BHD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bhd"
+          }
+        },
+        "BOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bob"
+          }
+        },
+        "BAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bam"
+          }
+        },
+        "KHR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "khr"
+          }
+        },
+        "CRC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crc"
+          }
+        },
+        "XOF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xof"
+          }
+        },
+        "EGP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egp"
+          }
+        },
+        "ETB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "etb"
+          }
+        },
+        "GMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gmd"
+          }
+        },
+        "GHS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ghs"
+          }
+        },
+        "GTQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gtq"
+          }
+        },
+        "GYD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gyd"
+          }
+        },
+        "ILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ils"
+          }
+        },
+        "JMD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jmd"
+          }
+        },
+        "MOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mop"
+          }
+        },
+        "MGA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mga"
+          }
+        },
+        "MUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mur"
+          }
+        },
+        "MDL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mdl"
+          }
+        },
+        "MNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mnt"
+          }
+        },
+        "NAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nad"
+          }
+        },
+        "NGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ngn"
+          }
+        },
+        "MKD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mkd"
+          }
+        },
+        "OMR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "omr"
+          }
+        },
+        "PYG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pyg"
+          }
+        },
+        "PEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pen"
+          }
+        },
+        "QAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qar"
+          }
+        },
+        "RWF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rwf"
+          }
+        },
+        "SAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sar"
+          }
+        },
+        "RSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsd"
+          }
+        },
+        "LKR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lkr"
+          }
+        },
+        "TZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tzs"
+          }
+        },
+        "TTD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ttd"
+          }
+        },
+        "UZS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uzs"
+          }
+        },
+        "RUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rub"
+          }
+        },
+        "BTC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "btc"
+          }
+        },
+        "CNY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cny"
+          }
+        },
+        "USDT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usdt"
+          }
+        },
+        "KZT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kzt"
+          }
+        },
+        "AWG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awg"
+          }
+        },
+        "WHOP_USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whop_usd"
+          }
+        },
+        "XAU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xau"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The available currencies on the platform"
+      }
+    },
+    "com.whop.memberships#LegacyMembershipCustomFieldResponsesItem": {
+      "type": "structure",
+      "members": {
+        "answer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The response a user gave to the specific question or field.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the custom field response.",
+            "smithy.api#required": {}
+          }
+        },
+        "question": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The question asked by the custom field",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response from a custom field on checkout"
+      }
+    },
+    "com.whop.memberships#LegacyMembershipCustomFieldResponsesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.memberships#LegacyMembershipCustomFieldResponsesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The customer's responses to custom checkout questions configured on the product at the time of purchase."
+      }
+    },
+    "com.whop.memberships#LegacyMembershipMember": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the member.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The member record linking the user to the company for this membership. Null if the member record has not been created yet."
+      }
+    },
+    "com.whop.memberships#LegacyMembershipMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom key-value pairs for the membership (commonly used for software licensing, e.g., HWID). Max 50 keys, 100 chars per key, 500 chars per string value."
+      }
+    },
+    "com.whop.memberships#LegacyMembershipPlanMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom key-value pairs stored on the plan. Included in webhook payloads for payment and membership events. Max 50 keys, 100 chars per key, 500 chars per string value. The reserved keys `custom_cta` and `custom_cta_url`, when set, override the product's checkout call to action for this plan."
+      }
+    },
+    "com.whop.memberships#LegacyMembershipPlan": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.memberships#LegacyMembershipPlanMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs stored on the plan. Included in webhook payloads for payment and membership events. Max 50 keys, 100 chars per key, 500 chars per string value. The reserved keys `custom_cta` and `custom_cta_url`, when set, override the product's checkout call to action for this plan.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The plan the customer purchased to create this membership."
+      }
+    },
+    "com.whop.memberships#LegacyMembershipProductMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom key-value pairs stored on the product and included in payment and membership webhook payloads. Max 50 keys, 100 characters per key, 500 characters per string value."
+      }
+    },
+    "com.whop.memberships#LegacyMembershipProduct": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the product.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.whop.memberships#LegacyMembershipProductMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs stored on the product and included in payment and membership webhook payloads. Max 50 keys, 100 characters per key, 500 characters per string value.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the product shown to customers on the product page and in search results.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The product this membership grants access to."
+      }
+    },
+    "com.whop.memberships#LegacyMembershipPromoCode": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the promo code.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The promotional code currently applied to this membership's billing. Null if no promo code is active."
+      }
+    },
+    "com.whop.memberships#MembershipStatus2": {
+      "type": "enum",
+      "members": {
+        "TRIALING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trialing"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAST_DUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "past_due"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "UNRESOLVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unresolved"
+          }
+        },
+        "DRAFTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "drafted"
+          }
+        },
+        "CANCELING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceling"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The status of a membership"
+      }
+    },
+    "com.whop.memberships#LegacyMembershipUser": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's email address. Requires the member:email:read permission to access. Null if not authorized.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name shown on their public profile.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_pic": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the user's profile picture. Use profilePicture for the full attachment object.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's unique username shown on their public profile.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who owns this membership. Null if the user account has been deleted."
+      }
+    },
+    "com.whop.memberships#AddFreeDaysMembership": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#AddFreeDaysMembershipRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#LegacyMembership"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#BadRequest"
+        },
+        {
+          "target": "com.whop.memberships#Forbidden"
+        },
+        {
+          "target": "com.whop.memberships#NotFound"
+        },
+        {
+          "target": "com.whop.memberships#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/memberships/{id}/add_free_days",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add free days membership\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nAdd free days to extend a membership's current billing period, expiration date, or Stripe trial.\n\nRequired permissions:\n - `member:manage`\n - `member:email:read`\n - `member:basic:read`"
+      }
+    },
+    "com.whop.memberships#ResyncAccessMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the membership to resync access for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#ResyncAccessMembership": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#ResyncAccessMembershipRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#LegacyMembership"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#BadRequest"
+        },
+        {
+          "target": "com.whop.memberships#Forbidden"
+        },
+        {
+          "target": "com.whop.memberships#NotFound"
+        },
+        {
+          "target": "com.whop.memberships#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/memberships/{id}/resync_access",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resync access membership\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nRe-run access fulfillment for a membership. Recomputes the member's content access on Whop, re-validates their Discord link (re-adding them to the server and re-assigning roles if needed), and re-fulfills TradingView indicator access. Telegram access is invite-based and cannot be resynced here. The outcome is written to the membership's logs.\n\nRequired permissions:\n - `membership:resync_access`\n - `member:email:read`\n - `member:basic:read`"
+      }
+    },
+    "com.whop.memberships#UncancelMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the membership to uncancel."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.memberships#UncancelMembership": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.memberships#UncancelMembershipRequest"
+      },
+      "output": {
+        "target": "com.whop.memberships#LegacyMembership"
+      },
+      "errors": [
+        {
+          "target": "com.whop.memberships#BadRequest"
+        },
+        {
+          "target": "com.whop.memberships#Forbidden"
+        },
+        {
+          "target": "com.whop.memberships#NotFound"
+        },
+        {
+          "target": "com.whop.memberships#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/memberships/{id}/uncancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Uncancel membership\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nReverse a pending cancellation for a membership that was scheduled to cancel at period end.\n\nRequired permissions:\n - `member:manage`\n - `member:email:read`\n - `member:basic:read`"
+      }
+    },
+    "com.whop.memberships#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.memberships#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.whop.memberships#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.memberships#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.memberships#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.whop.memberships#Memberships": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.memberships#ListMemberships"
+        },
+        {
+          "target": "com.whop.memberships#InviteMembership"
+        },
+        {
+          "target": "com.whop.memberships#GetMembership"
+        },
+        {
+          "target": "com.whop.memberships#UpdateMembership"
+        },
+        {
+          "target": "com.whop.memberships#CancelMembership"
+        },
+        {
+          "target": "com.whop.memberships#ExtendMembership"
+        },
+        {
+          "target": "com.whop.memberships#PauseMembership"
+        },
+        {
+          "target": "com.whop.memberships#ResumeMembership"
+        },
+        {
+          "target": "com.whop.memberships#TransferMembership"
+        },
+        {
+          "target": "com.whop.memberships#AddFreeDaysMembership"
+        },
+        {
+          "target": "com.whop.memberships#ResyncAccessMembership"
+        },
+        {
+          "target": "com.whop.memberships#UncancelMembership"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

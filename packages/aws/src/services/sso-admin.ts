@@ -170,7 +170,7 @@ export const AddRegionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AddRegionRequest",
 }) as any as S.Schema<AddRegionRequest>;
 export type RegionStatus = "ACTIVE" | "ADDING" | "REMOVING" | (string & {});
-export const RegionStatus = /*@__PURE__*/ S.String;
+export const RegionStatus = S.String;
 
 export interface AddRegionResponse {
   Status?: RegionStatus;
@@ -239,10 +239,10 @@ export const AttachManagedPolicyToPermissionSetResponse =
   }) as any as S.Schema<AttachManagedPolicyToPermissionSetResponse>;
 export type TargetId = string;
 export type TargetType = "AWS_ACCOUNT" | (string & {});
-export const TargetType = /*@__PURE__*/ S.String;
+export const TargetType = S.String;
 
 export type PrincipalType = "USER" | "GROUP" | (string & {});
-export const PrincipalType = /*@__PURE__*/ S.String;
+export const PrincipalType = S.String;
 
 export type PrincipalId = string;
 export interface CreateAccountAssignmentRequest {
@@ -272,7 +272,7 @@ export type StatusValues =
   | "FAILED"
   | "SUCCEEDED"
   | (string & {});
-export const StatusValues = /*@__PURE__*/ S.String;
+export const StatusValues = S.String;
 
 export type UUId = string;
 export type Reason = string;
@@ -318,7 +318,7 @@ export type ApplicationProviderArn = string;
 export type ApplicationNameType = string;
 export type Description = string;
 export type SignInOrigin = "IDENTITY_CENTER" | "APPLICATION" | (string & {});
-export const SignInOrigin = /*@__PURE__*/ S.String;
+export const SignInOrigin = S.String;
 
 export type ApplicationUrl = string;
 export interface SignInOptions {
@@ -329,7 +329,7 @@ export const SignInOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Origin: SignInOrigin, ApplicationUrl: S.optional(S.String) }),
 ).annotate({ identifier: "SignInOptions" }) as any as S.Schema<SignInOptions>;
 export type ApplicationVisibility = "ENABLED" | "DISABLED" | (string & {});
-export const ApplicationVisibility = /*@__PURE__*/ S.String;
+export const ApplicationVisibility = S.String;
 
 export interface PortalOptions {
   SignInOptions?: SignInOptions;
@@ -353,7 +353,7 @@ export const Tag = /*@__PURE__*/ S.suspend(() =>
 export type TagList = Tag[];
 export const TagList = /*@__PURE__*/ S.Array(Tag);
 export type ApplicationStatus = "ENABLED" | "DISABLED" | (string & {});
-export const ApplicationStatus = /*@__PURE__*/ S.String;
+export const ApplicationStatus = S.String;
 
 export type ClientToken = string;
 export interface CreateApplicationRequest {
@@ -556,13 +556,13 @@ export const CreatePermissionSetResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatePermissionSetResponse>;
 export type TrustedTokenIssuerName = string;
 export type TrustedTokenIssuerType = "OIDC_JWT" | (string & {});
-export const TrustedTokenIssuerType = /*@__PURE__*/ S.String;
+export const TrustedTokenIssuerType = S.String;
 
 export type TrustedTokenIssuerUrl = string;
 export type ClaimAttributePath = string;
 export type JMESPath = string;
 export type JwksRetrievalOption = "OPEN_ID_DISCOVERY" | (string & {});
-export const JwksRetrievalOption = /*@__PURE__*/ S.String;
+export const JwksRetrievalOption = S.String;
 
 export interface OidcJwtConfiguration {
   IssuerUrl: string;
@@ -708,7 +708,7 @@ export const DeleteApplicationAssignmentResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApplicationAssignmentResponse",
 }) as any as S.Schema<DeleteApplicationAssignmentResponse>;
 export type AuthenticationMethodType = "IAM" | (string & {});
-export const AuthenticationMethodType = /*@__PURE__*/ S.String;
+export const AuthenticationMethodType = S.String;
 
 export interface DeleteApplicationAuthenticationMethodRequest {
   ApplicationArn: string;
@@ -736,7 +736,7 @@ export type GrantType =
   | "urn:ietf:params:oauth:grant-type:jwt-bearer"
   | "urn:ietf:params:oauth:grant-type:token-exchange"
   | (string & {});
-export const GrantType = /*@__PURE__*/ S.String;
+export const GrantType = S.String;
 
 export interface DeleteApplicationGrantRequest {
   ApplicationArn: string;
@@ -994,7 +994,7 @@ export const DescribeApplicationProviderRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeApplicationProviderRequest",
 }) as any as S.Schema<DescribeApplicationProviderRequest>;
 export type FederationProtocol = "SAML" | "OAUTH" | (string & {});
-export const FederationProtocol = /*@__PURE__*/ S.String;
+export const FederationProtocol = S.String;
 
 export type Name = string;
 export type IconUrl = string;
@@ -1071,13 +1071,13 @@ export type InstanceStatus =
   | "DELETE_IN_PROGRESS"
   | "ACTIVE"
   | (string & {});
-export const InstanceStatus = /*@__PURE__*/ S.String;
+export const InstanceStatus = S.String;
 
 export type KmsKeyType =
   | "AWS_OWNED_KMS_KEY"
   | "CUSTOMER_MANAGED_KEY"
   | (string & {});
-export const KmsKeyType = /*@__PURE__*/ S.String;
+export const KmsKeyType = S.String;
 
 export type KmsKeyArn = string;
 export type KmsKeyStatus =
@@ -1085,7 +1085,7 @@ export type KmsKeyStatus =
   | "ENABLED"
   | "UPDATE_FAILED"
   | (string & {});
-export const KmsKeyStatus = /*@__PURE__*/ S.String;
+export const KmsKeyStatus = S.String;
 
 export interface EncryptionConfigurationDetails {
   KeyType?: KmsKeyType;
@@ -1112,6 +1112,7 @@ export interface DescribeInstanceResponse {
   Status?: InstanceStatus;
   StatusReason?: string;
   EncryptionConfigurationDetails?: EncryptionConfigurationDetails;
+  PermissionSetsEnabled?: boolean;
 }
 export const DescribeInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1123,6 +1124,7 @@ export const DescribeInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(InstanceStatus),
     StatusReason: S.optional(S.String),
     EncryptionConfigurationDetails: S.optional(EncryptionConfigurationDetails),
+    PermissionSetsEnabled: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "DescribeInstanceResponse",
@@ -1143,8 +1145,7 @@ export type InstanceAccessControlAttributeConfigurationStatus =
   | "CREATION_IN_PROGRESS"
   | "CREATION_FAILED"
   | (string & {});
-export const InstanceAccessControlAttributeConfigurationStatus =
-  /*@__PURE__*/ S.String;
+export const InstanceAccessControlAttributeConfigurationStatus = S.String;
 
 export type InstanceAccessControlAttributeConfigurationStatusReason = string;
 export interface DescribeInstanceAccessControlAttributeConfigurationResponse {
@@ -1525,7 +1526,7 @@ export type UserBackgroundSessionApplicationStatus =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const UserBackgroundSessionApplicationStatus = /*@__PURE__*/ S.String;
+export const UserBackgroundSessionApplicationStatus = S.String;
 
 export interface GetApplicationSessionConfigurationResponse {
   UserBackgroundSessionApplicationStatus?: UserBackgroundSessionApplicationStatus;
@@ -1810,7 +1811,7 @@ export type ProvisioningStatus =
   | "LATEST_PERMISSION_SET_PROVISIONED"
   | "LATEST_PERMISSION_SET_NOT_PROVISIONED"
   | (string & {});
-export const ProvisioningStatus = /*@__PURE__*/ S.String;
+export const ProvisioningStatus = S.String;
 
 export interface ListAccountsForProvisionedPermissionSetRequest {
   InstanceArn: string;
@@ -2234,6 +2235,22 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListInstancesRequest",
 }) as any as S.Schema<ListInstancesRequest>;
+export interface RegionMetadata {
+  RegionName?: string;
+  Status?: RegionStatus;
+  AddedDate?: Date;
+  IsPrimaryRegion?: boolean;
+}
+export const RegionMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RegionName: S.optional(S.String),
+    Status: S.optional(RegionStatus),
+    AddedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    IsPrimaryRegion: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "RegionMetadata" }) as any as S.Schema<RegionMetadata>;
+export type RegionMetadataList = RegionMetadata[];
+export const RegionMetadataList = /*@__PURE__*/ S.Array(RegionMetadata);
 export interface InstanceMetadata {
   InstanceArn?: string;
   IdentityStoreId?: string;
@@ -2242,6 +2259,8 @@ export interface InstanceMetadata {
   CreatedDate?: Date;
   Status?: InstanceStatus;
   StatusReason?: string;
+  PrimaryRegion?: string;
+  Regions?: RegionMetadata[];
 }
 export const InstanceMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2252,6 +2271,8 @@ export const InstanceMetadata = /*@__PURE__*/ S.suspend(() =>
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Status: S.optional(InstanceStatus),
     StatusReason: S.optional(S.String),
+    PrimaryRegion: S.optional(S.String),
+    Regions: S.optional(RegionMetadataList),
   }),
 ).annotate({
   identifier: "InstanceMetadata",
@@ -2449,22 +2470,6 @@ export const ListRegionsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListRegionsRequest",
 }) as any as S.Schema<ListRegionsRequest>;
-export interface RegionMetadata {
-  RegionName?: string;
-  Status?: RegionStatus;
-  AddedDate?: Date;
-  IsPrimaryRegion?: boolean;
-}
-export const RegionMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RegionName: S.optional(S.String),
-    Status: S.optional(RegionStatus),
-    AddedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    IsPrimaryRegion: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "RegionMetadata" }) as any as S.Schema<RegionMetadata>;
-export type RegionMetadataList = RegionMetadata[];
-export const RegionMetadataList = /*@__PURE__*/ S.Array(RegionMetadata);
 export interface ListRegionsResponse {
   Regions?: RegionMetadata[];
   NextToken?: string;
@@ -2553,7 +2558,7 @@ export type ProvisionTargetType =
   | "AWS_ACCOUNT"
   | "ALL_PROVISIONED_ACCOUNTS"
   | (string & {});
-export const ProvisionTargetType = /*@__PURE__*/ S.String;
+export const ProvisionTargetType = S.String;
 
 export interface ProvisionPermissionSetRequest {
   InstanceArn: string;
@@ -2847,12 +2852,14 @@ export interface UpdateInstanceRequest {
   Name?: string;
   InstanceArn: string;
   EncryptionConfiguration?: EncryptionConfiguration;
+  PermissionSetsEnabled?: boolean;
 }
 export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     InstanceArn: S.String,
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
+    PermissionSetsEnabled: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -2960,7 +2967,7 @@ export type AccessDeniedExceptionMessage = string;
 export type AccessDeniedExceptionReason =
   | "KMS_AccessDeniedException"
   | (string & {});
-export const AccessDeniedExceptionReason = /*@__PURE__*/ S.String;
+export const AccessDeniedExceptionReason = S.String;
 
 export type ConflictExceptionMessage = string;
 export type InternalFailureMessage = string;
@@ -2969,7 +2976,7 @@ export type ThrottlingExceptionMessage = string;
 export type ThrottlingExceptionReason =
   | "KMS_ThrottlingException"
   | (string & {});
-export const ThrottlingExceptionReason = /*@__PURE__*/ S.String;
+export const ThrottlingExceptionReason = S.String;
 
 export type ValidationExceptionMessage = string;
 export type ValidationExceptionReason =
@@ -2977,13 +2984,13 @@ export type ValidationExceptionReason =
   | "KMS_InvalidStateException"
   | "KMS_DisabledException"
   | (string & {});
-export const ValidationExceptionReason = /*@__PURE__*/ S.String;
+export const ValidationExceptionReason = S.String;
 
 export type ResourceNotFoundMessage = string;
 export type ResourceNotFoundExceptionReason =
   | "KMS_NotFoundException"
   | (string & {});
-export const ResourceNotFoundExceptionReason = /*@__PURE__*/ S.String;
+export const ResourceNotFoundExceptionReason = S.String;
 
 export type AddRegionError =
   | AccessDeniedException
@@ -5560,6 +5567,14 @@ export type UpdateInstanceError =
   | CommonErrors;
 /**
  * Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.
+ *
+ * In a single `UpdateInstance` request, you can perform only one of the following operations:
+ *
+ * - Update the encryption configuration of the instance by specifying `EncryptionConfiguration`.
+ *
+ * - Enable permission sets for the instance by specifying `PermissionSetsEnabled`.
+ *
+ * A request that specifies both `EncryptionConfiguration` and `PermissionSetsEnabled` returns a `ValidationException`. To perform both operations, call `UpdateInstance` separately for each. The two calls can be made in parallel.
  */
 export const updateInstance: API.OperationMethod<
   UpdateInstanceRequest,

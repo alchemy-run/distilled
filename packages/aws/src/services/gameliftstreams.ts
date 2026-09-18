@@ -82,6 +82,12 @@ export class ServiceQuotaExceededException
     { message: S.String.pipe(T.ErrorMessage()) },
     T.HttpError(402),
   ).pipe(C.withQuotaError) {}
+export class StreamSessionAccessNotReadyException
+  extends /*@__PURE__*/ S.TaggedError<StreamSessionAccessNotReadyException>()(
+    "StreamSessionAccessNotReadyException",
+    { message: S.String.pipe(T.ErrorMessage()) },
+    T.all(T.HttpError(409), T.Retryable()),
+  ).pipe(C.withConflictError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
@@ -164,7 +170,7 @@ export type StreamGroupLocationStatus =
   | "ERROR"
   | "REMOVING"
   | (string & {});
-export const StreamGroupLocationStatus = /*@__PURE__*/ S.String;
+export const StreamGroupLocationStatus = S.String;
 
 export type CapacityValue = number;
 export interface VpcTransitConfigurationResponse {
@@ -266,7 +272,7 @@ export type RuntimeEnvironmentType =
   | "WINDOWS"
   | "UBUNTU"
   | (string & {});
-export const RuntimeEnvironmentType = /*@__PURE__*/ S.String;
+export const RuntimeEnvironmentType = S.String;
 
 export type RuntimeEnvironmentVersion = string;
 export interface RuntimeEnvironment {
@@ -330,17 +336,17 @@ export type ApplicationStatus =
   | "DELETING"
   | "ERROR"
   | (string & {});
-export const ApplicationStatus = /*@__PURE__*/ S.String;
+export const ApplicationStatus = S.String;
 
 export type ApplicationStatusReason =
   | "internalError"
   | "accessDenied"
   | "sourceModified"
   | (string & {});
-export const ApplicationStatusReason = /*@__PURE__*/ S.String;
+export const ApplicationStatusReason = S.String;
 
 export type ReplicationStatusType = "REPLICATING" | "COMPLETED" | (string & {});
-export const ReplicationStatusType = /*@__PURE__*/ S.String;
+export const ReplicationStatusType = S.String;
 
 export interface ReplicationStatus {
   Location?: string;
@@ -411,7 +417,7 @@ export type StreamClass =
   | "gen6e_pro"
   | "gen6e_pro_win2022"
   | (string & {});
-export const StreamClass = /*@__PURE__*/ S.String;
+export const StreamClass = S.String;
 
 export interface CreateStreamGroupInput {
   Description: string;
@@ -460,13 +466,13 @@ export type StreamGroupStatus =
   | "DELETING"
   | "EXPIRED"
   | (string & {});
-export const StreamGroupStatus = /*@__PURE__*/ S.String;
+export const StreamGroupStatus = S.String;
 
 export type StreamGroupStatusReason =
   | "internalError"
   | "noAvailableInstances"
   | (string & {});
-export const StreamGroupStatusReason = /*@__PURE__*/ S.String;
+export const StreamGroupStatusReason = S.String;
 
 export interface CreateStreamGroupOutput {
   Arn: string;
@@ -500,6 +506,49 @@ export const CreateStreamGroupOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateStreamGroupOutput",
 }) as any as S.Schema<CreateStreamGroupOutput>;
+export interface CreateStreamSessionAdminShellInput {
+  Identifier: string;
+  StreamSessionIdentifier: string;
+}
+export const CreateStreamSessionAdminShellInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    StreamSessionIdentifier: S.String.pipe(
+      T.HttpLabel("StreamSessionIdentifier"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/streamgroups/{Identifier}/streamsessions/{StreamSessionIdentifier}/access",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateStreamSessionAdminShellInput",
+}) as any as S.Schema<CreateStreamSessionAdminShellInput>;
+export type SessionId = string;
+export type StreamUrl = string;
+export type TokenValue = string | redacted.Redacted<string>;
+export interface CreateStreamSessionAdminShellOutput {
+  SessionId?: string;
+  StreamUrl?: string;
+  TokenValue?: string | redacted.Redacted<string>;
+}
+export const CreateStreamSessionAdminShellOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SessionId: S.optional(S.String),
+    StreamUrl: S.optional(S.String),
+    TokenValue: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "CreateStreamSessionAdminShellOutput",
+}) as any as S.Schema<CreateStreamSessionAdminShellOutput>;
 export type SignalRequest = string | redacted.Redacted<string>;
 export interface CreateStreamSessionConnectionInput {
   ClientToken?: string;
@@ -540,6 +589,147 @@ export const CreateStreamSessionConnectionOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateStreamSessionConnectionOutput",
 }) as any as S.Schema<CreateStreamSessionConnectionOutput>;
+export type Protocol = "WebRTC" | (string & {});
+export const Protocol = S.String;
+
+export type UrlExpiresAfterMinutes = number;
+export type UsageLimit = number;
+export type LocationList = string[];
+export const LocationList = /*@__PURE__*/ S.Array(S.String);
+export type SessionLengthSeconds = number;
+export type GameLaunchArgList = string[];
+export const GameLaunchArgList = /*@__PURE__*/ S.Array(S.String);
+export type EnvironmentVariables = { [key: string]: string | undefined };
+export const EnvironmentVariables = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export type IamRoleArn = string | redacted.Redacted<string>;
+export type ResolutionWidth = number;
+export type ResolutionHeight = number;
+export interface Resolution {
+  Width: number;
+  Height: number;
+}
+export const Resolution = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Width: S.Number, Height: S.Number }),
+).annotate({ identifier: "Resolution" }) as any as S.Schema<Resolution>;
+export interface DisplayConfiguration {
+  Resolution?: Resolution;
+}
+export const DisplayConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Resolution: S.optional(Resolution) }),
+).annotate({
+  identifier: "DisplayConfiguration",
+}) as any as S.Schema<DisplayConfiguration>;
+export interface CreateStreamUrlInput {
+  Identifier: string;
+  ApplicationIdentifier: string;
+  Protocol: Protocol;
+  UrlExpiresAfterMinutes: number;
+  UsageLimit?: number;
+  Description?: string;
+  Locations: string[];
+  SessionLengthSeconds?: number;
+  AdditionalLaunchArgs?: string[];
+  AdditionalEnvironmentVariables?: { [key: string]: string | undefined };
+  RoleArn?: string | redacted.Redacted<string>;
+  DisplayConfiguration?: DisplayConfiguration;
+  ClientToken?: string;
+}
+export const CreateStreamUrlInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    ApplicationIdentifier: S.String,
+    Protocol: Protocol,
+    UrlExpiresAfterMinutes: S.Number,
+    UsageLimit: S.optional(S.Number),
+    Description: S.optional(S.String),
+    Locations: LocationList,
+    SessionLengthSeconds: S.optional(S.Number),
+    AdditionalLaunchArgs: S.optional(GameLaunchArgList),
+    AdditionalEnvironmentVariables: S.optional(EnvironmentVariables),
+    RoleArn: S.optional(SensitiveString),
+    DisplayConfiguration: S.optional(DisplayConfiguration),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/streamgroups/{Identifier}/streamurls" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateStreamUrlInput",
+}) as any as S.Schema<CreateStreamUrlInput>;
+export type StreamSessionStreamUrl = string | redacted.Redacted<string>;
+export type StreamUrlStatus =
+  | "ACTIVE"
+  | "EXPIRED"
+  | "REVOKED"
+  | "LIMIT_REACHED"
+  | (string & {});
+export const StreamUrlStatus = S.String;
+
+export type StreamUrlStatusReason =
+  | "userRevoked"
+  | "revokedAndTerminatingSessions"
+  | "revokedAndSessionsTerminated"
+  | "streamGroupDeleted"
+  | "applicationDeleted"
+  | (string & {});
+export const StreamUrlStatusReason = S.String;
+
+export type RemainingUses = number;
+export interface CreateStreamUrlOutput {
+  Arn: string;
+  StreamUrlId?: string;
+  StreamUrl?: string | redacted.Redacted<string>;
+  Status?: StreamUrlStatus;
+  StatusReason?: StreamUrlStatusReason;
+  ExpiresAt?: Date;
+  CreatedAt?: Date;
+  UsageLimit?: number;
+  RemainingUses?: number;
+  StreamGroupArn?: string;
+  ApplicationArn?: string;
+  Protocol?: Protocol;
+  Locations?: string[];
+  SessionLengthSeconds?: number;
+  Description?: string;
+  AdditionalLaunchArgs?: string[];
+  AdditionalEnvironmentVariables?: { [key: string]: string | undefined };
+  RoleArn?: string | redacted.Redacted<string>;
+  DisplayConfiguration?: DisplayConfiguration;
+}
+export const CreateStreamUrlOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    StreamUrlId: S.optional(S.String),
+    StreamUrl: S.optional(SensitiveString),
+    Status: S.optional(StreamUrlStatus),
+    StatusReason: S.optional(StreamUrlStatusReason),
+    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UsageLimit: S.optional(S.Number),
+    RemainingUses: S.optional(S.Number),
+    StreamGroupArn: S.optional(S.String),
+    ApplicationArn: S.optional(S.String),
+    Protocol: S.optional(Protocol),
+    Locations: S.optional(LocationList),
+    SessionLengthSeconds: S.optional(S.Number),
+    Description: S.optional(S.String),
+    AdditionalLaunchArgs: S.optional(GameLaunchArgList),
+    AdditionalEnvironmentVariables: S.optional(EnvironmentVariables),
+    RoleArn: S.optional(SensitiveString),
+    DisplayConfiguration: S.optional(DisplayConfiguration),
+  }),
+).annotate({
+  identifier: "CreateStreamUrlOutput",
+}) as any as S.Schema<CreateStreamUrlOutput>;
 export interface DeleteApplicationInput {
   Identifier: string;
 }
@@ -793,13 +983,14 @@ export type StreamSessionStatus =
   | "TERMINATED"
   | "ERROR"
   | (string & {});
-export const StreamSessionStatus = /*@__PURE__*/ S.String;
+export const StreamSessionStatus = S.String;
 
 export type StreamSessionStatusReason =
   | "internalError"
   | "invalidSignalRequest"
   | "placementTimeout"
   | "applicationLogS3DestinationError"
+  | "assumeRoleFailed"
   | "applicationExit"
   | "connectionTimeout"
   | "reconnectionTimeout"
@@ -807,20 +998,9 @@ export type StreamSessionStatusReason =
   | "idleTimeout"
   | "apiTerminated"
   | (string & {});
-export const StreamSessionStatusReason = /*@__PURE__*/ S.String;
-
-export type Protocol = "WebRTC" | (string & {});
-export const Protocol = /*@__PURE__*/ S.String;
+export const StreamSessionStatusReason = S.String;
 
 export type ConnectionTimeoutSeconds = number;
-export type SessionLengthSeconds = number;
-export type GameLaunchArgList = string[];
-export const GameLaunchArgList = /*@__PURE__*/ S.Array(S.String);
-export type EnvironmentVariables = { [key: string]: string | undefined };
-export const EnvironmentVariables = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface PerformanceStatsConfiguration {
   SharedWithClient?: boolean;
 }
@@ -836,7 +1016,7 @@ export type ExportFilesStatus =
   | "FAILED"
   | "PENDING"
   | (string & {});
-export const ExportFilesStatus = /*@__PURE__*/ S.String;
+export const ExportFilesStatus = S.String;
 
 export type ExportFilesReason = string;
 export interface ExportFilesMetadata {
@@ -875,6 +1055,8 @@ export interface GetStreamSessionOutput {
   CreatedAt?: Date;
   ApplicationArn?: string;
   ExportFilesMetadata?: ExportFilesMetadata;
+  RoleArn?: string | redacted.Redacted<string>;
+  DisplayConfiguration?: DisplayConfiguration;
 }
 export const GetStreamSessionOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -899,10 +1081,117 @@ export const GetStreamSessionOutput = /*@__PURE__*/ S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ApplicationArn: S.optional(S.String),
     ExportFilesMetadata: S.optional(ExportFilesMetadata),
+    RoleArn: S.optional(SensitiveString),
+    DisplayConfiguration: S.optional(DisplayConfiguration),
   }),
 ).annotate({
   identifier: "GetStreamSessionOutput",
 }) as any as S.Schema<GetStreamSessionOutput>;
+export interface GetStreamUrlInput {
+  Identifier: string;
+  StreamUrlIdentifier: string;
+}
+export const GetStreamUrlInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    StreamUrlIdentifier: S.String.pipe(T.HttpLabel("StreamUrlIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/streamgroups/{Identifier}/streamurls/{StreamUrlIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetStreamUrlInput",
+}) as any as S.Schema<GetStreamUrlInput>;
+export interface StreamSessionSummary {
+  Arn?: string;
+  UserId?: string;
+  Status?: StreamSessionStatus;
+  StatusReason?: StreamSessionStatusReason;
+  Protocol?: Protocol;
+  LastUpdatedAt?: Date;
+  CreatedAt?: Date;
+  ApplicationArn?: string;
+  ExportFilesMetadata?: ExportFilesMetadata;
+  Location?: string;
+  RoleArn?: string | redacted.Redacted<string>;
+}
+export const StreamSessionSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    UserId: S.optional(S.String),
+    Status: S.optional(StreamSessionStatus),
+    StatusReason: S.optional(StreamSessionStatusReason),
+    Protocol: S.optional(Protocol),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ApplicationArn: S.optional(S.String),
+    ExportFilesMetadata: S.optional(ExportFilesMetadata),
+    Location: S.optional(S.String),
+    RoleArn: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "StreamSessionSummary",
+}) as any as S.Schema<StreamSessionSummary>;
+export type StreamSessionSummaryList = StreamSessionSummary[];
+export const StreamSessionSummaryList =
+  /*@__PURE__*/ S.Array(StreamSessionSummary);
+export interface GetStreamUrlOutput {
+  Arn: string;
+  StreamUrlId?: string;
+  StreamUrl?: string | redacted.Redacted<string>;
+  Status?: StreamUrlStatus;
+  StatusReason?: StreamUrlStatusReason;
+  ExpiresAt?: Date;
+  CreatedAt?: Date;
+  UsageLimit?: number;
+  RemainingUses?: number;
+  StreamGroupArn?: string;
+  ApplicationArn?: string;
+  Protocol?: Protocol;
+  Locations?: string[];
+  SessionLengthSeconds?: number;
+  Description?: string;
+  AdditionalLaunchArgs?: string[];
+  AdditionalEnvironmentVariables?: { [key: string]: string | undefined };
+  RoleArn?: string | redacted.Redacted<string>;
+  DisplayConfiguration?: DisplayConfiguration;
+  StreamSessions?: StreamSessionSummary[];
+}
+export const GetStreamUrlOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    StreamUrlId: S.optional(S.String),
+    StreamUrl: S.optional(SensitiveString),
+    Status: S.optional(StreamUrlStatus),
+    StatusReason: S.optional(StreamUrlStatusReason),
+    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UsageLimit: S.optional(S.Number),
+    RemainingUses: S.optional(S.Number),
+    StreamGroupArn: S.optional(S.String),
+    ApplicationArn: S.optional(S.String),
+    Protocol: S.optional(Protocol),
+    Locations: S.optional(LocationList),
+    SessionLengthSeconds: S.optional(S.Number),
+    Description: S.optional(S.String),
+    AdditionalLaunchArgs: S.optional(GameLaunchArgList),
+    AdditionalEnvironmentVariables: S.optional(EnvironmentVariables),
+    RoleArn: S.optional(SensitiveString),
+    DisplayConfiguration: S.optional(DisplayConfiguration),
+    StreamSessions: S.optional(StreamSessionSummaryList),
+  }),
+).annotate({
+  identifier: "GetStreamUrlOutput",
+}) as any as S.Schema<GetStreamUrlOutput>;
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListApplicationsInput {
@@ -962,6 +1251,62 @@ export const ListApplicationsOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListApplicationsOutput",
 }) as any as S.Schema<ListApplicationsOutput>;
+export interface ListApplicationShaderCachesInput {
+  Identifier: string;
+}
+export const ListApplicationShaderCachesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{Identifier}/shadercaches" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListApplicationShaderCachesInput",
+}) as any as S.Schema<ListApplicationShaderCachesInput>;
+export type ShaderCacheStatus =
+  | "INITIALIZED"
+  | "PROCESSING"
+  | "READY"
+  | "DELETING"
+  | "ERROR"
+  | (string & {});
+export const ShaderCacheStatus = S.String;
+
+export interface ShaderCacheSummary {
+  Identifier: string;
+  ApplicationArn: string;
+  Status?: ShaderCacheStatus;
+  LastUpdatedAt?: Date;
+  StorageBytes?: number;
+  AssociatedStreamGroups?: string[];
+}
+export const ShaderCacheSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Identifier: S.String,
+    ApplicationArn: S.String,
+    Status: S.optional(ShaderCacheStatus),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    StorageBytes: S.optional(S.Number),
+    AssociatedStreamGroups: S.optional(ArnList),
+  }),
+).annotate({
+  identifier: "ShaderCacheSummary",
+}) as any as S.Schema<ShaderCacheSummary>;
+export type ShaderCacheSummaryList = ShaderCacheSummary[];
+export const ShaderCacheSummaryList = /*@__PURE__*/ S.Array(ShaderCacheSummary);
+export interface ListApplicationShaderCachesOutput {
+  Items?: ShaderCacheSummary[];
+}
+export const ListApplicationShaderCachesOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Items: S.optional(ShaderCacheSummaryList) }),
+).annotate({
+  identifier: "ListApplicationShaderCachesOutput",
+}) as any as S.Schema<ListApplicationShaderCachesOutput>;
 export interface ListStreamGroupsInput {
   NextToken?: string;
   MaxResults?: number;
@@ -1055,37 +1400,6 @@ export const ListStreamSessionsInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListStreamSessionsInput",
 }) as any as S.Schema<ListStreamSessionsInput>;
-export interface StreamSessionSummary {
-  Arn?: string;
-  UserId?: string;
-  Status?: StreamSessionStatus;
-  StatusReason?: StreamSessionStatusReason;
-  Protocol?: Protocol;
-  LastUpdatedAt?: Date;
-  CreatedAt?: Date;
-  ApplicationArn?: string;
-  ExportFilesMetadata?: ExportFilesMetadata;
-  Location?: string;
-}
-export const StreamSessionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    UserId: S.optional(S.String),
-    Status: S.optional(StreamSessionStatus),
-    StatusReason: S.optional(StreamSessionStatusReason),
-    Protocol: S.optional(Protocol),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ApplicationArn: S.optional(S.String),
-    ExportFilesMetadata: S.optional(ExportFilesMetadata),
-    Location: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StreamSessionSummary",
-}) as any as S.Schema<StreamSessionSummary>;
-export type StreamSessionSummaryList = StreamSessionSummary[];
-export const StreamSessionSummaryList =
-  /*@__PURE__*/ S.Array(StreamSessionSummary);
 export interface ListStreamSessionsOutput {
   Items?: StreamSessionSummary[];
   NextToken?: string;
@@ -1137,6 +1451,81 @@ export const ListStreamSessionsByAccountOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListStreamSessionsByAccountOutput",
 }) as any as S.Schema<ListStreamSessionsByAccountOutput>;
+export interface ListStreamUrlsInput {
+  Status?: StreamUrlStatus;
+  StreamGroupIdentifier?: string;
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListStreamUrlsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Status: S.optional(StreamUrlStatus).pipe(T.HttpQuery("Status")),
+    StreamGroupIdentifier: S.optional(S.String).pipe(
+      T.HttpQuery("StreamGroupIdentifier"),
+    ),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/streamurls" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListStreamUrlsInput",
+}) as any as S.Schema<ListStreamUrlsInput>;
+export interface StreamUrlSummary {
+  Arn: string;
+  StreamUrlId?: string;
+  StreamUrl?: string | redacted.Redacted<string>;
+  Status?: StreamUrlStatus;
+  StatusReason?: StreamUrlStatusReason;
+  ExpiresAt?: Date;
+  CreatedAt?: Date;
+  UsageLimit?: number;
+  RemainingUses?: number;
+  StreamGroupArn?: string;
+  ApplicationArn?: string;
+  SessionLengthSeconds?: number;
+  Description?: string;
+}
+export const StreamUrlSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Arn: S.String,
+    StreamUrlId: S.optional(S.String),
+    StreamUrl: S.optional(SensitiveString),
+    Status: S.optional(StreamUrlStatus),
+    StatusReason: S.optional(StreamUrlStatusReason),
+    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UsageLimit: S.optional(S.Number),
+    RemainingUses: S.optional(S.Number),
+    StreamGroupArn: S.optional(S.String),
+    ApplicationArn: S.optional(S.String),
+    SessionLengthSeconds: S.optional(S.Number),
+    Description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "StreamUrlSummary",
+}) as any as S.Schema<StreamUrlSummary>;
+export type StreamUrlSummaryList = StreamUrlSummary[];
+export const StreamUrlSummaryList = /*@__PURE__*/ S.Array(StreamUrlSummary);
+export interface ListStreamUrlsOutput {
+  Items?: StreamUrlSummary[];
+  NextToken?: string;
+}
+export const ListStreamUrlsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Items: S.optional(StreamUrlSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListStreamUrlsOutput",
+}) as any as S.Schema<ListStreamUrlsOutput>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
@@ -1191,8 +1580,44 @@ export const RemoveStreamGroupLocationsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RemoveStreamGroupLocationsResponse",
 }) as any as S.Schema<RemoveStreamGroupLocationsResponse>;
-export type LocationList = string[];
-export const LocationList = /*@__PURE__*/ S.Array(S.String);
+export type RevocationMode =
+  | "REVOKE_URL"
+  | "REVOKE_AND_TERMINATE_SESSIONS"
+  | (string & {});
+export const RevocationMode = S.String;
+
+export interface RevokeStreamUrlInput {
+  Identifier: string;
+  StreamUrlIdentifier: string;
+  RevocationMode?: RevocationMode;
+}
+export const RevokeStreamUrlInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    StreamUrlIdentifier: S.String.pipe(T.HttpLabel("StreamUrlIdentifier")),
+    RevocationMode: S.optional(RevocationMode),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/streamgroups/{Identifier}/streamurls/{StreamUrlIdentifier}/revoke",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RevokeStreamUrlInput",
+}) as any as S.Schema<RevokeStreamUrlInput>;
+export interface RevokeStreamUrlResponse {}
+export const RevokeStreamUrlResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "RevokeStreamUrlResponse",
+}) as any as S.Schema<RevokeStreamUrlResponse>;
 export interface StartStreamSessionInput {
   ClientToken?: string;
   Description?: string;
@@ -1207,6 +1632,8 @@ export interface StartStreamSessionInput {
   AdditionalLaunchArgs?: string[];
   AdditionalEnvironmentVariables?: { [key: string]: string | undefined };
   PerformanceStatsConfiguration?: PerformanceStatsConfiguration;
+  RoleArn?: string | redacted.Redacted<string>;
+  DisplayConfiguration?: DisplayConfiguration;
 }
 export const StartStreamSessionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1223,6 +1650,8 @@ export const StartStreamSessionInput = /*@__PURE__*/ S.suspend(() =>
     AdditionalLaunchArgs: S.optional(GameLaunchArgList),
     AdditionalEnvironmentVariables: S.optional(EnvironmentVariables),
     PerformanceStatsConfiguration: S.optional(PerformanceStatsConfiguration),
+    RoleArn: S.optional(SensitiveString),
+    DisplayConfiguration: S.optional(DisplayConfiguration),
   }).pipe(
     T.all(
       T.Http({
@@ -1261,6 +1690,8 @@ export interface StartStreamSessionOutput {
   CreatedAt?: Date;
   ApplicationArn?: string;
   ExportFilesMetadata?: ExportFilesMetadata;
+  RoleArn?: string | redacted.Redacted<string>;
+  DisplayConfiguration?: DisplayConfiguration;
 }
 export const StartStreamSessionOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1285,6 +1716,8 @@ export const StartStreamSessionOutput = /*@__PURE__*/ S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ApplicationArn: S.optional(S.String),
     ExportFilesMetadata: S.optional(ExportFilesMetadata),
+    RoleArn: S.optional(SensitiveString),
+    DisplayConfiguration: S.optional(DisplayConfiguration),
   }),
 ).annotate({
   identifier: "StartStreamSessionOutput",
@@ -1578,6 +2011,8 @@ export type CreateApplicationError =
  *
  * Make sure that your files in the Amazon S3 bucket are the correct version you want to use. If you change the files at a later time, you will need to create a new Amazon GameLift Streams application.
  *
+ * Creating an application is the only time Amazon GameLift Streams accesses your Amazon S3 bucket. After the application reaches `READY` status, you can delete the original files from your Amazon S3 bucket without affecting the application.
+ *
  * If the request is successful, Amazon GameLift Streams begins to create an application and sets the status to `INITIALIZED`. When an application reaches `READY` status, you can use the application to set up stream groups and start streams. To track application status, call GetApplication.
  */
 export const createApplication: API.OperationMethod<
@@ -1651,6 +2086,44 @@ export const createStreamGroup: API.OperationMethod<
   operationName: "CreateStreamGroup",
 }));
 
+export type CreateStreamSessionAdminShellError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | StreamSessionAccessNotReadyException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an administrative terminal session with full access to the live runtime environment of the Amazon GameLift Streams stream session. Use the returned credentials (`SessionId`, `StreamUrl` and `TokenValue`) with the Amazon Web Services Systems Manager Session Manager plugin for the CLI to access the terminal session.
+ *
+ * The stream session must be in one of the following statuses: `ACTIVE`, `CONNECTED`, `PENDING_CLIENT_RECONNECTION`, or `RECONNECTING`.
+ *
+ * The `StreamUrl` is valid for 60 seconds. After it expires, call this operation again to get a new URL.
+ *
+ * The returned credentials grant full access to the live runtime environment of the Amazon GameLift Streams stream session. The operator who connects to the terminal session has the same level of access that your Amazon GameLift Streams applications have, including potentially user input, screen images, and application data files. Grant permissions to call this operation only to trusted IAM identities that require live runtime environment access.
+ */
+export const createStreamSessionAdminShell: API.OperationMethod<
+  CreateStreamSessionAdminShellInput,
+  CreateStreamSessionAdminShellOutput,
+  CreateStreamSessionAdminShellError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateStreamSessionAdminShellInput,
+  output: CreateStreamSessionAdminShellOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    StreamSessionAccessNotReadyException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateStreamSessionAdminShell",
+}));
+
 export type CreateStreamSessionConnectionError =
   | AccessDeniedException
   | ConflictException
@@ -1707,6 +2180,44 @@ export const createStreamSessionConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamSessionConnection",
+}));
+
+export type CreateStreamUrlError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a stream URL that grants temporary access to a stream session in a web browser without requiring an Amazon Web Services account or client integration.
+ *
+ * You can use the stream URL to start a stream session up to the number of times set by `UsageLimit`, until it expires after `UrlExpiresAfterMinutes`. Each successful use starts a new stream session.
+ *
+ * To make the request idempotent, provide a `ClientToken`.
+ */
+export const createStreamUrl: API.OperationMethod<
+  CreateStreamUrlInput,
+  CreateStreamUrlOutput,
+  CreateStreamUrlError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateStreamUrlInput,
+  output: CreateStreamUrlOutput,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateStreamUrl",
 }));
 
 export type DeleteApplicationError =
@@ -1951,6 +2462,38 @@ export const getStreamSession: API.OperationMethod<
   operationName: "GetStreamSession",
 }));
 
+export type GetStreamUrlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves properties for a stream URL, including its current status, usage, and the stream sessions started through it.
+ *
+ * If you delete the stream group or application that backs the stream URL, this operation updates the status of the stream URL to `REVOKED`.
+ */
+export const getStreamUrl: API.OperationMethod<
+  GetStreamUrlInput,
+  GetStreamUrlOutput,
+  GetStreamUrlError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetStreamUrlInput,
+  output: GetStreamUrlOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetStreamUrl",
+}));
+
 export type ListApplicationsError =
   | AccessDeniedException
   | InternalServerException
@@ -1985,6 +2528,38 @@ export const listApplications: API.PaginatedOperationMethod<
     pageSize: "MaxResults",
   } as const,
 })) as any;
+
+export type ListApplicationShaderCachesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the shader caches associated with an Amazon GameLift Streams application. Each shader cache entry includes its status, associated stream groups, and size in bytes.
+ *
+ * Returns shader caches associated with the specified Amazon GameLift Streams application in all statuses.
+ */
+export const listApplicationShaderCaches: API.OperationMethod<
+  ListApplicationShaderCachesInput,
+  ListApplicationShaderCachesOutput,
+  ListApplicationShaderCachesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListApplicationShaderCachesInput,
+  output: ListApplicationShaderCachesOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListApplicationShaderCaches",
+}));
 
 export type ListStreamGroupsError =
   | AccessDeniedException
@@ -2101,6 +2676,41 @@ export const listStreamSessionsByAccount: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
+export type ListStreamUrlsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves a list of the stream URLs in the current Amazon Web Services Region for your Amazon Web Services account. You can filter the results by status or by stream group. Use the pagination parameters to retrieve results as a set of sequential pages. If you delete the stream group or application that backs a stream URL, this operation updates that stream URL's status to `REVOKED`.
+ */
+export const listStreamUrls: API.PaginatedOperationMethod<
+  ListStreamUrlsInput,
+  ListStreamUrlsOutput,
+  ListStreamUrlsError,
+  Credentials | HttpClient.HttpClient,
+  StreamUrlSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListStreamUrlsInput,
+  output: ListStreamUrlsOutput,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListStreamUrls",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Items",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
+
 export type ListTagsForResourceError =
   | AccessDeniedException
   | InternalServerException
@@ -2165,6 +2775,38 @@ export const removeStreamGroupLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveStreamGroupLocations",
+}));
+
+export type RevokeStreamUrlError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Revokes a stream URL so that it can no longer start new stream sessions. By default, stream sessions that are already running continue until they end on their own. To also end running sessions, set `RevocationMode` to `REVOKE_AND_TERMINATE_SESSIONS`.
+ *
+ * Revoking a stream URL is permanent. The status of the stream URL changes to `REVOKED`.
+ */
+export const revokeStreamUrl: API.OperationMethod<
+  RevokeStreamUrlInput,
+  RevokeStreamUrlResponse,
+  RevokeStreamUrlError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: RevokeStreamUrlInput,
+  output: RevokeStreamUrlResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "RevokeStreamUrl",
 }));
 
 export type StartStreamSessionError =

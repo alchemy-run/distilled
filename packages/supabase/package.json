@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/supabase",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.12",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -69,18 +69,18 @@
     "convert": "bun scripts/convert.ts",
     "generate": "bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "specs:fetch": "git submodule update --force --init --recursive --depth=1 specs/distilled-spec-supabase && git -C specs/distilled-spec-supabase checkout -- .",
-    "specs:update": "git -C specs/distilled-spec-supabase fetch && git -C specs/distilled-spec-supabase checkout main && git -C specs/distilled-spec-supabase pull"
+    "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-supabase",
+    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-supabase"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:tooling",
-    "@types/node": "catalog:tooling",
-    "@effect/platform-bun": "catalog:effect"
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "@effect/platform-bun": "catalog:"
   },
   "peerDependencies": {
-    "effect": "catalog:effect"
+    "effect": "catalog:"
   }
 }
